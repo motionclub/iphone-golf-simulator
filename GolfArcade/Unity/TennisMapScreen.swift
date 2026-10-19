@@ -169,18 +169,16 @@ struct GolfCourseScreen: View {
         return VStack(spacing: 6) {
             HStack(spacing: 10) {
                 toggle("golf-twists", "Twists", icon: "dice.fill", on: session.golfTwists, height: height)
-                toggle("golf-weather", compact ? "Weather" : "Weather & hazards", icon: "cloud.bolt.rain.fill", on: session.golfWeather, height: height)
                 toggle("golf-challenges", "Bounties", icon: "target", on: session.golfChallenges, height: height)
             }
-            Text(caption(twists: session.golfTwists, weather: session.golfWeather, challenges: session.golfChallenges))
+            Text(caption(twists: session.golfTwists, challenges: session.golfChallenges))
                 .font(IslandUI.font(height * 0.27)).foregroundStyle(.white.opacity(0.8)).lineLimit(1).minimumScaleFactor(0.6)
         }.frame(maxWidth: .infinity)
     }
 
-    private func caption(twists: Bool, weather: Bool, challenges: Bool) -> String {
-        if !twists && !weather && !challenges { return "Classic golf: no twists, clear skies" }
+    private func caption(twists: Bool, challenges: Bool) -> String {
         return [twists ? "2 random twists each round" : "Classic rules",
-                weather ? "storms, fog, gusts and moving obstacles" : "clear skies",
+                "Automatic weather · EST day/night",
                 challenges ? "a bounty on every hole" : nil].compactMap { $0 }.joined(separator: " · ")
     }
 

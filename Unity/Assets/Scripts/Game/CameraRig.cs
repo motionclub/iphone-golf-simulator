@@ -61,6 +61,13 @@ namespace GolfArcade.Game
                     // during ordinary play. Preserve the lens and downward aim angle.
                     targetPosition += Vector3.up * (course.Hole.Number==9 ? .8f : .9f);
                     if(course.Hole.Number==9) targetLookAt-=right*1.15f;
+                    if(course.Hole.Number==12 && (GolfArcade.EnvironmentArt.DreamGolfGarden.Enabled || System.Environment.GetEnvironmentVariable("GOLF_DREAM_CAMERA")=="1"))
+                    {
+                        // The island's green rises above the tee. Frame the world
+                        // beyond that wall while the ball stays above phone controls.
+                        targetPosition=ball-aimDirection*7f-right*.2f+Vector3.up*4.2f;
+                        targetLookAt=ball+aimDirection*5f+Vector3.up*1.05f;
+                    }
                 }
             }
             Look(ball, aimDirection, look, pin, 14f, 5f);
@@ -210,6 +217,8 @@ namespace GolfArcade.Game
             float back = putting ? 5f : 30f;
             float height = putting ? 2.8f : 6f;
             var chase = ball - flightDirection * back + right * (putting ? .65f : .9f) + Vector3.up * height;
+            // Keep the established landing view at a readable distance as the ball rolls.
+            if (LandingView) landingCamera = ball - flightDirection * 11f + right * 1.2f + Vector3.up * 4.2f;
             targetPosition = LandingView ? landingCamera : Vector3.Lerp(launchCamera, chase, follow);
             // Even a ricochet cannot put the camera ahead of its subject and reverse the view.
             float ahead = Vector3.Dot(targetPosition - ball, flightDirection);

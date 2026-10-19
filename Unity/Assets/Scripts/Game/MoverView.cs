@@ -18,6 +18,8 @@ namespace GolfArcade.Game
         readonly List<Transform[]> wheels = new();
         readonly List<Transform> flames = new();
         readonly Dictionary<int, float> hitAt = new();
+        readonly List<Object> dreamResources=new();
+        void OnDestroy(){foreach(var resource in dreamResources)if(resource)Destroy(resource);}
         double lastClock;
         bool paused;
 
@@ -38,6 +40,29 @@ namespace GolfArcade.Game
                 view.flames.Add(null);
                 switch (m.Kind)
                 {
+                    case MoverKind.RockGate: case MoverKind.WindLift:
+                        var body=m.Body(0,0);
+                        var stone=HoleView.Primitive(PrimitiveType.Sphere,m.Kind==MoverKind.RockGate?"Solid floating rock":"Visible wind lift",m.Kind==MoverKind.RockGate?new Color(.38f,.46f,.49f):new Color(.35f,.85f,.9f),root);
+                        stone.transform.localScale=Vector3.one*(float)(body.r*2);
+                        if(m.Kind==MoverKind.RockGate){
+                            var mesh=Instantiate(stone.GetComponent<MeshFilter>().sharedMesh);var vertices=mesh.vertices;
+                            for(int k=0;k<vertices.Length;k++){var v=vertices[k];vertices[k]*=.96f+.04f*Mathf.Sin(v.x*13+v.y*17+v.z*9);}
+                            view.dreamResources.Add(mesh);mesh.vertices=vertices;mesh.RecalculateNormals();stone.GetComponent<MeshFilter>().sharedMesh=mesh;
+                            var mat=new Material(Shader.Find("Universal Render Pipeline/Lit"));mat.SetColor("_BaseColor",new Color(.63f,.68f,.67f));
+                            view.dreamResources.Add(mat);mat.SetTexture("_BaseMap",Resources.Load<Texture2D>("Course/Resort/CoastalCliffScan_C"));mat.SetTexture("_BumpMap",Resources.Load<Texture2D>("Course/Resort/CoastalCliffScan_N"));mat.EnableKeyword("_NORMALMAP");mat.SetFloat("_Smoothness",.15f);stone.GetComponent<Renderer>().sharedMaterial=mat;
+                        }
+                        if(m.Kind==MoverKind.WindLift){
+                            Destroy(stone);
+                            var material=new Material(Shader.Find("Universal Render Pipeline/Unlit"));material.SetColor("_BaseColor",new Color(.4f,.9f,.85f));view.dreamResources.Add(material);
+                            var arrow=new GameObject("Current direction").AddComponent<LineRenderer>();arrow.transform.SetParent(root,false);arrow.useWorldSpace=false;arrow.sharedMaterial=material;arrow.widthMultiplier=.15f;arrow.positionCount=5;
+                            var direction=new Vector3((float)m.LiftDirection.X,0,(float)m.LiftDirection.D).normalized;var right=Vector3.Cross(Vector3.up,direction);float size=(float)body.r*.8f;
+                            arrow.SetPositions(new[]{-direction*size,direction*size,direction*size*.55f+right*size*.4f,direction*size,direction*size*.55f-right*size*.4f});
+                            for(int ring=0;ring<3;ring++){
+                                var spiral=new GameObject("Lift current").AddComponent<LineRenderer>();spiral.transform.SetParent(root,false);spiral.useWorldSpace=false;spiral.sharedMaterial=material;spiral.widthMultiplier=.07f;spiral.positionCount=48;
+                                for(int k=0;k<48;k++){float f=k/47f, y=Mathf.Lerp(-.85f,.85f,f),r=(float)body.r*Mathf.Sqrt(1-y*y)*.9f,a=f*Mathf.PI*4+ring*Mathf.PI*2/3;spiral.SetPosition(k,new Vector3(Mathf.Cos(a)*r,y*(float)body.r,Mathf.Sin(a)*r));}
+                            }
+                        }
+                        break;
                     case MoverKind.Balloon: view.BuildBalloon(root, i, m.Variant); break;
                     case MoverKind.Cart: view.BuildCart(root, i); break;
                     case MoverKind.Twister: view.BuildTwister(root, i); break;
@@ -76,6 +101,8 @@ namespace GolfArcade.Game
                 float since = hitAt.TryGetValue(i, out var at) ? Time.time - at : 99f;
                 switch (m.Kind)
                 {
+                    case MoverKind.RockGate: case MoverKind.WindLift:
+                        root.SetPositionAndRotation(new Vector3((float)x,(float)y,(float)d),m.Kind==MoverKind.WindLift?Quaternion.identity:Quaternion.Euler(0,(float)t*2,0));break;
                     case MoverKind.Balloon:
                     {
                         root.position = new Vector3((float)x, (float)y, (float)d);

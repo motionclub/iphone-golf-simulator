@@ -1,0 +1,22 @@
+{
+  "male": {
+    "samples": 1294,
+    "maxBefore": 0.206542566,
+    "maxAfter": 0.09428526,
+    "maxSegmentError": 4.47034836e-07,
+    "medianSolveMs": 0.31435,
+    "p95SolveMs": 2.4369,
+    "maxSolveMs": 4.7573,
+    "posesOver1mmProxyResidual": 85
+  },
+  "female": {
+    "samples": 1294,
+    "maxBefore": 0.151868418,
+    "maxAfter": 0.02240885,
+    "maxSegmentError": 3.57627869e-07,
+    "medianSolveMs": 0.302,
+    "p95SolveMs": 2.0154,
+    "maxSolveMs": 13.286200000000001,
+    "posesOver1mmProxyResidual": 12
+  }
+}

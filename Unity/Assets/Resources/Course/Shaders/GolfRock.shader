@@ -60,10 +60,13 @@ HLSLPROGRAM
 #pragma multi_compile_fragment _ _SHADOWS_SOFT
 #pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
 #pragma multi_compile_fog
+   #pragma multi_compile_fragment _ MAJESTIC_WEATHER_ON // MAJESTIC_WEATHER_HOOK
 #define GOLF_ROCK 1
 
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 #include "../../Tennis/Shaders/HeroLighting.hlsl"
+#define MAJESTIC_WEATHER_LITE 1 // MAJESTIC_WEATHER_HOOK (no extra texture in these shaders)
+#include "Assets/Resources/Majestic/MajesticWeather.hlsl" // MAJESTIC_WEATHER_HOOK
 half GolfShadowAttenuation(float3 world)
             {
                 #if defined(_MAIN_LIGHT_SHADOWS_SCREEN)
@@ -87,7 +90,7 @@ half GolfBand(float phase) {
 }
 V GolfLitVertex(A a) {
  V o=GolfVertex(a);
- Light main=HeroMain(GetMainLight());
+ Light main=GetMainLight();
  o.key=HeroWrapped(o.n,main.direction,_Wrap)*main.color;
  o.illumination=o.key+HeroAmbient(o.n);
  #if defined(_ADDITIONAL_LIGHTS)
@@ -207,7 +210,7 @@ half4 GolfFragment(V i, FRONT_FACE_TYPE face : FRONT_FACE_SEMANTIC):SV_Target {
  albedo*=lerp(1.0h,.64h,wetFoot);
  albedo*=lerp(half3(1,1,1),half3(.86h,.92h,1),wetFoot*.45h);
  gloss=saturate(gloss+wetFoot*.28h);
- Light main=HeroMain(GetMainLight());
+ Light main=GetMainLight();
  main.shadowAttenuation=GolfShadowAttenuation(i.w);
  half3 colour=albedo*(i.illumination-i.key+HeroWrapped(n,main.direction,_Wrap)*main.color*main.shadowAttenuation);
  colour+=albedo*(HeroAmbient(n)-HeroAmbient(normalize(i.n)));
@@ -232,7 +235,7 @@ half4 GolfFragment(V i, FRONT_FACE_TYPE face : FRONT_FACE_SEMANTIC):SV_Target {
  #if defined(GOLF_ROCK)
  if(_EmissionEnabled>.5h)colour+=base.aaa*_EmissionColor.rgb*saturate(1-length(view)/450.0);
  #endif
- return half4(MixFog(colour,i.fog),1);
+ return half4(MajesticWeatherMixFog(colour,i.fog,i.w),1); // MAJESTIC_WEATHER_HOOK
 }
 
 ENDHLSL

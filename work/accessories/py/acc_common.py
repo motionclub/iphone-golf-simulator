@@ -18,6 +18,7 @@ REPO = os.path.abspath(os.path.join(ROOT, '..', '..'))
 CV2 = os.path.join(REPO, 'work', 'clothing-v2')
 sys.path.insert(0, os.path.join(CV2, 'py'))
 import cv2io                                                       # noqa: E402
+if os.environ.get('ACC_DUMP'): cv2io.DUMP = os.environ['ACC_DUMP']        # e.g. a fresh dump of a changed head (10-17 cap re-hug)
 
 HEROES = ['MatchHero_Male', 'MatchHero_Female', 'GolfKitHero_Male', 'GolfKitHero_Female']
 BODIES = {'Male': 'MatchHero_Male', 'Female': 'MatchHero_Female'}  # the golf heroes share these bodies and bind poses (checked in README)

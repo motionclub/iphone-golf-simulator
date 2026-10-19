@@ -1,0 +1,155 @@
+{
+  "success": true,
+  "command": "command run_tests",
+  "data": {
+    "command": "run_tests",
+    "parameters": {
+      "mode": "editor",
+      "filter": "Female",
+      "timeout": "90"
+    },
+    "result": {
+      "Summary": {
+        "Total": 17,
+        "Passed": 17,
+        "Failed": 0,
+        "Skipped": 0,
+        "Inconclusive": 0
+      },
+      "Results": [
+        {
+          "FullName": "GolfArcade.Tests.FemaleDeformationTests.BackhandAndServeContactTransformsStayExact",
+          "Status": "Passed",
+          "Duration": 2.2388294,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "GolfArcade.Tests.FemaleDeformationTests.NeutralSkirtAndUnderShortsKeepTheirOriginalBinding",
+          "Status": "Passed",
+          "Duration": 0.2290487,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "GolfArcade.Tests.FemaleDeformationTests.ShoulderRepairPreservesTheExactNeutralSurfaceAndNormalizedWeights",
+          "Status": "Passed",
+          "Duration": 0.6232175,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "GolfArcade.Tests.FemaleDeformationTests.WaveWristDoesNotHyperextendOrMoveTheHandAnchor",
+          "Status": "Passed",
+          "Duration": 0.1999805,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "GolfArcade.Tests.FemaleHeroAliveTests.MaleNeverGetsAnAliveComponent",
+          "Status": "Passed",
+          "Duration": 0.0031859,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "GolfArcade.Tests.FemaleHeroAliveTests.RealGarmentsKeepSourceBindingsAndBoundedOutwardMotion(\"Tennis/Customization/PlayerFemale\",False)",
+          "Status": "Passed",
+          "Duration": 0.2282432,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "GolfArcade.Tests.FemaleHeroAliveTests.RealGarmentsKeepSourceBindingsAndBoundedOutwardMotion(\"Tennis/Customization/PlayerFemaleGolfKit\",True)",
+          "Status": "Passed",
+          "Duration": 0.3235722,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "GolfArcade.Tests.HeroAccessoriesTests.EveryItemHasDataForBothBodies(\"tennis_cap\",\"Female\")",
+          "Status": "Passed",
+          "Duration": 0.0015665,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "GolfArcade.Tests.HeroAccessoriesTests.EveryItemHasDataForBothBodies(\"golf_cap\",\"Female\")",
+          "Status": "Passed",
+          "Duration": 0.002936,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "GolfArcade.Tests.HeroAccessoriesTests.EveryItemHasDataForBothBodies(\"golf_glove\",\"Female\")",
+          "Status": "Passed",
+          "Duration": 0.0137038,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "GolfArcade.Tests.HeroAccessoriesTests.EveryItemHasDataForBothBodies(\"golf_bag\",\"Female\")",
+          "Status": "Passed",
+          "Duration": 0.0157779,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "GolfArcade.Tests.HeroAccessoriesTests.TheDefaultCapSitsOnItsSocketAndNothingElseChanges(\"Female\",False,\"tennis_cap\")",
+          "Status": "Passed",
+          "Duration": 0.0037662,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "GolfArcade.Tests.HeroAccessoriesTests.TheDefaultCapSitsOnItsSocketAndNothingElseChanges(\"Female\",True,\"golf_cap\")",
+          "Status": "Passed",
+          "Duration": 0.0035951,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "GolfArcade.Tests.StandardArmSportTests.ActualSportPoseKeepsHandsAndUsesLongerContinuousArms(\"female\",\"tennis\")",
+          "Status": "Passed",
+          "Duration": 0.0375249,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "GolfArcade.Tests.StandardArmSportTests.ActualSportPoseKeepsHandsAndUsesLongerContinuousArms(\"female\",\"bowling\")",
+          "Status": "Passed",
+          "Duration": 0.0180062,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "GolfArcade.Tests.StandardArmSportTests.ActualSportPoseKeepsHandsAndUsesLongerContinuousArms(\"female\",\"boxing\")",
+          "Status": "Passed",
+          "Duration": 0.0144017,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "GolfArcade.Tests.StandardGolfGripTests.GolfGripStaysConnectedAt120HzAndPreservesContact(\"female\")",
+          "Status": "Passed",
+          "Duration": 0.0478986,
+          "Message": null,
+          "StackTrace": null
+        }
+      ],
+      "Duration": 12.52,
+      "StatusPath": null,
+      "Mode": "EditMode",
+      "FilterApplied": "testname: Female",
+      "success": true,
+      "result": null
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "/private/tmp/female-soulful-UnityClone"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

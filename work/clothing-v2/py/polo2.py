@@ -45,7 +45,7 @@ def design_golf_male():
     D = design_male()
     D.update(rings=[("H", 1.005, .997, .192, .148), ('L', 1.060, 1.060, .195, .150), ('W', 1.130, 1.130, .201, .154), ('A', 1.195, 1.195, .211, .156)],
              sleeve=dict(t=(.050, .115, .182), r=(.088, .080, .073)), collar=dict(stand=.026, fall=.054, point=.044, gap=.012, thick=.0028, splay=.32),
-             placket=dict(len=.118, w=.030, buttons=3), cuff=dict(w=.020), vent=dict(h=.001, w=.001), waist_z=1.08, plain=True)
+             placket=dict(len=.118, w=.030, buttons=3), cuff=dict(w=.020), vent=dict(h=.001, w=.001), waist_z=1.08, plain=True, collar_under=True)
     return D
 
 
@@ -517,6 +517,10 @@ def main():
     import cv2io, glib as G, fit
     from mathutils.bvhtree import BVHTree
     D = DESIGNS[argv[2] if len(argv) > 2 else 'tennis_male']()
+    if os.environ.get('POLO_DESIGN'):                       # design overrides (data only): POLO_DESIGN='{"sleeve": {"t": [...], "r": [...]}}'
+        import json as _json
+        for k_, v_ in _json.loads(os.environ['POLO_DESIGN']).items():
+            D[k_] = (dict(D[k_], **v_) if isinstance(v_, dict) and isinstance(D.get(k_), dict) else (np.array(v_) if isinstance(D.get(k_), np.ndarray) else v_))
     V, F, P = build_cage(D)
     cage = make_object('Polo_cage', V, F, P)
     orient_outward(cage, lambda c: np.array([0, D['yc'], c[2]]))
@@ -556,7 +560,21 @@ def main():
     if D.get('cut_armholes'):
         # armholes cut by smooth ellipsoids (a bit smaller than the sleeve tubes that cover their edge): kill faces, snap the boundary onto the curve
         def arm_f(P):
-            out = np.full(len(P), 9.0); c = D['armhole']['c']; sa = D['armhole']['s']
+            out = np.full(len(P), 9.0)
+            if D.get('raglan'):
+                # RAGLAN (10-18): the sleeve panel takes the whole shoulder top. The seam is a straight diagonal (the same plane front and
+                # back) from the underarm up to just outside the collar; above the underarm everything outboard of it is cut away and the
+                # lofted sleeve grows from that long loop, so a raised arm lifts the shoulder panel instead of webbing the side seam.
+                rg = D['raglan']; xu, zu = rg['under']; xn, zn = rg['neck']; ru = rg.get('round', .012)
+                for sd in (1, -1):
+                    xs = sd * P[:, 0]; t = np.clip((P[:, 2] - zu) / (zn - zu), 0, 1)
+                    f1 = (xu + (xn - xu) * t) - xs                       # < 0 outboard of the seam
+                    f2 = zu - P[:, 2]                                  # < 0 above the underarm
+                    f = np.where((f1 < ru) & (f2 < ru), -np.sqrt(np.clip(ru - f1, 0, None) ** 2 + np.clip(ru - f2, 0, None) ** 2) + ru, np.maximum(f1, f2))
+                    on = (np.sign(P[:, 0]) == sd)
+                    out = np.minimum(out, np.where(on, f, 9.0))
+                return out
+            c = D['armhole']['c']; sa = D['armhole']['s']
             for sd in (1, -1):
                 d_ = (P - np.array([sd * c[0], c[1], c[2]])) / np.array(sa)
                 on = (np.sign(P[:, 0]) == sd) | (np.abs(P[:, 0]) < .02)
@@ -752,6 +770,25 @@ def main():
         sm.use_quality_normals = True; sm.use_rim = True; sm.material_offset = 1; sm.material_offset_rim = 2
         if o.name.startswith('Sleeve'): sm.use_even_offset = False; sm.nonmanifold_thickness_mode = 'CONSTRAINTS'
         apply_modifier(o, sm)
+        if o is col and D.get('collar_under'):
+            # male pack sheet 10: the collar's underside + the stand's neck side read in the trim colour. The collar is ONE folded surface
+            # (stand -> roll -> fall), so neither solidify shell is "the outside": a face is underside when it faces the neck / the shirt
+            # (normal toward the neck axis, or down). Every collar face is baked (material 0); underside faces get their own UV island.
+            me_ = o.data; me_.update()
+            mi_ = np.zeros(len(me_.polygons), np.int32); me_.polygons.foreach_get('material_index', mi_)
+            co_ = np.zeros(len(me_.vertices) * 3); me_.vertices.foreach_get('co', co_); co_ = co_.reshape(-1, 3)
+            axis_ = co_[:, :2].mean(0)
+            under_v = np.zeros(len(me_.vertices)); uvd = me_.uv_layers.active.data; nu_ = 0
+            for f_ in me_.polygons:
+                if mi_[f_.index] == 2: continue
+                c_ = np.array(f_.center); n_ = np.array(f_.normal); r_ = c_[:2] - axis_; r_ /= np.linalg.norm(r_) + 1e-9
+                if n_[0] * r_[0] + n_[1] * r_[1] < -.15 or n_[2] < -.55:
+                    nu_ += 1
+                    for li_ in f_.loop_indices: uvd[li_].uv = (uvd[li_].uv[0] + 7.0, uvd[li_].uv[1])
+                    for v_ in f_.vertices: under_v[v_] = 1.0
+            mi_[mi_ == 1] = 0; me_.polygons.foreach_set('material_index', mi_); me_.update()
+            set_vattr(o, 'collar_under', under_v)
+            print('POLO collar underside faces %d of %d' % (nu_, len(me_.polygons)))
         if o is shirt:
             # the inside of the shirt is only ever seen through its openings: keep the inner wall 6 cm in from the hem, neck, sleeves and vents
             me_ = o.data
@@ -767,6 +804,33 @@ def main():
     for o in parts: o.select_set(True)
     bpy.context.view_layer.objects.active = shirt
     bpy.ops.object.join()
+    # SANITY (10-18): a vertex more than 3 cm from the mean of its edge neighbours is a builder outlier (a raglan cut produced one 50 cm
+    # spike): move it to the mean of its non-outlier neighbours, a few passes. Real cloth edges here are 3-10 mm, so normal shapes are untouched.
+    me_ = shirt.data; nv = len(me_.vertices)
+    V = np.zeros(nv * 3); me_.vertices.foreach_get('co', V); V = V.reshape(-1, 3)
+    E = np.zeros(len(me_.edges) * 2, np.int64); me_.edges.foreach_get('vertices', E); E = E.reshape(-1, 2)
+    fixed = 0
+    for _ in range(8):
+        S = np.zeros_like(V); cnt = np.zeros(nv)
+        np.add.at(S, E[:, 0], V[E[:, 1]]); np.add.at(S, E[:, 1], V[E[:, 0]]); np.add.at(cnt, E[:, 0], 1); np.add.at(cnt, E[:, 1], 1)
+        avg = S / np.maximum(cnt, 1)[:, None]
+        bad = (cnt > 0) & (np.linalg.norm(V - avg, axis=1) > .03)
+        if not bad.any(): break
+        good = ~bad
+        S2 = np.zeros_like(V); c2 = np.zeros(nv)
+        np.add.at(S2, E[:, 0], V[E[:, 1]] * good[E[:, 1], None]); np.add.at(S2, E[:, 1], V[E[:, 0]] * good[E[:, 0], None])
+        np.add.at(c2, E[:, 0], good[E[:, 1]]); np.add.at(c2, E[:, 1], good[E[:, 0]])
+        ok = bad & (c2 > 0)
+        V[ok] = S2[ok] / c2[ok, None]; fixed += int(ok.sum())
+    if fixed:
+        me_.vertices.foreach_set('co', V.ravel()); me_.update(); print('POLO sanity: %d outlier vertices pulled back' % fixed)
+    # spike strips (faces with an edge > 20 cm; the golf_female build had 40-50 cm strips even without the raglan) are deleted
+    bm = bmesh.new(); bm.from_mesh(me_); bm.faces.ensure_lookup_table()
+    sl = [f for f in bm.faces if max(e.calc_length() for e in f.edges) > .20]      # no real polo edge is > 9 cm; the spike strips are 40-50 cm
+    if sl:
+        bmesh.ops.delete(bm, geom=sl, context='FACES'); bmesh.ops.delete(bm, geom=[v for v in bm.verts if not v.link_faces], context='VERTS')
+        bm.to_mesh(me_); me_.update(); print('POLO sanity: %d sliver faces removed' % len(sl))
+    bm.free()
     shirt.name = 'Kit_Top'
     bpy.ops.wm.save_as_mainfile(filepath=outp)
     print('POLO parts: shell %d faces, collar %d, placket %d, buttons %d, cuffs %d' % (len(shirt.data.polygons), len(cF), len(pF), len(bts), len(cuffme.polygons)))

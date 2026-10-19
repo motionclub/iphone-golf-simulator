@@ -1,0 +1,247 @@
+{
+ "golf_hole12_intro/camera": {
+  "frames": 600,
+  "moving": 420,
+  "duplicate_share": 0.0024,
+  "parity_ratio": 1.13,
+  "passed": true
+ },
+ "golf_hole12_intro/camera_aim": {
+  "frames": 600,
+  "moving": 400,
+  "duplicate_share": 0.0,
+  "parity_ratio": 1.08,
+  "passed": true
+ },
+ "golf_hole12_intro/ball": {
+  "frames": 600,
+  "moving": 0,
+  "duplicate_share": 0.0,
+  "parity_ratio": NaN,
+  "passed": true
+ },
+ "golf_hole12_intro/club": {
+  "frames": 364,
+  "moving": 34,
+  "duplicate_share": 0.0,
+  "parity_ratio": 1.04,
+  "passed": true
+ },
+ "golf_hole12_intro/hand_r": {
+  "frames": 364,
+  "moving": 335,
+  "duplicate_share": 0.006,
+  "parity_ratio": 1.0,
+  "passed": true
+ },
+ "golf_hole12_intro/head": {
+  "frames": 364,
+  "moving": 345,
+  "duplicate_share": 0.0,
+  "parity_ratio": 1.0,
+  "passed": true
+ },
+ "golf_intro/camera": {
+  "frames": 420,
+  "moving": 129,
+  "duplicate_share": 0.0,
+  "parity_ratio": 1.03,
+  "passed": true
+ },
+ "golf_intro/camera_aim": {
+  "frames": 420,
+  "moving": 129,
+  "duplicate_share": 0.0,
+  "parity_ratio": 1.02,
+  "passed": true
+ },
+ "golf_intro/ball": {
+  "frames": 420,
+  "moving": 0,
+  "duplicate_share": 0.0,
+  "parity_ratio": NaN,
+  "passed": true
+ },
+ "golf_intro/club": {
+  "frames": 184,
+  "moving": 0,
+  "duplicate_share": 0.0,
+  "parity_ratio": NaN,
+  "passed": true
+ },
+ "golf_intro/hand_r": {
+  "frames": 184,
+  "moving": 163,
+  "duplicate_share": 0.0,
+  "parity_ratio": 1.05,
+  "passed": true
+ },
+ "golf_intro/head": {
+  "frames": 184,
+  "moving": 168,
+  "duplicate_share": 0.0,
+  "parity_ratio": 1.0,
+  "passed": true
+ },
+ "golf_swing/camera": {
+  "frames": 420,
+  "moving": 329,
+  "duplicate_share": 0.0,
+  "parity_ratio": 1.02,
+  "passed": true
+ },
+ "golf_swing/camera_aim": {
+  "frames": 420,
+  "moving": 329,
+  "duplicate_share": 0.0,
+  "parity_ratio": 1.0,
+  "passed": true
+ },
+ "golf_swing/ball": {
+  "frames": 420,
+  "moving": 419,
+  "duplicate_share": 0.0,
+  "parity_ratio": 1.01,
+  "passed": true
+ },
+ "golf_swing/club": {
+  "frames": 420,
+  "moving": 96,
+  "duplicate_share": 0.0,
+  "parity_ratio": 1.05,
+  "passed": true
+ },
+ "golf_swing/hand_r": {
+  "frames": 420,
+  "moving": 96,
+  "duplicate_share": 0.0,
+  "parity_ratio": 1.23,
+  "passed": true
+ },
+ "golf_swing/head": {
+  "frames": 420,
+  "moving": 96,
+  "duplicate_share": 0.0,
+  "parity_ratio": 1.19,
+  "passed": true
+ },
+ "plaza/camera": {
+  "frames": 420,
+  "moving": 414,
+  "duplicate_share": 0.0,
+  "parity_ratio": 1.01,
+  "passed": true
+ },
+ "plaza/camera_aim": {
+  "frames": 420,
+  "moving": 418,
+  "duplicate_share": 0.0024,
+  "parity_ratio": 1.01,
+  "passed": true
+ },
+ "plaza/hero": {
+  "frames": 420,
+  "moving": 417,
+  "duplicate_share": 0.0,
+  "parity_ratio": 1.01,
+  "passed": true
+ },
+ "plaza/hand_r": {
+  "frames": 420,
+  "moving": 418,
+  "duplicate_share": 0.0,
+  "parity_ratio": 1.01,
+  "passed": true
+ },
+ "plaza/head": {
+  "frames": 420,
+  "moving": 418,
+  "duplicate_share": 0.0,
+  "parity_ratio": 1.11,
+  "passed": true
+ },
+ "tennis_intro/camera": {
+  "frames": 360,
+  "moving": 129,
+  "duplicate_share": 0.0,
+  "parity_ratio": 1.02,
+  "passed": true
+ },
+ "tennis_intro/camera_aim": {
+  "frames": 360,
+  "moving": 128,
+  "duplicate_share": 0.0,
+  "parity_ratio": 1.01,
+  "passed": true
+ },
+ "tennis_intro/ball": {
+  "frames": 360,
+  "moving": 0,
+  "duplicate_share": 0.0,
+  "parity_ratio": NaN,
+  "passed": true
+ },
+ "tennis_intro/racket": {
+  "frames": 360,
+  "moving": 358,
+  "duplicate_share": 0.0028,
+  "parity_ratio": 3.16,
+  "passed": false
+ },
+ "tennis_intro/hand_r": {
+  "frames": 360,
+  "moving": 349,
+  "duplicate_share": 0.0,
+  "parity_ratio": 3.56,
+  "passed": false
+ },
+ "tennis_intro/head": {
+  "frames": 360,
+  "moving": 359,
+  "duplicate_share": 0.0,
+  "parity_ratio": 1.06,
+  "passed": true
+ },
+ "tennis_rally/camera": {
+  "frames": 600,
+  "moving": 485,
+  "duplicate_share": 0.0041,
+  "parity_ratio": 1.05,
+  "passed": true
+ },
+ "tennis_rally/camera_aim": {
+  "frames": 600,
+  "moving": 509,
+  "duplicate_share": 0.0,
+  "parity_ratio": 1.02,
+  "passed": true
+ },
+ "tennis_rally/ball": {
+  "frames": 600,
+  "moving": 571,
+  "duplicate_share": 0.0018,
+  "parity_ratio": 1.0,
+  "passed": true
+ },
+ "tennis_rally/racket": {
+  "frames": 600,
+  "moving": 360,
+  "duplicate_share": 0.0056,
+  "parity_ratio": 1.17,
+  "passed": true
+ },
+ "tennis_rally/hand_r": {
+  "frames": 600,
+  "moving": 351,
+  "duplicate_share": 0.0028,
+  "parity_ratio": 1.14,
+  "passed": true
+ },
+ "tennis_rally/head": {
+  "frames": 600,
+  "moving": 377,
+  "duplicate_share": 0.0106,
+  "parity_ratio": 1.18,
+  "passed": true
+ }
+}

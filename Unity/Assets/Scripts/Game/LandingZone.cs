@@ -73,6 +73,6 @@ namespace GolfArcade.Game
             mesh.RecalculateBounds();
         }
 
-        void Update() => Build(0.5f + 0.5f * Mathf.Sin(Time.time * 2.2f));
+        void Update() { GetComponent<Renderer>().enabled=GolfArcade.EnvironmentArt.DreamVisibility.Visible(transform.position); Build(0.5f + 0.5f * Mathf.Sin(Time.time * 2.2f)); }
     }
 }

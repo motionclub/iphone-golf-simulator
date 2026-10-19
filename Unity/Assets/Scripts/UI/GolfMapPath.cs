@@ -15,6 +15,7 @@ namespace GolfArcade.UI
             points.Clear();
             foreach (var world in path)
             {
+                if(!GolfArcade.EnvironmentArt.DreamVisibility.Visible(world)){points.Add(new Vector2(float.NaN,0));continue;}
                 var v = map.WorldToViewportPoint(world);
                 points.Add(new Vector2(v.x, v.y));
             }
@@ -41,6 +42,7 @@ namespace GolfArcade.UI
             float travelled=0, nextDot=0;
             for(int i=1;i<points.Count;i++)
             {
+                if(float.IsNaN(points[i-1].x)||float.IsNaN(points[i].x))continue;
                 var a=Local(points[i-1]);var b=Local(points[i]);float length=Vector2.Distance(a,b);
                 if(length<.001f)continue;
                 Quad(a,b,7,new Color(0,0,0,.65f));Quad(a,b,3.5f,color);

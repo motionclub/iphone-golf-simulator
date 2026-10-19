@@ -1,0 +1,36 @@
+== male_Driver_tap
+  clip: Drive
+  k_strike: 82
+  k_flight: 82
+  k_ball: 92
+  k_scr_impact: 92
+  impact_gap_mm: 218
+  k_scr_top: 52
+  scr_downswing_s: 0.667
+  strike_to_impact_s: 0.167
+  through_s: 1.6
+  peak_head_mps: 12.9
+  ball_vs_impact_frames: 0
+  pops: []
+  rewinds: []
+  max_head_step_mm: 215
+  max_head_step_frame: 94
+  max_accel_step_mm: 84
+== male_Driver_touch
+  clip: Drive
+  k_strike: 82
+  k_flight: 82
+  k_ball: 97
+  k_scr_impact: 96
+  impact_gap_mm: 241
+  k_scr_top: 81
+  scr_downswing_s: 0.25
+  strike_to_impact_s: 0.233
+  through_s: 0.4
+  peak_head_mps: 51.9
+  ball_vs_impact_frames: 1
+  pops: []
+  rewinds: []
+  max_head_step_mm: 865
+  max_head_step_frame: 96
+  max_accel_step_mm: 109

@@ -95,7 +95,8 @@ struct PartyChatView: View {
                     ForEach(chat.messages) { m in bubble(m).id(m.id) }
                 }.padding(14)
             }
-            .onChange(of: chat.messages.count) { _, _ in if let last = chat.messages.last { withAnimation { proxy.scrollTo(last.id, anchor: .bottom) } } }
+            .scrollDismissesKeyboard(.interactively)
+            .onChange(of: chat.messages.last?.id) { _, _ in if let last = chat.messages.last { withAnimation { proxy.scrollTo(last.id, anchor: .bottom) } } }
         }
     }
 
@@ -158,12 +159,11 @@ struct PartyChatView: View {
                     .textInputAutocapitalization(.sentences).submitLabel(.send).onSubmit(send)
                     .font(IslandUI.font(16)).padding(.horizontal, 14).padding(.vertical, 10)
                     .background(.white.opacity(0.12), in: RoundedRectangle(cornerRadius: 20, style: .continuous))
-                    .disabled(!chat.safety.access.canType).opacity(chat.safety.access.canType ? 1 : 0.4)
                     .onChange(of: draft) { _, v in if v.count > ChatFilter.maxLength { draft = String(v.prefix(ChatFilter.maxLength)) } }
                     .accessibilityIdentifier("party-chat-field")
                 Button(action: send) {
                     Image(systemName: "arrow.up.circle.fill").font(.system(size: 34)).foregroundStyle(IslandUI.lime)
-                }.disabled(!chat.safety.access.canType || draft.trimmingCharacters(in: .whitespaces).isEmpty).opacity(chat.safety.access.canType ? 1 : 0.3)
+                }.disabled(draft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                     .accessibilityLabel("Send").accessibilityIdentifier("party-chat-send")
             }.padding(.horizontal, 14).padding(.bottom, 10)
         }
@@ -173,7 +173,9 @@ struct PartyChatView: View {
         switch chat.send(text: draft) {
         case .sent: draft = ""
         case .tooFast: chat.say("Slow down a little.")
-        case .notAllowed(let why): chat.say(why)
+        case .notAllowed(let why):
+            chat.say(why)
+            if case .quickOnly = chat.safety.access, chat.safety.restrictions == GameCenterRestrictions(), chat.safety.ageBand != .under13 { showSetup = true }
         case .noParty: chat.say("Join or invite a friend first.")
         case .empty: break
         }

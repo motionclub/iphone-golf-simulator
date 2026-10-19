@@ -1,0 +1,74 @@
+{
+  "edit": {
+    "xml": "final-edit-results.xml",
+    "result": "Passed",
+    "passed": "52",
+    "failed": "0",
+    "total": "52",
+    "duration": "6.0264576"
+  },
+  "gameplay": {
+    "xml": "final-play-results.xml",
+    "result": "Passed",
+    "passed": "9",
+    "failed": "0",
+    "total": "9",
+    "duration": "376.2242128"
+  },
+  "weather-and-original-FX": {
+    "xml": "weather-fx-results.xml",
+    "result": "Passed",
+    "passed": "2",
+    "failed": "0",
+    "total": "2",
+    "duration": "323.5644279"
+  },
+  "reduced-motion-and-first-fallback": {
+    "xml": "final-fallback-results.xml",
+    "result": "Failed(Child)",
+    "passed": "1",
+    "failed": "1",
+    "total": "2",
+    "duration": "47.1597852"
+  },
+  "corrected-fallback": {
+    "xml": "final-fallback-r2-results.xml",
+    "result": "Passed",
+    "passed": "1",
+    "failed": "0",
+    "total": "1",
+    "duration": "29.9046509"
+  },
+  "final-activation": {
+    "xml": "final-activation-order-results.xml",
+    "result": "Passed",
+    "passed": "10",
+    "failed": "0",
+    "total": "10",
+    "duration": "0.025549"
+  },
+  "final-FX": {
+    "xml": "phase_06/final-fx-results.xml",
+    "result": "Passed",
+    "passed": "1",
+    "failed": "0",
+    "total": "1",
+    "duration": "175.263271"
+  },
+  "full-captures-with-obsolete-activation": {
+    "xml": "phase_07/final-stage7-results.xml",
+    "result": "Failed(Child)",
+    "passed": "8",
+    "failed": "2",
+    "total": "10",
+    "duration": "2162.4848026"
+  },
+  "hole14": {
+    "xml": "phase_07/hole14/results.xml",
+    "result": "Passed",
+    "passed": "1",
+    "failed": "0",
+    "total": "1",
+    "duration": "40.0748639"
+  }
+}

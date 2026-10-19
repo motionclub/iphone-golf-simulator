@@ -125,13 +125,16 @@ namespace GolfArcade.Course
             Holes.TryGetValue(holeNumber, out var look);
             look ??= GolfCourseAtmosphere.For(holeNumber);
             if (look == null) {
+                GolfArcade.EnvironmentArt.EnvironmentLook.Golf(null,holeNumber);
                 Legacy(sun, camera);
                 var legacyAmbient=RenderSettings.ambientLight;
-                GolfArcade.Tennis.HeroLightingProfile.Golf(sun,legacyAmbient,legacyAmbient,legacyAmbient,0,1.2f);
+                GolfArcade.Tennis.HeroLightingProfile.Golf(sun,legacyAmbient,legacyAmbient,legacyAmbient,0,1.2f,holeNumber);
                 Shader.SetGlobalFloat("_HeroExposure",1.05f);
                 Shader.SetGlobalFloat("_HeroRim",.35f);
                 return;
             }
+            look = GolfArcade.EnvironmentArt.EnvironmentLook.Golf(look,holeNumber);
+            look = GolfArcade.EnvironmentArt.LuminousCoastPilot.GolfLight(look,holeNumber);
             float heading = Heading(holeNumber, look);
             if (GolfCourseLook.Handles(holeNumber))
             {
@@ -153,7 +156,7 @@ namespace GolfArcade.Course
             rim = Directional(rim, "Golf rim", look.RimColor, look.RimIntensity, Direction(heading + look.RimAzimuth, look.RimElevation));
 
             GolfFigureExposure.Set(look.FigureExposure);
-            GolfArcade.Tennis.HeroLightingProfile.Golf(sun,AmbientSkyOf(look),look.AmbientEquator,look.AmbientGround,look.RimIntensity,1.05f);
+            GolfArcade.Tennis.HeroLightingProfile.Golf(sun,AmbientSkyOf(look),look.AmbientEquator,look.AmbientGround,look.RimIntensity,1.05f,holeNumber);
             Shader.SetGlobalFloat("_HeroRim",.65f);
             Shader.SetGlobalFloat("_HeroExposure",1f);
             GolfArcade.Tennis.HeroRimLight.Ensure();
@@ -296,6 +299,7 @@ namespace GolfArcade.Course
             sky.SetFloat("_CloudLatitudeOffset",volcanic?0:.13f);
             sky.SetFloat("_DayHaze",volcanic?0:holeNumber==12?.88f:.38f);
             sky.SetFloat("_Exposure",1);
+            if (holeNumber == 12) sky=GolfArcade.EnvironmentArt.LuminousCoastPilot.Sky(sky,true);
             return sky;
         }
 

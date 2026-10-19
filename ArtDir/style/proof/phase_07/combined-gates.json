@@ -1,0 +1,3315 @@
+{
+  "source": "/private/tmp/hero-lighting-lookdev/final-stage7-r2",
+  "captureCount": 344,
+  "mainCaptures": 336,
+  "gameplay": 168,
+  "visibleFaces": 268,
+  "unmeasurableFaces": 68,
+  "faceLPass": 216,
+  "faceABPass": 126,
+  "lobbyFaceDeltaLPass": 19,
+  "silhouettePass": 52,
+  "darkest5Pass": 13,
+  "saturationShotPass": 114,
+  "saturationMean": 0.6823,
+  "detailShotPass": 168,
+  "detailMean": 12.223,
+  "detailEstimator": "Lab-L four-neighbour Laplacian RMS at native capture resolution; 6.8 target estimator was unspecified, so comparison is provisional",
+  "faceLRange": [
+    16.94,
+    72.22
+  ],
+  "visualGate": "FAIL",
+  "devicePerformance": "UNTESTED \u2014 deferred by Adnan",
+  "failures": {
+    "faceL": [
+      {
+        "shot": "GolfKitHero_Female__golf_07_clear__b_close",
+        "L": 44.73
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_07_fog__b_close",
+        "L": 43.37
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_07_gusty__a_gameplay",
+        "L": 44.08
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_07_gusty__b_close",
+        "L": 40.74
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_08_gusty__b_close",
+        "L": 42.57
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_clear__b_close",
+        "L": 44.36
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_fog__b_close",
+        "L": 42.71
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_gusty__a_gameplay",
+        "L": 42.74
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_gusty__b_close",
+        "L": 40.74
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_clear__a_gameplay",
+        "L": 28.88
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_clear__b_close",
+        "L": 16.94
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_fog__b_close",
+        "L": 43.71
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_gusty__a_gameplay",
+        "L": 25.23
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_gusty__b_close",
+        "L": 16.94
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_13_gusty__a_gameplay",
+        "L": 43.51
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_clear__b_close",
+        "L": 44.19
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_fog__b_close",
+        "L": 42.71
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_gusty__b_close",
+        "L": 42.5
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_15_gusty__a_gameplay",
+        "L": 43.43
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_16_fog__b_close",
+        "L": 44.16
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_16_gusty__b_close",
+        "L": 44.14
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_clear__a_gameplay",
+        "L": 44.62
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_clear__b_close",
+        "L": 43.72
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_gusty__a_gameplay",
+        "L": 39.54
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_gusty__b_close",
+        "L": 38.14
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_18_gusty__a_gameplay",
+        "L": 44.16
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_19_clear__b_close",
+        "L": 44.23
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_19_fog__b_close",
+        "L": 42.71
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_19_gusty__a_gameplay",
+        "L": 41.63
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_19_gusty__b_close",
+        "L": 40.74
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_20_clear__b_close",
+        "L": 44.67
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_20_fog__b_close",
+        "L": 43.25
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_20_gusty__b_close",
+        "L": 40.76
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_22_clear__b_close",
+        "L": 42.41
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_22_fog__b_close",
+        "L": 44.45
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_22_gusty__b_close",
+        "L": 39.55
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_23_rain__a_gameplay",
+        "L": 65.06
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_23_storm__a_gameplay",
+        "L": 68.18
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_09_gusty__a_gameplay",
+        "L": 44.46
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_12_clear__a_gameplay",
+        "L": 41.09
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_12_clear__b_close",
+        "L": 43.06
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_12_gusty__a_gameplay",
+        "L": 37.47
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_12_gusty__b_close",
+        "L": 38.41
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_15_gusty__a_gameplay",
+        "L": 44.97
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_17_gusty__b_close",
+        "L": 43.44
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_19_gusty__b_close",
+        "L": 44.48
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_22_gusty__a_gameplay",
+        "L": 44.78
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_22_gusty__b_close",
+        "L": 42.89
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_23_rain__a_gameplay",
+        "L": 66.06
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_23_storm__a_gameplay",
+        "L": 69.01
+      },
+      {
+        "shot": "MatchHero_Female__tennis_volcano__b_close",
+        "L": 72.22
+      },
+      {
+        "shot": "MatchHero_Male__tennis_skyscraper__b_close",
+        "L": 43.3
+      }
+    ],
+    "faceAB": [
+      {
+        "shot": "GolfKitHero_Female__golf_07_clear__a_gameplay",
+        "a": 9.02,
+        "b": 22.76
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_07_clear__b_close",
+        "a": 7.07,
+        "b": 21.16
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_07_fog__a_gameplay",
+        "a": 9.61,
+        "b": 22.77
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_07_fog__b_close",
+        "a": 8.1,
+        "b": 20.55
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_07_gusty__b_close",
+        "a": 7.75,
+        "b": 20.94
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_07_rain__a_gameplay",
+        "a": 9.9,
+        "b": 23.37
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_07_rain__b_close",
+        "a": 7.7,
+        "b": 21.2
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_07_storm__b_close",
+        "a": 8.17,
+        "b": 21.57
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_08_clear__a_gameplay",
+        "a": 16.44,
+        "b": 30.41
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_08_gusty__a_gameplay",
+        "a": 17.25,
+        "b": 30.85
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_clear__a_gameplay",
+        "a": 8.98,
+        "b": 22.59
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_clear__b_close",
+        "a": 7.03,
+        "b": 20.69
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_fog__a_gameplay",
+        "a": 9.64,
+        "b": 22.35
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_fog__b_close",
+        "a": 7.99,
+        "b": 20.46
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_gusty__b_close",
+        "a": 7.42,
+        "b": 20.26
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_rain__a_gameplay",
+        "a": 9.75,
+        "b": 23.09
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_rain__b_close",
+        "a": 7.45,
+        "b": 20.97
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_storm__b_close",
+        "a": 7.86,
+        "b": 21.46
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_10_fog__a_gameplay",
+        "a": 16.48,
+        "b": 31.91
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_10_gusty__a_gameplay",
+        "a": 16.4,
+        "b": 31.51
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_10_rain__a_gameplay",
+        "a": 14.91,
+        "b": 30.49
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_clear__b_close",
+        "a": 7.4,
+        "b": 17.59
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_fog__b_close",
+        "a": 8.1,
+        "b": 20.86
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_gusty__b_close",
+        "a": 7.86,
+        "b": 17.61
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_rain__b_close",
+        "a": 7.69,
+        "b": 21.2
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_storm__b_close",
+        "a": 8.11,
+        "b": 21.46
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_13_clear__a_gameplay",
+        "a": 9.84,
+        "b": 21.95
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_clear__a_gameplay",
+        "a": 9.02,
+        "b": 22.75
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_clear__b_close",
+        "a": 7.07,
+        "b": 20.7
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_fog__a_gameplay",
+        "a": 9.59,
+        "b": 22.46
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_fog__b_close",
+        "a": 7.99,
+        "b": 20.46
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_gusty__a_gameplay",
+        "a": 9.58,
+        "b": 22.66
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_gusty__b_close",
+        "a": 7.33,
+        "b": 20.82
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_rain__a_gameplay",
+        "a": 9.71,
+        "b": 22.98
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_rain__b_close",
+        "a": 7.45,
+        "b": 20.96
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_storm__b_close",
+        "a": 7.86,
+        "b": 21.46
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_15_clear__a_gameplay",
+        "a": 9.05,
+        "b": 22.27
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_15_rain__a_gameplay",
+        "a": 9.44,
+        "b": 22.71
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_clear__a_gameplay",
+        "a": 9.93,
+        "b": 20.31
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_clear__b_close",
+        "a": 8.12,
+        "b": 19.03
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_fog__a_gameplay",
+        "a": 9.23,
+        "b": 21.19
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_fog__b_close",
+        "a": 8.25,
+        "b": 19.28
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_gusty__b_close",
+        "a": 8.97,
+        "b": 19.22
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_rain__a_gameplay",
+        "a": 8.84,
+        "b": 21.48
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_rain__b_close",
+        "a": 8.2,
+        "b": 20.55
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_storm__a_gameplay",
+        "a": 8.56,
+        "b": 21.45
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_storm__b_close",
+        "a": 7.98,
+        "b": 20.43
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_18_clear__a_gameplay",
+        "a": 9.13,
+        "b": 22.27
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_18_rain__a_gameplay",
+        "a": 9.65,
+        "b": 22.61
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_19_clear__a_gameplay",
+        "a": 8.91,
+        "b": 22.67
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_19_clear__b_close",
+        "a": 7.01,
+        "b": 20.7
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_19_fog__a_gameplay",
+        "a": 9.59,
+        "b": 22.35
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_19_fog__b_close",
+        "a": 8.02,
+        "b": 20.46
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_19_gusty__b_close",
+        "a": 7.45,
+        "b": 20.86
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_19_rain__a_gameplay",
+        "a": 9.71,
+        "b": 23.02
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_19_rain__b_close",
+        "a": 7.45,
+        "b": 20.97
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_19_storm__b_close",
+        "a": 7.86,
+        "b": 21.46
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_20_clear__a_gameplay",
+        "a": 9.35,
+        "b": 22.63
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_20_clear__b_close",
+        "a": 7.07,
+        "b": 20.81
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_20_fog__a_gameplay",
+        "a": 9.59,
+        "b": 22.75
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_20_fog__b_close",
+        "a": 8.02,
+        "b": 20.55
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_20_gusty__b_close",
+        "a": 7.33,
+        "b": 20.86
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_20_rain__a_gameplay",
+        "a": 9.75,
+        "b": 23.21
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_20_rain__b_close",
+        "a": 7.45,
+        "b": 21.16
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_20_storm__b_close",
+        "a": 7.86,
+        "b": 21.46
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_23_clear__a_gameplay",
+        "a": 21.49,
+        "b": 38.12
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_23_fog__a_gameplay",
+        "a": 18.44,
+        "b": 37.38
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_23_gusty__a_gameplay",
+        "a": 22.47,
+        "b": 39.37
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_23_rain__a_gameplay",
+        "a": 15.09,
+        "b": 33.13
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_07_clear__a_gameplay",
+        "a": 9.88,
+        "b": 22.29
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_07_clear__b_close",
+        "a": 9.57,
+        "b": 22.67
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_07_fog__b_close",
+        "a": 9.85,
+        "b": 22.52
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_07_gusty__b_close",
+        "a": 9.87,
+        "b": 22.85
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_07_rain__b_close",
+        "a": 9.88,
+        "b": 23.09
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_07_storm__b_close",
+        "a": 9.99,
+        "b": 23.33
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_08_clear__b_close",
+        "a": 16.54,
+        "b": 30.9
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_08_gusty__b_close",
+        "a": 17.61,
+        "b": 31.29
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_09_clear__a_gameplay",
+        "a": 9.68,
+        "b": 22.02
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_09_clear__b_close",
+        "a": 9.34,
+        "b": 22.01
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_09_fog__a_gameplay",
+        "a": 9.78,
+        "b": 21.98
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_09_fog__b_close",
+        "a": 9.66,
+        "b": 21.82
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_09_gusty__b_close",
+        "a": 9.64,
+        "b": 22.2
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_09_rain__a_gameplay",
+        "a": 9.89,
+        "b": 22.34
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_09_rain__b_close",
+        "a": 9.8,
+        "b": 22.49
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_09_storm__b_close",
+        "a": 9.96,
+        "b": 22.79
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_10_fog__a_gameplay",
+        "a": 15.65,
+        "b": 30.03
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_12_fog__b_close",
+        "a": 9.95,
+        "b": 22.66
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_12_rain__b_close",
+        "a": 9.98,
+        "b": 23.29
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_13_clear__a_gameplay",
+        "a": 9.23,
+        "b": 21.65
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_13_fog__a_gameplay",
+        "a": 9.56,
+        "b": 21.46
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_13_gusty__a_gameplay",
+        "a": 9.45,
+        "b": 21.93
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_14_clear__a_gameplay",
+        "a": 9.55,
+        "b": 22.01
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_14_clear__b_close",
+        "a": 9.32,
+        "b": 22.12
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_14_fog__a_gameplay",
+        "a": 9.78,
+        "b": 21.96
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_14_fog__b_close",
+        "a": 9.63,
+        "b": 21.81
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_14_gusty__a_gameplay",
+        "a": 9.58,
+        "b": 22.13
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_14_gusty__b_close",
+        "a": 9.49,
+        "b": 22.23
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_14_rain__a_gameplay",
+        "a": 9.89,
+        "b": 22.33
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_14_rain__b_close",
+        "a": 9.73,
+        "b": 22.54
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_14_storm__b_close",
+        "a": 9.84,
+        "b": 22.77
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_15_clear__a_gameplay",
+        "a": 9.07,
+        "b": 21.52
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_15_fog__a_gameplay",
+        "a": 9.53,
+        "b": 21.42
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_15_gusty__a_gameplay",
+        "a": 9.62,
+        "b": 22.14
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_15_rain__a_gameplay",
+        "a": 9.69,
+        "b": 22.19
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_17_clear__a_gameplay",
+        "a": 9.19,
+        "b": 20.07
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_17_clear__b_close",
+        "a": 9.61,
+        "b": 20.79
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_17_fog__a_gameplay",
+        "a": 9.36,
+        "b": 20.29
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_17_fog__b_close",
+        "a": 9.28,
+        "b": 21.08
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_17_gusty__a_gameplay",
+        "a": 9.98,
+        "b": 19.96
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_17_rain__a_gameplay",
+        "a": 8.66,
+        "b": 20.66
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_17_rain__b_close",
+        "a": 8.88,
+        "b": 21.55
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_17_storm__a_gameplay",
+        "a": 8.51,
+        "b": 20.98
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_17_storm__b_close",
+        "a": 8.33,
+        "b": 21.77
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_18_clear__a_gameplay",
+        "a": 9.17,
+        "b": 21.58
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_18_fog__a_gameplay",
+        "a": 9.55,
+        "b": 21.42
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_18_gusty__a_gameplay",
+        "a": 9.62,
+        "b": 22.03
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_18_rain__a_gameplay",
+        "a": 9.69,
+        "b": 22.19
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_19_clear__a_gameplay",
+        "a": 9.71,
+        "b": 22.11
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_19_clear__b_close",
+        "a": 9.33,
+        "b": 22.19
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_19_fog__a_gameplay",
+        "a": 9.78,
+        "b": 21.98
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_19_fog__b_close",
+        "a": 9.69,
+        "b": 21.94
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_19_gusty__a_gameplay",
+        "a": 9.82,
+        "b": 22.49
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_19_gusty__b_close",
+        "a": 9.56,
+        "b": 22.43
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_19_rain__a_gameplay",
+        "a": 9.95,
+        "b": 22.35
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_19_rain__b_close",
+        "a": 9.77,
+        "b": 22.61
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_19_storm__b_close",
+        "a": 9.93,
+        "b": 22.77
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_20_clear__a_gameplay",
+        "a": 9.57,
+        "b": 22.16
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_20_clear__b_close",
+        "a": 9.44,
+        "b": 22.48
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_20_fog__a_gameplay",
+        "a": 9.78,
+        "b": 22.15
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_20_fog__b_close",
+        "a": 9.74,
+        "b": 22.16
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_20_gusty__a_gameplay",
+        "a": 9.71,
+        "b": 22.45
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_20_gusty__b_close",
+        "a": 9.83,
+        "b": 22.63
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_20_rain__b_close",
+        "a": 9.76,
+        "b": 22.89
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_20_storm__b_close",
+        "a": 9.96,
+        "b": 22.94
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_23_clear__a_gameplay",
+        "a": 21.2,
+        "b": 38.37
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_23_fog__a_gameplay",
+        "a": 17.82,
+        "b": 38.18
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_23_gusty__a_gameplay",
+        "a": 21.27,
+        "b": 39.36
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_23_rain__a_gameplay",
+        "a": 14.23,
+        "b": 34.61
+      },
+      {
+        "shot": "MatchHero_Female__tennis_resort__b_close",
+        "a": 8.39,
+        "b": 27.41
+      },
+      {
+        "shot": "MatchHero_Female__tennis_volcano__b_close",
+        "a": 5.76,
+        "b": 13.27
+      },
+      {
+        "shot": "MatchHero_Male__tennis_resort__b_close",
+        "a": 9.66,
+        "b": 26.72
+      },
+      {
+        "shot": "MatchHero_Male__tennis_volcano__b_close",
+        "a": 7.55,
+        "b": 14.94
+      }
+    ],
+    "lobbyFaceDeltaL": [
+      {
+        "shot": "GolfKitHero_Female__golf_07_clear__a_gameplay",
+        "deltaL": 18.92
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_07_clear__b_close",
+        "deltaL": 22.28
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_07_fog__a_gameplay",
+        "deltaL": 20.22
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_07_fog__b_close",
+        "deltaL": 23.64
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_07_gusty__a_gameplay",
+        "deltaL": 22.93
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_07_gusty__b_close",
+        "deltaL": 26.27
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_07_rain__a_gameplay",
+        "deltaL": 17.21
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_07_rain__b_close",
+        "deltaL": 20.52
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_07_storm__a_gameplay",
+        "deltaL": 15.88
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_07_storm__b_close",
+        "deltaL": 19.03
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_08_clear__a_gameplay",
+        "deltaL": 15.05
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_08_clear__b_close",
+        "deltaL": 20.84
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_08_fog__a_gameplay",
+        "deltaL": 16.81
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_08_fog__b_close",
+        "deltaL": 21.21
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_08_gusty__a_gameplay",
+        "deltaL": 17.95
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_08_gusty__b_close",
+        "deltaL": 24.44
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_08_rain__a_gameplay",
+        "deltaL": 13.74
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_08_rain__b_close",
+        "deltaL": 17.65
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_08_storm__a_gameplay",
+        "deltaL": 12.18
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_08_storm__b_close",
+        "deltaL": 16.11
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_clear__a_gameplay",
+        "deltaL": 19.71
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_clear__b_close",
+        "deltaL": 22.65
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_fog__a_gameplay",
+        "deltaL": 20.75
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_fog__b_close",
+        "deltaL": 24.3
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_gusty__a_gameplay",
+        "deltaL": 24.27
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_gusty__b_close",
+        "deltaL": 26.27
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_rain__a_gameplay",
+        "deltaL": 17.39
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_rain__b_close",
+        "deltaL": 21.11
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_storm__a_gameplay",
+        "deltaL": 16.14
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_storm__b_close",
+        "deltaL": 19.53
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_10_clear__a_gameplay",
+        "deltaL": 12.31
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_10_fog__a_gameplay",
+        "deltaL": 11.86
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_10_gusty__a_gameplay",
+        "deltaL": 12.21
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_10_rain__a_gameplay",
+        "deltaL": 8.94
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_10_storm__a_gameplay",
+        "deltaL": 8.23
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_clear__a_gameplay",
+        "deltaL": 38.13
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_clear__b_close",
+        "deltaL": 50.07
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_fog__a_gameplay",
+        "deltaL": 20.22
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_fog__b_close",
+        "deltaL": 23.3
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_gusty__a_gameplay",
+        "deltaL": 41.78
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_gusty__b_close",
+        "deltaL": 50.07
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_rain__a_gameplay",
+        "deltaL": 17.2
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_rain__b_close",
+        "deltaL": 20.08
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_storm__a_gameplay",
+        "deltaL": 15.99
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_storm__b_close",
+        "deltaL": 18.85
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_13_clear__a_gameplay",
+        "deltaL": 20.28
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_13_fog__a_gameplay",
+        "deltaL": 21.95
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_13_gusty__a_gameplay",
+        "deltaL": 23.5
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_13_rain__a_gameplay",
+        "deltaL": 18.69
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_13_storm__a_gameplay",
+        "deltaL": 17.55
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_clear__a_gameplay",
+        "deltaL": 19.65
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_clear__b_close",
+        "deltaL": 22.82
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_fog__a_gameplay",
+        "deltaL": 20.86
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_fog__b_close",
+        "deltaL": 24.3
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_gusty__a_gameplay",
+        "deltaL": 20.96
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_gusty__b_close",
+        "deltaL": 24.51
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_rain__a_gameplay",
+        "deltaL": 17.62
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_rain__b_close",
+        "deltaL": 21.11
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_storm__a_gameplay",
+        "deltaL": 16.31
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_storm__b_close",
+        "deltaL": 19.53
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_15_clear__a_gameplay",
+        "deltaL": 19.83
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_15_fog__a_gameplay",
+        "deltaL": 20.67
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_15_gusty__a_gameplay",
+        "deltaL": 23.58
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_15_rain__a_gameplay",
+        "deltaL": 17.29
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_15_storm__a_gameplay",
+        "deltaL": 16.27
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_16_clear__a_gameplay",
+        "deltaL": 15.88
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_16_clear__b_close",
+        "deltaL": 21.33
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_16_fog__a_gameplay",
+        "deltaL": 15.78
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_16_fog__b_close",
+        "deltaL": 22.85
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_16_gusty__a_gameplay",
+        "deltaL": 16.69
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_16_gusty__b_close",
+        "deltaL": 22.87
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_16_rain__a_gameplay",
+        "deltaL": 13.32
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_16_rain__b_close",
+        "deltaL": 19.71
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_16_storm__a_gameplay",
+        "deltaL": 12.16
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_16_storm__b_close",
+        "deltaL": 18.27
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_clear__a_gameplay",
+        "deltaL": 22.39
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_clear__b_close",
+        "deltaL": 23.29
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_fog__a_gameplay",
+        "deltaL": 17.25
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_fog__b_close",
+        "deltaL": 20.27
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_gusty__a_gameplay",
+        "deltaL": 27.47
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_gusty__b_close",
+        "deltaL": 28.87
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_rain__a_gameplay",
+        "deltaL": 10.0
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_rain__b_close",
+        "deltaL": 13.37
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_storm__b_close",
+        "deltaL": 9.57
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_18_clear__a_gameplay",
+        "deltaL": 19.83
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_18_fog__a_gameplay",
+        "deltaL": 20.67
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_18_gusty__a_gameplay",
+        "deltaL": 22.85
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_18_rain__a_gameplay",
+        "deltaL": 17.51
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_18_storm__a_gameplay",
+        "deltaL": 16.05
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_19_clear__a_gameplay",
+        "deltaL": 19.98
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_19_clear__b_close",
+        "deltaL": 22.78
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_19_fog__a_gameplay",
+        "deltaL": 20.8
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_19_fog__b_close",
+        "deltaL": 24.3
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_19_gusty__a_gameplay",
+        "deltaL": 25.38
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_19_gusty__b_close",
+        "deltaL": 26.27
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_19_rain__a_gameplay",
+        "deltaL": 17.62
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_19_rain__b_close",
+        "deltaL": 21.13
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_19_storm__a_gameplay",
+        "deltaL": 16.31
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_19_storm__b_close",
+        "deltaL": 19.53
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_20_clear__a_gameplay",
+        "deltaL": 19.02
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_20_clear__b_close",
+        "deltaL": 22.34
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_20_fog__a_gameplay",
+        "deltaL": 20.28
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_20_fog__b_close",
+        "deltaL": 23.76
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_20_gusty__a_gameplay",
+        "deltaL": 21.66
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_20_gusty__b_close",
+        "deltaL": 26.25
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_20_rain__a_gameplay",
+        "deltaL": 17.31
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_20_rain__b_close",
+        "deltaL": 20.7
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_20_storm__a_gameplay",
+        "deltaL": 16.11
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_20_storm__b_close",
+        "deltaL": 19.16
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_21_clear__a_gameplay",
+        "deltaL": 17.83
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_21_fog__a_gameplay",
+        "deltaL": 17.32
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_21_gusty__a_gameplay",
+        "deltaL": 18.36
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_21_rain__a_gameplay",
+        "deltaL": 9.41
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_22_clear__a_gameplay",
+        "deltaL": 18.62
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_22_clear__b_close",
+        "deltaL": 24.6
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_22_fog__a_gameplay",
+        "deltaL": 18.43
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_22_fog__b_close",
+        "deltaL": 22.56
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_22_gusty__a_gameplay",
+        "deltaL": 21.1
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_22_gusty__b_close",
+        "deltaL": 27.46
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_22_rain__a_gameplay",
+        "deltaL": 10.7
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_22_rain__b_close",
+        "deltaL": 15.09
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_22_storm__b_close",
+        "deltaL": 11.26
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_23_clear__a_gameplay",
+        "deltaL": 12.76
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_23_fog__a_gameplay",
+        "deltaL": 8.77
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_23_gusty__a_gameplay",
+        "deltaL": 13.45
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_07_clear__a_gameplay",
+        "deltaL": 17.14
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_07_clear__b_close",
+        "deltaL": 18.94
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_07_fog__a_gameplay",
+        "deltaL": 18.87
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_07_fog__b_close",
+        "deltaL": 20.08
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_07_gusty__a_gameplay",
+        "deltaL": 21.14
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_07_gusty__b_close",
+        "deltaL": 21.53
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_07_rain__a_gameplay",
+        "deltaL": 15.89
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_07_rain__b_close",
+        "deltaL": 16.91
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_07_storm__a_gameplay",
+        "deltaL": 14.09
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_07_storm__b_close",
+        "deltaL": 15.61
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_08_clear__a_gameplay",
+        "deltaL": 14.91
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_08_clear__b_close",
+        "deltaL": 15.81
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_08_fog__a_gameplay",
+        "deltaL": 16.71
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_08_fog__b_close",
+        "deltaL": 16.91
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_08_gusty__a_gameplay",
+        "deltaL": 17.52
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_08_gusty__b_close",
+        "deltaL": 18.86
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_08_rain__a_gameplay",
+        "deltaL": 13.63
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_08_rain__b_close",
+        "deltaL": 13.72
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_08_storm__a_gameplay",
+        "deltaL": 12.04
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_08_storm__b_close",
+        "deltaL": 12.11
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_09_clear__a_gameplay",
+        "deltaL": 17.43
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_09_clear__b_close",
+        "deltaL": 19.26
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_09_fog__a_gameplay",
+        "deltaL": 19.09
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_09_fog__b_close",
+        "deltaL": 20.6
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_09_gusty__a_gameplay",
+        "deltaL": 22.23
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_09_gusty__b_close",
+        "deltaL": 21.46
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_09_rain__a_gameplay",
+        "deltaL": 16.13
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_09_rain__b_close",
+        "deltaL": 17.48
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_09_storm__a_gameplay",
+        "deltaL": 14.52
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_09_storm__b_close",
+        "deltaL": 16.11
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_10_clear__a_gameplay",
+        "deltaL": 11.54
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_10_fog__a_gameplay",
+        "deltaL": 12.15
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_10_gusty__a_gameplay",
+        "deltaL": 12.38
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_10_rain__a_gameplay",
+        "deltaL": 9.14
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_10_storm__a_gameplay",
+        "deltaL": 8.14
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_12_clear__a_gameplay",
+        "deltaL": 25.6
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_12_clear__b_close",
+        "deltaL": 23.63
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_12_fog__a_gameplay",
+        "deltaL": 17.34
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_12_fog__b_close",
+        "deltaL": 18.83
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_12_gusty__a_gameplay",
+        "deltaL": 29.22
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_12_gusty__b_close",
+        "deltaL": 28.28
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_12_rain__a_gameplay",
+        "deltaL": 14.38
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_12_rain__b_close",
+        "deltaL": 16.02
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_12_storm__a_gameplay",
+        "deltaL": 12.88
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_12_storm__b_close",
+        "deltaL": 14.54
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_13_clear__a_gameplay",
+        "deltaL": 18.45
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_13_fog__a_gameplay",
+        "deltaL": 19.62
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_13_gusty__a_gameplay",
+        "deltaL": 21.67
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_13_rain__a_gameplay",
+        "deltaL": 16.59
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_13_storm__a_gameplay",
+        "deltaL": 15.38
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_14_clear__a_gameplay",
+        "deltaL": 17.43
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_14_clear__b_close",
+        "deltaL": 19.06
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_14_fog__a_gameplay",
+        "deltaL": 19.12
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_14_fog__b_close",
+        "deltaL": 20.7
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_14_gusty__a_gameplay",
+        "deltaL": 19.02
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_14_gusty__b_close",
+        "deltaL": 20.87
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_14_rain__a_gameplay",
+        "deltaL": 16.19
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_14_rain__b_close",
+        "deltaL": 17.58
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_14_storm__a_gameplay",
+        "deltaL": 14.37
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_14_storm__b_close",
+        "deltaL": 16.22
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_15_clear__a_gameplay",
+        "deltaL": 18.41
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_15_fog__a_gameplay",
+        "deltaL": 19.97
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_15_gusty__a_gameplay",
+        "deltaL": 21.72
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_15_rain__a_gameplay",
+        "deltaL": 17.0
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_15_storm__a_gameplay",
+        "deltaL": 15.77
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_16_clear__a_gameplay",
+        "deltaL": 15.75
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_16_clear__b_close",
+        "deltaL": 16.0
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_16_fog__a_gameplay",
+        "deltaL": 17.25
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_16_fog__b_close",
+        "deltaL": 15.06
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_16_gusty__a_gameplay",
+        "deltaL": 18.09
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_16_gusty__b_close",
+        "deltaL": 17.75
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_16_rain__a_gameplay",
+        "deltaL": 14.42
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_16_rain__b_close",
+        "deltaL": 12.73
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_16_storm__a_gameplay",
+        "deltaL": 12.88
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_16_storm__b_close",
+        "deltaL": 11.94
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_17_clear__a_gameplay",
+        "deltaL": 14.27
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_17_clear__b_close",
+        "deltaL": 18.14
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_17_fog__a_gameplay",
+        "deltaL": 15.62
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_17_fog__b_close",
+        "deltaL": 16.51
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_17_gusty__a_gameplay",
+        "deltaL": 19.26
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_17_gusty__b_close",
+        "deltaL": 23.25
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_17_rain__a_gameplay",
+        "deltaL": 8.33
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_17_rain__b_close",
+        "deltaL": 9.67
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_18_clear__a_gameplay",
+        "deltaL": 18.72
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_18_fog__a_gameplay",
+        "deltaL": 19.97
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_18_gusty__a_gameplay",
+        "deltaL": 21.46
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_18_rain__a_gameplay",
+        "deltaL": 17.0
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_18_storm__a_gameplay",
+        "deltaL": 15.77
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_19_clear__a_gameplay",
+        "deltaL": 17.4
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_19_clear__b_close",
+        "deltaL": 19.37
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_19_fog__a_gameplay",
+        "deltaL": 19.09
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_19_fog__b_close",
+        "deltaL": 20.6
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_19_gusty__a_gameplay",
+        "deltaL": 21.36
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_19_gusty__b_close",
+        "deltaL": 22.21
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_19_rain__a_gameplay",
+        "deltaL": 16.06
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_19_rain__b_close",
+        "deltaL": 17.52
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_19_storm__a_gameplay",
+        "deltaL": 14.37
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_19_storm__b_close",
+        "deltaL": 16.15
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_20_clear__a_gameplay",
+        "deltaL": 17.37
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_20_clear__b_close",
+        "deltaL": 19.05
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_20_fog__a_gameplay",
+        "deltaL": 18.9
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_20_fog__b_close",
+        "deltaL": 20.36
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_20_gusty__a_gameplay",
+        "deltaL": 20.09
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_20_gusty__b_close",
+        "deltaL": 21.02
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_20_rain__a_gameplay",
+        "deltaL": 15.96
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_20_rain__b_close",
+        "deltaL": 17.11
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_20_storm__a_gameplay",
+        "deltaL": 14.33
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_20_storm__b_close",
+        "deltaL": 15.83
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_21_clear__a_gameplay",
+        "deltaL": 17.42
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_21_fog__a_gameplay",
+        "deltaL": 17.42
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_21_gusty__a_gameplay",
+        "deltaL": 20.04
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_21_rain__a_gameplay",
+        "deltaL": 9.98
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_22_clear__a_gameplay",
+        "deltaL": 17.81
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_22_clear__b_close",
+        "deltaL": 20.32
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_22_fog__a_gameplay",
+        "deltaL": 17.06
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_22_fog__b_close",
+        "deltaL": 18.9
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_22_gusty__a_gameplay",
+        "deltaL": 21.91
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_22_gusty__b_close",
+        "deltaL": 23.8
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_22_rain__a_gameplay",
+        "deltaL": 9.59
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_22_rain__b_close",
+        "deltaL": 11.46
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_23_clear__a_gameplay",
+        "deltaL": 10.05
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_23_gusty__a_gameplay",
+        "deltaL": 9.93
+      },
+      {
+        "shot": "MatchHero_Male__tennis_resort__b_close",
+        "deltaL": 8.28
+      },
+      {
+        "shot": "MatchHero_Male__tennis_skyscraper__b_close",
+        "deltaL": 15.5
+      }
+    ],
+    "silhouette": [
+      {
+        "shot": "GolfKitHero_Female__golf_07_fog__a_gameplay",
+        "value": 14.75
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_07_rain__a_gameplay",
+        "value": 10.86
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_07_storm__a_gameplay",
+        "value": 3.64
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_08_clear__a_gameplay",
+        "value": 12.64
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_08_fog__a_gameplay",
+        "value": 11.03
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_08_gusty__a_gameplay",
+        "value": 10.91
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_08_rain__a_gameplay",
+        "value": 7.77
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_08_storm__a_gameplay",
+        "value": 2.11
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_fog__a_gameplay",
+        "value": 14.83
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_rain__a_gameplay",
+        "value": 11.39
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_storm__a_gameplay",
+        "value": 4.34
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_10_clear__a_gameplay",
+        "value": 3.75
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_10_fog__a_gameplay",
+        "value": 0.32
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_10_gusty__a_gameplay",
+        "value": 2.0
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_10_rain__a_gameplay",
+        "value": 1.91
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_10_storm__a_gameplay",
+        "value": 1.72
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_clear__a_gameplay",
+        "value": 6.91
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_fog__a_gameplay",
+        "value": 0.67
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_gusty__a_gameplay",
+        "value": 3.98
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_rain__a_gameplay",
+        "value": 1.26
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_storm__a_gameplay",
+        "value": 4.04
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_13_fog__a_gameplay",
+        "value": 8.86
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_13_gusty__a_gameplay",
+        "value": 14.32
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_13_rain__a_gameplay",
+        "value": 8.44
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_13_storm__a_gameplay",
+        "value": 5.34
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_clear__a_gameplay",
+        "value": 0.63
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_fog__a_gameplay",
+        "value": 7.9
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_gusty__a_gameplay",
+        "value": 3.59
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_rain__a_gameplay",
+        "value": 5.28
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_storm__a_gameplay",
+        "value": 0.22
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_15_fog__a_gameplay",
+        "value": 7.09
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_15_gusty__a_gameplay",
+        "value": 13.82
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_15_rain__a_gameplay",
+        "value": 6.51
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_15_storm__a_gameplay",
+        "value": 1.7
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_16_fog__a_gameplay",
+        "value": 9.74
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_16_gusty__a_gameplay",
+        "value": 14.39
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_16_rain__a_gameplay",
+        "value": 9.8
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_16_storm__a_gameplay",
+        "value": 5.3
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_clear__a_gameplay",
+        "value": 6.05
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_fog__a_gameplay",
+        "value": 11.16
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_gusty__a_gameplay",
+        "value": 9.61
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_18_clear__a_gameplay",
+        "value": 14.76
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_18_fog__a_gameplay",
+        "value": 6.04
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_18_gusty__a_gameplay",
+        "value": 11.53
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_18_rain__a_gameplay",
+        "value": 5.47
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_18_storm__a_gameplay",
+        "value": 0.02
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_19_fog__a_gameplay",
+        "value": 13.26
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_19_rain__a_gameplay",
+        "value": 10.47
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_19_storm__a_gameplay",
+        "value": 3.36
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_20_fog__a_gameplay",
+        "value": 13.45
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_20_rain__a_gameplay",
+        "value": 10.16
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_20_storm__a_gameplay",
+        "value": 2.96
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_21_clear__a_gameplay",
+        "value": 10.82
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_21_fog__a_gameplay",
+        "value": 4.43
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_21_gusty__a_gameplay",
+        "value": 9.21
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_21_rain__a_gameplay",
+        "value": 2.51
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_21_storm__a_gameplay",
+        "value": 1.97
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_22_fog__a_gameplay",
+        "value": 9.5
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_22_gusty__a_gameplay",
+        "value": 14.51
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_22_rain__a_gameplay",
+        "value": 5.94
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_22_storm__a_gameplay",
+        "value": 1.7
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_23_clear__a_gameplay",
+        "value": 8.72
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_23_gusty__a_gameplay",
+        "value": 10.94
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_07_rain__a_gameplay",
+        "value": 13.38
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_07_storm__a_gameplay",
+        "value": 7.28
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_08_fog__a_gameplay",
+        "value": 13.67
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_08_rain__a_gameplay",
+        "value": 11.54
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_08_storm__a_gameplay",
+        "value": 7.64
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_09_rain__a_gameplay",
+        "value": 13.68
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_09_storm__a_gameplay",
+        "value": 8.96
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_10_clear__a_gameplay",
+        "value": 7.51
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_10_fog__a_gameplay",
+        "value": 4.16
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_10_gusty__a_gameplay",
+        "value": 5.64
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_10_rain__a_gameplay",
+        "value": 5.87
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_10_storm__a_gameplay",
+        "value": 2.04
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_12_clear__a_gameplay",
+        "value": 11.88
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_12_fog__a_gameplay",
+        "value": 3.36
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_12_gusty__a_gameplay",
+        "value": 7.79
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_12_rain__a_gameplay",
+        "value": 2.29
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_12_storm__a_gameplay",
+        "value": 0.58
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_13_fog__a_gameplay",
+        "value": 12.49
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_13_rain__a_gameplay",
+        "value": 10.36
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_13_storm__a_gameplay",
+        "value": 6.39
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_14_clear__a_gameplay",
+        "value": 4.27
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_14_fog__a_gameplay",
+        "value": 9.77
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_14_gusty__a_gameplay",
+        "value": 6.62
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_14_rain__a_gameplay",
+        "value": 8.09
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_14_storm__a_gameplay",
+        "value": 5.82
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_15_fog__a_gameplay",
+        "value": 10.47
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_15_rain__a_gameplay",
+        "value": 8.5
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_15_storm__a_gameplay",
+        "value": 3.96
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_16_storm__a_gameplay",
+        "value": 10.69
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_17_clear__a_gameplay",
+        "value": 7.34
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_17_fog__a_gameplay",
+        "value": 13.69
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_17_gusty__a_gameplay",
+        "value": 12.05
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_18_fog__a_gameplay",
+        "value": 9.08
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_18_gusty__a_gameplay",
+        "value": 13.55
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_18_rain__a_gameplay",
+        "value": 7.4
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_18_storm__a_gameplay",
+        "value": 2.77
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_19_fog__a_gameplay",
+        "value": 14.5
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_19_rain__a_gameplay",
+        "value": 12.5
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_19_storm__a_gameplay",
+        "value": 7.66
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_20_rain__a_gameplay",
+        "value": 12.85
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_20_storm__a_gameplay",
+        "value": 7.43
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_21_fog__a_gameplay",
+        "value": 11.16
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_21_rain__a_gameplay",
+        "value": 9.03
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_21_storm__a_gameplay",
+        "value": 2.14
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_22_rain__a_gameplay",
+        "value": 12.65
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_22_storm__a_gameplay",
+        "value": 2.59
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_23_clear__a_gameplay",
+        "value": 3.78
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_23_fog__a_gameplay",
+        "value": 8.13
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_23_gusty__a_gameplay",
+        "value": 5.16
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_23_rain__a_gameplay",
+        "value": 11.86
+      },
+      {
+        "shot": "MatchHero_Female__tennis_resort__a_gameplay",
+        "value": 1.07
+      },
+      {
+        "shot": "MatchHero_Male__tennis_resort__a_gameplay",
+        "value": 3.34
+      },
+      {
+        "shot": "MatchHero_Male__tennis_volcano__a_gameplay",
+        "value": 6.91
+      }
+    ],
+    "darkest5": [
+      {
+        "shot": "GolfKitHero_Female__golf_07_clear__a_gameplay",
+        "value": 0.485
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_07_fog__a_gameplay",
+        "value": 0.523
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_07_gusty__a_gameplay",
+        "value": 0.503
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_07_rain__a_gameplay",
+        "value": 0.416
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_07_storm__a_gameplay",
+        "value": 0.349
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_08_clear__a_gameplay",
+        "value": 0.144
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_08_fog__a_gameplay",
+        "value": 0.099
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_08_gusty__a_gameplay",
+        "value": 0.094
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_08_rain__a_gameplay",
+        "value": 0.043
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_08_storm__a_gameplay",
+        "value": 0.026
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_clear__a_gameplay",
+        "value": 0.468
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_fog__a_gameplay",
+        "value": 0.532
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_gusty__a_gameplay",
+        "value": 0.494
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_rain__a_gameplay",
+        "value": 0.437
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_storm__a_gameplay",
+        "value": 0.405
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_10_clear__a_gameplay",
+        "value": 0.345
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_10_fog__a_gameplay",
+        "value": 0.393
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_10_gusty__a_gameplay",
+        "value": 0.36
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_10_rain__a_gameplay",
+        "value": 0.282
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_10_storm__a_gameplay",
+        "value": 0.219
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_clear__a_gameplay",
+        "value": 0.824
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_fog__a_gameplay",
+        "value": 0.931
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_gusty__a_gameplay",
+        "value": 0.855
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_rain__a_gameplay",
+        "value": 0.799
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_storm__a_gameplay",
+        "value": 0.598
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_13_clear__a_gameplay",
+        "value": 0.54
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_13_fog__a_gameplay",
+        "value": 0.589
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_13_gusty__a_gameplay",
+        "value": 0.566
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_13_rain__a_gameplay",
+        "value": 0.429
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_13_storm__a_gameplay",
+        "value": 0.362
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_clear__a_gameplay",
+        "value": 0.428
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_fog__a_gameplay",
+        "value": 0.504
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_gusty__a_gameplay",
+        "value": 0.438
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_rain__a_gameplay",
+        "value": 0.404
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_storm__a_gameplay",
+        "value": 0.346
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_15_clear__a_gameplay",
+        "value": 0.581
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_15_fog__a_gameplay",
+        "value": 0.581
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_15_gusty__a_gameplay",
+        "value": 0.585
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_15_rain__a_gameplay",
+        "value": 0.43
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_15_storm__a_gameplay",
+        "value": 0.375
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_16_clear__a_gameplay",
+        "value": 0.183
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_16_fog__a_gameplay",
+        "value": 0.195
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_16_gusty__a_gameplay",
+        "value": 0.184
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_16_rain__a_gameplay",
+        "value": 0.14
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_16_storm__a_gameplay",
+        "value": 0.113
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_clear__a_gameplay",
+        "value": 0.693
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_fog__a_gameplay",
+        "value": 0.651
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_gusty__a_gameplay",
+        "value": 0.687
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_rain__a_gameplay",
+        "value": 0.767
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_storm__a_gameplay",
+        "value": 0.716
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_18_clear__a_gameplay",
+        "value": 0.575
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_18_fog__a_gameplay",
+        "value": 0.57
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_18_gusty__a_gameplay",
+        "value": 0.578
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_18_rain__a_gameplay",
+        "value": 0.428
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_18_storm__a_gameplay",
+        "value": 0.378
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_19_clear__a_gameplay",
+        "value": 0.453
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_19_fog__a_gameplay",
+        "value": 0.508
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_19_gusty__a_gameplay",
+        "value": 0.459
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_19_rain__a_gameplay",
+        "value": 0.411
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_19_storm__a_gameplay",
+        "value": 0.348
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_20_clear__a_gameplay",
+        "value": 0.429
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_20_fog__a_gameplay",
+        "value": 0.5
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_20_gusty__a_gameplay",
+        "value": 0.45
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_20_rain__a_gameplay",
+        "value": 0.411
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_20_storm__a_gameplay",
+        "value": 0.346
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_21_clear__a_gameplay",
+        "value": 0.238
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_21_fog__a_gameplay",
+        "value": 0.245
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_21_gusty__a_gameplay",
+        "value": 0.251
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_21_rain__a_gameplay",
+        "value": 0.247
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_21_storm__a_gameplay",
+        "value": 0.252
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_22_clear__a_gameplay",
+        "value": 0.169
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_22_fog__a_gameplay",
+        "value": 0.173
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_22_gusty__a_gameplay",
+        "value": 0.17
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_22_rain__a_gameplay",
+        "value": 0.171
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_22_storm__a_gameplay",
+        "value": 0.205
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_23_storm__a_gameplay",
+        "value": 2.863
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_07_clear__a_gameplay",
+        "value": 0.534
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_07_fog__a_gameplay",
+        "value": 0.496
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_07_gusty__a_gameplay",
+        "value": 0.543
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_07_rain__a_gameplay",
+        "value": 0.321
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_07_storm__a_gameplay",
+        "value": 0.312
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_08_clear__a_gameplay",
+        "value": 0.044
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_08_fog__a_gameplay",
+        "value": 0.036
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_08_gusty__a_gameplay",
+        "value": 0.045
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_08_rain__a_gameplay",
+        "value": 0.024
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_08_storm__a_gameplay",
+        "value": 0.013
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_09_clear__a_gameplay",
+        "value": 0.516
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_09_fog__a_gameplay",
+        "value": 0.507
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_09_gusty__a_gameplay",
+        "value": 0.525
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_09_rain__a_gameplay",
+        "value": 0.322
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_09_storm__a_gameplay",
+        "value": 0.312
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_10_clear__a_gameplay",
+        "value": 0.279
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_10_fog__a_gameplay",
+        "value": 0.263
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_10_gusty__a_gameplay",
+        "value": 0.28
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_10_rain__a_gameplay",
+        "value": 0.167
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_10_storm__a_gameplay",
+        "value": 0.143
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_12_clear__a_gameplay",
+        "value": 0.848
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_12_fog__a_gameplay",
+        "value": 0.88
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_12_gusty__a_gameplay",
+        "value": 0.897
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_12_rain__a_gameplay",
+        "value": 0.687
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_12_storm__a_gameplay",
+        "value": 0.579
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_13_clear__a_gameplay",
+        "value": 0.493
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_13_fog__a_gameplay",
+        "value": 0.492
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_13_gusty__a_gameplay",
+        "value": 0.543
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_13_rain__a_gameplay",
+        "value": 0.325
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_13_storm__a_gameplay",
+        "value": 0.286
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_14_clear__a_gameplay",
+        "value": 0.515
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_14_fog__a_gameplay",
+        "value": 0.5
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_14_gusty__a_gameplay",
+        "value": 0.521
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_14_rain__a_gameplay",
+        "value": 0.323
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_14_storm__a_gameplay",
+        "value": 0.315
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_15_clear__a_gameplay",
+        "value": 0.601
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_15_fog__a_gameplay",
+        "value": 0.584
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_15_gusty__a_gameplay",
+        "value": 0.601
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_15_rain__a_gameplay",
+        "value": 0.346
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_15_storm__a_gameplay",
+        "value": 0.307
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_16_clear__a_gameplay",
+        "value": 0.229
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_16_fog__a_gameplay",
+        "value": 0.245
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_16_gusty__a_gameplay",
+        "value": 0.231
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_16_rain__a_gameplay",
+        "value": 0.113
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_16_storm__a_gameplay",
+        "value": 0.146
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_17_clear__a_gameplay",
+        "value": 0.711
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_17_fog__a_gameplay",
+        "value": 0.652
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_17_gusty__a_gameplay",
+        "value": 0.691
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_17_rain__a_gameplay",
+        "value": 0.656
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_17_storm__a_gameplay",
+        "value": 0.655
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_18_clear__a_gameplay",
+        "value": 0.602
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_18_fog__a_gameplay",
+        "value": 0.585
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_18_gusty__a_gameplay",
+        "value": 0.601
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_18_rain__a_gameplay",
+        "value": 0.346
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_18_storm__a_gameplay",
+        "value": 0.307
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_19_clear__a_gameplay",
+        "value": 0.525
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_19_fog__a_gameplay",
+        "value": 0.503
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_19_gusty__a_gameplay",
+        "value": 0.531
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_19_rain__a_gameplay",
+        "value": 0.322
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_19_storm__a_gameplay",
+        "value": 0.314
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_20_clear__a_gameplay",
+        "value": 0.532
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_20_fog__a_gameplay",
+        "value": 0.501
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_20_gusty__a_gameplay",
+        "value": 0.536
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_20_rain__a_gameplay",
+        "value": 0.323
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_20_storm__a_gameplay",
+        "value": 0.314
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_21_clear__a_gameplay",
+        "value": 0.288
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_21_fog__a_gameplay",
+        "value": 0.288
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_21_gusty__a_gameplay",
+        "value": 0.289
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_21_rain__a_gameplay",
+        "value": 0.287
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_21_storm__a_gameplay",
+        "value": 0.275
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_22_clear__a_gameplay",
+        "value": 0.229
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_22_fog__a_gameplay",
+        "value": 0.234
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_22_gusty__a_gameplay",
+        "value": 0.229
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_22_rain__a_gameplay",
+        "value": 0.237
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_22_storm__a_gameplay",
+        "value": 0.254
+      },
+      {
+        "shot": "MatchHero_Female__tennis_skyscraper__a_gameplay",
+        "value": 24.441
+      },
+      {
+        "shot": "MatchHero_Female__tennis_volcano__a_gameplay",
+        "value": 13.182
+      },
+      {
+        "shot": "MatchHero_Male__tennis_resort__a_gameplay",
+        "value": 2.654
+      },
+      {
+        "shot": "MatchHero_Male__tennis_volcano__a_gameplay",
+        "value": 0.816
+      }
+    ],
+    "saturation": [
+      {
+        "shot": "GolfKitHero_Female__golf_07_fog__a_gameplay",
+        "value": 0.6196
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_07_rain__a_gameplay",
+        "value": 0.6041
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_07_storm__a_gameplay",
+        "value": 0.61
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_clear__a_gameplay",
+        "value": 0.618
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_fog__a_gameplay",
+        "value": 0.6112
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_gusty__a_gameplay",
+        "value": 0.6182
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_rain__a_gameplay",
+        "value": 0.5856
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_09_storm__a_gameplay",
+        "value": 0.6022
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_10_fog__a_gameplay",
+        "value": 0.604
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_10_gusty__a_gameplay",
+        "value": 0.6199
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_10_rain__a_gameplay",
+        "value": 0.5847
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_10_storm__a_gameplay",
+        "value": 0.5811
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_clear__a_gameplay",
+        "value": 0.5725
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_fog__a_gameplay",
+        "value": 0.5593
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_gusty__a_gameplay",
+        "value": 0.5695
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_rain__a_gameplay",
+        "value": 0.5485
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_12_storm__a_gameplay",
+        "value": 0.5562
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_13_fog__a_gameplay",
+        "value": 0.6118
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_13_rain__a_gameplay",
+        "value": 0.5957
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_13_storm__a_gameplay",
+        "value": 0.5878
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_clear__a_gameplay",
+        "value": 0.6124
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_fog__a_gameplay",
+        "value": 0.6008
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_gusty__a_gameplay",
+        "value": 0.6127
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_rain__a_gameplay",
+        "value": 0.5932
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_14_storm__a_gameplay",
+        "value": 0.5957
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_15_rain__a_gameplay",
+        "value": 0.6118
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_15_storm__a_gameplay",
+        "value": 0.6074
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_16_fog__a_gameplay",
+        "value": 0.6149
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_16_rain__a_gameplay",
+        "value": 0.602
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_16_storm__a_gameplay",
+        "value": 0.5999
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_clear__a_gameplay",
+        "value": 0.5555
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_fog__a_gameplay",
+        "value": 0.5611
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_gusty__a_gameplay",
+        "value": 0.5588
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_rain__a_gameplay",
+        "value": 0.5262
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_17_storm__a_gameplay",
+        "value": 0.493
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_18_rain__a_gameplay",
+        "value": 0.6167
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_18_storm__a_gameplay",
+        "value": 0.6107
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_19_fog__a_gameplay",
+        "value": 0.6175
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_19_rain__a_gameplay",
+        "value": 0.6091
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_19_storm__a_gameplay",
+        "value": 0.6089
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_20_fog__a_gameplay",
+        "value": 0.617
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_20_rain__a_gameplay",
+        "value": 0.6085
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_20_storm__a_gameplay",
+        "value": 0.6085
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_22_storm__a_gameplay",
+        "value": 0.6091
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_23_clear__a_gameplay",
+        "value": 0.5684
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_23_fog__a_gameplay",
+        "value": 0.5561
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_23_gusty__a_gameplay",
+        "value": 0.5639
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_23_rain__a_gameplay",
+        "value": 0.5408
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_23_storm__a_gameplay",
+        "value": 0.5227
+      },
+      {
+        "shot": "MatchHero_Female__hub__a_gameplay",
+        "value": 0.3794
+      },
+      {
+        "shot": "MatchHero_Female__tennis_resort__a_gameplay",
+        "value": 0.4146
+      },
+      {
+        "shot": "MatchHero_Female__tennis_skyscraper__a_gameplay",
+        "value": 0.3977
+      },
+      {
+        "shot": "MatchHero_Female__tennis_volcano__a_gameplay",
+        "value": 0.4042
+      },
+      {
+        "shot": "MatchHero_Male__hub__a_gameplay",
+        "value": 0.4644
+      }
+    ],
+    "detail": [],
+    "shirt": [
+      {
+        "shot": "GolfKitHero_Female__golf_13_storm__b_close",
+        "pixels": 20332,
+        "L": 24.46,
+        "a": 23.66,
+        "b": 17.57,
+        "hue": 9.38,
+        "saturation": 0.667,
+        "rgb": [
+          96,
+          42,
+          32
+        ],
+        "hueError": 0.79
+      },
+      {
+        "shot": "GolfKitHero_Female__golf_16_storm__a_gameplay",
+        "pixels": 4229,
+        "L": 24.72,
+        "a": 25.48,
+        "b": 18.58,
+        "hue": 8.06,
+        "saturation": 0.677,
+        "rgb": [
+          99,
+          41,
+          32
+        ],
+        "hueError": 2.12
+      },
+      {
+        "shot": "GolfKitHero_Male__golf_16_storm__a_gameplay",
+        "pixels": 6265,
+        "L": 23.91,
+        "a": -16.18,
+        "b": -8.53,
+        "hue": 182.69,
+        "saturation": 1.0,
+        "rgb": [
+          0,
+          64,
+          67
+        ],
+        "hueError": 1.44
+      },
+      {
+        "shot": "MatchHero_Male__tennis_volcano__a_gameplay",
+        "pixels": 19748,
+        "L": 14.95,
+        "a": 35.86,
+        "b": 20.86,
+        "hue": 355.71,
+        "saturation": 1.0,
+        "rgb": [
+          84,
+          0,
+          6
+        ],
+        "hueError": 9.1
+      }
+    ]
+  }
+}

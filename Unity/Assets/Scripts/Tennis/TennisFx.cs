@@ -134,8 +134,16 @@ namespace GolfArcade.Tennis
         {
             var p = new ParticleSystem.EmitParams { position = at, startColor = color, applyShapeToPosition = true };
             if (size > 0) p.startSize = size;
-            if (velocity != default) p.velocity = velocity;
-            ps.Emit(p, count);
+            if (velocity != default) p.velocity = velocity * GolfArcade.EnvironmentArt.EnvironmentFx.MotionScale;
+            ps.Emit(p, GolfArcade.EnvironmentArt.EnvironmentFx.ParticleCount(count));
+        }
+
+        /// Cosmetic only: called after the existing point result, beyond the crater deck.
+        public void LavaOut(Vector3 at)
+        {
+            Burst(impact,at,1,new Color(1,.35f,.04f,.75f),.65f);
+            Burst(sparkle,at,18,new Color(1,.48f,.08f,.9f));
+            Burst(dust,at,8,new Color(.25f,.18f,.18f,.5f),.2f,Vector3.up*.8f);
         }
 
         /// A struck ball. How big and bright it gets says how clean the contact was.
@@ -156,10 +164,10 @@ namespace GolfArcade.Tennis
                 return;
             }
             int strength = (int)grade;
-            float scale = supercharged ? 1.8f : Mathf.Lerp(.6f, 1.25f, strength / 5f);
-            Color hot = supercharged ? new Color(.55f, .95f, 1f, 1) : Color.Lerp(new Color(1, .95f, .8f, .8f), new Color(1, .92f, .45f, 1), strength / 5f);
+            float scale = supercharged ? 1.2f : grade >= Timing.Perfect ? .95f : grade >= Timing.Great ? .78f : .6f;
+            Color hot = supercharged ? new Color(.55f, .95f, 1f, 1) : TennisRules.ContactColor(grade);
             // Phase 4: the additive core stays under ~1.2 m and 75% so a Perfect at head height never whites out the face
-            Burst(impact, at, 1, new Color(hot.r, hot.g, hot.b, Mathf.Min(hot.a, .75f)), Mathf.Min(scale, supercharged ? 1.2f : .95f));
+            Burst(impact, at, 1, GolfArcade.EnvironmentArt.EnvironmentFx.Impact(new Color(hot.r, hot.g, hot.b, Mathf.Min(hot.a, .75f)),supercharged), Mathf.Min(scale, supercharged ? 1.2f : .95f));
             Burst(shock, at, supercharged ? 2 : 1, new Color(hot.r, hot.g, hot.b, .8f), .3f * scale);
             Burst(fuzz, at, 6 + strength * 3, Felt);
             if (grade >= Timing.Great || supercharged) Burst(sparkle, at, supercharged ? 22 : strength * 2, hot);
@@ -188,7 +196,7 @@ namespace GolfArcade.Tennis
             for (int i = 0; i < n; i++)
             {
                 var d = Random.onUnitSphere; d.y = Mathf.Abs(d.y) * .6f;
-                Burst(streak, at, 1, new Color(c.r, c.g, c.b, .95f), -1, d.normalized * Random.Range(9f, 15f) * Mathf.Lerp(.8f, 1.1f, amount - .6f));
+                Burst(streak, at, GolfArcade.EnvironmentArt.EnvironmentFx.ParticleAt(i), new Color(c.r, c.g, c.b, .95f), -1, d.normalized * Random.Range(9f, 15f) * Mathf.Lerp(.8f, 1.1f, amount - .6f));
             }
             Burst(ripple, at, 1, new Color(c.r, c.g, c.b, .55f), .35f * amount);
         }
@@ -247,7 +255,7 @@ namespace GolfArcade.Tennis
             {
                 Color c = CelebrationColors[Random.Range(0, CelebrationColors.Length)];
                 Vector3 v = new Vector3(Random.Range(-2.5f, 2.5f), Random.Range(4f, 8f), Random.Range(-2.5f, 2.5f));
-                Burst(confetti, at + Vector3.up * 1.6f, 1, c, -1, v);
+                Burst(confetti, at + Vector3.up * 1.6f, GolfArcade.EnvironmentArt.EnvironmentFx.ParticleAt(i), c, -1, v);
             }
         }
 

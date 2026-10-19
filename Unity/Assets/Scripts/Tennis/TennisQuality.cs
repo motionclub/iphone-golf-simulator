@@ -120,6 +120,8 @@ namespace GolfArcade.Tennis
             urp.cascade2Split = .18f;
             urp.cascade4Split = new Vector3(.05f, .14f, .38f);
         }
+        /// The shortest shadow reach a step-down leaves: the players and the ball still cast shadows.
+        public const float MinShadowDistance = 25f;
         public static float GolfShadowDistance => Current == Tier.High ? 320 : Current == Tier.Standard ? 260 : 180;
 
         /// Screen-space AO is the most expensive effect; only the High tier keeps it.
@@ -133,14 +135,20 @@ namespace GolfArcade.Tennis
 
         /// Called by the frame governor when frames are consistently late. Each step trades
         /// a little image quality for time; smoothness wins over sharpness.
-        public static bool StepDown()
+        /// FRAME_RATE_60B: never the resolution. Adnan's floor is 60 fps at 1080p or more, and a render scale of .85 drew a
+        /// 1080p TV at 918 lines (and the phone below 1080), so the steps are effects only: MSAA, AO, cascades, shadow reach
+        /// and level of detail. The render scale stays at 1 (TennisQuality.Apply sets it).
+        public static bool StepDown() => StepDown(Pipeline);
+
+        /// One step down on `urp` (the session's pipeline copy; tests pass their own).
+        public static bool StepDown(UniversalRenderPipelineAsset urp)
         {
-            var urp = Pipeline;
             if (!urp) return false;
             if (urp.msaaSampleCount > 2) urp.msaaSampleCount = 2;
             else if (Current == Tier.High && !Application.isEditor) { SetAmbientOcclusion(false); Current = Tier.Standard; }
             else if (urp.shadowCascadeCount > 1) urp.shadowCascadeCount = 1;
-            else if (urp.renderScale > .86f) urp.renderScale = .85f;
+            else if (urp.shadowDistance > MinShadowDistance + 1) { urp.shadowDistance = Mathf.Max(MinShadowDistance, urp.shadowDistance * .7f); QualitySettings.shadowDistance = urp.shadowDistance; }
+            else if (QualitySettings.lodBias > .75f) QualitySettings.lodBias = .7f;
             else if (urp.msaaSampleCount > 1) urp.msaaSampleCount = 1;
             else return false;
             Reductions++;

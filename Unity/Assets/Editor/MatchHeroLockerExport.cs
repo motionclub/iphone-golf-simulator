@@ -57,7 +57,9 @@ namespace GolfArcade.EditorTools
             (HeroTennisDriver.Clip.EmoteJumpJoy, "jumpJoy", false), (HeroTennisDriver.Clip.EmoteFistPump, "fistPump", false),
             (HeroTennisDriver.Clip.EmoteStomp, "stomp", false), (HeroTennisDriver.Clip.EmoteSlump, "slump", false),
             (HeroTennisDriver.Clip.EmoteShock, "shock", false), (HeroTennisDriver.Clip.EmoteVictory, "victory", false),
-            (HeroTennisDriver.Clip.EmoteDefeat, "defeat", false)
+            (HeroTennisDriver.Clip.EmoteDefeat, "defeat", false),
+            // FRAME_RATE_60B: the loading screen's practice swing as bone tracks at ClipRate (it was 12 morph poses blended linearly)
+            (HeroTennisDriver.Clip.Forehand, "forehand", false)
         };
         static readonly Matrix4x4 FlipZ = Matrix4x4.Scale(new Vector3(1, 1, -1));
 
@@ -74,7 +76,9 @@ namespace GolfArcade.EditorTools
             public float tileMetres;
             /// Shipped file names (no extension; "" = none): the kit seam map, the weave map, the skin's soft normal.
             public string baseMap = "", weaveMap = "", bumpMap = "", normalMap = "", maskMap = "";
-            public float[] trimColor; public float normalStrength, useGarmentMaps, fabricVersion;
+            public float[] trimColor; public float normalStrength, useGarmentMaps, fabricVersion, bindingTone, femaleSurface;
+            /// HeroFaceSkin's male face pass (MaleFaceFinish, 2026-10-18): female light model + painted nose/ear/lip form on the male head.
+            public float maleFormPass;
             /// The body skin is Unity's HeroFaceSkin (the registered face: analytic lips, lid liner, blush, beard, face light), not plain TennisCharacter.
             public bool faceSkin;
             /// TennisCloth's kit edge lines (HeroKitEdges): 1 shoe sole line, 2 sock cuff, 0 none. Their data is the part's edgeOffset channel.
@@ -227,7 +231,9 @@ namespace GolfArcade.EditorTools
                         if (golf) { var motions = GolfMotions(sex); ready = motions.First(m => m.id == "ready").clip; PrepareMenuIronSocket(root, motions.First(m => m.id == "golfIron").clip); }
                         else ready = driver.slots.First(s => s.id == HeroTennisDriver.Clip.Ready).clip;
                         SamplePose(root, ready, 0);
-                        var sources = Collect(root); foreach (var source in sources) Pose(root, source);
+                        root.GetComponent<FemaleShoulderFit>()?.Apply();
+                root.GetComponent<FemaleGarmentFinish>()?.Apply(); root.GetComponent<MaleFaceFinish>()?.Apply();
+                var sources = Collect(root); foreach (var source in sources) Pose(root, source);
                         var bounds = new Bounds(); bool has = false;
                         foreach (var source in sources.Where(p => p.kind == "body")) foreach (var v in source.pos) { if (!has) { bounds = new Bounds(v, Vector3.zero); has = true; } else bounds.Encapsulate(v); }
                         float neckY = FindBone(root.transform, "Neck").position.y; var headBounds = new Bounds(); bool hf = true;
@@ -276,7 +282,7 @@ namespace GolfArcade.EditorTools
             catch(Exception e){Debug.LogException(e);if(Application.isBatchMode)EditorApplication.Exit(1);else throw;}
         }
         static void RunVariant(bool golf) {
-            try { Directory.CreateDirectory(OutDir); foreach(string sex in new[]{"Male","Female"}) Debug.Log(ExportSex(sex,golf)); if(Application.isBatchMode)EditorApplication.Exit(0); }
+            try { Directory.CreateDirectory(OutDir); foreach(string sex in new[]{"Male","Female"}) if(string.IsNullOrEmpty(Environment.GetEnvironmentVariable("MH_LOCKER_SEX")) || Environment.GetEnvironmentVariable("MH_LOCKER_SEX")==sex) Debug.Log(ExportSex(sex,golf)); if(Application.isBatchMode)EditorApplication.Exit(0); }
             catch(Exception e){Debug.LogException(e);if(Application.isBatchMode)EditorApplication.Exit(1);else throw;}
         }
 
@@ -351,6 +357,8 @@ namespace GolfArcade.EditorTools
                 var fore=golf ? motions.First(m=>m.id=="golfDrive"):new MotionSource{clip=driver.slots.First(s=>s.id==HeroTennisDriver.Clip.Forehand).clip,contact=driver.slots.First(s=>s.id==HeroTennisDriver.Clip.Forehand).contact};
                 if (!golf && Environment.GetEnvironmentVariable("MH_LOCKER_FACE_PARITY") == "1")
                     motions.Add(new MotionSource { id="forehand", clip=fore.clip, contact=fore.contact, loop=false });
+                root.GetComponent<FemaleShoulderFit>()?.Apply();
+                root.GetComponent<FemaleGarmentFinish>()?.Apply(); root.GetComponent<MaleFaceFinish>()?.Apply();
                 var sources = Collect(root);
                 sb.AppendLine("  parts: " + string.Join(", ", sources.Select(p => $"{p.name}[{p.kind}] v={p.mesh.vertexCount} subs={p.mesh.subMeshCount}")));
                 foreach (var p in sources) if (!p.mesh.isReadable) throw new InvalidOperationException(p.name + " mesh is not readable");
@@ -542,7 +550,8 @@ namespace GolfArcade.EditorTools
             look.weaveTile = F("_WeaveTile"); look.weaveAngle = F("_WeaveAngle"); look.weaveNormal = F("_WeaveNormal"); look.weaveThread = F("_WeaveThread"); look.sheenStrength = F("_SheenStrength"); look.sheenPower = F("_SheenPower");
             look.saturation = F("_Saturation"); look.bumpScale = F("_BumpScale"); look.bumpTriplanar = F("_BumpTriplanar"); look.bumpTile = F("_BumpTile");
             look.baseMap = Map("_BaseMap"); look.weaveMap = Map("_WeaveMap"); look.bumpMap = Map("_BumpMap");
-            look.normalMap = Map("_NormalMap"); look.maskMap = Map("_MaskMap"); look.trimColor = C("_TrimColor"); look.normalStrength = F("_NormalStrength"); look.useGarmentMaps = F("_UseGarmentMaps"); look.fabricVersion = F("_FabricVersion"); look.edgeLines = F("_EdgeLines");
+            look.normalMap = Map("_NormalMap"); look.maskMap = Map("_MaskMap"); look.trimColor = C("_TrimColor"); look.normalStrength = F("_NormalStrength"); look.useGarmentMaps = F("_UseGarmentMaps"); look.fabricVersion = F("_FabricVersion"); look.femaleSurface = F("_FemaleSurface"); look.edgeLines = F("_EdgeLines"); look.maleFormPass = F("_MaleFormPass");
+            float.TryParse(m.GetTag("FemaleBindingTone",false,"0"),System.Globalization.NumberStyles.Float,System.Globalization.CultureInfo.InvariantCulture,out look.bindingTone);
             if (look.shader == "TennisCloth")
             {
                 // the role's cloth numbers live in MatchHeroLook.ClothFor (private): read them off it, so the tile size the Swift side fades the weave by is the one Unity tiles with
@@ -581,6 +590,8 @@ namespace GolfArcade.EditorTools
             }
             HeroGripPolish.ApplyGrip(root.GetComponent<MatchHeroLook>());
             root.GetComponent<MatchHeroLook>()?.body?.GetComponent<HeroArmSkinning>()?.Apply();
+            if(root.GetComponent<FemaleShoulderFit>()) { root.GetComponent<HeroShoulderDeformation>()?.Apply();root.GetComponent<FemaleShoulderFit>().Apply(); }
+            root.GetComponent<FemaleGarmentFinish>()?.Apply(); root.GetComponent<MaleFaceFinish>()?.Apply();
             root.GetComponent<GolfGarmentCorrectives>()?.Apply();
             root.GetComponent<HeroGarmentPoseCorrectives>()?.Apply();
             root.GetComponent<TailoredPoloDeformation>()?.Apply(); { var kl = root.GetComponent<MatchHeroLook>(); if (kl && kl.kitV2) { KitV2PoseCorrectives.Attach(kl); root.GetComponent<KitV2PoseCorrectives>()?.Apply(); } }
@@ -660,6 +671,11 @@ namespace GolfArcade.EditorTools
             {
                 var clip=motion.clip;var id=motion.id;var loop=motion.loop;
                 if(!clip)throw new InvalidOperationException("Missing lobby clip: "+id);
+                // LOBBY_CLEARANCE=1: the lobby gets the hand/arm clearance the game applies from its baked tracks (HeroClearanceBake, same
+                // solver). Off by default (integration 10-18): the lobby-vs-game parity capture samples the raw clip, and the corrected
+                // ReadyIdle lifts the racket in front of the face in the locker (parity MAD 6 -> 16-25). Turn it on together with a parity capture
+                // that applies the tracks.
+                if (Environment.GetEnvironmentVariable("LOBBY_CLEARANCE") == "1") motion.clip = clip = HeroClearanceBake.Corrected(root, clip, SamplePose);   // (the self check below samples motion.clip)
                 SamplePose(root, ready, 0f);
                 int n = Mathf.Max(1, Mathf.RoundToInt(clip.length * ClipRate)), frames = n + 1;
                 var data = new float[frames * rig.trackCount * 10];

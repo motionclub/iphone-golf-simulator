@@ -1,0 +1,82 @@
+{
+  "MatchHero_Male": {
+    "faceLab": [
+      58.8,
+      11.15,
+      22.91
+    ],
+    "shirtLab": [
+      48.97,
+      54.7,
+      39.19
+    ],
+    "facePixels": 10518,
+    "shirtPixels": 4984,
+    "faceROI": [
+      345,
+      530,
+      570,
+      610
+    ]
+  },
+  "MatchHero_Female": {
+    "faceLab": [
+      66.97,
+      11.31,
+      24.25
+    ],
+    "shirtLab": [
+      73.96,
+      -24.23,
+      55.49
+    ],
+    "facePixels": 6208,
+    "shirtPixels": 1067,
+    "faceROI": [
+      345,
+      565,
+      570,
+      635
+    ]
+  },
+  "GolfKitHero_Male": {
+    "faceLab": [
+      66.69,
+      18.04,
+      31.07
+    ],
+    "shirtLab": [
+      65.11,
+      -34.82,
+      -7.93
+    ],
+    "facePixels": 5414,
+    "shirtPixels": 9103,
+    "faceROI": [
+      290,
+      520,
+      485,
+      565
+    ]
+  },
+  "GolfKitHero_Female": {
+    "faceLab": [
+      67.01,
+      18.27,
+      31.87
+    ],
+    "shirtLab": [
+      66.52,
+      35.04,
+      28.23
+    ],
+    "facePixels": 3670,
+    "shirtPixels": 6156,
+    "faceROI": [
+      275,
+      545,
+      475,
+      585
+    ]
+  }
+}

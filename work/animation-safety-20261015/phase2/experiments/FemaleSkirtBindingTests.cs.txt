@@ -1,0 +1,54 @@
+using System.Collections;
+using System.Linq;
+using GolfArcade.Game;
+using GolfArcade.Tennis;
+using NUnit.Framework;
+using UnityEngine;
+using UnityEngine.TestTools;
+
+namespace GolfArcade.PlayTests
+{
+    public class FemaleSkirtBindingTests
+    {
+        [UnityTest]
+        public IEnumerator SkirtSurfaceBakesOnTennisAndDynamicallyAssembledGolfRigs()
+        {
+            foreach (bool golf in new[] { false, true })
+            {
+                var parent = new GameObject("Skirt binding test");
+                var root = golf
+                    ? HeroGolfer.Build(parent.transform, new HeroLook { Female = true, Skin = Color.white }).Root
+                    : Object.Instantiate(TennisCustomization.HeroBase(true), parent.transform);
+                var driver = root.GetComponent<HeroTennisDriver>(); if (driver) driver.enabled = false;
+                var look = root.GetComponent<MatchHeroLook>(); look.SetSkin(look.skinTone);
+                var skirt = look.kit.First(r => r && r.name == "Kit_Bottom");
+                var source = skirt.sharedMesh;
+                try
+                {
+                    Assert.That(root.GetComponent<HeroSkirtClearance>().SurfaceVertexCount, Is.GreaterThan(3000));
+                    Assert.That(source.bindposes.Length, Is.EqualTo(skirt.bones.Length));
+                    foreach (var w in source.boneWeights)
+                    {
+                        Assert.That(w.weight0 + w.weight1 + w.weight2 + w.weight3, Is.EqualTo(1).Within(.00001f));
+                        foreach (var index in new[] { w.boneIndex0, w.boneIndex1, w.boneIndex2, w.boneIndex3 })
+                            Assert.That(index, Is.InRange(0, skirt.bones.Length - 1));
+                    }
+                    for (int frame = 0; frame < 8; frame++) yield return null;
+                    var baked = new Mesh();
+                    try
+                    {
+                        skirt.BakeMesh(baked);
+                        Assert.That(baked.vertexCount, Is.EqualTo(source.vertexCount), golf ? "Golf" : "Tennis");
+                        Assert.That(baked.bounds.size.magnitude, Is.InRange(.3f, 2f));
+                        Assert.That(baked.vertices.All(v => float.IsFinite(v.x) && float.IsFinite(v.y) && float.IsFinite(v.z)), Is.True);
+                    }
+                    finally { Object.Destroy(baked); }
+                    root.SetActive(false); yield return null; root.SetActive(true); yield return null;
+                    Assert.That(skirt.sharedMesh, Is.SameAs(source), "Re-enabling the hero must not duplicate the surface correction.");
+                }
+                finally { Object.Destroy(parent); }
+                yield return null;
+            }
+        }
+    }
+}

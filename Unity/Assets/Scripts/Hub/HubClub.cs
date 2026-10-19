@@ -65,7 +65,7 @@ namespace GolfArcade.Hub
             if (mats.TryGetValue(key, out var m) && m) return m;
             if (!surfaceShader) surfaceShader = Shader.Find("GolfArcade/HubSurface");
             if (!surfaceShader || !surfaceShader.isSupported) { m = new Material(Lit(c, .15f)) { name = "Hub " + key }; if (tex) { m.SetTexture("_BaseMap", tex); m.SetTextureScale("_BaseMap", Vector2.one / Mathf.Max(.01f, tile.x)); } return mats[key] = m; }
-            m = new Material(surfaceShader) { name = "Hub " + key, enableInstancing = true };
+            m = GolfArcade.EnvironmentArt.EnvironmentMaterials.Create(surfaceShader,"Hub "+key,true);
             if (tex) m.SetTexture("_BaseMap", tex);
             if (uvMode == 0 && tex) m.SetTextureScale("_BaseMap", new Vector2(1 / Mathf.Max(.01f, tile.x), 1 / Mathf.Max(.01f, tile.y > 0 ? tile.y : tile.x)));
             m.SetColor("_BaseColor", c); m.SetFloat("_UVMode", uvMode); m.SetVector("_Tile", new Vector4(Mathf.Max(.01f, tile.x), Mathf.Max(.01f, tile.y > 0 ? tile.y : tile.x), 0, 0));

@@ -8,6 +8,92 @@ import XCTest
 /// layouts can be reviewed without a TV attached. Output: $TMPDIR/tennis-menu/.
 @MainActor
 final class TennisMenuSnapshotTests: XCTestCase {
+    /// Native production setup screens with explicit fixture sensor/network state. Physical sensors are checked on devices.
+    func testOnlineCalibrationScreensAndFlow() async throws {
+        let session = SportsSession.shared, service = MultiplayerService.shared
+        let active = session.active, ready = session.ready, paused = session.paused, touch = session.touch
+        let sport = session.sport, stage = session.setupStage, gate = session.axisGate
+        defer {
+            session.debugSetOnlineMatch(nil); service.leave()
+            session.active = active; session.ready = ready; session.paused = paused; session.touch = touch
+            session.sport = sport; session.setupStage = stage; session.axisGate = gate; session.setupProblem = ""
+            session.loading.cancel()
+        }
+        try service.enableMock(count: 2, player: Player(name: "You", colorIndex: 0))
+        service.mockState(phase: .loading)
+        session.active = true; session.ready = false; session.paused = true; session.touch = false
+        session.sport = "tennis"; session.debugSetOnlineMatch("ui-proof", seat: 0)
+        session.loading.begin(now: LoadingModel.clockNow, multiplayer: true)
+        session.setupStage = .scan; session.axisGate = SportsAxisGate()
+        let phone = CGSize(width: 402, height: 874)
+        let proof = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent().appendingPathComponent("proof/online-calibration")
+        try FileManager.default.createDirectory(at: proof, withIntermediateDirectories: true)
+        func capture<V: View>(_ view: V, _ name: String, _ size: CGSize) async throws {
+            try await saveHosted(view, name, size, destination: proof)
+        }
+        try await capture(SportsHome(), "online-setup-direction-phone", phone)
+        session.axisGate.progress = 0.6; session.axisGate.message = "Hold it there…"
+        try await capture(TennisRacketController(session: session), "online-setup-hold-phone", phone)
+        try await capture(OnlineTennisTVSetup(session: session).padding(32).frame(maxWidth: .infinity, maxHeight: .infinity).background(IslandUI.dark), "online-setup-direction-tv", CGSize(width: 1280, height: 720))
+        session.axisGate.stalledFor = 5; session.axisGate.progress = 0
+        session.setupProblem = "No camera frame yet. Keep the lens uncovered."
+        try await capture(TennisRacketController(session: session), "online-setup-recovery-phone", phone)
+        try await capture(TennisRacketController(session: session).environment(\.dynamicTypeSize, .xxxLarge), "online-setup-recovery-large-text", CGSize(width: 375, height: 812))
+        session.setupStage = .ready; session.setupProblem = ""
+        try await capture(TennisRacketController(session: session), "online-setup-ready-phone", phone)
+        session.touch = true; session.readyToPlay()
+        XCTAssertEqual(session.setupStage, .waiting)
+        session.touch = false
+        try await capture(TennisRacketController(session: session), "online-setup-waiting-phone", phone)
+        service.mockStartCountdown()
+        try await capture(TennisRacketController(session: session), "online-setup-countdown-phone", phone)
+        try await Task.sleep(for: .seconds(3))
+        session.ready = true; session.loading.cancel(); session.setupStage = .playing; session.paused = false; session.tennisPhase = "receive"
+        try await capture(TennisRacketController(session: session), "online-setup-receive-phone", phone)
+    }
+
+    func testOnlineDisplayRequirementsAndSharingChoice() async throws {
+        let bus = HubPartyTests.Bus()
+        let host = MultiplayerService(sendToRuntime: { _ in true }, pollRuntime: { nil }, clock: { 100 })
+        let guest = MultiplayerService(sendToRuntime: { _ in true }, pollRuntime: { nil }, clock: { 100 })
+        host.onMatchRequested = { _ in }; host.onReturnToLobby = {}
+        guest.onMatchRequested = { _ in }; guest.onReturnToLobby = {}
+        host.setIdentity(name: "Alex"); host.setScreen(true)
+        guest.setIdentity(name: "Sam"); guest.setScreen(false)
+        try host.host(using: bus.link("a")); try guest.connect(using: bus.link("b"))
+        defer { guest.leave(); host.leave() }
+        let hub = HubSession(); hub.partyService = host
+        hub.debugLive(session: "display-choice"); hub.debugOnlineBench(.tennis, searching: false)
+        let proof = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent().appendingPathComponent("proof/online-calibration")
+        try FileManager.default.createDirectory(at: proof, withIntermediateDirectories: true)
+        XCTAssertFalse(host.lobby!.hasScreenForSport)
+        try await saveHosted(HubPartyBayPanel(hub: hub), "online-display-required", CGSize(width: 402, height: 874), destination: proof)
+        try host.setSharedScreen(true)
+        XCTAssertTrue(guest.lobby!.sharedScreen == true)
+        XCTAssertTrue(host.lobby!.hasScreenForSport)
+        try await saveHosted(HubPartyBayPanel(hub: hub), "online-sharing-tv", CGSize(width: 402, height: 874), destination: proof)
+    }
+
+    func testTennisCameraSettingsChoicesAndLayout() async throws {
+        let menu = TennisMenu.shared, session = SportsSession.shared
+        let original = session.tennisCamera
+        defer { session.tennisCamera = original; menu.debugShow(.title) }
+        session.tennisCamera = "chase"
+        menu.debugShow(.settings, row: 1, column: 0, tab: .display)
+        XCTAssertEqual(menu.focused, "tennisCamera")
+        try await saveHosted(IslandSettingsScreen(menu: menu, compact: true), "camera-settings-chase-phone", CGSize(width: 402, height: 874))
+        menu.move(.right)
+        XCTAssertEqual(session.tennisCamera, "elevated")
+        XCTAssertEqual(UserDefaults.standard.string(forKey: "sports.tennisCamera"), "elevated")
+        try await saveHosted(IslandSettingsScreen(menu: menu, compact: true).preferredColorScheme(.dark), "camera-settings-elevated-dark", CGSize(width: 402, height: 874))
+        menu.move(.left)
+        XCTAssertEqual(session.tennisCamera, "chase")
+        try await saveHosted(IslandSettingsScreen(menu: menu, compact: true).environment(\.dynamicTypeSize, .xxxLarge), "camera-settings-large-text", CGSize(width: 402, height: 874))
+        try await saveHosted(IslandSettingsScreen(menu: menu, compact: false), "camera-settings-tv", CGSize(width: 1280, height: 720))
+        menu.tap("back")
+        XCTAssertEqual(menu.screen, .main)
+    }
+
     func testEmoteLoadoutScreens() async throws {
         let menu = TennisMenu.shared, session = SportsSession.shared
         let oldPlayers = session.players, oldIndex = session.playerIndex
@@ -295,16 +381,20 @@ final class TennisMenuSnapshotTests: XCTestCase {
         XCTAssertEqual(try JSONDecoder().decode(Player.self, from: data), player)
     }
 
-    private func saveHosted<V: View>(_ view: V, _ name: String, _ size: CGSize) async throws {
+    private func saveHosted<V: View>(_ view: V, _ name: String, _ size: CGSize, destination: URL? = nil) async throws {
         let scene = try XCTUnwrap(UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }.first)
         let host = UIHostingController(rootView: view)
         let window = UIWindow(windowScene: scene)
-        window.frame = CGRect(origin: .zero, size: size); window.rootViewController = host; window.isHidden = false
+        let previous = scene.windows.first { $0.isKeyWindow }
+        window.frame = CGRect(origin: .zero, size: size); window.rootViewController = host
+        // Online proof must be visible to the simulator recorder as well as drawHierarchy.
+        if destination != nil { window.windowLevel = .alert + 2 }
+        window.makeKeyAndVisible()
+        defer { window.isHidden = true; previous?.makeKeyAndVisible() }
         host.view.frame = window.bounds; host.view.layoutIfNeeded()
         try await Task.sleep(for: .seconds(1))
         let image = UIGraphicsImageRenderer(size: size).image { _ in host.view.drawHierarchy(in: window.bounds, afterScreenUpdates: true) }
-        try XCTUnwrap(image.pngData()).write(to: folder.appendingPathComponent("\(name).png"))
-        window.isHidden = true
+        try XCTUnwrap(image.pngData()).write(to: (destination ?? folder).appendingPathComponent("\(name).png"))
     }
 
     func testNewBaseLocker() async throws {

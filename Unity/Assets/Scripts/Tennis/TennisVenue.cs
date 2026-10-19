@@ -101,7 +101,8 @@ namespace GolfArcade.Tennis
         }
 
         /// The court's own colour (URP base colour, as the resort's sapphire is set).
-        public static Color CourtColor => CourtColorOverride ?? Current switch
+        public static Color CourtColor => CourtColorOverride ?? GolfArcade.EnvironmentArt.EnvironmentLook.Court(DefaultCourtColor,Current,false);
+        static Color DefaultCourtColor => Current switch
         {
             TennisVenueKind.Skyscraper => new Color(.03f, .40f, .36f),      // deep teal
             TennisVenueKind.Volcano => new Color(.055f, .055f, .065f),      // obsidian black
@@ -114,12 +115,12 @@ namespace GolfArcade.Tennis
             get
             {
                 if (CourtColorOverride.HasValue) return CourtColorOverride.Value * .88f + new Color(0, 0, 0, 1) * .12f;
-                return Current switch
+                return GolfArcade.EnvironmentArt.EnvironmentLook.Court(Current switch
                 {
                     TennisVenueKind.Skyscraper => new Color(.025f, .34f, .31f),
                     TennisVenueKind.Volcano => new Color(.04f, .04f, .048f),
                     _ => new Color(.07f, .29f, .275f),
-                };
+                },Current,true);
             }
         }
 

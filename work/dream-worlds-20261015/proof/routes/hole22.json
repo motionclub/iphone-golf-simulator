@@ -1,0 +1,61 @@
+{
+    "hole": 22,
+    "configurations": 1000,
+    "invalidConfigurations": 0,
+    "candidateShots": 360,
+    "interactions": 2,
+    "hazard": "v5-22-LavaVent@5.265",
+    "beneficialRouteFound": true,
+    "conservativeRouteFound": true,
+    "benefitYards": 77.35145278404012,
+    "remainingWithRoute": 12.163985646718596,
+    "remainingWithoutRoute": 89.51543843075872,
+    "originX": 6.523356747079216,
+    "originD": 57.83733984399217,
+    "power": 0.99,
+    "heading": 10.83766782882522,
+    "phase": 0.0,
+    "club": "Driver",
+    "conservativeClub": "Hybrid",
+    "conservativePower": 0.9999999999999999,
+    "conservativeHeading": 15.117672344574338,
+    "limitation": "Remaining distance is measured, not expected strokes or a substitute for human playtests.",
+    "samples": [
+        {
+            "skill": "novice",
+            "count": 48,
+            "penalties": 16,
+            "burns": 3,
+            "meanRemaining": 87.05055390215819,
+            "meanPenalty": 0.3333333333333333,
+            "estimatedStrokes": 4.070479282400403,
+            "conservativeEstimatedStrokes": 4.200573165090841,
+            "conservativeMeanRemaining": 137.98857705560727,
+            "conservativeMeanPenalty": 0.16666666666666667
+        },
+        {
+            "skill": "intermediate",
+            "count": 48,
+            "penalties": 0,
+            "burns": 0,
+            "meanRemaining": 39.36098583917817,
+            "meanPenalty": 0.0,
+            "estimatedStrokes": 3.139963375597435,
+            "conservativeEstimatedStrokes": 3.6545606190882817,
+            "conservativeMeanRemaining": 134.6258049657322,
+            "conservativeMeanPenalty": 0.0625
+        },
+        {
+            "skill": "expert",
+            "count": 48,
+            "penalties": 0,
+            "burns": 0,
+            "meanRemaining": 17.091186340880218,
+            "meanPenalty": 0.0,
+            "estimatedStrokes": 2.8218749999999988,
+            "conservativeEstimatedStrokes": 3.266815005960171,
+            "conservativeMeanRemaining": 127.03560143044094,
+            "conservativeMeanPenalty": 0.0
+        }
+    ]
+}

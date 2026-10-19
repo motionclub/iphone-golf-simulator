@@ -1,11 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using GolfArcade.Course;
 using GolfArcade.Shot;
 using GolfArcade.Swing;
 namespace GolfArcade.Multiplayer {
     [Serializable] public sealed class NetworkGolfer {
-        public int seat,strokes,club,total; public int emoteSlot=-1; /** The hole this golfer's phone has built (a new hole waits for every phone). */ public int ready=-1; /** The hole whose flyover this golfer's phone asked to skip. */ public int skipVote=-1; public long emoteID; public double emoteAt=-100; public double x,d,heading; public bool holed,dnf; public int[] card;
+        public int seat,strokes,club,total,swings; public int emoteSlot=-1; /** The hole this golfer's phone has built (a new hole waits for every phone). */ public int ready=-1; /** The hole whose flyover this golfer's phone asked to skip. */ public int skipVote=-1; public long emoteID; public double emoteAt=-100; public double x,d,heading; public bool holed,dnf; public int[] card;
     }
     [Serializable] public sealed class NetworkGolfState {
         public long revision,shotID;public int hole,turn;public double time,turnAt,windSpeed,windDirection,presentationUntil,resultUntil;
@@ -32,7 +33,7 @@ namespace GolfArcade.Multiplayer {
         public double originX,originD,heading;public NetworkImpact impact;
         /// How long the phones take to show the flight: the club coming down to the ball first, a ball in the water a moment to sink.
         public double shown;
-        public bool holed;public string lie; public NetworkVector[] path;
+        public bool holed,burned;public double burnTime,burnHeight,environmentUtc;public string burnHazard;public string lie; public NetworkVector[] path;
         /// The movers' clock (CourseMovers) as the ball left the club on the host: every phone meets the balloon where the host did.
         public double moverPhase;
     }
@@ -65,6 +66,13 @@ namespace GolfArcade.Multiplayer {
         public const double ResultFallbackSeconds=14,HoledFallbackSeconds=18;
         /// Longest a turn may sit unplayed before it passes (online only; the TV counts the last TurnWarnSeconds down).
         public const double TurnLimitSeconds=180,TurnWarnSeconds=20;
+        /// A golfer who is out of the app (or whose phone went quiet) does not hold the round up: their turn passes after this long,
+        /// with the turn limit's stroke, and they take their turns again when they are back (AwayPolicy on the phone).
+        public const double AwayTurnPassSeconds=10;
+        readonly HashSet<int> away=new();
+        /// The seats whose phones are away right now (SportsMultiplayer, from the owner's suspend/resume).
+        public void SetAway(IEnumerable<int> seats) { away.Clear(); foreach(var s in seats) away.Add(s); }
+        public bool IsAway(int seat)=>away.Contains(seat);
         /// Everyone has holed out: the hole's card (a row each, as single player's card with others) before the next hole loads.
         public const double HoleCardSeconds=7;
         /// Every full swing is replayed from the tee box before its result (GolfGame), and the replay is given its time: the
@@ -123,10 +131,11 @@ namespace GolfArcade.Multiplayer {
             State.hole=index;State.shot=null;State.phase="aim";State.revision++;
             var hole=course.Holes[index];var wind=Wind.Random(random);
             // the hole's weather, the rules it and the twists make, and its wind as the weather has it (the events' own draws: the round's stays as it was)
-            var weather=events.WeatherFor(index);State.weather=(int)weather;hole.Rules=events.RulesFor(weather);
+            var weather=events.WeatherFor(index);State.weather=(int)weather;hole.Rules=events.RulesFor(weather, Weathers.SkyOf(hole));
+            hole.Movers=events.MoversFor(index,hole,weather,hole.Ground);
             wind=events.WindFor(index,wind,weather);holeWind=wind;swingsOnHole=0;weatherTurns=0;
             State.windSpeed=wind.SpeedMPH;State.windDirection=wind.DirectionDegrees;
-            foreach(var p in State.golfers) {p.x=hole.Tee.X;p.d=hole.Tee.D;p.strokes=0;p.holed=false;LineUp(p,hole);}
+            foreach(var p in State.golfers) {p.x=hole.Tee.X;p.d=hole.Tee.D;p.strokes=0;p.swings=0;p.holed=false;LineUp(p,hole);}
             State.look=0;State.load=0;
             var eligible=State.golfers.Where(p=>!p.dnf).ToArray();
             if(eligible.Length<2){Complete("interrupted");return;}
@@ -205,15 +214,16 @@ namespace GolfArcade.Multiplayer {
             var hole=course.Holes[State.hole];var origin=new CoursePoint(p.x,p.d);var club=(GolfClub)p.club;
             // As single player strikes it: CourseShot takes the lie's toll itself (passing it in too took it twice).
             // (the balloons, carts and gulls where this phone's picture has them as the ball leaves the club: the phones fly it from there)
-            double moverPhase=hole.Movers!=null?hole.Movers.PhaseAtLaunch=hole.Movers.Clock+StrikeLead:0;
+            double moverPhase=hole.Movers!=null?hole.Movers.PhaseAtLaunch=State.time+StrikeLead:0;
             var shot=new CourseShot(club,impact.ToImpact(),p.heading,origin,hole,1,new Wind(State.windSpeed,State.windDirection));
-            swingsOnHole++;
+            swingsOnHole++;p.swings++;
             p.strokes+=1+shot.PenaltyStrokes;State.shotID++;
             int samples=(int)Math.Ceiling(shot.Duration/.05)+1;
             // Bound data below GameKit/bridge packet size. Long paths are sampled more sparsely.
             samples=Math.Max(2,Math.Min(360,samples));var path=new NetworkVector[samples];
-            for(int i=0;i<samples;i++){var v=shot.PositionAt(shot.Duration*i/(samples-1));path[i]=new((float)v.x,(float)v.h,(float)v.d);}
+            for(int i=0;i<samples;i++){var v=shot.WorldAt(shot.Duration*i/(samples-1),hole.Ground ?? (_=>0));path[i]=new((float)v.x,(float)v.y,(float)v.d);}
             State.shot=new NetworkGolfShot {id=State.shotID,seat=p.seat,hole=State.hole,club=p.club,strokes=p.strokes,penalty=shot.PenaltyStrokes,start=State.time,duration=shot.Duration,
+                burned=shot.Burned,burnTime=shot.BurnTime,burnHeight=shot.BurnHeight,burnHazard=shot.BurnHazard,environmentUtc=GolfArcade.EnvironmentArt.DreamEnvironment.Utc+StrikeLead,
                 carry=shot.Carry,roll=shot.Roll,apex=shot.Apex,restX=shot.Rest.X,restD=shot.Rest.D,nextX=shot.NextPosition.X,nextD=shot.NextPosition.D,holed=shot.IsHoled,lie=shot.Lie.ToString(),path=path,
                 originX=origin.X,originD=origin.D,heading=p.heading,impact=impact,moverPhase=moverPhase,
                 shown=StrikeLead+shot.Duration+(shot.Lie==CourseLie.Water?SplashSeconds:0)+(ReplaysShot(club)?ReplaySeconds(shot):0)};
@@ -222,7 +232,7 @@ namespace GolfArcade.Multiplayer {
         public void Step(double elapsed) {
             if(State.paused||State.complete)return;State.time+=Math.Max(0,Math.Min(.1,elapsed));
             if(State.phase=="loading") {
-                if(State.golfers.All(g=>g.dnf||g.ready==State.hole)||State.time-holeShownAt>=HoleLoadTimeout) {
+                if(State.golfers.All(g=>g.dnf||g.ready==State.hole||away.Contains(g.seat))||State.time-holeShownAt>=HoleLoadTimeout) {
                     if(intros){State.introFull=fullIntro?.Invoke(State.hole)??false;BeginIntro();} else State.phase="aim";
                     State.turnAt=State.time;State.revision++;
                 }
@@ -236,7 +246,7 @@ namespace GolfArcade.Multiplayer {
                 var p=State.golfers.First(g=>g.seat==State.shot.seat);p.x=State.shot.nextX;p.d=State.shot.nextD;
                 if(State.shot.holed||p.strokes>=course.Holes[State.hole].Par+5)FinishGolfer(p);
                 NextTurn();
-            } else if(State.phase=="aim"&&!sharedPhone&&State.time-State.turnAt>=TurnLimitSeconds) {
+            } else if(State.phase=="aim"&&!sharedPhone&&(State.time-State.turnAt>=TurnLimitSeconds||(away.Contains(State.turn)&&State.time-State.turnAt>=AwayTurnPassSeconds))) {
                 var p=State.golfers.First(g=>g.seat==State.turn);p.strokes++;if(p.strokes>=course.Holes[State.hole].Par+5)FinishGolfer(p);NextTurn();
             }
         }
@@ -254,10 +264,10 @@ namespace GolfArcade.Multiplayer {
             if(!events.Any||swingsOnHole==0)return;
             var hole=course.Holes[State.hole];var weather=(Weather)State.weather;
             if(weatherTurns<2&&events.TurnBefore(State.hole,swingsOnHole,weather) is Weather turned) {
-                weatherTurns++;weather=turned;State.weather=(int)turned;hole.Rules=events.RulesFor(turned);
+                weatherTurns++;weather=turned;State.weather=(int)turned;hole.Rules=events.RulesFor(turned, Weathers.SkyOf(hole));
                 holeWind=events.WindFor(State.hole,holeWind,turned);State.windSpeed=holeWind.SpeedMPH;State.windDirection=holeWind.DirectionDegrees;
             }
-            if(events.GustBefore(State.hole,swingsOnHole,holeWind,weather) is Wind gust) {State.windSpeed=gust.SpeedMPH;State.windDirection=gust.DirectionDegrees;}
+            if(events.GustBefore(State.hole,State.golfers.First(g=>g.seat==State.turn).swings,holeWind,weather) is Wind gust) {State.windSpeed=gust.SpeedMPH;State.windDirection=gust.DirectionDegrees;}
         }
         void FinishGolfer(NetworkGolfer p) {p.holed=true;p.card[State.hole]=p.strokes;p.total=p.card.Sum();}
         void NextTurn() {
@@ -266,10 +276,11 @@ namespace GolfArcade.Multiplayer {
                 if(State.hole+1==course.Holes.Length){Complete("complete");return;}
                 State.phase="holeDone";State.resultUntil=State.time+HoleCardSeconds;return;
             }
-            ShotEvents();
             // Everyone tees off before anyone's second shot. Rotate tee order by hole.
             var unplayed=eligible.Where(g=>g.strokes==0).OrderBy(g=>(g.seat-State.hole%4+4)%4).ToArray();
             State.turn=(unplayed.Length>0?unplayed[0]:eligible.OrderByDescending(g=>new CoursePoint(g.x,g.d).DistanceTo(course.Holes[State.hole].Pin)).ThenBy(g=>g.seat).First()).seat;
+            State.windSpeed=holeWind.SpeedMPH;State.windDirection=holeWind.DirectionDegrees;
+            ShotEvents();
             LineUp(eligible.First(p=>p.seat==State.turn),course.Holes[State.hole]);
             State.phase="aim";State.turnAt=State.time;State.look=0;State.load=0;
         }

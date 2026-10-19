@@ -7,9 +7,11 @@ Darwin version:          25.6.0
 Architecture:            arm64
 Running under Rosetta:   NO
 Available memory:        16384 MB
-Date:                    2026-10-13T23:41:37Z
+Date:                    2026-10-18T04:10:57Z
 [Licensing::Module] Trying to connect to existing licensing client channel...
-[Licensing::IpcConnector] Successfully connected to: "LicenseClient-adnanyonathan" at "2026-10-13T23:41:37.380617Z"
+[Licensing::IpcConnector] Channel LicenseClient-adnanyonathan doesn't exist
+Launching external process: /Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/Helpers/UnityLicensingClient.app/Contents/MacOS/Unity.Licensing.Client
+[Licensing::Module] Successfully launched the LicensingClient (PId: 81016)
 Launching external process: /Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/Resources/PackageManager/Server/UnityPackageManager
 
 COMMAND LINE ARGUMENTS:
@@ -18,13 +20,13 @@ COMMAND LINE ARGUMENTS:
 -nographics
 -quit
 -projectPath
-/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T//acc-UnityClone
+/Users/adnanyonathan/cap-rehug-UnityClone
 -executeMethod
 GolfArcade.EditorTools.AccessoriesClipCheck.RunBatch
 -logFile
 /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/accessories/logs/unity_run.log
-Successfully changed project path to: /var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T//acc-UnityClone
-/private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone
+Successfully changed project path to: /Users/adnanyonathan/cap-rehug-UnityClone
+/Users/adnanyonathan/cap-rehug-UnityClone
 [UnityMemory] Configuration Parameters - Can be set up in boot.config
     "memorysetup-allocator-temp-initial-block-size-main=262144"
     "memorysetup-allocator-temp-initial-block-size-worker=262144"
@@ -61,25 +63,27 @@ Successfully changed project path to: /var/folders/38/dmjzs7x97qldqhndz__9gldr00
     "memorysetup-temp-allocator-size-gi-baking-worker=262144"
     "memorysetup-temp-allocator-size-gi-baking-worker=262144"
     "memorysetup-temp-allocator-size-gfx=262144"
-Player connection [8471536000]  Target information:
+Player connection [8453562752]  Target information:
 
-Player connection [8471536000]  * "[IP] 172.31.252.186 [Port] 55505 [Flags] 2 [Guid] 2439745651 [EditorId] 2439745651 [Version] 1048832 [Id] OSXEditor(0,Adnans-MacBook-Air.local) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" 
+Player connection [8453562752]  * "[IP] 10.0.0.64 [Port] 55504 [Flags] 2 [Guid] 548550447 [EditorId] 548550447 [Version] 1048832 [Id] OSXEditor(0,Adnans-MacBook-Air.local) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" 
 
-Player connection [8471536000] Host joined multi-casting on [225.0.0.222:54997]...
-Player connection [8471536000] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Player connection [8453562752] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [8453562752] Host joined alternative multi-casting on [225.0.0.222:34997]...
 Input System module state changed to: Initialized.
 [Physics::Module] Initialized fallback backend.
 [Physics::Module] Id: 0xdecafbad
-[Package Manager] Connected to IPC stream "Upm-56591" after 0.1 seconds.
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-adnanyonathan" at "2026-10-18T04:10:57.518577Z"
+[Package Manager] Connected to IPC stream "Upm-81015" after 0.2 seconds.
 [Licensing::Module] Licensing is not yet initialized.
 [Licensing::Client] Handshaking with LicensingClient:
   Version:                 1.18.3+d7ffd15
-  Session Id:              d2a814bbbaac4b5f9d1651cce89d8b3a
-  Correlation Id:          04038a8f9e6fdd7d7004b1842956964d
-  External correlation Id: 1629733149590270155
+  Session Id:              a1371fabfcd5438186c690372f697893
+  Correlation Id:          cad01d472304c5320ec578584883fd30
+  External correlation Id: 2047529142322093459
   Machine Id:              TX4XIvHnvxbItvrLF5vWHS2MyBM=
-[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-adnanyonathan" (connect: 0.00s, validation: 0.00s, handshake: 0.20s)
-[Licensing::IpcConnector] Successfully connected to: "LicenseClient-adnanyonathan-notifications" at "2026-10-13T23:41:37.584769Z"
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-adnanyonathan" (connect: 0.17s, validation: 0.02s, handshake: 0.24s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-adnanyonathan-notifications" at "2026-10-18T04:10:57.776204Z"
+[Licensing::Module] Connected to LicensingClient (PId: 81016, launch time: 0.00, total connection time: 0.43s)
 [Licensing::Module] Error: Access token is unavailable; failed to update
 [Licensing::Client] Successfully resolved entitlement details
 [Licensing::Module] License group:
@@ -89,8 +93,8 @@ Input System module state changed to: Initialized.
   Expiration: Unlimited
 [Licensing::Client] Successfully updated license, isAsync: True, time: 0.00
 [Licensing::Client] Successfully resolved entitlement details
-[Licensing::Module] Licensing Background thread has ended after 0.21s
-[Licensing::Module] Licensing is initialized (took 0.04s).
+[Licensing::Module] Licensing Background thread has ended after 0.44s
+[Licensing::Module] Licensing is initialized (took 0.21s).
 [Licensing::Client] Successfully resolved entitlement details
 Library Redirect Path: Library/
 [Physics::Module] Selected backend.
@@ -99,12 +103,13 @@ Library Redirect Path: Library/
 [Physics::Module] SDK Version: 4.1.2
 [Physics::Module] Integration Version: 1.0.0
 [Physics::Module] Threading Mode: Multi-Threaded
+Artifact Garbage Collection - Removed 2 unused hashed content files
 [Licensing::Client] Successfully resolved entitlement details
-Refreshing native plugins compatible for Editor in 2.42 ms, found 0 plugins.
+Refreshing native plugins compatible for Editor in 0.68 ms, found 0 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 6000.3.24f1 (4e7b9b5b6244)
 [Subsystems] Discovering subsystems at path /Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/Resources/UnitySubsystems
-[Subsystems] Discovering subsystems at path /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Assets
+[Subsystems] Discovering subsystems at path /Users/adnanyonathan/cap-rehug-UnityClone/Assets
 Forcing GfxDevice: Null
 GfxDevice: creating device client; kGfxThreadingModeNonThreaded
 NullGfxDevice:
@@ -115,7 +120,7 @@ Initialize mono
 Mono path[0] = '/Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/Resources/Scripting/Managed'
 Mono path[1] = '/Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/Resources/Scripting/MonoBleedingEdge/lib/mono/unityjit-macos'
 Mono config path = '/Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/Resources/Scripting/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56591
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56015
 Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
 Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
 ImportWorker Server TCP listen port: 0
@@ -124,45 +129,45 @@ Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: /Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll
 Register platform support module: /Applications/Unity/Hub/Editor/6000.3.24f1/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.dll
-Registered in 0.000314 seconds.
-- Loaded All Assemblies, in  0.179 seconds
+Registered in 0.002756 seconds.
+- Loaded All Assemblies, in  0.254 seconds
 [usbmuxd] Start listen thread
 [usbmuxd] Listen thread started
 [usbmuxd] Send listen message
 Native extension for iOS target not found
 Native extension for OSXStandalone target not found
 Package Manager log level set to [2]
-ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:True
+ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:False
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.252 seconds
-Domain Reload Profiling: 432ms
-	BeginReloadAssembly (49ms)
+- Finished resetting the current domain, in  0.273 seconds
+Domain Reload Profiling: 528ms
+	BeginReloadAssembly (86ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (0ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (2ms)
-	RebuildCommonClasses (21ms)
-	RebuildNativeTypeToScriptingClass (6ms)
-	initialDomainReloadingComplete (19ms)
-	LoadAllAssembliesAndSetupDomain (84ms)
-		LoadAssemblies (46ms)
+		CreateAndSetChildDomain (9ms)
+	RebuildCommonClasses (22ms)
+	RebuildNativeTypeToScriptingClass (8ms)
+	initialDomainReloadingComplete (27ms)
+	LoadAllAssembliesAndSetupDomain (111ms)
+		LoadAssemblies (78ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (82ms)
-			TypeCache.Refresh (81ms)
-				TypeCache.ScanAssembly (73ms)
+		AnalyzeDomain (108ms)
+			TypeCache.Refresh (108ms)
+				TypeCache.ScanAssembly (99ms)
 			BuildScriptInfoCaches (0ms)
 			ResolveRequiredComponents (0ms)
-	FinalizeReload (253ms)
+	FinalizeReload (274ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (233ms)
+		SetupLoadedEditorAssemblies (248ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (108ms)
-			SetLoadedEditorAssemblies (2ms)
-			BeforeProcessingInitializeOnLoad (35ms)
-			ProcessInitializeOnLoadAttributes (57ms)
-			ProcessInitializeOnLoadMethodAttributes (31ms)
+			InitializePlatformSupportModulesInManaged (68ms)
+			SetLoadedEditorAssemblies (3ms)
+			BeforeProcessingInitializeOnLoad (46ms)
+			ProcessInitializeOnLoadAttributes (72ms)
+			ProcessInitializeOnLoadMethodAttributes (60ms)
 			AfterProcessingInitializeOnLoad (0ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
@@ -174,87 +179,87 @@ Application.AssetDatabase Initial Refresh Start
 [Licensing::Client] Successfully resolved entitlement details
 [Package Manager] Registered 63 packages:
   Packages from [https://packages.unity.com]:
-    com.unity.ai.navigation@2.0.14 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.ai.navigation@134dd6a3b97b)
-    com.unity.analytics@3.8.2 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.analytics@c9d14a6bdec6)
-    com.unity.collab-proxy@2.13.6 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.collab-proxy@4628d2ba6ea4)
-    com.unity.ide.rider@3.0.40 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.ide.rider@e4950c6d131b)
-    com.unity.ide.visualstudio@2.0.26 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.ide.visualstudio@a99d56dec63f)
-    com.unity.timeline@1.8.13 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.timeline@3a22918286f5)
-    com.unity.xr.legacyinputhelpers@2.1.13 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.xr.legacyinputhelpers@9535ff2c27ac)
-    com.unity.services.analytics@6.3.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.services.analytics@cde4e6cf92f9)
-    com.unity.nuget.newtonsoft-json@3.2.2 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.nuget.newtonsoft-json@4dfd81071c64)
-    com.unity.searcher@4.9.5 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.searcher@a463122f2c00)
-    com.unity.burst@1.8.30 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.burst@2f3d916873ea)
-    com.unity.mathematics@1.3.3 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.mathematics@19a9377c4ffa)
-    com.unity.collections@2.6.8 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.collections@84e8eb3fc12e)
-    com.unity.services.core@1.18.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.services.core@3464cb68d709)
-    com.unity.nuget.mono-cecil@1.11.6 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.nuget.mono-cecil@ecb9724e46ff)
-    com.unity.test-framework.performance@3.5.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.test-framework.performance@8b56083ec0f0)
+    com.unity.ai.navigation@2.0.14 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.ai.navigation@134dd6a3b97b)
+    com.unity.analytics@3.8.2 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.analytics@c9d14a6bdec6)
+    com.unity.collab-proxy@2.13.6 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.collab-proxy@4628d2ba6ea4)
+    com.unity.ide.rider@3.0.40 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.ide.rider@e4950c6d131b)
+    com.unity.ide.visualstudio@2.0.26 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.ide.visualstudio@a99d56dec63f)
+    com.unity.timeline@1.8.13 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.timeline@3a22918286f5)
+    com.unity.xr.legacyinputhelpers@2.1.13 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.xr.legacyinputhelpers@9535ff2c27ac)
+    com.unity.services.analytics@6.3.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.services.analytics@cde4e6cf92f9)
+    com.unity.nuget.newtonsoft-json@3.2.2 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.nuget.newtonsoft-json@4dfd81071c64)
+    com.unity.searcher@4.9.5 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.searcher@a463122f2c00)
+    com.unity.burst@1.8.30 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.burst@2f3d916873ea)
+    com.unity.mathematics@1.3.3 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.mathematics@19a9377c4ffa)
+    com.unity.collections@2.6.8 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.collections@84e8eb3fc12e)
+    com.unity.services.core@1.18.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.services.core@3464cb68d709)
+    com.unity.nuget.mono-cecil@1.11.6 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.nuget.mono-cecil@ecb9724e46ff)
+    com.unity.test-framework.performance@3.5.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.test-framework.performance@8b56083ec0f0)
   Built-in packages:
-    com.unity.2d.sprite@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.2d.sprite@5b922524bd83)
-    com.unity.2d.tilemap@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.2d.tilemap@f666889fd587)
-    com.unity.multiplayer.center@1.0.1 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.multiplayer.center@f01f4ba8d00a)
-    com.unity.test-framework@1.6.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.test-framework@bd7f943e9647)
-    com.unity.ugui@2.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.ugui@b996e7548785)
-    com.unity.modules.accessibility@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.accessibility)
-    com.unity.modules.adaptiveperformance@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.adaptiveperformance)
-    com.unity.modules.ai@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.ai)
-    com.unity.modules.androidjni@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.androidjni)
-    com.unity.modules.animation@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.animation)
-    com.unity.modules.assetbundle@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.assetbundle)
-    com.unity.modules.audio@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.audio)
-    com.unity.modules.cloth@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.cloth)
-    com.unity.modules.director@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.director)
-    com.unity.modules.imageconversion@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.imageconversion)
-    com.unity.modules.imgui@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.imgui)
-    com.unity.modules.jsonserialize@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.jsonserialize)
-    com.unity.modules.particlesystem@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.particlesystem)
-    com.unity.modules.physics@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.physics)
-    com.unity.modules.physics2d@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.physics2d)
-    com.unity.modules.screencapture@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.screencapture)
-    com.unity.modules.terrain@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.terrain)
-    com.unity.modules.terrainphysics@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.terrainphysics)
-    com.unity.modules.tilemap@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.tilemap)
-    com.unity.modules.ui@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.ui)
-    com.unity.modules.uielements@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.uielements)
-    com.unity.modules.umbra@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.umbra)
-    com.unity.modules.unityanalytics@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.unityanalytics)
-    com.unity.modules.unitywebrequest@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.unitywebrequest)
-    com.unity.modules.unitywebrequestassetbundle@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.unitywebrequestassetbundle)
-    com.unity.modules.unitywebrequestaudio@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.unitywebrequestaudio)
-    com.unity.modules.unitywebrequesttexture@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.unitywebrequesttexture)
-    com.unity.modules.unitywebrequestwww@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.unitywebrequestwww)
-    com.unity.modules.vectorgraphics@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.vectorgraphics)
-    com.unity.modules.vehicles@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.vehicles)
-    com.unity.modules.video@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.video)
-    com.unity.modules.vr@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.vr)
-    com.unity.modules.wind@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.wind)
-    com.unity.modules.xr@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.xr)
-    com.unity.render-pipelines.universal@17.3.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.render-pipelines.universal@a8b4b2fc3560)
-    com.unity.render-pipelines.core@17.3.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.render-pipelines.core@0bb36005e9ba)
-    com.unity.shadergraph@17.3.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.shadergraph@30c2e3926b79)
-    com.unity.render-pipelines.universal-config@17.0.3 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.render-pipelines.universal-config@8dc1aab4af1d)
-    com.unity.modules.subsystems@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.subsystems)
-    com.unity.modules.hierarchycore@1.0.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.modules.hierarchycore)
-    com.unity.ext.nunit@2.0.5 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.unity.ext.nunit@d8c07649098d)
+    com.unity.2d.sprite@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.2d.sprite@5b922524bd83)
+    com.unity.2d.tilemap@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.2d.tilemap@f666889fd587)
+    com.unity.multiplayer.center@1.0.1 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.multiplayer.center@f01f4ba8d00a)
+    com.unity.test-framework@1.6.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.test-framework@bd7f943e9647)
+    com.unity.ugui@2.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.ugui@b996e7548785)
+    com.unity.modules.accessibility@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.accessibility)
+    com.unity.modules.adaptiveperformance@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.adaptiveperformance)
+    com.unity.modules.ai@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.ai)
+    com.unity.modules.androidjni@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.androidjni)
+    com.unity.modules.animation@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.animation)
+    com.unity.modules.assetbundle@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.assetbundle)
+    com.unity.modules.audio@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.audio)
+    com.unity.modules.cloth@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.cloth)
+    com.unity.modules.director@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.director)
+    com.unity.modules.imageconversion@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.imageconversion)
+    com.unity.modules.imgui@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.imgui)
+    com.unity.modules.jsonserialize@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.jsonserialize)
+    com.unity.modules.particlesystem@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.particlesystem)
+    com.unity.modules.physics@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.physics)
+    com.unity.modules.physics2d@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.physics2d)
+    com.unity.modules.screencapture@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.screencapture)
+    com.unity.modules.terrain@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.terrain)
+    com.unity.modules.terrainphysics@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.terrainphysics)
+    com.unity.modules.tilemap@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.tilemap)
+    com.unity.modules.ui@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.ui)
+    com.unity.modules.uielements@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.uielements)
+    com.unity.modules.umbra@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.umbra)
+    com.unity.modules.unityanalytics@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.unityanalytics)
+    com.unity.modules.unitywebrequest@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.unitywebrequest)
+    com.unity.modules.unitywebrequestassetbundle@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.unitywebrequestassetbundle)
+    com.unity.modules.unitywebrequestaudio@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.unitywebrequestaudio)
+    com.unity.modules.unitywebrequesttexture@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.unitywebrequesttexture)
+    com.unity.modules.unitywebrequestwww@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.unitywebrequestwww)
+    com.unity.modules.vectorgraphics@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.vectorgraphics)
+    com.unity.modules.vehicles@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.vehicles)
+    com.unity.modules.video@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.video)
+    com.unity.modules.vr@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.vr)
+    com.unity.modules.wind@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.wind)
+    com.unity.modules.xr@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.xr)
+    com.unity.render-pipelines.universal@17.3.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.render-pipelines.universal@a8b4b2fc3560)
+    com.unity.render-pipelines.core@17.3.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.render-pipelines.core@0bb36005e9ba)
+    com.unity.shadergraph@17.3.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.shadergraph@30c2e3926b79)
+    com.unity.render-pipelines.universal-config@17.0.3 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.render-pipelines.universal-config@8dc1aab4af1d)
+    com.unity.modules.subsystems@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.subsystems)
+    com.unity.modules.hierarchycore@1.0.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.modules.hierarchycore)
+    com.unity.ext.nunit@2.0.5 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.unity.ext.nunit@d8c07649098d)
   Git packages:
-    com.coplaydev.unity-mcp@https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity#v10.2.0 (location: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/Library/PackageCache/com.coplaydev.unity-mcp@045e809812a8)
+    com.coplaydev.unity-mcp@https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity#v10.2.0 (location: /Users/adnanyonathan/cap-rehug-UnityClone/Library/PackageCache/com.coplaydev.unity-mcp@045e809812a8)
 [Subsystems] No new subsystems found in resolved package list.
 [Package Manager] Done registering packages in 0.01 seconds
-Assets/Editor/PostcardV3Scratch/staged/hole_10.fbx is a symbolic link. Using symlinks in Unity projects may cause your project to become corrupted if you create multiple references to the same asset, use recursive symlinks or use symlinks to share assets between projects used with different versions of Unity. Make sure you know what you are doing.
-Assets/Editor/PostcardV3Scratch is a symbolic link. Using symlinks in Unity projects may cause your project to become corrupted if you create multiple references to the same asset, use recursive symlinks or use symlinks to share assets between projects used with different versions of Unity. Make sure you know what you are doing.
-Assets/Editor/PostcardV3Scratch/fixtures is a symbolic link. Using symlinks in Unity projects may cause your project to become corrupted if you create multiple references to the same asset, use recursive symlinks or use symlinks to share assets between projects used with different versions of Unity. Make sure you know what you are doing.
-Assets/Editor/PostcardV3Scratch.meta is a symbolic link. Using symlinks in Unity projects may cause your project to become corrupted if you create multiple references to the same asset, use recursive symlinks or use symlinks to share assets between projects used with different versions of Unity. Make sure you know what you are doing.
 Assets/Editor/PostcardV3Scratch/staged/hole_08.fbx is a symbolic link. Using symlinks in Unity projects may cause your project to become corrupted if you create multiple references to the same asset, use recursive symlinks or use symlinks to share assets between projects used with different versions of Unity. Make sure you know what you are doing.
+Assets/Editor/PostcardV3Scratch/fixtures is a symbolic link. Using symlinks in Unity projects may cause your project to become corrupted if you create multiple references to the same asset, use recursive symlinks or use symlinks to share assets between projects used with different versions of Unity. Make sure you know what you are doing.
+Assets/Editor/PostcardV3Scratch is a symbolic link. Using symlinks in Unity projects may cause your project to become corrupted if you create multiple references to the same asset, use recursive symlinks or use symlinks to share assets between projects used with different versions of Unity. Make sure you know what you are doing.
+Assets/Editor/PostcardV3Scratch.meta is a symbolic link. Using symlinks in Unity projects may cause your project to become corrupted if you create multiple references to the same asset, use recursive symlinks or use symlinks to share assets between projects used with different versions of Unity. Make sure you know what you are doing.
 Assets/Editor/PostcardV3Scratch/staged/hole_09.fbx is a symbolic link. Using symlinks in Unity projects may cause your project to become corrupted if you create multiple references to the same asset, use recursive symlinks or use symlinks to share assets between projects used with different versions of Unity. Make sure you know what you are doing.
+Assets/Editor/PostcardV3Scratch/staged/hole_10.fbx is a symbolic link. Using symlinks in Unity projects may cause your project to become corrupted if you create multiple references to the same asset, use recursive symlinks or use symlinks to share assets between projects used with different versions of Unity. Make sure you know what you are doing.
 [40m[32minfo[39m[22m[49m: Microsoft.Hosting.Lifetime[14]
-      Now listening on: http://unix:/tmp/ilpp.sock-2c2b61d0002ee3077d396b842db80ce3
+      Now listening on: http://unix:/tmp/ilpp.sock-1a4add105cf7e8aa77657f3d167699d0
 [40m[32minfo[39m[22m[49m: Microsoft.Hosting.Lifetime[0]
       Application started. Press Ctrl+C to shut down.
 [40m[32minfo[39m[22m[49m: Microsoft.Hosting.Lifetime[0]
       Hosting environment: Production
 [40m[32minfo[39m[22m[49m: Microsoft.Hosting.Lifetime[0]
-      Content root path: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone/
+      Content root path: /Users/adnanyonathan/cap-rehug-UnityClone/
 [40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Hosting.Diagnostics[1]
       Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping application/grpc -
 [40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
@@ -262,9 +267,9 @@ Assets/Editor/PostcardV3Scratch/staged/hole_09.fbx is a symbolic link. Using sym
 [40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
       Executed endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
 [40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping application/grpc - - 200 - application/grpc 20.2650ms
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping application/grpc - - 200 - application/grpc 24.4366ms
 Starting: /Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/Resources/BuildPipeline/bee_backend --ipc --defer-dag-verification --dagfile="Library/Bee/900b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
-WorkingDir: /private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/acc-UnityClone
+WorkingDir: /Users/adnanyonathan/cap-rehug-UnityClone
 DisplayProgressbar: Compiling Scripts
 [40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Hosting.Diagnostics[1]
       Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/ConfigurePostProcessors application/grpc -
@@ -283,215 +288,134 @@ DisplayProgressbar: Compiling Scripts
 [40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
       Executed endpoint 'gRPC - /UnityILPP.PostProcessing/ConfigurePostProcessors'
 [40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/ConfigurePostProcessors application/grpc - - 200 - application/grpc 12.1747ms
-ExitCode: 0 Duration: 0s301ms
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/ConfigurePostProcessors application/grpc - - 200 - application/grpc 17.1940ms
+ExitCode: 0 Duration: 0s305ms
 [722/957    0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
-*** Tundra build success (0.28 seconds), 1 items updated, 957 evaluated
-AssetDatabase: script compilation time: 0.657927s
+*** Tundra build success (0.29 seconds), 1 items updated, 957 evaluated
+AssetDatabase: script compilation time: 0.731889s
 Begin MonoManager ReloadAssembly
-Total cache size 161050380
+Total cache size 185320800
+Total cache size after purge 185320800, took 00:00:00.1089376
 Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  0.526 seconds
-Refreshing native plugins compatible for Editor in 3.02 ms, found 2 plugins.
+- Loaded All Assemblies, in  0.859 seconds
+Refreshing native plugins compatible for Editor in 1.09 ms, found 2 plugins.
 Native extension for iOS target not found
 Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 0.95 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 1.22 ms, found 2 plugins.
 ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  1.857 seconds
-Domain Reload Profiling: 2384ms
-	BeginReloadAssembly (186ms)
+- Finished resetting the current domain, in  1.872 seconds
+Domain Reload Profiling: 2731ms
+	BeginReloadAssembly (506ms)
 		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (12ms)
+		DisableScriptedObjects (439ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (126ms)
-	RebuildCommonClasses (18ms)
-	RebuildNativeTypeToScriptingClass (7ms)
-	initialDomainReloadingComplete (11ms)
-	LoadAllAssembliesAndSetupDomain (304ms)
-		LoadAssemblies (218ms)
+		CreateAndSetChildDomain (19ms)
+	RebuildCommonClasses (20ms)
+	RebuildNativeTypeToScriptingClass (8ms)
+	initialDomainReloadingComplete (12ms)
+	LoadAllAssembliesAndSetupDomain (313ms)
+		LoadAssemblies (207ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (119ms)
-			TypeCache.Refresh (85ms)
-				TypeCache.ScanAssembly (74ms)
-			BuildScriptInfoCaches (27ms)
-			ResolveRequiredComponents (5ms)
-	FinalizeReload (1857ms)
+		AnalyzeDomain (138ms)
+			TypeCache.Refresh (102ms)
+				TypeCache.ScanAssembly (92ms)
+			BuildScriptInfoCaches (29ms)
+			ResolveRequiredComponents (6ms)
+	FinalizeReload (1872ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (1690ms)
+		SetupLoadedEditorAssemblies (1681ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (15ms)
-			SetLoadedEditorAssemblies (4ms)
-			BeforeProcessingInitializeOnLoad (96ms)
-			ProcessInitializeOnLoadAttributes (1484ms)
-			ProcessInitializeOnLoadMethodAttributes (90ms)
+			InitializePlatformSupportModulesInManaged (54ms)
+			SetLoadedEditorAssemblies (3ms)
+			BeforeProcessingInitializeOnLoad (78ms)
+			ProcessInitializeOnLoadAttributes (1489ms)
+			ProcessInitializeOnLoadMethodAttributes (55ms)
 			AfterProcessingInitializeOnLoad (1ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (20ms)
-Start importing Packages/com.unity.render-pipelines.core/Tests/Editor/UnifiedRayTracing/TraceRays.urtshader using Guid(1142bbad8b9e8c44c83a9775ff120d37) (ScriptedImporter)Launching external process: /Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/Helpers/UnityShaderCompiler
-Launched and connected shader compiler UnityShaderCompiler after 0.25 seconds
- -> (artifact id: '1f0ef48d4d011f17a56adf52a568c380') in 0.376130625 seconds
-Start importing Packages/com.unity.render-pipelines.universal/Runtime/RendererFeatures/SurfaceCacheGI/SurfaceCacheCore/RisEstimation.urtshader using Guid(713f6141bd66a134383b787f2eaa7c11) (ScriptedImporter) -> (artifact id: 'c90390af8b0052324d3c564ddd597127') in 0.091219417 seconds
-Start importing Packages/com.unity.render-pipelines.core/Editor/Lighting/ProbeVolume/RenderingLayerMask/TraceRenderingLayerMask.urtshader using Guid(94a070d33e408384bafc1dea4a565df9) (ScriptedImporter) -> (artifact id: 'cb8ee39916308a4a3c66791b05c70d10') in 0.131399834 seconds
-Start importing Packages/com.unity.render-pipelines.universal/Runtime/RendererFeatures/SurfaceCacheGI/SurfaceCacheCore/UniformEstimation.urtshader using Guid(94a39d12848d8d64ca962a72b74e7c50) (ScriptedImporter) -> (artifact id: '1ce30138ca7a49b72c126b3b564948ba') in 0.008412625 seconds
-Start importing Packages/com.unity.render-pipelines.core/Tests/Editor/UnifiedRayTracing/TraceTransparentRays.urtshader using Guid(6513c3b892e933c4f8d00c19d5c47532) (ScriptedImporter) -> (artifact id: '057ee2316f08ec32b7002bb6f3be3ee2') in 0.004778542 seconds
-Start importing Packages/com.unity.render-pipelines.core/Editor/Lighting/ProbeVolume/DynamicGI/DynamicGISkyOcclusion.urtshader using Guid(5a2a534753fbdb44e96c3c78b5a6999d) (ScriptedImporter) -> (artifact id: '499bf0218402488e51f3547cba0c23d2') in 0.02638475 seconds
-Start importing Packages/com.unity.render-pipelines.core/Tests/Editor/UnifiedRayTracing/TraceRaysAndFetchAttributes.urtshader using Guid(fbc59f55df2416344b008dc23753cae2) (ScriptedImporter) -> (artifact id: '7d1210b94ddee5a1096984d45829d87b') in 0.005149834 seconds
-Start importing Packages/com.unity.render-pipelines.universal/Runtime/RendererFeatures/SurfaceCacheGI/SurfaceCacheCore/RestirCandidateTemporal.urtshader using Guid(ad3a9f9982f8c4f4a839a78955e78458) (ScriptedImporter) -> (artifact id: '2919266c8e5e0255503c9c7fdb0e8eb5') in 0.02209975 seconds
-Start importing Packages/com.unity.render-pipelines.core/Editor/Lighting/ProbeVolume/VirtualOffset/TraceVirtualOffset.urtshader using Guid(ff2cbab5da58bf04d82c5f34037ed123) (ScriptedImporter) -> (artifact id: '84969aba615fcfabfe6202834f57973b') in 0.00435875 seconds
-Refreshing native plugins compatible for Editor in 1.37 ms, found 2 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Asset Pipeline Refresh (id=c552b91e5c9384bce8b0a3a7f627b7de): Total: 5.049 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+		AwakeInstancesAfterBackupRestoration (11ms)
+Asset Pipeline Refresh (id=6e049d274bfc94ba38b853b230ead972): Total: 4.081 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
 	Summary:
-		Imports: total=9 (actual=9, local cache=0, cache server=0)
-		Asset DB Process Time: managed=1 ms, native=3644 ms
-		Asset DB Callback time: managed=171 ms, native=24 ms
-		Scripting: domain reloads=1, domain reload time=526 ms, compile time=659 ms, other=21 ms
-		Project Asset Count: scripts=1427, non-scripts=3490
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=2434 ms
+		Asset DB Callback time: managed=15 ms, native=14 ms
+		Scripting: domain reloads=1, domain reload time=859 ms, compile time=733 ms, other=24 ms
+		Project Asset Count: scripts=1437, non-scripts=3549
 		Asset File Changes: new=0, changed=0, moved=0, deleted=0
 		Scan Filter Count: 1
 	InvokeCustomDependenciesCallbacks: 0.001ms
-	InvokePackagesCallback: 9.007ms
-	ApplyChangesToAssetFolders: 0.249ms
-	Scan: 911.897ms
+	InvokePackagesCallback: 15.409ms
+	ApplyChangesToAssetFolders: 0.240ms
+	Scan: 374.309ms
 	OnSourceAssetsModified: 0.001ms
-	CategorizeAssetsWithTransientArtifact: 32.096ms
-	ProcessAssetsWithTransientArtifactChanges: 31.099ms
-	CategorizeAssets: 45.001ms
-	ImportOutOfDateAssets: 2544.718ms (1209.079ms without children)
-		ImportManagerImport: 674.369ms (2.184ms without children)
-			ImportInProcess: 671.803ms
-			UpdateCategorizedAssets: 0.382ms
-		CompileScripts: 658.731ms
-		ReloadNativeAssets: 0.022ms
-		UnloadImportedAssets: 0.698ms
-		ReloadImportedAssets: 0.980ms
-		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.499ms
-		InitializingProgressBar: 0.003ms
+	CategorizeAssetsWithTransientArtifact: 26.728ms
+	ProcessAssetsWithTransientArtifactChanges: 34.451ms
+	CategorizeAssets: 46.792ms
+	ImportOutOfDateAssets: 1879.209ms (1144.877ms without children)
+		CompileScripts: 732.656ms
+		ReloadNativeAssets: 0.025ms
+		UnloadImportedAssets: 0.892ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.478ms
+		InitializingProgressBar: 0.000ms
 		PostProcessAllAssetNotificationsAddChangedAssets: 0.000ms
-		OnDemandSchedulerStart: 0.338ms
-	PostProcessAllAssets: 184.682ms
-	Hotreload: 2.741ms
+		OnDemandSchedulerStart: 0.281ms
+	PostProcessAllAssets: 15.474ms
 	GatherAllCurrentPrimaryArtifactRevisions: 0.000ms
-	UnloadStreamsBegin: 4.433ms
-	PersistCurrentRevisions: 0.175ms
-	UnloadStreamsEnd: 0.000ms
-	GenerateScriptTypeHashes: 1.356ms
-	Untracked: 1282.573ms
+	UnloadStreamsBegin: 1.415ms
+	PersistCurrentRevisions: 0.120ms
+	UnloadStreamsEnd: 0.001ms
+	GenerateScriptTypeHashes: 1.646ms
+	Untracked: 1686.396ms
 
 Application.AssetDatabase Initial Refresh End
-Scanning for USB devices : 0.111ms
+Scanning for USB devices : 0.042ms
 Initializing Unity extensions:
 [MODES] ModeService[none].Initialize
 [MODES] ModeService[none].LoadModes
 [MODES] Loading mode Default (0) for mode-current-id-Golf Arcade
-Unloading 28 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 6141 unused Assets / (0.9 MB). Loaded Objects now: 7017.
-Memory consumption went from 222.8 MB to 222.0 MB.
-Total: 9.604458 ms (FindLiveObjects: 0.243083 ms CreateObjectMapping: 0.128875 ms MarkObjects: 8.116459 ms  DeleteObjects: 1.115792 ms)
+Unloading 31 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 6241 unused Assets / (2.2 MB). Loaded Objects now: 7128.
+Memory consumption went from 218.2 MB to 216.0 MB.
+Total: 7.255917 ms (FindLiveObjects: 0.266167 ms CreateObjectMapping: 0.144000 ms MarkObjects: 4.999417 ms  DeleteObjects: 1.846167 ms)
 
-[HeroEquipment] exact bind PASS CLUB_DRIVER error=5.066395E-07 vertices=1716
+[HeroFaceReferenceFit] male Body: moved=18582; belowHeadChanges=0; minJacobian=0.182430565; topologySame=True; weightsSame=True; bindsSame=True
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
 UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
 UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:Log (object)
-GolfArcade.Game.HeroGolfer:InstallEquipment () (at Assets/Scripts/Game/HeroGolfer.cs:137)
-GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:100)
-GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:93)
-GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:165)
-GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
-
-(Filename: Assets/Scripts/Game/HeroGolfer.cs Line: 137)
-
-[HeroEquipment] exact bind PASS CLUB_IRON error=5.066395E-07 vertices=1232
-UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
-UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
-UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:Log (object)
-GolfArcade.Game.HeroGolfer:InstallEquipment () (at Assets/Scripts/Game/HeroGolfer.cs:137)
-GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:100)
-GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:93)
-GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:165)
-GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
-
-(Filename: Assets/Scripts/Game/HeroGolfer.cs Line: 137)
-
-[HeroEquipment] exact bind PASS CLUB_PUTTER error=5.066395E-07 vertices=1248
-UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
-UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
-UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:Log (object)
-GolfArcade.Game.HeroGolfer:InstallEquipment () (at Assets/Scripts/Game/HeroGolfer.cs:137)
-GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:100)
-GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:93)
-GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:165)
-GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
-
-(Filename: Assets/Scripts/Game/HeroGolfer.cs Line: 137)
-
-[HeroEquipment] exact bind PASS CLUB_WEDGE error=5.066395E-07 vertices=1280
-UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
-UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
-UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:Log (object)
-GolfArcade.Game.HeroGolfer:InstallEquipment () (at Assets/Scripts/Game/HeroGolfer.cs:137)
-GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:100)
-GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:93)
-GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:165)
-GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
-
-(Filename: Assets/Scripts/Game/HeroGolfer.cs Line: 137)
-
-[HeroFaceReferenceFit] male Body: moved=18582; belowHeadChanges=0; minJacobian=0.219590679; topologySame=True; weightsSame=True; bindsSame=True
-UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
-UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
-UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:Log (object)
-GolfArcade.Tennis.HeroFaceReferenceFit:Prepare (UnityEngine.SkinnedMeshRenderer,UnityEngine.SkinnedMeshRenderer,UnityEngine.SkinnedMeshRenderer,string,bool) (at Assets/Scripts/Tennis/HeroFaceReferenceFit.cs:234)
+GolfArcade.Tennis.HeroFaceReferenceFit:Prepare (UnityEngine.SkinnedMeshRenderer,UnityEngine.SkinnedMeshRenderer,UnityEngine.SkinnedMeshRenderer,string,bool) (at Assets/Scripts/Tennis/HeroFaceReferenceFit.cs:270)
 GolfArcade.Tennis.HeroOriginalSeamAnatomy:Apply (GolfArcade.Tennis.MatchHeroLook) (at Assets/Scripts/Tennis/HeroOriginalSeamAnatomy.cs:72)
-GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:528)
-GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/Tennis/MatchHeroLook.cs:771)
-GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:266)
-GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:203)
-GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:93)
+GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:529)
+System.Reflection.RuntimeMethodInfo:Invoke (object,System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo)
+System.Reflection.MethodBase:Invoke (object,object[])
+GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:110)
 GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:165)
 GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
 
-(Filename: Assets/Scripts/Tennis/HeroFaceReferenceFit.cs Line: 234)
+(Filename: Assets/Scripts/Tennis/HeroFaceReferenceFit.cs Line: 270)
 
-[HeroFaceReferenceFit] male ReferenceFeatures: moved=3824; belowHeadChanges=0; minJacobian=0.280234665; topologySame=True; weightsSame=True; bindsSame=True
+[HeroFaceReferenceFit] male ReferenceFeatures: moved=3824; belowHeadChanges=0; minJacobian=0.7163173; topologySame=True; weightsSame=True; bindsSame=True
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
 UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
 UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:Log (object)
-GolfArcade.Tennis.HeroFaceReferenceFit:Prepare (UnityEngine.SkinnedMeshRenderer,UnityEngine.SkinnedMeshRenderer,UnityEngine.SkinnedMeshRenderer,string,bool) (at Assets/Scripts/Tennis/HeroFaceReferenceFit.cs:234)
+GolfArcade.Tennis.HeroFaceReferenceFit:Prepare (UnityEngine.SkinnedMeshRenderer,UnityEngine.SkinnedMeshRenderer,UnityEngine.SkinnedMeshRenderer,string,bool) (at Assets/Scripts/Tennis/HeroFaceReferenceFit.cs:270)
 GolfArcade.Tennis.HeroOriginalSeamAnatomy:Apply (GolfArcade.Tennis.MatchHeroLook) (at Assets/Scripts/Tennis/HeroOriginalSeamAnatomy.cs:73)
-GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:528)
-GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/Tennis/MatchHeroLook.cs:771)
-GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:266)
-GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:203)
-GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:93)
+GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:529)
+System.Reflection.RuntimeMethodInfo:Invoke (object,System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo)
+System.Reflection.MethodBase:Invoke (object,object[])
+GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:110)
 GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:165)
 GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
 
-(Filename: Assets/Scripts/Tennis/HeroFaceReferenceFit.cs Line: 234)
+(Filename: Assets/Scripts/Tennis/HeroFaceReferenceFit.cs Line: 270)
 
 [HeroOriginalSeam] blink normal isolation body: cleared=86168; base geometry/normals unchanged
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
@@ -502,12 +426,10 @@ UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:Log (object)
 GolfArcade.Tennis.HeroOriginalSeamAnatomy:PrepareBlinkMesh (UnityEngine.Mesh,bool) (at Assets/Scripts/Tennis/HeroOriginalSeamAnatomy.cs:47)
 GolfArcade.Tennis.HeroOriginalSeamAnatomy:Apply (GolfArcade.Tennis.MatchHeroLook) (at Assets/Scripts/Tennis/HeroOriginalSeamAnatomy.cs:74)
-GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:528)
-GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/Tennis/MatchHeroLook.cs:771)
-GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:266)
-GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:203)
-GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:93)
+GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:529)
+System.Reflection.RuntimeMethodInfo:Invoke (object,System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo)
+System.Reflection.MethodBase:Invoke (object,object[])
+GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:110)
 GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:165)
 GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
 
@@ -522,12 +444,10 @@ UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:Log (object)
 GolfArcade.Tennis.HeroOriginalSeamAnatomy:PrepareBlinkMesh (UnityEngine.Mesh,bool) (at Assets/Scripts/Tennis/HeroOriginalSeamAnatomy.cs:47)
 GolfArcade.Tennis.HeroOriginalSeamAnatomy:Apply (GolfArcade.Tennis.MatchHeroLook) (at Assets/Scripts/Tennis/HeroOriginalSeamAnatomy.cs:81)
-GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:528)
-GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/Tennis/MatchHeroLook.cs:771)
-GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:266)
-GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:203)
-GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:93)
+GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:529)
+System.Reflection.RuntimeMethodInfo:Invoke (object,System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo)
+System.Reflection.MethodBase:Invoke (object,object[])
+GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:110)
 GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:165)
 GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
 
@@ -541,12 +461,10 @@ UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,st
 UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:Log (object)
 GolfArcade.Tennis.HeroOriginalSeamAnatomy:Apply (GolfArcade.Tennis.MatchHeroLook) (at Assets/Scripts/Tennis/HeroOriginalSeamAnatomy.cs:87)
-GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:528)
-GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/Tennis/MatchHeroLook.cs:771)
-GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:266)
-GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:203)
-GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:93)
+GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:529)
+System.Reflection.RuntimeMethodInfo:Invoke (object,System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo)
+System.Reflection.MethodBase:Invoke (object,object[])
+GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:110)
 GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:165)
 GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
 
@@ -560,12 +478,10 @@ UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,st
 UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:Log (object)
 GolfArcade.Tennis.HeroHandWeights:Prepare (UnityEngine.SkinnedMeshRenderer,bool) (at Assets/Scripts/Tennis/HeroHandWeights.cs:31)
-GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:550)
-GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/Tennis/MatchHeroLook.cs:771)
-GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:266)
-GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:203)
-GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:93)
+GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:551)
+System.Reflection.RuntimeMethodInfo:Invoke (object,System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo)
+System.Reflection.MethodBase:Invoke (object,object[])
+GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:110)
 GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:165)
 GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
 
@@ -579,12 +495,10 @@ UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,st
 UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:Log (object)
 GolfArcade.Tennis.HeroHandWeights:Prepare (UnityEngine.SkinnedMeshRenderer,bool) (at Assets/Scripts/Tennis/HeroHandWeights.cs:31)
-GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:550)
-GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/Tennis/MatchHeroLook.cs:771)
-GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:266)
-GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:203)
-GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:93)
+GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:551)
+System.Reflection.RuntimeMethodInfo:Invoke (object,System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo)
+System.Reflection.MethodBase:Invoke (object,object[])
+GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:110)
 GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:165)
 GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
 
@@ -598,18 +512,16 @@ UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,st
 UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:Log (object)
 GolfArcade.Tennis.HeroHandWeights:Prepare (UnityEngine.SkinnedMeshRenderer,bool) (at Assets/Scripts/Tennis/HeroHandWeights.cs:34)
-GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:550)
-GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/Tennis/MatchHeroLook.cs:771)
-GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:266)
-GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:203)
-GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:93)
+GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:551)
+System.Reflection.RuntimeMethodInfo:Invoke (object,System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo)
+System.Reflection.MethodBase:Invoke (object,object[])
+GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:110)
 GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:165)
 GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
 
 (Filename: Assets/Scripts/Tennis/HeroHandWeights.cs Line: 34)
 
-[HeroGarmentAxillaWeights] Male Body: modified=1765 maxArmMassTransfer=0.460046768 normalizedError=1.1920929E-07; rest vertices/UVs/indices/palette and outside weights exact
+[HeroGarmentAxillaWeights] Male Body_M: modified=1765 maxArmMassTransfer=0.460045546 normalizedError=1.04308128E-07; rest vertices/UVs/indices/palette and outside weights exact
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -618,18 +530,16 @@ UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:Log (object)
 GolfArcade.Tennis.HeroGarmentAxillaWeights:Prepare (GolfArcade.Tennis.MatchHeroLook,UnityEngine.SkinnedMeshRenderer,UnityEngine.Mesh,bool,UnityEngine.Transform[]) (at Assets/Scripts/Tennis/HeroGarmentAxillaWeights.cs:49)
 GolfArcade.Tennis.HeroGarmentAxillaWeights:Prepare (UnityEngine.SkinnedMeshRenderer,bool) (at Assets/Scripts/Tennis/HeroGarmentAxillaWeights.cs:13)
-GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:551)
-GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/Tennis/MatchHeroLook.cs:771)
-GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:266)
-GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:203)
-GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:93)
+GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:552)
+System.Reflection.RuntimeMethodInfo:Invoke (object,System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo)
+System.Reflection.MethodBase:Invoke (object,object[])
+GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:110)
 GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:165)
 GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
 
 (Filename: Assets/Scripts/Tennis/HeroGarmentAxillaWeights.cs Line: 49)
 
-[HeroSkinNormals] field=area-continuous source=Body (reference face fit) (local blink normals) (thumb root weights) (axilla weight field) selected=17954 changed=12193 radiusMetres=0.012 capDegrees=45 maxNormalDegrees=45 maxVertexDeltaSquared=0; source topology/weights/UVs/morphs cloned unchanged
+[HeroSkinNormals] field=area-continuous source=Body (reference face fit) (local blink normals) (thumb root weights) (axilla weight field) selected=18268 changed=11363 radiusMetres=0.012 capDegrees=45 maxNormalDegrees=45 maxVertexDeltaSquared=0; source topology/weights/UVs/morphs cloned unchanged
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -638,18 +548,16 @@ UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:Log (object)
 GolfArcade.Tennis.HeroSkinNormals:Continuous (UnityEngine.SkinnedMeshRenderer,UnityEngine.Transform,UnityEngine.Mesh,bool) (at Assets/Scripts/Tennis/HeroSkinNormals.cs:144)
 GolfArcade.Tennis.HeroSkinNormals:Prepare (UnityEngine.SkinnedMeshRenderer,UnityEngine.Transform,bool) (at Assets/Scripts/Tennis/HeroSkinNormals.cs:19)
-GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:557)
-GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/Tennis/MatchHeroLook.cs:771)
-GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:266)
-GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:203)
-GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:93)
+GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:558)
+System.Reflection.RuntimeMethodInfo:Invoke (object,System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo)
+System.Reflection.MethodBase:Invoke (object,object[])
+GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:110)
 GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:165)
 GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
 
 (Filename: Assets/Scripts/Tennis/HeroSkinNormals.cs Line: 144)
 
-[HeroBlinkNormalField] rebuilt=1772; source vertices/shape positions unchanged; accepted base normals retained
+[HeroBlinkNormalField] rebuilt=1685; source vertices/shape positions unchanged; accepted base normals retained
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -657,18 +565,16 @@ UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,st
 UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:Log (object)
 GolfArcade.Tennis.HeroBlinkNormalField:Prepare (UnityEngine.Mesh) (at Assets/Scripts/Tennis/HeroBlinkNormalField.cs:55)
-GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:558)
-GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/Tennis/MatchHeroLook.cs:771)
-GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:266)
-GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:203)
-GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:93)
+GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:559)
+System.Reflection.RuntimeMethodInfo:Invoke (object,System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo)
+System.Reflection.MethodBase:Invoke (object,object[])
+GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:110)
 GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:165)
 GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
 
 (Filename: Assets/Scripts/Tennis/HeroBlinkNormalField.cs Line: 55)
 
-[HeroHeadSurface] Male origin=(0.000000, -0.027810, 1.510000) eye=(-0.000002, -0.080255, 0.065851) frame=(0.999993, 0.003879, 0.000100)/(0.000000, -0.025677, 0.999670)/(0.003880, -0.999663, -0.025677) cheekMaskMax=0.6915238 noseMaskMax=0.6737289 shader=GolfArcade/HeroFaceSkin hasHeadUniform=True
+[HeroHeadSurface] Male origin=(0.000000, -0.027810, 1.510000) eye=(-0.000002, -0.080509, 0.075703) frame=(1.000000, -0.000536, -0.000014)/(0.000000, -0.025677, 0.999670)/(-0.000536, -0.999670, -0.025677) cheekMaskMax=0.720943 noseMaskMax=0.5090379 shader=GolfArcade/HeroFaceSkin hasHeadUniform=True
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -676,38 +582,16 @@ UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,st
 UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:Log (object)
 GolfArcade.Tennis.HeroHeadSurface:Configure (GolfArcade.Tennis.MatchHeroLook,UnityEngine.Material) (at Assets/Scripts/Tennis/HeroHeadSurface.cs:36)
-GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:571)
-GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/Tennis/MatchHeroLook.cs:771)
-GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:266)
-GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:203)
-GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:93)
+GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:572)
+System.Reflection.RuntimeMethodInfo:Invoke (object,System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo)
+System.Reflection.MethodBase:Invoke (object,object[])
+GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:110)
 GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:165)
 GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
 
 (Filename: Assets/Scripts/Tennis/HeroHeadSurface.cs Line: 36)
 
-[HeroGarmentHemWeights] Male garment-only vertices=975 maxWeightL1=0 hemRootY=0.09468004 geometry/UV/material/rig unchanged; actual motion proof required
-UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
-UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
-UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:Log (object)
-GolfArcade.Tennis.HeroGarmentHemWeights:Prepare (GolfArcade.Tennis.MatchHeroLook,UnityEngine.SkinnedMeshRenderer,UnityEngine.Mesh,UnityEngine.Transform[]) (at Assets/Scripts/Tennis/HeroGarmentHemWeights.cs:56)
-GolfArcade.Tennis.HeroGarmentHemWeights:Apply (GolfArcade.Tennis.MatchHeroLook) (at Assets/Scripts/Tennis/HeroGarmentHemWeights.cs:17)
-GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:630)
-GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/Tennis/MatchHeroLook.cs:771)
-GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:266)
-GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:203)
-GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:93)
-GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:165)
-GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
-
-(Filename: Assets/Scripts/Tennis/HeroGarmentHemWeights.cs Line: 56)
-
-[AccessoriesClipCheck] GolfKitHero_Male Cheer: Acc_Bag body 0/0.0mm cloth 4813/4.9mm acc-in-body 0/0.0mm; Acc_Cap body 672/20.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 1835/20.0mm
+[AccessoriesClipCheck] MatchHero_Male CelebratePoint: Acc_Cap body 366/19.9mm cloth 0/0.0mm acc-in-body 0/0.0mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -719,7 +603,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Male Emote_Defeat: Acc_Bag body 115/19.7mm cloth 7503/20.0mm acc-in-body 847/20.0mm; Acc_Cap body 220/19.9mm cloth 0/0.0mm acc-in-body 100/0.2mm; Acc_GloveL body 0/0.0mm cloth 168/18.9mm acc-in-body 388/20.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 1918/19.9mm
+[AccessoriesClipCheck] MatchHero_Male EmoteDefeat: Acc_Cap body 0/0.0mm cloth 0/0.0mm acc-in-body 124/0.2mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -731,7 +615,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Male Emote_FistPump: Acc_Bag body 86/19.7mm cloth 3992/19.9mm acc-in-body 657/19.9mm; Acc_Cap body 320/20.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 1601/19.9mm
+[AccessoriesClipCheck] MatchHero_Male EmoteFistPump: Acc_Cap body 54/20.0mm cloth 0/0.0mm acc-in-body 0/0.0mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -743,7 +627,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Male Emote_JumpJoy: Acc_Bag body 80/20.0mm cloth 4942/19.8mm acc-in-body 735/19.9mm; Acc_Cap body 661/20.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 28/18.6mm acc-in-body 433/20.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 2062/20.0mm
+[AccessoriesClipCheck] MatchHero_Male EmoteJumpJoy: Acc_Cap body 366/19.9mm cloth 0/0.0mm acc-in-body 0/0.0mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -755,7 +639,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Male Emote_Scuba: Acc_Bag body 113/19.7mm cloth 4920/19.5mm acc-in-body 264/19.8mm; Acc_Cap body 796/20.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 0/0.0mm acc-in-body 99/10.5mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 3994/20.0mm
+[AccessoriesClipCheck] MatchHero_Male EmoteScuba: Acc_Cap body 23/19.1mm cloth 0/0.0mm acc-in-body 0/0.0mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -767,7 +651,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Male Emote_Shock: Acc_Bag body 65/19.8mm cloth 5380/19.3mm acc-in-body 640/19.8mm; Acc_Cap body 1906/20.0mm cloth 0/0.0mm acc-in-body 95/7.9mm; Acc_GloveL body 0/0.0mm cloth 0/0.0mm acc-in-body 4618/20.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 4058/20.0mm
+[AccessoriesClipCheck] MatchHero_Male EmoteShock: Acc_Cap body 1306/20.0mm cloth 0/0.0mm acc-in-body 1815/10.9mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -779,7 +663,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Male Emote_Slump: Acc_Bag body 190/20.0mm cloth 5873/19.9mm acc-in-body 1558/20.0mm; Acc_Cap body 133/19.9mm cloth 0/0.0mm acc-in-body 90/0.2mm; Acc_GloveL body 0/0.0mm cloth 258/19.6mm acc-in-body 3207/20.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 4036/20.0mm
+[AccessoriesClipCheck] MatchHero_Male EmoteSlump: Acc_Cap body 18/20.0mm cloth 0/0.0mm acc-in-body 122/0.2mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -791,7 +675,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Male Emote_Spike: Acc_Bag body 77/19.7mm cloth 4887/19.8mm acc-in-body 192/19.8mm; Acc_Cap body 682/20.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 75/18.3mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 2650/20.0mm
+[AccessoriesClipCheck] MatchHero_Male EmoteSpike: Acc_Cap body 383/20.0mm cloth 0/0.0mm acc-in-body 0/0.0mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -803,7 +687,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Male Emote_Stomp: Acc_Bag body 101/20.0mm cloth 5280/20.0mm acc-in-body 656/19.9mm; Acc_Cap body 429/20.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 196/19.9mm acc-in-body 428/20.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 1740/19.9mm
+[AccessoriesClipCheck] MatchHero_Male EmoteStomp: Acc_Cap body 120/20.0mm cloth 0/0.0mm acc-in-body 0/0.0mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -815,7 +699,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Male Emote_Thrust: Acc_Bag body 63/19.8mm cloth 5198/20.0mm acc-in-body 719/20.0mm; Acc_Cap body 1390/20.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 2940/20.0mm
+[AccessoriesClipCheck] MatchHero_Male EmoteThrust: Acc_Cap body 1458/20.0mm cloth 0/0.0mm acc-in-body 0/0.0mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -827,7 +711,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Male Emote_Victory: Acc_Bag body 132/19.9mm cloth 7728/20.0mm acc-in-body 644/19.8mm; Acc_Cap body 1786/19.9mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 3716/20.0mm
+[AccessoriesClipCheck] MatchHero_Male EmoteVictory: Acc_Cap body 1137/20.0mm cloth 0/0.0mm acc-in-body 0/0.0mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -839,7 +723,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Male FistPump: Acc_Bag body 285/4.8mm cloth 8219/20.0mm acc-in-body 230/20.0mm; Acc_Cap body 79/19.6mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 1499/19.9mm
+[AccessoriesClipCheck] MatchHero_Male Emote_Defeat: Acc_Cap body 0/0.0mm cloth 0/0.0mm acc-in-body 124/0.2mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -851,7 +735,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Male Idle: Acc_Bag body 0/0.0mm cloth 5124/4.9mm acc-in-body 0/0.0mm; Acc_Cap body 672/20.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 947/20.0mm
+[AccessoriesClipCheck] MatchHero_Male Emote_FistPump: Acc_Cap body 54/20.0mm cloth 0/0.0mm acc-in-body 0/0.0mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -863,7 +747,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Male Intro_BringIt: Acc_Bag body 139/19.9mm cloth 7508/19.5mm acc-in-body 643/19.8mm; Acc_Cap body 1293/20.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 3171/19.9mm
+[AccessoriesClipCheck] MatchHero_Male Emote_JumpJoy: Acc_Cap body 366/19.9mm cloth 0/0.0mm acc-in-body 0/0.0mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -875,7 +759,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Male Intro_Pushups: Acc_Bag body 224/20.0mm cloth 8541/19.9mm acc-in-body 1300/20.0mm; Acc_Cap body 133/19.9mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 1796/20.0mm
+[AccessoriesClipCheck] MatchHero_Male Emote_Shock: Acc_Cap body 1306/20.0mm cloth 0/0.0mm acc-in-body 1815/10.9mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -887,7 +771,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Male Intro_Wave: Acc_Bag body 90/19.1mm cloth 5029/19.4mm acc-in-body 310/19.8mm; Acc_Cap body 785/19.9mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 3026/20.0mm
+[AccessoriesClipCheck] MatchHero_Male Emote_Slump: Acc_Cap body 18/20.0mm cloth 0/0.0mm acc-in-body 122/0.2mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -899,7 +783,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Male Run: Acc_Bag body 107/19.9mm cloth 1919/19.9mm acc-in-body 241/19.9mm; Acc_Cap body 304/20.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 450/19.8mm acc-in-body 2712/20.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 2389/20.0mm
+[AccessoriesClipCheck] MatchHero_Male Emote_Stomp: Acc_Cap body 120/20.0mm cloth 0/0.0mm acc-in-body 0/0.0mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -911,7 +795,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Male RunForward: Acc_Bag body 109/20.0mm cloth 1647/19.9mm acc-in-body 224/19.8mm; Acc_Cap body 214/20.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 28/7.0mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 900/19.9mm
+[AccessoriesClipCheck] MatchHero_Male Emote_Victory: Acc_Cap body 1137/20.0mm cloth 0/0.0mm acc-in-body 0/0.0mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -923,7 +807,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Male Walk: Acc_Bag body 0/0.0mm cloth 3025/19.6mm acc-in-body 2/0.0mm; Acc_Cap body 411/20.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 164/19.5mm acc-in-body 39/20.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 1065/20.0mm
+[AccessoriesClipCheck] MatchHero_Male HitPerfect: Acc_Cap body 54/20.0mm cloth 0/0.0mm acc-in-body 0/0.0mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -935,7 +819,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Male Wave: Acc_Bag body 0/0.0mm cloth 4813/4.9mm acc-in-body 0/0.0mm; Acc_Cap body 672/20.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 945/20.0mm
+[AccessoriesClipCheck] MatchHero_Male Idle: Acc_Cap body 2/3.0mm cloth 0/0.0mm acc-in-body 0/0.0mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -947,7 +831,151 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[HeroEquipment] exact bind PASS CLUB_DRIVER error=2.980232E-07 vertices=1716
+[AccessoriesClipCheck] MatchHero_Male IntroBringIt: Acc_Cap body 225/20.0mm cloth 0/0.0mm acc-in-body 0/0.0mm
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:258)
+GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
+
+(Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
+
+[AccessoriesClipCheck] MatchHero_Male IntroPushups: Acc_Cap body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:258)
+GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
+
+(Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
+
+[AccessoriesClipCheck] MatchHero_Male IntroWave: Acc_Cap body 18/20.0mm cloth 0/0.0mm acc-in-body 0/0.0mm
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:258)
+GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
+
+(Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
+
+[AccessoriesClipCheck] MatchHero_Male MatchLose: Acc_Cap body 0/0.0mm cloth 0/0.0mm acc-in-body 124/0.2mm
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:258)
+GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
+
+(Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
+
+[AccessoriesClipCheck] MatchHero_Male MatchWin: Acc_Cap body 1137/20.0mm cloth 0/0.0mm acc-in-body 0/0.0mm
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:258)
+GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
+
+(Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
+
+[AccessoriesClipCheck] MatchHero_Male MissWhiff: Acc_Cap body 1306/20.0mm cloth 0/0.0mm acc-in-body 1815/10.9mm
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:258)
+GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
+
+(Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
+
+[AccessoriesClipCheck] MatchHero_Male Run: Acc_Cap body 2/18.8mm cloth 0/0.0mm acc-in-body 0/0.0mm
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:258)
+GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
+
+(Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
+
+[AccessoriesClipCheck] MatchHero_Male RunForward: Acc_Cap body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:258)
+GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
+
+(Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
+
+[AccessoriesClipCheck] MatchHero_Male RunLeft: Acc_Cap body 36/19.9mm cloth 0/0.0mm acc-in-body 0/0.0mm
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:258)
+GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
+
+(Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
+
+[AccessoriesClipCheck] MatchHero_Male RunRight: Acc_Cap body 32/19.9mm cloth 0/0.0mm acc-in-body 0/0.0mm
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:258)
+GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
+
+(Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
+
+[AccessoriesClipCheck] MatchHero_Male SadPointLost: Acc_Cap body 18/20.0mm cloth 0/0.0mm acc-in-body 122/0.2mm
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:258)
+GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
+
+(Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
+
+[AccessoriesClipCheck] MatchHero_Male Walk: Acc_Cap body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:258)
+GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
+
+(Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
+
+[HeroEquipment] exact bind PASS CLUB_DRIVER error=1.470745E-05 vertices=1716
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -962,7 +990,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Scripts/Game/HeroGolfer.cs Line: 137)
 
-[HeroEquipment] exact bind PASS CLUB_IRON error=2.980232E-07 vertices=1232
+[HeroEquipment] exact bind PASS CLUB_IRON error=1.470745E-05 vertices=1232
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -977,7 +1005,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Scripts/Game/HeroGolfer.cs Line: 137)
 
-[HeroEquipment] exact bind PASS CLUB_PUTTER error=2.980232E-07 vertices=1248
+[HeroEquipment] exact bind PASS CLUB_PUTTER error=1.470745E-05 vertices=1248
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -992,7 +1020,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Scripts/Game/HeroGolfer.cs Line: 137)
 
-[HeroEquipment] exact bind PASS CLUB_WEDGE error=2.980232E-07 vertices=1280
+[HeroEquipment] exact bind PASS CLUB_WEDGE error=1.470745E-05 vertices=1280
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -1007,87 +1035,9 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Scripts/Game/HeroGolfer.cs Line: 137)
 
-[HeroFaceReferenceFit] female Body: moved=12391; belowHeadChanges=0; minJacobian=0.214120612; topologySame=True; weightsSame=True; bindsSame=True
-UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
-UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
-UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:Log (object)
-GolfArcade.Tennis.HeroFaceReferenceFit:Prepare (UnityEngine.SkinnedMeshRenderer,UnityEngine.SkinnedMeshRenderer,UnityEngine.SkinnedMeshRenderer,string,bool) (at Assets/Scripts/Tennis/HeroFaceReferenceFit.cs:234)
-GolfArcade.Tennis.HeroOriginalSeamAnatomy:Apply (GolfArcade.Tennis.MatchHeroLook) (at Assets/Scripts/Tennis/HeroOriginalSeamAnatomy.cs:72)
-GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:528)
-GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/Tennis/MatchHeroLook.cs:771)
-GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:266)
-GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:203)
-GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:93)
-GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:165)
-GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
-
-(Filename: Assets/Scripts/Tennis/HeroFaceReferenceFit.cs Line: 234)
-
-[HeroFaceReferenceFit] female ReferenceFeatures: moved=3004; belowHeadChanges=0; minJacobian=0.6941224; topologySame=True; weightsSame=True; bindsSame=True
-UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
-UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
-UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:Log (object)
-GolfArcade.Tennis.HeroFaceReferenceFit:Prepare (UnityEngine.SkinnedMeshRenderer,UnityEngine.SkinnedMeshRenderer,UnityEngine.SkinnedMeshRenderer,string,bool) (at Assets/Scripts/Tennis/HeroFaceReferenceFit.cs:234)
-GolfArcade.Tennis.HeroOriginalSeamAnatomy:Apply (GolfArcade.Tennis.MatchHeroLook) (at Assets/Scripts/Tennis/HeroOriginalSeamAnatomy.cs:73)
-GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:528)
-GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/Tennis/MatchHeroLook.cs:771)
-GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:266)
-GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:203)
-GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:93)
-GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:165)
-GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
-
-(Filename: Assets/Scripts/Tennis/HeroFaceReferenceFit.cs Line: 234)
-
-[HeroOriginalSeam] blink normal isolation body: cleared=64229; base geometry/normals unchanged
-UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
-UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
-UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:Log (object)
-GolfArcade.Tennis.HeroOriginalSeamAnatomy:PrepareBlinkMesh (UnityEngine.Mesh,bool) (at Assets/Scripts/Tennis/HeroOriginalSeamAnatomy.cs:47)
-GolfArcade.Tennis.HeroOriginalSeamAnatomy:Apply (GolfArcade.Tennis.MatchHeroLook) (at Assets/Scripts/Tennis/HeroOriginalSeamAnatomy.cs:74)
-GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:528)
-GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/Tennis/MatchHeroLook.cs:771)
-GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:266)
-GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:203)
-GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:93)
-GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:165)
-GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
-
-(Filename: Assets/Scripts/Tennis/HeroOriginalSeamAnatomy.cs Line: 47)
-
-[HeroOriginalSeam] blink normal isolation features: cleared=6008; base geometry/normals unchanged
-UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
-UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
-UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:Log (object)
-GolfArcade.Tennis.HeroOriginalSeamAnatomy:PrepareBlinkMesh (UnityEngine.Mesh,bool) (at Assets/Scripts/Tennis/HeroOriginalSeamAnatomy.cs:47)
-GolfArcade.Tennis.HeroOriginalSeamAnatomy:Apply (GolfArcade.Tennis.MatchHeroLook) (at Assets/Scripts/Tennis/HeroOriginalSeamAnatomy.cs:81)
-GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:528)
-GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/Tennis/MatchHeroLook.cs:771)
-GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:266)
-GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:203)
-GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:93)
-GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:165)
-GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
-
-(Filename: Assets/Scripts/Tennis/HeroOriginalSeamAnatomy.cs Line: 47)
-
-[HeroOriginalSeam] installed Female body=34443 features=3004; original rig and eye proportions retained; legacy face layers bypassed
+Launching external process: /Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/Helpers/UnityShaderCompiler
+Launched and connected shader compiler UnityShaderCompiler after 0.03 seconds
+[HeroOriginalSeam] installed Male body=44168 features=3824; original rig and eye proportions retained; legacy face layers bypassed
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -1095,10 +1045,10 @@ UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,st
 UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:Log (object)
 GolfArcade.Tennis.HeroOriginalSeamAnatomy:Apply (GolfArcade.Tennis.MatchHeroLook) (at Assets/Scripts/Tennis/HeroOriginalSeamAnatomy.cs:87)
-GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:528)
-GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/Tennis/MatchHeroLook.cs:771)
-GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:266)
-GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:203)
+GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:529)
+GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/Tennis/MatchHeroLook.cs:773)
+GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:269)
+GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:206)
 GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
 GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:93)
 GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:165)
@@ -1106,123 +1056,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Scripts/Tennis/HeroOriginalSeamAnatomy.cs Line: 87)
 
-[HeroHandWeights] Female Left thumb-root vertices=27 radius=0.01
-UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
-UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
-UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:Log (object)
-GolfArcade.Tennis.HeroHandWeights:Prepare (UnityEngine.SkinnedMeshRenderer,bool) (at Assets/Scripts/Tennis/HeroHandWeights.cs:31)
-GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:550)
-GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/Tennis/MatchHeroLook.cs:771)
-GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:266)
-GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:203)
-GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:93)
-GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:165)
-GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
-
-(Filename: Assets/Scripts/Tennis/HeroHandWeights.cs Line: 31)
-
-[HeroHandWeights] Female Right thumb-root vertices=9 radius=0.01
-UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
-UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
-UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:Log (object)
-GolfArcade.Tennis.HeroHandWeights:Prepare (UnityEngine.SkinnedMeshRenderer,bool) (at Assets/Scripts/Tennis/HeroHandWeights.cs:31)
-GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:550)
-GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/Tennis/MatchHeroLook.cs:771)
-GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:266)
-GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:203)
-GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:93)
-GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:165)
-GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
-
-(Filename: Assets/Scripts/Tennis/HeroHandWeights.cs Line: 31)
-
-[HeroHandWeights] exact geometry/rest retained; changed=36 maxWeightL1=1.8
-UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
-UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
-UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:Log (object)
-GolfArcade.Tennis.HeroHandWeights:Prepare (UnityEngine.SkinnedMeshRenderer,bool) (at Assets/Scripts/Tennis/HeroHandWeights.cs:34)
-GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:550)
-GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/Tennis/MatchHeroLook.cs:771)
-GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:266)
-GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:203)
-GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:93)
-GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:165)
-GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
-
-(Filename: Assets/Scripts/Tennis/HeroHandWeights.cs Line: 34)
-
-[HeroGarmentAxillaWeights] Female Body: modified=676 maxArmMassTransfer=0.643722057 normalizedError=1.00582838E-07; rest vertices/UVs/indices/palette and outside weights exact
-UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
-UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
-UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:Log (object)
-GolfArcade.Tennis.HeroGarmentAxillaWeights:Prepare (GolfArcade.Tennis.MatchHeroLook,UnityEngine.SkinnedMeshRenderer,UnityEngine.Mesh,bool,UnityEngine.Transform[]) (at Assets/Scripts/Tennis/HeroGarmentAxillaWeights.cs:49)
-GolfArcade.Tennis.HeroGarmentAxillaWeights:Prepare (UnityEngine.SkinnedMeshRenderer,bool) (at Assets/Scripts/Tennis/HeroGarmentAxillaWeights.cs:13)
-GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:551)
-GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/Tennis/MatchHeroLook.cs:771)
-GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:266)
-GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:203)
-GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:93)
-GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:165)
-GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
-
-(Filename: Assets/Scripts/Tennis/HeroGarmentAxillaWeights.cs Line: 49)
-
-[HeroSkinNormals] field=area-continuous source=Body (reference face fit) (local blink normals) (thumb root weights) (axilla weight field) selected=18726 changed=11230 radiusMetres=0.012 capDegrees=45 maxNormalDegrees=45 maxVertexDeltaSquared=0; source topology/weights/UVs/morphs cloned unchanged
-UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
-UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
-UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:Log (object)
-GolfArcade.Tennis.HeroSkinNormals:Continuous (UnityEngine.SkinnedMeshRenderer,UnityEngine.Transform,UnityEngine.Mesh,bool) (at Assets/Scripts/Tennis/HeroSkinNormals.cs:144)
-GolfArcade.Tennis.HeroSkinNormals:Prepare (UnityEngine.SkinnedMeshRenderer,UnityEngine.Transform,bool) (at Assets/Scripts/Tennis/HeroSkinNormals.cs:19)
-GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:557)
-GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/Tennis/MatchHeroLook.cs:771)
-GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:266)
-GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:203)
-GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:93)
-GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:165)
-GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
-
-(Filename: Assets/Scripts/Tennis/HeroSkinNormals.cs Line: 144)
-
-[HeroBlinkNormalField] rebuilt=2051; source vertices/shape positions unchanged; accepted base normals retained
-UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
-UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
-UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:Log (object)
-GolfArcade.Tennis.HeroBlinkNormalField:Prepare (UnityEngine.Mesh) (at Assets/Scripts/Tennis/HeroBlinkNormalField.cs:55)
-GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:558)
-GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/Tennis/MatchHeroLook.cs:771)
-GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:266)
-GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:203)
-GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:93)
-GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:165)
-GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
-
-(Filename: Assets/Scripts/Tennis/HeroBlinkNormalField.cs Line: 55)
-
-[HeroHeadSurface] Female origin=(0.000000, 0.002330, 1.490000) eye=(0.000000, -0.114136, 0.057103) frame=(1.000000, 0.000009, 0.000000)/(0.000000, -0.023316, 0.999728)/(0.000009, -0.999728, -0.023316) cheekMaskMax=0.957235 noseMaskMax=0.9681084 shader=GolfArcade/HeroFaceSkin hasHeadUniform=True
+[HeroHeadSurface] Male origin=(0.000000, -0.027810, 1.510000) eye=(-0.000002, -0.080509, 0.075703) frame=(1.000000, -0.000536, -0.000014)/(0.000000, -0.025677, 0.999670)/(-0.000536, -0.999670, -0.025677) cheekMaskMax=0.720943 noseMaskMax=0.5090379 shader=GolfArcade/HeroFaceSkin hasHeadUniform=True
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -1230,10 +1064,10 @@ UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,st
 UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:Log (object)
 GolfArcade.Tennis.HeroHeadSurface:Configure (GolfArcade.Tennis.MatchHeroLook,UnityEngine.Material) (at Assets/Scripts/Tennis/HeroHeadSurface.cs:36)
-GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:571)
-GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/Tennis/MatchHeroLook.cs:771)
-GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:266)
-GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:203)
+GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:572)
+GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/Tennis/MatchHeroLook.cs:773)
+GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:269)
+GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:206)
 GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
 GolfArcade.EditorTools.AccessoriesProof:BuildHero (string,UnityEngine.AnimationClip&) (at Assets/Editor/AccessoriesProof.cs:93)
 GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:165)
@@ -1241,7 +1075,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Scripts/Tennis/HeroHeadSurface.cs Line: 36)
 
-[AccessoriesClipCheck] GolfKitHero_Female Cheer: Acc_Bag body 0/0.0mm cloth 8533/4.8mm acc-in-body 31/3.0mm; Acc_Cap body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 462/19.3mm
+[AccessoriesClipCheck] GolfKitHero_Male Cheer: Acc_Cap body 84/19.3mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 1837/20.0mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -1253,7 +1087,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Female Emote_Defeat: Acc_Bag body 90/20.0mm cloth 12063/20.0mm acc-in-body 1014/20.0mm; Acc_Cap body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 234/19.9mm acc-in-body 6187/20.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 2368/20.0mm
+[AccessoriesClipCheck] GolfKitHero_Male Chip: Acc_Cap body 117/19.9mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 11/13.0mm acc-in-body 12453/18.6mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 12050/19.9mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -1265,7 +1099,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Female Emote_FistPump: Acc_Bag body 31/19.8mm cloth 6289/19.4mm acc-in-body 812/20.0mm; Acc_Cap body 71/19.9mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 2/19.9mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 265/19.5mm
+[AccessoriesClipCheck] GolfKitHero_Male Drive: Acc_Cap body 560/20.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 5/19.9mm acc-in-body 16876/20.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 13557/20.0mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -1277,7 +1111,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Female Emote_JumpJoy: Acc_Bag body 34/19.1mm cloth 8059/19.3mm acc-in-body 789/20.0mm; Acc_Cap body 236/18.9mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 3/0.8mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 287/20.0mm
+[AccessoriesClipCheck] GolfKitHero_Male Emote_Defeat: Acc_Cap body 0/0.0mm cloth 0/0.0mm acc-in-body 124/0.2mm; Acc_GloveL body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 1733/19.9mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -1289,7 +1123,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Female Emote_Scuba: Acc_Bag body 4/1.3mm cloth 8143/19.6mm acc-in-body 262/19.9mm; Acc_Cap body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 604/19.9mm
+[AccessoriesClipCheck] GolfKitHero_Male Emote_FistPump: Acc_Cap body 54/20.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 1653/20.0mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -1301,7 +1135,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Female Emote_Shock: Acc_Bag body 10/1.5mm cloth 8710/19.7mm acc-in-body 680/19.9mm; Acc_Cap body 1373/20.0mm cloth 0/0.0mm acc-in-body 863/9.5mm; Acc_GloveL body 0/0.0mm cloth 0/0.0mm acc-in-body 1376/20.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 600/19.9mm
+[AccessoriesClipCheck] GolfKitHero_Male Emote_JumpJoy: Acc_Cap body 366/19.9mm cloth 3/1.6mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 243/19.6mm acc-in-body 6/18.4mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 1890/20.0mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -1313,7 +1147,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Female Emote_Slump: Acc_Bag body 93/17.6mm cloth 8915/19.7mm acc-in-body 1022/20.0mm; Acc_Cap body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 554/20.0mm acc-in-body 12285/20.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 2869/20.0mm
+[AccessoriesClipCheck] GolfKitHero_Male Emote_Scuba: Acc_Cap body 314/19.1mm cloth 17/1.2mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 63/20.0mm acc-in-body 41/9.4mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 6953/20.0mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -1325,7 +1159,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Female Emote_Spike: Acc_Bag body 26/19.9mm cloth 7720/19.5mm acc-in-body 290/19.9mm; Acc_Cap body 200/18.9mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 20/4.0mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 360/19.8mm
+[AccessoriesClipCheck] GolfKitHero_Male Emote_Shock: Acc_Cap body 1252/20.0mm cloth 58/1.5mm acc-in-body 36/6.7mm; Acc_GloveL body 0/0.0mm cloth 96/19.9mm acc-in-body 4213/20.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 3901/20.0mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -1337,7 +1171,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Female Emote_Stomp: Acc_Bag body 39/19.9mm cloth 8776/20.0mm acc-in-body 736/19.9mm; Acc_Cap body 164/19.9mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 521/19.9mm acc-in-body 2198/20.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 867/20.0mm
+[AccessoriesClipCheck] GolfKitHero_Male Emote_Slump: Acc_Cap body 18/20.0mm cloth 0/0.0mm acc-in-body 122/0.2mm; Acc_GloveL body 0/0.0mm cloth 171/19.8mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 2100/20.0mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -1349,7 +1183,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Female Emote_Thrust: Acc_Bag body 20/17.6mm cloth 8612/19.9mm acc-in-body 550/19.9mm; Acc_Cap body 718/19.9mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 472/20.0mm
+[AccessoriesClipCheck] GolfKitHero_Male Emote_Spike: Acc_Cap body 383/20.0mm cloth 138/16.6mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 2/15.5mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 1823/20.0mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -1361,7 +1195,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Female Emote_Victory: Acc_Bag body 19/16.5mm cloth 12443/19.4mm acc-in-body 683/19.8mm; Acc_Cap body 1009/20.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 585/19.9mm
+[AccessoriesClipCheck] GolfKitHero_Male Emote_Stomp: Acc_Cap body 120/20.0mm cloth 46/2.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 216/19.8mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 1576/19.9mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -1373,7 +1207,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Female FistPump: Acc_Bag body 144/4.2mm cloth 13796/4.9mm acc-in-body 1307/20.0mm; Acc_Cap body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 602/20.0mm
+[AccessoriesClipCheck] GolfKitHero_Male Emote_Thrust: Acc_Cap body 1458/20.0mm cloth 13/18.4mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 218/19.8mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 2764/19.9mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -1385,7 +1219,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Female Idle: Acc_Bag body 0/0.0mm cloth 8169/4.7mm acc-in-body 0/0.0mm; Acc_Cap body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 227/19.8mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 525/19.9mm
+[AccessoriesClipCheck] GolfKitHero_Male Emote_Victory: Acc_Cap body 1136/20.0mm cloth 12/1.5mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 214/19.6mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 3257/20.0mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -1397,7 +1231,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Female Intro_BringIt: Acc_Bag body 6/1.3mm cloth 12555/19.3mm acc-in-body 393/19.9mm; Acc_Cap body 15/19.8mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 450/19.5mm
+[AccessoriesClipCheck] GolfKitHero_Male FistPump: Acc_Cap body 0/0.0mm cloth 98/18.8mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 1499/19.9mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -1409,7 +1243,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Female Intro_Pushups: Acc_Bag body 95/19.8mm cloth 12166/20.0mm acc-in-body 1175/20.0mm; Acc_Cap body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 425/20.0mm
+[AccessoriesClipCheck] GolfKitHero_Male HalfSwing: Acc_Cap body 483/20.0mm cloth 2/19.8mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 167/19.8mm acc-in-body 20082/20.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 13246/20.0mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -1421,7 +1255,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Female Intro_Wave: Acc_Bag body 11/1.4mm cloth 8319/19.4mm acc-in-body 434/19.9mm; Acc_Cap body 1/5.6mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 598/19.8mm
+[AccessoriesClipCheck] GolfKitHero_Male Idle: Acc_Cap body 84/19.3mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 4/9.3mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 947/20.0mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -1433,7 +1267,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Female Run: Acc_Bag body 0/0.0mm cloth 3106/20.0mm acc-in-body 0/0.0mm; Acc_Cap body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 575/19.9mm acc-in-body 4083/20.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 705/19.9mm
+[AccessoriesClipCheck] GolfKitHero_Male Intro_BringIt: Acc_Cap body 225/20.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 13/19.6mm acc-in-body 44/7.6mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 3054/20.0mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -1445,7 +1279,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Female RunForward: Acc_Bag body 0/0.0mm cloth 2653/4.6mm acc-in-body 0/0.0mm; Acc_Cap body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 103/20.0mm
+[AccessoriesClipCheck] GolfKitHero_Male Intro_Pushups: Acc_Cap body 0/0.0mm cloth 1/1.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 1860/20.0mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -1457,7 +1291,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] GolfKitHero_Female Walk: Acc_Bag body 0/0.0mm cloth 4720/4.7mm acc-in-body 0/0.0mm; Acc_Cap body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 318/19.7mm acc-in-body 1362/20.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 394/20.0mm
+[AccessoriesClipCheck] GolfKitHero_Male Intro_Wave: Acc_Cap body 18/20.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 3057/20.0mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -1469,8 +1303,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[usbmuxd] Attached: 27 00008150-00041CD92287801C
-[AccessoriesClipCheck] GolfKitHero_Female Wave: Acc_Bag body 0/0.0mm cloth 7843/4.8mm acc-in-body 31/3.0mm; Acc_Cap body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 105/3.5mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 525/19.9mm
+[AccessoriesClipCheck] GolfKitHero_Male IronSwing: Acc_Cap body 574/20.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 16/12.1mm acc-in-body 16136/20.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 13133/20.0mm
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -1482,7 +1315,67 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
 
-[AccessoriesClipCheck] wrote /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/accessories/clipcheck/run5_golf
+[AccessoriesClipCheck] GolfKitHero_Male Putt: Acc_Cap body 0/0.0mm cloth 42/16.9mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 0/0.0mm acc-in-body 11265/20.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 10676/20.0mm
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:258)
+GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
+
+(Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
+
+[AccessoriesClipCheck] GolfKitHero_Male Run: Acc_Cap body 3/18.8mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 166/19.5mm acc-in-body 3248/20.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 2277/20.0mm
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:258)
+GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
+
+(Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
+
+[AccessoriesClipCheck] GolfKitHero_Male RunForward: Acc_Cap body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 900/19.9mm
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:258)
+GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
+
+(Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
+
+[AccessoriesClipCheck] GolfKitHero_Male Walk: Acc_Cap body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 2/8.6mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 884/20.0mm
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:258)
+GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
+
+(Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
+
+[AccessoriesClipCheck] GolfKitHero_Male Wave: Acc_Cap body 84/19.3mm cloth 0/0.0mm acc-in-body 0/0.0mm; Acc_GloveL body 0/0.0mm cloth 0/0.0mm acc-in-body 0/0.0mm; BareHandL body 0/0.0mm cloth 0/0.0mm acc-in-body 945/20.0mm
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+GolfArcade.EditorTools.AccessoriesClipCheck:Run () (at Assets/Editor/AccessoriesClipCheck.cs:258)
+GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/AccessoriesClipCheck.cs:31)
+
+(Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 258)
+
+[AccessoriesClipCheck] wrote /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/accessories/clipcheck/rehug_male_1017_after
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -1495,7 +1388,7 @@ GolfArcade.EditorTools.AccessoriesClipCheck:RunBatch () (at Assets/Editor/Access
 (Filename: Assets/Editor/AccessoriesClipCheck.cs Line: 267)
 
 [Licensing::Client] Successfully resolved entitlement details
-Thread 0x16b82f000 may have been prematurely finalized
+Thread 0x16da1f000 may have been prematurely finalized
 The command could not be loaded, possibly because:
   * You intended to execute a .NET application:
       The application 'build-server' does not exist.
@@ -1507,7 +1400,7 @@ https://aka.ms/dotnet-download
 
 Learn about SDK resolution:
 https://aka.ms/dotnet/sdk-not-found
-Thread 0x16bfc7000 may have been prematurely finalized
+Thread 0x16f347000 may have been prematurely finalized
 Input System module state changed to: ShutdownInProgress.
 Input System polling thread exited.
 Input System module state changed to: Shutdown.
@@ -1515,22 +1408,20 @@ Input System module state changed to: Shutdown.
 [Physics::Module] Id: 0xf2b8ea05
 [Licensing::IpcConnector] LicenseClient-adnanyonathan-notifications channel disconnected successfully.
 [Licensing::IpcConnector] LicenseClient-adnanyonathan channel disconnected successfully.
-Thread 0x16c5db000 may have been prematurely finalized
-Thread 0x16c667000 may have been prematurely finalized
-Thread 0x16c6f3000 may have been prematurely finalized
-Thread 0x16c897000 may have been prematurely finalized
-Thread 0x16c77f000 may have been prematurely finalized
-Thread 0x16c923000 may have been prematurely finalized
-Thread 0x16c80b000 may have been prematurely finalized
-Thread 0x16c9af000 may have been prematurely finalized
-Thread 0x16ca3b000 may have been prematurely finalized
+Thread 0x16e36b000 may have been prematurely finalized
+Thread 0x16e483000 may have been prematurely finalized
+Thread 0x16e3f7000 may have been prematurely finalized
+Thread 0x16e59b000 may have been prematurely finalized
+Thread 0x16e50f000 may have been prematurely finalized
+Thread 0x16e627000 may have been prematurely finalized
+Thread 0x16e6b3000 may have been prematurely finalized
 AcceleratorClientConnectionCallback - disconnected - :0
 Cleanup mono
 [40m[32minfo[39m[22m[49m: Microsoft.Hosting.Lifetime[0]
       Application is shutting down...
 [40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
       ALC ILPP context 1 is unloading
-debugger-agent: Unable to listen on 37
+debugger-agent: Unable to listen on 43
 [usbmuxd] Stop listen thread
 [usbmuxd] Error: 
 [usbmuxd] Listen thread exiting

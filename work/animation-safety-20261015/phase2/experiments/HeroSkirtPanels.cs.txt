@@ -1,0 +1,137 @@
+using System;
+using System.Linq;
+using UnityEngine;
+
+namespace GolfArcade.Tennis
+{
+    /// The pleated shell hangs from its waistband. Its under-shorts retain their
+    /// leg binding. A small radial support rig opens the shell over bent thighs.
+    [DefaultExecutionOrder(1230)]
+    public sealed class HeroSkirtPanels : MonoBehaviour
+    {
+        [Serializable] sealed class Profile { public int vertexCount; public uint positionHash; public int[] shell; }
+        const int Count=40;
+        MatchHeroLook look;SkinnedMeshRenderer skirt;Mesh owned;
+        Transform hips;Matrix4x4 hipBind;
+        BoneWeight[] originalWeights,panelWeights,outputWeights;int[] shell;float previousBlend=-1;int appliedFrame=-1;
+        readonly int[] mergeIds=new int[8];readonly float[] mergeWeights=new float[8];
+        public float SupportBlend {get;private set;}
+        readonly Transform[] panels=new Transform[Count];
+        readonly Vector3[] pivots=new Vector3[Count],tips=new Vector3[Count],axes=new Vector3[Count];
+        readonly float[] angles=new float[Count],smooth=new float[Count];
+        public float MaximumPenetration {get;private set;}
+        public static void Attach(MatchHeroLook look)
+        {
+            if(!look||!look.female||!look.kitV2||look.GetComponent<HeroSkirtPanels>())return;
+            var r=look.kit?.FirstOrDefault(k=>k&&k.name=="Kit_Bottom");if(!r)return;
+            var text=Resources.Load<TextAsset>($"{(look.golfKit?"Golf":"Tennis")}/KitsV2/Female/SkirtPanels");if(!text)return;
+            var profile=JsonUtility.FromJson<Profile>(text.text);
+            if(profile.vertexCount!=r.sharedMesh.vertexCount || profile.positionHash!=PositionHash(r.sharedMesh)) {Debug.LogError("Skirt panel topology does not match garment");return;}
+            look.gameObject.AddComponent<HeroSkirtPanels>().Initialize(look,r,profile);
+        }
+        static uint PositionHash(Mesh mesh) {
+            uint hash=2166136261;
+            unchecked {foreach(var p in mesh.vertices)foreach(float value in new[]{p.x,p.y,p.z})foreach(byte b in BitConverter.GetBytes(value))hash=(hash^b)*16777619;}
+            return hash;
+        }
+        void Initialize(MatchHeroLook hero,SkinnedMeshRenderer r,Profile profile)
+        {
+            look=hero;skirt=r;hips=hero.Bone(HumanBodyBones.Hips);
+            int hi=Array.IndexOf(r.bones,hips);if(hi<0)throw new InvalidOperationException("Skirt has no hips binding");
+            hipBind=r.sharedMesh.bindposes[hi];owned=Instantiate(r.sharedMesh);owned.name+=" (pleat supports)";owned.hideFlags=HideFlags.DontSave;
+            shell=profile.shell;originalWeights=owned.boneWeights;outputWeights=(BoneWeight[])originalWeights.Clone();
+            var p=owned.vertices;var w=owned.boneWeights;var bones=r.bones.ToList();var binds=owned.bindposes.ToList();int first=bones.Count;
+            float top=profile.shell.Max(i=>p[i].z),bottom=profile.shell.Min(i=>p[i].z);
+            const float cy=-.020f;
+            for(int j=0;j<Count;j++) {
+                float theta=j*2*Mathf.PI/Count;var radial=new Vector3(Mathf.Sin(theta),-Mathf.Cos(theta),0);
+                // Measured waistband ellipse, in the garment's authored Z-up space.
+                pivots[j]=new Vector3(radial.x*.133f,cy+radial.y*.105f,top);
+                var near=profile.shell.Where(i=>p[i].z<bottom+.025f&&Vector3.Dot(new Vector3(p[i].x,p[i].y-cy,0).normalized,radial)>.98f).ToArray();
+                tips[j]=near.Length>0?near.Select(i=>p[i]).Aggregate(Vector3.zero,(a,b)=>a+b)/near.Length:new Vector3(radial.x*.22f,cy+radial.y*.14f,bottom);
+                axes[j]=Vector3.Cross(Vector3.back,radial).normalized;
+                var bone=new GameObject("SkirtPanel_"+j).transform;bone.SetParent(r.transform,false);panels[j]=bone;
+                bones.Add(bone);binds.Add(Matrix4x4.Translate(-pivots[j]));
+            }
+            foreach(int i in profile.shell) {
+                float a=Mathf.Repeat(Mathf.Atan2(p[i].x,-(p[i].y-cy))/(2*Mathf.PI)*Count,Count);int lo=Mathf.FloorToInt(a);float t=a-lo;
+                // Only a narrow stitched yoke mixes with the waist, preventing the
+                // hem being pulled between the left and right leg skin matrices.
+                float free=Mathf.SmoothStep(0,1,Mathf.Clamp01((top-p[i].z)/.035f));
+                w[i]=new BoneWeight{boneIndex0=hi,weight0=1-free,boneIndex1=first+lo,weight1=free*(1-t),boneIndex2=first+(lo+1)%Count,weight2=free*t};
+            }
+            panelWeights=w;owned.bindposes=binds.ToArray();r.sharedMesh=owned;r.bones=bones.ToArray();r.quality=SkinQuality.Bone4;
+            Apply();
+        }
+        static float Capsule(Vector3 p,Vector3 a,Vector3 b)
+        {
+            var ab=b-a;float t=Mathf.Clamp01(Vector3.Dot(p-a,ab)/Mathf.Max(1e-8f,ab.sqrMagnitude));
+            float radius=Mathf.Lerp(.083f,.052f,t)+.008f;
+            return Mathf.Max(0,radius-Vector3.Distance(p,a+ab*t));
+        }
+        public void Apply()
+        {
+            if(!skirt||!hips)return;appliedFrame=Time.frameCount;
+            var world=hips.localToWorldMatrix*hipBind;
+            var local=skirt.transform.worldToLocalMatrix*world;
+            var lu=look.Bone(HumanBodyBones.LeftUpperLeg).position;var ll=look.Bone(HumanBodyBones.LeftLowerLeg).position;
+            var ru=look.Bone(HumanBodyBones.RightUpperLeg).position;var rl=look.Bone(HumanBodyBones.RightLowerLeg).position;
+            float Depth(int j,float angle) {
+                var turn=Quaternion.AngleAxis(angle,axes[j]);var rod=turn*(tips[j]-pivots[j]);float depth=0;
+                for(int k=2;k<=8;k++) {var q=world.MultiplyPoint3x4(pivots[j]+rod*(k/8f));depth=Mathf.Max(depth,Mathf.Max(Capsule(q,lu,ll),Capsule(q,ru,rl)));}
+                return depth;
+            }
+            var down=world.MultiplyVector(Vector3.back).normalized;
+            float legBend=Mathf.Max(Vector3.Angle(down,ll-lu),Vector3.Angle(down,rl-ru));
+            float floorTilt=Vector3.Angle(down,Vector3.down);
+            SupportBlend=Mathf.Max(Mathf.SmoothStep(0,1,Mathf.InverseLerp(40,75,legBend)),Mathf.SmoothStep(0,1,Mathf.InverseLerp(45,80,floorTilt)));
+            UpdateBinding(SupportBlend);
+            for(int j=0;j<Count;j++) {
+                float best=0,value=float.PositiveInfinity;
+                var rest=tips[j]-pivots[j];
+                var gravity=Vector3.ProjectOnPlane(world.inverse.MultiplyVector(Vector3.down),axes[j]).normalized;
+                var hang=Vector3.Slerp(rest.normalized,gravity,.7f*Mathf.SmoothStep(0,1,Mathf.InverseLerp(35,80,floorTilt)));
+                float preferred=Mathf.Clamp(Vector3.SignedAngle(rest,hang,axes[j]),-40,75);
+                for(int a=-42;a<=105;a+=3) {
+                    float d=Depth(j,a);float cost=d*d*100000f+(a-preferred)*(a-preferred)*.0001f;
+                    if(cost<value){value=cost;best=a;}
+                }
+                angles[j]=best;
+            }
+            // Spread a lifted panel across its neighbours; never average it back
+            // into a thigh. This gives a continuous cloth fan around a deep lunge.
+            for(int j=0;j<Count;j++) {
+                float average=(angles[(j+Count-2)%Count]+4*angles[(j+Count-1)%Count]+6*angles[j]+4*angles[(j+1)%Count]+angles[(j+2)%Count])/16f;
+                // A smooth angular field retains the pleat fan; lift only where
+                // smoothing would otherwise put a panel back inside a thigh.
+                while(average<105 && Depth(j,average)>.001f) average+=2;
+                smooth[j]=average;
+            }
+            MaximumPenetration=0;
+            for(int j=0;j<Count;j++) {
+                var bone=panels[j];bone.localPosition=local.MultiplyPoint3x4(pivots[j]);bone.localRotation=local.rotation*Quaternion.AngleAxis(smooth[j],axes[j]);bone.localScale=local.lossyScale;
+                MaximumPenetration=Mathf.Max(MaximumPenetration,Depth(j,smooth[j]));
+            }
+        }
+        void UpdateBinding(float blend)
+        {
+            if(Mathf.Abs(blend-previousBlend)<.0001f)return;
+            previousBlend=blend;
+            foreach(int v in shell) {
+                if(blend<=0){outputWeights[v]=originalWeights[v];continue;}
+                if(blend>=1){outputWeights[v]=panelWeights[v];continue;}
+                Array.Clear(mergeWeights,0,8);int count=0;
+                void Add(int id,float w){if(w<=0)return;for(int k=0;k<count;k++)if(mergeIds[k]==id){mergeWeights[k]+=w;return;}mergeIds[count]=id;mergeWeights[count++]=w;}
+                var a=originalWeights[v];var b=panelWeights[v];float inv=1-blend;
+                Add(a.boneIndex0,a.weight0*inv);Add(a.boneIndex1,a.weight1*inv);Add(a.boneIndex2,a.weight2*inv);Add(a.boneIndex3,a.weight3*inv);
+                Add(b.boneIndex0,b.weight0*blend);Add(b.boneIndex1,b.weight1*blend);Add(b.boneIndex2,b.weight2*blend);Add(b.boneIndex3,b.weight3*blend);
+                for(int i=0;i<4;i++)for(int j=i+1;j<count;j++)if(mergeWeights[j]>mergeWeights[i]){(mergeWeights[i],mergeWeights[j])=(mergeWeights[j],mergeWeights[i]);(mergeIds[i],mergeIds[j])=(mergeIds[j],mergeIds[i]);}
+                float sum=mergeWeights[0]+mergeWeights[1]+mergeWeights[2]+mergeWeights[3];
+                outputWeights[v]=new BoneWeight{boneIndex0=mergeIds[0],boneIndex1=mergeIds[1],boneIndex2=mergeIds[2],boneIndex3=mergeIds[3],weight0=mergeWeights[0]/sum,weight1=mergeWeights[1]/sum,weight2=mergeWeights[2]/sum,weight3=mergeWeights[3]/sum};
+            }
+            owned.boneWeights=outputWeights;
+        }
+        void LateUpdate(){if(appliedFrame!=Time.frameCount)Apply();}
+        void OnDestroy(){if(owned){if(Application.isPlaying)Destroy(owned);else DestroyImmediate(owned);}foreach(var bone in panels)if(bone){if(Application.isPlaying)Destroy(bone.gameObject);else DestroyImmediate(bone.gameObject);}}
+    }
+}

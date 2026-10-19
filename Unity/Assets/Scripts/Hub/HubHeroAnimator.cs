@@ -28,6 +28,7 @@ namespace GolfArcade.Hub
         readonly Dictionary<string, AnimationClip> clips = new Dictionary<string, AnimationClip>();
         string playing; bool actionLoops;
         Transform[] toes = new Transform[2]; float toeRest; readonly Vector3[] lastToe = new Vector3[2];
+        HeroPoseSafety safety;
 
         public float Speed { get; private set; }
         /// Diagnostics: the leg blend actually applied this frame (idle, walk, run, action).
@@ -288,6 +289,9 @@ namespace GolfArcade.Hub
                 }
             }
             if (SeatWeight < .001f) PinPlantedFoot(dt); else { var lp = transform.localPosition; transform.localPosition = Vector3.MoveTowards(lp, new Vector3(0, lp.y, 0), dt); }
+            // HAND CLEARANCE (work/hand-clearance): hands and forearms out of the body and the clothes, as in tennis and golf
+            if (safety == null) { safety = new HeroPoseSafety(look); safety.UseGraph(graph); }   // + the baked corrections of the clips playing
+            safety.Apply(false);
             // the same garment passes the match driver runs after every pose
             look.body?.GetComponent<HeroArmSkinning>()?.Apply();
             look.GetComponent<HeroGarmentPoseCorrectives>()?.Apply();

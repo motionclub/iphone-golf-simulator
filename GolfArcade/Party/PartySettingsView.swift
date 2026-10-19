@@ -88,7 +88,7 @@ struct PartySettingsSections: View {
             Toggle("Party voices", isOn: $recording.settings.partyVoice).accessibilityIdentifier("record-party-voice")
             Toggle("My microphone", isOn: $recording.settings.myMic).accessibilityIdentifier("record-my-mic")
             Toggle("Save to Photos when I stop", isOn: $recording.settings.saveToPhotos).accessibilityIdentifier("record-save-photos")
-            Button { showLibrary = true } label: { Label("Recordings kept in the app", systemImage: "film.stack") }.accessibilityIdentifier("record-library")
+            Button { showLibrary = true } label: { Label("Recordings", systemImage: "film.stack") }.accessibilityIdentifier("record-library")
         } header: { Text("Recording") } footer: {
             Text("Records what is on the TV, never this phone's screen. Your party sees a red \"recording\" notice while you record, and you must have everyone's okay to share a video with their voice in it.")
         }
@@ -117,7 +117,8 @@ struct PartySettingsSections: View {
     }
 }
 
-/// Recordings that could not go to Photos (or were kept on purpose), with share and delete.
+/// Recordings: where every recording went (Photos, kept here, or not saved and why), the ones kept in the app with share and delete, and
+/// the recorder log. Opened from the gear's "Recordings", a long press on the record button, or a tap on the "saved" note under it.
 struct RecordingLibraryView: View {
     var recording = RecordingService.shared
     var dismiss: () -> Void = {}
@@ -125,20 +126,48 @@ struct RecordingLibraryView: View {
     var body: some View {
         NavigationStack {
             List {
-                if files.isEmpty { Text("Recordings are saved to your Photos. Any that could not be are kept here.").foregroundStyle(.secondary) }
-                ForEach(files, id: \.self) { url in
-                    HStack {
-                        Image(systemName: "film"); Text(url.deletingPathExtension().lastPathComponent).font(.footnote).lineLimit(1)
-                        Spacer(); ShareLink(item: url) { Image(systemName: "square.and.arrow.up") }
+                Section {
+                    if recording.history.isEmpty { Text("No recordings yet. Tap the red Record TV button while the game is on the TV.").foregroundStyle(.secondary) }
+                    ForEach(recording.history) { entry in
+                        VStack(alignment: .leading, spacing: 3) {
+                            HStack {
+                                Image(systemName: Self.icon(entry.place)).foregroundStyle(entry.place == .notSaved ? .red : .accentColor)
+                                Text(Self.place(entry.place)).font(.subheadline.weight(.semibold))
+                                Spacer()
+                                Text(entry.date.formatted(date: .abbreviated, time: .shortened)).font(.caption).foregroundStyle(.secondary)
+                            }
+                            Text((entry.seconds > 0 ? String(format: "%d:%02d · ", Int(entry.seconds) / 60, Int(entry.seconds) % 60) : "") + entry.note)
+                                .font(.footnote).foregroundStyle(.secondary)
+                        }
+                        .accessibilityElement(children: .combine)
                     }
-                    .swipeActions { Button("Delete", role: .destructive) { recording.deleteKept(url); files = RecordingService.library() } }
+                    if recording.history.contains(where: { $0.place == .photos }) {
+                        Button { if let url = URL(string: "photos-redirect://") { UIApplication.shared.open(url) } } label: { Label("Open Photos", systemImage: "photo.on.rectangle") }
+                            .accessibilityIdentifier("recordings-open-photos")
+                    }
+                } header: { Text("Recent") } footer: { Text("Recordings go to your Photos (Recents). Any that Photos could not take are kept below.") }
+                Section("Kept in Motion Club") {
+                    if files.isEmpty { Text("None").foregroundStyle(.secondary) }
+                    ForEach(files, id: \.self) { url in
+                        HStack {
+                            Image(systemName: "film"); Text(url.deletingPathExtension().lastPathComponent).font(.footnote).lineLimit(1)
+                            Spacer(); ShareLink(item: url) { Image(systemName: "square.and.arrow.up") }
+                        }
+                        .swipeActions { Button("Delete", role: .destructive) { recording.deleteKept(url); files = RecordingService.library() } }
+                    }
+                }
+                if FileManager.default.fileExists(atPath: RecordingService.logURL.path) {
+                    Section { ShareLink(item: RecordingService.logURL) { Label("Share the recorder log", systemImage: "doc.text") }.accessibilityIdentifier("recordings-log") }
+                        footer: { Text("What the recorder did and why each recording stopped. Send it to us if a recording went wrong.") }
                 }
             }
-            .navigationTitle("Kept recordings").navigationBarTitleDisplayMode(.inline)
+            .navigationTitle("Recordings").navigationBarTitleDisplayMode(.inline)
             .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Done", action: dismiss) } }
             .onAppear { files = RecordingService.library() }
         }
     }
+    static func place(_ p: RecordingEntry.Place) -> String { switch p { case .photos: "In your Photos"; case .kept: "Kept in Motion Club"; case .notSaved: "Not saved" } }
+    static func icon(_ p: RecordingEntry.Place) -> String { switch p { case .photos: "photo.on.rectangle"; case .kept: "film"; case .notSaved: "exclamationmark.triangle" } }
 }
 
 /// The small row of buttons over every phone screen: record, mic, chat, gear. Collapsed to a record dot and the mic while a motion-
@@ -151,6 +180,7 @@ struct CaptureDock: View {
     var session = SportsSession.shared
     @State private var showChat = false
     @State private var showSettings = false
+    @State private var showRecordings = false
 
     private var tvOn: Bool { session.displayConnected }
     private var inParty: Bool { chat.channel.inParty }
@@ -169,10 +199,22 @@ struct CaptureDock: View {
         let inParty = chat.channel.inParty
         guard session.displayConnected || inParty || recording.isRecording else { return 0 }
         let compact = isCompact(session)
-        var buttons = (session.displayConnected || recording.isRecording) ? 1 : 0
+        let record = session.displayConnected || recording.isRecording
+        var buttons = record ? 1 : 0
         if inParty || voice.isLive { buttons += 1 }
         if !compact { buttons += (inParty ? 1 : 0) + 1 }
-        return CGFloat(buttons) * 44 + 24
+        // the record button is the big one: a 44 pt dot, plus its "Record TV" / time label when there is room
+        return CGFloat(buttons) * 44 + 24 + (record ? 8 + (compact ? 0 : recordLabelWidth) : 0)
+    }
+    static let recordLabelWidth: CGFloat = 78
+    /// The words beside the record dot: what a tap does, or how long it has been recording.
+    static func recordLabel(_ recording: RecordingService) -> String {
+        switch recording.state {
+        case .recording: recording.timeText
+        case .starting: "Starting"
+        case .saving: "Saving"
+        default: "Record TV"
+        }
     }
 
     var body: some View {
@@ -192,6 +234,7 @@ struct CaptureDock: View {
             .padding(.top, golf ? -52 : 0)
             .sheet(isPresented: $showChat) { PartyChatView(dismiss: { showChat = false }).presentationDetents([.large]) }
             .sheet(isPresented: $showSettings) { PartySettingsView(dismiss: { showSettings = false }).presentationDetents([.large]) }
+            .sheet(isPresented: $showRecordings) { RecordingLibraryView(dismiss: { showRecordings = false }).presentationDetents([.large]) }
             .accessibilityElement(children: .contain).accessibilityIdentifier("capture-dock")
         }
     }
@@ -199,20 +242,32 @@ struct CaptureDock: View {
     private var recordButton: some View {
         Button { recording.toggle() } label: {
             HStack(spacing: 6) {
+                // golf's dock sits in the status-bar strip beside the battery: it keeps the small dot there
+                let dot: CGFloat = golf ? 36 : 44
                 ZStack {
-                    Circle().fill(recording.isRecording ? Color.red : Color.white.opacity(0.14)).frame(width: 36, height: 36)
-                    if recording.state == .recording || recording.state == .starting { RoundedRectangle(cornerRadius: 3).fill(.white).frame(width: 13, height: 13) }
-                    else if recording.state == .saving { ProgressView().tint(.white).scaleEffect(0.7) }
-                    else { Circle().fill(Color.red).frame(width: 14, height: 14) }
+                    Circle().fill(recording.isRecording ? Color.red : Color.white.opacity(0.18)).frame(width: dot, height: dot)
+                    Circle().strokeBorder(.white.opacity(recording.isRecording ? 0.9 : 0.55), lineWidth: 2).frame(width: dot, height: dot)
+                    if recording.state == .recording || recording.state == .starting { RoundedRectangle(cornerRadius: 3).fill(.white).frame(width: 15, height: 15) }
+                    else if recording.state == .saving { ProgressView().tint(.white).scaleEffect(0.8) }
+                    else { Circle().fill(Color.red).frame(width: golf ? 16 : 20, height: golf ? 16 : 20) }
                 }
-                if recording.state == .recording && !compact { Text(recording.timeText).font(.system(size: 14, weight: .bold, design: .monospaced)).foregroundStyle(.white).padding(.trailing, 4) }
+                if !compact {
+                    Text(Self.recordLabel(recording))
+                        .font(.system(size: 14, weight: .heavy, design: recording.state == .recording ? .monospaced : .rounded))
+                        .foregroundStyle(.white).lineLimit(1).minimumScaleFactor(0.8)
+                        .frame(width: Self.recordLabelWidth, alignment: .leading)
+                }
             }
+            .padding(.trailing, compact ? 0 : 4)
+            .contentShape(Capsule())
         }
         .buttonStyle(.plain).disabled(!recording.canToggle && !recording.isRecording)
+        // hold for Recordings: where every recording went (a disabled button still takes the long press through this gesture)
+        .simultaneousGesture(LongPressGesture(minimumDuration: 0.6).onEnded { _ in if !compact { showRecordings = true } })
         .opacity(recording.canToggle || recording.isRecording ? 1 : 0.45)
         .accessibilityLabel(recording.state == .recording ? "Stop recording" : "Record the TV").accessibilityValue(recording.state == .recording ? recording.timeText : "")
         .accessibilityIdentifier("capture-record")
-        .overlay(alignment: .bottom) { RecordingToast() .offset(y: 56) }
+        .overlay(alignment: .bottom) { RecordingToast(open: { showRecordings = true }) .offset(y: 56) }
     }
 
     private var chatButton: some View {
@@ -235,6 +290,7 @@ struct CaptureDock: View {
 /// A short line under the record button: why it cannot record, what is happening, or that it is saved.
 private struct RecordingToast: View {
     var recording = RecordingService.shared
+    var open: () -> Void = {}
     @State private var shown = ""
     var body: some View {
         Group {
@@ -243,16 +299,19 @@ private struct RecordingToast: View {
                     .padding(.horizontal, 12).padding(.vertical, 8).frame(width: 230, alignment: .leading)
                     .background(IslandUI.lime, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
                     .transition(.opacity)
-                    .onTapGesture { shown = "" }.accessibilityIdentifier("capture-toast")
+                    .onTapGesture { let wasDone = recording.state == .saved || recording.state == .failed; shown = ""; if wasDone { open() } }
+                    .accessibilityIdentifier("capture-toast").accessibilityHint("Opens Recordings")
             }
         }
         .onChange(of: recording.state) { _, state in
-            switch state { case .saved, .failed: show(recording.message); case .recording: show("Recording the TV. Tap again to stop."); default: break }
+            switch state { case .saved, .failed: show(recording.message + " Tap to see Recordings."); case .recording: show("Recording the TV. Tap again to stop. Hold for Recordings."); default: break }
         }
         .animation(.easeInOut(duration: 0.2), value: shown)
     }
     private func show(_ text: String) {
         shown = text
-        Task { try? await Task.sleep(for: .seconds(4)); if shown == text { shown = "" } }
+        // a saved/failed note stays long enough to read and tap (it used to vanish after 4 s)
+        let hold: Duration = recording.state == .saved || recording.state == .failed ? .seconds(9) : .seconds(4)
+        Task { try? await Task.sleep(for: hold); if shown == text { shown = "" } }
     }
 }

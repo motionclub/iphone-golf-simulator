@@ -5,7 +5,7 @@ using GolfArcade.Shot;
 namespace GolfArcade.Course
 {
     /// What moves about a hole: a hot-air balloon, a cart, a gull, and in a storm a twister.
-    public enum MoverKind { Balloon, Cart, Gull, Twister }
+    public enum MoverKind { Balloon, Cart, Gull, Twister, RockGate, WindLift }
 
     /// One thing moving about a hole, on a path that is a function of time alone: where it is when
     /// the ball gets there is known the moment the ball is struck, a replay finds it in the same
@@ -22,7 +22,7 @@ namespace GolfArcade.Course
         double height, period, phase, bob;
         // A gull circles `centre` at `radius` and `height`, `turn` radians a second from `phase`.
         CoursePoint centre;
-        double radius, turn;
+        double radius, turn, dreamGain=1.23,dreamLiftFloor=10,dreamPreserve=.55;
         // A cart goes round its loop at `speed`: the loop sampled every half yard, with the ground's height.
         double[] lx, ly, ld, ls;
         double loopLength, speed;
@@ -41,6 +41,13 @@ namespace GolfArcade.Course
 
         Mover(MoverKind kind, int variant) { Kind = kind; Variant = variant; }
 
+        public double LiftGain=>dreamGain;
+        public double LiftFloor=>dreamLiftFloor;
+        public double LiftPreserve=>dreamPreserve;
+        public CoursePoint LiftTarget=>b;
+        public CoursePoint LiftDirection=>new CoursePoint(b.X-a.X,b.D-a.D);
+        public static Mover Dream(CoursePoint point,double height,double period,double phase,double radius,double motion,bool lift=false,CoursePoint? target=null,double gain=1.23,double liftFloor=10,double preserve=.55) =>
+            new(lift?MoverKind.WindLift:MoverKind.RockGate,0){a=point,b=target??point,height=height,period=period,phase=phase,radius=radius,bob=motion,dreamGain=gain,dreamLiftFloor=liftFloor,dreamPreserve=preserve};
         public static Mover Balloon(CoursePoint from, CoursePoint to, double height, double periodSeconds, double phase, int variant) =>
             new(MoverKind.Balloon, variant) { a = from, b = to, height = height, period = Math.Max(10, periodSeconds), phase = phase, bob = 1.1 };
 
@@ -113,6 +120,8 @@ namespace GolfArcade.Course
         {
             switch (Kind)
             {
+                case MoverKind.RockGate: case MoverKind.WindLift:
+                    return (a.X, height+bob*Math.Sin(2*Math.PI*(t/period+phase)), a.D);
                 case MoverKind.Balloon:
                 {
                     double s = 0.5 - 0.5 * Math.Cos(2 * Math.PI * (t / period + phase));
@@ -158,7 +167,7 @@ namespace GolfArcade.Course
             return Math.Atan2(v.x, v.d) * 180 / Math.PI;
         }
 
-        public int Bodies => Kind switch { MoverKind.Gull => 1, MoverKind.Twister => Funnel.Length, _ => 2 };
+        public int Bodies => Kind switch { MoverKind.RockGate => 1, MoverKind.WindLift => 1, MoverKind.Gull => 1, MoverKind.Twister => Funnel.Length, _ => 2 };
 
         /// One of the spheres it meets the ball with at `t`: its middle and its radius.
         public (double x, double y, double d, double r) Body(int i, double t)
@@ -166,6 +175,8 @@ namespace GolfArcade.Course
             var p = At(t);
             switch (Kind)
             {
+                case MoverKind.RockGate: case MoverKind.WindLift:
+                    return (p.x,p.y,p.d,radius);
                 case MoverKind.Balloon:
                     return i == 0 ? (p.x, p.y, p.d, Envelope) : (p.x, p.y - BasketDrop, p.d, Basket);
                 case MoverKind.Cart:
@@ -185,6 +196,8 @@ namespace GolfArcade.Course
         {
             switch (Kind)
             {
+                case MoverKind.RockGate: case MoverKind.WindLift:
+                    return (a.X-radius,height-Math.Abs(bob)-radius,a.D-radius,a.X+radius,height+Math.Abs(bob)+radius,a.D+radius);
                 case MoverKind.Balloon:
                     return (Math.Min(a.X, b.X) - Envelope, height - bob - BasketDrop - Basket, Math.Min(a.D, b.D) - Envelope,
                             Math.Max(a.X, b.X) + Envelope, height + bob + Envelope, Math.Max(a.D, b.D) + Envelope);
@@ -313,6 +326,17 @@ namespace GolfArcade.Course
             var body = m.Body(hit.Body, t);
             var bv = m.VelocityAt(t);
             double rx = hit.Vx - bv.x, ry = hit.Vy - bv.y, rd = hit.Vd - bv.d;   // against the mover
+            if(m.Kind==MoverKind.WindLift){
+                var direction=m.LiftDirection;
+                if(m.LiftPreserve==0 && (direction.X*direction.X+direction.D*direction.D)>.01)direction=new CoursePoint(m.LiftTarget.X-hit.X,m.LiftTarget.D-hit.D);
+                double length=Math.Sqrt(direction.X*direction.X+direction.D*direction.D);
+                double speed=Math.Sqrt(hit.Vx*hit.Vx+hit.Vd*hit.Vd);
+                if(length<.01)return (hit.Vx*1.28,Math.Max(12,hit.Vy+10),hit.Vd*1.28);
+                // A bounded, authored current bends the exit toward the safe landing shelf.
+                // The strike's line and speed still contribute: the current does not guarantee a landing.
+                double preserve=m.LiftPreserve,guide=m.LiftGain-preserve;
+                return (hit.Vx*preserve+direction.X/length*speed*guide,Math.Max(m.LiftFloor,hit.Vy+7),hit.Vd*preserve+direction.D/length*speed*guide);
+            }
             if (m.Kind == MoverKind.Twister)
             {
                 // caught in the whirl: swung round part of a turn and flung out of it, up and on
@@ -368,6 +392,8 @@ namespace GolfArcade.Course
         /// The kind of obstacle a mover counts as for the shot's knocks (effects and sounds).
         public static ObstacleKind KnockKind(MoverKind kind) => kind switch
         {
+            MoverKind.RockGate => ObstacleKind.Rock,
+            MoverKind.WindLift => ObstacleKind.Twister,
             MoverKind.Balloon => ObstacleKind.Balloon,
             MoverKind.Cart => ObstacleKind.Cart,
             MoverKind.Twister => ObstacleKind.Twister,

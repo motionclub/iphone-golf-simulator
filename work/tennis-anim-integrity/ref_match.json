@@ -1,0 +1,32 @@
+[
+ {
+  "clip": "groundstroke timing (all strokes, both heroes)",
+  "refs": "YAAUOoMbrfM 12.20-12.97 (real time, end view)",
+  "check": "forward swing (take-back end -> contact) 0.08-0.20 s AND racket speed peak within +-2 frames of contact AND finish <= 0.25 s after",
+  "result": "FAIL - forward swing in range 77/142 (median 0.167 s), peak at contact 76/142, finish in time 142/142"
+ },
+ {
+  "clip": "Forehand shape",
+  "refs": "t2hmOyh61_M 2.40-3.84 (back view)",
+  "check": "our Forehand is the approved clip (APPROVED gate, 0.0 cm) whose finish wraps over the left shoulder, phase order take-back -> drop -> contact in front -> wrapped finish",
+  "result": "PASS - ForehandArmCorrected = approved 30 Hz solve (0.0 cm at shared frames); the 60 Hz re-solve (racket straight up at the finish) is gone"
+ },
+ {
+  "clip": "Backhand (two hands) shape",
+  "refs": "UsR2o_koFyU 2.60-5.12 (back view), 7jW0JjnU-3M",
+  "check": "both hands on the handle through contact; left hand released after contact (leftRelease >= contact)",
+  "result": "PASS - BackhandArmCorrected approved (0.0 cm); prefab leftRelease 0.967 s > contact 0.633 s (both heroes)"
+ },
+ {
+  "clip": "Serve phase order + pace",
+  "refs": "c64ha9CGlE0 0.5-27 (front-right), aFPEB-PSp0c (back), mH_oHknF_Jo / -e9EsZthF7k (F)",
+  "check": "bounce -> toss -> trophy (hold) -> drop -> contact -> landing; racket fastest at contact (peak within +-2 frames)",
+  "result": "FAIL - serve peak at contact 86/118; phase order is the approved Serve clip's (unchanged keys)"
+ },
+ {
+  "clip": "free hand",
+  "refs": "t2hmOyh61_M, f7aHe4JHz3c, n1ilKdCCnpw (off hand loose, fingers softly curled)",
+  "check": "off hand off the racket: no splayed paddle (index-little spread <= 30 deg) in >= 99 % of frames",
+  "result": "FAIL - male_player: splay 47/5203, female_rival: splay 3/3012, female_player: splay 11/4754, male_rival: splay 49/3309, male_player: splay 95/13054, female_rival: splay 2/8138, female_player: splay 35/10949, male_rival: splay 99/9238"
+ }
+]

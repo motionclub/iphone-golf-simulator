@@ -34,9 +34,9 @@ namespace GolfArcade.Game
             var text = Resources.Load<TextAsset>("Course/swing_trail");
             recipe = text ? JsonUtility.FromJson<Recipe>(text.text) : new Recipe();
             recipe.colors ??= new Rgb();
-            recipe.colors.green ??= new[] { 0.035f, 0.95f, 0.15f };
-            recipe.colors.yellow ??= new[] { 1f, 0.65f, 0.025f };
-            recipe.colors.red ??= new[] { 1f, 0.035f, 0.025f };
+            recipe.colors.green ??= new[] { 1f, .82f, .32f };
+            recipe.colors.yellow ??= new[] { 1f, .97f, .86f };
+            recipe.colors.red ??= new[] { .64f, .76f, .86f };
             if (recipe.ratingBands == null || recipe.ratingBands.Length == 0)
                 recipe.ratingBands = new[] { new RatingBand { quality = "red", min = 0, max = 50 }, new RatingBand { quality = "yellow", min = 50, max = 80 }, new RatingBand { quality = "green", min = 80, max = 101 } };
             return recipe;
@@ -407,6 +407,9 @@ namespace GolfArcade.Game
 
         // ---- coming down
 
+        public void Cup(Vector3 at) => Fire(ring, at + Vector3.up * .03f, .4f, .18f, .8f, PureColor);
+        public void WetLanding(Vector3 at) => Fire(ring, at + Vector3.up * .03f, .35f, .15f, .7f, new Color(.65f, .85f, 1f, .65f));
+
         /// A bounce or the landing: the ground it hit decides the puff.
         public void Touchdown(Vector3 at, CourseLie lie, float strength)
         {
@@ -421,6 +424,7 @@ namespace GolfArcade.Game
                 case CourseLie.Rough: case CourseLie.OutOfBounds: a = new Color(0.4f, 0.65f, 0.28f); b = new Color(0.55f, 0.45f, 0.3f); break;
                 default: a = new Color(0.62f, 0.9f, 0.4f); b = new Color(0.45f, 0.75f, 0.3f); break;
             }
+            GolfArcade.EnvironmentArt.EnvironmentFx.Landing(lie,ref a,ref b);
             int count = Mathf.RoundToInt(10 + 14 * strength);
             for (int i = 0; i < count; i++)
             {
@@ -433,7 +437,7 @@ namespace GolfArcade.Game
                     startSize = Random.Range(0.35f, 0.75f) * (0.7f + 0.5f * strength),
                     startLifetime = Random.Range(0.3f, 0.6f),
                 };
-                puffs.Emit(p, 1);
+                puffs.Emit(p, GolfArcade.EnvironmentArt.EnvironmentFx.ParticleAt(i));
             }
         }
 
@@ -451,7 +455,7 @@ namespace GolfArcade.Game
                     startColor = Color.Lerp(new Color(1f, 0.92f, 0.35f), new Color(1f, 0.32f, 0.05f), Random.value),
                     startSize = Random.Range(0.18f, 0.45f),
                     startLifetime = Random.Range(0.6f, 1.3f),
-                }, 1);
+                }, GolfArcade.EnvironmentArt.EnvironmentFx.ParticleAt(i));
             }
             for (int i = 0; i < 16; i++)
             {
@@ -463,7 +467,7 @@ namespace GolfArcade.Game
                     startColor = Color.Lerp(new Color(0.32f, 0.3f, 0.3f), new Color(0.55f, 0.52f, 0.5f), Random.value),
                     startSize = Random.Range(1.0f, 1.8f),
                     startLifetime = Random.Range(0.9f, 1.6f),
-                }, 1);
+                }, GolfArcade.EnvironmentArt.EnvironmentFx.ParticleAt(i));
             }
         }
 
@@ -484,7 +488,7 @@ namespace GolfArcade.Game
                     startColor = Color.Lerp(new Color(0.95f, 0.98f, 1f), new Color(0.72f, 0.88f, 1f), Random.value),
                     startSize = Random.Range(0.2f, 0.45f),
                     startLifetime = Random.Range(0.25f, 0.5f),
-                }, 1);
+                }, GolfArcade.EnvironmentArt.EnvironmentFx.ParticleAt(i));
             }
         }
 
@@ -504,7 +508,7 @@ namespace GolfArcade.Game
                     startSize = Random.Range(0.3f, 0.8f),
                     startLifetime = Random.Range(0.5f, 1.0f),
                 };
-                splash.Emit(p, 1);
+                splash.Emit(p, GolfArcade.EnvironmentArt.EnvironmentFx.ParticleAt(i));
             }
             // the ring on the water
             for (int i = 0; i < 24; i++)
@@ -517,7 +521,7 @@ namespace GolfArcade.Game
                     startColor = new Color(0.9f, 0.97f, 1f, 0.8f),
                     startSize = 0.45f, startLifetime = 0.9f,
                 };
-                puffs.Emit(p, 1);
+                puffs.Emit(p, GolfArcade.EnvironmentArt.EnvironmentFx.ParticleAt(i));
             }
         }
     }

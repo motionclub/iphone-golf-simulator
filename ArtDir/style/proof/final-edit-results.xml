@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="52" result="Passed" total="52" passed="52" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-15 05:27:29Z" end-time="2026-10-15 05:27:35Z" duration="6.0264576">
+  <test-suite type="TestSuite" id="1000" name="Golf Arcade" fullname="Golf Arcade" runstate="Runnable" testcasecount="567" result="Passed" start-time="2026-10-15 05:27:29Z" end-time="2026-10-15 05:27:35Z" duration="6.026458" total="52" passed="52" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1656" name="GolfArcade.Tests.dll" fullname="/private/tmp/combined-style-compile/Library/ScriptAssemblies/GolfArcade.Tests.dll" runstate="Runnable" testcasecount="567" result="Passed" start-time="2026-10-15 05:27:29Z" end-time="2026-10-15 05:27:35Z" duration="6.017639" total="52" passed="52" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="29097" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1657" name="GolfArcade" fullname="GolfArcade" runstate="Runnable" testcasecount="479" result="Passed" start-time="2026-10-15 05:27:29Z" end-time="2026-10-15 05:27:35Z" duration="5.989255" total="52" passed="52" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1658" name="Tests" fullname="GolfArcade.Tests" runstate="Runnable" testcasecount="479" result="Passed" start-time="2026-10-15 05:27:29Z" end-time="2026-10-15 05:27:35Z" duration="5.988130" total="52" passed="52" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1124" name="EnvironmentLookTests" fullname="GolfArcade.Tests.EnvironmentLookTests" classname="GolfArcade.Tests.EnvironmentLookTests" runstate="Runnable" testcasecount="12" result="Passed" start-time="2026-10-15 05:27:29Z" end-time="2026-10-15 05:27:29Z" duration="0.109712" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1136" name="ActivePresetUsesTheUserSelectedAcesMapper" fullname="GolfArcade.Tests.EnvironmentLookTests.ActivePresetUsesTheUserSelectedAcesMapper" methodname="ActivePresetUsesTheUserSelectedAcesMapper" classname="GolfArcade.Tests.EnvironmentLookTests" runstate="Runnable" seed="1050502844" result="Passed" start-time="2026-10-15 05:27:29Z" end-time="2026-10-15 05:27:29Z" duration="0.017980" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1125" name="DefaultAndOutOfScopeLookDevLeaveAuthoredGolfProfileIntact" fullname="GolfArcade.Tests.EnvironmentLookTests.DefaultAndOutOfScopeLookDevLeaveAuthoredGolfProfileIntact" methodname="DefaultAndOutOfScopeLookDevLeaveAuthoredGolfProfileIntact" classname="GolfArcade.Tests.EnvironmentLookTests" runstate="Runnable" seed="1909658317" result="Passed" start-time="2026-10-15 05:27:29Z" end-time="2026-10-15 05:27:29Z" duration="0.003217" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1135" name="EveryMoodCarriesBoundedHeroSettings" fullname="GolfArcade.Tests.EnvironmentLookTests.EveryMoodCarriesBoundedHeroSettings" methodname="EveryMoodCarriesBoundedHeroSettings" classname="GolfArcade.Tests.EnvironmentLookTests" runstate="Runnable" seed="462863235" result="Passed" start-time="2026-10-15 05:27:29Z" end-time="2026-10-15 05:27:29Z" duration="0.002787" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1137" name="HubKeepsPaintedSkyOutsideLinearWorldFog" fullname="GolfArcade.Tests.EnvironmentLookTests.HubKeepsPaintedSkyOutsideLinearWorldFog" methodname="HubKeepsPaintedSkyOutsideLinearWorldFog" classname="GolfArcade.Tests.EnvironmentLookTests" runstate="Runnable" seed="801023854" result="Passed" start-time="2026-10-15 05:27:29Z" end-time="2026-10-15 05:27:29Z" duration="0.001339" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-suite type="ParameterizedMethod" id="1134" name="MasterMigrationPreservesEveryShaderDefault" fullname="GolfArcade.Tests.EnvironmentLookTests.MasterMigrationPreservesEveryShaderDefault" classname="GolfArcade.Tests.EnvironmentLookTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-10-15 05:27:29Z" end-time="2026-10-15 05:27:29Z" duration="0.066127" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1128" name="MasterMigrationPreservesEveryShaderDefault(&quot;M_Ground&quot;)" fullname="GolfArcade.Tests.EnvironmentLookTests.MasterMigrationPreservesEveryShaderDefault(&quot;M_Ground&quot;)" methodname="MasterMigrationPreservesEveryShaderDefault" classname="GolfArcade.Tests.EnvironmentLookTests" runstate="Runnable" seed="1739099964" result="Passed" start-time="2026-10-15 05:27:29Z" end-time="2026-10-15 05:27:29Z" duration="0.052036" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1129" name="MasterMigrationPreservesEveryShaderDefault(&quot;M_Foliage&quot;)" fullname="GolfArcade.Tests.EnvironmentLookTests.MasterMigrationPreservesEveryShaderDefault(&quot;M_Foliage&quot;)" methodname="MasterMigrationPreservesEveryShaderDefault" classname="GolfArcade.Tests.EnvironmentLookTests" runstate="Runnable" seed="1376231154" result="Passed" start-time="2026-10-15 05:27:29Z" end-time="2026-10-15 05:27:29Z" duration="0.004255" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1130" name="MasterMigrationPreservesEveryShaderDefault(&quot;M_Prop&quot;)" fullname="GolfArcade.Tests.EnvironmentLookTests.MasterMigrationPreservesEveryShaderDefault(&quot;M_Prop&quot;)" methodname="MasterMigrationPreservesEveryShaderDefault" classname="GolfArcade.Tests.EnvironmentLookTests" runstate="Runnable" seed="125773981" result="Passed" start-time="2026-10-15 05:27:29Z" end-time="2026-10-15 05:27:29Z" duration="0.003655" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1131" name="MasterMigrationPreservesEveryShaderDefault(&quot;M_Water&quot;)" fullname="GolfArcade.Tests.EnvironmentLookTests.MasterMigrationPreservesEveryShaderDefault(&quot;M_Water&quot;)" methodname="MasterMigrationPreservesEveryShaderDefault" classname="GolfArcade.Tests.EnvironmentLookTests" runstate="Runnable" seed="151834070" result="Passed" start-time="2026-10-15 05:27:29Z" end-time="2026-10-15 05:27:29Z" duration="0.000711" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1132" name="MasterMigrationPreservesEveryShaderDefault(&quot;M_Emissive&quot;)" fullname="GolfArcade.Tests.EnvironmentLookTests.MasterMigrationPreservesEveryShaderDefault(&quot;M_Emissive&quot;)" methodname="MasterMigrationPreservesEveryShaderDefault" classname="GolfArcade.Tests.EnvironmentLookTests" runstate="Runnable" seed="296625984" result="Passed" start-time="2026-10-15 05:27:29Z" end-time="2026-10-15 05:27:29Z" duration="0.000733" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1133" name="MasterMigrationPreservesEveryShaderDefault(&quot;M_Sky&quot;)" fullname="GolfArcade.Tests.EnvironmentLookTests.MasterMigrationPreservesEveryShaderDefault(&quot;M_Sky&quot;)" methodname="MasterMigrationPreservesEveryShaderDefault" classname="GolfArcade.Tests.EnvironmentLookTests" runstate="Runnable" seed="154270445" result="Passed" start-time="2026-10-15 05:27:29Z" end-time="2026-10-15 05:27:29Z" duration="0.000633" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-case id="1126" name="SwitchingToLegacyHoleCannotLeakDepthOrWeather" fullname="GolfArcade.Tests.EnvironmentLookTests.SwitchingToLegacyHoleCannotLeakDepthOrWeather" methodname="SwitchingToLegacyHoleCannotLeakDepthOrWeather" classname="GolfArcade.Tests.EnvironmentLookTests" runstate="Runnable" seed="1019073238" result="Passed" start-time="2026-10-15 05:27:29Z" end-time="2026-10-15 05:27:29Z" duration="0.000783" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1127" name="WeatherConsumesBlendedAmountsAndPreservesBiomeDeposition" fullname="GolfArcade.Tests.EnvironmentLookTests.WeatherConsumesBlendedAmountsAndPreservesBiomeDeposition" methodname="WeatherConsumesBlendedAmountsAndPreservesBiomeDeposition" classname="GolfArcade.Tests.EnvironmentLookTests" runstate="Runnable" seed="1355362245" result="Passed" start-time="2026-10-15 05:27:29Z" end-time="2026-10-15 05:27:29Z" duration="0.000464" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1172" name="GolfSurfaceEdgesTests" fullname="GolfArcade.Tests.GolfSurfaceEdgesTests" classname="GolfArcade.Tests.GolfSurfaceEdgesTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-15 05:27:29Z" end-time="2026-10-15 05:27:35Z" duration="5.276195" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1175" name="NestedQuadsAndWaterOnlyBehaveLikeTheOriginal" fullname="GolfArcade.Tests.GolfSurfaceEdgesTests.NestedQuadsAndWaterOnlyBehaveLikeTheOriginal" methodname="NestedQuadsAndWaterOnlyBehaveLikeTheOriginal" classname="GolfArcade.Tests.GolfSurfaceEdgesTests" runstate="Runnable" seed="2130843550" result="Passed" start-time="2026-10-15 05:27:29Z" end-time="2026-10-15 05:27:30Z" duration="0.078189" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1174" name="ScatteredLongAndTinyTrianglesGiveTheOriginalEdgeMap" fullname="GolfArcade.Tests.GolfSurfaceEdgesTests.ScatteredLongAndTinyTrianglesGiveTheOriginalEdgeMap" methodname="ScatteredLongAndTinyTrianglesGiveTheOriginalEdgeMap" classname="GolfArcade.Tests.GolfSurfaceEdgesTests" runstate="Runnable" seed="733743843" result="Passed" start-time="2026-10-15 05:27:30Z" end-time="2026-10-15 05:27:33Z" duration="3.038575" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1173" name="TerrainPatchesGiveTheOriginalEdgeMap" fullname="GolfArcade.Tests.GolfSurfaceEdgesTests.TerrainPatchesGiveTheOriginalEdgeMap" methodname="TerrainPatchesGiveTheOriginalEdgeMap" classname="GolfArcade.Tests.GolfSurfaceEdgesTests" runstate="Runnable" seed="2141275389" result="Passed" start-time="2026-10-15 05:27:33Z" end-time="2026-10-15 05:27:35Z" duration="2.155753" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1392" name="ObstacleTests" fullname="GolfArcade.Tests.ObstacleTests" classname="GolfArcade.Tests.ObstacleTests" runstate="Runnable" testcasecount="10" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.081895" total="10" passed="10" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1399" name="ABushCatchesARollingBall" fullname="GolfArcade.Tests.ObstacleTests.ABushCatchesARollingBall" methodname="ABushCatchesARollingBall" classname="GolfArcade.Tests.ObstacleTests" runstate="Runnable" seed="2054269057" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.013998" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1394" name="AClippedCrownKeepsMostOfItsPace" fullname="GolfArcade.Tests.ObstacleTests.AClippedCrownKeepsMostOfItsPace" methodname="AClippedCrownKeepsMostOfItsPace" classname="GolfArcade.Tests.ObstacleTests" runstate="Runnable" seed="1530307817" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.031131" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1396" name="APuttComesBackOffATrunk" fullname="GolfArcade.Tests.ObstacleTests.APuttComesBackOffATrunk" methodname="APuttComesBackOffATrunk" classname="GolfArcade.Tests.ObstacleTests" runstate="Runnable" seed="499135381" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.000906" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1397" name="ARockBuriedUnderTheGreenNeverBlocksAPutt" fullname="GolfArcade.Tests.ObstacleTests.ARockBuriedUnderTheGreenNeverBlocksAPutt" methodname="ARockBuriedUnderTheGreenNeverBlocksAPutt" classname="GolfArcade.Tests.ObstacleTests" runstate="Runnable" seed="1552758322" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.001380" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1398" name="ARockStandingAboveTheGroundStillStopsAPutt" fullname="GolfArcade.Tests.ObstacleTests.ARockStandingAboveTheGroundStillStopsAPutt" methodname="ARockStandingAboveTheGroundStillStopsAPutt" classname="GolfArcade.Tests.ObstacleTests" runstate="Runnable" seed="364254386" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.000887" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1395" name="BackOffAWall" fullname="GolfArcade.Tests.ObstacleTests.BackOffAWall" methodname="BackOffAWall" classname="GolfArcade.Tests.ObstacleTests" runstate="Runnable" seed="444759564" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.001006" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1401" name="ClearOfEverythingTheShotIsUnchanged" fullname="GolfArcade.Tests.ObstacleTests.ClearOfEverythingTheShotIsUnchanged" methodname="ClearOfEverythingTheShotIsUnchanged" classname="GolfArcade.Tests.ObstacleTests" runstate="Runnable" seed="657304519" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.022136" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1393" name="IntoTheBranchesAndDownShortOfTheTree" fullname="GolfArcade.Tests.ObstacleTests.IntoTheBranchesAndDownShortOfTheTree" methodname="IntoTheBranchesAndDownShortOfTheTree" classname="GolfArcade.Tests.ObstacleTests" runstate="Runnable" seed="1034949066" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.001708" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1400" name="SandStopsARollingBallInAYardOrTwo" fullname="GolfArcade.Tests.ObstacleTests.SandStopsARollingBallInAYardOrTwo" methodname="SandStopsARollingBallInAYardOrTwo" classname="GolfArcade.Tests.ObstacleTests" runstate="Runnable" seed="247026235" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.000593" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1402" name="ShapesAreTheirOwn" fullname="GolfArcade.Tests.ObstacleTests.ShapesAreTheirOwn" methodname="ShapesAreTheirOwn" classname="GolfArcade.Tests.ObstacleTests" runstate="Runnable" seed="510882519" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.000294" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1478" name="RoundEventsTests" fullname="GolfArcade.Tests.RoundEventsTests" classname="GolfArcade.Tests.RoundEventsTests" runstate="Runnable" testcasecount="16" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.426318" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1491" name="ACartBumpsARollingBall" fullname="GolfArcade.Tests.RoundEventsTests.ACartBumpsARollingBall" methodname="ACartBumpsARollingBall" classname="GolfArcade.Tests.RoundEventsTests" runstate="Runnable" seed="940333280" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.008083" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1490" name="AGullKnocksItAside" fullname="GolfArcade.Tests.RoundEventsTests.AGullKnocksItAside" methodname="AGullKnocksItAside" classname="GolfArcade.Tests.RoundEventsTests" runstate="Runnable" seed="620718468" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.004860" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1492" name="ATwisterFlingsTheBallAside" fullname="GolfArcade.Tests.RoundEventsTests.ATwisterFlingsTheBallAside" methodname="ATwisterFlingsTheBallAside" classname="GolfArcade.Tests.RoundEventsTests" runstate="Runnable" seed="1377250330" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.010825" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1483" name="BounceHouseHopsAndRuns" fullname="GolfArcade.Tests.RoundEventsTests.BounceHouseHopsAndRuns" methodname="BounceHouseHopsAndRuns" classname="GolfArcade.Tests.RoundEventsTests" runstate="Runnable" seed="1431514171" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.001737" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1482" name="LowGravityFloatsFartherAndTheClubsKnowIt" fullname="GolfArcade.Tests.RoundEventsTests.LowGravityFloatsFartherAndTheClubsKnowIt" methodname="LowGravityFloatsFartherAndTheClubsKnowIt" classname="GolfArcade.Tests.RoundEventsTests" runstate="Runnable" seed="2007115048" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.068402" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1494" name="MoversArePlacedWhereTheyFit" fullname="GolfArcade.Tests.RoundEventsTests.MoversArePlacedWhereTheyFit" methodname="MoversArePlacedWhereTheyFit" classname="GolfArcade.Tests.RoundEventsTests" runstate="Runnable" seed="1882859347" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.265135" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1486" name="PinballFiresItBackAndBananaBallBends" fullname="GolfArcade.Tests.RoundEventsTests.PinballFiresItBackAndBananaBallBends" methodname="PinballFiresItBackAndBananaBallBends" classname="GolfArcade.Tests.RoundEventsTests" runstate="Runnable" seed="490494581" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.002415" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1481" name="PlainGolfIsUntouched" fullname="GolfArcade.Tests.RoundEventsTests.PlainGolfIsUntouched" methodname="PlainGolfIsUntouched" classname="GolfArcade.Tests.RoundEventsTests" runstate="Runnable" seed="371367287" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.001496" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1489" name="TheBallMeetsTheBalloonOnlyWhenItIsThere" fullname="GolfArcade.Tests.RoundEventsTests.TheBallMeetsTheBalloonOnlyWhenItIsThere" methodname="TheBallMeetsTheBalloonOnlyWhenItIsThere" classname="GolfArcade.Tests.RoundEventsTests" runstate="Runnable" seed="1168884844" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.002710" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1485" name="TheBucketCupSwallowsWhatTheCupWouldMiss" fullname="GolfArcade.Tests.RoundEventsTests.TheBucketCupSwallowsWhatTheCupWouldMiss" methodname="TheBucketCupSwallowsWhatTheCupWouldMiss" classname="GolfArcade.Tests.RoundEventsTests" runstate="Runnable" seed="1645760912" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.009426" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1493" name="TheClockHoldsForAShotAndRunsOnFromIt" fullname="GolfArcade.Tests.RoundEventsTests.TheClockHoldsForAShotAndRunsOnFromIt" methodname="TheClockHoldsForAShotAndRunsOnFromIt" classname="GolfArcade.Tests.RoundEventsTests" runstate="Runnable" seed="993406475" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.000563" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1480" name="TheMatchSettingsTurnThemOff" fullname="GolfArcade.Tests.RoundEventsTests.TheMatchSettingsTurnThemOff" methodname="TheMatchSettingsTurnThemOff" classname="GolfArcade.Tests.RoundEventsTests" runstate="Runnable" seed="155148395" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.002100" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1479" name="TheSameSeedDealsTheSameRoundAndTheCodeCarriesIt" fullname="GolfArcade.Tests.RoundEventsTests.TheSameSeedDealsTheSameRoundAndTheCodeCarriesIt" methodname="TheSameSeedDealsTheSameRoundAndTheCodeCarriesIt" classname="GolfArcade.Tests.RoundEventsTests" runstate="Runnable" seed="578620598" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.016183" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1488" name="TheWeatherTurnsAndTheWindGusts" fullname="GolfArcade.Tests.RoundEventsTests.TheWeatherTurnsAndTheWindGusts" methodname="TheWeatherTurnsAndTheWindGusts" classname="GolfArcade.Tests.RoundEventsTests" runstate="Runnable" seed="1538224323" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.015831" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1484" name="TurboGreensRunAndStickyGreensHold" fullname="GolfArcade.Tests.RoundEventsTests.TurboGreensRunAndStickyGreensHold" methodname="TurboGreensRunAndStickyGreensHold" classname="GolfArcade.Tests.RoundEventsTests" runstate="Runnable" seed="889681412" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.002626" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1487" name="WetTurfHoldsTheBall" fullname="GolfArcade.Tests.RoundEventsTests.WetTurfHoldsTheBall" methodname="WetTurfHoldsTheBall" classname="GolfArcade.Tests.RoundEventsTests" runstate="Runnable" seed="743280428" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.001659" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1558" name="SurfaceTests" fullname="GolfArcade.Tests.SurfaceTests" classname="GolfArcade.Tests.SurfaceTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.016932" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1563" name="ABallAtRestOnASteepFaceKeepsRolling" fullname="GolfArcade.Tests.SurfaceTests.ABallAtRestOnASteepFaceKeepsRolling" methodname="ABallAtRestOnASteepFaceKeepsRolling" classname="GolfArcade.Tests.SurfaceTests" runstate="Runnable" seed="1781814071" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.001686" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1559" name="ContourGradientIsTheDerivativeOfItsHeight" fullname="GolfArcade.Tests.SurfaceTests.ContourGradientIsTheDerivativeOfItsHeight" methodname="ContourGradientIsTheDerivativeOfItsHeight" classname="GolfArcade.Tests.SurfaceTests" runstate="Runnable" seed="1107386294" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.003871" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1561" name="PuttBreaksDownASideSlope" fullname="GolfArcade.Tests.SurfaceTests.PuttBreaksDownASideSlope" methodname="PuttBreaksDownASideSlope" classname="GolfArcade.Tests.SurfaceTests" runstate="Runnable" seed="963849929" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.000649" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1560" name="SampledGridReadsLikeTheGroundItSampled" fullname="GolfArcade.Tests.SurfaceTests.SampledGridReadsLikeTheGroundItSampled" methodname="SampledGridReadsLikeTheGroundItSampled" classname="GolfArcade.Tests.SurfaceTests" runstate="Runnable" seed="220000960" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.005997" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1562" name="UphillComesUpShortAndDownhillRunsOn" fullname="GolfArcade.Tests.SurfaceTests.UphillComesUpShortAndDownhillRunsOn" methodname="UphillComesUpShortAndDownhillRunsOn" classname="GolfArcade.Tests.SurfaceTests" runstate="Runnable" seed="672233172" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.001321" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1569" name="TennisChaseCameraTests" fullname="GolfArcade.Tests.TennisChaseCameraTests" classname="GolfArcade.Tests.TennisChaseCameraTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.014297" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1572" name="CrossCourtBallFitsANarrowSplitScreenHalf" fullname="GolfArcade.Tests.TennisChaseCameraTests.CrossCourtBallFitsANarrowSplitScreenHalf" methodname="CrossCourtBallFitsANarrowSplitScreenHalf" classname="GolfArcade.Tests.TennisChaseCameraTests" runstate="Runnable" seed="1640697846" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.005744" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1571" name="DeepBallRetreatsOneMetreAndBothHandsKeepTheSightline" fullname="GolfArcade.Tests.TennisChaseCameraTests.DeepBallRetreatsOneMetreAndBothHandsKeepTheSightline" methodname="DeepBallRetreatsOneMetreAndBothHandsKeepTheSightline" classname="GolfArcade.Tests.TennisChaseCameraTests" runstate="Runnable" seed="1490115478" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.000595" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-suite type="ParameterizedMethod" id="1576" name="LobAndNetBallKeepGroundDepthCueInTheSameFrame" fullname="GolfArcade.Tests.TennisChaseCameraTests.LobAndNetBallKeepGroundDepthCueInTheSameFrame" classname="GolfArcade.Tests.TennisChaseCameraTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.003971" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1573" name="LobAndNetBallKeepGroundDepthCueInTheSameFrame(-11.2f,-5.0f,8.0f)" fullname="GolfArcade.Tests.TennisChaseCameraTests.LobAndNetBallKeepGroundDepthCueInTheSameFrame(-11.2f,-5.0f,8.0f)" methodname="LobAndNetBallKeepGroundDepthCueInTheSameFrame" classname="GolfArcade.Tests.TennisChaseCameraTests" runstate="Runnable" seed="2003826352" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.000922" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1574" name="LobAndNetBallKeepGroundDepthCueInTheSameFrame(-11.2f,-10.0f,9.0f)" fullname="GolfArcade.Tests.TennisChaseCameraTests.LobAndNetBallKeepGroundDepthCueInTheSameFrame(-11.2f,-10.0f,9.0f)" methodname="LobAndNetBallKeepGroundDepthCueInTheSameFrame" classname="GolfArcade.Tests.TennisChaseCameraTests" runstate="Runnable" seed="1055806693" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.000139" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1575" name="LobAndNetBallKeepGroundDepthCueInTheSameFrame(-2.0f,-1.0f,1.3f)" fullname="GolfArcade.Tests.TennisChaseCameraTests.LobAndNetBallKeepGroundDepthCueInTheSameFrame(-2.0f,-1.0f,1.3f)" methodname="LobAndNetBallKeepGroundDepthCueInTheSameFrame" classname="GolfArcade.Tests.TennisChaseCameraTests" runstate="Runnable" seed="1711558049" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.000111" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-case id="1570" name="OrdinaryViewMatchesShotAWithLeftOfCentrePlayer" fullname="GolfArcade.Tests.TennisChaseCameraTests.OrdinaryViewMatchesShotAWithLeftOfCentrePlayer" methodname="OrdinaryViewMatchesShotAWithLeftOfCentrePlayer" classname="GolfArcade.Tests.TennisChaseCameraTests" runstate="Runnable" seed="180529924" result="Passed" start-time="2026-10-15 05:27:35Z" end-time="2026-10-15 05:27:35Z" duration="0.000812" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[DONE EditMode: 52 passed, 0 failed, 0 skipped
+<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /Users/adnanyonathan/Library/Application Support/aloniewski/Golf Arcade/TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

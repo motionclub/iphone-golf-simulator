@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="4" result="Passed" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-15 04:12:47Z" end-time="2026-10-15 04:12:47Z" duration="0.0281699">
+  <test-suite type="TestSuite" id="1000" name="Golf Arcade" fullname="Golf Arcade" runstate="Runnable" testcasecount="559" result="Passed" start-time="2026-10-15 04:12:47Z" end-time="2026-10-15 04:12:47Z" duration="0.028170" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1647" name="GolfArcade.Tests.dll" fullname="/private/tmp/combined-style-compile/Library/ScriptAssemblies/GolfArcade.Tests.dll" runstate="Runnable" testcasecount="559" result="Passed" start-time="2026-10-15 04:12:47Z" end-time="2026-10-15 04:12:47Z" duration="0.024857" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="9299" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1648" name="GolfArcade" fullname="GolfArcade" runstate="Runnable" testcasecount="471" result="Passed" start-time="2026-10-15 04:12:47Z" end-time="2026-10-15 04:12:47Z" duration="0.023993" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1649" name="Tests" fullname="GolfArcade.Tests" runstate="Runnable" testcasecount="471" result="Passed" start-time="2026-10-15 04:12:47Z" end-time="2026-10-15 04:12:47Z" duration="0.023702" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1124" name="EnvironmentLookTests" fullname="GolfArcade.Tests.EnvironmentLookTests" classname="GolfArcade.Tests.EnvironmentLookTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-15 04:12:47Z" end-time="2026-10-15 04:12:47Z" duration="0.019420" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1125" name="DefaultAndOutOfScopeLookDevLeaveAuthoredGolfProfileIntact" fullname="GolfArcade.Tests.EnvironmentLookTests.DefaultAndOutOfScopeLookDevLeaveAuthoredGolfProfileIntact" methodname="DefaultAndOutOfScopeLookDevLeaveAuthoredGolfProfileIntact" classname="GolfArcade.Tests.EnvironmentLookTests" runstate="Runnable" seed="2098207004" result="Passed" start-time="2026-10-15 04:12:47Z" end-time="2026-10-15 04:12:47Z" duration="0.008994" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1128" name="EveryMoodCarriesBoundedHeroSettings" fullname="GolfArcade.Tests.EnvironmentLookTests.EveryMoodCarriesBoundedHeroSettings" methodname="EveryMoodCarriesBoundedHeroSettings" classname="GolfArcade.Tests.EnvironmentLookTests" runstate="Runnable" seed="1697476591" result="Passed" start-time="2026-10-15 04:12:47Z" end-time="2026-10-15 04:12:47Z" duration="0.001390" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1126" name="SwitchingToLegacyHoleCannotLeakDepthOrWeather" fullname="GolfArcade.Tests.EnvironmentLookTests.SwitchingToLegacyHoleCannotLeakDepthOrWeather" methodname="SwitchingToLegacyHoleCannotLeakDepthOrWeather" classname="GolfArcade.Tests.EnvironmentLookTests" runstate="Runnable" seed="1472420874" result="Passed" start-time="2026-10-15 04:12:47Z" end-time="2026-10-15 04:12:47Z" duration="0.000464" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1127" name="WeatherConsumesBlendedAmountsAndPreservesBiomeDeposition" fullname="GolfArcade.Tests.EnvironmentLookTests.WeatherConsumesBlendedAmountsAndPreservesBiomeDeposition" methodname="WeatherConsumesBlendedAmountsAndPreservesBiomeDeposition" classname="GolfArcade.Tests.EnvironmentLookTests" runstate="Runnable" seed="764185291" result="Passed" start-time="2026-10-15 04:12:47Z" end-time="2026-10-15 04:12:47Z" duration="0.000147" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[DONE EditMode: 4 passed, 0 failed, 0 skipped
+<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /Users/adnanyonathan/Library/Application Support/aloniewski/Golf Arcade/TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

@@ -60,6 +60,7 @@ namespace GolfArcade.PlayTests
             var rows=new System.Text.StringBuilder("playerX,aim,depth,landingX,landingZ,errorMetres\n");
             foreach(float playerX in new[] {-2f,0,2}) foreach(float aim in new[] {-1f,0,1}) foreach(float depth in new[] {0f,.5f,1}) {
                 game.ConfigureMatch(TennisGame.Mode.Training,null,null,null);
+                game.SetAimPractice(true); // Explicit manual-aim practice keeps its locked target.
                 game.Player.CancelSwing();game.Player.Tick(2,0);
                 game.Player.transform.position=new Vector3(playerX,.035f,-11.2f);
                 game.Player.Swing(.8f,false,TennisActor.Stroke.Drive);game.Player.Tick(.18f,0);game.Player.Pose();

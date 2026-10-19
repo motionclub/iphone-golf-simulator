@@ -33,7 +33,7 @@ enum SportsTrackingQuality: String, Sendable { case good, degraded, lost }
 struct SportsAxisGate: Sendable {
     var locked = false
     var progress = 0.0          // 0...1 once every condition holds
-    var message = "Stand about 2.5 m back and point the back of your phone at the TV."
+    var message = "Hold still to begin."
     /// Live sensor readout, so a gate that refuses to settle can be diagnosed on the spot.
     var detail = ""
     /// Seconds the gate has been failing, used to offer a manual override.
@@ -270,6 +270,15 @@ final class SportsMotion: NSObject, ARSessionDelegate, @unchecked Sendable {
     }
 
     func cancelAxisCapture() { queue.async { self.capturingAxis=false; self.gateHeldSince = -Double.infinity } }
+    /// Reuse only the still-running AR/IMU origin. Never restore a heading from preferences or across tracking resets.
+    var hasUsableCourtDirection: Bool {
+        queue.sync {
+            guard gate.locked, worldRunning, motion.isDeviceMotionActive, !interrupted,
+                  SportsRuntime.shared().clock() - frameAt < 1,
+                  let frame = ar.currentFrame, case .normal = frame.camera.trackingState else { return false }
+            return true
+        }
+    }
 
     /// Last resort when the gate will not settle (dark room, awkward pose). Takes the axis
     /// from the current pose regardless of how steady or level it is. Left/right may come

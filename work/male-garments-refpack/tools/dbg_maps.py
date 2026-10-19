@@ -1,0 +1,10 @@
+import sys, os; sys.path.insert(0, '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/clothing-v2/py')
+import numpy as np, maps
+g = np.load('/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/male-garments-refpack/out/MatchHero_Male/unity/Kit_Shoe_R_final.npz')
+cv = maps.Canvas(g, 1024)
+s4, h4 = cv.A('s4', 0.0), cv.A('h4', 0.0)
+tr = maps.details_shoe4(cv, {})
+m = (cv.kind == 19) & (s4 < .10) & (h4 > .18) & (h4 < .28)
+print('DBG n', m.sum(), 'trim mean', tr[m].mean(), 's4', s4[m][:5], 'h4', h4[m][:5])
+polys = maps._s4_polys(g, 's4_trim'); sd = np.min([maps._poly_sdist(s4[m], h4[m], q) for q in polys], axis=0)
+print('DBG sd', sd[:8])

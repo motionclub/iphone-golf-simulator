@@ -7,6 +7,26 @@ import XCTest
 /// controller's look (written to $MENU_SNAP_DIR/hub-*.png).
 @MainActor
 final class HubSessionTests: XCTestCase {
+    func testUnityLifecycleDoesNotRepeatPauseOrRenderOnEnteringBackground() {
+        let runtime = SportsRuntime.shared(), nc = NotificationCenter.default
+        runtime.setForeground(true)
+        for _ in 0..<3 {
+            let before = runtime.debugLifecycleEvents().count
+            nc.post(name: UIApplication.willResignActiveNotification, object: nil)
+            nc.post(name: UIApplication.willResignActiveNotification, object: nil)
+            nc.post(name: UIApplication.didEnterBackgroundNotification, object: nil)
+            nc.post(name: UIApplication.didEnterBackgroundNotification, object: nil)
+            // A repeated SwiftUI inactive update cannot overwrite Unity's paused state.
+            runtime.setForeground(false)
+            nc.post(name: UIApplication.willEnterForegroundNotification, object: nil)
+            nc.post(name: UIApplication.didBecomeActiveNotification, object: nil)
+            nc.post(name: UIApplication.didBecomeActiveNotification, object: nil)
+            XCTAssertEqual(Array(runtime.debugLifecycleEvents().dropFirst(before)), ["resign", "background", "foreground", "active"])
+        }
+        let before = runtime.debugLifecycleEvents().count
+        runtime.setForeground(false); runtime.setForeground(false); runtime.setForeground(true)
+        XCTAssertEqual(Array(runtime.debugLifecycleEvents().dropFirst(before)), ["resign", "active"], "an invite/Control Center interruption is not backgrounding")
+    }
     private var savedDisplay = false
     override func setUp() async throws {
         savedDisplay = SportsSession.shared.displayConnected

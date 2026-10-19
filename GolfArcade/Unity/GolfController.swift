@@ -397,7 +397,8 @@ struct GolfPhoneController: View {
         let length = min(48, distance)
         stickOffset = CGSize(width: dx / distance * length, height: dy / distance * length)
         let now = ProcessInfo.processInfo.systemUptime
-        guard final || now - lastAimSent >= 1.0 / 30 else { return }
+        // (every 1/60 s: at 1/30 the aim line, marker and golfer on the TV turned in steps while the stick moved)
+        guard final || now - lastAimSent >= 1.0 / 60 else { return }
         lastAimSent = now
         session.aimGolf(across: dx / distance, forward: -dy / distance)
     }

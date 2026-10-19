@@ -1,0 +1,37 @@
+#!/bin/zsh
+# GARMENT PIPELINE: install several fitted runs into the Unity CLONE in ONE Editor session (through heavy.sh), then perf + optional 1080p film.
+#   garment_install_batch <Hero>:<run>[:<new_src out_gp dir>] [...] [film=<clip,clip>] [look=target]
+# Same steps as garment_install (new meshes, weights + correctives + cover + offsets, perf), but every hero shares one Editor start.
+set -e
+P=${0:A:h}; cd $P
+HV=${GP_HEAVY:-$P/../../delegation-2026-10-17/heavy.sh}
+U=($HV unity /Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/MacOS/Unity)
+CL=${GP_CLONE:-$HOME/garments-UnityClone}
+JOBS=(); FILM=""; LOOK=""
+for a in "$@"; do case $a in film=*) FILM=${a#film=};; look=*) LOOK=${a#look=};; *) JOBS+=$a;; esac; done
+TAG=batch_$(date +%m%d_%H%M); OUTD=${GP_OUT_DIR:-$P/out}; export GP_OUT_DIR=$OUTD; mkdir -p logs perf film/$TAG $OUTD   # GP_OUT_DIR: separate install source per chat
+mkdir -p $CL/Assets/Editor/GarmentPipeline; cp unity/*.cs $CL/Assets/Editor/GarmentPipeline/
+for f in Assets/Editor/GarmentPipelineInstall.cs Assets/Scripts/Tennis/GarmentPoseCorrectives.cs Assets/Scripts/Tennis/KitV2PoseCorrectives.cs Assets/Scripts/Tennis/HeroGarmentHemWeights.cs Assets/Editor/ClothingV2Install.cs; do
+  cp ../../../Unity/$f $CL/$f; done
+HEROES=(); NEWH=(); CV2=$OUTD/_cv2src_$TAG; mkdir -p $CV2
+for j in $JOBS; do
+  parts=(${(s.:.)j}); HERO=$parts[1]; RUN=$parts[2]; NS=${parts[3]:-}
+  HEROES+=$HERO
+  if [[ -n $NS ]]; then ln -sfn ${NS:A}/$HERO $CV2/$HERO; NEWH+=$HERO; fi
+  rm -f $OUTD/$HERO/*.gp.json(N) $OUTD/$HERO/*.gp.bin(N) $OUTD/$HERO/*_correctives.json(N) $OUTD/$HERO/*_hide.bin(N); mkdir -p $OUTD/$HERO
+  python3 gp/export.py $HERO runs/$RUN
+  [[ -f runs/$RUN/$HERO/body.npz ]] && python3 -c "import sys; sys.path.insert(0,'gp'); import rig, cover; cover.export_cover(rig.Hero('$HERO'), 'runs/$RUN', '$OUTD/$HERO')"
+  python3 -c "import sys; sys.path.insert(0,'gp'); import offsets; offsets.write('$HERO', 'runs/$RUN', '$OUTD/$HERO/garment_offsets.json')"
+done
+STEPS=install,perf; (( ${#NEWH} )) && STEPS=cv2,$STEPS; [[ -n $FILM ]] && STEPS=$STEPS,film
+[[ -n ${GP_FILM_BEFORE:-} && -n $FILM ]] && STEPS=film@before,${STEPS/%,film/,film@after}     # GP_FILM_BEFORE=1: film what the clone has now, install, film again
+[[ -n ${GP_SWATCH_LIST:-} ]] && STEPS=$STEPS,film@swatch                                         # GP_SWATCH_LIST=hex,...: COLOURS gate film after the install
+H=${(j:,:)HEROES}
+echo "[garment_install_batch] $H steps $STEPS ($(date +%H:%M:%S))"
+GOLF_MUTE=1 FEMALE_ALIVE=0 GP_STEPS=$STEPS CV2_SRC=$CV2 CV2_HEROES=${(j:,:)NEWH} GP_INSTALL_OUT=$OUTD GP_INSTALL_HEROES=$H GP_PERF_OUT=$P/perf GP_PERF_HEROES=$H \
+  GP_FILM_OUT=$P/film/$TAG GP_FILM_HEROES=$H GP_CLIPS=$FILM GP_STEP=${GP_STEP:-.2} GP_LOOK=$LOOK \
+  $U -batchmode -projectPath $CL -executeMethod GolfArcade.EditorTools.GarmentPipelineBatch.Run -logFile logs/${TAG}.log > /dev/null 2>&1 \
+  || { grep -E "error CS|Exception|GP-BATCH" logs/${TAG}.log | head -20; exit 1; }
+grep -E "GP-BATCH|\[ClothingV2\]" logs/${TAG}.log | head -20
+cat $OUTD/install_report.txt; cp perf/perf.json perf/${TAG}_perf.json; cat perf/perf.json
+echo "[garment_install_batch] done -> logs/${TAG}.log, perf/${TAG}_perf.json, film/$TAG"

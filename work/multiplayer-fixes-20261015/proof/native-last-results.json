@@ -1,0 +1,64 @@
+{
+  "schema": "xcodebuildmcp.output.test-result",
+  "schemaVersion": "3",
+  "didError": false,
+  "error": null,
+  "data": {
+    "summary": {
+      "status": "SUCCEEDED",
+      "durationMs": 17353,
+      "counts": {
+        "passed": 2,
+        "failed": 0,
+        "skipped": 0
+      },
+      "target": "simulator"
+    },
+    "artifacts": {
+      "buildLogPath": "~/Library/Developer/XcodeBuildMCP/workspaces/iphone-golf-simulator-48645ed5e609/logs/test_sim_2026-10-15T20-59-07-353Z_pid33808_fb8ec4c2.log",
+      "xcresultPath": "/private/tmp/multiplayer-fixes-last-check.xcresult",
+      "testProductsPath": "~/Library/Developer/XcodeBuildMCP/workspaces/iphone-golf-simulator-48645ed5e609/test-products/test_sim_2026-10-15T20-59-07-354Z_pid33808_e78048b9.xctestproducts"
+    },
+    "tests": {
+      "selected": [
+        "GolfArcadeTests/HubPartyTests/testPartyCallWaitsWhileThePhoneIsInactive",
+        "GolfArcadeTests/HubSessionTests/testUnityLifecycleDoesNotRepeatPauseOrRenderOnEnteringBackground"
+      ],
+      "discovered": {
+        "total": 2,
+        "items": [
+          "GolfArcadeTests/HubPartyTests/testPartyCallWaitsWhileThePhoneIsInactive",
+          "GolfArcadeTests/HubSessionTests/testUnityLifecycleDoesNotRepeatPauseOrRenderOnEnteringBackground"
+        ]
+      }
+    },
+    "diagnostics": {
+      "warnings": [
+        {
+          "message": "-[GolfArcadeTests.HubPartyTests testPartyCallWaitsWhileThePhoneIsInactive] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+          "location": "<unknown>:0"
+        },
+        {
+          "message": "-[GolfArcadeTests.HubSessionTests testUnityLifecycleDoesNotRepeatPauseOrRenderOnEnteringBackground] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+          "location": "<unknown>:0"
+        }
+      ],
+      "errors": [],
+      "testFailures": []
+    },
+    "testCases": [
+      {
+        "suite": "HubPartyTests",
+        "test": "testPartyCallWaitsWhileThePhoneIsInactive",
+        "status": "passed",
+        "durationMs": 934
+      },
+      {
+        "suite": "HubSessionTests",
+        "test": "testUnityLifecycleDoesNotRepeatPauseOrRenderOnEnteringBackground",
+        "status": "passed",
+        "durationMs": 447
+      }
+    ]
+  }
+}

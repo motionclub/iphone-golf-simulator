@@ -132,3 +132,52 @@ test('a big frame (a 60 KB game packet) goes through; over the cap is refused', 
   await A.say({ t: 'rd', room: CODE, d: 'y'.repeat(140 * 1024) });
   assert.equal((await A.next('error')).code, 'bad_message');
 });
+
+test('a friend joins an open idle lobby without an invite; strangers and blocked friends cannot', async (t) => {
+  const hub = await startHub(); t.after(() => hub.stop());
+  const A = await hub.join('A', { friends: ['B', 'C'], presence: { state: 'lobby', lobby: { code: CODE, sport: 'tennis', size: 1, capacity: 4, open: true, group: 0 } } });
+  const B = await hub.join('B', { friends: ['A'] });
+  const C = await hub.join('C', { friends: ['A'] });
+  const stranger = await hub.join('stranger');
+  await A.say({ t: 'roomOpen', room: CODE }); await A.next('roomPeers');
+  await stranger.say({ t: 'roomJoin', room: CODE });
+  assert.equal((await stranger.next('error')).code, 'room_denied');
+  await A.say({ t: 'block', id: 'C' }); await sleep(30);
+  await C.say({ t: 'roomJoin', room: CODE });
+  assert.equal((await C.next('error')).code, 'room_denied');
+  await B.say({ t: 'roomJoin', room: CODE });
+  assert.deepEqual(peers(await B.next('roomPeers')), ['A', 'B']);
+  await A.next('roomPeers');
+  B.ws.terminate(); await A.next('roomPeers');
+  await A.say({ t: 'presence', state: 'match', lobby: { code: CODE, sport: 'tennis', size: 2, capacity: 4, open: false, group: 0 } });
+  const returning = await hub.join('B', { friends: ['A'] });
+  await returning.say({ t: 'roomJoin', room: CODE });
+  assert.deepEqual(peers(await returning.next('roomPeers')), ['A', 'B'], 'a previously admitted friend may reconnect during play');
+});
+
+test('friends cannot join an uninvited lobby while its host is playing, away, or invisible', async (t) => {
+  const hub = await startHub(); t.after(() => hub.stop());
+  const { A, B } = await friends(hub, ['A', 'B']);
+  await A.say({ t: 'roomOpen', room: CODE }); await A.next('roomPeers');
+  for (const [state, invisible] of [['match', false], ['away', false], ['lobby', true]]) {
+    await A.say({ t: 'presence', state, invisible, lobby: { code: CODE, sport: 'tennis', size: 1, capacity: 4, open: true, group: 0 } });
+    await sleep(20);
+    await B.say({ t: 'roomJoin', room: CODE });
+    assert.equal((await B.next('error')).code, 'room_denied');
+  }
+});
+
+
+test('the successor host can open the same lobby to their friends after the original host leaves', async (t) => {
+  const hub = await startHub(); t.after(() => hub.stop());
+  const { A, B } = await friends(hub, ['A', 'B']);
+  await A.say({ t: 'roomOpen', room: CODE }); await A.next('roomPeers');
+  await A.say(inv('B')); await B.next('invite');
+  await B.say({ t: 'roomJoin', room: CODE }); await B.next('roomPeers'); await A.next('roomPeers');
+  await A.say({ t: 'roomLeave', room: CODE }); await B.next('roomPeers');
+  await B.say({ t: 'friends', ids: ['A', 'D'] });
+  await B.say({ t: 'presence', state: 'lobby', lobby: { code: CODE, sport: 'tennis', size: 1, capacity: 4, open: true, group: 0 } });
+  const D = await hub.join('D', { friends: ['B'] });
+  await D.say({ t: 'roomJoin', room: CODE });
+  assert.deepEqual(peers(await D.next('roomPeers')), ['B', 'D']);
+});

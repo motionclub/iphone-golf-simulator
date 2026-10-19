@@ -1,0 +1,23 @@
+Shader "Hidden/CharLightMask" {
+Properties { _Code("Code",Color)=(0,0,1,1) _HeadOrigin("Head",Vector)=(0,0,0,0) _HeadRight("Right",Vector)=(1,0,0,0) _HeadUp("Up",Vector)=(0,1,0,0) _HeadForward("Forward",Vector)=(0,0,1,0) _HeadEye("Eye",Vector)=(0,0,0,0) }
+SubShader { Tags { "RenderPipeline"="UniversalPipeline" "RenderType"="Opaque" }
+Pass { Tags { "LightMode"="UniversalForward" } Cull Off ZWrite On
+HLSLPROGRAM
+#pragma vertex vert
+#pragma fragment frag
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+float4 _Code,_HeadOrigin,_HeadRight,_HeadUp,_HeadForward,_HeadEye;
+struct A { float4 pos:POSITION; float3 bind:TEXCOORD1; };
+struct V { float4 pos:SV_POSITION; float3 bind:TEXCOORD0; };
+V vert(A a) { V o; o.pos=TransformObjectToHClip(a.pos.xyz); o.bind=a.bind; return o; }
+half4 frag(V i):SV_Target {
+ if(_Code.r>.5 && _HeadOrigin.w>.5) {
+ float3 d=i.bind-_HeadOrigin.xyz;
+ float3 h=float3(dot(d,_HeadRight.xyz),dot(d,_HeadUp.xyz),dot(d,_HeadForward.xyz))-_HeadEye.xyz;
+ // Anatomically registered cheeks/nose/forehead; exclude neck, ears, back of head, eyes and lips.
+ if(abs(h.x)>.07 || h.y<-.075 || h.y>.10 || h.z<-.045 || (abs(h.y)<.018 && abs(h.x)>.018)) return half4(0,0,1,1);
+ }
+ return _Code;
+}
+ENDHLSL
+} } }

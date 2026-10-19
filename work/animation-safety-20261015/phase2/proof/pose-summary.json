@@ -1,0 +1,47 @@
+{
+  "IntroWave": {
+    "after": 9.816736e-06,
+    "segmentError": 2.08616257e-07,
+    "gripSeparationError": 0.00566628575,
+    "waveFlex": 55.0000572,
+    "samples": 61
+  },
+  "Backhand": {
+    "after": 0.00344798178,
+    "segmentError": 1.937151e-07,
+    "gripSeparationError": 1.399219e-05,
+    "waveFlex": 75.3175049,
+    "samples": 37
+  },
+  "BackhandWide": {
+    "after": 0.00502972445,
+    "segmentError": 2.682209e-07,
+    "gripSeparationError": 9.611249e-05,
+    "waveFlex": 90.55039,
+    "samples": 41
+  },
+  "Serve": {
+    "after": 0.000383126549,
+    "segmentError": 1.78813934e-07,
+    "gripSeparationError": 0.0253166556,
+    "waveFlex": 50.7907143,
+    "samples": 77
+  },
+  "IntroPushups": {
+    "after": 0.0105887521,
+    "segmentError": 2.5331974e-07,
+    "gripSeparationError": 2.38418579e-07,
+    "waveFlex": 102.408882,
+    "samples": 92
+  },
+  "EmoteDefeat": {
+    "after": 0.0187902171,
+    "segmentError": 3.12924385e-07,
+    "gripSeparationError": 0.0112687945,
+    "waveFlex": 59.47632,
+    "samples": 101
+  },
+  "totalSamples": 1335,
+  "maxBoneLengthError": 3.27825546e-07,
+  "solveMsP95": 3.4344799999999926
+}

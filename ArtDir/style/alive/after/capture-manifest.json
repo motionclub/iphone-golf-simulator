@@ -1,0 +1,86 @@
+{
+  "idle": {
+    "before": {
+      "source": "ArtDir/style/alive/after/before-matched/idle",
+      "frames": 120,
+      "fps": 30,
+      "muted": true
+    },
+    "after": {
+      "source": "ArtDir/style/alive/after/after-final/idle",
+      "frames": 120,
+      "fps": 30,
+      "muted": true
+    }
+  },
+  "wave": {
+    "before": {
+      "source": "ArtDir/style/alive/after/before-matched/wave",
+      "frames": 120,
+      "fps": 30,
+      "muted": true
+    },
+    "after": {
+      "source": "ArtDir/style/alive/after/after-final/wave",
+      "frames": 120,
+      "fps": 30,
+      "muted": true
+    }
+  },
+  "joy": {
+    "before": {
+      "source": "ArtDir/style/alive/after/before-matched/joy",
+      "frames": 120,
+      "fps": 30,
+      "muted": true
+    },
+    "after": {
+      "source": "ArtDir/style/alive/after/after-final/joy",
+      "frames": 120,
+      "fps": 30,
+      "muted": true
+    }
+  },
+  "slump": {
+    "before": {
+      "source": "ArtDir/style/alive/after/before-matched/slump",
+      "frames": 135,
+      "fps": 30,
+      "muted": true
+    },
+    "after": {
+      "source": "ArtDir/style/alive/after/after-final/slump",
+      "frames": 135,
+      "fps": 30,
+      "muted": true
+    }
+  },
+  "rally": {
+    "before": {
+      "source": "ArtDir/style/alive/after/before-matched/rally/frames",
+      "frames": 636,
+      "fps": 30,
+      "muted": true
+    },
+    "after": {
+      "source": "ArtDir/style/alive/after/after-final/rally/frames",
+      "frames": 636,
+      "fps": 30,
+      "muted": true
+    }
+  },
+  "golf": {
+    "before": {
+      "source": "ArtDir/style/alive/after/before/golf",
+      "frames": 314,
+      "fps": 30,
+      "muted": true
+    },
+    "after": {
+      "source": "ArtDir/style/alive/after/after-final/golf",
+      "frames": 314,
+      "fps": 30,
+      "muted": true
+    }
+  }
+}

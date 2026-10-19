@@ -55,6 +55,13 @@ namespace GolfArcade.Course
             }
             // HDR daylight needs less albedo energy than the former clipped LDR look.
             low*=new Color(.94f,.90f,1.12f);high*=new Color(.94f,.90f,1.12f);
+            if(hole.Number==12 && GolfArcade.EnvironmentArt.LuminousCoastPilot.Enabled) {
+                low*=new Color(.76f,.88f,1.35f);high*=new Color(.76f,.88f,1.35f);
+            }
+            if(hole.Number==12 && GolfArcade.EnvironmentArt.DreamGolfGarden.Enabled) {
+                if(role==GolfCourseLook.Surface.Rough){low=new Color(.19f,.31f,.20f);high=new Color(.34f,.46f,.24f);}
+                else {low*=new Color(1.1f,.98f,.95f);high*=new Color(1.06f,.98f,.93f);}
+            }
             return new Field(low,high);
         }
 
@@ -71,6 +78,10 @@ namespace GolfArcade.Course
             // StripeWidth is one complete light/dark pair, so10m gives5m bands.
             material.SetFloat("_StripeWidth",(role==GolfCourseLook.Surface.Fairway?10f:role==GolfCourseLook.Surface.Green?6f:4f)/.9144f);
             material.SetFloat("_Bands",role==GolfCourseLook.Surface.Fairway?.22f:role==GolfCourseLook.Surface.Tee?.16f:role==GolfCourseLook.Surface.Green?.10f:0);
+            if(hole.Number==12 && GolfArcade.EnvironmentArt.DreamGolfGarden.Enabled) {
+                material.SetFloat("_Bands",role==GolfCourseLook.Surface.Fairway?.065f:role==GolfCourseLook.Surface.Green?.025f:role==GolfCourseLook.Surface.Tee?.035f:0);
+                material.SetFloat("_StripeWidth",12);material.SetFloat("_Wrap",.12f);
+            }
             if(role==GolfCourseLook.Surface.Green)
             {
                 // The same authored folded-blade atlas at .32m produces fine
@@ -97,7 +108,7 @@ namespace GolfArcade.Course
                 material.SetColor("_"+prefix+"RootColor",field.Low);
                 material.SetColor("_"+prefix+"TipColor",field.High);
             }
-            material.SetFloat("_StripeWidth",10f/.9144f); material.SetFloat("_Bands",.22f);
+            material.SetFloat("_StripeWidth",10f/.9144f); material.SetFloat("_Bands",hole.Number==12 && GolfArcade.EnvironmentArt.DreamGolfGarden.Enabled?.065f:.22f);
         }
     }
 }

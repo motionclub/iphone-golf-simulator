@@ -181,6 +181,7 @@ namespace GolfArcade.Tennis
             yield return null;
             var art = TennisVenueArt.BuildSteps(TennisVenueKind.Resort, arena);
             while (art.MoveNext()) yield return null;
+            GolfArcade.EnvironmentArt.LuminousCoastPilot.Build(arena.transform, false);
         }
 
         /// Yaw that turns the Blender-authored house (front = -Y) to face -x in the arena.

@@ -1,0 +1,41 @@
+{
+  "unity": "6000.3.24f1",
+  "renderer": "macOS Metal / editor capture; not on-device timing",
+  "captureSize": [
+    1600,
+    900
+  ],
+  "captureCount": 344,
+  "playableGolfHoles": [
+    7,
+    8,
+    9,
+    12,
+    15,
+    13,
+    14,
+    17,
+    18,
+    19,
+    20,
+    10,
+    16,
+    21,
+    22,
+    23
+  ],
+  "weather": [
+    "Clear",
+    "Gusty",
+    "Rain",
+    "Storm",
+    "Fog"
+  ],
+  "suppliedCaptureSHA256": "0a5ff104b47085e5c92b218d55953b91906c77e831a0be8d8d27d23b73a6d718",
+  "rawCaptures": "/private/tmp/hero-lighting-lookdev/after",
+  "rawBefore": "/private/tmp/hero-lighting-lookdev/after/paired-before",
+  "rawNativeReference": "/private/tmp/hero-lighting-lookdev/native/reference",
+  "fullMatrixEnabledPath": true,
+  "finalActivation": "VISUAL_HERO_LIGHTING=1; otherwise original lighting",
+  "validationNote": "Full matrix validates the activated shader/preset path. Final smoke validates the opt-in guard and repeats the four-hero Resort/hole-7 test. The only source difference after the full matrix is the opt-in default in HeroLightingProfile.cs."
+}

@@ -52,7 +52,9 @@ Shader "GolfArcade/TennisWorldSurface"
             #pragma multi_compile_fragment _ _SHADOWS_SOFT
             #pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
             #pragma multi_compile_fog
+   #pragma multi_compile_fragment _ MAJESTIC_WEATHER_ON // MAJESTIC_WEATHER_HOOK
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+#include "../../Environment/Shaders/EnvironmentSurface.hlsl"
             // Keep URP's automatic screen AO disabled for this material. The resort
             // consumes only a bounded indirect factor below, never sun/direct AO.
             #if defined(_SCREEN_SPACE_OCCLUSION)
@@ -190,6 +192,7 @@ Shader "GolfArcade/TennisWorldSurface"
                 surface.metallic = _Metallic;
                 surface.smoothness = saturate(_Smoothness + broad * _Variation * .35 - _CourtFinish*fine*.035);
                 surface.normalTS = half3(0,0,1);
+                surface.emission += colour * _CourtFinish * _DreamNight * .22h; // bounded practical court fill
                 half4 result = UniversalFragmentPBR(input, surface);
                 if(_ReflectionWeight>.001)
                 {
@@ -207,7 +210,7 @@ Shader "GolfArcade/TennisWorldSurface"
                 float shoulder=.72+.26*(1-exp(-max(peak-.72,0)/.26));
                 float scale=peak>.72?shoulder/max(peak,.001):1;
                 result.rgb *= lerp(1,scale,_ArchitecturalRelief);
-                result.rgb = MixFog(result.rgb, i.fog);
+                result.rgb = EnvironmentFog(result.rgb, i.fog, i.positionWS);
                 return result;
             }
             ENDHLSL

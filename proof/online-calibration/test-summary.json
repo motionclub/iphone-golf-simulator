@@ -1,0 +1,32 @@
+{
+  "full": {
+    "status": "SUCCEEDED",
+    "durationMs": 139447,
+    "counts": {
+      "passed": 147,
+      "failed": 0,
+      "skipped": 0
+    },
+    "target": "simulator"
+  },
+  "finalRendererRegression": {
+    "status": "SUCCEEDED",
+    "durationMs": 87125,
+    "counts": {
+      "passed": 103,
+      "failed": 0,
+      "skipped": 0
+    },
+    "target": "simulator"
+  },
+  "finalVisibleUI": {
+    "status": "SUCCEEDED",
+    "durationMs": 47281,
+    "counts": {
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0
+    },
+    "target": "simulator"
+  }
+}

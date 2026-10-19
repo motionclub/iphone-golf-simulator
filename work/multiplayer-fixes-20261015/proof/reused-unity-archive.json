@@ -1,0 +1,5 @@
+{
+  "archive": "/private/tmp/multiplayer-fixes-integrated/Build/Products/Release-iphoneos/libGameAssembly.a",
+  "sha256": "9bf3c201a858ae4a4d58170a56e019bc8becface8cf59de0f2402689d33f95de",
+  "reason": "UnityFramework and IL2CPP archive successfully built from the current export before native build ran out of space. Skip only recreation of the temporary C++ object cache. Restore the generated project afterwards."
+}

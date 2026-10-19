@@ -1,0 +1,113 @@
+{
+ "NO_PAINT": {
+  "pass_": true,
+  "detail": "no painted panorama bound on any enabled renderer, the skybox or a global"
+ },
+ "SUN_MATCH": {
+  "pass_": true,
+  "detail": "disc vs light 0.000 deg; scattering-glow azimuth vs light 0.000 deg; light az 89.0 el 58.0"
+ },
+ "PARALLAX": {
+  "pass_": true,
+  "detail": {
+   "crane_60m": [
+    {
+     "move": "crane",
+     "landmark": "Cloud1",
+     "dist_m": 3989.0,
+     "radius_m": 0.0,
+     "predicted_dx": -19.86,
+     "predicted_range": [
+      -19.86,
+      -19.86
+     ],
+     "measured_dx": -19.89,
+     "err_px": 0.03,
+     "ncc": 1.0
+    },
+    {
+     "move": "crane",
+     "landmark": "Cloud2",
+     "dist_m": 4241.0,
+     "radius_m": 0.0,
+     "predicted_dx": -20.77,
+     "predicted_range": [
+      -20.77,
+      -20.77
+     ],
+     "measured_dx": -20.77,
+     "err_px": 0.0,
+     "ncc": 0.999
+    },
+    {
+     "move": "crane",
+     "landmark": "Cloud19",
+     "dist_m": 10243.0,
+     "radius_m": 0.0,
+     "predicted_dx": -7.74,
+     "predicted_range": [
+      -7.74,
+      -7.74
+     ],
+     "measured_dx": -7.79,
+     "err_px": 0.05,
+     "ncc": 0.998
+    },
+    {
+     "move": "crane",
+     "landmark": "Karst_00@8.562538",
+     "dist_m": 2464.0,
+     "radius_m": 487.0,
+     "predicted_dx": -31.25,
+     "predicted_range": [
+      -38.95,
+      -26.1
+     ],
+     "measured_dx": -33.27,
+     "err_px": 0.0,
+     "ncc": 0.925
+    },
+    {
+     "move": "crane",
+     "landmark": "Karst_02@35.56254",
+     "dist_m": 3125.0,
+     "radius_m": 442.0,
+     "predicted_dx": -28.29,
+     "predicted_range": [
+      -32.95,
+      -24.79
+     ],
+     "measured_dx": -29.6,
+     "err_px": 0.0,
+     "ncc": 0.921
+    }
+   ],
+   "dolly_2m": [],
+   "note": "tolerance max(1 px, 10%); needs 3 crane landmarks + min(3, visible) dolly landmarks within it"
+  }
+ },
+ "LONG_LENS": {
+  "pass_": true,
+  "detail": {
+   "edge_p99_upper_half": {
+    "04_longlens": {
+     "before": 0.1964,
+     "after": 0.2825
+    }
+   },
+   "note": "after must keep >=90% of the before edge energy at the longest lenses (27 deg stare, 14 deg test); crops in proof/"
+  }
+ },
+ "PERF": {
+  "pass_": true,
+  "detail": [
+   "tee 1920x1080: +-0.403 ms (rendered - painted, interleaved median, Editor proxy)",
+   "crane 1920x1080: +-0.890 ms (rendered - painted, interleaved median, Editor proxy)",
+   "device: NOT RUN"
+  ]
+ },
+ "CHAR_SAME": {
+  "pass_": true,
+  "detail": "mean dE76 0.000, p95 0.000 over 431539 hero pixels"
+ }
+}

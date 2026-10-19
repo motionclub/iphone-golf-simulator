@@ -11,6 +11,7 @@ namespace GolfArcade.Tennis {
         public static bool SplitScreen = true;
         Camera splitCamera; GameObject splitMarks; Canvas splitCanvas; Text[] splitNames;
         float splitDisplayAspect = 16f / 9;
+        Vector3 splitLook; bool splitFramed;
         /// The second player's camera, if the split screen is in use (NativeSportsSession keeps it on the same display).
         public Camera SplitCamera => splitCamera;
         bool UsesSplit => SplitScreen && networkView == NetworkConfiguration.ViewSplit && splitCamera;
@@ -114,14 +115,14 @@ namespace GolfArcade.Tennis {
             float half = splitDisplayAspect * .5f;
             rightCamera.rect = new Rect(.5f, 0, .5f, 1); rightCamera.aspect = half;
             TennisShoulderCamera.Frame(Mirror(Opponent.transform.position), Opponent.LeftHanded, Mirror(BallPosition), false, half,
-                out Vector3 target, out Vector3 look, out float fov);
+                out Vector3 target, out Vector3 look, out float fov, ElevatedCamera);
             target = Mirror(target); look = Mirror(look);
             float rate = 1 - Mathf.Exp(-Time.deltaTime * 9);
             rightCamera.transform.position = rightFramed ? Vector3.Lerp(rightCamera.transform.position, target, rate) : target;
             rightLook = rightFramed ? Vector3.Lerp(rightLook, look, rate) : look;
             rightCamera.fieldOfView = fov; rightCamera.transform.LookAt(rightLook); rightFramed = true;
             rightHud.MatchVisible = true;
-            rightHud.RefreshAs(match.Mirrored(), SecondServe, 0, ScoreOnlyText);
+            rightHud.RefreshAs(match.Mirrored(), SecondServe, 0, ScoreOnlyText, Flow == Phase.Rally ? RallyShots : 0);
         }
 
         /// NativeSportsSession tells us which display the game was routed to and its shape, once that is known (and again if it changes).
@@ -152,10 +153,21 @@ namespace GolfArcade.Tennis {
                 return;
             }
             float half = splitDisplayAspect * .5f;
-            if (!splitCamera.enabled) { splitCamera.enabled = true; splitMarks.SetActive(true); }
+            if (!splitCamera.enabled) { splitCamera.enabled = true; splitMarks.SetActive(true); splitFramed = false; cameraFramed = false; }
             main.rect = new Rect(0, 0, .5f, 1); main.aspect = half;
             splitCamera.rect = new Rect(.5f, 0, .5f, 1); splitCamera.aspect = half;
-            Place(main, TennisSplitCamera.For(0, half)); Place(splitCamera, TennisSplitCamera.For(1, half));
+            if (ElevatedCamera) {
+                Place(main, TennisSplitCamera.For(0, half)); Place(splitCamera, TennisSplitCamera.For(1, half));
+            } else {
+                UpdateCamera(false);
+                TennisShoulderCamera.Frame(Mirror(Opponent.transform.position), Opponent.LeftHanded, Mirror(BallPosition), false, half,
+                    out var target, out var look, out var fov);
+                target = Mirror(target); look = Mirror(look);
+                float rate = 1 - Mathf.Exp(-Time.deltaTime * 9);
+                splitCamera.transform.position = splitFramed ? Vector3.Lerp(splitCamera.transform.position, target, rate) : target;
+                splitLook = splitFramed ? Vector3.Lerp(splitLook, look, rate) : look;
+                splitCamera.fieldOfView = fov; splitCamera.transform.LookAt(splitLook); splitFramed = true;
+            }
         }
         static void Place(Camera camera, TennisSplitCamera.Placement p) {
             camera.transform.position = p.position; camera.transform.LookAt(p.look); camera.fieldOfView = p.fov;

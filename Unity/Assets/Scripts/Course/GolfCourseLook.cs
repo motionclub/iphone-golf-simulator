@@ -352,6 +352,7 @@ namespace GolfArcade.Course
             yield return .8f;
             GolfSurfaceEdges.Apply(model);
             yield return .9f;
+            if (hole.Number == 12) GolfArcade.EnvironmentArt.LuminousCoastPilot.Build(model.transform, true);
             GolfSurfaceBatching.Apply(model);
             GolfPlantInstances.Apply(model);
 #if UNITY_EDITOR

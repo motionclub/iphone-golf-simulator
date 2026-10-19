@@ -1,0 +1,99 @@
+{
+ "NO_PAINT": {
+  "pass_": true,
+  "detail": "no painted panorama bound on any enabled renderer, the skybox or a global"
+ },
+ "SUN_MATCH": {
+  "pass_": true,
+  "detail": "disc vs light 0.000 deg; scattering-glow azimuth vs light 0.000 deg; light az 89.0 el 58.0"
+ },
+ "PARALLAX": {
+  "pass_": true,
+  "detail": {
+   "crane_60m": [
+    {
+     "move": "crane",
+     "landmark": "Cloud3",
+     "dist_m": 4766.0,
+     "radius_m": 0.0,
+     "predicted_dx": -16.86,
+     "predicted_range": [
+      -16.86,
+      -16.86
+     ],
+     "measured_dx": -16.9,
+     "err_px": 0.03,
+     "ncc": 0.998
+    },
+    {
+     "move": "crane",
+     "landmark": "Cloud22",
+     "dist_m": 3684.0,
+     "radius_m": 0.0,
+     "predicted_dx": -22.5,
+     "predicted_range": [
+      -22.5,
+      -22.5
+     ],
+     "measured_dx": -22.53,
+     "err_px": 0.03,
+     "ncc": 0.996
+    },
+    {
+     "move": "crane",
+     "landmark": "Cloud13",
+     "dist_m": 8991.0,
+     "radius_m": 0.0,
+     "predicted_dx": -10.35,
+     "predicted_range": [
+      -10.35,
+      -10.35
+     ],
+     "measured_dx": -10.35,
+     "err_px": 0.01,
+     "ncc": 0.995
+    },
+    {
+     "move": "crane",
+     "landmark": "Karst_01@-23.17684",
+     "dist_m": 2097.0,
+     "radius_m": 212.0,
+     "predicted_dx": -39.27,
+     "predicted_range": [
+      -43.68,
+      -35.66
+     ],
+     "measured_dx": -41.66,
+     "err_px": 0.0,
+     "ncc": 0.817
+    }
+   ],
+   "dolly_2m": [],
+   "note": "tolerance max(1 px, 10%); needs 3 crane landmarks + min(3, visible) dolly landmarks within it"
+  }
+ },
+ "LONG_LENS": {
+  "pass_": true,
+  "detail": {
+   "edge_p99_upper_half": {
+    "04_longlens": {
+     "before": 0.1736,
+     "after": 0.2384
+    }
+   },
+   "note": "after must keep >=90% of the before edge energy at the longest lenses (27 deg stare, 14 deg test); crops in proof/"
+  }
+ },
+ "PERF": {
+  "pass_": true,
+  "detail": [
+   "tee 1920x1080: +0.132 ms (rendered - painted, interleaved median, Editor proxy)",
+   "crane 1920x1080: +-0.282 ms (rendered - painted, interleaved median, Editor proxy)",
+   "device: NOT RUN"
+  ]
+ },
+ "CHAR_SAME": {
+  "pass_": true,
+  "detail": "mean dE76 0.000, p95 0.000 over 494261 hero pixels"
+ }
+}

@@ -32,20 +32,24 @@ namespace GolfArcade.EditorTools
     {
         GolfGame game;Camera cam;string dir,course;int hole,tick,frames,stage,wait,post,flightFrames;bool filming,done,sawFlight,audio;
         int savedHoles,channels,rate;string savedCourse;readonly List<float> sound=new();StreamWriter trace;
-        [Serializable]class Report{public string course,source="Live GolfGame.ShowBackswing + StrikeToward; actual game ball physics/camera/HUD",unity,graphics,finalState;public int hole,fps=30,width=1280,height=720,frames,flightSimulationFrames,impactFrame;public bool sawFlight,audioStarted;public float duration,audioSeconds;}
+        [Serializable]class Report{public string course,source="Live GolfGame.ShowBackswing + StrikeToward; actual game ball physics/camera/HUD",unity,graphics,finalState;public int hole,fps=30,width=1280,height=720,frames,flightSimulationFrames,impactFrame;public bool sawFlight,audioStarted;public float duration,audioSeconds;public double windMPH,windDegrees,shotDuration,restX,restD;public string weather,club;public bool compressed;}
         Report report=new();
         public void Begin(GolfGame g){
+            ExperienceTrace.Enabled = true;
             game=g;dir=Path.GetFullPath(CurrentGolfSwingFilm.Env("FILM_OUT","../work/reference-rebuild/gameplay-films31/golf"));Directory.CreateDirectory(dir);
             if(Directory.GetFiles(dir,"f_*.jpg").Length>0)throw new InvalidOperationException("Film output must be fresh: "+dir);
             course=CurrentGolfSwingFilm.Env("FILM_COURSE","cliffside");hole=int.Parse(CurrentGolfSwingFilm.Env("FILM_HOLE","12"));
             savedHoles=PlayerPrefs.GetInt("holes",0);savedCourse=PlayerPrefs.GetString("course","cliffside");
             Time.captureFramerate=60;Time.timeScale=1;UnityEngine.Random.InitState(3108);
-            game.Demo=true;game.InstantReplays=false;game.ChooseHoles(0);game.Play();
+            game.Demo=true;game.InstantReplays=false;game.CompressRunout=CurrentGolfSwingFilm.Env("FILM_COMPRESS","1")!="0";game.ChooseHoles(0);game.Play();
             if(course=="meadow")typeof(GolfGame).GetField("course",BindingFlags.Instance|BindingFlags.NonPublic).SetValue(game,GolfArcade.Course.Course.Meadow());
             game.JumpToHole(hole);game.DropBall(game.CurrentHole.Tee);
+            if(double.TryParse(CurrentGolfSwingFilm.Env("FILM_WIND_MPH",""),NumberStyles.Float,CultureInfo.InvariantCulture,out double windMPH))
+                game.SetWind(new Wind(windMPH,double.Parse(CurrentGolfSwingFilm.Env("FILM_WIND_DEGREES","0"),CultureInfo.InvariantCulture)));
+            report.windMPH=game.Wind.SpeedMPH;report.windDegrees=game.Wind.DirectionDegrees;report.weather=game.CurrentWeather.ToString();report.compressed=game.CompressRunout;
             cam=Camera.main;cam.aspect=1280f/720f;cam.rect=new Rect(0,0,1,1);
             report.course=course;report.hole=hole;report.unity=Application.unityVersion;report.graphics=SystemInfo.graphicsDeviceName;
-            trace=new StreamWriter(Path.Combine(dir,"trace.csv"));trace.WriteLine("simulationFrame,videoFrame,time,stage,state,swingPhase,ballX,ballY,ballZ");
+            trace=new StreamWriter(Path.Combine(dir,"trace.csv"));trace.WriteLine("simulationFrame,videoFrame,time,stage,state,swingPhase,ballX,ballY,ballZ,flightTime,resultAge,canContinue,realtime");
         }
         void LateUpdate(){if(done||!game)return;try{Step();}catch(Exception e){Debug.LogException(e);Finish(1);}}
         void Step(){
@@ -66,14 +70,21 @@ namespace GolfArcade.EditorTools
                 if(sawFlight&&game.Current!=GolfGame.State.Flight){stage=4;post=0;}
                 if(++wait>1800)throw new TimeoutException("Golf ball flight did not complete");
             }
-            else if(stage==4 && ++post>=120){Finish(sawFlight?0:2);return;}
+            else if(stage==4) {
+                post++;
+                if (CurrentGolfSwingFilm.Env("FILM_TAP_SKIP","0")=="1" && game.ResultCanContinue) game.ContinueShotResult();
+                if (game.Current==GolfGame.State.Aim) { stage=5; post=0; }
+                else if(post>600) throw new TimeoutException("Result did not reach next Aim");
+            }
+            else if(stage==5 && ++post>=30){Finish(sawFlight?0:2);return;}
             if(tick%2==0){GameCapture.Save(Path.Combine(dir,$"f_{frames:D5}.jpg"),1280,720);frames++;}
             if(audio){int n=AudioRenderer.GetSampleCountForCaptureFrame();if(n>0){using var b=new NativeArray<float>(n*channels,Allocator.Temp);AudioRenderer.Render(b);sound.AddRange(b);}}
             var ball=GameObject.Find("Ball");var p=ball?ball.transform.position:Vector3.zero;
-            trace.WriteLine(string.Join(",",tick,frames,Time.time.ToString("F5",CultureInfo.InvariantCulture),stage,game.Current,game.Swing.Phase,p.x.ToString("F5",CultureInfo.InvariantCulture),p.y.ToString("F5",CultureInfo.InvariantCulture),p.z.ToString("F5",CultureInfo.InvariantCulture)));
+            trace.WriteLine(string.Join(",",tick,frames,Time.time.ToString("F5",CultureInfo.InvariantCulture),stage,game.Current,game.Swing.Phase,p.x.ToString("F5",CultureInfo.InvariantCulture),p.y.ToString("F5",CultureInfo.InvariantCulture),p.z.ToString("F5",CultureInfo.InvariantCulture),game.PresentationFlightTime.ToString("F5",CultureInfo.InvariantCulture),game.ResultAge.ToString("F5",CultureInfo.InvariantCulture),game.ResultCanContinue,Time.realtimeSinceStartupAsDouble.ToString("F5",CultureInfo.InvariantCulture)));
         }
         void StartAudio(){if(CurrentGolfSwingFilm.Env("FILM_AUDIO","1")=="0")return;channels=AudioSettings.speakerMode==AudioSpeakerMode.Mono?1:2;rate=AudioSettings.outputSampleRate;audio=AudioRenderer.Start();report.audioStarted=audio;}
         void Finish(int code){if(done)return;done=true;trace?.Dispose();if(audio){AudioRenderer.Stop();audio=false;if(sound.Count>0)WriteWav(Path.Combine(dir,"sound.wav"));}
+            if(game.LastShot!=null){report.shotDuration=game.LastShot.Duration;report.restX=game.LastShot.Rest.X;report.restD=game.LastShot.Rest.D;report.club=game.LastShot.Club.ToString();}
             report.frames=frames;report.duration=frames/30f;report.sawFlight=sawFlight;report.flightSimulationFrames=flightFrames;report.finalState=game.Current.ToString();report.audioSeconds=rate>0?sound.Count/(float)(rate*channels):0;
             File.WriteAllText(Path.Combine(dir,"film.json"),JsonUtility.ToJson(report,true));
             PlayerPrefs.SetInt("holes",savedHoles);PlayerPrefs.SetString("course",savedCourse);PlayerPrefs.Save();

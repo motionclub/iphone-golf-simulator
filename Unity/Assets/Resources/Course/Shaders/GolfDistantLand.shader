@@ -8,7 +8,9 @@ Shader "GolfArcade/GolfDistantLand"
    #pragma target 3.0
    #pragma vertex vert
    #pragma fragment frag
+   #pragma multi_compile_fragment _ MAJESTIC_WEATHER_ON // MAJESTIC_WEATHER_HOOK
    #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+#include "../../Environment/Shaders/EnvironmentSurface.hlsl"
    CBUFFER_START(UnityPerMaterial) half4 _BaseColor; CBUFFER_END
    struct A {float4 p:POSITION;float3 n:NORMAL;};
    struct V {float4 p:SV_POSITION;float3 w:TEXCOORD0;half3 n:TEXCOORD1;};
@@ -17,7 +19,7 @@ Shader "GolfArcade/GolfDistantLand"
     half shade=.84+.16*saturate(dot(normalize(i.n),normalize(half3(-.45,.75,.25))));
     half haze=saturate((distance(_WorldSpaceCameraPos,i.w)-450)/2400)*.65;
     half3 colour=lerp(_BaseColor.rgb*shade,half3(.30,.46,.58),haze);
-    return half4(colour,1);
+    return half4(EnvironmentBackdrop(colour,i.w),1);
    }
    ENDHLSL
   }

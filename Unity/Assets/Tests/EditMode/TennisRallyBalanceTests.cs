@@ -75,7 +75,9 @@ namespace GolfArcade.Tests
                     // How late the swing meets the ball (signed: early is negative), with the odd badly mistimed one.
                     float late = Normal() * .075f;
                     if (R() < .08f) late = (R() < .5f ? -1 : 1) * Mathf.Lerp(.15f, .33f, R());
-                    var hit = TennisRules.AssistedHit(Mathf.Abs(late), Mathf.Lerp(.3f, .65f, R()), 1, .65f, 1);
+                    // Sample real spacing: comfortable most often, occasionally jammed or stretched.
+                    var face = TennisRules.PositionFace(new Vector3(Mathf.Clamp(.65f + Normal() * .4f, 0, 1.75f), 1.1f, .65f), Vector3.zero);
+                    var hit = TennisRules.AssistedHit(late, 1 - TennisRules.FaceError(face), 1, .65f, 1);
                     incomingQuality = hit.Quality;
                     var target = TennisRules.TimingPlacement(late, .65f, hit.Quality, R() * 2 - 1, R() * 2 - 1);
                     var strikeAt = new Vector3(humanX, 1.1f, -StrikeZ);

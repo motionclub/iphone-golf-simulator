@@ -32,6 +32,11 @@ enum HeroAssets {
         let saturation: Float, bumpScale: Float, bumpTriplanar: Float, bumpTile: Float
         let baseMap: String, weaveMap: String, bumpMap: String
         let normalMap: String?, maskMap: String?, trimColor: [Float]?, normalStrength: Float?, useGarmentMaps: Float?
+        var bindingTone: Float? = nil
+        /// Female-only material response; absent in legacy and male payloads.
+        var femaleSurface: Float? = nil
+        /// HeroFaceSkin's male face pass (MaleFaceFinish 2026-10-18); absent in older payloads.
+        var maleFormPass: Float? = nil
         /// Cloth only: the size in metres of one weave tile (TennisCloth's tile = metres per UV unit / this).
         let specularStrength: Float?, environmentStrength: Float?, metallic: Float?, craftedPaint: Float?
         let headOrigin: [Float]?, headRight: [Float]?, headUp: [Float]?, headForward: [Float]?, headEye: [Float]?

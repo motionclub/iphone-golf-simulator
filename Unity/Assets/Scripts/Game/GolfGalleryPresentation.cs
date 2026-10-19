@@ -110,7 +110,10 @@ namespace GolfArcade.Game
             float t=now-actionAt+phase;
             float idle=Mathf.Sin(now*.72f+phase*3.1f),breath=Mathf.Sin(now*1.35f+phase*2.7f);
             float pulse=.94f+.06f*Mathf.Sin(t*7.3f+phase*2);
-            float leftLift=0,rightLift=0;
+            // A relaxed, asymmetric ready stance. The former one-degree sway
+            // read as a frozen arms-down pose at normal tee-camera distance.
+            float leftLift=(9+4*Mathf.Sin(now*.83f+phase*3.7f))*(1-gesture);
+            float rightLift=(13+5*Mathf.Sin(now*.67f+phase*4.1f+1.2f))*(1-gesture);
             if(action=="FistPump"){
                 leftLift=24*gesture;rightLift=(118+13*Mathf.Sin(t*8+phase))*gesture;
             }else if(action=="Cheer"){

@@ -27,3 +27,4 @@ Unity/Assets/Resources/Tennis/**/*.png filter=lfs diff=lfs merge=lfs -text
 *.glb filter=lfs diff=lfs merge=lfs -text
 *.lzfse filter=lfs diff=lfs merge=lfs -text
 Unity/Assets/Resources/Tennis/KitsTailored/*.asset filter=lfs diff=lfs merge=lfs -text
+Unity/Assets/Characters/KitsV2/**/*.asset filter=lfs diff=lfs merge=lfs -text

@@ -9,6 +9,7 @@ Unity/Assets/Resources/Tennis/Customization/PlayerFemale.prefab
 Unity/Assets/Scripts/Tennis/MatchHeroLook.cs
 Unity/Assets/Scripts/Tennis/HeroOriginalSeamAnatomy.cs
 Unity/Assets/Scripts/Tennis/HeroFaceReferenceFit.cs
+Unity/Assets/Scripts/Tennis/MaleFaceFinish.cs
 Unity/Assets/Scripts/Tennis/HeroReferenceAnatomy.cs
 Unity/Assets/Scripts/Tennis/HeroOriginalMaterial.cs
 Unity/Assets/Scripts/Tennis/HeroHeadSurface.cs
@@ -215,3 +216,12 @@ Unity/Assets/Resources/Accessories/Male/tennis_cap/Acc_Male_tennis_cap_Cap_N.png
 Unity/Assets/Resources/Accessories/Male/tennis_cap/Kit_Cap.asset
 Unity/Assets/Resources/Accessories/Male/tennis_cap/item.json
 # /ACCESSORIES
+Unity/Assets/Scripts/Tennis/HeroShoulderDeformation.cs
+Unity/Assets/Scripts/Tennis/HeroShoulderWeights.cs
+Unity/Assets/Resources/Tennis/Customization/PlayerFemaleGolfKit.prefab
+Unity/Assets/Scripts/Tennis/FemaleShoulderFit.cs
+Unity/Assets/Scripts/Tennis/FemaleGarmentFinish.cs
+Unity/Assets/Resources/Tennis/KitsV2/Female/FemaleShoulderFit.bytes
+Unity/Assets/Resources/Tennis/KitsV2/Female/FemaleShoulderFitProfile.json
+Unity/Assets/Resources/Golf/KitsV2/Female/FemaleShoulderFit.bytes
+Unity/Assets/Resources/Golf/KitsV2/Female/FemaleShoulderFitProfile.json

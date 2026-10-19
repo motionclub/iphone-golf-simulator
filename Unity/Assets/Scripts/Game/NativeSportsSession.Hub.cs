@@ -215,6 +215,8 @@ namespace GolfArcade.Game
                 case "hubRemote": if (hub && !string.IsNullOrEmpty(m.remote)) HubRemotes.For(hub).Receive(JsonUtility.FromJson<RemoteState>(m.remote)); return true;
                 case "hubRoster": if (hub) HubRemotes.For(hub).Roster((m.mode ?? "").Split(new[] { ',' }, System.StringSplitOptions.RemoveEmptyEntries)); return true;
                 case "hubCall": if (hub) HubRemotes.For(hub).Call(m.mode); return true;
+                case "hubGather": if (hub) hub.GatherParty(m.mode); return true;
+                case "hubChat": if (hub) HubRemotes.For(hub).Chat(m.remote, m.mode); return true;
                 case "hubMeet": if (hub && HubRemotes.For(hub).TryGetLast(m.mode ?? "", out var meetPlace, out var meetAt)) hub.Meet(meetPlace, meetAt); return true;
             }
             return false;

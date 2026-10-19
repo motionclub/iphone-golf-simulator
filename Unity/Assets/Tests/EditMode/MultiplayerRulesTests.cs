@@ -100,6 +100,10 @@ namespace GolfArcade.Tests {
             var impact=new GolfArcade.Swing.SwingImpact {Power=.8,StartLineDegrees=2,CurveDegrees=-3,FaceDegrees=4,Thin=.1,SpeedBonus=.04,SpinScatter=-.05,Backswing=.8,Commit=1.1};
             var club=GolfArcade.Shot.GolfClub.Iron5;
             Assert.True(m.Input(0,new NetworkInput {action="swing",eventID=1,time=0,shotClub=(int)club,heading=12.5,impact=NetworkImpact.From(impact)},0));
+            var conditions=GolfArcade.Course.RoundEvents.FromCode(m.State.eventSeed,m.State.events);
+            hole.Rules=conditions.RulesFor((GolfArcade.Course.Weather)m.State.weather,GolfArcade.Course.Weathers.SkyOf(hole));
+            hole.Movers=conditions.MoversFor(m.State.hole,hole,(GolfArcade.Course.Weather)m.State.weather);
+            if(hole.Movers!=null)hole.Movers.PhaseAtLaunch=m.State.shot.moverPhase;
             var solo=new GolfArcade.Course.CourseShot(club,impact,12.5,rough.Value,hole,1,new GolfArcade.Course.Wind(m.State.windSpeed,m.State.windDirection));
             var shot=m.State.shot;
             Assert.AreEqual((int)club,shot.club);Assert.AreEqual(12.5,shot.heading,1e-9);
@@ -145,6 +149,16 @@ namespace GolfArcade.Tests {
         [Test] public void GolfAuthorityGeneratesBoundedPathAndCommitsOneShot(){var m=new NetworkGolfRound(new[]{0,1,2,3},20);int calls=0;m.Shot=_=>calls++;var x=Golf(m);Assert.True(m.Input(0,x,0));Assert.False(m.Input(0,x,0));Assert.AreEqual(1,calls);Assert.AreEqual(1,m.State.shotID);Assert.That(m.State.shot.path.Length,Is.InRange(2,360));Assert.GreaterOrEqual(m.State.golfers[0].strokes,1);}
         [Test] public void GolfAllFourTeeOffBeforeSecondShot(){var m=new NetworkGolfRound(new[]{0,1,2,3},20);for(int seat=0;seat<4;seat++){Assert.AreEqual(seat,m.State.turn);Assert.True(m.Input(seat,Golf(m),m.State.time));FinishFlight(m);}Assert.True(m.State.golfers.All(p=>p.strokes>=1));}
         [Test] public void GolfRepeatedEventAfterFlightCannotApplyAgain(){var m=new NetworkGolfRound(new[]{0,1},20);m.Input(0,Golf(m),0);FinishFlight(m);m.Input(1,Golf(m),m.State.time);FinishFlight(m);int seat=m.State.turn;Assert.False(m.Input(seat,Golf(m),m.State.time));}
+        [Test] public void GolfAwayGolfersTurnPassesSoonAndTheyPlayAgainWhenBack(){
+            // AwayPolicy: an away golfer (their phone left the app) does not hold the round up; back, they play their turns again
+            var m=new NetworkGolfRound(new[]{0,1},20);m.SetAway(new[]{0});
+            Step(m,NetworkGolfRound.AwayTurnPassSeconds+.1);
+            Assert.AreEqual(1,m.State.golfers[0].strokes,"the pass costs the turn limit's stroke");Assert.AreEqual(1,m.State.turn);
+            Assert.IsFalse(m.State.paused,"nobody else waits");
+            m.SetAway(new int[0]);Step(m,NetworkGolfRound.TurnLimitSeconds+.1);   // seat 1 sits out its whole turn limit
+            Assert.AreEqual(0,m.State.turn);Step(m,NetworkGolfRound.AwayTurnPassSeconds+5);
+            Assert.AreEqual(0,m.State.turn,"back: the turn waits for them as for anyone");
+        }
         [Test] public void GolfTimeoutAddsStrokeAndMovesTurn(){var m=new NetworkGolfRound(new[]{0,1,2,3},20);Step(m,NetworkGolfRound.TurnLimitSeconds+.1);Assert.AreEqual(1,m.State.golfers[0].strokes);Assert.AreEqual(1,m.State.turn);Assert.Null(m.State.shot);}
         [Test] public void GolfDnfSkipsPlayerAndOnlyInterruptsWithOneRemaining(){var m=new NetworkGolfRound(new[]{0,1,2,3},20);m.Drop(0);Assert.AreEqual(1,m.State.turn);Assert.True(m.State.golfers[0].dnf);Assert.False(m.State.complete);m.Drop(1);Assert.False(m.State.complete);m.Drop(2);Assert.True(m.State.complete);Assert.AreEqual("interrupted",m.State.phase);}
         [Test] public void GolfSameSeedAndShotsGiveIdenticalOfficialOutcome(){var a=new NetworkGolfRound(new[]{0,1,2,3},20);var b=new NetworkGolfRound(new[]{0,1,2,3},20);a.Input(0,Golf(a),0);b.Input(0,Golf(b),0);Assert.AreEqual(a.State.shot.nextX,b.State.shot.nextX);Assert.AreEqual(a.State.shot.nextD,b.State.shot.nextD);Assert.AreEqual(a.State.shot.penalty,b.State.shot.penalty);}

@@ -22,6 +22,7 @@ static const double kWatchdogInterval = 0.5, kDiskInterval = 5.0;
 static const int kMaxPendingFrames = 4;
 static const double kDisplayMissingSeconds = 2.0;
 static const double kNoFrameBackstopSeconds = 15.0, kFirstFrameTimeoutSeconds = 10.0;
+static const double kBadPictureSeconds = 5.0;
 static const size_t kMaxQueuedAudio = 300;   // ~3 s of 10 ms ticks waiting for the writer
 
 enum { kIdle = 0, kActive = 1, kFinishing = 2 };
@@ -67,6 +68,34 @@ static NSString *ParseConfig(const char *json, SessionConfig *out) {
     c.fragmentSeconds = std::isfinite(c.fragmentSeconds) ? std::min(60.0, std::max(0.0, c.fragmentSeconds)) : 10.0;
     *out = c;
     return nil;
+}
+
+/// The recorder's own log (Documents/Recordings/recorder-log.txt, read in the app's Recordings screen): every start, event, writer
+/// status and stop reason, so a recording that "just stopped" says why. Any thread; about 1 MB kept (older half dropped).
+void SportsRecorderLog(NSString *line) {
+    static dispatch_queue_t queue; static dispatch_once_t once;
+    dispatch_once(&once, ^{ queue = dispatch_queue_create("club.recorder-log", DISPATCH_QUEUE_SERIAL); });
+    NSString *stamp = [NSISO8601DateFormatter stringFromDate:NSDate.date timeZone:NSTimeZone.localTimeZone formatOptions:NSISO8601DateFormatWithInternetDateTime];
+    NSString *text = [NSString stringWithFormat:@"%@ [native] %@\n", stamp, line];
+    dispatch_async(queue, ^{
+        NSURL *docs = [[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask].firstObject;
+        NSURL *dir = [docs URLByAppendingPathComponent:@"Recordings" isDirectory:YES];
+        [[NSFileManager defaultManager] createDirectoryAtURL:dir withIntermediateDirectories:YES attributes:nil error:nil];
+        NSString *path = [dir URLByAppendingPathComponent:@"recorder-log.txt"].path;
+        NSDictionary *attrs = [[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil];
+        if ([attrs[NSFileSize] unsignedLongLongValue] > 1024 * 1024) {
+            NSString *old = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil] ?: @"";
+            [[old substringFromIndex:old.length / 2] writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:nil];
+        }
+        NSFileHandle *h = [NSFileHandle fileHandleForWritingAtPath:path];
+        if (!h) { [text writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:nil]; return; }
+        [h seekToEndOfFile]; [h writeData:[text dataUsingEncoding:NSUTF8StringEncoding]]; [h closeFile];
+    });
+}
+static NSString *WriterStatus(AVAssetWriter *w) {
+    if (!w) return @"none";
+    NSString *s = @[@"unknown", @"writing", @"completed", @"failed", @"cancelled"][MIN((NSInteger)w.status, 4)];
+    return w.error ? [NSString stringWithFormat:@"%@ (%@ %ld: %@)", s, w.error.domain, (long)w.error.code, w.error.localizedDescription] : s;
 }
 
 static double FreeBytes(NSURL *directory) {
@@ -139,6 +168,11 @@ static NSString *MessageForReason(NSString *reason) {
     std::atomic<void (*)(const char *)> _callback;
     std::atomic<double> _lastFrameSeen;
     std::atomic<bool> _surfaceOK;
+    // Control Center / a banner / the app switcher peek: Unity pauses, no frames arrive, but the app has not left.
+    std::atomic<bool> _inactive;
+    // An unrecordable TV frame (a scene change, the loading cover, a resized surface) is skipped; only a picture that stays
+    // unrecordable for kBadPictureSeconds ends the take, and what was recorded is kept.
+    std::atomic<double> _badPictureSince; std::atomic<int> _badPictureLogged;
     sports::AudioMixer _mixer;
     dispatch_source_t _watchdog, _audioTimer;
     // render thread only
@@ -161,7 +195,10 @@ static NSString *MessageForReason(NSString *reason) {
         dispatch_queue_attr_t rt = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INITIATED, 0);
         _audioQueue = dispatch_queue_create("club.session-audio", rt);
         NSNotificationCenter *nc = NSNotificationCenter.defaultCenter;
+        _inactive = UIApplication.sharedApplication.applicationState != UIApplicationStateActive;
         [nc addObserver:self selector:@selector(willResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
+        [nc addObserver:self selector:@selector(didBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+        [nc addObserver:self selector:@selector(didEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
         [nc addObserver:self selector:@selector(thermalChanged:) name:NSProcessInfoThermalStateDidChangeNotification object:nil];
     }
     return self;
@@ -182,6 +219,7 @@ static NSString *MessageForReason(NSString *reason) {
     NSString *json = data ? [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] : nil;
     if (!json) return;
     NSLog(@"[SessionCapture] %@", json);
+    SportsRecorderLog([@"event " stringByAppendingString:json]);
     void (*callback)(const char *) = _callback.load();
     if (!callback) return;
     dispatch_async(dispatch_get_main_queue(), ^{ callback(json.UTF8String); });
@@ -303,7 +341,9 @@ static NSString *MessageForReason(NSString *reason) {
     double now = NSProcessInfo.processInfo.systemUptime;
     take.startUptime = now;
     take->clock.start(now);
-    _lastFrameSeen.store(now); _surfaceOK.store(true);
+    _lastFrameSeen.store(now); _surfaceOK.store(true); _badPictureSince.store(0); _badPictureLogged.store(0);
+    SportsRecorderLog([NSString stringWithFormat:@"start %dx%d %d fps %.0f Mbps audio game=%d voice=%d mic=%d display=%d file=%@ writer=%@",
+        config.width, config.height, config.fps, config.mbps, config.gameAudio, config.voice, config.mic, config.display, take.url.lastPathComponent, WriterStatus(take.writer)]);
     _lastDiskCheck = now; _missingSince = 0; _thermalWarned = NO; _dropWarned = NO; _lastDropWarning = 0;
     _display.store(config.display);
     { std::lock_guard<std::mutex> lock(_takeMutex); _take = take; }
@@ -326,7 +366,16 @@ static NSString *MessageForReason(NSString *reason) {
 
 - (void)stop { [self requestEnd:@"user" failed:NO message:nil]; }
 
-- (void)willResignActive:(NSNotification *)note { [self requestEnd:@"background" failed:NO message:nil]; }
+// Inactive is not leaving: pulling down Control Center (where the Record TV control lives) must not end the take.
+// The picture holds while Unity is paused and the audio keeps its wall clock, so the pause is a short still in the video.
+- (void)willResignActive:(NSNotification *)note { _inactive.store(true); if (_state.load() == kActive) SportsRecorderLog(@"app inactive (recording continues)"); }
+- (void)didBecomeActive:(NSNotification *)note {
+    _inactive.store(false);
+    _lastFrameSeen.store(NSProcessInfo.processInfo.systemUptime);   // the frame timeout restarts from here
+    dispatch_async(_control, ^{ self->_missingSince = 0; });
+}
+// Leaving the app ends the take: iOS suspends the game, so nothing more can be drawn.
+- (void)didEnterBackground:(NSNotification *)note { [self requestEnd:@"background" failed:NO message:nil]; }
 - (void)thermalChanged:(NSNotification *)note {
     if (_state.load() != kActive) return;
     dispatch_async(_control, ^{ [self watchdogTick]; });
@@ -335,6 +384,8 @@ static NSString *MessageForReason(NSString *reason) {
 /// Any thread. Idempotent; a no-op unless a recording is running.
 - (void)requestEnd:(NSString *)reason failed:(BOOL)failed message:(NSString *)message {
     if (_state.load() != kActive) return;
+    SportsRecorderLog([NSString stringWithFormat:@"end requested: %@%@ %@ (since last TV frame %.1f s, inactive=%d)", reason, failed ? @" FAILED" : @"", message ?: @"",
+        NSProcessInfo.processInfo.systemUptime - _lastFrameSeen.load(), _inactive.load()]);
     dispatch_async(_control, ^{ [self beginFinish:reason failed:failed message:message]; });
 }
 
@@ -358,7 +409,8 @@ static NSString *MessageForReason(NSString *reason) {
         _lastDiskCheck = now;
         if (FreeBytes([self recordingsDirectory]) < kMinFreeWhileRecording) { [self beginFinish:@"storage" failed:NO message:nil]; return; }
     }
-    // The TV surface going away.
+    // The TV surface going away (not while the app is only inactive: Unity draws nothing then, on purpose).
+    if (_inactive.load()) { _missingSince = 0; return; }
     double sinceFrame = now - _lastFrameSeen.load();
     BOOL (^probe)(int) = self.surfaceProbe;
     if (probe) {
@@ -413,18 +465,31 @@ static NSString *MessageForReason(NSString *reason) {
             self->_state.store(kIdle);
             if (background != UIBackgroundTaskInvalid) { [UIApplication.sharedApplication endBackgroundTask:background]; background = UIBackgroundTaskInvalid; }
         };
+        SportsRecorderLog([NSString stringWithFormat:@"finish reason=%@ failed=%d frames=%llu dropped=%llu lastPts=%.2f writer=%@ message=%@",
+            reason, failed, frames, take->dropped.load(), take->lastPts.load(), WriterStatus(writer), message ?: @""]);
         auto fail = ^(NSString *text, NSString *why) {
             if (writer.status == AVAssetWriterStatusWriting) [writer cancelWriting];
             [files removeItemAtURL:take.url error:nil];
-            [self emit:@"failed" message:text reason:why extra:@{@"dropped": @(take->dropped.load())}];
+            [self emit:@"failed" message:text reason:why extra:@{@"dropped": @(take->dropped.load()), @"writer": WriterStatus(writer)}];
             done();
         };
-        if (failed) { fail(message ?: @"The recording could not be saved.", reason); return; }
+        // A writer that failed mid-take: the file is fragmented (movieFragmentInterval), so everything up to the last completed fragment
+        // plays. Hand it over instead of deleting it (was: every failure deleted the whole recording).
+        auto salvage = ^(NSString *text) {
+            NSDictionary *attrs = [files attributesOfItemAtPath:take.url.path error:nil];
+            unsigned long long bytes = [attrs[NSFileSize] unsignedLongLongValue];
+            if (frames < 1 || bytes < 64 * 1024) { fail(text, @"error"); return; }
+            [self emit:@"finished" message:[text stringByAppendingString:@" What was recorded before it stopped was kept."] reason:@"error" extra:@{
+                @"url": take.url.path, @"seconds": @(std::round(take->lastPts.load() * 10) / 10), @"bytes": @(bytes), @"partial": @YES, @"writer": WriterStatus(writer)}];
+            done();
+        };
         if (take->failed.load() || writer.status != AVAssetWriterStatusWriting) {
             NSLog(@"[SessionCapture] writer error: %@", writer.error);
-            fail(@"The recording could not be saved because the phone's video encoder stopped.", @"error"); return;
+            salvage(message ?: @"The recording stopped because the phone's video encoder had a problem."); return;
         }
         if (frames < 1) { fail(@"No picture was recorded from the TV.", [reason isEqualToString:@"user"] ? @"error" : reason); return; }
+        // any other failure (an unrecordable picture, ...) with a healthy writer: finish the file normally, with the reason
+        NSString *endReason = failed ? @"error" : reason;
         double videoEnd = take->lastPts.load() + 1.0 / take.config.fps;
         [take.video markAsFinished];
         if (take.audio) [take.audio markAsFinished];
@@ -432,10 +497,11 @@ static NSString *MessageForReason(NSString *reason) {
         [writer finishWritingWithCompletionHandler:^{
             if (writer.status != AVAssetWriterStatusCompleted) {
                 NSLog(@"[SessionCapture] finish failed: %@", writer.error);
-                fail(@"The recording could not be saved.", @"error"); return;
+                salvage(@"The recording could not be finished properly."); return;
             }
             NSDictionary *attrs = [files attributesOfItemAtPath:take.url.path error:nil];
-            [self emit:@"finished" message:MessageForReason(reason) reason:reason extra:@{
+            NSString *text = failed && message ? [message stringByAppendingString:@" Your video was saved."] : MessageForReason(endReason);
+            [self emit:@"finished" message:text reason:endReason extra:@{
                 @"url": take.url.path, @"seconds": @(std::round(videoEnd * 10) / 10), @"bytes": attrs[NSFileSize] ?: @0, @"dropped": @(take->dropped.load()),
                 @"audioDropped": @(audioDropped), @"audioUnderruns": @(underruns)}];
             done();
@@ -480,13 +546,19 @@ static NSString *MessageForReason(NSString *reason) {
     auto leave = ^{ take->pending--; dispatch_group_leave(take.work); };
     const SessionConfig config = take.config;
     if (take->frames.load() % 60 == 59 && _textureCache) CVMetalTextureCacheFlush(_textureCache, 0);   // bounded cache over hour-long sessions
-    if (!source || source.framebufferOnly || source.width < 320 || source.height < 180) {
-        leave(); [self requestEnd:@"error" failed:YES message:@"This TV picture cannot be recorded."]; return;
+    MTLPixelFormat format = source ? source.pixelFormat : MTLPixelFormatInvalid;
+    BOOL formatOK = format == MTLPixelFormatBGRA8Unorm || format == MTLPixelFormatBGRA8Unorm_sRGB || format == MTLPixelFormatRGBA8Unorm || format == MTLPixelFormatRGBA8Unorm_sRGB;
+    if (!source || source.framebufferOnly || source.width < 320 || source.height < 180 || !formatOK) {
+        // Was: the first such frame ended the take as FAILED and deleted the file. Now the frame is skipped and logged.
+        take->dropped++; leave();
+        double since = _badPictureSince.load(); if (since == 0) { _badPictureSince.store(now); since = now; }
+        if (_badPictureLogged.fetch_add(1) < 5)
+            SportsRecorderLog([NSString stringWithFormat:@"unrecordable TV frame skipped: %@ %lux%lu framebufferOnly=%d format=%lu",
+                source ? @"texture" : @"no texture", (unsigned long)source.width, (unsigned long)source.height, source.framebufferOnly, (unsigned long)format]);
+        if (now - since > kBadPictureSeconds) [self requestEnd:@"display" failed:NO message:nil];
+        return;
     }
-    MTLPixelFormat format = source.pixelFormat;
-    if (format != MTLPixelFormatBGRA8Unorm && format != MTLPixelFormatBGRA8Unorm_sRGB && format != MTLPixelFormatRGBA8Unorm && format != MTLPixelFormatRGBA8Unorm_sRGB) {
-        leave(); [self requestEnd:@"error" failed:YES message:@"This TV picture format cannot be recorded."]; return;
-    }
+    _badPictureSince.store(0);
     if (![self prepareMetal:source.device]) { leave(); [self requestEnd:@"error" failed:YES message:@"The phone could not start video capture."]; return; }
     CVPixelBufferRef pixel = nil; CVMetalTextureRef mapped = nil;
     CVPixelBufferPoolRef pool = take.pixels.pixelBufferPool;
@@ -519,6 +591,7 @@ static NSString *MessageForReason(NSString *reason) {
                 else if (![take.pixels appendPixelBuffer:pixel withPresentationTime:CMTimeMakeWithSeconds(pts, 90000)]) {
                     if (take.writer.status == AVAssetWriterStatusFailed) {
                         NSLog(@"[SessionCapture] video append failed: %@", take.writer.error);
+                        SportsRecorderLog([@"video append failed: " stringByAppendingString:WriterStatus(take.writer)]);
                         take->failed.store(true);
                         [self requestEnd:@"error" failed:YES message:@"The recording stopped because the phone's video encoder had a problem."];
                     } else take->dropped++;
@@ -575,7 +648,8 @@ static CMSampleBufferRef MakeAudioSample(CMAudioFormatDescriptionRef format, con
         int frames = kept * sports::kBlockFrames;
         // After a long stall the pump clock skips ahead; keep the PTS on the wall clock (a gap, never a shift).
         int64_t expected = (int64_t)std::llround(sports::audioStartOffset(take->firstTime.load(), firstKeptStart) * sports::kMixRate);
-        if (std::llabs(expected - take->apts.nextFrames()) > 3 * sports::kBlockFrames) take->apts.seek(expected);
+        // forward only: a sample earlier than the last one would fail the whole AVAssetWriter
+        if (expected - take->apts.nextFrames() > 3 * sports::kBlockFrames) take->apts.seek(expected);
         CMSampleBufferRef sample = MakeAudioSample(take.audioFormat, take->tick.data(), frames, take->apts.nextFrames());
         take->apts.advance(frames);   // advance even on failure: a lost block leaves a gap, it never shifts later audio
         take->tick.clear();
@@ -588,6 +662,7 @@ static CMSampleBufferRef MakeAudioSample(CMAudioFormatDescriptionRef format, con
         if (![take.audio appendSampleBuffer:sample]) {
             if (take.writer.status == AVAssetWriterStatusFailed) {
                 NSLog(@"[SessionCapture] audio append failed: %@", take.writer.error);
+                SportsRecorderLog([@"audio append failed: " stringByAppendingString:WriterStatus(take.writer)]);
                 take->failed.store(true);
                 [self requestEnd:@"error" failed:YES message:@"The recording stopped because the phone's audio encoder had a problem."];
             } else take->audioDropped++;

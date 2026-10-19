@@ -26,6 +26,8 @@ struct MultiplayerParticipant: Codable, Equatable, Sendable {
     var loaded = false
     /// Tennis: this player's phone has its court direction and centre set (touch players and spectators need nothing).
     var calibrated = false
+    /// UI progress only; `calibrated` remains the authority for starting a match.
+    var setupStep: String? = nil
     /// Tennis setup: the owner has measured this phone's connection and found it steady enough to start (Fair or better for 1.5 s).
     var linkOK = false
     /// This phone has a TV or Mac connected (AirPlay or wired).
@@ -97,14 +99,15 @@ struct MultiplayerLobby: Codable, Equatable, Sendable {
     var venue = "resort"
     var sets = 1
     var games = 3
-    /// Golf's match settings: the round twists off, the weather and things moving about the holes off (nil: on).
+    /// Golf's match settings: optional round twists and challenges. Automatic weather uses the versioned session seed.
     var twistsOff: Bool? = nil
-    var weatherOff: Bool? = nil
     var phase: MultiplayerPhase = .lobby
     var participants: [MultiplayerParticipant]
     var queue: [String] = []
     var matchID = ""
     var publicAdmission = false
+    /// Explicit same-room play (Nearby or the host's sharing-TV choice). Remote play needs a screen each.
+    var sharedScreen: Bool? = nil
     var competitors: [MultiplayerParticipant] { participants.filter { $0.seat >= 0 && $0.connected }.sorted { $0.seat < $1.seat } }
     var capacity: Int { sport == .tennis ? 2 : 4 }
     var canStart: Bool {
@@ -113,8 +116,9 @@ struct MultiplayerLobby: Codable, Equatable, Sendable {
         && competitors.allSatisfy(\.ready)
         && hasScreenForSport
     }
-    /// Tennis needs a TV on at least one of the two players' phones. Golf's guests always watch the host's TV, so it asks nothing.
-    var hasScreenForSport: Bool { sport != .tennis || competitors.contains(where: \.hasScreen) }
+    var hasScreenForSport: Bool {
+        sport != .tennis || (sharedScreen == true ? competitors.contains(where: \.hasScreen) : competitors.allSatisfy(\.hasScreen))
+    }
     mutating func configure(sport: MultiplayerSport, venue: String) {
         self.sport = sport; self.venue = venue
         for i in participants.indices { participants[i].seat = i < capacity ? i : -1; participants[i].ready = false; participants[i].loaded = false; participants[i].calibrated = false }
@@ -167,7 +171,11 @@ struct MultiplayerLobby: Codable, Equatable, Sendable {
         if phase != .lobby { return "Return to the lobby first" }
         if let p = participants.first(where: { $0.seat >= 0 && !$0.connected }) { return "Waiting for \(p.name) to reconnect" }
         if competitors.count < 2 { return "Invite another player to play" }
-        if !hasScreenForSport { return "Connect one phone to a TV (AirPlay) to play" }
+        if !hasScreenForSport {
+            if sharedScreen == true { return "Connect one phone to a TV (AirPlay) to play" }
+            let names = competitors.filter { !$0.hasScreen }.map(\.name).joined(separator: " and ")
+            return "\(names) must connect a TV (AirPlay), or choose Sharing a TV if you're together"
+        }
         if let p = competitors.first(where: { !$0.ready }) { return "Waiting for \(p.name) to be ready" }
         return "Everyone is ready"
     }
@@ -185,7 +193,8 @@ struct MultiplayerMatchConfiguration: Codable, Sendable {
     var participants: [MultiplayerParticipant]
     /// The lobby's golf match settings (Unity's NetworkConfiguration reads them; nil: on).
     var twistsOff: Bool? = nil
-    var weatherOff: Bool? = nil
+    var environmentVersion: Int = 5
+    var environmentUtc: Double = Date().timeIntervalSince1970
     var usesHostGolfDisplay: Bool { sport == "golf" && localID != hostID }
     /// How this phone shows a tennis match (nil in golf and for spectators).
     var localView: MultiplayerView? { participants.first { $0.id == localID }?.view }
@@ -200,7 +209,7 @@ struct MultiplayerMatchConfiguration: Codable, Sendable {
 }
 /// The transport's actual sender overrides the packet's claimed sender before delivery.
 struct MultiplayerPacket: Codable, Sendable {
-    static let version = 4
+    static let version = 5
     static let maximumBytes = 60_000
     var version = Self.version
     var lobbyID = ""
@@ -273,6 +282,10 @@ enum MultiplayerTuning {
     /// A competitor that comes back mid-match reloads the game and points its phone at the TV again before play resumes
     /// for it; that takes longer than the plain 15 s a dropped connection is given.
     static let recalibrationSeconds = 45.0
+    /// A player who leaves the app mid-match (or whose phone goes quiet) can come back and keep playing for this long; meanwhile the
+    /// match goes on without them (tennis: the CPU plays their side; golf: their turns pass). After it they are out of the match,
+    /// and their own phone leaves the match or party when it opens again (AwayPolicy). Pass-the-phone matches keep the plain 15 s.
+    static let awayLimitSeconds = 180.0
     /// An unfinished setup is mentioned to everyone after this long (nobody is forced to wait: Leave is always there).
     static let calibrationNoticeSeconds = 60.0
     // Connection check before a tennis match (tuned in the field): pings go out 10 times a second during setup, the last 20 answers

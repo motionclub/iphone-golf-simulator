@@ -198,14 +198,15 @@ def orient_faces(ob, centre_fn):
 
 
 def leg_axis_fn(D):
-    """per face: for the pelvis (above the crotch) the torso axis, below it the axis of the nearer leg."""
+    """per face: for the pelvis (above the crotch) the torso axis, below it the axis of the nearer leg at that height (the trouser leg drifts
+    outward toward the hem: one fixed axis put a slim leg's inner-front faces on the wrong side and flipped them -> broken hem loops)."""
     zc = D['pelvis'][-1][0]
-    legc = {s: np.array([s * D['legs'][1][1], D['legs'][1][3]]) for s in (1, -1)}
+    zl = np.array([l[0] for l in D['legs']])[::-1]; xl = np.array([l[1] for l in D['legs']])[::-1]; yl = np.array([l[3] for l in D['legs']])[::-1]
     yc = np.mean([p[3] for p in D['pelvis']])
     def f(c):
         if c[2] > zc - .002: return np.array([0, yc, c[2]])
         s = 1 if c[0] >= 0 else -1
-        return np.array([legc[s][0], legc[s][1], c[2]])
+        return np.array([s * np.interp(c[2], zl, xl), np.interp(c[2], zl, yl), c[2]])
     return f
 
 
@@ -241,6 +242,9 @@ def tube(path, r, k=8, cap=True):
 
 def build(hero_id, design, outp):
     D = DESIGNS[design]()
+    if os.environ.get('PANTS_DESIGN'):                      # design overrides (data only), like POLO_DESIGN / SHOE_DESIGN (male-garments chat)
+        import json as _json; D.update(_json.loads(os.environ['PANTS_DESIGN']))
+        D['legs'] = [tuple(l) for l in D['legs']]; D['pelvis'] = [tuple(p) for p in D['pelvis']]
     bpy.ops.wm.read_factory_settings(use_empty=True)
     import cv2io, glib as G, fit
     from mathutils.bvhtree import BVHTree
@@ -263,6 +267,8 @@ def build(hero_id, design, outp):
     pan = np.zeros(len(faces), np.int32); shell.data.attributes['panel'].data.foreach_get('value', pan)
     loops = boundary_loops_poly(faces)
     print('LOOPS', len(loops), [(len(l), round(float(pos[l, 2].mean()), 3)) for l in loops])
+    if len(loops) != 3:                                     # waist + 2 hems; more = mixed face winding in the cage (see leg_axis_fn)
+        raise RuntimeError('pants2: %d boundary loops, expected 3 (waist + 2 hems): cage faces wound inconsistently' % len(loops))
     top = max(loops, key=lambda l: pos[l, 2].mean())
     hems = [l for l in loops if l is not top]
     # seam lines (panel boundaries), hem and waist distance fields

@@ -21,7 +21,9 @@ Shader "GolfArcade/GolfOcean"
    #pragma vertex vert
    #pragma fragment frag
    #pragma multi_compile_fog
+   #pragma multi_compile_fragment _ MAJESTIC_WEATHER_ON // MAJESTIC_WEATHER_HOOK
    #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+#include "../../Environment/Shaders/EnvironmentSurface.hlsl"
    #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
    #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
    CBUFFER_START(UnityPerMaterial)
@@ -76,7 +78,7 @@ Shader "GolfArcade/GolfOcean"
     foam*=.55+.25*sin(dot(i.w.xz,float2(1.21,.73))-_Time.y*.6);
     colour=lerp(colour,half3(.69,.89,.87),foam*.38);
     half fog=InitializeInputDataFog(float4(i.w,1),0);
-    return half4(MixFog(colour,fog),1);
+    return half4(EnvironmentFog(MajesticWeatherWater(colour*lerp(half3(1,1,1),half3(.35,.55,.75),_DreamNight)),fog,i.w),1); // MAJESTIC_WEATHER_HOOK
    }
    ENDHLSL
   }

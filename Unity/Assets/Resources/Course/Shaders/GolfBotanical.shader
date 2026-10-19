@@ -13,6 +13,8 @@ Shader "GolfArcade/GolfBotanical"
   HLSLINCLUDE
   #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
   #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+#define MAJESTIC_WEATHER_LITE 1 // MAJESTIC_WEATHER_HOOK (no extra texture in these shaders)
+#include "Assets/Resources/Majestic/MajesticWeather.hlsl" // MAJESTIC_WEATHER_HOOK
   CBUFFER_START(UnityPerMaterial)
    half4 _BaseColor;half _Gloss,_Leaf,_VertexPalette;
   CBUFFER_END
@@ -35,6 +37,7 @@ Shader "GolfArcade/GolfBotanical"
    #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
    #pragma multi_compile_fragment _ _SHADOWS_SOFT
    #pragma multi_compile_fog
+   #pragma multi_compile_fragment _ MAJESTIC_WEATHER_ON // MAJESTIC_WEATHER_HOOK
    half4 frag(V i,FRONT_FACE_TYPE front:FRONT_FACE_SEMANTIC):SV_Target {
     half3 n=normalize(i.n)*IS_FRONT_VFACE(front,1,-1);
     Light sun=GetMainLight(TransformWorldToShadowCoord(i.w));
@@ -47,7 +50,7 @@ Shader "GolfArcade/GolfBotanical"
     c+=albedo*sun.color*back*.22h*_Leaf*sun.shadowAttenuation;
     half3 h=SafeNormalize(sun.direction+SafeNormalize(GetWorldSpaceViewDir(i.w)));
     c+=sun.color*pow(saturate(dot(n,h)),36.0h)*_Gloss*.075h*sun.shadowAttenuation;
-    return half4(MixFog(c,InitializeInputDataFog(float4(i.w,1),0)),1);
+    return half4(MajesticWeatherMixFog(c,InitializeInputDataFog(float4(i.w,1),0),i.w),1); // MAJESTIC_WEATHER_HOOK
    }
    ENDHLSL
   }

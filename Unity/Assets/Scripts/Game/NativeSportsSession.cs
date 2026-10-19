@@ -24,13 +24,13 @@ namespace GolfArcade.Game
             // The player's kit colours (hex, "" = the kit's own), coaching tips, TV edge margin.
             public int hairStyle=1,hairColor=1,faceShape,heightChoice=2,buildChoice=2,haircut=-1;
             public float bodySize=-1;
-            public string shirt,shorts,accent,racket,skinHex,hairHex; public bool tips=true; public float overscan;
+            public string tennisCamera; public string shirt,shorts,accent,racket,skinHex,hairHex; public bool tips=true; public float overscan;
             // The tennis court: "" / "resort", "skyscraper" or "volcano"; and a court colour (hex, "" = the venue's own).
             public string venue,course,courtHex,network; public int aimSequence;
             public string[] emotes; public string intros="full"; public bool presentationConstrained,bigMoments=true,holeFlyover=true;
             public bool hasReadyPose; public float qx,qy,qz,qw;
-            // Golf's match settings: no round twists, no weather or things moving about the holes (missing: both on).
-            public bool noTwists,noWeather,noChallenges;
+            // Golf's match settings: optional round twists and challenges; automatic weather is always enabled.
+            public bool noTwists,noChallenges;
             /// The day's forecast round (yyyymmdd), or 0.
             public int daily;
         }
@@ -268,7 +268,7 @@ namespace GolfArcade.Game
             if((m.sport=="tennis" && (!tennis || !tennis.Initialized)) || (m.sport=="golf" && !golf)) {
                 loading=false; SetPaused(true); Emit("error","The sport did not initialize its gameplay scene."); yield break;
             }
-            if(tennis) { tennis.NativeControlled=true; tennis.AutoPlay=m.bench; if(m.difficulty>=0) tennis.OpponentDifficulty=Mathf.Clamp01(m.difficulty); tennis.SelectCharacter(m.female);
+            if(tennis) { tennis.ElevatedCamera=m.tennisCamera=="elevated"; tennis.NativeControlled=true; tennis.AutoPlay=m.bench; if(m.difficulty>=0) tennis.OpponentDifficulty=Mathf.Clamp01(m.difficulty); tennis.SelectCharacter(m.female);
                 TennisCoach.TipsEnabled=false;
                 tennis.ApplyOutfit(TennisLook.Kit.From(m.shirt,m.shorts,m.accent,m.racket,m.skin));
                 tennis.Player.Customize(m.skin,m.hairStyle,m.hairColor,m.faceShape,m.heightChoice,m.buildChoice,m.bodySize,TennisLook.Kit.From(m.shirt,m.shorts,m.accent,m.racket,m.skin));
@@ -285,7 +285,7 @@ namespace GolfArcade.Game
                     string.IsNullOrEmpty(m.coach) ? null : m.coach.Split('|')); }
             if(tennis) { tennis.EquipEmotes(m.emotes); tennis.SetControllerSetup(!m.bench && !multiplayerSession); }
             if(m.bench && !GetComponent<FrameProbe>()) gameObject.AddComponent<FrameProbe>().Report=r=>Emit("perf",r);
-            if(golf) { golf.EquipResultEmotes(m.emotes); golf.SetRoundEvents(!m.noTwists,!m.noWeather,!m.noChallenges); golf.SetDailyRound(m.daily);
+            if(golf) { golf.EquipResultEmotes(m.emotes); golf.SetRoundEvents(!m.noTwists,true,!m.noChallenges); golf.SetDailyRound(m.daily);
                 // behind the plaza the first hole builds a slice a frame (the plaza keeps drawing); otherwise at once, under the TV's cover
                 if(behindPlaza) { var steps=golf.PrepareNativeAddressSteps(m.course); while(steps.MoveNext()) { if(hub) hub.BayLoading(.6f+.4f*steps.Current); yield return null; } }
                 else golf.PrepareNativeAddress(m.course); }
@@ -460,6 +460,7 @@ namespace GolfArcade.Game
         }
         /// Versus tennis plays the phone exactly as single player does (TennisGame.Versus).
         bool VersusTennis => tennis && tennis.Versus;
+        internal static double DiagnosticClock => SportsClock();
         void ApplySample(in Sample sample,double now) {
             TrackingWarning = sample.degraded ? DegradedWarning : "";
             if(paused || !sample.valid) {
@@ -467,6 +468,12 @@ namespace GolfArcade.Game
                 lastSwingStart=Math.Max(lastSwingStart,sample.swingStart);
                 lastSwingAbort=Math.Max(lastSwingAbort,sample.swingAbort);
                 return;
+            }
+            if (ExperienceTrace.Enabled) {
+                string sport = tennis ? "tennis" : "golf";
+                if (sample.swingStart > lastSwingStart) ExperienceTrace.NativeEvent(sport, "onset-polled", sample.swingStart, EventTime(sample.onsetTime,sample.time));
+                if (sample.swing > lastSwing) ExperienceTrace.NativeEvent(sport, "confirmation-polled", sample.swing, EventTime(sample.confirmationTime,sample.time));
+                if (sample.swingAbort > lastSwingAbort) ExperienceTrace.NativeEvent(sport, "abort-polled", sample.swingAbort, EventTime(sample.abortTime,sample.time));
             }
             if(SportsMultiplayer.Active && !VersusTennis) {
                 // Golf swings as in single player, motion or touch: the game strikes it and sends the host the shot.

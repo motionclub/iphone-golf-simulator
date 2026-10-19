@@ -1,0 +1,85 @@
+{
+ "NO_PAINT": {
+  "pass_": true,
+  "detail": "no painted panorama bound on any enabled renderer, the skybox or a global"
+ },
+ "SUN_MATCH": {
+  "pass_": true,
+  "detail": "disc vs light 0.000 deg; scattering-glow azimuth vs light 0.000 deg; light az 89.0 el 58.0"
+ },
+ "PARALLAX": {
+  "pass_": true,
+  "detail": {
+   "crane_60m": [
+    {
+     "move": "crane",
+     "landmark": "Cloud0",
+     "dist_m": 5482.0,
+     "radius_m": 0.0,
+     "predicted_dx": -14.65,
+     "predicted_range": [
+      -14.65,
+      -14.65
+     ],
+     "measured_dx": -14.66,
+     "err_px": 0.01,
+     "ncc": 0.999
+    },
+    {
+     "move": "crane",
+     "landmark": "Cloud5",
+     "dist_m": 12632.0,
+     "radius_m": 0.0,
+     "predicted_dx": -6.35,
+     "predicted_range": [
+      -6.35,
+      -6.35
+     ],
+     "measured_dx": -7.21,
+     "err_px": 0.86,
+     "ncc": 0.99
+    },
+    {
+     "move": "crane",
+     "landmark": "Karst_02@42.70393",
+     "dist_m": 2939.0,
+     "radius_m": 442.0,
+     "predicted_dx": -30.52,
+     "predicted_range": [
+      -35.92,
+      -26.53
+     ],
+     "measured_dx": -31.52,
+     "err_px": 0.0,
+     "ncc": 0.864
+    }
+   ],
+   "dolly_2m": [],
+   "note": "tolerance max(1 px, 10%); needs 3 crane landmarks + min(3, visible) dolly landmarks within it"
+  }
+ },
+ "LONG_LENS": {
+  "pass_": true,
+  "detail": {
+   "edge_p99_upper_half": {
+    "04_longlens": {
+     "before": 0.1613,
+     "after": 0.1619
+    }
+   },
+   "note": "after must keep >=90% of the before edge energy at the longest lenses (27 deg stare, 14 deg test); crops in proof/"
+  }
+ },
+ "PERF": {
+  "pass_": true,
+  "detail": [
+   "tee 1920x1080: +-0.723 ms (rendered - painted, interleaved median, Editor proxy)",
+   "crane 1920x1080: +0.509 ms (rendered - painted, interleaved median, Editor proxy)",
+   "device: NOT RUN"
+  ]
+ },
+ "CHAR_SAME": {
+  "pass_": true,
+  "detail": "mean dE76 0.002, p95 0.000 over 416116 hero pixels"
+ }
+}

@@ -1,0 +1,79 @@
+using System.Collections;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using GolfArcade.EnvironmentArt;
+using GolfArcade.Game;
+using GolfArcade.Tennis;
+using GolfArcade.Course;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.TestTools;
+using NUnit.Framework;
+
+namespace GolfArcade.PlayTests
+{
+    public class EnvironmentFxProofTests
+    {
+        static string Root=>System.Environment.GetEnvironmentVariable("FX_OUT");
+        static void Stage(int stage) {
+            System.Environment.SetEnvironmentVariable("VISUAL_ENVIRONMENT_STAGE",stage.ToString());
+            typeof(EnvironmentLook).GetMethod("Reset",BindingFlags.Static|BindingFlags.NonPublic).Invoke(null,null);
+        }
+        static IEnumerator Frames(string name,Component owner,Camera camera,System.Action trigger) {
+            var systems=owner.GetComponentsInChildren<ParticleSystem>(true);
+            foreach(var ps in systems) {ps.Stop(true,ParticleSystemStopBehavior.StopEmittingAndClear);ps.useAutoRandomSeed=false;ps.randomSeed=14026;ps.Play();}
+            int objects=Object.FindObjectsByType<ParticleSystem>(FindObjectsSortMode.None).Length;
+            Random.InitState(14026);trigger();float start=Time.time;
+            string folder=Path.Combine(Root,"stage"+EnvironmentLook.Stage,name);Directory.CreateDirectory(folder);
+            int frames=name=="celebration"?48:16;
+            for(int i=0;i<frames;i++) {
+                string file=Path.Combine(folder,i.ToString("000")+".jpg");
+                GameCapture.Save(file,960,540);
+                int count=0;foreach(var ps in systems)count+=ps.particleCount;
+                File.AppendAllText(Path.Combine(folder,"frames.tsv"),i+"\t"+(Time.time-start).ToString("R",System.Globalization.CultureInfo.InvariantCulture)+"\t"+count+"\n");
+                yield return new WaitForSeconds(.05f);
+            }
+            Assert.AreEqual(objects,Object.FindObjectsByType<ParticleSystem>(FindObjectsSortMode.None).Length,"Events must reuse their pools");
+        }
+        [UnityTest,Timeout(900000)] public IEnumerator ExistingPoolsAndRecipes() {
+            foreach(int stage in new[]{5,6}) {
+                Stage(stage);TennisVenue.Selected=TennisVenueKind.Resort;
+                yield return SceneManager.LoadSceneAsync("Tennis");yield return null;
+                var game=Object.FindFirstObjectByType<TennisGame>();game.ManualSimulation=true;game.NativeControlled=true;
+                game.ConfigureMatch(TennisGame.Mode.Training,null,null,null);
+                for(int i=0;i<360;i++)game.Step(1f/120);
+                var fx=Object.FindFirstObjectByType<TennisFx>();var cam=game.GameplayCamera;
+                cam.aspect=16f/9f;var at=game.Player.SweetSpot.position;
+                yield return Frames("normal-contact",fx,cam,()=>fx.Contact(at,Timing.Great,false));
+                yield return Frames("perfect-contact",fx,cam,()=>fx.Contact(at,Timing.Perfect,false));
+                yield return Frames("net",fx,cam,()=>fx.NetHit(new Vector3(0,1,0)));
+                yield return Frames("celebration",fx,cam,()=>fx.Celebrate(game.Player.transform.position,.5f));
+                yield return SceneManager.LoadSceneAsync("Golf");yield return null;
+                var golf=Object.FindFirstObjectByType<GolfGame>();golf.InstantReplays=false;golf.ChooseHoles(0);golf.Play();yield return null;
+                GolfGame.ForcedWeather=Weather.Clear;
+                foreach(var target in new (string name,int hole,HazardKind? hazard)[]{("grass",7,null),("sand",7,HazardKind.Bunker),("water",20,HazardKind.Water),("lava",16,HazardKind.Lava),("ice",17,HazardKind.Ice)}) {
+                    golf.enabled=true;golf.JumpToHole(target.hole);
+                    while(golf.Current!=GolfGame.State.Aim) {golf.SkipPresentation();yield return null;}
+                    var effect=Object.FindFirstObjectByType<ShotEffects>();cam=Camera.main;cam.aspect=16f/9f;
+                    var rig=cam.GetComponent<CameraRig>();if(rig)rig.enabled=false;
+                    var point=golf.CurrentHole.Tee;
+                    if(target.hazard.HasValue) {var hazard=golf.CurrentHole.Hazards.First(h=>h.Kind==target.hazard.Value);point=new CoursePoint(hazard.X,hazard.Distance);}
+                    else point=new CoursePoint(point.X,point.D+4);
+                    at=HoleView.ToWorld(point)+Vector3.up*.05f;if(target.name=="water")at.y=.02f;
+                    // An isolated effect review view in the actual biome, identical
+                    // before/after. Production cameras and their framing are untouched.
+                    golf.enabled=false;cam.transform.position=at+new Vector3(0,4,-7);cam.transform.LookAt(at+Vector3.up*.4f);cam.fieldOfView=46;
+                    yield return null;
+                    var location=at;string name=target.name;
+                    yield return Frames(name,effect,cam,()=>{
+                        if(name=="water")effect.Splash(location);else if(name=="lava")effect.LavaBurst(location);
+                        else effect.Touchdown(location,name=="ice"?CourseLie.Ice:name=="sand"?CourseLie.Bunker:CourseLie.Fairway,1);
+                    });
+                    if(rig)rig.enabled=true;
+                }
+                golf.enabled=true;GolfGame.ForcedWeather=null;
+            }
+        }
+    }
+}

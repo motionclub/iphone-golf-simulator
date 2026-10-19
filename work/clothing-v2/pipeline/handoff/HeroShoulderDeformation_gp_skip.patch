@@ -1,0 +1,11 @@
+--- a/Assets/Scripts/Tennis/HeroShoulderDeformation.cs
++++ b/Assets/Scripts/Tennis/HeroShoulderDeformation.cs
+@@ -57,7 +57,7 @@
+             top=hero.kit?.FirstOrDefault(r=>r&&r.name=="Kit_Top");
+             if(!top||!MatchHeroLook.IsKitV2(top))return;
+             // This independently built tank carries torso bindings and its own CV2 targets.
+-            if(top.sharedMesh.name.Contains("FemaleSoulful"))return;
++            if(top.sharedMesh.name.Contains("FemaleSoulful")||top.sharedMesh.name.Contains("[gp]"))return;   // CLONE-ONLY patch (chat 5): pipeline meshes carry their own weights, see REQUESTS.md
+             var mesh=Instantiate(top.sharedMesh);ownedTop=mesh;mesh.name += " (torso binding)";mesh.hideFlags=HideFlags.DontSave;
+             var palette=top.bones.ToList();var bind=mesh.bindposes.ToList();var bodyBones=hero.body.bones;
+             int Index(string name) {

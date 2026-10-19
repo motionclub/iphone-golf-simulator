@@ -1,0 +1,16 @@
+{
+  "mode": "stage only; no commits",
+  "fxFiles": [
+    {
+      "path": "Unity/Assets/Scripts/Tennis/TennisFx.cs",
+      "existingUnstagedEditsPreserved": true,
+      "indexSHA256": "044d6ff4d035fe303accec96d4a323f31323e4d8f169d9f0485d3c572153913b"
+    },
+    {
+      "path": "Unity/Assets/Scripts/Game/ShotEffects.cs",
+      "existingUnstagedEditsPreserved": true,
+      "indexSHA256": "68fa4c7611efe0bd308c69894628840b1b0ae1c891bf3450d708f26e9f3b1814"
+    }
+  ],
+  "scope": "Explicit authored file/directory list only. Existing unrelated work is not reset, stashed or bulk staged."
+}

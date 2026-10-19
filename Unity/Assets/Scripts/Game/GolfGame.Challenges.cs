@@ -41,7 +41,7 @@ namespace GolfArcade.Game
         public static event Action<string> RoundSummary;
 
         /// Twists, weather with things moving about, and rings with bounties, for the rounds started from now on.
-        public void SetRoundEvents(bool twists, bool world, bool challenges) { twistsWanted = twists; worldWanted = world; challengesWanted = challenges; }
+        public void SetRoundEvents(bool twists, bool world, bool challenges) { twistsWanted = twists; worldWanted = true; challengesWanted = challenges; }
 
         /// The next round started here is the day's forecast round: the date is its seed (the same
         /// round for everyone that day) and everything is on.

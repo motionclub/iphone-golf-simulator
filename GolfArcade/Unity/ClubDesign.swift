@@ -95,7 +95,7 @@ struct ClubBackdrop: View {
     let scene: String
     var tint: Double = 0.45
     var body: some View {
-        TimelineView(.animation(minimumInterval: 1 / 30, paused: Club.still)) { context in
+        TimelineView(.animation(minimumInterval: 1 / 60, paused: Club.still)) { context in
             let t = Club.still ? 0 : context.date.timeIntervalSinceReferenceDate
             GeometryReader { g in
                 ZStack {

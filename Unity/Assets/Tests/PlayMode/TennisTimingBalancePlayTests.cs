@@ -38,7 +38,7 @@ namespace GolfArcade.PlayTests {
      if(returned){returns++;wingReturns++;
       if(System.Environment.GetEnvironmentVariable("TIMING_BASELINE")!="1")Assert.LessOrEqual(game.LastHit.Speed,34f);
       Assert.AreNotEqual(Timing.Missed,game.LastGrade);
-      if(System.Environment.GetEnvironmentVariable("TIMING_BASELINE")!="1"&&game.LastGrade==Timing.Perfect)Assert.Less(Vector3.Distance(landing,TennisRules.PlacementTarget(.8f*wing,.8f)),.25f);
+      if(System.Environment.GetEnvironmentVariable("TIMING_BASELINE")!="1"&&game.LastGrade==Timing.Perfect)Assert.Less(Vector3.Distance(landing,TennisRules.TimingPlacement(TennisGame.LastLateness,.65f,game.LastHit.Quality,0,0)),.25f);
      }
      csv.AppendLine(System.FormattableString.Invariant($"{wing},{at:F3},{returned},{(returned?game.LastHit.Timing:0):F4},{(returned?game.LastHit.Quality:0):F4},{(returned?game.LastHit.Speed:0):F3},{game.LastContactGap:F4},{landing.x:F3},{landing.z:F3}"));
      if(returned&&game.LastGrade>=Timing.Great&&trial%3==0){yield return null;game.GameplayCamera.targetDisplay=0;

@@ -1,0 +1,2052 @@
+[
+  {
+    "shot": "GolfKitHero_Female__golf_07_clear__a_gameplay",
+    "after": {
+      "heroSaturationMean": 0.6252,
+      "heroSaturationMedian": 0.6265,
+      "heroDarkest5MeanL": 0.486,
+      "heroP05L": 0.678,
+      "heroDetailRmsL": 11.999,
+      "face": {
+        "pixels": 54,
+        "L": 48.14,
+        "a": 9.35,
+        "b": 22.81,
+        "hue": 28.0,
+        "saturation": 0.474,
+        "rgb": [
+          142,
+          106,
+          75
+        ]
+      },
+      "shirt": {
+        "pixels": 4229,
+        "L": 34.06,
+        "a": 26.07,
+        "b": 21.49,
+        "hue": 9.87,
+        "saturation": 0.622,
+        "rgb": [
+          127,
+          61,
+          48
+        ],
+        "hueError": 0.31
+      },
+      "edgeL": 36.27,
+      "ringL": 57.82,
+      "silhouetteDeltaL": 21.55
+    },
+    "paletteHue": 10.175
+  },
+  {
+    "shot": "GolfKitHero_Female__golf_07_clear__b_close",
+    "after": {
+      "heroSaturationMean": 0.6371,
+      "heroSaturationMedian": 0.6264,
+      "heroDarkest5MeanL": 0.343,
+      "heroP05L": 0.648,
+      "heroDetailRmsL": 9.885,
+      "face": {
+        "pixels": 163,
+        "L": 44.62,
+        "a": 7.09,
+        "b": 21.1,
+        "hue": 28.06,
+        "saturation": 0.477,
+        "rgb": [
+          130,
+          97,
+          68
+        ]
+      },
+      "shirt": {
+        "pixels": 20649,
+        "L": 36.31,
+        "a": 28.08,
+        "b": 23.62,
+        "hue": 10.59,
+        "saturation": 0.63,
+        "rgb": [
+          135,
+          65,
+          50
+        ],
+        "hueError": 0.41
+      },
+      "edgeL": 25.68,
+      "ringL": 56.95,
+      "silhouetteDeltaL": 31.27
+    },
+    "paletteHue": 10.175
+  },
+  {
+    "shot": "GolfKitHero_Female__golf_07_fog__a_gameplay",
+    "after": {
+      "heroSaturationMean": 0.6196,
+      "heroSaturationMedian": 0.6364,
+      "heroDarkest5MeanL": 0.522,
+      "heroP05L": 0.69,
+      "heroDetailRmsL": 12.73,
+      "face": {
+        "pixels": 54,
+        "L": 46.79,
+        "a": 9.61,
+        "b": 22.81,
+        "hue": 27.76,
+        "saturation": 0.482,
+        "rgb": [
+          139,
+          103,
+          72
+        ]
+      },
+      "shirt": {
+        "pixels": 4230,
+        "L": 33.8,
+        "a": 26.34,
+        "b": 21.88,
+        "hue": 10.37,
+        "saturation": 0.638,
+        "rgb": [
+          127,
+          60,
+          46
+        ],
+        "hueError": 0.19
+      },
+      "edgeL": 37.22,
+      "ringL": 51.97,
+      "silhouetteDeltaL": 14.75
+    },
+    "paletteHue": 10.175
+  },
+  {
+    "shot": "GolfKitHero_Female__golf_07_fog__b_close",
+    "after": {
+      "heroSaturationMean": 0.643,
+      "heroSaturationMedian": 0.64,
+      "heroDarkest5MeanL": 0.324,
+      "heroP05L": 0.629,
+      "heroDetailRmsL": 10.444,
+      "face": {
+        "pixels": 163,
+        "L": 43.36,
+        "a": 8.1,
+        "b": 20.55,
+        "hue": 27.54,
+        "saturation": 0.477,
+        "rgb": [
+          128,
+          95,
+          67
+        ]
+      },
+      "shirt": {
+        "pixels": 20649,
+        "L": 35.45,
+        "a": 27.98,
+        "b": 23.83,
+        "hue": 10.71,
+        "saturation": 0.636,
+        "rgb": [
+          132,
+          63,
+          48
+        ],
+        "hueError": 0.53
+      },
+      "edgeL": 27.84,
+      "ringL": 58.87,
+      "silhouetteDeltaL": 31.03
+    },
+    "paletteHue": 10.175
+  },
+  {
+    "shot": "GolfKitHero_Female__golf_07_rain__a_gameplay",
+    "after": {
+      "heroSaturationMean": 0.6011,
+      "heroSaturationMedian": 0.6263,
+      "heroDarkest5MeanL": 0.452,
+      "heroP05L": 0.648,
+      "heroDetailRmsL": 13.825,
+      "face": {
+        "pixels": 54,
+        "L": 49.8,
+        "a": 9.9,
+        "b": 23.37,
+        "hue": 27.66,
+        "saturation": 0.475,
+        "rgb": [
+          148,
+          110,
+          78
+        ]
+      },
+      "shirt": {
+        "pixels": 4229,
+        "L": 29.64,
+        "a": 24.9,
+        "b": 19.87,
+        "hue": 8.92,
+        "saturation": 0.649,
+        "rgb": [
+          114,
+          51,
+          40
+        ],
+        "hueError": 1.25
+      },
+      "edgeL": 36.59,
+      "ringL": 47.59,
+      "silhouetteDeltaL": 11.0
+    },
+    "paletteHue": 10.175
+  },
+  {
+    "shot": "GolfKitHero_Female__golf_07_rain__b_close",
+    "after": {
+      "heroSaturationMean": 0.6463,
+      "heroSaturationMedian": 0.6413,
+      "heroDarkest5MeanL": 0.187,
+      "heroP05L": 0.414,
+      "heroDetailRmsL": 12.172,
+      "face": {
+        "pixels": 163,
+        "L": 46.43,
+        "a": 7.69,
+        "b": 21.2,
+        "hue": 27.54,
+        "saturation": 0.452,
+        "rgb": [
+          135,
+          102,
+          74
+        ]
+      },
+      "shirt": {
+        "pixels": 20649,
+        "L": 31.31,
+        "a": 27.35,
+        "b": 22.16,
+        "hue": 10.0,
+        "saturation": 0.655,
+        "rgb": [
+          119,
+          54,
+          41
+        ],
+        "hueError": 0.18
+      },
+      "edgeL": 27.82,
+      "ringL": 53.81,
+      "silhouetteDeltaL": 25.99
+    },
+    "paletteHue": 10.175
+  },
+  {
+    "shot": "GolfKitHero_Female__golf_07_storm__a_gameplay",
+    "after": {
+      "heroSaturationMean": 0.6099,
+      "heroSaturationMedian": 0.6333,
+      "heroDarkest5MeanL": 0.349,
+      "heroP05L": 0.568,
+      "heroDetailRmsL": 12.129,
+      "face": {
+        "pixels": 54,
+        "L": 51.13,
+        "a": 10.24,
+        "b": 23.61,
+        "hue": 26.85,
+        "saturation": 0.469,
+        "rgb": [
+          152,
+          113,
+          81
+        ]
+      },
+      "shirt": {
+        "pixels": 4229,
+        "L": 27.46,
+        "a": 24.84,
+        "b": 19.19,
+        "hue": 10.29,
+        "saturation": 0.66,
+        "rgb": [
+          106,
+          48,
+          36
+        ],
+        "hueError": 0.12
+      },
+      "edgeL": 34.12,
+      "ringL": 37.73,
+      "silhouetteDeltaL": 3.61
+    },
+    "paletteHue": 10.175
+  },
+  {
+    "shot": "GolfKitHero_Female__golf_07_storm__b_close",
+    "after": {
+      "heroSaturationMean": 0.6523,
+      "heroSaturationMedian": 0.6494,
+      "heroDarkest5MeanL": 0.151,
+      "heroP05L": 0.335,
+      "heroDetailRmsL": 10.554,
+      "face": {
+        "pixels": 163,
+        "L": 47.96,
+        "a": 8.13,
+        "b": 21.49,
+        "hue": 27.62,
+        "saturation": 0.45,
+        "rgb": [
+          140,
+          106,
+          77
+        ]
+      },
+      "shirt": {
+        "pixels": 20649,
+        "L": 29.38,
+        "a": 26.89,
+        "b": 21.65,
+        "hue": 10.13,
+        "saturation": 0.675,
+        "rgb": [
+          114,
+          50,
+          37
+        ],
+        "hueError": 0.04
+      },
+      "edgeL": 24.05,
+      "ringL": 38.94,
+      "silhouetteDeltaL": 14.89
+    },
+    "paletteHue": 10.175
+  },
+  {
+    "shot": "GolfKitHero_Female__golf_16_clear__a_gameplay",
+    "after": {
+      "heroSaturationMean": 0.6245,
+      "heroSaturationMedian": 0.6552,
+      "heroDarkest5MeanL": 0.184,
+      "heroP05L": 0.335,
+      "heroDetailRmsL": 12.474,
+      "face": {
+        "pixels": 54,
+        "L": 50.73,
+        "a": 14.13,
+        "b": 24.47,
+        "hue": 24.29,
+        "saturation": 0.511,
+        "rgb": [
+          159,
+          111,
+          78
+        ]
+      },
+      "shirt": {
+        "pixels": 4237,
+        "L": 30.37,
+        "a": 28.65,
+        "b": 21.05,
+        "hue": 7.59,
+        "saturation": 0.664,
+        "rgb": [
+          119,
+          50,
+          40
+        ],
+        "hueError": 2.59
+      },
+      "edgeL": 33.11,
+      "ringL": 49.75,
+      "silhouetteDeltaL": 16.64
+    },
+    "paletteHue": 10.175
+  },
+  {
+    "shot": "GolfKitHero_Female__golf_16_clear__b_close",
+    "after": {
+      "heroSaturationMean": 0.5877,
+      "heroSaturationMedian": 0.605,
+      "heroDarkest5MeanL": 0.398,
+      "heroP05L": 0.848,
+      "heroDetailRmsL": 13.011,
+      "face": {
+        "pixels": 164,
+        "L": 45.81,
+        "a": 12.92,
+        "b": 22.19,
+        "hue": 24.0,
+        "saturation": 0.5,
+        "rgb": [
+          140,
+          98,
+          70
+        ]
+      },
+      "shirt": {
+        "pixels": 20647,
+        "L": 54.5,
+        "a": 31.14,
+        "b": 31.62,
+        "hue": 16.19,
+        "saturation": 0.64,
+        "rgb": [
+          197,
+          105,
+          71
+        ],
+        "hueError": 6.01
+      },
+      "edgeL": 23.65,
+      "ringL": 48.17,
+      "silhouetteDeltaL": 24.52
+    },
+    "paletteHue": 10.175
+  },
+  {
+    "shot": "GolfKitHero_Female__golf_17_clear__a_gameplay",
+    "after": {
+      "heroSaturationMean": 0.5556,
+      "heroSaturationMedian": 0.4928,
+      "heroDarkest5MeanL": 0.69,
+      "heroP05L": 1.222,
+      "heroDetailRmsL": 11.924,
+      "face": {
+        "pixels": 54,
+        "L": 44.82,
+        "a": 9.93,
+        "b": 20.58,
+        "hue": 25.29,
+        "saturation": 0.448,
+        "rgb": [
+          135,
+          100,
+          74
+        ]
+      },
+      "shirt": {
+        "pixels": 4231,
+        "L": 36.78,
+        "a": 23.63,
+        "b": 14.08,
+        "hue": 4.76,
+        "saturation": 0.492,
+        "rgb": [
+          128,
+          70,
+          65
+        ],
+        "hueError": 5.41
+      },
+      "edgeL": 39.82,
+      "ringL": 46.04,
+      "silhouetteDeltaL": 6.22
+    },
+    "paletteHue": 10.175
+  },
+  {
+    "shot": "GolfKitHero_Female__golf_17_clear__b_close",
+    "after": {
+      "heroSaturationMean": 0.5932,
+      "heroSaturationMedian": 0.5204,
+      "heroDarkest5MeanL": 0.579,
+      "heroP05L": 1.026,
+      "heroDetailRmsL": 10.285,
+      "face": {
+        "pixels": 162,
+        "L": 43.72,
+        "a": 8.12,
+        "b": 19.03,
+        "hue": 23.67,
+        "saturation": 0.416,
+        "rgb": [
+          131,
+          98,
+          76
+        ]
+      },
+      "shirt": {
+        "pixels": 20640,
+        "L": 41.04,
+        "a": 26.38,
+        "b": 17.84,
+        "hue": 8.0,
+        "saturation": 0.521,
+        "rgb": [
+          144,
+          79,
+          69
+        ],
+        "hueError": 2.18
+      },
+      "edgeL": 25.1,
+      "ringL": 55.86,
+      "silhouetteDeltaL": 30.76
+    },
+    "paletteHue": 10.175
+  },
+  {
+    "shot": "GolfKitHero_Female__golf_20_clear__a_gameplay",
+    "after": {
+      "heroSaturationMean": 0.6294,
+      "heroSaturationMedian": 0.625,
+      "heroDarkest5MeanL": 0.431,
+      "heroP05L": 0.655,
+      "heroDetailRmsL": 11.915,
+      "face": {
+        "pixels": 54,
+        "L": 47.91,
+        "a": 9.08,
+        "b": 22.5,
+        "hue": 28.21,
+        "saturation": 0.473,
+        "rgb": [
+          141,
+          106,
+          74
+        ]
+      },
+      "shirt": {
+        "pixels": 4236,
+        "L": 33.45,
+        "a": 25.63,
+        "b": 20.88,
+        "hue": 9.35,
+        "saturation": 0.616,
+        "rgb": [
+          125,
+          60,
+          48
+        ],
+        "hueError": 0.82
+      },
+      "edgeL": 35.03,
+      "ringL": 56.34,
+      "silhouetteDeltaL": 21.31
+    },
+    "paletteHue": 10.175
+  },
+  {
+    "shot": "GolfKitHero_Female__golf_20_clear__b_close",
+    "after": {
+      "heroSaturationMean": 0.6401,
+      "heroSaturationMedian": 0.625,
+      "heroDarkest5MeanL": 0.32,
+      "heroP05L": 0.629,
+      "heroDetailRmsL": 9.492,
+      "face": {
+        "pixels": 164,
+        "L": 44.67,
+        "a": 7.07,
+        "b": 20.69,
+        "hue": 28.52,
+        "saturation": 0.469,
+        "rgb": [
+          130,
+          98,
+          69
+        ]
+      },
+      "shirt": {
+        "pixels": 20653,
+        "L": 35.45,
+        "a": 27.73,
+        "b": 23.18,
+        "hue": 10.84,
+        "saturation": 0.629,
+        "rgb": [
+          132,
+          64,
+          49
+        ],
+        "hueError": 0.66
+      },
+      "edgeL": 23.42,
+      "ringL": 41.2,
+      "silhouetteDeltaL": 17.78
+    },
+    "paletteHue": 10.175
+  },
+  {
+    "shot": "GolfKitHero_Male__golf_07_clear__a_gameplay",
+    "after": {
+      "heroSaturationMean": 0.7839,
+      "heroSaturationMedian": 0.9609,
+      "heroDarkest5MeanL": 0.534,
+      "heroP05L": 0.655,
+      "heroDetailRmsL": 11.053,
+      "face": {
+        "pixels": 97,
+        "L": 49.55,
+        "a": 9.88,
+        "b": 22.29,
+        "hue": 25.97,
+        "saturation": 0.453,
+        "rgb": [
+          148,
+          110,
+          81
+        ]
+      },
+      "shirt": {
+        "pixels": 6265,
+        "L": 38.11,
+        "a": -22.99,
+        "b": -7.95,
+        "hue": 182.31,
+        "saturation": 1.0,
+        "rgb": [
+          0,
+          100,
+          104
+        ],
+        "hueError": 1.06
+      },
+      "edgeL": 35.52,
+      "ringL": 58.25,
+      "silhouetteDeltaL": 22.73
+    },
+    "paletteHue": 181.245
+  },
+  {
+    "shot": "GolfKitHero_Male__golf_07_clear__b_close",
+    "after": {
+      "heroSaturationMean": 0.7936,
+      "heroSaturationMedian": 0.9412,
+      "heroDarkest5MeanL": 0.195,
+      "heroP05L": 0.335,
+      "heroDetailRmsL": 8.76,
+      "face": {
+        "pixels": 628,
+        "L": 47.75,
+        "a": 9.56,
+        "b": 22.67,
+        "hue": 28.18,
+        "saturation": 0.468,
+        "rgb": [
+          141,
+          106,
+          75
+        ]
+      },
+      "shirt": {
+        "pixels": 32444,
+        "L": 37.59,
+        "a": -23.35,
+        "b": -8.23,
+        "hue": 181.76,
+        "saturation": 1.0,
+        "rgb": [
+          0,
+          99,
+          102
+        ],
+        "hueError": 0.51
+      },
+      "edgeL": 7.84,
+      "ringL": 57.14,
+      "silhouetteDeltaL": 49.3
+    },
+    "paletteHue": 181.245
+  },
+  {
+    "shot": "GolfKitHero_Male__golf_07_fog__a_gameplay",
+    "after": {
+      "heroSaturationMean": 0.7763,
+      "heroSaturationMedian": 0.9524,
+      "heroDarkest5MeanL": 0.496,
+      "heroP05L": 0.626,
+      "heroDetailRmsL": 11.649,
+      "face": {
+        "pixels": 98,
+        "L": 47.82,
+        "a": 10.09,
+        "b": 22.15,
+        "hue": 26.11,
+        "saturation": 0.458,
+        "rgb": [
+          143,
+          106,
+          77
+        ]
+      },
+      "shirt": {
+        "pixels": 6265,
+        "L": 37.02,
+        "a": -22.31,
+        "b": -8.08,
+        "hue": 182.38,
+        "saturation": 1.0,
+        "rgb": [
+          0,
+          97,
+          101
+        ],
+        "hueError": 1.13
+      },
+      "edgeL": 35.99,
+      "ringL": 52.55,
+      "silhouetteDeltaL": 16.56
+    },
+    "paletteHue": 181.245
+  },
+  {
+    "shot": "GolfKitHero_Male__golf_07_fog__b_close",
+    "after": {
+      "heroSaturationMean": 0.7917,
+      "heroSaturationMedian": 0.9375,
+      "heroDarkest5MeanL": 0.173,
+      "heroP05L": 0.315,
+      "heroDetailRmsL": 9.351,
+      "face": {
+        "pixels": 626,
+        "L": 46.67,
+        "a": 9.84,
+        "b": 22.52,
+        "hue": 26.36,
+        "saturation": 0.471,
+        "rgb": [
+          140,
+          103,
+          74
+        ]
+      },
+      "shirt": {
+        "pixels": 32438,
+        "L": 36.32,
+        "a": -22.99,
+        "b": -8.13,
+        "hue": 181.22,
+        "saturation": 1.0,
+        "rgb": [
+          0,
+          96,
+          98
+        ],
+        "hueError": 0.03
+      },
+      "edgeL": 7.45,
+      "ringL": 58.99,
+      "silhouetteDeltaL": 51.54
+    },
+    "paletteHue": 181.245
+  },
+  {
+    "shot": "GolfKitHero_Male__golf_07_rain__a_gameplay",
+    "after": {
+      "heroSaturationMean": 0.7674,
+      "heroSaturationMedian": 1.0,
+      "heroDarkest5MeanL": 0.321,
+      "heroP05L": 0.374,
+      "heroDetailRmsL": 12.395,
+      "face": {
+        "pixels": 97,
+        "L": 50.82,
+        "a": 10.16,
+        "b": 22.54,
+        "hue": 25.71,
+        "saturation": 0.458,
+        "rgb": [
+          153,
+          113,
+          83
+        ]
+      },
+      "shirt": {
+        "pixels": 6265,
+        "L": 32.61,
+        "a": -20.38,
+        "b": -7.94,
+        "hue": 182.02,
+        "saturation": 1.0,
+        "rgb": [
+          0,
+          86,
+          89
+        ],
+        "hueError": 0.78
+      },
+      "edgeL": 34.97,
+      "ringL": 48.35,
+      "silhouetteDeltaL": 13.38
+    },
+    "paletteHue": 181.245
+  },
+  {
+    "shot": "GolfKitHero_Male__golf_07_rain__b_close",
+    "after": {
+      "heroSaturationMean": 0.7574,
+      "heroSaturationMedian": 0.9286,
+      "heroDarkest5MeanL": 0.078,
+      "heroP05L": 0.255,
+      "heroDetailRmsL": 10.302,
+      "face": {
+        "pixels": 628,
+        "L": 50.07,
+        "a": 9.85,
+        "b": 23.09,
+        "hue": 25.85,
+        "saturation": 0.436,
+        "rgb": [
+          149,
+          112,
+          84
+        ]
+      },
+      "shirt": {
+        "pixels": 32444,
+        "L": 33.24,
+        "a": -21.09,
+        "b": -7.95,
+        "hue": 182.0,
+        "saturation": 1.0,
+        "rgb": [
+          0,
+          87,
+          90
+        ],
+        "hueError": 0.75
+      },
+      "edgeL": 7.32,
+      "ringL": 54.19,
+      "silhouetteDeltaL": 46.87
+    },
+    "paletteHue": 181.245
+  },
+  {
+    "shot": "GolfKitHero_Male__golf_07_storm__a_gameplay",
+    "after": {
+      "heroSaturationMean": 0.7658,
+      "heroSaturationMedian": 1.0,
+      "heroDarkest5MeanL": 0.312,
+      "heroP05L": 0.354,
+      "heroDetailRmsL": 11.04,
+      "face": {
+        "pixels": 98,
+        "L": 52.43,
+        "a": 10.4,
+        "b": 22.79,
+        "hue": 25.96,
+        "saturation": 0.449,
+        "rgb": [
+          157,
+          117,
+          86
+        ]
+      },
+      "shirt": {
+        "pixels": 6266,
+        "L": 29.95,
+        "a": -19.48,
+        "b": -8.29,
+        "hue": 182.89,
+        "saturation": 1.0,
+        "rgb": [
+          0,
+          79,
+          83
+        ],
+        "hueError": 1.64
+      },
+      "edgeL": 31.21,
+      "ringL": 38.44,
+      "silhouetteDeltaL": 7.23
+    },
+    "paletteHue": 181.245
+  },
+  {
+    "shot": "GolfKitHero_Male__golf_07_storm__b_close",
+    "after": {
+      "heroSaturationMean": 0.7817,
+      "heroSaturationMedian": 0.9333,
+      "heroDarkest5MeanL": 0.015,
+      "heroP05L": 0.139,
+      "heroDetailRmsL": 9.213,
+      "face": {
+        "pixels": 626,
+        "L": 51.08,
+        "a": 9.99,
+        "b": 23.33,
+        "hue": 25.35,
+        "saturation": 0.461,
+        "rgb": [
+          154,
+          113,
+          83
+        ]
+      },
+      "shirt": {
+        "pixels": 32439,
+        "L": 29.88,
+        "a": -20.56,
+        "b": -7.11,
+        "hue": 180.75,
+        "saturation": 1.0,
+        "rgb": [
+          0,
+          79,
+          80
+        ],
+        "hueError": 0.5
+      },
+      "edgeL": 4.27,
+      "ringL": 37.75,
+      "silhouetteDeltaL": 33.48
+    },
+    "paletteHue": 181.245
+  },
+  {
+    "shot": "GolfKitHero_Male__golf_16_clear__a_gameplay",
+    "after": {
+      "heroSaturationMean": 0.7589,
+      "heroSaturationMedian": 0.9355,
+      "heroDarkest5MeanL": 0.23,
+      "heroP05L": 0.315,
+      "heroDetailRmsL": 10.77,
+      "face": {
+        "pixels": 99,
+        "L": 50.88,
+        "a": 13.94,
+        "b": 23.41,
+        "hue": 23.68,
+        "saturation": 0.487,
+        "rgb": [
+          156,
+          110,
+          80
+        ]
+      },
+      "shirt": {
+        "pixels": 6268,
+        "L": 29.58,
+        "a": -17.65,
+        "b": -9.45,
+        "hue": 184.29,
+        "saturation": 1.0,
+        "rgb": [
+          0,
+          78,
+          84
+        ],
+        "hueError": 3.04
+      },
+      "edgeL": 25.62,
+      "ringL": 49.91,
+      "silhouetteDeltaL": 24.29
+    },
+    "paletteHue": 181.245
+  },
+  {
+    "shot": "GolfKitHero_Male__golf_16_clear__b_close",
+    "after": {
+      "heroSaturationMean": 0.7124,
+      "heroSaturationMedian": 0.7174,
+      "heroDarkest5MeanL": 0.115,
+      "heroP05L": 0.255,
+      "heroDetailRmsL": 10.991,
+      "face": {
+        "pixels": 626,
+        "L": 50.66,
+        "a": 14.19,
+        "b": 25.42,
+        "hue": 25.81,
+        "saturation": 0.541,
+        "rgb": [
+          159,
+          110,
+          73
+        ]
+      },
+      "shirt": {
+        "pixels": 32438,
+        "L": 56.02,
+        "a": -36.08,
+        "b": -3.92,
+        "hue": 174.83,
+        "saturation": 1.0,
+        "rgb": [
+          0,
+          151,
+          138
+        ],
+        "hueError": 6.41
+      },
+      "edgeL": 15.13,
+      "ringL": 47.79,
+      "silhouetteDeltaL": 32.66
+    },
+    "paletteHue": 181.245
+  },
+  {
+    "shot": "GolfKitHero_Male__golf_17_clear__a_gameplay",
+    "after": {
+      "heroSaturationMean": 0.7608,
+      "heroSaturationMedian": 1.0,
+      "heroDarkest5MeanL": 0.711,
+      "heroP05L": 0.881,
+      "heroDetailRmsL": 10.502,
+      "face": {
+        "pixels": 96,
+        "L": 52.32,
+        "a": 9.3,
+        "b": 20.06,
+        "hue": 25.51,
+        "saturation": 0.414,
+        "rgb": [
+          153,
+          117,
+          90
+        ]
+      },
+      "shirt": {
+        "pixels": 6266,
+        "L": 42.79,
+        "a": -19.94,
+        "b": -18.16,
+        "hue": 188.77,
+        "saturation": 1.0,
+        "rgb": [
+          0,
+          111,
+          130
+        ],
+        "hueError": 7.53
+      },
+      "edgeL": 35.93,
+      "ringL": 43.45,
+      "silhouetteDeltaL": 7.52
+    },
+    "paletteHue": 181.245
+  },
+  {
+    "shot": "GolfKitHero_Male__golf_17_clear__b_close",
+    "after": {
+      "heroSaturationMean": 0.7903,
+      "heroSaturationMedian": 0.9688,
+      "heroDarkest5MeanL": 0.386,
+      "heroP05L": 0.548,
+      "heroDetailRmsL": 8.959,
+      "face": {
+        "pixels": 628,
+        "L": 48.55,
+        "a": 9.61,
+        "b": 20.78,
+        "hue": 25.16,
+        "saturation": 0.431,
+        "rgb": [
+          144,
+          108,
+          82
+        ]
+      },
+      "shirt": {
+        "pixels": 32444,
+        "L": 43.64,
+        "a": -21.39,
+        "b": -15.82,
+        "hue": 186.98,
+        "saturation": 1.0,
+        "rgb": [
+          0,
+          114,
+          129
+        ],
+        "hueError": 5.73
+      },
+      "edgeL": 10.37,
+      "ringL": 55.78,
+      "silhouetteDeltaL": 45.41
+    },
+    "paletteHue": 181.245
+  },
+  {
+    "shot": "GolfKitHero_Male__golf_20_clear__a_gameplay",
+    "after": {
+      "heroSaturationMean": 0.7821,
+      "heroSaturationMedian": 0.9615,
+      "heroDarkest5MeanL": 0.532,
+      "heroP05L": 0.655,
+      "heroDetailRmsL": 10.846,
+      "face": {
+        "pixels": 97,
+        "L": 49.29,
+        "a": 9.71,
+        "b": 22.11,
+        "hue": 27.35,
+        "saturation": 0.463,
+        "rgb": [
+          147,
+          110,
+          79
+        ]
+      },
+      "shirt": {
+        "pixels": 6267,
+        "L": 38.01,
+        "a": -22.64,
+        "b": -8.14,
+        "hue": 182.31,
+        "saturation": 1.0,
+        "rgb": [
+          0,
+          100,
+          104
+        ],
+        "hueError": 1.06
+      },
+      "edgeL": 33.97,
+      "ringL": 56.91,
+      "silhouetteDeltaL": 22.94
+    },
+    "paletteHue": 181.245
+  },
+  {
+    "shot": "GolfKitHero_Male__golf_20_clear__b_close",
+    "after": {
+      "heroSaturationMean": 0.7964,
+      "heroSaturationMedian": 0.9444,
+      "heroDarkest5MeanL": 0.2,
+      "heroP05L": 0.335,
+      "heroDetailRmsL": 8.517,
+      "face": {
+        "pixels": 625,
+        "L": 47.64,
+        "a": 9.44,
+        "b": 22.48,
+        "hue": 28.18,
+        "saturation": 0.468,
+        "rgb": [
+          141,
+          106,
+          75
+        ]
+      },
+      "shirt": {
+        "pixels": 32437,
+        "L": 36.7,
+        "a": -23.0,
+        "b": -8.78,
+        "hue": 181.8,
+        "saturation": 1.0,
+        "rgb": [
+          0,
+          97,
+          100
+        ],
+        "hueError": 0.56
+      },
+      "edgeL": 6.43,
+      "ringL": 42.04,
+      "silhouetteDeltaL": 35.61
+    },
+    "paletteHue": 181.245
+  },
+  {
+    "shot": "MatchHero_Female__hub__a_gameplay",
+    "after": {
+      "heroSaturationMean": 0.3762,
+      "heroSaturationMedian": 0.4082,
+      "heroDarkest5MeanL": 6.623,
+      "heroP05L": 8.207,
+      "heroDetailRmsL": 26.168,
+      "face": {
+        "pixels": 0,
+        "status": "not visible / insufficient pixels"
+      },
+      "shirt": {
+        "pixels": 7,
+        "status": "not visible / insufficient pixels"
+      },
+      "edgeL": 43.26,
+      "ringL": 71.12,
+      "silhouetteDeltaL": 27.86
+    },
+    "paletteHue": 355.658
+  },
+  {
+    "shot": "MatchHero_Female__hub__b_close",
+    "after": {
+      "heroSaturationMean": 0.4788,
+      "heroSaturationMedian": 0.5271,
+      "heroDarkest5MeanL": 5.267,
+      "heroP05L": 6.556,
+      "heroDetailRmsL": 8.608,
+      "face": {
+        "pixels": 2875,
+        "L": 61.14,
+        "a": 13.46,
+        "b": 22.18,
+        "hue": 22.11,
+        "saturation": 0.411,
+        "rgb": [
+          185,
+          137,
+          109
+        ]
+      },
+      "shirt": {
+        "pixels": 17534,
+        "L": 31.64,
+        "a": 40.51,
+        "b": 20.95,
+        "hue": 357.47,
+        "saturation": 0.704,
+        "rgb": [
+          135,
+          40,
+          44
+        ],
+        "hueError": 1.81
+      },
+      "edgeL": 41.54,
+      "ringL": 67.21,
+      "silhouetteDeltaL": 25.67
+    },
+    "paletteHue": 355.658
+  },
+  {
+    "shot": "MatchHero_Female__tennis_resort__a_gameplay",
+    "after": {
+      "heroSaturationMean": 0.4122,
+      "heroSaturationMedian": 0.3964,
+      "heroDarkest5MeanL": 11.841,
+      "heroP05L": 27.427,
+      "heroDetailRmsL": 11.211,
+      "face": {
+        "pixels": 0,
+        "status": "not visible / insufficient pixels"
+      },
+      "shirt": {
+        "pixels": 5766,
+        "L": 57.23,
+        "a": -26.3,
+        "b": 55.85,
+        "hue": 74.03,
+        "saturation": 0.838,
+        "rgb": [
+          119,
+          148,
+          24
+        ],
+        "hueError": 1.19
+      },
+      "edgeL": 52.59,
+      "ringL": 51.52,
+      "silhouetteDeltaL": 1.07
+    },
+    "paletteHue": 75.222
+  },
+  {
+    "shot": "MatchHero_Female__tennis_resort__b_close",
+    "after": {
+      "heroSaturationMean": 0.4104,
+      "heroSaturationMedian": 0.4031,
+      "heroDarkest5MeanL": 8.721,
+      "heroP05L": 15.507,
+      "heroDetailRmsL": 11.013,
+      "face": {
+        "pixels": 2640,
+        "L": 60.89,
+        "a": 8.37,
+        "b": 27.44,
+        "hue": 29.64,
+        "saturation": 0.459,
+        "rgb": [
+          181,
+          139,
+          98
+        ]
+      },
+      "shirt": {
+        "pixels": 18541,
+        "L": 53.13,
+        "a": -24.46,
+        "b": 54.46,
+        "hue": 73.55,
+        "saturation": 0.905,
+        "rgb": [
+          109,
+          137,
+          13
+        ],
+        "hueError": 1.67
+      },
+      "edgeL": 57.1,
+      "ringL": 39.79,
+      "silhouetteDeltaL": 17.31
+    },
+    "paletteHue": 75.222
+  },
+  {
+    "shot": "MatchHero_Female__tennis_skyscraper__a_gameplay",
+    "after": {
+      "heroSaturationMean": 0.3505,
+      "heroSaturationMedian": 0.3062,
+      "heroDarkest5MeanL": 25.362,
+      "heroP05L": 32.68,
+      "heroDetailRmsL": 11.638,
+      "face": {
+        "pixels": 0,
+        "status": "not visible / insufficient pixels"
+      },
+      "shirt": {
+        "pixels": 6150,
+        "L": 54.36,
+        "a": -23.37,
+        "b": 53.26,
+        "hue": 72.11,
+        "saturation": 0.82,
+        "rgb": [
+          116,
+          139,
+          25
+        ],
+        "hueError": 3.11
+      },
+      "edgeL": 54.25,
+      "ringL": 26.74,
+      "silhouetteDeltaL": 27.51
+    },
+    "paletteHue": 75.222
+  },
+  {
+    "shot": "MatchHero_Female__tennis_skyscraper__b_close",
+    "after": {
+      "heroSaturationMean": 0.4097,
+      "heroSaturationMedian": 0.4146,
+      "heroDarkest5MeanL": 7.024,
+      "heroP05L": 15.074,
+      "heroDetailRmsL": 9.273,
+      "face": {
+        "pixels": 2850,
+        "L": 62.03,
+        "a": 13.26,
+        "b": 29.0,
+        "hue": 25.31,
+        "saturation": 0.497,
+        "rgb": [
+          193,
+          137,
+          97
+        ]
+      },
+      "shirt": {
+        "pixels": 21222,
+        "L": 53.68,
+        "a": -20.01,
+        "b": 54.41,
+        "hue": 68.21,
+        "saturation": 0.86,
+        "rgb": [
+          120,
+          136,
+          19
+        ],
+        "hueError": 7.01
+      },
+      "edgeL": 50.77,
+      "ringL": 12.27,
+      "silhouetteDeltaL": 38.5
+    },
+    "paletteHue": 75.222
+  },
+  {
+    "shot": "MatchHero_Female__tennis_volcano__a_gameplay",
+    "after": {
+      "heroSaturationMean": 0.4278,
+      "heroSaturationMedian": 0.4273,
+      "heroDarkest5MeanL": 10.33,
+      "heroP05L": 18.679,
+      "heroDetailRmsL": 12.272,
+      "face": {
+        "pixels": 0,
+        "status": "not visible / insufficient pixels"
+      },
+      "shirt": {
+        "pixels": 5469,
+        "L": 35.59,
+        "a": -20.46,
+        "b": 40.81,
+        "hue": 74.65,
+        "saturation": 0.945,
+        "rgb": [
+          70,
+          91,
+          5
+        ],
+        "hueError": 0.57
+      },
+      "edgeL": 45.29,
+      "ringL": 26.65,
+      "silhouetteDeltaL": 18.64
+    },
+    "paletteHue": 75.222
+  },
+  {
+    "shot": "MatchHero_Female__tennis_volcano__b_close",
+    "after": {
+      "heroSaturationMean": 0.2337,
+      "heroSaturationMedian": 0.1799,
+      "heroDarkest5MeanL": 12.977,
+      "heroP05L": 39.33,
+      "heroDetailRmsL": 11.886,
+      "face": {
+        "pixels": 2703,
+        "L": 72.09,
+        "a": 5.86,
+        "b": 13.33,
+        "hue": 25.33,
+        "saturation": 0.227,
+        "rgb": [
+          198,
+          172,
+          153
+        ]
+      },
+      "shirt": {
+        "pixels": 19645,
+        "L": 80.9,
+        "a": -23.67,
+        "b": 52.23,
+        "hue": 71.68,
+        "saturation": 0.536,
+        "rgb": [
+          189,
+          211,
+          98
+        ],
+        "hueError": 3.54
+      },
+      "edgeL": 60.5,
+      "ringL": 7.92,
+      "silhouetteDeltaL": 52.58
+    },
+    "paletteHue": 75.222
+  },
+  {
+    "shot": "MatchHero_Male__hub__a_gameplay",
+    "after": {
+      "heroSaturationMean": 0.4723,
+      "heroSaturationMedian": 0.5391,
+      "heroDarkest5MeanL": 7.287,
+      "heroP05L": 12.93,
+      "heroDetailRmsL": 22.384,
+      "face": {
+        "pixels": 0,
+        "status": "not visible / insufficient pixels"
+      },
+      "shirt": {
+        "pixels": 66,
+        "L": 27.89,
+        "a": 38.04,
+        "b": 19.45,
+        "hue": 357.61,
+        "saturation": 0.721,
+        "rgb": [
+          122,
+          34,
+          37
+        ],
+        "hueError": 1.95
+      },
+      "edgeL": 46.04,
+      "ringL": 70.75,
+      "silhouetteDeltaL": 24.71
+    },
+    "paletteHue": 355.658
+  },
+  {
+    "shot": "MatchHero_Male__hub__b_close",
+    "after": {
+      "heroSaturationMean": 0.5751,
+      "heroSaturationMedian": 0.5818,
+      "heroDarkest5MeanL": 6.777,
+      "heroP05L": 7.914,
+      "heroDetailRmsL": 6.123,
+      "face": {
+        "pixels": 2956,
+        "L": 60.41,
+        "a": 13.11,
+        "b": 21.05,
+        "hue": 22.5,
+        "saturation": 0.398,
+        "rgb": [
+          181,
+          136,
+          109
+        ]
+      },
+      "shirt": {
+        "pixels": 69115,
+        "L": 32.01,
+        "a": 40.75,
+        "b": 20.96,
+        "hue": 357.47,
+        "saturation": 0.699,
+        "rgb": [
+          136,
+          41,
+          45
+        ],
+        "hueError": 1.81
+      },
+      "edgeL": 44.18,
+      "ringL": 67.0,
+      "silhouetteDeltaL": 22.82
+    },
+    "paletteHue": 355.658
+  },
+  {
+    "shot": "MatchHero_Male__tennis_resort__a_gameplay",
+    "after": {
+      "heroSaturationMean": 0.7246,
+      "heroSaturationMedian": 0.8855,
+      "heroDarkest5MeanL": 2.086,
+      "heroP05L": 4.086,
+      "heroDetailRmsL": 7.965,
+      "face": {
+        "pixels": 0,
+        "status": "not visible / insufficient pixels"
+      },
+      "shirt": {
+        "pixels": 18589,
+        "L": 28.01,
+        "a": 48.21,
+        "b": 34.42,
+        "hue": 358.54,
+        "saturation": 0.911,
+        "rgb": [
+          135,
+          12,
+          15
+        ],
+        "hueError": 6.27
+      },
+      "edgeL": 46.69,
+      "ringL": 51.47,
+      "silhouetteDeltaL": 4.78
+    },
+    "paletteHue": 4.807
+  },
+  {
+    "shot": "MatchHero_Male__tennis_resort__b_close",
+    "after": {
+      "heroSaturationMean": 0.6,
+      "heroSaturationMedian": 0.6,
+      "heroDarkest5MeanL": 4.388,
+      "heroP05L": 6.745,
+      "heroDetailRmsL": 10.609,
+      "face": {
+        "pixels": 3081,
+        "L": 51.05,
+        "a": 9.48,
+        "b": 26.43,
+        "hue": 26.76,
+        "saturation": 0.481,
+        "rgb": [
+          154,
+          113,
+          80
+        ]
+      },
+      "shirt": {
+        "pixels": 58952,
+        "L": 31.69,
+        "a": 52.2,
+        "b": 38.93,
+        "hue": 359.56,
+        "saturation": 0.907,
+        "rgb": [
+          151,
+          14,
+          15
+        ],
+        "hueError": 5.25
+      },
+      "edgeL": 46.55,
+      "ringL": 39.51,
+      "silhouetteDeltaL": 7.04
+    },
+    "paletteHue": 4.807
+  },
+  {
+    "shot": "MatchHero_Male__tennis_skyscraper__a_gameplay",
+    "after": {
+      "heroSaturationMean": 0.7884,
+      "heroSaturationMedian": 0.9292,
+      "heroDarkest5MeanL": 3.033,
+      "heroP05L": 4.715,
+      "heroDetailRmsL": 7.313,
+      "face": {
+        "pixels": 0,
+        "status": "not visible / insufficient pixels"
+      },
+      "shirt": {
+        "pixels": 18632,
+        "L": 29.76,
+        "a": 51.54,
+        "b": 36.27,
+        "hue": 356.89,
+        "saturation": 0.938,
+        "rgb": [
+          144,
+          9,
+          16
+        ],
+        "hueError": 7.92
+      },
+      "edgeL": 45.12,
+      "ringL": 26.74,
+      "silhouetteDeltaL": 18.38
+    },
+    "paletteHue": 4.807
+  },
+  {
+    "shot": "MatchHero_Male__tennis_skyscraper__b_close",
+    "after": {
+      "heroSaturationMean": 0.5969,
+      "heroSaturationMedian": 0.5367,
+      "heroDarkest5MeanL": 3.652,
+      "heroP05L": 5.821,
+      "heroDetailRmsL": 8.066,
+      "face": {
+        "pixels": 3102,
+        "L": 43.25,
+        "a": 13.78,
+        "b": 25.21,
+        "hue": 20.74,
+        "saturation": 0.566,
+        "rgb": [
+          143,
+          90,
+          62
+        ]
+      },
+      "shirt": {
+        "pixels": 59160,
+        "L": 28.16,
+        "a": 50.91,
+        "b": 36.28,
+        "hue": 355.18,
+        "saturation": 0.986,
+        "rgb": [
+          139,
+          2,
+          13
+        ],
+        "hueError": 9.63
+      },
+      "edgeL": 45.46,
+      "ringL": 11.18,
+      "silhouetteDeltaL": 34.28
+    },
+    "paletteHue": 4.807
+  },
+  {
+    "shot": "MatchHero_Male__tennis_volcano__a_gameplay",
+    "after": {
+      "heroSaturationMean": 0.7861,
+      "heroSaturationMedian": 0.9785,
+      "heroDarkest5MeanL": 1.252,
+      "heroP05L": 3.648,
+      "heroDetailRmsL": 7.568,
+      "face": {
+        "pixels": 0,
+        "status": "not visible / insufficient pixels"
+      },
+      "shirt": {
+        "pixels": 18871,
+        "L": 14.69,
+        "a": 35.59,
+        "b": 20.62,
+        "hue": 355.66,
+        "saturation": 1.0,
+        "rgb": [
+          83,
+          0,
+          6
+        ],
+        "hueError": 9.15
+      },
+      "edgeL": 37.79,
+      "ringL": 26.53,
+      "silhouetteDeltaL": 11.26
+    },
+    "paletteHue": 4.807
+  },
+  {
+    "shot": "MatchHero_Male__tennis_volcano__b_close",
+    "after": {
+      "heroSaturationMean": 0.4953,
+      "heroSaturationMedian": 0.45,
+      "heroDarkest5MeanL": 11.843,
+      "heroP05L": 20.19,
+      "heroDetailRmsL": 8.005,
+      "face": {
+        "pixels": 2983,
+        "L": 63.41,
+        "a": 7.73,
+        "b": 15.12,
+        "hue": 25.2,
+        "saturation": 0.282,
+        "rgb": [
+          177,
+          148,
+          127
+        ]
+      },
+      "shirt": {
+        "pixels": 55435,
+        "L": 46.79,
+        "a": 56.34,
+        "b": 38.22,
+        "hue": 2.75,
+        "saturation": 0.754,
+        "rgb": [
+          203,
+          57,
+          50
+        ],
+        "hueError": 2.06
+      },
+      "edgeL": 55.31,
+      "ringL": 7.81,
+      "silhouetteDeltaL": 47.5
+    },
+    "paletteHue": 4.807
+  },
+  {
+    "shot": "lookdev_golf07__GolfKitHero_Female__b_close",
+    "after": {
+      "heroSaturationMean": 0.6137,
+      "heroSaturationMedian": 0.6234,
+      "heroDarkest5MeanL": 0.625,
+      "heroP05L": 1.163,
+      "heroDetailRmsL": 10.743,
+      "face": {
+        "pixels": 722,
+        "L": 51.79,
+        "a": 10.45,
+        "b": 25.53,
+        "hue": 27.06,
+        "saturation": 0.49,
+        "rgb": [
+          156,
+          114,
+          79
+        ]
+      },
+      "shirt": {
+        "pixels": 31201,
+        "L": 49.32,
+        "a": 30.1,
+        "b": 29.48,
+        "hue": 14.31,
+        "saturation": 0.616,
+        "rgb": [
+          177,
+          94,
+          68
+        ],
+        "hueError": 4.13
+      },
+      "edgeL": 26.53,
+      "ringL": 56.51,
+      "silhouetteDeltaL": 29.98
+    },
+    "paletteHue": 10.175
+  },
+  {
+    "shot": "lookdev_golf07__GolfKitHero_Male__b_close",
+    "after": {
+      "heroSaturationMean": 0.7708,
+      "heroSaturationMedian": 0.8611,
+      "heroDarkest5MeanL": 0.516,
+      "heroP05L": 0.655,
+      "heroDetailRmsL": 8.979,
+      "face": {
+        "pixels": 1418,
+        "L": 52.64,
+        "a": 11.06,
+        "b": 25.76,
+        "hue": 27.34,
+        "saturation": 0.494,
+        "rgb": [
+          160,
+          117,
+          81
+        ]
+      },
+      "shirt": {
+        "pixels": 48262,
+        "L": 51.36,
+        "a": -32.2,
+        "b": -4.81,
+        "hue": 177.37,
+        "saturation": 1.0,
+        "rgb": [
+          0,
+          137,
+          131
+        ],
+        "hueError": 3.88
+      },
+      "edgeL": 18.07,
+      "ringL": 56.12,
+      "silhouetteDeltaL": 38.05
+    },
+    "paletteHue": 181.245
+  },
+  {
+    "shot": "lookdev_golf07__MatchHero_Female__b_close",
+    "after": {
+      "heroSaturationMean": 0.4339,
+      "heroSaturationMedian": 0.4653,
+      "heroDarkest5MeanL": 12.032,
+      "heroP05L": 23.942,
+      "heroDetailRmsL": 10.307,
+      "face": {
+        "pixels": 2653,
+        "L": 58.61,
+        "a": 8.89,
+        "b": 28.84,
+        "hue": 28.92,
+        "saturation": 0.472,
+        "rgb": [
+          176,
+          133,
+          93
+        ]
+      },
+      "shirt": {
+        "pixels": 18487,
+        "L": 55.86,
+        "a": -25.18,
+        "b": 56.72,
+        "hue": 72.66,
+        "saturation": 0.889,
+        "rgb": [
+          117,
+          144,
+          16
+        ],
+        "hueError": 2.56
+      },
+      "edgeL": 57.22,
+      "ringL": 57.7,
+      "silhouetteDeltaL": 0.48
+    },
+    "paletteHue": 75.222
+  },
+  {
+    "shot": "lookdev_golf07__MatchHero_Male__b_close",
+    "after": {
+      "heroSaturationMean": 0.61,
+      "heroSaturationMedian": 0.6143,
+      "heroDarkest5MeanL": 6.247,
+      "heroP05L": 10.025,
+      "heroDetailRmsL": 9.706,
+      "face": {
+        "pixels": 3117,
+        "L": 52.89,
+        "a": 9.09,
+        "b": 24.1,
+        "hue": 29.58,
+        "saturation": 0.455,
+        "rgb": [
+          156,
+          120,
+          85
+        ]
+      },
+      "shirt": {
+        "pixels": 58904,
+        "L": 32.65,
+        "a": 52.18,
+        "b": 39.43,
+        "hue": 0.86,
+        "saturation": 0.897,
+        "rgb": [
+          155,
+          18,
+          16
+        ],
+        "hueError": 3.95
+      },
+      "edgeL": 48.61,
+      "ringL": 56.89,
+      "silhouetteDeltaL": 8.28
+    },
+    "paletteHue": 4.807
+  },
+  {
+    "shot": "lookdev_resort__GolfKitHero_Female__b_close",
+    "after": {
+      "heroSaturationMean": 0.5873,
+      "heroSaturationMedian": 0.5882,
+      "heroDarkest5MeanL": 0.601,
+      "heroP05L": 1.222,
+      "heroDetailRmsL": 11.405,
+      "face": {
+        "pixels": 722,
+        "L": 46.64,
+        "a": 9.03,
+        "b": 22.0,
+        "hue": 28.57,
+        "saturation": 0.46,
+        "rgb": [
+          137,
+          104,
+          74
+        ]
+      },
+      "shirt": {
+        "pixels": 31201,
+        "L": 49.07,
+        "a": 28.67,
+        "b": 26.86,
+        "hue": 13.98,
+        "saturation": 0.592,
+        "rgb": [
+          174,
+          95,
+          71
+        ],
+        "hueError": 3.81
+      },
+      "edgeL": 24.6,
+      "ringL": 39.85,
+      "silhouetteDeltaL": 15.25
+    },
+    "paletteHue": 10.175
+  },
+  {
+    "shot": "lookdev_resort__GolfKitHero_Male__b_close",
+    "after": {
+      "heroSaturationMean": 0.7608,
+      "heroSaturationMedian": 0.8571,
+      "heroDarkest5MeanL": 0.307,
+      "heroP05L": 0.394,
+      "heroDetailRmsL": 9.522,
+      "face": {
+        "pixels": 1418,
+        "L": 49.88,
+        "a": 10.26,
+        "b": 23.36,
+        "hue": 27.04,
+        "saturation": 0.473,
+        "rgb": [
+          150,
+          111,
+          79
+        ]
+      },
+      "shirt": {
+        "pixels": 48262,
+        "L": 51.66,
+        "a": -31.26,
+        "b": -6.87,
+        "hue": 179.57,
+        "saturation": 1.0,
+        "rgb": [
+          0,
+          138,
+          137
+        ],
+        "hueError": 1.68
+      },
+      "edgeL": 18.58,
+      "ringL": 39.51,
+      "silhouetteDeltaL": 20.93
+    },
+    "paletteHue": 181.245
+  },
+  {
+    "shot": "lookdev_resort__MatchHero_Female__b_close",
+    "after": {
+      "heroSaturationMean": 0.41,
+      "heroSaturationMedian": 0.4032,
+      "heroDarkest5MeanL": 8.74,
+      "heroP05L": 15.432,
+      "heroDetailRmsL": 10.945,
+      "face": {
+        "pixels": 2654,
+        "L": 60.74,
+        "a": 8.38,
+        "b": 27.46,
+        "hue": 28.92,
+        "saturation": 0.459,
+        "rgb": [
+          181,
+          138,
+          98
+        ]
+      },
+      "shirt": {
+        "pixels": 18487,
+        "L": 53.13,
+        "a": -24.47,
+        "b": 54.46,
+        "hue": 73.55,
+        "saturation": 0.905,
+        "rgb": [
+          109,
+          137,
+          13
+        ],
+        "hueError": 1.67
+      },
+      "edgeL": 57.04,
+      "ringL": 39.87,
+      "silhouetteDeltaL": 17.17
+    },
+    "paletteHue": 75.222
+  },
+  {
+    "shot": "lookdev_resort__MatchHero_Male__b_close",
+    "after": {
+      "heroSaturationMean": 0.5972,
+      "heroSaturationMedian": 0.5846,
+      "heroDarkest5MeanL": 4.422,
+      "heroP05L": 6.811,
+      "heroDetailRmsL": 10.653,
+      "face": {
+        "pixels": 3117,
+        "L": 50.81,
+        "a": 9.46,
+        "b": 26.29,
+        "hue": 26.76,
+        "saturation": 0.484,
+        "rgb": [
+          153,
+          112,
+          79
+        ]
+      },
+      "shirt": {
+        "pixels": 58903,
+        "L": 31.64,
+        "a": 52.21,
+        "b": 38.93,
+        "hue": 359.56,
+        "saturation": 0.907,
+        "rgb": [
+          151,
+          14,
+          15
+        ],
+        "hueError": 5.25
+      },
+      "edgeL": 46.38,
+      "ringL": 39.6,
+      "silhouetteDeltaL": 6.78
+    },
+    "paletteHue": 4.807
+  }
+]

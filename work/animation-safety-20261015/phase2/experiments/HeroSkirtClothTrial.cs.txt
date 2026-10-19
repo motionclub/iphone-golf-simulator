@@ -1,0 +1,25 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using UnityEngine;
+namespace GolfArcade.Tennis {
+[DefaultExecutionOrder(1250)] public sealed class HeroSkirtClothTrial:MonoBehaviour {
+[Serializable] class Profile {public int vertexCount; public int[] shell;}
+struct Segment {public Transform a,b;public CapsuleCollider collider;}
+readonly List<Segment> segments=new();
+public static void Attach(MatchHeroLook look){if(!look.female||!look.kitV2)return;look.gameObject.AddComponent<HeroSkirtClothTrial>().Init(look);}
+void Init(MatchHeroLook look){
+var r=look.kit.First(k=>k&&k.name=="Kit_Bottom");var mesh=Instantiate(r.sharedMesh);var w=mesh.boneWeights;int hip=Array.IndexOf(r.bones,look.Bone(HumanBodyBones.Hips));
+var profile=JsonUtility.FromJson<Profile>(Resources.Load<TextAsset>($"{(look.golfKit?"Golf":"Tennis")}/KitsV2/Female/SkirtPanels").text);var p=mesh.vertices;
+foreach(int i in profile.shell)w[i]=new BoneWeight{boneIndex0=hip,weight0=1};mesh.boneWeights=w;r.sharedMesh=mesh;
+foreach(bool left in new[]{true,false}){
+var a=look.Bone(left?HumanBodyBones.LeftUpperLeg:HumanBodyBones.RightUpperLeg);var b=look.Bone(left?HumanBodyBones.LeftLowerLeg:HumanBodyBones.RightLowerLeg);
+var c=new GameObject("Cloth thigh").AddComponent<CapsuleCollider>();c.transform.SetParent(transform,false);c.isTrigger=true;c.radius=.092f;c.direction=1;segments.Add(new Segment{a=a,b=b,collider=c});
+}
+var cloth=r.gameObject.AddComponent<Cloth>();var coefficients=new ClothSkinningCoefficient[p.Length];
+foreach(int i in profile.shell)coefficients[i].maxDistance=Mathf.SmoothStep(0,1,Mathf.InverseLerp(.94f,.82f,p[i].z))*.45f;
+cloth.coefficients=coefficients;cloth.capsuleColliders=segments.Select(s=>s.collider).ToArray();cloth.useGravity=true;cloth.stretchingStiffness=.95f;cloth.bendingStiffness=.2f;cloth.damping=.35f;cloth.friction=.35f;cloth.worldVelocityScale=.3f;cloth.worldAccelerationScale=.15f;cloth.clothSolverFrequency=120;cloth.useContinuousCollision=1;cloth.collisionMassScale=.5f;
+LateUpdate();
+}
+void LateUpdate(){foreach(var s in segments){var d=s.b.position-s.a.position;s.collider.transform.SetPositionAndRotation((s.a.position+s.b.position)*.5f,Quaternion.FromToRotation(Vector3.up,d));s.collider.height=d.magnitude+s.collider.radius*2;}}
+}}

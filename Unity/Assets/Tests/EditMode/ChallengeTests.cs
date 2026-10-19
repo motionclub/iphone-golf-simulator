@@ -175,14 +175,14 @@ namespace GolfArcade.Tests
             RoundEvents.Enabled = true;
             var on = RoundEvents.Deal(5);
             Assert.IsTrue(on.Challenges);
-            StringAssert.StartsWith("wc:", on.Code);
+            StringAssert.StartsWith("v5wc:", on.Code);
             Assert.IsTrue(RoundEvents.FromCode(5, on.Code).Challenges);
             Assert.IsTrue(RoundEvents.FromCode(5, on.Code).World);
             var off = RoundEvents.Deal(5, challenges: false);
-            StringAssert.StartsWith("w:", off.Code);
+            StringAssert.StartsWith("v5w:", off.Code);
             Assert.IsFalse(RoundEvents.FromCode(5, off.Code).Challenges, "a multiplayer round's (the host deals none)");
             Assert.IsTrue(RoundEvents.Deal(5, false, false, true).Challenges, "rings and bounties on their own");
-            Assert.IsFalse(RoundEvents.Deal(5, false, false, true).World);
+            Assert.IsTrue(RoundEvents.Deal(5, false, false, true).World);
         }
 
         /// A good straight tee shot down the line gets past what moves about the hole most of the
@@ -222,23 +222,20 @@ namespace GolfArcade.Tests
         public void MoversAreSpreadOutAndNeverPiledUp()
         {
             RoundEvents.Enabled = true;
-            var hole = Straight(5, 520);
-            var spots = new System.Collections.Generic.HashSet<int>();
-            for (int seed = 1; seed <= 120; seed++)
-                foreach (var weather in new[] { Weather.Clear, Weather.Storm })
-                {
-                    var movers = RoundEvents.Deal(seed).MoversFor(seed % 5, hole, weather);
-                    if (movers == null) continue;
-                    // a flock is one thing
-                    var things = movers.All.Where(m => m.Kind != MoverKind.Gull || m.Variant == 0).ToList();
-                    Assert.LessOrEqual(things.Count, 2, "never more than two");
-                    var middles = things.Select(m => { var r = m.Reach(); return ((r.x0 + r.x1) / 2, (r.d0 + r.d1) / 2); }).ToList();
-                    for (int i = 0; i < middles.Count; i++)
-                        for (int j = i + 1; j < middles.Count; j++)
-                            Assert.GreaterOrEqual(Math.Abs(middles[i].Item2 - middles[j].Item2), 32, "not piled on one spot");
-                    foreach (var m in middles) spots.Add((int)(m.Item2 / 20));
+            var codes = new System.Collections.Generic.HashSet<string>();
+            foreach(var course in GolfArcade.Course.Course.All()) foreach(var hole in course.Holes)
+            for(int seed=1;seed<=120;seed++) {
+                var layout=DreamCourseLayout.Build(hole,seed,Weather.Clear);
+                Assert.IsNotEmpty(layout.Hazards);
+                foreach(var hazard in layout.Hazards) {
+                    Assert.GreaterOrEqual(DreamCourseLayout.CorridorDistance(hazard.Centre,hole.Centerline),hazard.Radius+hazard.Motion+8);
+                    Assert.Greater(hazard.Centre.DistanceTo(hole.Tee),35);
+                    Assert.Greater(hazard.Centre.DistanceTo(hole.Pin),35);
                 }
-            Assert.GreaterOrEqual(spots.Count, 8, "all along the hole, not always the same place");
+                Assert.LessOrEqual(layout.SolidMovers().Length,3,"one gate and at most two supporting volumes");
+                codes.Add(layout.Code);
+            }
+            Assert.Greater(codes.Count,1000,"seeded timing remains varied within authored safe sockets");
         }
 
         /// The app deals the day's forecast round itself to show it on the course screen
@@ -255,9 +252,9 @@ namespace GolfArcade.Tests
             CollectionAssert.AreEqual(new[] { Twist.BananaBall, Twist.PointFrenzy }, RoundEvents.Deal(20261013).Dealt);
             CollectionAssert.AreEqual(new[] { Twist.StickyGreens, Twist.BounceHouse }, RoundEvents.Deal(20261014).Dealt);
             var day = RoundEvents.Deal(20261013);
-            CollectionAssert.AreEqual(new[] { Weather.Storm, Weather.Storm, Weather.Rain, Weather.Gusty, Weather.Clear, Weather.Storm }, Enumerable.Range(0, 6).Select(day.WeatherFor).ToArray());
+            CollectionAssert.AreEqual(new[] { Weather.Gusty, Weather.Storm, Weather.Rain, Weather.Clear, Weather.Clear, Weather.Fog }, Enumerable.Range(0, 6).Select(day.WeatherFor).ToArray());
             var seven = RoundEvents.Deal(7);
-            CollectionAssert.AreEqual(new[] { Weather.Gusty, Weather.Clear, Weather.Rain, Weather.Fog, Weather.Fog, Weather.Storm }, Enumerable.Range(0, 6).Select(seven.WeatherFor).ToArray());
+            CollectionAssert.AreEqual(new[] { Weather.Rain, Weather.Fog, Weather.Gusty, Weather.Clear, Weather.Clear, Weather.Gusty }, Enumerable.Range(0, 6).Select(seven.WeatherFor).ToArray());
         }
     }
 }

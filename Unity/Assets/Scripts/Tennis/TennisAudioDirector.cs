@@ -97,7 +97,7 @@ namespace GolfArcade.Tennis
             if (!game) return;
             var flow = game.Flow;
             bool serving = game.Serving, rally = flow == TennisGame.Phase.Rally;
-            if (rally && game.RallyShots >= 6 && game.RallyShots != lastRally && game.RallyShots % 4 == 2)
+            if (rally && game.RallyShots >= 8 && game.RallyShots != lastRally && game.RallyShots % 4 == 0)
             {
                 // A rally that keeps going draws the crowd in.
                 Ambience.Ooh(.35f);

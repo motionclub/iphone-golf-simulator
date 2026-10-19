@@ -24,7 +24,15 @@ namespace GolfArcade.Tennis
         RectTransform root, plaque, ballIcon;
         readonly Row[] rows = new Row[2];
         Image noticeBack;
-        Text notice;
+        Text notice, causeText, rallyText;
+        RectTransform cueRow;
+        float causeUntil, rallyEmphasisUntil;
+        int shownRally;
+        public string Cause => causeText && HudClock.Now < causeUntil ? causeText.text : "";
+        public int RallyCount => shownRally;
+        public static bool IsBreakPoint(TennisMatch m) => !m.Complete && !m.Tiebreak
+            && (m.PlayerServes ? m.OpponentPoints >= 3 && m.OpponentPoints > m.PlayerPoints
+                              : m.PlayerPoints >= 3 && m.PlayerPoints > m.OpponentPoints);
         string shownNotice;
         int shownServer = -1, shownStreak = -1;
         float introAt;
@@ -200,6 +208,10 @@ namespace GolfArcade.Tennis
             noticeBack = RallyPanel("Match state", plaque, new Vector2(.5f,.5f), new Vector2(138,22), new Vector2(87,-51), RallyLime);
             notice = RallyLabel(noticeBack.rectTransform, "", 9, Vector2.zero, new Vector2(132,18), RallyNavy, TextAnchor.MiddleCenter);
             noticeBack.gameObject.SetActive(false);
+            cueRow = RallyPanel("Live cues", plaque, new Vector2(.5f,.5f), new Vector2(352,28), new Vector2(0,-82), RallyNavy).rectTransform;
+            rallyText = RallyLabel(cueRow, "", 15, new Vector2(-76,0), new Vector2(174,24), RallyCream, TextAnchor.MiddleLeft);
+            causeText = RallyLabel(cueRow, "", 15, new Vector2(92,0), new Vector2(150,24), RallyCream, TextAnchor.MiddleRight);
+            cueRow.gameObject.SetActive(false);
 
             var feedback = RallyPanel("Shot feedback", group, Vector2.zero, new Vector2(226,94), new Vector2(137,88), RallyNavy);
             feedbackPanel = feedback.rectTransform;
@@ -300,7 +312,7 @@ namespace GolfArcade.Tennis
 
         Vector2 Centre(RectTransform rt) => root.InverseTransformPoint(rt.TransformPoint(rt.rect.center));
 
-        public void Refresh(TennisGame game) => RefreshAs(game.Match, game.SecondServe, game.Streak, game.ScoreOnlyText);
+        public void Refresh(TennisGame game) => RefreshAs(game.Match, game.SecondServe, game.Streak, game.ScoreOnlyText, game.Flow == TennisGame.Phase.Rally ? game.RallyShots : 0);
 
         /// One TV shared by two players (versus split screen): this HUD keeps to one half, as single player's does to the whole screen.
         public void ConfineTo(float xMin, float xMax)
@@ -310,8 +322,13 @@ namespace GolfArcade.Tennis
         }
 
         /// The HUD for a score seen from one side (the other half of a shared TV shows it from the other player's side).
-        public void RefreshAs(TennisMatch m, bool secondServe, int streak, bool scoreOnlyText)
+        public void RefreshAs(TennisMatch m, bool secondServe, int streak, bool scoreOnlyText, int rallyShots = 0)
         {
+            if (rallyShots != shownRally) {
+                shownRally = rallyShots;
+                rallyText.text = rallyShots >= 4 ? $"RALLY {rallyShots}" : "";
+                if (rallyShots == 8 || rallyShots == 12) rallyEmphasisUntil = HudClock.Now + .3f;
+            }
             scoreOnly = scoreOnlyText;
             if (scoreOnly) { badgeAt = -99; feedbackPanel.gameObject.SetActive(false); }
             meterLabel.enabled = tossLabel.enabled = !scoreOnly;
@@ -321,7 +338,7 @@ namespace GolfArcade.Tennis
             SetRow(rows[1], OpponentName, Digits(m.OpponentGames), pb);
             setsText.text = m.Tiebreak ? "TIEBREAK" : m.MultiSet ? $"SET {m.PlayerSets + m.OpponentSets + (m.Complete ? 0 : 1)}  ·  SETS {m.PlayerSets}–{m.OpponentSets}" : "SET 1";
             shownServer = m.PlayerServes ? 0 : 1;
-            string n = m.Complete ? null : TennisGame.IsMatchPoint(m) ? "MATCH POINT" : secondServe ? "2ND SERVE"
+            string n = m.Complete ? null : TennisGame.IsMatchPoint(m) ? "MATCH POINT" : IsBreakPoint(m) ? "BREAK POINT" : secondServe ? "2ND SERVE"
                 : m.PlayerPoints == m.OpponentPoints && m.PlayerPoints >= 3 ? "DEUCE" : null;
             if (n != shownNotice)
             {
@@ -343,6 +360,15 @@ namespace GolfArcade.Tennis
         }
 
         // ---------------------------------------------------------------- events
+
+        /// Confirmed timing or contact evidence only; never infer a cause from OUT.
+        public void ShowCause(string cause)
+        {
+            causeText.text = cause ?? "";
+            causeUntil = HudClock.Now + .6f;
+            causeText.enabled = causeText.text.Length > 0;
+            cueRow.gameObject.SetActive(shownRally >= 4 || causeText.enabled);
+        }
 
         /// A clean hit: quality and shot detail settle into the lower-left panel.
         public void ShowGrade(Timing grade, bool supercharged, string detail)
@@ -369,6 +395,15 @@ namespace GolfArcade.Tennis
             callFallback.text = winnerName.ToUpperInvariant() + " SCORED";
             callFallback.resizeTextForBestFit = true; callFallback.resizeTextMinSize = 28; callFallback.resizeTextMaxSize = 60;
             callSub.text = detail;
+            callPanel.gameObject.SetActive(true);
+            callAt = HudClock.Now; callDuration = 3f;
+        }
+        /// A match notice that shows on the uncluttered HUD too (versus: the rival left and the CPU plays for them, or is back).
+        public void ShowNotice(string title, string detail) {
+            calls.Clear();
+            callFallback.text = title.ToUpperInvariant();
+            callFallback.resizeTextForBestFit = true; callFallback.resizeTextMinSize = 28; callFallback.resizeTextMaxSize = 60;
+            callSub.text = detail ?? "";
             callPanel.gameObject.SetActive(true);
             callAt = HudClock.Now; callDuration = 3f;
         }
@@ -643,6 +678,10 @@ namespace GolfArcade.Tennis
         void Animate()
         {
             float now = HudClock.Now;
+            causeText.enabled = now < causeUntil && causeText.text.Length > 0;
+            rallyText.color = shownRally >= 8 ? GoldTop : RallyCream;
+            rallyText.transform.localScale = Vector3.one * .5f * (now < rallyEmphasisUntil ? 1.08f : 1f);
+            cueRow.gameObject.SetActive(shownRally >= 4 || causeText.enabled);
             AnimateServeMeter(now);
             AnimateSwingCue(now);
             AnimateTimingCheck(now);

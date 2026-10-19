@@ -1,0 +1,23 @@
+{
+  "edit": {
+    "result": "Passed",
+    "total": "7",
+    "passed": "7",
+    "failed": "0"
+  },
+  "play": {
+    "result": "Passed",
+    "total": "3",
+    "passed": "3",
+    "failed": "0"
+  },
+  "native": {
+    "result": "Passed",
+    "total": 1,
+    "passed": 1,
+    "failed": 0,
+    "checks": "Chase/Elevated selection, persisted preference, back, phone/dark/large-text/TV layouts"
+  },
+  "scope": "Camera, settings and ball depth cues only. No animation assets or animation-driver changes in this patch. Stage only; no commit.",
+  "validation": "Unity changes tested against committed gameplay plus this camera patch in an isolated clone, because other gameplay work is in progress in the shared checkout. Native test project regenerated only in an isolated copy to repair stale source references."
+}

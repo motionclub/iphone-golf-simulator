@@ -1,0 +1,97 @@
+#include "hero_common.h"
+// Port of HeroFaceSkin female (_SkinFinish 2) path. Mode 0 = current clone
+// (before), Mode 1 = staged shader pass (after).
+float Region(vector p, vector c, vector r) { vector q=(p-c)/r; return exp(-2*dot(q,q)); }
+
+color FemSkinBefore(vector l, color lc, vector n, vector v, color albedo, float smoothness, output color refl) {
+    float ndl=dot(n,l), nl=sat01(ndl);
+    float wrapped=sat01((ndl+.18)/1.18);
+    vector h=snorm(l+v); float nh=sat01(dot(n,h));
+    float satin=pow(nh,12+smoothness*12)*(.12+smoothness*.16);
+    float broad=pow(nh,6)*.045;
+    float fres=1+pow(1-sat01(dot(v,h)),5)*1.1;
+    float vis=smoothstepf(-.02,.26,ndl);
+    refl=(satin+broad)*fres*vis*lc;
+    color diffuse=wrapped*.90+color(.24,.10,.075)*sat01(wrapped-nl);
+    return albedo*diffuse*lc+refl;
+}
+color Tone(color a) { float y=max(luma(a),.04); return satc(a*a/y); }
+color FemSkinAfter(vector l, color lc, vector n, vector v, color albedo, float smoothness, output color refl) {
+    float ndl=dot(n,l), nl=sat01(ndl);
+    float wrapped=sat01((ndl+.34)/1.34);
+    float band=sat01(wrapped-nl);
+    vector h=snorm(l+v); float nh=sat01(dot(n,h)), vh=sat01(dot(v,h));
+    float gloss=sat01((smoothness-.22)/.20);
+    float satin=pow(nh,6)*.10;
+    float core=pow(nh,18+smoothness*16)*(.08+.10*gloss);
+    float fres=1+pow(1-vh,5)*1.6;
+    float vis=smoothstepf(-.02,.30,ndl);
+    refl=(satin+core)*fres*vis*lc;
+    color scatter=mix(albedo,Tone(albedo),.75)*band*band*1.15;
+    return (albedo*nl+scatter)*lc+refl;
+}
+
+shader FemSkin(
+    color ToneSRGB = color(0.933,0.733,0.561),
+    int Mode = 0,
+    point EyeMid = point(0,-0.0991,1.5568),
+    output closure color Out = 0)
+{
+    color c = color(pow(ToneSRGB[0],2.2),pow(ToneSRGB[1],2.2),pow(ToneSRGB[2],2.2));
+    // Head frame (Unity): x right, y up, z forward from the mid-eye registration.
+    vector hp = vector(-(P[0]-EyeMid[0]), P[2]-EyeMid[2], -(P[1]-EyeMid[1]));
+    float faceAmount=smoothstepf(-.19,-.12,hp[1])*(1-smoothstepf(.14,.19,fabs(hp[0])));
+    float cheeks=Region(hp,vector(-.044,-.052,-.005),vector(.032,.031,.080))+Region(hp,vector(.044,-.052,-.005),vector(.032,.031,.080));
+    float nose=Region(hp,vector(0,-.040,.018),vector(.022,.038,.070));
+    float forehead=Region(hp,vector(0,.062,-.027),vector(.054,.044,.075));
+    float ears=Region(hp,vector(-.092,-.025,-.055),vector(.020,.042,.055))+Region(hp,vector(.092,-.025,-.055),vector(.020,.042,.055));
+    float warmth=sat01(cheeks*.85+nose*.40+ears*.7);
+    float noseUnderside=exp(-2*pow(hp[0]/.025,2)-2*pow((hp[1]+.045)/.007,2))*smoothstepf(.015,.026,hp[2]);
+    float mx=fabs(hp[0])/.028;
+    float seam=-.0675+.0045*mx*mx;
+    float fullness=sat01(1-mx*mx);
+    float cupid=.0015*exp(-pow((fabs(hp[0])-.008)/.005,2))*fullness;
+    float upper=seam+.0055*fullness+cupid, lower=seam-.0075*fullness;
+    float mouthFront=smoothstepf(-.006,.009,hp[2]);
+    float lipMask=smoothstepf(lower-.0009,lower+.0009,hp[1])*(1-smoothstepf(upper-.0009,upper+.0009,hp[1]))*(1-smoothstepf(.94,1.04,mx))*mouthFront;
+    float seamMask=exp(-pow((hp[1]-seam)/.00085,2))*(1-smoothstepf(.88,1.03,mx))*mouthFront;
+    c*=mix(color(1),color(1.06,.68,.65),lipMask);
+    c*=mix(color(1),color(.50,.30,.26),seamMask*.78);
+    c*=mix(color(1),color(1.03,.965,.89),warmth);
+    float blush=sat01(Region(hp,vector(-.046,-.031,-.005),vector(.025,.021,.060))+Region(hp,vector(.046,-.031,-.005),vector(.025,.021,.060)));
+    c*=mix(color(1),Mode==0?color(1.06,.66,.70):color(1.035,.80,.77),blush);
+    c*=mix(color(1),color(1.04,.93,.86),ears*.45);
+    float noseTip=Region(hp,vector(0,-.037,.032),vector(.011,.010,.020));
+    c*=mix(color(1),color(1.05,.93,.86),noseTip*.55);
+    vector hs=vector(fabs(hp[0]),hp[1],hp[2]);
+    float browHollow=Region(hs,vector(.036,.029,.006),vector(.021,.007,.035));
+    float innerCorner=Region(hs,vector(.016,-.006,.010),vector(.007,.011,.035));
+    float noseSide=Region(hs,vector(.020,-.042,.016),vector(.007,.011,.035));
+    float smileLine=Region(hs,vector(.026,-.056,.011),vector(.007,.013,.035));
+    float cheekHollow=Region(hs,vector(.053,-.071,-.004),vector(.020,.018,.040));
+    float jawSide=Region(hs,vector(.060,-.100,-.040),vector(.022,.026,.050));
+    float neckWidth=1-smoothstepf(.048,.070,fabs(hp[0]));
+    float neck=smoothstepf(-.125,-.160,hp[1])*(1-smoothstepf(-.270,-.330,hp[1]))*neckWidth;
+    float form=sat01(browHollow*.85+innerCorner*.70+noseSide*.65+smileLine*.35+cheekHollow*.60+jawSide*.55+neck*.95)*(1-lipMask);
+    c*=1+color(.06,.055,.04)*smoothstepf(-.04,.10,hp[1])*faceAmount;
+    c*=mix(color(1),color(.80,.66,.55),form);
+    float ss=mix(.26,.30,sat01(nose+forehead*.55));
+    float facial=mix(mix(.27,.32,sat01(nose+forehead*.75)),.34,lipMask);
+    ss=mix(ss,facial,faceAmount);
+
+    vector n=toU(normalize(N)), vd=toU(-normalize(I));
+    color r, col=0, refl=0;
+    vector ls[4]={LKey(),LFill(),LBack(),LPres(vd)};
+    color cs[4]={CKey(),CFill(),CBack(),CPres()*(Mode==0?.45:.30)};
+    for(int k=0;k<4;k++){
+        col+= Mode==0 ? FemSkinBefore(ls[k],cs[k],n,vd,c,ss,r) : FemSkinAfter(ls[k],cs[k],n,vd,c,ss,r);
+        refl+=r;
+    }
+    color amb;
+    if(Mode==0) amb=Ambient(n)*c*mix(.62,.69,faceAmount)*color(1.0,.98,.97);
+    else { float up=sat01(n[1]*.5+.5); amb=Ambient(n)*mix(c,Tone(c),.45)*mix(.60,.88,up*up)*mix(1,1.04,faceAmount); }
+    amb+=c*color(.08,.035,.025)*noseUnderside;
+    float rim=pow(1-sat01(dot(vd,n)),3.5)*.22;
+    color rimLight=color(1,.92,.75)*rim*(0.35+0.65*c)*CKey()*.30*.65;
+    Out = emission()*(col+amb+rimLight);
+}

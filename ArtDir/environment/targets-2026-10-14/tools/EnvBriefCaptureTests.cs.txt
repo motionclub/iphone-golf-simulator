@@ -1,0 +1,124 @@
+using System.Collections;
+using System.IO;
+using GolfArcade.Course;
+using GolfArcade.Game;
+using GolfArcade.Hub;
+using GolfArcade.Tennis;
+using NUnit.Framework;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.TestTools;
+
+namespace GolfArcade.PlayTests
+{
+    /// Capture only (scratch clone): environment brief shots. Same shots are re-taken for after/.
+    public class EnvBriefCaptureTests
+    {
+        static string Out => System.Environment.GetEnvironmentVariable("AUDIT_OUT") ?? "Library/Captures/env";
+        static IEnumerator Wait(System.Func<bool> ok, float s) { float t = 0; while (!ok() && t < s) { t += Time.unscaledDeltaTime; yield return null; } }
+
+        [UnityTest, Timeout(900000)] public IEnumerator A_Tennis()
+        {
+            Directory.CreateDirectory(Out);
+            foreach (var v in new[] { TennisVenueKind.Resort, TennisVenueKind.Skyscraper, TennisVenueKind.Volcano })
+            {
+                TennisVenue.Selected = v;
+                yield return SceneManager.LoadSceneAsync("Tennis", LoadSceneMode.Single); yield return null;
+                var game = Object.FindFirstObjectByType<TennisGame>(); game.ManualSimulation = true; game.NativeControlled = true;
+                game.ConfigureMatch(TennisGame.Mode.Training, null, null, null);
+                for (int i = 0; i < 360; i++) game.Step(1f / 120);
+                for (int i = 0; i < 30; i++) yield return null;
+                game.Player.transform.position = new Vector3(0, .035f, TennisRules.BaselineZ); if (game.Opponent) game.Opponent.transform.position = new Vector3(0, .035f, -TennisRules.BaselineZ);
+                yield return null;
+                var cam = game.GameplayCamera ? game.GameplayCamera : Camera.main; cam.aspect = 16f / 9f;
+                var p = game.Player.transform.position;
+                string n = "tennis_" + v.ToString().ToLower();
+                TennisShoulderCamera.Frame(p, false, game.BallPosition, false, 16f / 9f, out var tp, out var tl, out var tf);
+                cam.transform.position = tp; cam.transform.LookAt(tl); cam.fieldOfView = tf;
+                GameCapture.Save($"{Out}/{n}_1_gameplay.png", 1920, 1080);
+                cam.transform.position = new Vector3(p.x, 2.5f, p.z - 3.5f); cam.transform.LookAt(new Vector3(0, 1f, 3f)); cam.fieldOfView = 46;
+                GameCapture.Save($"{Out}/{n}_2_close.png", 1920, 1080);
+                cam.transform.position = new Vector3(-14, 9, -4); cam.transform.LookAt(new Vector3(0, 0, 2)); cam.fieldOfView = 50;
+                GameCapture.Save($"{Out}/{n}_3_wide.png", 1920, 1080);
+                cam.transform.position = new Vector3(4, 1.2f, p.z - 2); cam.transform.LookAt(new Vector3(0, 0.3f, 0)); cam.fieldOfView = 46;
+                GameCapture.Save($"{Out}/{n}_4_surface.png", 1920, 1080);
+            }
+        }
+
+        [UnityTest, Timeout(1500000)] public IEnumerator B_Golf()
+        {
+            Directory.CreateDirectory(Out);
+            RoundEvents.Enabled = true;
+            yield return SceneManager.LoadSceneAsync("Golf", LoadSceneMode.Single); yield return null;
+            var cam = Camera.main;
+            var game = Object.FindFirstObjectByType<GolfGame>(); game.InstantReplays = false;
+            game.SetRoundEvents(true, true, true);
+            game.ChooseHoles(0); game.Play(); yield return null;
+            var hud = Object.FindFirstObjectByType<GolfArcade.UI.Hud>().GetComponent<Canvas>();
+            var shots = new (int hole, Weather w, bool views)[] {
+                (7, Weather.Clear, true), (12, Weather.Clear, true), (14, Weather.Clear, true), (20, Weather.Clear, true),
+                (17, Weather.Clear, true), (16, Weather.Clear, true), (22, Weather.Clear, true),
+                (7, Weather.Gusty, false), (7, Weather.Rain, false), (7, Weather.Storm, false), (7, Weather.Fog, false),
+                (20, Weather.Rain, false), (20, Weather.Storm, false), (20, Weather.Fog, false) };
+            foreach (var (number, w, views) in shots)
+            {
+                GolfGame.ForcedWeather = w;
+                game.JumpToHole(number);
+                yield return Wait(() => game.Current == GolfGame.State.Aim, 60);
+                yield return new WaitForSecondsRealtime(1.5f);
+                cam.aspect = 16f / 9f;
+                string n = $"golf_{number:00}_{w.ToString().ToLower()}";
+                GameCapture.Save($"{Out}/{n}_1_tee_gameplay.png", 1920, 1080);
+                hud.enabled = false;
+                var hole = game.CurrentHole;
+                var tee = HoleView.ToWorld(hole.Tee); var pin = HoleView.ToWorld(hole.Pin);
+                var along = pin - tee; along.y = 0; float len = along.magnitude; along /= len;
+                var right = Vector3.Cross(Vector3.up, along);
+                var list = views ? new (string, Vector3, Vector3)[] {
+                    ("2_approach", tee + along * len * .6f + Vector3.up * 3f, pin + Vector3.up),
+                    ("3_green", pin - along * 30 + right * 12 + Vector3.up * 6, pin + Vector3.up * 1.5f),
+                    ("4_overview", tee - along * 50 + Vector3.up * (len * .35f + 30), (tee + pin) / 2) }
+                  : new (string, Vector3, Vector3)[] { ("2_approach", tee + along * len * .6f + Vector3.up * 3f, pin + Vector3.up) };
+                foreach (var (vn, at, look) in list)
+                {
+                    game.enabled = false; cam.transform.position = at; cam.transform.LookAt(look);
+                    yield return null;
+                    GameCapture.Save($"{Out}/{n}_{vn}.png", 1920, 1080);
+                    game.enabled = true;
+                }
+                hud.enabled = true;
+            }
+            GolfGame.ForcedWeather = null;
+        }
+
+        static void Still(Camera cam, string path, int w = 1920, int h = 1080)
+        {
+            var rt = RenderTexture.GetTemporary(w, h, 24, RenderTextureFormat.ARGB32); rt.antiAliasing = 4;
+            var prevT = cam.targetTexture; var prevA = cam.aspect;
+            cam.targetTexture = rt; cam.aspect = w / (float)h; cam.Render(); cam.targetTexture = prevT; cam.aspect = prevA;
+            var prev = RenderTexture.active; RenderTexture.active = rt;
+            var tex = new Texture2D(w, h, TextureFormat.RGB24, false); tex.ReadPixels(new Rect(0, 0, w, h), 0, 0); tex.Apply();
+            RenderTexture.active = prev; RenderTexture.ReleaseTemporary(rt);
+            File.WriteAllBytes(path, tex.EncodeToPNG()); Object.Destroy(tex);
+        }
+        [UnityTest, Timeout(600000)] public IEnumerator C_Hub()
+        {
+            Directory.CreateDirectory(Out);
+            HubWorld.EditorDriven = true;
+            var host = new GameObject("NativeSportsSession"); Object.DontDestroyOnLoad(host);
+            var bridge = host.AddComponent<NativeSportsSession>();
+            bridge.Receive(JsonUtility.ToJson(new NativeSportsSession.Message { version = 1, session = "hub-test", action = "start", sport = "hub", female = false, touch = true, shirt = "E8505B", shorts = "24345E", accent = "FFFFFF" }));
+            for (int i = 0; i < 900 && !bridge.Ready; i++) yield return null;
+            yield return new WaitForSeconds(4f);
+            var hub = HubWorld.Find(); var p = hub.Player; var cam = hub.Camera;
+            p.Teleport(HubLayout.Spawn, 0); yield return new WaitForSeconds(1.5f);
+            Still(cam, $"{Out}/hub_1_spawn.png");
+            p.SetStick(0, 1, .55f); yield return new WaitForSeconds(2.2f); p.SetStick(0, 0, 0); yield return new WaitForSeconds(1.2f);
+            Still(cam, $"{Out}/hub_2_walk.png");
+            var f = cam.transform.forward; f.y = 0; f.Normalize();
+            cam.transform.position = p.transform.position - f * 16 + Vector3.up * 12; cam.transform.LookAt(p.transform.position + f * 10);
+            Still(cam, $"{Out}/hub_3_wide.png");
+            HubWorld.EditorDriven = false; Object.DestroyImmediate(host);
+        }
+    }
+}

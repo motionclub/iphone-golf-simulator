@@ -1,0 +1,37 @@
+using System.Collections;
+using System.IO;
+using System.Reflection;
+using GolfArcade.Course;
+using GolfArcade.Game;
+using GolfArcade.EnvironmentArt;
+using NUnit.Framework;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.TestTools;
+
+namespace GolfArcade.PlayTests {
+    public class EnvironmentHole14ProofTests {
+        [UnityTest,Timeout(300000)] public IEnumerator AboveGroundDiagnosticPreservesTheIsland() {
+            string root=System.Environment.GetEnvironmentVariable("HOLE14_OUT");
+            foreach(int stage in new[]{0,7}) {
+                System.Environment.SetEnvironmentVariable("VISUAL_ENVIRONMENT_STAGE",stage.ToString());
+                typeof(EnvironmentLook).GetMethod("Reset",BindingFlags.NonPublic|BindingFlags.Static).Invoke(null,null);
+                Random.InitState(141026);GolfGame.ForcedWeather=Weather.Clear;
+                yield return SceneManager.LoadSceneAsync("Golf");yield return null;
+                var game=Object.FindFirstObjectByType<GolfGame>();game.InstantReplays=false;game.ChooseHoles(0);game.Play();yield return null;game.JumpToHole(14);
+                while(game.Current!=GolfGame.State.Aim){game.SkipPresentation();yield return null;}
+                var cam=Camera.main;cam.aspect=16f/9f;game.enabled=false;cam.GetComponent<CameraRig>().enabled=false;
+                var hud=Object.FindFirstObjectByType<GolfArcade.UI.Hud>().GetComponent<Canvas>();hud.enabled=false;
+                var tee=HoleView.ToWorld(game.CurrentHole.Tee);var pin=HoleView.ToWorld(game.CurrentHole.Pin);var along=pin-tee;along.y=0;float length=along.magnitude;along.Normalize();
+                var folder=Path.Combine(root,"stage"+stage);Directory.CreateDirectory(folder);
+                foreach(var view in new[]{("approach",tee+along*length*.6f,3f),("green",pin-along*30+Vector3.Cross(Vector3.up,along)*12,6f)}) {
+                    var at=view.Item2;float ground=(float)HoleView.GroundHeight(HoleView.ToCourse(at));at.y=ground+view.Item3;
+                    cam.transform.position=at;cam.transform.LookAt(pin+Vector3.up*1.5f);yield return null;
+                    Assert.Greater(cam.transform.position.y-ground,2.9f);GameCapture.Save(Path.Combine(folder,"golf_14_clear_diagnostic_"+view.Item1+".png"),1920,1080);
+                    File.AppendAllText(Path.Combine(folder,"camera.tsv"),view.Item1+"\t"+cam.transform.position.ToString("F3")+"\t"+ground+"\t"+(cam.transform.position.y-ground)+"\n");
+                }
+            }
+            GolfGame.ForcedWeather=null;
+        }
+    }
+}

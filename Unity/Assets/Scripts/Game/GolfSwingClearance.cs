@@ -138,6 +138,31 @@ namespace GolfArcade.Game
                 return;
             }
         }
+
+        public void SeparateHands()
+        {
+            var club = clubs.FirstOrDefault(c => c.node.activeSelf);
+            if (!club.node) return;
+            var left = hero.Bones["LeftHand"]; var right = hero.Bones["RightHand"];
+            float scale = Mathf.Abs(hero.Root.transform.lossyScale.x);
+            // Use the shaft's principal axis, excluding the offset club-head toe.
+            var end = club.end;
+            Vector3 localAxis = Mathf.Abs(end.x) > Mathf.Abs(end.y) && Mathf.Abs(end.x) > Mathf.Abs(end.z)
+                ? Vector3.right * Mathf.Sign(end.x) : Mathf.Abs(end.y) > Mathf.Abs(end.z)
+                ? Vector3.up * Mathf.Sign(end.y) : Vector3.forward * Mathf.Sign(end.z);
+            var shaft = grip.TransformVector(localAxis).normalized;
+            float along = Vector3.Dot(right.position - left.position, shaft);
+            const float minimum = .072f;
+            float separation = minimum * scale;
+            if (Mathf.Abs(along) >= separation || Vector3.Distance(left.position, right.position) > .11f * scale) return;
+            var leftRotation = left.rotation; var rightRotation = right.rotation;
+            var clubPosition = grip.position; var clubRotation = grip.rotation;
+            var shift = shaft * ((separation - Mathf.Abs(along)) * .5f * (along < 0 ? -1 : 1));
+            // Slide along the shaft only; retain each palm’s radius and side of the grip.
+            SolveTo("Left", left.position - shift, leftRotation, 1);
+            SolveTo("Right", right.position + shift, rightRotation, 1);
+            grip.SetPositionAndRotation(clubPosition, clubRotation);
+        }
         void Solve(string side, Quaternion turn)
         {
             var hand = hero.Bones[side + "Hand"];

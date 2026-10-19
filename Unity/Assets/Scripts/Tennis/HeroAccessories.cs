@@ -217,6 +217,9 @@ namespace GolfArcade.Tennis
                 e.materials.Add((mats[i], metal));
             }
             smr.sharedMaterials = mats;
+            // The female body preserves wrist volume with a dual-quaternion
+            // palette. Its glove needs the same interpolation at that seam.
+            if(look.female && look.golfKit && e.def.slot==AccessorySlot.Glove)HeroArmSkinning.Build(smr);
             return smr;
         }
 

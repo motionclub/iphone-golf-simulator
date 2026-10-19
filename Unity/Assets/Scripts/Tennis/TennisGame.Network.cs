@@ -10,12 +10,12 @@ namespace GolfArcade.Tennis {
         int networkLocalSide,networkNearSide;string networkView="";readonly int[] networkSwings=new int[2],networkServes=new int[2],networkEmotes=new int[2];
         string networkScore="",networkPhase="";Vector3 networkPreviousA,networkPreviousB;
         bool networkConfigured;
-        long networkContact=-1; int networkBounces;
+        long networkContact=-1,environmentPoint=-1; int networkBounces;
         public float TossSeenAgo=>Mathf.Clamp(Lag+TossInputDelay,0,.25f);
         /// Online, the other player chose an emote for this intro or point (it plays in place of the rival's default intro clip).
         public bool NetworkOpponentEmoted=>networkConfigured&&(networkNearSide==0||networkNearSide==1)&&networkEmotes[1-networkNearSide]>0;
         public void ConfigureNetwork(NetworkConfiguration c) {
-            networkConfigured=true;networkContact=-1;networkBounces=0;System.Array.Clear(networkEmotes,0,networkEmotes.Length);
+            networkConfigured=true;networkContact=-1;environmentPoint=-1;networkBounces=0;System.Array.Clear(networkEmotes,0,networkEmotes.Length);
             NativeControlled=true;AutoPlay=false;Drill=false;AimPractice=false;
             networkLocalSide=c.Seat(c.localID);networkView=c.LocalView??"";
             networkNearSide=NetworkConfiguration.NearSide(networkLocalSide,networkView);
@@ -75,6 +75,11 @@ namespace GolfArcade.Tennis {
             if(!networkConfigured)return false;
             if(!SportsMultiplayer.Active||SportsMultiplayer.Instance.Configuration.sport!="tennis")return true;
             var net=SportsMultiplayer.Instance;var s=net.TennisState;if(s==null||!Player||!Opponent)return true;
+            if(environmentPoint!=s.point){
+                environmentPoint=s.point;
+                GolfArcade.EnvironmentArt.DreamEnvironment.SyncClock(net.Configuration.environmentUtc,s.time);
+                TennisConditions.Boundary(this,s.score);
+            }
             int n=networkNearSide,f=1-n,l=networkLocalSide;var a=s.players[n];var b=s.players[f];
             float nearX=a.x,farX=b.x;   // canonical x of the player drawn in front and of the one behind
             if(!net.IsHost&&l>=0&&!s.paused&&!s.complete) {

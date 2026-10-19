@@ -7,6 +7,17 @@ import XCTest
 /// microphone are device gates (proof/party/GATE_RESULTS.md).
 @MainActor
 final class PartyChatTests: XCTestCase {
+    func testOverheadMessagesUseVisibleFilteredTextAndHonorMute() {
+        let p = party(2)
+        var mine: [PartyChatMessage] = [], theirs: [PartyChatMessage] = []
+        p[0].chat.onMessage = { mine.append($0) }; p[1].chat.onMessage = { theirs.append($0) }
+        XCTAssertEqual(p[0].chat.send(text: "Meet by the bench! ¿Listos? 🎾"), .sent)
+        XCTAssertEqual(mine.last?.text, "Meet by the bench! ¿Listos? 🎾"); XCTAssertEqual(theirs.last?.text, mine.last?.text)
+        XCTAssertEqual(mine.last?.mine, true); XCTAssertEqual(theirs.last?.mine, false)
+        p[1].chat.mute("p0"); p[0].tick(); p[0].chat.sendQuick("go")
+        XCTAssertEqual(theirs.count, 1, "muted messages never reach the world overlay")
+        p[0].chat.systemNote("connection note"); XCTAssertEqual(mine.count, 2, "system messages have no speaker bubble")
+    }
     // MARK: fakes
     @MainActor final class Channel: PartyChannel {
         let localID: String, name: String
@@ -68,6 +79,7 @@ final class PartyChatTests: XCTestCase {
         XCTAssertEqual(ChatFilter.clean("fuck", mask: false).text, "fuck", "with the filter off language is untouched (adults only)")
     }
     func testSanitizeStripsHiddenControlsAndCapsLength() {
+        XCTAssertEqual(ChatFilter.sanitize("👨‍👩‍👧‍👦 नमस्ते مرحبا"), "👨‍👩‍👧‍👦 नमस्ते مرحبا")
         XCTAssertEqual(ChatFilter.sanitize("a\u{202E}b\u{200B}c\u{0000}d"), "abcd", "bidi, zero-width and control characters")
         XCTAssertEqual(ChatFilter.sanitize("  too   many \n spaces "), "too many spaces")
         XCTAssertEqual(ChatFilter.sanitize(String(repeating: "x", count: 500)).count, ChatFilter.maxLength)
@@ -296,6 +308,51 @@ final class PartyChatTests: XCTestCase {
     }
     func testLosingTheTVStopsTheRecording() async {
         let (svc, rt, _, _) = recorder(); await svc.start(); svc.displayLost(); XCTAssertEqual(svc.state, .saving); XCTAssertEqual(rt.stops, 1)
+    }
+    // Adnan 10-18 "where do recordings go? it just disappeared / stopped randomly": every recording says where it went, a problem
+    // never throws away what was recorded, a stop never hangs on "Saving…", and the recorder log says why.
+    func testAPartialRecordingAfterAProblemIsKeptAndExplained() async {
+        let (svc, rt, photos, _) = recorder(); defer { try? FileManager.default.removeItem(at: RecordingService.tempFolder) }
+        await svc.start(); let file = tempVideo()
+        rt.handler?("{\"type\":\"capture\",\"state\":\"finished\",\"url\":\"\(file.path)\",\"seconds\":42,\"reason\":\"error\",\"partial\":true,\"message\":\"The recording stopped because the phone's video encoder had a problem. What was recorded before it stopped was kept.\"}")
+        await settle(svc, until: .saved)
+        XCTAssertEqual(photos.saved, [file], "the part that was recorded goes to Photos like any recording")
+        XCTAssertTrue(svc.message.contains("video encoder had a problem") && svc.message.contains("Saved to Photos"), svc.message)
+        XCTAssertEqual(svc.history.first?.place, .photos); XCTAssertEqual(svc.history.first?.seconds, 42)
+        XCTAssertTrue(svc.history.first?.note.contains("encoder") == true)
+    }
+    func testRecordingsSayWhereEachOneWent() async {
+        let (svc, rt, photos, _) = recorder()
+        defer { try? FileManager.default.removeItem(at: RecordingService.folder); try? FileManager.default.removeItem(at: RecordingService.tempFolder) }
+        await svc.start(); rt.finish(tempVideo().path); await settle(svc, until: .saved)
+        photos.fail = true; await svc.start(); rt.finish(tempVideo().path, reason: "display"); await settle(svc, until: .saved)
+        await svc.start(); svc.receive(#"{"type":"capture","state":"failed","message":"No picture was recorded from the TV."}"#)
+        XCTAssertEqual(svc.history.map(\.place), [.notSaved, .kept, .photos], "newest first")
+        XCTAssertEqual(svc.history[0].note, "No picture was recorded from the TV.")
+        XCTAssertTrue(svc.history[1].note.contains("TV disconnected")); XCTAssertNotNil(svc.history[1].file)
+        XCTAssertTrue(svc.message.contains("Recordings") || svc.state == .failed)
+    }
+    func testAStopThatNeverFinishesDoesNotHangOnSaving() async {
+        let (svc, rt, _, _) = recorder(); svc.savingTimeout = .milliseconds(60)
+        await svc.start(); svc.stop(); XCTAssertEqual(svc.state, .saving); XCTAssertEqual(rt.stops, 1)
+        await settle(svc, until: .failed)
+        XCTAssertTrue(svc.message.contains("did not finish saving"), svc.message); XCTAssertEqual(svc.history.first?.place, .notSaved)
+        XCTAssertTrue(svc.canToggle, "and the next recording can start")
+    }
+    func testAFinishedEventWithoutItsFileIsNotReportedAsSaved() async {
+        let (svc, rt, photos, _) = recorder()
+        await svc.start(); rt.finish("/nonexistent/MotionClub-gone.mp4")
+        await settle(svc, until: .failed)
+        XCTAssertTrue(photos.saved.isEmpty); XCTAssertTrue(svc.message.contains("missing"), svc.message); XCTAssertEqual(svc.history.first?.place, .notSaved)
+    }
+    func testTheRecorderLogSaysWhoStartedAndStopped() async {
+        let (svc, rt, _, _) = recorder(); defer { try? FileManager.default.removeItem(at: RecordingService.tempFolder) }
+        try? FileManager.default.removeItem(at: RecordingService.logURL)
+        await svc.start(from: "the Record TV control"); svc.displayLost(); rt.finish(tempVideo().path); await settle(svc, until: .saved)
+        let log = (try? String(contentsOf: RecordingService.logURL, encoding: .utf8)) ?? ""
+        XCTAssertTrue(log.contains("start requested (the Record TV control)"), log)
+        XCTAssertTrue(log.contains("stop requested (the TV disconnected)"), log)
+        XCTAssertTrue(log.contains("saved to Photos"), log)
     }
     func testALeftoverRecordingIsRecovered() async {
         let (svc, _, photos, _) = recorder(); defer { try? FileManager.default.removeItem(at: RecordingService.tempFolder) }

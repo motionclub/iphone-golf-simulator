@@ -1,0 +1,109 @@
+{
+  "before": {
+    "faceMeasured": 268,
+    "faceNotVisible": 68,
+    "facePass": 0,
+    "faceLRange": [
+      3.08,
+      73.2
+    ],
+    "faceARange": [
+      2.42,
+      24.72
+    ],
+    "faceBRange": [
+      3.7,
+      40.45
+    ],
+    "faceBelow35": 244,
+    "gameplayShots": 168,
+    "silhouettePass": 116,
+    "silhouetteMin": 1.78,
+    "shirtMeasured": 335,
+    "shirtPass": 227,
+    "shirtHueMax": 12.16,
+    "shirtMinL": 5.91
+  },
+  "after": {
+    "faceMeasured": 268,
+    "faceNotVisible": 68,
+    "facePass": 217,
+    "faceLRange": [
+      43.8,
+      65.36
+    ],
+    "faceARange": [
+      7.63,
+      21.92
+    ],
+    "faceBRange": [
+      17.46,
+      33.55
+    ],
+    "faceBelow35": 0,
+    "gameplayShots": 168,
+    "silhouettePass": 9,
+    "silhouetteMin": 0.0,
+    "shirtMeasured": 335,
+    "shirtPass": 335,
+    "shirtHueMax": 10.85,
+    "shirtMinL": 36.18
+  },
+  "lobbyParity": {
+    "MatchHero_Male": {
+      "before": {
+        "faceDeltaL": 13.84,
+        "shirtDeltaL": 13.4
+      },
+      "after": {
+        "faceDeltaL": 2.22,
+        "shirtDeltaL": 0.98
+      }
+    },
+    "MatchHero_Female": {
+      "before": {
+        "faceDeltaL": 10.04,
+        "shirtDeltaL": 17.44
+      },
+      "after": {
+        "faceDeltaL": 6.69,
+        "shirtDeltaL": 1.03
+      }
+    },
+    "GolfKitHero_Male": {
+      "before": {
+        "faceDeltaL": 47.03,
+        "shirtDeltaL": 14.69
+      },
+      "after": {
+        "faceDeltaL": 16.92,
+        "shirtDeltaL": 2.56
+      }
+    },
+    "GolfKitHero_Female": {
+      "before": {
+        "faceDeltaL": 56.01,
+        "shirtDeltaL": 18.75
+      },
+      "after": {
+        "faceDeltaL": 18.22,
+        "shirtDeltaL": 0.65
+      }
+    }
+  },
+  "lights": {
+    "independentBeforeCasesCompared": 44,
+    "changedInventories": [],
+    "maxActiveBefore": 11,
+    "maxActiveAfterCommonCases": 11
+  },
+  "captureTests": {
+    "result": "Passed",
+    "passed": "4",
+    "failed": "0",
+    "duration": "1373.8015549"
+  },
+  "captureCount": 344,
+  "expectedCaptureCount": 344,
+  "visualGate": "FAIL"
+}

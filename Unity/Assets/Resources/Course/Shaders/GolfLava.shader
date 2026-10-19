@@ -36,7 +36,9 @@ Shader "GolfArcade/GolfLava"
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_fog
+   #pragma multi_compile_fragment _ MAJESTIC_WEATHER_ON // MAJESTIC_WEATHER_HOOK
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+#include "../../Environment/Shaders/EnvironmentSurface.hlsl"
 
             TEXTURE2D(_BaseMap); SAMPLER(sampler_BaseMap);
             TEXTURE2D(_EmissionMap); SAMPLER(sampler_EmissionMap);
@@ -126,7 +128,7 @@ Shader "GolfArcade/GolfLava"
                 // Keep the cooling crust dark while hot channels cross the HDR bloom threshold.
                 colour *= lerp(1.0h, 3.0h, smoothstep(.06h,.55h,max(colour.r,max(colour.g,colour.b))));
                 half fog = InitializeInputDataFog(float4(i.positionWS, 1), 0);
-                return half4(lerp(colour, MixFog(colour, fog), _FogShare), 1);
+                return half4(lerp(colour, EnvironmentFog(colour,fog,i.positionWS), _FogShare), 1);
             }
             ENDHLSL
         }

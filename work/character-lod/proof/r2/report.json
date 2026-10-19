@@ -1,0 +1,18 @@
+{
+  "hero_visible_tris": [198356, 95813, 57483, 22987, 8814],
+  "bands": [0.6, 0.42, 0.16, 0.04], "hysteresis": 0.025,
+  "identity": [
+    {"view": "closeup_front", "screen_h": 1.246, "level": 0, "pixels_differ": 0, "max_diff": 0 },
+    {"view": "closeup_face", "screen_h": 2.734, "level": 0, "pixels_differ": 0, "max_diff": 0 },
+    {"view": "closeup_side", "screen_h": 0.963, "level": 0, "pixels_differ": 0, "max_diff": 0 }
+  ],
+  "pop": [
+    {"swap": "swap01", "levels": [0, 1], "hero_px": 244382, "differ_gt8": 3395, "differ_gt32": 287, "max_diff": 170, "share_gt8": 0.0139 },
+    {"swap": "swap12", "levels": [1, 2], "hero_px": 116007, "differ_gt8": 1545, "differ_gt32": 267, "max_diff": 172, "share_gt8": 0.0133 },
+    {"swap": "swap23", "levels": [2, 3], "hero_px": 11809, "differ_gt8": 771, "differ_gt32": 132, "max_diff": 174, "share_gt8": 0.0653 },
+    {"swap": "swap34", "levels": [3, 4], "hero_px": 609, "differ_gt8": 183, "differ_gt32": 58, "max_diff": 175, "share_gt8": 0.3005 },
+    {"swap": "tee_0_vs_chosen", "levels": [0, 0], "hero_px": 129668, "differ_gt8": 12, "differ_gt32": 6, "max_diff": 80, "share_gt8": 0.0001 }
+  ],
+  "perf_median_ms": {"tee_off": 14.68, "greenBack_off": 9.75, "driveGood_0_off": 13.47, "tee_on": 13.50, "greenBack_on": 9.61, "driveGood_0_on": 14.79},
+  "cache": {"hits": 0, "misses": 15}
+}

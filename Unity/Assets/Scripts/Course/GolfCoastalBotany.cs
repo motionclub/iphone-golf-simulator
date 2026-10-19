@@ -42,6 +42,12 @@ namespace GolfArcade.Course
             foreach(var mf in prefab.GetComponentsInChildren<MeshFilter>())
                 if(mf.sharedMesh&&mf.sharedMesh.isReadable)
                     sources[mf.name]=owner.Prepare(mf,prefab.transform.worldToLocalMatrix*mf.transform.localToWorldMatrix);
+            if(GolfArcade.EnvironmentArt.LuminousCoastPilot.Enabled) {
+                var pines=Resources.Load<GameObject>("Environment/LuminousCoast/CoastalPines");
+                if(pines)foreach(var mf in pines.GetComponentsInChildren<MeshFilter>())
+                    if(mf.sharedMesh&&mf.sharedMesh.isReadable)
+                        sources[mf.name]=owner.Prepare(mf,pines.transform.worldToLocalMatrix*mf.transform.localToWorldMatrix);
+            }
             foreach(var kind in new[]{"CONIFER_A","CONIFER_B","CONIFER_C","CONIFER_D","SHRUB_A","SHRUB_B","FERN"})
                 if(sources.TryGetValue(kind,out var near)&&sources.TryGetValue(kind+"_FAR",out var far))
                     owner.assets[kind]=new Asset{near=near.Item1,far=far.Item1,nearMaterials=near.Item2,farMaterials=far.Item2,height=near.Item1.bounds.size.y};
@@ -63,6 +69,12 @@ namespace GolfArcade.Course
 
         Material ResolveMaterial(string name)
         {
+            if(name.Contains("Luminous Pine")) {
+                if(materialCache.TryGetValue("LuminousPine",out var pine))return pine;
+                var pineShader=Resources.Load<Shader>("Environment/LuminousCoast/CoastalPine");
+                pine=new Material(pineShader){name="Luminous Pine opaque canopy",enableInstancing=true};
+                materials.Add(pine);materialCache["LuminousPine"]=pine;return pine;
+            }
             string role;
             bool baked=name.Contains("COAST_FIR_VIEW_");
             if(baked)role="FirView_"+name.Substring(name.IndexOf("COAST_FIR_VIEW_",StringComparison.Ordinal)+15,1);
@@ -94,6 +106,8 @@ namespace GolfArcade.Course
         {
             var old=source.sharedMesh;var vertices=old.vertices;var normals=old.normals;var uv=old.uv;
             var sourceMaterials=source.GetComponent<Renderer>().sharedMaterials;
+            bool luminous=sourceMaterials.Length>0&&sourceMaterials[0]&&sourceMaterials[0].name.Contains("Luminous Pine");
+            var authoredColors=old.colors;
             var positions=new Vector3[vertices.Length];var ns=new Vector3[vertices.Length];var colors=new Color[vertices.Length];
             var normalMatrix=toRoot.inverse.transpose;
             bool far=source.name.Contains("CONIFER")&&source.name.EndsWith("_FAR",StringComparison.Ordinal);
@@ -106,6 +120,7 @@ namespace GolfArcade.Course
                 colors[i]=new Color(1,1,1,far?0:Mathf.Clamp01(positions[i].y/Mathf.Max(.01f,old.bounds.size.y))*.25f);
             }
             var result=new Mesh{name=source.name+" artist coastal UV",indexFormat=IndexFormat.UInt32};
+            if(luminous&&authoredColors.Length==colors.Length)for(int i=0;i<colors.Length;i++){var c=authoredColors[i];c.a=colors[i].a;colors[i]=c;}
             result.vertices=positions;result.normals=ns;result.colors=colors;
             if(uv.Length==vertices.Length)result.uv=uv;
             result.subMeshCount=old.subMeshCount;var mats=new Material[old.subMeshCount];

@@ -570,7 +570,7 @@ namespace GolfArcade.UI
         Image mapZoneFill, mapZoneEdge;
         readonly System.Collections.Generic.List<RectTransform> mapDots = new(), mapReach = new(), mapTargets = new();
         readonly System.Collections.Generic.List<Image> mapTraceUnder = new(), mapTraceLine = new();
-        int mapDrawn = -1;
+        int mapDrawn = -1, fogDrawn = -1;
         Camera mapDrawnWith;
         const int MapDots = 16, ReachDots = 17;
         static readonly Color MapInk = new(0.06f, 0.1f, 0.18f, 0.9f);
@@ -651,24 +651,28 @@ namespace GolfArcade.UI
             if (PhoneMapCamera) map = PhoneMapCamera;
             if (mapBall == null) BuildMinimapMarks();
             var plan = Map;
+            GolfArcade.EnvironmentArt.DreamVisibility.Mask(Minimap, map);
             bool Place(RectTransform mark, Vector3 world, bool show)
             {
                 var vp = map.WorldToViewportPoint(world);
-                bool inside = show && vp.x >= 0 && vp.x <= 1 && vp.y >= 0 && vp.y <= 1;
+                bool inside = show && (mark == mapBall || GolfArcade.EnvironmentArt.DreamVisibility.Visible(world)) && vp.x >= 0 && vp.x <= 1 && vp.y >= 0 && vp.y <= 1;
                 mark.gameObject.SetActive(inside);
                 if (inside) { mark.anchorMin = mark.anchorMax = new Vector2(vp.x, vp.y); mark.anchoredPosition = Vector2.zero; }
                 return inside;
             }
             Place(mapPin, plan.Pin, plan.Pin != Vector3.zero);
             Place(mapBall, plan.Ball, plan.ShowBall);
+            mapBall.SetAsLastSibling();
             Place(mapLanding, plan.Landing, plan.ShowLanding);
             if (onTv && tvMap.gameObject.activeSelf) tvMap.Draw(map, Minimap.texture, plan.Pin, plan.Ball, plan.ShowBall, plan.Landing, plan.ShowLanding);
             Place(mapLoad, plan.Load, plan.ShowLoad);
-            if (plan.Version == mapDrawn && map == mapDrawnWith) return;
+            if (plan.Version == mapDrawn && map == mapDrawnWith && fogDrawn == GolfArcade.EnvironmentArt.DreamVisibility.Revision) return;
+            fogDrawn = GolfArcade.EnvironmentArt.DreamVisibility.Revision;
             mapDrawn = plan.Version; mapDrawnWith = map;
 
             // the zone: an ellipse on the aim, sized off the map's own scale
-            mapZoneFill.gameObject.SetActive(plan.ShowZone); mapZoneEdge.gameObject.SetActive(plan.ShowZone);
+            bool zoneVisible = plan.ShowZone && GolfArcade.EnvironmentArt.DreamVisibility.Visible(plan.ZoneCentre);
+            mapZoneFill.gameObject.SetActive(zoneVisible); mapZoneEdge.gameObject.SetActive(zoneVisible);
             if (plan.ShowZone)
             {
                 float h = plan.ZoneHeading * Mathf.Deg2Rad;
@@ -692,11 +696,12 @@ namespace GolfArcade.UI
             // the trace: the ball's own flight, a dark edge under the shot's colour
             int n = 0;
             var line = plan.TraceColor; line.a = 1f;
-            for (int i = 1; i < plan.Trace.Count; i++, n++)
+            for (int i = 1; i < plan.Trace.Count; i++)
             {
+                if (!GolfArcade.EnvironmentArt.DreamVisibility.Visible(plan.Trace[i-1]) || !GolfArcade.EnvironmentArt.DreamVisibility.Visible(plan.Trace[i])) continue;
                 var a = MapPoint(map, plan.Trace[i - 1]); var b = MapPoint(map, plan.Trace[i]);
                 Stretch(TraceBar(mapTraceUnder, n, new Color(MapInk.r, MapInk.g, MapInk.b, 0.5f), "Trace edge"), a, b, 8f);
-                Stretch(TraceBar(mapTraceLine, n, line, "Trace"), a, b, 4.5f);
+                Stretch(TraceBar(mapTraceLine, n, line, "Trace"), a, b, 4.5f); n++;
             }
             for (int i = n; i < mapTraceUnder.Count; i++) mapTraceUnder[i].gameObject.SetActive(false);
             for (int i = n; i < mapTraceLine.Count; i++) mapTraceLine[i].gameObject.SetActive(false);

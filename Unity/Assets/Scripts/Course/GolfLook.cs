@@ -409,7 +409,7 @@ namespace GolfArcade.Course
                 flat.SetColor("_BaseColor", spec.Deep); flat.SetFloat("_Smoothness", .6f);
                 return flat;
             }
-            var m = new Material(shader);
+            var m = GolfArcade.EnvironmentArt.EnvironmentMaterials.Create(shader);
             // the shader works in linear space (half4 colour properties are converted on SetColor in a linear project)
             m.SetColor("_Shallow", spec.Shallow); m.SetColor("_Deep", spec.Deep); m.SetColor("_Sky", spec.Sky);
             if (HoleView.Current) { var h = HoleView.Current.Hole; m.SetVector("_WaterOrigin",new Vector4((float)((h.Tee.X+h.Pin.X)*.5),0,(float)((h.Tee.D+h.Pin.D)*.5),0)); }
@@ -426,7 +426,7 @@ namespace GolfArcade.Course
                 Debug.LogError("[GolfLook] GolfArcade/GolfLava not found/supported: URP Lit + emission fallback for " + name);
                 return BuildLit(name, spec);
             }
-            var m = new Material(shader) { enableInstancing = false };
+            var m = GolfArcade.EnvironmentArt.EnvironmentMaterials.Create(shader);
             var albedo = Load(spec.Tex, "_C", true); var glow = Load(spec.Tex, "_E", true); var normal = Load(spec.Tex, "_N", true);
             if (albedo) m.SetTexture("_BaseMap", albedo);
             if (glow) m.SetTexture("_EmissionMap", glow);

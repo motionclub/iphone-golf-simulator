@@ -83,6 +83,7 @@ struct SettingsScreen: View {
         case "fastInput": ("120 Hz swing input", s.fastInput ? "On" : "Off")
         case "howto":
             ("How to connect a TV or Mac", SportsDisplays.displayKind == .mac ? "Mac connected" : SportsDisplays.displayKind == .tv ? "TV connected" : "Open")
+        case "tennisCamera": ("Tennis camera", s.tennisCamera == "elevated" ? "Elevated" : "Chase")
         case "fps": ("120 fps on the phone", s.highFrameRate ? "On" : "Off")
         case "overscan": ("Screen edge margin", s.overscan == 0 ? "None" : "\(Int(s.overscan * 100))%")
         case "sound": ("Sound", s.sound ? "On" : "Off")

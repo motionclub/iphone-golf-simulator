@@ -22,7 +22,7 @@ namespace GolfArcade.Tennis
         public static Vector3 Acceleration(Vector3 velocity, float spin)
         {
             float horizontal = Mathf.Sqrt(velocity.x * velocity.x + velocity.z * velocity.z);
-            return new Vector3(0, -9.81f - Magnus * spin * horizontal, 0);
+            return new Vector3(-velocity.x*TennisConditions.AirDrag, -9.81f - Magnus * spin * horizontal, -velocity.z*TennisConditions.AirDrag);
         }
 
         public static void Integrate(ref Vector3 position, ref Vector3 velocity, float spin, float dt, float curve = 0)
@@ -37,7 +37,7 @@ namespace GolfArcade.Tennis
         {
             bool pacedServe = spin > 1;
             float s = Mathf.Clamp(spin, -1, 1);
-            float vertical = Mathf.Clamp(restitution + (s > 0 ? .10f : .14f) * s, .3f, .95f);
+            float vertical = Mathf.Clamp(restitution*TennisConditions.BounceScale + (s > 0 ? .10f : .14f) * s, .3f, .95f);
             float along = .94f + (s > 0 ? .05f : .04f) * s;
             velocity = new Vector3(velocity.x * along, -velocity.y * vertical, velocity.z * along);
             // The arcade net-clearance force must not turn a short fast serve into a moonball.
@@ -75,8 +75,13 @@ namespace GolfArcade.Tennis
             Vector3 delta = target - start;
             float horizontal = new Vector2(delta.x, delta.z).magnitude;
             float flight = Mathf.Max(.25f, horizontal / Mathf.Max(12, speed));
-            float gravity = 9.81f + Magnus * spin * (horizontal / flight);
-            return delta / flight + Vector3.up * (.5f * gravity * flight);
+            float drag=TennisConditions.AirDrag;
+            float integral=drag>.00001f?(1-Mathf.Exp(-drag*flight))/drag:flight;
+            var velocity=new Vector3(delta.x/integral,0,delta.z/integral);
+            float horizontalSpeed=new Vector2(velocity.x,velocity.z).magnitude;
+            float magnusIntegral=drag>.00001f?(flight-integral)/drag:.5f*flight*flight;
+            velocity.y=(delta.y+.5f*9.81f*flight*flight+Magnus*spin*horizontalSpeed*magnusIntegral)/flight;
+            return velocity;
         }
     }
 }

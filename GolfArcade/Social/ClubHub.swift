@@ -6,6 +6,7 @@ import UIKit
 @MainActor protocol ClubHubRoom: AnyObject {
     /// This phone is in a friends' party (the lobby that lives on the hub's relay room).
     var inLobby: Bool { get }
+    var isHost: Bool { get }
     var partySize: Int { get }
     var capacity: Int { get }
     var sport: String { get }
@@ -15,6 +16,8 @@ import UIKit
     func joinParty(over transport: MultiplayerTransport, host: String) async throws
     func leaveLobby()
 }
+
+extension ClubHubRoom { var isHost: Bool { true } }
 
 /// What the player is doing right now, from the game's own state.
 struct ClubHubContext: Equatable {
@@ -109,6 +112,16 @@ final class ClubHub {
     @ObservationIgnored var tvToast: @MainActor (String) -> Void = { _ in }
     @ObservationIgnored var haptic: @MainActor () -> Void = {}
     @ObservationIgnored var pushToken: (token: String, env: String)?
+    @ObservationIgnored var friendInParty: @MainActor (String) -> Bool = { id in MultiplayerService.shared.isParty && MultiplayerService.shared.lobby?.participants.contains { $0.id == id } == true }
+    @ObservationIgnored var nativeCancel: @MainActor () -> Void = {}
+    @ObservationIgnored private var nativePending: String?
+    @ObservationIgnored var autoOpenLobby = false
+    @ObservationIgnored var nativeInvite: (@MainActor (String) async throws -> Void)?
+    @ObservationIgnored var nativeAccept: (@MainActor (HubInvite) async throws -> Void)?
+    @ObservationIgnored var nativeDecline: (@MainActor (String) -> Void)?
+    @ObservationIgnored var nativeRefresh: (@MainActor () async -> Void)?
+    @ObservationIgnored private var nativeJoining = false
+    var canInvite: Bool { link == .online || (access != .signedOut && nativeInvite != nil) }
     @ObservationIgnored var requestPushPermission: @MainActor () -> Void = {}
 
     // MARK: private
@@ -158,6 +171,7 @@ final class ClubHub {
 
     /// Back to the foreground, or the hub opened: friends and recents again (a friend accepted in Apple's screen shows up).
     func refresh() async {
+        await nativeRefresh?()
         access = await source.access()
         if access == .authorized {
             if let list = try? await source.friends() { applyFriends(list) }
@@ -185,6 +199,16 @@ final class ClubHub {
     func background() {
         guard link == .online else { return }
         publishPresence(force: true)
+    }
+
+    /// Back in the foreground after `seconds` in the background. iOS closes a suspended app's sockets without telling it, so after
+    /// a few seconds the connection is opened afresh at once (not after the backoff): the welcome rejoins this phone's party room,
+    /// so the party is still there when you come back (AwayPolicy).
+    func returned(after seconds: TimeInterval) {
+        guard started, seconds >= AwayPolicy.staleLinkSeconds, !replaced else { return }
+        reconnect?.cancel(); backoff = 1
+        if transport != nil { connectionID += 1; transport?.close(); transport = nil; helloSent = false }
+        connectIfPossible()
     }
 
     // MARK: connection
@@ -271,7 +295,7 @@ final class ClubHub {
         let c = context()
         let state: HubPresenceState = c.background ? .away : doNotDisturb ? .dnd : c.inMatch ? .match : room.inLobby ? .lobby : .plaza
         var lobby: HubLobbyInfo?
-        if let party, room.inLobby { lobby = HubLobbyInfo(code: party.code, sport: room.sport, size: room.partySize, capacity: room.capacity, open: false, group: party.group) }
+        if let party, room.inLobby, room.isHost { lobby = HubLobbyInfo(code: party.code, sport: room.sport, size: room.partySize, capacity: 4, open: !c.inMatch && !c.background && !doNotDisturb && room.partySize < 4, group: party.group) }
         return HubPresence(state: state, lobby: lobby, invisible: invisible)
     }
 
@@ -296,6 +320,7 @@ final class ClubHub {
             if let pending = pendingResponse { pendingResponse = nil; send(HubClientMessage.inviteResponse(pending.inviteID, accept: pending.accept)) }
             // back after a dropped connection: into the party's room again (the opener re-opens it if the service lost it)
             if let r = relayRoom, !r.closed { send(r.opener ? HubClientMessage.roomOpen(r.code) : HubClientMessage.roomJoin(r.code)) }
+            if autoOpenLobby, party == nil, !room.inLobby, !context().inMatch, joining == nil { _ = ensureParty(); publishPresence(force: true) }
             if let p = pendingAccept { if expired(p) { pendingAccept = nil; joining = nil; say("That invite has ended.") } else { accept(p) } }
         case .presence(let id, let online, let state, let lobby, let name):
             guard let i = friends.firstIndex(where: { $0.id == id }) else {
@@ -345,6 +370,17 @@ final class ClubHub {
         if !context().inMatch, !doNotDisturb { tvToast("\(invite.from.name) invited you · \(invite.sportTitle) · accept on your phone") }
         updateBanner()
     }
+    /// Reconcile Game Center's inbox without replaying haptics or unsnoozing a
+    /// card on every poll. The existing banner and Friends inbox use one model.
+    func gameCenterInvitations(_ cards: [HubInvite]) {
+        let ids = Set(cards.map(\.id))
+        invites.removeAll { $0.id.hasPrefix("gc:") && !ids.contains($0.id) }
+        for card in cards.reversed() where !invites.contains(where: { $0.id == card.id }) { received(card) }
+        updateBanner()
+    }
+    func gameCenterInvitationSent(to id: String) {
+        if nativePending == id { sent[id] = .delivered }
+    }
 
     private func updated(_ inviteID: String, _ status: String, to: String?) {
         // the sender learns an invite's id from the first update, which names the friend it was for
@@ -375,14 +411,15 @@ final class ClubHub {
         banner = invites.first { !snoozed.contains($0.inviteID) && !expired($0) }
     }
 
-    func expired(_ invite: HubInvite) -> Bool { invite.expiresAt + 0 <= now() + clockOffset }
+    func expired(_ invite: HubInvite) -> Bool { invite.expiresAt <= now() + (invite.id.hasPrefix("gc:") ? 0 : clockOffset) }
     /// Fraction of the 2 minutes left (the banner's countdown).
-    func remaining(_ invite: HubInvite) -> Double { max(0, min(1, (invite.expiresAt - (now() + clockOffset)) / 120_000)) }
+    func remaining(_ invite: HubInvite) -> Double { max(0, min(1, (invite.expiresAt - now() - (invite.id.hasPrefix("gc:") ? 0 : clockOffset)) / 120_000)) }
 
     /// Not now: off the banner, still in the hub until it expires.
     func snooze(_ invite: HubInvite) { snoozed.insert(invite.inviteID); updateBanner() }
 
     func decline(_ invite: HubInvite) {
+        if invite.id.hasPrefix("gc:") { nativeDecline?(invite.id); remove(invite.id); return }
         send(HubClientMessage.inviteResponse(invite.inviteID, accept: false))
         remove(invite.inviteID)
     }
@@ -390,7 +427,26 @@ final class ClubHub {
     /// Join (one tap on the banner): say yes to the service, then enter the host's party room. The phone stays where it is (the
     /// Plaza's controller); the friend appears in your Plaza and you in theirs. In a party of your own you leave it first.
     func accept(_ invite: HubInvite) {
+        guard !expired(invite), !blocked.contains(invite.from.id) else { say("That invite has ended."); return }
+        guard !context().inMatch else { say("Return to the Plaza to join your friend."); return }
         guard joining == nil || pendingAccept?.inviteID == invite.inviteID else { return }
+        if invite.id.hasPrefix("gc:"), let nativeAccept {
+            joining = invite.from.name; nativeJoining = true; hubOpen = false
+            joinTask = Task { @MainActor [weak self] in
+                guard let self else { return }
+                defer { self.joining = nil; self.nativeJoining = false }
+                do {
+                    try await nativeAccept(invite)
+                    guard !Task.isCancelled else { return }
+                    self.remove(invite.id)
+                    self.say("You joined \(invite.from.name)'s party")
+                } catch {
+                    guard !Task.isCancelled else { return }
+                    self.say(error.localizedDescription)
+                }
+            }
+            return
+        }
         guard link == .online else {
             // (opened from a notification, or the connection is coming back): join the moment it is up
             pendingAccept = invite; joining = invite.from.name; hubOpen = false; connectIfPossible(); return
@@ -423,7 +479,7 @@ final class ClubHub {
         }
     }
 
-    func cancelJoin() { joinTask?.cancel(); joinTask = nil; pendingAccept = nil; if party == nil, let r = relayRoom { relayRoom = nil; r.disconnect() }; joining = nil }
+    func cancelJoin() { joinTask?.cancel(); joinTask = nil; pendingAccept = nil; if nativeJoining { nativeCancel(); nativeJoining = false }; if party == nil, let r = relayRoom { relayRoom = nil; r.disconnect() }; joining = nil }
     /// Joined a friend's party (their id): the Plaza takes you to them.
     @ObservationIgnored var onJoined: @MainActor (String) -> Void = { _ in }
 
@@ -432,13 +488,38 @@ final class ClubHub {
     /// Invite a friend (one tap, online or offline) to your party, made now if you have none. Online: their game shows the banner at
     /// once. Offline: the service keeps it and they get it the moment they open the game (or a notification, where push is set up).
     func invite(_ friend: Friend) {
-        guard link == .online else { say(link == .notConfigured ? "Friends are not available in this build yet." : "Not connected to the Club Hub. Trying again…"); connectIfPossible(); return }
+        guard !blocked.contains(friend.id), friend.id != selfID, joining == nil else { return }
+        if let nativeInvite, access != .signedOut {
+            guard sent[friend.id]?.pending != true else { return }
+            guard nativePending == nil else { say("An invitation is already waiting for an answer."); return }
+            nativePending = friend.id
+            sent[friend.id] = .sending
+            say("Game Center is inviting \(friend.name)…")
+            Task { @MainActor in
+                defer { if self.nativePending == friend.id { self.nativePending = nil } }
+                do { try await nativeInvite(friend.id); if self.nativePending == friend.id { self.sent[friend.id] = .accepted } }
+                catch { if self.nativePending == friend.id { self.sent[friend.id] = .unavailable; self.say(error.localizedDescription) } }
+            }
+            return
+        }
+        guard link == .online else { say("Connect to Game Center to invite friends."); connectIfPossible(); return }
         guard let party = ensureParty() else { return }
         sent[friend.id] = .sending
         send(HubClientMessage.invite(to: friend.id, sport: room.sport, lobbyCode: party.code, group: party.group, capacity: room.capacity))
         publishPresence(force: true)
         haptic()
         if !askedPush { askedPush = true; requestPushPermission() }
+    }
+
+    func canJoin(_ friend: Friend) -> Bool {
+        link == .online && friend.online && !blocked.contains(friend.id) && friend.id != selfID
+            && friend.lobby?.open == true && friend.state != .match && friend.state != .away && friend.state != .dnd
+            && (friend.lobby?.size ?? 8) < (friend.lobby?.capacity ?? 8)
+    }
+    func join(_ friend: Friend) {
+        guard canJoin(friend), let lobby = friend.lobby, !context().inMatch else { return }
+        accept(HubInvite(inviteID: "code-" + lobby.code, from: HubPlayerRef(id: friend.id, name: friend.name),
+                         sport: lobby.sport, lobbyCode: lobby.code, group: lobby.group, capacity: lobby.capacity, expiresAt: now() + 120_000))
     }
 
     /// Someone without the app: make the party now and give back the words to send. Nil if it cannot be made.
@@ -467,6 +548,7 @@ final class ClubHub {
     }
 
     func cancelInvite(to friend: Friend) {
+        if nativePending == friend.id { nativePending = nil; nativeCancel() }
         for (inviteID, id) in outgoing where id == friend.id { send(HubClientMessage.inviteCancel(inviteID)); outgoing[inviteID] = nil }
         sent[friend.id] = .cancelled
     }

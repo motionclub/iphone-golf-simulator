@@ -36,6 +36,10 @@ enum { SportsSampleVersion = 3, SportsSampleValid = 1, SportsSampleDegraded = 2 
 - (double)clock;
 - (void)pause:(BOOL)paused;
 - (void)setForeground:(BOOL)foreground;
+#if DEBUG
+/// Bounded trace for lifecycle regression tests (the same edges forwarded to Unity).
+- (NSArray<NSString*>*)debugLifecycleEvents;
+#endif
 
 // MARK: TV session recording (Unity-side recorder; this app only starts/stops it and feeds voice).
 // All of these are safe no-ops (NO / nothing) when Unity is absent, e.g. on the simulator.

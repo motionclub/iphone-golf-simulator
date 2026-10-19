@@ -1,0 +1,1383 @@
+{
+  "schema": "xcodebuildmcp.output.test-result",
+  "schemaVersion": "3",
+  "didError": false,
+  "error": null,
+  "data": {
+    "summary": {
+      "status": "SUCCEEDED",
+      "durationMs": 46838,
+      "counts": {
+        "passed": 187,
+        "failed": 0,
+        "skipped": 0
+      },
+      "target": "simulator"
+    },
+    "artifacts": {
+      "buildLogPath": "~/Library/Developer/XcodeBuildMCP/workspaces/iphone-golf-simulator-48645ed5e609/logs/test_sim_2026-10-15T20-46-08-171Z_pid33808_445b65c7.log",
+      "xcresultPath": "/private/tmp/multiplayer-fixes-complete.xcresult",
+      "testProductsPath": "~/Library/Developer/XcodeBuildMCP/workspaces/iphone-golf-simulator-48645ed5e609/test-products/test_sim_2026-10-15T20-46-08-171Z_pid33808_fa56014f.xctestproducts"
+    },
+    "tests": {
+      "selected": [
+        "GolfArcadeTests/ClubHubTests/testACodeFindsTheHostAndAcceptsLikeAnInvite",
+        "GolfArcadeTests/ClubHubTests/testANewerInviteFromTheSameFriendReplacesTheOlder",
+        "GolfArcadeTests/ClubHubTests/testAnInviteArrivesAsABannerAndTheHostOpensTheRoom",
+        "GolfArcadeTests/ClubHubTests/testAnOfflineFriendGetsTheInviteWhenTheyOpenTheGame",
+        "GolfArcadeTests/ClubHubTests/testAppearOfflineHidesYouButFriendsKeepTheirs",
+        "GolfArcadeTests/ClubHubTests/testBannerWaitsDuringAMatchAndReturnsAfter",
+        "GolfArcadeTests/ClubHubTests/testBlockedFriendsCannotInviteYou",
+        "GolfArcadeTests/ClubHubTests/testCodeAndLinkParsing",
+        "GolfArcadeTests/ClubHubTests/testDeclineTellsTheHost",
+        "GolfArcadeTests/ClubHubTests/testDisconnectShowsOffline",
+        "GolfArcadeTests/ClubHubTests/testDoNotDisturbHoldsBannersButKeepsInvitesInTheHub",
+        "GolfArcadeTests/ClubHubTests/testFirstInviteAsksForNotificationPermissionOnce",
+        "GolfArcadeTests/ClubHubTests/testFriendsSeeEachOtherOnlineWithTheirState",
+        "GolfArcadeTests/ClubHubTests/testGameCenterInboxCanJoinAndDeclineWithoutAService",
+        "GolfArcadeTests/ClubHubTests/testGameCenterInboxHoldsDuringMatchAndRemovesCancelledInvites",
+        "GolfArcadeTests/ClubHubTests/testGameCenterInvitationDataIsPrivateBoundedAndExpiring",
+        "GolfArcadeTests/ClubHubTests/testGameCenterInvitesWorkWithoutAPresenceServerAndCancelIsNotStuck",
+        "GolfArcadeTests/ClubHubTests/testJoinAnswersYesAndEntersTheHostsRoom",
+        "GolfArcadeTests/ClubHubTests/testJoiningAnEndedPartySaysSo",
+        "GolfArcadeTests/ClubHubTests/testJoiningWhileInAPartyLeavesItFirst",
+        "GolfArcadeTests/ClubHubTests/testNotNowRemovesTheBannerButTheInviteStaysUntilItExpires",
+        "GolfArcadeTests/ClubHubTests/testOneSideListingTheOtherIsEnoughToSeeEachOther",
+        "GolfArcadeTests/ClubHubTests/testOneTapJoinPutsBothPhonesInOnePartyOverTheRelay",
+        "GolfArcadeTests/ClubHubTests/testOpenFriendLobbyIsJoinableAndMatchOrClosedLobbyIsNot",
+        "GolfArcadeTests/ClubHubTests/testPushPayloadBecomesAnInviteAndJoinAnswersOnceConnected",
+        "GolfArcadeTests/ClubHubTests/testPushTokenIsSentWithHelloAndWhenItChanges",
+        "GolfArcadeTests/ClubHubTests/testServerMessagesDecode",
+        "GolfArcadeTests/ClubHubTests/testSeveralFriendsStackNewestFirst",
+        "GolfArcadeTests/ClubHubTests/testSnapshots",
+        "GolfArcadeTests/FriendsLobbyProofTests/testFriendsListAndPanels",
+        "GolfArcadeTests/FriendsLobbyProofTests/testTheInviteBannerShowsAboveASheet",
+        "GolfArcadeTests/FriendsLobbyProofTests/testThePartyBench",
+        "GolfArcadeTests/FriendsLobbyProofTests/testThePlazaOnAPhoneWithNoTV",
+        "GolfArcadeTests/HubPartyTests/testAFriendElsewhereInThePlazaStaysThereWhileTheBenchPlays",
+        "GolfArcadeTests/HubPartyTests/testAFriendJoiningKeepsBothPhonesInThePlaza",
+        "GolfArcadeTests/HubPartyTests/testAFriendsPresenceBecomesAPlazaFriendInTheirLook",
+        "GolfArcadeTests/HubPartyTests/testBackToThePlazaFromAPartyMatchBringsEveryoneBack",
+        "GolfArcadeTests/HubPartyTests/testCallPartyReachesTheOthers",
+        "GolfArcadeTests/HubPartyTests/testCallPartyWaitsForEveryoneIncludingAFriendInTheLocker",
+        "GolfArcadeTests/HubPartyTests/testFourFriendsSeatedInTheGolfBayStartOneMatchAndComeBackToIt",
+        "GolfArcadeTests/HubPartyTests/testHostBenchSettingsRenderAfterBothFriendsSit",
+        "GolfArcadeTests/HubPartyTests/testInviteInThePlazaOpensTheHubAndNoMenuScreen",
+        "GolfArcadeTests/HubPartyTests/testJoiningClearsTheUnityStationAndKeepsWalkingAndEmotesAvailable",
+        "GolfArcadeTests/HubPartyTests/testPartyCallWaitsWhileThePhoneIsInactive",
+        "GolfArcadeTests/HubPartyTests/testSittingDownTogetherStartsTheMatchFromTheHostsPhone",
+        "GolfArcadeTests/HubPartyTests/testSoloBenchesAreLockedUntilTheFriendLeavesAndStartRequiresSeats",
+        "GolfArcadeTests/HubPartyTests/testTheHostLeavingAnIdleLobbyHandsItOver",
+        "GolfArcadeTests/HubPartyTests/testThePartyLandsInOneMatchAndComesBackToTheSameBay",
+        "GolfArcadeTests/HubSessionTests/testBootLoadingBarFollowsUnityAndFadesIntoTheArrival",
+        "GolfArcadeTests/HubSessionTests/testLoadingScreenSnapshots",
+        "GolfArcadeTests/HubSessionTests/testMatchTakesTheRuntimeAndThePlazaReloadsAfter",
+        "GolfArcadeTests/HubSessionTests/testNoTVThePlazaOpensOnThePhone",
+        "GolfArcadeTests/HubSessionTests/testPhoneControllerSnapshots",
+        "GolfArcadeTests/HubSessionTests/testThePlazaIsTheOnlyMenuAndOldScreensNeverShow",
+        "GolfArcadeTests/HubSessionTests/testUnityLifecycleDoesNotRepeatPauseOrRenderOnEnteringBackground",
+        "GolfArcadeTests/HubSessionTests/testUnityReportsReachThePhone",
+        "GolfArcadeTests/MenuFlowRegressionTests/testAirPlayWindowWinsOverRequestedPhonePreview",
+        "GolfArcadeTests/MenuFlowRegressionTests/testAnOnlineMatchNeverOffersTimingCalibration",
+        "GolfArcadeTests/MenuFlowRegressionTests/testAnOnlineSpectatorDoesNotGetAControllerCalibrationGate",
+        "GolfArcadeTests/MenuFlowRegressionTests/testBothSportsChooseMapsBeforeStartingTheRuntime",
+        "GolfArcadeTests/MenuFlowRegressionTests/testCalibrationPrecedesReadyAndDoesNotStartAPoint",
+        "GolfArcadeTests/MenuFlowRegressionTests/testGolfHasOnePlayableRouteWithoutATutorialPrerequisite",
+        "GolfArcadeTests/MenuFlowRegressionTests/testInterruptedTimingReturnsToCalibrationWithoutStartingPlay",
+        "GolfArcadeTests/MenuFlowRegressionTests/testLoadingBackCancelsAndReturnsToAMenu",
+        "GolfArcadeTests/MenuFlowRegressionTests/testMainMenuIsReachableFromLoadingStoryAndEverySetupRoute",
+        "GolfArcadeTests/MenuFlowRegressionTests/testOnlineSetupIsVisibleAndCanFinishBeforeTheRuntimeOrOpponentLoads",
+        "GolfArcadeTests/MenuFlowRegressionTests/testPhoneGameplayIsBlockedWithoutAnExternalScreen",
+        "GolfArcadeTests/MenuFlowRegressionTests/testPointControlsAndCelebrationFollowActualPointPhase",
+        "GolfArcadeTests/MenuFlowRegressionTests/testRepeatedRendererReadyDoesNotClearCompletedOnlineCalibration",
+        "GolfArcadeTests/MenuFlowRegressionTests/testRetiredGolfTutorialSaveReturnsToGameSelection",
+        "GolfArcadeTests/MenuFlowRegressionTests/testRetiredTennisTutorialAndRewardSavesReturnToSelection",
+        "GolfArcadeTests/MenuFlowRegressionTests/testSetupCanGoBackAndExitWithoutCompletingATutorial",
+        "GolfArcadeTests/MenuFlowRegressionTests/testStartupFailureStopsLoadingAndOffersTheSameMapAgain",
+        "GolfArcadeTests/MultiplayerTests/testACompetitorQuietForTooLongIsDropped",
+        "GolfArcadeTests/MultiplayerTests/testADeniedLocalNetworkIsRememberedSoTheMenuCanOfferSettingsAndForgottenOnLeaving",
+        "GolfArcadeTests/MultiplayerTests/testAGoodConnectionStartsOnceItHasBeenSteadyForAWhile",
+        "GolfArcadeTests/MultiplayerTests/testAGuestWaitingInTheLobbyDoesNotFillTheUnityBridgeAndStillJoinsTheNextMatch",
+        "GolfArcadeTests/MultiplayerTests/testALossyConnectionIsNotSteadyEvenWhenTheRoundTripsAreFast",
+        "GolfArcadeTests/MultiplayerTests/testAPeerCannotClaimAViewOrASetupStateInItsHello",
+        "GolfArcadeTests/MultiplayerTests/testAQuietCompetitorKeepsItsSetUpStateWhenAnotherPhoneLeaves",
+        "GolfArcadeTests/MultiplayerTests/testAQuietCompetitorPausesPlayWithinHalfASecondAndResumesWhenHeardAgain",
+        "GolfArcadeTests/MultiplayerTests/testARealRuntimeReloadCannotResendItsPreviousCalibrationAsReady",
+        "GolfArcadeTests/MultiplayerTests/testAReconnectingPlayerDuringSetupReloadsAndSetsUpAgainBeforeTheMatchStarts",
+        "GolfArcadeTests/MultiplayerTests/testARefusedBigUnreliableSendFallsBackToReliableOnceAndIsRemembered",
+        "GolfArcadeTests/MultiplayerTests/testAReloadedTennisPlayerGetsLongerThanADroppedConnectionToSetUpAgain",
+        "GolfArcadeTests/MultiplayerTests/testAReloadedTennisPlayerStaysPausedUntilItHasPointedAtTheTVAgain",
+        "GolfArcadeTests/MultiplayerTests/testASlowPongDoesNotMoveTheSharedClock",
+        "GolfArcadeTests/MultiplayerTests/testASmallUnreliableMessageIsNeverBlamedOnSize",
+        "GolfArcadeTests/MultiplayerTests/testASpectatorGoingQuietNeverPausesPlay",
+        "GolfArcadeTests/MultiplayerTests/testAWeakConnectionWaitsThenOffersPlayAnywayToTheOwnerOnly",
+        "GolfArcadeTests/MultiplayerTests/testAbsurdScreenDelaysAreRejectedInALobby",
+        "GolfArcadeTests/MultiplayerTests/testAnyRemoteLobbyMemberLocksSoloMenuLaunchesUntilTheyLeave",
+        "GolfArcadeTests/MultiplayerTests/testBridgeOverflowInterruptsInsteadOfStallingContest",
+        "GolfArcadeTests/MultiplayerTests/testCalibratedFromAnObserverOrAnOldMatchIsIgnored",
+        "GolfArcadeTests/MultiplayerTests/testCalibrationCanCompleteBeforeEitherCourtLoadsAndSurvivesThePhaseChange",
+        "GolfArcadeTests/MultiplayerTests/testClockFilterIgnoresBadSamples",
+        "GolfArcadeTests/MultiplayerTests/testClockFilterMatchesTheSharedVector",
+        "GolfArcadeTests/MultiplayerTests/testCompetitorRecoveryAndExpiry",
+        "GolfArcadeTests/MultiplayerTests/testConnectionCheckRunsWhileCourtsLoadAndDoesNotAddAnotherSetupWait",
+        "GolfArcadeTests/MultiplayerTests/testDroppedCalibrationIsRetriedUntilTheHostAcknowledgesIt",
+        "GolfArcadeTests/MultiplayerTests/testEmoteEchoHasSameEventAndCooldownAndPhaseGate",
+        "GolfArcadeTests/MultiplayerTests/testFifthPersonIsNotAdmitted",
+        "GolfArcadeTests/MultiplayerTests/testForgedInvalidAndRapidLookPacketsAreRejected",
+        "GolfArcadeTests/MultiplayerTests/testFourFullLoadoutsStayWithinPacketBudget",
+        "GolfArcadeTests/MultiplayerTests/testFourPersonPartyAgreesOnOwnerSeatsAndWatchers",
+        "GolfArcadeTests/MultiplayerTests/testGolfConfigurationSeatsAllFourAndClearsReady",
+        "GolfArcadeTests/MultiplayerTests/testGolfCourseIDsAreAcceptedOnlyForGolf",
+        "GolfArcadeTests/MultiplayerTests/testGolfGoesStraightToPlayingAndIgnoresCalibration",
+        "GolfArcadeTests/MultiplayerTests/testGolfNeedsNoScreenAndHasNoViews",
+        "GolfArcadeTests/MultiplayerTests/testGolfPartyPhoneScreens",
+        "GolfArcadeTests/MultiplayerTests/testHostBackgroundInterruptsAllPeers",
+        "GolfArcadeTests/MultiplayerTests/testHostEnforcesEmoteLimitEvenWhenClientBypassesIt",
+        "GolfArcadeTests/MultiplayerTests/testHostSeatSwapAndGuestSettingsStayProtected",
+        "GolfArcadeTests/MultiplayerTests/testIdentityAndLookReachEveryPeerWithoutChangingSeatsOrReady",
+        "GolfArcadeTests/MultiplayerTests/testLateViewerGetsLaunchAndLoadedRequestsCheckpoint",
+        "GolfArcadeTests/MultiplayerTests/testLinkWindowCountsAPingNobodyAnsweredAsLostAndIgnoresStrangers",
+        "GolfArcadeTests/MultiplayerTests/testLinkWindowGradesByRoundTripJitterAndLoss",
+        "GolfArcadeTests/MultiplayerTests/testLoadingTimeoutLeavesPartyRecoverable",
+        "GolfArcadeTests/MultiplayerTests/testLocalPartyNameFitsBonjourByteLimitWithEmoji",
+        "GolfArcadeTests/MultiplayerTests/testLostLoadingAcknowledgementRetriesWithoutResettingReady",
+        "GolfArcadeTests/MultiplayerTests/testMissingRunMessageIsRecoveredAndBothPhonesCountDownOnTheSameClock",
+        "GolfArcadeTests/MultiplayerTests/testNearbyCodeAndForgedGuestOwnership",
+        "GolfArcadeTests/MultiplayerTests/testNetStatsSummarizeRoundTripsAndLoss",
+        "GolfArcadeTests/MultiplayerTests/testNoTVAnywhereBlocksTennisWithAClearReason",
+        "GolfArcadeTests/MultiplayerTests/testObserverInputAndForgedSenderCannotControlHost",
+        "GolfArcadeTests/MultiplayerTests/testObserversDoNotBlockLoadingAndEveryPhoneGetsOwnConfiguration",
+        "GolfArcadeTests/MultiplayerTests/testOccasionalLostPacketsDoNotPausePlay",
+        "GolfArcadeTests/MultiplayerTests/testOldPeerShowsIncompatibleAndOptionalLookDecodes",
+        "GolfArcadeTests/MultiplayerTests/testOneTVOnTheGuestsPhoneMakesTheOwnerAHeadlessHost",
+        "GolfArcadeTests/MultiplayerTests/testOneTVOnTheOwnersPhoneMakesItSplitAndTheGuestAController",
+        "GolfArcadeTests/MultiplayerTests/testOnlineTennisNeedsAScreenEachUnlessSharingATVIsExplicit",
+        "GolfArcadeTests/MultiplayerTests/testOnlyTheLocalNetworkDeniedErrorIsRecognisedAsSuch",
+        "GolfArcadeTests/MultiplayerTests/testPassThePhoneIsALobbyOfOnePhoneWithNoNetwork",
+        "GolfArcadeTests/MultiplayerTests/testPluggingInOrLosingATVReevaluatesTheLobby",
+        "GolfArcadeTests/MultiplayerTests/testQuickMatchRequiresTheLocalDisplayBeforeSearchingOrAuthenticating",
+        "GolfArcadeTests/MultiplayerTests/testReconnectingCompetitorReloadsBeforeResume",
+        "GolfArcadeTests/MultiplayerTests/testRematchUsesAFreshReadinessBarrierAndRejectsRepeatedInput",
+        "GolfArcadeTests/MultiplayerTests/testRetiredPostcardsCourseBecomesCliffside",
+        "GolfArcadeTests/MultiplayerTests/testReturnAndSportSwitchPreservePartyButCreateFreshContest",
+        "GolfArcadeTests/MultiplayerTests/testSetupIsAbandonedWhenAPlayerLeavesDuringIt",
+        "GolfArcadeTests/MultiplayerTests/testSetupThatDragsOnIsMentionedToEveryoneButNothingIsForced",
+        "GolfArcadeTests/MultiplayerTests/testSharedGuestsAndSeparatePhoneKeepTheirOwnSeatsAndLooks",
+        "GolfArcadeTests/MultiplayerTests/testSharedPhoneGuestsLoadWithHostAndKeepIndependentLooks",
+        "GolfArcadeTests/MultiplayerTests/testSharedStartWaitsForTheLatestClientCoverDeadline",
+        "GolfArcadeTests/MultiplayerTests/testSpectatorLeavingDoesNotSuspendPlay",
+        "GolfArcadeTests/MultiplayerTests/testSpectatorsNeverHoldUpTheStart",
+        "GolfArcadeTests/MultiplayerTests/testStaleMatchAndDuplicateSequenceAreRejected",
+        "GolfArcadeTests/MultiplayerTests/testStartRequiresReadyCompetitorsAndOwner",
+        "GolfArcadeTests/MultiplayerTests/testTennisWaitsForBothPlayersToSetUpTheirControllersBeforeRunning",
+        "GolfArcadeTests/MultiplayerTests/testTheConnectionCheckNeverHoldsUpGolfOrAMatchThatIsAlreadyRunning",
+        "GolfArcadeTests/MultiplayerTests/testTheCountdownDoesNotCountAsAQuietOpponent",
+        "GolfArcadeTests/MultiplayerTests/testTheOneTVConfigurationFixtureParsesAsTheOwnerWritesIt",
+        "GolfArcadeTests/MultiplayerTests/testThePhoneStaysAwakeWhileASportsSessionIsActive",
+        "GolfArcadeTests/MultiplayerTests/testTheSharedTVsDelayReachesTheLobbyAndStaysWithinWhatTheGameWouldCredit",
+        "GolfArcadeTests/MultiplayerTests/testTheWeakConnectionNoticeAndPlayAnywayGoAwayOnceTheLinkRecoversAndPlayBegins",
+        "GolfArcadeTests/MultiplayerTests/testTwoTVsKeepEachPhoneOnItsOwnCourt",
+        "GolfArcadeTests/MultiplayerTests/testViewsAreClearedBetweenMatchesAndChosenAgainFromTheTVsThen",
+        "GolfArcadeTests/MultiplayerTests/testViewsMustBeConsistentInALobby",
+        "GolfArcadeTests/MultiplayerTests/testWinnerStaysAndQueuedViewerTakesLoserSeat",
+        "GolfArcadeTests/MultiplayerTests/testWithoutAGuestReportingTheOwnerDoesNotCallItSteady",
+        "GolfArcadeTests/PartyChatTests/testAFloodingSenderIsDroppedOnTheReceiver",
+        "GolfArcadeTests/PartyChatTests/testALeftoverRecordingIsRecovered",
+        "GolfArcadeTests/PartyChatTests/testAccessRules",
+        "GolfArcadeTests/PartyChatTests/testAutoStopReasonsAreExplainedAndSaved",
+        "GolfArcadeTests/PartyChatTests/testChatEndsWithTheParty",
+        "GolfArcadeTests/PartyChatTests/testFilterLeavesRealWordsAlone",
+        "GolfArcadeTests/PartyChatTests/testFilterMasksLanguageAndDisguises",
+        "GolfArcadeTests/PartyChatTests/testFilterOffStillHidesContactDetails",
+        "GolfArcadeTests/PartyChatTests/testLosingTheTVStopsTheRecording",
+        "GolfArcadeTests/PartyChatTests/testLowStorageRefusesToStart",
+        "GolfArcadeTests/PartyChatTests/testMuteAndBlockSilenceAPlayerEverywhere",
+        "GolfArcadeTests/PartyChatTests/testNoTVNoRecording",
+        "GolfArcadeTests/PartyChatTests/testNotAllowedBeforeSetupAndRateLimit",
+        "GolfArcadeTests/PartyChatTests/testOneTapRecordsTheTVAndSavesToPhotosOnStop",
+        "GolfArcadeTests/PartyChatTests/testOnlyRealPartyMembersCanSpeakInThisParty",
+        "GolfArcadeTests/PartyChatTests/testOverheadMessagesUseVisibleFilteredTextAndHonorMute",
+        "GolfArcadeTests/PartyChatTests/testPartyScreensRender",
+        "GolfArcadeTests/PartyChatTests/testPhotosDeniedKeepsTheFileInTheApp",
+        "GolfArcadeTests/PartyChatTests/testQuickChatReachesTheWholePartyAndOnlyIt",
+        "GolfArcadeTests/PartyChatTests/testRecorderFailureAndSecondStart",
+        "GolfArcadeTests/PartyChatTests/testReportCarriesTheirLastMessagesAndMutesThem",
+        "GolfArcadeTests/PartyChatTests/testSanitizeStripsHiddenControlsAndCapsLength",
+        "GolfArcadeTests/PartyChatTests/testSettingsPickWhatGoesInTheRecording",
+        "GolfArcadeTests/PartyChatTests/testTeensAlwaysHaveTheFilterOn",
+        "GolfArcadeTests/PartyChatTests/testTypedChatFiltersAndRespectsEachSidesAccess",
+        "GolfArcadeTests/PartyChatTests/testUnder13GetsQuickPhrasesOnlyAndCannotRetypeTheYear",
+        "GolfArcadeTests/PartyChatTests/testUnreadCountsUntilTheChatIsOpen"
+      ],
+      "discovered": {
+        "total": 187,
+        "items": [
+          "GolfArcadeTests/ClubHubTests/testACodeFindsTheHostAndAcceptsLikeAnInvite",
+          "GolfArcadeTests/ClubHubTests/testANewerInviteFromTheSameFriendReplacesTheOlder",
+          "GolfArcadeTests/ClubHubTests/testAnInviteArrivesAsABannerAndTheHostOpensTheRoom",
+          "GolfArcadeTests/ClubHubTests/testAnOfflineFriendGetsTheInviteWhenTheyOpenTheGame",
+          "GolfArcadeTests/ClubHubTests/testAppearOfflineHidesYouButFriendsKeepTheirs",
+          "GolfArcadeTests/ClubHubTests/testBannerWaitsDuringAMatchAndReturnsAfter"
+        ]
+      }
+    },
+    "diagnostics": {
+      "warnings": [
+        {
+          "message": "-[GolfArcadeTests.FriendsLobbyProofTests testFriendsListAndPanels] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+          "location": "<unknown>:0"
+        },
+        {
+          "message": "-[GolfArcadeTests.FriendsLobbyProofTests testTheInviteBannerShowsAboveASheet] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+          "location": "<unknown>:0"
+        },
+        {
+          "message": "-[GolfArcadeTests.FriendsLobbyProofTests testThePartyBench] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+          "location": "<unknown>:0"
+        },
+        {
+          "message": "-[GolfArcadeTests.HubSessionTests testBootLoadingBarFollowsUnityAndFadesIntoTheArrival] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+          "location": "<unknown>:0"
+        },
+        {
+          "message": "-[GolfArcadeTests.HubSessionTests testLoadingScreenSnapshots] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+          "location": "<unknown>:0"
+        },
+        {
+          "message": "-[GolfArcadeTests.HubSessionTests testUnityReportsReachThePhone] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+          "location": "<unknown>:0"
+        },
+        {
+          "message": "-[GolfArcadeTests.MultiplayerTests testGolfPartyPhoneScreens] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+          "location": "<unknown>:0"
+        }
+      ],
+      "errors": [],
+      "testFailures": []
+    },
+    "testCases": [
+      {
+        "suite": "ClubHubTests",
+        "test": "testACodeFindsTheHostAndAcceptsLikeAnInvite",
+        "status": "passed",
+        "durationMs": 283
+      },
+      {
+        "suite": "ClubHubTests",
+        "test": "testANewerInviteFromTheSameFriendReplacesTheOlder",
+        "status": "passed",
+        "durationMs": 38
+      },
+      {
+        "suite": "ClubHubTests",
+        "test": "testAnInviteArrivesAsABannerAndTheHostOpensTheRoom",
+        "status": "passed",
+        "durationMs": 22
+      },
+      {
+        "suite": "ClubHubTests",
+        "test": "testAnOfflineFriendGetsTheInviteWhenTheyOpenTheGame",
+        "status": "passed",
+        "durationMs": 33
+      },
+      {
+        "suite": "ClubHubTests",
+        "test": "testAppearOfflineHidesYouButFriendsKeepTheirs",
+        "status": "passed",
+        "durationMs": 23
+      },
+      {
+        "suite": "ClubHubTests",
+        "test": "testBannerWaitsDuringAMatchAndReturnsAfter",
+        "status": "passed",
+        "durationMs": 31
+      },
+      {
+        "suite": "ClubHubTests",
+        "test": "testBlockedFriendsCannotInviteYou",
+        "status": "passed",
+        "durationMs": 231
+      },
+      {
+        "suite": "ClubHubTests",
+        "test": "testCodeAndLinkParsing",
+        "status": "passed",
+        "durationMs": 8
+      },
+      {
+        "suite": "ClubHubTests",
+        "test": "testDeclineTellsTheHost",
+        "status": "passed",
+        "durationMs": 35
+      },
+      {
+        "suite": "ClubHubTests",
+        "test": "testDisconnectShowsOffline",
+        "status": "passed",
+        "durationMs": 23
+      },
+      {
+        "suite": "ClubHubTests",
+        "test": "testDoNotDisturbHoldsBannersButKeepsInvitesInTheHub",
+        "status": "passed",
+        "durationMs": 35
+      },
+      {
+        "suite": "ClubHubTests",
+        "test": "testFirstInviteAsksForNotificationPermissionOnce",
+        "status": "passed",
+        "durationMs": 18
+      },
+      {
+        "suite": "ClubHubTests",
+        "test": "testFriendsSeeEachOtherOnlineWithTheirState",
+        "status": "passed",
+        "durationMs": 35
+      },
+      {
+        "suite": "ClubHubTests",
+        "test": "testGameCenterInboxCanJoinAndDeclineWithoutAService",
+        "status": "passed",
+        "durationMs": 1182
+      },
+      {
+        "suite": "ClubHubTests",
+        "test": "testGameCenterInboxHoldsDuringMatchAndRemovesCancelledInvites",
+        "status": "passed",
+        "durationMs": 1
+      },
+      {
+        "suite": "ClubHubTests",
+        "test": "testGameCenterInvitationDataIsPrivateBoundedAndExpiring",
+        "status": "passed",
+        "durationMs": 1
+      },
+      {
+        "suite": "ClubHubTests",
+        "test": "testGameCenterInvitesWorkWithoutAPresenceServerAndCancelIsNotStuck",
+        "status": "passed",
+        "durationMs": 1169
+      },
+      {
+        "suite": "ClubHubTests",
+        "test": "testJoinAnswersYesAndEntersTheHostsRoom",
+        "status": "passed",
+        "durationMs": 36
+      },
+      {
+        "suite": "ClubHubTests",
+        "test": "testJoiningAnEndedPartySaysSo",
+        "status": "passed",
+        "durationMs": 81
+      },
+      {
+        "suite": "ClubHubTests",
+        "test": "testJoiningWhileInAPartyLeavesItFirst",
+        "status": "passed",
+        "durationMs": 34
+      },
+      {
+        "suite": "ClubHubTests",
+        "test": "testNotNowRemovesTheBannerButTheInviteStaysUntilItExpires",
+        "status": "passed",
+        "durationMs": 25
+      },
+      {
+        "suite": "ClubHubTests",
+        "test": "testOneSideListingTheOtherIsEnoughToSeeEachOther",
+        "status": "passed",
+        "durationMs": 13
+      },
+      {
+        "suite": "ClubHubTests",
+        "test": "testOneTapJoinPutsBothPhonesInOnePartyOverTheRelay",
+        "status": "passed",
+        "durationMs": 119
+      },
+      {
+        "suite": "ClubHubTests",
+        "test": "testOpenFriendLobbyIsJoinableAndMatchOrClosedLobbyIsNot",
+        "status": "passed",
+        "durationMs": 35
+      },
+      {
+        "suite": "ClubHubTests",
+        "test": "testPushPayloadBecomesAnInviteAndJoinAnswersOnceConnected",
+        "status": "passed",
+        "durationMs": 35
+      },
+      {
+        "suite": "ClubHubTests",
+        "test": "testPushTokenIsSentWithHelloAndWhenItChanges",
+        "status": "passed",
+        "durationMs": 12
+      },
+      {
+        "suite": "ClubHubTests",
+        "test": "testServerMessagesDecode",
+        "status": "passed",
+        "durationMs": 4
+      },
+      {
+        "suite": "ClubHubTests",
+        "test": "testSeveralFriendsStackNewestFirst",
+        "status": "passed",
+        "durationMs": 36
+      },
+      {
+        "suite": "ClubHubTests",
+        "test": "testSnapshots",
+        "status": "passed",
+        "durationMs": 4082
+      },
+      {
+        "suite": "FriendsLobbyProofTests",
+        "test": "testFriendsListAndPanels",
+        "status": "passed",
+        "durationMs": 2365
+      },
+      {
+        "suite": "FriendsLobbyProofTests",
+        "test": "testTheInviteBannerShowsAboveASheet",
+        "status": "passed",
+        "durationMs": 1583
+      },
+      {
+        "suite": "FriendsLobbyProofTests",
+        "test": "testThePartyBench",
+        "status": "passed",
+        "durationMs": 1056
+      },
+      {
+        "suite": "FriendsLobbyProofTests",
+        "test": "testThePlazaOnAPhoneWithNoTV",
+        "status": "passed",
+        "durationMs": 1025
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testAFriendElsewhereInThePlazaStaysThereWhileTheBenchPlays",
+        "status": "passed",
+        "durationMs": 104
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testAFriendJoiningKeepsBothPhonesInThePlaza",
+        "status": "passed",
+        "durationMs": 108
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testAFriendsPresenceBecomesAPlazaFriendInTheirLook",
+        "status": "passed",
+        "durationMs": 72
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testBackToThePlazaFromAPartyMatchBringsEveryoneBack",
+        "status": "passed",
+        "durationMs": 85
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testCallPartyReachesTheOthers",
+        "status": "passed",
+        "durationMs": 85
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testCallPartyWaitsForEveryoneIncludingAFriendInTheLocker",
+        "status": "passed",
+        "durationMs": 85
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testFourFriendsSeatedInTheGolfBayStartOneMatchAndComeBackToIt",
+        "status": "passed",
+        "durationMs": 85
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testHostBenchSettingsRenderAfterBothFriendsSit",
+        "status": "passed",
+        "durationMs": 982
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testInviteInThePlazaOpensTheHubAndNoMenuScreen",
+        "status": "passed",
+        "durationMs": 107
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testJoiningClearsTheUnityStationAndKeepsWalkingAndEmotesAvailable",
+        "status": "passed",
+        "durationMs": 162
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testPartyCallWaitsWhileThePhoneIsInactive",
+        "status": "passed",
+        "durationMs": 82
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testSittingDownTogetherStartsTheMatchFromTheHostsPhone",
+        "status": "passed",
+        "durationMs": 85
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testSoloBenchesAreLockedUntilTheFriendLeavesAndStartRequiresSeats",
+        "status": "passed",
+        "durationMs": 86
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testTheHostLeavingAnIdleLobbyHandsItOver",
+        "status": "passed",
+        "durationMs": 85
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testThePartyLandsInOneMatchAndComesBackToTheSameBay",
+        "status": "passed",
+        "durationMs": 84
+      },
+      {
+        "suite": "HubSessionTests",
+        "test": "testBootLoadingBarFollowsUnityAndFadesIntoTheArrival",
+        "status": "passed",
+        "durationMs": 1381
+      },
+      {
+        "suite": "HubSessionTests",
+        "test": "testLoadingScreenSnapshots",
+        "status": "passed",
+        "durationMs": 3773
+      },
+      {
+        "suite": "HubSessionTests",
+        "test": "testMatchTakesTheRuntimeAndThePlazaReloadsAfter",
+        "status": "passed",
+        "durationMs": 104
+      },
+      {
+        "suite": "HubSessionTests",
+        "test": "testNoTVThePlazaOpensOnThePhone",
+        "status": "passed",
+        "durationMs": 95
+      },
+      {
+        "suite": "HubSessionTests",
+        "test": "testPhoneControllerSnapshots",
+        "status": "passed",
+        "durationMs": 5882
+      },
+      {
+        "suite": "HubSessionTests",
+        "test": "testThePlazaIsTheOnlyMenuAndOldScreensNeverShow",
+        "status": "passed",
+        "durationMs": 1004
+      },
+      {
+        "suite": "HubSessionTests",
+        "test": "testUnityLifecycleDoesNotRepeatPauseOrRenderOnEnteringBackground",
+        "status": "passed",
+        "durationMs": 117
+      },
+      {
+        "suite": "HubSessionTests",
+        "test": "testUnityReportsReachThePhone",
+        "status": "passed",
+        "durationMs": 676
+      },
+      {
+        "suite": "MenuFlowRegressionTests",
+        "test": "testAirPlayWindowWinsOverRequestedPhonePreview",
+        "status": "passed",
+        "durationMs": 3
+      },
+      {
+        "suite": "MenuFlowRegressionTests",
+        "test": "testAnOnlineMatchNeverOffersTimingCalibration",
+        "status": "passed",
+        "durationMs": 3
+      },
+      {
+        "suite": "MenuFlowRegressionTests",
+        "test": "testAnOnlineSpectatorDoesNotGetAControllerCalibrationGate",
+        "status": "passed",
+        "durationMs": 1
+      },
+      {
+        "suite": "MenuFlowRegressionTests",
+        "test": "testBothSportsChooseMapsBeforeStartingTheRuntime",
+        "status": "passed",
+        "durationMs": 83
+      },
+      {
+        "suite": "MenuFlowRegressionTests",
+        "test": "testCalibrationPrecedesReadyAndDoesNotStartAPoint",
+        "status": "passed",
+        "durationMs": 1
+      },
+      {
+        "suite": "MenuFlowRegressionTests",
+        "test": "testGolfHasOnePlayableRouteWithoutATutorialPrerequisite",
+        "status": "passed",
+        "durationMs": 0
+      },
+      {
+        "suite": "MenuFlowRegressionTests",
+        "test": "testInterruptedTimingReturnsToCalibrationWithoutStartingPlay",
+        "status": "passed",
+        "durationMs": 1
+      },
+      {
+        "suite": "MenuFlowRegressionTests",
+        "test": "testLoadingBackCancelsAndReturnsToAMenu",
+        "status": "passed",
+        "durationMs": 18
+      },
+      {
+        "suite": "MenuFlowRegressionTests",
+        "test": "testMainMenuIsReachableFromLoadingStoryAndEverySetupRoute",
+        "status": "passed",
+        "durationMs": 171
+      },
+      {
+        "suite": "MenuFlowRegressionTests",
+        "test": "testOnlineSetupIsVisibleAndCanFinishBeforeTheRuntimeOrOpponentLoads",
+        "status": "passed",
+        "durationMs": 1
+      },
+      {
+        "suite": "MenuFlowRegressionTests",
+        "test": "testPhoneGameplayIsBlockedWithoutAnExternalScreen",
+        "status": "passed",
+        "durationMs": 61
+      },
+      {
+        "suite": "MenuFlowRegressionTests",
+        "test": "testPointControlsAndCelebrationFollowActualPointPhase",
+        "status": "passed",
+        "durationMs": 2
+      },
+      {
+        "suite": "MenuFlowRegressionTests",
+        "test": "testRepeatedRendererReadyDoesNotClearCompletedOnlineCalibration",
+        "status": "passed",
+        "durationMs": 3
+      },
+      {
+        "suite": "MenuFlowRegressionTests",
+        "test": "testRetiredGolfTutorialSaveReturnsToGameSelection",
+        "status": "passed",
+        "durationMs": 7
+      },
+      {
+        "suite": "MenuFlowRegressionTests",
+        "test": "testRetiredTennisTutorialAndRewardSavesReturnToSelection",
+        "status": "passed",
+        "durationMs": 11
+      },
+      {
+        "suite": "MenuFlowRegressionTests",
+        "test": "testSetupCanGoBackAndExitWithoutCompletingATutorial",
+        "status": "passed",
+        "durationMs": 3
+      },
+      {
+        "suite": "MenuFlowRegressionTests",
+        "test": "testStartupFailureStopsLoadingAndOffersTheSameMapAgain",
+        "status": "passed",
+        "durationMs": 78
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testAbsurdScreenDelaysAreRejectedInALobby",
+        "status": "passed",
+        "durationMs": 3
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testACompetitorQuietForTooLongIsDropped",
+        "status": "passed",
+        "durationMs": 15
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testADeniedLocalNetworkIsRememberedSoTheMenuCanOfferSettingsAndForgottenOnLeaving",
+        "status": "passed",
+        "durationMs": 2
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testAGoodConnectionStartsOnceItHasBeenSteadyForAWhile",
+        "status": "passed",
+        "durationMs": 7
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testAGuestWaitingInTheLobbyDoesNotFillTheUnityBridgeAndStillJoinsTheNextMatch",
+        "status": "passed",
+        "durationMs": 16
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testALossyConnectionIsNotSteadyEvenWhenTheRoundTripsAreFast",
+        "status": "passed",
+        "durationMs": 11
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testAnyRemoteLobbyMemberLocksSoloMenuLaunchesUntilTheyLeave",
+        "status": "passed",
+        "durationMs": 1
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testAPeerCannotClaimAViewOrASetupStateInItsHello",
+        "status": "passed",
+        "durationMs": 1
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testAQuietCompetitorKeepsItsSetUpStateWhenAnotherPhoneLeaves",
+        "status": "passed",
+        "durationMs": 4
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testAQuietCompetitorPausesPlayWithinHalfASecondAndResumesWhenHeardAgain",
+        "status": "passed",
+        "durationMs": 3
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testARealRuntimeReloadCannotResendItsPreviousCalibrationAsReady",
+        "status": "passed",
+        "durationMs": 3
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testAReconnectingPlayerDuringSetupReloadsAndSetsUpAgainBeforeTheMatchStarts",
+        "status": "passed",
+        "durationMs": 2
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testARefusedBigUnreliableSendFallsBackToReliableOnceAndIsRemembered",
+        "status": "passed",
+        "durationMs": 2
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testAReloadedTennisPlayerGetsLongerThanADroppedConnectionToSetUpAgain",
+        "status": "passed",
+        "durationMs": 17
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testAReloadedTennisPlayerStaysPausedUntilItHasPointedAtTheTVAgain",
+        "status": "passed",
+        "durationMs": 3
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testASlowPongDoesNotMoveTheSharedClock",
+        "status": "passed",
+        "durationMs": 1
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testASmallUnreliableMessageIsNeverBlamedOnSize",
+        "status": "passed",
+        "durationMs": 2
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testASpectatorGoingQuietNeverPausesPlay",
+        "status": "passed",
+        "durationMs": 6
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testAWeakConnectionWaitsThenOffersPlayAnywayToTheOwnerOnly",
+        "status": "passed",
+        "durationMs": 16
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testBridgeOverflowInterruptsInsteadOfStallingContest",
+        "status": "passed",
+        "durationMs": 2
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testCalibratedFromAnObserverOrAnOldMatchIsIgnored",
+        "status": "passed",
+        "durationMs": 2
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testCalibrationCanCompleteBeforeEitherCourtLoadsAndSurvivesThePhaseChange",
+        "status": "passed",
+        "durationMs": 2
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testClockFilterIgnoresBadSamples",
+        "status": "passed",
+        "durationMs": 0
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testClockFilterMatchesTheSharedVector",
+        "status": "passed",
+        "durationMs": 0
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testCompetitorRecoveryAndExpiry",
+        "status": "passed",
+        "durationMs": 2
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testConnectionCheckRunsWhileCourtsLoadAndDoesNotAddAnotherSetupWait",
+        "status": "passed",
+        "durationMs": 5
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testDroppedCalibrationIsRetriedUntilTheHostAcknowledgesIt",
+        "status": "passed",
+        "durationMs": 3
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testEmoteEchoHasSameEventAndCooldownAndPhaseGate",
+        "status": "passed",
+        "durationMs": 5
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testFifthPersonIsNotAdmitted",
+        "status": "passed",
+        "durationMs": 3
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testForgedInvalidAndRapidLookPacketsAreRejected",
+        "status": "passed",
+        "durationMs": 2
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testFourFullLoadoutsStayWithinPacketBudget",
+        "status": "passed",
+        "durationMs": 0
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testFourPersonPartyAgreesOnOwnerSeatsAndWatchers",
+        "status": "passed",
+        "durationMs": 2
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testGolfConfigurationSeatsAllFourAndClearsReady",
+        "status": "passed",
+        "durationMs": 2
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testGolfCourseIDsAreAcceptedOnlyForGolf",
+        "status": "passed",
+        "durationMs": 2
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testGolfGoesStraightToPlayingAndIgnoresCalibration",
+        "status": "passed",
+        "durationMs": 1
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testGolfNeedsNoScreenAndHasNoViews",
+        "status": "passed",
+        "durationMs": 1
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testGolfPartyPhoneScreens",
+        "status": "passed",
+        "durationMs": 727
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testHostBackgroundInterruptsAllPeers",
+        "status": "passed",
+        "durationMs": 2
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testHostEnforcesEmoteLimitEvenWhenClientBypassesIt",
+        "status": "passed",
+        "durationMs": 1
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testHostSeatSwapAndGuestSettingsStayProtected",
+        "status": "passed",
+        "durationMs": 3
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testIdentityAndLookReachEveryPeerWithoutChangingSeatsOrReady",
+        "status": "passed",
+        "durationMs": 4
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testLateViewerGetsLaunchAndLoadedRequestsCheckpoint",
+        "status": "passed",
+        "durationMs": 3
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testLinkWindowCountsAPingNobodyAnsweredAsLostAndIgnoresStrangers",
+        "status": "passed",
+        "durationMs": 0
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testLinkWindowGradesByRoundTripJitterAndLoss",
+        "status": "passed",
+        "durationMs": 0
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testLoadingTimeoutLeavesPartyRecoverable",
+        "status": "passed",
+        "durationMs": 2
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testLocalPartyNameFitsBonjourByteLimitWithEmoji",
+        "status": "passed",
+        "durationMs": 1
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testLostLoadingAcknowledgementRetriesWithoutResettingReady",
+        "status": "passed",
+        "durationMs": 3
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testMissingRunMessageIsRecoveredAndBothPhonesCountDownOnTheSameClock",
+        "status": "passed",
+        "durationMs": 4
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testNearbyCodeAndForgedGuestOwnership",
+        "status": "passed",
+        "durationMs": 0
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testNetStatsSummarizeRoundTripsAndLoss",
+        "status": "passed",
+        "durationMs": 1
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testNoTVAnywhereBlocksTennisWithAClearReason",
+        "status": "passed",
+        "durationMs": 1
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testObserverInputAndForgedSenderCannotControlHost",
+        "status": "passed",
+        "durationMs": 4
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testObserversDoNotBlockLoadingAndEveryPhoneGetsOwnConfiguration",
+        "status": "passed",
+        "durationMs": 4
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testOccasionalLostPacketsDoNotPausePlay",
+        "status": "passed",
+        "durationMs": 22
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testOldPeerShowsIncompatibleAndOptionalLookDecodes",
+        "status": "passed",
+        "durationMs": 1
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testOneTVOnTheGuestsPhoneMakesTheOwnerAHeadlessHost",
+        "status": "passed",
+        "durationMs": 1
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testOneTVOnTheOwnersPhoneMakesItSplitAndTheGuestAController",
+        "status": "passed",
+        "durationMs": 1
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testOnlineTennisNeedsAScreenEachUnlessSharingATVIsExplicit",
+        "status": "passed",
+        "durationMs": 1
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testOnlyTheLocalNetworkDeniedErrorIsRecognisedAsSuch",
+        "status": "passed",
+        "durationMs": 0
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testPassThePhoneIsALobbyOfOnePhoneWithNoNetwork",
+        "status": "passed",
+        "durationMs": 2
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testPluggingInOrLosingATVReevaluatesTheLobby",
+        "status": "passed",
+        "durationMs": 1
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testQuickMatchRequiresTheLocalDisplayBeforeSearchingOrAuthenticating",
+        "status": "passed",
+        "durationMs": 1
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testReconnectingCompetitorReloadsBeforeResume",
+        "status": "passed",
+        "durationMs": 2
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testRematchUsesAFreshReadinessBarrierAndRejectsRepeatedInput",
+        "status": "passed",
+        "durationMs": 7
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testRetiredPostcardsCourseBecomesCliffside",
+        "status": "passed",
+        "durationMs": 1
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testReturnAndSportSwitchPreservePartyButCreateFreshContest",
+        "status": "passed",
+        "durationMs": 7
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testSetupIsAbandonedWhenAPlayerLeavesDuringIt",
+        "status": "passed",
+        "durationMs": 2
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testSetupThatDragsOnIsMentionedToEveryoneButNothingIsForced",
+        "status": "passed",
+        "durationMs": 34
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testSharedGuestsAndSeparatePhoneKeepTheirOwnSeatsAndLooks",
+        "status": "passed",
+        "durationMs": 2
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testSharedPhoneGuestsLoadWithHostAndKeepIndependentLooks",
+        "status": "passed",
+        "durationMs": 1
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testSharedStartWaitsForTheLatestClientCoverDeadline",
+        "status": "passed",
+        "durationMs": 2
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testSpectatorLeavingDoesNotSuspendPlay",
+        "status": "passed",
+        "durationMs": 4
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testSpectatorsNeverHoldUpTheStart",
+        "status": "passed",
+        "durationMs": 3
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testStaleMatchAndDuplicateSequenceAreRejected",
+        "status": "passed",
+        "durationMs": 2
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testStartRequiresReadyCompetitorsAndOwner",
+        "status": "passed",
+        "durationMs": 2
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testTennisWaitsForBothPlayersToSetUpTheirControllersBeforeRunning",
+        "status": "passed",
+        "durationMs": 2
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testTheConnectionCheckNeverHoldsUpGolfOrAMatchThatIsAlreadyRunning",
+        "status": "passed",
+        "durationMs": 1
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testTheCountdownDoesNotCountAsAQuietOpponent",
+        "status": "passed",
+        "durationMs": 2
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testTheOneTVConfigurationFixtureParsesAsTheOwnerWritesIt",
+        "status": "passed",
+        "durationMs": 1
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testThePhoneStaysAwakeWhileASportsSessionIsActive",
+        "status": "passed",
+        "durationMs": 1
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testTheSharedTVsDelayReachesTheLobbyAndStaysWithinWhatTheGameWouldCredit",
+        "status": "passed",
+        "durationMs": 2
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testTheWeakConnectionNoticeAndPlayAnywayGoAwayOnceTheLinkRecoversAndPlayBegins",
+        "status": "passed",
+        "durationMs": 26
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testTwoTVsKeepEachPhoneOnItsOwnCourt",
+        "status": "passed",
+        "durationMs": 1
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testViewsAreClearedBetweenMatchesAndChosenAgainFromTheTVsThen",
+        "status": "passed",
+        "durationMs": 2
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testViewsMustBeConsistentInALobby",
+        "status": "passed",
+        "durationMs": 0
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testWinnerStaysAndQueuedViewerTakesLoserSeat",
+        "status": "passed",
+        "durationMs": 5
+      },
+      {
+        "suite": "MultiplayerTests",
+        "test": "testWithoutAGuestReportingTheOwnerDoesNotCallItSteady",
+        "status": "passed",
+        "durationMs": 15
+      },
+      {
+        "suite": "PartyChatTests",
+        "test": "testAccessRules",
+        "status": "passed",
+        "durationMs": 2
+      },
+      {
+        "suite": "PartyChatTests",
+        "test": "testAFloodingSenderIsDroppedOnTheReceiver",
+        "status": "passed",
+        "durationMs": 4
+      },
+      {
+        "suite": "PartyChatTests",
+        "test": "testALeftoverRecordingIsRecovered",
+        "status": "passed",
+        "durationMs": 5
+      },
+      {
+        "suite": "PartyChatTests",
+        "test": "testAutoStopReasonsAreExplainedAndSaved",
+        "status": "passed",
+        "durationMs": 72
+      },
+      {
+        "suite": "PartyChatTests",
+        "test": "testChatEndsWithTheParty",
+        "status": "passed",
+        "durationMs": 3
+      },
+      {
+        "suite": "PartyChatTests",
+        "test": "testFilterLeavesRealWordsAlone",
+        "status": "passed",
+        "durationMs": 1
+      },
+      {
+        "suite": "PartyChatTests",
+        "test": "testFilterMasksLanguageAndDisguises",
+        "status": "passed",
+        "durationMs": 0
+      },
+      {
+        "suite": "PartyChatTests",
+        "test": "testFilterOffStillHidesContactDetails",
+        "status": "passed",
+        "durationMs": 0
+      },
+      {
+        "suite": "PartyChatTests",
+        "test": "testLosingTheTVStopsTheRecording",
+        "status": "passed",
+        "durationMs": 3
+      },
+      {
+        "suite": "PartyChatTests",
+        "test": "testLowStorageRefusesToStart",
+        "status": "passed",
+        "durationMs": 3
+      },
+      {
+        "suite": "PartyChatTests",
+        "test": "testMuteAndBlockSilenceAPlayerEverywhere",
+        "status": "passed",
+        "durationMs": 4
+      },
+      {
+        "suite": "PartyChatTests",
+        "test": "testNotAllowedBeforeSetupAndRateLimit",
+        "status": "passed",
+        "durationMs": 4
+      },
+      {
+        "suite": "PartyChatTests",
+        "test": "testNoTVNoRecording",
+        "status": "passed",
+        "durationMs": 6
+      },
+      {
+        "suite": "PartyChatTests",
+        "test": "testOneTapRecordsTheTVAndSavesToPhotosOnStop",
+        "status": "passed",
+        "durationMs": 25
+      },
+      {
+        "suite": "PartyChatTests",
+        "test": "testOnlyRealPartyMembersCanSpeakInThisParty",
+        "status": "passed",
+        "durationMs": 3
+      },
+      {
+        "suite": "PartyChatTests",
+        "test": "testOverheadMessagesUseVisibleFilteredTextAndHonorMute",
+        "status": "passed",
+        "durationMs": 3
+      },
+      {
+        "suite": "PartyChatTests",
+        "test": "testPartyScreensRender",
+        "status": "passed",
+        "durationMs": 4386
+      },
+      {
+        "suite": "PartyChatTests",
+        "test": "testPhotosDeniedKeepsTheFileInTheApp",
+        "status": "passed",
+        "durationMs": 17
+      },
+      {
+        "suite": "PartyChatTests",
+        "test": "testQuickChatReachesTheWholePartyAndOnlyIt",
+        "status": "passed",
+        "durationMs": 6
+      },
+      {
+        "suite": "PartyChatTests",
+        "test": "testRecorderFailureAndSecondStart",
+        "status": "passed",
+        "durationMs": 4
+      },
+      {
+        "suite": "PartyChatTests",
+        "test": "testReportCarriesTheirLastMessagesAndMutesThem",
+        "status": "passed",
+        "durationMs": 14
+      },
+      {
+        "suite": "PartyChatTests",
+        "test": "testSanitizeStripsHiddenControlsAndCapsLength",
+        "status": "passed",
+        "durationMs": 1
+      },
+      {
+        "suite": "PartyChatTests",
+        "test": "testSettingsPickWhatGoesInTheRecording",
+        "status": "passed",
+        "durationMs": 6
+      },
+      {
+        "suite": "PartyChatTests",
+        "test": "testTeensAlwaysHaveTheFilterOn",
+        "status": "passed",
+        "durationMs": 2
+      },
+      {
+        "suite": "PartyChatTests",
+        "test": "testTypedChatFiltersAndRespectsEachSidesAccess",
+        "status": "passed",
+        "durationMs": 7
+      },
+      {
+        "suite": "PartyChatTests",
+        "test": "testUnder13GetsQuickPhrasesOnlyAndCannotRetypeTheYear",
+        "status": "passed",
+        "durationMs": 2
+      },
+      {
+        "suite": "PartyChatTests",
+        "test": "testUnreadCountsUntilTheChatIsOpen",
+        "status": "passed",
+        "durationMs": 3
+      }
+    ]
+  }
+}

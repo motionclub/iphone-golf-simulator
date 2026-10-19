@@ -46,15 +46,17 @@ namespace GolfArcade.Tennis
             // A descending lob may need a slower windup than the normal rally
             // pace floor permits; otherwise the racket passes contact too early.
             float rawLate = (Player.TimeToContact - overheadPlan.Time) / SpeedScale;
-            Player.PaceToContact(overheadPlan.Time, .1f); Player.GuideContact(overheadPlan.Point,overheadPlan.Time);
+            Vector2 face = TennisRules.PositionFace(overheadPlan.Point, Player.transform.position, true,
+                1 - Mathf.Abs(LateralSpeed) / 10);
+            Player.PaceToContact(overheadPlan.Time, .1f); Player.GuideContact(overheadPlan.Point,overheadPlan.Time,face);
             consumedStroke=false; honestRejected=false;
             // Commit the descending overhead intercept. The ordinary reach assist can
             // otherwise fire early while the ball is still above the racket, re-time
             // the smash to that unreachable point, and consume the only attempt.
             pending = new PendingHit {
                 Active = true,
-                Hit = TennisRules.AssistedHit(rawLate, 1, 1-Mathf.Abs(LateralSpeed)/10, Player.Power, Stamina),
-                Face = Vector2.zero, At = overheadPlan.Point, Age = 0, Lead = overheadPlan.Time
+                Hit = TennisRules.AssistedHit(rawLate, 1-TennisRules.FaceError(face), 1, Player.Power, Stamina),
+                Face = face, At = overheadPlan.Point, Age = 0, Lead = overheadPlan.Time
             };
             hitLateness = rawLate;
             Feedback="OVERHEAD!";

@@ -224,6 +224,12 @@ struct CharacterModelPreview: UIViewRepresentable {
                 return
             }
             guard outfitSport == .tennis else { return }
+            // FRAME_RATE_60B: the Forehand as exported bone tracks (60 Hz samples, skinned like every other menu clip) when the
+            // export has it; the morph swing below blends 12 stored poses and stays only for exports made before the clip was added.
+            if let root = hero, MatchHero.asset(female: root.value(forKey: "heroFemale") as? Bool ?? false)?.rig()?.clips["forehand"] != nil {
+                play(MenuMotion(kind: .clipOnce("forehand"), lead: 0.18, fadeIn: 0.24, fadeOut: 0.35))
+                return
+            }
             guard rig != nil, var playing = motion else { startMorphPractice(); return }
             // the hero is on its skeleton (ReadyIdle): ease it to the still Ready stance first, then hand over to the morph swing
             playing.settleFrom = CACurrentMediaTime() - motionStart; motion = playing

@@ -53,7 +53,9 @@ Shader "GolfArcade/TennisHorizon2"
             #pragma multi_compile_fragment _ _SHADOWS_SOFT
             #pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
             #pragma multi_compile_fog
+   #pragma multi_compile_fragment _ MAJESTIC_WEATHER_ON // MAJESTIC_WEATHER_HOOK
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+#include "../../Environment/Shaders/EnvironmentSurface.hlsl"
             // Keep URP's automatic screen AO disabled for this material. The resort
             // consumes only a bounded indirect factor below, never sun/direct AO.
             #if defined(_SCREEN_SPACE_OCCLUSION)
@@ -210,7 +212,7 @@ Shader "GolfArcade/TennisHorizon2"
                 result.rgb *= lerp(1,scale,_ArchitecturalRelief);
                 // Linear fog factor is1 nearby and0 at the horizon. Keep authored
                 // ridge depth readable without changing the resort global atmosphere.
-                result.rgb = MixFog(result.rgb, lerp(1,i.fog,_HorizonFogShare));
+                result.rgb = (_EnvironmentDepthEnabled>.5h ? EnvironmentFog(result.rgb,i.fog,i.positionWS) : MixFog(result.rgb,lerp(1,i.fog,_HorizonFogShare)));
                 return result;
             }
             ENDHLSL

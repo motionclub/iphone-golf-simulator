@@ -1,0 +1,10 @@
+using UnityEditor;
+public static class StyleDeviceBuild
+{
+    public static void Export() {
+        PlayerSettings.SetApplicationIdentifier(UnityEditor.Build.NamedBuildTarget.iOS,"com.aloniewski.GolfArcade.StyleAudit");
+        PlayerSettings.productName="Style Audit";
+        PlayerSettings.enableFrameTimingStats=true;
+        GolfArcade.EditorTools.BuildMenu.BuildIOS();
+    }
+}

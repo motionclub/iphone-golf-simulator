@@ -14,6 +14,7 @@ namespace GolfArcade.Tennis
         public Mood ForcedMood;
         HeroTennisDriver driver;
         float clock, blinkClock = -1, nextBlink = 2.7f, blink, brow;
+        float smileWeight, sadWeight, shockWeight;
         void LateUpdate()
         {
             if (!look) look = GetComponent<MatchHeroLook>(); if (!look || !look.face) return;
@@ -41,7 +42,11 @@ namespace GolfArcade.Tennis
             float closure=ForcedBlink >= 0 ? ForcedBlink : Mathf.Max(blink,pulse);
             look.SetFacePerformance(closure, gaze, brow);
             HeroFaceReferenceFit.ApplyExpression(look,closure,gaze,brow);
+            smileWeight = Mathf.MoveTowards(smileWeight, happy ? 1 : 0, dt * 5);
+            sadWeight = Mathf.MoveTowards(sadWeight, sad ? 1 : 0, dt * 5);
+            shockWeight = Mathf.MoveTowards(shockWeight, shock ? 1 : 0, dt * 7);
+            HeroFaceReferenceFit.ApplyMood(look, smileWeight, sadWeight, shockWeight);
         }
-        void OnDisable() { if (look) { look.SetFacePerformance(0, Vector2.zero); HeroFaceReferenceFit.ApplyExpression(look,0,Vector2.zero,0); } }
+        void OnDisable() { if (look) { look.SetFacePerformance(0, Vector2.zero); HeroFaceReferenceFit.ApplyExpression(look,0,Vector2.zero,0); HeroFaceReferenceFit.ApplyMood(look,0,0,0); } }
     }
 }

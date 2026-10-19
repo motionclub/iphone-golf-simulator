@@ -1,0 +1,145 @@
+{
+ "NO_PAINT": {
+  "pass_": true,
+  "detail": "no painted panorama bound on any enabled renderer, the skybox or a global"
+ },
+ "SUN_MATCH": {
+  "pass_": true,
+  "detail": "disc vs light 0.000 deg; scattering-glow azimuth vs light 0.001 deg; light az 176.0 el 25.0"
+ },
+ "PARALLAX": {
+  "pass_": true,
+  "detail": {
+   "crane_60m": [
+    {
+     "move": "crane",
+     "landmark": "Cloud18",
+     "dist_m": 6411.0,
+     "radius_m": 0.0,
+     "predicted_dx": -12.77,
+     "predicted_range": [
+      -12.77,
+      -12.77
+     ],
+     "measured_dx": -12.77,
+     "err_px": 0.0,
+     "ncc": 0.997
+    },
+    {
+     "move": "crane",
+     "landmark": "Cloud5",
+     "dist_m": 3969.0,
+     "radius_m": 0.0,
+     "predicted_dx": -22.81,
+     "predicted_range": [
+      -22.81,
+      -22.81
+     ],
+     "measured_dx": -22.87,
+     "err_px": 0.06,
+     "ncc": 0.996
+    },
+    {
+     "move": "crane",
+     "landmark": "Cloud12",
+     "dist_m": 8621.0,
+     "radius_m": 0.0,
+     "predicted_dx": -10.27,
+     "predicted_range": [
+      -10.27,
+      -10.27
+     ],
+     "measured_dx": -10.27,
+     "err_px": 0.0,
+     "ncc": 0.996
+    },
+    {
+     "move": "crane",
+     "landmark": "Cloud4",
+     "dist_m": 5490.0,
+     "radius_m": 0.0,
+     "predicted_dx": -14.61,
+     "predicted_range": [
+      -14.61,
+      -14.61
+     ],
+     "measured_dx": -14.64,
+     "err_px": 0.03,
+     "ncc": 0.993
+    },
+    {
+     "move": "crane",
+     "landmark": "Cloud17",
+     "dist_m": 3085.0,
+     "radius_m": 0.0,
+     "predicted_dx": -27.6,
+     "predicted_range": [
+      -27.6,
+      -27.6
+     ],
+     "measured_dx": -27.53,
+     "err_px": 0.07,
+     "ncc": 0.982
+    },
+    {
+     "move": "crane",
+     "landmark": "Cloud9",
+     "dist_m": 10738.0,
+     "radius_m": 0.0,
+     "predicted_dx": -7.91,
+     "predicted_range": [
+      -7.91,
+      -7.91
+     ],
+     "measured_dx": -8.17,
+     "err_px": 0.26,
+     "ncc": 0.955
+    },
+    {
+     "move": "crane",
+     "landmark": "Cloud7",
+     "dist_m": 7255.0,
+     "radius_m": 0.0,
+     "predicted_dx": -12.76,
+     "predicted_range": [
+      -12.76,
+      -12.76
+     ],
+     "measured_dx": -13.3,
+     "err_px": 0.54,
+     "ncc": 0.951
+    }
+   ],
+   "dolly_2m": [],
+   "note": "tolerance max(1 px, 10%); needs 3 crane landmarks + min(3, visible) dolly landmarks within it"
+  }
+ },
+ "LONG_LENS": {
+  "pass_": true,
+  "detail": {
+   "edge_p99_upper_half": {
+    "01_spawn": {
+     "before": 0.4555,
+     "after": 0.4514
+    },
+    "03_play_door": {
+     "before": 0.3425,
+     "after": 0.3276
+    }
+   },
+   "note": "after must keep >=90% of the before edge energy at the longest lenses (27 deg stare, 14 deg test); crops in proof/"
+  }
+ },
+ "PERF": {
+  "pass_": true,
+  "detail": [
+   "spawn 1920x1080: +0.133 ms (rendered - painted, interleaved median, Editor proxy)",
+   "overview 1920x1080: +0.794 ms (rendered - painted, interleaved median, Editor proxy)",
+   "device: NOT RUN"
+  ]
+ },
+ "CHAR_SAME": {
+  "pass_": true,
+  "detail": "mean dE76 0.000, p95 0.000 over 26010 hero pixels"
+ }
+}

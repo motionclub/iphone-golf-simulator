@@ -53,3 +53,8 @@ HERO_SYNC_CLONE=$TMPDIR/acc-hero-sync-clone work/hero-sync/sync_heroes.sh
 
 Open items: FistPump strap (hide the strap or the bag during overhead emotes if it bothers), the female bag sits looser/lower, bag head covers and iron heads are stylised, hair is not built (only the empty `HairRoot` socket), no UI to pick items (the API is `HeroAccessories`).
 Brim: bent bill (sides cup down ~37 deg, front curl), per Adnan's note that the first brim read as a toy hat.
+
+## 2026-10-18: male caps re-hugged to the 10-17 head
+Chat 11's male head (narrower skull) left the band 5.5 mm off the temples. Fresh dump (`dump_1017/`, read via `ACC_DUMP`), `cap_export.py ... Male --keep-fit` (same socket fit / bill height, only hug + relieve re-run), installed + staged (2 assets + 2 M maps).
+Band 1.9 mm off the temples, min 1.62 mm, bill unchanged. Gates: `GATE_RESULTS_cap_rehug_male.md`; proof `proof/rehug_male_1017/`; clip checks `clipcheck/rehug_male_1017_*`.
+Checker caveat: AccessoriesClipCheck's "skin in acc" (+Y ray parity) misreads an open cap when the head is tipped (counts at the 20 mm search radius); `scratch/CapRegionProbe.cs` (clone-only) splits them by bone.

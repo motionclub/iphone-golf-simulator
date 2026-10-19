@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GolfArcade.Tennis;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace GolfArcade.Hub
 {
@@ -31,6 +32,54 @@ namespace GolfArcade.Hub
             public Vector3 shown; public float yaw;
         }
         readonly Dictionary<string, Remote> remotes = new Dictionary<string, Remote>();
+        sealed class Speech { public Transform root; public float until; }
+        readonly Dictionary<string, Speech> speech = new Dictionary<string, Speech>();
+        public bool HasSpeech(string id) => speech.TryGetValue(id ?? "", out var s) && s.until > Time.unscaledTime;
+
+        /// Message text is literal user text: never interpret Unity rich text tags.
+        public void Chat(string id, string text)
+        {
+            id = id ?? "";
+            if (string.IsNullOrWhiteSpace(text)) return;
+            if (id.Length > 0 && !remotes.ContainsKey(id)) return;
+            if (speech.TryGetValue(id, out var previous) && previous.root) Destroy(previous.root.gameObject);
+            var root = HubArt.NameTag(world.transform, text.Length > 280 ? text.Substring(0, 280) : text, new Color(.96f, .98f, 1f));
+            root.name = "Party speech " + id;
+            var rt = (RectTransform)root; rt.sizeDelta = new Vector2(350, 105);
+            var label = root.GetComponentInChildren<Text>(); label.supportRichText = false;
+            label.color = new Color(.06f, .12f, .22f); label.fontSize = 23;
+            label.resizeTextForBestFit = true; label.resizeTextMinSize = 18; label.resizeTextMaxSize = 23;
+            label.horizontalOverflow = HorizontalWrapMode.Wrap; label.verticalOverflow = VerticalWrapMode.Truncate;
+            label.rectTransform.offsetMin = new Vector2(12, 8); label.rectTransform.offsetMax = new Vector2(-12, -8);
+            HubWorld.SetLayer(root);
+            speech[id] = new Speech { root = root, until = Time.unscaledTime + 8f };
+            UpdateSpeech();
+        }
+
+        void UpdateSpeech()
+        {
+            foreach (var id in speech.Keys.ToArray()) {
+                var s = speech[id];
+                if (!s.root || Time.unscaledTime >= s.until || (id.Length > 0 && !remotes.ContainsKey(id))) {
+                    if (s.root) Destroy(s.root.gameObject); speech.Remove(id); continue;
+                }
+                bool local = id.Length == 0;
+                var r = local ? null : remotes[id];
+                var anchor = local ? world.Player.transform : r.root.transform;
+                bool seated = local ? world.SeatedInBay : r.hero && r.hero.Seated;
+                s.root.position = anchor.position + Vector3.up * ((seated ? 2.15f : 2.75f) + (local ? 0 : .45f));
+                s.root.rotation = world.Camera.transform.rotation;
+                // Bench cameras are much closer than the Plaza follow camera.
+                // Limit projected width so bubbles never cover the whole picture.
+                var camera = world.Camera;
+                float distance = Mathf.Max(.1f, Vector3.Dot(s.root.position - camera.transform.position, camera.transform.forward));
+                float viewHeight = camera.orthographic ? camera.orthographicSize * 2 : 2 * distance * Mathf.Tan(camera.fieldOfView * .5f * Mathf.Deg2Rad);
+                float scale = viewHeight * camera.aspect * (HubWorld.PhoneOnly ? .38f : .22f) / 350f;
+                s.root.localScale = Vector3.one * Mathf.Min(.0062f, scale);
+                s.root.gameObject.SetActive(local || (r.snaps.Count > 0 && r.snaps[r.snaps.Count - 1].s.place == world.Place));
+                var canvas = s.root.GetComponent<Canvas>(); canvas.targetDisplay = world.Camera.targetDisplay;
+            }
+        }
         HubWorld world;
         public int Count => remotes.Count;
         /// Diagnostics for SYNC: where a friend is drawn now.
@@ -137,6 +186,7 @@ namespace GolfArcade.Hub
                 r.root.SetActive(last.place == world.Place || Vector3.Distance(r.shown, world.Camera.transform.position) < 80);
             }
             UpdateCall(dt);
+            UpdateSpeech();
         }
 
         // ---- Call party

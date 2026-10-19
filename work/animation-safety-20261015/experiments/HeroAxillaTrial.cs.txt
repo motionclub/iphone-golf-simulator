@@ -1,0 +1,30 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+namespace GolfArcade.Tennis {
+public static class HeroAxillaTrial {
+ static float S(float a,float b,float x)=>Mathf.SmoothStep(0,1,Mathf.InverseLerp(a,b,x));
+ public static void Apply(MatchHeroLook hero,SkinnedMeshRenderer r) {
+  if(!hero.female || !r || !r.sharedMesh || !r.sharedMesh.isReadable)return;
+  var bones=r.bones;var bind=r.sharedMesh.bindposes;int chest=Array.FindIndex(bones,b=>b&&b.name=="Chest");if(chest<0)return;
+  bool Arm(string n)=>n.Contains("UpperArm")||n.Contains("Shoulder");
+  float Mass(string name){if(Arm(name))return 1;if(!name.StartsWith("ArmBlend_"))return 0;var p=name.Split('_');int a=int.Parse(p[1]),b=int.Parse(p[2]);float t=int.Parse(p[3])/8f;return (Arm(hero.body.bones[a].name)?1-t:0)+(Arm(hero.body.bones[b].name)?t:0);}
+  var masses=bones.Select(b=>b?Mass(b.name):0).ToArray();var mesh=UnityEngine.Object.Instantiate(r.sharedMesh);var positions=mesh.vertices;var weights=mesh.boneWeights;
+  var toRoot=hero.transform.worldToLocalMatrix*r.transform.localToWorldMatrix;
+  for(int v=0;v<weights.Length;v++){
+   var p=toRoot.MultiplyPoint3x4(positions[v]);float x=Mathf.Abs(p.x);
+   float field=(1-S(.105f,.165f,x))*(1-S(1.27f,1.335f,p.y))*S(1.08f,1.13f,p.y);
+   if(r!=hero.body)field=Mathf.Max(field,(1-S(.135f,.19f,x))*(1-S(1.29f,1.34f,p.y))*S(1.10f,1.15f,p.y));
+   if(field<=0)continue;
+   var w=weights[v];var ids=new[]{w.boneIndex0,w.boneIndex1,w.boneIndex2,w.boneIndex3};var ws=new[]{w.weight0,w.weight1,w.weight2,w.weight3};var sum=new Dictionary<int,float>();float transfer=0;
+   for(int j=0;j<4;j++){float remove=ws[j]*masses[ids[j]]*field;transfer+=remove;sum.TryGetValue(ids[j],out float old);sum[ids[j]]=old+ws[j]-remove;}
+   sum.TryGetValue(chest,out float cw);sum[chest]=cw+transfer;
+   var ordered=sum.OrderByDescending(x=>x.Value).Take(4).ToArray();float total=ordered.Sum(x=>x.Value);
+   int I(int j)=>j<ordered.Length?ordered[j].Key:0;float W(int j)=>j<ordered.Length?ordered[j].Value/total:0;
+   weights[v]=new BoneWeight{boneIndex0=I(0),weight0=W(0),boneIndex1=I(1),weight1=W(1),boneIndex2=I(2),weight2=W(2),boneIndex3=I(3),weight3=W(3)};
+  }
+  mesh.boneWeights=weights;r.sharedMesh=mesh;
+ }
+}
+}

@@ -239,6 +239,7 @@ namespace GolfArcade.Game
         {
             if (captured && touched) PutBack();
             captured = false; touched = false;
+            GolfArcade.EnvironmentArt.WeatherDirector.Reset();
             cover = dim = precip = coverTo = dimTo = precipTo = flash = mist = mistTo = rainbow = rainbowTo = 0;
             wet = wetTo = dust = dustTo = 0;
             nextStrike = nextHorn = float.MaxValue; pendingThunder = 0;
@@ -254,6 +255,7 @@ namespace GolfArcade.Game
 
         void PutBack()
         {
+            if (GolfArcade.EnvironmentArt.DreamEnvironment.Current) return;
             if (sun) { sun.intensity = baseSun; sun.color = baseSunColor; sun.shadowStrength = baseShadow; }
             RenderSettings.ambientMode = baseMode; RenderSettings.ambientLight = baseAmbient;
             RenderSettings.ambientSkyColor = baseSkyAmbient; RenderSettings.ambientEquatorColor = baseEquator; RenderSettings.ambientGroundColor = baseGround;
@@ -272,8 +274,8 @@ namespace GolfArcade.Game
             mist = Mathf.MoveTowards(mist, mistTo, dt / 5f);
             rainbow = Mathf.MoveTowards(rainbow, rainbowTo, dt / 3.5f);
             // the ground soaks in a few seconds and dries slowly; snow settles and melts slower still
-            wet = Mathf.MoveTowards(wet, wetTo, dt / (wetTo > wet ? 8f : 30f));
-            dust = Mathf.MoveTowards(dust, dustTo, dt / (dustTo > dust ? 14f : 40f));
+            wet = wetTo;
+            dust = dustTo;
             if (Time.time >= nextStrike) { Strike(); nextStrike = Time.time + Random.Range(5f, 12f); }
             if (Time.time >= nextHorn) { if (sounds) sounds.Foghorn(); nextHorn = Time.time + Random.Range(16f, 26f); }
             flash = Mathf.MoveTowards(flash, 0, dt * 4.5f);
@@ -343,6 +345,7 @@ namespace GolfArcade.Game
 
         void Apply()
         {
+            GolfArcade.EnvironmentArt.WeatherDirector.Publish(wet,dust,precip,dim,mist,sky);
             Shader.SetGlobalFloat(FlashId, flash * flash);
             Shader.SetGlobalColor(FlashColorId, flashColor);
             float storm = Mathf.Clamp01((dim - 0.42f) / 0.24f);
@@ -361,7 +364,7 @@ namespace GolfArcade.Game
                 // clear skies: the hole's own light, untouched (put back once if the weather had it)
                 if (touched) { PutBack(); touched = false; }
             }
-            else
+            else if (!GolfArcade.EnvironmentArt.DreamEnvironment.Current)
             {
                 touched = true;
                 float flashLight = flash * flash;
@@ -385,6 +388,7 @@ namespace GolfArcade.Game
                 RenderSettings.fogEndDistance = Mathf.Lerp(Mathf.Lerp(baseFogEnd, Mathf.Max(baseFogEnd * 0.5f, 360f), precip), 650f, mist);
             }
 
+            if (GolfArcade.EnvironmentArt.DreamEnvironment.Current) haze = RenderSettings.fogColor;
             var toSun = sun ? -sun.transform.forward : new Vector3(0.3f, 0.6f, 0.7f).normalized;
             var sunColour = sun ? sun.color * Mathf.Clamp(sun.intensity, 0.2f, 1.4f) : Color.white;
             PoseRainbow();
@@ -402,6 +406,10 @@ namespace GolfArcade.Game
                         Course.Sky.Ash => (new Color(0.2f, 0.16f, 0.16f), new Color(0.48f, 0.4f, 0.37f)),
                         _ => (Color.Lerp(new Color(0.4f, 0.44f, 0.51f), new Color(0.2f, 0.23f, 0.29f), storm), Color.Lerp(new Color(0.76f, 0.79f, 0.84f), new Color(0.5f, 0.54f, 0.6f), storm)),
                     };
+                    if(GolfArcade.EnvironmentArt.DreamEnvironment.Current){
+                        float day=(float)Course.DreamConditions.Daylight(GolfArcade.EnvironmentArt.DreamEnvironment.Utc);
+                        var night=Color.Lerp(new Color(.12f,.17f,.25f),Color.white,day);dark*=night;light*=night;
+                    }
                     // in fog the sky is the fog
                     dark = Color.Lerp(dark, haze * 0.94f, mist); light = Color.Lerp(light, haze * 1.04f, mist);
                     domeMaterial.SetColor("_Dark", dark); domeMaterial.SetColor("_Light", light);
@@ -422,6 +430,7 @@ namespace GolfArcade.Game
                     domeMaterial.SetVector("_Drift", new Vector4(drift.x, drift.z, 0, 0));
                 }
             }
+            if (GolfArcade.EnvironmentArt.DreamEnvironment.Current) haze = RenderSettings.fogColor;
             GroundFog(haze, toSun, sunColour);
             GroundWeather(haze, toSun, sunColour);
             Fall();
@@ -453,6 +462,11 @@ namespace GolfArcade.Game
             fogMaterial.SetFloat("_Base", fogBase);
             fogMaterial.SetFloat("_Banks", Mathf.Lerp(0.35f, 0.75f, fogShare));
             fogMaterial.SetFloat("_Far", cam.farClipPlane * 0.8f);
+            // Preserve near-play colour; the existing height fog still fills the
+            // low fairway and distant coves. Units here are golf world yards.
+            bool layered=GolfArcade.EnvironmentArt.EnvironmentLook.Stage>=5;
+            fogMaterial.SetFloat("_Near",layered?7f:2f);
+            fogMaterial.SetFloat("_MaxFog",layered?.94f:.985f);
             var drift = new Vector3((float)System.Math.Sin(wind.DirectionDegrees * Mathf.Deg2Rad), 0, (float)System.Math.Cos(wind.DirectionDegrees * Mathf.Deg2Rad)) * (1 + (float)wind.SpeedMPH * 0.5f);
             fogMaterial.SetVector("_Drift", new Vector4(drift.x, drift.z, 0, 0));
         }

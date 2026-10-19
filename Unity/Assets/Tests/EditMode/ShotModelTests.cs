@@ -189,6 +189,22 @@ namespace GolfArcade.Tests
             Assert.Greater(firm.Rest.DistanceTo(hole.Pin), 0.5);
         }
 
+        [Test]
+        public void OffCentreLipHasAnEventBeforeTheBallRests()
+        {
+            var hole = Hole1;
+            var from = new CoursePoint(hole.Pin.X + Hole.CupCaptureRadius * .6, hole.Pin.D - 3);
+            CourseShot lip = null;
+            for (double run = 4; run <= 20 && lip == null; run += .25) {
+                var shot = new CourseShot(GolfClub.Putter, Impact(Math.Pow(run / 25.0, 1 / GolfClub.Putter.MeterExponent())), 0, from, hole);
+                if (shot.LippedOut) lip = shot;
+            }
+            Assert.NotNull(lip, "fixture must actually cross the lip");
+            Assert.That(lip.LipAt, Is.Not.Null);
+            Assert.That(lip.LipAt.Value, Is.GreaterThanOrEqualTo(lip.CarryTime).And.LessThan(lip.Duration));
+            Assert.IsFalse(lip.IsHoled);
+        }
+
         /// Too quick for the hole: through the middle it hops the back lip and runs on along its
         /// line; off the edge the rim swings it round (a horseshoe); a slow one off the edge drops.
         [Test]

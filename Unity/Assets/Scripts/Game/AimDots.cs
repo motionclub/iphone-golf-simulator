@@ -95,7 +95,7 @@ namespace GolfArcade.Game
         public void MarkAt(Vector3? spot)
         {
             markAt = spot.HasValue ? 1f : -1f;
-            mark.gameObject.SetActive(spot.HasValue);
+            mark.gameObject.SetActive(spot.HasValue && GolfArcade.EnvironmentArt.DreamVisibility.Visible(spot.Value));
             if (spot.HasValue) mark.position = spot.Value + Vector3.up * 0.3f;
         }
 

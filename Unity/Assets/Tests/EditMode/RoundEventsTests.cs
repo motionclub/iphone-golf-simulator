@@ -51,23 +51,14 @@ namespace GolfArcade.Tests
         }
 
         [Test]
-        public void TheMatchSettingsTurnThemOff()
+        public void RetiredWeatherSwitchIsIgnoredButTwistsRemainOptional()
         {
-            Assert.AreEqual(0, RoundEvents.Deal(7, twists: false).Dealt.Length, "no twists");
-            Assert.IsTrue(RoundEvents.Deal(7, twists: false).World, "but the weather still blows");
-            var still = RoundEvents.Deal(7, world: false);
-            Assert.AreEqual(2, still.Dealt.Length);
-            for (int h = 0; h < 10; h++) Assert.AreEqual(Weather.Clear, still.WeatherFor(h), "clear skies all round");
-            Assert.IsNull(still.MoversFor(0, Straight(), Weather.Clear), "and nothing moving about");
-            var plain = RoundEvents.Deal(7, false, false, false);
-            Assert.AreSame(RoundEvents.None, plain);
-            Assert.IsTrue(plain.RulesFor(Weather.Clear).IsStandard);
-            Assert.AreEqual("", plain.Code);
-            Assert.AreSame(RoundEvents.None, RoundEvents.FromCode(7, ""));
-            Assert.IsFalse(RoundEvents.FromCode(7, still.Code).World, "the code carries the world switch too");
-            RoundEvents.Enabled = false;
-            try { Assert.AreSame(RoundEvents.None, RoundEvents.Deal(7), "off altogether (the automated tests)"); }
-            finally { RoundEvents.Enabled = true; }
+            Assert.AreEqual(0,RoundEvents.Deal(7,false,false,false).Dealt.Length);
+            Assert.IsTrue(RoundEvents.Deal(7,false,false,false).World);
+            Assert.IsTrue(RoundEvents.FromCode(7,"s:").World);
+            Assert.IsTrue(RoundEvents.FromCode(7,"").World);
+            RoundEvents.Enabled=false;
+            try{Assert.AreSame(RoundEvents.None,RoundEvents.Deal(7));}finally{RoundEvents.Enabled=true;}
         }
 
         [Test]
@@ -192,7 +183,7 @@ namespace GolfArcade.Tests
             }
             kinds = seen.Count;
             Assert.AreEqual(5, kinds, "every kind of weather comes");
-            Assert.Greater(turns, 50, "it turns now and then");
+            Assert.AreEqual(0, turns, "v5 keeps a stable hole identity");
             Assert.Greater(gusts, 200, "and gusts in a gusty wind");
         }
 
@@ -273,7 +264,7 @@ namespace GolfArcade.Tests
             try
             {
                 var movers = calm.MoversFor(0, Straight(), Weather.Storm);
-                Assert.IsTrue(movers.All.Any(m => m.Kind == MoverKind.Twister), "storms throw them down");
+                Assert.IsFalse(movers.All.Any(m => m.Kind == MoverKind.Twister), "v5 only chooses authored sockets");
                 Assert.IsFalse(calm.MoversFor(0, Straight(), Weather.Rain).All.Any(m => m.Kind == MoverKind.Twister), "only storms");
             }
             finally { RoundEvents.EveryMover = false; }
@@ -293,26 +284,15 @@ namespace GolfArcade.Tests
         [Test]
         public void MoversArePlacedWhereTheyFit()
         {
-            int balloons = 0, carts = 0, gulls = 0;
-            foreach (var course in Course.Course.All())
-                foreach (var hole in course.Holes)
-                    for (int seed = 1; seed <= 20; seed++)
-                    {
-                        var e = RoundEvents.Deal(seed);
-                        var movers = e.MoversFor(0, hole, Weather.Clear);
-                        if (movers == null) continue;
-                        foreach (var m in movers.All)
-                        {
-                            if (m.Kind == MoverKind.Balloon) { balloons++; Assert.Greater(m.At(0).y, 15, "a balloon flies"); }
-                            if (m.Kind == MoverKind.Gull) gulls++;
-                            if (m.Kind != MoverKind.Cart) continue;
-                            carts++;
-                            Assert.GreaterOrEqual(hole.Par, 4, "carts cross par 4s and 5s");
-                            foreach (var (x, _, d) in m.LoopPoints())
-                                Assert.AreNotEqual(CourseLie.Water, hole.LieAt(new CoursePoint(x, d)), $"hole {hole.Number}: never in the water");
-                        }
-                    }
-            Assert.Greater(balloons, 0); Assert.Greater(carts, 0); Assert.Greater(gulls, 0);
+            int rocks=0,lifts=0;
+            foreach(var course in Course.Course.All())foreach(var hole in course.Holes)for(int seed=1;seed<=20;seed++){
+                var movers=RoundEvents.Deal(seed).MoversFor(0,hole,Weather.Clear);
+                foreach(var m in movers.All){var r=m.Reach();Assert.IsTrue(double.IsFinite(r.y0)&&r.y1>=r.y0);
+                    if(m.Kind==MoverKind.RockGate)rocks++;if(m.Kind==MoverKind.WindLift)lifts++;
+                    Assert.Greater(DreamCourseLayout.CorridorDistance(new CoursePoint(m.At(0).x,m.At(0).d),hole.Centerline),8);
+                }
+            }
+            Assert.Greater(rocks,0);Assert.Greater(lifts,0);
         }
     }
 }

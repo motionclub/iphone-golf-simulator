@@ -1,0 +1,24 @@
+# Chat 9 — Research: majestic maps + immersive weather at 60 fps (RESEARCH ONLY)
+
+Adnan (10-17): "I want the game to feel majestic, including the weather feeling super immersive, as well as the overall backdrop of every map as well as the course/court to feel so detailed and exquisite. research how the best looking mobile games preserved their frame rate while also creating super duper high quality maps. think more so in feeling, fun, excitement, not necessarily super detailed like a simulation game, but more so a fun experience like a wii, fall guys, mario type feeling. [...] a research chat that makes sure what we are aiming for is possible".
+
+**Do not change the game.** Write only into `work/majestic-maps-research/`. When done, show Adnan and stop.
+
+## Read first
+`AGENTS.md`, `CLAUDE.md`, `work/delegation-2026-10-17/README.md`. Memory notes: `tennis-venues-skyscraper-volcano`, `hub-country-club-restyle`, `golf-postcard-look-pass`, `golf-postcard-holes-8-9-10`, `plaza-seated-load-freezes`, `frame-rate-60`, `tennis-visual-target-video`. Related live work (read it, don't edit it): `work/rendered-backgrounds/` (chat 2: real-time skies/scenery replacing the paintings), `work/vfx-audio-research/` (chat 8: VFX incl. weather particles), `work/frame-rate-60b/BUDGET.md` (chat 1: frame budget, once it exists). Existing weather/look code: `GolfAtmosphere`, `Golf/StormSky.shader`, the weather shaders from PR #27, `DreamEnvironment`, `LuminousCoast*`, venue builders.
+
+## Research questions
+1. **Benchmarks:** which mobile (and Switch-class) games look majestic *and* hold 60 fps on iPhone? Candidates: Genshin Impact / Honkai Star Rail / Zenless Zone Zero, Sky: Children of the Light, Alto's Odyssey, Monument Valley 3, Mario Kart Tour, Fall Guys mobile, Stumble Guys, Brawl Stars, Clash Royale/Golf Clash/Tennis Clash, Apple Arcade titles (e.g. What the Golf, Sneaky Sasquatch), Infinity Nikki, Wuthering Waves, Pokémon Unite. Switch: Mario Tennis Aces, Mario Golf Super Rush, Switch Sports, Mario Wonder, Zelda: Tears of the Kingdom/Link's Awakening, Splatoon 3, Kirby. For each: their frame rate/resolution on iPhone, and what makes it feel majestic. Cite GDC/Unite talks, dev blogs and Digital Foundry-style breakdowns.
+2. **Techniques that buy "wow" cheaply:** baked lighting + light probes, stylized gradient skies, height/distance fog, aerial perspective, hero landmarks + silhouette layering, impostors/billboards, vertex-animated foliage/flags/water, cheap stylized water, cloud shadows, god rays/fake volumetrics, bloom/colour grading, wind systems, GPU instancing, LOD/HLOD, occlusion, texture atlases/ASTC, shader LOD tiers, dynamic resolution (forbidden here: the floor is ≥1080p), Metal specifics, thermal management for long sessions.
+3. **Immersive weather on mobile:** rain/snow/wind/storm/fog/sunset transitions as *feelings*: screen-space droplets, wet surfaces via shader params, puddle reflections faked, lightning flashes, wind-driven foliage + crowd/flags, particle budgets, audio coupling (link to chat 8), and how weather affects gameplay readability (ball visibility).
+4. **Court/course detail that reads at phone and TV distance:** grass/clay/hard court material tricks, line paint wear, crowd/stands, props and life (birds, boats, flags, spectators), the "diorama" feel. What Nintendo-style games add vs what they leave out.
+5. **Feasibility for us:** measure our current scenes (Unity Editor profiler + frame debugger at 1920×1080; phone if available per memory `phone-build-recipe`): draw calls, tris, overdraw, GPU ms per venue. Estimate the headroom left for the majestic layer inside 16.6 ms at ≥1080p on the target iPhone(s). Say plainly what is possible, what needs trade-offs, and what isn't possible.
+
+## Deliverables (work/majestic-maps-research/)
+- `RESEARCH.md`: per-game findings with sources and cross-game patterns.
+- `FEASIBILITY.md`: our measured baseline, budget breakdown, and the verdict per ambition (POSSIBLE / POSSIBLE WITH TRADE-OFF / NOT POSSIBLE), with reasons.
+- `PROPOSAL.md`: an art and tech direction for "majestic party" maps and weather; per-venue ideas; a technique list with cost estimates; how it fits chat 2 (backgrounds) and chat 8 (VFX/audio); a phased plan with binary gates and a suggested parallel-chat split.
+- A reference board: an HTML page with linked/timestamped references, no downloaded copyrighted media.
+
+## Rules
+Research only: no edits outside `work/majestic-maps-research/`, no staging, no commits. A Unity clone for measurement only (`cp -cR Unity /private/tmp/majestic-UnityClone`), `GOLF_MUTE=1`, nothing installed. Cite videos by id + timestamp; in the Browser pane play only the clips you listed and pause at the end (Adnan watches live). Performance floor for every recommendation: **60 fps at ≥1920×1080**.

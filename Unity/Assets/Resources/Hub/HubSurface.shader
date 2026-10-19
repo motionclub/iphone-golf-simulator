@@ -29,6 +29,7 @@ Shader "GolfArcade/HubSurface"
         Cull [_Cull]
         HLSLINCLUDE
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+#include "../Environment/Shaders/EnvironmentSurface.hlsl"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
         TEXTURE2D(_BaseMap); SAMPLER(sampler_BaseMap);
         CBUFFER_START(UnityPerMaterial)
@@ -129,7 +130,7 @@ Shader "GolfArcade/HubSurface"
                             direct += l.color * l.distanceAttenuation * saturate((dot(n, l.direction) + _Wrap) / (1 + _Wrap));
                     }
                 #endif
-                return half4(albedo * (ambient + direct) + spec, 1);
+                return half4(EnvironmentBackdrop(albedo * (ambient + direct) + spec,i.w), 1);
             }
             ENDHLSL
         }

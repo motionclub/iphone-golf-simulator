@@ -28,6 +28,9 @@ namespace GolfArcade.Multiplayer {
         public readonly NetworkTennisState State;
         readonly Dictionary<string,long> events=new();
         readonly Queue<History> history=new();
+        readonly int environmentSeed,environmentVenue;
+        GolfArcade.Course.Weather condition;
+        public GolfArcade.Course.Weather Condition=>condition;
         readonly Random serveRandom=new(2701);
         readonly Random rallyRandom=new(2702);
         struct History { public double time; public long point,contact; public NetworkVector ball,velocity; public float ax,az,bx,bz; public int receiver,bounces; }
@@ -41,13 +44,15 @@ namespace GolfArcade.Multiplayer {
         /// Inputs dropped because their timestamp was impossibly far from the host's clock (telemetry: a skewed shared clock shows up here).
         public int StampRejects {get;private set;}
         readonly string[][] equippedEmotes;
-        public NetworkTennisMatch(int sets=1,int games=3, string[][] emotes=null, bool intro=false) {
+        public NetworkTennisMatch(int sets=1,int games=3, string[][] emotes=null, bool intro=false, int seed=2701, int venue=0) {
+            environmentSeed=seed;environmentVenue=venue;
             equippedEmotes = new[] { TennisEmotes.Normalize(emotes != null && emotes.Length > 0 ? emotes[0] : null), TennisEmotes.Normalize(emotes != null && emotes.Length > 1 ? emotes[1] : null) };
             State=new NetworkTennisState {score=TennisMatch.New(true,sets,games)};
             BeginPoint();
             if (intro) { State.phase="intro"; State.emoteHoldUntil=State.presentationUntil=3.5; }
         }
         void BeginPoint() {
+            condition=TennisConditions.For(environmentSeed,TennisConditions.Epoch(State.score),environmentVenue);
             State.point++; State.phase="serve"; State.phaseAt=State.time; State.server=State.score.PlayerServes?0:1;
             State.receiver=1-State.server; State.bounces=0; State.serveFlight=false; State.secondServe=false;
             float side=State.score.DeuceCourt?1:-1;
@@ -140,7 +145,11 @@ namespace GolfArcade.Multiplayer {
             float sign=seat==0?1:-1;
             float due=Math.Abs(State.velocity.z)>.5f?(playerZ+sign*.65f-State.ball.z)/State.velocity.z:0;
             float late=(float)(p.swingAt+TennisRules.SweetTime-contactTime)-due;
-            float centre=1-NetworkMath.Clamp(Math.Abs(State.ball.x-playerX)/TennisRules.ContactReach,0,1);
+            // This host resolves on entry to its reach envelope, before the ball reaches the
+            // racket plane. Grade spacing at that plane, not the early trigger depth.
+            var face = TennisRules.PositionFace(new UnityEngine.Vector3(State.ball.x,State.ball.y,playerZ*sign+.65f),
+                new UnityEngine.Vector3(playerX,0,playerZ*sign),State.ball.y>2);
+            float centre=1-TennisRules.FaceError(face);
             var hit=TennisRules.AssistedHit(late,centre,1,p.power,p.stamina);
             // The same rule as a local match: the swing's timing aims the ball (early = left, on time = straight,
             // late = right) and its power picks the depth. The phone's racket angle and depth buttons are not
@@ -152,7 +161,7 @@ namespace GolfArcade.Multiplayer {
             // and sees the court turned half a circle (TennisGame.Network), so both axes flip for them: "early = left"
             // is the same on both screens.
             Launch(new(target.x*sign,Radius,sign*target.z),hit.Speed);
-            State.reason=TennisRules.GradeLabel(TennisRules.Grade(hit.Timing));
+            State.reason=TennisRules.GradeLabel(TennisRules.Grade(hit.Quality));
             State.receiver=1-seat;State.bounces=0;State.serveFlight=false;State.contact++;p.swingAt=-100;p.confirmedSwing=false;holding=false;
         }
         void Launch(NetworkVector target,float speed) {
@@ -165,7 +174,9 @@ namespace GolfArcade.Multiplayer {
                 float clearance=NetHeight+.16f-linear;
                 if(clearance>0&&fraction>0&&fraction<1)flight=Math.Max(flight,(float)Math.Sqrt(2*clearance/(Gravity*fraction*(1-fraction))));
             }
-            State.velocity=new(dx/flight,(target.y-State.ball.y)/flight+.5f*Gravity*flight,dz/flight);
+            float drag=TennisConditions.DragFor(condition);
+            float integral=drag>0?(1-(float)Math.Exp(-drag*flight))/drag:flight;
+            State.velocity=new(dx/integral,(target.y-State.ball.y)/flight+.5f*Gravity*flight,dz/integral);
         }
         public void Step(double elapsed) {
             if(State.paused||State.complete)return;
@@ -182,7 +193,9 @@ namespace GolfArcade.Multiplayer {
                     float dz=p.z-State.ball.z;
                     float arrival=Math.Abs(State.velocity.z)>.5f?dz/State.velocity.z:0;
                     float intercept=State.ball.x+State.velocity.x*Math.Max(0,arrival);
-                    desired=NetworkMath.Clamp(desired*.35f+intercept*.65f,-4.8f,4.8f);
+                    // Arrive beside the ball, not directly in its path: body crowding is a frame contact.
+                    float stand=intercept-(intercept>=p.x?.65f:-.65f);
+                    desired=NetworkMath.Clamp(desired*.35f+stand*.65f,-4.8f,4.8f);
                 }
                 p.x=NetworkMath.Toward(p.x,desired,dt*(p.diveUntil>State.time?9:5.6f));p.stamina=Math.Min(1,p.stamina+dt*.04f);
             }
@@ -209,7 +222,9 @@ namespace GolfArcade.Multiplayer {
             while(elapsed>0&&State.phase=="rally") {
                 float dt=Math.Min(elapsed,1f/120);elapsed-=dt;
                 var old=State.ball;var b=old;var v=State.velocity;
-                b.x+=v.x*dt;b.z+=v.z*dt;b.y+=v.y*dt-.5f*Gravity*dt*dt;v.y-=Gravity*dt;
+                float drag=TennisConditions.DragFor(condition);
+                b.x+=v.x*dt-.5f*drag*v.x*dt*dt;b.z+=v.z*dt-.5f*drag*v.z*dt*dt;b.y+=v.y*dt-.5f*Gravity*dt*dt;
+                v.x*=1-drag*dt;v.z*=1-drag*dt;v.y-=Gravity*dt;
                 State.ball=b;State.velocity=v;
                 // A dead ball held open for a late swing keeps flying but gets no more rulings.
                 if(!holding&&old.z*b.z<0) {
@@ -217,7 +232,7 @@ namespace GolfArcade.Multiplayer {
                     if(y<NetHeight) {if(State.serveFlight)Fault();else Point(State.receiver);return;}
                 }
                 if(b.y<=Radius&&v.y<0) {
-                    State.ball.y=Radius;State.velocity.y=-v.y*.75f;State.bounces++;
+                    State.ball.y=Radius;State.velocity.y=-v.y*.75f*TennisConditions.BounceFor(condition,environmentVenue);State.bounces++;
                     if(holding)continue;
                     bool inCourt=Math.Abs(b.x)<=HalfWidth&&Math.Abs(b.z)<=HalfLength;
                     bool correctSide=State.receiver==0?b.z<0:b.z>0;

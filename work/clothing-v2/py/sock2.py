@@ -17,6 +17,8 @@ FABRIC = dict(pique=7, rib=9)
 
 def design(name):
     D = dict(male_crew=dict(z_lo=.062, z_top=.288, cuff=.036, gap=.0013, thick=.0018, flare=.0012, pom=False, roles=('Kit_Sock',), dz=.0075),
+             # male golf (10-18): only the ankle gap under the trouser hem (.094-.127) shows; a crew height poked through the slim trousers
+             male_golf=dict(z_lo=.062, z_top=.170, cuff=.026, gap=.0013, thick=.0018, flare=.0010, pom=False, roles=('Kit_Sock',), dz=.0075),
              female_ankle=dict(z_lo=.058, z_top=.122, cuff=.024, gap=.0013, thick=.0018, flare=.0010, pom=True, roles=('Kit_Sock',), dz=.0065))
     return D[name]
 
@@ -137,7 +139,7 @@ def build(hero_id, name, side, outp):
             objs.append(pom)
     # the shoe's front half is a designed last LOWER than the foot (the foot skin under it is hidden): the sock must not wrap the instep / forefoot, it ends in the collar
     bmc = bmesh.new(); bmc.from_mesh(sock.data); bmc.faces.ensure_lookup_table()
-    cut_y = D.get('front_cut', .47) * fr.L
+    cut_y = float(os.environ.get('SOCK_FRONT_CUT', D.get('front_cut', .47))) * fr.L       # SOCK_FRONT_CUT: male pack shoes (shoe4) hold the instep, the sock may reach further
     kill = []
     for f_ in bmc.faces:
         c_ = f_.calc_center_median(); q_ = fr.to(np.array([[c_.x, c_.y, c_.z]]))[0]

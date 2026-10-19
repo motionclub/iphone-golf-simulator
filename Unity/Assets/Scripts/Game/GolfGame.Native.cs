@@ -291,21 +291,28 @@ namespace GolfArcade.Game {
             var detector = Swing.Detector;
             var before = detector.Phase;
             var e = detector.Ingest(sample.time,q,rate,gravity);
+            // the golfer's downswing follows the phone's, turn for turn, so the club meets the ball on the sample the phone does
+            if (detector.Phase == SwingPhase.Downswing) golfer.PaceDownswing((float)detector.DownswingProgress, sample.time);
             if(e==null) return;
             switch(e.Value.Kind) {
                 case SwingEventKind.Load:
-                    if (detector.Phase == SwingPhase.Downswing && before != SwingPhase.Downswing) golfer.Strike();
+                    if (detector.Phase == SwingPhase.Downswing && before != SwingPhase.Downswing) {
+                        ExperienceTrace.Begin("golf", "downswing-pose");
+                        ExperienceTrace.NativeEvent("golf", "downswing-source", 0, sample.time);
+                        golfer.Strike();
+                    }
                     else if (detector.Phase == SwingPhase.Backswing && nativeLoadFrame != Time.frameCount) {
                         nativeLoadFrame = Time.frameCount;
                         OnLoad(e.Value.Load);
                     }
                     break;
-                case SwingEventKind.Cancel: OnCancel(); break;
+                case SwingEventKind.Cancel: ExperienceTrace.Mark("golf", "cancel"); OnCancel(); break;
                 case SwingEventKind.Impact:
                     var impact=e.Value.Impact;
                     Debug.Log($"[SportsMotion] golf impact speed={impact.PeakSpeed:F2} power={impact.Power:F2}");
                     if(NativeSportsSession.Left) { impact.FaceDegrees*=-1; impact.CurveDegrees*=-1; impact.StartLineDegrees*=-1; }
-                    OnImpact(impact); break;
+                    OnImpact(impact);
+                    ExperienceTrace.NativeEvent("golf", "address-crossing-source", 0, sample.time); break;
             }
         }
 

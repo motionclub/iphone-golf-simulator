@@ -35,6 +35,8 @@ enum FriendsAccess: Equatable, Sendable {
 /// Ids are Game Center **teamPlayerID**s: that is the id Apple's identity signature is made over (Apple's verification steps for
 /// fetchItems(forIdentityVerificationSignature:)), so the Club Hub can check it. (A gamePlayerID would fail every real sign-in.)
 @MainActor final class GameKitFriendsSource: FriendsSource {
+    private var players: [String: GKPlayer] = [:]
+    func player(_ teamID: String) -> GKPlayer? { players[teamID] }
     var localID: String { GKLocalPlayer.local.teamPlayerID }
     var localName: String { GKLocalPlayer.local.displayName }
 
@@ -49,7 +51,9 @@ enum FriendsAccess: Equatable, Sendable {
     }
 
     func friends() async throws -> [FriendProfile] {
-        try await GKLocalPlayer.local.loadFriends().map { FriendProfile(id: $0.teamPlayerID, name: $0.displayName) }
+        let list = try await GKLocalPlayer.local.loadFriends()
+        players = Dictionary(uniqueKeysWithValues: list.map { ($0.teamPlayerID, $0) })
+        return list.map { FriendProfile(id: $0.teamPlayerID, name: $0.displayName) }
     }
 
     func recent() async throws -> [FriendProfile] {

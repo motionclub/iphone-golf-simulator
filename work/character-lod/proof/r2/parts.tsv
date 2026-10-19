@@ -1,0 +1,44 @@
+renderer	type	mesh	enabled	active	shadow	submeshes	materials	tris_by_level	ready
+Body	SkinnedMeshRenderer	Body (reference face fit) (local blink normals) (thumb root weights) (axilla weight field) (area continuous skin normals) (coherent blink normals) (bind pose) (kit v2 cover) (accessory cover)	True	True	On	1	GolfArcade/HeroFaceSkin:4	58164/29081/17448/6978/1743	True
+OriginalSeamFeatures	SkinnedMeshRenderer	ReferenceFeatures (reference face fit) (local blink normals)	True	True	Off	6	GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4	2984	False
+HeroLod Body	SkinnedMeshRenderer	Body (reference face fit) (local blink normals) (thumb root weights) (axilla weight field) (area continuous skin normals) (coherent blink normals) (bind pose) (kit v2 cover) (accessory cover)	True	True	On	1	GolfArcade/HeroFaceSkin:4	17448	False
+CLUB_DRIVER	SkinnedMeshRenderer	CLUB_DRIVER	True	True	On	7	GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4	2616	False
+CLUB_IRON	SkinnedMeshRenderer	CLUB_IRON	True	False	On	5	GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4	1540	False
+CLUB_PUTTER	SkinnedMeshRenderer	CLUB_PUTTER	True	False	On	7	GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4	1652	False
+CLUB_WEDGE	SkinnedMeshRenderer	CLUB_WEDGE	True	False	On	6	GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4	1564	False
+Face	SkinnedMeshRenderer	Face	False	True	Off	13	GolfArcade/HeroKit:2|GolfArcade/HeroKit:2|GolfArcade/HeroKit:2|GolfArcade/HeroKit:2|GolfArcade/HeroKit:2|GolfArcade/HeroKit:2|GolfArcade/HeroKit:2|GolfArcade/HeroKit:2|GolfArcade/HeroKit:2|GolfArcade/HeroKit:2|GolfArcade/HeroKit:2|GolfArcade/HeroKit:2|GolfArcade/HeroKit:2	5740	False
+Hair_Afro	SkinnedMeshRenderer	Hair_Afro	False	True	On	2	GolfArcade/HeroKit:2|GolfArcade/HeroKit:2	10257	False
+Hair_Bob	SkinnedMeshRenderer	Hair_Bob	False	True	On	2	GolfArcade/HeroHairCard:2|GolfArcade/HeroKit:2	4567	False
+Hair_Braid	SkinnedMeshRenderer	Hair_Braid	False	True	On	2	GolfArcade/HeroHairCard:2|GolfArcade/HeroKit:2	8065	False
+Hair_Classic	SkinnedMeshRenderer	Hair_Classic	False	True	On	2	GolfArcade/HeroKit:2|GolfArcade/HeroKit:2	11042	False
+Hair_Crop	SkinnedMeshRenderer	Hair_Crop	False	True	On	2	GolfArcade/HeroHairCard:2|GolfArcade/HeroKit:2	3597	False
+Hair_Fringe	SkinnedMeshRenderer	Hair_Fringe	False	True	On	2	GolfArcade/HeroHairCard:2|GolfArcade/HeroKit:2	4469	False
+Hair_Long	SkinnedMeshRenderer	Hair_Long	False	True	On	2	GolfArcade/HeroHairCard:2|GolfArcade/HeroKit:2	6285	False
+Hair_Mop	SkinnedMeshRenderer	Hair_Mop	False	True	On	2	GolfArcade/HeroHairCard:2|GolfArcade/HeroKit:2	5750	False
+Hair_Ponytail	SkinnedMeshRenderer	Hair_Ponytail	False	True	On	2	GolfArcade/HeroHairCard:2|GolfArcade/HeroKit:2	7899	False
+Hair_Quiff	SkinnedMeshRenderer	Hair_Quiff	False	True	On	2	GolfArcade/HeroHairCard:2|GolfArcade/HeroKit:2	6225	False
+Hair_SideBob	SkinnedMeshRenderer	Hair_SideBob	False	True	On	2	GolfArcade/HeroHairCard:2|GolfArcade/HeroKit:2	10519	False
+Kit_Bottom	SkinnedMeshRenderer	Kit_Bottom	False	True	On	2	GolfArcade/HeroKit:2|GolfArcade/HeroKit:2	7000	False
+Kit_Shoe_L	SkinnedMeshRenderer	Kit_Shoe_L	False	True	On	2	GolfArcade/HeroKit:2|GolfArcade/HeroKit:2	4500	False
+Kit_Shoe_R	SkinnedMeshRenderer	Kit_Shoe_R	False	True	On	2	GolfArcade/HeroKit:2|GolfArcade/HeroKit:2	4500	False
+Kit_Sock_L	SkinnedMeshRenderer	Kit_Sock_L	False	True	On	1	GolfArcade/HeroKit:2	2000	False
+Kit_Sock_R	SkinnedMeshRenderer	Kit_Sock_R	False	True	On	1	GolfArcade/HeroKit:2	2000	False
+Kit_Top	SkinnedMeshRenderer	Kit_Top	False	True	On	2	GolfArcade/HeroKit:2|GolfArcade/HeroKit:2	9000	False
+Face_Match	MeshRenderer	Face_M	False	True	Off	13	GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4|GolfArcade/TennisCharacter:4	5888	False
+Kit_Top	SkinnedMeshRenderer	KitV2 Kit_Top	True	True	On	1	GolfArcade/TennisCloth:4	39144/18627/11176/4469/1792	True
+HeroLod Kit_Top	SkinnedMeshRenderer	KitV2 Kit_Top	True	True	On	1	GolfArcade/TennisCloth:4	11176	False
+Kit_Bottom	SkinnedMeshRenderer	KitV2 Kit_Bottom (hem motion field)	True	True	On	1	GolfArcade/TennisCloth:4	15200/7600/4560/1824/456	True
+HeroLod Kit_Bottom	SkinnedMeshRenderer	KitV2 Kit_Bottom (hem motion field)	True	True	On	1	GolfArcade/TennisCloth:4	4560	False
+Kit_Glove_L	SkinnedMeshRenderer	KitV2 Kit_Glove_L	False	True	On	1	GolfArcade/TennisCloth:4	8040	False
+Kit_Glove_R	SkinnedMeshRenderer	KitV2 Kit_Glove_R	False	True	On	1	GolfArcade/TennisCloth:4	8020	False
+Kit_Shoe_L	SkinnedMeshRenderer	KitV2 Kit_Shoe_L	True	True	On	2	GolfArcade/TennisCloth:4|GolfArcade/TennisCharacter:4	27664/12644/7586/3034/1852	True
+HeroLod Kit_Shoe_L	SkinnedMeshRenderer	KitV2 Kit_Shoe_L	True	True	On	2	GolfArcade/TennisCloth:4|GolfArcade/TennisCharacter:4	7586	False
+Kit_Shoe_R	SkinnedMeshRenderer	KitV2 Kit_Shoe_R	True	True	On	2	GolfArcade/TennisCloth:4|GolfArcade/TennisCharacter:4	27658/12604/7562/3024/1838	True
+HeroLod Kit_Shoe_R	SkinnedMeshRenderer	KitV2 Kit_Shoe_R	True	True	On	2	GolfArcade/TennisCloth:4|GolfArcade/TennisCharacter:4	7562	False
+Kit_Belt	SkinnedMeshRenderer	KitV2 Kit_Belt	True	True	On	2	GolfArcade/TennisCloth:4|GolfArcade/TennisCharacter:4	7100/3546/2126/850/432	True
+HeroLod Kit_Belt	SkinnedMeshRenderer	KitV2 Kit_Belt	True	True	On	2	GolfArcade/TennisCloth:4|GolfArcade/TennisCharacter:4	2126	False
+Acc_Cap	SkinnedMeshRenderer	Acc golf_cap Kit_Cap Male	True	True	On	1	GolfArcade/TennisCloth:4	11524/5761/3456/1381/344	True
+HeroLod Acc_Cap	SkinnedMeshRenderer	Acc golf_cap Kit_Cap Male	True	True	On	1	GolfArcade/TennisCloth:4	3456	False
+Acc_GloveL	SkinnedMeshRenderer	Acc golf_glove Kit_Glove_L Male	True	True	On	1	GolfArcade/TennisCloth:4	11902/5950/3569/1427/357	True
+HeroLod Acc_GloveL	SkinnedMeshRenderer	Acc golf_glove Kit_Glove_L Male	True	True	On	1	GolfArcade/TennisCloth:4	3569	False
+Acc_GloveR	SkinnedMeshRenderer	Acc golf_glove Kit_Glove_R Male	False	True	On	1	GolfArcade/TennisCloth:4	11621	False

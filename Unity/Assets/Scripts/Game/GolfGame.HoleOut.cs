@@ -87,9 +87,11 @@ namespace GolfArcade.Game
         }
 
         /// How long the result holds before the game goes on by itself (an emote played extends it).
-        public float ResultWaitSeconds => networkConfigured ? HoleOutSeconds : LocalResultSeconds;
-        /// Local play: the result / emote window between swings is exactly this long, whatever the shot, score or emote.
+        public float ResultWaitSeconds => networkConfigured ? HoleOutSeconds
+            : Mathf.Max(LastShot != null && !LastShot.IsHoled ? LocalShotResultSeconds : LocalResultSeconds, resultHold);
+        /// A holed ball earns a celebration; routine rest positions return promptly to address.
         public const float LocalResultSeconds = 3f;
+        public const float LocalShotResultSeconds = .65f;
         /// For the offscreen captures after the camera's shape was changed: the view of the golfer for that shape, at once.
         public void ReframeResultForTests() { if (holeOutShown) { rig.FrameHoleOut(golfer.transform); rig.SnapNext(); rig.ApplyFrame(); } }
         public float ResultSeconds => stateTime;
@@ -99,13 +101,13 @@ namespace GolfArcade.Game
         float resultHold;
 
         /// What the golfer does as the ball drops: an eagle or better and an ace throw their arms up, a birdie pumps a fist,
-        /// a par waves, anything worse takes it on the chin.
+        /// a par pumps a fist, anything worse takes it on the chin.
         string HoleOutReaction(CourseShot shot)
         {
             int toPar = holeStrokes - hole.Par;
-            // EMOTE STANDARD: an ace = the victory spin, eagle = jump for joy, birdie = fist pump, par = wave, bogey = slump, worse = an angry stomp
-            string move = holeStrokes == 1 ? "Emote_Victory" : toPar <= -2 ? "Emote_JumpJoy" : toPar == -1 ? "Emote_FistPump" : toPar == 0 ? "Wave" : toPar == 1 ? "Emote_Slump" : "Emote_Stomp";
-            if (!golfer.HasMove(move)) move = holeStrokes == 1 || toPar <= -2 ? "Cheer" : toPar == -1 ? "FistPump" : toPar == 0 ? "Wave" : "Idle";
+            // EMOTE STANDARD: an ace = the victory spin, eagle = jump for joy, birdie/par = fist pump, bogey = slump, worse = an angry stomp
+            string move = holeStrokes == 1 ? "Emote_Victory" : toPar <= -2 ? "Emote_JumpJoy" : toPar == -1 ? "Emote_FistPump" : toPar == 0 ? "Emote_FistPump" : toPar == 1 ? "Emote_Slump" : "Emote_Stomp";
+            if (!golfer.HasMove(move)) move = holeStrokes == 1 || toPar <= -2 ? "Cheer" : toPar == -1 ? "FistPump" : toPar == 0 ? "FistPump" : "Idle";
             return golfer.HasMove(move) ? move : "Idle";
         }
     }

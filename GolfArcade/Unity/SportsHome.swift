@@ -20,6 +20,7 @@ struct SportsHome: View {
         else if onboarding.holdsMenu { OnboardingRoot(flow: onboarding) }
         // an online match is over: its result is on the TV, the phone takes everyone back to the Plaza
         else if session.multiplayerMatchID != nil && hub.matchOver != nil { HubMatchOverPanel(hub: hub) }
+        else if session.showsOnlineTennisSetup { TennisRacketController(session: session) }
         else if session.active && (!session.loading.finished || (session.sport == "golf" && !session.ready)) { LoadingScreen(menu: menu, compact: true) }
         else if session.active && session.finishedMatch != nil {
             MatchFinishControls(session: session)
@@ -80,7 +81,7 @@ struct SportsHome: View {
         withBars
         .overlay(alignment: .bottom) {
             TimelineView(.periodic(from: .now, by: 0.1)) { _ in
-                if session.loading.finished, session.loading.tipRemaining > 0, let tip = session.loading.tip {
+                if session.loading.finished, !session.showsOnlineTennisSetup, session.loading.tipRemaining > 0, let tip = session.loading.tip {
                     Text(tip).font(IslandUI.font(15, bold: true)).foregroundStyle(.white).padding(12).background(IslandUI.navy, in: Capsule()).padding(.bottom, 48)
                 }
             }
@@ -107,7 +108,7 @@ struct SportsHome: View {
                 }
             }.padding(.bottom, 16)
         }
-        .overlay(alignment:.top) { if session.active && session.multiplayerMatchID != nil && hub.matchOver == nil && session.loading.finished { MultiplayerMatchOverlay() } }
+        .overlay(alignment:.top) { if session.active && session.multiplayerMatchID != nil && !session.showsOnlineTennisSetup && hub.matchOver == nil && session.loading.finished { MultiplayerMatchOverlay() } }
     }
 
     private var withWatches: some View {
@@ -204,10 +205,18 @@ struct SportsHome: View {
         }
         .background(DisplayRegistration().frame(width:0,height:0))
         .onChange(of:scenePhase) { _,phase in
-            if phase == .active { clubHub.start(); Task { await clubHub.refresh() } } else { clubHub.background() }
+            // Leaving the app (AwayPolicy): only .background is leaving; .inactive is Control Center or a banner over the app.
+            if phase == .active {
+                let away = AwayPolicy.shared.returned()
+                hub.returned(after: away)
+                clubHub.returned(after: away)
+                ClubSignIn.presentPending(); clubHub.start(); Task { await clubHub.refresh() }
+            } else if phase == .background { AwayPolicy.shared.left(); clubHub.background() }
             clubHub.updateBanner()
+            // a local match pauses; in an online match only this player's controller rests (the match goes on): Ready takes it back
             if phase != .active { session.pause(reason:"App inactive — return to the controller and tap Ready") }
-            SportsRuntime.shared().setForeground(phase == .active)
+            // UIKit notifications forward Unity's lifecycle once, at the actual boundary.
+            hub.setForeground(phase == .active)
         }
     }
 }

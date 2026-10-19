@@ -257,7 +257,10 @@ namespace GolfArcade.UI
             windArrow.gameObject.SetActive(!calm);
             windArrow.localRotation=Quaternion.Euler(0,0,-angle);
             windArrow.GetComponent<Image>().color=colour;
-            wind.text=calm?"CALM":$"<size=30>{mph:F0}</size> MPH  <size=18>{w.Strength.ToUpperInvariant()}</size>";
+            // Direction remains readable without decoding the speed/strength number.
+            float relative = Mathf.DeltaAngle(0, angle);
+            string direction = Mathf.Abs(relative) <= 30 ? "HELPING" : Mathf.Abs(relative) >= 150 ? "INTO WIND" : relative > 0 ? "LEFT → RIGHT" : "RIGHT → LEFT";
+            wind.text=calm?"CALM":$"<size=30>{mph:F0}</size> MPH  <size=18>{direction}</size>";
         }
         public void SetFlight(bool on){flight=on;clubRoot.gameObject.SetActive(!on);meterRoot.gameObject.SetActive(!on);lieRoot.gameObject.SetActive(!on&&lieSet);contact.transform.parent.gameObject.SetActive(on);}
 
@@ -322,13 +325,15 @@ namespace GolfArcade.UI
         public void Draw(Camera map,Texture texture,Hud.MapPlan plan)
         {
             mapImage.texture=texture;
+            GolfArcade.EnvironmentArt.DreamVisibility.Mask(mapImage,map);
             projection.SetPath(map,flight?plan.Trace:plan.Path,flight?plan.TraceColor:new Color(.25f,.78f,1),!flight);
-            void Place(RectTransform t,Vector3 world,bool show){var v=map.WorldToViewportPoint(world);t.gameObject.SetActive(show&&v.x>=0&&v.x<=1&&v.y>=0&&v.y<=1);t.anchorMin=t.anchorMax=new Vector2(v.x,v.y);t.anchoredPosition=Vector2.zero;}
+            void Place(RectTransform t,Vector3 world,bool show){var v=map.WorldToViewportPoint(world);t.gameObject.SetActive(show&&(t==ball||GolfArcade.EnvironmentArt.DreamVisibility.Visible(world))&&v.x>=0&&v.x<=1&&v.y>=0&&v.y<=1);t.anchorMin=t.anchorMax=new Vector2(v.x,v.y);t.anchoredPosition=Vector2.zero;}
             Place(ball,plan.Ball,plan.ShowBall);Place(pin,plan.Pin,true);Place(live,plan.Load,plan.ShowLoad&&!flight);
             // the rings still standing, little gold hoops on the map
             while(ringMarks.Count<plan.Rings.Count){var m=Icons.Place(mapImage.rectTransform,"ring",Gold,new Vector2(.5f,.5f),Vector2.zero,24);m.raycastTarget=false;ringMarks.Add(m.rectTransform);}
             for(int i=0;i<ringMarks.Count;i++)Place(ringMarks[i],i<plan.Rings.Count?plan.Rings[i]:Vector3.zero,i<plan.Rings.Count);
             for(int i=0;i<targets.Length;i++)Place(targets[i],i<plan.Targets.Count?plan.Targets[i]:Vector3.zero,!flight&&i<plan.Targets.Count);
+            ball.SetAsLastSibling();
         }
     }
 }

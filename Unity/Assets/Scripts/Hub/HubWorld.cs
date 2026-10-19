@@ -195,6 +195,9 @@ namespace GolfArcade.Hub
         void LateUpdate()
         {
             if (!Initialized) return;
+            if (!Transitioning && pendingPartyBay != null) {
+                var bay = pendingPartyBay; pendingPartyBay = null; GatherParty(bay);
+            }
             doorCooldown -= Time.unscaledDeltaTime;
             if (!Transitioning && Station == null) { CheckDoors(); UpdateZone(); }
             if (Arriving) UpdateArrival(Time.unscaledDeltaTime); else FollowCamera(Time.unscaledDeltaTime);
@@ -377,19 +380,33 @@ namespace GolfArcade.Hub
             Player.Teleport(from, yaw); if (Player.hero) Player.hero.Seated = true;
             for (float t = 0; t < .45f; t += Time.unscaledDeltaTime)
             {
+                if (Station != bay) yield break;
                 Player.Teleport(Vector3.Lerp(from, to, Mathf.SmoothStep(0, 1, t / .45f)), yaw); if (Player.hero) Player.hero.Seated = true;
                 yield return null;
             }
-            Player.Teleport(to, yaw); if (Player.hero) Player.hero.Seated = true;
+            if (Station == bay) { Player.Teleport(to, yaw); if (Player.hero) Player.hero.Seated = true; }
         }
         /// Sit straight down on a bay's bench (returning from a match to the same bench: RETURN).
-        public bool SitAt(string bayId)
+        public bool SitAt(string bayId, bool partyCall = false)
         {
-            var bay = HubLayout.SpotById(bayId); if (bay == null || bay.kind != HubLayout.Kind.Bay || PlayClosed(bay.place)) return false;
+            var bay = HubLayout.SpotById(bayId); if (bay == null || bay.kind != HubLayout.Kind.Bay || (!partyCall && PlayClosed(bay.place))) return false;
             Station = bay; Player.SetStick(0, 0, 0); Player.locked = true; SetPlace(bay.place);
             var seat = SeatOf(bay); Player.Teleport(seat, Mathf.Atan2(bay.facing.x, bay.facing.z) * Mathf.Rad2Deg);
             if (Player.hero) { Player.hero.Seated = true; Player.hero.SnapSeat(); }
             SnapCamera(); return true;
+        }
+        string pendingPartyBay;
+        /// Finish a door transition before gathering so its coroutine cannot undo the seat.
+        public bool GatherParty(string bayId)
+        {
+            if (bayId != "bay-tennis-online" && bayId != "bay-golf-online") return false;
+            var bay = HubLayout.SpotById(bayId);
+            if (!Player || bay == null) return false;
+            if (Transitioning) { pendingPartyBay = bayId; return true; }
+            if (Arriving) EndArrival();
+            LeaveStation();
+            if (!SitAt(bayId, true)) return false;
+            Interacted?.Invoke(bayId); return true;
         }
         // ---- the bay's loading ring (PLAN §3: "a floor ring that fills while the game loads")
         Mesh fillMesh; GameObject fillRing; float fillShown = -1; string fillBay;

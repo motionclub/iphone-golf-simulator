@@ -36,18 +36,25 @@ namespace GolfArcade.UI
             gameObject.SetActive(on);
             if (!on) return;
             transform.SetAsLastSibling();
-            label.text = text;
+            bool obscured = !GolfArcade.EnvironmentArt.DreamVisibility.Visible(pin);
+            label.text = obscured ? "HOLE BEARING" : text;
             pill.sizeDelta = new Vector2(Mathf.Max(132, label.preferredWidth + 30), 44);
             var canvas = ((RectTransform)transform.parent).rect.size;
             var vp = view.WorldToViewportPoint(pin);
             bool behind = vp.z < 0;
             var d = new Vector2(vp.x - 0.5f, vp.y - 0.5f);
             if (behind) d = -d;
+            if(obscured){
+                var bearing=pin-GolfArcade.EnvironmentArt.DreamVisibility.Observer;bearing.y=0;
+                float angle=Mathf.Round(Mathf.Atan2(bearing.x,bearing.z)*Mathf.Rad2Deg/30)*30;
+                var coarse=view.transform.InverseTransformDirection(Quaternion.Euler(0,angle,0)*Vector3.forward);
+                d=new Vector2(coarse.x,coarse.z*.55f);
+            }
             // the frame it keeps inside: room for the pill and its arrow at the sides, clear of
             // the corners' cards at the top and the status line at the bottom
             float mx = Mathf.Min(0.45f, (pill.sizeDelta.x / 2 + 70) / Mathf.Max(1, canvas.x));
             const float bottom = 0.14f, top = 0.8f;
-            bool inView = !behind && vp.x > mx && vp.x < 1 - mx && vp.y > bottom && vp.y < top;
+            bool inView = !obscured && !behind && vp.x > mx && vp.x < 1 - mx && vp.y > bottom && vp.y < top;
             Vector2 at;
             if (inView) at = new Vector2(vp.x, vp.y);
             else
@@ -120,16 +127,18 @@ namespace GolfArcade.UI
         public void Draw(Camera map, Texture texture, Vector3 pinAt, Vector3 ballAt, bool showBall, Vector3 landingAt, bool showLanding)
         {
             picture.texture = texture;
+            GolfArcade.EnvironmentArt.DreamVisibility.Mask(picture,map);
             void Place(RectTransform mark, Vector3 world, bool show)
             {
                 var vp = map ? map.WorldToViewportPoint(world) : Vector3.zero;
-                bool inside = show && map && vp.x >= 0 && vp.x <= 1 && vp.y >= 0 && vp.y <= 1;
+                bool inside = show && map && (mark==ball || GolfArcade.EnvironmentArt.DreamVisibility.Visible(world)) && vp.x >= 0 && vp.x <= 1 && vp.y >= 0 && vp.y <= 1;
                 mark.gameObject.SetActive(inside);
                 if (inside) { mark.anchorMin = mark.anchorMax = new Vector2(vp.x, vp.y); mark.anchoredPosition = Vector2.zero; }
             }
             Place(landing, landingAt, showLanding);
             Place(ball, ballAt, showBall);
             Place(pin, pinAt, true);
+            ball.SetAsLastSibling();
         }
     }
 }

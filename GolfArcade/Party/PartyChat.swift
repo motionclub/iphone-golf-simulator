@@ -58,6 +58,8 @@ final class PartyChat {
     @ObservationIgnored var now: @MainActor () -> Date = { Date() }
     @ObservationIgnored var localName: @MainActor () -> String = { "Player" }
     @ObservationIgnored var haptic: @MainActor () -> Void = {}
+    /// Already filtered, visible messages only; the Plaza displays these over the speaker.
+    @ObservationIgnored var onMessage: (@MainActor (PartyChatMessage) -> Void)?
     /// Where voice frames go (the voice coordinator; nil while voice is off).
     @ObservationIgnored var voiceHandler: (@MainActor (Data, String) -> Void)?
     /// Party members the voice engine has been told about (so it can forget the ones who left).
@@ -164,6 +166,7 @@ final class PartyChat {
     private func add(_ message: PartyChatMessage) {
         messages.append(message)
         if messages.count > Self.history { messages.removeFirst(messages.count - Self.history) }
+        if message.kind != .system { onMessage?(message) }
     }
 
     func systemNote(_ text: String) { add(PartyChatMessage(senderID: "", senderName: "", text: text, kind: .system, date: now())) }

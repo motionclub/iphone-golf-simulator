@@ -1,5 +1,9 @@
 # PLAN: Online Hub: friends, presence, in-game invites
 
+2026-10-15 multiplayer repair: the user's Game Center-only requirement now uses tagged `GKTurnBasedMatch` invitation records for the in-app inbox, followed by a private real-time `GKMatch` for the party. The Friends banner/card accepts and declines these records directly, without a Club Hub URL. Legacy real-time accepted invitations remain supported. Implementation/build evidence and outstanding two-phone gates: [multiplayer repairs](work/multiplayer-fixes-20261015/GATE_RESULTS.md). This supersedes the relay-only inbox assumption below; real Game Center delivery and private-group joining still require signed-device acceptance.
+
+2026-10-15 update: [Lobby invitation gates](proof/lobby-invites-20261015/GATE_RESULTS.md) supersede the relay-only friend-invite restriction below. The in-app Friends screen now has a programmatic Game Center invitation path when no presence service is available, including accepted-invite handling and explicit host settings/start from the online bench. Native/XcodeGen app bundle IDs agree with production. Online presence and join-without-invite still require the optional service; its URL remains unset, and real two-phone Game Center delivery is not yet verified. No TestFlight upload was made.
+
 Status: BUILT on branch `build-10/11` (2026-10-11, not pushed): service `club-hub/`, app `GolfArcade/Social/`, TV toast in Unity. Results and what is NOT RUN
 (the Game Center private-room join, push, hosting) are in `proof/online-hub/GATE_RESULTS.md`. Decisions taken without an answer: Game Center friends only,
 presence visible by default with Appear offline, TV toast only, invites wait until a match ends, banner before push.

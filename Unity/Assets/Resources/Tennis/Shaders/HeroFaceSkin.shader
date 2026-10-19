@@ -49,6 +49,9 @@ Shader "GolfArcade/HeroFaceSkin"
         [HideInInspector] _KitContact ("Garment contact shadow", Range(0,1)) = 0
         [HideInInspector] _SkinResponse ("Regional skin response pilot", Float) = 0
         [HideInInspector] _SkinFinish ("Skin finish pilot: 1 male, 2 female", Float) = 0
+        [HideInInspector] _MaleForm ("Male face pass: nostril, nasolabial, unused, ear strengths", Vector) = (.85,.75,.55,.6)
+        [HideInInspector] _MaleBeard ("Male face pass: stubble edge lo/hi, strength, stipple", Vector) = (.12,.55,0,1)
+        [HideInInspector] _MaleFormPass ("Male face pass 2026-10-18 (MaleFaceFinish): female light model + painted form", Float) = 0
         [HideInInspector] _SkinPigmentUV ("Original skin pigment mask coordinates", Float) = 0
         _Wrap ("Wrap", Range(0,1)) = 0.35
         _Subsurface ("Subsurface warmth", Color) = (0,0,0,0)
@@ -77,6 +80,7 @@ Shader "GolfArcade/HeroFaceSkin"
             #pragma multi_compile_local _ _NORMALMAP
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+            #define HERO_PRESENTATION_SURFACE 1
             #include "HeroLighting.hlsl"
 
             CBUFFER_START(UnityPerMaterial)
@@ -84,7 +88,7 @@ Shader "GolfArcade/HeroFaceSkin"
                 float4 _HeadOrigin, _HeadRight, _HeadUp, _HeadForward, _HeadEye;
                 float4 _EyeMapL, _EyeMapR, _EyeMapUpL, _EyeMapUpR, _EyeMapRightL, _EyeMapRightR; half _EyeMapEnabled;
                 float4 _EyeL, _EyeR, _FaceUp, _FaceRight, _Gaze, _FaceSkin, _EyeNL, _EyeNR; half _PaintLift, _FaceRole, _Blink, _BrowLift, _CraftedPaint;
-                float4 _BumpMap_ST; half _Smoothness, _Wrap, _RimPower, _RimStrength, _BumpScale, _Saturation, _BumpTriplanar, _SpecularStrength, _EnvironmentStrength, _OcclusionStrength; float _BumpTile; half _SkinResponse, _SkinFinish, _SkinPigmentUV;
+                float4 _BumpMap_ST; half _Smoothness, _Wrap, _RimPower, _RimStrength, _BumpScale, _Saturation, _BumpTriplanar, _SpecularStrength, _EnvironmentStrength, _OcclusionStrength; float _BumpTile; half _SkinResponse, _SkinFinish, _SkinPigmentUV, _MaleFormPass; float4 _MaleForm, _MaleBeard;
                 half _KitContact;
             CBUFFER_END
             TEXTURE2D(_BaseMap); SAMPLER(sampler_BaseMap);
@@ -149,6 +153,8 @@ Shader "GolfArcade/HeroFaceSkin"
             }
             half3 FaceSkinShade(Light light, half3 n, half3 v, half3 albedo, half wrap, half smoothness, half3 subsurface, half specularStrength, half faceAmount, out half3 reflection)
             {
+                reflection=0;
+                if (_SkinFinish > 1.5h || _MaleFormPass > .5h) return HeroFemaleSkinShade(light,n,v,albedo,smoothness,reflection);
                 half3 previousReflection;
                 half3 previous = HeroSkinShade(light,n,v,albedo,wrap,smoothness,subsurface,specularStrength,previousReflection);
                 half ndl=dot(n,light.direction), nl=saturate(ndl);
@@ -207,7 +213,7 @@ Shader "GolfArcade/HeroFaceSkin"
                 else if (_FaceRole > .5h && (_FaceRole < 3.5h || _FaceRole > 4.5h)) {
                     if(_FaceRole>4.5h)clip(.985h-_Blink);
                     half closed = -.45h + .22h * i.eyeCoord.x * i.eyeCoord.x;
-                    half progress = pow(_Blink,.8h);
+                    half progress = pow(max(_Blink,0),.8h);
                     half upper = lerp(1,closed,progress), lower=lerp(-1,closed,progress);
                     lid = max(smoothstep(upper - .025h, upper + .025h, i.eyeCoord.y), 1 - smoothstep(lower - .025h, lower + .025h, i.eyeCoord.y));
                     if (_Blink > .995h) lid = 1;
@@ -229,6 +235,7 @@ Shader "GolfArcade/HeroFaceSkin"
                 if(_HeadOrigin.w>.5h){
                     float3 delta=i.bindPos-_HeadOrigin.xyz;
                     float3 hp=float3(dot(delta,_HeadRight.xyz),dot(delta,_HeadUp.xyz),dot(delta,_HeadForward.xyz))-_HeadEye.xyz;
+                    if(_SkinFinish>.5h&&_SkinFinish<1.5h){float orbitM=smoothstep(-.085,-.022,hp.y)*(1-smoothstep(.060,.110,hp.y))*smoothstep(-.075,-.045,hp.z);hp.y+=.010*(1-orbitM);}   // male 2026-10-17: eyes no longer lowered 10 mm by the face fit; below the orbit this frame keeps its old registration (mouth, beard, jaw paint stay on the same geometry)
                     faceAmount=smoothstep(-.19h,-.12h,hp.y)*(1-smoothstep(.14h,.19h,abs(hp.x)));
                     half cheeks=SkinRegion(hp,float3(-.044,-.052,-.005),float3(.032,.031,.080))+SkinRegion(hp,float3(.044,-.052,-.005),float3(.032,.031,.080));
                     half nose=SkinRegion(hp,float3(0,-.040,.018),float3(.022,.038,.070));
@@ -239,31 +246,111 @@ Shader "GolfArcade/HeroFaceSkin"
                     half warmth=saturate(cheeks*.85h+nose*.40h+ears*.7h);
                     if (_SkinFinish > .5h) {
                         // Skin pass: the female face lift is golden, not cool (was 1.10/1.16/1.26, which paled it to pink).
-                        c.rgb*=lerp(half3(1,1,1),_SkinFinish<1.5h?half3(1.0h,.99h,.97h):half3(1.08h,1.09h,1.04h),faceAmount);
+                        c.rgb*=lerp(half3(1,1,1),_SkinFinish<1.5h?half3(1.0h,.99h,.97h):half3(1.0h,1.0h,1.0h),faceAmount);
                         float noseBase=_SkinFinish<1.5h?-.047:-.045;
                         noseUnderside=exp(-2*pow(hp.x/.025,2)-2*pow((hp.y-noseBase)/.007,2))*smoothstep(.015,.026,hp.z);
+                        if(_MaleFormPass>.5h&&_SkinFinish<1.5h) noseUnderside=exp(-2*pow(hp.x/.023,4)-2*pow((hp.y+.0485)/.0030,2))*smoothstep(.012,.024,hp.z)*1.8;   // 10-18 anatomical nose: its whole underside (tip + wings)
                         // Small warm cavity pigment at the anatomical nostril
                         // bases; the broad nasal shading still comes from light.
                         if(_SkinFinish<1.5h){
                             half cavity=exp(-2*pow((abs(hp.x)-.016)/.005,2)-2*pow((hp.y+.042)/.0022,2))*smoothstep(.013,.025,hp.z);
-                            c.rgb*=lerp(half3(1,1,1),half3(.58h,.44h,.38h),cavity*.40h);
+                            c.rgb*=lerp(half3(1,1,1),half3(.58h,.44h,.38h),cavity*(_MaleFormPass>.5h?0:.40h));   // male pass: this sat on the old nose; now the wing top
+                            if(_MaleFormPass>.5h){
+                                // Male face pass 2026-10-18 (sheet 17), anatomical nose (HeroFaceReferenceFit.MaleNose): the tip, wings and alar
+                                // creases are geometry; paint only the nostril openings over the mesh's own nostril cavities (paint rides the
+                                // pre-warp coordinates), a light columella between them and the nasolabial fold.
+                                // 10-19 nostrils like sheet 17: a tilted crescent each side just under the tip's lower edge (paint grid proof/z_q.jpg:
+                                // front edge y -47, underside -48..-52), outer end lower, near-black, inside warm lit rims
+                                // teardrop: round and deep at the outer end, tapering and rising toward the columella; darkest inside
+                                float nx=abs(hp.x)-.0090; float u=saturate(.5+nx/.0110);          // 0 inner tip .. 1 outer end
+                                float halfH=lerp(.0004,.0019,pow(u,.7));
+                                float ny=hp.y+.0497+.0016*(1-u)+.16*nx;
+                                float nd=pow(nx/.0055,2)+pow(ny/max(halfH,.0003),2);
+                                half nostril=(1-smoothstep(.35,1.0,nd))*smoothstep(.018,.030,hp.z)*lerp(.75h,1.0h,u);
+                                half rim=(smoothstep(2.6,4.5,nd)*(1-smoothstep(5.,9.,nd)))*smoothstep(.018,.030,hp.z)*smoothstep(-.0515,-.0498,hp.y);   // not onto the philtrum
+                                c.rgb*=lerp(half3(1,1,1),half3(1.08h,1.04h,1.02h),rim*.6h);   // lit alar rim around it
+                                half columella=exp(-2*pow(hp.x/.0030,2)-2*pow((hp.y+.0480)/.0025,2))*smoothstep(.020,.032,hp.z);
+                                half tipLight=exp(-2*pow(hp.x/.0065,2)-2*pow((hp.y+.0405)/.0055,2))*smoothstep(.030,.045,hp.z);
+                                c.rgb*=lerp(half3(1,1,1),half3(1.07h,1.05h,1.04h),tipLight);   // the reference's bright tip lobule
+                                c.rgb*=lerp(half3(1,1,1),half3(1.06h,1.04h,1.03h),columella*.6h);
+                                // nasolabial fold: wing (19,-50) to outside the mouth corner (31,-71), soft and fading toward the mouth
+                                float2 fa=float2(.019,-.050), fb=float2(.031,-.071), fq=float2(abs(hp.x),hp.y)-fa;
+                                float ft=saturate(dot(fq,fb-fa)/dot(fb-fa,fb-fa)); half fold=exp(-pow(length(fq-ft*(fb-fa))/.0026,2))*(1-ft*.6)*smoothstep(.0,.02,hp.z);
+                                c.rgb*=lerp(half3(1,1,1),half3(.80h,.70h,.64h),fold*_MaleForm.y*.3h);   // 10-19: a hint only (read as a wrinkle)
+                                c.rgb=lerp(c.rgb,c.rgb*half3(.20h,.12h,.09h),nostril*_MaleForm.x);
+                                c.rgb*=lerp(half3(1,1,1),half3(.80h,.70h,.66h),(1-smoothstep(1.0,3.0,nd))*(1-nostril)*smoothstep(.018,.030,hp.z)*.5h);   // soft shading into the opening
+                            }
                         }
                         // Bald-base pass 2: a smaller mouth with a softer curve (was .041 / .033 wide, corners up .004 / .0075).
-                        float mouthWidth=_SkinFinish<1.5h?.035:.028;
+                        float mouthWidth=_SkinFinish<1.5h?.035:.0265;
                         float mx=abs(hp.x)/mouthWidth;
-                        float seam=(_SkinFinish<1.5h?-.0683:-.0675)+(_SkinFinish<1.5h?.0035:.0045)*mx*mx;
+                        float seam=(_SkinFinish<1.5h?-.0683:-.0701)+(_SkinFinish<1.5h?-.0010:.0015)*mx*mx;   // male 2026-10-17: corners a touch down like the reference (was +3.5 mm up, a smile)
                         float fullness=saturate(1-mx*mx);
                         float cupid=.0015*exp(-pow((abs(hp.x)-.008)/.005,2))*fullness;
                         float upper=seam+.0055*fullness+cupid,lower=seam-.0075*fullness;
+                        if(_SkinFinish<1.5h){
+                            // Male lips 2026-10-17 (male reference pack sheets 07/17): a thin bowed upper lip (5 mm centre, 6.8 mm at the bow
+                            // peaks) over a fuller lower lip (10.5 mm), in mouth half-widths.
+                            upper=seam+mouthWidth*(.17*pow(saturate(1-pow(mx,2.4)),1.3)+.040*exp(-pow((mx-.25)/.13,2))-.025*exp(-pow(mx/.09,2)));
+                            lower=seam-mouthWidth*.30*pow(saturate(1-pow(mx,2.6)),1.6);
+                        }
+                        if(_SkinFinish>1.5h){
+                            // Female jaw/lips pass 2026-10-17: reference sheet 07 lip outline (fuller, cupid's bow, near-flat seam) on the
+                            // sculpted lip loops. In mouth half-widths: upper .33(1-u^2.8)^1.5 + bow, lower .47(1-u^3.4)^1.9 (reference fit +6%).
+                            upper=seam+mouthWidth*(.33*pow(saturate(1-pow(mx,2.8)),1.5)+.025*exp(-pow((mx-.28)/.12,2))-.02*exp(-pow(mx/.1,2)));
+                            lower=seam-mouthWidth*.47*pow(saturate(1-pow(mx,3.4)),1.9);
+                        }
                         float mouthFront=smoothstep(-.006,.009,hp.z);
                         lipMask=smoothstep(lower-.0009,lower+.0009,hp.y)*(1-smoothstep(upper-.0009,upper+.0009,hp.y))*(1-smoothstep(.94,1.04,mx))*mouthFront;
                         half seamMask=exp(-pow((hp.y-seam)/.00085,2))*(1-smoothstep(.88,1.03,mx))*mouthFront;
-                        half3 lipTint=_SkinFinish<1.5h?half3(1.04h,.70h,.68h):half3(1.06h,.68h,.65h);
+                        half3 lipTint=_SkinFinish<1.5h?half3(1.0h,.80h,.74h):half3(.80h,.50h,.44h);   // male 2026-10-17: beige-rose like the reference (was 1.04/.70/.68, pink)
                         c.rgb*=lerp(half3(1,1,1),lipTint,lipMask);
+                        if(_SkinFinish<1.5h){
+                            // male 2026-10-17: the upper lip deeper and browner than the lower (reference: it turns down, away from the light),
+                            // the lower lip lit across its upper middle and a soft shadow under it
+                            half upperSideM=smoothstep(seam-.0004,seam+.0008,hp.y);
+                            float tLm=saturate((seam-hp.y)/max(seam-lower,1e-4));
+                            c.rgb*=lerp(half3(1,1,1),half3(.74h,.66h,.64h),lipMask*upperSideM);
+                            if(_MaleFormPass>.5h){
+                                // male face pass 2026-10-18 (sheet 17): lips a shade rosier and deeper than the skin (read peach on peach in the
+                                // form light), small shadows in the mouth corners
+                                c.rgb*=lerp(half3(1,1,1),half3(.95h,.86h,.85h),lipMask);
+                                half corner=exp(-2*pow((abs(hp.x)-mouthWidth*1.02)/.0024,2)-2*pow((hp.y-(seam-.0003))/.0022,2))*mouthFront;
+                                c.rgb*=lerp(half3(1,1,1),half3(.66h,.56h,.52h),corner*.85h);
+                            } else
+                            c.rgb*=lerp(half3(1,1,1),half3(1.05h,1.03h,1.02h),exp(-pow((tLm-.35)/.25,2))*exp(-pow(mx/.5,2))*lipMask*(1-upperSideM));
+                            c.rgb*=lerp(half3(1,1,1),half3(.88h,.84h,.82h),(1-smoothstep(.70,1.0,mx))*lipMask);
+                            half belowLipM=exp(-pow((hp.y-(lower-.0025))/.0025,2))*exp(-pow(mx/.8,2))*mouthFront;
+                            c.rgb*=lerp(half3(1,1,1),half3(.90h,.86h,.84h),belowLipM*(1-lipMask));
+                        }
+                        if(_SkinFinish>1.5h){
+                            // 2026-10-17 (reference sheet 07): the upper lip a shade deeper than the lower, and pigment form for the lip volume
+                            // (a screen-space bump banded at 2 px on lip scale, so the pillow is painted, like the rest of this face's form).
+                            half upperSide=smoothstep(seam-.0004,seam+.0008,hp.y);
+                            c.rgb*=lerp(half3(1,1,1),half3(1.06h,1.03h,1.03h),lipMask*upperSide);   // the deeper base tint already darkens the upper lip
+                            float lat=1-smoothstep(.70,1.0,mx);
+                            float tL=saturate((seam-hp.y)/max(seam-lower,1e-4)), tU=saturate((hp.y-seam)/max(upper-seam,1e-4));
+                            // lower lip: lit upper-middle, deeper toward its bottom edge and the corners (pillow read as pigment form)
+                            half lit=exp(-pow((tL-.38)/.22,2))*exp(-pow(mx/.48,2));
+                            half under=smoothstep(.55,1.0,tL);
+                            c.rgb*=lerp(half3(1,1,1),half3(1.08h,1.05h,1.04h),lit*lipMask*(1-upperSide));
+                            c.rgb*=lerp(half3(1,1,1),half3(.86h,.80h,.79h),under*lipMask*(1-upperSide));
+                            // upper lip: deeper next to the seam (it turns down into the mouth), a little lighter along the bow
+                            c.rgb*=lerp(half3(1,1,1),half3(.90h,.86h,.86h),(1-smoothstep(.15,.6,tU))*lipMask*upperSide);
+                            c.rgb*=lerp(half3(1,1,1),half3(.85h,.80h,.80h),(1-lat)*lipMask);
+                            // a soft shadow just under the lower lip (the mentolabial turn), relative to the selected tone
+                            half belowLip=exp(-pow((hp.y-(lower-.0022))/.0022,2))*exp(-pow(mx/.75,2))*mouthFront;
+                            c.rgb*=lerp(half3(1,1,1),half3(.92h,.88h,.86h),belowLip*(1-lipMask));
+                        }
                         c.rgb*=lerp(half3(1,1,1),half3(.50h,.30h,.26h),seamMask*.78h);
-                        half upperRim=1-smoothstep(.0010h,_SkinFinish<1.5h?.0025h:.0048h,i.lidDistance.x);
+                        half upperRim=_SkinFinish<1.5h?1-smoothstep(.0012h,.0030h,i.lidDistance.x):1-smoothstep(.0014h,.0028h,i.lidDistance.x);   // female 2026-10-17: a dark lash line on the lid edge (was a 4.8 mm soft smudge)
                         half lowerRim=1-smoothstep(0,.0012h,i.lidDistance.y);
-                        c.rgb*=lerp(half3(1,1,1),half3(.12h,.065h,.040h),upperRim*.96h);
+                        c.rgb*=lerp(half3(1,1,1),_SkinFinish<1.5h?half3(.08h,.05h,.035h):half3(.05h,.03h,.022h),upperRim*.96h);   // female: near-black lash line like the reference; male 2026-10-17: darker, wider (was .12/.065/.04, 1.0-2.5 mm)
+                        if(_SkinFinish<1.5h){
+                            // male 2026-10-17: the reference's upper-lid crease, a soft shadow ~6 mm above the lash line (on the upper-lid side only)
+                            half creaseM=exp(-pow((i.lidDistance.x-.0058)/(_MaleFormPass>.5h?.0014:.0020),2))*step(i.lidDistance.x,i.lidDistance.y)*faceAmount;
+                            c.rgb*=lerp(half3(1,1,1),half3(.84h,.76h,.72h),creaseM*(_MaleFormPass>.5h?.85h:.55h));
+                        }
                         c.rgb*=lerp(half3(1,1,1),half3(.74h,.60h,.55h),lowerRim*.30h);
                         // Regional pigment follows the existing registered form.
                         c.rgb *= lerp(half3(1,1,1),half3(1.03h,.965h,.89h),warmth);   // skin pass: golden warmth (was 1.035/.93/.91, pinkish)
@@ -272,11 +359,17 @@ Shader "GolfArcade/HeroFaceSkin"
                             ? SkinRegion(hp,float3(-.050,-.032,-.010),float3(.024,.020,.060))+SkinRegion(hp,float3(.050,-.032,-.010),float3(.024,.020,.060))
                             : SkinRegion(hp,float3(-.046,-.031,-.005),float3(.025,.021,.060))+SkinRegion(hp,float3(.046,-.031,-.005),float3(.025,.021,.060));
                         half blush=saturate(apples);
-                        c.rgb*=lerp(half3(1,1,1),_SkinFinish<1.5h?half3(1.06h,.66h,.70h):half3(1.06h,.66h,.70h),blush);
+                        c.rgb*=lerp(half3(1,1,1),_SkinFinish<1.5h?half3(1.02h,.93h,.91h):half3(1.035h,.80h,.77h),blush);   // female: warm, quieter apples; male 2026-10-17: no pink apples (reference), a faint warmth only
                         // Skin pass: natural variation. The ears and the nose tip a touch warmer (both heroes).
                         bool maleFace=_SkinFinish<1.5h;
                         c.rgb*=lerp(half3(1,1,1),half3(1.04h,.93h,.86h),ears*.45h);
-                        half noseTip=SkinRegion(hp,maleFace?float3(0,-.037,.054):float3(0,-.037,.032),float3(.011,.010,.020));
+                        if(_MaleFormPass>.5h&&maleFace){
+                            // male face pass 2026-10-18: ears as warm as the cheek and a darker bowl in front of the ear's centre
+                            half concha=SkinRegion(float3(abs(hp.x),hp.y,hp.z),float3(.096,-.022,-.088),float3(.010,.016,.012));
+                            c.rgb*=lerp(half3(1,1,1),half3(1.03h,.90h,.82h),ears*_MaleForm.w);
+                            c.rgb*=lerp(half3(1,1,1),half3(.72h,.58h,.52h),concha*_MaleForm.w);
+                        }
+                        half noseTip=SkinRegion(hp,maleFace?float3(0,-.042,.056):float3(0,-.037,.032),maleFace?float3(.014,.012,.020):float3(.011,.010,.020));   // male: the 10-18 rounder, lower bulb
                         c.rgb*=lerp(half3(1,1,1),half3(1.05h,.93h,.86h),noseTip*.55h);
                         // Skin pass: soft warm form shading, darker and redder where the face turns away or hollows: under the brows, beside
                         // the nose, under the cheekbones, under the jaw and down the neck. Pigment, so it rides with the face in any light.
@@ -291,21 +384,48 @@ Shader "GolfArcade/HeroFaceSkin"
                         // under the jaw and down the neck, kept to the neck's width (the shoulders and chest stay as they are)
                         half neckWidth=1-smoothstep(maleFace?.055h:.048h,maleFace?.080h:.070h,abs(hp.x));
                         half neck=smoothstep(-.125h,-.160h,hp.y)*(1-smoothstep(-.270h,-.330h,hp.y))*neckWidth;
-                        half form=saturate(browHollow*.85h+innerCorner*.70h+noseSide*.65h+smileLine*.35h+cheekHollow*.60h+jawSide*.55h+neck*.95h)*(1-lipMask);
+                        // male face pass 2026-10-18: the old neck term was a hard-edged rectangle down to the chest (seen at an open
+                        // collar); keep only the soft turn under the jaw, the form ambient below darkens the underside
+                        if(_MaleFormPass>.5h&&maleFace) neck=smoothstep(-.120h,-.145h,hp.y)*(1-smoothstep(-.165h,-.215h,hp.y))*(1-smoothstep(.040h,.090h,abs(hp.x)))*.55h;
+                        half form=saturate(browHollow*.85h+innerCorner*.70h+noseSide*(_MaleFormPass>.5h&&maleFace?.20h:.65h)+smileLine*(_MaleFormPass>.5h&&maleFace?.12h:.35h)+cheekHollow*(_MaleFormPass>.5h&&maleFace?.25h:.60h)+jawSide*.55h+neck*.95h)*(1-lipMask);
                         // and a soft light-from-above: the forehead and crown a little lighter than the jaw
-                        c.rgb*=1+half3(.06h,.055h,.04h)*smoothstep(-.04h,.10h,hp.y)*faceAmount;
+                        c.rgb*=1+(_SkinFinish>1.5h?half3(0,0,0):half3(.06h,.055h,.04h))*smoothstep(-.04h,.10h,hp.y)*faceAmount;   // female: softer (forehead read pale)
                         c.rgb*=lerp(half3(1,1,1),half3(.80h,.66h,.55h),form);
                         if (_SkinFinish < 1.5h) {
                             half jaw = SkinRegion(hp,float3(0,-.126h,-.010h),float3(.086h,.048h,.095h));
                             half upperLip = SkinRegion(hp,float3(0,-.058h,.040h),float3(.037h,.012h,.045h));
                             half lowerCheeks=SkinRegion(hp,float3(-.060h,-.077h,.002h),float3(.032h,.052h,.055h))+SkinRegion(hp,float3(.060h,-.077h,.002h),float3(.032h,.052h,.055h));
-                            half beard = saturate(jaw*.70h+upperLip*.52h+lowerCheeks*.48h)*(1-lipMask*.95h);
-                            beard*=smoothstep(-.145h,-.120h,hp.y)*smoothstep(-.055h,-.025h,hp.z);
-                            c.rgb *= lerp(half3(1,1,1),half3(.82h,.85h,.89h),beard);
+                            // male 2026-10-17: the reference's visible stubble: upper lip, chin, jaw and lower cheeks ~13 % darker, neutral
+                            // grey-brown (was a faint blue-grey), with a fine speckle; the lip itself stays clear.
+                            half beard = saturate(jaw*.90h+upperLip*.85h+lowerCheeks*(_MaleFormPass>.5h?.45h:.75h))*(1-lipMask);   // male pass: lighter on the upper cheeks (the stubble edge outlined the cheekbone)
+                            beard*=smoothstep(-.150h,-.125h,hp.y)*smoothstep(-.055h,-.025h,hp.z);
+                            if(_MaleFormPass>.5h){
+                                // male face pass 2026-10-18 (sheet 17): warm brown-grey stubble with a readable edge along the cheek line
+                                // (the soft sum read as grey dirt), densest on the upper lip and chin
+                                // 10-19 (Adnan: "give the guy a stubble"): the full sheet-17 stubble: upper lip, chin, jaw, lower cheeks and back
+                                // along the jaw to the sideburns; a darker grey-brown shadow with a 3 mm mottle and the fine grain on top
+                                // 10-19 rebuild (Adnan: "looks horrible, look at the ref"): sheet 17 is an even grey-brown shadow with a dense fine
+                                // grain, soft clean edges, starting a few mm under the nose; no blotches, no square cells
+                                half cheeksOut=SkinRegion(float3(abs(hp.x),hp.y,hp.z),float3(.064h,-.090h,-.020h),float3(.028h,.040h,.050h));
+                                half chinFront=SkinRegion(hp,float3(0,-.112h,.030h),float3(.042h,.032h,.045h));
+                                half cover=saturate(jaw*1.0h+upperLip*1.0h+lowerCheeks*.60h+cheeksOut*.70h+chinFront*1.0h)*smoothstep(-.150h,-.125h,hp.y)*smoothstep(-.115h,-.050h,hp.z);
+                                cover*=1-smoothstep(-.0545h,-.0515h,hp.y)*(1-smoothstep(.022h,.030h,abs(hp.x)));   // clean skin right under the nose
+                                beard=smoothstep(_MaleBeard.x,_MaleBeard.y,cover)*(1-lipMask)*_MaleBeard.z;   // 10-19 Adnan: clean-shaven (strength 0)
+                                c.rgb *= lerp(half3(1,1,1),half3(.70h,.67h,.64h),beard);
+                                // hair grain: round dots ~0.35 mm from smooth noise; where a pixel covers several hairs it fades to their average
+                                float foot=max(length(ddx(i.bindPos)),length(ddy(i.bindPos)));
+                                half g=SkinNoise(i.bindPos*3600)*.6h+SkinNoise(i.bindPos*2100+17.3)*.4h;
+                                half hair=smoothstep(.46h,.62h,g);
+                                half resolvedHair=1-smoothstep(.00025,.0009,foot);
+                                c.rgb *= 1-beard*_MaleBeard.w*lerp(.10h,hair*.26h,resolvedHair);
+                            } else {
+                            c.rgb *= lerp(half3(1,1,1),half3(.76h,.74h,.72h),beard);
+                            c.rgb *= lerp(half3(1,1,1),half3(.86h,.85h,.84h),upperLip*(1-lipMask));   // the moustache stubble reads densest (reference)
+                            }
                             float3 cell=floor(hp*1300);
-                            half stipple=smoothstep(.65h,.90h,frac(sin(dot(cell,float3(12.9898,78.233,45.164)))*43758.5453));
+                            half stipple=smoothstep(.45h,.85h,frac(sin(dot(cell,float3(12.9898,78.233,45.164)))*43758.5453));
                             half resolved=1-smoothstep(.0005,.0015,max(length(ddx(hp)),length(ddy(hp))));
-                            c.rgb*=1-stipple*beard*.15h*resolved;
+                            if(_MaleFormPass<.5h) c.rgb*=1-stipple*beard*lerp(.12h,.36h,resolved);
                         }
                         // Skin pass: matte skin. Smoothness .26-.34 (was .32-.50) and a low highlight strength; a lower wrap (.20-.26, was .28-.50) brings the form back.
                         surfaceSmoothness = lerp(.26h,.30h,saturate(nose+forehead*.55h));
@@ -334,7 +454,8 @@ Shader "GolfArcade/HeroFaceSkin"
                         surfaceWrap=.28h;
                     }
                 }
-                if (_SkinFinish > .5h && _FaceRole < .5h) {
+                // Female pigment remains relative to the selected tone; no overall tan grade.
+                if (_SkinFinish > .5h && _SkinFinish < 1.5h && _FaceRole < .5h) {
                     // Skin pass (2026-10-12): golden tan, not pink or salmon. A relative grade, so every skin-tone pick keeps its own depth.
                     c.rgb *= half3(1.0h, 1.035h, .92h);
                     // A very faint grain: ~3 mm and ~18 mm value noise in the bind pose, faded out before it can alias.
@@ -344,7 +465,9 @@ Shader "GolfArcade/HeroFaceSkin"
                     c.rgb *= lerp(half3(1,1,1), half3(1.03h, .975h, .95h), coarse * 1.2h * (1 - smoothstep(.004, .012, footprint)));
                     surfaceSpecular = min(surfaceSpecular, .40h);
                 }
-                c.rgb = lerp(dot(c.rgb, half3(0.2126, 0.7152, 0.0722)).xxx, c.rgb, _Saturation);
+                // Female: the selected tone keeps its own richness (the shared .74 pull
+                // toward grey read chalky); still relative to whichever tone was picked.
+                c.rgb = lerp(dot(c.rgb, half3(0.2126, 0.7152, 0.0722)).xxx, c.rgb, _SkinFinish > 1.5h ? max(_Saturation, .95h) : _MaleFormPass > .5h ? max(_Saturation, .86h) : _Saturation);
                 Light main = HeroMain(GetMainLight(TransformWorldToShadowCoord(i.positionWS)));
                 half3 reflection;
                 half3 colour;
@@ -353,6 +476,8 @@ Shader "GolfArcade/HeroFaceSkin"
                 if (_HeroPresentationFill > 0) {
                     half3 fillReflection;
                     Light fill = HeroPresentationLight(v);
+                    if (_SkinFinish > 1.5h) fill.color *= .30h;   // female: the camera-side fill must not erase the form
+                    else if (_MaleFormPass > .5h) fill.color *= .40h;   // male face pass 2026-10-18: same reason
                     if (_SkinFinish > .5h) colour += FaceSkinShade(fill, n, v, c.rgb, surfaceWrap, surfaceSmoothness, _Subsurface.rgb, surfaceSpecular, faceAmount, fillReflection);
                     else colour += HeroCharacterShade(fill, n, v, c.rgb, surfaceWrap, surfaceSmoothness, _Subsurface.rgb, surfaceSpecular, fillReflection);
                     reflection += fillReflection;
@@ -364,7 +489,7 @@ Shader "GolfArcade/HeroFaceSkin"
                 #endif
                 for (uint li = 0; li < count; li++)
                 {
-                    Light extra = GetAdditionalLight(li, i.positionWS);
+                    Light extra = HeroAdditional(GetAdditionalLight(li, i.positionWS));
                     // A light on its own rendering layer (the hero rim) only reaches meshes that carry that layer.
                     #if defined(_LIGHT_LAYERS)
                     if (!IsMatchingLightLayer(extra.layerMask, meshLayers)) continue;
@@ -383,8 +508,14 @@ Shader "GolfArcade/HeroFaceSkin"
                 colour += environment; reflection += environment;
                 half3 ambient = HeroAmbient(n) * c.rgb;
                 // Skin pass: the fill in the shade comes back warm (skin passes light back reddish-brown) instead of grey; .82 off the face as before.
-                if (_SkinFinish > .5h) ambient *= lerp(.82h,.97h,faceAmount) * half3(1.0h,.86h,.72h);
-                ambient+=c.rgb*half3(.17h,.13h,.11h)*noseUnderside;
+                if (_SkinFinish > 1.5h || _MaleFormPass > .5h) {
+                    // Female (and the male face pass 2026-10-18): skin returns indirect light in its own deeper hue, darker
+                    // under the chin/jaw and brighter on upward planes (form, not grey fill).
+                    half up = saturate(n.y*.5h+.5h);
+                    ambient = HeroAmbient(n) * lerp(c.rgb, HeroFemaleSkinTone(c.rgb), .45h) * lerp(.60h,.88h,up*up) * lerp(1,1.04h,faceAmount);
+                }
+                else if (_SkinFinish > .5h) ambient *= lerp(.82h,.97h,faceAmount)*half3(1.0h,.86h,.72h);
+                ambient+=c.rgb*(_SkinFinish>1.5h?half3(.08h,.035h,.025h):_MaleFormPass>.5h?half3(.30h,.21h,.16h):half3(.17h,.13h,.11h))*noseUnderside;   // male pass: warm bounce off the upper lip lights the nose underside (sheet 17), not a dark band
                 #if defined(_SCREEN_SPACE_OCCLUSION)
                 AmbientOcclusionFactor ao = GetScreenSpaceAmbientOcclusion(GetNormalizedScreenSpaceUV(i.positionCS));
                 half indirectAO = lerp(1,ao.indirectAmbientOcclusion,_OcclusionStrength);
@@ -394,9 +525,11 @@ Shader "GolfArcade/HeroFaceSkin"
                 half rim = pow(1 - saturate(dot(v, n)), _RimPower) * _RimStrength * (_HeroProfile > .5h ? _HeroRim : 1);
                 half3 rimLight = _RimColor.rgb * rim * (0.35 + 0.65 * c.rgb) * main.color;
                 if (_SkinFinish > .5h) rimLight *= .30h;   // skin pass: a softer edge (was .45)
+                if (_HeroLightingEnabled > .5h) rimLight = HeroPresentationRim(n,v,c.rgb);
+                if (_SkinFinish > 1.5h || _MaleFormPass > .5h) rimLight *= .65h;
                 colour += ambient + rimLight; reflection += rimLight;
                 colour *= 1 - i.kitContact; reflection *= 1 - i.kitContact;   // CLOTHING V2 contact shadow (0 unless a V2 garment edge is near)
-                return half4(MixFog(HeroCharacterFinish(colour, reflection), i.fog), 1);
+                return half4(MixFog(HeroSkinLightFinish(HeroCharacterFinish(colour, reflection),_SkinFinish), i.fog), 1);
             }
             ENDHLSL
         }

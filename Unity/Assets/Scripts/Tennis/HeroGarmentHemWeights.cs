@@ -20,6 +20,7 @@ namespace GolfArcade.Tennis {
    src=HeroGarmentTailoring.Prepare(hero,r,src,palette);
    if(!hero||!r||!src||!src.isReadable||!hero.golfKit||!CoverageReady(hero)||r.name!="Kit_Bottom")return src;
    if(src.name.Contains("(hem motion field)"))return src;
+   if(src.name.Contains("[gp]"))return src;   // GARMENT PIPELINE: fitted weights + pose correctives already solve the hem (work/clothing-v2/pipeline)
    if(cache.TryGetValue((src,hero.female,hero.golfKit),out var found))return found;
    var p=src.vertices;var w=src.boneWeights;var toRoot=hero.transform.worldToLocalMatrix*r.transform.localToWorldMatrix;
    var positions=p.Select(toRoot.MultiplyPoint3x4).ToArray();float hem=positions.Min(v=>v.y),waist=positions.Max(v=>v.y);

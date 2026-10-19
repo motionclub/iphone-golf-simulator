@@ -1,0 +1,12 @@
+{
+  "gameplay": [
+    {"round": 0, "lod": false, "frame_tris": 3039079, "char_tris": 1268653, "char_draws": 123, "levels": "0,0"},
+    {"round": 0, "lod": true, "frame_tris": 2101615, "char_tris": 326247, "char_draws": 124, "levels": "3,2"},
+    {"round": 1, "lod": false, "frame_tris": 3044023, "char_tris": 1273591, "char_draws": 124, "levels": "0,0"},
+    {"round": 1, "lod": true, "frame_tris": 2096667, "char_tris": 326231, "char_draws": 122, "levels": "3,2"},
+    {"round": 2, "lod": false, "frame_tris": 6068782, "char_tris": 4303047, "char_draws": 580, "levels": "0,0"},
+    {"round": 2, "lod": true, "frame_tris": 2091972, "char_tris": 326219, "char_draws": 124, "levels": "3,2"}
+  ],
+  "identity_closeup": {"screen_h": 1.395, "level": 0, "pixels_differ": 10905, "noise_floor_off_vs_off": 18073, "hero_px": 589080, "hero_pixels_differ": 10880},
+  "baked": 16
+}

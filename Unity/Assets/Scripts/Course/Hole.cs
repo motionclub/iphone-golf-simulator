@@ -174,6 +174,7 @@ namespace GolfArcade.Course
         /// gulls wheeling over the landing (RoundEvents): a ball in flight or rolling can meet them.
         /// Null for none.
         public CourseMovers Movers;
+        public DreamCourseLayout Dream;
         /// Golf's rules as today's twists and weather bend them (PlayRules.Standard: plain golf).
         public PlayRules Rules = PlayRules.Standard;
 
@@ -289,7 +290,7 @@ namespace GolfArcade.Course
             if (p.DistanceTo(Pin) <= GreenRadius + FringeWidth) return CourseLie.Fringe;
             if (p.DistanceTo(Tee) <= 4) return CourseLie.Tee;
             double offset = DistanceFromCenterline(p);
-            if (offset <= FairwayWidth / 2) return CourseLie.Fairway;
+            if (offset <= FairwayWidth / 2) return Dream!=null && Dream.IceAt(p)?CourseLie.Ice:CourseLie.Fairway;
             if (offset <= FairwayWidth / 2 + RoughWidth) return CourseLie.Rough;
             return CourseLie.OutOfBounds;
         }

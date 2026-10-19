@@ -1,5 +1,7 @@
 # PLAN: Party chat (type + talk), recording, and the Apple checklist
 
+2026-10-15 repair: the composer permits free-text drafting and opens existing setup when sending needs it. Visible, filtered party messages also produce eight-second overhead bubbles in the Plaza, including on the local avatar. Muted/restricted text is not forwarded to the renderer; Unity treats message text literally. These bubbles appear in the TV picture and therefore in TV recordings. [Repair gates and proof](work/multiplayer-fixes-20261015/GATE_RESULTS.md) supersede the no-TV-chat-overlay statement below for the Plaza.
+
 Status: BUILT on branch `build-10/11` (2026-10-11). Device gates are NOT RUN: see `proof/party/GATE_RESULTS.md`.
 Related: `PLAN_OnlineHub_FriendsInvites.md` (the party is the lobby the Friends hub builds).
 

@@ -236,12 +236,14 @@ public class TennisPolishTests
             }
     }
 
-    [Test] public void HitStopRewardsCleanContactOnly()
+    [Test] public void ContactsNeverAddTimedHitStop()
     {
-        Assert.AreEqual(0, TennisRules.HitStopFor(Timing.Good, false));
-        Assert.Greater(TennisRules.HitStopFor(Timing.Perfect, false), TennisRules.HitStopFor(Timing.Excellent, false));
-        Assert.Greater(TennisRules.HitStopFor(Timing.Great, true), TennisRules.HitStopFor(Timing.Perfect, false));
-        Assert.Less(TennisRules.HitStopFor(Timing.Perfect, true), .1f, "never long enough to feel like lag");
+        foreach (Timing grade in System.Enum.GetValues(typeof(Timing)))
+        {
+            Assert.AreEqual(0, TennisRules.HitStopFor(grade, false));
+            Assert.AreEqual(0, TennisRules.HitStopFor(grade, true));
+        }
+        Assert.AreEqual(0, TennisRules.HeavyHitStop, "smashes and ultimates also stay responsive");
     }
 
     [Test] public void ArmSurfaceFollowsAnAnatomicalProfile()

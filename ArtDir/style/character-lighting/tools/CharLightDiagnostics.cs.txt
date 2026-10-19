@@ -1,0 +1,48 @@
+using System.IO;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.Rendering.Universal;
+namespace GolfArcade.PlayTests {
+public static class CharLightDiagnostics {
+ public static void Capture(Camera cam,string path,Transform hero) {
+  var look=hero.GetComponentInChildren<GolfArcade.Tennis.MatchHeroLook>();
+  if(look && look.TryGetKitColour(GolfArcade.Tennis.MatchHeroLook.RoleShirt,out var shirtColour)) {
+   var skin=look.skinTone;
+   File.AppendAllText(Path.Combine(Path.GetDirectoryName(path),"hero-colours.tsv"),$"{Path.GetFileName(path)}\t{skin.r:F6}\t{skin.g:F6}\t{skin.b:F6}\t{shirtColour.r:F6}\t{shirtColour.g:F6}\t{shirtColour.b:F6}\n");
+  }
+  var rs=hero.GetComponentsInChildren<Renderer>().Where(r=>r.enabled && r.gameObject.activeInHierarchy && !(r is ParticleSystemRenderer)).ToArray();
+  var gos=rs.Select(r=>r.gameObject).Distinct().ToArray(); var layers=gos.Select(g=>g.layer).ToArray();
+  NUnit.Framework.Assert.IsFalse(Object.FindObjectsByType<Renderer>(FindObjectsSortMode.None).Any(r=>r.gameObject.layer==28 && !rs.Contains(r)),"Diagnostic layer 28 must be unused");
+  var materials=rs.Select(r=>r.sharedMaterials).ToArray(); var owned=new System.Collections.Generic.List<Material>();
+  var data=cam.GetUniversalAdditionalCameraData(); var post=data.renderPostProcessing;
+  var cm=cam.cullingMask; var cf=cam.clearFlags;var bg=cam.backgroundColor;var target=cam.targetTexture;var aspect=cam.aspect;var active=RenderTexture.active;
+  var rt=RenderTexture.GetTemporary(1600,900,24,RenderTextureFormat.ARGB32,RenderTextureReadWrite.Linear);
+  try {
+   foreach(var g in gos)g.layer=28;
+   for(int i=0;i<rs.Length;i++) {
+    var replacement=new Material[materials[i].Length];
+    for(int j=0;j<replacement.Length;j++) {
+     var src=materials[i][j]; var m=new Material(Shader.Find("Hidden/CharLightMask"));owned.Add(m);
+     bool skin=src && src.HasProperty("_SkinFinish") && src.GetFloat("_SkinFinish")>.5f && (!src.HasProperty("_FaceRole") || src.GetFloat("_FaceRole")<.5f);
+     bool shirt=rs[i].name=="Kit_Top" || rs[i].name.ToLowerInvariant().Contains("polo") || rs[i].name.ToLowerInvariant().Contains("shirt");
+     m.SetColor("_Code",skin?Color.red:shirt?Color.green:Color.blue);
+     foreach(var prop in new[]{"_HeadOrigin","_HeadRight","_HeadUp","_HeadForward","_HeadEye"})if(src && src.HasProperty(prop))m.SetVector(prop,src.GetVector(prop));
+     if(shirt && src && src.HasProperty("_BaseColor")) {
+      var c=src.GetColor("_BaseColor");Color.RGBToHSV(c,out var h,out var sat,out var val);
+      File.AppendAllText(Path.Combine(Path.GetDirectoryName(path),"palette.tsv"),$"{Path.GetFileName(path)}\t{h*360:F3}\t{c.r:F5}\t{c.g:F5}\t{c.b:F5}\n");
+     }
+     replacement[j]=m;
+     File.AppendAllText(Path.Combine(Path.GetDirectoryName(path),"materials.tsv"),$"{Path.GetFileName(path)}\t{rs[i].name}\t{src?.name}\t{src?.shader.name}\t{skin}\t{shirt}\n");
+    } rs[i].sharedMaterials=replacement;
+   }
+   data.renderPostProcessing=false;cam.cullingMask=1<<28;cam.clearFlags=CameraClearFlags.SolidColor;cam.backgroundColor=Color.black;cam.targetTexture=rt;cam.aspect=1600f/900;cam.Render();
+   RenderTexture.active=rt;var tex=new Texture2D(1600,900,TextureFormat.RGB24,false,true);tex.ReadPixels(new Rect(0,0,1600,900),0,0);tex.Apply();File.WriteAllBytes(path,tex.EncodeToPNG());Object.DestroyImmediate(tex);
+  } finally {
+   for(int i=0;i<rs.Length;i++)rs[i].sharedMaterials=materials[i];for(int i=0;i<gos.Length;i++)gos[i].layer=layers[i];
+   data.renderPostProcessing=post;cam.cullingMask=cm;cam.clearFlags=cf;cam.backgroundColor=bg;cam.targetTexture=target;cam.aspect=aspect;RenderTexture.active=active;RenderTexture.ReleaseTemporary(rt);foreach(var m in owned)Object.DestroyImmediate(m);
+  }
+  File.AppendAllText(Path.Combine(Path.GetDirectoryName(path),"preset.tsv"),$"{Path.GetFileName(path)}\t{Shader.GetGlobalFloat("_HeroLightingEnabled")}\t{Shader.GetGlobalFloat("_HeroPresentationFill")}\t{Shader.GetGlobalFloat("_HeroAnalyticRimStrength")}\n");
+  var lights=Object.FindObjectsByType<Light>(FindObjectsSortMode.None).Where(l=>l.enabled&&l.gameObject.activeInHierarchy).OrderBy(l=>l.name).Select(l=>$"{l.name}:{l.type}:{l.intensity:F3}:{l.color}:{l.shadows}");
+  File.AppendAllText(Path.Combine(Path.GetDirectoryName(path),"lights.tsv"),Path.GetFileName(path)+"\t"+string.Join("|",lights)+"\n");
+ }
+}}

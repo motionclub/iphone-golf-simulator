@@ -1,0 +1,61 @@
+{
+    "hole": 8,
+    "configurations": 1000,
+    "invalidConfigurations": 0,
+    "candidateShots": 480,
+    "interactions": 4,
+    "hazard": "v5-8-RockGate@3.744",
+    "beneficialRouteFound": true,
+    "conservativeRouteFound": true,
+    "benefitYards": 328.9683777446485,
+    "remainingWithRoute": 7.191647171768116,
+    "remainingWithoutRoute": 186.16002491641658,
+    "originX": 0.0,
+    "originD": 0.0,
+    "power": 1.0,
+    "heading": 11.48920401024279,
+    "phase": 0.0,
+    "club": "Driver",
+    "conservativeClub": "Driver",
+    "conservativePower": 0.7899999999999999,
+    "conservativeHeading": 5.592771657336066,
+    "limitation": "Shot outcomes are simulated. Remaining-stroke estimates use an explicit distance model (170/205/240 yd approaches and 2.3/2.0/1.8 putting baseline), not human performance data. Human playtests remain required.",
+    "samples": [
+        {
+            "skill": "novice",
+            "count": 48,
+            "penalties": 35,
+            "burns": 0,
+            "meanRemaining": 167.57318132697226,
+            "meanPenalty": 0.7291666666666666,
+            "estimatedStrokes": 4.952986206523308,
+            "conservativeEstimatedStrokes": 4.483054469844501,
+            "conservativeMeanRemaining": 152.36925987356504,
+            "conservativeMeanPenalty": 0.375
+        },
+        {
+            "skill": "intermediate",
+            "count": 48,
+            "penalties": 29,
+            "burns": 0,
+            "meanRemaining": 131.34785597040057,
+            "meanPenalty": 0.6041666666666666,
+            "estimatedStrokes": 4.228465066154981,
+            "conservativeEstimatedStrokes": 3.668505375728501,
+            "conservativeMeanRemaining": 134.9602686910093,
+            "conservativeMeanPenalty": 0.08333333333333333
+        },
+        {
+            "skill": "expert",
+            "count": 48,
+            "penalties": 4,
+            "burns": 0,
+            "meanRemaining": 23.669146187632337,
+            "meanPenalty": 0.08333333333333333,
+            "estimatedStrokes": 3.002862468600485,
+            "conservativeEstimatedStrokes": 3.285026489556062,
+            "conservativeMeanRemaining": 131.40635749345499,
+            "conservativeMeanPenalty": 0.0
+        }
+    ]
+}

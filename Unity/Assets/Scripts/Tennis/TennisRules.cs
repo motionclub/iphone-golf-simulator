@@ -22,7 +22,7 @@ namespace GolfArcade.Tennis
         /// A streak rewards pace without making the next rally ball unreturnable.
         public const float SuperchargeSpeed = 1.15f, MaxRallySpeed = 34f;
 
-        /// Grade a contact from its timing score (0 = mistimed, 1 = dead on).
+        /// Grade contact quality (0 = frame, 1 = sweet spot). Serve timing uses the same scale.
         public static Timing Grade(float timing)
         {
             if (timing <= 0) return Timing.Missed;
@@ -77,24 +77,24 @@ namespace GolfArcade.Tennis
             _ => "MISS",
         };
 
-        /// Seconds of hit-stop for a contact: nothing for an ordinary hit, a beat for a clean
-        /// one, longer for a supercharge. Short enough never to be felt as lag.
-        /// Score80 B: held frames after the contact frame at 60 fps -- supercharged 3, perfect 2, excellent / great 1,
-        /// routine none. (Smash and ultimate take HeavyHitStop.) Heavy weight comes from the body recoil after it.
-        public static float HitStopFor(Timing grade, bool supercharged) =>
-            supercharged ? HeavyHitStop : grade >= Timing.Perfect ? .03f : grade >= Timing.Great ? .014f : 0f;
-        public const float HeavyHitStop = .045f;
+        /// Contact is drawn once by TennisGame; rewards never add timed simulation holds.
+        public static float HitStopFor(Timing grade, bool supercharged) => 0f;
+        public const float HeavyHitStop = 0f;
+
+        /// Three redundant visual tiers: muted blue, cream and gold; grading is unchanged.
+        public static Color ContactColor(Timing grade) => grade >= Timing.Perfect
+            ? new Color(1f, .82f, .32f) : grade >= Timing.Great
+            ? new Color(1f, .97f, .86f) : new Color(.64f, .76f, .86f);
 
         /// Does this grade keep a streak alive?
         public static bool Extends(Timing grade) => grade >= StreakFloor;
 
         /// Turn a hit into its supercharged version: markedly faster and dead accurate, as
-        /// the reward for three well-timed balls in a row.
+        /// the reward for three clean contacts in a row.
         public static TennisHit Supercharge(TennisHit hit)
         {
             hit.Speed = Mathf.Min(MaxRallySpeed, hit.Speed * SuperchargeSpeed);
             hit.ErrorDegrees *= .25f;
-            hit.Quality = Mathf.Max(hit.Quality, .95f);
             hit.Label = "SUPERCHARGED";
             return hit;
         }
@@ -309,9 +309,10 @@ namespace GolfArcade.Tennis
             return .5f + .5f * (1 - (1 - finish) * (1 - finish));
         }
         public static float ContactQuality(float timing, float center, float positioning) =>
-            Mathf.Clamp01(timing) * .80f + Mathf.Clamp01(center) * .15f + Mathf.Clamp01(positioning) * .05f;
+            Mathf.Max(.05f, Mathf.Clamp01(center) * Mathf.Lerp(.95f, 1f, Mathf.Clamp01(positioning)));
 
-        /// Reach assistance grants contact, not free power. Recompute pace from the actual timing.
+        /// Timing chooses direction; string-bed contact chooses pace. The timing parameter is retained
+        /// for diagnostics and the forgiving contact window, never used as a power penalty.
         public static TennisHit AssistedHit(float late, float center, float balance, float power, float stamina)
         {
             // A return that physically connects is at least a scrappy OK hit.
@@ -320,7 +321,7 @@ namespace GolfArcade.Tennis
             return new TennisHit {
                 Contact = true, Timing = timing, Center = center, Positioning = balance, Quality = quality,
                 Speed = ShotSpeed(quality, power, stamina),
-                ErrorDegrees = Mathf.Lerp(7, 3, quality), Label = "ASSISTED RETURN"
+                ErrorDegrees = Mathf.Lerp(7, .6f, quality), Label = quality >= .96f ? "SWEET SPOT" : quality >= .63f ? "CLEAN HIT" : "OFF CENTER"
             };
         }
 
@@ -335,10 +336,9 @@ namespace GolfArcade.Tennis
             return new TennisHit {
                 Contact = contact, Timing = timing, Center = center, Positioning = positioning, Quality = quality,
                 Speed = contact ? ShotSpeed(quality, power, stamina) : 0,
-                // Timing and the sweet spot also decide accuracy: aim for a line off a poor
-                // contact and it can easily land out.
+                // Contact quality sets control; directional timing is not a second penalty.
                 ErrorDegrees = contact ? Mathf.Lerp(.6f, 13f, 1 - quality) + (1 - Mathf.Clamp01(stamina)) * 4 : 0,
-                Label = !contact ? "MISS" : quality > .86f ? "SWEET SPOT" : quality > .63f ? "CLEAN HIT" : radial > .72f ? "OFF CENTER" : timing < .45f ? "MISTIMED" : "OFF BALANCE"
+                Label = !contact ? "MISS" : quality > .86f ? "SWEET SPOT" : quality > .63f ? "CLEAN HIT" : radial > .72f ? "OFF CENTER" : "OFF BALANCE"
             };
         }
 
@@ -351,6 +351,28 @@ namespace GolfArcade.Tennis
         /// Heights a player can play the ball at without it being a miss: from a scoop off the
         /// court to a high backhand; overheads reach higher.
         public const float ReachLow = .28f, ReachHigh = 2.05f, ReachOverhead = 2.75f;
+
+        /// Comfortable spacing, not distance to the torso: crowding and stretching both
+        /// move contact toward the frame. A broad central zone keeps ordinary rallies easy.
+        /// Timing is deliberately absent. Height chooses the upper/lower strings.
+        public static Vector2 PositionFace(Vector3 ball, Vector3 player, bool overhead = false, float balance = 1)
+        {
+            Vector3 delta = ball - player;
+            float side = Mathf.Abs(delta.x);
+            float inside = overhead ? 0 : .4f, outside = overhead ? .75f : .9f;
+            float horizontal = side < inside ? (side - inside) / inside : side > outside ? (side - outside) / .9f : 0;
+            // Reaching far forward or letting the ball get behind the hip is awkward too.
+            float depth = delta.z < .1f ? (.1f - delta.z) / .8f : delta.z > 1.2f ? (delta.z - 1.2f) / 1.2f : 0;
+            horizontal = (horizontal < 0 ? -1 : 1) * Mathf.Sqrt(horizontal * horizontal + depth * depth);
+            float low = overhead ? 2f : .7f, high = overhead ? 2.65f : 1.6f;
+            float vertical = delta.y < low ? (delta.y - low) / .8f : delta.y > high ? (delta.y - high) / .8f : 0;
+            var offset = new Vector2(horizontal * (delta.x < 0 ? -1 : 1), vertical);
+            // Running through the shot adds a small, visible string-bed error.
+            float unbalanced = (1 - Mathf.Clamp01(balance)) * .12f;
+            offset.y += offset.y > 0 ? unbalanced : -unbalanced;
+            offset = Vector2.ClampMagnitude(offset, .95f);
+            return new Vector2(offset.x * StringHalfWidth, offset.y * StringHalfHeight);
+        }
 
         public static bool AssistedContact(Vector3 oldBall, Vector3 ball, Vector3 player, float age, bool overhead, out float quality, float power=0.5f, bool dive=false)
         {
@@ -373,9 +395,7 @@ namespace GolfArcade.Tennis
             float outside=height<ReachLow ? ReachLow-height : height>bandTop ? height-bandTop : 0;
             float distance=new Vector3((at.x-centre.x)/forgiveness,outside/.45f,(at.z-centre.z)/forgiveness).magnitude;
             if(distance>1 || ball.z<player.z-.5f) return false;
-            // Balls at the edges of the band are harder to hit cleanly.
-            float awkward=Mathf.Clamp01(Mathf.Abs(height-1.1f)/1.3f);
-            quality=Mathf.Lerp(.3f,.65f,1-distance)*Mathf.Lerp(1f,.85f,awkward);
+            quality = 1 - FaceError(PositionFace(at, player, overhead));
             return true;
         }
 
@@ -635,12 +655,11 @@ namespace GolfArcade.Tennis
         }
 
         /// A player's shot, lofted until it clears the net by a margin that grows with the
-        /// quality of the contact: clean hits always go over, and only a poor one can find the
-        /// tape. Hitting from racket height with a flat arc otherwise netted far too often.
+        /// quality of the contact. Weak contacts give up pace and depth while staying playable.
         public static Vector3 RallyVelocity(Vector3 start, Vector3 target, float speed, float spin, float quality)
         {
-            // Clean hits arc well over the tape like a real groundstroke; only a poor contact flattens into it.
-            float margin = Mathf.Lerp(-.12f, LegacyFlatShots ? .32f : RallyNetClearance, Mathf.Clamp01(quality / .7f));
+            // Even a frame contact gets a safe arc; placement and pace supply the disadvantage.
+            float margin = Mathf.Lerp(.22f, LegacyFlatShots ? .32f : RallyNetClearance, Mathf.Clamp01(quality / .7f));
             Vector3 best = TennisBall.Solve(start, target, speed, spin);
             for (float s = speed; s > 9; s *= .93f)
             {
@@ -885,7 +904,7 @@ namespace GolfArcade.Tennis
             float control = Mathf.SmoothStep(0, 1, Mathf.Clamp01(quality / .8f));
             float spread = Mathf.Lerp(.5f, .03f, control);
             float x = intended.x + Mathf.Clamp(rollX, -1, 1) * spread;
-            float z = Mathf.Lerp(6.5f, intended.z, Mathf.Lerp(.75f, 1f, control)) + Mathf.Clamp(rollZ, -1, 1) * spread;
+            float z = Mathf.Lerp(4.8f, intended.z, control) + Mathf.Clamp(rollZ, -1, 1) * spread;
             return new Vector3(Mathf.Clamp(x, -CourtHalfWidth + .12f, CourtHalfWidth - .12f), BallRadius,
                 Mathf.Clamp(z, 2.8f, CourtHalfLength - .3f));
         }
