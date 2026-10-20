@@ -19,10 +19,14 @@ namespace GolfArcade.UI
         /// The face that sinks into its base while held (the club's slabs), and the menu sound a press makes.
         public RectTransform Sink;
         public string Sound;
+        /// A thumb sliding off lets go (aim sweeps), unless this is off: then only lifting it does (hold to swing).
+        public bool ReleaseOnExit = true;
         bool sunk;
         public void OnPointerDown(PointerEventData e) { IsHeld = true; Light(true); ClubSound.Play(Sound); Pressed?.Invoke(); }
         public void OnPointerUp(PointerEventData e) { if (IsHeld) Released?.Invoke(); IsHeld = false; Light(false); }
-        public void OnPointerExit(PointerEventData e) { if (IsHeld) Released?.Invoke(); IsHeld = false; Light(false); }
+        public void OnPointerExit(PointerEventData e) { if (!ReleaseOnExit) return; if (IsHeld) Released?.Invoke(); IsHeld = false; Light(false); }
+        // hidden while held (the shot went, the state moved on): the lift will never reach it
+        void OnDisable() { if (IsHeld) { IsHeld = false; Light(false); } }
         void Light(bool on)
         {
             if (Fill) Fill.color = on ? PressedColor ?? UiKit.ButtonPressed : RestColor;
@@ -559,6 +563,12 @@ namespace GolfArcade.UI
             public bool ShowBall, ShowLanding, ShowLoad;
             /// The meter's checkpoint targets, where each comes down (empty hides them).
             public readonly System.Collections.Generic.List<Vector3> Targets = new();
+            /// A putt: the map zooms onto the green (out to `PuttReach` yards round the ball), each
+            /// target is labelled with its feet (`TargetLabels`, else its %), and the live dot with
+            /// the feet the backswing so far rolls (`LoadLabel`).
+            public bool Putt; public float PuttReach;
+            public readonly System.Collections.Generic.List<string> TargetLabels = new();
+            public string LoadLabel;
             /// The golden rings still standing over the hole (the shot map marks them).
             public readonly System.Collections.Generic.List<Vector3> Rings = new();
             internal int Version;
@@ -569,6 +579,8 @@ namespace GolfArcade.UI
         RectTransform mapPin, mapBall, mapLanding, mapLoad, mapShapes;
         Image mapZoneFill, mapZoneEdge;
         readonly System.Collections.Generic.List<RectTransform> mapDots = new(), mapReach = new(), mapTargets = new();
+        readonly System.Collections.Generic.List<Text> mapTargetFeet = new();
+        Text mapLoadFeet;
         readonly System.Collections.Generic.List<Image> mapTraceUnder = new(), mapTraceLine = new();
         int mapDrawn = -1, fogDrawn = -1;
         Camera mapDrawnWith;
@@ -602,10 +614,26 @@ namespace GolfArcade.UI
             for (int i = 0; i < ReachDots; i++) mapReach.Add(MapMark(mapShapes, $"Reach {i}", new Color(1, 1, 1, 0.8f), 7, UiKit.Circle, false));
             for (int i = 0; i < MapDots; i++) mapDots.Add(MapMark(map, $"Path {i}", new Color(1, 1, 1, 0.95f), 10, UiKit.Circle, false));
             mapLanding = MapMark(map, "Landing", amber, 24, UiKit.Ring, false);
-            for (int i = 0; i < 3; i++) mapTargets.Add(MapMark(map, $"Target {i + 1}", Color.white, 13, UiKit.Circle, true));
+            for (int i = 0; i < 4; i++)
+            {
+                mapTargets.Add(MapMark(map, $"Target {i + 1}", Color.white, 13, UiKit.Circle, true));
+                mapTargetFeet.Add(MapFeet(mapTargets[i], 1, Color.white));   // a ruler up the line on the right
+            }
             mapLoad = MapMark(map, "Load", amber, 18, UiKit.Circle, true);
+            mapLoadFeet = MapFeet(mapLoad, -1, amber);   // the live reading on the left
             mapPin = MapMark(map, "Pin", UiKit.Hex("E8352F"), 20, UiKit.Circle, true);
             mapBall = MapMark(map, "Ball", Color.white, 22, UiKit.Circle, true);
+        }
+
+        /// A putt mark's feet beside its dot on the map (`side` 1 right, -1 left).
+        Text MapFeet(RectTransform mark, int side, Color ink)
+        {
+            var pill = UiKit.Panel(mark, "Feet", MapInk, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(side * 44, 0), new Vector2(64, 26), false);
+            pill.raycastTarget = false;
+            var t = UiKit.Label(pill.transform, "Feet", 19, TextAnchor.MiddleCenter, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero, UiKit.Strong, false);
+            t.color = ink; t.raycastTarget = false;
+            pill.gameObject.SetActive(false);
+            return t;
         }
 
         /// A world point in the map's own rect coordinates (its centre is 0,0).
@@ -666,6 +694,9 @@ namespace GolfArcade.UI
             Place(mapLanding, plan.Landing, plan.ShowLanding);
             if (onTv && tvMap.gameObject.activeSelf) tvMap.Draw(map, Minimap.texture, plan.Pin, plan.Ball, plan.ShowBall, plan.Landing, plan.ShowLanding);
             Place(mapLoad, plan.Load, plan.ShowLoad);
+            mapLoadFeet.transform.parent.gameObject.SetActive(!string.IsNullOrEmpty(plan.LoadLabel));
+            mapLoadFeet.text = plan.LoadLabel;
+            mapLoad.SetAsLastSibling(); mapBall.SetAsLastSibling();
             if (plan.Version == mapDrawn && map == mapDrawnWith && fogDrawn == GolfArcade.EnvironmentArt.DreamVisibility.Revision) return;
             fogDrawn = GolfArcade.EnvironmentArt.DreamVisibility.Revision;
             mapDrawn = plan.Version; mapDrawnWith = map;
@@ -690,7 +721,13 @@ namespace GolfArcade.UI
                 }
             }
             // the checkpoints' targets
-            for (int i = 0; i < mapTargets.Count; i++) Place(mapTargets[i], i < plan.Targets.Count ? plan.Targets[i] : Vector3.zero, i < plan.Targets.Count);
+            for (int i = 0; i < mapTargets.Count; i++)
+            {
+                Place(mapTargets[i], i < plan.Targets.Count ? plan.Targets[i] : Vector3.zero, i < plan.Targets.Count);
+                bool feet = i < plan.TargetLabels.Count;   // (a putt's marks say how far they roll)
+                mapTargetFeet[i].transform.parent.gameObject.SetActive(feet);
+                if (feet) mapTargetFeet[i].text = plan.TargetLabels[i];
+            }
             // the reach: a dotted arc as far as a full swing with this club carries
             for (int i = 0; i < ReachDots; i++) Place(mapReach[i], i < plan.Reach.Count ? plan.Reach[i] : Vector3.zero, i < plan.Reach.Count);
             // the trace: the ball's own flight, a dark edge under the shot's colour

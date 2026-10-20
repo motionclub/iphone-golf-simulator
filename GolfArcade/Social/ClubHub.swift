@@ -30,8 +30,10 @@ struct ClubHubContext: Equatable {
 /// The online hub (PLAN_OnlineHub_FriendsInvites.md): Game Center friends with online / offline from the Club Hub service,
 /// invites that arrive inside the game, a pasted or linked invite code, and the join that follows. One instance for the app.
 ///
-/// A party lives on the service too (its relay room, HubRoomTransport): inviting makes it, Join enters it, and the lobby, the Plaza
-/// and the match travel through it. Game Center is not involved in inviting or joining (it is only who your friends are).
+/// Online is Game Center only (2026-10-19): Invite goes through `nativeInvite` (a stored Game Center invitation plus a private
+/// Game Center match), the banner's Join through `nativeAccept`, and the party, the Plaza, room changes and chat ride that match.
+/// The Club Hub service paths below (presence, relay rooms, share codes) are dormant: a shipped build has no service address
+/// (ClubHubConfig.serverURL), so `link` stays `.notConfigured` and nothing here waits for it.
 @MainActor @Observable
 final class ClubHub {
     static let shared = ClubHub()

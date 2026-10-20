@@ -10,12 +10,15 @@ someone else's files goes through that chat or through the integration 3-way mer
    The 10-17/18 runs were far too extensive. No sub-agent fan-out, no repeated re-render loops, no 40-gate suites.
    Aim for the simplest change that clearly fixes each note. If something turns out big, do the core and write it
    down as a follow-up instead of chasing it.
-1. Read `AGENTS.md` and this file (skip the old HANDOFF/CHANGES history unless you need it). Commit to your OWN branch only;
-   never push, never merge into `10/19`. Adnan combines the branches later.
-2. **Base:** branch `10/19` (commit `3e5086a68a`+) has all work through 10-19. Each chat runs in its own git worktree cut from it.
-   Unity: the worktree has no `Unity/Library`. Seed it with an APFS clone instead of a full import:
-   `cp -cR <main checkout>/Unity/Library <worktree>/Unity/Library` (main checkout =
-   `/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator`).
+1. Read `AGENTS.md` and this file (skip the old HANDOFF/CHANGES history unless you need it).
+2. **Shared main checkout (worktrees failed: the app's 24 GB LFS copy timed out).** All chats work directly in
+   `/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator` on branch `10/19`, which has all work through 10-19.
+   - **Never** commit, stage, stash, reset, checkout, switch branch or run `git add`/`git clean`. Other chats share this folder. Leave every change uncommitted; Adnan sorts branches later.
+   - Edit only the files your section owns. If you must touch another chat's file, keep it to a minimal hook and list it in your report.
+   - Keep `work/<job>/CHANGED_FILES.txt` listing every file you created or edited.
+   - **Unity:** never open the main `Unity/` project directly (other chats share it). Make your own clone:
+     `cp -cR Unity ~/unity-clones/<job>`, an instant APFS clone that includes Library. Edit the sources in the main checkout,
+     copy them into your clone to run them, and launch through heavy.sh.
 3. **Machine:** 16 GB Mac. Every Unity/Blender launch goes through
    `/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/delegation-2026-10-17/heavy.sh unity|blender <cmd>`
    (shared slots in `~/.heavy-slots`). One heavy job per chat at a time. Quit your Editor when idle. Windowed Unity runs use `GOLF_MUTE=1`.

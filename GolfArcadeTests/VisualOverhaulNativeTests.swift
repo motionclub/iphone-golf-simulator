@@ -43,7 +43,7 @@ import CryptoKit
         for golf in [false, true] { for female in [false, true] { for distance in golf ? [false] : [false, true] {
             let asset = try XCTUnwrap(MatchHero.asset(female: female, golf: golf, distance: distance))
             let rig = try XCTUnwrap(asset.rig())
-            XCTAssertEqual(rig.info.bones.count, golf ? 55 : (female ? 159 : 145), "current Unity rig: the tennis heroes carry the authored finger / face bones (+ the cap's Headwear socket, ACCESSORIES)")
+            XCTAssertEqual(rig.info.bones.count, golf ? (female ? 90 : 55) : (female ? 83 : 146), "current Unity rig (10-19: + the golf bag's Back_Bag socket, MENU HERO): the tennis heroes carry the authored finger / face bones (+ the cap's Headwear socket, ACCESSORIES)")
             if golf { XCTAssertEqual(rig.info.bones.last, "Club") }
             for role in ["Body", "Face"] {
                 let index = try XCTUnwrap(asset.manifest.parts.firstIndex { $0.name == role })
@@ -119,7 +119,7 @@ import CryptoKit
             let root = MatchHeroData.buildHero(asset,picks:MatchHeroData.Picks(colour:{ _ in nil }))
             let live = try XCTUnwrap(HeroRig(root:root,asset:asset)); live.attach()
             defer { live.detach() }
-            XCTAssertEqual(live.data.boneCount,golf ? 55 : (female ? 159 : 145),name)   // + the Headwear socket of the cap (ACCESSORIES)
+            XCTAssertEqual(live.data.boneCount,golf ? (female ? 90 : 55) : (female ? 83 : 146),name)   // + the Headwear socket of the cap (ACCESSORIES) + the golf bag's Back_Bag socket (MENU HERO); counts of the 10-19 exports
             let fixture = try XCTUnwrap(folder?.appendingPathComponent(name+"_golden.json")
                 ?? bundle.url(forResource:name+"_golden",withExtension:"lzfse")
                 ?? bundle.url(forResource:name+"_golden",withExtension:"json"),"Independent Unity fixture for "+name)
@@ -158,7 +158,9 @@ import CryptoKit
                 let morphWeights=(0..<targets.count).map { Float(node.morpher?.weight(forTargetAt:$0) ?? 0) }
                 let rigidMatrix=rootInverse*node.simdWorldTransform
                 for vertex in sample.vertices {
-                    let i=Int(vertex[0]); var p=SIMD3<Float>(bind[i*3],bind[i*3+1],bind[i*3+2])
+                    let i=Int(vertex[0])
+                    guard i*3+2 < bind.count, node.skinner == nil || weights.isEmpty || i*4+3 < weights.count else { XCTFail("\(name) \(sample.clip) \(sample.part): golden vertex \(i) but the live mesh has \(bind.count/3) vertices / \(weights.count/4) weights"); return }
+                    var p=SIMD3<Float>(bind[i*3],bind[i*3+1],bind[i*3+2])
                     for (shape,target) in targets.enumerated() {
                         let weight=morphWeights[shape]
                         // The exported absolute targets are converted to deltas when
@@ -168,8 +170,11 @@ import CryptoKit
                     var got:SIMD3<Float>
                     if node.skinner != nil {
                         var sum=SIMD4<Float>(repeating:0)
-                        for k in 0..<4 where weights[i*4+k]>0 {
+                        // a single-bone skinner (the cap on its Headwear socket) comes back from SceneKit without weight / index sources: one bone, weight 1
+                        if weights.isEmpty, let m0 = matrices.first { sum = m0*SIMD4(p,1) }
+                        for k in 0..<4 where !weights.isEmpty && weights[i*4+k]>0 {
                             let b=indices.isEmpty ? 0 : Int(indices[i*4+k])
+                            guard b < matrices.count else { XCTFail("\(name) \(sample.part): bone index \(b) of \(matrices.count) (skinner bones \(node.skinner?.bones.count ?? -1), indices \(indices.count), weights \(weights.count), vertices \(bind.count/3))"); return }
                             let matrix=matrices[b]
                             sum += weights[i*4+k]*(matrix*SIMD4(p,1))
                         }

@@ -178,7 +178,6 @@ struct CaptureDock: View {
     var voice = PartyVoiceCoordinator.shared
     var chat = PartyChat.shared
     var session = SportsSession.shared
-    @State private var showChat = false
     @State private var showSettings = false
     @State private var showRecordings = false
 
@@ -232,7 +231,6 @@ struct CaptureDock: View {
             .overlay(Capsule().strokeBorder(.white.opacity(0.18), lineWidth: 1))
             .frame(maxWidth: .infinity, alignment: .trailing).padding(.trailing, 10)
             .padding(.top, golf ? -52 : 0)
-            .sheet(isPresented: $showChat) { PartyChatView(dismiss: { showChat = false }).presentationDetents([.large]) }
             .sheet(isPresented: $showSettings) { PartySettingsView(dismiss: { showSettings = false }).presentationDetents([.large]) }
             .sheet(isPresented: $showRecordings) { RecordingLibraryView(dismiss: { showRecordings = false }).presentationDetents([.large]) }
             .accessibilityElement(children: .contain).accessibilityIdentifier("capture-dock")
@@ -271,7 +269,8 @@ struct CaptureDock: View {
     }
 
     private var chatButton: some View {
-        Button { showChat = true } label: {
+        // the inline strip (PartyChatStrip, over the game), not a sheet: chatting never leaves the controller or the Plaza
+        Button { chat.stripOpen.toggle() } label: {
             Image(systemName: "bubble.left.and.bubble.right.fill").font(.system(size: 15, weight: .bold)).foregroundStyle(.white)
                 .frame(width: 36, height: 36).background(.white.opacity(0.14), in: Circle())
                 .overlay(alignment: .topTrailing) {

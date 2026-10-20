@@ -73,7 +73,7 @@ namespace GolfArcade.Game
             hub.PlaceChanged += p => { if (hubMode) Emit("hubPlace", p); };
             hub.ZoneChanged += _ => { if (hubMode) Emit("hubZone", ZoneMessage()); };
             hub.Interacted += id => { if (hubMode) Emit("hubAction", id); };
-            hub.ApplyLook(m.female, m.skinHex, m.skin, m.shirt, m.shorts, m.accent, m.racket);
+            hub.ApplyLook(m.female, m.skinHex, m.skin, m.shirt, m.shorts, m.accent, m.racket, m.back);
             if (!string.IsNullOrEmpty(m.bay) && !m.phoneOnly) hub.SitAt(m.bay);   // back from a match: on the same bench (RETURN)
             else hub.PrepareArrival();   // a fresh boot: the first frame is the arrival's opening shot, held until the phone says go
             gameplayCamera = hub.Camera;
@@ -93,7 +93,7 @@ namespace GolfArcade.Game
             if (world.gameObject.scene.IsValid()) SceneManager.SetActiveScene(world.gameObject.scene);
             if (!string.IsNullOrEmpty(m.bay)) world.SitAt(m.bay); else world.LeaveStation();
             world.BayLoading(-1);
-            world.ApplyLook(m.female, m.skinHex, m.skin, m.shirt, m.shorts, m.accent, m.racket);
+            world.ApplyLook(m.female, m.skinHex, m.skin, m.shirt, m.shorts, m.accent, m.racket, m.back);
             gameplayCamera = world.Camera; paused = true;
             yield return Present(m.external, "ready");
             loading = false;
@@ -210,7 +210,7 @@ namespace GolfArcade.Game
                     if (hub && hub.Player && TennisEmotes.TryClip(m.mode, out var clip))
                         Emit("emoteResult", hub.Player.PlayEmote(clip.ToString()) ? TennisEmotes.Name(m.mode) : "Stand still to emote");
                     return true;
-                case "hubLook": if (hub) hub.ApplyLook(m.female, m.skinHex, m.skin, m.shirt, m.shorts, m.accent, m.racket); return true;
+                case "hubLook": if (hub) hub.ApplyLook(m.female, m.skinHex, m.skin, m.shirt, m.shorts, m.accent, m.racket, m.back); return true;
                 // party (PLAN §4): a friend's state, the member list, Call party
                 case "hubRemote": if (hub && !string.IsNullOrEmpty(m.remote)) HubRemotes.For(hub).Receive(JsonUtility.FromJson<RemoteState>(m.remote)); return true;
                 case "hubRoster": if (hub) HubRemotes.For(hub).Roster((m.mode ?? "").Split(new[] { ',' }, System.StringSplitOptions.RemoveEmptyEntries)); return true;

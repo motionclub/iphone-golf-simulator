@@ -299,17 +299,20 @@ struct ShareSheet: UIViewControllerRepresentable {
 /// countdown. One tap on Join and you are in your friend's party, in the Plaza.
 struct InviteBannerHost: View {
     var hub = ClubHub.shared
+    var chat = PartyChat.shared
     var body: some View {
         VStack(spacing: 8) {
             if let invite = hub.banner { InviteBanner(hub: hub, invite: invite).transition(.move(edge: .top).combined(with: .opacity)) }
             if let who = hub.joining { JoiningPill(hub: hub, who: who).transition(.move(edge: .top).combined(with: .opacity)) }
             else if !hub.notice.isEmpty, !hub.hubOpen { NoticePill(hub: hub).transition(.opacity) }
+            // in-game chat over every screen (the strip takes touches only while it is open)
+            if !hub.hubOpen { PartyChatStrip(chat: chat).padding(.top, chat.stripOpen ? 44 : 48) }
         }
         .padding(.horizontal, 12).padding(.top, 6)
         .frame(maxWidth: 560)
         .animation(.spring(response: 0.4, dampingFraction: 0.8), value: hub.banner?.inviteID)
         .animation(.easeInOut(duration: 0.25), value: hub.joining)
-        .allowsHitTesting(hub.banner != nil || hub.joining != nil || !hub.notice.isEmpty)
+        .allowsHitTesting(hub.banner != nil || hub.joining != nil || !hub.notice.isEmpty || (chat.stripOpen && chat.available))
     }
 }
 

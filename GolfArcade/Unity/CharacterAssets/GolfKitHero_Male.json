@@ -16,15 +16,15 @@
             "normalOffset": 530016,
             "swingPositionOffset": 0,
             "swingNormalOffset": 530016,
-            "uvOffset": 1695600,
-            "bindPositionOffset": 2048944,
-            "lidOffset": 2578960,
-            "edgeOffset": 2932304,
+            "uvOffset": 1686924,
+            "bindPositionOffset": 2040268,
+            "lidOffset": 2570284,
+            "edgeOffset": 2923628,
             "submeshes": [
                 {
                     "material": "Skin",
                     "indexOffset": 1060032,
-                    "indexCount": 158892,
+                    "indexCount": 156723,
                     "look": {
                         "shader": "TennisCharacter",
                         "color": [
@@ -53,26 +53,26 @@
                         ],
                         "headRight": [
                             1.0,
-                            -0.00018378095410298556,
-                            -0.000004720565357274609,
+                            -0.00004055269528180361,
+                            -0.000001041629502651631,
                             0.0
                         ],
                         "headUp": [
-                            1.851489794812977e-11,
-                            -0.025677254423499109,
-                            0.9996703267097473,
+                            5.604001204057019e-12,
+                            -0.025677219033241273,
+                            0.9996702671051025,
                             0.0
                         ],
                         "headForward": [
-                            -0.0001838415628299117,
+                            -0.00004056606849189848,
                             -0.9996702671051025,
-                            -0.025677254423499109,
+                            -0.025677219033241273,
                             0.0
                         ],
                         "headEye": [
-                            0.000012501301171141677,
-                            0.07781579345464707,
-                            0.07853874564170838,
+                            0.0000010386196436229512,
+                            0.07781578600406647,
+                            0.07853873819112778,
                             0.0
                         ],
                         "specularStrength": 0.949999988079071,
@@ -122,18 +122,18 @@
             "name": "Face",
             "kind": "face",
             "vertexCount": 3824,
-            "positionOffset": 3638992,
-            "normalOffset": 3684880,
+            "positionOffset": 3630316,
+            "normalOffset": 3676204,
             "swingPositionOffset": 1060032,
             "swingNormalOffset": 1105920,
-            "uvOffset": 3766576,
+            "uvOffset": 3757900,
             "bindPositionOffset": -1,
             "lidOffset": -1,
             "edgeOffset": -1,
             "submeshes": [
                 {
                     "material": "Reference_Face_Brow",
-                    "indexOffset": 3730768,
+                    "indexOffset": 3722092,
                     "indexCount": 2808,
                     "look": {
                         "shader": "TennisCharacter",
@@ -228,7 +228,7 @@
                 },
                 {
                     "material": "Reference_Face_Sclera",
-                    "indexOffset": 3742000,
+                    "indexOffset": 3733324,
                     "indexCount": 3648,
                     "look": {
                         "shader": "TennisCharacter",
@@ -323,7 +323,7 @@
                 },
                 {
                     "material": "Reference_Face_Iris",
-                    "indexOffset": 3756592,
+                    "indexOffset": 3747916,
                     "indexCount": 1152,
                     "look": {
                         "shader": "TennisCharacter",
@@ -376,7 +376,7 @@
                             0.0
                         ],
                         "specularStrength": 0.699999988079071,
-                        "environmentStrength": 0.6000000238418579,
+                        "environmentStrength": 0.30000001192092898,
                         "metallic": 0.0,
                         "craftedPaint": 0.0,
                         "skinFinish": 0.0,
@@ -418,7 +418,7 @@
                 },
                 {
                     "material": "Reference_Face_Pupil",
-                    "indexOffset": 3761200,
+                    "indexOffset": 3752524,
                     "indexCount": 576,
                     "look": {
                         "shader": "TennisCharacter",
@@ -513,7 +513,7 @@
                 },
                 {
                     "material": "Reference_Face_Limbal",
-                    "indexOffset": 3763504,
+                    "indexOffset": 3754828,
                     "indexCount": 384,
                     "look": {
                         "shader": "TennisCharacter",
@@ -608,7 +608,7 @@
                 },
                 {
                     "material": "Reference_Face_Catch",
-                    "indexOffset": 3765040,
+                    "indexOffset": 3756364,
                     "indexCount": 384,
                     "look": {
                         "shader": "TennisCharacter",
@@ -707,18 +707,18 @@
             "name": "Acc_Cap",
             "kind": "kit",
             "vertexCount": 6605,
-            "positionOffset": 3797168,
-            "normalOffset": 3876428,
+            "positionOffset": 3788492,
+            "normalOffset": 3867752,
             "swingPositionOffset": 1151808,
             "swingNormalOffset": 1231068,
-            "uvOffset": 4093976,
+            "uvOffset": 4085300,
             "bindPositionOffset": -1,
             "lidOffset": -1,
             "edgeOffset": -1,
             "submeshes": [
                 {
                     "material": "Acc_Cap",
-                    "indexOffset": 3955688,
+                    "indexOffset": 3947012,
                     "indexCount": 34572,
                     "look": {
                         "shader": "TennisCloth",
@@ -792,18 +792,18 @@
             "name": "Acc_GloveL",
             "kind": "kit",
             "vertexCount": 6543,
-            "positionOffset": 4146816,
-            "normalOffset": 4225332,
+            "positionOffset": 4138140,
+            "normalOffset": 4216656,
             "swingPositionOffset": 1310328,
             "swingNormalOffset": 1388844,
-            "uvOffset": 4446672,
+            "uvOffset": 4437996,
             "bindPositionOffset": -1,
             "lidOffset": -1,
             "edgeOffset": -1,
             "submeshes": [
                 {
                     "material": "Acc_Glove",
-                    "indexOffset": 4303848,
+                    "indexOffset": 4295172,
                     "indexCount": 35706,
                     "look": {
                         "shader": "TennisCloth",
@@ -877,18 +877,18 @@
             "name": "Kit_Belt",
             "kind": "kit",
             "vertexCount": 3540,
-            "positionOffset": 4499016,
-            "normalOffset": 4541496,
+            "positionOffset": 4490340,
+            "normalOffset": 4532820,
             "swingPositionOffset": 1467360,
             "swingNormalOffset": 1509840,
-            "uvOffset": 4658472,
+            "uvOffset": 4649796,
             "bindPositionOffset": -1,
             "lidOffset": -1,
             "edgeOffset": -1,
             "submeshes": [
                 {
                     "material": "Kit_Belt",
-                    "indexOffset": 4583976,
+                    "indexOffset": 4575300,
                     "indexCount": 17004,
                     "look": {
                         "shader": "TennisCloth",
@@ -918,17 +918,17 @@
                         "skinPigmentUV": 0.0,
                         "anatomicalFace": false,
                         "baseMapLinear": false,
-                        "smoothness": 0.10000000149011612,
-                        "wrap": 0.3400000035762787,
-                        "rimStrength": 0.06499999761581421,
+                        "smoothness": 0.07999999821186066,
+                        "wrap": 0.30000001192092898,
+                        "rimStrength": 0.02500000037252903,
                         "rimPower": 3.5,
                         "exposure": 1.0499999523162842,
                         "knee": 0.699999988079071,
-                        "weaveTile": 10.4893159866333,
+                        "weaveTile": 15.73397445678711,
                         "weaveAngle": 0.0,
-                        "weaveNormal": 0.800000011920929,
-                        "weaveThread": 0.42500001192092898,
-                        "sheenStrength": 0.5,
+                        "weaveNormal": 0.2199999988079071,
+                        "weaveThread": 0.1599999964237213,
+                        "sheenStrength": 0.3199999928474426,
                         "sheenPower": 3.0,
                         "saturation": 0.0,
                         "bumpScale": 0.0,
@@ -946,11 +946,11 @@
                             0.7905000448226929,
                             1.0
                         ],
-                        "normalStrength": 1.0,
+                        "normalStrength": 0.800000011920929,
                         "useGarmentMaps": 1.0,
                         "fabricVersion": 2.0,
                         "bindingTone": 0.0,
-                        "femaleSurface": 0.0,
+                        "femaleSurface": 1.0,
                         "maleFormPass": 0.0,
                         "faceSkin": false,
                         "edgeLines": 0.0
@@ -958,7 +958,7 @@
                 },
                 {
                     "material": "Kit_Buckle",
-                    "indexOffset": 4651992,
+                    "indexOffset": 4643316,
                     "indexCount": 1620,
                     "look": {
                         "shader": "TennisCharacter",
@@ -1057,18 +1057,18 @@
             "name": "Kit_Bottom",
             "kind": "kit",
             "vertexCount": 7786,
-            "positionOffset": 4686792,
-            "normalOffset": 4780224,
+            "positionOffset": 4678116,
+            "normalOffset": 4771548,
             "swingPositionOffset": 1552320,
             "swingNormalOffset": 1645752,
-            "uvOffset": 5055960,
+            "uvOffset": 5047284,
             "bindPositionOffset": -1,
             "lidOffset": -1,
             "edgeOffset": -1,
             "submeshes": [
                 {
                     "material": "Kit_Shorts",
-                    "indexOffset": 4873656,
+                    "indexOffset": 4864980,
                     "indexCount": 45576,
                     "look": {
                         "shader": "TennisCloth",
@@ -1098,17 +1098,17 @@
                         "skinPigmentUV": 0.0,
                         "anatomicalFace": false,
                         "baseMapLinear": false,
-                        "smoothness": 0.09000000357627869,
-                        "wrap": 0.3400000035762787,
-                        "rimStrength": 0.06499999761581421,
+                        "smoothness": 0.07999999821186066,
+                        "wrap": 0.30000001192092898,
+                        "rimStrength": 0.02500000037252903,
                         "rimPower": 3.5,
                         "exposure": 1.0499999523162842,
                         "knee": 0.699999988079071,
-                        "weaveTile": 36.769775390625,
+                        "weaveTile": 55.1546630859375,
                         "weaveAngle": 0.0,
-                        "weaveNormal": 0.7599999904632568,
-                        "weaveThread": 0.5950000286102295,
-                        "sheenStrength": 0.23999999463558198,
+                        "weaveNormal": 0.2199999988079071,
+                        "weaveThread": 0.1599999964237213,
+                        "sheenStrength": 0.3199999928474426,
                         "sheenPower": 3.0,
                         "saturation": 0.0,
                         "bumpScale": 0.0,
@@ -1126,11 +1126,11 @@
                             0.22877997159957887,
                             1.0
                         ],
-                        "normalStrength": 1.0,
+                        "normalStrength": 0.800000011920929,
                         "useGarmentMaps": 1.0,
                         "fabricVersion": 2.0,
                         "bindingTone": 0.0,
-                        "femaleSurface": 0.0,
+                        "femaleSurface": 1.0,
                         "maleFormPass": 0.0,
                         "faceSkin": false,
                         "edgeLines": 0.0
@@ -1142,18 +1142,18 @@
             "name": "Kit_Glove_R",
             "kind": "kit",
             "vertexCount": 5318,
-            "positionOffset": 5118248,
-            "normalOffset": 5182064,
+            "positionOffset": 5109572,
+            "normalOffset": 5173388,
             "swingPositionOffset": 1739184,
             "swingNormalOffset": 1803000,
-            "uvOffset": 5342120,
+            "uvOffset": 5333444,
             "bindPositionOffset": -1,
             "lidOffset": -1,
             "edgeOffset": -1,
             "submeshes": [
                 {
                     "material": "Kit_Glove",
-                    "indexOffset": 5245880,
+                    "indexOffset": 5237204,
                     "indexCount": 24060,
                     "look": {
                         "shader": "TennisCloth",
@@ -1183,17 +1183,17 @@
                         "skinPigmentUV": 0.0,
                         "anatomicalFace": false,
                         "baseMapLinear": false,
-                        "smoothness": 0.10000000149011612,
-                        "wrap": 0.3400000035762787,
-                        "rimStrength": 0.06499999761581421,
+                        "smoothness": 0.07999999821186066,
+                        "wrap": 0.30000001192092898,
+                        "rimStrength": 0.02500000037252903,
                         "rimPower": 3.5,
                         "exposure": 1.0499999523162842,
                         "knee": 0.699999988079071,
-                        "weaveTile": 15.277324676513672,
+                        "weaveTile": 22.915987014770509,
                         "weaveAngle": 0.0,
-                        "weaveNormal": 0.800000011920929,
-                        "weaveThread": 0.42500001192092898,
-                        "sheenStrength": 0.5,
+                        "weaveNormal": 0.2199999988079071,
+                        "weaveThread": 0.1599999964237213,
+                        "sheenStrength": 0.3199999928474426,
                         "sheenPower": 3.0,
                         "saturation": 0.0,
                         "bumpScale": 0.0,
@@ -1211,11 +1211,11 @@
                             0.7905000448226929,
                             1.0
                         ],
-                        "normalStrength": 1.0,
+                        "normalStrength": 0.800000011920929,
                         "useGarmentMaps": 1.0,
                         "fabricVersion": 2.0,
                         "bindingTone": 0.0,
-                        "femaleSurface": 0.0,
+                        "femaleSurface": 1.0,
                         "maleFormPass": 0.0,
                         "faceSkin": false,
                         "edgeLines": 0.0
@@ -1227,18 +1227,18 @@
             "name": "Kit_Shoe_L",
             "kind": "kit",
             "vertexCount": 17025,
-            "positionOffset": 5384664,
-            "normalOffset": 5588964,
+            "positionOffset": 5375988,
+            "normalOffset": 5580288,
             "swingPositionOffset": 1866816,
             "swingNormalOffset": 2071116,
-            "uvOffset": 6087840,
+            "uvOffset": 6079164,
             "bindPositionOffset": -1,
             "lidOffset": -1,
             "edgeOffset": -1,
             "submeshes": [
                 {
                     "material": "Kit_Shoe",
-                    "indexOffset": 5793264,
+                    "indexOffset": 5784588,
                     "indexCount": 67992,
                     "look": {
                         "shader": "TennisCloth",
@@ -1268,17 +1268,17 @@
                         "skinPigmentUV": 0.0,
                         "anatomicalFace": false,
                         "baseMapLinear": false,
-                        "smoothness": 0.18000000715255738,
-                        "wrap": 0.3400000035762787,
-                        "rimStrength": 0.06499999761581421,
+                        "smoothness": 0.07999999821186066,
+                        "wrap": 0.30000001192092898,
+                        "rimStrength": 0.02500000037252903,
                         "rimPower": 3.5,
                         "exposure": 0.7799999713897705,
                         "knee": 0.699999988079071,
-                        "weaveTile": 37.40370178222656,
+                        "weaveTile": 56.105552673339847,
                         "weaveAngle": 0.0,
-                        "weaveNormal": 0.5600000023841858,
-                        "weaveThread": 0.3824999928474426,
-                        "sheenStrength": 0.10000000149011612,
+                        "weaveNormal": 0.2199999988079071,
+                        "weaveThread": 0.1599999964237213,
+                        "sheenStrength": 0.3199999928474426,
                         "sheenPower": 3.0,
                         "saturation": 0.0,
                         "bumpScale": 0.0,
@@ -1296,11 +1296,11 @@
                             0.2789999842643738,
                             1.0
                         ],
-                        "normalStrength": 1.0,
+                        "normalStrength": 0.800000011920929,
                         "useGarmentMaps": 1.0,
                         "fabricVersion": 2.0,
                         "bindingTone": 0.0,
-                        "femaleSurface": 0.0,
+                        "femaleSurface": 1.0,
                         "maleFormPass": 0.0,
                         "faceSkin": false,
                         "edgeLines": 0.0
@@ -1308,7 +1308,7 @@
                 },
                 {
                     "material": "Kit_Buckle",
-                    "indexOffset": 6065232,
+                    "indexOffset": 6056556,
                     "indexCount": 5652,
                     "look": {
                         "shader": "TennisCharacter",
@@ -1407,18 +1407,18 @@
             "name": "Kit_Shoe_R",
             "kind": "kit",
             "vertexCount": 16591,
-            "positionOffset": 6224040,
-            "normalOffset": 6423132,
+            "positionOffset": 6215364,
+            "normalOffset": 6414456,
             "swingPositionOffset": 2275416,
             "swingNormalOffset": 2474508,
-            "uvOffset": 6916800,
+            "uvOffset": 6908124,
             "bindPositionOffset": -1,
             "lidOffset": -1,
             "edgeOffset": -1,
             "submeshes": [
                 {
                     "material": "Kit_Shoe",
-                    "indexOffset": 6622224,
+                    "indexOffset": 6613548,
                     "indexCount": 67992,
                     "look": {
                         "shader": "TennisCloth",
@@ -1448,17 +1448,17 @@
                         "skinPigmentUV": 0.0,
                         "anatomicalFace": false,
                         "baseMapLinear": false,
-                        "smoothness": 0.18000000715255738,
-                        "wrap": 0.3400000035762787,
-                        "rimStrength": 0.06499999761581421,
+                        "smoothness": 0.07999999821186066,
+                        "wrap": 0.30000001192092898,
+                        "rimStrength": 0.02500000037252903,
                         "rimPower": 3.5,
                         "exposure": 0.7799999713897705,
                         "knee": 0.699999988079071,
-                        "weaveTile": 35.744300842285159,
+                        "weaveTile": 53.616451263427737,
                         "weaveAngle": 0.0,
-                        "weaveNormal": 0.5600000023841858,
-                        "weaveThread": 0.3824999928474426,
-                        "sheenStrength": 0.10000000149011612,
+                        "weaveNormal": 0.2199999988079071,
+                        "weaveThread": 0.1599999964237213,
+                        "sheenStrength": 0.3199999928474426,
                         "sheenPower": 3.0,
                         "saturation": 0.0,
                         "bumpScale": 0.0,
@@ -1476,11 +1476,11 @@
                             0.2789999842643738,
                             1.0
                         ],
-                        "normalStrength": 1.0,
+                        "normalStrength": 0.800000011920929,
                         "useGarmentMaps": 1.0,
                         "fabricVersion": 2.0,
                         "bindingTone": 0.0,
-                        "femaleSurface": 0.0,
+                        "femaleSurface": 1.0,
                         "maleFormPass": 0.0,
                         "faceSkin": false,
                         "edgeLines": 0.0
@@ -1488,7 +1488,7 @@
                 },
                 {
                     "material": "Kit_Buckle",
-                    "indexOffset": 6894192,
+                    "indexOffset": 6885516,
                     "indexCount": 5652,
                     "look": {
                         "shader": "TennisCharacter",
@@ -1587,18 +1587,18 @@
             "name": "Kit_Sock_L",
             "kind": "kit",
             "vertexCount": 1586,
-            "positionOffset": 7049528,
-            "normalOffset": 7068560,
+            "positionOffset": 7040852,
+            "normalOffset": 7059884,
             "swingPositionOffset": 2673600,
             "swingNormalOffset": 2692632,
-            "uvOffset": 7122944,
+            "uvOffset": 7114268,
             "bindPositionOffset": -1,
             "lidOffset": -1,
             "edgeOffset": -1,
             "submeshes": [
                 {
                     "material": "Kit_Shorts",
-                    "indexOffset": 7087592,
+                    "indexOffset": 7078916,
                     "indexCount": 8838,
                     "look": {
                         "shader": "TennisCloth",
@@ -1628,17 +1628,17 @@
                         "skinPigmentUV": 0.0,
                         "anatomicalFace": false,
                         "baseMapLinear": false,
-                        "smoothness": 0.09000000357627869,
-                        "wrap": 0.3400000035762787,
-                        "rimStrength": 0.06499999761581421,
+                        "smoothness": 0.07999999821186066,
+                        "wrap": 0.30000001192092898,
+                        "rimStrength": 0.02500000037252903,
                         "rimPower": 3.5,
                         "exposure": 1.0499999523162842,
                         "knee": 0.699999988079071,
-                        "weaveTile": 17.279157638549806,
+                        "weaveTile": 25.91873550415039,
                         "weaveAngle": 0.0,
-                        "weaveNormal": 0.7599999904632568,
-                        "weaveThread": 0.5950000286102295,
-                        "sheenStrength": 0.23999999463558198,
+                        "weaveNormal": 0.2199999988079071,
+                        "weaveThread": 0.1599999964237213,
+                        "sheenStrength": 0.3199999928474426,
                         "sheenPower": 3.0,
                         "saturation": 0.0,
                         "bumpScale": 0.0,
@@ -1656,11 +1656,11 @@
                             0.22877997159957887,
                             1.0
                         ],
-                        "normalStrength": 1.0,
+                        "normalStrength": 0.800000011920929,
                         "useGarmentMaps": 1.0,
                         "fabricVersion": 2.0,
                         "bindingTone": 0.0,
-                        "femaleSurface": 0.0,
+                        "femaleSurface": 1.0,
                         "maleFormPass": 0.0,
                         "faceSkin": false,
                         "edgeLines": 0.0
@@ -1672,18 +1672,18 @@
             "name": "Kit_Sock_R",
             "kind": "kit",
             "vertexCount": 1595,
-            "positionOffset": 7135632,
-            "normalOffset": 7154772,
+            "positionOffset": 7126956,
+            "normalOffset": 7146096,
             "swingPositionOffset": 2711664,
             "swingNormalOffset": 2730804,
-            "uvOffset": 7209360,
+            "uvOffset": 7200684,
             "bindPositionOffset": -1,
             "lidOffset": -1,
             "edgeOffset": -1,
             "submeshes": [
                 {
                     "material": "Kit_Shorts",
-                    "indexOffset": 7173912,
+                    "indexOffset": 7165236,
                     "indexCount": 8862,
                     "look": {
                         "shader": "TennisCloth",
@@ -1713,17 +1713,17 @@
                         "skinPigmentUV": 0.0,
                         "anatomicalFace": false,
                         "baseMapLinear": false,
-                        "smoothness": 0.09000000357627869,
-                        "wrap": 0.3400000035762787,
-                        "rimStrength": 0.06499999761581421,
+                        "smoothness": 0.07999999821186066,
+                        "wrap": 0.30000001192092898,
+                        "rimStrength": 0.02500000037252903,
                         "rimPower": 3.5,
                         "exposure": 1.0499999523162842,
                         "knee": 0.699999988079071,
-                        "weaveTile": 18.26045799255371,
+                        "weaveTile": 27.39068603515625,
                         "weaveAngle": 0.0,
-                        "weaveNormal": 0.7599999904632568,
-                        "weaveThread": 0.5950000286102295,
-                        "sheenStrength": 0.23999999463558198,
+                        "weaveNormal": 0.2199999988079071,
+                        "weaveThread": 0.1599999964237213,
+                        "sheenStrength": 0.3199999928474426,
                         "sheenPower": 3.0,
                         "saturation": 0.0,
                         "bumpScale": 0.0,
@@ -1741,11 +1741,11 @@
                             0.22877997159957887,
                             1.0
                         ],
-                        "normalStrength": 1.0,
+                        "normalStrength": 0.800000011920929,
                         "useGarmentMaps": 1.0,
                         "fabricVersion": 2.0,
                         "bindingTone": 0.0,
-                        "femaleSurface": 0.0,
+                        "femaleSurface": 1.0,
                         "maleFormPass": 0.0,
                         "faceSkin": false,
                         "edgeLines": 0.0
@@ -1757,18 +1757,18 @@
             "name": "Kit_Top",
             "kind": "kit",
             "vertexCount": 20289,
-            "positionOffset": 7222120,
-            "normalOffset": 7465588,
+            "positionOffset": 7213444,
+            "normalOffset": 7456912,
             "swingPositionOffset": 2749944,
             "swingNormalOffset": 2993412,
-            "uvOffset": 8171344,
+            "uvOffset": 8162668,
             "bindPositionOffset": -1,
             "lidOffset": -1,
             "edgeOffset": -1,
             "submeshes": [
                 {
                     "material": "Kit_Shirt",
-                    "indexOffset": 7709056,
+                    "indexOffset": 7700380,
                     "indexCount": 115572,
                     "look": {
                         "shader": "TennisCloth",
@@ -1798,16 +1798,16 @@
                         "skinPigmentUV": 0.0,
                         "anatomicalFace": false,
                         "baseMapLinear": false,
-                        "smoothness": 0.10000000149011612,
-                        "wrap": 0.3400000035762787,
-                        "rimStrength": 0.06499999761581421,
+                        "smoothness": 0.07999999821186066,
+                        "wrap": 0.30000001192092898,
+                        "rimStrength": 0.02500000037252903,
                         "rimPower": 3.5,
                         "exposure": 1.0499999523162842,
                         "knee": 0.699999988079071,
-                        "weaveTile": 34.02293395996094,
+                        "weaveTile": 54.6654052734375,
                         "weaveAngle": 0.0,
-                        "weaveNormal": 0.9200000166893005,
-                        "weaveThread": 0.6800000071525574,
+                        "weaveNormal": 0.2199999988079071,
+                        "weaveThread": 0.1599999964237213,
                         "sheenStrength": 0.3199999928474426,
                         "sheenPower": 3.0,
                         "saturation": 0.0,
@@ -1826,11 +1826,11 @@
                             0.556240439414978,
                             1.0
                         ],
-                        "normalStrength": 1.0,
+                        "normalStrength": 0.800000011920929,
                         "useGarmentMaps": 1.0,
                         "fabricVersion": 2.0,
                         "bindingTone": 0.0,
-                        "femaleSurface": 0.0,
+                        "femaleSurface": 1.0,
                         "maleFormPass": 0.0,
                         "faceSkin": false,
                         "edgeLines": 0.0
@@ -1842,8 +1842,8 @@
             "name": "Club_Driver",
             "kind": "equipment",
             "vertexCount": 1716,
-            "positionOffset": 8333656,
-            "normalOffset": 8354248,
+            "positionOffset": 8324980,
+            "normalOffset": 8345572,
             "swingPositionOffset": 3236880,
             "swingNormalOffset": 3257472,
             "uvOffset": -1,
@@ -1853,7 +1853,7 @@
             "submeshes": [
                 {
                     "material": "CLUB grip",
-                    "indexOffset": 8374840,
+                    "indexOffset": 8366164,
                     "indexCount": 996,
                     "look": {
                         "shader": "Universal Render Pipeline/Lit",
@@ -1913,7 +1913,7 @@
                 },
                 {
                     "material": "CLUB accent",
-                    "indexOffset": 8378824,
+                    "indexOffset": 8370148,
                     "indexCount": 648,
                     "look": {
                         "shader": "Universal Render Pipeline/Lit",
@@ -1973,7 +1973,7 @@
                 },
                 {
                     "material": "CLUB carbon",
-                    "indexOffset": 8381416,
+                    "indexOffset": 8372740,
                     "indexCount": 3282,
                     "look": {
                         "shader": "Universal Render Pipeline/Lit",
@@ -2033,7 +2033,7 @@
                 },
                 {
                     "material": "CLUB black",
-                    "indexOffset": 8394544,
+                    "indexOffset": 8385868,
                     "indexCount": 276,
                     "look": {
                         "shader": "Universal Render Pipeline/Lit",
@@ -2093,7 +2093,7 @@
                 },
                 {
                     "material": "CLUB satin",
-                    "indexOffset": 8395648,
+                    "indexOffset": 8386972,
                     "indexCount": 1872,
                     "look": {
                         "shader": "Universal Render Pipeline/Lit",
@@ -2153,7 +2153,7 @@
                 },
                 {
                     "material": "CLUB gunmetal",
-                    "indexOffset": 8403136,
+                    "indexOffset": 8394460,
                     "indexCount": 594,
                     "look": {
                         "shader": "Universal Render Pipeline/Lit",
@@ -2213,7 +2213,7 @@
                 },
                 {
                     "material": "CLUB groove",
-                    "indexOffset": 8405512,
+                    "indexOffset": 8396836,
                     "indexCount": 180,
                     "look": {
                         "shader": "Universal Render Pipeline/Lit",
@@ -2277,8 +2277,8 @@
             "name": "Club_Iron",
             "kind": "equipment",
             "vertexCount": 1232,
-            "positionOffset": 8406232,
-            "normalOffset": 8421016,
+            "positionOffset": 8397556,
+            "normalOffset": 8412340,
             "swingPositionOffset": 3278064,
             "swingNormalOffset": 3292848,
             "uvOffset": -1,
@@ -2288,7 +2288,7 @@
             "submeshes": [
                 {
                     "material": "CLUB grip",
-                    "indexOffset": 8435800,
+                    "indexOffset": 8427124,
                     "indexCount": 996,
                     "look": {
                         "shader": "Universal Render Pipeline/Lit",
@@ -2348,7 +2348,7 @@
                 },
                 {
                     "material": "CLUB accent",
-                    "indexOffset": 8439784,
+                    "indexOffset": 8431108,
                     "indexCount": 552,
                     "look": {
                         "shader": "Universal Render Pipeline/Lit",
@@ -2408,7 +2408,7 @@
                 },
                 {
                     "material": "CLUB chrome",
-                    "indexOffset": 8441992,
+                    "indexOffset": 8433316,
                     "indexCount": 2472,
                     "look": {
                         "shader": "Universal Render Pipeline/Lit",
@@ -2468,7 +2468,7 @@
                 },
                 {
                     "material": "CLUB black",
-                    "indexOffset": 8451880,
+                    "indexOffset": 8443204,
                     "indexCount": 276,
                     "look": {
                         "shader": "Universal Render Pipeline/Lit",
@@ -2528,7 +2528,7 @@
                 },
                 {
                     "material": "CLUB groove",
-                    "indexOffset": 8452984,
+                    "indexOffset": 8444308,
                     "indexCount": 324,
                     "look": {
                         "shader": "Universal Render Pipeline/Lit",
@@ -2592,8 +2592,8 @@
             "name": "Club_Putter",
             "kind": "equipment",
             "vertexCount": 1248,
-            "positionOffset": 8454280,
-            "normalOffset": 8469256,
+            "positionOffset": 8445604,
+            "normalOffset": 8460580,
             "swingPositionOffset": 3307632,
             "swingNormalOffset": 3322608,
             "uvOffset": -1,
@@ -2603,7 +2603,7 @@
             "submeshes": [
                 {
                     "material": "CLUB grip",
-                    "indexOffset": 8484232,
+                    "indexOffset": 8475556,
                     "indexCount": 996,
                     "look": {
                         "shader": "Universal Render Pipeline/Lit",
@@ -2663,7 +2663,7 @@
                 },
                 {
                     "material": "CLUB accent",
-                    "indexOffset": 8488216,
+                    "indexOffset": 8479540,
                     "indexCount": 516,
                     "look": {
                         "shader": "Universal Render Pipeline/Lit",
@@ -2723,7 +2723,7 @@
                 },
                 {
                     "material": "CLUB chrome",
-                    "indexOffset": 8490280,
+                    "indexOffset": 8481604,
                     "indexCount": 1248,
                     "look": {
                         "shader": "Universal Render Pipeline/Lit",
@@ -2783,7 +2783,7 @@
                 },
                 {
                     "material": "CLUB black",
-                    "indexOffset": 8495272,
+                    "indexOffset": 8486596,
                     "indexCount": 312,
                     "look": {
                         "shader": "Universal Render Pipeline/Lit",
@@ -2843,7 +2843,7 @@
                 },
                 {
                     "material": "CLUB satin",
-                    "indexOffset": 8496520,
+                    "indexOffset": 8487844,
                     "indexCount": 1056,
                     "look": {
                         "shader": "Universal Render Pipeline/Lit",
@@ -2903,7 +2903,7 @@
                 },
                 {
                     "material": "CLUB gunmetal",
-                    "indexOffset": 8500744,
+                    "indexOffset": 8492068,
                     "indexCount": 756,
                     "look": {
                         "shader": "Universal Render Pipeline/Lit",
@@ -2963,7 +2963,7 @@
                 },
                 {
                     "material": "CLUB white",
-                    "indexOffset": 8503768,
+                    "indexOffset": 8495092,
                     "indexCount": 72,
                     "look": {
                         "shader": "Universal Render Pipeline/Lit",
@@ -3027,8 +3027,8 @@
             "name": "Club_Wedge",
             "kind": "equipment",
             "vertexCount": 1280,
-            "positionOffset": 8504056,
-            "normalOffset": 8519416,
+            "positionOffset": 8495380,
+            "normalOffset": 8510740,
             "swingPositionOffset": 3337584,
             "swingNormalOffset": 3352944,
             "uvOffset": -1,
@@ -3038,7 +3038,7 @@
             "submeshes": [
                 {
                     "material": "CLUB grip",
-                    "indexOffset": 8534776,
+                    "indexOffset": 8526100,
                     "indexCount": 996,
                     "look": {
                         "shader": "Universal Render Pipeline/Lit",
@@ -3098,7 +3098,7 @@
                 },
                 {
                     "material": "CLUB accent",
-                    "indexOffset": 8538760,
+                    "indexOffset": 8530084,
                     "indexCount": 552,
                     "look": {
                         "shader": "Universal Render Pipeline/Lit",
@@ -3158,7 +3158,7 @@
                 },
                 {
                     "material": "CLUB chrome",
-                    "indexOffset": 8540968,
+                    "indexOffset": 8532292,
                     "indexCount": 1248,
                     "look": {
                         "shader": "Universal Render Pipeline/Lit",
@@ -3218,7 +3218,7 @@
                 },
                 {
                     "material": "CLUB black",
-                    "indexOffset": 8545960,
+                    "indexOffset": 8537284,
                     "indexCount": 276,
                     "look": {
                         "shader": "Universal Render Pipeline/Lit",
@@ -3278,7 +3278,7 @@
                 },
                 {
                     "material": "CLUB satin",
-                    "indexOffset": 8547064,
+                    "indexOffset": 8538388,
                     "indexCount": 1224,
                     "look": {
                         "shader": "Universal Render Pipeline/Lit",
@@ -3338,7 +3338,7 @@
                 },
                 {
                     "material": "CLUB groove",
-                    "indexOffset": 8551960,
+                    "indexOffset": 8543284,
                     "indexCount": 396,
                     "look": {
                         "shader": "Universal Render Pipeline/Lit",
@@ -3518,7 +3518,7 @@
                 0.12999996542930604,
                 1.0
             ],
-            "smoothness": 0.10000000149011612
+            "smoothness": 0.07999999821186066
         },
         {
             "name": "Kit_Buckle",
@@ -3538,7 +3538,7 @@
                 0.9300000071525574,
                 1.0
             ],
-            "smoothness": 0.10000000149011612
+            "smoothness": 0.07999999821186066
         },
         {
             "name": "Kit_Shirt",
@@ -3548,7 +3548,7 @@
                 0.6783419847488403,
                 1.0
             ],
-            "smoothness": 0.10000000149011612
+            "smoothness": 0.07999999821186066
         },
         {
             "name": "Kit_Shoe",
@@ -3558,7 +3558,7 @@
                 0.7905000448226929,
                 1.0
             ],
-            "smoothness": 0.18000000715255738
+            "smoothness": 0.07999999821186066
         },
         {
             "name": "Kit_Shorts",
@@ -3568,7 +3568,7 @@
                 0.2789999544620514,
                 1.0
             ],
-            "smoothness": 0.09000000357627869
+            "smoothness": 0.07999999821186066
         },
         {
             "name": "Reference_Face_Brow",
@@ -8129,5 +8129,7 @@
             }
         ]
     },
+    "backRacket": [],
+    "backRacketBone": "",
     "coordinates": "Unity metres, z negated, winding flipped (hero faces -z)"
 }

@@ -535,6 +535,13 @@ namespace GolfArcade.PlayTests
                 for (int i = 0; i < 3000 && !bridge.Ready; i++) yield return null;
                 Assert.IsTrue(bridge.Ready, "golf loaded");
                 var game = Object.FindFirstObjectByType<GolfGame>(); d.game = game;
+                // the weather layer attaches itself only to a scene named Golf: the editor test's scene is not, so MP_MAJESTIC=1 attaches it (wind, weather)
+                if (Environment.GetEnvironmentVariable("MP_MAJESTIC") == "1") {
+                    typeof(GolfGame).GetMethod("EnsureEventViews", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(game, null);
+                    var weatherNow = Enum.TryParse<GolfArcade.Course.Weather>(Environment.GetEnvironmentVariable("DREAM_WEATHER") ?? "Clear", true, out var wx) ? wx : GolfArcade.Course.Weather.Clear;
+                    game.WeatherShown.Begin(Camera.main, game.CurrentHole, weatherNow, game.Wind, true);
+                    typeof(GolfArcade.Majestic.MajesticWeather).GetMethod("Attach", BindingFlags.NonPublic | BindingFlags.Static).Invoke(null, new object[] { game });
+                }
                 // the phone with the TV draws Unity's controller sheet on its own screen (ConfigureDisplay does it for an external TV);
                 // its stick is driven below, and its canvas is kept off the editor's one screen
                 game.NativePhoneController();

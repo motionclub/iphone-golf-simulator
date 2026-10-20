@@ -284,15 +284,15 @@ namespace GolfArcade.Tests
         [Test]
         public void MoversArePlacedWhereTheyFit()
         {
-            int rocks=0,lifts=0;
+            int rocks=0,lifts=0,quirky=0;
             foreach(var course in Course.Course.All())foreach(var hole in course.Holes)for(int seed=1;seed<=20;seed++){
                 var movers=RoundEvents.Deal(seed).MoversFor(0,hole,Weather.Clear);
                 foreach(var m in movers.All){var r=m.Reach();Assert.IsTrue(double.IsFinite(r.y0)&&r.y1>=r.y0);
-                    if(m.Kind==MoverKind.RockGate)rocks++;if(m.Kind==MoverKind.WindLift)lifts++;
+                    if(m.Kind==MoverKind.RockGate)rocks++;if(m.Kind==MoverKind.WindLift)lifts++;if(m.Kind is MoverKind.Launchpad or MoverKind.Target)quirky++;
                     Assert.Greater(DreamCourseLayout.CorridorDistance(new CoursePoint(m.At(0).x,m.At(0).d),hole.Centerline),8);
                 }
             }
-            Assert.Greater(rocks,0);Assert.Greater(lifts,0);
+            Assert.AreEqual(0,rocks,"no rock hangs in the air any more (10-19)");Assert.Greater(lifts,0);Assert.Greater(quirky,0,"the launchpads and the target are out");
         }
     }
 }

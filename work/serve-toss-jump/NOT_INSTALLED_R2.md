@@ -1,0 +1,1 @@
+NOT INSTALLED: required stop in prompt 26b. HeroTennisDriver.LockFeet adds the measured 65 mm procedural step. Prompt 28 owns the runtime change. See r2/GATE_REPORT.md and r2/MINIMAL_RUNTIME_CHANGE.md. All four production Serve FBXs/metas still equal rollback_r2. No commit.

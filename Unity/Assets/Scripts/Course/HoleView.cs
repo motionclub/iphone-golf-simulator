@@ -55,6 +55,7 @@ namespace GolfArcade.Course
             var view = root.AddComponent<HoleView>();
             view.Hole = hole;
             Current = view;
+            RockGrounding.Hole = hole.Number;
             var model = Resources.Load<GameObject>($"Course/hole_{hole.Number:00}");
             model = GolfCoastalComposition.Model(hole, model);
             yield return 0.02f;
@@ -318,6 +319,8 @@ namespace GolfArcade.Course
                 if (t) t.gameObject.SetActive(false);
             }
             Physics.SyncTransforms(); // the ball is placed on this ground in the same frame
+            // the model's own rocks down onto this ground, before the obstacles are read off them (10-19)
+            if (hasGround) RockGrounding.SettleModel(model.transform, Hole.Number);
             if (hasGround) { Hole.Surface = SampleSurface(); Hole.Ground = GroundHeight; }
             // what stands on it, for the ball to run into
             Hole.Obstacles = ObstacleScan.From(model.transform);
@@ -507,6 +510,10 @@ namespace GolfArcade.Course
                 // out to the fly a little faster than once a second
                 if (flag) WaterMotion.Attach(flag, null, 1.1f, true);
                 Flag = flagstick ? flagstick : pinRoot;
+                // 10-19 (Adnan: "the flag needs to be more visible"): a third bigger at all times, and from the
+                // tee it grows and glows (FlagBeacon) so it reads in the broadcast cameras
+                pinRoot.localScale *= PinScale;
+                FlagBeacon.Attach(pinRoot, flag ? flag.GetComponentInChildren<Renderer>(true) : null);
                 return;
             }
             var cup = Disc("Cup", 0.15f, 0.15f, CupColor, 0.02f);
@@ -522,6 +529,8 @@ namespace GolfArcade.Course
         }
 
         const float MetresToYards = 1.0936f;
+        /// The pin's flagstick and flag over life size, for readability on a phone-sized TV view.
+        public const float PinScale = 1.3f;
 
         static readonly Dictionary<string, Material> cupMaterials = new();
         static Material CupMaterial(string shader)
@@ -530,6 +539,17 @@ namespace GolfArcade.Course
             var s = Shader.Find(shader);
             if (!s) { Debug.LogError($"{shader} missing from the build — run Golf Arcade → Set Up Project"); s = Shader.Find("Unlit/Color"); }
             return cupMaterials[shader] = new Material(s);
+        }
+
+        /// The top of the flagstick in the world as it is drawn now (FlagBeacon grows it with distance): where the HUD's
+        /// "PIN n YD" tag stands, so the tag sits over the flag rather than on it. Null without a modelled pin.
+        public Vector3? FlagTop
+        {
+            get
+            {
+                if (!flagstick || !flagstick.gameObject.activeInHierarchy || !flagstick.TryGetComponent<Renderer>(out var r)) return null;
+                var b = r.bounds; return new Vector3(flagstick.position.x, b.max.y, flagstick.position.z);
+            }
         }
 
         /// Tend the flag: it comes out for a putt and goes back for the next player.
@@ -679,6 +699,8 @@ namespace GolfArcade.Course
             if (m.HasProperty("_BaseMap")) m.SetTexture("_BaseMap", tex);
             if (m.HasProperty("_BaseColor")) m.SetColor("_BaseColor", Color.white);
             if (m.HasProperty("_Smoothness")) m.SetFloat("_Smoothness", .15f);
+            // lit a little from within, so its red stays saturated in shade and in the distance haze
+            if (m.HasProperty("_EmissionColor")) { m.EnableKeyword("_EMISSION"); m.SetTexture("_EmissionMap", tex); m.SetColor("_EmissionColor", new Color(.42f, .42f, .42f)); m.globalIlluminationFlags = MaterialGlobalIlluminationFlags.None; }
             r.sharedMaterial = m;
         }
 

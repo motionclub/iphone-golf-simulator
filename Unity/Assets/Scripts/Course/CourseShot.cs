@@ -274,7 +274,7 @@ namespace GolfArcade.Course
         public static Fall FallFromMover(CourseMovers.Hit hit, CourseMovers movers, Obstacle[] obstacles, Func<CoursePoint, double> ground, PlayRules rules = null)
         {
             var kind = movers.All[hit.Mover].Kind;
-            var knocked = new List<Knock> { new(hit.Time, hit.X, hit.Y, hit.D, CourseMovers.KnockKind(kind), kind is not (MoverKind.Gull or MoverKind.Twister or MoverKind.WindLift)) };
+            var knocked = new List<Knock> { new(hit.Time, hit.X, hit.Y, hit.D, CourseMovers.KnockKind(kind), kind is not (MoverKind.Gull or MoverKind.Twister or MoverKind.WindLift or MoverKind.Launchpad)) };
             var (vx, vy, vd) = movers.Rebound(hit, Luck(hit.X, hit.D, 11 + hit.Mover));
             return Down(hit.Time, hit.X, hit.Y, hit.D, vx, vy, vd, new List<int>(), knocked, obstacles, ground, rules ?? PlayRules.Standard, movers, hit.Mover);
         }
@@ -317,7 +317,7 @@ namespace GolfArcade.Course
                             var hit = new CourseMovers.Hit(i,bodyIndex,t,x,y,d,vx,vy,vd);
                             (vx,vy,vd)=movers.Rebound(hit,Luck(x,d,11+i));
                             metMovers.Add(i);
-                            knocked.Add(new Knock(t,x,y,d,CourseMovers.KnockKind(mover.Kind),mover.Kind is not (MoverKind.Gull or MoverKind.Twister or MoverKind.WindLift)));
+                            knocked.Add(new Knock(t,x,y,d,CourseMovers.KnockKind(mover.Kind),mover.Kind is not (MoverKind.Gull or MoverKind.Twister or MoverKind.WindLift or MoverKind.Launchpad)));
                             break;
                         }
                     }

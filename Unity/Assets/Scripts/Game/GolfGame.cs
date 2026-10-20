@@ -149,6 +149,7 @@ namespace GolfArcade.Game
 
         void Awake()
         {
+            HookMannerisms();   // chat B: post-shot watch, waggle, hole-out clean-up (GolfGame.Mannerisms.cs)
             Application.targetFrameRate = 60;
             Application.runInBackground = true; // the Mac keeps playing while the phone is the club
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
@@ -857,13 +858,16 @@ namespace GolfArcade.Game
         /// The map frames the whole hole, whatever its shape — the fairway's every turn, the
         /// green, the islands it is played over — with the tee at the bottom and the hole running
         /// up it, fitted to the picture's shape (the HUD's tall corner, the controller's wide card).
+        /// A putt's map zooms onto the green instead (FramePuttMap).
         int framedMapVersion = -1;
         int renderedMapHole = -1;
         RenderTexture renderedMapTexture;
         Vector3 renderedMapPosition;
+        Quaternion renderedMapRotation;
         float renderedMapSize;
         void FrameMinimap()
         {
+            if (hud.Map.Putt && club == GolfClub.Putter) { FramePuttMap(); return; }
             var tee = HoleView.ToWorld(hole.Tee); var pin = HoleView.ToWorld(hole.Pin);
             var up = pin - tee; up.y = 0; up.Normalize();
             var across = new Vector3(up.z, 0, -up.x);
@@ -891,25 +895,63 @@ namespace GolfArcade.Game
             foreach(var point in plan.Trace)Include(point);
             float pad = Mathf.Max(12f,(float)hole.GreenRadius);
             minA -= pad; maxA += pad; minC -= pad; maxC += pad;
+            AimMinimap(new Vector3(tee.x, 0, tee.z) + up * ((minA + maxA) / 2) + across * ((minC + maxC) / 2), up, (maxA - minA) / 2, (maxC - minC) / 2);
+        }
+
+        /// A putt's map: zoomed in on the putt itself, up the line from the ball (near the bottom)
+        /// to the first meter mark past the hole (PuttMapReach, near the top), and wide enough
+        /// either side for a putt aimed off the hole to keep its marks. It holds still while the
+        /// putt is aimed; a struck putt that rolls off it widens it (its trace).
+        void FramePuttMap()
+        {
+            var plan = hud.Map;
+            var from = HoleView.ToWorld(ballAt); from.y = 0;
+            var pin = HoleView.ToWorld(hole.Pin); pin.y = 0;
+            var up = pin - from;
+            if (up.sqrMagnitude < 0.01f) { double h = heading * Math.PI / 180; up = new Vector3((float)Math.Sin(h), 0, (float)Math.Cos(h)); }
+            up.Normalize();
+            var across = new Vector3(up.z, 0, -up.x);
+            float minA = float.MaxValue, maxA = float.MinValue, minC = float.MaxValue, maxC = float.MinValue;
+            void Include(Vector3 world, float r)
+            {
+                world.y = 0; var v = world - from;
+                float a = Vector3.Dot(v, up), c = Vector3.Dot(v, across);
+                minA = Mathf.Min(minA, a - r); maxA = Mathf.Max(maxA, a + r); minC = Mathf.Min(minC, c - r); maxC = Mathf.Max(maxC, c + r);
+            }
+            float reach = Mathf.Max(3f, plan.PuttReach);
+            Include(from, 1.5f);
+            Include(pin, 1.5f);
+            Include(from + up * reach, 0.5f);
+            Include(from, reach * 0.35f);   // (only its width counts: the ball's row is already in)
+            minA = Mathf.Max(minA, -1.5f);
+            foreach (var point in plan.Trace) Include(point, 1.5f);
+            AimMinimap(from + up * ((minA + maxA) / 2) + across * ((minC + maxC) / 2), up, (maxA - minA) / 2, (maxC - minC) / 2);
+        }
+
+        /// Points the map camera straight down at `mid`, `up` the top of the picture, wide enough
+        /// for `halfUp` yards along and `halfAcross` across; renders the picture again only when
+        /// that framing changed.
+        void AimMinimap(Vector3 mid, Vector3 up, float halfUp, float halfAcross)
+        {
             float aspect = (float)minimapTexture.width / minimapTexture.height;
-            var mid = new Vector3(tee.x, 0, tee.z) + up * ((minA + maxA) / 2) + across * ((minC + maxC) / 2);
             minimapCamera.transform.position = mid + Vector3.up * 300;
             minimapCamera.transform.rotation = Quaternion.LookRotation(Vector3.down, up);
             minimapCamera.farClipPlane = 600;
-            minimapCamera.orthographicSize = Mathf.Max((maxA - minA) / 2, (maxC - minC) / 2 / aspect) * 1.14f;
+            minimapCamera.orthographicSize = Mathf.Max(halfUp, halfAcross / aspect) * 1.14f;
             minimapCamera.aspect = aspect;
-            FramePhoneMap(minimapCamera.transform, (maxA - minA) / 2, (maxC - minC) / 2);
+            FramePhoneMap(minimapCamera.transform, halfUp, halfAcross);
             framedMapVersion=hud.Map.Version;
             // Terrain is static. Ball, route and shot markers are live HUD overlays;
             // refresh the terrain texture only when the map framing changes.
             if (renderedMapHole != hole.Number || renderedMapTexture != minimapTexture ||
                 (renderedMapPosition-minimapCamera.transform.position).sqrMagnitude > .01f ||
+                Quaternion.Angle(renderedMapRotation, minimapCamera.transform.rotation) > .1f ||
                 Mathf.Abs(renderedMapSize-minimapCamera.orthographicSize) > .01f)
             {
                 RenderPipeline.SubmitRenderRequest(minimapCamera,
                     new UniversalRenderPipeline.SingleCameraRequest { destination = minimapTexture });
                 renderedMapHole=hole.Number;renderedMapTexture=minimapTexture;
-                renderedMapPosition=minimapCamera.transform.position;renderedMapSize=minimapCamera.orthographicSize;
+                renderedMapPosition=minimapCamera.transform.position;renderedMapRotation=minimapCamera.transform.rotation;renderedMapSize=minimapCamera.orthographicSize;
             }
         }
 
@@ -1101,6 +1143,8 @@ namespace GolfArcade.Game
 
         void BeginAim(bool keepHeading)
         {
+            // the next shot is a cut from the post-shot hold to the golfer at address, as a broadcast goes back to the player
+            if (Current is State.Result or State.Replay or State.HoleDone) rig.SnapNext();
             if (Current == State.Intro)
             {
                 EndShowcase();
@@ -1283,6 +1327,7 @@ namespace GolfArcade.Game
             }
             if (s != State.Result && holeOutCard && holeOutCard.Showing) { holeOutCard.Hide(); leavingResult = true; }
             Current = s; stateTime = 0;
+            if (s is not (State.Flight or State.Result)) RestoreGolferFade();   // a putt's fade lasts the roll and its result only
             ExperienceTrace.Mark("golf", "state-" + s);
             golfer?.SetBagCarried(s is State.Result or State.HoleDone or State.RoundDone);   // ACCESSORIES: the bag rides along between shots, never through a swing
             if (leavingResult) RefreshControls();
@@ -1474,6 +1519,7 @@ namespace GolfArcade.Game
         {
             aimLine.positionCount = 0;   // no line: dots, and only the start of the shot
             if (club == GolfClub.Putter) { LayPuttStart(); return; }
+            HidePuttMarks();
             // Show the committed simulator's current timing window, including terrain and hazards.
             var lie=hole.LieAt(ballAt);var shot=PreviewShot(1);
             aimPath.Clear();
@@ -1489,12 +1535,31 @@ namespace GolfArcade.Game
         /// landing, the zone around it that a slightly-off swing still finds (the same ellipse as
         /// the ring on the course), and the club's reach — an arc as far as a full swing with it
         /// carries, whichever way you turn.
-        void PlanShotOnMap(CourseLie lie)
+        /// The zone and the meter's checkpoints take about eight shot simulations (more on the hazard-heavy holes: Magma's 22 ms a tick
+        /// was a dropped frame each while the aim turned). While the aim is being turned only the arc (one simulation) follows it, and
+        /// the zone's heading; the rest is worked out once it has been still for AimPlanSettle seconds (FlushAimPlan).
+        const float AimPlanSettle = .12f;
+        double plannedHeading = double.NaN; GolfClub plannedClub; CoursePoint plannedBall; bool aimPlanPending; float aimPlanDueAt, plannedAcross = 3, plannedAlong = 3;
+        void PlanShotOnMap(CourseLie lie, bool force = false)
         {
+            bool turning = !force && !double.IsNaN(plannedHeading) && plannedHeading != heading && plannedClub == club && plannedBall.DistanceTo(ballAt) < .001;
+            if (turning)
+            {
+                var quick = hud.Map;
+                quick.Path.Clear(); quick.Path.AddRange(aimPath);
+                quick.ZoneHeading = (float)heading;
+                landingZone.SetZone(plannedAcross, plannedAlong, (float)heading);
+                aimPlanPending = true; aimPlanDueAt = Time.unscaledTime + AimPlanSettle;
+                quick.Changed();
+                return;
+            }
+            aimPlanPending = false;
+            plannedHeading = heading; plannedClub = club; plannedBall = ballAt;
             var plan = hud.Map;
             plan.Path.Clear(); plan.Path.AddRange(aimPath);
             plan.Reach.Clear();
             ShotZone(lie, out var centre, out float across, out float along);
+            plannedAcross = across; plannedAlong = along;
             plan.ShowZone = true;
             plan.ZoneCentre = new Vector3((float)centre.X, 0, (float)centre.D);
             plan.ZoneAcross = across; plan.ZoneAlong = along; plan.ZoneHeading = (float)heading;
@@ -1652,7 +1717,7 @@ namespace GolfArcade.Game
             plan.Path.Clear(); plan.Path.AddRange(aimPath);
             plan.Reach.Clear(); plan.ShowZone = false; plan.Targets.Clear();
             checkpointSpots.Clear();
-            hud.SetCheckpoints(null, null);
+            LayPuttMarks();   // the meter's stops and the map's putt marks: what power rolls how far
             plan.Changed();
         }
 
@@ -1832,7 +1897,7 @@ namespace GolfArcade.Game
         void Nudge(double degrees)
         {
             if (Current != State.Aim || !SteersHere) return;
-            if (degrees != 0) NativeCancelSwing();   // a changed aim ends a started swing: Start Swing again once lined up
+            if (degrees != 0) NativeCancelSwing();   // a changed aim ends a held swing: hold the button again once lined up
             heading += degrees;
             aimedByPlayer = true;
             UpdateAimVisuals();
@@ -1937,6 +2002,7 @@ namespace GolfArcade.Game
                 // the meter says how far this stroke rolls on the flat
                 double feet = GolfClub.Putter.DistanceYards(load) * 3 * hole.Rules.CarryFactor(GolfClub.Putter);
                 hud.SetMeter((float)load, null, $"{feet:F0} ft");
+                ShowPuttLoad(load);
             }
             golfer.ShowLoad((float)load);
             sounds.SetTension(load);
@@ -1948,11 +2014,12 @@ namespace GolfArcade.Game
             if (Current != State.Aim) return;
             hud.SetMeter(0);
             aimDots.MarkAt(null);
+            ShowPuttLoad(0);
             hud.Map.ShowLoad = false;
             golfer.Settle();
             Haptics.Release();
             sounds.Release();
-            hud.SetStatus(NativeControlled ? "Swing cancelled — tap Start Swing to try again" : "Hold still, then swing");
+            hud.SetStatus(NativeControlled ? "Swing reset — hold the swing button to go again" : "Hold still, then swing");
             if (NativeControlled) NativeReady();
             networkLoadShown = 0;
             SendNetworkLoad(0);
@@ -2023,6 +2090,7 @@ namespace GolfArcade.Game
             landingMarker.gameObject.SetActive(false);
             aimLine.positionCount = 0;
             aimDots.Hide();
+            HidePuttMarks(keepZoom: true);
             flightTime = -toBall; // the ball leaves when the club gets to it
             lastBallPos = ball.position;
             Bounces = 0; lastHeight = 0; trailing = false; spinRate = 0; spinTilt = 0;
@@ -2129,6 +2197,11 @@ namespace GolfArcade.Game
         {
             stateTime += Time.deltaTime;
             Swing.Update();
+            if (aimPlanPending && Time.unscaledTime >= aimPlanDueAt)
+            {
+                aimPlanPending = false;
+                if (Current == State.Aim && club != GolfClub.Putter) PlanShotOnMap(hole.LieAt(ballAt), true);   // (the aim has been still: the full plan)
+            }
 
             // The map: the ball wherever it is; while aiming, the plan (PlanShotOnMap); in flight, the trace.
             var plan = hud.Map;
@@ -2142,14 +2215,14 @@ namespace GolfArcade.Game
             var mapBall=minimapCamera.WorldToViewportPoint(plan.Ball);
             var mapLoad=minimapCamera.WorldToViewportPoint(plan.Load);
             bool Outside(Vector3 v)=>v.x<.04f||v.x>.96f||v.y<.04f||v.y>.96f;
-            if(framedMapVersion!=plan.Version || (plan.ShowBall&&Outside(mapBall)) || (plan.ShowLoad&&Outside(mapLoad)))FrameMinimap();
+            if(framedMapVersion!=plan.Version || (plan.ShowBall&&Outside(mapBall)) || (plan.ShowLoad&&!plan.Putt&&Outside(mapLoad)))FrameMinimap();
             GolfArcade.EnvironmentArt.DreamVisibility.Set(weather == Weather.Fog, HoleView.ToWorld(ballAt));
             hud.DrawMinimap(minimapCamera);
             bool hudShowsCourse = hud.Controller == null || hud.OnTv || NativeControlled;   // (not under the controller in a preview)
             // the pin: on the maps, and on the picture — over it, or at the edge pointing the way
             // (not while a badge is stamped over the picture: the marker draws over everything)
             bool pinWanted = aimingShot && club != GolfClub.Putter && hudShowsCourse && Current != State.Menu && !hud.BadgeShowing;
-            hud.SetPinMarker(pinWanted ? rig.Camera : null, plan.Pin + Vector3.up * 3.2f, $"PIN  {ballAt.DistanceTo(hole.Pin):F0} YD");
+            hud.SetPinMarker(pinWanted ? rig.Camera : null, holeView && holeView.FlagTop is Vector3 flagTop ? flagTop : plan.Pin + Vector3.up * 3.2f, $"PIN  {ballAt.DistanceTo(hole.Pin):F0} YD");
             hud.SetCourseTargets(rig.Camera, checkpointSpots, aimingShot && club != GolfClub.Putter && hudShowsCourse);
             // the yardage riding the ball, counting through the flight and the run
             if (flightHud && (Current == State.Flight || Current == State.Result) && ball.gameObject.activeSelf && hudShowsCourse)
@@ -2201,7 +2274,7 @@ namespace GolfArcade.Game
                     if (NativeControlled) {
                         if (!NativeShotReady) hud.SetStatus("Tap Ready on your phone to line up this shot");
                         else if (NativeSportsSession.Touch) { }
-                        else if (!NativeSwingTracking) hud.SetStatus("Line up your shot, then tap Start Swing on your phone");
+                        else if (!NativeSwingTracking) hud.SetStatus(NativeIdleStatus);
                         else if (NativeSwingState == 1) hud.SetStatus("Hold your phone still in your stance…");
                         else if (Swing.Phase == SwingPhase.Address) hud.SetStatus("Ready — swing back and through!");
                     }
@@ -2221,8 +2294,9 @@ namespace GolfArcade.Game
                     {
                         ExperienceTrace.Mark("golf", "contact");
                         strikePlayed = true; sounds.PlayStrike(club, LastShot.Power);
+                        BroadcastContact();
                         if (club == GolfClub.Putter) Haptics.Putt(LastShot.Power); else { Haptics.Strike(lastReport.Grade, LastShot.Power); AnnounceStrike(); }
-                        effects.Strike(originWorld, AimDirection(), hole.LieAt(HoleView.ToCourse(originWorld)), (float)LastShot.Power, club == GolfClub.Putter);
+                        effects.Strike(originWorld, AimDirection(), hole.LieAt(HoleView.ToCourse(originWorld)), (float)LastShot.Power, club == GolfClub.Putter, lastReport.Grade);
                         ExperienceTrace.Mark("golf", "contact-channels-requested");
                     }
                     FlyBall();
@@ -2241,8 +2315,7 @@ namespace GolfArcade.Game
                     shotResultPanel?.SetCountdown(Mathf.Max(0, resultWait - stateTime), networkConfigured ? "NEXT PLAYER" : "NEXT SHOT");
                     if (HoleOutShowing) holeOutCard.SetCountdown(Mathf.Max(0, resultWait - stateTime), resultWait);
                     if (!resultWorldBeat) {
-                        if (holeOutShown) rig.FrameHoleOut(golfer.transform);
-                        else if(resultHeroCamera) rig.FrameCharacterResult(golfer.transform); else rig.FrameShotResult();
+                        if (LastShot.IsHoled) rig.FrameShotResult(); else rig.HoldOnRest(ball.position);
                     }
                     if (stateTime >= resultWait) { if (networkConfigured) NetworkResultDone(); else ContinueShotResult(); }
                     break;
@@ -2320,7 +2393,7 @@ namespace GolfArcade.Game
             {
                 var k = knocks[knocksShown++];
                 var kAt = new Vector3((float)k.X, (float)(double.IsNaN(k.Y) ? HoleView.GroundHeight(new CoursePoint(k.X, k.D)) + 0.1 : k.Y), (float)k.D);
-                if (k.Kind is ObstacleKind.Balloon or ObstacleKind.Cart or ObstacleKind.Gull or ObstacleKind.Twister) { MoverKnock(k, kAt); continue; }
+                if (k.Kind is ObstacleKind.Balloon or ObstacleKind.Cart or ObstacleKind.Gull or ObstacleKind.Twister or ObstacleKind.Launchpad or ObstacleKind.Target) { MoverKnock(k, kAt); continue; }
                 bool stone = k.Kind is ObstacleKind.Rock or ObstacleKind.Wall;
                 effects.Knock(kAt, !k.Hard, stone);
                 if (k.Hard) sounds.PlayKnock(stone); else sounds.PlayLeaves();
@@ -2343,7 +2416,7 @@ namespace GolfArcade.Game
             var trace = hud.Map.Trace;
             if (splashedAt < 0 && (pos - trace[trace.Count - 1]).sqrMagnitude > 4f) { trace.Add(pos); hud.Map.Changed(); }
 
-            rig.FollowShot(pos, (float)flightTime, touchedDown, club == GolfClub.Putter);
+            BroadcastFrame(pos);
             if (!lipFeedback && LastShot.LippedOut && LastShot.LipAt.HasValue && flightTime >= LastShot.LipAt.Value) {
                 lipFeedback = true; sounds.PlayGroan(.6f); ExperienceTrace.Mark("golf", "lip-feedback");
             }

@@ -3,12 +3,13 @@ using UnityEngine;
 using GolfArcade.Multiplayer;
 using GolfArcade.Tennis;
 using GolfArcade.UI;
+using GolfArcade.Course;
+using GolfArcade.Shot;
 namespace GolfArcade.Game {
     /// A hole's opening: the flyover (HoleIntro: a glide down the hole under its name, then what matters on it, the green
-    /// last), the golfer up on the tee (over the shoulder down the hole, then full length to the camera with their nameplate:
-    /// three seconds in which their player may tap an emote — nobody emotes unless they do — and a picked emote is played
-    /// out), then the address. Skip ends the flyover only. Online the flyover is skipped only once every golfer has asked
-    /// (the host counts the votes; NetworkGolfRound).
+    /// last), then a cut straight to the golfer at address. (The golfer's introduction on the tee — MeetThePlayer, the intro
+    /// emote — is switched off since 2026-10-19: its beat runs zero seconds.) Skip ends the flyover. Online the flyover is
+    /// skipped only once every golfer has asked (the host counts the votes; NetworkGolfRound).
     public sealed partial class GolfGame {
         readonly PresentationDirector golfPresentation = new();
         PresentationCut golfVenueCut, golfWalkCut, golfStartCut;
@@ -35,13 +36,14 @@ namespace GolfArcade.Game {
         void BeginGolfPresentation() {
             golfPresentation.Cancel(); golfBeat=0; golfSkipped=false; overviewReturn=false; introPick=null; playingIntroEmote=null;
             golfVenueCut=PresentationPolicy.HoleFlyover?PresentationPolicy.Cut(GolfVenueKey):PresentationCut.Off;
-            golfWalkCut=PresentationPolicy.Cut("golf.walkon");
+            // no character introduction any more (Adnan, 2026-10-19): from the flyover straight to the golfer at address
+            golfWalkCut=PresentationCut.Off;
             golfStartCut=PresentationPolicy.Cut("golf.start");
             // a multiplayer round plays the cut its host chose, as single player would have (NetworkIntroFull)
             var state=networkConfigured&&SportsMultiplayer.Active?SportsMultiplayer.Instance.GolfState:null;
             if(state!=null&&state.hole==holeIndex) {
                 var cut=state.introFull?PresentationCut.Full:PresentationCut.Short;
-                golfVenueCut=PresentationPolicy.HoleFlyover?cut:PresentationCut.Off; golfWalkCut=cut; golfStartCut=cut;
+                golfVenueCut=PresentationPolicy.HoleFlyover?cut:PresentationCut.Off; golfWalkCut=PresentationCut.Off; golfStartCut=cut;
             }
             StartIntroGraphics();
             BeginGolfBeat();
@@ -67,7 +69,7 @@ namespace GolfArcade.Game {
             float duration=PresentationDirector.Budget(beat,true,cut);
             golfCueLed=false; int entered=golfBeat;
             if(golfBeat==1) { meeting=cheered=false; introNamePlate=null; hud.HideSkipVotes(); introGraphics?.HideTag(introTag,introClock); introTag=null; introGraphics?.HidePlate(introPlate,introClock); }
-            if(golfBeat==2) { introGraphics?.HidePlate(introNamePlate,introClock); IntroLens.Off(rig.Camera); }
+            if(golfBeat==2) { introGraphics?.HidePlate(introNamePlate,introClock); IntroLens.Off(rig.Camera); TakeTheAddress(); }
             PresentationPolicy.Event(beat.ToString(),"begin",golfPresentation.Sequence+1,cut.ToString());
             // the flyover's first shot is on screen from its first frame (no frame of the old view before the cut)
             if(golfBeat==0 && cut!=PresentationCut.Off) { FrameFlyover(0); rig.ApplyFrame(); }
@@ -96,7 +98,19 @@ namespace GolfArcade.Game {
             golfPresentation.Tick(dt);
             if(Input.GetMouseButtonDown(0)) SkipPresentation();
         }
-        /// The flyover `s` seconds in: HoleIntro's lens, the hole's plate over the opening, a tag on each highlight.
+        /// The cut from the flyover to the tee: the golfer over the ball in their stance with the club for the shot. (A move left
+        /// playing — the old introduction's Idle, the last hole's reaction — keeps its quarter turn (GolferView.ClipYaw), and
+        /// the address beat stood the golfer side-on, and a practice swing there swung side-on: the first drive's wrong angle.)
+        void TakeTheAddress() {
+            EndShowcase(); rig.RestoreFov(); rig.ResetZoom(); RestoreGolferFade();
+            var lie=hole.LieAt(ballAt);
+            var teeClub=lie.IsPuttingSurface()?GolfClub.Putter:AutoClub(lie,PlaysLike(ballAt,hole.RecommendedTarget(ballAt)),hole.Rules);
+            golfer.SetVisible(true); golfer.SetClub(teeClub,ballAt.DistanceTo(hole.Pin)<40); golfer.Settle();
+            golfer.Stand(ball.position,TeeAim());
+            FrameAim(); rig.SnapNext();
+        }
+        /// The flyover `s` seconds in: HoleIntro's lens and the hole's plate over the opening. (Its highlights carry no tags any
+        /// more: Adnan, 2026-10-19.)
         void FrameFlyover(float s) {
             bool full=golfVenueCut==PresentationCut.Full||overviewReturn;
             holeIntro.Pose(full,s,rig.Camera.aspect,out var at,out var look,out var fov);
@@ -109,11 +123,7 @@ namespace GolfArcade.Game {
                     // (the hole's weather before its wind, when the round has weather: "THUNDERSTORM · 18 MPH ↗")
                     string wind=WeatherWords(Wind.IsCalm?"Calm":Wind.Describe(heading)).ToUpperInvariant();
                     introPlate=introGraphics.ShowPlate($"HOLE {hole.PlayNumber}",hole.Name.ToUpperInvariant(),$"PAR {hole.Par}   ·   {hole.Length:F0} YD   ·   {wind}",IntroGraphics.Sky,false,introClock);
-                } else {
-                    introGraphics.HidePlate(introPlate,introClock);
-                    introTagFeature=holeIntro.FeatureOf(shot);
-                    introTag=introGraphics.ShowTag(introTagFeature.Label,introTagFeature.Sub,HoleIntro.ColourOf(introTagFeature.Kind),introClock);
-                }
+                } else introGraphics.HidePlate(introPlate,introClock);
             }
             if(shot==0 && local>len-.35f) introGraphics.HidePlate(introPlate,introClock);
             if(introTag!=null) {
@@ -246,7 +256,7 @@ namespace GolfArcade.Game {
             if(NetworkIntro) picked=SportsMultiplayer.Instance.GolfState.introSlot; else if(introPick!=null) picked=System.Array.IndexOf(resultEmotes,introPick);
             bool mine=!NetworkIntro || SportsMultiplayer.Instance.Configuration.Controls(SportsMultiplayer.Instance.Configuration.localID,SportsMultiplayer.Instance.GolfState.turn);
             var emotes=NetworkIntro?NetworkEmotesOf(SportsMultiplayer.Instance.GolfState.turn):resultEmotes;
-            sheet.SetIntroControls(skip,mine&&!overviewReturn?emotes.Select(TennisEmotes.Name).ToArray():null,IntroEmoteWindow=="intro",picked);
+            sheet.SetIntroControls(skip,mine&&!overviewReturn&&golfWalkCut!=PresentationCut.Off?emotes.Select(TennisEmotes.Name).ToArray():null,IntroEmoteWindow=="intro",picked);
         }
 
         public void Overview() {

@@ -36,7 +36,44 @@ namespace GolfArcade.Tests
                 Assert.IsNotNull(Resources.Load<Texture2D>($"Accessories/{sex}/{id}/Acc_{sex}_{id}_{p.maps}_M"), p.maps + " mask map");
             }
         }
-        static string[] Ids => HeroAccessories.Catalog.Select(d => d.id).ToArray();
+        // racket_back has no item data: it is built from the hero's own racket (RacketOnTheBackSwapsWithTheBag)
+        static string[] Ids => HeroAccessories.Catalog.Select(d => d.id).Where(id => id != "racket_back").ToArray();
+
+        /// MENU HERO (work/menu-hero): the locker's back pick. racket_back is the hero's own racket on the Back_Racket socket under UpperChest, the hand
+        /// racket is untouched, and the bag and the racket replace each other in the BackCarry slot.
+        [TestCase("Male")]
+        [TestCase("Female")]
+        public void RacketOnTheBackSwapsWithTheBag(string sex)
+        {
+            var go = Hero(sex, false);
+            try
+            {
+                var look = go.GetComponent<MatchHeroLook>(); var acc = HeroAccessories.For(look);
+                var handRacket = look.racketGrip.GetComponentsInChildren<MeshRenderer>(true).Where(r => !r.name.StartsWith("Collider")).ToArray();
+                var handPose = look.racketGrip.localToWorldMatrix;
+                acc.SetCarry(true, "racket_back");
+                Assert.AreEqual("racket_back", acc.Item(AccessorySlot.BackCarry));
+                var back = go.GetComponentsInChildren<Transform>(true).First(t => t.name == HeroAccessories.BackRacketRenderer);
+                Assert.AreEqual(HeroAccessories.SocketBackRacket, back.parent.name);
+                Assert.AreEqual("UpperChest", back.parent.parent.name);
+                var drawn = back.GetComponentsInChildren<MeshRenderer>(true);
+                Assert.AreEqual(handRacket.Length, drawn.Length, "frame, strings, grip, butt cap");
+                Assert.IsTrue(drawn.All(r => r.enabled));
+                Assert.AreEqual(handPose, look.racketGrip.localToWorldMatrix, "the racket in the hand does not move");
+                // the string bed is behind the chest, and the grip end is above the bed (the handle points up)
+                var chest = back.parent.parent; var centre = back.TransformPoint(look.stringCentreLocal); var butt = back.position;
+                Assert.Less(go.transform.InverseTransformPoint(centre).z, go.transform.InverseTransformPoint(chest.position).z, "racket behind the hero");
+                Assert.Greater(go.transform.InverseTransformPoint(butt).y, go.transform.InverseTransformPoint(centre).y, "handle up");
+                acc.SetCarry(true, "golf_bag");
+                Assert.AreEqual("golf_bag", acc.Item(AccessorySlot.BackCarry));
+                Assert.IsTrue(acc.IsVisible(AccessorySlot.BackCarry));
+                acc.SetCarry(false);
+                Assert.IsFalse(acc.IsVisible(AccessorySlot.BackCarry));
+                acc.SetCarry(true);
+                Assert.AreEqual("golf_bag", acc.Item(AccessorySlot.BackCarry), "the pick is kept");
+            }
+            finally { Object.DestroyImmediate(go); }
+        }
 
         [System.Serializable] class PieceProbe { public string name, mesh, maps; public string[] bones; }
         [System.Serializable] class ItemProbe { public string item, sex; public PieceProbe[] pieces; }

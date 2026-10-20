@@ -16,6 +16,9 @@ import simd
     private(set) var boneNodes: [SCNNode] = []
     private var rigid: [(node: SCNNode, track: Int)] = []
     private var staticGeometry: [String: SCNGeometry] = [:]
+    /// MENU HERO: the racket rides on the back (its bone x the export's backRacket matrix) instead of its own track in the hand.
+    var racketOnBack = false { didSet { if racketOnBack != oldValue, isAttached, let last = lastPose { apply(last) } } }
+    private var lastPose: [HeroTrackPose]?
 
     init?(root: SCNNode, asset: MatchHeroData.Asset) {
         guard let data = asset.rig() else { return nil }
@@ -68,10 +71,17 @@ import simd
     /// Put the skeleton and the rigid parts in `pose` (one entry per track).
     func apply(_ pose: [HeroTrackPose]) {
         guard isAttached, pose.count == data.info.trackCount else { return }
+        lastPose = pose
         SCNTransaction.begin(); SCNTransaction.disableActions = true
         for (i, node) in boneNodes.enumerated() { node.simdTransform = pose[i].matrix }
-        for r in rigid { r.node.simdTransform = pose[r.track].matrix }
+        let back: simd_float4x4? = racketOnBack ? backRacket(pose) : nil
+        for r in rigid { r.node.simdTransform = back ?? pose[r.track].matrix }
         SCNTransaction.commit()
+    }
+    /// The racket parts' transform on the back for `pose` (nil when the export has no back placement).
+    private func backRacket(_ pose: [HeroTrackPose]) -> simd_float4x4? {
+        guard let k = asset.manifest.backRacketMatrix, let bone = asset.manifest.backRacketBone, let i = data.info.bones.firstIndex(of: bone), i < pose.count else { return nil }
+        return pose[i].matrix * k
     }
 
     func apply(_ motion: MenuMotion, at time: Double) {
@@ -101,6 +111,10 @@ struct MenuMotion: Equatable {
     var lead = 0.7, fadeIn = 0.2, fadeOut = 0.4
     var idleOffset = 0.0
     var freezeIdle = false
+    /// The idle the motion stands on: "ready" (the tennis ready stance, racket in hand) or MENU HERO's "relaxed" (the plaza's relaxed stand, nothing in the
+    /// hands); an export without the clip falls back to "ready".
+    var idle = "ready"
+    static let relaxed: MenuMotion = { var m = MenuMotion(kind: .ready); m.idle = "relaxed"; m.freezeIdle = true; return m }()
     /// Set when something has to take the hero off the skeleton (the loading screen's morph practice swing builds on the static Ready stance, which is frame 0 of ReadyIdle): from this time the
     /// pose eases from where it was to ReadyIdle frame 0 over `settleDuration`, so nothing pops.
     var settleFrom: Double?
@@ -134,7 +148,7 @@ struct MenuMotion: Equatable {
         return RigData.blend(playing(rig, at: from), ready.pose(at: 0, loop: true), Self.smooth((t - from) / settleDuration))
     }
     @MainActor private func playing(_ rig: RigData, at t: Double) -> [HeroTrackPose] {
-        guard let ready = rig.clips["ready"] else { return [] }
+        guard let ready = rig.clips[idle] ?? rig.clips["ready"] else { return [] }
         let base = ready.pose(at: freezeIdle ? 0 : t + idleOffset, loop: true)
         if case .clipOnce(let id) = kind, let clip = rig.clips[id] {
             let elapsed = t - lead

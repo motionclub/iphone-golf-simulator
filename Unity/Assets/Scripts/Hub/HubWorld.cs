@@ -180,10 +180,11 @@ namespace GolfArcade.Hub
 
         // ------------------------------------------------------------------ look and body
         /// The locker's look on the plaza hero (PLAN §2 Locker: changes show live). Hex strings without '#', "" = the kit's own colour.
-        public void ApplyLook(bool female, string skinHex, int skinIndex, string shirt, string shorts, string shoes, string racket)
+        public void ApplyLook(bool female, string skinHex, int skinIndex, string shirt, string shorts, string shoes, string racket, string back = null)
         {
             if (!Player) return;
             Player.SetHero(female);
+            Player.SetBackCarry(back);   // MENU HERO: golf bag or racket on the back (the locker's pick)
             var look = Player.look; if (!look) return;
             var skin = !string.IsNullOrEmpty(skinHex) ? HeroKit.Hex(skinHex) : HeroKit.Hex(HeroKit.SkinHex[Mathf.Clamp(skinIndex, 0, 5)]);
             look.SetSkin(skin);

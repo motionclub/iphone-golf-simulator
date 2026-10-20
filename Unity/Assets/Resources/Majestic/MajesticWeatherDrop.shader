@@ -2,7 +2,7 @@
 // no texture: a rain streak (stretched billboard, uv.y along the fall) or a soft flake; vertex colour, premultiplied.
 Shader "GolfArcade/MajesticWeatherDrop"
 {
-    Properties { _Kind("1 rain, 2 snow, 3 ash, 4 petals", Float) = 1 }
+    Properties { _Kind("1 rain, 2 snow, 3 ash, 4 petals, 5 wind wisp", Float) = 1 }
     SubShader
     {
         Tags { "RenderType"="Transparent" "RenderPipeline"="UniversalPipeline" "Queue"="Transparent+55" "IgnoreProjector"="True" }
@@ -22,6 +22,7 @@ Shader "GolfArcade/MajesticWeatherDrop"
             {
                 float a;
                 if (_Kind < 1.5) { float x = (i.uv.y - .5) / .2; a = exp(-x * x) * sin(3.14159 * saturate(i.uv.x)); }
+                else if (_Kind > 4.5) { float x = (i.uv.y - .5) * 2; a = saturate(1 - x * x); a *= a; }   // wind wisp: a soft ribbon along the trail
                 else if (_Kind > 3.5) { float2 q = (i.uv - .5) * float2(2.2, 4.2); a = saturate(1 - dot(q, q)) * 1.2; }   // petal / leaf
                 else { a = pow(saturate(1 - length(i.uv - .5) * 2), 1.4); }
                 a *= i.c.a;

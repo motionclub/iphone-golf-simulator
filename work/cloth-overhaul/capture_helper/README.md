@@ -1,0 +1,9 @@
+# Compiled Metal statistics capture
+
+Exact game frame timing is already saved in ../device_profile_before.json and ../device_profile_after.json. Both were measured before adding capture helpers. Do not use capture-enabled timing as the game frame test.
+
+capture_compiled_variants.swift loads the unchanged Unity CompileVariant MSL, creates each fragment pipeline plus a generic fullscreen vertex producer, and captures four labelled draws on Apple M5. Run with MTL_CAPTURE_ENABLED=1; arguments are ../compile_final and the desired .gputrace output. Open/replay/profile the trace in Xcode. This supplies compiled shader inspection, not a beauty render or representative GPU runtime. The generic resources intentionally do not reproduce game materials. Compiler register counts are 100→112 plain, 140→130 court; zero spilled bytes. ALU counts are NOT yet extracted. Xcode UI timed out repeatedly; the capture remains available.
+
+Native iPhone capture helpers were built in both isolated exports. Original UnityAppController.mm/Info.plist files have now been restored byte-for-byte; prepared DerivedData binaries still contain the helper. Candidate helper2 is installed under our temporary proof bundle. The helper runs only with CLOTH_GPU_CAPTURE=1, disables idle while that proof process is foreground, records status in Documents/cloth_capture_status.txt and starts a 120ms Metal trace after 20s. Last candidate launch was rejected Locked. Once the human confirms Ready, launch the prepared candidate and collect status/trace; baseline build is ready for the same operation. The production Unity project contains no capture helper or idle-setting changes.
+
+Preserve all physical profile files before replacing the temporary proof app. No user apps were removed. Report native target and measurement basis explicitly; an M5 compiler statistic must not be presented as an A19 device count. The strict G10 ALU report remains FAIL until actual requested evidence is collected.

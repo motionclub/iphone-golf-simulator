@@ -431,7 +431,7 @@ final class SportsSession {
         resultPresentationReady = true; finishedMatch=nil; lastMatchStats=nil; swingSequence=0; target=0; power=0; aim=0; measuringDelay=false; delayTip=""; checkingTiming=false; timingPrompt=false; timingNote=""
         tvDelay = timingCalibration ?? 0; appliedSharedDelay = nil
         golfController = .waiting; golfControllerMap = nil
-        setupStage = .scan; axisGate = SportsAxisGate(); phase="calibrating"; feedback=""; golfPhase=""; golfHasNextHole=false; golfShotReady=false; golfSwingState=0; stamina=1
+        setupStage = .scan; axisGate = SportsAxisGate(); phase="calibrating"; feedback=""; golfPhase=""; golfHasNextHole=false; golfShotReady=false; golfSwingState=0; golfHold=GolfHoldSwing(); stamina=1
         multiplayerSetupStarted = false; setupProblem = ""
         ultimateMeter=0; ultimateArmed=false; diveCooldown=0; canDive=false; canArmUltimate=false; loadoutLocked=false
         let p=players[min(playerIndex,players.count-1)]
@@ -672,7 +672,7 @@ final class SportsSession {
     }
     func useTouch() {
         pending?["touch"] = true  // setup may finish before Unity has received its start command
-        if sport == "golf" { golfShotReady = false; golfSwingState = 0 }
+        if sport == "golf" { golfShotReady = false; golfSwingState = 0; golfHold = GolfHoldSwing() }
         if sport == "tennis" {
             timingPrompt=false; checkingTiming=false; timingCountdownEnds=nil; checkTimingOnResume=false
             command("cancelTimingCheck"); aimLesson = nil; setupStage = .ready
@@ -682,7 +682,7 @@ final class SportsSession {
     }
     func useMotion() {
         pending?["touch"] = false
-        if sport == "golf" { golfShotReady = false; golfSwingState = 0 }
+        if sport == "golf" { golfShotReady = false; golfSwingState = 0; golfHold = GolfHoldSwing() }
         pause(); touch=false; phase="calibrating"; trackingWarning=""; command("motion")
         if sport == "tennis" { aimChecked=false }
         if sport == "tennis" && !motion.axisLocked { beginAxisCapture(); return }
@@ -728,13 +728,25 @@ final class SportsSession {
     }
     func steer(_ value:Double) { target=value; if !paused { sendInput(valid:true) } }
     func setAim(_ value:Double) { if sport == "tennis" { setShotAim(across:value,depth:shotDepth) } else { command("aim",value:value) } }
-    /// Start Swing. The grip is taken by Unity once the phone is held still in the stance, not
-    /// from this tap, whose pose is the screen-facing one.
-    func startGolfSwing() {
-        guard active, sport == "golf", !touch, ready, !paused, golfPhase == "Aim", golfShotReady, golfSwingState == 0 else { return }
-        golfSwingState = 1
+    /// The swing button pressed: hold to arm. The grip is taken by Unity once the phone is held
+    /// still in the stance, not from this touch, whose pose is the screen-facing one.
+    func pressGolfSwing() {
+        let canArm = active && sport == "golf" && !touch && ready && !paused && golfPhase == "Aim" && golfShotReady
+        guard golfHold.press(canArm: canArm) else { return }
         command("golfStartSwing")
         if haptics { UIImpactFeedbackGenerator(style: .medium).impactOccurred() }
+    }
+    /// The swing button let go: before contact Unity resets the swing (back to the address, nothing hit).
+    func releaseGolfSwing() {
+        guard golfHold.release() else { return }
+        command("golfReleaseSwing")
+    }
+    private func observeGolfHold() {
+        switch golfHold.observe(phase: golfPhase, shotReady: golfShotReady, unityState: golfSwingState) {
+        case .armed?: if haptics { UIImpactFeedbackGenerator(style: .rigid).impactOccurred(intensity: 1) }
+        case .reset?: if haptics { UINotificationFeedbackGenerator().notificationOccurred(.warning) }
+        case nil: break
+        }
     }
     /// A direction in the phone course map: +x right, +y toward the top of the map.
     func aimGolf(across: Double, forward: Double) {
@@ -929,9 +941,11 @@ final class SportsSession {
         sendJSON(message)
     }
     var golfShotReady = false
-    /// Motion golf reads a swing only after Start Swing: 0 tap to start, 1 hold the phone still
-    /// in your stance while Unity sets the grip, 2 swing now. Unity owns it and reports it.
+    /// Motion golf reads a swing only while the swing button is held: 0 not armed, 1 held, hold the
+    /// phone still in your stance while Unity sets the grip, 2 held, swing now. Unity owns it and reports it.
     var golfSwingState = 0
+    /// The phone's side of hold to swing: the finger on the button, and what Unity has said about it.
+    var golfHold = GolfHoldSwing()
     var golfController = GolfControllerReading.waiting
     var golfControllerMap: UIImage?
     var golfPhase = ""
@@ -1048,6 +1062,7 @@ final class SportsSession {
                 golfHasNextHole = event["golfHasNextHole"] as? Bool ?? false
                 golfShotReady = event["golfShotReady"] as? Bool ?? false
                 golfSwingState = event["golfSwingState"] as? Int ?? 0
+                observeGolfHold()
             }
             if let allowed = event["presentationResultReady"] as? Bool { resultPresentationReady = allowed }
             switch event["type"] as? String {
@@ -1268,5 +1283,56 @@ enum SportsTiming {
         do { try JSONSerialization.data(withJSONObject: report, options: [.prettyPrinted, .sortedKeys]).write(to: destination, options: .atomic) }
         catch { print("[VisualDeviceProof] Thermal report write failed: \(error)") }
         if seconds >= 150 { timer?.invalidate(); timer = nil }
+    }
+}
+
+/// Hold to swing, on the phone (Wii Sports Resort's hold-B): pressing the swing button arms the
+/// swing, the swing happens while it is held, and letting go before contact resets it. Unity owns
+/// the swing; this keeps the finger's side of it, so the button answers the touch at once and the
+/// haptics follow what Unity reports (golfSwingState and the phase) rather than guessing.
+struct GolfHoldSwing: Equatable {
+    enum Face: Equatable { case hold, holdStill, swing }
+    enum Feel: Equatable { case armed, reset }
+    /// The finger is on the button and this press armed a swing.
+    private(set) var held = false
+    /// Unity has reported this press's swing (state 1 or 2).
+    private var acknowledged = false
+    /// Let go: waiting to hear whether that reset the swing or a shot was already struck.
+    private var releasing = false
+    private var unityState = 0
+
+    var face: Face { !held ? .hold : acknowledged && unityState == 2 ? .swing : .holdStill }
+
+    /// A press: true when it arms a swing (send golfStartSwing).
+    mutating func press(canArm: Bool) -> Bool {
+        guard canArm, !held else { return false }
+        held = true; acknowledged = false; releasing = false
+        return true
+    }
+    /// A lift: true when it lets go of an armed swing (send golfReleaseSwing).
+    mutating func release() -> Bool {
+        guard held else { return false }
+        held = false; releasing = true
+        return true
+    }
+    /// Unity's report. Returns the feel to play: armed when the grip is set while held; reset when a
+    /// let-go (or Unity itself: a new aim, a club change, a swing stopped short) ends the swing
+    /// before contact. A struck shot (the phase leaves Aim) ends the hold with no reset.
+    mutating func observe(phase: String, shotReady: Bool, unityState state: Int) -> Feel? {
+        let previous = unityState
+        unityState = state
+        guard phase == "Aim", shotReady || releasing else {
+            held = false; acknowledged = false; releasing = false
+            return nil
+        }
+        if releasing {
+            guard state == 0 else { return nil }   // (still mid-swing: a release in the downswing waits a moment for contact)
+            releasing = false; acknowledged = false
+            return .reset
+        }
+        guard held else { return nil }
+        if state == 0 { if acknowledged { held = false; acknowledged = false; return .reset }; return nil }
+        acknowledged = true
+        return state == 2 && previous != 2 ? .armed : nil
     }
 }

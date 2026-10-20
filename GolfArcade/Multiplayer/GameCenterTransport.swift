@@ -20,7 +20,7 @@ struct GameCenterPartyInvitation: Codable, Equatable {
         && expiresAt.isFinite && expiresAt > now && expiresAt <= now + 125_000
     }
     func card(_ matchID: String) -> HubInvite {
-        HubInvite(inviteID: "gc:" + matchID, from: HubPlayerRef(id: host, name: name), sport: "tennis",
+        HubInvite(inviteID: "gc:" + matchID, from: HubPlayerRef(id: host, name: name), sport: "party",
                   lobbyCode: matchID, group: group, capacity: players.count, expiresAt: expiresAt)
     }
 }
@@ -52,6 +52,9 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
     var onInvitations: (([HubInvite]) -> Void)?
     var onInvitationSent: ((String) -> Void)?
     var invitationAllowed: ((String, String) -> Bool)?
+    /// The player tapped Game Center's notification for this invitation: that tap is the Join (no second tap on our banner).
+    var onInvitationOpened: ((HubInvite) -> Void)?
+    private var openedFromNotification: String?
     private var inbox: [String: GKTurnBasedMatch] = [:]
     private var inboxTimer: Timer?
     private var refreshingInbox = false
@@ -158,6 +161,10 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
                 pending[card.id] = stored; cards.append(card)
             }
             inbox = pending; onInvitations?(cards.sorted { $0.expiresAt > $1.expiresAt })
+            if let opened = openedFromNotification {
+                openedFromNotification = nil
+                if let card = cards.first(where: { $0.id == opened }) { onInvitationOpened?(card) }
+            }
         } catch { SportsDiagnostics.write("Game Center invite inbox: \(error.localizedDescription)") }
     }
 
@@ -266,7 +273,11 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
     }
     func disconnect() { cancelSearch(); match?.delegate = nil; match?.disconnect(); match = nil; partyGroup = nil; allowedPartyPlayers = nil; onPeersChanged?() }
     nonisolated func player(_ player: GKPlayer, receivedTurnEventFor match: GKTurnBasedMatch, didBecomeActive: Bool) {
-        Task { @MainActor [weak self] in await self?.refreshInvitations() }
+        let id = "gc:" + match.matchID
+        Task { @MainActor [weak self] in
+            if didBecomeActive { self?.openedFromNotification = id }
+            await self?.refreshInvitations()
+        }
     }
     nonisolated func match(_ match: GKMatch, didReceive data: Data, fromRemotePlayer player: GKPlayer) {
         let id = player.gamePlayerID, delivery = GameKitDelivery(value: match)

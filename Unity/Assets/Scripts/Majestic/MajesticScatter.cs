@@ -122,6 +122,8 @@ namespace GolfArcade.Majestic
             // tee-side beds 35-70 yd from the tee camera
             float keepAt = (float)rng.NextDouble() * priority;
             var m = Matrix4x4.TRS(new Vector3(p.x, y - .05f, p.z), Quaternion.Euler(0, (float)rng.NextDouble() * 360, 0), sc) * item.toRoot;
+            // 10-19: one ground sample under its middle left the downhill side of a boulder in the air (RockGrounding)
+            if (name.StartsWith("BOULDER")) { float drop = RockGrounding.Settle("majestic " + name, item.mesh, m); if (drop > 0) m = Matrix4x4.Translate(Vector3.down * drop) * m; }
             for (int sub = 0; sub < item.mesh.subMeshCount; sub++)
             {
                 var g = GroupFor(item.mesh, sub, palette, item.slots[sub], name, item.slots[sub] is 4 or 5 ? variant : 0);

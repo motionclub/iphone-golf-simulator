@@ -89,7 +89,7 @@ namespace GolfArcade.EditorTools
         [Serializable] class MatInfo { public string name; public float[] color; public float smoothness; }
         [Serializable] class RigMorph { public string name; public int positionOffset, normalOffset; }
         [Serializable] class MorphTrack { public string part; public int offset, count; }
-        class MotionSource { public AnimationClip clip; public string id, equipment; public bool loop; public float contact; }
+        class MotionSource { public AnimationClip clip; public string id, equipment; public bool loop; public float contact; public float rate; }
         [Serializable] class RigPart { public string part, kind; public int vertexCount, bindPositionOffset, bindNormalOffset, weightOffset, indexOffset, inverseBindOffset, track = -1; public int[] bones; public RigMorph[] morphs; }
         [Serializable] class ClipInfo { public string id, name; public bool loop; public float length, fps, contact; public int frames, offset; public float[] boundsMin, boundsMax, times; public MorphTrack[] morphWeights; public string equipment; }
         [Serializable] class Rig { public string file; public string[] bones, rigid; public int trackCount, floatsPerTrack = 10; public RigPart[] parts; public ClipInfo[] clips; }
@@ -100,6 +100,8 @@ namespace GolfArcade.EditorTools
             public PartInfo[] parts; public MatInfo[] materials; public string[] swingFrames; public float[] swingTimes;
             public float[] boundsMin, boundsMax; public float height, headCentreY, headTopY, headRadius;
             public Rig rig;
+            /// MENU HERO: the racket on the back (HeroAccessories.BackRacketPose): racket node = bone(backRacketBone) * backRacket, column-major, file space.
+            public float[] backRacket; public string backRacketBone;
             public string coordinates = "Unity metres, z negated, winding flipped (hero faces -z)";
         }
 
@@ -325,6 +327,10 @@ namespace GolfArcade.EditorTools
                 var own = typeof(MatchHeroLook).GetMethod("OwnMaterials", BindingFlags.Instance | BindingFlags.NonPublic);
                 if (!look || own == null) throw new InvalidOperationException("MatchHeroLook.OwnMaterials not found");
                 own.Invoke(look, null);
+                // MENU HERO (work/menu-hero): the plaza's relaxed stand as the "relaxed" menu clip (baked before anything poses the hero: the stand is built
+                // from the prefab's own pose, as HubHeroAnimator.Attach does in the plaza), and the golf bag as a part the phone shows when it is the back pick
+                AnimationClip relaxedClip = null;
+                if (!golf) { relaxedClip = BakeRelaxed(root, sb); HeroAccessories.For(look).SetCarry(true, "golf_bag"); }
                 if(distance){
                     var asset=Resources.Load<GameObject>("Tennis/KitsLOD/"+sex);
                     if(!asset)throw new FileNotFoundException("Bounded distance kit missing: "+sex);
@@ -352,6 +358,7 @@ namespace GolfArcade.EditorTools
                 // the locker mirror shows the same racket the match plays with
                 if(!golf)root.GetComponentsInChildren<Transform>(true).First(t=>t.name=="Racket_Classic").localScale*=TennisRules.HeroRacketScale;
                 var motions=golf ? GolfMotions(sex):RigClips.Select(entry=>{var slot=driver.slots.First(s=>s.id==entry.slot);return new MotionSource{clip=slot.clip,id=entry.id,loop=entry.loop,contact=slot.contact};}).ToList();
+                if (relaxedClip) motions.Add(new MotionSource { clip = relaxedClip, id = "relaxed", loop = true, rate = RelaxedRate });
                 var ready=motions.First(m=>m.id=="ready").clip;
                 if(golf)PrepareMenuIronSocket(root,motions.First(m=>m.id=="golfIron").clip);
                 var fore=golf ? motions.First(m=>m.id=="golfDrive"):new MotionSource{clip=driver.slots.First(s=>s.id==HeroTennisDriver.Clip.Forehand).clip,contact=driver.slots.First(s=>s.id==HeroTennisDriver.Clip.Forehand).contact};
@@ -364,6 +371,7 @@ namespace GolfArcade.EditorTools
                 foreach (var p in sources) if (!p.mesh.isReadable) throw new InvalidOperationException(p.name + " mesh is not readable");
 
                 // ---- base pose
+                float[] backRacketMatrix = null; string backRacketBoneName = null;
                 SamplePose(root, ready, 0f);
                 if(golf)root.GetComponent<GolfGarmentCorrectives>()?.Apply();
             root.GetComponent<HeroGarmentPoseCorrectives>()?.Apply();
@@ -376,6 +384,15 @@ namespace GolfArcade.EditorTools
                 float neckY = neck.position.y;
                 var headBounds = new Bounds(); bool hf = true;
                 foreach (var p in sources.Where(s => s.kind == "body" || s.kind == "face")) foreach (var v in p.pos) if (v.y > neckY + .02f) { if (hf) { headBounds = new Bounds(v, Vector3.zero); hf = false; } else headBounds.Encapsulate(v); }
+                // MENU HERO: where the racket goes on the back, relative to its bone, for the base-pose racket geometry
+                if (!golf && HeroAccessories.BackRacketPose(look, out var backBone, out var backPos, out var backRot, out float backScale))
+                {
+                    var toHero = root.transform.worldToLocalMatrix; Matrix4x4 ToFile(Matrix4x4 world) => FlipZ * (toHero * world) * FlipZ;
+                    var boneW = backBone.localToWorldMatrix; var racketOnBack = boneW * Matrix4x4.TRS(backPos, backRot, Vector3.one * backScale);
+                    var k = ToFile(boneW).inverse * ToFile(racketOnBack) * ToFile(look.racketGrip.localToWorldMatrix).inverse;
+                    backRacketMatrix = Enumerable.Range(0, 16).Select(i => k[i]).ToArray(); backRacketBoneName = backBone.name;
+                    sb.AppendLine($"  racket on the back: bone {backBone.name}, scale {backScale:F3}, matrix {k}");
+                }
                 sb.AppendLine($"  base pose {ready.name} t=0: body bounds min={bounds.min:F3} max={bounds.max:F3} height={bounds.size.y:F3} m; neck y={neckY:F3} head bone y={head.position.y:F3}; head box centre y={headBounds.center.y:F3} top={headBounds.max.y:F3} size={headBounds.size:F3}");
 
                 // CPU skin check against Unity's own BakeMesh (SkinnedMeshRenderer local space -> world). BakeMesh obeys the quality tier's bone limit, so the check runs at four bones
@@ -461,6 +478,7 @@ namespace GolfArcade.EditorTools
                     parts = infos.ToArray(), swingTimes = SwingTimes,
                     boundsMin = new[] { bounds.min.x, bounds.min.y, -bounds.max.z }, boundsMax = new[] { bounds.max.x, bounds.max.y, -bounds.min.z },
                     height = bounds.size.y, headCentreY = headBounds.center.y, headTopY = headBounds.max.y, headRadius = Mathf.Max(headBounds.extents.x, headBounds.extents.z),
+                    backRacket = backRacketMatrix, backRacketBone = backRacketBoneName,
                 };
                 var frames = new List<string>();
                 // ---- swing frames
@@ -538,6 +556,7 @@ namespace GolfArcade.EditorTools
                     if (n == "_BaseMap") look.baseMapLinear = true;
                 }
                 if (!path.EndsWith(".png")) throw new InvalidOperationException($"{m.name}.{n}: texture '{tex.name}' is not a PNG asset ({path})");
+                if (path.Contains("_golf_bag_")) path = LobbyHalf(path);   // MENU HERO: the bag's 4096 maps go to the phone at 2048 (a small item on a menu hero)
                 maps.Add(path);
                 return MapResourceName(path, golf);
             }
@@ -580,6 +599,84 @@ namespace GolfArcade.EditorTools
             Debug.Log("[MatchHeroLockerExport] measured native Idle Iron socket "+menuIronSockets[root]);
         }
 
+        /// MENU HERO: a 2x2 box-filtered half-size copy of a PNG map (data maps stay linear: plain averages of the stored bytes), same file name, in OutDir/.lobby-maps.
+        static string LobbyHalf(string path)
+        {
+            string dir = Path.Combine(OutDir, ".lobby-maps"); Directory.CreateDirectory(dir);
+            string outPath = Path.Combine(dir, Path.GetFileName(path));
+            if (File.Exists(outPath) && File.GetLastWriteTimeUtc(outPath) >= File.GetLastWriteTimeUtc(path)) return outPath;
+            var src = new Texture2D(2, 2, TextureFormat.RGBA32, false, true); src.LoadImage(File.ReadAllBytes(path));
+            int w = src.width / 2, h = src.height / 2; var a = src.GetPixels32(); var o = new Color32[w * h];
+            for (int y = 0; y < h; y++) for (int x = 0; x < w; x++)
+            {
+                int i = 2 * y * src.width + 2 * x; var p0 = a[i]; var p1 = a[i + 1]; var p2 = a[i + src.width]; var p3 = a[i + src.width + 1];
+                o[y * w + x] = new Color32((byte)((p0.r + p1.r + p2.r + p3.r + 2) / 4), (byte)((p0.g + p1.g + p2.g + p3.g + 2) / 4), (byte)((p0.b + p1.b + p2.b + p3.b + 2) / 4), (byte)((p0.a + p1.a + p2.a + p3.a + 2) / 4));
+            }
+            var half = new Texture2D(w, h, TextureFormat.RGBA32, false, true); half.SetPixels32(o); half.Apply();
+            File.WriteAllBytes(outPath, half.EncodeToPNG()); Object.DestroyImmediate(src); Object.DestroyImmediate(half);
+            return outPath;
+        }
+
+        // ================================================================== MENU HERO: the relaxed stand
+        const string RelaxedName = "Relaxed";
+        /// One loop of the plaza's breathing / weight shift (two breaths at .23 Hz), sampled slowly: the stand moves a degree or two.
+        const float RelaxedLoop = 8.7f, RelaxedRate = 15f;
+        /// The plaza's relaxed stand (HubHeroAnimator on this hero, weight 1 on its own Idle base) baked into a looping clip with a key per RelaxedRate
+        /// on every bone from the hips down the skeleton (linear keys: the phone interpolates the samples linearly too).
+        static AnimationClip BakeRelaxed(GameObject root, StringBuilder sb)
+        {
+            var driver = root.GetComponent<HeroTennisDriver>(); bool driverOn = driver && driver.enabled;
+            var hub = GolfArcade.Hub.HubHeroAnimator.Attach(root);
+            if (!hub || !hub.IdleClip) throw new InvalidOperationException("HubHeroAnimator could not attach to " + root.name);
+            try
+            {
+                var look = root.GetComponent<MatchHeroLook>(); var hips = look.Bone(HumanBodyBones.Hips);
+                var safety = new HeroPoseSafety(look);
+                var bones = hips.GetComponentsInChildren<Transform>(true).Where(t => !t.GetComponent<Renderer>()).ToArray();
+                int n = Mathf.RoundToInt(RelaxedLoop * RelaxedRate);
+                var pos = new Vector3[n + 1, bones.Length]; var rot = new Quaternion[n + 1, bones.Length];
+                for (int k = 0; k <= n; k++)
+                {
+                    hub.IdleClip.SampleAnimation(root, 0);
+                    hub.PoseRelaxed(k * RelaxedLoop / n, RelaxedLoop);
+                    safety.Apply(false);   // the plaza's hand clearance on the stand (residual solve, no baked clip tracks: as HubHeroAnimator standing still)
+                    for (int b = 0; b < bones.Length; b++)
+                    {
+                        var q = bones[b].localRotation; if (k > 0 && Quaternion.Dot(q, rot[k - 1, b]) < 0) q = new Quaternion(-q.x, -q.y, -q.z, -q.w);
+                        pos[k, b] = bones[b].localPosition; rot[k, b] = q;
+                    }
+                }
+                var clip = new AnimationClip { name = RelaxedName, frameRate = RelaxedRate };
+                AnimationCurve Linear(Func<int, float> value)
+                {
+                    var keys = new Keyframe[n + 1]; float dt = RelaxedLoop / n;
+                    for (int k = 0; k <= n; k++) keys[k] = new Keyframe(k * dt, value(k));
+                    for (int k = 0; k <= n; k++)
+                    {
+                        float inT = k > 0 ? (keys[k].value - keys[k - 1].value) / dt : 0, outT = k < n ? (keys[k + 1].value - keys[k].value) / dt : 0;
+                        keys[k].inTangent = k > 0 ? inT : outT; keys[k].outTangent = k < n ? outT : inT;
+                    }
+                    return new AnimationCurve(keys);
+                }
+                float seam = 0;
+                for (int b = 0; b < bones.Length; b++)
+                {
+                    string path = AnimationUtility.CalculateTransformPath(bones[b], root.transform); int bi = b;
+                    clip.SetCurve(path, typeof(Transform), "localPosition.x", Linear(k => pos[k, bi].x));
+                    clip.SetCurve(path, typeof(Transform), "localPosition.y", Linear(k => pos[k, bi].y));
+                    clip.SetCurve(path, typeof(Transform), "localPosition.z", Linear(k => pos[k, bi].z));
+                    clip.SetCurve(path, typeof(Transform), "localRotation.x", Linear(k => rot[k, bi].x));
+                    clip.SetCurve(path, typeof(Transform), "localRotation.y", Linear(k => rot[k, bi].y));
+                    clip.SetCurve(path, typeof(Transform), "localRotation.z", Linear(k => rot[k, bi].z));
+                    clip.SetCurve(path, typeof(Transform), "localRotation.w", Linear(k => rot[k, bi].w));
+                    seam = Mathf.Max(seam, Quaternion.Angle(rot[0, b], rot[n, b]));
+                }
+                sb.AppendLine($"  relaxed stand: HubHeroAnimator on {hub.IdleClip.name}, {bones.Length} bones, {n + 1} keys over {RelaxedLoop}s, loop seam {seam:F3} deg");
+                return clip;
+            }
+            finally { Object.DestroyImmediate(hub); if (driver) driver.enabled = driverOn; }
+        }
+
         static void SamplePose(GameObject root, AnimationClip clip, float time)
         {
             clip.SampleAnimation(root, time);
@@ -588,7 +685,7 @@ namespace GolfArcade.EditorTools
                 var local=club.parent.worldToLocalMatrix*hand.localToWorldMatrix*socket;
                 Decompose(local,out var p,out var q,out var scale);club.localPosition=p;club.localRotation=q;club.localScale=scale;
             }
-            HeroGripPolish.ApplyGrip(root.GetComponent<MatchHeroLook>());
+            if (clip.name != RelaxedName) HeroGripPolish.ApplyGrip(root.GetComponent<MatchHeroLook>());   // the plaza's relaxed stand carries no racket grip
             root.GetComponent<MatchHeroLook>()?.body?.GetComponent<HeroArmSkinning>()?.Apply();
             if(root.GetComponent<FemaleShoulderFit>()) { root.GetComponent<HeroShoulderDeformation>()?.Apply();root.GetComponent<FemaleShoulderFit>().Apply(); }
             root.GetComponent<FemaleGarmentFinish>()?.Apply(); root.GetComponent<MaleFaceFinish>()?.Apply();
@@ -677,7 +774,7 @@ namespace GolfArcade.EditorTools
                 // that applies the tracks.
                 if (Environment.GetEnvironmentVariable("LOBBY_CLEARANCE") == "1") motion.clip = clip = HeroClearanceBake.Corrected(root, clip, SamplePose);   // (the self check below samples motion.clip)
                 SamplePose(root, ready, 0f);
-                int n = Mathf.Max(1, Mathf.RoundToInt(clip.length * ClipRate)), frames = n + 1;
+                int n = Mathf.Max(1, Mathf.RoundToInt(clip.length * (motion.rate > 0 ? motion.rate : ClipRate))), frames = n + 1;
                 var data = new float[frames * rig.trackCount * 10];
                 var prevQ = new Quaternion[rig.trackCount];
                 float worstRecompose = 0, worstScale = 0;

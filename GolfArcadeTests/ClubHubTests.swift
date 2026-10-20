@@ -20,6 +20,20 @@ final class ClubHubTests: XCTestCase {
         XCTAssertEqual(try JSONDecoder().decode(GameCenterPartyInvitation.self, from: JSONEncoder().encode(invite)), invite)
     }
 
+    /// Online is Game Center only: a shipped build never has a Club Hub address, and a Game Center invite reads as an invite to
+    /// the party (not to tennis). The proof sheets show the banner and the inline chat strip over the Plaza controller.
+    func testGameCenterOnlyBannerAndInlineChatStrip() async throws {
+        if ClubHubConfig.override("clubHubURL") == nil { XCTAssertNil(ClubHubConfig.serverURL, "no service unless a dev build asks for one") }
+        let card = GameCenterPartyInvitation(host: "a", recipient: "b", name: "Ann", group: 0x60000002, players: ["a", "b"], expiresAt: 220_000).card("m1")
+        XCTAssertEqual(card.id, "gc:m1"); XCTAssertEqual(card.sportTitle, "their party")
+        let p = Phone(nil, id: "b", name: "Bea", friends: [])
+        p.hub.now = { 100_000 }; p.hub.nativeAccept = { _ in }
+        p.hub.gameCenterInvitations([card])
+        XCTAssertEqual(p.hub.banner?.id, "gc:m1")
+        try await save(ZStack(alignment: .top) { Color(hex: "0E1B33").ignoresSafeArea(); InviteBanner(hub: p.hub, invite: card).padding(12) }, "online-invite-banner", size: CGSize(width: 402, height: 300))
+        p.hub.debugReset()
+    }
+
     func testGameCenterInboxCanJoinAndDeclineWithoutAService() async throws {
         let p = Phone(nil, id: "guest", name: "Bea", friends: [])
         p.hub.now = { 100_000 }; await p.hub.refresh()

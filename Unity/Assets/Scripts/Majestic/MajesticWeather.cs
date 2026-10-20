@@ -50,6 +50,8 @@ namespace GolfArcade.Majestic
         public float Flash { get; private set; }
         public float PlayShare { get; private set; } = 1;     // tennis: 1 weather shows, 0 a rally is on
         public float GustNow { get; private set; }
+        /// The game's wind speed as a share of its strongest (0..1), for the wind wisps.
+        public float Wind01 { get; private set; }
         public Vector2 WindDir { get; private set; } = Vector2.up;
         public Vector3 CorridorA { get; private set; }
         public Vector3 CorridorB { get; private set; }
@@ -294,6 +296,7 @@ namespace GolfArcade.Majestic
             double deg = golf ? golf.Wind.DirectionDegrees : 45;
             float mph = golf ? (float)golf.Wind.SpeedMPH : (Weather == Weather.Storm ? 10 : Weather == Weather.Gusty ? 7 : 2);
             WindDir = MajesticWeatherRules.Direction(deg);
+            Wind01 = Mathf.Clamp01(mph / (float)Wind.MaxMPH);
             GustNow = MajesticWeatherRules.Gust(seed, DreamEnvironment.Utc, Now.Gust);
             float strength = Mathf.Clamp01(Mathf.Max(Now.Wind, mph / (float)Wind.MaxMPH));
             Shader.SetGlobalVector(WindDirId, new Vector4(WindDir.x, 0, WindDir.y, 0));

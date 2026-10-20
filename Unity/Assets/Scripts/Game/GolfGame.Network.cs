@@ -320,7 +320,9 @@ namespace GolfArcade.Game {
             if(partyGolfers.TryGetValue(state.turn,out var up))golfer=up;
             ballAt=new CoursePoint(active.x,active.d);holeStrokes=active.strokes;
             PlaceBall(ballAt,0);ball.gameObject.SetActive(!active.holed);
-            golfer.SetVisible(true);golfer.Settle();
+            // Stand before Settle: a golfer who has been waiting in an Idle move leaves it with her pose captured in world space (HeroPoseTransition),
+            // so settling her where she waited blends the new address from the waiting spot, and the swing is made from there.
+            golfer.SetVisible(true);golfer.Stand(ball.position,AimDirection());golfer.Settle();
             aimedByPlayer=false;networkLook=0;networkLoadShown=0;networkWoundUp=false;
             rig.SnapNext();
             BeginAim(false);

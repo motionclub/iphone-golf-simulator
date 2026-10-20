@@ -549,6 +549,7 @@ namespace GolfArcade.Tennis
             {
                 // the soft skin normal needs the bind-pose position in mesh channel 1 (the body has no UVs): a shared copy of the body mesh carries it
                 body.sharedMesh=HeroHandWeights.Prepare(body,female);
+                body.sharedMesh=HeroHandShape.Prepare(body,female);   // 10-19: fuller female fingers and pads (hand reference sheets)
                 body.sharedMesh=female ? HeroShoulderWeights.Prepare(body) : HeroGarmentAxillaWeights.Prepare(body,false);
                 if (!referenceAnatomy) {
                     body.sharedMesh=HeroHeadVolume.Prepare(this);

@@ -30,6 +30,9 @@ struct GolfControllerReading: Codable {
     var landing: Point?
     var path: [Point]?
     var reach: [Point]?
+    /// A putt's meter marks (25/50/75/100 %) where each rolls the ball, and their feet.
+    var targets: [Point]?
+    var targetLabels: [String]?
     var mapImage: String?
     var direction: Point?
 
@@ -97,6 +100,7 @@ struct GolfPhoneController: View {
     @State private var stickOffset = CGSize.zero
     @State private var draggingAim = false
     @State private var lastAimSent = -Double.infinity
+    @State private var swingFingerDown = false
     private var reading: GolfControllerReading { session.golfController }
     private var canAim: Bool { session.ready && session.golfPhase == "Aim" && !session.paused && (reading.party?.myTurn ?? true) }
     private var isDesignPreview: Bool {
@@ -176,7 +180,7 @@ struct GolfPhoneController: View {
                 .overlay(RoundedRectangle(cornerRadius: 14).stroke(.white, lineWidth: 3))
                 .shadow(color: .black.opacity(0.15), radius: 0, y: 3).position(x: 232, y: 946)
                 .accessibilityIdentifier("golf-aim-reading")
-            Text(reading.party?.phase == "result" ? (reading.party?.shared == true ? "NEXT PLAYER STARTS AUTOMATICALLY" : "PICK AN EMOTE · NEXT PLAYER STARTS AUTOMATICALLY") : reading.party?.myTurn == false ? "WATCH THE SHOT · REACT WITH YOUR PLAYER" : session.touch ? "DRAG TO AIM · TAP BALL TO SWING" : "DRAG TO AIM · TAP START SWING, THEN SWING")
+            Text(reading.party?.phase == "result" ? (reading.party?.shared == true ? "NEXT PLAYER STARTS AUTOMATICALLY" : "PICK AN EMOTE · NEXT PLAYER STARTS AUTOMATICALLY") : reading.party?.myTurn == false ? "WATCH THE SHOT · REACT WITH YOUR PLAYER" : session.touch ? "DRAG TO AIM · TAP BALL TO SWING" : "DRAG TO AIM · HOLD THE BUTTON AND SWING · LET GO TO RESET")
                 .font(GolfControllerStyle.font(11)).foregroundStyle(GolfControllerStyle.ink)
                 .position(x: 232, y: 985)
         }.overlay {
@@ -229,7 +233,7 @@ struct GolfPhoneController: View {
                 // the golf screen has no room for the chat and settings buttons, so they live here (record and mic stay on the screen)
                 PartySettingsSections()
                 Section("Party") {
-                    Button { partyChat = true } label: { Label("Party chat", systemImage: "bubble.left.and.bubble.right.fill") }.accessibilityIdentifier("golf-party-chat")
+                    Button { PartyChat.shared.stripOpen = true } label: { Label("Party chat", systemImage: "bubble.left.and.bubble.right.fill") }.accessibilityIdentifier("golf-party-chat")
                 }
                 Section {
                     Button("Send feedback") { BetaFeedback.open() }
@@ -276,7 +280,7 @@ struct GolfPhoneController: View {
             } else if session.paused || (session.golfPhase == "Aim" && !session.golfShotReady && reading.party == nil) {
                 VStack(spacing: 10) {
                     GolfControllerText(text: "READY TO SWING?", size: 25)
-                    Text("Tap Ready, then Start Swing for each shot.").font(Club.ui(16, 700)).foregroundStyle(.white)
+                    Text("Tap Ready, then hold the swing button and swing.").font(Club.ui(16, 700)).foregroundStyle(.white)
                     Button { session.readyToPlay() } label: {
                         GolfControllerText(text: "READY", size: 26).padding(.horizontal, 34).padding(.vertical, 12)
                             .background(GolfControllerStyle.yellow, in: Capsule())
@@ -368,19 +372,32 @@ struct GolfPhoneController: View {
                 })
             .accessibilityIdentifier("golf-aim-joystick")
     }
-    /// Motion is ignored until this is tapped, so aiming or changing club can't be read as a swing.
-    /// It sits beside the pad, in the space under the thumb that just aimed; after the tap it asks
-    /// for a still hold in the stance, then says when to swing.
+    /// Hold to swing (Wii Sports Resort's hold-B): motion counts only while this is held, so aiming
+    /// or changing club can't be read as a swing. Press and keep the thumb on it, hold still in the
+    /// stance until it turns green, swing; lifting the thumb before contact resets the swing. It sits
+    /// beside the pad, under the thumb that just aimed. Only lifting the thumb lets go: sliding over
+    /// the glass mid-swing does not.
     private var startSwingButton: some View {
-        let state = session.golfSwingState
-        let label = state == 1 ? "HOLD\nSTILL" : state == 2 ? "SWING\nNOW!" : "START\nSWING"
-        let fill = state == 1 ? GolfControllerStyle.amber : state == 2 ? GolfControllerStyle.green : GolfControllerStyle.yellow
-        return Button { session.startGolfSwing() } label: {
-            GolfControllerText(text: label, size: 21, stroke: 3, lines: 2).frame(width: 108, height: 108)
-                .background(fill, in: Circle()).overlay(Circle().stroke(.white, lineWidth: 4))
-                .shadow(color: GolfControllerStyle.ink.opacity(0.25), radius: 0, y: 4)
-        }.allowsHitTesting(state == 0)
-            .accessibilityLabel(state == 0 ? "Start swing" : state == 1 ? "Hold the phone still" : "Swing now")
+        let face = session.golfHold.face
+        let label = face == .holdStill ? "HOLD\nSTILL" : face == .swing ? "SWING!" : "HOLD TO\nSWING"
+        let fill = face == .holdStill ? GolfControllerStyle.amber : face == .swing ? GolfControllerStyle.green : GolfControllerStyle.yellow
+        let held = face != .hold
+        return GolfControllerText(text: label, size: face == .swing ? 26 : 21, stroke: 3, lines: 2).frame(width: 108, height: 108)
+            .background(fill, in: Circle()).overlay(Circle().stroke(.white, lineWidth: held ? 6 : 4))
+            .shadow(color: GolfControllerStyle.ink.opacity(0.25), radius: 0, y: held ? 1 : 4)
+            .scaleEffect(held ? 1.12 : 1).offset(y: held ? 3 : 0)
+            .animation(.easeOut(duration: 0.1), value: face)
+            .contentShape(Circle())
+            .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .local)
+                .onChanged { _ in
+                    guard !swingFingerDown else { return }
+                    swingFingerDown = true; session.pressGolfSwing()
+                }
+                .onEnded { _ in swingFingerDown = false; session.releaseGolfSwing() })
+            .onDisappear { if swingFingerDown { swingFingerDown = false; session.releaseGolfSwing() } }
+            .accessibilityElement().accessibilityAddTraits(.isButton)
+            .accessibilityLabel(face == .hold ? "Hold to swing" : face == .holdStill ? "Holding: keep the phone still" : "Holding: swing now")
+            .accessibilityHint("Keep holding while you swing. Letting go resets the swing.")
             .accessibilityIdentifier("golf-start-swing")
     }
     private var thumbOffset: CGSize {
@@ -500,6 +517,15 @@ private struct GolfControllerMap: View {
                         }
                         for p in (reading.path ?? []) + (reading.reach ?? []) {
                             let at = point(p); context.fill(Path(ellipseIn: CGRect(x: at.x-1.7, y: at.y-1.7, width: 3.4, height: 3.4)), with: .color(.white))
+                        }
+                        // a putt's meter marks, coloured like the TV map's power stops, with their feet
+                        let stops = [Color(red: 0.52, green: 0.85, blue: 1), Color(red: 0.5, green: 0.95, blue: 0.78), Color(red: 1, green: 0.88, blue: 0.42), Color(red: 1, green: 0.61, blue: 0.36)]
+                        for (i, p) in (reading.targets ?? []).enumerated() {
+                            let at = point(p), dot = Path(ellipseIn: CGRect(x: at.x-4, y: at.y-4, width: 8, height: 8))
+                            context.fill(dot, with: .color(stops[i % stops.count])); context.stroke(dot, with: .color(GolfControllerStyle.ink), lineWidth: 1.2)
+                            guard let labels = reading.targetLabels, i < labels.count else { continue }
+                            context.draw(Text(labels[i]).font(.system(size: 10, weight: .heavy)).foregroundColor(.white),
+                                         at: CGPoint(x: at.x + 8, y: at.y), anchor: .leading)
                         }
                         for (p, color, radius) in [(reading.pin, Color.red, 4.0), (reading.landing, GolfControllerStyle.yellow, 5.0), (reading.ball, Color.white, 6.0)] {
                             guard let p else { continue }; let at = point(p)

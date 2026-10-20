@@ -231,6 +231,7 @@ final class MultiplayerService {
         let gc = GameCenterTransport(); gameCenter = gc
         gc.onInvitations = { ClubHub.shared.gameCenterInvitations($0) }
         gc.onInvitationSent = { ClubHub.shared.gameCenterInvitationSent(to: $0) }
+        gc.onInvitationOpened = { ClubHub.shared.accept($0) }
         gc.invitationAllowed = { gameID, teamID in
             !ClubHub.shared.blocked.contains(gameID) && !ClubHub.shared.blocked.contains(teamID)
             && !PartySafety.shared.isBlocked(gameID) && !PartySafety.shared.isBlocked(teamID)

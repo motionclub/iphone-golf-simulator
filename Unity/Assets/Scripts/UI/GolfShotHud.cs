@@ -26,6 +26,9 @@ namespace GolfArcade.UI
         RawImage mapImage; RectTransform infoRoot, mapRoot, meterRoot, contactRoot, tip;
         RectTransform ball, pin, live;
         readonly RectTransform[] targets = new RectTransform[4];
+        readonly RectTransform[] targetBadges = new RectTransform[4];
+        readonly Text[] targetLabels = new Text[4];
+        RectTransform liveBadge; Text liveLabel;
         readonly RectTransform[] segments = new RectTransform[4];
         const float MeterHeight = 288, SegmentHeight = 69, InfoHeight = 216, LieHeight = 100;
         bool flight, lieSet;
@@ -73,6 +76,7 @@ namespace GolfArcade.UI
                 badge.raycastTarget=false;
                 var power=UiKit.Label(badge.transform,"Power",18,TextAnchor.MiddleCenter,Vector2.zero,Vector2.one,Vector2.zero,Vector2.zero,UiKit.Strong,false);
                 power.text=$"{(i+1)*25}%";power.color=Stops[i];
+                h.targetBadges[i]=badge.rectTransform;h.targetLabels[i]=power;
             }
             h.clubRoot=Panel(go.transform,"Club selection",Vector2.zero,new Vector2(40,40),new Vector2(336,140));
             h.clubChange=Label(h.clubRoot,"Club change",19,new Vector2(18,-12),new Vector2(300,30));h.clubChange.text="SELECT CLUB";
@@ -84,6 +88,11 @@ namespace GolfArcade.UI
             h.pin=Mark(rt,"Pin",new Color(1,.3f,.32f),16);
             h.ball=Mark(rt,"Ball",Color.white,16);
             h.live=Mark(rt,"Live landing",Mint,22);
+            // a putt's live reading: the feet the backswing so far rolls, beside its dot
+            var liveBadge=UiKit.Panel(h.live,"Live label",Ink,new Vector2(.5f,.5f),new Vector2(.5f,.5f),new Vector2(-54,0),new Vector2(70,26),false);
+            liveBadge.raycastTarget=false;h.liveBadge=liveBadge.rectTransform;
+            h.liveLabel=UiKit.Label(liveBadge.transform,"Feet",19,TextAnchor.MiddleCenter,Vector2.zero,Vector2.one,Vector2.zero,Vector2.zero,UiKit.Strong,false);
+            h.liveLabel.color=Mint;liveBadge.gameObject.SetActive(false);
             h.meterRoot=new GameObject("Power",typeof(RectTransform)).GetComponent<RectTransform>();h.meterRoot.SetParent(go.transform,false);
             // The power gauge follows the reference at the left edge, beside the address silhouette.
             h.meterRoot.anchorMin=h.meterRoot.anchorMax=new Vector2(0,.29f);
@@ -332,7 +341,18 @@ namespace GolfArcade.UI
             // the rings still standing, little gold hoops on the map
             while(ringMarks.Count<plan.Rings.Count){var m=Icons.Place(mapImage.rectTransform,"ring",Gold,new Vector2(.5f,.5f),Vector2.zero,24);m.raycastTarget=false;ringMarks.Add(m.rectTransform);}
             for(int i=0;i<ringMarks.Count;i++)Place(ringMarks[i],i<plan.Rings.Count?plan.Rings[i]:Vector3.zero,i<plan.Rings.Count);
-            for(int i=0;i<targets.Length;i++)Place(targets[i],i<plan.Targets.Count?plan.Targets[i]:Vector3.zero,!flight&&i<plan.Targets.Count);
+            for(int i=0;i<targets.Length;i++){
+                Place(targets[i],i<plan.Targets.Count?plan.Targets[i]:Vector3.zero,!flight&&i<plan.Targets.Count);
+                // a putt's marks say how far they roll; a full shot's say their share of the meter
+                bool feet=i<plan.TargetLabels.Count;
+                targetLabels[i].text=feet?plan.TargetLabels[i]:$"{(i+1)*25}%";
+                targetBadges[i].sizeDelta=new Vector2(feet?70:54,24);
+                // (a putt's all on the right, a ruler up the line; the live reading rides on the left)
+                targetBadges[i].anchoredPosition=new Vector2(feet?54:(i%2==0?46:-46),0);
+            }
+            liveBadge.gameObject.SetActive(!string.IsNullOrEmpty(plan.LoadLabel));
+            if(liveBadge.gameObject.activeSelf)liveLabel.text=plan.LoadLabel;
+            live.SetAsLastSibling();
             ball.SetAsLastSibling();
         }
     }

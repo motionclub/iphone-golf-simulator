@@ -137,8 +137,8 @@ namespace GolfArcade.Course
         {
             var list=new List<Mover>();foreach(var h in Hazards){
                 if(h.Kind==DreamHazardKind.RockGate || h.Kind==DreamHazardKind.BasaltGate){
-                    list.Add(Mover.Dream(h.Centre,h.Height+h.LiftHeight-8,h.Period,h.Phase/h.Period,h.Radius,h.Motion));
-                    list.Add(Mover.Dream(new CoursePoint(h.Centre.X,h.Centre.D),h.Height+h.LiftHeight+18,h.Period,h.Phase/h.Period,h.Radius, -h.Motion));
+                    // 10-19 (Adnan: "remove floating rocks from maps"): the gate's two rocks hung in mid-air above and
+                    // below the current; only the current stays.
                     list.Add(Mover.Dream(h.Centre,h.Height+h.LiftHeight,h.Period,h.Phase/h.Period,4,0,true,ShortcutTarget,h.Gain,h.LiftFloor,h.Preserve));
                 } else if(h.Kind==DreamHazardKind.LavaVent)list.Add(Mover.Dream(h.Centre,h.Height+h.LiftHeight,h.Period,h.Phase/h.Period,4,0,true,ShortcutTarget,h.Gain,h.LiftFloor,h.Preserve));
                 else if(h.Kind==DreamHazardKind.WindLift)list.Add(Mover.Dream(h.Centre,h.Height+h.LiftHeight,h.Period,h.Phase/h.Period,5,0,true,ShortcutTarget,h.Gain,h.LiftFloor,h.Preserve));

@@ -335,6 +335,7 @@ namespace GolfArcade.Game
             if (graph.IsValid()) graph.Destroy();
             heroFigure?.Dispose(); heroFigure = null; footwork = null;
             swingClearance = null; poseSafety = null; poseTransition = null; leadToeAnchored = false;
+            heroLook = null; headFaceKnown = false; EndWatch(true); waggleClock = 0; waggleWeight = 0;
             if (modelGo) Destroy(modelGo);
             faceMaterial = null;
             if (body) Destroy(body.gameObject);
@@ -397,6 +398,7 @@ namespace GolfArcade.Game
             footwork = spectator ? null : GolferFootwork.Build(model.transform, heroFigure.Bones);
             swingClearance = new GolfSwingClearance(heroFigure);
             poseSafety = new GolfArcade.Tennis.HeroPoseSafety(heroFigure.Root.GetComponent<GolfArcade.Tennis.MatchHeroLook>());
+            heroLook = heroFigure.Root.GetComponent<GolfArcade.Tennis.MatchHeroLook>();
             poseTransition = new GolfArcade.Tennis.HeroPoseTransition(model.transform);
             StartGraph(model);
             return true;
@@ -542,6 +544,7 @@ namespace GolfArcade.Game
                     else swingClearance?.ApplyDriveFollowThrough((float)clip.GetTime());
                 }
                 swingClearance?.Apply();
+                Mannerisms();
             }
             foreach (var (bone, fix, at) in feetFix)
             {
@@ -554,6 +557,7 @@ namespace GolfArcade.Game
                 GolfArcade.Tennis.HeroGripPolish.ApplyGrip(heroFigure.Root.GetComponent<GolfArcade.Tennis.MatchHeroLook>());
             if (phase != 4) swingClearance?.SeparateHands();
             poseSafety?.Apply(phase != 4);
+            if (phase == 4) FitMoveToClothes();
             PlantSwingLeadFoot();
         }
 
@@ -579,6 +583,251 @@ namespace GolfArcade.Game
         bool shownShort;
         SkinnedMeshRenderer body0;
 
+        // ----- Mannerisms (chat B, 2026-10-19; work/golf-mannerisms) -----
+        // Cosmetic layers on the clip pose, applied in Evaluate after the club clearance and before the grip polish and the hand
+        // clearance (so both see them). After a full shot (WatchShot, from GolfGame.PostShotWatch at contact) the finish is held,
+        // the head and chest follow the ball, then the arms and club drop together in front of the chest (T_jKUimVpuk 46.4-48.6).
+        // At address the club head hinges back and to the ball twice with a look down the line between, then the hands settle on
+        // the grip (jkeRIJrv8g0 23.5-26.8). Nothing here touches `time`, the phase or a swing's timing: any backswing load lets
+        // the address routine go within WaggleRelease seconds.
+        GolfArcade.Tennis.MatchHeroLook heroLook;
+        System.Func<Vector3?> watchBall;
+        float watchClock = -1, finishClock = -1, watchFade;   // seconds since contact (-1: not watching); since then to the finish; weight
+        bool watchEnding;
+        float waggleClock, waggleWeight;
+        Vector3 standBall, standAim = Vector3.forward; bool hasStand;
+        /// The face's direction in the Head bone's frame, measured on the clean address pose (the clip has the eyes on the ball).
+        Vector3 headFace; bool headFaceKnown;
+        /// Off: the clips alone (before/after films).
+        public static bool MannerismsOff;
+        /// The finish is held this long before the club comes down, which takes DropTime; the hands end this far below the shoulders.
+        const float HoldFinish = .3f, DropTime = .65f, DropBelow = 40f, MaxLook = 55f;
+        /// The address routine starts this long after the golfer is settled and repeats every WaggleEvery seconds while they wait.
+        const float WaggleDelay = .45f, WaggleEvery = 7f, WaggleRelease = .08f;
+
+        /// The golfer has hit a full shot: hold the finish, watch `ball` (world position, null when gone), then drop the club.
+        public void WatchShot(System.Func<Vector3?> ball) { watchBall = ball; watchClock = 0; finishClock = -1; watchEnding = false; watchFade = 1; }
+        /// True while the post-shot watch is on the golfer (from contact until the next address).
+        public bool Watching => watchClock >= 0;
+        /// The address routine's share on the pose now (0 = the clip alone), for the tests and films.
+        public float WaggleShare => waggleClock > WaggleDelay ? waggleWeight : 0;
+        void EndWatch(bool now = false)
+        {
+            if (watchClock < 0) return;
+            if (now) { watchClock = -1; finishClock = -1; watchBall = null; watchFade = 0; } else watchEnding = true;
+        }
+
+        /// Seen from behind, turned `degrees` to the golfer's left of a square back view (the lead side to the camera), on the
+        /// gameplay camera as it is over the next frames (a chip-in's camera cuts back to the shot's view after this call).
+        public void TurnFromCamera(float degrees) { turnFromCamera = degrees; turnFrames = 3; ApplyTurnFromCamera(); }
+        float turnFromCamera; int turnFrames;
+        void ApplyTurnFromCamera()
+        {
+            var cam = Camera.main; if (!cam || turnFrames <= 0) return;
+            turnFrames--;
+            var away = transform.position - cam.transform.position; away.y = 0;
+            if (away.sqrMagnitude > .01f) transform.rotation = Quaternion.LookRotation(Quaternion.AngleAxis(-turnFromCamera, Vector3.up) * away.normalized, Vector3.up);
+        }
+
+        void TickMannerisms(float dt)
+        {
+            if (watchClock >= 0)
+            {
+                watchClock += dt;
+                if (finishClock < 0 && phase == 3) finishClock = watchClock;
+                if (watchEnding && (watchFade -= dt / .3f) <= 0) EndWatch(true);
+            }
+            bool atRest = phase == 0 && loadTarget < .001f && time < .02f && clipName != "Putt" && !spectator && hasStand && watchClock < 0;
+            if (atRest) { waggleClock += dt; waggleWeight = 1; }
+            else { waggleWeight = Mathf.Max(0, waggleWeight - dt / WaggleRelease); if (waggleWeight <= 0) waggleClock = 0; }
+        }
+
+        static float Ease(float x) { x = Mathf.Clamp01(x); return x * x * (3 - 2 * x); }
+        /// 0 outside [a, b], rising smoothly to 1 at the middle and back.
+        static float Bump(float u, float a, float b) => u <= a || u >= b ? 0 : .5f - .5f * Mathf.Cos((u - a) / (b - a) * 2 * Mathf.PI);
+
+        void Mannerisms()
+        {
+            if (MannerismsOff || heroFigure == null || !heroLook) return;
+            var head = heroLook.Bone(HumanBodyBones.Head);
+            if (phase == 0 && time < .02f && hasStand && head && fade <= 0 && waggleClock <= WaggleDelay)
+            { headFace = Quaternion.Inverse(head.rotation) * (standBall - head.position).normalized; headFaceKnown = true; }
+            if (watchClock >= 0 && watchFade > 0) PostShot(head);
+            else if (waggleWeight > 0 && waggleClock > WaggleDelay) Waggle(head);
+        }
+
+        Transform ClubBone => heroFigure.Bones.TryGetValue("Club", out var c) ? c : null;
+        Transform Bone(HumanBodyBones b) => heroLook.Bone(b);
+
+        /// Turns `bone` (and the club, when the hands hang from it) about its joint by `r`.
+        static void Turn(Transform bone, Quaternion r, Transform club = null)
+        {
+            if (!bone) return;
+            if (club) { club.position = bone.position + r * (club.position - bone.position); club.rotation = r * club.rotation; }
+            bone.rotation = r * bone.rotation;
+        }
+
+        /// Puts a hand where the rigid motion (about `pivot` by `r`, then by `shift`) takes it, the arm following it (two-bone IK).
+        static void Carry(Transform upper, Transform lower, Transform hand, Vector3 pivot, Quaternion r, Vector3 shift)
+        {
+            if (!upper || !lower || !hand) return;
+            var to = pivot + r * (hand.position - pivot) + shift; var rot = r * hand.rotation;
+            GolfArcade.Tennis.HeroPoseSafety.Solve(upper, lower, hand, to);
+            hand.rotation = rot;
+        }
+
+        void PostShot(Transform head)
+        {
+            float t = watchClock, w = watchFade;
+            var club = ClubBone;
+            // 1. the club comes down: the arms and club turn together about the shoulder line (both shoulders are on it, so the
+            //    grip stays in the hands), from over the lead shoulder to the hands in front of the chest and the shaft upright
+            float drop = finishClock < 0 ? 0 : w * Ease((t - finishClock - HoldFinish) / DropTime);
+            Transform lu = Bone(HumanBodyBones.LeftUpperArm), ru = Bone(HumanBodyBones.RightUpperArm), lh = Bone(HumanBodyBones.LeftHand), rh = Bone(HumanBodyBones.RightHand);
+            if (drop > 0 && lu && ru && lh && rh && hasStand)
+            {
+                var axis = (ru.position - lu.position).normalized; var pivot = (lu.position + ru.position) * .5f;
+                var want = Vector3.ProjectOnPlane(standAim * Mathf.Cos(DropBelow * Mathf.Deg2Rad) - Vector3.up * Mathf.Sin(DropBelow * Mathf.Deg2Rad), axis);
+                var hands = Vector3.ProjectOnPlane((lh.position + rh.position) * .5f - pivot, axis);
+                if (want.sqrMagnitude > 1e-4f && hands.sqrMagnitude > 1e-4f)
+                {
+                    var r = Quaternion.AngleAxis(Mathf.Clamp(Vector3.SignedAngle(hands, want, axis), -150, 150) * drop, axis);
+                    if (club) { club.position = pivot + r * (club.position - pivot); club.rotation = r * club.rotation; }
+                    lu.rotation = r * lu.rotation; ru.rotation = r * ru.rotation;
+                }
+            }
+            // 2. the head and chest follow the ball (the chest carries the arms and the club with it)
+            float look = w * Ease((t - .3f) / .5f);
+            var ball = watchBall?.Invoke();
+            if (look > 0 && ball.HasValue && head && headFaceKnown)
+            {
+                var chest = Bone(HumanBodyBones.UpperChest) ?? Bone(HumanBodyBones.Chest);
+                foreach (var (bone, share) in new[] { (chest, .25f), (Bone(HumanBodyBones.Neck), .35f), (head, .8f) })
+                {
+                    if (!bone) continue;
+                    var q = Quaternion.FromToRotation(head.rotation * headFace, (ball.Value - head.position).normalized);
+                    q = Quaternion.RotateTowards(Quaternion.identity, q, MaxLook);
+                    Turn(bone, Quaternion.Slerp(Quaternion.identity, q, share * look), bone == chest ? club : null);
+                }
+            }
+        }
+
+        void Waggle(Transform head)
+        {
+            float u = Mathf.Repeat(waggleClock - WaggleDelay, WaggleEvery), w = waggleWeight;
+            float hinge = (Bump(u, 0f, 1.0f) * 24f + Bump(u, 2.0f, 2.8f) * 16f) * w;
+            float lookDown = Bump(u, 1.0f, 2.0f) * w;
+            float twist = Bump(u, 2.8f, 3.3f) * 7f * w;
+            Transform lu = Bone(HumanBodyBones.LeftUpperArm), ll = Bone(HumanBodyBones.LeftLowerArm), lh = Bone(HumanBodyBones.LeftHand);
+            Transform ru = Bone(HumanBodyBones.RightUpperArm), rl = Bone(HumanBodyBones.RightLowerArm), rh = Bone(HumanBodyBones.RightHand);
+            var club = ClubBone;
+            if (!lh || !rh || !club) return;
+            var grip = (lh.position + rh.position) * .5f;
+            var shaft = (standBall - grip).normalized;   // at address the club head sits at the ball
+            if (hinge > .01f)
+            {
+                // the wrists hinge the club head back off the ball about the lead hand; the hands drift back a little with it
+                var n = Vector3.Cross(shaft, standAim).normalized;
+                var r = Quaternion.AngleAxis(hinge, n);
+                if (Vector3.Dot(r * shaft - shaft, standAim) > 0) r = Quaternion.AngleAxis(-hinge, n);
+                var pivot = lh.position; var shift = -standAim * (.025f * hinge / 24f);
+                club.position = pivot + r * (club.position - pivot) + shift; club.rotation = r * club.rotation;
+                Carry(ru, rl, rh, pivot, r, shift);
+                Carry(lu, ll, lh, pivot, r, shift);
+            }
+            if (twist > .01f)
+            {
+                // the regrip: both hands turn a little on the grip and settle back
+                var r = Quaternion.AngleAxis(twist, shaft);
+                Carry(lu, ll, lh, grip, r, Vector3.zero);
+                Carry(ru, rl, rh, grip, r, Vector3.zero);
+            }
+            if (lookDown > .01f && head && headFaceKnown)
+            {
+                // a look down the line at the target and back, turning about the neck
+                var neck = Bone(HumanBodyBones.Neck);
+                if (neck)
+                {
+                    var axis = (head.position - neck.position).normalized;
+                    float a = Mathf.Clamp(Vector3.SignedAngle(Vector3.ProjectOnPlane(head.rotation * headFace, axis), Vector3.ProjectOnPlane(standAim, axis), axis), -75, 75) * .85f * lookDown;
+                    Turn(neck, Quaternion.AngleAxis(a * .35f, axis)); Turn(head, Quaternion.AngleAxis(a * .65f, axis));
+                }
+            }
+        }
+
+        // ----- The hole-out reactions fitted to the clothes (chat B, 2026-10-19) -----
+        // Seen from behind (chat A's hole-out camera) the empty-handed reactions pressed the hands flat into the trousers at the thigh
+        // and hip (Stomp, Slump), kept the fist-pump elbow tight to the shirt and folded the wrists. The moves are fitted to the
+        // clothes, not the clothes to the moves: after the hand clearance each hand and forearm is kept a visible gap clear of the
+        // body + garments proxy (the fist-pump elbow stays off the body, BJ0623X5GQw 26.6-27.4; a frustrated arm hangs away from
+        // the hips, yRbtwqYXWVg 28.8-33.2) and each wrist is kept within WristLimit of the forearm line.
+        const float HandGap = .05f, ForearmGap = .03f, WristLimit = 45f, MaxFit = .12f;
+        /// At the hips and thighs the hands keep this much more: the trousers' and (more) the pleated skirt's flare stands off the proxy.
+        const float HipAllowance = .015f, SkirtAllowance = .04f;
+        readonly Vector3[] fitShift = new Vector3[2];
+        /// Diagnostics: the larger hand shift applied last frame (m), and the larger raw shortfall measured (m).
+        public float FitShown => Mathf.Max(fitShift[0].magnitude, fitShift[1].magnitude);
+        public float FitWanted { get; private set; }
+        public int FitCapsules => poseSafety?.clearance?.proxy != null ? poseSafety.clearance.proxy.capsules.Count : -1;
+        static bool FitsClothes(string move) => move != null && (move.StartsWith("Emote_") || move is "Idle" or "Cheer" or "FistPump");
+
+        void FitMoveToClothes()
+        {
+            if (MannerismsOff || !heroLook || poseSafety?.clearance == null || poseSafety.VolumeCount == 0 || !FitsClothes(clipName))
+            { fitShift[0] = fitShift[1] = Vector3.zero; return; }
+            var proxy = poseSafety.clearance.proxy; proxy.Refresh(); FitWanted = 0;
+            float k = 1 - Mathf.Exp(-Time.deltaTime / .07f);   // a short follow, so a contact that comes and goes never pops
+            for (int side = 0; side < 2; side++)
+            {
+                var upper = Bone(side == 0 ? HumanBodyBones.LeftUpperArm : HumanBodyBones.RightUpperArm);
+                var lower = Bone(side == 0 ? HumanBodyBones.LeftLowerArm : HumanBodyBones.RightLowerArm);
+                var hand = Bone(side == 0 ? HumanBodyBones.LeftHand : HumanBodyBones.RightHand);
+                var middle = Bone(side == 0 ? HumanBodyBones.LeftMiddleProximal : HumanBodyBones.RightMiddleProximal);
+                if (!upper || !lower || !hand) continue;
+                if (middle) StraightenWrist(lower, hand, middle);
+                var palm = middle ? (hand.position + middle.position) * .5f : hand.position;
+                float hips = heroLook.female ? SkirtAllowance : HipAllowance;
+                var want = Gap(proxy, palm, HandGap, hips);
+                var fore = Gap(proxy, (lower.position + hand.position) * .5f, ForearmGap, hips) * 2;   // the hand moves twice as far as the forearm's middle
+                if (fore.sqrMagnitude > 1e-8f) { var n = fore.normalized; float have = Vector3.Dot(want, n), need = fore.magnitude; if (need > have) want += n * (need - have); }
+                want = Vector3.ClampMagnitude(want, MaxFit); FitWanted = Mathf.Max(FitWanted, want.magnitude);
+                fitShift[side] = Vector3.Lerp(fitShift[side], want, k);
+                if (fitShift[side].sqrMagnitude < 1e-8f) continue;
+                var rot = hand.rotation;
+                GolfArcade.Tennis.HeroPoseSafety.Solve(upper, lower, hand, hand.position + fitShift[side]);
+                hand.rotation = rot;
+            }
+        }
+
+        /// How far (and which way) `point` must move to be `gap` clear of the body and its clothes (arms excluded): the deepest
+        /// shortfall over the proxy's capsules, measured along each capsule's own surface ray.
+        static Vector3 Gap(GolfArcade.Tennis.HeroClearanceProxy proxy, Vector3 point, float gap, float hips)
+        {
+            Vector3 best = Vector3.zero; float bestNeed = 0;
+            foreach (var c in proxy.capsules)
+            {
+                if (c == null || c.part is GolfArcade.Tennis.HeroClearanceProxy.Part.UpperArm or GolfArcade.Tennis.HeroClearanceProxy.Part.Forearm
+                    or GolfArcade.Tennis.HeroClearanceProxy.Part.Hand or GolfArcade.Tennis.HeroClearanceProxy.Part.Finger) continue;
+                float g = gap + (c.part is GolfArcade.Tennis.HeroClearanceProxy.Part.Pelvis or GolfArcade.Tennis.HeroClearanceProxy.Part.Thigh ? hips : 0);
+                var core = c.aW + Vector3.Project(point - c.aW, c.bW - c.aW);
+                if ((point - core).sqrMagnitude > Mathf.Pow(c.maxR * c.scale + g, 2) * 1.2f) continue;
+                var surface = GolfArcade.Tennis.HeroClearanceProxy.Surface(c, point, true);
+                var ray = point - core; if (ray.sqrMagnitude < 1e-10f) continue;
+                var n = ray.normalized;
+                float clear = Vector3.Dot(point - surface, n), need = g - clear;
+                if (need > bestNeed) { bestNeed = need; best = n * need; }
+            }
+            return best;
+        }
+
+        /// A wrist bent past WristLimit (a fist folded back, a hand cocked against the hip) is brought back towards the forearm line.
+        static void StraightenWrist(Transform lower, Transform hand, Transform middle)
+        {
+            var palm = middle.position - hand.position; var forearm = hand.position - lower.position;
+            float angle = Vector3.Angle(palm, forearm);
+            if (angle > WristLimit) hand.rotation = Quaternion.Slerp(Quaternion.identity, Quaternion.FromToRotation(palm, forearm), (angle - WristLimit) / angle) * hand.rotation;
+        }
+
         // ----- Moves off the course -----
 
         /// The studio's shared moves were made facing a quarter turn from its golf clips; this
@@ -600,6 +849,7 @@ namespace GolfArcade.Game
         public bool Perform(string move, float startAt = 0f, bool loop = true)
         {
             if (!hasModel || !clips.TryGetValue(move, out var c)) return false;
+            EndWatch(true);
             var yaw = Quaternion.Euler(0, ClipYaw(move), 0); yaw = BaseRot(yaw);
             bool turn = Quaternion.Angle(modelGo.transform.localRotation, yaw) > .1f;
             if (turn) poseTransition?.Capture(.28f);
@@ -842,6 +1092,7 @@ namespace GolfArcade.Game
             var side = Vector3.Cross(Vector3.up, aimDirection).normalized; // right of the line
             transform.position = ball - side * 0.75f;
             transform.rotation = Quaternion.LookRotation(side, Vector3.up);
+            standBall = ball; standAim = Vector3.ProjectOnPlane(aimDirection, Vector3.up).normalized; hasStand = standAim.sqrMagnitude > .5f;
         }
 
         public void SetVisible(bool on) => gameObject.SetActive(on);
@@ -851,7 +1102,7 @@ namespace GolfArcade.Game
         {
             shownLoad = load;
             if (phase == 0) pace = -1;
-            if (phase == 3 && hasModel) { Crossfade(0.3f); phase = 0; loadVelocity = 0; Show(0); }
+            if (phase == 3 && hasModel) { EndWatch(); Crossfade(0.3f); phase = 0; loadVelocity = 0; Show(0); }
             if (phase == 3) phase = 0;
             if (phase == 0) loadTarget = clipName == "Putt" ? Mathf.Sqrt(Mathf.Clamp01(load)) : Mathf.Clamp01(load);
         }
@@ -934,7 +1185,7 @@ namespace GolfArcade.Game
 
         public void Settle()
         {
-            pace = -1;
+            pace = -1; EndWatch();
             if (phase == 4) { clipName = null; SetClub(shownClub, shownShort); }
             swingThrough = -1; shownLoad = 0;
             // back to address from wherever it is (the finish, a half-made backswing) without a pop
@@ -951,6 +1202,7 @@ namespace GolfArcade.Game
         /// After every Update (GolfGame turns the stance round the ball in its own): the shoes, at address only.
         void LateUpdate()
         {
+            if (turnFrames > 0) ApplyTurnFromCamera();
             if (hasModel && phase == 2 && pace >= 0) ShowPaced();   // (the phone's downswing, with this frame's samples in)
             if (footwork != null && hasModel) footwork.Tick(phase == 0 && time <= Mathf.Max(.02f, TopTime * .04f), Time.deltaTime);
         }
@@ -976,6 +1228,7 @@ namespace GolfArcade.Game
             TickFade(dt);
             poseTransition?.Tick(dt);
             UpdateFace(dt);
+            TickMannerisms(dt);
             switch (phase)
             {
                 case 0:
@@ -998,7 +1251,7 @@ namespace GolfArcade.Game
                     ShowThrough();
                     break;
                 case 3:
-                    if (fade > 0) Evaluate();
+                    if (fade > 0 || watchClock >= 0) Evaluate();
                     break;
                 case 4:
                     if (!loopPerformance && performTime + dt >= performLength)

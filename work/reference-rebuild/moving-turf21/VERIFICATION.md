@@ -1,0 +1,45 @@
+# Moving turf21 candidate
+
+GATE: SOURCE COMPILE PASS. Current 219-source runtime response `Unity/Library/Bee/artifacts/900b0aE.dag/GolfArcade.rsp` with only the turf source substituted compiles using the installed Unity-bundled Roslyn compiler. `compile-full.log` contains only the existing TennisGame.audio member-hiding warning. No Unity editor/player launched. Earlier isolated source compile passed too; full current-source compile supersedes it.
+
+GATE: ACTUAL IMAGE / PHYSICS / RETAINED-CELL / FRAME COST PENDING. This directory is a candidate, not an installed or accepted rollout.
+
+## Behavior and scope
+
+`MovingHoles` begins with 12 and 14. The existing `Supports()` nine-hole scope is unchanged: 7/8/9/12/13/14/15/19/20. Non-pilots retain the accepted tee grid, RNG and local surface-map/path filters. Root may opt in each of the other seven only after its own actual route proof. No Meadow/cold/dry/volcanic expansion, no green geometry, no redesign of scenery, no physics edits.
+
+For pilots, 1 m blocks stay anchored to the authored tee. The 12 m pool snaps to the nearest 4 m X/Z station at a settled ball address. `LateUpdate` reads only the existing matching `GolfGame.CurrentHole` and `BallPosition`, and permits movement only in Aim, Result or HoleDone. Flight, replay, signature flight and introductory aerial do not move it. Quantization displaces center at most 2.83 m diagonally; the accepted tile-circle inset is 11.3 m, giving at least 8.47 m around any address before tile-tip margins. Camera frustum/distance LOD logic stays unchanged.
+
+A retained block keeps the same Cell objects, matrices, roots, normals, bounds and surface values. Retained rejected/empty blocks do not get queried again. Entering blocks receive a seed from hole number and signed integer tile coordinate; a revisit with identical authored ground has the same rotations, independent of prior travel or camera ordering. `cells.Sort` only changes submission order and never changes block records. The cap can leave outer entering blocks empty when boundary subdivision exhausts 640; inspect coverage around the address in the actual proof.
+
+On a pilot, `BuildPathMask` gathers all actual render-only path triangles once, with the accepted ground-height restriction and 16 cm tip margin. `FineGround` assigns the existing micro-turf atlas once over all eligible Rough/Tee/Fairway/Fringe renderers, preserving the same palette and settings. Green17 fine texture response remains separate and unchanged. Ground role seams now compare surface ID as well as rough/cut, so a tile is subdivided or rejected at actual tee/fairway/fringe/green transitions. The nearest actual original collision face controls placement; non-grass, steep cliff, bunker, path and green faces do not receive blades. Underlying rough never substitutes for a nearer rejected ground face.
+
+## Bounds and lifetime
+
+48 near + 96 mid + remaining far, 640 resident matrices, three existing instanced draw call sites, no new shader/mesh/texture, no grass collider or shadow caster. Exact accepted maximum is 48*6912 + 96*1536 + 496*128 = 542720 triangles. No fixed-memory/phone-FPS claim.
+
+There are at most 401 active top-level block records and at most 640 resident Cell records. The lists and dictionary have bounded high-water capacity; retired managed records become collectible. The per-hole collider descriptors cache original bounds, submesh triangle endpoints and material references once. Bounds reject irrelevant colliders before direct Collider.Raycast. No renderer/material-array queries per ground sample. No ground query, collider synchronization, path rebuild or material allocation on a same-station frame.
+
+Each new top-level block makes at most 25 Ground calls (center + four corners, then up to four children each with center + four corners). A 4 m axis crossing has 92 entering blocks: <=2300 calls; a diagonal crossing has 124: <=3100. A distant teleport/full first pool has 401: <=10025. Every Ground call may raycast up to C cached colliders whose X/Z bounds cover it; measured `ColliderRaycastsThisRebuild` exposes the actual value. Each Ground call may inspect P path triangles with existing AABB/height rejection. These are conservative CPU-work bounds, not elapsed-time claims. No such rebuild occurs at flight speed.
+
+One grass material plus one micro-atlas material clone per unique eligible source are created in Build. The number may increase versus tee-only cloning because a pilot now covers the whole authored hole, but does not increase as the pool moves. All owned materials are destroyed with the course owner; shared source materials, textures and meshes are not destroyed. No ground material restore/reclone loop.
+
+## Focused actual verification (root serializes Unity)
+
+1. Record existing source/collider/obstacle hash and exact ground records for pilots 12 and 14 before candidate install. Use the existing GolfVisualPhysicsGate plus the current portable capture audit for before/after equality; all original collider counts, source meshes/transforms, Hole.Surface/Ground/Obstacles/Windmill references and obstacle hashes must be exact. Repeat after tee, middle fairway and approach placements, not only initial dressing.
+2. Capture actual game-address tee, middle fairway and approach at fixed camera/exposure/wind, with both ball and club readable. Capture a low edge view at fairway/rough, green/fringe, bunker, shoreline and a visual-only stone path farther than the old tee-local filter (include hole8 before later expansion). Roots must conform to actual ground, grass must not occupy excluded faces, no large bare admission holes near the address, and no abrupt grass height/role spill at putting surfaces.
+3. At a settled address, snapshot private `blocks` by integer key and their Cell object references, matrix/center/bounds/rough/surface values. Move 1 m within the same coarse station: `RebuildCount` and query counters must stay unchanged. Move across one 4 m station: every intersection block must retain identical objects and values; all generated cells <=640 and all draw counters obey 48/96/640 total. Return after a full teleport and compare regenerated uncapped tile roots/rotations/surface values. Repeat in negative X/Z to check rounding/sign hash behavior.
+4. Let a real full shot fly across multiple 4 m stations: `RebuildCount` must stay constant during Flight and Replay; after Result/Aim settles, one new station may rebuild. Verify golfer/ball remain covered at the next address, including same-phone player turn changes. Measure one same-station frame, an axis crossing, diagonal crossing and distant teleport with Unity Profiler. Record actual Ground calls/raycasts, material count and resident cell/draw caps. This is desktop verification; user prohibited phone tests.
+5. Confirm material count and instance IDs stay constant across 20 address moves, and per-hole destruction releases the owned clones. Keep shader, accepted mesh hashes, palette and physics source hashes exact. Only then opt remaining existing supported routes into `MovingHoles` one at a time and perform their path/hazard/role proof.
+
+## Existing capture hook and frame sequencing
+
+`GolfCourseStandardCapture.Address` directly sets the game's private `ball.position`, so `GolfGame.BallPosition` ordinarily sees that position, although signature playback uses cinematic position. Call `turf.RefreshForAddress(ball.position)` after ball placement to avoid relying on gameplay state/signature flags during capture. It moves the pool only and submits no draw.
+
+The current StandardCapture Capture function calls tee/approach/putting Address and Save consecutively in one frame. `Graphics.DrawMeshInstanced` submissions are queued, so invoking private LateUpdate repeatedly inside those Saves can produce stale or combined pools. Make pilot proof one pose per frame: place ball/rig and call RefreshForAddress; yield through its normal LateUpdate; render/save that one camera image; advance to the next pose only on the next frame. Record LastNear/Mid/Far and rebuild/query statistics for that pose. Aerial images show the same bounded last-address pool, not implied course-wide blade coverage. Do not infer fairway grass from an aerial alone.
+
+## Implemented focused proof update
+
+The root-integratable `GolfMovingTurfProofRunner.cs` and both JSON configs implement the above station/physics/retention/material/timing/flight checks. Read `PROOF_HARNESS.md` for launch and capture sequencing. This harness is stricter than the general explicit-refresh hook proposal: it uses only real DropBall/Aim and normal production LateUpdate, then reads the actual normal-camera target in endContextRendering once per actual frame. Source compile PASS; actual execution remains root-owned.
+
+Latest runtime candidate adds `VISUAL_MOVING_TURF=0` static-control optout, unset pilots12/14, `all` existing Supports nine only. `RebuildMilliseconds` records Stopwatch elapsed CPU time inside production pool rebuild. No elapsed-time result is claimed before actual Unity execution.

@@ -100,7 +100,24 @@ final class LockerTests: XCTestCase {
         menu.tap("lk-slot-racket")
         XCTAssertTrue(menu.rows(.character).contains(["lk-colour"]), "a racket has a colour row")
         menu.tap("lk-tab-customize")
-        XCTAssertEqual(menu.rows(.character).dropFirst().prefix(5).map { $0 }, [["lk-body"], ["lk-hand"], ["lk-skin"], ["lk-shirt"], ["lk-shorts"]])
+        XCTAssertEqual(menu.rows(.character).dropFirst().prefix(6).map { $0 }, [["lk-body"], ["lk-hand"], ["lk-back"], ["lk-skin"], ["lk-shirt"], ["lk-shorts"]])
+    }
+
+    /// MENU HERO: the Customize tab's "Back" row flips racket / golf bag, the pick is part of the saved player, and a profile saved before it existed carries the bag.
+    func testBackPickTogglesAndIsSaved() throws {
+        let menu = TennisMenu.shared
+        menu.debugShow(.character)
+        menu.tap("lk-tab-customize")
+        let before = menu.player?.backCarry ?? .bag
+        menu.tap("lk-back")
+        XCTAssertNotEqual(menu.player?.backCarry, before)
+        menu.tap("lk-back")
+        XCTAssertEqual(menu.player?.backCarry, before)
+        var p = Player(name: "P", colorIndex: 0); XCTAssertEqual(p.backCarry, .bag)
+        p.backCarry = .racket
+        let decoded = try JSONDecoder().decode(Player.self, from: JSONEncoder().encode(p))
+        XCTAssertEqual(decoded.backCarry, .racket)
+        XCTAssertEqual(BackCarry.racket.accessoryID, "racket_back"); XCTAssertEqual(BackCarry.bag.accessoryID, "golf_bag")
     }
 
     func testSportToggleSwapsRacketForClubAndBack() {

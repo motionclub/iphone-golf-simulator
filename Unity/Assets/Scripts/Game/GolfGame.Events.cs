@@ -233,6 +233,30 @@ namespace GolfArcade.Game
                     eventSounds?.Gust(); Haptics.Play(Haptics.Cue.Bounce, 0.8f);
                     hud.ShowCallout("Twister!", Hex("8FA3B8"));
                     break;
+                case ObstacleKind.Launchpad:
+                {
+                    // charged: it fires (a column of light and sparks); spent: a sad puff
+                    var pad = movers != null ? System.Array.Find(movers.All, m => m.Kind == MoverKind.Launchpad && (m.At(0).x - k.X) * (m.At(0).x - k.X) + (m.At(0).d - k.D) * (m.At(0).d - k.D) < 60) : null;
+                    if (pad != null && pad.Charged(movers.PhaseAtLaunch + k.Time))
+                    {
+                        effects.Burst(at, new Color(0.45f, 1f, 0.6f), Color.white, 60, 3f, 0.55f, 1.2f, 9f);
+                        effects.Burst(at, new Color(1f, 0.9f, 0.35f), new Color(1f, 1f, 0.8f), 30, 5f, 0.35f, 0.8f, 3f);
+                        eventSounds?.Boing(); Haptics.Play(Haptics.Cue.Bounce, 0.9f);
+                        hud.ShowCallout("LAUNCH!", Hex("4DFF8A"));
+                    }
+                    else
+                    {
+                        effects.Burst(at, new Color(0.5f, 0.5f, 0.52f, 0.8f), new Color(0.75f, 0.4f, 0.35f, 0.7f), 18, 1.6f, 0.5f, 0.9f, 0.8f);
+                        sounds.PlayKnock(false); Haptics.Tick();
+                        hud.ShowCallout("Fizzle…", Hex("C9564A"));
+                    }
+                    break;
+                }
+                case ObstacleKind.Target:
+                    effects.Burst(at, new Color(1f, 0.32f, 0.25f), new Color(1f, 0.95f, 0.5f), 56, 5.5f, 0.45f, 1.3f, 1.5f);
+                    sounds.PlayKnock(false); eventSounds?.Boing(); Haptics.Play(Haptics.Cue.Bounce, 0.8f);
+                    hud.ShowCallout("BULLSEYE!", Hex("FFE066"));
+                    break;
                 case ObstacleKind.Gull:
                     effects.Burst(at, Color.white, new Color(0.78f, 0.82f, 0.86f), 34, 2.4f, 0.32f, 1.4f, 0.4f);
                     eventSounds?.Squawk(); Haptics.Tick();

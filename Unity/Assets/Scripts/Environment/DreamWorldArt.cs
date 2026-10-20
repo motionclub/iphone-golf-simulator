@@ -68,6 +68,11 @@ namespace GolfArcade.EnvironmentArt
                 var c=DreamCourseLayout.Along(h,.15+i*.12);var n=DreamCourseLayout.Along(h,.16+i*.12);float angle=(float)c.HeadingTo(n)*Mathf.Deg2Rad;
                 float offset=(float)(h.FairwayWidth*.5+h.RoughWidth+6);var p=new Vector3((float)c.X+Mathf.Cos(angle)*offset,0,(float)c.D-Mathf.Sin(angle)*offset);
                 p.y=(float)(h.Ground?.Invoke(new CoursePoint(p.x,p.z))??0);
+                // 10-19: one ground sample under the middle left a spire's downhill side in the air; set it down to the
+                // lowest ground round its foot (RockGrounding)
+                float foot=magma?2.5f:h.Number==17?2f:h.Number==19||h.Number==20?.5f:.3f,low=p.y;
+                for(int k=0;k<8&&h.Ground!=null;k++){float a=k*Mathf.PI/4;low=Mathf.Min(low,(float)h.Ground(new CoursePoint(p.x+Mathf.Cos(a)*foot,p.z+Mathf.Sin(a)*foot)));}
+                p.y-=RockGrounding.Settle("dream accent",p,p.y-low);
                 if(magma){Spire(p,new Vector3(2.5f,5+i%3,3),h.Number+i);Orb(p+Vector3.up*.4f,new Vector3(3,.18f,1),glow);}
                 else if(h.Number==17){Spire(p,new Vector3(2,6,2),h.Number+i);Orb(p+Vector3.up*3,new Vector3(.4f,4,.4f),glow);}
                 else if(h.Number==19||h.Number==20){

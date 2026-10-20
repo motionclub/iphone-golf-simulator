@@ -25,6 +25,7 @@ namespace GolfArcade.Game
             public int hairStyle=1,hairColor=1,faceShape,heightChoice=2,buildChoice=2,haircut=-1;
             public float bodySize=-1;
             public string tennisCamera; public string shirt,shorts,accent,racket,skinHex,hairHex; public bool tips=true; public float overscan;
+            public string back;   // MENU HERO: the locker's back pick (HeroAccessories golf_bag | racket_back; "" = the bag)
             // The tennis court: "" / "resort", "skyscraper" or "volcano"; and a court colour (hex, "" = the venue's own).
             public string venue,course,courtHex,network; public int aimSequence;
             public string[] emotes; public string intros="full"; public bool presentationConstrained,bigMoments=true,holeFlyover=true;
@@ -196,8 +197,9 @@ namespace GolfArcade.Game
                     case "touch": Touch=true; touch=true; if(tennis) { tennis.CancelTimingCheck(); tennis.SetAimPractice(false); } if(golf) { golf.NativeReady(); } break;
                     case "motion": Touch=false; touch=false; if(golf) golf.NativeReady(); break;
                     case "recalibrate": if(golf) golf.NativeReady(ReadyGrip(m)); break;
-                    // Motion swings count only after the player taps Start Swing on the phone.
+                    // Motion swings count only while the player holds the swing button on the phone; letting go resets the swing.
                     case "golfStartSwing": if(golf && !paused && !touch) golf.NativeStartSwing(ReadyGrip(m)); break;
+                    case "golfReleaseSwing": if(golf) golf.NativeReleaseSwing(); break;
                     case "golfCancelSwing": if(golf) golf.NativeCancelSwing(); break;
                     case "difficulty": if(tennis) tennis.OpponentDifficulty=Mathf.Clamp01(m.value); break;
                     case "coaching": TennisCoach.ResetTips(); break;

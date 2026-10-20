@@ -879,7 +879,7 @@ extension TennisMenu {
             rows.append(actions)
             return rows
         case .customize:
-            return [tabs, ["lk-body"], ["lk-hand"], ["lk-skin"], ["lk-shirt"], ["lk-shorts"], actions]
+            return [tabs, ["lk-body"], ["lk-hand"], ["lk-back"], ["lk-skin"], ["lk-shirt"], ["lk-shorts"], actions]
         case .emotes:
             // one focus row per three emotes, in the locker grid's own order (three columns)
             let emoteRows = stride(from: 0, to: EmoteCatalog.ids.count, by: 3).map { start in
@@ -934,6 +934,7 @@ extension TennisMenu {
         case "lk-shorts": lockerOpenRange("shorts", from: id)
         case "lk-body": lockerEdit { $0.standardFemale.toggle() }
         case "lk-hand": lockerEdit { $0.handedness = $0.handedness == .left ? .right : .left }
+        case "lk-back": lockerEdit { $0.backCarry = $0.backCarry == .bag ? .racket : .bag }   // MENU HERO: racket / golf bag on the back
         case "lk-shuffle": lockerShuffle()
         case "lk-revert": lockerRevert(); if screen == .online(.clothes) { show(.online(.lobby)) }
         case "lk-done":
@@ -956,7 +957,7 @@ extension TennisMenu {
             let next = i < 0 ? (step > 0 ? 0 : presets.count - 1) : (i + step + presets.count) % presets.count
             lockerEdit { $0.setSkin(presets[next]) }
             return true
-        case "lk-body", "lk-hand": lockerSelect(id); return true
+        case "lk-body", "lk-hand", "lk-back": lockerSelect(id); return true
         case "lk-range-hue", "lk-range-shade":
             guard let slot = lockerRange else { return false }
             lockerEdit { p in
@@ -1045,6 +1046,7 @@ extension TennisMenu {
         case "lk-shorts": return "\(TennisMenu.shared.lockerBottomName) colour"
         case "lk-body": return "Player"
         case "lk-hand": return "Plays"
+        case "lk-back": return "On your back"
         case "lk-shuffle": return "Shuffle"
         case "lk-revert": return "Revert changes"
         case "lk-done": return "Done"

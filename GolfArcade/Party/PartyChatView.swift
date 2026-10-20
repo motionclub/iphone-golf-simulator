@@ -326,3 +326,132 @@ struct PartySetupView: View {
     }
     private func rule(_ icon: String, _ text: String) -> some View { Label(text, systemImage: icon).font(.subheadline).labelStyle(.titleAndIcon) }
 }
+
+/// Inline party chat: typing never leaves the game. The newest lines from friends float at the top of every screen for a few
+/// seconds (they take no touches, so a swing or the stick is never interrupted), and the dock's chat button opens a small strip
+/// there: recent lines, quick phrases and a one-line composer. Sending goes through PartyChat, so the filter, the age / rules
+/// gate, mute / block and the rate limits are the same as the full chat, which stays one tap away (people, report, voice).
+struct PartyChatStrip: View {
+    var chat = PartyChat.shared
+    @State private var draft = ""
+    @State private var showFull = false
+    @State private var showSetup = false
+    @FocusState private var typing: Bool
+    /// How long a friend's line floats while the strip is closed.
+    static let floatSeconds: TimeInterval = 6
+
+    var body: some View {
+        Group {
+            if chat.available && chat.stripOpen { strip.transition(.move(edge: .top).combined(with: .opacity)) }
+            else if chat.available && !chat.chatOpen { floating }
+        }
+        .animation(.spring(response: 0.35, dampingFraction: 0.85), value: chat.stripOpen)
+        .sheet(isPresented: $showFull) { PartyChatView(dismiss: { showFull = false }).presentationDetents([.large]) }
+        .sheet(isPresented: $showSetup) { PartySetupView(dismiss: { showSetup = false }).presentationDetents([.large]) }
+    }
+
+    /// Friends' lines from the last few seconds (never your own, never system notes), newest last.
+    static func floating(_ messages: [PartyChatMessage], now: Date) -> [PartyChatMessage] {
+        Array(messages.filter { !$0.mine && $0.kind != .system && now.timeIntervalSince($0.date) < floatSeconds }.suffix(2))
+    }
+
+    private var floating: some View {
+        TimelineView(.periodic(from: .now, by: 1)) { context in
+            VStack(alignment: .leading, spacing: 4) {
+                ForEach(Self.floating(chat.messages, now: context.date)) { m in line(m).transition(.opacity) }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .allowsHitTesting(false)
+        .accessibilityIdentifier("party-chat-float")
+    }
+
+    private func line(_ m: PartyChatMessage) -> some View {
+        (Text(m.mine ? "You  " : m.senderName + "  ").font(IslandUI.font(13, bold: true)).foregroundColor(m.mine ? .white.opacity(0.6) : IslandUI.lime)
+            + Text(m.text).font(IslandUI.font(m.kind == .quick ? 15 : 14, bold: m.kind == .quick)).foregroundColor(.white))
+            .lineLimit(2)
+            .padding(.horizontal, 12).padding(.vertical, 7)
+            .background(Color(hex: "16294A").opacity(0.88), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+    }
+
+    private var strip: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(spacing: 8) {
+                Image(systemName: "bubble.left.and.bubble.right.fill").font(.system(size: 13, weight: .bold)).foregroundStyle(IslandUI.lime)
+                Text("PARTY · \(chat.members.count + 1)").font(IslandUI.font(12, bold: true)).tracking(1.4).foregroundStyle(IslandUI.lime)
+                if let name = chat.someoneRecording { Text("● \(name) is recording").font(IslandUI.font(11, bold: true)).foregroundStyle(.red) }
+                Spacer()
+                Button { showFull = true } label: { Image(systemName: "arrow.up.left.and.arrow.down.right").font(.system(size: 13, weight: .bold)).frame(width: 32, height: 32).background(.white.opacity(0.12), in: Circle()) }
+                    .accessibilityLabel("Open the full chat").accessibilityIdentifier("party-strip-full")
+                Button { typing = false; chat.stripOpen = false } label: { Image(systemName: "xmark").font(.system(size: 13, weight: .bold)).frame(width: 32, height: 32).background(.white.opacity(0.12), in: Circle()) }
+                    .accessibilityLabel("Close chat").accessibilityIdentifier("party-strip-close")
+            }
+            ScrollViewReader { proxy in
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 4) {
+                        if chat.messages.isEmpty { Text("Say hi to your party. Nothing is saved.").font(IslandUI.font(13)).foregroundStyle(.white.opacity(0.5)) }
+                        ForEach(chat.messages.suffix(30)) { m in
+                            if m.kind == .system { Text(m.text).font(IslandUI.font(12)).foregroundStyle(.white.opacity(0.5)).id(m.id) }
+                            else { line(m).id(m.id) }
+                        }
+                    }.frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .frame(maxHeight: 128)
+                .onAppear { if let last = chat.messages.last { proxy.scrollTo(last.id, anchor: .bottom) } }
+                .onChange(of: chat.messages.last?.id) { _, _ in if let last = chat.messages.last { withAnimation { proxy.scrollTo(last.id, anchor: .bottom) } } }
+            }
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 6) {
+                    ForEach(QuickChat.phrases, id: \.id) { p in
+                        Button { quick(p.id) } label: {
+                            Text(p.text).font(IslandUI.font(13, bold: true)).padding(.horizontal, 11).frame(minHeight: 32).background(.white.opacity(0.14), in: Capsule())
+                        }.accessibilityIdentifier("party-strip-quick-\(p.id)")
+                    }
+                }
+            }
+            if !chat.notice.isEmpty { Text(chat.notice).font(IslandUI.font(12, bold: true)).foregroundStyle(IslandUI.lime).onTapGesture { chat.clearNotice() } }
+            if chat.safety.access.canType {
+                HStack(spacing: 8) {
+                    TextField("Message your party", text: $draft).focused($typing)
+                        .textInputAutocapitalization(.sentences).submitLabel(.send).onSubmit(send)
+                        .font(IslandUI.font(15)).padding(.horizontal, 12).frame(minHeight: 38)
+                        .background(.white.opacity(0.12), in: RoundedRectangle(cornerRadius: 19, style: .continuous))
+                        .onChange(of: draft) { _, v in if v.count > ChatFilter.maxLength { draft = String(v.prefix(ChatFilter.maxLength)) } }
+                        .accessibilityIdentifier("party-strip-field")
+                    Button(action: send) { Image(systemName: "arrow.up.circle.fill").font(.system(size: 30)).foregroundStyle(IslandUI.lime) }
+                        .disabled(draft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                        .accessibilityLabel("Send").accessibilityIdentifier("party-strip-send")
+                }
+            } else if let reason = chat.safety.access.reason {
+                HStack(spacing: 8) {
+                    Image(systemName: "lock.fill").font(.system(size: 12))
+                    Text(reason).font(IslandUI.font(12)).lineLimit(2)
+                    Spacer(minLength: 0)
+                    if canSetUp { Button("Set up") { showSetup = true }.font(IslandUI.font(13, bold: true)).foregroundStyle(IslandUI.lime).accessibilityIdentifier("party-strip-setup") }
+                }.foregroundStyle(.white.opacity(0.7))
+            }
+        }
+        .padding(12)
+        .background(Color(hex: "16294A").opacity(0.96), in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 20, style: .continuous).strokeBorder(.white.opacity(0.18), lineWidth: 1))
+        .shadow(color: .black.opacity(0.3), radius: 12, y: 5)
+        .foregroundStyle(.white).preferredColorScheme(.dark)
+        .onAppear { chat.safety.refresh() }
+        .accessibilityElement(children: .contain).accessibilityIdentifier("party-strip")
+    }
+
+    private var canSetUp: Bool {
+        if case .quickOnly = chat.safety.access, chat.safety.restrictions == GameCenterRestrictions(), chat.safety.ageBand != .under13 { return true }
+        return false
+    }
+    private func quick(_ id: String) { if chat.sendQuick(id) == .tooFast { chat.say("Slow down a little.") } }
+    private func send() {
+        switch chat.send(text: draft) {
+        case .sent: draft = ""
+        case .tooFast: chat.say("Slow down a little.")
+        case .notAllowed(let why): chat.say(why); if canSetUp { showSetup = true }
+        case .noParty: chat.say("Join or invite a friend first.")
+        case .empty: break
+        }
+    }
+}

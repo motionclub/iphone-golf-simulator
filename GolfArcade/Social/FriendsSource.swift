@@ -97,10 +97,16 @@ enum ClubHubConfig {
         if let i = args.firstIndex(of: "-" + key), args.indices.contains(i + 1) { return args[i + 1] }
         return UserDefaults.standard.string(forKey: key)
     }
-    /// The WebSocket URL, or nil when no service is configured (the hub then shows Game Center friends without presence).
+    /// Online is Game Center only (Adnan, 2026-10-19): invites, the party, the Plaza, room changes and chat all ride the Game Center
+    /// match, so a shipped build never reaches the Club Hub service, whatever SportsInfo.plist's ClubHubServerURL says. Only a debug
+    /// build pointed at a dev service (`-clubHubURL`) still opens it, for the service's own tests.
     static var serverURL: URL? {
-        let text = override("clubHubURL") ?? (Bundle.main.object(forInfoDictionaryKey: "ClubHubServerURL") as? String) ?? ""
+        #if DEBUG
+        let text = override("clubHubURL") ?? ""
         return text.isEmpty ? nil : URL(string: text)
+        #else
+        return nil
+        #endif
     }
     /// A dev service accepts a bare id instead of Apple's signature (HUB_DEV_AUTH=1 on the service).
     static var devAuth: Bool { override("clubHubDevAuth") == "1" }

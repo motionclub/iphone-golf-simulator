@@ -29,6 +29,7 @@ namespace GolfArcade.Tennis
                 if (m && m.HasProperty("_MaleFormPass")) m.SetFloat("_MaleFormPass", 1);
             foreach (var r in look.GetComponentsInChildren<Renderer>(true))
             {
+                if (r.name.StartsWith("Kit_")) { Knit(r); continue; }
                 if (!(r is SkinnedMeshRenderer eyes) || eyes.name != "OriginalSeamFeatures") continue;
                 EyeFrame(eyes);
                 foreach (var m in eyes.sharedMaterials)
@@ -41,10 +42,26 @@ namespace GolfArcade.Tennis
                         bool iris = m.name.Contains("Iris");
                         m.SetFloat("_FemaleSurface", 3); m.SetFloat("_FemaleEyeRole", iris ? 2 : 1);
                         m.SetFloat("_Smoothness", iris ? .92f : .84f);
-                        m.SetFloat("_EnvironmentStrength", iris ? .60f : .34f);
+                        m.SetFloat("_EnvironmentStrength", iris ? .30f : .34f);   // 10-19 repair: iris .60 -> .30, foliage showed as a green crescent on the iris
                     }
                     else if (m.name.Contains("Pupil") || m.name.Contains("Limbal")) { m.SetFloat("_FemaleSurface", 3); m.SetFloat("_FemaleEyeRole", 3); }
                 }
+            }
+        }
+        /// Male garments (2026-10-19 repair, Adnan "smooth clothes, add shaders and quality"): the female knit response of TennisCloth
+        /// (`_FemaleSurface` 1: matte Lambert form so folds read, light-through-fibre terminator band, Charlie velvet sheen, deeper fold
+        /// ambient, knit grain) with the female numbers of FemaleGarmentFinish. Colours, maps and geometry are unchanged, so every swatch keeps its hue.
+        void Knit(Renderer r)
+        {
+            foreach (var m in r.sharedMaterials)
+            {
+                if (!m || !m.name.Contains("(hero)") || !m.HasProperty("_WeaveThread") || !configured.Add(m)) continue;
+                m.SetFloat("_FemaleSurface", 1);
+                m.SetFloat("_WeaveNormal", .22f); m.SetFloat("_WeaveThread", .16f);
+                m.SetFloat("_WeaveTile", m.GetFloat("_WeaveTile") * 1.5f);   // configured once per material instance
+                m.SetFloat("_SheenStrength", .32f); m.SetFloat("_Smoothness", .08f);
+                m.SetFloat("_NormalStrength", .80f); m.SetFloat("_Wrap", .30f);
+                m.SetFloat("_RimStrength", .025f);
             }
         }
         /// As FemaleGarmentFinish.EyeFrame: bind-pose positions in UV1 and an eye frame measured from the sclera, "up" toward the brows.

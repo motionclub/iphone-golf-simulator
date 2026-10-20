@@ -469,7 +469,8 @@ final class HubSession {
 
     private func lookFields(_ p: Player) -> [String: Any] {
         ["female": p.standardFemale, "skin": p.standardSkin, "skinHex": p.skinHex,
-         "shirt": p.outfitHex("shirt") ?? "", "shorts": p.outfitHex("shorts") ?? "", "accent": p.outfitHex("accent") ?? "", "racket": p.outfitHex("racket") ?? ""]
+         "shirt": p.outfitHex("shirt") ?? "", "shorts": p.outfitHex("shorts") ?? "", "accent": p.outfitHex("accent") ?? "", "racket": p.outfitHex("racket") ?? "",
+         "back": p.backCarry.accessoryID]   // MENU HERO: the locker's back pick (HeroAccessories golf_bag | racket_back)
     }
 
     private func sendStart() {
@@ -547,7 +548,7 @@ final class HubSession {
     func debugOnlineBench(_ sport: MultiplayerSport, searching: Bool) { station = sport == .golf ? "bay-golf-online" : "bay-tennis-online"; onlineBench = sport; self.searching = searching }
     func debugReset() { timer?.invalidate(); timer = nil; phase = .off; loaded = false; loadProgress = 0; arriving = false; zone = nil; station = nil; returnBay = nil; place = "plaza"; notice = ""; lookSent = ""; debugSent = nil
         foreground = true; onPhone = false; revealedOnPhone = false; runtimeMissing = false; searching = false; onlineBench = nil; searchTask?.cancel(); meetHost = nil; matchOver = nil; partyStartAt = nil
-        partyJoinPending = false; pendingPartyBay = nil; gatheredBay = nil; gatheredMembers = []
+        partyJoinPending = false; pendingPartyBay = nil; gatheredBay = nil; gatheredMembers = []; follow = nil
         presentInvite = { ClubHub.shared.hubOpen = true; ClubHub.shared.start() } }
     #endif
 
@@ -602,6 +603,7 @@ final class HubSession {
             guard let p = try? JSONDecoder().decode(Presence.self, from: Data(payload.utf8)),
                   let index = party.participants.firstIndex(where: { $0.id == sender }) else { return }
             friendBays[sender] = p.bay.isEmpty ? nil : p.bay
+            let was = friendPlaces[sender]
             friendPlaces[sender] = p.place
             let who = party.participants[index], look = who.loadout
             var remote: [String: Any] = ["id": sender, "name": who.name, "colour": index, "female": who.female, "place": p.place,
@@ -614,6 +616,8 @@ final class HubSession {
             command("hubRemote", remote: text)
             // just joined their party: go and stand beside them
             if meetHost == sender, phase == .live, foreground { finishPartyJoin(); meetHost = nil; command("hubMeet", mode: sender) }
+            // the leader went through a door (or travelled): the whole party goes with them (their pose has just reached Unity)
+            if sender == party.ownerID, let was, was != p.place, p.place != place, pendingPartyBay == nil { followLeader(sender, to: p.place, name: who.name) }
         case "hubEvent":
             let f = payload.split(separator: "|", omittingEmptySubsequences: false).map(String.init)
             if f.first == "starting", f.count > 1 {
@@ -629,6 +633,26 @@ final class HubSession {
             }
         default: break
         }
+    }
+
+    // MARK: party follows its leader (the lobby's owner): rooms are entered together
+
+    /// Going to stand beside the leader in their new place: retried until this phone's hero is there (a door or a fade may be
+    /// running), for a few seconds at most.
+    @ObservationIgnored private var follow: (leader: String, place: String, until: Double, next: Double)?
+    private func followLeader(_ leader: String, to target: String, name: String) {
+        let t = ProcessInfo.processInfo.systemUptime
+        follow = (leader, target, t + 4, t)
+        notice = "Following \(name) to \(HubControllerView.placeName(target).capitalized)"
+        stepFollow()
+    }
+    private func stepFollow() {
+        guard let f = follow else { return }
+        let t = ProcessInfo.processInfo.systemUptime
+        if party == nil || place == f.place || t > f.until || pendingPartyBay != nil { follow = nil; return }
+        guard t >= f.next, phase == .live, foreground else { return }
+        follow?.next = t + 0.5
+        command("hubMeet", mode: f.leader)
     }
 
     @ObservationIgnored private var pendingPartyBay: String?
@@ -695,6 +719,7 @@ final class HubSession {
         if party == nil { pendingPartyBay = nil; gatheredBay = nil; gatheredMembers = [] }
         finishPartyJoin()
         seatCalledParty()
+        stepFollow()
         // the member list: anyone who left walks off
         let ids = party?.participants.map(\.id).filter { $0 != partyService.localID }.sorted() ?? []
         let roster = ids.joined(separator: ",")

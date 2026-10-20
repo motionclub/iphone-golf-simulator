@@ -63,6 +63,8 @@ namespace GolfArcade.Game
                             }
                         }
                         break;
+                    case MoverKind.Launchpad: view.BuildPad(root, i, m); break;
+                    case MoverKind.Target: view.BuildTarget(go.transform, root, i, m); break;
                     case MoverKind.Balloon: view.BuildBalloon(root, i, m.Variant); break;
                     case MoverKind.Cart: view.BuildCart(root, i); break;
                     case MoverKind.Twister: view.BuildTwister(root, i); break;
@@ -103,6 +105,8 @@ namespace GolfArcade.Game
                 {
                     case MoverKind.RockGate: case MoverKind.WindLift:
                         root.SetPositionAndRotation(new Vector3((float)x,(float)y,(float)d),m.Kind==MoverKind.WindLift?Quaternion.identity:Quaternion.Euler(0,(float)t*2,0));break;
+                    case MoverKind.Launchpad: PosePad(i, m, t, since); break;
+                    case MoverKind.Target: PoseTarget(i, root, new Vector3((float)x, (float)y, (float)d), since); break;
                     case MoverKind.Balloon:
                     {
                         root.position = new Vector3((float)x, (float)y, (float)d);
@@ -167,6 +171,138 @@ namespace GolfArcade.Game
                     }
                 }
             }
+        }
+
+        // ----- The launchpad and the target (QuirkyObstacles, 10-19) -----
+
+        sealed class Pad { public Material glow, chevron; public LineRenderer charge; public LineRenderer[] chevrons; public Transform top, button; }
+        readonly Dictionary<int, Pad> pads = new();
+        readonly Dictionary<int, (Transform swing, Material face)> targets = new();
+        static readonly Color PadCharged = new(.25f, 1f, .55f), PadSpent = new(.62f, .14f, .12f), PadReady = new(1f, .86f, .25f);
+
+        Material Glow(Color c)
+        {
+            var m = new Material(Shader.Find("Universal Render Pipeline/Unlit")) { name = "Pad glow" };
+            m.SetColor("_BaseColor", c); dreamResources.Add(m); return m;
+        }
+
+        LineRenderer Line(Transform parent, string name, Material m, float width, int count)
+        {
+            var l = new GameObject(name).AddComponent<LineRenderer>();
+            l.transform.SetParent(parent, false); l.useWorldSpace = false; l.sharedMaterial = m; l.widthMultiplier = width; l.positionCount = count;
+            l.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off; l.alignment = LineAlignment.TransformZ;
+            return l;
+        }
+
+        /// A launchpad: a dark plinth flush with the ground, a glowing face (green: charged, it fires; red: spent), a
+        /// ring round its rim filling up toward the next charge (gold as it is about to fire), chevrons racing toward
+        /// where it sends the ball, and a white plunger in the middle that kicks when it fires.
+        void BuildPad(Transform root, int index, Mover m)
+        {
+            var at = m.At(0); float r = (float)Mover.PadRadius;
+            root.SetPositionAndRotation(new Vector3((float)at.x, (float)at.y, (float)at.d),
+                Quaternion.Euler(0, Mathf.Atan2((float)(m.Goal.X - at.x), (float)(m.Goal.D - at.d)) * Mathf.Rad2Deg, 0));
+            Part(PrimitiveType.Cylinder, "Pad plinth", UiColor("2B2F3A"), root, new Vector3(0, -.12f, 0), new Vector3(2 * r, .38f, 2 * r));
+            Part(PrimitiveType.Cylinder, "Pad rim", UiColor("F7C531"), root, new Vector3(0, .2f, 0), new Vector3(2 * r * 1.04f, .07f, 2 * r * 1.04f));
+            var pad = new Pad { glow = Glow(PadCharged), chevron = Glow(Color.white) };
+            var face = HoleView.Primitive(PrimitiveType.Cylinder, "Pad face", Color.white, root);
+            face.GetComponent<Renderer>().sharedMaterial = pad.glow;
+            face.transform.localPosition = new Vector3(0, .28f, 0); face.transform.localScale = new Vector3(2 * r * .88f, .03f, 2 * r * .88f);
+            pad.top = face.transform;
+            pad.button = Part(PrimitiveType.Sphere, "Pad plunger", UiColor("FFF6E8"), root, new Vector3(0, .3f, 0), new Vector3(1.1f, .4f, 1.1f)).transform;
+            var ringMat = Glow(PadReady);
+            pad.charge = Line(root, "Pad charge", ringMat, .32f, 49);
+            pad.charge.transform.localRotation = Quaternion.Euler(90, 0, 0);
+            pad.chevrons = new LineRenderer[3];
+            for (int k = 0; k < 3; k++)
+            {
+                var c = Line(root, "Pad chevron", pad.chevron, .42f, 3);
+                c.transform.localRotation = Quaternion.Euler(90, 0, 0);
+                float z = -r * .3f + k * r * .42f, w = r * .34f;
+                c.SetPositions(new[] { new Vector3(-w, z - w * .7f, -.38f), new Vector3(0, z, -.38f), new Vector3(w, z - w * .7f, -.38f) });
+                pad.chevrons[k] = c;
+            }
+            pads[index] = pad;
+        }
+
+        void PosePad(int index, Mover m, double t, float since)
+        {
+            if (!pads.TryGetValue(index, out var pad)) return;
+            double u = m.CycleAt(t), share = Mover.ChargedShare;
+            bool charged = u < share;
+            float now = (float)t, r = (float)Mover.PadRadius * .97f;
+            // the face: a pulsing green while it is charged, a dull red while it recharges, flicking gold just before
+            float until = (float)((1 - u) * m.Period);
+            Color face = charged ? Color.Lerp(PadCharged, Color.white, .18f + .18f * Mathf.Sin(now * 14f))
+                       : until < .7f && Mathf.Repeat(now * 8f, 1f) < .5f ? PadReady : PadSpent;
+            pad.glow.SetColor("_BaseColor", face);
+            // the rim fills round as it recharges; full (and green) while charged
+            float fill = charged ? 1f : (float)((u - share) / (1 - share));
+            int n = Mathf.Max(2, Mathf.RoundToInt(48 * fill) + 1);
+            pad.charge.positionCount = n;
+            for (int k = 0; k < n; k++) { float a = k / 48f * Mathf.PI * 2; pad.charge.SetPosition(k, new Vector3(Mathf.Sin(a) * r, Mathf.Cos(a) * r, -.36f)); }
+            pad.charge.sharedMaterial.SetColor("_BaseColor", charged ? PadCharged : PadReady);
+            for (int k = 0; k < 3; k++)
+            {
+                bool lit = charged && Mathf.Repeat(now * 2.6f - k / 3f, 1f) < .45f;
+                pad.chevrons[k].gameObject.SetActive(charged);
+                pad.chevrons[k].widthMultiplier = lit ? .5f : .3f;
+            }
+            pad.chevron.SetColor("_BaseColor", Color.white);
+            // it fires: the plunger kicks up and the face squashes and springs back
+            float kick = since < .6f ? Mathf.Sin(since / .6f * Mathf.PI) * Mathf.Exp(-since * 2f) : 0f;
+            pad.button.localPosition = new Vector3(0, .3f + kick * 1.4f, 0);
+            pad.top.localScale = new Vector3(2 * (float)Mover.PadRadius * .88f * (1 + kick * .08f), .03f, 2 * (float)Mover.PadRadius * .88f * (1 + kick * .08f));
+        }
+
+        /// A target: a bullseye board (red and white rings, facing the tee) hung on two rods from a trolley that runs
+        /// along the crossbar of a yellow gantry standing over the rough. The gantry stays put; the board slides.
+        void BuildTarget(Transform movers, Transform root, int index, Mover m)
+        {
+            var a = HoleView.ToWorld(m.RailFrom); var b = HoleView.ToWorld(m.RailTo);
+            var rail = new Vector3(b.x - a.x, 0, b.z - a.z); float length = rail.magnitude; rail /= Mathf.Max(.01f, length);
+            float boardR = (float)Mover.TargetRadius, barY = (float)m.Height + boardR + 1.1f, post = (float)Mover.TargetPost;
+            var gantry = new GameObject($"Target gantry {index}").transform; gantry.SetParent(movers, false);
+            Vector3 pa = a - rail * post, pb = b + rail * post;
+            foreach (var p in new[] { pa, pb })
+            {
+                float ground = (float)HoleView.GroundHeight(HoleView.ToCourse(p)) - .3f, h = barY - ground;
+                Part(PrimitiveType.Cylinder, "Gantry post", UiColor("F7C531"), gantry, new Vector3(p.x, ground + h / 2, p.z), new Vector3(.7f, h / 2, .7f));
+                Part(PrimitiveType.Cube, "Gantry foot", UiColor("2B2F3A"), gantry, new Vector3(p.x, ground + .45f, p.z), new Vector3(1.8f, 1.1f, 1.8f));
+                Part(PrimitiveType.Sphere, "Gantry cap", UiColor("F4513A"), gantry, new Vector3(p.x, barY + .2f, p.z), Vector3.one * 1.1f);
+            }
+            var bar = Part(PrimitiveType.Cylinder, "Gantry rail", UiColor("FFF6E8"), gantry, new Vector3((pa.x + pb.x) / 2, barY, (pa.z + pb.z) / 2), new Vector3(.45f, (length + 2 * post) / 2, .45f));
+            bar.transform.rotation = Quaternion.FromToRotation(Vector3.up, rail);
+            foreach (var t in gantry.GetComponentsInChildren<Transform>(true)) t.gameObject.layer = BallLook.OverlayLayer;
+            // the board faces back up the hole, toward the tee
+            var face = Vector3.Cross(rail, Vector3.up);
+            var tee = HoleView.Current ? HoleView.ToWorld(HoleView.Current.Hole.Tee) : a - face * 50;
+            if (Vector3.Dot(face, tee - a) < 0) face = -face;
+            root.rotation = Quaternion.LookRotation(face, Vector3.up);
+            var swing = new GameObject("Board swing").transform; swing.SetParent(root, false); swing.localPosition = new Vector3(0, barY - (float)m.Height, 0);
+            Part(PrimitiveType.Cube, "Trolley", UiColor("2B2F3A"), swing, new Vector3(0, 0, 0), new Vector3(2.6f, .7f, 1.0f));
+            float drop = barY - (float)m.Height;
+            foreach (int side in new[] { -1, 1 })
+                Part(PrimitiveType.Cylinder, "Hanger", UiColor("FFF6E8"), swing, new Vector3(side * boardR * .45f, -drop / 2, 0), new Vector3(.18f, drop / 2, .18f));
+            var colours = new[] { UiColor("F4513A"), UiColor("FFF6E8"), UiColor("F4513A"), UiColor("FFF6E8"), UiColor("F7C531") };
+            Material faceMat = null;
+            for (int k = 0; k < colours.Length; k++)
+            {
+                float rr = boardR * (1 - k * .2f);
+                var ring = Part(PrimitiveType.Cylinder, "Bullseye ring", colours[k], swing, new Vector3(0, -drop, .05f + k * .06f), new Vector3(2 * rr, .05f, 2 * rr), new Vector3(90, 0, 0));
+                if (k == 0) { faceMat = new Material(Toy(colours[0])); dreamResources.Add(faceMat); ring.GetComponent<Renderer>().sharedMaterial = faceMat; }
+            }
+            targets[index] = (swing, faceMat);
+        }
+
+        void PoseTarget(int index, Transform root, Vector3 at, float since)
+        {
+            root.position = at;
+            if (!targets.TryGetValue(index, out var t) || !t.swing) return;
+            // struck: the board swings back on its hangers and rocks to rest, its outer ring flashing gold
+            float swing = since < 2.4f ? -38f * Mathf.Sin(since * 7f) * Mathf.Exp(-since * 1.9f) : 0f;
+            t.swing.localRotation = Quaternion.Euler(swing, 0, 0);
+            if (t.face) t.face.color = since < 1.2f && Mathf.Repeat(since * 6f, 1f) < .5f ? UiColor("FFE066") : UiColor("F4513A");
         }
 
         // ----- The models -----

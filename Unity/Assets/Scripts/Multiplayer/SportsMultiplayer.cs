@@ -85,7 +85,7 @@ namespace GolfArcade.Multiplayer {
                     golf=new(c.participants.Where(p=>p.seat>=0).Select(p=>p.seat).ToArray(),c.seed,intro:!shared,courseKey:c.venue,playing:golfView?golfView.PlayingCourse:null,waitForLoad:true,sharedPhone:shared,twists:!c.twistsOff,world:true);GolfState=golf.State;tennis=null;golf.Result=Result;golf.Shot=shot=>{GolfShot=shot;Send("golfShot",JsonUtility.ToJson(shot));};
                     golf.SamePhone=seat=>{var phone=PhoneOf(c,seat);return c.participants.Where(p=>p.seat>=0&&PhoneOf(c,p.seat)==phone).Select(p=>p.seat).ToArray();};
                     if(golfView&&!shared) golf.ConfigureIntro(golfView.NetworkIntroFull,golfView.NetworkVenueSeconds,golfView.NetworkStartSeconds,
-                        PresentationDirector.GolfOverShoulder+PresentationDirector.IntroWindow,PresentationDirector.GolfOverShoulder,golfView.NetworkEmoteSeconds);}
+                        0,0,golfView.NetworkEmoteSeconds);}   // (no golfer introduction any more, 2026-10-19: the flyover goes straight to the address)
             } else {tennis=null;golf=null;TennisState=null;GolfState=null;}
             tennisView?.ConfigureNetwork(c);golfView?.ConfigureNetwork(c);
             Time.timeScale=1;
@@ -192,7 +192,7 @@ namespace GolfArcade.Multiplayer {
                 case "pause":Instance.Send("availability","false");return true;
                 case "resume":Instance.Send("availability","true");Time.timeScale=1;return true;
                 case "touch":case "motion":case "recalibrate":case "latency":case "golfAimDirection":
-                case "golfStartSwing":case "golfCancelSwing":case "golfLoad":return false;
+                case "golfStartSwing":case "golfReleaseSwing":case "golfCancelSwing":case "golfLoad":return false;
                 // golf's taps on (skip the intro or the replay, finish the result): single player's, and the round follows (GolfGame.Network)
                 case "presentationSkip":case "golfContinue":return Instance.Configuration.sport!="golf";
                 case "toss":

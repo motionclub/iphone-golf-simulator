@@ -7,11 +7,11 @@ Darwin version:          25.6.0
 Architecture:            arm64
 Running under Rosetta:   NO
 Available memory:        16384 MB
-Date:                    2026-10-19T05:07:53Z
+Date:                    2026-10-19T21:11:36Z
 [Licensing::Module] Trying to connect to existing licensing client channel...
 [Licensing::IpcConnector] Channel LicenseClient-adnanyonathan doesn't exist
 Launching external process: /Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/Helpers/UnityLicensingClient.app/Contents/MacOS/Unity.Licensing.Client
-[Licensing::Module] Successfully launched the LicensingClient (PId: 14903)
+[Licensing::Module] Successfully launched the LicensingClient (PId: 93462)
 Launching external process: /Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/Resources/PackageManager/Server/UnityPackageManager
 
 COMMAND LINE ARGUMENTS:
@@ -19,13 +19,13 @@ COMMAND LINE ARGUMENTS:
 -batchmode
 -quit
 -projectPath
-/Users/adnanyonathan/integration-work/sync-UnityClone
+/Users/adnanyonathan/unity-clones/menu-hero
 -executeMethod
 GolfArcade.EditorTools.MatchHeroLockerExport.CaptureLobbyParity
 -logFile
 /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/hero-sync/out/logs/capture-golf.log
-Successfully changed project path to: /Users/adnanyonathan/integration-work/sync-UnityClone
-/Users/adnanyonathan/integration-work/sync-UnityClone
+Successfully changed project path to: /Users/adnanyonathan/unity-clones/menu-hero
+/Users/adnanyonathan/unity-clones/menu-hero
 [UnityMemory] Configuration Parameters - Can be set up in boot.config
     "memorysetup-allocator-temp-initial-block-size-main=262144"
     "memorysetup-allocator-temp-initial-block-size-worker=262144"
@@ -64,25 +64,25 @@ Successfully changed project path to: /Users/adnanyonathan/integration-work/sync
     "memorysetup-temp-allocator-size-gfx=262144"
 Player connection [8453562752]  Target information:
 
-Player connection [8453562752]  * "[IP] 10.0.0.203 [Port] 55504 [Flags] 2 [Guid] 338602606 [EditorId] 338602606 [Version] 1048832 [Id] OSXEditor(0,Adnans-MacBook-Air.local) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" 
+Player connection [8453562752]  * "[IP] 10.0.0.64 [Port] 55504 [Flags] 2 [Guid] 3000548712 [EditorId] 3000548712 [Version] 1048832 [Id] OSXEditor(0,Adnans-MacBook-Air.local) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" 
 
 Player connection [8453562752] Host joined multi-casting on [225.0.0.222:54997]...
 Player connection [8453562752] Host joined alternative multi-casting on [225.0.0.222:34997]...
 Input System module state changed to: Initialized.
 [Physics::Module] Initialized fallback backend.
 [Physics::Module] Id: 0xdecafbad
-[Licensing::IpcConnector] Successfully connected to: "LicenseClient-adnanyonathan" at "2026-10-19T05:07:53.538902Z"
-[Package Manager] Connected to IPC stream "Upm-14901" after 0.1 seconds.
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-adnanyonathan" at "2026-10-19T21:11:36.716733Z"
+[Package Manager] Connected to IPC stream "Upm-93460" after 0.1 seconds.
 [Licensing::Module] Licensing is not yet initialized.
 [Licensing::Client] Handshaking with LicensingClient:
   Version:                 1.18.3+d7ffd15
-  Session Id:              1c14c5a3dfde43ada25800082105050a
-  Correlation Id:          b8c9bb706fe6aa19582ae074808e2dc7
-  External correlation Id: 1458294002027579860
+  Session Id:              f6ddcee8ece4411e9207c7732f26d081
+  Correlation Id:          56e33645ee74e6fe34f67478493c254f
+  External correlation Id: 8791787627554625927
   Machine Id:              TX4XIvHnvxbItvrLF5vWHS2MyBM=
-[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-adnanyonathan" (connect: 0.11s, validation: 0.01s, handshake: 0.20s)
-[Licensing::IpcConnector] Successfully connected to: "LicenseClient-adnanyonathan-notifications" at "2026-10-19T05:07:53.75348Z"
-[Licensing::Module] Connected to LicensingClient (PId: 14903, launch time: 0.00, total connection time: 0.32s)
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-adnanyonathan" (connect: 0.11s, validation: 0.01s, handshake: 0.19s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-adnanyonathan-notifications" at "2026-10-19T21:11:36.923669Z"
+[Licensing::Module] Connected to LicensingClient (PId: 93462, launch time: 0.00, total connection time: 0.32s)
 [Licensing::Module] Error: Access token is unavailable; failed to update
 [Licensing::Client] Successfully resolved entitlement details
 [Licensing::Module] License group:
@@ -92,8 +92,8 @@ Input System module state changed to: Initialized.
   Expiration: Unlimited
 [Licensing::Client] Successfully updated license, isAsync: True, time: 0.00
 [Licensing::Client] Successfully resolved entitlement details
-[Licensing::Module] Licensing Background thread has ended after 0.33s
-[Licensing::Module] Licensing is initialized (took 0.11s).
+[Licensing::Module] Licensing Background thread has ended after 0.32s
+[Licensing::Module] Licensing is initialized (took 0.13s).
 [Licensing::Client] Successfully resolved entitlement details
 Library Redirect Path: Library/
 [Physics::Module] Selected backend.
@@ -103,11 +103,11 @@ Library Redirect Path: Library/
 [Physics::Module] Integration Version: 1.0.0
 [Physics::Module] Threading Mode: Multi-Threaded
 [Licensing::Client] Successfully resolved entitlement details
-Refreshing native plugins compatible for Editor in 0.52 ms, found 0 plugins.
+Refreshing native plugins compatible for Editor in 0.48 ms, found 0 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 6000.3.24f1 (4e7b9b5b6244)
 [Subsystems] Discovering subsystems at path /Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/Resources/UnitySubsystems
-[Subsystems] Discovering subsystems at path /Users/adnanyonathan/integration-work/sync-UnityClone/Assets
+[Subsystems] Discovering subsystems at path /Users/adnanyonathan/unity-clones/menu-hero/Assets
 GfxDevice: creating device client; kGfxThreadingModeNonThreaded
  preferred device: Apple M5 (high power)
 Metal devices available: 1
@@ -124,7 +124,7 @@ Initialize mono
 Mono path[0] = '/Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/Resources/Scripting/Managed'
 Mono path[1] = '/Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/Resources/Scripting/MonoBleedingEdge/lib/mono/unityjit-macos'
 Mono config path = '/Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/Resources/Scripting/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56901
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56460
 Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
 Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
 ImportWorker Server TCP listen port: 0
@@ -133,8 +133,8 @@ Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: /Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll
 Register platform support module: /Applications/Unity/Hub/Editor/6000.3.24f1/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.dll
-Registered in 0.001019 seconds.
-- Loaded All Assemblies, in  0.190 seconds
+Registered in 0.000851 seconds.
+- Loaded All Assemblies, in  0.187 seconds
 [usbmuxd] Start listen thread
 [usbmuxd] Listen thread started
 [usbmuxd] Send listen message
@@ -143,35 +143,35 @@ Native extension for OSXStandalone target not found
 Package Manager log level set to [2]
 ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:True
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.201 seconds
-Domain Reload Profiling: 391ms
-	BeginReloadAssembly (70ms)
+- Finished resetting the current domain, in  0.200 seconds
+Domain Reload Profiling: 387ms
+	BeginReloadAssembly (66ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (0ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (3ms)
+		CreateAndSetChildDomain (1ms)
 	RebuildCommonClasses (17ms)
 	RebuildNativeTypeToScriptingClass (6ms)
-	initialDomainReloadingComplete (18ms)
-	LoadAllAssembliesAndSetupDomain (79ms)
-		LoadAssemblies (67ms)
+	initialDomainReloadingComplete (19ms)
+	LoadAllAssembliesAndSetupDomain (80ms)
+		LoadAssemblies (65ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
 		AnalyzeDomain (78ms)
 			TypeCache.Refresh (77ms)
 				TypeCache.ScanAssembly (71ms)
 			BuildScriptInfoCaches (0ms)
 			ResolveRequiredComponents (0ms)
-	FinalizeReload (201ms)
+	FinalizeReload (200ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (183ms)
+		SetupLoadedEditorAssemblies (182ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (53ms)
+			InitializePlatformSupportModulesInManaged (52ms)
 			SetLoadedEditorAssemblies (2ms)
-			BeforeProcessingInitializeOnLoad (35ms)
-			ProcessInitializeOnLoadAttributes (54ms)
-			ProcessInitializeOnLoadMethodAttributes (39ms)
+			BeforeProcessingInitializeOnLoad (34ms)
+			ProcessInitializeOnLoadAttributes (53ms)
+			ProcessInitializeOnLoadMethodAttributes (41ms)
 			AfterProcessingInitializeOnLoad (0ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
@@ -183,87 +183,87 @@ Application.AssetDatabase Initial Refresh Start
 [Licensing::Client] Successfully resolved entitlement details
 [Package Manager] Registered 63 packages:
   Packages from [https://packages.unity.com]:
-    com.unity.ai.navigation@2.0.14 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.ai.navigation@134dd6a3b97b)
-    com.unity.analytics@3.8.2 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.analytics@c9d14a6bdec6)
-    com.unity.collab-proxy@2.13.6 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.collab-proxy@4628d2ba6ea4)
-    com.unity.ide.rider@3.0.40 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.ide.rider@e4950c6d131b)
-    com.unity.ide.visualstudio@2.0.26 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.ide.visualstudio@a99d56dec63f)
-    com.unity.timeline@1.8.13 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.timeline@3a22918286f5)
-    com.unity.xr.legacyinputhelpers@2.1.13 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.xr.legacyinputhelpers@9535ff2c27ac)
-    com.unity.services.analytics@6.3.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.services.analytics@cde4e6cf92f9)
-    com.unity.nuget.newtonsoft-json@3.2.2 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.nuget.newtonsoft-json@4dfd81071c64)
-    com.unity.searcher@4.9.5 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.searcher@a463122f2c00)
-    com.unity.burst@1.8.30 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.burst@2f3d916873ea)
-    com.unity.mathematics@1.3.3 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.mathematics@19a9377c4ffa)
-    com.unity.collections@2.6.8 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.collections@84e8eb3fc12e)
-    com.unity.services.core@1.18.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.services.core@3464cb68d709)
-    com.unity.nuget.mono-cecil@1.11.6 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.nuget.mono-cecil@ecb9724e46ff)
-    com.unity.test-framework.performance@3.5.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.test-framework.performance@8b56083ec0f0)
+    com.unity.ai.navigation@2.0.14 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.ai.navigation@134dd6a3b97b)
+    com.unity.analytics@3.8.2 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.analytics@c9d14a6bdec6)
+    com.unity.collab-proxy@2.13.6 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.collab-proxy@4628d2ba6ea4)
+    com.unity.ide.rider@3.0.40 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.ide.rider@e4950c6d131b)
+    com.unity.ide.visualstudio@2.0.26 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.ide.visualstudio@a99d56dec63f)
+    com.unity.timeline@1.8.13 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.timeline@3a22918286f5)
+    com.unity.xr.legacyinputhelpers@2.1.13 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.xr.legacyinputhelpers@9535ff2c27ac)
+    com.unity.services.analytics@6.3.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.services.analytics@cde4e6cf92f9)
+    com.unity.nuget.newtonsoft-json@3.2.2 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.nuget.newtonsoft-json@4dfd81071c64)
+    com.unity.searcher@4.9.5 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.searcher@a463122f2c00)
+    com.unity.burst@1.8.30 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.burst@2f3d916873ea)
+    com.unity.mathematics@1.3.3 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.mathematics@19a9377c4ffa)
+    com.unity.collections@2.6.8 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.collections@84e8eb3fc12e)
+    com.unity.services.core@1.18.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.services.core@3464cb68d709)
+    com.unity.nuget.mono-cecil@1.11.6 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.nuget.mono-cecil@ecb9724e46ff)
+    com.unity.test-framework.performance@3.5.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.test-framework.performance@8b56083ec0f0)
   Built-in packages:
-    com.unity.2d.sprite@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.2d.sprite@5b922524bd83)
-    com.unity.2d.tilemap@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.2d.tilemap@f666889fd587)
-    com.unity.multiplayer.center@1.0.1 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.multiplayer.center@f01f4ba8d00a)
-    com.unity.test-framework@1.6.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.test-framework@bd7f943e9647)
-    com.unity.ugui@2.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.ugui@b996e7548785)
-    com.unity.modules.accessibility@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.accessibility)
-    com.unity.modules.adaptiveperformance@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.adaptiveperformance)
-    com.unity.modules.ai@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.ai)
-    com.unity.modules.androidjni@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.androidjni)
-    com.unity.modules.animation@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.animation)
-    com.unity.modules.assetbundle@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.assetbundle)
-    com.unity.modules.audio@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.audio)
-    com.unity.modules.cloth@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.cloth)
-    com.unity.modules.director@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.director)
-    com.unity.modules.imageconversion@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.imageconversion)
-    com.unity.modules.imgui@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.imgui)
-    com.unity.modules.jsonserialize@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.jsonserialize)
-    com.unity.modules.particlesystem@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.particlesystem)
-    com.unity.modules.physics@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.physics)
-    com.unity.modules.physics2d@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.physics2d)
-    com.unity.modules.screencapture@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.screencapture)
-    com.unity.modules.terrain@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.terrain)
-    com.unity.modules.terrainphysics@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.terrainphysics)
-    com.unity.modules.tilemap@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.tilemap)
-    com.unity.modules.ui@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.ui)
-    com.unity.modules.uielements@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.uielements)
-    com.unity.modules.umbra@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.umbra)
-    com.unity.modules.unityanalytics@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.unityanalytics)
-    com.unity.modules.unitywebrequest@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.unitywebrequest)
-    com.unity.modules.unitywebrequestassetbundle@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.unitywebrequestassetbundle)
-    com.unity.modules.unitywebrequestaudio@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.unitywebrequestaudio)
-    com.unity.modules.unitywebrequesttexture@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.unitywebrequesttexture)
-    com.unity.modules.unitywebrequestwww@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.unitywebrequestwww)
-    com.unity.modules.vectorgraphics@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.vectorgraphics)
-    com.unity.modules.vehicles@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.vehicles)
-    com.unity.modules.video@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.video)
-    com.unity.modules.vr@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.vr)
-    com.unity.modules.wind@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.wind)
-    com.unity.modules.xr@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.xr)
-    com.unity.render-pipelines.universal@17.3.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.render-pipelines.universal@a8b4b2fc3560)
-    com.unity.render-pipelines.core@17.3.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.render-pipelines.core@0bb36005e9ba)
-    com.unity.shadergraph@17.3.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.shadergraph@30c2e3926b79)
-    com.unity.render-pipelines.universal-config@17.0.3 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.render-pipelines.universal-config@8dc1aab4af1d)
-    com.unity.modules.subsystems@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.subsystems)
-    com.unity.modules.hierarchycore@1.0.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.modules.hierarchycore)
-    com.unity.ext.nunit@2.0.5 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.unity.ext.nunit@d8c07649098d)
+    com.unity.2d.sprite@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.2d.sprite@5b922524bd83)
+    com.unity.2d.tilemap@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.2d.tilemap@f666889fd587)
+    com.unity.multiplayer.center@1.0.1 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.multiplayer.center@f01f4ba8d00a)
+    com.unity.test-framework@1.6.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.test-framework@bd7f943e9647)
+    com.unity.ugui@2.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.ugui@b996e7548785)
+    com.unity.modules.accessibility@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.accessibility)
+    com.unity.modules.adaptiveperformance@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.adaptiveperformance)
+    com.unity.modules.ai@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.ai)
+    com.unity.modules.androidjni@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.androidjni)
+    com.unity.modules.animation@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.animation)
+    com.unity.modules.assetbundle@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.assetbundle)
+    com.unity.modules.audio@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.audio)
+    com.unity.modules.cloth@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.cloth)
+    com.unity.modules.director@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.director)
+    com.unity.modules.imageconversion@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.imageconversion)
+    com.unity.modules.imgui@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.imgui)
+    com.unity.modules.jsonserialize@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.jsonserialize)
+    com.unity.modules.particlesystem@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.particlesystem)
+    com.unity.modules.physics@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.physics)
+    com.unity.modules.physics2d@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.physics2d)
+    com.unity.modules.screencapture@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.screencapture)
+    com.unity.modules.terrain@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.terrain)
+    com.unity.modules.terrainphysics@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.terrainphysics)
+    com.unity.modules.tilemap@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.tilemap)
+    com.unity.modules.ui@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.ui)
+    com.unity.modules.uielements@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.uielements)
+    com.unity.modules.umbra@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.umbra)
+    com.unity.modules.unityanalytics@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.unityanalytics)
+    com.unity.modules.unitywebrequest@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.unitywebrequest)
+    com.unity.modules.unitywebrequestassetbundle@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.unitywebrequestassetbundle)
+    com.unity.modules.unitywebrequestaudio@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.unitywebrequestaudio)
+    com.unity.modules.unitywebrequesttexture@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.unitywebrequesttexture)
+    com.unity.modules.unitywebrequestwww@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.unitywebrequestwww)
+    com.unity.modules.vectorgraphics@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.vectorgraphics)
+    com.unity.modules.vehicles@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.vehicles)
+    com.unity.modules.video@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.video)
+    com.unity.modules.vr@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.vr)
+    com.unity.modules.wind@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.wind)
+    com.unity.modules.xr@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.xr)
+    com.unity.render-pipelines.universal@17.3.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.render-pipelines.universal@a8b4b2fc3560)
+    com.unity.render-pipelines.core@17.3.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.render-pipelines.core@0bb36005e9ba)
+    com.unity.shadergraph@17.3.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.shadergraph@30c2e3926b79)
+    com.unity.render-pipelines.universal-config@17.0.3 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.render-pipelines.universal-config@8dc1aab4af1d)
+    com.unity.modules.subsystems@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.subsystems)
+    com.unity.modules.hierarchycore@1.0.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.modules.hierarchycore)
+    com.unity.ext.nunit@2.0.5 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.unity.ext.nunit@d8c07649098d)
   Git packages:
-    com.coplaydev.unity-mcp@https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity#v10.2.0 (location: /Users/adnanyonathan/integration-work/sync-UnityClone/Library/PackageCache/com.coplaydev.unity-mcp@045e809812a8)
+    com.coplaydev.unity-mcp@https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity#v10.2.0 (location: /Users/adnanyonathan/unity-clones/menu-hero/Library/PackageCache/com.coplaydev.unity-mcp@045e809812a8)
 [Subsystems] No new subsystems found in resolved package list.
 [Package Manager] Done registering packages in 0.01 seconds
-Assets/Editor/PostcardV3Scratch/staged/hole_08.fbx is a symbolic link. Using symlinks in Unity projects may cause your project to become corrupted if you create multiple references to the same asset, use recursive symlinks or use symlinks to share assets between projects used with different versions of Unity. Make sure you know what you are doing.
-Assets/Editor/PostcardV3Scratch/staged/hole_10.fbx is a symbolic link. Using symlinks in Unity projects may cause your project to become corrupted if you create multiple references to the same asset, use recursive symlinks or use symlinks to share assets between projects used with different versions of Unity. Make sure you know what you are doing.
-Assets/Editor/PostcardV3Scratch/staged/hole_09.fbx is a symbolic link. Using symlinks in Unity projects may cause your project to become corrupted if you create multiple references to the same asset, use recursive symlinks or use symlinks to share assets between projects used with different versions of Unity. Make sure you know what you are doing.
-Assets/Editor/PostcardV3Scratch is a symbolic link. Using symlinks in Unity projects may cause your project to become corrupted if you create multiple references to the same asset, use recursive symlinks or use symlinks to share assets between projects used with different versions of Unity. Make sure you know what you are doing.
-Assets/Editor/PostcardV3Scratch.meta is a symbolic link. Using symlinks in Unity projects may cause your project to become corrupted if you create multiple references to the same asset, use recursive symlinks or use symlinks to share assets between projects used with different versions of Unity. Make sure you know what you are doing.
 Assets/Editor/PostcardV3Scratch/fixtures is a symbolic link. Using symlinks in Unity projects may cause your project to become corrupted if you create multiple references to the same asset, use recursive symlinks or use symlinks to share assets between projects used with different versions of Unity. Make sure you know what you are doing.
+Assets/Editor/PostcardV3Scratch.meta is a symbolic link. Using symlinks in Unity projects may cause your project to become corrupted if you create multiple references to the same asset, use recursive symlinks or use symlinks to share assets between projects used with different versions of Unity. Make sure you know what you are doing.
+Assets/Editor/PostcardV3Scratch/staged/hole_10.fbx is a symbolic link. Using symlinks in Unity projects may cause your project to become corrupted if you create multiple references to the same asset, use recursive symlinks or use symlinks to share assets between projects used with different versions of Unity. Make sure you know what you are doing.
+Assets/Editor/PostcardV3Scratch is a symbolic link. Using symlinks in Unity projects may cause your project to become corrupted if you create multiple references to the same asset, use recursive symlinks or use symlinks to share assets between projects used with different versions of Unity. Make sure you know what you are doing.
+Assets/Editor/PostcardV3Scratch/staged/hole_09.fbx is a symbolic link. Using symlinks in Unity projects may cause your project to become corrupted if you create multiple references to the same asset, use recursive symlinks or use symlinks to share assets between projects used with different versions of Unity. Make sure you know what you are doing.
+Assets/Editor/PostcardV3Scratch/staged/hole_08.fbx is a symbolic link. Using symlinks in Unity projects may cause your project to become corrupted if you create multiple references to the same asset, use recursive symlinks or use symlinks to share assets between projects used with different versions of Unity. Make sure you know what you are doing.
 [40m[32minfo[39m[22m[49m: Microsoft.Hosting.Lifetime[14]
-      Now listening on: http://unix:/tmp/ilpp.sock-e8ac2fc1adf19c725444a1600cb811fb
+      Now listening on: http://unix:/tmp/ilpp.sock-a6e817b173750a64d78ee076ee2bf18c
 [40m[32minfo[39m[22m[49m: Microsoft.Hosting.Lifetime[0]
       Application started. Press Ctrl+C to shut down.
 [40m[32minfo[39m[22m[49m: Microsoft.Hosting.Lifetime[0]
       Hosting environment: Production
 [40m[32minfo[39m[22m[49m: Microsoft.Hosting.Lifetime[0]
-      Content root path: /Users/adnanyonathan/integration-work/sync-UnityClone/
+      Content root path: /Users/adnanyonathan/unity-clones/menu-hero/
 [40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Hosting.Diagnostics[1]
       Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping application/grpc -
 [40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
@@ -271,9 +271,9 @@ Assets/Editor/PostcardV3Scratch/fixtures is a symbolic link. Using symlinks in U
 [40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
       Executed endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
 [40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping application/grpc - - 200 - application/grpc 16.8112ms
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping application/grpc - - 200 - application/grpc 21.3779ms
 Starting: /Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/Resources/BuildPipeline/bee_backend --ipc --defer-dag-verification --dagfile="Library/Bee/900b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
-WorkingDir: /Users/adnanyonathan/integration-work/sync-UnityClone
+WorkingDir: /Users/adnanyonathan/unity-clones/menu-hero
 DisplayProgressbar: Compiling Scripts
 [40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Hosting.Diagnostics[1]
       Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/ConfigurePostProcessors application/grpc -
@@ -292,103 +292,104 @@ DisplayProgressbar: Compiling Scripts
 [40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
       Executed endpoint 'gRPC - /UnityILPP.PostProcessing/ConfigurePostProcessors'
 [40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/ConfigurePostProcessors application/grpc - - 200 - application/grpc 10.7747ms
-ExitCode: 0 Duration: 0s239ms
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/ConfigurePostProcessors application/grpc - - 200 - application/grpc 15.8704ms
+ExitCode: 0 Duration: 0s272ms
 [722/957    0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
-*** Tundra build success (0.23 seconds), 1 items updated, 957 evaluated
-AssetDatabase: script compilation time: 0.512263s
+*** Tundra build success (0.26 seconds), 1 items updated, 957 evaluated
+AssetDatabase: script compilation time: 0.622171s
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  0.466 seconds
-Refreshing native plugins compatible for Editor in 1.29 ms, found 2 plugins.
+- Loaded All Assemblies, in  0.531 seconds
+Refreshing native plugins compatible for Editor in 1.07 ms, found 2 plugins.
 Native extension for iOS target not found
 Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 0.84 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 0.91 ms, found 2 plugins.
 ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  1.504 seconds
-Domain Reload Profiling: 1970ms
-	BeginReloadAssembly (176ms)
+- Finished resetting the current domain, in  1.713 seconds
+Domain Reload Profiling: 2244ms
+	BeginReloadAssembly (182ms)
 		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (9ms)
+		DisableScriptedObjects (11ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (125ms)
-	RebuildCommonClasses (18ms)
-	RebuildNativeTypeToScriptingClass (6ms)
-	initialDomainReloadingComplete (10ms)
-	LoadAllAssembliesAndSetupDomain (256ms)
-		LoadAssemblies (172ms)
+		CreateAndSetChildDomain (123ms)
+	RebuildCommonClasses (22ms)
+	RebuildNativeTypeToScriptingClass (8ms)
+	initialDomainReloadingComplete (13ms)
+	LoadAllAssembliesAndSetupDomain (305ms)
+		LoadAssemblies (201ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (113ms)
-			TypeCache.Refresh (84ms)
-				TypeCache.ScanAssembly (75ms)
-			BuildScriptInfoCaches (23ms)
-			ResolveRequiredComponents (5ms)
-	FinalizeReload (1504ms)
+		AnalyzeDomain (134ms)
+			TypeCache.Refresh (101ms)
+				TypeCache.ScanAssembly (92ms)
+			BuildScriptInfoCaches (26ms)
+			ResolveRequiredComponents (6ms)
+	FinalizeReload (1713ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (1343ms)
+		SetupLoadedEditorAssemblies (1513ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (13ms)
-			SetLoadedEditorAssemblies (2ms)
-			BeforeProcessingInitializeOnLoad (64ms)
-			ProcessInitializeOnLoadAttributes (1221ms)
-			ProcessInitializeOnLoadMethodAttributes (41ms)
+			InitializePlatformSupportModulesInManaged (16ms)
+			SetLoadedEditorAssemblies (3ms)
+			BeforeProcessingInitializeOnLoad (78ms)
+			ProcessInitializeOnLoadAttributes (1370ms)
+			ProcessInitializeOnLoadMethodAttributes (46ms)
 			AfterProcessingInitializeOnLoad (1ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
 		AwakeInstancesAfterBackupRestoration (10ms)
-Asset Pipeline Refresh (id=4fc1940bf0ddc40179aebf045662c980): Total: 3.020 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+Asset Pipeline Refresh (id=3ac0f03caba254adebf5852fcc407ac1): Total: 3.497 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
 	Summary:
 		Imports: total=0 (actual=0, local cache=0, cache server=0)
-		Asset DB Process Time: managed=0 ms, native=2001 ms
-		Asset DB Callback time: managed=10 ms, native=8 ms
-		Scripting: domain reloads=1, domain reload time=466 ms, compile time=513 ms, other=20 ms
-		Project Asset Count: scripts=1440, non-scripts=3637
+		Asset DB Process Time: managed=0 ms, native=2256 ms
+		Asset DB Callback time: managed=55 ms, native=8 ms
+		Scripting: domain reloads=1, domain reload time=531 ms, compile time=623 ms, other=23 ms
+		Project Asset Count: scripts=1445, non-scripts=3718
 		Asset File Changes: new=0, changed=0, moved=0, deleted=0
 		Scan Filter Count: 1
-	InvokeCustomDependenciesCallbacks: 0.000ms
-	InvokePackagesCallback: 8.565ms
-	ApplyChangesToAssetFolders: 0.185ms
-	Scan: 337.918ms
-	OnSourceAssetsModified: 0.000ms
-	CategorizeAssetsWithTransientArtifact: 23.770ms
-	ProcessAssetsWithTransientArtifactChanges: 27.230ms
-	CategorizeAssets: 36.411ms
-	ImportOutOfDateAssets: 1509.095ms (995.259ms without children)
-		CompileScripts: 512.857ms
-		ReloadNativeAssets: 0.018ms
-		UnloadImportedAssets: 0.345ms
-		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.387ms
+	InvokeCustomDependenciesCallbacks: 0.001ms
+	InvokePackagesCallback: 9.280ms
+	ApplyChangesToAssetFolders: 0.196ms
+	Scan: 367.519ms
+	OnSourceAssetsModified: 0.001ms
+	CategorizeAssetsWithTransientArtifact: 23.322ms
+	ProcessAssetsWithTransientArtifactChanges: 32.264ms
+	CategorizeAssets: 47.635ms
+	ImportOutOfDateAssets: 1718.816ms (1094.551ms without children)
+		CompileScripts: 622.929ms
+		ReloadNativeAssets: 0.025ms
+		UnloadImportedAssets: 0.491ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.520ms
 		InitializingProgressBar: 0.000ms
-		OnDemandSchedulerStart: 0.229ms
-	PostProcessAllAssets: 10.967ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.000ms
+		OnDemandSchedulerStart: 0.299ms
+	PostProcessAllAssets: 55.154ms
 	GatherAllCurrentPrimaryArtifactRevisions: 0.000ms
-	UnloadStreamsBegin: 0.965ms
-	PersistCurrentRevisions: 0.099ms
-	UnloadStreamsEnd: 0.000ms
-	GenerateScriptTypeHashes: 1.210ms
-	Untracked: 1064.943ms
+	UnloadStreamsBegin: 1.185ms
+	PersistCurrentRevisions: 0.133ms
+	UnloadStreamsEnd: 0.001ms
+	GenerateScriptTypeHashes: 1.517ms
+	Untracked: 1241.926ms
 
 Application.AssetDatabase Initial Refresh End
 Launching external process: /Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/Helpers/UnityShaderCompiler
 Launched and connected shader compiler UnityShaderCompiler after 0.02 seconds
-Scanning for USB devices : 0.085ms
+Scanning for USB devices : 0.120ms
 Initializing Unity extensions:
 [MODES] ModeService[none].Initialize
 [MODES] ModeService[none].LoadModes
 [MODES] Loading mode Default (0) for mode-current-id-Golf Arcade
-2026-10-19 01:07:57.779 Unity[14901:4380880] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x97e2aec60 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
-Unloading 27 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 6254 unused Assets / (5.0 MB). Loaded Objects now: 7158.
-Memory consumption went from 223.7 MB to 218.8 MB.
-Total: 5.028750 ms (FindLiveObjects: 0.209208 ms CreateObjectMapping: 0.103125 ms MarkObjects: 3.674708 ms  DeleteObjects: 1.041667 ms)
+2026-10-19 17:11:41.393 Unity[93460:5342607] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0xab7136f80 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+Unloading 22 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 6259 unused Assets / (5.0 MB). Loaded Objects now: 7173.
+Memory consumption went from 222.6 MB to 217.5 MB.
+Total: 6.594625 ms (FindLiveObjects: 0.258708 ms CreateObjectMapping: 0.147917 ms MarkObjects: 4.920750 ms  DeleteObjects: 1.267125 ms)
 
 Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 1 unused Assets / (4.9 KB). Loaded Objects now: 7160.
-Memory consumption went from 210.5 MB to 210.5 MB.
-Total: 3.592000 ms (FindLiveObjects: 0.087834 ms CreateObjectMapping: 0.048042 ms MarkObjects: 3.447583 ms  DeleteObjects: 0.008375 ms)
+Unloading 1 unused Assets / (4.9 KB). Loaded Objects now: 7175.
+Memory consumption went from 210.7 MB to 210.7 MB.
+Total: 4.926875 ms (FindLiveObjects: 0.102792 ms CreateObjectMapping: 0.062917 ms MarkObjects: 4.751166 ms  DeleteObjects: 0.009792 ms)
 
 [HeroEquipment] exact bind PASS CLUB_DRIVER error=1.470745E-05 vertices=1716
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
@@ -399,7 +400,7 @@ UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:Log (object)
 GolfArcade.Game.HeroGolfer:InstallEquipment () (at Assets/Scripts/Game/HeroGolfer.cs:137)
 GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:100)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:220)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:222)
 
 (Filename: Assets/Scripts/Game/HeroGolfer.cs Line: 137)
 
@@ -412,7 +413,7 @@ UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:Log (object)
 GolfArcade.Game.HeroGolfer:InstallEquipment () (at Assets/Scripts/Game/HeroGolfer.cs:137)
 GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:100)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:220)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:222)
 
 (Filename: Assets/Scripts/Game/HeroGolfer.cs Line: 137)
 
@@ -425,7 +426,7 @@ UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:Log (object)
 GolfArcade.Game.HeroGolfer:InstallEquipment () (at Assets/Scripts/Game/HeroGolfer.cs:137)
 GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:100)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:220)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:222)
 
 (Filename: Assets/Scripts/Game/HeroGolfer.cs Line: 137)
 
@@ -438,7 +439,7 @@ UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:Log (object)
 GolfArcade.Game.HeroGolfer:InstallEquipment () (at Assets/Scripts/Game/HeroGolfer.cs:137)
 GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:100)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:220)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:222)
 
 (Filename: Assets/Scripts/Game/HeroGolfer.cs Line: 137)
 
@@ -449,16 +450,16 @@ UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOpt
 UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
 UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:Log (object)
-GolfArcade.Tennis.HeroFaceReferenceFit:Prepare (UnityEngine.SkinnedMeshRenderer,UnityEngine.SkinnedMeshRenderer,UnityEngine.SkinnedMeshRenderer,string,bool) (at Assets/Scripts/Tennis/HeroFaceReferenceFit.cs:439)
+GolfArcade.Tennis.HeroFaceReferenceFit:Prepare (UnityEngine.SkinnedMeshRenderer,UnityEngine.SkinnedMeshRenderer,UnityEngine.SkinnedMeshRenderer,string,bool) (at Assets/Scripts/Tennis/HeroFaceReferenceFit.cs:446)
 GolfArcade.Tennis.HeroOriginalSeamAnatomy:Apply (GolfArcade.Tennis.MatchHeroLook) (at Assets/Scripts/Tennis/HeroOriginalSeamAnatomy.cs:72)
 GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:529)
 GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/Tennis/MatchHeroLook.cs:774)
 GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:269)
 GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:206)
 GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:220)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:222)
 
-(Filename: Assets/Scripts/Tennis/HeroFaceReferenceFit.cs Line: 439)
+(Filename: Assets/Scripts/Tennis/HeroFaceReferenceFit.cs Line: 446)
 
 [HeroFaceReferenceFit] head-only deformation invariant failed
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
@@ -467,16 +468,16 @@ UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOpt
 UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
 UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:LogError (object)
-GolfArcade.Tennis.HeroFaceReferenceFit:Prepare (UnityEngine.SkinnedMeshRenderer,UnityEngine.SkinnedMeshRenderer,UnityEngine.SkinnedMeshRenderer,string,bool) (at Assets/Scripts/Tennis/HeroFaceReferenceFit.cs:441)
+GolfArcade.Tennis.HeroFaceReferenceFit:Prepare (UnityEngine.SkinnedMeshRenderer,UnityEngine.SkinnedMeshRenderer,UnityEngine.SkinnedMeshRenderer,string,bool) (at Assets/Scripts/Tennis/HeroFaceReferenceFit.cs:448)
 GolfArcade.Tennis.HeroOriginalSeamAnatomy:Apply (GolfArcade.Tennis.MatchHeroLook) (at Assets/Scripts/Tennis/HeroOriginalSeamAnatomy.cs:72)
 GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:529)
 GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/Tennis/MatchHeroLook.cs:774)
 GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:269)
 GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:206)
 GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:220)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:222)
 
-(Filename: Assets/Scripts/Tennis/HeroFaceReferenceFit.cs Line: 441)
+(Filename: Assets/Scripts/Tennis/HeroFaceReferenceFit.cs Line: 448)
 
 [HeroFaceReferenceFit] male ReferenceFeatures: moved=3824; belowHeadChanges=0; minJacobian=0.7163173; topologySame=True; weightsSame=True; bindsSame=True
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
@@ -485,16 +486,16 @@ UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOpt
 UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
 UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:Log (object)
-GolfArcade.Tennis.HeroFaceReferenceFit:Prepare (UnityEngine.SkinnedMeshRenderer,UnityEngine.SkinnedMeshRenderer,UnityEngine.SkinnedMeshRenderer,string,bool) (at Assets/Scripts/Tennis/HeroFaceReferenceFit.cs:439)
+GolfArcade.Tennis.HeroFaceReferenceFit:Prepare (UnityEngine.SkinnedMeshRenderer,UnityEngine.SkinnedMeshRenderer,UnityEngine.SkinnedMeshRenderer,string,bool) (at Assets/Scripts/Tennis/HeroFaceReferenceFit.cs:446)
 GolfArcade.Tennis.HeroOriginalSeamAnatomy:Apply (GolfArcade.Tennis.MatchHeroLook) (at Assets/Scripts/Tennis/HeroOriginalSeamAnatomy.cs:73)
 GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:529)
 GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/Tennis/MatchHeroLook.cs:774)
 GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:269)
 GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:206)
 GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:220)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:222)
 
-(Filename: Assets/Scripts/Tennis/HeroFaceReferenceFit.cs Line: 439)
+(Filename: Assets/Scripts/Tennis/HeroFaceReferenceFit.cs Line: 446)
 
 [HeroOriginalSeam] blink normal isolation body: cleared=86168; base geometry/normals unchanged
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
@@ -510,7 +511,7 @@ GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/T
 GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:269)
 GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:206)
 GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:220)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:222)
 
 (Filename: Assets/Scripts/Tennis/HeroOriginalSeamAnatomy.cs Line: 47)
 
@@ -528,7 +529,7 @@ GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/T
 GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:269)
 GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:206)
 GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:220)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:222)
 
 (Filename: Assets/Scripts/Tennis/HeroOriginalSeamAnatomy.cs Line: 47)
 
@@ -545,7 +546,7 @@ GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/T
 GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:269)
 GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:206)
 GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:220)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:222)
 
 (Filename: Assets/Scripts/Tennis/HeroOriginalSeamAnatomy.cs Line: 87)
 
@@ -562,7 +563,7 @@ GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/T
 GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:269)
 GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:206)
 GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:220)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:222)
 
 (Filename: Assets/Scripts/Tennis/HeroHandWeights.cs Line: 31)
 
@@ -579,7 +580,7 @@ GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/T
 GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:269)
 GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:206)
 GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:220)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:222)
 
 (Filename: Assets/Scripts/Tennis/HeroHandWeights.cs Line: 31)
 
@@ -596,7 +597,7 @@ GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/T
 GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:269)
 GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:206)
 GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:220)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:222)
 
 (Filename: Assets/Scripts/Tennis/HeroHandWeights.cs Line: 34)
 
@@ -614,11 +615,11 @@ GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/T
 GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:269)
 GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:206)
 GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:220)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:222)
 
 (Filename: Assets/Scripts/Tennis/HeroGarmentAxillaWeights.cs Line: 49)
 
-[HeroSkinNormals] field=area-continuous source=Body (reference face fit) (local blink normals) (thumb root weights) (axilla weight field) selected=18290 changed=11317 radiusMetres=0.012 capDegrees=45 maxNormalDegrees=45 maxVertexDeltaSquared=0; source topology/weights/UVs/morphs cloned unchanged
+[HeroSkinNormals] field=area-continuous source=Body (reference face fit) (local blink normals) (thumb root weights) (axilla weight field) selected=18290 changed=11209 radiusMetres=0.012 capDegrees=45 maxNormalDegrees=45 maxVertexDeltaSquared=0; source topology/weights/UVs/morphs cloned unchanged
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -632,7 +633,7 @@ GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/T
 GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:269)
 GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:206)
 GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:220)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:222)
 
 (Filename: Assets/Scripts/Tennis/HeroSkinNormals.cs Line: 144)
 
@@ -649,11 +650,11 @@ GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/T
 GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:269)
 GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:206)
 GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:220)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:222)
 
 (Filename: Assets/Scripts/Tennis/HeroBlinkNormalField.cs Line: 55)
 
-[HeroHeadSurface] Male origin=(0.000000, -0.027810, 1.510000) eye=(-0.000002, -0.080511, 0.075773) frame=(1.000000, -0.000184, -0.000005)/(0.000000, -0.025677, 0.999670)/(-0.000184, -0.999670, -0.025677) cheekMaskMax=0.7495071 noseMaskMax=0.4678949 shader=GolfArcade/HeroFaceSkin hasHeadUniform=True
+[HeroHeadSurface] Male origin=(0.000000, -0.027810, 1.510000) eye=(-0.000002, -0.080511, 0.075773) frame=(1.000000, -0.000041, -0.000001)/(0.000000, -0.025677, 0.999670)/(-0.000041, -0.999670, -0.025677) cheekMaskMax=0.7494577 noseMaskMax=0.4678968 shader=GolfArcade/HeroFaceSkin hasHeadUniform=True
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
@@ -666,7 +667,7 @@ GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/T
 GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:269)
 GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:206)
 GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:220)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:222)
 
 (Filename: Assets/Scripts/Tennis/HeroHeadSurface.cs Line: 36)
 
@@ -680,10 +681,10 @@ UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOpt
 UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
 UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:Log (object)
-GolfArcade.EditorTools.MatchHeroLockerExport:PrepareMenuIronSocket (UnityEngine.GameObject,UnityEngine.AnimationClip) (at Assets/Editor/MatchHeroLockerExport.cs:580)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:231)
+GolfArcade.EditorTools.MatchHeroLockerExport:PrepareMenuIronSocket (UnityEngine.GameObject,UnityEngine.AnimationClip) (at Assets/Editor/MatchHeroLockerExport.cs:599)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:233)
 
-(Filename: Assets/Editor/MatchHeroLockerExport.cs Line: 580)
+(Filename: Assets/Editor/MatchHeroLockerExport.cs Line: 599)
 
 [HeroEquipment] exact bind PASS CLUB_DRIVER error=5.90086E-06 vertices=1716
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
@@ -694,7 +695,7 @@ UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:Log (object)
 GolfArcade.Game.HeroGolfer:InstallEquipment () (at Assets/Scripts/Game/HeroGolfer.cs:137)
 GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:100)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:220)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:222)
 
 (Filename: Assets/Scripts/Game/HeroGolfer.cs Line: 137)
 
@@ -707,7 +708,7 @@ UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:Log (object)
 GolfArcade.Game.HeroGolfer:InstallEquipment () (at Assets/Scripts/Game/HeroGolfer.cs:137)
 GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:100)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:220)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:222)
 
 (Filename: Assets/Scripts/Game/HeroGolfer.cs Line: 137)
 
@@ -720,7 +721,7 @@ UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:Log (object)
 GolfArcade.Game.HeroGolfer:InstallEquipment () (at Assets/Scripts/Game/HeroGolfer.cs:137)
 GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:100)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:220)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:222)
 
 (Filename: Assets/Scripts/Game/HeroGolfer.cs Line: 137)
 
@@ -733,7 +734,7 @@ UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:Log (object)
 GolfArcade.Game.HeroGolfer:InstallEquipment () (at Assets/Scripts/Game/HeroGolfer.cs:137)
 GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:100)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:220)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:222)
 
 (Filename: Assets/Scripts/Game/HeroGolfer.cs Line: 137)
 
@@ -744,16 +745,16 @@ UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOpt
 UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
 UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:Log (object)
-GolfArcade.Tennis.HeroFaceReferenceFit:Prepare (UnityEngine.SkinnedMeshRenderer,UnityEngine.SkinnedMeshRenderer,UnityEngine.SkinnedMeshRenderer,string,bool) (at Assets/Scripts/Tennis/HeroFaceReferenceFit.cs:439)
+GolfArcade.Tennis.HeroFaceReferenceFit:Prepare (UnityEngine.SkinnedMeshRenderer,UnityEngine.SkinnedMeshRenderer,UnityEngine.SkinnedMeshRenderer,string,bool) (at Assets/Scripts/Tennis/HeroFaceReferenceFit.cs:446)
 GolfArcade.Tennis.HeroOriginalSeamAnatomy:Apply (GolfArcade.Tennis.MatchHeroLook) (at Assets/Scripts/Tennis/HeroOriginalSeamAnatomy.cs:72)
 GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:529)
 GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/Tennis/MatchHeroLook.cs:774)
 GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:269)
 GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:206)
 GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:220)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:222)
 
-(Filename: Assets/Scripts/Tennis/HeroFaceReferenceFit.cs Line: 439)
+(Filename: Assets/Scripts/Tennis/HeroFaceReferenceFit.cs Line: 446)
 
 [HeroFaceReferenceFit] female ReferenceFeatures: moved=3004; belowHeadChanges=0; minJacobian=0.6941224; topologySame=True; weightsSame=True; bindsSame=True
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
@@ -762,16 +763,16 @@ UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOpt
 UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
 UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:Log (object)
-GolfArcade.Tennis.HeroFaceReferenceFit:Prepare (UnityEngine.SkinnedMeshRenderer,UnityEngine.SkinnedMeshRenderer,UnityEngine.SkinnedMeshRenderer,string,bool) (at Assets/Scripts/Tennis/HeroFaceReferenceFit.cs:439)
+GolfArcade.Tennis.HeroFaceReferenceFit:Prepare (UnityEngine.SkinnedMeshRenderer,UnityEngine.SkinnedMeshRenderer,UnityEngine.SkinnedMeshRenderer,string,bool) (at Assets/Scripts/Tennis/HeroFaceReferenceFit.cs:446)
 GolfArcade.Tennis.HeroOriginalSeamAnatomy:Apply (GolfArcade.Tennis.MatchHeroLook) (at Assets/Scripts/Tennis/HeroOriginalSeamAnatomy.cs:73)
 GolfArcade.Tennis.MatchHeroLook:OwnMaterials () (at Assets/Scripts/Tennis/MatchHeroLook.cs:529)
 GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/Tennis/MatchHeroLook.cs:774)
 GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:269)
 GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:206)
 GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:220)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:222)
 
-(Filename: Assets/Scripts/Tennis/HeroFaceReferenceFit.cs Line: 439)
+(Filename: Assets/Scripts/Tennis/HeroFaceReferenceFit.cs Line: 446)
 
 [HeroOriginalSeam] blink normal isolation body: cleared=64227; base geometry/normals unchanged
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
@@ -787,7 +788,7 @@ GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/T
 GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:269)
 GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:206)
 GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:220)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:222)
 
 (Filename: Assets/Scripts/Tennis/HeroOriginalSeamAnatomy.cs Line: 47)
 
@@ -805,7 +806,7 @@ GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/T
 GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:269)
 GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:206)
 GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:220)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:222)
 
 (Filename: Assets/Scripts/Tennis/HeroOriginalSeamAnatomy.cs Line: 47)
 
@@ -822,7 +823,7 @@ GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/T
 GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:269)
 GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:206)
 GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:220)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:222)
 
 (Filename: Assets/Scripts/Tennis/HeroOriginalSeamAnatomy.cs Line: 87)
 
@@ -839,7 +840,7 @@ GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/T
 GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:269)
 GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:206)
 GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:220)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:222)
 
 (Filename: Assets/Scripts/Tennis/HeroHandWeights.cs Line: 31)
 
@@ -856,7 +857,7 @@ GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/T
 GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:269)
 GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:206)
 GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:220)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:222)
 
 (Filename: Assets/Scripts/Tennis/HeroHandWeights.cs Line: 31)
 
@@ -873,7 +874,7 @@ GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/T
 GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:269)
 GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:206)
 GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:220)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:222)
 
 (Filename: Assets/Scripts/Tennis/HeroHandWeights.cs Line: 34)
 
@@ -891,7 +892,7 @@ GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/T
 GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:269)
 GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:206)
 GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:220)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:222)
 
 (Filename: Assets/Scripts/Tennis/HeroSkinNormals.cs Line: 144)
 
@@ -908,7 +909,7 @@ GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/T
 GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:269)
 GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:206)
 GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:220)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:222)
 
 (Filename: Assets/Scripts/Tennis/HeroBlinkNormalField.cs Line: 55)
 
@@ -925,7 +926,7 @@ GolfArcade.Tennis.MatchHeroLook:SetSkin (UnityEngine.Color) (at Assets/Scripts/T
 GolfArcade.Game.HeroGolfer:Dress (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:269)
 GolfArcade.Game.HeroGolfer:InstallMatchSurfaces (GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:206)
 GolfArcade.Game.HeroGolfer:Build (UnityEngine.Transform,GolfArcade.Game.HeroLook&) (at Assets/Scripts/Game/HeroGolfer.cs:114)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:220)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:222)
 
 (Filename: Assets/Scripts/Tennis/HeroHeadSurface.cs Line: 36)
 
@@ -939,10 +940,10 @@ UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOpt
 UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
 UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:Log (object)
-GolfArcade.EditorTools.MatchHeroLockerExport:PrepareMenuIronSocket (UnityEngine.GameObject,UnityEngine.AnimationClip) (at Assets/Editor/MatchHeroLockerExport.cs:580)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:231)
+GolfArcade.EditorTools.MatchHeroLockerExport:PrepareMenuIronSocket (UnityEngine.GameObject,UnityEngine.AnimationClip) (at Assets/Editor/MatchHeroLockerExport.cs:599)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:233)
 
-(Filename: Assets/Editor/MatchHeroLockerExport.cs Line: 580)
+(Filename: Assets/Editor/MatchHeroLockerExport.cs Line: 599)
 
 The command could not be loaded, possibly because:
   * You intended to execute a .NET application:
@@ -958,55 +959,55 @@ https://aka.ms/dotnet/sdk-not-found
 Start importing Assets/Resources/Accessories/Female/golf_cap/Kit_Cap.asset using Guid(d4cc684f896b940068b6ef56c2ad2a3f) (NativeFormatImporter)Main Object Name 'Acc golf_cap Kit_Cap Female' does not match filename 'Kit_Cap'
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:276)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:278)
 
-[Assets/Editor/MatchHeroLockerExport.cs line 276]
+[Assets/Editor/MatchHeroLockerExport.cs line 278]
 
- -> (artifact id: '068d3d33a442083b48654eefbbcee54d') in 0.005251083 seconds
+ -> (artifact id: '068d3d33a442083b48654eefbbcee54d') in 0.005241958 seconds
 Start importing Assets/Resources/Accessories/Male/golf_cap/Kit_Cap.asset using Guid(05db3bd88062e484d9bb0a779a2be580) (NativeFormatImporter)Main Object Name 'Acc golf_cap Kit_Cap Male' does not match filename 'Kit_Cap'
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:276)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:278)
 
-[Assets/Editor/MatchHeroLockerExport.cs line 276]
+[Assets/Editor/MatchHeroLockerExport.cs line 278]
 
- -> (artifact id: 'd4417574467c3ff17a08ce3b265a0e5c') in 0.002757667 seconds
+ -> (artifact id: 'd4417574467c3ff17a08ce3b265a0e5c') in 0.002590292 seconds
 Start importing Assets/Characters/KitsV2/GolfKitHero_Female/Kit_Shoe_L.asset using Guid(150920164e5324a7fa013fbdf878a856) (NativeFormatImporter)Main Object Name 'KitV2 Kit_Shoe_L' does not match filename 'Kit_Shoe_L'
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:276)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:278)
 
-[Assets/Editor/MatchHeroLockerExport.cs line 276]
+[Assets/Editor/MatchHeroLockerExport.cs line 278]
 
- -> (artifact id: 'ea96e4254f27acfcb8bcf5512e377a1a') in 0.004530291 seconds
+ -> (artifact id: 'ea96e4254f27acfcb8bcf5512e377a1a') in 0.004984333 seconds
 Start importing Assets/Characters/KitsV2/GolfKitHero_Female/Kit_Shoe_R.asset using Guid(b9570cc6453044463aacb5d1358d5865) (NativeFormatImporter)Main Object Name 'KitV2 Kit_Shoe_R' does not match filename 'Kit_Shoe_R'
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:276)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:278)
 
-[Assets/Editor/MatchHeroLockerExport.cs line 276]
+[Assets/Editor/MatchHeroLockerExport.cs line 278]
 
- -> (artifact id: '50d9c768626407e48cc46612f1002a47') in 0.004253042 seconds
+ -> (artifact id: '50d9c768626407e48cc46612f1002a47') in 0.004831625 seconds
 Start importing Assets/Characters/KitsV2/GolfKitHero_Male/Kit_Sock_R.asset using Guid(0ad7bd18cc99c4e18bf92a267c797671) (NativeFormatImporter)Main Object Name 'KitV2 Kit_Sock_R [gp]' does not match filename 'Kit_Sock_R'
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:276)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:278)
 
-[Assets/Editor/MatchHeroLockerExport.cs line 276]
+[Assets/Editor/MatchHeroLockerExport.cs line 278]
 
- -> (artifact id: '47174f018d0ffac863585d43919cf7af') in 0.00789 seconds
+ -> (artifact id: '47174f018d0ffac863585d43919cf7af') in 0.008129667 seconds
 Start importing Assets/Characters/KitsV2/GolfKitHero_Male/Kit_Sock_L.asset using Guid(0e795acd1c01c4914b16300a37eadd8f) (NativeFormatImporter)Main Object Name 'KitV2 Kit_Sock_L [gp]' does not match filename 'Kit_Sock_L'
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
-GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:276)
+GolfArcade.EditorTools.MatchHeroLockerExport:CaptureLobbyParity () (at Assets/Editor/MatchHeroLockerExport.cs:278)
 
-[Assets/Editor/MatchHeroLockerExport.cs line 276]
+[Assets/Editor/MatchHeroLockerExport.cs line 278]
 
- -> (artifact id: '45fbd0d673041aa22566785f1ac43ffd') in 0.006860291 seconds
-Refreshing native plugins compatible for Editor in 0.80 ms, found 2 plugins.
+ -> (artifact id: '45fbd0d673041aa22566785f1ac43ffd') in 0.007382333 seconds
+Refreshing native plugins compatible for Editor in 1.28 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Asset Pipeline Refresh (id=4466ab4d5c4db4e44a6ab13bd6acdd80): Total: 0.142 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
-Thread 0x34a087000 may have been prematurely finalized
+Asset Pipeline Refresh (id=a2cdaa039728d429d98a0065265e8d10): Total: 0.154 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Thread 0x346ac7000 may have been prematurely finalized
 Input System module state changed to: ShutdownInProgress.
 Input System polling thread exited.
 Input System module state changed to: Shutdown.
@@ -1014,13 +1015,13 @@ Input System module state changed to: Shutdown.
 [Physics::Module] Id: 0xf2b8ea05
 [Licensing::IpcConnector] LicenseClient-adnanyonathan-notifications channel disconnected successfully.
 [Licensing::IpcConnector] LicenseClient-adnanyonathan channel disconnected successfully.
-Thread 0x16c703000 may have been prematurely finalized
-Thread 0x16c81b000 may have been prematurely finalized
-Thread 0x16c8a7000 may have been prematurely finalized
-Thread 0x16c78f000 may have been prematurely finalized
-Thread 0x16c933000 may have been prematurely finalized
-Thread 0x16c9bf000 may have been prematurely finalized
-Thread 0x16ca4b000 may have been prematurely finalized
+Thread 0x16c38b000 may have been prematurely finalized
+Thread 0x16c417000 may have been prematurely finalized
+Thread 0x16c4a3000 may have been prematurely finalized
+Thread 0x16c52f000 may have been prematurely finalized
+Thread 0x16c5bb000 may have been prematurely finalized
+Thread 0x16c647000 may have been prematurely finalized
+Thread 0x16c6d3000 may have been prematurely finalized
 AcceleratorClientConnectionCallback - disconnected - :0
 [40m[32minfo[39m[22m[49m: Microsoft.Hosting.Lifetime[0]
       Application is shutting down...

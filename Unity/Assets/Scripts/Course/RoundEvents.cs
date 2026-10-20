@@ -301,7 +301,11 @@ namespace GolfArcade.Course
         {
             if (!weatherOn || hole?.Centerline == null) { if(hole!=null)hole.Dream=null;return null; }
             hole.Dream=DreamCourseLayout.Build(hole,Seed,weather);
-            return new CourseMovers(hole.Dream.SolidMovers());
+            var quirky=QuirkyObstacles.For(hole,Seed,ground,hole.Dream);
+            var solid=hole.Dream.SolidMovers();
+            if(quirky.Length==0)return new CourseMovers(solid);
+            var all=new Mover[solid.Length+quirky.Length];solid.CopyTo(all,0);quirky.CopyTo(all,solid.Length);
+            return new CourseMovers(all);
         }
 
         // ----- What there is to chase: rings and bounties -----

@@ -157,6 +157,34 @@ final class HubPartyTests: XCTestCase {
         }
     }
 
+    /// Online made simple (work/online-gamecenter): the party enters rooms together. The leader (the lobby's owner) walks
+    /// through a door; every member's hero goes to stand beside them in that room, retried until it is there. A member walking
+    /// off alone never drags the leader.
+    func testThePartyFollowsItsLeaderThroughADoor() throws {
+        let bus = Bus(), a = service("Ann", shirt: "E8505B"), b = service("Bea", shirt: "3F62CC")
+        try a.host(using: bus.link("a")); try b.connect(using: bus.link("b"))
+        defer { b.leave(); a.leave() }
+        let ha = hub(a, "ha"), hb = hub(b, "hb")
+        var toB: [[String: Any]] = [], toA: [[String: Any]] = []
+        hb.debugSent = { toB.append($0) }; ha.debugSent = { toA.append($0) }
+        func meets(_ list: [[String: Any]]) -> [String] { list.filter { $0["action"] as? String == "hubMeet" }.compactMap { $0["mode"] as? String } }
+        ha.receive(["type": "hubPose", "session": "ha", "message": "plaza|0.000|0.000|-6.000|0.0|2.00||"])
+        XCTAssertTrue(meets(toB).isEmpty, "first sight of the leader is not a door")
+        ha.receive(["type": "hubPlace", "session": "ha", "message": "play"])
+        ha.receive(["type": "hubPose", "session": "ha", "message": "play|0.000|0.000|40.000|0.0|1.20||"])
+        XCTAssertEqual(meets(toB), ["a"], "Bea's hero goes to stand beside Ann in the PLAY hall")
+        XCTAssertTrue(hb.notice.contains("Following Ann"), hb.notice)
+        let remote = toB.last { $0["action"] as? String == "hubRemote" }
+        XCTAssertLessThan(toB.firstIndex { $0["action"] as? String == "hubMeet" }!, toB.count)
+        XCTAssertNotNil(remote, "Ann's new place reached Unity before the meet")
+        hb.receive(["type": "hubPlace", "session": "hb", "message": "play"]); hb.debugPartyTick()
+        XCTAssertEqual(meets(toB).count, 1, "arrived: no more retries")
+        // Bea walks into the locker alone: Ann stays
+        hb.receive(["type": "hubPose", "session": "hb", "message": "play|1.000|0.000|40.000|0.0|1.20||"])
+        hb.receive(["type": "hubPose", "session": "hb", "message": "locker|1.000|0.000|80.000|0.0|1.20||"])
+        XCTAssertTrue(meets(toA).isEmpty, "only the leader leads")
+    }
+
     func testCallPartyReachesTheOthers() throws {
         let bus = Bus(), a = service("Ann", shirt: "E8505B"), b = service("Bea", shirt: "3F62CC")
         try a.host(using: bus.link("a")); try b.connect(using: bus.link("b"))

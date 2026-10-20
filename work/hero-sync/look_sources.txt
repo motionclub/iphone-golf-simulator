@@ -21,6 +21,7 @@ Unity/Assets/Scripts/Tennis/HeroEyeRim.cs
 Unity/Assets/Scripts/Tennis/HeroBlinkNormalField.cs
 Unity/Assets/Scripts/Tennis/HeroSkinNormals.cs
 Unity/Assets/Scripts/Tennis/HeroHandWeights.cs
+Unity/Assets/Scripts/Tennis/HeroHandShape.cs
 Unity/Assets/Scripts/Tennis/HeroArmSkinning.cs
 Unity/Assets/Scripts/Tennis/HeroGripPolish.cs
 Unity/Assets/Scripts/Tennis/HeroAuthoredHandPose.cs
@@ -225,3 +226,13 @@ Unity/Assets/Resources/Tennis/KitsV2/Female/FemaleShoulderFit.bytes
 Unity/Assets/Resources/Tennis/KitsV2/Female/FemaleShoulderFitProfile.json
 Unity/Assets/Resources/Golf/KitsV2/Female/FemaleShoulderFit.bytes
 Unity/Assets/Resources/Golf/KitsV2/Female/FemaleShoulderFitProfile.json
+# MENU HERO (work/menu-hero): the relaxed menu clip is baked from the plaza's stand; the golf bag and the racket-on-back are exported for the menus
+Unity/Assets/Scripts/Hub/HubHeroAnimator.cs
+Unity/Assets/Resources/Accessories/Female/golf_bag/Acc_Female_golf_bag_Bag_M.png
+Unity/Assets/Resources/Accessories/Female/golf_bag/Acc_Female_golf_bag_Bag_N.png
+Unity/Assets/Resources/Accessories/Female/golf_bag/Kit_Bag.asset
+Unity/Assets/Resources/Accessories/Female/golf_bag/item.json
+Unity/Assets/Resources/Accessories/Male/golf_bag/Acc_Male_golf_bag_Bag_M.png
+Unity/Assets/Resources/Accessories/Male/golf_bag/Acc_Male_golf_bag_Bag_N.png
+Unity/Assets/Resources/Accessories/Male/golf_bag/Kit_Bag.asset
+Unity/Assets/Resources/Accessories/Male/golf_bag/item.json

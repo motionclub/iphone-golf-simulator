@@ -1,0 +1,8 @@
+from pathlib import Path
+p=Path('Unity/Assets/Editor/HeroBaseStaticImport.cs');s=p.read_text();s=s.replace('var mesh=renderer.GetComponent<MeshFilter>().sharedMesh;audit.Add', '''foreach(var mat in renderer.sharedMaterials){audit.Add(sex+" "+renderer.name+" material="+mat.name+" shader="+mat.shader.name+" surface="+mat.GetFloat("_Surface")+" queue="+mat.renderQueue+" baseMap="+(mat.GetTexture("_BaseMap")?AssetDatabase.GetAssetPath(mat.GetTexture("_BaseMap")):"flat"));}
+     var mesh=renderer.GetComponent<MeshFilter>().sharedMesh;audit.Add''')
+needle='File.WriteAllBytes(Proof+"/unity/"+suffix+"_"+view+".png",tex.EncodeToPNG());'
+s=s.replace(needle,needle+'''var saved=root.GetComponentsInChildren<MeshRenderer>().Select(r=>(r,r.sharedMaterials)).ToArray();var maskMat=new Material(Shader.Find("Universal Render Pipeline/Unlit"));maskMat.SetColor("_BaseColor",Color.white);var bg=camera.backgroundColor;camera.backgroundColor=Color.black;
+  foreach(var pair in saved)pair.r.sharedMaterials=pair.sharedMaterials.Select(_=>maskMat).ToArray();camera.Render();tex.ReadPixels(new Rect(0,0,1280,720),0,0);tex.Apply();File.WriteAllBytes(Proof+"/unity/"+suffix+"_"+view+"_mask.png",tex.EncodeToPNG());foreach(var pair in saved)pair.r.sharedMaterials=pair.sharedMaterials;camera.backgroundColor=bg;Object.Destroy(maskMat);''')
+s=s.replace('Debug.Log("HEROBASE_STATIC_PROOF_COMPLETE");','''Directory.CreateDirectory("/Users/adnanyonathan/Documents/Codex/2026-09-30/open-3/outputs");AssetDatabase.ExportPackage(Dir,"/Users/adnanyonathan/Documents/Codex/2026-09-30/open-3/outputs/HeroBase_Candidate.unitypackage",ExportPackageOptions.Recurse);Debug.Log("HEROBASE_STATIC_PROOF_COMPLETE");''')
+p.write_text(s)

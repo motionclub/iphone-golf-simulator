@@ -93,7 +93,7 @@ namespace GolfArcade.Game
         public const float LocalResultSeconds = 3f;
         public const float LocalShotResultSeconds = .65f;
         /// For the offscreen captures after the camera's shape was changed: the view of the golfer for that shape, at once.
-        public void ReframeResultForTests() { if (holeOutShown) { rig.FrameHoleOut(golfer.transform); rig.SnapNext(); rig.ApplyFrame(); } }
+        public void ReframeResultForTests() { if (holeOutShown) { rig.FrameShotResult(); rig.SnapNext(); rig.ApplyFrame(); } }
         public float ResultSeconds => stateTime;
         float HoleOutSeconds => Mathf.Max(3f, ResultReactionSeconds, resultHold);
 

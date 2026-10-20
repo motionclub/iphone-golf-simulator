@@ -105,7 +105,14 @@ namespace GolfArcade.Game
                 var size = fx.clippings.sizeOverLifetime; size.size = new ParticleSystem.MinMaxCurve(1f, AnimationCurve.Linear(0, 1, 1, 0.8f));
             }
             fx.flash = fx.Burst("Strike flash", "flash", false);
+            fx.flare = fx.Burst("Strike flare", "flash", false);
             fx.ring = fx.Burst("Strike ring", "ring", true);
+            fx.shock = fx.Burst("Strike shock", "ring", false);
+            // speed lines behind the ball for its first instants: stretched along their own velocity
+            fx.streaks = fx.BuildParticles("Launch streaks", 0.12f, 0.2f, 0.12f, 0.2f, 0f);
+            var streakDraw = fx.streaks.GetComponent<ParticleSystemRenderer>();
+            streakDraw.renderMode = ParticleSystemRenderMode.Stretch; streakDraw.velocityScale = 0.1f; streakDraw.lengthScale = 1f;
+            streakDraw.sharedMaterial = new Material(ParticleMaterial()) { mainTexture = Band(), name = "Launch streak" };
             fx.crown = fx.Burst("Splash crown", "splash", false);
             return fx;
         }
@@ -159,11 +166,12 @@ namespace GolfArcade.Game
         /// A one-shot sprite that grows and fades: a quad facing the camera, or lying flat on the ground.
         sealed class Flare
         {
-            public Transform quad; public Material mat; public bool flat;
+            public Transform quad; public Material mat; public bool flat; public Vector3 facing;
             public float age = -1, seconds, from, to; public Color tint;
         }
-        Flare flash, ring, crown;
-        ParticleSystem clippings;
+        Flare flash, flare, ring, shock, crown;
+        ParticleSystem clippings, streaks;
+        float streakLeft, streakTier; Vector3 streakFrom; bool streakStarted;
 
         Flare Burst(string name, string sprite, bool flat)
         {
@@ -184,7 +192,7 @@ namespace GolfArcade.Game
         {
             if (f == null) return;
             f.quad.position = at; f.age = 0; f.seconds = seconds; f.from = from; f.to = to; f.tint = tint;
-            f.quad.localRotation = f.flat ? Quaternion.Euler(90, 0, 0) : Quaternion.identity;
+            f.quad.localRotation = f.flat ? Quaternion.Euler(90, 0, 0) : f.facing != Vector3.zero ? Quaternion.LookRotation(f.facing) : Quaternion.identity;
             f.quad.gameObject.SetActive(true);
             Step(f, 0);
         }
@@ -198,7 +206,7 @@ namespace GolfArcade.Game
             float grow = 1 - (1 - t) * (1 - t) * (1 - t);   // out fast, then settle
             f.quad.localScale = Vector3.one * Mathf.Lerp(f.from, f.to, grow);
             var c = f.tint; c.a *= t < 0.25f ? 1 : 1 - (t - 0.25f) / 0.75f; f.mat.color = c;
-            if (!f.flat && view)
+            if (!f.flat && f.facing == Vector3.zero && view)
             {
                 // face the camera, with a quick spin on the starburst
                 f.quad.rotation = Quaternion.LookRotation(f.quad.position - view.transform.position, view.transform.up) * Quaternion.Euler(0, 0, f.age * 90f);
@@ -208,36 +216,127 @@ namespace GolfArcade.Game
         void Update()
         {
             float dt = Time.deltaTime;
-            Step(flash, dt); Step(ring, dt); Step(crown, dt);
+            Step(flash, dt); Step(flare, dt); Step(ring, dt); Step(shock, dt); Step(crown, dt);
         }
 
-        /// The club meets the ball at `at`, sending it along `forward`, off `lie`, at `power`
-        /// (0–1): a starburst, a ring across the ground, and what the club cut — turf clippings
-        /// off grass, a spray of sand from a bunker. A putt only rings, softly.
-        public void Strike(Vector3 at, Vector3 forward, CourseLie lie, float power, bool putt)
+        /// How big the contact reads, 0–1, by the strike's grade (the same hook the strike's sound and haptics use):
+        /// a thin one is a dull tick, a perfect one the full bundle. Without a grade, the tracer's rating stands in.
+        public float StrikeTier(GolfArcade.Swing.StrikeGrade? grade) => grade switch
+        {
+            GolfArcade.Swing.StrikeGrade.Perfect => 1f,
+            GolfArcade.Swing.StrikeGrade.Great => .72f,
+            GolfArcade.Swing.StrikeGrade.Good => .48f,
+            GolfArcade.Swing.StrikeGrade.Thin => .2f,
+            _ => quality == Quality.Pure ? .8f : quality == Quality.Fair ? .48f : .2f,
+        };
+
+        /// The club meets the ball at `at`, sending it along `forward`, off `lie`, at `power` (0–1), struck
+        /// `grade`: layered feedback all inside the first tenth of a second, scaled by the grade (game-feel tiers) —
+        /// a white flash with a gold flare and sparks on a great one, a shock ring the ball punches through, a ring
+        /// across the ground, what the club cut by lie (turf and a clod of soil off the fairway, long grass out of
+        /// the rough, a sand blast from a bunker, chips off ice), and speed lines behind the ball as it leaves.
+        /// A putt only rings, softly (gold for a perfect stroke).
+        public void Strike(Vector3 at, Vector3 forward, CourseLie lie, float power, bool putt, GolfArcade.Swing.StrikeGrade? grade = null)
         {
             power = Mathf.Clamp01(power);
+            float tier = StrikeTier(grade), punch = tier * (0.55f + 0.45f * power);
             var ground = at; ground.y += 0.03f;
-            if (putt) { Fire(ring, ground, 0.4f, 0.2f, 0.9f, new Color(1, 1, 1, 0.55f)); return; }
-            Fire(flash, at + Vector3.up * 0.12f, 0.22f, 0.25f, 0.9f + 1.1f * power, Color.white);
-            Fire(ring, ground, 0.45f, 0.3f, 2.2f + 2.5f * power, new Color(1, 1, 1, 0.75f));
-            forward.y = 0; forward.Normalize();
+            if (putt)
+            {
+                Fire(ring, ground, 0.4f, 0.2f, 0.8f + 0.3f * tier, grade == GolfArcade.Swing.StrikeGrade.Perfect ? new Color(1f, .9f, .55f, .6f) : new Color(1, 1, 1, 0.5f));
+                return;
+            }
+            forward.y = 0; forward = forward.sqrMagnitude > 1e-4f ? forward.normalized : Vector3.forward;
             var side = Vector3.Cross(Vector3.up, forward);
-            if (lie == CourseLie.Bunker) { Touchdown(at, CourseLie.Bunker, 1.2f + power); return; }
-            if (lie == CourseLie.Water || !clippings) return;
-            int count = Mathf.RoundToInt(8 + 22 * power) * (lie == CourseLie.Rough ? 2 : 1);
+            var gold = new Color(1f, .86f, .42f);
+            // the flash: white, bigger and brighter the cleaner the strike; a slower gold flare behind it on a great one
+            Fire(flash, at + Vector3.up * 0.12f, 0.16f + 0.08f * tier, 0.3f, 0.7f + 2.4f * punch, Color.white);
+            if (tier >= .7f) Fire(flare, at + Vector3.up * 0.15f, 0.34f, 0.5f, 1.8f + 2.6f * punch, new Color(gold.r, gold.g, gold.b, .8f));
+            // the shock: a ring standing across the shot that the ball punches through, and one across the ground
+            if (tier >= .45f && shock != null) { shock.facing = forward; Fire(shock, at + forward * 0.5f + Vector3.up * 0.35f, 0.24f, 0.2f, 1.2f + 2.6f * punch, new Color(1, 1, 1, .45f + .4f * tier)); }
+            Fire(ring, ground, 0.45f, 0.3f, 1.6f + 4.2f * punch, new Color(1, 1, 1, 0.45f + 0.4f * tier));
+            // sparks off a great strike, thrown forward and up
+            if (tier >= .7f)
+                for (int i = 0; i < Mathf.RoundToInt(10 + 26 * punch); i++)
+                    trail.Emit(new ParticleSystem.EmitParams
+                    {
+                        position = at + Vector3.up * 0.12f,
+                        velocity = forward * Random.Range(2f, 9f) + side * Random.Range(-3f, 3f) + Vector3.up * Random.Range(1.5f, 6f),
+                        // a perfect one throws confetti in with the gold (Mario Golf: Super Rush's "nice shot", refs/_H7Y7Ijug0w)
+                        startColor = tier >= .95f && i % 3 == 0 ? Color.HSVToRGB(Random.value, .7f, 1f) : Color.Lerp(Color.white, gold, Random.value),
+                        startSize = Random.Range(0.12f, 0.3f),
+                        startLifetime = Random.Range(0.25f, 0.55f),
+                    }, 1);
+            // speed lines behind the ball for its first instants
+            streakLeft = 0.18f + 0.22f * tier; streakTier = tier; streakStarted = false;
+            switch (lie)
+            {
+                case CourseLie.Water: return;
+                case CourseLie.Bunker:
+                    Touchdown(at, CourseLie.Bunker, 1.2f + power);
+                    for (int i = 0; i < Mathf.RoundToInt(18 + 30 * punch); i++)
+                        splash.Emit(new ParticleSystem.EmitParams
+                        {
+                            position = at + Vector3.up * 0.05f,
+                            velocity = forward * Random.Range(1f, 5f) + side * Random.Range(-2f, 2f) + Vector3.up * Random.Range(2f, 5f),
+                            startColor = Color.Lerp(new Color(.95f, .86f, .64f), new Color(.82f, .7f, .48f), Random.value),
+                            startSize = Random.Range(0.2f, 0.5f), startLifetime = Random.Range(0.5f, 0.9f),
+                        }, 1);
+                    return;
+                case CourseLie.Ice:
+                    for (int i = 0; i < 3; i++) IceSpray(at, -forward, 1f);
+                    return;
+            }
+            if (!clippings) return;
+            bool rough = lie is CourseLie.Rough or CourseLie.OutOfBounds, tee = lie == CourseLie.Tee;
+            int count = Mathf.RoundToInt((8 + 26 * punch) * (rough ? 1.8f : tee ? .5f : 1f));
             for (int i = 0; i < count; i++)
             {
-                var v = forward * Random.Range(1.5f, 6f) * (0.5f + power) + side * Random.Range(-1.6f, 1.6f) + Vector3.up * Random.Range(1.8f, 4.5f) * (0.6f + 0.6f * power);
+                var v = forward * Random.Range(1.5f, 6f) * (0.5f + power) + side * Random.Range(-1.6f, 1.6f) + Vector3.up * Random.Range(1.8f, 4.5f) * (0.6f + 0.6f * power) * (rough ? 1.2f : 1f);
                 clippings.Emit(new ParticleSystem.EmitParams
                 {
                     position = at + side * Random.Range(-0.08f, 0.08f) + Vector3.up * 0.04f,
                     velocity = v,
-                    startColor = Color.Lerp(Color.white, new Color(0.8f, 0.95f, 0.7f), Random.value),
-                    startSize = Random.Range(0.28f, 0.5f),
+                    startColor = rough ? Color.Lerp(new Color(.55f, .78f, .4f), new Color(.75f, .9f, .55f), Random.value) : Color.Lerp(Color.white, new Color(0.8f, 0.95f, 0.7f), Random.value),
+                    startSize = Random.Range(0.28f, 0.5f) * (rough ? 1.25f : 1f),
                     startLifetime = Random.Range(0.55f, 0.95f),
                 }, 1);
             }
+            // the divot: clods of soil thrown forward off fairway grass (not off a tee peg)
+            if (!tee && !rough)
+                for (int i = 0; i < Mathf.RoundToInt(3 + 8 * punch); i++)
+                    clippings.Emit(new ParticleSystem.EmitParams
+                    {
+                        position = at + forward * 0.1f + Vector3.up * 0.03f,
+                        velocity = forward * Random.Range(2f, 5f) + side * Random.Range(-.8f, .8f) + Vector3.up * Random.Range(2f, 3.5f),
+                        startColor = Color.Lerp(new Color(.42f, .3f, .18f), new Color(.5f, .62f, .3f), Random.value * .5f),
+                        startSize = Random.Range(0.35f, 0.6f), startLifetime = Random.Range(0.6f, 0.9f),
+                    }, 1);
+            // a puff of dust off the turf it cut
+            Touchdown(at, lie, 0.3f + 0.3f * punch);
+        }
+
+        /// Speed lines laid behind the ball for its first instants in the air (Strike starts them).
+        void EmitStreaks()
+        {
+            if (streakLeft <= 0 || !ball || !streaks) return;
+            streakLeft -= Time.deltaTime;
+            var at = ball.position;
+            if (!streakStarted) { streakFrom = at; streakStarted = true; return; }
+            var step = at - streakFrom; float dt = Mathf.Max(1e-4f, Time.deltaTime);
+            if (step.sqrMagnitude < 1e-4f) return;
+            var v = step / dt;
+            int n = Mathf.RoundToInt(2 + 4 * streakTier);
+            for (int i = 0; i < n; i++)
+                streaks.Emit(new ParticleSystem.EmitParams
+                {
+                    position = Vector3.Lerp(streakFrom, at, i / (float)n) + Random.insideUnitSphere * 0.25f,
+                    velocity = v * 0.25f,
+                    startColor = Color.Lerp(Color.white, new Color(1f, .86f, .42f), streakTier * Random.value),
+                    startSize = Random.Range(0.08f, 0.16f) * (0.7f + streakTier),
+                    startLifetime = Random.Range(0.12f, 0.2f),
+                }, 1);
+            streakFrom = at;
         }
 
         /// The ball meeting something standing on the course: a shower of leaves out of a crown or
@@ -361,6 +460,7 @@ namespace GolfArcade.Game
 
         void LateUpdate()
         {
+            EmitStreaks();
             if (flying && ball && !cometShot) tracer.Push(ball.position);
             if (flying && ball && trailStyle != Gear.TrailStyle.None) EmitTrail(ball.position);
             else trailing = false;

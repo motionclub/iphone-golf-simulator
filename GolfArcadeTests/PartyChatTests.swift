@@ -182,6 +182,41 @@ final class PartyChatTests: XCTestCase {
         p[1].chat.receive("partyChat", "{\"t\":\"q\",\"id\":\"gg\",\"name\":\"A\u{202E}nn\"}", from: "p0")
         XCTAssertEqual(p[1].chat.messages.last?.senderName, "Ann")
     }
+    /// The inline strip (no sheet): friends' newest lines float for a few seconds, your own never do, an open strip reads as it
+    /// arrives, and leaving the party closes it. Sending from it is the same PartyChat.send (filter, gate, rate limit).
+    func testInlineStripFloatsFriendsLinesAndReadsWhileOpen() async throws {
+        let p = party(2)
+        p[0].chat.send(text: "meet at the tennis door"); p[1].tick(1)
+        let now = p[1].clock
+        XCTAssertEqual(PartyChatStrip.floating(p[1].chat.messages, now: now).map(\.text), ["meet at the tennis door"])
+        XCTAssertTrue(PartyChatStrip.floating(p[0].chat.messages, now: now).isEmpty, "your own line does not float back at you")
+        XCTAssertTrue(PartyChatStrip.floating(p[1].chat.messages, now: now.addingTimeInterval(PartyChatStrip.floatSeconds)).isEmpty)
+        XCTAssertEqual(p[1].chat.unread, 1)
+        p[1].chat.stripOpen = true; XCTAssertEqual(p[1].chat.unread, 0)
+        p[0].tick(); p[0].chat.sendQuick("go"); XCTAssertEqual(p[1].chat.unread, 0, "read in the strip")
+        p[1].tick(); XCTAssertEqual(p[1].chat.send(text: "fuck, coming"), .sent)
+        if p[1].safety.filterOn { XCTAssertTrue(p[0].chat.messages.last?.text.contains("*") == true, "the strip sends through the same filter") }
+        if let dir = ProcessInfo.processInfo.environment["MENU_SNAP_DIR"] {
+            let size = CGSize(width: 402, height: 520)
+            let scene = try XCTUnwrap(UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }.first)
+            for (name, open) in [("online-chat-strip", true), ("online-chat-float", false)] {
+                let q = party(3); q[1].chat.sendQuick("go"); q[1].tick(); q[2].chat.send(text: "who's on my team?"); q[2].tick()
+                q[0].chat.send(text: "Ann's leading us to tennis")
+                let chat = q[0].chat; chat.stripOpen = open
+                let view = ZStack(alignment: .top) {
+                    LinearGradient(colors: [Color(hex: "16294A"), Color(hex: "0E1B33")], startPoint: .top, endPoint: .bottom).ignoresSafeArea()
+                    Text("PLAZA CONTROLLER").font(.caption.bold()).foregroundStyle(.white.opacity(0.3)).padding(.top, 260)
+                    PartyChatStrip(chat: chat).padding(12).padding(.top, 40)
+                }
+                let host = UIHostingController(rootView: view); let window = UIWindow(windowScene: scene)
+                window.frame = CGRect(origin: .zero, size: size); window.rootViewController = host; window.isHidden = false
+                host.view.frame = window.bounds; host.view.layoutIfNeeded(); try await Task.sleep(for: .seconds(0.9))
+                let image = UIGraphicsImageRenderer(size: size).image { _ in host.view.drawHierarchy(in: window.bounds, afterScreenUpdates: true) }
+                try XCTUnwrap(image.pngData()).write(to: URL(fileURLWithPath: dir).appendingPathComponent("\(name).png")); window.isHidden = true
+            }
+        }
+    }
+
     func testUnreadCountsUntilTheChatIsOpen() {
         let p = party(2)
         p[0].chat.sendQuick("go"); XCTAssertEqual(p[1].chat.unread, 1)

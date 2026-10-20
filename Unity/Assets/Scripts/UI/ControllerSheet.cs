@@ -312,12 +312,12 @@ namespace GolfArcade.UI
             aimText = Chunky(pillFill.transform, "Label", "STRAIGHT", 38, 3f);
             aimParts = new[] { aimHeading.gameObject, pad.gameObject, pill.gameObject };
 
-            // Start Swing: in the free space beside the pad, under the thumb that just aimed. Phone
-            // motion is ignored until it is tapped, so aiming and changing club can't be read as a swing.
+            // The swing button: in the free space beside the pad, under the thumb that just aimed. Phone
+            // motion counts only while it is held, so aiming and changing club can't be read as a swing.
             const float S = 250;
             var start = Pill("Start swing", Yellow, Width / 2 - 20 - S / 2 - 10, padY, new Vector2(S, S), out startFill, 9);
             foreach (var layer in start.GetComponentsInChildren<Image>()) layer.type = Image.Type.Simple;   // round, not a capsule
-            startLabel = Chunky(startFill.transform, "Label", "START\nSWING", 52, 4f, Color.white, UiKit.Hex("C77800"));
+            startLabel = Chunky(startFill.transform, "Label", "HOLD TO\nSWING", 52, 4f, Color.white, UiKit.Hex("C77800"));
             startLabel.lineSpacing = 0.85f;
             startHit = start.gameObject.AddComponent<Image>(); startHit.color = Color.clear;
             StartSwing = start.gameObject.AddComponent<HoldButton>();
@@ -471,9 +471,9 @@ namespace GolfArcade.UI
             aimText.text = Mathf.Abs(d) < 0.5f ? "STRAIGHT" : $"{Mathf.Abs(d):F0}° {(d > 0 ? "RIGHT" : "LEFT")}";
         }
 
-        /// The Start Swing button, while a motion shot is lined up. `state`: 0 tap to start, 1 hold the
-        /// phone still in your stance while the grip is set, 2 swing now (the button is then inert,
-        /// so a thumb mid-swing can't cancel it: touching the aim pad or club does).
+        /// The swing button, while a motion shot is lined up. `state`: 0 hold to swing, 1 held: hold the
+        /// phone still in your stance while the grip is set, 2 held: swing now. It stays live while
+        /// held, so lifting the thumb (a reset) reaches it; touching the aim pad or club resets too.
         public void SetSwingButton(bool shown, int state)
         {
             if (!StartSwing) return;
@@ -483,13 +483,12 @@ namespace GolfArcade.UI
             var (text, fill, outline) = state switch
             {
                 1 => ("HOLD\nSTILL", Amber, "8A5A00"),
-                2 => ("SWING\nNOW!", Green, "1E7A30"),
-                _ => ("START\nSWING", Yellow, "C77800"),
+                2 => ("SWING!", Green, "1E7A30"),
+                _ => ("HOLD TO\nSWING", Yellow, "C77800"),
             };
             startLabel.text = text;
             foreach (var o in startLabel.GetComponents<Outline>()) o.effectColor = UiKit.Hex(outline);
-            startFill.color = fill; StartSwing.RestColor = fill;
-            startHit.raycastTarget = state == 0;
+            startFill.color = fill; StartSwing.RestColor = fill; StartSwing.PressedColor = state == 0 ? Amber : fill;
         }
 
         /// The backswing: the ring round the pad fills.

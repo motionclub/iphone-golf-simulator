@@ -102,7 +102,9 @@ struct IslandLockerScreen: View {
 
     private var stage: some View {
         ZStack(alignment: .bottom) {
-            CharacterModelPreview(player: player, cameraDistance: 2.7, framing: framing, outfitSport: menu.lockerSport)
+            // MENU HERO: on the Customize tab the hero stands relaxed with the back pick on (the Gear tab keeps the racket in hand for the racket slot)
+            CharacterModelPreview(player: player, cameraDistance: 2.7, framing: framing, outfitSport: menu.lockerSport,
+                                  backCarry: menu.lockerTab == .customize && menu.lockerSport == .tennis ? player.backCarry : nil)
                 .padding(.bottom, 18)
                 .accessibilityLabel("\(player.name), your character")
             if compact { nameTag.padding(.bottom, 6) }
@@ -329,6 +331,10 @@ struct IslandLockerScreen: View {
                 }
                 labelledRow("Plays", id: "lk-hand") {
                     IslandSegments(titles: ["Right", "Left"], selected: player.handedness == .left ? 1 : 0, compact: compact) { i in menu.lockerEdit { $0.handedness = i == 1 ? .left : .right } }
+                }
+                // MENU HERO: what the hero carries on the back in the menus and the plaza (saved on the player)
+                labelledRow("Back", id: "lk-back") {
+                    IslandSegments(titles: BackCarry.allCases.reversed().map(\.title), selected: player.backCarry == .racket ? 0 : 1, compact: compact) { i in menu.lockerEdit { $0.backCarry = i == 0 ? .racket : .bag } }
                 }
                 labelledRow("Skin", id: "lk-skin", custom: "skin") {
                     IslandSwatchRow(colours: LockerColor.skinPresets.map { Color(hex: LockerColor.ramp(LockerColor.skinStops, $0)) }, selected: menu.lockerSkinIndex(), size: 28 * k) { menu.lockerPickSkin($0) }

@@ -427,8 +427,14 @@ namespace GolfArcade.Tennis
             var along=data.grip.TransformVector(localAxis).normalized;
             // Roll the rigid hand/subtree around the real shaft before elbow relaxation.
             // Every authored pad keeps its shaft station and cylinder radius.
-            if(hero.female) {FitFemaleGolfWrist(hero,data,false,along,scale);FitFemaleGolfWrist(hero,data,true,along,scale);}
-            else {
+            // Both heroes use the continuous solvers. The female used to take FitFemaleGolfWrist, a per-frame angle search whose answer
+            // switches between frames: the forearms flipped up to 115 degrees in one frame through the backswing and downswing (2026-10-19).
+            // FEMALE_GOLF_WRIST_SEARCH=1 brings the old search back for comparison in the Editor.
+#if UNITY_EDITOR
+            if(hero.female && System.Environment.GetEnvironmentVariable("FEMALE_GOLF_WRIST_SEARCH")=="1") {FitFemaleGolfWrist(hero,data,false,along,scale);FitFemaleGolfWrist(hero,data,true,along,scale);}
+            else
+#endif
+            {
                 ApplyGolfWristRoll(hero, data, false, along, scale);
                 ApplyGolfWristRoll(hero, data, true, along, scale);
                 RelaxGolfElbow(hero, data, false, scale);

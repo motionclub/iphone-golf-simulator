@@ -12,11 +12,15 @@ namespace GolfArcade.Majestic
     /// - the fall layer: one sphere round the camera; rain streaks / snow / ash in three depth layers, computed from the
     ///   view direction in its shader (MajesticWeatherFall), masked out of the ball corridor on screen;
     /// - near drops: one particle system, at most 400, spawned only outside the ball corridor (MajesticWeatherDrop);
+    /// - wind: a few white wisps that swoosh along the wind and sometimes curl (as Wii Sports draws wind in the air), never
+    ///   petals or embers blown past the lens (Adnan, 10-19: the gust debris looked tacky, and it is the same on every map);
     /// - the sky: a storm wall on the horizon, sunbeams and a rainbow when rain clears, lava bombs in an eruption
     ///   (MajesticWeatherSky). All on the overlay layer, no shadows, no depth reads.
     public sealed class MajesticWeatherFx
     {
         public const int MaxDrops = 400;
+        /// The most wind wisps in the air at once (a full gale); a light breeze draws two or three, calm none.
+        public const int MaxWisps = 9;
         readonly GameObject root;
         readonly Renderer fall; readonly Material fallMat;
         readonly ParticleSystem drops; readonly ParticleSystemRenderer dropRenderer; readonly Material dropMat;
@@ -27,8 +31,14 @@ namespace GolfArcade.Majestic
         UniversalAdditionalCameraData mirrorCam; bool mirrorCamHadColor;
         readonly System.Random rng = new(7177);   // never UnityEngine.Random: gameplay's random sequences stay untouched
         float bombsUntil; Vector3 bombVent;
-        float spawnDebt, clearRTennis = 2.2f;
+        float spawnDebt;
+        sealed class Wisp { public TrailRenderer trail; public Vector3 start, along; public float age, life, speed, sway, swayRate, phase, curlAt, curlR, fade; public bool live; }
+        readonly List<Wisp> wisps = new();
+        readonly Material wispMat;
+        float wispDebt;
         public int Rejected { get; private set; }
+        /// Wind wisps drawing now (for the tests and the proof harness).
+        public int WispsLive { get { int n = 0; foreach (var s in wisps) if (s.live) n++; return n; } }
         public ParticleSystem Drops => drops;
         public Renderer Fall => fall;
         public Renderer Wall => wall;
@@ -56,6 +66,22 @@ namespace GolfArcade.Majestic
             dropRenderer = go.GetComponent<ParticleSystemRenderer>();
             dropMat = new Material(dropShader) { name = "Majestic weather drops" };
             dropRenderer.sharedMaterial = dropMat; dropRenderer.shadowCastingMode = ShadowCastingMode.Off; dropRenderer.receiveShadows = false;
+
+            wispMat = new Material(dropShader) { name = "Majestic weather wind wisps" };
+            wispMat.SetFloat(KindId, 5);
+            var taper = new AnimationCurve(new Keyframe(0, .35f), new Keyframe(.12f, 1), new Keyframe(1, .15f));
+            for (int i = 0; i < MaxWisps; i++)
+            {
+                var wgo = new GameObject("Wind wisp " + i) { layer = BallLook.OverlayLayer };
+                wgo.transform.SetParent(root.transform, false);
+                var trail = wgo.AddComponent<TrailRenderer>();
+                trail.sharedMaterial = wispMat; trail.time = .8f; trail.minVertexDistance = .12f; trail.widthCurve = taper;
+                trail.textureMode = LineTextureMode.Stretch; trail.numCapVertices = 2; trail.numCornerVertices = 2;
+                trail.shadowCastingMode = ShadowCastingMode.Off; trail.receiveShadows = false; trail.emitting = false;
+                trail.lightProbeUsage = LightProbeUsage.Off; trail.reflectionProbeUsage = ReflectionProbeUsage.Off;
+                wgo.SetActive(false);
+                wisps.Add(new Wisp { trail = trail });
+            }
 
             wallMat = SkyMat(skyShader, "Storm wall", 2, false, 2620);
             wall = Piece("Storm wall", Band(), wallMat);
@@ -102,11 +128,12 @@ namespace GolfArcade.Majestic
             return m;
         }
 
-        public void Hide()
+        public void Hide(bool keepWisps = false)
         {
             fall.enabled = false; wall.enabled = false; rainbow.enabled = false; beams.enabled = false;
             Mirror(null, false);
             if (drops) { drops.Clear(); drops.Stop(); }
+            if (!keepWisps) foreach (var s in wisps) EndWisp(s);
             foreach (var b in bombs) if (b.t) b.t.gameObject.SetActive(false);
         }
 
@@ -121,7 +148,8 @@ namespace GolfArcade.Majestic
 
         public void Update(MajesticWeather w, Camera cam, float now, float dt)
         {
-            if (!w.Active) { Hide(); return; }
+            // (the wind is drawn whenever it blows, in clear weather too)
+            if (!w.Active) { Hide(true); Wisps(w, cam, dt); return; }
             var look = w.Now;
             var at = cam.transform.position;
             root.layer = BallLook.OverlayLayer;
@@ -155,6 +183,7 @@ namespace GolfArcade.Majestic
                 fallMat.SetVector(CorridorId, corridor); fallMat.SetFloat(CorridorRId, corridorR);
             }
             NearDrops(w, cam, look, dt);
+            Wisps(w, cam, dt);
 
             // the sky
             var fwd = cam.transform.forward; fwd.y = 0; if (fwd.sqrMagnitude < 1e-4f) fwd = Vector3.forward; fwd.Normalize();
@@ -246,18 +275,15 @@ namespace GolfArcade.Majestic
         void NearDrops(MajesticWeather w, Camera cam, WeatherLook look, float dt)
         {
             int kind = (int)look.Fall;
-            // gusts with nothing falling: petals and leaves racing past (Sky.Rain biomes), embers in the ash biome
-            bool debris = kind == 0 && look.Gust > .3f && w.PlayShare > .5f;
-            float amount = debris ? look.Gust * (.7f + .5f * w.GustNow) : look.Precip * (kind == 3 ? .55f : 1);   // ash: fewer, larger flakes
-            if (amount < .01f || (kind == 0 && !debris)) { if (drops.isPlaying || drops.particleCount > 0) { drops.Clear(); drops.Stop(); } return; }
+            // only what really falls (rain, snow, ash): the wind itself is drawn by the wisps, not by debris blown past
+            float amount = look.Precip * (kind == 3 ? .55f : 1);   // ash: fewer, larger flakes
+            if (amount < .01f || kind == 0) { if (drops.isPlaying || drops.particleCount > 0) { drops.Clear(); drops.Stop(); } return; }
             if (!drops.isPlaying) drops.Play();
-            if (debris) kind = w.Family == Sky.Ash ? 3 : 4;
             bool rain = kind == 1;
-            float life = rain ? .55f : kind == 4 ? 1.6f : 3.2f;
+            float life = rain ? .55f : 3.2f;
             dropRenderer.renderMode = rain ? ParticleSystemRenderMode.Stretch : ParticleSystemRenderMode.Billboard;
             dropRenderer.velocityScale = rain ? .045f : 0; dropRenderer.lengthScale = rain ? 1 : 1;
             dropMat.SetFloat(KindId, kind);
-            if (kind == 4 && w.Tennis) clearRTennis = 7f; else clearRTennis = 2.2f;
             var lit = rain ? Color.Lerp(w.FogColour * 1.4f, Color.white, .3f) : kind == 2 ? new Color(.97f, .98f, 1f) : new Color(.36f, .34f, .34f);
             int cap = Mathf.RoundToInt(MaxDrops * Mathf.Clamp01(amount));
             spawnDebt += cap / life * dt;
@@ -265,9 +291,9 @@ namespace GolfArcade.Majestic
             if (n <= 0) return;
             var t = cam.transform; var at = t.position;
             var wind = new Vector3(w.WindDir.x, 0, w.WindDir.y) * (look.Wind * 4 + w.GustNow * 5) * (w.Tennis ? 1f : 1.09f);
-            var fall = rain ? Vector3.down * 22f + wind * .5f : kind == 4 ? Vector3.down * .4f + wind * 1.6f : Vector3.down * (kind == 2 ? 1.6f : 1.1f) + wind * (kind == 2 ? .9f : .5f);
+            var fall = rain ? Vector3.down * 22f + wind * .5f : Vector3.down * (kind == 2 ? 1.6f : 1.1f) + wind * (kind == 2 ? .9f : .5f);
             float tanH = Mathf.Tan(cam.fieldOfView * .5f * Mathf.Deg2Rad);
-            float clearR = w.Tennis ? clearRTennis : 3.2f;   // tennis debris keeps off the whole court's width
+            float clearR = w.Tennis ? 2.2f : 3.2f;
             for (int i = 0; i < n; i++)
             {
                 for (int attempt = 0; attempt < 4; attempt++)
@@ -277,13 +303,12 @@ namespace GolfArcade.Majestic
                     var p = at + t.forward * z + t.right * x + t.up * y;
                     var end = p + fall * life * 1.15f;   // (the longest life a drop can get)
                     bool hit = false;
-                    float margin = kind == 4 ? 1.2f : kind == 1 ? .2f : .5f;   // room for each drop's own jitter (petals drift most)
+                    float margin = kind == 1 ? .2f : .5f;   // room for each drop's own jitter
                     for (int k = 0; k <= 8 && !hit; k++) hit = InCorridor(Vector3.Lerp(p, end, k / 8f), w, clearR + margin);   // the whole path, not its ends
                     if (hit) { Rejected++; continue; }
                     float size = rain ? R(.012f, .022f) : kind == 2 ? R(.03f, .06f) : R(.035f, .07f);
                     var c = lit; c.a = rain ? R(.35f, .6f) : R(.7f, .95f);
-                    if (kind == 3 && R(0, 1) < (debris ? .8f : .12f * look.Embers)) { c = new Color(1f, R(.35f, .6f), .12f, 1f); size *= .7f; }
-                    if (kind == 4) { c = Petals[rng.Next(Petals.Length)]; size = R(.12f, .26f); }
+                    if (kind == 3 && R(0, 1) < .12f * look.Embers) { c = new Color(1f, R(.35f, .6f), .12f, 1f); size *= .7f; }
                     var v = fall + new Vector3(R(-.3f, .3f), R(-.5f, .5f), R(-.3f, .3f)) * (rain ? 1 : .6f);
                     drops.Emit(new ParticleSystem.EmitParams { position = p, velocity = v, startSize = size, startColor = c, startLifetime = life * R(.8f, 1.1f) }, 1);
                     break;
@@ -291,7 +316,76 @@ namespace GolfArcade.Majestic
             }
         }
 
-        static readonly Color[] Petals = { new(1f, .55f, .7f), new(1f, .8f, .3f), new(.95f, .3f, .3f), new(.45f, .72f, .28f), new(1f, .95f, .9f), new(.35f, .6f, .25f) };
+        // ------------------------------------------------------------------ wind wisps
+        /// Long soft white streaks that glide down the wind a few metres off the lens, some curling once in a loop on the way, as
+        /// Wii Sports draws wind. How many follows the wind (strength, the game's mph, the gust); calm draws none. They keep out of
+        /// the ball corridor, and in tennis they are drawn between rallies only (PlayShare), as all the weather is.
+        void Wisps(MajesticWeather w, Camera cam, float dt)
+        {
+            float mph = w.Wind01;
+            float level = w.Now.Wind * .6f + w.GustNow * .5f * w.Now.Gust + mph * .5f;
+            int want = w.PlayShare < .5f || level < .12f ? 0 : Mathf.Clamp(Mathf.CeilToInt(level * MaxWisps), 1, MaxWisps);
+            int live = 0;
+            foreach (var s in wisps) if (s.live) live++;
+            var dir = new Vector3(w.WindDir.x, 0, w.WindDir.y);
+            if (live < want)
+            {
+                wispDebt += dt * (.8f + 2f * level);
+                if (wispDebt >= 1) { wispDebt = 0; SpawnWisp(w, cam, dir, level); }
+            }
+            foreach (var s in wisps)
+            {
+                if (!s.live && s.fade <= 0) continue;
+                if (!s.live) { s.fade -= dt; if (s.fade <= 0) { s.trail.gameObject.SetActive(false); } continue; }
+                s.age += dt;
+                if (s.age >= s.life || live > want) { s.live = false; s.trail.emitting = false; s.fade = s.trail.time + .05f; if (live > want) live--; continue; }
+                s.trail.transform.position = WispAt(s, s.age);
+            }
+        }
+
+        static Vector3 WispAt(Wisp s, float age)
+        {
+            var p = s.start + s.along * (s.speed * age) + Vector3.up * (Mathf.Sin(s.phase + age * s.swayRate) * s.sway);
+            if (s.curlR > 0)
+            {
+                float c = Mathf.Clamp01((age - s.curlAt) / .75f), a = c * 2 * Mathf.PI;
+                p += s.along * (Mathf.Sin(a) * s.curlR) + Vector3.up * ((1 - Mathf.Cos(a)) * s.curlR);
+            }
+            return p;
+        }
+
+        void SpawnWisp(MajesticWeather w, Camera cam, Vector3 dir, float level)
+        {
+            Wisp s = null;
+            foreach (var x in wisps) if (!x.live && x.fade <= 0) { s = x; break; }
+            if (s == null || dir.sqrMagnitude < 1e-4f) return;
+            var t = cam.transform; float tanH = Mathf.Tan(cam.fieldOfView * .5f * Mathf.Deg2Rad);
+            float speed = 5f + 11f * Mathf.Clamp01(level), life = R(1.5f, 2.3f);
+            for (int attempt = 0; attempt < 5; attempt++)
+            {
+                float z = R(8f, 26f);
+                // upwind of the middle of the picture, so the streak crosses it
+                var mid = t.position + t.forward * z + t.right * (R(-.7f, .7f) * z * tanH * cam.aspect) + t.up * (R(-.1f, .6f) * z * tanH);
+                var start = mid - dir * (speed * life * .5f);
+                bool hit = false;
+                for (int k = 0; k <= 8 && !hit; k++) hit = InCorridor(start + dir * (speed * life * k / 8f), w, w.Tennis ? 2.2f : 3.2f);
+                if (hit) { Rejected++; continue; }
+                s.start = start; s.along = dir.normalized; s.speed = speed; s.life = life; s.age = 0; s.live = true; s.fade = 0;
+                s.sway = R(.15f, .5f); s.swayRate = R(1.6f, 3.2f); s.phase = R(0, 6.28f);
+                s.curlR = R(0, 1) < .4f ? R(.8f, 1.5f) : 0; s.curlAt = R(.3f, life - .9f);
+                var tr = s.trail; var go = tr.gameObject;
+                go.SetActive(true); go.transform.position = start;
+                tr.Clear(); tr.time = R(.7f, 1f); tr.widthMultiplier = R(.11f, .2f) * Mathf.Sqrt(z / 8f);
+                var tint = Color.Lerp(w.FogColour * 1.4f, Color.white, .7f); tint.a = 1;
+                var g = new Gradient();
+                g.SetKeys(new[] { new GradientColorKey(tint, 0), new GradientColorKey(tint, 1) },
+                          new[] { new GradientAlphaKey(0, 0), new GradientAlphaKey(R(.55f, .75f), .3f), new GradientAlphaKey(0, 1) });
+                tr.colorGradient = g; tr.emitting = true;
+                return;
+            }
+        }
+
+        static void EndWisp(Wisp s) { s.live = false; s.fade = 0; if (s.trail) { s.trail.emitting = false; s.trail.Clear(); s.trail.gameObject.SetActive(false); } }
 
         /// Inside the ball corridor: within `r` of the line from the ball to its target, or of the camera's sight line to the ball.
         public static bool InCorridor(Vector3 p, MajesticWeather w, float r)

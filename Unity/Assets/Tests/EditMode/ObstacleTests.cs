@@ -126,6 +126,94 @@ namespace GolfArcade.Tests
             Assert.AreEqual(clear.Rest.X, shot.Rest.X, 1e-9);
         }
 
+        // ----- The quirky movers (10-19): a timed launchpad and a sliding bullseye -----
+
+        /// A pad on the straight hole right where a full iron comes down, its clock set so the ball arrives `cycle` of
+        /// the way round (charged below Mover.ChargedShare).
+        static (CourseShot clear, CourseShot shot) OnThePad(double cycle)
+        {
+            var clear = new CourseShot(GolfClub.Iron, Full(), 0, new CoursePoint(0, 0), Straight());
+            double t = clear.LandingTime, period = 4;
+            double phase = ((cycle - t / period) % 1 + 1) % 1;
+            var hole = Straight();
+            hole.Movers = new CourseMovers(new[] { Mover.Launchpad(new CoursePoint(0, clear.Landing.D), 0, new CoursePoint(0, 330), 0, period, phase) });
+            return (clear, new CourseShot(GolfClub.Iron, Full(), 0, new CoursePoint(0, 0), hole));
+        }
+
+        [Test]
+        public void AChargedPadLobsTheBallOnToTheGreen()
+        {
+            var (clear, shot) = OnThePad(.25);
+            Assert.IsTrue(shot.Knocks.Count > 0 && shot.Knocks[0].Kind == ObstacleKind.Launchpad, "it came down on the pad");
+            Assert.IsFalse(shot.Knocks[0].Hard, "a pad is a boing, not a knock");
+            Assert.Greater(shot.Rest.D, clear.Rest.D + 100, "fired on, far past where it would have stopped");
+            Assert.Less(shot.Rest.DistanceTo(new CoursePoint(0, 330)), 30, "to rest near the spot it was aimed at, short of the green");
+            Assert.Greater(shot.Apex, 0);
+        }
+
+        [Test]
+        public void ASpentPadOnlyPopsItAside()
+        {
+            var (clear, shot) = OnThePad(.75);
+            Assert.IsTrue(shot.Knocks.Count > 0 && shot.Knocks[0].Kind == ObstacleKind.Launchpad, "it came down on the pad");
+            Assert.Less(shot.Rest.D, clear.Rest.D + 12, "no lob: the timing was wrong");
+            Assert.Greater(Math.Abs(shot.Rest.X - clear.Landing.X), 0.5, "it pops off to one side");
+            var again = OnThePad(.75).shot;
+            Assert.AreEqual(shot.Rest.X, again.Rest.X, 1e-9, "the same strike at the same time does the same thing");
+            Assert.AreEqual(shot.Rest.D, again.Rest.D, 1e-9);
+        }
+
+        /// A bullseye sliding across the line 60 yards out at the height the iron passes there, placed by `cycle`
+        /// (.25: in the middle of its rail as the ball gets there; 0: at the far end, 10 yards off the line).
+        static (CourseShot clear, CourseShot shot) PastTheTarget(double cycle)
+        {
+            var clear = new CourseShot(GolfClub.Iron, Full(), 0, new CoursePoint(0, 0), Straight());
+            double t = 0; while (clear.PositionAt(t).d < 60) t += 0.005;
+            double period = 6, phase = ((cycle - t / period) % 1 + 1) % 1;
+            var hole = Straight();
+            hole.Movers = new CourseMovers(new[] { Mover.Target(new CoursePoint(-10, 60), new CoursePoint(10, 60), clear.PositionAt(t).h, period, phase, new CoursePoint(0, 330), 0) });
+            return (clear, new CourseShot(GolfClub.Iron, Full(), 0, new CoursePoint(0, 0), hole));
+        }
+
+        [Test]
+        public void HittingTheBullseyeSendsItOn()
+        {
+            var (clear, shot) = PastTheTarget(.25);
+            Assert.IsTrue(shot.Knocks.Count > 0 && shot.Knocks[0].Kind == ObstacleKind.Target && shot.Knocks[0].Hard, "it hit the board");
+            Assert.Less(shot.Rest.DistanceTo(new CoursePoint(0, 330)), 30, "and was sent on toward the green");
+            Assert.Greater(shot.Rest.D, clear.Rest.D + 100, "a reward, not a block");
+        }
+
+        [Test]
+        public void MissingTheTargetChangesNothing()
+        {
+            var (clear, shot) = PastTheTarget(0);
+            Assert.AreEqual(0, shot.Knocks.Count, "the board was off at the end of its rail");
+            Assert.AreEqual(clear.Rest.D, shot.Rest.D, 1e-9);
+        }
+
+        [Test]
+        public void PadsAndTargetsStandOffTheLine()
+        {
+            int placed = 0;
+            foreach (var course in Course.Course.All())
+                foreach (var hole in course.Holes)
+                    for (int seed = 1; seed <= 6; seed++)
+                        foreach (var m in QuirkyObstacles.For(hole, seed, null, null))
+                        {
+                            placed++;
+                            Assert.IsTrue(QuirkyObstacles.Has(hole.Number));
+                            for (double t = 0; t < m.Period; t += m.Period / 12)
+                            {
+                                var p = m.At(t);
+                                Assert.GreaterOrEqual(DreamCourseLayout.CorridorDistance(new CoursePoint(p.x, p.d), hole.Centerline), QuirkyObstacles.Clear - 1e-6, $"hole {hole.Number} {m.Kind}");
+                            }
+                            Assert.AreEqual(0, hole.LieAt(m.Goal).PenaltyStrokes(), "it sends the ball somewhere playable");
+                            Assert.AreNotEqual(CourseLie.Water, hole.LieAt(new CoursePoint(m.RailFrom.X, m.RailFrom.D)));
+                        }
+            Assert.GreaterOrEqual(placed, 2 * 6, "on at least two holes");
+        }
+
         [Test]
         public void ShapesAreTheirOwn()
         {

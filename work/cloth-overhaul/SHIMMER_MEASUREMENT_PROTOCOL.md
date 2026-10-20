@@ -1,0 +1,5 @@
+# Phone shimmer metric
+
+180 lossless 1170x2532 frames at 60 Hz. Same locked baseline camera, animation sample times and -0.6m to +0.6m translation. For each frame use the semantic shirt mask with a three pixel erosion, excluding trims and silhouette/AA edges. Linearize the RGB screenshot and average Rec.709 luma within this moving region. Flicker is RMS of the second temporal difference of this mean, divided by sqrt(6). This tracks temporal brightness instability of shirt cloth, suppressing constant brightness and smooth trends. It does not prove absence of every spatial alias, so also inspect the full 3 second MP4 and magnified seven-frame shirt strip for moire. Report raw per-frame means and both baseline/after values; do not substitute Mac render timings for iPhone performance.
+
+The initial +/-2m diagnostic cropped the near hero and is excluded. The final sweep reuses the exact match proof camera in hero space, fixes it in world space, and calls the existing Hero rim light Aim for each sampled frame. Both variants use this correction.

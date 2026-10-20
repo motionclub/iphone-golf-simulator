@@ -1,0 +1,98 @@
+# Original 96 gates on candidates
+
+- G1 male Emote_Spike: PASS — `{"ok": true, "frames": 97, "expected": 97, "bones": 53, "objects": ["Body_M", "ButtCap", "Face_M", "Grip", "Hand_Racket", "Racket_Classic", "Rig_Male", "StringBed"]}`
+- G2 male Emote_Spike: PASS — `{"ok": true, "arm_dev": 0.0, "root_dev": 0.0}`
+- G3 male Emote_Spike: PASS — `{"ok": true, "start_mean_deg": 0.1017, "start_max_deg": 1.068, "end_mean_deg": 0.1017, "end_max_deg": 1.068}`
+- G4 male Emote_Spike: PASS — `{"ok": true, "slide_max_m": 0.0, "end_toe_max_m": 0.0, "mesh_min_z_m": 0.0023}`
+- G5 male Emote_Spike: PASS — `{"ok": true, "worst_mm": 0.0007}`
+- G6 male Emote_Spike: PASS — `{"ok": true, "racket_hand_pos_m": 0.0, "racket_hand_deg": 0.0891, "readyidle_floor_deg": 0.0718, "no_racket_animation": true}`
+- G7 male Emote_Spike: FAIL — `{"ok": false, "note": "collide3 json missing: /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/emote-fluid/proof/collide/Emote_Spike_male_c3.json"}`
+- G8 male Emote_Spike: PASS — `{"ok": true, "max_correction_step_m": 0.0147, "max_swing_step_deg": 0.4996, "max_speed_added_m_s": 0.3926, "corrected_frames": 93}`
+- S1 male Emote_Spike: PASS — `{"ok": true, "min_below_shoulder_m": 0.4322, "min_dist_to_racket_m": 0.4657, "max_rel_speed_m_s": 1.134}`
+- S3 male Emote_Spike: PASS — `{"ok": true, "contacts": 3, "contact_times": [1.2, 1.433, 1.967], "lowest_m": -0.0}`
+- S2 male Emote_Spike: PASS — `{"ok": true, "downswing_s": 0.2667, "peak_tip_speed_m_s": 28.7788}`
+- S4 male Emote_Spike: PASS — `{"ok": true, "trunk_flexion_at_contacts_deg": [61.04580058833646, 60.53020973742615]}`
+- S5 male Emote_Spike: PASS — `{"ok": true, "first_lift_top_m": 2.241, "second_lift_top_m": 1.4951, "ratio": 0.6672}`
+- S6 male Emote_Spike: PASS — `{"ok": true, "racket_tip_0p20_above_head_top_s": 0.2667, "max_tip_above_head_top_m": 0.5923}`
+- G1 male Emote_Thrust: PASS — `{"ok": true, "frames": 106, "expected": 106, "bones": 53, "objects": ["Body_M", "ButtCap", "Face_M", "Grip", "Hand_Racket", "Racket_Classic", "Rig_Male", "StringBed"]}`
+- G2 male Emote_Thrust: PASS — `{"ok": true, "arm_dev": 0.0, "root_dev": 0.0}`
+- G3 male Emote_Thrust: PASS — `{"ok": true, "start_mean_deg": 0.102, "start_max_deg": 1.068, "end_mean_deg": 0.102, "end_max_deg": 1.068}`
+- G4 male Emote_Thrust: PASS — `{"ok": true, "slide_max_m": 0.0, "end_toe_max_m": 0.0, "mesh_min_z_m": 0.0017}`
+- G5 male Emote_Thrust: PASS — `{"ok": true, "worst_mm": 0.0018}`
+- G6 male Emote_Thrust: PASS — `{"ok": true, "racket_hand_pos_m": 0.0, "racket_hand_deg": 0.0978, "readyidle_floor_deg": 0.0718, "no_racket_animation": true}`
+- G7 male Emote_Thrust: FAIL — `{"ok": false, "note": "collide3 json missing: /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/emote-fluid/proof/collide/Emote_Thrust_male_c3.json"}`
+- G8 male Emote_Thrust: PASS — `{"ok": true, "max_correction_step_m": 0.0079, "max_swing_step_deg": 0.2277, "max_speed_added_m_s": 0.1671, "corrected_frames": 36}`
+- T1 male Emote_Thrust: PASS — `{"ok": true, "pelvis_travel_m": [0.3587350994348526, 0.39900000393390656, 0.41999997198581696], "back_behind_ready_m": [0.12753507681190968, 0.12999999709427357, 0.12999999709427357]}`
+- T2 male Emote_Thrust: PASS — `{"ok": true, "frames_apart": [0, 0, 0]}`
+- T7 male Emote_Thrust: PASS — `{"ok": true, "gate": "THRUST_ARMS_FORWARD_AT_BACK", "min_forward_m": [0.5030725477773524, 0.5014696625566203], "required_m": 0.3999, "max_height_error_m": [0.10645699501037598, 0.11088442802429199], "height_limit_m": 0.15, "min_elbow_deg": [169.829630489265, 165.24791036558128], "frames_checked": 13}`
+- T8 male Emote_Thrust: PASS — `{"ok": true, "gate": "THRUST_ARMS_BACK_AT_HIT", "max_belt_error_m": 0.09, "belt_limit_m": 0.12, "lateral_range_m": [0.2799332439899532, 0.2799357473850332], "lateral_limits_m": [0.1499638201296714, 0.34991558030256664], "max_elbow_ahead_m": -0.1578, "elbow_deg": [89.4842213841266, 89.53864059858687, 89.57374346015744, 89.4842669490182, 89.53855488764601, 89.5736943609365]}`
+- T9 male Emote_Thrust: FAIL — `{"ok": false, "gate": "THRUST_SYNC", "frames_apart_each_hand": [0, 0, 15, 1, 0, 0], "limit_frames": 1}`
+- T10 male Emote_Thrust: PASS — `{"ok": true, "gate": "THRUST_OPPOSITE", "correlation_each_hand_hit": [-0.9941224393112746, -0.992254569723489, -0.9933879569621424, -0.9934066393439923, -0.9910749140376877, -0.9911011248766541], "limit": -0.8}`
+- T4 male Emote_Thrust: PASS — `{"ok": true, "max_chest_yaw_deg": 0.1948, "max_head_yaw_deg": 0.9297}`
+- T5 male Emote_Thrust: PASS — `{"ok": true, "min_knee_flexion_deg": 29.043, "min_toe_yaw_deg": 44.3851}`
+- T6 male Emote_Thrust: PASS — `{"ok": true, "head_pitch_p2p_deg": 36.5267}`
+- G1 male Emote_Scuba: PASS — `{"ok": true, "frames": 142, "expected": 142, "bones": 53, "objects": ["Body_M", "ButtCap", "Face_M", "Grip", "Hand_Racket", "Racket_Classic", "Rig_Male", "StringBed"]}`
+- G2 male Emote_Scuba: PASS — `{"ok": true, "arm_dev": 0.0, "root_dev": 0.0}`
+- G3 male Emote_Scuba: PASS — `{"ok": true, "start_mean_deg": 0.1017, "start_max_deg": 1.068, "end_mean_deg": 0.279, "end_max_deg": 2.0906}`
+- G4 male Emote_Scuba: PASS — `{"ok": true, "slide_max_m": 0.0, "end_toe_max_m": 0.0, "mesh_min_z_m": 0.0017}`
+- G5 male Emote_Scuba: PASS — `{"ok": true, "worst_mm": 0.0008}`
+- G7 male Emote_Scuba: FAIL — `{"ok": false, "note": "collide3 json missing: /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/emote-fluid/proof/collide/Emote_Scuba_male_c3.json"}`
+- G8 male Emote_Scuba: PASS — `{"ok": true, "max_correction_step_m": 0.013, "max_swing_step_deg": 7.9005, "max_speed_added_m_s": 0.3372, "corrected_frames": 75}`
+- C1 male Emote_Scuba: PASS — `{"ok": true, "max_pad_to_nose_m": 0.0045, "mean_m": 0.0045}`
+- C2 male Emote_Scuba: PASS — `{"ok": true, "min_ahead_of_neck_m": 0.5285, "below_shoulder_range_m": [0.09172976016998291, 0.12602627277374268]}`
+- C3 male Emote_Scuba: PASS — `{"ok": true, "wrist_lateral_p2p_m": 0.244, "period_s": 0.7333, "cycles": 3.5}`
+- C4 male Emote_Scuba: PASS — `{"ok": true, "knee_lateral_p2p_m": 0.1385, "period_s": 0.7333, "feet_slide_m": 0.0}`
+- C5 male Emote_Scuba: PASS — `{"ok": true, "leaves_s": 0.2, "lowest_m_range": [-1.756490458686144e-06, 1.1393402999763935e-06], "moved_m": 0.0, "min_dist_to_hand_m": 0.134}`
+- C6 male Emote_Scuba: PASS — `{"ok": true, "attach_frame": 123, "hand_to_racket_before_attach_m": 0.0056, "max_racket_jump_before_attach_m": 0.0181, "after_attach_deg": 0.0799, "readyidle_floor_deg": 0.0718}`
+- C8 male Emote_Scuba: PASS — `{"ok": true, "gate": "SCUBA_PALM_SIDEWAYS", "max_deg": 24.4379, "limit_deg": 25.0, "frames_checked": 86}`
+- C9 male Emote_Scuba: PASS — `{"ok": true, "gate": "SCUBA_THUMB_UP", "max_deg": 6.2848, "limit_deg": 35.0, "frames_checked": 86}`
+- C10 male Emote_Scuba: PASS — `{"ok": true, "gate": "SCUBA_REACH", "min_reach_m": 0.5042, "required_m": 0.4999, "min_elbow_deg": 165.6216, "required_elbow_deg": 155.0}`
+- C11 male Emote_Scuba: PASS — `{"ok": true, "gate": "SCUBA_SWEEP_KEPT", "yaw_p2p_deg": 50.08, "required_deg": 50.0, "cycles_crossings": 4.0, "authored_cycles": 4, "period_s": 0.7333, "required_period_s": 0.7333}`
+- G1 female Emote_Spike: PASS — `{"ok": true, "frames": 97, "expected": 97, "bones": 53, "objects": ["Body_F", "ButtCap", "Face_F", "Grip", "Hand_Racket", "Racket_Classic", "Rig_Female", "StringBed"]}`
+- G2 female Emote_Spike: PASS — `{"ok": true, "arm_dev": 0.0, "root_dev": 0.0}`
+- G3 female Emote_Spike: PASS — `{"ok": true, "start_mean_deg": 0.0781, "start_max_deg": 0.5564, "end_mean_deg": 0.0783, "end_max_deg": 0.5564}`
+- G4 female Emote_Spike: PASS — `{"ok": true, "slide_max_m": 0.0, "end_toe_max_m": 0.0, "mesh_min_z_m": 0.0011}`
+- G5 female Emote_Spike: PASS — `{"ok": true, "worst_mm": 0.0022}`
+- G6 female Emote_Spike: PASS — `{"ok": true, "racket_hand_pos_m": 0.0, "racket_hand_deg": 0.1013, "readyidle_floor_deg": 0.1352, "no_racket_animation": true}`
+- G7 female Emote_Spike: FAIL — `{"ok": false, "note": "collide3 json missing: /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/emote-fluid/proof/collide/Emote_Spike_female_c3.json"}`
+- G8 female Emote_Spike: PASS — `{"ok": true, "max_correction_step_m": 0.008, "max_swing_step_deg": 0.4294, "max_speed_added_m_s": 0.1855, "corrected_frames": 95}`
+- S1 female Emote_Spike: PASS — `{"ok": true, "min_below_shoulder_m": 0.3909, "min_dist_to_racket_m": 0.3202, "max_rel_speed_m_s": 1.152}`
+- S3 female Emote_Spike: PASS — `{"ok": true, "contacts": 2, "contact_times": [1.2, 1.967], "lowest_m": -0.0}`
+- S2 female Emote_Spike: PASS — `{"ok": true, "downswing_s": 0.2667, "peak_tip_speed_m_s": 28.1941}`
+- S4 female Emote_Spike: PASS — `{"ok": true, "trunk_flexion_at_contacts_deg": [61.93763073454784, 58.94253728747977]}`
+- S5 female Emote_Spike: PASS — `{"ok": true, "first_lift_top_m": 2.1901, "second_lift_top_m": 1.5152, "ratio": 0.6918}`
+- S6 female Emote_Spike: PASS — `{"ok": true, "racket_tip_0p20_above_head_top_s": 0.2667, "max_tip_above_head_top_m": 0.5493}`
+- G1 female Emote_Thrust: PASS — `{"ok": true, "frames": 106, "expected": 106, "bones": 53, "objects": ["Body_F", "ButtCap", "Face_F", "Grip", "Hand_Racket", "Racket_Classic", "Rig_Female", "StringBed"]}`
+- G2 female Emote_Thrust: PASS — `{"ok": true, "arm_dev": 0.0, "root_dev": 0.0}`
+- G3 female Emote_Thrust: PASS — `{"ok": true, "start_mean_deg": 0.0769, "start_max_deg": 0.5564, "end_mean_deg": 0.0769, "end_max_deg": 0.5564}`
+- G4 female Emote_Thrust: PASS — `{"ok": true, "slide_max_m": 0.0, "end_toe_max_m": 0.0, "mesh_min_z_m": 0.0011}`
+- G5 female Emote_Thrust: PASS — `{"ok": true, "worst_mm": 0.0006}`
+- G6 female Emote_Thrust: PASS — `{"ok": true, "racket_hand_pos_m": 0.0, "racket_hand_deg": 0.1125, "readyidle_floor_deg": 0.1352, "no_racket_animation": true}`
+- G7 female Emote_Thrust: FAIL — `{"ok": false, "note": "collide3 json missing: /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/emote-fluid/proof/collide/Emote_Thrust_female_c3.json"}`
+- G8 female Emote_Thrust: PASS — `{"ok": true, "max_correction_step_m": 0.0069, "max_swing_step_deg": 0.1739, "max_speed_added_m_s": 0.032, "corrected_frames": 39}`
+- T1 female Emote_Thrust: PASS — `{"ok": true, "pelvis_travel_m": [0.3587350696325302, 0.39900000393390656, 0.42000000178813934], "back_behind_ready_m": [0.12753506656736135, 0.12999995704740286, 0.12999995704740286]}`
+- T2 female Emote_Thrust: PASS — `{"ok": true, "frames_apart": [0, 0, 0]}`
+- T7 female Emote_Thrust: PASS — `{"ok": true, "gate": "THRUST_ARMS_FORWARD_AT_BACK", "min_forward_m": [0.4582991563492546, 0.4554815983053483], "required_m": 0.3669, "max_height_error_m": [0.0887213945388794, 0.09138691425323486], "height_limit_m": 0.15, "min_elbow_deg": [168.0075100888119, 162.32538009971606], "frames_checked": 13}`
+- T8 female Emote_Thrust: PASS — `{"ok": true, "gate": "THRUST_ARMS_BACK_AT_HIT", "max_belt_error_m": 0.0825, "belt_limit_m": 0.12, "lateral_range_m": [0.25681138038635076, 0.2568115592002856], "lateral_limits_m": [0.13757769696468108, 0.32101462625092253], "max_elbow_ahead_m": -0.1356, "elbow_deg": [99.91795451686372, 100.07991183141291, 100.17531850993318, 99.91803161038341, 100.0798134114459, 100.1753398902706]}`
+- T9 female Emote_Thrust: PASS — `{"ok": true, "gate": "THRUST_SYNC", "frames_apart_each_hand": [0, 0, 0, 0, 0, 0], "limit_frames": 1}`
+- T10 female Emote_Thrust: PASS — `{"ok": true, "gate": "THRUST_OPPOSITE", "correlation_each_hand_hit": [-0.9926130021483317, -0.9899016065494904, -0.9911851039205714, -0.9919783154010208, -0.9890154054360607, -0.9890611824241236], "limit": -0.8}`
+- T4 female Emote_Thrust: PASS — `{"ok": true, "max_chest_yaw_deg": 0.1948, "max_head_yaw_deg": 0.9297}`
+- T5 female Emote_Thrust: PASS — `{"ok": true, "min_knee_flexion_deg": 27.3912, "min_toe_yaw_deg": 46.7152}`
+- T6 female Emote_Thrust: PASS — `{"ok": true, "head_pitch_p2p_deg": 36.5267}`
+- G1 female Emote_Scuba: PASS — `{"ok": true, "frames": 142, "expected": 142, "bones": 53, "objects": ["Body_F", "ButtCap", "Face_F", "Grip", "Hand_Racket", "Racket_Classic", "Rig_Female", "StringBed"]}`
+- G2 female Emote_Scuba: PASS — `{"ok": true, "arm_dev": 0.0, "root_dev": 0.0}`
+- G3 female Emote_Scuba: PASS — `{"ok": true, "start_mean_deg": 0.0764, "start_max_deg": 0.5564, "end_mean_deg": 0.3438, "end_max_deg": 3.1729}`
+- G4 female Emote_Scuba: PASS — `{"ok": true, "slide_max_m": 0.0, "end_toe_max_m": 0.0, "mesh_min_z_m": 0.0011}`
+- G5 female Emote_Scuba: PASS — `{"ok": true, "worst_mm": 0.0007}`
+- G7 female Emote_Scuba: FAIL — `{"ok": false, "note": "collide3 json missing: /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/emote-fluid/proof/collide/Emote_Scuba_female_c3.json"}`
+- G8 female Emote_Scuba: PASS — `{"ok": true, "max_correction_step_m": 0.0097, "max_swing_step_deg": 0.0594, "max_speed_added_m_s": 0.1785, "corrected_frames": 45}`
+- C1 female Emote_Scuba: PASS — `{"ok": true, "max_pad_to_nose_m": 0.0045, "mean_m": 0.0045}`
+- C2 female Emote_Scuba: PASS — `{"ok": true, "min_ahead_of_neck_m": 0.4753, "below_shoulder_range_m": [0.07281088829040527, 0.10551285743713379]}`
+- C3 female Emote_Scuba: PASS — `{"ok": true, "wrist_lateral_p2p_m": 0.2198, "period_s": 0.7333, "cycles": 3.5}`
+- C4 female Emote_Scuba: PASS — `{"ok": true, "knee_lateral_p2p_m": 0.1387, "period_s": 0.7333, "feet_slide_m": 0.0}`
+- C5 female Emote_Scuba: PASS — `{"ok": true, "leaves_s": 0.2, "lowest_m_range": [-8.04699869232095e-07, 2.2428418267259054e-06], "moved_m": 0.0, "min_dist_to_hand_m": 0.1326}`
+- C6 female Emote_Scuba: PASS — `{"ok": true, "attach_frame": 123, "hand_to_racket_before_attach_m": 0.0056, "max_racket_jump_before_attach_m": 0.0181, "after_attach_deg": 0.0859, "readyidle_floor_deg": 0.1352}`
+- C8 female Emote_Scuba: PASS — `{"ok": true, "gate": "SCUBA_PALM_SIDEWAYS", "max_deg": 24.4378, "limit_deg": 25.0, "frames_checked": 86}`
+- C9 female Emote_Scuba: PASS — `{"ok": true, "gate": "SCUBA_THUMB_UP", "max_deg": 6.2846, "limit_deg": 35.0, "frames_checked": 86}`
+- C10 female Emote_Scuba: PASS — `{"ok": true, "gate": "SCUBA_REACH", "min_reach_m": 0.4609, "required_m": 0.4586, "min_elbow_deg": 165.6797, "required_elbow_deg": 155.0}`
+- C11 female Emote_Scuba: PASS — `{"ok": true, "gate": "SCUBA_SWEEP_KEPT", "yaw_p2p_deg": 50.08, "required_deg": 50.0, "cycles_crossings": 4.0, "authored_cycles": 4, "period_s": 0.7333, "required_period_s": 0.7333}`

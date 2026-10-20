@@ -104,10 +104,14 @@ namespace GolfArcade.UI
             carry.text = $"CARRY  {(tiles.Length > 4 ? tiles[4].value : "—")}\n{outcome.ToUpperInvariant()}";
             detail.text = remainingText;
             next.GetComponentInChildren<Text>().text = nextLabel; next.Pressed = proceed;
+            // (no labels: a shot that stays out offers no emotes — golf, 2026-10-19)
+            bool offered = emoteLabels != null && emoteLabels.Length >= emotes.Length;
+            if (!offered) prompt.text = "";
             for (int i = 0; i < emotes.Length; i++)
             {
                 int choice = i;
-                emotes[i].gameObject.SetActive(true);
+                emotes[i].gameObject.SetActive(offered);
+                if (!offered) continue;
                 emotes[i].GetComponentInChildren<Text>().text = emoteLabels[i].ToUpperInvariant();
                 emotes[i].Pressed = () => emote(choice);
             }

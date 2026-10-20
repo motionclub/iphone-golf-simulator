@@ -27,7 +27,7 @@ namespace GolfArcade.Tennis
         // Male eyes stay at the source height (the reference's: 47 % of crown-chin): the orbit term no longer lowers them 10 mm.
         // HeroFaceSkin / TennisCharacter / MatchHeroSurfaces add the old drop back to their male face frame below the orbit, so the
         // mouth, beard and jaw paint stay on the same geometry. Tip .024 (was .019).
-        public const float MaleOrbitDrop = 0f; const float MaleScleraInset = .03f, MaleEarDrop = .004f; const float MaleTip = .024f;
+        public const float MaleOrbitDrop = 0f; const float MaleScleraInset = .06f, MaleEarDrop = .004f; const float MaleTip = .024f;
         const float MaleAlarX = .022f, MaleAlarAmp = .009f, MaleNoseNarrow = .10f;   // wider, fuller alar wings (were .020 / .006 / .24)
         // Male nose 2026-10-18 (sheets 07/17; Adnan: "way too pointy", then "make it realistic"): an anatomical nose built after the face
         // fit, in the fitted face frame (mm). The reference is narrow at the bridge, has a ball-shaped tip lobule and two round alar lobes
@@ -96,6 +96,13 @@ namespace GolfArcade.Tennis
             return (1 - Sm(12, 18, x)) * Sm(-74, -70, y) * (1 - Sm(-51, -48, y)) * Sm(20, 30, z);
         }
         /// The male cheeks (face frame, metres) that get a few relax passes: beside the nose to in front of the ear, below the eyes, above the jaw.
+        /// 10-19 repair (chat F): the side of the neck from under the ear to the jaw angle was lumpy at 3/4 (s13 sculpt leftovers); relaxed like the jaw underside.
+        static float MaleNeckSideZone(Vector3 m)
+        {
+            float x = Mathf.Abs(m.x * 1000), y = m.y * 1000, z = m.z * 1000;
+            float Sm(float a, float b, float v) => Mathf.SmoothStep(0, 1, Mathf.Clamp01((v - a) / (b - a)));
+            return Sm(40, 50, x) * Sm(-165, -150, y) * (1 - Sm(-95, -85, y)) * Sm(-115, -100, z) * (1 - Sm(-45, -35, z));
+        }
         static float MaleCheekZone(Vector3 m)
         {
             float x = Mathf.Abs(m.x * 1000), y = m.y * 1000, z = m.z * 1000;
@@ -283,10 +290,10 @@ namespace GolfArcade.Tennis
                     if (!weld.TryGetValue(key, out int w)) { w = acc.Count; weld[key] = w; acc.Add(Vector3.zero); } id[i] = w;
                 }
                 // two relax passes over the nose zone (position-welded Laplacian): irons out the old mesh's pits and folds under the new surface
-                var zw = new float[acc.Count]; var cw = new float[acc.Count]; var pw = new float[acc.Count]; var lw = new float[acc.Count]; var jw = new float[acc.Count]; var pos = new Vector3[acc.Count];
-                for (int i = 0; i < after.Length; i++) { pos[id[i]] = after[i]; zw[id[i]] = MaleNoseZone(ToFace(after[i])); cw[id[i]] = MaleCheekZone(ToFace(after[i])); pw[id[i]] = MalePhiltrumZone(ToFace(after[i])); lw[id[i]] = MaleMouthZone(ToFace(after[i])); jw[id[i]] = MaleJawUnderZone(ToFace(after[i])); }
+                var zw = new float[acc.Count]; var cw = new float[acc.Count]; var pw = new float[acc.Count]; var lw = new float[acc.Count]; var jw = new float[acc.Count]; var nw = new float[acc.Count]; var pos = new Vector3[acc.Count];
+                for (int i = 0; i < after.Length; i++) { pos[id[i]] = after[i]; zw[id[i]] = MaleNoseZone(ToFace(after[i])); cw[id[i]] = MaleCheekZone(ToFace(after[i])); pw[id[i]] = MalePhiltrumZone(ToFace(after[i])); lw[id[i]] = MaleMouthZone(ToFace(after[i])); jw[id[i]] = MaleJawUnderZone(ToFace(after[i])); nw[id[i]] = MaleNeckSideZone(ToFace(after[i])); }
                 var nbr = new List<int>[acc.Count];
-                void Link(int a, int b) { if (zw[a] <= 0 && zw[b] <= 0 && cw[a] <= 0 && cw[b] <= 0 && pw[a] <= 0 && pw[b] <= 0 && lw[a] <= 0 && lw[b] <= 0 && jw[a] <= 0 && jw[b] <= 0) return; (nbr[a] ??= new List<int>()).Add(b); (nbr[b] ??= new List<int>()).Add(a); }
+                void Link(int a, int b) { if (zw[a] <= 0 && zw[b] <= 0 && cw[a] <= 0 && cw[b] <= 0 && pw[a] <= 0 && pw[b] <= 0 && lw[a] <= 0 && lw[b] <= 0 && jw[a] <= 0 && jw[b] <= 0 && nw[a] <= 0 && nw[b] <= 0) return; (nbr[a] ??= new List<int>()).Add(b); (nbr[b] ??= new List<int>()).Add(a); }
                 for (int t = 0; t < tris.Length; t += 3) { Link(id[tris[t]], id[tris[t + 1]]); Link(id[tris[t + 1]], id[tris[t + 2]]); Link(id[tris[t + 2]], id[tris[t]]); }
                 for (int pass = 0; pass < 2; pass++) {
                     var next = (Vector3[])pos.Clone();
@@ -322,7 +329,7 @@ namespace GolfArcade.Tennis
                         pos = next;
                     }
                 }
-                Relax(lw, 8); Relax(jw, 4);
+                Relax(lw, 8); Relax(jw, 4); Relax(nw, 10);   // 10-19 repair: neck side
                 for (int w = 0; w < pos.Length; w++) if (lw[w] > 0) { var f = ToFace(pos[w]); f.z += MaleLips(f * 1000) / 1000; pos[w] = FromFace(f); }
                 // then 8 more over the side walls only (bridge edge to cheek, above the wings): the game keeps creases over 45 degrees sharp,
                 // and the ridge met the cheek steeply enough to leave faceted lines there (offline gate: edges over 20 degrees 57 -> 13)
@@ -351,7 +358,7 @@ namespace GolfArcade.Tennis
                     }
                     pos = next;
                 }
-                for (int i = 0; i < after.Length; i++) if (zw[id[i]] > 0 || cw[id[i]] > 0 || pw[id[i]] > 0 || lw[id[i]] > 0 || jw[id[i]] > 0) after[i] = pos[id[i]];
+                for (int i = 0; i < after.Length; i++) if (zw[id[i]] > 0 || cw[id[i]] > 0 || pw[id[i]] > 0 || lw[id[i]] > 0 || jw[id[i]] > 0 || nw[id[i]] > 0) after[i] = pos[id[i]];
                 for (int t = 0; t < tris.Length; t += 3) {
                     var c = Vector3.Cross(after[tris[t + 1]] - after[tris[t]], after[tris[t + 2]] - after[tris[t]]);
                     acc[id[tris[t]]] += c; acc[id[tris[t + 1]]] += c; acc[id[tris[t + 2]]] += c;
@@ -361,7 +368,7 @@ namespace GolfArcade.Tennis
                 float vote = 0; for (int i = 0; i < after.Length; i++) if (zw[id[i]] > 0) vote += Vector3.Dot(acc[id[i]], normals[i]);
                 float side = vote < 0 ? -1 : 1;
                 for (int i = 0; i < after.Length; i++) {
-                    float zone = zw[id[i]] > 0 || pw[id[i]] > 0 || cw[id[i]] > 0 || lw[id[i]] > 0 || jw[id[i]] > 0 ? 1 : 0; if (zone <= 0) continue;   // full geometric normal wherever a region moved the surface (a partial blend kept bad warp-Jacobian normals at the zone edge: light drips under the nose)
+                    float zone = zw[id[i]] > 0 || pw[id[i]] > 0 || cw[id[i]] > 0 || lw[id[i]] > 0 || jw[id[i]] > 0 || nw[id[i]] > 0 ? 1 : 0; if (zone <= 0) continue;   // full geometric normal wherever a region moved the surface (a partial blend kept bad warp-Jacobian normals at the zone edge: light drips under the nose)
                     var g = acc[id[i]]; float gl = g.magnitude; if (gl < 1e-12f) continue; g *= side / gl;   // manual: Vector3.normalized returns zero under 1e-5 (these sums are ~5e-6 m2)   // winding-independent: the side the imported normal faced
                     adjusted[i] = Vector3.Slerp(adjusted[i], g, zone).normalized;
                 }
