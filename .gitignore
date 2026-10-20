@@ -34,3 +34,32 @@ blender/mhhair/
 # CMU motion capture (subject 64, golf) used only to measure real swing form: cmu_golf_measure.py reads it; not committed
 blender/cmugolf/
 
+
+# LFS-heavy art/proof/source material stays on disk but is not tracked (slim-lfs, 2026-10-20)
+/ArtDir/**/*.bin
+/ArtDir/**/*.blend
+/ArtDir/**/*.c3d
+/ArtDir/**/*.fbx
+/ArtDir/**/*.gif
+/ArtDir/**/*.glb
+/ArtDir/**/*.jpg
+/ArtDir/**/*.lzfse
+/ArtDir/**/*.mask
+/ArtDir/**/*.mp4
+/ArtDir/**/*.png
+/ArtDir/**/*.ttf
+/ArtDir/**/*.webp
+/ArtDir/**/*.zip
+/SportsLibrary/**/*.blend
+/SportsLibrary/**/*.fbx
+/SportsLibrary/**/*.glb
+/SportsLibrary/**/*.jpg
+/SportsLibrary/**/*.mp4
+/SportsLibrary/**/*.png
+/proof/**/*.jpg
+/proof/**/*.png
+/work/**/*.blend
+/work/**/*.fbx
+/work/**/*.jpg
+/work/**/*.mp4
+/work/**/*.png
