@@ -1,0 +1,18 @@
+{
+  "Male": {
+    "garmentVertexCount": 15401,
+    "previousRemovedFaces": 6284,
+    "expectedRemovedFaceCount": 7072,
+    "addedCuffFaces": 788,
+    "sha256": "51e73ce4dfae31d0be7859bdaac364cc7f23f45d0ba41572b0f5c1eedc4deaa4",
+    "status": "Measured source mask2; actual game motion visual gate pending"
+  },
+  "Female": {
+    "garmentVertexCount": 13932,
+    "previousRemovedFaces": 2892,
+    "expectedRemovedFaceCount": 3064,
+    "addedCuffFaces": 172,
+    "sha256": "666c3165f36a91d76c07203de6fafca72c5fdbdc4d614a2aa285504a1d200206",
+    "status": "Measured source mask2; actual game motion visual gate pending"
+  }
+}

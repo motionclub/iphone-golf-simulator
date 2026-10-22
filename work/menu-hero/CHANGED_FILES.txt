@@ -1,0 +1,32 @@
+# Chat G (menu hero), 2026-10-19. Everything uncommitted, nothing staged. Originals of the edited files: work/menu-hero/backup/
+# --- Unity (owned)
+Unity/Assets/Scripts/Hub/HubHeroAnimator.cs        # arms hang closer (upper .2->.13 out, forearm in, less forward); Idle clip's baked racket-arm clearance off while standing relaxed; PoseRelaxed()/IdleClip for the export
+Unity/Assets/Scripts/Tennis/HeroAccessories.cs     # new BackCarry item racket_back (hero's own racket cloned onto Back_Racket under UpperChest), SetCarry(carried, item), BackRacketPose()
+Unity/Assets/Editor/MatchHeroLockerExport.cs       # "relaxed" lobby clip baked from the plaza stand (15 Hz, 8.7 s loop); golf bag exported as Acc_Bag (2048 lobby maps); manifest backRacket matrix; per-motion sample rate
+Unity/Assets/Tests/EditMode/HeroAccessoriesTests.cs # racket_back excluded from the item-data test; new RacketOnTheBackSwapsWithTheBag
+# --- Unity (minimal hooks in other chats' / shared files)
+Unity/Assets/Scripts/Hub/HubPlayer.cs              # SetBackCarry(item); plaza hero carries the pick
+Unity/Assets/Scripts/Hub/HubWorld.cs               # ApplyLook(..., back) -> Player.SetBackCarry (chat I owns doors/GatherParty; one line)
+Unity/Assets/Scripts/Game/NativeSportsSession.cs   # Message.back field (one line; chat C edits other lines of this file)
+Unity/Assets/Scripts/Game/NativeSportsSession.Hub.cs # pass m.back to ApplyLook (3 calls)
+# --- Swift (owned)
+GolfArcade/Unity/CharacterModelPreview.swift       # backCarry parameter: relaxed stand + back item (racket on the back / golf bag), racket out of the hand
+GolfArcade/Unity/MatchHeroMotion.swift             # MenuMotion.idle ("ready" | "relaxed"), MenuMotion.relaxed; HeroRig.racketOnBack
+GolfArcade/Unity/MatchHeroData.swift               # manifest backRacket/backRacketBone; Acc_Bag hidden unless picked
+GolfArcade/Unity/LockerStudio.swift                # Customize tab "Back: Racket | Golf bag" row; Customize stage shows the pick
+GolfArcade/Unity/MotionClubMenus.swift             # main menu camera 3.4/3.25 -> 2.8/2.7; back pick on the tennis home hero
+# --- Swift (minimal hooks)
+GolfArcade/Domain/Player.swift                     # backCarryValue / backCarry (BackCarry enum: bag | racket), optional for old saves
+GolfArcade/Unity/TennisMenu.swift                  # lk-back focus row, tap + sideways flip, voice label
+GolfArcade/Unity/HubSession.swift                  # "back" in the plaza look message (one line; chat I edits this file too)
+GolfArcadeTests/LockerTests.swift                  # Customize rows include lk-back; testBackPickTogglesAndIsSaved
+GolfArcadeTests/VisualOverhaulNativeTests.swift    # bone counts of the 10-19 exports (+1 Back_Bag); golden test handles the cap's single-bone skinner (was an index-out-of-range crash) + guards
+GolfArcadeTests/MatchHeroLockerTests.swift         # part list includes Acc_Cap + Acc_Bag
+# --- hero sync outputs (sync_heroes.sh)
+work/hero-sync/look_sources.txt                    # + HubHeroAnimator.cs and the golf bag data (both feed the lobby export now)
+GolfArcade/Unity/CharacterAssets/MatchHero_*, GolfKitHero_*    # re-exported (list in work/menu-hero/logs/sync.log); NEW MatchHero_Acc_<Sex>_golf_bag_Bag_{M,N}.{png,ktx} (2048, tools/bag_ktx.sh)
+GolfArcadeTests/VisualGolden/*                      # goldens + provenance.json from the sync
+work/hero-sync/sheets/*                             # lobby-vs-game parity sheets
+# --- work files (new)
+work/menu-hero/{GATE_RESULTS.md,CHANGED_FILES.txt,REFERENCES.md,refs/,proof/,logs/,tools/,unity/MenuHeroPlazaProof.cs,backup/}
+# Clone: ~/unity-clones/menu-hero ; simulator: "G menu-hero iPhone 17 Pro" (work/menu-hero/tools/sim_udid.txt)

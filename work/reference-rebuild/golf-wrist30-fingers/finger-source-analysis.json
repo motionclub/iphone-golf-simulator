@@ -1,0 +1,1089 @@
+[
+  {
+    "label": "female_Driver_top",
+    "fourFingerVertices": 601,
+    "triangles": 1085,
+    "stretchPercentiles": [
+      1.0000018555012,
+      1.3389708308277037,
+      2.7357804292595618,
+      3.831038723964158
+    ],
+    "weldWeightSplits": 0,
+    "maxAliasSeparationMm": 0,
+    "worstTriangles": [
+      {
+        "triangle": 22311,
+        "vertices": [
+          3280,
+          3564,
+          3565
+        ],
+        "maxEdgeStretch": 3.831038723964158,
+        "restEdgeMm": [
+          8.05384854230276,
+          4.315200845480707,
+          9.095115249075855
+        ],
+        "posedEdgeMm": [
+          30.854605642504154,
+          4.315204031921844,
+          31.391819710784212
+        ],
+        "weights": [
+          {
+            "RightHand": 0.46562060713768005,
+            "RightIndexProximal": 0.29963892698287964,
+            "RightIndexIntermediate": 0.2347404807806015
+          },
+          {
+            "RightIndexIntermediate": 1.0
+          },
+          {
+            "RightIndexIntermediate": 1.0
+          }
+        ]
+      },
+      {
+        "triangle": 22314,
+        "vertices": [
+          3279,
+          3564,
+          3280
+        ],
+        "maxEdgeStretch": 3.831038723964158,
+        "restEdgeMm": [
+          8.789259546242397,
+          8.05384854230276,
+          4.711176017715737
+        ],
+        "posedEdgeMm": [
+          19.837721279345295,
+          30.854605642504154,
+          11.384381765790822
+        ],
+        "weights": [
+          {
+            "RightHand": 0.19919702410697937,
+            "RightIndexProximal": 0.4631362855434418,
+            "RightIndexIntermediate": 0.33766669034957886
+          },
+          {
+            "RightIndexIntermediate": 1.0
+          },
+          {
+            "RightHand": 0.46562060713768005,
+            "RightIndexProximal": 0.29963892698287964,
+            "RightIndexIntermediate": 0.2347404807806015
+          }
+        ]
+      },
+      {
+        "triangle": 21387,
+        "vertices": [
+          7068,
+          3111,
+          3214
+        ],
+        "maxEdgeStretch": 3.7270123831328412,
+        "restEdgeMm": [
+          7.754503964089461,
+          7.348803466812637,
+          2.849367525428155
+        ],
+        "posedEdgeMm": [
+          10.331644725528351,
+          7.386448893459223,
+          10.619628051367316
+        ],
+        "weights": [
+          {
+            "RightHand": 0.04891473427414894,
+            "RightMiddleProximal": 0.9510852694511414
+          },
+          {
+            "RightHand": 0.30400168895721436,
+            "RightIndexProximal": 0.009476427920162678,
+            "RightMiddleProximal": 0.6865218877792358
+          },
+          {
+            "RightHand": 0.21728116273880005,
+            "RightIndexProximal": 0.6235471367835999,
+            "RightMiddleProximal": 0.1591716855764389
+          }
+        ]
+      },
+      {
+        "triangle": 21814,
+        "vertices": [
+          12829,
+          12834,
+          12826
+        ],
+        "maxEdgeStretch": 3.5695909044956156,
+        "restEdgeMm": [
+          10.55552573396633,
+          9.100057065787226,
+          5.148647463878146
+        ],
+        "posedEdgeMm": [
+          22.953085957165197,
+          6.592043466545327,
+          18.378565157513847
+        ],
+        "weights": [
+          {
+            "RightHand": 0.46682193875312805,
+            "RightRingProximal": 0.5207639932632446,
+            "RightRingIntermediate": 0.01241407822817564
+          },
+          {
+            "RightHand": 0.10680575668811798,
+            "RightRingProximal": 0.008897850289940834,
+            "RightRingIntermediate": 0.8842964172363281
+          },
+          {
+            "RightHand": 0.11830099672079086,
+            "RightRingProximal": 0.8816990256309509
+          }
+        ]
+      },
+      {
+        "triangle": 22312,
+        "vertices": [
+          3280,
+          3565,
+          3547
+        ],
+        "maxEdgeStretch": 3.451503235648817,
+        "restEdgeMm": [
+          9.095115249075855,
+          7.932995344152699,
+          4.711179389456479
+        ],
+        "posedEdgeMm": [
+          31.391819710784212,
+          22.36168457735761,
+          10.156239697222981
+        ],
+        "weights": [
+          {
+            "RightHand": 0.46562060713768005,
+            "RightIndexProximal": 0.29963892698287964,
+            "RightIndexIntermediate": 0.2347404807806015
+          },
+          {
+            "RightIndexIntermediate": 1.0
+          },
+          {
+            "RightHand": 0.3209640681743622,
+            "RightIndexProximal": 0.40865254402160645,
+            "RightIndexIntermediate": 0.27038338780403137
+          }
+        ]
+      },
+      {
+        "triangle": 21813,
+        "vertices": [
+          12829,
+          12837,
+          12834
+        ],
+        "maxEdgeStretch": 2.978445799044741,
+        "restEdgeMm": [
+          9.437081195640074,
+          4.255114045494256,
+          10.55552573396633
+        ],
+        "posedEdgeMm": [
+          28.107834842398294,
+          5.756301672501411,
+          22.953085957165197
+        ],
+        "weights": [
+          {
+            "RightHand": 0.46682193875312805,
+            "RightRingProximal": 0.5207639932632446,
+            "RightRingIntermediate": 0.01241407822817564
+          },
+          {
+            "RightHand": 0.04176555946469307,
+            "RightRingProximal": 0.02733769826591015,
+            "RightRingIntermediate": 0.9308967590332031
+          },
+          {
+            "RightHand": 0.10680575668811798,
+            "RightRingProximal": 0.008897850289940834,
+            "RightRingIntermediate": 0.8842964172363281
+          }
+        ]
+      },
+      {
+        "triangle": 21817,
+        "vertices": [
+          12827,
+          12835,
+          12836
+        ],
+        "maxEdgeStretch": 2.853067607030158,
+        "restEdgeMm": [
+          9.447073196090201,
+          4.315196357967667,
+          10.46558755653413
+        ],
+        "posedEdgeMm": [
+          26.831642533536172,
+          4.297892818927267,
+          29.859028846085426
+        ],
+        "weights": [
+          {
+            "RightHand": 0.39426204562187195,
+            "RightRingProximal": 0.5815311670303345,
+            "RightRingIntermediate": 0.02420680783689022
+          },
+          {
+            "RightRingProximal": 0.045337215065956116,
+            "RightRingIntermediate": 0.9546627998352051
+          },
+          {
+            "RightRingProximal": 0.0462258942425251,
+            "RightRingIntermediate": 0.953774094581604
+          }
+        ]
+      },
+      {
+        "triangle": 21820,
+        "vertices": [
+          12825,
+          12835,
+          12827
+        ],
+        "maxEdgeStretch": 2.840206906054333,
+        "restEdgeMm": [
+          10.274628407185313,
+          9.447073196090201,
+          5.148647463878146
+        ],
+        "posedEdgeMm": [
+          12.683482275978138,
+          26.831642533536172,
+          14.43529953728891
+        ],
+        "weights": [
+          {
+            "RightHand": 0.056987907737493515,
+            "RightRingProximal": 0.9330881237983704,
+            "RightRingIntermediate": 0.009923950769007206
+          },
+          {
+            "RightRingProximal": 0.045337215065956116,
+            "RightRingIntermediate": 0.9546627998352051
+          },
+          {
+            "RightHand": 0.39426204562187195,
+            "RightRingProximal": 0.5815311670303345,
+            "RightRingIntermediate": 0.02420680783689022
+          }
+        ]
+      },
+      {
+        "triangle": 22309,
+        "vertices": [
+          3547,
+          3565,
+          3562
+        ],
+        "maxEdgeStretch": 2.8188198287346906,
+        "restEdgeMm": [
+          7.932995344152699,
+          4.255086250553012,
+          9.124074554871573
+        ],
+        "posedEdgeMm": [
+          22.36168457735761,
+          4.255091515135242,
+          20.799828344293505
+        ],
+        "weights": [
+          {
+            "RightHand": 0.3209640681743622,
+            "RightIndexProximal": 0.40865254402160645,
+            "RightIndexIntermediate": 0.27038338780403137
+          },
+          {
+            "RightIndexIntermediate": 1.0
+          },
+          {
+            "RightIndexIntermediate": 1.0
+          }
+        ]
+      },
+      {
+        "triangle": 21835,
+        "vertices": [
+          12817,
+          12825,
+          12827
+        ],
+        "maxEdgeStretch": 2.803707116978587,
+        "restEdgeMm": [
+          5.46166733513866,
+          5.148647463878146,
+          8.490694489831483
+        ],
+        "posedEdgeMm": [
+          12.440525894955414,
+          14.43529953728891,
+          5.977521937098162
+        ],
+        "weights": [
+          {
+            "RightHand": 0.26681336760520935,
+            "RightRingProximal": 0.733186662197113
+          },
+          {
+            "RightHand": 0.056987907737493515,
+            "RightRingProximal": 0.9330881237983704,
+            "RightRingIntermediate": 0.009923950769007206
+          },
+          {
+            "RightHand": 0.39426204562187195,
+            "RightRingProximal": 0.5815311670303345,
+            "RightRingIntermediate": 0.02420680783689022
+          }
+        ]
+      }
+    ],
+    "worstAliases": []
+  },
+  {
+    "label": "female_Putter_address",
+    "fourFingerVertices": 601,
+    "triangles": 1085,
+    "stretchPercentiles": [
+      1.0000003814022842,
+      1.3408174496533452,
+      2.8645839950381595,
+      4.3409377644053775
+    ],
+    "weldWeightSplits": 0,
+    "maxAliasSeparationMm": 0,
+    "worstTriangles": [
+      {
+        "triangle": 21387,
+        "vertices": [
+          7068,
+          3111,
+          3214
+        ],
+        "maxEdgeStretch": 4.3409377644053775,
+        "restEdgeMm": [
+          7.754503964089461,
+          7.348803466812637,
+          2.849367525428155
+        ],
+        "posedEdgeMm": [
+          10.55190893744827,
+          8.647700064939734,
+          12.368927095801379
+        ],
+        "weights": [
+          {
+            "RightHand": 0.04891473427414894,
+            "RightMiddleProximal": 0.9510852694511414
+          },
+          {
+            "RightHand": 0.30400168895721436,
+            "RightIndexProximal": 0.009476427920162678,
+            "RightMiddleProximal": 0.6865218877792358
+          },
+          {
+            "RightHand": 0.21728116273880005,
+            "RightIndexProximal": 0.6235471367835999,
+            "RightMiddleProximal": 0.1591716855764389
+          }
+        ]
+      },
+      {
+        "triangle": 22314,
+        "vertices": [
+          3279,
+          3564,
+          3280
+        ],
+        "maxEdgeStretch": 3.925636948690329,
+        "restEdgeMm": [
+          8.789259546242397,
+          8.05384854230276,
+          4.711176017715737
+        ],
+        "posedEdgeMm": [
+          19.90269599516528,
+          31.616485416819454,
+          12.212281558555407
+        ],
+        "weights": [
+          {
+            "RightHand": 0.19919702410697937,
+            "RightIndexProximal": 0.4631362855434418,
+            "RightIndexIntermediate": 0.33766669034957886
+          },
+          {
+            "RightIndexIntermediate": 1.0
+          },
+          {
+            "RightHand": 0.46562060713768005,
+            "RightIndexProximal": 0.29963892698287964,
+            "RightIndexIntermediate": 0.2347404807806015
+          }
+        ]
+      },
+      {
+        "triangle": 22311,
+        "vertices": [
+          3280,
+          3564,
+          3565
+        ],
+        "maxEdgeStretch": 3.925636948690329,
+        "restEdgeMm": [
+          8.05384854230276,
+          4.315200845480707,
+          9.095115249075855
+        ],
+        "posedEdgeMm": [
+          31.616485416819454,
+          4.315200643725636,
+          32.22621194719109
+        ],
+        "weights": [
+          {
+            "RightHand": 0.46562060713768005,
+            "RightIndexProximal": 0.29963892698287964,
+            "RightIndexIntermediate": 0.2347404807806015
+          },
+          {
+            "RightIndexIntermediate": 1.0
+          },
+          {
+            "RightIndexIntermediate": 1.0
+          }
+        ]
+      },
+      {
+        "triangle": 21814,
+        "vertices": [
+          12829,
+          12834,
+          12826
+        ],
+        "maxEdgeStretch": 3.688558439273338,
+        "restEdgeMm": [
+          10.55552573396633,
+          9.100057065787226,
+          5.148647463878146
+        ],
+        "posedEdgeMm": [
+          23.043277273960893,
+          6.648633925996871,
+          18.991087053731007
+        ],
+        "weights": [
+          {
+            "RightHand": 0.46682193875312805,
+            "RightRingProximal": 0.5207639932632446,
+            "RightRingIntermediate": 0.01241407822817564
+          },
+          {
+            "RightHand": 0.10680575668811798,
+            "RightRingProximal": 0.008897850289940834,
+            "RightRingIntermediate": 0.8842964172363281
+          },
+          {
+            "RightHand": 0.11830099672079086,
+            "RightRingProximal": 0.8816990256309509
+          }
+        ]
+      },
+      {
+        "triangle": 22312,
+        "vertices": [
+          3280,
+          3565,
+          3547
+        ],
+        "maxEdgeStretch": 3.5432439353053344,
+        "restEdgeMm": [
+          9.095115249075855,
+          7.932995344152699,
+          4.711179389456479
+        ],
+        "posedEdgeMm": [
+          32.22621194719109,
+          22.671965394520846,
+          10.645665573451264
+        ],
+        "weights": [
+          {
+            "RightHand": 0.46562060713768005,
+            "RightIndexProximal": 0.29963892698287964,
+            "RightIndexIntermediate": 0.2347404807806015
+          },
+          {
+            "RightIndexIntermediate": 1.0
+          },
+          {
+            "RightHand": 0.3209640681743622,
+            "RightIndexProximal": 0.40865254402160645,
+            "RightIndexIntermediate": 0.27038338780403137
+          }
+        ]
+      },
+      {
+        "triangle": 21813,
+        "vertices": [
+          12829,
+          12837,
+          12834
+        ],
+        "maxEdgeStretch": 2.996095781169606,
+        "restEdgeMm": [
+          9.437081195640074,
+          4.255114045494256,
+          10.55552573396633
+        ],
+        "posedEdgeMm": [
+          28.274399156812244,
+          5.821619209456932,
+          23.043277273960893
+        ],
+        "weights": [
+          {
+            "RightHand": 0.46682193875312805,
+            "RightRingProximal": 0.5207639932632446,
+            "RightRingIntermediate": 0.01241407822817564
+          },
+          {
+            "RightHand": 0.04176555946469307,
+            "RightRingProximal": 0.02733769826591015,
+            "RightRingIntermediate": 0.9308967590332031
+          },
+          {
+            "RightHand": 0.10680575668811798,
+            "RightRingProximal": 0.008897850289940834,
+            "RightRingIntermediate": 0.8842964172363281
+          }
+        ]
+      },
+      {
+        "triangle": 21385,
+        "vertices": [
+          12801,
+          3150,
+          7069
+        ],
+        "maxEdgeStretch": 2.9503091937650225,
+        "restEdgeMm": [
+          7.762692346043702,
+          8.389515807429191,
+          3.0339969665364914
+        ],
+        "posedEdgeMm": [
+          9.268525048478045,
+          10.175228296794291,
+          8.951229144227801
+        ],
+        "weights": [
+          {
+            "RightMiddleProximal": 0.048689693212509155,
+            "RightRingProximal": 0.9513102769851685
+          },
+          {
+            "RightHand": 0.18211907148361206,
+            "RightMiddleProximal": 0.11727592349052429,
+            "RightRingProximal": 0.7006049752235413
+          },
+          {
+            "RightMiddleProximal": 0.5426014065742493,
+            "RightRingProximal": 0.45739859342575073
+          }
+        ]
+      },
+      {
+        "triangle": 21820,
+        "vertices": [
+          12825,
+          12835,
+          12827
+        ],
+        "maxEdgeStretch": 2.872067703734229,
+        "restEdgeMm": [
+          10.274628407185313,
+          9.447073196090201,
+          5.148647463878146
+        ],
+        "posedEdgeMm": [
+          12.602148922248215,
+          26.803209042455034,
+          14.78726409891757
+        ],
+        "weights": [
+          {
+            "RightHand": 0.056987907737493515,
+            "RightRingProximal": 0.9330881237983704,
+            "RightRingIntermediate": 0.009923950769007206
+          },
+          {
+            "RightRingProximal": 0.045337215065956116,
+            "RightRingIntermediate": 0.9546627998352051
+          },
+          {
+            "RightHand": 0.39426204562187195,
+            "RightRingProximal": 0.5815311670303345,
+            "RightRingIntermediate": 0.02420680783689022
+          }
+        ]
+      },
+      {
+        "triangle": 21835,
+        "vertices": [
+          12817,
+          12825,
+          12827
+        ],
+        "maxEdgeStretch": 2.872067703734229,
+        "restEdgeMm": [
+          5.46166733513866,
+          5.148647463878146,
+          8.490694489831483
+        ],
+        "posedEdgeMm": [
+          12.89857910250847,
+          14.78726409891757,
+          5.349490223401162
+        ],
+        "weights": [
+          {
+            "RightHand": 0.26681336760520935,
+            "RightRingProximal": 0.733186662197113
+          },
+          {
+            "RightHand": 0.056987907737493515,
+            "RightRingProximal": 0.9330881237983704,
+            "RightRingIntermediate": 0.009923950769007206
+          },
+          {
+            "RightHand": 0.39426204562187195,
+            "RightRingProximal": 0.5815311670303345,
+            "RightRingIntermediate": 0.02420680783689022
+          }
+        ]
+      },
+      {
+        "triangle": 22325,
+        "vertices": [
+          3273,
+          3547,
+          3278
+        ],
+        "maxEdgeStretch": 2.8714137122477577,
+        "restEdgeMm": [
+          6.652829512567697,
+          5.148619506596252,
+          7.507449841070497
+        ],
+        "posedEdgeMm": [
+          6.9048761408992485,
+          14.783816650386761,
+          12.54824020512562
+        ],
+        "weights": [
+          {
+            "RightHand": 0.18648892641067505,
+            "RightIndexProximal": 0.813511073589325
+          },
+          {
+            "RightHand": 0.3209640681743622,
+            "RightIndexProximal": 0.40865254402160645,
+            "RightIndexIntermediate": 0.27038338780403137
+          },
+          {
+            "RightHand": 0.0425419881939888,
+            "RightIndexProximal": 0.7774604558944702,
+            "RightIndexIntermediate": 0.17999756336212158
+          }
+        ]
+      }
+    ],
+    "worstAliases": []
+  },
+  {
+    "label": "male_Driver_top",
+    "fourFingerVertices": 951,
+    "triangles": 1792,
+    "stretchPercentiles": [
+      1.0000007939294573,
+      1.4083032326606135,
+      2.548176324405278,
+      4.92894810424508
+    ],
+    "weldWeightSplits": 0,
+    "maxAliasSeparationMm": 0,
+    "worstTriangles": [
+      {
+        "triangle": 39408,
+        "vertices": [
+          31263,
+          31274,
+          31264
+        ],
+        "maxEdgeStretch": 4.92894810424508,
+        "restEdgeMm": [
+          8.94148705479325,
+          5.049246970050256,
+          7.104175805834968
+        ],
+        "posedEdgeMm": [
+          26.452328400312904,
+          24.88747628089443,
+          5.9175078410156345
+        ],
+        "weights": [
+          {
+            "RightHand": 0.48024287819862366,
+            "RightLittleProximal": 0.08242568373680115,
+            "RightLittleIntermediate": 0.43733149766921997
+          },
+          {
+            "RightHand": 0.16569004952907562,
+            "RightLittleIntermediate": 0.8283260464668274,
+            "RightLittleDistal": 0.005983895622193813
+          },
+          {
+            "RightHand": 0.4839424788951874,
+            "RightLittleProximal": 0.1097891554236412,
+            "RightLittleIntermediate": 0.4062683582305908
+          }
+        ]
+      },
+      {
+        "triangle": 39405,
+        "vertices": [
+          31264,
+          31274,
+          31275
+        ],
+        "maxEdgeStretch": 4.92894810424508,
+        "restEdgeMm": [
+          5.049246970050256,
+          6.8998135100824864,
+          8.937500898811512
+        ],
+        "posedEdgeMm": [
+          24.88747628089443,
+          8.860810164598186,
+          31.406537794509152
+        ],
+        "weights": [
+          {
+            "RightHand": 0.4839424788951874,
+            "RightLittleProximal": 0.1097891554236412,
+            "RightLittleIntermediate": 0.4062683582305908
+          },
+          {
+            "RightHand": 0.16569004952907562,
+            "RightLittleIntermediate": 0.8283260464668274,
+            "RightLittleDistal": 0.005983895622193813
+          },
+          {
+            "RightHand": 0.07856427878141403,
+            "RightLittleIntermediate": 0.9035142660140991,
+            "RightLittleDistal": 0.01792144775390625
+          }
+        ]
+      },
+      {
+        "triangle": 39410,
+        "vertices": [
+          31262,
+          31273,
+          31263
+        ],
+        "maxEdgeStretch": 4.746555435356697,
+        "restEdgeMm": [
+          8.863904903127347,
+          5.085834058015996,
+          7.399710382146074
+        ],
+        "posedEdgeMm": [
+          12.304830756181923,
+          24.14019329139803,
+          13.107010335931578
+        ],
+        "weights": [
+          {
+            "RightHand": 0.23788709938526154,
+            "RightLittleProximal": 0.11209354549646378,
+            "RightLittleIntermediate": 0.6500193476676941
+          },
+          {
+            "RightHand": 0.1612270027399063,
+            "RightLittleIntermediate": 0.8387730121612549
+          },
+          {
+            "RightHand": 0.48024287819862366,
+            "RightLittleProximal": 0.08242568373680115,
+            "RightLittleIntermediate": 0.43733149766921997
+          }
+        ]
+      },
+      {
+        "triangle": 39407,
+        "vertices": [
+          31263,
+          31273,
+          31274
+        ],
+        "maxEdgeStretch": 4.746555435356697,
+        "restEdgeMm": [
+          5.085834058015996,
+          6.714272737270431,
+          8.94148705479325
+        ],
+        "posedEdgeMm": [
+          24.14019329139803,
+          5.991319975460046,
+          26.452328400312904
+        ],
+        "weights": [
+          {
+            "RightHand": 0.48024287819862366,
+            "RightLittleProximal": 0.08242568373680115,
+            "RightLittleIntermediate": 0.43733149766921997
+          },
+          {
+            "RightHand": 0.1612270027399063,
+            "RightLittleIntermediate": 0.8387730121612549
+          },
+          {
+            "RightHand": 0.16569004952907562,
+            "RightLittleIntermediate": 0.8283260464668274,
+            "RightLittleDistal": 0.005983895622193813
+          }
+        ]
+      },
+      {
+        "triangle": 39409,
+        "vertices": [
+          31262,
+          31272,
+          31273
+        ],
+        "maxEdgeStretch": 3.6291224171917116,
+        "restEdgeMm": [
+          4.562784994202171,
+          6.899780432894334,
+          8.863904903127347
+        ],
+        "posedEdgeMm": [
+          16.558905307285055,
+          6.268205293311739,
+          12.304830756181923
+        ],
+        "weights": [
+          {
+            "RightHand": 0.23788709938526154,
+            "RightLittleProximal": 0.11209354549646378,
+            "RightLittleIntermediate": 0.6500193476676941
+          },
+          {
+            "RightHand": 0.021441595628857613,
+            "RightLittleProximal": 0.017724907025694847,
+            "RightLittleIntermediate": 0.9608334898948669
+          },
+          {
+            "RightHand": 0.1612270027399063,
+            "RightLittleIntermediate": 0.8387730121612549
+          }
+        ]
+      },
+      {
+        "triangle": 39412,
+        "vertices": [
+          31260,
+          31272,
+          31262
+        ],
+        "maxEdgeStretch": 3.6291224171917116,
+        "restEdgeMm": [
+          8.812210276315199,
+          4.562784994202171,
+          7.854400243132168
+        ],
+        "posedEdgeMm": [
+          9.447670471528983,
+          16.558905307285055,
+          8.164527859850567
+        ],
+        "weights": [
+          {
+            "RightHand": 0.030825160443782806,
+            "RightLittleProximal": 0.1742883324623108,
+            "RightLittleIntermediate": 0.7948865294456482
+          },
+          {
+            "RightHand": 0.021441595628857613,
+            "RightLittleProximal": 0.017724907025694847,
+            "RightLittleIntermediate": 0.9608334898948669
+          },
+          {
+            "RightHand": 0.23788709938526154,
+            "RightLittleProximal": 0.11209354549646378,
+            "RightLittleIntermediate": 0.6500193476676941
+          }
+        ]
+      },
+      {
+        "triangle": 39406,
+        "vertices": [
+          31264,
+          31275,
+          31265
+        ],
+        "maxEdgeStretch": 3.514017861378399,
+        "restEdgeMm": [
+          8.937500898811512,
+          4.455163791010104,
+          7.399702305793243
+        ],
+        "posedEdgeMm": [
+          31.406537794509152,
+          15.128077804463299,
+          17.26538943500148
+        ],
+        "weights": [
+          {
+            "RightHand": 0.4839424788951874,
+            "RightLittleProximal": 0.1097891554236412,
+            "RightLittleIntermediate": 0.4062683582305908
+          },
+          {
+            "RightHand": 0.07856427878141403,
+            "RightLittleIntermediate": 0.9035142660140991,
+            "RightLittleDistal": 0.01792144775390625
+          },
+          {
+            "RightHand": 0.23085592687129974,
+            "RightLittleProximal": 0.22776837646961212,
+            "RightLittleIntermediate": 0.5413756966590881
+          }
+        ]
+      },
+      {
+        "triangle": 39403,
+        "vertices": [
+          31265,
+          31275,
+          31271
+        ],
+        "maxEdgeStretch": 3.3956277511030315,
+        "restEdgeMm": [
+          4.455163791010104,
+          7.189851723206219,
+          8.503901997111809
+        ],
+        "posedEdgeMm": [
+          15.128077804463299,
+          5.656133757327519,
+          16.342992954303586
+        ],
+        "weights": [
+          {
+            "RightHand": 0.23085592687129974,
+            "RightLittleProximal": 0.22776837646961212,
+            "RightLittleIntermediate": 0.5413756966590881
+          },
+          {
+            "RightHand": 0.07856427878141403,
+            "RightLittleIntermediate": 0.9035142660140991,
+            "RightLittleDistal": 0.01792144775390625
+          },
+          {
+            "RightHand": 0.027821294963359833,
+            "RightLittleProximal": 0.14902342855930328,
+            "RightLittleIntermediate": 0.8231552839279175
+          }
+        ]
+      },
+      {
+        "triangle": 39099,
+        "vertices": [
+          31009,
+          478,
+          751
+        ],
+        "maxEdgeStretch": 3.150400876031001,
+        "restEdgeMm": [
+          8.844530370426762,
+          9.243612126635341,
+          5.7180260014673525
+        ],
+        "posedEdgeMm": [
+          11.95594867124917,
+          12.949721489183286,
+          18.01407412419079
+        ],
+        "weights": [
+          {
+            "RightMiddleProximal": 0.05917961895465851,
+            "RightRingProximal": 0.9408203959465027
+          },
+          {
+            "RightMiddleProximal": 0.4803193211555481,
+            "RightRingProximal": 0.5196806788444519
+          },
+          {
+            "RightMiddleProximal": 0.8900792598724365,
+            "RightRingProximal": 0.10992076992988586
+          }
+        ]
+      },
+      {
+        "triangle": 39388,
+        "vertices": [
+          31273,
+          31284,
+          31274
+        ],
+        "maxEdgeStretch": 3.109776544612564,
+        "restEdgeMm": [
+          9.09387078541678,
+          5.725824170315975,
+          6.714272737270431
+        ],
+        "posedEdgeMm": [
+          20.13374303133894,
+          17.806033703424315,
+          5.991319975460046
+        ],
+        "weights": [
+          {
+            "RightHand": 0.1612270027399063,
+            "RightLittleIntermediate": 0.8387730121612549
+          },
+          {
+            "RightLittleIntermediate": 0.7974846363067627,
+            "RightLittleDistal": 0.2025153636932373
+          },
+          {
+            "RightHand": 0.16569004952907562,
+            "RightLittleIntermediate": 0.8283260464668274,
+            "RightLittleDistal": 0.005983895622193813
+          }
+        ]
+      }
+    ],
+    "worstAliases": []
+  }
+]

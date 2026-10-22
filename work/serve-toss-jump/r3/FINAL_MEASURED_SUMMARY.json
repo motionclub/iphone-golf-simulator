@@ -1,0 +1,82 @@
+{
+  "male": {
+    "feet_mm": 0.629123,
+    "load_knee_deg": [
+      71.89139,
+      73.9922
+    ],
+    "load_time_s": [
+      1.278853,
+      1.329928
+    ],
+    "toss_knee_deg": 32.94867,
+    "takeoff_s": [
+      1.594016,
+      1.594016
+    ],
+    "front_knee_contact_deg": 12.325557958078779,
+    "elbow_contact_deg": 172.7959434317719,
+    "apex_s": 1.761667,
+    "touch_s": 1.878333,
+    "settled_s": 1.961667,
+    "entry_step_mm": 22.02802210821491,
+    "contact_strings_mm": 13.831245108562078,
+    "rendered_strings_mm": 10.369176293226237,
+    "left_step_mm": 149.682151778359,
+    "right_step_windows_mm": [
+      114.23706033945378,
+      221.18373667383426,
+      118.22323460724715
+    ],
+    "wrist_deg": 12.396925843273607,
+    "drift_mm": 3.9852002459098363,
+    "ready_phases": [
+      0.583333,
+      0.15,
+      1.9,
+      1.466667,
+      1.016667
+    ],
+    "clearance_extra_vertices": -129
+  },
+  "female": {
+    "feet_mm": 0.579543,
+    "load_knee_deg": [
+      71.52415,
+      73.21973
+    ],
+    "load_time_s": [
+      1.278853,
+      1.333333
+    ],
+    "toss_knee_deg": 33.8577,
+    "takeoff_s": [
+      1.594016,
+      1.594016
+    ],
+    "front_knee_contact_deg": 12.253402457399893,
+    "elbow_contact_deg": 172.4428,
+    "apex_s": 1.761667,
+    "touch_s": 1.878333,
+    "settled_s": 1.961667,
+    "entry_step_mm": 19.14884458655409,
+    "contact_strings_mm": 10.684353530326307,
+    "rendered_strings_mm": 10.050819966549899,
+    "left_step_mm": 131.12881631815404,
+    "right_step_windows_mm": [
+      111.97044380549723,
+      125.72732166876064,
+      116.11482219768517
+    ],
+    "wrist_deg": 11.825199203887905,
+    "drift_mm": 3.8874188094415896,
+    "ready_phases": [
+      0.583333,
+      0.15,
+      1.9,
+      1.466667,
+      1.016667
+    ],
+    "clearance_extra_vertices": -36
+  }
+}

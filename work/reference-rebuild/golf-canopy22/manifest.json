@@ -1,0 +1,52 @@
+{
+  "status": "source review PASS; actual Unity visual/performance acceptance pending",
+  "resource": "Course/Resort/GolfTropicalCanopy22",
+  "toggle": "VISUAL_GOLF_CANOPY22=1",
+  "eligibleHoles": [
+    16,
+    19,
+    21,
+    22,
+    23
+  ],
+  "source": "Corrected work/reference-rebuild/tennis-resort-finish1 curved arch source, derived from golf-canopy20",
+  "assetSHA256": "9682f08e4e8c339e0ac43461e885c2ab83a9471fedd3acd3378c99942bf6a82e",
+  "codeBaselineSHA256": "ea75dfb5f82498ac1db979fc3a894851836528d1b492085c04728bfb969482e7",
+  "representations": {
+    "near": {
+      "triangles": 20252,
+      "vertices": 17472,
+      "fronds": 18,
+      "featherletPairs": 22,
+      "bladeSamples": 7
+    },
+    "far": {
+      "triangles": 15108,
+      "vertices": 13496,
+      "fronds": 18,
+      "featherletPairs": 20,
+      "bladeSamples": 6
+    }
+  },
+  "unchanged": [
+    "all original marker stream and RNG",
+    "normalized roots, height/radius/yaw and source role pivots",
+    "collider/ground/obstacle data",
+    "all palettes",
+    "Add proportions and authored normal preservation",
+    "spatial batching and LOD thresholds",
+    "existing Canopy20 behavior when Canopy22 is not1"
+  ],
+  "sourceNearFarWidthDifferencePercent": 0.25259763411424885,
+  "coverage": {
+    "control_near": 50524,
+    "control_far": 34956,
+    "canopy20_near": 53258,
+    "canopy20_far": 37317,
+    "candidate_near": 62405,
+    "candidate_far": 63183,
+    "method": "Alpha>=128 in fixed crown ROI x65:565 y100:385; matched640x480 source camera, median golf18.3m trunk-scale/10.04m crown-radius-scale and hole22 palette. Small trunk segment included; source proof only.",
+    "nearGainVs20": 17.17488452439071,
+    "farGainVs20": 69.31425355735992
+  }
+}

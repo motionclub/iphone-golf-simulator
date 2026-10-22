@@ -35,7 +35,10 @@ struct MotionClubHome: View {
             ZStack {
                 IslandBackdrop()
                 if compact { LinearGradient(colors: [.clear, IslandUI.paper.opacity(0.95)], startPoint: .top, endPoint: .bottom).ignoresSafeArea() }
-                CharacterModelPreview(player: menu.player ?? Player(name: "Player 1", colorIndex: 0), cameraDistance: compact ? 3.4 : 3.25, outfitSport: menu.homeSport, menuActivity: .play)
+                // MENU HERO (Adnan 10-19 "zoom into character a bit more"): about 18 % closer (was 3.4 / 3.25). Tennis: the relaxed stand with the
+                // locker's back pick (racket or golf bag) instead of the ready crouch holding the racket out.
+                CharacterModelPreview(player: menu.player ?? Player(name: "Player 1", colorIndex: 0), cameraDistance: compact ? 2.8 : 2.7, outfitSport: menu.homeSport, menuActivity: .play,
+                                      backCarry: menu.homeSport == .tennis ? (menu.player ?? Player(name: "Player 1", colorIndex: 0)).backCarry : nil)
                     .frame(width: w * (compact ? 0.87 : 0.56), height: h * (compact ? 0.48 : 0.86))
                     .position(x: w * (compact ? 0.55 : 0.73), y: h * (compact ? 0.30 : 0.56))
                     .allowsHitTesting(false)

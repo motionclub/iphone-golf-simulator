@@ -1,0 +1,64 @@
+{
+  "bandSize": 1024,
+  "fairwayBand": "REPLACE_WITH_ABSOLUTE_V3_PATH/fairway.f32",
+  "greenBand": "REPLACE_WITH_ABSOLUTE_V3_PATH/green.f32",
+  "playY": 6.56167979,
+  "cliffPrefixes": [
+    "ROCK_SKIN",
+    "TERRAIN"
+  ],
+  "holes": [
+    {
+      "hole": 8,
+      "landmarks": [
+        {
+          "name": "arch",
+          "prefixes": [
+            "DRESS_ARCH"
+          ],
+          "splitEachRenderer": false
+        },
+        {
+          "name": "stack",
+          "prefixes": [
+            "ROCK_SEASTACK",
+            "ROCK_SPIRE",
+            "ROCK_NEEDLE"
+          ],
+          "splitEachRenderer": true
+        }
+      ]
+    },
+    {
+      "hole": 9,
+      "landmarks": [
+        {
+          "name": "ruins",
+          "prefixes": [
+            "DRESS_RUIN",
+            "DRESS_ARCH"
+          ],
+          "splitEachRenderer": false
+        }
+      ],
+      "channelXZ": []
+    },
+    {
+      "hole": 10,
+      "landmarks": [
+        {
+          "name": "volcano",
+          "prefixes": [
+            "DRESS_CONE"
+          ],
+          "splitEachRenderer": false
+        },
+        {
+          "name": "pillar",
+          "exactPaths": [],
+          "splitEachRenderer": false
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+split.jpg size 1280 720
+  fairway_strip  crop 40x100 px mean rgb [123, 144, 50] | w8: med 0.0272 p10 0.0198 p90 0.0664 ge.03 33% | w16: med 0.0334 p10 0.0286 p90 0.0631 ge.03 67% | w32: med 0.0559 p10 0.0404 p90 0.0782 ge.03 100% | w64: med nan p10 nan p90 nan ge.03 0%
+  upper_green    crop 135x40 px mean rgb [150, 169, 71] | w8: med 0.0195 p10 0.0128 p90 0.0534 ge.03 24% | w16: med 0.0223 p10 0.0171 p90 0.0454 ge.03 31% | w32: med 0.0320 p10 0.0251 p90 0.0420 ge.03 50% | w64: med nan p10 nan p90 nan ge.03 0%
+  lower_green    crop 100x70 px mean rgb [124, 143, 57] | w8: med 0.0222 p10 0.0148 p90 0.0347 ge.03 18% | w16: med 0.0273 p10 0.0211 p90 0.0475 ge.03 42% | w32: med 0.0371 p10 0.0296 p90 0.0403 ge.03 83% | w64: med 0.0380 p10 0.0380 p90 0.0380 ge.03 100%
+  fairway_mid    crop 60x70 px mean rgb [103, 99, 64] | w8: med 0.1030 p10 0.0816 p90 0.1340 ge.03 98% | w16: med 0.1202 p10 0.1030 p90 0.1345 ge.03 100% | w32: med 0.1248 p10 0.1205 p90 0.1291 ge.03 100% | w64: med nan p10 nan p90 nan ge.03 0%
+  lower_fairway  crop 90x70 px mean rgb [107, 122, 49] | w8: med 0.0451 p10 0.0206 p90 0.1070 ge.03 70% | w16: med 0.0555 p10 0.0308 p90 0.1149 ge.03 90% | w32: med 0.0670 p10 0.0467 p90 0.1293 ge.03 100% | w64: med 0.1119 p10 0.1119 p90 0.1119 ge.03 100%
+needle.jpg size 1280 720
+  mid_green      crop 160x45 px mean rgb [159, 172, 58] | w8: med 0.0386 p10 0.0266 p90 0.1007 ge.03 78% | w16: med 0.0517 p10 0.0367 p90 0.0806 ge.03 100% | w32: med 0.0674 p10 0.0574 p90 0.0900 ge.03 100% | w64: med nan p10 nan p90 nan ge.03 0%
+  top_green      crop 180x33 px mean rgb [152, 169, 61] | w8: med 0.0418 p10 0.0235 p90 0.1066 ge.03 70% | w16: med 0.0713 p10 0.0313 p90 0.1208 ge.03 95% | w32: med 0.0761 p10 0.0643 p90 0.1122 ge.03 100% | w64: med nan p10 nan p90 nan ge.03 0%
+  left_fairway   crop 100x60 px mean rgb [95, 93, 57] | w8: med 0.1072 p10 0.0615 p90 0.1671 ge.03 100% | w16: med 0.1240 p10 0.0940 p90 0.1757 ge.03 100% | w32: med 0.1370 p10 0.1347 p90 0.1540 ge.03 100% | w64: med nan p10 nan p90 nan ge.03 0%
+crater.jpg size 1280 720

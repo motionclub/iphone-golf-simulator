@@ -1,0 +1,17 @@
+OVERVIEW: air binary performance tool
+
+USAGE: air-binary-perf [options] <input file> ...
+
+OPTIONS:
+
+Binary Performance Options:
+
+  --module-load     - Time MODULE_LIST section loading
+  --reflection-load - Time REFLECTION_LIST section loading
+  --script-load     - Time SCRIPT_LIST section loading
+
+Generic Options:
+
+  --help            - Display available options (--help-hidden for more)
+  --help-list       - Display list of available options (--help-list-hidden for more)
+  --version         - Display the version of this program

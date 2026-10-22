@@ -1,0 +1,34 @@
+{
+  "status": "SUPERSEDED: Unity transition visual FAIL for waist overlay; elbow-only candidate awaiting root capture",
+  "source": "proof/reference-rebuild/character-motion-matrices17/poses/male_intro.json and matrices/male_ForehandOpen_4.json",
+  "clip": "male ForehandOpen",
+  "contactTimeSeconds": 0.5333300232887268,
+  "elbowSwivelDegrees": 60,
+  "elbowArcTravelMm": 211.01306322286345,
+  "elbowOutwardXTravelMm": 191.34334450439283,
+  "wristAndUnchangedBoneMatrixMaxAbsoluteError": 0.0,
+  "clothMaxWorldDisplacementMm": 36,
+  "clothMaxLocalDisplacementMm": 36.784945432855416,
+  "clothPositionVertices": 356,
+  "clothFullVertexCount": 15401,
+  "clothSparseAttributesIncludingNormalOnly": 474,
+  "normalDeltaMax": 0.7545092132455703,
+  "bodyMaskAddedFaces": 0,
+  "clipWindowSecondsEitherSide": 0.16,
+  "poseBasisOracleMm": 0.000387,
+  "clothBasisErrorMm": 0.000218,
+  "otherClips": "explicit clip gate gives zero; female/golf excluded",
+  "proof": [
+    "swivel_0_front34.png",
+    "swivel_60_fit_front34.png",
+    "swivel_60_fit_rear34.png",
+    "swivel_60_fit_side.png"
+  ],
+  "remainingValidation": [
+    "Dense contact-window Unity front/rear",
+    "Gameplay hand/socket transform preservation within floating-point tolerance",
+    "Root review of wrist fold"
+  ],
+  "limitations": "Offline reconstruction uses actual Unity bone matrices and garment profiles, but neutral Blender materials; authoritative Unity integration remains with root.",
+  "unityEvidence": "unity-candidate1-gate.json"
+}

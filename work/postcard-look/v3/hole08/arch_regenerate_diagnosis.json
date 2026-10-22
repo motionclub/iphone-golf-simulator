@@ -1,0 +1,42 @@
+[
+  {
+    "arch_scale": 1.25,
+    "depth_m": 1.9,
+    "opening_pass": true,
+    "detail": "through-opening >= 1.5 m wide x 2 m high with crown and piers",
+    "dims": {
+      "r_in": 4.572,
+      "r_out": 5.872,
+      "zs": 6.042,
+      "pw": 1.534,
+      "t": 1.3,
+      "parts": {
+        "ring_and_piers": 312,
+        "haunch": 108
+      },
+      "voff": 5.78809375,
+      "plinth_h": 0.5419999999999998,
+      "pitch": 0.5
+    }
+  },
+  {
+    "arch_scale": 1.25,
+    "depth_m": null,
+    "opening_pass": true,
+    "detail": "through-opening >= 1.5 m wide x 2 m high with crown and piers",
+    "dims": {
+      "r_in": 4.572,
+      "r_out": 5.872,
+      "zs": 6.042,
+      "pw": 1.534,
+      "t": 1.3,
+      "parts": {
+        "ring_and_piers": 312,
+        "haunch": 108
+      },
+      "voff": 5.78809375,
+      "plinth_h": 0.5419999999999998,
+      "pitch": 0.5
+    }
+  }
+]

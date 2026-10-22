@@ -1,0 +1,100 @@
+{
+  "world_source": 18,
+  "audience_source": "GalleryHero4/checkpoint22",
+  "installation": "diagnostic fixture only; production world/FBX/runtime unchanged",
+  "all_holes": [
+    1,
+    2,
+    3,
+    7,
+    8,
+    9,
+    10,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23
+  ],
+  "source_files": [
+    {
+      "path": "Unity/Assets/Editor/GolfGalleryProof.cs",
+      "sha256": "a2b4e62b8282f6a85621973bbe806be300ee98866d0848e0a034bc40aaa7a3dc",
+      "bytes": 6679
+    },
+    {
+      "path": "Unity/Assets/Editor/GolfCourseStandardCapture.cs",
+      "sha256": "9156ceca5f66f33af0b7bdfb0b284faad5be7736aa25b53c9e8bc53f1f4e5ea6",
+      "bytes": 21073
+    },
+    {
+      "path": "Unity/Assets/Editor/VisualOverhaulFrameCosts.cs",
+      "sha256": "a0b143344dd7032a8dfa2d3da608fb59d9728fc8cda56f6caaf4a8bbc7f439ab",
+      "bytes": 18791
+    },
+    {
+      "path": "Unity/Assets/Scripts/Game/GolfGalleryPresentation.cs",
+      "sha256": "66e6ced6acded75614276bea6c83602eafa8324979a790faf165ade3e8e4bf55",
+      "bytes": 8008
+    },
+    {
+      "path": "Unity/Assets/Scripts/Game/Gallery.cs",
+      "sha256": "d9652e6ccd170d61f86c263adbb2c49fa1e6d93266f505e2e0d729d18a737e72",
+      "bytes": 7407
+    },
+    {
+      "path": "Unity/Assets/Resources/Course/Resort/GolfGallerySpectators.fbx",
+      "sha256": "368ca5e6b048c8237b1d31a5946a4da95da5703b6d43c46c14bf9de664947fc3",
+      "bytes": 6720652
+    }
+  ],
+  "jobs": [
+    {
+      "name": "Gallery4-all-seven-near-far-cheer",
+      "executeMethod": "GolfArcade.EditorTools.GolfGalleryProof.Run",
+      "environment": {
+        "GGP_OUT": "../proof/full-visual-overhaul/golf-gallery-proof-5"
+      },
+      "acceptance": "Inspect all seven idle/cheer face and 3.4/8/18yd pictures, group nod/arms poses and recovery; no garment tears, no lost eye geometry, no misplaced feet; Count7 and zero spectator skin rigs/animators/colliders.",
+      "required": false,
+      "reason": "Queue30 compiled this exact cheering-view diagnostic, all requested pictures already reviewed."
+    },
+    {
+      "name": "Final-all19-world-physics-photos",
+      "executeMethod": "GolfArcade.EditorTools.GolfCourseStandardCapture.Run",
+      "environment": {
+        "GOLF_STANDARD_OUT": "../proof/full-visual-overhaul/golf-pass-final",
+        "GOLF_STANDARD_HOLES": "1,2,3,7,8,9,10,12,13,14,15,16,17,18,19,20,21,22,23",
+        "GOLF_STANDARD_SHOWCASE": "1",
+        "GOLF_VISUAL_PHYSICS_GATE": "1"
+      },
+      "acceptance": "GOLF_VISUAL_PHYSICS_GATE=1 is required; all19 holeNN_dressing_physics.json reports must exist and PASS exact before/after dressing equality. All six standard views must exist. Meadow overview excludes distant rough backdrop."
+    },
+    {
+      "name": "Final-all19-completed-frame-costs",
+      "executeMethod": "GolfArcade.EditorTools.VisualOverhaulFrameCosts.Run",
+      "environment": {
+        "GOLF_COST_OUT": "../proof/full-visual-overhaul/golf-costs-final",
+        "GOLF_COST_HOLES": "1,2,3,7,8,9,10,12,13,14,15,16,17,18,19,20,21,22,23"
+      },
+      "acceptance": "All19 valid sole automatically rendered 900x1600 Game-camera sample reports on Metal, three stable completed-frame counter samples, draw calls \u2264250; phone performance remains independent."
+    }
+  ],
+  "ordering": "Root owns execution. Run these sequentially in one source freeze; no agent installs until release. Run close audience proof first and withhold final certification if any art failure remains.",
+  "audience_acceptance": "PASS parent actual GalleryProof4 includes all seven close/distant cheering views already; GalleryProof5 repeat optional, not necessary for coverage.",
+  "audit_note": "Initial final-photo run omitted opt-in guard flag and emitted no physics reports; do not infer a physics result from those photos. Actual final physics requires root rerun with the flag.",
+  "completed_outputs": {
+    "photos": "proof/full-visual-overhaul/golf-pass-final",
+    "costs": "proof/full-visual-overhaul/golf-costs-final",
+    "guarded_physics": "proof/full-visual-overhaul/golf-physics-final",
+    "gallery": "proof/full-visual-overhaul/golf-gallery-proof-4"
+  },
+  "final_gates": "PASS all19 guarded physics and all19 raw-validated completed-frame draw gates; parent actual maps/audience accepted within documented concept partial limits"
+}

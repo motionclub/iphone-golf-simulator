@@ -120,6 +120,7 @@ namespace GolfArcade.Hub
         /// A sky dome of `radius` round `centre` (with the sun disc): the plaza's, and each outdoor sport ground's own.
         public static void SkyDome(Transform root, Vector3 centre, float radius)
         {
+            if (GolfArcade.EnvironmentArt.RenderedBackdrop.HubDome(root, centre, radius)) return;   // rendered backgrounds (work/rendered-backgrounds)
             var dome = Put("Sky", root, HubKit.SkyDome(64, 32), Painted(SkyTexture), centre, null, Vector3.one * radius, false);
             dome.GetComponent<MeshRenderer>().receiveShadows = false;
             var sun = Put("Sun", root, HubShapes.Disc(48), Glow(SunGlow), centre + SunSkyDir * radius * .84f, Quaternion.FromToRotation(Vector3.up, -SunSkyDir), Vector3.one * radius * .026f, false);
@@ -175,6 +176,8 @@ namespace GolfArcade.Hub
             var vig = profile.Add<Vignette>(true); vig.intensity.Override(.2f); vig.smoothness.Override(.45f); vig.color.Override(C("2A2236"));
             var dof = profile.Add<DepthOfField>(true); dof.mode.Override(DepthOfFieldMode.Gaussian); dof.gaussianStart.Override(55); dof.gaussianEnd.Override(220); dof.gaussianMaxRadius.Override(1.1f); dof.highQualitySampling.Override(true);
             volume.sharedProfile = profile;
+            GolfArcade.EnvironmentArt.EnvironmentLook.Hub(RenderSettings.sun);
+            camera.gameObject.AddComponent<GolfArcade.Tennis.SportsPostProcessing>().Initialize(volume);
         }
 
         // ================================================================== the plaza

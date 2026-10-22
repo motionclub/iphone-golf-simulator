@@ -1,0 +1,137 @@
+{
+ "verts": 23247,
+ "polys": 25370,
+ "loops": 97142,
+ "tris": 46402,
+ "materials": [
+  "Base_Grey_F",
+  "Skin_F",
+  "Eye_White",
+  "Iris_Dark",
+  "Pupil",
+  "Brow",
+  "Mouth",
+  "Teeth",
+  "Lip_F",
+  "Ear_Shadow_F"
+ ],
+ "boundary_edges": 0,
+ "nonmanifold_edges": 0,
+ "flipped_edges": 0,
+ "loose_verts": 0,
+ "degenerate_faces": 0,
+ "min_face_area_mm2": 0.01782755356568042,
+ "signed_volume_m3": 0.05573657110712929,
+ "faces_unchanged": 23179,
+ "faces_new": 2191,
+ "unchanged_material_diffs": 0,
+ "unchanged_uv_diffs": 0,
+ "new_faces_material": [
+  "Base_Grey_F"
+ ],
+ "new_faces_uv": [
+  [
+   0.9300000071525574,
+   0.10000000149011612
+  ]
+ ],
+ "normals_loops_equal_start": 88346,
+ "normals_loops_diff_start": 74,
+ "normals_diff_verts": 36,
+ "has_custom_normals": true,
+ "bvh_overlap_pairs_nonadjacent": 3053,
+ "bvh_hand_vs_hand": 0,
+ "bvh_hand_vs_body": 0,
+ "hair_sha": "424d0b0e4f8338d1c2124fb673c99bb69f44ee266433accaa26ee5f3ac162839",
+ "hair_tris": 4960,
+ "objects": {
+  "Body_F": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "Hair_F": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "LOCKED_PLATE_back": [
+   0.537252,
+   -0.55,
+   0.827939,
+   1.570796,
+   0.0,
+   3.141593,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "LOCKED_PLATE_front": [
+   0.519084,
+   0.55,
+   0.827939,
+   1.570796,
+   0.0,
+   0.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "Neutral_Back": [
+   0.0,
+   2.6,
+   3.0,
+   0.915101,
+   -0.0,
+   -3.141593,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "Neutral_Fill": [
+   2.6,
+   -1.8,
+   2.0,
+   1.264519,
+   0.0,
+   0.965252,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "Neutral_Key": [
+   -2.8,
+   -3.4,
+   4.0,
+   0.972858,
+   0.0,
+   -0.688924,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "ProofCamera": [
+   0.0,
+   -5.0,
+   0.827939,
+   1.570796,
+   0.0,
+   0.0,
+   1.0,
+   1.0,
+   1.0
+  ]
+ }
+}

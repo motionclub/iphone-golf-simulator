@@ -1,0 +1,10 @@
+--- Unity/Assets/Scripts/Course/GolfCoastalCliff12.cs
++++ work/reference-rebuild/coastal-fissures7/GolfCoastalCliff12.cs
+@@ -108,6 +108,7 @@
+                     // its authored dark/cool fissures and warmer exposed planes.
+                     material.SetFloat("_PaletteMidpoint",.070f);
+                     material.SetFloat("_DetailContrast",5.2f);
++                    material.SetFloat("_PaletteLightShoulder",.28f);
+                     material.SetColor("_LowColor",new Color(.22f,.28f,.32f));
+                     material.SetColor("_HighColor",new Color(.907f,.8548f,.7134f));
+                 }

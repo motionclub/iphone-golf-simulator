@@ -22,7 +22,7 @@ namespace GolfArcade.Tennis
         static Mesh PrepareBlinkMesh(Mesh source, bool features)
         {
             if (!source || source.blendShapeCount == 0) return source;
-            if (blinkMeshes.TryGetValue(source, out var cached)) return cached;
+            if (blinkMeshes.TryGetValue(source, out var cached) && cached) return cached;
             var frames = new System.Collections.Generic.List<(string name, float weight, Vector3[] positions, Vector3[] normals, Vector3[] tangents)>();
             int cleared = 0;
             for (int shape = 0; shape < source.blendShapeCount; shape++) {

@@ -1,0 +1,31 @@
+{
+ "verts_start": 31628,
+ "verts_staged": 31936,
+ "appended": 308,
+ "moved_original_verts": 3078,
+ "moved_in_hand_shell": 3078,
+ "shell_verts": 3078,
+ "moved_outside_hand_shell": 0,
+ "weld_ring_verts": 84,
+ "weld_ring_moved": 0,
+ "arm_zone_excluding_hand_shell_moved": 0,
+ "bit_identical": {
+  "head_neck(z>=1.40)": true,
+  "torso+pelvis(|x|<0.215,0.78<=z<1.40)": true,
+  "legs_feet(z<0.78,|x|<0.40)": true,
+  "arm_shafts+deltoids(arm zone minus hand shell)": true
+ },
+ "non_hand_polys_start": 28714,
+ "non_hand_polys_preserved": true,
+ "polys_start": 31854,
+ "polys_staged": 32162,
+ "tris_start": 63022,
+ "tris_staged": 63638,
+ "sharp_face_true": 0,
+ "custom_normal_nonzero_start": 31246,
+ "custom_normal_nonzero_staged": 31246,
+ "vg_entries_equal": true,
+ "max_move_hand_shell_mm": 172.44801330566406,
+ "mean_move_hand_shell_mm": 30.6168270111084,
+ "all_conditions_ok": true
+}

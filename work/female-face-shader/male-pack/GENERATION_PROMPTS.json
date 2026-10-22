@@ -1,0 +1,237 @@
+{
+ "method": "Higgsfield gpt_image_2_5 (medium, 1k, 3:2) with image_references = ArtDir/hero/base_lock/male_body_plain.jpg (media 49671202\u2026) + male_head_detail.jpg (media c97b4e80\u2026)",
+ "common": "Use case: stylized-concept. Create a production MODELING REFERENCE sheet, landscape 3:2, high detail. Clean warm-light-grey background with very faint baseline only, polished stylized 3D game character render, even neutral white studio illumination, consistent exposure/skin color. Strong large forms, matte skin and matte fabric, restrained moist eye highlight, no cinematic/rim lights, color cast, bloom, scenery, props, depth of field, vignette, dramatic shadows, action poses, or weapons. Every view is the SAME adult man from reference1 (the locked male base): same warm light-tan skin, broad rounded-square face, short dark straight brows, warm brown eyes, straight medium nose, firm rounded jaw, closed relaxed lips, bald head, athletic medium-muscular adult body with broad shoulders and solid chest, same head/body proportions, height notionally 1.75m. Do not beautify into another person, slim the waist, lengthen legs, enlarge muscles, add hair or beard, or make him a teen or chibi. Facial expression fully RELAXED NEUTRAL: mouth closed without smile, brows level, eyelids relaxed, eyes straight ahead. Bald under removable cap.\nNeutral POSE: symmetric relaxed A-pose, upper arms 25 degrees away from torso, elbows nearly straight, wrists straight, fingers naturally separated, shoulders level, spine vertical, pelvis level, knees straight but soft, feet hip-width apart and parallel, full soles on floor. No contrapposto, twist or gesture. One identical pose rotated as a rigid whole between views. Full-body views include fingertips and soles with margins; match scale/camera height and floorline exactly. Orthographic-style camera for cardinal views. Subtle shadows describe geometry.\n",
+ "tennis_kit": "Tennis kit (example colours, customizable): white fabric cap with navy bill, no logos; white technical-knit short-sleeve tennis polo with a navy-tipped flat-knit collar and two-button placket, rounded sleeves with real cuff thickness and air gap off the arm, broad athletic torso ease, plain back, hem worn OUT over the waistband; navy athletic tennis shorts ending just above the knee with substantial waistband and side vents; white crew sports socks; white low tennis shoes with navy panels. Garments float off the body in real volumes, no painted-on fabric.",
+ "golf_kit": "Golf kit (example colours, customizable): white cap with navy bill; sky-blue matte piqu\u00e9 golf polo with collar stand and underside, three-button placket, rounded sleeves with cuff thickness and air gaps, loose torso ease, hem tucked into the trousers; navy flat-front golf trousers with belt loops, slim straight leg, soft crease, hem breaking lightly on the shoe; brown leather belt; white/navy golf shoes with a visible spiked sole.",
+ "jobs": [
+  {
+   "id": "01",
+   "name": "01-tennis-cardinal-master.png",
+   "prompt": "Use case: stylized-concept. Create a production MODELING REFERENCE sheet, landscape 3:2, high detail. Clean warm-light-grey background with very faint baseline only, polished stylized 3D game character render, even neutral white studio illumination, consistent exposure/skin color. Strong large forms, matte skin and matte fabric, restrained moist eye highlight, no cinematic/rim lights, color cast, bloom, scenery, props, depth of field, vignette, dramatic shadows, action poses, or weapons. Every view is the SAME adult man shown in reference image 1 (locked male base body) and reference image 2 (locked male head detail): same warm light-tan skin, broad rounded-square face, short dark straight brows, warm brown eyes, straight medium nose, firm rounded jaw, closed relaxed lips, bald head, athletic medium-muscular adult body with broad shoulders and solid chest, same head/body proportions, height notionally 1.75m. Do not beautify into another person, slim the waist, lengthen legs, enlarge muscles, add hair or beard, or make him a teen or chibi. Facial expression fully RELAXED NEUTRAL: mouth closed without smile, brows level, eyelids relaxed, eyes straight ahead. Bald under removable cap.\nNeutral POSE: symmetric relaxed A-pose, upper arms 25 degrees away from torso, elbows nearly straight, wrists straight, fingers naturally separated, shoulders level, spine vertical, pelvis level, knees straight but soft, feet hip-width apart and parallel, full soles on floor. No contrapposto, twist or gesture. One identical pose rotated as a rigid whole between views. Full-body views include fingertips and soles with margins; match scale/camera height and floorline exactly. Orthographic-style camera for cardinal views. Subtle shadows describe geometry.\nTennis kit (example colours, customizable): white fabric cap with navy bill, no logos; white technical-knit short-sleeve tennis polo with a navy-tipped flat-knit collar and two-button placket, rounded sleeves with real cuff thickness and air gap off the arm, broad athletic torso ease, plain back, hem worn OUT over the waistband; navy athletic tennis shorts ending just above the knee with substantial waistband and side vents; white crew sports socks; white low tennis shoes with navy panels. Garments float off the body in real volumes, no painted-on fabric. Four full-body views in one row: FRONT (0), RIGHT SIDE (90), BACK (180), LEFT SIDE (270), labelled. Primary tennis construction master. Sheet header top-left in bold dark navy condensed type: '01 / TENNIS CARDINAL MASTER', small grey subtitle 'MALE HERO \u2014 TENNIS + GOLF'; small footer bottom-right 'GENERATED MODELING TARGET / RECONCILE AGAINST MASTER'. Neat small caps view labels under each view.",
+   "title": "TENNIS CARDINAL MASTER",
+   "settings": {
+    "model": "gpt_image_2_5",
+    "quality": "medium",
+    "resolution": "1k",
+    "aspect_ratio": "3:2",
+    "refs": [
+     "male_body_plain.jpg",
+     "male_head_detail.jpg"
+    ]
+   }
+  },
+  {
+   "id": "02",
+   "name": "02-tennis-obliques.png",
+   "prompt": "Use case: stylized-concept. Create a production MODELING REFERENCE sheet, landscape 3:2, high detail. Clean warm-light-grey background with very faint baseline only, polished stylized 3D game character render, even neutral white studio illumination, consistent exposure/skin color. Strong large forms, matte skin and matte fabric, restrained moist eye highlight, no cinematic/rim lights, color cast, bloom, scenery, props, depth of field, vignette, dramatic shadows, action poses, or weapons. Every view is the SAME adult man shown in reference image 1 (locked male base body) and reference image 2 (locked male head detail): same warm light-tan skin, broad rounded-square face, short dark straight brows, warm brown eyes, straight medium nose, firm rounded jaw, closed relaxed lips, bald head, athletic medium-muscular adult body with broad shoulders and solid chest, same head/body proportions, height notionally 1.75m. Do not beautify into another person, slim the waist, lengthen legs, enlarge muscles, add hair or beard, or make him a teen or chibi. Facial expression fully RELAXED NEUTRAL: mouth closed without smile, brows level, eyelids relaxed, eyes straight ahead. Bald under removable cap.\nNeutral POSE: symmetric relaxed A-pose, upper arms 25 degrees away from torso, elbows nearly straight, wrists straight, fingers naturally separated, shoulders level, spine vertical, pelvis level, knees straight but soft, feet hip-width apart and parallel, full soles on floor. No contrapposto, twist or gesture. One identical pose rotated as a rigid whole between views. Full-body views include fingertips and soles with margins; match scale/camera height and floorline exactly. Orthographic-style camera for cardinal views. Subtle shadows describe geometry.\nTennis kit (example colours, customizable): white fabric cap with navy bill, no logos; white technical-knit short-sleeve tennis polo with a navy-tipped flat-knit collar and two-button placket, rounded sleeves with real cuff thickness and air gap off the arm, broad athletic torso ease, plain back, hem worn OUT over the waistband; navy athletic tennis shorts ending just above the knee with substantial waistband and side vents; white crew sports socks; white low tennis shoes with navy panels. Garments float off the body in real volumes, no painted-on fabric. Four full-body oblique views: FRONT-RIGHT (45), BACK-RIGHT (135), BACK-LEFT (225), FRONT-LEFT (315), labelled. Sheet header top-left in bold dark navy condensed type: '02 / TENNIS OBLIQUES', small grey subtitle 'MALE HERO \u2014 TENNIS + GOLF'; small footer bottom-right 'GENERATED MODELING TARGET / RECONCILE AGAINST MASTER'. Neat small caps view labels under each view.",
+   "title": "TENNIS OBLIQUES",
+   "settings": {
+    "model": "gpt_image_2_5",
+    "quality": "medium",
+    "resolution": "1k",
+    "aspect_ratio": "3:2",
+    "refs": [
+     "male_body_plain.jpg",
+     "male_head_detail.jpg"
+    ]
+   }
+  },
+  {
+   "id": "03",
+   "name": "03-golf-cardinal-master.png",
+   "prompt": "Use case: stylized-concept. Create a production MODELING REFERENCE sheet, landscape 3:2, high detail. Clean warm-light-grey background with very faint baseline only, polished stylized 3D game character render, even neutral white studio illumination, consistent exposure/skin color. Strong large forms, matte skin and matte fabric, restrained moist eye highlight, no cinematic/rim lights, color cast, bloom, scenery, props, depth of field, vignette, dramatic shadows, action poses, or weapons. Every view is the SAME adult man shown in reference image 1 (locked male base body) and reference image 2 (locked male head detail): same warm light-tan skin, broad rounded-square face, short dark straight brows, warm brown eyes, straight medium nose, firm rounded jaw, closed relaxed lips, bald head, athletic medium-muscular adult body with broad shoulders and solid chest, same head/body proportions, height notionally 1.75m. Do not beautify into another person, slim the waist, lengthen legs, enlarge muscles, add hair or beard, or make him a teen or chibi. Facial expression fully RELAXED NEUTRAL: mouth closed without smile, brows level, eyelids relaxed, eyes straight ahead. Bald under removable cap.\nNeutral POSE: symmetric relaxed A-pose, upper arms 25 degrees away from torso, elbows nearly straight, wrists straight, fingers naturally separated, shoulders level, spine vertical, pelvis level, knees straight but soft, feet hip-width apart and parallel, full soles on floor. No contrapposto, twist or gesture. One identical pose rotated as a rigid whole between views. Full-body views include fingertips and soles with margins; match scale/camera height and floorline exactly. Orthographic-style camera for cardinal views. Subtle shadows describe geometry.\nGolf kit (example colours, customizable): white cap with navy bill; sky-blue matte piqu\u00e9 golf polo with collar stand and underside, three-button placket, rounded sleeves with cuff thickness and air gaps, loose torso ease, hem tucked into the trousers; navy flat-front golf trousers with belt loops, slim straight leg, soft crease, hem breaking lightly on the shoe; brown leather belt; white/navy golf shoes with a visible spiked sole. Four full-body views: FRONT (0), RIGHT SIDE (90), BACK (180), LEFT SIDE (270), labelled. Primary golf construction master. Sheet header top-left in bold dark navy condensed type: '03 / GOLF CARDINAL MASTER', small grey subtitle 'MALE HERO \u2014 TENNIS + GOLF'; small footer bottom-right 'GENERATED MODELING TARGET / RECONCILE AGAINST MASTER'. Neat small caps view labels under each view.",
+   "title": "GOLF CARDINAL MASTER",
+   "settings": {
+    "model": "gpt_image_2_5",
+    "quality": "medium",
+    "resolution": "1k",
+    "aspect_ratio": "3:2",
+    "refs": [
+     "male_body_plain.jpg",
+     "male_head_detail.jpg"
+    ]
+   }
+  },
+  {
+   "id": "04",
+   "name": "04-golf-obliques.png",
+   "prompt": "Use case: stylized-concept. Create a production MODELING REFERENCE sheet, landscape 3:2, high detail. Clean warm-light-grey background with very faint baseline only, polished stylized 3D game character render, even neutral white studio illumination, consistent exposure/skin color. Strong large forms, matte skin and matte fabric, restrained moist eye highlight, no cinematic/rim lights, color cast, bloom, scenery, props, depth of field, vignette, dramatic shadows, action poses, or weapons. Every view is the SAME adult man shown in reference image 1 (locked male base body) and reference image 2 (locked male head detail): same warm light-tan skin, broad rounded-square face, short dark straight brows, warm brown eyes, straight medium nose, firm rounded jaw, closed relaxed lips, bald head, athletic medium-muscular adult body with broad shoulders and solid chest, same head/body proportions, height notionally 1.75m. Do not beautify into another person, slim the waist, lengthen legs, enlarge muscles, add hair or beard, or make him a teen or chibi. Facial expression fully RELAXED NEUTRAL: mouth closed without smile, brows level, eyelids relaxed, eyes straight ahead. Bald under removable cap.\nNeutral POSE: symmetric relaxed A-pose, upper arms 25 degrees away from torso, elbows nearly straight, wrists straight, fingers naturally separated, shoulders level, spine vertical, pelvis level, knees straight but soft, feet hip-width apart and parallel, full soles on floor. No contrapposto, twist or gesture. One identical pose rotated as a rigid whole between views. Full-body views include fingertips and soles with margins; match scale/camera height and floorline exactly. Orthographic-style camera for cardinal views. Subtle shadows describe geometry.\nGolf kit (example colours, customizable): white cap with navy bill; sky-blue matte piqu\u00e9 golf polo with collar stand and underside, three-button placket, rounded sleeves with cuff thickness and air gaps, loose torso ease, hem tucked into the trousers; navy flat-front golf trousers with belt loops, slim straight leg, soft crease, hem breaking lightly on the shoe; brown leather belt; white/navy golf shoes with a visible spiked sole. Four full-body oblique views: 45, 135, 225, 315 degrees, labelled. Sheet header top-left in bold dark navy condensed type: '04 / GOLF OBLIQUES', small grey subtitle 'MALE HERO \u2014 TENNIS + GOLF'; small footer bottom-right 'GENERATED MODELING TARGET / RECONCILE AGAINST MASTER'. Neat small caps view labels under each view.",
+   "title": "GOLF OBLIQUES",
+   "settings": {
+    "model": "gpt_image_2_5",
+    "quality": "medium",
+    "resolution": "1k",
+    "aspect_ratio": "3:2",
+    "refs": [
+     "male_body_plain.jpg",
+     "male_head_detail.jpg"
+    ]
+   }
+  },
+  {
+   "id": "05",
+   "name": "05-tennis-elevation.png",
+   "prompt": "Use case: stylized-concept. Create a production MODELING REFERENCE sheet, landscape 3:2, high detail. Clean warm-light-grey background with very faint baseline only, polished stylized 3D game character render, even neutral white studio illumination, consistent exposure/skin color. Strong large forms, matte skin and matte fabric, restrained moist eye highlight, no cinematic/rim lights, color cast, bloom, scenery, props, depth of field, vignette, dramatic shadows, action poses, or weapons. Every view is the SAME adult man shown in reference image 1 (locked male base body) and reference image 2 (locked male head detail): same warm light-tan skin, broad rounded-square face, short dark straight brows, warm brown eyes, straight medium nose, firm rounded jaw, closed relaxed lips, bald head, athletic medium-muscular adult body with broad shoulders and solid chest, same head/body proportions, height notionally 1.75m. Do not beautify into another person, slim the waist, lengthen legs, enlarge muscles, add hair or beard, or make him a teen or chibi. Facial expression fully RELAXED NEUTRAL: mouth closed without smile, brows level, eyelids relaxed, eyes straight ahead. Bald under removable cap.\nNeutral POSE: symmetric relaxed A-pose, upper arms 25 degrees away from torso, elbows nearly straight, wrists straight, fingers naturally separated, shoulders level, spine vertical, pelvis level, knees straight but soft, feet hip-width apart and parallel, full soles on floor. No contrapposto, twist or gesture. One identical pose rotated as a rigid whole between views. Full-body views include fingertips and soles with margins; match scale/camera height and floorline exactly. Orthographic-style camera for cardinal views. Subtle shadows describe geometry.\nTennis kit (example colours, customizable): white fabric cap with navy bill, no logos; white technical-knit short-sleeve tennis polo with a navy-tipped flat-knit collar and two-button placket, rounded sleeves with real cuff thickness and air gap off the arm, broad athletic torso ease, plain back, hem worn OUT over the waistband; navy athletic tennis shorts ending just above the knee with substantial waistband and side vents; white crew sports socks; white low tennis shoes with navy panels. Garments float off the body in real volumes, no painted-on fabric. Four full-body camera-height studies: FRONT HIGH (camera 30 degrees above), FRONT LOW (20 degrees below), BACK HIGH, BACK LOW, labelled. Sheet header top-left in bold dark navy condensed type: '05 / TENNIS ELEVATION', small grey subtitle 'MALE HERO \u2014 TENNIS + GOLF'; small footer bottom-right 'GENERATED MODELING TARGET / RECONCILE AGAINST MASTER'. Neat small caps view labels under each view.",
+   "title": "TENNIS ELEVATION",
+   "settings": {
+    "model": "gpt_image_2_5",
+    "quality": "medium",
+    "resolution": "1k",
+    "aspect_ratio": "3:2",
+    "refs": [
+     "male_body_plain.jpg",
+     "male_head_detail.jpg"
+    ]
+   }
+  },
+  {
+   "id": "06",
+   "name": "06-golf-elevation.png",
+   "prompt": "Use case: stylized-concept. Create a production MODELING REFERENCE sheet, landscape 3:2, high detail. Clean warm-light-grey background with very faint baseline only, polished stylized 3D game character render, even neutral white studio illumination, consistent exposure/skin color. Strong large forms, matte skin and matte fabric, restrained moist eye highlight, no cinematic/rim lights, color cast, bloom, scenery, props, depth of field, vignette, dramatic shadows, action poses, or weapons. Every view is the SAME adult man shown in reference image 1 (locked male base body) and reference image 2 (locked male head detail): same warm light-tan skin, broad rounded-square face, short dark straight brows, warm brown eyes, straight medium nose, firm rounded jaw, closed relaxed lips, bald head, athletic medium-muscular adult body with broad shoulders and solid chest, same head/body proportions, height notionally 1.75m. Do not beautify into another person, slim the waist, lengthen legs, enlarge muscles, add hair or beard, or make him a teen or chibi. Facial expression fully RELAXED NEUTRAL: mouth closed without smile, brows level, eyelids relaxed, eyes straight ahead. Bald under removable cap.\nNeutral POSE: symmetric relaxed A-pose, upper arms 25 degrees away from torso, elbows nearly straight, wrists straight, fingers naturally separated, shoulders level, spine vertical, pelvis level, knees straight but soft, feet hip-width apart and parallel, full soles on floor. No contrapposto, twist or gesture. One identical pose rotated as a rigid whole between views. Full-body views include fingertips and soles with margins; match scale/camera height and floorline exactly. Orthographic-style camera for cardinal views. Subtle shadows describe geometry.\nGolf kit (example colours, customizable): white cap with navy bill; sky-blue matte piqu\u00e9 golf polo with collar stand and underside, three-button placket, rounded sleeves with cuff thickness and air gaps, loose torso ease, hem tucked into the trousers; navy flat-front golf trousers with belt loops, slim straight leg, soft crease, hem breaking lightly on the shoe; brown leather belt; white/navy golf shoes with a visible spiked sole. Four full-body camera-height studies: FRONT HIGH, FRONT LOW, BACK HIGH, BACK LOW, labelled. Sheet header top-left in bold dark navy condensed type: '06 / GOLF ELEVATION', small grey subtitle 'MALE HERO \u2014 TENNIS + GOLF'; small footer bottom-right 'GENERATED MODELING TARGET / RECONCILE AGAINST MASTER'. Neat small caps view labels under each view.",
+   "title": "GOLF ELEVATION",
+   "settings": {
+    "model": "gpt_image_2_5",
+    "quality": "medium",
+    "resolution": "1k",
+    "aspect_ratio": "3:2",
+    "refs": [
+     "male_body_plain.jpg",
+     "male_head_detail.jpg"
+    ]
+   }
+  },
+  {
+   "id": "07",
+   "name": "07-head-skin-neutral.png",
+   "prompt": "Use case: stylized-concept. Create a production MODELING REFERENCE sheet, landscape 3:2, high detail. Clean warm-light-grey background with very faint baseline only, polished stylized 3D game character render, even neutral white studio illumination, consistent exposure/skin color. Strong large forms, matte skin and matte fabric, restrained moist eye highlight, no cinematic/rim lights, color cast, bloom, scenery, props, depth of field, vignette, dramatic shadows, action poses, or weapons. Every view is the SAME adult man shown in reference image 1 (locked male base body) and reference image 2 (locked male head detail): same warm light-tan skin, broad rounded-square face, short dark straight brows, warm brown eyes, straight medium nose, firm rounded jaw, closed relaxed lips, bald head, athletic medium-muscular adult body with broad shoulders and solid chest, same head/body proportions, height notionally 1.75m. Do not beautify into another person, slim the waist, lengthen legs, enlarge muscles, add hair or beard, or make him a teen or chibi. Facial expression fully RELAXED NEUTRAL: mouth closed without smile, brows level, eyelids relaxed, eyes straight ahead. Bald under removable cap.\nNeutral POSE: symmetric relaxed A-pose, upper arms 25 degrees away from torso, elbows nearly straight, wrists straight, fingers naturally separated, shoulders level, spine vertical, pelvis level, knees straight but soft, feet hip-width apart and parallel, full soles on floor. No contrapposto, twist or gesture. One identical pose rotated as a rigid whole between views. Full-body views include fingertips and soles with margins; match scale/camera height and floorline exactly. Orthographic-style camera for cardinal views. Subtle shadows describe geometry.\n Head and neck only, bald, plain heather-grey crew-neck tee: six views in two rows labelled FRONT (0), FRONT THREE-QUARTER (45), RIGHT PROFILE (90), BACK (180), FRONT THREE-QUARTER (315), LEFT PROFILE (270). Clear jawline, lips, ears, warm satin skin. Sheet header top-left in bold dark navy condensed type: '07 / HEAD + SKIN \u2014 NEUTRAL', small grey subtitle 'MALE HERO \u2014 TENNIS + GOLF'; small footer bottom-right 'GENERATED MODELING TARGET / RECONCILE AGAINST MASTER'. Neat small caps view labels under each view.",
+   "title": "HEAD + SKIN \u2014 NEUTRAL",
+   "settings": {
+    "model": "gpt_image_2_5",
+    "quality": "medium",
+    "resolution": "2k",
+    "aspect_ratio": "3:2",
+    "refs": [
+     "male_body_plain.jpg",
+     "male_head_detail.jpg"
+    ]
+   }
+  },
+  {
+   "id": "08",
+   "name": "08-head-cap-neutral.png",
+   "prompt": "Use case: stylized-concept. Create a production MODELING REFERENCE sheet, landscape 3:2, high detail. Clean warm-light-grey background with very faint baseline only, polished stylized 3D game character render, even neutral white studio illumination, consistent exposure/skin color. Strong large forms, matte skin and matte fabric, restrained moist eye highlight, no cinematic/rim lights, color cast, bloom, scenery, props, depth of field, vignette, dramatic shadows, action poses, or weapons. Every view is the SAME adult man from reference1 (the locked male base): same warm light-tan skin, broad rounded-square face, short dark straight brows, warm brown eyes, straight medium nose, firm rounded jaw, closed relaxed lips, bald head, athletic medium-muscular adult body with broad shoulders and solid chest, same head/body proportions, height notionally 1.75m. Do not beautify into another person, slim the waist, lengthen legs, enlarge muscles, add hair or beard, or make him a teen or chibi. Facial expression fully RELAXED NEUTRAL: mouth closed without smile, brows level, eyelids relaxed, eyes straight ahead. Bald under removable cap. HEAD AND SHOULDERS ONLY, large, filling the sheet; absolutely NO full-body figures anywhere on the sheet. He wears the white six-panel cap with navy curved bill (bill with real thickness, top button, adjustable back strap) over the bald head with no hair under it, and the white tennis polo collar with navy tipping. Six labelled views in two rows of three: FRONT (0), FRONT THREE-QUARTER (45), RIGHT PROFILE (90), BACK (180), FRONT THREE-QUARTER (315), LEFT PROFILE (270). Same face as the head detail reference. Sheet header top-left in bold dark navy condensed type: '08 / CAP + FACE \u2014 NEUTRAL', small grey subtitle 'MALE HERO \u2014 TENNIS + GOLF'; small footer bottom-right 'GENERATED MODELING TARGET / RECONCILE AGAINST MASTER'. Neat small caps view labels under each view.",
+   "title": "CAP + FACE \u2014 NEUTRAL",
+   "settings": {
+    "model": "gpt_image_2_5",
+    "quality": "medium",
+    "resolution": "2k",
+    "aspect_ratio": "3:2",
+    "refs": [
+     "male_body_plain.jpg",
+     "male_head_detail.jpg"
+    ]
+   },
+   "first_prompt": "Use case: stylized-concept. Create a production MODELING REFERENCE sheet, landscape 3:2, high detail. Clean warm-light-grey background with very faint baseline only, polished stylized 3D game character render, even neutral white studio illumination, consistent exposure/skin color. Strong large forms, matte skin and matte fabric, restrained moist eye highlight, no cinematic/rim lights, color cast, bloom, scenery, props, depth of field, vignette, dramatic shadows, action poses, or weapons. Every view is the SAME adult man shown in reference image 1 (locked male base body) and reference image 2 (locked male head detail): same warm light-tan skin, broad rounded-square face, short dark straight brows, warm brown eyes, straight medium nose, firm rounded jaw, closed relaxed lips, bald head, athletic medium-muscular adult body with broad shoulders and solid chest, same head/body proportions, height notionally 1.75m. Do not beautify into another person, slim the waist, lengthen legs, enlarge muscles, add hair or beard, or make him a teen or chibi. Facial expression fully RELAXED NEUTRAL: mouth closed without smile, brows level, eyelids relaxed, eyes straight ahead. Bald under removable cap.\nNeutral POSE: symmetric relaxed A-pose, upper arms 25 degrees away from torso, elbows nearly straight, wrists straight, fingers naturally separated, shoulders level, spine vertical, pelvis level, knees straight but soft, feet hip-width apart and parallel, full soles on floor. No contrapposto, twist or gesture. One identical pose rotated as a rigid whole between views. Full-body views include fingertips and soles with margins; match scale/camera height and floorline exactly. Orthographic-style camera for cardinal views. Subtle shadows describe geometry.\n Head and shoulders wearing the white cap with navy bill over the bald head (no hair under it) and the white tennis polo collar: same six labelled views as the head sheet. Cap has six panels, top button, curved bill with thickness, adjustable back strap. Sheet header top-left in bold dark navy condensed type: '08 / CAP + FACE \u2014 NEUTRAL', small grey subtitle 'MALE HERO \u2014 TENNIS + GOLF'; small footer bottom-right 'GENERATED MODELING TARGET / RECONCILE AGAINST MASTER'. Neat small caps view labels under each view.",
+   "repair": "first output copied the reference plate layout (full-body row) or lost the kit colours; regenerated with stricter framing"
+  },
+  {
+   "id": "09",
+   "name": "09-tennis-polo-construction.png",
+   "prompt": "Use case: stylized-concept. Create a production MODELING REFERENCE sheet, landscape 3:2, high detail. Clean warm-light-grey background with very faint baseline only, polished stylized 3D game character render, even neutral white studio illumination, consistent exposure/skin color. Strong large forms, matte skin and matte fabric, restrained moist eye highlight, no cinematic/rim lights, color cast, bloom, scenery, props, depth of field, vignette, dramatic shadows, action poses, or weapons. Every view is the SAME adult man shown in reference image 1 (locked male base body) and reference image 2 (locked male head detail): same warm light-tan skin, broad rounded-square face, short dark straight brows, warm brown eyes, straight medium nose, firm rounded jaw, closed relaxed lips, bald head, athletic medium-muscular adult body with broad shoulders and solid chest, same head/body proportions, height notionally 1.75m. Do not beautify into another person, slim the waist, lengthen legs, enlarge muscles, add hair or beard, or make him a teen or chibi. Facial expression fully RELAXED NEUTRAL: mouth closed without smile, brows level, eyelids relaxed, eyes straight ahead. Bald under removable cap.\nNeutral POSE: symmetric relaxed A-pose, upper arms 25 degrees away from torso, elbows nearly straight, wrists straight, fingers naturally separated, shoulders level, spine vertical, pelvis level, knees straight but soft, feet hip-width apart and parallel, full soles on floor. No contrapposto, twist or gesture. One identical pose rotated as a rigid whole between views. Full-body views include fingertips and soles with margins; match scale/camera height and floorline exactly. Orthographic-style camera for cardinal views. Subtle shadows describe geometry.\nTennis kit (example colours, customizable): white fabric cap with navy bill, no logos; white technical-knit short-sleeve tennis polo with a navy-tipped flat-knit collar and two-button placket, rounded sleeves with real cuff thickness and air gap off the arm, broad athletic torso ease, plain back, hem worn OUT over the waistband; navy athletic tennis shorts ending just above the knee with substantial waistband and side vents; white crew sports socks; white low tennis shoes with navy panels. Garments float off the body in real volumes, no painted-on fabric. Torso close-ups of the tennis polo only, six labelled views: front, back, right side, left side, collar/placket detail, sleeve/cuff detail with the air gap. Neutral A-pose arms. Sheet header top-left in bold dark navy condensed type: '09 / TENNIS POLO CONSTRUCTION', small grey subtitle 'MALE HERO \u2014 TENNIS + GOLF'; small footer bottom-right 'GENERATED MODELING TARGET / RECONCILE AGAINST MASTER'. Neat small caps view labels under each view.",
+   "title": "TENNIS POLO CONSTRUCTION",
+   "settings": {
+    "model": "gpt_image_2_5",
+    "quality": "medium",
+    "resolution": "2k",
+    "aspect_ratio": "3:2",
+    "refs": [
+     "male_body_plain.jpg",
+     "male_head_detail.jpg"
+    ]
+   }
+  },
+  {
+   "id": "10",
+   "name": "10-golf-polo-construction.png",
+   "prompt": "Use case: stylized-concept. Create a production MODELING REFERENCE sheet, landscape 3:2, high detail. Clean warm-light-grey background with very faint baseline only, polished stylized 3D game character render, even neutral white studio illumination, consistent exposure/skin color. Strong large forms, matte skin and matte fabric, restrained moist eye highlight, no cinematic/rim lights, color cast, bloom, scenery, props, depth of field, vignette, dramatic shadows, action poses, or weapons. Every view is the SAME adult man shown in reference image 1 (locked male base body) and reference image 2 (locked male head detail): same warm light-tan skin, broad rounded-square face, short dark straight brows, warm brown eyes, straight medium nose, firm rounded jaw, closed relaxed lips, bald head, athletic medium-muscular adult body with broad shoulders and solid chest, same head/body proportions, height notionally 1.75m. Do not beautify into another person, slim the waist, lengthen legs, enlarge muscles, add hair or beard, or make him a teen or chibi. Facial expression fully RELAXED NEUTRAL: mouth closed without smile, brows level, eyelids relaxed, eyes straight ahead. Bald under removable cap.\nNeutral POSE: symmetric relaxed A-pose, upper arms 25 degrees away from torso, elbows nearly straight, wrists straight, fingers naturally separated, shoulders level, spine vertical, pelvis level, knees straight but soft, feet hip-width apart and parallel, full soles on floor. No contrapposto, twist or gesture. One identical pose rotated as a rigid whole between views. Full-body views include fingertips and soles with margins; match scale/camera height and floorline exactly. Orthographic-style camera for cardinal views. Subtle shadows describe geometry.\nGolf kit (example colours, customizable): white cap with navy bill; sky-blue matte piqu\u00e9 golf polo with collar stand and underside, three-button placket, rounded sleeves with cuff thickness and air gaps, loose torso ease, hem tucked into the trousers; navy flat-front golf trousers with belt loops, slim straight leg, soft crease, hem breaking lightly on the shoe; brown leather belt; white/navy golf shoes with a visible spiked sole. Torso close-ups of the golf polo only, six labelled views: front, back, side, collar stand + underside detail, three-button placket detail, sleeve cuff detail. Sheet header top-left in bold dark navy condensed type: '10 / GOLF POLO CONSTRUCTION', small grey subtitle 'MALE HERO \u2014 TENNIS + GOLF'; small footer bottom-right 'GENERATED MODELING TARGET / RECONCILE AGAINST MASTER'. Neat small caps view labels under each view.",
+   "title": "GOLF POLO CONSTRUCTION",
+   "settings": {
+    "model": "gpt_image_2_5",
+    "quality": "medium",
+    "resolution": "2k",
+    "aspect_ratio": "3:2",
+    "refs": [
+     "male_body_plain.jpg",
+     "male_head_detail.jpg"
+    ]
+   }
+  },
+  {
+   "id": "11",
+   "name": "11-shorts-trousers-construction.png",
+   "prompt": "Use case: stylized-concept. Create a production MODELING REFERENCE sheet, landscape 3:2, high detail. Clean warm-light-grey background with very faint baseline only, polished stylized 3D game character render, even neutral white studio illumination, consistent exposure/skin color. Strong large forms, matte skin and matte fabric, restrained moist eye highlight, no cinematic/rim lights, color cast, bloom, scenery, props, depth of field, vignette, dramatic shadows, action poses, or weapons. Every view is the SAME adult man from reference1 (the locked male base): same warm light-tan skin, broad rounded-square face, short dark straight brows, warm brown eyes, straight medium nose, firm rounded jaw, closed relaxed lips, bald head, athletic medium-muscular adult body with broad shoulders and solid chest, same head/body proportions, height notionally 1.75m. Do not beautify into another person, slim the waist, lengthen legs, enlarge muscles, add hair or beard, or make him a teen or chibi. Facial expression fully RELAXED NEUTRAL: mouth closed without smile, brows level, eyelids relaxed, eyes straight ahead. Bald under removable cap. LOWER-BODY CONSTRUCTION, cropped from the lower ribs to the floor, six labelled views in two rows. Top row, tennis: navy athletic tennis shorts ending just above the knee with substantial waistband, side vents and hem thickness, white polo hem worn out over the waistband, white crew socks, white/navy tennis shoes \u2014 views SHORTS FRONT, SHORTS SIDE, SHORTS BACK. Bottom row, golf: navy flat-front golf trousers with brown leather belt and belt loops, sky-blue polo tucked in, soft front crease, slim straight leg, hem breaking lightly on white/navy golf shoes \u2014 views TROUSERS FRONT, TROUSERS SIDE, TROUSERS BACK. Colours are examples (customizable). Same athletic male legs and proportions as reference image 1. Sheet header top-left in bold dark navy condensed type: '11 / SHORTS + TROUSERS CONSTRUCTION', small grey subtitle 'MALE HERO \u2014 TENNIS + GOLF'; small footer bottom-right 'GENERATED MODELING TARGET / RECONCILE AGAINST MASTER'. Neat small caps view labels under each view.",
+   "title": "SHORTS + TROUSERS CONSTRUCTION",
+   "settings": {
+    "model": "gpt_image_2_5",
+    "quality": "medium",
+    "resolution": "2k",
+    "aspect_ratio": "3:2",
+    "refs": [
+     "male_body_plain.jpg",
+     "male_head_detail.jpg"
+    ]
+   },
+   "first_prompt": "Use case: stylized-concept. Create a production MODELING REFERENCE sheet, landscape 3:2, high detail. Clean warm-light-grey background with very faint baseline only, polished stylized 3D game character render, even neutral white studio illumination, consistent exposure/skin color. Strong large forms, matte skin and matte fabric, restrained moist eye highlight, no cinematic/rim lights, color cast, bloom, scenery, props, depth of field, vignette, dramatic shadows, action poses, or weapons. Every view is the SAME adult man shown in reference image 1 (locked male base body) and reference image 2 (locked male head detail): same warm light-tan skin, broad rounded-square face, short dark straight brows, warm brown eyes, straight medium nose, firm rounded jaw, closed relaxed lips, bald head, athletic medium-muscular adult body with broad shoulders and solid chest, same head/body proportions, height notionally 1.75m. Do not beautify into another person, slim the waist, lengthen legs, enlarge muscles, add hair or beard, or make him a teen or chibi. Facial expression fully RELAXED NEUTRAL: mouth closed without smile, brows level, eyelids relaxed, eyes straight ahead. Bald under removable cap.\nNeutral POSE: symmetric relaxed A-pose, upper arms 25 degrees away from torso, elbows nearly straight, wrists straight, fingers naturally separated, shoulders level, spine vertical, pelvis level, knees straight but soft, feet hip-width apart and parallel, full soles on floor. No contrapposto, twist or gesture. One identical pose rotated as a rigid whole between views. Full-body views include fingertips and soles with margins; match scale/camera height and floorline exactly. Orthographic-style camera for cardinal views. Subtle shadows describe geometry.\n Lower-body construction, six labelled views: tennis shorts front, side, back (waistband, side vent, hem thickness); golf trousers front, side, back (belt, loops, front crease, hem break on the shoe). Sheet header top-left in bold dark navy condensed type: '11 / SHORTS + TROUSERS CONSTRUCTION', small grey subtitle 'MALE HERO \u2014 TENNIS + GOLF'; small footer bottom-right 'GENERATED MODELING TARGET / RECONCILE AGAINST MASTER'. Neat small caps view labels under each view.",
+   "repair": "first output copied the reference plate layout (full-body row) or lost the kit colours; regenerated with stricter framing"
+  },
+  {
+   "id": "12",
+   "name": "12-hands.png",
+   "prompt": "Use case: stylized-concept. Create a production MODELING REFERENCE sheet, landscape 3:2, high detail. Clean warm-light-grey background with very faint baseline only, polished stylized 3D game character render, even neutral white studio illumination, consistent exposure/skin color. Strong large forms, matte skin and matte fabric, restrained moist eye highlight, no cinematic/rim lights, color cast, bloom, scenery, props, depth of field, vignette, dramatic shadows, action poses, or weapons. Every view is the SAME adult man from reference1 (the locked male base): same warm light-tan skin, broad rounded-square face, short dark straight brows, warm brown eyes, straight medium nose, firm rounded jaw, closed relaxed lips, bald head, athletic medium-muscular adult body with broad shoulders and solid chest, same head/body proportions, height notionally 1.75m. Do not beautify into another person, slim the waist, lengthen legs, enlarge muscles, add hair or beard, or make him a teen or chibi. Facial expression fully RELAXED NEUTRAL: mouth closed without smile, brows level, eyelids relaxed, eyes straight ahead. Bald under removable cap. HANDS ONLY, large, filling the sheet; absolutely NO full-body figures, heads or torsos anywhere. Six labelled views of the male hero's bare hands and wrists, relaxed neutral (fingers naturally separated, slightly curled): RIGHT BACK, RIGHT PALM, RIGHT SIDE (thumb side), LEFT BACK, LEFT PALM, LEFT SIDE (thumb side), in two rows of three. Same warm light-tan skin, adult male proportions with broad palms, defined knuckles, short clean nails, stylized but anatomically clear thumb and finger joints. Sheet header top-left in bold dark navy condensed type: '12 / HANDS', small grey subtitle 'MALE HERO \u2014 TENNIS + GOLF'; small footer bottom-right 'GENERATED MODELING TARGET / RECONCILE AGAINST MASTER'. Neat small caps view labels under each view.",
+   "title": "HANDS",
+   "settings": {
+    "model": "gpt_image_2_5",
+    "quality": "medium",
+    "resolution": "2k",
+    "aspect_ratio": "3:2",
+    "refs": [
+     "male_body_plain.jpg",
+     "male_head_detail.jpg"
+    ]
+   },
+   "first_prompt": "Use case: stylized-concept. Create a production MODELING REFERENCE sheet, landscape 3:2, high detail. Clean warm-light-grey background with very faint baseline only, polished stylized 3D game character render, even neutral white studio illumination, consistent exposure/skin color. Strong large forms, matte skin and matte fabric, restrained moist eye highlight, no cinematic/rim lights, color cast, bloom, scenery, props, depth of field, vignette, dramatic shadows, action poses, or weapons. Every view is the SAME adult man shown in reference image 1 (locked male base body) and reference image 2 (locked male head detail): same warm light-tan skin, broad rounded-square face, short dark straight brows, warm brown eyes, straight medium nose, firm rounded jaw, closed relaxed lips, bald head, athletic medium-muscular adult body with broad shoulders and solid chest, same head/body proportions, height notionally 1.75m. Do not beautify into another person, slim the waist, lengthen legs, enlarge muscles, add hair or beard, or make him a teen or chibi. Facial expression fully RELAXED NEUTRAL: mouth closed without smile, brows level, eyelids relaxed, eyes straight ahead. Bald under removable cap.\nNeutral POSE: symmetric relaxed A-pose, upper arms 25 degrees away from torso, elbows nearly straight, wrists straight, fingers naturally separated, shoulders level, spine vertical, pelvis level, knees straight but soft, feet hip-width apart and parallel, full soles on floor. No contrapposto, twist or gesture. One identical pose rotated as a rigid whole between views. Full-body views include fingertips and soles with margins; match scale/camera height and floorline exactly. Orthographic-style camera for cardinal views. Subtle shadows describe geometry.\n Hands only, relaxed neutral, six labelled views: right back, right palm, right side, left back, left palm, left side. Same skin, short clean nails, adult male proportions. Sheet header top-left in bold dark navy condensed type: '12 / HANDS', small grey subtitle 'MALE HERO \u2014 TENNIS + GOLF'; small footer bottom-right 'GENERATED MODELING TARGET / RECONCILE AGAINST MASTER'. Neat small caps view labels under each view.",
+   "repair": "first output copied the reference plate layout (full-body row) or lost the kit colours; regenerated with stricter framing"
+  },
+  {
+   "id": "13",
+   "name": "13-tennis-shoe-detail.png",
+   "prompt": "Use case: stylized-concept. Production MODELING REFERENCE sheet, landscape 3:2, clean warm-light-grey background, even neutral studio light, matte materials, stylized 3D game render matching a polished cartoon athlete. One pair of the male hero's white low TENNIS SHOES with navy panels (example colours, customizable), shown off-foot. Real performance tennis shoe construction: herringbone outsole tread, thick white EVA midsole with slight toe spring, reinforced toe cap / toe bumper, perforated upper panels, padded collar, heel counter and heel tab, eyelet row with flat white laces, tongue with thickness. Six labelled views: LATERAL SIDE, MEDIAL SIDE, FRONT, BACK, TOP, SOLE (bottom). Clean silhouette, restrained seams, no logos. Sheet header top-left in bold dark navy condensed type: '13 / TENNIS SHOE DETAIL', small grey subtitle 'MALE HERO \u2014 TENNIS + GOLF'; small footer bottom-right 'GENERATED MODELING TARGET / RECONCILE AGAINST MASTER'. Neat small caps view labels under each view.",
+   "title": "TENNIS SHOE DETAIL",
+   "settings": {
+    "model": "gpt_image_2_5",
+    "quality": "medium",
+    "resolution": "2k",
+    "aspect_ratio": "3:2",
+    "refs": [
+     "male_body_plain.jpg (style/scale only)"
+    ]
+   }
+  },
+  {
+   "id": "14",
+   "name": "14-golf-shoe-detail.png",
+   "prompt": "Use case: stylized-concept. Production MODELING REFERENCE sheet, landscape 3:2, clean warm-light-grey background, even neutral studio light, matte materials, stylized 3D game render matching a polished cartoon athlete. One pair of the male hero's white/navy GOLF SHOES (example colours, customizable), shown off-foot. Real golf shoe construction: firm low-profile midsole, outsole with 7 replaceable soft spikes (cleats) plus traction lugs, saddle panel over the instep, toe cap with seam, padded collar, heel counter, lace row with 5-6 eyelets and flat laces, tongue with thickness, matte leather-look upper. Six labelled views: LATERAL SIDE, MEDIAL SIDE, FRONT, BACK, TOP, SOLE (bottom, showing the spike layout). Clean silhouette, no logos. Sheet header top-left in bold dark navy condensed type: '14 / GOLF SHOE DETAIL', small grey subtitle 'MALE HERO \u2014 TENNIS + GOLF'; small footer bottom-right 'GENERATED MODELING TARGET / RECONCILE AGAINST MASTER'. Neat small caps view labels under each view.",
+   "title": "GOLF SHOE DETAIL",
+   "settings": {
+    "model": "gpt_image_2_5",
+    "quality": "medium",
+    "resolution": "2k",
+    "aspect_ratio": "3:2",
+    "refs": [
+     "male_body_plain.jpg (style/scale only)"
+    ]
+   }
+  }
+ ],
+ "note": "Same format as the female pack 2026-10-15. Clothing colours are examples only (customizable). Generated images are references, not calibrated cameras."
+}

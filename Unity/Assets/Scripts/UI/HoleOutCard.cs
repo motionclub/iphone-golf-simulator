@@ -221,6 +221,9 @@ namespace GolfArcade.UI
             float ribbonLeft = portrait ? -80 : colX - 40, ribbonRight = W + 80;
             Put(ribbon, topLeft, center, (ribbonLeft + ribbonRight) / 2, -(ribbonTop + ribbonH / 2), ribbonRight - ribbonLeft, ribbonH);
             ribbon.localEulerAngles = new Vector3(0, 0, portrait ? -4f : -3f);
+            bool clear = GlassKit.ClearStyle;
+            if (!clear)
+            {
             var shade = Add<Image>(ribbon, "Shadow"); shade.color = new Color(.03f, .1f, .18f, .55f); shade.rectTransform.offsetMin = new Vector2(0, -22); shade.rectTransform.offsetMax = new Vector2(0, -22);
             var fill = Add<GradientGraphic>(ribbon, "Fill"); fill.Stops = RibbonColours();
             foreach (var side in new[] { 1f, 0f })
@@ -229,8 +232,9 @@ namespace GolfArcade.UI
                 edge.rectTransform.anchorMin = new Vector2(0, side); edge.rectTransform.anchorMax = new Vector2(1, side); edge.rectTransform.pivot = new Vector2(.5f, side);
                 edge.rectTransform.sizeDelta = new Vector2(0, 10); edge.rectTransform.anchoredPosition = Vector2.zero;
             }
+            }
             int wordMax = portrait ? 200 : 150;
-            var word = UiKit.Chunky(ribbon, "Score", wordMax, Color.white, Ink, portrait ? 8 : 7);
+            var word = UiKit.Chunky(ribbon, "Score", wordMax, clear ? RibbonColours()[0] : Color.white, clear ? GlassKit.Ink : Ink, portrait ? 8 : 7);
             word.text = data.Score; word.horizontalOverflow = HorizontalWrapMode.Overflow;
             wordRect = word.rectTransform;
             wordRect.anchorMin = wordRect.anchorMax = center; wordRect.pivot = center;
@@ -244,22 +248,33 @@ namespace GolfArcade.UI
             medalRect.localEulerAngles = new Vector3(0, 0, -6);
             var medalShade = Disc(medalRect, "Shadow", new Color(.03f, .1f, .18f, .5f)); Grow(medalShade.rectTransform, 24, -24);
             Grow(Disc(medalRect, "White ring", Color.white).rectTransform, 24, 0);
-            Grow(Disc(medalRect, "Lime ring", Lime).rectTransform, 13, 0);
-            Disc(medalRect, "Face", Ink);
-            var count = Label(medalRect, "Strokes", data.Strokes.ToString(), UiKit.Display, (int)(medal * .6f), Lime);
+            if (!clear) Grow(Disc(medalRect, "Lime ring", Lime).rectTransform, 13, 0);
+            Disc(medalRect, "Face", clear ? UiKit.Hex("2A84E6") : Ink);
+            Text count, caption;
+            if (clear)
+            {
+                count = UiKit.Chunky(medalRect, "Strokes", (int)(medal * .6f), Color.white, GlassKit.Ink, 5); count.text = data.Strokes.ToString();
+                caption = UiKit.Chunky(medalRect, "Caption", (int)(medal * .13f), Color.white, GlassKit.Ink, 2); caption.text = data.Strokes == 1 ? "STROKE" : "STROKES";
+            }
+            else
+            {
+                count = Label(medalRect, "Strokes", data.Strokes.ToString(), UiKit.Display, (int)(medal * .6f), Lime);
+                caption = Label(medalRect, "Caption", data.Strokes == 1 ? "STROKE" : "STROKES", UiKit.Strong, (int)(medal * .125f), new Color(1, 1, 1, .8f));
+            }
             count.rectTransform.offsetMin = new Vector2(0, medal * .1f); count.rectTransform.offsetMax = Vector2.zero;
-            var caption = Label(medalRect, "Caption", data.Strokes == 1 ? "STROKE" : "STROKES", UiKit.Strong, (int)(medal * .125f), new Color(1, 1, 1, .8f));
             caption.rectTransform.offsetMin = new Vector2(0, -medal * .34f); caption.rectTransform.offsetMax = Vector2.zero;
 
             // ---- the hole, on a cream sticker
             stickerWrap = Stretched(root, "Sticker"); stickerFade = stickerWrap.gameObject.AddComponent<CanvasGroup>();
             var sticker = Node(stickerWrap, "Pill");
             float stickerH = portrait ? 84 : 70;
-            var stickerText = Label(sticker, "Hole", data.Eyebrow, UiKit.Display, portrait ? 38 : 32, Ink);
+            Text stickerText;
+            if (clear) { stickerText = UiKit.Chunky(sticker, "Hole", portrait ? 40 : 36, Color.white, GlassKit.Ink, 3); stickerText.text = data.Eyebrow; stickerText.horizontalOverflow = HorizontalWrapMode.Overflow; }
+            else stickerText = Label(sticker, "Hole", data.Eyebrow, UiKit.Display, portrait ? 38 : 32, Ink);
             float stickerW = Mathf.Min(colW - 60, stickerText.preferredWidth + (portrait ? 96 : 84));
             Put(sticker, topLeft, center, colMid, -((portrait ? 500 + safeTop : 290) + stickerH / 2), stickerW, stickerH);
             sticker.localEulerAngles = new Vector3(0, 0, -2);
-            var stickerBack = Rounded(sticker, "Back", Cream, 80); stickerBack.transform.SetAsFirstSibling();
+            if (!clear) { var stickerBack = Rounded(sticker, "Back", Cream, 80); stickerBack.transform.SetAsFirstSibling(); }
             stickerText.rectTransform.anchorMin = Vector2.zero; stickerText.rectTransform.anchorMax = Vector2.one; stickerText.rectTransform.offsetMin = stickerText.rectTransform.offsetMax = Vector2.zero;
 
             // ---- the board, the emotes and the way on, rising together
@@ -286,36 +301,39 @@ namespace GolfArcade.UI
             }
             Board(boardAt, boardW, rowA, rowB, portrait);
             // NEXT HOLE: a lime slab with the hole coming up and a countdown
-            next = Club.Slab(ctaAt, "Next hole", Lime, LimeDeep, ctaH / 2, out var face, portrait ? 14 : 12);
+            Color nextInk = clear ? ThemeService.Current.buttonText : Ink;
+            next = Club.Slab(ctaAt, "Next hole", clear ? GlassKit.Gold : Lime, clear ? UiKit.Hex("C99A1C") : LimeDeep, ctaH / 2, out var face, portrait ? 14 : 12);
             var nextRt = (RectTransform)next.transform; nextRt.anchorMin = Vector2.zero; nextRt.anchorMax = Vector2.one; nextRt.offsetMin = nextRt.offsetMax = Vector2.zero;
             // the label over the hole that is coming up over the countdown, each in its own band of the slab
             bool detail = !string.IsNullOrEmpty(data.NextDetail);
             float subBand = detail ? (portrait ? 46 : 38) : 0, barBand = portrait ? 34 : 28;
-            nextLabelText = Label(face, "Label", data.NextLabel + "  ▸", UiKit.Display, portrait ? 62 : 50, Ink);
+            nextLabelText = Label(face, "Label", data.NextLabel + "  ▸", UiKit.Display, portrait ? 62 : 50, nextInk);
             nextLabelText.rectTransform.offsetMin = new Vector2(0, subBand + barBand); nextLabelText.rectTransform.offsetMax = new Vector2(0, -4);
             if (detail)
             {
-                var sub = Label(face, "Next hole", data.NextDetail, UiKit.Strong, portrait ? 32 : 26, new Color(Ink.r, Ink.g, Ink.b, .78f));
+                var sub = Label(face, "Next hole", data.NextDetail, clear ? UiKit.Display : UiKit.Strong, portrait ? 32 : 26, new Color(nextInk.r, nextInk.g, nextInk.b, .78f));
                 sub.rectTransform.offsetMin = new Vector2(0, barBand); sub.rectTransform.offsetMax = new Vector2(0, -(ctaH - barBand - subBand));
                 Icons.Fit(sub, 14, portrait ? 32 : 26);
             }
             var track = Rounded(face, "Countdown track", new Color(0, 0, 0, .16f), 6);
             track.rectTransform.anchorMin = new Vector2(.08f, 0); track.rectTransform.anchorMax = new Vector2(.92f, 0); track.rectTransform.pivot = new Vector2(.5f, 0);
             track.rectTransform.sizeDelta = new Vector2(0, 9); track.rectTransform.anchoredPosition = new Vector2(0, portrait ? 16 : 13);
-            countdownFill = Rounded(track.transform, "Time left", Ink, 6);
+            countdownFill = Rounded(track.transform, "Time left", nextInk, 6);
             countdownFill.rectTransform.anchorMin = Vector2.zero; countdownFill.rectTransform.anchorMax = Vector2.one; countdownFill.rectTransform.offsetMin = countdownFill.rectTransform.offsetMax = Vector2.zero;
             next.Pressed = () => proceed?.Invoke();
+            FocusItem.Mark(next, true);
             // the emotes: three outlined pills the golfer performs on the spot
             emoteFade = emotesAt.gameObject.AddComponent<CanvasGroup>();
             float ew = (emotesAt.rect.width - gap * (n - 1)) / Mathf.Max(1, n);
             for (int i = 0; i < n; i++)
             {
                 int choice = i;
-                var b = Club.Slab(emotesAt, "Emote " + (i + 1), new Color(.03f, .1f, .18f, .62f), new Color(0, 0, 0, .3f), eh / 2, out var ef, 8);
+                var b = Club.Slab(emotesAt, "Emote " + (i + 1), clear ? GlassKit.Gold : new Color(.03f, .1f, .18f, .62f), clear ? UiKit.Hex("C99A1C") : new Color(0, 0, 0, .3f), eh / 2, out var ef, 8);
                 var brt = (RectTransform)b.transform; Put(brt, topLeft, topLeft, i * (ew + gap), 0, ew, eh);
-                Rounded(ef, "Ring", new Color(1, 1, 1, .6f), eh / 2, true);
-                Label(ef, "Name", data.Emotes[i].ToUpperInvariant(), UiKit.Display, portrait ? 32 : 26, Color.white);
+                Rounded(ef, "Ring", clear ? Color.white : new Color(1, 1, 1, .6f), eh / 2, true);
+                Label(ef, "Name", data.Emotes[i].ToUpperInvariant(), UiKit.Display, portrait ? 32 : 26, clear ? nextInk : Color.white);
                 b.Pressed = () => emote?.Invoke(choice);
+                FocusItem.Mark(b, false);
             }
         }
 
@@ -336,6 +354,7 @@ namespace GolfArcade.UI
         /// HOLE, PAR and YOU in rows; the holes of the round in columns and a TOTAL; the hole just played lit.
         void Board(RectTransform frame, float width, float rowA, float rowB, bool portrait)
         {
+            if (GlassKit.ClearStyle) { ClearBoard(frame, width, rowA, rowB, portrait); return; }
             int cols = Mathf.Max(1, data.Tiles.Length);
             float labelW = portrait ? 190 : 150, totalW = portrait ? 200 : 170, radius = portrait ? 44 : 36, rim = 6;
             float boardH = rowA * 2 + rowB;
@@ -422,5 +441,64 @@ namespace GolfArcade.UI
         }
 
         static Vector2 topLeft() => new Vector2(0, 1);
+
+        /// The clear style's board: the same three rows and columns as lettering and thin white rules, no slab. The hole just
+        /// played is gold with a gold bar under it, a birdie is ringed in lime, a bogey sits on a coral square, the total is gold.
+        void ClearBoard(RectTransform frame, float width, float rowA, float rowB, bool portrait)
+        {
+            int cols = Mathf.Max(1, data.Tiles.Length);
+            float labelW = portrait ? 190 : 150, totalW = portrait ? 200 : 170;
+            float colW = (width - labelW - totalW) / cols;
+            float[] heights = { rowA, rowA, rowB };
+            int fl = portrait ? 34 : 30, fv = portrait ? 52 : 46, fy = portrait ? 62 : 54;
+            var ink = GlassKit.Ink; var gold = GlassKit.Gold;
+            int parTotal = 0, strokeTotal = 0;
+            foreach (var t in data.Tiles) { parTotal += t.Par; if (t.Strokes is int st) strokeTotal += st; }
+            Text Chunk(RectTransform cell, string text, int size, Color fill, TextAnchor anchor = TextAnchor.MiddleCenter, float pad = 0)
+            {
+                var t = UiKit.Chunky(cell, "Text", size, fill, ink, Mathf.Clamp(size * .075f, 2f, 4f)); t.text = text; t.alignment = anchor; t.horizontalOverflow = HorizontalWrapMode.Overflow;
+                t.rectTransform.offsetMin = new Vector2(pad, 0); t.supportRichText = true;
+                return t;
+            }
+            void Rule(float y)
+            {
+                var under = Add<Image>(frame, "Rule shade"); under.color = new Color(ink.r, ink.g, ink.b, .6f);
+                var line = Add<Image>(frame, "Rule"); line.color = Color.white;
+                foreach (var (img, off, h) in new[] { (under, 3f, 7f), (line, 0f, 4f) })
+                { var rt = img.rectTransform; rt.anchorMin = new Vector2(0, 1); rt.anchorMax = new Vector2(1, 1); rt.pivot = new Vector2(.5f, .5f); rt.sizeDelta = new Vector2(0, h); rt.anchoredPosition = new Vector2(0, -y - off); }
+            }
+            string[] labels = { "HOLE", "PAR", "YOU" };
+            float y = 0;
+            for (int row = 0; row < 3; row++)
+            {
+                float cx = 0;
+                for (int col = -1; col <= cols; col++)
+                {
+                    bool label = col < 0, total = col >= cols;
+                    var tile = !label && !total ? data.Tiles[col] : default;
+                    bool current = !label && !total && tile.Current;
+                    float w = label ? labelW : total ? totalW : colW;
+                    var cell = Node(frame, "Cell"); Put(cell, topLeft(), topLeft(), cx, -y, w, heights[row]);
+                    var tone = current || total ? gold : Color.white;
+                    if (label) Chunk(cell, labels[row], fl, Color.white, TextAnchor.MiddleLeft, portrait ? 10 : 6);
+                    else if (row == 0) Chunk(cell, total ? "TOTAL" : tile.Ordinal.ToString(), total ? fl : fv, total ? Color.white : tone);
+                    else if (row == 1) Chunk(cell, total ? parTotal.ToString() : tile.Par.ToString(), fv, tone);
+                    else if (total) Chunk(cell, $"{strokeTotal}<size={(int)(fv * .6f)}>  {GolfArcade.Course.Scorecard.FormatToPar(data.ToPar)}</size>", fy, gold);
+                    else if (tile.Strokes is int strokes)
+                    {
+                        int d = strokes - tile.Par;
+                        float mark = portrait ? 78 : 68;
+                        if (d < 0) { var ring = Add<Image>(cell, "Ring"); ring.sprite = UiKit.RingOf(128, 9); ring.color = Lime; Put(ring.rectTransform, new Vector2(.5f, .5f), new Vector2(.5f, .5f), 0, 0, mark, mark); }
+                        else if (d > 0) { var box = Rounded(cell, "Mark", Coral, 14); Put(box.rectTransform, new Vector2(.5f, .5f), new Vector2(.5f, .5f), 0, 0, mark, mark); box.transform.SetAsFirstSibling(); }
+                        Chunk(cell, strokes.ToString(), fy, current ? gold : Color.white);
+                        if (current) { var bar = Rounded(cell, "Lit bar", gold, 4); Put(bar.rectTransform, new Vector2(.5f, 0), new Vector2(.5f, 0), 0, 4, 68, 8); }
+                    }
+                    else Chunk(cell, "–", fy, new Color(1, 1, 1, .6f));
+                    cx += w;
+                }
+                y += heights[row];
+                if (row < 2) Rule(y);
+            }
+        }
     }
 }

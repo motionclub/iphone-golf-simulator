@@ -1,0 +1,17 @@
+[
+  {
+    "name": "thumb-rig-probe10",
+    "method": "GolfArcade.EditorTools.HeroThumbRigProbe.Run",
+    "env": {
+      "HTR_REBUILT": "1",
+      "HTR_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/thumb-rig-probe-10"
+    }
+  },
+  {
+    "name": "golf-gallery-proof4",
+    "method": "GolfArcade.EditorTools.GolfGalleryProof.Run",
+    "env": {
+      "GGP_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-gallery-proof-4"
+    }
+  }
+]

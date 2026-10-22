@@ -1,0 +1,36 @@
+--- a/Assets/Scripts/Tennis/TennisServeRoutine.cs
++++ b/Assets/Scripts/Tennis/TennisServeRoutine.cs
+@@ -16,6 +16,25 @@
+         const float Push = .06f, PushDepth = .08f, BounceSpeed = 3.5f, Restitution = .7f, Reset = .18f;
+         public const float WindUp = .24f, Gather = .12f, Extend = .2f;
+         const float Gravity = 9.81f;
++        sealed class ServeSample { public int frame; public float time; }
++        static readonly System.Runtime.CompilerServices.ConditionalWeakTable<TennisActor, ServeSample> sampled = new System.Runtime.CompilerServices.ConditionalWeakTable<TennisActor, ServeSample>();
++        public static void RecordServeTime(TennisActor actor, float time)
++        { var p = sampled.GetValue(actor, _ => new ServeSample()); p.frame = Time.frameCount; p.time = time; }
++        public static float CurrentTime(TennisActor actor) => sampled.TryGetValue(actor, out var p) ? p.time : -1;
++        public static bool TryCurrentTime(TennisActor actor, out float time)
++        { bool valid = sampled.TryGetValue(actor, out var p) && p.frame == Time.frameCount; time = p != null ? p.time : -1; return valid; }
++        public static bool InHand(TennisActor actor, float t)
++        {
++            Vector3 hold = Hold(actor);
++            Timing(hold.y - PushDepth - actor.transform.position.y, out float fall, out float rebound, out float rise, out float cycle);
++            float windStart = TennisRules.ServeTossDelay - WindUp;
++            if (t >= windStart) return t < TennisRules.ServeTossDelay;
++            float b = t - Mathf.Max(0, windStart - Gather - Bounces * cycle);
++            int n = Mathf.FloorToInt(b / cycle);
++            if (b < 0 || n >= Bounces) return true;
++            float u = b - n * cycle;
++            return u < Push || u >= Push + fall + rise;
++        }
+ 
+         /// Tossing-hand side in the server's frame: a right-hander tosses with the left.
+         static float Side(TennisActor a) => a.LeftHanded ? 1 : -1;
+@@ -39,6 +58,7 @@
+         /// ServeTossDelay; the toss is released at its end).
+         public static void Pose(TennisActor a, float t, out Vector3 ball, out Vector3 palm)
+         {
++            RecordServeTime(a, t);
+             Vector3 hold = Hold(a);
+             float ground = a.transform.position.y;
+             Timing(hold.y - PushDepth - ground, out float fall, out float rebound, out float rise, out float cycle);

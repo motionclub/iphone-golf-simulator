@@ -1,0 +1,200 @@
+{
+ "start": {
+  "dihedral": {
+   "p99": 30.9,
+   "max": 42.2,
+   "new_sharp": 0
+  },
+  "moved": 0,
+  "max_move_mm": 0.0,
+  "sil_front": 4.127,
+  "sil_back": 4.747,
+  "slot": {
+   "apex_front": 0.772,
+   "apex_back": 0.772,
+   "w_front": [
+    50.2,
+    51.6,
+    52.3
+   ],
+   "w_back": [
+    50.5,
+    52.0,
+    52.7
+   ]
+  },
+  "contour_mm": {
+   "mean_abs": 1.31,
+   "max_abs": 5.93,
+   "belly_signed": 0.2
+  },
+  "front_forward_mm": {
+   "worst": 0.0,
+   "at": null
+  },
+  "roof_mm": {
+   "-0.16": 778.6,
+   "-0.12": 776.2,
+   "-0.08": 775.1,
+   "-0.04": 771.9,
+   "+0.00": 775.5,
+   "+0.03": 776.2,
+   "+0.05": 776.8,
+   "+0.06": 776.8
+  },
+  "rear_lip_above_roof_min_mm": 4.9,
+  "front_lip_above_roof_min_mm": 6.7,
+  "torso_gate": {
+   "front_chest": 0.651,
+   "front_abdomen": 0.621,
+   "front_pelvis": 0.784,
+   "back_chest": 0.447,
+   "back_abdomen": 0.331,
+   "back_pelvis": 0.197,
+   "mean": 0.505
+  },
+  "glute_bp": {
+   "back_glute": -0.08,
+   "back_lumbar": 0.729,
+   "front_groin": 0.59,
+   "q3BL_glute": 0.488,
+   "q3BR_glute": 0.532,
+   "left_glute": 0.382,
+   "right_glute": 0.851
+  }
+ },
+ "FINAL6": {
+  "dihedral": {
+   "p99": 26.4,
+   "max": 40.0,
+   "new_sharp": 0
+  },
+  "moved": 3007,
+  "max_move_mm": 31.2,
+  "sil_front": 4.294,
+  "sil_back": 4.971,
+  "slot": {
+   "apex_front": 0.747,
+   "apex_back": 0.747,
+   "w_front": [
+    40.9,
+    34.4,
+    22.9
+   ],
+   "w_back": [
+    41.1,
+    34.6,
+    22.4
+   ]
+  },
+  "contour_mm": {
+   "mean_abs": 1.51,
+   "max_abs": 3.7,
+   "belly_signed": 3.4
+  },
+  "front_forward_mm": {
+   "worst": -70.2,
+   "at": [
+    0.02,
+    0.77
+   ]
+  },
+  "roof_mm": {
+   "-0.16": 753.9,
+   "-0.12": 753.1,
+   "-0.08": 754.5,
+   "-0.04": 752.9,
+   "+0.00": 749.4,
+   "+0.03": 747.5,
+   "+0.05": 748.5,
+   "+0.06": 748.5
+  },
+  "rear_lip_above_roof_min_mm": 1.0,
+  "front_lip_above_roof_min_mm": 6.4,
+  "torso_gate": {
+   "front_chest": 0.651,
+   "front_abdomen": 0.624,
+   "front_pelvis": 0.872,
+   "back_chest": 0.447,
+   "back_abdomen": 0.376,
+   "back_pelvis": 0.24,
+   "mean": 0.535
+  },
+  "glute_bp": {
+   "back_glute": 0.187,
+   "back_lumbar": 0.741,
+   "front_groin": 0.521,
+   "q3BL_glute": 0.519,
+   "q3BR_glute": 0.614,
+   "left_glute": 0.35,
+   "right_glute": 0.814
+  }
+ },
+ "h1": {
+  "dihedral": {
+   "p99": 17.8,
+   "max": 33.9,
+   "new_sharp": 0
+  },
+  "moved": 3133,
+  "max_move_mm": 27.1,
+  "sil_front": 4.289,
+  "sil_back": 4.958,
+  "slot": {
+   "apex_front": 0.749,
+   "apex_back": 0.749,
+   "w_front": [
+    43.7,
+    35.8,
+    23.7
+   ],
+   "w_back": [
+    44.0,
+    36.1,
+    23.8
+   ]
+  },
+  "contour_mm": {
+   "mean_abs": 1.53,
+   "max_abs": 3.6,
+   "belly_signed": 3.5
+  },
+  "front_forward_mm": {
+   "worst": -68.8,
+   "at": [
+    0.02,
+    0.77
+   ]
+  },
+  "roof_mm": {
+   "-0.16": 765.1,
+   "-0.12": 756.8,
+   "-0.08": 751.9,
+   "-0.04": 748.6,
+   "+0.00": 748.7,
+   "+0.03": 750.1,
+   "+0.05": 753.2,
+   "+0.06": 755.3
+  },
+  "rear_lip_above_roof_min_mm": 6.8,
+  "front_lip_above_roof_min_mm": 16.5,
+  "torso_gate": {
+   "front_chest": 0.651,
+   "front_abdomen": 0.625,
+   "front_pelvis": 0.851,
+   "back_chest": 0.447,
+   "back_abdomen": 0.389,
+   "back_pelvis": 0.114,
+   "mean": 0.513
+  },
+  "glute_bp": {
+   "back_glute": 0.231,
+   "back_lumbar": 0.741,
+   "front_groin": 0.477,
+   "q3BL_glute": 0.515,
+   "q3BR_glute": 0.624,
+   "left_glute": 0.356,
+   "right_glute": 0.833
+  }
+ }
+}

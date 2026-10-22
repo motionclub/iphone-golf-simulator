@@ -1,0 +1,76 @@
+{
+  "basalt_prisms": {
+    "ok": false,
+    "detail": "47% of the glow area sits in components that are neither vertical-elongated (h/w >= 2.0) nor small (<= 4% of the tile): ladders / boxes (need <= 10%)",
+    "metrics": {
+      "cov": 0.038898468017578125,
+      "bad_frac": 0.46670589389035994,
+      "ncomp": 1409,
+      "run": 0.05859375,
+      "jmean": 1.974609375,
+      "spacing": 4.051434223541048,
+      "pos": 0.09765625,
+      "neg": 0.166015625
+    }
+  },
+  "u_window_feasibility": {
+    "min_column_glow_fraction": 0.0087890625,
+    "max_column_glow_fraction": 0.2841796875,
+    "no_glow_columns": 0,
+    "safe_columns": 0,
+    "zone_glow_limit": 0.0002,
+    "conclusion": "No nonempty vertical u-zone of the current tile can satisfy the inherited glow-free-zone gate."
+  },
+  "needle_pca": [
+    {
+      "height": 18,
+      "requested_width": 4.5,
+      "seed": 3,
+      "r3": 0.13210731062958825,
+      "r3_min": 0.15,
+      "pca_ok": false,
+      "shape_ok": true,
+      "shape_why": []
+    },
+    {
+      "height": 17.6,
+      "requested_width": 3,
+      "seed": 3,
+      "r3": 0.08868025312787925,
+      "r3_min": 0.15,
+      "pca_ok": false,
+      "shape_ok": true,
+      "shape_why": []
+    },
+    {
+      "height": 17.6,
+      "requested_width": 4,
+      "seed": 3,
+      "r3": 0.11790988086261253,
+      "r3_min": 0.15,
+      "pca_ok": false,
+      "shape_ok": true,
+      "shape_why": []
+    },
+    {
+      "height": 17.6,
+      "requested_width": 5.5,
+      "seed": 3,
+      "r3": 0.16196568612243065,
+      "r3_min": 0.15,
+      "pca_ok": true,
+      "shape_ok": true,
+      "shape_why": []
+    },
+    {
+      "height": 16,
+      "requested_width": 5.2,
+      "seed": 3,
+      "r3": 0.16400815092272197,
+      "r3_min": 0.15,
+      "pca_ok": true,
+      "shape_ok": true,
+      "shape_why": []
+    }
+  ]
+}

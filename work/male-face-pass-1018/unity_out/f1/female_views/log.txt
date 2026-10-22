@@ -1,0 +1,16 @@
+E2A06E neutral smile=0 sad=0 shock=0 blink=0
+head bone (0.0000, 1.4900, -0.0023) centre (0.0000, 1.5550, 0.0077)
+Body_F Skin_OriginalSurfacePigment (hero) shader=GolfArcade/HeroFaceSkin skinFinish=2
+OriginalSeamFeatures Reference_Face_Brow (hero) shader=GolfArcade/TennisCharacter skinFinish=0
+OriginalSeamFeatures Reference_Face_Sclera (hero) shader=GolfArcade/TennisCharacter skinFinish=0
+OriginalSeamFeatures Reference_Face_IrisIn (hero) shader=GolfArcade/TennisCharacter skinFinish=0
+OriginalSeamFeatures Reference_Face_Iris (hero) shader=GolfArcade/TennisCharacter skinFinish=0
+OriginalSeamFeatures Reference_Face_Limbal (hero) shader=GolfArcade/TennisCharacter skinFinish=0
+OriginalSeamFeatures Reference_Face_Pupil (hero) shader=GolfArcade/TennisCharacter skinFinish=0
+OriginalSeamFeatures Reference_Face_Catch (hero) shader=GolfArcade/TennisCharacter skinFinish=0
+Racket_Classic White_Frame (hero) shader=GolfArcade/TennisCharacter skinFinish=0
+StringBed White_Strings (hero) shader=GolfArcade/TennisCharacter skinFinish=0
+Kit_Shoe_L Kit_Buckle (hero) shader=GolfArcade/TennisCharacter skinFinish=0
+Kit_Shoe_R Kit_Buckle (hero) shader=GolfArcade/TennisCharacter skinFinish=0
+Acc_Cap Acc_CapMetal (hero) shader=GolfArcade/TennisCharacter skinFinish=0
+globals film=1 profile=0 lighting=0 fill=0.12

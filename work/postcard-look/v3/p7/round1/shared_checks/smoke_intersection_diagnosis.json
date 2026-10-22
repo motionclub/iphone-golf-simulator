@@ -1,0 +1,186 @@
+{
+  "scope": "READ-ONLY diagnosis; no native launches, production or asset edits",
+  "gate": "SMOKE_SOFT_INTERSECTION",
+  "current_status": "FAIL",
+  "original_limit_levels_per_pixel": 6,
+  "original_threshold_unchanged": true,
+  "p6_inputs_manifest": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/p6_installed_1_inputs.json",
+  "p6_inputs_manifest_sha256": "f9d5debf38e093b2ed67b30295f6be18e07ce07c4efb6c6c415c31a074e2db2b",
+  "files": {
+    "Unity/Assets/Editor/GolfLookSmoke.cs": {
+      "p6_sha256": "aef14970f2e047aea2330f897393ceb163c853bca0f75f79fbe46cebcba90351",
+      "current_sha256": "aef14970f2e047aea2330f897393ceb163c853bca0f75f79fbe46cebcba90351",
+      "same": true
+    },
+    "Unity/Assets/Scripts/Course/GolfLook.cs": {
+      "p6_sha256": "9250efae05f14466dbc916db0b5a19f43d4c66df006832446d2274292516db53",
+      "current_sha256": "9250efae05f14466dbc916db0b5a19f43d4c66df006832446d2274292516db53",
+      "same": true
+    },
+    "Unity/Assets/Scripts/Course/GolfAtmosphere.cs": {
+      "p6_sha256": "e661fbea0ac75500bfa741fbf45a45315243f9a6308e40dd950a09946f8af27a",
+      "current_sha256": "e661fbea0ac75500bfa741fbf45a45315243f9a6308e40dd950a09946f8af27a",
+      "same": true
+    },
+    "Unity/Assets/Resources/Course/Shaders/GolfSurf.shader": {
+      "p6_sha256": "8058b43afdf7ad37eb923872e8f8d59e005b42afe7cf0d53440b4bf4e20213a0",
+      "current_sha256": "8058b43afdf7ad37eb923872e8f8d59e005b42afe7cf0d53440b4bf4e20213a0",
+      "same": true
+    },
+    "Unity/Assets/Resources/Course/Shaders/GolfSurf.shader.meta": {
+      "p6_sha256": "610f81f0e96cdbc66358e08ac2adf31e318c49e73dc1e037492de88c643bf368",
+      "current_sha256": "610f81f0e96cdbc66358e08ac2adf31e318c49e73dc1e037492de88c643bf368",
+      "same": true
+    },
+    "Unity/Assets/Resources/Course/Look/Smoke_C.png": {
+      "p6_sha256": "d2a7d68a826e0d283a8f7c8bec2afe2608c8e3bce2d5f95fcec11fc13a68fea3",
+      "current_sha256": "d2a7d68a826e0d283a8f7c8bec2afe2608c8e3bce2d5f95fcec11fc13a68fea3",
+      "same": true
+    },
+    "Unity/Assets/Resources/Course/Look/Smoke_C.png.meta": {
+      "p6_sha256": "bb5389d02bfe5c13ccc8c425e2f1e9f893e1ae36018a21581a4aee99e90c5c07",
+      "current_sha256": "bb5389d02bfe5c13ccc8c425e2f1e9f893e1ae36018a21581a4aee99e90c5c07",
+      "same": true
+    },
+    "Unity/Assets/Resources/Course/Look/Basalt_C.png": {
+      "p6_sha256": "8d4c38701257a7feda16c1f7d14c0c5285be9666cc68109d120f290fac2215b2",
+      "current_sha256": "c2669066677500fc5505bcf9b7f609f0f81a8cd2d30f185ecf099e285a9220a8",
+      "same": false
+    },
+    "Unity/Assets/Resources/Course/Look/Basalt_C.png.meta": {
+      "p6_sha256": "2e7dbcad01146b666fc8cd219ecc5be29cc0cdd714a0210311f2651d7ec042ce",
+      "current_sha256": "2e7dbcad01146b666fc8cd219ecc5be29cc0cdd714a0210311f2651d7ec042ce",
+      "same": true
+    },
+    "Unity/Assets/Resources/Course/Look/Basalt_N.png": {
+      "p6_sha256": "9b33bd63d4d5e43efac83af4e2c452383c09edfc884d6751e0f0b3a378caafc8",
+      "current_sha256": "29d76e76250e7650a6302884231dea2e233c8ee4b142edf1ea5f1dfb0f52d489",
+      "same": false
+    },
+    "Unity/Assets/Resources/Course/Look/Basalt_N.png.meta": {
+      "p6_sha256": "6fa7348d6e92069f84920ddfd859c610560ddf848b8ef99ae16850bdda5ba240",
+      "current_sha256": "6fa7348d6e92069f84920ddfd859c610560ddf848b8ef99ae16850bdda5ba240",
+      "same": true
+    },
+    "Unity/Assets/Resources/Course/Look/Basalt_E.png": {
+      "p6_sha256": "b15a7e7ecc4bd3c3157d1d5bf9029ed09130a9e1f92f01b45da0aae1c460217e",
+      "current_sha256": "7d46c1565ebae9e85d0c3dd23d7d42f79ed37f45e677ee44972f857cee7e75e3",
+      "same": false
+    },
+    "Unity/Assets/Resources/Course/Look/Basalt_E.png.meta": {
+      "p6_sha256": "571037f9bda89023114cd9b38a1fa53008acceff10f0d81be87fe8cb5557adf2",
+      "current_sha256": "571037f9bda89023114cd9b38a1fa53008acceff10f0d81be87fe8cb5557adf2",
+      "same": true
+    }
+  },
+  "raw_original_gate_lines": {
+    "p6": [
+      "GATE: SMOKE_SOFT_INTERSECTION PASS - a card cutting through an opaque wall at 40 deg: edge step p99 with the table's _SoftFade (40 yd) 4.56 levels/px (<= 6; max 8.1), control with _SoftFade 0 27.39 (> 6 and >= 2x the soft one: the test sees the hard edge), the soft card still moves 41702 px (>= 3000; control 51923)",
+      "GATE: [TennisURP] SMOKE_SOFT_INTERSECTION PASS - a card cutting through an opaque wall at 40 deg: edge step p99 with the table's _SoftFade (40 yd) 4.56 levels/px (<= 6; max 8.1), control with _SoftFade 0 27.39 (> 6 and >= 2x the soft one: the test sees the hard edge), the soft card still moves 41702 px (>= 3000; control 51923)",
+      "GATE: [HeroBaseStudioURP] SMOKE_SOFT_INTERSECTION PASS - a card cutting through an opaque wall at 40 deg: edge step p99 with the table's _SoftFade (40 yd) 4.56 levels/px (<= 6; max 8.1), control with _SoftFade 0 27.39 (> 6 and >= 2x the soft one: the test sees the hard edge), the soft card still moves 41702 px (>= 3000; control 51923)"
+    ],
+    "p7": [
+      "GATE: SMOKE_SOFT_INTERSECTION FAIL - a card cutting through an opaque wall at 40 deg: edge step p99 with the table's _SoftFade (40 yd) 6.20 levels/px (<= 6; max 10.2), control with _SoftFade 0 29.03 (> 6 and >= 2x the soft one: the test sees the hard edge), the soft card still moves 41114 px (>= 3000; control 51468)",
+      "GATE: [TennisURP] SMOKE_SOFT_INTERSECTION FAIL - a card cutting through an opaque wall at 40 deg: edge step p99 with the table's _SoftFade (40 yd) 6.20 levels/px (<= 6; max 10.2), control with _SoftFade 0 29.03 (> 6 and >= 2x the soft one: the test sees the hard edge), the soft card still moves 41114 px (>= 3000; control 51468)",
+      "GATE: [HeroBaseStudioURP] SMOKE_SOFT_INTERSECTION FAIL - a card cutting through an opaque wall at 40 deg: edge step p99 with the table's _SoftFade (40 yd) 6.20 levels/px (<= 6; max 10.2), control with _SoftFade 0 29.03 (> 6 and >= 2x the soft one: the test sees the hard edge), the soft card still moves 41114 px (>= 3000; control 51468)",
+      "GATE: URP_BOTH_ASSETS PASS - TennisURP (per-object additional lights 2): 32/33 gates PASS, FAIL: SMOKE_SOFT_INTERSECTION; HeroBaseStudioURP (per-object additional lights 4): 32/33 gates PASS, FAIL: SMOKE_SOFT_INTERSECTION; lava lights gates pass under both: True; same PASS/FAIL under both assets: True"
+    ]
+  },
+  "ordinary_smoke_info": {
+    "p6": [
+      "INFO: SMOKE card over the crater sky at 130 yd: effective alpha max 0.33 p95 0.21 border 0.000 (_Color.a 1.00, _AlphaGain 1.10, _AlphaPower 1.50, _EdgeFade 0.18, _FogShare 0.30); 24241 px move the frame, |delta luminance| median 11.1 p99 37.0, edge step p99 1.79 levels/px; brightest tenth of the plume (205,132,108) S 0.48 (crater.jpg plume (183,154,150) S .18)",
+      "INFO: [TennisURP] SMOKE card over the crater sky at 130 yd: effective alpha max 0.33 p95 0.21 border 0.000 (_Color.a 1.00, _AlphaGain 1.10, _AlphaPower 1.50, _EdgeFade 0.18, _FogShare 0.30); 24241 px move the frame, |delta luminance| median 11.1 p99 37.0, edge step p99 1.79 levels/px; brightest tenth of the plume (205,132,108) S 0.48 (crater.jpg plume (183,154,150) S .18)",
+      "INFO: [HeroBaseStudioURP] SMOKE card over the crater sky at 130 yd: effective alpha max 0.33 p95 0.21 border 0.000 (_Color.a 1.00, _AlphaGain 1.10, _AlphaPower 1.50, _EdgeFade 0.18, _FogShare 0.30); 24241 px move the frame, |delta luminance| median 11.1 p99 37.0, edge step p99 1.79 levels/px; brightest tenth of the plume (205,132,108) S 0.48 (crater.jpg plume (183,154,150) S .18)"
+    ],
+    "p7": [
+      "INFO: SMOKE card over the crater sky at 130 yd: effective alpha max 0.33 p95 0.21 border 0.000 (_Color.a 1.00, _AlphaGain 1.10, _AlphaPower 1.50, _EdgeFade 0.18, _FogShare 0.30); 24241 px move the frame, |delta luminance| median 11.1 p99 37.0, edge step p99 1.79 levels/px; brightest tenth of the plume (205,132,108) S 0.48 (crater.jpg plume (183,154,150) S .18)",
+      "INFO: [TennisURP] SMOKE card over the crater sky at 130 yd: effective alpha max 0.33 p95 0.21 border 0.000 (_Color.a 1.00, _AlphaGain 1.10, _AlphaPower 1.50, _EdgeFade 0.18, _FogShare 0.30); 24241 px move the frame, |delta luminance| median 11.1 p99 37.0, edge step p99 1.79 levels/px; brightest tenth of the plume (205,132,108) S 0.48 (crater.jpg plume (183,154,150) S .18)",
+      "INFO: [HeroBaseStudioURP] SMOKE card over the crater sky at 130 yd: effective alpha max 0.33 p95 0.21 border 0.000 (_Color.a 1.00, _AlphaGain 1.10, _AlphaPower 1.50, _EdgeFade 0.18, _FogShare 0.30); 24241 px move the frame, |delta luminance| median 11.1 p99 37.0, edge step p99 1.79 levels/px; brightest tenth of the plume (205,132,108) S 0.48 (crater.jpg plume (183,154,150) S .18)"
+    ]
+  },
+  "images": {
+    "smoke_card.jpg": {
+      "p6_path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/runtime/runs/p6_installed_1/runtime/shots/p6_installed_1/smoke_card.jpg",
+      "p7_path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/runtime/runs/p7_installed_round1/runtime/shots/p7_installed_round1/smoke_card.jpg",
+      "p6_sha256": "59477ef93cd6610d247e24211125ce6799b2633a82ce52c88674b03f4fbb3b9e",
+      "p7_sha256": "59477ef93cd6610d247e24211125ce6799b2633a82ce52c88674b03f4fbb3b9e",
+      "same_bytes": true,
+      "same_decoded_pixel_share": 1.0
+    },
+    "smoke_card_without.jpg": {
+      "p6_path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/runtime/runs/p6_installed_1/runtime/shots/p6_installed_1/smoke_card_without.jpg",
+      "p7_path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/runtime/runs/p7_installed_round1/runtime/shots/p7_installed_round1/smoke_card_without.jpg",
+      "p6_sha256": "1df2e69182acdcddffa138d8d6851dd71b610b62c28045bf4bff13633c82b011",
+      "p7_sha256": "1df2e69182acdcddffa138d8d6851dd71b610b62c28045bf4bff13633c82b011",
+      "same_bytes": true,
+      "same_decoded_pixel_share": 1.0
+    },
+    "smoke_card_far.jpg": {
+      "p6_path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/runtime/runs/p6_installed_1/runtime/shots/p6_installed_1/smoke_card_far.jpg",
+      "p7_path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/runtime/runs/p7_installed_round1/runtime/shots/p7_installed_round1/smoke_card_far.jpg",
+      "p6_sha256": "d4894021b8e31be94228e7e06764aa870c9b3f7d0dec247ba2f352217166bcb4",
+      "p7_sha256": "d4894021b8e31be94228e7e06764aa870c9b3f7d0dec247ba2f352217166bcb4",
+      "same_bytes": true,
+      "same_decoded_pixel_share": 1.0
+    },
+    "smoke_card_without_far.jpg": {
+      "p6_path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/runtime/runs/p6_installed_1/runtime/shots/p6_installed_1/smoke_card_without_far.jpg",
+      "p7_path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/runtime/runs/p7_installed_round1/runtime/shots/p7_installed_round1/smoke_card_without_far.jpg",
+      "p6_sha256": "1df2e69182acdcddffa138d8d6851dd71b610b62c28045bf4bff13633c82b011",
+      "p7_sha256": "1df2e69182acdcddffa138d8d6851dd71b610b62c28045bf4bff13633c82b011",
+      "same_bytes": true,
+      "same_decoded_pixel_share": 1.0
+    },
+    "smoke_intersect_soft_without.jpg": {
+      "p6_path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/runtime/runs/p6_installed_1/runtime/shots/p6_installed_1/smoke_intersect_soft_without.jpg",
+      "p7_path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/runtime/runs/p7_installed_round1/runtime/shots/p7_installed_round1/smoke_intersect_soft_without.jpg",
+      "p6_sha256": "1e4c0e0b6b67cb2964304ae371b29156897e05425a4935657d416e83341d1aa6",
+      "p7_sha256": "82d3ace93a0c4fde68951a345bfeeb7ae24f804503cb1b541df348af23b8b5d4",
+      "same_bytes": false,
+      "same_decoded_pixel_share": 0.5851347222222222,
+      "far_sky_outside_wall": {
+        "rows": [
+          [
+            0,
+            349
+          ],
+          [
+            1160,
+            1599
+          ]
+        ],
+        "pixels": 711000,
+        "exactly_equal": true,
+        "max_channel_delta": 0
+      }
+    },
+    "smoke_intersect_soft.jpg": {
+      "p6_path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/runtime/runs/p6_installed_1/runtime/shots/p6_installed_1/smoke_intersect_soft.jpg",
+      "p7_path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/runtime/runs/p7_installed_round1/runtime/shots/p7_installed_round1/smoke_intersect_soft.jpg",
+      "p6_sha256": "6becee8e81dc1ef5c664e417fc4fcaece85ecde55b227c6500e8f8cf1655d635",
+      "p7_sha256": "8371b5969500e8c3e5769e0721630bbd27de22c1013fa20e6e1869eb0318d425",
+      "same_bytes": false,
+      "same_decoded_pixel_share": 0.58519375
+    },
+    "smoke_intersect_control.jpg": {
+      "p6_path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/runtime/runs/p6_installed_1/runtime/shots/p6_installed_1/smoke_intersect_control.jpg",
+      "p7_path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/runtime/runs/p7_installed_round1/runtime/shots/p7_installed_round1/smoke_intersect_control.jpg",
+      "p6_sha256": "ac17d55bd99cceb0ce025c356bb6afc5c72116e68303d4edc5ba1cfbbdda461b",
+      "p7_sha256": "a513d00a5b612ef94474b2ea833834a08ed95d84e58080d43fb0bc78dbb4e654",
+      "same_bytes": false,
+      "same_decoded_pixel_share": 0.5858479166666667
+    }
+  },
+  "code_evidence": {
+    "synthetic_wall": "GolfLookSmoke.cs2332 obtains LK_BASALT;2339 draws the board wall with8m tile;2341 creates synthetic LK_SMOKE card",
+    "signature": "2345..2354 compute absolute with-minus-without luminance, then its central-difference gradient over every moved pixel, not only the depth intersection line",
+    "actual_course_removed": "CheckHoles destroys each HoleView and its parent at374..377 before Suite/SmokeIntersection"
+  },
+  "cause": "The reviewed Phase7 Basalt_C/N/E map replacements changed the synthetic opaque wall signature beneath the unchanged smoke. In a translucent composite, changing the background changes the with-minus-without signature gradient. The four ordinary smoke shots are byte-identical and711000 far-sky pixels of the wall board are exactly identical; the changed image region is the basalt wall. H8 aqueous smoke geometry is not an input to this board. No relevant checker/runtime/shader/smoke texture/importer drift relative to the recorded P6 inputs was found.",
+  "limitation": "No native isolated C-vs-N-vs-E counterfactual was run. Attribution is to the changed three-map basalt set; do not claim one map alone proven responsible.",
+  "scoped_fix": {
+    "hole_geometry_fix_can_affect_board": false,
+    "possible_source_target": "blender/scripts/golf_look_textures.py::_basalt_bounded_network",
+    "candidate_not_applied": "Physically soften/antialias the changed fracture glow/groove transition while preserving real connected joints, hot cores, all original texture windows/profile/component/color gates. A finite scratch-only candidate and native original full smoke are required before calling it a fix. Runtime _SoftFade/checker/threshold changes are unnecessary and unauthorized."
+  }
+}

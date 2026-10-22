@@ -1,0 +1,46 @@
+[
+  {
+    "label": "male_animation",
+    "source": "GEO-head_animation_realistic",
+    "parts": [
+      "GEO-head_animation_realistic_Candidate",
+      "GEO-head_animation_realistic.iris.L_Candidate",
+      "GEO-head_animation_realistic.iris.R_Candidate",
+      "GEO-head_animation_realistic.sclera.L_Candidate",
+      "GEO-head_animation_realistic.sclera.R_Candidate"
+    ],
+    "sourceEyeWorld": [
+      1.4625718593597412,
+      -0.1257711797952652,
+      0.7666954398155212
+    ]
+  },
+  {
+    "label": "female_head_stylized",
+    "source": "GEO-head_stylized",
+    "parts": [
+      "GEO-head_stylized_Candidate",
+      "GEO-head_stylized.eye.L_Candidate",
+      "GEO-head_stylized.eye.R_Candidate"
+    ],
+    "sourceEyeWorld": [
+      2.082951545715332,
+      -0.09320111572742462,
+      0.7282043099403381
+    ]
+  },
+  {
+    "label": "female_body_stylized",
+    "source": "GEO-body_female_stylized",
+    "parts": [
+      "GEO-body_female_stylized_Candidate",
+      "GEO-body_female_stylized.eye.L_Candidate",
+      "GEO-body_female_stylized.eye.R_Candidate"
+    ],
+    "sourceEyeWorld": [
+      0.6359782218933105,
+      -0.0804038867354393,
+      1.46327805519104
+    ]
+  }
+]

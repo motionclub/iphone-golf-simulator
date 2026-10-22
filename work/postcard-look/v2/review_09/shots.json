@@ -1,0 +1,8 @@
+{"shots":[
+{"name":"r_tee","kind":"address","ball":[0,0],"aim":[3,60]},
+{"name":"r_appr2","kind":"address","ball":[10,300],"aim":[-9,449]},
+{"name":"r_ridge_fairside","kind":"landmark","pos":[40,28,150],"look":[-64,6.6,115],"fov":55},
+{"name":"r_ruin_lm","kind":"landmark","pos":[-64.06,26,149.86],"look":[-64.06,10.1,119.86],"fov":50},
+{"name":"r_aerial_still","kind":"landmark","pos":[60,150,400],"look":[-40,5,260],"fov":45,"preview_res":[1600,900]},
+{"name":"r_aerial_side","kind":"landmark","pos":[-200,110,200],"look":[-30,5,260],"fov":45,"preview_res":[1600,900]}
+]}

@@ -1,0 +1,363 @@
+{
+ "gender": "male",
+ "objects": [
+  {
+   "name": "Kit_Top_Polo_M",
+   "category": "Top",
+   "socket": "Chest_Top",
+   "tris": 22298,
+   "verts": 11167,
+   "fit_ref": "authority",
+   "has_uv": true,
+   "custom_normals": true,
+   "material_slots_white": [
+    "Std_White_Lit",
+    "Std_White_Lit"
+   ],
+   "material_slots_black": [
+    "Std_Black_Lit",
+    "Std_White_Lit"
+   ],
+   "topology": {
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "same_direction_edges": 0,
+    "islands": 19,
+    "island_sizes": [
+     8308,
+     819,
+     275,
+     275,
+     261,
+     165,
+     165,
+     165,
+     165,
+     78,
+     78,
+     56,
+     54,
+     51,
+     51,
+     51,
+     50,
+     50,
+     50
+    ]
+   },
+   "bbox_min": [
+    -0.3621,
+    -0.1993,
+    0.9449
+   ],
+   "bbox_max": [
+    0.3619,
+    0.1231,
+    1.4712
+   ]
+  },
+  {
+   "name": "Kit_Bottom_Shorts_M",
+   "category": "Bottom",
+   "socket": "Hip_Bottom",
+   "tris": 21032,
+   "verts": 10522,
+   "fit_ref": "authority",
+   "has_uv": true,
+   "custom_normals": true,
+   "material_slots_white": [
+    "Std_White_Lit",
+    "Std_White_Lit",
+    "Std_Black_Lit"
+   ],
+   "material_slots_black": [
+    "Std_Black_Lit",
+    "Std_White_Lit",
+    "Std_White_Lit"
+   ],
+   "topology": {
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "same_direction_edges": 0,
+    "islands": 8,
+    "island_sizes": [
+     8176,
+     1440,
+     303,
+     303,
+     90,
+     90,
+     60,
+     60
+    ]
+   },
+   "bbox_min": [
+    -0.258,
+    -0.2079,
+    0.5739
+   ],
+   "bbox_max": [
+    0.2585,
+    0.1223,
+    0.965
+   ]
+  },
+  {
+   "name": "Kit_Sock_L",
+   "category": "Sock",
+   "socket": "Foot_L_Shoe",
+   "tris": 6270,
+   "verts": 3135,
+   "fit_ref": "authority",
+   "has_uv": true,
+   "custom_normals": true,
+   "material_slots_white": [
+    "Std_White_Lit",
+    "Std_White_Lit"
+   ],
+   "material_slots_black": [
+    "Std_Black_Lit",
+    "Std_White_Lit"
+   ],
+   "topology": {
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "same_direction_edges": 0,
+    "islands": 2,
+    "island_sizes": [
+     2820,
+     315
+    ]
+   },
+   "bbox_min": [
+    -0.2897,
+    -0.2288,
+    -0.0043
+   ],
+   "bbox_max": [
+    -0.0938,
+    0.0906,
+    0.3018
+   ]
+  },
+  {
+   "name": "Kit_Sock_R",
+   "category": "Sock",
+   "socket": "Foot_R_Shoe",
+   "tris": 6270,
+   "verts": 3137,
+   "fit_ref": "authority",
+   "has_uv": true,
+   "custom_normals": true,
+   "material_slots_white": [
+    "Std_White_Lit",
+    "Std_White_Lit"
+   ],
+   "material_slots_black": [
+    "Std_Black_Lit",
+    "Std_White_Lit"
+   ],
+   "topology": {
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "same_direction_edges": 0,
+    "islands": 2,
+    "island_sizes": [
+     2822,
+     315
+    ]
+   },
+   "bbox_min": [
+    0.0952,
+    -0.2289,
+    -0.0043
+   ],
+   "bbox_max": [
+    0.2892,
+    0.0906,
+    0.3018
+   ]
+  },
+  {
+   "name": "Kit_Shoe_L",
+   "category": "Shoe",
+   "socket": "Foot_L_Shoe",
+   "tris": 15880,
+   "verts": 8014,
+   "fit_ref": "authority",
+   "has_uv": true,
+   "custom_normals": true,
+   "material_slots_white": [
+    "Std_White_Lit",
+    "Std_White_Lit"
+   ],
+   "material_slots_black": [
+    "Std_Black_Lit",
+    "Std_White_Lit"
+   ],
+   "topology": {
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "same_direction_edges": 0,
+    "islands": 41,
+    "island_sizes": [
+     4510,
+     834,
+     444,
+     294,
+     240,
+     186,
+     128,
+     99,
+     80,
+     75,
+     70,
+     70,
+     70,
+     65,
+     65,
+     65,
+     60,
+     55,
+     45,
+     45,
+     42,
+     40,
+     40,
+     40,
+     35,
+     30,
+     30,
+     30,
+     30,
+     30,
+     27,
+     14,
+     14,
+     14,
+     14,
+     14,
+     14,
+     14,
+     14,
+     14,
+     14
+    ]
+   },
+   "bbox_min": [
+    -0.3021,
+    -0.2424,
+    -0.0305
+   ],
+   "bbox_max": [
+    -0.1128,
+    0.103,
+    0.1444
+   ]
+  },
+  {
+   "name": "Kit_Shoe_R",
+   "category": "Shoe",
+   "socket": "Foot_R_Shoe",
+   "tris": 15804,
+   "verts": 7976,
+   "fit_ref": "authority",
+   "has_uv": true,
+   "custom_normals": true,
+   "material_slots_white": [
+    "Std_White_Lit",
+    "Std_White_Lit"
+   ],
+   "material_slots_black": [
+    "Std_Black_Lit",
+    "Std_White_Lit"
+   ],
+   "topology": {
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "same_direction_edges": 0,
+    "islands": 41,
+    "island_sizes": [
+     4502,
+     834,
+     444,
+     294,
+     240,
+     186,
+     128,
+     81,
+     80,
+     75,
+     70,
+     70,
+     65,
+     65,
+     65,
+     60,
+     60,
+     55,
+     45,
+     42,
+     40,
+     40,
+     40,
+     40,
+     35,
+     30,
+     30,
+     30,
+     30,
+     30,
+     30,
+     14,
+     14,
+     14,
+     14,
+     14,
+     14,
+     14,
+     14,
+     14,
+     14
+    ]
+   },
+   "bbox_min": [
+    0.1132,
+    -0.2425,
+    -0.0305
+   ],
+   "bbox_max": [
+    0.3013,
+    0.1031,
+    0.1441
+   ]
+  }
+ ],
+ "body_sha256": "fd04bc286f688b03ea25fbb57e1242bf2f5976c2dc7bbcdfdb0f68b622ab2347",
+ "shoe_lift_m": 0.0285,
+ "sockets": {
+  "Chest_Top": [
+   0,
+   0,
+   1.25
+  ],
+  "Hip_Bottom": [
+   0,
+   0,
+   0.95
+  ],
+  "Foot_L_Shoe": [
+   -0.18,
+   0.0,
+   0.09
+  ],
+  "Foot_R_Shoe": [
+   0.18,
+   0.0,
+   0.09
+  ]
+ },
+ "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/standard-tennis-kit-worn/export/StandardKit_Male.blend",
+ "blend_sha256": "ad07a7b9ba984b0f220f975b9fe1b0c1b7068d9897c7e6f96e44f70d23aa77a9",
+ "body_sha256_after": "fd04bc286f688b03ea25fbb57e1242bf2f5976c2dc7bbcdfdb0f68b622ab2347"
+}

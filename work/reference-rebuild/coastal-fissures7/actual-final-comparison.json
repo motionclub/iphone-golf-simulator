@@ -1,0 +1,56 @@
+{
+  "roi": [
+    140,
+    550,
+    700,
+    710
+  ],
+  "samples": {
+    "coastal-erosion5-ao": {
+      "meanRgb": [
+        179.73120535714287,
+        175.3557142857143,
+        151.48279017857143
+      ],
+      "lumaP10MedianP90": [
+        141.20139999999998,
+        180.1136,
+        202.46659999999997
+      ],
+      "brightFractionAbove220": 0.0053125,
+      "obstacleHash": "d00676de414bd86eb0531a63278633568687a9313d5552a17c6215aad11c5c1d"
+    },
+    "coastal-fissures6": {
+      "meanRgb": [
+        208.14381696428572,
+        198.79337053571427,
+        164.66027901785714
+      ],
+      "lumaP10MedianP90": [
+        150.5468,
+        202.8116,
+        242.94519999999997
+      ],
+      "brightFractionAbove220": 0.306328125,
+      "obstacleHash": "d00676de414bd86eb0531a63278633568687a9313d5552a17c6215aad11c5c1d"
+    },
+    "coastal-fissures7": {
+      "meanRgb": [
+        202.14985491071428,
+        192.0119419642857,
+        159.40463169642857
+      ],
+      "lumaP10MedianP90": [
+        149.4786,
+        197.8838,
+        226.29700000000003
+      ],
+      "brightFractionAbove220": 0.18745535714285713,
+      "obstacleHash": "d00676de414bd86eb0531a63278633568687a9313d5552a17c6215aad11c5c1d"
+    }
+  },
+  "materialOnlyPhysicsParity": {
+    "obstaclesExact": true,
+    "groundContractsExact": true
+  }
+}

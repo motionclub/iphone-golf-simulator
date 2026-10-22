@@ -1,0 +1,31 @@
+{
+  "bandSize": 1024,
+  "fairwayBand": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/band-fields/fairway.f32",
+  "greenBand": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/band-fields/green.f32",
+  "playY": 6.56167979,
+  "cliffPrefixes": [
+    "ROCK_SKIN",
+    "TERRAIN"
+  ],
+  "holes": [
+    {
+      "hole": 8,
+      "landmarks": [
+        {
+          "name": "arch",
+          "prefixes": [
+            "DRESS_ARCH"
+          ],
+          "splitEachRenderer": false
+        },
+        {
+          "name": "stack",
+          "prefixes": [
+            "ROCK_NEEDLE"
+          ],
+          "splitEachRenderer": true
+        }
+      ]
+    }
+  ]
+}

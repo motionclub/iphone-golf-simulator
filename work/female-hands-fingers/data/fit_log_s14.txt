@@ -1,0 +1,31 @@
+start cost 7170 roi 2128 lm 9.1 mm
+0 cost 7170 roi 2128 lm 9.1 sigma 0.150 0s
+25 cost 3538 roi 1786 lm 9.9 sigma 0.120 4s
+50 cost 3057 roi 1760 lm 7.2 sigma 0.150 8s
+75 cost 2639 roi 1912 lm 6.7 sigma 0.188 13s
+100 cost 2544 roi 2002 lm 9.1 sigma 0.120 17s
+125 cost 2321 roi 1890 lm 8.4 sigma 0.096 21s
+150 cost 2262 roi 1876 lm 9.5 sigma 0.077 26s
+175 cost 2229 roi 1868 lm 9.1 sigma 0.061 30s
+200 cost 2149 roi 1850 lm 8.3 sigma 0.039 33s
+225 cost 2103 roi 1834 lm 6.9 sigma 0.031 37s
+250 cost 2095 roi 1858 lm 6.4 sigma 0.025 41s
+275 cost 2037 roi 1832 lm 5.9 sigma 0.020 45s
+300 cost 2013 roi 1818 lm 5.8 sigma 0.020 49s
+325 cost 2013 roi 1818 lm 5.8 sigma 0.020 53s
+350 cost 2013 roi 1818 lm 5.8 sigma 0.020 57s
+375 cost 2012 roi 1820 lm 5.7 sigma 0.020 61s
+400 cost 1993 roi 1820 lm 6.0 sigma 0.020 65s
+425 cost 1985 roi 1818 lm 6.1 sigma 0.020 69s
+450 cost 1956 roi 1816 lm 6.7 sigma 0.020 73s
+475 cost 1951 roi 1816 lm 7.9 sigma 0.020 78s
+500 cost 1934 roi 1810 lm 8.5 sigma 0.020 83s
+525 cost 1922 roi 1810 lm 8.3 sigma 0.020 88s
+550 cost 1919 roi 1810 lm 8.3 sigma 0.020 92s
+575 cost 1904 roi 1804 lm 8.7 sigma 0.020 96s
+600 cost 1890 roi 1796 lm 8.1 sigma 0.020 100s
+625 cost 1879 roi 1790 lm 6.6 sigma 0.020 105s
+650 cost 1879 roi 1790 lm 6.6 sigma 0.020 109s
+675 cost 1859 roi 1782 lm 6.6 sigma 0.020 113s
+BEST 1849 1773.5 6.65
+{"shear_L": 0.1039913428750684, "shear_y": 0.03243763339094363, "curl": 0.8811311042093516, "B_gain": 0.9832956178832394, "A_gain": 0.8843164852724614, "NC_gain": 0.3497291415009912, "span": 0.04, "thumb_r_scale": 0.947957828572287, "fing_scale": 0.9650856952037498, "splay_scale": 0.9156436228244668, "thumb_a_shift": -0.001740561732972039, "thumb_n_shift": 0.0021818388205692794, "thumb_len_scale": 1.0434478168497778, "mid_tip": 0.15340596699284617, "psi_deg": 0.0, "out_deg": 3.8, "lean_deg": 0.0}

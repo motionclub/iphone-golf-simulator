@@ -1,0 +1,202 @@
+{
+  "P0.1": {
+    "result": "PASS",
+    "proof": "P0_RESULT.md",
+    "details": "BASELINE.md records all owned-file statuses, complete native counts 410 passed / 8 failed / 1 skipped, Unity helper 10 compile errors / 0 executed tests, and Editor EditMode 253 passed / 0 failed. Pre-existing failure names are P0_failures.json."
+  },
+  "P0.2": {
+    "result": "PASS",
+    "proof": "P0_RESULT.md",
+    "details": "baseline-anchors.txt, BASELINE.md includes API/course/runtime drift."
+  },
+  "P1.1": {
+    "result": "PASS",
+    "proof": "P1_RESULT.md",
+    "details": "P1_native.log / P1_native.xcresult. OnboardingTests: 6 passed; fresh account, either existing tutorial skip, persistence, ftue-only reset, legacy flags, all persisted steps, stable guest/name constraints."
+  },
+  "P1.2": {
+    "result": "PASS",
+    "proof": "P1_RESULT.md",
+    "details": "same proof. AnalyticsTests: 2 passed; actual single SportsDiagnostics log line plus props/time, monotonic time, 200-event bound and escaped values."
+  },
+  "P1.3": {
+    "result": "FAIL(BLOCKED-OWNER)",
+    "proof": "P1_RESULT.md",
+    "details": "original-build SportsNavigationTests already fails at its obsolete Form assertion (P0_navigation_retry.xcresult); its owner must update the test. Full native baseline still running; regression comparison remains required in P10. No account UI is implemented in this phase."
+  },
+  "P2.1": {
+    "result": "PASS",
+    "proof": "P2_RESULT.md",
+    "details": "fresh dedicated Simulator install after simctl uninstall (03AEFA81\u2026, com.aloniewski.GolfArcade). OnboardingUITests/testFreshAccountAppearsBeforeAnySystemAlert: interruption monitor 0, app alerts 0, account guest action visible. P2_retry.xcresult (2 passed, 0 failed). DEBUG fake authentication is delayed 7 s only for this observation; production timing is unchanged."
+  },
+  "P2.2": {
+    "result": "FAIL(BLOCKED-OWNER)",
+    "proof": "P2_RESULT.md",
+    "details": "decline and unavailable both reach Character; full guest-to-done cannot run without Simulator Unity framework. No fake completion was added. Runtime dependency in NEEDS_OWNER.md."
+  },
+  "P2.3": {
+    "result": "FAIL",
+    "proof": "P2_RESULT.md",
+    "details": "no signed physical-device Game Center recording yet."
+  },
+  "P2.4": {
+    "result": "PASS",
+    "proof": "P2_RESULT.md",
+    "details": "rg of added sources finds no tracking/notification permission calls; final owned diff will be rescanned."
+  },
+  "P3.1": {
+    "result": "PASS",
+    "proof": "P3_RESULT.md",
+    "details": "P3_final.xcresult: scripted fresh-onboarding guest run saves Female/Ray and reaches connection in under 60 seconds. Test body records wall time; combined UI test took 20.899s. Existing roster API persistence unit test passes."
+  },
+  "P3.2": {
+    "result": "FAIL(BLOCKED-OWNER)",
+    "proof": "P3_RESULT.md",
+    "details": "Saved body/name survive relaunch (P3_final_attachments screenshot); selected haircut Bob does not render in preview. Locked character renderer and unavailable integrated simulator prevent the required preview/match pair. NEEDS_OWNER.md."
+  },
+  "P3.3": {
+    "result": "PASS",
+    "proof": "P3_RESULT.md",
+    "details": "OnboardingTests name sanitizer checks blank\u2192Player 1, long\u219240 characters; P1_native.xcresult and P3_native.xcresult."
+  },
+  "P4.1": {
+    "result": "PASS",
+    "proof": "P4_RESULT.md",
+    "details": "P5_native.xcresult testNoDisplayContinuesToChoose: waiting text, phone button, real Choose buttons. P5_attachments/B429AEEE-F457-4E35-9BB4-477DCCD51E4E.png."
+  },
+  "P4.2": {
+    "result": "FAIL",
+    "proof": "P4_RESULT.md",
+    "details": "No recorded physical TV detection within five seconds."
+  },
+  "P4.3": {
+    "result": "FAIL",
+    "proof": "P4_RESULT.md",
+    "details": "No Mac receiver recording / actual kind=mac event."
+  },
+  "P4.4": {
+    "result": "FAIL(BLOCKED-OWNER)",
+    "proof": "P4_RESULT.md",
+    "details": "Motion primer contains no camera request; actual permission lives in SportsMotion. Both required device recordings missing. Touch + attached-display start is rejected by shared runtime. NEEDS_OWNER.md."
+  },
+  "P4.5": {
+    "result": "PASS",
+    "proof": "P4_RESULT.md",
+    "details": "OnboardingConnectScreen uses HowTo.connectTV / connectMac; copy names only Apple TV/AirPlay TV/Mac Receiver. P4_strings-audit.txt."
+  },
+  "P4.6": {
+    "result": "N/A",
+    "proof": "P4_RESULT.md",
+    "details": "No cable tip added; no verified cable device recording."
+  },
+  "P5.1": {
+    "result": "FAIL(BLOCKED-OWNER)",
+    "proof": "P5_RESULT.md",
+    "details": "Island-style Tennis/Golf cards render and both taps reach their tutorial route; P5_native.xcresult tests pass and P5_attachments holds the real snapshots. Golf includes both required availability labels. Actual playable tutorial start cannot be certified by native-only Simulator. The current integrated Unity export is stale and rebuilding it invokes locked resource regeneration (NEEDS_OWNER.md)."
+  },
+  "P6.1": {
+    "result": "PASS",
+    "proof": "P6_RESULT.md",
+    "details": "P6_editmode.xml: new order, all goals one, Skip exactly one, index-two resume. Full EditMode 257/257."
+  },
+  "P6.2": {
+    "result": "FAIL",
+    "proof": "P6_RESULT.md",
+    "details": "P6_PlayMode_final/playmode.log first actual contact 5.686 seconds without steering; required physical-device recording missing. Full lesson later fails at Aim."
+  },
+  "P6.3": {
+    "result": "FAIL(BLOCKED-OWNER)",
+    "proof": "P6_RESULT.md",
+    "details": "Owned TennisRacketController hides both sliders at steps 0\u20131 and fixes power .7; actual forehand contact without steering is logged. Locked SportsDisplays preview still installs a separate slider overlay, so the requested on-phone snapshot cannot pass."
+  },
+  "P6.4": {
+    "result": "FAIL(BLOCKED-OWNER)",
+    "proof": "P6_RESULT.md",
+    "details": "No completed motion/TV walkthrough. Real full-lesson PlayMode test fails at Aim; owners of gameplay/rig are required."
+  },
+  "P6.5": {
+    "result": "FAIL",
+    "proof": "P6_RESULT.md",
+    "details": "Store unit test resumes index 2 and bridge reads tutorialStart; no actual resumedAt=2 runtime/video proof."
+  },
+  "P6.6": {
+    "result": "FAIL(BLOCKED-OWNER)",
+    "proof": "P6_RESULT.md",
+    "details": "P6_Points/playmode.log: all ten seeded attempts recorded, zero wins; genuine no-swing attempt stays unfinished after 90 simulated seconds."
+  },
+  "P7.1": {
+    "result": "FAIL(BLOCKED-OWNER)",
+    "proof": "P7_RESULT.md",
+    "details": "Four text cards replaced by one optional setup card; first-time flow launches interactive component directly. Practice/aim/hole model implemented. Current GolfGame loads foreign-owned Postcards and exposes no tutorial hole reset, so Cliffside hole 1 and a clean hole start cannot be certified. Phone preview controller and Skip command need shared-owner hooks."
+  },
+  "P7.2": {
+    "result": "PASS",
+    "proof": "P7_RESULT.md",
+    "details": "GolfTutorialTests.SixthHoleStrokeCompletesExactlyOnce in P6_editmode.xml; first five hole strokes remain active, sixth completes, later shots do not recount."
+  },
+  "P7.3": {
+    "result": "FAIL",
+    "proof": "P7_RESULT.md",
+    "details": "Normal GolfGame received only four read-only properties; existing EditMode suite passes. Required manual one-hole video missing."
+  },
+  "P8.1": {
+    "result": "PASS",
+    "proof": "P8_RESULT.md",
+    "details": "P8_P9_retry.xcresult testFirstTutorialFillsLevelTwoAndReplayPaysNothing: partial existing XP tops up exactly to L2; reward_claimed once; same sport replay zero; other sport +50 once."
+  },
+  "P8.2": {
+    "result": "FAIL",
+    "proof": "P8_RESULT.md",
+    "details": "Unit test proves finish routes to chosen sport hub; no screenshot after an actual completed tutorial. Seeded reward-step screenshot is resume proof only."
+  },
+  "P8.3": {
+    "result": "FAIL(BLOCKED-OWNER)",
+    "proof": "P8_RESULT.md",
+    "details": "Persisted white-headband reward and requested equip path exist; public Player/catalog/renderer APIs cannot equip it. Native reward screen does not falsely claim a worn headband. NEEDS_OWNER.md."
+  },
+  "P8.4": {
+    "result": "FAIL",
+    "proof": "P8_RESULT.md",
+    "details": "Other-sport first selection routes directly to tutorial and unit reward logic grants +50; required full tutorial \u2192 reward \u2192 hub proof missing."
+  },
+  "P9.1": {
+    "result": "PASS",
+    "proof": "P9_RESULT.md",
+    "details": "P8_P9_retry.xcresult testEverySetupStepResumesAfterProcessDeath kills/relaunches account, character, connect, primer, choose, tutorial route and reward. Seven P9_attachments snapshots. DEBUG step seeding tests persistence; does not claim real Unity completion/resume."
+  },
+  "P9.2": {
+    "result": "PASS",
+    "proof": "P9_RESULT.md",
+    "details": "P9_replay.xcresult seeds a completed tennis save, verifies no onboarding guest button and normal intro Play. Seed occurs only in DEBUG UI fixture; no live lesson is completed."
+  },
+  "P9.3": {
+    "result": "PASS",
+    "proof": "P9_RESULT.md",
+    "details": "P9_replay.xcresult taps normal Settings \u2192 Replay onboarding \u2192 guest \u2192 prefilled character. Unit test asserts hero save, tutorial flag, level unchanged and replay XP zero."
+  },
+  "P9.4": {
+    "result": "FAIL",
+    "proof": "P9_RESULT.md",
+    "details": "Existing online/Locker paths unchanged; no UI test opens both immediately after an actual completed onboarding tutorial."
+  },
+  "P10.1": {
+    "result": "FAIL(BLOCKED-OWNER)",
+    "proof": "P10_RESULT.md",
+    "details": "P10_native_summary.json: 434 total, 422 passed, 9 failed, 3 skipped. Native-only suite has 431 tests: 422 pass, same 8 baseline failing cases, 1 skip (includes 12 new passing unit tests). SportsNavigation: unchanged baseline 1 fail, 2 skip. P10_editmode.xml: 257 pass, 0 fail vs baseline 253/253. P10_check_comparison.txt: same 10 compiler errors. Real touched PlayMode tests fail; no successful complete tutorial / no-new-PlayMode-failure comparison can be certified."
+  },
+  "P10.2": {
+    "result": "FAIL(BLOCKED-OWNER)",
+    "proof": "P10_RESULT.md",
+    "details": "P10_devices.json shows the paired iPhone. Required build/export scripts would regenerate shared locked assets/projects. Isolated project attempts preserved in P10_isolated-device-build.log and P10_isolated-device-retry.log; first relative project-reference failure corrected, second failed at IL2CPP IPC sandbox permission. Current export predates this tutorial work; no stale app installed. Owner-produced current export is required."
+  },
+  "P10.3": {
+    "result": "FAIL(BLOCKED-OWNER)",
+    "proof": "P10_RESULT.md",
+    "details": "1,664 foreign paths were staged at baseline; none removed. Own code adds exactly 33 paths. All original shared-file foreign hunks preserved (P10_foreign-hunks-preserved.json); owned whitespace check passes. Native test fixtures regenerate unowned screenshot/video outputs (P10_new-unowned-working-paths.txt). No unrelated code was intentionally edited or staged."
+  },
+  "P11.1": {
+    "result": "FAIL",
+    "proof": "P11_RESULT.md",
+    "details": "Neither required complete walkthrough exists, and Adnan has not approved either. WALKTHROUGH_phone.mov and WALKTHROUGH_tv.mov must only be created from actual account \u2192 hero \u2192 connection \u2192 real tutorial \u2192 earned reward \u2192 hub gameplay. Setup screenshots and seeded resume captures are explicitly not substitutes. Goal remains unfinished."
+  }
+}

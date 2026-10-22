@@ -5,7 +5,9 @@ using GolfArcade.Shot;
 namespace GolfArcade.Course
 {
     /// What moves about a hole: a hot-air balloon, a cart, a gull, and in a storm a twister.
-    public enum MoverKind { Balloon, Cart, Gull, Twister }
+    /// A launchpad lies on the ground and fires a ball that lands on it while it is charged; a target slides along its
+    /// rail on a gantry and sends a ball that hits it on toward the green (QuirkyObstacles places them).
+    public enum MoverKind { Balloon, Cart, Gull, Twister, RockGate, WindLift, Launchpad, Target }
 
     /// One thing moving about a hole, on a path that is a function of time alone: where it is when
     /// the ball gets there is known the moment the ball is struck, a replay finds it in the same
@@ -22,7 +24,7 @@ namespace GolfArcade.Course
         double height, period, phase, bob;
         // A gull circles `centre` at `radius` and `height`, `turn` radians a second from `phase`.
         CoursePoint centre;
-        double radius, turn;
+        double radius, turn, dreamGain=1.23,dreamLiftFloor=10,dreamPreserve=.55;
         // A cart goes round its loop at `speed`: the loop sampled every half yard, with the ground's height.
         double[] lx, ly, ld, ls;
         double loopLength, speed;
@@ -41,6 +43,47 @@ namespace GolfArcade.Course
 
         Mover(MoverKind kind, int variant) { Kind = kind; Variant = variant; }
 
+        // A launchpad or a target sends the ball on toward `goal` (ground height `goalY`).
+        CoursePoint goal; double goalY;
+        /// A launchpad: the disc the ball must come down on (yards across from its middle), how far its dome stands
+        /// off the ground, and the share of its cycle it is charged (fires a good lob) rather than spent (a sad pop).
+        public const double PadRadius = 4.5, PadRise = 0.45, ChargedShare = 0.5;
+        /// The pad meets the ball as the cap of a big sphere sunk under it: PadRise high, PadRadius across.
+        public static readonly double PadSphere = (PadRadius * PadRadius + PadRise * PadRise) / (2 * PadRise);
+        /// A target: its board, and how far its gantry's posts stand past the ends of its rail.
+        public const double TargetRadius = 2.4, TargetPost = 3.4;
+        /// How high the lobs go (yards a second up): a charged pad's, a spent one's, a target's.
+        public const double PadLaunchUp = 30, PadFizzleUp = 4.5, TargetLaunchUp = 17;
+        public CoursePoint Goal => goal;
+        public double GoalY => goalY;
+        /// The rail's two ends (a target), or the pad's middle twice.
+        public CoursePoint RailFrom => a;
+        public CoursePoint RailTo => b;
+        public double Period => period;
+        public double Height => height;
+
+        /// A launchpad at `at` on the ground (`groundY`), cycling every `periodSeconds`: charged for ChargedShare of
+        /// it, then spent. A ball coming down on it charged is lobbed high toward `goal`; spent, it pops off sideways.
+        public static Mover Launchpad(CoursePoint at, double groundY, CoursePoint goal, double goalY, double periodSeconds, double phase) =>
+            new(MoverKind.Launchpad, 0) { a = at, b = at, height = groundY, period = Math.Max(2, periodSeconds), phase = phase, goal = goal, goalY = goalY };
+
+        /// A bullseye board sliding from `from` to `to` and back over `periodSeconds` at `boardY` (world height), hung
+        /// from a gantry over the ground; a ball that hits it is sent on toward `goal`.
+        public static Mover Target(CoursePoint from, CoursePoint to, double boardY, double periodSeconds, double phase, CoursePoint goal, double goalY) =>
+            new(MoverKind.Target, 0) { a = from, b = to, height = boardY, period = Math.Max(3, periodSeconds), phase = phase, goal = goal, goalY = goalY };
+
+        /// Where a launchpad is in its cycle at `t` (0–1: charged below ChargedShare).
+        public double CycleAt(double t) { double u = t / period + phase; return u - Math.Floor(u); }
+        /// The pad is charged at `t`: a ball landing on it now gets the good lob.
+        public bool Charged(double t) => Kind == MoverKind.Launchpad && CycleAt(t) < ChargedShare;
+
+        public double LiftGain=>dreamGain;
+        public double LiftFloor=>dreamLiftFloor;
+        public double LiftPreserve=>dreamPreserve;
+        public CoursePoint LiftTarget=>b;
+        public CoursePoint LiftDirection=>new CoursePoint(b.X-a.X,b.D-a.D);
+        public static Mover Dream(CoursePoint point,double height,double period,double phase,double radius,double motion,bool lift=false,CoursePoint? target=null,double gain=1.23,double liftFloor=10,double preserve=.55) =>
+            new(lift?MoverKind.WindLift:MoverKind.RockGate,0){a=point,b=target??point,height=height,period=period,phase=phase,radius=radius,bob=motion,dreamGain=gain,dreamLiftFloor=liftFloor,dreamPreserve=preserve};
         public static Mover Balloon(CoursePoint from, CoursePoint to, double height, double periodSeconds, double phase, int variant) =>
             new(MoverKind.Balloon, variant) { a = from, b = to, height = height, period = Math.Max(10, periodSeconds), phase = phase, bob = 1.1 };
 
@@ -113,6 +156,15 @@ namespace GolfArcade.Course
         {
             switch (Kind)
             {
+                case MoverKind.RockGate: case MoverKind.WindLift:
+                    return (a.X, height+bob*Math.Sin(2*Math.PI*(t/period+phase)), a.D);
+                case MoverKind.Launchpad:
+                    return (a.X, height, a.D);
+                case MoverKind.Target:
+                {
+                    double s = 0.5 - 0.5 * Math.Cos(2 * Math.PI * (t / period + phase));
+                    return (a.X + (b.X - a.X) * s, height, a.D + (b.D - a.D) * s);
+                }
                 case MoverKind.Balloon:
                 {
                     double s = 0.5 - 0.5 * Math.Cos(2 * Math.PI * (t / period + phase));
@@ -154,11 +206,11 @@ namespace GolfArcade.Course
         public double HeadingAt(double t)
         {
             var v = VelocityAt(t);
-            if (Kind is MoverKind.Balloon or MoverKind.Twister || v.x * v.x + v.d * v.d < 1e-6) return Math.Atan2(b.X - a.X, b.D - a.D) * 180 / Math.PI;
+            if (Kind is MoverKind.Balloon or MoverKind.Twister or MoverKind.Target or MoverKind.Launchpad || v.x * v.x + v.d * v.d < 1e-6) return Math.Atan2(b.X - a.X, b.D - a.D) * 180 / Math.PI;
             return Math.Atan2(v.x, v.d) * 180 / Math.PI;
         }
 
-        public int Bodies => Kind switch { MoverKind.Gull => 1, MoverKind.Twister => Funnel.Length, _ => 2 };
+        public int Bodies => Kind switch { MoverKind.RockGate => 1, MoverKind.WindLift => 1, MoverKind.Launchpad => 1, MoverKind.Target => 1, MoverKind.Gull => 1, MoverKind.Twister => Funnel.Length, _ => 2 };
 
         /// One of the spheres it meets the ball with at `t`: its middle and its radius.
         public (double x, double y, double d, double r) Body(int i, double t)
@@ -166,6 +218,12 @@ namespace GolfArcade.Course
             var p = At(t);
             switch (Kind)
             {
+                case MoverKind.RockGate: case MoverKind.WindLift:
+                    return (p.x,p.y,p.d,radius);
+                case MoverKind.Launchpad:
+                    return (p.x, p.y + PadRise - PadSphere, p.d, PadSphere);
+                case MoverKind.Target:
+                    return (p.x, p.y, p.d, TargetRadius);
                 case MoverKind.Balloon:
                     return i == 0 ? (p.x, p.y, p.d, Envelope) : (p.x, p.y - BasketDrop, p.d, Basket);
                 case MoverKind.Cart:
@@ -185,6 +243,13 @@ namespace GolfArcade.Course
         {
             switch (Kind)
             {
+                case MoverKind.RockGate: case MoverKind.WindLift:
+                    return (a.X-radius,height-Math.Abs(bob)-radius,a.D-radius,a.X+radius,height+Math.Abs(bob)+radius,a.D+radius);
+                case MoverKind.Launchpad:
+                    return (a.X - PadRadius, height - 0.5, a.D - PadRadius, a.X + PadRadius, height + PadRise, a.D + PadRadius);
+                case MoverKind.Target:
+                    return (Math.Min(a.X, b.X) - TargetRadius, height - TargetRadius, Math.Min(a.D, b.D) - TargetRadius,
+                            Math.Max(a.X, b.X) + TargetRadius, height + TargetRadius, Math.Max(a.D, b.D) + TargetRadius);
                 case MoverKind.Balloon:
                     return (Math.Min(a.X, b.X) - Envelope, height - bob - BasketDrop - Basket, Math.Min(a.D, b.D) - Envelope,
                             Math.Max(a.X, b.X) + Envelope, height + bob + Envelope, Math.Max(a.D, b.D) + Envelope);
@@ -313,6 +378,25 @@ namespace GolfArcade.Course
             var body = m.Body(hit.Body, t);
             var bv = m.VelocityAt(t);
             double rx = hit.Vx - bv.x, ry = hit.Vy - bv.y, rd = hit.Vd - bv.d;   // against the mover
+            if (m.Kind == MoverKind.Launchpad)
+            {
+                // charged: a high lob on toward the green; spent: a weak pop off to one side
+                if (m.Charged(t)) return Lob(hit.X, hit.Y, hit.D, m.Goal, m.GoalY, Mover.PadLaunchUp, luck);
+                double turn = (luck < 0.5 ? -1 : 1) * (40 + 40 * luck) * Math.PI / 180, c = Math.Cos(turn), s = Math.Sin(turn);
+                return ((hit.Vx * c - hit.Vd * s) * 0.22, Mover.PadFizzleUp + 2 * luck, (hit.Vx * s + hit.Vd * c) * 0.22);
+            }
+            if (m.Kind == MoverKind.Target) return Lob(hit.X, hit.Y, hit.D, m.Goal, m.GoalY, Mover.TargetLaunchUp, luck);
+            if(m.Kind==MoverKind.WindLift){
+                var direction=m.LiftDirection;
+                if(m.LiftPreserve==0 && (direction.X*direction.X+direction.D*direction.D)>.01)direction=new CoursePoint(m.LiftTarget.X-hit.X,m.LiftTarget.D-hit.D);
+                double length=Math.Sqrt(direction.X*direction.X+direction.D*direction.D);
+                double speed=Math.Sqrt(hit.Vx*hit.Vx+hit.Vd*hit.Vd);
+                if(length<.01)return (hit.Vx*1.28,Math.Max(12,hit.Vy+10),hit.Vd*1.28);
+                // A bounded, authored current bends the exit toward the safe landing shelf.
+                // The strike's line and speed still contribute: the current does not guarantee a landing.
+                double preserve=m.LiftPreserve,guide=m.LiftGain-preserve;
+                return (hit.Vx*preserve+direction.X/length*speed*guide,Math.Max(m.LiftFloor,hit.Vy+7),hit.Vd*preserve+direction.D/length*speed*guide);
+            }
             if (m.Kind == MoverKind.Twister)
             {
                 // caught in the whirl: swung round part of a turn and flung out of it, up and on
@@ -336,6 +420,27 @@ namespace GolfArcade.Course
             if (vn >= 0) return (hit.Vx, hit.Vy, hit.Vd);
             double tx = rx - vn * nx, ty = ry - vn * ny, td = rd - vn * nd;
             return (tx * keepT - e * vn * nx + bv.x, ty * keepT - e * vn * ny + bv.y, td * keepT - e * vn * nd + bv.d);
+        }
+
+        /// The velocity that lobs a ball from (x, y, d) up at `up` yards a second so it comes to rest about `goal` (its
+        /// ground at `goalY`): it flies under the fall's own air (CourseShot.Down: the pace across drains at 0.25 a
+        /// second) to a spot short of the goal by the run it will have on fairway grass, found in a few passes. `luck`
+        /// strays it a yard or two, the same for the same shot.
+        public static (double vx, double vy, double vd) Lob(double x, double y, double d, CoursePoint goal, double goalY, double up, double luck)
+        {
+            double g = CourseShot.GravityYards, k = 0.25;
+            double time = (up + Math.Sqrt(Math.Max(0, up * up - 2 * g * (goalY - y)))) / g;
+            double gx = goal.X + (luck - 0.5) * 3 - x, gd = goal.D + (luck - 0.5) * 2 - d, total = Math.Sqrt(gx * gx + gd * gd);
+            if (total < 0.01 || time <= 0) return (0, up, 0);
+            double ux = gx / total, ud = gd / total, run = 0, speed = 0;
+            for (int pass = 0; pass < 4; pass++)
+            {
+                double carry = Math.Max(1, total - run);
+                speed = carry * k / (1 - Math.Exp(-k * time));
+                double down = speed * Math.Exp(-k * time) * 0.7;   // across the ground after the first bounce
+                run = Math.Min(total * 0.5, down * down / (2 * CourseShot.FairwayDeceleration) + 0.3 * down);
+            }
+            return (ux * speed, up, ud * speed);
         }
 
         /// A rolling ball against the movers on the ground at `t` seconds after the strike: pushed
@@ -368,9 +473,13 @@ namespace GolfArcade.Course
         /// The kind of obstacle a mover counts as for the shot's knocks (effects and sounds).
         public static ObstacleKind KnockKind(MoverKind kind) => kind switch
         {
+            MoverKind.RockGate => ObstacleKind.Rock,
+            MoverKind.WindLift => ObstacleKind.Twister,
             MoverKind.Balloon => ObstacleKind.Balloon,
             MoverKind.Cart => ObstacleKind.Cart,
             MoverKind.Twister => ObstacleKind.Twister,
+            MoverKind.Launchpad => ObstacleKind.Launchpad,
+            MoverKind.Target => ObstacleKind.Target,
             _ => ObstacleKind.Gull,
         };
     }

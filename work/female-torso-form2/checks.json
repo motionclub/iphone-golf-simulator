@@ -1,0 +1,304 @@
+{
+ "gate": "FEMALE_TORSO_FORM2",
+ "lines": [
+  {
+   "group": "ZONE_OUTSIDE",
+   "line": "moved outside zone vs chat-7 candidate",
+   "value": 0,
+   "limit": "== 0",
+   "result": "PASS",
+   "basis": "float32 exact, audit/form2.npz vs audit/cand_start.npz"
+  },
+  {
+   "group": "ZONE_OUTSIDE",
+   "line": "moved outside zone vs ORIGINAL start 200dc3b9",
+   "value": 0,
+   "limit": "== 0",
+   "result": "PASS",
+   "basis": "float32 exact"
+  },
+  {
+   "group": "ZONE_OUTSIDE",
+   "line": "zone border vertices moved (seam with arms/neck/legs)",
+   "value": 0,
+   "limit": "== 0",
+   "result": "PASS",
+   "basis": "238 border vertices pinned bit-exact"
+  },
+  {
+   "group": "TOPOLOGY",
+   "line": "poly/loop/edge/material/smooth/UV/custom-normal raw codes/Hair/other objects identical",
+   "value": true,
+   "limit": "all True",
+   "result": "PASS",
+   "basis": "audit dumps"
+  },
+  {
+   "group": "TOPOLOGY",
+   "line": "triangles (budget 35-50k)",
+   "value": 44708,
+   "limit": "unchanged, <=50k",
+   "result": "PASS",
+   "basis": ""
+  },
+  {
+   "group": "TOPOLOGY",
+   "line": "flipped zone triangles vs original",
+   "value": 0,
+   "limit": "== 0",
+   "result": "PASS",
+   "basis": "face-normal dot < 0"
+  },
+  {
+   "group": "TOPOLOGY",
+   "line": "zone triangles turned >60 deg vs original",
+   "value": 0,
+   "limit": "<= 2",
+   "result": "PASS",
+   "basis": "chat-7 value 0"
+  },
+  {
+   "group": "SIDE_SIL",
+   "line": "side-profile torso-band XOR vs plate (chat-7 gate script, z .82-1.30)",
+   "value": 0.0254,
+   "limit": "<= 0.05",
+   "result": "PASS",
+   "basis": "metrics_side.py gradient-edge contour of L+R profile panels"
+  },
+  {
+   "group": "SIDE_SIL",
+   "line": "front torso visible-edge XOR vs bald plate (rows z .82-1.165)",
+   "value": 0.0342,
+   "limit": "<= 0.05",
+   "result": "PASS",
+   "basis": "metrics_fb.py"
+  },
+  {
+   "group": "SIDE_SIL",
+   "line": "back torso visible-edge XOR vs bald plate",
+   "value": 0.0445,
+   "limit": "<= 0.05",
+   "result": "PASS",
+   "basis": "metrics_fb.py"
+  },
+  {
+   "group": "SEAM_CLEAN",
+   "line": "displacement step at a pinned border edge, legs (mm)",
+   "value": 7.54,
+   "limit": "<= 8",
+   "result": "PASS",
+   "basis": "|d(v)-d(border)| over one edge (~12 mm)"
+  },
+  {
+   "group": "SEAM_CLEAN",
+   "line": "... arm junction (mm)",
+   "value": 9.44,
+   "limit": "<= 10",
+   "result": "PASS",
+   "basis": "chat 7 / first form2 version had 17 mm"
+  },
+  {
+   "group": "SEAM_CLEAN",
+   "line": "... neck/shoulder top (mm)",
+   "value": 0.73,
+   "limit": "<= 1",
+   "result": "PASS",
+   "basis": ""
+  },
+  {
+   "group": "SEAM_CLEAN",
+   "line": "zone edges with dihedral >40 deg (count)",
+   "value": 36,
+   "limit": "<= original (36)",
+   "result": "PASS",
+   "basis": "inherited mesh creases are not increased"
+  },
+  {
+   "group": "SEAM_CLEAN",
+   "line": "worst zone dihedral (deg)",
+   "value": 80.0,
+   "limit": "<= original (80.0)",
+   "result": "PASS",
+   "basis": ""
+  },
+  {
+   "group": "SEAM_CLEAN",
+   "line": "bi-Laplacian roughness mean (mm), zone interior",
+   "value": 0.232,
+   "limit": "<= chat 7 (0.240)",
+   "result": "PASS",
+   "basis": ""
+  },
+  {
+   "group": "SEAM_CLEAN",
+   "line": "bi-Laplacian roughness p95 (mm)",
+   "value": 1.265,
+   "limit": "<= chat 7 (1.438)",
+   "result": "PASS",
+   "basis": ""
+  },
+  {
+   "group": "BUST_VOLUME",
+   "line": "mound apex envelope vs plate side profile (mm)",
+   "value": -1.0,
+   "limit": "|err| <= 4",
+   "result": "PASS",
+   "basis": "plate front table at apex z"
+  },
+  {
+   "group": "BUST_VOLUME",
+   "line": "sternal valley: apex front vs sternum strip (mm)",
+   "value": 17.4,
+   "limit": "8..20",
+   "result": "PASS",
+   "basis": "separation between the two mounds"
+  },
+  {
+   "group": "BUST_VOLUME",
+   "line": "mound footprint width (mm)",
+   "value": 92.0,
+   "limit": "70..110",
+   "result": "PASS",
+   "basis": "plate mound ~80-100 mm wide (band-pass highlight/crescent)"
+  },
+  {
+   "group": "BUST_VOLUME",
+   "line": "mound footprint height (mm)",
+   "value": 112.0,
+   "limit": "100..130",
+   "result": "PASS",
+   "basis": "plate: crescent z1.18 to blend z~1.30"
+  },
+  {
+   "group": "BUST_VOLUME",
+   "line": "underbust edge: footprint lower z",
+   "value": 1.182,
+   "limit": "1.17..1.20",
+   "result": "PASS",
+   "basis": "plate dark crescent z 1.18-1.19"
+  },
+  {
+   "group": "BUST_VOLUME",
+   "line": "mound height above the local chest wall at the apex (mm)",
+   "value": 23.5,
+   "limit": ">= 15",
+   "result": "PASS",
+   "basis": "soft but real mounds (not a flat pancake)"
+  },
+  {
+   "group": "BUST_VOLUME",
+   "line": "mound footprint centre |x| (m)",
+   "value": 0.069,
+   "limit": "0.060..0.090",
+   "result": "PASS",
+   "basis": "plate mounds centred x ~ +-0.07..0.085"
+  },
+  {
+   "group": "GLUTE_FORM",
+   "line": "two lobes: apex |x| (m)",
+   "value": 0.073,
+   "limit": "0.060..0.090",
+   "result": "PASS",
+   "basis": "plate lobe centres ~ +-0.07..0.085"
+  },
+  {
+   "group": "GLUTE_FORM",
+   "line": "lobe apex z (m)",
+   "value": 0.86,
+   "limit": "0.85..0.89",
+   "result": "PASS",
+   "basis": "plate glute apex z~0.86"
+  },
+  {
+   "group": "GLUTE_FORM",
+   "line": "lobe apex depth vs plate side profile (mm)",
+   "value": -2.4,
+   "limit": "|err| <= 4",
+   "result": "PASS",
+   "basis": "plate back table"
+  },
+  {
+   "group": "GLUTE_FORM",
+   "line": "cleft depth at z .86/.88/.90 (mm)",
+   "value": [
+    24.7,
+    24.6,
+    24.3
+   ],
+   "limit": "18..32",
+   "result": "PASS",
+   "basis": "readable cleft, plate faint line deepening toward the crotch"
+  },
+  {
+   "group": "GLUTE_FORM",
+   "line": "cleft start z (depth reaches 5 mm)",
+   "value": 0.958,
+   "limit": "0.93..0.965",
+   "result": "PASS",
+   "basis": "plate cleft begins ~0.945"
+  },
+  {
+   "group": "GLUTE_FORM",
+   "line": "cleft depth at z .98 (mm) - no slit in the lumbar",
+   "value": 0.2,
+   "limit": "<= 3",
+   "result": "PASS",
+   "basis": ""
+  },
+  {
+   "group": "GLUTE_FORM",
+   "line": "upper shelf rise z1.00->0.94 (mm) vs plate table",
+   "value": 31.2,
+   "limit": "plate 32.1 +- 8",
+   "result": "PASS",
+   "basis": ""
+  },
+  {
+   "group": "GLUTE_FORM",
+   "line": "lobe horizontal curvature radius at the apex (cm)",
+   "value": 5.9,
+   "limit": "5..11",
+   "result": "PASS",
+   "basis": "round cheeks (not flat pads)"
+  },
+  {
+   "group": "GLUTE_FORM",
+   "line": "underbutt fold: back surface rise z .808 -> .852 at |x|=.07 (mm)",
+   "value": 20.3,
+   "limit": ">= 15",
+   "result": "PASS",
+   "basis": "lobe lower flank rising off the fixed leg-top ring (fold limited by the zone floor)"
+  },
+  {
+   "group": "GLUTE_FORM",
+   "line": "no hard rim: worst dihedral at the lobe upper rim z .92-1.0 (deg)",
+   "value": 24.9,
+   "limit": "<= 30",
+   "result": "PASS",
+   "basis": ""
+  },
+  {
+   "group": "GLUTE_FORM",
+   "line": "no hard rim: worst dihedral INCREASE vs original there (deg)",
+   "value": 18.8,
+   "limit": "<= 25",
+   "result": "PASS",
+   "basis": ""
+  }
+ ],
+ "group_results": {
+  "ZONE_OUTSIDE": "PASS",
+  "TOPOLOGY": "PASS",
+  "SIDE_SIL": "PASS",
+  "SEAM_CLEAN": "PASS",
+  "BUST_VOLUME": "PASS",
+  "GLUTE_FORM": "PASS"
+ },
+ "overall": "PASS",
+ "failed_lines": [],
+ "not_automated": [
+  "visual form match vs plate (Adnan eye): proof/04, proof/05, proof/01",
+  "mirror-stripe smoothness: proof/06 (visual)",
+  "integration with limbs+arms: proof/08, proof/09 (visual)"
+ ]
+}

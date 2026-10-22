@@ -1,0 +1,181 @@
+Assets/Scripts/Tennis/TennisGame.Network.cs(10,53): warning CS0108: 'TennisGame.networkView' hides inherited member 'Component.networkView'. Use the new keyword if hiding was intended.
+Assets/Scripts/Tennis/TennisGame.cs(143,29): warning CS0108: 'TennisGame.audio' hides inherited member 'Component.audio'. Use the new keyword if hiding was intended.
+Assets/Scripts/Tennis/TennisCustomization.cs(168,59): warning CS0649: Field 'TennisCustomization.SkinReference.skin' is never assigned to, and will always have its default value 0
+Assets/Scripts/Tennis/HeroGarmentGusset.cs(20,26): warning CS0649: Field 'HeroGarmentGusset.Profile.freeVertices' is never assigned to, and will always have its default value null
+Assets/Scripts/UI/IntroGraphics.cs(160,77): warning CS0649: Field 'IntroGraphics.Tag.offset' is never assigned to, and will always have its default value 
+Assets/Scripts/Tennis/HeroAccessories.cs(40,62): warning CS0649: Field 'HeroAccessories.ItemData.item' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroTennisDriver.cs(360,53): warning CS0169: The field 'HeroTennisDriver.spineBind' is never used
+Assets/Scripts/Tennis/HeroGripPolish.cs(135,46): warning CS0649: Field 'HeroGripPolish.GolfWristResult.lowerRotation' is never assigned to, and will always have its default value 
+Assets/Scripts/Tennis/HeroGarmentGusset.cs(20,40): warning CS0649: Field 'HeroGarmentGusset.Profile.aliases' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/KitV2PoseCorrectives.cs(13,82): warning CS0649: Field 'KitV2PoseCorrectives.Anchor.feature' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroGarmentGusset.cs(29,28): warning CS0649: Field 'HeroGarmentGusset.Profile.authoredVertices' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/TennisAmbience.cs(16,19): warning CS0169: The field 'TennisAmbience.rendered' is never used
+Assets/Scripts/Tennis/HeroGripPolish.cs(134,58): warning CS0649: Field 'HeroGripPolish.GolfWristResult.shaft' is never assigned to, and will always have its default value 
+Assets/Scripts/Tennis/HeroGarmentGusset.cs(19,82): warning CS0649: Field 'HeroGarmentGusset.Profile.triangleSourceFaces' is never assigned to, and will always have its default value null
+Assets/Scripts/Game/SignatureShot.cs(23,26): warning CS0649: Field 'SignatureShot.Data.ballRadius' is never assigned to, and will always have its default value 0
+Assets/Scripts/Net/Online/BackendClient.cs(40,70): warning CS0649: Field 'PlayerResponse.player' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroGarmentGusset.cs(28,28): warning CS0649: Field 'HeroGarmentGusset.Profile.cageWeights' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroHandNormalFields.cs(7,73): warning CS0649: Field 'HeroHandNormalFields.Stage.entries' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/KitV2PoseCorrectives.cs(13,60): warning CS0649: Field 'KitV2PoseCorrectives.Anchor.shape' is never assigned to, and will always have its default value null
+Assets/Scripts/Game/SignatureShot.cs(25,29): warning CS0649: Field 'SignatureShot.Data.refNames' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroAccessories.cs(39,104): warning CS0649: Field 'HeroAccessories.PieceData.metresPerUv' is never assigned to, and will always have its default value 0
+Assets/Scripts/Tennis/HeroGarmentGusset.cs(19,26): warning CS0649: Field 'HeroGarmentGusset.Profile.sourceTriangles' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/TennisGame.cs(2388,14): warning CS0169: The field 'TennisGame.cutHeld' is never used
+Assets/Scripts/Tennis/HeroAccessories.cs(39,69): warning CS0649: Field 'HeroAccessories.PieceData.renderer' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroHandNormalFields.cs(8,102): warning CS0649: Field 'HeroHandNormalFields.Fields.stages' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroGarmentGusset.cs(27,26): warning CS0649: Field 'HeroGarmentGusset.Profile.cageIndices' is never assigned to, and will always have its default value null
+Assets/Scripts/Game/SignatureShot.cs(24,26): warning CS0649: Field 'SignatureShot.Data.landings' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/GolfGarmentCorrectives.cs(8,54): warning CS0649: Field 'GolfGarmentCorrectives.Anchor.shape' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroAuthoredHandPose.cs(10,57): warning CS0649: Field 'HeroAuthoredHandPose.PoseSource.version' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroGarmentCoverage.cs(16,28): warning CS0649: Field 'HeroGarmentCoverage.Profile.removedTriangleRootPositions' is never assigned to, and will always have its default value null
+Assets/Scripts/Game/SignatureShot.cs(23,38): warning CS0649: Field 'SignatureShot.Data.sensorWidth' is never assigned to, and will always have its default value 0
+Assets/Scripts/Tennis/HeroGarmentCoverage.cs(15,24): warning CS0649: Field 'HeroGarmentCoverage.Profile.garmentVertexCount' is never assigned to, and will always have its default value 0
+Assets/Scripts/Game/SignatureShot.cs(26,50): warning CS0649: Field 'SignatureShot.Data.overview' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroGarmentGusset.cs(18,59): warning CS0649: Field 'HeroGarmentGusset.Profile.sourceWeights' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroGarmentGusset.cs(16,43): warning CS0649: Field 'HeroGarmentGusset.Profile.vertexCount' is never assigned to, and will always have its default value 0
+Assets/Scripts/Tennis/HeroGarmentLocalFit.cs(13,24): warning CS0649: Field 'HeroGarmentLocalFit.Profile.vertexCount' is never assigned to, and will always have its default value 0
+Assets/Scripts/Tennis/TennisLook.cs(123,67): warning CS0649: Field 'TennisLook.MaskReference.shirt' is never assigned to, and will always have its default value 0
+Assets/Scripts/Tennis/HeroTennisDriver.cs(360,64): warning CS0169: The field 'HeroTennisDriver.chestBind' is never used
+Assets/Scripts/Tennis/HeroGarmentGusset.cs(28,41): warning CS0649: Field 'HeroGarmentGusset.Profile.cageStrengths' is never assigned to, and will always have its default value null
+Assets/Scripts/Game/SignatureShot.cs(22,44): warning CS0649: Field 'SignatureShot.Data.rest' is never assigned to, and will always have its default value 0
+Assets/Scripts/Tennis/HeroAccessories.cs(39,133): warning CS0649: Field 'HeroAccessories.PieceData.bones' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/TennisLook.cs(123,82): warning CS0649: Field 'TennisLook.MaskReference.accent' is never assigned to, and will always have its default value 0
+Assets/Scripts/Game/SignatureShot.cs(26,28): warning CS0649: Field 'SignatureShot.Data.refPoints' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroAuthoredHandPose.cs(9,77): warning CS0649: Field 'HeroAuthoredHandPose.BoneSource.restHead' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroGarmentGusset.cs(18,28): warning CS0649: Field 'HeroGarmentGusset.Profile.sourceVertices' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroGarmentGusset.cs(19,71): warning CS0649: Field 'HeroGarmentGusset.Profile.triangles' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroAccessories.cs(40,68): warning CS0649: Field 'HeroAccessories.ItemData.sex' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroGarmentGusset.cs(18,74): warning CS0649: Field 'HeroGarmentGusset.Profile.weights' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroAccessories.cs(39,140): warning CS0649: Field 'HeroAccessories.PieceData.roles' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroGarmentGusset.cs(21,26): warning CS0649: Field 'HeroGarmentGusset.Profile.proxyBoneIndices' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroGarmentGusset.cs(17,29): warning CS0649: Field 'HeroGarmentGusset.Profile.bones' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroAccessories.cs(40,91): warning CS0649: Field 'HeroAccessories.ItemData.socket' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroGarmentLocalFit.cs(14,28): warning CS0649: Field 'HeroGarmentLocalFit.Profile.vertices' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroGarmentCoverage.cs(15,44): warning CS0649: Field 'HeroGarmentCoverage.Profile.expectedRemovedFaceCount' is never assigned to, and will always have its default value 0
+Assets/Scripts/Tennis/HeroAccessories.cs(40,165): warning CS0649: Field 'HeroAccessories.ItemData.pieces' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroHandNormalFields.cs(7,52): warning CS0649: Field 'HeroHandNormalFields.Stage.shape' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroAuthoredHandPose.cs(9,57): warning CS0649: Field 'HeroAuthoredHandPose.BoneSource.name' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/TennisGame.Versus.cs(99,15): warning CS0169: The field 'TennisGame.serveRoutine' is never used
+Assets/Scripts/Tennis/HeroAccessories.cs(40,79): warning CS0649: Field 'HeroAccessories.ItemData.parentBone' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/GolfGarmentCorrectives.cs(9,57): warning CS0649: Field 'GolfGarmentCorrectives.Profile.anchors' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroGarmentGusset.cs(26,24): warning CS0649: Field 'HeroGarmentGusset.Profile.cageCount' is never assigned to, and will always have its default value 0
+Assets/Scripts/Tennis/HeroLidGeometry.cs(10,136): warning CS0649: Field 'HeroLidGeometry.Patch.sourceEyeNormal' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroGarmentGusset.cs(19,43): warning CS0649: Field 'HeroGarmentGusset.Profile.sourceIndices' is never assigned to, and will always have its default value null
+Assets/Scripts/Game/SignatureShot.cs(22,24): warning CS0649: Field 'SignatureShot.Data.fps' is never assigned to, and will always have its default value 0
+Assets/Scripts/Tennis/HeroGarmentGusset.cs(16,24): warning CS0649: Field 'HeroGarmentGusset.Profile.sourceVertexCount' is never assigned to, and will always have its default value 0
+Assets/Scripts/Tennis/HeroLidGeometry.cs(10,70): warning CS0649: Field 'HeroLidGeometry.Patch.normals' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroLidGeometry.cs(10,94): warning CS0649: Field 'HeroLidGeometry.Patch.sourceBoundsMax' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroGarmentGusset.cs(30,26): warning CS0649: Field 'HeroGarmentGusset.Profile.bodyIndices' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroAccessories.cs(40,73): warning CS0649: Field 'HeroAccessories.ItemData.slot' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroGripPolish.cs(135,61): warning CS0649: Field 'HeroGripPolish.GolfWristResult.handRotation' is never assigned to, and will always have its default value 
+Assets/Scripts/Tennis/HeroAccessories.cs(40,130): warning CS0649: Field 'HeroAccessories.ItemData.socketRotation' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroGripPolish.cs(134,38): warning CS0649: Field 'HeroGripPolish.GolfWristResult.elbow' is never assigned to, and will always have its default value 
+Assets/Scripts/Tennis/TennisJuice.cs(39,61): warning CS0649: Field 'TennisJuice.subject2' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroGarmentGusset.cs(29,46): warning CS0649: Field 'HeroGarmentGusset.Profile.bodyWeights' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroGarmentGusset.cs(22,28): warning CS0649: Field 'HeroGarmentGusset.Profile.proxyBoneLocalPositions' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/TennisLook.cs(123,74): warning CS0649: Field 'TennisLook.MaskReference.shorts' is never assigned to, and will always have its default value 0
+Assets/Scripts/Tennis/HeroAuthoredHandPose.cs(9,86): warning CS0649: Field 'HeroAuthoredHandPose.BoneSource.delta' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroGarmentGusset.cs(21,44): warning CS0649: Field 'HeroGarmentGusset.Profile.proxyTriangles' is never assigned to, and will always have its default value null
+Assets/Scripts/Game/PointClipAudioTap.cs(12,16): warning CS0169: The field 'PointClipAudioTap.clockOffset' is never used
+Assets/Scripts/Game/SignatureShot.cs(22,29): warning CS0649: Field 'SignatureShot.Data.frames' is never assigned to, and will always have its default value 0
+Assets/Scripts/Tennis/HeroGarmentGusset.cs(22,67): warning CS0649: Field 'HeroGarmentGusset.Profile.proxyRestPositions' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroHandNormalFields.cs(6,55): warning CS0649: Field 'HeroHandNormalFields.Entry.n' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/GolfGarmentCorrectives.cs(8,76): warning CS0649: Field 'GolfGarmentCorrectives.Anchor.feature' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroGripPolish.cs(134,45): warning CS0649: Field 'HeroGripPolish.GolfWristResult.wrist' is never assigned to, and will always have its default value 
+Assets/Scripts/Tennis/TennisLook.cs(123,90): warning CS0649: Field 'TennisLook.MaskReference.skin' is never assigned to, and will always have its default value 0
+Assets/Scripts/Tennis/HeroGarmentGusset.cs(20,49): warning CS0649: Field 'HeroGarmentGusset.Profile.contactTriangles' is never assigned to, and will always have its default value null
+Assets/Scripts/Hub/HubHeroAnimator.cs(27,39): warning CS0169: The field 'HubHeroAnimator.wAction' is never used
+Assets/Scripts/Tennis/HeroGripPolish.cs(135,31): warning CS0649: Field 'HeroGripPolish.GolfWristResult.upperRotation' is never assigned to, and will always have its default value 
+Assets/Scripts/Tennis/HeroHandNormalFields.cs(8,76): warning CS0649: Field 'HeroHandNormalFields.Fields.left' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroAccessories.cs(39,85): warning CS0649: Field 'HeroAccessories.PieceData.maps' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroGarmentGusset.cs(22,53): warning CS0649: Field 'HeroGarmentGusset.Profile.proxyWeights' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/KitV2PoseCorrectives.cs(14,63): warning CS0649: Field 'KitV2PoseCorrectives.Profile.anchors' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroLidGeometry.cs(10,110): warning CS0649: Field 'HeroLidGeometry.Patch.sourceEyeMin' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroAccessories.cs(39,63): warning CS0649: Field 'HeroAccessories.PieceData.name' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroHandNormalFields.cs(6,70): warning CS0649: Field 'HeroHandNormalFields.Entry.strength' is never assigned to, and will always have its default value 0
+Assets/Scripts/Tennis/HeroGarmentGusset.cs(30,39): warning CS0649: Field 'HeroGarmentGusset.Profile.mirroredVertices' is never assigned to, and will always have its default value null
+Assets/Scripts/Game/SignatureShot.cs(22,37): warning CS0649: Field 'SignatureShot.Data.start' is never assigned to, and will always have its default value 0
+Assets/Scripts/Tennis/HeroAccessories.cs(39,79): warning CS0649: Field 'HeroAccessories.PieceData.mesh' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroGarmentLocalFit.cs(14,38): warning CS0649: Field 'HeroGarmentLocalFit.Profile.normals' is never assigned to, and will always have its default value null
+Assets/Scripts/Net/Online/BackendClient.cs(39,70): warning CS0649: Field 'SignupResponse.player' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroGripPolish.cs(134,52): warning CS0649: Field 'HeroGripPolish.GolfWristResult.grip' is never assigned to, and will always have its default value 
+Assets/Scripts/Tennis/HeroGarmentGusset.cs(18,44): warning CS0649: Field 'HeroGarmentGusset.Profile.sourceNormals' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroAuthoredHandPose.cs(10,85): warning CS0649: Field 'HeroAuthoredHandPose.PoseSource.bones' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroAccessories.cs(40,114): warning CS0649: Field 'HeroAccessories.ItemData.socketPosition' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroLidGeometry.cs(10,123): warning CS0649: Field 'HeroLidGeometry.Patch.sourceEyeMax' is never assigned to, and will always have its default value null
+Assets/Scripts/Game/SignatureShot.cs(26,39): warning CS0649: Field 'SignatureShot.Data.ball' is never assigned to, and will always have its default value null
+Assets/Scripts/Game/SignatureShot.cs(26,45): warning CS0649: Field 'SignatureShot.Data.cam' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroHandNormalFields.cs(8,81): warning CS0649: Field 'HeroHandNormalFields.Fields.right' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroGarmentGusset.cs(19,58): warning CS0649: Field 'HeroGarmentGusset.Profile.boneIndices' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroHandNormalFields.cs(8,53): warning CS0649: Field 'HeroHandNormalFields.Fields.version' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroHandNormalFields.cs(6,53): warning CS0649: Field 'HeroHandNormalFields.Entry.p' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroGripPolish.cs(134,28): warning CS0649: Field 'HeroGripPolish.GolfWristResult.shoulder' is never assigned to, and will always have its default value 
+Assets/Scripts/Tennis/HeroLidGeometry.cs(10,165): warning CS0649: Field 'HeroLidGeometry.Patch.triangles' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroGarmentLocalFit.cs(15,56): warning CS0649: Field 'HeroGarmentLocalFit.Profile.anchors' is never assigned to, and will always have its default value null
+Assets/Scripts/Game/SignatureShot.cs(23,51): warning CS0649: Field 'SignatureShot.Data.lens' is never assigned to, and will always have its default value 0
+Assets/Scripts/Tennis/HeroLidGeometry.cs(10,78): warning CS0649: Field 'HeroLidGeometry.Patch.sourceBoundsMin' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroLidGeometry.cs(10,60): warning CS0649: Field 'HeroLidGeometry.Patch.positions' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/HeroGarmentGusset.cs(29,59): warning CS0649: Field 'HeroGarmentGusset.Profile.bodyOffsets' is never assigned to, and will always have its default value null
+Assets/Scripts/Tennis/TennisPresentation.cs(83,14): warning CS0414: The field 'TennisPresentation.chosenPlayed' is assigned but its value is never used
+GolfArcade compiled
+Assets/Tests/EditMode/HeroAccessoriesTests.cs(42,63): warning CS0649: Field 'HeroAccessoriesTests.ItemProbe.item' is never assigned to, and will always have its default value null
+Assets/Tests/EditMode/HeroAccessoriesTests.cs(42,69): warning CS0649: Field 'HeroAccessoriesTests.ItemProbe.sex' is never assigned to, and will always have its default value null
+Assets/Tests/EditMode/HeroAccessoriesTests.cs(41,76): warning CS0649: Field 'HeroAccessoriesTests.PieceProbe.maps' is never assigned to, and will always have its default value null
+Assets/Tests/EditMode/HeroAccessoriesTests.cs(41,64): warning CS0649: Field 'HeroAccessoriesTests.PieceProbe.name' is never assigned to, and will always have its default value null
+Assets/Tests/EditMode/HeroAccessoriesTests.cs(42,94): warning CS0649: Field 'HeroAccessoriesTests.ItemProbe.pieces' is never assigned to, and will always have its default value null
+Assets/Tests/EditMode/HeroAccessoriesTests.cs(41,70): warning CS0649: Field 'HeroAccessoriesTests.PieceProbe.mesh' is never assigned to, and will always have its default value null
+Assets/Tests/EditMode/HeroAccessoriesTests.cs(41,98): warning CS0649: Field 'HeroAccessoriesTests.PieceProbe.bones' is never assigned to, and will always have its default value null
+Assets/Tests/PlayMode/DemoVideoTests.cs(368,18): warning CS0108: 'DemoVideoTests.Recorder.audio' hides inherited member 'Component.audio'. Use the new keyword if hiding was intended.
+Assets/Tests/PlayMode/MultiplayerExploreCapture.cs(59,27): warning CS0649: Field 'MultiplayerExploreCapture.Recorder.grab' is never assigned to, and will always have its default value null
+Assets/Tests/PlayMode/VersusPeerCapture.cs(60,27): warning CS0169: The field 'VersusPeerCapture.Recorder.grab' is never used
+Assets/Tests/PlayMode/VersusPeerCapture.cs(105,156): warning CS0649: Field 'VersusPeerCapture.Summary.visibleOver30cm' is never assigned to, and will always have its default value 0
+tests compiled
+FAIL AnimationSafetyTests.TwoBoneCorrectionPreservesLengthsAndReachesAReachableTarget: SecurityException: ECall methods must be packaged into a system module.
+FAIL AnimationSafetyTests.OrientationChangeRetainsVisiblePoseThenArrivesAtNewPose: SecurityException: ECall methods must be packaged into a system module.
+FAIL DreamIntegrationTests.OfflineResumeCorrectionWaitsForBoundaryAndCannotReplaceHostTime: SecurityException: ECall methods must be packaged into a system module.
+FAIL DreamIntegrationTests.NativeForecastMatchesAll16000GoldenDraws: SecurityException: ECall methods must be packaged into a system module.
+FAIL DreamIntegrationTests.EnvironmentResumeRestoresAnchorSeedAndHazardsAndRejectsLegacyVersion: SecurityException: ECall methods must be packaged into a system module.
+FAIL DreamIntegrationTests.TennisHostChangesConditionsOnlyAtGameBoundaryAndRejoinUsesSameEpoch: SecurityException: ECall methods must be packaged into a system module.
+FAIL DreamWorldTests.FogVisibilityIsIndependentOfCameraAndQuality: SecurityException: ECall methods must be packaged into a system module.
+FAIL EnvironmentLookTests.DefaultAndOutOfScopeLookDevLeaveAuthoredGolfProfileIntact: TargetInvocationException: Exception has been thrown by the target of an invocation.
+FAIL EnvironmentLookTests.SwitchingToLegacyHoleCannotLeakDepthOrWeather: TargetInvocationException: Exception has been thrown by the target of an invocation.
+FAIL EnvironmentLookTests.WeatherConsumesBlendedAmountsAndPreservesBiomeDeposition: TargetInvocationException: Exception has been thrown by the target of an invocation.
+FAIL EnvironmentLookTests.ActivePresetUsesTheUserSelectedAcesMapper: TargetInvocationException: Exception has been thrown by the target of an invocation.
+FAIL EnvironmentLookTests.HubKeepsPaintedSkyOutsideLinearWorldFog: SecurityException: ECall methods must be packaged into a system module.
+FAIL FemaleDeformationTests.ShoulderRepairPreservesTheExactNeutralSurfaceAndNormalizedWeights: SecurityException: ECall methods must be packaged into a system module.
+FAIL FemaleDeformationTests.NeutralSkirtAndUnderShortsKeepTheirOriginalBinding: SecurityException: ECall methods must be packaged into a system module.
+FAIL FemaleDeformationTests.BackhandAndServeContactTransformsStayExact: SecurityException: ECall methods must be packaged into a system module.
+FAIL FemaleDeformationTests.WaveWristDoesNotHyperextendOrMoveTheHandAnchor: SecurityException: ECall methods must be packaged into a system module.
+FAIL HeroAccessoriesTests.ASlotTakesItsOwnColoursAndCanBeHidden: SecurityException: ECall methods must be packaged into a system module.
+FAIL HeroAssetRegistryTests.NoCodeOutsideTheRegistryNamesAnOlderHero: SecurityException: ECall methods must be packaged into a system module.
+FAIL InputRateTests.OnATvWhenAskedTheLoopRunsAt120AndDrawsEveryOther: SecurityException: ECall methods must be packaged into a system module.
+FAIL InputRateTests.NotWithoutATvOrWhenNotAsked: SecurityException: ECall methods must be packaged into a system module.
+FAIL InputRateTests.StoppingPutsBackOneDrawnFrameAt60AndMarksTheChange: SecurityException: ECall methods must be packaged into a system module.
+FAIL MultiplayerRulesTests.GolfResultWaitsForTheShootersPhoneAndFreezesWhenPaused: SecurityException: ECall methods must be packaged into a system module.
+FAIL MultiplayerRulesTests.GolfEveryoneCanReactButCannotStealAShotOrExtendResult: SecurityException: ECall methods must be packaged into a system module.
+FAIL MultiplayerRulesTests.GolfHostStrikesTheShotAsSinglePlayerFromTheRough: SecurityException: ECall methods must be packaged into a system module.
+FAIL MultiplayerRulesTests.GolfSwingNamingABadClubIsRefusedAndAnUnnamedOneUsesTheHostsClub: SecurityException: ECall methods must be packaged into a system module.
+FAIL MultiplayerRulesTests.GolfLookAndBackswingReachTheTvFromThePlayerUpOnly: SecurityException: ECall methods must be packaged into a system module.
+FAIL MultiplayerRulesTests.GolfAuthorityGeneratesBoundedPathAndCommitsOneShot: SecurityException: ECall methods must be packaged into a system module.
+FAIL MultiplayerRulesTests.GolfAllFourTeeOffBeforeSecondShot: SecurityException: ECall methods must be packaged into a system module.
+FAIL MultiplayerRulesTests.GolfRepeatedEventAfterFlightCannotApplyAgain: SecurityException: ECall methods must be packaged into a system module.
+FAIL MultiplayerRulesTests.GolfSameSeedAndShotsGiveIdenticalOfficialOutcome: SecurityException: ECall methods must be packaged into a system module.
+FAIL MultiplayerRulesTests.EmoteStateSurvivesSnapshotSerializationAndPause: SecurityException: ECall methods must be packaged into a system module.
+FAIL NetworkTennisWireTests.ARealRallyUpdateIsUnderAThirdOfTheFullSizeAndFitsTheUnreliableLimit: SecurityException: ECall methods must be packaged into a system module.
+FAIL NetworkTennisWireTests.ThroughoutARallyTheGuestSeesTheHostsStateToTheMillimetre: SecurityException: ECall methods must be packaged into a system module.
+FAIL NetworkTennisWireTests.TheScoreRidesInEveryUpdateWithAnyNumberOfFinishedSets: SecurityException: ECall methods must be packaged into a system module.
+FAIL NetworkTennisWireTests.EitherFormIsReadAndGarbageIsRefused: SecurityException: ECall methods must be packaged into a system module.
+FAIL NetworkTennisWireTests.TheHostsSelfTestPassesWithAWorkingJsonWriterAndReader: AssertionException: Expected: True
+  But was:  False
+FAIL NetworkTennisWireTests.TheBallIsRoundedToTheMillimetreAndNoFurther: SecurityException: ECall methods must be packaged into a system module.
+FAIL NetworkViewTests.TheOneTVFixtureWrittenBySwiftParsesAndIsValid: SecurityException: ECall methods must be packaged into a system module.
+FAIL RoundEventsTests.RetiredWeatherSwitchIsIgnoredButTwistsRemainOptional: AssertionException: Expected: same as <GolfArcade.Course.RoundEvents>
+  But was:  <GolfArcade.Course.RoundEvents>
+FAIL TennisCampaignBalanceTests.TheLadderGetsSteeplyHarderUpToAnAlmostImpossibleFinal: NullReferenceException: Object reference not set to an instance of an object.
+FAIL TennisCampaignBalanceTests.AGreenServeIsNotAFreeAceAgainstStrongReturners: NullReferenceException: Object reference not set to an instance of an object.
+FAIL TennisChaseCameraTests.OrdinaryViewMatchesShotAWithLeftOfCentrePlayer: SecurityException: ECall methods must be packaged into a system module.
+FAIL TennisChaseCameraTests.CrossCourtBallFitsANarrowSplitScreenHalf: SecurityException: ECall methods must be packaged into a system module.
+FAIL TennisRallyBalanceTests.APhonePlayerGetsARallyGoingAgainstEveryRung: NullReferenceException: Object reference not set to an instance of an object.
+FAIL TennisRallyBalanceTests.TheAutoJumpIsWhatKeepsTheHardRivalsPlayable: NullReferenceException: Object reference not set to an instance of an object.
+FAIL TennisTutorialTests.KitColoursParseFromTheLaunchMessage: SecurityException: ECall methods must be packaged into a system module.
+443 passed, 46 failed, 2 skipped (parameterized)

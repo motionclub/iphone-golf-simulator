@@ -1,0 +1,196 @@
+{
+ "Assets/Racket_Classic.fbx": {
+  "importer": {
+   "globalScale": 1,
+   "useFileScale": true,
+   "fileScale": 1,
+   "bakeAxisConversion": false
+  },
+  "root": "Racket_Classic",
+  "rootLocalPos": [
+   0,
+   0,
+   0
+  ],
+  "rootLocalEuler": [
+   270.0198,
+   0,
+   0
+  ],
+  "rootLocalScale": [
+   1,
+   1,
+   1
+  ],
+  "meshes": [
+   {
+    "name": "Racket_Classic",
+    "verts": 2998,
+    "tris": 6000,
+    "worldBoundsSize": [
+     0.2848128,
+     0.03967872,
+     0.4894364
+    ],
+    "worldBoundsCenter": [
+     0,
+     -3.310901e-05,
+     -0.3322582
+    ],
+    "localEuler": [
+     270.0198,
+     0,
+     0
+    ],
+    "materials": [
+     "White_Frame|Standard"
+    ]
+   },
+   {
+    "name": "ButtCap",
+    "verts": 314,
+    "tris": 480,
+    "worldBoundsSize": [
+     0.038,
+     0.038,
+     0.01380001
+    ],
+    "worldBoundsCenter": [
+     0,
+     1.240969e-08,
+     0.1041
+    ],
+    "localEuler": [
+     0,
+     0,
+     0
+    ],
+    "materials": [
+     "Black_Grip|Standard"
+    ]
+   },
+   {
+    "name": "Grip",
+    "verts": 1442,
+    "tris": 2304,
+    "worldBoundsSize": [
+     0.0352,
+     0.03520002,
+     0.198
+    ],
+    "worldBoundsCenter": [
+     0,
+     0,
+     0
+    ],
+    "localEuler": [
+     0,
+     0,
+     0
+    ],
+    "materials": [
+     "Black_Grip|Standard"
+    ]
+   },
+   {
+    "name": "StringBed",
+    "verts": 1368,
+    "tris": 1976,
+    "worldBoundsSize": [
+     0.2434059,
+     0.006556958,
+     0.3063448
+    ],
+    "worldBoundsCenter": [
+     0,
+     -4.804515e-08,
+     -0.4030319
+    ],
+    "localEuler": [
+     0,
+     0,
+     0
+    ],
+    "materials": [
+     "White_Strings|Standard"
+    ]
+   }
+  ],
+  "totalTris": 10760,
+  "worldBoundsSize": [
+   0.2848128,
+   0.03967872,
+   0.6879764
+  ],
+  "worldBoundsCenter": [
+   0,
+   -3.310852e-05,
+   -0.2329882
+  ],
+  "longestAxis": "z",
+  "longestExtent_m": 0.6879764
+ },
+ "Assets/Racket_Classic_Collider.fbx": {
+  "importer": {
+   "globalScale": 1,
+   "useFileScale": true,
+   "fileScale": 1,
+   "bakeAxisConversion": false
+  },
+  "root": "Racket_Classic_Collider",
+  "rootLocalPos": [
+   0,
+   0,
+   0
+  ],
+  "rootLocalEuler": [
+   270.0198,
+   0,
+   0
+  ],
+  "rootLocalScale": [
+   1,
+   1,
+   1
+  ],
+  "meshes": [
+   {
+    "name": "Racket_Classic_Collider",
+    "verts": 192,
+    "tris": 120,
+    "worldBoundsSize": [
+     0.2845052,
+     0.03800008,
+     0.688
+    ],
+    "worldBoundsCenter": [
+     0,
+     -2.777577e-08,
+     -0.233
+    ],
+    "localEuler": [
+     270.0198,
+     0,
+     0
+    ],
+    "materials": [
+     "Default-Material|Standard"
+    ]
+   }
+  ],
+  "totalTris": 120,
+  "worldBoundsSize": [
+   0.2845052,
+   0.03800008,
+   0.688
+  ],
+  "worldBoundsCenter": [
+   0,
+   -2.777577e-08,
+   -0.233
+  ],
+  "longestAxis": "z",
+  "longestExtent_m": 0.688
+ },
+ "done": true
+}

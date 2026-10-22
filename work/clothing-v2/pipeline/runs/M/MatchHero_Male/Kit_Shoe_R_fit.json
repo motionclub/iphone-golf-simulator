@@ -1,0 +1,27 @@
+{
+ "hero": "MatchHero_Male",
+ "tag": "Kit_Shoe_R",
+ "source": "npz:../out_gp2/MatchHero_Male/unity/Kit_Shoe_R_final.npz",
+ "seconds": 183.4,
+ "weights": {
+  "footwear": "Right",
+  "foot_mass": 0.7690327592873264
+ },
+ "shapes": 16,
+ "log": [
+  "FIT MatchHero_Male Kit_Shoe_R from npz:../out_gp2/MatchHero_Male/unity/Kit_Shoe_R_final.npz: 23140 verts 38112 tris",
+  "  weights: footwear on the Right foot (77% of the piece on foot skin): rigid foot + toe flex + collar on the shin",
+  "  weights 0.8 s",
+  "  skin deep under Kit_Shoe_R (hidden, no clearance needed): 1038 of 44168 body vertices",
+  "  obstacles: body + Kit_Sock_R",
+  "    pose 0/153  4 s",
+  "    pose 25/153  34 s",
+  "    pose 50/153  62 s",
+  "    pose 75/153  91 s",
+  "    pose 100/153  122 s",
+  "    pose 125/153  149 s",
+  "    pose 150/153  178 s",
+  "  correctives: 153/153 poses need a lift (max 59.8 mm, p90 58.1 mm) in 182 s",
+  "  16 shapes, RBF sigma 0.596, anchor fit err max 0.047, weight at rest 0.0000"
+ ]
+}

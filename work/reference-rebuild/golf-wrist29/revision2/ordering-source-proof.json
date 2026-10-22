@@ -1,0 +1,129 @@
+{
+  "status": "SOURCE_RIGID_GRIP_PRESERVATION_PASS_ACTUAL_PENDING",
+  "source": "actual tiny control Body vertices/weights/skinMatrices after existing canonical+FitDigits closure; finite shaft from exact club grip resource/PCA",
+  "parts": [
+    {
+      "label": "female_Driver_address",
+      "side": "Left",
+      "roll": -45.0,
+      "fullyHandBoundVertices": 1012,
+      "trueDistalSkinVertices": 363,
+      "maxRigidCarryErrorMm": 4.660953740672398e-13,
+      "maxCylinderRadiusChangeMm": 3.434752482434078e-13,
+      "maxShaftStationChangeMm": 3.920475055707584e-13,
+      "maxDistalPadRadiusChangeMm": 1.6306400674181987e-13,
+      "baselinePadRadiusRangeMm": [
+        2.8402127159272568,
+        31.74962882619161
+      ]
+    },
+    {
+      "label": "female_Driver_address",
+      "side": "Right",
+      "roll": 40.172344188936876,
+      "fullyHandBoundVertices": 1024,
+      "trueDistalSkinVertices": 357,
+      "maxRigidCarryErrorMm": 4.476662236260899e-13,
+      "maxCylinderRadiusChangeMm": 2.220446049250313e-13,
+      "maxShaftStationChangeMm": 2.914335439641036e-13,
+      "maxDistalPadRadiusChangeMm": 2.220446049250313e-13,
+      "baselinePadRadiusRangeMm": [
+        4.484135604980391,
+        31.190831837564385
+      ]
+    },
+    {
+      "label": "female_Driver_top",
+      "side": "Left",
+      "roll": 7.052588592898411,
+      "fullyHandBoundVertices": 1012,
+      "trueDistalSkinVertices": 363,
+      "maxRigidCarryErrorMm": 6.77599954797753e-13,
+      "maxCylinderRadiusChangeMm": 5.065392549852277e-13,
+      "maxShaftStationChangeMm": 2.0816681711721685e-13,
+      "maxDistalPadRadiusChangeMm": 3.885780586188048e-13,
+      "baselinePadRadiusRangeMm": [
+        0.5648930847448755,
+        45.1865773054776
+      ]
+    },
+    {
+      "label": "female_Driver_top",
+      "side": "Right",
+      "roll": 45.0,
+      "fullyHandBoundVertices": 1024,
+      "trueDistalSkinVertices": 357,
+      "maxRigidCarryErrorMm": 6.888752704931532e-13,
+      "maxCylinderRadiusChangeMm": 6.661338147750939e-13,
+      "maxShaftStationChangeMm": 1.942890293094024e-13,
+      "maxDistalPadRadiusChangeMm": 3.5388358909926865e-13,
+      "baselinePadRadiusRangeMm": [
+        10.501734579495611,
+        72.92056544188425
+      ]
+    },
+    {
+      "label": "male_Driver_address",
+      "side": "Left",
+      "roll": -45.0,
+      "fullyHandBoundVertices": 1603,
+      "trueDistalSkinVertices": 590,
+      "maxRigidCarryErrorMm": 4.5188131445508635e-13,
+      "maxCylinderRadiusChangeMm": 3.0531133177191805e-13,
+      "maxShaftStationChangeMm": 3.608224830031759e-13,
+      "maxDistalPadRadiusChangeMm": 2.949029909160572e-13,
+      "baselinePadRadiusRangeMm": [
+        7.992432213626116,
+        63.52006330155463
+      ]
+    },
+    {
+      "label": "male_Driver_address",
+      "side": "Right",
+      "roll": 45.0,
+      "fullyHandBoundVertices": 1603,
+      "trueDistalSkinVertices": 590,
+      "maxRigidCarryErrorMm": 5.390944523996086e-13,
+      "maxCylinderRadiusChangeMm": 4.926614671774132e-13,
+      "maxShaftStationChangeMm": 3.608224830031759e-13,
+      "maxDistalPadRadiusChangeMm": 2.42861286636753e-13,
+      "baselinePadRadiusRangeMm": [
+        8.11189593677279,
+        54.15046760221299
+      ]
+    },
+    {
+      "label": "male_Driver_top",
+      "side": "Left",
+      "roll": 1.5573965004100112,
+      "fullyHandBoundVertices": 1603,
+      "trueDistalSkinVertices": 590,
+      "maxRigidCarryErrorMm": 5.026748538604307e-13,
+      "maxCylinderRadiusChangeMm": 3.885780586188048e-13,
+      "maxShaftStationChangeMm": 2.8449465006019636e-13,
+      "maxDistalPadRadiusChangeMm": 3.885780586188048e-13,
+      "baselinePadRadiusRangeMm": [
+        5.243422482749538,
+        41.406890682705225
+      ]
+    },
+    {
+      "label": "male_Driver_top",
+      "side": "Right",
+      "roll": 42.0,
+      "fullyHandBoundVertices": 1603,
+      "trueDistalSkinVertices": 590,
+      "maxRigidCarryErrorMm": 6.080941944488118e-13,
+      "maxCylinderRadiusChangeMm": 5.134781488891349e-13,
+      "maxShaftStationChangeMm": 2.220446049250313e-13,
+      "maxDistalPadRadiusChangeMm": 4.85722573273506e-13,
+      "baselinePadRadiusRangeMm": [
+        20.917761935499378,
+        75.64673464713053
+      ]
+    }
+  ],
+  "maximumPadRadiusChangeMm": 4.85722573273506e-13,
+  "maximumSkinCarryErrorMm": 6.888752704931532e-13,
+  "note": "Preserves existing grip contact/error; does not claim to improve baseline digit closure. Original mixed forearm/wrist transition legitimately deforms under changed arm pose; actual approval still required."
+}

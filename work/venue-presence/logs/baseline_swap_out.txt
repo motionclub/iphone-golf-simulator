@@ -1,0 +1,12 @@
+== measured:
+[VenueBuild] Skyscraper venue built in 441 ms (ORIGINAL builder)
+[VenueBuild] Volcano venue built in 1984 ms (ORIGINAL builder)
+[VenueDump] skyscraper: venue-owned static tris=12164 in 225 mesh renderers | arena kit tris=138607 | other static tris=20582 | particle cap tris~1352 | active lights=2
+[VenueDump] volcano: venue-owned static tris=1591200 in 743 mesh renderers | arena kit tris=138607 | other static tris=20582 | particle cap tris~6512 | active lights=9
+== restored; verifying against after_code/SHA256.txt
+   OK   TennisVenueBuilder.cs
+   OK   TennisVenueBuilder.Mesh.cs
+   OK   TennisVenueBuilder.Skyscraper.cs
+   OK   TennisVenueBuilder.Volcano.cs
+   OK   TennisVenueFx.cs
+   OK   TennisVenueCapture.cs

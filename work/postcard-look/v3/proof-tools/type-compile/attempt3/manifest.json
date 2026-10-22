@@ -1,0 +1,21 @@
+{
+  "scope": "Offline TYPE compile of new optional GolfFlyoverCapture portrait branch with all11v3drafts and same full original Editor source snapshots as attempt2; noUnityprocess/Assetswrites/runtimeexecution.",
+  "base_manifest": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof-tools/type-compile/attempt2/manifest.json",
+  "new_source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof-tools/GolfFlyoverCapture.cs",
+  "new_source_sha256": "59419dbf448583d538c75d51adb4cef585d42f73d1e653714e0888837b5e4191",
+  "snapshot_source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof-tools/type-compile/attempt3/GolfFlyoverCapture.cs",
+  "exit_code": 0,
+  "result": "PASS",
+  "errors": [],
+  "warnings": [
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof-tools/type-compile/attempt2/sources/Assets/Editor/ClothCompileProbe.cs(62,4): warning CS0618: 'PlayerSettings.SetApplicationIdentifier(BuildTargetGroup, string)' is obsolete: 'Use SetApplicationIdentifier(NamedBuildTarget buildTarget, string identifier) instead'",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof-tools/type-compile/attempt2/sources/Assets/Editor/GolfLookSmoke.cs(1043,17): warning CS0219: The variable 'skyRows' is assigned but its value is never used",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof-tools/type-compile/attempt2/sources/Assets/Editor/HeroGameplayBuild.cs(194,98): warning CS0414: The field 'HeroGameplayBuild.prevRival' is assigned but its value is never used",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof-tools/type-compile/attempt2/sources/Assets/Editor/HeroGameplayBuild.cs(84,216): warning CS0414: The field 'HeroGameplayBuild.mode' is assigned but its value is never used"
+  ],
+  "command": [
+    "/Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/Resources/Scripting/NetCoreRuntime/dotnet",
+    "/Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/Resources/Scripting/DotNetSdkRoslyn/csc.dll",
+    "@/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof-tools/type-compile/attempt3/compile.rsp"
+  ]
+}

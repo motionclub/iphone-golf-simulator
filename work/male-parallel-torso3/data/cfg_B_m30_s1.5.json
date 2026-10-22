@@ -1,0 +1,47 @@
+{
+ "order": "rbf_first",
+ "rbf": {
+  "gF": [
+   3.5,
+   2.6,
+   2.2
+  ],
+  "gB": [
+   3.3,
+   3.0,
+   5.25
+  ],
+  "lamF": [
+   0.25,
+   0.5,
+   1.0
+  ],
+  "lamB": [
+   6.0,
+   15.0,
+   15.0
+  ],
+  "lam": 0.1,
+  "hmax": 14.0,
+  "iters": 16,
+  "tol": 0.4,
+  "zfloor": [
+   0.782,
+   0.03
+  ],
+  "sp": 0.012,
+  "sg": 0.009,
+  "hp": 3,
+  "skip": false,
+  "sides": [
+   "back"
+  ]
+ },
+ "struct": {},
+ "only_struct": [],
+ "clamp_tol": 0.4,
+ "allow_back": null,
+ "guard_sigma": 0.008,
+ "guard_n": 3,
+ "guard_zhi": 1.318
+}

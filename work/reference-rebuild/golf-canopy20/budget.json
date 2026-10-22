@@ -1,0 +1,39 @@
+{
+  "treeCount": 46,
+  "representations": [
+    {
+      "label": "before",
+      "role": "far",
+      "triangles": 4104,
+      "sourceVertices": 3496
+    },
+    {
+      "label": "before",
+      "role": "near",
+      "triangles": 12380,
+      "sourceVertices": 10418
+    },
+    {
+      "label": "candidate",
+      "role": "far",
+      "triangles": 2316,
+      "sourceVertices": 2444
+    },
+    {
+      "label": "candidate",
+      "role": "near",
+      "triangles": 11396,
+      "sourceVertices": 10398
+    }
+  ],
+  "medianTrunkScale": 18.3,
+  "medianCrownRadiusScale": 10.040000000000001,
+  "candidateAllNearTriangles": 524216,
+  "candidateAllFarTriangles": 106536,
+  "note": "Mesh triangles only. Shadows/pass multiplication and selected48yd batching determine actual GPU work; root actual sole-camera capture required.",
+  "example8Near38FarTriangles": 179176,
+  "oldAllNearTriangles": 569480,
+  "oldAllFarTriangles": 188784,
+  "nearChangePercent": -7.9,
+  "farChangePercent": -43.6
+}

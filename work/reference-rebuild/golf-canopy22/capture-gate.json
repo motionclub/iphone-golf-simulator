@@ -1,0 +1,28 @@
+[
+  {
+    "name": "reference-golf-canopy22-canopy20",
+    "method": "GolfArcade.EditorTools.GolfCourseStandardCapture.Run",
+    "env": {
+      "GOLF_STANDARD_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/golf-canopy22/canopy20",
+      "GOLF_STANDARD_HOLES": "16,19,21,22,23",
+      "GOLF_STANDARD_SHOWCASE": "0",
+      "GOLF_STANDARD_TREES": "1",
+      "GOLF_STANDARD_CAMERA_SWEEP": "0",
+      "VISUAL_GOLF_CANOPY": "1",
+      "VISUAL_GOLF_CANOPY22": "0"
+    }
+  },
+  {
+    "name": "reference-golf-canopy22-candidate",
+    "method": "GolfArcade.EditorTools.GolfCourseStandardCapture.Run",
+    "env": {
+      "GOLF_STANDARD_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/golf-canopy22/candidate",
+      "GOLF_STANDARD_HOLES": "16,19,21,22,23",
+      "GOLF_STANDARD_SHOWCASE": "0",
+      "GOLF_STANDARD_TREES": "1",
+      "GOLF_STANDARD_CAMERA_SWEEP": "0",
+      "VISUAL_GOLF_CANOPY": "1",
+      "VISUAL_GOLF_CANOPY22": "1"
+    }
+  }
+]

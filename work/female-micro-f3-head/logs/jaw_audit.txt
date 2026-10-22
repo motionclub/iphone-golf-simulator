@@ -1,0 +1,5 @@
+contour F1 vs plate cubic (z 1.452..1.490): rms 1.14 mm, max |err| 2.17 mm, mean +0.03 mm
+contour F2 vs plate cubic (z 1.452..1.490): rms 1.44 mm, max |err| 2.20 mm, mean +0.29 mm
+contour F3 vs plate cubic (z 1.452..1.490): rms 0.74 mm, max |err| 1.51 mm, mean -0.01 mm
+zone verts 1261: geometry vertex normal vs analytic normal (F2): mean 3.00 p90 6.71 p99 16.54 max 20.8 deg
+zone verts 1261: geometry vertex normal vs analytic normal (F3): mean 3.02 p90 6.84 p99 17.33 max 22.8 deg

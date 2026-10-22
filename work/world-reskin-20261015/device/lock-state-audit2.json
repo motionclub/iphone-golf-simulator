@@ -1,0 +1,26 @@
+{
+  "info" : {
+    "arguments" : [
+      "devicectl",
+      "device",
+      "info",
+      "lockState",
+      "--device",
+      "00008150-00041CD92287801C",
+      "--json-output",
+      "work/world-reskin-20261015/device/lock-state-audit2.json"
+    ],
+    "commandType" : "devicectl.device.info.lockState",
+    "environment" : {
+      "TERM" : "dumb"
+    },
+    "jsonVersion" : 5,
+    "outcome" : "success",
+    "version" : "642.16"
+  },
+  "result" : {
+    "deviceIdentifier" : "5724AA4B-8FB9-5224-8EBC-EBF2A5071B3B",
+    "passcodeRequired" : true,
+    "unlockedSinceBoot" : true
+  }
+}

@@ -1,0 +1,440 @@
+{
+ "hole": 10,
+ "name": "Crater",
+ "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_10_rt_lava_flat_orange_textures.blend",
+ "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_10_rt_lava_flat_orange_textures.fbx",
+ "look_dir": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/look_10_lava_flat_orange/Look",
+ "seconds": 0.6,
+ "result": "ALL PASS",
+ "failures": [],
+ "gates": [
+  {
+   "name": "BASELINE_SIGNATURE",
+   "ok": true,
+   "detail": "work/postcard-look/baseline_signature/hole_10.json built 2026-10-03 21:44:33 from work/postcard-look/baseline/blender/hole_10.blend (b0c478e6f2a7) + work/postcard-look/baseline/fbx/hole_10.fbx (e99475de7175); npz sha256 matches the json"
+  },
+  {
+   "name": "HOLE07_UNTOUCHED",
+   "ok": true,
+   "detail": "hole_07.blend, hole_07.fbx, hole_07.fbx.meta sha256 unchanged"
+  },
+  {
+   "name": "PLAY_SURFACE_NAMES@blend",
+   "ok": true,
+   "detail": "10 collision-prefix objects equal the baseline set ['BUNKER_01', 'BUNKER_01_LIP', 'BUNKER_02', 'BUNKER_02_LIP', 'FAIRWAY', 'FAIRWAY_FIRSTCUT', 'GREEN', 'GREEN_APRON', 'TEE_BOX', 'TERRAIN_CRATER']"
+  },
+  {
+   "name": "PLAY_SURFACE_GRID@blend",
+   "ok": true,
+   "detail": "25432 rays on a 1.5 m grid over the shore bbox (3948 hit ground): hit/miss mismatches 0, height mismatches > 0.001 m 0 (max |dz| 0.00e+00 m), hit-object mismatches 0"
+  },
+  {
+   "name": "PLAY_SURFACE_TOPS@blend",
+   "ok": true,
+   "detail": "up-facing (nz > 0.5) vertex sets of 10 collision meshes equal the baseline (sorted, rounded 1e-4 m hash)"
+  },
+  {
+   "name": "MARKERS_FROZEN@blend",
+   "ok": true,
+   "detail": "9 markers/placeholders ['BALL_START', 'FLAG', 'FLAG_POLE', 'HOLE_CUP', 'MARKER_PIN', 'MARKER_TEE', 'MARKER_UP', 'TEE_MARKER_1', 'TEE_MARKER_2'] at their baseline positions (max 0.0000 mm <= 0.1 mm), no duplicates"
+  },
+  {
+   "name": "RESERVED_NAMES@blend",
+   "ok": true,
+   "detail": "objects named FLAG*/HOLE_CUP*/BALL_START*/MARKER_* are exactly the baseline placeholders ['BALL_START', 'FLAG', 'FLAG_POLE', 'HOLE_CUP', 'MARKER_PIN', 'MARKER_TEE', 'MARKER_UP']"
+  },
+  {
+   "name": "NEW_OBJECT_PREFIXES@blend",
+   "ok": true,
+   "detail": "23 new objects, all prefixed ('ROCK_', 'PLANT_', 'DRESS_', 'WATER_', 'LAVA_') {'DRESS_': 3, 'LAVA_': 4, 'PLANT_': 16}; no new collision prefix"
+  },
+  {
+   "name": "ONE_GREEN@blend",
+   "ok": true,
+   "detail": "exactly one GREEN, one MARKER_PIN, one FLAG/FLAG_POLE/HOLE_CUP; LK_GREEN/LK_FAIRWAY only on the play objects"
+  },
+  {
+   "name": "NO_MAT_FOAM@blend",
+   "ok": true,
+   "detail": "no MAT_FOAM material on any mesh and no *FOAM* object"
+  },
+  {
+   "name": "NO_LEGACY_MATERIALS@blend",
+   "ok": true,
+   "detail": "every mesh material is a contract LK_ name ['LK_BASALT', 'LK_FAIRWAY', 'LK_GREEN', 'LK_LAVA', 'LK_PLANTS', 'LK_ROUGH', 'LK_SAND', 'LK_SMOKE'] or a gameplay MAT_ (flag/pole/cup/ball)"
+  },
+  {
+   "name": "LK_REQUIRED@blend",
+   "ok": true,
+   "detail": "all 8 required LK_ materials used: ['LK_BASALT', 'LK_FAIRWAY', 'LK_GREEN', 'LK_LAVA', 'LK_PLANTS', 'LK_ROUGH', 'LK_SAND', 'LK_SMOKE']"
+  },
+  {
+   "name": "GROUND_MATERIALS@blend",
+   "ok": true,
+   "detail": "play surfaces + terrain use their contract materials: BUNKER_01:LK_SAND, BUNKER_01_LIP:LK_GREEN, BUNKER_02:LK_SAND, BUNKER_02_LIP:LK_GREEN, FAIRWAY:LK_FAIRWAY, FAIRWAY_FIRSTCUT:LK_FAIRWAY, GREEN:LK_GREEN, GREEN_APRON:LK_FAIRWAY, TEE_BOX:LK_GREEN, terrain walls 100% basalt of 8396 m2; terrain tops ['LK_BASALT', 'LK_ROUGH'], walls ['LK_BASALT'] (+ a 1.0 m grass lip band)"
+  },
+  {
+   "name": "ROCK_MATERIALS@blend",
+   "ok": true,
+   "detail": "5 unique rock meshes: only ['LK_BASALT', 'LK_CLIFF', 'LK_CLIFF_DARK', 'LK_MASONRY', 'LK_PLANTS', 'LK_ROCK', 'LK_ROCK_WET', 'LK_ROUGH', 'LK_SCRUB'], >= 60% of each mesh's area rock (ROCK_WALL_*: LK_BASALT)"
+  },
+  {
+   "name": "PROP_MATERIALS@blend",
+   "ok": true,
+   "detail": "5 PLANT_/DRESS_/WATER_/LAVA_ mesh variants use only their contract materials (PLANT_ = LK_PLANTS, DRESS_PATH = LK_PATH, DRESS_ARCH/RUIN = LK_MASONRY, WATER_OCEAN = LK_WATER, ...)"
+  },
+  {
+   "name": "LK_TEXTURED@blend",
+   "ok": true,
+   "detail": "8 LK_ materials carry their contract maps from work/postcard-look/review_gates/mut/look_10_lava_flat_orange/Look: ['LK_BASALT', 'LK_FAIRWAY', 'LK_GREEN', 'LK_LAVA', 'LK_PLANTS', 'LK_ROUGH', 'LK_SAND', 'LK_SMOKE']"
+  },
+  {
+   "name": "LOOK_FILES@blend",
+   "ok": true,
+   "detail": "16 contract textures for 8 LK_ materials exist in work/postcard-look/review_gates/mut/look_10_lava_flat_orange/Look (0.5 MB), none flat: Basalt_C sd 0.025, Basalt_E max 1.00, Basalt_N tilt 0.094, Fairway_C sd 0.112, Fairway_N tilt 0.094, Green_C sd 0.141, Green_N tilt 0.094, Lava_C sd 0.009, Lava_E max 1.00, Lava_N tilt 0.094, Plants_C sd 0.082, Rough_C sd 0.090, Rough_N tilt 0.095, Sand_C sd 0.170, Sand_N tilt 0.093, Smoke_C sd 0.146"
+  },
+  {
+   "name": "UV_DENSITY@blend",
+   "ok": true,
+   "detail": "every tiled LK_ surface has UV0 at its contract density (ratio range per material {'LK_BASALT': '0.91..0.95x', 'LK_FAIRWAY': '1.00..1.00x', 'LK_GREEN': '0.96..1.00x', 'LK_LAVA': '1.00..1.00x', 'LK_ROUGH': '0.99..0.99x', 'LK_SAND': '1.00..1.00x'}); atlas/sheet/card UVs valid"
+  },
+  {
+   "name": "SAND_NAMES@blend",
+   "ok": true,
+   "detail": "2 scoring bunker meshes ['BUNKER_01', 'BUNKER_02'] (design 2); every other LK_SAND mesh is DRESS_SAND_* (0)"
+  },
+  {
+   "name": "ROCK_NOT_ICOSAHEDRON@blend",
+   "ok": true,
+   "detail": "227 rock objects (ROCK_*/CLIFF_ROCK*/ROCK_WALL_*), none with <= 12 vertices; no 12-vertex 20-face icosahedron mesh on any non-plant object except BALL_START"
+  },
+  {
+   "name": "ROCK_VARIETY@blend",
+   "ok": true,
+   "detail": "4 unique rock meshes (> 12 vertices) among ROCK_* (excluding ROCK_SKIN_*; need >= 4), 4 instanced >= 2 times (need >= 3): COL_B x79, RK_B x46, COL_A x35, RK_A x27"
+  },
+  {
+   "name": "PROP_FACE_BUDGET@blend",
+   "ok": true,
+   "detail": "5 prop meshes within budget (plants/rocks <= 500 faces, tufts <= 120); largest {'plant': 80, 'tuft': 8, 'rock': 80}"
+  },
+  {
+   "name": "PLANTS_SHARED_MATERIAL@blend",
+   "ok": true,
+   "detail": "all 16 PLANT_* objects use the one shared LK_PLANTS material"
+  },
+  {
+   "name": "PLANTS_INSTANCED@blend",
+   "ok": true,
+   "detail": "16 PLANT_* objects use 2 meshes; 100% of them share their mesh with another plant (need >= 80%)"
+  },
+  {
+   "name": "PROPS_OFF_PLAY@blend",
+   "ok": true,
+   "detail": "129 plants/loose rocks: none stands >= 1 m inside FAIRWAY/GREEN/TEE_BOX/BUNKER, none within the green radius + 1 m (15.6 m) of the pin"
+  },
+  {
+   "name": "NO_ANIMATION@blend",
+   "ok": true,
+   "detail": "static: no action, driver, shape key or armature on 283 objects / 12 materials"
+  },
+  {
+   "name": "TRIANGLE_BUDGET@blend",
+   "ok": true,
+   "detail": "31054 triangles over 263 mesh objects (<= 250000; 7516 in unique meshes); by prefix [('ROCK', 20220), ('CLIFF', 3200), ('TERRAIN', 2477), ('WATER', 1800), ('FAIRWAY', 1630), ('PLANT', 704)]"
+  },
+  {
+   "name": "CRATER_COLUMNS@blend",
+   "ok": true,
+   "detail": "114 ROCK_WALL_* + 0 other ring rocks are column clusters (columns per mesh [6, 7]...), covering 100% of the ring"
+  },
+  {
+   "name": "CRATER_LAVA@blend",
+   "ok": true,
+   "detail": "WATER_LAVA 1800 triangles, LK_LAVA only, z 0.00..0.00 m (<= 3.0), covers the lava ellipse"
+  },
+  {
+   "name": "CRATER_LAVA_LIGHTS@blend",
+   "ok": true,
+   "detail": "4 LAVA_LIGHT_nn empties above the lava (z 3.0, 3.0, 3.0, 3.0) inside the crater"
+  },
+  {
+   "name": "CRATER_PILLAR@blend",
+   "ok": true,
+   "detail": "pillar top = GREEN at the pin at play height; sides 648 m2 100% LK_BASALT reaching z -6.0 (lava top 0.00); underside 678 m2 basalt"
+  },
+  {
+   "name": "CRATER_CONE_SMOKE@blend",
+   "ok": true,
+   "detail": "DRESS_CONE behind the bowl, its top 11.9 deg above the tee horizon vs walls 4.7 deg; 2 LK_SMOKE cards beyond the rim"
+  },
+  {
+   "name": "CRATER_SHELF_PLANTS@blend",
+   "ok": true,
+   "detail": "16 PLANT_* on the grass shelf (rough land at play height; need >= 10) of 16 plants"
+  },
+  {
+   "name": "CRATER_TEE_PAD@blend",
+   "ok": true,
+   "detail": "TEE_BOX 12.8 x 11.0 m, fill 0.99, aspect 1.17, ['LK_GREEN'] (UVs: UV_DENSITY)"
+  },
+  {
+   "name": "FBX_FILE@fbx",
+   "ok": true,
+   "detail": "work/postcard-look/review_gates/mut/hole_10_rt_lava_flat_orange_textures.fbx 0.42 MB (<= 20.0); .meta isReadable 1, tangentImportMode 3"
+  },
+  {
+   "name": "FBX_REIMPORT@fbx",
+   "ok": true,
+   "detail": "re-imported 271 objects in 0.1 s; markers present: True []"
+  },
+  {
+   "name": "PLAY_SURFACE_NAMES@fbx",
+   "ok": true,
+   "detail": "10 collision-prefix objects equal the baseline set ['BUNKER_01', 'BUNKER_01_LIP', 'BUNKER_02', 'BUNKER_02_LIP', 'FAIRWAY', 'FAIRWAY_FIRSTCUT', 'GREEN', 'GREEN_APRON', 'TEE_BOX', 'TERRAIN_CRATER']"
+  },
+  {
+   "name": "PLAY_SURFACE_GRID@fbx",
+   "ok": true,
+   "detail": "25432 rays on a 1.5 m grid over the shore bbox (3948 hit ground): hit/miss mismatches 0, height mismatches > 0.001 m 0 (max |dz| 0.00e+00 m), hit-object mismatches 0"
+  },
+  {
+   "name": "PLAY_SURFACE_TOPS@fbx",
+   "ok": true,
+   "detail": "up-facing (nz > 0.5) vertex sets of 10 collision meshes equal the baseline (sorted, rounded 1e-4 m hash)"
+  },
+  {
+   "name": "MARKERS_FROZEN@fbx",
+   "ok": true,
+   "detail": "9 markers/placeholders ['BALL_START', 'FLAG', 'FLAG_POLE', 'HOLE_CUP', 'MARKER_PIN', 'MARKER_TEE', 'MARKER_UP', 'TEE_MARKER_1', 'TEE_MARKER_2'] at their baseline positions (max 0.0000 mm <= 0.1 mm), no duplicates"
+  },
+  {
+   "name": "RESERVED_NAMES@fbx",
+   "ok": true,
+   "detail": "objects named FLAG*/HOLE_CUP*/BALL_START*/MARKER_* are exactly the baseline placeholders ['BALL_START', 'FLAG', 'FLAG_POLE', 'HOLE_CUP', 'MARKER_PIN', 'MARKER_TEE', 'MARKER_UP']"
+  },
+  {
+   "name": "NEW_OBJECT_PREFIXES@fbx",
+   "ok": true,
+   "detail": "23 new objects, all prefixed ('ROCK_', 'PLANT_', 'DRESS_', 'WATER_', 'LAVA_') {'DRESS_': 3, 'LAVA_': 4, 'PLANT_': 16}; no new collision prefix"
+  },
+  {
+   "name": "ONE_GREEN@fbx",
+   "ok": true,
+   "detail": "exactly one GREEN, one MARKER_PIN, one FLAG/FLAG_POLE/HOLE_CUP; LK_GREEN/LK_FAIRWAY only on the play objects"
+  },
+  {
+   "name": "NO_MAT_FOAM@fbx",
+   "ok": true,
+   "detail": "no MAT_FOAM material on any mesh and no *FOAM* object"
+  },
+  {
+   "name": "NO_LEGACY_MATERIALS@fbx",
+   "ok": true,
+   "detail": "every mesh material is a contract LK_ name ['LK_BASALT', 'LK_FAIRWAY', 'LK_GREEN', 'LK_LAVA', 'LK_PLANTS', 'LK_ROUGH', 'LK_SAND', 'LK_SMOKE'] or a gameplay MAT_ (flag/pole/cup/ball)"
+  },
+  {
+   "name": "LK_REQUIRED@fbx",
+   "ok": true,
+   "detail": "all 8 required LK_ materials used: ['LK_BASALT', 'LK_FAIRWAY', 'LK_GREEN', 'LK_LAVA', 'LK_PLANTS', 'LK_ROUGH', 'LK_SAND', 'LK_SMOKE']"
+  },
+  {
+   "name": "GROUND_MATERIALS@fbx",
+   "ok": true,
+   "detail": "play surfaces + terrain use their contract materials: BUNKER_01:LK_SAND, BUNKER_01_LIP:LK_GREEN, BUNKER_02:LK_SAND, BUNKER_02_LIP:LK_GREEN, FAIRWAY:LK_FAIRWAY, FAIRWAY_FIRSTCUT:LK_FAIRWAY, GREEN:LK_GREEN, GREEN_APRON:LK_FAIRWAY, TEE_BOX:LK_GREEN, terrain walls 100% basalt of 8396 m2; terrain tops ['LK_BASALT', 'LK_ROUGH'], walls ['LK_BASALT'] (+ a 1.0 m grass lip band)"
+  },
+  {
+   "name": "ROCK_MATERIALS@fbx",
+   "ok": true,
+   "detail": "5 unique rock meshes: only ['LK_BASALT', 'LK_CLIFF', 'LK_CLIFF_DARK', 'LK_MASONRY', 'LK_PLANTS', 'LK_ROCK', 'LK_ROCK_WET', 'LK_ROUGH', 'LK_SCRUB'], >= 60% of each mesh's area rock (ROCK_WALL_*: LK_BASALT)"
+  },
+  {
+   "name": "PROP_MATERIALS@fbx",
+   "ok": true,
+   "detail": "5 PLANT_/DRESS_/WATER_/LAVA_ mesh variants use only their contract materials (PLANT_ = LK_PLANTS, DRESS_PATH = LK_PATH, DRESS_ARCH/RUIN = LK_MASONRY, WATER_OCEAN = LK_WATER, ...)"
+  },
+  {
+   "name": "LOOK_FILES@fbx",
+   "ok": true,
+   "detail": "16 contract textures for 8 LK_ materials exist in work/postcard-look/review_gates/mut/look_10_lava_flat_orange/Look (0.5 MB), none flat: Basalt_C sd 0.025, Basalt_E max 1.00, Basalt_N tilt 0.094, Fairway_C sd 0.112, Fairway_N tilt 0.094, Green_C sd 0.141, Green_N tilt 0.094, Lava_C sd 0.009, Lava_E max 1.00, Lava_N tilt 0.094, Plants_C sd 0.082, Rough_C sd 0.090, Rough_N tilt 0.095, Sand_C sd 0.170, Sand_N tilt 0.093, Smoke_C sd 0.146"
+  },
+  {
+   "name": "UV_DENSITY@fbx",
+   "ok": true,
+   "detail": "every tiled LK_ surface has UV0 at its contract density (ratio range per material {'LK_BASALT': '0.91..0.95x', 'LK_FAIRWAY': '1.00..1.00x', 'LK_GREEN': '0.96..1.00x', 'LK_LAVA': '1.00..1.00x', 'LK_ROUGH': '0.99..0.99x', 'LK_SAND': '1.00..1.00x'}); atlas/sheet/card UVs valid"
+  },
+  {
+   "name": "SAND_NAMES@fbx",
+   "ok": true,
+   "detail": "2 scoring bunker meshes ['BUNKER_01', 'BUNKER_02'] (design 2); every other LK_SAND mesh is DRESS_SAND_* (0)"
+  },
+  {
+   "name": "ROCK_NOT_ICOSAHEDRON@fbx",
+   "ok": true,
+   "detail": "227 rock objects (ROCK_*/CLIFF_ROCK*/ROCK_WALL_*), none with <= 12 vertices; no 12-vertex 20-face icosahedron mesh on any non-plant object except BALL_START"
+  },
+  {
+   "name": "ROCK_VARIETY@fbx",
+   "ok": true,
+   "detail": "4 unique rock meshes (> 12 vertices) among ROCK_* (excluding ROCK_SKIN_*; need >= 4), 4 instanced >= 2 times (need >= 3): COL_B x79, RK_B x46, COL_A x35, RK_A x27"
+  },
+  {
+   "name": "PROP_FACE_BUDGET@fbx",
+   "ok": true,
+   "detail": "5 prop meshes within budget (plants/rocks <= 500 faces, tufts <= 120); largest {'rock': 80, 'plant': 80, 'tuft': 8}"
+  },
+  {
+   "name": "PLANTS_SHARED_MATERIAL@fbx",
+   "ok": true,
+   "detail": "all 16 PLANT_* objects use the one shared LK_PLANTS material"
+  },
+  {
+   "name": "PLANTS_INSTANCED@fbx",
+   "ok": true,
+   "detail": "16 PLANT_* objects use 2 meshes; 100% of them share their mesh with another plant (need >= 80%)"
+  },
+  {
+   "name": "PROPS_OFF_PLAY@fbx",
+   "ok": true,
+   "detail": "129 plants/loose rocks: none stands >= 1 m inside FAIRWAY/GREEN/TEE_BOX/BUNKER, none within the green radius + 1 m (15.6 m) of the pin"
+  },
+  {
+   "name": "NO_ANIMATION@fbx",
+   "ok": true,
+   "detail": "static: no action, driver, shape key or armature on 271 objects / 12 materials"
+  },
+  {
+   "name": "TRIANGLE_BUDGET@fbx",
+   "ok": true,
+   "detail": "31054 triangles over 263 mesh objects (<= 250000; 7516 in unique meshes); by prefix [('ROCK', 20220), ('CLIFF', 3200), ('TERRAIN', 2477), ('WATER', 1800), ('FAIRWAY', 1630), ('PLANT', 704)]"
+  },
+  {
+   "name": "CRATER_COLUMNS@fbx",
+   "ok": true,
+   "detail": "114 ROCK_WALL_* + 0 other ring rocks are column clusters (columns per mesh [6, 7]...), covering 100% of the ring"
+  },
+  {
+   "name": "CRATER_LAVA@fbx",
+   "ok": true,
+   "detail": "WATER_LAVA 1800 triangles, LK_LAVA only, z -0.00..0.00 m (<= 3.0), covers the lava ellipse"
+  },
+  {
+   "name": "CRATER_LAVA_LIGHTS@fbx",
+   "ok": true,
+   "detail": "4 LAVA_LIGHT_nn empties above the lava (z 3.0, 3.0, 3.0, 3.0) inside the crater"
+  },
+  {
+   "name": "CRATER_PILLAR@fbx",
+   "ok": true,
+   "detail": "pillar top = GREEN at the pin at play height; sides 648 m2 100% LK_BASALT reaching z -6.0 (lava top 0.00); underside 678 m2 basalt"
+  },
+  {
+   "name": "CRATER_CONE_SMOKE@fbx",
+   "ok": true,
+   "detail": "DRESS_CONE behind the bowl, its top 11.9 deg above the tee horizon vs walls 4.7 deg; 2 LK_SMOKE cards beyond the rim"
+  },
+  {
+   "name": "CRATER_SHELF_PLANTS@fbx",
+   "ok": true,
+   "detail": "16 PLANT_* on the grass shelf (rough land at play height; need >= 10) of 16 plants"
+  },
+  {
+   "name": "CRATER_TEE_PAD@fbx",
+   "ok": true,
+   "detail": "TEE_BOX 12.8 x 11.0 m, fill 0.99, aspect 1.17, ['LK_GREEN'] (UVs: UV_DENSITY)"
+  }
+ ],
+ "info": [
+  {
+   "name": "SCOPE@blend",
+   "detail": "export set (COURSE/ENVIRONMENT/STRUCTURES/GAMEPLAY + root, as postcard_lib.export_fbx): 271 objects, 263 meshes"
+  },
+  {
+   "name": "PLAY_SURFACE_ALLVERTS@blend",
+   "detail": "every collision mesh's full vertex set equals the baseline (hash)"
+  },
+  {
+   "name": "ROCK_DETAIL@blend",
+   "detail": "3 rock meshes under the contract's 60-vertex target: ['RK_A', 'RK_B', 'RK_D']"
+  },
+  {
+   "name": "SCOPE@fbx",
+   "detail": "every object of the re-imported FBX: 271 objects, 263 meshes"
+  },
+  {
+   "name": "PLAY_SURFACE_ALLVERTS@fbx",
+   "detail": "every collision mesh's full vertex set equals the baseline (hash)"
+  },
+  {
+   "name": "ROCK_DETAIL@fbx",
+   "detail": "3 rock meshes under the contract's 60-vertex target: ['RK_A', 'RK_B', 'RK_D']"
+  }
+ ],
+ "gate_seconds": {
+  "HOLE07_UNTOUCHED": 0.01,
+  "PLAY_SURFACE_NAMES@blend": 0.0,
+  "PLAY_SURFACE_GRID@blend": 0.03,
+  "PLAY_SURFACE_TOPS@blend": 0.01,
+  "MARKERS_FROZEN@blend": 0.0,
+  "RESERVED_NAMES@blend": 0.0,
+  "NEW_OBJECT_PREFIXES@blend": 0.0,
+  "ONE_GREEN@blend": 0.0,
+  "NO_MAT_FOAM@blend": 0.0,
+  "NO_LEGACY_MATERIALS@blend": 0.0,
+  "LK_REQUIRED@blend": 0.0,
+  "GROUND_MATERIALS@blend": 0.0,
+  "ROCK_MATERIALS@blend": 0.0,
+  "PROP_MATERIALS@blend": 0.0,
+  "LK_TEXTURED@blend": 0.0,
+  "LOOK_FILES@blend": 0.05,
+  "UV_DENSITY@blend": 0.0,
+  "SAND_NAMES@blend": 0.0,
+  "ROCK_NOT_ICOSAHEDRON@blend": 0.0,
+  "ROCK_VARIETY@blend": 0.0,
+  "PROP_FACE_BUDGET@blend": 0.0,
+  "PLANTS_SHARED_MATERIAL@blend": 0.0,
+  "PLANTS_INSTANCED@blend": 0.0,
+  "PROPS_OFF_PLAY@blend": 0.01,
+  "NO_ANIMATION@blend": 0.0,
+  "TRIANGLE_BUDGET@blend": 0.0,
+  "CRATER_COLUMNS@blend": 0.08,
+  "CRATER_LAVA@blend": 0.0,
+  "CRATER_LAVA_LIGHTS@blend": 0.0,
+  "CRATER_PILLAR@blend": 0.0,
+  "CRATER_CONE_SMOKE@blend": 0.0,
+  "CRATER_SHELF_PLANTS@blend": 0.0,
+  "CRATER_TEE_PAD@blend": 0.0,
+  "FBX_FILE@fbx": 0.0,
+  "PLAY_SURFACE_NAMES@fbx": 0.0,
+  "PLAY_SURFACE_GRID@fbx": 0.03,
+  "PLAY_SURFACE_TOPS@fbx": 0.0,
+  "MARKERS_FROZEN@fbx": 0.0,
+  "RESERVED_NAMES@fbx": 0.0,
+  "NEW_OBJECT_PREFIXES@fbx": 0.0,
+  "ONE_GREEN@fbx": 0.0,
+  "NO_MAT_FOAM@fbx": 0.0,
+  "NO_LEGACY_MATERIALS@fbx": 0.0,
+  "LK_REQUIRED@fbx": 0.0,
+  "GROUND_MATERIALS@fbx": 0.0,
+  "ROCK_MATERIALS@fbx": 0.0,
+  "PROP_MATERIALS@fbx": 0.0,
+  "LOOK_FILES@fbx": 0.01,
+  "UV_DENSITY@fbx": 0.0,
+  "SAND_NAMES@fbx": 0.0,
+  "ROCK_NOT_ICOSAHEDRON@fbx": 0.0,
+  "ROCK_VARIETY@fbx": 0.0,
+  "PROP_FACE_BUDGET@fbx": 0.0,
+  "PLANTS_SHARED_MATERIAL@fbx": 0.0,
+  "PLANTS_INSTANCED@fbx": 0.0,
+  "PROPS_OFF_PLAY@fbx": 0.01,
+  "NO_ANIMATION@fbx": 0.0,
+  "TRIANGLE_BUDGET@fbx": 0.0,
+  "CRATER_COLUMNS@fbx": 0.1,
+  "CRATER_LAVA@fbx": 0.0,
+  "CRATER_LAVA_LIGHTS@fbx": 0.0,
+  "CRATER_PILLAR@fbx": 0.0,
+  "CRATER_CONE_SMOKE@fbx": 0.01,
+  "CRATER_SHELF_PLANTS@fbx": 0.0,
+  "CRATER_TEE_PAD@fbx": 0.0
+ }
+}

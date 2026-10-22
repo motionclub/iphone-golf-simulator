@@ -1,0 +1,38 @@
+[
+  {
+    "bones" : 53,
+    "desktopSnapshotSeconds" : [
+      2.1543350219726562,
+      2.08160400390625,
+      3.672921895980835,
+      3.9886549711227417,
+      2.1375340223312378
+    ],
+    "manifest" : "MatchHero_Male",
+    "maxMorphWeight" : 2.004796028137207,
+    "maxPositionErrorMm" : 0.0017906210850924253,
+    "minMorphWeight" : -1.4017214775085449,
+    "mobilePerformance" : "Not measured by this desktop proof",
+    "shapes" : 88,
+    "vertices" : 22886,
+    "verticesCompared" : 2059740
+  },
+  {
+    "bones" : 53,
+    "desktopSnapshotSeconds" : [
+      1.4558420181274414,
+      2.0041909217834473,
+      1.704988956451416,
+      1.5227059125900269,
+      1.4850059747695923
+    ],
+    "manifest" : "MatchHero_Male_Distance",
+    "maxMorphWeight" : 1.6089730262756348,
+    "maxPositionErrorMm" : 0.0014339997433125973,
+    "minMorphWeight" : -1.6444864273071289,
+    "mobilePerformance" : "Not measured by this desktop proof",
+    "shapes" : 92,
+    "vertices" : 10206,
+    "verticesCompared" : 918540
+  }
+]

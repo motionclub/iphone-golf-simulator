@@ -10,29 +10,72 @@ half3 _HeroClothBalance;
 half _HeroClothExposure;
 half _HeroPresentationFill;
 half _HeroSkinPolish;
+half _HeroLightingEnabled;
+half4 _HeroFillColor, _HeroAnalyticRimColor;
+half _HeroAnalyticRimStrength, _HeroSkinLightExposure;
+// Bound environmental chroma without changing the light direction. This is
+// hero-only; shadow casters and the scene's lights retain their authored values.
+half3 HeroBoundLight(half3 c, half minimum, half maximum)
+{
+    c = max(c, 0);
+    half luminance = dot(c, half3(.2126h,.7152h,.0722h));
+    half peak = max(max(c.r,c.g),c.b);
+    half trough = min(min(c.r,c.g),c.b);
+    // Mixing toward luminance until HSV saturation is at most .35.
+    half chroma = min(1, .35h*luminance / max(peak-trough-.35h*(peak-luminance), .0001h));
+    c = lerp(luminance.xxx,c,chroma);
+    return luminance > .0001h ? c * (clamp(luminance,minimum,maximum)/luminance) : minimum.xxx;
+}
+half3 HeroPresentationRim(half3 n, half3 v, half3 albedo)
+{
+    half edge = 1-saturate(dot(n,v));
+    // Camera-relative backlight approximation: a cubic grazing lobe. No light
+    // slot, shadow lookup, texture sample or material variant.
+    return _HeroAnalyticRimColor.rgb * _HeroAnalyticRimStrength * edge*edge*edge * (.35h+.65h*albedo);
+}
 // A broad camera-side reflector for character surfaces. It consumes no URP
 // per-object light slot and never changes the course, court, or ball lighting.
 Light HeroPresentationLight(half3 viewDirection)
 {
     half3 right = SafeNormalize(cross(half3(0,1,0),viewDirection));
     Light light = (Light)0;
-    light.direction = SafeNormalize(viewDirection*.80h + half3(0,.60h,0) - right*.30h);
-    light.color = half3(1,.95h,.88h)*_HeroPresentationFill;
+    light.direction = _HeroLightingEnabled > .5h
+        ? SafeNormalize(viewDirection*.90h + half3(0,.30h,0) - right*.25h)
+        : SafeNormalize(viewDirection*.80h + half3(0,.60h,0) - right*.30h);
+    light.color = (_HeroLightingEnabled > .5h ? _HeroFillColor.rgb : half3(1,.95h,.88h))*_HeroPresentationFill;
     light.distanceAttenuation = 1;
     light.shadowAttenuation = 1;
     return light;
 }
 Light HeroMain(Light light)
 {
+    #if defined(HERO_PRESENTATION_SURFACE)
+    if (_HeroLightingEnabled > .5h) {
+        light.color = HeroBoundLight(light.color,0,1.1h);
+        light.shadowAttenuation = max(light.shadowAttenuation,.4h);
+    } else
+    #endif
     if (_HeroProfile > .5) light.color = _HeroKeyColor.rgb * _HeroKeyStrength;
+    return light;
+}
+Light HeroAdditional(Light light)
+{
+    if (_HeroLightingEnabled > .5h) {
+        // Venue point lights can be much brighter than the sun (lava glows).
+        // Bound only their contribution to the hero; their world response is intact.
+        light.color = HeroBoundLight(light.color,0,.35h);
+        light.shadowAttenuation = max(light.shadowAttenuation,.4h);
+    }
     return light;
 }
 half3 HeroAmbient(half3 n)
 {
-    // Use the actual scene's published SH in both profiles, so a golfer and
-    // neighbouring course props receive the same sky/ground ambient energy.
-    // GolfAtmosphere still owns the scene sky/equator/ground look values.
-    return SampleSH(n);
+    half3 ambient = SampleSH(n);
+    #if defined(HERO_PRESENTATION_SURFACE)
+    return _HeroLightingEnabled > .5h ? HeroBoundLight(ambient,.25h,.60h) : ambient;
+    #else
+    return ambient;
+    #endif
 }
 half3 HeroHighlightRoll(half3 c,half knee,half ceiling)
 {
@@ -43,6 +86,14 @@ half3 HeroHighlightRoll(half3 c,half knee,half ceiling)
     // flattening every bright surface to a single value.
     half rolled=peak<=knee ? peak : knee+span*excess/(span+excess);
     return c*(rolled/peak);
+}
+// A soft lighting shoulder on skin keeps bright keys/fill from washing out
+// the lighter complexion. Pigment, regional face shading and textures are unchanged.
+half3 HeroSkinLightFinish(half3 c,half skinFinish)
+{
+    if (_HeroLightingEnabled > .5h && skinFinish > 1.5h)
+        return HeroHighlightRoll(c,.60h,.90h)*_HeroSkinLightExposure;
+    return _HeroLightingEnabled > .5h && skinFinish > .5h ? HeroHighlightRoll(c,.35h,.75h)*_HeroSkinLightExposure : c;
 }
 half3 HeroFinish(half3 c)
 {
@@ -111,4 +162,35 @@ half3 HeroSkinShade (Light light, half3 n, half3 v, half3 albedo, half wrap, hal
     reflection = broad * specularStrength * visibility * light.color * atten;
     return albedo * (wrapped * .84h + subsurface * edge) * light.color * atten + reflection;
 }
+// Female satin skin (2026-10-16 shader pass). Form comes from a true Lambert
+// core; a narrow terminator band carries a saturated version of the SELECTED
+// tone (light passing through skin), so every complexion keeps its own hue.
+// Two dielectric lobes give a broad satin wash plus a soft core on the
+// forehead/nose/cheekbones; skin roughness stays well away from oily.
+half3 HeroFemaleSkinTone(half3 albedo)
+{
+    half luma=max(dot(albedo,half3(.2126h,.7152h,.0722h)),.04h);
+    return saturate(albedo*albedo/luma);
+}
+half3 HeroFemaleSkinShade(Light light, half3 n, half3 v, half3 albedo, half smoothness, out half3 reflection)
+{
+    half ndl=dot(n,light.direction), nl=saturate(ndl);
+    half wrapped=saturate((ndl+.34h)/1.34h);
+    half band=saturate(wrapped-nl);
+    half3 h=SafeNormalize(light.direction+v);
+    half nh=saturate(dot(n,h)), vh=saturate(dot(v,h));
+    half gloss=saturate((smoothness-.22h)/.20h);
+    half satin=pow(nh,6)*.10h;
+    half core=pow(nh,18+smoothness*16)*(.08h+.10h*gloss);
+    half fresnel=1+pow(1-vh,5)*1.6h;
+    half visibility=smoothstep(-.02h,.30h,ndl);
+    half attenuation=light.distanceAttenuation*lerp(light.shadowAttenuation,1,.04h);
+    // 2026-10-17: the sheen takes some of the skin's own hue (the reference's highlights are warm, never chalky white)
+    half3 sheenTint=lerp(half3(1,1,1),saturate(albedo/max(dot(albedo,half3(.2126h,.7152h,.0722h)),.04h)),.45h);
+    reflection=(satin*.55h+core*.85h)*fresnel*visibility*light.color*attenuation*sheenTint;
+    half3 scatter=lerp(albedo,HeroFemaleSkinTone(albedo),.75h)*band*band*1.15h;
+    half3 diffuse=albedo*nl+scatter;
+    return diffuse*light.color*attenuation+reflection;
+}
+
 #endif

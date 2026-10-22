@@ -1,0 +1,78 @@
+{
+  "root": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator",
+  "v3": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3",
+  "entries": [
+    {
+      "target": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/hole10_build.py",
+      "old_sha256": "ca9064b5a3a4a18bd06d87f139ec308cf363d68739f47b123d5bb1b4640297d9",
+      "old_snapshot": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round2/smoke_parallel/old_hole10_build.py",
+      "new_sha256": "ced511c71f6c301300bdaf3c009eee914983914f26cfd996ec9c804a03c565d8",
+      "draft": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round2/smoke_parallel/hole10_build.py",
+      "mode": "0o644"
+    }
+  ],
+  "protected": [
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/heavy.sh",
+      "sha256": "edd5a5281cb0a109e6f84b767a18784258da130f43e260e5a52d2285fc9751f7"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/hole10_look.py",
+      "sha256": "c72c684f79400096978a4f37759366e09e0e82ae752e0ee620dd36584d142e9d"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/hole10_design.py",
+      "sha256": "97c7507dafca8ef7553620d0a4dcbe8f67b179dc3701f45b549dea3426299959"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/postcard_lib.py",
+      "sha256": "ff3062b6798fafcf021183e2da39461b501ff7dbce45f75dab3111884b94d3f4"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/postcard_look_lib.py",
+      "sha256": "cbbd32f50fba1199f906dc25393fed4cabd4d6dd984aa8d675a053d11d5d2f5d"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/postcard_props_lib.py",
+      "sha256": "b679335135517d3c83de7cda1cfc4a26ff9510f45230cfa5a8d44c8be70698bc"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/postcard_look_verify.py",
+      "sha256": "a78560f62ee12cb38df6c8515e4530ce458dc19bc97634d0a56dd5d268b02ef4"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/golf_look_textures.py",
+      "sha256": "2a2a18f0e5eca08580a478a08109df7fb83b455468e4fffd5e70fc82cdcb6457"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Scripts/Course/GolfLook.cs",
+      "sha256": "9250efae05f14466dbc916db0b5a19f43d4c66df006832446d2274292516db53"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Scripts/Course/GolfAtmosphere.cs",
+      "sha256": "e661fbea0ac75500bfa741fbf45a45315243f9a6308e40dd950a09946f8af27a"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/Course/Shaders/GolfSurf.shader",
+      "sha256": "8058b43afdf7ad37eb923872e8f8d59e005b42afe7cf0d53440b4bf4e20213a0"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/Course/Look/Smoke_C.png",
+      "sha256": "d2a7d68a826e0d283a8f7c8bec2afe2608c8e3bce2d5f95fcec11fc13a68fea3"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/Course/Look/Smoke_C.png.meta",
+      "sha256": "bb5389d02bfe5c13ccc8c425e2f1e9f893e1ae36018a21581a4aee99e90c5c07"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v2/proof/stills_cfg_9.json",
+      "sha256": "b521c0069a0ed9650a2e349c25e071c170b837c27e6903180e93edc7d8cc1fe9"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/rebuild/hole10/stage/hole_10.blend",
+      "sha256": "f6624f6eb824f74092d61f6792fa79b07274b3fb13cb38041eab67a17dfced8f"
+    }
+  ],
+  "production_applied": false,
+  "native_unmeasured": true
+}

@@ -1,0 +1,20 @@
+{
+  "runtime_binding_contract": "PASS current Full+LOD, no stale JSON overwrite",
+  "single_morph_application": "PASS reconstruction max0.0008mm",
+  "full_alias_deformation": "PASS no mixed groups/gaps",
+  "DQ_art": "FAIL inspected actual stress pose already anchors0; DQ shifts107\u2013221mm",
+  "weights_algorithm_replacement": "NONE",
+  "Unity_GPU_or_production_writes": false,
+  "runtime_source_sha256": {
+    "HeroGarmentGusset.cs": "5b106c807b770f5d70b0f91b24b7d93cd4949903c22903649ed87524bb031f85",
+    "HeroGarmentPoseCorrectives.cs": "97f17433b283c8fd6d067cdbb4bb3bc6bd1f9845131f69c8da8f510c74e66419",
+    "HeroGarmentLocalFit.cs": "78a1329f833a6fa3c4f38603f9f17a2b0d954d0e663f4e81c45a94689b45f2d7",
+    "HeroGarmentTailoring.cs": "eefd35acfafb576b9d0d358101d0279369f03e588cdd045e91c1cf9dd608860b",
+    "HeroGarmentSleeveGeometry.cs": "7b6880cac7c03a57ab7ddbe4dc2fe0683acbf83ccdf46a5da7446ac943d424e4",
+    "HeroGarmentAxillaWeights.cs": "373a0c905f0f5ab040eee8455bb9bcb167f56e331d819b9078d7d5f667698a3d",
+    "HeroGarmentHemWeights.cs": "2c08b91789909c7dd5210fb49138fc4f36168bc09b4894307986d34cb2acd8b4",
+    "HeroGarmentLOD.cs": "2329865124a8ac218eefaea07ba8bc67bd8d69d3bd6a2efe1d9727570e318f6d"
+  },
+  "recorded_samples": 5,
+  "max_actual_reconstruction_mm": 0.0007556766340592493
+}

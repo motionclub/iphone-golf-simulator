@@ -1,0 +1,14 @@
+{
+  "source": "HeroBase_Female_hands_candidate.blend",
+  "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/female-hands-fingers/export/HeroBase_Female_Body_hands.fbx",
+  "fbx_sha256": "962828dadc0207a5918d9f31ecb0b55d8f6d8593f79dd9b912c58f54248bab13",
+  "mesh": "Body_F",
+  "vertices": 23247,
+  "triangles": 46402,
+  "global_scale": 1,
+  "forward": "-Z",
+  "up": "Y",
+  "hair": false,
+  "armature": false,
+  "note": "Body only (no hair), same exporter settings as the limbs/male exports; staged in export/ only, NOT installed into ArtDir"
+}

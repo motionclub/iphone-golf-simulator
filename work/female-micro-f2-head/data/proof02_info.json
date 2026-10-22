@@ -1,0 +1,66 @@
+{
+ "01_front_face.png": {
+  "iou": 0.975769924259307
+ },
+ "02_left_profile.png": {
+  "iou": 0.970959466135678
+ },
+ "03_right_profile.png": {
+  "iou": 0.9702543040113938
+ },
+ "04_threequarter_front_left.png": {
+  "iou": 0.810469497912211
+ },
+ "05_threequarter_front_right.png": {
+  "iou": 0.9531277533039647
+ },
+ "06_top_cranial.png": {
+  "iou": 0.7445021895000241
+ },
+ "07_body_front_head.png": {
+  "iou": 0.9109978628965971
+ },
+ "08_body_back_head.png": {
+  "iou": 0.9114007493136854
+ },
+ "09_ma_front.png": {
+  "iou": 0.8885399081308154,
+  "yaw": 0,
+  "head_iou": 0.886365856040629
+ },
+ "10_ma_back.png": {
+  "iou": 0.8991328340559717,
+  "yaw": 180,
+  "head_iou": 0.9633505281257676
+ },
+ "11_ma_left_profile.png": {
+  "iou": 0.8053804816559411,
+  "yaw": 90,
+  "head_iou": 0.8487305765475078
+ },
+ "12_ma_right_profile.png": {
+  "iou": 0.7301597403423916,
+  "yaw": -90,
+  "head_iou": 0.8303223070398643
+ },
+ "13_ma_threequarter_front_left.png": {
+  "iou": 0.8637855791140463,
+  "yaw": -20,
+  "head_iou": 0.8873718478208056
+ },
+ "14_ma_threequarter_front_right.png": {
+  "iou": 0.8597924572136606,
+  "yaw": 20,
+  "head_iou": 0.8859172177320598
+ },
+ "15_ma_threequarter_back_left.png": {
+  "iou": 0.863528311445384,
+  "yaw": 200,
+  "head_iou": 0.9322338976454563
+ },
+ "16_ma_threequarter_back_right.png": {
+  "iou": 0.8718866749688667,
+  "yaw": 200,
+  "head_iou": 0.949534085335949
+ }
+}

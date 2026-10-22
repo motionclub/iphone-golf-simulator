@@ -1,0 +1,31 @@
+{
+ "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v2/hole09/stage/hole_09.blend",
+ "fbx": null,
+ "gates": [
+  {
+   "id": "RUIN_SUPPORTED",
+   "ok": true,
+   "detail": "219 masonry stones (islands of 7 DRESS_RUIN_/DRESS_ARCH_ meshes) + 13 fallen DRESS_BLOCK; floating stones (< 2 lowest vertices within 10 cm of ground / another stone): 0 []; 3 ring wedges rest by face contact on an already supported stone; DRESS_BLOCK instances floating 0; largest vertex gap seen below a resting stone 0.097 m"
+  },
+  {
+   "id": "RUIN_LINTEL_BEARING",
+   "ok": true,
+   "detail": "lintel 3.55 m long, 0.52 m thick, underside z 8.39 (ground 6.00); bearing (9 sample points 12-32 cm in from each end, within 10 cm of a jamb): end A 9 of 9; end B 9 of 9; doorway opening under its middle clear on 56 of 56 through-rays at 0.3-2.3 m (3 of 3 middle points open)"
+  },
+  {
+   "id": "RUIN_BASE_BURIED",
+   "ok": true,
+   "detail": "85 stones stand on the ground, 72 (85%) have their lowest vertex >= 12 cm under it (need >= 80 %); depth median 30 cm, min 10 cm"
+  },
+  {
+   "id": "RUIN_NOT_BOXES",
+   "ok": true,
+   "detail": "1250 standing faces (> 2 cm^2): 72% lean more than 1.5 deg off plumb (need >= 50 %; a box has 0 %), median |lean| 3.0 deg; stone length CV 0.31 (need >= 0.25), lengths 0.35..3.71 m over 219 stones"
+  },
+  {
+   "id": "RUIN_UV_WINDOWS",
+   "ok": true,
+   "detail": "978 of 1135 standing faces 0.2-0.7 m high have their whole UV v-range inside one Masonry_C.png brick-row interior (86%; need >= 70 %): no mortar line runs across a stone face"
+  }
+ ]
+}

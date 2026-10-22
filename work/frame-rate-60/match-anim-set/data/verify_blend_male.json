@@ -1,0 +1,940 @@
+{
+ "source_sha_now": {
+  "male": "d6c4dcfb1150853a8802a8dc7501aa64066adb8b2734c14a4d6ed8e82dada781",
+  "female": "a1d73a334f4dc18052db0582df6b4b54b1df166d9a3531ab700ee114e86d2ac1",
+  "racket": "53e83714856a14c1533653b3fce3e164dfb17e9c58c995cbdb325d86eec7e8ba"
+ },
+ "source_sha_expected": {
+  "male": "d6c4dcfb1150853a8802a8dc7501aa64066adb8b2734c14a4d6ed8e82dada781",
+  "female": "a1d73a334f4dc18052db0582df6b4b54b1df166d9a3531ab700ee114e86d2ac1",
+  "racket": "53e83714856a14c1533653b3fce3e164dfb17e9c58c995cbdb325d86eec7e8ba"
+ },
+ "source_sha_equal": {
+  "male": true,
+  "female": true,
+  "racket": true
+ },
+ "body_unchanged": {
+  "Body_M": {
+   "geometry_hash_source": "e0341c9834e8e2e58c3e7867e300f75975b97e1532c97386333285bb2e3d980b",
+   "geometry_hash_copy": "e0341c9834e8e2e58c3e7867e300f75975b97e1532c97386333285bb2e3d980b",
+   "equal": true,
+   "vertices": 33196,
+   "original_vertex_groups": 17,
+   "vgroups_hash_source": "6cdd707c2a818782bbf6704b3136cebf0fb1da35a1f405ef487081ba9c20c295",
+   "vgroups_hash_copy": "6cdd707c2a818782bbf6704b3136cebf0fb1da35a1f405ef487081ba9c20c295",
+   "vgroups_equal": true,
+   "added_vertex_groups": 52,
+   "added_all_bone_names": true,
+   "shape_keys": false,
+   "world_matrix_max_diff": 0.0
+  },
+  "Face_M": {
+   "geometry_hash_source": "cb9dff284bd36f8e114a58dbdf374eaa1a958f8db816692ebaee9309dd44808d",
+   "geometry_hash_copy": "cb9dff284bd36f8e114a58dbdf374eaa1a958f8db816692ebaee9309dd44808d",
+   "equal": true,
+   "vertices": 3578,
+   "world_matrix_max_diff": 1.4210854715202004e-14
+  }
+ },
+ "armatures": [
+  "Rig_Male"
+ ],
+ "body_armature_modifier_target": "Rig_Male",
+ "bones_outside_mesh": [],
+ "bone_count": 53,
+ "limb_joint_to_section_centroid_m": {
+  "elbow_L": 0.006081052825789493,
+  "knee_L": 0.012932137991680913,
+  "wrist_L": 0.012556894668363957,
+  "ankle_L": 0.0032367906855095712,
+  "elbow_R": 0.005980226441313378,
+  "knee_R": 0.013060589168086235,
+  "wrist_R": 0.011980325297366439,
+  "ankle_R": 0.003804248505202443
+ },
+ "rig_measures": {
+  "shoulder_joint_width": 0.3960138504419809,
+  "upper_arm": 0.2382865896024943,
+  "forearm": 0.2698451924646588,
+  "arm_length_shoulder_to_wrist": 0.5048781944365605,
+  "thigh": 0.3847109946701503,
+  "shank": 0.4232297895783747,
+  "leg_length_hip_to_ankle": 0.80791314898585,
+  "hip_joint_width": 0.1903678204264948,
+  "foot_ankle_to_ball": 0.14957984518226133,
+  "pelvis_height": 0.8864231681823731
+ },
+ "action_drives_rig": {
+  "ReadyIdle": {
+   "fcurve_paths": 53,
+   "bad": 0
+  },
+  "SplitToForehand": {
+   "fcurve_paths": 53,
+   "bad": 0
+  },
+  "SplitToBackhand": {
+   "fcurve_paths": 53,
+   "bad": 0
+  },
+  "RecoverCenter": {
+   "fcurve_paths": 53,
+   "bad": 0
+  },
+  "Forehand": {
+   "fcurve_paths": 53,
+   "bad": 0
+  },
+  "ForehandOpen": {
+   "fcurve_paths": 53,
+   "bad": 0
+  },
+  "ForehandWide": {
+   "fcurve_paths": 53,
+   "bad": 0
+  },
+  "ForehandShort": {
+   "fcurve_paths": 53,
+   "bad": 0
+  },
+  "Backhand": {
+   "fcurve_paths": 53,
+   "bad": 0
+  },
+  "BackhandWide": {
+   "fcurve_paths": 53,
+   "bad": 0
+  },
+  "SliceApproach": {
+   "fcurve_paths": 53,
+   "bad": 0
+  },
+  "Serve": {
+   "fcurve_paths": 53,
+   "bad": 0
+  },
+  "Return": {
+   "fcurve_paths": 53,
+   "bad": 0
+  },
+  "VolleyForehand": {
+   "fcurve_paths": 53,
+   "bad": 0
+  },
+  "VolleyBackhand": {
+   "fcurve_paths": 53,
+   "bad": 0
+  },
+  "Overhead": {
+   "fcurve_paths": 53,
+   "bad": 0
+  }
+ },
+ "hand_vertices": {
+  "Left": 1644,
+  "Right": 1645
+ },
+ "grip_baseline": {
+  "Right": {
+   "min_dist_mm": 0.4017338214907795,
+   "overlap_pairs": 0,
+   "penetration_mm": 0.0
+  },
+  "Left": {
+   "min_dist_mm": 0.1172633419628255,
+   "overlap_pairs": 560,
+   "penetration_mm": 14.15993645787239
+  },
+  "LeftHandle": {
+   "frame": 8,
+   "min_dist_mm": 0.016007905287551694,
+   "overlap_pairs": 124,
+   "penetration_mm": 8.976764045655727
+  }
+ },
+ "racket_held": {
+  "ReadyIdle": {
+   "frames_checked": 45,
+   "right_min_dist_mm_max": 0.4018886829726398,
+   "right_overlap_max": 0,
+   "right_penetration_mm_max": 0.0,
+   "left_attached_frames": 45,
+   "left_min_dist_mm_max": 0.1174792560050264,
+   "left_overlap_max": 560,
+   "left_penetration_mm_max": 39.04286026954651,
+   "floor_min_m": 0.0023387568071484566
+  },
+  "SplitToForehand": {
+   "frames_checked": 13,
+   "right_min_dist_mm_max": 0.4019570769742131,
+   "right_overlap_max": 0,
+   "right_penetration_mm_max": 0.0,
+   "left_attached_frames": 5,
+   "left_min_dist_mm_max": 0.11731681297533214,
+   "left_overlap_max": 560,
+   "left_penetration_mm_max": 39.04273360967636,
+   "floor_min_m": 0.0022187274880707264
+  },
+  "SplitToBackhand": {
+   "frames_checked": 13,
+   "right_min_dist_mm_max": 0.4019080370198935,
+   "right_overlap_max": 0,
+   "right_penetration_mm_max": 0.0,
+   "left_attached_frames": 13,
+   "left_min_dist_mm_max": 0.11731681297533214,
+   "left_overlap_max": 582,
+   "left_penetration_mm_max": 39.00753706693649,
+   "floor_min_m": 0.0024714674800634384
+  },
+  "RecoverCenter": {
+   "frames_checked": 17,
+   "right_min_dist_mm_max": 0.40189531864598393,
+   "right_overlap_max": 0,
+   "right_penetration_mm_max": 0.0,
+   "left_attached_frames": 4,
+   "left_min_dist_mm_max": 0.11731681297533214,
+   "left_overlap_max": 560,
+   "left_penetration_mm_max": 39.04271498322487,
+   "floor_min_m": 0.0025198052171617746
+  },
+  "Forehand": {
+   "frames_checked": 25,
+   "right_min_dist_mm_max": 0.4019681073259562,
+   "right_overlap_max": 0,
+   "right_penetration_mm_max": 0.0,
+   "left_attached_frames": 6,
+   "left_min_dist_mm_max": 0.11737467866623774,
+   "left_overlap_max": 560,
+   "left_penetration_mm_max": 32.38824009895325,
+   "floor_min_m": 0.002472382038831711
+  },
+  "ForehandOpen": {
+   "frames_checked": 22,
+   "right_min_dist_mm_max": 0.4019437765236944,
+   "right_overlap_max": 0,
+   "right_penetration_mm_max": 0.0,
+   "left_attached_frames": 6,
+   "left_min_dist_mm_max": 0.11731681297533214,
+   "left_overlap_max": 560,
+   "left_penetration_mm_max": 39.04285654425621,
+   "floor_min_m": 0.0016141734085977077
+  },
+  "ForehandWide": {
+   "frames_checked": 27,
+   "right_min_dist_mm_max": 0.40194246685132384,
+   "right_overlap_max": 0,
+   "right_penetration_mm_max": 0.0,
+   "left_attached_frames": 12,
+   "left_min_dist_mm_max": 0.11739289038814604,
+   "left_overlap_max": 560,
+   "left_penetration_mm_max": 39.04278203845024,
+   "floor_min_m": -0.0008830453734844923
+  },
+  "ForehandShort": {
+   "frames_checked": 22,
+   "right_min_dist_mm_max": 0.401984405471012,
+   "right_overlap_max": 0,
+   "right_penetration_mm_max": 0.0,
+   "left_attached_frames": 5,
+   "left_min_dist_mm_max": 0.11731681297533214,
+   "left_overlap_max": 567,
+   "left_penetration_mm_max": 39.57635536789894,
+   "floor_min_m": 0.00178335711825639
+  },
+  "Backhand": {
+   "frames_checked": 26,
+   "right_min_dist_mm_max": 0.4019593761768192,
+   "right_overlap_max": 0,
+   "right_penetration_mm_max": 0.0,
+   "left_attached_frames": 21,
+   "left_min_dist_mm_max": 0.11731681297533214,
+   "left_overlap_max": 564,
+   "left_penetration_mm_max": 32.79212489724159,
+   "floor_min_m": 0.002445528982207179
+  },
+  "BackhandWide": {
+   "frames_checked": 28,
+   "right_min_dist_mm_max": 0.4018941253889352,
+   "right_overlap_max": 0,
+   "right_penetration_mm_max": 0.0,
+   "left_attached_frames": 22,
+   "left_min_dist_mm_max": 0.11731681297533214,
+   "left_overlap_max": 561,
+   "left_penetration_mm_max": 32.970450818538666,
+   "floor_min_m": 0.0017611151561141014
+  },
+  "SliceApproach": {
+   "frames_checked": 25,
+   "right_min_dist_mm_max": 0.40190029540099204,
+   "right_overlap_max": 0,
+   "right_penetration_mm_max": 0.0,
+   "left_attached_frames": 10,
+   "left_min_dist_mm_max": 0.11749032273655757,
+   "left_overlap_max": 560,
+   "left_penetration_mm_max": 39.042871445417404,
+   "floor_min_m": 0.001241958700120449
+  },
+  "Serve": {
+   "frames_checked": 33,
+   "right_min_dist_mm_max": 0.4019244806841016,
+   "right_overlap_max": 0,
+   "right_penetration_mm_max": 0.0,
+   "left_attached_frames": 9,
+   "left_min_dist_mm_max": 0.11742099013645202,
+   "left_overlap_max": 560,
+   "left_penetration_mm_max": 39.043128490448,
+   "floor_min_m": 0.001706090522930026
+  },
+  "Return": {
+   "frames_checked": 20,
+   "right_min_dist_mm_max": 0.4019564075861126,
+   "right_overlap_max": 0,
+   "right_penetration_mm_max": 0.0,
+   "left_attached_frames": 14,
+   "left_min_dist_mm_max": 0.11731681297533214,
+   "left_overlap_max": 560,
+   "left_penetration_mm_max": 39.04267027974129,
+   "floor_min_m": 0.002421339973807335
+  },
+  "VolleyForehand": {
+   "frames_checked": 15,
+   "right_min_dist_mm_max": 0.401914439862594,
+   "right_overlap_max": 0,
+   "right_penetration_mm_max": 0.0,
+   "left_attached_frames": 3,
+   "left_min_dist_mm_max": 0.11731681297533214,
+   "left_overlap_max": 560,
+   "left_penetration_mm_max": 14.16001282632351,
+   "floor_min_m": 0.0016729843337088823
+  },
+  "VolleyBackhand": {
+   "frames_checked": 16,
+   "right_min_dist_mm_max": 0.401973316911608,
+   "right_overlap_max": 0,
+   "right_penetration_mm_max": 0.0,
+   "left_attached_frames": 8,
+   "left_min_dist_mm_max": 0.11731681297533214,
+   "left_overlap_max": 560,
+   "left_penetration_mm_max": 15.016848221421242,
+   "floor_min_m": 0.0019135072361677885
+  },
+  "Overhead": {
+   "frames_checked": 26,
+   "right_min_dist_mm_max": 0.4018501203972846,
+   "right_overlap_max": 0,
+   "right_penetration_mm_max": 0.0,
+   "left_attached_frames": 5,
+   "left_min_dist_mm_max": 0.1173420823761262,
+   "left_overlap_max": 560,
+   "left_penetration_mm_max": 39.04283419251442,
+   "floor_min_m": 0.0019697006791830063
+  }
+ },
+ "planted_foot_lowest_vertex_mm": {
+  "min": -0.8830453734844923,
+  "max": 2.4727792479097843,
+  "frames": 277
+ },
+ "socket_matrix_max_dev": 2.980232238769531e-07,
+ "right_finger_pose_max_dev": 0.0,
+ "socket_parent": "Rig_Male:RightHand",
+ "root_bone_fcurves": 0,
+ "armature_object_translation": [
+  0.0,
+  0.0,
+  0.0
+ ],
+ "two_hand_events": {
+  "Backhand": {
+   "left_release_s": 0.9666666666666667,
+   "att_at_contact": 1.0,
+   "first_attached_frame": 0,
+   "attached_at_end": 1.0,
+   "take_back_peak_frame": 21,
+   "attached_from_peak_through_contact": true
+  },
+  "BackhandWide": {
+   "left_release_s": 1.0166666666666666,
+   "att_at_contact": 1.0,
+   "first_attached_frame": 0,
+   "attached_at_end": 1.0,
+   "take_back_peak_frame": 27,
+   "attached_from_peak_through_contact": true
+  },
+  "Return": {
+   "left_release_s": 0.6,
+   "att_at_contact": 1.0,
+   "first_attached_frame": 0,
+   "attached_at_end": 1.0,
+   "take_back_peak_frame": 13,
+   "attached_from_peak_through_contact": true
+  },
+  "VolleyBackhand": {
+   "left_release_s": 0.5,
+   "att_at_contact": 1.0,
+   "first_attached_frame": 0,
+   "attached_at_end": 1.0,
+   "take_back_peak_frame": 13,
+   "attached_from_peak_through_contact": false
+  },
+  "SliceApproach": {
+   "left_release_s": 0.48333333333333334,
+   "att_at_contact": 0.06794252956372243,
+   "first_attached_frame": 0,
+   "attached_at_end": 1.0,
+   "forward_swing_start_s": null,
+   "off_hand_on_racket_from_release_to_finish_hold_end": true
+  }
+ },
+ "one_handed_off_hand": {
+  "Forehand": {
+   "from_frame": 23,
+   "to_frame": 47,
+   "left_min_dist_mm": 298.60422015190125,
+   "regrasp_starts_frame": 51,
+   "last_frame": 72
+  },
+  "ForehandOpen": {
+   "from_frame": 18,
+   "to_frame": 40,
+   "left_min_dist_mm": 51.026180386543274,
+   "regrasp_starts_frame": 47,
+   "last_frame": 60
+  },
+  "ForehandWide": {
+   "from_frame": 32,
+   "to_frame": 35,
+   "left_min_dist_mm": 1102.6854515075684,
+   "regrasp_starts_frame": 66,
+   "last_frame": 78
+  },
+  "ForehandShort": {
+   "from_frame": 21,
+   "to_frame": 38,
+   "left_min_dist_mm": 130.06553053855896,
+   "regrasp_starts_frame": 42,
+   "last_frame": 60
+  },
+  "SliceApproach": {
+   "from_frame": 29,
+   "to_frame": 66,
+   "left_min_dist_mm": 50.65155774354935,
+   "regrasp_starts_frame": 66,
+   "last_frame": 72
+  },
+  "Serve": {
+   "from_frame": 42,
+   "to_frame": 62,
+   "left_min_dist_mm": 106.11008107662201,
+   "regrasp_starts_frame": 77,
+   "last_frame": 96
+  },
+  "Overhead": {
+   "from_frame": 34,
+   "to_frame": 55,
+   "left_min_dist_mm": 110.77416688203812,
+   "regrasp_starts_frame": 60,
+   "last_frame": 72
+  },
+  "VolleyForehand": {
+   "from_frame": 18,
+   "to_frame": 27,
+   "left_min_dist_mm": 399.5276391506195,
+   "regrasp_starts_frame": 27,
+   "last_frame": 42
+  }
+ },
+ "actions_in_blend": [
+  "Backhand",
+  "BackhandWide",
+  "Forehand",
+  "ForehandOpen",
+  "ForehandShort",
+  "ForehandWide",
+  "Overhead",
+  "ReadyIdle",
+  "RecoverCenter",
+  "Return",
+  "Serve",
+  "SliceApproach",
+  "SplitToBackhand",
+  "SplitToForehand",
+  "VolleyBackhand",
+  "VolleyForehand"
+ ],
+ "occlusion": {
+  "ReadyIdle": {
+   "peak_turn": {
+    "frame": 99,
+    "unoccluded_fraction": 0.0
+   },
+   "finish": {
+    "frame": 98,
+    "unoccluded_fraction": 0.0
+   }
+  },
+  "SplitToForehand": {
+   "peak_turn": {
+    "frame": 10,
+    "unoccluded_fraction": 1.0
+   },
+   "finish": {
+    "frame": 24,
+    "unoccluded_fraction": 0.6916666666666667
+   }
+  },
+  "SplitToBackhand": {
+   "peak_turn": {
+    "frame": 3,
+    "unoccluded_fraction": 0.0
+   },
+   "finish": {
+    "frame": 33,
+    "unoccluded_fraction": 0.075
+   }
+  },
+  "RecoverCenter": {
+   "peak_turn": {
+    "frame": 9,
+    "unoccluded_fraction": 0.5708333333333333
+   },
+   "finish": {
+    "frame": 9,
+    "unoccluded_fraction": 0.5708333333333333
+   }
+  },
+  "Forehand": {
+   "peak_turn": {
+    "frame": 70,
+    "unoccluded_fraction": 0.0
+   },
+   "finish": {
+    "frame": 44,
+    "unoccluded_fraction": 1.0
+   },
+   "contact": {
+    "frame": 39,
+    "unoccluded_fraction": 1.0
+   }
+  },
+  "ForehandOpen": {
+   "peak_turn": {
+    "frame": 58,
+    "unoccluded_fraction": 0.0
+   },
+   "finish": {
+    "frame": 16,
+    "unoccluded_fraction": 1.0
+   },
+   "contact": {
+    "frame": 32,
+    "unoccluded_fraction": 1.0
+   }
+  },
+  "ForehandWide": {
+   "peak_turn": {
+    "frame": 76,
+    "unoccluded_fraction": 0.1625
+   },
+   "finish": {
+    "frame": 32,
+    "unoccluded_fraction": 1.0
+   },
+   "contact": {
+    "frame": 51,
+    "unoccluded_fraction": 1.0
+   }
+  },
+  "ForehandShort": {
+   "peak_turn": {
+    "frame": 45,
+    "unoccluded_fraction": 0.0375
+   },
+   "finish": {
+    "frame": 35,
+    "unoccluded_fraction": 1.0
+   },
+   "contact": {
+    "frame": 28,
+    "unoccluded_fraction": 1.0
+   }
+  },
+  "Backhand": {
+   "peak_turn": {
+    "frame": 2,
+    "unoccluded_fraction": 0.0
+   },
+   "finish": {
+    "frame": 23,
+    "unoccluded_fraction": 1.0
+   },
+   "contact": {
+    "frame": 38,
+    "unoccluded_fraction": 1.0
+   }
+  },
+  "BackhandWide": {
+   "peak_turn": {
+    "frame": 2,
+    "unoccluded_fraction": 0.0
+   },
+   "finish": {
+    "frame": 52,
+    "unoccluded_fraction": 1.0
+   },
+   "contact": {
+    "frame": 46,
+    "unoccluded_fraction": 1.0
+   }
+  },
+  "SliceApproach": {
+   "peak_turn": {
+    "frame": 63,
+    "unoccluded_fraction": 0.14583333333333334
+   },
+   "finish": {
+    "frame": 63,
+    "unoccluded_fraction": 0.14583333333333334
+   },
+   "contact": {
+    "frame": 30,
+    "unoccluded_fraction": 0.5583333333333333
+   }
+  },
+  "Serve": {
+   "peak_turn": {
+    "frame": 76,
+    "unoccluded_fraction": 1.0
+   },
+   "finish": {
+    "frame": 53,
+    "unoccluded_fraction": 1.0
+   },
+   "contact": {
+    "frame": 54,
+    "unoccluded_fraction": 1.0
+   }
+  },
+  "Return": {
+   "peak_turn": {
+    "frame": 1,
+    "unoccluded_fraction": 0.0
+   },
+   "finish": {
+    "frame": 29,
+    "unoccluded_fraction": 1.0
+   },
+   "contact": {
+    "frame": 25,
+    "unoccluded_fraction": 0.75
+   }
+  },
+  "VolleyForehand": {
+   "peak_turn": {
+    "frame": 39,
+    "unoccluded_fraction": 0.21666666666666667
+   },
+   "finish": {
+    "frame": 24,
+    "unoccluded_fraction": 1.0
+   },
+   "contact": {
+    "frame": 18,
+    "unoccluded_fraction": 1.0
+   }
+  },
+  "VolleyBackhand": {
+   "peak_turn": {
+    "frame": 5,
+    "unoccluded_fraction": 0.42916666666666664
+   },
+   "finish": {
+    "frame": 23,
+    "unoccluded_fraction": 1.0
+   },
+   "contact": {
+    "frame": 17,
+    "unoccluded_fraction": 0.7583333333333333
+   }
+  },
+  "Overhead": {
+   "peak_turn": {
+    "frame": 62,
+    "unoccluded_fraction": 0.8416666666666667
+   },
+   "finish": {
+    "frame": 44,
+    "unoccluded_fraction": 1.0
+   },
+   "contact": {
+    "frame": 44,
+    "unoccluded_fraction": 1.0
+   }
+  }
+ },
+ "torso_penetration": {
+  "ReadyIdle": {
+   "peak_turn": {
+    "frame": 99,
+    "arm_depth_mm": 9.848996846705388,
+    "racket_depth_mm": 0.0
+   },
+   "finish": {
+    "frame": 98,
+    "arm_depth_mm": 9.852118847955934,
+    "racket_depth_mm": 0.0
+   }
+  },
+  "SplitToForehand": {
+   "peak_turn": {
+    "frame": 10,
+    "arm_depth_mm": 9.158465786968398,
+    "racket_depth_mm": 0.0
+   },
+   "finish": {
+    "frame": 24,
+    "arm_depth_mm": 7.668501885547,
+    "racket_depth_mm": 0.0
+   }
+  },
+  "SplitToBackhand": {
+   "peak_turn": {
+    "frame": 3,
+    "arm_depth_mm": 9.541104081844274,
+    "racket_depth_mm": 0.0
+   },
+   "finish": {
+    "frame": 33,
+    "arm_depth_mm": 14.423200990796909,
+    "racket_depth_mm": 0.0
+   }
+  },
+  "RecoverCenter": {
+   "peak_turn": {
+    "frame": 9,
+    "arm_depth_mm": 0.0,
+    "racket_depth_mm": 0.0
+   },
+   "finish": {
+    "frame": 9,
+    "arm_depth_mm": 0.0,
+    "racket_depth_mm": 0.0
+   }
+  },
+  "Forehand": {
+   "peak_turn": {
+    "frame": 70,
+    "arm_depth_mm": 9.926335852451393,
+    "racket_depth_mm": 0.0
+   },
+   "finish": {
+    "frame": 44,
+    "arm_depth_mm": 17.39544215956968,
+    "racket_depth_mm": 0.0
+   },
+   "contact": {
+    "frame": 39,
+    "arm_depth_mm": 17.199176466248037,
+    "racket_depth_mm": 0.0
+   }
+  },
+  "ForehandOpen": {
+   "peak_turn": {
+    "frame": 58,
+    "arm_depth_mm": 12.065626063781748,
+    "racket_depth_mm": 0.0
+   },
+   "finish": {
+    "frame": 16,
+    "arm_depth_mm": 13.96523910340726,
+    "racket_depth_mm": 0.0
+   },
+   "contact": {
+    "frame": 32,
+    "arm_depth_mm": 15.17198698057374,
+    "racket_depth_mm": 0.0
+   }
+  },
+  "ForehandWide": {
+   "peak_turn": {
+    "frame": 76,
+    "arm_depth_mm": 9.232182583803663,
+    "racket_depth_mm": 0.0
+   },
+   "finish": {
+    "frame": 32,
+    "arm_depth_mm": 0.0,
+    "racket_depth_mm": 0.0
+   },
+   "contact": {
+    "frame": 51,
+    "arm_depth_mm": 12.045878951482397,
+    "racket_depth_mm": 0.0
+   }
+  },
+  "ForehandShort": {
+   "peak_turn": {
+    "frame": 45,
+    "arm_depth_mm": 4.800427885493267,
+    "racket_depth_mm": 0.0
+   },
+   "finish": {
+    "frame": 35,
+    "arm_depth_mm": 0.0,
+    "racket_depth_mm": 0.0
+   },
+   "contact": {
+    "frame": 28,
+    "arm_depth_mm": 13.950526903351353,
+    "racket_depth_mm": 0.0
+   }
+  },
+  "Backhand": {
+   "peak_turn": {
+    "frame": 2,
+    "arm_depth_mm": 10.369175853623933,
+    "racket_depth_mm": 0.0
+   },
+   "finish": {
+    "frame": 23,
+    "arm_depth_mm": 11.555083908580011,
+    "racket_depth_mm": 0.0
+   },
+   "contact": {
+    "frame": 38,
+    "arm_depth_mm": 6.899087267521745,
+    "racket_depth_mm": 0.0
+   }
+  },
+  "BackhandWide": {
+   "peak_turn": {
+    "frame": 2,
+    "arm_depth_mm": 11.20416465176862,
+    "racket_depth_mm": 0.0
+   },
+   "finish": {
+    "frame": 52,
+    "arm_depth_mm": 6.7975343003167215,
+    "racket_depth_mm": 0.0
+   },
+   "contact": {
+    "frame": 46,
+    "arm_depth_mm": 9.240352452591415,
+    "racket_depth_mm": 0.0
+   }
+  },
+  "SliceApproach": {
+   "peak_turn": {
+    "frame": 63,
+    "arm_depth_mm": 9.918947048054399,
+    "racket_depth_mm": 0.0
+   },
+   "finish": {
+    "frame": 63,
+    "arm_depth_mm": 9.918947048054399,
+    "racket_depth_mm": 0.0
+   },
+   "contact": {
+    "frame": 30,
+    "arm_depth_mm": 8.434149263285466,
+    "racket_depth_mm": 0.0
+   }
+  },
+  "Serve": {
+   "peak_turn": {
+    "frame": 76,
+    "arm_depth_mm": 8.980219710128209,
+    "racket_depth_mm": 0.0
+   },
+   "finish": {
+    "frame": 53,
+    "arm_depth_mm": 0.0,
+    "racket_depth_mm": 0.0
+   },
+   "contact": {
+    "frame": 54,
+    "arm_depth_mm": 0.0,
+    "racket_depth_mm": 0.0
+   }
+  },
+  "Return": {
+   "peak_turn": {
+    "frame": 1,
+    "arm_depth_mm": 11.676368715084136,
+    "racket_depth_mm": 0.0
+   },
+   "finish": {
+    "frame": 29,
+    "arm_depth_mm": 8.610521082612523,
+    "racket_depth_mm": 0.0
+   },
+   "contact": {
+    "frame": 25,
+    "arm_depth_mm": 11.993635335769978,
+    "racket_depth_mm": 0.0
+   }
+  },
+  "VolleyForehand": {
+   "peak_turn": {
+    "frame": 39,
+    "arm_depth_mm": 14.811160806980775,
+    "racket_depth_mm": 0.0
+   },
+   "finish": {
+    "frame": 24,
+    "arm_depth_mm": 0.0,
+    "racket_depth_mm": 0.0
+   },
+   "contact": {
+    "frame": 18,
+    "arm_depth_mm": 9.736690285183238,
+    "racket_depth_mm": 0.0
+   }
+  },
+  "VolleyBackhand": {
+   "peak_turn": {
+    "frame": 5,
+    "arm_depth_mm": 4.20638583911619,
+    "racket_depth_mm": 0.0
+   },
+   "finish": {
+    "frame": 23,
+    "arm_depth_mm": 10.105099522460861,
+    "racket_depth_mm": 0.0
+   },
+   "contact": {
+    "frame": 17,
+    "arm_depth_mm": 4.933804788090109,
+    "racket_depth_mm": 0.0
+   }
+  },
+  "Overhead": {
+   "peak_turn": {
+    "frame": 62,
+    "arm_depth_mm": 8.659199319834778,
+    "racket_depth_mm": 0.0
+   },
+   "finish": {
+    "frame": 44,
+    "arm_depth_mm": 0.0,
+    "racket_depth_mm": 0.0
+   },
+   "contact": {
+    "frame": 44,
+    "arm_depth_mm": 0.0,
+    "racket_depth_mm": 0.0
+   }
+  }
+ },
+ "fitted_to_the_hero": [
+  "Forehand@finish: arm 17 mm, racket 0 mm",
+  "Forehand@contact: arm 17 mm, racket 0 mm",
+  "ForehandOpen@contact: arm 15 mm, racket 0 mm"
+ ],
+ "failed": {
+  "RACKET_HELD": [
+   "VolleyBackhand: left hand not attached on every frame from the take-back peak (f13) to the contact (f17)"
+  ]
+ }
+}

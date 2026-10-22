@@ -1,0 +1,18 @@
+{
+ "hero": "GolfKitHero_Male",
+ "tag": "Kit_Shoe_R",
+ "source": "npz:/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/clothing-v2/out_gp3/GolfKitHero_Male/unity/Kit_Shoe_R_final.npz",
+ "seconds": 13.0,
+ "weights": {
+  "footwear": "Right",
+  "foot_mass": 0.7745329688073089
+ },
+ "shapes": 0,
+ "log": [
+  "FIT GolfKitHero_Male Kit_Shoe_R from npz:/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/clothing-v2/out_gp3/GolfKitHero_Male/unity/Kit_Shoe_R_final.npz: 24325 verts 39336 tris",
+  "  weights: footwear on the Right foot (77% of the piece on foot skin): rigid foot + toe flex + collar on the shin",
+  "  seams: 8884 coincident vertices welded into 4140 groups",
+  "  weights 13.0 s",
+  "  footwear is stiff: no pose correctives (a rigid shoe cannot bend round the sock; lifts there shredded the collar, A/B 10-17)"
+ ]
+}

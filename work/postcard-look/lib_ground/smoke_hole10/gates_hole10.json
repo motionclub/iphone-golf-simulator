@@ -1,0 +1,143 @@
+{
+ "hole": "10",
+ "script": "work/postcard-look/baseline/scripts/hole10_build.py",
+ "build_s": 2.1,
+ "look_s": 1.3,
+ "tris": 62731,
+ "skin_tris": 39972,
+ "surf_tris": 0,
+ "water_tris": {
+  "WATER_LAVA": 13185
+ },
+ "renders": [
+  "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/lib_ground/smoke_hole10/render_top.png",
+  "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/lib_ground/smoke_hole10/render_oblique.png",
+  "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/lib_ground/smoke_hole10/render_phone_tee.png",
+  "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/lib_ground/smoke_hole10/render_phone_mid.png",
+  "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/lib_ground/smoke_hole10/render_shore.png"
+ ],
+ "missing_textures": [],
+ "gates": [
+  {
+   "name": "LOOK_TOP_SURFACES_UNCHANGED",
+   "ok": true,
+   "detail": "10 ground meshes, 2956 vertices, max |delta| 0.00e+00 m (tol 1e-05)"
+  },
+  {
+   "name": "LOOK_NO_COLLISION_PREFIX",
+   "ok": true,
+   "detail": "20 objects made by postcard_look_lib, none with a ground prefix; ground meshes 10 all on the postcard_verify allow-list"
+  },
+  {
+   "name": "LOOK_NO_MAT_FOAM",
+   "ok": true,
+   "detail": "exported meshes using MAT_FOAM [], WATER_FOAM* objects [], MAT_FOAM datablock users 0 (0-user data is neither saved nor exported)"
+  },
+  {
+   "name": "LOOK_GROUND_WATER_ARE_LK",
+   "ok": true,
+   "detail": "non-LK materials on ground/water meshes: []"
+  },
+  {
+   "name": "LOOK_UV_SANE",
+   "ok": true,
+   "detail": "11 ground/water meshes: one UV layer, finite, max |uv| 35.9, UV*tile/world edge ratio on every top/flat face 0.53..1.47 (limits 0.45..2.2); TERRAIN wall faces (hidden by the skin; arc-of-the-top-loop u) max ratio 3.36 (<= 8: no seam jump)"
+  },
+  {
+   "name": "LOOK_SKIN_BELOW_PLAY",
+   "ok": true,
+   "detail": "15 ROCK_SKIN pieces, 39972 tris, highest vertex 5.950 m (play 6.0 - 0.05)"
+  },
+  {
+   "name": "LOOK_WATER_STACK",
+   "ok": true,
+   "detail": "1 WATER_* meshes inside z 0..0.2"
+  },
+  {
+   "name": "LOOK_LAVA_MESH",
+   "ok": true,
+   "detail": "WATER_LAVA 13185 tris (>= 3000), materials ['LK_LAVA'], 4 LAVA_LIGHT empties (3..5)"
+  },
+  {
+   "name": "SHELF_THIN",
+   "ok": true,
+   "detail": "no sea shelf on this hole (lava hole)"
+  },
+  {
+   "name": "NO_FOAM_STRIP",
+   "ok": true,
+   "detail": "259 export meshes: foam objects/materials []; 0 WATER_SURF objects, 0 components; coverage 0.0% of 0 m shoreline (<= 25), 0 runs along the shore, longest 0.0 m (<= 10), shortest gap between runs 99.0 m (>= 8), strips (aspect >= 4 and width CV <= 0.35) 0, components with alpha > 0.1 at an end 0; component aspect max 0.00, alpha max 0.00"
+  },
+  {
+   "name": "PATH_UNDER_BALL",
+   "ok": true,
+   "detail": "no DRESS_PATH on this hole (nothing to measure)"
+  },
+  {
+   "name": "CRATER_WALL_COVERED",
+   "ok": true,
+   "detail": "10488 rays (aerial/low/oblique) at wall points z 0.3 .. 5.88 m: smooth TERRAIN wall seen first 0 = 0.00% (<= 1), at z >= 5 m: 0 (must be 0), first hit on a vertical LK_ROUGH wall face 0 (0.00%, <= 1); by view {'aerial': '0/3496', 'low': '0/3496', 'oblique': '0/3496'}; by wall height {}; tolerated sliver PLAY_Z - 0.10 .. PLAY_Z: 1311/1311 rays reach bare wall (LK_BASALT there on Crater); up-facing skin faces above PLAY_Z - 0.05: 0"
+  },
+  {
+   "name": "SKIN_NOT_OVER_WATER",
+   "ok": true,
+   "detail": "1 water ellipses, 22199 grid cells (0.5 m) deeper than 0.15 m inside them: 0 are covered by an up-facing skin surface (0.0 m2, worst depth 0.00 m, top z 0.00); up-facing (nz > 0.3) skin faces deeper than 0.15 m: 0 by centre, 0 by any vertex"
+  },
+  {
+   "name": "SKIN_FACES_OUTWARD",
+   "ok": true,
+   "detail": "888 rays from 20 m out at z 1, 3, 5 toward the shore: first hit on a ROCK_SKIN face is FRONT-facing 888 times, back-facing 0 (100.0% front, need >= 99%; the materials are single-sided in Unity)"
+  },
+  {
+   "name": "LOOK_WALL_HIDDEN_BY_SKIN",
+   "ok": true,
+   "detail": "357 rays from 12 m out toward the TERRAIN wall that land on it between z 0.05 and the lowest skin top (play - 0.12): 357 hit ROCK_SKIN first (100.0 %, >= 97 %), 0 reach the smooth wall"
+  },
+  {
+   "name": "LOOK_SKIN_NO_UPFACE_IN_PLAY",
+   "ok": true,
+   "detail": "0 up-facing ROCK_SKIN faces with centre above play_z - 0.05"
+  },
+  {
+   "name": "LOOK_BUDGET",
+   "ok": true,
+   "detail": "62731 tris in the export set (<= 250000), FBX 1.70 MB (<= 20)"
+  },
+  {
+   "name": "FBX_GROUND_SET",
+   "ok": true,
+   "detail": "ground meshes 10 == expected 10"
+  },
+  {
+   "name": "FBX_LK_MATERIALS",
+   "ok": true,
+   "detail": "LK materials in the file: ['LK_BASALT', 'LK_FAIRWAY', 'LK_GREEN', 'LK_LAVA', 'LK_ROUGH', 'LK_SAND']"
+  },
+  {
+   "name": "FBX_UV0",
+   "ok": true,
+   "detail": "every ground/water/skin/path mesh has exactly one UV layer"
+  },
+  {
+   "name": "FBX_SURF_COLOURS",
+   "ok": true,
+   "detail": "0 WATER_SURF meshes, all with a colour layer: True, max alpha 0.00"
+  },
+  {
+   "name": "FBX_NO_TEXTURE_REFS",
+   "ok": true,
+   "detail": "texture references in the FBX: [] (Unity names materials by base texture name with materialName 0, so the LK_* names only survive without them)"
+  },
+  {
+   "name": "FBX_NO_MAT_FOAM",
+   "ok": true,
+   "detail": "MAT_FOAM materials in the file: []"
+  },
+  {
+   "name": "POSTCARD_VERIFY_NO_REGRESSION",
+   "ok": true,
+   "detail": "29 postcard_verify gates on the look build; base build failed []; look build fails ['MATERIALS@blend', 'MATERIALS@fbx']; new failures outside the superseded MATERIALS/FBX_BUDGET: []"
+  }
+ ],
+ "fails": []
+}

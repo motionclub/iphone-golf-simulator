@@ -1,0 +1,114 @@
+{
+  "schema": "xcodebuildmcp.output.test-result",
+  "schemaVersion": "3",
+  "didError": false,
+  "error": null,
+  "data": {
+    "summary": {
+      "status": "SUCCEEDED",
+      "durationMs": 31033,
+      "counts": {
+        "passed": 8,
+        "failed": 0,
+        "skipped": 0
+      },
+      "target": "simulator"
+    },
+    "artifacts": {
+      "buildLogPath": "~/Library/Developer/XcodeBuildMCP/workspaces/iphone-golf-simulator-48645ed5e609/logs/test_sim_2026-10-15T20-57-06-824Z_pid33808_07f95f55.log",
+      "xcresultPath": "/private/tmp/multiplayer-fixes-boot-check.xcresult",
+      "testProductsPath": "~/Library/Developer/XcodeBuildMCP/workspaces/iphone-golf-simulator-48645ed5e609/test-products/test_sim_2026-10-15T20-57-06-824Z_pid33808_0933efd8.xctestproducts"
+    },
+    "tests": {
+      "selected": [
+        "GolfArcadeTests/HubSessionTests/testBootLoadingBarFollowsUnityAndFadesIntoTheArrival",
+        "GolfArcadeTests/HubSessionTests/testLoadingScreenSnapshots",
+        "GolfArcadeTests/HubSessionTests/testMatchTakesTheRuntimeAndThePlazaReloadsAfter",
+        "GolfArcadeTests/HubSessionTests/testNoTVThePlazaOpensOnThePhone",
+        "GolfArcadeTests/HubSessionTests/testPhoneControllerSnapshots",
+        "GolfArcadeTests/HubSessionTests/testThePlazaIsTheOnlyMenuAndOldScreensNeverShow",
+        "GolfArcadeTests/HubSessionTests/testUnityLifecycleDoesNotRepeatPauseOrRenderOnEnteringBackground",
+        "GolfArcadeTests/HubSessionTests/testUnityReportsReachThePhone"
+      ],
+      "discovered": {
+        "total": 8,
+        "items": [
+          "GolfArcadeTests/HubSessionTests/testBootLoadingBarFollowsUnityAndFadesIntoTheArrival",
+          "GolfArcadeTests/HubSessionTests/testLoadingScreenSnapshots",
+          "GolfArcadeTests/HubSessionTests/testMatchTakesTheRuntimeAndThePlazaReloadsAfter",
+          "GolfArcadeTests/HubSessionTests/testNoTVThePlazaOpensOnThePhone",
+          "GolfArcadeTests/HubSessionTests/testPhoneControllerSnapshots",
+          "GolfArcadeTests/HubSessionTests/testThePlazaIsTheOnlyMenuAndOldScreensNeverShow"
+        ]
+      }
+    },
+    "diagnostics": {
+      "warnings": [
+        {
+          "message": "-[GolfArcadeTests.HubSessionTests testBootLoadingBarFollowsUnityAndFadesIntoTheArrival] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+          "location": "<unknown>:0"
+        },
+        {
+          "message": "-[GolfArcadeTests.HubSessionTests testLoadingScreenSnapshots] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+          "location": "<unknown>:0"
+        },
+        {
+          "message": "-[GolfArcadeTests.HubSessionTests testUnityReportsReachThePhone] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+          "location": "<unknown>:0"
+        }
+      ],
+      "errors": [],
+      "testFailures": []
+    },
+    "testCases": [
+      {
+        "suite": "HubSessionTests",
+        "test": "testBootLoadingBarFollowsUnityAndFadesIntoTheArrival",
+        "status": "passed",
+        "durationMs": 2096
+      },
+      {
+        "suite": "HubSessionTests",
+        "test": "testLoadingScreenSnapshots",
+        "status": "passed",
+        "durationMs": 3796
+      },
+      {
+        "suite": "HubSessionTests",
+        "test": "testMatchTakesTheRuntimeAndThePlazaReloadsAfter",
+        "status": "passed",
+        "durationMs": 103
+      },
+      {
+        "suite": "HubSessionTests",
+        "test": "testNoTVThePlazaOpensOnThePhone",
+        "status": "passed",
+        "durationMs": 95
+      },
+      {
+        "suite": "HubSessionTests",
+        "test": "testPhoneControllerSnapshots",
+        "status": "passed",
+        "durationMs": 6062
+      },
+      {
+        "suite": "HubSessionTests",
+        "test": "testThePlazaIsTheOnlyMenuAndOldScreensNeverShow",
+        "status": "passed",
+        "durationMs": 1002
+      },
+      {
+        "suite": "HubSessionTests",
+        "test": "testUnityLifecycleDoesNotRepeatPauseOrRenderOnEnteringBackground",
+        "status": "passed",
+        "durationMs": 120
+      },
+      {
+        "suite": "HubSessionTests",
+        "test": "testUnityReportsReachThePhone",
+        "status": "passed",
+        "durationMs": 590
+      }
+    ]
+  }
+}

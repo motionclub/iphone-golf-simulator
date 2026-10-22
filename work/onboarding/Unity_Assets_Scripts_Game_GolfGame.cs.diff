@@ -1,0 +1,107 @@
+diff --git a/Unity/Assets/Scripts/Game/GolfGame.cs b/Unity/Assets/Scripts/Game/GolfGame.cs
+index 7e5af12d..d17f2582 100644
+--- a/Unity/Assets/Scripts/Game/GolfGame.cs
++++ b/Unity/Assets/Scripts/Game/GolfGame.cs
+@@ -11,7 +11,7 @@ namespace GolfArcade.Game
+     /// The round, Wii Sports style: fly over the hole, aim with the buttons, swing the phone,
+     /// watch the ball, read the result, repeat until it drops. One component on one object
+     /// builds everything else at runtime.
+-    public sealed class GolfGame : MonoBehaviour
++    public sealed partial class GolfGame : MonoBehaviour
+     {
+         /// A shot was struck (the phone's golf lesson finishes on the first one).
+         public static event System.Action ShotStruck;
+@@ -66,6 +66,7 @@ namespace GolfArcade.Game
+         int holeIndex;
+         Hole hole;
+         HoleView holeView;
++        Light sun;
+         CameraRig rig;
+         GolferView golfer;
+         Hud hud;
+@@ -95,18 +96,12 @@ namespace GolfArcade.Game
+             Application.targetFrameRate = 60;
+             Application.runInBackground = true; // the Mac keeps playing while the phone is the club
+             Screen.sleepTimeout = SleepTimeout.NeverSleep;
+-            course = Course.Course.Cliffside();
+-
+-            var light = new GameObject("Sun").AddComponent<Light>();
+-            light.type = LightType.Directional;
+-            light.transform.rotation = Quaternion.Euler(50, -30, 0);
+-            light.intensity = 1.1f;
+-            light.shadows = LightShadows.Soft;
+-            RenderSettings.ambientLight = new Color(0.55f, 0.6f, 0.65f);
+-            RenderSettings.fog = true;
+-            RenderSettings.fogColor = new Color(0.75f, 0.85f, 0.95f);
+-            RenderSettings.fogMode = FogMode.Linear;
+-            RenderSettings.fogStartDistance = 250; RenderSettings.fogEndDistance = 700;
++            course = Course.Course.Postcards();
++
++            sun = new GameObject("Sun").AddComponent<Light>();
++            sun.type = LightType.Directional;
++            sun.shadows = LightShadows.Soft;
++            GolfAtmosphere.Apply(sun, null, course.Holes[0].Number); // light, sky, fog (per hole again in StartHole, with the camera; no post-processing: GolfAtmosphere)
+ 
+             rig = CameraRig.Create();
+             hud = Hud.Create();
+@@ -114,6 +109,7 @@ namespace GolfArcade.Game
+             sounds = GolfSounds.Create(transform);
+ 
+             ball = HoleView.Primitive(PrimitiveType.Sphere, "Ball", Color.white, transform).transform;
++            GolfAtmosphere.RegisterBall(ball);   // the ball's own material copy: the postcard holes' ball exposure / self light (GolfAtmosphere.Look.BallExposure); hole 7 and the legacy holes keep the plain white ball
+             ball.localScale = Vector3.one * 0.12f;
+             trail = ball.gameObject.AddComponent<TrailRenderer>();
+             trail.time = 2.5f; trail.startWidth = 0.12f; trail.endWidth = 0.02f;
+@@ -210,9 +206,11 @@ namespace GolfArcade.Game
+             hole = course.Holes[index];
+             if (holeView) Destroy(holeView.gameObject);
+             holeView = HoleView.Build(hole, transform);
++            GolfAtmosphere.Apply(sun, rig.Camera, hole.Number);
+             ballAt = hole.Tee;
+             holeStrokes = 0;
+             Wind = Wind.Random(rng);
++            GolfWindSway.SetWind(Wind);   // the plants of the postcard holes sway to this hole's wind (GolfArcade/GolfPlants)
+             hud.SetHole(hole.Number, hole.Par, hole.Length);
+             double downTheHole = hole.Tee.HeadingTo(hole.Pin);
+             hud.SetWind((float)Wind.RelativeTo(downTheHole), Wind.Describe(downTheHole), Wind.IsCalm);
+@@ -267,7 +265,7 @@ namespace GolfArcade.Game
+         /// and not the touch buttons when a phone on the network is the club.
+         void RefreshControls()
+         {
+-            bool aiming = Current == State.Aim;
++            bool aiming = Current == State.Aim && (!GolfArcade.Multiplayer.SportsMultiplayer.Active || Swing.Armed);
+             hud.ShowSwingControls(aiming, Swing.Source == Swing.Synthetic, !Swing.UsingNetwork);
+             UpdateControllerHint(true);
+         }
+@@ -376,6 +374,7 @@ namespace GolfArcade.Game
+ 
+         void Nudge(double degrees)
+         {
++            if (GolfArcade.Multiplayer.SportsMultiplayer.Active) { GolfArcade.Multiplayer.SportsMultiplayer.Instance.Submit(new GolfArcade.Multiplayer.NetworkInput {action="aim",value=(float)degrees/AimTapDegrees}); return; }
+             if (Current != State.Aim) return;
+             heading += degrees;
+             aimedByPlayer = true;
+@@ -385,6 +384,7 @@ namespace GolfArcade.Game
+ 
+         void CycleClub(int step)
+         {
++            if (GolfArcade.Multiplayer.SportsMultiplayer.Active) { GolfArcade.Multiplayer.SportsMultiplayer.Instance.Submit(new GolfArcade.Multiplayer.NetworkInput {action="club",value=step}); return; }
+             if (Current != State.Aim) return;
+             int i = Array.IndexOf(GolfClubs.All, club);
+             club = GolfClubs.All[(i + step + GolfClubs.All.Length) % GolfClubs.All.Length];
+@@ -417,6 +417,7 @@ namespace GolfArcade.Game
+ 
+         void OnImpact(SwingImpact impact)
+         {
++            if (NetworkShot(impact)) return;
+             if (Current != State.Aim) return;
+             Swing.Armed = false;
+             Haptics.Release();
+@@ -443,6 +444,7 @@ namespace GolfArcade.Game
+ 
+         void Update()
+         {
++            if (NetworkFrame()) return;
+             stateTime += Time.deltaTime;
+             Swing.Update();
+             PollControllerButtons();

@@ -1,0 +1,173 @@
+{
+  "protocol": "exact visible left/right shoe identities, 35px dilation, excludes every hero surface, paired shadow-cast-only difference >1 mean RGB byte, minimum10 contact pixels per foot",
+  "rows": [
+    {
+      "hole": 7,
+      "sex": "male",
+      "feet": [
+        {
+          "foot": "left",
+          "shoePixels": 47977,
+          "contactPixels": 9837,
+          "meanDarkeningBytes": 74.29497475517603,
+          "status": "PASS"
+        },
+        {
+          "foot": "right",
+          "shoePixels": 44852,
+          "contactPixels": 8745,
+          "meanDarkeningBytes": 66.89979035639413,
+          "status": "PASS"
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "hole": 7,
+      "sex": "female",
+      "feet": [
+        {
+          "foot": "left",
+          "shoePixels": 31028,
+          "contactPixels": 7933,
+          "meanDarkeningBytes": 69.78339426026304,
+          "status": "PASS"
+        },
+        {
+          "foot": "right",
+          "shoePixels": 26217,
+          "contactPixels": 6875,
+          "meanDarkeningBytes": 63.13847272727273,
+          "status": "PASS"
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "hole": 8,
+      "sex": "male",
+      "feet": [
+        {
+          "foot": "left",
+          "shoePixels": 47979,
+          "contactPixels": 7735,
+          "meanDarkeningBytes": 24.377591036414564,
+          "status": "PASS"
+        },
+        {
+          "foot": "right",
+          "shoePixels": 44880,
+          "contactPixels": 11867,
+          "meanDarkeningBytes": 22.910283419005083,
+          "status": "PASS"
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "hole": 8,
+      "sex": "female",
+      "feet": [
+        {
+          "foot": "left",
+          "shoePixels": 31028,
+          "contactPixels": 6517,
+          "meanDarkeningBytes": 24.397217533629995,
+          "status": "PASS"
+        },
+        {
+          "foot": "right",
+          "shoePixels": 26679,
+          "contactPixels": 8575,
+          "meanDarkeningBytes": 21.307755102040815,
+          "status": "PASS"
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "hole": 9,
+      "sex": "male",
+      "feet": [
+        {
+          "foot": "left",
+          "shoePixels": 47979,
+          "contactPixels": 9865,
+          "meanDarkeningBytes": 26.773475249197503,
+          "status": "PASS"
+        },
+        {
+          "foot": "right",
+          "shoePixels": 44879,
+          "contactPixels": 11587,
+          "meanDarkeningBytes": 29.590431805759327,
+          "status": "PASS"
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "hole": 9,
+      "sex": "female",
+      "feet": [
+        {
+          "foot": "left",
+          "shoePixels": 31028,
+          "contactPixels": 7582,
+          "meanDarkeningBytes": 24.63483689439901,
+          "status": "PASS"
+        },
+        {
+          "foot": "right",
+          "shoePixels": 26679,
+          "contactPixels": 7982,
+          "meanDarkeningBytes": 27.592499791196857,
+          "status": "PASS"
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "hole": 10,
+      "sex": "male",
+      "feet": [
+        {
+          "foot": "left",
+          "shoePixels": 47979,
+          "contactPixels": 14808,
+          "meanDarkeningBytes": 43.912097064649736,
+          "status": "PASS"
+        },
+        {
+          "foot": "right",
+          "shoePixels": 44880,
+          "contactPixels": 8215,
+          "meanDarkeningBytes": 36.85550821667681,
+          "status": "PASS"
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "hole": 10,
+      "sex": "female",
+      "feet": [
+        {
+          "foot": "left",
+          "shoePixels": 31028,
+          "contactPixels": 10605,
+          "meanDarkeningBytes": 40.870941379852276,
+          "status": "PASS"
+        },
+        {
+          "foot": "right",
+          "shoePixels": 26679,
+          "contactPixels": 6246,
+          "meanDarkeningBytes": 35.64537303874479,
+          "status": "PASS"
+        }
+      ],
+      "status": "PASS"
+    }
+  ]
+}

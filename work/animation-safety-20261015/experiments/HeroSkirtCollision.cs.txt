@@ -1,0 +1,104 @@
+using System.Linq;
+using UnityEngine;
+
+namespace GolfArcade.Tennis
+{
+    /// Garment-only collision against the posed torso and thighs. Corrected
+    /// vertices are mapped back through their own skin matrix, never into the
+    /// body or skeleton. Each solve starts from the authored garment.
+    [DefaultExecutionOrder(1250), DisallowMultipleComponent]
+    public sealed class HeroSkirtCollision : MonoBehaviour
+    {
+        MatchHeroLook look;
+        SkinnedMeshRenderer skirt;
+        Mesh source, instance;
+        Vector3[] rest, output;
+        float[] shellMargin;
+        BoneWeight[] weights;
+        Matrix4x4[] bind, palette;
+        HeroPoseSafety body;
+        readonly Transform[] thigh = new Transform[2], knee = new Transform[2];
+        readonly float[] radii = new float[2];
+        readonly Vector3[] legStart = new Vector3[2], legSegment = new Vector3[2];
+        public int CorrectedVertices { get; private set; }
+        public double SolveMilliseconds { get; private set; }
+
+        public static void Attach(MatchHeroLook hero)
+        {
+            if (hero && hero.female && !hero.GetComponent<HeroSkirtCollision>())
+                hero.gameObject.AddComponent<HeroSkirtCollision>();
+        }
+
+        bool Initialize()
+        {
+            if (instance) return true;
+            look = GetComponent<MatchHeroLook>();
+            if (!look || !look.female || look.kit == null) return false;
+            skirt = look.kit.FirstOrDefault(r => r && r.name == "Kit_Bottom");
+            if (!skirt || !skirt.sharedMesh || !skirt.sharedMesh.isReadable) return false;
+            source = skirt.sharedMesh; rest = source.vertices; weights = source.boneWeights;
+            if (weights.Length != rest.Length) return false;
+            bind = source.bindposes; palette = new Matrix4x4[bind.Length]; output = new Vector3[rest.Length];
+            shellMargin = new float[rest.Length]; var normals = source.normals;
+            for (int i = 0; i < rest.Length; i++)
+            {
+                float facing = normals.Length == rest.Length ? Vector3.Dot(normals[i], (rest[i] - source.bounds.center).normalized) : 0;
+                // Preserve separate lining and outer cloth surfaces. Projecting
+                // both onto the same obstacle creates z-fighting and zero thickness.
+                shellMargin[i] = .008f + .002f * Mathf.Clamp(facing * 4, -1, 1);
+            }
+            instance = Instantiate(source); instance.name = source.name + " (pose collision)";
+            instance.MarkDynamic(); skirt.sharedMesh = instance;
+            body = new HeroPoseSafety(look);
+            for (int i = 0; i < 2; i++)
+            {
+                thigh[i] = look.Bone(i == 0 ? HumanBodyBones.LeftUpperLeg : HumanBodyBones.RightUpperLeg);
+                knee[i] = look.Bone(i == 0 ? HumanBodyBones.LeftLowerLeg : HumanBodyBones.RightLowerLeg);
+                // Radius scales with this rig's leg length, including golf's world scale.
+                radii[i] = Vector3.Distance(thigh[i].position, knee[i].position) * .27f;
+            }
+            return true;
+        }
+        public void Apply()
+        {
+            if (!Initialize() || !skirt.enabled) return;
+            long started = System.Diagnostics.Stopwatch.GetTimestamp();
+            body.Refresh();
+            var bones = skirt.bones;
+            for (int i = 0; i < palette.Length; i++) palette[i] = bones[i].localToWorldMatrix * bind[i];
+            for (int leg = 0; leg < 2; leg++) { legStart[leg] = thigh[leg].position; legSegment[leg] = knee[leg].position - legStart[leg]; }
+            CorrectedVertices = 0;
+            for (int i = 0; i < rest.Length; i++)
+            {
+                var w = weights[i]; var matrix = new Matrix4x4();
+                for (int c = 0; c < 4; c++) matrix.SetColumn(c,
+                    palette[w.boneIndex0].GetColumn(c) * w.weight0 + palette[w.boneIndex1].GetColumn(c) * w.weight1
+                    + palette[w.boneIndex2].GetColumn(c) * w.weight2 + palette[w.boneIndex3].GetColumn(c) * w.weight3);
+                var p = matrix.MultiplyPoint3x4(rest[i]); var original = p;
+                for (int pass = 0; pass < 2; pass++)
+                {
+                    if (body.Depth(p, shellMargin[i], out var push) > 0) p += push;
+                    for (int leg = 0; leg < 2; leg++)
+                    {
+                        var a = legStart[leg]; var segment = legSegment[leg];
+                        var centre = a + segment * Mathf.Clamp01(Vector3.Dot(p - a, segment) / Mathf.Max(.00001f, segment.sqrMagnitude));
+                        var offset = p - centre; float distance = offset.magnitude, safe = radii[leg] + shellMargin[i];
+                        if (distance < safe) p = centre + (distance > .00001f ? offset / distance : look.transform.forward) * safe;
+                    }
+                }
+                output[i] = rest[i];
+                if ((p - original).sqrMagnitude > .00000001f && Mathf.Abs(matrix.determinant) > .00000001f)
+                { output[i] = matrix.inverse.MultiplyPoint3x4(p); CorrectedVertices++; }
+            }
+            instance.vertices = output;
+            instance.RecalculateNormals(); instance.RecalculateBounds();
+            SolveMilliseconds = (System.Diagnostics.Stopwatch.GetTimestamp() - started) * 1000.0 / System.Diagnostics.Stopwatch.Frequency;
+        }
+        void LateUpdate() => Apply();
+        void OnDestroy()
+        {
+            if (skirt && skirt.sharedMesh == instance) skirt.sharedMesh = source;
+            if (instance) { if (Application.isPlaying) Destroy(instance); else DestroyImmediate(instance); }
+        }
+    }
+}

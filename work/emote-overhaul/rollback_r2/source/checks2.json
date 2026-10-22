@@ -1,0 +1,681 @@
+{
+ "male": {
+  "Emote_Spike": {
+   "G1": {
+    "ok": true,
+    "frames": 97,
+    "expected": 97,
+    "bones": 53,
+    "objects": [
+     "Body_M",
+     "ButtCap",
+     "Face_M",
+     "Grip",
+     "Hand_Racket",
+     "Racket_Classic",
+     "Rig_Male",
+     "StringBed"
+    ]
+   },
+   "G2": {
+    "ok": true,
+    "arm_dev": 0.0,
+    "root_dev": 0.0
+   },
+   "G3": {
+    "ok": true,
+    "start_mean_deg": 0.1192,
+    "start_max_deg": 1.069,
+    "end_mean_deg": 0.1192,
+    "end_max_deg": 1.069
+   },
+   "G4": {
+    "ok": true,
+    "slide_max_m": 0.0,
+    "end_toe_max_m": 0.0,
+    "mesh_min_z_m": 0.0023
+   },
+   "G5": {
+    "ok": true,
+    "worst_mm": 0.0019
+   },
+   "G6": {
+    "ok": true,
+    "racket_hand_pos_m": 0.0,
+    "racket_hand_deg": 0.0837,
+    "readyidle_floor_deg": 0.0718,
+    "no_racket_animation": true
+   },
+   "G7": {
+    "ok": true,
+    "frames_checked": 97,
+    "frames_over_limit": 0,
+    "worst_mm": 18.0,
+    "worst_frame": 0,
+    "over_limit_frames_mm": []
+   },
+   "G8": {
+    "ok": true,
+    "max_correction_step_m": 0.0147,
+    "max_swing_step_deg": 0.4996,
+    "max_speed_added_m_s": 0.3926,
+    "corrected_frames": 93
+   },
+   "S1": {
+    "ok": true,
+    "min_below_shoulder_m": 0.4412,
+    "min_dist_to_racket_m": 0.4666,
+    "max_rel_speed_m_s": 1.054
+   },
+   "S3": {
+    "ok": true,
+    "contacts": 3,
+    "contact_times": [
+     1.2,
+     1.433,
+     1.967
+    ],
+    "lowest_m": -0.0
+   },
+   "S2": {
+    "ok": true,
+    "downswing_s": 0.2667,
+    "peak_tip_speed_m_s": 28.7788
+   },
+   "S4": {
+    "ok": true,
+    "trunk_flexion_at_contacts_deg": [
+     62.67629938604755,
+     60.46545627470227
+    ]
+   },
+   "S5": {
+    "ok": true,
+    "first_lift_top_m": 2.241,
+    "second_lift_top_m": 1.4951,
+    "ratio": 0.6672
+   },
+   "S6": {
+    "ok": true,
+    "racket_tip_0p20_above_head_top_s": 0.2667,
+    "max_tip_above_head_top_m": 0.597
+   }
+  },
+  "Emote_Thrust": {
+   "G1": {
+    "ok": true,
+    "frames": 106,
+    "expected": 106,
+    "bones": 53,
+    "objects": [
+     "Body_M",
+     "ButtCap",
+     "Face_M",
+     "Grip",
+     "Hand_Racket",
+     "Racket_Classic",
+     "Rig_Male",
+     "StringBed"
+    ]
+   },
+   "G2": {
+    "ok": true,
+    "arm_dev": 0.0,
+    "root_dev": 0.0
+   },
+   "G3": {
+    "ok": true,
+    "start_mean_deg": 0.1192,
+    "start_max_deg": 1.069,
+    "end_mean_deg": 0.1192,
+    "end_max_deg": 1.069
+   },
+   "G4": {
+    "ok": true,
+    "slide_max_m": 0.0,
+    "end_toe_max_m": 0.0,
+    "mesh_min_z_m": 0.0017
+   },
+   "G5": {
+    "ok": true,
+    "worst_mm": 0.0017
+   },
+   "G6": {
+    "ok": true,
+    "racket_hand_pos_m": 0.0,
+    "racket_hand_deg": 0.0652,
+    "readyidle_floor_deg": 0.0718,
+    "no_racket_animation": true
+   },
+   "G7": {
+    "ok": true,
+    "frames_checked": 106,
+    "frames_over_limit": 0,
+    "worst_mm": 18.0,
+    "worst_frame": 0,
+    "over_limit_frames_mm": []
+   },
+   "G8": {
+    "ok": true,
+    "max_correction_step_m": 0.0078,
+    "max_swing_step_deg": 0.3736,
+    "max_speed_added_m_s": 0.1545,
+    "corrected_frames": 39
+   },
+   "T1": {
+    "ok": true,
+    "pelvis_travel_m": [
+     0.3587350994348526,
+     0.39900000393390656,
+     0.41999997198581696
+    ],
+    "back_behind_ready_m": [
+     0.12753510661423206,
+     0.13000002689659595,
+     0.13000002689659595
+    ]
+   },
+   "T2": {
+    "ok": true,
+    "frames_apart": [
+     0,
+     0,
+     0
+    ]
+   },
+   "T3": {
+    "ok": true,
+    "crossed_lateral_m": [
+     0.08637727797031403,
+     0.08639258146286011,
+     0.08639295399188995
+    ],
+    "wrist_pelvis_dist_and_height_at_hits": [
+     [
+      0.3265704674452062,
+      0.40492757833148463,
+      0.3213408589363098
+     ],
+     [
+      0.32657038549239525,
+      0.4049264053559598,
+      0.3295658230781555
+     ],
+     [
+      0.3265705424900785,
+      0.4049262368516571,
+      0.33396703004837036
+     ]
+    ],
+    "back_position_dist_and_min_height": [
+     [
+      0.5581945877733875,
+      0.4744198168396343,
+      0.3260253071784973
+     ],
+     [
+      0.5638991938574209,
+      0.477469722514373,
+      0.328085720539093
+     ],
+     [
+      0.5638991938574209,
+      0.477469722514373,
+      0.328085720539093
+     ]
+    ]
+   },
+   "T4": {
+    "ok": true,
+    "max_chest_yaw_deg": 0.215,
+    "max_head_yaw_deg": 1.6019
+   },
+   "T5": {
+    "ok": true,
+    "min_knee_flexion_deg": 29.043,
+    "min_toe_yaw_deg": 44.385
+   },
+   "T6": {
+    "ok": true,
+    "head_pitch_p2p_deg": 32.8508
+   }
+  },
+  "Emote_Scuba": {
+   "G1": {
+    "ok": true,
+    "frames": 142,
+    "expected": 142,
+    "bones": 53,
+    "objects": [
+     "Body_M",
+     "ButtCap",
+     "Face_M",
+     "Grip",
+     "Hand_Racket",
+     "Racket_Classic",
+     "Rig_Male",
+     "StringBed"
+    ]
+   },
+   "G2": {
+    "ok": true,
+    "arm_dev": 0.0,
+    "root_dev": 0.0
+   },
+   "G3": {
+    "ok": true,
+    "start_mean_deg": 0.1192,
+    "start_max_deg": 1.069,
+    "end_mean_deg": 0.2947,
+    "end_max_deg": 2.0902
+   },
+   "G4": {
+    "ok": true,
+    "slide_max_m": 0.0,
+    "end_toe_max_m": 0.0,
+    "mesh_min_z_m": 0.0017
+   },
+   "G5": {
+    "ok": true,
+    "worst_mm": 0.0008
+   },
+   "G7": {
+    "ok": true,
+    "frames_checked": 142,
+    "frames_over_limit": 0,
+    "worst_mm": 18.0,
+    "worst_frame": 0,
+    "over_limit_frames_mm": []
+   },
+   "G8": {
+    "ok": true,
+    "max_correction_step_m": 0.0319,
+    "max_swing_step_deg": 9.76,
+    "max_speed_added_m_s": 0.3706,
+    "corrected_frames": 76
+   },
+   "C1": {
+    "ok": true,
+    "max_pad_to_nose_m": 0.0045,
+    "mean_m": 0.0045
+   },
+   "C2": {
+    "ok": true,
+    "min_ahead_of_neck_m": 0.3594,
+    "below_shoulder_range_m": [
+     0.14380788803100586,
+     0.1966191530227661
+    ]
+   },
+   "C3": {
+    "ok": true,
+    "wrist_lateral_p2p_m": 0.2702,
+    "period_s": 0.7333,
+    "cycles": 3.5
+   },
+   "C4": {
+    "ok": true,
+    "knee_lateral_p2p_m": 0.1385,
+    "period_s": 0.7333,
+    "feet_slide_m": 0.0
+   },
+   "C5": {
+    "ok": true,
+    "leaves_s": 0.2,
+    "lowest_m_range": [
+     -2.0645636327337735e-06,
+     2.4032289935860263e-08
+    ],
+    "moved_m": 0.0,
+    "min_dist_to_hand_m": 0.0954
+   },
+   "C6": {
+    "ok": true,
+    "attach_frame": 123,
+    "hand_to_racket_before_attach_m": 0.0056,
+    "max_racket_jump_before_attach_m": 0.0181,
+    "after_attach_deg": 0.0767,
+    "readyidle_floor_deg": 0.0718
+   }
+  }
+ },
+ "female": {
+  "Emote_Spike": {
+   "G1": {
+    "ok": true,
+    "frames": 97,
+    "expected": 97,
+    "bones": 53,
+    "objects": [
+     "Body_F",
+     "ButtCap",
+     "Face_F",
+     "Grip",
+     "Hand_Racket",
+     "Racket_Classic",
+     "Rig_Female",
+     "StringBed"
+    ]
+   },
+   "G2": {
+    "ok": true,
+    "arm_dev": 0.0,
+    "root_dev": 0.0
+   },
+   "G3": {
+    "ok": true,
+    "start_mean_deg": 0.0844,
+    "start_max_deg": 0.5558,
+    "end_mean_deg": 0.083,
+    "end_max_deg": 0.5558
+   },
+   "G4": {
+    "ok": true,
+    "slide_max_m": 0.0,
+    "end_toe_max_m": 0.0,
+    "mesh_min_z_m": 0.0011
+   },
+   "G5": {
+    "ok": true,
+    "worst_mm": 0.0026
+   },
+   "G6": {
+    "ok": true,
+    "racket_hand_pos_m": 0.0,
+    "racket_hand_deg": 0.1288,
+    "readyidle_floor_deg": 0.1352,
+    "no_racket_animation": true
+   },
+   "G7": {
+    "ok": true,
+    "frames_checked": 97,
+    "frames_over_limit": 0,
+    "worst_mm": 9.8,
+    "worst_frame": 20,
+    "over_limit_frames_mm": []
+   },
+   "G8": {
+    "ok": true,
+    "max_correction_step_m": 0.008,
+    "max_swing_step_deg": 0.4294,
+    "max_speed_added_m_s": 0.1993,
+    "corrected_frames": 95
+   },
+   "S1": {
+    "ok": true,
+    "min_below_shoulder_m": 0.3956,
+    "min_dist_to_racket_m": 0.3202,
+    "max_rel_speed_m_s": 1.0773
+   },
+   "S3": {
+    "ok": true,
+    "contacts": 2,
+    "contact_times": [
+     1.2,
+     1.967
+    ],
+    "lowest_m": 0.0
+   },
+   "S2": {
+    "ok": true,
+    "downswing_s": 0.2667,
+    "peak_tip_speed_m_s": 28.1941
+   },
+   "S4": {
+    "ok": true,
+    "trunk_flexion_at_contacts_deg": [
+     63.481157183719105,
+     59.24416821025544
+    ]
+   },
+   "S5": {
+    "ok": true,
+    "first_lift_top_m": 2.1901,
+    "second_lift_top_m": 1.5152,
+    "ratio": 0.6918
+   },
+   "S6": {
+    "ok": true,
+    "racket_tip_0p20_above_head_top_s": 0.2667,
+    "max_tip_above_head_top_m": 0.5584
+   }
+  },
+  "Emote_Thrust": {
+   "G1": {
+    "ok": true,
+    "frames": 106,
+    "expected": 106,
+    "bones": 53,
+    "objects": [
+     "Body_F",
+     "ButtCap",
+     "Face_F",
+     "Grip",
+     "Hand_Racket",
+     "Racket_Classic",
+     "Rig_Female",
+     "StringBed"
+    ]
+   },
+   "G2": {
+    "ok": true,
+    "arm_dev": 0.0,
+    "root_dev": 0.0
+   },
+   "G3": {
+    "ok": true,
+    "start_mean_deg": 0.0844,
+    "start_max_deg": 0.5558,
+    "end_mean_deg": 0.0844,
+    "end_max_deg": 0.5558
+   },
+   "G4": {
+    "ok": true,
+    "slide_max_m": 0.0,
+    "end_toe_max_m": 0.0,
+    "mesh_min_z_m": 0.0011
+   },
+   "G5": {
+    "ok": true,
+    "worst_mm": 0.0018
+   },
+   "G6": {
+    "ok": true,
+    "racket_hand_pos_m": 0.0,
+    "racket_hand_deg": 0.1301,
+    "readyidle_floor_deg": 0.1352,
+    "no_racket_animation": true
+   },
+   "G7": {
+    "ok": true,
+    "frames_checked": 106,
+    "frames_over_limit": 0,
+    "worst_mm": 2.8,
+    "worst_frame": 0,
+    "over_limit_frames_mm": []
+   },
+   "G8": {
+    "ok": true,
+    "max_correction_step_m": 0.0154,
+    "max_swing_step_deg": 3.0311,
+    "max_speed_added_m_s": 0.2021,
+    "corrected_frames": 90
+   },
+   "T1": {
+    "ok": true,
+    "pelvis_travel_m": [
+     0.3587350696325302,
+     0.39900000393390656,
+     0.42000000178813934
+    ],
+    "back_behind_ready_m": [
+     0.12753509636968374,
+     0.12999998684972525,
+     0.12999998684972525
+    ]
+   },
+   "T2": {
+    "ok": true,
+    "frames_apart": [
+     0,
+     0,
+     0
+    ]
+   },
+   "T3": {
+    "ok": true,
+    "crossed_lateral_m": [
+     0.09655406884849072,
+     0.1137605533003807,
+     0.0973418578505516
+    ],
+    "wrist_pelvis_dist_and_height_at_hits": [
+     [
+      0.25197316953932586,
+      0.4151512853112153,
+      0.2869267463684082
+     ],
+     [
+      0.2849182368740194,
+      0.41515098439773973,
+      0.29709362983703613
+     ],
+     [
+      0.2519714561403224,
+      0.415151317531204,
+      0.30259013175964355
+     ]
+    ],
+    "back_position_dist_and_min_height": [
+     [
+      0.5209852210781214,
+      0.4946486763431758,
+      0.34730416536331177
+     ],
+     [
+      0.5337974825759908,
+      0.5011279909169694,
+      0.35215139389038086
+     ],
+     [
+      0.5299894678701146,
+      0.5011279909169694,
+      0.35215139389038086
+     ]
+    ]
+   },
+   "T4": {
+    "ok": true,
+    "max_chest_yaw_deg": 0.215,
+    "max_head_yaw_deg": 1.6019
+   },
+   "T5": {
+    "ok": true,
+    "min_knee_flexion_deg": 27.3912,
+    "min_toe_yaw_deg": 46.7152
+   },
+   "T6": {
+    "ok": true,
+    "head_pitch_p2p_deg": 32.8509
+   }
+  },
+  "Emote_Scuba": {
+   "G1": {
+    "ok": true,
+    "frames": 142,
+    "expected": 142,
+    "bones": 53,
+    "objects": [
+     "Body_F",
+     "ButtCap",
+     "Face_F",
+     "Grip",
+     "Hand_Racket",
+     "Racket_Classic",
+     "Rig_Female",
+     "StringBed"
+    ]
+   },
+   "G2": {
+    "ok": true,
+    "arm_dev": 0.0,
+    "root_dev": 0.0
+   },
+   "G3": {
+    "ok": true,
+    "start_mean_deg": 0.0834,
+    "start_max_deg": 0.5558,
+    "end_mean_deg": 0.3482,
+    "end_max_deg": 3.173
+   },
+   "G4": {
+    "ok": true,
+    "slide_max_m": 0.0,
+    "end_toe_max_m": 0.0,
+    "mesh_min_z_m": 0.0011
+   },
+   "G5": {
+    "ok": true,
+    "worst_mm": 0.0021
+   },
+   "G7": {
+    "ok": true,
+    "frames_checked": 142,
+    "frames_over_limit": 0,
+    "worst_mm": 5.9,
+    "worst_frame": 127,
+    "over_limit_frames_mm": []
+   },
+   "G8": {
+    "ok": true,
+    "max_correction_step_m": 0.0097,
+    "max_swing_step_deg": 0.1537,
+    "max_speed_added_m_s": 0.1785,
+    "corrected_frames": 53
+   },
+   "C1": {
+    "ok": true,
+    "max_pad_to_nose_m": 0.0045,
+    "mean_m": 0.0045
+   },
+   "C2": {
+    "ok": true,
+    "min_ahead_of_neck_m": 0.3282,
+    "below_shoulder_range_m": [
+     0.12281680107116699,
+     0.1728764772415161
+    ]
+   },
+   "C3": {
+    "ok": true,
+    "wrist_lateral_p2p_m": 0.2487,
+    "period_s": 0.7333,
+    "cycles": 3.5
+   },
+   "C4": {
+    "ok": true,
+    "knee_lateral_p2p_m": 0.1387,
+    "period_s": 0.7333,
+    "feet_slide_m": 0.0
+   },
+   "C5": {
+    "ok": true,
+    "leaves_s": 0.2,
+    "lowest_m_range": [
+     -4.5323298261679135e-07,
+     1.4644340539590739e-06
+    ],
+    "moved_m": 0.0,
+    "min_dist_to_hand_m": 0.0995
+   },
+   "C6": {
+    "ok": true,
+    "attach_frame": 123,
+    "hand_to_racket_before_attach_m": 0.0056,
+    "max_racket_jump_before_attach_m": 0.0181,
+    "after_attach_deg": 0.1309,
+    "readyidle_floor_deg": 0.1352
+   }
+  }
+ }
+}

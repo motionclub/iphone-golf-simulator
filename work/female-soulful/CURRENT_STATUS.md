@@ -1,0 +1,96 @@
+> Shader pass 2026-10-16 (later session): female skin/eye/knit pass APPROVED by the user and INSTALLED into production (Unity shaders + FemaleGarmentFinish, native MatchHeroSurfaces.swift, female manifests material keys, VisualGolden provenance), staged not committed. Proof: proof/review/shader-pass-20261016/. Rollback: install_shader_pass_20261016.py --rollback. See GATE_RESULTS.md top section.
+
+# Shirt fixes — Claude, 2026-10-16 evening (supersedes the Codex handoff where newer)
+
+Scope: PROMPT_SHIRT_FIXES.md (garment geometry/bindings/coverage only). Shader/material work is owned by the parallel "Shader improvements" session; nothing below touched shaders or the material part of FemaleGarmentFinish. Nothing installed into production Unity/Assets or GolfArcade/Unity/CharacterAssets. No commits.
+
+**Golf polo (clone + native staging):**
+- Root cause of the remaining tearing: `bind_polo_harmonic.py` copied lining/cuff weights from the NEAREST shell face of any panel, so under the arm torso lining took sleeve weights and sleeve lining took torso weights (100% vs 25% arm on adjacent edges); torso weights carried hard Neck 1.0 / UpperChest steps at the collar. Fixed generally: layers copy only within their panel group (torso/left/right sleeve), and the torso field is diffused over the sewn all-layer graph (~3 cm). No pose inputs. Stress review (same 422 golf samples): severe-strain edges fell in every clip/sweep group (Drive 2482→1744, Idle 72→2, Walk 189→15), extreme edge ratios roughly halved. Proof: proof/combined-fixes/golf-binder2-before-after.jpg, stress-golf-binder2/, golf-binder2-review/.
+- Coverage (pipeline.py cover, female only): skin that pushes THROUGH cloth was being classed "uncovered" and kept drawn. The pose test now treats cloth behind the skin (≤6 cm) or an interior outer-shell face within 35 mm (≥8 mm from any opening) as penetration; drawn band at openings 18 mm for both tops.
+- Actual muted golf game capture: proof/combined-fixes/golf-live-binder2/ (address, backswing, impact, finish clean at gameplay and close range).
+- Runtime: the experimental top DQ / cloth-prototype / sleeve-sweep block was removed from work+clone MatchHeroLook.cs (now byte-identical to production). The experimental native sleeve kernel was removed from GolfArcade/Unity/MatchHeroMotion.swift (saved as experiments/sleeve-field/MatchHeroMotion.sleeve-kernel.patch). Ordinary skinning is the default with no environment variables.
+
+**Tennis tank (clone + native staging):**
+- Root cause of the serve/overhead chest holes: the body's front chest/axilla skin carries 16–21% upper-arm weight (pectoral pull); the tank was bound torso-only, so raised arms moved the skin ~37 mm through the cloth. New `bind_tank_follow.py`: each tank vertex takes the weights of the nearest TORSO skin (runtime ArmBlend support bones folded back exactly into their parents), armhole rims keep the torso binding (1→4 cm fade). Palette adds Left/RightUpperArm (prefab updated by RefreshTennisTop). Tank geometry and maps unchanged.
+- A/B in the same Editor session, 9 frames, skin pixels enclosed by tank: 182 → 90 (proof/combined-fixes/tank-follow/). JumpJoy and Victory become clean. Serve still shows 2–3 small specks near the V-neck; RunForward and early Overhead gained one small speck each.
+- Rejected this pass: tank DQ (HeroArmSkinning on the tank) made armhole "wings"; partial follow (0.6) was worse than either; +4 mm ease (fit_gap .009) gave no measurable gain, reverted (source and export restored byte-identical).
+
+**Native (staging only, work/female-soulful/native-combined/):** fresh tennis, Distance and golf exports from the clone (self-checks: max deviation 0.0007 / 0.0007 / 0.0019 mm), stale maps converted to KTX with the verified converter settings (map-compression-final.txt, proof/golf/map-compression.json). Real SceneKit renders from the app sources incl. motion frames: native-combined/proof/final/native-final-sheet.jpg, tennis/, golf/, distance/. The round dark patch on the golf follow-through is a key-light cast shadow (present in production, gone with ambient-only light), not a garment defect.
+
+**Production install — 2026-10-16 (user approved "install both tops", and chose to include the accepted arm/grip runtime for Unity/native parity):**
+- Unity/Assets (13 top files, guard-checked, verified = clone): Characters/KitsV2/{MatchHero,GolfKitHero}_Female/Kit_Top.asset; Resources/{Tennis,Golf}/KitsV2/Female/KitV2_*_Female_Top_{M,N}.png, _hide.bytes, _contact.bytes, _correctives.json; Resources/Tennis/Customization/PlayerFemale.prefab (only change: tank bones + Left/RightUpperArm). Metas unchanged (same GUIDs).
+- Unity/Assets accepted arm/grip runtime (5 files = clone): Scripts/Tennis/HeroPoseSafety.cs, HeroGripPolish.cs, HeroArmSkinning.cs, HeroAccessories.cs, FemaleHeroAlive.cs.
+- NOT installed (shader task owns them): the four character shaders, FemaleGarmentFinish.cs, fabric atlas / eye / skin-pigment KTX, Swift material code.
+- Native (install_native_tops_20261016.py): 41 files in GolfArcade/Unity/CharacterAssets (three female payloads with swing frames + 4 top maps png/ktx), material smoothness restored to production values in the manifests, 3 visual goldens repacked + provenance refreshed; male payloads verified unchanged. Native renders from production assets: proof/production-install-20261016/production-native-sheet.jpg.
+- Backups + before/after hashes: revisions/production-install-20261016/ (before/, before-hashes*.txt, native/).
+- Not run: production Unity compile/tests (no second Editor), Xcode test target. The clone (same runtime scripts except shader-owned FemaleGarmentFinish) compiles and passes 26/26 female EditMode tests.
+
+**Known, out of this task's scope:** raised-arm upper-arm collapse/faceting in the serve (accepted frozen arm system, also in Unity); skin-coloured spot on the golf under-shorts at backswing/finish (protected skirt, unchanged); stress-tool raw-clip sampling shows skirt shards (not the gameplay path).
+
+**Next:** tank V-neck specks in the serve (FAIL line); material candidate install belongs to the shader task. Phone timing remains deferred.
+
+---
+
+> Latest shader review: reference material appearance still FAILS. The previous pass is a subtle cleanup, not a completed reference match. See SHADER_REFERENCE_GAPS.md and proof/review/reference-vs-current-shaders.jpg. Older completion statements below are superseded.
+
+# General garment deformation — latest 2026-10-16
+
+User requires one garment system that survives motions, not patches for individual clips or emotes. Arm motion remains frozen. Read GENERAL_GARMENT_DEFORMATION.md. Work remains incomplete; no new production installation, staging or commits this turn.
+
+New Blender/Unity experiments: GarmentClothPrototype.cs has opt-in mode 1 (dense Unity Cloth, rejected), mode 2 (low-density Unity Cloth cage, still failed), and mode 3 (deterministic pose-independent edge-length/body-capsule constraints, current experiment). It is ONLY in the isolated clone and work mirror, not production, and is not in the installer manifest. MatchHeroLook.cs work/clone currently calls the opt-in prototype and has GARMENT_TOP_DQ=0 to compare ordinary garment interpolation; body DQ is unchanged. Do not install this mirror without resolving prototype packaging and visual/native parity.
+
+bind_polo_harmonic.py computes a continuous topology-based torso/arm weight field with no animation inputs. General inputs are central/lower torso/neck anchors and source-pattern sleeve-mouth anchors. A zero-torso-field normalization pitfall in the first test was fixed. LBS performs better than top torso/arm DQ at the golf finish, but the bare skinned garment still fails a raised-arm view. Do not call the harmonic-only mesh passing.
+
+The old bind_polo_sleeves.py seam projection caused up to 12mm source movement, 7 nonmanifold outer-shell edges and 6 degenerate triangles (welded at 5 decimal places). The source golf_top.blend is intact. Fresh top-only export was regenerated using pipeline.py polo_export; its clean outer surface has 0 nonmanifold edges and 0 degenerate triangles. Triangle indices match; max UV difference is 3.58e-7. Fresh unprojected baseline is cage-prototype/unprojected-top.npz. Current out/GolfKitHero_Female/unity/Kit_Top_final.npz/bin use this clean mesh plus the harmonic field, zero shapes. The rejected pre-clean projection outputs are in revisions/general-garment-before/. Do NOT rerun bind_polo_sleeves.py or wrap_correctives.py over current candidate.
+
+build_cloth_cage.py now creates a 645-point/1199-triangle connected outer cage and a fixed barycentric detail binding. Cuffs/collar/placket/buttons retain their original skinning; cuff-mouth cage anchors follow the arm. Mode 3 solves construction edge lengths against current torso and arm capsule volumes, starting deterministically from the current skeleton every frame. No named clips, time windows, emote branches or pose banks. Runtime allocations and native SceneKit parity have NOT been solved; prototype is not shipping code. Top material _Cull=0 remains an earlier diagnostic, not proof of a repaired surface.
+
+Latest actual muted capture: proof/golf-clean-cage-cuffs-test/ (finished, still FAIL: shoulder/sleeve fit and detail folds need work), mode3, GARMENT_TOP_DQ=0. Prior mode3 proof/golf-general-constraints-test/ still showed poor shoulder fit and detail creases, so rejected. Earlier cloth prototype films: golf-cloth-general-test (dense), golf-cloth-cage-test (bad coordinate mapping), golf-cloth-cage-space-test (double scale), golf-cloth-cage-scaled-test (still folds). Root-bone cloth vertices already include scale: tested pinned point matches root.rotation*p + root.position, not root.TransformPoint(p). Plain/linear manual CPU diagnostics in golf-harmonic-* and golf-clean-harmonic-linear; no actual full motion pass yet.
+
+Disk ran out again during a capture. Cleared only generated native-export/assets (299MB, superseded by native-arm-surfaces; old goldens retained), plus redundant JPGs from the first two failed cloth films (kept 6 milestones, film metadata and traces each). Original assets, source files, tracked files and current native-arm-surfaces export are intact. After further pruning of redundant failed prototype frames, free space is around 0.6GB; keep captures bounded. Original phone performance deferral remains in effect.
+
+Next: inspect clean-cage live proof. Keep arms/face/skirt/world frozen, reject failures without clip-specific patches. Finish the general garment solution and continuous shoulder/twist/transition stress coverage, show actual game images, resolve native parity, then install guarded explicit paths, update gates/docs/parity and stage scoped files. Do not declare the original handoff complete.
+
+--- Previous golf repair state follows ---
+
+# Active golf repair — 2026-10-16, after live feedback
+
+Latest user: "shirt is still ripping at the arms, animation looks better now". FREEZE the current arm motion. Finish the sleeve/armhole/lining deformation; do not keep changing arms. Work is NOT complete.
+
+Production still has the previous 73-path candidate, including the earlier shaders. New golf repair is ONLY in /private/tmp/female-soulful-UnityClone and work sources; install_unity.py has not been rerun. No commits or new staging this turn. Preserve unrelated index.
+
+Clone changes: female-only HeroPoseSafety upper-ribcage envelope, bounded clavicle clearance and wrist-aware elbow choice; HeroGripPolish female closed-hand shaft-orbit wrist fit; HeroAccessories builds wrist-volume supports for female golf gloves. HeroArmSkinning support names are prefixed for Kit_Top and Acc_GloveL/R; all editor sampling/export helpers now update ALL palettes, including gloves. FemaleHeroAlive no longer cumulatively rotates the held golf head pose (the prior capture had neck spins). Body HeroShoulderWeights is restored byte-for-byte to the preceding accepted revision; experimental membership/cap changes were discarded. Skirts untouched.
+
+Fresh actual muted capture: proof/golf-glove-arm-live-test/, 428 frames, 14.27 seconds, Driver, cliffside, Gusty, impact frame62, audioStarted=false. User says arm animation is better; shirt still fails. Head no longer spins. Glove cuff stays joined with matching DQ interpolation; proof/review/glove-cuff-comparison.jpg posted in chat (studio diagnostic, not live game). Release wrist still has a high-flex sample, so no blanket all-pose wrist gate.
+
+Garment current candidate: bind_polo_sleeves.py gives a continuous torso-to-upper-arm sleeve field, shared coincident weights, small rest seam projection by outside/lining surface, and zero large pose shapes. MatchHeroLook builds HeroArmSkinning for the female golf top after BindKitV2. It still rips at armholes in live feedback; DO NOT call passing or install yet. FemaleGarmentFinish now tests _Cull=0 ONLY for female golf Kit_Top. Latest diagnostic output: proof/golf-two-sided-diagnostic/ (in progress). Goal is to distinguish backface loss from actual seam separation/inversion. Arm motion is frozen.
+
+Do not rerun wrap_correctives.py over current outputs accidentally: it writes the discarded 96-anchor loft candidate. That experiment uses runtime-golf-bank/ from FemaleGolfRuntimeReview.DumpPoseBank plus source poses, but produced bad bunched sleeves. posed_sleeves.py now explicitly uses garment binds and a torso-panel sewing boundary. The observed 16-degree garment/body bind difference is intentional A25 authoring; explicit binding comparison did NOT establish it as the root cause. Earlier commentary was premature.
+
+New helper unity/FemaleGolfRuntimeReview.cs samples the actual GolferView evaluation and renders manual CPU-skinned snapshots. Unity BakeMesh + TransformPoint in the scaled golf model double-applies parent scale (about166mm error); early diagnostic .bin files/images used that flawed bake. Manual images from proof/golf-runtime-cpu onward are correct. Current Dump writes manual positions; older dumps before golf-cuff-position-audit wrote BakeMesh positions with extra1.0936 scale. CLI eval can return success while Editor compilation failed, so verify compiler logs/DLL timestamps. The helper's temporary shadow-name errors were fixed.
+
+pending-unity-paths.json now includes HeroPoseSafety, HeroGripPolish, HeroAccessories in addition to73 prior paths, with guards in revisions/armholes-motion-v2/shared-before.json. New source mirrors in unity/. MatchHeroLook/FemaleHeroAlive were already existing installed paths. Installer manifest still records production73 hashes.
+
+Native: fresh Tennis Run and RunDistance both finished in native-arm-surfaces/{assets,golden}; Golf NOT exported. Native install NOT run. Existing native MatchHeroData/Surfaces female shader port compiled. Four Top KTX maps were already compressed; bottom maps preserved. Do not use deleted obsolete native-revision2. Disk tight (~1.8GB), avoid big dump duplication. Removed task-generated obsolete native-revision2 and ignored dump-shoulder2 to recover room; no tracked/source assets removed.
+
+Next: inspect two-sided garment diagnostic, repair clothing without changing accepted arm motion, show actual live images. Then run relevant tests, install the explicit Unity candidate, export/install/render Golf native, update gates/docs/parity and stage scoped files only. Phone performance remains deferred. Original BEFORE face, neutral geometry, male, source rig/clips, map/lights/camera and accepted skirt assets remain protected.
+
+--- Earlier context (superseded where conflicting) ---
+
+## Latest feedback — golf revision rejected
+
+User reports broken arms through the actual golf swing and a wrongly positioned glove hand. Arm-section area probes do not prove shoulder continuity, placement, garment coverage or grip alignment. Pause new exports while diagnosing the full runtime golf solve, exposed body and accessory glove. In-flight Tennis RunDistance finished successfully; Golf export has not started. Production currently contains the rejected 73-path candidate. Preserve accepted tennis proportions, skirts, original face and mute.
+
+# Active revision — 2026-10-16
+
+Unity implementation is installed in the repository (73 explicit paths). Native female re-export/install and final staging remain in progress. No commits. The isolated Editor runs at /private/tmp/female-soulful-UnityClone; reuse it.
+
+User accepted the repaired arm proportions: "arms look way better now". HeroShoulderWeights removes chest/arm spill without changing neutral vertices; HeroArmSkinning preserves elbow/wrist volume for both female sports, with linear blending only at the torso connector. FemaleShoulderFit is now a constrained local axilla fairing bank (about 590 vertices, 12 mm posed / 20 mm bind-offset limits), rather than the old biceps-shrinking bank. All 51 current female clips pass fixed arm-section probes (89.9–111.7% of neutral area). 17 female tests pass. Arms are frozen unless feedback requires another correction.
+
+Tennis top: deeper round armholes, slimmer curved binding, independent eased pattern and hanging folds. Golf: source A25 polo, sewn sleeve lofts between torso armhole and rigid cuff; 72 pose anchors / 3 nearest, continuous weight cutoff, shared wall thickness. Do not project the sleeve sewing curves onto the folded body axilla: that reintroduced tears. Standard hidden-body coverage applies under the closed polo torso and proximal sleeves; collar and cuffs retain exposed skin. Skirt meshes/maps/coverage remain identical to the previous accepted production pass.
+
+User explicitly expanded the remaining scope to shaders for skin, clothes and the whole female character. HeroFaceSkin/HeroLighting now have female-only clean diffuse/satin skin response, no grain or green/yellow grade, restrained peach warmth and ambient color. TennisCloth's _FemaleSurface flag enables softer cavity contrast and map-driven roughness/sheen adjustment without changing the V1/V2 map encoding. FemaleGarmentFinish configures female runtime material instances including cap/footwear and notices rebuilt materials. The native port uses optional femaleSurface metadata; male payloads and defaults stay compatible. Original face/head geometry, source body/rig/clips and saved color controls are retained.
+
+Latest images: proof/review/female-material-before-after.jpg, proof/surfaces-current/, proof/arm-garment-final/. Actual updated tennis: proof/arm-surfaces-tennis-live/; idle/face_00050.jpg was posted in chat. Actual golf recording is running into proof/arm-surfaces-golf-live/. Captures and game are muted. Muted tennis review clips: proof/review/tennis-arm-volume-muted.mp4 and tennis-material-wave-muted.mp4.
+
+Next: finish muted golf capture; export fresh Female Run/RunDistance/RunGolf to native-arm-surfaces/{assets,golden}; compress maps, run install_native_revision.py, render native; update GATE_RESULTS/proof inventory and stage explicit scoped files. Do not use old native-revision2 outputs for this revision. Native MatchHeroData/Surfaces changes already compile with the actual Swift renderer. Preserve unrelated staged work and male payloads. Phone performance is deferred by the user; inherited body is 68,476 triangles, no remesh.

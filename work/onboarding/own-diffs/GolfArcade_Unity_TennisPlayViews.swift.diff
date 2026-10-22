@@ -1,0 +1,44 @@
+diff --git a/work/onboarding/baseline-owned-files/GolfArcade/Unity/TennisPlayViews.swift b/GolfArcade/Unity/TennisPlayViews.swift
+index d8e6d7a9..67963228 100644
+--- a/work/onboarding/baseline-owned-files/GolfArcade/Unity/TennisPlayViews.swift
++++ b/GolfArcade/Unity/TennisPlayViews.swift
+@@ -10,7 +10,10 @@ struct TennisTVRoot: View {
+             let scale = min(g.size.width / 1280, g.size.height / 720) * (1 - SportsSession.shared.overscan)
+             ZStack {
+                 Club.lagoonDeep   // around the canvas on 16:10 screens; each screen paints its own scene
+-                TennisMenuScreen(compact: false)
++                Group {
++                    if OnboardingFlow.shared.holdsMenu { OnboardingHoldingCard() }
++                    else { TennisMenuScreen(compact: false) }
++                }
+                     .frame(width: 1280, height: 720)
+                     .scaleEffect(scale)
+                     .frame(width: g.size.width, height: g.size.height)
+@@ -273,12 +276,16 @@ struct TennisRacketController: View {
+                 if !session.touch { ShotDepthControl(session:session) }
+                 if session.touch {
+                     VStack(spacing: 6) {
++                        if session.tutorialStep == nil {
+                         Slider(value: $steering, in: -1...1) { Text("Court position") }
+                             .onChange(of: steering) { _, v in session.steer(v) }
+-                        RallyAimPad(session:session).frame(height:150)
++                        }
++                        if session.tutorialStep == nil || (session.tutorialStep?.index ?? 0) >= 2 { RallyAimPad(session:session).frame(height:150) }
+                         HStack {
++                            if session.tutorialStep == nil {
+                             Slider(value: $power, in: 0.15...1) { Text("Swing power") }
+-                            Button("Swing") { session.swing(power) }.font(IslandUI.font(20, bold: true)).buttonStyle(.borderedProminent).tint(IslandUI.lime)
++                            }
++                            Button("Swing") { session.swing(session.tutorialStep == nil ? power : 0.7) }.font(IslandUI.font(24, bold: true)).frame(maxWidth: .infinity, minHeight: 70).buttonStyle(.borderedProminent).tint(IslandUI.lime)
+                                 .foregroundStyle(IslandUI.navy).disabled(session.paused)
+                         }
+                     }.tint(IslandUI.lime)
+@@ -711,7 +718,7 @@ struct TutorialPanel: View {
+                 Spacer()
+                 Text("STEP \(min(step.index + 1, step.count)) OF \(step.count)").font(IslandUI.font(13, bold: true))
+             }
+-            Button("Skip this exercise", action: onSkip).font(IslandUI.font(12, bold: true))
++            Button("Skip this exercise", action: onSkip).font(IslandUI.font(12, bold: true)).accessibilityIdentifier("tutorial-skip-step")
+             Text(step.text).font(IslandUI.font(18, bold: true)).fixedSize(horizontal: false, vertical: true)
+             HStack(spacing: 4) {
+                 ForEach(0..<step.count, id: \.self) { i in

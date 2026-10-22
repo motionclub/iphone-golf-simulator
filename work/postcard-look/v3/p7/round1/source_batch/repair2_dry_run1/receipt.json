@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "manifest": "work/postcard-look/v3/p7/round1/source_batch/repair2_plan.json",
+  "manifest_sha256": "9cdb847fb90ce697b3cd1af17df319f524047413b03a5c39b45cce20cb4085be",
+  "mode": "dry-run",
+  "source_plans": [
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/runtime/proof_split_wind_fix/source_plan.json",
+      "sha256": "bfc9281b5d3f4154383afd218867f93d1811f11d324316fc99ebfdca2b073875"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/hole_drafts/import_fix/apply_plan.json",
+      "sha256": "0b4bd760721e0387abc8846f31357ee6281be06acb02dd5793de78763381d7c8"
+    }
+  ],
+  "heavy_ancestor": null,
+  "archive": [],
+  "installed": [],
+  "excluded_planned_protected": [],
+  "verification": "UNVERIFIED; complete P7 original gates and installed proof required"
+}

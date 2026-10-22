@@ -1,0 +1,113 @@
+{
+  "shots": [
+    {
+      "name": "hole08_4_pathball",
+      "hole": 8,
+      "kind": "address",
+      "ball": [
+        -1.0,
+        11.0
+      ],
+      "aim": [
+        19,
+        178
+      ]
+    },
+    {
+      "name": "hole08_aerial",
+      "hole": 8,
+      "kind": "landmark",
+      "pos": [
+        100,
+        135,
+        -55
+      ],
+      "look": [
+        2,
+        6,
+        185
+      ],
+      "fov": 57
+    },
+    {
+      "name": "hole09_aerial",
+      "hole": 9,
+      "kind": "landmark",
+      "pos": [
+        120,
+        185,
+        -65
+      ],
+      "look": [
+        -22,
+        6,
+        230
+      ],
+      "fov": 57
+    },
+    {
+      "name": "hole10_aerial",
+      "hole": 10,
+      "kind": "landmark",
+      "pos": [
+        -95,
+        175,
+        -105
+      ],
+      "look": [
+        145,
+        6,
+        125
+      ],
+      "fov": 58
+    },
+    {
+      "name": "hole08_mow_green",
+      "hole": 8,
+      "kind": "landmark",
+      "pos": [
+        -6.0,
+        19,
+        318.0
+      ],
+      "look": [
+        -6.0,
+        6.7,
+        340.0
+      ],
+      "fov": 48
+    },
+    {
+      "name": "hole09_mow_green",
+      "hole": 9,
+      "kind": "landmark",
+      "pos": [
+        -10.0,
+        19,
+        470.0
+      ],
+      "look": [
+        -10.0,
+        6.7,
+        492.0
+      ],
+      "fov": 48
+    },
+    {
+      "name": "hole10_mow_green",
+      "hole": 10,
+      "kind": "landmark",
+      "pos": [
+        261.0,
+        19,
+        142.7
+      ],
+      "look": [
+        261.0,
+        6.7,
+        164.7
+      ],
+      "fov": 48
+    }
+  ]
+}

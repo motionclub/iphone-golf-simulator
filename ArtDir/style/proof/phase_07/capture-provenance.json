@@ -1,0 +1,13 @@
+{
+  "raw": "/private/tmp/hero-lighting-lookdev/final-stage7-r2",
+  "worldBefore": "/private/tmp/hero-lighting-lookdev/final-world-before",
+  "phaseBefore": "/private/tmp/combined-style-compile/rollout/phase_06",
+  "expandedHeroBefore": "/private/tmp/hero-lighting-lookdev/after2",
+  "heroIsolationBefore": "/private/tmp/hero-lighting-lookdev/final-stage7-r2/paired-before",
+  "captureMode": "Actual Unity 6000.3.24f1 foreground batchmode Metal, scratch clone",
+  "stage": 7,
+  "heroLighting": true,
+  "worldCount": 111,
+  "heroCount": 344,
+  "laterChanges": "The full matrix predates only the no-fog shader guard and reduced-motion FX thinning. Active world variants use fog; hub uses its separate backdrop helper. Those paths are separately rendered/tested in final-fallback-r2 and final-fx-r2. A final initialization-order repair re-resolves combined-stage activation; look values are unchanged. The separate activation-order suite exercises both startup order and disable restoration."
+}

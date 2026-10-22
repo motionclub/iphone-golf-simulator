@@ -1,0 +1,23 @@
+{
+  "holes": [
+    {
+      "hole": 10,
+      "landmarks": [
+        {
+          "name": "volcano",
+          "prefixes": [
+            "DRESS_CONE"
+          ]
+        }
+      ]
+    }
+  ],
+  "fairwayBand": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/band-fields/fairway.f32",
+  "greenBand": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/band-fields/green.f32",
+  "bandSize": 1024,
+  "playY": 6.56167979,
+  "cliffPrefixes": [
+    "ROCK_SKIN",
+    "TERRAIN"
+  ]
+}

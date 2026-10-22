@@ -1,0 +1,66 @@
+--- Unity/Assets/Scripts/Tennis/HeroSkinNormals.cs
++++ Unity/Assets/Scripts/Tennis/HeroSkinNormals.cs
+@@ -9,6 +9,7 @@
+         static readonly Dictionary<Mesh,Mesh> cache=new();
+         static readonly Dictionary<Mesh,Mesh> continuousCache=new();
+         static readonly Dictionary<Mesh,Mesh> softCache=new();
++        static readonly Dictionary<Mesh,Mesh> areaCache=new();
+         public static Mesh Prepare(SkinnedMeshRenderer body,Transform head)
+         {
+             if(!body||!head||!body.sharedMesh.isReadable)return body ? body.sharedMesh:null;
+@@ -48,8 +49,11 @@
+         // Only the normal array is replaced; the complete source mesh is cloned.
+         static Mesh Continuous(SkinnedMeshRenderer body,Transform head,Mesh source,bool soft=false)
+         {
+-            string suffix=soft?" (soft skin normals)":" (continuous skin normals)";
+-            var activeCache=soft?softCache:continuousCache;
++            // One work-only A/B: spatial filtering integrates represented surface
++            // area, rather than giving each tessellation vertex equal influence.
++            bool areaWeighted=!soft && System.Environment.GetEnvironmentVariable("VISUAL_CHARACTER_NORMAL_AREA")=="1";
++            string suffix=areaWeighted?" (area continuous skin normals)":soft?" (soft skin normals)":" (continuous skin normals)";
++            var activeCache=areaWeighted?areaCache:soft?softCache:continuousCache;
+             if(source.name.EndsWith(suffix))return source;
+             if(activeCache.TryGetValue(source,out var cached)&&cached)return cached;
+             var p=source.vertices;var old=source.normals;
+@@ -73,11 +77,12 @@
+             }
+             // Area-weighted geometric normals are shared at exact positional
+             // seams, preventing UV/corner splits from creating lighting seams.
+-            var geometric=new Vector3[unique.Count];var triangles=source.triangles;
++            var geometric=new Vector3[unique.Count];var representedArea=new float[unique.Count];var triangles=source.triangles;
+             for(int t=0;t<triangles.Length;t+=3){
+                 int a=triangles[t],b=triangles[t+1],c=triangles[t+2];
+                 Vector3 area=Vector3.Cross(p[b]-p[a],p[c]-p[a]);
+                 geometric[id[a]]+=area;geometric[id[b]]+=area;geometric[id[c]]+=area;
++                float size=area.magnitude;representedArea[id[a]]+=size;representedArea[id[b]]+=size;representedArea[id[c]]+=size;
+             }
+             var strength=new float[unique.Count];var grid=new Dictionary<Vector3Int,List<int>>();int selected=0;
+             for(int i=0;i<unique.Count;i++){
+@@ -93,15 +98,16 @@
+             var field=new Vector3[unique.Count];
+             for(int i=0;i<unique.Count;i++){
+                 if(strength[i]<.001f)continue;
+-                var cell=Cell(unique[i]);Vector3 sum=geometric[i];float count=1;
++                var cell=Cell(unique[i]);float seed=areaWeighted?representedArea[i]:1;Vector3 sum=geometric[i]*seed;float count=seed;
+                 for(int x=-1;x<=1;x++)for(int y=-1;y<=1;y++)for(int z=-1;z<=1;z++)
+                     if(grid.TryGetValue(cell+new Vector3Int(x,y,z),out var neighbours))foreach(int j in neighbours){
+                         float d=(unique[i]-unique[j]).sqrMagnitude;if(d>=radius*radius)continue;
+                         float agreement=Vector3.Dot(geometric[i],geometric[j]);if(agreement<.5f)continue;
+                         float falloff=1-d/(radius*radius);float weight=falloff*falloff*agreement*agreement;
++                        if(areaWeighted)weight*=representedArea[j];
+                         sum+=geometric[j]*weight;count+=weight;
+                     }
+-                field[i]=(sum/count).normalized;
++                field[i]=(sum/Mathf.Max(count,1e-12f)).normalized;
+             }
+             var normals=(Vector3[])old.Clone();float largest=0;int changed=0;
+             for(int i=0;i<p.Length;i++){
+@@ -116,7 +122,7 @@
+             result.hideFlags=HideFlags.DontSave;result.normals=normals;
+             var after=result.vertices;float vertexDelta=0;for(int i=0;i<p.Length;i++)vertexDelta=Mathf.Max(vertexDelta,(after[i]-p[i]).sqrMagnitude);
+             activeCache[source]=result;
+-            Debug.Log("[HeroSkinNormals] field="+(soft?"soft":"continuous")+" source="+source.name+" selected="+selected+" changed="+changed+" radiusMetres="+radius+" capDegrees="+angleCap+" maxNormalDegrees="+largest+" maxVertexDeltaSquared="+vertexDelta+"; source topology/weights/UVs/morphs cloned unchanged");
++            Debug.Log("[HeroSkinNormals] field="+(areaWeighted?"area-continuous":soft?"soft":"continuous")+" source="+source.name+" selected="+selected+" changed="+changed+" radiusMetres="+radius+" capDegrees="+angleCap+" maxNormalDegrees="+largest+" maxVertexDeltaSquared="+vertexDelta+"; source topology/weights/UVs/morphs cloned unchanged");
+             return result;
+         }
+     }

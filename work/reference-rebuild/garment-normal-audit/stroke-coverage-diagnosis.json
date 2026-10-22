@@ -1,0 +1,481 @@
+{
+  "male_Serve_1": {
+    "bakeOracleMaxMm": 0.0010761898465716513,
+    "profileReconstructionMaxMm": 0.0005707805988713355,
+    "nearestFeatureDistance": 0.22405327329790553,
+    "correctiveConfidence": 0.1866826056989609,
+    "activeAnchors": [
+      {
+        "shape": "male_IntroPushups_0",
+        "weightPercent": 3.4087072379709165,
+        "featureDistance": 0.26019385030219866
+      },
+      {
+        "shape": "male_IntroPushups_1",
+        "weightPercent": 4.115611773778562,
+        "featureDistance": 0.2367961727040065
+      },
+      {
+        "shape": "male_IntroPushups_2",
+        "weightPercent": 4.597070585087901,
+        "featureDistance": 0.22405327329790553
+      },
+      {
+        "shape": "male_IntroWave_0",
+        "weightPercent": 1.183523682541329,
+        "featureDistance": 0.4415739072038463
+      },
+      {
+        "shape": "male_IntroWave_1",
+        "weightPercent": 1.1226167944221832,
+        "featureDistance": 0.45339435816484575
+      },
+      {
+        "shape": "male_IntroWave_2",
+        "weightPercent": 1.0870398456431967,
+        "featureDistance": 0.4607540352234734
+      },
+      {
+        "shape": "male_Ready_0",
+        "weightPercent": 0.6983054350140346,
+        "featureDistance": 0.574869368304794
+      },
+      {
+        "shape": "male_Ready_1",
+        "weightPercent": 0.7063590604627744,
+        "featureDistance": 0.571582757187264
+      },
+      {
+        "shape": "male_Ready_2",
+        "weightPercent": 0.6972552924453691,
+        "featureDistance": 0.5753021134306245
+      },
+      {
+        "shape": "male_intro",
+        "weightPercent": 1.0517708625298239,
+        "featureDistance": 0.468415558200066
+      }
+    ],
+    "axillaSideSampleCount": 5394,
+    "clothVerticesMoreThan1mmInsideBody": 326,
+    "worstSamples": [
+      {
+        "vertex": 1867,
+        "bindRoot": [
+          0.16208674903574086,
+          1.1782117576651678,
+          0.054313022495937315
+        ],
+        "posedRoot": [
+          0.13028300698461587,
+          1.3550740402348005,
+          0.203277295821279
+        ],
+        "signedBodyClearanceMm": -25.894166727084666,
+        "uncorrectedClearanceMm": -31.818789313547313,
+        "correctiveDisplacementMm": 6.064432196228465,
+        "boneWeights": {
+          "Chest": 0.6270672082901001,
+          "RightUpperArm": 0.09753070771694183,
+          "Spine": 0.23330990970134735,
+          "RightShoulder": 0.04209219291806221
+        }
+      },
+      {
+        "vertex": 1889,
+        "bindRoot": [
+          0.16105386014642803,
+          1.181470347783977,
+          0.06656924058314952
+        ],
+        "posedRoot": [
+          0.126859673816586,
+          1.3583160600254975,
+          0.21486843042649417
+        ],
+        "signedBodyClearanceMm": -24.527162790036527,
+        "uncorrectedClearanceMm": -29.908856693509733,
+        "correctiveDisplacementMm": 5.560118987120027,
+        "boneWeights": {
+          "Chest": 0.627898097038269,
+          "RightUpperArm": 0.0935681164264679,
+          "Spine": 0.23564867675304413,
+          "RightShoulder": 0.042885102331638336
+        }
+      },
+      {
+        "vertex": 1851,
+        "bindRoot": [
+          0.1642134129590044,
+          1.1890105710530738,
+          0.06023825268799656
+        ],
+        "posedRoot": [
+          0.12979611154260692,
+          1.3736734327131506,
+          0.21055686360678572
+        ],
+        "signedBodyClearanceMm": -24.29000325889774,
+        "uncorrectedClearanceMm": -29.402467731415527,
+        "correctiveDisplacementMm": 5.230419168057523,
+        "boneWeights": {
+          "Chest": 0.6114223003387451,
+          "RightUpperArm": 0.12565238773822784,
+          "Spine": 0.20953023433685303,
+          "RightShoulder": 0.05339505895972252
+        }
+      },
+      {
+        "vertex": 1837,
+        "bindRoot": [
+          0.1637944072073946,
+          1.1784175130217218,
+          0.05469065880269003
+        ],
+        "posedRoot": [
+          0.1319861054009443,
+          1.3581558389891022,
+          0.20435250284215792
+        ],
+        "signedBodyClearanceMm": -24.09014062868664,
+        "uncorrectedClearanceMm": -29.55237492460583,
+        "correctiveDisplacementMm": 5.495550837953373,
+        "boneWeights": {
+          "Chest": 0.6172494292259216,
+          "RightUpperArm": 0.10688340663909912,
+          "Spine": 0.22974371910095215,
+          "RightShoulder": 0.04612340033054352
+        }
+      },
+      {
+        "vertex": 1821,
+        "bindRoot": [
+          0.1644888311213503,
+          1.1890518175015239,
+          0.06034094029420214
+        ],
+        "posedRoot": [
+          0.13006583746137676,
+          1.3742450412898355,
+          0.21074521406862623
+        ],
+        "signedBodyClearanceMm": -23.947530909936177,
+        "uncorrectedClearanceMm": -28.978473730603582,
+        "correctiveDisplacementMm": 5.154852686666361,
+        "boneWeights": {
+          "Chest": 0.6095995306968689,
+          "RightUpperArm": 0.12723150849342346,
+          "Spine": 0.2090667337179184,
+          "RightShoulder": 0.054102201014757156
+        }
+      },
+      {
+        "vertex": 1856,
+        "bindRoot": [
+          0.16209935541811077,
+          1.1815738215793037,
+          0.06695557547880938
+        ],
+        "posedRoot": [
+          0.12788444157304812,
+          1.3602428398983333,
+          0.21554139593914873
+        ],
+        "signedBodyClearanceMm": -23.222714802614064,
+        "uncorrectedClearanceMm": -28.234864119440317,
+        "correctiveDisplacementMm": 5.194334782611144,
+        "boneWeights": {
+          "Chest": 0.6217057108879089,
+          "RightUpperArm": 0.09906399995088577,
+          "Spine": 0.23377394676208496,
+          "RightShoulder": 0.04545634984970093
+        }
+      },
+      {
+        "vertex": 1863,
+        "bindRoot": [
+          0.16233740146818265,
+          1.17515987637299,
+          0.041863506483315105
+        ],
+        "posedRoot": [
+          0.13244290049734178,
+          1.350342857717703,
+          0.19065130596772165
+        ],
+        "signedBodyClearanceMm": -22.873047331813723,
+        "uncorrectedClearanceMm": -29.109814000548795,
+        "correctiveDisplacementMm": 6.496439136462864,
+        "boneWeights": {
+          "Chest": 0.6315659284591675,
+          "RightUpperArm": 0.09677383303642273,
+          "Spine": 0.23135526478290558,
+          "RightShoulder": 0.04030495882034302
+        }
+      },
+      {
+        "vertex": 1815,
+        "bindRoot": [
+          0.16624545450868713,
+          1.190183227168908,
+          0.0445918737601941
+        ],
+        "posedRoot": [
+          0.13358269031705924,
+          1.3769844655897716,
+          0.19673439711152452
+        ],
+        "signedBodyClearanceMm": -22.74522021980374,
+        "uncorrectedClearanceMm": -28.11953552736668,
+        "correctiveDisplacementMm": 5.462574041706339,
+        "boneWeights": {
+          "Chest": 0.6033119559288025,
+          "RightUpperArm": 0.14440540969371796,
+          "Spine": 0.1968098133802414,
+          "RightShoulder": 0.05547281354665756
+        }
+      }
+    ],
+    "limitations": "signed nearest samples include inside lining; geometric mechanism only, actual screenshots establish visibility",
+    "rigRightUpperArm": [
+      0.07803669677973546,
+      1.5714081638569435,
+      0.18374510452426007
+    ]
+  },
+  "male_Forehand_1": {
+    "bakeOracleMaxMm": 0.0004824295842809079,
+    "profileReconstructionMaxMm": 0.000590459561151483,
+    "nearestFeatureDistance": 0.20307300577136542,
+    "correctiveConfidence": 0.28511577773293384,
+    "activeAnchors": [
+      {
+        "shape": "male_IntroPushups_0",
+        "weightPercent": 2.0455487030441177,
+        "featureDistance": 0.33682628901309747
+      },
+      {
+        "shape": "male_IntroPushups_1",
+        "weightPercent": 5.627524456409172,
+        "featureDistance": 0.20307300577136542
+      },
+      {
+        "shape": "male_IntroPushups_2",
+        "weightPercent": 0.9812224281520858,
+        "featureDistance": 0.4863256314292386
+      },
+      {
+        "shape": "male_IntroWave_0",
+        "weightPercent": 1.8448570673190772,
+        "featureDistance": 0.354674144972735
+      },
+      {
+        "shape": "male_IntroWave_1",
+        "weightPercent": 2.264459253268546,
+        "featureDistance": 0.3201316679422493
+      },
+      {
+        "shape": "male_IntroWave_2",
+        "weightPercent": 3.598815920103126,
+        "featureDistance": 0.25393997709019767
+      },
+      {
+        "shape": "male_Ready_0",
+        "weightPercent": 3.270108328020177,
+        "featureDistance": 0.2663973023936012
+      },
+      {
+        "shape": "male_Ready_1",
+        "weightPercent": 3.295558159823755,
+        "featureDistance": 0.26536668692242726
+      },
+      {
+        "shape": "male_Ready_2",
+        "weightPercent": 3.3310275974420183,
+        "featureDistance": 0.2639500673569341
+      },
+      {
+        "shape": "male_intro",
+        "weightPercent": 2.2524558597113034,
+        "featureDistance": 0.3209835293811919
+      }
+    ],
+    "axillaSideSampleCount": 5394,
+    "clothVerticesMoreThan1mmInsideBody": 344,
+    "worstSamples": [
+      {
+        "vertex": 1364,
+        "bindRoot": [
+          0.21335441764059235,
+          1.2182953772858203,
+          -0.014933464227806253
+        ],
+        "posedRoot": [
+          0.025506207305812267,
+          1.191208978136209,
+          0.2523529251816491
+        ],
+        "signedBodyClearanceMm": -19.93078537634574,
+        "uncorrectedClearanceMm": -19.712883891770616,
+        "correctiveDisplacementMm": 0.7768935826054033,
+        "boneWeights": {
+          "RightUpperArm": 0.9985056519508362,
+          "RightLowerArm": 0.001494322787038982
+        }
+      },
+      {
+        "vertex": 1377,
+        "bindRoot": [
+          0.21196926530065707,
+          1.2171634842878698,
+          -0.017341362805898614
+        ],
+        "posedRoot": [
+          0.022702345210933124,
+          1.1921663477082012,
+          0.2518626766652104
+        ],
+        "signedBodyClearanceMm": -19.820090441498905,
+        "uncorrectedClearanceMm": -19.53060261439532,
+        "correctiveDisplacementMm": 0.7733837543462887,
+        "boneWeights": {
+          "RightUpperArm": 0.9984962344169617,
+          "RightLowerArm": 0.001503773732110858
+        }
+      },
+      {
+        "vertex": 1718,
+        "bindRoot": [
+          0.18580042715730832,
+          1.2202853395719369,
+          -0.010084132843749398
+        ],
+        "posedRoot": [
+          0.039624282676600925,
+          1.2088772242008252,
+          0.2520588295631994
+        ],
+        "signedBodyClearanceMm": -19.11246799863875,
+        "uncorrectedClearanceMm": -19.40388069488108,
+        "correctiveDisplacementMm": 0.8052040304105468,
+        "boneWeights": {
+          "RightUpperArm": 0.8711098432540894,
+          "Chest": 0.07244459539651871,
+          "RightShoulder": 0.05291976407170296,
+          "Spine": 0.003525841049849987
+        }
+      },
+      {
+        "vertex": 1715,
+        "bindRoot": [
+          0.18549090023698975,
+          1.2193044847258876,
+          -0.012517077532363474
+        ],
+        "posedRoot": [
+          0.036902794200801364,
+          1.2093727769736793,
+          0.25145968353240544
+        ],
+        "signedBodyClearanceMm": -18.73366953805089,
+        "uncorrectedClearanceMm": -19.053638679906726,
+        "correctiveDisplacementMm": 0.7623775256449961,
+        "boneWeights": {
+          "RightUpperArm": 0.8767290711402893,
+          "Chest": 0.0698772668838501,
+          "RightShoulder": 0.04986734688282013,
+          "Spine": 0.0035263369791209698
+        }
+      },
+      {
+        "vertex": 1484,
+        "bindRoot": [
+          0.20643336470785312,
+          1.2241768058881473,
+          -0.014278258587238607
+        ],
+        "posedRoot": [
+          0.028806933719539112,
+          1.2002175043395047,
+          0.25218006850040336
+        ],
+        "signedBodyClearanceMm": -18.654554965905845,
+        "uncorrectedClearanceMm": -18.414150457829237,
+        "correctiveDisplacementMm": 0.653120133301788,
+        "boneWeights": {
+          "RightUpperArm": 0.9960623383522034,
+          "Chest": 0.002102656289935112,
+          "RightShoulder": 0.0018349759047850966
+        }
+      },
+      {
+        "vertex": 1496,
+        "bindRoot": [
+          0.20510058994951422,
+          1.223036806651168,
+          -0.016708030203115634
+        ],
+        "posedRoot": [
+          0.025964447814845516,
+          1.2010748573241008,
+          0.25169142934504646
+        ],
+        "signedBodyClearanceMm": -18.189097056165338,
+        "uncorrectedClearanceMm": -17.963747959583998,
+        "correctiveDisplacementMm": 0.6832752842969118,
+        "boneWeights": {
+          "RightUpperArm": 0.9963362216949463,
+          "Chest": 0.0019565969705581665,
+          "RightShoulder": 0.0017071630572900176
+        }
+      },
+      {
+        "vertex": 1335,
+        "bindRoot": [
+          0.21376996632280515,
+          1.2126770446813353,
+          -0.012480732163543024
+        ],
+        "posedRoot": [
+          0.022449681121730184,
+          1.1865771028751615,
+          0.25629100548371947
+        ],
+        "signedBodyClearanceMm": -16.574210429098457,
+        "uncorrectedClearanceMm": -16.324169817380607,
+        "correctiveDisplacementMm": 0.9204943079715575,
+        "boneWeights": {
+          "RightUpperArm": 0.9858400225639343,
+          "RightLowerArm": 0.014159967191517353
+        }
+      },
+      {
+        "vertex": 1571,
+        "bindRoot": [
+          0.19927219446363617,
+          1.2240901417330634,
+          -0.0115009188311879
+        ],
+        "posedRoot": [
+          0.032673606235408256,
+          1.2048757270092656,
+          0.254274216299211
+        ],
+        "signedBodyClearanceMm": -16.47805771790445,
+        "uncorrectedClearanceMm": -16.471244860440493,
+        "correctiveDisplacementMm": 0.43980716666599873,
+        "boneWeights": {
+          "RightUpperArm": 0.9653596878051758,
+          "Chest": 0.01875348389148712,
+          "RightShoulder": 0.015886832028627396
+        }
+      }
+    ],
+    "limitations": "signed nearest samples include inside lining; geometric mechanism only, actual screenshots establish visibility",
+    "rigRightUpperArm": [
+      0.1308912548003508,
+      1.2495893649725747,
+      0.23881576092758416
+    ]
+  }
+}

@@ -1,0 +1,241 @@
+{
+  "method": "Round only kit pose positions to 10 cleared float mantissa bits and kit normals to 12; body, face, racket, UVs, indices, skeleton, weights and all rig/clip tracks remain byte-exact. Existing float32 layout and LZFSE reader are unchanged.",
+  "files": [
+    {
+      "file": "MatchHero_Male.lzfse",
+      "before_bytes": 3787087,
+      "after_bytes": 3480863,
+      "position_max_mm": 0.06242687231861055,
+      "normal_max_vector_error": 0.00019634886120911688,
+      "noncloth_bytes_exact": true,
+      "decompressed_bytes": 5640300
+    },
+    {
+      "file": "MatchHero_Male_Swing_00.lzfse",
+      "before_bytes": 2129180,
+      "after_bytes": 1827181,
+      "position_max_mm": 0.062175422499421984,
+      "normal_max_vector_error": 0.00020128321193624288,
+      "noncloth_bytes_exact": true,
+      "decompressed_bytes": 2599032
+    },
+    {
+      "file": "MatchHero_Male_Swing_01.lzfse",
+      "before_bytes": 2131681,
+      "after_bytes": 1828264,
+      "position_max_mm": 0.06252940511330962,
+      "normal_max_vector_error": 0.00020045180281158537,
+      "noncloth_bytes_exact": true,
+      "decompressed_bytes": 2599032
+    },
+    {
+      "file": "MatchHero_Male_Swing_02.lzfse",
+      "before_bytes": 2126530,
+      "after_bytes": 1821091,
+      "position_max_mm": 0.06280601519392803,
+      "normal_max_vector_error": 0.00019923524814657867,
+      "noncloth_bytes_exact": true,
+      "decompressed_bytes": 2599032
+    },
+    {
+      "file": "MatchHero_Male_Swing_03.lzfse",
+      "before_bytes": 2126096,
+      "after_bytes": 1820399,
+      "position_max_mm": 0.06315100472420454,
+      "normal_max_vector_error": 0.00020433856116142124,
+      "noncloth_bytes_exact": true,
+      "decompressed_bytes": 2599032
+    },
+    {
+      "file": "MatchHero_Male_Swing_04.lzfse",
+      "before_bytes": 2127160,
+      "after_bytes": 1820401,
+      "position_max_mm": 0.06327732262434438,
+      "normal_max_vector_error": 0.00019788212375715375,
+      "noncloth_bytes_exact": true,
+      "decompressed_bytes": 2599032
+    },
+    {
+      "file": "MatchHero_Male_Swing_05.lzfse",
+      "before_bytes": 2125468,
+      "after_bytes": 1820621,
+      "position_max_mm": 0.06252604362089187,
+      "normal_max_vector_error": 0.0002018902887357399,
+      "noncloth_bytes_exact": true,
+      "decompressed_bytes": 2599032
+    },
+    {
+      "file": "MatchHero_Male_Swing_06.lzfse",
+      "before_bytes": 2126793,
+      "after_bytes": 1820216,
+      "position_max_mm": 0.06291656609391794,
+      "normal_max_vector_error": 0.0002055232471320778,
+      "noncloth_bytes_exact": true,
+      "decompressed_bytes": 2599032
+    },
+    {
+      "file": "MatchHero_Male_Swing_07.lzfse",
+      "before_bytes": 2125774,
+      "after_bytes": 1818228,
+      "position_max_mm": 0.062280632846523076,
+      "normal_max_vector_error": 0.0001987778814509511,
+      "noncloth_bytes_exact": true,
+      "decompressed_bytes": 2599032
+    },
+    {
+      "file": "MatchHero_Male_Swing_08.lzfse",
+      "before_bytes": 2123588,
+      "after_bytes": 1815806,
+      "position_max_mm": 0.06263159593800083,
+      "normal_max_vector_error": 0.00020424397371243685,
+      "noncloth_bytes_exact": true,
+      "decompressed_bytes": 2599032
+    },
+    {
+      "file": "MatchHero_Male_Swing_09.lzfse",
+      "before_bytes": 2124082,
+      "after_bytes": 1815142,
+      "position_max_mm": 0.06299949018284678,
+      "normal_max_vector_error": 0.00019306567264720798,
+      "noncloth_bytes_exact": true,
+      "decompressed_bytes": 2599032
+    },
+    {
+      "file": "MatchHero_Male_Swing_10.lzfse",
+      "before_bytes": 2124910,
+      "after_bytes": 1816577,
+      "position_max_mm": 0.061783612181898206,
+      "normal_max_vector_error": 0.00020437406783457845,
+      "noncloth_bytes_exact": true,
+      "decompressed_bytes": 2599032
+    },
+    {
+      "file": "MatchHero_Male_Swing_11.lzfse",
+      "before_bytes": 2128944,
+      "after_bytes": 1827739,
+      "position_max_mm": 0.06245506665436551,
+      "normal_max_vector_error": 0.00019536289619281888,
+      "noncloth_bytes_exact": true,
+      "decompressed_bytes": 2599032
+    },
+    {
+      "file": "MatchHero_Female.lzfse",
+      "before_bytes": 2975941,
+      "after_bytes": 2739746,
+      "position_max_mm": 0.06147567182779312,
+      "normal_max_vector_error": 0.00019576409249566495,
+      "noncloth_bytes_exact": true,
+      "decompressed_bytes": 4508924
+    },
+    {
+      "file": "MatchHero_Female_Swing_00.lzfse",
+      "before_bytes": 1697712,
+      "after_bytes": 1459951,
+      "position_max_mm": 0.06147567182779312,
+      "normal_max_vector_error": 0.00019499972404446453,
+      "noncloth_bytes_exact": true,
+      "decompressed_bytes": 2131416
+    },
+    {
+      "file": "MatchHero_Female_Swing_01.lzfse",
+      "before_bytes": 1709453,
+      "after_bytes": 1469918,
+      "position_max_mm": 0.061433900555130094,
+      "normal_max_vector_error": 0.0002004432026296854,
+      "noncloth_bytes_exact": true,
+      "decompressed_bytes": 2131416
+    },
+    {
+      "file": "MatchHero_Female_Swing_02.lzfse",
+      "before_bytes": 1703908,
+      "after_bytes": 1463751,
+      "position_max_mm": 0.06302475958364084,
+      "normal_max_vector_error": 0.00019843866175506264,
+      "noncloth_bytes_exact": true,
+      "decompressed_bytes": 2131416
+    },
+    {
+      "file": "MatchHero_Female_Swing_03.lzfse",
+      "before_bytes": 1705550,
+      "after_bytes": 1464320,
+      "position_max_mm": 0.06281905370997265,
+      "normal_max_vector_error": 0.00020163028966635466,
+      "noncloth_bytes_exact": true,
+      "decompressed_bytes": 2131416
+    },
+    {
+      "file": "MatchHero_Female_Swing_04.lzfse",
+      "before_bytes": 1705163,
+      "after_bytes": 1464615,
+      "position_max_mm": 0.06402271537808701,
+      "normal_max_vector_error": 0.00020287762163206935,
+      "noncloth_bytes_exact": true,
+      "decompressed_bytes": 2131416
+    },
+    {
+      "file": "MatchHero_Female_Swing_05.lzfse",
+      "before_bytes": 1704597,
+      "after_bytes": 1465442,
+      "position_max_mm": 0.06317943916656077,
+      "normal_max_vector_error": 0.0001978642394533381,
+      "noncloth_bytes_exact": true,
+      "decompressed_bytes": 2131416
+    },
+    {
+      "file": "MatchHero_Female_Swing_06.lzfse",
+      "before_bytes": 1704734,
+      "after_bytes": 1464847,
+      "position_max_mm": 0.0615809767623432,
+      "normal_max_vector_error": 0.0002042184496531263,
+      "noncloth_bytes_exact": true,
+      "decompressed_bytes": 2131416
+    },
+    {
+      "file": "MatchHero_Female_Swing_07.lzfse",
+      "before_bytes": 1703167,
+      "after_bytes": 1463207,
+      "position_max_mm": 0.06240612856345251,
+      "normal_max_vector_error": 0.00019769876962527633,
+      "noncloth_bytes_exact": true,
+      "decompressed_bytes": 2131416
+    },
+    {
+      "file": "MatchHero_Female_Swing_08.lzfse",
+      "before_bytes": 1702397,
+      "after_bytes": 1462699,
+      "position_max_mm": 0.06250761362025514,
+      "normal_max_vector_error": 0.00020475182100199163,
+      "noncloth_bytes_exact": true,
+      "decompressed_bytes": 2131416
+    },
+    {
+      "file": "MatchHero_Female_Swing_09.lzfse",
+      "before_bytes": 1702842,
+      "after_bytes": 1463026,
+      "position_max_mm": 0.06207995465956628,
+      "normal_max_vector_error": 0.00019106503168586642,
+      "noncloth_bytes_exact": true,
+      "decompressed_bytes": 2131416
+    },
+    {
+      "file": "MatchHero_Female_Swing_10.lzfse",
+      "before_bytes": 1706021,
+      "after_bytes": 1466223,
+      "position_max_mm": 0.06238666537683457,
+      "normal_max_vector_error": 0.0001961885573109612,
+      "noncloth_bytes_exact": true,
+      "decompressed_bytes": 2131416
+    },
+    {
+      "file": "MatchHero_Female_Swing_11.lzfse",
+      "before_bytes": 1697546,
+      "after_bytes": 1459567,
+      "position_max_mm": 0.06147567182779312,
+      "normal_max_vector_error": 0.00019829091615974903,
+      "noncloth_bytes_exact": true,
+      "decompressed_bytes": 2131416
+    }
+  ],
+  "before_bytes": 52726324,
+  "after_bytes": 45639840
+}

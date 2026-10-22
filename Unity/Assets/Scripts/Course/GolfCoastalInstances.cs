@@ -11,7 +11,7 @@ namespace GolfArcade.Course
     {
         sealed class Group
         {
-            public Mesh nearMesh,farMesh;public Material[] nearMaterials,farMaterials;public bool tree;
+            public Mesh nearMesh,farMesh,shadowProxy;public Material[] nearMaterials,farMaterials;public bool tree;
             public readonly List<Matrix4x4> source=new(),near=new(1023),far=new(1023);
         }
         readonly Dictionary<Mesh,Group> groups=new();
@@ -25,6 +25,8 @@ namespace GolfArcade.Course
                 group=new Group{nearMesh=near,farMesh=far,nearMaterials=nearMaterials,farMaterials=farMaterials,tree=tree};groups.Add(near,group);
                 foreach(var material in nearMaterials)material.enableInstancing=true;
                 foreach(var material in farMaterials)material.enableInstancing=true;
+                // chat 10 make-room: trees cast from a coarse proxy (same shadow at shadow-map resolution)
+                if(tree&&near.isReadable&&GolfArcade.Majestic.MajesticBudget.Enabled)group.shadowProxy=GolfArcade.Majestic.MajesticBudget.Cluster(near,.5f);
             }
             group.source.Add(local);
         }
@@ -52,7 +54,8 @@ namespace GolfArcade.Course
         {
             if(matrices.Count==0)return;
             var mesh=near?group.nearMesh:group.farMesh;var materials=near?group.nearMaterials:group.farMaterials;
-            var shadow=near&&group.tree?ShadowCastingMode.On:ShadowCastingMode.Off;
+            var shadow=near&&group.tree&&!group.shadowProxy?ShadowCastingMode.On:ShadowCastingMode.Off;
+            if(near&&group.tree&&group.shadowProxy&&SystemInfo.supportsInstancing)Graphics.DrawMeshInstanced(group.shadowProxy,0,GolfArcade.Majestic.MajesticBudget.ShadowMaterial,matrices,null,ShadowCastingMode.ShadowsOnly,false,gameObject.layer,null,LightProbeUsage.Off);
             for(int sub=0;sub<mesh.subMeshCount;sub++){
                 var material=materials[Mathf.Min(sub,materials.Length-1)];
                 if(SystemInfo.supportsInstancing){Graphics.DrawMeshInstanced(mesh,sub,material,matrices,null,shadow,true,gameObject.layer,null,LightProbeUsage.Off);LastDrawCalls++;}

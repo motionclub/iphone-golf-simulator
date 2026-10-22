@@ -1,0 +1,14 @@
+[
+  {
+    "clone": "Unity",
+    "link": "work/cloth-overhaul/isolation/Unity/Assets/Editor/PostcardV3Scratch",
+    "target": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/unity-proof",
+    "reason": "Live external golf scratch folder added a C# dependency absent from the frozen cloth clone; exclude Editor-only scratch tooling from both test projects."
+  },
+  {
+    "clone": "BaselineUnity",
+    "link": "work/cloth-overhaul/isolation/BaselineUnity/Assets/Editor/PostcardV3Scratch",
+    "target": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/unity-proof",
+    "reason": "Live external golf scratch folder added a C# dependency absent from the frozen cloth clone; exclude Editor-only scratch tooling from both test projects."
+  }
+]

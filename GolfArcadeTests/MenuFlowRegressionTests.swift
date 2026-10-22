@@ -56,6 +56,48 @@ import UIKit
         session.offerTimingCalibration()
         XCTAssertEqual(session.setupStage, .timing); XCTAssertTrue(session.timingPrompt)
     }
+    func testOnlineSetupIsVisibleAndCanFinishBeforeTheRuntimeOrOpponentLoads() {
+        let session = SportsSession()
+        session.active = true; session.sport = "tennis"; session.touch = true
+        session.debugSetOnlineMatch("independent-setup", seat: 0)
+        session.loading.begin(now: LoadingModel.clockNow, multiplayer: true)
+        session.setupStage = .scan
+        XCTAssertFalse(session.ready); XCTAssertFalse(session.loading.finished)
+        XCTAssertTrue(session.showsOnlineTennisSetup, "loading must never hide the local setup instruction")
+        session.readyToPlay()
+        XCTAssertEqual(session.setupStage, .scan, "Ready cannot bypass direction capture")
+        session.setupStage = .ready
+        session.readyToPlay()
+        XCTAssertEqual(session.setupStage, .waiting, "the local Ready tap must not depend on the opponent or renderer")
+        XCTAssertTrue(session.paused); XCTAssertTrue(session.showsOnlineTennisSetup)
+        session.setupStage = .playing
+        XCTAssertFalse(session.showsOnlineTennisSetup)
+        session.active = false
+    }
+
+    func testRepeatedRendererReadyDoesNotClearCompletedOnlineCalibration() throws {
+        let session = SportsSession(), service = MultiplayerService.shared
+        try service.enableMock(count: 2, player: Player(name: "You", colorIndex: 0))
+        defer { service.leave(); session.active = false }
+        service.mockState(phase: .calibrating)
+        session.active = true; session.sport = "tennis"; session.debugSetOnlineMatch("renderer-repeat", seat: 0)
+        session.loading.begin(now: LoadingModel.clockNow, multiplayer: true)
+        session.runtimeDidRender(renderedAt: nil)
+        service.runtimeCalibrated()
+        XCTAssertEqual(service.lobby?.participants.first { $0.id == service.localID }?.calibrated, true)
+        session.runtimeDidRender(renderedAt: nil)
+        XCTAssertEqual(service.lobby?.participants.first { $0.id == service.localID }?.calibrated, true,
+                       "a repeated first-frame event is not a runtime reload and must not clear Ready")
+    }
+
+    func testAnOnlineSpectatorDoesNotGetAControllerCalibrationGate() {
+        let session = SportsSession()
+        session.active = true; session.sport = "tennis"
+        session.debugSetOnlineMatch("spectator", seat: -1)
+        XCTAssertFalse(session.showsOnlineTennisSetup)
+        session.active = false
+    }
+
     func testPointControlsAndCelebrationFollowActualPointPhase() {
         let session = SportsSession()
         session.active = true; session.ready = true; session.loading.cancel()

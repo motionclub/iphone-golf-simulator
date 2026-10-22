@@ -1,0 +1,517 @@
+using System;
+using System.Collections.Generic;
+using Stopwatch = System.Diagnostics.Stopwatch;
+using UnityEngine;
+using UnityEngine.Rendering;
+
+namespace GolfArcade.Tennis
+{
+    // Opt-in source candidate. Invoke after IK and after the sleeve shape weights
+    // are set: HeroGarmentGusset.Apply(look.female, look.transform, top).
+    // Each renderer owns its deforming mesh. Full and LOD have separate profiles.
+    internal static class HeroGarmentGusset
+    {
+        [Serializable] sealed class Profile
+        {
+            public int sourceVertexCount, vertexCount;
+            public string[] bones;
+            public float[] sourceVertices, sourceNormals, sourceWeights, weights;
+            public int[] sourceTriangles, sourceIndices, boneIndices, triangles, triangleSourceFaces;
+            public int[] freeVertices, aliases, contactTriangles;
+            public int[] proxyBoneIndices, proxyTriangles;
+            public float[] proxyBoneLocalPositions, proxyWeights, proxyRestPositions;
+            public float clearance = .003f, maximumDisplacement = .04f;
+            public float rayMinimum = -.012f, rayMaximum = .05f, contactStep = .008f;
+            public int contactIterations = 6;
+            public int cageCount;
+            public int[] cageIndices;
+            public float[] cageWeights, cageStrengths;
+        }
+        sealed class Shape
+        {
+            public float[] frameWeights;
+            public Vector3[][] deltas, normalDeltas, tangentDeltas;
+        }
+        static readonly bool Enabled = Environment.GetEnvironmentVariable("VISUAL_UNDERARM_GUSSET") == "1";
+        static readonly Dictionary<int, Profile> profiles = new();
+        sealed class RendererStates
+        {
+            public Transform owner;
+            public readonly Dictionary<Mesh, State> sources = new();
+        }
+        static readonly Dictionary<SkinnedMeshRenderer, RendererStates> states = new();
+        static readonly Dictionary<Mesh, State> ownedMeshes = new();
+        static readonly bool Telemetry = Environment.GetEnvironmentVariable("VISUAL_UNDERARM_GUSSET_STATS") == "1";
+        static long applyCalls, skippedCalls, applyTicks, maximumApplyTicks, applyAllocatedBytes, buildAllocatedBytes, buildTicks, maximumBuildTicks;
+        static int builds, activations, fullCalls, lodCalls, maximumFreeVertices;
+
+        // LOD must retain canonical, immutable sources, never a transient deforming mesh.
+        public static Mesh CanonicalSource(Mesh mesh)
+            => mesh && ownedMeshes.TryGetValue(mesh, out var state) ? state.source : mesh;
+
+        internal static void BeginCaptureStats()
+        {
+            applyCalls = skippedCalls = applyTicks = maximumApplyTicks = applyAllocatedBytes = buildAllocatedBytes = buildTicks = maximumBuildTicks = 0;
+            builds = activations = fullCalls = lodCalls = maximumFreeVertices = 0;
+        }
+        internal static HeroGarmentGussetLifetime.CaptureStats CaptureStats()
+        {
+            double ticksToMs = 1000.0 / Stopwatch.Frequency;
+            return new HeroGarmentGussetLifetime.CaptureStats {
+                enabled = Telemetry, calls = applyCalls, skippedCalls = skippedCalls,
+                solves = applyCalls - skippedCalls, fullCalls = fullCalls, lodCalls = lodCalls,
+                builds = builds, meshActivations = activations, maximumFreeVertices = maximumFreeVertices,
+                meanApplyMs = applyCalls > 0 ? applyTicks * ticksToMs / applyCalls : 0,
+                maximumApplyMs = maximumApplyTicks * ticksToMs,
+                totalBuildMs = buildTicks * ticksToMs, maximumBuildMs = maximumBuildTicks * ticksToMs,
+                managedApplyBytes = applyAllocatedBytes, managedBuildBytes = buildAllocatedBytes,
+                retainedRendererCaches = states.Count, retainedMeshes = ownedMeshes.Count
+            };
+        }
+        internal static void EndCaptureStats()
+        {
+            if (Telemetry) Debug.Log("[HeroGarmentGussetStats] " + JsonUtility.ToJson(CaptureStats()));
+        }
+
+        internal static void Release(Transform owner)
+        {
+            var remove = new List<SkinnedMeshRenderer>();
+            foreach (var entry in states)
+            {
+                if (entry.Value.owner != owner) continue;
+                if (entry.Key) entry.Key.sharedMesh = CanonicalSource(entry.Key.sharedMesh);
+                foreach (var state in entry.Value.sources.Values)
+                {
+                    ownedMeshes.Remove(state.mesh);
+                    if (state.mesh) UnityEngine.Object.Destroy(state.mesh);
+                }
+                remove.Add(entry.Key);
+            }
+            foreach (var renderer in remove) states.Remove(renderer);
+        }
+
+        static Profile Load(int count)
+        {
+            if (profiles.TryGetValue(count, out var p)) return p;
+            string detail = count == 13932 ? "Full" : count == 11533 ? "LOD" : null;
+            if (detail == null) throw new InvalidOperationException("Unverified gusset source vertex count: " + count);
+            var asset = Resources.Load<TextAsset>("Tennis/Correctives/UnderarmGusset_Female_" + detail);
+            if (!asset) throw new InvalidOperationException("Missing gusset " + detail + " profile; capture must stop");
+            p = JsonUtility.FromJson<Profile>(asset.text);
+            if (p == null || p.sourceVertexCount != count || p.vertexCount <= count)
+                throw new InvalidOperationException("Invalid gusset profile");
+            profiles[count] = p;
+            return p;
+        }
+
+        public static void Apply(bool female, Transform heroRoot, SkinnedMeshRenderer renderer)
+        {
+            if (!Enabled || !female || !renderer || !renderer.sharedMesh) return;
+            if (!heroRoot) throw new InvalidOperationException("Gusset requires its hero owner");
+            var source = CanonicalSource(renderer.sharedMesh);
+            if (!states.TryGetValue(renderer, out var rendererStates))
+            {
+                rendererStates = new RendererStates { owner = heroRoot };
+                states.Add(renderer, rendererStates);
+                if (!heroRoot.GetComponent<HeroGarmentGussetLifetime>())
+                    heroRoot.gameObject.AddComponent<HeroGarmentGussetLifetime>().owner = heroRoot;
+            }
+            if (!rendererStates.sources.TryGetValue(source, out var state))
+            {
+                long allocatedBefore = Telemetry ? GC.GetAllocatedBytesForCurrentThread() : 0;
+                long buildStarted = Telemetry ? Stopwatch.GetTimestamp() : 0;
+                state = new State(renderer, source, Load(source.vertexCount));
+                rendererStates.sources.Add(source, state);
+                ownedMeshes.Add(state.mesh, state);
+                if (Telemetry)
+                {
+                    long elapsed = Stopwatch.GetTimestamp() - buildStarted;
+                    builds++; buildTicks += elapsed; maximumBuildTicks = Math.Max(maximumBuildTicks, elapsed);
+                    buildAllocatedBytes += GC.GetAllocatedBytesForCurrentThread() - allocatedBefore;
+                }
+            }
+            if (renderer.sharedMesh != state.mesh)
+            {
+                state.Activate(renderer);
+                if (Telemetry) activations++;
+            }
+            long started = Telemetry ? Stopwatch.GetTimestamp() : 0;
+            long applyAllocatedBefore = Telemetry ? GC.GetAllocatedBytesForCurrentThread() : 0;
+            bool solved = state.Apply(heroRoot, renderer);
+            if (Telemetry)
+            {
+                long elapsed = Stopwatch.GetTimestamp() - started;
+                applyCalls++; if (!solved) skippedCalls++; applyTicks += elapsed; maximumApplyTicks = Math.Max(maximumApplyTicks, elapsed);
+                applyAllocatedBytes += GC.GetAllocatedBytesForCurrentThread() - applyAllocatedBefore;
+                if (state.source.vertexCount == 13932) fullCalls++; else lodCalls++;
+                maximumFreeVertices = Math.Max(maximumFreeVertices, state.FreeVertexCount);
+            }
+        }
+
+        sealed class State
+        {
+            public readonly Mesh mesh, source;
+            public int FreeVertexCount => p.freeVertices.Length;
+            readonly float[] savedWeights, poseWeights;
+            bool havePose;
+            readonly Profile p;
+            readonly Vector3[] basis, normalBasis, shaped, shapedNormals, shapedTangents, posed, raw, geom;
+            readonly Vector4[] tangentBasis, outputTangents;
+            readonly Vector3[] delta, updates, output, outputNormals, aliasSums, proxy;
+            readonly bool[] free;
+            readonly int[] aliasCounts, normalTriangles, solveVertices;
+            readonly Vector3[] cageDirections;
+            readonly float[] cageAmounts;
+            readonly float[] counts;
+            readonly Matrix4x4[] skinMatrices, boneToRoot, bindposes;
+            readonly Transform[] bones;
+            readonly BoneWeight[] bindings;
+            readonly Shape[] shapes;
+            readonly SmallBvh bvh;
+            readonly Bounds bounds;
+
+            Vector3 Interpolate(Vector3[] values, int i)
+            {
+                int q = i * 3;
+                return values[p.sourceIndices[q]] * p.sourceWeights[q]
+                    + values[p.sourceIndices[q+1]] * p.sourceWeights[q+1]
+                    + values[p.sourceIndices[q+2]] * p.sourceWeights[q+2];
+            }
+
+            public State(SkinnedMeshRenderer r, Mesh canonicalSource, Profile profile)
+            {
+                p = profile; bones = r.bones;
+                source = canonicalSource;
+                if (!source.isReadable || source.subMeshCount < 1)
+                    throw new InvalidOperationException("Gusset requires a verified readable Top with triangle submeshes");
+                var positions = source.vertices;
+                var sourceNormals = source.normals;
+                var sourceTriangles = source.triangles;
+                if (p.sourceVertices.Length != positions.Length * 3 || p.sourceTriangles.Length != sourceTriangles.Length)
+                    throw new InvalidOperationException("Gusset source geometry mismatch");
+                for (int i = 0; i < positions.Length; i++)
+                    if ((positions[i] - Read(p.sourceVertices, i)).sqrMagnitude > 2.5e-9f)
+                        throw new InvalidOperationException("Gusset source basis moved at " + i);
+                for (int i = 0; i < sourceTriangles.Length; i++)
+                    if (sourceTriangles[i] != p.sourceTriangles[i])
+                        throw new InvalidOperationException("Gusset source topology changed at " + i);
+                if (bones.Length != p.bones.Length)
+                    throw new InvalidOperationException("Gusset bone count mismatch");
+                for (int i = 0; i < p.bones.Length; i++)
+                    if (!bones[i] || bones[i].name != p.bones[i])
+                        throw new InvalidOperationException("Gusset bone order mismatch at " + i);
+                int n = p.vertexCount;
+                basis = new Vector3[n]; normalBasis = new Vector3[n]; bindings = new BoneWeight[n];
+                for (int i = 0; i < n; i++)
+                {
+                    basis[i] = Interpolate(positions, i);
+                    normalBasis[i] = Interpolate(sourceNormals, i).normalized;
+                    int j = i * 4;
+                    bindings[i] = new BoneWeight {
+                        boneIndex0=p.boneIndices[j], boneIndex1=p.boneIndices[j+1],
+                        boneIndex2=p.boneIndices[j+2], boneIndex3=p.boneIndices[j+3],
+                        weight0=p.weights[j], weight1=p.weights[j+1], weight2=p.weights[j+2], weight3=p.weights[j+3]
+                    };
+                }
+                mesh = new Mesh { name=source.name+" (underarm gusset)", hideFlags=HideFlags.DontSave,
+                    indexFormat=n>65535?IndexFormat.UInt32:IndexFormat.UInt16 };
+                mesh.MarkDynamic(); mesh.vertices=basis; mesh.normals=normalBasis;
+                var uvs = new List<Vector4>();
+                for (int channel = 0; channel < 8; channel++)
+                {
+                    uvs.Clear(); source.GetUVs(channel, uvs); if (uvs.Count != positions.Length) continue;
+                    var mapped = new List<Vector4>(n);
+                    for (int i = 0; i < n; i++) { int q=i*3; mapped.Add(uvs[p.sourceIndices[q]]*p.sourceWeights[q]+uvs[p.sourceIndices[q+1]]*p.sourceWeights[q+1]+uvs[p.sourceIndices[q+2]]*p.sourceWeights[q+2]); }
+                    mesh.SetUVs(channel, mapped);
+                }
+                var tangents=source.tangents;
+                tangentBasis=new Vector4[n];outputTangents=new Vector4[n];
+                if (tangents.Length==positions.Length)
+                {
+                    var result=new Vector4[n];
+                    for (int i=0;i<n;i++) {int q=i*3;result[i]=tangents[p.sourceIndices[q]]*p.sourceWeights[q]+tangents[p.sourceIndices[q+1]]*p.sourceWeights[q+1]+tangents[p.sourceIndices[q+2]]*p.sourceWeights[q+2];}
+                    mesh.tangents=result;Array.Copy(result,tangentBasis,n);
+                }
+                var colors=source.colors;
+                if (colors.Length==positions.Length)
+                {
+                    var result=new Color[n];
+                    for(int i=0;i<n;i++){int q=i*3;result[i]=colors[p.sourceIndices[q]]*p.sourceWeights[q]+colors[p.sourceIndices[q+1]]*p.sourceWeights[q+1]+colors[p.sourceIndices[q+2]]*p.sourceWeights[q+2];}
+                    mesh.colors=result;
+                }
+                bindposes=source.bindposes; mesh.bindposes=bindposes;
+                // The CPU evaluates the original 53-bone skin and shapes only for the
+                // patch and its pinned boundary. All other vertices keep GPU skinning.
+                // A rigid output binding transports the patch through one well-conditioned
+                // bone. Inverting a blended skin matrix can produce metre-scale rest inputs
+                // near an elbow/shoulder fold even for a 40 mm physical correction.
+                var outputBindings=new BoneWeight[n];
+                Array.Copy(bindings,outputBindings,n);
+                foreach(int i in p.freeVertices)outputBindings[i]=new BoneWeight{boneIndex0=0,weight0=1};
+                mesh.boneWeights=outputBindings; InstallTriangles(source, mesh, p);
+                shapes=new Shape[source.blendShapeCount]; savedWeights=new float[shapes.Length]; poseWeights=new float[shapes.Length];
+                var dv=new Vector3[positions.Length];var dn=new Vector3[positions.Length];var dt=new Vector3[positions.Length];
+                for(int s=0;s<shapes.Length;s++)
+                {
+                    int frames=source.GetBlendShapeFrameCount(s);
+                    var shape=new Shape{frameWeights=new float[frames],deltas=new Vector3[frames][],normalDeltas=new Vector3[frames][],tangentDeltas=new Vector3[frames][]};shapes[s]=shape;
+                    for(int f=0;f<frames;f++)
+                    {
+                        source.GetBlendShapeFrameVertices(s,f,dv,dn,dt);
+                        var vd=new Vector3[n];var nd=new Vector3[n];var td=new Vector3[n];
+                        for(int i=0;i<n;i++){vd[i]=Interpolate(dv,i);nd[i]=Interpolate(dn,i);td[i]=Interpolate(dt,i);}
+                        shape.frameWeights[f]=source.GetBlendShapeFrameWeight(s,f);shape.deltas[f]=vd;shape.normalDeltas[f]=nd;shape.tangentDeltas[f]=td;
+                        // Preserve the named weight controls for HeroGarmentPoseCorrectives,
+                        // while the GPU receives no duplicate shape position/normal deltas.
+                        var gpuPositions=(Vector3[])vd.Clone();var gpuNormals=(Vector3[])nd.Clone();var gpuTangents=(Vector3[])td.Clone();
+                        foreach(int i in p.freeVertices){gpuPositions[i]=Vector3.zero;gpuNormals[i]=Vector3.zero;gpuTangents[i]=Vector3.zero;}
+                        mesh.AddBlendShapeFrame(source.GetBlendShapeName(s),shape.frameWeights[f],gpuPositions,gpuNormals,gpuTangents);
+                    }
+                }
+                bounds=source.bounds;bounds.Expand(.20f);mesh.bounds=bounds;
+                shaped=new Vector3[n];shapedNormals=new Vector3[n];shapedTangents=new Vector3[n];posed=new Vector3[n];raw=new Vector3[n];geom=new Vector3[n];
+                delta=new Vector3[n];updates=new Vector3[n];output=new Vector3[n];outputNormals=new Vector3[n];counts=new float[n];free=new bool[n];
+                foreach(int i in p.freeVertices)free[i]=true;
+                var incident=new List<int>();
+                for(int f=0;f<p.triangles.Length;f+=3)
+                    if(free[p.triangles[f]]||free[p.triangles[f+1]]||free[p.triangles[f+2]])
+                    {incident.Add(p.triangles[f]);incident.Add(p.triangles[f+1]);incident.Add(p.triangles[f+2]);}
+                normalTriangles=incident.ToArray();
+                var solveSet=new HashSet<int>(normalTriangles);solveVertices=new int[solveSet.Count];solveSet.CopyTo(solveVertices);Array.Sort(solveVertices);
+                if(p.cageCount<=0 || p.cageIndices==null || p.cageIndices.Length!=p.freeVertices.Length*8 || p.cageWeights==null || p.cageWeights.Length!=p.cageIndices.Length || p.cageStrengths==null || p.cageStrengths.Length!=p.freeVertices.Length)
+                    throw new InvalidOperationException("Missing smooth authored gusset cage");
+                cageDirections=new Vector3[p.cageCount];cageAmounts=new float[p.cageCount];
+                Array.Copy(basis,output,n);Array.Copy(normalBasis,outputNormals,n);Array.Copy(tangentBasis,outputTangents,n);
+                int aliases=0;foreach(int i in p.aliases)aliases=Math.Max(aliases,i+1);
+                aliasSums=new Vector3[aliases];aliasCounts=new int[aliases];foreach(int i in p.aliases)aliasCounts[i]++;
+                skinMatrices=new Matrix4x4[bones.Length];boneToRoot=new Matrix4x4[bones.Length];
+                proxy=new Vector3[p.proxyWeights.Length/4];for(int i=0;i<proxy.Length;i++)proxy[i]=Read(p.proxyRestPositions,i);bvh=new SmallBvh(proxy,p.proxyTriangles,p.rayMinimum,p.rayMaximum);
+                Debug.Log($"[HeroGarmentGusset] verified source {positions.Length}, result {n} vertices / {p.triangles.Length/3} triangles, proxy {proxy.Length} vertices / {p.proxyTriangles.Length/3} triangles");
+            }
+
+            public void Activate(SkinnedMeshRenderer r)
+            {
+                // Apply is called after the current source's shape weights are set.
+                // Preserve them across a sharedMesh assignment, with no allocation.
+                for (int s = 0; s < savedWeights.Length; s++) savedWeights[s] = r.GetBlendShapeWeight(s);
+                r.sharedMesh = mesh;
+                for (int s = 0; s < savedWeights.Length; s++) r.SetBlendShapeWeight(s, savedWeights[s]);
+            }
+
+            void GeometricNormals(Vector3[] vertices, Vector3[] normals)
+            {
+                Array.Clear(normals,0,normals.Length);
+                for(int f=0;f<normalTriangles.Length;f+=3)
+                {int a=normalTriangles[f],b=normalTriangles[f+1],c=normalTriangles[f+2];var area=Vector3.Cross(vertices[b]-vertices[a],vertices[c]-vertices[a]);normals[a]+=area;normals[b]+=area;normals[c]+=area;}
+                foreach(int i in p.freeVertices)normals[i]=Normalize(normals[i]);
+            }
+            void Synchronize()
+            {
+                Array.Clear(aliasSums,0,aliasSums.Length);
+                foreach(int i in p.freeVertices)aliasSums[p.aliases[i]]+=delta[i];
+                foreach(int i in p.freeVertices){delta[i]=aliasSums[p.aliases[i]]/aliasCounts[p.aliases[i]];posed[i]=raw[i]+delta[i];}
+            }
+            void AddShape(Shape s,float w)
+            {
+                if(Mathf.Abs(w)<1e-7f||s.deltas.Length==0)return;
+                int upper=0;while(upper<s.frameWeights.Length-1&&w>s.frameWeights[upper])upper++;
+                int lower=upper-1;float low=lower<0?0:s.frameWeights[lower];
+                float t=(w-low)/(s.frameWeights[upper]-low);
+                var a=lower<0?null:s.deltas[lower];var b=s.deltas[upper];
+                var na=lower<0?null:s.normalDeltas[lower];var nb=s.normalDeltas[upper];
+                var ta=lower<0?null:s.tangentDeltas[lower];var tb=s.tangentDeltas[upper];
+                foreach(int i in solveVertices) {
+                    shaped[i]+=a==null?b[i]*t:a[i]*(1-t)+b[i]*t;
+                    shapedNormals[i]+=na==null?nb[i]*t:na[i]*(1-t)+nb[i]*t;
+                    shapedTangents[i]+=ta==null?tb[i]*t:ta[i]*(1-t)+tb[i]*t;
+                }
+            }
+            public bool Apply(Transform root,SkinnedMeshRenderer r)
+            {
+                var rootInverse=root.worldToLocalMatrix;var bind=bindposes;
+                bool changed = !havePose;
+                for (int b = 0; b < skinMatrices.Length; b++)
+                {
+                    var current = rootInverse * bones[b].localToWorldMatrix;
+                    // Matrix4x4 == uses an approximate comparison in Unity.
+                    // Exact element equality is required for a deterministic reuse.
+                    for (int k = 0; k < 16; k++) if (current[k] != boneToRoot[b][k]) changed = true;
+                    boneToRoot[b] = current; skinMatrices[b] = current * bind[b];
+                }
+                for (int s = 0; s < shapes.Length; s++)
+                {
+                    float current = r.GetBlendShapeWeight(s);
+                    if (current != poseWeights[s]) changed = true;
+                    poseWeights[s] = current;
+                }
+                if (!changed) return false;
+                havePose = false;
+                foreach(int i in solveVertices) {shaped[i]=basis[i];shapedNormals[i]=normalBasis[i];shapedTangents[i]=new Vector3(tangentBasis[i].x,tangentBasis[i].y,tangentBasis[i].z);}
+                for(int s=0;s<shapes.Length;s++)AddShape(shapes[s],poseWeights[s]);
+                foreach(int i in solveVertices)
+                {
+                    var w=bindings[i];var v=shaped[i];raw[i]=skinMatrices[w.boneIndex0].MultiplyPoint3x4(v)*w.weight0+skinMatrices[w.boneIndex1].MultiplyPoint3x4(v)*w.weight1+skinMatrices[w.boneIndex2].MultiplyPoint3x4(v)*w.weight2+skinMatrices[w.boneIndex3].MultiplyPoint3x4(v)*w.weight3;posed[i]=raw[i];
+                }
+                for(int i=0;i<proxy.Length;i++)
+                {
+                    Vector3 q=Vector3.zero;
+                    for(int j=0;j<4;j++){int k=i*4+j;q+=boneToRoot[p.proxyBoneIndices[k]].MultiplyPoint3x4(Read(p.proxyBoneLocalPositions,k))*p.proxyWeights[k];}
+                    proxy[i]=q;
+                }
+                bvh.Refit();GeometricNormals(raw,geom);Array.Clear(delta,0,delta.Length);
+                Array.Clear(cageDirections,0,cageDirections.Length);Array.Clear(cageAmounts,0,cageAmounts.Length);
+                // Each contact informs a compact smooth cage. Vertex contact never
+                // becomes an independent vertex push; no triangle-contact iterations.
+                for(int f=0;f<p.freeVertices.Length;f++) {
+                    int i=p.freeVertices[f];float distance=bvh.Exit(raw[i],geom[i]);
+                    if(float.IsPositiveInfinity(distance))continue;
+                    float amount=Mathf.Clamp(distance+p.clearance,0,p.maximumDisplacement);
+                    if(amount<=0)continue;
+                    for(int k=0;k<8;k++) {
+                        int q=f*8+k,c=p.cageIndices[q];float weight=p.cageWeights[q];
+                        cageDirections[c]+=geom[i]*(amount*weight);
+                        cageAmounts[c]=Mathf.Max(cageAmounts[c],amount);
+                    }
+                }
+                for(int c=0;c<cageDirections.Length;c++)cageDirections[c]=Normalize(cageDirections[c])*cageAmounts[c];
+                for(int f=0;f<p.freeVertices.Length;f++) {
+                    Vector3 move=Vector3.zero;
+                    for(int k=0;k<8;k++){int q=f*8+k;move+=cageDirections[p.cageIndices[q]]*p.cageWeights[q];}
+                    delta[p.freeVertices[f]]=move*p.cageStrengths[f];
+                }
+                Synchronize();
+                var rootOutputInverse=skinMatrices[0].inverse;
+                foreach(int i in p.freeVertices)
+                {
+                    output[i]=rootOutputInverse.MultiplyPoint3x4(posed[i]);
+                    var w=bindings[i];var n=shapedNormals[i];var t=shapedTangents[i];
+                    // Preserve the authored, shaped shading frame. Adding a unit geometric
+                    // normal difference to an unrelated imported normal caused cratered
+                    // lighting and normal lengths up to 249 in the actual failing pose.
+                    var normal=Normalize(rootOutputInverse.MultiplyVector(SkinVector(skinMatrices,w,n)));
+                    var tangent=rootOutputInverse.MultiplyVector(SkinVector(skinMatrices,w,t));
+                    tangent=Normalize(tangent-normal*Vector3.Dot(normal,tangent));
+                    outputNormals[i]=normal;
+                    outputTangents[i]=new Vector4(tangent.x,tangent.y,tangent.z,tangentBasis[i].w);
+                }
+                mesh.vertices=output;mesh.normals=outputNormals;mesh.tangents=outputTangents;
+                mesh.bounds=bounds;
+                havePose = true;
+                return true;
+            }
+        }
+        static void InstallTriangles(Mesh source, Mesh result, Profile p)
+        {
+            // Snapshot sourceTriangles is Unity's concatenation of every source submesh.
+            // Authored parents map each subdivision child back to that exact aggregate face.
+            if (p.triangleSourceFaces == null || p.triangleSourceFaces.Length * 3 != p.triangles.Length)
+                throw new InvalidOperationException("Gusset missing verified subdivision source-face mapping");
+            var sourceFaceSubmesh = new int[p.sourceTriangles.Length / 3];
+            var submeshTriangles = new List<int>[source.subMeshCount];
+            int sourceFace = 0;
+            for (int sub = 0; sub < source.subMeshCount; sub++)
+            {
+                if (source.GetTopology(sub) != MeshTopology.Triangles || source.GetIndexCount(sub) % 3 != 0)
+                    throw new InvalidOperationException("Gusset source submesh topology is not triangles at " + sub);
+                int count = (int)source.GetIndexCount(sub) / 3;
+                if (sourceFace + count > sourceFaceSubmesh.Length)
+                    throw new InvalidOperationException("Gusset aggregate submesh face count mismatch");
+                for (int i = 0; i < count; i++) sourceFaceSubmesh[sourceFace++] = sub;
+                submeshTriangles[sub] = new List<int>();
+            }
+            if (sourceFace != sourceFaceSubmesh.Length)
+                throw new InvalidOperationException("Gusset aggregate submesh face count mismatch");
+            for (int f = 0; f < p.triangleSourceFaces.Length; f++)
+            {
+                int parent = p.triangleSourceFaces[f];
+                if (parent < 0 || parent >= sourceFaceSubmesh.Length)
+                    throw new InvalidOperationException("Gusset subdivision source-face mapping out of range at " + f);
+                var destination = submeshTriangles[sourceFaceSubmesh[parent]];
+                for (int k = 0; k < 3; k++) destination.Add(p.triangles[f * 3 + k]);
+            }
+            result.subMeshCount = source.subMeshCount;
+            for (int sub = 0; sub < submeshTriangles.Length; sub++) result.SetTriangles(submeshTriangles[sub], sub, false);
+        }
+        static Vector3 Read(float[] data,int i)=>new Vector3(data[i*3],data[i*3+1],data[i*3+2]);
+        static Vector3 Normalize(Vector3 v){float n=v.magnitude;return n>1e-12f?v/n:Vector3.zero;}
+        static Vector3 SkinVector(Matrix4x4[] matrices,BoneWeight w,Vector3 v)
+            =>matrices[w.boneIndex0].MultiplyVector(v)*w.weight0+matrices[w.boneIndex1].MultiplyVector(v)*w.weight1
+              +matrices[w.boneIndex2].MultiplyVector(v)*w.weight2+matrices[w.boneIndex3].MultiplyVector(v)*w.weight3;
+
+        // Fixed balanced topology, refitted to 104 posed proxy points. No Body
+        // BakeMesh, per-frame sorting, managed allocations, or broad-body search.
+        sealed class SmallBvh
+        {
+            struct Node { public int start,count,left,right;public Vector3 min,max; }
+            struct TriangleData { public float ax,ay,az,nx,ny,nz,ux,uy,uz,vx,vy,vz; }
+            readonly Vector3[] vertices;readonly int[] triangles,order,stack;readonly Node[] nodes;
+            readonly TriangleData[] triangleData;
+            readonly float minimum,maximum;int nodeCount;
+            public SmallBvh(Vector3[] points,int[] faces,float min,float max)
+            {vertices=points;triangles=faces;triangleData=new TriangleData[faces.Length/3];minimum=min;maximum=max;order=new int[faces.Length/3];for(int i=0;i<order.Length;i++)order[i]=i;nodes=new Node[order.Length*2];stack=new int[64];Build(0,order.Length);}
+            int Build(int start,int count)
+            {int index=nodeCount++;nodes[index]=new Node{start=start,count=count,left=-1,right=-1};if(count>8){
+                Vector3 lo=new Vector3(float.PositiveInfinity,float.PositiveInfinity,float.PositiveInfinity),hi=-lo;
+                for(int j=start;j<start+count;j++){var q=Centroid(order[j]);lo=Vector3.Min(lo,q);hi=Vector3.Max(hi,q);}var extent=hi-lo;int axis=extent.x>=extent.y&&extent.x>=extent.z?0:extent.y>=extent.z?1:2;
+                Array.Sort(order,start,count,Comparer<int>.Create((a,b)=>Centroid(a)[axis].CompareTo(Centroid(b)[axis])));
+                int half=count/2;int l=Build(start,half),r=Build(start+half,count-half);var n=nodes[index];n.left=l;n.right=r;nodes[index]=n;}return index;}
+            Vector3 Centroid(int f)=>(vertices[triangles[f*3]]+vertices[triangles[f*3+1]]+vertices[triangles[f*3+2]])/3;
+            public void Refit()
+            {
+                // Precompute each posed triangle's plane and barycentric gradients once.
+                // The original solver recomputed edge vectors and cross products inside
+                // every ray/triangle pair (over 51,000 rays per changed full pose).
+                for(int f=0;f<triangleData.Length;f++) {
+                    var a=vertices[triangles[f*3]];var e1=vertices[triangles[f*3+1]]-a;var e2=vertices[triangles[f*3+2]]-a;
+                    var n=Vector3.Cross(e1,e2);float square=Vector3.Dot(n,n);
+                    var u=square>0?Vector3.Cross(e2,n)/square:Vector3.zero;
+                    var v=square>0?Vector3.Cross(n,e1)/square:Vector3.zero;
+                    triangleData[f]=new TriangleData{ax=a.x,ay=a.y,az=a.z,nx=n.x,ny=n.y,nz=n.z,ux=u.x,uy=u.y,uz=u.z,vx=v.x,vy=v.y,vz=v.z};
+                }
+                for(int i=nodeCount-1;i>=0;i--)
+                {
+                    var n=nodes[i];n.min=new Vector3(float.PositiveInfinity,float.PositiveInfinity,float.PositiveInfinity);n.max=-n.min;
+                    if(n.left>=0){n.min=Vector3.Min(nodes[n.left].min,nodes[n.right].min);n.max=Vector3.Max(nodes[n.left].max,nodes[n.right].max);}
+                    else for(int k=n.start;k<n.start+n.count;k++)for(int j=0;j<3;j++){var v=vertices[triangles[order[k]*3+j]];n.min=Vector3.Min(n.min,v);n.max=Vector3.Max(n.max,v);}
+                    nodes[i]=n;
+                }
+            }
+            bool Intersects(Node b,Vector3 p,Vector3 direction,Vector3 inverse)
+            {
+                float low=minimum,high=maximum,a,c;
+                if(Mathf.Abs(direction.x)<1e-12f){if(p.x<b.min.x||p.x>b.max.x)return false;}
+                else {a=(b.min.x-p.x)*inverse.x;c=(b.max.x-p.x)*inverse.x;if(a>c){float t=a;a=c;c=t;}if(a>low)low=a;if(c<high)high=c;if(low>high)return false;}
+                if(Mathf.Abs(direction.y)<1e-12f){if(p.y<b.min.y||p.y>b.max.y)return false;}
+                else {a=(b.min.y-p.y)*inverse.y;c=(b.max.y-p.y)*inverse.y;if(a>c){float t=a;a=c;c=t;}if(a>low)low=a;if(c<high)high=c;if(low>high)return false;}
+                if(Mathf.Abs(direction.z)<1e-12f){if(p.z<b.min.z||p.z>b.max.z)return false;}
+                else {a=(b.min.z-p.z)*inverse.z;c=(b.max.z-p.z)*inverse.z;if(a>c){float t=a;a=c;c=t;}if(a>low)low=a;if(c<high)high=c;if(low>high)return false;}
+                return true;
+            }
+            float Triangle(int f,Vector3 p,Vector3 direction)
+            {
+                var q=triangleData[f];float denominator=q.nx*direction.x+q.ny*direction.y+q.nz*direction.z;
+                if(denominator<=1e-12f)return float.PositiveInfinity;
+                float x=p.x-q.ax,y=p.y-q.ay,z=p.z-q.az;
+                float distance=-(q.nx*x+q.ny*y+q.nz*z)/denominator;
+                if(distance<minimum||distance>maximum)return float.PositiveInfinity;
+                x+=distance*direction.x;y+=distance*direction.y;z+=distance*direction.z;
+                float u=q.ux*x+q.uy*y+q.uz*z;if(u<0||u>1)return float.PositiveInfinity;
+                float v=q.vx*x+q.vy*y+q.vz*z;if(v<0||u+v>1)return float.PositiveInfinity;
+                return distance;
+            }
+            public float Exit(Vector3 p,Vector3 direction)
+            {
+                float best=float.PositiveInfinity;int count=0;stack[count++]=0;
+                var inverse=new Vector3(1f/direction.x,1f/direction.y,1f/direction.z);
+                while(count>0)
+                {
+                    var node=nodes[stack[--count]];if(!Intersects(node,p,direction,inverse))continue;
+                    if(node.left>=0){stack[count++]=node.left;stack[count++]=node.right;}
+                    else for(int j=node.start;j<node.start+node.count;j++)
+                    {float t=Triangle(order[j],p,direction);if(t>=minimum&&t<=maximum&&Mathf.Abs(t)<Mathf.Abs(best))best=t;}
+                }
+                return best;
+            }
+        }
+    }
+}

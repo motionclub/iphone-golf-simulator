@@ -1,0 +1,92 @@
+{
+ "Serve": {
+  "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/serve-and-feet/export/fbx/Male_Serve.fbx",
+  "bytes": 2919436,
+  "sha256": "eb4a7ff68752853dcf130c62a92bc9ef99de70aee01844ccff76e2c855fa2d12",
+  "frames": 76,
+  "frame_start": 0,
+  "frame_end": 75,
+  "objects": [
+   "Rig_Male",
+   "Body_M",
+   "Face_M",
+   "Hand_Racket",
+   "Racket_Classic",
+   "Grip",
+   "ButtCap",
+   "StringBed"
+  ]
+ },
+ "Walk": {
+  "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/serve-and-feet/export/fbx/Male_Walk.fbx",
+  "bytes": 2750460,
+  "sha256": "7ac87f3d994fd83ad45de5bb47078f85fbd149fd25ad0675bc050f9fe961b20a",
+  "frames": 34,
+  "frame_start": 0,
+  "frame_end": 33,
+  "objects": [
+   "Rig_Male",
+   "Body_M",
+   "Face_M",
+   "Hand_Racket",
+   "Racket_Classic",
+   "Grip",
+   "ButtCap",
+   "StringBed"
+  ]
+ },
+ "RunForward": {
+  "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/serve-and-feet/export/fbx/Male_RunForward.fbx",
+  "bytes": 2696140,
+  "sha256": "712165a5908afd4803b00cceb6f466c60b61aaf99a0789866f45a58b2b075d35",
+  "frames": 18,
+  "frame_start": 0,
+  "frame_end": 17,
+  "objects": [
+   "Rig_Male",
+   "Body_M",
+   "Face_M",
+   "Hand_Racket",
+   "Racket_Classic",
+   "Grip",
+   "ButtCap",
+   "StringBed"
+  ]
+ },
+ "RunLeft": {
+  "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/serve-and-feet/export/fbx/Male_RunLeft.fbx",
+  "bytes": 2696140,
+  "sha256": "83ac839292b9755dd44410bce378562dc022af63b14a983f4cbed04140d1c30c",
+  "frames": 18,
+  "frame_start": 0,
+  "frame_end": 17,
+  "objects": [
+   "Rig_Male",
+   "Body_M",
+   "Face_M",
+   "Hand_Racket",
+   "Racket_Classic",
+   "Grip",
+   "ButtCap",
+   "StringBed"
+  ]
+ },
+ "RunRight": {
+  "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/serve-and-feet/export/fbx/Male_RunRight.fbx",
+  "bytes": 2696140,
+  "sha256": "a612236850450cc0038c0bcee4ca902b98e6dc685da46ca23d92ffa3a7c97675",
+  "frames": 18,
+  "frame_start": 0,
+  "frame_end": 17,
+  "objects": [
+   "Rig_Male",
+   "Body_M",
+   "Face_M",
+   "Hand_Racket",
+   "Racket_Classic",
+   "Grip",
+   "ButtCap",
+   "StringBed"
+  ]
+ }
+}

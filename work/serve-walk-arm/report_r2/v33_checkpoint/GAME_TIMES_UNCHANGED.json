@@ -1,0 +1,174 @@
+{
+  "pass": true,
+  "protected_assets_identical": true,
+  "constants_identical": {
+    "HeroTennisDriver": true,
+    "TennisServeRoutine": true,
+    "TennisGame": true
+  },
+  "imported_clip_markers": "public float serveStanceTime = .6f, serveReleaseTime = 1.45f, serveTrophyTime = 1.80f;",
+  "controls": {
+    "opponent-female-rh-ad-control": {
+      "release": {
+        "candidate_frame": 116,
+        "baseline_frame": 116,
+        "pose_delta_mm": {
+          "wrist": 0.0,
+          "palm": 0.0,
+          "elbow": 0.0,
+          "ball": 0.0
+        },
+        "candidate_first_rally_frame": 184,
+        "baseline_first_rally_frame": 184
+      },
+      "actual_contact_frames_before": [
+        184
+      ],
+      "actual_contact_frames_after": [
+        184
+      ]
+    },
+    "opponent-female-rh-deuce-control": {
+      "release": {
+        "candidate_frame": 116,
+        "baseline_frame": 116,
+        "pose_delta_mm": {
+          "wrist": 0.0,
+          "palm": 0.0,
+          "elbow": 0.0,
+          "ball": 0.0
+        },
+        "candidate_first_rally_frame": 184,
+        "baseline_first_rally_frame": 184
+      },
+      "actual_contact_frames_before": [
+        184
+      ],
+      "actual_contact_frames_after": [
+        184
+      ]
+    },
+    "opponent-male-rh-ad-control": {
+      "release": {
+        "candidate_frame": 116,
+        "baseline_frame": 116,
+        "pose_delta_mm": {
+          "wrist": 0.0,
+          "palm": 0.0,
+          "elbow": 0.0,
+          "ball": 0.0
+        },
+        "candidate_first_rally_frame": 184,
+        "baseline_first_rally_frame": 184
+      },
+      "actual_contact_frames_before": [
+        184
+      ],
+      "actual_contact_frames_after": [
+        184
+      ]
+    },
+    "opponent-male-rh-deuce-control": {
+      "release": {
+        "candidate_frame": 116,
+        "baseline_frame": 116,
+        "pose_delta_mm": {
+          "wrist": 0.0,
+          "palm": 0.0,
+          "elbow": 0.0,
+          "ball": 0.0
+        },
+        "candidate_first_rally_frame": 184,
+        "baseline_first_rally_frame": 184
+      },
+      "actual_contact_frames_before": [
+        184
+      ],
+      "actual_contact_frames_after": [
+        184
+      ]
+    },
+    "player-female-rh-ad-control": {
+      "release": {
+        "candidate_frame": 263,
+        "baseline_frame": 263,
+        "pose_delta_mm": {
+          "wrist": 0.0,
+          "palm": 0.0,
+          "elbow": 0.0,
+          "ball": 0.0
+        },
+        "candidate_first_rally_frame": 358,
+        "baseline_first_rally_frame": 358
+      },
+      "actual_contact_frames_before": [
+        358
+      ],
+      "actual_contact_frames_after": [
+        358
+      ]
+    },
+    "player-female-rh-deuce-control": {
+      "release": {
+        "candidate_frame": 263,
+        "baseline_frame": 263,
+        "pose_delta_mm": {
+          "wrist": 0.0,
+          "palm": 0.0,
+          "elbow": 0.0,
+          "ball": 0.0
+        },
+        "candidate_first_rally_frame": 358,
+        "baseline_first_rally_frame": 358
+      },
+      "actual_contact_frames_before": [
+        358
+      ],
+      "actual_contact_frames_after": [
+        358
+      ]
+    },
+    "player-male-rh-ad-control": {
+      "release": {
+        "candidate_frame": 263,
+        "baseline_frame": 263,
+        "pose_delta_mm": {
+          "wrist": 0.0,
+          "palm": 0.0,
+          "elbow": 0.0,
+          "ball": 0.0
+        },
+        "candidate_first_rally_frame": 357,
+        "baseline_first_rally_frame": 357
+      },
+      "actual_contact_frames_before": [
+        357
+      ],
+      "actual_contact_frames_after": [
+        357
+      ]
+    },
+    "player-male-rh-deuce-control": {
+      "release": {
+        "candidate_frame": 263,
+        "baseline_frame": 263,
+        "pose_delta_mm": {
+          "wrist": 0.0,
+          "palm": 0.0,
+          "elbow": 0.0,
+          "ball": 0.0
+        },
+        "candidate_first_rally_frame": 357,
+        "baseline_first_rally_frame": 357
+      },
+      "actual_contact_frames_before": [
+        357
+      ],
+      "actual_contact_frames_after": [
+        357
+      ]
+    }
+  },
+  "rally_phase_code_changed": false,
+  "visual_serve_source_change": "Opponent post-release source skips replaying the crouch; gameplay clock unchanged."
+}

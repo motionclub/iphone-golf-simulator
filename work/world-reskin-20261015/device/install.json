@@ -1,0 +1,104 @@
+{
+  "error" : {
+    "code" : 4000,
+    "domain" : "com.apple.dt.CoreDeviceError",
+    "userInfo" : {
+      "DeviceIdentifier" : {
+        "string" : "5724AA4B-8FB9-5224-8EBC-EBF2A5071B3B"
+      },
+      "NSLocalizedDescription" : {
+        "string" : "A connection to this device could not be established."
+      },
+      "NSMultipleUnderlyingErrorsKey" : {
+        "array" : [
+          {
+            "error" : {
+              "code" : 1,
+              "domain" : "com.apple.CoreDevice.ControlChannelConnectionError",
+              "userInfo" : {
+                "NSLocalizedDescription" : {
+                  "string" : "Internal logic error: Connection was invalidated"
+                },
+                "NSUnderlyingError" : {
+                  "error" : {
+                    "code" : 0,
+                    "domain" : "com.apple.CoreDevice.ControlChannelConnectionError",
+                    "userInfo" : {
+                      "NSLocalizedDescription" : {
+                        "string" : "Transport error"
+                      },
+                      "NSUnderlyingError" : {
+                        "error" : {
+                          "code" : 54,
+                          "domain" : "Network.NWError",
+                          "userInfo" : {
+                            "NSDescription" : {
+                              "string" : "Connection reset by peer"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "error" : {
+              "code" : 1,
+              "domain" : "com.apple.CoreDevice.ControlChannelConnectionError",
+              "userInfo" : {
+                "NSLocalizedDescription" : {
+                  "string" : "Internal logic error: Connection was invalidated"
+                },
+                "NSUnderlyingError" : {
+                  "error" : {
+                    "code" : 0,
+                    "domain" : "com.apple.CoreDevice.ControlChannelConnectionError",
+                    "userInfo" : {
+                      "NSLocalizedDescription" : {
+                        "string" : "Transport error"
+                      },
+                      "NSUnderlyingError" : {
+                        "error" : {
+                          "code" : 54,
+                          "domain" : "Network.NWError",
+                          "userInfo" : {
+                            "NSDescription" : {
+                              "string" : "Connection reset by peer"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "info" : {
+    "arguments" : [
+      "devicectl",
+      "device",
+      "install",
+      "app",
+      "--device",
+      "00008150-00041CD92287801C",
+      "work/world-reskin-20261015/device/DerivedData/Build/Products/Release-iphoneos/GolfArcade.app",
+      "--json-output",
+      "work/world-reskin-20261015/device/install.json"
+    ],
+    "commandType" : "devicectl.device.install.app",
+    "environment" : {
+      "TERM" : "dumb"
+    },
+    "jsonVersion" : 5,
+    "outcome" : "failed",
+    "version" : "642.16"
+  }
+}

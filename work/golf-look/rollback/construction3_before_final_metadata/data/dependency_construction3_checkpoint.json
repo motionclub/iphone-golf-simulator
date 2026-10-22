@@ -1,0 +1,17 @@
+{
+  "state": "WAITING",
+  "observed_at_utc": "2026-10-05T20:36:54.538397+00:00",
+  "observed_head": "23cbedabb4074effa797c67c0dab987761d7aef8",
+  "postcard_phase_file": "work/postcard-look/v3/PHASE_STATUS.md",
+  "postcard_p8": "NOT RUN; no course-only P8 release commit",
+  "cloth": "active; live revision 7; no final completion report",
+  "cloth_status_cursor": "9e7475cf-bc07-4ae6-8011-5683266a8973:7",
+  "blocked_goal_turns": 0,
+  "consecutive_waiting_goal_turns": 3,
+  "meaningful_progress_this_turn": true,
+  "no_shared_file_edits": true,
+  "progress": "Third isolated construction pass: pocket cuts, separate skort shorts and pleats, clean wrist cuts, body-surface polo weight transfer, actual-body-weight skort support rings, both-handed render and diagnostics refresh.",
+  "needed": "Cite actual course-only P8 commit and completed cloth report + spec before integration. Section 0 requires stopping at WAITING after the allowed preparation.",
+  "postcard_phase_text": "# Ordered phase status\n- P0 PASS: full audit389lines,3 aerial side-by-sides,30 ranked differences,guards7/7,compile0errorCS,exact scoring12/12delta0.\n- P1 FAIL (executed): final smokes26/26+115/115, Unitysway15/15 and bandcontrast4.68%/3.78%PASS; cliff5.57m>4m and one basalt rung21.1%>20%FAIL; native3views saved.\n- P2 executed: formal GATE P2 PASS after fresh native retry (required verifier100/100; exact scoring0.000m; aerial+vsref+all10re-scored). Phase2 requirement2.2 FAIL: waterfall shader UV scroll remains unimplemented under retained static-shader gate; recognitionNO. Initial externalcompile FAILs and invalid edit-mode mow controls remain in history.\n- P3 FAIL (executed): builder16/16; requiredverifier96/96; oldQA27/27; ruin13/13bothformats; cuboids0/394both; scoringexact0.000m; native3views+vsrefthisrun. Outercliffstraight14.844193m>4m; frozenoneCboundaryfailsliteral2islands; ruin0pxtee/approach; recognitionNO. Split outlineextraqueued; edit-modeflow repeat measurementsFAIL/unmeasured, retained.\n- P4 FAIL (executed): triangle248314; exactscoring0.000m; realcolumngeometryPASS; native3frames+vsrefdatedthisrun; BASALT_JOINTS approachS.347>.25FAIL; tee smoke.82%<1.5%FAIL; initial requiredverifier97/103; textureFAILs retained. Ranked10rescored; eyeNO. NativeLava/Smoke full categoryproof deferredFAILunmeasured.\n- P5 IN PROGRESS: actualPlay/stagedmask helper installation authorized afterP4FAILclosure; sixfixedaddresses unchanged.\n- P6 NOT RUN: awaits P5.\n- P7 NOT RUN: awaits P6.\n- P8 NOT RUN: awaits P7.\nNo unmeasured result is a PASS.\n",
+  "cloth_latest_comment": "All eight locker swatches, plus black and white, pass the runtime colour check; motion review and isolated SceneKit material work still in progress."
+}

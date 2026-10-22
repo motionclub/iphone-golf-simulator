@@ -1,0 +1,10 @@
+{
+ "_note": "Decided by looking at the final renders (proof/raw): which measured CLIP/FLOAT findings are visible in the views. Everything else is captioned 'measured only'.",
+ "male": {"visible": [], "panel_chips": {}},
+ "female": {"visible": ["feet"], "panel_chips": {
+   "full_front": [["CLIP", "toes poke through the shoes"], ["FLOAT", "socks / shoes off the feet"]],
+   "full_q3": [["CLIP", "heels poke through the shoes"], ["FLOAT", "socks stand off the legs"]],
+   "full_side": [["CLIP", "heels poke through the shoes"], ["FLOAT", "socks stand off the legs"]],
+   "full_back": [["CLIP", "heels poke through the shoes"]]
+ }}
+}

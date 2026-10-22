@@ -1,0 +1,47 @@
+--- GolfArcade/Unity/MatchHeroData.swift
++++ GolfArcade/Unity/MatchHeroData.swift
+@@ -28,6 +28,8 @@
+         let headOrigin: [Float]?, headRight: [Float]?, headUp: [Float]?, headForward: [Float]?, headEye: [Float]?
+         let tileMetres: Float?
+         let fabricVersion: Float?
++        let skinFinish: Float?, skinPigmentUV: Float?
++        let anatomicalFace: Bool?, baseMapLinear: Bool?
+         var isCloth: Bool { shader == "TennisCloth" }
+         var isCharacter: Bool { shader == "TennisCharacter" }
+     }
+@@ -151,17 +153,19 @@
+ 
+     /// The kit's UV0 (texcoord channel 0), or for the body (which has no UVs) its BIND-pose position in two channels: (x, y) and (z): the skin's soft normal is projected from there.
+     static func texcoordSources(_ part: Part, bin: Data) -> [SCNGeometrySource]? {
++        var result: [SCNGeometrySource] = []
+         if let uv = part.uvOffset, uv >= 0, uv + part.vertexCount * 8 <= bin.count {
+-            return [SCNGeometrySource(data: bin.subdata(in: uv ..< uv + part.vertexCount * 8), semantic: .texcoord, vectorCount: part.vertexCount,
+-                                      usesFloatComponents: true, componentsPerVector: 2, bytesPerComponent: 4, dataOffset: 0, dataStride: 8)]
++            result.append(SCNGeometrySource(data: bin.subdata(in: uv ..< uv + part.vertexCount * 8), semantic: .texcoord, vectorCount: part.vertexCount,
++                                           usesFloatComponents: true, componentsPerVector: 2, bytesPerComponent: 4, dataOffset: 0, dataStride: 8))
+         }
+         if let bp = part.bindPositionOffset, bp >= 0, bp + part.vertexCount * 12 <= bin.count {
+-            // channel 0 = (x, y), channel 1 = (z, 0): the second source reads the z of every 12-byte vertex; one extra float of padding keeps its last 8-byte read inside the buffer
++            // Legacy body: bind xy/z in channels 0/1. OriginalSeam: UV0,
++            // then bind xy/z in channels 1/2. Preserve both semantic fields.
+             var d = bin.subdata(in: bp ..< bp + part.vertexCount * 12); d.append(contentsOf: [0, 0, 0, 0])
+-            return [SCNGeometrySource(data: d, semantic: .texcoord, vectorCount: part.vertexCount, usesFloatComponents: true, componentsPerVector: 2, bytesPerComponent: 4, dataOffset: 0, dataStride: 12),
+-                    SCNGeometrySource(data: d, semantic: .texcoord, vectorCount: part.vertexCount, usesFloatComponents: true, componentsPerVector: 2, bytesPerComponent: 4, dataOffset: 8, dataStride: 12)]
+-        }
+-        return nil
++            result += [SCNGeometrySource(data: d, semantic: .texcoord, vectorCount: part.vertexCount, usesFloatComponents: true, componentsPerVector: 2, bytesPerComponent: 4, dataOffset: 0, dataStride: 12),
++                       SCNGeometrySource(data: d, semantic: .texcoord, vectorCount: part.vertexCount, usesFloatComponents: true, componentsPerVector: 2, bytesPerComponent: 4, dataOffset: 8, dataStride: 12)]
++        }
++        return result.isEmpty ? nil : result
+     }
+ 
+     // MARK: the hero node
+@@ -377,7 +381,7 @@
+             guard let morpher=root.childNode(withName:part.name,recursively:false)?.morpher else { continue }
+             let values=weights[part.partIndex] ?? []
+             for shape in part.morphTargets.indices {
+-                if !includeFaceBlink && part.morphTargets[shape].name == "Hero_Blink" { continue }
++                if !includeFaceBlink && part.morphTargets[shape].name?.hasPrefix("Hero_Blink") == true { continue }
+                 let value=CGFloat(shape<values.count ? values[shape]:0)
+                 if abs(morpher.weight(forTargetAt:shape)-value)>0.000001 { morpher.setWeight(value,forTargetAt:shape) }
+             }

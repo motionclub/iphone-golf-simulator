@@ -1,0 +1,47 @@
+--- a/Unity/Assets/Scripts/Tennis/HeroGarmentPoseCorrectives.cs
++++ b/Unity/Assets/Scripts/Tennis/HeroGarmentPoseCorrectives.cs
+@@ -9,6 +9,12 @@
+  public sealed class HeroGarmentPoseCorrectives : MonoBehaviour {
+   [Serializable] public sealed class Anchor { public string shape;public float[] feature,deltas,normalDeltas; }
+   [Serializable] public sealed class Profile { public int vertexCount;public float[] vertices,normals;public Anchor[] anchors; }
++  [Serializable] public sealed class SparseWaistFit { public int vertexCount;public int[] indices;public float[] deltas,normalDeltas; }
++  const string OpenWaistShape="MaleForehandOpenWaist";
++  public float OpenForehandWaist { get; set; }
++  static SparseWaistFit openWaist;
++  static bool openWaistLoaded;
++  int openWaistIndex=-1;
+   const string Prefix="TailoredSleeve_";
+   static readonly string[,] Segments={{"Spine","Chest"},{"Chest","Neck"},{"LeftShoulder","LeftUpperArm"},{"LeftUpperArm","LeftLowerArm"},{"LeftLowerArm","LeftHand"},{"RightShoulder","RightUpperArm"},{"RightUpperArm","RightLowerArm"},{"RightLowerArm","RightHand"}};
+   static readonly Dictionary<bool,Profile> profiles=new();
+@@ -60,6 +66,17 @@
+     for(int i=0;i<dv.Length;i++){int j=transfer[i];if(j<0)continue;dv[i]=new Vector3(a.deltas[j*3],a.deltas[j*3+1],a.deltas[j*3+2]);dn[i]=new Vector3(a.normalDeltas[j*3],a.normalDeltas[j*3+1],a.normalDeltas[j*3+2]);}
+     result.AddBlendShapeFrame(Prefix+a.shape,100,dv,dn,null);
+    }
++   if(!hero.female){
++    if(!openWaistLoaded){var text=Resources.Load<TextAsset>("Tennis/Correctives/MaleForehandOpenWaist");openWaist=text?JsonUtility.FromJson<SparseWaistFit>(text.text):null;openWaistLoaded=true;}
++    if(openWaist!=null){
++     if(openWaist.vertexCount!=p.vertexCount||openWaist.deltas?.Length!=openWaist.indices.Length*3||openWaist.normalDeltas?.Length!=openWaist.deltas.Length)throw new InvalidOperationException("Invalid open-forehand waist fit");
++     var sourceD=new Vector3[p.vertexCount];var sourceN=new Vector3[p.vertexCount];
++     for(int k=0;k<openWaist.indices.Length;k++){int j=openWaist.indices[k];if(j<0||j>=p.vertexCount)throw new InvalidOperationException("Invalid open-forehand waist vertex");sourceD[j]=new Vector3(openWaist.deltas[k*3],openWaist.deltas[k*3+1],openWaist.deltas[k*3+2]);sourceN[j]=new Vector3(openWaist.normalDeltas[k*3],openWaist.normalDeltas[k*3+1],openWaist.normalDeltas[k*3+2]);}
++     var dv=new Vector3[positions.Length];var dn=new Vector3[positions.Length];
++     for(int i=0;i<dv.Length;i++){int j=transfer[i];if(j<0)continue;dv[i]=sourceD[j];dn[i]=sourceN[j];}
++     result.AddBlendShapeFrame(OpenWaistShape,100,dv,dn,null);
++    }
++   }
+    prepared[(src,hero.female)]=result;Debug.Log($"[HeroGarmentPoseCorrectives] {(hero.female?"Female":"Male")} Top v={src.vertexCount}, {p.anchors.Length} garment-only anchors; rest geometry/UVs/weights/rig exact");return result;
+   }
+   bool Init(){
+@@ -67,11 +84,12 @@
+    profile??=Load(look.female);if(profile==null)return false;
+    top??=look.kit?.FirstOrDefault(r=>r&&r.name=="Kit_Top");if(!top||!top.sharedMesh)return false;
+    if(joints==null){var all=look.GetComponentsInChildren<Transform>(true);joints=new Transform[8,2];for(int i=0;i<8;i++)for(int j=0;j<2;j++){joints[i,j]=all.FirstOrDefault(t=>t.name==Segments[i,j]);if(!joints[i,j])return false;}weights=new float[profile.anchors.Length];}
+-   if(previous!=top.sharedMesh){previous=top.sharedMesh;indices=profile.anchors.Select(a=>previous.GetBlendShapeIndex(Prefix+a.shape)).ToArray();}
++   if(previous!=top.sharedMesh){previous=top.sharedMesh;indices=profile.anchors.Select(a=>previous.GetBlendShapeIndex(Prefix+a.shape)).ToArray();openWaistIndex=previous.GetBlendShapeIndex(OpenWaistShape);}
+    return true;
+   }
+   public void Apply(){
+    if(!Init())return;
++   if(openWaistIndex>=0)top.SetBlendShapeWeight(openWaistIndex,Mathf.Clamp01(OpenForehandWaist)*100);
+    for(int i=0;i<8;i++)directions[i]=(joints[i,1].position-joints[i,0].position).normalized;
+    int f=0;for(int i=0;i<8;i++)for(int j=i+1;j<8;j++)features[f++]=Vector3.Dot(directions[i],directions[j]);
+    double sum=0,nearest=double.MaxValue;

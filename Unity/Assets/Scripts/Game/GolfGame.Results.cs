@@ -26,8 +26,8 @@ namespace GolfArcade.Game
             if(PresentationPolicy.Cut(GolfBoundaryKey)==PresentationCut.Full)PresentationPolicy.Seen(GolfBoundaryKey);
         }
         bool boundaryPresented;
-        float ResultSkipAfter => !networkConfigured ? LocalResultSeconds : LastShot!=null && LastShot.IsHoled ? (holeIndex+1>=course.Holes.Length?1.5f:holeStrokes==1?1f:.5f) : 0f;
-        bool resultHeroCamera;
+        float ResultSkipAfter => !networkConfigured ? (LastShot != null && !LastShot.IsHoled ? .5f : LocalResultSeconds) : LastShot!=null && LastShot.IsHoled ? (holeIndex+1>=course.Holes.Length?1.5f:holeStrokes==1?1f:.5f) : 0f;
+        bool resultHeroCamera, resultWorldBeat;
         void NextPresentationHole() { Enter(State.RoundDone); NextHole(); }
         void ShowShotResult()
         {
@@ -58,26 +58,23 @@ namespace GolfArcade.Game
             {
             shotResultPanel.Show(quality, putt ? UiKit.ArcadeYellow : GradeColor(lastReport.Grade), outcome, SwingTiles(true), detail,
                 curvePoints, curveReach, curveTarget,
-                shot.IsHoled || Match?.IsContest == true ? "SCORECARD" : "NEXT SHOT", resultEmotes.Select(TennisEmotes.Name).ToArray(), ContinueShotResult, PlayResultEmote);
+                shot.IsHoled || Match?.IsContest == true ? "SCORECARD" : "NEXT SHOT", shot.IsHoled ? resultEmotes.Select(TennisEmotes.Name).ToArray() : System.Array.Empty<string>(), ContinueShotResult, PlayResultEmote);
             shotResultPanel.AnimateStats(shot.Total,shot.Roll,shot.Apex,putt);
             }
-            // The result waits on a front view so equipped emotes read clearly; on a hole out the golfer reacts to the
-            // score and is framed whole in the clear of the card, free to emote
+            // The result is the broadcast's: a shot that stays out holds on the ball where it stopped, the golfer holding their
+            // finish (no emote after a hit); a hole-out shows the golfer reacting from behind, in the view the shot was played from
             resultHold = 0;
-            if (holeOutShown)
-            {
-                resultHeroCamera = false;
-                var reaction = HoleOutReaction(shot);
-                golfer.Perform(reaction, loop: reaction == "Idle");
-                rig.FrameHoleOut(golfer.transform);
-            }
-            else
-            {
-                golfer.Perform("Idle");
-                resultHeroCamera=PresentationPolicy.BigMoments && !bigMomentUsed && shot.IsHoled && holeStrokes<=hole.Par;
-                if(resultHeroCamera) {bigMomentUsed=true;rig.FrameCharacterResult(golfer.transform);} else rig.FrameShotResult();
-            }
-            rig.SnapNext(); rig.ApplyFrame();
+            resultWorldBeat = shot.Lie == CourseLie.Water;
+            if (!resultWorldBeat) FrameResult();
+        }
+
+        void FrameResult()
+        {
+            resultWorldBeat = false;
+            var shot = LastShot;
+            resultHeroCamera = false;
+            if (shot.IsHoled) HoleOutBroadcast(shot);
+            else rig.HoldOnRest(ball.position);
         }
 
         public bool PlayResultEmote(int selection)
@@ -85,10 +82,13 @@ namespace GolfArcade.Game
             // during a hole's opening the emote buttons pick the golfer's intro emote
             if (Current == State.Intro) return ChooseIntroEmote(selection);
             if (!ShowingShotResult || Time.timeScale <= 0 || selection < 0 || selection > 2) return false;
+            // no emotes after a hit: only a hole-out's card offers them
+            if (LastShot == null || !LastShot.IsHoled) return false;
+            if (resultWorldBeat) FrameResult(); // a voluntary emote takes over immediately
             string move = TennisEmotes.ExportName(resultEmotes[selection]);
             bool played = move != null && golfer.Perform(move, loop: false);
             // the game waits for the emote to finish (and a beat after it) before it moves on by itself
-            if (played && networkConfigured) resultHold = Mathf.Max(resultHold, stateTime + TennisEmotes.Duration(resultEmotes[selection]) + 0.8f);
+            if (played) resultHold = Mathf.Max(resultHold, stateTime + TennisEmotes.Duration(resultEmotes[selection]) + 0.8f);
             return played;
         }
 

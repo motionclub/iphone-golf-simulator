@@ -1,0 +1,26 @@
+[
+  {
+    "name": "tennis-sole4-resort",
+    "method": "GolfArcade.EditorTools.TennisSoleProbe.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "TSOLE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-sole-probe-4/resort"
+    }
+  },
+  {
+    "name": "tennis-sole4-skyscraper",
+    "method": "GolfArcade.EditorTools.TennisSoleProbe.Run",
+    "env": {
+      "HERO_VENUE": "skyscraper",
+      "TSOLE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-sole-probe-4/skyscraper"
+    }
+  },
+  {
+    "name": "tennis-sole4-volcano",
+    "method": "GolfArcade.EditorTools.TennisSoleProbe.Run",
+    "env": {
+      "HERO_VENUE": "volcano",
+      "TSOLE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-sole-probe-4/volcano"
+    }
+  }
+]

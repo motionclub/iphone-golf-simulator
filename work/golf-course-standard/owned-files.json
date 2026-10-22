@@ -1,0 +1,19 @@
+[
+  "Scripts/Course/GolfCourseLook.cs",
+  "Scripts/Course/GolfCourseAtmosphere.cs",
+  "Scripts/Course/GolfAtmosphere.cs",
+  "Scripts/Course/HoleView.cs",
+  "Scripts/Course/LavaWorld.cs",
+  "Scripts/Course/GolfSurfaceBatching.cs",
+  "Resources/Course/Shaders/GolfGround.shader",
+  "Resources/Course/Shaders/GolfRock.shader",
+  "Resources/Course/Shaders/GolfSurface.hlsl",
+  "Editor/GolfCourseStandardCapture.cs",
+  "Editor/GolfCourseStandardTextureImporter.cs",
+  "Tests/EditMode/GolfCourseStandardTests.cs",
+  "Tests/PlayMode/GolfCourseStandardPlayTests.cs",
+  "Scripts/Course/GolfSurfaceEdges.cs",
+  "Scripts/Course/GolfCourseFringe.cs",
+  "Scripts/Course/GolfCourseFoam.cs",
+  "Scripts/Course/GolfCoursePalms.cs"
+]

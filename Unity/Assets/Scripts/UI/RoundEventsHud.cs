@@ -258,7 +258,7 @@ namespace GolfArcade.UI
             c.rt = (RectTransform)go.transform;
             c.rt.anchorMin = c.rt.anchorMax = c.rt.pivot = new Vector2(0.5f, 0.72f);
             c.rt.sizeDelta = new Vector2(900, 140);
-            c.word = UiKit.Chunky(go.transform, "Word", 86, Color.white, UiKit.ArcadeInk, 5f);
+            c.word = UiKit.Chunky(go.transform, "Word", 86, Color.white, GlassKit.Ink, 5f);
             c.word.raycastTarget = false;
             go.SetActive(false);
             return c;

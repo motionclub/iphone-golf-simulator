@@ -1,0 +1,27 @@
+{
+  "gate": "STAGED OPTIONAL; SWIFT PARSE AND ACTUAL METAL/ART PENDING",
+  "productionSourceSha256": "481bc244a455c68aa945f58225efeaea1c039492be62026e6140ff22d9320cac",
+  "candidateSha256": "7520e27c85c3c493540ed2d2613fafb7bbc2c0b5497c15fe68ac6e32cfbaa9cb",
+  "enabledBy": "VISUAL_CHARACTER_STAGE_LIGHT=1, sampled when material is created",
+  "fillStrength": 0.65,
+  "fillColorLinear": [
+    1,
+    0.95,
+    0.88
+  ],
+  "sceneLightOrCameraEdits": 0,
+  "addedSceneLightSlots": 0,
+  "affectedRoles": [
+    "TennisCharacter",
+    "TennisCloth"
+  ],
+  "perLightModifierChanges": 0,
+  "surfaceFillAddedOnce": true,
+  "disabledPathExistingStringsExact": true,
+  "nativeActualRequired": [
+    "SceneKit generated Metal compile",
+    "existing-light vs fill comparison in native locker/course portrait",
+    "original eye reflections and white kit headroom",
+    "camera tilt and vertical view degeneracy"
+  ]
+}

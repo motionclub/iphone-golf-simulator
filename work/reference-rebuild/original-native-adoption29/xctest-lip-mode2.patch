@@ -1,0 +1,22 @@
+--- a/GolfArcadeTests/VisualOverhaulNativeTests.swift
++++ b/GolfArcadeTests/VisualOverhaulNativeTests.swift
+@@ -52,7 +52,7 @@
+                 if role == "Body" {
+                     let look = try XCTUnwrap(part.submeshes.first?.look)
+                     XCTAssertEqual(look.skinFinish, female ? 2 : 1)
+-                    XCTAssertEqual(look.skinPigmentUV, 1)
++                    XCTAssertEqual(look.skinPigmentUV, 2)
+                     XCTAssertEqual(look.baseMapLinear, true)
+                     XCTAssertEqual(look.baseMap, resources[2])
+                 } else {
+--- a/GolfArcadeTests/LockerMirrorTests.swift
++++ b/GolfArcadeTests/LockerMirrorTests.swift
+@@ -328,7 +328,7 @@
+             let original = (sl.skinPigmentUV ?? 0) > 0.5
+             if original {
+                 XCTAssertEqual(sl.skinFinish, female ? 2 : 1, "accepted gender response, same selected skin")
+-                XCTAssertEqual(sl.skinPigmentUV, 1)
++                XCTAssertEqual(sl.skinPigmentUV, 2)
+                 XCTAssertEqual(sl.smoothness, 0.38, accuracy: 0.001)
+                 XCTAssertEqual(sl.bumpScale, 0)
+                 XCTAssertEqual(sl.bumpTriplanar, 0)

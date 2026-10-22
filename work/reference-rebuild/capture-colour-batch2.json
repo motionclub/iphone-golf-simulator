@@ -1,0 +1,47 @@
+[
+  {
+    "name": "reference-character-warm-filmic2",
+    "method": "GolfArcade.EditorTools.VisualOverhaulCharacterCapture.Run",
+    "env": {
+      "VISUAL_CHARACTER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/character-warm-filmic2",
+      "VISUAL_REFERENCE_HEAD": "0",
+      "VISUAL_CHARACTER_STARTER": "1",
+      "VISUAL_CHARACTER_SKIN_MALE": "D39A72",
+      "VISUAL_CHARACTER_SKIN_FEMALE": "F1CBA5",
+      "VISUAL_CHARACTER_CLIPS": "IntroWave,Serve",
+      "VISUAL_CHARACTER_DISABLE_SSAO": "1",
+      "VISUAL_CHARACTER_STUDIO": "warm",
+      "VISUAL_HERO_COLOR": "0",
+      "VISUAL_CHARACTER_SURFACE": "warm",
+      "VISUAL_HERO_FILMIC": "1"
+    }
+  },
+  {
+    "name": "reference-character-lit-filmic2",
+    "method": "GolfArcade.EditorTools.VisualOverhaulCharacterCapture.Run",
+    "env": {
+      "VISUAL_CHARACTER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/character-lit-filmic2",
+      "VISUAL_REFERENCE_HEAD": "0",
+      "VISUAL_CHARACTER_STARTER": "1",
+      "VISUAL_CHARACTER_SKIN_MALE": "D39A72",
+      "VISUAL_CHARACTER_SKIN_FEMALE": "F1CBA5",
+      "VISUAL_CHARACTER_CLIPS": "IntroWave,Serve",
+      "VISUAL_CHARACTER_DISABLE_SSAO": "1",
+      "VISUAL_CHARACTER_STUDIO": "warm",
+      "VISUAL_HERO_COLOR": "0",
+      "VISUAL_CHARACTER_SURFACE": "lit",
+      "VISUAL_HERO_FILMIC": "1"
+    }
+  },
+  {
+    "name": "reference-coastal-colour4",
+    "method": "GolfArcade.EditorTools.GolfCourseStandardCapture.Run",
+    "env": {
+      "GOLF_STANDARD_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/coastal-colour4",
+      "GOLF_STANDARD_HOLES": "12",
+      "GOLF_STANDARD_SHOWCASE": "1",
+      "GOLF_STANDARD_CAMERA_SWEEP": "1",
+      "VISUAL_COASTAL_REFERENCE": "1"
+    }
+  }
+]

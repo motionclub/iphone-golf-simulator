@@ -1,0 +1,35 @@
+{
+ "hero": "MatchHero_Female",
+ "tag": "Kit_Top",
+ "source": "dump:Kit_Top",
+ "seconds": 481.3,
+ "weights": {
+  "panels": 7,
+  "matched": 0.4783119553510232,
+  "inner": 0.4101635170860668,
+  "smooth_iters": 13,
+  "edge_mm": 7.8312055480692075,
+  "allowed": "{0: ('T',), 1: ('T',), 2: ('T', 'AR'), 3: ('T', 'AL'), 4: ('AR',), 5: ('T',), 6: ('T', 'P')}",
+  "side_mm_p5": 5.267464741585472
+ },
+ "shapes": 16,
+ "log": [
+  "FIT MatchHero_Female Kit_Top from dump:Kit_Top: 10213 verts 19799 tris",
+  "  weights: covered body groups T 51% P 6% AL 14% AR 15% LL 6% LR 8%",
+  "  weights: 7 panels, matched 48%, inner 41%, smooth 13 it (edge 7.8 mm)",
+  "  hem riding on Kit_Bottom: 1262 vertices follow it (t > .5)",
+  "  seams: 684 coincident vertices welded into 314 groups",
+  "  weights 184.4 s",
+  "  skin deep under Kit_Top (hidden, no clearance needed): 2049 of 34443 body vertices",
+  "  obstacles: body + Kit_Bottom",
+  "    pose 0/152  3 s",
+  "    pose 25/152  48 s",
+  "    pose 50/152  96 s",
+  "    pose 75/152  136 s",
+  "    pose 100/152  180 s",
+  "    pose 125/152  235 s",
+  "    pose 150/152  290 s",
+  "  correctives: 152/152 poses need a lift (max 25.0 mm, p90 25.0 mm) in 296 s",
+  "  16 shapes, RBF sigma 0.710, anchor fit err max 0.093, weight at rest 0.0002"
+ ]
+}

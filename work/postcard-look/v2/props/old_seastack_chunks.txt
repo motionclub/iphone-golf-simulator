@@ -1,0 +1,28 @@
+def _seastack_chunks(rng, height, base_r, top_r, lean=(0.0, 0.0), buttress=4, crown=2):
+    """A sea stack: a wide lower core (to ~60 % of the height) and a narrower upper core offset sideways (a shoulder ledge
+    where the two meet), blocky buttress chunks with flat tops round the foot, a jagged flat-topped crown. Every part is a
+    faceted hull (big vertical planes), so the silhouette is stepped and rugged, not a smooth spike."""
+    zb = -3.0
+    a = rng.uniform(0, math.tau)
+    sh = (math.cos(a) * base_r * 0.32 + lean[0] * height, math.sin(a) * base_r * 0.32 + lean[1] * height)
+    z_mid = height * rng.uniform(0.5, 0.62)
+    p1, c1 = _core_pts(rng, zb, z_mid, base_r, base_r * 0.8, (0, 0), (sh[0] * 0.3, sh[1] * 0.3))
+    p2, c2 = _core_pts(rng, z_mid - height * 0.12, height, base_r * 0.68, top_r, (sh[0] * 0.6, sh[1] * 0.6), sh, levels=5)
+    chunks = [dict(pts=p1, merge=0.05), dict(pts=p2, merge=0.05)]
+    for j in range(buttress):
+        cx, cy, z, r = c1[min(len(c1) - 1, rng.randrange(0, 3))]
+        aa = a + math.pi + rng.uniform(-1.6, 1.6) if j < 2 else rng.uniform(0, math.tau)
+        br = r * rng.uniform(0.45, 0.6)
+        hz = (height - zb) * rng.uniform(0.1, 0.18)
+        c = (cx + math.cos(aa) * r * 0.8, cy + math.sin(aa) * r * 0.72, max(zb + hz * 0.7, rng.uniform(-0.5, height * 0.22)))
+        chunks.append(dict(c=c, r=(br, br * 0.9, hz), n=16, block=0.6, chips=3, chip_range=(0.7, 0.88), flat_top=0.8,
+                           flat_bottom=0.8, top_tilt=0.1))
+    cx, cy, z, r = c2[-1]
+    for j in range(crown):
+        aa = rng.uniform(0, math.tau)
+        cr = r * rng.uniform(0.5, 0.65)
+        chunks.append(dict(c=(cx + math.cos(aa) * r * 0.4, cy + math.sin(aa) * r * 0.4, z + rng.uniform(-0.6, 0.5)),
+                           r=(cr, cr * 0.9, cr * 0.8), n=14, block=0.6, chips=2, flat_top=0.75, flat_bottom=0.8, top_tilt=0.15))
+    return chunks
+
+

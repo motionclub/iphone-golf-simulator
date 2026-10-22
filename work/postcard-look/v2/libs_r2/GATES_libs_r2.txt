@@ -1,0 +1,35 @@
+# libs repair round 2 (2026-10-05): gate lines of what this agent touched (final files: sha_final.txt)
+GATE: LIB_FACES PASS 52 library meshes, max faces 480 (max tris 484), tufts {'PLANT_TUFT_A': 78, 'PLANT_TUFT_B': 78, 'PLANT_TUFT_C': 78}, over 500: none
+GATE: SEASTACK_TAPERED PASS A: 443 faces, 28 slices (distinct True), taper w90/w10 0.27 (<= 0.45), max band widening 0.93 (<= 1.12), flat cap 9% of base (<= 25%), 13 facet orientations (>= 6), bbox fill from 0/45/90/135 deg 0.56/0.53/0.54/0.55 (<= 0.62); B: 377 faces, 25 slices (distinct True), taper w90/w10 0.27 (<= 0.45), max band widening 0.92 (<= 1.12), flat cap 9% of base (<= 25%), 13 facet orientations (>= 6), bbox fill from 0/45/90/135 deg 0.46/0.56/0.53/0.51 (<= 0.62); C: 479 faces, 28 slices (distinct True), taper w90/w10 0.27 (<= 0.45), max band widening 0.96 (<= 1.12), flat cap 3% o
+GATE: SPIRE_TAPERED PASS ROCK_SPIRE_A taper 0.29, fills 0.53/0.50/0.49/0.60, 411 faces, facets 12
+GATE: UV_TILE_UNITS PASS box UV = object space / contract tile (rock 4, basalt 8, masonry 4, rough cap 12) on 35 meshes; bad: none
+GATE: UV_IN_SWATCH PASS 16 plant meshes + the shrub crown faces of the 6 spires, every face inside one swatch 6 px inside its border; bad: none
+GATE: PLANTS_ONE_MATERIAL PASS all 16 plant meshes = [LK_PLANTS], no other prop uses it; wrong: none
+GATE: ARCH_NO_SEE_THROUGH_08 PASS 69469 rays at 2 cm through the solid part of the masonry (3 cm inside every block edge): 0 pass through (sky)
+GATE: ARCH_PIER_COPLANAR_08 PASS 10 outer pier faces of the courses lie within 0.000 mm of x = +-(r_in + pw): every course is flush
+GATE: ARCH_NO_DEEP_SLITS_08 PASS 0 of 81349 cells (0.0000 %, limit 0.02 %) are > 3 cm deeper than both cells 4 cm to either side (max relief 2.0 cm); NEGATIVE CONTROL (the previous arch, 5 cm mortar gaps): 2036 slot cells, max relief 41.2 cm -> detected
+GATE: ARCH_FACES_08 PASS 489 polygons (<= 500), blocks with chamfered joints (V-grooves 2.2 cm), {'ring_and_piers': 399, 'haunch': 90}
+GATE: ARCH_NO_SEE_THROUGH_09_BROKEN PASS 26409 rays at 2 cm through the solid part of the masonry (3 cm inside every block edge): 0 pass through (sky)
+GATE: ARCH_PIER_COPLANAR_09_BROKEN PASS 10 outer pier faces of the courses lie within 0.000 mm of x = +-(r_in + pw): every course is flush
+GATE: ARCH_NO_DEEP_SLITS_09_BROKEN PASS 0 of 31696 cells (0.0000 %, limit 0.02 %) are > 3 cm deeper than both cells 4 cm to either side (max relief 2.0 cm); NEGATIVE CONTROL (the previous arch, 5 cm mortar gaps): 1064 slot cells, max relief 10.2 cm -> detected
+GATE: ARCH_FACES_09_BROKEN PASS 323 polygons (<= 500), blocks with chamfered joints (V-grooves 2.2 cm), {'ring_and_piers': 287, 'haunch': 36}
+GATE: SEASTACK_CRAGGY PASS smooth-edge share / ledge pairs: SEASTACK_A 0.53/7, SEASTACK_B 0.51/8, SEASTACK_C 0.52/8, SEASTACK_D 0.53/8, SEASTACK_E 0.54/7, SPIRE_A 0.58/10 (need >= 0.45 smooth interior edges and >= 4 ledge pairs: two rings < 25 cm apart); NEGATIVE CONTROL (the previous flat-shaded spires): SEASTACK_A 0.29/1, SEASTACK_B 0.26/1, SEASTACK_C 0.28/1, SEASTACK_D 0.21/0, SEASTACK_E 0.31/0, SPIRE_A 0.29/1 -> all FAIL as they must
+GATE: ARCH_NO_OBLIQUE_LEAK_08 PASS 5515 sample points inside the solid masonry x 28 oblique directions = 154420 rays: 0 first hits on a back face / none (429 polygons); NEGATIVE CONTROL (the arch of the start of this round: wedges with a 0-9 mm random front offset): 71 of 156352 rays leak -> detected
+GATE: ARCH_NO_OBLIQUE_LEAK_09_BROKEN PASS 1705 sample points inside the solid masonry x 28 oblique directions = 47740 rays: 0 first hits on a back face / none (323 polygons); NEGATIVE CONTROL (the arch of the start of this round: wedges with a 0-9 mm random front offset): 21 of 47208 rays leak -> detected
+GATE: ARCH_NO_OBLIQUE_LEAK_SMALL PASS 1457 sample points inside the solid masonry x 28 oblique directions = 40796 rays: 0 first hits on a back face / none (334 polygons); NEGATIVE CONTROL (the arch of the start of this round: wedges with a 0-9 mm random front offset): 16 of 42700 rays leak -> detected
+GATE: ARCH_JOINTS_ON_MORTAR_ROWS PASS 5 exposed joint planes (plinth top, spring line, haunch row tops) at z 0.51 .. 8.01: the painted Masonry_C luminance there is 0.405 against a stone mean 0.474 (mortar rows 0.371, depth 0.070; need the joints >= 0.6 x depth darker), pier height = 11 x the measured pitch 0.500 m (phase 0.254 m, UV phase voff 5.754 m); NEGATIVE CONTROL (round-1 arch, joints at random heights, no UV phase): 6 joint planes, mean luminance there 0.489 (stone 0.474) -> detected
+GATE: ARCH_JOINT_FACES_MORTAR_UV PASS 147 chamfer / strip faces of 429 carry the mortar UV (a mortar ROW of the albedo at v 0.0635, V extent < 0.012 = 6 px, isotropic or squeezed <= 3.5:1); 0 of them are larger than 0.3 m2 (must be 0)
+GATE: VINE_TIP_WIDTH PASS stalk width (the longest side of the 3-corner ring) at the tip 2.9..2.9 cm (>= 2.7 cm = 1.5 px at 25 m), at the top 4.5..4.5 cm (>= 4 cm)
+GATE: SPIRE_SHRUB_CROWN PASS SEASTACK_A: crown 35 faces, summit 13.00 m (design 13), crown / neck width 1.41, axis offset 0.11 H, swatches [0, 1, 2, 6] ok; SEASTACK_B: crown 35 faces, summit 18.00 m (design 18), crown / neck width 1.23, axis offset 0.09 H, swatches [0, 1, 2, 6] ok; SEASTACK_C: crown 37 faces, summit 24.00 m (design 24), crown / neck width 1.24, axis offset 0.11 H, swatches [0, 1, 6] ok; SEASTACK_D: crown 35 faces, summit 16.00 m (design 16), crown / neck width 1.09, axis offset 0.09 H, swatches [0, 1, 2, 6] ok; SEASTACK_E: crown 37 faces, summit 21.00 m (design 21), crown / ne
+GATE: PROPS_BUDGET PASS 52 library meshes, max 480 faces (<= 500; over: none), tufts 78 faces (<= 120); hole 08: dressed scene 125308 tris (853 instances of 32 meshes); hole 09: dressed scene 151624 tris (1069 instances of 35 meshes); hole 10: dressed scene 138488 tris (919 instances of 37 meshes); baseline hole 08 swap: 93 instances, 19152 tris; baseline hole 09 swap: 483 instances, 76096 tris; baseline hole 10 swap: 227 instances, 92680 tris
+GATE: PROPS_SMOKE_PASS PASS 82/82 gates pass before this line in 70.9s; failing: none
+GATE: LIB_PILLAR_COURSES_NOT_STACKED PASS - row-to-row luminance step of the pillar wall (3x Blender crop, approach camera): new std 0.161 max 1.02 (limits 0.6 / 4.0), vertical-streak ratio dI/dx : dI/dy 3.24; CONTROL (stage built on the start-of-round lib): std 1.263 max 12.94 ratio 2.33 -> detected
+
+ground-lib smoke: 23 / 34 / 25 PASS on holes 10 / 08 / 09, 0 FAIL
+h10/verify.log:postcard_look_verify: hole 10: 99 gates, 2 failed, 7.2 s
+h10/verify.log:RESULT: FAILURES ['GROUND_UV_LOCAL_SMEAR@blend', 'GROUND_UV_LOCAL_SMEAR@fbx']
+h08/verify.log:postcard_look_verify: hole 8: 96 gates, 0 failed, 9.5 s
+h08/verify.log:RESULT: ALL PASS
+h09/verify.log:postcard_look_verify: hole 9: 92 gates, 0 failed, 11.2 s
+h09/verify.log:RESULT: ALL PASS
+guards.sh PASS lines: 7

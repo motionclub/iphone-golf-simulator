@@ -1,0 +1,17 @@
+[
+ {
+  "name": "H_LANDMARK_CLEAR_hole10_tee",
+  "ok": true,
+  "detail": "address camera (-1.0, 9.28, -4.4) world yd; schema problems none; objects within 2 m of the lens none; plants / rocks / wall within 6 m in the central 40 % none; ball 4.7 m from the camera: centre ray free True, 8/8 rim rays free"
+ },
+ {
+  "name": "H_LANDMARK_CLEAR_hole10_approach",
+  "ok": true,
+  "detail": "address camera (102.6, 9.17, 159.1) world yd; schema problems none; objects within 2 m of the lens none; plants / rocks / wall within 6 m in the central 40 % none; ball 4.7 m from the camera: centre ray free True, 8/8 rim rays free; flag top visible True"
+ },
+ {
+  "name": "H_LANDMARK_CLEAR_hole10_lavarim",
+  "ok": true,
+  "detail": "landmark camera (70.0, 14.00, 108.0) world yd; schema problems none; objects within 2 m of the lens none; plants / rocks / wall within 6 m in the central 40 % none; frame shares {ground 1%, lava 42%, plant 1%, ring 17%, rock 1%, sky 22%, wall 16%}; wall/lava contact cells 26; pillar pixels 0.2%"
+ }
+]

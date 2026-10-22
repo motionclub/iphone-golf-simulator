@@ -1,0 +1,240 @@
+{
+  "tennis": [
+    {
+      "sample": "male_MatchLose_1",
+      "view": "front",
+      "plate": "work/reference-rebuild/garment-coverage-independent1/male_MatchLose_1_front_coverage.png",
+      "externalEdgeContractionPixels": 0,
+      "enclosedChangePixels": 866,
+      "entirelyNewEnclosedHoleCount": 0,
+      "components": [
+        {
+          "kind": "existing-background-opening-enlarged",
+          "backgroundComponentPixels": 42847,
+          "maskAttributablePixels": 575,
+          "bbox": [
+            617,
+            452,
+            798,
+            876
+          ]
+        },
+        {
+          "kind": "existing-background-opening-enlarged",
+          "backgroundComponentPixels": 5797,
+          "maskAttributablePixels": 291,
+          "bbox": [
+            103,
+            446,
+            245,
+            532
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "male_MatchLose_2",
+      "view": "front",
+      "plate": "work/reference-rebuild/garment-coverage-independent1/male_MatchLose_2_front_coverage.png",
+      "externalEdgeContractionPixels": 0,
+      "enclosedChangePixels": 865,
+      "entirelyNewEnclosedHoleCount": 0,
+      "components": [
+        {
+          "kind": "existing-background-opening-enlarged",
+          "backgroundComponentPixels": 42731,
+          "maskAttributablePixels": 576,
+          "bbox": [
+            617,
+            452,
+            798,
+            875
+          ]
+        },
+        {
+          "kind": "existing-background-opening-enlarged",
+          "backgroundComponentPixels": 5804,
+          "maskAttributablePixels": 289,
+          "bbox": [
+            103,
+            446,
+            245,
+            532
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "male_SadPointLost_2",
+      "view": "front",
+      "plate": "work/reference-rebuild/garment-coverage-independent1/male_SadPointLost_2_front_coverage.png",
+      "externalEdgeContractionPixels": 451,
+      "enclosedChangePixels": 847,
+      "entirelyNewEnclosedHoleCount": 0,
+      "components": [
+        {
+          "kind": "existing-background-opening-enlarged",
+          "backgroundComponentPixels": 43045,
+          "maskAttributablePixels": 847,
+          "bbox": [
+            614,
+            452,
+            794,
+            874
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "male_SadPointLost_1",
+      "view": "front",
+      "plate": "work/reference-rebuild/garment-coverage-independent1/male_SadPointLost_1_front_coverage.png",
+      "externalEdgeContractionPixels": 449,
+      "enclosedChangePixels": 843,
+      "entirelyNewEnclosedHoleCount": 0,
+      "components": [
+        {
+          "kind": "existing-background-opening-enlarged",
+          "backgroundComponentPixels": 43169,
+          "maskAttributablePixels": 843,
+          "bbox": [
+            613,
+            452,
+            794,
+            875
+          ]
+        }
+      ]
+    }
+  ],
+  "golf": [
+    {
+      "sample": "female_PitchingWedge_022",
+      "view": "rear",
+      "plate": "work/reference-rebuild/garment-coverage-independent1/female_PitchingWedge_022_rear_coverage.png",
+      "externalEdgeContractionPixels": 0,
+      "enclosedChangePixels": 358,
+      "entirelyNewEnclosedHoleCount": 0,
+      "components": [
+        {
+          "kind": "existing-background-opening-enlarged",
+          "backgroundComponentPixels": 251,
+          "maskAttributablePixels": 9,
+          "bbox": [
+            564,
+            280,
+            581,
+            320
+          ]
+        },
+        {
+          "kind": "existing-background-opening-enlarged",
+          "backgroundComponentPixels": 506,
+          "maskAttributablePixels": 349,
+          "bbox": [
+            230,
+            387,
+            291,
+            455
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "male_PitchingWedge_020",
+      "view": "rear",
+      "plate": "work/reference-rebuild/garment-coverage-independent1/male_PitchingWedge_020_rear_coverage.png",
+      "externalEdgeContractionPixels": 0,
+      "enclosedChangePixels": 326,
+      "entirelyNewEnclosedHoleCount": 0,
+      "components": [
+        {
+          "kind": "existing-background-opening-enlarged",
+          "backgroundComponentPixels": 265,
+          "maskAttributablePixels": 249,
+          "bbox": [
+            160,
+            475,
+            218,
+            495
+          ]
+        },
+        {
+          "kind": "existing-background-opening-enlarged",
+          "backgroundComponentPixels": 433,
+          "maskAttributablePixels": 77,
+          "bbox": [
+            212,
+            551,
+            274,
+            599
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "male_Iron_021",
+      "view": "rear",
+      "plate": "work/reference-rebuild/garment-coverage-independent1/male_Iron_021_rear_coverage.png",
+      "externalEdgeContractionPixels": 0,
+      "enclosedChangePixels": 248,
+      "entirelyNewEnclosedHoleCount": 1,
+      "components": [
+        {
+          "kind": "entirely-new-enclosed-background-hole",
+          "backgroundComponentPixels": 98,
+          "maskAttributablePixels": 98,
+          "bbox": [
+            214,
+            465,
+            244,
+            482
+          ]
+        },
+        {
+          "kind": "existing-background-opening-enlarged",
+          "backgroundComponentPixels": 638,
+          "maskAttributablePixels": 150,
+          "bbox": [
+            172,
+            543,
+            268,
+            586
+          ]
+        }
+      ]
+    },
+    {
+      "sample": "male_PitchingWedge_021",
+      "view": "rear",
+      "plate": "work/reference-rebuild/garment-coverage-independent1/male_PitchingWedge_021_rear_coverage.png",
+      "externalEdgeContractionPixels": 0,
+      "enclosedChangePixels": 217,
+      "entirelyNewEnclosedHoleCount": 0,
+      "components": [
+        {
+          "kind": "existing-background-opening-enlarged",
+          "backgroundComponentPixels": 175,
+          "maskAttributablePixels": 86,
+          "bbox": [
+            208,
+            418,
+            232,
+            433
+          ]
+        },
+        {
+          "kind": "existing-background-opening-enlarged",
+          "backgroundComponentPixels": 492,
+          "maskAttributablePixels": 131,
+          "bbox": [
+            157,
+            528,
+            253,
+            547
+          ]
+        }
+      ]
+    }
+  ]
+}

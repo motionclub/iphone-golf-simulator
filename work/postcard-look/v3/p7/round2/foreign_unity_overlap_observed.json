@@ -1,0 +1,10 @@
+{
+  "observedUtc": "2026-10-05T23:16:20.096363+00:00",
+  "scope": "Read-only observation of concurrent foreign Unity batches; root promotion wrapper waits; no process kill or message sent. Original project-wide one-at-a-time condition is not certified.",
+  "pidsRequested": [
+    94048,
+    94116
+  ],
+  "rows": [],
+  "concurrentForeignBatchObserved": false
+}

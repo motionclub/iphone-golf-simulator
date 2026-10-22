@@ -1,0 +1,15 @@
+--- Unity/Assets/Tests/PlayMode/MatchHeroClipMapTests.cs	2026-10-16 20:43:53
++++ Unity/Assets/Tests/PlayMode/MatchHeroClipMapTests.cs	2026-10-17 13:51:44
+@@ -15,9 +15,9 @@
+     {
+         static readonly (HeroTennisDriver.Clip slot, string clip, float contact)[] Table =
+         {
+-            (HeroTennisDriver.Clip.Forehand, "Forehand", .650f), (HeroTennisDriver.Clip.Backhand, "Backhand", .633f), (HeroTennisDriver.Clip.Serve, "Serve", 1.700f),
+-            (HeroTennisDriver.Clip.Volley, "VolleyForehand", .300f), (HeroTennisDriver.Clip.VolleyBackhand, "VolleyBackhand", .283f), (HeroTennisDriver.Clip.Smash, "Overhead", .733f),
+-            (HeroTennisDriver.Clip.ForehandWide, "ForehandWide", .850f), (HeroTennisDriver.Clip.BackhandWide, "BackhandWide", .767f), (HeroTennisDriver.Clip.Return, "Return", .417f),
++            (HeroTennisDriver.Clip.Forehand, "Forehand", .667f), (HeroTennisDriver.Clip.Backhand, "Backhand", .633f), (HeroTennisDriver.Clip.Serve, "Serve", 1.700f),
++            (HeroTennisDriver.Clip.Volley, "VolleyForehand", .300f), (HeroTennisDriver.Clip.VolleyBackhand, "VolleyBackhand", .300f), (HeroTennisDriver.Clip.Smash, "Overhead", .733f),
++            (HeroTennisDriver.Clip.ForehandWide, "ForehandWide", .867f), (HeroTennisDriver.Clip.BackhandWide, "BackhandWide", .767f), (HeroTennisDriver.Clip.Return, "Return", .433f),
+             (HeroTennisDriver.Clip.ForehandShort, "ForehandShort", .467f), (HeroTennisDriver.Clip.ForehandOpen, "ForehandOpen", .533f), (HeroTennisDriver.Clip.SliceApproach, "SliceApproach", .500f),
+         };
+ 

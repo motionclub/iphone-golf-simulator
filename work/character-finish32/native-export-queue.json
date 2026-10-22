@@ -1,0 +1,25 @@
+[
+  {
+    "name": "character-finish32-native-export",
+    "method": "GolfArcade.EditorTools.MatchHeroLockerExport.Run",
+    "env": {
+      "VISUAL_ORIGINAL_SEAM": "1",
+      "VISUAL_ORIGINAL_BLINK": "1",
+      "VISUAL_ORIGINAL_EYE_MATERIAL": "1",
+      "VISUAL_CHARACTER_SKIN_FINISH": "1",
+      "VISUAL_CHARACTER_NORMALS": "continuous",
+      "VISUAL_REFERENCE_HEAD": "0",
+      "VISUAL_CHARACTER_LIP_FINISH": "1",
+      "MH_LOCKER_FACE_PARITY": "0",
+      "MH_LOCKER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/character-finish32/native/export",
+      "MH_LOCKER_GOLDEN": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/character-finish32/native/golden",
+      "MH_LOCKER_REPORT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/character-finish32/native/export-report.txt",
+      "VISUAL_UNDERARM_GUSSET": "0",
+      "VISUAL_UNDERARM_FIT": "0",
+      "VISUAL_TAILORED_POLO": "1",
+      "VISUAL_GARMENT_COVERAGE": "1",
+      "MH_LOCKER_SEX": "Male",
+      "MH_LOCKER_CLOTH_GOLDEN": "1"
+    }
+  }
+]

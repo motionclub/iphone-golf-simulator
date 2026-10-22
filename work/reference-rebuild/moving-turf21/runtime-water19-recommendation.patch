@@ -1,0 +1,15 @@
+--- a/Unity/Assets/Scripts/Course/GolfCoastalTurf.cs
++++ b/Unity/Assets/Scripts/Course/GolfCoastalTurf.cs
+@@ -207,7 +207,11 @@
+         bool Ground(Vector3 p,out Vector3 point,out Vector3 normal,out bool rough,out float surface)
+         {
+             GroundQueriesThisRebuild++;
+-            point=normal=default;rough=false;surface=0;float closest=float.MaxValue;GroundSource land=null;RaycastHit best=default;
++            point=normal=default;rough=false;surface=0;
++            // Render-only decoration must not grow through the authored lagoon
++            // where a hidden collision fairway continues below the water.
++            if(MovingEnabled&&activeHole.LieAt(new CoursePoint(p.x,p.z))==CourseLie.Water)return false;
++            float closest=float.MaxValue;GroundSource land=null;RaycastHit best=default;
+             var ray=new Ray(new Vector3(p.x,1000,p.z),Vector3.down);
+             foreach(var source in groundSources) {
+                 if(!source.collider||!source.collider.enabled||!source.collider.gameObject.activeInHierarchy

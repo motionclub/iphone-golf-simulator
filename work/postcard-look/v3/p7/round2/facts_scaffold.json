@@ -1,0 +1,131 @@
+{
+  "schema": "pending_final_facts_scaffold_v1",
+  "scope": "Scratch scaffold for root review. Retained historical phase facts; final installed round2 native is running and has no result here. No publication or new tests.",
+  "phase0_through5": [
+    {
+      "phase": 0,
+      "formal_gate": "PASS",
+      "completed": "Initial389-line audit, full table, three fresh aerial/reference comparisons,30 ranked differences, guards7/7.",
+      "required_unfinished": []
+    },
+    {
+      "phase": 1,
+      "formal_gate": "FAIL",
+      "completed": "Smoke entry checks26/26+115/115 PASS; native sway15/15, lawn contrasts4.6821%/3.7757% PASS; three-view fixtures saved.",
+      "required_unfinished": [
+        "Basalt az35 rungs21.1%>20% FAIL.",
+        "Current recheck retains three raw child-verifier FAILs and seven original grass-gate FAILs.",
+        "Latest cliff runs H8 5.3545m/H9 5.1865m>4m FAIL; H10 extractor unsupported, FAIL/unmeasured."
+      ]
+    },
+    {
+      "phase": 2,
+      "formal_gate": "PASS",
+      "completed": "Staged blend/FBX verifier100/100, exact scoring0m, fresh aerial comparison; ten differences fixed or explained.",
+      "required_unfinished": [
+        "Requirement2.2 shader UV scrolling unimplemented, FAIL; formal gate PASS leaves this requirement unfinished."
+      ]
+    },
+    {
+      "phase": 3,
+      "formal_gate": "FAIL",
+      "completed": "Verifier96/96, builder16/16, QA27/27, ruin support13/13, cuboids0/394, exact scoring0m PASS; fresh aerial comparison saved.",
+      "required_unfinished": [
+        "SPLIT_CLIFF_ISLANDS FAIL: one frozen boundary; required two-island/80% cliff-and-surf result not achieved.",
+        "Historical straight run14.8442m>4m FAIL."
+      ]
+    },
+    {
+      "phase": 4,
+      "formal_gate": "FAIL",
+      "completed": "Real column geometry, exact scoring0m PASS;248314tri; fresh native three views/aerial comparison saved.",
+      "required_unfinished": [
+        "Required verifier97/103; texture/window and tee smoke0.82%<1.5% FAIL.",
+        "Native BASALT_JOINTS approach saturation0.347>0.25 FAIL; phase-specific lava/smoke certification incomplete."
+      ]
+    },
+    {
+      "phase": 5,
+      "formal_gate": "FAIL",
+      "completed": "Play-mode12/12 staged frames, RGB drift0; cliff presence6/6, Needle stacks9/4 PASS.",
+      "required_unfinished": [
+        "Six water masks0.2261\u201312.4001%<15% FAIL.",
+        "Configured Split landmarks0/24px, Crater approach volcano0px<64 FAIL; other allowed alternatives not universally excluded.",
+        "Green contrast unsupported: FAIL/unmeasured."
+      ]
+    }
+  ],
+  "phases6_through8": [
+    {
+      "phase": 6,
+      "state": "PENDING_FINAL",
+      "formal_gate_final": null,
+      "reason": "Final installed round2 native evidence/review pending; prior P6 FAIL retained."
+    },
+    {
+      "phase": 7,
+      "state": "PENDING_FINAL",
+      "formal_gate_final": null,
+      "reason": "Finite last source cycle applied; final physical eye review and scores pending."
+    },
+    {
+      "phase": 8,
+      "state": "PENDING_FINAL",
+      "formal_gate_final": null,
+      "reason": "Final report and scoped Git transaction pending; no commit claimed."
+    }
+  ],
+  "latest_source_facts": {
+    "status": "PASS_SOURCE_SCOPE_ONLY",
+    "hole09": {
+      "builder": 16,
+      "verifier_measured": 96,
+      "qa": 27
+    },
+    "hole10": {
+      "builder": 24,
+      "verifier_measured": 102,
+      "unmeasured": [
+        "LOOK_STILLS_TEXTURED"
+      ]
+    },
+    "exact_scoring": "12/12 at threshold0m",
+    "installation": "Original pre/install and byte/meta checks completed; native/appearance/cost unverified.",
+    "evidence": [
+      {
+        "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round2/coordinator_review_1/build/receipt.json",
+        "sha256": "8f6e4b00187848db96d6786f017a4e7ebe4c85bb9ca701fd7298651a6e218b84"
+      },
+      {
+        "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round2/coordinator_review_1/install/receipt.json",
+        "sha256": "000701eb1a17699f7cca177e2a349adaebbdb1f63e9083ff637fe3ac77777f2f"
+      }
+    ]
+  },
+  "hard_rules": [
+    {
+      "rule": "Original protected files unchanged",
+      "status": "FAIL",
+      "measured": "61 changed of1359; original comparison remains FAIL.",
+      "evidence": {
+        "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round2/protected_review/fresh.json",
+        "sha256": "e48792a46dbb445447206536b6bee57485214e86ecb939414e5d96f1bdbab6f8"
+      }
+    },
+    {
+      "rule": "One heavy batch at a time project-wide",
+      "status": "FAIL",
+      "measured": "Two foreign Unity batches simultaneously observed: PIDs94048/94116. Root promotion waited through original heavy wrapper; no root/foreign execution overlap inferred.",
+      "source_tool_chunk": "2d6168",
+      "evidence": {
+        "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round2/foreign_unity_overlap_primary_tool_observation.json",
+        "sha256": "c3aaed291d643362e14735157dc6d2ef49d869f685d5c80a77510c93e1e1e912"
+      }
+    }
+  ],
+  "historical_detail_source": {
+    "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round2/phase_facts_draft.json",
+    "sha256": "44a632f1885a7ded326833a9f360ec4f460e7e2c88bd6fc7f3f22fd2323b750f"
+  },
+  "formatting": "Use distinct columns for formal gate, completed evidence and required unfinished work. Keep P2 gate PASS alongside requirement2.2 FAIL. Preserve historical raw failures and fresh final evidence separately; no impossible/universal framing claim."
+}

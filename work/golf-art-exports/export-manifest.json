@@ -1,0 +1,1001 @@
+{
+  "status": "Candidate export only; compare actual Unity rendering before installation.",
+  "assets": [
+    {
+      "asset": "BotanicalKit",
+      "source": "ArtDir/golf/source/BotanicalKit.blend",
+      "source_sha256": "c09cedc6d88423e803f9e651b4a8da794be93264a0925758d65c07679d07af2f",
+      "candidate": "work/golf-art-exports/BotanicalKit.fbx",
+      "evaluated_triangles": 52702,
+      "objects": [
+        {
+          "name": "BLUFF_0",
+          "vertices": 756,
+          "triangles": 1508
+        },
+        {
+          "name": "BLUFF_1",
+          "vertices": 793,
+          "triangles": 1582
+        },
+        {
+          "name": "BLUFF_2",
+          "vertices": 746,
+          "triangles": 1488
+        },
+        {
+          "name": "BOULDER",
+          "vertices": 280,
+          "triangles": 504
+        },
+        {
+          "name": "BUSH_BROAD",
+          "vertices": 1032,
+          "triangles": 1536
+        },
+        {
+          "name": "CACTUS",
+          "vertices": 192,
+          "triangles": 312
+        },
+        {
+          "name": "CANOPY",
+          "vertices": 408,
+          "triangles": 672
+        },
+        {
+          "name": "CLIFF_BLOCK_0",
+          "vertices": 306,
+          "triangles": 608
+        },
+        {
+          "name": "CLIFF_BLOCK_1",
+          "vertices": 256,
+          "triangles": 508
+        },
+        {
+          "name": "CLIFF_BLOCK_2",
+          "vertices": 238,
+          "triangles": 472
+        },
+        {
+          "name": "FERN",
+          "vertices": 504,
+          "triangles": 448
+        },
+        {
+          "name": "FLOWER_CORAL",
+          "vertices": 530,
+          "triangles": 620
+        },
+        {
+          "name": "FLOWER_GOLD",
+          "vertices": 530,
+          "triangles": 620
+        },
+        {
+          "name": "OAK",
+          "vertices": 2123,
+          "triangles": 3206
+        },
+        {
+          "name": "OAK_FAR",
+          "vertices": 633,
+          "triangles": 982
+        },
+        {
+          "name": "PALM",
+          "vertices": 10418,
+          "triangles": 12380
+        },
+        {
+          "name": "PALM_FAR",
+          "vertices": 3496,
+          "triangles": 4104
+        },
+        {
+          "name": "PINE",
+          "vertices": 11890,
+          "triangles": 13616
+        },
+        {
+          "name": "PINE_FAR",
+          "vertices": 4980,
+          "triangles": 4464
+        },
+        {
+          "name": "SHRUB_0",
+          "vertices": 1032,
+          "triangles": 1536
+        },
+        {
+          "name": "SHRUB_1",
+          "vertices": 1032,
+          "triangles": 1536
+        }
+      ]
+    },
+    {
+      "asset": "MeadowClub",
+      "source": "ArtDir/golf/source/MeadowClub.blend",
+      "source_sha256": "6300e79855f344fe61b9bd5834bef795ae302a37dd305fc88b15c660307c5295",
+      "candidate": "work/golf-art-exports/MeadowClub.fbx",
+      "evaluated_triangles": 9896,
+      "objects": [
+        {
+          "name": "CLUB_BENCH_LEG",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_BENCH_LEG.001",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_BENCH_LEG.002",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_BENCH_LEG.003",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_CLOCK_FACE",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_CLOCK_FACE.001",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_CLOCK_HAND",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_CLOCK_HAND.001",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_CLOCK_HAND.002",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_CLOCK_HAND.003",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_CLOCK_TOWER",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_COLUMN_BASE",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_COLUMN_BASE.001",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_COLUMN_BASE.002",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_COLUMN_BASE.003",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_COLUMN_BASE.004",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_COLUMN_CAP",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_COLUMN_CAP.001",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_COLUMN_CAP.002",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_COLUMN_CAP.003",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_COLUMN_CAP.004",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_CORNICE",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_FOUNDATION",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_HIPPED_ROOF",
+          "vertices": 100,
+          "triangles": 196
+        },
+        {
+          "name": "CLUB_PERGOLA_RAFTER",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_PERGOLA_RAFTER.001",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_PERGOLA_RAFTER.002",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_PERGOLA_RAFTER.003",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_PERGOLA_RAFTER.004",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_PERGOLA_RAFTER.005",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_PERGOLA_RAFTER.006",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_PERGOLA_RAFTER.007",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_PERGOLA_RAFTER.008",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_PERGOLA_RAFTER.009",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_PERGOLA_RAFTER.010",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_PERGOLA_RAFTER.011",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_PERGOLA_RAFTER.012",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_PORTICO_BEAM",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_PORTICO_COLUMN",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_PORTICO_COLUMN.001",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_PORTICO_COLUMN.002",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_PORTICO_COLUMN.003",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_PORTICO_COLUMN.004",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_RECESSED_GLAZING",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_RECESSED_GLAZING.001",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_RECESSED_GLAZING.002",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_RECESSED_GLAZING.003",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_RECESSED_GLAZING.004",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_TERRACE",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_TERRACE_BENCH",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_TERRACE_BENCH.001",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_TERRACE_PLANTER",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_TERRACE_PLANTER.001",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_TOWER_CORNICE",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_TOWER_ROOF",
+          "vertices": 100,
+          "triangles": 196
+        },
+        {
+          "name": "CLUB_WALL",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_WELCOMING_STAIR",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_WELCOMING_STAIR.001",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_WELCOMING_STAIR.002",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_WELCOMING_STAIR.003",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_WINDOW_MULLION",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_WINDOW_MULLION.001",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_WINDOW_MULLION.002",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_WINDOW_MULLION.003",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_WINDOW_MULLION.004",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_WINDOW_MULLION.005",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_WINDOW_MULLION.006",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_WINDOW_MULLION.007",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_WINDOW_MULLION.008",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_WINDOW_MULLION.009",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_WINDOW_MULLION.010",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_WINDOW_MULLION.011",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_WINDOW_MULLION.012",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_WINDOW_MULLION.013",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_WINDOW_MULLION.014",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_WINDOW_RAIL",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_WINDOW_RAIL.001",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_WINDOW_RAIL.002",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_WINDOW_RAIL.003",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_WINDOW_RAIL.004",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_WINDOW_RAIL.005",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_WINDOW_RAIL.006",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_WINDOW_RAIL.007",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_WINDOW_RAIL.008",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_WINDOW_RAIL.009",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_WINDOW_RAIL.010",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_WINDOW_RAIL.011",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_WINDOW_RAIL.012",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_WINDOW_RAIL.013",
+          "vertices": 56,
+          "triangles": 108
+        },
+        {
+          "name": "CLUB_WINDOW_RAIL.014",
+          "vertices": 56,
+          "triangles": 108
+        }
+      ]
+    },
+    {
+      "asset": "Finish_12",
+      "source": "ArtDir/golf/source/Finish_12.blend",
+      "source_sha256": "cea15210e6fe1a4ea59d55141387a78015ed83737b3fcf1aff55b64259089ab7",
+      "candidate": "work/golf-art-exports/Finish_12.fbx",
+      "evaluated_triangles": 51760,
+      "objects": [
+        {
+          "name": "BRIDGE_PLANKS",
+          "vertices": 14744,
+          "triangles": 29100
+        },
+        {
+          "name": "BRIDGE_RAILS",
+          "vertices": 9744,
+          "triangles": 18480
+        },
+        {
+          "name": "LIGHTHOUSE",
+          "vertices": 2126,
+          "triangles": 4180
+        }
+      ]
+    },
+    {
+      "asset": "Finish_15",
+      "source": "ArtDir/golf/source/Finish_15.blend",
+      "source_sha256": "e43260f524574ecd29c486429b66a128dc5a770996c37d121d0079ee687839db",
+      "candidate": "work/golf-art-exports/Finish_15.fbx",
+      "evaluated_triangles": 8010,
+      "objects": [
+        {
+          "name": "BRIDGE_1",
+          "vertices": 1632,
+          "triangles": 2992
+        },
+        {
+          "name": "LIGHTHOUSE",
+          "vertices": 2049,
+          "triangles": 3786
+        },
+        {
+          "name": "STAIRS_1",
+          "vertices": 336,
+          "triangles": 616
+        },
+        {
+          "name": "STAIRS_2",
+          "vertices": 336,
+          "triangles": 616
+        }
+      ]
+    },
+    {
+      "asset": "Finish_17",
+      "source": "ArtDir/golf/source/Finish_17.blend",
+      "source_sha256": "2b8cd5cd0ec054b6780b772ce3d322961d408c1064a3ad91275bc3e4da6ed65c",
+      "candidate": "work/golf-art-exports/Finish_17.fbx",
+      "evaluated_triangles": 1056,
+      "objects": [
+        {
+          "name": "CABIN_1",
+          "vertices": 576,
+          "triangles": 1056
+        }
+      ]
+    },
+    {
+      "asset": "Finish_18",
+      "source": "ArtDir/golf/source/Finish_18.blend",
+      "source_sha256": "3dd9049bb71244e7381430b8a368d1601261b13de955a94a46b156b067933a54",
+      "candidate": "work/golf-art-exports/Finish_18.fbx",
+      "evaluated_triangles": 16956,
+      "objects": [
+        {
+          "name": "BRIDGE_ROPE",
+          "vertices": 8792,
+          "triangles": 16956
+        }
+      ]
+    },
+    {
+      "asset": "Finish_19",
+      "source": "ArtDir/golf/source/Finish_19.blend",
+      "source_sha256": "97e736e85ea643e733db112494e7755ddd384dd674238d3a213c809737308a10",
+      "candidate": "work/golf-art-exports/Finish_19.fbx",
+      "evaluated_triangles": 43024,
+      "objects": [
+        {
+          "name": "RUIN_COLUMN_1_1",
+          "vertices": 224,
+          "triangles": 436
+        },
+        {
+          "name": "RUIN_COLUMN_1_2",
+          "vertices": 224,
+          "triangles": 436
+        },
+        {
+          "name": "RUIN_COLUMN_1_3",
+          "vertices": 224,
+          "triangles": 436
+        },
+        {
+          "name": "RUIN_COLUMN_1_4",
+          "vertices": 224,
+          "triangles": 436
+        },
+        {
+          "name": "RUIN_COLUMN_2_1",
+          "vertices": 224,
+          "triangles": 436
+        },
+        {
+          "name": "RUIN_COLUMN_2_2",
+          "vertices": 224,
+          "triangles": 436
+        },
+        {
+          "name": "RUIN_COLUMN_2_3",
+          "vertices": 224,
+          "triangles": 436
+        },
+        {
+          "name": "RUIN_HEAD",
+          "vertices": 280,
+          "triangles": 540
+        },
+        {
+          "name": "STAIRS_1",
+          "vertices": 3528,
+          "triangles": 6804
+        },
+        {
+          "name": "TEMPLE_1",
+          "vertices": 18362,
+          "triangles": 32628
+        }
+      ]
+    },
+    {
+      "asset": "Finish_20",
+      "source": "ArtDir/golf/source/Finish_20.blend",
+      "source_sha256": "6d3f2b9ba691087b716802cc43265fdf0d9280bf076ea2cf0a36bd6ffaecc1e2",
+      "candidate": "work/golf-art-exports/Finish_20.fbx",
+      "evaluated_triangles": 6120,
+      "objects": [
+        {
+          "name": "BOAT_1",
+          "vertices": 48,
+          "triangles": 88
+        },
+        {
+          "name": "FARMHOUSE_1",
+          "vertices": 768,
+          "triangles": 1408
+        },
+        {
+          "name": "FENCE_1",
+          "vertices": 936,
+          "triangles": 1716
+        },
+        {
+          "name": "JETTY_1",
+          "vertices": 408,
+          "triangles": 748
+        },
+        {
+          "name": "WINDMILL_1",
+          "vertices": 1168,
+          "triangles": 2160
+        }
+      ]
+    },
+    {
+      "asset": "GolfGalleryHero4",
+      "source": "ArtDir/golf/source/GolfGalleryHero4.blend",
+      "source_sha256": "53af8de2718b47a26bbc93b08404083f37ac9c5ff581963bd0acee7a9c8a6443",
+      "candidate": "work/golf-art-exports/GolfGalleryHero4.fbx",
+      "evaluated_triangles": 297447,
+      "objects": [
+        {
+          "name": "ARM_L",
+          "vertices": 1962,
+          "triangles": 3683
+        },
+        {
+          "name": "ARM_L.001",
+          "vertices": 1696,
+          "triangles": 3219
+        },
+        {
+          "name": "ARM_L.002",
+          "vertices": 1962,
+          "triangles": 3683
+        },
+        {
+          "name": "ARM_L.003",
+          "vertices": 1696,
+          "triangles": 3219
+        },
+        {
+          "name": "ARM_L.004",
+          "vertices": 1962,
+          "triangles": 3683
+        },
+        {
+          "name": "ARM_L.005",
+          "vertices": 1696,
+          "triangles": 3219
+        },
+        {
+          "name": "ARM_L_FAR",
+          "vertices": 165,
+          "triangles": 316
+        },
+        {
+          "name": "ARM_L_FAR.001",
+          "vertices": 167,
+          "triangles": 318
+        },
+        {
+          "name": "ARM_L_FAR.002",
+          "vertices": 165,
+          "triangles": 316
+        },
+        {
+          "name": "ARM_L_FAR.003",
+          "vertices": 167,
+          "triangles": 318
+        },
+        {
+          "name": "ARM_L_FAR.004",
+          "vertices": 165,
+          "triangles": 316
+        },
+        {
+          "name": "ARM_L_FAR.005",
+          "vertices": 167,
+          "triangles": 318
+        },
+        {
+          "name": "ARM_R",
+          "vertices": 1979,
+          "triangles": 3758
+        },
+        {
+          "name": "ARM_R.001",
+          "vertices": 1668,
+          "triangles": 3223
+        },
+        {
+          "name": "ARM_R.002",
+          "vertices": 1979,
+          "triangles": 3758
+        },
+        {
+          "name": "ARM_R.003",
+          "vertices": 1668,
+          "triangles": 3223
+        },
+        {
+          "name": "ARM_R.004",
+          "vertices": 1979,
+          "triangles": 3758
+        },
+        {
+          "name": "ARM_R.005",
+          "vertices": 1668,
+          "triangles": 3223
+        },
+        {
+          "name": "ARM_R_FAR",
+          "vertices": 165,
+          "triangles": 316
+        },
+        {
+          "name": "ARM_R_FAR.001",
+          "vertices": 170,
+          "triangles": 318
+        },
+        {
+          "name": "ARM_R_FAR.002",
+          "vertices": 165,
+          "triangles": 316
+        },
+        {
+          "name": "ARM_R_FAR.003",
+          "vertices": 170,
+          "triangles": 318
+        },
+        {
+          "name": "ARM_R_FAR.004",
+          "vertices": 165,
+          "triangles": 316
+        },
+        {
+          "name": "ARM_R_FAR.005",
+          "vertices": 170,
+          "triangles": 318
+        },
+        {
+          "name": "BODY",
+          "vertices": 9482,
+          "triangles": 17327
+        },
+        {
+          "name": "BODY.001",
+          "vertices": 8794,
+          "triangles": 15620
+        },
+        {
+          "name": "BODY.002",
+          "vertices": 9482,
+          "triangles": 17327
+        },
+        {
+          "name": "BODY.003",
+          "vertices": 8794,
+          "triangles": 15620
+        },
+        {
+          "name": "BODY.004",
+          "vertices": 9482,
+          "triangles": 17327
+        },
+        {
+          "name": "BODY.005",
+          "vertices": 8794,
+          "triangles": 15620
+        },
+        {
+          "name": "BODY_FAR",
+          "vertices": 1606,
+          "triangles": 2009
+        },
+        {
+          "name": "BODY_FAR.001",
+          "vertices": 1682,
+          "triangles": 2004
+        },
+        {
+          "name": "BODY_FAR.002",
+          "vertices": 1606,
+          "triangles": 2009
+        },
+        {
+          "name": "BODY_FAR.003",
+          "vertices": 1682,
+          "triangles": 2004
+        },
+        {
+          "name": "BODY_FAR.004",
+          "vertices": 1606,
+          "triangles": 2009
+        },
+        {
+          "name": "BODY_FAR.005",
+          "vertices": 1682,
+          "triangles": 2004
+        },
+        {
+          "name": "HEAD",
+          "vertices": 8210,
+          "triangles": 15046
+        },
+        {
+          "name": "HEAD.001",
+          "vertices": 12081,
+          "triangles": 21980
+        },
+        {
+          "name": "HEAD.002",
+          "vertices": 8210,
+          "triangles": 15046
+        },
+        {
+          "name": "HEAD.003",
+          "vertices": 12081,
+          "triangles": 21980
+        },
+        {
+          "name": "HEAD.004",
+          "vertices": 8210,
+          "triangles": 15046
+        },
+        {
+          "name": "HEAD.005",
+          "vertices": 12081,
+          "triangles": 21980
+        },
+        {
+          "name": "HEAD_FAR",
+          "vertices": 2672,
+          "triangles": 4722
+        },
+        {
+          "name": "HEAD_FAR.001",
+          "vertices": 3240,
+          "triangles": 5290
+        },
+        {
+          "name": "HEAD_FAR.002",
+          "vertices": 2672,
+          "triangles": 4722
+        },
+        {
+          "name": "HEAD_FAR.003",
+          "vertices": 3240,
+          "triangles": 5290
+        },
+        {
+          "name": "HEAD_FAR.004",
+          "vertices": 2672,
+          "triangles": 4722
+        },
+        {
+          "name": "HEAD_FAR.005",
+          "vertices": 3240,
+          "triangles": 5290
+        }
+      ]
+    }
+  ]
+}

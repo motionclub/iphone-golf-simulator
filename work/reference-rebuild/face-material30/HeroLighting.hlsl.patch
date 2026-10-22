@@ -1,0 +1,23 @@
+--- Unity/Assets/Resources/Tennis/Shaders/HeroLighting.hlsl
++++ Unity/Assets/Resources/Tennis/Shaders/HeroLighting.hlsl
+@@ -9,6 +9,7 @@
+ half3 _HeroClothBalance;
+ half _HeroClothExposure;
+ half _HeroPresentationFill;
++half _HeroSkinPolish;
+ // A broad camera-side reflector for character surfaces. It consumes no URP
+ // per-object light slot and never changes the course, court, or ball lighting.
+ Light HeroPresentationLight(half3 viewDirection)
+@@ -95,6 +96,12 @@
+     half3 h = SafeNormalize(light.direction + v);
+     half nh = saturate(dot(n, h));
+     half broad = pow(nh, 18 + smoothness * 18) * .075h;
++    if (_HeroSkinPolish > .5h) {
++        // Satin skin: a wide soft reflection with a restrained central sheen.
++        // Diffuse/pigment and geometric normals remain the accepted source.
++        broad = pow(nh, 12 + smoothness * 12) * .13h;
++        broad += pow(nh, 48 + smoothness * 60) * .018h;
++    }
+     half visibility = smoothstep(-.06h, .24h, ndl);
+     half shadow = lerp(light.shadowAttenuation, 1, .12h);
+     half atten = light.distanceAttenuation * shadow;

@@ -1,0 +1,47 @@
+--- before/GolfArcade/Multiplayer/MultiplayerService.swift
++++ GolfArcade/Multiplayer/MultiplayerService.swift
+@@ -227,6 +227,12 @@
+     private func ensureGameCenter() -> GameCenterTransport {
+         if let gameCenter { return gameCenter }
+         let gc = GameCenterTransport(); gameCenter = gc
++        gc.onInvitations = { ClubHub.shared.gameCenterInvitations($0) }
++        gc.onInvitationSent = { ClubHub.shared.gameCenterInvitationSent(to: $0) }
++        gc.invitationAllowed = { gameID, teamID in
++            !ClubHub.shared.blocked.contains(gameID) && !ClubHub.shared.blocked.contains(teamID)
++            && !PartySafety.shared.isBlocked(gameID) && !PartySafety.shared.isBlocked(teamID)
++        }
+         gc.onConnected = { [weak self, weak gc] in if let gc { self?.nativeParty = false; self?.bind(gc) } }
+         gc.canAcceptParty = { [weak self] in
+             guard !SportsSession.shared.active else { return false }
+@@ -247,12 +253,21 @@
+         }
+         return gc
+     }
++    func acceptGameCenterInvitation(_ invite: HubInvite) async throws {
++        guard !SportsSession.shared.active else { throw MultiplayerError.invalidOperation("Return to the Plaza to join your friend.") }
++        TennisMenu.shared.online.identity(TennisMenu.shared)
++        setScreen(SportsSession.shared.displayConnected)
++        try await ensureGameCenter().acceptStoredInvitation(invite)
++    }
++    func declineGameCenterInvitation(_ invite: String) { ensureGameCenter().declineStoredInvitation(invite) }
++    func refreshGameCenterInvitations() async { await ensureGameCenter().refreshInvitations() }
+     func inviteGameCenterFriend(_ player: GKPlayer) async throws {
+         guard !SportsSession.shared.active else { throw MultiplayerError.invalidOperation("Return to the Plaza before inviting a friend.") }
+         let gc = ensureGameCenter()
+         if transport != nil && transport !== gc { throw MultiplayerError.invalidOperation("Leave your current party before starting a Game Center party.") }
+         if transport === gc && !isParty { throw MultiplayerError.invalidOperation("Leave quick match before inviting a friend.") }
+         if transport === gc && !isOwner { throw MultiplayerError.invalidOperation("The party host can invite more friends.") }
++        if transport === gc { try broadcast("partyAdmission", payload: player.gamePlayerID) }
+         try await gc.invite(player)
+     }
+     // MARK: friends' parties (the Club Hub relay: invites from the Friends list, no Game Center screen at any step)
+@@ -552,6 +567,9 @@
+             return
+         }
+         guard let state = lobby, packet.lobbyID == state.id else { return }
++        if packet.kind == "partyAdmission", peer == state.ownerID, state.phase == .lobby, packet.payload.utf8.count <= 128 {
++            gameCenter?.allowPartyPlayer(packet.payload); return
++        }
+         if Self.partyKinds.contains(packet.kind) {
+             guard packet.payload.utf8.count <= 4096, state.participants.contains(where: { $0.id == peer && !$0.isGuest }) else { return }
+             onParty?(packet.kind, packet.payload, peer); return

@@ -1,0 +1,101 @@
+{
+  "scope": "native 1170x2532 matched shadow-casting on/off pairs; non-hero tee pixels within 45px below projected soles and 30px horizontally; require >=10 darker pixels by mean RGB >1 byte; direction/key proof separate",
+  "rows": [
+    {
+      "hole": 7,
+      "sex": "male",
+      "soleRow": 2405,
+      "soleX": [
+        133,
+        1075
+      ],
+      "contactPixels": 17394,
+      "meanLighteningBytes": 65.56186041163619,
+      "status": "PASS"
+    },
+    {
+      "hole": 7,
+      "sex": "female",
+      "soleRow": 2378,
+      "soleX": [
+        141,
+        1019
+      ],
+      "contactPixels": 9345,
+      "meanLighteningBytes": 57.4589976814696,
+      "status": "PASS"
+    },
+    {
+      "hole": 8,
+      "sex": "male",
+      "soleRow": 2420,
+      "soleX": [
+        123,
+        319
+      ],
+      "contactPixels": 70,
+      "meanLighteningBytes": 2.8619047619047615,
+      "status": "PASS"
+    },
+    {
+      "hole": 8,
+      "sex": "female",
+      "soleRow": 2390,
+      "soleX": [
+        135,
+        282
+      ],
+      "contactPixels": 73,
+      "meanLighteningBytes": 2.4657534246575343,
+      "status": "PASS"
+    },
+    {
+      "hole": 9,
+      "sex": "male",
+      "soleRow": 2420,
+      "soleX": [
+        123,
+        319
+      ],
+      "contactPixels": 120,
+      "meanLighteningBytes": 3.2916666666666665,
+      "status": "PASS"
+    },
+    {
+      "hole": 9,
+      "sex": "female",
+      "soleRow": 2390,
+      "soleX": [
+        135,
+        282
+      ],
+      "contactPixels": 324,
+      "meanLighteningBytes": 3.9135802469135803,
+      "status": "PASS"
+    },
+    {
+      "hole": 10,
+      "sex": "male",
+      "soleRow": 2420,
+      "soleX": [
+        123,
+        319
+      ],
+      "contactPixels": 0,
+      "meanLighteningBytes": 0,
+      "status": "FAIL"
+    },
+    {
+      "hole": 10,
+      "sex": "female",
+      "soleRow": 2390,
+      "soleX": [
+        135,
+        282
+      ],
+      "contactPixels": 7,
+      "meanLighteningBytes": 3.095238095238095,
+      "status": "FAIL"
+    }
+  ]
+}

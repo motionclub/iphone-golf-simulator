@@ -1,0 +1,20 @@
+== Assets/Characters/MatchHeroes/Male/Male_ReadyIdle.fbx root=Male_ReadyIdle lp=(0.00, 0.00, 0.00) lr=(0.00, 0.00, 0.00) ls=(1.00, 1.00, 1.00) animator=Male_ReadyIdle (UnityEngine.Animator)
+Male_ReadyIdle lp=(0.0000, 0.0000, 0.0000) lr=(0.00, 0.00, 0.00) ls=(1.000, 1.000, 1.000)
+  Body_M lp=(0.0000, 0.0000, 0.0000) lr=(89.98, 0.00, 0.00) ls=(1.000, 1.000, 1.000) [SMR]
+  Rig_Male lp=(0.0000, 0.0000, 0.0000) lr=(89.98, 0.00, 0.00) ls=(1.000, 1.000, 1.000)
+    Root lp=(0.0000, -0.0040, 0.0000) lr=(270.02, 0.00, 0.00) ls=(1.000, 1.000, 1.000)
+      Hips lp=(0.0000, 0.8544, -0.0271) lr=(10.14, 0.00, 0.00) ls=(1.000, 1.000, 1.000)
+        LeftUpperLeg lp=(0.0952, 0.0000, 0.0000) lr=(6.40, 346.24, 195.68) ls=(1.000, 1.000, 1.000)
+        RightUpperLeg lp=(-0.0952, 0.0000, 0.0000) lr=(6.40, 13.76, 164.32) ls=(1.000, 1.000, 1.000)
+        Spine lp=(0.0000, 0.1006, 0.0000) lr=(340.59, 0.00, 0.00) ls=(1.000, 1.000, 1.000)
+importer: type=Human bakeAxis=True scale=1 fileScale=1 useFileScale=True
+== Assets/Characters/MatchHeroes/_Probe/Male_ReadyIdle_Generic.fbx root=Male_ReadyIdle_Generic lp=(0.00, 0.00, 0.00) lr=(0.00, 0.00, 0.00) ls=(1.00, 1.00, 1.00) animator=null
+Male_ReadyIdle_Generic lp=(0.0000, 0.0000, 0.0000) lr=(0.00, 0.00, 0.00) ls=(1.000, 1.000, 1.000)
+  Body_M lp=(0.0000, 0.0000, 0.0000) lr=(270.02, 0.00, 0.00) ls=(1.000, 1.000, 1.000) [SMR]
+  Rig_Male lp=(0.0000, 0.0000, 0.0000) lr=(270.02, 0.00, 0.00) ls=(1.000, 1.000, 1.000)
+    Root lp=(0.0000, -0.0040, 0.0000) lr=(89.98, 0.00, 0.00) ls=(1.000, 1.000, 1.000)
+      Hips lp=(0.0000, 0.8544, 0.0271) lr=(349.86, 0.00, 0.00) ls=(1.000, 1.000, 1.000)
+        LeftUpperLeg lp=(-0.0952, 0.0000, 0.0000) lr=(353.60, 346.24, 164.32) ls=(1.000, 1.000, 1.000)
+        RightUpperLeg lp=(0.0952, 0.0000, 0.0000) lr=(353.60, 13.76, 195.68) ls=(1.000, 1.000, 1.000)
+        Spine lp=(0.0000, 0.1006, 0.0000) lr=(19.41, 0.00, 0.00) ls=(1.000, 1.000, 1.000)
+importer: type=Generic bakeAxis=False scale=1 fileScale=1 useFileScale=True

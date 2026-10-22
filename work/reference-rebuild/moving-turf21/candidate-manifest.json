@@ -1,0 +1,51 @@
+{
+  "status": "CANDIDATE_ONLY; compile PASS; Unity render/physics pending",
+  "baseline": {
+    "path": "Unity/Assets/Scripts/Course/GolfCoastalTurf.cs",
+    "sha256": "7acf442a170594ab5f5eec39a10c4590b23fa52b3f442f419af4cfe1f6352330"
+  },
+  "candidate": {
+    "path": "work/reference-rebuild/moving-turf21/GolfCoastalTurf.cs",
+    "sha256": "bc1811a790d2866d10b9633a4a9400af4a495311681b342acc646f4543227ef3"
+  },
+  "pilot_holes": [
+    12,
+    14
+  ],
+  "existing_supports": [
+    7,
+    8,
+    9,
+    12,
+    13,
+    14,
+    15,
+    19,
+    20
+  ],
+  "limits": {
+    "near": 48,
+    "mid": 96,
+    "resident_cells": 640,
+    "draw_submissions": 3,
+    "top_level_blocks": 401,
+    "max_triangles": 542720
+  },
+  "source_compile": "Roslyn current 900b0aE runtime response; candidate source substituted; exit 0; existing TennisGame.audio warning",
+  "assets_modified": false,
+  "unity_launched": false,
+  "moving_flag": {
+    "unset": "pilots12/14",
+    "0": "accepted static tee control",
+    "all": "existing Supports nine only"
+  },
+  "editor_proof": {
+    "path": "work/reference-rebuild/moving-turf21/GolfMovingTurfProofRunner.cs",
+    "sha256": "8a19a0c4bb75b6aff4cb2ab1e06756c67991772281a1e62549e42387dabae0f0",
+    "config": "proof-config.json",
+    "control_config": "proof-control-config.json",
+    "source_compile": "PASS; compile-proof.log empty; no Unity run",
+    "entry_point": "GolfArcade.EditorTools.GolfMovingTurfProof.Run",
+    "render_source": "normal camera loop; endContextRendering once per actual Time.frameCount; no explicit refresh/draw"
+  }
+}

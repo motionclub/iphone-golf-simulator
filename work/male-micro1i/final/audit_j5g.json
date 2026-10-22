@@ -1,0 +1,105 @@
+{
+ "blend": "../../ArtDir/hero/base_lock/blender/HeroBase_Male_Silhouette.blend",
+ "blend_sha256": "68de53ca729ff04d366377e6df302952082abfb8e5621c524d39468c39f630cf",
+ "verts": 30296,
+ "polys": 30518,
+ "tris": 60358,
+ "quad_faces": 29840,
+ "tri_faces": 678,
+ "ngon_faces": 0,
+ "face_m": {
+  "verts": 3322,
+  "tris": 5416,
+  "materials": [
+   "Face_Brow",
+   "Face_Sclera",
+   "Face_Iris",
+   "Face_Pupil",
+   "Face_Limbal",
+   "Face_Catch",
+   "Face_LidLine",
+   "Face_Lip",
+   "Face_LipUp",
+   "Face_Seam",
+   "Face_Nostril",
+   "Face_BrowSoft",
+   "Face_LidCrease"
+  ]
+ },
+ "original_vertices": 30296,
+ "moved_total": 6017,
+ "moved_outside_head_zone": 0,
+ "moved_in_hands": 0,
+ "body_below_neck_bit_identical": true,
+ "vertex_groups": [
+  "LOOP_ala_L",
+  "LOOP_ala_R",
+  "LOOP_concha_L",
+  "LOOP_concha_R",
+  "LOOP_ear_attach_L",
+  "LOOP_ear_attach_R",
+  "LOOP_helix_L",
+  "LOOP_helix_R",
+  "LOOP_jaw_ear_L",
+  "LOOP_jaw_ear_R",
+  "LOOP_lid_margin_L",
+  "LOOP_lid_margin_R",
+  "LOOP_mouth_lip_lower",
+  "LOOP_mouth_lip_upper",
+  "LOOP_mouth_seam",
+  "LOOP_nostril_L",
+  "LOOP_nostril_R"
+ ],
+ "weld_ring_verts": 10,
+ "weld_ring_moved": 0,
+ "verts_below_z1436_moved": 0,
+ "head_zone_verts_moved": 6017,
+ "head_zone_max_move_mm": 14.906724797658075,
+ "chin_band_orig_verts": 290,
+ "chin_band_moved": 166,
+ "chin_band_max_mm": 8.501036772822129,
+ "new_vertices": 0,
+ "boundary_edges": 92,
+ "nonmanifold_edges": 2,
+ "height_m": 1.7021874501369894,
+ "nan_or_inf": false,
+ "signed_volume_m3": 0.09099945900241939,
+ "head_edge_mm": {
+  "mean": 4.310917890971721,
+  "median": 3.3965962157168064,
+  "p5": 1.3410557351744499,
+  "p95": 10.816363015119535,
+  "max": 18.01578870334284,
+  "n": 15399
+ },
+ "face_zone_edge_mm": {
+  "mean": 3.5884435014508593,
+  "median": 3.413571505969063,
+  "p5": 1.261914606784748,
+  "p95": 6.623243732446484,
+  "max": 14.68139482009953,
+  "n": 8943
+ },
+ "silhouette": {
+  "body_bald_front": {
+   "diff": 3223,
+   "union": 74991,
+   "pct": 4.29784907522236
+  },
+  "body_bald_back": {
+   "diff": 3411,
+   "union": 74319,
+   "pct": 4.589674242118435
+  },
+  "withface_bald_front": {
+   "diff": 3223,
+   "union": 74991,
+   "pct": 4.29784907522236
+  },
+  "withface_bald_back": {
+   "diff": 3411,
+   "union": 74319,
+   "pct": 4.589674242118435
+  }
+ }
+}

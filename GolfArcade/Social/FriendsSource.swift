@@ -35,6 +35,8 @@ enum FriendsAccess: Equatable, Sendable {
 /// Ids are Game Center **teamPlayerID**s: that is the id Apple's identity signature is made over (Apple's verification steps for
 /// fetchItems(forIdentityVerificationSignature:)), so the Club Hub can check it. (A gamePlayerID would fail every real sign-in.)
 @MainActor final class GameKitFriendsSource: FriendsSource {
+    private var players: [String: GKPlayer] = [:]
+    func player(_ teamID: String) -> GKPlayer? { players[teamID] }
     var localID: String { GKLocalPlayer.local.teamPlayerID }
     var localName: String { GKLocalPlayer.local.displayName }
 
@@ -49,7 +51,9 @@ enum FriendsAccess: Equatable, Sendable {
     }
 
     func friends() async throws -> [FriendProfile] {
-        try await GKLocalPlayer.local.loadFriends().map { FriendProfile(id: $0.teamPlayerID, name: $0.displayName) }
+        let list = try await GKLocalPlayer.local.loadFriends()
+        players = Dictionary(uniqueKeysWithValues: list.map { ($0.teamPlayerID, $0) })
+        return list.map { FriendProfile(id: $0.teamPlayerID, name: $0.displayName) }
     }
 
     func recent() async throws -> [FriendProfile] {
@@ -93,10 +97,16 @@ enum ClubHubConfig {
         if let i = args.firstIndex(of: "-" + key), args.indices.contains(i + 1) { return args[i + 1] }
         return UserDefaults.standard.string(forKey: key)
     }
-    /// The WebSocket URL, or nil when no service is configured (the hub then shows Game Center friends without presence).
+    /// Online is Game Center only (Adnan, 2026-10-19): invites, the party, the Plaza, room changes and chat all ride the Game Center
+    /// match, so a shipped build never reaches the Club Hub service, whatever SportsInfo.plist's ClubHubServerURL says. Only a debug
+    /// build pointed at a dev service (`-clubHubURL`) still opens it, for the service's own tests.
     static var serverURL: URL? {
-        let text = override("clubHubURL") ?? (Bundle.main.object(forInfoDictionaryKey: "ClubHubServerURL") as? String) ?? ""
+        #if DEBUG
+        let text = override("clubHubURL") ?? ""
         return text.isEmpty ? nil : URL(string: text)
+        #else
+        return nil
+        #endif
     }
     /// A dev service accepts a bare id instead of Apple's signature (HUB_DEV_AUTH=1 on the service).
     static var devAuth: Bool { override("clubHubDevAuth") == "1" }

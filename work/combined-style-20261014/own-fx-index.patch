@@ -1,0 +1,21 @@
+--- a/Unity/Assets/Scripts/Game/ShotEffects.cs
++++ b/Unity/Assets/Scripts/Game/ShotEffects.cs
+@@ -421,6 +421,7 @@
+                 case CourseLie.Rough: case CourseLie.OutOfBounds: a = new Color(0.4f, 0.65f, 0.28f); b = new Color(0.55f, 0.45f, 0.3f); break;
+                 default: a = new Color(0.62f, 0.9f, 0.4f); b = new Color(0.45f, 0.75f, 0.3f); break;
+             }
++            GolfArcade.EnvironmentArt.EnvironmentFx.Landing(lie,ref a,ref b);
+             int count = Mathf.RoundToInt(10 + 14 * strength);
+             for (int i = 0; i < count; i++)
+             {
+--- a/Unity/Assets/Scripts/Tennis/TennisFx.cs
++++ b/Unity/Assets/Scripts/Tennis/TennisFx.cs
+@@ -159,7 +159,7 @@
+             float scale = supercharged ? 1.8f : Mathf.Lerp(.6f, 1.25f, strength / 5f);
+             Color hot = supercharged ? new Color(.55f, .95f, 1f, 1) : Color.Lerp(new Color(1, .95f, .8f, .8f), new Color(1, .92f, .45f, 1), strength / 5f);
+             // Phase 4: the additive core stays under ~1.2 m and 75% so a Perfect at head height never whites out the face
+-            Burst(impact, at, 1, new Color(hot.r, hot.g, hot.b, Mathf.Min(hot.a, .75f)), Mathf.Min(scale, supercharged ? 1.2f : .95f));
++            Burst(impact, at, 1, GolfArcade.EnvironmentArt.EnvironmentFx.Impact(new Color(hot.r, hot.g, hot.b, Mathf.Min(hot.a, .75f)),supercharged), Mathf.Min(scale, supercharged ? 1.2f : .95f));
+             Burst(shock, at, supercharged ? 2 : 1, new Color(hot.r, hot.g, hot.b, .8f), .3f * scale);
+             Burst(fuzz, at, 6 + strength * 3, Felt);
+             if (grade >= Timing.Great || supercharged) Burst(sparkle, at, supercharged ? 22 : strength * 2, hot);

@@ -1,0 +1,145 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using Unity.Collections;
+using Unity.Mathematics;
+using Unity.Jobs;
+
+namespace GolfArcade.Tennis
+{
+    /// Final-pose garment clearance. Only the separate skirt shell moves; the
+    /// source asset, waistband, undershorts and body surface are preserved.
+    [DisallowMultipleComponent, DefaultExecutionOrder(1250)]
+    public sealed class HeroSkirtClearance : MonoBehaviour
+    {
+        [Serializable] sealed class Profile { public int vertexCount; public uint positionHash; public int[] band, shell, controls, guide, triangles, neighbors, neighborOffsets, faces, faceOffsets; }
+        struct Volume { public Transform bone; public Vector3 center, radius; public Matrix4x4 world, inverse; }
+        readonly List<Volume> volumes = new();
+        struct Capsule { public Transform a,b; public float radius; public Vector3 start,end; }
+        readonly List<Capsule> capsules=new();
+        SkinnedMeshRenderer skirt;
+        Mesh source, owned;
+        Vector3[] rest;
+        float shellTop;
+        int[] shell, controls, guide, group, controlGroup;
+        BoneWeight[] weights;
+        readonly List<IDisposable> buffers=new();
+        NativeArray<float3> restN, normalN, outputN, normalOutputN, deltaA, deltaB;
+        NativeArray<int> shellN, controlN, guideN, groupN, controlGroupN, trianglesN, neighborsN, neighborOffsetsN, facesN, faceOffsetsN;
+        NativeArray<HeroSkirtSolver.Weight> weightsN;
+        NativeArray<float4x4> bonesN, skinN, inverseN;
+        NativeArray<HeroSkirtSolver.Volume> volumesN;
+        NativeArray<HeroSkirtSolver.Capsule> capsulesN;
+        NativeArray<quaternion> rotationsN;
+        NativeArray<T> Buffer<T>(T[] data) where T:struct {var a=new NativeArray<T>(data,Allocator.Persistent);buffers.Add(a);return a;}
+        NativeArray<T> Buffer<T>(int count) where T:struct {var a=new NativeArray<T>(count,Allocator.Persistent);buffers.Add(a);return a;}
+        static float4x4 Matrix(Matrix4x4 m)=>new float4x4(new float4(m.m00,m.m10,m.m20,m.m30),new float4(m.m01,m.m11,m.m21,m.m31),new float4(m.m02,m.m12,m.m22,m.m32),new float4(m.m03,m.m13,m.m23,m.m33));
+        Transform[] bones;
+        Matrix4x4[] bind;
+        public int SurfaceVertexCount => shell?.Length ?? 0;
+        public float LastUpdateMilliseconds { get; private set; }
+        public static void Attach(MatchHeroLook look)
+        {
+            if (!Application.isPlaying || !look || !look.female || !look.kitV2 || look.GetComponent<HeroSkirtClearance>()) return;
+            var component = look.gameObject.AddComponent<HeroSkirtClearance>();
+            try { component.Initialize(look); }
+            catch { component.enabled = false; Destroy(component); throw; }
+        }
+        void Initialize(MatchHeroLook look)
+        {
+            skirt = look.kit.First(r => r && r.name == "Kit_Bottom"); source = skirt.sharedMesh;
+            var data = Resources.Load<TextAsset>($"{(look.golfKit ? "Golf" : "Tennis")}/KitsV2/Female/SkirtCloth");
+            if (!data) throw new InvalidOperationException("Missing skirt surface profile");
+            var profile = JsonUtility.FromJson<Profile>(data.text);
+            if (profile.vertexCount != source.vertexCount || profile.positionHash != PositionHash(source))
+                throw new InvalidOperationException("Skirt profile does not match the garment");
+            HeroSkirtSkinning.Build(skirt,profile.shell,profile.controls,profile.guide,profile.band);source=skirt.sharedMesh;
+            rest = source.vertices; shell = profile.shell; controls = profile.controls; guide = profile.guide; shellTop=controls.Max(i=>rest[i].z);
+            owned = Instantiate(source); owned.name += " (surface clearance)"; owned.hideFlags = HideFlags.DontSave;
+            skirt.sharedMesh = owned; bones = skirt.bones; bind = source.bindposes;
+            // Seams and both sides of a pleat share weight groups. Invert each
+            // distinct skin matrix once, rather than once per render vertex.
+            var groups = new Dictionary<BoneWeight, int>(); var unique = new List<BoneWeight>();
+            group = new int[shell.Length]; controlGroup = new int[controls.Length]; var sourceWeights = source.boneWeights;
+            for (int i = 0; i < shell.Length; i++)
+            {
+                var w = sourceWeights[shell[i]];
+                if (!groups.TryGetValue(w, out int id)) { id = unique.Count; groups[w] = id; unique.Add(w); }
+                group[i] = id;
+            }
+            for(int i=0;i<controls.Length;i++)controlGroup[i]=groups[sourceWeights[controls[i]]];
+            weights = unique.ToArray();
+            BuildVolumes(look.body);
+            void Add(HumanBodyBones a,HumanBodyBones b,float radius)=>capsules.Add(new Capsule{a=look.Bone(a),b=look.Bone(b),radius=radius});
+            Add(HumanBodyBones.Chest,HumanBodyBones.UpperChest,.14f);
+            Add(HumanBodyBones.Hips,HumanBodyBones.Spine,.105f);Add(HumanBodyBones.Spine,HumanBodyBones.Chest,.105f);
+            Add(HumanBodyBones.Hips,HumanBodyBones.LeftUpperLeg,.11f);Add(HumanBodyBones.Hips,HumanBodyBones.RightUpperLeg,.11f);
+            Add(HumanBodyBones.LeftUpperLeg,HumanBodyBones.LeftLowerLeg,.105f);Add(HumanBodyBones.RightUpperLeg,HumanBodyBones.RightLowerLeg,.105f);
+            Add(HumanBodyBones.LeftLowerArm,HumanBodyBones.LeftHand,.055f);Add(HumanBodyBones.RightLowerArm,HumanBodyBones.RightHand,.055f);
+            Add(HumanBodyBones.LeftHand,HumanBodyBones.LeftMiddleProximal,.065f);Add(HumanBodyBones.RightHand,HumanBodyBones.RightMiddleProximal,.065f);
+            Add(HumanBodyBones.LeftMiddleProximal,HumanBodyBones.LeftMiddleDistal,.04f);Add(HumanBodyBones.RightMiddleProximal,HumanBodyBones.RightMiddleDistal,.04f);
+            restN=Buffer(rest.Select(v=>(float3)v).ToArray());normalN=Buffer(source.normals.Select(v=>(float3)v).ToArray());outputN=Buffer(restN.ToArray());normalOutputN=Buffer(normalN.ToArray());
+            shellN=Buffer(shell);controlN=Buffer(controls);guideN=Buffer(guide);groupN=Buffer(group);controlGroupN=Buffer(controlGroup);
+            trianglesN=Buffer(profile.triangles);neighborsN=Buffer(profile.neighbors);neighborOffsetsN=Buffer(profile.neighborOffsets);facesN=Buffer(profile.faces);faceOffsetsN=Buffer(profile.faceOffsets);
+            weightsN=Buffer(weights.Select(w=>new HeroSkirtSolver.Weight{ids=new int4(w.boneIndex0,w.boneIndex1,w.boneIndex2,w.boneIndex3),values=new float4(w.weight0,w.weight1,w.weight2,w.weight3)}).ToArray());
+            bonesN=Buffer<float4x4>(bones.Length);skinN=Buffer<float4x4>(weights.Length);inverseN=Buffer<float4x4>(weights.Length);volumesN=Buffer<HeroSkirtSolver.Volume>(volumes.Count);capsulesN=Buffer<HeroSkirtSolver.Capsule>(capsules.Count);
+            deltaA=Buffer<float3>(controls.Length);deltaB=Buffer<float3>(controls.Length);rotationsN=Buffer<quaternion>(controls.Length);
+        }
+        void BuildVolumes(SkinnedMeshRenderer body)
+        {
+            var p = body.sharedMesh.vertices; var w = body.sharedMesh.boneWeights;
+            var palette = body.bones; var binds = body.sharedMesh.bindposes;
+            var a = new int[palette.Length]; var b = new int[palette.Length]; var fraction = new float[palette.Length];
+            for (int i = 0; i < palette.Length; i++)
+            {
+                a[i] = b[i] = i; string name = palette[i].name;
+                if (!name.StartsWith("ArmBlend_")) continue;
+                var fields = name.Split('_'); a[i] = int.Parse(fields[1]); b[i] = int.Parse(fields[2]); fraction[i] = int.Parse(fields[3]) / 8f;
+            }
+            float Influence(int bone, int target) => (a[bone] == target ? 1 - fraction[bone] : 0) + (b[bone] == target ? fraction[bone] : 0);
+            foreach (string name in new[] { "Hips", "Spine", "Chest", "UpperChest", "LeftUpperLeg", "RightUpperLeg", "LeftLowerLeg", "RightLowerLeg", "LeftLowerArm", "RightLowerArm", "LeftHand", "RightHand" })
+            {
+                int index = Array.FindIndex(palette, t => t.name == name); if (index < 0) continue;
+                Bounds bounds = default; int count = 0;
+                for (int i = 0; i < p.Length; i++)
+                {
+                    var v = w[i];
+                    float mass = Influence(v.boneIndex0, index) * v.weight0 + Influence(v.boneIndex1, index) * v.weight1
+                        + Influence(v.boneIndex2, index) * v.weight2 + Influence(v.boneIndex3, index) * v.weight3;
+                    if (mass < .2f) continue;
+                    var point = binds[index].MultiplyPoint3x4(p[i]);
+                    if (count++ == 0) bounds = new Bounds(point, Vector3.zero); else bounds.Encapsulate(point);
+                }
+                if (count > 0) volumes.Add(new Volume { bone = palette[index], center = bounds.center, radius = Vector3.Max(bounds.extents, Vector3.one * .025f) + Vector3.one * .008f });
+            }
+        }
+        public Vector3[] OriginalVertices => rest;
+        void LateUpdate()
+        {
+            if(!owned)return;long start=System.Diagnostics.Stopwatch.GetTimestamp();
+            for(int i=0;i<bones.Length;i++)bonesN[i]=Matrix(bones[i].localToWorldMatrix*bind[i]);
+            for(int i=0;i<volumes.Count;i++){var v=volumes[i];volumesN[i]=new HeroSkirtSolver.Volume{world=Matrix(v.bone.localToWorldMatrix),inverse=Matrix(v.bone.worldToLocalMatrix),center=v.center,radius=v.radius};}
+            float scale=Mathf.Abs(transform.lossyScale.x);
+            for(int i=0;i<capsules.Count;i++){var c=capsules[i];capsulesN[i]=new HeroSkirtSolver.Capsule{start=c.a.position,end=c.b.position,radius=c.radius*scale};}
+            var handle=new HeroSkirtSolver.Matrices{weights=weightsN,bones=bonesN,skin=skinN,inverse=inverseN}.Schedule(weights.Length,32);
+            HeroSkirtSolver.Project Project(bool first)=>new HeroSkirtSolver.Project{rest=restN,controls=controlN,groups=controlGroupN,skin=skinN,volumes=volumesN,capsules=capsulesN,input=deltaB,output=deltaA,fromRest=first};
+            handle=Project(true).Schedule(controls.Length,32,handle);
+            for(int pass=0;pass<12;pass++) {
+                handle=new HeroSkirtSolver.Smooth{input=deltaA,output=deltaB,offsets=neighborOffsetsN,neighbors=neighborsN,volumes=volumesN,capsules=capsulesN,rest=restN,controls=controlN,groups=controlGroupN,skin=skinN}.Schedule(controls.Length,32,handle);
+                handle=Project(false).Schedule(controls.Length,32,handle);
+            }
+            handle=new HeroSkirtSolver.Normals{rest=restN,deltas=deltaA,controls=controlN,groups=controlGroupN,triangles=trianglesN,offsets=faceOffsetsN,faces=facesN,skin=skinN,rotations=rotationsN}.Schedule(controls.Length,32,handle);
+            new HeroSkirtSolver.Apply{rest=restN,normals=normalN,deltas=deltaA,shell=shellN,guide=guideN,groups=groupN,skin=skinN,inverse=inverseN,rotations=rotationsN,positions=outputN,outputNormals=normalOutputN}.Schedule(shell.Length,32,handle).Complete();
+            owned.SetVertices(outputN);owned.SetNormals(normalOutputN);
+            LastUpdateMilliseconds=(float)((System.Diagnostics.Stopwatch.GetTimestamp()-start)*1000.0/System.Diagnostics.Stopwatch.Frequency);
+        }
+        static uint PositionHash(Mesh mesh)
+        {
+            uint hash = 2166136261;
+            unchecked { foreach (var p in mesh.vertices) foreach (float value in new[] { p.x, p.y, p.z }) foreach (byte b in BitConverter.GetBytes(value)) hash = (hash ^ b) * 16777619; }
+            return hash;
+        }
+        void OnDestroy() { foreach(var buffer in buffers)buffer.Dispose();buffers.Clear();if (skirt && source) skirt.sharedMesh = source; if (owned) Destroy(owned); }
+    }
+}

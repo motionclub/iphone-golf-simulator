@@ -1,0 +1,22 @@
+Chat C: hold-to-swing + putt distance ruler (2026-10-19). Nothing is staged or committed.
+
+Phone (SwiftUI)
+GolfArcade/Unity/SportsSession.swift            pressGolfSwing / releaseGolfSwing (golfStartSwing / new golfReleaseSwing), GolfHoldSwing state machine, haptics from Unity's reports
+GolfArcade/Unity/GolfController.swift           the swing button is a hold (DragGesture min 0): HOLD TO SWING / HOLD STILL / SWING!, copy line; (chat I's one-line chat-strip hook kept)
+GolfArcade/Unity/HowToCards.swift               golf how-to copy: hold to swing, let go resets
+GolfArcade/Unity/SportsHome.swift               DEBUG only: -golfControllerHold 1|2 shows the held faces in the -golfControllerDesign preview (minimal hook)
+GolfArcadeTests/GolfHoldSwingTests.swift        NEW: 7 state-machine tests
+
+Unity
+Unity/Assets/Scripts/Game/GolfGame.Native.cs    NativeReleaseSwing (+0.2 s contact grace in the downswing), the sheet's hold button (press/release, haptics), TV reset line
+Unity/Assets/Scripts/Game/NativeSportsSession.cs  case "golfReleaseSwing" (one line, minimal hook)
+Unity/Assets/Scripts/Multiplayer/SportsMultiplayer.cs  golfReleaseSwing stays local like golfStartSwing (one word, minimal hook)
+Unity/Assets/Scripts/UI/ControllerSheet.cs      Unity phone sheet's button: hold faces, stays live while held
+Unity/Assets/Scripts/UI/Hud.cs                  HoldButton.ReleaseOnExit (a slide over the glass is not a let-go), OnDisable clears the hold
+Unity/Assets/Scripts/Game/GolfGame.cs           hooks only: LayAimLine/LayPuttStart (ruler), ShowWindUp putter (live bar), OnCancel, shot start (hide), two status strings
+Unity/Assets/Scripts/Game/GolfGame.PuttMarks.cs NEW (+.meta): the ruler's feet/spots, meter stops at 25/50/75/100 %
+Unity/Assets/Scripts/Game/PuttDistanceMarks.cs  NEW (+.meta): bars on the green, HUD labels (feet + %), live amber bar
+Unity/Assets/Tests/PlayMode/GolfMotionReadyTests.cs  +2 tests: let go resets (full swing + putt), let go in the downswing waits for contact
+
+Job folder
+work/hold-swing-putt/  REFERENCES.md, GATE_RESULTS.md, CHANGED_FILES.txt, PHONE_TEST.md, refs/, proof/, tools/ (film.sh, PuttMarksFilm.cs, unpatch_e.py), logs/

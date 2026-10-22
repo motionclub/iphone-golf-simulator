@@ -1,0 +1,65 @@
+diff --git a/Unity/Assets/Scripts/Tennis/TennisGame.cs b/Unity/Assets/Scripts/Tennis/TennisGame.cs
+index 63d000e2..5a03e9da 100644
+--- a/Unity/Assets/Scripts/Tennis/TennisGame.cs
++++ b/Unity/Assets/Scripts/Tennis/TennisGame.cs
+@@ -279,7 +278,9 @@ namespace GolfArcade.Tennis
+             else TennisHeroSetup.Attach(this);
+             if (SliceInit) { InitProgress = .7f; yield return null; }
+             BuildBall();
+-            landingRing=MakeLine("Predicted landing",new Color(.1f,.9f,1),.05f);
++            landingRing=MakeLine("Predicted landing",new Color(.1f,.9f,1),.09f);
++            // Unlit felt-cyan remains legible against every court at the shallow chase angle.
++            landingRing.sharedMaterial = new Material(Shader.Find("GolfArcade/VertexColorUnlit"));
+             aimRing=MakeLine("Shot aim target",new Color(1,.85f,.1f),.06f);
+             var camera = Camera.main;
+             if (!camera) { camera = new GameObject("Tennis gameplay camera").AddComponent<Camera>(); camera.tag = "MainCamera"; camera.gameObject.AddComponent<AudioListener>(); }
+@@ -294,7 +295,7 @@ namespace GolfArcade.Tennis
+             if (venue != TennisVenueKind.Resort) TennisVenueBuilder.Light(venue, light, camera);
+             { var s = TennisLook.AddContactShadow(Player.transform, .55f, .45f); s.HeightOverride = 0; s.Surface = Player.transform; }
+             { var s = TennisLook.AddContactShadow(Opponent.transform, .55f, .45f); s.HeightOverride = 0; s.Surface = Opponent.transform; }
+-            { var s = TennisLook.AddContactShadow(ball, .16f, .55f); s.FadeHeight = 4f; s.Surface = Player.transform; s.OnlyOverDeck = true; }
++            { var s = TennisLook.AddContactShadow(ball, .22f, .65f); s.FadeHeight = 12f; s.MinimumFade = .28f; s.Surface = Player.transform; s.OnlyOverDeck = true; }
+             fx = new GameObject("Tennis effects").AddComponent<TennisFx>(); fx.transform.SetParent(transform); fx.Build();
+             if (SliceInit) { InitProgress = .8f; yield return null; }
+             juice = gameObject.AddComponent<TennisJuice>();
+@@ -1057,6 +1058,7 @@ namespace GolfArcade.Tennis
+             if (ReplayPlaying)
+             {
+                 replay.Tick(Time.deltaTime);
++                if (!ElevatedCamera) UpdateCamera(false);
+                 UpdateHud();
+                 return;
+             }
+@@ -2236,7 +2236,7 @@ namespace GolfArcade.Tennis
+                 // Tight when the ball is close, wide when it is still far away.
+                 float certainty = Mathf.Clamp01(1 - Vector3.Distance(BallPosition,landing)/16);
+                 float radius = Mathf.Lerp(.85f,.34f,certainty);
+-                Ring(landingRing, landing + Vector3.up*.02f, radius);
++                Ring(landingRing, new Vector3(landing.x, TennisVenue.RenderedCourtHeight + .035f, landing.z), radius);
+                 landingRing.startColor = landingRing.endColor =
+                     TennisRules.BounceIsIn(landing) ? new Color(.1f,.9f,1) : new Color(1,.42f,.3f);
+             }
+@@ -2329,6 +2329,8 @@ namespace GolfArcade.Tennis
+             if (hud) hud.SwingCue(show, closing);
+         }
+ 
++        /// Selected by the native Settings → Display control; chase is the default for new sessions.
++        public bool ElevatedCamera { get; set; }
+         Vector3 cameraLook; bool cameraFramed;
+         /// Seconds of opening flyover left: the camera sweeps in over the resort to the
+         /// player before the first serve. Game time, so it waits while the session is paused.
+@@ -2349,8 +2351,12 @@ namespace GolfArcade.Tennis
+         void UpdateCamera(bool immediate)
+         {
+             var camera = GameplayCamera ? GameplayCamera : Camera.main; if (!camera || !Player) return;
+-            TennisShoulderCamera.Frame(Player.transform.position, Player.LeftHanded, BallPosition,
+-                Flow == Phase.Rally && incoming && TrackingOverhead, camera.aspect, out Vector3 target, out Vector3 look, out float fov);
++            Vector3 viewBall = ReplayPlaying && ball ? ball.position : BallPosition;
++            Vector3? cameraLanding = !ReplayPlaying && Flow == Phase.Rally && incoming && faultDelay <= 0
++                && TennisRules.PredictLanding(BallPosition, BallVelocity, out var predicted, BallSpin, ballCurve) ? predicted : null;
++            TennisShoulderCamera.Frame(Player.transform.position, Player.LeftHanded, viewBall,
++                Flow == Phase.Rally && incoming && TrackingOverhead, camera.aspect, out Vector3 target, out Vector3 look, out float fov,
++                ElevatedCamera, cameraLanding);
+             if (IntroPlaying && presentation.Drive(camera, target, look, fov, calibration != null ? 0 : Time.deltaTime)) { cameraFramed = false; return; }
+             if (presentation && presentation.Playing) presentation.Finish();
+             if (juice) { juice.BallLive = Flow == Phase.Rally; juice.NoteBallVelocity(BallVelocity); juice.EndLiveShot(); }

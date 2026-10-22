@@ -1,0 +1,13 @@
+    keys += [K(T_S, 'S3.R1', rk_pos=[0.12, 0.50, -0.70], shaft=D(5, -35), face=D(-70, 0), rk_w=[0.2, 1.0]),
+             K(g(0.27), 'S3.R1', rk_pos=[0.12, 0.50, -0.70], shaft=D(5, -35), face=D(-70, 0), rk_w=[0.2, 1.0]),
+             # the face turns from the stance (strings to the left) to the trophy face of the approved clip (strings back / down: achieved az 150-180, el -15..-40, measured on the job-start clip) by
+             # a monotone turn about the shaft while the head swings up (face az -90 -> -130 -> -175 -> 170 -> 160): the arm solver then stays in one wrist basin (no twist flip)
+             K(g(0.40), 'S3.R2', rk_pos=rs(155, -48, 0.58), shaft=D(172, -12), face=D(-90, 0), rk_w=[0.6, 1.0]),
+             K(g(0.47), 'S3.R2', rk_pos=rs(150, -35, 0.57), shaft=D(170, 8), face=D(-115, -5), rk_w=[0.6, 1.0]),
+             K(g(0.53), 'S3.R2', rk_pos=rs(147, -20, 0.555), shaft=D(168, 30), face=D(-145, -12), rk_w=[0.6, 1.0]),
+             K(g(0.58), 'S3.R2', rk_pos=rs(144, -6, 0.54), shaft=D(166, 46), face=D(-175, -20), rk_w=[0.6, 1.0]),
+             K(g(0.63), 'S3.R2', rk_pos=rs(138, 12, 0.51), shaft=D(165, 60), face=D(170, -30), rk_w=[0.6, 1.0]),
+             K(T_R, 'S3.R3', rk_pos=rs(135, 20, 0.50), shaft=D(165, 68), face=D(160, -38), rk_w=[0.6, 1.0]),
+             K(g(0.85), 'S3.R3', rk_pos=rs(134, 22, 0.50), shaft=D(164, 69), face=D(168, -30), rk_w=[0.6, 1.0]),
+             K(g(1.00), 'S3.R3', rk_pos=rs(135, 20, 0.50), shaft=D(165, 68), face=D(176, -20), rk_w=[0.6, 1.0]),
+             K(T_T, 'S3.R3', rk_pos=rs(125, 42, 0.45), shaft=D(160, 74), face=D(-172, -15), rk_w=[0.6, 1.0]),

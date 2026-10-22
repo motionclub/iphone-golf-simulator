@@ -35,7 +35,7 @@ panel = np.zeros(len(me.polygons), np.int32); me.attributes['panel'].data.foreac
 def vattr(name):
     if name not in me.attributes: return np.zeros(n)
     v = np.zeros(n, np.float32); me.attributes[name].data.foreach_get('value', v); return v.astype(np.float64)
-fields = {k: vattr(k) for k in ('d_seam', 'd_hem', 'd_neck', 'd_cuff', 'collar_edge', 'pk_x', 'pk_z')}
+fields = {k: vattr(k) for k in ('d_seam', 'd_hem', 'd_neck', 'd_cuff', 'collar_edge', 'pk_x', 'pk_z', 'collar_under')}
 mi = np.zeros(len(me.polygons), np.int32); me.polygons.foreach_get('material_index', mi)
 fpart = np.array([{0: 0, 1: 2, 2: 1}.get(int(m), 0) for m in mi], np.int32)     # 0 outer, 1 rim, 2 inner
 # split vertices where the corner UVs differ
@@ -73,7 +73,7 @@ a3 = np.linalg.norm(np.cross(P[nt[:, 1]] - P[nt[:, 0]], P[nt[:, 2]] - P[nt[:, 0]
 e1 = uvm[nt[:, 1]] - uvm[nt[:, 0]]; e2 = uvm[nt[:, 2]] - uvm[nt[:, 0]]
 a2 = np.abs(e1[:, 0] * e2[:, 1] - e1[:, 1] * e2[:, 0]).sum() * .5
 S = float(np.sqrt(a3 / a2))
-udir = os.path.join(cv2io.ROOT, 'out', hero_id, 'unity'); os.makedirs(udir, exist_ok=True)
+udir = os.path.join(os.environ.get('CV2_OUT') or os.path.join(cv2io.ROOT, 'out'), hero_id, 'unity'); os.makedirs(udir, exist_ok=True)   # CV2_OUT: private export dir (male-garments chat)
 res = 2048
 np.savez(os.path.join(udir, 'Kit_Top_final.npz'), pos=P, nrm=N, uv=uvm, tri=nt.astype(np.int32), mat=np.zeros(len(nt), np.int32),
          fabric=np.array([FABRIC[p] for p in panel], np.int32), part=fpart, kind=np.array([KIND[p] for p in panel], np.int32), panel=panel,
@@ -88,5 +88,5 @@ old_man = json.load(open(mf)) if os.path.exists(mf) else {'hero': hero_id, 'piec
 man['pieces'] = [p for p in old_man['pieces'] if p['name'] != 'Kit_Top'] + man['pieces']          # merge: only Kit_Top is replaced
 json.dump(man, open(mf, 'w'))
 os.makedirs(os.path.join(cv2io.ROOT, 'polo', hero_id), exist_ok=True)
-bpy.ops.wm.save_as_mainfile(filepath=os.path.join(cv2io.ROOT, 'polo', 'polo_v2_final.blend' if hero_id == 'MatchHero_Male' else os.path.join(hero_id, 'polo_v2_final.blend')))
+bpy.ops.wm.save_as_mainfile(filepath=os.environ['CV2_FINAL'] if os.environ.get('CV2_FINAL') else os.path.join(cv2io.ROOT, 'polo', 'polo_v2_final.blend' if hero_id == 'MatchHero_Male' else os.path.join(hero_id, 'polo_v2_final.blend')))
 print('POLO2 export: verts %d tris %d bones %d metres/uv %.3f (%.1f px/cm at %d)' % (len(P), len(nt), len(used), S, res / S / 100, res))

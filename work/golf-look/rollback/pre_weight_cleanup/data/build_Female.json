@@ -1,0 +1,607 @@
+{
+  "sex": "Female",
+  "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/golf-look/inputs/HeroBase_Female_Dressed.blend",
+  "body_unchanged": true,
+  "rig_unchanged": true,
+  "bones": 53,
+  "new_bones": 0,
+  "new_sockets": 0,
+  "pieces": [
+    {
+      "name": "Golf_Polo",
+      "tris": 21352,
+      "verts": 10710,
+      "visible": true,
+      "roles": [
+        "Golf_Main"
+      ],
+      "max_influences": 4
+    },
+    {
+      "name": "Golf_Button_1",
+      "tris": 120,
+      "verts": 62,
+      "visible": true,
+      "roles": [
+        "Golf_Buckle"
+      ],
+      "max_influences": 4
+    },
+    {
+      "name": "Golf_Placket_1",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Main"
+      ],
+      "max_influences": 4
+    },
+    {
+      "name": "Golf_Button_2",
+      "tris": 120,
+      "verts": 62,
+      "visible": true,
+      "roles": [
+        "Golf_Buckle"
+      ],
+      "max_influences": 4
+    },
+    {
+      "name": "Golf_Placket_2",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Main"
+      ],
+      "max_influences": 4
+    },
+    {
+      "name": "Golf_Button_3",
+      "tris": 120,
+      "verts": 62,
+      "visible": true,
+      "roles": [
+        "Golf_Buckle"
+      ],
+      "max_influences": 4
+    },
+    {
+      "name": "Golf_Placket_3",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Main"
+      ],
+      "max_influences": 4
+    },
+    {
+      "name": "Golf_PleatedSkort",
+      "tris": 12822,
+      "verts": 6415,
+      "visible": true,
+      "roles": [
+        "Golf_Bottom"
+      ],
+      "max_influences": 4
+    },
+    {
+      "name": "Golf_Belt",
+      "tris": 512,
+      "verts": 256,
+      "visible": true,
+      "roles": [
+        "Golf_Trim"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_BeltLoop_0",
+      "tris": 10,
+      "verts": 10,
+      "visible": true,
+      "roles": [
+        "Golf_Bottom"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_BeltLoop_1",
+      "tris": 10,
+      "verts": 10,
+      "visible": true,
+      "roles": [
+        "Golf_Bottom"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_BeltLoop_2",
+      "tris": 10,
+      "verts": 10,
+      "visible": true,
+      "roles": [
+        "Golf_Bottom"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_BeltLoop_3",
+      "tris": 10,
+      "verts": 10,
+      "visible": true,
+      "roles": [
+        "Golf_Bottom"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_BeltLoop_4",
+      "tris": 10,
+      "verts": 10,
+      "visible": true,
+      "roles": [
+        "Golf_Bottom"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Buckle_Top",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Buckle"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Buckle_Bottom",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Buckle"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Buckle_Left",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Buckle"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Buckle_Right",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Buckle"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Buckle_Tongue",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Buckle"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Shoe_L",
+      "tris": 4904,
+      "verts": 2526,
+      "visible": true,
+      "roles": [
+        "Golf_Main",
+        "Golf_Sole",
+        "Golf_Trim"
+      ],
+      "max_influences": 3
+    },
+    {
+      "name": "Golf_Nub_L_0_0",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Sole"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Nub_L_0_1",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Sole"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Nub_L_0_2",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Sole"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Nub_L_0_3",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Sole"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Nub_L_0_4",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Sole"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Nub_L_1_0",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Sole"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Nub_L_1_1",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Sole"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Nub_L_1_2",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Sole"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Nub_L_1_3",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Sole"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Nub_L_1_4",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Sole"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Nub_L_2_0",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Sole"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Nub_L_2_1",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Sole"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Nub_L_2_2",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Sole"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Nub_L_2_3",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Sole"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Nub_L_2_4",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Sole"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Shoe_R",
+      "tris": 4904,
+      "verts": 2526,
+      "visible": true,
+      "roles": [
+        "Golf_Main",
+        "Golf_Sole",
+        "Golf_Trim"
+      ],
+      "max_influences": 3
+    },
+    {
+      "name": "Golf_Nub_R_0_0",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Sole"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Nub_R_0_1",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Sole"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Nub_R_0_2",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Sole"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Nub_R_0_3",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Sole"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Nub_R_0_4",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Sole"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Nub_R_1_0",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Sole"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Nub_R_1_1",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Sole"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Nub_R_1_2",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Sole"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Nub_R_1_3",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Sole"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Nub_R_1_4",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Sole"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Nub_R_2_0",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Sole"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Nub_R_2_1",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Sole"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Nub_R_2_2",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Sole"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Nub_R_2_3",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Sole"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Nub_R_2_4",
+      "tris": 108,
+      "verts": 56,
+      "visible": true,
+      "roles": [
+        "Golf_Sole"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_Glove_Left",
+      "tris": 4180,
+      "verts": 2092,
+      "visible": true,
+      "roles": [
+        "Golf_Glove"
+      ],
+      "max_influences": 4
+    },
+    {
+      "name": "Golf_Glove_Right",
+      "tris": 4388,
+      "verts": 2196,
+      "visible": false,
+      "roles": [
+        "Golf_Glove"
+      ],
+      "max_influences": 4
+    },
+    {
+      "name": "Golf_VisorBand",
+      "tris": 720,
+      "verts": 360,
+      "visible": true,
+      "roles": [
+        "Golf_Trim"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_CurvedBrim",
+      "tris": 396,
+      "verts": 200,
+      "visible": true,
+      "roles": [
+        "Golf_Trim"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_BrimStitch_0",
+      "tris": 234,
+      "verts": 120,
+      "visible": true,
+      "roles": [
+        "Golf_Buckle"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_BrimStitch_1",
+      "tris": 234,
+      "verts": 120,
+      "visible": true,
+      "roles": [
+        "Golf_Buckle"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_BrimStitch_2",
+      "tris": 234,
+      "verts": 120,
+      "visible": true,
+      "roles": [
+        "Golf_Buckle"
+      ],
+      "max_influences": 1
+    },
+    {
+      "name": "Golf_BrimStitch_3",
+      "tris": 234,
+      "verts": 120,
+      "visible": true,
+      "roles": [
+        "Golf_Buckle"
+      ],
+      "max_influences": 1
+    }
+  ],
+  "visible_kit_tris": 55240,
+  "status": "DRAFT \u2014 G6/G7 not passed; swing retarget, poke-through measurements and maps pending"
+}

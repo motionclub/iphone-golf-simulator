@@ -1,0 +1,214 @@
+[
+  {
+    "shot": "golf_14_clear_diagnostic_approach",
+    "beforeSHA256": "a6f184325e38238adf1fc3239410c6848341461e24a16f2f7ef98fea95fd91a7",
+    "afterSHA256": "f740d0ce6ad1575e617803220a332ac02cbd97ad6d04ea896aa179c3381888a1",
+    "reference": "r3",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#0057BC",
+        "HSL": [
+          212.23,
+          100.0,
+          36.86
+        ],
+        "linearLuminanceMedian": 0.1045,
+        "LabRangeP90P10": 1.36
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#789531",
+        "HSL": [
+          77.4,
+          50.51,
+          38.82
+        ],
+        "linearLuminanceMedian": 0.2571,
+        "LabRangeP90P10": 10.93
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#677B28",
+        "HSL": [
+          74.46,
+          50.92,
+          31.96
+        ],
+        "linearLuminanceMedian": 0.1737,
+        "LabRangeP90P10": 50.59
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#0056BF",
+        "HSL": [
+          212.98,
+          100.0,
+          37.45
+        ],
+        "linearLuminanceMedian": 0.1046,
+        "LabRangeP90P10": 1.35
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#78952D",
+        "HSL": [
+          76.73,
+          53.61,
+          38.04
+        ],
+        "linearLuminanceMedian": 0.2569,
+        "LabRangeP90P10": 12.99
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#637523",
+        "HSL": [
+          73.17,
+          53.95,
+          29.8
+        ],
+        "linearLuminanceMedian": 0.1578,
+        "LabRangeP90P10": 53.1
+      }
+    }
+  },
+  {
+    "shot": "golf_14_clear_diagnostic_green",
+    "beforeSHA256": "0e876a755493921b0c3ccd5cf29ac2c4bdd02adc031384a112f8018da85d37fb",
+    "afterSHA256": "53ac35c3ab562fb9eb82d50f02760b8b2c90c79896ea6094040d4a6ff0e1d13d",
+    "reference": "r3",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#001202",
+        "HSL": [
+          126.67,
+          100.0,
+          3.53
+        ],
+        "linearLuminanceMedian": 0.0044,
+        "LabRangeP90P10": 20.34
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#316B13",
+        "HSL": [
+          99.55,
+          69.84,
+          24.71
+        ],
+        "linearLuminanceMedian": 0.1137,
+        "LabRangeP90P10": 5.48
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#436F27",
+        "HSL": [
+          96.67,
+          48.0,
+          29.41
+        ],
+        "linearLuminanceMedian": 0.1286,
+        "LabRangeP90P10": 31.71
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#000600",
+        "HSL": [
+          120.0,
+          100.0,
+          1.18
+        ],
+        "linearLuminanceMedian": 0.0013,
+        "LabRangeP90P10": 11.2
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#225A0A",
+        "HSL": [
+          102.0,
+          80.0,
+          19.61
+        ],
+        "linearLuminanceMedian": 0.0775,
+        "LabRangeP90P10": 5.34
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#34601B",
+        "HSL": [
+          98.26,
+          56.1,
+          24.12
+        ],
+        "linearLuminanceMedian": 0.0927,
+        "LabRangeP90P10": 37.53
+      }
+    }
+  }
+]

@@ -1,0 +1,50 @@
+{
+  "player-female-rh-ad-walk": {
+    "previous_frame": 767,
+    "refeed_frame": 768,
+    "previous_raw_speed_m_s": 5.606545,
+    "step_cap_m": 0.03,
+    "dt_s": 0.016666666666666666,
+    "maximum_next_speed_m_s": 1.8,
+    "delta_speed_cap_m_s": 0.6,
+    "minimum_next_speed_from_delta_cap_m_s": 5.006545,
+    "constraints_incompatible": true,
+    "player_frame_exempted": false
+  },
+  "player-female-rh-deuce-walk": {
+    "previous_frame": 767,
+    "refeed_frame": 768,
+    "previous_raw_speed_m_s": 4.319583,
+    "step_cap_m": 0.03,
+    "dt_s": 0.016666666666666666,
+    "maximum_next_speed_m_s": 1.8,
+    "delta_speed_cap_m_s": 0.6,
+    "minimum_next_speed_from_delta_cap_m_s": 3.7195829999999996,
+    "constraints_incompatible": true,
+    "player_frame_exempted": false
+  },
+  "player-male-rh-ad-walk": {
+    "previous_frame": 767,
+    "refeed_frame": 768,
+    "previous_raw_speed_m_s": 5.142392,
+    "step_cap_m": 0.03,
+    "dt_s": 0.016666666666666666,
+    "maximum_next_speed_m_s": 1.8,
+    "delta_speed_cap_m_s": 0.6,
+    "minimum_next_speed_from_delta_cap_m_s": 4.542392,
+    "constraints_incompatible": true,
+    "player_frame_exempted": false
+  },
+  "player-male-rh-deuce-walk": {
+    "previous_frame": 767,
+    "refeed_frame": 768,
+    "previous_raw_speed_m_s": 4.450679,
+    "step_cap_m": 0.03,
+    "dt_s": 0.016666666666666666,
+    "maximum_next_speed_m_s": 1.8,
+    "delta_speed_cap_m_s": 0.6,
+    "minimum_next_speed_from_delta_cap_m_s": 3.850679,
+    "constraints_incompatible": true,
+    "player_frame_exempted": false
+  }
+}

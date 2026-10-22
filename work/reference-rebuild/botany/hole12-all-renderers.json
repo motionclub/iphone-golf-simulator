@@ -1,0 +1,718 @@
+[
+  {
+    "name": "BRIDGE_PLANKS",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      40.6966552734375,
+      121.75602722167969,
+      7.4388885498046875
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_WOOD_LIGHT"
+    ]
+  },
+  {
+    "name": "BRIDGE_RAILS",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      41.087242126464844,
+      122.26223754882812,
+      26.350000381469727
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_WOOD"
+    ]
+  },
+  {
+    "name": "BUNKER_00",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      24.68730926513672,
+      35.630706787109375,
+      0.8600006103515625
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_BUNKER_LIP",
+      "MAT_SAND"
+    ]
+  },
+  {
+    "name": "BUNKER_01",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      24.68731117248535,
+      33.08564758300781,
+      0.8600006103515625
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_BUNKER_LIP",
+      "MAT_SAND"
+    ]
+  },
+  {
+    "name": "BUNKER_02",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      14.812387466430664,
+      22.90545654296875,
+      0.8726005554199219
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_BUNKER_LIP",
+      "MAT_SAND"
+    ]
+  },
+  {
+    "name": "FAIRWAY",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      32.73260498046875,
+      56.019195556640625,
+      0.2302093505859375
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_FAIRWAY"
+    ]
+  },
+  {
+    "name": "FAIRWAY_FRINGE",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      39.48258590698242,
+      58.09397888183594,
+      0.23752784729003906
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_FIRSTCUT"
+    ]
+  },
+  {
+    "name": "FLAG",
+    "type": "MESH",
+    "position": [
+      0.0,
+      7.551474112688084e-09,
+      0.046350616961717606
+    ],
+    "dimensions": [
+      3.4000000953674316,
+      0.0,
+      2.200000762939453
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_FLAG"
+    ]
+  },
+  {
+    "name": "FLAG_POLE",
+    "type": "MESH",
+    "position": [
+      0.0,
+      181.0,
+      25.046321868896484
+    ],
+    "dimensions": [
+      0.19021131098270416,
+      0.20000000298023224,
+      7.599999904632568
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_POLE"
+    ]
+  },
+  {
+    "name": "FLOWERS",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      67.14859008789062,
+      55.85099792480469,
+      1.0
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_FLOWER_CORAL",
+      "MAT_FLOWER_LAVENDER",
+      "MAT_FLOWER_GOLD"
+    ]
+  },
+  {
+    "name": "GREEN",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      50.01476287841797,
+      42.22242736816406,
+      0.39798927307128906
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_GREEN"
+    ]
+  },
+  {
+    "name": "GREEN_FRINGE",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      55.88536834716797,
+      48.25419616699219,
+      0.39491844177246094
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_FIRSTCUT"
+    ]
+  },
+  {
+    "name": "HOLE_CUP",
+    "type": "MESH",
+    "position": [
+      0.0,
+      181.0,
+      21.226322174072266
+    ],
+    "dimensions": [
+      0.800000011920929,
+      0.800000011920929,
+      0.05999999865889549
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_SLATE"
+    ]
+  },
+  {
+    "name": "LIGHTHOUSE",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      9.0,
+      9.0,
+      23.200000762939453
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_SLATE",
+      "MAT_GLASS",
+      "MAT_CHALK",
+      "MAT_BASALT_2",
+      "MAT_FLAG"
+    ]
+  },
+  {
+    "name": "ROCKS",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      133.46774291992188,
+      261.05352783203125,
+      17.037179946899414
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_BASALT_0",
+      "MAT_BASALT_1",
+      "MAT_BASALT_2",
+      "MAT_BASALT_3"
+    ]
+  },
+  {
+    "name": "SHRUBS",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      76.41193389892578,
+      241.91969299316406,
+      8.400001525878906
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_TREE_DARK",
+      "MAT_TREE_MID",
+      "MAT_TREE_LIGHT"
+    ]
+  },
+  {
+    "name": "TEE_BOX",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      21.0,
+      28.0,
+      0.0
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_FAIRWAY"
+    ]
+  },
+  {
+    "name": "TEE_BOX_FRINGE",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      24.0,
+      32.0,
+      0.0
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_FIRSTCUT"
+    ]
+  },
+  {
+    "name": "TEE_BOX_RED",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      8.0,
+      10.0,
+      0.0
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_FAIRWAY"
+    ]
+  },
+  {
+    "name": "TEE_BOX_YELLOW",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      8.0,
+      10.0,
+      0.0
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_FAIRWAY"
+    ]
+  },
+  {
+    "name": "TEE_FENCE",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      34.599998474121094,
+      16.599998474121094,
+      3.0
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_WOOD",
+      "MAT_WOOD_LIGHT"
+    ]
+  },
+  {
+    "name": "TEE_MARKERS",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      13.100000381469727,
+      1.100000023841858,
+      0.9000005722045898
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_POLE"
+    ]
+  },
+  {
+    "name": "TERRAIN_GREEN_ISLAND",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      89.72796630859375,
+      119.92359161376953,
+      23.217302322387695
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_BASALT_0",
+      "MAT_BASALT_1",
+      "MAT_BASALT_2",
+      "MAT_BASALT_3",
+      "MAT_BASALT_4",
+      "MAT_ROUGH"
+    ]
+  },
+  {
+    "name": "TERRAIN_PROMONTORY",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      33.26032257080078,
+      105.63040161132812,
+      19.556427001953125
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_BASALT_0",
+      "MAT_BASALT_1",
+      "MAT_BASALT_2",
+      "MAT_BASALT_3",
+      "MAT_BASALT_4",
+      "MAT_ROUGH"
+    ]
+  },
+  {
+    "name": "TERRAIN_TEE_APPROACH",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      99.88739013671875,
+      94.90176391601562,
+      17.0
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_BASALT_0",
+      "MAT_BASALT_1",
+      "MAT_BASALT_2",
+      "MAT_BASALT_3",
+      "MAT_BASALT_4",
+      "MAT_ROUGH"
+    ]
+  },
+  {
+    "name": "TREES",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      108.00750732421875,
+      243.50758361816406,
+      19.57178497314453
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_BARK",
+      "MAT_TREE_MID",
+      "MAT_TREE_DARK",
+      "MAT_TREE_LIGHT"
+    ]
+  },
+  {
+    "name": "WATER_FOAM",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      131.99014282226562,
+      265.28546142578125,
+      0.38105136156082153
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_FOAM"
+    ]
+  },
+  {
+    "name": "WATER_GLINTS",
+    "type": "MESH",
+    "position": [
+      1.5299999713897705,
+      0.8500000834465027,
+      0.21999986469745636
+    ],
+    "dimensions": [
+      238.23410034179688,
+      309.3931579589844,
+      0.0
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_FOAM"
+    ]
+  },
+  {
+    "name": "WATER_OCEAN",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      3000.0,
+      3000.0,
+      0.0
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_WATER"
+    ]
+  },
+  {
+    "name": "WATER_WAVES",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      360.0,
+      460.0,
+      0.33448976278305054
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_WATER"
+    ]
+  },
+  {
+    "name": "WATERFALL",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      9.170703887939453,
+      9.403244018554688,
+      16.882549285888672
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_FOAM",
+      "MAT_GLASS"
+    ]
+  }
+]

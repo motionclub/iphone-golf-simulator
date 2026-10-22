@@ -1,0 +1,90 @@
+00:01.530  render           | Saved: '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v2/ground/tools/_scratch_08/hole_08_overview.png'
+GATE: MESH_QUALITY PASS - min triangle angle / min area over every ground and water mesh: TERRAIN_NEEDLE 9.5 deg 0.30 m2, FAIRWAY 5.6 deg 0.20 m2, FAIRWAY_FIRSTCUT 6.4 deg 0.08 m2, GREEN 10.0 deg 1.16 m2, GREEN_APRON 5.1 deg 0.13 m2, TEE_BOX 7.5 deg 0.04 m2, BUNKER_01 12.3 deg 0.14 m2, BUNKER_01_LIP 9.9 deg 0.29 m2, WATER_SHALLOW 5.1 deg 0.55 m2, WATER_FOAM 9.9 deg 0.44 m2, WATER_FOAM_CREST 9.9 deg 0.15 m2 (limits 5 deg, 0.02 m2)
+GATE: TERRAIN_WELD PASS - largest boundary vertex move 0.254 m = 0.28 yd (<= 0.5 yd, SHORE_MATCH measures the result); loops [51, 72, 48], shortest loop edge 0.81 m
+GATE: NEEDLES PASS - 9 needles: highest point 17.60 m (cap 18.0), nearest vertex 26.1 yd from the centerline (>= 25), 0 vertices in a water ellipse, 0 on land
+GATE: ARCH PASS - 17 arch rocks on 7 outcrop rocks, top 17.89 m (cap 18.0), lowest arch rock 3.03 m (plinth top 4.20 m, footings top 5.30 m)
+GATE: ROCKS_OFF_PLAY_SURFACES PASS - 87 rock instances, 1044 vertices: 0 above the land top over dry land, 0 inside a water ellipse
+GATE: ROCKS_STAND_IN_THE_SEA PASS - lowest vertex of every needle base / boulder / outcrop is at or below the sea: highest of those -0.78 m
+GATE: ROCKS_CONTACT_CHAIN PASS - 87 rock instances in the scene (87 built here): 50 stand in the sea, the rest are chained to them by surfaces that cross or lie within 0.05 m; floating: []
+GATE: ROCKS_REST PASS - 80 rocks not hung from neighbours (7 arch ring pieces are): 50 stand in the sea, 30 rest on rock below (underside within 0.25 m of it, at most 50 percent of the lower half over open air); not resting: []
+GATE: LINES_OF_PLAY_VISIBLE PASS - 30 camera-to-target rays (tee, middle pad, its far end -> landing pad and green, 9 green points): 0 stopped by a rock []
+stats: 109 objects, 105 meshes, 7430 triangles (4048 ground), 4 terrain welds; geometry fingerprint 3ec2a7b08c33fa3e
+play_z 6.0 number 8
+loop 0 verts 51 len 160.1 area 1458 bbox [-14.5 -14.5] [17.1 48.7]
+loop 1 verts 72 len 211.6 area 1986 bbox [  0. 117.] [ 30.3 205.9]
+loop 2 verts 48 len 150.7 area 1366 bbox [-19.9 266.5] [ 12.1 325.4]
+total loop length 522.4
+hazard ('water', 10.1, 90.0, 48.0, 94.0, 'gap 1')
+hazard ('water', 6.6, 258.0, 48.0, 88.0, 'gap 2')
+hazard ('bunker', -12.0, 316.0, 9.0, 20.0, 'front-left')
+shore bbox (np.float64(-19.93392), np.float64(-14.53896), np.float64(30.266640000000002), np.float64(325.43496))
+rocks 91
+CLIFF_ROCK verts 12 zmin -9.52 zmax 7.56 c [-0.  -0.1 -0.3] sd -14.3
+CLIFF_ROCK.000 verts 12 zmin -6.80 zmax 4.20 c [-24.1 289.9  -0.9] sd 7.0
+CLIFF_ROCK.001 verts 12 zmin -4.49 zmax 5.02 c [-19.8  64.4   0.6] sd 22.0
+CLIFF_ROCK.002 verts 12 zmin -4.50 zmax 6.12 c [ 40.6 102.5   1.2] sd 23.4
+CLIFF_ROCK.003 verts 12 zmin -4.50 zmax 4.80 c [-12.6 146.6   0.5] sd 15.2
+CLIFF_ROCK.004 verts 12 zmin -4.50 zmax 6.77 c [ 44.3 174.    1.6] sd 14.9
+CLIFF_ROCK.005 verts 12 zmin -4.50 zmax 4.14 c [-2.220e+01  2.156e+02  2.000e-01] sd 31.0
+CLIFF_ROCK.006 verts 12 zmin -4.50 zmax 5.67 c [ 37.  241.5   1. ] sd 39.2
+CLIFF_ROCK.007 verts 12 zmin -4.50 zmax 7.65 c [-48.2 315.9   2. ] sd 28.5
+CLIFF_ROCK.008 verts 12 zmin -4.50 zmax 5.01 c [ 27.2 331.    0.6] sd 23.8
+CLIFF_ROCK.009 verts 12 zmin -4.51 zmax 8.09 c [ 15.5 363.1   2.3] sd 41.8
+ROCK_LARGE verts 12 zmin -0.75 zmax 3.50 c [ 0.1 -0.   0.5] sd -14.3
+ROCK_LARGE.000 verts 12 zmin 2.50 zmax 5.30 c [-20.  290.6   3.3] sd 2.9
+ROCK_LARGE.001 verts 12 zmin 2.50 zmax 5.30 c [-28.9 289.3   3.3] sd 12.0
+ROCK_LARGE.002 verts 12 zmin -1.86 zmax 2.65 c [-21.  294.   -0.5] sd 3.3
+ROCK_LARGE.003 verts 12 zmin -2.40 zmax 3.41 c [-28.6 293.5  -0.7] sd 11.0
+ROCK_LARGE.004 verts 12 zmin -2.19 zmax 3.11 c [-29.  286.6  -0.6] sd 12.4
+ROCK_LARGE.005 verts 12 zmin -1.97 zmax 2.80 c [-22.  285.1  -0.6] sd 5.7
+ROCK_LARGE.006 verts 12 zmin 4.88 zmax 8.71 c [-19.7 290.5   6.1] sd 2.6
+ROCK_LARGE.007 verts 12 zmin 4.88 zmax 8.71 c [-29.2 289.1   6.1] sd 12.2
+ROCK_LARGE.008 verts 12 zmin 3.26 zmax 8.29 c [-20.3  63.7   4.8] sd 21.9
+ROCK_LARGE.009 verts 12 zmin -4.00 zmax 6.00 c [-24.   67.1  -1.1] sd 26.8
+ROCK_LARGE.010 verts 12 zmin 3.93 zmax 10.11 c [ 40.1 102.3   5.8] sd 23.1
+ROCK_LARGE.011 verts 12 zmin -4.00 zmax 7.31 c [ 44.4 104.   -0.7] sd 25.7
+ROCK_LARGE.012 verts 12 zmin 3.09 zmax 7.93 c [-12.9 146.1   4.5] sd 15.6
+ROCK_LARGE.013 verts 12 zmin -4.00 zmax 5.74 c [-18.4 148.3  -1.1] sd 21.1
+ROCK_LARGE.014 verts 12 zmin 4.36 zmax 11.19 c [ 44.8 173.1   6.4] sd 15.4
+ROCK_LARGE.015 verts 12 zmin -4.00 zmax 8.10 c [ 41.9 180.1  -0.4] sd 12.6
+ROCK_LARGE.016 verts 12 zmin 2.64 zmax 6.84 c [-22.1 215.9   3.9] sd 31.2
+ROCK_LARGE.017 verts 12 zmin -4.00 zmax 4.95 c [-25.9 215.4  -1.4] sd 33.9
+ROCK_LARGE.018 verts 12 zmin 3.67 zmax 9.38 c [ 36.5 241.3   5.4] sd 38.8
+ROCK_LARGE.019 verts 12 zmin -4.00 zmax 6.79 c [ 41.  243.7  -0.8] sd 42.9
+ROCK_LARGE.020 verts 12 zmin 4.86 zmax 12.65 c [-47.5 315.1   7.3] sd 27.7
+ROCK_LARGE.021 verts 12 zmin -4.00 zmax 9.15 c [-5.450e+01  3.196e+02 -1.000e-01] sd 35.3
+ROCK_LARGE.022 verts 12 zmin 3.18 zmax 8.29 c [ 27.4 331.2   4.8] sd 24.1
+ROCK_LARGE.023 verts 12 zmin -4.00 zmax 6.00 c [ 27.  336.   -1.1] sd 26.6
+ROCK_LARGE.024 verts 12 zmin 5.13 zmax 13.36 c [ 15.1 364.7   7.7] sd 43.1
+ROCK_LARGE.025 verts 12 zmin -4.00 zmax 9.68 c [  7.8 369.8   0. ] sd 45.9
+ROCK_LARGE.026 verts 12 zmin -1.09 zmax 1.74 c [19.   2.9 -0.2] sd 4.0
+ROCK_LARGE.027 verts 12 zmin -1.97 zmax 0.98 c [-16.1  11.2  -1.1] sd 2.7
+ROCK_LARGE.028 verts 12 zmin -1.74 zmax 1.63 c [-16.8   0.8  -0.6] sd 2.3
+ROCK_LARGE.029 verts 12 zmin -1.96 zmax 1.04 c [ -5.4 -16.1  -0.9] sd 2.4
+ROCK_LARGE.030 verts 12 zmin -1.81 zmax 1.49 c [ 11.4 -12.7  -0.6] sd 2.5
+ROCK_LARGE.031 verts 12 zmin -0.86 zmax 2.01 c [ 26.9 117.9   0.2] sd 4.2
+ROCK_LARGE.032 verts 12 zmin -2.66 zmax 1.82 c [ 32.5 149.5  -1.1] sd 2.9
+ROCK_LARGE.033 verts 12 zmin -1.33 zmax 1.93 c [ 32.4 157.   -0.3] sd 2.5
+ROCK_LARGE.034 verts 12 zmin -2.07 zmax 0.84 c [ 32.9 166.6  -1. ] sd 2.9
+ROCK_LARGE.035 verts 12 zmin -2.31 zmax 1.16 c [ 30.8 189.4  -1.2] sd 3.3
+ROCK_LARGE.036 verts 12 zmin -2.69 zmax 1.64 c [ -3.4 188.3  -1.2] sd 3.5
+ROCK_LARGE.037 verts 12 zmin -2.68 zmax 1.34 c [ 1.000e-01  1.724e+02 -1.100e+00] sd 2.4
+ROCK_LARGE.038 verts 12 zmin -3.52 zmax 1.40 c [-1.000e-01  1.619e+02 -1.700e+00] sd 3.3
+ROCK_LARGE.039 verts 12 zmin -2.49 zmax 1.91 c [ -1.4 153.9  -1. ] sd 3.8
+ROCK_LARGE.040 verts 12 zmin -1.43 zmax 2.46 c [ 13.8 296.6  -0. ] sd 2.4
+ROCK_LARGE.041 verts 12 zmin -3.53 zmax 1.24 c [  3.1 326.1  -1.8] sd 3.0
+ROCK_MEDIUM verts 12 zmin -0.48 zmax 2.22 c [-0.   0.1  0.3] sd -14.4
+ROCK_MEDIUM.000 verts 12 zmin 7.00 zmax 10.82 c [-20.  290.8   8.2] sd 2.9
+ROCK_MEDIUM.001 verts 12 zmin 9.16 zmax 12.94 c [-19.9 290.6  10.3] sd 2.8
+ROCK_MEDIUM.002 verts 12 zmin 7.03 zmax 10.82 c [-28.8 289.3   8.2] sd 11.8
+ROCK_MEDIUM.003 verts 12 zmin 9.16 zmax 12.94 c [-29.1 289.2  10.3] sd 12.1
+ROCK_MEDIUM.004 verts 12 zmin 11.47 zmax 14.66 c [-29.3 289.2  13. ] sd 12.3
+ROCK_MEDIUM.005 verts 12 zmin 13.79 zmax 16.45 c [-28.4 289.3  15.1] sd 11.4
+ROCK_MEDIUM.006 verts 12 zmin 14.99 zmax 17.57 c [-26.6 289.6  16.5] sd 9.6
+ROCK_MEDIUM.007 verts 12 zmin 15.29 zmax 17.71 c [-24.4 289.9  17. ] sd 7.4
+ROCK_MEDIUM.008 verts 12 zmin 14.99 zmax 17.89 c [-22.3 290.3  16.5] sd 5.2
+ROCK_MEDIUM.009 verts 12 zmin 13.31 zmax 16.91 c [-20.5 290.5  15.1] sd 3.5
+ROCK_MEDIUM.015 verts 12 zmin 4.53 zmax 5.98 c [-21.5 290.    4.9] sd 4.5
+ROCK_MEDIUM.016 verts 12 zmin 6.30 zmax 10.91 c [-19.9  64.3   7.7] sd 22.0
+ROCK_MEDIUM.017 verts 12 zmin 7.68 zmax 13.30 c [ 40.1 102.7   9.3] sd 22.8
+ROCK_MEDIUM.018 verts 12 zmin 6.01 zmax 10.43 c [-12.9 146.2   7.3] sd 15.5

@@ -108,7 +108,9 @@ namespace GolfArcade.Game
             }
             // no glow round it in the ordinary shot (Golf Dreams has none); a faint one on the
             // POV's bigger ball, against the sky
-            halo.gameObject.SetActive(wantShare > MinShare);
+            bool fogBall = GolfArcade.EnvironmentArt.DreamVisibility.Fog;
+            halo.gameObject.SetActive(wantShare > MinShare || fogBall);
+            haloMaterial.color = new Color(1,1,.94f,fogBall?.95f:.5f);
             // swell to the least screen size, the bottom staying where the real ball's is
             share = Mathf.MoveTowards(share, wantShare, Time.deltaTime * 0.03f);
             float k = Mathf.Max(1f, share * ViewHeightAt(ball.position) / size);
@@ -119,12 +121,12 @@ namespace GolfArcade.Game
             DrawnDiameter = drawn;
             halo.position = centre;
             halo.rotation = view.transform.rotation;
-            halo.localScale = Vector3.one * drawn * 2.6f;
+            halo.localScale = Vector3.one * drawn * (fogBall?1.4f:2.6f);
             // the shadow: straight down, soft, smaller and darker the lower the ball
             double ground = HoleView.GroundHeight(HoleView.ToCourse(ball.position));
             float height = Mathf.Max(0f, ball.position.y - (float)ground - size * 0.5f);
             float near = Mathf.Clamp01(1f - height / 45f);
-            bool show = height < 60f;
+            bool show = height < 60f && GolfArcade.EnvironmentArt.DreamVisibility.Visible(new Vector3(ball.position.x,(float)ground,ball.position.z));
             shadow.gameObject.SetActive(show);
             if (show)
             {

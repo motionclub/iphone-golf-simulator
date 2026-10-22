@@ -1,0 +1,414 @@
+{
+  "schema": 1,
+  "scope": "aerial-camera-fields-only",
+  "root": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator",
+  "proposalSource": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/aerial_cfg_proposed.json",
+  "proposalSourceSha256": "031195bda4edb546dc4bbf9a9a5acb8c54cf5138d7878c7534e5c2a36e11b78e",
+  "proposedCameras": {
+    "shots": [
+      {
+        "name": "hole08_4_aerial",
+        "hole": 8,
+        "kind": "landmark",
+        "pos": [
+          100,
+          135,
+          -55
+        ],
+        "look": [
+          2,
+          6,
+          185
+        ],
+        "fov": 57
+      },
+      {
+        "name": "hole09_4_aerial",
+        "hole": 9,
+        "kind": "landmark",
+        "pos": [
+          120,
+          185,
+          -65
+        ],
+        "look": [
+          -22,
+          6,
+          230
+        ],
+        "fov": 57
+      },
+      {
+        "name": "hole10_4_aerial",
+        "hole": 10,
+        "kind": "landmark",
+        "pos": [
+          -95,
+          175,
+          -105
+        ],
+        "look": [
+          145,
+          6,
+          125
+        ],
+        "fov": 58
+      }
+    ]
+  },
+  "validatorSource": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/runtime/config_override.py",
+  "validatorSourceSha256": "ff635ec32d023bd016b06157be07d0ade965eede2b3176169ac79e003c2a35bf",
+  "preparerSource": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/runtime/prepare_runtime.py",
+  "preparerSourceSha256": "c8ba5e1c76f7d41df74e5c89b560c470e4ddf037b53b9038218e75553b4d70fe",
+  "files": [
+    {
+      "name": "stills_cfg_9.json",
+      "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/stills_cfg_9.json",
+      "copy": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/capture_configs/stills_cfg_9.json",
+      "oldSha256": "95663944afa35c47de63f6bea3e6b3faac633b785580956f2731d250863ab9e2",
+      "newSha256": "95663944afa35c47de63f6bea3e6b3faac633b785580956f2731d250863ab9e2",
+      "differences": []
+    },
+    {
+      "name": "stills_cfg_extra.json",
+      "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/stills_cfg_extra.json",
+      "copy": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/capture_configs/stills_cfg_extra.json",
+      "oldSha256": "f77dbde7c1f9e8320451a18da3fa191b17fa685b8912dea798edb5a4f6d3205c",
+      "newSha256": "785d975e7bc274ff79611d45761ec644770c7ad8725c03b11f5f181692afc6d0",
+      "differences": [
+        {
+          "path": "/shots/1/pos",
+          "shot": "hole08_aerial",
+          "old": [
+            120,
+            290,
+            -170
+          ],
+          "new": [
+            100,
+            135,
+            -55
+          ]
+        },
+        {
+          "path": "/shots/1/look",
+          "shot": "hole08_aerial",
+          "old": [
+            5,
+            0,
+            170
+          ],
+          "new": [
+            2,
+            6,
+            185
+          ]
+        },
+        {
+          "path": "/shots/1/fov",
+          "shot": "hole08_aerial",
+          "old": 53,
+          "new": 57
+        },
+        {
+          "path": "/shots/2/pos",
+          "shot": "hole09_aerial",
+          "old": [
+            140,
+            360,
+            -200
+          ],
+          "new": [
+            120,
+            185,
+            -65
+          ]
+        },
+        {
+          "path": "/shots/2/look",
+          "shot": "hole09_aerial",
+          "old": [
+            -28,
+            0,
+            230
+          ],
+          "new": [
+            -22,
+            6,
+            230
+          ]
+        },
+        {
+          "path": "/shots/2/fov",
+          "shot": "hole09_aerial",
+          "old": 53,
+          "new": 57
+        },
+        {
+          "path": "/shots/3/pos",
+          "shot": "hole10_aerial",
+          "old": [
+            -130,
+            320,
+            -165
+          ],
+          "new": [
+            -95,
+            175,
+            -105
+          ]
+        },
+        {
+          "path": "/shots/3/look",
+          "shot": "hole10_aerial",
+          "old": [
+            130,
+            0,
+            100
+          ],
+          "new": [
+            145,
+            6,
+            125
+          ]
+        }
+      ]
+    },
+    {
+      "name": "stills_cfg_12.json",
+      "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/stills_cfg_12.json",
+      "copy": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/capture_configs/stills_cfg_12.json",
+      "oldSha256": "76169c73f2f69fa745b3ba8ee162cc1676cf4ecb8d5134f64300765cbf0749bd",
+      "newSha256": "90eb633addf11aa2e7e958487631a8c73076e654ca57d78dbce72586d1c16fd6",
+      "differences": [
+        {
+          "path": "/shots/9/pos",
+          "shot": "hole08_4_aerial",
+          "old": [
+            120,
+            290,
+            -170
+          ],
+          "new": [
+            100,
+            135,
+            -55
+          ]
+        },
+        {
+          "path": "/shots/9/look",
+          "shot": "hole08_4_aerial",
+          "old": [
+            5,
+            0,
+            170
+          ],
+          "new": [
+            2,
+            6,
+            185
+          ]
+        },
+        {
+          "path": "/shots/9/fov",
+          "shot": "hole08_4_aerial",
+          "old": 53,
+          "new": 57
+        },
+        {
+          "path": "/shots/10/pos",
+          "shot": "hole09_4_aerial",
+          "old": [
+            140,
+            360,
+            -200
+          ],
+          "new": [
+            120,
+            185,
+            -65
+          ]
+        },
+        {
+          "path": "/shots/10/look",
+          "shot": "hole09_4_aerial",
+          "old": [
+            -28,
+            0,
+            230
+          ],
+          "new": [
+            -22,
+            6,
+            230
+          ]
+        },
+        {
+          "path": "/shots/10/fov",
+          "shot": "hole09_4_aerial",
+          "old": 53,
+          "new": 57
+        },
+        {
+          "path": "/shots/11/pos",
+          "shot": "hole10_4_aerial",
+          "old": [
+            -130,
+            320,
+            -165
+          ],
+          "new": [
+            -95,
+            175,
+            -105
+          ]
+        },
+        {
+          "path": "/shots/11/look",
+          "shot": "hole10_4_aerial",
+          "old": [
+            130,
+            0,
+            100
+          ],
+          "new": [
+            145,
+            6,
+            125
+          ]
+        }
+      ]
+    },
+    {
+      "name": "aerial_cfg_3.json",
+      "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof-tools/aerial_cfg_3.json",
+      "copy": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/capture_configs/aerial_cfg_3.json",
+      "oldSha256": "d9ea844e828cfced7995ec9f6faaaa6f541327cec40ec9330e7ac91c44956b1b",
+      "newSha256": "031195bda4edb546dc4bbf9a9a5acb8c54cf5138d7878c7534e5c2a36e11b78e",
+      "differences": [
+        {
+          "path": "/shots/0/pos",
+          "shot": "hole08_4_aerial",
+          "old": [
+            120,
+            290,
+            -170
+          ],
+          "new": [
+            100,
+            135,
+            -55
+          ]
+        },
+        {
+          "path": "/shots/0/look",
+          "shot": "hole08_4_aerial",
+          "old": [
+            5,
+            0,
+            170
+          ],
+          "new": [
+            2,
+            6,
+            185
+          ]
+        },
+        {
+          "path": "/shots/0/fov",
+          "shot": "hole08_4_aerial",
+          "old": 53,
+          "new": 57
+        },
+        {
+          "path": "/shots/1/pos",
+          "shot": "hole09_4_aerial",
+          "old": [
+            140,
+            360,
+            -200
+          ],
+          "new": [
+            120,
+            185,
+            -65
+          ]
+        },
+        {
+          "path": "/shots/1/look",
+          "shot": "hole09_4_aerial",
+          "old": [
+            -28,
+            0,
+            230
+          ],
+          "new": [
+            -22,
+            6,
+            230
+          ]
+        },
+        {
+          "path": "/shots/1/fov",
+          "shot": "hole09_4_aerial",
+          "old": 53,
+          "new": 57
+        },
+        {
+          "path": "/shots/2/pos",
+          "shot": "hole10_4_aerial",
+          "old": [
+            -130,
+            320,
+            -165
+          ],
+          "new": [
+            -95,
+            175,
+            -105
+          ]
+        },
+        {
+          "path": "/shots/2/look",
+          "shot": "hole10_4_aerial",
+          "old": [
+            130,
+            0,
+            100
+          ],
+          "new": [
+            145,
+            6,
+            125
+          ]
+        }
+      ]
+    },
+    {
+      "name": "proof_cfg_round1.json",
+      "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/proof_cfg_final.json",
+      "copy": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/capture_configs/proof_cfg_round1.json",
+      "oldSha256": "90c9a29f5525d1344baeff55e0979a4e1a0697fd7d11e031d5f5e054ae9d7168",
+      "newSha256": "90c9a29f5525d1344baeff55e0979a4e1a0697fd7d11e031d5f5e054ae9d7168",
+      "differences": []
+    },
+    {
+      "name": "split_outline_cfg_round1.json",
+      "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/split_outline_cfg.json",
+      "copy": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/capture_configs/split_outline_cfg_round1.json",
+      "oldSha256": "3ef2f327157bed35b9549867c58c255d2d8cfd9aad56322432d11aa6fbd6be0d",
+      "newSha256": "3ef2f327157bed35b9549867c58c255d2d8cfd9aad56322432d11aa6fbd6be0d",
+      "differences": []
+    },
+    {
+      "name": "cost_cfg.json",
+      "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/stills_cfg_12.json",
+      "copy": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/capture_configs/cost_cfg.json",
+      "oldSha256": "2fe026a3716966bff0a4b540b5a8e86a4b0459cf8096c7e15380bf1976246fbd",
+      "newSha256": "2fe026a3716966bff0a4b540b5a8e86a4b0459cf8096c7e15380bf1976246fbd",
+      "differences": [],
+      "scope": "Derived six actual address shots; canonical bytes unchanged"
+    }
+  ],
+  "note": "Semantic and Split configs have no camera fields and are byte-identical copies. Only pos/look/fov of3 aerials changed in each shot config; all non-aerial and6 address frames unchanged. No native capture or visual PASS implied."
+}

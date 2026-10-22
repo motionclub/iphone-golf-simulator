@@ -1,0 +1,32 @@
+{
+  "gate": "ACCEPTED bounded eye/brow material improvement; not full character visual completion",
+  "reviewer": "root agent; independently inspected paired actual front and full-body renders",
+  "evidence": [
+    "proof/reference-rebuild/character-eyes13",
+    "proof/reference-rebuild/character-eyes13-control"
+  ],
+  "userFacingPlate": "/Users/adnanyonathan/Documents/Codex/2026-10-06/open-4/outputs/reference-check/eye-material-progress.jpg",
+  "exactGeometry": "Source Body and ReferenceFeatures positions, normals, topology, skin weights and named53-bone rig unchanged. UVs and material response only.",
+  "acceptedChanges": [
+    "Broad graded warm iris albedo; no starburst",
+    "Subtle upper/outer sclera falloff",
+    "Explicit matte eyebrows smoothness.12/specular.10"
+  ],
+  "scope": "Default within explicitly selected OriginalSeam only; eye material0 opt-out. OriginalSeam is NOT globally promoted.",
+  "pending": [
+    "blink visual acceptance failed; source6 open restored",
+    "gaze/brow motion and native OriginalSeam parity remain unimplemented",
+    "reference appearance gap still substantial"
+  ],
+  "sourceSHA256": {
+    "work/reference-rebuild/original-refinement/author_eye_material.py": "958f3662bb589aef829660385e9fdad4522903f114ef97e222076f47aeede329",
+    "work/reference-rebuild/original-refinement/Male_OriginalSeamPilot.blend": "7cdea08fa613496ad2f65868011778be72a3e730fc36ddd7ba7110e5bb4ae10d",
+    "work/reference-rebuild/original-refinement/Female_OriginalSeamPilot.blend": "cee9bc3d5cc96ff318288753dbdd606b6df64b6dca8712f10f5de953835e30a0",
+    "work/reference-rebuild/original-refinement/Male_OriginalSeamEyeMaterial.blend": "94e7025354581804bf5faaff43e60f5be9bfa9b06548ba4dfcee292cec0734b9",
+    "work/reference-rebuild/original-refinement/Female_OriginalSeamEyeMaterial.blend": "d305bfdd65d4cdd2dd2c2058d5b586fae3f467ce59b9099c2015296808c59a16",
+    "Unity/Assets/Resources/Tennis/OriginalSeamEyeMaterial/Male.fbx": "2a30a72174f6e99a8d40867aacf4e96e2a73ba17a5b6ef183d1339b1ddcd992c",
+    "Unity/Assets/Resources/Tennis/OriginalSeamEyeMaterial/Female.fbx": "77609e0eb7f493333c4478ea155e8536bd8c7164707b715b9792eac67246f4b9",
+    "Unity/Assets/Scripts/Tennis/HeroOriginalSeamAnatomy.cs": "f1ca0896fd9ba95095a25b04521d83ff4ef6d0928f98fa1fd324efa5d8ae9d4a"
+  },
+  "runtimeDefault": "OriginalSeam opt-in unchanged; accepted eye treatment default within it, explicit VISUAL_ORIGINAL_EYE_MATERIAL=0 opt-out"
+}

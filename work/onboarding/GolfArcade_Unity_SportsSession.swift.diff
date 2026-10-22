@@ -1,0 +1,57 @@
+diff --git a/GolfArcade/Unity/SportsSession.swift b/GolfArcade/Unity/SportsSession.swift
+index 40159fbb..9ba44f34 100644
+--- a/GolfArcade/Unity/SportsSession.swift
++++ b/GolfArcade/Unity/SportsSession.swift
+@@ -99,6 +99,19 @@ final class SportsSession {
+     /// What the match is doing, from Unity, for the controller: "serve", "toss", "receive",
+     /// "rally" or "point"; and which court a serve goes from.
+     var tennisPhase = ""
++    private(set) var matchEmotes = EmoteCatalog.defaults
++    var emoteWindow = ""
++    var emoteNotice = ""
++    var canPlayEmote: Bool {
++        active && ready && loading.finished && !paused && finishedMatch == nil && sport == "tennis"
++        && (emoteWindow == "intro" || emoteWindow == "point")
++    }
++    func playEmote(slot: Int) {
++        guard canPlayEmote, matchEmotes.indices.contains(slot) else { return }
++        command("emote", value: Double(slot))
++        emoteWindow = ""
++        emoteNotice = "\(EmoteCatalog.name(matchEmotes[slot])) selected"
++    }
+     var serveFromDeuce = true
+     /// The controller serve's aim in the target box: across (T -1 .. wide +1), depth (0..1).
+     var serveAim = (across: 0.0, depth: 0.8)
+@@ -290,6 +303,12 @@ final class SportsSession {
+         phase="calibrating"; feedback=""; stamina=1
+         ultimateMeter=0; ultimateArmed=false; diveCooldown=0; canDive=false; canArmUltimate=false; loadoutLocked=false
+         let p=players[min(playerIndex,players.count-1)]
++        matchEmotes = p.equippedEmotes; emoteWindow = ""; emoteNotice = ""; tennisPhase = ""
++        if let network = launchExtras["network"] as? String, let data = network.data(using: .utf8),
++           let configuration = try? JSONDecoder().decode(MultiplayerMatchConfiguration.self, from: data),
++           let local = configuration.participants.first(where: { $0.id == configuration.localID }) {
++            matchEmotes = EmoteCatalog.normalized(local.loadout?.emotes)
++        }
+         motion.setAimProfile(storedAimProfile())
+         pending=["version":1,"session":sessionID,"action":"start","sport":sport,"playerID":p.id.uuidString,"playerName":p.name,"female":p.standardFemale,"skin":p.standardSkin,"left":p.handedness == .left,"sound":sound,"haptics":haptics,"touch":touch || preview,"token":Int(sessionToken),"fps":highFrameRate ? 120 : 60,"bench":SportsSession.benchmark,"difficulty":tennisDifficulty,"venue":sport == "tennis" ? tennisVenue : "resort",
+                  "shirt":p.outfitHex("shirt") ?? "","shorts":p.outfitHex("shorts") ?? "","accent":p.outfitHex("accent") ?? "","racket":p.outfitHex("racket") ?? "",
+@@ -300,6 +319,7 @@ final class SportsSession {
+                  "loadout":p.loadoutPayload(sport:Sport(rawValue:sport) ?? .tennis)]
+         if preview { touch=true }
+         pending?["external"] = !preview
++        pending?["emotes"] = matchEmotes
+         for (key, value) in launchExtras { pending?[key] = value }
+         // Explicit device verification uses a real, short match (no fabricated finish event).
+         if Self.benchmark && ProcessInfo.processInfo.arguments.contains("--postgame-check") {
+@@ -655,6 +675,11 @@ final class SportsSession {
+                 for (prefix, won) in [("YOU WIN ", true), ("OPPONENT WINS ", false)] where score.detail.hasPrefix(prefix) {
+                     receiveMatchFinish(won: won, score: String(score.detail.dropFirst(prefix.count)))
+                 }
++            case "emoteState":
++                let window = event["message"] as? String ?? ""
++                if window != emoteWindow { emoteNotice = "" }
++                emoteWindow = window
++            case "emoteResult": emoteNotice = event["message"] as? String ?? ""
+             case "timing":
+                 checkingTiming=false
+                 let message=event["message"] as? String ?? "failed"

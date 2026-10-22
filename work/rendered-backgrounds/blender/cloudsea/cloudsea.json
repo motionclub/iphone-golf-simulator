@@ -1,0 +1,11 @@
+{
+ "tile_m": 3000.0,
+ "layer_m": 500.0,
+ "sun_elevation_side_deg": 20,
+ "sun_peak": 0.17098189890384674,
+ "ambient_peak": 0.8425363302230835,
+ "channels": {
+  "A": "R=+X G=-X B=+Y(north) A=-Y, sun 20 deg high (sRGB, alpha too)",
+  "B": "R=sun overhead G=uniform sky B=0 A=1"
+ }
+}

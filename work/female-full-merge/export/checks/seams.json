@@ -1,0 +1,109 @@
+{
+ "neck_shoulder_FORM5_border": {
+  "ring_verts": 45,
+  "crossing_edges": 129,
+  "DISPLACEMENT_STEP_vs_ArtDir_mm": 0.5671694173672348,
+  "DISPLACEMENT_STEP_vs_hands_base_mm": 0.4946680257036062,
+  "mean_vs_ArtDir_mm": 0.16172953995366277,
+  "FORM5_convention_interior_neighbour_displacement_mm": 0.5671694173672348,
+  "per_neighbour_side_vs_ArtDir_mm": {
+   "torso FORM5 zone": 0.5671694173672348,
+   "other (unchanged body)": 0.0
+  },
+  "at_vertex_z_x_of_max": [
+   1.3568089008331299,
+   -0.04931365326046944
+  ]
+ },
+ "armpit_FORM5_border": {
+  "ring_verts": 81,
+  "crossing_edges": 226,
+  "DISPLACEMENT_STEP_vs_ArtDir_mm": 9.415268668805563,
+  "DISPLACEMENT_STEP_vs_hands_base_mm": 8.212230908918087,
+  "mean_vs_ArtDir_mm": 1.0814564052478042,
+  "FORM5_convention_interior_neighbour_displacement_mm": 9.415268668805563,
+  "per_neighbour_side_vs_ArtDir_mm": {
+   "torso FORM5 zone": 9.415268668805563,
+   "arm zone": 0.0
+  },
+  "at_vertex_z_x_of_max": [
+   1.210067629814148,
+   -0.11200997978448868
+  ]
+ },
+ "leg_top_floor_FORM5_border": {
+  "ring_verts": 88,
+  "crossing_edges": 224,
+  "DISPLACEMENT_STEP_vs_ArtDir_mm": 1.352949593786038,
+  "DISPLACEMENT_STEP_vs_hands_base_mm": 1.352949593786038,
+  "mean_vs_ArtDir_mm": 0.128156435604546,
+  "FORM5_convention_interior_neighbour_displacement_mm": 1.352949593786038,
+  "per_neighbour_side_vs_ArtDir_mm": {
+   "torso FORM5 zone": 1.352949593786038,
+   "other (unchanged body)": 0.0
+  },
+  "at_vertex_z_x_of_max": [
+   0.642833411693573,
+   -0.1617382913827896
+  ]
+ },
+ "armpit_relative_step_across_border_and_pins": {
+  "ring_pin_adjacent_pairs": 106,
+  "paths": 251,
+  "max_mm": 9.876678484462689,
+  "mean_mm": 2.681528149616597
+ },
+ "armpit_pins_displacement_vs_ArtDir_mm_max": 0.0,
+ "wrist_rings": {
+  "ring_verts": 36,
+  "crossing_edges": 109,
+  "DISPLACEMENT_STEP_vs_hands_base_mm": 0.0,
+  "DISPLACEMENT_STEP_vs_ArtDir_forearm_side_only_mm": 0.4984921517776211,
+  "per_side_vs_ArtDir": {
+   "arm zone": 0.4984921517776211
+  },
+  "note": "merge-induced step is the change vs the hands base: the merge touches neither side of the wrist ring (hand side has no ArtDir counterpart: info only)"
+ },
+ "POSITION_STEP": {
+  "neck_shoulder_ring": {
+   "vs_FORM5_candidate_mm": 0.0,
+   "vs_F3_lower_body_mm": 0.0,
+   "vs_ArtDir_original_mm": 0.0
+  },
+  "collar_ring_30": {
+   "vs_F3_ring_mm": 0.0,
+   "vs_ArtDir_original_mm": 0.0,
+   "vs_hands_base_mm": 0.0
+  },
+  "armpit_border_ring": {
+   "vs_FORM5_candidate_mm": 0.0,
+   "vs_ArtDir_original_mm": 0.0,
+   "vs_F3_lower_body_mm": 0.0
+  },
+  "arm_pins_107": {
+   "vs_arms_candidate_mm": 0.0,
+   "vs_ArtDir_original_mm": 0.0
+  },
+  "wrist_rings_36": {
+   "vs_arms_candidate_mm": 0.0,
+   "vs_hands_candidate_mm": 0.0
+  },
+  "leg_top_floor_ring": {
+   "vs_FORM5_candidate_mm": 0.0,
+   "vs_ArtDir_original_mm": 0.0,
+   "vs_hands_base_mm": 0.0
+  }
+ },
+ "neck_geometry": {
+  "FORM5_neck_ring_z_range": [
+   1.362697720527649,
+   1.3699984550476074
+  ],
+  "collar_ring_z_range": [
+   1.3964735269546509,
+   1.4053155183792114
+  ],
+  "original_untouched_band_between_m": 0.026475071907043457,
+  "verts_in_band": 138
+ }
+}

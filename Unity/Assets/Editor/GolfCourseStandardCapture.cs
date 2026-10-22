@@ -104,6 +104,12 @@ namespace GolfArcade.EditorTools
 
         static void Capture()
         {
+            var reviewWind=Environment.GetEnvironmentVariable("GOLF_STANDARD_WIND");
+            if(!string.IsNullOrEmpty(reviewWind)) {
+                var parts=reviewWind.Split(',');
+                game.SetWind(new Wind(double.Parse(parts[0],System.Globalization.CultureInfo.InvariantCulture),double.Parse(parts[1],System.Globalization.CultureInfo.InvariantCulture)));
+            }
+            LuminousCoastAudit.Write();
             game.enabled = false; rig.enabled = false;
             cam.aspect = 9f / 16f;
             var h = game.CurrentHole;

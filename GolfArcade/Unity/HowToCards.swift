@@ -83,13 +83,13 @@ enum GameTips {
     static let golf: [GameTip] = [
         t(.technique, "How far back you take the phone sets the distance: hip-high is about 60%, up behind you is full power."),
         t(.technique, "You don't have to swing hard. A smooth, committed swing through the ball carries full distance."),
-        t(.technique, "After Start Swing, hold still for half a second in your stance, then swing from that same hold."),
-        t(.technique, "Stopped short on the way through? The swing just cancels with no stroke lost. Tap Start Swing and go again."),
+        t(.technique, "Tap the swing button and swing: it starts at once, from wherever you are holding the phone. Tap it again to cancel."),
+        t(.technique, "Tap the button again, or stop short on the way through, and the swing resets with no stroke lost. Tap it and go again."),
         t(.technique, "Twisting the phone open or closed bends the ball: open slices right, closed hooks left."),
         t(.technique, "Keep the phone's face square. A twist of more than about 10° starts to curve the shot."),
         t(.technique, "Smooth tempo, a square face and a committed swing together earn a PERFECT strike."),
         t(.technique, "A tentative downswing is graded THIN and flies low. Take it back, then go through."),
-        t(.technique, "Touching the aim pad or club arrows after Start Swing cancels it. Line up first, then Start Swing."),
+        t(.technique, "Touching the aim pad or club arrows after you tap resets the swing. Line up first, then tap the button."),
         t(.technique, "Putting uses tiny strokes. A 3-foot putt is only about a fifth of a full putting stroke."),
         t(.strategy, "Check the wind arrow and MPH badge before you pick a club, and aim off for a strong crosswind."),
         t(.strategy, "Water and lava cost a stroke. Play short of trouble with a safer club."),
@@ -101,7 +101,7 @@ enum GameTips {
         t(.strategy, "Frozen lakes are slick. A ball landing on the ice keeps skidding, so land short of it."),
         t(.strategy, "Trees, rocks, walls and windmill blades knock the ball. Aim to miss them."),
         t(.setup, "Clear a full swing's room around you, and keep the phone in a firm grip."),
-        t(.setup, "Any grip works in golf. Start Swing learns how you hold the phone, so pick a stance that's comfortable."),
+        t(.setup, "Any grip works in golf. Tapping the swing button learns how you hold the phone, so pick a stance that's comfortable."),
         t(.setup, "Mirror your phone first: Control Center → Screen Mirroring, then pick your TV or Mac."),
         t(.setup, "Playing on a Mac? Turn on AirPlay Receiver in System Settings → General → AirDrop & Handoff."),
         t(.setup, "No room to swing? Settings → Controls → Touch plays with a power slider instead."),
@@ -161,7 +161,7 @@ enum GuideDeck: String, CaseIterable, Identifiable {
     }
     var detail: String {
         switch self {
-        case .golf: "Aiming, Start Swing, power, clubs, wind and putting."
+        case .golf: "Aiming, tap to swing, power, clubs, wind and putting."
         case .tennis: "Timing, aiming, serving, diving and scoring."
         case .setup: "Connect a screen, set up each game, and fix common problems."
         case .better: "Habits and best practices that help in both games."
@@ -188,14 +188,14 @@ extension HowTo {
         HowToCard(id: "gg-shot", title: "Taking a shot", steps: [
             "Drag the AIM pad, or tap its arrows, to point your shot. The map shows where the ball should land.",
             "Use the arrows beside the CLUB card to change club. The game starts you on one that reaches the target.",
-            "Tap READY if it asks, then tap START SWING. The button turns amber and says HOLD STILL.",
-            "Hold the phone still in your stance for half a second. When it turns green and says SWING NOW!, swing back and through.",
-            "Changing the aim or club after Start Swing cancels it. Line up first, then Start Swing.",
+            "Tap READY if it asks, then tap the swing button. It turns green and says SWING! straight away.",
+            "Settle the phone in your stance and swing back and through. Tap the button again before contact to cancel the swing.",
+            "Changing the aim or club after you tap resets the swing, and so does a swing left alone for 12 seconds. Line up first, then tap the button.",
         ], art: .golfSwing, icon: "figure.golf"),
         HowToCard(id: "gg-power", title: "Distance and power", steps: [
             "How far you take the phone back sets how far the ball goes. Hip-high is about 60%, and the phone up behind you is full power.",
             "Your downswing only has to be firm and committed. Swinging harder than that adds no distance.",
-            "Stop short on the way through and the swing cancels without costing a stroke. Tap START SWING and go again.",
+            "Stop short on the way through, or tap the button again, and the swing resets without costing a stroke. Tap it and go again.",
             "A tentative, pushed swing is graded THIN: low, with little spin.",
         ], art: .golfSwing, icon: "speedometer"),
         HowToCard(id: "gg-strike", title: "A clean strike", steps: [
@@ -274,7 +274,7 @@ extension HowTo {
         HowToCard(id: "sg-golf", title: "Golf setup", steps: [
             "Golf needs no scan or camera. Allow Motion when asked, since your swings are read from it.",
             "Stand with room to swing and hold the phone however is comfortable. Any grip works.",
-            "For each shot: aim, pick a club, tap START SWING, hold still until it says SWING NOW!, then swing.",
+            "For each shot: aim, pick a club, tap the swing button, then swing. Tap it again to cancel.",
         ], art: .golfStance, icon: "figure.golf"),
         HowToCard(id: "sg-tennis", title: "Tennis setup", steps: [
             "Stand about 2.5 m from the screen and point the phone's rear camera at it. Hold still until the court direction locks. After that, any grip or angle works.",
@@ -287,7 +287,7 @@ extension HowTo {
             "Online play needs a Game Center sign-in. Nearby play needs the same Wi-Fi network as your friends.",
         ], art: .mirror, icon: "camera.fill"),
         HowToCard(id: "sg-fix", title: "Fixing common problems", steps: [
-            "Golf swing not registering? After Start Swing, hold still for half a second and swing from that hold. Don't touch the aim pad or club arrows after Start Swing.",
+            "Golf swing not registering? Tap the swing button first, settle the phone in your stance, and don't touch the aim pad or club arrows after you tap.",
             "Tennis tracking dropping out? Keep the rear camera uncovered, point it at a room with some detail rather than a blank wall, and keep the lights on.",
             "Swings always early or late? Turn on your TV's Game Mode and run Settings → Controls → Swing timing check.",
             "Moved the TV, or steering feels off? Settings → Controls → Court direction → Set again. Left-handed? Set Plays to Left.",
@@ -309,7 +309,7 @@ extension HowTo {
         ], art: .stand, icon: "checkmark.circle.fill"),
         HowToCard(id: "bg-golf", title: "Golf checklist", steps: [
             "Check the wind and the map, then choose a club that lands where you want.",
-            "Aim first. Then tap START SWING and hold still until SWING NOW!",
+            "Aim first. Then tap the swing button and swing. Tap it again to cancel.",
             "Take it back as far as the distance you want, then swing through smoothly.",
             "Keep the face square for a PERFECT strike, and play safe near water, lava and out of bounds.",
         ], art: .golfSwing, icon: "list.bullet.clipboard.fill"),

@@ -1,0 +1,51 @@
+--- /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/Environment/Shaders/EnvironmentSurface.hlsl	2026-10-15 15:04:55
++++ /private/tmp/claude-501/mwpatch/Assets/Resources/Environment/Shaders/EnvironmentSurface.hlsl	2026-10-17 20:26:20
+@@ -8,6 +8,8 @@
+ half4 _EnvironmentHazeColor;
+ half _DreamNight;
+ half _EnvironmentWetness, _EnvironmentSnow, _EnvironmentStorm;
++// MAJESTIC_WEATHER_HOOK (chat W, work/majestic-weather): weather inside the world materials; _MajWeatherOn 0 = unchanged.
++#include "Assets/Resources/Majestic/MajesticWeather.hlsl"
+ 
+ half EnvironmentLayerAmount(float3 world)
+ {
+@@ -16,8 +18,24 @@
+     return smoothstep(_EnvironmentDepthLayers.x,_EnvironmentDepthLayers.y,metres)*.24h
+          + smoothstep(_EnvironmentDepthLayers.y,_EnvironmentDepthLayers.z,metres)*.48h;
+ }
++// MAJESTIC_WEATHER_HOOK: the venue's own fog amount (URP keyword fog + depth layers), composed by max with the weather's.
++half MajesticVenueFogAmount(half fogFactor,float3 world)
++{
++    half venueAmount=0;
++    #if defined(FOG_LINEAR_KEYWORD_DECLARED)
++    if(FOG_LINEAR)venueAmount=1-ComputeFogIntensity(fogFactor);
++    #endif
++    #if defined(FOG_EXP_KEYWORD_DECLARED)
++    if(FOG_EXP)venueAmount=1-ComputeFogIntensity(fogFactor);
++    #endif
++    #if defined(FOG_EXP2_KEYWORD_DECLARED)
++    if(FOG_EXP2)venueAmount=1-ComputeFogIntensity(fogFactor);
++    #endif
++    return _EnvironmentDepthEnabled>.5h?max(venueAmount,EnvironmentLayerAmount(world)):venueAmount;
++}
+ half3 EnvironmentFog(half3 color,half fogFactor,float3 world)
+ {
++    if(_MajWeatherOn>.5h)return MajesticWeatherFinish(color,world,MajesticVenueFogAmount(fogFactor,world),unity_FogColor.rgb); // MAJESTIC_WEATHER_HOOK
+     if(_EnvironmentDepthEnabled<.5h)return MixFog(color,fogFactor);
+     // Max rather than addition: the weather/venue fog and depth layers must not
+     // apply two separate washes to the same pixel.
+@@ -38,12 +56,14 @@
+ }
+ half3 EnvironmentBackdrop(half3 color,float3 world)
+ {
++    if(_MajWeatherOn>.5h)color=MajesticWeatherBackdrop(color,world); // MAJESTIC_WEATHER_HOOK
+     return _EnvironmentDepthEnabled>.5h ? lerp(color,_EnvironmentHazeColor.rgb,EnvironmentLayerAmount(world)) : color;
+ }
+ // Turf's wet overlay already owns darkening/gloss. This owns only chroma;
+ // it cannot darken the ground a second time or turn grass into polished stone.
+ half3 EnvironmentTurfWeather(half3 color)
+ {
++    if(_MajWeatherOn>.5h)return MajesticWeatherTurf(color); // MAJESTIC_WEATHER_HOOK
+     half wet=_EnvironmentWetness*_EnvironmentWeatherEnabled;
+     half luminance=dot(color,half3(.2126h,.7152h,.0722h));
+     return lerp(color,luminance.xxx,wet*(.30h+.12h*_EnvironmentStorm));

@@ -12,7 +12,7 @@ argv = sys.argv[sys.argv.index('--') + 1:]
 hero_id, piece, detail, final_blend = argv[:4]
 kv = dict(a.split('=', 1) for a in argv[4:])
 ob = bpy.data.objects[piece]
-roles = list(ob['roles'])
+roles = list(ob['roles']) if 'roles' in ob.keys() else ['Kit_Shirt']          # polo2 builds carry no role attribute: one Kit_Shirt submesh
 bpy.context.view_layer.objects.active = ob
 for o in bpy.context.selected_objects: o.select_set(False)
 ob.select_set(True)
@@ -96,8 +96,9 @@ e1 = uvm[nt[:, 1]] - uvm[nt[:, 0]]; e2 = uvm[nt[:, 2]] - uvm[nt[:, 0]]
 a2 = np.abs(e1[:, 0] * e2[:, 1] - e1[:, 1] * e2[:, 0]).sum() * .5
 S = float(np.sqrt(a3 / a2))
 res = int(kv.get('res', 2048))
-udir = os.path.join(cv2io.ROOT, 'out', hero_id, 'unity'); os.makedirs(udir, exist_ok=True)
+udir = os.path.join(os.environ.get('CV2_OUT', os.path.join(cv2io.ROOT, 'out')), hero_id, 'unity'); os.makedirs(udir, exist_ok=True)
 extra = {'collar_prof': np.array(ob['collar_prof']).reshape(-1, 2)} if 'collar_prof' in ob else {}
+extra.update({k: np.array(list(ob[k]), float) for k in ob.keys() if k.startswith('mapdata_')})
 np.savez(os.path.join(udir, piece + '_final.npz'), pos=P, nrm=N, uv=uvm, tri=nt.astype(np.int32), mat=role.astype(np.int32), fabric=fabric.astype(np.int32),
          part=part.astype(np.int32), kind=kind.astype(np.int32), panel=panel.astype(np.int32), src=src, S=S, res=res, bi=bi[src], bw=bw[src],
          detail=np.array(detail), roles=np.array(roles), v2=1, **extra, **{'a_' + k: v[src] for k, v in vfields.items()})

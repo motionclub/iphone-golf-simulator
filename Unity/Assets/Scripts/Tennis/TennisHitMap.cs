@@ -50,8 +50,13 @@ namespace GolfArcade.Tennis
             _ => new Color(1f, .38f, .3f),
         };
 
+        /// The bottom-right racket and its contact trail are retired (2026-10-21, UI clean-up): nothing is built, and Record
+        /// (which needs the string bed) does nothing. Flip this to bring the instrument back.
+        public static bool Shown = false;
+
         public void Build(Canvas canvas, RectTransform parent = null)
         {
+            if (!Shown) return;
             var into = parent ? parent : (RectTransform)canvas.transform;
             disc ??= Disc();
             var art = Resources.Load<Texture2D>("Tennis/UI/racket-map");

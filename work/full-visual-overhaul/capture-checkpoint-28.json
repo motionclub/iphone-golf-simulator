@@ -1,0 +1,19 @@
+[
+  {
+    "name": "tennis-world15-resort",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-worlds-pass-15",
+      "HERO_VENUE_FIXTURES": "1"
+    }
+  },
+  {
+    "name": "tennis-sole6-resort",
+    "method": "GolfArcade.EditorTools.TennisSoleProbe.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "TSOLE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-sole-probe-6/resort"
+    }
+  }
+]

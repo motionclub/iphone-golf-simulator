@@ -99,6 +99,7 @@ final class TennisMenu {
     /// Local golf (pass the phone): the number of golfers, held while the course is chosen on the map screen.
     private var pendingPassPhone: Int?
     func chooseCourseForPassThePhone(_ players: Int) {
+        guard !online.service.hasFriendsInLobby else { refuse(HubSession.soloLockMessage); return }
         launch = MenuLaunch(sport: .golf, mode: .round); launchOrigin = screen
         pendingPassPhone = players; show(.map)
     }
@@ -160,10 +161,10 @@ final class TennisMenu {
     }
     static func settingsRows(_ tab: SettingsTab) -> [String] {
         switch tab {
-        case .gameplay: ["level", "presentationIntros", "holeFlyover", "presentationBigMoments", "golfTwists", "golfWeather", "golfBounties", "resetProgress"]
+        case .gameplay: ["level", "presentationIntros", "holeFlyover", "presentationBigMoments", "golfTwists", "golfBounties", "resetProgress"]
         case .controls: ["controls", "swingPrediction", "fastInput", "range", "hand", "relock", "timing"]
         case .guide: GuideDeck.allCases.map(\.rowID)
-        case .display: ["fps", "overscan"]
+        case .display: ["tennisCamera", "fps", "overscan"]
         case .audio: ["sound", "haptics", "hapticStrength", "racketSound", "feelTest", "partyVoice", "partyRecording"]
         case .access: ["bigText", "reduceMotion"]
         case .developer: ["bench"]
@@ -193,7 +194,7 @@ final class TennisMenu {
             return [(0..<5).map { "round\($0)" }, (5..<10).map { "round\($0)" }, ["campaignPlay", "campaignMore"], ["back"]]
         case .exhibition: return [["quickOpponent"], ["quickDifficulty"], ["quickLength"], ["quickStart"], ["back"]]
         case .story: return [["next", "skip"]]
-        case .map: return [mapChoices.map { "map-\($0.id)" }] + (mapSport == .golf ? [["golf-daily"], ["golf-twists", "golf-weather", "golf-challenges"]] : []) + [["back"]]
+        case .map: return [mapChoices.map { "map-\($0.id)" }] + (mapSport == .golf ? [["golf-daily"], ["golf-twists", "golf-challenges"]] : []) + [["back"]]
         case .postMatch: return postMatchDone ? postMatchChoices.map { [$0] } : [["pm-skip"]]
         case .training: return [["level"], ["start"], ["back"]]
         case .character: return lockerRows()
@@ -308,6 +309,9 @@ final class TennisMenu {
 
     func select() {
         let id = focused
+        if online.service.hasFriendsInLobby, ["campaign", "training", "exhibition", "round", "golfRound", "golfDaily", "localPassPhone"].contains(id) {
+            refuse(HubSession.soloLockMessage); return
+        }
         if screen.isOnline || id == "partyNearby" || id.hasPrefix("net-") {
             online.select(id, menu: self); return
         }
@@ -425,7 +429,6 @@ final class TennisMenu {
             if let pick = pendingPick { pendingPick = nil; var launch = pick.launch; launch.daily = day; begin(launch, onPhone: pick.onPhone, skipMap: true) }
         // golf's match settings on the course screen, before the round
         case "golf-twists": session.golfTwists.toggle()
-        case "golf-weather": session.golfWeather.toggle()
         case "golf-challenges": session.golfChallenges.toggle()
         case "continue":
             if let result, !campaign.champion, result.won { play(round: campaign.nextRound) } else { show(.campaign) }
@@ -507,7 +510,6 @@ final class TennisMenu {
         case "holeFlyover": s.holeFlyover.toggle()
         // golf's round settings (the course screen has the same three)
         case "golfTwists": s.golfTwists.toggle()
-        case "golfWeather": s.golfWeather.toggle()
         case "golfBounties": s.golfChallenges.toggle()
         case "presentationBigMoments": s.presentationBigMoments.toggle()
         case "sound": s.sound.toggle()
@@ -522,6 +524,7 @@ final class TennisMenu {
             feelTestShown = i
             feelTestLabel = RacketFeel.playDemo(i) ?? "Open the plaza or a match first: the feel test plays through the game."
         case "partyVoice", "partyRecording": PartyUI.shared.settingsOpen = true
+        case "tennisCamera": s.tennisCamera = s.tennisCamera == "elevated" ? "chase" : "elevated"
         case "fps": s.highFrameRate.toggle()
         case "range": s.travel = min(1.2, max(0.3, s.travel + Double(step) * 0.1))
         case "overscan": s.overscan = min(0.1, max(0, s.overscan + Double(step) * 0.02))
@@ -626,6 +629,7 @@ final class TennisMenu {
 
     /// Play on the connected TV with phone controls, otherwise play on the phone.
     func begin(_ launch: MenuLaunch, onPhone requestedPhone: Bool? = nil, skipMap: Bool = false) {
+        guard !online.service.hasFriendsInLobby else { refuse(HubSession.soloLockMessage); return }
         let onPhone = false
         var launch = launch
         if launch.mode == .tutorial { launch.mode = launch.sport == .golf ? .round : .exhibition }
@@ -875,7 +879,7 @@ extension TennisMenu {
             rows.append(actions)
             return rows
         case .customize:
-            return [tabs, ["lk-body"], ["lk-hand"], ["lk-skin"], ["lk-shirt"], ["lk-shorts"], actions]
+            return [tabs, ["lk-body"], ["lk-hand"], ["lk-back"], ["lk-skin"], ["lk-shirt"], ["lk-shorts"], actions]
         case .emotes:
             // one focus row per three emotes, in the locker grid's own order (three columns)
             let emoteRows = stride(from: 0, to: EmoteCatalog.ids.count, by: 3).map { start in
@@ -930,6 +934,7 @@ extension TennisMenu {
         case "lk-shorts": lockerOpenRange("shorts", from: id)
         case "lk-body": lockerEdit { $0.standardFemale.toggle() }
         case "lk-hand": lockerEdit { $0.handedness = $0.handedness == .left ? .right : .left }
+        case "lk-back": lockerEdit { $0.backCarry = $0.backCarry == .bag ? .racket : .bag }   // MENU HERO: racket / golf bag on the back
         case "lk-shuffle": lockerShuffle()
         case "lk-revert": lockerRevert(); if screen == .online(.clothes) { show(.online(.lobby)) }
         case "lk-done":
@@ -952,7 +957,7 @@ extension TennisMenu {
             let next = i < 0 ? (step > 0 ? 0 : presets.count - 1) : (i + step + presets.count) % presets.count
             lockerEdit { $0.setSkin(presets[next]) }
             return true
-        case "lk-body", "lk-hand": lockerSelect(id); return true
+        case "lk-body", "lk-hand", "lk-back": lockerSelect(id); return true
         case "lk-range-hue", "lk-range-shade":
             guard let slot = lockerRange else { return false }
             lockerEdit { p in
@@ -1041,6 +1046,7 @@ extension TennisMenu {
         case "lk-shorts": return "\(TennisMenu.shared.lockerBottomName) colour"
         case "lk-body": return "Player"
         case "lk-hand": return "Plays"
+        case "lk-back": return "On your back"
         case "lk-shuffle": return "Shuffle"
         case "lk-revert": return "Revert changes"
         case "lk-done": return "Done"
@@ -1134,7 +1140,7 @@ struct OnlineAppleSheet: Identifiable {
             let sport = service.lobby?.sport ?? .tennis
             let venues = sport == .tennis ? ["resort","skyscraper","volcano"] : GolfCourseChoice.allCases.map(\.rawValue)
             return [["net-sport-tennis","net-sport-golf"],venues.map { "net-venue-\($0)" }]
-                + (sport == .tennis ? [["net-sets-1","net-sets-2","net-sets-3"],["net-games-1","net-games-3","net-games-6"]] : [["net-twists-on","net-twists-off"],["net-weather-on","net-weather-off"]])
+                + (sport == .tennis ? [["net-sets-1","net-sets-2","net-sets-3"],["net-games-1","net-games-3","net-games-6"]] : [["net-twists-on","net-twists-off"]])
                 + [["net-settings-seats"],["back"]]
         case .loading: return service.loadingNeedsDecision ? [["net-wait", "net-leave"]] : [["net-leave"]]
         case .match: return (service.isOwner && service.linkNeedsDecision ? [["net-play-anyway"]] : []) + [["net-leave"]]
@@ -1197,10 +1203,9 @@ struct OnlineAppleSheet: Identifiable {
             case let id where id.hasPrefix("net-sets-") || id.hasPrefix("net-games-"):
                 guard let l = service.lobby else { return }
                 try service.configure(l.sport,venue:l.venue,sets:id.hasPrefix("net-sets-") ? Int(id.dropFirst(9)) ?? 1 : l.sets,games:id.hasPrefix("net-games-") ? Int(id.dropFirst(10)) ?? 3 : l.games)
-            case let id where id.hasPrefix("net-twists-") || id.hasPrefix("net-weather-"):
+            case let id where id.hasPrefix("net-twists-"):
                 guard let l = service.lobby else { return }
-                try service.setGolfEvents(twists: id.hasPrefix("net-twists-") ? id.hasSuffix("-on") : l.twistsOff != true,
-                                          weather: id.hasPrefix("net-weather-") ? id.hasSuffix("-on") : l.weatherOff != true)
+                try service.setGolfEvents(twists: id.hasSuffix("-on"))
             case let id where id.hasPrefix("net-seat-"):
                 guard let l = service.lobby, let p = l.participants.first(where: { $0.id == String(id.dropFirst(9)) }) else { return }
                 if p.seat >= 0 { try service.assignSeat(p.id,seat:-1) }

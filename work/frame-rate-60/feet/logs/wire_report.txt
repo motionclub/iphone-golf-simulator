@@ -1,0 +1,16 @@
+== Male Assets/Resources/Tennis/Customization/PlayerMale.prefab
+  slot Serve          <- Male_Serve             len=2.500 contact=1.700 (replaced) asset=Assets/Characters/MatchHeroes/Male/Male_Serve.fbx
+  slot Walk           <- Male_Walk              len=1.100 contact=0.000 (replaced) asset=Assets/Characters/MatchHeroes/Male/Male_Walk.fbx
+  slot RunForward     <- Male_RunForward        len=0.567 contact=0.000 (replaced) asset=Assets/Characters/MatchHeroes/Male/Male_RunForward.fbx
+  slot RunLeft        <- Male_RunLeft           len=0.567 contact=0.000 (replaced) asset=Assets/Characters/MatchHeroes/Male/Male_RunLeft.fbx
+  slot RunRight       <- Male_RunRight          len=0.567 contact=0.000 (replaced) asset=Assets/Characters/MatchHeroes/Male/Male_RunRight.fbx
+  serve ritual stance=0.200 release=0.700 trophy=1.333; walkClipSpeed=1.250 runClipSpeed=3.251 runReversePivot=0.2167
+
+== Female Assets/Resources/Tennis/Customization/PlayerFemale.prefab
+  slot Serve          <- Female_Serve           len=2.500 contact=1.700 (replaced) asset=Assets/Characters/MatchHeroes/Female/Female_Serve.fbx
+  slot Walk           <- Female_Walk            len=1.100 contact=0.000 (replaced) asset=Assets/Characters/MatchHeroes/Female/Female_Walk.fbx
+  slot RunForward     <- Female_RunForward      len=0.567 contact=0.000 (replaced) asset=Assets/Characters/MatchHeroes/Female/Female_RunForward.fbx
+  slot RunLeft        <- Female_RunLeft         len=0.567 contact=0.000 (replaced) asset=Assets/Characters/MatchHeroes/Female/Female_RunLeft.fbx
+  slot RunRight       <- Female_RunRight        len=0.567 contact=0.000 (replaced) asset=Assets/Characters/MatchHeroes/Female/Female_RunRight.fbx
+  serve ritual stance=0.200 release=0.700 trophy=1.333; walkClipSpeed=1.250 runClipSpeed=3.251 runReversePivot=0.2167
+

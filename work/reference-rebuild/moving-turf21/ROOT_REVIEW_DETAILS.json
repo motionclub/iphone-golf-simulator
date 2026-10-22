@@ -1,0 +1,1014 @@
+{
+  "scope": "Actual moving-turf23 proof, holes 19 and 20 only; read-only review, no Assets edits or Unity run.",
+  "proofs": {
+    "pilot": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/moving-turf23-19-20-pilot/moving-turf-proof.json",
+    "control": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/moving-turf23-19-20-control/moving-turf-proof.json"
+  },
+  "environment": {
+    "unity": "6000.3.24f1",
+    "graphics": "Metal / Apple M5"
+  },
+  "portablePhysicsMethod": "Remove only collider componentId and meshId, sort colliders by path/type, compare every remaining field exactly. Windmill phase differences remain visible and are checked separately against each shot contract.",
+  "holes": [
+    {
+      "hole": 19,
+      "staticAudit": {
+        "colliders": 14,
+        "obstacles": 171,
+        "groundSamples": 330,
+        "meshVertices": 15604,
+        "meshTriangles": 20952,
+        "obstacleHash": "963af1de7518d57261bdc79d062e7f404d71ff55e34fc90f1eed2e734ae39a1d",
+        "surfaceHash": "5385f30966f40e2971a3ebbdf9218d77615180d41a222a9e4355645e275d5899",
+        "groundSampleHash": "766e1a1dfd3b2c19542db2142d622d3fd43438ef6d8afb7024266fc2a792dfa5"
+      },
+      "portableComparisons": [
+        {
+          "audit": "physics_before_addresses",
+          "exact": true,
+          "changedFields": [],
+          "expectedIndependentShotPhase": false
+        },
+        {
+          "audit": "tee_physics",
+          "exact": true,
+          "changedFields": [],
+          "expectedIndependentShotPhase": false
+        },
+        {
+          "audit": "tee_same_station_physics",
+          "exact": true,
+          "changedFields": [],
+          "expectedIndependentShotPhase": false
+        },
+        {
+          "audit": "tee_coarse_cross_physics",
+          "exact": true,
+          "changedFields": [],
+          "expectedIndependentShotPhase": false
+        },
+        {
+          "audit": "mid_fringe_physics",
+          "exact": true,
+          "changedFields": [],
+          "expectedIndependentShotPhase": false
+        },
+        {
+          "audit": "approach_rough_physics",
+          "exact": true,
+          "changedFields": [],
+          "expectedIndependentShotPhase": false
+        },
+        {
+          "audit": "return_mid_fringe_physics",
+          "exact": true,
+          "changedFields": [],
+          "expectedIndependentShotPhase": false
+        },
+        {
+          "audit": "return_tee_physics",
+          "exact": true,
+          "changedFields": [],
+          "expectedIndependentShotPhase": false
+        },
+        {
+          "audit": "flight_physics_before",
+          "exact": true,
+          "changedFields": [],
+          "expectedIndependentShotPhase": false
+        },
+        {
+          "audit": "flight_physics_after",
+          "exact": true,
+          "changedFields": [],
+          "expectedIndependentShotPhase": false
+        },
+        {
+          "audit": "dressing_before",
+          "exact": true,
+          "changedFields": []
+        },
+        {
+          "audit": "dressing_after",
+          "exact": true,
+          "changedFields": []
+        }
+      ],
+      "runs": {
+        "pilot": {
+          "reportedGate": "PASS",
+          "fullAddressAuditsExact": 7,
+          "fullDressingBeforeAfterExact": true,
+          "fullFlightChangedFields": [],
+          "flightFrames": 533,
+          "flightCoarseStations": 54,
+          "flightTurfRebuilds": 0,
+          "ownedMaterialCounts": [
+            5
+          ],
+          "renderedWaterTriangles": 13242,
+          "knownUnderwaterStationRejected": true,
+          "sameStationRebuilds": 0,
+          "sameStationGroundQueryDelta": 0,
+          "windmill": {
+            "windmillChangedFields": [],
+            "windmillLaunchExpected": 0.0,
+            "windmillLaunchActual": 0.0,
+            "windmillMaximumPhaseError": 0.0,
+            "windmillCurrentAngleBefore": 0.0,
+            "windmillCurrentAngleAfter": 0.0,
+            "windmillInitialFlightTime": 0.0
+          },
+          "poses": [
+            {
+              "label": "tee",
+              "selectedCollider": "TEE_BOX",
+              "selectedSurface": "Tee",
+              "courseLie": "Tee",
+              "ball": {
+                "x": 0.0,
+                "y": 12.551074028015137,
+                "z": 0.0
+              },
+              "renderedFrame": 33,
+              "cells": 446,
+              "near": 42,
+              "mid": 65,
+              "far": 0,
+              "rebuildBefore": 1,
+              "rebuildAfter": 1,
+              "retainedCells": 446,
+              "regeneratedComparedCells": 0,
+              "groundQueries": 2612,
+              "colliderRaycasts": 4992,
+              "rebuildMilliseconds": 0.0
+            },
+            {
+              "label": "tee_same_station",
+              "selectedCollider": "TEE_BOX",
+              "selectedSurface": "Tee",
+              "courseLie": "Tee",
+              "ball": {
+                "x": 0.5468066334724426,
+                "y": 12.538119316101074,
+                "z": 0.0
+              },
+              "renderedFrame": 35,
+              "cells": 446,
+              "near": 46,
+              "mid": 63,
+              "far": 0,
+              "rebuildBefore": 1,
+              "rebuildAfter": 1,
+              "retainedCells": 446,
+              "regeneratedComparedCells": 0,
+              "groundQueries": 2612,
+              "colliderRaycasts": 4992,
+              "rebuildMilliseconds": 0.0
+            },
+            {
+              "label": "tee_coarse_cross",
+              "selectedCollider": "TEE_BOX",
+              "selectedSurface": "Tee",
+              "courseLie": "Fairway",
+              "ball": {
+                "x": 4.483814716339111,
+                "y": 12.443331718444824,
+                "z": 0.0
+              },
+              "renderedFrame": 37,
+              "cells": 434,
+              "near": 43,
+              "mid": 65,
+              "far": 0,
+              "rebuildBefore": 1,
+              "rebuildAfter": 2,
+              "retainedCells": 335,
+              "regeneratedComparedCells": 0,
+              "groundQueries": 554,
+              "colliderRaycasts": 742,
+              "rebuildMilliseconds": 2.005
+            },
+            {
+              "label": "mid_fringe",
+              "selectedCollider": "FAIRWAY_FIRSTCUT",
+              "selectedSurface": "Fringe",
+              "courseLie": "Fairway",
+              "ball": {
+                "x": -0.0025140445213764906,
+                "y": 12.586194038391113,
+                "z": 194.4337921142578
+              },
+              "renderedFrame": 39,
+              "cells": 203,
+              "near": 40,
+              "mid": 4,
+              "far": 0,
+              "rebuildBefore": 2,
+              "rebuildAfter": 3,
+              "retainedCells": 0,
+              "regeneratedComparedCells": 0,
+              "groundQueries": 1950,
+              "colliderRaycasts": 5538,
+              "rebuildMilliseconds": 6.9691
+            },
+            {
+              "label": "approach_rough",
+              "selectedCollider": "TERRAIN_ISLAND_1",
+              "selectedSurface": "Rough",
+              "courseLie": "Fairway",
+              "ball": {
+                "x": -3.8087050914764404,
+                "y": 24.942598342895508,
+                "z": 368.5997619628906
+              },
+              "renderedFrame": 41,
+              "cells": 329,
+              "near": 34,
+              "mid": 0,
+              "far": 0,
+              "rebuildBefore": 3,
+              "rebuildAfter": 4,
+              "retainedCells": 0,
+              "regeneratedComparedCells": 0,
+              "groundQueries": 2259,
+              "colliderRaycasts": 5869,
+              "rebuildMilliseconds": 7.2288
+            },
+            {
+              "label": "return_mid_fringe",
+              "selectedCollider": "FAIRWAY_FIRSTCUT",
+              "selectedSurface": "Fringe",
+              "courseLie": "Fairway",
+              "ball": {
+                "x": -0.0025140445213764906,
+                "y": 12.586194038391113,
+                "z": 194.4337921142578
+              },
+              "renderedFrame": 43,
+              "cells": 203,
+              "near": 40,
+              "mid": 4,
+              "far": 0,
+              "rebuildBefore": 4,
+              "rebuildAfter": 5,
+              "retainedCells": 0,
+              "regeneratedComparedCells": 203,
+              "groundQueries": 1950,
+              "colliderRaycasts": 5538,
+              "rebuildMilliseconds": 5.932
+            },
+            {
+              "label": "return_tee",
+              "selectedCollider": "TEE_BOX",
+              "selectedSurface": "Tee",
+              "courseLie": "Tee",
+              "ball": {
+                "x": 0.0,
+                "y": 12.551074028015137,
+                "z": 0.0
+              },
+              "renderedFrame": 45,
+              "cells": 446,
+              "near": 42,
+              "mid": 65,
+              "far": 0,
+              "rebuildBefore": 5,
+              "rebuildAfter": 6,
+              "retainedCells": 0,
+              "regeneratedComparedCells": 0,
+              "groundQueries": 2612,
+              "colliderRaycasts": 4992,
+              "rebuildMilliseconds": 7.9447
+            }
+          ]
+        },
+        "control": {
+          "reportedGate": "PASS",
+          "fullAddressAuditsExact": 7,
+          "fullDressingBeforeAfterExact": true,
+          "fullFlightChangedFields": [],
+          "flightFrames": 527,
+          "flightCoarseStations": 54,
+          "flightTurfRebuilds": 0,
+          "ownedMaterialCounts": [
+            3
+          ],
+          "renderedWaterTriangles": 13242,
+          "knownUnderwaterStationRejected": true,
+          "sameStationRebuilds": 0,
+          "sameStationGroundQueryDelta": 0,
+          "windmill": {
+            "windmillChangedFields": [],
+            "windmillLaunchExpected": 0.0,
+            "windmillLaunchActual": 0.0,
+            "windmillMaximumPhaseError": 0.0,
+            "windmillCurrentAngleBefore": 0.0,
+            "windmillCurrentAngleAfter": 0.0,
+            "windmillInitialFlightTime": 0.0
+          },
+          "poses": [
+            {
+              "label": "tee",
+              "selectedCollider": "TEE_BOX",
+              "selectedSurface": "Tee",
+              "courseLie": "Tee",
+              "ball": {
+                "x": 0.0,
+                "y": 12.551074028015137,
+                "z": 0.0
+              },
+              "renderedFrame": 33,
+              "cells": 446,
+              "near": 43,
+              "mid": 65,
+              "far": 0,
+              "rebuildBefore": 0,
+              "rebuildAfter": 0,
+              "retainedCells": 0,
+              "regeneratedComparedCells": 0,
+              "groundQueries": 2612,
+              "colliderRaycasts": 4992,
+              "rebuildMilliseconds": 0.0
+            },
+            {
+              "label": "tee_same_station",
+              "selectedCollider": "TEE_BOX",
+              "selectedSurface": "Tee",
+              "courseLie": "Tee",
+              "ball": {
+                "x": 0.5468066334724426,
+                "y": 12.538119316101074,
+                "z": 0.0
+              },
+              "renderedFrame": 35,
+              "cells": 446,
+              "near": 46,
+              "mid": 63,
+              "far": 0,
+              "rebuildBefore": 0,
+              "rebuildAfter": 0,
+              "retainedCells": 0,
+              "regeneratedComparedCells": 0,
+              "groundQueries": 2612,
+              "colliderRaycasts": 4992,
+              "rebuildMilliseconds": 0.0
+            },
+            {
+              "label": "tee_coarse_cross",
+              "selectedCollider": "TEE_BOX",
+              "selectedSurface": "Tee",
+              "courseLie": "Fairway",
+              "ball": {
+                "x": 4.483814716339111,
+                "y": 12.443331718444824,
+                "z": 0.0
+              },
+              "renderedFrame": 37,
+              "cells": 446,
+              "near": 43,
+              "mid": 55,
+              "far": 1,
+              "rebuildBefore": 0,
+              "rebuildAfter": 0,
+              "retainedCells": 0,
+              "regeneratedComparedCells": 0,
+              "groundQueries": 2612,
+              "colliderRaycasts": 4992,
+              "rebuildMilliseconds": 0.0
+            },
+            {
+              "label": "mid_fringe",
+              "selectedCollider": "FAIRWAY_FIRSTCUT",
+              "selectedSurface": "Fringe",
+              "courseLie": "Fairway",
+              "ball": {
+                "x": -0.0025140445213764906,
+                "y": 12.586194038391113,
+                "z": 194.4337921142578
+              },
+              "renderedFrame": 39,
+              "cells": 446,
+              "near": 0,
+              "mid": 0,
+              "far": 0,
+              "rebuildBefore": 0,
+              "rebuildAfter": 0,
+              "retainedCells": 0,
+              "regeneratedComparedCells": 0,
+              "groundQueries": 2612,
+              "colliderRaycasts": 4992,
+              "rebuildMilliseconds": 0.0
+            },
+            {
+              "label": "approach_rough",
+              "selectedCollider": "TERRAIN_ISLAND_1",
+              "selectedSurface": "Rough",
+              "courseLie": "Fairway",
+              "ball": {
+                "x": -3.8087050914764404,
+                "y": 24.942598342895508,
+                "z": 368.5997619628906
+              },
+              "renderedFrame": 41,
+              "cells": 446,
+              "near": 0,
+              "mid": 0,
+              "far": 0,
+              "rebuildBefore": 0,
+              "rebuildAfter": 0,
+              "retainedCells": 0,
+              "regeneratedComparedCells": 0,
+              "groundQueries": 2612,
+              "colliderRaycasts": 4992,
+              "rebuildMilliseconds": 0.0
+            },
+            {
+              "label": "return_mid_fringe",
+              "selectedCollider": "FAIRWAY_FIRSTCUT",
+              "selectedSurface": "Fringe",
+              "courseLie": "Fairway",
+              "ball": {
+                "x": -0.0025140445213764906,
+                "y": 12.586194038391113,
+                "z": 194.4337921142578
+              },
+              "renderedFrame": 43,
+              "cells": 446,
+              "near": 0,
+              "mid": 0,
+              "far": 0,
+              "rebuildBefore": 0,
+              "rebuildAfter": 0,
+              "retainedCells": 0,
+              "regeneratedComparedCells": 0,
+              "groundQueries": 2612,
+              "colliderRaycasts": 4992,
+              "rebuildMilliseconds": 0.0
+            },
+            {
+              "label": "return_tee",
+              "selectedCollider": "TEE_BOX",
+              "selectedSurface": "Tee",
+              "courseLie": "Tee",
+              "ball": {
+                "x": 0.0,
+                "y": 12.551074028015137,
+                "z": 0.0
+              },
+              "renderedFrame": 45,
+              "cells": 446,
+              "near": 43,
+              "mid": 65,
+              "far": 0,
+              "rebuildBefore": 0,
+              "rebuildAfter": 0,
+              "retainedCells": 0,
+              "regeneratedComparedCells": 0,
+              "groundQueries": 2612,
+              "colliderRaycasts": 4992,
+              "rebuildMilliseconds": 0.0
+            }
+          ]
+        }
+      },
+      "portablePhysicsAccepted": true
+    },
+    {
+      "hole": 20,
+      "staticAudit": {
+        "colliders": 14,
+        "obstacles": 125,
+        "groundSamples": 318,
+        "meshVertices": 13561,
+        "meshTriangles": 18620,
+        "obstacleHash": "d1cf70977acd951246daca1df5746dd0432e60aa2d977bb36a41ab8cee717b3f",
+        "surfaceHash": "4962d4280afff9a3c6ae6630abe33f5fdb564f6fa3db4f8dd43be97836cc9fd4",
+        "groundSampleHash": "1b32e4f8eef874807e4c862e9cf33026e48580429186ef4a316cc7159835cb70"
+      },
+      "portableComparisons": [
+        {
+          "audit": "physics_before_addresses",
+          "exact": true,
+          "changedFields": [],
+          "expectedIndependentShotPhase": false
+        },
+        {
+          "audit": "tee_physics",
+          "exact": true,
+          "changedFields": [],
+          "expectedIndependentShotPhase": false
+        },
+        {
+          "audit": "tee_same_station_physics",
+          "exact": true,
+          "changedFields": [],
+          "expectedIndependentShotPhase": false
+        },
+        {
+          "audit": "tee_coarse_cross_physics",
+          "exact": true,
+          "changedFields": [],
+          "expectedIndependentShotPhase": false
+        },
+        {
+          "audit": "fairway_physics",
+          "exact": true,
+          "changedFields": [],
+          "expectedIndependentShotPhase": false
+        },
+        {
+          "audit": "approach_rough_physics",
+          "exact": true,
+          "changedFields": [],
+          "expectedIndependentShotPhase": false
+        },
+        {
+          "audit": "return_fairway_physics",
+          "exact": true,
+          "changedFields": [],
+          "expectedIndependentShotPhase": false
+        },
+        {
+          "audit": "return_tee_physics",
+          "exact": true,
+          "changedFields": [],
+          "expectedIndependentShotPhase": false
+        },
+        {
+          "audit": "flight_physics_before",
+          "exact": true,
+          "changedFields": [],
+          "expectedIndependentShotPhase": false
+        },
+        {
+          "audit": "flight_physics_after",
+          "exact": false,
+          "changedFields": [
+            "windmillHash"
+          ],
+          "expectedIndependentShotPhase": true
+        },
+        {
+          "audit": "dressing_before",
+          "exact": true,
+          "changedFields": []
+        },
+        {
+          "audit": "dressing_after",
+          "exact": true,
+          "changedFields": []
+        }
+      ],
+      "runs": {
+        "pilot": {
+          "reportedGate": "PASS",
+          "fullAddressAuditsExact": 7,
+          "fullDressingBeforeAfterExact": true,
+          "fullFlightChangedFields": [
+            "windmillHash"
+          ],
+          "flightFrames": 510,
+          "flightCoarseStations": 55,
+          "flightTurfRebuilds": 0,
+          "ownedMaterialCounts": [
+            5
+          ],
+          "renderedWaterTriangles": 13144,
+          "knownUnderwaterStationRejected": "not applicable",
+          "sameStationRebuilds": 0,
+          "sameStationGroundQueryDelta": 0,
+          "windmill": {
+            "windmillChangedFields": [
+              {
+                "field": "AngleAtLaunch",
+                "before": "0",
+                "after": "52.49368979036808"
+              }
+            ],
+            "windmillLaunchExpected": 52.49368979036808,
+            "windmillLaunchActual": 52.49368979036808,
+            "windmillMaximumPhaseError": 0.0,
+            "windmillCurrentAngleBefore": 42.91768969595432,
+            "windmillCurrentAngleAfter": 351.4190849661827,
+            "windmillInitialFlightTime": -0.26600000262260437,
+            "degreesPerSecond": 36,
+            "expectedLaunchAdvanceDegrees": 9.576000094413757,
+            "drawnAngleAdvanceDegrees": 308.5013952702284,
+            "fullAuditWindmillHashBefore": "785e5df8ae38eca99e5cef3de4c7db9725b089aa32861a28b0c83258994096c8",
+            "fullAuditWindmillHashAfter": "9b4c38641ef2ef848f0e23657896d6635339b38820ae38d5cdf42938399cde1e"
+          },
+          "poses": [
+            {
+              "label": "tee",
+              "selectedCollider": "TEE_BOX",
+              "selectedSurface": "Tee",
+              "courseLie": "Tee",
+              "ball": {
+                "x": 0.0,
+                "y": 8.095065116882324,
+                "z": 0.0
+              },
+              "renderedFrame": 583,
+              "cells": 436,
+              "near": 44,
+              "mid": 65,
+              "far": 0,
+              "rebuildBefore": 1,
+              "rebuildAfter": 1,
+              "retainedCells": 436,
+              "regeneratedComparedCells": 0,
+              "groundQueries": 2526,
+              "colliderRaycasts": 4687,
+              "rebuildMilliseconds": 0.0
+            },
+            {
+              "label": "tee_same_station",
+              "selectedCollider": "TEE_BOX",
+              "selectedSurface": "Tee",
+              "courseLie": "Tee",
+              "ball": {
+                "x": 0.5468066334724426,
+                "y": 8.101473808288574,
+                "z": 0.0
+              },
+              "renderedFrame": 585,
+              "cells": 436,
+              "near": 43,
+              "mid": 65,
+              "far": 0,
+              "rebuildBefore": 1,
+              "rebuildAfter": 1,
+              "retainedCells": 436,
+              "regeneratedComparedCells": 0,
+              "groundQueries": 2526,
+              "colliderRaycasts": 4687,
+              "rebuildMilliseconds": 0.0
+            },
+            {
+              "label": "tee_coarse_cross",
+              "selectedCollider": "TEE_BOX",
+              "selectedSurface": "Tee",
+              "courseLie": "Fairway",
+              "ball": {
+                "x": 4.483814716339111,
+                "y": 8.1448392868042,
+                "z": 0.0
+              },
+              "renderedFrame": 587,
+              "cells": 435,
+              "near": 42,
+              "mid": 65,
+              "far": 0,
+              "rebuildBefore": 1,
+              "rebuildAfter": 2,
+              "retainedCells": 337,
+              "regeneratedComparedCells": 0,
+              "groundQueries": 538,
+              "colliderRaycasts": 678,
+              "rebuildMilliseconds": 1.6012
+            },
+            {
+              "label": "fairway",
+              "selectedCollider": "FAIRWAY",
+              "selectedSurface": "Fairway",
+              "courseLie": "Fairway",
+              "ball": {
+                "x": 0.5703982710838318,
+                "y": 7.721893787384033,
+                "z": 177.1592559814453
+              },
+              "renderedFrame": 589,
+              "cells": 406,
+              "near": 42,
+              "mid": 43,
+              "far": 0,
+              "rebuildBefore": 2,
+              "rebuildAfter": 3,
+              "retainedCells": 0,
+              "regeneratedComparedCells": 0,
+              "groundQueries": 2066,
+              "colliderRaycasts": 6198,
+              "rebuildMilliseconds": 6.9868
+            },
+            {
+              "label": "approach_rough",
+              "selectedCollider": "TERRAIN_ISLAND_1",
+              "selectedSurface": "Rough",
+              "courseLie": "Fairway",
+              "ball": {
+                "x": 9.8491849899292,
+                "y": 8.143847465515137,
+                "z": 361.9380798339844
+              },
+              "renderedFrame": 591,
+              "cells": 277,
+              "near": 31,
+              "mid": 0,
+              "far": 0,
+              "rebuildBefore": 3,
+              "rebuildAfter": 4,
+              "retainedCells": 0,
+              "regeneratedComparedCells": 0,
+              "groundQueries": 2011,
+              "colliderRaycasts": 5035,
+              "rebuildMilliseconds": 6.1342
+            },
+            {
+              "label": "return_fairway",
+              "selectedCollider": "FAIRWAY",
+              "selectedSurface": "Fairway",
+              "courseLie": "Fairway",
+              "ball": {
+                "x": 0.5703982710838318,
+                "y": 7.721893787384033,
+                "z": 177.1592559814453
+              },
+              "renderedFrame": 593,
+              "cells": 406,
+              "near": 42,
+              "mid": 43,
+              "far": 0,
+              "rebuildBefore": 4,
+              "rebuildAfter": 5,
+              "retainedCells": 0,
+              "regeneratedComparedCells": 406,
+              "groundQueries": 2066,
+              "colliderRaycasts": 6198,
+              "rebuildMilliseconds": 6.9486
+            },
+            {
+              "label": "return_tee",
+              "selectedCollider": "TEE_BOX",
+              "selectedSurface": "Tee",
+              "courseLie": "Tee",
+              "ball": {
+                "x": 0.0,
+                "y": 8.095065116882324,
+                "z": 0.0
+              },
+              "renderedFrame": 595,
+              "cells": 436,
+              "near": 44,
+              "mid": 65,
+              "far": 0,
+              "rebuildBefore": 5,
+              "rebuildAfter": 6,
+              "retainedCells": 0,
+              "regeneratedComparedCells": 0,
+              "groundQueries": 2526,
+              "colliderRaycasts": 4687,
+              "rebuildMilliseconds": 8.2955
+            }
+          ]
+        },
+        "control": {
+          "reportedGate": "PASS",
+          "fullAddressAuditsExact": 7,
+          "fullDressingBeforeAfterExact": true,
+          "fullFlightChangedFields": [
+            "windmillHash"
+          ],
+          "flightFrames": 517,
+          "flightCoarseStations": 56,
+          "flightTurfRebuilds": 0,
+          "ownedMaterialCounts": [
+            3
+          ],
+          "renderedWaterTriangles": 13144,
+          "knownUnderwaterStationRejected": "not applicable",
+          "sameStationRebuilds": 0,
+          "sameStationGroundQueryDelta": 0,
+          "windmill": {
+            "windmillChangedFields": [
+              {
+                "field": "AngleAtLaunch",
+                "before": "0",
+                "after": "47.769361965358257"
+              }
+            ],
+            "windmillLaunchExpected": 47.76936196535826,
+            "windmillLaunchActual": 47.76936196535826,
+            "windmillMaximumPhaseError": 0.0,
+            "windmillCurrentAngleBefore": 38.1933618709445,
+            "windmillCurrentAngleAfter": 350.9710120931268,
+            "windmillInitialFlightTime": -0.26600000262260437,
+            "degreesPerSecond": 36,
+            "expectedLaunchAdvanceDegrees": 9.576000094413757,
+            "drawnAngleAdvanceDegrees": 312.7776502221823,
+            "fullAuditWindmillHashBefore": "785e5df8ae38eca99e5cef3de4c7db9725b089aa32861a28b0c83258994096c8",
+            "fullAuditWindmillHashAfter": "7f8e4e40f6214c2c6124305be1d2ea4dd255808a21060708944d113e35a0b241"
+          },
+          "poses": [
+            {
+              "label": "tee",
+              "selectedCollider": "TEE_BOX",
+              "selectedSurface": "Tee",
+              "courseLie": "Tee",
+              "ball": {
+                "x": 0.0,
+                "y": 8.095065116882324,
+                "z": 0.0
+              },
+              "renderedFrame": 577,
+              "cells": 436,
+              "near": 44,
+              "mid": 65,
+              "far": 0,
+              "rebuildBefore": 0,
+              "rebuildAfter": 0,
+              "retainedCells": 0,
+              "regeneratedComparedCells": 0,
+              "groundQueries": 2526,
+              "colliderRaycasts": 4687,
+              "rebuildMilliseconds": 0.0
+            },
+            {
+              "label": "tee_same_station",
+              "selectedCollider": "TEE_BOX",
+              "selectedSurface": "Tee",
+              "courseLie": "Tee",
+              "ball": {
+                "x": 0.5468066334724426,
+                "y": 8.101473808288574,
+                "z": 0.0
+              },
+              "renderedFrame": 579,
+              "cells": 436,
+              "near": 43,
+              "mid": 65,
+              "far": 0,
+              "rebuildBefore": 0,
+              "rebuildAfter": 0,
+              "retainedCells": 0,
+              "regeneratedComparedCells": 0,
+              "groundQueries": 2526,
+              "colliderRaycasts": 4687,
+              "rebuildMilliseconds": 0.0
+            },
+            {
+              "label": "tee_coarse_cross",
+              "selectedCollider": "TEE_BOX",
+              "selectedSurface": "Tee",
+              "courseLie": "Fairway",
+              "ball": {
+                "x": 4.483814716339111,
+                "y": 8.1448392868042,
+                "z": 0.0
+              },
+              "renderedFrame": 581,
+              "cells": 436,
+              "near": 42,
+              "mid": 53,
+              "far": 0,
+              "rebuildBefore": 0,
+              "rebuildAfter": 0,
+              "retainedCells": 0,
+              "regeneratedComparedCells": 0,
+              "groundQueries": 2526,
+              "colliderRaycasts": 4687,
+              "rebuildMilliseconds": 0.0
+            },
+            {
+              "label": "fairway",
+              "selectedCollider": "FAIRWAY",
+              "selectedSurface": "Fairway",
+              "courseLie": "Fairway",
+              "ball": {
+                "x": 0.5703982710838318,
+                "y": 7.721893787384033,
+                "z": 177.1592559814453
+              },
+              "renderedFrame": 583,
+              "cells": 436,
+              "near": 0,
+              "mid": 0,
+              "far": 0,
+              "rebuildBefore": 0,
+              "rebuildAfter": 0,
+              "retainedCells": 0,
+              "regeneratedComparedCells": 0,
+              "groundQueries": 2526,
+              "colliderRaycasts": 4687,
+              "rebuildMilliseconds": 0.0
+            },
+            {
+              "label": "approach_rough",
+              "selectedCollider": "TERRAIN_ISLAND_1",
+              "selectedSurface": "Rough",
+              "courseLie": "Fairway",
+              "ball": {
+                "x": 9.8491849899292,
+                "y": 8.143847465515137,
+                "z": 361.9380798339844
+              },
+              "renderedFrame": 585,
+              "cells": 436,
+              "near": 0,
+              "mid": 0,
+              "far": 0,
+              "rebuildBefore": 0,
+              "rebuildAfter": 0,
+              "retainedCells": 0,
+              "regeneratedComparedCells": 0,
+              "groundQueries": 2526,
+              "colliderRaycasts": 4687,
+              "rebuildMilliseconds": 0.0
+            },
+            {
+              "label": "return_fairway",
+              "selectedCollider": "FAIRWAY",
+              "selectedSurface": "Fairway",
+              "courseLie": "Fairway",
+              "ball": {
+                "x": 0.5703982710838318,
+                "y": 7.721893787384033,
+                "z": 177.1592559814453
+              },
+              "renderedFrame": 587,
+              "cells": 436,
+              "near": 0,
+              "mid": 0,
+              "far": 0,
+              "rebuildBefore": 0,
+              "rebuildAfter": 0,
+              "retainedCells": 0,
+              "regeneratedComparedCells": 0,
+              "groundQueries": 2526,
+              "colliderRaycasts": 4687,
+              "rebuildMilliseconds": 0.0
+            },
+            {
+              "label": "return_tee",
+              "selectedCollider": "TEE_BOX",
+              "selectedSurface": "Tee",
+              "courseLie": "Tee",
+              "ball": {
+                "x": 0.0,
+                "y": 8.095065116882324,
+                "z": 0.0
+              },
+              "renderedFrame": 589,
+              "cells": 436,
+              "near": 44,
+              "mid": 65,
+              "far": 0,
+              "rebuildBefore": 0,
+              "rebuildAfter": 0,
+              "retainedCells": 0,
+              "regeneratedComparedCells": 0,
+              "groundQueries": 2526,
+              "colliderRaycasts": 4687,
+              "rebuildMilliseconds": 0.0
+            }
+          ]
+        }
+      },
+      "portablePhysicsAccepted": true
+    }
+  ],
+  "visualReview": {
+    "gate": "PASS",
+    "images": [
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/moving-turf23-19-20-pilot/hole19_tee.png",
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/moving-turf23-19-20-pilot/hole19_tee_coarse_cross.png",
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/moving-turf23-19-20-pilot/hole19_mid_fringe.png",
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/moving-turf23-19-20-pilot/hole19_approach_rough.png",
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/moving-turf23-19-20-pilot/hole20_tee.png",
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/moving-turf23-19-20-pilot/hole20_tee_coarse_cross.png",
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/moving-turf23-19-20-pilot/hole20_fairway.png",
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/moving-turf23-19-20-pilot/hole20_approach_rough.png"
+    ],
+    "controlComparisonImage": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/moving-turf23-19-20-control/hole19_mid_fringe.png",
+    "hole19": "The chosen middle station is actual FAIRWAY_FIRSTCUT / Fringe with playable Fairway lie, not a fabricated fairway surface. Golfer, ball and grass are dry; the old underwater station is rejected. No blades visibly grow on the adjoining stone cliff. Approach rough is rooted outside the smooth putting green; ball and club remain readable.",
+    "hole20": "Tee, coarse crossing and true fairway addresses are dry, with rooted grass and readable ball/club. Approach rough ends outside the smooth putting green. Water remains beyond the playable foreground; no water overlay at the addresses. Putting grid is hidden.",
+    "limits": "These address images do not provide a close path or bunker boundary view. Acceptance covers the reviewed grass/green/water/stone views, not an exhaustive route-wide hazard image audit. Existing canopy/cloth/atlas appearance is outside this bounded turf review."
+  },
+  "summary": {
+    "portablePairs": 24,
+    "portablePairsFullyExact": 23,
+    "expectedIndependentWindmillPhasePairs": 1,
+    "fullAddressAuditsExact": 28,
+    "fullDressingAuditsExact": 4,
+    "oneAddressPerActualFrame": true,
+    "capturedAddresses": 28,
+    "pilotCellsMin": 203,
+    "pilotCellsMax": 446,
+    "pilotNearMax": 46,
+    "pilotMidMax": 65,
+    "pilotPositiveAddresses": 14,
+    "pilotRebuildMillisecondsMax": 8.2955,
+    "pilotRebuildGroundQueriesMax": 2612,
+    "pilotRebuildColliderRaycastsMax": 6198,
+    "timingScope": "Stopwatch timestamps inside production RefreshForAddress only; excludes capture/audit overhead. Desktop latency, no phone-FPS claim.",
+    "waterNegativeProbe": {
+      "hole": 19,
+      "x": -0.004415035247802734,
+      "z": 179.12255859375,
+      "rejectedPilotAndControl": true
+    },
+    "promotionReview": "PASS for bounded supported moving coverage on holes 19 and 20. Physics geometry, surfaces, obstacles and ground samples are exact; only the independently verified legitimate windmill launch phase differs after hole 20 shots."
+  },
+  "failures": [],
+  "gate": "PASS"
+}

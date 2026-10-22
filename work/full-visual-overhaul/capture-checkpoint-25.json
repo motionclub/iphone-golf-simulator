@@ -1,0 +1,38 @@
+[
+  {
+    "name": "tennis-sole-probe3",
+    "method": "GolfArcade.EditorTools.TennisSoleProbe.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "TSOLE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-sole-probe-3"
+    }
+  },
+  {
+    "name": "tennis-costs14-on",
+    "method": "GolfArcade.EditorTools.TennisFrameCosts.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "TCF_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-costs-14"
+    },
+    "batch": false
+  },
+  {
+    "name": "tennis-costs14-off",
+    "method": "GolfArcade.EditorTools.TennisFrameCosts.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "TCF_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-costs-14-fixtures-off",
+      "TENNIS_FIXTURES_OFF": "1"
+    },
+    "batch": false
+  },
+  {
+    "name": "tennis-showcase14-resort",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-showcase-14",
+      "HERO_VENUE_ONLY": "1_postcard,2_gameplay,9_hero_postcard,3_drone0,3_drone5"
+    }
+  }
+]

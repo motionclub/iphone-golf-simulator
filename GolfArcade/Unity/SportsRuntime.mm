@@ -49,8 +49,25 @@ static void SportsCaptureTrampoline(const char *json) {
     __weak UIWindow *_destination;
     BOOL _controllerReplica;
     BOOL _unityOnPhone;
+    BOOL _applicationInactive;
+    BOOL _applicationBackground;
+#if DEBUG
+    NSMutableArray<NSString*> *_lifecycleEvents;
+#endif
 }
 + (instancetype)shared { static SportsRuntime *instance; static dispatch_once_t token; dispatch_once(&token, ^{instance=[SportsRuntime new];}); return instance; }
+- (instancetype)init {
+    if ((self = [super init])) {
+        _applicationInactive = UIApplication.sharedApplication.applicationState != UIApplicationStateActive;
+        _applicationBackground = UIApplication.sharedApplication.applicationState == UIApplicationStateBackground;
+        NSNotificationCenter *nc = NSNotificationCenter.defaultCenter;
+        [nc addObserver:self selector:@selector(willResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
+        [nc addObserver:self selector:@selector(didEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+        [nc addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+        [nc addObserver:self selector:@selector(didBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+    }
+    return self;
+}
 - (BOOL)loadInWindow:(UIWindow*)window error:(NSError**)error {
     return [self loadInWindow:window controllerReplica:NO error:error];
 }
@@ -211,15 +228,53 @@ static void SportsCaptureTrampoline(const char *json) {
 #endif
 }
 - (void)setForeground:(BOOL)foreground {
+    // Compatibility entry point: inactive is NOT background. UIKit notifications own
+    // the real background/foreground pair, before Metal is unavailable in background.
+    if (foreground) [self didBecomeActive:nil]; else [self willResignActive:nil];
+}
+- (void)willResignActive:(NSNotification*)note {
+    if (_applicationInactive) return;
+    _applicationInactive = YES;
+    [self traceLifecycle:@"resign"];
 #if HAS_UNITY
-    if(!_unity) return;
-    if(foreground) {
-        [_unity.appController applicationWillEnterForeground:UIApplication.sharedApplication];
-        [_unity.appController applicationDidBecomeActive:UIApplication.sharedApplication];
-    } else {
-        [_unity.appController applicationWillResignActive:UIApplication.sharedApplication];
-        [_unity.appController applicationDidEnterBackground:UIApplication.sharedApplication];
-    }
+    [_unity.appController applicationWillResignActive:UIApplication.sharedApplication];
 #endif
 }
+- (void)didEnterBackground:(NSNotification*)note {
+    if (_applicationBackground) return;
+    // Never synthesize willResignActive here: Unity may repaint in that callback,
+    // and iOS forbids Metal command submission after entering the background.
+    _applicationBackground = YES;
+    [self traceLifecycle:@"background"];
+#if HAS_UNITY
+    [_unity.appController applicationDidEnterBackground:UIApplication.sharedApplication];
+#endif
+}
+- (void)willEnterForeground:(NSNotification*)note {
+    if (!_applicationBackground) return;
+    _applicationBackground = NO;
+    [self traceLifecycle:@"foreground"];
+#if HAS_UNITY
+    [_unity.appController applicationWillEnterForeground:UIApplication.sharedApplication];
+#endif
+}
+- (void)didBecomeActive:(NSNotification*)note {
+    if (!_applicationInactive) return;
+    [self willEnterForeground:nil];
+    _applicationInactive = NO;
+    [self traceLifecycle:@"active"];
+#if HAS_UNITY
+    [_unity.appController applicationDidBecomeActive:UIApplication.sharedApplication];
+#endif
+}
+- (void)traceLifecycle:(NSString*)edge {
+#if DEBUG
+    if (!_lifecycleEvents) _lifecycleEvents = [NSMutableArray new];
+    [_lifecycleEvents addObject:edge];
+    if (_lifecycleEvents.count > 64) [_lifecycleEvents removeObjectAtIndex:0];
+#endif
+}
+#if DEBUG
+- (NSArray<NSString*>*)debugLifecycleEvents { return [_lifecycleEvents copy] ?: @[]; }
+#endif
 @end

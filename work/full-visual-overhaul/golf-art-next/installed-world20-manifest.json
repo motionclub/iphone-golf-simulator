@@ -1,0 +1,43 @@
+{
+  "checkpoint": "GolfWorld20 primary-form candidate",
+  "status": "INSTALLED FOR ACTUAL VISUAL/PHYSICS/COST REVIEW; target art not yet accepted",
+  "sourceDuplications": "Previous BLUFF/SHRUB objects retained hidden as BEFORE_ in editable source; candidate export excludes them. Full prior bytes preserved under before-world20.",
+  "modified": [
+    {
+      "path": "Unity/Assets/Scripts/Course/GolfResortDress.cs",
+      "sha256": "723dc5ff9f8938c4b7eedb7024dc9cf9b874f2f07efe69d4f4c8836c464afa90",
+      "bytes": 29469
+    },
+    {
+      "path": "Unity/Assets/Scripts/Course/GolfCourseLook.cs",
+      "sha256": "5d116c252a31c86fbf7ee29eb274e2c6bfee6b110df68fed43d8a68013c5f7ba",
+      "bytes": 24829
+    },
+    {
+      "path": "Unity/Assets/Scripts/Course/GolfCliffSculpt.cs",
+      "sha256": "f6c95fa5895634863b33a3695c991c5b3dd04ab68a303cc3229536901be3d28c",
+      "bytes": 9173
+    },
+    {
+      "path": "Unity/Assets/Scripts/Course/GolfLook.cs",
+      "sha256": "79e219b77d37eecadae29be60ffa4ce5453fb16b1dc79b45b2be1944d4b092ed",
+      "bytes": 50261
+    },
+    {
+      "path": "Unity/Assets/Scripts/Course/GolfCourseAtmosphere.cs",
+      "sha256": "8e78c510a6815d4d3f82c3f5dc5b0707e5f2f5e29ef2dafa26089706e563d7c5",
+      "bytes": 3033
+    },
+    {
+      "path": "Unity/Assets/Resources/Course/Resort/BotanicalKit.fbx",
+      "sha256": "b5a1fd89e07669fc943ab639c29dec9be89fc7f01786cd54887b0fb4f28a5e94",
+      "bytes": 1634556
+    },
+    {
+      "path": "ArtDir/golf/source/BotanicalKit.blend",
+      "sha256": "660f95fb963581b8e7f0423a6c85fa91b0986c476f5730e004f19978434a690f",
+      "bytes": 1038490
+    }
+  ],
+  "physics": "All changes are render-only; original colliders, ground meshes, course data, obstacle extraction and windmill behavior remain unchanged. Independent actual physics gate must run."
+}

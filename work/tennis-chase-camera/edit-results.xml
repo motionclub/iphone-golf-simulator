@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="7" result="Passed" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-14 18:11:18Z" end-time="2026-10-14 18:11:18Z" duration="0.1297089">
+  <test-suite type="TestSuite" id="1000" name="Golf Arcade" fullname="Golf Arcade" runstate="Runnable" testcasecount="524" result="Passed" start-time="2026-10-14 18:11:18Z" end-time="2026-10-14 18:11:18Z" duration="0.129709" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1608" name="GolfArcade.Tests.dll" fullname="/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/tennis-chase-camera/Unity/Library/ScriptAssemblies/GolfArcade.Tests.dll" runstate="Runnable" testcasecount="524" result="Passed" start-time="2026-10-14 18:11:18Z" end-time="2026-10-14 18:11:18Z" duration="0.118166" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="16067" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1609" name="GolfArcade" fullname="GolfArcade" runstate="Runnable" testcasecount="436" result="Passed" start-time="2026-10-14 18:11:18Z" end-time="2026-10-14 18:11:18Z" duration="0.110863" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1610" name="Tests" fullname="GolfArcade.Tests" runstate="Runnable" testcasecount="436" result="Passed" start-time="2026-10-14 18:11:18Z" end-time="2026-10-14 18:11:18Z" duration="0.106249" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1528" name="TennisChaseCameraTests" fullname="GolfArcade.Tests.TennisChaseCameraTests" classname="GolfArcade.Tests.TennisChaseCameraTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-10-14 18:11:18Z" end-time="2026-10-14 18:11:18Z" duration="0.087186" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1531" name="CrossCourtBallFitsANarrowSplitScreenHalf" fullname="GolfArcade.Tests.TennisChaseCameraTests.CrossCourtBallFitsANarrowSplitScreenHalf" methodname="CrossCourtBallFitsANarrowSplitScreenHalf" classname="GolfArcade.Tests.TennisChaseCameraTests" runstate="Runnable" seed="1931122400" result="Passed" start-time="2026-10-14 18:11:18Z" end-time="2026-10-14 18:11:18Z" duration="0.051532" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1530" name="DeepBallRetreatsOneMetreAndBothHandsKeepTheSightline" fullname="GolfArcade.Tests.TennisChaseCameraTests.DeepBallRetreatsOneMetreAndBothHandsKeepTheSightline" methodname="DeepBallRetreatsOneMetreAndBothHandsKeepTheSightline" classname="GolfArcade.Tests.TennisChaseCameraTests" runstate="Runnable" seed="1427374081" result="Passed" start-time="2026-10-14 18:11:18Z" end-time="2026-10-14 18:11:18Z" duration="0.005423" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-suite type="ParameterizedMethod" id="1535" name="LobAndNetBallKeepGroundDepthCueInTheSameFrame" fullname="GolfArcade.Tests.TennisChaseCameraTests.LobAndNetBallKeepGroundDepthCueInTheSameFrame" classname="GolfArcade.Tests.TennisChaseCameraTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-14 18:11:18Z" end-time="2026-10-14 18:11:18Z" duration="0.009162" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1532" name="LobAndNetBallKeepGroundDepthCueInTheSameFrame(-11.2f,-5.0f,8.0f)" fullname="GolfArcade.Tests.TennisChaseCameraTests.LobAndNetBallKeepGroundDepthCueInTheSameFrame(-11.2f,-5.0f,8.0f)" methodname="LobAndNetBallKeepGroundDepthCueInTheSameFrame" classname="GolfArcade.Tests.TennisChaseCameraTests" runstate="Runnable" seed="220729267" result="Passed" start-time="2026-10-14 18:11:18Z" end-time="2026-10-14 18:11:18Z" duration="0.001306" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1533" name="LobAndNetBallKeepGroundDepthCueInTheSameFrame(-11.2f,-10.0f,9.0f)" fullname="GolfArcade.Tests.TennisChaseCameraTests.LobAndNetBallKeepGroundDepthCueInTheSameFrame(-11.2f,-10.0f,9.0f)" methodname="LobAndNetBallKeepGroundDepthCueInTheSameFrame" classname="GolfArcade.Tests.TennisChaseCameraTests" runstate="Runnable" seed="212728615" result="Passed" start-time="2026-10-14 18:11:18Z" end-time="2026-10-14 18:11:18Z" duration="0.000647" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1534" name="LobAndNetBallKeepGroundDepthCueInTheSameFrame(-2.0f,-1.0f,1.3f)" fullname="GolfArcade.Tests.TennisChaseCameraTests.LobAndNetBallKeepGroundDepthCueInTheSameFrame(-2.0f,-1.0f,1.3f)" methodname="LobAndNetBallKeepGroundDepthCueInTheSameFrame" classname="GolfArcade.Tests.TennisChaseCameraTests" runstate="Runnable" seed="50918391" result="Passed" start-time="2026-10-14 18:11:18Z" end-time="2026-10-14 18:11:18Z" duration="0.000261" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-case id="1529" name="OrdinaryViewMatchesShotAWithLeftOfCentrePlayer" fullname="GolfArcade.Tests.TennisChaseCameraTests.OrdinaryViewMatchesShotAWithLeftOfCentrePlayer" methodname="OrdinaryViewMatchesShotAWithLeftOfCentrePlayer" classname="GolfArcade.Tests.TennisChaseCameraTests" runstate="Runnable" seed="607856719" result="Passed" start-time="2026-10-14 18:11:18Z" end-time="2026-10-14 18:11:18Z" duration="0.001476" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1536" name="TennisGameplayImprovementTests" fullname="GolfArcade.Tests.TennisGameplayImprovementTests" classname="GolfArcade.Tests.TennisGameplayImprovementTests" runstate="Runnable" testcasecount="14" result="Passed" start-time="2026-10-14 18:11:18Z" end-time="2026-10-14 18:11:18Z" duration="0.004452" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1550" name="ElevatedFramePreservesPreviousCourtView" fullname="GolfArcade.Tests.TennisGameplayImprovementTests.ElevatedFramePreservesPreviousCourtView" methodname="ElevatedFramePreservesPreviousCourtView" classname="GolfArcade.Tests.TennisGameplayImprovementTests" runstate="Runnable" seed="160666446" result="Passed" start-time="2026-10-14 18:11:18Z" end-time="2026-10-14 18:11:18Z" duration="0.000806" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[DONE EditMode: 7 passed, 0 failed, 0 skipped
+<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /Users/adnanyonathan/Library/Application Support/aloniewski/Golf Arcade/TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

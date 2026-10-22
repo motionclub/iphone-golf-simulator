@@ -1,0 +1,4 @@
+./garment_fit MatchHero_Male dump:Kit_Top npz:../out_gp2/MatchHero_Male/unity/Kit_Shoe_L_final.npz@Kit_Shoe_L npz:../out_gp2/MatchHero_Male/unity/Kit_Shoe_R_final.npz@Kit_Shoe_R run=M > logs/M.log 2>&1
+./garment_fit MatchHero_Female npz:../out_gp/MatchHero_Female/unity/Kit_Top_final.npz@Kit_Top run=F > logs/F.log 2>&1
+./garment_fit GolfKitHero_Male dump:Kit_Top npz:../out_gp2/GolfKitHero_Male/unity/Kit_Shoe_L_final.npz@Kit_Shoe_L npz:../out_gp2/GolfKitHero_Male/unity/Kit_Shoe_R_final.npz@Kit_Shoe_R run=G > logs/G.log 2>&1
+./garment_fit GolfKitHero_Female dump:Kit_Top run=H > logs/H.log 2>&1

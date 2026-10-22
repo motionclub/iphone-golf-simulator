@@ -1,0 +1,59 @@
+FBX version: 7400
+golf_swing from /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/golf_swing.py
+Drive: worst hand misses (cm @ frame): 0.20@72, 0.20@71, 0.18@73, 0.10@0
+Drive: authored 105 frames, top 56, impact 69, finish 90; hands miss the grip by 0.20 cm at most, a foot its ground by 0.00 cm
+MEASURE Female Drive
+                              address f0       top f56        P5 f62        P6 f67    impact f69  impact+3 f72    finish f90
+  lead elbow flex                   41.2          21.9          21.9          35.0           9.8          47.2         106.8
+  trail elbow flex                   2.4         111.9         103.7          52.4          42.0           2.4          68.7
+  lead arm elevation               -40.8          48.2           4.9         -42.9         -41.6         -34.9          63.0
+  hinge forearm-shaft               51.2         102.4          80.7          31.9          18.7          87.8          74.3
+  shaft elevation                  -55.6          11.6          44.8           0.8         -55.8           0.8         -17.5
+  spine bend                        25.1          28.1          26.2          24.2          23.9          20.0           6.0
+  head drop cm                       0.0          -2.4           0.0          -2.7          -4.0          -3.0           4.5
+  head to ball cm                   -0.0           3.1           1.5          -0.8          -1.8          -6.2         -28.4
+  head to target cm                 -0.0          -5.5          -5.6          -4.6          -2.3           0.7          16.9
+  pelvis to target cm               -0.0          -3.5          -0.8           3.7           7.0           9.5          17.1
+  pelvis height cm                   0.0          -1.8           0.7          -1.6          -2.7          -3.4          -3.0
+  lead knee flex                    15.1          38.8          18.1          10.3          10.9          10.6           8.8
+  trail knee flex                   23.3           9.4           8.9          40.7          49.0          57.5          40.0
+  lead hand above head cm          -41.3          11.3         -17.5         -42.0         -37.9         -31.6           8.1
+  lead hand from head cm            45.6          33.2          42.7          47.3          47.7          45.7          30.9
+  address   key hands (r,f,u) (0.11, 0.64, -0.71)  lead shoulder (-0.31, 0.0, 0.05)  lead stretch 0.937  trail 1.000  hips 0 shoulders 0
+  top       key hands (r,f,u) (0.32, 0.51, 0.62)  lead shoulder (-0.26, 0.03, -0.17)  lead stretch 0.982  trail 0.566  hips 45 shoulders 98
+  P5        key hands (r,f,u) (0.61, 0.67, 0.03)  lead shoulder (-0.28, -0.0, -0.13)  lead stretch 0.982  trail 0.622  hips 18 shoulders 72
+  P6        key hands (r,f,u) (0.09, 0.72, -0.68)  lead shoulder (-0.31, 0.02, 0.07)  lead stretch 0.954  trail 0.898  hips -20 shoulders 12
+  impact    key hands (r,f,u) (0.0, 0.71, -0.65)  lead shoulder (-0.28, -0.0, 0.15)  lead stretch 0.996  trail 0.934  hips -36 shoulders -20
+  impact+3  key hands (r,f,u) (-0.26, 0.73, -0.43)  lead shoulder (-0.27, -0.03, 0.15)  lead stretch 0.917  trail 1.000  hips -54 shoulders -43
+  finish    key hands (r,f,u) (-0.4, 0.3, 0.62)  lead shoulder (-0.32, -0.0, 0.01)  lead stretch 0.601  trail 0.827  hips -88 shoulders -116
+  downswing hinge by frame: f56:102/+48 f57:99/+47 f58:95/+43 f59:94/+37 f60:90/+29 f61:85/+18 f62:81/+5 f63:80/-9 f64:82/-24 f65:77/-38 f66:62/-45 f67:32/-43 f68:10/-41 f69:19/-42
+IronSwing: worst hand misses (cm @ frame): 0.00@68, 0.00@14, 0.00@4, 0.00@63
+IronSwing: authored 101 frames, top 54, impact 66, finish 86; hands miss the grip by 0.00 cm at most, a foot its ground by 0.00 cm
+MEASURE Female IronSwing
+                              address f0       top f54        P5 f60        P6 f64    impact f66  impact+3 f69    finish f86
+  lead elbow flex                   42.6          21.9          21.9          35.8          49.4          28.4         109.1
+  trail elbow flex                   4.4         125.2         105.0          64.8          66.4          38.9          67.0
+  lead arm elevation               -59.9          47.7          -2.4         -46.6         -58.5         -39.1          59.2
+  hinge forearm-shaft               28.9         104.7          81.7          32.2          24.8          82.0          78.6
+  shaft elevation                  -62.0          11.6          57.7           0.3         -61.5           2.3         -17.5
+  spine bend                        36.7          39.3          39.7          40.8          41.9          36.6          17.2
+  head drop cm                       0.0          -2.3          -0.9          -4.5          -6.5          -4.8           8.3
+  head to ball cm                   -0.0           2.9           2.8           2.6           2.5          -2.7         -26.7
+  head to target cm                 -0.0          -4.9          -3.7          -1.1           1.6           3.0          14.8
+  pelvis to target cm               -0.0          -3.5          -0.7           3.8           7.0           9.5          17.1
+  pelvis height cm                   0.0          -1.4           0.9          -1.4          -2.8          -3.9          -2.7
+  lead knee flex                    21.0          41.8          21.2          11.3          12.9          13.6          12.2
+  trail knee flex                   27.6           9.9          14.2          44.6          55.1          66.0          51.6
+  lead hand above head cm          -45.1          11.1         -21.6         -41.0         -39.2         -29.8           9.4
+  lead hand from head cm            48.0          31.6          43.0          43.5          45.0          44.5          34.8
+  address   key hands (r,f,u) (-0.13, 0.47, -0.84)  lead shoulder (-0.29, 0.0, 0.11)  lead stretch 0.932  trail 0.999  hips 0 shoulders 0
+  top       key hands (r,f,u) (0.28, 0.5, 0.58)  lead shoulder (-0.23, -0.02, -0.21)  lead stretch 0.982  trail 0.468  hips 42 shoulders 92
+  P5        key hands (r,f,u) (0.6, 0.66, -0.12)  lead shoulder (-0.27, -0.06, -0.14)  lead stretch 0.982  trail 0.614  hips 15 shoulders 66
+  P6        key hands (r,f,u) (0.11, 0.65, -0.71)  lead shoulder (-0.31, -0.0, 0.08)  lead stretch 0.952  trail 0.846  hips -19 shoulders 14
+  impact    key hands (r,f,u) (-0.16, 0.47, -0.73)  lead shoulder (-0.25, 0.01, 0.19)  lead stretch 0.909  trail 0.838  hips -32 shoulders -12
+  impact+3  key hands (r,f,u) (-0.27, 0.72, -0.43)  lead shoulder (-0.22, -0.05, 0.22)  lead stretch 0.970  trail 0.943  hips -54 shoulders -43
+  finish    key hands (r,f,u) (-0.4, 0.3, 0.62)  lead shoulder (-0.31, -0.02, 0.03)  lead stretch 0.585  trail 0.835  hips -88 shoulders -116
+  downswing hinge by frame: f54:105/+48 f55:105/+46 f56:104/+40 f57:101/+34 f58:94/+25 f59:86/+13 f60:82/-2 f61:80/-18 f62:79/-33 f63:66/-44 f64:32/-47 f65:17/-49 f66:25/-59
+Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:49:19)
+
+Blender quit

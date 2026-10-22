@@ -1,0 +1,86 @@
+{
+  "rows": [
+    {
+      "hand": "RH",
+      "state": "ReadyIdle",
+      "samples": 6597,
+      "outer_triangles": 13178,
+      "max_positive_signed_mm": 18.712334192576563,
+      "over_3mm": 240,
+      "worst_body_vertex": 16250,
+      "distance_at_worst_mm": 18.71233433485031
+    },
+    {
+      "hand": "RH",
+      "state": "Top",
+      "samples": 6597,
+      "outer_triangles": 13178,
+      "max_positive_signed_mm": 10.555549219152027,
+      "over_3mm": 215,
+      "worst_body_vertex": 16647,
+      "distance_at_worst_mm": 10.555548593401909
+    },
+    {
+      "hand": "RH",
+      "state": "Impact",
+      "samples": 6597,
+      "outer_triangles": 13178,
+      "max_positive_signed_mm": 18.221290435624372,
+      "over_3mm": 315,
+      "worst_body_vertex": 14014,
+      "distance_at_worst_mm": 18.221290782094
+    },
+    {
+      "hand": "RH",
+      "state": "Finish",
+      "samples": 6597,
+      "outer_triangles": 13178,
+      "max_positive_signed_mm": 19.535044866075822,
+      "over_3mm": 303,
+      "worst_body_vertex": 10190,
+      "distance_at_worst_mm": 19.535044208168983
+    },
+    {
+      "hand": "LH",
+      "state": "ReadyIdle",
+      "samples": 6597,
+      "outer_triangles": 13178,
+      "max_positive_signed_mm": 18.96018024503121,
+      "over_3mm": 244,
+      "worst_body_vertex": 8360,
+      "distance_at_worst_mm": 18.96017976105213
+    },
+    {
+      "hand": "LH",
+      "state": "Top",
+      "samples": 6597,
+      "outer_triangles": 13178,
+      "max_positive_signed_mm": 10.968345538739932,
+      "over_3mm": 212,
+      "worst_body_vertex": 7511,
+      "distance_at_worst_mm": 10.96834521740675
+    },
+    {
+      "hand": "LH",
+      "state": "Impact",
+      "samples": 6597,
+      "outer_triangles": 13178,
+      "max_positive_signed_mm": 18.438743624258986,
+      "over_3mm": 317,
+      "worst_body_vertex": 10189,
+      "distance_at_worst_mm": 18.43874342739582
+    },
+    {
+      "hand": "LH",
+      "state": "Finish",
+      "samples": 6597,
+      "outer_triangles": 13178,
+      "max_positive_signed_mm": 20.22484994998175,
+      "over_3mm": 293,
+      "worst_body_vertex": 14911,
+      "distance_at_worst_mm": 20.22484876215458
+    }
+  ],
+  "scope": "primary-shell outer faces from Solidify material provenance; no inner-wall nearest-normal ambiguity",
+  "G7": "FAIL: construction/openings/full triangle coverage still unverified"
+}

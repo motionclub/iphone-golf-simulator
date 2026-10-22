@@ -1,0 +1,60 @@
+{
+  "checkpoint": "Cloth9 fitted upper-arm sleeve",
+  "status": "INSTALLED CANDIDATE; source comparison clean, runtime all-slot and LOD gate pending",
+  "scope": "Tennis Kit_Top full+low bind sleeve length; exact existing Top topology/UV/weights/rig; existing safe bounded Body axilla field retained. Golf garment geometry unchanged.",
+  "rootBottomBranchPreserved": true,
+  "profileReports": [
+    {
+      "sex": "Male",
+      "anchors": 10,
+      "vertexCount": 15401,
+      "inverseLBSMaxMetres": 1.5387929548591727e-07,
+      "sourceComparisons": [
+        "IntroWave45",
+        "ReadyMiddle",
+        "PushupMiddle"
+      ],
+      "status": "SOURCE-VALIDATED CANDIDATE; actual all-slot/LOD visual review required"
+    },
+    {
+      "sex": "Female",
+      "anchors": 10,
+      "vertexCount": 13932,
+      "inverseLBSMaxMetres": 1.8618088223739685e-07,
+      "sourceComparisons": [
+        "IntroWave45",
+        "ReadyMiddle",
+        "PushupMiddle"
+      ],
+      "status": "SOURCE-VALIDATED CANDIDATE; actual all-slot/LOD visual review required"
+    }
+  ],
+  "sourcePlateDirectory": "work/full-visual-overhaul/garment-coverage/sleeve-geometry-9",
+  "files": [
+    {
+      "path": "Unity/Assets/Scripts/Tennis/HeroGarmentTailoring.cs",
+      "sha256": "eefd35acfafb576b9d0d358101d0279369f03e588cdd045e91c1cf9dd608860b",
+      "bytes": 5217
+    },
+    {
+      "path": "Unity/Assets/Scripts/Tennis/HeroGarmentSleeveGeometry.cs",
+      "sha256": "7b6880cac7c03a57ab7ddbe4dc2fe0683acbf83ccdf46a5da7446ac943d424e4",
+      "bytes": 2731
+    },
+    {
+      "path": "Unity/Assets/Scripts/Tennis/HeroGarmentPoseCorrectives.cs",
+      "sha256": "92f9c40eef880ae77175bb414cd914098f93a72e36416d01d7aee535b134e5ce",
+      "bytes": 7013
+    },
+    {
+      "path": "Unity/Assets/Resources/Tennis/Correctives/SleeveFit_Male.json",
+      "sha256": "92fed8d14acef582c53726aef9e10e05f552b9d9b48205664844e73f9c903802",
+      "bytes": 9593260
+    },
+    {
+      "path": "Unity/Assets/Resources/Tennis/Correctives/SleeveFit_Female.json",
+      "sha256": "6198d96380310a058532ad28d7c2a273b423984504f4fcafbe28f5a81df09239",
+      "bytes": 8612050
+    }
+  ]
+}

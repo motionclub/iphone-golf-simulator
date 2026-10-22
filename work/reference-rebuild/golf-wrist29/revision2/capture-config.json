@@ -1,0 +1,31 @@
+{
+  "status": "ACTUAL_ART_FAIL_DENSE_CONTINUITY_FAIL_DO_NOT_PROMOTE",
+  "sourceSHA256": "74c272aa93fdb0a694a172ff893163dc201d17f796189ae66d27c9b870dabc47",
+  "productionWrites": false,
+  "GPU": false,
+  "environment": {
+    "VISUAL_GOLF_CHARACTER_CLUBS": "Driver,Putter",
+    "VISUAL_GOLF_CHARACTER_STAGES": "address,contact,top",
+    "VISUAL_ORIGINAL_SEAM": "1",
+    "VISUAL_ORIGINAL_BLINK": "1",
+    "VISUAL_CHARACTER_NORMALS": "continuous",
+    "VISUAL_CHARACTER_SKIN_FINISH": "1",
+    "VISUAL_UNDERARM_GUSSET": "0",
+    "VISUAL_UNDERARM_FIT": "0",
+    "VISUAL_GOLF_WRIST_ROLL": "1",
+    "VISUAL_GOLF_WRIST_AUDIT": "1",
+    "VISUAL_GOLF_CHARACTER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/golf-wrist29-revision2-candidate",
+    "VISUAL_GOLF_CHARACTER_POSE_DUMPS": "1",
+    "VISUAL_CHARACTER_STUDIO": "0"
+  },
+  "method": "GolfArcade.EditorTools.VisualOverhaulGolfCharacterCapture.Run",
+  "matchingControl": {
+    "VISUAL_GOLF_WRIST_ROLL": "0",
+    "VISUAL_GOLF_CHARACTER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/golf-wrist29-revision2-control"
+  },
+  "firstTinyPass": {
+    "VISUAL_GOLF_CHARACTER_CLUBS": "Driver",
+    "VISUAL_GOLF_CHARACTER_STAGES": "address,top"
+  },
+  "note": "Incremental to installed revision1. Removes failed skin-tip solver; keeps existing canonical+CCD grip FIRST, rigid bounded hand roll LAST, synchronous source Evaluate, no golf review LateUpdate re-curling; complete pose guard precedes digit reset."
+}

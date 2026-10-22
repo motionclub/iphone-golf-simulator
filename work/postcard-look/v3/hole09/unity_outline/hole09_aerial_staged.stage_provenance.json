@@ -1,0 +1,43 @@
+{
+    "status": "PASS",
+    "reason": "Pipeline/provenance gate only: one actual HoleView/model, staged source meshes, no installed baseline meshes. Alignment residuals retained, not a substitute for the separate exact scoring/marker gate.",
+    "asset": "Assets/Editor/PostcardV3Scratch/staged/hole_09.fbx",
+    "sha256": "a03eccba267bbcbe7e397f279def712680a5a9b475db9dc3639835e34c69d77c",
+    "alignment": "Unchanged HoleView.BuildFromModel, baseline Course model removed before reflection call",
+    "hole": 9,
+    "holeViews": 1,
+    "courseModels": 1,
+    "sourceMeshes": 1417,
+    "staleInstalledMeshes": 0,
+    "meshAssetPaths": [
+        "Assets/Editor/PostcardV3Scratch/staged/hole_09.fbx"
+    ],
+    "tee": [
+        -8.036648603548802e-17,
+        6.824148178100586,
+        -0.0000010854959100470297
+    ],
+    "pin": [
+        -10.000001907348633,
+        6.845947265625,
+        492.0000915527344
+    ],
+    "up": [
+        1.208003640694455e-12,
+        61.504825592041019,
+        -0.000007761215783830266
+    ],
+    "rootPosition": [
+        -1.5084923598879946e-13,
+        0.0,
+        -1.3182163627334376e-7
+    ],
+    "rootScale": [
+        1.093613862991333,
+        1.093613624572754,
+        1.093613624572754
+    ],
+    "teeResidualXZ": 0.0000010854959100470297,
+    "pinResidualXZ": 0.00009157259773928672,
+    "upTiltDegrees": 0.0
+}

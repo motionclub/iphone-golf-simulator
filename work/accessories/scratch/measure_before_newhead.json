@@ -1,0 +1,77 @@
+{
+ "dump": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/accessories/dump_1017",
+ "head_top_z": 1.704699993133545,
+ "head_width_at_temple": 0.15512125939130783,
+ "tennis_before": {
+  "lining_min_mm": -1.74,
+  "lining_mean_mm": 5.27,
+  "lining_p95_mm": 10.88,
+  "lining_inside": 40,
+  "band_sectors": {
+   "front": {
+    "n": 48,
+    "mean_mm": -0.04,
+    "max_mm": 2.48,
+    "min_mm": -1.74
+   },
+   "temple": {
+    "n": 42,
+    "mean_mm": 5.53,
+    "max_mm": 7.92,
+    "min_mm": 2.37
+   },
+   "side": {
+    "n": 52,
+    "mean_mm": 9.92,
+    "max_mm": 11.14,
+    "min_mm": 7.92
+   },
+   "back": {
+    "n": 78,
+    "mean_mm": 7.58,
+    "max_mm": 10.83,
+    "min_mm": 3.9
+   }
+  },
+  "brim_front_lowest_z": 1.6223,
+  "brim_front_y": -0.2255,
+  "cap_top_z": 1.7116,
+  "width_at_band_mm": 187.0
+ },
+ "golf_before": {
+  "lining_min_mm": -1.74,
+  "lining_mean_mm": 5.27,
+  "lining_p95_mm": 10.88,
+  "lining_inside": 40,
+  "band_sectors": {
+   "front": {
+    "n": 48,
+    "mean_mm": -0.04,
+    "max_mm": 2.48,
+    "min_mm": -1.74
+   },
+   "temple": {
+    "n": 42,
+    "mean_mm": 5.53,
+    "max_mm": 7.92,
+    "min_mm": 2.37
+   },
+   "side": {
+    "n": 52,
+    "mean_mm": 9.92,
+    "max_mm": 11.14,
+    "min_mm": 7.92
+   },
+   "back": {
+    "n": 78,
+    "mean_mm": 7.58,
+    "max_mm": 10.83,
+    "min_mm": 3.9
+   }
+  },
+  "brim_front_lowest_z": 1.6223,
+  "brim_front_y": -0.2255,
+  "cap_top_z": 1.7116,
+  "width_at_band_mm": 187.0
+ }
+}

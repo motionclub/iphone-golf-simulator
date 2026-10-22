@@ -1,0 +1,66 @@
+#include "hero_common.h"
+// Port of TennisCharacter eye materials. Role 1 sclera, 2 iris (Iris/IrisIn),
+// 3 other eye paint (limbal/pupil, plain HeroCharacterShade), 4 catchlight.
+color CharShade(vector l, color lc, vector n, vector v, color albedo, float wrap, float smoothness, float specS) {
+    float ndl=dot(n,l), nl=sat01(ndl);
+    float wrapped=sat01((ndl+wrap)/(1+wrap));
+    vector h=snorm(l+v); float nh=sat01(dot(n,h));
+    float broad=pow(nh,10+smoothness*30)*.045;
+    float varnish=pow(nh,24+smoothness*smoothness*200)*smoothness*.25;
+    float fres=1+pow(1-sat01(dot(v,h)),5)*1.5;
+    float spec=(broad+varnish)*specS*fres*sat01(ndl*3);
+    return albedo*wrapped*lc+spec*lc;
+}
+color EyeShade(vector l, color lc, vector n, vector v, color albedo, int role) {
+    float nl=sat01(dot(n,l));
+    float wrapped=sat01((dot(n,l)+.10)/1.10);
+    vector h=snorm(l+v); float nh=sat01(dot(n,h)), vh=sat01(dot(v,h));
+    float cornea=pow(nh,role==2?110:72)*.32;
+    float fres=1+pow(1-vh,5)*3;
+    return albedo*wrapped*.88*lc+cornea*fres*nl*lc;
+}
+shader FemEye(
+    color Albedo = color(0.82,0.84,0.78),
+    int Role = 1,
+    int Mode = 0,
+    point EyeL = point(-0.0484,-0.0991,1.5568),
+    point EyeR = point(0.0484,-0.0991,1.5568),
+    float HalfW = 0.0324,
+    float HalfH = 0.01975,
+    output closure color Out = 0)
+{
+    color c=Albedo;
+    point e = P[0]<0 ? EyeL : EyeR;
+    float ex=(P[0]-e[0])/HalfW, ey=(P[2]-e[2])/HalfH;
+    vector n=toU(normalize(N)), vd=toU(-normalize(I));
+    float occ=1;
+    int femaleRole = (Role==1||Role==2);
+    int eyeLayer = (Role>=1&&Role<=3);
+    if(Mode==1 && eyeLayer){
+        float lidShade=smoothstepf(-.05,.72,ey);
+        float lidContact=smoothstepf(.40,.72,ey);
+        float corner=smoothstepf(.50,1.0,fabs(ex));
+        float lowerLid=smoothstepf(-.62,-.98,ey);
+        if(Role==1){ c*=color(.86,.835,.81); occ=mix(1,.45,lidShade)*mix(1,.55,lidContact)*mix(1,.72,corner)*mix(1,.82,lowerLid); }
+        else if(Role==3){ occ=mix(1,.40,lidShade)*mix(1,.55,lidContact); }
+        else { float caustic=smoothstepf(.22,-.32,ey); c*=mix(color(1),color(2.1,1.75,1.30),caustic); occ=mix(1,.40,lidShade)*mix(1,.55,lidContact)*mix(1,.86,lowerLid); }
+        c*=mix(.70,1,occ);
+    }
+    if(Mode==7){ Out=emission()*color(sat01(ey*.5+.5),sat01(ex*.5+.5),Role==1?0.0:1.0); return; }
+    if(Role==4){ Out=emission()*c*1.0; return; }
+    vector ls[4]={LKey(),LFill(),LBack(),LPres(vd)};
+    color cs[4]={CKey()*occ,CFill()*occ,CBack()*occ,CPres()};
+    color col=0;
+    for(int k=0;k<4;k++){
+        color lc=cs[k];
+        if(femaleRole && k==3) lc*= Mode==0 ? .60 : .50;
+        if(k==3) lc*=occ;
+        col+= femaleRole ? EyeShade(ls[k],lc,n,vd,c,Role) : CharShade(ls[k],lc,n,vd,c,.35,.5,1);
+    }
+    color amb=Ambient(n)*c;
+    if(femaleRole) amb*= Mode==0 ? .65 : .62;
+    amb*=mix(.40,1,occ);
+    float rim=pow(1-sat01(dot(vd,n)),3.5)*.22;
+    color rimLight=color(1,.92,.75)*rim*sat01(dot(n,LKey())*.7+.3)*(0.35+0.65*c)*CKey();
+    Out=emission()*(col+amb+rimLight);
+}

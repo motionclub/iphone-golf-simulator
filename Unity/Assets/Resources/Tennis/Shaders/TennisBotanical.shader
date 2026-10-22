@@ -13,6 +13,7 @@ Shader "GolfArcade/TennisBotanical"
   Cull [_Cull]
   HLSLINCLUDE
   #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+#include "../../Environment/Shaders/EnvironmentSurface.hlsl"
   #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
   CBUFFER_START(UnityPerMaterial)
    half4 _BaseColor;half _Gloss,_Leaf,_VertexPalette,_ResortResponse;
@@ -36,6 +37,7 @@ Shader "GolfArcade/TennisBotanical"
    #pragma multi_compile_fragment _ _SHADOWS_SOFT
    #pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
    #pragma multi_compile_fog
+   #pragma multi_compile_fragment _ MAJESTIC_WEATHER_ON // MAJESTIC_WEATHER_HOOK
    half4 frag(V i,FRONT_FACE_TYPE front:FRONT_FACE_SEMANTIC):SV_Target {
     half3 n=normalize(i.n)*IS_FRONT_VFACE(front,1,-1);
     Light sun=GetMainLight(TransformWorldToShadowCoord(i.w));
@@ -54,7 +56,7 @@ Shader "GolfArcade/TennisBotanical"
     half3 h=SafeNormalize(sun.direction+SafeNormalize(GetWorldSpaceViewDir(i.w)));
     half sheen=lerp(.075h,.12h*leaf,_ResortResponse);
     c+=sun.color*pow(saturate(dot(n,h)),36.0h)*_Gloss*sheen*sun.shadowAttenuation;
-    return half4(MixFog(c,InitializeInputDataFog(float4(i.w,1),0)),1);
+    return half4(EnvironmentFog(c,InitializeInputDataFog(float4(i.w,1),0),i.w),1);
    }
    ENDHLSL
   }

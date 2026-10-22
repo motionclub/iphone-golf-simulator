@@ -1,0 +1,577 @@
+diff --git a/Unity/Assets/Scripts/Game/EventSounds.cs b/Unity/Assets/Scripts/Game/EventSounds.cs
+index ca93399a28..71458574b0 100644
+--- a/Unity/Assets/Scripts/Game/EventSounds.cs
++++ b/Unity/Assets/Scripts/Game/EventSounds.cs
+@@ -37,7 +37,7 @@ namespace GolfArcade.Game
+             go.transform.SetParent(parent, false);
+             var s = go.AddComponent<EventSounds>();
+             AudioSource Source(bool loop) { var a = go.AddComponent<AudioSource>(); a.playOnAwake = false; a.spatialBlend = 0; a.loop = loop; a.volume = 0; return a; }
+-            s.once = Source(false); s.once.volume = 1;
++            s.once = Source(false); GameAudio.Bind(s.once, AudioBus.Sfx);
+             s.rain = Source(true); s.wind = Source(true);
+             return s;
+         }
+@@ -55,8 +55,8 @@ namespace GolfArcade.Game
+ 
+         void Update()
+         {
+-            Ease(rain, rainTarget * 0.42f);
+-            Ease(wind, windTarget * 0.32f);
++            Ease(rain, rainTarget * 0.42f * GameAudio.Level[(int)AudioBus.Sfx]);
++            Ease(wind, windTarget * 0.32f * GameAudio.Level[(int)AudioBus.Sfx]);
+         }
+ 
+         void Ease(AudioSource a, float target)
+diff --git a/Unity/Assets/Scripts/Game/GolfSounds.cs b/Unity/Assets/Scripts/Game/GolfSounds.cs
+index 3774ad0c65..c710724037 100644
+--- a/Unity/Assets/Scripts/Game/GolfSounds.cs
++++ b/Unity/Assets/Scripts/Game/GolfSounds.cs
+@@ -1,5 +1,7 @@
+ using System;
++using GolfArcade.Course;
+ using GolfArcade.Shot;
++using GolfArcade.Swing;
+ using UnityEngine;
+ 
+ namespace GolfArcade.Game
+@@ -14,9 +16,20 @@ namespace GolfArcade.Game
+         const int Rate = 44100;
+ 
+         // (the strike has a source of its own, so a cheer or a whoosh already playing never steals its voice)
+-        AudioSource source, tensionSource, strikeSource;
+-        AudioClip driver, iron, wedge, putter, whoosh, cup, splash, thud, tension, ready, fanfare, tick, applause, gasp, groan, leaves, knockWood, knockStone, ovation, whistles, lavaHiss, iceSkid;
+-        float tensionTarget;
++        AudioSource source, tensionSource, strikeSource, crowdSource, bedSource;
++        AudioClip whoosh, cup, splash, thud, tension, ready, fanfare, tick, applause, gasp, groan, leaves, knockWood, knockStone, ovation, whistles, lavaHiss, iceSkid;
++        // Strikes: three takes per club family (index 0..2), plus a pure one and a thin one per family.
++        AudioClip[][] strikes;
++        AudioClip[] pure, thin;
++        int lastTake = -1;
++        // The gallery's voices (generated, Resources/Audio/Crowd; see work/audio-pass/LICENSES.md) and its murmur.
++        AudioClip crowdOoh, crowdAww, crowdCheer, crowdRoar, murmur;
++        GolfArcade.Tennis.TennisAnnouncer announcer;
++        GolfGame game;
++        GolfGame.State lastState = GolfGame.State.Menu;
++        int lastTurn = -1;
++        bool welcomed;
++        float tensionTarget, bedLevel, nextHype;
+ 
+         public static GolfSounds Create(Transform parent)
+         {
+@@ -34,18 +47,92 @@ namespace GolfArcade.Game
+             s.tensionSource.playOnAwake = false;
+             s.tensionSource.spatialBlend = 0;
+             s.tensionSource.loop = true;
++            s.crowdSource = go.AddComponent<AudioSource>();
++            s.crowdSource.playOnAwake = false;
++            s.crowdSource.spatialBlend = 0;
++            s.crowdSource.priority = 64;
++            s.bedSource = go.AddComponent<AudioSource>();
++            s.bedSource.playOnAwake = false;
++            s.bedSource.spatialBlend = 0;
++            s.bedSource.loop = true;
++            s.bedSource.priority = 200;
++            s.bedSource.volume = 0;
++            GameAudio.Bind(s.source, AudioBus.Sfx);
++            GameAudio.Bind(s.strikeSource, AudioBus.Sfx);
++            GameAudio.Bind(s.crowdSource, AudioBus.Crowd);
+             s.Synthesize();
+             s.tensionSource.clip = s.tension;
++            s.crowdOoh = Resources.Load<AudioClip>("Audio/Crowd/ooh");
++            s.crowdAww = Resources.Load<AudioClip>("Audio/Crowd/aww");
++            s.crowdCheer = Resources.Load<AudioClip>("Audio/Crowd/cheer");
++            s.crowdRoar = Resources.Load<AudioClip>("Audio/Crowd/roar");
++            s.murmur = Resources.Load<AudioClip>("Audio/Crowd/gallery_murmur");
++            s.bedSource.clip = s.murmur;
++            s.announcer = GolfArcade.Tennis.TennisAnnouncer.Create(go.transform, "Audio/Announcer/Golf");
++            s.game = parent ? parent.GetComponent<GolfGame>() : null;
+             return s;
+         }
+ 
++        void OnEnable() => GameMusic.Claim(this, GameMusic.Song.Golf);
++        void OnDisable() => GameMusic.Release(this);
++
+         /// The strike, the loudest thing on the course: even a half swing cracks (a putt is a
+-        /// gentler tock, and follows the stroke more).
+-        public void PlayStrike(GolfClub club, double power)
++        /// gentler tock, and follows the stroke more). Three takes per club, never the same one
++        /// twice running, each a hair off in pitch; a pure strike rings brighter with a crack on
++        /// top, a thin one clanks. The announcer jumps on a pure, full swing.
++        public void PlayStrike(GolfClub club, double power) => PlayStrike(club, power, StrikeGrade.Good);
++        public void PlayStrike(GolfClub club, double power, StrikeGrade grade)
+         {
+-            var clip = club.Family() switch { ClubFamily.Wood => driver, ClubFamily.Iron => iron, ClubFamily.Wedge => wedge, _ => putter };
++            int family = (int)club.Family();
+             float p = Mathf.Clamp01((float)power);
+-            strikeSource.PlayOneShot(clip, club == GolfClub.Putter ? Mathf.Lerp(0.5f, 1f, p) : Mathf.Lerp(0.75f, 1f, p));
++            bool putt = club == GolfClub.Putter;
++            int take = UnityEngine.Random.Range(0, 3);
++            if (take == lastTake) take = (take + 1) % 3;
++            lastTake = take;
++            strikeSource.pitch = UnityEngine.Random.Range(.97f, 1.03f) * (putt ? Mathf.Lerp(.96f, 1.04f, p) : 1);
++            strikeSource.PlayOneShot(strikes[family][take], putt ? Mathf.Lerp(0.5f, 1f, p) : Mathf.Lerp(0.75f, 1f, p));
++            GameAudio.Note(AudioBus.Sfx, $"{strikes[family][take].name} ({grade})");
++            if (putt) return;
++            if (grade == StrikeGrade.Perfect) strikeSource.PlayOneShot(pure[family], .45f);
++            else if (grade == StrikeGrade.Thin) strikeSource.PlayOneShot(thin[family], .7f);
++            // (not every pure strike: a call that comes every time stops meaning anything)
++            if (grade == StrikeGrade.Perfect && p > .75f && Time.unscaledTime > nextHype) { nextHype = Time.unscaledTime + 25; Say("great_shot", .35f, 1.5f); }
++        }
++
++        /// Where a shot came to rest (not holed), for the announcer's call. The gallery's own
++        /// voice comes through PlayGasp / PlayGroan / PlayApplause, which the game calls itself.
++        public void OnRest(CourseShot shot, double toPinYards, bool putt, bool lava)
++        {
++            if (shot == null) return;
++            if (putt)
++            {
++                if (shot.LippedOut) Say("lip_out", .2f, 2);
++                else if (toPinYards < 2.5) Say("close", .2f, 2);
++                return;
++            }
++            switch (shot.Lie)
++            {
++                case CourseLie.Water: Say(lava ? "lava" : "water", .5f, 2.5f); return;
++                case CourseLie.OutOfBounds: Say("out_of_bounds", .3f, 2.5f); return;
++                case CourseLie.Bunker: Say("bunker", .3f, 2.5f); return;
++                case CourseLie.Fairway: if (UnityEngine.Random.value < .5f) Say("fairway", .3f, 2); return;
++            }
++            if (shot.Lie.IsPuttingSurface()) Say(toPinYards <= 2 ? "tap_in" : toPinYards <= 4 ? "nice_shot" : "on_green", .3f, 2.5f);
++        }
++
++        void Say(string key, float delay, float patience)
++        {
++            if (!announcer) return;
++            announcer.Say(key, delay, patience);
++        }
++
++        /// A crowd voice clip on the gallery's source (skipped if the generated clips are missing).
++        void Crowd(AudioClip clip, float volume)
++        {
++            if (!clip) return;
++            crowdSource.pitch = UnityEngine.Random.Range(.96f, 1.04f);
++            crowdSource.PlayOneShot(clip, volume);
++            GameAudio.Note(AudioBus.Crowd, clip.name);
+         }
+ 
+         public void PlayWhoosh(double load) => source.PlayOneShot(whoosh, Mathf.Lerp(0.35f, 0.95f, Mathf.Clamp01((float)load)));
+@@ -63,27 +150,45 @@ namespace GolfArcade.Game
+         public void PlayReady() => source.PlayOneShot(ready, 0.5f);
+         public void PlayFanfare() => source.PlayOneShot(fanfare, 0.7f);
+         public void PlayTick() => source.PlayOneShot(tick, 0.5f);
+-        /// The gallery's applause, for the introductions on the tee and a good shot.
+-        public void PlayApplause(float volume = 0.35f) => source.PlayOneShot(applause, volume);
++        /// The gallery's applause, for the introductions on the tee and a good shot; a big hand
++        /// has the gallery's voices cheering in it.
++        public void PlayApplause(float volume = 0.35f)
++        {
++            crowdSource.PlayOneShot(applause, volume);
++            if (volume >= 0.35f) Crowd(crowdCheer, volume * 1.1f);
++        }
+ 
+         /// The gallery's reactions, sized to the shot: an "ooh" as one flies at the flag or
+-        /// finds the water, an "aww" for a lip-out or a ball in the sand.
+-        public void PlayGasp(float volume = 0.6f) => source.PlayOneShot(gasp, volume);
+-        public void PlayGroan(float volume = 0.55f) => source.PlayOneShot(groan, volume);
++        /// finds the water, an "aww" for a lip-out or a ball in the sand — their voices, with the
++        /// synthesised vowel kept underneath for body.
++        public void PlayGasp(float volume = 0.6f)
++        {
++            crowdSource.PlayOneShot(gasp, crowdOoh ? volume * .4f : volume);
++            Crowd(crowdOoh, volume * 1.2f);
++        }
++        public void PlayGroan(float volume = 0.55f)
++        {
++            crowdSource.PlayOneShot(groan, crowdAww ? volume * .4f : volume);
++            Crowd(crowdAww, volume * 1.2f);
++        }
+ 
+         /// The ball in the hole, the gallery's answer sized to the score: for a birdie or better
+-        /// a long round of applause with whistles in it; a par, a warm round; over par, polite.
++        /// a long round of applause with whistles and a roar in it; a par, a warm round and a
++        /// cheer; over par, polite. The announcer calls the score.
+         public void PlayHoleOut(int strokes, int par)
+         {
+             int toPar = strokes - par;
+             if (strokes == 1 || toPar < 0)
+             {
+                 float big = strokes == 1 || toPar <= -2 ? 1f : 0.85f;
+-                source.PlayOneShot(ovation, 0.5f * big);
+-                source.PlayOneShot(whistles, 0.15f * big);   // (pure tones: they carry)
++                crowdSource.PlayOneShot(ovation, 0.5f * big);
++                crowdSource.PlayOneShot(whistles, 0.15f * big);   // (pure tones: they carry)
++                Crowd(crowdRoar, .85f * big);
+             }
+-            else if (toPar == 0) source.PlayOneShot(ovation, 0.42f);
+-            else source.PlayOneShot(ovation, 0.3f);
++            else if (toPar == 0) { crowdSource.PlayOneShot(ovation, 0.42f); Crowd(crowdCheer, .6f); }
++            else crowdSource.PlayOneShot(ovation, 0.3f);
++            string call = strokes == 1 ? "hole_in_one" : toPar <= -3 ? "albatross" : toPar == -2 ? "eagle" : toPar == -1 ? "birdie" : toPar == 0 ? "par" : "in_hole";
++            Say(call, .25f, 3);
+         }
+ 
+         /// Backswing tension, 0–1 with the meter: the wind-up loop fades in and climbs a fifth
+@@ -98,14 +203,48 @@ namespace GolfArcade.Game
+ 
+         void Update()
+         {
++            float dt = Time.unscaledDeltaTime;
++            Listen();
++            // The gallery murmurs between shots and goes quiet for the swing; the music steps back
++            // the same way, and comes back while the ball flies.
++            bool hush = tensionTarget > 0 || tensionSource.isPlaying;
++            bool playing = game && game.Current is GolfGame.State.Aim or GolfGame.State.Flight or GolfGame.State.Result or GolfGame.State.HoleDone;
++            bedLevel = Mathf.MoveTowards(bedLevel, !playing ? 0 : hush ? .04f : .2f, dt * (hush ? 1.2f : .25f));
++            if (murmur)
++            {
++                bedSource.volume = bedLevel * GameAudio.Gain(AudioBus.Crowd);
++                if (bedLevel > .002f && !bedSource.isPlaying) { bedSource.time = UnityEngine.Random.Range(0, murmur.length * .9f); bedSource.Play(); }
++                else if (bedLevel <= .002f && bedSource.isPlaying) bedSource.Stop();
++            }
++            GameMusic.Calm(hush ? 1 : game && game.Current == GolfGame.State.Flight ? .35f : 0);
+             if (!tensionSource.isPlaying) return;
+             // Volume tracks the load quickly; pitch climbs with it, from a slack 0.8 to 1.5.
+-            float v = Mathf.MoveTowards(tensionSource.volume, tensionTarget * 0.75f, Time.unscaledDeltaTime * 4f);
++            float v = Mathf.MoveTowards(tensionSource.volume, tensionTarget * 0.75f * GameAudio.Gain(AudioBus.Sfx), dt * 4f);
+             tensionSource.volume = v;
+             tensionSource.pitch = 0.8f + 0.7f * tensionTarget;
+             if (tensionTarget <= 0 && v <= 0.005f) tensionSource.Stop();
+         }
+ 
++        /// The announcer follows the round from the game's public state: a welcome over the
++        /// first look at the course, whose turn it is when the club passes, and the round's end.
++        void Listen()
++        {
++            if (!game) return;
++            var now = game.Current;
++            if (now != lastState)
++            {
++                if (!welcomed && (now == GolfGame.State.Intro || now == GolfGame.State.Aim)) { welcomed = true; Say("welcome", .6f, 4); }
++                if (now == GolfGame.State.RoundDone) Say("round_over", .8f, 4);
++                lastState = now;
++            }
++            int turn = game.TurnIndex;
++            if (turn != lastTurn)
++            {
++                if (lastTurn >= 0 && turn < 4) Say("turn_p" + (turn + 1), .4f, 3);
++                lastTurn = turn;
++            }
++        }
++
+         void Synthesize()
+         {
+             applause = Applause(3.4f, 16);
+@@ -123,17 +262,39 @@ namespace GolfArcade.Game
+             // the clubhead's own ring — a titanium driver's long ping, a forged iron's short click, a
+             // wedge's duller thwack with the turf in it, a putter's tock. Squeezed hard (Squash) so
+             // they come out as loud as one short sound can, over the gallery and the wind.
+-            driver = Clip("Driver", 0.34f, (t, rng) => Squash(
+-                Burst(t, 0.0025, rng) * 1.0 + Knock(t, 520, 250, 0.012, 0.035) * 0.75
+-                + Ring(t, 2350, 0.07) * 0.45 + Ring(t, 3650, 0.045) * 0.3 + Ring(t, 5200, 0.02) * 0.15, 2.2));
+-            iron = Clip("Iron", 0.22f, (t, rng) => Squash(
+-                Burst(t, 0.003, rng) * 1.0 + Knock(t, 700, 330, 0.008, 0.026) * 0.85
+-                + Ring(t, 1550, 0.026) * 0.4 + Ring(t, 3100, 0.012) * 0.25, 2.2));
+-            wedge = Clip("Wedge", 0.22f, (t, rng) => Squash(
+-                Burst(t, 0.004, rng) * 0.9 + Knock(t, 560, 240, 0.01, 0.03) * 0.95
+-                + Ring(t, 950, 0.02) * 0.35 + Burst(t - 0.004, 0.03, rng) * 0.25, 2.0), lowPass: 0.55);
+-            putter = Clip("Putter", 0.16f, (t, rng) => Squash(
+-                Burst(t, 0.002, rng) * 0.6 + Knock(t, 900, 640, 0.006, 0.022) * 0.85 + Ring(t, 700, 0.02) * 0.6, 1.6));
++            // Three takes of each, the ring and knock pitches and decays nudged per take (the same
++            // club never sounds stamped out twice), in ClubFamily order: Wood, Iron, Wedge, Putter.
++            double[] f = { 1.0, 0.95, 1.06 }, d = { 1.0, 1.15, 0.88 };
++            strikes = new AudioClip[4][];
++            for (int k = 0; k < 4; k++) strikes[k] = new AudioClip[3];
++            for (int i = 0; i < 3; i++)
++            {
++                double fi = f[i], di = d[i];
++                strikes[0][i] = Clip("Driver " + i, 0.34f, (t, rng) => Squash(
++                    Burst(t, 0.0025, rng) * 1.0 + Knock(t, 520 * fi, 250 * fi, 0.012, 0.035 * di) * 0.75
++                    + Ring(t, 2350 * fi, 0.07 * di) * 0.45 + Ring(t, 3650 * fi, 0.045 * di) * 0.3 + Ring(t, 5200 * fi, 0.02) * 0.15, 2.2));
++                strikes[1][i] = Clip("Iron " + i, 0.22f, (t, rng) => Squash(
++                    Burst(t, 0.003, rng) * 1.0 + Knock(t, 700 * fi, 330 * fi, 0.008, 0.026 * di) * 0.85
++                    + Ring(t, 1550 * fi, 0.026 * di) * 0.4 + Ring(t, 3100 * fi, 0.012 * di) * 0.25, 2.2));
++                // a wedge takes turf with it: a short spray of noise after the hit
++                strikes[2][i] = Clip("Wedge " + i, 0.24f, (t, rng) => Squash(
++                    Burst(t, 0.004, rng) * 0.9 + Knock(t, 560 * fi, 240 * fi, 0.01, 0.03 * di) * 0.95
++                    + Ring(t, 950 * fi, 0.02 * di) * 0.35 + Burst(t - 0.004, 0.03 * di, rng) * 0.25 + Burst(t - 0.012, 0.05, rng) * 0.18, 2.0), lowPass: 0.55);
++                strikes[3][i] = Clip("Putter " + i, 0.16f, (t, rng) => Squash(
++                    Burst(t, 0.002, rng) * 0.6 + Knock(t, 900 * fi, 640 * fi, 0.006, 0.022 * di) * 0.85 + Ring(t, 700 * fi, 0.02 * di) * 0.6, 1.6));
++            }
++            // Pure: a bright crack and a long clean ring over the strike (the sweet spot "ping").
++            // Thin: the ball off the bottom of the face — an inharmonic clank and a buzz up the shaft.
++            pure = new AudioClip[4]; thin = new AudioClip[4];
++            double[] ping = { 4100, 3300, 2700, 1800 }, clank = { 1730, 2210, 1490, 1300 };
++            for (int k = 0; k < 4; k++)
++            {
++                double pk = ping[k], ck = clank[k];
++                pure[k] = Clip("Pure " + k, 0.4f, (t, rng) => Burst(t, 0.0012, rng) * 0.9 + Ring(t, pk, 0.12) * 0.5 + Ring(t, pk * 1.5, 0.07) * 0.25, lowPass: 0.9);
++                thin[k] = Clip("Thin " + k, 0.3f, (t, rng) =>
++                    Ring(t, ck, 0.03) * 0.6 + Ring(t, ck * 1.37, 0.022) * 0.45 + Ring(t, ck * 2.11, 0.015) * 0.3
++                    + Math.Sin(2 * Math.PI * 180 * t) * Math.Sin(2 * Math.PI * 31 * t) * Math.Exp(-t / 0.08) * 0.35, lowPass: 0.7);
++            }
+             // Whoosh: noise that swells and dies over a quarter of a second.
+             whoosh = Clip("Whoosh", 0.30f, (t, rng) =>
+             {
+diff --git a/Unity/Assets/Scripts/Game/PresentationStinger.cs b/Unity/Assets/Scripts/Game/PresentationStinger.cs
+index c46bbeaec1..cf99dd8227 100644
+--- a/Unity/Assets/Scripts/Game/PresentationStinger.cs
++++ b/Unity/Assets/Scripts/Game/PresentationStinger.cs
+@@ -7,7 +7,7 @@ namespace GolfArcade.Game {
+         public static void Lead() {
+             if(!instance) {
+                 instance=new GameObject("Presentation stinger").AddComponent<PresentationStinger>();
+-                instance.source=instance.gameObject.AddComponent<AudioSource>(); instance.source.playOnAwake=false;
++                instance.source=instance.gameObject.AddComponent<AudioSource>(); instance.source.playOnAwake=false; GameAudio.Bind(instance.source,AudioBus.Sfx);
+                 const int rate=22050;var samples=new float[(int)(rate*.18f)];
+                 for(int i=0;i<samples.Length;i++){float t=(float)i/rate;samples[i]=Mathf.Sin(2*Mathf.PI*(520*t+700*t*t))*Mathf.Exp(-t*20)*.25f;}
+                 instance.cue=AudioClip.Create("Presentation pop",samples.Length,1,rate,false);instance.cue.SetData(samples,0);
+diff --git a/Unity/Assets/Scripts/Tennis/TennisAmbience.cs b/Unity/Assets/Scripts/Tennis/TennisAmbience.cs
+index 61fa051e73..24660c6711 100644
+--- a/Unity/Assets/Scripts/Tennis/TennisAmbience.cs
++++ b/Unity/Assets/Scripts/Tennis/TennisAmbience.cs
+@@ -15,6 +15,8 @@ namespace GolfArcade.Tennis
+         AudioSource beach, murmur, crowd, feet;
+         float[][] rendered;
+         AudioClip ooh, groan, cheer, roar, squeakA, squeakB, squeakC, land;
++        // The crowd's real voices (generated, Resources/Audio/Crowd), layered over the synthesised ones.
++        AudioClip voiceOoh, voiceAww, voiceCheer, voiceRoar;
+         Task<float[][]> task;
+         float murmurWant = .22f, beachWant = .3f, hush;
+ 
+@@ -29,6 +31,10 @@ namespace GolfArcade.Tennis
+                 return s;
+             }
+             a.beach = Source(true, 64); a.murmur = Source(true, 64); a.crowd = Source(false, 40); a.feet = Source(false, 96);
++            GolfArcade.Game.GameAudio.Bind(a.crowd, GolfArcade.Game.AudioBus.Crowd);
++            GolfArcade.Game.GameAudio.Bind(a.feet, GolfArcade.Game.AudioBus.Sfx);
++            a.voiceOoh = Resources.Load<AudioClip>("Audio/Crowd/ooh"); a.voiceAww = Resources.Load<AudioClip>("Audio/Crowd/aww");
++            a.voiceCheer = Resources.Load<AudioClip>("Audio/Crowd/cheer"); a.voiceRoar = Resources.Load<AudioClip>("Audio/Crowd/roar");
+             a.task = Task.Run(Render);
+             return a;
+         }
+@@ -37,14 +43,20 @@ namespace GolfArcade.Tennis
+         public void Hush(float amount) => hush = Mathf.Clamp01(amount);
+ 
+         /// A near miss or a big get: rising and falling "ooh".
+-        public void Ooh(float strength = 1) { if (ooh) crowd.PlayOneShot(ooh, Mathf.Lerp(.35f, .8f, strength)); }
++        public void Ooh(float strength = 1) { Shout(ooh, voiceOoh, Mathf.Lerp(.35f, .8f, strength)); }
+         /// The home crowd's disappointment.
+-        public void Groan(float strength = 1) { if (groan) crowd.PlayOneShot(groan, Mathf.Lerp(.3f, .7f, strength)); }
++        public void Groan(float strength = 1) { Shout(groan, voiceAww, Mathf.Lerp(.3f, .7f, strength)); }
+         /// Cheering: a cheer for a good point, a roar for a winner or the match.
+         public void Cheer(float strength)
+         {
+-            var clip = strength > .7f ? roar : cheer;
+-            if (clip) crowd.PlayOneShot(clip, Mathf.Lerp(.35f, .9f, strength));
++            bool big = strength > .7f;
++            Shout(big ? roar : cheer, big ? voiceRoar : voiceCheer, Mathf.Lerp(.35f, .9f, strength));
++        }
++        /// The voiced crowd on top, the synthesised one underneath for body.
++        void Shout(AudioClip synth, AudioClip voices, float volume)
++        {
++            if (synth) crowd.PlayOneShot(synth, voices ? volume * .45f : volume);
++            if (voices) { crowd.PlayOneShot(voices, volume * 1.15f); GolfArcade.Game.GameAudio.Note(GolfArcade.Game.AudioBus.Crowd, voices.name); }
+         }
+ 
+         /// A planted foot. Hard courts squeak under a sharp change of direction; plain steps
+@@ -73,7 +85,7 @@ namespace GolfArcade.Tennis
+                 if (task.Status == TaskStatus.RanToCompletion)
+                 {
+                     var r = task.Result;
+-                    beach.clip = Clip("Beach", r[0]); murmur.clip = Clip("Stands murmur", r[1]);
++                    beach.clip = Clip("Beach", r[0]); murmur.clip = Resources.Load<AudioClip>("Audio/Crowd/stands_murmur") ?? Clip("Stands murmur", r[1]);
+                     ooh = Clip("Crowd ooh", r[2]); groan = Clip("Crowd groan", r[3]); cheer = Clip("Crowd cheer", r[4]); roar = Clip("Crowd roar", r[5]);
+                     squeakA = Clip("Squeak A", r[6]); squeakB = Clip("Squeak B", r[7]); squeakC = Clip("Squeak C", r[8]); land = Clip("Land", r[9]);
+                     beach.volume = 0; murmur.volume = 0; beach.Play(); murmur.Play();
+@@ -82,8 +94,9 @@ namespace GolfArcade.Tennis
+             }
+             if (!beach.isPlaying) return;
+             float dt = Time.unscaledDeltaTime;
+-            beach.volume = Mathf.MoveTowards(beach.volume, beachWant, dt * .3f);
+-            murmur.volume = Mathf.MoveTowards(murmur.volume, murmurWant * (1 - hush), dt * (hush > 0 ? .8f : .25f));
++            float crowdBus = GolfArcade.Game.GameAudio.Gain(GolfArcade.Game.AudioBus.Crowd);
++            beach.volume = Mathf.MoveTowards(beach.volume, beachWant * GolfArcade.Game.GameAudio.Level[(int)GolfArcade.Game.AudioBus.Sfx], dt * .3f);
++            murmur.volume = Mathf.MoveTowards(murmur.volume, murmurWant * (1 - hush) * crowdBus, dt * (hush > 0 ? .8f : .25f));
+         }
+ 
+         static AudioClip Clip(string name, float[] data)
+diff --git a/Unity/Assets/Scripts/Tennis/TennisAnnouncer.cs b/Unity/Assets/Scripts/Tennis/TennisAnnouncer.cs
+index 2a9b92a016..2cf76530ff 100644
+--- a/Unity/Assets/Scripts/Tennis/TennisAnnouncer.cs
++++ b/Unity/Assets/Scripts/Tennis/TennisAnnouncer.cs
+@@ -3,8 +3,10 @@ using UnityEngine;
+ 
+ namespace GolfArcade.Tennis
+ {
+-    /// The match announcer: umpire score calls and the commentator's reactions, recorded
+-    /// voice lines in Resources/Tennis/Announcer (made by tools/make_announcer.py). Lines queue
++    /// The match announcer: umpire score calls and the commentator's reactions, generated
++    /// voice lines in Resources/Audio/Announcer/Tennis (golf uses the same queue with its own
++    /// folder; made by work/audio-pass/tools/make_voices.py, licences in work/audio-pass/LICENSES.md).
++    /// It sits on the Announcer bus and ducks the music and the crowd while it talks. Lines queue
+     /// so calls never talk over each other; stale calls (a score overtaken by the next point)
+     /// are dropped rather than read late. A line with numbered takes ("winner", "winner_2" ...)
+     /// picks one at random, never the same one twice running.
+@@ -43,13 +45,14 @@ namespace GolfArcade.Tennis
+         public bool Speaking => voice && voice.isPlaying;
+         public float Volume = 1;
+ 
+-        public static TennisAnnouncer Create(Transform parent)
++        public static TennisAnnouncer Create(Transform parent, string folder = "Audio/Announcer/Tennis")
+         {
+-            var go = new GameObject("Tennis announcer");
++            var go = new GameObject("Announcer");
+             go.transform.SetParent(parent, false);
+             var a = go.AddComponent<TennisAnnouncer>();
+             a.voice = go.AddComponent<AudioSource>(); a.voice.playOnAwake = false; a.voice.spatialBlend = 0; a.voice.priority = 8;
+-            foreach (var clip in Resources.LoadAll<AudioClip>("Tennis/Announcer"))
++            GolfArcade.Game.GameAudio.Bind(a.voice, GolfArcade.Game.AudioBus.Announcer);
++            foreach (var clip in Resources.LoadAll<AudioClip>(folder))
+             {
+                 string key = clip.name;
+                 int us = key.LastIndexOf('_');
+@@ -85,6 +88,8 @@ namespace GolfArcade.Tennis
+                 if (now < at) continue;
+                 queue.RemoveAt(i);
+                 var clip = Pick(key);
++                GolfArcade.Game.GameAudio.Talking(clip.length + .15f);
++                GolfArcade.Game.GameAudio.Note(GolfArcade.Game.AudioBus.Announcer, clip.name);
+                 voice.PlayOneShot(clip, Volume);
+                 busyUntil = now + clip.length + .12f;
+                 return;
+diff --git a/Unity/Assets/Scripts/Tennis/TennisAudioDirector.cs b/Unity/Assets/Scripts/Tennis/TennisAudioDirector.cs
+index 22563ec23a..79b6f39239 100644
+--- a/Unity/Assets/Scripts/Tennis/TennisAudioDirector.cs
++++ b/Unity/Assets/Scripts/Tennis/TennisAudioDirector.cs
+@@ -24,6 +24,7 @@ namespace GolfArcade.Tennis
+             d.Music = TennisMusic.Create(d.transform);
+             d.Ambience = TennisAmbience.Create(d.transform);
+             d.Announcer = TennisAnnouncer.Create(d.transform);
++            GolfArcade.Game.GameMusic.Claim(d, GolfArcade.Game.GameMusic.Song.None);   // the court has its own calypso
+             return d;
+         }
+ 
+@@ -108,7 +109,8 @@ namespace GolfArcade.Tennis
+             else if (rally) Music.SetMix(.32f, .22f, 0);
+             else if (serving) Music.SetMix(.62f, .55f, .12f);
+             else Music.SetMix(.9f, .8f, .85f);
+-            Music.Duck(Mathf.Min(Announcer.Speaking ? .45f : 1, GolfArcade.Game.PresentationStinger.MusicDuck));
++            // (the mix desk ducks under the announcer: GameAudio, fed by TennisAnnouncer)
++            Music.Duck(GolfArcade.Game.GameAudio.DuckOf(GolfArcade.Game.AudioBus.Music) * GolfArcade.Game.PresentationStinger.MusicDuck);
+             // The stands chat between points and go quiet for play.
+             Ambience.Hush(serving ? (matchPoint ? .95f : .7f) : rally ? .6f : 0);
+         }
+diff --git a/Unity/Assets/Scripts/Tennis/TennisSounds.cs b/Unity/Assets/Scripts/Tennis/TennisSounds.cs
+index 29e8884f94..49f5b82820 100644
+--- a/Unity/Assets/Scripts/Tennis/TennisSounds.cs
++++ b/Unity/Assets/Scripts/Tennis/TennisSounds.cs
+@@ -9,8 +9,13 @@ namespace GolfArcade.Tennis
+     public sealed class TennisSounds : MonoBehaviour
+     {
+         const int Rate = 44100;
+-        AudioSource source, crowd;
+-        AudioClip pop, popSweet, bounce, net, whoosh, applause, gasp, chimeGood, chimeBad, thump, perfectSting, smashCrack, whiffSwish, whiffSlide, rivalPop;
++        // (contact has its own sources so its pitch can be set per hit without bending anything else)
++        AudioSource source, crowd, hitSource, bounceSource;
++        AudioClip net, whoosh, applause, gasp, chimeGood, chimeBad, thump, perfectSting, smashCrack, whiffSwish, whiffSlide;
++        // Three takes each, never the same one twice running; a frame clank for a poorly timed hit.
++        AudioClip[] pop, popSweet, rivalPop, bounce;
++        AudioClip frame;
++        int lastPop = -1, lastBounce = -1;
+         float crowdTarget;
+ 
+         public static TennisSounds Create(Transform parent)
+@@ -20,6 +25,11 @@ namespace GolfArcade.Tennis
+             var s = go.AddComponent<TennisSounds>();
+             s.source = go.AddComponent<AudioSource>(); s.source.playOnAwake = false; s.source.spatialBlend = 0;
+             s.crowd = go.AddComponent<AudioSource>(); s.crowd.playOnAwake = false; s.crowd.spatialBlend = 0; s.crowd.loop = true;
++            s.hitSource = go.AddComponent<AudioSource>(); s.hitSource.playOnAwake = false; s.hitSource.spatialBlend = 0; s.hitSource.priority = 0;
++            s.bounceSource = go.AddComponent<AudioSource>(); s.bounceSource.playOnAwake = false; s.bounceSource.spatialBlend = 0; s.bounceSource.priority = 16;
++            GolfArcade.Game.GameAudio.Bind(s.source, GolfArcade.Game.AudioBus.Sfx);
++            GolfArcade.Game.GameAudio.Bind(s.hitSource, GolfArcade.Game.AudioBus.Sfx);
++            GolfArcade.Game.GameAudio.Bind(s.bounceSource, GolfArcade.Game.AudioBus.Sfx);
+             s.Synthesize();
+             s.crowd.clip = s.applause;
+             return s;
+@@ -31,19 +41,36 @@ namespace GolfArcade.Tennis
+         public void Hit(Timing grade, float power, bool smash)
+         {
+             float v = Mathf.Lerp(.5f, 1f, Mathf.Clamp01(power));
+-            source.pitch = Mathf.Lerp(.94f, 1.08f, Mathf.Clamp01(power));
+-            source.PlayOneShot(grade >= Timing.Great ? popSweet : pop, v);
+-            source.pitch = 1;
++            hitSource.pitch = Mathf.Lerp(.94f, 1.08f, Mathf.Clamp01(power)) * UnityEngine.Random.Range(.98f, 1.02f);
++            hitSource.PlayOneShot(Take(grade >= Timing.Great ? popSweet : pop, ref lastPop), v);
++            if (grade <= Timing.Ok) hitSource.PlayOneShot(frame, .4f);
++            GolfArcade.Game.GameAudio.Note(GolfArcade.Game.AudioBus.Sfx, $"racket {grade}");
+             source.PlayOneShot(thump, Mathf.Lerp(.35f, .7f, Mathf.Clamp01(power)));
+             if (smash) source.PlayOneShot(smashCrack, .95f);
+-            else if (grade >= Timing.Perfect) source.PlayOneShot(perfectSting, .7f);
++            else if (grade >= Timing.Perfect) source.PlayOneShot(perfectSting, .55f);
+         }
+         /// The opponent's contact: the same honest pop and thump, a notch quieter and duller.
+-        public void RivalHit(float power) { source.PlayOneShot(rivalPop, Mathf.Lerp(.45f, .75f, power)); source.PlayOneShot(thump, .3f); }
++        public void RivalHit(float power)
++        {
++            hitSource.pitch = Mathf.Lerp(.95f, 1.05f, Mathf.Clamp01(power)) * UnityEngine.Random.Range(.98f, 1.02f);
++            hitSource.PlayOneShot(Take(rivalPop, ref lastPop), Mathf.Lerp(.45f, .75f, power)); source.PlayOneShot(thump, .3f);
++        }
++        AudioClip Take(AudioClip[] takes, ref int last)
++        {
++            int i = UnityEngine.Random.Range(0, takes.Length);
++            if (i == last) i = (i + 1) % takes.Length;
++            last = i; return takes[i];
++        }
+         /// A confirmed whiff: louder and sillier than any routine hit — a big air swish and a
+         /// falling slide whistle.
+         public void Whiff() { source.PlayOneShot(whiffSwish, .8f); source.PlayOneShot(whiffSlide, .6f); }
+-        public void Bounce(float pace) => source.PlayOneShot(bounce, Mathf.Lerp(.25f, .7f, Mathf.Clamp01(pace)));
++        /// A bounce: a fast ball skids in brighter and louder.
++        public void Bounce(float pace)
++        {
++            pace = Mathf.Clamp01(pace);
++            bounceSource.pitch = Mathf.Lerp(.92f, 1.1f, pace) * UnityEngine.Random.Range(.97f, 1.03f);
++            bounceSource.PlayOneShot(Take(bounce, ref lastBounce), Mathf.Lerp(.25f, .7f, pace));
++        }
+         public void Net() => source.PlayOneShot(net, .8f);
+         public void Whoosh(float power) => source.PlayOneShot(whoosh, Mathf.Lerp(.15f, .5f, Mathf.Clamp01(power)));
+         public void Call(bool good) => source.PlayOneShot(good ? chimeGood : chimeBad, .55f);
+@@ -59,7 +86,7 @@ namespace GolfArcade.Tennis
+         void Update()
+         {
+             if (!crowd.isPlaying) return;
+-            crowd.volume = Mathf.MoveTowards(crowd.volume, crowdTarget, Time.unscaledDeltaTime * (crowdTarget > crowd.volume ? 3f : .5f));
++            crowd.volume = Mathf.MoveTowards(crowd.volume, crowdTarget * GolfArcade.Game.GameAudio.Gain(GolfArcade.Game.AudioBus.Crowd), Time.unscaledDeltaTime * (crowdTarget > crowd.volume ? 3f : .5f));
+             crowdTarget = Mathf.MoveTowards(crowdTarget, 0, Time.unscaledDeltaTime * .35f);
+             if (crowdTarget <= 0 && crowd.volume <= .005f) crowd.Stop();
+         }
+@@ -67,9 +94,18 @@ namespace GolfArcade.Tennis
+         void Synthesize()
+         {
+             // Strings on felt: a very short broadband click plus the ball's hollow resonance.
+-            pop = Clip("Pop", .12f, (t, r) => Burst(t, .0035, r) * .8 + Ring(t, 520, .018) * .55 + Ring(t, 1180, .009) * .3, .6);
+-            popSweet = Clip("Pop sweet", .14f, (t, r) => Burst(t, .0025, r) * .7 + Ring(t, 610, .024) * .7 + Ring(t, 1420, .012) * .35, .8);
+-            bounce = Clip("Bounce", .1f, (t, r) => Burst(t, .004, r) * .5 + Ring(t, 190, .02) * .8, .3);
++            pop = new AudioClip[3]; popSweet = new AudioClip[3]; rivalPop = new AudioClip[3]; bounce = new AudioClip[3];
++            double[] f = { 1.0, .94, 1.07 }, d = { 1.0, 1.2, .85 };
++            for (int i = 0; i < 3; i++)
++            {
++                double fi = f[i], di = d[i];
++                pop[i] = Clip("Pop " + i, .12f, (t, r) => Burst(t, .0035, r) * .8 + Ring(t, 520 * fi, .018 * di) * .55 + Ring(t, 1180 * fi, .009 * di) * .3, .6);
++                popSweet[i] = Clip("Pop sweet " + i, .14f, (t, r) => Burst(t, .0025, r) * .7 + Ring(t, 610 * fi, .024 * di) * .7 + Ring(t, 1420 * fi, .012 * di) * .35 + Ring(t, 2900 * fi, .006) * .15, .8);
++                rivalPop[i] = Clip("Rival pop " + i, .12f, (t, r) => Burst(t, .004, r) * .7 + Ring(t, 470 * fi, .016 * di) * .55 + Ring(t, 1050 * fi, .008 * di) * .25, .45);
++                bounce[i] = Clip("Bounce " + i, .1f, (t, r) => Burst(t, .004 * di, r) * .5 + Ring(t, 190 * fi, .02 * di) * .8 + Ring(t, 820 * fi, .004) * .15, .3);
++            }
++            // Off the frame: a hollow plasticky clack and a short buzz of the strings.
++            frame = Clip("Frame clank", .18f, (t, r) => Ring(t, 1340, .02) * .6 + Ring(t, 2170, .012) * .4 + Math.Sin(2 * Math.PI * 260 * t) * Math.Sin(2 * Math.PI * 43 * t) * Math.Exp(-t / .05) * .4, .7);
+             net = Clip("Net", .35f, (t, r) => Noise(r) * Math.Exp(-t / .07) * .7 + Ring(t, 95, .08) * .6, .12);
+             whoosh = Clip("Swing whoosh", .26f, (t, r) => { double e = Math.Sin(Math.Min(1, t / .26) * Math.PI); return Noise(r) * e * e * .8; }, .18);
+             // Applause: many soft claps at random moments, loopable over two seconds.
+@@ -88,7 +124,6 @@ namespace GolfArcade.Tennis
+             chimeGood = Clip("Call good", .5f, (t, r) => Ring(t, 880, .14) * .6 + Ring(t - .09, 1318.5, .2) * .6);
+             // Plan 2 contact weight and stingers.
+             thump = Clip("Body thump", .16f, (t, r) => Math.Sin(2 * Math.PI * (70 + 90 * Math.Exp(-t / .02)) * t) * Math.Exp(-t / .045) + Burst(t, .002, r) * .2, .5);
+-            rivalPop = Clip("Rival pop", .12f, (t, r) => Burst(t, .004, r) * .7 + Ring(t, 470, .016) * .55 + Ring(t, 1050, .008) * .25, .45);
+             perfectSting = Clip("Perfect sting", .6f, (t, r) => Ring(t, 1567.98, .16) * .5 + Ring(t - .05, 2093, .2) * .45 + Ring(t - .1, 2637, .22) * .35
+                 + Math.Sin(2 * Math.PI * (55 + 60 * Math.Exp(-t / .05)) * t) * Math.Exp(-t / .12) * .8);
+             smashCrack = Clip("Smash crack", .7f, (t, r) => Burst(t, .012, r) * 1.0 + Math.Sin(2 * Math.PI * (45 + 120 * Math.Exp(-t / .04)) * t) * Math.Exp(-t / .2) * 1.1

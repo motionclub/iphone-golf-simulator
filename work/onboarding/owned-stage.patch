@@ -1,0 +1,610 @@
+--- a/GolfArcade/Unity/SportsHome.swift
++++ b/GolfArcade/Unity/SportsHome.swift
+@@ -6,10 +6,12 @@
+ struct SportsHome: View {
+     @State private var session = SportsSession.shared
+     @State private var menu = TennisMenu.shared
++    @State private var onboarding = OnboardingFlow.shared
+     @Environment(\.scenePhase) private var scenePhase
+     var body: some View {
+         Group {
+-            if menu.screen.isOnline && menu.screen != .online(.match) {
++            if onboarding.holdsMenu { OnboardingRoot(flow: onboarding) }
++            else if menu.screen.isOnline && menu.screen != .online(.match) {
+                 if session.displayConnected { TennisRemote() } else { TennisPhoneMenu() }
+             }
+             else if session.active && session.finishedMatch != nil {
+@@ -19,7 +21,10 @@
+             else if session.active && !session.loading.finished { LoadingScreen(menu: menu, compact: true) }
+             else if session.active && session.menuPauseVisible { IslandPauseScreen(compact: true) }
+             else if menu.classic { ClassicSportsHome() }
+-            else if session.active && session.sport == "golf" { GolfPhoneController(session: session) }
++            else if session.active && session.sport == "golf" {
++                if menu.launch?.mode == .tutorial { GolfTutorialController(session: session) }
++                else { GolfPhoneController(session: session) }
++            }
+             else if session.active { TennisRacketController(session: session) }
+             else if session.displayConnected { TennisRemote() }
+             else { TennisPhoneMenu() }
+@@ -57,6 +62,7 @@
+             if SportsSession.benchmark && !session.active { session.sport="tennis"; session.touch=true; session.start(preview:!session.displayConnected) }
+         }
+         .background(DisplayRegistration().frame(width:0,height:0))
++        .task(id: onboarding.step.key) { onboarding.launchTutorialIfNeeded() }
+         .onChange(of:scenePhase) { _,phase in
+             if phase != .active { session.pause(reason:"App inactive — return to the controller and tap Ready") }
+             SportsRuntime.shared().setForeground(phase == .active)
+--- a/GolfArcade/Unity/TennisMenu.swift
++++ b/GolfArcade/Unity/TennisMenu.swift
+@@ -135,7 +135,7 @@
+     static let characterRows = ["body", "haircut", "skin", "hair", "hairColor", "hand", "shirt", "shorts", "accent", "racket"]
+     static func settingsRows(_ tab: SettingsTab) -> [String] {
+         switch tab {
+-        case .gameplay: ["level", "coaching", "resetTips", "resetProgress"]
++        case .gameplay: ["level", "coaching", "replayOnboarding", "resetTips", "resetProgress"]
+         case .controls: ["controls", "range", "hand", "relock", "timing"]
+         case .display: ["howto", "fps", "overscan"]
+         case .audio: ["sound", "haptics"]
+@@ -318,6 +318,7 @@
+         case "howto": howToPage = 0; show(.howTo)
+         case let s where s.hasPrefix("sport-"):
+             guard let sport = Sport(rawValue: String(s.dropFirst(6))) else { return }
++            if sport.playable && !progress.finishedTutorial(sport) { OnboardingFlow.shared.choose(sport); return }
+             show(sport.playable ? .hub(sport) : .locked(sport))
+         case let t where t.hasPrefix("tab-"):
+             settingsTab = SettingsTab(rawValue: String(t.dropFirst(4))) ?? .gameplay
+@@ -361,6 +362,7 @@
+                 confirmingReset = false; progress.resetTutorials(); campaign.restart(); notice = "Progress reset"
+             } else { confirmingReset = true; notice = "Press again to erase tutorials and campaign progress" }
+         case "resetTips": UserDefaults.standard.set(true, forKey: "sports.resetCoaching"); notice = "Coaching tips will show again"
++        case "replayOnboarding": OnboardingFlow.shared.replay()
+         case "relock": notice = "The court direction is set again at the start of your next match"; session.motion.clearAxis()
+         case "timing": session.forceTimingCheckNextMatch(); notice = "The timing check runs at the start of your next match"
+         case "classic": classic = true
+@@ -369,7 +371,7 @@
+         case "nextPage": howToPage = min(HowTo.pages.count - 1, howToPage + 1)
+         case "nextCard":
+             if lessonCard + 1 < GolfLesson.cards.count { lessonCard += 1 }
+-            else { begin(MenuLaunch(sport: .golf, mode: .tutorial)) }
++            else { begin(MenuLaunch(sport: .golf, mode: .tutorial), onPhone: !session.displayConnected || session.touch) }
+         case "pm-skip": postMatchSkips += 1
+         // A second press of the button that skipped the show must not also pick a choice.
+         case "pm-next", "pm-replay", "pm-court", "pm-menu":
+@@ -492,10 +494,23 @@
+         s.savePlayers()
+     }
+ 
++    func randomizeLook() { randomize() }
++
+     // MARK: Tutorials
++
++    func finishOnboarding(_ sport: Sport) { show(.hub(sport)) }
+ 
+     /// Tennis: Ray's on-court lesson. Golf: the lesson cards, then one practice shot.
+     func startTutorial(_ sport: Sport) {
++        if OnboardingFlow.shared.step == .tutorial(sport) {
++            if sport == .tennis && !campaign.seen("tutorialIntro") && OnboardingFlow.shared.store.tutorialStep == 0 {
++                OnboardingFlow.shared.showCoachIntro(); return
++            }
++            OnboardingFlow.shared.tutorialStarted(sport)
++            begin(MenuLaunch(sport: sport, mode: .tutorial), onPhone: !session.displayConnected || session.touch)
++            return
++        }
++        if !progress.finishedTutorial(sport) { OnboardingFlow.shared.choose(sport); OnboardingFlow.shared.launchTutorialIfNeeded(); return }
+         switch sport {
+         case .tennis:
+             let beat = "tutorialIntro"
+@@ -510,10 +525,12 @@
+     /// Unity finished the tutorial (tennis: every step; golf: the practice shot).
+     func tutorialFinished() {
+         guard let launch, launch.mode == .tutorial else { return }
+-        let first = !progress.finishedTutorial(launch.sport)
++        if progress.finishedTutorial(launch.sport) && !OnboardingFlow.shared.store.rewardClaimed(launch.sport) {
++            OnboardingFlow.shared.store.markReward(launch.sport, xp: 0, item: nil)
++        }
+         progress.completeTutorial(launch.sport)
+         session.end()
+-        if launch.sport == .tennis && first { tell(TennisStory.tutorialDone, then: .hub(.tennis)) }
++        OnboardingFlow.shared.completed(launch.sport)
+     }
+ 
+     // MARK: Story
+--- a/GolfArcade/Unity/TennisPlayViews.swift
++++ b/GolfArcade/Unity/TennisPlayViews.swift
+@@ -10,7 +10,10 @@
+             let scale = min(g.size.width / 1280, g.size.height / 720) * (1 - SportsSession.shared.overscan)
+             ZStack {
+                 Club.lagoonDeep   // around the canvas on 16:10 screens; each screen paints its own scene
+-                TennisMenuScreen(compact: false)
++                Group {
++                    if OnboardingFlow.shared.holdsMenu { OnboardingHoldingCard() }
++                    else { TennisMenuScreen(compact: false) }
++                }
+                     .frame(width: 1280, height: 720)
+                     .scaleEffect(scale)
+                     .frame(width: g.size.width, height: g.size.height)
+@@ -273,12 +276,16 @@
+                 if !session.touch { ShotDepthControl(session:session) }
+                 if session.touch {
+                     VStack(spacing: 6) {
++                        if session.tutorialStep == nil {
+                         Slider(value: $steering, in: -1...1) { Text("Court position") }
+                             .onChange(of: steering) { _, v in session.steer(v) }
+-                        RallyAimPad(session:session).frame(height:150)
++                        }
++                        if session.tutorialStep == nil || (session.tutorialStep?.index ?? 0) >= 2 { RallyAimPad(session:session).frame(height:150) }
+                         HStack {
++                            if session.tutorialStep == nil {
+                             Slider(value: $power, in: 0.15...1) { Text("Swing power") }
+-                            Button("Swing") { session.swing(power) }.font(IslandUI.font(20, bold: true)).buttonStyle(.borderedProminent).tint(IslandUI.lime)
++                            }
++                            Button("Swing") { session.swing(session.tutorialStep == nil ? power : 0.7) }.font(IslandUI.font(24, bold: true)).frame(maxWidth: .infinity, minHeight: 70).buttonStyle(.borderedProminent).tint(IslandUI.lime)
+                                 .foregroundStyle(IslandUI.navy).disabled(session.paused)
+                         }
+                     }.tint(IslandUI.lime)
+@@ -684,7 +691,7 @@
+                 Spacer()
+                 Text("STEP \(min(step.index + 1, step.count)) OF \(step.count)").font(IslandUI.font(13, bold: true))
+             }
+-            Button("Skip this exercise", action: onSkip).font(IslandUI.font(12, bold: true))
++            Button("Skip this exercise", action: onSkip).font(IslandUI.font(12, bold: true)).accessibilityIdentifier("tutorial-skip-step")
+             Text(step.text).font(IslandUI.font(18, bold: true)).fixedSize(horizontal: false, vertical: true)
+             HStack(spacing: 4) {
+                 ForEach(0..<step.count, id: \.self) { i in
+--- a/GolfArcade/Unity/IslandScreens.swift
++++ b/GolfArcade/Unity/IslandScreens.swift
+@@ -299,6 +299,7 @@
+             return Item(title: "Training coach", detail: "How hard the practice coach hits back. Standard is a proper rally.", control: .choice(TennisMenu.trainingLevels.map(\.name), i))
+         case "coaching": return Item(title: "Coaching tips", detail: "Short hints on the phone and TV during matches.", control: .toggle(s.coachingTips))
+         case "resetTips": return Item(title: "Show every coaching tip again", detail: "The hints you have already seen will come back.", control: .action("Reset", danger: false))
++        case "replayOnboarding": return Item(title: "Replay onboarding", detail: "Account, look, screen setup and a tutorial again. Your progress stays.", control: .action("Replay", danger: false))
+         case "resetProgress": return Item(title: "Erase tutorials & campaign", detail: "Starts the tutorial and the Island Circuit from the beginning. Your look and level stay. Asks twice.", control: .action(menu.confirmingReset ? "Press again" : "Erase…", danger: true))
+         case "controls": return Item(title: "Controls", detail: "Swing the phone like a racket, or play with touch buttons.", control: .choice(["Swing", "Touch"], s.touch ? 1 : 0))
+         case "range": return Item(title: "Step to cross court", detail: "How far you walk for a full court width.", control: .stepper("\(Int(s.travel * 100)) cm"))
+--- a/GolfArcade/Unity/SportProgress.swift
++++ b/GolfArcade/Unity/SportProgress.swift
+@@ -59,6 +59,7 @@
+     private static func key(_ s: Sport) -> String { "sport.\(s.rawValue).tutorialDone.v1" }
+ 
+     func finishedTutorial(_ s: Sport) -> Bool { tutorialDone.contains(s) }
++    var anyTutorialDone: Bool { finishedTutorial(.tennis) || finishedTutorial(.golf) }
+     func completeTutorial(_ s: Sport) { tutorialDone.insert(s); defaults.set(true, forKey: Self.key(s)) }
+     func resetTutorials() {
+         for s in Sport.allCases { defaults.removeObject(forKey: Self.key(s)) }
+--- a/GolfArcade/Unity/Progression.swift
++++ b/GolfArcade/Unity/Progression.swift
+@@ -60,7 +60,9 @@
+     var icon: String
+ }
+ enum LevelRewards {
+-    static func rewards(for level: Int) -> [LevelReward] { [] }
++    static func rewards(for level: Int) -> [LevelReward] {
++        level == 2 ? [LevelReward(id: "white-headband", title: "White Headband", detail: "Your first Island Sports Club reward.", icon: "sparkles")] : []
++    }
+ }
+ 
+ /// One line of the post-match XP breakdown.
+@@ -134,6 +136,37 @@
+     }
+ 
+     /// Bank a finished match: add its XP, level up as far as it goes, and describe it for the screen.
++    @discardableResult
++    func awardTutorial(player: UUID, sport: Sport, store: OnboardingStore = OnboardingFlow.shared.store) -> Int {
++        guard sport.playable, !store.rewardClaimed(sport) else { return 0 }
++        let pendingKey = "ftue.pendingReward.\(sport.rawValue).v1"
++        let amountKey = pendingKey + ".xp", itemKey = pendingKey + ".item"
++        var entry: Entry
++        let amount: Int
++        let item: String?
++        // A durable target entry lets a launch interrupted between XP and claim writes finish once.
++        if let data = store.defaults.data(forKey: pendingKey), let saved = try? JSONDecoder().decode(Entry.self, from: data) {
++            entry = saved; amount = store.defaults.integer(forKey: amountKey); item = store.defaults.string(forKey: itemKey)
++        } else {
++            entry = self.entry(for: player)
++            let first = !store.anyRewardClaimed
++            amount = first ? (entry.level < 2 ? max(0, LevelCurve.needed(1) - entry.xp) : 0) : 50
++            item = first ? "white-headband" : nil
++            entry.xp += amount; entry.totalXP += amount
++            while entry.level < LevelCurve.maxLevel && entry.xp >= LevelCurve.needed(entry.level) {
++                entry.xp -= LevelCurve.needed(entry.level); entry.level += 1
++            }
++            store.defaults.set(amount, forKey: amountKey); store.defaults.set(item, forKey: itemKey)
++            guard let data = try? JSONEncoder().encode(entry) else { return 0 }
++            store.defaults.set(data, forKey: pendingKey)
++        }
++        entries[player.uuidString] = entry; save()
++        store.markReward(sport, xp: amount, item: item)
++        store.defaults.removeObject(forKey: pendingKey)
++        Analytics.track("reward_claimed", ["sport": sport.rawValue, "item": item ?? "none", "level": String(entry.level)])
++        return amount
++    }
++
+     func award(player: UUID, stats: MatchStats, won: Bool, score: String, opponent: String, practice: Bool, difficulty: Double) -> PostMatchSummary {
+         let lines = Self.breakdown(stats: stats, won: won, practice: practice, difficulty: difficulty)
+         let total = max(0, lines.reduce(0) { $0 + $1.xp })
+--- a/GolfArcade/Unity/TennisStory.swift
++++ b/GolfArcade/Unity/TennisStory.swift
+@@ -40,9 +40,7 @@
+     // MARK: - The first-time tutorial
+ 
+     static let tutorialIntro: [StoryLine] = [
+-        StoryLine(speaker: "announcer", text: "Welcome to the Tropical Open! Before your first match, every new player spends a few minutes on the practice court."),
+-        StoryLine(speaker: "stranger", text: "(An old man in a faded champion's cap is already out there, a basket of balls at his feet.) New face, huh? Come on — I'll feed you a few."),
+-        StoryLine(speaker: "stranger", text: "Your phone is your racket. We'll serve, return a forehand and backhand, aim, then play a point. Your player runs to the ball — you time the swing."),
++        StoryLine(speaker: "stranger", text: "New face, huh? Grab a racket — I'll feed you a few."),
+     ]
+     static let tutorialDone: [StoryLine] = [
+         StoryLine(speaker: "stranger", text: "Not bad. Not bad at all. You move like someone who's going to be trouble."),
+--- a/GolfArcade/Unity/HowToCards.swift
++++ b/GolfArcade/Unity/HowToCards.swift
+@@ -77,25 +77,12 @@
+     }
+ }
+ 
+-/// Golf's first-time lesson: these cards, then one practice shot.
++/// Optional setup before the interactive practice, aim and hole lesson.
+ enum GolfLesson {
+     static let cards = [
+         HowToCard(id: "g-stance", title: "Set up", steps: [
+-            "Stand side-on to the TV, feet shoulder-width apart.",
+-            "Hold the phone in both hands like a club grip, screen facing you.",
++            "Hold the phone like a club grip, or use touch controls — we’ll practice, aim, then play a friendly hole.",
+         ], art: .golfStance),
+-        HowToCard(id: "g-swing", title: "Swing", steps: [
+-            "Take the phone back slowly over your shoulder.",
+-            "Swing down and through in one smooth motion — tempo beats force.",
+-        ], art: .golfSwing),
+-        HowToCard(id: "g-aim", title: "Aim", steps: [
+-            "Use the arrows on your phone to aim before the shot.",
+-            "Watch the flag: wind pushes the ball in the air.",
+-        ], art: .golfAim),
+-        HowToCard(id: "g-clubs", title: "Clubs", steps: [
+-            "Switch clubs with the club button: driver off the tee, irons toward the green.",
+-            "Now hit your first practice shot to finish the lesson.",
+-        ], art: .golfClubs),
+     ]
+ }
+ 
+--- a/GolfArcade/Unity/SportsSession.swift
++++ b/GolfArcade/Unity/SportsSession.swift
+@@ -252,6 +252,7 @@
+                         "opponentName": opponentName, "round": opponent?.round ?? "", "difficulty": difficulty,
+                         "sets": sets ?? opponent?.sets ?? 1, "games": games ?? opponent?.games ?? 3,
+                         "coach": coach.joined(separator: "|")]
++        if mode == "tutorial" { launchExtras["tutorialStart"] = OnboardingFlow.shared.store.tutorialStep }
+         start(preview: preview)
+         launchExtras = [:]
+     }
+@@ -684,6 +685,7 @@
+                 }
+             case "contact":
+                 if let contact = TennisContact(line: event["message"] as? String ?? "") { contacts = Array((contacts + [contact]).suffix(12)) }
++                if TennisMenu.shared.launch?.mode == .tutorial { OnboardingFlow.shared.hit() }
+             case "flash": if let rendered=Double(event["message"] as? String ?? "") { flashShown(at:rendered) }
+             case "phase":
+                 let parts=(event["message"] as? String ?? "").split(separator:"|").map(String.init)
+@@ -700,9 +702,17 @@
+                 if parts.count>1 { serveFromDeuce=parts[1] == "deuce" }
+             case "tutorialStep":
+                 let parts=(event["message"] as? String ?? "").split(separator:"|",maxSplits:2).map(String.init)
+-                if parts.count == 3, let i=Int(parts[0]), let n=Int(parts[1]) { tutorialStep=(i,n,parts[2]) }
+-            case "tutorialDone", "shot":
+-                if event["type"] as? String == "tutorialDone" || TennisMenu.shared.launch?.mode == .tutorial { TennisMenu.shared.tutorialFinished() }
++                if parts.count == 3, let i=Int(parts[0]), let n=Int(parts[1]) {
++                    tutorialStep=(i,n,parts[2]); OnboardingFlow.shared.reportedStep(i, sport: Sport(rawValue: sport) ?? .tennis)
++                }
++            case "tutorialSuccess", "tutorialSkip":
++                let parts = (event["message"] as? String ?? "").split(separator: "|").map(String.init)
++                if parts.count == 2 { Analytics.track(event["type"] as? String == "tutorialSkip" ? "tutorial_step_skip" : "tutorial_step_success", ["i": parts[0], "misses": parts[1]]) }
++            case "golfHoleDone":
++                let parts = (event["message"] as? String ?? "").split(separator: "|").map(String.init)
++                if parts.count == 2 { Analytics.track("golf_hole_done", ["strokes": parts[0], "capped": parts[1]]) }
++            case "tutorialDone": TennisMenu.shared.tutorialFinished()
++            case "shot": if TennisMenu.shared.launch?.mode == .tutorial { OnboardingFlow.shared.hit() }
+             case "rally": if let n=Int(event["message"] as? String ?? "") { SportProgress.shared.recordRally(n); SportsDiagnostics.write("rally persisted \(n)") }
+             case "matchStats": lastMatchStats = MatchStats(line: event["message"] as? String ?? "")
+             case "matchOver":
+--- a/Unity/Assets/Scripts/Tennis/TennisTutorial.cs
++++ b/Unity/Assets/Scripts/Tennis/TennisTutorial.cs
+@@ -10,32 +10,38 @@
+         public struct Step { public Kind Kind; public string Say, Hint; public int Goal; }
+         public static readonly Step[] Steps =
+         {
+-            new Step { Kind = Kind.Serve, Goal = 1,
+-                Say = "SERVE: press TOSS near the meter's middle. Swing overhead as the ball reaches its highest point. Land one in the box.",
+-                Hint = "Leave the aim in the middle. Press TOSS, watch the ball rise, then swing. If you miss the toss, try again." },
+             new Step { Kind = Kind.Forehand, Goal = 1,
+                 Say = "FOREHAND: your player runs to my feed. Keep the phone screen facing the display and swing as the ball rises after its bounce.",
+                 Hint = "Wait for the bounce, then swing when the ball reaches your racket. A smooth swing is enough." },
+             new Step { Kind = Kind.Backhand, Goal = 1,
+                 Say = "BACKHAND: turn the phone so its rear camera faces the display. Swing across your body after the bounce. Return one in.",
+                 Hint = "Turn the phone before the ball arrives, then swing across your chest. Your player handles the running." },
+-            new Step { Kind = Kind.Aim, Goal = 2,
++            new Step { Kind = Kind.Aim, Goal = 1,
+                 Say = "AIM LEFT: angle the phone's face left as you swing. Land a return on the left side, toward the gold ring.",
+-                Hint = "Keep the face angled through contact. In touch mode, use the shot-aim slider, then tap Swing." },
++                Hint = "Keep the face angled through contact. In touch mode, use the aim pad, then tap Swing." },
++            new Step { Kind = Kind.Serve, Goal = 1,
++                Say = "SERVE: press TOSS near the meter's middle. Swing overhead as the ball reaches its highest point. Land one in the box.",
++                Hint = "Leave the aim in the middle. Press TOSS, watch the ball rise, then swing. If you miss the toss, try again." },
+             new Step { Kind = Kind.Point, Goal = 1,
+                 Say = "PLAY A POINT: toss and serve, then return my shots. Use what you learned. Win or lose, the lesson is complete!",
+                 Hint = "Your player runs automatically. Watch the bounce and time your swing." },
+         };
+         public const int HintAfter = 3;
+         public int Index { get; private set; }
++        public TutorialLesson(int start = 0) { Index = Mathf.Clamp(start, 0, Steps.Length - 1); }
+         public int Progress { get; private set; }
+         public int Misses { get; private set; }
+         public bool Done => Index >= Steps.Length;
+         public Step Current => Steps[Mathf.Min(Index, Steps.Length - 1)];
+-        public bool AimLeft => Progress == 0;
+-        public string Instruction => Current.Kind == Kind.Aim && !AimLeft
+-            ? "AIM RIGHT: now angle the face right and land a return toward the other gold ring."
+-            : Current.Say;
++        public bool AimLeft => true;
++        public string Instruction => Current.Say;
++        public string TouchInstruction => Current.Kind switch {
++            Kind.Forehand => "FOREHAND: your player runs to the ball. Tap SWING as the ball rises after the bounce.",
++            Kind.Backhand => "BACKHAND: the ball is on your other side. Your player handles the running. Tap SWING after the bounce.",
++            Kind.Aim => "AIM LEFT: move the aim pad left, then tap SWING after the bounce. Land one return toward the gold ring.",
++            Kind.Serve => "SERVE: tap TOSS near the meter’s middle, then tap SWING when the ball peaks. Land one in the box.",
++            _ => "PLAY A POINT: toss, serve and tap SWING to return. Win or lose, the lesson is complete!"
++        };
+         public bool Success()
+         {
+             if (Done) return false;
+@@ -53,6 +59,8 @@
+     {
+         public static event Action<int, int, string> StepChanged;
+         public static event Action Finished;
++        public static event Action<int, int, bool> StepResolved;
++        public static int StartIndex;
+         public TutorialLesson Lesson { get; private set; } = new TutorialLesson();
+         TennisGame game;
+         TennisCoach coach;
+@@ -64,7 +72,7 @@
+ 
+         public void Begin(TennisGame g, TennisCoach c)
+         {
+-            Stop(); game = g; coach = c; Lesson = new TutorialLesson(); active = true; feeds = 0;
++            Stop(); game = g; coach = c; Lesson = new TutorialLesson(StartIndex); StartIndex = 0; active = true; feeds = 0;
+             tipsBefore = TennisCoach.TipsEnabled; TennisCoach.TipsEnabled = false;
+             TennisGame.Landed += OnLanded; TennisGame.DrillPoint += OnDrillPoint; TennisGame.ScoreChanged += OnScore;
+             if (!marker) marker = game.MakeMarker("Tutorial target", Gold);
+@@ -84,12 +92,14 @@
+         public void SkipStep()
+         {
+             if (!active || pendingStep) return;
++            StepResolved?.Invoke(Lesson.Index, Lesson.Misses, true);
+             Lesson.Skip(); Advance(true);
+         }
+         void ShowInstruction()
+         {
+-            string text = Lesson.HintDue ? Lesson.Current.Hint : Lesson.Instruction;
+-            StepChanged?.Invoke(Lesson.Index, TutorialLesson.Steps.Length, Lesson.Instruction);
++            string instruction = GolfArcade.Game.NativeSportsSession.Touch ? Lesson.TouchInstruction : Lesson.Instruction;
++            string text = Lesson.HintDue && !GolfArcade.Game.NativeSportsSession.Touch ? Lesson.Current.Hint : instruction;
++            StepChanged?.Invoke(Lesson.Index, TutorialLesson.Steps.Length, text);
+             if (coach) coach.Say(text, 1e6f);
+         }
+         void StartStep()
+@@ -116,7 +126,7 @@
+             if (pendingStep) { StartStep(); return; }
+             marker.enabled = Lesson.Current.Kind == TutorialLesson.Kind.Aim;
+             if (marker.enabled)
+-                TennisGame.DrawRing(marker, new Vector3(Lesson.AimLeft ? -2.5f : 2.5f, .06f, 8f), 1.1f);
++                TennisGame.DrawRing(marker, new Vector3(-2.5f, .06f, 8f), 1.1f);
+             if (feedAt >= 0 && Time.time >= feedAt)
+             {
+                 feedAt = -1; resolved = false; watchdog = Time.time + 6f; feeds++;
+@@ -156,7 +166,8 @@
+             resolved = true;
+             bool success = landedIn;
+             if (Lesson.Current.Kind == TutorialLesson.Kind.Aim)
+-                success &= Lesson.AimLeft ? where.x < -.8f : where.x > .8f;
++                success &= where.x < -.8f;
++            if (success) StepResolved?.Invoke(Lesson.Index, Lesson.Misses, false);
+             Advance(success ? Lesson.Success() : Lesson.Miss());
+             if (serve) NextBall();
+         }
+@@ -169,7 +180,10 @@
+         void OnScore(string line)
+         {
+             if (active && !pendingStep && Lesson.Current.Kind == TutorialLesson.Kind.Point)
++            {
++                StepResolved?.Invoke(Lesson.Index, Lesson.Misses, false);
+                 Advance(Lesson.Success());
++            }
+         }
+     }
+ }
+--- a/Unity/Assets/Scripts/Game/NativeSportsSession.cs
++++ b/Unity/Assets/Scripts/Game/NativeSportsSession.cs
+@@ -20,6 +20,7 @@
+             public string mode,opponent,opponentName,round; public int ultimate;
+             // The match format (sets to win, games per set) and the coach's changeover lines, "|"-separated.
+             public int sets=1,games=3; public string coach;
++            public int tutorialStart;
+             // The player's kit colours (hex, "" = the kit's own), coaching tips, TV edge margin.
+             public int hairStyle=1,hairColor=1,faceShape,heightChoice=2,buildChoice=2,haircut=-1;
+             public float bodySize=-1;
+@@ -111,6 +112,10 @@
+             TennisTutorial.Finished+=()=>Emit("tutorialDone","");
+             TennisGame.RallyEnded+=shots=>Emit("rally",shots.ToString());
+             GolfGame.ShotStruck+=()=>Emit("shot","");
++            GolfTutorial.StepChanged+=(i,n,text)=>Emit("tutorialStep",$"{i}|{n}|{text}");
++            GolfTutorial.StepResolved+=(i,misses,skip)=>Emit(skip ? "tutorialSkip" : "tutorialSuccess",$"{i}|{misses}");
++            GolfTutorial.HoleDone+=(strokes,capped)=>Emit("golfHoleDone",$"{strokes}|{(capped ? "true" : "false")}");
++            GolfTutorial.Finished+=()=>Emit("tutorialDone","");
+             TennisGame.Landed += AimLanding;
+             TennisGame.DrillPoint += AimMiss;
+         }
+@@ -225,10 +230,12 @@
+                   tennis.SetPlayerLook(look); }   // kept and re-applied on every rebuild
+                 var mode=m.mode=="campaign" ? TennisGame.Mode.Campaign : m.mode=="training" ? TennisGame.Mode.Training
+                     : m.mode=="tutorial" ? TennisGame.Mode.Tutorial : TennisGame.Mode.Exhibition;
++                TennisTutorial.StartIndex = mode == TennisGame.Mode.Tutorial ? m.tutorialStart : 0;
+                 tennis.ConfigureMatch(mode,m.opponent,m.opponentName,m.round,m.sets,m.games,
+                     string.IsNullOrEmpty(m.coach) ? null : m.coach.Split('|')); }
+             if(m.bench && !GetComponent<FrameProbe>()) gameObject.AddComponent<FrameProbe>().Report=r=>Emit("perf",r);
+             if(golf) golf.PrepareNativeAddress();
++            if(golf && m.mode == "tutorial") golf.gameObject.AddComponent<GolfTutorial>().Begin(golf);
+             gameplayCamera=tennis ? tennis.GameplayCamera : golf.GameplayCamera;
+             if(golf && m.touch) golf.Swing.Armed=false;
+             SetPaused(true);
+--- a/Unity/Assets/Scripts/Game/GolfGame.cs
++++ b/Unity/Assets/Scripts/Game/GolfGame.cs
+@@ -59,6 +59,10 @@
+         public SwingController Swing { get; private set; }
+         public Scorecard Card { get; private set; }
+         public Wind Wind { get; private set; }
++        public double TutorialHeading => heading;
++        public int TutorialStrokes => holeStrokes;
++        public int TutorialHole => holeIndex;
++        public Hud TutorialHud => hud;
+ 
+         Course.Course course;
+         GolfSounds sounds;
+--- a/Unity/Assets/Tests/EditMode/TennisTutorialTests.cs
++++ b/Unity/Assets/Tests/EditMode/TennisTutorialTests.cs
+@@ -20,8 +20,9 @@
+     [Test] public void TheLessonTeachesEachSkillInOrder()
+     {
+         var kinds = System.Array.ConvertAll(TutorialLesson.Steps, s => s.Kind);
+-        Assert.AreEqual(new[] { TutorialLesson.Kind.Serve, TutorialLesson.Kind.Forehand, TutorialLesson.Kind.Backhand,
+-            TutorialLesson.Kind.Aim, TutorialLesson.Kind.Point }, kinds);
++        Assert.AreEqual(new[] { TutorialLesson.Kind.Forehand, TutorialLesson.Kind.Backhand, TutorialLesson.Kind.Aim,
++            TutorialLesson.Kind.Serve, TutorialLesson.Kind.Point }, kinds);
++        Assert.AreEqual(1, TutorialLesson.Steps[2].Goal);
+         foreach (var s in TutorialLesson.Steps) { Assert.IsNotEmpty(s.Say); Assert.IsNotEmpty(s.Hint); Assert.Greater(s.Goal, 0); }
+     }
+ 
+@@ -39,19 +40,29 @@
+         var lesson = new TutorialLesson();
+         for (int i = 0; i < 20; i++) Assert.IsFalse(lesson.Miss());
+         Assert.IsTrue(lesson.HintDue);
+-        Assert.AreEqual(TutorialLesson.Kind.Serve, lesson.Current.Kind);
++        Assert.AreEqual(TutorialLesson.Kind.Forehand, lesson.Current.Kind);
+         Assert.AreEqual(0, lesson.Progress);
+         lesson.Success();
+-        Assert.AreEqual(TutorialLesson.Kind.Forehand, lesson.Current.Kind);
++        Assert.AreEqual(TutorialLesson.Kind.Backhand, lesson.Current.Kind);
+         Assert.AreEqual(0, lesson.Misses);
+     }
+ 
+-    [Test] public void AimAsksForTheLeftRingThenTheRight()
++    [Test] public void AimAsksForOneLeftRing()
+     {
+         var lesson = new TutorialLesson();
+         while (lesson.Current.Kind != TutorialLesson.Kind.Aim) lesson.Success();
+         Assert.IsTrue(lesson.AimLeft); Assert.That(lesson.Instruction, Does.Contain("LEFT"));
+-        lesson.Success(); Assert.IsFalse(lesson.AimLeft); Assert.That(lesson.Instruction, Does.Contain("RIGHT"));
++        lesson.Success(); Assert.AreEqual(TutorialLesson.Kind.Serve, lesson.Current.Kind);
++    }
++
++    [Test] public void SkipAdvancesExactlyOneExerciseAndResumeRestoresAim()
++    {
++        var lesson = new TutorialLesson(2);
++        Assert.AreEqual(TutorialLesson.Kind.Aim, lesson.Current.Kind);
++        lesson.Skip(); Assert.AreEqual(3, lesson.Index);
++        Assert.AreEqual(0, new TutorialLesson(-100).Index);
++        Assert.AreEqual(4, new TutorialLesson(100).Index);
++        Assert.That(new TutorialLesson().TouchInstruction, Does.Contain("Tap SWING"));
+     }
+ 
+     [Test] public void KitColoursParseFromTheLaunchMessage()
+--- a/Unity/Assets/Tests/PlayMode/TennisTutorialPlayTests.cs
++++ b/Unity/Assets/Tests/PlayMode/TennisTutorialPlayTests.cs
+@@ -55,20 +55,14 @@
+             game.ConfigureMatch(TennisGame.Mode.Tutorial, "", "Ray", "TUTORIAL");
+             var tutorial = game.GetComponent<TennisTutorial>();
+             int finished = 0;
++            float began = Time.realtimeSinceStartup, firstContact = -1;
++            System.Action<Vector2, Timing, bool> contact = (face, grade, super) => { if (firstContact < 0) firstContact = Time.realtimeSinceStartup - began; };
++            TennisGame.ContactMade += contact;
+             System.Action onFinished = () => finished++;
+             TennisTutorial.Finished += onFinished;
+             Time.timeScale = 8;
+             try
+             {
+-                Assert.AreEqual(TutorialLesson.Kind.Serve, tutorial.Lesson.Current.Kind);
+-                // No impossible walking objective. First actual action is a normal serve.
+-                yield return new WaitForSeconds(1.6f);
+-                Assert.AreEqual(TennisGame.Phase.PlayerServeHold, game.Flow);
+-                Serve(game, false); yield return null;
+-                Assert.AreEqual(1, tutorial.Lesson.Misses, "net faults retry with coaching");
+-                Assert.AreEqual(TutorialLesson.Kind.Serve, tutorial.Lesson.Current.Kind);
+-                yield return new WaitForSeconds(1.6f);
+-                Serve(game, true); yield return null;
+                 Assert.AreEqual(TutorialLesson.Kind.Forehand, tutorial.Lesson.Current.Kind);
+                 foreach (var kind in new[] { TutorialLesson.Kind.Forehand, TutorialLesson.Kind.Backhand, TutorialLesson.Kind.Aim })
+                 {
+@@ -85,7 +79,19 @@
+                         yield return null;
+                     }
+                     Assert.AreNotEqual(kind, tutorial.Lesson.Current.Kind, "must pass " + kind + " through actual successful shots");
++                    if (kind == TutorialLesson.Kind.Forehand) {
++                        Assert.GreaterOrEqual(firstContact, 0); Assert.LessOrEqual(firstContact, 45);
++                        Debug.Log($"[OnboardingProof] first contact seconds={firstContact:0.000}; no steering input");
++                    }
+                 }
++                Assert.GreaterOrEqual(firstContact, 0, "actual contact, not a fabricated lesson event");
++                Assert.LessOrEqual(firstContact, 45, "first contact without steering");
++                Assert.AreEqual(TutorialLesson.Kind.Serve, tutorial.Lesson.Current.Kind);
++                yield return new WaitForSeconds(1.6f);
++                Serve(game, false); yield return null;
++                Assert.AreEqual(1, tutorial.Lesson.Misses, "net faults retry with coaching");
++                yield return new WaitForSeconds(1.6f);
++                Serve(game, true); yield return null;
+                 Assert.AreEqual(TutorialLesson.Kind.Point, tutorial.Lesson.Current.Kind);
+                 Assert.IsFalse(tutorial.Lesson.Done, "the previous drill must not finish the real point");
+                 yield return new WaitForSeconds(1.6f);
+@@ -95,7 +101,46 @@
+                 Assert.AreEqual(1, finished);
+                 Assert.IsFalse(game.Drill);
+             }
+-            finally { TennisTutorial.Finished -= onFinished; tutorial.Stop(); Time.timeScale = 1; }
++            finally { TennisTutorial.Finished -= onFinished; TennisGame.ContactMade -= contact; tutorial.Stop(); Time.timeScale = 1; }
++        }
++
++        [UnityTest, Timeout(180000)] public IEnumerator TenSeededPointsWinWithOnTimeSwingAndNoSwingStillFinishes()
++        {
++            var failures = new System.Collections.Generic.List<string>();
++            for (int seed = 0; seed <= 10; seed++) {
++                yield return SceneManager.LoadSceneAsync("Tennis", LoadSceneMode.Single); yield return null;
++                var game = Object.FindFirstObjectByType<TennisGame>();
++                game.ManualSimulation = true; game.NativeControlled = true; game.OpponentDifficulty = .1f;
++                typeof(TennisGame).GetField("random", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
++                    .SetValue(game, new System.Random(seed));
++                TennisTutorial.StartIndex = 4;
++                game.ConfigureMatch(TennisGame.Mode.Tutorial, "", "Ray", "TUTORIAL");
++                var tutorial = game.GetComponent<TennisTutorial>();
++                yield return new WaitForSeconds(1.4f);
++                float tossAge = 0; bool served = false;
++                for (int frame = 0; frame < 120 * 90 && !tutorial.Lesson.Done; frame++) {
++                    if (game.Flow == TennisGame.Phase.PlayerServeHold) { game.Toss(1); served = false; tossAge = 0; }
++                    if (game.Flow == TennisGame.Phase.PlayerServeToss) {
++                        tossAge += Dt;
++                        if (seed < 10 && !served && tossAge >= TennisRules.ServeApex + TennisRules.ServeLatency) { game.RequestSwing(.7f); served = true; }
++                    }
++                    if (seed < 10 && game.Flow == TennisGame.Phase.Rally && game.BallVelocity.z < -1 && !game.Player.Swinging) {
++                        float due = (game.BallPosition.z - game.Player.transform.position.z - .65f) / -game.BallVelocity.z;
++                        if (due > .1f && due <= .2f) {
++                            float face = game.BallPosition.x < game.Player.transform.position.x ? -1 : 1;
++                            game.AimInput = -.6f; game.RequestSwing(.7f, face, 0, face);
++                        }
++                    }
++                    game.Step(Dt);
++                    if (frame % 120 == 0) yield return null;
++                }
++                yield return null;
++                Debug.Log($"[OnboardingProof] seed={seed} swing={seed < 10} done={tutorial.Lesson.Done} playerPoints={game.Match.PlayerPoints} opponentPoints={game.Match.OpponentPoints}");
++                if (!tutorial.Lesson.Done) failures.Add($"seed={seed} did not finish");
++                if (seed < 10 && game.Match.PlayerPoints != 1) failures.Add($"seed={seed} did not win");
++                tutorial.Stop();
++            }
++            Assert.IsEmpty(failures, string.Join("; ", failures));
+         }
+ 
+         [UnityTest, Timeout(180000)] public IEnumerator CoachFeedsCanBeReturnedToBothAimTargetsWithGoodTiming()

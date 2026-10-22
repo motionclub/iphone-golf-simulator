@@ -1,0 +1,172 @@
+{
+  "old_record": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/p6_protected_after_device.json",
+  "old_sha": "332bafdf2dc16fd1ca058fb799ed8fc9b2443673109622f2ae6cff69447ad185",
+  "old_count": 34,
+  "fresh_count": 61,
+  "added_count": 27,
+  "added": [
+    {
+      "path": "GolfArcade/Unity/MatchHeroSurfaces.swift",
+      "expected": "01907266028132b99843cdd63b410974b4778e306eb331eeec7ba071e2ec0573",
+      "actual": "a1653038601585b3f0e0319fb9e80cf93a50f26c146d9b13bf991acdf6037046"
+    },
+    {
+      "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_09.lzfse",
+      "expected": "8f0d2a8eab7dd2c1472693018b5af3f94c6da0682579c23675a0ecfd6d1c6420",
+      "actual": "86c2f822d46e7c4c0a1b1ffc2fb469645ec4c4de9f5097e548a22ef26d325e91"
+    },
+    {
+      "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_10.lzfse",
+      "expected": "6727a4f1c0830a1775772f982649f0a0ab6d59314ff06faf0a7d6552a8ff3cb1",
+      "actual": "fb84de624aa0442d0a3f1d7f0ef8ed33c40d2e59d8a6cc57edbe1f7d1d752679"
+    },
+    {
+      "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Male.lzfse",
+      "expected": "c374680976e37e00e9de3f5cb6600a556052f500c518d27e3ab6f84d793622f0",
+      "actual": "315322dfe2202e7c3e42411f201875981cebed98d3b516021440d19a9f5afbec"
+    },
+    {
+      "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_09.lzfse",
+      "expected": "343259f19903b20d4365acc7cf9089c8d2379b19fbcd7eac53a8d7f77c10e0f0",
+      "actual": "bcce51f74222236e87d5b2cde848bd39ac87cfa0a023cb3a7cd3233c6549e4ed"
+    },
+    {
+      "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_10.lzfse",
+      "expected": "6c00e4557327e5fdcd3f649222865bdebbf131a48002128e7cba10544a431d61",
+      "actual": "c774831a0727fa3e37a215c44058ada3884488efc31145a8fb7cccc74a3970f3"
+    },
+    {
+      "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Female.lzfse",
+      "expected": "76ccacd0dda925f29037803077dff7963eca5d37746238d8967895b2ebc8904f",
+      "actual": "844213a7a9c38585e06d3f45d8ed6a714097a0c748517bf8d3c37a67b9442a88"
+    },
+    {
+      "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_08.lzfse",
+      "expected": "4d6a1a1048a034270a6f755d26e62a88396a1bd7aa570c3235927b24052fb874",
+      "actual": "96a7c19bd9c13eb670edddade2e1e3ab4bb513ccacec837f4d6f0157a1464ef4"
+    },
+    {
+      "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_11.lzfse",
+      "expected": "e84de243d72d9ef25d23a694dad23721eff98e147dfb19964216344520d97d4b",
+      "actual": "29c4b08c0f8abaf9cd65e9b97ed8dcaa059ad6c5b14e74f3a3f1f8096aea360c"
+    },
+    {
+      "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_08.lzfse",
+      "expected": "dc19b47ee71ea37a154dde75c2f995fe6d6c8b30d6d676d747a9489de1916d95",
+      "actual": "25fb74eb3a438f412dfa68698e6c54eeab90769828a0c1f19d73d5a71df94dc0"
+    },
+    {
+      "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_11.lzfse",
+      "expected": "3571be03d7142315b0743173dc3fdf7f86ed289008a30561d266d03c9890b696",
+      "actual": "48da5c47962593ad24b0bea0e38b5006952f2e8f92dccfb7d22b4a34d7f0ba00"
+    },
+    {
+      "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_06.lzfse",
+      "expected": "6c534e0c188c73a1dc305433ca63797f57544333d64462ccf5b8bde5045be1d7",
+      "actual": "c5ab54947e55a3cabae32a3846f68fd491046b3aeb280f27c50ea328e246cecb"
+    },
+    {
+      "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_06.lzfse",
+      "expected": "5e3566122eef1164accffbd3dfd095524b9bdae21e573bb155009e4f16343bf1",
+      "actual": "13c1af57c3221c3327a32fb9c0090865b639af00dc31caca15d51aaefed5d513"
+    },
+    {
+      "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_04.lzfse",
+      "expected": "2539837f6c5cff9126a0a1a269fa88c52740d3e1fc8aa988ba396cd22137449d",
+      "actual": "c2cdaef861312b7ac6bf0aebab350345e16f2a6efe04bc765d0dff1f99071077"
+    },
+    {
+      "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_04.lzfse",
+      "expected": "e4aa7de73e7f94fdd51ce28dd491b88b87d055b028516bc94c2046b3d2b9b349",
+      "actual": "d992cb5cd5c8361021ae42732ce9a02b3813c04041861f45ac20c5eaa7533c17"
+    },
+    {
+      "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_00.lzfse",
+      "expected": "f4d445bc457c4fd9bcd92df525bc202cdb02793257a639737c95f081e329cdf4",
+      "actual": "79bd2ee6a6aad934c2afad46b726f287c9d8fb9d475d3300072afdf5c37ef235"
+    },
+    {
+      "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_00.lzfse",
+      "expected": "eac6cbb6e0a82b4ea026433f9d025da5a4952c4fc6f733645e8f66fc427c0fdf",
+      "actual": "08035e6cd111c4fd6e702b3448d745336432a30018b6dece742f5da65e6a1f1a"
+    },
+    {
+      "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_02.lzfse",
+      "expected": "22b3ba9470e3d09c2fdb28709ea67114e8d3ef7b1fdb14675efebc70ae2c2060",
+      "actual": "77b8b2f979cd102e8a9c8e948034f6f62039608d6d9d9693b656b76f558e06c8"
+    },
+    {
+      "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_02.lzfse",
+      "expected": "4487feefaa148e86c75380ebf6f82124f285054704b95bb0d936a8ae16d66a88",
+      "actual": "05a0aaeec3fa3f1aacea289f78aaf80ad0ae827f3b01442c2025d89f791fee77"
+    },
+    {
+      "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_05.lzfse",
+      "expected": "68c09e2960df073013869fbbe09a08a418421ee0fe23db8dcd6e385e76a13755",
+      "actual": "4f6caf130be1f3380ab02198728ddaca2b29d78d4c13af3c4bbdec2ad916aaf0"
+    },
+    {
+      "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_05.lzfse",
+      "expected": "0d1dbaeb94cec61c157f5342b29b29ebaa3f6e6a54bdee6f286ab3cc774eb0d3",
+      "actual": "b3abca897ffd747c2ff4d31bfb2a7305f48cfeb603386228ae382023b3b65e3d"
+    },
+    {
+      "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_07.lzfse",
+      "expected": "d9a86e2a6bc1ab721d33c9317e60b7fff82cfeb3329b3655226c3498a10fe5d6",
+      "actual": "996452b8aeda0b77aad32c262fedca95ae0bf888da3fd59f24f977ce944d14b9"
+    },
+    {
+      "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_07.lzfse",
+      "expected": "d350b2e1cad2e1b2748da583a3125859b4d787f5393fca27aa0fd49fb01ffb1f",
+      "actual": "ee112ebbed72092fc5fd61a14aaee1fcc8902c80936a1c685c63cc2c2392a12b"
+    },
+    {
+      "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_03.lzfse",
+      "expected": "3536d3872e11dc0718963f3018342685ef9d5311ef67a8040a7bf515d87db4f0",
+      "actual": "448a923b99c6de0de07e2a0e36f834dd2adfaaf520cc4e421315d13ec1a56c24"
+    },
+    {
+      "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_03.lzfse",
+      "expected": "1fa0587f4a056fdf826486bf057e31292b7c8be61e5649c4543a6b651d721444",
+      "actual": "dbe17d0b35ed39b1f13e139fd5a53892cd96bb06ca351cb3765e1832985af4f6"
+    },
+    {
+      "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_01.lzfse",
+      "expected": "ce01ac04f7db3235b6f4190c343b4c9d91195b51b41e4a820c061f9ed32d8fd6",
+      "actual": "e3066190ebecf2b6d49b27db10cb1a28e0e37d086b00563ddc4b57278af871e6"
+    },
+    {
+      "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_01.lzfse",
+      "expected": "dd0151d1a5150ce6d53f1841a050db945e04c9fa9463adfe7284fa9b3bdcaa19",
+      "actual": "1bc6c87a5d4c4102bb5257bf7fa487fc0c6eb3d5904f51d78d563d00504f8cd3"
+    }
+  ],
+  "previous_rows_changed": [
+    {
+      "path": "GolfArcade/Unity/MatchHeroData.swift",
+      "expected": "a17b52501402ccaa019b66a2e7827e6f8d3edb62ddf67e6e8acba3664b97211e",
+      "actual": "32fdd3c489b0a48cd210423936d6c698a7b019c18f1844ec2c8dbd6af592c58a"
+    },
+    {
+      "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Female.json",
+      "expected": "34faade55e674e57291926eff89027f248a946776bbdad32799f2d4ece1fb919",
+      "actual": "852ea40ca385ff0cd42da76e695bf37f5434c70759c25229f897e89f3829a8c7"
+    },
+    {
+      "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Male.json",
+      "expected": "61c0d6febe5d53b3d227fb7577e67349f58e7f4e03909363f22b47ed8743f0ae",
+      "actual": "b8ae7337721b745fd048a7e258b7baa00ce7fd713b2f4e83bcfab3c3222933de"
+    },
+    {
+      "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Rig.lzfse",
+      "expected": "b71355033ed6cd83a06b51d0cafd5fb4b2c76845037a5f8448767e27d7d42ff9",
+      "actual": "83ecbd652b66336ac7c1774dbc0a05eccb23a6fcb1e315d9df9d38ceab5f86ce"
+    },
+    {
+      "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Rig.lzfse",
+      "expected": "61c1883fde845ace2c74e35fa7706744b580c685dc48b15320673619dcede11e",
+      "actual": "6617b4e86597a0fe08fe07457f4bffed2b72aae1d017d552ddf750b89595a86a"
+    }
+  ],
+  "removed": []
+}

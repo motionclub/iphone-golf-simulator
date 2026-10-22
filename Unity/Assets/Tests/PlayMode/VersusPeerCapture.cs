@@ -105,6 +105,8 @@ namespace GolfArcade.PlayTests
             public string[] rivalStrokes; public float rivalGapMean, rivalGapMax, visibleGapMean, visibleGapMax, heldSeconds; public int rivalHits, holds, visibleOver30cm;
             public int callsMade, callsTaken, sent, received, dropped, errors, exceptions, warnings, frames, slowFrames; public float worstFrame;
             public int mySwings, myHits, myServes, myDives, myEmotes, honestMisses;
+            // MP_AWAY_SEAT: one phone leaves the app mid-match (AwayPolicy): CPU takeovers seen here, rejoins completed here, the gap
+            public int takeovers, rejoins; public double awaySeconds; public string scoreBeforeAway, scoreAfterRejoin;
         }
 
         [UnityTest, Timeout(1800000)]
@@ -189,8 +191,23 @@ namespace GolfArcade.PlayTests
                 double holdStart = -1, tossStart = -1, swingAtToss = 0, tossDelay = 1.2; bool tossed = false, serveSwung = false, introEmote = false;
                 long lastPoint = -1; int confirmIn = -1; float confirmPower = 0, confirmLift = 0, confirmFacing = 0; double nudgeUntil = 0; float nudge = 0;
                 float swingAt = .15f; bool planned = false; var flowSeen = TennisGame.Phase.MatchOver; int lastHits = 0;
+                // leaving the app: the main thread stops as iOS suspends it (no frames, nothing sent, datagrams pile up), with Unity's
+                // pause message around it as the phone's lifecycle forwarding sends it
+                int awaySeat = int.Parse(Env("MP_AWAY_SEAT", "-1"));
+                double awayAt = Now + double.Parse(Env("MP_AWAY_AT", "45"), Inv), awayFor = double.Parse(Env("MP_AWAY_FOR", "20"), Inv); bool wentAway = false;
                 while (Now < end)
                 {
+                    if (seat == awaySeat && !wentAway && Now >= awayAt && !game.Match.Complete)
+                    {
+                        wentAway = true; sum.scoreBeforeAway = game.Match.Scoreboard + " " + game.Match.PlayerGames + "-" + game.Match.OpponentGames;
+                        Log($"LEAVING THE APP for {awayFor:0} s at {sum.scoreBeforeAway}");
+                        game.SendMessage("OnApplicationPause", true);
+                        System.Threading.Thread.Sleep((int)(awayFor * 1000));
+                        game.SendMessage("OnApplicationPause", false);
+                        sum.awaySeconds = awayFor; lastFrame = Now;
+                        Log($"BACK, rejoining={game.VersusRejoining}");
+                    }
+                    if (sum.scoreAfterRejoin == null && game.VersusRejoins > 0) { sum.scoreAfterRejoin = game.Match.Scoreboard + " " + game.Match.PlayerGames + "-" + game.Match.OpponentGames; Log("REJOINED at " + sum.scoreAfterRejoin); }
                     if (rec != null) { yield return new WaitForEndOfFrame(); rec.Frame(); }
                     yield return null;
                     double dt = Now - lastFrame; lastFrame = Now; sum.frames++;
@@ -235,6 +252,7 @@ namespace GolfArcade.PlayTests
                 sum.visibleGapMean = game.VersusRivalVisibleGaps.Mean; sum.visibleGapMax = game.VersusRivalVisibleGaps.Max; sum.holds = game.VersusHolds; sum.heldSeconds = game.VersusHeldSeconds;
                 sum.rivalGapMean = game.VersusRivalGaps.Mean; sum.rivalGapMax = game.VersusRivalGaps.Max; sum.rivalHits = game.VersusRivalGaps.Count;
                 sum.callsMade = game.VersusCallsMade; sum.callsTaken = game.VersusCallsTaken; sum.honestMisses = game.HonestMisses;
+                sum.takeovers = game.VersusTakeovers; sum.rejoins = game.VersusRejoins;
                 sum.sent = link.Sent; sum.received = link.Received; sum.dropped = link.Dropped;
             }
             finally

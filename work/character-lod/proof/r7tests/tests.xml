@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="4" result="Passed" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-18 01:22:04Z" end-time="2026-10-18 01:22:08Z" duration="3.9800146">
+  <test-suite type="TestSuite" id="1000" name="Golf Arcade" fullname="Golf Arcade" runstate="Runnable" testcasecount="610" result="Passed" start-time="2026-10-18 01:22:04Z" end-time="2026-10-18 01:22:08Z" duration="3.980015" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1711" name="GolfArcade.Tests.dll" fullname="/Users/adnanyonathan/character-lod-UnityClone/Library/ScriptAssemblies/GolfArcade.Tests.dll" runstate="Runnable" testcasecount="610" result="Passed" start-time="2026-10-18 01:22:04Z" end-time="2026-10-18 01:22:08Z" duration="3.975928" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="14695" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1712" name="GolfArcade" fullname="GolfArcade" runstate="Runnable" testcasecount="522" result="Passed" start-time="2026-10-18 01:22:04Z" end-time="2026-10-18 01:22:08Z" duration="3.974718" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1713" name="Tests" fullname="GolfArcade.Tests" runstate="Runnable" testcasecount="522" result="Passed" start-time="2026-10-18 01:22:04Z" end-time="2026-10-18 01:22:08Z" duration="3.974300" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1111" name="CharacterLodTests" fullname="GolfArcade.Tests.CharacterLodTests" classname="GolfArcade.Tests.CharacterLodTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-18 01:22:04Z" end-time="2026-10-18 01:22:08Z" duration="3.967562" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1112" name="BandsKeepCloseUpsOnTheOriginalMeshes" fullname="GolfArcade.Tests.CharacterLodTests.BandsKeepCloseUpsOnTheOriginalMeshes" methodname="BandsKeepCloseUpsOnTheOriginalMeshes" classname="GolfArcade.Tests.CharacterLodTests" runstate="Runnable" seed="287014109" result="Passed" start-time="2026-10-18 01:22:04Z" end-time="2026-10-18 01:22:04Z" duration="0.009014" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1115" name="CompactedLodCarriesTheOriginalVertexData" fullname="GolfArcade.Tests.CharacterLodTests.CompactedLodCarriesTheOriginalVertexData" methodname="CompactedLodCarriesTheOriginalVertexData" classname="GolfArcade.Tests.CharacterLodTests" runstate="Runnable" seed="1577918677" result="Passed" start-time="2026-10-18 01:22:04Z" end-time="2026-10-18 01:22:05Z" duration="1.486711" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1113" name="ShippedCacheDecodes" fullname="GolfArcade.Tests.CharacterLodTests.ShippedCacheDecodes" methodname="ShippedCacheDecodes" classname="GolfArcade.Tests.CharacterLodTests" runstate="Runnable" seed="457388390" result="Passed" start-time="2026-10-18 01:22:05Z" end-time="2026-10-18 01:22:05Z" duration="0.003810" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[cache entries: 31 (0 = no cache shipped: heroes compute their LODs at runtime)
+]]></output>
+            </test-case>
+            <test-case id="1114" name="SimplifiedTrianglesReferenceOnlyOriginalVertices" fullname="GolfArcade.Tests.CharacterLodTests.SimplifiedTrianglesReferenceOnlyOriginalVertices" methodname="SimplifiedTrianglesReferenceOnlyOriginalVertices" classname="GolfArcade.Tests.CharacterLodTests" runstate="Runnable" seed="93079156" result="Passed" start-time="2026-10-18 01:22:05Z" end-time="2026-10-18 01:22:08Z" duration="2.455947" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[DONE EditMode: 4 passed, 0 failed, 0 skipped
+<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /Users/adnanyonathan/Library/Application Support/aloniewski/Golf Arcade/TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

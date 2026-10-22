@@ -1,0 +1,142 @@
+{
+ "tag": "female",
+ "pieces": {
+  "Top": {
+   "vertices": 9722,
+   "max_influences": 4,
+   "min_influences": 1,
+   "sum_err_max": 4.842877388000488e-08,
+   "unweighted": 0,
+   "group_names_are_deform_bones": true,
+   "geometry_max_pos_diff_mm": 0.0,
+   "topology_equal": true,
+   "custom_normals": true,
+   "custom_normal_max_diff": 0.0,
+   "materials": [
+    "Kit_Shirt",
+    "Kit_ShirtTrim"
+   ],
+   "armature_modifier": [
+    [
+     "ARMATURE",
+     "Rig_Female"
+    ]
+   ],
+   "pass": true
+  },
+  "Bottom": {
+   "vertices": 12827,
+   "max_influences": 4,
+   "min_influences": 1,
+   "sum_err_max": 4.470348358154297e-08,
+   "unweighted": 0,
+   "group_names_are_deform_bones": true,
+   "geometry_max_pos_diff_mm": 0.0,
+   "topology_equal": true,
+   "custom_normals": true,
+   "custom_normal_max_diff": 0.0,
+   "materials": [
+    "Kit_Shorts",
+    "Kit_ShortsBand"
+   ],
+   "armature_modifier": [
+    [
+     "ARMATURE",
+     "Rig_Female"
+    ]
+   ],
+   "pass": true
+  },
+  "Sock_L": {
+   "vertices": 2543,
+   "max_influences": 3,
+   "min_influences": 1,
+   "sum_err_max": 3.3760443329811096e-08,
+   "unweighted": 0,
+   "group_names_are_deform_bones": true,
+   "geometry_max_pos_diff_mm": 0.0,
+   "topology_equal": true,
+   "custom_normals": true,
+   "custom_normal_max_diff": 0.0,
+   "materials": [
+    "Kit_Sock"
+   ],
+   "armature_modifier": [
+    [
+     "ARMATURE",
+     "Rig_Female"
+    ]
+   ],
+   "pass": true
+  },
+  "Sock_R": {
+   "vertices": 2543,
+   "max_influences": 3,
+   "min_influences": 1,
+   "sum_err_max": 3.1781382858753204e-08,
+   "unweighted": 0,
+   "group_names_are_deform_bones": true,
+   "geometry_max_pos_diff_mm": 0.0,
+   "topology_equal": true,
+   "custom_normals": true,
+   "custom_normal_max_diff": 0.0,
+   "materials": [
+    "Kit_Sock"
+   ],
+   "armature_modifier": [
+    [
+     "ARMATURE",
+     "Rig_Female"
+    ]
+   ],
+   "pass": true
+  },
+  "Shoe_L": {
+   "vertices": 6529,
+   "max_influences": 3,
+   "min_influences": 1,
+   "sum_err_max": 3.795139491558075e-08,
+   "unweighted": 0,
+   "group_names_are_deform_bones": true,
+   "geometry_max_pos_diff_mm": 0.0,
+   "topology_equal": true,
+   "custom_normals": true,
+   "custom_normal_max_diff": 0.0,
+   "materials": [
+    "Kit_Shoe",
+    "Kit_Sole"
+   ],
+   "armature_modifier": [
+    [
+     "ARMATURE",
+     "Rig_Female"
+    ]
+   ],
+   "pass": true
+  },
+  "Shoe_R": {
+   "vertices": 6529,
+   "max_influences": 3,
+   "min_influences": 1,
+   "sum_err_max": 3.818422555923462e-08,
+   "unweighted": 0,
+   "group_names_are_deform_bones": true,
+   "geometry_max_pos_diff_mm": 0.0,
+   "topology_equal": true,
+   "custom_normals": true,
+   "custom_normal_max_diff": 0.0,
+   "materials": [
+    "Kit_Shoe",
+    "Kit_Sole"
+   ],
+   "armature_modifier": [
+    [
+     "ARMATURE",
+     "Rig_Female"
+    ]
+   ],
+   "pass": true
+  }
+ },
+ "pass_": true
+}

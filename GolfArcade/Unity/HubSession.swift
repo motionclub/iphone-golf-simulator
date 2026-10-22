@@ -64,6 +64,15 @@ final class HubSession {
     @ObservationIgnored private var lastSampleSent = 0.0
     @ObservationIgnored private var bootStarted = Date.distantPast
     @ObservationIgnored private var windowRetries = 0
+    private(set) var foreground = true
+
+    func setForeground(_ active: Bool) {
+        guard active != foreground else { if active { evaluate() }; return }
+        // Drop a held stick on every interruption; never replay it after returning.
+        setStick(x: 0, y: 0, magnitude: 0)
+        foreground = active
+        if active { evaluate() }
+    }
 
     private var session: SportsSession { .shared }
     private var menu: TennisMenu { .shared }
@@ -92,6 +101,7 @@ final class HubSession {
 
     /// Called whenever something the decision depends on changes (display, match, menu screen, settings).
     func evaluate() {
+        guard foreground else { return }
         // the panel's own Back / Done went past the station's screens (home, or an old menu screen): the station is finished
         if let s = station, !Self.partyBays.contains(s), !Self.panelScreens(menu.screen) {
             station = nil; returnBay = nil; command("hubB")
@@ -136,6 +146,9 @@ final class HubSession {
         let launch = sessionID, phone = onPhone
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { [weak self] in
             guard let self, self.sessionID == launch, self.phase == .booting, self.wanted else { return }
+            // UIKit may have become inactive before SwiftUI delivered scenePhase.
+            // Starting Unity here could render after iOS has suspended Metal.
+            guard self.foreground, UIApplication.shared.applicationState == .active else { self.phase = .off; return }
             do { try SportsRuntime.shared().load(in: window, controllerReplica: phone); RacketFeel.apply() }
             catch {
                 // no Unity in this build (the simulator): there is no plaza to show at all
@@ -182,6 +195,23 @@ final class HubSession {
                 service.leave(); self.session.end()
             }
         } else { service.leave(); if session.multiplayerMatchID != nil { session.end() } }
+    }
+    /// The app is open again after `seconds` in the background (AwayPolicy): past the away limit an online match or a party is left
+    /// (the others have already gone on without this phone), and the phone is back in the Plaza with a line saying why.
+    func returned(after seconds: TimeInterval) {
+        let service = partyService
+        let inMatch = session.multiplayerMatchID != nil
+        let outcome = AwayPolicy.outcome(away: seconds, inOnlineMatch: inMatch, inParty: service.lobby != nil || ClubHub.shared.party != nil,
+                                         droppedFromMatch: service.droppedFromMatch)
+        guard outcome != .stay else { return }
+        SportsDiagnostics.write("away \(Int(seconds)) s: \(outcome)")
+        matchOver = nil
+        service.leave()
+        if inMatch { session.end() }
+        ClubHub.shared.leaveParty()
+        notice = AwayPolicy.notice(for: outcome)
+        if menu.screen != .main { menu.openFromPlaza(.main) }
+        evaluate()
     }
     /// The online match stopped on this phone (its lobby is back in the plaza, or it was left).
     func onlineMatchEnded() { matchOver = nil; if menu.screen != .main { menu.openFromPlaza(.main) } }
@@ -292,10 +322,20 @@ final class HubSession {
     }
 
     /// Unity confirmed A at a spot (hubAction): open its panel.
+    static let soloStations: Set<String> = ["bay-tennis-exhibition", "bay-tennis-campaign", "bay-tennis-training", "bay-golf-round", "bay-golf-pass", "shelf-trophies"]
+    var soloLocked: Bool { partyService.hasFriendsInLobby }
+    var zonePrompt: String? {
+        guard let zone else { return nil }
+        return soloLocked && Self.soloStations.contains(zone.id) ? "\(zone.label) · locked while in a party" : zone.prompt
+    }
+    static let soloLockMessage = "Single-player is locked while friends are in your lobby. Sit together at an Online bench to play."
     func useStation(_ id: String) {
+        if soloLocked, Self.soloStations.contains(id) {
+            notice = Self.soloLockMessage; command("hubB"); toast(notice); return
+        }
         if Self.partyBays.contains(id), let party {
             // a party sits together on an online bench: the bench's sport becomes the party's (host), the phone shows who is here.
-            // Sitting is being ready: when everyone playing has sat down the match starts.
+            // Sitting makes the players ready; the host chooses settings and taps Start.
             station = id
             let sport: MultiplayerSport = id.contains("golf") ? .golf : .tennis
             if partyService.isOwner, party.sport != sport { try? partyService.configure(sport, venue: sport == .golf ? session.golfCourse : session.tennisVenue) }
@@ -366,9 +406,26 @@ final class HubSession {
     @ObservationIgnored var presentInvite: @MainActor () -> Void = { ClubHub.shared.hubOpen = true; ClubHub.shared.start() }
     /// Joined a friend's party: your hero goes to stand beside theirs (as soon as their position arrives).
     @ObservationIgnored private var meetHost: String?
-    func joinedParty(host: String) { meetHost = host; station = nil; returnBay = nil; if menu.screen != .main { menu.openFromPlaza(.main) } }
+    @ObservationIgnored private var partyJoinPending = false
+    func joinedParty(host: String) {
+        pendingPartyBay = nil; gatheredBay = nil; gatheredMembers = []
+        meetHost = host == partyService.localID ? nil : host
+        // Clear the actual Unity station too; clearing only the phone state leaves
+        // Player.locked set when an invite is accepted from a locker or a bench.
+        partyJoinPending = true; finishPartyJoin()
+        station = nil; returnBay = nil; onlineBench = nil
+        if menu.screen != .main { menu.openFromPlaza(.main) }
+    }
+    private func finishPartyJoin() {
+        guard partyJoinPending, phase == .live, foreground else { return }
+        partyJoinPending = false; command("hubB"); setStick(x: 0, y: 0, magnitude: 0)
+    }
     /// A short message on the TV in the plaza (an invite arrived, a friend is joining): Unity draws it over the plaza.
     func toast(_ text: String) { command("hubToast", mode: text) }
+    func showChat(_ message: PartyChatMessage) {
+        guard party != nil, message.kind != .system else { return }
+        command("hubChat", mode: message.text, remote: message.mine ? "" : message.senderID)
+    }
     /// ☰ shortcut: walk there (a quick fade) and use it.
     func openStation(_ id: String) { command("hubUse", mode: id); haptic() }
     func backToPlaza() {
@@ -383,7 +440,7 @@ final class HubSession {
     /// The stick: direction (-1...1 each, +y = away from the camera) and deflection 0...1.
     func setStick(x: Double, y: Double, magnitude: Double) {
         let mag = max(0, min(1, magnitude.isFinite ? magnitude : 0))
-        stick = (x.isFinite ? max(-1, min(1, x)) : 0, y.isFinite ? max(-1, min(1, y)) : 0, mag)
+        stick = foreground ? (x.isFinite ? max(-1, min(1, x)) : 0, y.isFinite ? max(-1, min(1, y)) : 0, mag) : (0, 0, 0)
         if mag == 0 || phase == .live { sendStick(force: mag == 0) }
     }
     func pressA() { command("hubA"); haptic() }
@@ -412,7 +469,8 @@ final class HubSession {
 
     private func lookFields(_ p: Player) -> [String: Any] {
         ["female": p.standardFemale, "skin": p.standardSkin, "skinHex": p.skinHex,
-         "shirt": p.outfitHex("shirt") ?? "", "shorts": p.outfitHex("shorts") ?? "", "accent": p.outfitHex("accent") ?? "", "racket": p.outfitHex("racket") ?? ""]
+         "shirt": p.outfitHex("shirt") ?? "", "shorts": p.outfitHex("shorts") ?? "", "accent": p.outfitHex("accent") ?? "", "racket": p.outfitHex("racket") ?? "",
+         "back": p.backCarry.accessoryID]   // MENU HERO: the locker's back pick (HeroAccessories golf_bag | racket_back)
     }
 
     private func sendStart() {
@@ -426,7 +484,7 @@ final class HubSession {
     }
 
     private func command(_ action: String, mode: String? = nil, remote: String? = nil) {
-        guard phase == .live else { return }
+        guard phase == .live, foreground else { return }
         var message: [String: Any] = ["version": 1, "session": sessionID, "action": action]
         if let mode { message["mode"] = mode }
         if let remote { message["remote"] = remote }
@@ -465,6 +523,7 @@ final class HubSession {
     }
 
     private func tick() {
+        guard foreground else { return }
         guard !session.active else { timer?.invalidate(); timer = nil; return }
         partyTick()
         if stick.mag > 0 && phase == .live { sendStick() }
@@ -488,7 +547,8 @@ final class HubSession {
     /// Snapshots: sitting on an online bench (searching or not), no Game Center.
     func debugOnlineBench(_ sport: MultiplayerSport, searching: Bool) { station = sport == .golf ? "bay-golf-online" : "bay-tennis-online"; onlineBench = sport; self.searching = searching }
     func debugReset() { timer?.invalidate(); timer = nil; phase = .off; loaded = false; loadProgress = 0; arriving = false; zone = nil; station = nil; returnBay = nil; place = "plaza"; notice = ""; lookSent = ""; debugSent = nil
-        onPhone = false; revealedOnPhone = false; runtimeMissing = false; searching = false; onlineBench = nil; searchTask?.cancel(); meetHost = nil; matchOver = nil; partyStartAt = nil
+        foreground = true; onPhone = false; revealedOnPhone = false; runtimeMissing = false; searching = false; onlineBench = nil; searchTask?.cancel(); meetHost = nil; matchOver = nil; partyStartAt = nil
+        partyJoinPending = false; pendingPartyBay = nil; gatheredBay = nil; gatheredMembers = []; follow = nil
         presentInvite = { ClubHub.shared.hubOpen = true; ClubHub.shared.start() } }
     #endif
 
@@ -509,6 +569,7 @@ final class HubSession {
     private(set) var lastCall: (from: String, bay: String)?
     @ObservationIgnored private var lastPose = ""
     @ObservationIgnored private var presenceSent = 0.0
+    @ObservationIgnored private var reliablePresenceSent = -Double.infinity
     @ObservationIgnored private var presenceKey = (place: "", bay: "")
     @ObservationIgnored private var rosterSent = ""
     @ObservationIgnored private var partyInstalled = false
@@ -528,10 +589,10 @@ final class HubSession {
         let p = Presence(place: f[0], x: x, y: y, z: z, yaw: yaw, speed: speed, bay: f[6], emote: f[7])
         // ~10 a second, but sitting down, standing up or going through a door goes out at once (and reliably): the bench and the
         // friends' plazas must never miss it
-        let now = ProcessInfo.processInfo.systemUptime, changed = p.bay != presenceKey.bay || p.place != presenceKey.place
+        let now = ProcessInfo.processInfo.systemUptime, changed = p.bay != presenceKey.bay || p.place != presenceKey.place || ProcessInfo.processInfo.systemUptime - reliablePresenceSent >= 1
         guard changed || now - presenceSent >= 0.09 else { return }
         guard let data = try? JSONEncoder().encode(p), let text = String(data: data, encoding: .utf8) else { return }
-        presenceSent = now; presenceKey = (p.place, p.bay); partyService.sendHub("hubPresence", payload: text, reliable: changed)
+        presenceSent = now; if changed { reliablePresenceSent = now }; presenceKey = (p.place, p.bay); partyService.sendHub("hubPresence", payload: text, reliable: changed)
     }
 
     /// A friend's presence or event, from the lobby.
@@ -542,6 +603,7 @@ final class HubSession {
             guard let p = try? JSONDecoder().decode(Presence.self, from: Data(payload.utf8)),
                   let index = party.participants.firstIndex(where: { $0.id == sender }) else { return }
             friendBays[sender] = p.bay.isEmpty ? nil : p.bay
+            let was = friendPlaces[sender]
             friendPlaces[sender] = p.place
             let who = party.participants[index], look = who.loadout
             var remote: [String: Any] = ["id": sender, "name": who.name, "colour": index, "female": who.female, "place": p.place,
@@ -553,33 +615,73 @@ final class HubSession {
             guard let data = try? JSONSerialization.data(withJSONObject: remote), let text = String(data: data, encoding: .utf8) else { return }
             command("hubRemote", remote: text)
             // just joined their party: go and stand beside them
-            if meetHost == sender { meetHost = nil; command("hubMeet", mode: sender) }
+            if meetHost == sender, phase == .live, foreground { finishPartyJoin(); meetHost = nil; command("hubMeet", mode: sender) }
+            // the leader went through a door (or travelled): the whole party goes with them (their pose has just reached Unity)
+            if sender == party.ownerID, let was, was != p.place, p.place != place, pendingPartyBay == nil { followLeader(sender, to: p.place, name: who.name) }
         case "hubEvent":
             let f = payload.split(separator: "|", omittingEmptySubsequences: false).map(String.init)
             if f.first == "starting", f.count > 1 {
                 notice = "Everyone's on the bench · starting \(f[1].contains("golf") ? "golf" : "tennis")…"
                 if session.haptics { UINotificationFeedbackGenerator().notificationOccurred(.success) }
             }
-            if f.first == "call", f.count > 1, Self.spotIDs.contains(f[1]) {
+            if f.first == "call", f.count == 2, Self.partyBays.contains(f[1]) {
                 lastCall = (sender, f[1]); command("hubCall", mode: f[1])
                 let name = party.participants.first { $0.id == sender }?.name ?? "A friend"
-                notice = "\(name) calls the party to \(f[1].contains("golf") ? "Golf" : "Tennis") · Online"
+                notice = "Joining \(name) on the \(f[1].contains("golf") ? "Golf" : "Tennis") bench…"
+                meetHost = nil; pendingPartyBay = f[1]; expectCalledParty(at: f[1]); seatCalledParty()
                 if session.haptics { UINotificationFeedbackGenerator().notificationOccurred(.warning) }
             }
         default: break
         }
     }
 
-    /// Host: Call party to the bay you sit in (everyone's TV shows the way, their phones buzz).
+    // MARK: party follows its leader (the lobby's owner): rooms are entered together
+
+    /// Going to stand beside the leader in their new place: retried until this phone's hero is there (a door or a fade may be
+    /// running), for a few seconds at most.
+    @ObservationIgnored private var follow: (leader: String, place: String, until: Double, next: Double)?
+    private func followLeader(_ leader: String, to target: String, name: String) {
+        let t = ProcessInfo.processInfo.systemUptime
+        follow = (leader, target, t + 4, t)
+        notice = "Following \(name) to \(HubControllerView.placeName(target).capitalized)"
+        stepFollow()
+    }
+    private func stepFollow() {
+        guard let f = follow else { return }
+        let t = ProcessInfo.processInfo.systemUptime
+        if party == nil || place == f.place || t > f.until || pendingPartyBay != nil { follow = nil; return }
+        guard t >= f.next, phase == .live, foreground else { return }
+        follow?.next = t + 0.5
+        command("hubMeet", mode: f.leader)
+    }
+
+    @ObservationIgnored private var pendingPartyBay: String?
+    @ObservationIgnored private var gatheredBay: String?
+    @ObservationIgnored private var gatheredMembers: Set<String> = []
+    private func expectCalledParty(at bay: String) {
+        gatheredBay = bay
+        gatheredMembers = Set(party?.participants.filter { $0.connected && !$0.isGuest }.map(\.id) ?? [])
+    }
+    private func seatCalledParty() {
+        guard phase == .live, foreground, let bay = pendingPartyBay else { return }
+        pendingPartyBay = nil; command("hubGather", mode: bay)
+    }
+
+    /// Bring everyone to this bench; hubAction/hubPose confirm their actual seats.
     func callParty() {
         guard party != nil, let bay = station, Self.partyBays.contains(bay) else { return }
+        expectCalledParty(at: bay)
         partyService.sendHub("hubEvent", payload: "call|" + bay, reliable: true); haptic()
     }
-    /// Everyone in the party seated in this bay (you included) and ready: the host's phone starts the match.
+    var partyHasUnseatedFriends: Bool {
+        guard let party, let bay = station else { return false }
+        return party.participants.contains { $0.connected && !$0.isGuest && $0.id != partyService.localID && friendBays[$0.id] != bay }
+    }
+    /// At least two players are on this online bench; nobody walking through the PLAY rooms is left behind.
     /// Everyone playing is here: the bench holds at least two of the party, and every friend who is in the play rooms (tennis or
     /// golf, so on their way) has sat down too. Friends elsewhere in the plaza (the locker, phone only) do not hold the match up.
     var partyAllSeated: Bool {
-        guard let party, let bay = station else { return false }
+        guard let party, let bay = station, Self.partyBays.contains(bay) else { return false }
         let others = party.participants.filter { $0.connected && !$0.isGuest && $0.id != partyService.localID }
         let seated = others.filter { friendBays[$0.id] == bay }
         return !seated.isEmpty && partyWaitingFor.isEmpty
@@ -588,31 +690,44 @@ final class HubSession {
     var partyWaitingFor: [String] {
         guard let party, let bay = station else { return [] }
         return party.participants.filter { $0.connected && !$0.isGuest && $0.id != partyService.localID && friendBays[$0.id] != bay
-                                           && ["play", "tennis", "golf"].contains(friendPlaces[$0.id] ?? "") }.map(\.name)
+                                           && ((gatheredBay == bay && gatheredMembers.contains($0.id)) || ["play", "tennis", "golf"].contains(friendPlaces[$0.id] ?? "")) }.map(\.name)
     }
     func setPartyReady(_ ready: Bool) { try? partyService.setReady(ready); haptic() }
-    /// Host: start now even if someone is still on their way (the plan's "or the host forces it").
-    func forcePartyStart() { guard partyService.isOwner, partyService.lobby?.canStart == true else { return }; try? partyService.startMatch() }
+    /// Host: start the seated players after choosing the map and settings.
+    func forcePartyStart() {
+        guard partyService.isOwner, partyAllSeated else { return }
+        updatePartySeats()
+        guard partyService.lobby?.canStart == true else { return }
+        do { try partyService.startMatch() } catch { notice = error.localizedDescription }
+    }
+    func configureParty(venue: String? = nil, sets: Int? = nil, games: Int? = nil) {
+        guard partyService.isOwner, partyAllSeated, let lobby = party else { return }
+        do {
+            try partyService.configure(lobby.sport, venue: venue ?? lobby.venue, sets: sets ?? lobby.sets, games: games ?? lobby.games)
+            updatePartySeats()
+        } catch { notice = error.localizedDescription }
+    }
+    private func updatePartySeats() {
+        guard partyService.isOwner, let bay = station, Self.partyBays.contains(bay), let lobby = party else { return }
+        let me = partyService.localID
+        partyService.seatParty(lobby.participants.filter { $0.connected && !$0.isGuest && ($0.id == me || friendBays[$0.id] == bay) }.map(\.id))
+    }
 
     private func partyTick() {
         if !partyInstalled { installParty() }
         guard phase == .live else { return }
+        if party == nil { pendingPartyBay = nil; gatheredBay = nil; gatheredMembers = [] }
+        finishPartyJoin()
+        seatCalledParty()
+        stepFollow()
         // the member list: anyone who left walks off
         let ids = party?.participants.map(\.id).filter { $0 != partyService.localID }.sorted() ?? []
         let roster = ids.joined(separator: ",")
         if roster != rosterSent { rosterSent = roster; command("hubRoster", mode: roster); friendBays = friendBays.filter { ids.contains($0.key) }; friendPlaces = friendPlaces.filter { ids.contains($0.key) } }
-        // host: the seats are the people on this bench (whoever is elsewhere in the plaza stays there); sitting is being ready.
-        // When everyone playing has sat down, a short count and the match starts on every phone.
-        if partyService.isOwner, let bay = station, Self.partyBays.contains(bay), let lobby = party {
-            let me = partyService.localID
-            partyService.seatParty(lobby.participants.filter { !$0.isGuest && ($0.id == me || friendBays[$0.id] == bay) }.map(\.id))
-            if partyAllSeated, partyService.lobby?.canStart == true {
-                let now = ProcessInfo.processInfo.systemUptime
-                if partyStartAt == nil { partyStartAt = now + Self.partyCountdown; partyService.sendHub("hubEvent", payload: "starting|" + bay, reliable: true) }
-                if let at = partyStartAt, now >= at { partyStartAt = nil; try? partyService.startMatch() }
-            } else { partyStartAt = nil }
-        } else { partyStartAt = nil }
+        updatePartySeats()
+        partyStartAt = nil
     }
+
     /// Seconds between everyone sitting down and the match starting (the panels count down).
     static var partyCountdown = 2.5
     /// When the host's phone starts the party's match (everyone seated); nil while waiting.

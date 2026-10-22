@@ -12,6 +12,7 @@ Shader "GolfArcade/TennisCloth"
         _FabricVersion ("Fabric encoding: 1 tennis, 2 golf", Float) = 1
         _AOStrength ("Garment AO strength", Range(0,1)) = 1
         _NormalStrength ("Garment normal strength", Range(0,2)) = 1
+        [HideInInspector] _FemaleSurface ("Female material finish", Float) = 0
         _Smoothness ("Smoothness", Range(0,1)) = 0.1
         _Wrap ("Wrap", Range(0,1)) = 0.5
         _RimColor ("Rim colour", Color) = (1,0.96,0.88,1)
@@ -38,7 +39,7 @@ Shader "GolfArcade/TennisCloth"
                 float _WeaveTile, _WeaveAngle;
                 half _WeaveNormal, _WeaveThread, _SheenStrength, _SheenPower;
                 half _UseGarmentMaps, _NormalStrength, _AOStrength;
-                half _FabricVersion, _EdgeLines;
+                half _FabricVersion, _EdgeLines, _FemaleSurface;
             CBUFFER_END
             TEXTURE2D(_NormalMap); SAMPLER(sampler_NormalMap);
             TEXTURE2D(_MaskMap); SAMPLER(sampler_MaskMap);
@@ -64,6 +65,7 @@ Shader "GolfArcade/TennisCloth"
             #pragma multi_compile_fog
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+            #define HERO_PRESENTATION_SURFACE 1
             #include "HeroLighting.hlsl"
             #include "HeroCloth.hlsl"
 
@@ -125,6 +127,47 @@ Shader "GolfArcade/TennisCloth"
             // Roll the brightest channel off above the knee (hue kept): a lit white keeps a gradient instead of clipping.
             
 
+            // Female knit response (2026-10-16 shader pass): matte Lambert form so
+            // folds read, a saturated light-through-fibre band at the terminator
+            // (relative to the chosen colour, so every swatch keeps its hue) and a
+            // Charlie velvet lobe for the soft grazing sheen of cotton knit.
+            // Rubber/foam keep a small dielectric highlight and no textile sheen.
+            half3 FemaleClothDeep(half3 albedo)
+            {
+                half luma=max(dot(albedo,half3(.2126h,.7152h,.0722h)),.04h);
+                return saturate(albedo*albedo/luma);
+            }
+            half3 FemaleClothShade(Light light, half3 n, half3 v, half3 albedo,
+                                  half smoothness, half sheen, half ao, half id)
+            {
+                half ndl=dot(n,light.direction), nl=saturate(ndl), nv=saturate(dot(n,v));
+                half wrapped=saturate((ndl+_Wrap)/(1+_Wrap));
+                half band=saturate(wrapped-nl);
+                half3 h=SafeNormalize(light.direction+v);
+                half nh=saturate(dot(n,h));
+                half rubber=id>2.5h&&id<4.5h?1:0;
+                half invR=1.55h;
+                half charlie=(2+invR)*pow(max(1-nh*nh,.0001h),invR*.5h)*.15915494h;
+                half visibility=rcp(max(4*(nl+nv-nl*nv),.10h));
+                half3 fibreTint=lerp(albedo,sqrt(max(albedo,0)),.45h);
+                half3 velvet=fibreTint*(charlie*visibility*nl*sheen*2.4h)*(1-rubber);
+                half spec=pow(nh,24+smoothness*60)*.035h*nl*rubber;
+                // Rounded knit volume: fibres turned away from the viewer read deeper.
+                half body=lerp(.64h,1,sqrt(nv));
+                half3 diffuse=(albedo*nl*.96h+lerp(albedo,FemaleClothDeep(albedo),.65h)*band*.85h*(1-rubber*.5h))*lerp(1,body,1-rubber);
+                return (diffuse+velvet+spec)*ao*light.color*light.distanceAttenuation*light.shadowAttenuation;
+            }
+            float ClothHash(float2 p)
+            {
+                float3 h=frac(float3(p.x,p.y,p.x)*.1031);
+                h+=dot(h,h.yzx+33.33);return frac((h.x+h.y)*h.z);
+            }
+            half ClothGrain(float2 p)
+            {
+                float2 cell=floor(p), f=frac(p);f=f*f*(3-2*f);
+                return lerp(lerp(ClothHash(cell),ClothHash(cell+float2(1,0)),f.x),lerp(ClothHash(cell+float2(0,1)),ClothHash(cell+1),f.x),f.y);
+            }
+
             half4 frag (Varyings i, FRONT_FACE_TYPE facing : FRONT_FACE_SEMANTIC) : SV_Target
             {
                 half3 n = normalize(i.normalWS);
@@ -141,6 +184,8 @@ Shader "GolfArcade/TennisCloth"
                 float2 quadrant;
                 Fabric(id, smoothness, sheen, knit, quadrant, frequency);
                 if (_UseGarmentMaps < .5h) { smoothness = _Smoothness; sheen = _SheenStrength; }
+                else if (_FemaleSurface > .5h) { smoothness *= .65h; sheen *= .90h; }
+                if (_FemaleSurface>.5h && _EdgeLines>.5h && _EdgeLines<1.5h) { id=i.edge.x>=0?3:2; sheen=0; }
                 float ang = radians(_WeaveAngle); float sn, cs; sincos(ang, sn, cs);
                 float2 wuv = float2(cs * i.uv.x - sn * i.uv.y, sn * i.uv.x + cs * i.uv.y) * _WeaveTile;
                 // Fade individual threads before their Nyquist limit; UV derivatives are evaluated before frac.
@@ -149,7 +194,9 @@ Shader "GolfArcade/TennisCloth"
                 float2 atlasUV = (quadrant + .03125 + frac(wuv) * .9375) * .5;
                 if (_UseGarmentMaps < .5h) atlasUV = wuv;
                 half4 weave = SAMPLE_TEXTURE2D_GRAD(_WeaveMap, sampler_WeaveMap, atlasUV, dx * .46875, dy * .46875);
-                half2 slope = (weave.rg * 2 - 1) * _WeaveNormal * fade;
+                half fibreCoverage=_FemaleSurface>1.5h ? 1-mask.b:1;
+                half2 slope = (weave.rg * 2 - 1) * _WeaveNormal * fade * fibreCoverage;
+                if(_FemaleSurface>1.5h)sheen*=fibreCoverage;
                 if (id > 2.5h && id < 4.5h) slope = 0;
                 // Rotate slopes back from the grain coordinate system (the previous male 41-degree correction).
                 slope = half2(cs * slope.x + sn * slope.y, -sn * slope.x + cs * slope.y);
@@ -161,20 +208,30 @@ Shader "GolfArcade/TennisCloth"
                 }
                 // A visible reverse side of thin cloth shades toward its viewer.
                 n *= IS_FRONT_VFACE(facing, 1.0h, -1.0h);
-                half threadBreak = lerp(1, weave.b * 1.28h, _WeaveThread * fade);
+                half threadBreak = lerp(1, weave.b * 1.28h, _WeaveThread * fade * fibreCoverage);
                 if (id > 2.5h && id < 4.5h) threadBreak = 1;
                 half3 albedo = lerp(_BaseColor.rgb, _TrimColor.rgb, mask.b) * threadBreak;
+                if (_FemaleSurface>.5h && !(id>2.5h&&id<4.5h)) {
+                    // Larger knit clusters remain visible after individual atlas
+                    // threads fade. Relative neutral detail preserves all palettes.
+                    float2 grainUV=wuv*9;
+                    half grainFade=1-smoothstep(.35h,.85h,max(length(ddx(grainUV)),length(ddy(grainUV))));
+                    half grain=ClothGrain(grainUV)-.5h;
+                    albedo*=1+grain*.09h*grainFade*fibreCoverage;
+                    smoothness*=1+grain*.25h*grainFade*fibreCoverage;
+                }
                 // Applied to the finished colour: the white kit's highlight shoulder would otherwise roll a darker albedo back to white.
                 half edgeShade = _EdgeLines > .5h ? KitEdgeLines(i.edge) : 1;
                 half aoVisibility = lerp(1, max(mask.r, .70h), _AOStrength);
                 half ao = lerp(1, aoVisibility, .5h);
-                albedo *= lerp(.40h, 1, mask.g);
+                albedo *= lerp(_FemaleSurface>.5h?.88h:.40h, 1, mask.g);
                 half ndv = saturate(dot(n, v));
 
                 Light main = HeroMain(GetMainLight());
                 main.shadowAttenuation = ClothShadow(i.positionWS);
-                half3 colour = Shade(main, n, v, albedo, smoothness, sheen, ao);
-                if (_HeroPresentationFill > 0) colour += Shade(HeroPresentationLight(v), n, v, albedo, smoothness, sheen, ao);
+                if (_HeroLightingEnabled > .5h) main.shadowAttenuation = max(main.shadowAttenuation,.4h);
+                half3 colour = _FemaleSurface>.5h ? FemaleClothShade(main,n,v,albedo,smoothness,sheen,ao,id) : Shade(main, n, v, albedo, smoothness, sheen, ao);
+                if (_HeroPresentationFill > 0) { Light fill=HeroPresentationLight(v); if(_FemaleSurface>.5h) { fill.color*=.42h; colour+=FemaleClothShade(fill,n,v,albedo,smoothness,sheen,ao,id); } else colour+=Shade(fill,n,v,albedo,smoothness,sheen,ao); }
                 #if defined(_ADDITIONAL_LIGHTS)
                 uint count = GetAdditionalLightsCount();
                 #if defined(_LIGHT_LAYERS)
@@ -182,14 +239,20 @@ Shader "GolfArcade/TennisCloth"
                 #endif
                 for (uint li = 0; li < count; li++)
                 {
-                    Light extra = GetAdditionalLight(li, i.positionWS);
+                    Light extra = HeroAdditional(GetAdditionalLight(li, i.positionWS));
                     #if defined(_LIGHT_LAYERS)
                     if (!IsMatchingLightLayer(extra.layerMask, meshLayers)) continue;
                     #endif
-                    colour += Shade(extra, n, v, albedo, smoothness, sheen, ao);
+                    colour += _FemaleSurface>.5h ? FemaleClothShade(extra,n,v,albedo,smoothness,sheen,ao,id) : Shade(extra, n, v, albedo, smoothness, sheen, ao);
                 }
                 #endif
                 half3 ambient = HeroAmbient(n) * albedo * ao;
+                if(_FemaleSurface>.5h) {
+                    // Indirect light deepens toward the folds' own colour and falls off
+                    // on downward planes, so the garment keeps rounded fold shading.
+                    half up=saturate(n.y*.5h+.5h);
+                    ambient=HeroAmbient(n)*lerp(albedo,FemaleClothDeep(albedo),.40h)*ao*lerp(.58h,.98h,up*up)*lerp(.80h,1,sqrt(saturate(dot(n,v))));
+                }
                 #if defined(_SCREEN_SPACE_OCCLUSION)
                 AmbientOcclusionFactor screenAO = GetScreenSpaceAmbientOcclusion(GetNormalizedScreenSpaceUV(i.positionCS));
                 ambient *= _HeroProfile > .5h ? lerp(1,screenAO.indirectAmbientOcclusion,.35h) : screenAO.indirectAmbientOcclusion;
@@ -197,7 +260,8 @@ Shader "GolfArcade/TennisCloth"
                 #endif
                 half rim = pow(1 - ndv, _RimPower) * _RimStrength * (_HeroProfile > .5h ? _HeroRim : 1);
                 colour += albedo * knit * pow(1 - ndv, 5) * .045h * saturate(dot(n, main.direction)) * main.shadowAttenuation * main.color;
-                colour += ambient + _RimColor.rgb * rim * saturate(dot(n,main.direction)*.7h+.3h) * (0.35 + 0.65 * albedo) * main.color;
+                half3 rimLight = _RimColor.rgb * rim * saturate(dot(n,main.direction)*.7h+.3h) * (0.35 + 0.65 * albedo) * main.color;
+                colour += ambient + (_HeroLightingEnabled > .5h ? HeroPresentationRim(n,v,albedo) : rimLight);
                 // Preserve moderate AO contrast through the bright-white highlight shoulder.
                 if (_HeroProfile > .5h) {
                     // Neutral construction maps retain the palette under warm postcard keys.
@@ -205,10 +269,10 @@ Shader "GolfArcade/TennisCloth"
                     half neutralWhite = smoothstep(.4h,.8h,dot(albedo,half3(.2126h,.7152h,.0722h)));
                     half clothGain = lerp(min(_HeroClothExposure,3),_HeroClothExposure,neutralWhite);
                     colour *= _HeroClothBalance * lerp(clothGain, 1, mask.b);
-                    colour *= lerp(.68h, 1, aoVisibility) * lerp(.75h, 1, mask.g);
+                    colour *= lerp(.68h, 1, aoVisibility) * lerp(_FemaleSurface>.5h?.95h:.75h, 1, mask.g);
                     if (_HeroFilmResponse < .5h) colour = max(colour, albedo * lerp(.35h,4.0h,mask.b));
                 } else {
-                    colour = (_HeroFilmResponse>.5h ? colour*_Exposure : SoftShoulder(colour * _Exposure)) * lerp(.68h, 1, aoVisibility) * lerp(.75h, 1, mask.g);
+                    colour = (_HeroFilmResponse>.5h ? colour*_Exposure : SoftShoulder(colour * _Exposure)) * lerp(.68h, 1, aoVisibility) * lerp(_FemaleSurface>.5h?.95h:.75h, 1, mask.g);
                 }
                 return half4(MixFog(HeroClothFinish(colour) * edgeShade, i.fog), 1);
             }

@@ -1,0 +1,71 @@
+sun dir_to_light=(0.5298, 0.8480, 0.0092) azimuth_deg=89.00 elevation_deg=58.00 colour=RGBA(1.000, 0.900, 0.770, 1.000) intensity=1.632
+rendered_sky_disc dir=(0.5298, 0.8480, 0.0092)
+rendered_sky_scatter dir=(0.5298, 0.8480, 0.0092) azimuth_deg=89.00
+skybox=Rendered sky / GolfArcade/RenderedSky
+fog=True RGBA(0.380, 0.310, 0.400, 1.000) 120-1148.294 far=1800 hole=22 utc=1792263600
+tex ResortBasalt_C 512x512 slot=73 shader=GolfArcade/GolfRock mat=Course 22 Basalt on=GOLF_SURFACE_BATCH_22
+tex ResortBasalt_N 512x512 slot=265 shader=GolfArcade/GolfRock mat=Course 22 Basalt on=GOLF_SURFACE_BATCH_22
+tex Basalt_E 1024x1024 slot=412 shader=GolfArcade/GolfRock mat=Course 22 Basalt on=GOLF_SURFACE_BATCH_22
+tex Course mowing 22 128x128 slot=931 shader=GolfArcade/GolfRock mat=Course 22 Basalt on=GOLF_SURFACE_BATCH_22
+tex Sand_C 512x512 slot=73 shader=GolfArcade/GolfGround mat=Course 22 SandMAT_PUMICE on=GOLF_SURFACE_BATCH_4
+tex Sand_N 512x512 slot=265 shader=GolfArcade/GolfGround mat=Course 22 SandMAT_PUMICE on=GOLF_SURFACE_BATCH_4
+tex Course mowing 22 128x128 slot=931 shader=GolfArcade/GolfGround mat=Course 22 SandMAT_PUMICE on=GOLF_SURFACE_BATCH_4
+tex  64x64 slot=7 shader=GolfArcade/ParticleSoft mat=GolfArcade/ParticleSoft on=Halo
+tex Smoke_C 512x512 slot=7 shader=GolfArcade/GolfSurf mat=Course 22 Smoke on=STEAM_VENT_1
+tex Font Texture 256x256 slot=7 shader=GUI/Text Shader mat=Font Material on=Window sign
+tex Ash_C 512x512 slot=73 shader=GolfArcade/GolfGround mat=Course 22 Ash on=Ash plain
+tex Ash_N 512x512 slot=265 shader=GolfArcade/GolfGround mat=Course 22 Ash on=Ash plain
+tex Lava_C 1024x1024 slot=73 shader=GolfArcade/GolfLava mat=Course 22 Lava on=BRAZIER_4
+tex Lava_N 1024x1024 slot=265 shader=GolfArcade/GolfLava mat=Course 22 Lava on=BRAZIER_4
+tex Lava_E 1024x1024 slot=412 shader=GolfArcade/GolfLava mat=Course 22 Lava on=BRAZIER_4
+tex CoastalTurf_C 512x512 slot=73 shader=GolfArcade/GolfGround mat=Course 22 Fringe on=GOLF_SURFACE_BATCH_5
+tex CoastalTurf_N 512x512 slot=265 shader=GolfArcade/GolfGround mat=Course 22 Fringe on=GOLF_SURFACE_BATCH_5
+tex ball_dimples_normal 512x512 slot=968 shader=GolfArcade/GolfBall mat=Ball (dimpled) on=Codex ball
+tex CoastalCliffScan_C 512x512 slot=73 shader=GolfArcade/GolfRock mat=Sculpted stone on=Dream catalogue 22 Sculpted stone
+tex CoastalCliffScan_N 512x512 slot=265 shader=GolfArcade/GolfRock mat=Sculpted stone on=Dream catalogue 22 Sculpted stone
+tex CloudSixWay_A 2048x2048 slot=1149 shader=GolfArcade/RenderedClouds mat=Rendered clouds on=Rendered clouds
+tex CloudSixWay_B 2048x2048 slot=1153 shader=GolfArcade/RenderedClouds mat=Rendered clouds on=Rendered clouds
+tex Contact shadow falloff 64x64 slot=7 shader=GolfArcade/TennisShadowBlob mat=GolfArcade/TennisShadowBlob on=Contact shadow — Golfer
+tex grass 512x512 slot=7 shader=GolfArcade/ParticleSoft mat=Effect grass on=Clippings
+tex puff 128x128 slot=7 shader=GolfArcade/ParticleSoft mat=Lava GolfArcade/ParticleSoft on=Geyser steam
+tex Rain streak 8x64 slot=7 shader=GolfArcade/WeatherParticle mat=Rain on=Rain
+tex  64x64 slot=7 shader=GolfArcade/ParticleAdd mat=Embers on=Embers
+tex  64x64 slot=7 shader=GolfArcade/WeatherParticle mat=Snow on=Snow
+tex soft 128x128 slot=7 shader=GolfArcade/ParticleAdd mat=Lava GolfArcade/ParticleAdd on=Geyser
+tex dust 256x256 slot=7 shader=GolfArcade/ParticleSoft mat=Effect dust on=Puffs
+tex KitV2_Golf_Female_Top_N 1024x1024 slot=266 shader=GolfArcade/TennisCloth mat=Kit_Shirt (hero) on=Kit_Top
+tex KitV2_Golf_Female_Top_M 1024x1024 slot=833 shader=GolfArcade/TennisCloth mat=Kit_Shirt (hero) on=Kit_Top
+tex KitV2_FabricAtlas 512x512 slot=842 shader=GolfArcade/TennisCloth mat=Kit_Shirt (hero) on=Kit_Top
+tex OriginalSeam_RelativeSkinPigment 64x64 slot=73 shader=GolfArcade/HeroFaceSkin mat=Skin_OriginalSurfacePigment (hero) on=Body
+tex KitV2_Golf_Female_ShoeR_N 1024x1024 slot=266 shader=GolfArcade/TennisCloth mat=Kit_Shoe (hero) on=Kit_Shoe_R
+tex KitV2_Golf_Female_ShoeR_M 1024x1024 slot=833 shader=GolfArcade/TennisCloth mat=Kit_Shoe (hero) on=Kit_Shoe_R
+tex Acc_Female_golf_cap_Cap_N 2048x2048 slot=266 shader=GolfArcade/TennisCloth mat=Acc_Cap (hero) on=Acc_Cap
+tex Acc_Female_golf_cap_Cap_M 2048x2048 slot=833 shader=GolfArcade/TennisCloth mat=Acc_Cap (hero) on=Acc_Cap
+tex flag_4 512x256 slot=73 shader=Universal Render Pipeline/Lit mat=Flag 4 on=FLAG
+tex OriginalEye_RelativeSclera 128x128 slot=73 shader=GolfArcade/TennisCharacter mat=Reference_Face_Sclera (hero) on=OriginalSeamFeatures
+tex OriginalEye_RelativeIris 128x128 slot=73 shader=GolfArcade/TennisCharacter mat=Reference_Face_IrisIn (hero) on=OriginalSeamFeatures
+tex KitV2_Golf_Female_Bottom_N 2048x2048 slot=266 shader=GolfArcade/TennisCloth mat=Kit_Shorts (hero) on=Kit_Bottom
+tex KitV2_Golf_Female_Bottom_M 2048x2048 slot=833 shader=GolfArcade/TennisCloth mat=Kit_Shorts (hero) on=Kit_Bottom
+tex Acc_Female_golf_glove_Glove_N 2048x2048 slot=266 shader=GolfArcade/TennisCloth mat=Acc_Glove (hero) on=Acc_GloveL
+tex Acc_Female_golf_glove_Glove_M 2048x2048 slot=833 shader=GolfArcade/TennisCloth mat=Acc_Glove (hero) on=Acc_GloveL
+tex KitV2_Golf_Female_ShoeL_N 1024x1024 slot=266 shader=GolfArcade/TennisCloth mat=Kit_Shoe (hero) on=Kit_Shoe_L
+tex KitV2_Golf_Female_ShoeL_M 1024x1024 slot=833 shader=GolfArcade/TennisCloth mat=Kit_Shoe (hero) on=Kit_Shoe_L
+shot 01_tee pos=(0.57, 23.07, -3.85) rot=(9.09, 355.06, 0.00) fov=46.0
+shot 02_approach pos=(28.30, 23.38, 309.82) rot=(9.09, 326.14, 0.00) fov=46.0
+shot 03_aerial pos=(148.90, 251.67, 1.55) rot=(44.47, 320.19, 0.00) fov=50.0
+shot 04_longlens pos=(0.00, 22.66, 0.00) rot=(357.14, 359.65, 0.00) fov=20.0
+shot 05_crane0 pos=(0.24, 110.96, -40.00) rot=(1.15, 359.65, 0.00) fov=46.0
+shot 05_crane60 pos=(60.24, 110.96, -39.64) rot=(1.15, 359.65, 0.00) fov=46.0
+landmark crane Karst_00@8.562538 dist_m=2460 radius_m=487 a_px=(1134.89,435.89) b_px=(1103.47,435.89) predicted_dx=-31.420
+landmark crane Karst_01@-21.43746 dist_m=2121 radius_m=212 a_px=(530.71,430.19) b_px=(492.61,430.19) predicted_dx=-38.102
+landmark crane Karst_02@35.56254 dist_m=3122 radius_m=442 a_px=(1785.19,466.01) b_px=(1756.01,466.01) predicted_dx=-29.178
+landmark crane Karst_Ridge_0@16.56254 dist_m=6548 radius_m=1379 a_px=(1329.32,503.77) b_px=(1317.17,503.77) predicted_dx=-12.143
+landmark crane Karst_Ridge_1@-35.43746 dist_m=7501 radius_m=1102 a_px=(103.27,504.75) b_px=(90.99,504.75) predicted_dx=-12.272
+landmark crane Cloud2 dist_m=9926 radius_m=0 a_px=(1440.74,175.58) b_px=(1432.22,175.58) predicted_dx=-8.511
+landmark crane Cloud16 dist_m=6880 radius_m=0 a_px=(1541.09,135.75) b_px=(1528.39,135.75) predicted_dx=-12.696
+landmark crane Cloud21 dist_m=12864 radius_m=0 a_px=(327.76,274.02) b_px=(321.01,274.02) predicted_dx=-6.741
+shot 10_char_A pos=(0.57, 23.07, -3.85) rot=(9.09, 355.06, 0.00) fov=46.0
+shot 10_char_B pos=(0.57, 23.07, -3.85) rot=(9.09, 355.06, 0.00) fov=46.0
+shot 10_char_mask pos=(0.57, 23.07, -3.85) rot=(9.09, 355.06, 0.00) fov=46.0
+perfAB tee 1920x1080 painted_median_ms=14.641 rendered_median_ms=14.433 delta_median_ms=-0.208 n=200/200
+perfAB crane 1920x1080 painted_median_ms=9.115 rendered_median_ms=9.212 delta_median_ms=0.097 n=200/200

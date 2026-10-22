@@ -1,0 +1,47 @@
+result Failed(Child) total 242 passed 144 failed 44 skipped 52
+FAIL GolfArcade.PlayTests.ArcadeCardsTests.TheCardsThroughARound | the landing is stamped
+FAIL GolfArcade.PlayTests.BigScreenFlowTests.TheRoundStartsFromThePhoneWithTheCourseOnTheTv | the tournament title is up over the flyover
+FAIL GolfArcade.PlayTests.ControllerTimingRegressionTests.OnTimePhoneServeMakesRealContactAcrossScreenDelaysAndCharacters | The detected stroke must animate immediately
+FAIL GolfArcade.PlayTests.ExperienceFlowTests.OrdinaryResultsSkipAtHalfSecondAndAutoAdvanceAtThree | automatic reading window stays three seconds
+FAIL GolfArcade.PlayTests.GolfBroadcastTests.AFullSwingIsReplayedFromTheTeeBoxThenWatchedLanding | the result waits for the replay
+FAIL GolfArcade.PlayTests.GolfBroadcastTests.FlightCutsOnceAtLandingThenBothGolfersCanEmoteAndContinue | result must show the face
+FAIL GolfArcade.PlayTests.GolferSelectTests.MakingAGolfer | no Segment Shorts on the screen
+FAIL GolfArcade.PlayTests.GolfPolishTests.DetailedBodiesAndEveryClubClearTheHead | Expected string length 26 but was 23. Strings differ at index 11.
+FAIL GolfArcade.PlayTests.GolfPolishTests.LandingMarkersMatchPowerAndCameraHoldsTheGolfer | map marker must be the club's still-air carry from this lie
+FAIL GolfArcade.PlayTests.GolfPresentationTests.SwingToResultShowsStatsAndLetsBothGolfersEmoteUntilContinue | result must face the character
+FAIL GolfArcade.PlayTests.HeroGarmentRuntimeOrderTests.LiveDriverGarmentsUseThisFramesFinalPose | Expected: not null
+FAIL GolfArcade.PlayTests.HeroGolferTests.EveryLookBuilds | Face is in the build
+FAIL GolfArcade.PlayTests.MagmaOpenTests.TheHolesFloatInTheCrater | hole 21: the fire's sky
+FAIL GolfArcade.PlayTests.MatchHeroClipMapTests.EveryStrokePlaysItsOwnMatchClipOnBothSexes | ready / idle is ReadyIdle
+FAIL GolfArcade.PlayTests.NativeLaunchHeroTests.HeroSurvivesTheNativeLaunchPath | System.IO.DirectoryNotFoundException : Could not find a part of the path "/Users/adnanyonathan/integration-work/ArtDir/score80/native_launch_run.txt".
+FAIL GolfArcade.PlayTests.NativeTennisSetupTests.MotionSteeringRespondsWithoutWaitingForTheAutomaticReaction | Expected: True
+FAIL GolfArcade.PlayTests.NativeTennisSetupTests.PointWinnerStaysVisibleAndCelebrationsHoldTheNextServe | Point stays open for at least five real seconds
+FAIL GolfArcade.PlayTests.PresentationFlowTests.MainCamerasRecordPostPrerequisiteAndRenderedStills | Unhandled log message: '[Exception] Exception: UnityTest yielded WaitForEndOfFrame, which is not evoked in batchmode.'. Use UnityEngine.TestTools.LogAssert.Expect
+FAIL GolfArcade.PlayTests.ReplayTests.APureApproachAndAHoledPuttAreReplayed | somewhere on 12 an approach finishes by the pin
+FAIL GolfArcade.PlayTests.ReviewCaptureTests.CapturesABallPovApproach | a shot landing 113.4 yd from the pin from 198 out should be the ball POV
+FAIL GolfArcade.PlayTests.ReviewCaptureTests.CapturesAddressFlightAndResult | timed out waiting for the gallery to cheer (6.0 s, 361 frames; the game is in Aim, hole 7)
+FAIL GolfArcade.PlayTests.ReviewCaptureTests.CapturesHoleTwelve | timed out waiting for the signature shot to start (6.0 s, 358 frames; the game is in Intro, hole 12)
+FAIL GolfArcade.PlayTests.TennisGameplayTests.ApprovedArenaAndBothStandardsRunTennisPhysics | tennis characters should have visible arms
+FAIL GolfArcade.PlayTests.TennisGameplayTests.DisplayDelayCompensationRestoresLateSwings | a swing late by exactly the TV's delay must still be returned
+FAIL GolfArcade.PlayTests.TennisGameplayTests.RallyStartsWithVisibleServeThenPlayableBall | auto-positioning must chase a wide ball (flow=PointOver predicted=-100.00 ball=(4.00, 0.29, -12.63) x=3.21 start=2.35)
+FAIL GolfArcade.PlayTests.TennisGameplayTests.StrengthAndPhonePositionChooseReadableStrokes | Expected: String containing "backhand"
+FAIL GolfArcade.PlayTests.TennisPolishPlayTests.LateConfirmationStillHits | confirmation must credit the held contact (feedback Overhead smash)
+FAIL GolfArcade.PlayTests.TennisPolishPlayTests.TimingCheckSetsTheLagFromSwingsOnTheBeat | measured the swings' lag behind the beat
+FAIL GolfArcade.PlayTests.TennisStanceCaptureTests.FilmReceivingStance | set HERO_CAPTURE_STANCE to capture
+FAIL GolfArcade.PlayTests.TennisTutorialPlayTests.CoachFeedsCanBeReturnedToBothAimTargetsWithGoodTiming | Coach feed backhand=False, aim=-0.6 must allow a GOOD in-court return to target
+FAIL GolfArcade.PlayTests.TennisTutorialPlayTests.CompleteTheWholeLessonWithRealShotsAndNoSkipping | System.NullReferenceException : Object reference not set to an instance of an object
+FAIL GolfArcade.PlayTests.TennisTutorialPlayTests.CustomizedCharacterKeepsRigAndRacket | Expected: not null
+FAIL GolfArcade.PlayTests.TennisTutorialPlayTests.TenSeededPointsWinWithOnTimeSwingAndNoSwingStillFinishes | System.NullReferenceException : Object reference not set to an instance of an object
+FAIL GolfArcade.PlayTests.TennisVenueFilmTests.FilmVenue | set HERO_FILM_VENUE to film
+FAIL GolfArcade.PlayTests.TennisVenueTests.SkyscraperBallPastTheEdgeFallsAndIsCalledOut | it should keep falling
+FAIL GolfArcade.PlayTests.TennisVenueTests.VolcanoBallPastTheEdgeFalls | Expected: less than -5.0f
+FAIL GolfArcade.PlayTests.WildIslesPlayTests.EarningThings | beaten Cliffside: open
+FAIL GolfArcade.Tests.HubBayTests.GolfSeatedLoadKeepsThePlazaDrawing | the round took the screen
+FAIL GolfArcade.Tests.HubBayTests.SeatedLoadKeepsThePlazaSmoothAndHandsOffWithoutACover | the match took the screen
+FAIL GolfArcade.Tests.HubPartyTests.AnOnlineMatchFromABayLoadsBehindThePlaza | Expected: True
+FAIL GolfArcade.Tests.HubPartyTests.FourHeroesStaySmoothAndFriendsAreDrawnWhereTheyWere | four heroes keep the frame rate (editor)
+FAIL GolfArcade.Tests.HubPartyTests.OnlineTennisWearsTheLobbyLooks | Expected: True
+FAIL GolfArcade.Tests.HubPlazaTests.HubBootsFromTheNativeStartAndRendersThePlaza | the plaza camera must render a frame before ready
+FAIL GolfArcade.Tests.HubPlazaTests.MatchStartLeavesThePlazaAndTheHubComesBack | Expected: True
+FAIL GolfArcade.Tests.MultiplayerRuntimeTests.PassThePhoneGolfPlaysAsSinglePlayer | Expected: True
+FAIL GolfArcade.Tests.NativeSessionTests.NativeLaunchSupportsBothSportsIdentitiesAndHands | A real gameplay camera must finish rendering before ready

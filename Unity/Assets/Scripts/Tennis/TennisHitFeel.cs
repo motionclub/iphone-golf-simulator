@@ -8,8 +8,6 @@ namespace GolfArcade.Tennis
     /// One place, so rally, serve and online hits all speak the same language.
     public static class TennisHitFeel
     {
-        /// Beyond this lateness a hit has left GOOD (TennisRules.TimingScore), so it feels fully mistimed.
-        const float MistimedAt = .14f;
 
         public static Haptics.HitStyle Style(TennisActor.Stroke kind) => kind switch
         {
@@ -31,7 +29,8 @@ namespace GolfArcade.Tennis
             Supercharged = supercharged,
             Power = power,
             Center = 1 - Mathf.Clamp01(TennisRules.FaceError(faceOffset)),
-            Mistime = Mathf.Clamp01(Mathf.Abs(late) / MistimedAt),
+            // Early/late is an aim choice. Frame contact already has its own haptic center value.
+            Mistime = 0,
             Heat = Mathf.Clamp01((rallyShots - 2) / 10f),
         };
 

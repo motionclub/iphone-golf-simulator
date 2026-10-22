@@ -1,0 +1,7 @@
+{
+  "status": "COMPILE AND DESKTOP METAL PASS; ART HOLD, optional default0",
+  "actual": "actual/",
+  "checks": "6 variants, 12 portraits; 0 magenta; all decoded blink/rig goldens pass, runtime and SceneKit compiler log clear",
+  "visual": "Root viewed female control/candidate and male golf. Fill works but adds excessive brightness to already-filled studio. Must verify proper scene scoping/on-map native lighting before default.",
+  "production": "MatchHeroSurfaces.swift patch installed behind VISUAL_CHARACTER_STAGE_LIGHT=1; Unity .65 fill accepted default independently."
+}

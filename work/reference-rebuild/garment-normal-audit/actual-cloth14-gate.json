@@ -1,0 +1,26 @@
+{
+  "scope": "Localized existing IntroWave torso target only; no garment/body/rig rebuild",
+  "acceptedByRoot": "Actual cloth14 before/after review accepted bounded dent improvement; strongest female chest/abdomen, male modest",
+  "actualControl": "proof/reference-rebuild/character-cloth14-control",
+  "actualCandidate": "proof/reference-rebuild/character-cloth14",
+  "positionsEvidence": "actual-cloth14-pose-deltas.json",
+  "BodyAndBottomPosedDeltaMaximumMetres": 0.0,
+  "IntroTopMaximumMetres": {
+    "female_intro": 0.022000053880963353,
+    "male_intro": 0.011825937869454677
+  },
+  "OtherMotionTopMaximumMetres": 0.0005590281379519049,
+  "triangleReversals": 0,
+  "newSignedBodyIntersections": 0,
+  "sourceConstructionInvariant": "All base positions/normals, source topology/UVs/weights, original rig, 9 other anchors and protected position/normal deltas exact",
+  "installedProfileSHA256": {
+    "Male": "1a3e7e648d75036de1046e4acb4ac0a746a687c7c4d5a37b97b3248be046b684",
+    "Female": "c51502bd7bb50e6d18616cab3919730640e6979b7c03cf3f8648943281216345"
+  },
+  "visualGate": "ACCEPTED bounded dent improvement only",
+  "openGates": [
+    "Existing Serve and Forehand underarm skin breakthrough",
+    "Whole garment art versus target quality",
+    "Continuous full-motion coverage"
+  ]
+}

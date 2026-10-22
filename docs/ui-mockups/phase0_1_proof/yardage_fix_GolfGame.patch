@@ -1,0 +1,39 @@
+--- a/Unity/Assets/Scripts/Game/GolfGame.cs
++++ b/Unity/Assets/Scripts/Game/GolfGame.cs
+@@ -1590,7 +1590,7 @@
+                 yards[i] = ballAt.DistanceTo(spot);
+                 checkpointSpots.Add(HoleView.ToWorld(spot, 0.05));
+                 plan.Targets.Add(new Vector3((float)spot.X, 0, (float)spot.D));
+-                labels[i] = i == onPin ? $"PIN {yards[i]:F0}" : $"{yards[i]:F0} yd";
++                labels[i] = i == onPin ? $"PIN {yards[i]:F0}" : $"{club.DistanceYards(checkpointPowers[i]):F0} yd";
+             }
+             hud.SetCheckpoints(checkpointPowers, labels, onPin);
+             plan.Changed();
+@@ -1846,7 +1846,7 @@
+                 // what it plays: a green above the ball wants a yard more for every yard it climbs
+                 double rise = HoleView.GroundHeight(hole.Pin) - HoleView.GroundHeight(ballAt);
+                 string note = rise >= 1.5 ? $"+{rise:F0}" : null;
+-                hud.SetClub($"{club.DisplayName()}  ·  {rated:F0}");
++                hud.SetClub($"{club.DisplayName()}  ·  {club.ReferenceDistanceYards():F0}");   // (what the club carries on a full swing, wherever you stand)
+                 hud.SetCardRow(0, "elevation", "Plays", $"{toPin + Math.Max(0, rise):F0}", note);
+             }
+             // the wind's arrow turns with the aim (a putt barely feels it, but it is the hole's wind)
+@@ -1859,7 +1859,8 @@
+             for (int i = 0; i < yards.Length; i++)
+             {
+                 double d = GolfClubs.All[i].ReferenceDistanceYards() * lie.PowerFactor(GolfClubs.All[i]) * hole.Rules.CarryFactor(GolfClubs.All[i]);
+-                yards[i] = GolfClubs.All[i] == GolfClub.Putter ? $"{d * 3:F0} ft" : $"{d:F0} yd";
++                // a putt rolls what the green lets it; every other club is listed at its own fixed carry
++                yards[i] = GolfClubs.All[i] == GolfClub.Putter ? $"{d * 3:F0} ft" : $"{GolfClubs.All[i].ReferenceDistanceYards():F0} yd";
+             }
+             hud.SetClubYards(yards);
+             if (hud.Controller != null)
+@@ -2006,7 +2007,7 @@
+                 var spot = LandingFor(load, hole.LieAt(ballAt));
+                 aimDots.MarkAt(HoleView.ToWorld(spot, 0.05));
+                 hud.Map.ShowLoad = aimDots.MarkShown; hud.Map.Load = aimDots.MarkPosition;
+-                hud.SetMeter((float)load, null, $"{ballAt.DistanceTo(spot):F0} yd");
++                hud.SetMeter((float)load, null, $"{club.DistanceYards(load):F0} yd");   // the club's own number for this much power: never the wind, lie or hole
+             }
+             else
+             {

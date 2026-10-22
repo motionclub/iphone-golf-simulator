@@ -64,10 +64,18 @@ namespace GolfArcade.Hub
             go.transform.localPosition = Vector3.zero; go.transform.localRotation = Quaternion.Euler(0, yaw, 0);
             HubWorld.SetLayer(go.transform);
             look = go.GetComponent<MatchHeroLook>();
-            if (look) HeroAccessories.For(look).SetCarry(true);   // ACCESSORIES: in the plaza the golf bag is on the back
+            if (look) HeroAccessories.For(look).SetCarry(true, backItem);   // ACCESSORIES: in the plaza the golf bag (or the racket, MENU HERO) is on the back
             // the plaza hero walks empty-handed: the racket stays in the bag until a match
             if (look && look.racketGrip) foreach (var r in look.racketGrip.GetComponentsInChildren<Renderer>(true)) r.enabled = false;
             hero = HubHeroAnimator.Attach(go);
+        }
+
+        /// MENU HERO: what the plaza hero carries on the back, HeroAccessories golf_bag | racket_back (null / "" = the bag).
+        string backItem = "golf_bag";
+        public void SetBackCarry(string item)
+        {
+            backItem = System.Array.IndexOf(HeroAccessories.BackCarryItems, item) >= 0 ? item : "golf_bag";
+            if (look) HeroAccessories.For(look).SetCarry(true, backItem);
         }
 
         /// Newest phone stick reading: direction (-1..1 each) and deflection 0..1.

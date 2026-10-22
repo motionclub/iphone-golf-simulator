@@ -1,0 +1,1 @@
+Prepared only. Final face source and material art acceptance pending. Do not export until root freezes final contract. Root owns serialized Unity/GPU, all Assets and native adoption writes. No phone/simulator launch. Existing production native29 remains intact.

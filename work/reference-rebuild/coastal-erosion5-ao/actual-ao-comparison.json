@@ -1,0 +1,31 @@
+{
+  "before": "proof/reference-rebuild/coastal-erosion5/hole12_reference_camera_2.png",
+  "after": "proof/reference-rebuild/coastal-erosion5-ao/hole12_reference_camera_2.png",
+  "roi": [
+    140,
+    550,
+    700,
+    710
+  ],
+  "meanRgbBefore": [
+    179.73081473214285,
+    175.35527901785716,
+    151.48237723214285
+  ],
+  "meanRgbAfter": [
+    179.73120535714287,
+    175.3557142857143,
+    151.48279017857143
+  ],
+  "meanLumaDelta": 0.0004241651785714287,
+  "meanAbsoluteChannelDelta": 0.0057477678571428575,
+  "unchangedPixelFraction": 0.9902566964285714,
+  "lumaDeltaQuantiles": {
+    "p01": 0.0,
+    "p10": 0.0,
+    "p50": 0.0,
+    "p90": 0.0,
+    "p99": 0.0
+  },
+  "judgment": "At gameplay distance this bounded indirect-only AO is visually very subtle; does not resolve the major reference shading gap."
+}

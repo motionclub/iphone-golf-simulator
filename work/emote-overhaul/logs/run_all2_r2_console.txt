@@ -1,0 +1,29 @@
+== build 13:53:49
+SOLVED male Emote_Scuba 142 frames; racket off the hand 117 frames; 26s
+SOLVED male Emote_Thrust 106 frames; racket off the hand 0 frames; 39s
+SOLVED male Emote_Spike 97 frames; racket off the hand 0 frames; 92s
+SOLVED female Emote_Scuba 142 frames; racket off the hand 117 frames; 10s
+SOLVED female Emote_Thrust 106 frames; racket off the hand 0 frames; 21s
+SOLVED female Emote_Spike 97 frames; racket off the hand 0 frames; 42s
+BAKE_DONE male
+FBX_DONE male 3
+BAKE_DONE female
+FBX_DONE female 3
+== trace 13:56:08
+TRACE male Emote_Spike 97 frames 8 objects
+TRACE male ReadyIdle 67 frames 8 objects
+TRACE male RunForward 18 frames 8 objects
+TRACE female Emote_Spike 97 frames 8 objects
+TRACE female ReadyIdle 67 frames 8 objects
+TRACE female RunForward 18 frames 8 objects
+== collide3 13:56:12
+MAX_PEN_SKIN_MM L 5.9 R 2.8 racket 0.0
+MAX_PEN_SKIN_MM L 9.6 R 18.0 racket 0.0
+MAX_PEN_SKIN_MM L 8.5 R 9.8 racket 0.0
+MAX_PEN_SKIN_MM L 8.2 R 18.0 racket 0.0
+MAX_PEN_SKIN_MM L 0.0 R 2.8 racket 0.0
+MAX_PEN_SKIN_MM L 0.0 R 18.0 racket 0.0
+== gates 13:56:50
+96
+GATES_DONE ALL PASS
+== done 13:56:57

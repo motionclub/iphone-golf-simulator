@@ -1,0 +1,422 @@
+[
+  {
+    "sex": "Male",
+    "clip": "golfDrive",
+    "side": "Left",
+    "frames": 436,
+    "maxRoll": 26.649964678765475,
+    "maxWristShift": 20.768798227241444,
+    "maxElbowShift": 19.59905265445003,
+    "maxNeighborWristDelta": 5.605794871360445,
+    "maxNeighborElbowDelta": 3.01936355332319,
+    "maxNeighborRollDelta": 7.448142038976542,
+    "meanImprovement": 4.372099822626657,
+    "worstRegression": 2.0472512574087887e-13,
+    "maxImprovement": 16.039119333044113,
+    "address": [
+      59.72467988158631,
+      50.24035205960906
+    ],
+    "oldMax": 120.9649165635956,
+    "newMax": 120.94068237238406
+  },
+  {
+    "sex": "Male",
+    "clip": "golfDrive",
+    "side": "Right",
+    "frames": 436,
+    "maxRoll": 40.76847142058115,
+    "maxWristShift": 21.929413419381298,
+    "maxElbowShift": 18.594287261590868,
+    "maxNeighborWristDelta": 6.570728354345244,
+    "maxNeighborElbowDelta": 2.6609642140095247,
+    "maxNeighborRollDelta": 6.612457985381683,
+    "meanImprovement": 9.347743116331628,
+    "worstRegression": 2.602362769721367e-13,
+    "maxImprovement": 18.174519796482144,
+    "address": [
+      60.81592784856541,
+      58.19283548631734
+    ],
+    "oldMax": 102.93333612403552,
+    "newMax": 91.37447155385439
+  },
+  {
+    "sex": "Male",
+    "clip": "golfIron",
+    "side": "Left",
+    "frames": 404,
+    "maxRoll": 24.296270399518917,
+    "maxWristShift": 19.627219577646382,
+    "maxElbowShift": 10.904755043631674,
+    "maxNeighborWristDelta": 4.560733868106724,
+    "maxNeighborElbowDelta": 2.520059900741406,
+    "maxNeighborRollDelta": 7.34740459450468,
+    "meanImprovement": 1.4258454930001374,
+    "worstRegression": 8.717471189356729e-13,
+    "maxImprovement": 8.970877144419404,
+    "address": [
+      51.69131458019031,
+      45.02418802469471
+    ],
+    "oldMax": 121.77802743793886,
+    "newMax": 121.45216103394789
+  },
+  {
+    "sex": "Male",
+    "clip": "golfIron",
+    "side": "Right",
+    "frames": 404,
+    "maxRoll": 35.10238401942757,
+    "maxWristShift": 22.0304285678935,
+    "maxElbowShift": 18.693044024509007,
+    "maxNeighborWristDelta": 6.026987223911175,
+    "maxNeighborElbowDelta": 2.611167733742104,
+    "maxNeighborRollDelta": 4.928504496805767,
+    "meanImprovement": 7.741807112372869,
+    "worstRegression": 9.992007221626409e-14,
+    "maxImprovement": 18.26936579828913,
+    "address": [
+      53.425656748255236,
+      51.92255528954382
+    ],
+    "oldMax": 110.14059853518435,
+    "newMax": 99.60223821451714
+  },
+  {
+    "sex": "Male",
+    "clip": "golfHalf",
+    "side": "Left",
+    "frames": 308,
+    "maxRoll": 21.769518703590805,
+    "maxWristShift": 17.671393469993887,
+    "maxElbowShift": 10.979628328184747,
+    "maxNeighborWristDelta": 2.6756563595748846,
+    "maxNeighborElbowDelta": 1.5511220416865843,
+    "maxNeighborRollDelta": 3.3966697079548065,
+    "meanImprovement": 1.0554759707506507,
+    "worstRegression": 2.615685446016869e-13,
+    "maxImprovement": 6.698529020331598,
+    "address": [
+      51.73903235961443,
+      45.04050333928283
+    ],
+    "oldMax": 133.19565594981367,
+    "newMax": 132.4067271901758
+  },
+  {
+    "sex": "Male",
+    "clip": "golfHalf",
+    "side": "Right",
+    "frames": 308,
+    "maxRoll": 30.332581744219866,
+    "maxWristShift": 22.2839142149876,
+    "maxElbowShift": 17.76649344702513,
+    "maxNeighborWristDelta": 9.319472319585293,
+    "maxNeighborElbowDelta": 4.854748028036612,
+    "maxNeighborRollDelta": 9.79050929958656,
+    "meanImprovement": 8.571323869214353,
+    "worstRegression": 7.815970093361102e-14,
+    "maxImprovement": 18.72244554076361,
+    "address": [
+      53.14524213612616,
+      51.78229816424819
+    ],
+    "oldMax": 84.05464493305486,
+    "newMax": 81.55803186058424
+  },
+  {
+    "sex": "Male",
+    "clip": "golfChip",
+    "side": "Left",
+    "frames": 187,
+    "maxRoll": 26.745062185660363,
+    "maxWristShift": 19.128150945092347,
+    "maxElbowShift": 14.366019132600426,
+    "maxNeighborWristDelta": 1.51007161892126,
+    "maxNeighborElbowDelta": 0.9584458731856679,
+    "maxNeighborRollDelta": 2.1130307602750946,
+    "meanImprovement": 4.70288477341836,
+    "worstRegression": 2.842170943040401e-14,
+    "maxImprovement": 9.387864841513952,
+    "address": [
+      44.84299958070522,
+      38.98726794534953
+    ],
+    "oldMax": 69.87660515099796,
+    "newMax": 61.47514605377009
+  },
+  {
+    "sex": "Male",
+    "clip": "golfChip",
+    "side": "Right",
+    "frames": 187,
+    "maxRoll": 27.301574432122663,
+    "maxWristShift": 19.516070513643786,
+    "maxElbowShift": 17.945106969985357,
+    "maxNeighborWristDelta": 1.8834708366192656,
+    "maxNeighborElbowDelta": 6.4281388046550045,
+    "maxNeighborRollDelta": 2.7312305012669817,
+    "meanImprovement": 3.8822975012547962,
+    "worstRegression": -0.0024710630971469527,
+    "maxImprovement": 9.998654113240448,
+    "address": [
+      51.72459831227943,
+      46.123665451013935
+    ],
+    "oldMax": 81.2379797100994,
+    "newMax": 71.37913004646713
+  },
+  {
+    "sex": "Male",
+    "clip": "golfPutt",
+    "side": "Left",
+    "frames": 182,
+    "maxRoll": 21.481640322361827,
+    "maxWristShift": 15.4055994202726,
+    "maxElbowShift": 14.59519615256981,
+    "maxNeighborWristDelta": 0.24608044135203946,
+    "maxNeighborElbowDelta": 0.3252421123223993,
+    "maxNeighborRollDelta": 0.16968570123385618,
+    "meanImprovement": 4.675658359686352,
+    "worstRegression": -3.737917200504441,
+    "maxImprovement": 5.402415231705078,
+    "address": [
+      62.15270494326737,
+      56.9147269008827
+    ],
+    "oldMax": 70.99381381210897,
+    "newMax": 65.81805375187933
+  },
+  {
+    "sex": "Male",
+    "clip": "golfPutt",
+    "side": "Right",
+    "frames": 182,
+    "maxRoll": 15.799216005855648,
+    "maxWristShift": 11.368779355972231,
+    "maxElbowShift": 13.913120792932382,
+    "maxNeighborWristDelta": 2.74120244126885,
+    "maxNeighborElbowDelta": 7.990389972482062,
+    "maxNeighborRollDelta": 3.7329838054866062,
+    "meanImprovement": 1.584018005966333,
+    "worstRegression": -0.028003061474763058,
+    "maxImprovement": 3.0772645343225093,
+    "address": [
+      67.09380427881577,
+      64.01653974449326
+    ],
+    "oldMax": 75.44609008119168,
+    "newMax": 72.55967171015942
+  },
+  {
+    "sex": "Female",
+    "clip": "golfDrive",
+    "side": "Left",
+    "frames": 953,
+    "maxRoll": 28.2543991544889,
+    "maxWristShift": 22.38813945470144,
+    "maxElbowShift": 21.606255380181473,
+    "maxNeighborWristDelta": 5.5542665019151025,
+    "maxNeighborElbowDelta": 3.3911363142906676,
+    "maxNeighborRollDelta": 8.065216030573795,
+    "meanImprovement": 4.178371830961146,
+    "worstRegression": 1.283417816466681e-13,
+    "maxImprovement": 16.784989657050154,
+    "address": [
+      65.42991424480752,
+      57.290937902098285
+    ],
+    "oldMax": 123.41800461987653,
+    "newMax": 122.73714063585258
+  },
+  {
+    "sex": "Female",
+    "clip": "golfDrive",
+    "side": "Right",
+    "frames": 953,
+    "maxRoll": 39.24026624723394,
+    "maxWristShift": 22.37758157388714,
+    "maxElbowShift": 21.876980655745125,
+    "maxNeighborWristDelta": 11.329777877467587,
+    "maxNeighborElbowDelta": 3.2100733919869553,
+    "maxNeighborRollDelta": 13.937367511459904,
+    "meanImprovement": 10.127330799529602,
+    "worstRegression": 1.0302869668521453e-13,
+    "maxImprovement": 20.839123782518747,
+    "address": [
+      46.94905085983673,
+      46.82689794510848
+    ],
+    "oldMax": 99.7353160278278,
+    "newMax": 89.01750663088663
+  },
+  {
+    "sex": "Female",
+    "clip": "golfIron",
+    "side": "Left",
+    "frames": 1022,
+    "maxRoll": 27.819853503274445,
+    "maxWristShift": 19.778920662805984,
+    "maxElbowShift": 16.205288450667915,
+    "maxNeighborWristDelta": 4.483423994165005,
+    "maxNeighborElbowDelta": 3.733504358427728,
+    "maxNeighborRollDelta": 7.092976253091548,
+    "meanImprovement": 2.716291419780719,
+    "worstRegression": 7.105427357601002e-14,
+    "maxImprovement": 10.776326285687851,
+    "address": [
+      55.54825062379353,
+      49.17169644811775
+    ],
+    "oldMax": 124.00904881695342,
+    "newMax": 122.63928758068904
+  },
+  {
+    "sex": "Female",
+    "clip": "golfIron",
+    "side": "Right",
+    "frames": 1022,
+    "maxRoll": 31.412571223678665,
+    "maxWristShift": 22.24852284749423,
+    "maxElbowShift": 23.002203097027245,
+    "maxNeighborWristDelta": 5.911481806835033,
+    "maxNeighborElbowDelta": 6.079703437601798,
+    "maxNeighborRollDelta": 4.740536199075638,
+    "meanImprovement": 10.715049664228784,
+    "worstRegression": 1.8784973576657649e-13,
+    "maxImprovement": 21.90714666056101,
+    "address": [
+      40.359330056153006,
+      40.33145713116005
+    ],
+    "oldMax": 104.59064408216892,
+    "newMax": 91.82005764909195
+  },
+  {
+    "sex": "Female",
+    "clip": "golfHalf",
+    "side": "Left",
+    "frames": 802,
+    "maxRoll": 26.562243845889387,
+    "maxWristShift": 18.96175562353236,
+    "maxElbowShift": 12.345983084801508,
+    "maxNeighborWristDelta": 3.675547523421708,
+    "maxNeighborElbowDelta": 2.2038439507544934,
+    "maxNeighborRollDelta": 5.731631713042127,
+    "meanImprovement": 2.5636145958464165,
+    "worstRegression": 1.070921129553426e-12,
+    "maxImprovement": 10.215598185768414,
+    "address": [
+      55.57539646982993,
+      49.190558549061016
+    ],
+    "oldMax": 134.101835680204,
+    "newMax": 132.17203419457363
+  },
+  {
+    "sex": "Female",
+    "clip": "golfHalf",
+    "side": "Right",
+    "frames": 802,
+    "maxRoll": 31.779091889466876,
+    "maxWristShift": 22.960074127637153,
+    "maxElbowShift": 17.05857168883794,
+    "maxNeighborWristDelta": 6.223863007801752,
+    "maxNeighborElbowDelta": 3.8040006301949547,
+    "maxNeighborRollDelta": 5.078820304507719,
+    "meanImprovement": 8.830071447483782,
+    "worstRegression": 4.973799150320701e-14,
+    "maxImprovement": 20.85724897710749,
+    "address": [
+      40.469292908307025,
+      40.44030526725969
+    ],
+    "oldMax": 84.45944143694403,
+    "newMax": 82.70276099769224
+  },
+  {
+    "sex": "Female",
+    "clip": "golfChip",
+    "side": "Left",
+    "frames": 555,
+    "maxRoll": 25.79500835195284,
+    "maxWristShift": 18.46022907059475,
+    "maxElbowShift": 14.729634734326282,
+    "maxNeighborWristDelta": 1.2191417816889945,
+    "maxNeighborElbowDelta": 0.997220449695384,
+    "maxNeighborRollDelta": 1.6921634765263125,
+    "meanImprovement": 6.211240133801309,
+    "worstRegression": -0.001468035549812896,
+    "maxImprovement": 8.792270461629705,
+    "address": [
+      51.226214258029295,
+      42.71846241087645
+    ],
+    "oldMax": 77.2424640890536,
+    "newMax": 70.26294264500383
+  },
+  {
+    "sex": "Female",
+    "clip": "golfChip",
+    "side": "Right",
+    "frames": 555,
+    "maxRoll": 24.486892908271972,
+    "maxWristShift": 17.530670732708117,
+    "maxElbowShift": 17.354123580002007,
+    "maxNeighborWristDelta": 2.8065264877031955,
+    "maxNeighborElbowDelta": 9.126633032494619,
+    "maxNeighborRollDelta": 3.361141035646524,
+    "meanImprovement": 1.6327928018694466,
+    "worstRegression": 2.6290081223123707e-13,
+    "maxImprovement": 8.077538190057837,
+    "address": [
+      48.125702850536385,
+      45.604109355524194
+    ],
+    "oldMax": 79.92267390108245,
+    "newMax": 73.52077453816182
+  },
+  {
+    "sex": "Female",
+    "clip": "golfPutt",
+    "side": "Left",
+    "frames": 426,
+    "maxRoll": 20.926312547579222,
+    "maxWristShift": 15.021677491367535,
+    "maxElbowShift": 14.652346530247428,
+    "maxNeighborWristDelta": 0.24360265517983287,
+    "maxNeighborElbowDelta": 0.29690500337902265,
+    "maxNeighborRollDelta": 0.11985254366394216,
+    "meanImprovement": 4.364155260160706,
+    "worstRegression": -4.047880459638307,
+    "maxImprovement": 5.278260693504947,
+    "address": [
+      69.27127250284175,
+      63.99301180933681
+    ],
+    "oldMax": 77.47885324659528,
+    "newMax": 73.25201981880717
+  },
+  {
+    "sex": "Female",
+    "clip": "golfPutt",
+    "side": "Right",
+    "frames": 426,
+    "maxRoll": 8.634396538066483,
+    "maxWristShift": 6.2268812431177345,
+    "maxElbowShift": 8.043047072293284,
+    "maxNeighborWristDelta": 3.2438250949235035,
+    "maxNeighborElbowDelta": 6.405301580379631,
+    "maxNeighborRollDelta": 4.10182319777074,
+    "meanImprovement": 0.3199324208886433,
+    "worstRegression": -0.0005314582619178054,
+    "maxImprovement": 0.8685162877174903,
+    "address": [
+      64.68433171188818,
+      63.81581542417069
+    ],
+    "oldMax": 73.37560510010482,
+    "newMax": 73.33956277340553
+  }
+]

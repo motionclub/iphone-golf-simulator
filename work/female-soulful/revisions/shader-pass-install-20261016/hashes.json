@@ -1,0 +1,31 @@
+{
+  "before": {
+    "Unity/Assets/Resources/Tennis/Shaders/HeroLighting.hlsl": "bbdfd2512db72f2db96accdd3c866a59e4e9102ab2b46ec028b352fa75a8804e",
+    "Unity/Assets/Resources/Tennis/Shaders/HeroFaceSkin.shader": "e7fc0163f8a183f1e1ac99fc0066b21515cb2713bef9e91fa4e362401d9a3b76",
+    "Unity/Assets/Resources/Tennis/Shaders/TennisCharacter.shader": "5d06f7ae3601727af0abd72f72e74e81b439d5d07d85036c61ae3d040b2e565a",
+    "Unity/Assets/Resources/Tennis/Shaders/TennisCloth.shader": "ece9e98b57a44a809a051da0eb3d9e8ccbdb57084b8932ebceeba19f842eab56",
+    "Unity/Assets/Scripts/Tennis/FemaleGarmentFinish.cs": "45d738ba620cc385854302e99bf891f71d9c45c0de4830fe925dc3302f20de3b",
+    "GolfArcade/Unity/MatchHeroSurfaces.swift": "8537cde6351c3aaada8dc3aa3f9cba46afa3df24844eca09fddce3eeceaa6542",
+    "GolfArcade/Unity/CharacterAssets/MatchHero_Female.json": "3053089b32a7edec7f6e10af4bd1b274b16b9636d5387245cf2b0f12f8a7e038",
+    "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Distance.json": "6f6673333de44a4ed39fa796f9ad908f4abe26445a926352ce181eb9b395a89a",
+    "GolfArcade/Unity/CharacterAssets/GolfKitHero_Female.json": "341a56cbdd5005ab6c3749d69adae2dff1457463a067b1ddb1695fbcda55a748",
+    "GolfArcadeTests/VisualGolden/provenance.json": "a14b9498cf32007a482d9d8ff483d330876c6b7ab33ed5255cb3344cf35a2577"
+  },
+  "after": {
+    "Unity/Assets/Resources/Tennis/Shaders/HeroLighting.hlsl": "f97e75aa8123400ddc3716e8971a3f3bec3b22b6c885dba2e440d354363a99d5",
+    "Unity/Assets/Resources/Tennis/Shaders/HeroFaceSkin.shader": "a7afae1328c2eaf8d59111a1d26dfcc27848dda22eed6d9f8031f61d02b776cd",
+    "Unity/Assets/Resources/Tennis/Shaders/TennisCharacter.shader": "d57a3182b788578840405ebe285f022f78cc128837bed87d0445f76418d5d9f4",
+    "Unity/Assets/Resources/Tennis/Shaders/TennisCloth.shader": "e232f74838847d41736ca527918726a246876c9b9188574106049f5362e3fd05",
+    "Unity/Assets/Scripts/Tennis/FemaleGarmentFinish.cs": "27c90c2b98c7ca457077062857da24979f9ca7c63cc2763f3858e625e6b6c48a",
+    "GolfArcade/Unity/MatchHeroSurfaces.swift": "260477fdeb11f53a8edb3fea04e0d6dbc3d0f0e68810de996651cd9724166bd4",
+    "GolfArcade/Unity/CharacterAssets/MatchHero_Female.json": "85896e4e3fb27c3568e38d79e025986147533799dae90c6dabe52b61bf1721c0",
+    "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Distance.json": "5ad30cd5af068ed660ea541c45f0e70a2e59a234a877b76621c8915cd9ceb307",
+    "GolfArcade/Unity/CharacterAssets/GolfKitHero_Female.json": "012b83c171c191044c3d43422ed7d023bda8096a94c4ce6b2feeab6068b8327e",
+    "GolfArcadeTests/VisualGolden/provenance.json": "7e54ce0bab8f96d7d1c4edb7c347147a7b8e746f70461f6a2c006c0d00105c21"
+  },
+  "manifestKeysChanged": {
+    "MatchHero_Female": 46,
+    "MatchHero_Female_Distance": 46,
+    "GolfKitHero_Female": 39
+  }
+}

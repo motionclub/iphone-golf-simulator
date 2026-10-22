@@ -1,0 +1,157 @@
+{
+  "schema": 1,
+  "completed": false,
+  "rootReviewedSummary": true,
+  "scope": "Root reviewed final41 rows, actual published12contact and actual third physical vs-reference review. P8 actual commit/push still pending; draft facts only.",
+  "phases": [
+    {
+      "phase": 0,
+      "status": "PASS",
+      "closed": true,
+      "detail": "389-line audit, full installed/staged table, three aerial comparisons and30 ranked differences; guards7/7, compile0 errorCS."
+    },
+    {
+      "phase": 1,
+      "status": "FAIL",
+      "closed": true,
+      "detail": "Entry smokes26/26+115/115 and sway15/15; three-view fixtures saved. Basalt fixture rungs21.1%>20%; latest child checks3 FAIL/grass7 FAIL. Cliff H8 5.3545m/H9 5.1865m>4m; H10 unsupported FAIL."
+    },
+    {
+      "phase": 2,
+      "status": "PASS",
+      "closed": true,
+      "detail": "Formal gate100/100, scoring0m, aerial and10 differences explained. Requirement2.2 UV scroll unfinished FAIL; eye remains NO."
+    },
+    {
+      "phase": 3,
+      "status": "FAIL",
+      "closed": true,
+      "detail": "96/96 verifier,27/27 QA, scoring0m, ruin0/394. One frozen boundary; cliff coverage3.892%/4.740%<80%. H9 draws794→810 despite renderers1415→1195; merging did not meet250."
+    },
+    {
+      "phase": 4,
+      "status": "FAIL",
+      "closed": true,
+      "detail": "Fresh103/103 verifier,24/24 builder, basalt/lava PASS, scoring0m. Actual tee smoke edge35.11>6; synthetic intersection6.20>6."
+    },
+    {
+      "phase": 5,
+      "status": "FAIL",
+      "closed": true,
+      "detail": "12 play-mode frames, RGB drift0; cliff6/6, Needle stacks9/4 PASS. All six water shares<15%; Split landmarks0/24px<64. Gameplay camera/scoring bytes frozen."
+    },
+    {
+      "phase": 6,
+      "status": "FAIL",
+      "closed": true,
+      "detail": "Original pre/install completed; final installed33/41 PASS,8 FAIL;101/101 inputs unchanged. Import61/61, EditMode37/37, exact scoring12/12; iOS build0."
+    },
+    {
+      "phase": 7,
+      "status": "FAIL",
+      "closed": true,
+      "detail": "Stopped after third physical review: recognition0/3 YES, unwanted read3/3 YES, original differences0/30 fixed. Earlier failures/rethinks preserved; no fourth round."
+    },
+    {
+      "phase": 8,
+      "status": "FAIL",
+      "closed": false,
+      "detail": "Actual course-only commit/push not yet closed."
+    }
+  ],
+  "hardRuleFailures": [
+    "Project-wide serialization FAIL: foreign Unity pairs/triples simultaneously observed; our Unity/Xcode admissions used unchanged heavy.sh. No root Unity overlap inferred from queued waits."
+  ],
+  "filesChanged": [
+    {
+      "group": "Builders/libraries (22)",
+      "summary": "hole08/09/10 builders/look, masonry/stone/QA, postcard/look/props libraries and checks, golf_look_textures.py."
+    },
+    {
+      "group": "Installed assets (9)",
+      "summary": "Three blend files, three FBX files and three original byte-preserved FBX metadata files."
+    },
+    {
+      "group": "Course materials/textures/shaders (74)",
+      "summary": "63 Look texture/folder/meta files, nine shader/folder/meta files, two GolfLookVariants material/meta files."
+    },
+    {
+      "group": "Golf Editor proofs (15)",
+      "summary": "Seven PostcardV3 C#/meta pairs and GolfFlyoverCapture.cs."
+    },
+    {
+      "group": "Brief/captures (17)",
+      "summary": "Goal brief,12 native PNGs, three versus-reference JPGs and stills_stats.json. work/ excluded."
+    }
+  ],
+  "commit": {
+    "status": "FAIL",
+    "closed": false,
+    "sha": null,
+    "detail": "Pending actual transaction",
+    "evidence": []
+  },
+  "push": {
+    "status": "FAIL",
+    "closed": false,
+    "attempted": false,
+    "exitCode": null,
+    "force": false,
+    "branch": "newmapsandmenus",
+    "detail": "Pending actual push",
+    "evidence": []
+  },
+  "nextStep": "Before another geometry merge, profile H9 tee batch owners at810 draws; the previous merge added16 draws despite fewer renderers. Resolve island/cliff silhouettes, six water masks, Split landmarks, Needle UV scroll, Crater tee smoke and all30 visual differences; then measure on a physical iPhone. Establish a quiet serialized run and reconcile protected-file ownership. Clean-checkout reproduction FAIL: excluded pre-existing runtime/core/design/checker prerequisites require separate work; this working-tree build does not certify a standalone course commit.",
+  "compactDifferences": {
+    "8": {
+      "1": "Broad patchy grass bands.",
+      "2": "Low separated pads lack deep layered island mass; aerial tee cropped.",
+      "3": "Shallow horizontal cliff courses; outline4.936–5.354m>4m.",
+      "4": "Arch too small relative to islands.",
+      "5": "Thin separate spikes with tiny caps.",
+      "6": "Short waterfall, faint mist; UV scroll absent.",
+      "7": "Sparse faint hanging vines.",
+      "8": "Repeated large white ocean ovals; sparse foam.",
+      "9": "Narrow regular paving lane.",
+      "10": "Washed distant rocks; weak cloud depth."
+    },
+    "9": {
+      "1": "Long C-shaped low ribbon reads as parallel flat strips.",
+      "2": "Small sparse knolls lack eroded ridge mass.",
+      "3": "Shallow repeated cliff edges; outline5.186m>4m.",
+      "4": "Tiny aerial ruin; gameplay supports0/24px<64.",
+      "5": "Repeated mow bands remain conspicuous.",
+      "6": "Smooth dull rough lacks dense heather slopes.",
+      "7": "Sparse isolated shoreline foam.",
+      "8": "Straight parallel banks lack eroded coves.",
+      "9": "Detached small rocks lack massive outcrops.",
+      "10": "Flat sand ellipses lack soft rocky margins."
+    },
+    "10": {
+      "1": "Far wall remains a dark plank fence.",
+      "2": "Orange ticks/seams lack a deep natural joint network.",
+      "3": "Patchy mow strips; dull central cut.",
+      "4": "Low green slab lacks deep round pillar silhouette.",
+      "5": "Regular rim bands, tall rectangular panel, detached foreground columns.",
+      "6": "Clipped volcano flank lacks distinct background peak.",
+      "7": "Tee bead outline lacks readable stone platform.",
+      "8": "Dense repeated wormlike lava swirls.",
+      "9": "Revised parallel smoke still has detached star/card outlines.",
+      "10": "Flat elliptical bunkers lack soft rocky margins."
+    }
+  },
+  "deliverablePaths": {
+    "authoritative_summary": "/Users/adnanyonathan/Documents/Codex/2026-10-05/ope/outputs/final_summary.json",
+    "common_contact": "/Users/adnanyonathan/Documents/Codex/2026-10-05/ope/outputs/sheet_all_12.jpg",
+    "perholecontact": {
+      "8": "/Users/adnanyonathan/Documents/Codex/2026-10-05/ope/outputs/sheet_hole08.jpg",
+      "9": "/Users/adnanyonathan/Documents/Codex/2026-10-05/ope/outputs/sheet_hole09.jpg",
+      "10": "/Users/adnanyonathan/Documents/Codex/2026-10-05/ope/outputs/sheet_hole10.jpg"
+    },
+    "vsref": {
+      "8": "/Users/adnanyonathan/Documents/Codex/2026-10-05/ope/outputs/hole08_vs_ref.jpg",
+      "9": "/Users/adnanyonathan/Documents/Codex/2026-10-05/ope/outputs/hole09_vs_ref.jpg",
+      "10": "/Users/adnanyonathan/Documents/Codex/2026-10-05/ope/outputs/hole10_vs_ref.jpg"
+    }
+  }
+}

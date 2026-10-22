@@ -1,0 +1,10 @@
+gsmoke 08 exit 0
+gsmoke 09 exit 0
+gsmoke 10 exit 0
+build 08 exit 0
+verify 08 exit 0
+build 09 exit 0
+verify 09 exit 0
+build 10 exit 0
+verify 10 exit 1
+ALLDONE

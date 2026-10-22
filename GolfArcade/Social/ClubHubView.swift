@@ -21,8 +21,7 @@ struct ClubHubView: View {
                     partySection
                     friendsSections
                     addSection
-                    codeSection
-                    settingsSection
+                    if hub.link == .online { codeSection; settingsSection }
                 }
                 .padding(.horizontal, 20).padding(.vertical, 14)
             }
@@ -60,13 +59,13 @@ struct ClubHubView: View {
         .padding(14).background(.white.opacity(0.08), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
     }
     private var statusColor: Color {
-        switch hub.link { case .online: IslandUI.lime; case .connecting: .orange; case .notConfigured: .gray; case .signedOut: .orange; case .offline: .red.opacity(0.8) }
+        switch hub.link { case .online: IslandUI.lime; case .connecting: .orange; case .notConfigured: hub.canInvite ? IslandUI.lime : .gray; case .signedOut: .orange; case .offline: .red.opacity(0.8) }
     }
     private var statusTitle: String {
         switch hub.link {
         case .online: hub.invisible ? "You appear offline" : "You are online"
         case .connecting: "Connecting…"
-        case .notConfigured: "Friends"
+        case .notConfigured: "Game Center connected"
         case .signedOut: "Sign in to Game Center"
         case .offline: "Not connected"
         }
@@ -75,7 +74,7 @@ struct ClubHubView: View {
         switch hub.link {
         case .online: "\(hub.onlineFriends.count) friend\(hub.onlineFriends.count == 1 ? "" : "s") online"
         case .connecting: "Reaching the Club Hub"
-        case .notConfigured: "Friends online need the Club Hub service, which this build has no address for yet."
+        case .notConfigured: "Invite friends with Game Center, even when they are offline."
         case .signedOut: "Game Center keeps your friends list."
         case .offline(let why): why.isEmpty ? "Trying again…" : why
         }
@@ -141,11 +140,13 @@ struct ClubHubView: View {
     private var friendsSections: some View {
         Group {
             if hub.access == .authorized || !hub.friends.isEmpty {
-                section("Online", badge: hub.onlineFriends.count) {
-                    if hub.onlineFriends.isEmpty { empty(hub.link == .online ? "None of your friends are online." : "Online status needs a connection.") }
-                    ForEach(hub.onlineFriends) { friendRow($0) }
+                if hub.link == .online {
+                    section("Online", badge: hub.onlineFriends.count) {
+                        if hub.onlineFriends.isEmpty { empty("None of your friends are online.") }
+                        ForEach(hub.onlineFriends) { friendRow($0) }
+                    }
                 }
-                section("Offline", badge: hub.offlineFriends.count) {
+                section(hub.link == .online ? "Offline" : "Friends", badge: hub.offlineFriends.count) {
                     if hub.offlineFriends.isEmpty { empty("Nobody offline.") }
                     ForEach(hub.offlineFriends) { friendRow($0) }
                     if !hub.offlineFriends.isEmpty, hub.link == .online { Text("Invite anyone: an offline friend sees it the moment they open the game.").font(IslandUI.font(12)).foregroundStyle(.white.opacity(0.5)) }
@@ -172,10 +173,10 @@ struct ClubHubView: View {
     }
 
     private func friendRow(_ f: ClubHub.Friend) -> some View {
-        let state = f.online ? stateText(f.state) : "Offline"
+        let state = f.online ? stateText(f.state) : hub.link == .online ? "Offline" : "Invite to your lobby"
         let sent = hub.sent[f.id]
         return HStack(spacing: 12) {
-            avatar(f.name, dot: f.online ? IslandUI.lime : .gray.opacity(0.6))
+            avatar(f.name, dot: hub.link == .online ? (f.online ? IslandUI.lime : .gray.opacity(0.6)) : nil)
             VStack(alignment: .leading, spacing: 2) {
                 Text(f.name).font(IslandUI.font(17, bold: true))
                 Text(sent?.text ?? state).font(IslandUI.font(13)).foregroundStyle(sent == nil ? .white.opacity(0.6) : IslandUI.lime)
@@ -187,10 +188,17 @@ struct ClubHubView: View {
                 Button { hub.cancelInvite(to: f) } label: { smallButton("Cancel", filled: false) }
             } else if sent == .accepted {
                 ProgressView().tint(IslandUI.lime)
+            } else if hub.canJoin(f) {
+                VStack(spacing: 8) {
+                    Button { hub.join(f) } label: { smallButton("Join", filled: true) }
+                        .accessibilityIdentifier("club-join-\(f.id)")
+                    Button { hub.invite(f) } label: { smallButton("Invite", filled: false) }
+                        .accessibilityIdentifier("club-invite-\(f.id)")
+                }
             } else {
                 // one tap, online or offline (offline friends get it the moment they open the game)
                 Button { hub.invite(f) } label: { smallButton("Invite", filled: true) }
-                    .disabled(hub.link != .online).opacity(hub.link == .online ? 1 : 0.4)
+                    .disabled(!hub.canInvite).opacity(hub.canInvite ? 1 : 0.4)
                     .accessibilityIdentifier("club-invite-\(f.id)")
             }
         }
@@ -200,7 +208,7 @@ struct ClubHubView: View {
     }
 
     private func inParty(_ id: String) -> Bool {
-        MultiplayerService.shared.isParty && MultiplayerService.shared.lobby?.participants.contains { $0.id == id } == true
+        hub.friendInParty(id)
     }
     private func stateText(_ s: HubPresenceState?) -> String {
         switch s { case .plaza?: "In the Plaza"; case .lobby?: "In a lobby"; case .match?: "In a match"; case .away?: "Away"; case .dnd?: "Do not disturb"; case nil: "Online" }
@@ -291,17 +299,20 @@ struct ShareSheet: UIViewControllerRepresentable {
 /// countdown. One tap on Join and you are in your friend's party, in the Plaza.
 struct InviteBannerHost: View {
     var hub = ClubHub.shared
+    var chat = PartyChat.shared
     var body: some View {
         VStack(spacing: 8) {
             if let invite = hub.banner { InviteBanner(hub: hub, invite: invite).transition(.move(edge: .top).combined(with: .opacity)) }
             if let who = hub.joining { JoiningPill(hub: hub, who: who).transition(.move(edge: .top).combined(with: .opacity)) }
             else if !hub.notice.isEmpty, !hub.hubOpen { NoticePill(hub: hub).transition(.opacity) }
+            // in-game chat over every screen (the strip takes touches only while it is open)
+            if !hub.hubOpen { PartyChatStrip(chat: chat).padding(.top, chat.stripOpen ? 44 : 48) }
         }
         .padding(.horizontal, 12).padding(.top, 6)
         .frame(maxWidth: 560)
         .animation(.spring(response: 0.4, dampingFraction: 0.8), value: hub.banner?.inviteID)
         .animation(.easeInOut(duration: 0.25), value: hub.joining)
-        .allowsHitTesting(hub.banner != nil || hub.joining != nil || !hub.notice.isEmpty)
+        .allowsHitTesting(hub.banner != nil || hub.joining != nil || !hub.notice.isEmpty || (chat.stripOpen && chat.available))
     }
 }
 

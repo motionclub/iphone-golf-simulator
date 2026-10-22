@@ -1,0 +1,173 @@
+{
+  "scope": "Actual Blender EEVEE scenery; same P1 fixed lighting; unchanged v2/proof pixel predicates. Actual Unity Game view UNVERIFIED.",
+  "shots": [
+    {
+      "name": "az0",
+      "metrics": {
+        "pixels": 579098,
+        "share_of_frame": 0.4022,
+        "glow_px": 24839,
+        "glow_coverage": 0.0429,
+        "base_mean_rgb": [
+          27.3,
+          26.0,
+          27.4
+        ],
+        "base_hue": 299.0,
+        "base_s": 0.049,
+        "base_v": 0.107,
+        "base_lum_median": 23.3,
+        "base_lum_p90": 39.5,
+        "base_lum_mean": 26.4,
+        "base_s_median": 0.103,
+        "glow_mean_rgb": [
+          202.4,
+          103.2,
+          35.0
+        ],
+        "glow_mean_hue": 24.4,
+        "glow_cream_share": 0.0,
+        "glow_skeleton_px": 11675,
+        "glow_junction_clusters": 886,
+        "glow_components": 204,
+        "glow_vertical_line_share": 0.904,
+        "glow_horizontal_rung_share": 0.0,
+        "glow_blob_share": 0.037,
+        "glow_component_height_median_px": 15,
+        "glow_component_width_median_px": 5,
+        "glow_component_height_p90_px": 113
+      },
+      "ok": false,
+      "image": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/p7_candidates/bounded_v6/fixture/az0.png"
+    },
+    {
+      "name": "az35",
+      "metrics": {
+        "pixels": 590192,
+        "share_of_frame": 0.4099,
+        "glow_px": 18350,
+        "glow_coverage": 0.0311,
+        "base_mean_rgb": [
+          24.7,
+          24.0,
+          25.6
+        ],
+        "base_hue": 267.0,
+        "base_s": 0.065,
+        "base_v": 0.1,
+        "base_lum_median": 22.4,
+        "base_lum_p90": 36.7,
+        "base_lum_mean": 24.2,
+        "base_s_median": 0.115,
+        "glow_mean_rgb": [
+          207.7,
+          106.0,
+          34.5
+        ],
+        "glow_mean_hue": 24.8,
+        "glow_cream_share": 0.0,
+        "glow_skeleton_px": 8506,
+        "glow_junction_clusters": 727,
+        "glow_components": 156,
+        "glow_vertical_line_share": 0.849,
+        "glow_horizontal_rung_share": 0.0,
+        "glow_blob_share": 0.082,
+        "glow_component_height_median_px": 13,
+        "glow_component_width_median_px": 5,
+        "glow_component_height_p90_px": 110
+      },
+      "ok": false,
+      "image": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/p7_candidates/bounded_v6/fixture/az35.png"
+    },
+    {
+      "name": "az-35",
+      "metrics": {
+        "pixels": 589781,
+        "share_of_frame": 0.4096,
+        "glow_px": 18833,
+        "glow_coverage": 0.0319,
+        "base_mean_rgb": [
+          28.6,
+          27.4,
+          28.9
+        ],
+        "base_hue": 288.8,
+        "base_s": 0.051,
+        "base_v": 0.113,
+        "base_lum_median": 25.1,
+        "base_lum_p90": 39.4,
+        "base_lum_mean": 27.8,
+        "base_s_median": 0.097,
+        "glow_mean_rgb": [
+          212.5,
+          109.0,
+          37.0
+        ],
+        "glow_mean_hue": 24.6,
+        "glow_cream_share": 0.0,
+        "glow_skeleton_px": 8767,
+        "glow_junction_clusters": 872,
+        "glow_components": 187,
+        "glow_vertical_line_share": 0.928,
+        "glow_horizontal_rung_share": 0.001,
+        "glow_blob_share": 0.044,
+        "glow_component_height_median_px": 13,
+        "glow_component_width_median_px": 5,
+        "glow_component_height_p90_px": 70
+      },
+      "ok": false,
+      "image": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/p7_candidates/bounded_v6/fixture/az-35.png"
+    }
+  ],
+  "network": {
+    "ok": true,
+    "skeleton_pixels": 28948,
+    "junction_clusters": 2485,
+    "junction_per100": 8.58435815945834
+  },
+  "geometry": [
+    {
+      "vertices": 188,
+      "faces": 124,
+      "triangles": 316,
+      "columns": 15,
+      "span": 12.531507673332829
+    },
+    {
+      "vertices": 188,
+      "faces": 124,
+      "triangles": 316,
+      "columns": 15,
+      "span": 12.477216154926442
+    },
+    {
+      "vertices": 188,
+      "faces": 124,
+      "triangles": 316,
+      "columns": 15,
+      "span": 12.53678819406869
+    }
+  ],
+  "uv_stats": [
+    {
+      "side": 94,
+      "glow": 73,
+      "top": 30,
+      "top_glow_free": 14
+    },
+    {
+      "side": 94,
+      "glow": 72,
+      "top": 30,
+      "top_glow_free": 19
+    },
+    {
+      "side": 94,
+      "glow": 75,
+      "top": 30,
+      "top_glow_free": 15
+    }
+  ],
+  "source_sha256": "4b6e0402e0e30f583e21e590266114308481f66613c49f6d35589f83f177aefc",
+  "all_blender_gates": false
+}

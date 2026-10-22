@@ -1,0 +1,72 @@
+using System;
+using System.Collections;
+using System.IO;
+using System.Reflection;
+using GolfArcade.Tennis;
+using NUnit.Framework;
+using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.SceneManagement;
+using UnityEngine.TestTools;
+using Object=UnityEngine.Object;
+
+namespace GolfArcade.PlayTests
+{
+    // Scratch-only real URP rendering test. The production editor deliberately
+    // retains High; inject a disposable pipeline copy to exercise actual Low.
+    public class EnvironmentFallbackProofTests
+    {
+        static Color[] Render(Camera camera,string path) {
+            var rt=RenderTexture.GetTemporary(128,128,24,RenderTextureFormat.ARGB32);
+            camera.targetTexture=rt;camera.Render();var old=RenderTexture.active;RenderTexture.active=rt;
+            var image=new Texture2D(128,128,TextureFormat.RGB24,false);image.ReadPixels(new Rect(0,0,128,128),0,0);image.Apply();
+            var pixels=image.GetPixels();File.WriteAllBytes(path,image.EncodeToPNG());Object.Destroy(image);
+            camera.targetTexture=null;RenderTexture.active=old;RenderTexture.ReleaseTemporary(rt);return pixels;
+        }
+        [UnityTest,Timeout(240000)] public IEnumerator FogDisabledRetainsNearColorAndBothTiersKeepAces()
+        {
+            string folder=System.Environment.GetEnvironmentVariable("FALLBACK_OUT");Directory.CreateDirectory(folder);
+            yield return SceneManager.LoadSceneAsync("Tennis");yield return null;
+            var game=Object.FindFirstObjectByType<TennisGame>();game.ManualSimulation=true;
+            // The live game's camera pass turns replay focus off every normal-play
+            // frame. Hold that owner while exercising the actual replay entry point.
+            game.enabled=false;
+            var post=game.GameplayCamera.GetComponent<SportsPostProcessing>();Assert.IsNotNull(post);
+            var shared=GraphicsSettings.defaultRenderPipeline;var quality=QualitySettings.renderPipeline;
+            var field=typeof(TennisQuality).GetField("live",BindingFlags.NonPublic|BindingFlags.Static);
+            var previous=field.GetValue(null);var copy=Object.Instantiate((UniversalRenderPipelineAsset)shared);
+            var quad=GameObject.CreatePrimitive(PrimitiveType.Quad);quad.layer=29;quad.transform.position=Vector3.zero;
+            var material=new Material(Shader.Find("GolfArcade/TennisWorldSurface"));material.SetColor("_BaseColor",new Color(.3f,.6f,.2f));
+            quad.GetComponent<Renderer>().sharedMaterial=material;
+            var camera=new GameObject("Isolated fog diagnostic").AddComponent<Camera>();camera.transform.position=new Vector3(0,0,-4);
+            camera.cullingMask=1<<29;camera.clearFlags=CameraClearFlags.SolidColor;camera.backgroundColor=Color.black;
+            camera.orthographic=true;camera.orthographicSize=.6f;camera.GetUniversalAdditionalCameraData().renderPostProcessing=false;
+            bool oldFog=RenderSettings.fog;
+            try {
+                field.SetValue(null,copy);GraphicsSettings.defaultRenderPipeline=copy;QualitySettings.renderPipeline=copy;
+                RenderSettings.fog=false;
+                foreach(var tier in new[]{TennisQuality.Tier.High,TennisQuality.Tier.Low}) {
+                    TennisQuality.Apply(tier);TennisLook.ReplayFocus(post.Volume,true,12);yield return null;
+                    Assert.IsTrue(post.Volume.profile.TryGet(out Tonemapping tone));Assert.AreEqual(TonemappingMode.ACES,tone.mode.value);
+                    Assert.IsTrue(post.Volume.profile.TryGet(out Bloom bloom));Assert.AreEqual(tier!=TennisQuality.Tier.Low,bloom.active);
+                    Assert.IsTrue(post.Volume.profile.TryGet(out DepthOfField dof),"Replay component exists");Assert.AreEqual(tier==TennisQuality.Tier.High,dof.active,"Replay request follows tier");
+                    Assert.AreEqual(tier==TennisQuality.Tier.Low?2:4,copy.msaaSampleCount);
+                    Shader.SetGlobalFloat("_EnvironmentDepthEnabled",0);var before=Render(camera,Path.Combine(folder,tier+"_fogoff_before.png"));
+                    Shader.SetGlobalFloat("_EnvironmentDepthEnabled",1);var after=Render(camera,Path.Combine(folder,tier+"_fogoff_after.png"));
+                    float maximum=0,visible=0;
+                    for(int y=40;y<88;y++)for(int x=40;x<88;x++) {
+                        int i=y*128+x;maximum=Mathf.Max(maximum,Mathf.Abs(before[i].r-after[i].r),Mathf.Abs(before[i].g-after[i].g),Mathf.Abs(before[i].b-after[i].b));visible+=before[i].grayscale;
+                    }
+                    Assert.Greater(visible/2304,.03f,"The comparison must contain a visible lit surface");
+                    Assert.LessOrEqual(maximum,3f/255,"Disabled linear fog cannot replace near surface color with haze");
+                    File.AppendAllText(Path.Combine(folder,"results.tsv"),tier+"\t"+maximum+"\t"+copy.msaaSampleCount+"\t"+tone.mode.value+"\n");
+                    TennisLook.ReplayFocus(post.Volume,false,12);yield return null;Assert.IsFalse(dof.active);
+                }
+            } finally {
+                RenderSettings.fog=oldFog;field.SetValue(null,previous);GraphicsSettings.defaultRenderPipeline=shared;QualitySettings.renderPipeline=quality;
+                Object.Destroy(copy);Object.Destroy(camera.gameObject);Object.Destroy(quad);Object.Destroy(material);
+            }
+        }
+    }
+}

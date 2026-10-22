@@ -1,0 +1,377 @@
+{
+  "v11-female-ad": {
+    "sampled_frames": 720,
+    "complete": true,
+    "G1": {
+      "value": 0.0,
+      "frame": 0
+    },
+    "G2": {
+      "value": 0.034,
+      "frame": 12
+    },
+    "G4_elbow": [
+      28.56039,
+      60.44796
+    ],
+    "G4_wrist": {
+      "value": 0.06372,
+      "frame": 36
+    },
+    "G5_step": {
+      "value": 0.029673,
+      "frame": 136
+    },
+    "G5_speed_delta": {
+      "value": 0.500032,
+      "frame": 572
+    },
+    "G3": {
+      "game_visible": 99.32885906040268,
+      "front_visible": 100.0,
+      "side_visible": 100.0
+    },
+    "G7": 100.0
+  },
+  "v9-female-ad": {
+    "sampled_frames": 720,
+    "complete": true,
+    "G1": {
+      "value": 0.0,
+      "frame": 0
+    },
+    "G2": {
+      "value": 0.03,
+      "frame": 14
+    },
+    "G4_elbow": [
+      36.57144,
+      57.75383
+    ],
+    "G4_wrist": {
+      "value": -0.000767,
+      "frame": 397
+    },
+    "G5_step": {
+      "value": 0.029834,
+      "frame": 36
+    },
+    "G5_speed_delta": {
+      "value": 0.500046,
+      "frame": 561
+    },
+    "G3": {
+      "game_visible": 68.12080536912751,
+      "front_visible": 100.0,
+      "side_visible": 100.0
+    },
+    "G7": 100.0
+  },
+  "pelvis-measure-r2": {
+    "sampled_frames": 120,
+    "complete": true,
+    "G1": {
+      "value": 0.0,
+      "frame": 0
+    },
+    "G2": {
+      "value": 0.034,
+      "frame": 14
+    },
+    "G4_elbow": [
+      16.92554,
+      52.92193
+    ],
+    "G4_wrist": {
+      "value": -0.009331,
+      "frame": 104
+    },
+    "G5_step": {
+      "value": 0.029834,
+      "frame": 34
+    },
+    "G5_speed_delta": {
+      "value": 0.493566,
+      "frame": 33
+    },
+    "G3": {
+      "game_visible": 100.0,
+      "front_visible": 100.0,
+      "side_visible": 100.0
+    },
+    "G7": 100.0
+  },
+  "v10-female-ad": {
+    "sampled_frames": 720,
+    "complete": true,
+    "G1": {
+      "value": 21.34786,
+      "frame": 195
+    },
+    "G2": {
+      "value": 0.034,
+      "frame": 14
+    },
+    "G4_elbow": [
+      7.556625,
+      56.26939
+    ],
+    "G4_wrist": {
+      "value": 0.009153,
+      "frame": 195
+    },
+    "G5_step": {
+      "value": 0.029834,
+      "frame": 34
+    },
+    "G5_speed_delta": {
+      "value": 0.500032,
+      "frame": 574
+    },
+    "G3": {
+      "game_visible": 72.14765100671141,
+      "front_visible": 100.0,
+      "side_visible": 34.22818791946309
+    },
+    "G7": 100.0
+  },
+  "v2": {
+    "sampled_frames": 720,
+    "complete": true,
+    "G1": {
+      "value": 40.17152,
+      "frame": 52
+    },
+    "G2": {
+      "value": 0.03,
+      "frame": 17
+    },
+    "G4_elbow": [
+      7.204132,
+      42.83138
+    ],
+    "G4_wrist": {
+      "value": -0.027692,
+      "frame": 317
+    },
+    "G5_step": {
+      "value": 0.024167,
+      "frame": 34
+    },
+    "G5_speed_delta": {
+      "value": 1.017449,
+      "frame": 432
+    },
+    "G3": {
+      "game_visible": 64.68926553672317,
+      "front_visible": 85.31073446327683,
+      "side_visible": 99.43502824858757
+    },
+    "G7": 100.0
+  },
+  "v5": {
+    "sampled_frames": 720,
+    "complete": true,
+    "G1": {
+      "value": 0.0,
+      "frame": 0
+    },
+    "G2": {
+      "value": 0.03,
+      "frame": 16
+    },
+    "G4_elbow": [
+      20.48315,
+      50.75735
+    ],
+    "G4_wrist": {
+      "value": -0.017775,
+      "frame": 179
+    },
+    "G5_step": {
+      "value": 0.029834,
+      "frame": 43
+    },
+    "G5_speed_delta": {
+      "value": 0.500009,
+      "frame": 348
+    },
+    "G3": {
+      "game_visible": 96.61016949152543,
+      "front_visible": 100.0,
+      "side_visible": 100.0
+    },
+    "G7": 100.0
+  },
+  "male-rh-deuce": {
+    "sampled_frames": 720,
+    "complete": true,
+    "G1": {
+      "value": 116.733,
+      "frame": 352
+    },
+    "G2": {
+      "value": 0.03,
+      "frame": 16
+    },
+    "G4_elbow": [
+      7.203918,
+      61.83259
+    ],
+    "G4_wrist": {
+      "value": 0.024223,
+      "frame": 199
+    },
+    "G5_step": {
+      "value": 0.034165,
+      "frame": 41
+    },
+    "G5_speed_delta": {
+      "value": 1.218748,
+      "frame": 443
+    },
+    "G3": {
+      "game_visible": 82.48587570621469,
+      "front_visible": 77.11864406779661,
+      "side_visible": 93.50282485875707
+    },
+    "G7": 100.0
+  },
+  "v4": {
+    "sampled_frames": 720,
+    "complete": true,
+    "G1": {
+      "value": 0.0,
+      "frame": 0
+    },
+    "G2": {
+      "value": 0.03,
+      "frame": 16
+    },
+    "G4_elbow": [
+      7.2043,
+      46.6156
+    ],
+    "G4_wrist": {
+      "value": -0.017762,
+      "frame": 179
+    },
+    "G5_step": {
+      "value": 0.029834,
+      "frame": 35
+    },
+    "G5_speed_delta": {
+      "value": 0.500034,
+      "frame": 355
+    },
+    "G3": {
+      "game_visible": 54.23728813559322,
+      "front_visible": 100.0,
+      "side_visible": 100.0
+    },
+    "G7": 100.0
+  },
+  "v3": {
+    "sampled_frames": 720,
+    "complete": true,
+    "G1": {
+      "value": 0.0,
+      "frame": 0
+    },
+    "G2": {
+      "value": 0.03,
+      "frame": 16
+    },
+    "G4_elbow": [
+      28.94128,
+      50.20107
+    ],
+    "G4_wrist": {
+      "value": -0.020426,
+      "frame": 318
+    },
+    "G5_step": {
+      "value": 0.029834,
+      "frame": 35
+    },
+    "G5_speed_delta": {
+      "value": 1.04911,
+      "frame": 321
+    },
+    "G3": {
+      "game_visible": 88.98305084745763,
+      "front_visible": 90.67796610169492,
+      "side_visible": 99.15254237288136
+    },
+    "G7": 100.0
+  },
+  "v12-female-ad": {
+    "sampled_frames": 720,
+    "complete": true,
+    "G1": {
+      "value": 0.0,
+      "frame": 0
+    },
+    "G2": {
+      "value": 0.034,
+      "frame": 12
+    },
+    "G4_elbow": [
+      28.57263,
+      56.99821
+    ],
+    "G4_wrist": {
+      "value": 0.063967,
+      "frame": 38
+    },
+    "G5_step": {
+      "value": 0.029673,
+      "frame": 136
+    },
+    "G5_speed_delta": {
+      "value": 0.500046,
+      "frame": 572
+    },
+    "G3": {
+      "game_visible": 100.0,
+      "front_visible": 100.0,
+      "side_visible": 100.0
+    },
+    "G7": 100.0
+  },
+  "pelvis-measure": {
+    "sampled_frames": 120,
+    "complete": true,
+    "G1": {
+      "value": 0.0,
+      "frame": 0
+    },
+    "G2": {
+      "value": 0.034,
+      "frame": 14
+    },
+    "G4_elbow": [
+      16.92554,
+      52.92193
+    ],
+    "G4_wrist": {
+      "value": -0.009331,
+      "frame": 104
+    },
+    "G5_step": {
+      "value": 0.029834,
+      "frame": 34
+    },
+    "G5_speed_delta": {
+      "value": 0.493566,
+      "frame": 33
+    },
+    "G3": {
+      "game_visible": 100.0,
+      "front_visible": 100.0,
+      "side_visible": 100.0
+    },
+    "G7": 100.0
+  }
+}
+source differences: {'Assets/Scripts/Tennis/HeroTennisDriver.cs': 'different', 'Assets/Scripts/Tennis/TennisGame.cs': 'different', 'Assets/Scripts/Tennis/TennisServeRoutine.cs': 'different'}

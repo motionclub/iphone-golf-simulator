@@ -1,0 +1,210 @@
+{
+ "gender": "female",
+ "objects": [
+  {
+   "name": "Kit_Top_Polo_F",
+   "category": "Top",
+   "socket": "Chest_Top",
+   "tris": 11199,
+   "verts": 6540,
+   "fit_ref": "authority",
+   "has_uv": true,
+   "custom_normals": true,
+   "bbox_min": [
+    -0.2223,
+    -0.1398,
+    0.958
+   ],
+   "bbox_max": [
+    0.2227,
+    0.1049,
+    1.4088
+   ]
+  },
+  {
+   "name": "Kit_Bottom_Skort_F",
+   "category": "Bottom",
+   "socket": "Hip_Bottom",
+   "tris": 19814,
+   "verts": 12418,
+   "fit_ref": "authority",
+   "has_uv": true,
+   "custom_normals": true,
+   "bbox_min": [
+    -0.1932,
+    -0.1506,
+    0.6394
+   ],
+   "bbox_max": [
+    0.1932,
+    0.1501,
+    0.9957
+   ]
+  },
+  {
+   "name": "Kit_Sock_L",
+   "category": "Sock",
+   "socket": "Foot_L_Shoe",
+   "tris": 3445,
+   "verts": 2045,
+   "fit_ref": "authority",
+   "has_uv": true,
+   "custom_normals": true,
+   "bbox_min": [
+    -0.1695,
+    -0.1311,
+    -0.0043
+   ],
+   "bbox_max": [
+    -0.0493,
+    0.0769,
+    0.2856
+   ]
+  },
+  {
+   "name": "Kit_Sock_R",
+   "category": "Sock",
+   "socket": "Foot_R_Shoe",
+   "tris": 3457,
+   "verts": 2054,
+   "fit_ref": "authority",
+   "has_uv": true,
+   "custom_normals": true,
+   "bbox_min": [
+    0.0494,
+    -0.1311,
+    -0.0036
+   ],
+   "bbox_max": [
+    0.1692,
+    0.0768,
+    0.2854
+   ]
+  },
+  {
+   "name": "Kit_Shoe_L",
+   "category": "Shoe",
+   "socket": "Foot_L_Shoe",
+   "tris": 7021,
+   "verts": 4189,
+   "fit_ref": "authority",
+   "has_uv": true,
+   "custom_normals": true,
+   "bbox_min": [
+    -0.182,
+    -0.1475,
+    -0.0255
+   ],
+   "bbox_max": [
+    -0.0632,
+    0.0733,
+    0.1246
+   ]
+  },
+  {
+   "name": "Kit_Shoe_R",
+   "category": "Shoe",
+   "socket": "Foot_R_Shoe",
+   "tris": 7042,
+   "verts": 4197,
+   "fit_ref": "authority",
+   "has_uv": true,
+   "custom_normals": true,
+   "bbox_min": [
+    0.0631,
+    -0.1476,
+    -0.0255
+   ],
+   "bbox_max": [
+    0.1813,
+    0.0735,
+    0.1247
+   ]
+  },
+  {
+   "name": "Kit_Sock_L_ArmsCandFit",
+   "category": "Sock",
+   "socket": "Foot_L_Shoe",
+   "tris": 2830,
+   "verts": 1656,
+   "fit_ref": "arms_candidate",
+   "has_uv": true,
+   "custom_normals": true,
+   "bbox_min": [
+    -0.1862,
+    -0.1429,
+    -0.0038
+   ],
+   "bbox_max": [
+    -0.0494,
+    0.1066,
+    0.2854
+   ]
+  },
+  {
+   "name": "Kit_Sock_R_ArmsCandFit",
+   "category": "Sock",
+   "socket": "Foot_R_Shoe",
+   "tris": 2855,
+   "verts": 1671,
+   "fit_ref": "arms_candidate",
+   "has_uv": true,
+   "custom_normals": true,
+   "bbox_min": [
+    0.0495,
+    -0.1429,
+    -0.0038
+   ],
+   "bbox_max": [
+    0.1862,
+    0.1066,
+    0.2854
+   ]
+  },
+  {
+   "name": "Kit_Shoe_L_ArmsCandFit",
+   "category": "Shoe",
+   "socket": "Foot_L_Shoe",
+   "tris": 7762,
+   "verts": 4610,
+   "fit_ref": "arms_candidate",
+   "has_uv": true,
+   "custom_normals": true,
+   "bbox_min": [
+    -0.2012,
+    -0.1578,
+    -0.0265
+   ],
+   "bbox_max": [
+    -0.0624,
+    0.1207,
+    0.125
+   ]
+  },
+  {
+   "name": "Kit_Shoe_R_ArmsCandFit",
+   "category": "Shoe",
+   "socket": "Foot_R_Shoe",
+   "tris": 7737,
+   "verts": 4596,
+   "fit_ref": "arms_candidate",
+   "has_uv": true,
+   "custom_normals": true,
+   "bbox_min": [
+    0.0624,
+    -0.1576,
+    -0.0265
+   ],
+   "bbox_max": [
+    0.2011,
+    0.1207,
+    0.125
+   ]
+  }
+ ],
+ "body_sha256": "200dc3b93e65491a8a7c3a8220c76cde5ca02ec7d1279e339f154005b22685cd",
+ "shoe_lift_m": 0.0235,
+ "shoe_lift_alt_m": 0.0245,
+ "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/standard-tennis-kit-wb/export/StandardKit_Female.blend",
+ "blend_sha256": "f3f0c02de3582857471c064c73db9e9a6734b8f73cddc9ce3182e6b19f8a8f49"
+}

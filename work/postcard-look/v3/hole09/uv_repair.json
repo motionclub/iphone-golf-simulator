@@ -1,0 +1,16 @@
+{
+  "knoll_rock_faces": 519,
+  "firstcut_top_faces": 771,
+  "gates": [
+    {
+      "name": "UV_DENSITY",
+      "ok": true,
+      "detail": "every tiled LK_ surface has UV0 at its contract density (ratio range per material {'LK_CLIFF': '0.93..1.00x', 'LK_CLIFF_DARK': '0.99..1.00x', 'LK_FAIRWAY': '1.00..1.04x', 'LK_GREEN': '0.96..1.00x', 'LK_MASONRY': '0.40..0.51x', 'LK_ROCK': '0.93..1.18x', 'LK_ROCK_WET': '0.94..0.96x', 'LK_ROUGH': '0.87..1.00x', 'LK_SAND': '0.96..1.00x', 'LK_SCRUB': '0.67..1.00x', 'LK_SURF': '1.00..1.00x'}), no smear (UV anisotropy <= 4:1 on >= 85% of every material's area); atlas/sheet/card UVs valid"
+    },
+    {
+      "name": "GROUND_UV_LOCAL_SMEAR",
+      "ok": true,
+      "detail": "12 play-surface meshes: UV anisotropy > 4:1 covers at most 0.0 m2 per mesh (BUNKER_01; limit 15 m2 in all, 10 m2 for one triangle), worst triangle 3.3:1"
+    }
+  ]
+}

@@ -1,0 +1,458 @@
+{
+  "male": {
+    "rows": 537,
+    "fields": {
+      "palm": 537,
+      "heel": 537,
+      "toe": 537,
+      "knee": 537,
+      "pelvis": 537,
+      "wrist_rotation": 537,
+      "planted_foot_position": 537
+    },
+    "bone_rows": 139620,
+    "skeleton_bones": 52,
+    "film_frame_counts": {
+      "game": 269,
+      "front": 269,
+      "side": 269,
+      "back": 269
+    },
+    "trace_end_time": 9.95,
+    "serve_clip_end": 1.978333,
+    "G1_max_heights_mm": {
+      "Lheel": 67.32349,
+      "Ltoe": 64.7187,
+      "Rheel": 12.24752,
+      "Rtoe": 0.764191
+    },
+    "diagnosis": {
+      "frame": "381",
+      "time": "7.366667",
+      "clipTime": "1.510118",
+      "state": "Serve swing",
+      "baseReady": "0.000000",
+      "baseWalk": "0.000000",
+      "baseServe": "1.000000",
+      "baseRun": "0.000000",
+      "upperWeight": "0.000000",
+      "actionLegs": "1.000000",
+      "legsFromRun": "0.000000",
+      "groundLift": "0.000000",
+      "sinkBeforeGround": "0.000000",
+      "heroRoot_y": "0.035000",
+      "Lstepping": "1",
+      "LstepT": "0.555556",
+      "Llocked": "0",
+      "LlockW": "0.000000",
+      "live_Lheel_mm": 67.32349,
+      "live_Ltoe_mm": 64.7187,
+      "layers_Lheel_mm": 3.310993,
+      "layers_Ltoe_mm": 0.706077,
+      "base_Lheel_mm": 3.310993,
+      "base_Ltoe_mm": 0.706077,
+      "pureServe_Lheel_mm": 3.310993,
+      "pureServe_Ltoe_mm": 0.706077,
+      "Rstepping": "0",
+      "RstepT": "1.111111",
+      "Rlocked": "1",
+      "RlockW": "1.000000",
+      "live_Rheel_mm": 3.449842,
+      "live_Rtoe_mm": 0.697732,
+      "layers_Rheel_mm": 3.449678,
+      "layers_Rtoe_mm": 0.697434,
+      "base_Rheel_mm": 3.449678,
+      "base_Rtoe_mm": 0.697434,
+      "pureServe_Rheel_mm": 3.449678,
+      "pureServe_Rtoe_mm": 0.697434,
+      "side": "L",
+      "procedural_heel_delta_mm": 64.01249700000001,
+      "step_formula_mm": 64.01248818592244,
+      "step_formula_residual_mm": 8.814077574470502e-06
+    },
+    "step_examples": [
+      {
+        "frame": 378,
+        "clipTime": 1.418728,
+        "side": "L",
+        "delta_mm": 27.470096,
+        "predicted_mm": 27.470207576615188,
+        "residual_mm": 0.0001115766151862374,
+        "baseServe": 1.0,
+        "upperWeight": 0.0
+      },
+      {
+        "frame": 379,
+        "clipTime": 1.453222,
+        "side": "L",
+        "delta_mm": 49.792911,
+        "predicted_mm": 49.79291797149791,
+        "residual_mm": 6.9714979105128805e-06,
+        "baseServe": 1.0,
+        "upperWeight": 0.0
+      },
+      {
+        "frame": 380,
+        "clipTime": 1.471547,
+        "side": "L",
+        "delta_mm": 62.785002000000006,
+        "predicted_mm": 62.78519632600858,
+        "residual_mm": 0.00019432600857527405,
+        "baseServe": 1.0,
+        "upperWeight": 0.0
+      },
+      {
+        "frame": 381,
+        "clipTime": 1.510118,
+        "side": "L",
+        "delta_mm": 64.01249700000001,
+        "predicted_mm": 64.01248818592244,
+        "residual_mm": 8.814077574470502e-06,
+        "baseServe": 1.0,
+        "upperWeight": 0.0
+      },
+      {
+        "frame": 382,
+        "clipTime": 1.530292,
+        "side": "L",
+        "delta_mm": 53.24486,
+        "predicted_mm": 53.24481780852075,
+        "residual_mm": 4.219147925255129e-05,
+        "baseServe": 1.0,
+        "upperWeight": 0.0
+      }
+    ],
+    "G2_knee_peak_deg": 76.44015,
+    "G2_peak_clipTime": 1.278853,
+    "G2_pelvis_lowest_clipTime": 1.278853,
+    "G3_first_clearance_clipTime": {
+      "L": 0.150646,
+      "R": 0.151179,
+      "both": 0.151179,
+      "drive_both": 1.572265
+    },
+    "G3_first_clearance_after_0p20": {
+      "L": 1.418728,
+      "R": 1.572265
+    },
+    "step_start": [
+      {
+        "frame": 377,
+        "clipTime": 1.402685,
+        "side": "L",
+        "drift_mm": 249.34997006617147
+      }
+    ],
+    "G4_contact": {
+      "Lheel_mm": 299.2903951367339,
+      "bracket": [
+        1.662085,
+        1.703333
+      ],
+      "Ltoe_mm": 214.12536465040725,
+      "Rheel_mm": 512.2246195306437,
+      "Rtoe_mm": 427.26410764643117,
+      "Lknee_deg": 78.28884986617533,
+      "Rknee_deg": 115.93023074621797,
+      "Relbow_deg": 169.83586631836693,
+      "pelvis_y": 1.000453935633243
+    },
+    "G5_apex_clipTime": 1.778333,
+    "G6_touchdown": {
+      "L": {
+        "frame": "418",
+        "time": "7.983333",
+        "clipTime": "1.383334",
+        "state": "Run",
+        "picture": "209"
+      },
+      "R": {
+        "frame": "430",
+        "time": "8.183333",
+        "clipTime": "1.583334",
+        "state": "Run",
+        "picture": "215"
+      }
+    },
+    "G6_landing_rows_before_1p90": 0,
+    "G7_live_ready_source_max_delta": {
+      "frame": 160,
+      "clipTime": 0.198924,
+      "bone": "LeftIndexDistal",
+      "mm": 371.37321638211887
+    },
+    "G7_first_0p15_entry_hand_head_max_step": {
+      "frame": 116,
+      "bone": "Lhand",
+      "mm": 36.60519297859295
+    },
+    "G9_hand_step_before": {
+      "frame": 387,
+      "side": "L",
+      "clipTime": 1.703333,
+      "mm": 390.6219098885776,
+      "before": true
+    },
+    "G9_hand_step_strictly_before_contact": {
+      "frame": 383,
+      "side": "L",
+      "clipTime": 1.572265,
+      "mm": 249.65424446021342,
+      "before": true
+    },
+    "G9_hand_step_after": {
+      "frame": 395,
+      "side": "R",
+      "clipTime": 1.861667,
+      "mm": 205.0629069675937,
+      "before": false
+    },
+    "G9_local_wrist_max_step": {
+      "frame": 387,
+      "side": "R",
+      "clipTime": 1.703333,
+      "degrees": 45.561446301230255
+    },
+    "G9_longitudinal_wrist_twist_max": {
+      "frame": 384,
+      "side": "R",
+      "clipTime": 1.594016,
+      "degrees": 19.298652449614536
+    },
+    "G11_actor_relative_planted_drift_max": {
+      "frame": 112,
+      "side": "R",
+      "clipTime": 0.150893,
+      "actor_relative_drift_mm": 30.70135907415176
+    },
+    "candidate_sha256": "79bb3ccfbaa018b244e33723363b47c4c2cbf8fc034fa30af5f609cd2f29f92d"
+  },
+  "female": {
+    "rows": 537,
+    "fields": {
+      "palm": 537,
+      "heel": 537,
+      "toe": 537,
+      "knee": 537,
+      "pelvis": 537,
+      "wrist_rotation": 537,
+      "planted_foot_position": 537
+    },
+    "bone_rows": 139620,
+    "skeleton_bones": 52,
+    "film_frame_counts": {
+      "game": 269,
+      "front": 269,
+      "side": 269,
+      "back": 269
+    },
+    "trace_end_time": 9.95,
+    "serve_clip_end": 1.978333,
+    "G1_max_heights_mm": {
+      "Lheel": 10.79668,
+      "Ltoe": 1.413405,
+      "Rheel": 67.1851,
+      "Rtoe": 64.96368
+    },
+    "diagnosis": {
+      "frame": "381",
+      "time": "7.366667",
+      "clipTime": "1.510118",
+      "state": "Serve swing",
+      "baseReady": "0.000000",
+      "baseWalk": "0.000000",
+      "baseServe": "1.000000",
+      "baseRun": "0.000000",
+      "upperWeight": "0.000000",
+      "actionLegs": "1.000000",
+      "legsFromRun": "0.000000",
+      "groundLift": "0.000000",
+      "sinkBeforeGround": "0.000000",
+      "heroRoot_y": "0.035000",
+      "Lstepping": "0",
+      "LstepT": "1.111111",
+      "Llocked": "1",
+      "LlockW": "1.000000",
+      "live_Lheel_mm": 3.053442,
+      "live_Ltoe_mm": 0.94986,
+      "layers_Lheel_mm": 3.053382,
+      "layers_Ltoe_mm": 0.949867,
+      "base_Lheel_mm": 3.053382,
+      "base_Ltoe_mm": 0.949867,
+      "pureServe_Lheel_mm": 3.053382,
+      "pureServe_Ltoe_mm": 0.949867,
+      "Rstepping": "1",
+      "RstepT": "0.555556",
+      "Rlocked": "0",
+      "RlockW": "0.000000",
+      "live_Rheel_mm": 67.1851,
+      "live_Rtoe_mm": 64.96368,
+      "layers_Rheel_mm": 3.172889,
+      "layers_Rtoe_mm": 0.951465,
+      "base_Rheel_mm": 3.172889,
+      "base_Rtoe_mm": 0.951465,
+      "pureServe_Rheel_mm": 3.172889,
+      "pureServe_Rtoe_mm": 0.951465,
+      "side": "R",
+      "procedural_heel_delta_mm": 64.01221100000001,
+      "step_formula_mm": 64.01248818592244,
+      "step_formula_residual_mm": 0.0002771859224282025
+    },
+    "step_examples": [
+      {
+        "frame": 378,
+        "clipTime": 1.418728,
+        "side": "R",
+        "delta_mm": 27.470039,
+        "predicted_mm": 27.470207576615188,
+        "residual_mm": 0.0001685766151879875,
+        "baseServe": 1.0,
+        "upperWeight": 0.0
+      },
+      {
+        "frame": 379,
+        "clipTime": 1.453222,
+        "side": "R",
+        "delta_mm": 49.792873,
+        "predicted_mm": 49.79291797149791,
+        "residual_mm": 4.497149790694266e-05,
+        "baseServe": 1.0,
+        "upperWeight": 0.0
+      },
+      {
+        "frame": 380,
+        "clipTime": 1.471547,
+        "side": "R",
+        "delta_mm": 62.784953,
+        "predicted_mm": 62.78519632600858,
+        "residual_mm": 0.00024332600857945863,
+        "baseServe": 1.0,
+        "upperWeight": 0.0
+      },
+      {
+        "frame": 381,
+        "clipTime": 1.510118,
+        "side": "R",
+        "delta_mm": 64.01221100000001,
+        "predicted_mm": 64.01248818592244,
+        "residual_mm": 0.0002771859224282025,
+        "baseServe": 1.0,
+        "upperWeight": 0.0
+      },
+      {
+        "frame": 382,
+        "clipTime": 1.530292,
+        "side": "R",
+        "delta_mm": 53.24488,
+        "predicted_mm": 53.24481780852075,
+        "residual_mm": 6.219147925179414e-05,
+        "baseServe": 1.0,
+        "upperWeight": 0.0
+      }
+    ],
+    "G2_knee_peak_deg": 83.48393,
+    "G2_peak_clipTime": 1.510118,
+    "G2_pelvis_lowest_clipTime": 1.278853,
+    "G3_first_clearance_clipTime": {
+      "L": 0.150893,
+      "R": 0.151505,
+      "both": 0.151505,
+      "drive_both": 1.572265
+    },
+    "G3_first_clearance_after_0p20": {
+      "L": 1.572265,
+      "R": 1.418728
+    },
+    "step_start": [
+      {
+        "frame": 377,
+        "clipTime": 1.402685,
+        "side": "R",
+        "drift_mm": 299.74888992288265
+      }
+    ],
+    "G4_contact": {
+      "Lheel_mm": 274.79086550620633,
+      "bracket": [
+        1.662085,
+        1.703333
+      ],
+      "Ltoe_mm": 212.17010603180756,
+      "Rheel_mm": 485.68771257515493,
+      "Rtoe_mm": 424.7282324961209,
+      "Lknee_deg": 66.30106841277154,
+      "Rknee_deg": 113.33401440045576,
+      "Relbow_deg": 168.9031005430566,
+      "pelvis_y": 0.9980525601241272
+    },
+    "G5_apex_clipTime": 1.778333,
+    "G6_touchdown": {
+      "L": {
+        "frame": "418",
+        "time": "7.983333",
+        "clipTime": "1.383334",
+        "state": "Run",
+        "picture": "209"
+      },
+      "R": {
+        "frame": "430",
+        "time": "8.183333",
+        "clipTime": "1.583334",
+        "state": "Run",
+        "picture": "215"
+      }
+    },
+    "G6_landing_rows_before_1p90": 0,
+    "G7_live_ready_source_max_delta": {
+      "frame": 160,
+      "clipTime": 0.198924,
+      "bone": "LeftIndexDistal",
+      "mm": 348.37519875702975
+    },
+    "G7_first_0p15_entry_hand_head_max_step": {
+      "frame": 116,
+      "bone": "Lhand",
+      "mm": 31.068097366913193
+    },
+    "G9_hand_step_before": {
+      "frame": 387,
+      "side": "L",
+      "clipTime": 1.703333,
+      "mm": 391.0492425577628,
+      "before": true
+    },
+    "G9_hand_step_strictly_before_contact": {
+      "frame": 383,
+      "side": "L",
+      "clipTime": 1.572265,
+      "mm": 226.72779724374337,
+      "before": true
+    },
+    "G9_hand_step_after": {
+      "frame": 395,
+      "side": "R",
+      "clipTime": 1.861667,
+      "mm": 204.84801077384182,
+      "before": false
+    },
+    "G9_local_wrist_max_step": {
+      "frame": 383,
+      "side": "R",
+      "clipTime": 1.572265,
+      "degrees": 58.20134583837762
+    },
+    "G9_longitudinal_wrist_twist_max": {
+      "frame": 383,
+      "side": "R",
+      "clipTime": 1.572265,
+      "degrees": 42.17180033735022
+    },
+    "G11_actor_relative_planted_drift_max": {
+      "frame": 113,
+      "side": "R",
+      "clipTime": 0.151179,
+      "actor_relative_drift_mm": 34.952807626855936
+    },
+    "candidate_sha256": "37be8adc4d62ce80dfb9407780024fb296df206ed70b07b860433014ff081066"
+  }
+}

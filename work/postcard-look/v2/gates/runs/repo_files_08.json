@@ -1,0 +1,634 @@
+{
+ "hole": 8,
+ "name": "Needle",
+ "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/hole_08.blend",
+ "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/Course/hole_08.fbx",
+ "look_dir": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v2/gates/fixtures/look_at_run",
+ "seconds": 4.5,
+ "result": "FAILURES",
+ "failures": [
+  "NO_MAT_FOAM@blend",
+  "NO_LEGACY_MATERIALS@blend",
+  "LK_REQUIRED@blend",
+  "GROUND_MATERIALS@blend",
+  "ROCK_MATERIALS@blend",
+  "PROP_MATERIALS@blend",
+  "LK_TEXTURED@blend",
+  "LOOK_FILES@blend",
+  "UV_DENSITY@blend",
+  "ROCK_NOT_ICOSAHEDRON@blend",
+  "ROCK_VARIETY@blend",
+  "PLANTS_SHARED_MATERIAL@blend",
+  "PLANTS_INSTANCED@blend",
+  "NO_ROCK_STRETCH_2X@blend",
+  "SEASTACK_TAPERED@blend",
+  "NO_FOAM_STRIP@blend",
+  "OCEAN_WATER@blend",
+  "SURF_SHORE@blend",
+  "SHELF_THIN@blend",
+  "NEEDLE_PATH@blend",
+  "NEEDLE_FLOWERS_SHRUBS_TUFTS@blend",
+  "NEEDLE_ARCH@blend",
+  "NEEDLE_WALL_VINES@blend",
+  "NEEDLE_WATERFALL@blend",
+  "NEEDLE_SEA_STACKS@blend",
+  "NEEDLE_CLIFF_SKIN@blend",
+  "NO_MAT_FOAM@fbx",
+  "NO_LEGACY_MATERIALS@fbx",
+  "LK_REQUIRED@fbx",
+  "GROUND_MATERIALS@fbx",
+  "ROCK_MATERIALS@fbx",
+  "PROP_MATERIALS@fbx",
+  "LOOK_FILES@fbx",
+  "UV_DENSITY@fbx",
+  "ROCK_NOT_ICOSAHEDRON@fbx",
+  "ROCK_VARIETY@fbx",
+  "PLANTS_SHARED_MATERIAL@fbx",
+  "PLANTS_INSTANCED@fbx",
+  "NO_ROCK_STRETCH_2X@fbx",
+  "SEASTACK_TAPERED@fbx",
+  "NO_FOAM_STRIP@fbx",
+  "OCEAN_WATER@fbx",
+  "SURF_SHORE@fbx",
+  "SHELF_THIN@fbx",
+  "NEEDLE_PATH@fbx",
+  "NEEDLE_FLOWERS_SHRUBS_TUFTS@fbx",
+  "NEEDLE_ARCH@fbx",
+  "NEEDLE_WALL_VINES@fbx",
+  "NEEDLE_WATERFALL@fbx",
+  "NEEDLE_SEA_STACKS@fbx",
+  "NEEDLE_CLIFF_SKIN@fbx"
+ ],
+ "gates": [
+  {
+   "name": "BASELINE_SIGNATURE",
+   "ok": true,
+   "detail": "work/postcard-look/baseline_signature/hole_08.json built 2026-10-03 21:44:32 from work/postcard-look/baseline/blender/hole_08.blend (38c2517837b8) + work/postcard-look/baseline/fbx/hole_08.fbx (d19a46b6dd59); npz sha256 matches the json"
+  },
+  {
+   "name": "HOLE07_UNTOUCHED",
+   "ok": true,
+   "detail": "hole_07.blend, hole_07.fbx, hole_07.fbx.meta sha256 unchanged"
+  },
+  {
+   "name": "SHADERS_STATIC",
+   "ok": true,
+   "detail": "GolfSurf.shader, GolfLook.cs contain no _Time / Time.time / texture offset / Update"
+  },
+  {
+   "name": "PLAY_SURFACE_NAMES@blend",
+   "ok": true,
+   "detail": "8 collision-prefix objects equal the baseline set ['BUNKER_01', 'BUNKER_01_LIP', 'FAIRWAY', 'FAIRWAY_FIRSTCUT', 'GREEN', 'GREEN_APRON', 'TEE_BOX', 'TERRAIN_NEEDLE']"
+  },
+  {
+   "name": "PLAY_SURFACE_GRID@blend",
+   "ok": true,
+   "detail": "9009 rays on a 1.5 m grid over the shore bbox (2137 hit ground): hit/miss mismatches 0, height mismatches > 0.001 m 0 (max |dz| 0.00e+00 m), hit-object mismatches 0"
+  },
+  {
+   "name": "PLAY_SURFACE_TOPS@blend",
+   "ok": true,
+   "detail": "up-facing (nz > 0.5) vertex sets of 8 collision meshes equal the baseline (sorted, rounded 1e-4 m hash)"
+  },
+  {
+   "name": "PLAY_SURFACE_FACES@blend",
+   "ok": true,
+   "detail": "up-facing triangles of 8 collision meshes (1654 baseline triangles) equal the baseline (exact rounded-triangle sets)"
+  },
+  {
+   "name": "PLAY_SURFACE_WALLS@blend",
+   "ok": true,
+   "detail": "non-up-facing triangles (walls, steep slopes, undersides) of 8 collision meshes (2394 baseline triangles) equal the baseline (exact rounded-triangle sets)"
+  },
+  {
+   "name": "MARKERS_FROZEN@blend",
+   "ok": true,
+   "detail": "9 markers/placeholders ['BALL_START', 'FLAG', 'FLAG_POLE', 'HOLE_CUP', 'MARKER_PIN', 'MARKER_TEE', 'MARKER_UP', 'TEE_MARKER_1', 'TEE_MARKER_2'] at their baseline positions (max 0.0000 mm <= 0.1 mm), no duplicates"
+  },
+  {
+   "name": "RESERVED_NAMES@blend",
+   "ok": true,
+   "detail": "objects named FLAG*/HOLE_CUP*/BALL_START*/MARKER_* are exactly the baseline placeholders ['BALL_START', 'FLAG', 'FLAG_POLE', 'HOLE_CUP', 'MARKER_PIN', 'MARKER_TEE', 'MARKER_UP']"
+  },
+  {
+   "name": "NEW_OBJECT_PREFIXES@blend",
+   "ok": true,
+   "detail": "0 new objects, all prefixed ('ROCK_', 'PLANT_', 'DRESS_', 'WATER_', 'LAVA_') {}; no new collision prefix"
+  },
+  {
+   "name": "ONE_GREEN@blend",
+   "ok": true,
+   "detail": "exactly one GREEN, one MARKER_PIN, one FLAG/FLAG_POLE/HOLE_CUP; LK_GREEN/LK_FAIRWAY only on the play objects"
+  },
+  {
+   "name": "NO_MAT_FOAM@blend",
+   "ok": false,
+   "detail": "MAT_FOAM on [('MAT_FOAM', \"['WATER_FOAM', 'WATER_FOAM_CREST']\")]; FOAM objects ['WATER_FOAM', 'WATER_FOAM_CREST']"
+  },
+  {
+   "name": "NO_LEGACY_MATERIALS@blend",
+   "ok": false,
+   "detail": "non-contract materials: MAT_BUNKER_LIP on ['BUNKER_01_LIP']; MAT_CLIFF on ['TERRAIN_NEEDLE']; MAT_CLIFF_DARK on ['TERRAIN_NEEDLE']; MAT_FAIRWAY on ['FAIRWAY', 'GREEN_APRON']; MAT_FAIRWAY_STRIPE on ['FAIRWAY']; MAT_FIRSTCUT on ['FAIRWAY_FIRSTCUT']; MAT_FOAM on ['WATER_FOAM', 'WATER_FOAM_CREST']; MAT_GREEN on ['GREEN', 'TEE_BOX']; MAT_ROCK on ['CLIFF_ROCK.000', 'CLIFF_ROCK.001', 'CLIFF_ROCK.002', 'CLIFF_ROCK.003', 'CLIFF_ROCK.004'] (+82 more); MAT_ROUGH on ['TERRAIN_NEEDLE']; MAT_SAND on ['BUNKER_01']; MAT_WATER on ['WATER_OCEAN']; MAT_WATER_SHALLOW on ['WATER_SHALLOW']"
+  },
+  {
+   "name": "LK_REQUIRED@blend",
+   "ok": false,
+   "detail": "missing ['LK_CLIFF', 'LK_FAIRWAY', 'LK_FALL', 'LK_GREEN', 'LK_MASONRY', 'LK_PATH', 'LK_PLANTS', 'LK_ROCK', 'LK_ROUGH', 'LK_SAND', 'LK_SURF', 'LK_WATER', 'LK_WATER_SHALLOW']"
+  },
+  {
+   "name": "GROUND_MATERIALS@blend",
+   "ok": false,
+   "detail": "BUNKER_01 uses ['MAT_SAND'] (allowed ['LK_SAND']); BUNKER_01_LIP uses ['MAT_BUNKER_LIP'] (allowed ['LK_FAIRWAY', 'LK_GREEN', 'LK_ROUGH', 'LK_SAND']); FAIRWAY uses ['MAT_FAIRWAY', 'MAT_FAIRWAY_STRIPE'] (allowed ['LK_FAIRWAY']); FAIRWAY_FIRSTCUT uses ['MAT_FIRSTCUT'] (allowed ['LK_FAIRWAY', 'LK_ROUGH']); GREEN uses ['MAT_GREEN'] (allowed ['LK_GREEN']); GREEN_APRON uses ['MAT_FAIRWAY'] (allowed ['LK_FAIRWAY', 'LK_GREEN']); TEE_BOX uses ['MAT_GREEN'] (allowed ['LK_FAIRWAY', 'LK_GREEN']); TERRAIN_NEEDLE top faces use {'MAT_ROUGH': 4810} m2 (allowed ['LK_ROUGH']); TERRAIN_NEEDLE wall faces use {'MAT_CLIFF': 1339, 'MAT_CLIFF_DARK': 3664} m2 (allowed ['LK_CLIFF', 'LK_CLIFF_DARK', 'LK_ROCK', 'LK_ROCK_WET']); TERRAIN_NEEDLE lip band faces use {'MAT_ROUGH': 530} m2 (allowed ['LK_CLIFF', 'LK_CLIFF_DARK', 'LK_ROCK', 'LK_ROCK_WET', 'LK_ROUGH']); TERRAIN_NEEDLE underside faces use {'MAT_CLIFF': 838, 'MAT_CLIFF_DARK': 148} m2 (allowed ['LK_CLIFF', 'LK_CLIFF_DARK', 'LK_ROCK', 'LK_ROCK_WET']); terrain wall+underside area 5989 m2 is only 0% LK_CLIFF/LK_CLIFF_DARK (need 50%)"
+  },
+  {
+   "name": "ROCK_MATERIALS@blend",
+   "ok": false,
+   "detail": "CLIFF_ROCK.000 (mesh CLIFF_ROCK): uses ['MAT_ROCK'] rock materials 0% of its area (need 60%); ROCK_LARGE.000 (mesh ROCK_LARGE): uses ['MAT_ROCK'] rock materials 0% of its area (need 60%); ROCK_MEDIUM.000 (mesh ROCK_MEDIUM): uses ['MAT_ROCK'] rock materials 0% of its area (need 60%); ROCK_SMALL.000 (mesh ROCK_SMALL): uses ['MAT_ROCK'] rock materials 0% of its area (need 60%)"
+  },
+  {
+   "name": "PROP_MATERIALS@blend",
+   "ok": false,
+   "detail": "WATER_OCEAN uses ['MAT_WATER'] (allowed ['LK_WATER']); WATER_SHALLOW uses ['MAT_WATER_SHALLOW'] (allowed ['LK_SURF', 'LK_WATER', 'LK_WATER_SHALLOW']); WATER_FOAM uses ['MAT_FOAM'] (allowed ['LK_SURF', 'LK_WATER', 'LK_WATER_SHALLOW']); WATER_FOAM_CREST uses ['MAT_FOAM'] (allowed ['LK_SURF', 'LK_WATER', 'LK_WATER_SHALLOW'])"
+  },
+  {
+   "name": "LK_TEXTURED@blend",
+   "ok": false,
+   "detail": "LK_CLIFF: not on any exported mesh; LK_FAIRWAY: not on any exported mesh; LK_FALL: not on any exported mesh; LK_GREEN: not on any exported mesh; LK_MASONRY: not on any exported mesh; LK_PATH: not on any exported mesh; LK_PLANTS: not on any exported mesh; LK_ROCK: not on any exported mesh; LK_ROUGH: not on any exported mesh; LK_SAND: not on any exported mesh; LK_SURF: not on any exported mesh; LK_WATER: not on any exported mesh; LK_WATER_SHALLOW: not on any exported mesh"
+  },
+  {
+   "name": "LOOK_FILES@blend",
+   "ok": false,
+   "detail": "Fairway_C.png is flat: only 1% of its 256 windows of 64 px (1/16 of the tile) have luminance sd >= 0.03 (need 90%; window p10 0.0140) and 66% keep sd >= 0.0120 after block averaging (dither noise does not) [the 0.03 floor at 90 % is the LEAD's number, a decision not a measurement: the user's stills reach it in 31-67 % of 16 px grass windows; GATES.md 'LOOK_FILES floor']; Green_C.png is flat: only 0% of its 256 windows of 64 px (1/16 of the tile) have luminance sd >= 0.03 (need 90%; window p10 0.0101) and 36% keep sd >= 0.0120 after block averaging (dither noise does not) [the 0.03 floor at 90 % is the LEAD's number, a decision not a measurement: the user's stills reach it in 31-67 % of 16 px grass windows; GATES.md 'LOOK_FILES floor']"
+  },
+  {
+   "name": "ALBEDO_DISTINCT@blend",
+   "ok": true,
+   "detail": "28 pairs among ['Fairway_C', 'Green_C', 'Rough_C', 'Sand_C', 'Cliff_C', 'Rock_C', 'Path_C', 'Masonry_C'] are independent textures (channel-field correlation < 0.85 at every rotation, mirror and shift, whatever the colour); closest Fairway_C vs Green_C correlation 0.39 (dE 3.2)"
+  },
+  {
+   "name": "GRASS_ALBEDO_HUE@blend",
+   "ok": true,
+   "detail": "grass albedos on the stills' hue: Fairway_C h 73.6 S 0.70 V 0.66 (est. lit hue 67), Green_C h 72.5 S 0.66 V 0.69 (est. lit hue 65), Rough_C h 68.1 S 0.70 V 0.45 (est. lit hue 61)"
+  },
+  {
+   "name": "UV_DENSITY@blend",
+   "ok": false,
+   "detail": "95 ground/rock meshes have no UV map (a texture would render as one flat colour): ['BUNKER_01', 'BUNKER_01_LIP', 'CLIFF_ROCK.000', 'CLIFF_ROCK.001', 'CLIFF_ROCK.002', 'CLIFF_ROCK.003'] (+89 more); core surface materials not measured (absent): ['LK_CLIFF', 'LK_FAIRWAY', 'LK_GREEN', 'LK_ROCK', 'LK_ROUGH', 'LK_SAND']"
+  },
+  {
+   "name": "SAND_NAMES@blend",
+   "ok": true,
+   "detail": "1 scoring bunker meshes ['BUNKER_01'] (design 1); every other LK_SAND mesh is DRESS_SAND_* (0)"
+  },
+  {
+   "name": "ROCK_NOT_ICOSAHEDRON@blend",
+   "ok": false,
+   "detail": "4 of 4 rock meshes are blobs/icosahedra/boxes: CLIFF_ROCK.000 (mesh CLIFF_ROCK): 12 welded verts / 20 faces: sphere-like (whitened radius cv 0.072 < 0.15); 1 of 1 components are regular solids (<= 2 distinct vertex valences, e.g. {5: 12} on 12 vertices): a bundle of icosahedra / octahedra / cubes; 12 welded vertices < 60 | ROCK_LARGE.000 (mesh ROCK_LARGE): 12 welded verts / 20 faces: regular tessellation of a round solid (edge cv 0.16, area cv 0.22, radius cv 0.17); 1 of 1 components are regular solids (<= 2 distinct vertex valences, e.g. {5: 12} on 12 vertices): a bundle of icosahedra / octahedra / cubes; 12 welded vertices < 60 | ROCK_MEDIUM.000 (mesh ROCK_MEDIUM): 12 welded verts / 20 faces: regular tessellation of a round solid (edge cv 0.19, area cv 0.26, radius cv 0.19); 1 of 1 components are regular solids (<= 2 distinct vertex valences, e.g. {5: 12} on 12 vertices): a bundle of icosahedra / octahedra / cubes; 12 welded vertices < 60 | ROCK_SMALL.000 (mesh ROCK_SMALL): 12 welded verts / 20 faces: sphere-like (whitened radius cv 0.146 < 0.15); 1 of 1 components are regular solids (<= 2 distinct vertex valences, e.g. {5: 12} on 12 vertices): a bundle of icosahedra / octahedra / cubes; 12 welded vertices < 60"
+  },
+  {
+   "name": "ROCK_VARIETY@blend",
+   "ok": false,
+   "detail": "0 unique rock SHAPE FAMILIES among ROCK_* (0 distinct meshes; families merge equal topology hashes (welded verts/faces + vertex-valence histogram) and geometric near-duplicates (PCA extent ratios +-0.04, vertex counts +-10%, facet orientations +-2); 0 merged; independent of scale, rotation and mesh name; need >= 4), 0 families instanced >= 2 times on shared mesh data (need >= 3): ; not counted (fail the rock shape test): ['CLIFF_ROCK', 'ROCK_LARGE', 'ROCK_MEDIUM', 'ROCK_SMALL']"
+  },
+  {
+   "name": "PROP_FACE_BUDGET@blend",
+   "ok": true,
+   "detail": "4 prop meshes within budget (plants/rocks <= 500 faces, tufts <= 120); largest {'rock': 20}"
+  },
+  {
+   "name": "PLANTS_SHARED_MATERIAL@blend",
+   "ok": false,
+   "detail": "no PLANT_* objects"
+  },
+  {
+   "name": "PLANTS_INSTANCED@blend",
+   "ok": false,
+   "detail": "no PLANT_* meshes"
+  },
+  {
+   "name": "PROPS_OFF_PLAY@blend",
+   "ok": true,
+   "detail": "87 scenery meshes (ROCK_/PLANT_/DRESS_/WATER_FALL, walls and cladding included): none above the 1230 play-surface grid points (+ 0 samples at 0.25 m under 0 small DRESS_-type objects), none within 3 m of the pin, plants / loose rocks outside 13.8 m of it (87 checked); overlays allowed: ('DRESS_PATH', 'DRESS_SAND')"
+  },
+  {
+   "name": "NO_PLANT_ON_WATER@blend",
+   "ok": true,
+   "detail": "no PLANT_ objects on this hole (their presence is LK_REQUIRED / PLANTS_*)"
+  },
+  {
+   "name": "NO_ROCK_STRETCH_2X@blend",
+   "ok": false,
+   "detail": "44 of 87 instances stretched past 2x: ROCK_LARGE.006: scale (0.47,0.47,0.88) outside 0.5..2.0 | ROCK_MEDIUM.000: anisotropy 2.8 > 2.0 | ROCK_MEDIUM.001: scale (0.43,0.65,1.39) outside 0.5..2.0, anisotropy 3.2 > 2.0 | ROCK_LARGE.007: scale (0.47,0.47,0.88) outside 0.5..2.0 | ROCK_MEDIUM.002: anisotropy 2.8 > 2.0 (+39 more)"
+  },
+  {
+   "name": "PATH_UNDER_BALL@blend",
+   "ok": true,
+   "detail": "no DRESS_PATH_* / DRESS_SAND_* overlay on this hole (NEEDLE_PATH requires the path on hole 8)"
+  },
+  {
+   "name": "SEASTACK_TAPERED@blend",
+   "ok": false,
+   "detail": "10 of 14 sea stacks are boxes/pillars: ROCK_LARGE.010 (H 6 m): silhouette bbox fill 0.74 > 0.62 | ROCK_LARGE.014 (H 7 m): silhouette bbox fill 0.75 > 0.62 | ROCK_LARGE.015 (H 8 m): silhouette bbox fill 0.62 > 0.62 | ROCK_LARGE.020 (H 8 m): silhouette bbox fill 0.72 > 0.62"
+  },
+  {
+   "name": "NO_ANIMATION@blend",
+   "ok": true,
+   "detail": "static: no action, driver, shape key or armature on 119 objects / 17 materials"
+  },
+  {
+   "name": "TRIANGLE_BUDGET@blend",
+   "ok": true,
+   "detail": "7430 triangles over 105 mesh objects (<= 250000; 5770 in unique meshes); by prefix [('TERRAIN', 2711), ('ROCK', 1540), ('WATER', 1533), ('FAIRWAY', 929), ('GREEN', 220), ('CLIFF', 200)]"
+  },
+  {
+   "name": "NO_FOAM_STRIP@blend",
+   "ok": false,
+   "detail": "MAT_FOAM ['MAT_FOAM'] / FOAM objects ['WATER_FOAM', 'WATER_FOAM_CREST']; whitewater lies along the shore normals (within 10 m) of 100% of the 522 m shoreline (need <= 25%); longest unbroken surf run 212 m (need <= 10 m); 4547 m2 of whitewater on 522 m of shore = 8.70 m2 per metre (need <= 1); 11 merged OFFSHORE whitewater pieces (> 10 m from the shore; pieces closer than 8 m merge) longer than 11 m: 66 m (76 m2) near (-15,325), 22 m (32 m2) near (20,309), 20 m (31 m2) near (1,56)"
+  },
+  {
+   "name": "OCEAN_WATER@blend",
+   "ok": false,
+   "detail": "WATER_OCEAN uses ['MAT_WATER'] (want only LK_WATER); WATER_SHELF missing; foam objects ['WATER_FOAM', 'WATER_FOAM_CREST']"
+  },
+  {
+   "name": "SURF_SHORE@blend",
+   "ok": false,
+   "detail": "0 WATER_SURF pieces (separate mesh islands over 0 objects; need >= 8); surf touches only 0% of the shore (need >= 5%: breaking waves at the cliff bases)"
+  },
+  {
+   "name": "SHELF_THIN@blend",
+   "ok": false,
+   "detail": "WATER_SHELF missing"
+  },
+  {
+   "name": "NEEDLE_PATH@blend",
+   "ok": false,
+   "detail": "no DRESS_PATH_* mesh"
+  },
+  {
+   "name": "NEEDLE_FLOWERS_SHRUBS_TUFTS@blend",
+   "ok": false,
+   "detail": "0 purple PLANT_FLOWER_* on land (need >= 20; 0 flowers, purple share per mesh {}); 0 PLANT_SHRUB_*/PLANT_BUSH_* on land (need >= 6); 0 grass tufts PLANT_TUFT_*/PLANT_GRASS_* on land (need >= 40)"
+  },
+  {
+   "name": "NEEDLE_ARCH@blend",
+   "ok": false,
+   "detail": "no DRESS_ARCH_* mesh (still ROCK_LARGE icosahedra?)"
+  },
+  {
+   "name": "NEEDLE_WALL_VINES@blend",
+   "ok": false,
+   "detail": "0 PLANT_VINE_* hanging on the terrain walls (within 4 m of the shore, top near PLAY_Z; need >= 6)"
+  },
+  {
+   "name": "NEEDLE_WATERFALL@blend",
+   "ok": false,
+   "detail": "no WATER_FALL_* mesh"
+  },
+  {
+   "name": "NEEDLE_SEA_STACKS@blend",
+   "ok": false,
+   "detail": "0 sea stacks (ROCK_* in the water rising >= PLAY_Z 6 m) that are faceted rocks (welded >= 60 verts / 100 faces, not a blob) AND taper (width90/width10 <= 0.45); need >= 4): []; not counted: 14 ['ROCK_LARGE.009', 'ROCK_LARGE.010', 'ROCK_LARGE.011', 'ROCK_LARGE.014'] (+10 more)"
+  },
+  {
+   "name": "NEEDLE_CLIFF_SKIN@blend",
+   "ok": false,
+   "detail": "no ROCK_SKIN_* mesh"
+  },
+  {
+   "name": "FBX_FILE@fbx",
+   "ok": true,
+   "detail": "Unity/Assets/Resources/Course/hole_08.fbx 0.23 MB (<= 20.0); .meta isReadable 1, tangentImportMode 3"
+  },
+  {
+   "name": "FBX_REIMPORT@fbx",
+   "ok": true,
+   "detail": "re-imported 109 objects in 0.1 s; markers present: True []"
+  },
+  {
+   "name": "PLAY_SURFACE_NAMES@fbx",
+   "ok": true,
+   "detail": "8 collision-prefix objects equal the baseline set ['BUNKER_01', 'BUNKER_01_LIP', 'FAIRWAY', 'FAIRWAY_FIRSTCUT', 'GREEN', 'GREEN_APRON', 'TEE_BOX', 'TERRAIN_NEEDLE']"
+  },
+  {
+   "name": "PLAY_SURFACE_GRID@fbx",
+   "ok": true,
+   "detail": "9009 rays on a 1.5 m grid over the shore bbox (2137 hit ground): hit/miss mismatches 0, height mismatches > 0.001 m 0 (max |dz| 0.00e+00 m), hit-object mismatches 0"
+  },
+  {
+   "name": "PLAY_SURFACE_TOPS@fbx",
+   "ok": true,
+   "detail": "up-facing (nz > 0.5) vertex sets of 8 collision meshes equal the baseline (sorted, rounded 1e-4 m hash)"
+  },
+  {
+   "name": "PLAY_SURFACE_FACES@fbx",
+   "ok": true,
+   "detail": "up-facing triangles of 8 collision meshes (1654 baseline triangles) equal the baseline (exact rounded-triangle sets)"
+  },
+  {
+   "name": "PLAY_SURFACE_WALLS@fbx",
+   "ok": true,
+   "detail": "non-up-facing triangles (walls, steep slopes, undersides) of 8 collision meshes (2394 baseline triangles) equal the baseline (exact rounded-triangle sets)"
+  },
+  {
+   "name": "MARKERS_FROZEN@fbx",
+   "ok": true,
+   "detail": "9 markers/placeholders ['BALL_START', 'FLAG', 'FLAG_POLE', 'HOLE_CUP', 'MARKER_PIN', 'MARKER_TEE', 'MARKER_UP', 'TEE_MARKER_1', 'TEE_MARKER_2'] at their baseline positions (max 0.0000 mm <= 0.1 mm), no duplicates"
+  },
+  {
+   "name": "RESERVED_NAMES@fbx",
+   "ok": true,
+   "detail": "objects named FLAG*/HOLE_CUP*/BALL_START*/MARKER_* are exactly the baseline placeholders ['BALL_START', 'FLAG', 'FLAG_POLE', 'HOLE_CUP', 'MARKER_PIN', 'MARKER_TEE', 'MARKER_UP']"
+  },
+  {
+   "name": "NEW_OBJECT_PREFIXES@fbx",
+   "ok": true,
+   "detail": "0 new objects, all prefixed ('ROCK_', 'PLANT_', 'DRESS_', 'WATER_', 'LAVA_') {}; no new collision prefix"
+  },
+  {
+   "name": "ONE_GREEN@fbx",
+   "ok": true,
+   "detail": "exactly one GREEN, one MARKER_PIN, one FLAG/FLAG_POLE/HOLE_CUP; LK_GREEN/LK_FAIRWAY only on the play objects"
+  },
+  {
+   "name": "NO_MAT_FOAM@fbx",
+   "ok": false,
+   "detail": "MAT_FOAM on [('MAT_FOAM', \"['WATER_FOAM', 'WATER_FOAM_CREST']\")]; FOAM objects ['WATER_FOAM', 'WATER_FOAM_CREST']"
+  },
+  {
+   "name": "NO_LEGACY_MATERIALS@fbx",
+   "ok": false,
+   "detail": "non-contract materials: MAT_BUNKER_LIP on ['BUNKER_01_LIP']; MAT_CLIFF on ['TERRAIN_NEEDLE']; MAT_CLIFF_DARK on ['TERRAIN_NEEDLE']; MAT_FAIRWAY on ['FAIRWAY', 'GREEN_APRON']; MAT_FAIRWAY_STRIPE on ['FAIRWAY']; MAT_FIRSTCUT on ['FAIRWAY_FIRSTCUT']; MAT_FOAM on ['WATER_FOAM', 'WATER_FOAM_CREST']; MAT_GREEN on ['GREEN', 'TEE_BOX']; MAT_ROCK on ['CLIFF_ROCK.000', 'CLIFF_ROCK.001', 'CLIFF_ROCK.002', 'CLIFF_ROCK.003', 'CLIFF_ROCK.004'] (+82 more); MAT_ROUGH on ['TERRAIN_NEEDLE']; MAT_SAND on ['BUNKER_01']; MAT_WATER on ['WATER_OCEAN']; MAT_WATER_SHALLOW on ['WATER_SHALLOW']"
+  },
+  {
+   "name": "LK_REQUIRED@fbx",
+   "ok": false,
+   "detail": "missing ['LK_CLIFF', 'LK_FAIRWAY', 'LK_FALL', 'LK_GREEN', 'LK_MASONRY', 'LK_PATH', 'LK_PLANTS', 'LK_ROCK', 'LK_ROUGH', 'LK_SAND', 'LK_SURF', 'LK_WATER', 'LK_WATER_SHALLOW']"
+  },
+  {
+   "name": "GROUND_MATERIALS@fbx",
+   "ok": false,
+   "detail": "BUNKER_01 uses ['MAT_SAND'] (allowed ['LK_SAND']); BUNKER_01_LIP uses ['MAT_BUNKER_LIP'] (allowed ['LK_FAIRWAY', 'LK_GREEN', 'LK_ROUGH', 'LK_SAND']); FAIRWAY uses ['MAT_FAIRWAY', 'MAT_FAIRWAY_STRIPE'] (allowed ['LK_FAIRWAY']); FAIRWAY_FIRSTCUT uses ['MAT_FIRSTCUT'] (allowed ['LK_FAIRWAY', 'LK_ROUGH']); GREEN uses ['MAT_GREEN'] (allowed ['LK_GREEN']); GREEN_APRON uses ['MAT_FAIRWAY'] (allowed ['LK_FAIRWAY', 'LK_GREEN']); TEE_BOX uses ['MAT_GREEN'] (allowed ['LK_FAIRWAY', 'LK_GREEN']); TERRAIN_NEEDLE top faces use {'MAT_ROUGH': 4810} m2 (allowed ['LK_ROUGH']); TERRAIN_NEEDLE wall faces use {'MAT_CLIFF': 1339, 'MAT_CLIFF_DARK': 3664} m2 (allowed ['LK_CLIFF', 'LK_CLIFF_DARK', 'LK_ROCK', 'LK_ROCK_WET']); TERRAIN_NEEDLE lip band faces use {'MAT_ROUGH': 530} m2 (allowed ['LK_CLIFF', 'LK_CLIFF_DARK', 'LK_ROCK', 'LK_ROCK_WET', 'LK_ROUGH']); TERRAIN_NEEDLE underside faces use {'MAT_CLIFF': 838, 'MAT_CLIFF_DARK': 148} m2 (allowed ['LK_CLIFF', 'LK_CLIFF_DARK', 'LK_ROCK', 'LK_ROCK_WET']); terrain wall+underside area 5989 m2 is only 0% LK_CLIFF/LK_CLIFF_DARK (need 50%)"
+  },
+  {
+   "name": "ROCK_MATERIALS@fbx",
+   "ok": false,
+   "detail": "CLIFF_ROCK.000 (mesh CLIFF_ROCK): uses ['MAT_ROCK'] rock materials 0% of its area (need 60%); ROCK_LARGE.000 (mesh ROCK_LARGE): uses ['MAT_ROCK'] rock materials 0% of its area (need 60%); ROCK_MEDIUM.000 (mesh ROCK_MEDIUM): uses ['MAT_ROCK'] rock materials 0% of its area (need 60%); ROCK_SMALL.000 (mesh ROCK_SMALL): uses ['MAT_ROCK'] rock materials 0% of its area (need 60%)"
+  },
+  {
+   "name": "PROP_MATERIALS@fbx",
+   "ok": false,
+   "detail": "WATER_FOAM uses ['MAT_FOAM'] (allowed ['LK_SURF', 'LK_WATER', 'LK_WATER_SHALLOW']); WATER_FOAM_CREST uses ['MAT_FOAM'] (allowed ['LK_SURF', 'LK_WATER', 'LK_WATER_SHALLOW']); WATER_OCEAN uses ['MAT_WATER'] (allowed ['LK_WATER']); WATER_SHALLOW uses ['MAT_WATER_SHALLOW'] (allowed ['LK_SURF', 'LK_WATER', 'LK_WATER_SHALLOW'])"
+  },
+  {
+   "name": "LOOK_FILES@fbx",
+   "ok": false,
+   "detail": "Fairway_C.png is flat: only 1% of its 256 windows of 64 px (1/16 of the tile) have luminance sd >= 0.03 (need 90%; window p10 0.0140) and 66% keep sd >= 0.0120 after block averaging (dither noise does not) [the 0.03 floor at 90 % is the LEAD's number, a decision not a measurement: the user's stills reach it in 31-67 % of 16 px grass windows; GATES.md 'LOOK_FILES floor']; Green_C.png is flat: only 0% of its 256 windows of 64 px (1/16 of the tile) have luminance sd >= 0.03 (need 90%; window p10 0.0101) and 36% keep sd >= 0.0120 after block averaging (dither noise does not) [the 0.03 floor at 90 % is the LEAD's number, a decision not a measurement: the user's stills reach it in 31-67 % of 16 px grass windows; GATES.md 'LOOK_FILES floor']"
+  },
+  {
+   "name": "ALBEDO_DISTINCT@fbx",
+   "ok": true,
+   "detail": "28 pairs among ['Fairway_C', 'Green_C', 'Rough_C', 'Sand_C', 'Cliff_C', 'Rock_C', 'Path_C', 'Masonry_C'] are independent textures (channel-field correlation < 0.85 at every rotation, mirror and shift, whatever the colour); closest Fairway_C vs Green_C correlation 0.39 (dE 3.2)"
+  },
+  {
+   "name": "GRASS_ALBEDO_HUE@fbx",
+   "ok": true,
+   "detail": "grass albedos on the stills' hue: Fairway_C h 73.6 S 0.70 V 0.66 (est. lit hue 67), Green_C h 72.5 S 0.66 V 0.69 (est. lit hue 65), Rough_C h 68.1 S 0.70 V 0.45 (est. lit hue 61)"
+  },
+  {
+   "name": "UV_DENSITY@fbx",
+   "ok": false,
+   "detail": "95 ground/rock meshes have no UV map (a texture would render as one flat colour): ['BUNKER_01', 'BUNKER_01_LIP', 'CLIFF_ROCK.000', 'CLIFF_ROCK.001', 'CLIFF_ROCK.002', 'CLIFF_ROCK.003'] (+89 more); core surface materials not measured (absent): ['LK_CLIFF', 'LK_FAIRWAY', 'LK_GREEN', 'LK_ROCK', 'LK_ROUGH', 'LK_SAND']"
+  },
+  {
+   "name": "SAND_NAMES@fbx",
+   "ok": true,
+   "detail": "1 scoring bunker meshes ['BUNKER_01'] (design 1); every other LK_SAND mesh is DRESS_SAND_* (0)"
+  },
+  {
+   "name": "ROCK_NOT_ICOSAHEDRON@fbx",
+   "ok": false,
+   "detail": "4 of 4 rock meshes are blobs/icosahedra/boxes: CLIFF_ROCK.000 (mesh CLIFF_ROCK): 12 welded verts / 20 faces: sphere-like (whitened radius cv 0.072 < 0.15); 1 of 1 components are regular solids (<= 2 distinct vertex valences, e.g. {5: 12} on 12 vertices): a bundle of icosahedra / octahedra / cubes; 12 welded vertices < 60 | ROCK_LARGE.000 (mesh ROCK_LARGE): 12 welded verts / 20 faces: regular tessellation of a round solid (edge cv 0.16, area cv 0.22, radius cv 0.17); 1 of 1 components are regular solids (<= 2 distinct vertex valences, e.g. {5: 12} on 12 vertices): a bundle of icosahedra / octahedra / cubes; 12 welded vertices < 60 | ROCK_MEDIUM.000 (mesh ROCK_MEDIUM): 12 welded verts / 20 faces: regular tessellation of a round solid (edge cv 0.19, area cv 0.26, radius cv 0.19); 1 of 1 components are regular solids (<= 2 distinct vertex valences, e.g. {5: 12} on 12 vertices): a bundle of icosahedra / octahedra / cubes; 12 welded vertices < 60 | ROCK_SMALL.000 (mesh ROCK_SMALL): 12 welded verts / 20 faces: sphere-like (whitened radius cv 0.146 < 0.15); 1 of 1 components are regular solids (<= 2 distinct vertex valences, e.g. {5: 12} on 12 vertices): a bundle of icosahedra / octahedra / cubes; 12 welded vertices < 60"
+  },
+  {
+   "name": "ROCK_VARIETY@fbx",
+   "ok": false,
+   "detail": "0 unique rock SHAPE FAMILIES among ROCK_* (0 distinct meshes; families merge equal topology hashes (welded verts/faces + vertex-valence histogram) and geometric near-duplicates (PCA extent ratios +-0.04, vertex counts +-10%, facet orientations +-2); 0 merged; independent of scale, rotation and mesh name; need >= 4), 0 families instanced >= 2 times on shared mesh data (need >= 3): ; not counted (fail the rock shape test): ['CLIFF_ROCK', 'ROCK_LARGE', 'ROCK_MEDIUM', 'ROCK_SMALL']"
+  },
+  {
+   "name": "PROP_FACE_BUDGET@fbx",
+   "ok": true,
+   "detail": "4 prop meshes within budget (plants/rocks <= 500 faces, tufts <= 120); largest {'rock': 20}"
+  },
+  {
+   "name": "PLANTS_SHARED_MATERIAL@fbx",
+   "ok": false,
+   "detail": "no PLANT_* objects"
+  },
+  {
+   "name": "PLANTS_INSTANCED@fbx",
+   "ok": false,
+   "detail": "no PLANT_* meshes"
+  },
+  {
+   "name": "PROPS_OFF_PLAY@fbx",
+   "ok": true,
+   "detail": "87 scenery meshes (ROCK_/PLANT_/DRESS_/WATER_FALL, walls and cladding included): none above the 1230 play-surface grid points (+ 0 samples at 0.25 m under 0 small DRESS_-type objects), none within 3 m of the pin, plants / loose rocks outside 13.8 m of it (87 checked); overlays allowed: ('DRESS_PATH', 'DRESS_SAND')"
+  },
+  {
+   "name": "NO_PLANT_ON_WATER@fbx",
+   "ok": true,
+   "detail": "no PLANT_ objects on this hole (their presence is LK_REQUIRED / PLANTS_*)"
+  },
+  {
+   "name": "NO_ROCK_STRETCH_2X@fbx",
+   "ok": false,
+   "detail": "44 of 87 instances stretched past 2x: CLIFF_ROCK.001: scale (0.31,0.34,0.56) outside 0.5..2.0 | CLIFF_ROCK.002: scale (0.27,0.28,0.62) outside 0.5..2.0, anisotropy 2.3 > 2.0 | CLIFF_ROCK.003: scale (0.37,0.39,0.54) outside 0.5..2.0 | CLIFF_ROCK.004: scale (0.42,0.43,0.66) outside 0.5..2.0 | CLIFF_ROCK.005: scale (0.24,0.25,0.51) outside 0.5..2.0, anisotropy 2.1 > 2.0 (+39 more)"
+  },
+  {
+   "name": "PATH_UNDER_BALL@fbx",
+   "ok": true,
+   "detail": "no DRESS_PATH_* / DRESS_SAND_* overlay on this hole (NEEDLE_PATH requires the path on hole 8)"
+  },
+  {
+   "name": "SEASTACK_TAPERED@fbx",
+   "ok": false,
+   "detail": "10 of 14 sea stacks are boxes/pillars: ROCK_LARGE.010 (H 6 m): silhouette bbox fill 0.74 > 0.62 | ROCK_LARGE.014 (H 7 m): silhouette bbox fill 0.75 > 0.62 | ROCK_LARGE.015 (H 8 m): silhouette bbox fill 0.62 > 0.62 | ROCK_LARGE.020 (H 8 m): silhouette bbox fill 0.72 > 0.62"
+  },
+  {
+   "name": "NO_ANIMATION@fbx",
+   "ok": true,
+   "detail": "static: no action, driver, shape key or armature on 109 objects / 17 materials"
+  },
+  {
+   "name": "TRIANGLE_BUDGET@fbx",
+   "ok": true,
+   "detail": "7430 triangles over 105 mesh objects (<= 250000; 5770 in unique meshes); by prefix [('TERRAIN', 2711), ('ROCK', 1540), ('WATER', 1533), ('FAIRWAY', 929), ('GREEN', 220), ('CLIFF', 200)]"
+  },
+  {
+   "name": "NO_FOAM_STRIP@fbx",
+   "ok": false,
+   "detail": "MAT_FOAM ['MAT_FOAM'] / FOAM objects ['WATER_FOAM', 'WATER_FOAM_CREST']; whitewater lies along the shore normals (within 10 m) of 100% of the 522 m shoreline (need <= 25%); longest unbroken surf run 212 m (need <= 10 m); 4547 m2 of whitewater on 522 m of shore = 8.70 m2 per metre (need <= 1); 11 merged OFFSHORE whitewater pieces (> 10 m from the shore; pieces closer than 8 m merge) longer than 11 m: 66 m (76 m2) near (-15,325), 22 m (32 m2) near (20,309), 20 m (31 m2) near (1,56)"
+  },
+  {
+   "name": "OCEAN_WATER@fbx",
+   "ok": false,
+   "detail": "WATER_OCEAN uses ['MAT_WATER'] (want only LK_WATER); WATER_SHELF missing; foam objects ['WATER_FOAM', 'WATER_FOAM_CREST']"
+  },
+  {
+   "name": "SURF_SHORE@fbx",
+   "ok": false,
+   "detail": "0 WATER_SURF pieces (separate mesh islands over 0 objects; need >= 8); surf touches only 0% of the shore (need >= 5%: breaking waves at the cliff bases)"
+  },
+  {
+   "name": "SHELF_THIN@fbx",
+   "ok": false,
+   "detail": "WATER_SHELF missing"
+  },
+  {
+   "name": "NEEDLE_PATH@fbx",
+   "ok": false,
+   "detail": "no DRESS_PATH_* mesh"
+  },
+  {
+   "name": "NEEDLE_FLOWERS_SHRUBS_TUFTS@fbx",
+   "ok": false,
+   "detail": "0 purple PLANT_FLOWER_* on land (need >= 20; 0 flowers, purple share per mesh {}); 0 PLANT_SHRUB_*/PLANT_BUSH_* on land (need >= 6); 0 grass tufts PLANT_TUFT_*/PLANT_GRASS_* on land (need >= 40)"
+  },
+  {
+   "name": "NEEDLE_ARCH@fbx",
+   "ok": false,
+   "detail": "no DRESS_ARCH_* mesh (still ROCK_LARGE icosahedra?)"
+  },
+  {
+   "name": "NEEDLE_WALL_VINES@fbx",
+   "ok": false,
+   "detail": "0 PLANT_VINE_* hanging on the terrain walls (within 4 m of the shore, top near PLAY_Z; need >= 6)"
+  },
+  {
+   "name": "NEEDLE_WATERFALL@fbx",
+   "ok": false,
+   "detail": "no WATER_FALL_* mesh"
+  },
+  {
+   "name": "NEEDLE_SEA_STACKS@fbx",
+   "ok": false,
+   "detail": "0 sea stacks (ROCK_* in the water rising >= PLAY_Z 6 m) that are faceted rocks (welded >= 60 verts / 100 faces, not a blob) AND taper (width90/width10 <= 0.45); need >= 4): []; not counted: 14 ['ROCK_LARGE.009', 'ROCK_LARGE.010', 'ROCK_LARGE.011', 'ROCK_LARGE.014'] (+10 more)"
+  },
+  {
+   "name": "NEEDLE_CLIFF_SKIN@fbx",
+   "ok": false,
+   "detail": "no ROCK_SKIN_* mesh"
+  }
+ ],
+ "info": [
+  {
+   "name": "SCOPE@blend",
+   "detail": "export set (COURSE/ENVIRONMENT/STRUCTURES/GAMEPLAY + root, as postcard_lib.export_fbx): 109 objects, 105 meshes"
+  },
+  {
+   "name": "PLAY_SURFACE_ALLVERTS@blend",
+   "detail": "every collision mesh's full vertex set equals the baseline (hash)"
+  },
+  {
+   "name": "SCOPE@fbx",
+   "detail": "every object of the re-imported FBX: 109 objects, 105 meshes"
+  },
+  {
+   "name": "PLAY_SURFACE_ALLVERTS@fbx",
+   "detail": "every collision mesh's full vertex set equals the baseline (hash)"
+  }
+ ],
+ "gate_seconds": {
+  "HOLE07_UNTOUCHED": 0.02,
+  "SHADERS_STATIC": 0.0,
+  "PLAY_SURFACE_NAMES@blend": 0.0,
+  "PLAY_SURFACE_GRID@blend": 0.02,
+  "PLAY_SURFACE_TOPS@blend": 0.0,
+  "PLAY_SURFACE_FACES@blend": 0.01,
+  "PLAY_SURFACE_WALLS@blend": 0.01,
+  "MARKERS_FROZEN@blend": 0.0,
+  "RESERVED_NAMES@blend": 0.0,
+  "NEW_OBJECT_PREFIXES@blend": 0.0,
+  "ONE_GREEN@blend": 0.0,
+  "NO_MAT_FOAM@blend": 0.0,
+  "NO_LEGACY_MATERIALS@blend": 0.0,
+  "LK_REQUIRED@blend": 0.0,
+  "GROUND_MATERIALS@blend": 0.0,
+  "ROCK_MATERIALS@blend": 0.0,
+  "PROP_MATERIALS@blend": 0.0,
+  "LK_TEXTURED@blend": 0.0,
+  "LOOK_FILES@blend": 0.68,
+  "ALBEDO_DISTINCT@blend": 0.73,
+  "GRASS_ALBEDO_HUE@blend": 0.1,
+  "UV_DENSITY@blend": 0.0,
+  "SAND_NAMES@blend": 0.0,
+  "ROCK_NOT_ICOSAHEDRON@blend": 0.02,
+  "ROCK_VARIETY@blend": 0.0,
+  "PROP_FACE_BUDGET@blend": 0.0,
+  "PLANTS_SHARED_MATERIAL@blend": 0.0,
+  "PLANTS_INSTANCED@blend": 0.0,
+  "PROPS_OFF_PLAY@blend": 0.02,
+  "NO_PLANT_ON_WATER@blend": 0.0,
+  "NO_ROCK_STRETCH_2X@blend": 0.0,
+  "PATH_UNDER_BALL@blend": 0.0,
+  "SEASTACK_TAPERED@blend": 0.09,
+  "NO_ANIMATION@blend": 0.0,
+  "TRIANGLE_BUDGET@blend": 0.0,
+  "NO_FOAM_STRIP@blend": 0.65,
+  "OCEAN_WATER@blend": 0.0,
+  "SURF_SHORE@blend": 0.0,
+  "SHELF_THIN@blend": 0.0,
+  "NEEDLE_PATH@blend": 0.0,
+  "NEEDLE_FLOWERS_SHRUBS_TUFTS@blend": 0.0,
+  "NEEDLE_ARCH@blend": 0.0,
+  "NEEDLE_WALL_VINES@blend": 0.0,
+  "NEEDLE_WATERFALL@blend": 0.0,
+  "NEEDLE_SEA_STACKS@blend": 0.0,
+  "NEEDLE_CLIFF_SKIN@blend": 0.0,
+  "FBX_FILE@fbx": 0.0,
+  "PLAY_SURFACE_NAMES@fbx": 0.0,
+  "PLAY_SURFACE_GRID@fbx": 0.02,
+  "PLAY_SURFACE_TOPS@fbx": 0.0,
+  "PLAY_SURFACE_FACES@fbx": 0.01,
+  "PLAY_SURFACE_WALLS@fbx": 0.01,
+  "MARKERS_FROZEN@fbx": 0.0,
+  "RESERVED_NAMES@fbx": 0.0,
+  "NEW_OBJECT_PREFIXES@fbx": 0.0,
+  "ONE_GREEN@fbx": 0.0,
+  "NO_MAT_FOAM@fbx": 0.0,
+  "NO_LEGACY_MATERIALS@fbx": 0.0,
+  "LK_REQUIRED@fbx": 0.0,
+  "GROUND_MATERIALS@fbx": 0.0,
+  "ROCK_MATERIALS@fbx": 0.0,
+  "PROP_MATERIALS@fbx": 0.0,
+  "LOOK_FILES@fbx": 0.56,
+  "ALBEDO_DISTINCT@fbx": 0.09,
+  "GRASS_ALBEDO_HUE@fbx": 0.09,
+  "UV_DENSITY@fbx": 0.0,
+  "SAND_NAMES@fbx": 0.0,
+  "ROCK_NOT_ICOSAHEDRON@fbx": 0.02,
+  "ROCK_VARIETY@fbx": 0.0,
+  "PROP_FACE_BUDGET@fbx": 0.0,
+  "PLANTS_SHARED_MATERIAL@fbx": 0.0,
+  "PLANTS_INSTANCED@fbx": 0.0,
+  "PROPS_OFF_PLAY@fbx": 0.02,
+  "NO_PLANT_ON_WATER@fbx": 0.0,
+  "NO_ROCK_STRETCH_2X@fbx": 0.0,
+  "PATH_UNDER_BALL@fbx": 0.0,
+  "SEASTACK_TAPERED@fbx": 0.09,
+  "NO_ANIMATION@fbx": 0.0,
+  "TRIANGLE_BUDGET@fbx": 0.0,
+  "NO_FOAM_STRIP@fbx": 0.68,
+  "OCEAN_WATER@fbx": 0.0,
+  "SURF_SHORE@fbx": 0.0,
+  "SHELF_THIN@fbx": 0.0,
+  "NEEDLE_PATH@fbx": 0.0,
+  "NEEDLE_FLOWERS_SHRUBS_TUFTS@fbx": 0.0,
+  "NEEDLE_ARCH@fbx": 0.0,
+  "NEEDLE_WALL_VINES@fbx": 0.0,
+  "NEEDLE_WATERFALL@fbx": 0.0,
+  "NEEDLE_SEA_STACKS@fbx": 0.0,
+  "NEEDLE_CLIFF_SKIN@fbx": 0.0
+ }
+}

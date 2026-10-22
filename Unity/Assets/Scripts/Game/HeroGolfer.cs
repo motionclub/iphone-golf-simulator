@@ -200,6 +200,9 @@ namespace GolfArcade.Game
             var corrections = Root.AddComponent<GolfGarmentCorrectives>(); corrections.look = surface;
             Root.SetActive(true);
             surface.SetGolfHand(false);
+            // Ensure dynamically assembled golf rigs use the shared face performer.
+            if (!Root.GetComponent<MatchHeroFacePerformance>())
+                Root.AddComponent<MatchHeroFacePerformance>().look = surface;
             Dress(look);
         }
 

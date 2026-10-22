@@ -1,0 +1,44 @@
+[
+  {
+    "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/measure.py",
+    "source_sha256": "2fe4ca728a0fbc3e0b6d1a2fe07dcc808b6572a82407d5d7d3fb3a22d049fab7",
+    "copy": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/runtime_adapter_check_default/tools/measure.py",
+    "copy_sha256": "ab0b6d0b4fd16eb30cf475484ad4b3ffad272d52b786e0247e41e79a8bc33124",
+    "changes": "Output/read paths only; original measured thresholds and algorithms preserved."
+  },
+  {
+    "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/measure_studio.py",
+    "source_sha256": "1af2fb3bfa8543fb9a61fe7f66ef760fe3359d01c55d3603b473d264fb0e7226",
+    "copy": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/runtime_adapter_check_default/tools/measure_studio.py",
+    "copy_sha256": "58d6edc617901cd6406176913cb1a280124cafbba1db3327502d513e8e7a2e2e",
+    "changes": "Output/read paths only; original measured thresholds and algorithms preserved."
+  },
+  {
+    "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/make_sheets.py",
+    "source_sha256": "b415b5313c6e853909cbe8aa7d2520932256105d46e87755f4e757fc81f525a4",
+    "copy": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/runtime_adapter_check_default/tools/make_sheets.py",
+    "copy_sha256": "2f006fd6e26aa6fa745b653944094ba09c7243bdd3096b383a2df5261d5dbc59",
+    "changes": "Output/read paths only; original measured thresholds and algorithms preserved."
+  },
+  {
+    "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/report.py",
+    "source_sha256": "5b755d04571e50fbb47090f699b8a470db1483164d71f4b052625e0f866835b3",
+    "copy": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/runtime_adapter_check_default/tools/report_legacy.py",
+    "copy_sha256": "bc98cfb5aeeaa41e222655bc47108f90c889498b6b9796b03d844239346d2d5f",
+    "changes": "Output/read paths only; original measured thresholds and algorithms preserved."
+  },
+  {
+    "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/installed_mesh_checks.py",
+    "source_sha256": "27ad486f8b2bd5ceb6fa6e1a7a3d0c2dd79ce34146b561853920f00c4e2e4087",
+    "copy": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/runtime_adapter_check_default/tools/installed_mesh_checks.py",
+    "copy_sha256": "27ad486f8b2bd5ceb6fa6e1a7a3d0c2dd79ce34146b561853920f00c4e2e4087",
+    "changes": "Output/read paths only; original measured thresholds and algorithms preserved."
+  },
+  {
+    "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/audit/scoring_exact.py",
+    "source_sha256": "036cbbb76b93ae9e5c0e05d6de4e38109b79f9ad8c8398c99e0ed72d58512f6b",
+    "copy": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/runtime_adapter_check_default/tools/scoring_exact.py",
+    "copy_sha256": "8a3bf47b1bd781b31dbc2193a9bb6037c947083cc1c8331e26cdc7468fb1697d",
+    "changes": "Repo/output paths only. Exact zero tolerance and all installed+staged blend/FBX checks unchanged."
+  }
+]

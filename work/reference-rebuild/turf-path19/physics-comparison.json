@@ -1,0 +1,30 @@
+[
+  {
+    "hole": 8,
+    "current": "proof/reference-rebuild/turf-path19/hole08_audit.json",
+    "previous": "proof/reference-rebuild/turf-rollout18/hole08_audit.json",
+    "fields": {
+      "obstacleCount": true,
+      "colliders": true,
+      "obstacleHash": true,
+      "ground": true
+    },
+    "obstacles": 133,
+    "colliders": 8,
+    "groundRecords": 8
+  },
+  {
+    "hole": 9,
+    "current": "proof/reference-rebuild/turf-path19/hole09_audit.json",
+    "previous": "proof/reference-rebuild/turf-rollout18/hole09_audit.json",
+    "fields": {
+      "obstacleCount": true,
+      "colliders": true,
+      "obstacleHash": true,
+      "ground": true
+    },
+    "obstacles": 762,
+    "colliders": 12,
+    "groundRecords": 12
+  }
+]

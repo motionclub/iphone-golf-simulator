@@ -77,6 +77,7 @@ namespace GolfArcade.EditorTools
             if (Directory.Exists(Path.Combine(output, "frames"))) throw new IOException("FILM_OUT already contains frames; choose a new output directory.");
             int minShots = Number("FILM_MIN_SHOTS", 5, 2, 40), maxAttempts = Number("FILM_MAX_ATTEMPTS", 4, 1, 12);
             int maxTicks = Number("FILM_MAX_POINT_SECONDS", 45, 10, 120) * 60;
+            ExperienceTrace.Enabled = true;
             Time.captureFramerate = 60;
             TennisGame.AutoPlayTimingJitter = .20f; // Existing human-like input timing option; real game decides misses and point outcome.
             game.ManualSimulation = false; game.AutoPlay = false; game.NativeControlled = true; game.SetControllerSetup(false);
@@ -98,7 +99,7 @@ namespace GolfArcade.EditorTools
                 var take = new Take { attempt = attempt, directory = Path.Combine(output, "attempt_" + attempt.ToString("00")) };
                 if (Directory.Exists(take.directory)) throw new IOException("Attempt output already exists: " + take.directory);
                 Directory.CreateDirectory(Path.Combine(take.directory, "frames"));
-                var trace = new List<string> { "tick,unityFrame,seconds,videoFrame,phase,rallyShots,secondServe,score,feedback,playerStroke,playerSwing,playerClip,playerClipTime,opponentStroke,opponentSwing,opponentClip,opponentClipTime,ballX,ballY,ballZ,ballVX,ballVY,ballVZ,playerX,playerY,playerZ,opponentX,opponentY,opponentZ" };
+                var trace = new List<string> { "tick,unityFrame,seconds,videoFrame,phase,rallyShots,secondServe,score,feedback,playerStroke,playerSwing,playerClip,playerClipTime,opponentStroke,opponentSwing,opponentClip,opponentClipTime,ballX,ballY,ballZ,ballVX,ballVY,ballVZ,playerX,playerY,playerZ,opponentX,opponentY,opponentZ,serveReady,realtime" };
                 var audioAudit = new List<string> { "tick,unityFrame,videoSeconds,dspSeconds,sampleFramesThisTick,totalSampleFrames" };
                 var playerDriver = game.Player.GetComponentInChildren<HeroTennisDriver>();
                 var opponentDriver = game.Opponent.GetComponentInChildren<HeroTennisDriver>();
@@ -117,7 +118,7 @@ namespace GolfArcade.EditorTools
                         Csv(game.Match.Scoreboard), Csv(game.Feedback), game.Player.Kind, game.Player.Swinging,
                         playerDriver ? playerDriver.PlayingClip.ToString() : "", playerDriver ? F(playerDriver.PlayingClipTime) : "",
                         game.Opponent.Kind, game.Opponent.Swinging, opponentDriver ? opponentDriver.PlayingClip.ToString() : "", opponentDriver ? F(opponentDriver.PlayingClipTime) : "",
-                        V(game.BallPosition), V(game.BallVelocity), V(game.Player.transform.position), V(game.Opponent.transform.position)));
+                        V(game.BallPosition), V(game.BallVelocity), V(game.Player.transform.position), V(game.Opponent.transform.position),game.ServeReady,Time.realtimeSinceStartupAsDouble.ToString("F5",Inv)));
                     if (videoFrame >= 0)
                     {
                         string path = Path.Combine(take.directory, "frames", "game_" + take.frames.ToString("00000") + ".jpg");

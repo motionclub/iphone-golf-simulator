@@ -1,0 +1,11 @@
+--- a/Unity/Assets/Scripts/Tennis/MatchHeroLook.cs
++++ b/Unity/Assets/Scripts/Tennis/MatchHeroLook.cs
+@@ -166,7 +166,7 @@
+         /// KitDerive exactly; no clothing ID or persistence schema changes.
+         Color StarterShirt=>golfKit ? (female?new Color(.9373f,.5725f,.4980f,1):new Color(.1608f,.7176f,.7294f,1)) : (female?new Color(.7647f,.9020f,.3608f,1):new Color(.8824f,.2980f,.2471f,1));
+         Color StarterLower=>golfKit ? StarterNavy : (female?new Color(.96f,.94f,.89f,1):new Color(.17f,.30f,.60f,1));
+-        Color StarterTrim(string role)=>role==RoleShirt||role==RoleShirtTrim ? StarterShirt*.82f:role==RoleShorts||role==RoleShortsBand ? StarterLower*.82f:role==RoleShoe ? (golfKit?StarterNavy:new Color(.93f,.93f,.94f,1)):StarterCream;
++        Color StarterTrim(string role)=>role==RoleShirt||role==RoleShirtTrim ? StarterShirt*.82f:role==RoleShorts||role==RoleShortsBand ? StarterLower*.82f:role==RoleShoe ? (golfKit||!female?StarterNavy:new Color(.93f,.93f,.94f,1)) /* male pack 13 / 14: navy panels on both male shoes (example colour; picks still derive the trim) */:StarterCream;
+         bool StarterColour(string role,out Color colour) {
+             colour=default;
+             // CLOTHING V2 accessories keep their own colours (picks do not reach them): leather belt, metal buckle, white glove leather.

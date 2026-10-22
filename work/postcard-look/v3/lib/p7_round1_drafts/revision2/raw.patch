@@ -1,0 +1,419 @@
+--- a/blender/scripts/golf_look_textures.py
++++ b/blender/scripts/golf_look_textures.py
+@@ -832,7 +832,7 @@
+                 # horizontal ledge stubs, links between neighbouring lit joints), inside the glow corridors only (the complement of BASALT_ZONES: the hole-10 builder's windows stay valid); the stretches get shorter (s_med / g_med).  net = 0 reproduces v8.
+                 net=1, net_th=(45.0, 75.0), net_len=(0.20, 0.52), net_wb=0.018, net_sp=0.55, net_y=0.60, net_ledge=0.30, net_link_sp=1.6, net_gain=1.35, net_taper=0.5, net_keep=0.80, net_trunk=(0.10, 0.22), net_two=0.40, net_groove=0.30, net_dark=0.50, net_tilt=0.28, net_bulb_p=0.65, net_bulb=0.030,
+                 old_gain=0.15, old_E=0.0, vor=1, vor_n=18, vor_jit=0.85, vor_keep=0.65, vor_w=0.010, vor_groove=0.30,
+-                corridors=0)   # goal15: connected cracks can cross the full wall; old hole10 UV-window gate stays unchanged and reports the conflict
++                corridors=0,bounded=1,bounded_seed=311)   # goal15: connected cracks can cross the full wall; old hole10 UV-window gate stays unchanged and reports the conflict
+ BASALT_P_V8 = dict(s_med=1.45, s_max=3.6, g_med=1.5, net=0, vor=0, old_gain=1.0, old_E=1.0)         # rollback: BASALT_P.update(BASALT_P_V8)
+ _NET_STATS = {}
+ BASALT_ZONES = ((0.009, 0.061), (0.165, 0.385), (0.576, 0.685), (0.772, 0.796), (0.854, 0.893))       # u intervals with NO glow texel at all: the hole-10 builder maps every top / plain face there (a copy of hole10_look.ZONES; BASALT_BUILDER_WINDOWS reads the file)
+@@ -869,7 +869,7 @@
+     return out
+ 
+ 
+-def mat_basalt(N=1024, seed=1101):
++def _mat_basalt_prisms(N=1024, seed=1101):
+     """columnar basalt PRISMS in stacked blocks (u = around the wall, v = height, tile 8 m).  v4 2026-10-04.
+     11 vertical columns 0.4-1.4 m wide, each seen as THREE PLANES (left bevel / front / right bevel: normals tilted |nx| ~ .36-.50 and different albedo shade),
+     separated by long vertical joints (dark, 9-15 cm wide, chipped, steep walls, jogging a few cm sideways between blocks).  Every column is cut into 3-5 BLOCKS
+@@ -1249,6 +1249,113 @@
+     return dict(C=col, N=nv.astype(F), E=E)
+ 
+ 
++def _basalt_bounded_network(u,v,base,*,seed=311,variant=1):
++    H,W=u.shape;rng=np.random.default_rng([seed,81])
++    field=np.zeros((H,W),np.float32);depth=np.zeros_like(field)
++    gx=np.zeros_like(field);gy=np.zeros_like(field)
++    cold=np.zeros_like(field)
++    centers=(.113,.435,.532,.728,.825,.946)
++    zones=((.009,.061),(.165,.385),(.576,.685),(.772,.796),(.854,.893))
++    segments=[];trees=[]
++    def draw(a,b,hw,intensity=1.,hot=True):
++        a=np.asarray(a);b=np.asarray(b);d=b-a;ln=np.linalg.norm(d)
++        if ln<1e-7:return
++        d=d/ln;pad=hw*2+3/max(H,W)
++        x0=max(0,int((min(a[0],b[0])-pad)*W));x1=min(W,int(np.ceil((max(a[0],b[0])+pad)*W)))
++        y0=max(0,int((1-max(a[1],b[1])-pad)*H));y1=min(H,int(np.ceil((1-min(a[1],b[1])+pad)*H)))
++        if x1<=x0 or y1<=y0:return
++        sl=np.s_[y0:y1,x0:x1];dx=u[sl]-a[0];dy=v[sl]-a[1]
++        t=np.clip(dx*d[0]+dy*d[1],0,ln)
++        perp=dx*(-d[1])+dy*d[0];dist=np.sqrt((dx-t*d[0])**2+(dy-t*d[1])**2)
++        core=(1-sm(hw*.3,hw*1.1,dist))*intensity
++        if hot:field[sl]=np.maximum(field[sl],core)
++        else:cold[sl]=np.maximum(cold[sl],core)
++        groove=(1-sm(hw*.35,hw*1.4,dist))
++        depth[sl]=np.maximum(depth[sl],groove)
++        walls=sm(hw*.2,hw*.6,dist)*(1-sm(hw,hw*1.75,dist))
++        gx[sl]+=np.sign(perp)*(-d[1])*walls*.23
++        gy[sl]+=np.sign(perp)*d[0]*walls*.23
++        segments.append(dict(a=a.tolist(),b=b.tolist(),width=hw*2,hot=hot))
++    for j,cx in enumerate(centers):
++        available=.022 if j==4 else .028
++        for k,cy0 in enumerate((.095,.340,.630,.890)):
++            cy=cy0+rng.uniform(-.025,.025)
++            # The long sparse ends give an elongated real envelope. Most heat
++            # lies in its connected branching central fault, rather than lines.
++            ys=np.array([-.067,-.033,-.012,0,.012,.033,.067])+cy
++            xx=cx+rng.uniform(-.005,.005,len(ys));xx[0]=xx[-1]=cx
++            path=np.stack([xx,ys],1)
++            for a,b in zip(path[:-1],path[1:]):draw(a,b,.00135,1.)
++            def fitted(pt):
++                return np.array([np.clip(pt[0],cx-available,cx+available),np.clip(pt[1],cy-.025,cy+.025)])
++            # Irregular connected fork paths replace the failed parallel fans.
++            # Each actual turn has small Y branches; no repeated horizontal rung.
++            for side in (-1,1):
++                for yoff in (-.012,.001,.013):
++                    start=np.array([float(np.interp(cy+yoff,ys,xx)),cy+yoff])
++                    for step in range(3):
++                        end=fitted(np.array([cx+side*available*(step+1)/3,
++                                             cy+yoff+rng.uniform(-.013,.013)]))
++                        draw(start,end,.00260,1.)
++                        if step<2:
++                            for sign in (-1,1):
++                                twig=fitted(end+np.array([side*rng.uniform(.002,.006),sign*rng.uniform(.004,.008)]))
++                                draw(end,twig,.00265,.98)
++                        start=end
++            trees.append(dict(center=[cx,cy],envelope=[cx-available,cy-.067,cx+available,cy+.067]))
++    # These cooled fractures remain visible in the albedo/normal. Their glow is
++    # explicitly below both inherited hard glow masks, not an erased network.
++    for k in range(4):
++        for j in range(len(centers)-1):
++            a=trees[j*4+k]['center'];b=trees[(j+1)*4+k]['center']
++            mid=[(a[0]+b[0])*.5,(a[1]+b[1])*.5+rng.uniform(-.035,.035)]
++            draw(a,mid,.00125,.9,hot=False);draw(mid,b,.00125,.9,hot=False)
++    # Heat fades toward the tile's middle; hotter lower/upper tile edges are
++    # periodic, while the opposite emission edge samples stay identically dark.
++    heat=.80+.20*((.5+.5*np.cos(2*np.pi*v))**1.3)
++    field=np.clip(field*heat,0,1)
++    keys=[0,.18,.45,.72,1]
++    cols=np.array([[0,0,0],[70,8,0],[190,45,5],[250,100,16],[255,160,40]])/255
++    E=np.stack([np.interp(field,keys,cols[:,i]) for i in range(3)],-1).astype(np.float32)
++    E=np.maximum(E,cold[...,None]*np.array([7,1,0],np.float32)/255)
++    for a,b in zones:
++        # The hot tree envelopes were reserved outside these zones. Cooled
++        # grooves cross them, but their7/255 maximum is a genuine plain chart.
++        hot=(u>=a)&(u<=b)
++        E[hot]=np.minimum(E[hot],np.array([7,1,0],np.float32)/255)
++    E[0]=E[-1]=0;E[:,0]=E[:,-1]=0
++    N=base['N'].copy()
++    # Existing prism bevels and fracture normal walls stay intact. New grooves
++    # occupy their front planes, adding no false block-fracture normal event.
++    front=(np.abs(N[...,0])<.20)&(np.abs(N[...,1])<.20)
++    N[...,0]+=np.clip(gx,-.22,.22)*front;N[...,1]+=np.clip(gy,-.22,.22)*front
++    N[...,2]=np.sqrt(np.maximum(1-N[...,0]**2-N[...,1]**2,.03))
++    N/=np.linalg.norm(N,axis=2,keepdims=True)
++    C=base['C'].copy()
++    # Keep the original Crater albedo-window contract. These are physical
++    # RGB corrections, smoothly interpolated across u rather than new masks.
++    # The generator's test still reads the unchanged 128 reference values.
++    target=np.array((0.143,0.142,0.143,0.145,0.135,0.121,0.120,0.112,0.065,0.053,0.119,0.184,0.194,0.190,0.139,0.108,0.114,0.158,0.194,0.234,0.228,0.221,0.217,0.209,0.188,0.174,0.131,0.058,0.074,0.124,0.131,0.136,0.155,0.184,0.181,0.177,0.178,0.181,0.184,0.185,0.183,0.167,0.149,0.146,0.110,0.051,0.069,0.116,0.149,0.175,0.179,0.178,0.178,0.176,0.159,0.146,0.111,0.097,0.130,0.160,0.200,0.221,0.220,0.219,0.217,0.203,0.181,0.127,0.100,0.084,0.101,0.107,0.139,0.150,0.150,0.147,0.146,0.142,0.129,0.105,0.064,0.086,0.175,0.216,0.275,0.305,0.306,0.301,0.291,0.248,0.193,0.123,0.091,0.109,0.111,0.142,0.154,0.154,0.153,0.152,0.141,0.125,0.092,0.088,0.105,0.152,0.168,0.170,0.166,0.146,0.110,0.049,0.044,0.095,0.114,0.111,0.115,0.099,0.081,0.080,0.093,0.093,0.095,0.098,0.109,0.138,0.146,0.144))
++    scale_total=np.ones(W)
++    for _ in range(5):
++        mean=C.mean(2).mean(0).reshape(128,-1).mean(1)
++        scale=np.interp((np.arange(W)+.5)/W,
++                        (np.arange(-1,129)+.5)/128,
++                        np.r_[target[-1]/mean[-1],target/mean,target[0]/mean[0]])
++        C=np.clip(C*scale[None,:,None],0,1)
++        scale_total*=scale
++    layout_profile=dict(target=target.tolist(),scale_min=float(scale_total.min()),scale_max=float(scale_total.max()),method='five smooth periodic RGB scaling passes; unchanged original PROFILE128')
++    return dict(C=C,N=N,E=E),dict(centers=centers,zones=zones,segments=segments,trees=trees,seed=seed,variant=variant,albedo_profile=layout_profile)
++
++def mat_basalt(N=1024,seed=1101):
++    base=_mat_basalt_prisms(N,seed)
++    if not BASALT_P.get('bounded',0): return base
++    u,v=grid(N,N)
++    maps,layout=_basalt_bounded_network(u,v,base,seed=int(BASALT_P.get('bounded_seed',311)),variant=6)
++    _NET_STATS.update(trees=len(layout['trees']),segments=len(layout['segments']),variant=6,kind='bounded recursive zigzag forks')
++    return maps
++
++
+ def glow_ramp(x):
+     """0 black -> deep red -> orange -> yellow-white (sRGB)."""
+     keys = np.array([0.0, 0.18, 0.45, 0.72, 0.9, 1.0], F)
+
+--- a/blender/scripts/postcard_look_lib.py
++++ b/blender/scripts/postcard_look_lib.py
+@@ -1296,7 +1296,7 @@
+                    np.minimum(np.clip(d - under, lo * 0.8, hj), max_out_m)]
+     Z = np.stack(rows_z, 1)
+     Dd = np.stack(rows_d, 1)
+-    if nblk > 1:                                                  # joint statistics (strata_gate): the offset step across every fissure, per band
++    if nblk > 1 and not T_.get('goal15'):                          # legacy/control statistics; goal15 is measured after all clamps below
+         steps_ = []
+         for fpos in fe[1:-1]:
+             ia = int(np.argmin(np.abs(s - (fpos - 0.09))))
+@@ -1309,6 +1309,16 @@
+     Z = np.minimum(Z, pz - 0.1)
+     inset = _wall_inset(bvh, Pc, N, Z)
+     R = -follow * inset + Dd
++    if T_.get('goal15'):
++        # Carve the existing visual columns, without adding samples or faces.
++        # Fissure-pair columns <=.30m apart share one real cutback: the carve
++        # must not manufacture a full-height step across every narrow seam.
++        ds = np.r_[s[0] + L - s[-1], np.diff(s)]
++        group = np.cumsum(ds > .30).astype(int)
++        carve_rng = np.random.default_rng([7211, sd_seed])
++        depth = .20 + .65 * (np.arange(group.max() + 1) % 2)
++        depth += carve_rng.uniform(-.10, .10, len(depth))
++        R = R - depth[group, None]
+     R = _unfold_rows(Pc, N, R, tg)
+     cap_in = _wall_inset(bvh, Pc, N, Z[:, :1])[:, 0] + 0.25        # the cap tucks 0.25 m into the wall at the lip height
+     Rall = np.concatenate([-cap_in[:, None], R], 1)
+@@ -1332,6 +1342,19 @@
+                 g = _ell_inward(ells, X[i_, r_], Y[i_, r_])
+                 X[i_, r_] -= g[0] * (dep[i_, r_] - 0.10 + 0.01)
+                 Y[i_, r_] -= g[1] * (dep[i_, r_] - 0.10 + 0.01)
++    if T_.get('goal15') and nblk > 1:
++        # Read the FINAL real offsets, including unfold/water clamps. The
++        # original strata gate consumes these geometric measurements; never
++        # retain pre-carve metadata that would hide a new full-height joint.
++        final_xy = np.stack([X, Y], axis=2)
++        actual_r = np.sum((final_xy - Pc[:, None, :]) * N[:, None, :], axis=2)
++        steps_ = []
++        for fpos in fe[1:-1]:
++            ia = int(np.argmin(np.abs(s - (fpos - .09))))
++            ib = int(np.argmin(np.abs(s - (fpos + .09))))
++            steps_.append([abs(float(actual_r[ib, 3*j + 2] - actual_r[ia, 3*j + 2])) for j in range(nb)])
++        D.__dict__.setdefault('strata_stats', []).append(dict(loop=li, tuning='live',
++            lengths=np.diff(fe).tolist(), steps=steps_, bands=nb, provenance='final actual cladding vertices'))
+     if T_.get('goal15'):
+         outer=np.argmax(Rall,axis=1)
+         outline=np.stack([X[np.arange(m),outer],Y[np.arange(m),outer]],axis=1)
+@@ -3245,3 +3268,209 @@
+             _track(D,ob)
+         out += cols
+     return out
++
++
++# P7 paired charts are opt-in on genuinely world-sized new column geometry.
++# These authored intervals retain every frozen hole10 GLOW_U and ZONES entry.
++BASALT_PAIRED_GLOW_U = (0.123, 0.446, 0.534, 0.718, 0.806, 0.930)
++BASALT_PAIRED_ZONES = ((.009, .061), (.165, .385), (.576, .685), (.772, .796), (.854, .893))
++_BASALT_CHART_IMAGES = {}
++
++
++def _basalt_chart_image(suffix):
++    """Decoded PNG bytes; Blender colour-management is not measurement truth."""
++    import hashlib
++    import golf_look_textures as T
++    path = os.path.join(LOOK_DIR, 'Basalt_' + suffix + '.png')
++    with open(path, 'rb') as f:
++        digest = hashlib.sha256(f.read()).hexdigest()
++    key = (path, digest)
++    if key not in _BASALT_CHART_IMAGES:
++        _BASALT_CHART_IMAGES[key] = T.read_png(path)[..., :3].astype(float) / 255.0
++    return _BASALT_CHART_IMAGES[key], digest
++
++
++def _basalt_chart_normal(pts):
++    a, b = pts, np.roll(pts, -1, axis=0)
++    n = np.array([np.sum((a[:, 1] - b[:, 1]) * (a[:, 2] + b[:, 2])),
++                  np.sum((a[:, 2] - b[:, 2]) * (a[:, 0] + b[:, 0])),
++                  np.sum((a[:, 0] - b[:, 0]) * (a[:, 1] + b[:, 1]))])
++    return n / max(float(np.linalg.norm(n)), 1e-12)
++
++
++def _basalt_plain_charts(ob, seed, uf, vf):
++    """Metre charts in existing plain windows, including every actual cap/chip."""
++    rng = random.Random(seed)
++    me = ob.data
++    uv = me.uv_layers.active or me.uv_layers.new(name='UVMap')
++    C, _ = _basalt_chart_image('C')
++    profile = C.mean(axis=(0, 2))
++    M = np.asarray(ob.matrix_world, float)
++    co = np.array([tuple(v.co) for v in me.vertices])
++    co = co @ M[:3, :3].T + M[:3, 3]
++    for poly in me.polygons:
++        pts = co[list(poly.vertices)]
++        n = _basalt_chart_normal(pts)
++        if abs(n[2]) >= .8:
++            su = pts[:, 0]
++            dv = min(.60 / 8, 3 * uf / 8)
++            v = pts[:, 1] * dv
++        else:
++            h = n[:2] / max(float(np.linalg.norm(n[:2])), 1e-12)
++            su = pts[:, :2] @ np.array([-h[1], h[0]])
++            v = pts[:, 2] * vf / 8
++        width = max(float(np.ptp(su)), .05)
++        du = uf / 8
++        viable = [(a, b) for a, b in BASALT_PAIRED_ZONES if b - a >= width * du * 1.03]
++        if not viable:
++            a, b = max(BASALT_PAIRED_ZONES, key=lambda z: z[1] - z[0])
++            du = .96 * (b - a) / width
++            viable = [(a, b)]
++        if abs(n[2]) >= .8:
++            v = pts[:, 1] * min(.60 / 8, 3 * du)
++        choices = []
++        for _ in range(32):
++            a, b = rng.choice(viable)
++            u0 = rng.uniform(a, b - width * du)
++            sample = u0 + width * du * (np.arange(9) + .5) / 9
++            mean = float(profile[np.floor((sample % 1) * len(profile)).astype(int)].mean())
++            choices.append((u0, (.14 / max(mean, .025)) ** 3))
++        at = rng.random() * sum(w for _, w in choices)
++        u0 = choices[-1][0]
++        for value, weight in choices:
++            at -= weight
++            if at <= 0:
++                u0 = value
++                break
++        phase = rng.random()
++        for j, li in enumerate(poly.loop_indices):
++            uv.data[li].uv = (u0 + (su[j] - su.min()) * du, v[j] + phase)
++    me.update()
++
++
++def author_basalt_paired_columns(ob, seed=0, uf=.38, vf=.32,
++                                 hot_fraction=.80, front_dir=(0., -1.), plain_author=None):
++    """UV0 only: one chart across two actual neighbouring shaft planes.
++
++    Existing column vertices/faces/materials/scoring are never changed. The
++    complete column metadata bounds the real pieces; shared polygon edges
++    prove adjacency. Each fractured piece uses the column's same world-z
++    phase. A deterministic whole-column subset is hot; all other faces/caps
++    retain plain charts. Non-fitting narrow components stay physically plain
++    and are reported; the whole-hole original gates still decide PASS/FAIL.
++    plain_author may call hole10's unchanged author_uv with p_glow=0, retaining
++    its exact existing weighted albedo-window selection.
++    """
++    import json
++    if not (0 <= hot_fraction <= 1) or uf <= 0 or vf <= 0:
++        raise ValueError('Invalid paired UV density/frequency')
++    specs = json.loads(ob['lk_v3_columns'])
++    me = ob.data
++    if plain_author is None:
++        _basalt_plain_charts(ob, seed, uf, vf)
++    else:
++        plain_author(me, random.Random(seed), uf=uf, vf=vf, p_glow=0.)
++    uv = me.uv_layers.active
++    M = np.asarray(ob.matrix_world, float)
++    co = np.array([tuple(v.co) for v in me.vertices])
++    co = co @ M[:3, :3].T + M[:3, 3]
++    normals = [_basalt_chart_normal(co[list(p.vertices)]) for p in me.polygons]
++    front = np.asarray(front_dir, float)
++    front /= max(float(np.linalg.norm(front)), 1e-12)
++    selected = set(random.Random(seed + 3527).sample(range(len(specs)), int(len(specs) * hot_fraction)))
++    phases = random.Random(seed + 941)
++    centers = (.113, .435, .532, .728, .825, .946)
++    records, unsupported = [], []
++    for ci, spec in enumerate(specs):
++        phase = phases.random()
++        if ci not in selected:
++            continue
++        a, b = spec['faces']
++        if not (0 <= a < b <= len(me.polygons)):
++            raise ValueError('Column polygon metadata is outside actual geometry')
++        parent = {int(v) for pi in range(a, b) for v in me.polygons[pi].vertices}
++        parent = {v: v for v in parent}
++        def component(v):
++            while parent[v] != v:
++                parent[v] = parent[parent[v]]
++                v = parent[v]
++            return v
++        for pi in range(a, b):
++            vs = list(me.polygons[pi].vertices)
++            for v in vs[1:]:
++                parent[component(v)] = component(vs[0])
++        edges = {}
++        for pi in range(a, b):
++            if abs(normals[pi][2]) >= .05:
++                continue
++            vs = list(me.polygons[pi].vertices)
++            for v0, v1 in zip(vs, vs[1:] + vs[:1]):
++                if abs(co[v0, 2] - co[v1, 2]) > .4:
++                    edges.setdefault(tuple(sorted((v0, v1))), []).append(pi)
++        pairs = []
++        for edge, polys in edges.items():
++            if len(polys) != 2:
++                continue
++            lo, hi = sorted(edge, key=lambda i: co[i, 2])
++            bottom, top = co[lo], co[hi]
++            faces = []
++            for pi in polys:
++                pts = co[list(me.polygons[pi].vertices)]
++                t = np.array([-normals[pi][1], normals[pi][0]])
++                t /= max(float(np.linalg.norm(t)), 1e-12)
++                along = (pts[:, 2] - bottom[2]) / (top[2] - bottom[2])
++                corner = bottom[:2] + along[:, None] * (top[:2] - bottom[:2])
++                s_ = np.sum((pts[:, :2] - corner) * t, axis=1)
++                faces.append((pi, s_))
++            left = max(-float(s_.min()) for _, s_ in faces) * uf / 8
++            right = max(float(s_.max()) for _, s_ in faces) * uf / 8
++            if left < 1e-6 or right < 1e-6:
++                continue
++            eligible = [j for j, g in enumerate(BASALT_PAIRED_GLOW_U)
++                        if g-left <= centers[j]-(.022 if j == 4 else .028)-.003
++                        and g+right >= centers[j]+(.022 if j == 4 else .028)+.003]
++            if eligible:
++                pairs.append((float(((bottom + top)[:2] * .5) @ front), edge, faces, eligible))
++        # A connected shaft segment has one maximum-facing real corner.
++        # Different fracture pieces have disjoint vertices and remain intact.
++        groups = set()
++        for candidate in sorted(pairs, reverse=True, key=lambda q: q[0]):
++            root = component(candidate[1][0])
++            if root in groups:
++                continue
++            groups.add(root)
++            _, edge, faces, eligible = candidate
++            gi = eligible[ci % len(eligible)]
++            for pi, s_ in faces:
++                poly = me.polygons[pi]
++                for j, li in enumerate(poly.loop_indices):
++                    uv.data[li].uv = (BASALT_PAIRED_GLOW_U[gi] + s_[j] * uf / 8,
++                                      phase + co[me.loops[li].vertex_index, 2] * vf / 8)
++            records.append(dict(column=ci, polygons=[p for p, _ in faces], shared_edge=list(edge),
++                                glow_index=gi, world_z_phase=phase))
++        if not groups:
++            unsupported.append(ci)
++    me.update()
++    E, e_sha = _basalt_chart_image('E')
++    G = np.flipud(E.max(axis=2) > .2)
++    rng = np.random.default_rng(1010)
++    rnd = rng.random((96, 2)); q = np.sqrt(rnd[:, 0])
++    bary = np.c_[1-q, q*(1-rnd[:, 1]), q*rnd[:, 1]]
++    st = dict(side=0, glow=0, top=0, top_glow_free=0)
++    for pi, poly in enumerate(me.polygons):
++        chart = np.array([tuple(uv.data[li].uv) for li in poly.loop_indices])
++        hot = total = 0
++        for j in range(1, len(chart)-1):
++            samples = bary @ chart[[0, j, j+1]]
++            xy = np.floor((samples % 1) * np.array([G.shape[1], G.shape[0]])).astype(int)
++            hot += int(G[xy[:, 1], xy[:, 0]].sum()); total += len(samples)
++        share = hot / max(total, 1)
++        if abs(normals[pi][2]) >= .8:
++            st['top'] += 1; st['top_glow_free'] += int(share <= 2e-4)
++        else:
++            st['side'] += 1; st['glow'] += int(share > 0)
++    st.update(paired_columns=len({r['column'] for r in records}), paired_components=len(records),
++              selected_columns=len(selected), plain_unsupported_columns=unsupported,
++              hot_fraction=hot_fraction, uf=uf, vf=vf, emission_sha256=e_sha,
++              glow_lines_used=sorted({r['glow_index'] for r in records}), records=records)
++    return st
+
+--- a/blender/scripts/postcard_props_lib.py
++++ b/blender/scripts/postcard_props_lib.py
+@@ -5207,7 +5207,8 @@
+ # useful negative controls while rebuilt holes explicitly choose these shapes.
+ def build_column_wall(D, path, top_z, bottom_z=-1.6, width_m=(0.8, 1.5), rows=1,
+                       closed=False, seed=0, name="ROCK_WALL_V3", max_faces=490,
+-                      relief_m=0.16, clip=None, max_span_m=20.0):
++                      relief_m=0.16, clip=None, max_span_m=20.0,
++                      paired_uv=True, paired_hot_fraction=.80):
+     """World-sized 5/6-sided column cladding along an arbitrary metre polyline.
+ 
+     top_z may be one height or one height per path point. Across-corner diameter
+@@ -5249,6 +5250,12 @@
+         import json
+         ob["lk_v3_columns"] = json.dumps(specs)
+         ob["lk_v3_world_sized"] = True
++        if paired_uv:
++            import postcard_look_lib as L
++            # Only this new world-sized generator opts in. Legacy BUILDERS
++            # and their original UV/geometry fingerprints remain untouched.
++            L.author_basalt_paired_columns(ob, seed=seed + len(out),
++                                           hot_fraction=paired_hot_fraction)
+         out.append(ob)
+         mb, specs = _MB(("LK_BASALT",)), []
+ 

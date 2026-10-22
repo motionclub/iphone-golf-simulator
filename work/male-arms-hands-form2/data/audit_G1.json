@@ -1,0 +1,21 @@
+{
+ "verts_current": 30296,
+ "verts_staged": 31628,
+ "appended": 1332,
+ "moved_original_verts": 6130,
+ "moved_outside_arm_zone": 0,
+ "bit_identical": {
+  "head_neck(z>=1.40)": true,
+  "torso+pelvis(|x|<0.215,z>=0.78)": true,
+  "legs_feet(z<0.78,|x|<0.40)": true
+ },
+ "polys_current": 30518,
+ "polys_staged": 31854,
+ "tris_current": 60358,
+ "tris_staged": 63022,
+ "sharp_face_true": 0,
+ "sharp_edge_true": 0,
+ "custom_normal_nonzero_current": 31246,
+ "custom_normal_nonzero_staged": 31246,
+ "vg_entries_equal": true
+}

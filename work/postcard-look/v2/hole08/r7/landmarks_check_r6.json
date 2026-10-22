@@ -1,0 +1,76 @@
+{
+  "round4_camera_composition": {
+    "flank": 0.03,
+    "lip": 0.046,
+    "masonry": 0.178,
+    "other": 0.027,
+    "pad": 0.054,
+    "skin": 0.05,
+    "sky": 0.399,
+    "top": 0.143,
+    "water": 0.073
+  },
+  "arch_camera_blender_m": {
+    "pos": [
+      -10.0,
+      277.0,
+      12.08
+    ],
+    "look": [
+      -26.243,
+      289.865,
+      10.8
+    ],
+    "fov_v": 60.0
+  },
+  "arch_camera_unity_yards": {
+    "pos": [
+      -10.94,
+      13.21,
+      302.93
+    ],
+    "look": [
+      -28.7,
+      11.81,
+      317.0
+    ],
+    "fov": 60.0
+  },
+  "search": {
+    "width_frac": 0.7812634965026067,
+    "height_frac": 0.606339602487358,
+    "blocked": 0.03,
+    "outcrop_in_frame": 0.75,
+    "ground": 6.0800018310546875,
+    "height_above_ground": 6.0,
+    "composition": {
+      "flank": 0.008,
+      "masonry": 0.197,
+      "other": 0.036,
+      "pad": 0.009,
+      "skin": 0.041,
+      "sky": 0.352,
+      "top": 0.227,
+      "water": 0.13
+    },
+    "candidates": 1796
+  },
+  "dense_blocked_of": [
+    0,
+    400
+  ],
+  "look_ray_hit": null,
+  "arch_centre_m": [
+    -26.24328,
+    289.8648,
+    5.2
+  ],
+  "arch_height_m": 12.200000000000001,
+  "arch_span_m": 9.144,
+  "shots_notes": {
+    "tee": "default shot: ball on the tee (0,0), aim = the landing station M (19,178) = RecommendedTarget",
+    "approach": "second shot from the landing station M (19,178) on the middle pad, 164 yd to the pin (-6,340): a real 7-iron approach over gap 2",
+    "arch": "close-up of the masonry arch on its grassy outcrop, from a vantage 6 m above the green pad's north-west rim, beside the bunker (round 5: composition-scored search, the bunker lip and the dark ledges are out of the frame)",
+    "pathball": "OPTIONAL extra: a lay-up lie on the tee-pad path (a path vertex, course yards): proves the ball is not hidden by the path"
+  }
+}

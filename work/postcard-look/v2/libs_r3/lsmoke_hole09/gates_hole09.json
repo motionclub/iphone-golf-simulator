@@ -1,0 +1,143 @@
+{
+ "hole": "09",
+ "script": "work/postcard-look/baseline/scripts/hole09_build.py",
+ "build_s": 1.3,
+ "look_s": 2.2,
+ "tris": 115551,
+ "skin_tris": 79296,
+ "surf_tris": 4304,
+ "water_tris": {
+  "WATER_OCEAN": 8830,
+  "WATER_SHELF": 3067
+ },
+ "renders": [],
+ "missing_textures": [],
+ "gates": [
+  {
+   "name": "LOOK_TOP_SURFACES_UNCHANGED",
+   "ok": true,
+   "detail": "12 ground meshes, 5628 vertices, max |delta| 0.00e+00 m (tol 1e-05)"
+  },
+  {
+   "name": "LOOK_NO_COLLISION_PREFIX",
+   "ok": true,
+   "detail": "85 objects made by postcard_look_lib, none with a ground prefix; ground meshes 12 all on the postcard_verify allow-list"
+  },
+  {
+   "name": "LOOK_NO_MAT_FOAM",
+   "ok": true,
+   "detail": "exported meshes using MAT_FOAM [], WATER_FOAM* objects [], MAT_FOAM datablock users 0 (0-user data is neither saved nor exported)"
+  },
+  {
+   "name": "LOOK_GROUND_WATER_ARE_LK",
+   "ok": true,
+   "detail": "non-LK materials on ground/water meshes: []"
+  },
+  {
+   "name": "LOOK_UV_SANE",
+   "ok": true,
+   "detail": "14 ground/water meshes: one UV layer, finite, max |uv| 250.8, UV*tile/world edge ratio on every top/flat face 0.63..1.38 (limits 0.45..2.2); TERRAIN wall faces (hidden by the skin; arc-of-the-top-loop u) max ratio 2.94 (<= 8: no seam jump)"
+  },
+  {
+   "name": "LOOK_SKIN_BELOW_PLAY",
+   "ok": true,
+   "detail": "14 ROCK_SKIN pieces, 79296 tris, highest vertex 5.825 m (play 6.0 - 0.05)"
+  },
+  {
+   "name": "LOOK_WATER_STACK",
+   "ok": true,
+   "detail": "70 WATER_* meshes inside z 0..0.2 (WATER_FALL sheets excluded: vertical by design)"
+  },
+  {
+   "name": "LOOK_SURF_BROKEN",
+   "ok": true,
+   "detail": "68 WATER_SURF objects, 68 separate pieces (>= 8; was >= 12 on the old near-continuous band), longest piece 11.4 m (<= 14 bbox diagonal of one patch; was <= 140; the run along the shore is capped at 10 m by NO_FOAM_STRIP), vertex colour 'Col' on all: True"
+  },
+  {
+   "name": "SHELF_THIN",
+   "ok": true,
+   "detail": "2075 shore samples (every 1 m, 1 loops): visible shelf width beyond the skin at the waterline median 1.40 m (<= 2.5), p95 2.60 m (<= 4), max 3.70 m outside pockets (<= 4.5), 2.80 m in 118 pocket samples (<= 6); breaks (no shelf) 4% of samples; where present median 1.50 m, CV 0.44 (>= 0.3); top-down footprint width median 0.40 m, p95 1.50 m; WATER_SHELF area 10416 m2"
+  },
+  {
+   "name": "NO_FOAM_STRIP",
+   "ok": true,
+   "detail": "560 export meshes: foam objects/materials []; 68 WATER_SURF objects, 68 components; coverage 15.6% of 1895 m shoreline (<= 25), 62 runs along the shore, longest 7.5 m (<= 10), shortest gap between runs 14.0 m (>= 8), strips (aspect >= 4 and width CV <= 0.35) 0, components with alpha > 0.1 at an end 0; component aspect max 1.57, alpha max 1.00"
+  },
+  {
+   "name": "PATH_UNDER_BALL",
+   "ok": true,
+   "detail": "no DRESS_PATH on this hole (nothing to measure)"
+  },
+  {
+   "name": "CRATER_WALL_COVERED",
+   "ok": true,
+   "detail": "22817 rays (aerial/low/oblique) at wall points z 0.3 .. 5.88 m: smooth TERRAIN wall seen first 4193 = 18.38% (<= 1), at z >= 5 m: 4193 (must be 0), first hit on a vertical LK_ROUGH wall face 3922 (17.19%, <= 1); by view {'aerial': '1264/6805', 'low': '1264/6805', 'oblique': '1665/9207'}; by wall height {'>=5': 4193}; tolerated sliver PLAY_Z - 0.10 .. PLAY_Z: 2820/2820 rays reach bare wall (LK_BASALT there on Crater); up-facing skin faces above PLAY_Z - 0.05: 0 (report only: strata holes keep a grass fringe above the cap ledge)"
+  },
+  {
+   "name": "SKIN_NOT_OVER_WATER",
+   "ok": true,
+   "detail": "1 water ellipses, 22351 grid cells (0.5 m) deeper than 0.15 m inside them: 0 are covered by an up-facing skin surface (0.0 m2, worst depth 0.00 m, top z 0.00); up-facing (nz > 0.3) skin faces deeper than 0.15 m: 0 by centre, 0 by any vertex"
+  },
+  {
+   "name": "SKIN_FACES_OUTWARD",
+   "ok": true,
+   "detail": "2490 rays from 20 m out at z 1, 3, 5 toward the shore: first hit on a ROCK_SKIN face is FRONT-facing 2490 times, back-facing 0 (100.0% front, need >= 99%; the materials are single-sided in Unity)"
+  },
+  {
+   "name": "STRATA_JOINTS_STAGGERED",
+   "ok": true,
+   "detail": "325 fissure blocks (mean 5.8 m, CV 0.57, need >= 0.40), 324 fissures: 18 % are a >= 6 cm step in every band (need <= 25 %), 55 % of the (fissure, band) cells are open; NEGATIVE CONTROL (previous layout, 324 fissures): block CV 0.30, full-height lines 43 % -> regular grid detected"
+  },
+  {
+   "name": "SKIN_JAGGED",
+   "ok": true,
+   "detail": "strata skin mid-row plan tortuosity (reviewer's measure, row 6 of 13 vs a 9-column moving average) 1.156 (>= 1.15; the old skin 1.03-1.07)"
+  },
+  {
+   "name": "LOOK_WALL_HIDDEN_BY_SKIN",
+   "ok": true,
+   "detail": "220 rays from 12 m out toward the TERRAIN wall that land on it between z 0.05 and the lowest skin top (play - 0.5): 220 hit ROCK_SKIN first (100.0 %, >= 97 %), 0 reach the smooth wall"
+  },
+  {
+   "name": "LOOK_SKIN_NO_UPFACE_IN_PLAY",
+   "ok": true,
+   "detail": "0 up-facing ROCK_SKIN faces with centre above play_z - 0.05"
+  },
+  {
+   "name": "LOOK_BUDGET",
+   "ok": true,
+   "detail": "115551 tris in the export set (<= 250000), FBX 4.44 MB (<= 20)"
+  },
+  {
+   "name": "FBX_GROUND_SET",
+   "ok": true,
+   "detail": "ground meshes 12 == expected 12"
+  },
+  {
+   "name": "FBX_LK_MATERIALS",
+   "ok": true,
+   "detail": "LK materials in the file: ['LK_CLIFF', 'LK_CLIFF_DARK', 'LK_FAIRWAY', 'LK_GREEN', 'LK_ROCK', 'LK_ROUGH', 'LK_SAND', 'LK_SCRUB', 'LK_SURF', 'LK_WATER', 'LK_WATER_SHALLOW']"
+  },
+  {
+   "name": "FBX_UV0",
+   "ok": true,
+   "detail": "every ground/water/skin/path mesh has exactly one UV layer"
+  },
+  {
+   "name": "FBX_SURF_COLOURS",
+   "ok": true,
+   "detail": "68 WATER_SURF meshes, all with a colour layer: True, max alpha 1.00"
+  },
+  {
+   "name": "FBX_NO_TEXTURE_REFS",
+   "ok": true,
+   "detail": "texture references in the FBX: [] (Unity names materials by base texture name with materialName 0, so the LK_* names only survive without them)"
+  },
+  {
+   "name": "FBX_NO_MAT_FOAM",
+   "ok": true,
+   "detail": "MAT_FOAM materials in the file: []"
+  }
+ ],
+ "fails": []
+}

@@ -1,0 +1,69 @@
+{
+  "sex": "Male",
+  "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/golf-look/export/Golf_Male_Draft.blend",
+  "sourceSha256": "31003ad93b4eb502f4754a6764e6b48ddd21a51db74335879e92fa1038dfae43",
+  "parts": [
+    {
+      "tag": "Bottom",
+      "vertices": 10806,
+      "triangles": 21248,
+      "materials": [
+        "Kit_Shorts",
+        "Kit_GolfHardware"
+      ]
+    },
+    {
+      "tag": "Head",
+      "vertices": 2012,
+      "triangles": 3960,
+      "materials": [
+        "Kit_GolfHead"
+      ]
+    },
+    {
+      "tag": "Glove_L",
+      "vertices": 3518,
+      "triangles": 7032,
+      "materials": [
+        "Kit_GolfGlove"
+      ]
+    },
+    {
+      "tag": "Glove_R",
+      "vertices": 3516,
+      "triangles": 7028,
+      "materials": [
+        "Kit_GolfGlove"
+      ]
+    },
+    {
+      "tag": "Shoe_L",
+      "vertices": 5595,
+      "triangles": 10970,
+      "materials": [
+        "Kit_Shoe"
+      ]
+    },
+    {
+      "tag": "Shoe_R",
+      "vertices": 5595,
+      "triangles": 10970,
+      "materials": [
+        "Kit_Shoe"
+      ]
+    },
+    {
+      "tag": "Top",
+      "vertices": 8974,
+      "triangles": 17533,
+      "materials": [
+        "Kit_Shirt"
+      ]
+    }
+  ],
+  "totalKitTriangles": 78741,
+  "hairIncluded": false,
+  "bones": 53,
+  "status": "candidate; UV/maps/import/fit validation pending",
+  "poloLOD": "primary outer faces and turned edges retained; hidden main inward duplicate removed, collar/placket construction retained"
+}

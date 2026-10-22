@@ -1,0 +1,110 @@
+{
+ "Turntable_Male_White.mp4": {
+  "path": "proof/Turntable_Male_White.mp4",
+  "exists": true,
+  "bytes": 1932900,
+  "ftyp_header": true,
+  "size": [
+   1080,
+   1350
+  ],
+  "fps": 24.0,
+  "frame_duration": 240,
+  "duration_s": 10.0,
+  "decoded_frames": [
+   {
+    "frame": 1,
+    "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/dressed-look/proof/raw/video_check_Turntable_Male_White.mp4_0001.png",
+    "mean": 0.42864659428596497,
+    "std": 0.25244030356407166
+   },
+   {
+    "frame": 60,
+    "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/dressed-look/proof/raw/video_check_Turntable_Male_White.mp4_0060.png",
+    "mean": 0.42540082335472107,
+    "std": 0.2528722286224365
+   },
+   {
+    "frame": 120,
+    "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/dressed-look/proof/raw/video_check_Turntable_Male_White.mp4_0120.png",
+    "mean": 0.42979124188423157,
+    "std": 0.25382089614868164
+   },
+   {
+    "frame": 180,
+    "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/dressed-look/proof/raw/video_check_Turntable_Male_White.mp4_0180.png",
+    "mean": 0.4226755201816559,
+    "std": 0.2515619993209839
+   },
+   {
+    "frame": 240,
+    "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/dressed-look/proof/raw/video_check_Turntable_Male_White.mp4_0240.png",
+    "mean": 0.42850804328918457,
+    "std": 0.25254806876182556
+   }
+  ],
+  "mean_abs_diff_vs_first": [
+   0.02334456890821457,
+   0.007559599354863167,
+   0.022178107872605324,
+   0.0013709235936403275
+  ],
+  "moves_at_quarter_points": true,
+  "loop_closes": true,
+  "decode_ok": true
+ },
+ "Turntable_Female_White.mp4": {
+  "path": "proof/Turntable_Female_White.mp4",
+  "exists": true,
+  "bytes": 1663917,
+  "ftyp_header": true,
+  "size": [
+   1080,
+   1350
+  ],
+  "fps": 24.0,
+  "frame_duration": 240,
+  "duration_s": 10.0,
+  "decoded_frames": [
+   {
+    "frame": 1,
+    "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/dressed-look/proof/raw/video_check_Turntable_Female_White.mp4_0001.png",
+    "mean": 0.4195760488510132,
+    "std": 0.2484320104122162
+   },
+   {
+    "frame": 60,
+    "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/dressed-look/proof/raw/video_check_Turntable_Female_White.mp4_0060.png",
+    "mean": 0.417679101228714,
+    "std": 0.24794095754623413
+   },
+   {
+    "frame": 120,
+    "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/dressed-look/proof/raw/video_check_Turntable_Female_White.mp4_0120.png",
+    "mean": 0.42077168822288513,
+    "std": 0.24943748116493225
+   },
+   {
+    "frame": 180,
+    "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/dressed-look/proof/raw/video_check_Turntable_Female_White.mp4_0180.png",
+    "mean": 0.4168792963027954,
+    "std": 0.24726542830467224
+   },
+   {
+    "frame": 240,
+    "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/dressed-look/proof/raw/video_check_Turntable_Female_White.mp4_0240.png",
+    "mean": 0.4194607138633728,
+    "std": 0.2485392987728119
+   }
+  ],
+  "mean_abs_diff_vs_first": [
+   0.012048530392348766,
+   0.004771890584379435,
+   0.011229136027395725,
+   0.0012630894780158997
+  ],
+  "moves_at_quarter_points": true,
+  "loop_closes": true,
+  "decode_ok": true
+ }
+}

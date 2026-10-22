@@ -1,0 +1,949 @@
+{
+  "proposal": "separate side-specific activations using arm-versus-spine/chest/shoulder direction features. Study only; whole-pose28gate remains in candidate. Exact underarmtwist may also require forearmrelativearm; validate before widening.",
+  "pairs": [
+    [
+      0,
+      1
+    ],
+    [
+      0,
+      2
+    ],
+    [
+      0,
+      3
+    ],
+    [
+      0,
+      4
+    ],
+    [
+      0,
+      5
+    ],
+    [
+      0,
+      6
+    ],
+    [
+      0,
+      7
+    ],
+    [
+      1,
+      2
+    ],
+    [
+      1,
+      3
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      1,
+      5
+    ],
+    [
+      1,
+      6
+    ],
+    [
+      1,
+      7
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      2,
+      4
+    ],
+    [
+      2,
+      5
+    ],
+    [
+      2,
+      6
+    ],
+    [
+      2,
+      7
+    ],
+    [
+      3,
+      4
+    ],
+    [
+      3,
+      5
+    ],
+    [
+      3,
+      6
+    ],
+    [
+      3,
+      7
+    ],
+    [
+      4,
+      5
+    ],
+    [
+      4,
+      6
+    ],
+    [
+      4,
+      7
+    ],
+    [
+      5,
+      6
+    ],
+    [
+      5,
+      7
+    ],
+    [
+      6,
+      7
+    ]
+  ],
+  "leftUpperArmThreeIndices": [
+    2,
+    8,
+    13
+  ],
+  "rows": [
+    {
+      "sample": "female_RunForward_4",
+      "full28MSE": 0.4509566814940911,
+      "leftUpperArm3MSE": 0.2751538940460942
+    },
+    {
+      "sample": "female_IntroWave_1",
+      "full28MSE": 0.3705287915170733,
+      "leftUpperArm3MSE": 0.06525252704939562
+    },
+    {
+      "sample": "female_ForehandShort_1",
+      "full28MSE": 0.26754000460976707,
+      "leftUpperArm3MSE": 0.01808156319317561
+    },
+    {
+      "sample": "female_EmoteThrust_1",
+      "full28MSE": 0.5292532974301066,
+      "leftUpperArm3MSE": 0.16903994671095812
+    },
+    {
+      "sample": "female_EmoteSpike_0",
+      "full28MSE": 0.6656913994223065,
+      "leftUpperArm3MSE": 0.37595410146261027
+    },
+    {
+      "sample": "female_IntroBringIt_4",
+      "full28MSE": 0.6656913994223065,
+      "leftUpperArm3MSE": 0.37595410146261027
+    },
+    {
+      "sample": "female_ForehandWide_4",
+      "full28MSE": 0.5975941594350778,
+      "leftUpperArm3MSE": 0.2109503319580708
+    },
+    {
+      "sample": "female_IntroPushups_2",
+      "full28MSE": 0.5490954456762217,
+      "leftUpperArm3MSE": 0.02239465228816928
+    },
+    {
+      "sample": "female_VolleyBackhand_4",
+      "full28MSE": 0.7001500414210293,
+      "leftUpperArm3MSE": 0.6036166327594402
+    },
+    {
+      "sample": "female_SplitToBackhand_3",
+      "full28MSE": 0.6658023542463372,
+      "leftUpperArm3MSE": 0.3754787141208206
+    },
+    {
+      "sample": "female_EmoteScuba_2",
+      "full28MSE": 0.7265732889351074,
+      "leftUpperArm3MSE": 0.537837540335837
+    },
+    {
+      "sample": "female_MatchLose_4",
+      "full28MSE": 0.6654177868857465,
+      "leftUpperArm3MSE": 0.3751842093199807
+    },
+    {
+      "sample": "female_Return_0",
+      "full28MSE": 0.6657074544446393,
+      "leftUpperArm3MSE": 0.3725290346064134
+    },
+    {
+      "sample": "female_ForehandOpen_1",
+      "full28MSE": 0.3439707887812877,
+      "leftUpperArm3MSE": 0.6835056308632314
+    },
+    {
+      "sample": "female_SliceApproach_2",
+      "full28MSE": 0.3760115292562796,
+      "leftUpperArm3MSE": 0.10640274155412904
+    },
+    {
+      "sample": "female_Smash_4",
+      "full28MSE": 0.6900723019374506,
+      "leftUpperArm3MSE": 0.37395912207668797
+    },
+    {
+      "sample": "female_HitPerfect_3",
+      "full28MSE": 0.6654177868857465,
+      "leftUpperArm3MSE": 0.3751842093199807
+    },
+    {
+      "sample": "female_Backhand_0",
+      "full28MSE": 0.6657074544446393,
+      "leftUpperArm3MSE": 0.3725290346064134
+    },
+    {
+      "sample": "female_Backhand_1",
+      "full28MSE": 0.7453721916719374,
+      "leftUpperArm3MSE": 0.30122577328432637
+    },
+    {
+      "sample": "female_HitPerfect_2",
+      "full28MSE": 0.16818431870110326,
+      "leftUpperArm3MSE": 0.05637800730445145
+    },
+    {
+      "sample": "female_ForehandOpen_0",
+      "full28MSE": 0.6657074544446393,
+      "leftUpperArm3MSE": 0.3725290346064134
+    },
+    {
+      "sample": "female_SliceApproach_3",
+      "full28MSE": 0.6619854066623455,
+      "leftUpperArm3MSE": 0.38126546896040264
+    },
+    {
+      "sample": "female_Return_1",
+      "full28MSE": 0.8301438496373271,
+      "leftUpperArm3MSE": 0.41675083338897284
+    },
+    {
+      "sample": "female_EmoteScuba_3",
+      "full28MSE": 0.66567808020467,
+      "leftUpperArm3MSE": 0.37595410146261027
+    },
+    {
+      "sample": "female_SplitToBackhand_2",
+      "full28MSE": 0.7544280435609532,
+      "leftUpperArm3MSE": 0.19925307243878917
+    },
+    {
+      "sample": "female_Idle_4",
+      "full28MSE": 0.6654177980610949,
+      "leftUpperArm3MSE": 0.37518428690170286
+    },
+    {
+      "sample": "female_IntroPushups_3",
+      "full28MSE": 0.6656918942183009,
+      "leftUpperArm3MSE": 0.3759536008871283
+    },
+    {
+      "sample": "female_MissWhiff_4",
+      "full28MSE": 0.6654177868857465,
+      "leftUpperArm3MSE": 0.3751842093199807
+    },
+    {
+      "sample": "female_Forehand_4",
+      "full28MSE": 0.5871803017518343,
+      "leftUpperArm3MSE": 0.23704040524007772
+    },
+    {
+      "sample": "female_EmoteSpike_1",
+      "full28MSE": 0.363832342551851,
+      "leftUpperArm3MSE": 0.1926459603791131
+    },
+    {
+      "sample": "female_EmoteThrust_0",
+      "full28MSE": 0.6656913483070779,
+      "leftUpperArm3MSE": 0.37595410146261027
+    },
+    {
+      "sample": "female_RunRight_4",
+      "full28MSE": 0.45161593062138217,
+      "leftUpperArm3MSE": 0.27895338334623265
+    },
+    {
+      "sample": "female_ForehandShort_0",
+      "full28MSE": 0.6657074544446393,
+      "leftUpperArm3MSE": 0.3725290346064134
+    },
+    {
+      "sample": "female_IntroWave_0",
+      "full28MSE": 0.6656913994223065,
+      "leftUpperArm3MSE": 0.37595410146261027
+    },
+    {
+      "sample": "female_Forehand_3",
+      "full28MSE": 0.6660426926695238,
+      "leftUpperArm3MSE": 0.382301977395173
+    },
+    {
+      "sample": "female_CelebratePoint_0",
+      "full28MSE": 0.6654177868857465,
+      "leftUpperArm3MSE": 0.3751842093199807
+    },
+    {
+      "sample": "female_MissWhiff_3",
+      "full28MSE": 0.6654177868857465,
+      "leftUpperArm3MSE": 0.3751842093199807
+    },
+    {
+      "sample": "female_Idle_3",
+      "full28MSE": 0.6654177980610949,
+      "leftUpperArm3MSE": 0.37518428690170286
+    },
+    {
+      "sample": "female_IntroPushups_4",
+      "full28MSE": 0.6656918942183009,
+      "leftUpperArm3MSE": 0.3759536008871283
+    },
+    {
+      "sample": "female_VolleyBackhand_2",
+      "full28MSE": 0.8378800178917613,
+      "leftUpperArm3MSE": 0.3314968273293693
+    },
+    {
+      "sample": "female_EmoteScuba_4",
+      "full28MSE": 0.66567808020467,
+      "leftUpperArm3MSE": 0.37595410146261027
+    },
+    {
+      "sample": "female_BackhandWide_1",
+      "full28MSE": 0.7422420077235495,
+      "leftUpperArm3MSE": 0.28870712191725073
+    },
+    {
+      "sample": "female_Volley_1",
+      "full28MSE": 0.42372556267924394,
+      "leftUpperArm3MSE": 0.016514573096268362
+    },
+    {
+      "sample": "female_MatchLose_2",
+      "full28MSE": 0.5282704595068998,
+      "leftUpperArm3MSE": 0.056158504406033545
+    },
+    {
+      "sample": "female_SliceApproach_4",
+      "full28MSE": 0.360210486938873,
+      "leftUpperArm3MSE": 0.16191132603861982
+    },
+    {
+      "sample": "female_SplitToForehand_0",
+      "full28MSE": 0.6657074544446393,
+      "leftUpperArm3MSE": 0.3725290346064134
+    },
+    {
+      "sample": "female_RecoverCenter_1",
+      "full28MSE": 0.42737315980484736,
+      "leftUpperArm3MSE": 0.3904890076040916
+    },
+    {
+      "sample": "female_Smash_2",
+      "full28MSE": 0.6825763436676914,
+      "leftUpperArm3MSE": 0.3656949889229983
+    },
+    {
+      "sample": "female_Ready_0",
+      "full28MSE": 0.6657090457648697,
+      "leftUpperArm3MSE": 0.3725290346064134
+    },
+    {
+      "sample": "female_RunForward_2",
+      "full28MSE": 0.625103160580223,
+      "leftUpperArm3MSE": 0.041100760126596775
+    },
+    {
+      "sample": "female_RunRight_3",
+      "full28MSE": 0.45161593062138217,
+      "leftUpperArm3MSE": 0.27895338334623265
+    },
+    {
+      "sample": "female_SadPointLost_0",
+      "full28MSE": 0.6654177868857465,
+      "leftUpperArm3MSE": 0.3751842093199807
+    },
+    {
+      "sample": "female_RunLeft_0",
+      "full28MSE": 0.4503639052534063,
+      "leftUpperArm3MSE": 0.2714470804677292
+    },
+    {
+      "sample": "female_Serve_0",
+      "full28MSE": 0.7128442941229312,
+      "leftUpperArm3MSE": 0.42598190378827133
+    },
+    {
+      "sample": "female_MatchWin_0",
+      "full28MSE": 0.6654177868857465,
+      "leftUpperArm3MSE": 0.3751842093199807
+    },
+    {
+      "sample": "female_Walk_1",
+      "full28MSE": 0.5795067763180208,
+      "leftUpperArm3MSE": 0.257506935309228
+    },
+    {
+      "sample": "female_IntroBringIt_2",
+      "full28MSE": 0.5643820300307019,
+      "leftUpperArm3MSE": 0.15840141886542794
+    },
+    {
+      "sample": "female_ForehandWide_2",
+      "full28MSE": 0.5975757196504795,
+      "leftUpperArm3MSE": 0.21095896157871974
+    },
+    {
+      "sample": "female_ForehandWide_3",
+      "full28MSE": 0.6658483518743596,
+      "leftUpperArm3MSE": 0.3768594645177242
+    },
+    {
+      "sample": "female_Walk_0",
+      "full28MSE": 0.5091342200431647,
+      "leftUpperArm3MSE": 0.32547702850238186
+    },
+    {
+      "sample": "female_IntroBringIt_3",
+      "full28MSE": 0.6656913994223065,
+      "leftUpperArm3MSE": 0.37595410146261027
+    },
+    {
+      "sample": "female_RunLeft_1",
+      "full28MSE": 0.6253754699307871,
+      "leftUpperArm3MSE": 0.03926141185194497
+    },
+    {
+      "sample": "female_Serve_1",
+      "full28MSE": 0.6923257824631499,
+      "leftUpperArm3MSE": 0.995098458127166
+    },
+    {
+      "sample": "female_MatchWin_1",
+      "full28MSE": 0.5353439798979233,
+      "leftUpperArm3MSE": 0.8398577170575544
+    },
+    {
+      "sample": "female_SadPointLost_1",
+      "full28MSE": 0.5632022681213729,
+      "leftUpperArm3MSE": 0.15344385709761274
+    },
+    {
+      "sample": "female_RunRight_2",
+      "full28MSE": 0.6253601623647975,
+      "leftUpperArm3MSE": 0.042597432539747355
+    },
+    {
+      "sample": "female_RunForward_3",
+      "full28MSE": 0.4509566814940911,
+      "leftUpperArm3MSE": 0.2751538940460942
+    },
+    {
+      "sample": "female_RecoverCenter_0",
+      "full28MSE": 0.6657074544446393,
+      "leftUpperArm3MSE": 0.3725290346064134
+    },
+    {
+      "sample": "female_Smash_3",
+      "full28MSE": 0.6655443238505276,
+      "leftUpperArm3MSE": 0.3667804294973314
+    },
+    {
+      "sample": "female_Ready_1",
+      "full28MSE": 0.6654276600183786,
+      "leftUpperArm3MSE": 0.37438144591190253
+    },
+    {
+      "sample": "female_HitPerfect_4",
+      "full28MSE": 0.6654177868857465,
+      "leftUpperArm3MSE": 0.3751842093199807
+    },
+    {
+      "sample": "female_SplitToForehand_1",
+      "full28MSE": 0.4796448173983814,
+      "leftUpperArm3MSE": 0.0256508121651428
+    },
+    {
+      "sample": "female_MatchLose_3",
+      "full28MSE": 0.6654177868857465,
+      "leftUpperArm3MSE": 0.3751842093199807
+    },
+    {
+      "sample": "female_BackhandWide_0",
+      "full28MSE": 0.6657074544446393,
+      "leftUpperArm3MSE": 0.3725290346064134
+    },
+    {
+      "sample": "female_Volley_0",
+      "full28MSE": 0.6657074544446393,
+      "leftUpperArm3MSE": 0.3725290346064134
+    },
+    {
+      "sample": "female_SplitToBackhand_4",
+      "full28MSE": 0.6658023542463372,
+      "leftUpperArm3MSE": 0.3754787141208206
+    },
+    {
+      "sample": "female_VolleyBackhand_3",
+      "full28MSE": 0.6659035906809946,
+      "leftUpperArm3MSE": 0.37846879030640257
+    },
+    {
+      "sample": "female_Idle_2",
+      "full28MSE": 0.665493804756495,
+      "leftUpperArm3MSE": 0.3729622394530447
+    },
+    {
+      "sample": "female_CelebratePoint_1",
+      "full28MSE": 0.1844476640867896,
+      "leftUpperArm3MSE": 0.2487543637422691
+    },
+    {
+      "sample": "female_MissWhiff_2",
+      "full28MSE": 0.35291483494474585,
+      "leftUpperArm3MSE": 0.24391412788305342
+    },
+    {
+      "sample": "female_Forehand_2",
+      "full28MSE": 0.3178897561132314,
+      "leftUpperArm3MSE": 0.11623771506464131
+    },
+    {
+      "sample": "female_Backhand_4",
+      "full28MSE": 0.5416261186017455,
+      "leftUpperArm3MSE": 0.31635668212151574
+    },
+    {
+      "sample": "female_Ready_2",
+      "full28MSE": 0.6664330566732622,
+      "leftUpperArm3MSE": 0.3700958203400629
+    },
+    {
+      "sample": "female_RecoverCenter_3",
+      "full28MSE": 0.6654937388101246,
+      "leftUpperArm3MSE": 0.3648400412101394
+    },
+    {
+      "sample": "female_Smash_0",
+      "full28MSE": 0.6657074544446393,
+      "leftUpperArm3MSE": 0.3725290346064134
+    },
+    {
+      "sample": "female_SplitToForehand_2",
+      "full28MSE": 0.5884449634584751,
+      "leftUpperArm3MSE": 0.3679869323166012
+    },
+    {
+      "sample": "female_Return_4",
+      "full28MSE": 0.4913938438295785,
+      "leftUpperArm3MSE": 0.17975200634503122
+    },
+    {
+      "sample": "female_MatchLose_0",
+      "full28MSE": 0.6654177868857465,
+      "leftUpperArm3MSE": 0.3751842093199807
+    },
+    {
+      "sample": "female_BackhandWide_3",
+      "full28MSE": 0.6617928039503764,
+      "leftUpperArm3MSE": 0.37767126774035936
+    },
+    {
+      "sample": "female_Volley_3",
+      "full28MSE": 0.6654775982937949,
+      "leftUpperArm3MSE": 0.3642002661525697
+    },
+    {
+      "sample": "female_VolleyBackhand_0",
+      "full28MSE": 0.6657074544446393,
+      "leftUpperArm3MSE": 0.3725290346064134
+    },
+    {
+      "sample": "female_Idle_1",
+      "full28MSE": 0.665336119649572,
+      "leftUpperArm3MSE": 0.3773796441525168
+    },
+    {
+      "sample": "female_MissWhiff_1",
+      "full28MSE": 0.35185925709173244,
+      "leftUpperArm3MSE": 0.24353011211770073
+    },
+    {
+      "sample": "female_CelebratePoint_2",
+      "full28MSE": 0.18374411705915938,
+      "leftUpperArm3MSE": 0.23948982471828809
+    },
+    {
+      "sample": "female_Forehand_1",
+      "full28MSE": 0.0,
+      "leftUpperArm3MSE": 0.0
+    },
+    {
+      "sample": "female_ForehandWide_0",
+      "full28MSE": 0.6657074544446393,
+      "leftUpperArm3MSE": 0.3725290346064134
+    },
+    {
+      "sample": "female_IntroBringIt_0",
+      "full28MSE": 0.6656913994223065,
+      "leftUpperArm3MSE": 0.37595410146261027
+    },
+    {
+      "sample": "female_Walk_3",
+      "full28MSE": 0.5091342200431647,
+      "leftUpperArm3MSE": 0.32547702850238186
+    },
+    {
+      "sample": "female_Serve_2",
+      "full28MSE": 0.5395502972873564,
+      "leftUpperArm3MSE": 0.20266821271690325
+    },
+    {
+      "sample": "female_MatchWin_2",
+      "full28MSE": 0.5366933894586005,
+      "leftUpperArm3MSE": 0.8389721326777698
+    },
+    {
+      "sample": "female_RunLeft_2",
+      "full28MSE": 0.6248939928220529,
+      "leftUpperArm3MSE": 0.0392611843098398
+    },
+    {
+      "sample": "female_EmoteSpike_4",
+      "full28MSE": 0.6656917871822482,
+      "leftUpperArm3MSE": 0.3759540620361719
+    },
+    {
+      "sample": "female_SadPointLost_2",
+      "full28MSE": 0.5638184479517016,
+      "leftUpperArm3MSE": 0.15282061275077474
+    },
+    {
+      "sample": "female_RunRight_1",
+      "full28MSE": 0.6244950518368836,
+      "leftUpperArm3MSE": 0.04259766551873601
+    },
+    {
+      "sample": "female_RunForward_0",
+      "full28MSE": 0.4509566814940911,
+      "leftUpperArm3MSE": 0.2751538940460942
+    },
+    {
+      "sample": "female_RunForward_1",
+      "full28MSE": 0.6249306761496473,
+      "leftUpperArm3MSE": 0.04110069429464929
+    },
+    {
+      "sample": "female_IntroWave_4",
+      "full28MSE": 0.6656913994223065,
+      "leftUpperArm3MSE": 0.37595410146261027
+    },
+    {
+      "sample": "female_RunRight_0",
+      "full28MSE": 0.45161593062138217,
+      "leftUpperArm3MSE": 0.27895338334623265
+    },
+    {
+      "sample": "female_ForehandShort_4",
+      "full28MSE": 0.4073160826942593,
+      "leftUpperArm3MSE": 0.01797800841177825
+    },
+    {
+      "sample": "female_EmoteThrust_4",
+      "full28MSE": 0.6656914574261099,
+      "leftUpperArm3MSE": 0.37595409719659684
+    },
+    {
+      "sample": "female_SadPointLost_3",
+      "full28MSE": 0.6654177868857465,
+      "leftUpperArm3MSE": 0.3751842093199807
+    },
+    {
+      "sample": "female_Serve_3",
+      "full28MSE": 0.6623098747439133,
+      "leftUpperArm3MSE": 0.3869744104686392
+    },
+    {
+      "sample": "female_MatchWin_3",
+      "full28MSE": 0.6654177868857465,
+      "leftUpperArm3MSE": 0.3751842093199807
+    },
+    {
+      "sample": "female_RunLeft_3",
+      "full28MSE": 0.4503639052534063,
+      "leftUpperArm3MSE": 0.2714470804677292
+    },
+    {
+      "sample": "female_IntroBringIt_1",
+      "full28MSE": 0.5662003889113058,
+      "leftUpperArm3MSE": 0.16868091899770268
+    },
+    {
+      "sample": "female_Walk_2",
+      "full28MSE": 0.5801592563498792,
+      "leftUpperArm3MSE": 0.2575067949767279
+    },
+    {
+      "sample": "female_ForehandWide_1",
+      "full28MSE": 0.6630707307558813,
+      "leftUpperArm3MSE": 0.34796606989459994
+    },
+    {
+      "sample": "female_Forehand_0",
+      "full28MSE": 0.6657074544446393,
+      "leftUpperArm3MSE": 0.3725290346064134
+    },
+    {
+      "sample": "female_MissWhiff_0",
+      "full28MSE": 0.6654177868857465,
+      "leftUpperArm3MSE": 0.3751842093199807
+    },
+    {
+      "sample": "female_CelebratePoint_3",
+      "full28MSE": 0.6654177868857465,
+      "leftUpperArm3MSE": 0.3751842093199807
+    },
+    {
+      "sample": "female_Idle_0",
+      "full28MSE": 0.6654177980610949,
+      "leftUpperArm3MSE": 0.37518428690170286
+    },
+    {
+      "sample": "female_VolleyBackhand_1",
+      "full28MSE": 0.6994645790617172,
+      "leftUpperArm3MSE": 0.4319899541968992
+    },
+    {
+      "sample": "female_BackhandWide_2",
+      "full28MSE": 0.8252861261836552,
+      "leftUpperArm3MSE": 0.4358950641767832
+    },
+    {
+      "sample": "female_Volley_2",
+      "full28MSE": 0.48197991185716627,
+      "leftUpperArm3MSE": 0.26644443408283036
+    },
+    {
+      "sample": "female_MatchLose_1",
+      "full28MSE": 0.5274157247192061,
+      "leftUpperArm3MSE": 0.05620774779630499
+    },
+    {
+      "sample": "female_SplitToForehand_3",
+      "full28MSE": 0.6660501383623653,
+      "leftUpperArm3MSE": 0.3824945078476049
+    },
+    {
+      "sample": "female_ForehandOpen_4",
+      "full28MSE": 0.5640831372098496,
+      "leftUpperArm3MSE": 0.541252684029213
+    },
+    {
+      "sample": "female_Ready_3",
+      "full28MSE": 0.6657090457648697,
+      "leftUpperArm3MSE": 0.3725290346064134
+    },
+    {
+      "sample": "female_RecoverCenter_2",
+      "full28MSE": 0.4782602314222174,
+      "leftUpperArm3MSE": 0.37848098008504855
+    },
+    {
+      "sample": "female_Smash_1",
+      "full28MSE": 0.6732620959530146,
+      "leftUpperArm3MSE": 0.8998532676978924
+    },
+    {
+      "sample": "female_Serve_4",
+      "full28MSE": 0.5419753345851713,
+      "leftUpperArm3MSE": 0.22733250241420022
+    },
+    {
+      "sample": "female_MatchWin_4",
+      "full28MSE": 0.6654177868857465,
+      "leftUpperArm3MSE": 0.3751842093199807
+    },
+    {
+      "sample": "female_RunLeft_4",
+      "full28MSE": 0.4503639052534063,
+      "leftUpperArm3MSE": 0.2714470804677292
+    },
+    {
+      "sample": "female_EmoteSpike_2",
+      "full28MSE": 0.5138816150848211,
+      "leftUpperArm3MSE": 0.07623986195152758
+    },
+    {
+      "sample": "female_SadPointLost_4",
+      "full28MSE": 0.6654177868857465,
+      "leftUpperArm3MSE": 0.3751842093199807
+    },
+    {
+      "sample": "female_EmoteThrust_3",
+      "full28MSE": 0.6656914574261099,
+      "leftUpperArm3MSE": 0.37595409719659684
+    },
+    {
+      "sample": "female_ForehandShort_3",
+      "full28MSE": 0.6656177010906966,
+      "leftUpperArm3MSE": 0.36944286123129916
+    },
+    {
+      "sample": "female_IntroWave_3",
+      "full28MSE": 0.6656913994223065,
+      "leftUpperArm3MSE": 0.37595410146261027
+    },
+    {
+      "sample": "female_Backhand_2",
+      "full28MSE": 0.8203895946440903,
+      "leftUpperArm3MSE": 0.5993302062181995
+    },
+    {
+      "sample": "female_HitPerfect_1",
+      "full28MSE": 0.16775793532443514,
+      "leftUpperArm3MSE": 0.05648765016238192
+    },
+    {
+      "sample": "female_Ready_4",
+      "full28MSE": 0.6657090457648697,
+      "leftUpperArm3MSE": 0.3725290346064134
+    },
+    {
+      "sample": "female_SliceApproach_0",
+      "full28MSE": 0.6657074544446393,
+      "leftUpperArm3MSE": 0.3725290346064134
+    },
+    {
+      "sample": "female_SplitToForehand_4",
+      "full28MSE": 0.6660501383623653,
+      "leftUpperArm3MSE": 0.3824945078476049
+    },
+    {
+      "sample": "female_ForehandOpen_3",
+      "full28MSE": 0.6656023911490262,
+      "leftUpperArm3MSE": 0.36890016059118125
+    },
+    {
+      "sample": "female_Return_2",
+      "full28MSE": 0.8048317351511846,
+      "leftUpperArm3MSE": 0.6853659069371433
+    },
+    {
+      "sample": "female_EmoteScuba_0",
+      "full28MSE": 0.6656913739834132,
+      "leftUpperArm3MSE": 0.37595410146261027
+    },
+    {
+      "sample": "female_SplitToBackhand_1",
+      "full28MSE": 0.7644811954771008,
+      "leftUpperArm3MSE": 0.21998753662797185
+    },
+    {
+      "sample": "female_IntroPushups_0",
+      "full28MSE": 0.6656918307763057,
+      "leftUpperArm3MSE": 0.3759538473688429
+    },
+    {
+      "sample": "female_CelebratePoint_4",
+      "full28MSE": 0.6654177868857465,
+      "leftUpperArm3MSE": 0.3751842093199807
+    },
+    {
+      "sample": "female_IntroPushups_1",
+      "full28MSE": 0.5423687997017801,
+      "leftUpperArm3MSE": 0.10123375010606685
+    },
+    {
+      "sample": "female_SplitToBackhand_0",
+      "full28MSE": 0.6657074544446393,
+      "leftUpperArm3MSE": 0.3725290346064134
+    },
+    {
+      "sample": "female_EmoteScuba_1",
+      "full28MSE": 0.7057443215432933,
+      "leftUpperArm3MSE": 0.5162985734522124
+    },
+    {
+      "sample": "female_BackhandWide_4",
+      "full28MSE": 0.6860436409730584,
+      "leftUpperArm3MSE": 0.4185673058765755
+    },
+    {
+      "sample": "female_Volley_4",
+      "full28MSE": 0.572933747156901,
+      "leftUpperArm3MSE": 0.018784067912137995
+    },
+    {
+      "sample": "female_Return_3",
+      "full28MSE": 0.661769430041911,
+      "leftUpperArm3MSE": 0.37722482288161413
+    },
+    {
+      "sample": "female_SliceApproach_1",
+      "full28MSE": 0.8207580292508999,
+      "leftUpperArm3MSE": 0.3830509847021506
+    },
+    {
+      "sample": "female_ForehandOpen_2",
+      "full28MSE": 0.39638562801553817,
+      "leftUpperArm3MSE": 0.5214947456923724
+    },
+    {
+      "sample": "female_HitPerfect_0",
+      "full28MSE": 0.6654177868857465,
+      "leftUpperArm3MSE": 0.3751842093199807
+    },
+    {
+      "sample": "female_RecoverCenter_4",
+      "full28MSE": 0.6654937388101246,
+      "leftUpperArm3MSE": 0.3648400412101394
+    },
+    {
+      "sample": "female_Backhand_3",
+      "full28MSE": 0.662313442886094,
+      "leftUpperArm3MSE": 0.3870346254855977
+    },
+    {
+      "sample": "female_IntroWave_2",
+      "full28MSE": 0.4550452439896538,
+      "leftUpperArm3MSE": 0.08370551931480662
+    },
+    {
+      "sample": "female_ForehandShort_2",
+      "full28MSE": 0.8330615848035766,
+      "leftUpperArm3MSE": 0.43217837607915666
+    },
+    {
+      "sample": "female_EmoteThrust_2",
+      "full28MSE": 0.6020795289687042,
+      "leftUpperArm3MSE": 0.32047196363951425
+    },
+    {
+      "sample": "female_EmoteSpike_3",
+      "full28MSE": 0.6656917871822482,
+      "leftUpperArm3MSE": 0.3759540620361719
+    },
+    {
+      "sample": "female_Walk_4",
+      "full28MSE": 0.5091342200431647,
+      "leftUpperArm3MSE": 0.32547702850238186
+    }
+  ]
+}

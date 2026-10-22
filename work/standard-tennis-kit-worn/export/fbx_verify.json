@@ -1,0 +1,995 @@
+{
+ "StdKit_Male_White.fbx": {
+  "fbx_sha256": "ae172836d7507d0ca828d01e2ceaf27b32d99e62b61b9e14c71803c78fb573cb",
+  "size_mb": 3.22,
+  "objects": {
+   "Kit_Bottom_Shorts_M": {
+    "tris_src": 21032,
+    "tris_fbx": 21032,
+    "max_vertex_err_mm": 0.0001,
+    "bbox_err_mm": 0.0001,
+    "materials": [
+     "Std_White_Lit",
+     "Std_Black_Lit"
+    ],
+    "parent": "Hip_Bottom",
+    "parent_src": "Hip_Bottom",
+    "has_uv": true,
+    "size_m": [
+     0.5165,
+     0.3301,
+     0.3911
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.04,
+    "normal_dev_max_deg": 0.074,
+    "loop_pos_err_mm": 7e-05,
+    "loops": 63096
+   },
+   "Kit_Shoe_L": {
+    "tris_src": 15880,
+    "tris_fbx": 15880,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_White_Lit"
+    ],
+    "parent": "Foot_L_Shoe",
+    "parent_src": "Foot_L_Shoe",
+    "has_uv": true,
+    "size_m": [
+     0.1893,
+     0.3454,
+     0.1749
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.044,
+    "normal_dev_max_deg": 0.073,
+    "loop_pos_err_mm": 4e-05,
+    "loops": 47640
+   },
+   "Kit_Shoe_R": {
+    "tris_src": 15804,
+    "tris_fbx": 15804,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_White_Lit"
+    ],
+    "parent": "Foot_R_Shoe",
+    "parent_src": "Foot_R_Shoe",
+    "has_uv": true,
+    "size_m": [
+     0.188,
+     0.3456,
+     0.1746
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.041,
+    "normal_dev_max_deg": 0.082,
+    "loop_pos_err_mm": 4e-05,
+    "loops": 47412
+   },
+   "Kit_Sock_L": {
+    "tris_src": 6270,
+    "tris_fbx": 6270,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_White_Lit"
+    ],
+    "parent": "Foot_L_Shoe",
+    "parent_src": "Foot_L_Shoe",
+    "has_uv": true,
+    "size_m": [
+     0.1959,
+     0.3194,
+     0.306
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.038,
+    "normal_dev_max_deg": 0.046,
+    "loop_pos_err_mm": 4e-05,
+    "loops": 18810
+   },
+   "Kit_Sock_R": {
+    "tris_src": 6270,
+    "tris_fbx": 6270,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_White_Lit"
+    ],
+    "parent": "Foot_R_Shoe",
+    "parent_src": "Foot_R_Shoe",
+    "has_uv": true,
+    "size_m": [
+     0.194,
+     0.3195,
+     0.306
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.039,
+    "normal_dev_max_deg": 0.05,
+    "loop_pos_err_mm": 4e-05,
+    "loops": 18810
+   },
+   "Kit_Top_Polo_M": {
+    "tris_src": 22298,
+    "tris_fbx": 22298,
+    "max_vertex_err_mm": 0.0001,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_White_Lit"
+    ],
+    "parent": "Chest_Top",
+    "parent_src": "Chest_Top",
+    "has_uv": true,
+    "size_m": [
+     0.724,
+     0.3224,
+     0.5263
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.011,
+    "normal_dev_p99_deg": 0.046,
+    "normal_dev_max_deg": 0.115,
+    "loop_pos_err_mm": 7e-05,
+    "loops": 66894
+   }
+  },
+  "empties": [
+   "Chest_Top",
+   "Foot_L_Shoe",
+   "Foot_R_Shoe",
+   "Hip_Bottom"
+  ],
+  "ok": true,
+  "total_tris": 87554,
+  "scale_check": {
+   "scene_unit_scale": 1.0,
+   "objects_scale_max_dev": 0.0
+  }
+ },
+ "StdKit_Male_Black.fbx": {
+  "fbx_sha256": "d516ceb286b62b2c3b72a41ccc30d8cbb507cef4aa2420934ad5713859b2d160",
+  "size_mb": 3.22,
+  "objects": {
+   "Kit_Bottom_Shorts_M": {
+    "tris_src": 21032,
+    "tris_fbx": 21032,
+    "max_vertex_err_mm": 0.0001,
+    "bbox_err_mm": 0.0001,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "parent": "Hip_Bottom",
+    "parent_src": "Hip_Bottom",
+    "has_uv": true,
+    "size_m": [
+     0.5165,
+     0.3301,
+     0.3911
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.04,
+    "normal_dev_max_deg": 0.074,
+    "loop_pos_err_mm": 7e-05,
+    "loops": 63096
+   },
+   "Kit_Shoe_L": {
+    "tris_src": 15880,
+    "tris_fbx": 15880,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "parent": "Foot_L_Shoe",
+    "parent_src": "Foot_L_Shoe",
+    "has_uv": true,
+    "size_m": [
+     0.1893,
+     0.3454,
+     0.1749
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.044,
+    "normal_dev_max_deg": 0.073,
+    "loop_pos_err_mm": 4e-05,
+    "loops": 47640
+   },
+   "Kit_Shoe_R": {
+    "tris_src": 15804,
+    "tris_fbx": 15804,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "parent": "Foot_R_Shoe",
+    "parent_src": "Foot_R_Shoe",
+    "has_uv": true,
+    "size_m": [
+     0.188,
+     0.3456,
+     0.1746
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.041,
+    "normal_dev_max_deg": 0.082,
+    "loop_pos_err_mm": 4e-05,
+    "loops": 47412
+   },
+   "Kit_Sock_L": {
+    "tris_src": 6270,
+    "tris_fbx": 6270,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "parent": "Foot_L_Shoe",
+    "parent_src": "Foot_L_Shoe",
+    "has_uv": true,
+    "size_m": [
+     0.1959,
+     0.3194,
+     0.306
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.038,
+    "normal_dev_max_deg": 0.046,
+    "loop_pos_err_mm": 4e-05,
+    "loops": 18810
+   },
+   "Kit_Sock_R": {
+    "tris_src": 6270,
+    "tris_fbx": 6270,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "parent": "Foot_R_Shoe",
+    "parent_src": "Foot_R_Shoe",
+    "has_uv": true,
+    "size_m": [
+     0.194,
+     0.3195,
+     0.306
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.039,
+    "normal_dev_max_deg": 0.05,
+    "loop_pos_err_mm": 4e-05,
+    "loops": 18810
+   },
+   "Kit_Top_Polo_M": {
+    "tris_src": 22298,
+    "tris_fbx": 22298,
+    "max_vertex_err_mm": 0.0001,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "parent": "Chest_Top",
+    "parent_src": "Chest_Top",
+    "has_uv": true,
+    "size_m": [
+     0.724,
+     0.3224,
+     0.5263
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.011,
+    "normal_dev_p99_deg": 0.046,
+    "normal_dev_max_deg": 0.115,
+    "loop_pos_err_mm": 7e-05,
+    "loops": 66894
+   }
+  },
+  "empties": [
+   "Chest_Top",
+   "Foot_L_Shoe",
+   "Foot_R_Shoe",
+   "Hip_Bottom"
+  ],
+  "ok": true,
+  "total_tris": 87554,
+  "scale_check": {
+   "scene_unit_scale": 1.0,
+   "objects_scale_max_dev": 0.0
+  }
+ },
+ "StdKit_Female_White.fbx": {
+  "fbx_sha256": "4343e382b23394a821e61c8e43c6d391218b593e1ca978d7b643be4a2931c236",
+  "size_mb": 2.85,
+  "objects": {
+   "Kit_Bottom_Skort_F": {
+    "tris_src": 25646,
+    "tris_fbx": 25646,
+    "max_vertex_err_mm": 0.0001,
+    "bbox_err_mm": 0.0001,
+    "materials": [
+     "Std_White_Lit",
+     "Std_Black_Lit"
+    ],
+    "parent": "Hip_Bottom",
+    "parent_src": "Hip_Bottom",
+    "has_uv": true,
+    "size_m": [
+     0.4145,
+     0.3285,
+     0.3661
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.039,
+    "normal_dev_max_deg": 0.082,
+    "loop_pos_err_mm": 6e-05,
+    "loops": 76938
+   },
+   "Kit_Shoe_L": {
+    "tris_src": 10328,
+    "tris_fbx": 10328,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_White_Lit"
+    ],
+    "parent": "Foot_L_Shoe",
+    "parent_src": "Foot_L_Shoe",
+    "has_uv": true,
+    "size_m": [
+     0.1213,
+     0.2212,
+     0.1505
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.041,
+    "normal_dev_max_deg": 0.069,
+    "loop_pos_err_mm": 3e-05,
+    "loops": 30984
+   },
+   "Kit_Shoe_R": {
+    "tris_src": 10386,
+    "tris_fbx": 10386,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_White_Lit"
+    ],
+    "parent": "Foot_R_Shoe",
+    "parent_src": "Foot_R_Shoe",
+    "has_uv": true,
+    "size_m": [
+     0.1208,
+     0.2216,
+     0.1508
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.041,
+    "normal_dev_max_deg": 0.075,
+    "loop_pos_err_mm": 3e-05,
+    "loops": 31158
+   },
+   "Kit_Sock_L": {
+    "tris_src": 5812,
+    "tris_fbx": 5812,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_White_Lit"
+    ],
+    "parent": "Foot_L_Shoe",
+    "parent_src": "Foot_L_Shoe",
+    "has_uv": true,
+    "size_m": [
+     0.1241,
+     0.212,
+     0.2928
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.038,
+    "normal_dev_max_deg": 0.047,
+    "loop_pos_err_mm": 4e-05,
+    "loops": 17436
+   },
+   "Kit_Sock_R": {
+    "tris_src": 5800,
+    "tris_fbx": 5800,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_White_Lit"
+    ],
+    "parent": "Foot_R_Shoe",
+    "parent_src": "Foot_R_Shoe",
+    "has_uv": true,
+    "size_m": [
+     0.1239,
+     0.2116,
+     0.2928
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.037,
+    "normal_dev_max_deg": 0.046,
+    "loop_pos_err_mm": 4e-05,
+    "loops": 17400
+   },
+   "Kit_Top_Polo_F": {
+    "tris_src": 19408,
+    "tris_fbx": 19408,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_White_Lit"
+    ],
+    "parent": "Chest_Top",
+    "parent_src": "Chest_Top",
+    "has_uv": true,
+    "size_m": [
+     0.4539,
+     0.2541,
+     0.4373
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.042,
+    "normal_dev_max_deg": 0.097,
+    "loop_pos_err_mm": 4e-05,
+    "loops": 58224
+   }
+  },
+  "empties": [
+   "Chest_Top",
+   "Foot_L_Shoe",
+   "Foot_R_Shoe",
+   "Hip_Bottom"
+  ],
+  "ok": true,
+  "total_tris": 77380,
+  "scale_check": {
+   "scene_unit_scale": 1.0,
+   "objects_scale_max_dev": 0.0
+  }
+ },
+ "StdKit_Female_Black.fbx": {
+  "fbx_sha256": "f8ead416c54d60a5e65f4342691fb8a67212efa51a92899dab64961bfab84cc0",
+  "size_mb": 2.85,
+  "objects": {
+   "Kit_Bottom_Skort_F": {
+    "tris_src": 25646,
+    "tris_fbx": 25646,
+    "max_vertex_err_mm": 0.0001,
+    "bbox_err_mm": 0.0001,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "parent": "Hip_Bottom",
+    "parent_src": "Hip_Bottom",
+    "has_uv": true,
+    "size_m": [
+     0.4145,
+     0.3285,
+     0.3661
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.039,
+    "normal_dev_max_deg": 0.082,
+    "loop_pos_err_mm": 6e-05,
+    "loops": 76938
+   },
+   "Kit_Shoe_L": {
+    "tris_src": 10328,
+    "tris_fbx": 10328,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "parent": "Foot_L_Shoe",
+    "parent_src": "Foot_L_Shoe",
+    "has_uv": true,
+    "size_m": [
+     0.1213,
+     0.2212,
+     0.1505
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.041,
+    "normal_dev_max_deg": 0.069,
+    "loop_pos_err_mm": 3e-05,
+    "loops": 30984
+   },
+   "Kit_Shoe_R": {
+    "tris_src": 10386,
+    "tris_fbx": 10386,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "parent": "Foot_R_Shoe",
+    "parent_src": "Foot_R_Shoe",
+    "has_uv": true,
+    "size_m": [
+     0.1208,
+     0.2216,
+     0.1508
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.041,
+    "normal_dev_max_deg": 0.075,
+    "loop_pos_err_mm": 3e-05,
+    "loops": 31158
+   },
+   "Kit_Sock_L": {
+    "tris_src": 5812,
+    "tris_fbx": 5812,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "parent": "Foot_L_Shoe",
+    "parent_src": "Foot_L_Shoe",
+    "has_uv": true,
+    "size_m": [
+     0.1241,
+     0.212,
+     0.2928
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.038,
+    "normal_dev_max_deg": 0.047,
+    "loop_pos_err_mm": 4e-05,
+    "loops": 17436
+   },
+   "Kit_Sock_R": {
+    "tris_src": 5800,
+    "tris_fbx": 5800,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "parent": "Foot_R_Shoe",
+    "parent_src": "Foot_R_Shoe",
+    "has_uv": true,
+    "size_m": [
+     0.1239,
+     0.2116,
+     0.2928
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.037,
+    "normal_dev_max_deg": 0.046,
+    "loop_pos_err_mm": 4e-05,
+    "loops": 17400
+   },
+   "Kit_Top_Polo_F": {
+    "tris_src": 19408,
+    "tris_fbx": 19408,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "parent": "Chest_Top",
+    "parent_src": "Chest_Top",
+    "has_uv": true,
+    "size_m": [
+     0.4539,
+     0.2541,
+     0.4373
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.042,
+    "normal_dev_max_deg": 0.097,
+    "loop_pos_err_mm": 4e-05,
+    "loops": 58224
+   }
+  },
+  "empties": [
+   "Chest_Top",
+   "Foot_L_Shoe",
+   "Foot_R_Shoe",
+   "Hip_Bottom"
+  ],
+  "ok": true,
+  "total_tris": 77380,
+  "scale_check": {
+   "scene_unit_scale": 1.0,
+   "objects_scale_max_dev": 0.0
+  }
+ },
+ "StdKit_Female_White_ArmsCandFit.fbx": {
+  "fbx_sha256": "e0f11af7cf5b27510f6f9b59e52ce6a9d46e55c091d3d32ee883c82559b8b7b9",
+  "size_mb": 2.9,
+  "objects": {
+   "Kit_Bottom_Skort_F": {
+    "tris_src": 25646,
+    "tris_fbx": 25646,
+    "max_vertex_err_mm": 0.0001,
+    "bbox_err_mm": 0.0001,
+    "materials": [
+     "Std_White_Lit",
+     "Std_Black_Lit"
+    ],
+    "parent": "Hip_Bottom",
+    "parent_src": "Hip_Bottom",
+    "has_uv": true,
+    "size_m": [
+     0.4145,
+     0.3285,
+     0.3661
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.039,
+    "normal_dev_max_deg": 0.082,
+    "loop_pos_err_mm": 6e-05,
+    "loops": 76938
+   },
+   "Kit_Shoe_L_ArmsCandFit": {
+    "tris_src": 11786,
+    "tris_fbx": 11786,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_White_Lit"
+    ],
+    "parent": "Foot_L_Shoe",
+    "parent_src": "Foot_L_Shoe",
+    "has_uv": true,
+    "size_m": [
+     0.1388,
+     0.2864,
+     0.1515
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.043,
+    "normal_dev_max_deg": 0.076,
+    "loop_pos_err_mm": 3e-05,
+    "loops": 35358
+   },
+   "Kit_Shoe_R_ArmsCandFit": {
+    "tris_src": 11774,
+    "tris_fbx": 11774,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_White_Lit"
+    ],
+    "parent": "Foot_R_Shoe",
+    "parent_src": "Foot_R_Shoe",
+    "has_uv": true,
+    "size_m": [
+     0.1387,
+     0.2864,
+     0.1515
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.043,
+    "normal_dev_max_deg": 0.08,
+    "loop_pos_err_mm": 3e-05,
+    "loops": 35322
+   },
+   "Kit_Sock_L_ArmsCandFit": {
+    "tris_src": 5102,
+    "tris_fbx": 5102,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_White_Lit"
+    ],
+    "parent": "Foot_L_Shoe",
+    "parent_src": "Foot_L_Shoe",
+    "has_uv": true,
+    "size_m": [
+     0.1395,
+     0.2553,
+     0.2937
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.038,
+    "normal_dev_max_deg": 0.048,
+    "loop_pos_err_mm": 5e-05,
+    "loops": 15306
+   },
+   "Kit_Sock_R_ArmsCandFit": {
+    "tris_src": 5110,
+    "tris_fbx": 5110,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_White_Lit"
+    ],
+    "parent": "Foot_R_Shoe",
+    "parent_src": "Foot_R_Shoe",
+    "has_uv": true,
+    "size_m": [
+     0.1402,
+     0.2553,
+     0.2935
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.039,
+    "normal_dev_max_deg": 0.043,
+    "loop_pos_err_mm": 5e-05,
+    "loops": 15330
+   },
+   "Kit_Top_Polo_F": {
+    "tris_src": 19408,
+    "tris_fbx": 19408,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_White_Lit"
+    ],
+    "parent": "Chest_Top",
+    "parent_src": "Chest_Top",
+    "has_uv": true,
+    "size_m": [
+     0.4539,
+     0.2541,
+     0.4373
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.042,
+    "normal_dev_max_deg": 0.097,
+    "loop_pos_err_mm": 4e-05,
+    "loops": 58224
+   }
+  },
+  "empties": [
+   "Chest_Top",
+   "Foot_L_Shoe",
+   "Foot_R_Shoe",
+   "Hip_Bottom"
+  ],
+  "ok": true,
+  "total_tris": 78826,
+  "scale_check": {
+   "scene_unit_scale": 1.0,
+   "objects_scale_max_dev": 0.0
+  }
+ },
+ "StdKit_Female_Black_ArmsCandFit.fbx": {
+  "fbx_sha256": "df585631b941872ca39eae6ab26274ec2b906603101a8751b78cd2f97eac9c9d",
+  "size_mb": 2.9,
+  "objects": {
+   "Kit_Bottom_Skort_F": {
+    "tris_src": 25646,
+    "tris_fbx": 25646,
+    "max_vertex_err_mm": 0.0001,
+    "bbox_err_mm": 0.0001,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "parent": "Hip_Bottom",
+    "parent_src": "Hip_Bottom",
+    "has_uv": true,
+    "size_m": [
+     0.4145,
+     0.3285,
+     0.3661
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.039,
+    "normal_dev_max_deg": 0.082,
+    "loop_pos_err_mm": 6e-05,
+    "loops": 76938
+   },
+   "Kit_Shoe_L_ArmsCandFit": {
+    "tris_src": 11786,
+    "tris_fbx": 11786,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "parent": "Foot_L_Shoe",
+    "parent_src": "Foot_L_Shoe",
+    "has_uv": true,
+    "size_m": [
+     0.1388,
+     0.2864,
+     0.1515
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.043,
+    "normal_dev_max_deg": 0.076,
+    "loop_pos_err_mm": 3e-05,
+    "loops": 35358
+   },
+   "Kit_Shoe_R_ArmsCandFit": {
+    "tris_src": 11774,
+    "tris_fbx": 11774,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "parent": "Foot_R_Shoe",
+    "parent_src": "Foot_R_Shoe",
+    "has_uv": true,
+    "size_m": [
+     0.1387,
+     0.2864,
+     0.1515
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.043,
+    "normal_dev_max_deg": 0.08,
+    "loop_pos_err_mm": 3e-05,
+    "loops": 35322
+   },
+   "Kit_Sock_L_ArmsCandFit": {
+    "tris_src": 5102,
+    "tris_fbx": 5102,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "parent": "Foot_L_Shoe",
+    "parent_src": "Foot_L_Shoe",
+    "has_uv": true,
+    "size_m": [
+     0.1395,
+     0.2553,
+     0.2937
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.038,
+    "normal_dev_max_deg": 0.048,
+    "loop_pos_err_mm": 5e-05,
+    "loops": 15306
+   },
+   "Kit_Sock_R_ArmsCandFit": {
+    "tris_src": 5110,
+    "tris_fbx": 5110,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "parent": "Foot_R_Shoe",
+    "parent_src": "Foot_R_Shoe",
+    "has_uv": true,
+    "size_m": [
+     0.1402,
+     0.2553,
+     0.2935
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.039,
+    "normal_dev_max_deg": 0.043,
+    "loop_pos_err_mm": 5e-05,
+    "loops": 15330
+   },
+   "Kit_Top_Polo_F": {
+    "tris_src": 19408,
+    "tris_fbx": 19408,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "parent": "Chest_Top",
+    "parent_src": "Chest_Top",
+    "has_uv": true,
+    "size_m": [
+     0.4539,
+     0.2541,
+     0.4373
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.042,
+    "normal_dev_max_deg": 0.097,
+    "loop_pos_err_mm": 4e-05,
+    "loops": 58224
+   }
+  },
+  "empties": [
+   "Chest_Top",
+   "Foot_L_Shoe",
+   "Foot_R_Shoe",
+   "Hip_Bottom"
+  ],
+  "ok": true,
+  "total_tris": 78826,
+  "scale_check": {
+   "scene_unit_scale": 1.0,
+   "objects_scale_max_dev": 0.0
+  }
+ }
+}

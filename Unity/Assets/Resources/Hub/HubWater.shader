@@ -21,6 +21,7 @@ Shader "GolfArcade/HubWater"
         Tags { "RenderType" = "Opaque" "RenderPipeline" = "UniversalPipeline" "Queue" = "Geometry" }
         HLSLINCLUDE
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+#include "../Environment/Shaders/EnvironmentSurface.hlsl"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
         TEXTURE2D(_BaseMap); SAMPLER(sampler_BaseMap);
         CBUFFER_START(UnityPerMaterial)
@@ -59,7 +60,7 @@ Shader "GolfArcade/HubWater"
                 float2 cell = floor(i.w.xz * _GlitterCells);
                 half twinkle = step(.82, Hash(cell + floor(t * 5 + Hash(cell) * 7)));
                 c += sun.color * (spot * 1.5 + pow(saturate(dot(r, L)), 24) * twinkle * .9) * _Glitter * sun.shadowAttenuation;
-                return half4(c, 1);
+                return half4(EnvironmentBackdrop(c,i.w), 1);
             }
             ENDHLSL
         }

@@ -22,10 +22,10 @@ namespace GolfArcade.Tests
         }
         TennisHit Hit(float age = TennisRules.SweetTime, float offset = 0, float balance = 1, float reach = 1, float power = .8f, float stamina = 1)
             => TennisRules.Evaluate(age,new Vector2(offset,0),balance,reach,power,stamina);
-        [Test] public void CenterAndTimingImproveTheHit()
+        [Test] public void CenterImprovesTheHitWhileTimingOnlyGatesContact()
         {
             Assert.Greater(Hit().Quality, Hit(offset:.10f).Quality);
-            Assert.Greater(Hit().Quality, Hit(age:.10f).Quality);
+            Assert.AreEqual(Hit().Quality, Hit(age:.10f).Quality);
             Assert.IsFalse(Hit(age:0).Contact);
             Assert.IsFalse(Hit(offset:.3f).Contact);
         }
@@ -43,15 +43,15 @@ namespace GolfArcade.Tests
             Assert.IsTrue(TennisRules.AssistedContact(ball,ball,Vector3.zero,.18f,false,out _,0));
             Assert.IsTrue(TennisRules.AssistedContact(ball,ball,Vector3.zero,.18f,false,out _,1));
         }
-        [Test] public void ScrappyContactConnectsButTimingControlsPace() {
+        [Test] public void ScrappyContactConnectsButSpacingControlsPace() {
             var ball = new Vector3(1.45f,1.1f,.65f);
             Assert.IsTrue(TennisRules.AssistedContact(ball,ball,Vector3.zero,.42f,false,out _,1));
             Assert.IsFalse(TennisRules.AssistedContact(ball,ball,Vector3.zero,.54f,false,out _,1));
-            var clean = TennisRules.AssistedHit(.02f,.65f,1,.2f,1);
-            var late = TennisRules.AssistedHit(.24f,.65f,1,1,1);
-            Assert.Greater(clean.Speed, late.Speed * 1.4f, "clean soft swings beat mistimed hard swings");
-            Assert.AreEqual(Timing.Perfect, TennisRules.Grade(clean.Timing));
-            Assert.AreEqual(Timing.Ok, TennisRules.Grade(late.Timing));
+            var clean = TennisRules.AssistedHit(.02f,1,1,.2f,1);
+            var late = TennisRules.AssistedHit(.24f,.2f,1,1,1);
+            Assert.Greater(clean.Speed, late.Speed * 1.4f, "centered soft swings beat frame contacts even with full effort");
+            Assert.AreEqual(Timing.Perfect, TennisRules.Grade(clean.Quality));
+            Assert.AreEqual(Timing.Ok, TennisRules.Grade(late.Quality));
             Assert.Less(TennisRules.AssistedHit(.02f,.2f,1,.2f,1).Speed, clean.Speed);
             float previous = float.MaxValue;
             foreach (float t in new[] { 0f,.035f,.06f,.095f,.14f,.21f,.27f }) {

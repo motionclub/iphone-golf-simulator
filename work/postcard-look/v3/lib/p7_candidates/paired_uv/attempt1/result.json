@@ -1,0 +1,1009 @@
+{
+  "scope": "One scratch paired-side UV variant plus unchanged chart control. Exact geometry/textures and fixed lighting; no production writes or native Game view.",
+  "geometry": [
+    {
+      "vertices": 188,
+      "faces": 124,
+      "triangles": 316,
+      "columns": 15,
+      "span": 12.531507673332829
+    },
+    {
+      "vertices": 188,
+      "faces": 124,
+      "triangles": 316,
+      "columns": 15,
+      "span": 12.477216154926442
+    },
+    {
+      "vertices": 188,
+      "faces": 124,
+      "triangles": 316,
+      "columns": 15,
+      "span": 12.53678819406869
+    }
+  ],
+  "texture_dir": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/p7_candidates/bounded_v6_source",
+  "phases": [
+    {
+      "name": "independent_control",
+      "shots": [
+        {
+          "name": "az0",
+          "metrics": {
+            "pixels": 579098,
+            "share_of_frame": 0.4022,
+            "glow_px": 24844,
+            "glow_coverage": 0.0429,
+            "base_mean_rgb": [
+              27.3,
+              26.0,
+              27.4
+            ],
+            "base_hue": 298.9,
+            "base_s": 0.049,
+            "base_v": 0.107,
+            "base_lum_median": 23.4,
+            "base_lum_p90": 39.5,
+            "base_lum_mean": 26.4,
+            "base_s_median": 0.103,
+            "glow_mean_rgb": [
+              202.4,
+              103.2,
+              35.0
+            ],
+            "glow_mean_hue": 24.4,
+            "glow_cream_share": 0.0,
+            "glow_skeleton_px": 11679,
+            "glow_junction_clusters": 887,
+            "glow_components": 204,
+            "glow_vertical_line_share": 0.904,
+            "glow_horizontal_rung_share": 0.0,
+            "glow_blob_share": 0.038,
+            "glow_component_height_median_px": 15,
+            "glow_component_width_median_px": 5,
+            "glow_component_height_p90_px": 113
+          },
+          "ok": false,
+          "image": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/p7_candidates/paired_uv/attempt1/independent_control_az0.png"
+        },
+        {
+          "name": "az35",
+          "metrics": {
+            "pixels": 590192,
+            "share_of_frame": 0.4099,
+            "glow_px": 18350,
+            "glow_coverage": 0.0311,
+            "base_mean_rgb": [
+              24.7,
+              24.0,
+              25.6
+            ],
+            "base_hue": 266.9,
+            "base_s": 0.065,
+            "base_v": 0.1,
+            "base_lum_median": 22.4,
+            "base_lum_p90": 36.6,
+            "base_lum_mean": 24.2,
+            "base_s_median": 0.115,
+            "glow_mean_rgb": [
+              207.7,
+              106.0,
+              34.5
+            ],
+            "glow_mean_hue": 24.8,
+            "glow_cream_share": 0.0,
+            "glow_skeleton_px": 8496,
+            "glow_junction_clusters": 726,
+            "glow_components": 156,
+            "glow_vertical_line_share": 0.849,
+            "glow_horizontal_rung_share": 0.0,
+            "glow_blob_share": 0.082,
+            "glow_component_height_median_px": 13,
+            "glow_component_width_median_px": 5,
+            "glow_component_height_p90_px": 110
+          },
+          "ok": false,
+          "image": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/p7_candidates/paired_uv/attempt1/independent_control_az35.png"
+        },
+        {
+          "name": "az-35",
+          "metrics": {
+            "pixels": 589781,
+            "share_of_frame": 0.4096,
+            "glow_px": 18838,
+            "glow_coverage": 0.0319,
+            "base_mean_rgb": [
+              28.6,
+              27.4,
+              28.9
+            ],
+            "base_hue": 288.8,
+            "base_s": 0.051,
+            "base_v": 0.113,
+            "base_lum_median": 25.1,
+            "base_lum_p90": 39.4,
+            "base_lum_mean": 27.8,
+            "base_s_median": 0.097,
+            "glow_mean_rgb": [
+              212.5,
+              109.0,
+              37.0
+            ],
+            "glow_mean_hue": 24.6,
+            "glow_cream_share": 0.0,
+            "glow_skeleton_px": 8766,
+            "glow_junction_clusters": 872,
+            "glow_components": 188,
+            "glow_vertical_line_share": 0.928,
+            "glow_horizontal_rung_share": 0.001,
+            "glow_blob_share": 0.044,
+            "glow_component_height_median_px": 13,
+            "glow_component_width_median_px": 5,
+            "glow_component_height_p90_px": 70
+          },
+          "ok": false,
+          "image": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/p7_candidates/paired_uv/attempt1/independent_control_az-35.png"
+        }
+      ],
+      "gates": [
+        {
+          "name": "UV_DENSITY",
+          "ok": true,
+          "detail": "every tiled LK_ surface has UV0 at its contract density (ratio range per material {'LK_BASALT': '0.48..0.92x', 'LK_FAIRWAY': '1.00..1.05x', 'LK_GREEN': '0.96..1.00x', 'LK_ROUGH': '1.00..1.01x', 'LK_SAND': '1.00..1.00x'}), no smear (UV anisotropy <= 4:1 on >= 85% of every material's area); atlas/sheet/card UVs valid"
+        },
+        {
+          "name": "GROUND_UV_LOCAL_SMEAR",
+          "ok": true,
+          "detail": "10 play-surface meshes: UV anisotropy > 4:1 covers at most 5.2 m2 per mesh (TERRAIN_CRATER; limit 15 m2 in all, 10 m2 for one triangle), worst triangle 6.4:1"
+        }
+      ],
+      "uv_window_local": {
+        "side": 282,
+        "glow": 79,
+        "top": 90,
+        "top_glow_free": 90,
+        "side_glow_fraction": 0.2801418439716312,
+        "ok": true,
+        "scope": "Original top/plain and15\u201345%side predicates; full H_UV_WINDOWS mesh-count requirement is absent in this fixture"
+      },
+      "original_H_GLOW_JOINTS": {
+        "name": "H_GLOW_JOINTS@independent_control",
+        "ok": false,
+        "detail": "Basalt_E sampled at the authored UVs of 3 ROCK_ objects (LK_BASALT): glow texels on TOP faces 0.00% (<= 0.5 %), on SIDE faces 2.25% (texture mean 4.05%, continuous box UV = 1.0 x; allowed 0.25..0.6 x = 1.01%..2.43%), 29% of the side area carries any glow (10-50 %), median glow dash 2.3 m long in the world (>= 2.5 m; the box-UV lattice is 0.84 m), world v tile 22.2 m"
+      },
+      "H_GLOW_numeric_local": {
+        "nobj": 3,
+        "top_cov": 0.0,
+        "side_cov": 0.022516491217611147,
+        "lit_share": 0.29363885369068876,
+        "streak": 2.3333333314037037,
+        "gmean": 0.040495872497558594,
+        "acc": {
+          "top_a": 163.03498745369177,
+          "top_g": 0.0,
+          "side_a": 3874.334459565689,
+          "side_g": 87.23641783289906,
+          "tri_n": 3874.334459565689,
+          "tri_lit": 1137.655129521203
+        },
+        "ok": false,
+        "scope": "Exact unchanged numerical caps only; original whole-hole>=200object presence result remains FAIL"
+      },
+      "network": {
+        "ok": true,
+        "skeleton_pixels": 28941,
+        "junction_clusters": 2485,
+        "junction_per100": 8.586434470128882
+      },
+      "local_ok": false
+    },
+    {
+      "name": "paired_variant1",
+      "shots": [
+        {
+          "name": "az0",
+          "metrics": {
+            "pixels": 579098,
+            "share_of_frame": 0.4022,
+            "glow_px": 37633,
+            "glow_coverage": 0.065,
+            "base_mean_rgb": [
+              32.6,
+              30.0,
+              29.8
+            ],
+            "base_hue": 3.7,
+            "base_s": 0.085,
+            "base_v": 0.128,
+            "base_lum_median": 26.1,
+            "base_lum_p90": 42.5,
+            "base_lum_mean": 30.5,
+            "base_s_median": 0.1,
+            "glow_mean_rgb": [
+              217.3,
+              110.8,
+              37.7
+            ],
+            "glow_mean_hue": 24.4,
+            "glow_cream_share": 0.0,
+            "glow_skeleton_px": 16805,
+            "glow_junction_clusters": 1723,
+            "glow_components": 172,
+            "glow_vertical_line_share": 0.489,
+            "glow_horizontal_rung_share": 0.0,
+            "glow_blob_share": 0.168,
+            "glow_component_height_median_px": 15,
+            "glow_component_width_median_px": 7,
+            "glow_component_height_p90_px": 129
+          },
+          "ok": true,
+          "image": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/p7_candidates/paired_uv/attempt1/paired_variant1_az0.png"
+        },
+        {
+          "name": "az35",
+          "metrics": {
+            "pixels": 590192,
+            "share_of_frame": 0.4099,
+            "glow_px": 30685,
+            "glow_coverage": 0.052,
+            "base_mean_rgb": [
+              28.8,
+              27.0,
+              27.1
+            ],
+            "base_hue": 356.9,
+            "base_s": 0.062,
+            "base_v": 0.113,
+            "base_lum_median": 23.4,
+            "base_lum_p90": 38.9,
+            "base_lum_mean": 27.4,
+            "base_s_median": 0.108,
+            "glow_mean_rgb": [
+              215.8,
+              110.4,
+              38.5
+            ],
+            "glow_mean_hue": 24.3,
+            "glow_cream_share": 0.0,
+            "glow_skeleton_px": 13817,
+            "glow_junction_clusters": 1370,
+            "glow_components": 100,
+            "glow_vertical_line_share": 0.693,
+            "glow_horizontal_rung_share": 0.0,
+            "glow_blob_share": 0.062,
+            "glow_component_height_median_px": 34,
+            "glow_component_width_median_px": 13,
+            "glow_component_height_p90_px": 136
+          },
+          "ok": true,
+          "image": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/p7_candidates/paired_uv/attempt1/paired_variant1_az35.png"
+        },
+        {
+          "name": "az-35",
+          "metrics": {
+            "pixels": 589781,
+            "share_of_frame": 0.4096,
+            "glow_px": 41422,
+            "glow_coverage": 0.0702,
+            "base_mean_rgb": [
+              35.8,
+              32.8,
+              32.6
+            ],
+            "base_hue": 4.4,
+            "base_s": 0.092,
+            "base_v": 0.141,
+            "base_lum_median": 28.7,
+            "base_lum_p90": 45.0,
+            "base_lum_mean": 33.4,
+            "base_s_median": 0.095,
+            "glow_mean_rgb": [
+              218.6,
+              112.0,
+              38.8
+            ],
+            "glow_mean_hue": 24.4,
+            "glow_cream_share": 0.0,
+            "glow_skeleton_px": 17938,
+            "glow_junction_clusters": 1830,
+            "glow_components": 153,
+            "glow_vertical_line_share": 0.385,
+            "glow_horizontal_rung_share": 0.0,
+            "glow_blob_share": 0.163,
+            "glow_component_height_median_px": 19,
+            "glow_component_width_median_px": 8,
+            "glow_component_height_p90_px": 126
+          },
+          "ok": true,
+          "image": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/p7_candidates/paired_uv/attempt1/paired_variant1_az-35.png"
+        }
+      ],
+      "gates": [
+        {
+          "name": "UV_DENSITY",
+          "ok": true,
+          "detail": "every tiled LK_ surface has UV0 at its contract density (ratio range per material {'LK_BASALT': '0.35..0.92x', 'LK_FAIRWAY': '1.00..1.05x', 'LK_GREEN': '0.96..1.00x', 'LK_ROUGH': '1.00..1.01x', 'LK_SAND': '1.00..1.00x'}), no smear (UV anisotropy <= 4:1 on >= 85% of every material's area); atlas/sheet/card UVs valid"
+        },
+        {
+          "name": "GROUND_UV_LOCAL_SMEAR",
+          "ok": true,
+          "detail": "10 play-surface meshes: UV anisotropy > 4:1 covers at most 5.2 m2 per mesh (TERRAIN_CRATER; limit 15 m2 in all, 10 m2 for one triangle), worst triangle 6.4:1"
+        }
+      ],
+      "uv_window_local": {
+        "side": 282,
+        "glow": 90,
+        "top": 90,
+        "top_glow_free": 90,
+        "side_glow_fraction": 0.3191489361702128,
+        "ok": true,
+        "scope": "Original top/plain and15\u201345%side predicates; full H_UV_WINDOWS mesh-count requirement is absent in this fixture"
+      },
+      "original_H_GLOW_JOINTS": {
+        "name": "H_GLOW_JOINTS@paired_variant1",
+        "ok": false,
+        "detail": "Basalt_E sampled at the authored UVs of 3 ROCK_ objects (LK_BASALT): glow texels on TOP faces 0.00% (<= 0.5 %), on SIDE faces 2.74% (texture mean 4.05%, continuous box UV = 1.0 x; allowed 0.25..0.6 x = 1.01%..2.43%), 36% of the side area carries any glow (10-50 %), median glow dash 2.6 m long in the world (>= 2.5 m; the box-UV lattice is 0.84 m), world v tile 25.0 m"
+      },
+      "H_GLOW_numeric_local": {
+        "nobj": 3,
+        "top_cov": 0.0,
+        "side_cov": 0.027369465436864603,
+        "lit_share": 0.3592887351732612,
+        "streak": 2.625,
+        "gmean": 0.040495872497558594,
+        "acc": {
+          "top_a": 163.03498745369177,
+          "top_g": 0.0,
+          "side_a": 3874.334459565689,
+          "side_g": 106.03846308193663,
+          "tri_n": 3874.334459565689,
+          "tri_lit": 1392.004727615537
+        },
+        "ok": false,
+        "scope": "Exact unchanged numerical caps only; original whole-hole>=200object presence result remains FAIL"
+      },
+      "network": {
+        "ok": true,
+        "skeleton_pixels": 48560,
+        "junction_clusters": 4923,
+        "junction_per100": 10.137973640856671
+      },
+      "local_ok": false
+    }
+  ],
+  "chart_records": [
+    {
+      "uf": 0.38,
+      "vf": 0.32,
+      "records": [
+        {
+          "column": 0,
+          "polygons": [
+            2,
+            3
+          ],
+          "footprint_sides": 5,
+          "glow_index": 0,
+          "corner_u": 0.123,
+          "v_phase": 0.015002345865774314,
+          "paired_perimeter_m": 2.0894873667056633,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 1,
+          "polygons": [
+            11,
+            12
+          ],
+          "footprint_sides": 6,
+          "glow_index": 1,
+          "corner_u": 0.446,
+          "v_phase": 0.4698100494947334,
+          "paired_perimeter_m": 1.7759124028126627,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 2,
+          "polygons": [
+            19,
+            20
+          ],
+          "footprint_sides": 5,
+          "glow_index": 2,
+          "corner_u": 0.534,
+          "v_phase": 0.5329108082795946,
+          "paired_perimeter_m": 1.975651901597966,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 3,
+          "polygons": [
+            27,
+            28
+          ],
+          "footprint_sides": 5,
+          "glow_index": 3,
+          "corner_u": 0.718,
+          "v_phase": 0.6257850736595988,
+          "paired_perimeter_m": 2.035528754967313,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 4,
+          "polygons": [
+            35,
+            36
+          ],
+          "footprint_sides": 5,
+          "glow_index": 4,
+          "corner_u": 0.806,
+          "v_phase": 0.11751248010861182,
+          "paired_perimeter_m": 2.001494818589654,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 5,
+          "polygons": [
+            44,
+            45
+          ],
+          "footprint_sides": 6,
+          "glow_index": 2,
+          "corner_u": 0.534,
+          "v_phase": 0.5777007088008042,
+          "paired_perimeter_m": 1.6881148559344317,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 6,
+          "polygons": [
+            52,
+            53
+          ],
+          "footprint_sides": 5,
+          "glow_index": 0,
+          "corner_u": 0.123,
+          "v_phase": 0.004471035870815543,
+          "paired_perimeter_m": 2.0862129568637093,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 7,
+          "polygons": [
+            61,
+            62
+          ],
+          "footprint_sides": 6,
+          "glow_index": 3,
+          "corner_u": 0.718,
+          "v_phase": 0.7863656285319748,
+          "paired_perimeter_m": 1.7770227535303644,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 8,
+          "polygons": [
+            69,
+            70
+          ],
+          "footprint_sides": 5,
+          "glow_index": 2,
+          "corner_u": 0.534,
+          "v_phase": 0.5162161930156459,
+          "paired_perimeter_m": 2.027853962359675,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 9,
+          "polygons": [
+            77,
+            78
+          ],
+          "footprint_sides": 5,
+          "glow_index": 3,
+          "corner_u": 0.718,
+          "v_phase": 0.12665828848819305,
+          "paired_perimeter_m": 2.0116526655424973,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 10,
+          "polygons": [
+            86,
+            87
+          ],
+          "footprint_sides": 6,
+          "glow_index": 2,
+          "corner_u": 0.534,
+          "v_phase": 0.8324163740399394,
+          "paired_perimeter_m": 1.7735433046794586,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 11,
+          "polygons": [
+            94,
+            95
+          ],
+          "footprint_sides": 5,
+          "glow_index": 5,
+          "corner_u": 0.93,
+          "v_phase": 0.507723102924569,
+          "paired_perimeter_m": 2.083806451064264,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 12,
+          "polygons": [
+            102,
+            103
+          ],
+          "footprint_sides": 5,
+          "glow_index": 0,
+          "corner_u": 0.123,
+          "v_phase": 1.46468226120966e-05,
+          "paired_perimeter_m": 1.9855562654613181,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 13,
+          "polygons": [
+            110,
+            111
+          ],
+          "footprint_sides": 5,
+          "glow_index": 1,
+          "corner_u": 0.446,
+          "v_phase": 0.20252967788794973,
+          "paired_perimeter_m": 2.066303381300663,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 14,
+          "polygons": [
+            118,
+            119
+          ],
+          "footprint_sides": 5,
+          "glow_index": 2,
+          "corner_u": 0.534,
+          "v_phase": 0.2885540310565009,
+          "paired_perimeter_m": 2.0089040839538943,
+          "shared_edge_uv_delta": 0.0
+        }
+      ],
+      "glow_lines_used": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "max_shared_edge_uv_delta": 0.0
+    },
+    {
+      "uf": 0.38,
+      "vf": 0.32,
+      "records": [
+        {
+          "column": 0,
+          "polygons": [
+            2,
+            3
+          ],
+          "footprint_sides": 5,
+          "glow_index": 0,
+          "corner_u": 0.123,
+          "v_phase": 0.9248196081715394,
+          "paired_perimeter_m": 1.9826777704144318,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 1,
+          "polygons": [
+            10,
+            11
+          ],
+          "footprint_sides": 5,
+          "glow_index": 1,
+          "corner_u": 0.446,
+          "v_phase": 0.4360677172718146,
+          "paired_perimeter_m": 2.0365317795169204,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 2,
+          "polygons": [
+            18,
+            19
+          ],
+          "footprint_sides": 5,
+          "glow_index": 2,
+          "corner_u": 0.534,
+          "v_phase": 0.19838271038017474,
+          "paired_perimeter_m": 2.067549261073898,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 3,
+          "polygons": [
+            26,
+            27
+          ],
+          "footprint_sides": 5,
+          "glow_index": 3,
+          "corner_u": 0.718,
+          "v_phase": 0.8620058123293992,
+          "paired_perimeter_m": 1.9853572600490486,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 4,
+          "polygons": [
+            35,
+            36
+          ],
+          "footprint_sides": 6,
+          "glow_index": 2,
+          "corner_u": 0.534,
+          "v_phase": 0.7317109238895471,
+          "paired_perimeter_m": 1.765242351607085,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 5,
+          "polygons": [
+            44,
+            45
+          ],
+          "footprint_sides": 6,
+          "glow_index": 2,
+          "corner_u": 0.534,
+          "v_phase": 0.8978085266178243,
+          "paired_perimeter_m": 1.6906553971055298,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 6,
+          "polygons": [
+            52,
+            53
+          ],
+          "footprint_sides": 5,
+          "glow_index": 0,
+          "corner_u": 0.123,
+          "v_phase": 0.5947272668860873,
+          "paired_perimeter_m": 1.9989874274275858,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 7,
+          "polygons": [
+            60,
+            61
+          ],
+          "footprint_sides": 5,
+          "glow_index": 2,
+          "corner_u": 0.534,
+          "v_phase": 0.986869558789508,
+          "paired_perimeter_m": 1.9774648473508551,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 8,
+          "polygons": [
+            68,
+            69
+          ],
+          "footprint_sides": 5,
+          "glow_index": 3,
+          "corner_u": 0.718,
+          "v_phase": 0.15862539132224007,
+          "paired_perimeter_m": 1.978318536935481,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 9,
+          "polygons": [
+            77,
+            78
+          ],
+          "footprint_sides": 6,
+          "glow_index": 2,
+          "corner_u": 0.534,
+          "v_phase": 0.11189397883393704,
+          "paired_perimeter_m": 1.6813071159557356,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 10,
+          "polygons": [
+            85,
+            86
+          ],
+          "footprint_sides": 5,
+          "glow_index": 0,
+          "corner_u": 0.123,
+          "v_phase": 0.19116143692592402,
+          "paired_perimeter_m": 1.978106743498444,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 11,
+          "polygons": [
+            93,
+            94
+          ],
+          "footprint_sides": 5,
+          "glow_index": 5,
+          "corner_u": 0.93,
+          "v_phase": 0.4480069855577188,
+          "paired_perimeter_m": 2.0030302484474536,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 12,
+          "polygons": [
+            102,
+            103
+          ],
+          "footprint_sides": 6,
+          "glow_index": 0,
+          "corner_u": 0.123,
+          "v_phase": 0.12675912441822312,
+          "paired_perimeter_m": 1.7433224396274711,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 13,
+          "polygons": [
+            110,
+            111
+          ],
+          "footprint_sides": 5,
+          "glow_index": 1,
+          "corner_u": 0.446,
+          "v_phase": 0.17468909473584526,
+          "paired_perimeter_m": 2.058669939190014,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 14,
+          "polygons": [
+            118,
+            119
+          ],
+          "footprint_sides": 5,
+          "glow_index": 2,
+          "corner_u": 0.534,
+          "v_phase": 0.7070668781373065,
+          "paired_perimeter_m": 2.0319078448129284,
+          "shared_edge_uv_delta": 0.0
+        }
+      ],
+      "glow_lines_used": [
+        0,
+        1,
+        2,
+        3,
+        5
+      ],
+      "max_shared_edge_uv_delta": 0.0
+    },
+    {
+      "uf": 0.38,
+      "vf": 0.32,
+      "records": [
+        {
+          "column": 0,
+          "polygons": [
+            2,
+            3
+          ],
+          "footprint_sides": 5,
+          "glow_index": 0,
+          "corner_u": 0.123,
+          "v_phase": 0.4799778093580468,
+          "paired_perimeter_m": 2.063442893206833,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 1,
+          "polygons": [
+            10,
+            11
+          ],
+          "footprint_sides": 5,
+          "glow_index": 1,
+          "corner_u": 0.446,
+          "v_phase": 0.347854147690003,
+          "paired_perimeter_m": 2.032248328796058,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 2,
+          "polygons": [
+            19,
+            20
+          ],
+          "footprint_sides": 6,
+          "glow_index": 2,
+          "corner_u": 0.534,
+          "v_phase": 0.8966201570800181,
+          "paired_perimeter_m": 1.7704979025868188,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 3,
+          "polygons": [
+            27,
+            28
+          ],
+          "footprint_sides": 5,
+          "glow_index": 3,
+          "corner_u": 0.718,
+          "v_phase": 0.734268289167231,
+          "paired_perimeter_m": 2.0467050961549154,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 4,
+          "polygons": [
+            35,
+            36
+          ],
+          "footprint_sides": 5,
+          "glow_index": 4,
+          "corner_u": 0.806,
+          "v_phase": 0.9587504427822274,
+          "paired_perimeter_m": 1.9830083637027862,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 5,
+          "polygons": [
+            43,
+            44
+          ],
+          "footprint_sides": 5,
+          "glow_index": 5,
+          "corner_u": 0.93,
+          "v_phase": 0.8909000553206673,
+          "paired_perimeter_m": 2.0347892128581817,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 6,
+          "polygons": [
+            51,
+            52
+          ],
+          "footprint_sides": 5,
+          "glow_index": 0,
+          "corner_u": 0.123,
+          "v_phase": 0.022791355752884046,
+          "paired_perimeter_m": 2.072945890728878,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 7,
+          "polygons": [
+            59,
+            60
+          ],
+          "footprint_sides": 5,
+          "glow_index": 1,
+          "corner_u": 0.446,
+          "v_phase": 0.24880049655621794,
+          "paired_perimeter_m": 1.980772143568705,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 8,
+          "polygons": [
+            67,
+            68
+          ],
+          "footprint_sides": 5,
+          "glow_index": 2,
+          "corner_u": 0.534,
+          "v_phase": 0.3620821394393565,
+          "paired_perimeter_m": 2.051311491175019,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 9,
+          "polygons": [
+            76,
+            77
+          ],
+          "footprint_sides": 6,
+          "glow_index": 2,
+          "corner_u": 0.534,
+          "v_phase": 0.7357084889635561,
+          "paired_perimeter_m": 1.6933159745156745,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 10,
+          "polygons": [
+            84,
+            85
+          ],
+          "footprint_sides": 5,
+          "glow_index": 4,
+          "corner_u": 0.806,
+          "v_phase": 0.2922525186444993,
+          "paired_perimeter_m": 2.0324154392503924,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 11,
+          "polygons": [
+            93,
+            94
+          ],
+          "footprint_sides": 6,
+          "glow_index": 3,
+          "corner_u": 0.718,
+          "v_phase": 0.2646085720409309,
+          "paired_perimeter_m": 1.7336860610795806,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 12,
+          "polygons": [
+            102,
+            103
+          ],
+          "footprint_sides": 6,
+          "glow_index": 0,
+          "corner_u": 0.123,
+          "v_phase": 0.5156570195001896,
+          "paired_perimeter_m": 1.7715951540700712,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 13,
+          "polygons": [
+            110,
+            111
+          ],
+          "footprint_sides": 5,
+          "glow_index": 1,
+          "corner_u": 0.446,
+          "v_phase": 0.5135562632409538,
+          "paired_perimeter_m": 2.04490016869861,
+          "shared_edge_uv_delta": 0.0
+        },
+        {
+          "column": 14,
+          "polygons": [
+            118,
+            119
+          ],
+          "footprint_sides": 5,
+          "glow_index": 2,
+          "corner_u": 0.534,
+          "v_phase": 0.7993108441438539,
+          "paired_perimeter_m": 2.0762484118237143,
+          "shared_edge_uv_delta": 0.0
+        }
+      ],
+      "glow_lines_used": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "max_shared_edge_uv_delta": 0.0
+    }
+  ],
+  "geometry_unchanged": true,
+  "scoring_controls_unchanged": true,
+  "paired_local_ok": false
+}

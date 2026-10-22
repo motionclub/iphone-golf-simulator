@@ -1,0 +1,67 @@
+{
+ "Face_Brow": {
+  "verts": 560,
+  "max_mm": 1.5,
+  "mean_mm": 0.928
+ },
+ "Face_Sclera": {
+  "verts": 642,
+  "max_mm": 29.797,
+  "mean_mm": 12.604
+ },
+ "Face_Iris": {
+  "verts": 256,
+  "max_mm": 9.234,
+  "mean_mm": 3.328
+ },
+ "Face_Pupil": {
+  "verts": 130,
+  "max_mm": 6.731,
+  "mean_mm": 4.179
+ },
+ "Face_Limbal": {
+  "verts": 128,
+  "max_mm": 14.296,
+  "mean_mm": 4.108
+ },
+ "Face_Catch": {
+  "verts": 22,
+  "max_mm": 2.958,
+  "mean_mm": 1.362
+ },
+ "Face_LidLine": {
+  "verts": 592,
+  "max_mm": 0.3,
+  "mean_mm": 0.265
+ },
+ "Face_Lip": {
+  "verts": 220,
+  "max_mm": 0.485,
+  "mean_mm": 0.246
+ },
+ "Face_LipUp": {
+  "verts": 220,
+  "max_mm": 0.738,
+  "mean_mm": 0.257
+ },
+ "Face_Seam": {
+  "verts": 168,
+  "max_mm": 1.071,
+  "mean_mm": 0.516
+ },
+ "Face_Nostril": {
+  "verts": 96,
+  "max_mm": 0.12,
+  "mean_mm": 0.12
+ },
+ "Face_BrowSoft": {
+  "verts": 320,
+  "max_mm": 0.808,
+  "mean_mm": 0.462
+ },
+ "Face_LidCrease": {
+  "verts": 160,
+  "max_mm": 0.18,
+  "mean_mm": 0.179
+ }
+}

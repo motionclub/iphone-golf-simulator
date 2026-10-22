@@ -1,0 +1,10 @@
+{
+  "part": "head/jaw/neck depth proportions",
+  "baseline_sha256": "e87ab1835f49e803a586c8c1a996eb38b1585397d19ec9e4ed58acad6fca5538",
+  "method": "Continuous local coordinate sculpt guided by normalized head-detail profile calipers: anterior cranial depth reduced, nose/lip plane retracted, throat moved behind the retained chin with a continuous lower-neck falloff. No remesh or direct row-profile projection.",
+  "X_Z_coordinates_unchanged": true,
+  "body_below_1_36m_unchanged": true,
+  "changed_vertices": 2113,
+  "maximum_displacement_metres": 0.029027857248084793,
+  "rejected_candidate": "Direct per-layer profile projection created facial ridges and was discarded before source mutation."
+}

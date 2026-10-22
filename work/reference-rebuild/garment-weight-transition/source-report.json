@@ -1,0 +1,122 @@
+{
+  "male_Serve_0": {
+    "label": "male_Serve_0",
+    "beforeInsideSamples": 18,
+    "afterInsideSamples": 0,
+    "beforeMinMm": -7.040109019726515,
+    "afterMinMm": 0.9825620672927471,
+    "triangleOrientationChanges": 193,
+    "outsidePoseErrorMm": 0.0,
+    "maxMovementMm": 47.957697650840494
+  },
+  "male_Serve_1": {
+    "label": "male_Serve_1",
+    "beforeInsideSamples": 522,
+    "afterInsideSamples": 332,
+    "beforeMinMm": -25.924909132299945,
+    "afterMinMm": -11.226262751733884,
+    "triangleOrientationChanges": 17,
+    "outsidePoseErrorMm": 0.0,
+    "maxMovementMm": 93.93532723605591
+  },
+  "male_Serve_2": {
+    "label": "male_Serve_2",
+    "beforeInsideSamples": 37,
+    "afterInsideSamples": 12,
+    "beforeMinMm": -14.597444712990182,
+    "afterMinMm": -4.814614323549904,
+    "triangleOrientationChanges": 55,
+    "outsidePoseErrorMm": 0.0,
+    "maxMovementMm": 38.55112474551096
+  },
+  "male_Forehand_0": {
+    "label": "male_Forehand_0",
+    "beforeInsideSamples": 211,
+    "afterInsideSamples": 155,
+    "beforeMinMm": -14.016621862538159,
+    "afterMinMm": -11.797385202953592,
+    "triangleOrientationChanges": 114,
+    "outsidePoseErrorMm": 0.0,
+    "maxMovementMm": 56.39523036377942
+  },
+  "male_Forehand_1": {
+    "label": "male_Forehand_1",
+    "beforeInsideSamples": 533,
+    "afterInsideSamples": 330,
+    "beforeMinMm": -19.930785114411265,
+    "afterMinMm": -13.938122985564405,
+    "triangleOrientationChanges": 53,
+    "outsidePoseErrorMm": 0.0,
+    "maxMovementMm": 112.16162809745785
+  },
+  "male_Forehand_2": {
+    "label": "male_Forehand_2",
+    "beforeInsideSamples": 727,
+    "afterInsideSamples": 501,
+    "beforeMinMm": -14.697154150780989,
+    "afterMinMm": -14.450235061303829,
+    "triangleOrientationChanges": 91,
+    "outsidePoseErrorMm": 0.0,
+    "maxMovementMm": 41.97308811204351
+  },
+  "female_Serve_0": {
+    "label": "female_Serve_0",
+    "beforeInsideSamples": 94,
+    "afterInsideSamples": 169,
+    "beforeMinMm": -12.678943807259202,
+    "afterMinMm": -25.76489106286317,
+    "triangleOrientationChanges": 112,
+    "outsidePoseErrorMm": 0.0,
+    "maxMovementMm": 40.07152705760624
+  },
+  "female_Serve_1": {
+    "label": "female_Serve_1",
+    "beforeInsideSamples": 272,
+    "afterInsideSamples": 335,
+    "beforeMinMm": -20.81496804021299,
+    "afterMinMm": -22.795397870140732,
+    "triangleOrientationChanges": 156,
+    "outsidePoseErrorMm": 0.0,
+    "maxMovementMm": 192.60217937526772
+  },
+  "female_Serve_2": {
+    "label": "female_Serve_2",
+    "beforeInsideSamples": 161,
+    "afterInsideSamples": 176,
+    "beforeMinMm": -14.410345887881704,
+    "afterMinMm": -22.83838135190308,
+    "triangleOrientationChanges": 146,
+    "outsidePoseErrorMm": 0.0,
+    "maxMovementMm": 69.21405946101872
+  },
+  "female_Forehand_0": {
+    "label": "female_Forehand_0",
+    "beforeInsideSamples": 149,
+    "afterInsideSamples": 199,
+    "beforeMinMm": -12.884030405984959,
+    "afterMinMm": -27.197173203603597,
+    "triangleOrientationChanges": 212,
+    "outsidePoseErrorMm": 0.0,
+    "maxMovementMm": 111.71118262692411
+  },
+  "female_Forehand_1": {
+    "label": "female_Forehand_1",
+    "beforeInsideSamples": 197,
+    "afterInsideSamples": 241,
+    "beforeMinMm": -16.880307921383064,
+    "afterMinMm": -16.789464352768846,
+    "triangleOrientationChanges": 261,
+    "outsidePoseErrorMm": 0.0,
+    "maxMovementMm": 154.25228267613167
+  },
+  "female_Forehand_2": {
+    "label": "female_Forehand_2",
+    "beforeInsideSamples": 245,
+    "afterInsideSamples": 141,
+    "beforeMinMm": -25.582836417015642,
+    "afterMinMm": -17.45487446896732,
+    "triangleOrientationChanges": 105,
+    "outsidePoseErrorMm": 0.0,
+    "maxMovementMm": 63.475089517667286
+  }
+}

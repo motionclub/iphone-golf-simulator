@@ -31,7 +31,7 @@ namespace GolfArcade.Game {
             double h=from.HeadingTo(target)*Math.PI/180;
             return new Vector3((float)Math.Sin(h),0,(float)Math.Cos(h));
         }
-        long resultShot=-1;
+        long resultShot=-1, burnEffectShot=-1;
         bool wasNetworkResult;
         NetworkConfiguration partyConfiguration;
         Scorecard networkCard;
@@ -62,7 +62,7 @@ namespace GolfArcade.Game {
         /// The course as loaded here, its holes' ground, greens and trees read off their models as each is played: the host rules on it.
         public Course.Course PlayingCourse => course;
         public void ConfigureNetwork(NetworkConfiguration c) {
-            networkConfigured=true;events=RoundEvents.None;firstHoleIndex=-1;networkHole=-1;networkTurn=-1;networkCardRevision=-1;networkFlown=-1;resultShot=-1;Swing.Armed=false;
+            networkConfigured=true;events=RoundEvents.None;firstHoleIndex=-1;networkHole=-1;networkTurn=-1;networkCardRevision=-1;networkFlown=-1;resultShot=-1;burnEffectShot=-1;Swing.Armed=false;
             networkLineUp=null;networkSolo=false;networkMine=false;networkLook=networkLoadShown=0;networkWoundUp=false;networkHoleReady=false;
             sentHeading=double.NaN;sentClub=-1;sentLook=sentLoad=0;
             partyConfiguration=c;networkCard=new Scorecard(course);partyPlacedFor=null;introBegunFor=-1;
@@ -217,8 +217,9 @@ namespace GolfArcade.Game {
             var impact=shot.impact.ToImpact();var origin=new CoursePoint(shot.originX,shot.originD);
             // the balloons, carts and gulls where the host had them as the ball left the club
             if(hole.Movers!=null){hole.Movers.PhaseAtLaunch=shot.moverPhase;networkMoverPhase=shot.moverPhase;}
+            shotEnvironmentUtc=shot.environmentUtc;
             var trial=new CourseShot(flown,impact,shot.heading,origin,hole,1,Wind);
-            if(trial.IsHoled!=shot.holed||trial.PenaltyStrokes!=shot.penalty||trial.Rest.DistanceTo(new CoursePoint(shot.restX,shot.restD))>.05) {
+            if(trial.Burned!=shot.burned||trial.IsHoled!=shot.holed||trial.PenaltyStrokes!=shot.penalty||trial.Rest.DistanceTo(new CoursePoint(shot.restX,shot.restD))>.05) {
                 Debug.LogWarning($"[Multiplayer] shot {shot.id} differs here (rest {trial.Rest.X:F2},{trial.Rest.D:F2} vs {shot.restX:F2},{shot.restD:F2}): following the host's path");
                 return false;
             }
@@ -237,12 +238,15 @@ namespace GolfArcade.Game {
         /// The host's path, drawn as it sends it (a phone whose own flight of the shot would differ).
         void FollowHostPath(SportsMultiplayer net,NetworkGolfState state,NetworkGolfShot shot) {
             if(state.phase=="flight"&&shot.path!=null&&shot.path.Length>1) {
-                double at=Math.Max(0,state.time+(state.paused?0:net.RenderAdvance)-shot.start);
+                double at=Math.Max(0,state.time+(state.paused?0:net.RenderAdvance)-shot.start-NetworkGolfRound.StrikeLead);
                 double index=shot.duration<=0?shot.path.Length-1:Math.Min(shot.path.Length-1,at/shot.duration*(shot.path.Length-1));
                 int lo=(int)index,hi=Math.Min(lo+1,shot.path.Length-1);
                 var p=NetworkVector.Lerp(shot.path[lo],shot.path[hi],(float)(index-lo));
-                var position=HoleView.ToWorld(new CoursePoint(p.x,p.z),p.y+.06);
-                ball.gameObject.SetActive(true);ball.position=position;
+                var position=new Vector3(p.x,p.y+.06f,p.z);
+                if(shot.burned&&at>=shot.burnTime){
+                    if(burnEffectShot!=shot.id){effects.LavaBurst(new Vector3((float)shot.restX,(float)shot.burnHeight,(float)shot.restD));sounds.PlayLavaHiss();burnEffectShot=shot.id;}
+                    ball.gameObject.SetActive(false);
+                }else{ball.gameObject.SetActive(true);ball.position=position;}
                 rig.Follow(position,(position-networkBallPrevious)/Mathf.Max(.001f,Time.unscaledDeltaTime),shot.club==(int)GolfClub.Putter);networkBallPrevious=position;
                 Current=State.Flight;
             } else if(state.phase=="result") {
@@ -251,7 +255,7 @@ namespace GolfArcade.Game {
                     resultShot=shot.id;golfer.Perform("Idle");
                     hud.HideLanding();hud.HideShotStats();hud.ShowPlayHud(false);aimLine.positionCount=0;effects.ClearTracer();
                     if(!shotResultPanel)shotResultPanel=ShotResultPanel.Create(transform,rig.Camera);
-                    string outcome=shot.holed?"IN THE HOLE!":shot.penalty>0?"PENALTY +"+shot.penalty:shot.lie.ToUpperInvariant();
+                    string outcome=shot.burned?"INCINERATED · +1 PENALTY":shot.holed?"IN THE HOLE!":shot.penalty>0?"PENALTY +"+shot.penalty:shot.lie.ToUpperInvariant();
                     ShotResultTitle=outcome;
                     ShotStatistics=$"Carry {shot.carry:F0} yd · Roll {shot.roll:F0} yd · Total {shot.carry+shot.roll:F0} yd";
                     shotResultPanel.ShowGolf(NetworkName(shot.seat),outcome,shot.carry,shot.roll,shot.apex,
@@ -316,7 +320,9 @@ namespace GolfArcade.Game {
             if(partyGolfers.TryGetValue(state.turn,out var up))golfer=up;
             ballAt=new CoursePoint(active.x,active.d);holeStrokes=active.strokes;
             PlaceBall(ballAt,0);ball.gameObject.SetActive(!active.holed);
-            golfer.SetVisible(true);golfer.Settle();
+            // Stand before Settle: a golfer who has been waiting in an Idle move leaves it with her pose captured in world space (HeroPoseTransition),
+            // so settling her where she waited blends the new address from the waiting spot, and the swing is made from there.
+            golfer.SetVisible(true);golfer.Stand(ball.position,AimDirection());golfer.Settle();
             aimedByPlayer=false;networkLook=0;networkLoadShown=0;networkWoundUp=false;
             rig.SnapNext();
             BeginAim(false);
@@ -456,7 +462,16 @@ namespace GolfArcade.Game {
             hud.ShowPlayHud(false);
             hud.ShowScorecard(card,more?$"Hole {hole.PlayNumber} complete":"Round complete",headline,tiles,more,rows);
             int holeNow=state.hole;
-            if(hud.NextHole) hud.NextHole.Pressed=()=>{ if(SportsMultiplayer.Active) SportsMultiplayer.Instance.Submit(new NetworkInput{action="golfHoleCardDone",value=holeNow,actorSeat=mine.seat}); };
+            if(hud.NextHole) {
+                var next=hud.NextHole;
+                next.Pressed=()=>{
+                    if(SportsMultiplayer.Active) SportsMultiplayer.Instance.Submit(new NetworkInput{action="golfHoleCardDone",value=holeNow,actorSeat=mine.seat});
+                    // straight on: the button says the next hole is on its way (never a card that sits there as if nothing happened)
+                    var words=next.GetComponentInChildren<UnityEngine.UI.Text>(true);
+                    if(words) words.text="LOADING NEXT HOLE…";
+                    next.Pressed=null;
+                };
+            }
             // (the lobby takes everyone on after the round: no play-again or menu here)
             if(hud.PlayAgain) hud.PlayAgain.gameObject.SetActive(false);
             if(hud.RoundMenu) hud.RoundMenu.gameObject.SetActive(false);

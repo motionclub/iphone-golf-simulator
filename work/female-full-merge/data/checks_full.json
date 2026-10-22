@@ -1,0 +1,164 @@
+{
+ "gates": {
+  "BASE_SHA": true,
+  "VMAP_CLEAN": true,
+  "REPLAY_EQUALS_STOCK_SCRIPT": true,
+  "HEAD_ZONE_ONLY": true,
+  "ARMS_KEPT": true,
+  "LEGS_UNSCULPTED": true
+ },
+ "details": {
+  "BASE_SHA": {
+   "pass_": true,
+   "base": "1149e620985248e546e2fab93eb19f447f1a5ae673d50a2525fcae5769529ff4",
+   "f3": "7d78b3a3f1224fe68d1f92665f5b3554eb25264bec803b9befdcaf5489e59e02",
+   "form5_delta": "f8dd0a57bbddd3c4a6ae1e0ceba41f990712a0bc8992249fb7b9f2db15e2618e",
+   "note": "verified before any edit; copies in start/ are read-only"
+  },
+  "VMAP_CLEAN": {
+   "pass_": true,
+   "stock_script_on_retired_base": "applied 4540, conflicts 0, missing 0, cn corners 13131",
+   "stock_script_on_base_as_handed_over": "applied 1346, CONFLICTS 3194 (all = chat-7 old torso, superseded by FORM5), see logs/s3_stock_merge_on_UNRETIRED_base_literal.txt",
+   "chat7_retired_verts": 3317,
+   "delta_clean": 1346,
+   "delta_superseded_chat7": 3194,
+   "real_conflicts_with_arms_hands_limbs": 0,
+   "ambiguous_matches": 0,
+   "writes_on_hand_verts_22419_23246": 0,
+   "writes_on_1326_reused_hand_slots": 0
+  },
+  "REPLAY_EQUALS_STOCK_SCRIPT": {
+   "pass_": true,
+   "retained_vertices": 13224,
+   "positions_bit_identical": true,
+   "raw_custom_normals_bit_identical": true,
+   "uv_material_topology_identical": true,
+   "note": "retained part of the final == data/stage3_torso_merged.blend produced by the unmodified merge_torso_delta.py"
+  },
+  "HEAD_ZONE_ONLY": {
+   "pass_": true,
+   "head_vertices_equal_F3": true,
+   "head_corners_pos_uv_rawnormal_material_equal_F3": true,
+   "head_faces": 8578,
+   "head_verts": 8899,
+   "faces_taken_from_F3": "only the 8,578 faces touching F3 head vertices (8,488 head + 90 collar-crossing)",
+   "final_lower_verts_not_at_a_F3_lower_position": 12431,
+   "explained_by": "{'arms chat (moved arm vertex)': 1592, 'hands/limbs-SDF new vertex (no ArtDir counterpart)': 3856, 'FORM5 torso zone (delta)': 4540, 'limbs chat (legs/feet)': 2443}",
+   "F3_lower_body_12421_verts_copied": "NO (checked against, not copied)"
+  },
+  "ARMS_KEPT": {
+   "pass_": true,
+   "arm_zone_verts": 1699,
+   "arm_zone_verts_changed_vs_arms_candidate": 0,
+   "arms_moved_by_arms_chat": 1592,
+   "pins": 107,
+   "pins_changed": 0,
+   "torso_border_pin_exception_needed": "no - the only border vertices that changed are TORSO-zone ring verts (123, chat-7 residue restored to the ArtDir original, max 2.455 mm), not arm vertices",
+   "arm_zone_overlap_FORM5_zone": 0
+  },
+  "LEGS_UNSCULPTED": {
+   "pass_": true,
+   "verts_moved_below_z0p62": 0,
+   "verts_changed_in_FORM5_leg_top_band_z0p62_0p795": 1346,
+   "of_which_not_in_FORM5_delta": 0,
+   "leg_verts_changed_vs_hands_base_total_below_z0p795": 1346,
+   "note": "the only leg vertices that differ from the hands base are FORM5's documented LEG-TOP extension (thigh tops z .62-.795, y-only); nothing below the z .62 floor ring and no new leg sculpt"
+  },
+  "custom_normals": {
+   "retained_loops": 56322,
+   "retained_loops_raw_changed_vs_base": 13131,
+   "code1_changed": 0,
+   "code0_changed": 13131,
+   "head_loops": 34730,
+   "cleared_anywhere": false,
+   "note": "rescale = FORM5 cn_vertex_weight (13,131 corners, code0 only); head loops = F3 raw codes"
+  },
+  "decoded_corner_normals": {
+   "retained_vs_stock_max_vecdiff": 0.38188155533832147,
+   "retained_loops_diff_gt_1e5": 69,
+   "retained_diff_loops_at_collar_ring": 69,
+   "head_vs_F3_max_vecdiff": 0.02921739423135565,
+   "head_loops_diff_gt_1e5": 120,
+   "head_diff_loops_at_collar_ring": 120,
+   "max_deg_at_collar_ring_loops": 22.015383982536978
+  },
+  "topology": {
+   "vertices": 22123,
+   "faces": 23531,
+   "tris": 43990,
+   "loops": 91052,
+   "edges": 45654,
+   "boundary_edges": 256,
+   "boundary_loops": [
+    {
+     "n": 128,
+     "centre": [
+      -0.0491,
+      -0.1099,
+      1.5544
+     ]
+    },
+    {
+     "n": 128,
+     "centre": [
+      0.0491,
+      -0.1099,
+      1.5544
+     ]
+    }
+   ],
+   "nonmanifold_edges": 0,
+   "inconsistent_winding_edges": 0,
+   "loose_vertices": 0,
+   "connected_components": 1,
+   "boundary_edges_in_F3_head_source": 256,
+   "boundary_edges_in_hands_base": 0,
+   "boundary_edges_created_by_merge": 0,
+   "min_face_area_mm2": 0.0833491053549241,
+   "min_face_area_mm2_base": 0.01782755356568042,
+   "zero_area_faces_lt_0p001_mm2": 0,
+   "coincident_vertex_pairs": 0
+  },
+  "TOPOLOGY_core_ok_excluding_literal_boundary_count": true,
+  "tri_counts": {
+   "Body_F": 43990,
+   "Face_F": 6052,
+   "Hair_F": 4960,
+   "body_plus_hair": 48950,
+   "body_plus_face": 50042,
+   "all_three": 55002,
+   "hands_base_body": 46402,
+   "hands_base_body_plus_hair": 51362,
+   "F3_body": 42296,
+   "F3_body_plus_face": 48348
+  },
+  "vertex_groups": {
+   "names": [
+    "LOOP_eyeL",
+    "LOOP_eyeR",
+    "LOOP_nostril_L",
+    "LOOP_nostril_R",
+    "LOOP_seam",
+    "LOOP_lip_up",
+    "LOOP_lip_lo",
+    "LOOP_ear_attach_L",
+    "LOOP_helix_L",
+    "LOOP_concha_L",
+    "LOOP_ear_attach_R",
+    "LOOP_helix_R",
+    "LOOP_concha_R",
+    "LOOP_lid_up_L",
+    "LOOP_lid_low_L",
+    "LOOP_lid_up_R",
+    "LOOP_lid_low_R",
+    "LOOP_jaw_ear_L",
+    "LOOP_ala_L",
+    "LOOP_jaw_ear_R",
+    "LOOP_ala_R"
+   ],
+   "n": 21,
+   "members_equal_F3_by_position": true
+  },
+  "height_m": 1.704447865486145
+ }
+}

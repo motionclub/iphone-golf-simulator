@@ -1,0 +1,12 @@
+{
+  "originalVertices": 13932,
+  "vertices": 31402,
+  "originalFaces": 19408,
+  "faces": 52725,
+  "selectedSourceFaces": 361,
+  "freeVertices": 17174,
+  "bodyCollisionFaces": 4554,
+  "originalVertexPositionError": 0.0,
+  "weightsRule": "Original bindings preserved at existing vertices; barycentric interpolation for new vertices, four largest influences normalized.",
+  "clearanceRule": "Pose-local nearest-surface projection only for interior gusset vertices, 3 mm clearance, 40 mm maximum; pinned original outer boundary. Experimental until all-pose gate."
+}

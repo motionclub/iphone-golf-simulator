@@ -41,6 +41,13 @@ Shader "GolfArcade/TennisCharacter"
         _BumpTriplanar ("Bump from bind-pose position (meshes with no UVs)", Float) = 0
         _BumpTile ("Triplanar bump tiles per metre", Float) = 5
         _Saturation ("Saturation", Range(0,1.5)) = 0.96
+        [HideInInspector] _FemaleSurface ("Female material finish", Float) = 0
+        [HideInInspector] _FemaleEyeRole ("Female eye: 1 sclera, 2 iris, 3 pupil/limbal", Float) = 0
+        [HideInInspector] _FemaleEyeL ("Female eye frame: left centre, half height (bind pose)", Vector) = (0,0,0,0)
+        [HideInInspector] _FemaleEyeR ("Female eye frame: right centre, half height (bind pose)", Vector) = (0,0,0,0)
+        [HideInInspector] _FemaleEyeRight ("Female eye frame: right axis, half width", Vector) = (1,0,0,1)
+        [HideInInspector] _FemaleEyeUp ("Female eye frame: up axis, enabled", Vector) = (0,1,0,0)
+        [HideInInspector] _MaleLash ("Male eye (_FemaleSurface 3): lash ramp y0,y1 and lower rim ramp", Vector) = (.50,.78,.30,.55)
         _Smoothness ("Smoothness", Range(0,1)) = 0.28
         _SpecularStrength ("Surface highlight strength", Range(0,2)) = 1
         _EnvironmentStrength ("Scene reflection strength", Range(0,1)) = 0.12
@@ -77,6 +84,7 @@ Shader "GolfArcade/TennisCharacter"
             #pragma multi_compile_local _ _NORMALMAP
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+            #define HERO_PRESENTATION_SURFACE 1
             #include "HeroLighting.hlsl"
 
             CBUFFER_START(UnityPerMaterial)
@@ -85,7 +93,8 @@ Shader "GolfArcade/TennisCharacter"
                 float4 _EyeMapL, _EyeMapR, _EyeMapUpL, _EyeMapUpR, _EyeMapRightL, _EyeMapRightR; half _EyeMapEnabled;
                 float4 _EyeL, _EyeR, _FaceUp, _FaceRight, _Gaze, _FaceSkin, _EyeNL, _EyeNR; half _PaintLift, _FaceRole, _Blink, _BrowLift, _CraftedPaint;
                 float4 _BumpMap_ST; half _Smoothness, _Wrap, _RimPower, _RimStrength, _BumpScale, _Saturation, _BumpTriplanar, _SpecularStrength, _EnvironmentStrength, _OcclusionStrength; float _BumpTile; half _SkinResponse, _SkinFinish, _SkinPigmentUV;
-                half _KitContact;
+                half _KitContact, _FemaleSurface, _FemaleEyeRole;
+                float4 _FemaleEyeL, _FemaleEyeR, _FemaleEyeRight, _FemaleEyeUp, _MaleLash;
             CBUFFER_END
             TEXTURE2D(_BaseMap); SAMPLER(sampler_BaseMap);
             TEXTURE2D(_BumpMap); SAMPLER(sampler_BumpMap);
@@ -140,6 +149,22 @@ Shader "GolfArcade/TennisCharacter"
             half SkinRegion(float3 skinPoint,float3 centre,float3 radius) {
                 float3 q=(skinPoint-centre)/radius;return exp(-2*dot(q,q));
             }
+            half3 EyeSurfaceShade(Light light, half3 n, half3 v, half3 albedo, half wrap, half smoothness, half3 subsurface, half specular, out half3 reflection)
+            {
+                reflection=0;
+                if (_FemaleSurface<.5h || _FemaleEyeRole<.5h || _FemaleEyeRole>2.5h)
+                    return HeroCharacterShade(light,n,v,albedo,wrap,smoothness,subsurface,specular,reflection);
+                half nl=saturate(dot(n,light.direction));
+                half wrapped=saturate((dot(n,light.direction)+.10h)/1.10h);
+                half3 h=SafeNormalize(light.direction+v);
+                half nh=saturate(dot(n,h)), vh=saturate(dot(v,h));
+                // Bounded corneal lobe: smaller than the authored catchlight,
+                // directional, neutral and independent from the iris pigment.
+                half cornea=pow(nh,_FemaleEyeRole>1.5h?110:72)*.32h;
+                half fresnel=1+pow(1-vh,5)*3;
+                reflection=cornea*specular*fresnel*nl*light.color*light.distanceAttenuation*light.shadowAttenuation;
+                return albedo*wrapped*.88h*light.color*light.distanceAttenuation*light.shadowAttenuation+reflection;
+            }
             half4 frag (Varyings i) : SV_Target
             {
                 half3 n = normalize(i.normalWS);
@@ -192,7 +217,7 @@ Shader "GolfArcade/TennisCharacter"
                 else if (_FaceRole > .5h && (_FaceRole < 3.5h || _FaceRole > 4.5h)) {
                     if(_FaceRole>4.5h)clip(.985h-_Blink);
                     half closed = -.45h + .22h * i.eyeCoord.x * i.eyeCoord.x;
-                    half progress = pow(_Blink,.8h);
+                    half progress = pow(max(_Blink,0),.8h);
                     half upper = lerp(1,closed,progress), lower=lerp(-1,closed,progress);
                     lid = max(smoothstep(upper - .025h, upper + .025h, i.eyeCoord.y), 1 - smoothstep(lower - .025h, lower + .025h, i.eyeCoord.y));
                     if (_Blink > .995h) lid = 1;
@@ -214,6 +239,7 @@ Shader "GolfArcade/TennisCharacter"
                 if(_HeadOrigin.w>.5h){
                     float3 delta=i.bindPos-_HeadOrigin.xyz;
                     float3 hp=float3(dot(delta,_HeadRight.xyz),dot(delta,_HeadUp.xyz),dot(delta,_HeadForward.xyz))-_HeadEye.xyz;
+                    if(_SkinFinish>.5h&&_SkinFinish<1.5h){float orbitM=smoothstep(-.085,-.022,hp.y)*(1-smoothstep(.060,.110,hp.y))*smoothstep(-.075,-.045,hp.z);hp.y+=.010*(1-orbitM);}   // male 2026-10-17: eyes no longer lowered 10 mm by the face fit; below the orbit this frame keeps its old registration (mouth, beard, jaw paint stay on the same geometry)
                     half cheeks=SkinRegion(hp,float3(-.044,-.052,-.005),float3(.032,.031,.080))+SkinRegion(hp,float3(.044,-.052,-.005),float3(.032,.031,.080));
                     half nose=SkinRegion(hp,float3(0,-.040,.018),float3(.022,.038,.070));
                     half forehead=SkinRegion(hp,float3(0,.062,-.027),float3(.054,.044,.075));
@@ -253,15 +279,69 @@ Shader "GolfArcade/TennisCharacter"
                 }
                 c.rgb = lerp(dot(c.rgb, half3(0.2126, 0.7152, 0.0722)).xxx, c.rgb, _Saturation);
                 Light main = HeroMain(GetMainLight(TransformWorldToShadowCoord(i.positionWS)));
+                half eyeOcclusion = 1;
+                if (_FemaleSurface > .5h && _FemaleEyeRole > .5h) {
+                    // Female eye depth from the existing lid frame (eyeCoord: visible
+                    // opening is about y -.3 .. .75). The upper lid shades every eye
+                    // layer, the corners turn into the socket and light focused by the
+                    // cornea warms the lower iris. Geometry, gaze, catchlights and the
+                    // authored colours stay; the sclera loses the energy that clipped it.
+                    float2 eyeUV = i.eyeCoord.xy;
+                    // The original-seam eye layers have no lid frame of their own:
+                    // FemaleGarmentFinish measures one in the bind pose (stable in motion).
+                    if (_FemaleEyeUp.w > .5 && dot(i.bindPos, i.bindPos) > 1e-6) {
+                        float3 eyeMid = (_FemaleEyeL.xyz + _FemaleEyeR.xyz) * .5;
+                        float4 eyeFrame = dot(i.bindPos - eyeMid, _FemaleEyeRight.xyz) < 0 ? _FemaleEyeL : _FemaleEyeR;
+                        float3 eyeD = i.bindPos - eyeFrame.xyz;
+                        eyeUV = float2(dot(eyeD, _FemaleEyeRight.xyz) / max(_FemaleEyeRight.w, 1e-4), dot(eyeD, _FemaleEyeUp.xyz) / max(eyeFrame.w, 1e-4));
+                    }
+                    half lidShade = smoothstep(-.05h, .72h, eyeUV.y);
+                    half lidContact = smoothstep(.40h, .72h, eyeUV.y);
+                    half corner = smoothstep(.50h, 1.0h, abs(eyeUV.x));
+                    half lowerLid = smoothstep(-.62h, -.98h, eyeUV.y);
+                    eyeOcclusion = lerp(1, .40h, lidShade) * lerp(1, .55h, lidContact);
+                    if (_FemaleEyeRole < 1.5h) {
+                        // 2026-10-17 (reference sheet 07): a clean white with a soft shadow under the upper lid only, not a grey band
+                        c.rgb *= half3(.89h, .87h, .845h);
+                        half scleraLid = smoothstep(.48h, .86h, eyeUV.y);
+                        eyeOcclusion = lerp(1, .66h, scleraLid) * lerp(1, .78h, smoothstep(.62h, .82h, eyeUV.y)) * lerp(1, .82h, corner) * lerp(1, .90h, lowerLid);
+                    } else if (_FemaleEyeRole < 2.5h) {
+                        // deeper brown iris; the cornea still lifts the lower iris, but warm-dark, not orange
+                        half caustic = smoothstep(.22h, -.32h, eyeUV.y);
+                        c.rgb *= _FemaleSurface > 2.5h ? lerp(half3(.80h,.70h,.58h), half3(1.12h,.92h,.66h), caustic)   // male 2026-10-18: a warmer, lighter brown (sheet 17)
+                                                       : lerp(half3(.52h,.47h,.42h), half3(1.05h,.88h,.66h), caustic);
+                        eyeOcclusion *= lerp(1, .86h, lowerLid);
+                    } else {
+                        c.rgb *= .55h;   // pupil + limbal ring: near-black, like the reference (read blue-grey under the sky probe)
+                    }
+                    if (_FemaleSurface > 2.5h) {
+                        // Male face pass 2026-10-18 (male reference pack sheet 17): the lash line sits on the eye itself (the skin's lash paint is
+                        // hidden under the lid edge), a soft socket shadow at both corners, and less white either side of the iris.
+                        half lash = smoothstep(_MaleLash.x, _MaleLash.y, eyeUV.y);
+                        half lowerRim = smoothstep(_MaleLash.z, _MaleLash.w, -eyeUV.y);
+                        if (_FemaleEyeRole < 1.5h) {
+                            c.rgb *= lerp(half3(1,1,1), half3(.80h,.78h,.76h), smoothstep(.35h, 1.0h, abs(eyeUV.x)));   // socket corners
+                            c.rgb = lerp(c.rgb, half3(.07h,.045h,.035h), lash * .92h);
+                            c.rgb *= lerp(1, .72h, lowerRim);
+                            // the pink inner corner (caruncle) of the reference
+                            float3 eyeMidM = (_FemaleEyeL.xyz + _FemaleEyeR.xyz) * .5;
+                            half inner = eyeUV.x * (dot(i.bindPos - eyeMidM, _FemaleEyeRight.xyz) < 0 ? 1 : -1);
+                            c.rgb *= lerp(half3(1,1,1), half3(.92h,.62h,.58h), smoothstep(.50h, .85h, inner));
+                        } else c.rgb = lerp(c.rgb, c.rgb * .35h, lash * .80h);
+                    }
+                    c.rgb *= lerp(_FemaleEyeRole < 1.5h ? .88h : .70h, 1, eyeOcclusion);   // sclera: the lid shadow is light, not pigment
+                    main.shadowAttenuation *= eyeOcclusion;
+                }
                 half3 reflection;
                 half3 colour;
                 if (_SkinFinish > .5h) colour = HeroSkinShade(main, n, v, c.rgb, surfaceWrap, surfaceSmoothness, _Subsurface.rgb, surfaceSpecular, reflection);
-                else colour = HeroCharacterShade(main, n, v, c.rgb, surfaceWrap, surfaceSmoothness, _Subsurface.rgb, surfaceSpecular, reflection);
+                else colour = EyeSurfaceShade(main, n, v, c.rgb, surfaceWrap, surfaceSmoothness, _Subsurface.rgb, surfaceSpecular, reflection);
                 if (_HeroPresentationFill > 0) {
                     half3 fillReflection;
                     Light fill = HeroPresentationLight(v);
+                    if(_FemaleSurface>.5h&&_FemaleEyeRole>.5h)fill.color*=(_FemaleEyeRole<2.5h?.50h:1)*eyeOcclusion;
                     if (_SkinFinish > .5h) colour += HeroSkinShade(fill, n, v, c.rgb, surfaceWrap, surfaceSmoothness, _Subsurface.rgb, surfaceSpecular, fillReflection);
-                    else colour += HeroCharacterShade(fill, n, v, c.rgb, surfaceWrap, surfaceSmoothness, _Subsurface.rgb, surfaceSpecular, fillReflection);
+                    else colour += EyeSurfaceShade(fill, n, v, c.rgb, surfaceWrap, surfaceSmoothness, _Subsurface.rgb, surfaceSpecular, fillReflection);
                     reflection += fillReflection;
                 }
                 #if defined(_ADDITIONAL_LIGHTS)
@@ -271,14 +351,15 @@ Shader "GolfArcade/TennisCharacter"
                 #endif
                 for (uint li = 0; li < count; li++)
                 {
-                    Light extra = GetAdditionalLight(li, i.positionWS);
+                    Light extra = HeroAdditional(GetAdditionalLight(li, i.positionWS));
+                    extra.shadowAttenuation *= eyeOcclusion;
                     // A light on its own rendering layer (the hero rim) only reaches meshes that carry that layer.
                     #if defined(_LIGHT_LAYERS)
                     if (!IsMatchingLightLayer(extra.layerMask, meshLayers)) continue;
                     #endif
                     half3 extraReflection;
                     if (_SkinFinish > .5h) colour += HeroSkinShade(extra, n, v, c.rgb, surfaceWrap, surfaceSmoothness, _Subsurface.rgb, surfaceSpecular, extraReflection);
-                    else colour += HeroCharacterShade(extra, n, v, c.rgb, surfaceWrap, surfaceSmoothness, _Subsurface.rgb, surfaceSpecular, extraReflection);
+                    else colour += EyeSurfaceShade(extra, n, v, c.rgb, surfaceWrap, surfaceSmoothness, _Subsurface.rgb, surfaceSpecular, extraReflection);
                     reflection += extraReflection;
                 }
                 #endif
@@ -286,9 +367,10 @@ Shader "GolfArcade/TennisCharacter"
                 // One shared reflection sample, no screen-space reflections or new render pass.
                 half roughness = max(1 - surfaceSmoothness, .08h);
                 half fresnel = .04h + .10h * pow(1 - saturate(dot(n, v)), 5);
-                half3 environment = GlossyEnvironmentReflection(reflect(-v, n), i.positionWS, roughness, 1) * fresnel * lerp(_EnvironmentStrength, .12h, lid);
+                half3 environment = GlossyEnvironmentReflection(reflect(-v, n), i.positionWS, roughness, 1) * fresnel * lerp(_EnvironmentStrength, .12h, lid) * (_FemaleSurface > .5h && _FemaleEyeRole > 2.5h ? .35h : 1);
                 colour += environment; reflection += environment;
                 half3 ambient = HeroAmbient(n) * c.rgb;
+                if(_FemaleSurface>.5h&&_FemaleEyeRole>.5h)ambient*=(_FemaleEyeRole<1.5h?.78h:_FemaleEyeRole<2.5h?.62h:1)*lerp(_FemaleEyeRole<1.5h?.62h:.40h,1,eyeOcclusion);
                 if (_SkinFinish > .5h) ambient *= .82h;
                 #if defined(_SCREEN_SPACE_OCCLUSION)
                 AmbientOcclusionFactor ao = GetScreenSpaceAmbientOcclusion(GetNormalizedScreenSpaceUV(i.positionCS));
@@ -299,9 +381,10 @@ Shader "GolfArcade/TennisCharacter"
                 half rim = pow(1 - saturate(dot(v, n)), _RimPower) * _RimStrength * (_HeroProfile > .5h ? _HeroRim : 1);
                 half3 rimLight = _RimColor.rgb * rim * saturate(dot(n,main.direction)*.7h+.3h) * (0.35 + 0.65 * c.rgb) * main.color;
                 if (_SkinFinish > .5h) rimLight *= .45h;
+                if (_HeroLightingEnabled > .5h) rimLight = HeroPresentationRim(n,v,c.rgb);
                 colour += ambient + rimLight; reflection += rimLight;
                 colour *= 1 - i.kitContact; reflection *= 1 - i.kitContact;   // CLOTHING V2 contact shadow (0 unless a V2 garment edge is near)
-                return half4(MixFog(HeroCharacterFinish(colour, reflection), i.fog), 1);
+                return half4(MixFog(HeroSkinLightFinish(HeroCharacterFinish(colour, reflection),_SkinFinish), i.fog), 1);
             }
             ENDHLSL
         }

@@ -1,0 +1,160 @@
+#if UNITY_EDITOR
+using System;
+using System.Collections.Generic;
+using System.IO;
+using GolfArcade.Course;
+using GolfArcade.Game;
+using GolfArcade.Tennis;
+using UnityEditor;
+using UnityEditor.Media;
+using UnityEditor.SceneManagement;
+using UnityEngine;
+using Object = UnityEngine.Object;
+
+namespace GolfArcade.EditorTools
+{
+    /// Share videos (10-18, Adnan: "quick 20 sec recordings" of golf and tennis, bright sunny day): the live game in
+    /// Demo / AutoPlay, every simulated 60 fps frame from the gameplay camera, 1920x1080 H.264 .mp4 via MediaEncoder,
+    /// no UI canvases. SHARE_OUT=<file.mp4>; golf: SHARE_HOLE (default 8); tennis: HERO_VENUE. DREAM_WEATHER=Clear.
+    [InitializeOnLoad]
+    public static class ShareFilms
+    {
+        const string Flag = "ShareFilms.Mode";
+        public const int W = 1920, H = 1080, Fps = 60;
+        static ShareFilms() { EditorApplication.update += Boot; }
+        public static void Golf() { SessionState.SetString(Flag, "golf"); EditorUtility.audioMasterMute = true; EditorSceneManager.OpenScene("Assets/Scenes/Golf.unity"); EditorApplication.isPlaying = true; }
+        public static void Tennis() { SessionState.SetString(Flag, "tennis"); EditorUtility.audioMasterMute = true; EditorSceneManager.OpenScene("Assets/Scenes/Tennis.unity"); EditorApplication.isPlaying = true; }
+        static void Boot()
+        {
+            var mode = SessionState.GetString(Flag, ""); if (mode == "" || !EditorApplication.isPlaying) return;
+            if (Object.FindFirstObjectByType<ShareRecorder>()) return;
+            try
+            {
+                if (mode == "golf")
+                {
+                    var g = Object.FindFirstObjectByType<GolfGame>(); if (!g || !HoleView.Current) return;
+                    new GameObject("Share film").AddComponent<GolfShare>().Begin(g);
+                }
+                else
+                {
+                    var t = Object.FindFirstObjectByType<TennisGame>(); if (!t || !t.Initialized) return;
+                    new GameObject("Share film").AddComponent<TennisShare>().Begin(t);
+                }
+            }
+            catch (Exception e) { Debug.LogException(e); End(1); }
+        }
+        public static void End(int code)
+        {
+            SessionState.EraseString(Flag); Time.captureFramerate = 0;
+            if (Application.isBatchMode) EditorApplication.Exit(code); else { EditorApplication.isPlaying = false; EditorApplication.Exit(code); }
+        }
+        public static string Env(string k, string d) => Environment.GetEnvironmentVariable(k) ?? d;
+    }
+
+    [DefaultExecutionOrder(10000)]
+    public abstract class ShareRecorder : MonoBehaviour
+    {
+        MediaEncoder encoder; RenderTexture rt; Texture2D tex; protected int frames; protected Camera cam; bool done;
+        protected string path;
+        protected void Open()
+        {
+            path = Path.GetFullPath(ShareFilms.Env("SHARE_OUT", "share.mp4")); Directory.CreateDirectory(Path.GetDirectoryName(path));
+            if (File.Exists(path)) File.Delete(path);
+            var attrs = new VideoTrackAttributes { frameRate = new MediaRational(ShareFilms.Fps), width = ShareFilms.W, height = ShareFilms.H, includeAlpha = false, bitRateMode = VideoBitrateMode.High };
+            encoder = new MediaEncoder(path, attrs);
+            rt = new RenderTexture(ShareFilms.W, ShareFilms.H, 24) { antiAliasing = 4 }; tex = new Texture2D(ShareFilms.W, ShareFilms.H, TextureFormat.RGBA32, false);
+        }
+        /// The gameplay camera only (full frame, 16:9), no screen-space UI: what the TV shows without the HUD.
+        protected void Grab()
+        {
+            var hidden = new List<Canvas>();
+            foreach (var c in Object.FindObjectsByType<Canvas>(FindObjectsSortMode.None)) if (c.enabled && c.renderMode != RenderMode.WorldSpace) { c.enabled = false; hidden.Add(c); }
+            var rect = cam.rect; var aspect = cam.aspect; var target = cam.targetTexture;
+            try { cam.rect = new Rect(0, 0, 1, 1); cam.aspect = (float)ShareFilms.W / ShareFilms.H; cam.targetTexture = rt; cam.Render(); }
+            finally { cam.targetTexture = target; cam.rect = rect; cam.aspect = aspect; foreach (var c in hidden) c.enabled = true; }
+            var active = RenderTexture.active; RenderTexture.active = rt; tex.ReadPixels(new Rect(0, 0, ShareFilms.W, ShareFilms.H), 0, 0); tex.Apply(); RenderTexture.active = active;
+            encoder.AddFrame(tex); frames++;
+        }
+        protected void Finish(int code, string note)
+        {
+            if (done) return; done = true;
+            encoder?.Dispose(); encoder = null;
+            Debug.Log($"[ShareFilms] {note} frames={frames} seconds={frames / (float)ShareFilms.Fps:F2} -> {path}");
+            File.WriteAllText(Path.ChangeExtension(path, ".txt"), $"{note}\nframes={frames} fps={ShareFilms.Fps} {ShareFilms.W}x{ShareFilms.H} H.264 (MediaEncoder)\nweather={ShareFilms.Env("DREAM_WEATHER", "game")} venue={ShareFilms.Env("HERO_VENUE", "-")}\n");
+            ShareFilms.End(code);
+        }
+        void LateUpdate() { if (done) return; try { Step(); } catch (Exception e) { Debug.LogException(e); Finish(1, "error: " + e.Message); } }
+        protected abstract void Step();
+    }
+
+    /// Golf: a short flyover of the hole (the game's own HoleIntro poses), then the golfer at address, the backswing, the
+    /// live drive (GolfGame.StrikeToward: the game's club, physics and follow / landing cameras) and the landing.
+    public sealed class GolfShare : ShareRecorder
+    {
+        GolfGame game; CameraRig rig; HoleIntro intro; int stage, wait, warm; bool sawFlight;
+        const float FlySeconds = 6.5f;
+        public void Begin(GolfGame g)
+        {
+            game = g; rig = Object.FindFirstObjectByType<CameraRig>();
+            Time.captureFramerate = ShareFilms.Fps; Time.timeScale = 1; UnityEngine.Random.InitState(3108);
+            game.Demo = true; game.InstantReplays = false; game.CompressRunout = true; game.ChooseHoles(0); game.Play();
+            int hole = int.Parse(ShareFilms.Env("SHARE_HOLE", "8"));
+            game.JumpToHole(hole); game.DropBall(game.CurrentHole.Tee);
+            game.SetWind(new Wind(2, 0));
+            cam = Camera.main; Open();
+        }
+        protected override void Step()
+        {
+            if (stage == 0) { if (++warm < 90 || game.Current != GolfGame.State.Aim) return; intro = new HoleIntro(game.CurrentHole); stage = 1; wait = 0; game.enabled = false; if (rig) rig.enabled = false; }
+            if (stage == 1)
+            {
+                float t = .4f + wait / (float)ShareFilms.Fps;
+                intro.Pose(true, t, (float)ShareFilms.W / ShareFilms.H, out var p, out var look, out var fov);
+                cam.transform.position = p; cam.transform.rotation = Quaternion.LookRotation(look - p); cam.fieldOfView = fov;
+                if (++wait >= FlySeconds * ShareFilms.Fps) { stage = 2; wait = 0; game.enabled = true; if (rig) rig.enabled = true; }
+            }
+            else if (stage == 2 && ++wait >= 75) { stage = 3; wait = 0; }
+            else if (stage == 3) { game.ShowBackswing(.9 * Mathf.SmoothStep(0, 1, ++wait / 54f)); if (wait >= 54) { stage = 4; wait = 0; } }
+            else if (stage == 4 && ++wait >= 12)
+            {
+                var target = game.GreenTarget(5, 18, 7);
+                if (!target.HasValue) { var h = game.CurrentHole; double d = Math.Min(h.Length * .7, 195), a = h.Tee.HeadingTo(h.Pin) * Math.PI / 180; target = new CoursePoint(h.Tee.X + Math.Sin(a) * d, h.Tee.D + Math.Cos(a) * d); }
+                game.StrikeToward(target.Value); stage = 5; wait = 0;
+            }
+            else if (stage == 5)
+            {
+                if (game.Current == GolfGame.State.Flight) sawFlight = true;
+                if (sawFlight && game.Current != GolfGame.State.Flight) { stage = 6; wait = 0; }
+                if (++wait > 60 * 12) { stage = 6; wait = 0; }
+            }
+            else if (stage == 6 && ++wait >= 100) { Grab(); Finish(sawFlight ? 0 : 2, $"golf hole {game.CurrentHole.Number} weather {game.CurrentWeather}: flyover {FlySeconds}s + address + live drive (flight seen {sawFlight})"); return; }
+            if (stage >= 1) Grab();
+            if (frames >= 22 * ShareFilms.Fps) Finish(0, "golf: stopped at 22 s");
+        }
+    }
+
+    /// Tennis: the live match in AutoPlay (both players driven by the game's own autoplay, real physics, camera and
+    /// animation), from the first serve, every frame, until ~20 s (a point that ends keeps its result moment).
+    public sealed class TennisShare : ShareRecorder
+    {
+        TennisGame game; int warm, ended; bool recording, armed;
+        public void Begin(TennisGame g)
+        {
+            game = g; Time.captureFramerate = ShareFilms.Fps;
+            TennisGame.AutoPlayTimingJitter = .12f;
+            game.ManualSimulation = false; game.AutoPlay = false; game.NativeControlled = true; game.SetControllerSetup(false);
+            var presentation = game.GetComponent<TennisPresentation>(); if (presentation) presentation.Finish();
+            game.Refeed();
+        }
+        protected override void Step()
+        {
+            if (!armed) { if (++warm < 30) return; cam = game.GameplayCamera ? game.GameplayCamera : Camera.main; Open(); game.AutoPlayLean = true; game.AutoPlay = true; armed = true; return; }
+            if (!recording) { if (!game.Serving) return; recording = true; }
+            Grab();
+            bool over = game.Flow == TennisGame.Phase.PointOver || game.Flow == TennisGame.Phase.MatchOver;
+            if (over) ended++; else ended = 0;
+            if (frames >= 21 * ShareFilms.Fps || frames >= 16 * ShareFilms.Fps && ended >= 75) Finish(0, $"tennis venue {TennisVenue.Current} weather {ShareFilms.Env("DREAM_WEATHER", "game")}: live AutoPlay from the serve, rally shots {game.RallyShots}");
+        }
+    }
+}
+#endif

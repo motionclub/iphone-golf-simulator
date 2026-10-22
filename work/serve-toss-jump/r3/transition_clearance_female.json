@@ -1,0 +1,458 @@
+[
+  {
+    "frame": 7,
+    "best": {
+      "inside": 0,
+      "angle": -30,
+      "axis": [
+        1,
+        0,
+        0
+      ]
+    },
+    "trials": [
+      {
+        "angle": 0,
+        "axis": [
+          1,
+          0,
+          0
+        ],
+        "inside": 45,
+        "who": {
+          "Body_F": 45
+        }
+      },
+      {
+        "angle": 0,
+        "axis": [
+          0,
+          0,
+          1
+        ],
+        "inside": 45,
+        "who": {
+          "Body_F": 45
+        }
+      },
+      {
+        "angle": 0,
+        "axis": [
+          1,
+          0,
+          1
+        ],
+        "inside": 45,
+        "who": {
+          "Body_F": 45
+        }
+      },
+      {
+        "angle": 0,
+        "axis": [
+          -1,
+          0,
+          1
+        ],
+        "inside": 45,
+        "who": {
+          "Body_F": 45
+        }
+      },
+      {
+        "angle": -5,
+        "axis": [
+          1,
+          0,
+          0
+        ],
+        "inside": 56,
+        "who": {
+          "Body_F": 56
+        }
+      },
+      {
+        "angle": -5,
+        "axis": [
+          0,
+          0,
+          1
+        ],
+        "inside": 42,
+        "who": {
+          "Body_F": 42
+        }
+      },
+      {
+        "angle": -5,
+        "axis": [
+          1,
+          0,
+          1
+        ],
+        "inside": 58,
+        "who": {
+          "Body_F": 58
+        }
+      },
+      {
+        "angle": -5,
+        "axis": [
+          -1,
+          0,
+          1
+        ],
+        "inside": 41,
+        "who": {
+          "Body_F": 41
+        }
+      },
+      {
+        "angle": 5,
+        "axis": [
+          1,
+          0,
+          0
+        ],
+        "inside": 39,
+        "who": {
+          "Body_F": 39
+        }
+      },
+      {
+        "angle": 5,
+        "axis": [
+          0,
+          0,
+          1
+        ],
+        "inside": 34,
+        "who": {
+          "Body_F": 34
+        }
+      },
+      {
+        "angle": 5,
+        "axis": [
+          1,
+          0,
+          1
+        ],
+        "inside": 36,
+        "who": {
+          "Body_F": 36
+        }
+      },
+      {
+        "angle": 5,
+        "axis": [
+          -1,
+          0,
+          1
+        ],
+        "inside": 43,
+        "who": {
+          "Body_F": 43
+        }
+      },
+      {
+        "angle": -10,
+        "axis": [
+          1,
+          0,
+          0
+        ],
+        "inside": 29,
+        "who": {
+          "Body_F": 29
+        }
+      },
+      {
+        "angle": -10,
+        "axis": [
+          0,
+          0,
+          1
+        ],
+        "inside": 49,
+        "who": {
+          "Body_F": 49
+        }
+      },
+      {
+        "angle": -10,
+        "axis": [
+          1,
+          0,
+          1
+        ],
+        "inside": 56,
+        "who": {
+          "Body_F": 56
+        }
+      },
+      {
+        "angle": -10,
+        "axis": [
+          -1,
+          0,
+          1
+        ],
+        "inside": 47,
+        "who": {
+          "Body_F": 47
+        }
+      },
+      {
+        "angle": 10,
+        "axis": [
+          1,
+          0,
+          0
+        ],
+        "inside": 41,
+        "who": {
+          "Body_F": 41
+        }
+      },
+      {
+        "angle": 10,
+        "axis": [
+          0,
+          0,
+          1
+        ],
+        "inside": 24,
+        "who": {
+          "Body_F": 24
+        }
+      },
+      {
+        "angle": 10,
+        "axis": [
+          1,
+          0,
+          1
+        ],
+        "inside": 34,
+        "who": {
+          "Body_F": 34
+        }
+      },
+      {
+        "angle": 10,
+        "axis": [
+          -1,
+          0,
+          1
+        ],
+        "inside": 34,
+        "who": {
+          "Body_F": 34
+        }
+      },
+      {
+        "angle": -15,
+        "axis": [
+          1,
+          0,
+          0
+        ],
+        "inside": 21,
+        "who": {
+          "Body_F": 21
+        }
+      },
+      {
+        "angle": -15,
+        "axis": [
+          0,
+          0,
+          1
+        ],
+        "inside": 41,
+        "who": {
+          "Body_F": 41
+        }
+      },
+      {
+        "angle": -15,
+        "axis": [
+          1,
+          0,
+          1
+        ],
+        "inside": 50,
+        "who": {
+          "Body_F": 50
+        }
+      },
+      {
+        "angle": -15,
+        "axis": [
+          -1,
+          0,
+          1
+        ],
+        "inside": 37,
+        "who": {
+          "Body_F": 37
+        }
+      },
+      {
+        "angle": 15,
+        "axis": [
+          1,
+          0,
+          0
+        ],
+        "inside": 37,
+        "who": {
+          "Body_F": 37
+        }
+      },
+      {
+        "angle": 15,
+        "axis": [
+          0,
+          0,
+          1
+        ],
+        "inside": 15,
+        "who": {
+          "Body_F": 15
+        }
+      },
+      {
+        "angle": 15,
+        "axis": [
+          1,
+          0,
+          1
+        ],
+        "inside": 27,
+        "who": {
+          "Body_F": 27
+        }
+      },
+      {
+        "angle": 15,
+        "axis": [
+          -1,
+          0,
+          1
+        ],
+        "inside": 12,
+        "who": {
+          "Body_F": 12
+        }
+      },
+      {
+        "angle": -20,
+        "axis": [
+          1,
+          0,
+          0
+        ],
+        "inside": 13,
+        "who": {
+          "Body_F": 13
+        }
+      },
+      {
+        "angle": -20,
+        "axis": [
+          0,
+          0,
+          1
+        ],
+        "inside": 42,
+        "who": {
+          "Body_F": 42
+        }
+      },
+      {
+        "angle": -20,
+        "axis": [
+          1,
+          0,
+          1
+        ],
+        "inside": 46,
+        "who": {
+          "Body_F": 46
+        }
+      },
+      {
+        "angle": -20,
+        "axis": [
+          -1,
+          0,
+          1
+        ],
+        "inside": 38,
+        "who": {
+          "Body_F": 38
+        }
+      },
+      {
+        "angle": 20,
+        "axis": [
+          1,
+          0,
+          0
+        ],
+        "inside": 30,
+        "who": {
+          "Body_F": 30
+        }
+      },
+      {
+        "angle": 20,
+        "axis": [
+          0,
+          0,
+          1
+        ],
+        "inside": 13,
+        "who": {
+          "Body_F": 13
+        }
+      },
+      {
+        "angle": 20,
+        "axis": [
+          1,
+          0,
+          1
+        ],
+        "inside": 29,
+        "who": {
+          "Body_F": 29
+        }
+      },
+      {
+        "angle": 20,
+        "axis": [
+          -1,
+          0,
+          1
+        ],
+        "inside": 2,
+        "who": {
+          "Body_F": 2
+        }
+      },
+      {
+        "angle": -30,
+        "axis": [
+          1,
+          0,
+          0
+        ],
+        "inside": 0,
+        "who": {}
+      }
+    ]
+  }
+]

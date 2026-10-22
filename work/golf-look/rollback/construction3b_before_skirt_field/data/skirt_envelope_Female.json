@@ -1,0 +1,62 @@
+{
+  "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/golf-look/export/Golf_Female_SwingProof.blend",
+  "source_sha256": "a63baea43ffb95234fa03462bffb16a45434f47845c9478264258cb29895994a",
+  "poses": [
+    "ReadyIdle",
+    "GolfProof_RH_Top",
+    "GolfProof_RH_Impact",
+    "GolfProof_RH_Finish",
+    "GolfProof_LH_Top",
+    "GolfProof_LH_ReadyIdle",
+    "GolfProof_LH_Impact",
+    "GolfProof_LH_Finish"
+  ],
+  "body_vertices_per_pose": 3225,
+  "space": "bind coordinates after inverse smooth Hips/UpperLeg deformation",
+  "weights": "0% leg at waist to 85% at hem, continuous left/right transition",
+  "rings": [
+    {
+      "z": 0.995,
+      "width_m": 0.35263519530469456,
+      "depth_m": 0.2724406648284543,
+      "body_samples": 3915,
+      "fold_depth_m": 0.0
+    },
+    {
+      "z": 0.95,
+      "width_m": 0.45506182761018465,
+      "depth_m": 0.3450195487762279,
+      "body_samples": 5904,
+      "fold_depth_m": 0.0024000000000000002
+    },
+    {
+      "z": 0.88,
+      "width_m": 0.6603911189674929,
+      "depth_m": 0.45943366037172784,
+      "body_samples": 6577,
+      "fold_depth_m": 0.0048000000000000004
+    },
+    {
+      "z": 0.79,
+      "width_m": 0.7609066767248915,
+      "depth_m": 0.5126449111191141,
+      "body_samples": 7310,
+      "fold_depth_m": 0.0072
+    },
+    {
+      "z": 0.7,
+      "width_m": 0.7651723328451465,
+      "depth_m": 0.511114716518356,
+      "body_samples": 6822,
+      "fold_depth_m": 0.009600000000000001
+    },
+    {
+      "z": 0.635,
+      "width_m": 0.6916928754628398,
+      "depth_m": 0.44276205455740025,
+      "body_samples": 6221,
+      "fold_depth_m": 0.012
+    }
+  ],
+  "status": "geometric pose envelope; not a full collision PASS"
+}

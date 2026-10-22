@@ -1,0 +1,32 @@
+--- existing/TennisWorldSurface.shader
++++ work-only/TennisHorizon2.shader
+@@ -1,7 +1,8 @@
+-Shader "GolfArcade/TennisWorldSurface"
++Shader "GolfArcade/TennisHorizon2"
+ {
+     Properties
+     {
++        _HorizonFogShare("Horizon air perspective",Range(0,1)) = .4
+         [MainTexture] _BaseMap("Albedo", 2D) = "white" {}
+         [MainColor] _BaseColor("Colour", Color) = (1,1,1,1)
+         _Smoothness("Surface polish", Range(0,1)) = .22
+@@ -70,7 +71,7 @@
+             CBUFFER_START(UnityPerMaterial)
+                 float4 _BaseMap_ST, _MasonrySize; float _MasonryWeight;
+                 half4 _BaseColor;
+-                half _Smoothness, _Metallic, _Variation, _Grain, _ResortResponse, _TimberGrain, _ArchitecturalRelief;
++                half _Smoothness, _Metallic, _Variation, _Grain, _ResortResponse, _TimberGrain, _ArchitecturalRelief, _HorizonFogShare;
+                 float _WorldMapWeight, _WorldMapScale, _WorldMapReference, _WorldNormalStrength, _MicroScale, _MicroStrength, _Paving, _CoastBlend, _CourtFinish, _VertexTint, _ReflectionWeight, _ReflectionHeading; half4 _SandColor, _GrassColor;
+             CBUFFER_END
+             struct Attributes { float4 positionOS:POSITION; float3 normalOS:NORMAL; float2 uv:TEXCOORD0; half4 colour:COLOR; };
+@@ -207,7 +208,9 @@
+                 float shoulder=.72+.26*(1-exp(-max(peak-.72,0)/.26));
+                 float scale=peak>.72?shoulder/max(peak,.001):1;
+                 result.rgb *= lerp(1,scale,_ArchitecturalRelief);
+-                result.rgb = MixFog(result.rgb, i.fog);
++                // Linear fog factor is1 nearby and0 at the horizon. Keep authored
++                // ridge depth readable without changing the resort global atmosphere.
++                result.rgb = MixFog(result.rgb, lerp(1,i.fog,_HorizonFogShare));
+                 return result;
+             }
+             ENDHLSL

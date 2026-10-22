@@ -56,7 +56,7 @@ final class MatchHeroLockerTests: XCTestCase {
             XCTAssertEqual(asset.manifest.swingClip, female ? "Female_Forehand" : "Male_Forehand")
             let body = try XCTUnwrap(asset.manifest.parts.first { $0.name == "Body" })
             XCTAssertEqual(body.vertexCount, (body.submeshes.first?.look?.skinPigmentUV ?? 0) > 0.5 ? (female ? 34443 : 44168) : (female ? 23683 : 33196), "the HeroBase \(female ? "Female" : "Male") source body")
-            XCTAssertEqual(Set(asset.manifest.parts.map(\.name)), Set(["Body", "Face", "Racket_Racket_Classic", "Racket_ButtCap", "Racket_Grip", "Racket_StringBed"]).union(Self.kitNodes), "body, painted face, the worn tennis kit and the classic racket only")
+            XCTAssertEqual(Set(asset.manifest.parts.map(\.name)), Set(["Body", "Face", "Racket_Racket_Classic", "Racket_ButtCap", "Racket_Grip", "Racket_StringBed", "Acc_Cap", MatchHeroData.bagPartName]).union(Self.kitNodes), "body, painted face, the worn tennis kit and the classic racket only")
             XCTAssertEqual(asset.manifest.swingFrames.count, asset.manifest.swingTimes.count)
             XCTAssertEqual(asset.manifest.swingContact, 0.6667, accuracy: 0.001, "the match Forehand contact time")
         }

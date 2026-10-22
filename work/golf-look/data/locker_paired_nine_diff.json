@@ -1,0 +1,62 @@
+[
+  {
+    "file": "static_female_body.png",
+    "meanByte": 0.0003711952487008166,
+    "maxByte": 9,
+    "PASS": false
+  },
+  {
+    "file": "static_female_feet.png",
+    "meanByte": 3.2290586576444376e-05,
+    "maxByte": 1,
+    "PASS": true
+  },
+  {
+    "file": "static_female_head.png",
+    "meanByte": 0.0,
+    "maxByte": 0,
+    "PASS": true
+  },
+  {
+    "file": "static_female_shirt.png",
+    "meanByte": 3.172772031887628e-06,
+    "maxByte": 1,
+    "PASS": true
+  },
+  {
+    "file": "static_female_torso.png",
+    "meanByte": 0.0,
+    "maxByte": 0,
+    "PASS": true
+  },
+  {
+    "file": "static_male_body.png",
+    "meanByte": 0.0,
+    "maxByte": 0,
+    "PASS": true
+  },
+  {
+    "file": "static_male_feet.png",
+    "meanByte": 6.979199078745721e-05,
+    "maxByte": 10,
+    "PASS": false
+  },
+  {
+    "file": "static_male_head.png",
+    "meanByte": 0.0,
+    "maxByte": 0,
+    "PASS": true
+  },
+  {
+    "file": "static_male_shirt.png",
+    "meanByte": 0.0,
+    "maxByte": 0,
+    "PASS": true
+  },
+  {
+    "file": "static_male_torso.png",
+    "meanByte": 1.192136666547453e-06,
+    "maxByte": 1,
+    "PASS": true
+  }
+]

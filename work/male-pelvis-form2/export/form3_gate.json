@@ -1,0 +1,48 @@
+{
+ "start": {
+  "front_chest": 0.651,
+  "front_abdomen": 0.621,
+  "front_pelvis": 0.784,
+  "back_chest": 0.447,
+  "back_abdomen": 0.331,
+  "back_pelvis": 0.197,
+  "mean": 0.505
+ },
+ "form2": {
+  "front_chest": 0.651,
+  "front_abdomen": 0.624,
+  "front_pelvis": 0.872,
+  "back_chest": 0.447,
+  "back_abdomen": 0.376,
+  "back_pelvis": 0.24,
+  "mean": 0.535
+ },
+ "form2_FINAL5_previous": {
+  "front_chest": 0.651,
+  "front_abdomen": 0.624,
+  "front_pelvis": 0.872,
+  "back_chest": 0.447,
+  "back_abdomen": 0.376,
+  "back_pelvis": 0.198,
+  "mean": 0.528
+ },
+ "form2_FINAL4_previous": {
+  "front_chest": 0.651,
+  "front_abdomen": 0.624,
+  "front_pelvis": 0.872,
+  "back_chest": 0.447,
+  "back_abdomen": 0.376,
+  "back_pelvis": 0.2,
+  "mean": 0.528
+ },
+ "form2_FINAL3_previous": {
+  "front_chest": 0.651,
+  "front_abdomen": 0.624,
+  "front_pelvis": 0.881,
+  "back_chest": 0.447,
+  "back_abdomen": 0.372,
+  "back_pelvis": 0.16,
+  "mean": 0.522
+ },
+ "note": "torso FORM3 gate metric (Unity-clay band-pass r, |x|<0.12, DoG 1.2/5), regions chest z1.15-1.32, abdomen .90-1.15, pelvis .80-.90"
+}

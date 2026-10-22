@@ -1,0 +1,42 @@
+{
+ "front": {
+  "plate_to_mesh_mean": 0.9109024173423709,
+  "plate_to_mesh_p95": 2.112404448858115,
+  "plate_to_mesh_max": 3.074,
+  "mesh_to_plate_mean": 0.8872615775300877,
+  "mesh_to_plate_p95": 2.0871760026482002,
+  "mesh_to_plate_max": 2.7589994361885775
+ },
+ "left": {
+  "plate_to_mesh_mean": 9.298556722740694,
+  "plate_to_mesh_p95": 58.63654999999999,
+  "plate_to_mesh_max": 67.11566666666667,
+  "mesh_to_plate_mean": 0.9713729310875057,
+  "mesh_to_plate_p95": 2.3182685555169638,
+  "mesh_to_plate_max": 3.6227437422790785
+ },
+ "right": {
+  "plate_to_mesh_mean": 16.56549864008246,
+  "plate_to_mesh_p95": 79.61659999999998,
+  "plate_to_mesh_max": 89.146,
+  "mesh_to_plate_mean": 1.2435716851703025,
+  "mesh_to_plate_p95": 3.6227437422790785,
+  "mesh_to_plate_max": 6.419518266799914
+ },
+ "q3L": {
+  "plate_to_mesh_mean": 12.091348241025557,
+  "plate_to_mesh_p95": 22.74032910435218,
+  "plate_to_mesh_max": 23.304128058255163,
+  "mesh_to_plate_mean": 12.483690716826654,
+  "mesh_to_plate_p95": 23.691161593227353,
+  "mesh_to_plate_max": 26.128999999999998
+ },
+ "q3R": {
+  "plate_to_mesh_mean": 3.238274178091355,
+  "plate_to_mesh_p95": 9.84826519359862,
+  "plate_to_mesh_max": 11.794799089240797,
+  "mesh_to_plate_mean": 3.027773186903224,
+  "mesh_to_plate_p95": 11.227392120347416,
+  "mesh_to_plate_max": 12.818575904608991
+ }
+}

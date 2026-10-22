@@ -1,0 +1,25 @@
+{
+ "hero": "MatchHero_Male",
+ "tag": "Kit_Top",
+ "source": "dump:Kit_Top",
+ "seconds": 32.8,
+ "weights": {
+  "panels": 18,
+  "matched": 0.4711362248014661,
+  "inner": 0.34580533496232946,
+  "smooth_iters": 3,
+  "edge_mm": 8.238298406029179,
+  "allowed": "{0: ('T',), 1: ('T',), 2: ('AR',), 3: ('AL',), 4: ('T',), 5: ('T',), 6: ('T',), 7: ('T',), 8: ('T', 'AR'), 9: ('T', 'AR'), 10: ('T', 'AL'), 11: ('T', 'AL'), 12: ('T',), 13: ('T',), 14: ('T',), 15: ('T',), 16: ('AR',), 17: ('AL',)}",
+  "side_mm_p5": 6.003546379172047
+ },
+ "shapes": 16,
+ "log": [
+  "FIT MatchHero_Male Kit_Top from dump:Kit_Top: 19644 verts 37876 tris",
+  "  weights: 18 panels, matched 47%, inner 35%, smooth 3 it (edge 8.2 mm)",
+  "  weights 20.0 s",
+  "  skin deep under Kit_Top (hidden, no clearance needed): 7462 of 44168 body vertices",
+  "  obstacles: body + Kit_Bottom",
+  "  correctives: 153/153 poses need a lift (max 60.0 mm, p90 59.9 mm) in 12 s",
+  "  16 shapes, RBF sigma 0.596, anchor fit err max 0.028, weight at rest 0.0000"
+ ]
+}

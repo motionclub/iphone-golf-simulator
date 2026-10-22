@@ -1,0 +1,58 @@
+== Male
+  16 clip FBXs match checks.json sha256; body source sha256 d6c4dcfb1150853a8802a8dc7501aa64066adb8b2734c14a4d6ed8e82dada781
+  body 'Body_M' verts=33196 slots=1; face 'Face_M' slots=Face_Pupil,Face_Iris,Face_Limbal,Face_Sclera,Face_Catch,Face_BrowSoft,Face_Brow,Face_LidLine,Face_LidCrease,Face_Nostril,Face_LipUp,Face_Lip,Face_Seam
+  bones mapped by name: 52 of 55 humanoid slots (the rest do not exist on this rig: jaw, eyes, ...)
+  string bed: centre(racket-local)=(0.0000, 0.4030, 0.0000) |centre|=0.4030 up=(0.000, 1.000, 0.000) right=(1.000, 0.000, 0.000) normal=(0.000, 0.000, 1.000) extents(mesh)=(0.2434, 0.3063, 0.0066) racket local rot=(0.0, 0.0, 0.0) scale=(1.000, 1.000, 1.000)
+  kit 'Kit_Top' mesh=Kit_Top verts=15272 tris=22298 subs=2 bones=53 root=Root roles=Kit_Shirt,Kit_ShirtTrim
+  kit 'Kit_Bottom' mesh=Kit_Bottom verts=13420 tris=21032 subs=2 bones=53 root=Root roles=Kit_Shorts,Kit_ShortsBand
+  kit 'Kit_Sock_L' mesh=Kit_Sock_L verts=4160 tris=6270 subs=1 bones=53 root=Root roles=Kit_Sock
+  kit 'Kit_Sock_R' mesh=Kit_Sock_R verts=4196 tris=6270 subs=1 bones=53 root=Root roles=Kit_Sock
+  kit 'Kit_Shoe_L' mesh=Kit_Shoe_L verts=12862 tris=17678 subs=2 bones=53 root=Root roles=Kit_Shoe,Kit_Sole
+  kit 'Kit_Shoe_R' mesh=Kit_Shoe_R verts=12862 tris=17678 subs=2 bones=53 root=Root roles=Kit_Shoe,Kit_Sole
+  slot Ready            <- Male_ReadyIdle           len=2.200 contact=0.0000 leftRelease=0.0000
+  slot Forehand         <- Male_Forehand            len=1.200 contact=0.6667 leftRelease=0.0000
+  slot Backhand         <- Male_Backhand            len=1.200 contact=0.6333 leftRelease=0.9667
+  slot Serve            <- Male_Serve               len=1.600 contact=0.9000 leftRelease=0.0000 THIN
+  slot Volley           <- Male_VolleyForehand      len=0.700 contact=0.3000 leftRelease=0.0000 THIN
+  slot Smash            <- Male_Overhead            len=1.200 contact=0.7333 leftRelease=0.0000 THIN
+  slot ForehandWide     <- Male_ForehandWide        len=1.300 contact=0.8667 leftRelease=0.0000 THIN
+  slot ForehandShort    <- Male_ForehandShort       len=1.000 contact=0.4667 leftRelease=0.0000 THIN
+  slot BackhandWide     <- Male_BackhandWide        len=1.300 contact=0.7667 leftRelease=1.0333
+  slot SliceApproach    <- Male_SliceApproach       len=1.200 contact=0.5000 leftRelease=0.5000 THIN
+  slot Return           <- Male_Return              len=0.900 contact=0.4333 leftRelease=0.6333 THIN
+  slot VolleyBackhand   <- Male_VolleyBackhand      len=0.700 contact=0.3000 leftRelease=0.5000 THIN
+  slot ForehandOpen     <- Male_ForehandOpen        len=1.000 contact=0.5333 leftRelease=0.0000 THIN
+  slot SplitToForehand  <- Male_SplitToForehand     len=0.600 contact=0.0000 leftRelease=0.0000
+  slot SplitToBackhand  <- Male_SplitToBackhand     len=0.600 contact=0.0000 leftRelease=0.0000
+  slot RecoverCenter    <- Male_RecoverCenter       len=0.800 contact=0.0000 leftRelease=0.0000
+  saved Assets/Resources/Tennis/Customization/PlayerMale.prefab
+
+== Female
+  16 clip FBXs match checks.json sha256; body source sha256 a1d73a334f4dc18052db0582df6b4b54b1df166d9a3531ab700ee114e86d2ac1
+  body 'Body_F' verts=23683 slots=2; face 'Face_F' slots=Face_Brow,Face_BrowSoft,Face_Pupil,Face_IrisIn,Face_Iris,Face_Limbal,Face_Sclera,Face_Catch,Face_LidLine,Face_LidLower,Face_Lip,Face_LipUp,Face_Nostril,Face_Seam
+  bones mapped by name: 52 of 55 humanoid slots (the rest do not exist on this rig: jaw, eyes, ...)
+  string bed: centre(racket-local)=(0.0000, 0.4030, 0.0000) |centre|=0.4030 up=(0.000, 1.000, 0.000) right=(1.000, 0.000, 0.000) normal=(0.000, 0.000, 1.000) extents(mesh)=(0.2434, 0.3063, 0.0066) racket local rot=(0.0, 0.0, 0.0) scale=(1.000, 1.000, 1.000)
+  kit 'Kit_Top' mesh=Kit_Top verts=13595 tris=19408 subs=2 bones=53 root=Root roles=Kit_Shirt,Kit_ShirtTrim
+  kit 'Kit_Bottom' mesh=Kit_Bottom verts=16739 tris=25646 subs=2 bones=53 root=Root roles=Kit_Shorts,Kit_ShortsBand
+  kit 'Kit_Sock_L' mesh=Kit_Sock_L verts=3426 tris=5082 subs=1 bones=53 root=Root roles=Kit_Sock
+  kit 'Kit_Sock_R' mesh=Kit_Sock_R verts=3443 tris=5082 subs=1 bones=53 root=Root roles=Kit_Sock
+  kit 'Kit_Shoe_L' mesh=Kit_Shoe_L verts=9928 tris=12910 subs=2 bones=53 root=Root roles=Kit_Shoe,Kit_Sole
+  kit 'Kit_Shoe_R' mesh=Kit_Shoe_R verts=9928 tris=12910 subs=2 bones=53 root=Root roles=Kit_Shoe,Kit_Sole
+  slot Ready            <- Female_ReadyIdle         len=2.200 contact=0.0000 leftRelease=0.0000
+  slot Forehand         <- Female_Forehand          len=1.200 contact=0.6667 leftRelease=0.0000
+  slot Backhand         <- Female_Backhand          len=1.200 contact=0.6333 leftRelease=0.9667
+  slot Serve            <- Female_Serve             len=1.600 contact=0.9000 leftRelease=0.0000 THIN
+  slot Volley           <- Female_VolleyForehand    len=0.700 contact=0.3000 leftRelease=0.0000 THIN
+  slot Smash            <- Female_Overhead          len=1.200 contact=0.7333 leftRelease=0.0000 THIN
+  slot ForehandWide     <- Female_ForehandWide      len=1.300 contact=0.8667 leftRelease=0.0000 THIN
+  slot ForehandShort    <- Female_ForehandShort     len=1.000 contact=0.4667 leftRelease=0.0000 THIN
+  slot BackhandWide     <- Female_BackhandWide      len=1.300 contact=0.7667 leftRelease=1.0333
+  slot SliceApproach    <- Female_SliceApproach     len=1.200 contact=0.5000 leftRelease=0.5000 THIN
+  slot Return           <- Female_Return            len=0.900 contact=0.4333 leftRelease=0.6333 THIN
+  slot VolleyBackhand   <- Female_VolleyBackhand    len=0.700 contact=0.3000 leftRelease=0.5000 THIN
+  slot ForehandOpen     <- Female_ForehandOpen      len=1.000 contact=0.5333 leftRelease=0.0000 THIN
+  slot SplitToForehand  <- Female_SplitToForehand   len=0.600 contact=0.0000 leftRelease=0.0000
+  slot SplitToBackhand  <- Female_SplitToBackhand   len=0.600 contact=0.0000 leftRelease=0.0000
+  slot RecoverCenter    <- Female_RecoverCenter     len=0.800 contact=0.0000 leftRelease=0.0000
+  saved Assets/Resources/Tennis/Customization/PlayerFemale.prefab
+

@@ -1,0 +1,50 @@
+[
+  {
+    "name": "reference-character-eyes13",
+    "method": "GolfArcade.EditorTools.VisualOverhaulCharacterCapture.Run",
+    "env": {
+      "VISUAL_CHARACTER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/character-eyes13",
+      "VISUAL_REFERENCE_HEAD": "0",
+      "VISUAL_CHARACTER_STARTER": "1",
+      "VISUAL_CHARACTER_SKIN_MALE": "E58D64",
+      "VISUAL_CHARACTER_SKIN_FEMALE": "F5AB7F",
+      "VISUAL_CHARACTER_CLIPS": "IntroWave,Serve",
+      "VISUAL_CHARACTER_DISABLE_SSAO": "1",
+      "VISUAL_CHARACTER_STUDIO": "warm",
+      "VISUAL_HERO_COLOR": "0",
+      "VISUAL_CHARACTER_SURFACE": "custom",
+      "VISUAL_HERO_FILMIC": "1",
+      "VISUAL_CHARACTER_NORMALS": "continuous",
+      "VISUAL_CHARACTER_SWATCHES": "1",
+      "VISUAL_ORIGINAL_SEAM": "1",
+      "VISUAL_CHARACTER_FACE_ALIGNED": "0",
+      "VISUAL_CHARACTER_BLINK_REVIEW": "0",
+      "VISUAL_CHARACTER_FULL_REVIEW": "1",
+      "VISUAL_ORIGINAL_EYE_MATERIAL": "1"
+    }
+  },
+  {
+    "name": "reference-character-eyes13-control",
+    "method": "GolfArcade.EditorTools.VisualOverhaulCharacterCapture.Run",
+    "env": {
+      "VISUAL_CHARACTER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/character-eyes13-control",
+      "VISUAL_REFERENCE_HEAD": "0",
+      "VISUAL_CHARACTER_STARTER": "1",
+      "VISUAL_CHARACTER_SKIN_MALE": "E58D64",
+      "VISUAL_CHARACTER_SKIN_FEMALE": "F5AB7F",
+      "VISUAL_CHARACTER_CLIPS": "IntroWave,Serve",
+      "VISUAL_CHARACTER_DISABLE_SSAO": "1",
+      "VISUAL_CHARACTER_STUDIO": "warm",
+      "VISUAL_HERO_COLOR": "0",
+      "VISUAL_CHARACTER_SURFACE": "custom",
+      "VISUAL_HERO_FILMIC": "1",
+      "VISUAL_CHARACTER_NORMALS": "continuous",
+      "VISUAL_CHARACTER_SWATCHES": "1",
+      "VISUAL_ORIGINAL_SEAM": "1",
+      "VISUAL_CHARACTER_FACE_ALIGNED": "0",
+      "VISUAL_CHARACTER_BLINK_REVIEW": "0",
+      "VISUAL_CHARACTER_FULL_REVIEW": "1",
+      "VISUAL_ORIGINAL_EYE_MATERIAL": "0"
+    }
+  }
+]

@@ -1,0 +1,28 @@
+[
+  {
+    "name": "reference-tennis-resort-finish1-before",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "HERO_VENUE_REFERENCE": "1",
+      "HERO_VENUE_CAMERA_GRID": "1",
+      "HERO_VENUE_SURFACES": "1",
+      "HERO_VENUE_ONLY": "1_gameplay,14_reference_camera,17_clubhouse_close",
+      "TENNIS_RESORT_PALM_FINISH1": "0",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/tennis-resort-finish1/before"
+    }
+  },
+  {
+    "name": "reference-tennis-resort-finish1-candidate",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "HERO_VENUE_REFERENCE": "1",
+      "HERO_VENUE_CAMERA_GRID": "1",
+      "HERO_VENUE_SURFACES": "1",
+      "HERO_VENUE_ONLY": "1_gameplay,14_reference_camera,17_clubhouse_close",
+      "TENNIS_RESORT_PALM_FINISH1": "1",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/tennis-resort-finish1/candidate"
+    }
+  }
+]

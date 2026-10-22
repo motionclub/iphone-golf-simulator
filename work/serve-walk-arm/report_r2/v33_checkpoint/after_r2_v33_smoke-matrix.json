@@ -1,0 +1,184 @@
+{
+  "player-female-rh-ad-walk": {
+    "complete": true,
+    "frames": 1200,
+    "scope_frames": 869,
+    "carry_frames": 298,
+    "G1_mm": {
+      "value": 0.0,
+      "frame": 0,
+      "segment": "stand",
+      "phase": "PlayerServeHold"
+    },
+    "G1_inside_vertices": {
+      "value": 0.0,
+      "frame": 0,
+      "segment": "stand",
+      "phase": "PlayerServeHold"
+    },
+    "G2_m": {
+      "value": 0.034,
+      "frame": 12,
+      "segment": "stand",
+      "phase": "PlayerServeHold"
+    },
+    "G3": {
+      "game_visible": 100.0,
+      "front_visible": 100.0,
+      "side_visible": 100.0
+    },
+    "G4_elbow": [
+      28.5742,
+      53.63519
+    ],
+    "G4_belt_marker": "wrist_above_belt_m",
+    "G4_wrist_above_belt_m": {
+      "value": -0.017632,
+      "frame": 384,
+      "segment": "plant_tap_right",
+      "phase": "PlayerServeHold"
+    },
+    "G5_step_m": {
+      "value": 0.130433,
+      "frame": 768,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "G5_delta_speed": {
+      "value": 3.659234,
+      "frame": 789,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "all_IK_step_m": {
+      "value": 0.130433,
+      "frame": 768,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "all_IK_delta_speed": {
+      "value": 3.659234,
+      "frame": 789,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "excluded_ranges": {
+      "ball_exclusion": [
+        {
+          "first": 0,
+          "last": 11,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 31,
+          "last": 32,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 147,
+          "last": 170,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 345,
+          "last": 371,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 440,
+          "last": 481,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 500,
+          "last": 543,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 592,
+          "last": 592,
+          "reason": "release_boundary"
+        },
+        {
+          "first": 593,
+          "last": 767,
+          "reason": "released_or_unbound"
+        },
+        {
+          "first": 768,
+          "last": 768,
+          "reason": "refeed_before_rebind"
+        },
+        {
+          "first": 822,
+          "last": 865,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 886,
+          "last": 927,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 1030,
+          "last": 1030,
+          "reason": "release_boundary"
+        },
+        {
+          "first": 1031,
+          "last": 1199,
+          "reason": "released_or_unbound"
+        }
+      ],
+      "reset_reason": []
+    },
+    "G7_root_target_equal_pct": 100.0,
+    "G6_release": {
+      "candidate_frame": 593,
+      "baseline_frame": 593,
+      "pose_delta_mm": {
+        "wrist": 0.0,
+        "palm": 0.0,
+        "elbow": 0.0,
+        "ball": 0.0
+      },
+      "candidate_first_rally_frame": 688,
+      "baseline_first_rally_frame": 688
+    },
+    "directional_metrics": {
+      "left": {
+        "depth": 0.0,
+        "ball_palm": 0.034,
+        "game": 100.0,
+        "front": 100.0,
+        "side": 100.0,
+        "elbow_range_violation": 0,
+        "belt_violation": 0,
+        "step": 0.027845,
+        "delta_speed": 0.30003
+      },
+      "right": {
+        "depth": 0.0,
+        "ball_palm": 0.034,
+        "game": 100.0,
+        "front": 100.0,
+        "side": 100.0,
+        "elbow_range_violation": 0,
+        "belt_violation": 0,
+        "step": 0.022278,
+        "delta_speed": 0.300006
+      }
+    },
+    "gates": {
+      "G1": true,
+      "G2": true,
+      "G3": true,
+      "G4": true,
+      "G5": false,
+      "G7": true,
+      "G5_ALL_IK": false,
+      "G6_NO_WALK_RELEASE": true,
+      "G6_RIGHT_NO_WORSE": true
+    }
+  }
+}

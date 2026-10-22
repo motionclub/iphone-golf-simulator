@@ -1,0 +1,66 @@
+[
+  {
+    "name": "dream-golf-final",
+    "method": "GolfArcade.EditorTools.GolfCourseStandardCapture.Run",
+    "env": {
+      "GOLF_STANDARD_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/revision2/proof/final",
+      "GOLF_STANDARD_HOLES": "12,7",
+      "GOLF_STANDARD_SHOWCASE": "1",
+      "GOLF_STANDARD_CAMERA_SWEEP": "0",
+      "GOLF_STANDARD_WIND": "8,45",
+      "LUMINOUS_AUDIT_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/revision2/proof/final/audit.json",
+      "GOLF_STANDARD_CHARACTER_SEX": "male"
+    }
+  },
+  {
+    "name": "dream-golf-baseline-matched",
+    "method": "GolfArcade.EditorTools.GolfCourseStandardCapture.Run",
+    "env": {
+      "GOLF_STANDARD_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/revision2/proof/baseline-matched",
+      "GOLF_STANDARD_HOLES": "12,7",
+      "GOLF_STANDARD_SHOWCASE": "1",
+      "GOLF_STANDARD_CAMERA_SWEEP": "0",
+      "GOLF_STANDARD_WIND": "8,45",
+      "LUMINOUS_AUDIT_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/revision2/proof/baseline-matched/audit.json",
+      "GOLF_STANDARD_CHARACTER_SEX": "male",
+      "LUMINOUS_COAST": "0",
+      "GOLF_DREAM_CAMERA": "1"
+    }
+  },
+  {
+    "name": "dream-golf-costs",
+    "method": "GolfArcade.EditorTools.VisualOverhaulFrameCosts.Run",
+    "env": {
+      "LUMINOUS_COAST": "1",
+      "GOLF_COST_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/revision2/proof/costs",
+      "GOLF_COST_HOLES": "12",
+      "GOLF_STILLS_SWAY": "8,45,0"
+    }
+  },
+  {
+    "name": "dream-golf-regression",
+    "env": {},
+    "args": [
+      "-runTests",
+      "-testPlatform",
+      "editmode",
+      "-testFilter",
+      "GolfArcade.Tests.EnvironmentLookTests;GolfArcade.Tests.CliffsideHoleTests;GolfArcade.Tests.CourseCatalogueTests;GolfArcade.Tests.SurfaceTests;GolfArcade.Tests.ObstacleTests;GolfArcade.Tests.TennisRulesTests;GolfArcade.Tests.TennisChaseCameraTests;GolfArcade.Tests.LuminousCoastFrameBudgetTests;GolfArcade.Tests.InputRateTests;GolfArcade.Tests.TennisPolishTests",
+      "-testResults",
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/revision2/proof/regression.xml"
+    ]
+  },
+  {
+    "name": "dream-golf-play-check",
+    "env": {},
+    "args": [
+      "-runTests",
+      "-testPlatform",
+      "playmode",
+      "-testFilter",
+      "GolfArcade.PlayTests.DreamGolfPilotTests",
+      "-testResults",
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/revision2/proof/play-check.xml"
+    ]
+  }
+]

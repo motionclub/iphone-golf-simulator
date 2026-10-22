@@ -1,0 +1,47 @@
+[
+  {
+    "name": "reference-coastal-fissures6",
+    "method": "GolfArcade.EditorTools.GolfCourseStandardCapture.Run",
+    "env": {
+      "GOLF_STANDARD_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/coastal-fissures6",
+      "GOLF_STANDARD_HOLES": "12",
+      "GOLF_STANDARD_SHOWCASE": "1",
+      "GOLF_STANDARD_CAMERA_SWEEP": "1",
+      "VISUAL_COASTAL_REFERENCE": "1",
+      "VISUAL_COASTAL_FISSURES": "1"
+    }
+  },
+  {
+    "name": "reference-tennis-water3",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/tennis-water3",
+      "HERO_VENUE_REFERENCE": "1",
+      "HERO_VENUE_CAMERA_GRID": "1",
+      "HERO_VENUE_SURFACES": "1",
+      "HERO_VENUE_ONLY": "16_reference_a,17_clubhouse_close"
+    }
+  },
+  {
+    "name": "reference-character-face-aligned7",
+    "method": "GolfArcade.EditorTools.VisualOverhaulCharacterCapture.Run",
+    "env": {
+      "VISUAL_CHARACTER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/character-face-aligned7",
+      "VISUAL_REFERENCE_HEAD": "0",
+      "VISUAL_CHARACTER_STARTER": "1",
+      "VISUAL_CHARACTER_SKIN_MALE": "E58D64",
+      "VISUAL_CHARACTER_SKIN_FEMALE": "F5AB7F",
+      "VISUAL_CHARACTER_CLIPS": "IntroWave,Serve",
+      "VISUAL_CHARACTER_DISABLE_SSAO": "1",
+      "VISUAL_CHARACTER_STUDIO": "warm",
+      "VISUAL_HERO_COLOR": "0",
+      "VISUAL_CHARACTER_SURFACE": "warm",
+      "VISUAL_HERO_FILMIC": "1",
+      "VISUAL_CHARACTER_NORMALS": "continuous",
+      "VISUAL_CHARACTER_SWATCHES": "1",
+      "VISUAL_ORIGINAL_SEAM": "1",
+      "VISUAL_CHARACTER_FACE_ALIGNED": "1"
+    }
+  }
+]

@@ -1,0 +1,36 @@
+{
+ "hero": "GolfKitHero_Male",
+ "tag": "Kit_Sock_L",
+ "source": "npz:/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/male-garments-refpack/out/GolfKitHero_Male/unity/Kit_Sock_L_final.npz",
+ "seconds": 208.9,
+ "weights": {
+  "panels": 2,
+  "matched": 0.3184110970996217,
+  "inner": 0.4224464060529634,
+  "smooth_iters": 3,
+  "edge_mm": 8.481479734698594,
+  "allowed": "{0: ('LL',), 1: ('LL',)}",
+  "side_mm_p5": 2.4717017504382586
+ },
+ "shapes": 16,
+ "log": [
+  "FIT GolfKitHero_Male Kit_Sock_L from npz:/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/male-garments-refpack/out/GolfKitHero_Male/unity/Kit_Sock_L_final.npz: 1586 verts 2946 tris",
+  "  tightness: median gap 4.2 mm -> weight smoothing 2 cm",
+  "  weights: LR covered 41% but not wrapped (one side only): not followed",
+  "  weights: covered body groups LL 59% LR 41%",
+  "  weights: 2 panels, matched 32%, inner 42%, smooth 3 it (edge 8.5 mm)",
+  "  seams: 952 coincident vertices welded into 197 groups",
+  "  weights 194.6 s",
+  "  skin deep under Kit_Sock_L (hidden, no clearance needed): 776 of 44168 body vertices",
+  "  obstacles: body",
+  "    pose 0/153  2 s",
+  "    pose 25/153  5 s",
+  "    pose 50/153  7 s",
+  "    pose 75/153  9 s",
+  "    pose 100/153  11 s",
+  "    pose 125/153  12 s",
+  "    pose 150/153  14 s",
+  "  correctives: 153/153 poses need a lift (max 35.0 mm, p90 22.1 mm) in 14 s",
+  "  16 shapes, RBF sigma 0.552, anchor fit err max 0.038, weight at rest 0.0006"
+ ]
+}

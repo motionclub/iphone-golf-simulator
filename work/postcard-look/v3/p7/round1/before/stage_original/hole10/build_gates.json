@@ -1,0 +1,122 @@
+[
+  {
+    "name": "H_LOOK_TOP_SURFACES_UNCHANGED",
+    "ok": true,
+    "detail": "10 ground meshes, 2956 vertices, max |delta| 0.00e+00 m (tol 1e-05)"
+  },
+  {
+    "name": "LIB_LOOK_NO_COLLISION_PREFIX",
+    "ok": true,
+    "detail": "137 objects made by postcard_look_lib, none with a ground prefix; ground meshes 10 all on the postcard_verify allow-list"
+  },
+  {
+    "name": "LIB_LOOK_NO_MAT_FOAM",
+    "ok": true,
+    "detail": "exported meshes using MAT_FOAM [], WATER_FOAM* objects [], MAT_FOAM datablock users 0 (0-user data is neither saved nor exported)"
+  },
+  {
+    "name": "LIB_LOOK_GROUND_WATER_ARE_LK",
+    "ok": true,
+    "detail": "non-LK materials on ground/water meshes: []"
+  },
+  {
+    "name": "LIB_LOOK_UV_SANE",
+    "ok": true,
+    "detail": "11 ground/water meshes: one UV layer, finite, max |uv| 35.9, UV*tile/world edge ratio on every top/flat face 0.53..1.47 (limits 0.45..2.2); TERRAIN wall faces (hidden by the skin; arc-of-the-top-loop u) max ratio 3.36 (<= 8: no seam jump)"
+  },
+  {
+    "name": "LIB_LOOK_SKIN_BELOW_PLAY",
+    "ok": true,
+    "detail": "131 ROCK_SKIN pieces, 35924 tris, highest vertex 5.950 m (play 6.0 - 0.05)"
+  },
+  {
+    "name": "LIB_LOOK_WATER_STACK",
+    "ok": true,
+    "detail": "1 WATER_* meshes inside z 0..0.2 (WATER_FALL sheets excluded: vertical by design)"
+  },
+  {
+    "name": "LIB_LOOK_LAVA_MESH",
+    "ok": true,
+    "detail": "WATER_LAVA 13185 tris (>= 3000), materials ['LK_LAVA'], 5 LAVA_LIGHT empties (3..5)"
+  },
+  {
+    "name": "LIB_SHELF_THIN",
+    "ok": true,
+    "detail": "no sea shelf on this hole (lava hole)"
+  },
+  {
+    "name": "LIB_NO_FOAM_STRIP",
+    "ok": true,
+    "detail": "1191 export meshes: foam objects/materials []; 0 WATER_SURF objects, 0 components; coverage 0.0% of 0 m shoreline (<= 25), 0 runs along the shore, longest 0.0 m (<= 10), shortest gap between runs 99.0 m (>= 8), strips (aspect >= 4 and width CV <= 0.35) 0, components with alpha > 0.1 at an end 0; component aspect max 0.00, alpha max 0.00"
+  },
+  {
+    "name": "LIB_PATH_UNDER_BALL",
+    "ok": true,
+    "detail": "no DRESS_PATH on this hole (nothing to measure)"
+  },
+  {
+    "name": "LIB_CRATER_WALL_COVERED",
+    "ok": true,
+    "detail": "10488 rays (aerial/low/oblique) at wall points z 0.3 .. 5.88 m: smooth TERRAIN wall seen first 0 = 0.00% (<= 1), at z >= 5 m: 0 (must be 0), first hit on a vertical LK_ROUGH wall face 0 (0.00%, <= 1); by view {'aerial': '0/3496', 'low': '0/3496', 'oblique': '0/3496'}; by wall height {}; tolerated sliver PLAY_Z - 0.10 .. PLAY_Z: 1311/1311 rays reach bare wall (LK_BASALT there on Crater); up-facing skin faces above PLAY_Z - 0.05: 0"
+  },
+  {
+    "name": "LIB_SKIN_NOT_OVER_WATER",
+    "ok": true,
+    "detail": "1 water ellipses, 22199 grid cells (0.5 m) deeper than 0.15 m inside them: 0 are covered by an up-facing skin surface (0.0 m2, worst depth 0.00 m, top z 0.00); up-facing (nz > 0.3) skin faces deeper than 0.15 m: 0 by centre, 0 by any vertex"
+  },
+  {
+    "name": "LIB_SKIN_FACES_OUTWARD",
+    "ok": true,
+    "detail": "888 rays from 20 m out at z 1, 3, 5 toward the shore: first hit on a ROCK_SKIN face is FRONT-facing 888 times, back-facing 0 (100.0% front, need >= 99%; the materials are single-sided in Unity)"
+  },
+  {
+    "name": "H_NO_PLANT_ON_WATER",
+    "ok": true,
+    "detail": "565 PLANT_ objects: on water (lie mirror) 0, nearest to a shore / lava edge 1.00 m (>= 1.0), base vs the ray-cast collider top max |dz| 0.040 m (<= 0.05), lowest base z 5.96 m (play 6.0)"
+  },
+  {
+    "name": "H_PLANTS_CLEAR_OF_PIN_AND_TEE",
+    "ok": true,
+    "detail": "nearest plant to the pin 17.8 m (>= 6; brief >= 1.5), nearest to any of 7 tee / pin / cup / ball markers 10.92 m (>= 1.5)"
+  },
+  {
+    "name": "H_SIGHTLINES_CLEAR",
+    "ok": true,
+    "detail": "legacy clear_sightlines gate re-expressed for the library stacks: 1149 sight lines (ball eye 1.8 m / camera 4.5 m on the tee, A, B, C and the tee camera to every later pad and the green) cut by 0; rounds used 2"
+  },
+  {
+    "name": "H_SHELF_PLANTS",
+    "ok": true,
+    "detail": "565 plants on the grass shelf: 26 agave, 14 shrubs, 525 tufts (all land-masked PL.scatter, one shared LK_PLANTS material, instanced)"
+  },
+  {
+    "name": "H_NEAR_WALL",
+    "ok": true,
+    "detail": "148 near-wall library segments (ROCK_WALL_BASALT_N*/F*), nearest vertex 40.8 yd from any play surface / shore (>= 14), 205..272 yd from the crater centre, tops 13.4..25.5 m above the lava (12..60)"
+  },
+  {
+    "name": "H_CRUST",
+    "ok": true,
+    "detail": "23 crust chunks (ROCK_CRUST_nn, 714 of 1369 planned hex plates 4.3 m, 6473 faces): nearest vertex 26.0 yd from any play surface (>= 24), 42.5 yd from the line of play (>= 38), 26.3 yd from the tee -> C chord (>= 25), 37.2 yd from the nearest lava light (>= 25), highest top 4.61 m above the lava (<= 5.0, below every sight line from z >= 6)"
+  },
+  {
+    "name": "H_UV_WINDOWS",
+    "ok": false,
+    "detail": "617 UV-window meshes (wall / stack variants, crust chunks, skin pieces): 65647 side faces, 60354 of them (92%) carry a Basalt_E glow line on their edge (target 15-45 %), 16681 top faces all take glow-free slices (455); window constants vs the PNGs on disk: glow share inside the 5 glow-free zones max 7.7189% (<= 0.02 %), narrowest edge window at each of the 6 glow lines holds 5.3% glow (>= 4 %), Basalt_C luminance profile deviation 0.0488 (<= 0.01), glow texels 4.89% of the tile; the texture-sampled glow measures at the authored UVs are in the stage gates (H_GLOW_JOINTS)"
+  },
+  {
+    "name": "H_GROUND_UV_SLIVERS",
+    "ok": true,
+    "detail": "10 play-surface meshes: UV Jacobian ratio above 4:1 covers 0.00 m2 on the hole-authored ones (FAIRWAY_FIRSTCUT before the repair: 103 m2, worst 26:1 / collapsed; limit 0.5), TERRAIN wall UV (library) 5.2 m2 (verifier limit 15 / 10); FAIRWAY_FIRSTCUT: 14 slivers re-authored in 9 cluster(s) (14 above 2.5:1 + 0 zero-area, 446 m2, worst 999:1 -> 1.000:1, least-squares residual 3.08 m), worst triangle left on the mesh 2.38:1, largest UV step on a shared edge 3.08 m of the 10 m tile; geometry untouched (H_LOOK_TOP_SURFACES_UNCHANGED)"
+  },
+  {
+    "name": "H_TEE_RIM",
+    "ok": true,
+    "detail": "1 DRESS_PADRIM piece(s) (LK_BASALT, 380 faces, 46 slabs) hug the pad lip (basalt mode): every top vertex inside the TEE_BOX outline by >= 0.147 m (it never climbs the 10 cm riser), >= 1.67 m from the tee markers / ball (limit 1.5), top 1.15..1.15 cm over the pad (3-15 mm, library z_off 11.5 mm: under the ball), 40.6 m of ribbon 0.94..1.25 m wide (mean 1.13), 38.0 m2 of flat top (ONE_GREEN's DRESS_ lawn budget: < 20 m2 in total, < 10 m2 per object, counted for grass materials), no DRESS_PATH left, UV slices in zones [0, 1, 2, 3, 4] (glow-free), mean Basalt_C window luminance 0.147 (walls: 0.14)"
+  },
+  {
+    "name": "H_GRASS_FRINGE_BUILD",
+    "ok": true,
+    "detail": "scatter_fringe: 525 tufts (30987 triangles of the 45000 budget; 123 clumps of 3-7, 19 singles; by kind {'PLANT_TUFT_S': 374, 'PLANT_TUFT_D': 106, 'PLANT_TUFT_E': 45}), height factor 0.60..1.80, lean max 12.0 deg (<= 12), tallest top 0.67 m (144 scaled down to the 0.55 yd cap in the ball corridor), rough-edge samples covered 215 of 272 {'play': (168, 133), 'path': (0, 0), 'lip': (104, 82)}; the hole is 248314 triangles (<= 250,000; round 3: 220,197 with the 170-tuft carpet of 19,890)"
+  }
+]

@@ -1,0 +1,235 @@
+{
+  "revision": 1,
+  "scenarios": [
+    {
+      "sport": "tennis",
+      "mode": "solo",
+      "cut": "full",
+      "display": "phone controller + TV",
+      "status": "pending integrated capture"
+    },
+    {
+      "sport": "tennis",
+      "mode": "solo",
+      "cut": "full",
+      "display": "benchmark phone",
+      "status": "pending integrated capture"
+    },
+    {
+      "sport": "tennis",
+      "mode": "solo",
+      "cut": "short",
+      "display": "phone controller + TV",
+      "status": "pending integrated capture"
+    },
+    {
+      "sport": "tennis",
+      "mode": "solo",
+      "cut": "short",
+      "display": "benchmark phone",
+      "status": "pending integrated capture"
+    },
+    {
+      "sport": "tennis",
+      "mode": "solo",
+      "cut": "skip",
+      "display": "phone controller + TV",
+      "status": "pending integrated capture"
+    },
+    {
+      "sport": "tennis",
+      "mode": "solo",
+      "cut": "skip",
+      "display": "benchmark phone",
+      "status": "pending integrated capture"
+    },
+    {
+      "sport": "tennis",
+      "mode": "solo",
+      "cut": "off",
+      "display": "phone controller + TV",
+      "status": "pending integrated capture"
+    },
+    {
+      "sport": "tennis",
+      "mode": "solo",
+      "cut": "off",
+      "display": "benchmark phone",
+      "status": "pending integrated capture"
+    },
+    {
+      "sport": "tennis",
+      "mode": "multiplayer",
+      "cut": "full",
+      "display": "phone controller + TV",
+      "status": "pending integrated capture"
+    },
+    {
+      "sport": "tennis",
+      "mode": "multiplayer",
+      "cut": "full",
+      "display": "benchmark phone",
+      "status": "pending integrated capture"
+    },
+    {
+      "sport": "tennis",
+      "mode": "multiplayer",
+      "cut": "short",
+      "display": "phone controller + TV",
+      "status": "pending integrated capture"
+    },
+    {
+      "sport": "tennis",
+      "mode": "multiplayer",
+      "cut": "short",
+      "display": "benchmark phone",
+      "status": "pending integrated capture"
+    },
+    {
+      "sport": "tennis",
+      "mode": "multiplayer",
+      "cut": "skip",
+      "display": "phone controller + TV",
+      "status": "pending integrated capture"
+    },
+    {
+      "sport": "tennis",
+      "mode": "multiplayer",
+      "cut": "skip",
+      "display": "benchmark phone",
+      "status": "pending integrated capture"
+    },
+    {
+      "sport": "tennis",
+      "mode": "multiplayer",
+      "cut": "off",
+      "display": "phone controller + TV",
+      "status": "pending integrated capture"
+    },
+    {
+      "sport": "tennis",
+      "mode": "multiplayer",
+      "cut": "off",
+      "display": "benchmark phone",
+      "status": "pending integrated capture"
+    },
+    {
+      "sport": "golf",
+      "mode": "solo",
+      "cut": "full",
+      "display": "phone controller + TV",
+      "status": "pending integrated capture"
+    },
+    {
+      "sport": "golf",
+      "mode": "solo",
+      "cut": "full",
+      "display": "benchmark phone",
+      "status": "pending integrated capture"
+    },
+    {
+      "sport": "golf",
+      "mode": "solo",
+      "cut": "short",
+      "display": "phone controller + TV",
+      "status": "pending integrated capture"
+    },
+    {
+      "sport": "golf",
+      "mode": "solo",
+      "cut": "short",
+      "display": "benchmark phone",
+      "status": "pending integrated capture"
+    },
+    {
+      "sport": "golf",
+      "mode": "solo",
+      "cut": "skip",
+      "display": "phone controller + TV",
+      "status": "pending integrated capture"
+    },
+    {
+      "sport": "golf",
+      "mode": "solo",
+      "cut": "skip",
+      "display": "benchmark phone",
+      "status": "pending integrated capture"
+    },
+    {
+      "sport": "golf",
+      "mode": "solo",
+      "cut": "off",
+      "display": "phone controller + TV",
+      "status": "pending integrated capture"
+    },
+    {
+      "sport": "golf",
+      "mode": "solo",
+      "cut": "off",
+      "display": "benchmark phone",
+      "status": "pending integrated capture"
+    },
+    {
+      "sport": "golf",
+      "mode": "multiplayer",
+      "cut": "full",
+      "display": "phone controller + TV",
+      "status": "pending integrated capture"
+    },
+    {
+      "sport": "golf",
+      "mode": "multiplayer",
+      "cut": "full",
+      "display": "benchmark phone",
+      "status": "pending integrated capture"
+    },
+    {
+      "sport": "golf",
+      "mode": "multiplayer",
+      "cut": "short",
+      "display": "phone controller + TV",
+      "status": "pending integrated capture"
+    },
+    {
+      "sport": "golf",
+      "mode": "multiplayer",
+      "cut": "short",
+      "display": "benchmark phone",
+      "status": "pending integrated capture"
+    },
+    {
+      "sport": "golf",
+      "mode": "multiplayer",
+      "cut": "skip",
+      "display": "phone controller + TV",
+      "status": "pending integrated capture"
+    },
+    {
+      "sport": "golf",
+      "mode": "multiplayer",
+      "cut": "skip",
+      "display": "benchmark phone",
+      "status": "pending integrated capture"
+    },
+    {
+      "sport": "golf",
+      "mode": "multiplayer",
+      "cut": "off",
+      "display": "phone controller + TV",
+      "status": "pending integrated capture"
+    },
+    {
+      "sport": "golf",
+      "mode": "multiplayer",
+      "cut": "off",
+      "display": "benchmark phone",
+      "status": "pending integrated capture"
+    }
+  ],
+  "unsupported": [
+    "tennis doubles (two active seats only)"
+  ],
+  "supplemental": [
+    "2/4-player golf; delayed competitor; cancellation/retry; rematch; calibration; thermal fallback; interruption; male/female; left/right"
+  ]
+}

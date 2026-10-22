@@ -20,7 +20,7 @@ namespace GolfArcade.Tennis
         {
             if (surfaces.TryGetValue(key, out var old) && old) { TennisResortMaterials.Surface(old, key); return old; }
             var shader = Resources.Load<Shader>("Tennis/Shaders/TennisWorldSurface") ?? Shader.Find("Universal Render Pipeline/Lit");
-            var m = new Material(shader) { name = key, enableInstancing = true };
+            var m = GolfArcade.EnvironmentArt.EnvironmentMaterials.Create(shader,key,true);
             m.SetColor("_BaseColor", colour); m.SetFloat("_Smoothness", smoothness); m.SetFloat("_Metallic", metallic);
             if (m.HasProperty("_Variation")) m.SetFloat("_Variation", variation);
             if (m.HasProperty("_Grain")) m.SetFloat("_Grain", grain);
@@ -373,7 +373,7 @@ namespace GolfArcade.Tennis
                 if(!surfaces.TryGetValue(key,out var material)||!material)
                 {
                     var shader=Resources.Load<Shader>("Tennis/Shaders/TennisBotanical");
-                    material=shader?new Material(shader){name=key,enableInstancing=true}:Surface(key,Color.white,.16f);
+                    material=shader?GolfArcade.EnvironmentArt.EnvironmentMaterials.Create(shader,key,true):Surface(key,Color.white,.16f);
                     material.SetColor("_BaseColor",Color.white);if(material.HasProperty("_Gloss"))material.SetFloat("_Gloss",.18f);
                     surfaces[key]=material;
                 }

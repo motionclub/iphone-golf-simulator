@@ -1,0 +1,28 @@
+{
+  "numeric_pass": 96,
+  "numeric_total": 96,
+  "task_installed_fbx": [
+    "Unity/Assets/Characters/MatchHeroes/Female/Female_Emote_Scuba.fbx",
+    "Unity/Assets/Characters/MatchHeroes/Female/Female_Emote_Thrust.fbx",
+    "Unity/Assets/Characters/MatchHeroes/Male/Male_Emote_Scuba.fbx",
+    "Unity/Assets/Characters/MatchHeroes/Male/Male_Emote_Thrust.fbx"
+  ],
+  "meta_unchanged": 4,
+  "clone_prefabs_unchanged": 2,
+  "video_decoded": 8,
+  "other_asset_changes_observed": {
+    "Unity/Assets/Editor/MatchHeroLockerExport.cs": {
+      "before": "ee264889f0f5490961336d51cea5d08268e5b6c21aa29b50240a243865929232",
+      "after": "98bc6553aa6f5b8798d0f177515a1be4a05fa2ae88a862de1cb9cc1009c058dd"
+    },
+    "Unity/Assets/Scripts/Multiplayer/SportsMultiplayer.cs": {
+      "before": "7116a223338ef5705c6b14fe5a177a7ddd2223f24a338976e8d3c89c7e526cb5",
+      "after": "bf2e025cfe7e5ad796af9aee5e7a48eefda53960c45ad22a55a76fc5747cb56b"
+    },
+    "Unity/Assets/Scripts/Multiplayer/MultiplayerProtocol.cs": {
+      "before": "cb4deb0fd244cfe79b981c95ef11818444fbc1034478325692d43e30e22cb8fe",
+      "after": "fb4360b83f081794f4a337651f6c1657b6b528da0fe45261113853f0af7ed7a2"
+    }
+  },
+  "note": "Other changes were observed while this task ran; this task did not write or restore those files."
+}

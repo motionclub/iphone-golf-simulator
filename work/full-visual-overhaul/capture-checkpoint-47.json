@@ -1,0 +1,32 @@
+[
+  {
+    "name": "tennis-world19-resort",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-worlds-pass-19",
+      "HERO_VENUE_SURFACES": "1",
+      "HERO_VENUE_ONLY": "1_gameplay,9_hero_postcard,3_drone0,11_surface_close,12_terrace_close,12_facade_close,12_basalt_close"
+    }
+  },
+  {
+    "name": "tennis-world19-skyscraper",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "skyscraper",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-worlds-pass-19",
+      "HERO_VENUE_SURFACES": "1",
+      "HERO_VENUE_ONLY": "1_gameplay,9_hero_postcard,3_drone0,11_surface_close,12_terrace_close,12_facade_close,12_basalt_close"
+    }
+  },
+  {
+    "name": "tennis-world19-volcano",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "volcano",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-worlds-pass-19",
+      "HERO_VENUE_SURFACES": "1",
+      "HERO_VENUE_ONLY": "1_gameplay,9_hero_postcard,3_drone0,11_surface_close,12_terrace_close,12_facade_close,12_basalt_close"
+    }
+  }
+]

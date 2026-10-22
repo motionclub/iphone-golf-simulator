@@ -30,6 +30,9 @@ struct GolfControllerReading: Codable {
     var landing: Point?
     var path: [Point]?
     var reach: [Point]?
+    /// A putt's meter marks (25/50/75/100 %) where each rolls the ball, and their feet.
+    var targets: [Point]?
+    var targetLabels: [String]?
     var mapImage: String?
     var direction: Point?
 
@@ -99,6 +102,9 @@ struct GolfPhoneController: View {
     @State private var lastAimSent = -Double.infinity
     private var reading: GolfControllerReading { session.golfController }
     private var canAim: Bool { session.ready && session.golfPhase == "Aim" && !session.paused && (reading.party?.myTurn ?? true) }
+    /// A result screen with buttons is up on the TV (a shot's result, a hole out, the round's end): the pad steers its buttons
+    /// instead of the aim, and its centre taps the one that is lit.
+    private var canMenu: Bool { session.ready && !session.paused && session.golfMenuOpen }
     private var isDesignPreview: Bool {
         #if DEBUG
         ProcessInfo.processInfo.arguments.contains("-golfControllerDesign")
@@ -176,7 +182,7 @@ struct GolfPhoneController: View {
                 .overlay(RoundedRectangle(cornerRadius: 14).stroke(.white, lineWidth: 3))
                 .shadow(color: .black.opacity(0.15), radius: 0, y: 3).position(x: 232, y: 946)
                 .accessibilityIdentifier("golf-aim-reading")
-            Text(reading.party?.phase == "result" ? (reading.party?.shared == true ? "NEXT PLAYER STARTS AUTOMATICALLY" : "PICK AN EMOTE · NEXT PLAYER STARTS AUTOMATICALLY") : reading.party?.myTurn == false ? "WATCH THE SHOT · REACT WITH YOUR PLAYER" : session.touch ? "DRAG TO AIM · TAP BALL TO SWING" : "DRAG TO AIM · TAP START SWING, THEN SWING")
+            Text(reading.party?.phase == "result" ? (reading.party?.shared == true ? "NEXT PLAYER STARTS AUTOMATICALLY" : "PICK AN EMOTE · NEXT PLAYER STARTS AUTOMATICALLY") : reading.party?.myTurn == false ? "WATCH THE SHOT · REACT WITH YOUR PLAYER" : session.touch ? "DRAG TO AIM · TAP BALL TO SWING" : "DRAG TO AIM · TAP TO SWING · TAP AGAIN TO CANCEL")
                 .font(GolfControllerStyle.font(11)).foregroundStyle(GolfControllerStyle.ink)
                 .position(x: 232, y: 985)
         }.overlay {
@@ -229,7 +235,7 @@ struct GolfPhoneController: View {
                 // the golf screen has no room for the chat and settings buttons, so they live here (record and mic stay on the screen)
                 PartySettingsSections()
                 Section("Party") {
-                    Button { partyChat = true } label: { Label("Party chat", systemImage: "bubble.left.and.bubble.right.fill") }.accessibilityIdentifier("golf-party-chat")
+                    Button { PartyChat.shared.stripOpen = true } label: { Label("Party chat", systemImage: "bubble.left.and.bubble.right.fill") }.accessibilityIdentifier("golf-party-chat")
                 }
                 Section {
                     Button("Send feedback") { BetaFeedback.open() }
@@ -276,7 +282,7 @@ struct GolfPhoneController: View {
             } else if session.paused || (session.golfPhase == "Aim" && !session.golfShotReady && reading.party == nil) {
                 VStack(spacing: 10) {
                     GolfControllerText(text: "READY TO SWING?", size: 25)
-                    Text("Tap Ready, then Start Swing for each shot.").font(Club.ui(16, 700)).foregroundStyle(.white)
+                    Text("Tap Ready, then tap the swing button and swing.").font(Club.ui(16, 700)).foregroundStyle(.white)
                     Button { session.readyToPlay() } label: {
                         GolfControllerText(text: "READY", size: 26).padding(.horizontal, 34).padding(.vertical, 12)
                             .background(GolfControllerStyle.yellow, in: Capsule())
@@ -347,7 +353,8 @@ struct GolfPhoneController: View {
             aimArrow("triangle.fill", rotation: -90, x: -54, y: 0, label: "Aim left") { nudge(-1) }
             aimArrow("triangle.fill", rotation: 90, x: 54, y: 0, label: "Aim right") { nudge(1) }
             Button {
-                if session.paused || !session.golfShotReady { session.readyToPlay() }
+                if canMenu { session.selectGolfMenu() }
+                else if session.paused || !session.golfShotReady { session.readyToPlay() }
                 else if session.touch { touchSheet = true }
             } label: {
                 ZStack {
@@ -356,31 +363,39 @@ struct GolfPhoneController: View {
                 }.frame(width: 61, height: 61).overlay(Circle().stroke(.white, lineWidth: 3))
                     .shadow(color: GolfControllerStyle.ink.opacity(0.5), radius: 0, y: 4)
             }.offset(thumbOffset)
-                .disabled(!canAim)
-                .accessibilityLabel(session.touch ? "Swing controls" : "Ready for shot")
+                .disabled(!canAim && !canMenu)
+                .accessibilityLabel(canMenu ? "Select" : session.touch ? "Swing controls" : "Ready for shot")
                 .accessibilityIdentifier("golf-aim-center")
         }.contentShape(Circle())
             .simultaneousGesture(DragGesture(minimumDistance: 8, coordinateSpace: .local)
                 .onChanged { drag in updateJoystick(drag.location, final: false) }
                 .onEnded { drag in
                     updateJoystick(drag.location, final: true)
+                    // (the TV's menu ring re-arms when the stick comes back to the middle)
+                    if canMenu { session.aimGolf(across: 0, forward: 0) }
                     draggingAim = false; stickOffset = .zero
                 })
             .accessibilityIdentifier("golf-aim-joystick")
     }
-    /// Motion is ignored until this is tapped, so aiming or changing club can't be read as a swing.
-    /// It sits beside the pad, in the space under the thumb that just aimed; after the tap it asks
-    /// for a still hold in the stance, then says when to swing.
+    /// Tap to swing: motion counts only after this is tapped, so aiming or changing club can't be read as
+    /// a swing. One tap starts the swing at once, whatever the phone is doing; tap it again to cancel.
+    /// A swing left alone for a while, a new aim or a club change cancels it too. It sits beside the pad,
+    /// under the thumb that just aimed.
     private var startSwingButton: some View {
-        let state = session.golfSwingState
-        let label = state == 1 ? "HOLD\nSTILL" : state == 2 ? "SWING\nNOW!" : "START\nSWING"
-        let fill = state == 1 ? GolfControllerStyle.amber : state == 2 ? GolfControllerStyle.green : GolfControllerStyle.yellow
-        return Button { session.startGolfSwing() } label: {
-            GolfControllerText(text: label, size: 21, stroke: 3, lines: 2).frame(width: 108, height: 108)
-                .background(fill, in: Circle()).overlay(Circle().stroke(.white, lineWidth: 4))
-                .shadow(color: GolfControllerStyle.ink.opacity(0.25), radius: 0, y: 4)
-        }.allowsHitTesting(state == 0)
-            .accessibilityLabel(state == 0 ? "Start swing" : state == 1 ? "Hold the phone still" : "Swing now")
+        let face = session.golfTap.face
+        let putting = !(reading.targets ?? []).isEmpty
+        let label = face == .swinging ? (putting ? "PUTT!\nTAP: CANCEL" : "SWING!\nTAP: CANCEL") : (putting ? "TAP TO\nPUTT" : "TAP TO\nSWING")
+        let fill = face == .swinging ? GolfControllerStyle.green : GolfControllerStyle.yellow
+        let live = face == .swinging
+        return Button { session.tapGolfSwing() } label: {
+            GolfControllerText(text: label, size: live ? 19 : 21, stroke: 3, lines: 2).frame(width: 108, height: 108)
+                .background(fill, in: Circle()).overlay(Circle().stroke(.white, lineWidth: live ? 6 : 4))
+                .shadow(color: GolfControllerStyle.ink.opacity(0.25), radius: 0, y: live ? 1 : 4)
+                .scaleEffect(live ? 1.08 : 1).offset(y: live ? 3 : 0)
+                .animation(.easeOut(duration: 0.1), value: face)
+        }.buttonStyle(.plain)
+            .accessibilityLabel(live ? (putting ? "Putting: swing now, tap to cancel" : "Swinging: swing now, tap to cancel") : (putting ? "Tap to putt" : "Tap to swing"))
+            .accessibilityHint("Starts the swing at once. Tap again to cancel it.")
             .accessibilityIdentifier("golf-start-swing")
     }
     private var thumbOffset: CGSize {
@@ -389,7 +404,7 @@ struct GolfPhoneController: View {
         return CGSize(width: direction.x * 16, height: -direction.y * 16)
     }
     private func updateJoystick(_ location: CGPoint, final: Bool) {
-        guard canAim else { return }
+        guard canAim || canMenu else { return }
         let dx = location.x - 78, dy = location.y - 78
         let distance = hypot(dx, dy)
         guard distance > 10 else { return }
@@ -397,7 +412,8 @@ struct GolfPhoneController: View {
         let length = min(48, distance)
         stickOffset = CGSize(width: dx / distance * length, height: dy / distance * length)
         let now = ProcessInfo.processInfo.systemUptime
-        guard final || now - lastAimSent >= 1.0 / 30 else { return }
+        // (every 1/60 s: at 1/30 the aim line, marker and golfer on the TV turned in steps while the stick moved)
+        guard final || now - lastAimSent >= 1.0 / 60 else { return }
         lastAimSent = now
         session.aimGolf(across: dx / distance, forward: -dy / distance)
     }
@@ -406,7 +422,7 @@ struct GolfPhoneController: View {
         Button(action: action) {
             Image(systemName: symbol).font(.system(size: 13, weight: .bold)).foregroundStyle(.white)
                 .rotationEffect(.degrees(rotation)).frame(width: 52, height: 52)
-        }.offset(x: x, y: y).disabled(!canAim).accessibilityLabel(label)
+        }.offset(x: x, y: y).disabled(!canAim && !canMenu).accessibilityLabel(label)
             .accessibilityIdentifier("golf-\(label.lowercased().replacingOccurrences(of: " ", with: "-"))")
     }
     private func nudge(_ direction: Double) {
@@ -499,6 +515,15 @@ private struct GolfControllerMap: View {
                         }
                         for p in (reading.path ?? []) + (reading.reach ?? []) {
                             let at = point(p); context.fill(Path(ellipseIn: CGRect(x: at.x-1.7, y: at.y-1.7, width: 3.4, height: 3.4)), with: .color(.white))
+                        }
+                        // a putt's meter marks, coloured like the TV map's power stops, with their feet
+                        let stops = [Color(red: 0.52, green: 0.85, blue: 1), Color(red: 0.5, green: 0.95, blue: 0.78), Color(red: 1, green: 0.88, blue: 0.42), Color(red: 1, green: 0.61, blue: 0.36)]
+                        for (i, p) in (reading.targets ?? []).enumerated() {
+                            let at = point(p), dot = Path(ellipseIn: CGRect(x: at.x-4, y: at.y-4, width: 8, height: 8))
+                            context.fill(dot, with: .color(stops[i % stops.count])); context.stroke(dot, with: .color(GolfControllerStyle.ink), lineWidth: 1.2)
+                            guard let labels = reading.targetLabels, i < labels.count else { continue }
+                            context.draw(Text(labels[i]).font(.system(size: 10, weight: .heavy)).foregroundColor(.white),
+                                         at: CGPoint(x: at.x + 8, y: at.y), anchor: .leading)
                         }
                         for (p, color, radius) in [(reading.pin, Color.red, 4.0), (reading.landing, GolfControllerStyle.yellow, 5.0), (reading.ball, Color.white, 6.0)] {
                             guard let p else { continue }; let at = point(p)

@@ -1,0 +1,21 @@
+{
+  "status": "INVALIDATED stale outputs from failed staging, per root correction. Not an art verdict.",
+  "measurements": {
+    "male": {
+      "meanRgbDelta": 0.0,
+      "maxRgbDelta": 0,
+      "pixelsChanged": 0,
+      "skinBoxMeanRgbDelta": 0.0,
+      "foreheadBoxMeanRgbDelta": 0.0,
+      "lipBoxMeanRgbDelta": 0.0
+    },
+    "female": {
+      "meanRgbDelta": 0.0,
+      "maxRgbDelta": 0,
+      "pixelsChanged": 0,
+      "skinBoxMeanRgbDelta": 0.0,
+      "foreheadBoxMeanRgbDelta": 0.0,
+      "lipBoxMeanRgbDelta": 0.0
+    }
+  }
+}

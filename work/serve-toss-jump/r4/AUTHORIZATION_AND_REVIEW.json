@@ -1,0 +1,12 @@
+{
+  "updated_at_utc": "2026-10-06T02:30:34.624876+00:00",
+  "human_scope_answer": "Take over arm/dribble here",
+  "human_workflow_request": "try to be as efficient as posisble, and when you make changes and want to verify, you ask me to verify if its good or not and ill help you get there quicker",
+  "new_visual_requirements": [
+    "left foot forward and screen-right of rear right foot",
+    "anatomical arm, no inverted forearm",
+    "ball dribbled on screen-right side while retaining non-racket tossing hand"
+  ],
+  "status": "private first trial capturing; human visual feedback before larger gate matrix",
+  "production_installation": "none; all runtime and Serve changes stay private; production driver installation must use hunk patches"
+}

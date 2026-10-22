@@ -1,0 +1,19 @@
+{
+  "status": "SOURCE_GATE_PASS_ACTUAL_ART_PENDING",
+  "landmarks": 40,
+  "wristSamples": 80,
+  "meanAngleBefore": 62.383859527111056,
+  "meanAngleAfter": 49.15083126327333,
+  "meanImprovementDegrees": 13.233028263837719,
+  "maximumElbowShiftMm": 39.85459055921611,
+  "maximumWristShiftMm": 39.867146983642016,
+  "maximumRollDegrees": 45,
+  "worsenedAngleSamples": 0,
+  "unresolvedAnglesOver75": 9,
+  "clubTransformsChanged": 0,
+  "geometryRestWeightsChanged": 0,
+  "poseOracle": "fresh accepted golf exports, original bind+sampled bone tracks; source feasibility only, actual runtime correction/roll-idempotence not executed",
+  "productionWrites": false,
+  "UnityRuns": 0,
+  "GPUUsed": false
+}

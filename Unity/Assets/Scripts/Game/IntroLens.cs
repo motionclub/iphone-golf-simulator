@@ -17,10 +17,10 @@ namespace GolfArcade.Game
         public static void Focus(Camera camera, float distance)
         {
             var dof = Dof(camera); if (!dof) return;
-            dof.active = true; dof.mode.Override(DepthOfFieldMode.Gaussian);
+            camera.GetComponent<SportsPostProcessing>().RequestDepthOfField(true); dof.mode.Override(DepthOfFieldMode.Gaussian);
             dof.gaussianStart.Override(distance + 1.2f); dof.gaussianEnd.Override(distance + 9f);
             dof.gaussianMaxRadius.Override(1.4f); dof.highQualitySampling.Override(true);
         }
-        public static void Off(Camera camera) { var dof = Dof(camera); if (dof) dof.active = false; }
+        public static void Off(Camera camera) { var dof = Dof(camera); if (dof) camera.GetComponent<SportsPostProcessing>().RequestDepthOfField(false); }
     }
 }

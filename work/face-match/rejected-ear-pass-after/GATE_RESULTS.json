@@ -1,0 +1,60 @@
+{
+  "G1": {
+    "status": "PASS",
+    "reason": "12 sheets exist: before and after, both heroes, front / 30-degree three-quarter / actual gameplay camera. Only frontal targets were supplied; the other sheets explicitly retain those frontal targets on the left.",
+    "proof": [
+      "proof/G1-sheets.json",
+      "before/",
+      "after/"
+    ]
+  },
+  "G2": {
+    "status": "FAIL",
+    "reason": "Manual front overlays show deviations up to about 15%, exceeding ~5%. Eye heights/positions, male brow thickness, female nose dimensions and lip proportions still differ.",
+    "proof": [
+      "proof/landmarks.json",
+      "proof/male_front_overlay.png",
+      "proof/female_front_overlay.png"
+    ]
+  },
+  "G3": {
+    "status": "FAIL",
+    "reason": "Skin and cheek shading are closer than the previous candidate, but the court shadow direction and nasal gradients still differ from the studio references. Five-pixel patch measurements show CIE76 differences up to 11.18; these include illumination differences.",
+    "proof": [
+      "proof/skin-patches.json",
+      "after/male_front_sheet.png",
+      "after/female_front_sheet.png"
+    ]
+  },
+  "G4": {
+    "status": "FAIL",
+    "reason": "Blink, gaze and brow morphs run, but enlarged closed-lid frames retain small edge/shading artifacts, and the female jaw/neck boundary remains visually hard. Cannot certify the no-tearing/no-seam visual requirement. Topology/weights/binds are retained and no vertices below the head moved.",
+    "proof": [
+      "after/male_idle_3s.mp4",
+      "after/female_idle_3s.mp4",
+      "proof/male_motion_contact.png",
+      "proof/female_motion_contact.png",
+      "proof/geometry.txt",
+      "proof/motion.json"
+    ]
+  },
+  "G5": {
+    "status": "PASS",
+    "reason": "The updated check.sh compiles. Current: 312 passed, 6 failed; isolated pre-ear source baseline with current shared code: 312 passed, 6 failed. Identical failures show no ear regression. Final Unity capture has zero C# or shader errors. The index contains only 8 face/head source files and their 8 metadata files.",
+    "proof": [
+      "proof/check-comparison.json",
+      "proof/check-before.log",
+      "proof/check-after.log",
+      "proof/unity-final-results.json",
+      "proof/staged-files.txt",
+      "proof/source-verification.json"
+    ]
+  },
+  "G6": {
+    "status": "FAIL",
+    "reason": "Not yet approved by Adnan. Agent review is not approval.",
+    "proof": [
+      "proof/G6-approval.json"
+    ]
+  }
+}

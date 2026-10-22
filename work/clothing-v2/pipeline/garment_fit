@@ -1,0 +1,55 @@
+#!/bin/zsh
+# GARMENT PIPELINE, one command: fit garment(s) to a hero, solve the skin cover for the worn set, run the stress suite, write the report.
+#   work/clothing-v2/pipeline/garment_fit <hero> <source> [<source> ...] [-- run=<name> smooth=<cm> resume]
+#   keep=<Tag,...> = keep those dump pieces' current skin weights (only correctives, seams, cover are fitted)
+#   resume = keep pieces already fitted in this run (restart after a reboot; cover/suite resume from their own checkpoints)
+#   source = dump:<Kit_Tag> | npz:<builder _final.npz>[@<Kit_Tag>] | obj:<file.obj>@<Kit_Tag>
+# Output: runs/<run>/<hero>/<Tag>.npz (+ body.npz cover), runs/<run>/suite/<hero>/REPORT.md + sheet_worst12.jpg. See ../GARMENT_PIPELINE.md.
+set -e
+P=${0:A:h}; cd $P
+HV=${GP_HEAVY:-$P/../../delegation-2026-10-17/heavy.sh}   # machine-wide slot gate (README 'Sharing the machine')
+BL=($HV blender /Applications/Blender.app/Contents/MacOS/Blender)
+HERO=$1; shift
+RESUME=0; KEEP=(); SRCS=(); RUN=fit_$(date +%m%d_%H%M); EXTRA=()
+while (( $# )); do
+  case $1 in run=*) RUN=${1#run=};; smooth=*) EXTRA+=(--smooth ${1#smooth=});; transition=*) EXTRA+=(--transition ${1#transition=});; layerbind) EXTRA+=(--layer-bind);; resume) RESUME=1;; keep=*) KEEP=(${(s:,:)${1#keep=}});; --) ;; *) SRCS+=$1;; esac; shift
+done
+RD=runs/$RUN; mkdir -p $RD/$HERO logs
+T0=$(date +%s)
+rank() { case $1 in *Sock*) echo 1;; *Bottom*) echo 2;; *Top*) echo 3;; *Shoe*) echo 4;; *Belt*) echo 5;; *) echo 6;; esac }   # inner layers first: outer layers clear them
+for s in $(for s in $SRCS; do echo "$(rank $s) $s"; done | sort -n | cut -d' ' -f2); do
+  src=${s%@*}; tag=""; [[ $s == *@* ]] && tag=(--tag ${s##*@})
+  t=${s##*@}; t=${t#dump:}; (( RESUME )) && [[ -f $RD/$HERO/$t.npz ]] && { echo "[garment_fit] resume: $t already fitted"; continue; }
+  kw=(); (( ${KEEP[(Ie)$t]} )) && kw=(--keep-weights)      # keep=<Tag,...>: keep that piece's current skin weights (correctives + cover still fitted)
+  python3 gp/fit.py $HERO $src $RD $tag $EXTRA $kw 2>&1 | tee -a $RD/$HERO/fit.log | grep --line-buffered -E "^FIT|weights:|skin deep|correctives:|shapes|Error|Trace"
+done
+# a Blender stage whose log stops moving for 6 min (hung Metal context) is killed and retried (twice)
+watch_run() {   # watch_run <log> <cmd...>
+  local log=$1; shift
+  for attempt in 1 2 3; do
+    "$@" > $log 2>&1 &
+    local pid=$!
+    while kill -0 $pid 2>/dev/null; do
+      sleep 30
+      pgrep -P $pid -f Blender.app >/dev/null || touch $log      # no Blender child yet = still waiting for a heavy.sh slot: not a stall
+      if kill -0 $pid 2>/dev/null && [[ $(( $(date +%s) - $(stat -f %m $log) )) -gt 360 ]]; then echo "[garment_fit] $log stalled, restart $attempt"; pkill -TERM -P $pid; kill $pid; sleep 2; fi
+    done
+    wait $pid && return 0
+    grep -q Traceback $log && return 1
+    grep -qE "COVER chunk done|SUITE chunk done" $log && return 1
+  done
+  return 1
+}
+echo "[garment_fit] cover ($(( $(date +%s) - T0 )) s)"
+for chunk in $(seq 1 300); do     # the cover runs in chunks (250 frames or GP_MEM_GB of footprint, whichever first) per Blender process (exit 3 = more to do)
+  watch_run logs/${RUN}_cover_$HERO.log $BL -b --factory-startup --python gp/cover.py -- $HERO $RD 2 && break
+  grep -q "COVER chunk done" logs/${RUN}_cover_$HERO.log || { tail -20 logs/${RUN}_cover_$HERO.log; exit 1; }
+done
+grep COVER logs/${RUN}_cover_$HERO.log
+echo "[garment_fit] stress suite ($(( $(date +%s) - T0 )) s)"
+for chunk in $(seq 1 150); do     # the suite runs in chunks (70 poses or GP_MEM_GB of footprint) per Blender process (exit 3 = more to do)
+  watch_run logs/${RUN}_suite_$HERO.log $BL -b --factory-startup --python gp/suite.py -- $HERO $RD/suite --cand $RD && break
+  grep -q "SUITE chunk done" logs/${RUN}_suite_$HERO.log || { tail -20 logs/${RUN}_suite_$HERO.log; exit 1; }
+done
+python3 gp/report.py $RD/suite/$HERO runs/before/$HERO
+echo "[garment_fit] done in $(( $(date +%s) - T0 )) s -> $RD/suite/$HERO/REPORT.md, sheet_worst12.jpg"

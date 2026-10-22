@@ -1,0 +1,104 @@
+{
+ "mouth_seam": {
+  "verts": 59,
+  "jumps": 0,
+  "max_gap_h0_mm": 0.0,
+  "max_gap_j5_mm": 0.0
+ },
+ "mouth_lip_upper": {
+  "verts": 39,
+  "jumps": 0,
+  "max_gap_h0_mm": 0.0,
+  "max_gap_j5_mm": 0.0
+ },
+ "mouth_lip_lower": {
+  "verts": 49,
+  "jumps": 0,
+  "max_gap_h0_mm": 0.0,
+  "max_gap_j5_mm": 0.0
+ },
+ "nostril_L": {
+  "verts": 23,
+  "jumps": 1,
+  "max_gap_h0_mm": 1.6,
+  "max_gap_j5_mm": 1.73
+ },
+ "nostril_R": {
+  "verts": 23,
+  "jumps": 1,
+  "max_gap_h0_mm": 1.62,
+  "max_gap_j5_mm": 1.76
+ },
+ "ala_L": {
+  "verts": 20,
+  "jumps": 1,
+  "max_gap_h0_mm": 1.95,
+  "max_gap_j5_mm": 3.58
+ },
+ "ala_R": {
+  "verts": 19,
+  "jumps": 0,
+  "max_gap_h0_mm": 0.0,
+  "max_gap_j5_mm": 0.0
+ },
+ "ear_attach_L": {
+  "verts": 117,
+  "jumps": 1,
+  "max_gap_h0_mm": 3.22,
+  "max_gap_j5_mm": 2.5
+ },
+ "helix_L": {
+  "verts": 65,
+  "jumps": 0,
+  "max_gap_h0_mm": 0.0,
+  "max_gap_j5_mm": 0.0
+ },
+ "concha_L": {
+  "verts": 50,
+  "jumps": 0,
+  "max_gap_h0_mm": 0.0,
+  "max_gap_j5_mm": 0.0
+ },
+ "ear_attach_R": {
+  "verts": 117,
+  "jumps": 1,
+  "max_gap_h0_mm": 4.11,
+  "max_gap_j5_mm": 2.97
+ },
+ "helix_R": {
+  "verts": 65,
+  "jumps": 0,
+  "max_gap_h0_mm": 0.0,
+  "max_gap_j5_mm": 0.0
+ },
+ "concha_R": {
+  "verts": 50,
+  "jumps": 0,
+  "max_gap_h0_mm": 0.0,
+  "max_gap_j5_mm": 0.0
+ },
+ "jaw_ear_L": {
+  "verts": 71,
+  "jumps": 10,
+  "max_gap_h0_mm": 51.85,
+  "max_gap_j5_mm": 51.88
+ },
+ "jaw_ear_R": {
+  "verts": 70,
+  "jumps": 9,
+  "max_gap_h0_mm": 51.56,
+  "max_gap_j5_mm": 51.58
+ },
+ "lid_margin_L": {
+  "verts": 46,
+  "jumps": 0,
+  "max_gap_h0_mm": 0.0,
+  "max_gap_j5_mm": 0.0
+ },
+ "lid_margin_R": {
+  "verts": 46,
+  "jumps": 0,
+  "max_gap_h0_mm": 0.0,
+  "max_gap_j5_mm": 0.0
+ }
+}

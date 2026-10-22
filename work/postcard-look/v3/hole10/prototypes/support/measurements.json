@@ -1,0 +1,468 @@
+{
+  "bands": [
+    {
+      "band": 0,
+      "gates": {
+        "ROCK_SHAPE": true,
+        "PCA": true,
+        "CAP_COLUMNS": true,
+        "FACES": true,
+        "WORLD_WIDTH": true,
+        "WORLD_SPAN": true
+      },
+      "pass_": true,
+      "shape": {
+        "nv": 188,
+        "nf": 117,
+        "ok": true,
+        "why": [],
+        "hash": [
+          188,
+          117,
+          [
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          [
+            1,
+            19,
+            48,
+            47,
+            57,
+            13,
+            2,
+            1
+          ]
+        ],
+        "nfac": 9,
+        "rcv": 0.22378056336164837,
+        "open": 0.08156028368794327,
+        "ecv": 1.1958120125811509,
+        "acv": 0.894481422311984,
+        "box": 0.3505044085609933,
+        "r2": 0.2581984987971068,
+        "r3": 0.25194512728418383,
+        "ncomp": 15,
+        "top": [
+          0.18483564849476072,
+          0.17406353204268266,
+          0.1627002313804786
+        ]
+      },
+      "cap_columns": 15,
+      "side_fraction": 0.9676253407149067,
+      "triangles": 316,
+      "polygons": 124,
+      "top_min": 19.51483732857028,
+      "top_max": 20.259072155870687,
+      "horizontal_span": 15.390550250221368
+    },
+    {
+      "band": 1,
+      "gates": {
+        "ROCK_SHAPE": true,
+        "PCA": true,
+        "CAP_COLUMNS": true,
+        "FACES": true,
+        "WORLD_WIDTH": true,
+        "WORLD_SPAN": true
+      },
+      "pass_": true,
+      "shape": {
+        "nv": 188,
+        "nf": 113,
+        "ok": true,
+        "why": [],
+        "hash": [
+          188,
+          113,
+          [
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          [
+            2,
+            18,
+            48,
+            48,
+            56,
+            13,
+            2,
+            1
+          ]
+        ],
+        "nfac": 9,
+        "rcv": 0.22565960532378965,
+        "open": 0.1276595744680851,
+        "ecv": 1.2098611206077636,
+        "acv": 0.8853612120389353,
+        "box": 0.3483328965411459,
+        "r2": 0.2312738520204269,
+        "r3": 0.2256747023884189,
+        "ncomp": 15,
+        "top": [
+          0.18549729156052824,
+          0.1747472466111481,
+          0.16335442087019053
+        ]
+      },
+      "cap_columns": 15,
+      "side_fraction": 0.9709007483153531,
+      "triangles": 316,
+      "polygons": 124,
+      "top_min": 43.51483732857029,
+      "top_max": 44.2590721558707,
+      "horizontal_span": 15.390550250221368
+    },
+    {
+      "band": 2,
+      "gates": {
+        "ROCK_SHAPE": true,
+        "PCA": true,
+        "CAP_COLUMNS": true,
+        "FACES": true,
+        "WORLD_WIDTH": true,
+        "WORLD_SPAN": true
+      },
+      "pass_": true,
+      "shape": {
+        "nv": 188,
+        "nf": 113,
+        "ok": true,
+        "why": [],
+        "hash": [
+          188,
+          113,
+          [
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          [
+            2,
+            18,
+            48,
+            48,
+            56,
+            13,
+            2,
+            1
+          ]
+        ],
+        "nfac": 9,
+        "rcv": 0.22569943150328894,
+        "open": 0.1276595744680851,
+        "ecv": 1.220746132038455,
+        "acv": 0.8898983804218571,
+        "box": 0.34688851038091106,
+        "r2": 0.2134614744664807,
+        "r3": 0.20829308341905425,
+        "ncomp": 15,
+        "top": [
+          0.18590921123138257,
+          0.17513631754833525,
+          0.16371794449646648
+        ]
+      },
+      "cap_columns": 15,
+      "side_fraction": 0.9730795901553552,
+      "triangles": 316,
+      "polygons": 124,
+      "top_min": 69.5148373285703,
+      "top_max": 70.25907215587068,
+      "horizontal_span": 15.390550250221368
+    }
+  ],
+  "support": [
+    {
+      "layer": 1,
+      "column": 0,
+      "grid": 0,
+      "gap": 0.0,
+      "bearing_share": 0.9889749617005751,
+      "all_cap_vertices_supported": false,
+      "same_width": true
+    },
+    {
+      "layer": 1,
+      "column": 1,
+      "grid": 1,
+      "gap": 0.0,
+      "bearing_share": 0.9954757914906647,
+      "all_cap_vertices_supported": false,
+      "same_width": true
+    },
+    {
+      "layer": 1,
+      "column": 2,
+      "grid": 2,
+      "gap": 0.0,
+      "bearing_share": 0.9942296182477379,
+      "all_cap_vertices_supported": false,
+      "same_width": true
+    },
+    {
+      "layer": 1,
+      "column": 3,
+      "grid": 3,
+      "gap": 0.0,
+      "bearing_share": 0.9888351789990685,
+      "all_cap_vertices_supported": false,
+      "same_width": true
+    },
+    {
+      "layer": 1,
+      "column": 4,
+      "grid": 4,
+      "gap": 0.0,
+      "bearing_share": 0.9950064986178591,
+      "all_cap_vertices_supported": false,
+      "same_width": true
+    },
+    {
+      "layer": 1,
+      "column": 5,
+      "grid": 5,
+      "gap": 0.0,
+      "bearing_share": 0.9869558402591058,
+      "all_cap_vertices_supported": false,
+      "same_width": true
+    },
+    {
+      "layer": 1,
+      "column": 6,
+      "grid": 6,
+      "gap": 0.0,
+      "bearing_share": 0.9875125731997256,
+      "all_cap_vertices_supported": false,
+      "same_width": true
+    },
+    {
+      "layer": 1,
+      "column": 7,
+      "grid": 7,
+      "gap": 0.0,
+      "bearing_share": 0.9916761277322769,
+      "all_cap_vertices_supported": false,
+      "same_width": true
+    },
+    {
+      "layer": 1,
+      "column": 8,
+      "grid": 8,
+      "gap": 0.0,
+      "bearing_share": 0.988386208153363,
+      "all_cap_vertices_supported": true,
+      "same_width": true
+    },
+    {
+      "layer": 1,
+      "column": 9,
+      "grid": 9,
+      "gap": 0.0,
+      "bearing_share": 0.9902375930661755,
+      "all_cap_vertices_supported": false,
+      "same_width": true
+    },
+    {
+      "layer": 1,
+      "column": 10,
+      "grid": 10,
+      "gap": 0.0,
+      "bearing_share": 0.9919408374464703,
+      "all_cap_vertices_supported": false,
+      "same_width": true
+    },
+    {
+      "layer": 1,
+      "column": 11,
+      "grid": 11,
+      "gap": 0.0,
+      "bearing_share": 0.989626639267963,
+      "all_cap_vertices_supported": false,
+      "same_width": true
+    },
+    {
+      "layer": 1,
+      "column": 12,
+      "grid": 12,
+      "gap": 0.0,
+      "bearing_share": 0.9919707587267889,
+      "all_cap_vertices_supported": false,
+      "same_width": true
+    },
+    {
+      "layer": 1,
+      "column": 13,
+      "grid": 13,
+      "gap": 0.0,
+      "bearing_share": 0.9856343100977579,
+      "all_cap_vertices_supported": false,
+      "same_width": true
+    },
+    {
+      "layer": 1,
+      "column": 14,
+      "grid": 14,
+      "gap": 0.0,
+      "bearing_share": 0.9935534872415726,
+      "all_cap_vertices_supported": false,
+      "same_width": true
+    },
+    {
+      "layer": 2,
+      "column": 0,
+      "grid": 0,
+      "gap": 0.0,
+      "bearing_share": 0.9889749617005751,
+      "all_cap_vertices_supported": false,
+      "same_width": true
+    },
+    {
+      "layer": 2,
+      "column": 1,
+      "grid": 1,
+      "gap": 0.0,
+      "bearing_share": 0.9954757914906647,
+      "all_cap_vertices_supported": false,
+      "same_width": true
+    },
+    {
+      "layer": 2,
+      "column": 2,
+      "grid": 2,
+      "gap": 0.0,
+      "bearing_share": 0.9942296182477379,
+      "all_cap_vertices_supported": false,
+      "same_width": true
+    },
+    {
+      "layer": 2,
+      "column": 3,
+      "grid": 3,
+      "gap": 0.0,
+      "bearing_share": 0.9888351789990685,
+      "all_cap_vertices_supported": false,
+      "same_width": true
+    },
+    {
+      "layer": 2,
+      "column": 4,
+      "grid": 4,
+      "gap": 0.0,
+      "bearing_share": 0.9950064986178591,
+      "all_cap_vertices_supported": false,
+      "same_width": true
+    },
+    {
+      "layer": 2,
+      "column": 5,
+      "grid": 5,
+      "gap": 0.0,
+      "bearing_share": 0.9869558402591058,
+      "all_cap_vertices_supported": false,
+      "same_width": true
+    },
+    {
+      "layer": 2,
+      "column": 6,
+      "grid": 6,
+      "gap": 0.0,
+      "bearing_share": 0.9875125731997256,
+      "all_cap_vertices_supported": false,
+      "same_width": true
+    },
+    {
+      "layer": 2,
+      "column": 7,
+      "grid": 7,
+      "gap": 0.0,
+      "bearing_share": 0.9916761277322769,
+      "all_cap_vertices_supported": false,
+      "same_width": true
+    },
+    {
+      "layer": 2,
+      "column": 8,
+      "grid": 8,
+      "gap": 0.0,
+      "bearing_share": 0.988386208153363,
+      "all_cap_vertices_supported": true,
+      "same_width": true
+    },
+    {
+      "layer": 2,
+      "column": 9,
+      "grid": 9,
+      "gap": 0.0,
+      "bearing_share": 0.9902375930661755,
+      "all_cap_vertices_supported": false,
+      "same_width": true
+    },
+    {
+      "layer": 2,
+      "column": 10,
+      "grid": 10,
+      "gap": 0.0,
+      "bearing_share": 0.9919408374464703,
+      "all_cap_vertices_supported": false,
+      "same_width": true
+    },
+    {
+      "layer": 2,
+      "column": 11,
+      "grid": 11,
+      "gap": 0.0,
+      "bearing_share": 0.989626639267963,
+      "all_cap_vertices_supported": false,
+      "same_width": true
+    },
+    {
+      "layer": 2,
+      "column": 12,
+      "grid": 12,
+      "gap": 0.0,
+      "bearing_share": 0.9919707587267889,
+      "all_cap_vertices_supported": false,
+      "same_width": true
+    },
+    {
+      "layer": 2,
+      "column": 13,
+      "grid": 13,
+      "gap": 0.0,
+      "bearing_share": 0.9856343100977579,
+      "all_cap_vertices_supported": false,
+      "same_width": true
+    },
+    {
+      "layer": 2,
+      "column": 14,
+      "grid": 14,
+      "gap": 0.0,
+      "bearing_share": 0.9935534872415726,
+      "all_cap_vertices_supported": false,
+      "same_width": true
+    }
+  ],
+  "support_pass": false,
+  "total_triangles": 948,
+  "pass_": false
+}

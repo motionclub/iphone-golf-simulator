@@ -390,7 +390,7 @@ struct SportsPreviewControls:View {
                     .accessibilityIdentifier("golf-continue")
             }
             if session.sport == "tennis" && session.ready {
-                if session.tennisPhase == "rally" { RallyAimPad(session:session).frame(width:180,height:90); TennisAbilityControls(session: session) }
+                if session.tennisPhase == "rally" { Text("Early ← · On time ↑ · Late →").font(.caption); TennisAbilityControls(session: session) }
                 if session.tennisPhase == "serve" || session.tennisPhase == "toss" { ServeAimPad(session:session).frame(width:180,height:90); if session.tennisPhase == "serve" { Button("Toss") { session.toss() } } }
             }
             if session.sport != "golf" || session.golfPhase == "Aim" {
@@ -424,7 +424,15 @@ private struct PresentationLoadingCover: View {
         GeometryReader { geometry in
             ZStack {
             Club.lagoonDeep
-            LoadingScreen(menu: .shared, compact: compact)
+            Group {
+                if SportsSession.shared.showsOnlineTennisSetup {
+                    VStack(spacing: 28) {
+                        OnlineTennisTVSetup(session: .shared)
+                        Text("Your court is loading while you set up your racket.")
+                            .font(IslandUI.font(22, bold: true)).foregroundStyle(.white)
+                    }.padding(48)
+                } else { LoadingScreen(menu: .shared, compact: compact) }
+            }
                 .frame(width: compact ? geometry.size.width : 1280, height: compact ? geometry.size.height : 720)
                 .scaleEffect(compact ? 1 : min(geometry.size.width / 1280, geometry.size.height / 720))
                 .frame(width: geometry.size.width, height: geometry.size.height)

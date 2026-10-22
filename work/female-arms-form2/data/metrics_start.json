@@ -1,0 +1,19 @@
+{
+ "front_arms_xor_pct": 11.67,
+ "back_arms_xor_pct": 21.12,
+ "consensus_front": {
+  "model": 0.1545,
+  "plate_self": 0.1845,
+  "ratio": 0.838
+ },
+ "consensus_mean_fb": {
+  "model": 0.1539,
+  "plate_self": 0.1845,
+  "ratio": 0.835
+ },
+ "outer_edge_dev_mm": {
+  "mean_abs": 5.32,
+  "max_abs": 12.98,
+  "mean_signed": 5.13
+ }
+}

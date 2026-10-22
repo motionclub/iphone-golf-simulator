@@ -1,0 +1,88 @@
+{
+  "Male": {
+    "vertices": 33472,
+    "triangles": 66710,
+    "headEdges": 16108,
+    "headEdgeLengthMmPercentiles": [
+      3.3178287369537625,
+      8.90484623317235,
+      10.818688880429983,
+      12.714294719133402,
+      21.132477961430176
+    ],
+    "headEdgesOver10mm": 1094,
+    "headMinMax": [
+      -0.09874846786260605,
+      -0.17256887257099152,
+      1.4200161695480347,
+      0.09873075783252716,
+      0.06482402235269547,
+      1.7046599388122559
+    ],
+    "groups": [
+      "LOOP_mouth_seam",
+      "LOOP_mouth_lip_upper",
+      "LOOP_mouth_lip_lower",
+      "LOOP_nostril_L",
+      "LOOP_nostril_R",
+      "LOOP_ala_L",
+      "LOOP_ala_R",
+      "LOOP_ear_attach_L",
+      "LOOP_helix_L",
+      "LOOP_concha_L",
+      "LOOP_ear_attach_R",
+      "LOOP_helix_R",
+      "LOOP_concha_R",
+      "LOOP_jaw_ear_L",
+      "LOOP_jaw_ear_R",
+      "LOOP_lid_margin_L",
+      "LOOP_lid_margin_R"
+    ],
+    "blinkActive": 998
+  },
+  "Female": {
+    "vertices": 22891,
+    "triangles": 45526,
+    "headEdges": 18804,
+    "headEdgeLengthMmPercentiles": [
+      2.617812018085223,
+      8.15137930995308,
+      11.107948059871276,
+      13.7224868188814,
+      17.557002449493847
+    ],
+    "headEdgesOver10mm": 1357,
+    "headMinMax": [
+      -0.11811407655477524,
+      -0.14992894232273102,
+      1.4202139377593994,
+      0.11811407655477524,
+      0.11210358887910843,
+      1.704388976097107
+    ],
+    "groups": [
+      "LOOP_eyeL",
+      "LOOP_eyeR",
+      "LOOP_nostril_L",
+      "LOOP_nostril_R",
+      "LOOP_seam",
+      "LOOP_lip_up",
+      "LOOP_lip_lo",
+      "LOOP_ear_attach_L",
+      "LOOP_helix_L",
+      "LOOP_concha_L",
+      "LOOP_ear_attach_R",
+      "LOOP_helix_R",
+      "LOOP_concha_R",
+      "LOOP_lid_up_L",
+      "LOOP_lid_low_L",
+      "LOOP_lid_up_R",
+      "LOOP_lid_low_R",
+      "LOOP_jaw_ear_L",
+      "LOOP_ala_L",
+      "LOOP_jaw_ear_R",
+      "LOOP_ala_R"
+    ],
+    "blinkActive": 2157
+  }
+}

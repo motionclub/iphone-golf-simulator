@@ -1,0 +1,58 @@
+{
+ "Female_ReadyIdle": {
+  "frames": 67,
+  "bones": 52,
+  "max_mm": 0.0084,
+  "mean_mm": 0.005,
+  "worst_bone": "RightLittleProximal",
+  "worst_frame": 41
+ },
+ "Female_Forehand": {
+  "frames": 37,
+  "bones": 52,
+  "max_mm": 0.0083,
+  "mean_mm": 0.0048,
+  "worst_bone": "RightMiddleDistal",
+  "worst_frame": 3
+ },
+ "Female_Backhand": {
+  "frames": 37,
+  "bones": 52,
+  "max_mm": 0.01,
+  "mean_mm": 0.0049,
+  "worst_bone": "LeftRingIntermediate",
+  "worst_frame": 28
+ },
+ "Female_Serve": {
+  "frames": 49,
+  "bones": 52,
+  "max_mm": 0.0083,
+  "mean_mm": 0.0048,
+  "worst_bone": "RightMiddleIntermediate",
+  "worst_frame": 10
+ },
+ "Female_Overhead": {
+  "frames": 37,
+  "bones": 52,
+  "max_mm": 0.009,
+  "mean_mm": 0.0048,
+  "worst_bone": "LeftLittleProximal",
+  "worst_frame": 6
+ },
+ "Female_VolleyForehand": {
+  "frames": 22,
+  "bones": 52,
+  "max_mm": 0.0082,
+  "mean_mm": 0.0049,
+  "worst_bone": "LeftRingDistal",
+  "worst_frame": 5
+ },
+ "Female_Return": {
+  "frames": 28,
+  "bones": 52,
+  "max_mm": 0.0086,
+  "mean_mm": 0.0048,
+  "worst_bone": "RightThumbIntermediate",
+  "worst_frame": 13
+ }
+}

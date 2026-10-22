@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "scope": "Scratch configuration parse/path adapters only; native capture unexecuted",
+  "defaultFolder": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/runtime_adapter_check_default",
+  "round1Folder": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/runtime_adapter_check_round1",
+  "sixAddressCostBytesIdentical": true,
+  "allNineOriginalStillBytesIdentical": true,
+  "allSixMeasurementAdaptersEqualAfterOnlyRunPathNormalization": true,
+  "maskConfigBytesIdentical": true,
+  "frozenConfigManifestSHA": "1b70970b9cafb79b70a3b1b7ffbc491ba8e736deeda6e2f6957a178e9ae462f2",
+  "runtimePreparerSHA": "c8ba5e1c76f7d41df74e5c89b560c470e4ddf037b53b9038218e75553b4d70fe",
+  "overrideValidatorSHA": "ff635ec32d023bd016b06157be07d0ade965eede2b3176169ac79e003c2a35bf",
+  "totalChangedCameraFields": 24,
+  "priorScratchComparisonFailure": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/runtime_adapter_validation_attempt1.txt"
+}

@@ -1,0 +1,20 @@
+# Chat D (audio) — every file created or edited, all uncommitted (2026-10-19)
+## New
+Unity/Assets/Scripts/Game/GameAudio.cs            buses (Music/Crowd/Sfx/Announcer) + announcer ducking + Heard log
+Unity/Assets/Scripts/Game/GameMusic.cs            soundtrack player: "Clubhouse Pop" (plaza/menus), "Fairway Breeze" (golf), crossfades, claims
+Unity/Assets/Resources/Audio/Announcer/Golf/*.wav     32 generated golf calls
+Unity/Assets/Resources/Audio/Announcer/Tennis/*.wav   46 generated tennis calls (the script TennisAnnouncer always expected)
+Unity/Assets/Resources/Audio/Crowd/*.wav              ooh, aww, cheer, roar, gallery_murmur, stands_murmur
+(+ the .meta files Unity makes for the above)
+work/audio-pass/**                                 tools/make_voices.py, AudioProof.cs.txt (clone-only harness), proof/, logs/, docs
+## Edited (own files)
+Unity/Assets/Scripts/Game/GolfSounds.cs           strike takes + pure/thin layers, voiced crowd, murmur bed, announcer, music claim/calm
+Unity/Assets/Scripts/Game/EventSounds.cs          one-shot source on the Sfx bus, beds scaled by the Sfx fader
+Unity/Assets/Scripts/Game/PresentationStinger.cs  its source on the Sfx bus
+Unity/Assets/Scripts/Tennis/TennisSounds.cs       racket/rival/bounce takes, working per-hit pitch, frame clank, buses
+Unity/Assets/Scripts/Tennis/TennisAnnouncer.cs    folder parameter (Audio/Announcer/...), Announcer bus, ducks the mix
+Unity/Assets/Scripts/Tennis/TennisAmbience.cs     voiced crowd layered over the synth one, generated stands murmur, buses
+Unity/Assets/Scripts/Tennis/TennisAudioDirector.cs music duck from GameAudio, claims silence from GameMusic
+## Minimal hooks in another chat's file (chat A owns it) — 2 lines
+Unity/Assets/Scripts/Game/GolfGame.cs  ~l.2224  sounds.PlayStrike(club, LastShot.Power, lastReport.Grade);   (was without the grade)
+Unity/Assets/Scripts/Game/GolfGame.cs  React()  sounds.OnRest(shot, toPin, club == GolfClub.Putter, InLava(shot));   (new line after toPin)

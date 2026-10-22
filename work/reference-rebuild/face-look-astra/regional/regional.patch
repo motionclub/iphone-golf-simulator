@@ -1,0 +1,22 @@
+--- Unity/Assets/Resources/Tennis/Shaders/HeroLighting.hlsl
++++ Unity/Assets/Resources/Tennis/Shaders/HeroLighting.hlsl
+@@ -101,7 +101,7 @@
+         // Lower integrated reflection energy preserves the side-plane colour;
+         // the soft shoulder keeps the highlight transition from becoming oily.
+         // Rougher lips/neck remain below the forehead/nose response.
+-        half glossWeight = .5h + .5h * saturate((smoothness - .32h) / .08h);
++        half glossWeight = .16h + .84h * saturate((smoothness - .32h) / .06h);
+         broad = (pow(nh, 5 + smoothness * 6) * .035h
+                + pow(nh, 18 + smoothness * 18) * .40h) * glossWeight;
+     }
+--- GolfArcade/Unity/MatchHeroSurfaces.swift
++++ GolfArcade/Unity/MatchHeroSurfaces.swift
+@@ -174,7 +174,7 @@
+         float skinLobe=pow(nh,18.0+smoothness*18.0)*0.075;
+         if(skinPolish>0.5) {
+             // Same soft shoulder / satin core as Unity's HeroSkinShade.
+-            float glossWeight=0.5+0.5*saturate((smoothness-0.32)/0.08);
++            float glossWeight=0.16+0.84*saturate((smoothness-0.32)/0.06);
+             skinLobe=(pow(nh,5.0+smoothness*6.0)*0.035+pow(nh,18.0+smoothness*18.0)*0.40)*glossWeight;
+         }
+         spec=skinLobe*0.95*smoothstep(-0.06,0.24,nl);

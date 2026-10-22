@@ -1,0 +1,53 @@
+sun dir_to_light=(0.5298, 0.8480, 0.0092) azimuth_deg=89.00 elevation_deg=58.00 colour=RGBA(1.000, 0.910, 0.770, 1.000) intensity=1.776
+skybox=Dream world clock sky / GolfArcade/DreamSky
+fog=True RGBA(0.630, 0.770, 0.860, 1.000) 120.2975-1093.613 far=1800 hole=15 utc=1792263600
+tex ArchipelagoSky 2048x1024 slot=806 shader=GolfArcade/DreamSky mat=Dream world clock sky on=skybox
+tex Surf_C 512x512 slot=7 shader=GolfArcade/GolfSurf mat=Course 15 Surf on=WATER_FOAM_CREST_1
+tex  64x64 slot=7 shader=GolfArcade/ParticleSoft mat=GolfArcade/ParticleSoft on=Dot
+tex Sand_C 512x512 slot=73 shader=GolfArcade/GolfGround mat=Course 15 Sand on=GOLF_SURFACE_BATCH_4
+tex Sand_N 512x512 slot=265 shader=GolfArcade/GolfGround mat=Course 15 Sand on=GOLF_SURFACE_BATCH_4
+tex Course mowing 15 128x128 slot=931 shader=GolfArcade/GolfGround mat=Course 15 Sand on=GOLF_SURFACE_BATCH_4
+tex Plants_C 256x256 slot=73 shader=GolfArcade/GolfPlants mat=LK_PLANTS on=GOLF_PLANT_BATCH_7
+tex CoastalCliffScan_C 512x512 slot=73 shader=GolfArcade/GolfRock mat=Weathered edges on=Dream catalogue 15 Weathered edges
+tex CoastalCliffScan_N 512x512 slot=265 shader=GolfArcade/GolfRock mat=Weathered edges on=Dream catalogue 15 Weathered edges
+tex GeologyLimestone_C 512x512 slot=73 shader=GolfArcade/GolfRock mat=Course 15 Cliff on=GOLF_SURFACE_BATCH_20
+tex Limestone_N 512x512 slot=265 shader=GolfArcade/GolfRock mat=Course 15 Cliff on=GOLF_SURFACE_BATCH_20
+tex Course mowing 15 128x128 slot=931 shader=GolfArcade/GolfRock mat=Course 15 Cliff on=GOLF_SURFACE_BATCH_20
+tex Contact shadow falloff 64x64 slot=7 shader=GolfArcade/TennisShadowBlob mat=GolfArcade/TennisShadowBlob on=Contact shadow — Golfer
+tex sailboat 512x512 slot=7 shader=Universal Render Pipeline/Lit mat=MAT_SAILBOAT on=sailboat
+tex sailboat 512x512 slot=73 shader=Universal Render Pipeline/Lit mat=MAT_SAILBOAT on=sailboat
+tex CoastalTurf_C 512x512 slot=73 shader=GolfArcade/GolfGround mat=Course 15 Fringe on=GOLF_SURFACE_BATCH_3
+tex CoastalTurf_N 512x512 slot=265 shader=GolfArcade/GolfGround mat=Course 15 Fringe on=GOLF_SURFACE_BATCH_3
+tex Limestone_C 512x512 slot=73 shader=GolfArcade/GolfRock mat=Course 15 Masonry on=GOLF_SURFACE_BATCH_8
+tex Wood_C 512x512 slot=73 shader=GolfArcade/GolfRock mat=Course 15 Wood:426170FF on=GOLF_SURFACE_BATCH_10
+tex Wood_N 512x512 slot=265 shader=GolfArcade/GolfRock mat=Course 15 Wood:426170FF on=GOLF_SURFACE_BATCH_10
+tex Font Texture 256x256 slot=7 shader=GUI/Text Shader mat=Font Material on=Window sign
+tex ball_dimples_normal 512x512 slot=968 shader=GolfArcade/GolfBall mat=Ball (dimpled) on=Codex ball
+tex dust 256x256 slot=7 shader=GolfArcade/ParticleSoft mat=Effect dust on=Puffs
+tex  64x64 slot=7 shader=GolfArcade/WeatherParticle mat=Snow on=Snow
+tex grass 512x512 slot=7 shader=GolfArcade/ParticleSoft mat=Effect grass on=Clippings
+tex Rain streak 8x64 slot=7 shader=GolfArcade/WeatherParticle mat=Rain on=Rain
+tex  64x64 slot=7 shader=GolfArcade/ParticleAdd mat=Embers on=Embers
+tex OriginalEye_RelativeSclera 128x128 slot=73 shader=GolfArcade/TennisCharacter mat=Reference_Face_Sclera (hero) on=OriginalSeamFeatures
+tex OriginalEye_RelativeIris 128x128 slot=73 shader=GolfArcade/TennisCharacter mat=Reference_Face_IrisIn (hero) on=OriginalSeamFeatures
+tex KitV2_Golf_Female_Top_N 1024x1024 slot=266 shader=GolfArcade/TennisCloth mat=Kit_Shirt (hero) on=Kit_Top
+tex KitV2_Golf_Female_Top_M 1024x1024 slot=833 shader=GolfArcade/TennisCloth mat=Kit_Shirt (hero) on=Kit_Top
+tex KitV2_FabricAtlas 512x512 slot=842 shader=GolfArcade/TennisCloth mat=Kit_Shirt (hero) on=Kit_Top
+tex flag_5 512x256 slot=73 shader=Universal Render Pipeline/Lit mat=Flag 5 on=FLAG
+tex OriginalSeam_RelativeSkinPigment 64x64 slot=73 shader=GolfArcade/HeroFaceSkin mat=Skin_OriginalSurfacePigment (hero) on=Body
+tex Acc_Female_golf_glove_Glove_N 2048x2048 slot=266 shader=GolfArcade/TennisCloth mat=Acc_Glove (hero) on=Acc_GloveL
+tex Acc_Female_golf_glove_Glove_M 2048x2048 slot=833 shader=GolfArcade/TennisCloth mat=Acc_Glove (hero) on=Acc_GloveL
+tex KitV2_Golf_Female_Bottom_N 2048x2048 slot=266 shader=GolfArcade/TennisCloth mat=Kit_Shorts (hero) on=Kit_Bottom
+tex KitV2_Golf_Female_Bottom_M 2048x2048 slot=833 shader=GolfArcade/TennisCloth mat=Kit_Shorts (hero) on=Kit_Bottom
+tex Acc_Female_golf_cap_Cap_N 2048x2048 slot=266 shader=GolfArcade/TennisCloth mat=Acc_Cap (hero) on=Acc_Cap
+tex Acc_Female_golf_cap_Cap_M 2048x2048 slot=833 shader=GolfArcade/TennisCloth mat=Acc_Cap (hero) on=Acc_Cap
+tex KitV2_Golf_Female_ShoeR_N 1024x1024 slot=266 shader=GolfArcade/TennisCloth mat=Kit_Shoe (hero) on=Kit_Shoe_R
+tex KitV2_Golf_Female_ShoeR_M 1024x1024 slot=833 shader=GolfArcade/TennisCloth mat=Kit_Shoe (hero) on=Kit_Shoe_R
+tex KitV2_Golf_Female_ShoeL_N 1024x1024 slot=266 shader=GolfArcade/TennisCloth mat=Kit_Shoe (hero) on=Kit_Shoe_L
+tex KitV2_Golf_Female_ShoeL_M 1024x1024 slot=833 shader=GolfArcade/TennisCloth mat=Kit_Shoe (hero) on=Kit_Shoe_L
+shot 01_tee pos=(0.32, 14.36, -3.88) rot=(9.09, 358.76, 0.00) fov=60.0
+shot 02_approach pos=(7.72, 18.79, 122.52) rot=(9.09, 358.76, 0.00) fov=60.0
+shot 03_aerial pos=(154.35, 245.07, -105.65) rot=(44.47, 320.19, 0.00) fov=50.0
+shot 04_longlens pos=(0.00, 13.95, 0.00) rot=(357.14, 3.35, 0.00) fov=20.0
+shot 05_crane0 pos=(-2.34, 42.25, -39.93) rot=(1.15, 3.35, 0.00) fov=46.0
+shot 05_crane60 pos=(57.56, 42.25, -43.44) rot=(1.15, 3.35, 0.00) fov=46.0

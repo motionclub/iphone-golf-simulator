@@ -1,0 +1,309 @@
+{
+  "threshold_bytes": {
+    "mean": 1,
+    "max": 3
+  },
+  "rows": [
+    {
+      "file": "female_bottom_back.png",
+      "whole_image_mean_bytes": 0.004645347508001829,
+      "whole_image_max_bytes": 27,
+      "whole_image_pass": false
+    },
+    {
+      "file": "female_bottom_front.png",
+      "whole_image_mean_bytes": 0.003269318701417467,
+      "whole_image_max_bytes": 1,
+      "whole_image_pass": true
+    },
+    {
+      "file": "female_bottom_other.png",
+      "whole_image_mean_bytes": 0.0024045496113397347,
+      "whole_image_max_bytes": 9,
+      "whole_image_pass": false
+    },
+    {
+      "file": "female_bottom_side.png",
+      "whole_image_mean_bytes": 0.0024579903978052126,
+      "whole_image_max_bytes": 16,
+      "whole_image_pass": false
+    },
+    {
+      "file": "female_collar.png",
+      "whole_image_mean_bytes": 0.0023079561042524004,
+      "whole_image_max_bytes": 1,
+      "whole_image_pass": true
+    },
+    {
+      "file": "female_drawcord.png",
+      "whole_image_mean_bytes": 0.004751085962505715,
+      "whole_image_max_bytes": 2,
+      "whole_image_pass": true
+    },
+    {
+      "file": "female_fold_armpit.png",
+      "whole_image_mean_bytes": 0.004276120256058527,
+      "whole_image_max_bytes": 33,
+      "kit_pixels": 505743,
+      "kit_mean_bytes": 0.009585237297731588,
+      "kit_max_bytes": 1,
+      "whole_image_pass": false
+    },
+    {
+      "file": "female_fold_crotch.png",
+      "whole_image_mean_bytes": 0.004342421124828532,
+      "whole_image_max_bytes": 1,
+      "kit_pixels": 712296,
+      "kit_mean_bytes": 0.007065414752668367,
+      "kit_max_bytes": 1,
+      "whole_image_pass": true
+    },
+    {
+      "file": "female_fold_waist.png",
+      "whole_image_mean_bytes": 0.006195987654320988,
+      "whole_image_max_bytes": 2,
+      "kit_pixels": 883744,
+      "kit_mean_bytes": 0.008136594609600367,
+      "kit_max_bytes": 1,
+      "whole_image_pass": true
+    },
+    {
+      "file": "female_full_back.png",
+      "whole_image_mean_bytes": 0.0007944673068129858,
+      "whole_image_max_bytes": 1,
+      "whole_image_pass": true
+    },
+    {
+      "file": "female_full_front.png",
+      "whole_image_mean_bytes": 0.0007107338820301783,
+      "whole_image_max_bytes": 1,
+      "whole_image_pass": true
+    },
+    {
+      "file": "female_full_threequarter.png",
+      "whole_image_mean_bytes": 0.0006587219935985368,
+      "whole_image_max_bytes": 8,
+      "whole_image_pass": false
+    },
+    {
+      "file": "female_match_behind.png",
+      "whole_image_mean_bytes": 0.001293041087962963,
+      "whole_image_max_bytes": 30,
+      "whole_image_pass": false
+    },
+    {
+      "file": "female_match_phone.png",
+      "whole_image_mean_bytes": 0.0001510016517915412,
+      "whole_image_max_bytes": 1,
+      "kit_pixels": 36305,
+      "kit_mean_bytes": 0.00942937152825598,
+      "kit_max_bytes": 1,
+      "whole_image_pass": true
+    },
+    {
+      "file": "female_opponent.png",
+      "whole_image_mean_bytes": 1.800317756083949e-05,
+      "whole_image_max_bytes": 1,
+      "whole_image_pass": true
+    },
+    {
+      "file": "female_pocket_detail.png",
+      "whole_image_mean_bytes": 0.00510116598079561,
+      "whole_image_max_bytes": 1,
+      "whole_image_pass": true
+    },
+    {
+      "file": "female_shoe.png",
+      "whole_image_mean_bytes": 0.0012191358024691357,
+      "whole_image_max_bytes": 1,
+      "whole_image_pass": true
+    },
+    {
+      "file": "female_shoe_side.png",
+      "whole_image_mean_bytes": 0.0017069615912208504,
+      "whole_image_max_bytes": 9,
+      "whole_image_pass": false
+    },
+    {
+      "file": "female_sleeve.png",
+      "whole_image_mean_bytes": 0.0014300411522633744,
+      "whole_image_max_bytes": 1,
+      "whole_image_pass": true
+    },
+    {
+      "file": "female_sock.png",
+      "whole_image_mean_bytes": 0.0005395518975765889,
+      "whole_image_max_bytes": 1,
+      "whole_image_pass": true
+    },
+    {
+      "file": "female_sole.png",
+      "whole_image_mean_bytes": 0.0010993941472336535,
+      "whole_image_max_bytes": 1,
+      "whole_image_pass": true
+    },
+    {
+      "file": "female_vent_detail.png",
+      "whole_image_mean_bytes": 0.006420896204846822,
+      "whole_image_max_bytes": 20,
+      "whole_image_pass": false
+    },
+    {
+      "file": "female_waist.png",
+      "whole_image_mean_bytes": 0.004701074531321445,
+      "whole_image_max_bytes": 6,
+      "whole_image_pass": false
+    },
+    {
+      "file": "male_bottom_back.png",
+      "whole_image_mean_bytes": 0.002622599451303155,
+      "whole_image_max_bytes": 27,
+      "whole_image_pass": false
+    },
+    {
+      "file": "male_bottom_front.png",
+      "whole_image_mean_bytes": 0.0029526748971193417,
+      "whole_image_max_bytes": 2,
+      "whole_image_pass": true
+    },
+    {
+      "file": "male_bottom_other.png",
+      "whole_image_mean_bytes": 0.002303097850937357,
+      "whole_image_max_bytes": 10,
+      "whole_image_pass": false
+    },
+    {
+      "file": "male_bottom_side.png",
+      "whole_image_mean_bytes": 0.00271804983996342,
+      "whole_image_max_bytes": 18,
+      "whole_image_pass": false
+    },
+    {
+      "file": "male_collar.png",
+      "whole_image_mean_bytes": 0.00310413808870599,
+      "whole_image_max_bytes": 2,
+      "whole_image_pass": true
+    },
+    {
+      "file": "male_drawcord.png",
+      "whole_image_mean_bytes": 0.0038225880201188845,
+      "whole_image_max_bytes": 1,
+      "whole_image_pass": true
+    },
+    {
+      "file": "male_fold_armpit.png",
+      "whole_image_mean_bytes": 0.004387574302697759,
+      "whole_image_max_bytes": 33,
+      "kit_pixels": 675230,
+      "kit_mean_bytes": 0.007367366181399918,
+      "kit_max_bytes": 1,
+      "whole_image_pass": false
+    },
+    {
+      "file": "male_fold_crotch.png",
+      "whole_image_mean_bytes": 0.003765432098765432,
+      "whole_image_max_bytes": 1,
+      "kit_pixels": 914938,
+      "kit_mean_bytes": 0.0047708150716223394,
+      "kit_max_bytes": 1,
+      "whole_image_pass": true
+    },
+    {
+      "file": "male_fold_waist.png",
+      "whole_image_mean_bytes": 0.004909979423868313,
+      "whole_image_max_bytes": 1,
+      "kit_pixels": 978529,
+      "kit_mean_bytes": 0.0058155319532345665,
+      "kit_max_bytes": 1,
+      "whole_image_pass": true
+    },
+    {
+      "file": "male_full_back.png",
+      "whole_image_mean_bytes": 0.0006115683584819387,
+      "whole_image_max_bytes": 1,
+      "whole_image_pass": true
+    },
+    {
+      "file": "male_full_front.png",
+      "whole_image_mean_bytes": 0.0006169981710105167,
+      "whole_image_max_bytes": 1,
+      "whole_image_pass": true
+    },
+    {
+      "file": "male_full_threequarter.png",
+      "whole_image_mean_bytes": 0.00071473479652492,
+      "whole_image_max_bytes": 8,
+      "whole_image_pass": false
+    },
+    {
+      "file": "male_match_behind.png",
+      "whole_image_mean_bytes": 0.0013198061342592593,
+      "whole_image_max_bytes": 30,
+      "whole_image_pass": false
+    },
+    {
+      "file": "male_match_phone.png",
+      "whole_image_mean_bytes": 0.000139974705535527,
+      "whole_image_max_bytes": 1,
+      "kit_pixels": 42418,
+      "kit_mean_bytes": 0.007119619029657221,
+      "kit_max_bytes": 1,
+      "whole_image_pass": true
+    },
+    {
+      "file": "male_opponent.png",
+      "whole_image_mean_bytes": 1.800317756083949e-05,
+      "whole_image_max_bytes": 1,
+      "whole_image_pass": true
+    },
+    {
+      "file": "male_pocket_detail.png",
+      "whole_image_mean_bytes": 0.006569501600365798,
+      "whole_image_max_bytes": 1,
+      "whole_image_pass": true
+    },
+    {
+      "file": "male_shoe.png",
+      "whole_image_mean_bytes": 0.0016283721993598536,
+      "whole_image_max_bytes": 1,
+      "whole_image_pass": true
+    },
+    {
+      "file": "male_shoe_side.png",
+      "whole_image_mean_bytes": 0.0029949702789208964,
+      "whole_image_max_bytes": 2,
+      "whole_image_pass": true
+    },
+    {
+      "file": "male_sleeve.png",
+      "whole_image_mean_bytes": 0.0015469250114311843,
+      "whole_image_max_bytes": 1,
+      "whole_image_pass": true
+    },
+    {
+      "file": "male_sock.png",
+      "whole_image_mean_bytes": 0.0009447873799725651,
+      "whole_image_max_bytes": 1,
+      "whole_image_pass": true
+    },
+    {
+      "file": "male_sole.png",
+      "whole_image_mean_bytes": 0.0013260173754000915,
+      "whole_image_max_bytes": 2,
+      "whole_image_pass": true
+    },
+    {
+      "file": "male_vent_detail.png",
+      "whole_image_mean_bytes": 0.006356881572930955,
+      "whole_image_max_bytes": 20,
+      "whole_image_pass": false
+    },
+    {
+      "file": "male_waist.png",
+      "whole_image_mean_bytes": 0.0028449359853680843,
+      "whole_image_max_bytes": 13,
+      "whole_image_pass": false
+    }
+  ],
+  "scope": "full images plus available kit masks; whole-image PASS also proves every hero pixel, while a whole-image FAIL requires a complete hero mask to distinguish background motion"
+}

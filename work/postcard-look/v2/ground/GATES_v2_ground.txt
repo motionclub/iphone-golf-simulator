@@ -1,0 +1,93 @@
+[smoke] baseline build of hole 08 with work/postcard-look/baseline/scripts/hole08_build.py: 2.7s
+[smoke] waterfall foot (shelf pocket + surf patch) at (33.2, 159.5) m
+GATE: LOOK_TOP_SURFACES_UNCHANGED PASS - 8 ground meshes, 2492 vertices, max |delta| 0.00e+00 m (tol 1e-05)
+GATE: LOOK_NO_COLLISION_PREFIX PASS - 62 objects made by postcard_look_lib, none with a ground prefix; ground meshes 8 all on the postcard_verify allow-list
+GATE: LOOK_NO_MAT_FOAM PASS - exported meshes using MAT_FOAM [], WATER_FOAM* objects [], MAT_FOAM datablock users 0 (0-user data is neither saved nor exported)
+GATE: LOOK_GROUND_WATER_ARE_LK PASS - non-LK materials on ground/water meshes: []
+GATE: LOOK_UV_SANE PASS - 10 ground/water meshes: one UV layer, finite, max |uv| 250.6, UV*tile/world edge ratio on every top/flat face 0.60..1.40 (limits 0.45..2.2); TERRAIN wall faces (hidden by the skin; arc-of-the-top-loop u) max ratio 1.45 (<= 8: no seam jump)
+GATE: LOOK_SKIN_BELOW_PLAY PASS - 4 ROCK_SKIN pieces, 21744 tris, highest vertex 5.800 m (play 6.0 - 0.05)
+GATE: LOOK_WATER_STACK PASS - 22 WATER_* meshes inside z 0..0.2
+GATE: LOOK_SURF_BROKEN PASS - 20 WATER_SURF objects, 20 separate pieces (>= 8; was >= 12 on the old near-continuous band), longest piece 11.8 m (<= 14 bbox diagonal of one patch; was <= 140; the run along the shore is capped at 10 m by NO_FOAM_STRIP), vertex colour 'Col' on all: True
+GATE: SHELF_THIN PASS - 588 shore samples (every 1 m, 3 loops): visible shelf width beyond the skin at the waterline median 1.30 m (<= 2.5), p95 2.50 m (<= 4), max 3.10 m outside pockets (<= 4.5), 5.60 m in 11 pocket samples (<= 6); breaks (no shelf) 10% of samples; where present median 1.40 m, CV 0.54 (>= 0.3); top-down footprint width median 0.50 m, p95 1.66 m; WATER_SHELF area 2645 m2
+GATE: NO_FOAM_STRIP PASS - 128 export meshes: foam objects/materials []; 20 WATER_SURF objects, 20 components; coverage 12.2% of 522 m shoreline (<= 25), 14 runs along the shore, longest 7.5 m (<= 10), shortest gap between runs 15.0 m (>= 8), strips (aspect >= 4 and width CV <= 0.35) 0, components with alpha > 0.1 at an end 0; component aspect max 1.46, alpha max 1.00
+GATE: PATH_UNDER_BALL PASS - 6065 path vertices: max top above the collider right below 1.15 cm (<= 1.2), lowest skirt foot -10.0 cm (<= -3); dense lattice 142874 samples (108 m2 at 2.75 cm): max 1.15 cm above the ground (<= 1.5), median 1.15 cm, 6% of the path buried under the ground; border step max 0.13 cm; ball test 35747 resting positions: max hidden 3.5% (<= 10), > 5% at 0, > 10% at 0
+GATE: CRATER_WALL_COVERED PASS - 7248 rays (aerial/low/oblique) at wall points z 0.3 .. 5.88 m: smooth TERRAIN wall seen first 1374 = 18.96% (<= 1), at z >= 5 m: 1368 (must be 0), first hit on a vertical LK_ROUGH wall face 1368 (18.87%, <= 1); by view {'aerial': '458/2416', 'low': '458/2416', 'oblique': '458/2416'}; by wall height {'>=5': 1368, '3-5': 6}; tolerated sliver PLAY_Z - 0.10 .. PLAY_Z: 906/906 rays reach bare wall (LK_BASALT there on Crater); up-facing skin faces above PLAY_Z - 0.05: 0 (report only: strata holes keep a grass fringe above the cap ledge)
+GATE: SKIN_NOT_OVER_WATER PASS - 2 water ellipses, 22702 grid cells (0.5 m) deeper than 0.15 m inside them: 0 are covered by an up-facing skin surface (0.0 m2, worst depth 0.00 m, top z 0.00); up-facing (nz > 0.3) skin faces deeper than 0.15 m: 0 by centre, 0 by any vertex
+GATE: SKIN_FACES_OUTWARD PASS - 861 rays from 20 m out at z 1, 3, 5 toward the shore: first hit on a ROCK_SKIN face is FRONT-facing 861 times, back-facing 0 (100.0% front, need >= 99%; the materials are single-sided in Unity)
+GATE: SKIN_JAGGED PASS - strata skin mid-row plan tortuosity (reviewer's measure, row 6 of 13 vs a 9-column moving average) 1.183 (>= 1.15; the old skin 1.03-1.07)
+GATE: LOOK_WALL_HIDDEN_BY_SKIN PASS - 421 rays from 12 m out toward the TERRAIN wall that land on it between z 0.05 and the lowest skin top (play - 0.5): 420 hit ROCK_SKIN first (99.8 %, >= 97 %), 1 reach the smooth wall
+GATE: LOOK_SKIN_NO_UPFACE_IN_PLAY PASS - 0 up-facing ROCK_SKIN faces with centre above play_z - 0.05
+GATE: LOOK_BUDGET PASS - 48638 tris in the export set (<= 250000), FBX 1.55 MB (<= 20)
+[smoke] tris: skin 21744, water {'WATER_OCEAN': 7280, 'WATER_SHELF': 907}, surf 1370, total 48638
+[smoke] renders: ['/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/lib_ground/smoke_hole08/render_top.png', '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/lib_ground/smoke_hole08/render_oblique.png', '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/lib_ground/smoke_hole08/render_phone_tee.png', '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/lib_ground/smoke_hole08/render_phone_mid.png', '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/lib_ground/smoke_hole08/render_shore.png']
+GATE: FBX_GROUND_SET PASS - ground meshes 8 == expected 8
+GATE: FBX_LK_MATERIALS PASS - LK materials in the file: ['LK_CLIFF', 'LK_CLIFF_DARK', 'LK_FAIRWAY', 'LK_GREEN', 'LK_PATH', 'LK_ROCK', 'LK_ROUGH', 'LK_SAND', 'LK_SURF', 'LK_WATER', 'LK_WATER_SHALLOW']
+GATE: FBX_UV0 PASS - every ground/water/skin/path mesh has exactly one UV layer
+GATE: FBX_SURF_COLOURS PASS - 20 WATER_SURF meshes, all with a colour layer: True, max alpha 1.00
+GATE: FBX_NO_TEXTURE_REFS PASS - texture references in the FBX: [] (Unity names materials by base texture name with materialName 0, so the LK_* names only survive without them)
+GATE: FBX_NO_MAT_FOAM PASS - MAT_FOAM materials in the file: []
+GATE: POSTCARD_VERIFY_NO_REGRESSION PASS - 29 postcard_verify gates on the look build; base build failed []; look build fails ['MATERIALS@blend', 'MATERIALS@fbx']; new failures outside the superseded MATERIALS/FBX_BUDGET: []
+[smoke] superseded postcard_verify gates failing on the look build (LK_* names / look budget replace them): ['MATERIALS@blend', 'MATERIALS@fbx']
+[smoke] hole 08: build 2.7s, look passes 2.8s, 25 gates, 0 failed []
+
+[smoke] baseline build of hole 09 with work/postcard-look/baseline/scripts/hole09_build.py: 4.7s
+GATE: LOOK_TOP_SURFACES_UNCHANGED PASS - 12 ground meshes, 5628 vertices, max |delta| 0.00e+00 m (tol 1e-05)
+GATE: LOOK_NO_COLLISION_PREFIX PASS - 85 objects made by postcard_look_lib, none with a ground prefix; ground meshes 12 all on the postcard_verify allow-list
+GATE: LOOK_NO_MAT_FOAM PASS - exported meshes using MAT_FOAM [], WATER_FOAM* objects [], MAT_FOAM datablock users 0 (0-user data is neither saved nor exported)
+GATE: LOOK_GROUND_WATER_ARE_LK PASS - non-LK materials on ground/water meshes: []
+GATE: LOOK_UV_SANE PASS - 14 ground/water meshes: one UV layer, finite, max |uv| 250.8, UV*tile/world edge ratio on every top/flat face 0.63..1.38 (limits 0.45..2.2); TERRAIN wall faces (hidden by the skin; arc-of-the-top-loop u) max ratio 2.94 (<= 8: no seam jump)
+GATE: LOOK_SKIN_BELOW_PLAY PASS - 14 ROCK_SKIN pieces, 79416 tris, highest vertex 5.815 m (play 6.0 - 0.05)
+GATE: LOOK_WATER_STACK PASS - 70 WATER_* meshes inside z 0..0.2
+GATE: LOOK_SURF_BROKEN PASS - 68 WATER_SURF objects, 68 separate pieces (>= 8; was >= 12 on the old near-continuous band), longest piece 11.4 m (<= 14 bbox diagonal of one patch; was <= 140; the run along the shore is capped at 10 m by NO_FOAM_STRIP), vertex colour 'Col' on all: True
+GATE: SHELF_THIN PASS - 2075 shore samples (every 1 m, 1 loops): visible shelf width beyond the skin at the waterline median 1.40 m (<= 2.5), p95 2.60 m (<= 4), max 4.20 m outside pockets (<= 4.5), 3.10 m in 118 pocket samples (<= 6); breaks (no shelf) 6% of samples; where present median 1.50 m, CV 0.44 (>= 0.3); top-down footprint width median 0.50 m, p95 1.60 m; WATER_SHELF area 10507 m2
+GATE: NO_FOAM_STRIP PASS - 560 export meshes: foam objects/materials []; 68 WATER_SURF objects, 68 components; coverage 15.4% of 1895 m shoreline (<= 25), 62 runs along the shore, longest 7.5 m (<= 10), shortest gap between runs 14.0 m (>= 8), strips (aspect >= 4 and width CV <= 0.35) 0, components with alpha > 0.1 at an end 0; component aspect max 1.60, alpha max 1.00
+GATE: PATH_UNDER_BALL PASS - no DRESS_PATH on this hole (nothing to measure)
+GATE: CRATER_WALL_COVERED PASS - 22817 rays (aerial/low/oblique) at wall points z 0.3 .. 5.88 m: smooth TERRAIN wall seen first 4161 = 18.24% (<= 1), at z >= 5 m: 4161 (must be 0), first hit on a vertical LK_ROUGH wall face 3944 (17.29%, <= 1); by view {'aerial': '1251/6805', 'low': '1251/6805', 'oblique': '1659/9207'}; by wall height {'>=5': 4161}; tolerated sliver PLAY_Z - 0.10 .. PLAY_Z: 2820/2820 rays reach bare wall (LK_BASALT there on Crater); up-facing skin faces above PLAY_Z - 0.05: 0 (report only: strata holes keep a grass fringe above the cap ledge)
+GATE: SKIN_NOT_OVER_WATER PASS - 1 water ellipses, 22351 grid cells (0.5 m) deeper than 0.15 m inside them: 0 are covered by an up-facing skin surface (0.0 m2, worst depth 0.00 m, top z 0.00); up-facing (nz > 0.3) skin faces deeper than 0.15 m: 0 by centre, 0 by any vertex
+GATE: SKIN_FACES_OUTWARD PASS - 2490 rays from 20 m out at z 1, 3, 5 toward the shore: first hit on a ROCK_SKIN face is FRONT-facing 2490 times, back-facing 0 (100.0% front, need >= 99%; the materials are single-sided in Unity)
+GATE: SKIN_JAGGED PASS - strata skin mid-row plan tortuosity (reviewer's measure, row 6 of 13 vs a 9-column moving average) 1.160 (>= 1.15; the old skin 1.03-1.07)
+GATE: LOOK_WALL_HIDDEN_BY_SKIN PASS - 220 rays from 12 m out toward the TERRAIN wall that land on it between z 0.05 and the lowest skin top (play - 0.5): 220 hit ROCK_SKIN first (100.0 %, >= 97 %), 0 reach the smooth wall
+GATE: LOOK_SKIN_NO_UPFACE_IN_PLAY PASS - 0 up-facing ROCK_SKIN faces with centre above play_z - 0.05
+GATE: LOOK_BUDGET PASS - 115622 tris in the export set (<= 250000), FBX 4.48 MB (<= 20)
+[smoke] tris: skin 79416, water {'WATER_OCEAN': 8830, 'WATER_SHELF': 3024}, surf 4298, total 115622
+[smoke] renders: ['/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/lib_ground/smoke_hole09/render_top.png', '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/lib_ground/smoke_hole09/render_oblique.png', '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/lib_ground/smoke_hole09/render_phone_tee.png', '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/lib_ground/smoke_hole09/render_phone_mid.png', '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/lib_ground/smoke_hole09/render_shore.png']
+GATE: FBX_GROUND_SET PASS - ground meshes 12 == expected 12
+GATE: FBX_LK_MATERIALS PASS - LK materials in the file: ['LK_CLIFF', 'LK_CLIFF_DARK', 'LK_FAIRWAY', 'LK_GREEN', 'LK_ROCK', 'LK_ROUGH', 'LK_SAND', 'LK_SCRUB', 'LK_SURF', 'LK_WATER', 'LK_WATER_SHALLOW']
+GATE: FBX_UV0 PASS - every ground/water/skin/path mesh has exactly one UV layer
+GATE: FBX_SURF_COLOURS PASS - 68 WATER_SURF meshes, all with a colour layer: True, max alpha 1.00
+GATE: FBX_NO_TEXTURE_REFS PASS - texture references in the FBX: [] (Unity names materials by base texture name with materialName 0, so the LK_* names only survive without them)
+GATE: FBX_NO_MAT_FOAM PASS - MAT_FOAM materials in the file: []
+GATE: POSTCARD_VERIFY_NO_REGRESSION PASS - 29 postcard_verify gates on the look build; base build failed []; look build fails ['MATERIALS@blend', 'MATERIALS@fbx', 'FBX_BUDGET@fbx']; new failures outside the superseded MATERIALS/FBX_BUDGET: []
+[smoke] superseded postcard_verify gates failing on the look build (LK_* names / look budget replace them): ['MATERIALS@blend', 'MATERIALS@fbx', 'FBX_BUDGET@fbx']
+[smoke] hole 09: build 4.7s, look passes 5.9s, 25 gates, 0 failed []
+
+[smoke] baseline build of hole 10 with work/postcard-look/baseline/scripts/hole10_build.py: 2.1s
+GATE: LOOK_TOP_SURFACES_UNCHANGED PASS - 10 ground meshes, 2956 vertices, max |delta| 0.00e+00 m (tol 1e-05)
+GATE: LOOK_NO_COLLISION_PREFIX PASS - 20 objects made by postcard_look_lib, none with a ground prefix; ground meshes 10 all on the postcard_verify allow-list
+GATE: LOOK_NO_MAT_FOAM PASS - exported meshes using MAT_FOAM [], WATER_FOAM* objects [], MAT_FOAM datablock users 0 (0-user data is neither saved nor exported)
+GATE: LOOK_GROUND_WATER_ARE_LK PASS - non-LK materials on ground/water meshes: []
+GATE: LOOK_UV_SANE PASS - 11 ground/water meshes: one UV layer, finite, max |uv| 35.9, UV*tile/world edge ratio on every top/flat face 0.53..1.47 (limits 0.45..2.2); TERRAIN wall faces (hidden by the skin; arc-of-the-top-loop u) max ratio 3.36 (<= 8: no seam jump)
+GATE: LOOK_SKIN_BELOW_PLAY PASS - 15 ROCK_SKIN pieces, 39972 tris, highest vertex 5.950 m (play 6.0 - 0.05)
+GATE: LOOK_WATER_STACK PASS - 1 WATER_* meshes inside z 0..0.2
+GATE: LOOK_LAVA_MESH PASS - WATER_LAVA 13185 tris (>= 3000), materials ['LK_LAVA'], 4 LAVA_LIGHT empties (3..5)
+GATE: SHELF_THIN PASS - no sea shelf on this hole (lava hole)
+GATE: NO_FOAM_STRIP PASS - 259 export meshes: foam objects/materials []; 0 WATER_SURF objects, 0 components; coverage 0.0% of 0 m shoreline (<= 25), 0 runs along the shore, longest 0.0 m (<= 10), shortest gap between runs 99.0 m (>= 8), strips (aspect >= 4 and width CV <= 0.35) 0, components with alpha > 0.1 at an end 0; component aspect max 0.00, alpha max 0.00
+GATE: PATH_UNDER_BALL PASS - no DRESS_PATH on this hole (nothing to measure)
+GATE: CRATER_WALL_COVERED PASS - 10488 rays (aerial/low/oblique) at wall points z 0.3 .. 5.88 m: smooth TERRAIN wall seen first 0 = 0.00% (<= 1), at z >= 5 m: 0 (must be 0), first hit on a vertical LK_ROUGH wall face 0 (0.00%, <= 1); by view {'aerial': '0/3496', 'low': '0/3496', 'oblique': '0/3496'}; by wall height {}; tolerated sliver PLAY_Z - 0.10 .. PLAY_Z: 1311/1311 rays reach bare wall (LK_BASALT there on Crater); up-facing skin faces above PLAY_Z - 0.05: 0
+GATE: SKIN_NOT_OVER_WATER PASS - 1 water ellipses, 22199 grid cells (0.5 m) deeper than 0.15 m inside them: 0 are covered by an up-facing skin surface (0.0 m2, worst depth 0.00 m, top z 0.00); up-facing (nz > 0.3) skin faces deeper than 0.15 m: 0 by centre, 0 by any vertex
+GATE: SKIN_FACES_OUTWARD PASS - 888 rays from 20 m out at z 1, 3, 5 toward the shore: first hit on a ROCK_SKIN face is FRONT-facing 888 times, back-facing 0 (100.0% front, need >= 99%; the materials are single-sided in Unity)
+GATE: LOOK_WALL_HIDDEN_BY_SKIN PASS - 357 rays from 12 m out toward the TERRAIN wall that land on it between z 0.05 and the lowest skin top (play - 0.12): 357 hit ROCK_SKIN first (100.0 %, >= 97 %), 0 reach the smooth wall
+GATE: LOOK_SKIN_NO_UPFACE_IN_PLAY PASS - 0 up-facing ROCK_SKIN faces with centre above play_z - 0.05
+GATE: LOOK_BUDGET PASS - 62731 tris in the export set (<= 250000), FBX 1.70 MB (<= 20)
+[smoke] tris: skin 39972, water {'WATER_LAVA': 13185}, surf 0, total 62731
+[smoke] renders: ['/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/lib_ground/smoke_hole10/render_top.png', '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/lib_ground/smoke_hole10/render_oblique.png', '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/lib_ground/smoke_hole10/render_phone_tee.png', '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/lib_ground/smoke_hole10/render_phone_mid.png', '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/lib_ground/smoke_hole10/render_shore.png']
+GATE: FBX_GROUND_SET PASS - ground meshes 10 == expected 10
+GATE: FBX_LK_MATERIALS PASS - LK materials in the file: ['LK_BASALT', 'LK_FAIRWAY', 'LK_GREEN', 'LK_LAVA', 'LK_ROUGH', 'LK_SAND']
+GATE: FBX_UV0 PASS - every ground/water/skin/path mesh has exactly one UV layer
+GATE: FBX_SURF_COLOURS PASS - 0 WATER_SURF meshes, all with a colour layer: True, max alpha 0.00
+GATE: FBX_NO_TEXTURE_REFS PASS - texture references in the FBX: [] (Unity names materials by base texture name with materialName 0, so the LK_* names only survive without them)
+GATE: FBX_NO_MAT_FOAM PASS - MAT_FOAM materials in the file: []
+GATE: POSTCARD_VERIFY_NO_REGRESSION PASS - 29 postcard_verify gates on the look build; base build failed []; look build fails ['MATERIALS@blend', 'MATERIALS@fbx']; new failures outside the superseded MATERIALS/FBX_BUDGET: []
+[smoke] superseded postcard_verify gates failing on the look build (LK_* names / look budget replace them): ['MATERIALS@blend', 'MATERIALS@fbx']
+[smoke] hole 10: build 2.1s, look passes 1.3s, 24 gates, 0 failed []
+

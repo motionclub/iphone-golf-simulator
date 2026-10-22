@@ -1,0 +1,27 @@
+[
+  {
+    "name": "thumb-rig-probe12",
+    "method": "GolfArcade.EditorTools.HeroThumbRigProbe.Run",
+    "env": {
+      "HTR_REBUILT": "1",
+      "HTR_NORMALS": "1",
+      "HTR_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/thumb-rig-probe-12"
+    }
+  },
+  {
+    "name": "tennis-sole8-skyscraper",
+    "method": "GolfArcade.EditorTools.TennisSoleProbe.Run",
+    "env": {
+      "HERO_VENUE": "skyscraper",
+      "TSOLE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-sole-probe-8/skyscraper"
+    }
+  },
+  {
+    "name": "tennis-sole8-volcano",
+    "method": "GolfArcade.EditorTools.TennisSoleProbe.Run",
+    "env": {
+      "HERO_VENUE": "volcano",
+      "TSOLE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-sole-probe-8/volcano"
+    }
+  }
+]

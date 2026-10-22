@@ -1,0 +1,48 @@
+--- Unity/Assets/Scripts/Tennis/HeroGripPolish.cs
++++ Unity/Assets/Scripts/Tennis/HeroGripPolish.cs
+@@ -264,6 +264,15 @@
+                 data.solvedBones = new[] {
+                     hero.Bone(HumanBodyBones.LeftUpperArm), hero.Bone(HumanBodyBones.LeftLowerArm), hero.Bone(HumanBodyBones.LeftHand),
+                     hero.Bone(HumanBodyBones.RightUpperArm), hero.Bone(HumanBodyBones.RightLowerArm), hero.Bone(HumanBodyBones.RightHand), data.grip };
++                // The sampler can rewrite digit channels while the arm is unchanged.
++                // Cache the complete grip output, not only its seven rigid anchors.
++                var complete = new System.Collections.Generic.List<Transform>(data.solvedBones);
++                foreach(bool left in new[]{false,true})
++                    foreach(string digit in new[]{"Thumb","Index","Middle","Ring","Little"})
++                        foreach(string joint in new[]{"Proximal","Intermediate","Distal"}) {
++                            var bone=Bone(hero,left,digit,joint);if(bone)complete.Add(bone);
++                        }
++                data.solvedBones=complete.ToArray();
+                 golfData[hero]=data;
+             }
+             int active=System.Array.FindIndex(data.clubs,r=>r&&r.gameObject.activeInHierarchy);if(active<0)return;
+@@ -278,20 +287,21 @@
+                 // Covers repeated export/sample calls too, before any digit reset.
+                 if(same)return;
+             }
+-            // Authored golf keys bend every joint about +localX, but intermediate and
+-            // distal rolls differ. Reconstruct the same curl amounts on the measured
+-            // original bind hinges before bounded cylinder-contact refinement.
+-            CanonicalGolfFingers(hero);
++            // Preserve the actual sampled clip's proximal fan and curl. The source
++            // authors this fan to match each hand's shaft orientation; canonical
++            // rest curls discard it. Legacy output keeps its existing refinement.
++            if(!wristReview)CanonicalGolfFingers(hero);
+             float scale=Mathf.Abs(hero.transform.lossyScale.x);var end=data.ends[active];
+             // The head's toe protrudes from the shaft. Fit to the shaft's dominant grip-
+             // local axis, not a diagonal from the grip to the farthest head corner.
+             Vector3 localAxis=Mathf.Abs(end.x)>Mathf.Abs(end.y)&&Mathf.Abs(end.x)>Mathf.Abs(end.z) ? Vector3.right*Mathf.Sign(end.x) : Mathf.Abs(end.y)>Mathf.Abs(end.z) ? Vector3.up*Mathf.Sign(end.y):Vector3.forward*Mathf.Sign(end.z);
+             var along=data.grip.TransformVector(localAxis).normalized;
+-            // Baseline grip first, in the sampled authored hand frame.
+-            FitDigits(hero,false,data.grip.position,along,.014f*scale,.006f*scale,35,55);
+-            FitDigits(hero,true,data.grip.position,along,.014f*scale,.006f*scale,35,55);
++            if(!wristReview) {
++                FitDigits(hero,false,data.grip.position,along,.014f*scale,.006f*scale,35,55);
++                FitDigits(hero,true,data.grip.position,along,.014f*scale,.006f*scale,35,55);
++            }
+             // Last operation is a rigid hand/subtree rotation around the real shaft.
+-            // Every baseline pad keeps its shaft station and cylinder radius.
++            // Every authored pad keeps its shaft station and cylinder radius.
+             ApplyGolfWristRoll(hero, data, false, along, scale);
+             ApplyGolfWristRoll(hero, data, true, along, scale);
+             if(wristReview) {

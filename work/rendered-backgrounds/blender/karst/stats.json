@@ -1,0 +1,348 @@
+{
+ "units": "metres",
+ "unity_axes": "Unity = (-x_blender, z_blender, -y_blender); origin = island centre at sea level",
+ "atlas": {
+  "albedo": "Karst_Albedo.png",
+  "normal": "Karst_Normal.png",
+  "size": [
+   4096,
+   2048
+  ]
+ },
+ "objects": {
+  "Karst_00": {
+   "tris": 6004,
+   "verts": 3158,
+   "verts_after_uv_split": 7282,
+   "bounds_unity_min": [
+    -356.6,
+    -5.0,
+    -230.69
+   ],
+   "bounds_unity_max": [
+    533.2,
+    356.59,
+    363.12
+   ],
+   "height_m": 356.6,
+   "footprint_m": [
+    889.8,
+    593.8
+   ],
+   "atlas_uv_rect": [
+    0.00195,
+    0.00391,
+    0.24805,
+    0.49519
+   ],
+   "atlas_uv_rect_note": "[uMin, vMin, uMax, vMax]; islands of all objects are interleaved in the shared atlas",
+   "texel_density_px_per_m": 0.615,
+   "highres_source_tris": 1517936,
+   "deviation_high_to_low_m": {
+    "mean": 0.96,
+    "p95": 2.61,
+    "p99": 3.82,
+    "max": 15.69
+   },
+   "preview_position_blender": [
+    -420.0,
+    1500.0,
+    0.25
+   ]
+  },
+  "Karst_01": {
+   "tris": 4998,
+   "verts": 2467,
+   "verts_after_uv_split": 6251,
+   "bounds_unity_min": [
+    -195.66,
+    -5.0,
+    -188.14
+   ],
+   "bounds_unity_max": [
+    191.38,
+    333.06,
+    125.99
+   ],
+   "height_m": 333.1,
+   "footprint_m": [
+    387.0,
+    314.1
+   ],
+   "atlas_uv_rect": [
+    0.25195,
+    0.00391,
+    0.49544,
+    0.49609
+   ],
+   "atlas_uv_rect_note": "[uMin, vMin, uMax, vMax]; islands of all objects are interleaved in the shared atlas",
+   "texel_density_px_per_m": 0.949,
+   "highres_source_tris": 859400,
+   "deviation_high_to_low_m": {
+    "mean": 0.74,
+    "p95": 1.98,
+    "p99": 3.06,
+    "max": 20.64
+   },
+   "preview_position_blender": [
+    260.0,
+    1180.0,
+    0.9
+   ]
+  },
+  "Karst_02": {
+   "tris": 5806,
+   "verts": 2932,
+   "verts_after_uv_split": 7144,
+   "bounds_unity_min": [
+    -399.83,
+    -5.0,
+    -156.48
+   ],
+   "bounds_unity_max": [
+    408.47,
+    288.35,
+    205.55
+   ],
+   "height_m": 288.3,
+   "footprint_m": [
+    808.3,
+    362.0
+   ],
+   "atlas_uv_rect": [
+    0.50195,
+    0.00391,
+    0.74805,
+    0.49567
+   ],
+   "atlas_uv_rect_note": "[uMin, vMin, uMax, vMax]; islands of all objects are interleaved in the shared atlas",
+   "texel_density_px_per_m": 0.702,
+   "highres_source_tris": 1277948,
+   "deviation_high_to_low_m": {
+    "mean": 0.86,
+    "p95": 2.36,
+    "p99": 3.49,
+    "max": 18.31
+   },
+   "preview_position_blender": [
+    780.0,
+    2150.0,
+    -0.15
+   ]
+  },
+  "Karst_03": {
+   "tris": 4710,
+   "verts": 2493,
+   "verts_after_uv_split": 5669,
+   "bounds_unity_min": [
+    -215.14,
+    -5.0,
+    -229.47
+   ],
+   "bounds_unity_max": [
+    225.34,
+    275.85,
+    222.5
+   ],
+   "height_m": 275.9,
+   "footprint_m": [
+    440.5,
+    452.0
+   ],
+   "atlas_uv_rect": [
+    0.75195,
+    0.00391,
+    0.99445,
+    0.49609
+   ],
+   "atlas_uv_rect_note": "[uMin, vMin, uMax, vMax]; islands of all objects are interleaved in the shared atlas",
+   "texel_density_px_per_m": 1.076,
+   "highres_source_tris": 789984,
+   "deviation_high_to_low_m": {
+    "mean": 0.63,
+    "p95": 1.7,
+    "p99": 2.56,
+    "max": 18.47
+   },
+   "preview_position_blender": [
+    -1150.0,
+    2400.0,
+    0.5
+   ]
+  },
+  "Karst_04": {
+   "tris": 3001,
+   "verts": 1480,
+   "verts_after_uv_split": 4189,
+   "bounds_unity_min": [
+    -108.64,
+    -5.0,
+    -69.16
+   ],
+   "bounds_unity_max": [
+    94.17,
+    188.02,
+    62.22
+   ],
+   "height_m": 188.0,
+   "footprint_m": [
+    202.8,
+    131.4
+   ],
+   "atlas_uv_rect": [
+    0.00195,
+    0.50391,
+    0.24805,
+    0.987
+   ],
+   "atlas_uv_rect_note": "[uMin, vMin, uMax, vMax]; islands of all objects are interleaved in the shared atlas",
+   "texel_density_px_per_m": 1.833,
+   "highres_source_tris": 381436,
+   "deviation_high_to_low_m": {
+    "mean": 0.58,
+    "p95": 1.54,
+    "p99": 2.4,
+    "max": 4.66
+   },
+   "preview_position_blender": [
+    -40.0,
+    850.0,
+    0.3
+   ]
+  },
+  "Karst_05": {
+   "tris": 5582,
+   "verts": 2787,
+   "verts_after_uv_split": 7610,
+   "bounds_unity_min": [
+    -305.16,
+    -5.0,
+    -178.01
+   ],
+   "bounds_unity_max": [
+    324.15,
+    308.18,
+    206.62
+   ],
+   "height_m": 308.2,
+   "footprint_m": [
+    629.3,
+    384.6
+   ],
+   "atlas_uv_rect": [
+    0.25195,
+    0.50391,
+    0.49738,
+    0.99609
+   ],
+   "atlas_uv_rect_note": "[uMin, vMin, uMax, vMax]; islands of all objects are interleaved in the shared atlas",
+   "texel_density_px_per_m": 0.713,
+   "highres_source_tris": 1232636,
+   "deviation_high_to_low_m": {
+    "mean": 0.86,
+    "p95": 2.36,
+    "p99": 3.45,
+    "max": 8.96
+   },
+   "preview_position_blender": [
+    40.0,
+    2500.0,
+    2.6
+   ]
+  },
+  "Karst_Ridge_0": {
+   "tris": 3845,
+   "verts": 2048,
+   "verts_after_uv_split": 5128,
+   "bounds_unity_min": [
+    -1193.49,
+    -5.0,
+    -402.07
+   ],
+   "bounds_unity_max": [
+    1328.89,
+    225.32,
+    195.37
+   ],
+   "height_m": 225.3,
+   "footprint_m": [
+    2522.4,
+    597.4
+   ],
+   "atlas_uv_rect": [
+    0.50195,
+    0.50391,
+    0.74805,
+    0.99414
+   ],
+   "atlas_uv_rect_note": "[uMin, vMin, uMax, vMax]; islands of all objects are interleaved in the shared atlas",
+   "texel_density_px_per_m": 0.392,
+   "highres_source_tris": 1020784,
+   "deviation_high_to_low_m": {
+    "mean": 2.41,
+    "p95": 6.39,
+    "p99": 9.49,
+    "max": 68.29
+   },
+   "preview_position_blender": [
+    -600.0,
+    4300.0,
+    0.08
+   ]
+  },
+  "Karst_Ridge_1": {
+   "tris": 3830,
+   "verts": 2040,
+   "verts_after_uv_split": 5247,
+   "bounds_unity_min": [
+    -1058.68,
+    -5.0,
+    -386.79
+   ],
+   "bounds_unity_max": [
+    956.56,
+    218.08,
+    163.62
+   ],
+   "height_m": 218.1,
+   "footprint_m": [
+    2015.2,
+    550.4
+   ],
+   "atlas_uv_rect": [
+    0.75195,
+    0.50391,
+    0.99744,
+    0.99609
+   ],
+   "atlas_uv_rect_note": "[uMin, vMin, uMax, vMax]; islands of all objects are interleaved in the shared atlas",
+   "texel_density_px_per_m": 0.454,
+   "highres_source_tris": 765628,
+   "deviation_high_to_low_m": {
+    "mean": 2.18,
+    "p95": 5.64,
+    "p99": 8.43,
+    "max": 56.77
+   },
+   "preview_position_blender": [
+    1300.0,
+    3700.0,
+    -0.12
+   ]
+  }
+ },
+ "total_tris": 37776,
+ "bake_checks": {
+  "coverage_px": 2908140,
+  "uv_overlap_px": 13631,
+  "holes_albedo": 7490,
+  "holes_ao": 7490,
+  "holes_normal": 7490,
+  "normal_backfacing_px": 21129,
+  "albedo_black_px_in_hits": 0,
+  "after_fill_black_albedo_px": 0,
+  "after_fill_nan": 0,
+  "ao_mean": 0.8243215680122375,
+  "ao_p5": 0.393310546875
+ }
+}

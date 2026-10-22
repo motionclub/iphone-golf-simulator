@@ -1,0 +1,19 @@
+{
+  "Unity/Assets/Scripts/Tennis/HeroTennisDriver.cs": {
+    "sha256": "9b757e15d1747d654aea5cb95a93944d110a20e7988472c07ae82a2f7ce9996e",
+    "controlSha256": "068f154250886999378b61b404ab2d7e6cf0e5fe7c5bc9ee9fa3584f8bfec35e"
+  },
+  "Unity/Assets/Scripts/Tennis/HeroGarmentPoseCorrectives.cs": {
+    "sha256": "69b3795f4320f673d7e212bdd9cbe0b2715b224394f6297349a82d5dcf8ca377",
+    "controlSha256": "92f9c40eef880ae77175bb414cd914098f93a72e36416d01d7aee535b134e5ce"
+  },
+  "Unity/Assets/Scripts/Tennis/HeroGarmentLOD.cs": {
+    "sha256": "fe010bfa07a2b8a7f062ad82043c02e6baaf0ef86c401ad71f79aa20452a1110",
+    "controlSha256": "f8a677f19ebec9c1e430444a352629fced3aacecafbdb0bbbf862b960a06ad4b"
+  },
+  "Unity/Assets/Tests/PlayMode/HeroGarmentRuntimeOrderTests.cs": {
+    "sha256": "b50e2453e0367f90ef64399a6af4154d60ec7f86894c6bfaa8ff12cc36530278"
+  },
+  "validation": "NOT RUN. Root owns Unity. Regression requires live changed poses and current final-pose inputs; no Sample/Apply test calls.",
+  "testFilter": "GolfArcade.PlayTests.HeroGarmentRuntimeOrderTests.LiveDriverGarmentsUseThisFramesFinalPose"
+}

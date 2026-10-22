@@ -1,0 +1,24 @@
+{
+  "source": "https://polyhaven.com/a/coastal_cliff_02",
+  "author": "Rob Tuytel",
+  "license": "CC0",
+  "sourceLod": "LOD3 reduced .18",
+  "moduleCount": 23,
+  "triangles": 428532,
+  "warpMetres": [
+    [
+      8,
+      8
+    ],
+    [
+      60,
+      14
+    ],
+    [
+      110,
+      110
+    ]
+  ],
+  "status": "OFF-ASSETS EROSION CANDIDATE; actual Unity visual acceptance pending",
+  "structuralChange": "Continuous crest-fixed erosion sweep: localized asymmetric attached buttresses and convex sea-level foot, with height-dependent tangential shear. Same scan/UV/module count; broad scan planes retained between buttresses."
+}

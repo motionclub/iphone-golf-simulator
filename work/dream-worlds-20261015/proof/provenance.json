@@ -1,0 +1,18 @@
+{
+  "created_utc": "2026-10-15T19:28:42.683288+00:00",
+  "unity": "6000.3.24f1",
+  "pipeline": "URP",
+  "capture_kind": "actual Unity Editor scene renders; no generated concept art",
+  "coverage_configurations": 95,
+  "golf_holes": 16,
+  "tennis_venues": 3,
+  "seed_configurations": 16000,
+  "invalid_seed_configurations": 0,
+  "paired_route_samples": 2304,
+  "native_build": "arm64 iOS Simulator Swift shell, successful",
+  "fresh_unity_ios_export": false,
+  "ios_player_module": "not installed (only MacStandaloneSupport found)",
+  "device_performance": "UNVERIFIED \u2014 testing waived",
+  "tennis_baseline": "reconstructed with DREAM_WORLDS=0 and VISUAL_ENVIRONMENT_STAGE=0 using matched capture cameras",
+  "shared_workspace": "pre-existing edits retained; task-only change blocks staged in overlapping files"
+}

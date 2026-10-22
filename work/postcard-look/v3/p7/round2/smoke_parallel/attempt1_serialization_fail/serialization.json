@@ -1,0 +1,11 @@
+{
+  "serialization_status": "FAIL",
+  "reason": "Unchanged heavy.sh lock race before Blender execution: lock disappeared during stale-age expression; owner write missing. CPU/art gates retained as separate PASS, no native claim.",
+  "production_applied": false,
+  "scene_saved_or_exported": false,
+  "files": {
+    "fixture.log": "53b0fdc5996ef4e3e1467785e904cee2432c09e8f5e981cb7ecde8f64db5b8c0",
+    "result.json": "a5049d58ad9101ad2421f6efc07a1be6edec1e1da2da5d0174f8bed3cd6e14b8",
+    "fixture.py": "2e67c5c3dad566f4a368006b8f6695d6da8ab6d42765a358bf2a47639d182897"
+  }
+}

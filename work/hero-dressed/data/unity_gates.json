@@ -1,0 +1,396 @@
+{
+    "when": "2026-10-03T22:32:29",
+    "sexes": [
+        {
+            "sex": "Male",
+            "pieces": [
+                {
+                    "piece": "Kit_Top",
+                    "material": "",
+                    "vertices": 15273,
+                    "triangles": 22298,
+                    "bones": 53,
+                    "maxInfluences": 4,
+                    "weightSumErr": 1.7881393432617188e-7,
+                    "bindMaxMm": 0.00029950961470603943,
+                    "bindMeanMm": 0.00018113090482074767,
+                    "poseMaxMm": [
+                        0.0007325193728320301,
+                        0.0007171256584115326,
+                        0.0009553213021717966
+                    ],
+                    "poseMeanMm": [
+                        0.00032941417885012925,
+                        0.0003239089564885944,
+                        0.00047152701881714165
+                    ],
+                    "unmatched": 0,
+                    "roles": [
+                        "Kit_Shirt",
+                        "Kit_ShirtTrim"
+                    ],
+                    "bonesAreBodyBones": true,
+                    "noMissingBone": true
+                },
+                {
+                    "piece": "Kit_Bottom",
+                    "material": "",
+                    "vertices": 13425,
+                    "triangles": 21032,
+                    "bones": 53,
+                    "maxInfluences": 4,
+                    "weightSumErr": 1.1920928955078126e-7,
+                    "bindMaxMm": 0.0001687519543338567,
+                    "bindMeanMm": 0.00012058919674018398,
+                    "poseMaxMm": [
+                        0.000628857291303575,
+                        0.0007456538733094931,
+                        0.000676978612318635
+                    ],
+                    "poseMeanMm": [
+                        0.0003071084793191403,
+                        0.0003447610361035913,
+                        0.0003238192293792963
+                    ],
+                    "unmatched": 0,
+                    "roles": [
+                        "Kit_Shorts",
+                        "Kit_ShortsBand"
+                    ],
+                    "bonesAreBodyBones": true,
+                    "noMissingBone": true
+                },
+                {
+                    "piece": "Kit_Sock_L",
+                    "material": "",
+                    "vertices": 4164,
+                    "triangles": 6270,
+                    "bones": 53,
+                    "maxInfluences": 3,
+                    "weightSumErr": 1.1920928955078126e-7,
+                    "bindMaxMm": 0.000049980011681327596,
+                    "bindMeanMm": 0.000029745468054898083,
+                    "poseMaxMm": [
+                        0.0008660719031468034,
+                        0.0007211684715002775,
+                        0.0009009967325255275
+                    ],
+                    "poseMeanMm": [
+                        0.000603990163654089,
+                        0.0005055572255514562,
+                        0.000545270275324583
+                    ],
+                    "unmatched": 0,
+                    "roles": [
+                        "Kit_Sock"
+                    ],
+                    "bonesAreBodyBones": true,
+                    "noMissingBone": true
+                },
+                {
+                    "piece": "Kit_Sock_R",
+                    "material": "",
+                    "vertices": 4197,
+                    "triangles": 6270,
+                    "bones": 53,
+                    "maxInfluences": 3,
+                    "weightSumErr": 1.1920928955078126e-7,
+                    "bindMaxMm": 0.00006420048885047436,
+                    "bindMeanMm": 0.00003318916060379706,
+                    "poseMaxMm": [
+                        0.0008681125473231077,
+                        0.0009405915043316782,
+                        0.000792883220128715
+                    ],
+                    "poseMeanMm": [
+                        0.0005784894456155598,
+                        0.0006083704065531492,
+                        0.000596329162362963
+                    ],
+                    "unmatched": 0,
+                    "roles": [
+                        "Kit_Sock"
+                    ],
+                    "bonesAreBodyBones": true,
+                    "noMissingBone": true
+                },
+                {
+                    "piece": "Kit_Shoe_L",
+                    "material": "",
+                    "vertices": 12868,
+                    "triangles": 17678,
+                    "bones": 53,
+                    "maxInfluences": 3,
+                    "weightSumErr": 1.1920928955078126e-7,
+                    "bindMaxMm": 0.000048998543206835166,
+                    "bindMeanMm": 0.000022143114620121196,
+                    "poseMaxMm": [
+                        0.00087987061124295,
+                        0.000753782398533076,
+                        0.0009900094009935856
+                    ],
+                    "poseMeanMm": [
+                        0.0006957563455216587,
+                        0.0005494127399288118,
+                        0.0006294163758866489
+                    ],
+                    "unmatched": 0,
+                    "roles": [
+                        "Kit_Shoe",
+                        "Kit_Sole"
+                    ],
+                    "bonesAreBodyBones": true,
+                    "noMissingBone": true
+                },
+                {
+                    "piece": "Kit_Shoe_R",
+                    "material": "",
+                    "vertices": 12868,
+                    "triangles": 17678,
+                    "bones": 53,
+                    "maxInfluences": 3,
+                    "weightSumErr": 1.1920928955078126e-7,
+                    "bindMaxMm": 0.00006420048885047436,
+                    "bindMeanMm": 0.000028319720513536595,
+                    "poseMaxMm": [
+                        0.0009181158966384828,
+                        0.0009781074477359653,
+                        0.000812361016869545
+                    ],
+                    "poseMeanMm": [
+                        0.0006755406502634287,
+                        0.0006969525711610913,
+                        0.0006542311166413128
+                    ],
+                    "unmatched": 0,
+                    "roles": [
+                        "Kit_Shoe",
+                        "Kit_Sole"
+                    ],
+                    "bonesAreBodyBones": true,
+                    "noMissingBone": true
+                }
+            ],
+            "failures": [],
+            "bodyTriangles": 66158,
+            "faceTriangles": 5888,
+            "kitTriangles": 91226,
+            "racketTriangles": 10760,
+            "totalTriangles": 174032,
+            "centroidDeltaMm": [
+                0.0006447658524848521,
+                0.0005148992640897632,
+                0.0007275674142874777
+            ],
+            "shoeLowestYAtReadyMm": -30.75473976135254,
+            "bodyLowestYAtReadyMm": 2.448228120803833,
+            "posesTested": [
+                "ReadyIdle@0",
+                "Forehand@20",
+                "Forehand@9"
+            ],
+            "boundsOk": false,
+            "materialsOk": true,
+            "tintOk": true,
+            "defaultIsAuthored": true,
+            "tintLog": "",
+            "rolesFound": 7
+        },
+        {
+            "sex": "Female",
+            "pieces": [
+                {
+                    "piece": "Kit_Top",
+                    "material": "",
+                    "vertices": 13600,
+                    "triangles": 19408,
+                    "bones": 53,
+                    "maxInfluences": 4,
+                    "weightSumErr": 2.384185791015625e-7,
+                    "bindMaxMm": 0.0003945291682612151,
+                    "bindMeanMm": 0.00019950271234847605,
+                    "poseMaxMm": [
+                        0.0010963244130834938,
+                        0.0012059102300554515,
+                        0.0007957834168337286
+                    ],
+                    "poseMeanMm": [
+                        0.0004924213280901313,
+                        0.0005305170780047774,
+                        0.00035367539385333657
+                    ],
+                    "unmatched": 0,
+                    "roles": [
+                        "Kit_Shirt",
+                        "Kit_ShirtTrim"
+                    ],
+                    "bonesAreBodyBones": true,
+                    "noMissingBone": true
+                },
+                {
+                    "piece": "Kit_Bottom",
+                    "material": "",
+                    "vertices": 16744,
+                    "triangles": 25646,
+                    "bones": 53,
+                    "maxInfluences": 4,
+                    "weightSumErr": 1.1920928955078126e-7,
+                    "bindMaxMm": 0.00013328004570212215,
+                    "bindMeanMm": 0.0001047564364853315,
+                    "poseMaxMm": [
+                        0.0005370235303416848,
+                        0.0004323905159253627,
+                        0.0005066942539997399
+                    ],
+                    "poseMeanMm": [
+                        0.00024834691430442035,
+                        0.00021760814706794918,
+                        0.00025682710111141205
+                    ],
+                    "unmatched": 0,
+                    "roles": [
+                        "Kit_Shorts",
+                        "Kit_ShortsBand"
+                    ],
+                    "bonesAreBodyBones": true,
+                    "noMissingBone": true
+                },
+                {
+                    "piece": "Kit_Sock_L",
+                    "material": "",
+                    "vertices": 3426,
+                    "triangles": 5082,
+                    "bones": 53,
+                    "maxInfluences": 3,
+                    "weightSumErr": 1.1920928955078126e-7,
+                    "bindMaxMm": 0.0000562506502319593,
+                    "bindMeanMm": 0.000029498496587621048,
+                    "poseMaxMm": [
+                        0.00018192999414168298,
+                        0.0002988987835124135,
+                        0.00043622497469186783
+                    ],
+                    "poseMeanMm": [
+                        0.00011396071931812912,
+                        0.00012775803043041378,
+                        0.0002346988330828026
+                    ],
+                    "unmatched": 0,
+                    "roles": [
+                        "Kit_Sock"
+                    ],
+                    "bonesAreBodyBones": true,
+                    "noMissingBone": true
+                },
+                {
+                    "piece": "Kit_Sock_R",
+                    "material": "",
+                    "vertices": 3443,
+                    "triangles": 5082,
+                    "bones": 53,
+                    "maxInfluences": 3,
+                    "weightSumErr": 1.1920928955078126e-7,
+                    "bindMaxMm": 0.00005575504110311158,
+                    "bindMeanMm": 0.00003189486960764043,
+                    "poseMaxMm": [
+                        0.00014829100109636784,
+                        0.0004726863407995552,
+                        0.0002086162567138672
+                    ],
+                    "poseMeanMm": [
+                        0.0000685597478877753,
+                        0.00037325409357436,
+                        0.00009359495743410662
+                    ],
+                    "unmatched": 0,
+                    "roles": [
+                        "Kit_Sock"
+                    ],
+                    "bonesAreBodyBones": true,
+                    "noMissingBone": true
+                },
+                {
+                    "piece": "Kit_Shoe_L",
+                    "material": "",
+                    "vertices": 9935,
+                    "triangles": 12910,
+                    "bones": 53,
+                    "maxInfluences": 3,
+                    "weightSumErr": 1.1920928955078126e-7,
+                    "bindMaxMm": 0.000039361464587273076,
+                    "bindMeanMm": 0.000016274014342343435,
+                    "poseMaxMm": [
+                        0.00019159005023539066,
+                        0.00031016816501505673,
+                        0.00043622497469186783
+                    ],
+                    "poseMeanMm": [
+                        0.00011882188846357167,
+                        0.00015585572691634297,
+                        0.0002608890936244279
+                    ],
+                    "unmatched": 0,
+                    "roles": [
+                        "Kit_Shoe",
+                        "Kit_Sole"
+                    ],
+                    "bonesAreBodyBones": true,
+                    "noMissingBone": true
+                },
+                {
+                    "piece": "Kit_Shoe_R",
+                    "material": "",
+                    "vertices": 9935,
+                    "triangles": 12910,
+                    "bones": 53,
+                    "maxInfluences": 3,
+                    "weightSumErr": 1.1920928955078126e-7,
+                    "bindMaxMm": 0.00003709248630912043,
+                    "bindMeanMm": 0.000018965782146551646,
+                    "poseMaxMm": [
+                        0.00014980114065110683,
+                        0.0004733318346552551,
+                        0.00021021498832851648
+                    ],
+                    "poseMeanMm": [
+                        0.00006274652696447447,
+                        0.00040548440301790833,
+                        0.00009816540841711685
+                    ],
+                    "unmatched": 0,
+                    "roles": [
+                        "Kit_Shoe",
+                        "Kit_Sole"
+                    ],
+                    "bonesAreBodyBones": true,
+                    "noMissingBone": true
+                }
+            ],
+            "failures": [],
+            "bodyTriangles": 43990,
+            "faceTriangles": 6052,
+            "kitTriangles": 81038,
+            "racketTriangles": 10760,
+            "totalTriangles": 141840,
+            "centroidDeltaMm": [
+                0.0005978845874778926,
+                0.0007166513823904097,
+                0.00047706993063911796
+            ],
+            "shoeLowestYAtReadyMm": -25.517871856689454,
+            "bodyLowestYAtReadyMm": 1.0701862573623658,
+            "posesTested": [
+                "ReadyIdle@0",
+                "Forehand@20",
+                "Forehand@9"
+            ],
+            "boundsOk": false,
+            "materialsOk": true,
+            "tintOk": true,
+            "defaultIsAuthored": true,
+            "tintLog": "",
+            "rolesFound": 7
+        }
+    ],
+    "pass": true
+}

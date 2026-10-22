@@ -1,0 +1,7 @@
+strip vertices 1394: nearest distance to the skin (Blender triangulation) min 0.32 mean 0.58 max 0.88 mm
+front-ray gap strip-vs-skin (blender_tris): 3975 samples, min 0.256 mm, p1 0.422, mean 0.666, <0: 0, <0.1 mm: 0
+front-ray gap strip-vs-skin (fan_tris): 3975 samples, min 0.256 mm, p1 0.470, mean 0.669, <0: 0, <0.1 mm: 0
+plan fidelity top      : n 29  mean -0.03  rms 0.47  max|.| 0.79 mm (plate rows are 1.54 mm)
+plan fidelity seam     : n 29  mean -0.38  rms 0.56  max|.| 0.96 mm (plate rows are 1.54 mm)
+plan fidelity bot_core : n 19  mean -0.07  rms 0.44  max|.| 0.90 mm (plate rows are 1.54 mm)
+plan fidelity bot_outer: n 10  mean +1.73  rms 1.95  max|.| 2.95 mm (plate rows are 1.54 mm)

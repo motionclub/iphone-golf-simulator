@@ -1,0 +1,52 @@
+{
+  "gate": "COMPILE_PASS_ACTUAL_PENDING",
+  "candidateHoles": [
+    10,
+    16,
+    17,
+    18,
+    21,
+    22,
+    23
+  ],
+  "flags": {
+    "VISUAL_GRASS_COVERAGE24": "1",
+    "VISUAL_MOVING_TURF": "all for pilot; 0 for static control",
+    "GOLF_MOVING_TURF_CONFIG": "absolute proof-pilot-config.json or proof-control-config.json"
+  },
+  "heightScales": {
+    "10": 1,
+    "16": 0.75,
+    "17": 0.65,
+    "18": 0.55,
+    "21": 0.75,
+    "22": 0.75,
+    "23": 0.75
+  },
+  "palette": "Existing GolfTurfPalette only, no palette/shader/FBX edits. Preserve source role1/3/4 rather than infer grass from CourseLie.Rough on native desert/snow/ash.",
+  "caps": {
+    "near": 48,
+    "mid": 96,
+    "total": 640,
+    "maximumTriangles": 542720,
+    "maximumInstancedSubmissions": 3,
+    "grassColliders": 0,
+    "grassShadows": 0
+  },
+  "noFlightRebuild": "Unmodified production LateUpdate state guard; same 4m coarse station and deterministic tile seeds. No camera or query updates per frame except existing culling/LOD.",
+  "materialLifetime": "One blade material plus distinct eligible ground-role clones per active hole, allocated at Build and destroyed by owner; no material allocations or textures during movement. Native ash/snow/desert not cloned.",
+  "integration": "Apply the minimal patches to current sources. Full candidates include root-promoted19/20 and edge fade as of snapshot; rebase any unrelated later root changes rather than overwrite.",
+  "compile": {
+    "tool": "Unity bundled dotnet + Roslyn compiler only; no Unity process",
+    "sources": 223,
+    "exitCode": 0,
+    "log": "compile.log",
+    "warning": "Existing TennisGame.audio hides Component.audio; no new candidate warning."
+  },
+  "files": {
+    "GolfCoastalTurf.cs": "f8af3028f3126201b0635496c5f08b488e0815194f7657282d3a1cc8e01f165b",
+    "GolfMovingTurfProofRunner.cs": "1c47138be5ecb9cec311735dd62fe8e9bce42b6ce64a179ae6ac6c6392d23246",
+    "GolfCoastalTurf.patch": "3cd9fb6babcd30aa5dac68de49d1a3ad611cc0576010a60e6f30f51136b06d0a",
+    "GolfMovingTurfProofRunner.patch": "d46fff513525e9809305330102554ec08a6bc68a03a0c71e39bec733834bb2f2"
+  }
+}

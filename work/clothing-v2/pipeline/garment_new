@@ -1,0 +1,35 @@
+#!/bin/zsh
+# GARMENT PIPELINE: a NEW garment from a builder design, one command: build -> export -> N/M maps -> garment_fit (weights, correctives, cover,
+# stress suite, report). No per-garment code: the design is data (JSON overrides on a builder's design).
+#   garment_new <hero> <builder> <design> <Kit_Tag> ['<json design overrides>'] [run=<name>]
+#   builders: polo2 (tops: tennis_male, golf_male, golf_female), shoe3 (shoes: male_tennis, female_tennis, male_golf, female_golf; both sides),
+#             tank2 (female_tank), pants2, skirt2, sock2 ... (any builder whose CLI is  -- <hero> <out.blend> <design>  or shoe-like)
+# Example (the NEW_GARMENT_30MIN test): garment_new MatchHero_Male polo2 tennis_male Kit_Top '{"sleeve":{"t":[0.05,0.30,0.50],"r":[0.086,0.070,0.052]}}' run=new_ls
+set -e
+P=${0:A:h}; CV=${P:h}; cd $CV
+HV=${GP_HEAVY:-$P/../../delegation-2026-10-17/heavy.sh}   # machine-wide slot gate
+B=($HV blender /Applications/Blender.app/Contents/MacOS/Blender)
+HERO=$1; BUILDER=$2; DESIGN=$3; TAG=$4; shift 4
+OVR='{}'; RUN=new_$(date +%m%d_%H%M)
+for a in "$@"; do case $a in run=*) RUN=${a#run=};; *) OVR=$a;; esac; done
+export CV2_OUT=$CV/out_gp/$RUN; mkdir -p $CV2_OUT/$HERO/unity $CV/new/$RUN logs
+T0=$(date +%s); echo "[garment_new] $HERO $BUILDER $DESIGN -> $TAG  ($(date +%H:%M:%S))"
+detail=$BUILDER
+build_one() {   # $1 = piece name, $2 = side (shoes)
+  case $BUILDER in
+    shoe3|shoe2) SHOE_DESIGN=$OVR $B -b --factory-startup --python py/$BUILDER.py -- $HERO $DESIGN $2 new/$RUN/$1.blend > logs/new_${RUN}_$1.log 2>&1;;
+    polo2) POLO_DESIGN=$OVR $B -b --factory-startup --python py/polo2.py -- $HERO new/$RUN/$1.blend $DESIGN > logs/new_${RUN}_$1.log 2>&1;;
+    *) DESIGN_JSON=$OVR $B -b --factory-startup --python py/$BUILDER.py -- $HERO new/$RUN/$1.blend $DESIGN > logs/new_${RUN}_$1.log 2>&1;;
+  esac
+  grep -q Traceback logs/new_${RUN}_$1.log && { grep -A8 Traceback logs/new_${RUN}_$1.log; exit 1; }
+  $B -b new/$RUN/$1.blend --python py/export2.py -- $HERO $1 $detail new/$RUN/$1_final.blend res=1024 > logs/new_${RUN}_$1_export.log 2>&1
+  grep -E "EXPORT2|Traceback" logs/new_${RUN}_$1_export.log
+}
+pieces=()
+if [[ $BUILDER == shoe* ]]; then build_one Kit_Shoe_L L; build_one Kit_Shoe_R R; pieces=(Kit_Shoe_L Kit_Shoe_R); else build_one $TAG; pieces=($TAG); fi
+echo "[garment_new] built + exported in $(( $(date +%s) - T0 )) s"
+CV2_PIECES=${(j:,:)pieces} $B -b --factory-startup --python py/maps.py -- $HERO > logs/new_${RUN}_maps.log 2>&1; grep -E "Kit_|Traceback" logs/new_${RUN}_maps.log | cut -c1-120
+echo "[garment_new] maps in $(( $(date +%s) - T0 )) s"
+srcs=(); for p in $pieces; do srcs+=npz:$CV2_OUT/$HERO/unity/${p}_final.npz@$p; done
+cd $P && ./garment_fit $HERO $srcs run=$RUN
+echo "[garment_new] TOTAL $(( $(date +%s) - T0 )) s wall clock"

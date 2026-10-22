@@ -1,0 +1,36 @@
+{
+ "hero": "GolfKitHero_Male",
+ "tag": "Kit_Top",
+ "source": "npz:/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/male-garments-refpack/out/GolfKitHero_Male/unity/Kit_Top_final.npz",
+ "seconds": 855.6,
+ "weights": {
+  "panels": 21,
+  "matched": 0.5502981911380551,
+  "inner": 0.22928680565823845,
+  "smooth_iters": 11,
+  "edge_mm": 8.353127474452078,
+  "allowed": "{0: ('T',), 1: ('T',), 2: ('AR',), 3: ('AL',), 4: ('T',), 5: ('T',), 6: ('T',), 7: ('T',), 8: ('T', 'AR'), 9: ('T', 'AR'), 10: ('T', 'AL'), 11: ('T', 'AL'), 12: ('T',), 13: ('T',), 14: ('T',), 15: ('T',), 16: ('T',), 17: ('T',), 18: ('T',), 19: ('AR',), 20: ('AL',)}",
+  "side_mm_p5": 6.0161930733401885
+ },
+ "shapes": 16,
+ "log": [
+  "FIT GolfKitHero_Male Kit_Top from npz:/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/male-garments-refpack/out/GolfKitHero_Male/unity/Kit_Top_final.npz: 20289 verts 38524 tris",
+  "  weights: covered body groups T 50% P 3% AL 13% AR 12% LL 11% LR 11%",
+  "  weights: 21 panels, matched 55%, inner 23%, smooth 11 it (edge 8.4 mm)",
+  "  hem riding on Kit_Bottom: 1209 vertices follow it (t > .5)",
+  "  hem riding on Kit_Belt: 1342 vertices follow it (t > .5)",
+  "  seams: 4411 coincident vertices welded into 1618 groups",
+  "  weights 24.5 s",
+  "  skin deep under Kit_Top (hidden, no clearance needed): 6516 of 44168 body vertices",
+  "  obstacles: body + Kit_Bottom + Kit_Belt",
+  "    pose 0/153  16 s",
+  "    pose 25/153  110 s",
+  "    pose 50/153  215 s",
+  "    pose 75/153  316 s",
+  "    pose 100/153  414 s",
+  "    pose 125/153  635 s",
+  "    pose 150/153  815 s",
+  "  correctives: 153/153 poses need a lift (max 25.0 mm, p90 25.0 mm) in 830 s",
+  "  16 shapes, RBF sigma 0.552, anchor fit err max 0.577, weight at rest 0.0006"
+ ]
+}

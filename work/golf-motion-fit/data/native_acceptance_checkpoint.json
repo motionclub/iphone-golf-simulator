@@ -1,0 +1,16 @@
+{
+  "status": "SUCCEEDED",
+  "scope": "Checkpoint before final grip/weight rebake; rerun final exported assets.",
+  "durationMs": 191467,
+  "counts": {
+    "passed": 19,
+    "failed": 0,
+    "skipped": 0
+  },
+  "target": "simulator",
+  "artifacts": {
+    "buildLogPath": "~/Library/Developer/XcodeBuildMCP/workspaces/ope-3-cbf7d6b572ff/logs/test_sim_2026-10-06T14-43-16-970Z_pid62429_3a24c897.log",
+    "xcresultPath": "~/Library/Developer/XcodeBuildMCP/workspaces/ope-3-cbf7d6b572ff/result-bundles/test_sim_2026-10-06T14-43-16-972Z_pid62429_53736f5f.xcresult",
+    "testProductsPath": "~/Library/Developer/XcodeBuildMCP/workspaces/ope-3-cbf7d6b572ff/test-products/test_sim_2026-10-06T14-43-16-973Z_pid62429_88d93978.xctestproducts"
+  }
+}

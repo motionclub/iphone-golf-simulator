@@ -1,0 +1,60 @@
++ /Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/Resources/Scripting/NetCoreRuntime/dotnet /Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/Resources/Scripting/DotNetSdkRoslyn/csc.dll @/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v2/review3_gates/pcbuild/stage.91061/csc.rsp      # 165 framework references from /Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/Resources/Scripting/NetCoreRuntime/shared/Microsoft.NETCore.App/6.0.21, 7 real game sources, 7 harness sources
++ build: OK -> /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v2/review3_gates/pcbuild/PostcardCheck.dll
++ /Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/Resources/Scripting/NetCoreRuntime/dotnet /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v2/review3_gates/pcbuild/PostcardCheck.dll gates --course Postcards
+=== Postcards: 3 hole(s) ===
+GATE: RULES_UNCHANGED PASS - rough x0.85, bunker x0.6, water +1, out of bounds +1
+=== Postcards: hole 8 Needle par 4 ===
+GATE: NUMBERS_ROUNDED_0.1 PASS - all coordinates on a 0.1 yd grid
+GATE: NUMBER_AND_PAR PASS - hole 8 'Needle' par 4
+GATE: LENGTH PASS - centerline 342.9 yd, brief 320-360
+GATE: ONE_SHORE PASS - 202 pts, area 8086 yd2, self-intersections 0, min edge 3.83 yd
+GATE: ONE_CENTERLINE PASS - 3 stations, tee (0.0, 0.0), pin (-6.0, 340.0)
+GATE: STATIONS_DRY PASS - station lies ['Tee', 'Fairway', 'Green'] (RecommendedTarget aims at stations: they must be dry fairway)
+GATE: TEE_ON_LAND PASS - 8 yd around the tee is land with no hazard
+GATE: GREEN_ON_LAND PASS - pin is Green; the green disc + 1.5 yd is inside the shore
+GATE: HAZARD_COUNTS PASS - 2 water + 1 bunker, brief 2 + 1
+GATE: BUNKERS_ON_LAND PASS - every bunker ellipse sits inside the shore with margin
+GATE: HAZARD_CLEARANCE PASS - bunkers/waters apart (>= 2 yd), tee, stations and the inner green are clear
+GATE: CARRY_MAX PASS - 2 water crossing(s) on the centerline, carries [92.4, 85.7] yd, max allowed 140.0 (brief: no forced carry over 140.0)
+GATE: DRY_GROUND_SHORT_OF_EACH_CARRY PASS - lay-up room >= 40.0 yd short, landing room >= 30.0 yd after, every crossing
+GATE: PADS_SEPARATED PASS - 3 separate dry pads (want 3), areas [2371, 1747, 1635] yd2 (min 500.0), tee->pin dry route exists: False
+GATE: NO_OUT_OF_BOUNDS_LAND PASS - 0.00% of the dry area is out-of-bounds grass (max 1.0%): the shore must sit inside fairway/2 + rough or RoughWidth is too small
+GATE: OUTSIDE_AND_WATER_CENTRES_ARE_WATER PASS - 4 points 500 yd outside the shore are Water: True; 2/2 water-ellipse centres are Water
+=== Postcards: hole 9 Split par 5 ===
+NOTE: Split is one island with a dry ridge route: ONE_ISLAND_NO_SLIVERS + DRY_ROUTE_AROUND_THE_WATER instead of separated pads
+GATE: NUMBERS_ROUNDED_0.1 PASS - all coordinates on a 0.1 yd grid
+GATE: NUMBER_AND_PAR PASS - hole 9 'Split' par 5
+GATE: LENGTH PASS - centerline 494.1 yd, brief 460-500
+GATE: ONE_SHORE PASS - 415 pts, area 43366 yd2, self-intersections 0, min edge 4.66 yd
+GATE: ONE_CENTERLINE PASS - 8 stations, tee (0.0, 0.0), pin (-10.0, 492.0)
+GATE: STATIONS_DRY PASS - station lies ['Tee', 'Fairway', 'Fairway', 'Fairway', 'Fairway', 'Fairway', 'Fairway', 'Green'] (RecommendedTarget aims at stations: they must be dry fairway)
+GATE: TEE_ON_LAND PASS - 8 yd around the tee is land with no hazard
+GATE: GREEN_ON_LAND PASS - pin is Green; the green disc + 1.5 yd is inside the shore
+GATE: HAZARD_COUNTS PASS - 1 water + 3 bunker, brief 1 + 3
+GATE: BUNKERS_ON_LAND PASS - every bunker ellipse sits inside the shore with margin
+GATE: HAZARD_CLEARANCE PASS - bunkers/waters apart (>= 2 yd), tee, stations and the inner green are clear
+GATE: CARRY_MAX PASS - 1 water crossing(s) on the centerline, carries [103.7] yd, max allowed 140.0 (brief: no forced carry over 140.0)
+GATE: DRY_GROUND_SHORT_OF_EACH_CARRY PASS - lay-up room >= 40.0 yd short, landing room >= 30.0 yd after, every crossing
+GATE: ONE_ISLAND_NO_SLIVERS PASS - 1 dry component(s), areas [43345] yd2, tee->pin connected: True (one island, one pin)
+GATE: DRY_ROUTE_AROUND_THE_WATER PASS - widest bunker-free, water-free route tee->pin has half-width 15.0 yd (need >= 6.0): the safe route exists
+GATE: NO_OUT_OF_BOUNDS_LAND PASS - 0.00% of the dry area is out-of-bounds grass (max 1.0%): the shore must sit inside fairway/2 + rough or RoughWidth is too small
+GATE: OUTSIDE_AND_WATER_CENTRES_ARE_WATER PASS - 4 points 500 yd outside the shore are Water: True; 1/1 water-ellipse centres are Water
+=== Postcards: hole 10 Crater par 4 ===
+NOTE: Crater: the green bulb is a pillar cut off by the lava ellipse, so the carry is forced (2 dry pads); override with --set forced=false if the design keeps a dry route
+GATE: NUMBERS_ROUNDED_0.1 PASS - all coordinates on a 0.1 yd grid
+GATE: NUMBER_AND_PAR PASS - hole 10 'Crater' par 4
+GATE: LENGTH PASS - centerline 356.5 yd, brief 340-380
+GATE: ONE_SHORE PASS - 175 pts, area 13782 yd2, self-intersections 0, min edge 4.57 yd
+GATE: ONE_CENTERLINE PASS - 5 stations, tee (0.0, 0.0), pin (261.0, 164.7)
+GATE: STATIONS_DRY PASS - station lies ['Tee', 'Fairway', 'Fairway', 'Fairway', 'Green'] (RecommendedTarget aims at stations: they must be dry fairway)
+GATE: TEE_ON_LAND PASS - 8 yd around the tee is land with no hazard
+GATE: GREEN_ON_LAND PASS - pin is Green; the green disc + 1.5 yd is inside the shore
+GATE: HAZARD_COUNTS PASS - 1 water + 2 bunker, brief 1 + 2
+GATE: BUNKERS_ON_LAND PASS - every bunker ellipse sits inside the shore with margin
+GATE: HAZARD_CLEARANCE PASS - bunkers/waters apart (>= 2 yd), tee, stations and the inner green are clear
+GATE: CARRY_MAX PASS - 1 water crossing(s) on the centerline, carries [111.7] yd, max allowed 150.0 (brief: no forced carry over 150.0)
+GATE: DRY_GROUND_SHORT_OF_EACH_CARRY PASS - lay-up room >= 40.0 yd short, landing room >= 30.0 yd after, every crossing
+GATE: PADS_SEPARATED PASS - 2 separate dry pads (want 2), areas [8561, 2051] yd2 (min 500.0), tee->pin dry route exists: False
+GATE: NO_OUT_OF_BOUNDS_LAND PASS - 0.00% of the dry area is out-of-bounds grass (max 1.0%): the shore must sit inside fairway/2 + rough or RoughWidth is too small
+GATE: OUTSIDE_AND_WATER_CENTRES_ARE_WATER PASS - 4 points 500 yd outside the shore are Water: True; 1/1 water-ellipse centres are Water
+RESULT: ALL PASS

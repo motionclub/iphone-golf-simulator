@@ -1,0 +1,71 @@
+--- a/Unity/Assets/Scripts/Course/GolfCoastalTurf.cs
++++ b/Unity/Assets/Scripts/Course/GolfCoastalTurf.cs
+@@ -61,14 +61,24 @@
+         public int LastFarCells {get;private set;}
+         public int MaximumTriangles {get;private set;}
+ 
+-        public static bool Supports(int number) => number is 7 or 8 or 9 or 12 or 13 or 14 or 15 or 19 or 20;
++        // Candidate extension: authored cut-turf slots only. Native Ash/Snow/
++        // Desert/Basalt slots keep their exact materials and receive no blades.
++        public static readonly HashSet<int> CoverageHoles=new(){10,16,17,18,21,22,23};
++        public static bool CoverageCandidate(int number)=>CoverageHoles.Contains(number)
++            &&Environment.GetEnvironmentVariable("VISUAL_GRASS_COVERAGE24")=="1";
++        public static bool SupportsApron(int number)=>CoverageHoles.Contains(number);
++        public static bool Supports(int number) => number is 7 or 8 or 9 or 12 or 13 or 14 or 15 or 19 or 20 || CoverageCandidate(number);
++        public static bool EligibleCollider(string name,int number)=>name.StartsWith("TERRAIN")||name.StartsWith("TEE_BOX")||name.StartsWith("FAIRWAY")
++            ||SupportsApron(number)&&name.StartsWith("GREEN_APRON");
++        static float CutHeightScale(Hole hole)=>hole.Number==18?.55f:hole.Number==17?.65f:
++            hole.Number==16||hole.Theme=="magma"?.75f:1f;
+         public static void Apply(GameObject model,Hole hole)
+         {
+             if(!Supports(hole.Number))return;
+             ApplyAroundTee(model,hole);
+         }
+-        // Authored grassy courses share one bounded tee patch. Unsupported dry,
+-        // cold, volcanic and procedural courses retain their existing surfaces.
++        // Authored grass roles share one bounded patch. Candidate cold/dry/
++        // volcanic holes require explicit opt-in; procedural Meadow is separate.
+         public static void ApplyAroundTee(GameObject model,Hole hole)
+         {
+             if(model.GetComponent<GolfCoastalTurf>())return;
+@@ -190,7 +200,7 @@
+                 return;
+             }
+             var rotation=Quaternion.FromToRotation(Vector3.up,normal)*Quaternion.AngleAxis(rng.Next(4)*90,Vector3.up);
+-            var matrix=Matrix4x4.TRS(point-Vector3.up*.0015f,rotation,new Vector3(span,rough?RoughHeightScale:1,span)*YardsPerMeter);
++            var matrix=Matrix4x4.TRS(point-Vector3.up*.0015f,rotation,new Vector3(span,(rough?RoughHeightScale:1)*CutHeightScale(activeHole),span)*YardsPerMeter);
+             var bounds=TransformBounds(tileBounds,matrix);bounds.Expand(.12f);
+             var cell=new Cell{center=point,rough=rough,surface=surface,matrix=matrix,bounds=bounds};
+             cells.Add(cell);block?.cells.Add(cell);
+@@ -209,7 +219,10 @@
+             GroundQueriesThisRebuild++;
+             point=normal=default;rough=false;surface=0;
+             // A hidden collision fairway can continue below an authored lagoon.
+-            if(MovingEnabled&&activeHole.LieAt(new CoursePoint(p.x,p.z))==CourseLie.Water)return false;
++            if(MovingEnabled||CoverageHoles.Contains(activeHole.Number)){
++                var lie=activeHole.LieAt(new CoursePoint(p.x,p.z));
++                if(lie==CourseLie.Water||CoverageHoles.Contains(activeHole.Number)&&lie==CourseLie.Ice)return false;
++            }
+             float closest=float.MaxValue;GroundSource land=null;RaycastHit best=default;
+             var ray=new Ray(new Vector3(p.x,1000,p.z),Vector3.down);
+             foreach(var source in groundSources) {
+@@ -220,7 +233,7 @@
+             }
+             if(land==null||best.normal.y<.92f)return false;
+             string name=land.collider.name;
+-            if(!(name.StartsWith("TERRAIN")||name.StartsWith("TEE_BOX")||name.StartsWith("FAIRWAY")))return false;
++            if(!EligibleCollider(name,activeHole.Number))return false;
+             if(OnVisualPath(best.point))return false;
+             int sub=0;while(sub<land.triangleEnds.Length&&best.triangleIndex>=land.triangleEnds[sub])sub++;
+             var mats=land.materials;
+@@ -231,8 +244,9 @@
+                 rough=true;
+             }
+             else surface=material.HasProperty("_Surface")?material.GetFloat("_Surface"):name.StartsWith("TEE")?3:1;
++            if(name.StartsWith("GREEN_APRON")&&surface!=1&&surface!=4)return false;
+             // Never put the accepted cut/rough geometry on green or hazard roles.
+-            if(MovingEnabled&&(surface!=0&&surface!=1&&surface!=3&&surface!=4))return false;
++            if((MovingEnabled||CoverageHoles.Contains(activeHole.Number))&&(surface!=0&&surface!=1&&surface!=3&&surface!=4))return false;
+             point=best.point;normal=best.normal;return true;
+         }
+         void BuildPathMask(GameObject model,Hole hole)

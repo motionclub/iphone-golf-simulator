@@ -1,0 +1,831 @@
+{
+ "tag": "male",
+ "generated_by": "build_dressed.py",
+ "copy_sha256_before_edit": "d6c4dcfb1150853a8802a8dc7501aa64066adb8b2734c14a4d6ed8e82dada781",
+ "source_mesh_geometry_hash": {
+  "Body_M": "e0341c9834e8e2e58c3e7867e300f75975b97e1532c97386333285bb2e3d980b",
+  "Face_M": "cb9dff284bd36f8e114a58dbdf374eaa1a958f8db816692ebaee9309dd44808d"
+ },
+ "source_body_vertex_hash": "ccf23b2e9f233e7c03112d2e436d1316158456aae5fb88cd100097cf81e1d119",
+ "source_vgroups": [
+  "LOOP_mouth_seam",
+  "LOOP_mouth_lip_upper",
+  "LOOP_mouth_lip_lower",
+  "LOOP_nostril_L",
+  "LOOP_nostril_R",
+  "LOOP_ala_L",
+  "LOOP_ala_R",
+  "LOOP_ear_attach_L",
+  "LOOP_helix_L",
+  "LOOP_concha_L",
+  "LOOP_ear_attach_R",
+  "LOOP_helix_R",
+  "LOOP_concha_R",
+  "LOOP_jaw_ear_L",
+  "LOOP_jaw_ear_R",
+  "LOOP_lid_margin_L",
+  "LOOP_lid_margin_R"
+ ],
+ "source_nverts": {
+  "Body_M": 33196,
+  "Face_M": 3578
+ },
+ "unit": [
+  "METRIC",
+  1.0
+ ],
+ "socket_basis": {
+  "Chest_Top": {
+   "loc": [
+    0.0,
+    0.0,
+    1.25
+   ],
+   "rot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "mode": "XYZ"
+  },
+  "Hip_Bottom": {
+   "loc": [
+    0.0,
+    0.0,
+    0.949999988079071
+   ],
+   "rot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "mode": "XYZ"
+  },
+  "Foot_L_Shoe": {
+   "loc": [
+    -0.18000000715255737,
+    0.0,
+    0.09000000357627869
+   ],
+   "rot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "mode": "XYZ"
+  },
+  "Foot_R_Shoe": {
+   "loc": [
+    0.18000000715255737,
+    0.0,
+    0.09000000357627869
+   ],
+   "rot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "mode": "XYZ"
+  }
+ },
+ "kit_material_remap": {
+  "Std_Black_Lit.001": "Std_Black_Lit",
+  "Std_White_Lit.001": "Std_White_Lit"
+ },
+ "kit_pieces": {
+  "Kit_Top_Polo_M_White": {
+   "socket": "Chest_Top",
+   "geometry_hash": "25fbcf9ee7e5b65befaf31535f56486435404802390e25b2901a47efe53aa230",
+   "world_exact_dressed": "e3ef9a04b117cc40497bdf2ed54e4c6fcc3cc4093e874b11cae1757982fc854c",
+   "mat_dressed": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "n_verts": 11167
+  },
+  "Kit_Bottom_Shorts_M_White": {
+   "socket": "Hip_Bottom",
+   "geometry_hash": "6b0dd1d4c32b6f6743a8f8b43f52dcc503f188d27b8b655bc525060640126a21",
+   "world_exact_dressed": "54ad9916dc796697082688f2bb0715edafac71eaa7a0e55af77e30273b826505",
+   "mat_dressed": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "n_verts": 10522
+  },
+  "Kit_Sock_L_White": {
+   "socket": "Foot_L_Shoe",
+   "geometry_hash": "afbf05e74600fa854219703b5bdb9b26fdde777cbe7b3058ab080146ef10ac2c",
+   "world_exact_dressed": "a645ee6f0c1dbf16a43845db5ead877b466f3d36d4d5adff39ee31f55a590d11",
+   "mat_dressed": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "n_verts": 3135
+  },
+  "Kit_Shoe_L_White": {
+   "socket": "Foot_L_Shoe",
+   "geometry_hash": "39a98e0a2aaa86318a28e2b71c7bf6c3929c3589a22a8f22333af623fa1bf5bc",
+   "world_exact_dressed": "9f8301f9710f66e3f4b56549042edd5b0895f46270a27d45742abef2c290241b",
+   "mat_dressed": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "n_verts": 8014
+  },
+  "Kit_Sock_R_White": {
+   "socket": "Foot_R_Shoe",
+   "geometry_hash": "e23d22c3e39c648a7b8f5267cdaa7903731a2ba236c18acaa883bd8afc3e79c8",
+   "world_exact_dressed": "5872efe3994712684c38d670584af8de33656b4c808009506e7e831d671e7f6a",
+   "mat_dressed": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "n_verts": 3137
+  },
+  "Kit_Shoe_R_White": {
+   "socket": "Foot_R_Shoe",
+   "geometry_hash": "03be2323d559167c8ed2bc2bb1cfa5f94b48662eaf20bfe11ef74cf0aac62388",
+   "world_exact_dressed": "91a4c813d2787ace5f0c805954d513fdb40995aa8635ae885a7f26ccc7efc888",
+   "mat_dressed": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "n_verts": 7976
+  },
+  "Kit_Top_Polo_M_Black": {
+   "socket": "Chest_Top",
+   "geometry_hash": "25fbcf9ee7e5b65befaf31535f56486435404802390e25b2901a47efe53aa230",
+   "world_exact_dressed": "e3ef9a04b117cc40497bdf2ed54e4c6fcc3cc4093e874b11cae1757982fc854c",
+   "mat_dressed": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "n_verts": 11167
+  },
+  "Kit_Bottom_Shorts_M_Black": {
+   "socket": "Hip_Bottom",
+   "geometry_hash": "6b0dd1d4c32b6f6743a8f8b43f52dcc503f188d27b8b655bc525060640126a21",
+   "world_exact_dressed": "54ad9916dc796697082688f2bb0715edafac71eaa7a0e55af77e30273b826505",
+   "mat_dressed": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "n_verts": 10522
+  },
+  "Kit_Sock_L_Black": {
+   "socket": "Foot_L_Shoe",
+   "geometry_hash": "07f52afc570f23268c5b193de453dc8443ecde14f639ed8311b56e378d53a4c9",
+   "world_exact_dressed": "a645ee6f0c1dbf16a43845db5ead877b466f3d36d4d5adff39ee31f55a590d11",
+   "mat_dressed": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "n_verts": 3135
+  },
+  "Kit_Shoe_L_Black": {
+   "socket": "Foot_L_Shoe",
+   "geometry_hash": "54be48c6a10fec93ded3096e8b6d55c62504bddf6b29783e28246255be05af47",
+   "world_exact_dressed": "9f8301f9710f66e3f4b56549042edd5b0895f46270a27d45742abef2c290241b",
+   "mat_dressed": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "n_verts": 8014
+  },
+  "Kit_Sock_R_Black": {
+   "socket": "Foot_R_Shoe",
+   "geometry_hash": "8d681a43053963a0a6aecf385d8e804d4c0c514ed40016034dcb319578881fd8",
+   "world_exact_dressed": "5872efe3994712684c38d670584af8de33656b4c808009506e7e831d671e7f6a",
+   "mat_dressed": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "n_verts": 3137
+  },
+  "Kit_Shoe_R_Black": {
+   "socket": "Foot_R_Shoe",
+   "geometry_hash": "dc06b16a73238cedc2f211273530a10fa4ccf49d91c7fa991bb3f90b76e930b7",
+   "world_exact_dressed": "91a4c813d2787ace5f0c805954d513fdb40995aa8635ae885a7f26ccc7efc888",
+   "mat_dressed": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "n_verts": 7976
+  }
+ },
+ "racket_geometry_hash": {
+  "Racket_Classic": "c29eee1ea754255eabafd7ea7b0f4bfaad908dbf3ab218b963941de6beb67f30",
+  "StringBed": "da8f6587338626ceb20f3e5d6a4471c12e96db01efc2318e85ef2fe21cf4a335",
+  "Grip": "322ff0c7be79a2ac4c77ab6129b1494db40c5c69bd741133a0bda881c42b52df",
+  "ButtCap": "1de0466f392b6462a970c69b8d412b56bdd3f8484c1815e3c713e2c62eba37f4",
+  "Collider_Racket": "f544d2d498ace9731edbf8f347aab5455cfd42c46a09af90324df9dbc42b921d"
+ },
+ "rig": {
+  "rest_pose_max_dev_m": 1.1920928955078125e-07,
+  "numpy_vs_blender_max_err_m": 4.423964425903648e-06,
+  "flex_dir_test_disp_dot_p": 0.03387684645455331,
+  "male_calibration": {
+   "R_rel": [
+    [
+     -0.3438032848816738,
+     0.8343188994552512,
+     -0.4309423108913181
+    ],
+    [
+     0.49672382030223944,
+     0.5510358926407001,
+     0.670540745492782
+    ],
+    [
+     -0.7969094977780851,
+     -0.016474799951613956,
+     0.6038740210653502
+    ]
+   ],
+   "t_rel": [
+    -0.016318558947503715,
+    0.006214511682915835,
+    0.04304387972902264
+   ]
+  },
+  "open_angles": {
+   "Index_1": 0.0,
+   "Index_2": 0.0,
+   "Index_3": 0.0,
+   "Middle_1": 0.0,
+   "Middle_2": 0.0,
+   "Middle_3": 0.0,
+   "Ring_1": 0.0,
+   "Ring_2": 0.0,
+   "Ring_3": 0.0,
+   "Pinky_1": 0.0,
+   "Pinky_2": 0.0,
+   "Pinky_3": 0.0,
+   "Thumb_1": 0.0,
+   "Thumb_2": 0.0,
+   "Thumb_3": 0.0
+  },
+  "obstacle_cloud_points": 943,
+  "search": {
+   "best": {
+    "total": 5.108575110057044,
+    "du": 0.005,
+    "dv": -0.005,
+    "yaw_deg": -8.0,
+    "tilt_deg": -12.0,
+    "roll_deg": 0.0,
+    "face_roll_from_palm_normal_deg": 45.0,
+    "lift": 0.05061124554660638
+   },
+   "top8": [
+    [
+     5.109,
+     5.109,
+     0,
+     0.005,
+     -0.005,
+     -8.0,
+     -12.0,
+     0.0,
+     0.0506
+    ],
+    [
+     5.104,
+     5.109,
+     0,
+     0.005,
+     -0.005,
+     -8.0,
+     -12.0,
+     315.0,
+     0.0506
+    ],
+    [
+     5.104,
+     5.109,
+     0,
+     0.005,
+     -0.005,
+     -8.0,
+     -12.0,
+     45.0,
+     0.0506
+    ],
+    [
+     5.099,
+     5.109,
+     0,
+     0.005,
+     -0.005,
+     -8.0,
+     -12.0,
+     270.0,
+     0.0506
+    ],
+    [
+     5.099,
+     5.109,
+     0,
+     0.005,
+     -0.005,
+     -8.0,
+     -12.0,
+     90.0,
+     0.0506
+    ],
+    [
+     5.098,
+     5.098,
+     0,
+     0.015,
+     0.005,
+     -8.0,
+     -12.0,
+     0.0,
+     0.0523
+    ],
+    [
+     5.094,
+     5.109,
+     0,
+     0.005,
+     -0.005,
+     -8.0,
+     -12.0,
+     225.0,
+     0.0506
+    ],
+    [
+     5.094,
+     5.109,
+     0,
+     0.005,
+     -0.005,
+     -8.0,
+     -12.0,
+     135.0,
+     0.0506
+    ]
+   ],
+   "n_stage1": 448,
+   "n_stage2": 60,
+   "n_stage3": 480,
+   "collisions_at_best": {
+    "body": 0,
+    "Kit_Top_Polo_M_White": 0,
+    "Kit_Bottom_Shorts_M_White": 0,
+    "Kit_Sock_L_White": 0,
+    "Kit_Shoe_L_White": 0,
+    "Kit_Sock_R_White": 0,
+    "Kit_Shoe_R_White": 0,
+    "hand_vs_racket_mesh": 0,
+    "hand_vs_body": 0,
+    "hand_vs_Kit_Top_Polo_M_White": 0,
+    "hand_vs_Kit_Bottom_Shorts_M_White": 0,
+    "hand_vs_Kit_Sock_L_White": 0,
+    "hand_vs_Kit_Shoe_L_White": 0,
+    "hand_vs_Kit_Sock_R_White": 0,
+    "hand_vs_Kit_Shoe_R_White": 0
+   }
+  },
+  "finger_min_dist_mm": {
+   "index": 0.30104405777156906,
+   "middle": 0.35173349613585453,
+   "ring": 0.3007197839162111,
+   "pinky": 0.3002441591815966
+  },
+  "hand_min_dist_to_racket_model_mm": 0.3002441591815966,
+  "closing_trace": {
+   "index": [
+    "('contact_seg', 3, [8.2783203125, 10.6435546875, 6.50439453125])"
+   ],
+   "middle": [
+    "('contact_seg', 2, [27.054361979166675, 34.78417968750001, 21.25699869791667])",
+    "('contact_seg', 3, [27.054361979166675, 34.78417968750001, 35.53406676186456])"
+   ],
+   "ring": [
+    "('contact_seg', 3, [39.37158203125, 50.62060546875001, 30.934814453125004])"
+   ],
+   "pinky": [
+    "('contact_seg', 3, [47.6806640625, 61.3037109375, 37.46337890625])"
+   ]
+  },
+  "racket_world_matrix": [
+   [
+    0.13855835353111,
+    -0.398547310074123,
+    0.9066209926421456,
+    -0.5801047421327497
+   ],
+   [
+    -0.5685658724480791,
+    -0.7815675732707521,
+    -0.2566806909352999,
+    -0.10979462710903988
+   ],
+   [
+    0.8108849680158728,
+    -0.47990850174210187,
+    -0.33489311518982917,
+    0.8506888985134707
+   ],
+   [
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ]
+  ],
+  "angles": {
+   "Index_1": 8.2783203125,
+   "Index_2": 10.6435546875,
+   "Index_3": 6.50439453125,
+   "Middle_1": 27.054361979166675,
+   "Middle_2": 34.78417968750001,
+   "Middle_3": 31.50439453125,
+   "Ring_1": 39.37158203125,
+   "Ring_2": 50.62060546875001,
+   "Ring_3": 30.934814453125004,
+   "Pinky_1": 47.6806640625,
+   "Pinky_2": 61.3037109375,
+   "Pinky_3": 37.46337890625,
+   "Thumb_1": 0.0,
+   "Thumb_2": 0.0,
+   "Thumb_3": 0.0
+  },
+  "verify": {
+   "racket_hand_tri_overlaps": 0,
+   "grip_to_hand_min_dist_mm": 0.9041271405294538,
+   "numpy_vs_blender_final_max_err_m": 3.909547050318096e-06
+  },
+  "hand_racket_world_err": 8.656322192379662e-08,
+  "bones": [
+   "Hand_R",
+   "Index_1",
+   "Index_2",
+   "Index_3",
+   "Middle_1",
+   "Middle_2",
+   "Middle_3",
+   "Ring_1",
+   "Ring_2",
+   "Ring_3",
+   "Pinky_1",
+   "Pinky_2",
+   "Pinky_3",
+   "Thumb_1",
+   "Thumb_2",
+   "Thumb_3"
+  ],
+  "vertex_groups_added": [
+   "Hand_R",
+   "Index_1",
+   "Index_2",
+   "Index_3",
+   "Middle_1",
+   "Middle_2",
+   "Middle_3",
+   "Pinky_1",
+   "Pinky_2",
+   "Pinky_3",
+   "Ring_1",
+   "Ring_2",
+   "Ring_3",
+   "Thumb_1",
+   "Thumb_2",
+   "Thumb_3"
+  ],
+  "hand_vertex_count": 1687
+ },
+ "saved": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/dressed-look/export/HeroBase_Male_Dressed.blend",
+ "saved_sha256": "d39742d242f176f096b4c3c8106847d3cbeebdbfd040107a2fa37821cc7ac8ea",
+ "dressed_mesh_geometry_hash": {
+  "Body_M": "e0341c9834e8e2e58c3e7867e300f75975b97e1532c97386333285bb2e3d980b",
+  "Face_M": "cb9dff284bd36f8e114a58dbdf374eaa1a958f8db816692ebaee9309dd44808d"
+ },
+ "dressed_body_vertex_hash": "ccf23b2e9f233e7c03112d2e436d1316158456aae5fb88cd100097cf81e1d119",
+ "dressed_vgroups": [
+  "LOOP_mouth_seam",
+  "LOOP_mouth_lip_upper",
+  "LOOP_mouth_lip_lower",
+  "LOOP_nostril_L",
+  "LOOP_nostril_R",
+  "LOOP_ala_L",
+  "LOOP_ala_R",
+  "LOOP_ear_attach_L",
+  "LOOP_helix_L",
+  "LOOP_concha_L",
+  "LOOP_ear_attach_R",
+  "LOOP_helix_R",
+  "LOOP_concha_R",
+  "LOOP_jaw_ear_L",
+  "LOOP_jaw_ear_R",
+  "LOOP_lid_margin_L",
+  "LOOP_lid_margin_R",
+  "Index_1",
+  "Index_2",
+  "Index_3",
+  "Middle_1",
+  "Middle_2",
+  "Middle_3",
+  "Ring_1",
+  "Ring_2",
+  "Ring_3",
+  "Pinky_1",
+  "Pinky_2",
+  "Pinky_3",
+  "Thumb_1",
+  "Thumb_2",
+  "Thumb_3",
+  "Hand_R"
+ ],
+ "dressed_nverts": {
+  "Body_M": 33196,
+  "Face_M": 3578
+ }
+}

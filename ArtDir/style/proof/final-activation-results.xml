@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="9" result="Passed" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-15 05:51:49Z" end-time="2026-10-15 05:51:49Z" duration="0.0706027">
+  <test-suite type="TestSuite" id="1344" name="Golf Arcade" fullname="Golf Arcade" runstate="Runnable" testcasecount="253" result="Passed" start-time="2026-10-15 05:51:49Z" end-time="2026-10-15 05:51:49Z" duration="0.070603" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="SetUpFixture" id="1001" name="GolfArcade.PlayTests.dll" fullname="ClassicConditionsForTests" classname="ClassicConditionsForTests" runstate="Runnable" testcasecount="253" result="Passed" start-time="2026-10-15 05:51:49Z" end-time="2026-10-15 05:51:49Z" duration="0.059610" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="36382" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestSuite" id="1339" name="GolfArcade" fullname="GolfArcade" runstate="Runnable" testcasecount="253" result="Passed" start-time="2026-10-15 05:51:49Z" end-time="2026-10-15 05:51:49Z" duration="0.054657" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1341" name="PlayTests" fullname="GolfArcade.PlayTests" runstate="Runnable" testcasecount="217" result="Passed" start-time="2026-10-15 05:51:49Z" end-time="2026-10-15 05:51:49Z" duration="0.053211" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1056" name="CharLightActivationTests" fullname="GolfArcade.PlayTests.CharLightActivationTests" classname="GolfArcade.PlayTests.CharLightActivationTests" runstate="Runnable" testcasecount="9" result="Passed" start-time="2026-10-15 05:51:49Z" end-time="2026-10-15 05:51:49Z" duration="0.045162" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="ParameterizedMethod" id="1066" name="ExplicitHeroOrCombinedStageDoesNotMutateVenue" fullname="GolfArcade.PlayTests.CharLightActivationTests.ExplicitHeroOrCombinedStageDoesNotMutateVenue" classname="GolfArcade.PlayTests.CharLightActivationTests" runstate="Runnable" testcasecount="9" result="Passed" start-time="2026-10-15 05:51:49Z" end-time="2026-10-15 05:51:49Z" duration="0.043777" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1057" name="ExplicitHeroOrCombinedStageDoesNotMutateVenue(null,&quot;0&quot;,0.0f)" fullname="GolfArcade.PlayTests.CharLightActivationTests.ExplicitHeroOrCombinedStageDoesNotMutateVenue(null,&quot;0&quot;,0.0f)" methodname="ExplicitHeroOrCombinedStageDoesNotMutateVenue" classname="GolfArcade.PlayTests.CharLightActivationTests" runstate="Runnable" seed="1909118122" result="Passed" start-time="2026-10-15 05:51:49Z" end-time="2026-10-15 05:51:49Z" duration="0.023866" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1058" name="ExplicitHeroOrCombinedStageDoesNotMutateVenue(&quot;0&quot;,&quot;0&quot;,0.0f)" fullname="GolfArcade.PlayTests.CharLightActivationTests.ExplicitHeroOrCombinedStageDoesNotMutateVenue(&quot;0&quot;,&quot;0&quot;,0.0f)" methodname="ExplicitHeroOrCombinedStageDoesNotMutateVenue" classname="GolfArcade.PlayTests.CharLightActivationTests" runstate="Runnable" seed="1212018214" result="Passed" start-time="2026-10-15 05:51:49Z" end-time="2026-10-15 05:51:49Z" duration="0.000327" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1059" name="ExplicitHeroOrCombinedStageDoesNotMutateVenue(&quot;1&quot;,&quot;0&quot;,1.0f)" fullname="GolfArcade.PlayTests.CharLightActivationTests.ExplicitHeroOrCombinedStageDoesNotMutateVenue(&quot;1&quot;,&quot;0&quot;,1.0f)" methodname="ExplicitHeroOrCombinedStageDoesNotMutateVenue" classname="GolfArcade.PlayTests.CharLightActivationTests" runstate="Runnable" seed="230525343" result="Passed" start-time="2026-10-15 05:51:49Z" end-time="2026-10-15 05:51:49Z" duration="0.000165" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1060" name="ExplicitHeroOrCombinedStageDoesNotMutateVenue(null,&quot;1&quot;,0.0f)" fullname="GolfArcade.PlayTests.CharLightActivationTests.ExplicitHeroOrCombinedStageDoesNotMutateVenue(null,&quot;1&quot;,0.0f)" methodname="ExplicitHeroOrCombinedStageDoesNotMutateVenue" classname="GolfArcade.PlayTests.CharLightActivationTests" runstate="Runnable" seed="1426222558" result="Passed" start-time="2026-10-15 05:51:49Z" end-time="2026-10-15 05:51:49Z" duration="0.000144" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1061" name="ExplicitHeroOrCombinedStageDoesNotMutateVenue(null,&quot;2&quot;,1.0f)" fullname="GolfArcade.PlayTests.CharLightActivationTests.ExplicitHeroOrCombinedStageDoesNotMutateVenue(null,&quot;2&quot;,1.0f)" methodname="ExplicitHeroOrCombinedStageDoesNotMutateVenue" classname="GolfArcade.PlayTests.CharLightActivationTests" runstate="Runnable" seed="272371271" result="Passed" start-time="2026-10-15 05:51:49Z" end-time="2026-10-15 05:51:49Z" duration="0.000132" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1062" name="ExplicitHeroOrCombinedStageDoesNotMutateVenue(&quot;0&quot;,&quot;4&quot;,1.0f)" fullname="GolfArcade.PlayTests.CharLightActivationTests.ExplicitHeroOrCombinedStageDoesNotMutateVenue(&quot;0&quot;,&quot;4&quot;,1.0f)" methodname="ExplicitHeroOrCombinedStageDoesNotMutateVenue" classname="GolfArcade.PlayTests.CharLightActivationTests" runstate="Runnable" seed="860519133" result="Passed" start-time="2026-10-15 05:51:49Z" end-time="2026-10-15 05:51:49Z" duration="0.000127" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1063" name="ExplicitHeroOrCombinedStageDoesNotMutateVenue(null,&quot;5&quot;,1.0f)" fullname="GolfArcade.PlayTests.CharLightActivationTests.ExplicitHeroOrCombinedStageDoesNotMutateVenue(null,&quot;5&quot;,1.0f)" methodname="ExplicitHeroOrCombinedStageDoesNotMutateVenue" classname="GolfArcade.PlayTests.CharLightActivationTests" runstate="Runnable" seed="952713572" result="Passed" start-time="2026-10-15 05:51:49Z" end-time="2026-10-15 05:51:49Z" duration="0.000125" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1064" name="ExplicitHeroOrCombinedStageDoesNotMutateVenue(&quot;0&quot;,&quot;6&quot;,1.0f)" fullname="GolfArcade.PlayTests.CharLightActivationTests.ExplicitHeroOrCombinedStageDoesNotMutateVenue(&quot;0&quot;,&quot;6&quot;,1.0f)" methodname="ExplicitHeroOrCombinedStageDoesNotMutateVenue" classname="GolfArcade.PlayTests.CharLightActivationTests" runstate="Runnable" seed="928240991" result="Passed" start-time="2026-10-15 05:51:49Z" end-time="2026-10-15 05:51:49Z" duration="0.000127" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1065" name="ExplicitHeroOrCombinedStageDoesNotMutateVenue(null,&quot;7&quot;,1.0f)" fullname="GolfArcade.PlayTests.CharLightActivationTests.ExplicitHeroOrCombinedStageDoesNotMutateVenue(null,&quot;7&quot;,1.0f)" methodname="ExplicitHeroOrCombinedStageDoesNotMutateVenue" classname="GolfArcade.PlayTests.CharLightActivationTests" runstate="Runnable" seed="1494961422" result="Passed" start-time="2026-10-15 05:51:49Z" end-time="2026-10-15 05:51:49Z" duration="0.000125" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[DONE PlayMode: 9 passed, 0 failed, 0 skipped
+<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /Users/adnanyonathan/Library/Application Support/aloniewski/Golf Arcade/TestResults.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

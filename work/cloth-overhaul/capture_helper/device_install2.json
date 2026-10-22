@@ -1,0 +1,37 @@
+{
+  "info" : {
+    "arguments" : [
+      "devicectl",
+      "device",
+      "install",
+      "app",
+      "--device",
+      "00008150-00041CD92287801C",
+      "work/cloth-overhaul/ios_after/DerivedData/Build/Products/Release-iphoneos/ClothProof.app",
+      "--json-output",
+      "work/cloth-overhaul/capture_helper/device_install2.json"
+    ],
+    "commandType" : "devicectl.device.install.app",
+    "environment" : {
+      "TERM" : "dumb"
+    },
+    "jsonVersion" : 5,
+    "outcome" : "success",
+    "version" : "642.16"
+  },
+  "result" : {
+    "deviceIdentifier" : "5724AA4B-8FB9-5224-8EBC-EBF2A5071B3B",
+    "installedApplications" : [
+      {
+        "bundleID" : "com.aloniewski.GolfArcade.ClothProof",
+        "databaseSequenceNumber" : 6168,
+        "databaseUUID" : "67E12DBE-F28F-414C-9ED9-164F3798AAA1",
+        "installationURL" : "file:///private/var/containers/Bundle/Application/6C58740A-9431-41E3-B99D-4D3E0DB0BBD6/ClothProof.app/",
+        "launchServicesIdentifier" : "unknown",
+        "options" : {
+
+        }
+      }
+    ]
+  }
+}

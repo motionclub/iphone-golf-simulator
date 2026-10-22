@@ -1,0 +1,20 @@
+{
+  "decision": "ACCEPT_INCREMENTAL_UNITY_DEFAULT",
+  "proofQueues": "capture-queue.json.results.json",
+  "actualRootReview": [
+    "male_current_full.png",
+    "female_current_full.png",
+    "male_blink_0_front.png",
+    "female_blink_0_front.png",
+    "../golf-face-default26/male_golf_blink_0.png",
+    "../golf-face-default26/female_Driver_top_front34.png",
+    "../tennis-face-default26/resort_8_rivalintro.png"
+  ],
+  "scope": "Same original source identity; Eye13, BlinkFinish, continuous normals, revision1 pigment/skin. Native resource adoption pending.",
+  "limitations": [
+    "Male cheek/socket/mouth form remains uneven.",
+    "Female mouth/nose detail remains soft.",
+    "Clothing folds and closed blink edge remain unfinished.",
+    "No phone test."
+  ]
+}

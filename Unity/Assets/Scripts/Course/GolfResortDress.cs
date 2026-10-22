@@ -222,6 +222,8 @@ namespace GolfArcade.Course
         {
             if(!templates.TryGetValue(kind,out var template))return;
             var asset=PrepareAsset(kind,template,scale,!overrideMaterial);
+            // 10-19: a boulder set against a cliff face or on a slope comes down until it touches (RockGrounding)
+            if(kind=="BOULDER")point.y-=RockGrounding.Settle("resort "+kind,asset,Matrix4x4.TRS(point,Quaternion.Euler(0,angle,0),scale)*template.toRoot);
             var world=transform.worldToLocalMatrix*Matrix4x4.TRS(point,Quaternion.Euler(0,angle,0),scale);
             var matrix=world*template.toRoot;
             bool lod=(kind=="PALM"||kind=="PINE"||kind=="OAK")&&!overrideMaterial&&templates.ContainsKey(kind+"_FAR");

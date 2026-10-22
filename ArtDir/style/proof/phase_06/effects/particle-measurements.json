@@ -1,0 +1,110 @@
+[
+  {
+    "event": "celebration",
+    "sampledFrames": [
+      1,
+      24,
+      47
+    ],
+    "beforePeakParticles": 120,
+    "afterPeakParticles": 120,
+    "afterDurationSeconds": 2.79447174,
+    "reference": "r2"
+  },
+  {
+    "event": "grass",
+    "sampledFrames": [
+      1,
+      4,
+      15
+    ],
+    "beforePeakParticles": 24,
+    "afterPeakParticles": 24,
+    "afterDurationSeconds": 0.9808121,
+    "reference": "r3"
+  },
+  {
+    "event": "ice",
+    "sampledFrames": [
+      1,
+      4,
+      15
+    ],
+    "beforePeakParticles": 24,
+    "afterPeakParticles": 24,
+    "afterDurationSeconds": 0.9765854,
+    "reference": "r4"
+  },
+  {
+    "event": "lava",
+    "sampledFrames": [
+      1,
+      4,
+      15
+    ],
+    "beforePeakParticles": 86,
+    "afterPeakParticles": 86,
+    "afterDurationSeconds": 0.8727722,
+    "reference": "r4"
+  },
+  {
+    "event": "net",
+    "sampledFrames": [
+      1,
+      4,
+      15
+    ],
+    "beforePeakParticles": 22,
+    "afterPeakParticles": 22,
+    "afterDurationSeconds": 1.17777634,
+    "reference": "r2"
+  },
+  {
+    "event": "normal-contact",
+    "sampledFrames": [
+      1,
+      4,
+      15
+    ],
+    "beforePeakParticles": 23,
+    "afterPeakParticles": 23,
+    "afterDurationSeconds": 0.944442749,
+    "reference": "r2"
+  },
+  {
+    "event": "perfect-contact",
+    "sampledFrames": [
+      1,
+      4,
+      15
+    ],
+    "beforePeakParticles": 61,
+    "afterPeakParticles": 61,
+    "afterDurationSeconds": 0.9344673,
+    "reference": "r2"
+  },
+  {
+    "event": "sand",
+    "sampledFrames": [
+      1,
+      4,
+      15
+    ],
+    "beforePeakParticles": 24,
+    "afterPeakParticles": 24,
+    "afterDurationSeconds": 1.00079346,
+    "reference": "r3"
+  },
+  {
+    "event": "water",
+    "sampledFrames": [
+      1,
+      4,
+      15
+    ],
+    "beforePeakParticles": 70,
+    "afterPeakParticles": 70,
+    "afterDurationSeconds": 0.8640518,
+    "reference": "r3"
+  }
+]

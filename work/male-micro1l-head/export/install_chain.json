@@ -1,0 +1,5 @@
+{"chain": [
+ {"step": "start (ArtDir before this task)", "blend_sha256": "9bfd788a1a2a10bb6c982820e9b2c65889ef7280448f3d65ed39dcd8634d91ba", "fbx_sha256": "69428fc8cf5d1deea5ebc9e232440bf20a8e67b8492e20145ba3f463029570d7"},
+ {"step": "Micro1l first install (jaw/cheek/lips r1)", "blend_sha256": "0f74218646ca17eab0c3d171c8fe1bd0fc691b29d12be3561c8d39f42bc8942a", "fbx_sha256": "5d2cd8931b64c06688c5945ed5945a1305aab652a435043c639145ad8c5f1ea0"},
+ {"step": "r2: chin connected to the jawline + plate-traced lips (body + paint, rebase patch p6 over l2)", "blend_sha256": "8a9ad64b87b3538087cbb6a1d8fad63fe44a22a102aa990ec283c4c949cbd5a1", "fbx_sha256": "4f041becb5dad30e7b0eeccbd0fe461b8498581a8b0b9fd55b7771e336cd76df"},
+ {"step": "r2b: paint-only update (seam ribbon always above the lip strips, per-quad clearance sampling)", "blend_sha256": "fd04bc286f688b03ea25fbb57e1242bf2f5976c2dc7bbcdfdb0f68b622ab2347", "fbx_sha256": "a36b2010bdffbccb87de3e684a2ac3b611be95bedccedea59460e687d0f600a6"}]}

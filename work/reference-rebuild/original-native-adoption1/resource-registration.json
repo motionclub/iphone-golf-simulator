@@ -1,0 +1,30 @@
+{
+  "status": "PASS staged plist syntax",
+  "projects": [
+    {
+      "project": "GolfArcade",
+      "source_sha256": "f1455a53f2a469b52f1622188f72e9d21bb018e94641378c648f0f744f61eca2",
+      "candidate_sha256": "c9d7fe1fcccb45fb3346ad474ee6391b8f2689a6ac6e0bc722a43fc4471daa02",
+      "added_app_resources": [
+        "MatchHero_OriginalEye_RelativeIris.png",
+        "MatchHero_OriginalEye_RelativeSclera.png",
+        "MatchHero_OriginalSeam_RelativeSkinPigment.png"
+      ],
+      "app_resources_phase": "368A99EA91977F617064F797",
+      "character_assets_group": "CFBEB2E659D13EC358060998"
+    },
+    {
+      "project": "GolfArcadeUnity",
+      "source_sha256": "59f8785f23c372a9966bd15e24171c89593ed66a0fb4b2a62fc5fccfed0ea0cb",
+      "candidate_sha256": "f711e4c5fbfa2a4a17585fc3c0ae42a9ff302d3ef3f1dc26041354fda135840f",
+      "added_app_resources": [
+        "MatchHero_OriginalEye_RelativeIris.png",
+        "MatchHero_OriginalEye_RelativeSclera.png",
+        "MatchHero_OriginalSeam_RelativeSkinPigment.png"
+      ],
+      "app_resources_phase": "907C78790FE6CC029288613C",
+      "character_assets_group": "2DBB18801A908AA443B24482"
+    }
+  ],
+  "yaml": "project.yml recursively includes MatchHero_*; project-unity.yml inherits it; no YAML mutation required"
+}

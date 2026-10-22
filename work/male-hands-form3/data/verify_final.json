@@ -1,0 +1,38 @@
+{
+ "verts": 31936,
+ "polys": 32162,
+ "loops": 127962,
+ "verts_equal_candidate": true,
+ "polys_equal_candidate_multiset": true,
+ "sharp_face_true": 0,
+ "sharp_edge_true": 0,
+ "custom_normal_loops": 127962,
+ "custom_normal_nonzero": 31246,
+ "custom_normal_loops_same_as_baseline": 124306,
+ "custom_normal_loops_diff_from_baseline": 0,
+ "has_custom_normals": true,
+ "vertex_groups": [
+  "LOOP_mouth_seam",
+  "LOOP_mouth_lip_upper",
+  "LOOP_mouth_lip_lower",
+  "LOOP_nostril_L",
+  "LOOP_nostril_R",
+  "LOOP_ala_L",
+  "LOOP_ala_R",
+  "LOOP_ear_attach_L",
+  "LOOP_helix_L",
+  "LOOP_concha_L",
+  "LOOP_ear_attach_R",
+  "LOOP_helix_R",
+  "LOOP_concha_R",
+  "LOOP_jaw_ear_L",
+  "LOOP_jaw_ear_R",
+  "LOOP_lid_margin_L",
+  "LOOP_lid_margin_R"
+ ],
+ "vertex_group_entries": 848,
+ "baseline_vertex_group_entries": 848,
+ "materials": [
+  "Blockout_Grey"
+ ]
+}

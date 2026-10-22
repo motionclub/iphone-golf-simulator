@@ -57,7 +57,7 @@ Shader "GolfArcade/GolfCoastalTurf"
     // UV.x is constant on each authored blade; no screen-space stipple or time noise.
     clip(i.role.w-frac(i.role.x*53.179h));
     half3 normal=normalize(i.n)*IS_FRONT_VFACE(face,1,-1);
-    Light sun=HeroMain(GetMainLight());
+    Light sun=GetMainLight();
     #if defined(_MAIN_LIGHT_SHADOWS_SCREEN)
     sun.shadowAttenuation=MainLightRealtimeShadow(ComputeScreenPos(TransformWorldToHClip(i.w)));
     #elif defined(MAIN_LIGHT_CALCULATE_SHADOWS)

@@ -1,0 +1,50 @@
+{
+  "status": "PASS",
+  "manifest": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round2/coordinator_review_1/source_batch.json",
+  "manifest_sha256": "29ca6d4a9e0a529ea01b266710a5a7976734a83082ff41a37fcc3c156539477d",
+  "mode": "apply",
+  "source_plans": [
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round2/coordinator_review_1/derived_source_plan_0.json",
+      "sha256": "db563652dcc25940436ff931700bd770e6bb53d9148fe212c8ba9410b378d4ef"
+    }
+  ],
+  "heavy_ancestor": {
+    "pid": 80848,
+    "command": "bash /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/heavy.sh p7-round2-apply python3 work/postcard-look/v3/p7/round2/coordinator.py apply --manifest work/postcard-look/v3/p7/round2/coordinator_review_1/manifest.json --manifest-sha b37531b4a02150c055a2901e203818e51994b73fe011883141d6f852e72ed242",
+    "lock_owner": "p7-round2-apply | Mon Oct  5 18:40:35 EDT 2026\n"
+  },
+  "archive": [
+    {
+      "target": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/hole09_look.py",
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round2/coordinator_review_1/apply/actual_helper/old/blender/scripts/hole09_look.py",
+      "sha256": "8923ecd0357743d8ae40fc3571025d0c8597b1bd9fa0bde166befbb2fa1fef27"
+    },
+    {
+      "target": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/hole09_build.py",
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round2/coordinator_review_1/apply/actual_helper/old/blender/scripts/hole09_build.py",
+      "sha256": "ae2e6692cbb1617c6849d4f99191192d67874f38e5fc5b6d7be05ef48f48cc80"
+    },
+    {
+      "target": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/hole10_build.py",
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round2/coordinator_review_1/apply/actual_helper/old/blender/scripts/hole10_build.py",
+      "sha256": "ca9064b5a3a4a18bd06d87f139ec308cf363d68739f47b123d5bb1b4640297d9"
+    }
+  ],
+  "installed": [
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/hole09_look.py",
+      "sha256": "f91d034f7988dee9ef63683965a04213ec0ee4adfc8ee2c0b77ac58a3d10843a"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/hole09_build.py",
+      "sha256": "3907823f68d156dcb3adb123ea4e539af8b305aa07b6e07b4c1221ce705a75eb"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/hole10_build.py",
+      "sha256": "ced511c71f6c301300bdaf3c009eee914983914f26cfd996ec9c804a03c565d8"
+    }
+  ],
+  "excluded_planned_protected": [],
+  "verification": "UNVERIFIED; complete P7 original gates and installed proof required"
+}

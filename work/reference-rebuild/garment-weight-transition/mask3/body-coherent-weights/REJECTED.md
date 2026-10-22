@@ -1,0 +1,1 @@
+GATE: FAIL. Do not promote this experimental weight profile. See ../WEIGHT_TRANSFER_GATE.md and source-motion-report.json. Original rest geometry is unchanged, but all-pose cloth closure is not achieved.

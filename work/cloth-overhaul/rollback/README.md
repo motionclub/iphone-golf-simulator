@@ -1,0 +1,1 @@
+Restore only cloth-owned paths listed in ../changed_files.json after checking subsequent edits. First snapshot preserves original files; p5_after_lobby preserves completed lobby work. p5_unpacked preserves the intermediate cloth-only export. NEW files have no prior counterpart. Do not bulk reset the repository.

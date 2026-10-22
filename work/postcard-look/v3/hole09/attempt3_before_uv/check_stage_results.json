@@ -1,0 +1,50 @@
+[
+  {
+    "name": "verifier_required",
+    "exit_code": 1,
+    "seconds": 180.75687670707703,
+    "error": null
+  },
+  {
+    "name": "hole_qa",
+    "exit_code": 0,
+    "seconds": 63.928245067596436,
+    "error": null
+  },
+  {
+    "name": "ruin_blend",
+    "exit_code": 0,
+    "seconds": 9.491753101348877,
+    "error": null
+  },
+  {
+    "name": "ruin_fbx",
+    "exit_code": 0,
+    "seconds": 7.471598148345947,
+    "error": null
+  },
+  {
+    "name": "pieces_blend",
+    "exit_code": 0,
+    "seconds": 1.0549368858337402,
+    "error": null
+  },
+  {
+    "name": "pieces_fbx",
+    "exit_code": 0,
+    "seconds": 1.5364470481872559,
+    "error": null
+  },
+  {
+    "name": "scenery",
+    "exit_code": 2,
+    "seconds": 0.8161962032318115,
+    "error": "TypeError('Object of type int64 is not JSON serializable')"
+  },
+  {
+    "name": "scoring_exact",
+    "exit_code": 0,
+    "seconds": 2.986605167388916,
+    "error": null
+  }
+]

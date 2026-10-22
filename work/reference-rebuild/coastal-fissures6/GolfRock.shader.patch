@@ -1,0 +1,20 @@
+--- Unity/Assets/Resources/Course/Shaders/GolfRock.shader
++++ work/reference-rebuild/coastal-fissures6/GolfRock.shader
+@@ -37,6 +37,7 @@
+  _HighColor("High palette",Color)=(.46,.66,.29,1)
+  _DetailContrast("Texture contrast",Float)=1
+  _PaletteDetail("Retained stone fissure colour",Range(0,1))=0
++ _PaletteMidpoint("Authored scan linear-luma midpoint",Float)=.22
+  [Enum(UnityEngine.Rendering.CullMode)] _Cull("Cull mode",Float)=2
+  _Foliage("Two sided foliage lighting",Float)=0
+ 
+@@ -151,7 +152,8 @@
+   }
+   if(_PaletteMode>.5h) {
+    half value=dot(base.rgb,half3(.2126h,.7152h,.0722h));
+-   half3 palette=lerp(_LowColor.rgb,_HighColor.rgb,saturate(.5h+(value-.22h)*_DetailContrast));
++   half midpoint=_AuthoredUV>.5h ? _PaletteMidpoint : .22h;
++   half3 palette=lerp(_LowColor.rgb,_HighColor.rgb,saturate(.5h+(value-midpoint)*_DetailContrast));
+    // Retain broad authored fissures at a bounded strength. Full palette mapping
+    // made actual rounded limestone chalk-white; full scan reads as wallpaper.
+    base.rgb=lerp(palette,base.rgb*.75h,_PaletteDetail);

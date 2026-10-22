@@ -1,0 +1,37 @@
+{
+ "ArtDir_verts": 22444,
+ "base_verts": 23247,
+ "limbs_map_removed_ArtDir_verts": 3053,
+ "base_verts_without_ArtDir_counterpart": 3856,
+ "base_verts_without_ArtDir_counterpart_indices": "SOME BELOW 22419",
+ "base_verts_<22419_without_ArtDir_counterpart (limbs SDF hands/feet verts)": 3028,
+ "mapped_unchanged": 12039,
+ "mapped_moved_vs_ArtDir": 7352,
+ "moved_vs_ArtDir_by_provenance": {
+  "arms": 1592,
+  "chat7_torso": 3317,
+  "limbs_legs": 2443
+ },
+ "torso_delta_state_on_base": {
+  "clean": 1346,
+  "superseded_chat7": 3194
+ },
+ "delta_verts_whose_current_base_position_is_shared_by_another_base_vertex": 0,
+ "delta_targets_in_hand_appended_22419_23246": 0,
+ "delta_targets_in_1326_reused_hand_slots": 0,
+ "chat7_verts": 3317,
+ "chat7_verts_at_chat7_position_in_base": 3317,
+ "chat7_verts_overwritten_by_form5_delta": 3194,
+ "chat7_verts_NOT_in_delta (FORM5 border ring, restored to original)": 123,
+ "chat7_verts_not_in_delta_that_are_FORM5_border": 123,
+ "chat7_border_residue_displacement_mm_max": 2.4553604125976562,
+ "chat7_start_co_equals_ArtDir": true,
+ "arm_zone_verts": 1699,
+ "arm_zone_overlap_FORM5_zone": 0,
+ "arm_pins_overlap_FORM5_zone": 0,
+ "ArtDir_old_head_verts": 10023,
+ "old_head_verts_missing_in_base": 0,
+ "old_head_verts_at_ArtDir_position_in_base": 10023,
+ "base_verts_above_cut": 10023,
+ "base_above_cut_equals_mapped_old_head": true
+}

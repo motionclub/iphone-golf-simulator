@@ -1,0 +1,35 @@
+#!/bin/zsh
+# GARMENT PIPELINE: install a fitted run into the Unity CLONE (never the real Unity/), then measure perf there.
+#   garment_install <hero> <run> [new_src=<out_gp dir with manifest.json for brand-new meshes>]
+# 1. new meshes (garment_new / shoe3 / ref09 ...): ClothingV2Install from new_src (mesh asset, maps, prefab slot), only those pieces
+# 2. gp/export.py: weights + bind poses + GP_Pose correctives per fitted piece; gp/cover.py export_cover: the skin cover (hide lists) per piece
+# 3. GarmentPipelineInstall (patch the mesh assets in place, renderer bones, Resources correctives / hide / offsets)
+# 4. GarmentPipelinePerf (driver ms + 1080p render ms with correctives live vs zero) -> perf/<run>_perf.json
+# Clone: $GP_CLONE (default ~/garments-UnityClone; /private/tmp is wiped on every reboot). One Editor at a time, muted.
+set -e
+P=${0:A:h}; cd $P
+HV=${GP_HEAVY:-$P/../../delegation-2026-10-17/heavy.sh}   # machine-wide slot gate (README 'Sharing the machine')
+U=($HV unity /Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/MacOS/Unity)
+CL=${GP_CLONE:-$HOME/garments-UnityClone}
+HERO=$1; RUN=$2; NEWSRC=""
+for a in "${@:3}"; do case $a in new_src=*) NEWSRC=${a#new_src=};; esac; done
+mkdir -p logs perf out/$HERO
+cp unity/*.cs $CL/Assets/Editor/GarmentPipeline/ 2>/dev/null || { mkdir -p $CL/Assets/Editor/GarmentPipeline; cp unity/*.cs $CL/Assets/Editor/GarmentPipeline/; }
+for f in Assets/Editor/GarmentPipelineInstall.cs Assets/Scripts/Tennis/GarmentPoseCorrectives.cs Assets/Scripts/Tennis/KitV2PoseCorrectives.cs Assets/Scripts/Tennis/HeroGarmentHemWeights.cs Assets/Editor/ClothingV2Install.cs; do
+  cp ../../../Unity/$f $CL/$f; done
+if [[ -n $NEWSRC ]]; then
+  GOLF_MUTE=1 CV2_SRC=$NEWSRC CV2_HEROES=$HERO $U -batchmode -quit -projectPath $CL -executeMethod GolfArcade.EditorTools.ClothingV2Install.Run -logFile logs/${RUN}_cv2install.log > /dev/null 2>&1 || { grep -E "error CS|Exception" logs/${RUN}_cv2install.log | head; exit 1; }
+  grep -E "\[ClothingV2\]" -A12 logs/${RUN}_cv2install.log | head -14
+  # (no re-dump: the new meshes keep the exported vertex order, GarmentPipelineInstall verifies it to 0.05 mm)
+fi
+rm -f out/$HERO/*.gp.json(N) out/$HERO/*.gp.bin(N) out/$HERO/*_correctives.json(N) out/$HERO/*_hide.bin(N)
+python3 gp/export.py $HERO runs/$RUN
+[[ -f runs/$RUN/$HERO/body.npz ]] && python3 -c "import sys; sys.path.insert(0,'gp'); import rig, cover; cover.export_cover(rig.Hero('$HERO'), 'runs/$RUN', 'out/$HERO')"
+python3 - <<PY
+import sys; sys.path.insert(0, 'gp'); import json, offsets
+offsets.write('$HERO', 'runs/$RUN', 'out/$HERO/garment_offsets.json')
+PY
+GOLF_MUTE=1 GP_OUT=$P/out GP_HEROES=$HERO $U -batchmode -quit -projectPath $CL -executeMethod GolfArcade.EditorTools.GarmentPipelineInstall.Run -logFile logs/${RUN}_gpinstall.log > /dev/null 2>&1 || { grep -E "error CS|Exception" logs/${RUN}_gpinstall.log | head; exit 1; }
+cat out/install_report.txt
+GOLF_MUTE=1 FEMALE_ALIVE=0 GP_OUT=$P/perf GP_HEROES=$HERO $U -batchmode -quit -projectPath $CL -executeMethod GolfArcade.EditorTools.GarmentPipelinePerf.Run -logFile logs/${RUN}_perf.log > /dev/null 2>&1
+cp perf/perf.json perf/${RUN}_${HERO}_perf.json; cat perf/perf.json

@@ -1,0 +1,33 @@
+{
+  "tool": "PostcardLookStills",
+  "unity": "6000.3.24f1",
+  "pipeline": "TennisURP",
+  "qualityLevel": 2,
+  "anisotropicFiltering": "Enable",
+  "golfLookAniso": 16,
+  "board": false,
+  "size": [900, 1600],
+  "shots": [
+    { "name": "hole08_aerial_installed", "hole": 8, "file": "hole08_aerial_installed.png",
+      "camera": { "pos": [120, 290, -170], "look": [119.7508, 289.3715, -169.2632], "fov": 53 },
+      "mean_rgb": [92.5182, 116.1216, 145.4489], "luminance": 113.221,
+      "central_lower_third": { "region": [300, 0, 600, 533], "mean_rgb": [66.6204, 96.6901, 134.4858], "mean_hsv": [213.4153, 0.5046, 0.5274], "luminance": 93.0261 },
+      "hue_bands": { "red_0_30": 0.0013, "orange_30_60": 0.0042, "yellow_60_90": 0.0364, "lime_90_120": 0.001, "green_120_150": 0, "spring_150_180": 0, "cyan_180_210": 0.0033, "azure_210_240": 0.9217, "blue_240_270": 0, "violet_270_300": 0, "magenta_300_330": 0, "rose_330_360": 0, "grey": 0.0321, "dark": 0 },
+      "smoke": { "cards": 0 },
+      "wind_hook": { "game_mph": 6, "game_deg": 107, "hook_set": true, "same": true } },
+    { "name": "hole09_aerial_installed", "hole": 9, "file": "hole09_aerial_installed.png",
+      "camera": { "pos": [140, 360, -200], "look": [139.713, 359.3851, -199.2655], "fov": 53 },
+      "mean_rgb": [88.1658, 121.322, 155.2581], "luminance": 116.7232,
+      "central_lower_third": { "region": [300, 0, 600, 533], "mean_rgb": [82.4042, 117.2044, 151.4388], "mean_hsv": [209.7542, 0.4559, 0.5939], "luminance": 112.2776 },
+      "hue_bands": { "red_0_30": 0, "orange_30_60": 0.0005, "yellow_60_90": 0.0655, "lime_90_120": 0.0227, "green_120_150": 0, "spring_150_180": 0.0001, "cyan_180_210": 0.0255, "azure_210_240": 0.7926, "blue_240_270": 0, "violet_270_300": 0, "magenta_300_330": 0, "rose_330_360": 0, "grey": 0.0931, "dark": 0 },
+      "smoke": { "cards": 0 },
+      "wind_hook": { "game_mph": 2, "game_deg": -28, "hook_set": true, "same": true } },
+    { "name": "hole10_aerial_installed", "hole": 10, "file": "hole10_aerial_installed.png",
+      "camera": { "pos": [-130, 320, -165], "look": [-129.4695, 319.3471, -164.4593], "fov": 58 },
+      "mean_rgb": [111.2038, 59.5504, 39.6265], "luminance": 69.0934,
+      "central_lower_third": { "region": [300, 0, 600, 533], "mean_rgb": [129.7319, 68.5788, 37.3859], "mean_hsv": [20.267, 0.7118, 0.5088], "luminance": 79.3278 },
+      "hue_bands": { "red_0_30": 0.5083, "orange_30_60": 0.0062, "yellow_60_90": 0.048, "lime_90_120": 0, "green_120_150": 0, "spring_150_180": 0, "cyan_180_210": 0, "azure_210_240": 0, "blue_240_270": 0.001, "violet_270_300": 0.0005, "magenta_300_330": 0.0004, "rose_330_360": 0.0331, "grey": 0.3522, "dark": 0.0503 },
+      "smoke": { "cards": 14, "changed_px": 38878, "share_changed": 0.027, "readable_px": 31427, "share_readable": 0.0218, "delta_lum_median": 38.2126, "delta_lum_p95": 66.9818, "delta_lum_p99": 78.701, "plume_mean_rgb": [97.1508, 72.871, 70.9441] },
+      "wind_hook": { "game_mph": 6, "game_deg": -74, "hook_set": true, "same": true } }
+  ]
+}

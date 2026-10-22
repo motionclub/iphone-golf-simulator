@@ -1,0 +1,78 @@
+{
+  "gate": "FULL CLOSURE PASS; POSED OCCLUSION CHANGES REQUIRE ACTUAL REVIEW",
+  "control": "accepted OriginalSeamBlinkFinish1",
+  "posedApertureStagesExact": {
+    "Male": false,
+    "Female": true
+  },
+  "differences": [
+    {
+      "sex": "Male",
+      "clip": "Serve",
+      "blink": 0,
+      "controlVisibleEyeRays": [
+        1880,
+        166
+      ],
+      "candidateVisibleEyeRays": [
+        1880,
+        135
+      ],
+      "delta": [
+        0,
+        -31
+      ]
+    },
+    {
+      "sex": "Male",
+      "clip": "Serve",
+      "blink": 0.25,
+      "controlVisibleEyeRays": [
+        1369,
+        107
+      ],
+      "candidateVisibleEyeRays": [
+        1369,
+        78
+      ],
+      "delta": [
+        0,
+        -29
+      ]
+    },
+    {
+      "sex": "Male",
+      "clip": "Serve",
+      "blink": 0.5,
+      "controlVisibleEyeRays": [
+        836,
+        60
+      ],
+      "candidateVisibleEyeRays": [
+        836,
+        37
+      ],
+      "delta": [
+        0,
+        -23
+      ]
+    }
+  ],
+  "clips": [
+    "Ready",
+    "Serve",
+    "Forehand",
+    "IntroWave"
+  ],
+  "stages": [
+    0,
+    0.25,
+    0.5,
+    0.75,
+    1
+  ],
+  "raysPerAperturePerStage": 12221,
+  "fullBlinkVisibleEyeRays": 0,
+  "fullClosureAllEightClips": true,
+  "actualUnityArtGate": "PENDING"
+}

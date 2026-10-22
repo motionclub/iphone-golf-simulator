@@ -7,7 +7,7 @@ namespace GolfArcade.Game
 {
     /// The round's events on the course (Course/RoundEvents.cs): the twists dealt before the first
     /// tee shot and revealed over the opening, each hole's weather (seen and heard: WeatherView)
-    /// turning between shots, the wind gusting, and the balloons, carts and gulls moving about the
+    /// locked for each hole, the wind gusting, and the balloons, carts and gulls moving about the
     /// holes (MoverView) that the ball can meet. The match settings turn the twists, and the
     /// weather and the things moving about, on or off for a round (PrepareNativeAddress,
     /// ConfigureNetwork); a multiplayer round plays the host's (NetworkGolfRound).
@@ -16,7 +16,7 @@ namespace GolfArcade.Game
         RoundEvents events = RoundEvents.None;
         /// The match settings for rounds started here: twists dealt, weather and movers on — off
         /// until the player turns them on (the app's settings send them with each round).
-        bool twistsWanted, worldWanted;
+        bool twistsWanted, worldWanted = true;
         Weather weather;
         /// The hole's own wind, before any gust: gusts swing round it.
         Wind holeWind;
@@ -28,6 +28,7 @@ namespace GolfArcade.Game
         EventSounds eventSounds;
         /// The movers' clock when the next ball leaves the club, the host's in a multiplayer round.
         double? networkMoverPhase;
+        double shotEnvironmentUtc;
 
         /// The round's events (for the HUD and the tests).
         public RoundEvents Events => events;
@@ -41,7 +42,7 @@ namespace GolfArcade.Game
         public void StrikeLightning() => weatherView?.Strike();
 
         /// Twists, and weather with things moving about, for the rounds started from now on.
-        public void SetRoundEvents(bool twists, bool world) { twistsWanted = twists; worldWanted = world; }
+        public void SetRoundEvents(bool twists, bool world) { twistsWanted = twists; worldWanted = true; }
 
         /// Clear skies after rain or a storm: a rainbow in the sky, and a rainbow ring to fly through.
         void SkiesCleared(Weather was)
@@ -60,6 +61,7 @@ namespace GolfArcade.Game
         /// A new round: its events, dealt from its seed.
         void DealEvents(int seed)
         {
+            GolfArcade.EnvironmentArt.DreamEnvironment.StartSession(seed);
             events = ForcedTwists != null
                 ? RoundEvents.FromCode(seed, (worldWanted ? "w" : "s") + (challengesWanted ? "c" : "") + ":" + string.Join(",", Array.ConvertAll(ForcedTwists, t => ((int)t).ToString())))
                 : RoundEvents.Deal(seed, twistsWanted, worldWanted, challengesWanted);
@@ -71,9 +73,14 @@ namespace GolfArcade.Game
         /// (they shape the cup it is built with). The last hole's weather comes off the light first.
         void PrepareHoleEvents(int index, Weather? given = null)
         {
+            GolfArcade.EnvironmentArt.DreamEnvironment.Current?.Release();
             weatherView?.Restore();
-            weather = given ?? ForcedWeather ?? events.WeatherFor(index);
-            hole.Rules = events.RulesFor(weather);
+            weather = given ?? events.WeatherFor(index);
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            weather = given ?? ForcedWeather ?? weather;
+            if(System.Enum.TryParse<Weather>(System.Environment.GetEnvironmentVariable("DREAM_WEATHER"),true,out var forced))weather=forced;
+#endif
+            hole.Rules = events.RulesFor(weather, Weathers.SkyOf(hole));
             hole.Movers = null;
             holeSwings = 0; eventsRolledFor = 0; weatherTurns = 0;
             if (firstHoleIndex < 0) firstHoleIndex = index;
@@ -82,13 +89,20 @@ namespace GolfArcade.Game
         /// The hole built and its wind set: the gusts' base, what moves about it, its sky.
         void StartHoleEvents(int index, double? moverClock = null)
         {
+            GolfArcade.EnvironmentArt.DreamEnvironment.CommitClockBoundary();
             holeWind = Wind;
             hole.Movers = events.MoversFor(index, hole, weather, hole.Ground);
             moverView = hole.Movers != null ? MoverView.Build(holeView.transform, hole.Movers) : null;
             if (hole.Movers != null && moverClock.HasValue) hole.Movers.SetClock(moverClock.Value);
-            // (with the weather off it is plain golf's sky, light and sound: nothing is laid over them)
+            GolfArcade.EnvironmentArt.DreamWorldArt.Build(holeView.transform,hole);
+            GolfArcade.EnvironmentArt.DreamHazardView.Build(holeView.transform,hole);
+            if(GolfArcade.EnvironmentArt.DreamEnvironment.Session!=null)GolfArcade.EnvironmentArt.DreamEnvironment.Session.hazards=hole.Dream?.Code;
+            GolfArcade.EnvironmentArt.DreamEnvironment.Install(holeView.transform, false, weather, hole.Number);
+            // The compositor captures the authored venue before weather presentation begins.
             if (events.World || events.Has(Twist.Hurricane)) { EnsureEventViews(); weatherView.Begin(rig.Camera, hole, weather, Wind, instant: true); }
             else weatherView?.Restore();
+            GolfArcade.EnvironmentArt.DreamVisibility.Ground = hole.Ground;
+            GolfArcade.EnvironmentArt.DreamVisibility.Set(weather == Weather.Fog, HoleView.ToWorld(ballAt));
             GolfWindSway.SetWind(Wind);
             hud.SetConditions(ConditionFaces());
             StartHoleChallenges(index);
@@ -155,7 +169,8 @@ namespace GolfArcade.Game
         void ChangeWeather(Weather w)
         {
             weather = w;
-            hole.Rules = events.RulesFor(w);
+            GolfArcade.EnvironmentArt.DreamEnvironment.Current?.SetWeather(w);
+            hole.Rules = events.RulesFor(w, Weathers.SkyOf(hole));
             weatherView?.Change(w);
             hud.SetConditions(ConditionFaces());
         }
@@ -182,6 +197,7 @@ namespace GolfArcade.Game
         /// meets them where the picture will show them; the host's in a multiplayer round.
         void PrimeMovers(float toBall)
         {
+            if(!networkConfigured)shotEnvironmentUtc=GolfArcade.EnvironmentArt.DreamEnvironment.Utc+toBall;
             holeSwings++;
             if (hole.Movers == null) { networkMoverPhase = null; return; }
             hole.Movers.PhaseAtLaunch = networkMoverPhase ?? hole.Movers.Clock + toBall;
@@ -217,6 +233,30 @@ namespace GolfArcade.Game
                     eventSounds?.Gust(); Haptics.Play(Haptics.Cue.Bounce, 0.8f);
                     hud.ShowCallout("Twister!", Hex("8FA3B8"));
                     break;
+                case ObstacleKind.Launchpad:
+                {
+                    // charged: it fires (a column of light and sparks); spent: a sad puff
+                    var pad = movers != null ? System.Array.Find(movers.All, m => m.Kind == MoverKind.Launchpad && (m.At(0).x - k.X) * (m.At(0).x - k.X) + (m.At(0).d - k.D) * (m.At(0).d - k.D) < 60) : null;
+                    if (pad != null && pad.Charged(movers.PhaseAtLaunch + k.Time))
+                    {
+                        effects.Burst(at, new Color(0.45f, 1f, 0.6f), Color.white, 60, 3f, 0.55f, 1.2f, 9f);
+                        effects.Burst(at, new Color(1f, 0.9f, 0.35f), new Color(1f, 1f, 0.8f), 30, 5f, 0.35f, 0.8f, 3f);
+                        eventSounds?.Boing(); Haptics.Play(Haptics.Cue.Bounce, 0.9f);
+                        hud.ShowCallout("LAUNCH!", Hex("4DFF8A"));
+                    }
+                    else
+                    {
+                        effects.Burst(at, new Color(0.5f, 0.5f, 0.52f, 0.8f), new Color(0.75f, 0.4f, 0.35f, 0.7f), 18, 1.6f, 0.5f, 0.9f, 0.8f);
+                        sounds.PlayKnock(false); Haptics.Tick();
+                        hud.ShowCallout("Fizzle…", Hex("C9564A"));
+                    }
+                    break;
+                }
+                case ObstacleKind.Target:
+                    effects.Burst(at, new Color(1f, 0.32f, 0.25f), new Color(1f, 0.95f, 0.5f), 56, 5.5f, 0.45f, 1.3f, 1.5f);
+                    sounds.PlayKnock(false); eventSounds?.Boing(); Haptics.Play(Haptics.Cue.Bounce, 0.8f);
+                    hud.ShowCallout("BULLSEYE!", Hex("FFE066"));
+                    break;
                 case ObstacleKind.Gull:
                     effects.Burst(at, Color.white, new Color(0.78f, 0.82f, 0.86f), 34, 2.4f, 0.32f, 1.4f, 0.4f);
                     eventSounds?.Squawk(); Haptics.Tick();
@@ -233,6 +273,7 @@ namespace GolfArcade.Game
         /// Out of the round: the light as the course has it, nothing falling, no twists in the corner.
         void EndRoundEvents()
         {
+            GolfArcade.EnvironmentArt.DreamEnvironment.Current?.Release();
             weatherView?.Restore();
             hud.HideTwists();
             hud.SetConditions(null);
@@ -254,6 +295,10 @@ namespace GolfArcade.Game
         /// Every frame of a multiplayer round: the host's weather and wind, announced when they turn.
         void NetworkWeather(Multiplayer.NetworkGolfState state)
         {
+            if(state.phase=="aim"){
+                hole.Movers?.SetClock(state.time);
+                GolfArcade.EnvironmentArt.DreamEnvironment.SyncClock(partyConfiguration.environmentUtc,state.time);
+            }
             var w = (Weather)Mathf.Clamp(state.weather, 0, (int)Weather.Fog);
             string word = null, detail = null; Color colour = Color.white; string icon = null;
             if (w != weather) { var was = weather; ChangeWeather(w); (word, detail, colour, icon) = WeatherTurnWords(w, was); if (w == Weather.Clear && was.IsWet()) weatherView?.Rainbow(hole.Pin); }

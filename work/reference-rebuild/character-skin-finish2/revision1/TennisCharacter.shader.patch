@@ -1,0 +1,41 @@
+--- Unity/Assets/Resources/Tennis/Shaders/TennisCharacter.shader
++++ Unity/Assets/Resources/Tennis/Shaders/TennisCharacter.shader
+@@ -163,14 +163,14 @@
+                 half3 v = normalize(GetWorldSpaceViewDir(i.positionWS));
+                 half4 c = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, i.uv) * _BaseColor;
+                 if (_SkinFinish > .5h && _SkinPigmentUV > .5h) {
+-                    // Decode the existing relative pigment masks, not a new UV
+-                    // layout. A quiet edge transfer removes diluted lip halos.
++                    // Preserve the source masks' continuous interpolation.
++                    // Tight transfer amplified the existing stepped lip contour.
+                     half2 masks = saturate((i.uv * 64 - .5h) / 63);
+-                    half lipPigment = smoothstep(.08h, .66h, masks.x);
+-                    half linePigment = smoothstep(.09h, .44h, masks.y);
+-                    half3 lipColour = _SkinFinish < 1.5h ? half3(.97h,.74h,.70h) : half3(.98h,.68h,.65h);
++                    half lipPigment = masks.x;
++                    half linePigment = masks.y;
++                    half3 lipColour = _SkinFinish < 1.5h ? half3(.99h,.83h,.80h) : half3(.99h,.76h,.74h);
+                     half3 pigment = lerp(half3(1,1,1), lipColour, lipPigment);
+-                    pigment *= lerp(half3(1,1,1), half3(.74h,.59h,.55h), linePigment);
++                    pigment *= lerp(half3(1,1,1), half3(.80h,.67h,.64h), linePigment);
+                     c.rgb = _BaseColor.rgb * pigment;
+                 }
+                 half lid = 0;
+@@ -220,7 +220,7 @@
+                         }
+                         surfaceSmoothness = lerp(.32h,.40h,saturate(nose+forehead*.55h));
+                         surfaceSpecular = .95h;
+-                        surfaceWrap = .20h;
++                        surfaceWrap = .28h;
+                     }
+                     else {
+                         c.rgb*=half3(1+.025h*warmth,1-.060h*warmth,1-.025h*warmth)*(1+.012h*forehead);
+@@ -271,7 +271,7 @@
+                 half3 environment = GlossyEnvironmentReflection(reflect(-v, n), i.positionWS, roughness, 1) * fresnel * lerp(_EnvironmentStrength, .12h, lid);
+                 colour += environment; reflection += environment;
+                 half3 ambient = HeroAmbient(n) * c.rgb;
+-                if (_SkinFinish > .5h) ambient *= .70h;
++                if (_SkinFinish > .5h) ambient *= .82h;
+                 #if defined(_SCREEN_SPACE_OCCLUSION)
+                 AmbientOcclusionFactor ao = GetScreenSpaceAmbientOcclusion(GetNormalizedScreenSpaceUV(i.positionCS));
+                 half indirectAO = lerp(1,ao.indirectAmbientOcclusion,_OcclusionStrength);

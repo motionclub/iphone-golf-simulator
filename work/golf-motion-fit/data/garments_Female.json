@@ -1,0 +1,183 @@
+{
+  "bodyUnchanged": true,
+  "waist": 0.985,
+  "hem": 0.5199999940395356,
+  "correctives": [
+    "GolfHipTwistLeft",
+    "GolfHipTwistRight",
+    "GolfThighLiftLeft",
+    "GolfThighLiftRight"
+  ],
+  "pieces": [
+    {
+      "piece": "Golf_Sock_R",
+      "triangles": 5082,
+      "maxInfluences": 3,
+      "weightError": 3.1781382858753204e-08
+    },
+    {
+      "piece": "Golf_Sock_L",
+      "triangles": 5082,
+      "maxInfluences": 3,
+      "weightError": 3.3760443329811096e-08
+    },
+    {
+      "piece": "Golf_Shoe_R",
+      "triangles": 7874,
+      "maxInfluences": 3,
+      "weightError": 1.1920928955078125e-07
+    },
+    {
+      "piece": "Golf_Shoe_L",
+      "triangles": 7874,
+      "maxInfluences": 3,
+      "weightError": 1.1920928955078125e-07
+    },
+    {
+      "piece": "Golf_Polo",
+      "triangles": 19408,
+      "maxInfluences": 4,
+      "weightError": 4.6566128730773926e-08
+    },
+    {
+      "piece": "Golf_PleatedSkort",
+      "triangles": 9792,
+      "maxInfluences": 4,
+      "weightError": 4.6100467443466187e-08
+    },
+    {
+      "piece": "Golf_InnerShorts",
+      "triangles": 5344,
+      "maxInfluences": 4,
+      "weightError": 4.470348358154297e-08
+    },
+    {
+      "piece": "Golf_Belt",
+      "triangles": 1152,
+      "maxInfluences": 4,
+      "weightError": 3.4458935260772705e-08
+    },
+    {
+      "piece": "Golf_BeltLoop_0",
+      "triangles": 10,
+      "maxInfluences": 4,
+      "weightError": 1.4901161193847656e-08
+    },
+    {
+      "piece": "Golf_BeltLoop_1",
+      "triangles": 10,
+      "maxInfluences": 4,
+      "weightError": 2.2351741790771484e-08
+    },
+    {
+      "piece": "Golf_BeltLoop_2",
+      "triangles": 10,
+      "maxInfluences": 4,
+      "weightError": 2.2351741790771484e-08
+    },
+    {
+      "piece": "Golf_BeltLoop_3",
+      "triangles": 10,
+      "maxInfluences": 4,
+      "weightError": 3.725290298461914e-08
+    },
+    {
+      "piece": "Golf_BeltLoop_4",
+      "triangles": 10,
+      "maxInfluences": 4,
+      "weightError": 2.9802322387695312e-08
+    },
+    {
+      "piece": "Golf_Buckle_Top",
+      "triangles": 108,
+      "maxInfluences": 4,
+      "weightError": 1.4901161193847656e-08
+    },
+    {
+      "piece": "Golf_Buckle_Bottom",
+      "triangles": 108,
+      "maxInfluences": 4,
+      "weightError": 3.725290298461914e-08
+    },
+    {
+      "piece": "Golf_Buckle_Left",
+      "triangles": 108,
+      "maxInfluences": 4,
+      "weightError": 2.2351741790771484e-08
+    },
+    {
+      "piece": "Golf_Buckle_Right",
+      "triangles": 108,
+      "maxInfluences": 4,
+      "weightError": 3.725290298461914e-08
+    },
+    {
+      "piece": "Golf_Buckle_Tongue",
+      "triangles": 108,
+      "maxInfluences": 4,
+      "weightError": 2.2351741790771484e-08
+    },
+    {
+      "piece": "Golf_Hair_Visor",
+      "triangles": 4960,
+      "maxInfluences": 1,
+      "weightError": 0.0
+    },
+    {
+      "piece": "Golf_Hair_Underlay",
+      "triangles": 6207,
+      "maxInfluences": 1,
+      "weightError": 0.0
+    },
+    {
+      "piece": "Golf_BrimStitch_0",
+      "triangles": 234,
+      "maxInfluences": 1,
+      "weightError": 0.0
+    },
+    {
+      "piece": "Golf_BrimStitch_1",
+      "triangles": 234,
+      "maxInfluences": 1,
+      "weightError": 0.0
+    },
+    {
+      "piece": "Golf_BrimStitch_2",
+      "triangles": 234,
+      "maxInfluences": 1,
+      "weightError": 0.0
+    },
+    {
+      "piece": "Golf_BrimStitch_3",
+      "triangles": 234,
+      "maxInfluences": 1,
+      "weightError": 0.0
+    },
+    {
+      "piece": "Golf_CurvedBrim",
+      "triangles": 396,
+      "maxInfluences": 1,
+      "weightError": 0.0
+    },
+    {
+      "piece": "Golf_VisorBand",
+      "triangles": 720,
+      "maxInfluences": 1,
+      "weightError": 0.0
+    },
+    {
+      "piece": "Golf_Glove_Left",
+      "triangles": 4444,
+      "maxInfluences": 3,
+      "weightError": 2.9802322387695312e-08
+    },
+    {
+      "piece": "Golf_Glove_Right",
+      "triangles": 4772,
+      "maxInfluences": 3,
+      "weightError": 3.166496753692627e-08
+    }
+  ],
+  "triangles": 79861,
+  "storedVariantTriangles": 84633
+}

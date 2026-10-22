@@ -1,0 +1,27 @@
+=== BEFORE (v4 maps, v5/before)
+Fairway mean [141, 168, 50] h73.6 S0.70 V0.66 | lum sd 0.0467 | w1/16 (64px) med 0.0178 ge.03 1% | w1.5m (154px) med 0.0248 ge.03 25% | hue p5/50/95 70/74/77 in60-76 81% | col-mean sd 0.0383 row-mean sd 0.0119
+Green   mean [151, 175, 59] h72.4 S0.66 V0.69 | lum sd 0.0248 | w1/16 (64px) med 0.0130 ge.03 0% | w1.5m (256px) med 0.0225 ge.03 6% | hue p5/50/95 72/72/73 in60-76 100% | col-mean sd 0.0132 row-mean sd 0.0108
+Rough   mean [104, 114, 35] h68.1 S0.70 V0.45 | lum sd 0.0676 | w1/16 (64px) med 0.0631 ge.03 100% | w1.5m (128px) med 0.0648 ge.03 100% | hue p5/50/95 64/69/73 in60-76 100% | col-mean sd 0.0089 row-mean sd 0.0136
+Scrub   mean [106, 97, 53] h49.9 S0.50 V0.42 | lum sd 0.0573 | w1/16 (64px) med 0.0504 ge.03 98% | w1.5m (128px) med 0.0541 ge.03 100% | hue p5/50/95 38/52/58 in60-76 2% | col-mean sd 0.0085 row-mean sd 0.0099
+=== NOW (installed Look/)
+Fairway mean [141, 168, 50] h73.6 S0.70 V0.66 | lum sd 0.0830 | w1/16 (64px) med 0.0398 ge.03 93% | w1.5m (154px) med 0.0489 ge.03 100% | hue p5/50/95 69/74/78 in60-76 76% | col-mean sd 0.0631 row-mean sd 0.0193
+Green   mean [151, 175, 59] h72.4 S0.66 V0.69 | lum sd 0.0538 | w1/16 (64px) med 0.0389 ge.03 96% | w1.5m (256px) med 0.0515 ge.03 100% | hue p5/50/95 69/73/76 in60-76 100% | col-mean sd 0.0211 row-mean sd 0.0177
+Rough   mean [104, 114, 35] h68.1 S0.70 V0.45 | lum sd 0.0708 | w1/16 (64px) med 0.0645 ge.03 100% | w1.5m (128px) med 0.0674 ge.03 100% | hue p5/50/95 63/69/73 in60-76 99% | col-mean sd 0.0103 row-mean sd 0.0115
+Scrub   mean [106, 97, 53] h49.9 S0.50 V0.42 | lum sd 0.0666 | w1/16 (64px) med 0.0627 ge.03 100% | w1.5m (128px) med 0.0651 ge.03 100% | hue p5/50/95 42/51/57 in60-76 1% | col-mean sd 0.0057 row-mean sd 0.0095
+=== stills
+split.jpg   fairway_strip  40x100 rgb [123, 144, 50] h73 S0.65 V0.57 | whole-crop sd 0.0694 (17.7/255) | w8 med 0.0272 ge.03 33% | w16 med 0.0334 ge.03 67% | w32 med 0.0559 ge.03 100%
+split.jpg   upper_green    135x40 rgb [150, 169, 71] h72 S0.58 V0.66 | whole-crop sd 0.0571 (14.6/255) | w8 med 0.0195 ge.03 24% | w16 med 0.0223 ge.03 31% | w32 med 0.0320 ge.03 50%
+split.jpg   lower_green    100x70 rgb [124, 143, 57] h73 S0.60 V0.56 | whole-crop sd 0.0427 (10.9/255) | w8 med 0.0222 ge.03 18% | w16 med 0.0273 ge.03 42% | w32 med 0.0371 ge.03 83%
+split.jpg   lower_fairway  90x70 rgb [107, 122, 49] h72 S0.59 V0.48 | whole-crop sd 0.1601 (40.8/255) | w8 med 0.0451 ge.03 70% | w16 med 0.0555 ge.03 90% | w32 med 0.0670 ge.03 100%
+needle.jpg  mid_green      160x45 rgb [159, 172, 58] h67 S0.66 V0.67 | whole-crop sd 0.0838 (21.4/255) | w8 med 0.0386 ge.03 78% | w16 med 0.0517 ge.03 100% | w32 med 0.0674 ge.03 100%
+needle.jpg  top_green      180x33 rgb [152, 169, 61] h69 S0.64 V0.66 | whole-crop sd 0.1028 (26.2/255) | w8 med 0.0418 ge.03 70% | w16 med 0.0713 ge.03 95% | w32 med 0.0761 ge.03 100%
+crater.jpg  fairway_a      90x40 rgb [141, 161, 22] h69 S0.86 V0.63 | whole-crop sd 0.0827 (21.1/255) | w8 med 0.0324 ge.03 56% | w16 med 0.0387 ge.03 80% | w32 med 0.0731 ge.03 100%
+crater.jpg  fairway_b      80x40 rgb [102, 123, 18] h72 S0.85 V0.48 | whole-crop sd 0.1149 (29.3/255) | w8 med 0.0546 ge.03 96% | w16 med 0.0659 ge.03 100% | w32 med 0.0885 ge.03 100%
+crater.jpg  pillar_green   180x70 rgb [155, 172, 23] h67 S0.86 V0.67 | whole-crop sd 0.0576 (14.7/255) | w8 med 0.0257 ge.03 25% | w16 med 0.0289 ge.03 36% | w32 med 0.0336 ge.03 70%
+crater.jpg  tee_pad        160x50 rgb [105, 126, 28] h73 S0.78 V0.49 | whole-crop sd 0.1432 (36.5/255) | w8 med 0.0372 ge.03 74% | w16 med 0.0533 ge.03 97% | w32 med 0.0514 ge.03 100%
+=== lava vs still pool
+still pool A                       mean [199, 80, 18] p50 [220, 68, 15] | lum sd  43.3 block4 sd  38.6 | dark<90  7.3% hot 21.0% G>130 15.4% | hue p5/50/95 7/17/53
+still pool B                       mean [182, 58, 17] p50 [182, 46, 16] | lum sd  33.3 block4 sd  27.2 | dark<90  0.2% hot  8.6% G>130  4.9% | hue p5/50/95 6/12/28
+still pool C                       mean [119, 52, 13] p50 [75, 32, 10] | lum sd  53.3 block4 sd  49.9 | dark<90 53.6% hot 11.9% G>130  7.0% | hue p5/50/95 0/20/290
+before (14 cm/px)                  mean [205, 72, 17] p50 [219, 71, 17] | lum sd  30.0 block4 sd  23.1 | dark<90  6.8% hot 11.7% G>130  0.0% | hue p5/50/95 10/16/25
+scratch6 (14 cm/px)                mean [203, 71, 17] p50 [219, 70, 17] | lum sd  31.8 block4 sd  26.3 | dark<90  7.8% hot 13.9% G>130  0.0% | hue p5/50/95 10/16/25

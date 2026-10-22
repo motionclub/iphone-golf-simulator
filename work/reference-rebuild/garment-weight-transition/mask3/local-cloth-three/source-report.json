@@ -1,0 +1,54 @@
+{
+  "female_Forehand_2": {
+    "changedVertices": 1087,
+    "maxPosedDisplacementMm": 16.697286407065135,
+    "maxRestDisplacementMm": 22.42248707935793,
+    "restBounds": {
+      "min": [
+        0.07614097276209192,
+        1.1236843108790537,
+        -0.08331538829526194
+      ],
+      "max": [
+        0.1691723829334871,
+        1.2481218435165469,
+        0.057200046224962595
+      ]
+    },
+    "triangleReversals": 0,
+    "views": [
+      {
+        "view": "front",
+        "initialSkinPixels": 22,
+        "remainingSkinPixels": 0,
+        "remainingSkinPixelsAfterLocalFoldGuard": 0
+      }
+    ]
+  },
+  "female_Forehand_4": {
+    "changedVertices": 2726,
+    "maxPosedDisplacementMm": 28.000000000000004,
+    "maxRestDisplacementMm": 33.99103324478806,
+    "restBounds": {
+      "min": [
+        0.018869686328961313,
+        1.0868805809414102,
+        -0.06383500825180759
+      ],
+      "max": [
+        0.2135851565473188,
+        1.2869647644406934,
+        0.1447405445041413
+      ]
+    },
+    "triangleReversals": 0,
+    "views": [
+      {
+        "view": "front",
+        "initialSkinPixels": 276,
+        "remainingSkinPixels": 90,
+        "remainingSkinPixelsAfterLocalFoldGuard": 90
+      }
+    ]
+  }
+}

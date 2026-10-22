@@ -1,0 +1,35 @@
+{
+  "status": "SOURCE CANDIDATE; actual Unity validation pending",
+  "tileSizeMeters": 2,
+  "nearBlades": 2400,
+  "nearTriangles": 4800,
+  "farBlades": 240,
+  "farTriangles": 480,
+  "grassHeightMeters": [
+    0.01,
+    0.023
+  ],
+  "microTurfTileMeters": 0.5,
+  "microTextureResolution": 512,
+  "maps": [
+    "CoastalTurf_C.png",
+    "CoastalTurf_N.png",
+    "CoastalTurf_R.png"
+  ],
+  "geometryCap": {
+    "nearCells": 20,
+    "patchRadiusMeters": 12,
+    "maximumCells": 121,
+    "maximumTriangles": 144480,
+    "shadowCasting": false,
+    "expectedDrawSubmissions": 2
+  },
+  "files": {
+    "CoastalTurf.fbx": "3ae978fd0ba402f22c3235ad1118b778c9cafeba7dc23b879516904d01e213ba",
+    "CoastalTurf.blend": "4f28b2b703c145410122c58f7b76d91ccb7cb3e678ff99daa88b519d75157585",
+    "CoastalTurf_N.png": "df561653e972c1623864be01c67301ca0a4e8fa822a0c2e63cb0e05c9573997a",
+    "coastal-turf-source.png": "bd18922c40e42e7e9dea022a6260d4fb4433497e56f4c05e9bd3a45474f1fc02",
+    "CoastalTurf_C.png": "8b1221986832b67d289f5d8fa313a3026f208e613897ed54012abce0455e1dcd",
+    "CoastalTurf_R.png": "899807f59656b826581552c90a3de46ff99abc3ff92b6a962d587c3c0d84752c"
+  }
+}

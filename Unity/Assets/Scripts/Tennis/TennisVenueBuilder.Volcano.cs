@@ -686,6 +686,7 @@ namespace GolfArcade.Tennis
                 }
                 else {RenderSettings.skybox=null;camera.clearFlags=CameraClearFlags.SolidColor;}
                 camera.backgroundColor = new Color(.36f,.29f,.34f);
+                GolfArcade.EnvironmentArt.RenderedBackdrop.TennisEarly();   // rendered backgrounds (work/rendered-backgrounds)
                 // an orange up-light from the crater, on the players' undersides and the racket
                 var wallGlow = new GameObject("Lava wall glow").AddComponent<Light>(); wallGlow.type = LightType.Directional; wallGlow.shadows = LightShadows.None;
                 wallGlow.transform.rotation = Quaternion.LookRotation(new Vector3(0f, .30f, .95f)); wallGlow.color = new Color(1f, .39f, .14f); wallGlow.intensity = .22f;

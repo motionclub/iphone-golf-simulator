@@ -117,8 +117,12 @@ namespace GolfArcade.EditorTools
             bool reviewPost=System.Environment.GetEnvironmentVariable("HERO_VENUE_POST_REVIEW")=="1";
             if(reviewPost){cam.allowHDR=true;cam.GetUniversalAdditionalCameraData().renderPostProcessing=false;}
             foreach (var c in Object.FindObjectsByType<Canvas>(FindObjectsSortMode.None)) c.enabled = false;
-            var rt = new RenderTexture(1920, 1080, 24, RenderTextureFormat.ARGB32) { antiAliasing = 4 };
-            var tex = new Texture2D(1920, 1080, TextureFormat.RGB24, false);
+            bool portrait=System.Environment.GetEnvironmentVariable("HERO_VENUE_PORTRAIT")=="1";
+            int captureWidth=portrait?900:1920,captureHeight=portrait?1600:1080;
+            cam.aspect=captureWidth/(float)captureHeight;
+            LuminousCoastAudit.Write();
+            var rt = new RenderTexture(captureWidth, captureHeight, 24, RenderTextureFormat.ARGB32) { antiAliasing = 4 };
+            var tex = new Texture2D(captureWidth,captureHeight,TextureFormat.RGB24,false);
             System.Collections.IEnumerator Shot(string label, Vector3 pos, Vector3 look, float fov)
             {
                 if (!string.IsNullOrEmpty(only) && System.Array.IndexOf(only.Split(','), label) < 0) yield break;
@@ -127,7 +131,7 @@ namespace GolfArcade.EditorTools
                 // synchronous Camera.Render calls can omit the body's first Metal draw.
                 for(int warm=0;warm<3;warm++)yield return null;
                 cam.targetTexture = rt; cam.Render(); RenderTexture.active = rt;
-                tex.ReadPixels(new Rect(0, 0, 1920, 1080), 0, 0); tex.Apply(); RenderTexture.active = null; cam.targetTexture = null;
+                tex.ReadPixels(new Rect(0,0,captureWidth,captureHeight), 0, 0); tex.Apply(); RenderTexture.active = null; cam.targetTexture = null;
                 File.WriteAllBytes($"{Out}/{name}_{label}.png", tex.EncodeToPNG());
                 if(reviewPost){
                     bool brightReview=System.Environment.GetEnvironmentVariable("HERO_VENUE_POST_BRIGHT")=="1";
@@ -142,13 +146,13 @@ namespace GolfArcade.EditorTools
                         }
                         Shader.SetGlobalFloat("_HeroFilmResponse",1);cam.GetUniversalAdditionalCameraData().renderPostProcessing=true;
                         yield return null;
-                        cam.targetTexture=rt;cam.Render();RenderTexture.active=rt;tex.ReadPixels(new Rect(0,0,1920,1080),0,0);tex.Apply();RenderTexture.active=null;cam.targetTexture=null;
+                        cam.targetTexture=rt;cam.Render();RenderTexture.active=rt;tex.ReadPixels(new Rect(0,0,captureWidth,captureHeight),0,0);tex.Apply();RenderTexture.active=null;cam.targetTexture=null;
                         File.WriteAllBytes($"{Out}/{name}_{label}_{mode}.png",tex.EncodeToPNG());
                     }
                     cam.GetUniversalAdditionalCameraData().renderPostProcessing=false;Shader.SetGlobalFloat("_HeroFilmResponse",0);
                 }
             }
-            TennisShoulderCamera.Frame(game.Player.transform.position,false,Vector3.zero,false,16f/9f,
+            TennisShoulderCamera.Frame(game.Player.transform.position,false,Vector3.zero,false,cam.aspect,
                 out var gameplayPosition,out var gameplayLook,out var gameplayFov);
             yield return Shot("1_gameplay",gameplayPosition,gameplayLook,gameplayFov);
             yield return Shot("2_postcard", new Vector3(0, 9f, -30f), new Vector3(0, 1f, 6f), 46);

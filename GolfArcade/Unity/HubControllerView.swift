@@ -58,7 +58,7 @@ struct HubControllerView: View {
     }
     private var phonePrompt: some View {
         VStack(spacing: 3) {
-            Text(hub.phase == .booting ? hub.loadStage : hub.zone?.prompt ?? Self.idleHint(hub.place, onPhone: true))
+            Text(hub.phase == .booting ? hub.loadStage : hub.zonePrompt ?? Self.idleHint(hub.place, onPhone: true))
                 .font(IslandUI.font(17, bold: true)).lineLimit(2).minimumScaleFactor(0.7).multilineTextAlignment(.center)
                 .accessibilityIdentifier("hub-prompt")
             if !hub.notice.isEmpty { Text(hub.notice).font(IslandUI.font(13, bold: true)).foregroundStyle(IslandUI.lime) }
@@ -157,7 +157,7 @@ struct HubControllerView: View {
     private var onTV: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text("ON THE TV · \(Self.placeName(hub.place))").font(IslandUI.font(12, bold: true)).tracking(1.6).foregroundStyle(IslandUI.lime)
-            Text(hub.phase == .booting ? hub.loadStage : hub.zone?.prompt ?? Self.idleHint(hub.place))
+            Text(hub.phase == .booting ? hub.loadStage : hub.zonePrompt ?? Self.idleHint(hub.place))
                 .font(IslandUI.font(session.bigText ? 28 : 22, bold: true)).lineLimit(2).minimumScaleFactor(0.6)
                 .accessibilityIdentifier("hub-prompt")
             if hub.phase == .booting {
@@ -469,47 +469,94 @@ struct HubStationPanel: View {
 }
 
 /// Seated on an online bench with your party (PLAN §3/§4): who is on the bench, who it is waiting for, and Call party. Sitting down
-/// together is how a party plays: when everyone in the PLAY rooms has sat on this bench, a short count and the match starts on
-/// every phone. Friends elsewhere in the Plaza (or with no TV) carry on there.
+/// together makes the players ready. The host chooses the map and settings, then starts on every seated phone.
+/// Friends elsewhere in the Plaza carry on there.
 struct HubPartyBayPanel: View {
     let hub: HubSession
     private var party: MultiplayerLobby? { hub.party }
     private var me: String { hub.partyService.localID }
     private var golf: Bool { hub.station?.contains("golf") == true }
     var body: some View {
-        VStack(alignment: .leading, spacing: 14) {
-            HStack {
-                Text("PARTY · \(golf ? "GOLF" : "TENNIS")").font(IslandUI.font(13, bold: true)).tracking(1.4).foregroundStyle(IslandUI.lime)
-                Spacer()
-                Button { hub.leaveStation() } label: { Text("Leave seat").font(IslandUI.font(15, bold: true)).foregroundStyle(.white).padding(.horizontal, 14).padding(.vertical, 8).background(.white.opacity(0.12), in: Capsule()) }
-                    .buttonStyle(.plain).accessibilityIdentifier("hub-party-leave-seat")
-            }
-            Text(headline).font(IslandUI.font(24, bold: true)).accessibilityIdentifier("hub-party-waiting")
-            VStack(spacing: 8) {
-                ForEach(party?.participants.filter { !$0.isGuest } ?? [], id: \.id) { p in
-                    let seated = p.id == me || hub.friendBays[p.id] == hub.station
-                    HStack {
-                        Circle().fill(seated ? IslandUI.lime : .white.opacity(0.25)).frame(width: 12, height: 12)
-                        Text(p.name + (p.id == party?.ownerID ? " · host" : "") + (p.id == me ? " (you)" : "")).font(IslandUI.font(17, bold: true))
-                        Spacer()
-                        Text(seated ? "On the bench" : location(p.id)).font(IslandUI.font(14, bold: true)).foregroundStyle(seated ? IslandUI.lime : .white.opacity(0.6))
+        ScrollView {
+            VStack(alignment: .leading, spacing: 14) {
+                HStack {
+                    Text("PARTY · \(golf ? "GOLF" : "TENNIS")").font(IslandUI.font(13, bold: true)).tracking(1.4).foregroundStyle(IslandUI.lime)
+                    Spacer()
+                    Button { hub.leaveStation() } label: { Text("Leave seat").font(IslandUI.font(15, bold: true)).foregroundStyle(.white).padding(.horizontal, 14).padding(.vertical, 8).background(.white.opacity(0.12), in: Capsule()) }
+                        .buttonStyle(.plain).accessibilityIdentifier("hub-party-leave-seat")
+                }
+                Text(headline).font(IslandUI.font(24, bold: true)).accessibilityIdentifier("hub-party-waiting")
+                if !golf, let lobby = party {
+                    if !lobby.hasScreenForSport { Text(lobby.startReason).font(.subheadline).fixedSize(horizontal: false, vertical: true) }
+                    if hub.partyService.isOwner {
+                        Toggle("Sharing a TV", isOn: Binding(get: { party?.sharedScreen == true }, set: { try? hub.partyService.setSharedScreen($0) }))
+                            .tint(IslandUI.lime).accessibilityIdentifier("party-shared-tv")
+                        Text(lobby.sharedScreen == true ? "Both players must be in the same room to see this TV." : "Playing apart? Each player connects their own TV.")
+                            .font(.footnote).foregroundStyle(.white.opacity(0.7))
                     }
-                    .padding(12).background(.white.opacity(0.07), in: RoundedRectangle(cornerRadius: 14))
+                }
+                VStack(spacing: 8) {
+                    ForEach(party?.participants.filter { !$0.isGuest } ?? [], id: \.id) { p in
+                        let seated = p.id == me || hub.friendBays[p.id] == hub.station
+                        HStack {
+                            Circle().fill(seated ? IslandUI.lime : .white.opacity(0.25)).frame(width: 12, height: 12)
+                            Text(p.name + (p.id == party?.ownerID ? " · host" : "") + (p.id == me ? " (you)" : "")).font(IslandUI.font(17, bold: true))
+                            Spacer()
+                            Text(seated ? "On the bench" : location(p.id)).font(IslandUI.font(14, bold: true)).foregroundStyle(seated ? IslandUI.lime : .white.opacity(0.6))
+                        }
+                        .padding(12).background(.white.opacity(0.07), in: RoundedRectangle(cornerRadius: 14))
+                    }
+                }
+                if hub.partyService.isOwner, hub.partyAllSeated, let lobby = party {
+                    VStack(alignment: .leading, spacing: 12) {
+                        HStack {
+                            Text("Map"); Spacer()
+                            Picker("Map", selection: Binding(get: { party?.venue ?? lobby.venue }, set: { hub.configureParty(venue: $0) })) {
+                                if golf {
+                                    ForEach(GolfCourseChoice.allCases, id: \.rawValue) { course in Text(course.title).tag(course.rawValue) }
+                                } else {
+                                    Text("Resort").tag("resort"); Text("Skyscraper").tag("skyscraper"); Text("Volcano").tag("volcano")
+                                }
+                            }.labelsHidden().accessibilityIdentifier("hub-party-map")
+                        }
+                        if golf {
+                            Toggle("Course events", isOn: Binding(get: { party?.twistsOff != true }, set: { try? hub.partyService.setGolfEvents(twists: $0) }))
+                                .tint(IslandUI.lime).accessibilityIdentifier("hub-party-events")
+                        } else {
+                            HStack {
+                                Text("Sets"); Spacer()
+                                Picker("Sets", selection: Binding(get: { party?.sets ?? 1 }, set: { hub.configureParty(sets: $0) })) {
+                                    ForEach(1...3, id: \.self) { Text("\($0)").tag($0) }
+                                }.labelsHidden().accessibilityIdentifier("hub-party-sets")
+                            }
+                            HStack {
+                                Text("Games per set"); Spacer()
+                                Picker("Games per set", selection: Binding(get: { party?.games ?? 3 }, set: { hub.configureParty(games: $0) })) {
+                                    ForEach([1, 3, 6], id: \.self) { Text("\($0)").tag($0) }
+                                }.labelsHidden().accessibilityIdentifier("hub-party-games")
+                            }
+                        }
+                    }.tint(IslandUI.lime).frame(maxWidth: .infinity).padding(14).background(.white.opacity(0.07), in: RoundedRectangle(cornerRadius: 14))
+                }
+                if !hub.partyService.isOwner, hub.partyAllSeated, let lobby = party {
+                    Text(lobby.venue.capitalized + (golf ? "" : " · \(lobby.sets) sets · \(lobby.games) games")).font(.subheadline).foregroundStyle(.white.opacity(0.7))
+                }
+                if !hub.notice.isEmpty { Text(hub.notice).font(IslandUI.font(14, bold: true)).foregroundStyle(IslandUI.lime) }
+                if hub.partyHasUnseatedFriends {
+                Button { hub.callParty() } label: {
+                    Label("Call the party here", systemImage: "megaphone.fill").font(IslandUI.font(18, bold: true)).foregroundStyle(IslandUI.navy)
+                        .frame(maxWidth: .infinity, minHeight: 56).background(IslandUI.lime, in: Capsule())
+                }.buttonStyle(.plain).accessibilityIdentifier("hub-party-call")
+                }
+                if hub.partyService.isOwner {
+                    Button { hub.forcePartyStart() } label: {
+                        Label("Start match", systemImage: "play.fill").font(IslandUI.font(18, bold: true)).foregroundStyle(IslandUI.navy).frame(maxWidth: .infinity, minHeight: 56).background(IslandUI.lime, in: Capsule())
+                    }.buttonStyle(.plain).opacity(hub.partyAllSeated && hub.partyService.lobby?.canStart == true ? 1 : 0.4).disabled(!hub.partyAllSeated || hub.partyService.lobby?.canStart != true).accessibilityIdentifier("hub-party-start")
                 }
             }
-            Spacer(minLength: 0)
-            if !hub.notice.isEmpty { Text(hub.notice).font(IslandUI.font(14, bold: true)).foregroundStyle(IslandUI.lime) }
-            Button { hub.callParty() } label: {
-                Label("Call the party here", systemImage: "megaphone.fill").font(IslandUI.font(18, bold: true)).foregroundStyle(IslandUI.navy)
-                    .frame(maxWidth: .infinity, minHeight: 56).background(IslandUI.lime, in: Capsule())
-            }.buttonStyle(.plain).accessibilityIdentifier("hub-party-call")
-            if hub.partyService.isOwner, hub.partyService.lobby?.canStart == true, hub.partyStartAt == nil {
-                Button { hub.forcePartyStart() } label: {
-                    Label("Start with who's here", systemImage: "play.fill").font(IslandUI.font(16, bold: true)).frame(maxWidth: .infinity, minHeight: 48).background(.white.opacity(0.12), in: Capsule())
-                }.buttonStyle(.plain).accessibilityIdentifier("hub-party-start")
-            }
+            .padding(22)
         }
-        .foregroundStyle(.white).padding(22)
+        .foregroundStyle(.white)
         .background(LinearGradient(colors: [Color(hex: "16294A"), IslandUI.dark], startPoint: .top, endPoint: .bottom).ignoresSafeArea())
         .preferredColorScheme(.dark)
         .accessibilityIdentifier("hub-party-bay")
@@ -519,7 +566,7 @@ struct HubPartyBayPanel: View {
         let waiting = hub.partyWaitingFor
         if !waiting.isEmpty { return "Waiting for " + waiting.joined(separator: ", ") }
         let seated = party?.participants.filter { !$0.isGuest && ($0.id == me || hub.friendBays[$0.id] == hub.station) }.count ?? 1
-        return seated >= 2 ? "Starting…" : "Waiting for a friend to sit here"
+        return seated >= 2 ? (hub.partyService.isOwner ? "Choose a map, then start" : "Waiting for the host to start") : "Waiting for a friend to sit here"
     }
     private func location(_ id: String) -> String {
         switch hub.friendPlaces[id] ?? "" {

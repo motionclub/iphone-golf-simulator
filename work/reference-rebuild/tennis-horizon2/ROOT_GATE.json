@@ -1,0 +1,33 @@
+{
+  "gate": "PASS scoped visual change",
+  "proof": "proof/reference-rebuild/tennis-horizon2/visible",
+  "views": [
+    "resort_1_gameplay.png",
+    "resort_9_hero_postcard.png",
+    "resort_14_reference_camera.png"
+  ],
+  "sourceTriangles": 7540,
+  "worldBounds": [
+    [
+      -488.05,
+      -5.1,
+      500.65
+    ],
+    [
+      422.62,
+      61.84,
+      778.96
+    ]
+  ],
+  "changes": [
+    "180-degree Blender import yaw matches existing coast",
+    "resort far clip1000m, optout TENNIS_HORIZON2=0 returns600m",
+    "authored layered island replaces two flat mounds"
+  ],
+  "retained": "Source court/colliders/gameplay unchanged; no claim of complete reference match",
+  "remaining": [
+    "richer terrain texture/forest separation",
+    "planting depth",
+    "lighting and water sparkle"
+  ]
+}

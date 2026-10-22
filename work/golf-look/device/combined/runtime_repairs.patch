@@ -1,0 +1,981 @@
+--- a/Unity/Assets/Scripts/Course/Hole.cs
++++ b/Unity/Assets/Scripts/Course/Hole.cs
+@@ -281,7 +281,7 @@
+         public Hole[] Holes;
+ 
+         /// Every course with modelled holes, in the order the course screen shows them.
+-        public static Course[] All() => new[] { Cliffside(), WildIsles(), Magma() };
++        public static Course[] All() => new[] { Cliffside(), Postcards(), WildIsles(), Magma() };
+ 
+         /// The course a hole belongs to, by its number (hole numbers are unique across courses).
+         public static Course Containing(int holeNumber)
+@@ -311,6 +311,196 @@
+         /// carry: tee island, a bridge over the water, and the green on its own island; its
+         /// numbers are what blender/scripts/hole12_prepare.py prints, the shores traced off the
+         /// turf meshes.
++        public static Course Postcards() => new()
++        {
++            Name = "Postcards", Key = "postcards",
++            Holes = new[]
++            {
++                new Hole
++                {
++                    // Needle: 202-point shore, centerline 342.9 yd, play surface flat at 6 m in blender/hole_08.blend
++                    Number = 8, Par = 4,
++                    Centerline = new[] { P(0, 0), P(19, 178), P(-6, 340) },
++                    FairwayWidth = 16, GreenRadius = 14, RoughWidth = 8,
++                    Hazards = new[]
++                    {
++                        Water(10.1, 90, 48, 94),
++                        Water(6.6, 258, 48, 88),
++                        Bunker(-12, 316, 9, 20),
++                    },
++                    Shore = new[]
++                    {
++                        P(15.8, -1.7), P(16.2, 2.3), P(16.7, 6.3), P(16.9, 10.3), P(16.5, 14.2), P(17.2, 18.1),
++                        P(18.2, 22), P(18.7, 26), P(18.7, 30), P(18.7, 34), P(17.3, 37.7), P(15.8, 41.4),
++                        P(15.9, 45.4), P(16.3, 49.4), P(15.3, 53.1), P(13, 56.4), P(11.9, 60.1), P(12.4, 64.1),
++                        P(12.8, 68.1), P(13.2, 72.1), P(13.6, 76), P(14.1, 80), P(14.5, 84), P(14.9, 88),
++                        P(15.3, 92), P(15.8, 95.9), P(16.2, 99.9), P(16.6, 103.9), P(17, 107.9), P(17.5, 111.8),
++                        P(17.9, 115.8), P(18.3, 119.8), P(20.6, 123), P(23.5, 125.8), P(24.9, 129.4), P(25.3, 133.4),
++                        P(26.3, 137.2), P(28.6, 140.4), P(30.5, 143.9), P(31.1, 147.9), P(32, 151.8), P(32.6, 155.7),
++                        P(32.6, 159.7), P(32.4, 163.7), P(32.3, 167.7), P(32.7, 171.7), P(33.1, 175.7), P(33.1, 179.7),
++                        P(32.6, 183.6), P(32.2, 187.6), P(32.1, 191.6), P(32.1, 195.6), P(31.7, 199.6), P(30.8, 203.5),
++                        P(29.8, 207.4), P(28.3, 211), P(25.8, 214.1), P(24, 217.6), P(23.4, 221.6), P(22.5, 225.5),
++                        P(19.7, 228.2), P(16.8, 231), P(15.8, 234.8), P(15.2, 238.8), P(14.6, 242.7), P(14, 246.7),
++                        P(13.4, 250.6), P(12.7, 254.6), P(12.1, 258.5), P(11.5, 262.5), P(10.9, 266.4), P(10.3, 270.4),
++                        P(9.7, 274.4), P(9.1, 278.3), P(8.5, 282.3), P(8, 286.2), P(9.7, 289.8), P(11.8, 293.2),
++                        P(11.7, 297.2), P(11.1, 301.1), P(11.4, 305.1), P(12.8, 308.8), P(13.2, 312.7), P(12.5, 316.7),
++                        P(12.4, 320.7), P(12.4, 324.7), P(11.8, 328.6), P(11.2, 332.6), P(10.6, 336.5), P(10, 340.5),
++                        P(9.3, 344.4), P(7.7, 348.1), P(5.3, 351.2), P(2.1, 353.7), P(-1.6, 355.3), P(-5.5, 355.9),
++                        P(-9.5, 355.5), P(-13.2, 354.2), P(-16.5, 351.9), P(-19.2, 348.9), P(-21, 345.4), P(-21.8, 341.5),
++                        P(-21.7, 337.5), P(-21.1, 333.5), P(-20.5, 329.6), P(-19.9, 325.6), P(-19.3, 321.6), P(-18.6, 317.7),
++                        P(-18, 313.7), P(-17.4, 309.8), P(-16, 306.1), P(-13.4, 303.1), P(-11.1, 299.8), P(-10.3, 295.9),
++                        P(-9.7, 292), P(-7.5, 288.7), P(-4.4, 286.2), P(-2.7, 282.7), P(-2.1, 278.7), P(-1.5, 274.8),
++                        P(-0.9, 270.8), P(-0.3, 266.9), P(0.3, 262.9), P(0.9, 259), P(1.6, 255), P(2.2, 251),
++                        P(2.8, 247.1), P(3.4, 243.1), P(4, 239.2), P(4.6, 235.2), P(5.2, 231.3), P(4.4, 227.5),
++                        P(2.2, 224.1), P(1.3, 220.3), P(1.9, 216.4), P(2.3, 212.4), P(1.1, 208.6), P(0, 204.7),
++                        P(0.7, 200.9), P(1.8, 197), P(2.5, 193.1), P(2.7, 189.1), P(2.6, 185.1), P(2.9, 181.1),
++                        P(3.5, 177.2), P(2.9, 173.2), P(2.7, 169.2), P(2.8, 165.2), P(3, 161.2), P(2.8, 157.2),
++                        P(2, 153.3), P(1, 149.4), P(1.1, 145.5), P(2.6, 141.8), P(3.6, 137.9), P(3.2, 134),
++                        P(2.9, 130), P(4.5, 126.4), P(6.8, 123.1), P(7.2, 119.2), P(6.8, 115.2), P(6.3, 111.3),
++                        P(5.9, 107.3), P(5.5, 103.3), P(5.1, 99.3), P(4.6, 95.3), P(4.2, 91.4), P(3.8, 87.4),
++                        P(3.4, 83.4), P(2.9, 79.4), P(2.5, 75.4), P(2.1, 71.5), P(1.7, 67.5), P(1.2, 63.5),
++                        P(0.6, 59.6), P(-2.1, 56.7), P(-4.9, 53.8), P(-5.7, 49.9), P(-6.2, 46), P(-7.5, 42.2),
++                        P(-9.8, 39), P(-11.2, 35.3), P(-10.9, 31.3), P(-11.1, 27.3), P(-11.8, 23.3), P(-12.9, 19.5),
++                        P(-14, 15.6), P(-14.7, 11.7), P(-15.2, 7.7), P(-15.6, 3.8), P(-15.9, -0.2), P(-15.3, -4.2),
++                        P(-13.8, -7.9), P(-11.4, -11.1), P(-8.3, -13.6), P(-4.7, -15.2), P(-0.7, -15.9), P(3.2, -15.6),
++                        P(7, -14.3), P(10.3, -12.1), P(13, -9.1), P(14.9, -5.6),
++                    },
++                },
++                new Hole
++                {
++                    // Split: 415-point shore, centerline 494.1 yd, play surface flat at 6 m in blender/hole_09.blend
++                    Number = 9, Par = 5,
++                    Centerline = new[] { P(0, 0), P(3, 60), P(6.3, 125), P(9.5, 190), P(11.8, 235), P(6, 416), P(-1, 454), P(-10, 492) },
++                    FairwayWidth = 18, GreenRadius = 17, RoughWidth = 90,
++                    Hazards = new[]
++                    {
++                        Water(8.8, 352, 84, 102),
++                        Bunker(-2.5, 184, 11, 24),
++                        Bunker(21.8, 200, 11, 24),
++                        Bunker(9, 466, 16, 16),
++                    },
++                    Shore = new[]
++                    {
++                        P(-93.6, 25.8), P(-93.5, 20.8), P(-93.2, 15.8), P(-92.6, 10.8), P(-91.8, 5.9), P(-90.6, 1),
++                        P(-88, -3.3), P(-84.5, -6.9), P(-80.6, -9.9), P(-76.3, -12.5), P(-71.9, -14.8), P(-67.4, -17.1),
++                        P(-62.9, -19.3), P(-58.4, -21.4), P(-53.9, -23.4), P(-49.3, -25.4), P(-44.6, -27.2), P(-39.8, -28.8),
++                        P(-35, -30.1), P(-30.2, -31.2), P(-25.2, -32.1), P(-20.3, -32.8), P(-15.3, -33.3), P(-10.3, -33.6),
++                        P(-5.3, -33.6), P(-0.3, -33.2), P(4.6, -32.6), P(9.5, -31.5), P(14.2, -29.8), P(18.3, -27),
++                        P(21.3, -23), P(22.8, -18.3), P(23.3, -13.3), P(23, -8.3), P(22.5, -3.3), P(22.2, 1.6),
++                        P(22.1, 6.6), P(22.3, 11.6), P(22.5, 16.6), P(22.7, 21.6), P(22.9, 26.6), P(23.1, 31.6),
++                        P(23.3, 36.6), P(23.5, 41.6), P(23.6, 46.6), P(23.7, 51.6), P(23.9, 56.6), P(24, 61.6),
++                        P(24.1, 66.6), P(24.2, 71.6), P(24.3, 76.6), P(24.4, 81.6), P(24.6, 86.6), P(24.8, 91.6),
++                        P(25, 96.6), P(25.3, 101.6), P(25.5, 106.6), P(25.8, 111.6), P(26.2, 116.6), P(26.5, 121.6),
++                        P(26.9, 126.6), P(27.3, 131.5), P(27.7, 136.5), P(28.1, 141.5), P(28.5, 146.5), P(28.9, 151.5),
++                        P(29.3, 156.5), P(29.6, 161.5), P(30, 166.4), P(30.3, 171.4), P(30.6, 176.4), P(30.9, 181.4),
++                        P(31.2, 186.4), P(31.4, 191.4), P(31.7, 196.4), P(31.9, 201.4), P(32.1, 206.4), P(32.2, 211.4),
++                        P(32.4, 216.4), P(32.5, 221.4), P(32.5, 226.4), P(32.5, 231.4), P(32.5, 236.4), P(32.4, 241.4),
++                        P(32.3, 246.4), P(32.2, 251.4), P(32.1, 256.4), P(32, 261.4), P(31.9, 266.4), P(31.8, 271.4),
++                        P(31.7, 276.4), P(31.7, 281.4), P(31.6, 286.4), P(31.6, 291.4), P(31.4, 296.4), P(30.7, 301.3),
++                        P(26.8, 303.9), P(22.1, 302.6), P(17.3, 301.1), P(12.3, 300.3), P(7.3, 300.1), P(2.4, 300.7),
++                        P(-2.5, 301.8), P(-7.4, 302), P(-10.3, 298.2), P(-10.6, 293.2), P(-10.2, 288.2), P(-9.8, 283.2),
++                        P(-9.6, 278.2), P(-9.3, 273.2), P(-9.1, 268.3), P(-8.9, 263.3), P(-8.7, 258.3), P(-8.6, 253.3),
++                        P(-8.5, 248.3), P(-8.4, 243.3), P(-8.4, 238.3), P(-8.5, 233.3), P(-8.6, 228.3), P(-8.8, 223.3),
++                        P(-9, 218.3), P(-9.4, 213.3), P(-9.7, 208.3), P(-10.1, 203.3), P(-10.5, 198.3), P(-10.9, 193.3),
++                        P(-11.3, 188.3), P(-11.7, 183.4), P(-12.1, 178.4), P(-12.5, 173.4), P(-12.9, 168.4), P(-13.2, 163.4),
++                        P(-13.6, 158.4), P(-13.9, 153.4), P(-14.3, 148.4), P(-14.6, 143.5), P(-14.9, 138.5), P(-15.1, 133.5),
++                        P(-15.4, 128.5), P(-15.6, 123.5), P(-15.8, 118.5), P(-16, 113.5), P(-16.2, 108.5), P(-16.3, 103.5),
++                        P(-16.5, 98.5), P(-16.6, 93.5), P(-16.7, 88.5), P(-16.9, 83.5), P(-17, 78.5), P(-17.1, 73.5),
++                        P(-17.2, 68.5), P(-17.4, 63.5), P(-17.5, 58.5), P(-17.8, 53.5), P(-18.3, 48.5), P(-19.6, 43.7),
++                        P(-22.3, 39.5), P(-26.1, 36.3), P(-30.7, 34.5), P(-35.7, 34.2), P(-40.5, 35.5), P(-44.7, 38.1),
++                        P(-47.9, 42), P(-49.7, 46.6), P(-50.3, 51.6), P(-50.4, 56.6), P(-50.3, 61.6), P(-50.2, 66.6),
++                        P(-50.1, 71.6), P(-50, 76.6), P(-49.8, 81.6), P(-49.7, 86.6), P(-49.5, 91.6), P(-49.3, 96.6),
++                        P(-49, 101.6), P(-48.7, 106.6), P(-48.4, 111.5), P(-48.1, 116.5), P(-47.7, 121.5), P(-47.3, 126.5),
++                        P(-46.9, 131.5), P(-46.4, 136.5), P(-45.9, 141.4), P(-45.4, 146.4), P(-44.8, 151.4), P(-44.3, 156.4),
++                        P(-43.7, 161.3), P(-43.1, 166.3), P(-42.5, 171.3), P(-41.9, 176.2), P(-41.2, 181.2), P(-40.6, 186.1),
++                        P(-40, 191.1), P(-39.4, 196.1), P(-38.8, 201), P(-38.3, 206), P(-37.7, 211), P(-37.3, 216),
++                        P(-36.9, 220.9), P(-36.5, 225.9), P(-36.3, 230.9), P(-36.3, 235.9), P(-36.2, 240.9), P(-36.3, 245.9),
++                        P(-36.5, 250.9), P(-36.8, 255.9), P(-37.1, 260.9), P(-37.5, 265.9), P(-38, 270.9), P(-38.5, 275.9),
++                        P(-39.1, 280.8), P(-39.7, 285.8), P(-40.3, 290.7), P(-41, 295.7), P(-41.7, 300.6), P(-42.4, 305.6),
++                        P(-43.1, 310.6), P(-43.8, 315.5), P(-44.5, 320.5), P(-45.1, 325.4), P(-45.7, 330.4), P(-46.3, 335.4),
++                        P(-46.8, 340.3), P(-47.3, 345.3), P(-47.7, 350.3), P(-48.1, 355.3), P(-48.4, 360.3), P(-48.6, 365.3),
++                        P(-48.8, 370.3), P(-49, 375.3), P(-49.1, 380.3), P(-49.1, 385.3), P(-49.2, 390.3), P(-49.2, 395.3),
++                        P(-49.2, 400.3), P(-49.2, 405.3), P(-49.2, 410.3), P(-49.4, 415.3), P(-49.8, 420.2), P(-50.4, 425.2),
++                        P(-51.1, 430.2), P(-51.9, 435.1), P(-52.8, 440), P(-53.6, 445), P(-54.4, 449.9), P(-53.3, 454.8),
++                        P(-51.2, 459.3), P(-47.8, 462.9), P(-43.4, 465.3), P(-38.6, 466.4), P(-33.6, 465.9), P(-29, 464),
++                        P(-25.2, 460.8), P(-22.6, 456.6), P(-21.1, 451.8), P(-20, 447), P(-18.9, 442.1), P(-17.9, 437.2),
++                        P(-16.9, 432.3), P(-16, 427.4), P(-15.2, 422.4), P(-14.5, 417.5), P(-14, 412.5), P(-13.7, 407.5),
++                        P(-12.8, 402.6), P(-8.8, 400.2), P(-4, 401.6), P(0.8, 403), P(5.7, 403.8), P(10.7, 403.8),
++                        P(15.7, 403.2), P(20.6, 402.2), P(25.3, 403.1), P(27.2, 407.6), P(26.9, 412.6), P(26, 417.5),
++                        P(25.2, 422.4), P(24.8, 427.4), P(24.8, 432.4), P(25.1, 437.4), P(25.7, 442.4), P(26.3, 447.3),
++                        P(27, 452.3), P(27.9, 457.2), P(28.8, 462.1), P(29.9, 467), P(30.6, 471.9), P(30.9, 476.9),
++                        P(30.9, 481.9), P(30.5, 486.9), P(29.6, 491.8), P(28.3, 496.7), P(26.5, 501.3), P(24.4, 505.9),
++                        P(21.8, 510.1), P(18.7, 514.1), P(15.2, 517.6), P(11.3, 520.7), P(6.9, 523.1), P(2.2, 524.9),
++                        P(-2.6, 526.2), P(-7.5, 527.1), P(-12.5, 527.6), P(-17.5, 527.9), P(-22.5, 527.8), P(-27.5, 527.4),
++                        P(-32.4, 526.8), P(-37.3, 525.9), P(-42.2, 524.7), P(-46.9, 523.1), P(-51.6, 521.3), P(-56.1, 519.1),
++                        P(-60.4, 516.6), P(-64.6, 513.8), P(-68.6, 510.9), P(-72.7, 508), P(-76.6, 504.9), P(-80.5, 501.7),
++                        P(-84.2, 498.4), P(-87.4, 494.5), P(-89.7, 490.1), P(-91.2, 485.4), P(-91.5, 480.4), P(-91.2, 475.4),
++                        P(-91.1, 470.4), P(-91.5, 465.5), P(-92.5, 460.6), P(-93.2, 455.6), P(-93.3, 450.6), P(-92.9, 445.6),
++                        P(-92.4, 440.7), P(-91.7, 435.7), P(-90.7, 430.8), P(-89.2, 426.1), P(-88, 421.2), P(-88.4, 416.2),
++                        P(-89.8, 411.5), P(-90.7, 406.5), P(-90.8, 401.6), P(-90.4, 396.6), P(-89.7, 391.6), P(-88.7, 386.7),
++                        P(-87.6, 381.8), P(-86.4, 377), P(-86, 372), P(-86.5, 367), P(-87.5, 362.2), P(-87.8, 357.2),
++                        P(-87.4, 352.2), P(-86.4, 347.3), P(-85.1, 342.4), P(-83.8, 337.6), P(-82.9, 332.7), P(-82.4, 327.7),
++                        P(-82.5, 322.7), P(-83.1, 317.8), P(-83.6, 312.8), P(-83.4, 307.8), P(-82.6, 302.9), P(-81.3, 298.1),
++                        P(-79.4, 293.4), P(-77.8, 288.7), P(-77, 283.8), P(-76.8, 278.8), P(-76.7, 273.8), P(-76.6, 268.8),
++                        P(-76.2, 263.8), P(-75.4, 258.9), P(-74.1, 254), P(-72.4, 249.3), P(-70.3, 244.8), P(-69, 240),
++                        P(-68.8, 235), P(-69.6, 230.1), P(-70.2, 225.1), P(-70.6, 220.1), P(-70.9, 215.1), P(-71.1, 210.1),
++                        P(-71.1, 205.1), P(-70.6, 200.2), P(-70, 195.2), P(-70.7, 190.3), P(-72.8, 185.8), P(-75.1, 181.3),
++                        P(-76.8, 176.6), P(-77.9, 171.8), P(-78.8, 166.9), P(-79.8, 161.9), P(-80.5, 157), P(-80.5, 152),
++                        P(-80.3, 147), P(-81.4, 142.2), P(-83.7, 137.7), P(-85.9, 133.3), P(-87, 128.4), P(-87, 123.4),
++                        P(-86.9, 118.4), P(-87, 113.4), P(-86.8, 108.4), P(-86, 103.5), P(-85.1, 98.6), P(-85.7, 93.7),
++                        P(-87.7, 89.1), P(-89.2, 84.3), P(-89.3, 79.4), P(-88.2, 74.5), P(-87.7, 69.5), P(-87.7, 64.5),
++                        P(-87.6, 59.5), P(-87.1, 54.5), P(-86.9, 49.6), P(-88.2, 44.8), P(-90.4, 40.3), P(-92.2, 35.6),
++                        P(-93.3, 30.7),
++                    },
++                },
++                new Hole
++                {
++                    // Crater: 175-point shore, centerline 356.5 yd, play surface flat at 6 m in blender/hole_10.blend
++                    Number = 10, Par = 4,
++                    Centerline = new[] { P(0, 0), P(14.3, 66.2), P(50.2, 123.4), P(107.1, 159.3), P(261, 164.7) },
++                    FairwayWidth = 22, GreenRadius = 16, RoughWidth = 13,
++                    Hazards = new[]
++                    {
++                        Water(171.1, 161.5, 112, 76),
++                        Bunker(57.4, 110.3, 17, 12),
++                        Bunker(74.3, 154, 18, 13),
++                    },
++                    Shore = new[]
++                    {
++                        P(-15.6, -8.6), P(-15.5, -3.8), P(-14.8, 1), P(-14, 5.7), P(-13.1, 10.5), P(-12.3, 15.2),
++                        P(-12, 20), P(-11.7, 24.8), P(-11.2, 29.6), P(-10.5, 34.4), P(-9.7, 39.1), P(-8.7, 43.8),
++                        P(-7.8, 48.5), P(-7, 53.3), P(-6.3, 58), P(-5.7, 62.8), P(-5, 67.6), P(-3.8, 72.2),
++                        P(-1.9, 76.6), P(0.5, 80.8), P(3, 84.9), P(5.6, 88.9), P(8.3, 93), P(10.9, 97),
++                        P(13.5, 101.1), P(15.9, 105.2), P(18.3, 109.4), P(20.5, 113.7), P(22.7, 118), P(25, 122.2),
++                        P(27.3, 126.4), P(29.8, 130.5), P(32.6, 134.5), P(35.7, 138.1), P(39.5, 141), P(43.7, 143.4),
++                        P(47.9, 145.7), P(52.1, 148.1), P(56, 150.8), P(59.7, 153.9), P(63.2, 157.2), P(66.8, 160.4),
++                        P(70.7, 163.2), P(75, 165.4), P(79.5, 167.2), P(83.9, 168.9), P(88.4, 170.7), P(92.9, 172.4),
++                        P(97.4, 174.2), P(102, 175.7), P(106.7, 176.3), P(111.5, 175.9), P(116.2, 175.1), P(121, 174.6),
++                        P(125.8, 174.5), P(130.6, 174.6), P(135.4, 174.8), P(140.2, 175), P(145.1, 175.1), P(149.9, 175.3),
++                        P(154.7, 175.5), P(159.5, 175.6), P(164.3, 175.8), P(169.1, 176), P(173.9, 176.2), P(178.7, 176.3),
++                        P(183.5, 176.5), P(188.3, 176.7), P(193.1, 176.8), P(198, 177), P(202.8, 177.2), P(207.6, 177.3),
++                        P(212.4, 177.5), P(217.2, 177.7), P(222, 177.8), P(226.8, 178), P(231.6, 178.1), P(236.4, 178.5),
++                        P(241.1, 179.6), P(245.4, 181.7), P(249.5, 184.2), P(253.8, 186.2), P(258.5, 187.3), P(263.3, 187.4),
++                        P(268, 186.4), P(272.4, 184.4), P(276.3, 181.6), P(279.4, 178), P(281.8, 173.8), P(283.2, 169.2),
++                        P(283.7, 164.5), P(283.2, 159.7), P(281.6, 155.2), P(279.2, 151.1), P(275.9, 147.6), P(272, 144.8),
++                        P(267.6, 142.9), P(262.9, 142), P(258.1, 142.1), P(253.4, 143.3), P(249.1, 145.3), P(244.8, 147.5),
++                        P(240.2, 148.9), P(235.4, 149.3), P(230.6, 149.2), P(225.8, 149), P(221, 148.8), P(216.2, 148.6),
++                        P(211.4, 148.4), P(206.6, 148.3), P(201.8, 148.1), P(196.9, 147.9), P(192.1, 147.8), P(187.3, 147.6),
++                        P(182.5, 147.4), P(177.7, 147.3), P(172.9, 147.1), P(168.1, 146.9), P(163.3, 146.8), P(158.5, 146.6),
++                        P(153.7, 146.4), P(148.9, 146.3), P(144, 146.1), P(139.2, 145.9), P(134.4, 145.8), P(129.6, 145.6),
++                        P(124.8, 145.3), P(120, 144.7), P(115.5, 143), P(111.5, 140.4), P(107.6, 137.6), P(103.5, 135),
++                        P(99.4, 132.5), P(95.5, 129.7), P(91.7, 126.8), P(87.9, 123.8), P(84.2, 120.7), P(80.4, 117.7),
++                        P(76.6, 114.9), P(72.7, 112.1), P(69, 108.9), P(66, 105.2), P(63.1, 101.3), P(60.2, 97.5),
++                        P(57.1, 93.8), P(54, 90.1), P(51.1, 86.3), P(48.2, 82.5), P(45.3, 78.7), P(42.3, 74.9),
++                        P(39.4, 71), P(36.5, 67.2), P(34, 63.1), P(32.4, 58.6), P(31.7, 53.8), P(31.2, 49),
++                        P(30.6, 44.2), P(29.7, 39.5), P(28.5, 34.9), P(26.8, 30.4), P(24.9, 25.9), P(22.9, 21.5),
++                        P(21, 17.2), P(19, 12.7), P(17.3, 8.2), P(16.1, 3.6), P(15, -1.1), P(13.8, -5.7),
++                        P(12.4, -10.4), P(10.2, -14.5), P(6, -16.3), P(1.2, -15.8), P(-3.5, -14.8), P(-8.2, -13.8),
++                        P(-12.7, -12.2),
++                    },
++                },
++            },
++        };
+         public static Course Cliffside() => new()
+         {
+             Name = "Cliffside", Key = "cliffside",
+
+--- a/Unity/Assets/Scripts/Game/CameraRig.cs
++++ b/Unity/Assets/Scripts/Game/CameraRig.cs
+@@ -348,9 +348,21 @@
+         static float FarClip => GolfArcade.Course.HoleAtmosphere.FarClip;
+ 
+         public void SnapNext() => snap = true;
++        public void ApplyFrame() => LateUpdate();
+ 
+         /// Chase these with the given lags (seconds) — for a shot keyed elsewhere that should
+         /// still move like a camera operator, not jump (the instant replay).
++        public void Follow(Vector3 ball, Vector3 velocity, bool putting)
++        {
++            var dir = velocity; dir.y = 0;
++            if (dir.sqrMagnitude < .01f) dir = transform.forward;
++            dir.Normalize();
++            float back = putting ? 3f : 14f, up = putting ? 1.6f : 3.5f;
++            targetPosition = ball - dir * back + Vector3.up * up;
++            targetLookAt = ball + dir * (putting ? 1f : 8f);
++            positionLag = .25f; lookLag = .08f;
++        }
++
+         public void Follow(Vector3 position, Vector3 look, float lag, float lookLagSeconds)
+         {
+             targetPosition = position; targetLookAt = look; positionLag = lag; lookLag = lookLagSeconds;
+
+--- a/Unity/Assets/Scripts/Game/GolfGame.Native.cs
++++ b/Unity/Assets/Scripts/Game/GolfGame.Native.cs
+@@ -0,0 +1,46 @@
++using UnityEngine;
++using GolfArcade.Swing;
++namespace GolfArcade.Game {
++    public sealed partial class GolfGame {
++        public static event System.Action ShotStruck;
++        public Camera GameplayCamera => rig ? rig.Camera : null;
++        public double TutorialHeading => heading;
++        public GolfArcade.UI.Hud TutorialHud => hud;
++        public int TutorialHole => holeIndex;
++        public void PrepareNativeAddress() {
++            if (Match == null) StartRound();
++            BeginAim(false); rig.SnapNext(); rig.ApplyFrame();
++        }
++        public void NativeAim(float value) { if(Current==State.Aim) Nudge(Mathf.Clamp(value,-1,1)*AimTapDegrees); }
++        public void NativeClub(int value) { if(Current==State.Aim) CycleClub(value); }
++        public string NativeFeedback() {
++            if(Current==State.RoundDone) return $"Round complete · {Card.Total} strokes · {Card.ToPar:+0;-0;0} to par";
++            if(LastShot!=null && (Current==State.Result || Current==State.HoleDone)) return $"Carry {LastShot.Carry:F0} yd · Total {LastShot.Total:F0} yd · {LastShot.Lie}";
++            return $"{Current} · {Swing.Phase} · Load {Swing.Detector.Load:P0}";
++        }
++        public void NativeSwing(float power) {
++            if(Current!=State.Aim) return;
++            golfer.ShowLoad(power);
++            OnImpact(new SwingImpact { Power=power, Backswing=power, PeakSpeed=power*16, TempoSeconds=.7 });
++        }
++        bool needsReadyPose;
++        public void NativeReady() { Swing.Detector.UseReadyPose=true; needsReadyPose=true; Swing.Detector.Reset(); }
++        public void NativeMotion(in NativeSportsSession.Sample sample) {
++            var q=new System.Numerics.Quaternion(sample.qx,sample.qy,sample.qz,sample.qw);
++            if(q.LengthSquared()<.5f) return;
++            if(needsReadyPose) { Swing.Detector.SetReadyPose(q); needsReadyPose=false; Debug.Log("[SportsMotion] Ready pose captured"); }
++            var e=Swing.Detector.Ingest(sample.time,q,new System.Numerics.Vector3(sample.rx,sample.ry,sample.rz),new System.Numerics.Vector3(sample.gx,sample.gy,sample.gz));
++            if(e==null || Current!=State.Aim) return;
++            switch(e.Value.Kind) {
++                case SwingEventKind.Load: OnLoad(e.Value.Load); break;
++                case SwingEventKind.Cancel: OnCancel(); break;
++                case SwingEventKind.Impact:
++                    var impact=e.Value.Impact;
++                    Debug.Log($"[SportsMotion] golf impact speed={impact.PeakSpeed:F2} power={impact.Power:F2}");
++                    if(NativeSportsSession.Left) { impact.FaceDegrees*=-1; impact.CurveDegrees*=-1; impact.StartLineDegrees*=-1; }
++                    OnImpact(impact); break;
++            }
++        }
++
++    }
++}
+
+--- a/Unity/Assets/Scripts/Game/GolfGame.Native.cs.meta
++++ b/Unity/Assets/Scripts/Game/GolfGame.Native.cs.meta
+@@ -0,0 +1,2 @@
++fileFormatVersion: 2
++guid: 781ba65bab3a4ec8abff36e6810cd92d
+
+--- a/Unity/Assets/Scripts/Game/GolfGame.Network.cs
++++ b/Unity/Assets/Scripts/Game/GolfGame.Network.cs
+@@ -0,0 +1,53 @@
++using System;
++using System.Linq;
++using GolfArcade.Multiplayer;
++using GolfArcade.Course;
++using GolfArcade.Shot;
++using UnityEngine;
++namespace GolfArcade.Game {
++    public sealed partial class GolfGame {
++        int networkHole=-1,networkTurn=-1,networkClub=-1;long networkShot=-1,networkCardRevision=-1;Vector3 networkBallPrevious;
++        bool networkConfigured;
++        Scorecard networkCard;
++        public void ConfigureNetwork(NetworkConfiguration c){networkConfigured=true;networkHole=-1;networkTurn=-1;networkClub=-1;networkCardRevision=-1;networkShot=-1;Swing.Armed=false;}
++        bool NetworkFrame() {
++            if(!networkConfigured)return false;
++            if(!SportsMultiplayer.Active||SportsMultiplayer.Instance.Configuration.sport!="golf")return true;
++            var net=SportsMultiplayer.Instance;var state=net.GolfState;if(state==null)return true;
++            if(state.hole!=networkHole){networkHole=state.hole;StartHole(state.hole);rig.SnapNext();}
++            var active=state.golfers.FirstOrDefault(p=>p.seat==state.turn);if(active==null)return true;
++            bool myTurn=net.LocalSeat==state.turn&&!state.paused&&!state.complete&&state.phase=="aim";
++            Wind=new Wind(state.windSpeed,state.windDirection);ballAt=new CoursePoint(active.x,active.d);holeStrokes=active.strokes;club=(GolfClub)active.club;heading=active.heading;
++            if(networkCardRevision!=state.revision||networkTurn!=state.turn){networkCardRevision=state.revision;networkCard=new Scorecard(course);for(int i=0;i<active.card.Length;i++)if(active.card[i]>0)Card.Record(i,active.card[i]);}
++            if(networkClub!=active.club||networkTurn!=state.turn){networkClub=active.club;Swing.SetClub(club);}
++            Swing.Armed=myTurn;if(myTurn){Swing.Update();PollControllerButtons();}
++            if(networkTurn!=state.turn){networkTurn=state.turn;golfer.Settle();rig.SnapNext();}
++            var shot=net.GolfShot;
++            if(state.phase=="flight"&&shot!=null&&shot.id==state.shotID&&shot.path!=null&&shot.path.Length>1) {
++                if(networkShot!=shot.id){networkShot=shot.id;golfer.Strike();sounds.PlayStrike((GolfClub)shot.club,.7);}
++                double at=Math.Max(0,state.time+(state.paused?0:net.RenderAdvance)-shot.start);
++                double index=shot.duration<=0?shot.path.Length-1:Math.Min(shot.path.Length-1,at/shot.duration*(shot.path.Length-1));
++                int lo=(int)index,hi=Math.Min(lo+1,shot.path.Length-1);
++                var p=NetworkVector.Lerp(shot.path[lo],shot.path[hi],(float)(index-lo));
++                var position=HoleView.ToWorld(new CoursePoint(p.x,p.z),p.y+.06);
++                ball.gameObject.SetActive(true);ball.position=position;
++                rig.Follow(position, (position-networkBallPrevious)/Mathf.Max(.001f,Time.unscaledDeltaTime), shot.club==(int)GolfClub.Putter);networkBallPrevious=position;
++                Current=State.Flight;
++            } else {
++                PlaceBall(ballAt,0);ball.gameObject.SetActive(!active.holed);golfer.SetVisible(true);
++                golfer.Stand(ball.position,AimDirection());
++                rig.FrameAddress(ball.position,AimDirection(),hole.LieAt(ballAt)==CourseLie.Green);
++                Current=state.complete?State.RoundDone:State.Aim;
++                if(myTurn){float sweep=(Input.GetKey(KeyCode.LeftArrow)?-1:0)+(Input.GetKey(KeyCode.RightArrow)?1:0);if(sweep!=0)NativeAim(sweep);}
++            }
++            hud.SetScore(Card.Total,Card.ToPar,holeStrokes);hud.SetStatus(state.paused?"Waiting for a player":state.complete?"Round complete":myTurn?"Your turn":$"{NetworkName(state.turn)}'s turn");
++            if(myTurn)UpdateAimVisuals();else aimLine.positionCount=0;
++            RefreshControls();rig.ApplyFrame();return true;
++        }
++        string NetworkName(int seat)=>SportsMultiplayer.Instance.Configuration.participants.FirstOrDefault(p=>p.seat==seat)?.name??"Player";
++        bool NetworkShot(GolfArcade.Swing.SwingImpact impact) {
++            if(!SportsMultiplayer.Active)return false;
++            SportsMultiplayer.Instance.Submit(new NetworkInput {action="swing",power=(float)impact.Power,aim=(float)impact.StartLineDegrees/8,facing=(float)impact.CurveDegrees/10});return true;
++        }
++    }
++}
+
+--- a/Unity/Assets/Scripts/Game/GolfGame.Network.cs.meta
++++ b/Unity/Assets/Scripts/Game/GolfGame.Network.cs.meta
+@@ -0,0 +1,2 @@
++fileFormatVersion: 2
++guid: db8b79c2eee244a9d9fbbbc3d88c1100
+--- a/Unity/Assets/Scripts/Game/GolfGame.cs
++++ b/Unity/Assets/Scripts/Game/GolfGame.cs
+@@ -13,7 +13,7 @@
+     /// The round, Wii Sports style: fly over the hole, aim with the buttons, swing the phone,
+     /// watch the ball, read the result, repeat until it drops. One component on one object
+     /// builds everything else at runtime.
+-    public sealed class GolfGame : MonoBehaviour
++    public sealed partial class GolfGame : MonoBehaviour
+     {
+         /// RoundDone is the card after any hole, with NEXT HOLE while the round goes on.
+         /// (Replay is last so the older states keep their numbers.)
+@@ -33,7 +33,7 @@
+         /// on their own phone at once, the same wind from the room's seed). One card each.
+         public Match Match { get; private set; }
+         /// The card of the golfer who is up.
+-        public Scorecard Card => Match?.Current.Card;
++        public Scorecard Card => networkConfigured ? networkCard : Match?.Current.Card;
+         public Wind Wind { get; private set; }
+         /// Who the home screen's PLAY is for: solo, 2 players on this phone, or online.
+         public PlayMode Mode { get; private set; } = PlayMode.Solo;
+@@ -1904,6 +1904,8 @@
+         void OnImpact(SwingImpact impact)
+         {
+             if (Current != State.Aim) return;
++            if (NetworkShot(impact)) return;
++            ShotStruck?.Invoke();
+             // a real swing: how purely and how fast it was struck, and a little of its own luck
+             if (!plannedShot && club != GolfClub.Putter) impact = Strikes.Pure(impact, Strikes.Judge(impact), UnityEngine.Random.value, UnityEngine.Random.value);
+             plannedShot = false;
+@@ -1977,6 +1979,7 @@
+         /// instead of freezing it; errors.log keeps the details (ErrorGuard).
+         void Update()
+         {
++            if (NetworkFrame()) return;
+             ErrorGuard.Pump();
+             try
+             {
+
+--- a/Unity/Assets/Scripts/Game/NativeSportsSession.cs
++++ b/Unity/Assets/Scripts/Game/NativeSportsSession.cs
+@@ -195,8 +195,11 @@
+             touch=m.touch;
+             GolferStyle.Body=m.female?GolferStyle.BodyKind.Female:GolferStyle.BodyKind.Male;
+             GolferStyle.SkinTone=m.skin;
+-            GolferStyle.Hair=m.hairStyle;GolferStyle.HairColor=m.hairColor;GolferStyle.Face=m.faceShape;GolferStyle.Height=m.heightChoice;GolferStyle.Size=m.bodySize<0?m.buildChoice/4f:m.bodySize;
+-            GolferStyle.Outfit=TennisLook.Kit.From(m.shirt,m.shorts,m.accent,m.racket,m.skin);
++            GolferStyle.Edit(look => {
++                look.Haircut = m.hairStyle;
++                look.Hair = GolferStyle.HexOf(GolferStyle.HairColors[Mathf.Clamp(m.hairColor, 0, GolferStyle.HairColors.Length - 1)]);
++                look.Shirt = m.shirt; look.Shorts = m.shorts; look.Shoes = m.accent;
++            });
+             AudioListener.volume=m.sound && !Application.isBatchMode?1:0; Haptics.Enabled=m.haptics;   // automated runs stay silent
+             Time.timeScale=1;
+             // 60 everywhere; 120 only when asked for and the panel can actually show it.
+
+--- a/Unity/Assets/Scripts/Multiplayer/MultiplayerProtocol.cs
++++ b/Unity/Assets/Scripts/Multiplayer/MultiplayerProtocol.cs
+@@ -1,7 +1,8 @@
+ using System;
+ using System.Linq;
+ namespace GolfArcade.Multiplayer {
+-    [Serializable] public sealed class NetworkParticipant { public string id,name; public int seat=-1; public bool ready,loaded,connected=true,female,left,invited=true; }
++    [Serializable] public sealed class NetworkEmoteLoadout { public string[] emotes; }
++    [Serializable] public sealed class NetworkParticipant { public string id,name; public int seat=-1; public bool ready,loaded,connected=true,female,left,invited=true; public NetworkEmoteLoadout loadout; }
+     [Serializable] public sealed class NetworkConfiguration {
+         public string lobbyID,matchID,hostID,localID,sport,venue; public int sets=1,games=3,seed;
+         public NetworkParticipant[] participants;
+@@ -11,6 +12,7 @@
+             && participants.Any(p=>p.id==hostID) && participants.Any(p=>p.id==localID)
+             && participants.Select(p=>p.id).Distinct().Count()==participants.Length
+             && participants.All(p=>p.seat>=-1 && p.seat<(sport=="tennis"?2:4))
++            && participants.All(p=>GolfArcade.Tennis.TennisEmotes.Valid(p.loadout?.emotes))
+             && participants.Where(p=>p.seat>=0).Select(p=>p.seat).Distinct().Count()==participants.Count(p=>p.seat>=0)
+             && participants.Count(p=>p.seat>=0)>=2 && sets>=1 && sets<=3 && (games==1 || games==3 || games==6);
+     }
+
+--- a/Unity/Assets/Scripts/Multiplayer/NetworkTennisMatch.cs
++++ b/Unity/Assets/Scripts/Multiplayer/NetworkTennisMatch.cs
+@@ -6,9 +6,15 @@
+     [Serializable] public sealed class NetworkTennisPlayer {
+         public float x,z,target,aim,depth=.75f,power=.65f,stamina=1;
+         public int swings,serves,dives; public double swingAt=-100,diveUntil; public bool confirmedSwing;
++        public string emoteID;
++        public int emoteSequence;
++        public double emoteUntil;
++        public long emotePoint = -1;
++        public bool introEmoted;
+     }
+     [Serializable] public sealed class NetworkTennisState {
+         public long tick,point,contact; public double time,phaseAt;
++        public double emoteHoldUntil;
+         public string phase="serve",reason="";
+         public int server,receiver=1,bounces,winner=-1; public bool secondServe,serveFlight,paused,complete;
+         public NetworkVector ball,velocity;
+@@ -28,9 +34,12 @@
+         const float Radius=.034f, HalfWidth=4.115f, HalfLength=11.885f, NetHeight=.97f, Gravity=9.81f;
+         double accumulator; bool hasResult;
+         public Action<string> Result;
+-        public NetworkTennisMatch(int sets=1,int games=3) {
++        readonly string[][] equippedEmotes;
++        public NetworkTennisMatch(int sets=1,int games=3, string[][] emotes=null, bool intro=false) {
++            equippedEmotes = new[] { TennisEmotes.Normalize(emotes != null && emotes.Length > 0 ? emotes[0] : null), TennisEmotes.Normalize(emotes != null && emotes.Length > 1 ? emotes[1] : null) };
+             State=new NetworkTennisState {score=TennisMatch.New(true,sets,games)};
+             BeginPoint();
++            if (intro) { State.phase="intro"; State.emoteHoldUntil=6; }
+         }
+         void BeginPoint() {
+             State.point++; State.phase="serve"; State.phaseAt=State.time; State.server=State.score.PlayerServes?0:1;
+@@ -45,7 +54,7 @@
+         public bool Input(int seat,NetworkInput input,double hostTime) {
+             if(seat<0||seat>1||input==null||!input.Valid||State.complete||State.paused) return false;
+             if(input.time>hostTime+.05||input.time<hostTime-.5) return false;
+-            if((input.action=="swing"||input.action=="beginSwing"||input.action=="abortSwing"||input.action=="toss")&&(input.point!=State.point||input.contact!=State.contact))return false;
++            if((input.action=="swing"||input.action=="beginSwing"||input.action=="abortSwing"||input.action=="toss"||input.action=="emote")&&(input.point!=State.point||input.contact!=State.contact))return false;
+             string key=seat+":"+input.action;
+             if(input.action!="move" && input.action!="aim" && input.action!="serveAim" && input.action!="nudge") {
+                 if(input.eventID<=0 || events.TryGetValue(key,out long last)&&input.eventID<=last) return false;
+@@ -53,6 +62,16 @@
+             }
+             var p=State.players[seat];
+             switch(input.action) {
++                case "emote":
++                    if (input.value < 0 || input.value >= 3 || input.value != Math.Floor(input.value)) return false;
++                    bool intro = State.phase == "intro" && !p.introEmoted;
++                    bool scored = State.phase == "point" && State.winner == seat && p.emotePoint != State.point;
++                    if (!intro && !scored) return false;
++                    p.emoteID = equippedEmotes[seat][(int)input.value]; p.emoteSequence++;
++                    p.emoteUntil = State.time + TennisEmotes.Duration(p.emoteID);
++                    if (intro) p.introEmoted = true; else p.emotePoint = State.point;
++                    State.emoteHoldUntil = Math.Max(State.emoteHoldUntil, p.emoteUntil + .3);
++                    return true;
+                 case "move": p.target=NetworkMath.Clamp(input.target,-1,1);p.aim=NetworkMath.Clamp(input.aim,-1,1);return true;
+                 case "aim":p.aim=NetworkMath.Clamp(input.value,-1,1);p.depth=NetworkMath.Clamp(input.value2,0,1);return true;
+                 case "serveAim":p.aim=NetworkMath.Clamp(input.value,-1,1);p.depth=NetworkMath.Clamp(input.value2,0,1);return true;
+@@ -128,7 +147,8 @@
+         }
+         void Tick(float dt) {
+             State.time+=dt;State.tick++;
+-            if(State.phase=="point") {if(State.time-State.phaseAt>2)BeginPoint();return;}
++            if(State.phase=="intro") {if(State.time>=State.emoteHoldUntil)BeginPoint();return;}
++            if(State.phase=="point") {if(State.time-State.phaseAt>2 && State.time>=State.emoteHoldUntil)BeginPoint();return;}
+             for(int i=0;i<2;i++) {
+                 var p=State.players[i];float desired=p.target*3.6f;
+                 if(State.phase=="rally"&&State.receiver==i) {
+
+--- a/Unity/Assets/Scripts/Multiplayer/SportsMultiplayer.cs
++++ b/Unity/Assets/Scripts/Multiplayer/SportsMultiplayer.cs
+@@ -20,6 +20,15 @@
+         public NetworkGolfState GolfState {get;private set;}
+         public NetworkGolfShot GolfShot {get;private set;}
+         public float LocalTarget {get;private set;}
++        public string EmoteWindow {
++            get {
++                var s=TennisState; int seat=LocalSeat;
++                if (!Running || seat < 0 || s == null || s.paused || s.complete) return "";
++                var p=s.players[seat];
++                if (s.phase=="intro" && !p.introEmoted) return "intro";
++                return s.phase=="point" && s.winner==seat && p.emotePoint!=s.point ? "point" : "";
++            }
++        }
+         NetworkTennisMatch tennis;NetworkGolfRound golf;
+         TennisGame tennisView;GolfGame golfView;
+         double clockOffset,lastSnapshot,nextSnapshot,lastMove,packetAt;long eventID,lastTick=-1,lastRevision=-1;
+@@ -47,7 +56,7 @@
+             Configuration=c;Running=false;LocalTarget=0;lastSwing=lastStart=lastAbort=0;eventID=0;lastTick=lastRevision=-1;nextSnapshot=lastMove=0;lastSnapshot=packetAt=Clock;clockOffset=0;suspended.Clear();GolfShot=null;TennisState=null;GolfState=null;
+             tennisView=FindFirstObjectByType<TennisGame>();golfView=FindFirstObjectByType<GolfGame>();
+             if(IsHost) {
+-                if(c.sport=="tennis") {tennis=new(c.sets,c.games);TennisState=tennis.State;golf=null;tennis.Result=Result;}
++                if(c.sport=="tennis") {tennis=new(c.sets,c.games,c.participants.Where(p=>p.seat>=0).OrderBy(p=>p.seat).Select(p=>p.loadout?.emotes).ToArray(),intro:true);TennisState=tennis.State;golf=null;tennis.Result=Result;}
+                 else {golf=new(c.participants.Where(p=>p.seat>=0).Select(p=>p.seat).ToArray(),c.seed);GolfState=golf.State;tennis=null;golf.Result=Result;golf.Shot=shot=>{GolfShot=shot;Send("golfShot",JsonUtility.ToJson(shot));};}
+             } else {tennis=null;golf=null;TennisState=null;GolfState=null;}
+             tennisView?.ConfigureNetwork(c);golfView?.ConfigureNetwork(c);
+@@ -123,6 +132,8 @@
+                 case "touch":case "motion":case "recalibrate":case "latency":return false;
+                 case "toss":
+                     Instance.Submit(new NetworkInput {action="toss",age=Instance.tennisView?.TossSeenAgo??0});return true;
++                case "emote":
++                    Instance.Submit(new NetworkInput {action="emote",value=m.value});return true;
+                 case "serveAim":case "nudge":case "aim":case "rallyAim":case "club":case "dive":
+                     Instance.Submit(new NetworkInput {action=m.action=="rallyAim"?"aim":m.action,value=m.value,value2=m.value2});return true;
+                 case "sound":case "haptics":case "display":case "flash":return false;
+
+--- a/Unity/Assets/Scripts/Swing/MotionSwingDetector.cs
++++ b/Unity/Assets/Scripts/Swing/MotionSwingDetector.cs
+@@ -71,6 +71,12 @@
+     /// face: open slices, closed hooks.
+     public sealed class MotionSwingDetector
+     {
++        // Phone Ready calibrates the chosen grip; other sources retain club-down arming.
++        public bool UseReadyPose;
++        public void SetReadyPose(Quaternion attitude) {
++            Reset(); reference = Quaternion.Normalize(attitude); Phase = SwingPhase.Address;
++        }
++
+         /// Up in the attitude's reference frame. iOS Core Motion attitude (what Input.gyro gives)
+         /// is in a Z-vertical frame.
+         public Vector3 WorldUp = Vector3.UnitZ;
+@@ -190,6 +196,7 @@
+         {
+             BackswingStart = o.BackswingStart; FullBackswing = o.FullBackswing; DownswingSpeed = o.DownswingSpeed;
+             FullSpeed = o.FullSpeed; MinimumSpeed = o.MinimumSpeed; ImpactAngle = o.ImpactAngle; ArmSpeed = o.ArmSpeed; CommitRatio = o.CommitRatio; StrikeOnSlowing = o.StrikeOnSlowing; CanStrikeThin = o.CanStrikeThin; AlongTheArc = o.AlongTheArc; CommitPerRadian = o.CommitPerRadian;
++            UseReadyPose = o.UseReadyPose;
+             StillSpeed = o.StillSpeed; StillDuration = o.StillDuration; WorldUp = o.WorldUp; PointedDownDegrees = o.PointedDownDegrees;
+             CurvePerFaceDegree = o.CurvePerFaceDegree; StartLinePerFaceDegree = o.StartLinePerFaceDegree;
+             FaceDeadZoneDegrees = o.FaceDeadZoneDegrees; MaxCurveDegrees = o.MaxCurveDegrees;
+@@ -223,7 +230,7 @@
+             PointedDown = LeanDegrees <= PointedDownDegrees && topDown;
+             WrongEndDown = LeanDegrees <= PointedDownDegrees && !topDown;
+             // "Ready" = hanging like a club and not mid-swing, for a moment.
+-            if (PointedDown && speed < ArmSpeed) stillSince ??= time; else stillSince = null;
++            if ((UseReadyPose || PointedDown) && speed < ArmSpeed) stillSince ??= time; else stillSince = null;
+             bool ready = stillSince is double since && time - since >= StillDuration;
+             bool isStill = speed < StillSpeed;
+ 
+@@ -248,7 +255,7 @@
+ 
+                 case SwingPhase.Address:
+                     // Lifted the phone out of the club position without swinging: back to settling.
+-                    if (!PointedDown && isStill)
++                    if (!UseReadyPose && !PointedDown && isStill)
+                     {
+                         Phase = SwingPhase.Settling;
+                         stillSince = null;
+
+--- a/Unity/Assets/Scripts/Tennis/HeroTennisDriver.cs
++++ b/Unity/Assets/Scripts/Tennis/HeroTennisDriver.cs
+@@ -350,7 +350,7 @@
+         int emoteRoll;
+         void OnReacted(bool won, TennisActor.Moment moment)
+         {
+-            GameEndedTaunt(won);                                    // EMOTES: after a won game (not a point) the winner taunts
++            // Celebrations are selected from the equipped controller slots.
+             if (!PointEmotes) { PointReactionsSuppressed++; return; }
+             emoteRoll++;
+             var c = moment == TennisActor.Moment.Match ? (won ? Clip.MatchWin : Clip.MatchLose)
+@@ -404,6 +404,8 @@
+         public string LastEmotePlayed { get; private set; }
+         int tauntRoll, lastGameKey = 0;
+         public bool EmoteActive => juiceActive && IsEmote(juice);
++        public bool HasEmote(Clip c) => Match && IsEmote(c) && valid[(int)c];
++        public float EmoteDuration(Clip c) => HasEmote(c) ? length[(int)c] : 0;
+         bool BetweenPointsGone() { if (actor && (actor.PrepareAmount > .02f || actor.PrepareServe)) { hasPendingEmote = false; return true; } return false; }
+         /// Play one emote clip now. False when this hero has no such clip, is not a match hero, or is in a stroke.
+         public bool PlayEmote(Clip c)
+@@ -412,6 +414,7 @@
+             if (actionActive || (actor && actor.Swinging)) return false;
+             juice = c; juiceActive = true; juiceTime = 0; perfectPending = false; hasQueued = false;
+             EmotesPlayed++; LastEmotePlayed = c.ToString(); LastEmote = c.ToString();
++            if (game && Array.IndexOf(Taunts, c) >= 0) game.HoldNextPoint((length[(int)c] + .4f) * TennisGame.GameSpeed);      // the next serve waits for the taunt (the game's timers run at GameSpeed x real time)
+             return true;
+         }
+         /// The player picks a taunt ("Scuba", "Thrust", "Spike" or 0..2) or lets the game rotate them.
+
+--- a/Unity/Assets/Scripts/Tennis/TennisEmotes.cs
++++ b/Unity/Assets/Scripts/Tennis/TennisEmotes.cs
+@@ -0,0 +1,19 @@
++using System;
++using System.Linq;
++namespace GolfArcade.Tennis {
++    /// Stable ids shared with the native locker. Commands select one of three equipped slots.
++    public static class TennisEmotes {
++        public static readonly string[] IDs = { "scuba", "thrust", "spike", "wave", "bringIt", "pushups" };
++        public static readonly string[] Defaults = { "wave", "scuba", "spike" };
++        static readonly HeroTennisDriver.Clip[] Clips = {
++            HeroTennisDriver.Clip.EmoteScuba, HeroTennisDriver.Clip.EmoteThrust, HeroTennisDriver.Clip.EmoteSpike,
++            HeroTennisDriver.Clip.IntroWave, HeroTennisDriver.Clip.IntroBringIt, HeroTennisDriver.Clip.IntroPushups
++        };
++        static readonly float[] Durations = { 5.2f, 4f, 3.7f, 2.5f, 3.5f, 3.5f };
++        public static string[] Normalize(string[] saved) => (saved ?? Defaults).Concat(Defaults).Concat(IDs).Where(id => Array.IndexOf(IDs,id)>=0).Distinct().Take(3).ToArray();
++        // JsonUtility writes null arrays as empty arrays; both represent a legacy loadout.
++        public static bool Valid(string[] saved) => saved == null || saved.Length == 0 || saved.Length == 3 && saved.Distinct().Count() == 3 && saved.All(id => Array.IndexOf(IDs,id)>=0);
++        public static bool TryClip(string id, out HeroTennisDriver.Clip clip) { int i=Array.IndexOf(IDs,id); clip=i>=0?Clips[i]:default; return i>=0; }
++        public static float Duration(string id) { int i=Array.IndexOf(IDs,id); return i>=0?Durations[i]:0; }
++    }
++}
+
+--- a/Unity/Assets/Scripts/Tennis/TennisEmotes.cs.meta
++++ b/Unity/Assets/Scripts/Tennis/TennisEmotes.cs.meta
+@@ -0,0 +1,2 @@
++fileFormatVersion: 2
++guid: 6f78c967281c434798df60c896e315e1
+
+--- a/Unity/Assets/Scripts/Tennis/TennisGame.Network.cs
++++ b/Unity/Assets/Scripts/Tennis/TennisGame.Network.cs
+@@ -0,0 +1,76 @@
++using System.Linq;
++using GolfArcade.Multiplayer;
++using UnityEngine;
++namespace GolfArcade.Tennis {
++    public sealed partial class TennisGame {
++        int networkLocalSide,networkNearSide;readonly int[] networkSwings=new int[2],networkServes=new int[2];
++        string networkScore="",networkPhase="";Vector3 networkPreviousA,networkPreviousB;
++        bool networkConfigured;
++        public float TossSeenAgo=>Mathf.Clamp(Lag+TossInputDelay,0,.25f);
++        public void ConfigureNetwork(NetworkConfiguration c) {
++            networkConfigured=true;
++            NativeControlled=true;AutoPlay=false;Drill=false;AimPractice=false;
++            networkLocalSide=c.Seat(c.localID);networkNearSide=networkLocalSide<0?0:networkLocalSide;
++            var near=c.participants.First(p=>p.seat==networkNearSide);var far=c.participants.First(p=>p.seat==1-networkNearSide);
++            Player.Build(near.female,PlayerSkinFor(near.female),near.left,PlayerBody(near.female));
++            Opponent.Build(far.female,PlayerSkinFor(far.female),far.left,PlayerBody(far.female));
++            if(hud){hud.PlayerName=near.name;hud.OpponentName=far.name;hud.MatchVisible=true;}
++            if(presentation)presentation.Finish();if(replay)replay.Stop();
++            networkPreviousA=Player.transform.position;networkPreviousB=Opponent.transform.position;
++        }
++        public void PredictNetworkSwing(float power) {
++            if(networkLocalSide<0||!Player)return;
++            if(Flow==Phase.PlayerServeToss)Player.Serve(Mathf.Clamp01(power));else Player.Swing(Mathf.Clamp01(power),false);
++        }
++        Vector3 NetworkPosition(NetworkVector v) {
++            float sign=networkNearSide==0?1:-1;return new Vector3(v.x*sign,v.y,v.z*sign);
++        }
++        bool NetworkFrame() {
++            if(!networkConfigured)return false;
++            if(!SportsMultiplayer.Active||SportsMultiplayer.Instance.Configuration.sport!="tennis")return true;
++            var net=SportsMultiplayer.Instance;var s=net.TennisState;if(s==null||!Player||!Opponent)return true;
++            int n=networkNearSide,f=1-n;var a=s.players[n];var b=s.players[f];
++            float predicted=a.x;
++            if(!net.IsHost&&networkLocalSide>=0&&!s.paused&&!s.complete) {
++                float desired=net.LocalTarget*3.6f;
++                if(s.phase=="rally"&&s.receiver==n){float arrival=Mathf.Abs(s.velocity.z)>.5f?(a.z-s.ball.z)/s.velocity.z:0;desired=Mathf.Clamp(desired*.35f+(s.ball.x+s.velocity.x*Mathf.Max(0,arrival))*.65f,-4.8f,4.8f);}
++                predicted=NetworkMath.Toward(a.x,desired,(float)net.RenderAdvance*(a.diveUntil>s.time?9:5.6f));
++            }
++            Vector3 pa=NetworkPosition(new NetworkVector(predicted,.035f,a.z)),pb=NetworkPosition(new NetworkVector(b.x,.035f,b.z));
++            float smoothing=net.IsHost?1:1-Mathf.Exp(-Time.unscaledDeltaTime*24);
++            Player.transform.position=Vector3.Lerp(Player.transform.position,pa,smoothing);Opponent.transform.position=Vector3.Lerp(Opponent.transform.position,pb,smoothing);
++            Player.transform.rotation=Quaternion.identity;Opponent.transform.rotation=Quaternion.Euler(0,180,0);
++            for(int i=0;i<2;i++) {
++                var actor=i==n?Player:Opponent;var p=s.players[i];
++                if(p.serves!=networkServes[i]){networkServes[i]=p.serves;actor.Serve(p.power);}
++                else if(p.swings!=networkSwings[i]){networkSwings[i]=p.swings;if(!(i==networkLocalSide&&actor.Swinging))actor.Swing(p.power,false);}
++            }
++            float dt=Mathf.Max(.001f,Time.unscaledDeltaTime);
++            Player.Tick(dt,(Player.transform.position-networkPreviousA).x/dt);Opponent.Tick(dt,(Opponent.transform.position-networkPreviousB).x/dt);
++            networkPreviousA=Player.transform.position;networkPreviousB=Opponent.transform.position;
++            var v=s.ball;float advance=s.paused?0:(float)net.RenderAdvance;
++            if(s.phase=="rally"){v.x+=s.velocity.x*advance;v.z+=s.velocity.z*advance;v.y=Mathf.Max(TennisRules.BallRadius,v.y+s.velocity.y*advance-4.905f*advance*advance);}
++            BallPosition=NetworkPosition(v);BallVelocity=NetworkPosition(s.velocity);previousBall=BallPosition;contactHitter=null;
++            if(ball)ball.position=BallPosition;
++            match=s.score;if(n==1){(match.PlayerPoints,match.OpponentPoints)=(match.OpponentPoints,match.PlayerPoints);(match.PlayerGames,match.OpponentGames)=(match.OpponentGames,match.PlayerGames);(match.PlayerSets,match.OpponentSets)=(match.OpponentSets,match.PlayerSets);match.PlayerServes=!match.PlayerServes;match.PlayerWonMatch=!match.PlayerWonMatch;if(match.SetScores!=null)match.SetScores=match.SetScores.Select(score=>{var halves=score.Split('–');return halves.Length==2?halves[1]+"–"+halves[0]:score;}).ToList();}
++            bool localServing=s.server==n;
++            if(tossMeter) {
++                if(networkLocalSide>=0&&localServing&&s.phase=="serve"&&!s.complete)
++                    tossMeter.RunAt(Player.transform.position,(float)(s.time-s.phaseAt+(s.paused?0:net.RenderAdvance)));
++                else if(tossMeter.gameObject.activeSelf)tossMeter.Hide();
++            }
++            TossAccuracy=s.tossAccuracy;
++            Flow=s.phase=="rally"?Phase.Rally:s.phase=="point"?Phase.PointOver:s.complete?Phase.MatchOver:localServing?(s.phase=="toss"?Phase.PlayerServeToss:Phase.PlayerServeHold):Phase.OpponentServe;
++            SecondServe=s.secondServe;incoming=s.receiver==n;Stamina=a.stamina;
++            Feedback=net.Stale?"Connection interrupted":s.paused?"Waiting for a player":networkLocalSide<0?"Watching":s.reason;
++            string phase=networkLocalSide<0?"watching":s.complete?"finished":s.phase=="rally"?"rally":s.phase=="point"?"point":localServing?(s.phase=="toss"?"toss|":"serve|")+(match.DeuceCourt?"deuce":"ad"):"receive";
++            if(phase!=networkPhase){networkPhase=phase;PhaseChanged?.Invoke(phase);}
++            string score=match.Scoreboard;if(score!=networkScore){networkScore=score;ScoreChanged?.Invoke($"{match.PlayerGames},{match.OpponentGames},{score}");}
++            if(networkLocalSide<0) {
++                var camera=GameplayCamera;if(camera){camera.transform.position=new Vector3(0,9,-18);camera.transform.LookAt(new Vector3(0,.8f,0));camera.fieldOfView=48;}
++            } else UpdateCamera(false);
++            if(landingRing)landingRing.enabled=false;if(aimRing)aimRing.enabled=false;
++            UpdateHud();return true;
++        }
++    }
++}
+
+--- a/Unity/Assets/Scripts/Tennis/TennisGame.Network.cs.meta
++++ b/Unity/Assets/Scripts/Tennis/TennisGame.Network.cs.meta
+@@ -0,0 +1,2 @@
++fileFormatVersion: 2
++guid: 7c8110dae5d394622a4390f2afefc0b8
+--- a/Unity/Assets/Scripts/Tennis/TennisGame.cs
++++ b/Unity/Assets/Scripts/Tennis/TennisGame.cs
+@@ -15,8 +15,42 @@
+         /// without anyone holding the phone.
+         public bool AutoPlay;
+         public bool Initialized { get; private set; }
++        string[] equippedEmotes = TennisEmotes.Normalize(null);
++        bool playerWonPoint, pointEmoteChosen;
++        HeroTennisDriver.Clip? pendingPointEmote;
++        public void EquipEmotes(string[] ids) { equippedEmotes = TennisEmotes.Normalize(ids); }
++        public float PlayEquippedIntro() {
++            var driver = Player ? Player.GetComponentInChildren<HeroTennisDriver>() : null;
++            if (driver && TennisEmotes.TryClip(equippedEmotes[0], out var clip) && driver.PlayEmote(clip)) return driver.EmoteDuration(clip);
++            if (Player) Player.PlayIntro();
++            return 0;
++        }
++        public string EmoteWindow {
++            get {
++                if (GolfArcade.Multiplayer.SportsMultiplayer.Active) return GolfArcade.Multiplayer.SportsMultiplayer.Instance.EmoteWindow;
++                if (IntroPlaying && presentation.CanChooseEmote) return "intro";
++                return Flow == Phase.PointOver && playerWonPoint && !pointEmoteChosen && !Drill ? "point" : "";
++            }
++        }
++        public bool RequestEquippedEmote(int slot) {
++            if (slot < 0 || slot >= equippedEmotes.Length || EmoteWindow.Length == 0) return false;
++            if (!TennisEmotes.TryClip(equippedEmotes[slot], out var clip)) return false;
++            var driver = Player ? Player.GetComponentInChildren<HeroTennisDriver>() : null;
++            if (!driver || !driver.HasEmote(clip)) return false;
++            if (IntroPlaying) return presentation.ChooseEmote(clip);
++            pointEmoteChosen = true;
++            if (!driver.PlayEmote(clip)) pendingPointEmote = clip;
++            HoldNextPoint((driver.EmoteDuration(clip) + .6f) * GameSpeed);
++            replayDue = -1; if (replay) replay.Stop();
++            return true;
++        }
+         public Camera GameplayCamera { get; private set; }
+         public void Refeed() { resetTimer=0; BeginPoint(); }
++        /// EMOTES: a taunt longer than the between-points beat keeps the next serve waiting until it has played out. The request (game seconds) is kept until the point-over timer exists, then the timer is
++        /// raised to it once (it only ever grows; a match result or a live point is never touched).
++        float tauntHold;
++        public void HoldNextPoint(float seconds) { tauntHold = Mathf.Max(tauntHold, seconds); ApplyTauntHold(); }
++        void ApplyTauntHold() { if (tauntHold > 0 && Flow == Phase.PointOver && resetTimer > 0 && resetTimer < 1e5f) { resetTimer = Mathf.Max(resetTimer, tauntHold); tauntHold = 0; } }
+         /// Point flow. A point always starts from a serve, as in real tennis.
+         public enum Phase { PlayerServeHold, PlayerServeToss, OpponentServe, Rally, PointOver, MatchOver }
+         public Phase Flow { get; private set; }
+@@ -350,7 +384,7 @@
+ 
+         public void SetServeAim(float across, float depth) => ServeAim = new Vector2(Mathf.Clamp(across, -1, 1), Mathf.Clamp01(depth));
+ 
+-        string PhoneState() => Flow switch
++        string PhoneState() => IntroPlaying ? "intro" : Flow switch
+         {
+             // The serve states say which court, so the phone can draw the right target box.
+             Phase.PlayerServeHold => (windup < 0 ? "serve|" : "toss|") + (Match.DeuceCourt ? "deuce" : "ad"),
+@@ -734,8 +768,10 @@
+             if (Opponent) Opponent.React(!toPlayer, moment);
+             if (!toPlayer) { Misses++; if (RallyShots > 1 && incoming) sideMisses[Wing(BallPosition.x)]++; }
+             Flow = Match.Complete ? Phase.MatchOver : Phase.PointOver;
++            playerWonPoint = toPlayer; pointEmoteChosen = false; pendingPointEmote = null;
+             // A finished set gets a longer beat (the SET call below), then the next set starts by itself.
+             resetTimer = Match.Complete ? (AutoPlay ? 5f : ResultsHold) : setWon ? 4.4f : 2.4f;   // 2B: reaction cam + auto emotes, then the next serve
++            ApplyTauntHold();                                                                       // EMOTES: a taunt started by the reactions above holds the serve until it is over
+             if (juice) juice.PointReaction(toPlayer ? Player.transform : Opponent.transform, toPlayer ? Opponent.transform : Player.transform,
+                 toPlayer ? "POINT " + (hud ? hud.PlayerName : "YOU") : "POINT " + (hud ? hud.OpponentName : "RIVAL"));
+             ultimateBall = false; if (ballTrail) { ballTrail.startWidth = .12f; ballTrail.startColor = Color.white; }
+@@ -905,6 +941,7 @@
+ 
+         void Update()
+         {
++            if (NetworkFrame()) return;
+             if (!Player) return;
+             if (ReplayPlaying)
+             {
+@@ -958,6 +995,13 @@
+                 if (replayDue <= 0 && replay.Play(2.6f, .5f)) { banner.text = "REPLAY"; bannerUntil = HudClock.Now + 99; }
+             }
+             PoseActors();
++            if (pendingPointEmote.HasValue && Flow == Phase.PointOver && Player) {
++                var driver = Player.GetComponentInChildren<HeroTennisDriver>();
++                if (driver) {
++                    HoldNextPoint((driver.EmoteDuration(pendingPointEmote.Value) + .6f) * GameSpeed);
++                    if (driver.PlayEmote(pendingPointEmote.Value)) pendingPointEmote = null;
++                }
++            }
+             string phoneState = PhoneState();
+             if (phoneState != reportedPhase) { reportedPhase = phoneState; PhaseChanged?.Invoke(phoneState); }
+             if (hud && Flow != Phase.PlayerServeToss && Flow != Phase.PlayerServeHold) hud.ShowServeMeter(false);
+@@ -1230,7 +1274,7 @@
+                     // Up and across to where the serve's strings will meet it as it comes down; a
+                     // loose toss (the phone's meter off centre) wanders off that line.
+                     Vector3 across = Player.ContactPoint(TennisActor.Stroke.Serve, false) - tossOrigin; across.y = 0;
+-                    float miss = (1 - TossAccuracy) * .7f;
++                    float miss = TennisRules.TossError(TossAccuracy);
+                     Vector3 wander = Player.transform.right * ((float)random.NextDouble() * 2 - 1) * miss
+                                    + Player.transform.forward * ((float)random.NextDouble() * 2 - 1) * miss * .6f;
+                     tossDrift = (across + wander) / ServeContactTime();
+@@ -1862,7 +1906,7 @@
+         }
+ 
+         /// Start the next point from whichever end is serving.
+-        void BeginPoint() {
++        void BeginPoint() { tauntHold = 0; playerWonPoint = false; pointEmoteChosen = false; pendingPointEmote = null;
+             ResetPointAbilities();
+             lastRivalLob = false; serveOnsetPending = false; shotAimLocked = false;
+             Stamina=1; SecondServe=false; consumedStroke=false;
+
+--- a/Unity/Assets/Scripts/Tennis/TennisPresentation.cs
++++ b/Unity/Assets/Scripts/Tennis/TennisPresentation.cs
+@@ -22,6 +22,14 @@
+         TennisHud hud;
+         TennisUmpire umpire;
+         float t;
++        float emoteHold;
++        HeroTennisDriver.Clip? chosenEmote;
++        bool chosenPlayed;
++        public bool CanChooseEmote => Playing && t < Drone + RivalIntro + PlayerIntro && !chosenEmote.HasValue;
++        public bool ChooseEmote(HeroTennisDriver.Clip clip) {
++            if (!CanChooseEmote) return false;
++            chosenEmote = clip; return true;
++        }
+         bool rivalEmoted, playerEmoted, umpireCalled;
+         RectTransform barTop, barBottom, titleCard, nameCard;
+         Text title, subtitle, nameText, roleText;
+@@ -90,7 +98,10 @@
+         public bool Drive(Camera camera, Vector3 playTarget, Vector3 playLook, float playFov, float dt)
+         {
+             if (!Playing) return false;
+-            t += dt;
++            if (emoteHold > 0) emoteHold = Mathf.Max(0, emoteHold - dt);
++            else t += dt;
++            if (chosenEmote.HasValue && !chosenPlayed && t >= Drone + RivalIntro)
++                t = Mathf.Min(t, Drone + RivalIntro + PlayerIntro - .001f);
+             Vector3 pos, look; float fov;
+             var player = game.Player.transform; var rival = game.Opponent.transform;
+             float bars = 1;
+@@ -130,7 +141,17 @@
+                 pos = player.position + face * Mathf.Lerp(5.6f, 4.7f, k) + side * Mathf.Lerp(1.6f, 1.0f, k) + Vector3.up * 1.25f;
+                 look = player.position + Vector3.up * 1.0f;
+                 fov = 40;
+-                if (!playerEmoted && s > .35f) { playerEmoted = true; game.Player.PlayIntro(); }
++                if (chosenEmote.HasValue && !chosenPlayed) {
++                    var driver = game.Player.GetComponentInChildren<HeroTennisDriver>();
++                    if (driver && driver.PlayEmote(chosenEmote.Value)) {
++                        chosenPlayed = true; playerEmoted = true;
++                        emoteHold = driver.EmoteDuration(chosenEmote.Value) + .4f;
++                    }
++                }
++                if (!chosenEmote.HasValue && !playerEmoted && s > .35f) {
++                    playerEmoted = true;
++                    emoteHold = Mathf.Max(0, game.PlayEquippedIntro() + .3f - (PlayerIntro - s));
++                }
+                 ShowName(hud.PlayerName, "THE CHALLENGER", TennisHud.SunTop, TennisHud.SunBottom);
+                 Card(nameCard, s, PlayerIntro, fromLeft: true);
+             }
+
+--- a/Unity/Assets/Scripts/Tennis/TennisRules.cs
++++ b/Unity/Assets/Scripts/Tennis/TennisRules.cs
+@@ -417,10 +417,23 @@
+         public const float ServePowerWindow = .4f;
+         /// Swings with less power than this are too early or too late to clear the net.
+         public const float ServeFaultPower = .12f;
+-        /// A toss meter reading this good (1 = dead centre) counts as a perfect toss: the
+-        /// middle 15% either side, about 60ms of the ticker's sweep.
++        /// Swing onset must be within 25 real milliseconds of the apex for a perfect serve.
+         public const float ServePerfectRealSeconds = .025f;
++        /// A perfect toss is inside the middle 5% of the meter's half-width.
+         public const float ServePerfectToss = .95f;
++        /// Maximum landing scatter, in metres, for a press at either end of the toss meter.
++        public const float ServeTossMaxSpread = 2.6f;
++
++        /// Continuous penalty outside the perfect zone: further from centre means more error.
++        public static float TossError(float accuracy) =>
++            Mathf.Clamp01((ServePerfectToss - Mathf.Clamp01(accuracy)) / ServePerfectToss);
++
++        public static Vector2 ServeTossScatter(float accuracy, float rollX, float rollZ)
++        {
++            float spread = ServeTossMaxSpread * TossError(accuracy);
++            return new Vector2((Mathf.Clamp01(rollX) * 2 - 1) * spread,
++                (Mathf.Clamp01(rollZ) * 2 - 1) * spread * .7f);
++        }
+         /// The fastest serve, reserved for a perfect one (m/s).
+         public const float ServeTopSpeed = 53f;
+ 
+@@ -497,9 +510,9 @@
+             // further the further off centre the toss was. The wander is not rescued: aim at
+             // the lines with a loose toss and it can land long or wide -- a fault, called when
+             // it bounces. The risk is what makes the lines worth aiming at.
+-            float spread = j.Toss >= ServePerfectToss ? 0 : Mathf.Lerp(1.7f, .2f, j.Toss / ServePerfectToss);
++            Vector2 scatter = ServeTossScatter(j.Toss, rollX, rollZ);
+             var landing = IntoServiceBox(target, serverNearSide, deuceCourt)
+-                + new Vector3((Mathf.Clamp01(rollX) * 2 - 1) * spread, 0, (Mathf.Clamp01(rollZ) * 2 - 1) * spread * .7f);
++                + new Vector3(scatter.x, 0, scatter.y);
+             // Never so short it would not clear the net.
+             float minZ = 1.8f;
+             if (Mathf.Abs(landing.z) < minZ) landing.z = serverNearSide ? minZ : -minZ;
+
+--- a/Unity/Assets/Scripts/Tennis/TennisTossMeter.cs
++++ b/Unity/Assets/Scripts/Tennis/TennisTossMeter.cs
+@@ -14,7 +14,7 @@
+         /// Seconds for the ticker to go end to end and back. It moves at a steady speed (not
+         /// easing at the ends like a pendulum), so a given distance from the middle is always
+         /// the same number of milliseconds and the timing can be learned.
+-        public const float Period = 1.6f;
++        public const float Period = 1f;
+         /// End-to-end speed, in half-widths per second.
+         public const float Speed = 4 / Period;
+         const float Width = 2.0f, Depth = .3f;
+@@ -22,7 +22,7 @@
+         RectTransform ticker, frame;
+         Canvas canvas;
+         float clock, frozenAt = -1, frozenValue, shownFor;
+-        bool running;
++        bool running, manualClock;
+ 
+         public static TennisTossMeter Create(Transform owner)
+         {
+@@ -35,7 +35,10 @@
+ 
+         /// The ticker's position, -1 (left end) .. 1 (right end), `ago` seconds before now.
+         /// It starts at the left end, so the first pass through the middle comes after a beat.
+-        public float Value(float ago = 0) => Triangle((clock - ago) / Period);
++        public float Value(float ago = 0) => PositionAt(clock - ago);
++
++        public static float PositionAt(float seconds) => Triangle(seconds / Period);
++        public static float AccuracyAt(float seconds) => 1 - Mathf.Abs(PositionAt(Mathf.Max(0, seconds)));
+ 
+         static float Triangle(float cycles)
+         {
+@@ -58,8 +61,14 @@
+         public void Run(Vector3 feet)
+         {
+             if (!running) { clock = 0; frozenAt = -1; }
+-            running = true; gameObject.SetActive(true);
++            running = true; manualClock = false; gameObject.SetActive(true);
+             Place(feet);
++        }
++
++        /// Network play uses the replicated match clock so the visible and judged sweeps agree.
++        public void RunAt(Vector3 feet, float seconds)
++        {
++            Run(feet); manualClock = true; clock = Mathf.Max(0, seconds);
+         }
+ 
+         public void Place(Vector3 feet) => transform.position = feet + new Vector3(0, .02f, -.42f);
+@@ -68,7 +77,7 @@
+         /// a moment, and return the accuracy (1 = dead centre).
+         public float Press(float seenAgo)
+         {
+-            frozenValue = Mathf.Clamp(Value(seenAgo), -1, 1);
++            frozenValue = Mathf.Clamp(PositionAt(Mathf.Max(0, clock - seenAgo)), -1, 1);
+             frozenAt = clock; running = false;
+             return 1 - Mathf.Abs(frozenValue);
+         }
+@@ -77,7 +86,7 @@
+ 
+         void Update()
+         {
+-            if (running) clock += Time.deltaTime;
++            if (running && !manualClock) clock += Time.deltaTime;
+             else if (frozenAt >= 0) { shownFor = Time.deltaTime; clock += shownFor; if (clock - frozenAt > .9f) Hide(); }
+             float v = frozenAt >= 0 ? frozenValue : Value();
+             ticker.anchoredPosition = new Vector2(v * (Width * 100 / 2 - 6), 0);

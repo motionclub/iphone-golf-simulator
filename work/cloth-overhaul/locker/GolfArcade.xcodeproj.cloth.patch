@@ -1,0 +1,130 @@
+--- a/GolfArcade.xcodeproj/project.pbxproj
++++ b/GolfArcade.xcodeproj/project.pbxproj
+@@ -7,6 +7,31 @@
+ 	objects = {
+ 
+ /* Begin PBXBuildFile section */
++		6C41BA0C0C8927B9A8D7ED2A /* MatchHero_Cloth_FabricAtlas.ktx in Resources */ = {isa = PBXBuildFile; fileRef = 97F449571D1634858863DEAC /* MatchHero_Cloth_FabricAtlas.ktx */; };
++		70C454B1E8ABB465A62B5872 /* MatchHero_Kit_Female_Bottom_M.ktx in Resources */ = {isa = PBXBuildFile; fileRef = 837926AACA60771E1F60CDD1 /* MatchHero_Kit_Female_Bottom_M.ktx */; };
++		474B2B785841F67CC54D255B /* MatchHero_Kit_Female_Bottom_N.ktx in Resources */ = {isa = PBXBuildFile; fileRef = 64B831A5874C25FF8EF9C2D4 /* MatchHero_Kit_Female_Bottom_N.ktx */; };
++		3602B3EC3798FFECA2EAB2C0 /* MatchHero_Kit_Female_ShoeL_M.ktx in Resources */ = {isa = PBXBuildFile; fileRef = 518C6A4DAC7CE0B904CA912F /* MatchHero_Kit_Female_ShoeL_M.ktx */; };
++		A4F7D176F8716F616A6C8E64 /* MatchHero_Kit_Female_ShoeL_N.ktx in Resources */ = {isa = PBXBuildFile; fileRef = 3F21183F1733B611D69A6124 /* MatchHero_Kit_Female_ShoeL_N.ktx */; };
++		4C1B205757CA42419E32541D /* MatchHero_Kit_Female_ShoeR_M.ktx in Resources */ = {isa = PBXBuildFile; fileRef = CA10C7CE0101A98FA222BEF4 /* MatchHero_Kit_Female_ShoeR_M.ktx */; };
++		D2D2BA1BE99431D3EB041F58 /* MatchHero_Kit_Female_ShoeR_N.ktx in Resources */ = {isa = PBXBuildFile; fileRef = 5B98FDFC312648495FDB5442 /* MatchHero_Kit_Female_ShoeR_N.ktx */; };
++		E474EF5755E675C622471542 /* MatchHero_Kit_Female_SockL_M.ktx in Resources */ = {isa = PBXBuildFile; fileRef = 0889BC5326180EC74275BD5E /* MatchHero_Kit_Female_SockL_M.ktx */; };
++		3197D19C9A06FB1BE1E8225F /* MatchHero_Kit_Female_SockL_N.ktx in Resources */ = {isa = PBXBuildFile; fileRef = 97AE0BA580D201B192A4AFA0 /* MatchHero_Kit_Female_SockL_N.ktx */; };
++		0675AD95C717ADA3455E7356 /* MatchHero_Kit_Female_SockR_M.ktx in Resources */ = {isa = PBXBuildFile; fileRef = AB52714F9C01B57888DDCECB /* MatchHero_Kit_Female_SockR_M.ktx */; };
++		A57BF9215ADAF13E4C7F14B9 /* MatchHero_Kit_Female_SockR_N.ktx in Resources */ = {isa = PBXBuildFile; fileRef = C232BF561550497544E24E7C /* MatchHero_Kit_Female_SockR_N.ktx */; };
++		D88FCEF515C17A6702BAA2B6 /* MatchHero_Kit_Female_Top_M.ktx in Resources */ = {isa = PBXBuildFile; fileRef = A76B559C3ABFEA110A32624C /* MatchHero_Kit_Female_Top_M.ktx */; };
++		CC5D577DBA5DB42E6F948AA3 /* MatchHero_Kit_Female_Top_N.ktx in Resources */ = {isa = PBXBuildFile; fileRef = C5831BC1805B8ADD95D82380 /* MatchHero_Kit_Female_Top_N.ktx */; };
++		0332F56BF448CBB31BD2A773 /* MatchHero_Kit_Male_Bottom_M.ktx in Resources */ = {isa = PBXBuildFile; fileRef = CC2CCADAD86A9717359CB2B3 /* MatchHero_Kit_Male_Bottom_M.ktx */; };
++		F2A874276ECFE41436B82FBD /* MatchHero_Kit_Male_Bottom_N.ktx in Resources */ = {isa = PBXBuildFile; fileRef = 85BA5AADD6FC5402E87B8E0D /* MatchHero_Kit_Male_Bottom_N.ktx */; };
++		9041BE8644D55ADECA687C31 /* MatchHero_Kit_Male_ShoeL_M.ktx in Resources */ = {isa = PBXBuildFile; fileRef = FE20C11F1D1CF27FA5BAFAFB /* MatchHero_Kit_Male_ShoeL_M.ktx */; };
++		E7A59FD36EF009B13E4A5026 /* MatchHero_Kit_Male_ShoeL_N.ktx in Resources */ = {isa = PBXBuildFile; fileRef = A1A99542B5BC447E41AD1251 /* MatchHero_Kit_Male_ShoeL_N.ktx */; };
++		AF24F14EB5E7872D7D5FD42A /* MatchHero_Kit_Male_ShoeR_M.ktx in Resources */ = {isa = PBXBuildFile; fileRef = B51B56E2D449AF63FD63EE1E /* MatchHero_Kit_Male_ShoeR_M.ktx */; };
++		D988C859A53E93C6B4CFEB2C /* MatchHero_Kit_Male_ShoeR_N.ktx in Resources */ = {isa = PBXBuildFile; fileRef = B176E9EA5CAE9CD19580D309 /* MatchHero_Kit_Male_ShoeR_N.ktx */; };
++		2A50C9ACD3383D61C80E1A86 /* MatchHero_Kit_Male_SockL_M.ktx in Resources */ = {isa = PBXBuildFile; fileRef = 13B0ACF08D325A15609F69FB /* MatchHero_Kit_Male_SockL_M.ktx */; };
++		1133CA0095948167746BF4C6 /* MatchHero_Kit_Male_SockL_N.ktx in Resources */ = {isa = PBXBuildFile; fileRef = 9B771D3B2DA256B9CD1725AA /* MatchHero_Kit_Male_SockL_N.ktx */; };
++		A7E8FB6165E2A652AE43A4B3 /* MatchHero_Kit_Male_SockR_M.ktx in Resources */ = {isa = PBXBuildFile; fileRef = 525CFB8AF66B189690EC2E2A /* MatchHero_Kit_Male_SockR_M.ktx */; };
++		4F367883A0FADA42DCC89B60 /* MatchHero_Kit_Male_SockR_N.ktx in Resources */ = {isa = PBXBuildFile; fileRef = DC20609861A0EF41E820E1E8 /* MatchHero_Kit_Male_SockR_N.ktx */; };
++		917D00427579DEDBE12B8E07 /* MatchHero_Kit_Male_Top_M.ktx in Resources */ = {isa = PBXBuildFile; fileRef = 113269A8F4996DEEF73C3343 /* MatchHero_Kit_Male_Top_M.ktx */; };
++		94D25004F1BA866D472195BF /* MatchHero_Kit_Male_Top_N.ktx in Resources */ = {isa = PBXBuildFile; fileRef = D0D4A6DFAA39DB14A31229C6 /* MatchHero_Kit_Male_Top_N.ktx */; };
+ 		002355AF78BD12E375FEF626 /* Club_entrance.json in Resources */ = {isa = PBXBuildFile; fileRef = 96ADE7E6526049E7E88446D6 /* Club_entrance.json */; };
+ 		00CB205F461B2BE44468F31F /* SwingMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8419E572E07A2010DC09B0 /* SwingMetrics.swift */; };
+ 		00F36628FE9F87C92E3B6F8B /* CameraPlayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CB0F956CF51F39E1926726 /* CameraPlayTests.swift */; };
+@@ -268,6 +293,31 @@
+ /* End PBXContainerItemProxy section */
+ 
+ /* Begin PBXFileReference section */
++		97F449571D1634858863DEAC /* MatchHero_Cloth_FabricAtlas.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_Cloth_FabricAtlas.ktx; sourceTree = "<group>"; };
++		837926AACA60771E1F60CDD1 /* MatchHero_Kit_Female_Bottom_M.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_Kit_Female_Bottom_M.ktx; sourceTree = "<group>"; };
++		64B831A5874C25FF8EF9C2D4 /* MatchHero_Kit_Female_Bottom_N.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_Kit_Female_Bottom_N.ktx; sourceTree = "<group>"; };
++		518C6A4DAC7CE0B904CA912F /* MatchHero_Kit_Female_ShoeL_M.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_Kit_Female_ShoeL_M.ktx; sourceTree = "<group>"; };
++		3F21183F1733B611D69A6124 /* MatchHero_Kit_Female_ShoeL_N.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_Kit_Female_ShoeL_N.ktx; sourceTree = "<group>"; };
++		CA10C7CE0101A98FA222BEF4 /* MatchHero_Kit_Female_ShoeR_M.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_Kit_Female_ShoeR_M.ktx; sourceTree = "<group>"; };
++		5B98FDFC312648495FDB5442 /* MatchHero_Kit_Female_ShoeR_N.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_Kit_Female_ShoeR_N.ktx; sourceTree = "<group>"; };
++		0889BC5326180EC74275BD5E /* MatchHero_Kit_Female_SockL_M.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_Kit_Female_SockL_M.ktx; sourceTree = "<group>"; };
++		97AE0BA580D201B192A4AFA0 /* MatchHero_Kit_Female_SockL_N.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_Kit_Female_SockL_N.ktx; sourceTree = "<group>"; };
++		AB52714F9C01B57888DDCECB /* MatchHero_Kit_Female_SockR_M.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_Kit_Female_SockR_M.ktx; sourceTree = "<group>"; };
++		C232BF561550497544E24E7C /* MatchHero_Kit_Female_SockR_N.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_Kit_Female_SockR_N.ktx; sourceTree = "<group>"; };
++		A76B559C3ABFEA110A32624C /* MatchHero_Kit_Female_Top_M.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_Kit_Female_Top_M.ktx; sourceTree = "<group>"; };
++		C5831BC1805B8ADD95D82380 /* MatchHero_Kit_Female_Top_N.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_Kit_Female_Top_N.ktx; sourceTree = "<group>"; };
++		CC2CCADAD86A9717359CB2B3 /* MatchHero_Kit_Male_Bottom_M.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_Kit_Male_Bottom_M.ktx; sourceTree = "<group>"; };
++		85BA5AADD6FC5402E87B8E0D /* MatchHero_Kit_Male_Bottom_N.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_Kit_Male_Bottom_N.ktx; sourceTree = "<group>"; };
++		FE20C11F1D1CF27FA5BAFAFB /* MatchHero_Kit_Male_ShoeL_M.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_Kit_Male_ShoeL_M.ktx; sourceTree = "<group>"; };
++		A1A99542B5BC447E41AD1251 /* MatchHero_Kit_Male_ShoeL_N.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_Kit_Male_ShoeL_N.ktx; sourceTree = "<group>"; };
++		B51B56E2D449AF63FD63EE1E /* MatchHero_Kit_Male_ShoeR_M.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_Kit_Male_ShoeR_M.ktx; sourceTree = "<group>"; };
++		B176E9EA5CAE9CD19580D309 /* MatchHero_Kit_Male_ShoeR_N.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_Kit_Male_ShoeR_N.ktx; sourceTree = "<group>"; };
++		13B0ACF08D325A15609F69FB /* MatchHero_Kit_Male_SockL_M.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_Kit_Male_SockL_M.ktx; sourceTree = "<group>"; };
++		9B771D3B2DA256B9CD1725AA /* MatchHero_Kit_Male_SockL_N.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_Kit_Male_SockL_N.ktx; sourceTree = "<group>"; };
++		525CFB8AF66B189690EC2E2A /* MatchHero_Kit_Male_SockR_M.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_Kit_Male_SockR_M.ktx; sourceTree = "<group>"; };
++		DC20609861A0EF41E820E1E8 /* MatchHero_Kit_Male_SockR_N.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_Kit_Male_SockR_N.ktx; sourceTree = "<group>"; };
++		113269A8F4996DEEF73C3343 /* MatchHero_Kit_Male_Top_M.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_Kit_Male_Top_M.ktx; sourceTree = "<group>"; };
++		D0D4A6DFAA39DB14A31229C6 /* MatchHero_Kit_Male_Top_N.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_Kit_Male_Top_N.ktx; sourceTree = "<group>"; };
+ 		0115C55F00C9002F0C96850B /* CameraSwing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraSwing.swift; sourceTree = "<group>"; };
+ 		011806AC966CBE3ED45C047C /* Club_terrace_Albedo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Club_terrace_Albedo.png; sourceTree = "<group>"; };
+ 		03497F0C3431B14DAD79FC85 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+@@ -771,6 +821,31 @@
+ 		CFBEB2E659D13EC358060998 /* CharacterAssets */ = {
+ 			isa = PBXGroup;
+ 			children = (
++				97F449571D1634858863DEAC /* MatchHero_Cloth_FabricAtlas.ktx */,
++				837926AACA60771E1F60CDD1 /* MatchHero_Kit_Female_Bottom_M.ktx */,
++				64B831A5874C25FF8EF9C2D4 /* MatchHero_Kit_Female_Bottom_N.ktx */,
++				518C6A4DAC7CE0B904CA912F /* MatchHero_Kit_Female_ShoeL_M.ktx */,
++				3F21183F1733B611D69A6124 /* MatchHero_Kit_Female_ShoeL_N.ktx */,
++				CA10C7CE0101A98FA222BEF4 /* MatchHero_Kit_Female_ShoeR_M.ktx */,
++				5B98FDFC312648495FDB5442 /* MatchHero_Kit_Female_ShoeR_N.ktx */,
++				0889BC5326180EC74275BD5E /* MatchHero_Kit_Female_SockL_M.ktx */,
++				97AE0BA580D201B192A4AFA0 /* MatchHero_Kit_Female_SockL_N.ktx */,
++				AB52714F9C01B57888DDCECB /* MatchHero_Kit_Female_SockR_M.ktx */,
++				C232BF561550497544E24E7C /* MatchHero_Kit_Female_SockR_N.ktx */,
++				A76B559C3ABFEA110A32624C /* MatchHero_Kit_Female_Top_M.ktx */,
++				C5831BC1805B8ADD95D82380 /* MatchHero_Kit_Female_Top_N.ktx */,
++				CC2CCADAD86A9717359CB2B3 /* MatchHero_Kit_Male_Bottom_M.ktx */,
++				85BA5AADD6FC5402E87B8E0D /* MatchHero_Kit_Male_Bottom_N.ktx */,
++				FE20C11F1D1CF27FA5BAFAFB /* MatchHero_Kit_Male_ShoeL_M.ktx */,
++				A1A99542B5BC447E41AD1251 /* MatchHero_Kit_Male_ShoeL_N.ktx */,
++				B51B56E2D449AF63FD63EE1E /* MatchHero_Kit_Male_ShoeR_M.ktx */,
++				B176E9EA5CAE9CD19580D309 /* MatchHero_Kit_Male_ShoeR_N.ktx */,
++				13B0ACF08D325A15609F69FB /* MatchHero_Kit_Male_SockL_M.ktx */,
++				9B771D3B2DA256B9CD1725AA /* MatchHero_Kit_Male_SockL_N.ktx */,
++				525CFB8AF66B189690EC2E2A /* MatchHero_Kit_Male_SockR_M.ktx */,
++				DC20609861A0EF41E820E1E8 /* MatchHero_Kit_Male_SockR_N.ktx */,
++				113269A8F4996DEEF73C3343 /* MatchHero_Kit_Male_Top_M.ktx */,
++				D0D4A6DFAA39DB14A31229C6 /* MatchHero_Kit_Male_Top_N.ktx */,
+ 				C6EEE917B2055658B76C9D44 /* MatchHero_Cloth_Weave.png */,
+ 				2707A66F327E324B74D1CF0E /* MatchHero_Female_Rig.lzfse */,
+ 				EB656E1168FC9E85431DD008 /* MatchHero_Female_Swing_00.lzfse */,
+@@ -1099,6 +1174,31 @@
+ 			isa = PBXResourcesBuildPhase;
+ 			buildActionMask = 2147483647;
+ 			files = (
++				6C41BA0C0C8927B9A8D7ED2A /* MatchHero_Cloth_FabricAtlas.ktx in Resources */,
++				70C454B1E8ABB465A62B5872 /* MatchHero_Kit_Female_Bottom_M.ktx in Resources */,
++				474B2B785841F67CC54D255B /* MatchHero_Kit_Female_Bottom_N.ktx in Resources */,
++				3602B3EC3798FFECA2EAB2C0 /* MatchHero_Kit_Female_ShoeL_M.ktx in Resources */,
++				A4F7D176F8716F616A6C8E64 /* MatchHero_Kit_Female_ShoeL_N.ktx in Resources */,
++				4C1B205757CA42419E32541D /* MatchHero_Kit_Female_ShoeR_M.ktx in Resources */,
++				D2D2BA1BE99431D3EB041F58 /* MatchHero_Kit_Female_ShoeR_N.ktx in Resources */,
++				E474EF5755E675C622471542 /* MatchHero_Kit_Female_SockL_M.ktx in Resources */,
++				3197D19C9A06FB1BE1E8225F /* MatchHero_Kit_Female_SockL_N.ktx in Resources */,
++				0675AD95C717ADA3455E7356 /* MatchHero_Kit_Female_SockR_M.ktx in Resources */,
++				A57BF9215ADAF13E4C7F14B9 /* MatchHero_Kit_Female_SockR_N.ktx in Resources */,
++				D88FCEF515C17A6702BAA2B6 /* MatchHero_Kit_Female_Top_M.ktx in Resources */,
++				CC5D577DBA5DB42E6F948AA3 /* MatchHero_Kit_Female_Top_N.ktx in Resources */,
++				0332F56BF448CBB31BD2A773 /* MatchHero_Kit_Male_Bottom_M.ktx in Resources */,
++				F2A874276ECFE41436B82FBD /* MatchHero_Kit_Male_Bottom_N.ktx in Resources */,
++				9041BE8644D55ADECA687C31 /* MatchHero_Kit_Male_ShoeL_M.ktx in Resources */,
++				E7A59FD36EF009B13E4A5026 /* MatchHero_Kit_Male_ShoeL_N.ktx in Resources */,
++				AF24F14EB5E7872D7D5FD42A /* MatchHero_Kit_Male_ShoeR_M.ktx in Resources */,
++				D988C859A53E93C6B4CFEB2C /* MatchHero_Kit_Male_ShoeR_N.ktx in Resources */,
++				2A50C9ACD3383D61C80E1A86 /* MatchHero_Kit_Male_SockL_M.ktx in Resources */,
++				1133CA0095948167746BF4C6 /* MatchHero_Kit_Male_SockL_N.ktx in Resources */,
++				A7E8FB6165E2A652AE43A4B3 /* MatchHero_Kit_Male_SockR_M.ktx in Resources */,
++				4F367883A0FADA42DCC89B60 /* MatchHero_Kit_Male_SockR_N.ktx in Resources */,
++				917D00427579DEDBE12B8E07 /* MatchHero_Kit_Male_Top_M.ktx in Resources */,
++				94D25004F1BA866D472195BF /* MatchHero_Kit_Male_Top_N.ktx in Resources */,
+ 				4EFC83E07C20AC47F8CDF327 /* Bricolage.ttf in Resources */,
+ 				002355AF78BD12E375FEF626 /* Club_entrance.json in Resources */,
+ 				BE37CC88D9AAB365DC18E289 /* Club_entrance_Albedo.png in Resources */,

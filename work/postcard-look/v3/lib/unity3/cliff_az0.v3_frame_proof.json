@@ -1,0 +1,395 @@
+{
+    "tool": "PostcardV3FrameProof",
+    "unity": "6000.3.24f1",
+    "graphicsAPI": "Metal",
+    "shot": "cliff_az0",
+    "fullRgbSha256": "1b9e6a3e7e94a003376f18ba504b1b8e6b7406a572e8d31e38bfc64e196469e2",
+    "idOcclusion": "Conservative opaque depth: alpha cards occlude their full geometry; plant vertices use the live GolfPlants displacement. ID masks are underestimates where translucent cards overlap.",
+    "hole": 8,
+    "width": 900,
+    "height": 1600,
+    "frame": 1,
+    "cameraPosition": [
+        -34.0,
+        24.97770118713379,
+        47.01517105102539
+    ],
+    "cameraRotation": [
+        19.855215072631837,
+        180.0,
+        0.0
+    ],
+    "fov": 39.59775161743164,
+    "costs": {
+        "status": "FAIL",
+        "reason": "Counter publication could not isolate three consistent positive single-render deltas; raw samples retained. No mesh/submesh estimate substituted.",
+        "scope": "Editor Metal, isolated synchronous 900x1600 camera render; includes shadow passes; no claim of device runtime cost",
+        "meshInstanceTriangles": 4524,
+        "samples": [
+            {
+                "frameBefore": 1,
+                "frameAfter": 1,
+                "unityBefore": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                },
+                "unityAfter": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                },
+                "profilerBefore": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                },
+                "profilerAfter": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                },
+                "unityDelta": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                },
+                "profilerDelta": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                }
+            },
+            {
+                "frameBefore": 1,
+                "frameAfter": 1,
+                "unityBefore": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                },
+                "unityAfter": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                },
+                "profilerBefore": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                },
+                "profilerAfter": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                },
+                "unityDelta": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                },
+                "profilerDelta": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                }
+            },
+            {
+                "frameBefore": 1,
+                "frameAfter": 1,
+                "unityBefore": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                },
+                "unityAfter": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                },
+                "profilerBefore": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                },
+                "profilerAfter": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                },
+                "unityDelta": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                },
+                "profilerDelta": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                }
+            }
+        ],
+        "triangles": 0,
+        "drawCalls": 0,
+        "setPass": 0,
+        "triangleCapStatus": "PASS",
+        "drawCallCapStatus": "FAIL"
+    },
+    "landmarks": [
+        {
+            "name": "landmark",
+            "maskKind": "",
+            "status": "FAIL",
+            "reason": "No explicit landmark selection configured for this hole",
+            "file": "",
+            "exactMembership": false,
+            "pixels": 0,
+            "heightPixels": 0,
+            "largestComponentHeight": 0,
+            "xMin": -1,
+            "xMax": -1,
+            "yMin": -1,
+            "yMax": -1,
+            "members": []
+        }
+    ],
+    "channel": {
+        "name": "channel",
+        "maskKind": "",
+        "status": "FAIL",
+        "reason": "No audited explicit channel polygon supplied",
+        "file": "",
+        "exactMembership": false,
+        "pixels": 0,
+        "heightPixels": 0,
+        "largestComponentHeight": 0,
+        "xMin": -1,
+        "xMax": -1,
+        "yMin": -1,
+        "yMax": -1,
+        "members": []
+    },
+    "basalt": {
+        "name": "basalt",
+        "maskKind": "Exact LK_BASALT material slots, conservative opaque depth",
+        "status": "FAIL",
+        "reason": "Mask support only; BASALT_JOINTS must be independently measured on the full image using this mask and frozen skeleton thresholds.",
+        "file": "cliff_az0.basalt.png",
+        "exactMembership": true,
+        "pixels": 0,
+        "heightPixels": 0,
+        "largestComponentHeight": 0,
+        "xMin": -1,
+        "xMax": -1,
+        "yMin": -1,
+        "yMax": -1,
+        "members": []
+    },
+    "cliff": {
+        "status": "FAIL",
+        "reason": "Below-play-surface vertical cliff-category pixels directly beneath visible playing top on at least one screen half. Counts supplied; binary side presence has no invented minimum-area threshold.",
+        "file": "cliff_az0.cliff_top.png",
+        "cliffPixels": 0,
+        "topPixels": 24211,
+        "leftHalfCliffPixels": 0,
+        "rightHalfCliffPixels": 0,
+        "leftAdjacentPixels": 0,
+        "rightAdjacentPixels": 0,
+        "playY": 0.0,
+        "leftSidePresent": false,
+        "rightSidePresent": false
+    },
+    "bands": {
+        "status": "PASS",
+        "reason": "THRESHOLDS.md fixed relative-to-light caps: fairway .12, green .08. Every rendered material needs >=512 pixels per authored plateau after controlled shadow-off exclusion and 1px erosion. Original repeat must be pixel-identical. Absent material retains an unverified/FAIL cap status but is not claimed as measured; an overall phase gate must require both materials proven in supported frames. No luminance-percentile selection.",
+        "file": "cliff_az0.mow_bands.png",
+        "membership": "actual interpolated UV0 and BaseMap_ST, exact generator primary band field; >=.9 light / <=.1 dark",
+        "fairwayLightPixels": 0,
+        "fairwayDarkPixels": 0,
+        "greenLightPixels": 12397,
+        "greenDarkPixels": 8330,
+        "fairwayLightMean": 0.0,
+        "fairwayDarkMean": 0.0,
+        "greenLightMean": 0.6057080153167916,
+        "greenDarkMean": 0.5979736883930021,
+        "fairwayGapOverMean": 0.0,
+        "greenGapOverMean": 0.01285111653679209,
+        "fairwayGapOverLight": 0.0,
+        "greenGapOverLight": 0.01276906814539076,
+        "fairwayCapStatus": "FAIL",
+        "greenCapStatus": "PASS",
+        "excludedShadowPixels": 0,
+        "excludedEdgePixels": 1082,
+        "controlDriftPixels": 0,
+        "minimumPlateauPixels": 512,
+        "fairwayRendered": false,
+        "greenRendered": true
+    },
+    "rendererInventory": [
+        {
+            "path": "FAIRWAY",
+            "centre": [
+                18.0,
+                0.0000035762786865234377,
+                29.999998092651368
+            ],
+            "size": [
+                28.0,
+                0.0000035762786865234377,
+                29.999998092651368
+            ],
+            "materials": [
+                "LK_FAIRWAY@8"
+            ]
+        },
+        {
+            "path": "GREEN",
+            "centre": [
+                -18.0,
+                0.0000035762786865234377,
+                29.999998092651368
+            ],
+            "size": [
+                28.0,
+                0.0000035762786865234377,
+                29.999998092651368
+            ],
+            "materials": [
+                "LK_GREEN@8"
+            ]
+        },
+        {
+            "path": "ROCK_NEEDLE_00",
+            "centre": [
+                33.791221618652347,
+                7.771420001983643,
+                0.06724568456411362
+            ],
+            "size": [
+                4.936163902282715,
+                20.457157135009767,
+                3.8125340938568117
+            ],
+            "materials": [
+                "LK_ROCK_WET",
+                "LK_ROUGH",
+                "LK_PLANTS"
+            ]
+        },
+        {
+            "path": "ROCK_SKIN_01",
+            "centre": [
+                -34.0,
+                7.999999523162842,
+                -9.5367431640625e-7
+            ],
+            "size": [
+                5.49165153503418,
+                7.443717002868652,
+                26.119537353515626
+            ],
+            "materials": [
+                "LK_CLIFF",
+                "LK_CLIFF_DARK"
+            ]
+        },
+        {
+            "path": "ROCK_WALL_V3_000",
+            "centre": [
+                5.259965896606445,
+                8.640703201293946,
+                -0.5704618096351624
+            ],
+            "size": [
+                11.504512786865235,
+                18.481407165527345,
+                1.5277609825134278
+            ],
+            "materials": [
+                "LK_BASALT"
+            ]
+        },
+        {
+            "path": "ROCK_WALL_V3_001",
+            "centre": [
+                -5.973684310913086,
+                9.163128852844239,
+                -0.34086769819259646
+            ],
+            "size": [
+                11.05953598022461,
+                19.52625846862793,
+                1.5264933109283448
+            ],
+            "materials": [
+                "LK_BASALT"
+            ]
+        },
+        {
+            "path": "WATER_SURF_01",
+            "centre": [
+                31.64614486694336,
+                0.12000004947185517,
+                0.49373748898506167
+            ],
+            "size": [
+                2.977640151977539,
+                3.9427879983122696e-7,
+                3.30745005607605
+            ],
+            "materials": [
+                "LK_SURF"
+            ]
+        },
+        {
+            "path": "WATER_SURF_02",
+            "centre": [
+                34.19261932373047,
+                0.1199997141957283,
+                -2.3277177810668947
+            ],
+            "size": [
+                2.8205909729003908,
+                4.1241918324885776e-7,
+                3.459622621536255
+            ],
+            "materials": [
+                "LK_SURF"
+            ]
+        },
+        {
+            "path": "WATER_SURF_03",
+            "centre": [
+                35.96949005126953,
+                0.12000013887882233,
+                1.275192379951477
+            ],
+            "size": [
+                3.295734405517578,
+                3.5906981565858589e-7,
+                3.0120956897735597
+            ],
+            "materials": [
+                "LK_SURF"
+            ]
+        }
+    ]
+}

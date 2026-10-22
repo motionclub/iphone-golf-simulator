@@ -1,0 +1,83 @@
+GATE G1  male   Emote_Spike  PASS  {"frames": 97, "expected": 97, "bones": 53, "objects": ["Body_M", "ButtCap", "Face_M", "Grip", "Hand_Racket", "Racket_Classic", "Rig_Male", "StringBed"]}
+GATE G2  male   Emote_Spike  PASS  {"arm_dev": 0.0, "root_dev": 0.0}
+GATE G3  male   Emote_Spike  PASS  {"start_mean_deg": 0.1192, "start_max_deg": 1.069, "end_mean_deg": 0.1192, "end_max_deg": 1.069}
+GATE G4  male   Emote_Spike  PASS  {"slide_max_m": 0.0, "end_toe_max_m": 0.0, "mesh_min_z_m": 0.0023}
+GATE G5  male   Emote_Spike  PASS  {"worst_mm": 0.0014}
+GATE G6  male   Emote_Spike  PASS  {"racket_hand_pos_m": 0.0, "racket_hand_deg": 0.0841, "readyidle_floor_deg": 0.0718, "no_racket_animation": true}
+GATE G7  male   Emote_Spike  PASS  {"frames_checked": 97, "frames_over_limit": 0, "worst_mm": 18.0, "worst_frame": 0}
+GATE G8  male   Emote_Spike  FAIL  {"max_correction_step_m": 0.0525, "max_swing_step_deg": 0.3486, "max_speed_added_m_s": 1.044, "corrected_frames": 95}
+GATE S1  male   Emote_Spike  PASS  {"min_below_shoulder_m": 0.4378, "min_dist_to_racket_m": 0.4303, "max_rel_speed_m_s": 1.1197}
+GATE S2  male   Emote_Spike  PASS  {"downswing_s": 0.2667, "peak_tip_speed_m_s": 28.7788}
+GATE S3  male   Emote_Spike  FAIL  {"contacts": 3, "contact_times": [1.2, 1.433, 1.967], "lowest_m": -0.0}
+GATE S4  male   Emote_Spike  PASS  {"trunk_flexion_at_contacts_deg": [62.67629938604755, 60.46545627470227]}
+GATE S5  male   Emote_Spike  PASS  {"first_lift_top_m": 2.2383, "second_lift_top_m": 1.4951, "ratio": 0.668}
+GATE S6  male   Emote_Spike  PASS  {"racket_tip_0p20_above_head_top_s": 0.2667, "max_tip_above_head_top_m": 0.5945}
+GATE G1  male   Emote_Thrust PASS  {"frames": 106, "expected": 106, "bones": 53, "objects": ["Body_M", "ButtCap", "Face_M", "Grip", "Hand_Racket", "Racket_Classic", "Rig_Male", "StringBed"]}
+GATE G2  male   Emote_Thrust PASS  {"arm_dev": 0.0, "root_dev": 0.0}
+GATE G3  male   Emote_Thrust PASS  {"start_mean_deg": 0.1192, "start_max_deg": 1.069, "end_mean_deg": 0.1192, "end_max_deg": 1.069}
+GATE G4  male   Emote_Thrust PASS  {"slide_max_m": 0.0, "end_toe_max_m": 0.0, "mesh_min_z_m": 0.0017}
+GATE G5  male   Emote_Thrust PASS  {"worst_mm": 0.0017}
+GATE G6  male   Emote_Thrust PASS  {"racket_hand_pos_m": 0.0, "racket_hand_deg": 0.0803, "readyidle_floor_deg": 0.0718, "no_racket_animation": true}
+GATE G7  male   Emote_Thrust PASS  {"frames_checked": 106, "frames_over_limit": 0, "worst_mm": 18.0, "worst_frame": 0}
+GATE G8  male   Emote_Thrust PASS  {"max_correction_step_m": 0.0114, "max_swing_step_deg": 0.4342, "max_speed_added_m_s": 0.1864, "corrected_frames": 67}
+GATE T1  male   Emote_Thrust PASS  {"pelvis_travel_m": [0.3587350994348526, 0.39900000393390656, 0.41999997198581696], "back_behind_ready_m": [0.12753510661423206, 0.13000002689659595, 0.13000002689659595]}
+GATE T2  male   Emote_Thrust PASS  {"frames_apart": [1, 1, 1]}
+GATE T3  male   Emote_Thrust FAIL  {"crossed_lateral_m": [0.026407137513160706, 0.0264071524143219, 0.026407405734062195], "wrist_pelvis_dist_and_height_at_hits": [[0.3265704674452062, 0.41544265434651634, 0.3402535319328308], [0.32657038549239525, 0.41544247494346265, 0.34824568033218384], [0.
+GATE T4  male   Emote_Thrust PASS  {"max_chest_yaw_deg": 0.215, "max_head_yaw_deg": 1.6019}
+GATE T5  male   Emote_Thrust PASS  {"min_knee_flexion_deg": 29.043, "min_toe_yaw_deg": 44.385}
+GATE T6  male   Emote_Thrust PASS  {"head_pitch_p2p_deg": 32.8508}
+GATE C1  male   Emote_Scuba  PASS  {"max_pad_to_nose_m": 0.0071, "mean_m": 0.0068}
+GATE C2  male   Emote_Scuba  PASS  {"min_ahead_of_neck_m": 0.3594, "below_shoulder_range_m": [0.14380788803100586, 0.1966191530227661]}
+GATE C3  male   Emote_Scuba  PASS  {"wrist_lateral_p2p_m": 0.2693, "period_s": 0.7333, "cycles": 3.5}
+GATE C4  male   Emote_Scuba  PASS  {"knee_lateral_p2p_m": 0.1385, "period_s": 0.7333, "feet_slide_m": 0.0}
+GATE C5  male   Emote_Scuba  PASS  {"leaves_s": 0.2, "lowest_m_range": [-2.0645636327337735e-06, 2.4032289935860263e-08], "moved_m": 0.0, "min_dist_to_hand_m": 0.1103}
+GATE C6  male   Emote_Scuba  FAIL  {"attach_frame": 123, "hand_to_racket_before_attach_m": 0.0097, "max_racket_jump_before_attach_m": 0.0181, "after_attach_deg": 0.0489}
+GATE G1  male   Emote_Scuba  PASS  {"frames": 142, "expected": 142, "bones": 53, "objects": ["Body_M", "ButtCap", "Face_M", "Grip", "Hand_Racket", "Racket_Classic", "Rig_Male", "StringBed"]}
+GATE G2  male   Emote_Scuba  PASS  {"arm_dev": 0.0, "root_dev": 0.0}
+GATE G3  male   Emote_Scuba  PASS  {"start_mean_deg": 0.1192, "start_max_deg": 1.069, "end_mean_deg": 0.2947, "end_max_deg": 2.0902}
+GATE G4  male   Emote_Scuba  PASS  {"slide_max_m": 0.0, "end_toe_max_m": 0.0, "mesh_min_z_m": 0.0017}
+GATE G5  male   Emote_Scuba  PASS  {"worst_mm": 0.0011}
+GATE G7  male   Emote_Scuba  FAIL  {"frames_checked": 142, "frames_over_limit": 1, "worst_mm": 18.0, "worst_frame": 0}
+GATE G8  male   Emote_Scuba  FAIL  {"max_correction_step_m": 0.0237, "max_swing_step_deg": 2.2317, "max_speed_added_m_s": 2.9124, "corrected_frames": 79}
+GATE G1  female Emote_Spike  PASS  {"frames": 97, "expected": 97, "bones": 53, "objects": ["Body_F", "ButtCap", "Face_F", "Grip", "Hand_Racket", "Racket_Classic", "Rig_Female", "StringBed"]}
+GATE G2  female Emote_Spike  PASS  {"arm_dev": 0.0, "root_dev": 0.0}
+GATE G3  female Emote_Spike  PASS  {"start_mean_deg": 0.0844, "start_max_deg": 0.5558, "end_mean_deg": 0.083, "end_max_deg": 0.5558}
+GATE G4  female Emote_Spike  PASS  {"slide_max_m": 0.0, "end_toe_max_m": 0.0, "mesh_min_z_m": 0.0011}
+GATE G5  female Emote_Spike  PASS  {"worst_mm": 0.0027}
+GATE G6  female Emote_Spike  PASS  {"racket_hand_pos_m": 0.0, "racket_hand_deg": 0.1312, "readyidle_floor_deg": 0.1352, "no_racket_animation": true}
+GATE G7  female Emote_Spike  FAIL  {"frames_checked": 97, "frames_over_limit": 1, "worst_mm": 12.2, "worst_frame": 35}
+GATE G8  female Emote_Spike  FAIL  {"max_correction_step_m": 0.0315, "max_swing_step_deg": 3.3757, "max_speed_added_m_s": 0.5226, "corrected_frames": 93}
+GATE S1  female Emote_Spike  PASS  {"min_below_shoulder_m": 0.4063, "min_dist_to_racket_m": 0.3169, "max_rel_speed_m_s": 1.1131}
+GATE S2  female Emote_Spike  PASS  {"downswing_s": 0.2667, "peak_tip_speed_m_s": 28.1922}
+GATE S3  female Emote_Spike  PASS  {"contacts": 2, "contact_times": [1.2, 1.967], "lowest_m": -0.0}
+GATE S4  female Emote_Spike  PASS  {"trunk_flexion_at_contacts_deg": [63.481157183719105, 59.24416821025544]}
+GATE S5  female Emote_Spike  PASS  {"first_lift_top_m": 2.2016, "second_lift_top_m": 1.5152, "ratio": 0.6882}
+GATE S6  female Emote_Spike  PASS  {"racket_tip_0p20_above_head_top_s": 0.2667, "max_tip_above_head_top_m": 0.5694}
+GATE G1  female Emote_Thrust PASS  {"frames": 106, "expected": 106, "bones": 53, "objects": ["Body_F", "ButtCap", "Face_F", "Grip", "Hand_Racket", "Racket_Classic", "Rig_Female", "StringBed"]}
+GATE G2  female Emote_Thrust PASS  {"arm_dev": 0.0, "root_dev": 0.0}
+GATE G3  female Emote_Thrust PASS  {"start_mean_deg": 0.0844, "start_max_deg": 0.5558, "end_mean_deg": 0.0842, "end_max_deg": 0.5558}
+GATE G4  female Emote_Thrust PASS  {"slide_max_m": 0.0, "end_toe_max_m": 0.0, "mesh_min_z_m": 0.0011}
+GATE G5  female Emote_Thrust PASS  {"worst_mm": 0.0017}
+GATE G6  female Emote_Thrust PASS  {"racket_hand_pos_m": 0.0, "racket_hand_deg": 0.124, "readyidle_floor_deg": 0.1352, "no_racket_animation": true}
+GATE G7  female Emote_Thrust PASS  {"frames_checked": 106, "frames_over_limit": 0, "worst_mm": 3.3, "worst_frame": 34}
+GATE G8  female Emote_Thrust FAIL  {"max_correction_step_m": 0.1383, "max_swing_step_deg": 29.5576, "max_speed_added_m_s": 3.38, "corrected_frames": 104}
+GATE T1  female Emote_Thrust PASS  {"pelvis_travel_m": [0.3587350696325302, 0.39900000393390656, 0.42000000178813934], "back_behind_ready_m": [0.12753509636968374, 0.12999998684972525, 0.12999998684972525]}
+GATE T2  female Emote_Thrust FAIL  {"frames_apart": [2, 3, 3]}
+GATE T3  female Emote_Thrust FAIL  {"crossed_lateral_m": [0.027013583108782768, 0.013525666669011116, 0.03084416128695011], "wrist_pelvis_dist_and_height_at_hits": [[0.2742345840326432, 0.455114035437158, 0.3443645238876343], [0.2528783915731574, 0.4471250299950001, 0.3595457077026367], [0.2509
+GATE T4  female Emote_Thrust PASS  {"max_chest_yaw_deg": 0.215, "max_head_yaw_deg": 1.6019}
+GATE T5  female Emote_Thrust PASS  {"min_knee_flexion_deg": 27.3912, "min_toe_yaw_deg": 46.7152}
+GATE T6  female Emote_Thrust PASS  {"head_pitch_p2p_deg": 32.8509}
+GATE C1  female Emote_Scuba  PASS  {"max_pad_to_nose_m": 0.0067, "mean_m": 0.0067}
+GATE C2  female Emote_Scuba  PASS  {"min_ahead_of_neck_m": 0.3282, "below_shoulder_range_m": [0.12281680107116699, 0.1728764772415161]}
+GATE C3  female Emote_Scuba  PASS  {"wrist_lateral_p2p_m": 0.2487, "period_s": 0.7333, "cycles": 3.5}
+GATE C4  female Emote_Scuba  PASS  {"knee_lateral_p2p_m": 0.1387, "period_s": 0.7333, "feet_slide_m": 0.0}
+GATE C5  female Emote_Scuba  PASS  {"leaves_s": 0.2, "lowest_m_range": [-4.5323298261679135e-07, 1.4644340539590739e-06], "moved_m": 0.0, "min_dist_to_hand_m": 0.1036}
+GATE C6  female Emote_Scuba  FAIL  {"attach_frame": 123, "hand_to_racket_before_attach_m": 0.0055, "max_racket_jump_before_attach_m": 0.0181, "after_attach_deg": 0.1161}
+GATE G1  female Emote_Scuba  PASS  {"frames": 142, "expected": 142, "bones": 53, "objects": ["Body_F", "ButtCap", "Face_F", "Grip", "Hand_Racket", "Racket_Classic", "Rig_Female", "StringBed"]}
+GATE G2  female Emote_Scuba  PASS  {"arm_dev": 0.0, "root_dev": 0.0}
+GATE G3  female Emote_Scuba  PASS  {"start_mean_deg": 0.0834, "start_max_deg": 0.5558, "end_mean_deg": 0.3482, "end_max_deg": 3.173}
+GATE G4  female Emote_Scuba  PASS  {"slide_max_m": 0.0, "end_toe_max_m": 0.0, "mesh_min_z_m": 0.0011}
+GATE G5  female Emote_Scuba  PASS  {"worst_mm": 0.0021}
+GATE G7  female Emote_Scuba  PASS  {"frames_checked": 142, "frames_over_limit": 0, "worst_mm": 10.3, "worst_frame": 116}
+GATE G8  female Emote_Scuba  FAIL  {"max_correction_step_m": 0.0916, "max_swing_step_deg": 3.272, "max_speed_added_m_s": 2.7763, "corrected_frames": 49}
+GATES_DONE SOME FAIL

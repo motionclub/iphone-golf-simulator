@@ -1,0 +1,887 @@
+{
+  "backup": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-native-adoption29/before-adoption-1791430410",
+  "files": [
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/GolfKitHero_Female.json",
+      "previouslyExisted": true,
+      "sha256": "042d5dc769862f9ca3f60d55a6f85d1db16b33c499b1d2adfb8fd84287836d21"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/GolfKitHero_Female.lzfse",
+      "previouslyExisted": true,
+      "sha256": "016f9b8907e4837d5802b849481007428bf1b32a07c5fb8b3915a3420e3dcfcd"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/GolfKitHero_Female_Rig.lzfse",
+      "previouslyExisted": true,
+      "sha256": "6669a10ba7ef1fb4055c66f8b25eb9eaf7426bb7ab5250e4ffb47947afb22fef"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/GolfKitHero_Male.json",
+      "previouslyExisted": true,
+      "sha256": "e33b5769d05802cd1ff786e089246a26dae3c78bfcd9fa573367f2a25fa0a952"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/GolfKitHero_Male.lzfse",
+      "previouslyExisted": true,
+      "sha256": "08f7ad6eecf1b6c080a5e1e90c7c2f91ff3844dff9f414047ddbe9f0fdace689"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/GolfKitHero_Male_Rig.lzfse",
+      "previouslyExisted": true,
+      "sha256": "9568e3762ac74355117401ffe7143f3a98f28b99f09355e4fb500d976dce96bf"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Cloth_FabricAtlas.ktx",
+      "previouslyExisted": true,
+      "sha256": "eb145e7cc92e16ccaa7f051c735d8ebb24846eed408e84e55ccfec646fdba054"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Female.json",
+      "previouslyExisted": true,
+      "sha256": "af163b256c48032d1c0fc88967b36410f1231d5b2c8a8fddd114ed77f1e9742d"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Female.lzfse",
+      "previouslyExisted": true,
+      "sha256": "258cff72065b6938f14eb6d6b8dfba1dcf72c037ba5c0e71b43ea7e52e0ade65"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Distance.json",
+      "previouslyExisted": true,
+      "sha256": "86c9a8ac75ad18485eac027506c50ec854a41681dfe1029c7070418250a694f8"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Distance.lzfse",
+      "previouslyExisted": true,
+      "sha256": "eff56d0fc62f9841d9a728b2f3d10feb2a43ff4e4f5e171d9fff451d88810a67"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Distance_Rig.lzfse",
+      "previouslyExisted": true,
+      "sha256": "e09a07a5498b16db929e2157a3db3ef64bda560d23e3e97dce86e0b7543de4e5"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Distance_Swing_00.lzfse",
+      "previouslyExisted": true,
+      "sha256": "c83dd6b1df694e92e97ea42e8f58e1c78538ab962a6ab11728ba99a854436b8f"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Distance_Swing_01.lzfse",
+      "previouslyExisted": true,
+      "sha256": "0ecfd1b372b9047f5bb10906414018eb22dbebac985741964d9c87fd8e2d8994"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Distance_Swing_02.lzfse",
+      "previouslyExisted": true,
+      "sha256": "7a63d483cbc369f40dcd8cebaad42e52855d6e2eefba7df6b4e5be1d5c60e3ba"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Distance_Swing_03.lzfse",
+      "previouslyExisted": true,
+      "sha256": "1ac7dbcd65043dc4b22e153a81e79610f80d532dcfb644649ec1a26816957d5e"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Distance_Swing_04.lzfse",
+      "previouslyExisted": true,
+      "sha256": "0233c1ae8f16c7651bd04a97a98d9e3fd6dbf038dc032245b0143c32726d04fa"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Distance_Swing_05.lzfse",
+      "previouslyExisted": true,
+      "sha256": "31317d1c7063cf001a4856ace8b4ae31e84ee3873b1bda91e3b9dd839f4e17b2"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Distance_Swing_06.lzfse",
+      "previouslyExisted": true,
+      "sha256": "9158af048f9b362b36fd0402372a84d1b57b71e5598070c9d5d3358f13f058e8"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Distance_Swing_07.lzfse",
+      "previouslyExisted": true,
+      "sha256": "b6239e1a66d65af32becce750783bb256921cd26fd834c71f996425a4194eea7"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Distance_Swing_08.lzfse",
+      "previouslyExisted": true,
+      "sha256": "f15e86500f20d02f2081752719190f94a722eeb5f28119c1cd35eb11778ecf9c"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Distance_Swing_09.lzfse",
+      "previouslyExisted": true,
+      "sha256": "1426eb90faa902da731d32c8b6460681ae4d468d311c38f14dcabf0816c13a73"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Distance_Swing_10.lzfse",
+      "previouslyExisted": true,
+      "sha256": "9f1be21056884099356444e2b3ab5670e8a09a69281e602b2860210478c464bc"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Distance_Swing_11.lzfse",
+      "previouslyExisted": true,
+      "sha256": "3d16bca8a1cb3b8f4ca50c7461aaced721950cdabbc160bcda22abe84cd20801"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Rig.lzfse",
+      "previouslyExisted": true,
+      "sha256": "f4c663da66da0a0769d8169fb84833e307f61a2e1d98d15f3c466d331f0f5248"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_00.lzfse",
+      "previouslyExisted": true,
+      "sha256": "40238b842c840ce207dc4c2d54a0ef284c1285aa36089c445cc197be4d1b0828"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_01.lzfse",
+      "previouslyExisted": true,
+      "sha256": "1f7f6a09b65f897aa8388907afb39cb4ee4114fd02c3739750efe203ed247b9f"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_02.lzfse",
+      "previouslyExisted": true,
+      "sha256": "ad3e2746aa9afcb801c94436c0e3f2b91e5cee29f2528a7be7eb8b40b45e9f3f"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_03.lzfse",
+      "previouslyExisted": true,
+      "sha256": "38cd914ded976697ce13a1be1a33c8b6a03ae9b39f7b2281d0b6dba628405e98"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_04.lzfse",
+      "previouslyExisted": true,
+      "sha256": "59380387928e359d9332360321ec4c6f75a03fd69b375404fd2327c480c6d158"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_05.lzfse",
+      "previouslyExisted": true,
+      "sha256": "7381babae4fe12dbbaab28b52698cd4c304cb6a11ece70f9c68c918b3df63c21"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_06.lzfse",
+      "previouslyExisted": true,
+      "sha256": "24925d8c00034f8eef5d4dbdefbf0a1d52632f9ff60fe14398f6907e309b06e0"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_07.lzfse",
+      "previouslyExisted": true,
+      "sha256": "15f86ab18334babff4688aeef7ccffb54b6f4cc06651c3e576f8f3d271527f19"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_08.lzfse",
+      "previouslyExisted": true,
+      "sha256": "1333eeca273bf3cb3de10b7b9272f2e30457f9e929a52aa7d0732353a751ff50"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_09.lzfse",
+      "previouslyExisted": true,
+      "sha256": "61022b6be944738c38559525081f08c78dc8705649d07011db0afa158fe64b36"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_10.lzfse",
+      "previouslyExisted": true,
+      "sha256": "fabf360545e4d39d4b6b816597ab0756ad833589203961405233d942a673950c"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_11.lzfse",
+      "previouslyExisted": true,
+      "sha256": "d5011da3bb3332849824e77a88cf5699d391bcd0e838346d050ec75bb70ab5b6"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_FabricAtlas.ktx",
+      "previouslyExisted": true,
+      "sha256": "edee42bb46893edfe87d74c24bbcc0a8ee5f6b0cb8d89751eb06eb3ae0f6f4f8"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_Bottom_M.ktx",
+      "previouslyExisted": true,
+      "sha256": "0c9175ddba1ff988b227db5ad1e5333a68ce406459180fbad85bee185c6dc8fc"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_Bottom_N.ktx",
+      "previouslyExisted": true,
+      "sha256": "7f589239f5c16a2961dca129929d6e8005d44a42cc2f896b9cad7293f6c4882a"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_GloveL_M.ktx",
+      "previouslyExisted": true,
+      "sha256": "46dd0db525f139d7ef6567b928a05b12f2040a872f7d7b7cae91f2472dcf944e"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_GloveL_N.ktx",
+      "previouslyExisted": true,
+      "sha256": "3e3716757a564bdc240058e34e9f711af39f6d8d00e7e2c035f1854694e6af2d"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_GloveR_M.ktx",
+      "previouslyExisted": true,
+      "sha256": "8eddb070f4a7f7e972764778760984659d3ae006ba9ecdea7448a3154cce86ad"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_GloveR_N.ktx",
+      "previouslyExisted": true,
+      "sha256": "6b94badf5bde3c778de05a36e4798809121391f5e15b7afe7837671a3727349d"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_ShoeL_M.ktx",
+      "previouslyExisted": true,
+      "sha256": "7c1ad79c2b317e79edd67291c37b5f01d6c4704175d8ef0b59ff4f69fd066ba7"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_ShoeL_N.ktx",
+      "previouslyExisted": true,
+      "sha256": "54fbe4d6c5e567b6080e9f6ce6ceced78f1906478b80acbc2bd63edccea9160a"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_ShoeR_M.ktx",
+      "previouslyExisted": true,
+      "sha256": "b1b2aeb0ff33d8d839d96e9d58aa48f2cf9962bd1c86b00d7189cc9e72611ad2"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_ShoeR_N.ktx",
+      "previouslyExisted": true,
+      "sha256": "e4c4cf13cce2c5ec9f0dff7f25e0af5e6cbb33e5aee8585bb05e88baf3e3bc65"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_Top_M.ktx",
+      "previouslyExisted": true,
+      "sha256": "6b20a0f9bd05863d73518c8196f3ee3dcb0842baf95702a6c3d912ece93c1dd8"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_Top_N.ktx",
+      "previouslyExisted": true,
+      "sha256": "1a6863cd23bbb7f24495cbb69738d08782cb3b5c7f1a7d8a513dc5132dadcc04"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_Bottom_M.ktx",
+      "previouslyExisted": true,
+      "sha256": "a26b128e3cf4be6b68af1268e8344d9cbf1599145dfc47017d9206adfe7abf72"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_Bottom_N.ktx",
+      "previouslyExisted": true,
+      "sha256": "59ca0167cd50e4a9c1cf8b66308982d13906331aca14b1fdab70b47072cbf043"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_GloveL_M.ktx",
+      "previouslyExisted": true,
+      "sha256": "64544ae4cee9c1e4d41e11b6a0e428a2e636749abfb63678fdb61a3a1a7864d6"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_GloveL_N.ktx",
+      "previouslyExisted": true,
+      "sha256": "c3d8d19ca8ffd99f0fc00f8148834d18c0e2fc84f4a8c9fa91058712109d2039"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_GloveR_M.ktx",
+      "previouslyExisted": true,
+      "sha256": "4a1af14245561b90df2adf82091e7aa83fcd74c9acb53582ea311705689e1292"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_GloveR_N.ktx",
+      "previouslyExisted": true,
+      "sha256": "73438fee1e05cfabec46bfdd382f6aab70fd1ec34becc7a249c4ca4265cec688"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_ShoeL_M.ktx",
+      "previouslyExisted": true,
+      "sha256": "af228d79c9d4aa7088436881be7fd1e2753203d18667cf4bf3a8c9c217654755"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_ShoeL_N.ktx",
+      "previouslyExisted": true,
+      "sha256": "79b7444afb205e273afbc1e67702efab1d2b25a413a0aeb5c4d3a71bb75c1c6f"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_ShoeR_M.ktx",
+      "previouslyExisted": true,
+      "sha256": "dab28fd7588af447066f3ce081facf7f86d010f70010f55265f9ca6ab112bfb7"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_ShoeR_N.ktx",
+      "previouslyExisted": true,
+      "sha256": "ce1d21ff7736283de364d5fbfd4804bd0dd1fb2bbbc4a4a3c9826935e4d99c9f"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_Top_M.ktx",
+      "previouslyExisted": true,
+      "sha256": "26b32117d3b4c3491ca3456cec863640348720c8ee76c4e40c1f9bb4e12c90f7"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_Top_N.ktx",
+      "previouslyExisted": true,
+      "sha256": "d64e1c066bc476349dc75fd6a4e3ebfef1b144238eb0eccf1b374b8807a4840b"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_Bottom_M.ktx",
+      "previouslyExisted": true,
+      "sha256": "255b281e42d1c57b0ee23c997c509262a3e56af4f9e4fd9fde9eae478fc8845d"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_Bottom_N.ktx",
+      "previouslyExisted": true,
+      "sha256": "083c40594a1a7a7a82dd2165a9c74a70faab8bbe30a4819f65d0506f550e74d5"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_ShoeL_M.ktx",
+      "previouslyExisted": true,
+      "sha256": "c0dab4b9b7bb35936fee10a10eefcedb7c4ae5286d2e0ff318f5c79804fcae76"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_ShoeL_N.ktx",
+      "previouslyExisted": true,
+      "sha256": "dc46d6ef144d97634e3d89885bf0f8c112442ef136a5397c664c0713485543ed"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_ShoeR_M.ktx",
+      "previouslyExisted": true,
+      "sha256": "6c2e882eace0e93398fb3f58b725e16dc0a2f5c1f18338bf96422e9012615ef3"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_ShoeR_N.ktx",
+      "previouslyExisted": true,
+      "sha256": "64978e8235665b7901e2960aae07fdc73b0c2530e72a4d781aa3fd8fb8b6f71e"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_SockL_M.ktx",
+      "previouslyExisted": true,
+      "sha256": "4cd1cc869694008ffa7d330e3e82900719c1749a11ccf606eb9da68abd3c0d77"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_SockL_N.ktx",
+      "previouslyExisted": true,
+      "sha256": "d150114ae384f65a5e81af263f467341d644c4b92e72cac33f41938ff57305c1"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_SockR_M.ktx",
+      "previouslyExisted": true,
+      "sha256": "018d4a9c5efae1ce18a82af9bf3b115e3ae022502709517131ac4931e6a04f82"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_SockR_N.ktx",
+      "previouslyExisted": true,
+      "sha256": "6f9e2a64c30a43ac9011391c7b919dff9665ab6c5faa884592e67d7540cfc1ac"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_Top_M.ktx",
+      "previouslyExisted": true,
+      "sha256": "5d71820eb05176fb00616f8f286f3650653d0a52c4e7582f8eb502b1a4988241"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_Top_N.ktx",
+      "previouslyExisted": true,
+      "sha256": "e35847282bbbe3dc6c831360fe21bcce624e416f3e6d1add4b2b3ce62f3b918c"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_Bottom_M.ktx",
+      "previouslyExisted": true,
+      "sha256": "d0aac58d481b2a535106ca61e9160c7a14d8637f31409ad6d626e0259db045c1"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_Bottom_N.ktx",
+      "previouslyExisted": true,
+      "sha256": "371e349a6f23f20508927b2f2ebc10f5c9c2a39d841fe633c35816601da7b959"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_ShoeL_M.ktx",
+      "previouslyExisted": true,
+      "sha256": "3f28de8f1d3cf5048829f383ebde02ca88c3d2bb346c9b1d49a8473de7d8ede8"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_ShoeL_N.ktx",
+      "previouslyExisted": true,
+      "sha256": "0052e9c2c0f1b5191eaf9dae779cac52a67f9890474ddce8037a589dc1b0cce8"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_ShoeR_M.ktx",
+      "previouslyExisted": true,
+      "sha256": "de8dc79c992ddfe3b4f5f1252c46f12cf3b772f1cdf70c8bbf572ea47b23c262"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_ShoeR_N.ktx",
+      "previouslyExisted": true,
+      "sha256": "65aa8723ff90e0f5a68a08449688469fa2b5ee04b8a6959757ae04dde5a114be"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_SockL_M.ktx",
+      "previouslyExisted": true,
+      "sha256": "514b0cd4cb9d1940fa469210b878ea9c985bf8c13803358bab7523afefbe5008"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_SockL_N.ktx",
+      "previouslyExisted": true,
+      "sha256": "96e32648bc6e57853f60b8b4856e01ad73f91ca20ba03487af5651aa72d5fc12"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_SockR_M.ktx",
+      "previouslyExisted": true,
+      "sha256": "17ad87a369ec72aac6695e765b9feff82b869e563dd023ed99a884167e36986e"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_SockR_N.ktx",
+      "previouslyExisted": true,
+      "sha256": "69c3bf33d8b17a8d2eba5f6f11ccbd2031d43e99f92e5ab8f0c9943e24510684"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_Top_M.ktx",
+      "previouslyExisted": true,
+      "sha256": "2853bc178f78e12ae59ef1375852b8868dac90286971113578b9e5427c65f9cb"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_Top_N.ktx",
+      "previouslyExisted": true,
+      "sha256": "fe7561bad722f72cc9c1490447640223a1db640fe1e82b2b9a53b98884ecaad4"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Male.json",
+      "previouslyExisted": true,
+      "sha256": "9a8d2e96ddb1ec6bb74b3da4f3477a14c4ea971859de7afcccad419bab562eb9"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Male.lzfse",
+      "previouslyExisted": true,
+      "sha256": "1f370460210905d2305541e62f43607eb4c7213e2d5587d9204152ffabcdd55d"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Distance.json",
+      "previouslyExisted": true,
+      "sha256": "0a5639538bc2d3cba1858e6490b1bc6ae82960a6c2872e41ba4733ba9098bca5"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Distance.lzfse",
+      "previouslyExisted": true,
+      "sha256": "9bc36717e7bf9c4c065eff7d4cc547e9f0392555f5b7325830cdec90cc620f25"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Distance_Rig.lzfse",
+      "previouslyExisted": true,
+      "sha256": "a04a7d587461302957cd328bfd1fb9fed6c343b8648d1bd06bc4a91f9b424256"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Distance_Swing_00.lzfse",
+      "previouslyExisted": true,
+      "sha256": "8d2cb9e7734f2455ea2417bcb2133cd33ad9e545d5e3fe419ef414aa67a66236"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Distance_Swing_01.lzfse",
+      "previouslyExisted": true,
+      "sha256": "934f358fa2d2ac7a04930ab7b75f17295cbbb750506c2d4e337119cbaec814d2"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Distance_Swing_02.lzfse",
+      "previouslyExisted": true,
+      "sha256": "1a4a98e974d8a70194b5325e9ce307700e9aaadcab6c87b4f16430794f942330"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Distance_Swing_03.lzfse",
+      "previouslyExisted": true,
+      "sha256": "77d117cbf50cdf1df6af5b8a3ca090a5850d8afb21e1038e2b36f09f9d40149e"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Distance_Swing_04.lzfse",
+      "previouslyExisted": true,
+      "sha256": "a4b975f7638a86aab89f9285984544f3f4b1b77eeae26ed28cb22f5dc54e0ab3"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Distance_Swing_05.lzfse",
+      "previouslyExisted": true,
+      "sha256": "ada6a29d5b24960718635a5c64ecd7484cffae85777704f839440b21e2cf7524"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Distance_Swing_06.lzfse",
+      "previouslyExisted": true,
+      "sha256": "d78738030fec967482252cdff8b0e7fe4189d85dc76071ca4d8e17f622088e89"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Distance_Swing_07.lzfse",
+      "previouslyExisted": true,
+      "sha256": "fe6a10fb417e9df0bd2dd0294cd8b1cf96a665abd0388abb79444bb4411d7f83"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Distance_Swing_08.lzfse",
+      "previouslyExisted": true,
+      "sha256": "f1a7e156aac7a0fda5d862399f159a5314d6fad5b3625b7c3bfa1d39e69fbb3e"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Distance_Swing_09.lzfse",
+      "previouslyExisted": true,
+      "sha256": "b81251fb5a7439a1b537f9784f3e3fa96848c71849e5a97053c04e97e747e738"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Distance_Swing_10.lzfse",
+      "previouslyExisted": true,
+      "sha256": "4a348d7ffdd6f5406af74331f459c08a9db0e77b6c9beb9d845ee26846501a19"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Distance_Swing_11.lzfse",
+      "previouslyExisted": true,
+      "sha256": "79f753ec006fd55dea6abd4eee25ef10f08b8d416d05ec1b49d0a36fd1050e55"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Rig.lzfse",
+      "previouslyExisted": true,
+      "sha256": "7057e9a2e2cc16334e8982a33b2736208d2659f35b4dcc108959b084d7a5b25f"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_00.lzfse",
+      "previouslyExisted": true,
+      "sha256": "6ab9fcd75937750cb0e0a0025e60d0dc6834ec35c0ae0a343936bcefd8da95b7"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_01.lzfse",
+      "previouslyExisted": true,
+      "sha256": "24cf039a596079a7c05cabf53f963297c19faf0cfe24eff5705463bdd53e0fe1"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_02.lzfse",
+      "previouslyExisted": true,
+      "sha256": "3a394fe9cfd2ec43b42ac727f12a6d22684cdbeb6f9c27a5b5c31792dd9c877d"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_03.lzfse",
+      "previouslyExisted": true,
+      "sha256": "265b6f09ca71b10dd7bb3e686e9c49befa7ab539ee2395fd897649a73dc65315"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_04.lzfse",
+      "previouslyExisted": true,
+      "sha256": "aae52990885fa6dd21d7585ea32e8b60257d0ff45c4be05b77f867806ba7c294"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_05.lzfse",
+      "previouslyExisted": true,
+      "sha256": "0fd3254e1b8507699f89f1a9e09a80a241a41ae2c76fc3a9953b7d84f297ca33"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_06.lzfse",
+      "previouslyExisted": true,
+      "sha256": "37621d856b252a1a55ec345d1903ec950d5d4578cf7d5d0d593717f4fecf0480"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_07.lzfse",
+      "previouslyExisted": true,
+      "sha256": "2731374aa4208e7d38f13be5fddb89a0e900797581b7f4e56b1e66b782c5c9f8"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_08.lzfse",
+      "previouslyExisted": true,
+      "sha256": "102d61778240f49947544b79a1ffa29ab271d90d8b73f0caf9c914a131de0c5e"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_09.lzfse",
+      "previouslyExisted": true,
+      "sha256": "4232023aecd6c6e4ed960f4f4461b52f9d7400b7c4db98b728c1c2b755309874"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_10.lzfse",
+      "previouslyExisted": true,
+      "sha256": "d8dd704bcd508f84e88efde1bacaf0f8098041bd68349f029407a773ece16493"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_11.lzfse",
+      "previouslyExisted": true,
+      "sha256": "fcb88d7f9701a36f4d9906eee58d84d55b3f7553ff6e6beaae9c44f6adf8b1cb"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_OriginalEye_RelativeIris.png",
+      "previouslyExisted": false,
+      "sha256": "be7cdfe03eb32bc95e0946acd22e3dcaaf4e3638023030fc67c85ca3ff2eafd1"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_OriginalEye_RelativeSclera.png",
+      "previouslyExisted": false,
+      "sha256": "6402a262d627348b104eee69b02b9c6c7b43eee60b5f62dd9ab37358240ba780"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_OriginalSeam_RelativeSkinPigment.png",
+      "previouslyExisted": false,
+      "sha256": "b4fb2bbb574bf77149f6dfd6a86dd4c669a8aa46911e9604a5a5f8ca58ee339a"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Cloth_FabricAtlas.png",
+      "previouslyExisted": true,
+      "sha256": "128701f06966d396cc25c1b17775594f6a624e72999e4e57f9528f5439752ffd"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_FabricAtlas.png",
+      "previouslyExisted": true,
+      "sha256": "79f8dc7cbba58946493a56d5c9fb77da6926fa3a333805c54730a6847b5718e9"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_Bottom_M.png",
+      "previouslyExisted": true,
+      "sha256": "1fcde5e91a5663b9c7f8e4273573968acc7446b76a19801049841635875fa1c5"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_Bottom_N.png",
+      "previouslyExisted": true,
+      "sha256": "411c76c48c17557ab6319d2713b3f3228d2514a7f3b289ec6e0e1c2778e2de5e"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_GloveL_M.png",
+      "previouslyExisted": true,
+      "sha256": "6f2977814e4e3ea9ceac78baabb96ef13b4c95aa4173f8fe13b32c3056c6a9da"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_GloveL_N.png",
+      "previouslyExisted": true,
+      "sha256": "4939518c7927e5ba33c0af7a6a828c3aeed453d19c9abcd48919f2b501e6ab5d"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_GloveR_M.png",
+      "previouslyExisted": true,
+      "sha256": "9722a343d690641b5dbd4f198c3538fcaadca618102b4d511938a5dd1947729e"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_GloveR_N.png",
+      "previouslyExisted": true,
+      "sha256": "66ae323a9033862bb0c8112aa30c3e31bc5d5d8aa371bef07405ce8f12f5e3aa"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_ShoeL_M.png",
+      "previouslyExisted": true,
+      "sha256": "941ef997ef7f4ba512cd90fcdfc96e7c69d0744d89b7d6758634eb38d1ebb24a"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_ShoeL_N.png",
+      "previouslyExisted": true,
+      "sha256": "57ad5a06166b0302d643d14f9bcd3633d59a8d1150218a0ea66e1171a542abba"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_ShoeR_M.png",
+      "previouslyExisted": true,
+      "sha256": "3ae057e471ee7b33c6b3a0e79b3e5a489892f46bace5d94f813789477b3ee7e2"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_ShoeR_N.png",
+      "previouslyExisted": true,
+      "sha256": "c3f3371f7c981839b7cbea7cc059b216cb4c44aee04827c11b1b49b671b87931"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_Top_M.png",
+      "previouslyExisted": true,
+      "sha256": "18211c88b52319bc9109ec04c060f2653dcad0b34c0655f1b117ef45e6641d02"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_Top_N.png",
+      "previouslyExisted": true,
+      "sha256": "4861849ee15060298eb1a11333833105e2eb2794a2faf1558d69f63d4abb4fee"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_Bottom_M.png",
+      "previouslyExisted": true,
+      "sha256": "b7c35fae4425477fbbf0e0fe682c76c02ef87eac05f35e924b6644d7ea41075d"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_Bottom_N.png",
+      "previouslyExisted": true,
+      "sha256": "3b7f34e41b8f59756833a155b6794a76d9dcacf450f044be6def0d594c580e2b"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_GloveL_M.png",
+      "previouslyExisted": true,
+      "sha256": "84affc30e2ed96b080d41539adeb6b864ed544915d05d1709e9a9d4c2ad7dfe3"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_GloveL_N.png",
+      "previouslyExisted": true,
+      "sha256": "3b4e003c76ed9e8b7e871738223b1315059af54be93055361d2ab50802d19672"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_GloveR_M.png",
+      "previouslyExisted": true,
+      "sha256": "d82f48202b0637d2d5094a261f8c1f97dde40179c0658bc18e7be2771a451fdd"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_GloveR_N.png",
+      "previouslyExisted": true,
+      "sha256": "6757d23fd717a837060aa342d0a6487257bce916c8a09cb10dcbfe8a732d0d4f"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_ShoeL_M.png",
+      "previouslyExisted": true,
+      "sha256": "06a5046b6c125d2b341e44d41cd7eb80cc3637ee40a5a6bce9587ca8034bcd4f"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_ShoeL_N.png",
+      "previouslyExisted": true,
+      "sha256": "e9b5ad423efa4e200431059d81ea86d5caa6c3d609ec084d5924ad149875496b"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_ShoeR_M.png",
+      "previouslyExisted": true,
+      "sha256": "9975cdfcf352c910cdeb7597fc9fcb5a2e7f6315f256db2e36d57802b41bdca7"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_ShoeR_N.png",
+      "previouslyExisted": true,
+      "sha256": "ffb853d9708d12b36109864adfc5cffb7dfa363ee39bd8f2526c5dbfe0fede94"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_Top_M.png",
+      "previouslyExisted": true,
+      "sha256": "b65b97ff58513b50762ddbbbd2525e212a4a366804a0bb3190a2d429d26df889"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_Top_N.png",
+      "previouslyExisted": true,
+      "sha256": "3451c0f5d7d9409dce8f177ff194f3b16f63f6195e539c3cd5aa36399b47a67d"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_Bottom_M.png",
+      "previouslyExisted": true,
+      "sha256": "a303d9781f5c896e0fcf08a374135532ab2507e5f38cb4238f8552b3dc9f8395"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_Bottom_N.png",
+      "previouslyExisted": true,
+      "sha256": "84600eb995f43f1d461916fa9da4097179e2718de6be922b89787313e5ebf611"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_ShoeL_M.png",
+      "previouslyExisted": true,
+      "sha256": "5fccf563dd3fa1de199c23cf5343fec5fbc2ed286c20283419e55d60029422b4"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_ShoeL_N.png",
+      "previouslyExisted": true,
+      "sha256": "d8feaf7fdd2bac332dcda985385abaff5b4c93732db79bb0c9f1a0eb6ec2d48a"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_ShoeR_M.png",
+      "previouslyExisted": true,
+      "sha256": "a3b96d13b9a5015540e2851290f047f878546d095ae5971ff4e9f3994f227b9e"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_ShoeR_N.png",
+      "previouslyExisted": true,
+      "sha256": "1b463a8279a6636b898d03c64075502bd08483427f23ffb7d69acd564455d2d1"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_SockL_M.png",
+      "previouslyExisted": true,
+      "sha256": "2d61934f1a11009022148ddb66aef12a1645516f0292b9bccda961585ceb9a9e"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_SockL_N.png",
+      "previouslyExisted": true,
+      "sha256": "bac5605827b8b4435761be30a4b8ad5cd41abd453888d72bd2eac47463976d36"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_SockR_M.png",
+      "previouslyExisted": true,
+      "sha256": "88759221f4dec7fda316c41217596ca2c583acb5f3c1951dcfc3bafe5efd78d6"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_SockR_N.png",
+      "previouslyExisted": true,
+      "sha256": "6e9bc682f86f5286c102709b71bba64c4b2cb502a242496078c76c134bca1314"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_Top_M.png",
+      "previouslyExisted": true,
+      "sha256": "8ca8e7d7d90233c769a0abaaf71c73a94fa336dc8073a8434573faccf11bc01b"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_Top_N.png",
+      "previouslyExisted": true,
+      "sha256": "13874d66ed2ae2e661a950ba02d4926498f6afd4c361aa7c1846b4eaf0c35a85"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_Bottom_M.png",
+      "previouslyExisted": true,
+      "sha256": "8a551c4c254b8f01fa01a272eca44628f760417e3a8a62ee306afbc5559fbb1c"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_Bottom_N.png",
+      "previouslyExisted": true,
+      "sha256": "4f4364f6fe4b83a083cc017fd09fe89a9fb32389386fc95ee0e8521095f0609f"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_ShoeL_M.png",
+      "previouslyExisted": true,
+      "sha256": "7a5316a8b4554c1c1f3f6972f63a4923fccbcd63b672fb16cfac0aba9d5112bf"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_ShoeL_N.png",
+      "previouslyExisted": true,
+      "sha256": "66b1ca2c966747a3af7eb1e7544a4929e01d25bacef0e73db6e7a73e71cca8ef"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_ShoeR_M.png",
+      "previouslyExisted": true,
+      "sha256": "f104a1750db12fd43b3c3cf2d7d52535938d1c7d517c2c027e2f2a2a9a863d61"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_ShoeR_N.png",
+      "previouslyExisted": true,
+      "sha256": "6302fe89585fb07249c2710652557f95606d15f3d6739d0b1d2e67bf2ee9426e"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_SockL_M.png",
+      "previouslyExisted": true,
+      "sha256": "1ea511869a6a016b2823b43079e33849aa0a65ebfc29addf7728a264b80f4731"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_SockL_N.png",
+      "previouslyExisted": true,
+      "sha256": "bc44c71fb60ca94d98f182e3c289cbae143714ca12c07c34838f905ad1e232e9"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_SockR_M.png",
+      "previouslyExisted": true,
+      "sha256": "a6dc8214f154950925800ed6c0b27d0c3d8ab1bf43b61fa52362af3266d0ad59"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_SockR_N.png",
+      "previouslyExisted": true,
+      "sha256": "f9682ea886228995cdda1dc6fb527c5f02fdd45ac6f446667d11b083f2274234"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_Top_M.png",
+      "previouslyExisted": true,
+      "sha256": "a20bb0a29353e56730bdf79d8c7ad9816def39b5bea1eb6e6d85181173ee7545"
+    },
+    {
+      "file": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_Top_N.png",
+      "previouslyExisted": true,
+      "sha256": "a5345c3b3c45de6a680db0a414ea7f6383907880b4be0567ebbbb055d74db7f7"
+    },
+    {
+      "file": "GolfArcadeTests/VisualGolden/MatchHero_Male_golden.lzfse",
+      "previouslyExisted": true,
+      "sha256": "ec6a8e584658748c055dbecdfb1fc5da5d11bfa9c4626ddbb84beb095b5fd8eb"
+    },
+    {
+      "file": "GolfArcadeTests/VisualGolden/MatchHero_Female_golden.lzfse",
+      "previouslyExisted": true,
+      "sha256": "4060028ed855a598136634ace2efa18ca4d6a3a91b73188abede219279b8a12c"
+    },
+    {
+      "file": "GolfArcadeTests/VisualGolden/MatchHero_Male_Distance_golden.lzfse",
+      "previouslyExisted": true,
+      "sha256": "b1d31320654ba35e045bad7903692d22e9d4968dc1422e79ff58426c4add9a3b"
+    },
+    {
+      "file": "GolfArcadeTests/VisualGolden/MatchHero_Female_Distance_golden.lzfse",
+      "previouslyExisted": true,
+      "sha256": "140bab32964689719f4008d398a36fe137be56c3a624aeaeb49134b0966cc942"
+    },
+    {
+      "file": "GolfArcadeTests/VisualGolden/GolfKitHero_Male_golden.lzfse",
+      "previouslyExisted": true,
+      "sha256": "15b4fd58f2d40a04a3e16e06e5b7ef30fb8af83848a29a4a20b6d47c84b84f00"
+    },
+    {
+      "file": "GolfArcadeTests/VisualGolden/GolfKitHero_Female_golden.lzfse",
+      "previouslyExisted": true,
+      "sha256": "8d9da3f16f77b68469ee83169c727c94145dee1f0598b89a857aaf201046cccd"
+    },
+    {
+      "file": "GolfArcadeTests/VisualGolden/provenance.json",
+      "previouslyExisted": true,
+      "sha256": "6d6fdfc24b8436ac425d0ac6b68612d06e03d582db451705131bcfc0a1adbe32"
+    }
+  ],
+  "art": "Incremental face29 accepted after inspecting12 actual desktop native portraits; pre-existing cheek/chin and eyelid defects remain. Golf wrist flag0.",
+  "phoneTesting": "Not run"
+}

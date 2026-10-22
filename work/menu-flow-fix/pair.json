@@ -1,0 +1,34 @@
+{
+  "error" : {
+    "code" : 4000,
+    "domain" : "com.apple.dt.CoreDeviceError",
+    "userInfo" : {
+      "DeviceIdentifier" : {
+        "string" : "5724AA4B-8FB9-5224-8EBC-EBF2A5071B3B"
+      },
+      "NSLocalizedDescription" : {
+        "string" : "A connection to this device could not be established."
+      }
+    }
+  },
+  "info" : {
+    "arguments" : [
+      "devicectl",
+      "manage",
+      "pair",
+      "--device",
+      "00008150-00041CD92287801C",
+      "--timeout",
+      "30",
+      "--json-output",
+      "work/menu-flow-fix/pair.json"
+    ],
+    "commandType" : "devicectl.manage.pair",
+    "environment" : {
+      "TERM" : "dumb"
+    },
+    "jsonVersion" : 5,
+    "outcome" : "failed",
+    "version" : "642.16"
+  }
+}

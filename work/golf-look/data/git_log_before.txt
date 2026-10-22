@@ -1,0 +1,40 @@
+2225264c63a007d3070dad2187548ba7b00398d8 Restore TennisURP and use the match heroes on the golf tee.
+48f18349d829196f076c7b48a2734a883abe2b9b Tennis heroes, kit, match clips, emotes, locker, and menus.
+2171900f1279699468ac1a53555a5f1ae8afdc2b On newmapsandmenus: pre-dead-code snapshot of tracked changes 2026-10-03
+3a702654d135317e1adf4361480422dddd6456e2 index on newmapsandmenus: 23c8a467 Add new maps, Island Sports Club menus, and gameplay updates
+23c8a4676c5ce162283d72a0118e4f81462a6e48 Add new maps, Island Sports Club menus, and gameplay updates
+608434415d12649d0511ef27e8931fc7fad17356 Adnan's Hero is the golfer, with a whole head, and the menus are his Island Sports Club
+4588fba7c3e161b1540d4bb9cf6f3eb628398c54 Snapshot tennis gameplay and document character system golf handoff
+864e1e26b5831f824b44ab430db59385b343e5a4 Handle errors: the game carries on, online says what's wrong, the club reconnects
+39c2edc09fbc1ada1478333790d959e3ad70d31f The Spiral, revamped: a road round one smooth hill, and every hole played out by a test
+c52312fc1c07a59a301c41915840e053a6cb890b Online play at home: the game server on the Mac, the phones on the Wi-Fi
+f8467fe763463b26ab44d88443f2d25f602db53d Unlock everything from a marker file too (the phone does not pass devicectl's environment)
+7da5972ca8d187f0596d954c666dcb8e71e6e08f Full swings no longer land on the club's number; everything can be unlocked for a profile
+27728fa164047f4c4a9992716ae92b5ce2b2aa33 Wild Isles plays its own way, and there are things to earn
+06d49304114c8d682c416337f5ce560158fb14b7 Merge the removal of Maple Bay: Cliffside and Wild Isles
+3a57491edef15fee983282c85e8a9f3531a429c0 Merge the cloud session's match play, Open and Maple Bay; the themed holes become Wild Isles
+6e3105b4ad11b7f9a1cf35ee3864b87fe84adc1d Renumber the themed holes 19-23
+9ebd968672708ae3a0ed689900e253924f450530 Remove Maple Bay; keep multi-course support for the new courses
+a0afcaca8f27086d2af24493ad941c6aea4b4170 Five new holes: Volcano Rim, Frostbite Fjord, Mesa Canyon, Temple Falls, Windmill Links
+ed2e95138c5a1740b1d98f8490fd2ea38302561e Maple Bay: a second course of three holes, built in Blender
+1b813fd99277ab9eb348ce9d6c71a5e1874feaa1 Two golfers on one phone alternate shots: P1, P2, P1, P2
+458664626bb6bd0fe9fd364ca795907478c04cd4 Match play, closest to the pin, longest drive, and the four-round Open
+74b40aeb1e2a19f3a04aa7e419b20a1522f4a1d7 Profiles, two players on one phone, online rooms and a backend, on the new home screen
+e05aa23c320f2f347b3686662542526fb4ef48a9 New first screen (option C, On the Tee) and a course screen that circles the hole
+e38f9df65de583a4189e071c0a1ab2b05944e7f1 A card after every hole with the round's stats; clapping, not static
+b4c3cefa401dfd6d2129186de2eb55fda647f35a The golfer's shoes keep their shape; the select screen shows them head to toe
+cbac16843a6593760b310d6da494f80fec81483a Tutorial setup fixes and follow-up changes
+821e0c827bbaceceb78189efb85cdc9e597908dd Sports arcade front end, tennis story campaign, tutorials, customization, b-roll
+d924a807cfb732afac5b3bc8b8567a338bf2b944 Landing badges (option A); clubs fly as they should; targets where the ball finishes
+ffad1c9bb5f1ad3a9105736431fbba4d5af04cb2 Joystick up looks up the hole to the pin; down looks at the ball
+415092e4e70e63f2bb7301217498ea0f3972513d Putts a little firm or a little short still drop
+b0735ec97286bafb9845a1a8d35de0c3708098e3 The camera further back when the ball is near the pin
+153c98323857f4acb44ea954d88badf240949e08 The play HUD drawn smaller on the phone
+92664c286f780dfc78cd5a47fa9f437909825bb6 Trees, rocks and walls stop the ball; sand stops it; the sea is back
+8d3ab1be4edcbfad371598d00323f62d2c0db0ec Golfer select screen in the arcade style; the face centred and higher
+92d7b313b45b47c5f11ecd69ddb0b84f4d35b496 Arcade cards: the yardage card, a swing card after each shot, the round's card
+591383514211f9bda28be0c86b48faa600284f4b The pin, always findable: a map on the big screen and a pin marker on the picture
+722b42154b1fa403bba73f96a0fb037c95a40e7f Big screen: the menu, picker and final card stay on the phone
+af11f03bdd318ff9618730ad207b5a28e5807d07 A full bag chosen by distance, one swipeable club on the controller, the HUD on the big screen
+bac9f4cbdfc25d08b7eb453a330d6121d0dec208 Controller made for each hole; the scoreboard and card always in the corner
+9581eceb6b56887e6b324700e3787ff19c1f8c76 Three new holes after Rising Impact: The Spiral, The Witch's Lair, The Steps

@@ -1,0 +1,64 @@
+GATE: SHADER_OK GolfArcade/GolfSurf PASS - found 'GolfArcade/GolfSurf', supported True, errors False, graphics API Metal
+GATE: SHADER_OK GolfArcade/TennisWater PASS - found 'GolfArcade/TennisWater', supported True, errors False, graphics API Metal
+GATE: SHADER_OK GolfArcade/TennisSky PASS - found 'GolfArcade/TennisSky', supported True, errors False, graphics API Metal
+GATE: SHADER_OK Universal Render Pipeline/Lit PASS - found 'Universal Render Pipeline/Lit', supported True, errors False, graphics API Metal
+GATE: MATERIAL LK_FAIRWAY PASS - shader 'Universal Render Pipeline/Lit', _BaseMap Fairway_C, _BumpMap Fairway_N, _EmissionMap null, S 0.10
+GATE: MATERIAL LK_GREEN PASS - shader 'Universal Render Pipeline/Lit', _BaseMap Green_C, _BumpMap Green_N, _EmissionMap null, S 0.12
+GATE: MATERIAL LK_ROUGH PASS - shader 'Universal Render Pipeline/Lit', _BaseMap Rough_C, _BumpMap Rough_N, _EmissionMap null, S 0.08
+GATE: MATERIAL LK_SCRUB PASS - shader 'Universal Render Pipeline/Lit', _BaseMap Scrub_C, _BumpMap Scrub_N, _EmissionMap null, S 0.08
+GATE: MATERIAL LK_SAND PASS - shader 'Universal Render Pipeline/Lit', _BaseMap Sand_C, _BumpMap Sand_N, _EmissionMap null, S 0.12
+GATE: MATERIAL LK_CLIFF PASS - shader 'Universal Render Pipeline/Lit', _BaseMap Cliff_C, _BumpMap Cliff_N, _EmissionMap null, S 0.12
+GATE: MATERIAL LK_CLIFF_DARK PASS - shader 'Universal Render Pipeline/Lit', _BaseMap CliffDark_C, _BumpMap CliffDark_N, _EmissionMap null, S 0.35
+GATE: MATERIAL LK_ROCK PASS - shader 'Universal Render Pipeline/Lit', _BaseMap Rock_C, _BumpMap Rock_N, _EmissionMap null, S 0.12
+GATE: MATERIAL LK_ROCK_WET PASS - shader 'Universal Render Pipeline/Lit', _BaseMap Rock_C, _BumpMap Rock_N, _EmissionMap null, S 0.35
+GATE: MATERIAL LK_PATH PASS - shader 'Universal Render Pipeline/Lit', _BaseMap Path_C, _BumpMap Path_N, _EmissionMap null, S 0.10
+GATE: MATERIAL LK_MASONRY PASS - shader 'Universal Render Pipeline/Lit', _BaseMap Masonry_C, _BumpMap Masonry_N, _EmissionMap null, S 0.10
+GATE: MATERIAL LK_BASALT PASS - shader 'Universal Render Pipeline/Lit', _BaseMap Basalt_C, _BumpMap Basalt_N, _EmissionMap Basalt_E, S 0.15, emission (linear) (1.50, 0.85, 0.50)
+GATE: MATERIAL LK_LAVA PASS - shader 'Universal Render Pipeline/Lit', _BaseMap Lava_C, _BumpMap Lava_N, _EmissionMap Lava_E, S 0.30, emission (linear) (1.30, 0.85, 0.55)
+GATE: MATERIAL LK_PLANTS PASS - shader 'Universal Render Pipeline/Lit', _BaseMap Plants_C, _BumpMap null, _EmissionMap null, S 0.10
+GATE: MATERIAL LK_WATER PASS - shader 'GolfArcade/TennisWater', _Shallow #1268A8, _Deep #083484, _DeepDistance 260
+GATE: MATERIAL LK_WATER_SHALLOW PASS - shader 'GolfArcade/TennisWater', _Shallow #1AC4C4, _Deep #1096B2, _DeepDistance 420
+GATE: MATERIAL LK_SURF PASS - shader 'GolfArcade/GolfSurf', _MainTex Surf_C
+GATE: MATERIAL LK_FALL PASS - shader 'GolfArcade/GolfSurf', _MainTex Fall_C
+GATE: MATERIAL LK_SMOKE PASS - shader 'GolfArcade/GolfSurf', _MainTex Smoke_C
+INFO: missing Look textures: none
+GATE: FBX_META hole_08 PASS - isReadable True, importTangents CalculateMikk (meta tangentImportMode 3)
+GATE: FBX_META hole_09 PASS - isReadable True, importTangents CalculateMikk (meta tangentImportMode 3)
+GATE: FBX_META hole_10 PASS - isReadable True, importTangents CalculateMikk (meta tangentImportMode 3)
+GATE: LOOK_TEXTURE_IMPORT PASS - 31 texture(s) under Assets/Resources/Course/Look, 19.11 MB on disk
+GATE: LOOK_FOLDER_SIZE PASS - 19.11 MB <= 25 MB
+GATE: HOLE7_UNCHANGED_RULE PASS - hole 7: 245 palette slot(s) flat as before, 0 slot(s) kept as imported, 0 different (renderers 169/169)
+INFO: hole 8: 4 LK_ slot(s) (0 textured URP Lit, 2 GolfSurf), 104 flat palette slot(s) [#1C1C1C, #3A9426, #545A64, #54B02C, #64C030, #767A82, #76D038, #8A8C92, #9CE448, #A6E45A, #E82828, #F0DAA0, #F0F0F0, #FAFAFA], 0 kept as imported, 4 water slot(s), 0 lava point light(s)
+GATE: HOLE8_WATER_NEVER_FLAT PASS - 4 WATER* slot(s), 0 not TennisWater/GolfSurf/emissive lava
+GATE: HOLE8_LK_NOT_FLAT PASS - 4 LK_ slot(s), 0 URP Lit LK_ slot(s) without a base map
+GATE: HOLE8_NO_PROP_COLLIDERS PASS - colliders only on TERRAIN/FAIRWAY/GREEN/TEE_BOX/BUNKER/CART_PATH
+INFO: hole 8 material rules: 0 LK_ slot(s) -> GolfLook, 4 WATER* slot(s) -> TennisWater/GolfSurf/lava, 104 palette slot(s) flat, 0 kept (own maps), 0 empty
+GATE: LK_RULES hole8 PALETTE_OVERRIDES_APPLIED PASS - 0 LK_ slot(s) textured by GolfLook, 4 water slot(s) on TennisWater/GolfSurf/emissive lava, 104 palette slot(s) flat
+GATE: LK_RULES hole8 PALETTE_NO_LEAKS PASS - every slot is LK_, water/lava, a Palette name, or carries its own maps
+GATE: LK_RULES hole8 NO_LAVA_OUTSIDE_HOLE_10 PASS - no WATER_LAVA renderer
+INFO: hole 9: 4 LK_ slot(s) (0 textured URP Lit, 2 GolfSurf), 503 flat palette slot(s) [#1C1C1C, #3A9426, #545A64, #54B02C, #64C030, #767A82, #76D038, #8A8C92, #9CE448, #A6E45A, #E82828, #F0DAA0, #F0F0F0, #FAFAFA], 0 kept as imported, 4 water slot(s), 0 lava point light(s)
+GATE: HOLE9_WATER_NEVER_FLAT PASS - 4 WATER* slot(s), 0 not TennisWater/GolfSurf/emissive lava
+GATE: HOLE9_LK_NOT_FLAT PASS - 4 LK_ slot(s), 0 URP Lit LK_ slot(s) without a base map
+GATE: HOLE9_NO_PROP_COLLIDERS PASS - colliders only on TERRAIN/FAIRWAY/GREEN/TEE_BOX/BUNKER/CART_PATH
+INFO: hole 9 material rules: 0 LK_ slot(s) -> GolfLook, 4 WATER* slot(s) -> TennisWater/GolfSurf/lava, 503 palette slot(s) flat, 0 kept (own maps), 0 empty
+GATE: LK_RULES hole9 PALETTE_OVERRIDES_APPLIED PASS - 0 LK_ slot(s) textured by GolfLook, 4 water slot(s) on TennisWater/GolfSurf/emissive lava, 503 palette slot(s) flat
+GATE: LK_RULES hole9 PALETTE_NO_LEAKS PASS - every slot is LK_, water/lava, a Palette name, or carries its own maps
+GATE: LK_RULES hole9 NO_LAVA_OUTSIDE_HOLE_10 PASS - no WATER_LAVA renderer
+INFO: hole 10: 1 LK_ slot(s) (1 textured URP Lit, 0 GolfSurf), 246 flat palette slot(s) [#1C1C1C, #3A9426, #545A64, #54B02C, #62666E, #64C030, #76D038, #9CE448, #A6E45A, #E82828, #F0DAA0, #F0F0F0, #FAFAFA], 0 kept as imported, 1 water slot(s), 0 lava point light(s)
+GATE: HOLE10_WATER_NEVER_FLAT PASS - 1 WATER* slot(s), 0 not TennisWater/GolfSurf/emissive lava
+GATE: HOLE10_LK_NOT_FLAT PASS - 1 LK_ slot(s), 0 URP Lit LK_ slot(s) without a base map
+GATE: HOLE10_NO_PROP_COLLIDERS PASS - colliders only on TERRAIN/FAIRWAY/GREEN/TEE_BOX/BUNKER/CART_PATH
+INFO: hole 10 material rules: 0 LK_ slot(s) -> GolfLook, 1 WATER* slot(s) -> TennisWater/GolfSurf/lava, 246 palette slot(s) flat, 0 kept (own maps), 0 empty
+GATE: LK_RULES hole10 PALETTE_OVERRIDES_APPLIED PASS - 0 LK_ slot(s) textured by GolfLook, 1 water slot(s) on TennisWater/GolfSurf/emissive lava, 246 palette slot(s) flat
+GATE: LK_RULES hole10 PALETTE_NO_LEAKS PASS - every slot is LK_, water/lava, a Palette name, or carries its own maps
+GATE: LK_RULES hole10 LAVA_RENDERER_PRESENT PASS - 1 WATER_LAVA renderer(s)
+INFO: hole 10 WATER_LAVA 'LK_LAVA' shader 'Universal Render Pipeline/Lit' _BaseColor #F0F0F0, emission map Lava_E, _EMISSION True, multiplier (1.30,0.85,0.55)
+GATE: LK_RULES hole10 LAVA_READS_ORANGE PASS - WATER_LAVA is emissive with a warm (R >= G >= B) multiplier on its glow map (rendered hue: GolfLookSmoke EMISSION_RENDERED_HUE)
+GATE: LK_RULES hole10 LAVA_SHADER_RENDERS_IN_PIPELINE PASS - the lava shader is drawn by the active pipeline
+INFO: rendered LK_LAVA (Crater rig, 512x512, lower 60 %): mean (149,81,48), top-10% (255,180,69) hue 35.7 G/R 0.70, bottom-50% (69,45,44), cream (min channel >= 230) 0.00 %, clipped R 34.5 %
+GATE: EMISSION_RENDERED_HUE LK_LAVA PASS - top-10% (255,180,69) hue 35.7 (15..45), G/R 0.70 (<= .80), cream 0.00 % (<= 1 %), mean (149,81,48) R>G>B; crater.jpg top-10% (250,162,37) hue 35 G/R .65
+GATE: LAVA_CRUST_DARK PASS - darker half of the lava mean (69,45,44), max channel 69 <= 120 (crater.jpg (104,34,20))
+INFO: rendered LK_BASALT wall (lit face): median luminance 67, mean (88,64,49), top-2% (cracks) (246,154,72) hue 28.3 G/R 0.63, cream 0.00 %
+GATE: EMISSION_RENDERED_HUE LK_BASALT PASS - crack pixels (top 2 %) (246,154,72) hue 28.3 (10..45), G/R 0.63 (<= .85), cream 0.00 % (<= .5 %)
+GATE: BASALT_RENDERS_DARK PASS - median luminance of the lit wall 67 <= 90 (crater.jpg basalt: brightest tenth 67)
+SUMMARY: 53/53 gates PASS

@@ -1,0 +1,252 @@
+{
+ "tag": "male",
+ "mode": "sole",
+ "bind_offset_mm": {
+  "Left": -32.97276119701564,
+  "Right": -32.97275165095925
+ },
+ "ready0": {
+  "Left": {
+   "foot_min": 0.002448223065584898,
+   "shoe_min": -0.03075469471514225
+  },
+  "Right": {
+   "foot_min": 0.0024553134571760893,
+   "shoe_min": -0.030749479308724403
+  }
+ },
+ "frames": 541,
+ "planted_samples": 606,
+ "worst_planted_err_mm": 13.12974444590509,
+ "p99_planted_err_mm": 12.649981956928968,
+ "mean_planted_err_mm": 1.3283377466415955,
+ "worst_any_err_mm": 15.113913221284747,
+ "tolerance_mm": 6.0,
+ "pass_": false,
+ "worst_rows": [
+  {
+   "clip": "Overhead",
+   "frame": 22,
+   "side": "Left",
+   "err_mm": 15.113913221284747,
+   "planted": false,
+   "foot_min_mm": 202.40259170532227,
+   "shoe_min_mm": 184.54374372959137
+  },
+  {
+   "clip": "Overhead",
+   "frame": 21,
+   "side": "Left",
+   "err_mm": 15.01009683124721,
+   "planted": false,
+   "foot_min_mm": 189.8270547389984,
+   "shoe_min_mm": 171.86439037322998
+  },
+  {
+   "clip": "Overhead",
+   "frame": 22,
+   "side": "Right",
+   "err_mm": 14.902158174663782,
+   "planted": false,
+   "foot_min_mm": 202.59925723075867,
+   "shoe_min_mm": 184.5286637544632
+  },
+  {
+   "clip": "Overhead",
+   "frame": 21,
+   "side": "Right",
+   "err_mm": 14.798148069530725,
+   "planted": false,
+   "foot_min_mm": 190.02357125282288,
+   "shoe_min_mm": 171.84896767139435
+  },
+  {
+   "clip": "Overhead",
+   "frame": 20,
+   "side": "Left",
+   "err_mm": 14.705204172059894,
+   "planted": false,
+   "foot_min_mm": 160.65703332424164,
+   "shoe_min_mm": 142.3894762992859
+  },
+  {
+   "clip": "Overhead",
+   "frame": 20,
+   "side": "Right",
+   "err_mm": 14.493091497570276,
+   "planted": false,
+   "foot_min_mm": 160.85278987884521,
+   "shoe_min_mm": 142.37312972545624
+  },
+  {
+   "clip": "Overhead",
+   "frame": 23,
+   "side": "Right",
+   "err_mm": 13.687996659427881,
+   "planted": false,
+   "foot_min_mm": 163.27494382858276,
+   "shoe_min_mm": 143.9901888370514
+  },
+  {
+   "clip": "Serve",
+   "frame": 27,
+   "side": "Left",
+   "err_mm": 13.5932348202914,
+   "planted": false,
+   "foot_min_mm": 201.8367350101471,
+   "shoe_min_mm": 182.45720863342285
+  },
+  {
+   "clip": "Serve",
+   "frame": 26,
+   "side": "Left",
+   "err_mm": 13.391875429078937,
+   "planted": false,
+   "foot_min_mm": 173.93407225608826,
+   "shoe_min_mm": 154.35318648815155
+  },
+  {
+   "clip": "Serve",
+   "frame": 27,
+   "side": "Right",
+   "err_mm": 13.356386218219995,
+   "planted": false,
+   "foot_min_mm": 215.17835557460785,
+   "shoe_min_mm": 195.5619901418686
+  },
+  {
+   "clip": "ForehandShort",
+   "frame": 15,
+   "side": "Left",
+   "err_mm": 13.293332187458873,
+   "planted": false,
+   "foot_min_mm": 30.371714383363724,
+   "shoe_min_mm": 10.692285373806953
+  },
+  {
+   "clip": "ForehandShort",
+   "frame": 14,
+   "side": "Left",
+   "err_mm": 13.242074055597186,
+   "planted": false,
+   "foot_min_mm": 7.64806754887104,
+   "shoe_min_mm": -12.082619592547417
+  }
+ ],
+ "worst_planted_rows": [
+  {
+   "clip": "ForehandShort",
+   "frame": 13,
+   "side": "Left",
+   "err_mm": 13.12974444590509,
+   "foot_min_mm": 4.541809670627117,
+   "shoe_min_mm": -15.301207080483437
+  },
+  {
+   "clip": "ForehandShort",
+   "frame": 12,
+   "side": "Left",
+   "err_mm": 13.019499136134982,
+   "foot_min_mm": 2.8870664536952972,
+   "shoe_min_mm": -17.066195607185364
+  },
+  {
+   "clip": "ForehandWide",
+   "frame": 21,
+   "side": "Left",
+   "err_mm": 12.649990385398269,
+   "foot_min_mm": 2.4294601753354073,
+   "shoe_min_mm": -17.893310636281967
+  },
+  {
+   "clip": "ForehandWide",
+   "frame": 23,
+   "side": "Left",
+   "err_mm": 12.649985263124108,
+   "foot_min_mm": 2.4294485338032246,
+   "shoe_min_mm": -17.89332740008831
+  },
+  {
+   "clip": "ForehandWide",
+   "frame": 17,
+   "side": "Left",
+   "err_mm": 12.649982469156384,
+   "foot_min_mm": 2.4294420145452023,
+   "shoe_min_mm": -17.893336713314056
+  },
+  {
+   "clip": "ForehandWide",
+   "frame": 20,
+   "side": "Left",
+   "err_mm": 12.649982003495097,
+   "foot_min_mm": 2.4294499307870865,
+   "shoe_min_mm": -17.89332926273346
+  },
+  {
+   "clip": "ForehandWide",
+   "frame": 22,
+   "side": "Left",
+   "err_mm": 12.649982003495097,
+   "foot_min_mm": 2.4294089525938034,
+   "shoe_min_mm": -17.893370240926743
+  },
+  {
+   "clip": "ForehandWide",
+   "frame": 18,
+   "side": "Left",
+   "err_mm": 12.649981072172523,
+   "foot_min_mm": 2.4293912574648857,
+   "shoe_min_mm": -17.893388867378235
+  },
+  {
+   "clip": "ForehandWide",
+   "frame": 19,
+   "side": "Left",
+   "err_mm": 12.649978278204799,
+   "foot_min_mm": 2.4293791502714157,
+   "shoe_min_mm": -17.89340376853943
+  },
+  {
+   "clip": "ForehandWide",
+   "frame": 27,
+   "side": "Left",
+   "err_mm": 12.649977346882224,
+   "foot_min_mm": 2.429383806884289,
+   "shoe_min_mm": -17.89340004324913
+  },
+  {
+   "clip": "ForehandWide",
+   "frame": 24,
+   "side": "Left",
+   "err_mm": 12.649976881220937,
+   "foot_min_mm": 2.429367508739233,
+   "shoe_min_mm": -17.893416807055473
+  },
+  {
+   "clip": "ForehandWide",
+   "frame": 25,
+   "side": "Left",
+   "err_mm": 12.649975018575788,
+   "foot_min_mm": 2.429328393191099,
+   "shoe_min_mm": -17.893457785248756
+  }
+ ],
+ "by_clip_planted_worst": {
+  "ReadyIdle": 0.2370981965214014,
+  "SplitToForehand": 12.145110638812184,
+  "SplitToBackhand": 9.157454129308462,
+  "RecoverCenter": 4.188898019492626,
+  "Forehand": 10.283096227794886,
+  "ForehandOpen": 7.88946682587266,
+  "ForehandWide": 12.649990385398269,
+  "ForehandShort": 13.12974444590509,
+  "Backhand": 8.966869674623013,
+  "BackhandWide": 1.6415717545896769,
+  "SliceApproach": 9.157456923276186,
+  "Serve": 0.7554800249636173,
+  "Return": 10.290119331330061,
+  "VolleyForehand": 8.105156244710088,
+  "VolleyBackhand": 10.272077284753323,
+  "Overhead": 0.23466255515813828
+ }
+}

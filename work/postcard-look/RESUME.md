@@ -1,0 +1,126 @@
+# POSTCARD_LOOK — PAUSED 2026-10-03 22:33 EDT (user asked to pause; say "continue" to resume)
+
+## State at the pause
+* Phase A (foundation) workflow `wf_2e597367-77a` was in its REPAIR stage: all 5 builders and all 5 skeptical reviewers FINISHED (their results are cached in the journal); the 5 repair agents (textures, runtime, ground, props, gates) had just started and were halted at 22:29:53. Whatever they edited in those ~3 minutes is on disk (partial).
+* Nothing of ours is running: no Unity, no Blender (the Blender process on the machine belongs to another chat's HeroBase bake), no `heavy.lock`.
+* Integrity check at pause: guards.sh 7/7 PASS (hole_07 + Hole.cs + GolfGame untouched); the 6 new Python files parse; 31 Look/*.png (20.0 MB) all valid PNGs; hole_08/09/10 blend + FBX are STILL the baseline (Phase B not started); no stray tmp files. NOT checked: Unity compile after the repair agents' last edits (needs a Unity run via heavy.sh).
+
+## How to resume (what I will do on "continue")
+1. `work/postcard-look/guards.sh`, then a Unity compile check through `work/postcard-look/heavy.sh` to catch half-finished repair edits.
+2. Re-launch Phase A at its Repair stage: `Workflow({scriptPath: "/Users/adnanyonathan/.claude/projects/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator-work-postcard-look/b67a5225-b7e5-4252-b92f-b4ee9f4f2d01/workflows/scripts/postcard-look-foundation-wf_2e597367-77a.js", resumeFromRunId: "wf_2e597367-77a"})` — the 10 finished agents return cached, the 5 repair agents re-run live (they read their notes files and the reviewer issues below and re-verify).
+3. Then Phase B (three hole builders), C (Unity integration + 9 in-game stills into ArtDir/screenshots/golf_postcards/look/), D (vision review panel + fix loop). Decisions already made are in the memory file `golf-postcard-look-pass.md`.
+
+## Findings that need a decision when we resume
+* **Post-processing does not render anywhere** (reviewer measured pixel-identical with/without post): `TennisURP_Renderer.asset` and `HeroBaseStudio_Renderer.asset` have `postProcessData = 0`, so URP drops post. The golf wiring (cloned TennisPost Volume + renderPostProcessing) is correct but invisible. Fix must not edit the frozen Tennis/URP assets: e.g. a golf-only renderer/pipeline assignment at runtime or per-camera, or a golf bloom/vignette approximation, to be chosen by the repair stage.
+* **QualitySettings level 2 (iPhone default) now points at another chat's `HeroBaseStudioURP.asset`** instead of TennisURP (uncommitted change from another chat) — golf renders under whichever asset is active; I do not touch QualitySettings.
+* `PostcardImportCheck.cs` has 3 failing lines caused by the intended change (PALETTE_OVERRIDES_APPLIED holes 8/9, LAVA_READS_ORANGE; PALETTE_NO_LEAKS will follow): the integrator updates them to accept LK_ materials without weakening ground/lie/marker gates.
+* Hole builders must export with `postcard_look_lib.export_look_fbx`, not `postcard_lib.export_fbx`; `postcard_verify.py` MATERIALS / FBX_BUDGET gates predate the LK materials (expected FAIL, superseded by `postcard_look_verify.py`).
+
+## Per-stream results at the pause (builder report / reviewer verdict, from the workflow journal)
+
+
+## A2 unity runtime: status partial
+Role A2 (Unity runtime) is built and compiles with 0 "error CS". The smoke test passes 38/38 gates, the 7 guard gates pass, and all 76 frozen tennis hashes still match.
+
+**What changed**
+- **HoleView.** For holes 8–10 it no longer forces a flat `_BaseColor`. The order per material slot is:
+  1. `LK_` names go to `GolfLook`.
+  2. Materials that already have an albedo, normal or emission map are kept.
+  3. Water and lava never get a flat colour. Old `MAT_WATER*`, `MAT_FOAM` and `MAT_LAVA` names map to their LK equivalents.
+  4. Remaining Palette names keep the flat colour as before.
+- **Hole 7** goes through exactly the old rule. Gate HOLE7_UNCHANGED_RULE: 245 slots, 0 different. Colliders, Gr
+- FAIL gate: PostcardImportCheck palette/lava gates (file is not mine): PALETTE_OVERRIDES_APPLIED fails on holes 8 and 9 (MAT_WATER, MAT_WATER_SHALLOW and MAT_FOAM are no longer flat, by design). LAVA_READS_ORANGE fails (LK_LAVA base colour is the textured .94 grey F0F0F0
+- FAIL gate: TennisPost visible on the golf camera: Wired like TennisLook.SetupPost (cloned profile in a global Volume, renderPostProcessing on), but full and post-off renders are pixel-identical. The URP renderer assets have no postProcessData, so URP
+- open: Post-processing renders nowhere in the project. TennisURP_Renderer.asset and HeroBaseStudio_Renderer.asset have postProcessData = {fileID: 0}, and URP disables post without it (UniversalRenderer.cs:456). The golf wiring is in place but has no visible
+- open: ProjectSettings/QualitySettings.asset has an uncommitted change from another chat. Quality level 2, which is both the iPhone default and the editor's current level, now uses Assets/Characters/HeroBase/Rendering/HeroBaseStudioURP.asset instead of Tenn
+- open: PostcardImportCheck (not my file) has 3 failing lines that come from the intended change: PALETTE_OVERRIDES_APPLIED on holes 8 and 9, and LAVA_READS_ORANGE. PALETTE_NO_LEAKS will also fail once the hole FBXs carry LK_ names. The check must accept LK_
+- open: The hole_08/09/10 FBXs were still byte-identical to the baseline during my whole run. Textured materials were proven only on test boards under the real hole lights. The Game-view proof on the real hole meshes, and the 9 proof shots, wait for the hole
+- open: The LAVA_LIGHT_nn point-light code path is untested at runtime: the baseline hole 10 has no such empties. Range 48 and intensity 28 are untuned guesses.
+- open: GolferView (not mine) uses flat HoleView.Mat colours and is now lit by the new rig. Flat ground gets roughly the same light as before on Needle and about 1.4x on Split; Crater is orange dusk. Not measured with the golfer visible; the skin may clip on
+
+## A3 ground+water lib: status done
+I built `blender/scripts/postcard_look_lib.py`, the ground/water/wall/path/lava pass that runs after a hole's existing build, and gated it on all three holes. Each hole was rebuilt from the frozen baseline build script into a scratch folder; no repo hole file was written, and `postcard_lib.py` is unchanged. Every one of my gates passes on holes 8, 9 and 10, but nothing has been checked in the Game view yet: the renders are Blender previews only.
+
+**What it does**
+- **Materials:** creates all 19 LK_* materials from A1's textures (all present at the last run) and swaps the old MAT_* names to them. The fairway's two stripe materials collapse into one LK_FAIRWAY, the white foam strips are delete
+- FAIL gate: postcard_verify MATERIALS@blend/@fbx (all): by design: it only accepts the old MAT_* names (and MAT_LAVA on hole 10); superseded by LOOK_CONTRACT section 3 (A5's NO_LEGACY_MATERIALS / GROUND_MATERIALS PASS)
+- FAIL gate: A5 postcard_look_verify, other roles' gates on a lib-only smoke: LK_REQUIRED/LK_TEXTURED (no masonry/plants), plants, NEEDLE_ARCH/WATERFALL/SEA_STACKS/VINES/FLOWERS, SPLIT_RUIN/RIDGE_SCATTER, ROCK_NOT_ICOSAHEDRON/ROCK_VARIETY, CRATER_COLUMNS/CONE_SMOKE/SHELF_PLANTS
+- open: No Game-view proof yet: the Blender previews are for judging shapes and texture scale only; the integrator still has to shoot the stills in Unity.
+- open: Hole agents must export with `L.export_look_fbx`, not `P.export_fbx`. The hole `.meta` files name imported materials after their texture, so a texture reference (for example from A4's directly linked materials) could turn `LK_FAIRWAY` into `Fairway_C
+- open: postcard_verify's MATERIALS@blend/@fbx gate will FAIL on every LK_* build by design (old MAT_* allow-list). Its FBX_BUDGET (4 MB / 150k tris) may also fail once props are added; the contract budget is 20 MB / 250k.
+- open: The hole build scripts (`hole08/09/10_build.py`) did not call this lib yet at my last check; my gates ran on the frozen baseline scripts plus the lib calls in the smoke script.
+- open: Split's scrub boundary follows the ~6.5 m terrain triangles, so the two ridge ends show a zigzag in the overview; A4's plants should cover it.
+- open: Optional for A1: at the 12 m tile Cliff_C's cracks read slightly like brick blocks, and Basalt_E's glow forms ladder-like rectangles on the narrow column facets.
+
+## review runtime: verdict FAIL — 5 high/medium, 6 low
+- **medium** GolfAtmosphere.SetupPost / Tennis/Rendering/TennisURP_Renderer.asset (frozen): The brief asks for the TennisPost stack (ACES, bloom, vignette) on the golf camera, and it does not render. I measured renders with and without post as pixel-identical on Needle layup, Split tee, Crater approach and Crater rim (max diff 0). The wiring is correct, but every renderer asset has postPro
+- **medium** Unity/Assets/Editor/PostcardImportCheck.cs (no owner in this job): Because of A2's intended change, PostcardImportCheck now exits 1 (44 gate lines, 3 FAIL). PALETTE_OVERRIDES_APPLIED fails on holes 8 and 9 (WATER_OCEAN/WATER_SHALLOW/WATER_FOAM are no longer flat) and LAVA_READS_ORANGE fails (LK_LAVA _BaseColor is F0F0F0). PALETTE_NO_LEAKS will also break once the L
+- **medium** GolfLook.Table LK_LAVA Emission (2.6,2.4,2.2), LK_BASALT (1.8,1.8,1.8): These near-neutral HDR emission multipliers assume ACES and bloom that never render. Without tonemapping the G channel clips: the fissure texel (255,212,112) x 2.6/2.4 comes out about (255,255,160) cream-yellow, not the orange of crater.jpg. On the swatch lava board the crust reads as a pale orange/
+- **medium** End-to-end Game view (hole_08/09/10.fbx still baseline): None of the brief's runtime GATE lines can be verified on real meshes yet. The FBXs are byte-identical to the baseline, so 'fairway/green/rough/cliff/rock show albedo + normal in the Game view' is proven only on test boards, and the six proof shots do not exist. LAVA_LIGHT point lights (range 48, in
+- **medium** GolfAtmosphere key 2.3 + fill 0.8 + rim + trilight vs flat HoleView.Mat materials (GolferView, gameplay parts): Flat palette materials clip under the new rig. Flat tee/rough in the stills measure (203,254,92) on Needle and (218,255,113) on Split, so G is clipped. GolferView builds the golfer from flat HoleView.Mat colours (skin, clothes), which are now lit by the same rig. The golfer appears in no still, so b
+
+## A1 textures: status done
+All 30 A1 textures are generated: every LOOK_CONTRACT §3 texture except Plants_C, plus Sky_Crater_C. All 116 scripted gates pass and the 7 guards.sh gates pass.
+
+**Generator.** `blender/scripts/golf_look_textures.py` uses numpy only and writes PNGs with its own zlib/struct writer, atomically (hidden `.tmp` file, then rename). Seeds are fixed, so output is deterministic. All noise is periodic: integer-lattice gradient noise and fbm, wrapped Voronoi (nearest two ids plus true distance to the cell border), periodic domain warps, FFT blurs, and normals from a wrap-around Sobel (tangent space, OpenGL +Y up).
+
+**First pass.** The whole set was on disk within the first third of the effort for the o
+- open: No Game-view proof of the final textures from me (A1 does not run Unity). A2's runtime/sheet_swatch_final.jpg used my first-pass maps (brick-like cliff, cobble rock, plank basalt), which have all been redesigned since; the integrator should re-run Go
+- open: Fairway_N strength went from 2.2 to 1.6 after A2 set LK_FAIRWAY BumpScale .75; together the fairway may now look a bit flat up close. A2 may want BumpScale ~1.0.
+- open: Lava (24 m tile): its hot regions still show a mild per-tile rhythm at 3x3. Accepted because the phone camera sees the lava at a grazing angle; if it shows in the crater close shot, the hole-10 builder can rotate or offset the lava UVs.
+- open: The Unity .png.meta files in Look/ were created by Unity during A2's runs, not by me; their import settings belong to A2's GolfLookTextureImporter.
+- open: Optional, outside my contract list: A2's runtime would use a painted Sky_Split_C.png if one existed. I did not make it.
+
+## A4 props lib: status done
+Role A4 finished: the Blender props library (blender/scripts/postcard_props_lib.py), its gate and contact-sheet script (blender/scripts/postcard_props_smoke.py), the plants palette texture Plants_C.png, the proof sheet props_sheet.png and the notes LIB_PROPS.md. All proof is Blender renders; my role does not run Unity, so the Game view is not checked.
+
+What the library provides, built from code with fixed seeds and no animation:
+- Rocks: 11 shapes (boulders, slab, chipped block, cairn, small stones, ledge, two sea stacks, a flat-topped outcrop for the Needle arch), each 101..210 faces and 61+ vertices, made of large flat chipped faces. Each has a wet version (LK_ROCK_WET) and a basalt versio
+- open: No Game-view proof from this role: props_sheet.png and the scatter tests are Blender-only (A4 does not run Unity under the contract).
+- open: The hole 08/09/10 panels in props_sheet.png are scratch builds with flat MAT_ terrain and the old MAT_FOAM bands (A3's look pass not applied). They prove where props land, not the final look.
+- open: Hole agents: swap_legacy_rocks changes rock geometry, so hole08's own ROCKS_CONTACT_CHAIN / ROCKS_REST gates must be re-run after it. hole09's custom ROCK_STACK_nn meshes are not icosahedra and are not swapped; replace them with place_sea_stack or th
+- open: A2: ROCK_SEASTACK_A/B and ROCK_OUTCROP_A have two material slots (LK_ROCK + LK_ROUGH grass cap), so GolfLook must swap materials per slot. Library meshes rely on imported normals (normalImportMode 0 in the hole_08 meta today); switching to Calculate 
+- open: A1 (observation): Rock_C's wavy banding reads like contour lines on 1-3 m rocks at the 4 m tile; acceptable, but a less banded Rock_C would read cleaner.
+- open: Box UVs live in the shared library mesh, so a strongly non-uniformly scaled instance stretches its texture. Library meshes are built at natural size for scales of about 0.6-1.6.
+
+## A5 mesh gates: status done
+Role A5 is done. The Blender-side POSTCARD_LOOK gate tool is built, checked against the baselines, and proven able to pass and fail. The real hole files are still byte-identical to the baseline (no hole agent has installed a build yet), so they currently FAIL most look gates.
+
+**What was built**
+- blender/scripts/postcard_look_verify.py runs headless: `Blender -b --factory-startup --python postcard_look_verify.py -- <8|9|10> [--blend P] [--fbx P] [--json OUT]`.
+- It checks the opened .blend (only what postcard_lib.export_fbx exports) and the FBX re-imported into an empty scene. It prints one line per gate (`GATE: <ID>@<stage> PASS|FAIL - <numbers>`), a RESULT line, and exits 1 on any FAIL. A
+- FAIL gate: POSTCARD_LOOK Blender gates on the current blender/hole_0N.blend + Unity hole_0N.fbx: These files are still byte-identical to the baseline (sha 38c25178 / 8846a99f / b0c478e6). 41 / 35 / 35 gates fail until the hole agents install their look builds. This is a state report, not a defect
+- open: The real hole_08/09/10 .blend and FBX are still the baseline, so most look gates FAIL (41 / 35 / 35) until the hole agents install their builds and rerun postcard_look_verify.py.
+- open: postcard_verify.py (lead's file) will FAIL three lines on any LOOK build by design: MATERIALS (accepts only MAT_* names), WATER_LEVEL (requires every WATER* mesh to face up within z 0..0.2, but a waterfall sheet is vertical) and FBX_BUDGET (4 MB / 15
+- open: PostcardImportCheck.cs (Unity) palette-override and lava-colour gates still need updating for the LK_ materials (A2/lead); its ground-height, lie and marker gates must stay.
+- open: Thresholds I chose are not in LOOK_CONTRACT, so the hole agents never saw them: shrubs ≥ 6, tufts ≥ 40, ridge plants ≥ 30 and rocks ≥ 8, scrub ≥ 60% of the ridge core, skin ≥ 20% / 50%, surf ≥ 40% / 60%, waterfall sheet ≥ 8 m², lava top ≤ PLAY_Z − 3 
+- open: PLAY_SURFACE_TOPS is strict, following the contract's 'top surfaces bit-identical': adding or moving any vertex on an up-facing face of a play or terrain mesh fails it, even if heights are unchanged. Relaxing it needs the lead's approval. Wall and un
+- open: The masonry block count needs each block to be a separate mesh island (A4's builder does this), and the column detector needs separate column caps (A4's clusters measure 12–27 columns). Welded geometry would be undercounted.
+
+## review textures: verdict FAIL — 4 high/medium, 6 low
+- **medium** Unity/Assets/Resources/Course/Look/Fairway_C.png, Green_C.png, Rough_C.png (palette in blender/scripts/golf_look_textures.py); decision in work/postcard-look/TEXTURES.md 'Decisions': The grass colour block misses the stills by about 20 degrees of hue on the most visible surface: the lower two thirds of every phone frame. Albedo hue is 94-97; under the warm key it is 86-88, and A2's Game-view sample is (132,187,81), hue 89. The stills measure 64-73: Needle green (157,173,55), Spl
+- **medium** Unity/Assets/Resources/Course/Look/Lava_C.png, Lava_E.png (lava generator in golf_look_textures.py): The lava reads as a dark Voronoi crust-plate network: polygonal 'giraffe' cells with glowing borders. The crater still shows swirling molten flow. Unlit C+E is 34% dark crust and 34% glowing; with albedo lit at 0.6 it is 50% dark. The still's main lava pool is 14% dark and 69% glowing. At 3x3 (24 m 
+- **medium** Unity/Assets/Resources/Course/Look/Basalt_C.png, Basalt_N.png: Basalt reads as vertical-bond brickwork, not prismatic columns: flat-faced rectangles with frequent cross-joints, every 0.6-1.6 m in an 8 m tile. TEXTURES.md says each column is 'seen as 3 planes'. Measured: the side planes are only narrow ~7 degree bevels (nx about ±0.13 over 10-25 px of 60-110 px 
+- **medium** Unity/Assets/Resources/Course/Look/Smoke_C.png: The smoke card is a compact round ball: alpha max .90 with an opaque core, a lumpy top-lit 'cauliflower' surface and a hard round silhouette. Over the red and grey backdrops it reads as a grey moon or snowball, not the wispy rising smoke in crater.jpg. The brief asks for a little smoke card behind t
+
+## review ground: verdict FAIL — 6 high/medium, 6 low
+- **medium** blender/scripts/postcard_look_lib.py _strata_loop (disp_m=(0.2,1.2), cap row) and _basalt_loop (outer row c = T + n*(out - r)): Requested check (5) fails: the skin puts up-facing rock ledges over SCORING water. Inside water ellipses: hole 8 has 82 grid cells (46 m2) up to 0.66 m past the shore, top z 5.74; hole 10 has 59 cells (33 m2) up to 0.94 m, top z 5.86, 14 cm under the grass. Outside the shore: 207 / 904 / 340 m2 (h8/
+- **medium** postcard_look_lib.py _basalt_loop (lip_m default (0.2,1.4), gaps between hex prisms); postcard_look_smoke.py line 151 (hole 10 tests only up to play-1.5 m): On Crater the basalt skin leaves the original TERRAIN wall visible at the top. Rays from aerial, low and oblique viewpoints hit the smooth TERRAIN wall first on 232 of 1767 rays (13.1%), and 226 of those hit at z >= 5 m. The exposed band is vertical LK_ROUGH grass texture: PLAY_Z minus the local ski
+- **medium** postcard_look_lib.py _strata_loop (offset amplitude 0.2-1.2 m, buttress 22 m): The strata skin is jagged only at the detail level; its silhouette stays close to the smooth design outline. Offset-to-shore std along the shore is 0.37 m (h8) and 0.23 m (h9); steps > 0.2 m occur at only 10% / 6% of column pairs; mid-row plan tortuosity is 1.065 / 1.026 (1.000 = smooth). In the aer
+- **medium** build_sea WATER_SHELF (contract LK_WATER_SHALLOW = opaque GolfArcade/TennisWater): Around every island the shelf is a hard-edged turquoise halo, 10-24 m wide (6-14 m on Needle). It is the most prominent element in every aerial and oblique render (check_hole09/r_aerial.png, sheet_hole08/09). split.jpg has no such ring (deep blue right up to the white foam) and needle.jpg shows turq
+- **medium** LK_BASALT on _basalt_loop columns (8 m tile on 1-2 m facets) x A1's Basalt_E: On every basalt column, and on the retargeted ROCK_WALL rocks, the crack-glow mask shows as repeated yellow 'H'/ladder glyphs (smoke_hole10/render_shore.png, check_hole10/r_pillar_close.png). It reads as circuitry rather than crater.jpg's glowing joints near the lava. The owner listed it only as 'op
+- **medium** postcard_look_lib.py build_path (z_off=0.035 above the HIGHEST play surface within 0.5 m): The demo Needle path crosses the fairway and the tee pad, where balls rest. It sits above the collider by median 0.035 m and max 0.115 m. With the game ball at 0.12 yd (0.11 m, GolfGame.cs:112), more than half of a resting ball is hidden on 19.8% of the path area, and fully hidden on 0.1%. Repro: Bl
+
+## review props: verdict FAIL — 4 high/medium, 7 low
+- **medium** blender/scripts/postcard_props_lib.py scatter() lines 1722-1726 (region=None) and module docstring 'region: None (land bbox of the hole + 40 m)': With the default region, scatter() samples the land bounding box plus 40 m but applies no land mask. Plants therefore land on the sea at z = 0 minus sink, i.e. floating on the water. Measured with PL.scatter(D, {'PLANT_TUFT_A':1}, 300, seed=1) and PL.scatter(D, ['PLANT_SHRUB_A'], 40, seed=2): tufts 
+- **medium** postcard_props_lib.py swap_legacy_rocks / _pick_by_shape (lines 1892-1958); LIB_PROPS.md section 3 claim 'legacy-swapped walls land at scale ~1': Fitting a library mesh into the legacy bounding box stretches it a lot. On baseline hole_10.blend, 155 of 227 swapped instances are stretched more than 2x across. The wall segments reach scale (0.82, 3.67, 0.93) and (1.06, 4.40, 1.75): hex columns become 4 m x 17 m slabs, and their box UV is stretch
+- **medium** LK_BASALT as used on ROCK_WALL_BASALT_* and the basalt skin (box UV at the 8 m tile with Basalt_E emission on every face); render/hole10_swap_cam_fairway_view.png, panel_c_basalt.png: Against crater.jpg, the crack glow repeats across all wall and column faces as small orange ladder-like glyph marks. With the near-uniform tall skyline, the wall ring reads as a glyph-covered palisade or city wall. The still instead shows dark terraced columns, with glow only in the cracks and at th
+- **medium** postcard_props_lib.py _seastack_chunks / ROCK_SEASTACK_A/B (panel_b_stacks_fall.png): The library sea stacks are two flat-topped cores, a wide lower block plus an offset narrower upper block. They read as stacked boxes, like a chimney or moai. The stills (needle.jpg, split.jpg) show tall craggy spires that taper, with grassy crowns. These stacks are meant to supply the dramatic heigh
+
+## review gates: verdict FAIL — 6 high/medium, 7 low
+- **high** blender/scripts/postcard_look_verify.py g_rock_verts (L1322-1338) and g_rock_variety (L1341-1354): ROCK_NOT_ICOSAHEDRON and ROCK_VARIETY only count vertices (nv <= 12, or nv == 12 with 20 faces), so the faceted grey blob the brief forbids passes. Test: replace every loose-rock and sea-stack mesh with a 20-face icosahedron whose vertices are split (60 verts), or with a 12-vertex icosahedron plus o
+- **medium** postcard_look_verify.py g_look_files (L1200-1242); constants FLAT_ALBEDO/FLAT_NORMAL (L84-86): The thresholds are loose enough that flat-colour surfaces pass. (a) Albedo fails only if luminance sd AND alpha sd are both < 0.008, so a Fairway_C.png that is one flat RGB with random alpha passes (measured sd 0.000). (b) A flat green with sd 0.0095 noise (2.4/255, invisible on a phone) passes as '
+- **medium** postcard_look_verify.py PROP_RULES generic DRESS_ row (L1066), g_surf (L1541-1572), g_no_foam (L935-941): A white foam strip still passes, although the brief says 'do not fake foam with a white strip' and 'No MAT_FOAM strip remains'. (a) DRESS_SHOREBAND, one continuous 2.7 m LK_SURF strip around the whole shore with no vertex colour, passes NO_MAT_FOAM, PROP_MATERIALS, UV_DENSITY and SURF_SHORE on holes
+- **medium** postcard_look_verify.py g_split_scrub (L1916-1962), g_look_files: The brief says 'FAIL if that ridge is still the same flat green as the fairway', but SPLIT_SCRUB_RIDGE checks only the material NAME LK_SCRUB. With Scrub_C.png replaced by a copy of Fairway_C.png, so the ridge renders exactly fairway green, every gate PASSES on hole 9. More generally, nothing checks
+- **medium** postcard_look_verify.py g_props_off_play (L1408-1429), is_loose_rock (L1025): PROPS_OFF_PLAY only checks PLANT_ objects and loose rocks; DRESS_*, ROCK_WALL_*, ROCK_SKIN_* and WATER_FALL_* are exempt. A 7 m DRESS_BOULDER standing on the green 0.5 m from the pin passes every gate on 8, 9 and 10, and so does a ROCK_WALL_PILE on the pin on 8 and 9. Contract section 6 allows only 
+- **medium** postcard_look_verify.py g_play_tops (L855-883) and qhash/top_verts; g_play_grid (1.5 m grid): The frozen-geometry gates compare up-facing VERTEX SETS plus a 1.5 m ray grid, never the faces. I deleted, and separately flipped, one up-facing collision polygon whose vertices are shared with its neighbours and which no grid ray hits: a BUNKER_01_LIP polygon of 0.84-1.02 m2 whose centre is 445 mm 

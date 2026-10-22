@@ -1,0 +1,18 @@
+{
+ "hero": "MatchHero_Male",
+ "tag": "Kit_Shoe_L",
+ "source": "npz:../out_gp2/MatchHero_Male/unity/Kit_Shoe_L_final.npz",
+ "seconds": 3.8,
+ "weights": {
+  "footwear": "Left",
+  "foot_mass": 0.7695429975158085
+ },
+ "shapes": 0,
+ "log": [
+  "FIT MatchHero_Male Kit_Shoe_L from npz:../out_gp2/MatchHero_Male/unity/Kit_Shoe_L_final.npz: 23129 verts 38144 tris",
+  "  weights: footwear on the Left foot (77% of the piece on foot skin): rigid foot + toe flex + collar on the shin",
+  "  hem riding on Kit_Sock_L: 8730 vertices follow it (t > .5)",
+  "  weights 3.8 s",
+  "  footwear is stiff: no pose correctives (a rigid shoe cannot bend round the sock; lifts there shredded the collar, A/B 10-17)"
+ ]
+}

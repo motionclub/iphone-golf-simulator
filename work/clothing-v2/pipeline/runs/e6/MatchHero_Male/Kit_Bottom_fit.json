@@ -1,0 +1,33 @@
+{
+ "hero": "MatchHero_Male",
+ "tag": "Kit_Bottom",
+ "source": "dump:Kit_Bottom",
+ "seconds": 305.6,
+ "weights": {
+  "panels": 8,
+  "matched": 0.5693595107821049,
+  "inner": 0.32399957086149556,
+  "smooth_iters": 17,
+  "edge_mm": 6.805339551675361,
+  "allowed": "{0: ('AL', 'AR'), 1: ('AL', 'AR'), 2: ('P', 'AR'), 3: ('P', 'AL'), 4: ('P', 'AL', 'AR'), 5: ('P', 'AL', 'AR'), 6: ('P', 'AL', 'AR'), 7: ('P', 'AL', 'AR')}",
+  "side_mm_p5": 6.54702587429029
+ },
+ "shapes": 16,
+ "log": [
+  "FIT MatchHero_Male Kit_Bottom from dump:Kit_Bottom: 18642 verts 36658 tris",
+  "  weights: 8 panels, matched 57%, inner 32%, smooth 17 it (edge 6.8 mm)",
+  "  layer binding under Kit_Top: 5731 vertices follow it (t > .5)",
+  "  weights 4.5 s",
+  "  (coverage failed: Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:49:19)\n\nBlender quit\nr/work/clothing-v2/pipeline/gp/cov_cli.py\", line 11, in <module>\n    d = os.path.dirname(extra); one = CA.load_dir(d, h); t = str(np.load(extra)['tag']); cand[t] = one[t]\n                                                                                                   ~~~^^^\nKeyError: 'Kit_Bottom'\n)",
+  "  obstacles: body",
+  "    pose 0/153  3 s",
+  "    pose 25/153  50 s",
+  "    pose 50/153  100 s",
+  "    pose 75/153  144 s",
+  "    pose 100/153  188 s",
+  "    pose 125/153  249 s",
+  "    pose 150/153  294 s",
+  "  correctives: 153/153 poses need a lift (max 60.0 mm, p90 60.0 mm) in 301 s",
+  "  16 shapes, RBF sigma 0.596, anchor fit err max 0.047, weight at rest 0.0000"
+ ]
+}

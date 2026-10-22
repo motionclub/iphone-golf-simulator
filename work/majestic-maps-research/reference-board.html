@@ -1,0 +1,232 @@
+<title>Majestic Maps Reference Board</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,750&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a court-side scouting board. Venue strip on top, then filterable reference cards in a wrapping grid. */
+:root {
+  --bg: #eef3f6;          /* pale court-side sky */
+  --panel: #ffffff;
+  --ink: #142233;         /* scoreboard navy */
+  --muted: #566577;
+  --line: #d3dde5;
+  --court: #2f6fd6;       /* hard-court blue */
+  --ball: #d7e84a;        /* the game's ball, hue ~67 */
+  --ball-ink: #33380a;
+  --ok: #217a4b; --warn: #a1620c;
+  --display: "Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
+  --body: "Atkinson Hyperlegible", "Helvetica Neue", Arial, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0f1822; --panel: #172331; --ink: #e6eef5; --muted: #9aaabb; --line: #2a3a4b;
+  --court: #7fb0ff; --ball: #d7e84a; --ball-ink: #20240a; --ok: #6fd39d; --warn: #f0b45a; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0f1822; --panel: #172331; --ink: #e6eef5; --muted: #9aaabb; --line: #2a3a4b;
+  --court: #7fb0ff; --ball: #d7e84a; --ball-ink: #20240a; --ok: #6fd39d; --warn: #f0b45a; color-scheme: dark }
+body { background: var(--bg); color: var(--ink); font: 16px/1.55 var(--body); }
+.wrap { max-width: 1180px; margin: 0 auto; padding-block: 28px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 28px; }
+h1, h2 { font-family: var(--display); text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 750; line-height: 1.05; }
+h2 { font-size: 1.35rem; font-weight: 750; }
+p { margin: 0; max-width: 68ch; }
+.lede { color: var(--muted); font-size: 1.05rem; }
+.eyebrow { font: 600 .74rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--court); }
+header { display: grid; gap: 12px; }
+.floor { display: inline-flex; align-items: center; gap: 8px; font: 600 .85rem var(--mono); background: var(--ball); color: var(--ball-ink); padding: 6px 12px; border-radius: 999px; width: fit-content; }
+.strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.strip figure { margin: 0; display: grid; gap: 6px; min-width: 0; }
+.strip img { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 8px; border: 1px solid var(--line); background: var(--line); }
+.strip figcaption { font-size: .82rem; color: var(--muted); }
+.strip figcaption b { color: var(--ink); }
+.filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.filters span { font-size: .85rem; color: var(--muted); margin-right: 4px; }
+.chip { font: 600 .82rem var(--body); border: 1px solid var(--line); background: var(--panel); color: var(--ink); padding: 6px 12px; border-radius: 999px; cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--court); border-color: var(--court); color: var(--bg); }
+.chip:focus-visible, a:focus-visible { outline: 3px solid var(--ball); outline-offset: 2px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px 16px 14px; display: grid; gap: 9px; align-content: start; min-width: 0; }
+.card h3 { margin: 0; font: 700 1.02rem/1.3 var(--body); }
+.card h3 a { color: var(--ink); text-decoration-color: var(--court); text-underline-offset: 3px; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px; font: .74rem/1.4 var(--mono); }
+.tag { border: 1px solid var(--line); border-radius: 4px; padding: 1px 6px; color: var(--muted); }
+.tag.vid { color: var(--court); border-color: var(--court); }
+.tag.v { color: var(--ok); border-color: currentColor; }
+.tag.u { color: var(--warn); border-color: currentColor; }
+.look { font-size: .9rem; color: var(--muted); }
+.look b { color: var(--ink); font-weight: 700; }
+.us { font-size: .9rem; border-top: 1px dashed var(--line); padding-top: 8px; }
+.us::before { content: "For us: "; font-weight: 700; color: var(--court); }
+.ts { font-family: var(--mono); font-size: .8rem; }
+section { display: grid; gap: 14px; }
+.pairs { display: grid; gap: 18px; }
+.pairs figure { margin: 0; display: grid; gap: 6px; min-width: 0; }
+.pairs img { width: 100%; border-radius: 8px; border: 1px solid var(--line); background: var(--line); }
+.pairs figcaption { font-size: .9rem; color: var(--muted); }
+.pairs figcaption b { color: var(--ink); }
+.note { font-size: .88rem; color: var(--muted); }
+footer { font-size: .85rem; color: var(--muted); display: grid; gap: 6px; }
+@media (max-width: 760px) { .strip { grid-template-columns: repeat(2, minmax(0, 1fr)); } .grid { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: no-preference) { .chip { transition: background .15s, color .15s; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Party Tennis &amp; Golf · research chat 9 · 2026-10-17</div>
+    <h1>Majestic maps, still at 60</h1>
+    <p class="lede">The games, talks and docs behind our plan for majestic courts, courses and weather. Every link opens the source; nothing is embedded or downloaded. Video timestamps are given only where the video publishes chapter marks. Everything else starts at 0:00, with the title and length checked.</p>
+    <div class="floor">Hard floor · 60 fps at ≥ 1920×1080 · phone + AirPlay TV</div>
+  </header>
+
+  <section aria-labelledby="today">
+    <h2 id="today">Our venues today (measured in this research, Mac editor at 1080p)</h2>
+    <div class="strip">
+      <figure><img src="shots/tennis_resort_clear.jpg" alt="Resort tennis court, gameplay camera"><figcaption><b>Resort court</b> · painted panorama backdrop</figcaption></figure>
+      <figure><img src="shots/tennis_volcano_storm.jpg" alt="Volcano tennis venue in a storm"><figcaption><b>Volcano, storm</b> · weather overlay on top</figcaption></figure>
+      <figure><img src="shots/golf_h08_clear.jpg" alt="Golf hole 8 Needle, tee camera"><figcaption><b>Golf 8 · Needle</b> · tee view</figcaption></figure>
+      <figure><img src="shots/golf_h12_clear.jpg" alt="Golf hole 12, tee camera"><figcaption><b>Golf 12</b> · the heaviest hole measured</figcaption></figure>
+    </div>
+    <p class="note">The numbers behind these frames are in FEASIBILITY.md.</p>
+  </section>
+
+  <section aria-labelledby="aim">
+    <h2 id="aim">What we're aiming for: today vs target</h2>
+    <p class="note">Left: a real game frame from this research. Right: a concept repaint of the same shot with the proposed light, landmark, life and weather. These are AI-generated targets, not renders; they show direction, not final art. Ignore the animal villagers in the plaza concept (the generator borrowed an existing game's characters).</p>
+    <div class="pairs">
+      <figure><img src="sheets/tennis_resort_clear.jpg" alt="Resort court today vs golden-hour target"><figcaption><b>Resort court</b> · golden hour, lighthouse landmark, boats, bunting on one wind, crowd wave</figcaption></figure>
+      <figure><img src="sheets/golf_h08_storm.jpg" alt="Golf hole 8 in rain today vs rain clearing to a rainbow"><figcaption><b>Golf 8 · Needle</b> · today's grey full-screen rain vs the payoff: clearing sky, rainbow, wet glossy path</figcaption></figure>
+      <figure><img src="sheets/tennis_volcano_storm.jpg" alt="Volcano court today vs erupting storm target"><figcaption><b>Volcano</b> · erupting cone landmark, lightning far away, lava glow on a glossy court, ball kept clear</figcaption></figure>
+      <figure><img src="sheets/golf_h12_clear.jpg" alt="Golf hole 12 today vs morning sea target"><figcaption><b>Golf 12 · Island Carry</b> · fewer, bigger shapes, turquoise shallows, whale, balloons, lighthouse</figcaption></figure>
+      <figure><img src="sheets/tennis_skyscraper_clear.jpg" alt="Skyscraper court today vs blue-hour target"><figcaption><b>Skyscraper</b> · blue hour, glowing cloud sea, blimp, searchlights, terrace crowd</figcaption></figure>
+      <figure><img src="sheets/hub_plaza_clear.jpg" alt="Plaza hub today vs golden-hour target"><figcaption><b>Plaza hub</b> · sun behind the clock tower, fountain, bunting, people at café tables</figcaption></figure>
+    </div>
+  </section>
+
+  <section aria-labelledby="refs">
+    <h2 id="refs">References</h2>
+    <div class="filters" role="group" aria-label="Filter references by theme">
+      <span>Show</span>
+      <button class="chip" type="button" data-f="all" aria-pressed="true" id="f-all">All</button>
+      <button class="chip" type="button" data-f="nintendo" aria-pressed="false" id="f-nintendo">Nintendo at 60</button>
+      <button class="chip" type="button" data-f="mobile" aria-pressed="false" id="f-mobile">Mobile benchmarks</button>
+      <button class="chip" type="button" data-f="weather" aria-pressed="false" id="f-weather">Weather &amp; wind</button>
+      <button class="chip" type="button" data-f="court" aria-pressed="false" id="f-court">Court, course &amp; life</button>
+      <button class="chip" type="button" data-f="perf" aria-pressed="false" id="f-perf">Apple GPU &amp; Unity</button>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <footer>
+    <p>Tags: <span class="tag v">verified</span> = read on the source page (video title and length checked from its page data). <span class="tag u">2nd-hand</span> = from a press summary of the source.</p>
+    <p>The full notes with every URL are in work/majestic-maps-research/notes/. Synthesis: RESEARCH.md, FEASIBILITY.md, PROPOSAL.md.</p>
+  </footer>
+</div>
+
+<script>
+const R = [
+  // Nintendo
+  {f:"nintendo", t:"Mario Kart World on Switch 2: Is This Really A Generational Leap? (Digital Foundry)", u:"https://www.youtube.com/watch?v=8-P1tKHnWjc", vid:"8-P1tKHnWjc", len:"11:08", ts:"03:27 visual upgrades · 06:12 image quality and frame-rate", s:"v",
+   look:"Locked 60 at 1440p docked with no dynamic resolution. <b>Baked lighting, real-time shadows only on karts</b>, a key light that never moves, fully 3D crowds.", us:"Bake the venue. Real-time shadows go on heroes, ball and racket only. Keep one sun angle and change the mood with grade, sky and fog."},
+  {f:"nintendo", t:"Mario Kart World: Ask the Developer Vol. 18, Part 2", u:"https://www.nintendo.com/us/whatsnew/ask-the-developer-vol-18-mario-kart-world-part-2", s:"v",
+   look:"A day in about 24 minutes, with the dull evening-to-night stretch skipped. The team <b>nearly dropped weather</b> because every state needed readability checks.", us:"Show only the flattering times and weathers, and gate every one of them on ball contrast."},
+  {f:"nintendo", t:"Mario Strikers: Battle League — The Digital Foundry Tech Review", u:"https://www.youtube.com/watch?v=wH7gRNh3rNA", vid:"wH7gRNh3rNA", len:"11:18", s:"2",
+   look:"1080p/60. <b>3D crowd animated at half rate</b>, shell-texture grass, render-to-texture jumbotrons, no AA (summary via GoNintendo).", us:"Update the crowd and far life at 30 Hz. Use shell or card grass only at court edges."},
+  {f:"nintendo", t:"Switch 2 free upgrades tested: Link's Awakening, Mario Odyssey, Splatoon 3 + more (Digital Foundry)", u:"https://www.youtube.com/watch?v=0L8GMsUtl9k", vid:"0L8GMsUtl9k", len:"37:04", ts:"00:50 Link's Awakening · 06:49 Odyssey · 23:44 Captain Toad", s:"v",
+   look:"Diorama games that fell from 60 to 30 on Switch 1. The tilt-shift blur on a GPU-bound frame plus double-buffered vsync did it.", us:"No full-screen blur on the play camera. Budget about 11 ms of GPU, not 16.6."},
+  {f:"nintendo", t:"Splatoon 3 — The Digital Foundry Tech Review", u:"https://www.youtube.com/watch?v=ttfJ0rEDtj0", vid:"ttfJ0rEDtj0", len:"17:54", s:"2",
+   look:"Battles locked at 60, the hub at 30.", us:"Play gets the headroom. Spend the extra look budget on intros and flyovers, not mid-rally."},
+  {f:"nintendo", t:"Pikmin 4 — DF Tech Review", u:"https://www.youtube.com/watch?v=6iz5uliQN3M", vid:"6iz5uliQN3M", len:"11:57", s:"2",
+   look:"Frame drops <b>when a transparent object covers the screen</b>.", us:"Cap full-screen transparent layers (fog, rain, wet overlays) at 2–3."},
+  {f:"nintendo", t:"Zelda: Tears of the Kingdom — DF Tech Review", u:"https://www.youtube.com/watch?v=BLlZBwN_-C4", vid:"BLlZBwN_-C4", len:"19:05", s:"2",
+   look:"Resolution drops only while the camera moves; praised clouds.", us:"Our 1080p floor rules this out. Expensive extras belong only on static or intro shots."},
+  {f:"nintendo", t:"BotW CEDEC 2017, Part 5: The Art and Implementation of 3D Graphics (translation)", u:"http://www.thefamicast.com/2017/12/part-5-art-and-implementation-of-3d.html", s:"v",
+   look:"<b>Near / mid / far bands</b>, exaggerated distance, particles that catch the light, light shafts only through gaps. 200+ art parameters cut to about 50.", us:"Give every venue the same three bands and a small parameter set the art lead can tune."},
+  {f:"nintendo", t:"Nintendo Switch Sports: Ask the Developer Vol. 5, Part 3", u:"https://www.nintendo.com/sg/interview/as8s/03.html", s:"v",
+   look:"A big pro stadium with a huge crowd was <b>rejected</b> for a stylish, plausible, casual venue.", us:"Majestic should mean a beautiful place, not a mega-stadium."},
+  {f:"nintendo", t:"Wii Sports Resort: Iwata Asks", u:"https://iwataasks.nintendo.com/interviews/wii/wiisportsresort/0/5", s:"v",
+   look:"A central volcano gives the whole island <b>one landmark seen from every hole</b>.", us:"One hero landmark per course, visible from every tee."},
+  {f:"nintendo", t:"Super Mario Odyssey: mixing realistic and cartoony effects", u:"https://www.gonintendo.com/contents/4438-nintendo-on-mixing-realistic-and-cartoonish-special-effects-in-super-mario-odyssey", s:"2",
+   look:"Mist and wind in trees are realistic. The hero's puffs and stars are cartoony.", us:"Calm, natural weather and world; the party spectacle stays on the players."},
+  // Mobile
+  {f:"mobile", t:"'Genshin Impact': Crafting an Anime-Style Open World (GDC 2021)", u:"https://www.youtube.com/watch?v=-JFyAdI_rO8", vid:"-JFyAdI_rO8", len:"26:42", s:"v",
+   look:"24 h cycle. <b>Artist-drawn clouds as gradient maps lit by two light maps</b>. Trees have a minimum light floor. Each mobile grass model stores one colour, tinted by artists.", us:"Our clouds and sky should be authored art driven by one time and weather controller."},
+  {f:"mobile", t:"miHoYo rendering deck, Unity Dojo 2021", u:"https://docswell.com/s/UnityJapan/KWRPQ5-210617-unity-dojo20211mihoyozhenzhongyi", s:"v",
+   look:"Interleaved shadow cascades, ¼-res soft-shadow mask, ½-res AO, one probe relit per frame, one-LUT grade (ACES rejected).", us:"Spread costly updates across frames and run effects at reduced resolution."},
+  {f:"mobile", t:"Sky: Children of the Light, art direction (GDC 2020 write-up)", u:"https://www.pockettactics.com/sky-children-of-the-light/art", s:"v",
+   look:"<b>Light is the theme</b>: each realm is a time of day and a weather, following an emotional arc.", us:"Give each venue a signature hour and weather instead of random variety."},
+  {f:"mobile", t:"Dynamic Environment Lighting in Sky (GDC short)", u:"https://www.youtube.com/watch?v=Jm0mh5rr7Gg", vid:"Jm0mh5rr7Gg", len:"2:04", s:"v",
+   look:"A two-minute preview of thatgamecompany's lighting talk.", us:"Watch for how a phone-first game moves light across a realm."},
+  {f:"mobile", t:"Alto's Odyssey: interview with Harry Nesbitt and Ryan Cash", u:"https://www.youtube.com/watch?v=8IkQwIbvyV4", vid:"8IkQwIbvyV4", len:"37:18", s:"v",
+   look:"Sandstorms, lightning and moon cycles made from gradients, layers and colour.", us:"On a phone, weather can be mostly palette, fog and a few particles."},
+  {f:"mobile", t:"ustwo: Making of Monument Valley in Unity (Nordic Game 2014)", u:"https://www.youtube.com/watch?v=mCCC9hQm6MM", vid:"mCCC9hQm6MM", len:"47:20", s:"v",
+   look:"Custom direction-based flat lighting, baked AO only, glows from cheap transparent cards.", us:"Soft plastic reads from baked AO plus a shaped light ramp, not real-time GI."},
+  {f:"mobile", t:"iPhone 15 Pro Max running Genshin with MetalFX: results", u:"https://wccftech.com/iphone-15-pro-max-running-genshin-impact-metalfx-enabled-results", s:"v",
+   look:"Sustained play at about 59 fps uses 4+ W and reaches 46–48 °C. MetalFX adds about 0.6 W.", us:"Heat is the real budget. Test 20–30 minute sessions on the phone."},
+  // Weather
+  {f:"weather", t:"Blowing from the West: Simulating Wind in 'Ghost of Tsushima' (GDC 2021)", u:"https://www.youtube.com/watch?v=d61_o4CGQd8", vid:"d61_o4CGQd8", len:"29:29", ts:"third-party chapter marks (not checked): 04:50 particles & foliage · 12:24 grass & cloth", s:"v",
+   look:"<b>One global wind vector with Perlin gusts</b> plus small local swirls drives grass, cloth, leaves and particles.", us:"One wind for flags, grass, net, crowd, clouds and particles, equal to the gameplay wind in golf."},
+  {f:"weather", t:"Procedural Grass in 'Ghost of Tsushima' (GDC 2021)", u:"https://www.youtube.com/watch?v=Ibe1JBF5i5Y", vid:"Ibe1JBF5i5Y", len:"26:09", s:"v",
+   look:"Wind-driven GPU grass at console scale.", us:"Too expensive on a phone. Take the wind language, not the blade count."},
+  {f:"weather", t:"Water drop 2b: dynamic rain and its effects (Lagarde)", u:"https://seblagarde.wordpress.com/2013/01/03/water-drop-2b-dynamic-rain-and-its-effects/", s:"v",
+   look:"Real budgets: splashes at 20/40/60 by intensity, one shared ripple normal, the whole rain set about 2.8 ms of a 33 ms frame.", us:"Keep the whole weather layer near 1.5 ms of GPU."},
+  {f:"weather", t:"Water drop 3b: physically based wet surfaces (Lagarde)", u:"https://seblagarde.wordpress.com/2013/04/14/water-drop-3b-physically-based-wet-surfaces/", s:"v",
+   look:"Wetness as parameters: darken porous albedo, raise gloss, flatten normals in puddles, dry puddles last.", us:"One global wetness value read inside court and turf materials, not a full-screen overlay."},
+  {f:"weather", t:"Breaking Conventions with Zelda: Breath of the Wild (GDC 2017)", u:"https://www.youtube.com/watch?v=QyMsF31NdNc", vid:"QyMsF31NdNc", len:"88:29", s:"v",
+   look:"The chemistry engine: weather that changes how the world behaves (rain, lightning, fire, wind).", us:"Weather should change play in golf (roll, wind), never just the picture."},
+  {f:"weather", t:"Lightning entity settings (CryEngine 5 docs)", u:"https://www.cryengine.com/docs/static/engines/cryengine-5/categories/23756816/pages/29796945", s:"v",
+   look:"Thunder delay, sky highlight colour and strength as named settings.", us:"Flash, sky glow, then thunder at distance ÷ 343 m/s. At most 3 flashes a second."},
+  {f:"weather", t:"PGA Tour 2K23 physics: wind on the Beaufort scale", u:"https://pgatour.2k.com/2k23/up-your-game/physics/", s:"v",
+   look:"Wind strength as a named ladder.", us:"A visual ladder: leaves, then flags, then whitecaps, then bent palms."},
+  // Court & course
+  {f:"court", t:"Top Spin 2K25: Centre Court Report, gameplay", u:"https://2k.com/games/topspin-2k/topspin-2k25/centre-court-report/gameplay/", s:"v",
+   look:"<b>Clay scuffs and dust where players slide, swept between sets.</b> Grass behind the baseline wears to dirt over a tournament.", us:"Big, low-frequency wear that tells the match story reads on phone and TV."},
+  {f:"court", t:"Astro Bot: how Team Asobi built a unified vision for fun", u:"https://blog.playstation.com/2024/09/09/astro-bot-how-team-asobi-created-a-unified-vision-for-fun/", s:"v",
+   look:"Toy-block modules rebuilt in high quality and reused at angles.", us:"A small kit of chunky, lovable props per venue, reused everywhere."},
+  {f:"court", t:"Aonuma on Link's Awakening's diorama art style", u:"https://nintendoeverything.com/aonuma-on-how-the-art-style-came-to-be-for-zelda-links-awakening-on-switch/", s:"v",
+   look:"Diorama look with tilt-shift to sell the miniature.", us:"Tilt-shift on intros and replays only; the play camera stays sharp."},
+  {f:"court", t:"Golf Story dev interview: legibility first", u:"https://nintendoeverything.com/interview-golf-story-dev-on-wii-u-origins-cut-ideas-and-more/", s:"v",
+   look:"The art's main job was to make objects and shot planning readable.", us:"Slope and lie must read through value and lines, whatever the beauty pass adds."},
+  {f:"court", t:"Animation instancing for skinned meshes (Unity blog)", u:"https://blog.unity.com/engine-platform/animation-instancing-for-skinnedmeshrenderer", s:"v",
+   look:"Baking skinning into textures so crowds draw in a few instanced calls.", us:"Instanced crowd with 2–4 baked loops and one excitement value."},
+  // Perf
+  {f:"perf", t:"Harness Apple GPUs with Metal (WWDC20 10602)", u:"https://developer.apple.com/videos/play/wwdc2020/10602/", s:"v",
+   look:"Tile memory, hidden-surface removal, <b>cheap on-chip MSAA</b>, memoryless targets, and why blending and discard are expensive.", us:"Keep 4× MSAA. Hunt alpha overdraw first."},
+  {f:"perf", t:"Optimize high-end games for Apple GPUs (WWDC21 10148)", u:"https://developer.apple.com/videos/play/wwdc2021/10148/", s:"v",
+   look:"Half precision, shader permutations instead of branches, lossless compression traps.", us:"Our custom shaders (turf, water, weather) should use half and keywords."},
+  {f:"perf", t:"Optimize GPU renderers with Metal (WWDC23 10127)", u:"https://developer.apple.com/videos/play/wwdc2023/10127/", s:"v",
+   look:"Function constants beat uber-branches (a material pass went from 58 to 12.5 ms in the demo); async pipeline compilation.", us:"Prewarm shaders behind loading screens; no first-use hitches."},
+  {f:"perf", t:"Designing for adverse network and temperature conditions (WWDC19 422)", u:"https://developer.apple.com/videos/play/wwdc2019/422/", s:"v",
+   look:"Thermal states and how to test them in Xcode.", us:"Shed effects at Serious; never drop below 1080p or 60."},
+  {f:"perf", t:"Adaptive Performance: Apple provider (Unity docs)", u:"https://docs.unity3d.com/Packages/com.unity.adaptiveperformance.apple@6.0/manual/index.html", s:"v",
+   look:"Thermal state and performance mode on iOS in Unity 6.", us:"Feeds the effect tiers in the proposal."},
+  {f:"perf", t:"URP Bloom: mobile settings (Unity docs)", u:"https://docs.unity3d.com/Manual/urp/post-processing-bloom.html", s:"v",
+   look:"High-quality filtering off, quarter downscale, fewer iterations.", us:"Our bloom and grade must stay cheap."},
+  {f:"perf", t:"Understand URP performance (Unity docs)", u:"https://docs.unity3d.com/Manual/urp/understand-performance.html", s:"v",
+   look:"Depth and opaque texture copies have a large impact on mobile.", us:"Our pipeline asks for a depth texture on every frame; check who needs it."},
+  {f:"perf", t:"Visual Effect Graph system requirements (Unity docs)", u:"https://docs.unity3d.com/Packages/com.unity.visualeffectgraph@17.0/manual/System-Requirements.html", s:"v",
+   look:"Needs compute; not out of preview for URP on mobile.", us:"Weather particles stay on Shuriken or instanced quads."},
+  {f:"perf", t:"Wind via vorticles in Ghost of Tsushima (Game Developer)", u:"https://gamedeveloper.com/design/using-vorticles-to-simulate-wind-in-i-ghost-of-tsushima-i-", s:"v",
+   look:"The whole wind system costs a small fraction of PS4 compute.", us:"A global wind costs almost nothing; there is no reason not to have it."}
+];
+const label = {nintendo:"Nintendo at 60", mobile:"Mobile", weather:"Weather & wind", court:"Court & course", perf:"Apple GPU & Unity"};
+const grid = document.getElementById("grid");
+function esc(s){return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+grid.innerHTML = R.map(r => `
+  <article class="card" data-f="${r.f}">
+    <div class="meta"><span class="tag">${label[r.f]}</span>${r.vid?`<span class="tag vid">video ${esc(r.vid)} · ${r.len}</span>`:""}<span class="tag ${r.s==="v"?"v":"u"}">${r.s==="v"?"verified":"2nd-hand"}</span></div>
+    <h3><a href="${esc(r.u)}" target="_blank" rel="noopener">${esc(r.t)}</a></h3>
+    ${r.ts?`<div class="ts">${esc(r.ts)}</div>`:(r.vid?`<div class="ts">from 0:00 (no published chapters)</div>`:"")}
+    <p class="look">${r.look}</p>
+    <p class="us">${esc(r.us)}</p>
+  </article>`).join("");
+const chips = [...document.querySelectorAll(".chip")];
+function show(f){
+  chips.forEach(c=>c.setAttribute("aria-pressed", String(c.dataset.f===f)));
+  grid.querySelectorAll(".card").forEach(c=>{c.hidden = !(f==="all"||c.dataset.f===f);});
+  try{localStorage.setItem("mm-filter",f);}catch(e){}
+}
+chips.forEach(c=>c.addEventListener("click",()=>show(c.dataset.f)));
+let saved="all"; try{saved=localStorage.getItem("mm-filter")||"all";}catch(e){}
+if(!chips.some(c=>c.dataset.f===saved)) saved="all";
+show(saved);
+</script>

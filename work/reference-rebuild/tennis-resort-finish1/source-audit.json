@@ -1,0 +1,133 @@
+{
+  "scale": {
+    "height": 12.5,
+    "radius": 4.65
+  },
+  "representations": [
+    {
+      "label": "before",
+      "role": "far",
+      "triangles": 14284,
+      "vertices": 8068,
+      "pivotSchema": [
+        -1.0,
+        0.9
+      ],
+      "roles": [
+        "RESORT_BARK",
+        "RESORT_LEAF_DARK",
+        "RESORT_LEAF_MID",
+        "RESORT_LEAF_LIGHT",
+        "RESORT_CORAL",
+        "RESORT_GOLD",
+        "RESORT_STONE"
+      ],
+      "tennisBounds": {
+        "min": [
+          -3.7385902404785156,
+          -3.855612277984619,
+          0.0
+        ],
+        "max": [
+          4.781590461730957,
+          4.1988325119018555,
+          12.93035888671875
+        ]
+      }
+    },
+    {
+      "label": "before",
+      "role": "near",
+      "triangles": 31876,
+      "vertices": 17560,
+      "pivotSchema": [
+        -1.0,
+        0.9
+      ],
+      "roles": [
+        "RESORT_BARK",
+        "RESORT_LEAF_DARK",
+        "RESORT_LEAF_MID",
+        "RESORT_LEAF_LIGHT",
+        "RESORT_CORAL",
+        "RESORT_GOLD",
+        "RESORT_STONE"
+      ],
+      "tennisBounds": {
+        "min": [
+          -3.503268003463745,
+          -4.350712776184082,
+          0.0
+        ],
+        "max": [
+          4.761281967163086,
+          4.057641506195068,
+          12.921307563781738
+        ]
+      }
+    },
+    {
+      "label": "candidate",
+      "role": "far",
+      "triangles": 15108,
+      "vertices": 13496,
+      "pivotSchema": [
+        -1.0,
+        0.9
+      ],
+      "roles": [
+        "RESORT_BARK.001",
+        "RESORT_LEAF_DARK.001",
+        "RESORT_LEAF_MID.001",
+        "RESORT_LEAF_LIGHT.001",
+        "RESORT_CORAL.001",
+        "RESORT_GOLD.001",
+        "RESORT_STONE.001"
+      ],
+      "tennisBounds": {
+        "min": [
+          -3.5490734577178955,
+          -4.388580322265625,
+          0.0
+        ],
+        "max": [
+          4.787039756774902,
+          4.0838494300842285,
+          13.00385570526123
+        ]
+      }
+    },
+    {
+      "label": "candidate",
+      "role": "near",
+      "triangles": 20252,
+      "vertices": 17472,
+      "pivotSchema": [
+        -1.0,
+        0.9
+      ],
+      "roles": [
+        "RESORT_BARK.001",
+        "RESORT_LEAF_DARK.001",
+        "RESORT_LEAF_MID.001",
+        "RESORT_LEAF_LIGHT.001",
+        "RESORT_CORAL.001",
+        "RESORT_GOLD.001",
+        "RESORT_STONE.001"
+      ],
+      "tennisBounds": {
+        "min": [
+          -3.5362696647644043,
+          -4.379236698150635,
+          0.0
+        ],
+        "max": [
+          4.778839588165283,
+          4.073465347290039,
+          13.000482559204102
+        ]
+      }
+    }
+  ],
+  "renderPurpose": "Equal camera, tennis proportions, runtime palette; source silhouette proof, not Unity scene acceptance"
+}

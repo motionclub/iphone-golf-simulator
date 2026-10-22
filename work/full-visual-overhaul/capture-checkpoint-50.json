@@ -1,0 +1,41 @@
+[
+  {
+    "name": "character-pass-28-art6-baseline",
+    "method": "GolfArcade.EditorTools.VisualOverhaulCharacterCapture.Run",
+    "env": {
+      "VISUAL_CHARACTER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/character-pass-28-art6-baseline",
+      "VISUAL_CHARACTER_STARTER": "1",
+      "VISUAL_CHARACTER_CLIPS": "Ready,IntroWave,IntroPushups",
+      "VISUAL_HEAD_FORM": "baseline",
+      "VISUAL_CHARACTER_SKIN_MALE": "D49A70",
+      "VISUAL_CHARACTER_SKIN_FEMALE": "EBC3A1",
+      "VISUAL_CHARACTER_FEATURE_DUMPS": "1"
+    }
+  },
+  {
+    "name": "character-pass-28-art6-broad",
+    "method": "GolfArcade.EditorTools.VisualOverhaulCharacterCapture.Run",
+    "env": {
+      "VISUAL_CHARACTER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/character-pass-28-art6-broad",
+      "VISUAL_CHARACTER_STARTER": "1",
+      "VISUAL_CHARACTER_CLIPS": "Ready,IntroWave,IntroPushups",
+      "VISUAL_HEAD_FORM": "broad",
+      "VISUAL_CHARACTER_SKIN_MALE": "D49A70",
+      "VISUAL_CHARACTER_SKIN_FEMALE": "EBC3A1",
+      "VISUAL_CHARACTER_FEATURE_DUMPS": "1"
+    }
+  },
+  {
+    "name": "character-pass-28-art6-strong",
+    "method": "GolfArcade.EditorTools.VisualOverhaulCharacterCapture.Run",
+    "env": {
+      "VISUAL_CHARACTER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/character-pass-28-art6-strong",
+      "VISUAL_CHARACTER_STARTER": "1",
+      "VISUAL_CHARACTER_CLIPS": "Ready,IntroWave,IntroPushups",
+      "VISUAL_HEAD_FORM": "strong",
+      "VISUAL_CHARACTER_SKIN_MALE": "D49A70",
+      "VISUAL_CHARACTER_SKIN_FEMALE": "EBC3A1",
+      "VISUAL_CHARACTER_FEATURE_DUMPS": "1"
+    }
+  }
+]

@@ -1,0 +1,33 @@
+{
+  "native_renderer": "PASS actual Metal",
+  "portraits": 60,
+  "magenta_pixels": 0,
+  "metal_compiler_failures": 0,
+  "parity": [
+    {
+      "art": "PENDING actual snapshot inspection",
+      "boneCount": 53,
+      "maxPositionErrorMm": 0.004332651849836111,
+      "samples": 43080,
+      "sex": "Male"
+    },
+    {
+      "art": "PENDING actual snapshot inspection",
+      "boneCount": 53,
+      "maxPositionErrorMm": 0.013501611538231373,
+      "samples": 80700,
+      "sex": "Female"
+    }
+  ],
+  "original_53_bone_contract": "PASS both",
+  "body_face_two_stage_blink": "PASS weights + actual observed stages",
+  "observed_ready_full_closure": "PASS no visible eye leak both sexes",
+  "source_identity_uv_selected_tone": "retained; removed erroneous post-light double tint",
+  "visual_gate": "bounded cleanup/readability improvement; reference face quality FAIL",
+  "remaining": "soft lips, source normal/form patches, jagged closed crease, male partial upper-lid folds; actual default gameplay/native bundle tests pending",
+  "production_patch": "MatchHeroSurfaces.repair1.patch (-p0)",
+  "production_base_sha256": "f51509b087453b22a817aec4693f66a3d59322345e9ba2356063cd30b676d3a1",
+  "candidate_sha256": "481bc244a455c68aa945f58225efeaea1c039492be62026e6140ff22d9320cac",
+  "production_current_sha256": "481bc244a455c68aa945f58225efeaea1c039492be62026e6140ff22d9320cac",
+  "repair_patch_status": "Root-installed exact candidate; do not reapply"
+}

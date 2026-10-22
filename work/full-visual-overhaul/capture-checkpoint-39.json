@@ -1,0 +1,72 @@
+[
+  {
+    "name": "golf-lid-probe-1",
+    "method": "GolfArcade.EditorTools.HeroLidProbe.Run",
+    "env": {
+      "HLP_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-lid-probe-1",
+      "HLP_GOLF": "1"
+    }
+  },
+  {
+    "name": "hero-coverage-audit-1",
+    "method": "GolfArcade.EditorTools.HeroBodyCoverageRepair.Audit",
+    "quit": true,
+    "env": {
+      "HERO_COVERAGE_REPORT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/characters/body-coverage-audit-1.json"
+    }
+  },
+  {
+    "name": "character-current-starter-2",
+    "method": "GolfArcade.EditorTools.VisualOverhaulCharacterCapture.Run",
+    "env": {
+      "VISUAL_CHARACTER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/character-current-starter-2",
+      "VISUAL_CHARACTER_STARTER": "1",
+      "VISUAL_CHARACTER_CLIPS": "Ready,IntroWave"
+    }
+  },
+  {
+    "name": "tennis-audience5",
+    "method": "GolfArcade.EditorTools.TennisAudienceProof.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "TAP_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-audience-5",
+      "TAP_ISOLATE": "1"
+    }
+  },
+  {
+    "name": "tennis-promenade5",
+    "method": "GolfArcade.EditorTools.TennisPromenadeFilm.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "TWALK_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-promenade-film-5",
+      "TWALK_ISOLATE": "1"
+    }
+  },
+  {
+    "name": "tennis-costs18-resort",
+    "method": "GolfArcade.EditorTools.TennisFrameCosts.Run",
+    "batch": false,
+    "env": {
+      "HERO_VENUE": "resort",
+      "TCF_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-costs-18"
+    }
+  },
+  {
+    "name": "tennis-costs18-skyscraper",
+    "method": "GolfArcade.EditorTools.TennisFrameCosts.Run",
+    "batch": false,
+    "env": {
+      "HERO_VENUE": "skyscraper",
+      "TCF_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-costs-18"
+    }
+  },
+  {
+    "name": "tennis-costs18-volcano",
+    "method": "GolfArcade.EditorTools.TennisFrameCosts.Run",
+    "batch": false,
+    "env": {
+      "HERO_VENUE": "volcano",
+      "TCF_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-costs-18"
+    }
+  }
+]

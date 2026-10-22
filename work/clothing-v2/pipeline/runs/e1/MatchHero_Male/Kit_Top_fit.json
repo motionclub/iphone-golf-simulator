@@ -1,0 +1,25 @@
+{
+ "hero": "MatchHero_Male",
+ "tag": "Kit_Top",
+ "source": "dump:Kit_Top",
+ "seconds": 248.4,
+ "weights": {
+  "kept": true
+ },
+ "shapes": 16,
+ "log": [
+  "FIT MatchHero_Male Kit_Top from dump:Kit_Top: 19644 verts 37876 tris",
+  "  weights 1.1 s",
+  "  (coverage failed: Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:49:19)\n\nBlender quit\nator/work/clothing-v2/pipeline/gp/cov_cli.py\", line 11, in <module>\n    d = os.path.dirname(extra); one = CA.load_dir(d, h); t = str(np.load(extra)['tag']); cand[t] = one[t]\n                                                                                                   ~~~^^^\nKeyError: 'Kit_Top'\n)",
+  "  obstacles: body + Kit_Bottom",
+  "    pose 0/153  23 s",
+  "    pose 25/153  73 s",
+  "    pose 50/153  113 s",
+  "    pose 75/153  148 s",
+  "    pose 100/153  184 s",
+  "    pose 125/153  214 s",
+  "    pose 150/153  243 s",
+  "  correctives: 153/153 poses need a lift (max 60.0 mm, p90 59.9 mm) in 247 s",
+  "  16 shapes, RBF sigma 0.596, anchor fit err max 0.029, weight at rest 0.0000"
+ ]
+}

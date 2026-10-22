@@ -1,0 +1,82 @@
+[
+  {
+    "rank": 1,
+    "difference": "Wall columns read as black full-height fence planks.",
+    "phase": "P1/P4",
+    "result": "FAIL",
+    "reason": "Actual native tee/approach and aerial viewed: dense tall uniform wall still reads as a black fence; genuine column shape PASS does not certify recognition.",
+    "basis": "Actual Unity staged Game-view aerial+tee+approach; frozen source/scoring and inherited gate evidence retained"
+  },
+  {
+    "rank": 2,
+    "difference": "Orange joints are mainly thin isolated vertical streaks.",
+    "phase": "P1/P4",
+    "result": "FAIL",
+    "reason": "Native BASALT_JOINTS FAIL: teeS.224PASS, approach nonglowS.347>.25FAIL; pooledjunction8.679/100PASS. Currenttexture/windowFAILs persist.",
+    "basis": "Actual Unity staged Game-view aerial+tee+approach; frozen source/scoring and inherited gate evidence retained"
+  },
+  {
+    "rank": 3,
+    "difference": "Grass is strongly striped rather than a clean pale centre band.",
+    "phase": "P1/P4",
+    "result": "FAIL",
+    "reason": "Native grass looks mottled and subdued versus clean reference centre. Contrast controls0drift forCrater only; actual authored-band support/caps reported separately, no fixture substitution.",
+    "basis": "Actual Unity staged Game-view aerial+tee+approach; frozen source/scoring and inherited gate evidence retained"
+  },
+  {
+    "rank": 4,
+    "difference": "Green bulb reads as a low grass slab rather than a deep column pillar.",
+    "phase": "P4; top height frozen",
+    "result": "FAIL",
+    "reason": "Native approach reveals a shallow broad supported slab; frozen6m top cannot resemble the reference deep pillar. SupportPASS, visualrecognitionNO.",
+    "basis": "Actual Unity staged Game-view aerial+tee+approach; frozen source/scoring and inherited gate evidence retained"
+  },
+  {
+    "rank": 5,
+    "difference": "Rim is a repetitive horizontal tessellation rather than broken stacked columns.",
+    "phase": "P1/P4",
+    "result": "FAIL",
+    "reason": "Native aerial shows nearly uniform tall ring/fence tops; source SKYLINE_VARIED passes its original numeric conditions, but broken stacked reference rim still fails eye.",
+    "basis": "Actual Unity staged Game-view aerial+tee+approach; frozen source/scoring and inherited gate evidence retained"
+  },
+  {
+    "rank": 6,
+    "difference": "Volcano is a huge clipped textured flank, not a readable peak in this aerial.",
+    "phase": "P4/P5",
+    "result": "FAIL",
+    "reason": "Actual aerial volcano is cropped and sparse, native tee volcano197pxPASS64; approach0pxFAIL. Proofaerial framing still differs from reference.",
+    "basis": "Actual Unity staged Game-view aerial+tee+approach; frozen source/scoring and inherited gate evidence retained"
+  },
+  {
+    "rank": 7,
+    "difference": "Tee square and dark stone platform do not read independently of the fairway.",
+    "phase": "P4",
+    "result": "FAIL",
+    "reason": "Native tee platform appears as narrow dark polygon patches against low frozen grass, not the prominent square reference stone mass; geometry placementPASS.",
+    "basis": "Actual Unity staged Game-view aerial+tee+approach; frozen source/scoring and inherited gate evidence retained"
+  },
+  {
+    "rank": 8,
+    "difference": "Lava swirl texture has dense repeated wormlike patterns at this angle.",
+    "phase": "P1/P4; preserve orange gate",
+    "result": "FAIL",
+    "reason": "Native aerial lava is dense repetitive orange marbling rather than broad bright flow around dark rock; exact native colour/brightness remains unmeasured until full inherited category proof.",
+    "basis": "Actual Unity staged Game-view aerial+tee+approach; frozen source/scoring and inherited gate evidence retained"
+  },
+  {
+    "rank": 9,
+    "difference": "Smoke plumes have separate star-shaped card silhouettes from above.",
+    "phase": "P4; preserve soft-edge gate",
+    "result": "FAIL",
+    "reason": "Native aerial smoke retains star-shaped/crossed card silhouettes and does not read as the reference plumes; native dry-edge softness measurement absent, tee geometricprojection.82%<1.5%FAIL.",
+    "basis": "Actual Unity staged Game-view aerial+tee+approach; frozen source/scoring and inherited gate evidence retained"
+  },
+  {
+    "rank": 10,
+    "difference": "Bunkers are simple flat ellipses without the reference soft rocky margins.",
+    "phase": "P4; scoring ellipses frozen",
+    "result": "FAIL",
+    "reason": "Actual native aerial bunkers remain smooth low-detail ellipses within flat grass; original scoring vertices are frozen, so scoring contours cannot be reshaped. Scenery lips help but rocky reference margins still differ.",
+    "basis": "Actual Unity staged Game-view aerial+tee+approach; frozen source/scoring and inherited gate evidence retained"
+  }
+]

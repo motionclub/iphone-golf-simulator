@@ -1,0 +1,98 @@
+[
+  {
+    "variant": "after_court",
+    "compiler": "Apple Metal 32023 AIR, iOS 15 target; NOT hardware ALU",
+    "success": true,
+    "float_ir_operations": {
+      "fadd": 14,
+      "fsub": 12,
+      "fmul": 83,
+      "fdiv": 9,
+      "fneg": 12,
+      "fcmp": 10
+    },
+    "intrinsics": {
+      "dot": 25,
+      "normalize": 0,
+      "sqrt": 0,
+      "rsqrt": 4,
+      "pow": 0,
+      "exp": 4,
+      "fma": 51,
+      "sample": 6
+    },
+    "diagnostics": ""
+  },
+  {
+    "variant": "after_plain",
+    "compiler": "Apple Metal 32023 AIR, iOS 15 target; NOT hardware ALU",
+    "success": true,
+    "float_ir_operations": {
+      "fadd": 8,
+      "fsub": 7,
+      "fmul": 58,
+      "fdiv": 5,
+      "fneg": 7,
+      "fcmp": 8
+    },
+    "intrinsics": {
+      "dot": 18,
+      "normalize": 0,
+      "sqrt": 0,
+      "rsqrt": 3,
+      "pow": 0,
+      "exp": 3,
+      "fma": 32,
+      "sample": 3
+    },
+    "diagnostics": ""
+  },
+  {
+    "variant": "before_court",
+    "compiler": "Apple Metal 32023 AIR, iOS 15 target; NOT hardware ALU",
+    "success": true,
+    "float_ir_operations": {
+      "fadd": 9,
+      "fsub": 9,
+      "fmul": 51,
+      "fdiv": 6,
+      "fneg": 6,
+      "fcmp": 6
+    },
+    "intrinsics": {
+      "dot": 25,
+      "normalize": 0,
+      "sqrt": 1,
+      "rsqrt": 3,
+      "pow": 0,
+      "exp": 5,
+      "fma": 36,
+      "sample": 7
+    },
+    "diagnostics": ""
+  },
+  {
+    "variant": "before_plain",
+    "compiler": "Apple Metal 32023 AIR, iOS 15 target; NOT hardware ALU",
+    "success": true,
+    "float_ir_operations": {
+      "fadd": 3,
+      "fsub": 6,
+      "fmul": 34,
+      "fdiv": 3,
+      "fneg": 4,
+      "fcmp": 4
+    },
+    "intrinsics": {
+      "dot": 18,
+      "normalize": 0,
+      "sqrt": 1,
+      "rsqrt": 2,
+      "pow": 0,
+      "exp": 4,
+      "fma": 23,
+      "sample": 2
+    },
+    "diagnostics": ""
+  }
+]

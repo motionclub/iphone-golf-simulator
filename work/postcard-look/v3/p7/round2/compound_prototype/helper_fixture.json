@@ -1,0 +1,54 @@
+{
+  "helper_source_sha": "f91d034f7988dee9ef63683965a04213ec0ee4adfc8ee2c0b77ac58a3d10843a",
+  "checks": {
+    "g_prop_budget": [
+      true,
+      "54 prop meshes within budget (plants/rocks <= 500 faces, tufts <= 120); largest {'rock': 461, 'plant': 448, 'tuft': 117}"
+    ],
+    "g_plants_material": [
+      true,
+      "all 720 PLANT_* objects use the one shared LK_PLANTS material"
+    ],
+    "g_plants_instanced": [
+      true,
+      "720 PLANT_* objects use 35 meshes; 100% of them share their mesh with another plant (need >= 80%)"
+    ],
+    "g_plant_sway_colors": [
+      true,
+      "all 35 unique PLANT_* meshes carry the sway colours (one attribute, root <= 0.05, tip > 0.6 (shrub / tree > 0.25), rising, B 0, A 1): flower 4 mesh(es): root<= 0.02, tip 0.80..0.80; shrub 3 mesh(es): root<= 0.00, tip 0.48..0.48; tuft 28 mesh(es): root<= 0.00, tip 1.00..1.00"
+    ],
+    "g_plant_sway_caps": [
+      true,
+      "every plant's tip displacement at 20 mph stays under its kind's cap (AmpFull 0.058 yd x w x 1.020): flower: max 0.0473 yd at 20 mph (cap 0.05); shrub: max 0.0284 yd at 20 mph (cap 0.03); tuft: max 0.0591 yd at 20 mph (cap 0.06)"
+    ],
+    "SCENERY_REFERENCES_LIVE_AND_UNIQUE": [
+      true,
+      "578 live unique tuple renderers"
+    ],
+    "PROTOTYPE_AND_REUSABLE_HELPER_IDENTICAL_CENSUS": [
+      true,
+      "720 plants/180 compound renderers/248868 triangles"
+    ]
+  },
+  "summary": {
+    "plants_before": 940,
+    "plants_after": 720,
+    "tuft_renderers_before": 798,
+    "tuft_renderers_after": 578,
+    "actual_whole_tufts_before": 798,
+    "actual_whole_tufts_after": 798,
+    "triangles_before": 248868,
+    "triangles_after": 248868,
+    "compound_renderers": 180,
+    "real_shared_compound_variants": 21,
+    "original_singles_retained": 23,
+    "rejects": {
+      "shore": 6,
+      "insufficient_real_variant_instances": 7,
+      "original_top_cap": 4,
+      "all_root_support": 2
+    },
+    "native_draw_calls_unmeasured": true
+  },
+  "production_applied": false
+}

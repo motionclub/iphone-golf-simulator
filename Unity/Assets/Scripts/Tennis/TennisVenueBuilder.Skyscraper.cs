@@ -672,6 +672,7 @@ namespace GolfArcade.Tennis
                 }
                 else {RenderSettings.skybox=null;camera.clearFlags=CameraClearFlags.SolidColor;}
                 camera.backgroundColor=haze;
+                GolfArcade.EnvironmentArt.RenderedBackdrop.TennisEarly();   // rendered backgrounds (work/rendered-backgrounds)
             }
         }
 

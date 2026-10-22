@@ -1,0 +1,53 @@
+[
+  {
+    "sample": "female_intro",
+    "views": [
+      {
+        "view": "front",
+        "newSkinPixels": 0,
+        "coveredSkinPixels": 60,
+        "newBackgroundPixels": 217
+      },
+      {
+        "view": "rear",
+        "newSkinPixels": 26,
+        "coveredSkinPixels": 273,
+        "newBackgroundPixels": 231
+      }
+    ]
+  },
+  {
+    "sample": "female_Forehand_1",
+    "views": [
+      {
+        "view": "front",
+        "newSkinPixels": 0,
+        "coveredSkinPixels": 245,
+        "newBackgroundPixels": 0
+      },
+      {
+        "view": "rear",
+        "newSkinPixels": 9,
+        "coveredSkinPixels": 420,
+        "newBackgroundPixels": 1
+      }
+    ]
+  },
+  {
+    "sample": "female_Forehand_2",
+    "views": [
+      {
+        "view": "front",
+        "newSkinPixels": 175,
+        "coveredSkinPixels": 570,
+        "newBackgroundPixels": 36
+      },
+      {
+        "view": "rear",
+        "newSkinPixels": 0,
+        "coveredSkinPixels": 91,
+        "newBackgroundPixels": 37
+      }
+    ]
+  }
+]

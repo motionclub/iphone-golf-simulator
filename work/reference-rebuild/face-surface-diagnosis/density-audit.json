@@ -1,0 +1,28 @@
+{
+  "Male": {
+    "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-blink-finish/Male_OriginalSeamBlinkFinish1.blend",
+    "frontUniquePoints": 5343,
+    "localNeighbourCountMedian": 17,
+    "localDualAreaRatioMedian": 4.129466697962452,
+    "localDualAreaRatioP95": 44.08336138221459,
+    "unitVsAreaFieldAngleMean": 1.928270402169285,
+    "unitVsAreaFieldAngleP95": 7.796816324373173,
+    "unitVsAreaFieldAngleMax": 45.22077004168682,
+    "pointsAngleOverTwoDegrees": 1505,
+    "readOnlySource": true,
+    "actualUnityNormalArraysNotRead": true
+  },
+  "Female": {
+    "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-blink-finish/Female_OriginalSeamBlinkFinish1.blend",
+    "frontUniquePoints": 5094,
+    "localNeighbourCountMedian": 23,
+    "localDualAreaRatioMedian": 4.327565226008687,
+    "localDualAreaRatioP95": 123.20354566172142,
+    "unitVsAreaFieldAngleMean": 1.7042553052675615,
+    "unitVsAreaFieldAngleP95": 6.475234484130944,
+    "unitVsAreaFieldAngleMax": 16.407591414778643,
+    "pointsAngleOverTwoDegrees": 1522,
+    "readOnlySource": true,
+    "actualUnityNormalArraysNotRead": true
+  }
+}

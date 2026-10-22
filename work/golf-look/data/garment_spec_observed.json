@@ -1,0 +1,16 @@
+{
+  "file": "ArtDir/hero/kit/GARMENT_SPEC.md",
+  "sha256": "8f3b938658771ec1228e66c437f727c8fe8b2befe25c9d745e850ba720f62f3a",
+  "status": "draft observed during active 29; not dependency release",
+  "channels": "N tangent OpenGL+Y; M linear R=AO, G=cavity/stitch, B=trim, A=ID/5",
+  "existing_id_bytes": [
+    0,
+    51,
+    102,
+    153,
+    204,
+    255
+  ],
+  "existing_top_size": 2048,
+  "constraints": "Golf IDs/profile encoding and top resolution must preserve existing tennis bytes/arithmetic and fit 6 MB; no shared contract edits before 29 finishes."
+}

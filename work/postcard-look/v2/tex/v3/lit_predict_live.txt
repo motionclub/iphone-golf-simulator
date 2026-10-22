@@ -1,0 +1,79 @@
+light table from GolfAtmosphere.cs, tints from GolfLook.cs
+  hole 8 Needle linear light on flat ground (R,G,B) = (1.661, 1.506, 1.644)
+  hole 9 Split  linear light on flat ground (R,G,B) = (2.020, 2.081, 2.362)
+  hole 10 Crater linear light on flat ground (R,G,B) = (1.421, 0.866, 0.742)
+tints used: GolfLook.cs (table .94 where no HoleTint entry)
+
+material hole    tint              | first-principles rgb        hue    S    V clip | calibrated rgb            hue    S    V clip | game-fit rgb              hue    S    V clip | band    verdict
+Fairway_C albedo mean (141,168,50) hue 73.6 S 0.703 V 0.657
+Fairway  Needle  (0.94,0.94,0.94)  | (166,189, 60)  70.5 0.68 0.74 0.00 | (174,187, 67)  66.2 0.64 0.73 0.00 | (178,193, 70)  67.6 0.64 0.76 0.00 | 64..73  PASS
+Fairway  Split   (0.68,0.66,0.66)  | (131,153, 48)  72.8 0.69 0.60 0.00 | (137,151, 57)  69.0 0.62 0.59 0.00 | (140,158, 65)  71.9 0.59 0.62 0.00 | 64..73  PASS
+Fairway  Crater  (0.90,1.15,0.62)  | (148,181, 22)  72.4 0.88 0.71 0.00 | (155,179, 38)  70.0 0.79 0.70 0.00 | (159,185, 42)  70.9 0.77 0.73 0.00 | 64..73  PASS
+Green_C albedo mean (151,175,59) hue 72.4 S 0.663 V 0.686
+Green    Needle  (0.94,0.94,0.94)  | (178,197, 71)  69.1 0.64 0.77 0.00 | (187,195, 77)  64.1 0.61 0.76 0.00 | (189,201, 78)  66.2 0.61 0.79 0.00 | 64..73  PASS
+Green    Split   (0.72,0.70,0.74)  | (148,170, 65)  72.1 0.62 0.67 0.00 | (156,167, 71)  67.4 0.57 0.66 0.00 | (157,174, 77)  70.9 0.56 0.68 0.00 | 64..73  PASS
+Green    Crater  (0.90,1.15,0.62)  | (159,189, 27)  71.2 0.86 0.74 0.00 | (166,187, 41)  68.4 0.78 0.73 0.00 | (169,193, 44)  69.7 0.77 0.76 0.00 | 64..73  PASS
+Rough_C albedo mean (104,114,35) hue 68.1 S 0.696 V 0.448
+Rough    Needle  (0.94,0.94,0.94)  | (123,130, 43)  64.5 0.67 0.51 0.00 | (129,128, 53)  59.0 0.59 0.51 0.00 | (139,137, 58)  58.4 0.59 0.55 0.00 | 58..72  PASS
+Rough    Split   (0.77,0.76,0.77)  | (109,121, 41)  68.5 0.66 0.47 0.00 | (115,119, 51)  63.8 0.57 0.47 0.00 | (121,128, 61)  66.5 0.52 0.50 0.00 | 58..72  PASS
+Rough    Crater  (0.90,1.10,0.62)  | (109,118, 14)  65.2 0.89 0.46 0.00 | (115,117, 33)  61.5 0.72 0.46 0.00 | (125,125, 38)  60.5 0.69 0.49 0.00 | 58..72  PASS
+Scrub_C albedo mean (106,97,53) hue 49.9 S 0.499 V 0.416
+Scrub    Split   (0.82,0.82,0.86)  | (119,111, 69)  50.0 0.42 0.47 0.00 | (125,110, 76)  41.1 0.40 0.49 0.00 | (130,120, 81)  47.3 0.38 0.51 0.00 | 40..58  PASS
+
+GATE: GRASS_HUE_PREDICTED Fairway_C on Needle PASS - hue first-principles 70.5 / calibrated 66.2 / game-fit 67.6, S 0.68/0.64/0.64, V 0.74/0.73/0.76, band 64..73, tint (0.94,0.94,0.94) from GolfLook.cs
+GATE: GRASS_HUE_PREDICTED Fairway_C on Split PASS - hue first-principles 72.8 / calibrated 69.0 / game-fit 71.9, S 0.69/0.62/0.59, V 0.60/0.59/0.62, band 64..73, tint (0.68,0.66,0.66) from GolfLook.cs
+GATE: GRASS_HUE_PREDICTED Fairway_C on Crater PASS - hue first-principles 72.4 / calibrated 70.0 / game-fit 70.9, S 0.88/0.79/0.77, V 0.71/0.70/0.73, band 64..73, tint (0.90,1.15,0.62) from GolfLook.cs
+GATE: GRASS_HUE_PREDICTED Green_C on Needle PASS - hue first-principles 69.1 / calibrated 64.1 / game-fit 66.2, S 0.64/0.61/0.61, V 0.77/0.76/0.79, band 64..73, tint (0.94,0.94,0.94) from GolfLook.cs
+GATE: GRASS_HUE_PREDICTED Green_C on Split PASS - hue first-principles 72.1 / calibrated 67.4 / game-fit 70.9, S 0.62/0.57/0.56, V 0.67/0.66/0.68, band 64..73, tint (0.72,0.70,0.74) from GolfLook.cs
+GATE: GRASS_HUE_PREDICTED Green_C on Crater PASS - hue first-principles 71.2 / calibrated 68.4 / game-fit 69.7, S 0.86/0.78/0.77, V 0.74/0.73/0.76, band 64..73, tint (0.90,1.15,0.62) from GolfLook.cs
+GATE: GRASS_HUE_PREDICTED Rough_C on Needle PASS - hue first-principles 64.5 / calibrated 59.0 / game-fit 58.4, S 0.67/0.59/0.59, V 0.51/0.51/0.55, band 58..72, tint (0.94,0.94,0.94) from GolfLook.cs
+GATE: GRASS_HUE_PREDICTED Rough_C on Split PASS - hue first-principles 68.5 / calibrated 63.8 / game-fit 66.5, S 0.66/0.57/0.52, V 0.47/0.47/0.50, band 58..72, tint (0.77,0.76,0.77) from GolfLook.cs
+GATE: GRASS_HUE_PREDICTED Rough_C on Crater PASS - hue first-principles 65.2 / calibrated 61.5 / game-fit 60.5, S 0.89/0.72/0.69, V 0.46/0.46/0.49, band 58..72, tint (0.90,1.10,0.62) from GolfLook.cs
+GATE: GRASS_HUE_PREDICTED Scrub_C on Split PASS - hue first-principles 50.0 / calibrated 41.1 / game-fit 47.3, S 0.42/0.40/0.38, V 0.47/0.49/0.51, band 40..58, tint (0.82,0.82,0.86) from GolfLook.cs
+light table from GolfAtmosphere.cs, tints from GolfLook.cs
+  hole 8 Needle linear light on flat ground (R,G,B) = (1.661, 1.506, 1.644)
+  hole 9 Split  linear light on flat ground (R,G,B) = (2.020, 2.081, 2.362)
+  hole 10 Crater linear light on flat ground (R,G,B) = (1.421, 0.866, 0.742)
+  patch hole 8 Fairway Game view (186,200,72) hue 66.6   fit (178,194,70) hue 67.6
+  patch hole 8 Green   Game view (185,197,77) hue 66.0   fit (189,201,78) hue 66.2
+  patch hole 8 Rough   Game view (136,136,57) hue 60.0   fit (139,137,58) hue 58.4
+  patch hole 9 Fairway Game view (163,207,72) hue 79.6   fit (155,199,69) hue 80.4
+  patch hole 9 Green   Game view (162,204,76) hue 79.7   fit (164,207,75) hue 79.4
+  patch hole 9 Rough   Game view (125,145,61) hue 74.3   fit (125,144,61) hue 73.5
+  patch hole 9 Scrub   Game view (141,131,83) hue 49.7   fit (147,135,86) hue 48.7
+  patch hole 10 Fairway Game view (165,189,43) hue 69.9   fit (159,185,42) hue 70.9
+  patch hole 10 Green   Game view (161,183,44) hue 69.5   fit (169,193,44) hue 69.7
+  patch hole 10 Rough   Game view (126,129,38) hue 62.0   fit (125,126,38) hue 60.5
+  derived GAME_MUL (1.005,0.992,0.887)
+  derived GAME_ADD[8] (0.0581,0.0303,0.0203)
+  derived GAME_ADD[9] (0.0351,0.0276,0.0275)
+  derived GAME_ADD[10] (0.0482,0.0254,0.0158)
+  in use: GAME_MUL (1.005, 0.992, 0.887) GAME_ADD {8: (0.0581, 0.0303, 0.0203), 9: (0.0351, 0.0276, 0.0275), 10: (0.0482, 0.0254, 0.0158)}
+tints used: GolfLook.cs (table .94 where no HoleTint entry)
+
+material hole    tint              | first-principles rgb        hue    S    V clip | calibrated rgb            hue    S    V clip | game-fit rgb              hue    S    V clip | band    verdict
+Fairway_C albedo mean (141,168,50) hue 73.6 S 0.703 V 0.657
+Fairway  Needle  (0.94,0.94,0.94)  | (166,189, 60)  70.5 0.68 0.74 0.00 | (174,187, 67)  66.2 0.64 0.73 0.00 | (178,193, 70)  67.6 0.64 0.76 0.00 | 64..73  PASS
+Fairway  Split   (0.68,0.66,0.66)  | (131,153, 48)  72.8 0.69 0.60 0.00 | (137,151, 57)  69.0 0.62 0.59 0.00 | (140,158, 65)  71.9 0.59 0.62 0.00 | 64..73  PASS
+Fairway  Crater  (0.90,1.15,0.62)  | (148,181, 22)  72.4 0.88 0.71 0.00 | (155,179, 38)  70.0 0.79 0.70 0.00 | (159,185, 42)  70.9 0.77 0.73 0.00 | 64..73  PASS
+Green_C albedo mean (151,175,59) hue 72.4 S 0.663 V 0.686
+Green    Needle  (0.94,0.94,0.94)  | (178,197, 71)  69.1 0.64 0.77 0.00 | (187,195, 77)  64.1 0.61 0.76 0.00 | (189,201, 78)  66.2 0.61 0.79 0.00 | 64..73  PASS
+Green    Split   (0.72,0.70,0.74)  | (148,170, 65)  72.1 0.62 0.67 0.00 | (156,167, 71)  67.4 0.57 0.66 0.00 | (157,174, 77)  70.9 0.56 0.68 0.00 | 64..73  PASS
+Green    Crater  (0.90,1.15,0.62)  | (159,189, 27)  71.2 0.86 0.74 0.00 | (166,187, 41)  68.4 0.78 0.73 0.00 | (169,193, 44)  69.7 0.77 0.76 0.00 | 64..73  PASS
+Rough_C albedo mean (104,114,35) hue 68.1 S 0.696 V 0.448
+Rough    Needle  (0.94,0.94,0.94)  | (123,130, 43)  64.5 0.67 0.51 0.00 | (129,128, 53)  59.0 0.59 0.51 0.00 | (139,137, 58)  58.4 0.59 0.55 0.00 | 58..72  PASS
+Rough    Split   (0.77,0.76,0.77)  | (109,121, 41)  68.5 0.66 0.47 0.00 | (115,119, 51)  63.8 0.57 0.47 0.00 | (121,128, 61)  66.5 0.52 0.50 0.00 | 58..72  PASS
+Rough    Crater  (0.90,1.10,0.62)  | (109,118, 14)  65.2 0.89 0.46 0.00 | (115,117, 33)  61.5 0.72 0.46 0.00 | (125,125, 38)  60.5 0.69 0.49 0.00 | 58..72  PASS
+Scrub_C albedo mean (106,97,53) hue 49.9 S 0.499 V 0.416
+Scrub    Split   (0.82,0.82,0.86)  | (119,111, 69)  50.0 0.42 0.47 0.00 | (125,110, 76)  41.1 0.40 0.49 0.00 | (130,120, 81)  47.3 0.38 0.51 0.00 | 40..58  PASS
+
+GATE: GRASS_HUE_PREDICTED Fairway_C on Needle PASS - hue first-principles 70.5 / calibrated 66.2 / game-fit 67.6, S 0.68/0.64/0.64, V 0.74/0.73/0.76, band 64..73, tint (0.94,0.94,0.94) from GolfLook.cs
+GATE: GRASS_HUE_PREDICTED Fairway_C on Split PASS - hue first-principles 72.8 / calibrated 69.0 / game-fit 71.9, S 0.69/0.62/0.59, V 0.60/0.59/0.62, band 64..73, tint (0.68,0.66,0.66) from GolfLook.cs
+GATE: GRASS_HUE_PREDICTED Fairway_C on Crater PASS - hue first-principles 72.4 / calibrated 70.0 / game-fit 70.9, S 0.88/0.79/0.77, V 0.71/0.70/0.73, band 64..73, tint (0.90,1.15,0.62) from GolfLook.cs
+GATE: GRASS_HUE_PREDICTED Green_C on Needle PASS - hue first-principles 69.1 / calibrated 64.1 / game-fit 66.2, S 0.64/0.61/0.61, V 0.77/0.76/0.79, band 64..73, tint (0.94,0.94,0.94) from GolfLook.cs
+GATE: GRASS_HUE_PREDICTED Green_C on Split PASS - hue first-principles 72.1 / calibrated 67.4 / game-fit 70.9, S 0.62/0.57/0.56, V 0.67/0.66/0.68, band 64..73, tint (0.72,0.70,0.74) from GolfLook.cs
+GATE: GRASS_HUE_PREDICTED Green_C on Crater PASS - hue first-principles 71.2 / calibrated 68.4 / game-fit 69.7, S 0.86/0.78/0.77, V 0.74/0.73/0.76, band 64..73, tint (0.90,1.15,0.62) from GolfLook.cs
+GATE: GRASS_HUE_PREDICTED Rough_C on Needle PASS - hue first-principles 64.5 / calibrated 59.0 / game-fit 58.4, S 0.67/0.59/0.59, V 0.51/0.51/0.55, band 58..72, tint (0.94,0.94,0.94) from GolfLook.cs
+GATE: GRASS_HUE_PREDICTED Rough_C on Split PASS - hue first-principles 68.5 / calibrated 63.8 / game-fit 66.5, S 0.66/0.57/0.52, V 0.47/0.47/0.50, band 58..72, tint (0.77,0.76,0.77) from GolfLook.cs
+GATE: GRASS_HUE_PREDICTED Rough_C on Crater PASS - hue first-principles 65.2 / calibrated 61.5 / game-fit 60.5, S 0.89/0.72/0.69, V 0.46/0.46/0.49, band 58..72, tint (0.90,1.10,0.62) from GolfLook.cs
+GATE: GRASS_HUE_PREDICTED Scrub_C on Split PASS - hue first-principles 50.0 / calibrated 41.1 / game-fit 47.3, S 0.42/0.40/0.38, V 0.47/0.49/0.51, band 40..58, tint (0.82,0.82,0.86) from GolfLook.cs

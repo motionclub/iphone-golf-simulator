@@ -1,0 +1,655 @@
+{
+  "status": "FAIL",
+  "strict_raw_status": "FAIL",
+  "production_edited_by_agent": false,
+  "native_unmeasured": true,
+  "ground": {
+    "process_exit_code": 0,
+    "argv": [
+      "--out",
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/shared_checks/ground_full",
+      "--no-render",
+      "--verify"
+    ],
+    "own_gates": 26,
+    "own_pass": 26,
+    "own_fails": [],
+    "original_child_base": {
+      "gates": 29,
+      "passed": 29,
+      "failures": []
+    },
+    "original_child_look": {
+      "gates": 29,
+      "passed": 26,
+      "failures": [
+        "MATERIALS@blend",
+        "MATERIALS@fbx",
+        "FBX_BUDGET@fbx"
+      ],
+      "failed_gates": [
+        {
+          "name": "MATERIALS@blend",
+          "ok": false,
+          "detail": "materials outside the contract: ['LK_CLIFF', 'LK_CLIFF_DARK', 'LK_FAIRWAY', 'LK_GREEN', 'LK_ROCK', 'LK_ROUGH', 'LK_SAND', 'LK_SCRUB', 'LK_SURF', 'LK_WATER', 'LK_WATER_SHALLOW']; only 4 MAT_* names could be compared with hole 7 (reference palette has 27): need >= 8"
+        },
+        {
+          "name": "MATERIALS@fbx",
+          "ok": false,
+          "detail": "materials outside the contract: ['LK_CLIFF', 'LK_CLIFF_DARK', 'LK_FAIRWAY', 'LK_GREEN', 'LK_ROCK', 'LK_ROUGH', 'LK_SAND', 'LK_SCRUB', 'LK_SURF', 'LK_WATER', 'LK_WATER_SHALLOW']; only 4 MAT_* names could be compared with hole 7 (reference palette has 27): need >= 8"
+        },
+        {
+          "name": "FBX_BUDGET@fbx",
+          "ok": false,
+          "detail": "4.44 MB (<= 4) and 115551 triangles counting every object (<= 150000; 106631 in unique meshes, 560 mesh objects)"
+        }
+      ]
+    },
+    "existing_smoke_definition": "Existing POSTCARD_VERIFY_NO_REGRESSION regards MATERIALS/FBX_BUDGET as superseded; every raw child FAIL is retained here."
+  },
+  "props": {
+    "process_exit_code": 0,
+    "argv": [
+      "--out-root",
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/shared_checks/props_full",
+      "--no-render"
+    ],
+    "gates": 115,
+    "passed": 115,
+    "failed_gates": [],
+    "includes_all_three_holes": true,
+    "includes_baseline_swaps": true,
+    "all_gates": [
+      {
+        "name": "PLANTS_ATLAS",
+        "ok": true,
+        "detail": "Unity/Assets/Resources/Course/Look/Plants_C.png 256x256 sha 5fc472d97e5e (two generations identical: True)"
+      },
+      {
+        "name": "LIB_FACES",
+        "ok": true,
+        "detail": "57 library meshes, max faces 465 (max tris 472), tufts {'PLANT_TUFT_A': 78, 'PLANT_TUFT_B': 78, 'PLANT_TUFT_C': 78, 'PLANT_TUFT_D': 72, 'PLANT_TUFT_E': 81, 'PLANT_TUFT_F': 72, 'PLANT_TUFT_S': 36, 'PLANT_TUFT_T': 36}, over 500: none"
+      },
+      {
+        "name": "ROCK_UNIQUE",
+        "ok": true,
+        "detail": "17 unique rock meshes, min verts 61, faces 101..465"
+      },
+      {
+        "name": "ROCK_VERTS_60",
+        "ok": true,
+        "detail": "36 library rock meshes (twins included): min welded verts 61 (>= 60), min faces 100 (>= 100); short: none"
+      },
+      {
+        "name": "NO_ICOSAHEDRON",
+        "ok": true,
+        "detail": "rock meshes with <= 12 verts / 12-vertex 20-face icosahedra: none"
+      },
+      {
+        "name": "NO_12_VERTEX_ROCK",
+        "ok": true,
+        "detail": "library: min 61 welded verts / 100 faces over 36 rock meshes; scene with 3 icosahedra: assert_no_legacy_rocks FAILS before the swap (offenders 3, raises True) and PASSES after (rocks 3, min verts 108); the hole tests re-assert after every swap"
+      },
+      {
+        "name": "ROCK_SHAPE_NOT_BLOB",
+        "ok": true,
+        "detail": "36 library rocks all pass (welded verts >= 60, faces >= 100, >= 6 facet orientations in 14 degree cones, normalised radius CV >= 0.1); radius CV 0.13..0.39, facets 7..19; failing: none. NEGATIVE CONTROLS all FAIL: icosahedron (12 verts): FAIL [12v/20f, rcv 0.043]; icosphere sub 2 (42 verts): FAIL [42v/80f, rcv 0.015]; icosphere sub 3 (162 verts): FAIL [162v/320f, rcv 0.000]; split icosahedron (60 verts, flat): FAIL [12v/20f, rcv 0.043]; stretched icosphere sub 3: FAIL [162v/320f, rcv 0.000]; noised icosphere sub 3 (8 %): FAIL [162v/320f, rcv 0.046]; UV sphere 16 x 10: FAIL [146v/160f, rcv 0.000]"
+      },
+      {
+        "name": "SEASTACK_TAPERED",
+        "ok": true,
+        "detail": "A: 405 faces, 25 slices (distinct True), taper w90/w10 0.28 (<= 0.45), max band widening 1.07 (<= 1.12), flat cap 4% of base (<= 25%), 13 facet orientations (>= 6), bbox fill from 0/45/90/135 deg 0.57/0.55/0.57/0.59 (<= 0.62); B: 461 faces, 27 slices (distinct True), taper w90/w10 0.26 (<= 0.45), max band widening 1.01 (<= 1.12), flat cap 8% of base (<= 25%), 12 facet orientations (>= 6), bbox fill from 0/45/90/135 deg 0.49/0.51/0.53/0.50 (<= 0.62); C: 455 faces, 30 slices (distinct True), taper w90/w10 0.25 (<= 0.45), max band widening 1.01 (<= 1.12), flat cap 6% of base (<= 25%), 15 facet orientations (>= 6), bbox fill from 0/45/90/135 deg 0.50/0.49/0.53/0.52 (<= 0.62); D: 465 faces, 27 slices (distinct True), taper w90/w10 0.31 (<= 0.45), max band widening 1.02 (<= 1.12), flat cap 15% of base (<= 25%), 16 facet orientations (>= 6), bbox fill from 0/45/90/135 deg 0.55/0.56/0.56/0.60 (<= 0.62); E: 451 faces, 27 slices (distinct True), taper w90/w10 0.28 (<= 0.45), max band widening 0.97 (<= 1.12), flat cap 4% of base (<= 25%), 15 facet orientations (>= 6), bbox fill from 0/45/90/135 deg 0.44/0.52/0.54/0.46 (<= 0.62). Mesh heights 16/21/27/19/24 m for A/B/C/D/E (13/18/24/16/21 m above the water + 3 m under it). NEGATIVE: old A (two flat-topped cores): FAIL (taper 0.48 > 0.45; flat cap 53% of the base > 25%; silhouette fill 0.66 > 0.62 (a rectangle-ish outline)); old B (leaning two cores): FAIL (taper 0.65 > 0.45; flat cap 52% of the base > 25%; silhouette fill 0.76 > 0.62 (a rectangle-ish outline))"
+      },
+      {
+        "name": "SPIRE_TAPERED",
+        "ok": true,
+        "detail": "ROCK_SPIRE_A taper 0.27, fills 0.54/0.49/0.50/0.57, 429 faces, facets 15"
+      },
+      {
+        "name": "BASALT_COLUMNS",
+        "ok": true,
+        "detail": "ROCK_BASALT_A 26 column tops, 94% vertical area; ROCK_BASALT_B 17 column tops, 93% vertical area; ROCK_BASALT_C 12 column tops, 94% vertical area; ROCK_BASALT_D 23 column tops, 85% vertical area; ROCK_BASALT_E 22 column tops, 96% vertical area; ROCK_BASALT_F 19 column tops, 96% vertical area; ROCK_WALL_BASALT_A 26 column tops, 97% vertical area; ROCK_WALL_BASALT_B 26 column tops, 97% vertical area; ROCK_WALL_BASALT_C 25 column tops, 97% vertical area; ROCK_WALL_BASALT_S 19 column tops, 97% vertical area; ROCK_WALL_BASALT_M 20 column tops, 97% vertical area; ROCK_WALL_BASALT_L 23 column tops, 97% vertical area"
+      },
+      {
+        "name": "WALL_COLUMNS_HEX",
+        "ok": true,
+        "detail": "TOWER_S: 19 hex column tops (>= 12), 10 distinct top levels over 9.5 m, 8 chipped tops, 97% vertical area, 141 faces, 14 x 15 x 26 m (incl. 6 m buried), UV: tile 8 m at the nominal scale 1.3 -> density ratio median 0.94; TOWER_M: 20 hex column tops (>= 12), 12 distinct top levels over 16.2 m, 12 chipped tops, 97% vertical area, 152 faces, 20 x 21 x 38 m (incl. 6 m buried), UV: tile 8 m at the nominal scale 1.5 -> density ratio median 0.94; TOWER_L: 23 hex column tops (>= 12), 14 distinct top levels over 18.4 m, 12 chipped tops, 97% vertical area, 173 faces, 35 x 28 x 54 m (incl. 6 m buried), UV: tile 8 m at the nominal scale 1.5 -> density ratio median 0.94"
+      },
+      {
+        "name": "UV_TILE_UNITS",
+        "ok": true,
+        "detail": "box UV = object space / contract tile (rock 4, basalt 8, masonry 4, rough cap 12) on 35 meshes; bad: none"
+      },
+      {
+        "name": "UV_NONDEGENERATE",
+        "ok": true,
+        "detail": "faces with zero UV area: none"
+      },
+      {
+        "name": "UV_IN_SWATCH",
+        "ok": true,
+        "detail": "21 plant meshes + the shrub crown faces of the 6 spires, every face inside one swatch 6 px inside its border; bad: none"
+      },
+      {
+        "name": "PLANTS_ONE_MATERIAL",
+        "ok": true,
+        "detail": "all 21 plant meshes = [LK_PLANTS], no other prop uses it; wrong: none"
+      },
+      {
+        "name": "TUFT_LIB_V2",
+        "ok": true,
+        "detail": "3 tall tufts [('D', 72, 108, 0.62), ('E', 81, 135, 0.57), ('F', 72, 108, 0.65)] (letter, faces <= 120, tris, height m; old tufts 0.43 m max) + 2 filler tufts [('S', 36, 36, 0.37), ('T', 36, 36, 0.35)] (faces <= 40), one LK_PLANTS material each"
+      },
+      {
+        "name": "PLANT_EXISTING_BYTE_COMPAT",
+        "ok": true,
+        "detail": "48 pre-existing library meshes (16 plants, rocks, basalt, blocks): geometry / UV / materials fingerprint identical to the baseline taken before the sway pass (colours excluded): changed none; new kinds ['PLANT_TUFT_D', 'PLANT_TUFT_E', 'PLANT_TUFT_F', 'PLANT_TUFT_S', 'PLANT_TUFT_T']"
+      },
+      {
+        "name": "PLANT_SWAY_COLORS",
+        "ok": true,
+        "detail": "21 PLANT_ library meshes in the blend: Col FLOAT_COLOR POINT with R weight (root <= 0.05, class tip window), G phase, B 0, A 1; tip R per kind {'PLANT_AGAVE_A': ('agave', 0.8), 'PLANT_AGAVE_B': ('agave', 0.8), 'PLANT_FLOWER_PURPLE': ('flower', 0.8), 'PLANT_FLOWER_WHITE': ('flower', 0.8), 'PLANT_FLOWER_YELLOW': ('flower', 0.8), 'PLANT_PINE_A': ('tree', 0.3), 'PLANT_SHRUB_A': ('shrub', 0.48), 'PLANT_SHRUB_B': ('shrub', 0.48), 'PLANT_SHRUB_C': ('shrub', 0.48), 'PLANT_TREE_A': ('tree', 0.3), 'PLANT_TUFT_A': ('tuft', 1.0), 'PLANT_TUFT_B': ('tuft', 1.0), 'PLANT_TUFT_C': ('tuft', 1.0), 'PLANT_TUFT_D': ('tuft', 1.0), 'PLANT_TUFT_E': ('tuft', 1.0), 'PLANT_TUFT_F': ('tuft', 1.0), 'PLANT_TUFT_S': ('tuft', 1.0), 'PLANT_TUFT_T': ('tuft', 1.0), 'PLANT_VINE_L': ('vine', 1.0), 'PLANT_VINE_M': ('vine', 1.0), 'PLANT_VINE_S': ('vine', 1.0)}; the shrub crown of 6 sea stacks (+ _WET / _BASALT twins) carries a STATIC attribute (R 0); bad: none  "
+      },
+      {
+        "name": "PLANT_SWAY_COLORS_MUTANTS",
+        "ok": true,
+        "detail": "6 mutants of PLANT_TUFT_D all FAIL the check as they must: {'no attribute': False, 'all weights 1 (root moves)': False, 'Unity default white (1,1,1,1)': False, 'zero weight (never sways)': False, 'weight inverted (root moves)': False, 'shrub-grade weight 0.3 on a tuft': False}; the genuine mesh passes: True"
+      },
+      {
+        "name": "PLANT_SWAY_SHAPE",
+        "ok": true,
+        "detail": "weight vs height correlation (>0.8): [('PLANT_TUFT_A', 0.97), ('PLANT_TUFT_D', 0.98), ('PLANT_TUFT_E', 0.97), ('PLANT_TUFT_S', 0.99), ('PLANT_FLOWER_PURPLE', 0.99), ('PLANT_SHRUB_A', 0.96)]; vine weight vs depth below the attach point 0.99 (>0.9)"
+      },
+      {
+        "name": "PLANT_SWAY_COLORS@fbx",
+        "ok": true,
+        "detail": "export_look_fbx -> FBX -> Blender re-import: 21 PLANT_ meshes keep the unique (weight, phase) pairs to 8 bit, B 0, A 1, root R <= 0.05, tip R per class window (tip / root: [('PLANT_AGAVE_A', 0.8, 0.004), ('PLANT_AGAVE_B', 0.8, 0.0), ('PLANT_FLOWER_PURPLE', 0.8, 0.0), ('PLANT_FLOWER_WHITE', 0.8, 0.0), ('PLANT_FLOWER_YELLOW', 0.8, 0.0), ('PLANT_PINE_A', 0.3, 0.0)] ...); bad none; the ground ribbon DRESS_PADEDGE_00 (LK_PLANTS, no attribute) got a static one (R 0): True, touched ['DRESS_PADEDGE_00']; the spire crown stays R 0"
+      },
+      {
+        "name": "PLANT_SWAY_COLORS_FBX_MUTANTS",
+        "ok": true,
+        "detail": "export_look_fbx(colors_type='SRGB' / 'NONE') raises ValueError: [True, True]; a raw SRGB export re-imports with CORRUPTED weights and the equality check catches it on 3/3 meshes"
+      },
+      {
+        "name": "VINE_ROOT_GAP_08",
+        "ok": true,
+        "detail": "77 vines (56 cliff + 18 arch + 3 deliberately pushed 0.62 / 0.86 / 2.5 m off the cliff): root gap before max 2.46 m (73 over 5 cm); attach_vines: 4 already touching, 72 moved onto the surface, 1 deleted (beyond 1.0 m); after: 76 vines, independent max gap 0.050 m (<= 0.05)"
+      },
+      {
+        "name": "VINE_ROOT_GAP_MUTANT",
+        "ok": true,
+        "detail": "a vine pushed 0.7 m off the cliff measures a root gap of 0.76 m (> 0.05: the gate would FAIL it)"
+      },
+      {
+        "name": "SHRUB_TUFTS_08_09_10",
+        "ok": true,
+        "detail": "tuftify_shrubs on 30 shrubs: 140 tufts (8208 triangles) standing on the shrub lumps (274 triangles per shrub, <= 320; base to the nearest shrub surface max 0.040 m <= 0.12), lean max 12.0 deg (<= 12), the three shrub meshes are byte-identical before / after: True"
+      },
+      {
+        "name": "CROWN_TUFTS_08",
+        "ok": true,
+        "detail": "tuftify_crowns on 4 sea stacks: 46 tufts (4077 triangles), base to the nearest stack surface max 0.038 m (<= 0.12), all within the top 2 m of their stack (deepest 2.04 m), the stack meshes unchanged: True"
+      },
+      {
+        "name": "CHEAPEN_TUFTS_09",
+        "ok": true,
+        "detail": "400 old tufts (46800 triangles): 287 farther than 60 m from every shot ball swapped for 36-triangle fillers, 113 kept near the balls; 46800 -> 23553 triangles (saved 23247 = the accounting 23247); far tufts left old 0, near tufts swapped 0, names follow the kind True"
+      },
+      {
+        "name": "ARCH_HAUNCH_NO_STAIRS",
+        "ok": true,
+        "detail": "outer silhouette of the arch's right shoulder above the spring line, rows every 2 cm: largest horizontal jump between two rows (= a step ledge) NEW [(7.5, 0.023, 0), (9.1, 0.036, 0), (6.0, 0.037, 0)] (span m, max jump m, rows with a jump > 6 cm; need <= 0.06 m and 0 rows); NEGATIVE CONTROL (the stair-step haunch of the start of this pass) [(7.5, 0.322, 3), (9.1, 0.5, 3), (6.0, 0.32, 2)] (max jump m, rows > 6 cm: >= 2 rows and > 0.12 m) -> detected on all three sizes"
+      },
+      {
+        "name": "SWAP_COMPOSITION_GATE",
+        "ok": true,
+        "detail": "NEGATIVE (the v1 plans): a vertical pair of ROCK_CRAG_A_WET 1 stacked pair(s) and a 2 x 2 lattice of identical ROCK_SEASTACK_A_WET 7 identical pair(s) -> FAIL as required; NEW place_sea_stack clusters (radius 9.5 / 5 / 7 / 3 m): 20 pieces, stacked pairs 0, identical clones 0, pieces per stack [6, 5, 5, 4], main kinds ['ROCK_SEASTACK_D', 'ROCK_SPIRE_A', 'ROCK_SEASTACK_A', 'ROCK_SEASTACK_A']"
+      },
+      {
+        "name": "SWAP_TALL_IS_ONE_SPIRE",
+        "ok": true,
+        "detail": "tall legacy boxes -> ONE tapering spire at the legacy summit (+ satellites / skirt boulders beside it, never on it): ROCK_LARGE.001: 3 pieces ['ROCK_SPIRE_A', 'ROCK_BOULDER_B_WET', 'ROCK_SLAB_A_WET'], main summit 12.0 m (legacy 12.0); ROCK_STACK_01: 4 pieces ['ROCK_SEASTACK_D', 'ROCK_SPIRE_A', 'ROCK_BOULDER_B_WET', 'ROCK_SLAB_A_WET'], main summit 17.2 m (legacy 17.2); composition ok True, stretch ok True (scale 0.55..1.69)"
+      },
+      {
+        "name": "SWAP_REFUSES_SHORT_AND_BLOB",
+        "ok": true,
+        "detail": "12-vertex ROCK_SKIN_BAD: swap raises RuntimeError naming it True; 162-vertex blob ROCK_BIGICO (rock_shape_report blob True, radius CV 0.000) flagged legacy True, replaced by ['ROCK_CRAG_B'] (left none), assert_no_legacy_rocks ok True"
+      },
+      {
+        "name": "PLANT_PLACE_GUARDS",
+        "ok": true,
+        "detail": "plants without a land mask: {'place z=0': 'refused', 'place z=0.2': 'refused', 'scatter(None, region)': 'refused', 'scatter(None, z=0)': 'refused'}; place at z 5.98 ok True; allow_low=True test-scene escape works True"
+      },
+      {
+        "name": "ARCH_NO_SEE_THROUGH_08",
+        "ok": true,
+        "detail": "69469 rays at 2 cm through the solid part of the masonry (3 cm inside every block edge): 0 pass through (sky)"
+      },
+      {
+        "name": "ARCH_PIER_COPLANAR_08",
+        "ok": true,
+        "detail": "10 outer pier faces of the courses lie within 0.000 mm of x = +-(r_in + pw): every course is flush"
+      },
+      {
+        "name": "ARCH_NO_DEEP_SLITS_08",
+        "ok": true,
+        "detail": "0 of 80251 cells (0.0000 %, limit 0.02 %) are > 3 cm deeper than both cells 4 cm to either side (max relief 2.0 cm); NEGATIVE CONTROL (the previous arch, 5 cm mortar gaps): 2036 slot cells, max relief 41.2 cm -> detected"
+      },
+      {
+        "name": "ARCH_FACES_08",
+        "ok": true,
+        "detail": "480 polygons (<= 500), blocks with chamfered joints (V-grooves 2.2 cm), {'ring_and_piers': 399, 'haunch': 81}"
+      },
+      {
+        "name": "ARCH_NO_SEE_THROUGH_09_BROKEN",
+        "ok": true,
+        "detail": "26409 rays at 2 cm through the solid part of the masonry (3 cm inside every block edge): 0 pass through (sky)"
+      },
+      {
+        "name": "ARCH_PIER_COPLANAR_09_BROKEN",
+        "ok": true,
+        "detail": "10 outer pier faces of the courses lie within 0.000 mm of x = +-(r_in + pw): every course is flush"
+      },
+      {
+        "name": "ARCH_NO_DEEP_SLITS_09_BROKEN",
+        "ok": true,
+        "detail": "0 of 31503 cells (0.0000 %, limit 0.02 %) are > 3 cm deeper than both cells 4 cm to either side (max relief 2.0 cm); NEGATIVE CONTROL (the previous arch, 5 cm mortar gaps): 1064 slot cells, max relief 10.2 cm -> detected"
+      },
+      {
+        "name": "ARCH_FACES_09_BROKEN",
+        "ok": true,
+        "detail": "323 polygons (<= 500), blocks with chamfered joints (V-grooves 2.2 cm), {'ring_and_piers': 287, 'haunch': 36}"
+      },
+      {
+        "name": "SEASTACK_CRAGGY",
+        "ok": true,
+        "detail": "smooth-edge share / ledge pairs: SEASTACK_A 0.53/8, SEASTACK_B 0.56/8, SEASTACK_C 0.54/8, SEASTACK_D 0.56/8, SEASTACK_E 0.55/7, SPIRE_A 0.60/10 (need >= 0.45 smooth interior edges and >= 4 ledge pairs: two rings < 25 cm apart); NEGATIVE CONTROL (the previous flat-shaded spires): SEASTACK_A 0.29/1, SEASTACK_B 0.26/1, SEASTACK_C 0.28/1, SEASTACK_D 0.21/0, SEASTACK_E 0.31/0, SPIRE_A 0.29/1 -> all FAIL as they must"
+      },
+      {
+        "name": "ARCH_NO_OBLIQUE_LEAK_08",
+        "ok": true,
+        "detail": "5515 sample points inside the solid masonry x 28 oblique directions = 154420 rays: 0 first hits on a back face / none (420 polygons); NEGATIVE CONTROL (the arch of the start of this round: wedges with a 0-9 mm random front offset): 71 of 156352 rays leak -> detected"
+      },
+      {
+        "name": "ARCH_NO_OBLIQUE_LEAK_09_BROKEN",
+        "ok": true,
+        "detail": "1705 sample points inside the solid masonry x 28 oblique directions = 47740 rays: 0 first hits on a back face / none (323 polygons); NEGATIVE CONTROL (the arch of the start of this round: wedges with a 0-9 mm random front offset): 21 of 47208 rays leak -> detected"
+      },
+      {
+        "name": "ARCH_NO_OBLIQUE_LEAK_SMALL",
+        "ok": true,
+        "detail": "1457 sample points inside the solid masonry x 28 oblique directions = 40796 rays: 0 first hits on a back face / none (334 polygons); NEGATIVE CONTROL (the arch of the start of this round: wedges with a 0-9 mm random front offset): 16 of 42700 rays leak -> detected"
+      },
+      {
+        "name": "ARCH_JOINTS_ON_MORTAR_ROWS",
+        "ok": true,
+        "detail": "6 exposed joint planes (plinth top, spring line, haunch row tops) at z 0.51 .. 8.01: the painted Masonry_C luminance there is 0.406 against a stone mean 0.474 (mortar rows 0.371, depth 0.070; need the joints >= 0.6 x depth darker), pier height = 11 x the measured pitch 0.500 m (phase 0.254 m, UV phase voff 5.754 m); NEGATIVE CONTROL (round-1 arch, joints at random heights, no UV phase): 6 joint planes, mean luminance there 0.489 (stone 0.474) -> detected"
+      },
+      {
+        "name": "ARCH_JOINT_FACES_MORTAR_UV",
+        "ok": true,
+        "detail": "145 chamfer / strip faces of 420 carry the mortar UV (a mortar ROW of the albedo at v 0.0635, V extent < 0.012 = 6 px, isotropic or squeezed <= 3.5:1); 0 of them are larger than 0.3 m2 (must be 0)"
+      },
+      {
+        "name": "VINE_TIP_WIDTH",
+        "ok": true,
+        "detail": "stalk width (the longest side of the 3-corner ring) at the tip 2.9..2.9 cm (>= 2.7 cm = 1.5 px at 25 m), at the top 4.5..4.5 cm (>= 4 cm)"
+      },
+      {
+        "name": "SPIRE_SHRUB_CROWN",
+        "ok": true,
+        "detail": "SEASTACK_A: crown 35 faces, summit 13.00 m (design 13), crown / neck width 1.69, axis offset 0.11 H, swatches [0, 1, 2, 6] ok; SEASTACK_B: crown 35 faces, summit 18.00 m (design 18), crown / neck width 1.15, axis offset 0.10 H, swatches [0, 1, 2, 6] ok; SEASTACK_C: crown 37 faces, summit 24.00 m (design 24), crown / neck width 1.46, axis offset 0.10 H, swatches [0, 1, 2, 6] ok; SEASTACK_D: crown 35 faces, summit 16.00 m (design 16), crown / neck width 1.08, axis offset 0.08 H, swatches [0, 1, 2, 6] ok; SEASTACK_E: crown 37 faces, summit 21.00 m (design 21), crown / neck width 1.06, axis offset 0.08 H, swatches [0, 1, 2, 6] ok; SPIRE_A: crown 35 faces, summit 11.00 m (design 11), crown / neck width 1.03, axis offset 0.08 H, swatches [0, 1, 2, 6] ok (need >= 25 dome faces in LK_PLANTS, summit at the design height +-6 cm, crown 0.95-1.9 x the neck, only the muted swatches G_DEEP / G_DARK / OLIVE_DARK / G_MID / OLIVE, axis offset >= 0.04 x the height); NEGATIVE CONTROL (the start-of-round stack): 0 LK_PLANTS faces, grass roof only -> detected"
+      },
+      {
+        "name": "ARCH_EXTRADOS_NO_STEP",
+        "ok": true,
+        "detail": "08: 207 z rows, step ring->haunch max 3.3 cm, p95 2.0 cm ok; SMALL: 28 z rows, step ring->haunch max 3.3 cm, p95 3.2 cm ok; 07: 170 z rows, step ring->haunch max 3.1 cm, p95 2.0 cm ok (limit 5 cm: the ring / haunch boundary is a normal V-groove joint, not a step that carries a long brown strip); NEGATIVE CONTROL (the start-of-round arch, 12 cm recess): max step 13.3 cm, p95 12.3 cm -> detected"
+      },
+      {
+        "name": "ARCH_NO_DEEP_MORTAR_STRIP",
+        "ok": true,
+        "detail": "0 mortar-UV faces of DRESS_ARCH_00 are deeper than 6 cm (a step wall painted as a brown strip); chamfers and 3.5 cm strips only; NEGATIVE CONTROL (start-of-round arch): 28 such faces -> detected"
+      },
+      {
+        "name": "SHRUB_OLIVE_NOT_LIME",
+        "ok": true,
+        "detail": "SHRUB_A: mean hue 60, bad swatches none, h/w 0.40 ok; SHRUB_B: mean hue 64, bad swatches none, h/w 0.65 ok; SHRUB_C: mean hue 60, bad swatches none, h/w 0.33 ok (swatch hue 54..72, no G_LIGHT / G_LIME / G_EMERALD); NEGATIVE CONTROL (start-of-round SHRUB_A): mean hue 76, uses ['G_LIGHT'] -> detected"
+      },
+      {
+        "name": "SPIRE_FLAT_CAP_VERIFIER",
+        "ok": true,
+        "detail": "flat cap (verifier measure: largest vertex-connected group of up-facing triangles above 20 % height / hull of the 10 % section) SEASTACK_A 5%, SEASTACK_B 2%, SEASTACK_C 11%, SEASTACK_D 19%, SEASTACK_E 17%, SPIRE_A 4% (limit 25 %, library aim 20 %, <= 22 % required)"
+      },
+      {
+        "name": "SPIRE_SILHOUETTE_BROKEN",
+        "ok": true,
+        "detail": "edge residual after a cubic fit / width: SEASTACK_A 0.033, SEASTACK_B 0.034, SEASTACK_C 0.041, SEASTACK_D 0.026, SEASTACK_E 0.025, SPIRE_A 0.041, mean 0.033 (need mean >= 0.030, each >= 0.022); NEGATIVE CONTROL (start-of-round stacks): SEASTACK_A 0.018, SEASTACK_B 0.018, SEASTACK_C 0.025, SEASTACK_D 0.020, SEASTACK_E 0.024, SPIRE_A 0.027, mean 0.022 -> FAIL as it must"
+      },
+      {
+        "name": "SCATTER_BUDGET_WORST",
+        "ok": true,
+        "detail": "600 x max tuft + 40 x max shrub + 80 x max flower + 60 x max rock = 123720 tris"
+      },
+      {
+        "name": "SCATTER_DEFAULT_ON_LAND_08",
+        "ok": true,
+        "detail": "672 plants from scatter(region=None): on water 0; nearest to a shore edge 1.00 m (>= 1.0, independent distance field); base vs ray cast onto 8 TERRAIN/FAIRWAY/GREEN/TEE_BOX/BUNKER meshes: max |dz| 0.040 m (<= 0.05), lowest z 5.96 (>= 5.0); pin 16.0 m (>= 6), 4 gameplay markers (TEE_MARKER_1/2, HOLE_CUP, BALL_START) 10.8 m (>= 1.5); nearest to the DRESS_PATH ribbon (0.8 m half width) 1.16 m (>= 1.0)"
+      },
+      {
+        "name": "PLANT_ON_WATER_ZERO_08",
+        "ok": true,
+        "detail": "51 adversarial scatter calls (6 regions x 5 kind sets x seeds 11-13 x counts 40/150/600, the 600-count rect call with safe=False) placed 4520 plants: ON WATER 0 (hard gate 0), nearest to a shore edge 1.00 m, bases off the ground (|dz| > 0.05 or z < 5) 0 []; the 'sea band' region placed 0 on water by construction; scatter(surface='sea') for plants raises ValueError: True"
+      },
+      {
+        "name": "SCATTER_SAFE_08",
+        "ok": true,
+        "detail": "732 props; footprint rays hitting 7 play meshes (fairway/first cut/green/apron/tee/bunker+lip): 0 []; land props standing in water: 0; nearest prop to the pin 16.0 m (>= 6)"
+      },
+      {
+        "name": "INSTANCED_08",
+        "ok": true,
+        "detail": "732 prop objects share 19 library meshes (linked duplicates, every mesh is a hidden library mesh)"
+      },
+      {
+        "name": "HOLE_BUDGET_08",
+        "ok": true,
+        "detail": "placed 552 tufts + 40 shrubs + 80 flowers + 0 agave + 60 rocks = 105352 tris (<= 150k)"
+      },
+      {
+        "name": "PROP_NAMES_08",
+        "ok": true,
+        "detail": "collision-prefix / non-section-2 names: none"
+      },
+      {
+        "name": "DETERMINISTIC_08",
+        "ok": true,
+        "detail": "19 library meshes rebuilt in a fresh file are identical: yes"
+      },
+      {
+        "name": "LEGACY_SWAP_08",
+        "ok": true,
+        "detail": "23 legacy stand-ins (icosahedra + a ROCK_STACK_01 mesh) -> 28 library instances of ['ROCK_BLOCK_A_WET', 'ROCK_BOULDER_A_WET', 'ROCK_BOULDER_B_WET', 'ROCK_CRAG_A_WET', 'ROCK_CRAG_B_WET', 'ROCK_SEASTACK_D', 'ROCK_SLAB_A_WET', 'ROCK_SPIRE_A']; box size error mean 0.000 max 0.006 (sum of |log ratio| over the axes); legacy rocks left 0; assert_no_legacy_rocks ok True over 105 ROCK_* objects, min welded verts 61"
+      },
+      {
+        "name": "SWAP_NO_STRETCH_2X_scene_08",
+        "ok": true,
+        "detail": "whole dressed scene: 853 library instances (scatter, stacks, outcrop, arch bases, vines, swap): scale 0.50..2.00, max/min 1.71; violations 0 []"
+      },
+      {
+        "name": "FBX_GEOMETRY_ONCE",
+        "ok": true,
+        "detail": "props_test_08.fbx: 19 Geometry nodes for 19 unique meshes, 733 Model nodes, 721 KB"
+      },
+      {
+        "name": "SCATTER_DEFAULT_ON_LAND_09",
+        "ok": true,
+        "detail": "740 plants from scatter(region=None): on water 0; nearest to a shore edge 1.03 m (>= 1.0, independent distance field); base vs ray cast onto 12 TERRAIN/FAIRWAY/GREEN/TEE_BOX/BUNKER meshes: max |dz| 0.040 m (<= 0.05), lowest z 5.96 (>= 5.0); pin 19.1 m (>= 6), 4 gameplay markers (TEE_MARKER_1/2, HOLE_CUP, BALL_START) 11.7 m (>= 1.5); nearest to the DRESS_PATH ribbon (0.8 m half width) 1.67 m (>= 1.0)"
+      },
+      {
+        "name": "PLANT_ON_WATER_ZERO_09",
+        "ok": true,
+        "detail": "51 adversarial scatter calls (6 regions x 5 kind sets x seeds 11-13 x counts 40/150/600, the 600-count rect call with safe=False) placed 9230 plants: ON WATER 0 (hard gate 0), nearest to a shore edge 1.00 m, bases off the ground (|dz| > 0.05 or z < 5) 0 []; the 'sea band' region placed 0 on water by construction; scatter(surface='sea') for plants raises ValueError: True"
+      },
+      {
+        "name": "SCATTER_SAFE_09",
+        "ok": true,
+        "detail": "800 props; footprint rays hitting 11 play meshes (fairway/first cut/green/apron/tee/bunker+lip): 0 []; land props standing in water: 0; nearest prop to the pin 19.1 m (>= 6)"
+      },
+      {
+        "name": "INSTANCED_09",
+        "ok": true,
+        "detail": "800 prop objects share 21 library meshes (linked duplicates, every mesh is a hidden library mesh)"
+      },
+      {
+        "name": "HOLE_BUDGET_09",
+        "ok": true,
+        "detail": "placed 600 tufts + 40 shrubs + 80 flowers + 20 agave + 60 rocks = 115350 tris (<= 150k)"
+      },
+      {
+        "name": "PROP_NAMES_09",
+        "ok": true,
+        "detail": "collision-prefix / non-section-2 names: none"
+      },
+      {
+        "name": "DETERMINISTIC_09",
+        "ok": true,
+        "detail": "21 library meshes rebuilt in a fresh file are identical: yes"
+      },
+      {
+        "name": "LEGACY_SWAP_09",
+        "ok": true,
+        "detail": "23 legacy stand-ins (icosahedra + a ROCK_STACK_01 mesh) -> 30 library instances of ['ROCK_BLOCK_A_WET', 'ROCK_BOULDER_A_WET', 'ROCK_BOULDER_B_WET', 'ROCK_CRAG_A_WET', 'ROCK_CRAG_B_WET', 'ROCK_SEASTACK_B', 'ROCK_SLAB_A_WET', 'ROCK_SPIRE_A', 'ROCK_STONE_A_WET', 'ROCK_STONE_B_WET']; box size error mean 0.000 max 0.000 (sum of |log ratio| over the axes); legacy rocks left 0; assert_no_legacy_rocks ok True over 107 ROCK_* objects, min welded verts 61"
+      },
+      {
+        "name": "SWAP_NO_STRETCH_2X_scene_09",
+        "ok": true,
+        "detail": "whole dressed scene: 1069 library instances (scatter, stacks, outcrop, arch bases, vines, swap): scale 0.52..2.00, max/min 1.98; violations 0 []"
+      },
+      {
+        "name": "SCATTER_DEFAULT_ON_LAND_10",
+        "ok": true,
+        "detail": "733 plants from scatter(region=None): on water 0; nearest to a shore edge 1.00 m (>= 1.0, independent distance field); base vs ray cast onto 10 TERRAIN/FAIRWAY/GREEN/TEE_BOX/BUNKER meshes: max |dz| 0.040 m (<= 0.05), lowest z 5.96 (>= 5.0); pin 17.7 m (>= 6), 4 gameplay markers (TEE_MARKER_1/2, HOLE_CUP, BALL_START) 13.4 m (>= 1.5); nearest to the DRESS_PATH ribbon (0.8 m half width) 1.46 m (>= 1.0)"
+      },
+      {
+        "name": "PLANT_ON_WATER_ZERO_10",
+        "ok": true,
+        "detail": "51 adversarial scatter calls (6 regions x 5 kind sets x seeds 11-13 x counts 40/150/600, the 600-count rect call with safe=False) placed 5766 plants: ON WATER 0 (hard gate 0), nearest to a shore edge 1.00 m, bases off the ground (|dz| > 0.05 or z < 5) 0 []; the 'sea band' region placed 0 on water by construction; scatter(surface='sea') for plants raises ValueError: True"
+      },
+      {
+        "name": "SCATTER_SAFE_10",
+        "ok": true,
+        "detail": "793 props; footprint rays hitting 9 play meshes (fairway/first cut/green/apron/tee/bunker+lip): 0 []; land props standing in water: 0; nearest prop to the pin 17.7 m (>= 6)"
+      },
+      {
+        "name": "INSTANCED_10",
+        "ok": true,
+        "detail": "793 prop objects share 19 library meshes (linked duplicates, every mesh is a hidden library mesh)"
+      },
+      {
+        "name": "HOLE_BUDGET_10",
+        "ok": true,
+        "detail": "placed 600 tufts + 40 shrubs + 80 flowers + 13 agave + 60 rocks = 113680 tris (<= 150k)"
+      },
+      {
+        "name": "PROP_NAMES_10",
+        "ok": true,
+        "detail": "collision-prefix / non-section-2 names: none"
+      },
+      {
+        "name": "DETERMINISTIC_10",
+        "ok": true,
+        "detail": "19 library meshes rebuilt in a fresh file are identical: yes"
+      },
+      {
+        "name": "LEGACY_SWAP_10",
+        "ok": true,
+        "detail": "22 legacy stand-ins (icosahedra + a ROCK_STACK_01 mesh) -> 22 library instances of ['ROCK_BASALT_A', 'ROCK_BASALT_B', 'ROCK_BASALT_C', 'ROCK_BASALT_D', 'ROCK_WALL_BASALT_S']; box size error mean 0.150 max 2.411 (sum of |log ratio| over the axes); legacy rocks left 0; assert_no_legacy_rocks ok True over 99 ROCK_* objects, min welded verts 61"
+      },
+      {
+        "name": "SWAP_NO_STRETCH_2X_scene_10",
+        "ok": true,
+        "detail": "whole dressed scene: 919 library instances (scatter, stacks, outcrop, arch bases, vines, swap): scale 0.50..2.00, max/min 1.96; violations 0 []"
+      },
+      {
+        "name": "GRASS_NOT_ON_PLAY_SURFACES_08",
+        "ok": true,
+        "detail": "836 tufts, every vertex (2 of 3 sampled) ray-cast down onto 8 play meshes (BUNKER, BUNKER_01_LIP, DRESS_PATH, FAIRWAY, FAIRWAY_FIRSTCUT, GREEN, GREEN_APRON, TEE_BOX): 0 over a play surface []"
+      },
+      {
+        "name": "GRASS_NOT_ON_WATER_08",
+        "ok": true,
+        "detail": "836 tufts / 53196 vertices: vertices over water 0; nearest origin to a shore / lip edge 0.91 m (>= 0.8); origin vs the ray-cast ground max |dz| 0.020 m (<= 0.05); lowest origin z 5.98 (>= 5.0)"
+      },
+      {
+        "name": "GRASS_BALL_CLEAR_08",
+        "ok": true,
+        "detail": "4 shot-ball zones [(-4.0, 322.0, 4.0), (-1.0, 11.0, 4.0), (0.0, 0.0, 1.5), (19.0, 178.0, 4.0)] (course yd, r m): nearest tuft vertex vs the balls (worst margin +5.71 m), margin to the 6 m pin disc +9.92 m, to the 1.5 m markers +5.98 m; tops in the ball corridor (<= 16.3 m off the centerline or <= 12 m from a ball): max 0.498 m (<= 0.503 = 0.55 yd), over none; whole hole max 0.50 m"
+      },
+      {
+        "name": "GRASS_FRINGE_PRESENT_08",
+        "ok": true,
+        "detail": "836 fringe tufts (348 tall D/E/F + 488 filler, by kind {'PLANT_TUFT_E': 90, 'PLANT_TUFT_S': 488, 'PLANT_TUFT_D': 258}) in 174 clumps of 3-7 (largest 7), 19 pairs, 29 singles; 92% of the tufts stand in a clump of >= 3; nearest-neighbour distance mean 0.47 m, CV 0.39 (>= 0.35) and 25% of the distances within 10 % of the median (<= 45 %): not a grid; lean max 12.0 deg (<= 12), median 8.5; scale factor 0.60..1.49 median 0.86 (0.6-1.8, no instance outside the SCALE_LIMITS; 290 scaled down to the 0.55 yd cap near the corridor); coverage of the rough edge 100% (168 of 168 sample points {'play': (94, 94), 'path': (23, 23), 'lip': (51, 51)} within 2.2 m of a tuft; >= 20 %), 100% of the 168 points within 45 m of a still camera's ball (>= 50 %), at a 60000 triangle budget; 79.3 s"
+      },
+      {
+        "name": "GRASS_TRI_BUDGET_08",
+        "ok": true,
+        "detail": "fringe 57582 triangles (<= the 60000 asked), 69 per tuft (<= 90: 488 of 836 are 36-triangle fillers, tall D 108 / E 135), whole scratch scene 73675 triangles (<= 250k; it has no arch / skin / stacks, so the hole scripts trim the old tuft carpet by the fringe's triangles: 57582 tris = 492 old 117-triangle tufts)"
+      },
+      {
+        "name": "GRASS_NOT_ON_PLAY_SURFACES_09",
+        "ok": true,
+        "detail": "918 tufts, every vertex (2 of 3 sampled) ray-cast down onto 12 play meshes (BUNKER, BUNKER_01_LIP, BUNKER_02_LIP, BUNKER_03_LIP, DRESS_PATH, FAIRWAY, FAIRWAY_FIRSTCUT, GREEN, GREEN_APRON, TEE_BOX): 0 over a play surface []"
+      },
+      {
+        "name": "GRASS_NOT_ON_WATER_09",
+        "ok": true,
+        "detail": "918 tufts / 56808 vertices: vertices over water 0; nearest origin to a shore / lip edge 0.94 m (>= 0.8); origin vs the ray-cast ground max |dz| 0.020 m (<= 0.05); lowest origin z 5.98 (>= 5.0)"
+      },
+      {
+        "name": "GRASS_BALL_CLEAR_09",
+        "ok": true,
+        "detail": "3 shot-ball zones [(0.0, 0.0, 1.5), (11.8, 235.0, 4.0), (13.5, 269.0, 4.0)] (course yd, r m): nearest tuft vertex vs the balls (worst margin +6.72 m), margin to the 6 m pin disc +12.53 m, to the 1.5 m markers +6.89 m; tops in the ball corridor (<= 17.2 m off the centerline or <= 12 m from a ball): max 0.498 m (<= 0.503 = 0.55 yd), over none; whole hole max 1.09 m"
+      },
+      {
+        "name": "GRASS_FRINGE_PRESENT_09",
+        "ok": true,
+        "detail": "918 fringe tufts (338 tall D/E/F + 580 filler, by kind {'PLANT_TUFT_D': 242, 'PLANT_TUFT_S': 580, 'PLANT_TUFT_E': 96}) in 180 clumps of 3-7 (largest 7), 1 pairs, 37 singles; 96% of the tufts stand in a clump of >= 3; nearest-neighbour distance mean 0.73 m, CV 1.64 (>= 0.35) and 20% of the distances within 10 % of the median (<= 45 %): not a grid; lean max 12.0 deg (<= 12), median 8.5; scale factor 0.60..1.80 median 0.92 (0.6-1.8, no instance outside the SCALE_LIMITS; 156 scaled down to the 0.55 yd cap near the corridor); coverage of the rough edge 28% (402 of 1436 sample points {'play': (342, 126), 'path': (380, 68), 'lip': (714, 208)} within 2.2 m of a tuft; >= 20 %), 51% of the 268 points within 45 m of a still camera's ball (>= 50 %), at a 60000 triangle budget; 25.9 s"
+      },
+      {
+        "name": "GRASS_TRI_BUDGET_09",
+        "ok": true,
+        "detail": "fringe 59976 triangles (<= the 60000 asked), 65 per tuft (<= 90: 580 of 918 are 36-triangle fillers, tall D 108 / E 135), whole scratch scene 85216 triangles (<= 250k; it has no arch / skin / stacks, so the hole scripts trim the old tuft carpet by the fringe's triangles: 59976 tris = 512 old 117-triangle tufts)"
+      },
+      {
+        "name": "GRASS_NOT_ON_PLAY_SURFACES_10",
+        "ok": true,
+        "detail": "918 tufts, every vertex (2 of 3 sampled) ray-cast down onto 10 play meshes (BUNKER, BUNKER_01_LIP, BUNKER_02_LIP, DRESS_PATH, FAIRWAY, FAIRWAY_FIRSTCUT, GREEN, GREEN_APRON, TEE_BOX): 0 over a play surface []"
+      },
+      {
+        "name": "GRASS_NOT_ON_WATER_10",
+        "ok": true,
+        "detail": "918 tufts / 56808 vertices: vertices over water 0; nearest origin to a shore / lip edge 0.90 m (>= 0.8); origin vs the ray-cast ground max |dz| 0.020 m (<= 0.05); lowest origin z 5.98 (>= 5.0)"
+      },
+      {
+        "name": "GRASS_BALL_CLEAR_10",
+        "ok": true,
+        "detail": "2 shot-ball zones [(0.0, 0.0, 1.5), (107.1, 159.3, 4.0)] (course yd, r m): nearest tuft vertex vs the balls (worst margin +9.41 m), margin to the 6 m pin disc +11.59 m, to the 1.5 m markers +9.22 m; tops in the ball corridor (<= 19.1 m off the centerline or <= 12 m from a ball): max 0.498 m (<= 0.503 = 0.55 yd), over none; whole hole max 0.92 m"
+      },
+      {
+        "name": "GRASS_FRINGE_PRESENT_10",
+        "ok": true,
+        "detail": "918 fringe tufts (338 tall D/E/F + 580 filler, by kind {'PLANT_TUFT_S': 580, 'PLANT_TUFT_E': 96, 'PLANT_TUFT_D': 242}) in 185 clumps of 3-7 (largest 7), 15 pairs, 38 singles; 93% of the tufts stand in a clump of >= 3; nearest-neighbour distance mean 0.51 m, CV 0.52 (>= 0.35) and 20% of the distances within 10 % of the median (<= 45 %): not a grid; lean max 12.0 deg (<= 12), median 8.1; scale factor 0.60..1.80 median 0.87 (0.6-1.8, no instance outside the SCALE_LIMITS; 255 scaled down to the 0.55 yd cap near the corridor); coverage of the rough edge 94% (274 of 290 sample points {'play': (130, 126), 'path': (46, 42), 'lip': (114, 106)} within 2.2 m of a tuft; >= 20 %), 99% of the 91 points within 45 m of a still camera's ball (>= 50 %), at a 60000 triangle budget; 31.9 s"
+      },
+      {
+        "name": "GRASS_TRI_BUDGET_10",
+        "ok": true,
+        "detail": "fringe 59976 triangles (<= the 60000 asked), 65 per tuft (<= 90: 580 of 918 are 36-triangle fillers, tall D 108 / E 135), whole scratch scene 75310 triangles (<= 250k; it has no arch / skin / stacks, so the hole scripts trim the old tuft carpet by the fringe's triangles: 59976 tris = 512 old 117-triangle tufts)"
+      },
+      {
+        "name": "GRASS_DETERMINISTIC_08",
+        "ok": true,
+        "detail": "two builds of the same call: 836 / 836 tufts, placement signature 1d96d52570933f70 == 1d96d52570933f70"
+      },
+      {
+        "name": "GRASS_FBX_08",
+        "ok": true,
+        "detail": "scratch hole export 0.87 MB (<= 20), 29 Geometry nodes for 3 tuft meshes + the hole, animation nodes 0, collision / non-PLANT names none"
+      },
+      {
+        "name": "GRASS_CHECK_MUTANTS",
+        "ok": true,
+        "detail": "bad tufts injected into the fringe: the checks FAIL on each as they must: {'tuft on the fairway': True, 'tuft in the sea': True, 'tuft 1.5 m from a shot ball': True, '1.2 m tuft in the corridor': True, 'tuft 3 m from the pin': True}"
+      },
+      {
+        "name": "GRASS_DETERMINISTIC_09",
+        "ok": true,
+        "detail": "two builds of the same call: 918 / 918 tufts, placement signature a50440f9e02f6fa3 == a50440f9e02f6fa3"
+      },
+      {
+        "name": "GRASS_FBX_09",
+        "ok": true,
+        "detail": "scratch hole export 1.08 MB (<= 20), 33 Geometry nodes for 3 tuft meshes + the hole, animation nodes 0, collision / non-PLANT names none"
+      },
+      {
+        "name": "GRASS_DETERMINISTIC_10",
+        "ok": true,
+        "detail": "two builds of the same call: 918 / 918 tufts, placement signature 75e56f8eaa5bcf88 == 75e56f8eaa5bcf88"
+      },
+      {
+        "name": "GRASS_FBX_10",
+        "ok": true,
+        "detail": "scratch hole export 0.91 MB (<= 20), 28 Geometry nodes for 3 tuft meshes + the hole, animation nodes 0, collision / non-PLANT names none"
+      },
+      {
+        "name": "SWAP_NO_STRETCH_2X_08",
+        "ok": true,
+        "detail": "baseline hole_08.blend (sha 38c2517837b8): 87 legacy rocks -> 93 instances (12 composed of several); per-axis scale 0.50..2.00 (limit 0.5..2.0), max/min 1.69 (limit 2.0), violations 0; kinds 17; assert_no_legacy_rocks ok True (min verts 61); swapped tris 18998; box size error mean 0.030 max 0.386"
+      },
+      {
+        "name": "SWAP_NO_STACKED_CLONES_08",
+        "ok": true,
+        "detail": "baseline hole_08: 69 legacy boxes -> 93 pieces; pieces stacked vertically on another piece of the same box (same plan xy, heights differ): 0 []; identical clones (same kind, scale within 3 %, same yaw mod 90): 0 []; sea-stack boxes composed as ONE spire + satellites + skirt: 12; nz tiles never > 1"
+      },
+      {
+        "name": "SWAP_ANCHORED_08",
+        "ok": true,
+        "detail": "baseline hole_08: replacement vs legacy vertices over 69 boxes: lowest point delta min -0.00 m on the 57 plain boxes (>= -0.2: never buried deeper than the legacy), 12 sea-stack groups: lowest point above the spire's designed 3 m x scale underwater tail -0.16 m (>= -0.5, skirt boulders included); top delta -0.50 .. +0.02 m (within -1.5 .. +1.0)"
+      },
+      {
+        "name": "SWAP_NO_STRETCH_2X_09",
+        "ok": true,
+        "detail": "baseline hole_09.blend (sha 8846a99f7b53): 458 legacy rocks -> 483 instances (8 composed of several); per-axis scale 0.50..2.00 (limit 0.5..2.0), max/min 1.90 (limit 2.0), violations 0; kinds 19; assert_no_legacy_rocks ok True (min verts 61); swapped tris 76088; box size error mean 0.005 max 0.271"
+      },
+      {
+        "name": "SWAP_NO_STACKED_CLONES_09",
+        "ok": true,
+        "detail": "baseline hole_09: 458 legacy boxes -> 483 pieces; pieces stacked vertically on another piece of the same box (same plan xy, heights differ): 0 []; identical clones (same kind, scale within 3 %, same yaw mod 90): 0 []; sea-stack boxes composed as ONE spire + satellites + skirt: 8; nz tiles never > 1"
+      },
+      {
+        "name": "SWAP_ANCHORED_09",
+        "ok": true,
+        "detail": "baseline hole_09: replacement vs legacy vertices over 458 boxes: lowest point delta min -0.14 m on the 450 plain boxes (>= -0.2: never buried deeper than the legacy), 8 sea-stack groups: lowest point above the spire's designed 3 m x scale underwater tail -0.28 m (>= -0.5, skirt boulders included); top delta -0.43 .. +0.16 m (within -1.5 .. +1.0)"
+      },
+      {
+        "name": "SWAP_NO_STRETCH_2X_10",
+        "ok": true,
+        "detail": "baseline hole_10.blend (sha b0c478e6f2a7): 227 legacy rocks -> 227 instances (0 composed of several); per-axis scale 0.50..2.00 (limit 0.5..2.0), max/min 1.99 (limit 2.0), violations 0; kinds 6; assert_no_legacy_rocks ok True (min verts 218); swapped tris 92680; box size error mean 0.007 max 0.350; wall ring (box > 22 m wide and > 40 m tall): 154 legacy rocks -> 154 single tower instances (S/M/L), others 0"
+      },
+      {
+        "name": "SWAP_NO_STACKED_CLONES_10",
+        "ok": true,
+        "detail": "baseline hole_10: 227 legacy boxes -> 227 pieces; pieces stacked vertically on another piece of the same box (same plan xy, heights differ): 0 []; identical clones (same kind, scale within 3 %, same yaw mod 90): 0 []; sea-stack boxes composed as ONE spire + satellites + skirt: 0; nz tiles never > 1"
+      },
+      {
+        "name": "SWAP_ANCHORED_10",
+        "ok": true,
+        "detail": "baseline hole_10: replacement vs legacy vertices over 227 boxes: lowest point delta min -0.00 m on the 227 plain boxes (>= -0.2: never buried deeper than the legacy), 0 sea-stack groups: lowest point above the spire's designed 3 m x scale underwater tail +0.00 m (>= -0.5, skirt boulders included); top delta -0.02 .. +0.14 m (within -1.5 .. +1.0)"
+      },
+      {
+        "name": "PROPS_BUDGET",
+        "ok": true,
+        "detail": "57 library meshes, max 465 faces (<= 500; over: none), tufts 81 faces (<= 120); hole 08: dressed scene 122388 tris (853 instances of 32 meshes); hole 09: dressed scene 149520 tris (1069 instances of 35 meshes); hole 10: dressed scene 135890 tris (919 instances of 37 meshes); baseline hole 08 swap: 93 instances, 18998 tris; baseline hole 09 swap: 483 instances, 76088 tris; baseline hole 10 swap: 227 instances, 92680 tris"
+      },
+      {
+        "name": "PROPS_SMOKE_PASS",
+        "ok": true,
+        "detail": "114/114 gates pass before this line in 791.8s; failing: none"
+      }
+    ]
+  },
+  "sources": {
+    "blender/scripts/golf_look_textures.py": "2a2a18f0e5eca08580a478a08109df7fb83b455468e4fffd5e70fc82cdcb6457",
+    "blender/scripts/postcard_look_lib.py": "cbbd32f50fba1199f906dc25393fed4cabd4d6dd984aa8d675a053d11d5d2f5d",
+    "blender/scripts/postcard_props_lib.py": "b679335135517d3c83de7cda1cfc4a26ff9510f45230cfa5a8d44c8be70698bc",
+    "blender/scripts/postcard_look_smoke.py": "1e0b6c04b3879ca117cf67a62ac20cb525b05789713ecb67840e1e4484c64a69",
+    "blender/scripts/postcard_props_smoke.py": "2cf93d39af3f22ab45522f42abdf3f0a18d4a34ae34b9f7c8ffb0e567337d39f"
+  },
+  "evidence": {
+    "work/postcard-look/v3/p7/round1/shared_checks/ground_full.log": "bd09ef053280ce548eec759eda2d9bce619210b2494fbeb5ecef67045adcb429",
+    "work/postcard-look/v3/p7/round1/shared_checks/props_full.log": "86a96dcb62703e939f3f286c6028ae1fb5c803e86aae9cf860edf59398d2067e",
+    "work/postcard-look/v3/p7/round1/shared_checks/ground_full/gates_hole09.json": "c29cbfbbeecaa0c0cd2422bb7eb7672053037369a245b88da636983aaa6817f9",
+    "work/postcard-look/v3/p7/round1/shared_checks/ground_full/verify_base.json": "9483cdfc1736529754f1d4ed9c16c1d8ea7226bdd45f5fe91a350009e7857a68",
+    "work/postcard-look/v3/p7/round1/shared_checks/ground_full/verify_look.json": "c5a1fd2a6ba814959556892cc0dc2f034f15cc8618aa1a2f9b0d86490ff7789a",
+    "work/postcard-look/v3/p7/round1/shared_checks/props_full/swap_stats.json": "57f915bb42e11c3751164de288a9868d41f41387d7e61aba03d2a16cc3edeb31"
+  }
+}

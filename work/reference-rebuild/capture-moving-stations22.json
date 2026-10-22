@@ -1,0 +1,20 @@
+[
+  {
+    "name": "reference-moving-turf21-pilot-stations2",
+    "method": "GolfArcade.EditorTools.GolfMovingTurfProof.Run",
+    "env": {
+      "GOLF_MOVING_TURF_CONFIG": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/moving-turf21/root-pilot-config-stations2.json",
+      "VISUAL_MOVING_TURF": "pilot"
+    },
+    "continue_on_failure": true
+  },
+  {
+    "name": "reference-moving-turf21-control-stations2",
+    "method": "GolfArcade.EditorTools.GolfMovingTurfProof.Run",
+    "env": {
+      "GOLF_MOVING_TURF_CONFIG": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/moving-turf21/root-control-config-stations2.json",
+      "VISUAL_MOVING_TURF": "0"
+    },
+    "continue_on_failure": true
+  }
+]

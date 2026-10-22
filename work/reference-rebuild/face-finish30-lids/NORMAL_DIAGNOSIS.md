@@ -1,0 +1,7 @@
+# Actual eyelid normal failure
+
+The female composed source matches the standalone Basis/Half/Full geometry within 0.00012 mm (face-finish30/COMPOSITION_DIAGNOSTIC.json). CPU tests isolating actual UV pigment, backface culling and doubled feature retreat did not reproduce the actual brown blocks. The actual `face-finish30-lids-normal0` capture removes the brown corner blocks and broad dark crease when only Body blink normal/tangent deltas are cleared. Positions are unchanged. Imported shape normal deltas are therefore the dominant cause of those blocks.
+
+`HeroOriginalSeamAnatomy.PrepareBlinkMesh` retained imported blink deltas on moving Body vertices; `HeroSkinNormals.Continuous` then replaced the base normal field. The retained deltas no longer describe the modified base. The candidate helper `HeroBlinkNormalField.cs` is opt-in `VISUAL_BLINK_NORMAL_FIELD=1`. Call `body.sharedMesh = HeroBlinkNormalField.Prepare(body.sharedMesh)` **after** `HeroSkinNormals.Prepare`. It rebuilds geometric normal fields for each stored lid pose and transports the accepted static normals through the corresponding surface rotation. It preserves every vertex, morph position, UV, weight and material. Zeroing imported blink normals may be left enabled for this test, as this operation replaces them afterward.
+
+Not accepted yet. Normal0 still shows tiny corner holes and a flat angular crease, which are separate geometric defects. Male operation remains held and must not be composed.

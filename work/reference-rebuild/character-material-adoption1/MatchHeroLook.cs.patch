@@ -1,0 +1,19 @@
+--- Unity/Assets/Scripts/Tennis/MatchHeroLook.cs
++++ Unity/Assets/Scripts/Tennis/MatchHeroLook.cs
+@@ -354,6 +354,7 @@
+                     skinMaterials[i] = shared[i] ? SkinSurface(OnShader(shared[i], CharacterShader, shared[i].name + " (hero)"), bump) : null;
+                     if (skinMaterials[i]) {
+                         if(!referenceAnatomy || originalSeam)HeroHeadSurface.Configure(this,skinMaterials[i]);
++                        if(!referenceAnatomy)HeroOriginalMaterial.ConfigureSkin(this,skinMaterials[i]);
+                         if(originalSeam)HeroOriginalSeamAnatomy.ConfigurePigment(skinMaterials[i]);
+                         owned.Add(skinMaterials[i]);
+                     }
+@@ -396,7 +397,7 @@
+                     }
+                 }
+                 faceMaterials = fm;
+-                if (!referenceAnatomy) ConfigureEyeGeometry();
++                if (!referenceAnatomy) { ConfigureEyeGeometry(); HeroOriginalMaterial.ConfigureFace(this,faceMaterials); }
+             }
+             HeroGarmentHemWeights.Apply(this);
+             HeroGarmentCoverage.Apply(this);

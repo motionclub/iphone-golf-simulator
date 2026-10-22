@@ -1,0 +1,15 @@
+# Resumed cloth goal — 2026-10-05
+
+The human unlocked the phone and approved the clothes. Eleven gates PASS, G10 FAIL only for strict compiled Metal ALU statistics. The Goal tool still records the previous BLOCKED state; do not claim complete until every requirement is met. A fresh blocked audit applies after resumption; ongoing capture work makes progress.
+
+Final physical 29.2.0 profile is saved in device_profile_after.json and compared in device_timing_comparison.json: 540 rows, two heroes, iPhone18,2 / A19 Pro / iOS26.6.1. Frame mean delta −0.009206 ms, median +0.001209 ms, p95 −0.010165 ms; pass +0.5ms frame gate. GPU mean +2.794919 ms and median +1.280896 ms. Report reduced headroom honestly; do not call capped frame timing an unchanged GPU cost.
+
+G12: direct human message “clothes look good” recorded in eye_approval.json. Approved art/shader are unchanged. Added reusable sports standard, authoring selection template and COPY_TO_GOLF.md; these do not pretend to be runtime JSON loaders or installed golf outfits. Existing golf design is owned elsewhere and was read, not edited.
+
+A temporary native capture helper modifies only ios_after/iOS/Classes/UnityAppController.mm and Info.plist; originals are in capture_helper/. It starts a 120ms Metal trace 20s after initialization when CLOTH_GPU_CAPTURE=1. After helper build succeeded, capture launch was rejected as Locked. An async Ready/unlock question is pending. Matching baseline capture build session 56226 is ongoing; follow its handle. Final helper2 is installed. Relaunch with the capture flag once the human confirms Ready, then collect status and trace. Exact final performance was captured BEFORE this helper was compiled. After capture, restore the two temporary files so exact final exported project stays clean.
+
+Unity CompileVariant returns real compiled Metal source/bindings and zero diagnostics but no ALU field in this editor version. compile_final/air_instruction_inventory.json gives optimized vector AIR arithmetic/intrinsics and 7→6 sample calls; do not mislabel those as GPU hardware ALU counts. Obtain actual pipeline compiler stats from the captured Unity shaders if available. No source QualitySettings, pipeline, gameplay, body/face/rig or animation changes.
+
+Stage only cloth-owned paths; no commit; preserve other chats’ index and working-tree edits. Raw captures, clones, DerivedData and toolchain caches remain excluded. Update output report/copies and gate status from actual evidence, not assumptions.
+
+Local fallback: capture_helper/unity_compiled_variants.gputrace contains all four unchanged Unity-generated fragment variants, profiled on Apple M5 in Xcode. Register counts plain100→112/court140→130; zero spills. No ALU counts were extracted: CUA AX/screenshot/getApp requests timed out repeatedly. See metal_stats_capture_attempt.json. iPhone baseline helper build succeeded. Export app-controller/plist originals are restored; prepared helper binaries remain. Do not mutate approved art to work around a missing reporting tool. No response to the new Ready question yet.

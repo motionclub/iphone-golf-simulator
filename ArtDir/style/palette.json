@@ -1,0 +1,112 @@
+{
+ "r1": {
+  "kmeans": [
+   "#E0AE80",
+   "#C09366",
+   "#FAD59E",
+   "#454748",
+   "#947B73",
+   "#7F653B",
+   "#DAC2BF",
+   "#A8B3D3"
+  ],
+  "regions": {
+   "sky_upper": "#CEB4BC",
+   "sky_horizon_glow": "#FEE89B",
+   "stone_lit": "#D4A784",
+   "stone_shade": "#D2A281",
+   "roof_navy": "#494F6B",
+   "foliage": "#484E28",
+   "glow_window": "#FDD596"
+  }
+ },
+ "r2": {
+  "kmeans": [
+   "#1E81D0",
+   "#4BA2EA",
+   "#5F5022",
+   "#9EC3E5",
+   "#4C969F",
+   "#B29966",
+   "#E8E0D4",
+   "#1F5D77"
+  ],
+  "regions": {
+   "sky_top": "#7FB4F3",
+   "cloud": "#A8C5ED",
+   "haze_islands": "#8CB2CB",
+   "water_far": "#339FE5",
+   "court": "#2089D8",
+   "court_surround": "#367A86",
+   "line_white": "#FFFDF2",
+   "foliage_palm": "#5D640C",
+   "stone_deck": "#BDB7BB"
+  }
+ },
+ "r3": {
+  "kmeans": [
+   "#9DBA3A",
+   "#779A29",
+   "#476923",
+   "#55B1F4",
+   "#213D1E",
+   "#C6E0F3",
+   "#A8B4A5",
+   "#5E7766"
+  ],
+  "regions": {
+   "sky_top": "#58B7FE",
+   "haze_mountains": "#75A3B0",
+   "water": "#63AFE8",
+   "grass_lit_stripe": "#86AB29",
+   "grass_far": "#A1C33E",
+   "grass_shadow": "#5C7F27",
+   "foliage": "#235321"
+  }
+ },
+ "r4": {
+  "kmeans": [
+   "#33212F",
+   "#5E90C5",
+   "#927280",
+   "#5E4461",
+   "#254F93",
+   "#C8B7CD",
+   "#87341F",
+   "#E76F34"
+  ],
+  "regions": {
+   "rooftop_sky": "#A96A9A",
+   "neon_window": "#E46117",
+   "rooftop_court": "#1A4D9C",
+   "volcano_sky": "#8B4F79",
+   "volcano_court": "#887D80",
+   "ice": "#4CA4C6",
+   "snow_sky": "#729BDD",
+   "magma_lava": "#FC9922",
+   "magma_rock": "#421518"
+  }
+ },
+ "r5": {
+  "kmeans": [
+   "#3F5735",
+   "#1E3025",
+   "#667F48",
+   "#425E6A",
+   "#92ABC5",
+   "#6D869C",
+   "#CDD2D9",
+   "#9FAD55"
+  ],
+  "regions": {
+   "rain_sky": "#7085A2",
+   "rain_grass": "#456438",
+   "storm_sky": "#3B567D",
+   "storm_grass": "#38563F",
+   "fog_sky": "#E2D2C1",
+   "fog_grass": "#5A7A39",
+   "gusty_sky": "#83C0F2",
+   "gusty_grass": "#5D7734"
+  }
+ }
+}

@@ -1,0 +1,28 @@
+{
+  "tool": "PostcardLookStills",
+  "unity": "6000.3.24f1",
+  "pipeline": "TennisURP",
+  "qualityLevel": 2,
+  "board": false,
+  "size": [900, 1600],
+  "shots": [
+    { "name": "hole10_1_tee", "hole": 10, "file": "hole10_1_tee.png",
+      "camera": { "pos": [-0.9501, 9.2841, -4.3985], "look": [-0.7541, 8.9128, -3.491], "fov": 60 },
+      "mean_rgb": [149.1634, 160.0143, 42.161], "luminance": 149.1984,
+      "central_lower_third": { "region": [300, 0, 600, 533], "mean_rgb": [168.0987, 188.8176, 39.4128], "mean_hsv": [68.3206, 0.7913, 0.7405], "luminance": 173.6257 },
+      "hue_bands": { "red_0_30": 0.1657, "orange_30_60": 0.0041, "yellow_60_90": 0.8206, "lime_90_120": 0, "green_120_150": 0, "spring_150_180": 0, "cyan_180_210": 0, "azure_210_240": 0, "blue_240_270": 0, "violet_270_300": 0, "magenta_300_330": 0, "rose_330_360": 0.0054, "grey": 0.0004, "dark": 0.0037 },
+      "smoke": { "cards": 3, "changed_px": 13113, "share_changed": 0.0091, "readable_px": 4376, "share_readable": 0.003, "delta_lum_median": 6.6774, "delta_lum_p95": 28.8088, "delta_lum_p99": 32.0174, "plume_mean_rgb": [186.6495, 115.6763, 100.4749] } },
+    { "name": "hole10_2_approach", "hole": 10, "file": "hole10_2_approach.png",
+      "camera": { "pos": [102.6028, 9.1748, 159.1422], "look": [103.5307, 8.8034, 159.1748], "fov": 60 },
+      "mean_rgb": [136.6555, 128.0614, 39.0457], "luminance": 123.4615,
+      "central_lower_third": { "region": [300, 0, 600, 533], "mean_rgb": [147.6356, 171.3065, 42.7929], "mean_hsv": [71.0514, 0.7502, 0.6718], "luminance": 156.9954 },
+      "hue_bands": { "red_0_30": 0.2678, "orange_30_60": 0.0032, "yellow_60_90": 0.6675, "lime_90_120": 0, "green_120_150": 0, "spring_150_180": 0, "cyan_180_210": 0, "azure_210_240": 0, "blue_240_270": 0, "violet_270_300": 0, "magenta_300_330": 0, "rose_330_360": 0.0172, "grey": 0, "dark": 0.0443 },
+      "smoke": { "cards": 3, "changed_px": 1171, "share_changed": 0.0008, "readable_px": 565, "share_readable": 0.0004, "delta_lum_median": 9.0866, "delta_lum_p95": 26.042, "delta_lum_p99": 26.8294, "plume_mean_rgb": [143.4808, 90.4065, 85.7131] } },
+    { "name": "hole10_3_lavarim", "hole": 10, "file": "hole10_3_lavarim.png",
+      "camera": { "pos": [70, 14, 108], "look": [70.8468, 13.8427, 108.5081], "fov": 55 },
+      "mean_rgb": [145.8215, 70.6003, 37.4828], "luminance": 84.2012,
+      "central_lower_third": { "region": [300, 0, 600, 533], "mean_rgb": [209.8289, 76.0348, 22.4719], "mean_hsv": [17.1532, 0.8929, 0.8229], "luminance": 100.6122 },
+      "hue_bands": { "red_0_30": 0.6819, "orange_30_60": 0.0229, "yellow_60_90": 0.0799, "lime_90_120": 0.0001, "green_120_150": 0, "spring_150_180": 0, "cyan_180_210": 0, "azure_210_240": 0.0014, "blue_240_270": 0.0001, "violet_270_300": 0, "magenta_300_330": 0.001, "rose_330_360": 0.1598, "grey": 0.0045, "dark": 0.0483 },
+      "smoke": { "cards": 3, "changed_px": 0, "share_changed": 0, "readable_px": 0, "share_readable": 0, "delta_lum_median": 0, "delta_lum_p95": 0, "delta_lum_p99": 0, "plume_mean_rgb": [0, 0, 0] } }
+  ]
+}

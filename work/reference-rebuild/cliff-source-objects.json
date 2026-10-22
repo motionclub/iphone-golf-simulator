@@ -1,0 +1,222 @@
+{
+  "coastal_cliff_01": [
+    {
+      "name": "coastal_cliff_01_LOD0",
+      "type": "MESH",
+      "verts": 232192,
+      "dimensions": [
+        91.97994995117188,
+        10.96670913696289,
+        10.325531005859375
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hide": false,
+      "collections": [
+        "coastal_cliff_01_LOD0"
+      ],
+      "materials": [
+        "coastal_cliff_01"
+      ]
+    },
+    {
+      "name": "coastal_cliff_01_LOD1",
+      "type": "MESH",
+      "verts": 116351,
+      "dimensions": [
+        91.979736328125,
+        10.966708183288574,
+        10.329669952392578
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hide": false,
+      "collections": [
+        "coastal_cliff_01_LOD1"
+      ],
+      "materials": [
+        "coastal_cliff_01"
+      ]
+    },
+    {
+      "name": "coastal_cliff_01_LOD2",
+      "type": "MESH",
+      "verts": 58358,
+      "dimensions": [
+        91.979736328125,
+        10.959542274475098,
+        10.323643684387207
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hide": false,
+      "collections": [
+        "coastal_cliff_01_LOD2"
+      ],
+      "materials": [
+        "coastal_cliff_01"
+      ]
+    },
+    {
+      "name": "coastal_cliff_01_LOD3",
+      "type": "MESH",
+      "verts": 29313,
+      "dimensions": [
+        91.97605895996094,
+        10.957263946533203,
+        10.304725646972656
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hide": false,
+      "collections": [
+        "coastal_cliff_01_LOD3"
+      ],
+      "materials": [
+        "coastal_cliff_01"
+      ]
+    }
+  ],
+  "coastal_cliff_02": [
+    {
+      "name": "coastal_cliff_02_LOD0",
+      "type": "MESH",
+      "verts": 472771,
+      "dimensions": [
+        40.9276123046875,
+        8.647716522216797,
+        10.053208351135254
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hide": false,
+      "collections": [
+        "coastal_cliff_02_LOD0"
+      ],
+      "materials": [
+        "coastal_cliff_02"
+      ]
+    },
+    {
+      "name": "coastal_cliff_02_LOD1",
+      "type": "MESH",
+      "verts": 236600,
+      "dimensions": [
+        40.9276008605957,
+        8.645877838134766,
+        10.053606033325195
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hide": false,
+      "collections": [
+        "coastal_cliff_02_LOD1"
+      ],
+      "materials": [
+        "coastal_cliff_02"
+      ]
+    },
+    {
+      "name": "coastal_cliff_02_LOD2",
+      "type": "MESH",
+      "verts": 236600,
+      "dimensions": [
+        40.9276008605957,
+        8.65084457397461,
+        10.054986953735352
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hide": false,
+      "collections": [
+        "coastal_cliff_02_LOD2"
+      ],
+      "materials": [
+        "coastal_cliff_02"
+      ]
+    },
+    {
+      "name": "coastal_cliff_02_LOD3",
+      "type": "MESH",
+      "verts": 59345,
+      "dimensions": [
+        40.929908752441406,
+        8.652921676635742,
+        10.053263664245605
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hide": false,
+      "collections": [
+        "coastal_cliff_02_LOD3"
+      ],
+      "materials": [
+        "coastal_cliff_02"
+      ]
+    }
+  ]
+}

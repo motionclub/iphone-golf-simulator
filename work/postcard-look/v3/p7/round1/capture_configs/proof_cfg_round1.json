@@ -1,0 +1,116 @@
+{
+  "holes": [
+    {
+      "hole": 8,
+      "landmarks": [
+        {
+          "name": "arch",
+          "prefixes": [
+            "DRESS_ARCH"
+          ],
+          "splitEachRenderer": false
+        },
+        {
+          "name": "stack",
+          "prefixes": [
+            "ROCK_NEEDLE"
+          ],
+          "splitEachRenderer": true
+        }
+      ]
+    },
+    {
+      "hole": 9,
+      "landmarks": [
+        {
+          "name": "ruins",
+          "prefixes": [
+            "DRESS_RUIN",
+            "DRESS_ARCH"
+          ],
+          "splitEachRenderer": false
+        }
+      ],
+      "channelXZ": [
+        -34.0,
+        60.0,
+        -21.0,
+        60.0,
+        -21.0,
+        440.0,
+        -34.0,
+        440.0
+      ]
+    },
+    {
+      "hole": 10,
+      "landmarks": [
+        {
+          "name": "volcano",
+          "prefixes": [
+            "DRESS_CONE"
+          ],
+          "splitEachRenderer": false
+        },
+        {
+          "name": "pillar",
+          "exactPaths": [
+            "GREEN",
+            "ROCK_SKIN_98",
+            "ROCK_SKIN_99",
+            "ROCK_SKIN_100",
+            "ROCK_SKIN_101",
+            "ROCK_SKIN_102",
+            "ROCK_SKIN_103",
+            "ROCK_SKIN_104",
+            "ROCK_SKIN_105",
+            "ROCK_SKIN_106",
+            "ROCK_SKIN_107",
+            "ROCK_SKIN_108",
+            "ROCK_SKIN_109",
+            "ROCK_SKIN_110",
+            "ROCK_SKIN_111",
+            "ROCK_SKIN_112",
+            "ROCK_SKIN_113",
+            "ROCK_SKIN_114",
+            "ROCK_SKIN_115",
+            "ROCK_SKIN_116",
+            "ROCK_SKIN_117",
+            "ROCK_SKIN_118",
+            "ROCK_SKIN_119",
+            "ROCK_SKIN_120",
+            "ROCK_SKIN_121",
+            "ROCK_SKIN_122",
+            "ROCK_SKIN_123",
+            "ROCK_SKIN_124",
+            "ROCK_SKIN_125",
+            "ROCK_SKIN_126",
+            "ROCK_SKIN_127",
+            "ROCK_SKIN_128",
+            "ROCK_SKIN_129",
+            "ROCK_SKIN_130",
+            "ROCK_SKIN_131"
+          ],
+          "splitEachRenderer": false
+        },
+        {
+          "name": "pillar_circular_body_subset",
+          "exactPaths": [
+            "GREEN",
+            "ROCK_SKIN_103"
+          ],
+          "splitEachRenderer": false
+        }
+      ]
+    }
+  ],
+  "fairwayBand": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/band-fields/fairway.f32",
+  "greenBand": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/band-fields/green.f32",
+  "bandSize": 1024,
+  "playY": 6.56167979,
+  "cliffPrefixes": [
+    "ROCK_SKIN",
+    "TERRAIN",
+    "ROCK_WALL_BASALT"
+  ]
+}

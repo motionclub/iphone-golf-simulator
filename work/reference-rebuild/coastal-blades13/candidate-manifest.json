@@ -1,0 +1,86 @@
+{
+  "status": "OFF-ASSETS source reviewed: mixed low layers plus emerging physical tips; actual candidate Unity gate pending",
+  "sourceInput": "ArtDir/golf/source/CoastalTurf.blend",
+  "inputSha256": "2eb4b8be1cb2ee5bff3a3237a05f0066419c14244cade3dbf2616686532148e4",
+  "lods": {
+    "TURF_NEAR": {
+      "blades": 768,
+      "vertices": 5376,
+      "triangles": 4608,
+      "heightMaxMeters": 0.08492480218410492
+    },
+    "TURF_MID": {
+      "blades": 128,
+      "vertices": 640,
+      "triangles": 384,
+      "heightMaxMeters": 0.059846799820661545
+    },
+    "TURF_FAR": {
+      "blades": 64,
+      "vertices": 192,
+      "triangles": 64,
+      "heightMaxMeters": 0.03985588625073433
+    }
+  },
+  "tuftsPerSquareMeter": 128,
+  "nearBladesPerTuft": 6,
+  "nearWidthMeters": [
+    0.0045,
+    0.009
+  ],
+  "cutHeightMeters": [
+    0.024,
+    0.085
+  ],
+  "existingRoughScale": 1.8,
+  "roughResultHeightMeters": [
+    0.0432,
+    0.153
+  ],
+  "budget": {
+    "nearCells": 48,
+    "midCells": 96,
+    "maximumCells": 640,
+    "maximumTriangles": 289792,
+    "submissions": 3
+  },
+  "mapsPaletteShaders": "UNCHANGED; export mesh geometry only",
+  "proofCamera": "Reference camera2: 70deg vertical FOV, camera -4.5yards,+3.2yards and12deg downward; exact source meters converted using .9144. Plain48-tile near patch, not a Unity performance/appearance certificate.",
+  "files": {
+    "CoastalTurf.fbx": "d6fd20a4fb542e14a74075fd69bef5d75d731c93281215559e0d8b22dd8e3962",
+    "CoastalTurf.blend": "1a5eabe3e07917abcf4ca252d38078c8d68f4ed10be8ef894e1a54afd458de8d",
+    "physical-blades-source-silhouette.png": "7398073abe64c98787c315c5a51adff351eefbe257454feb6e88a53efa290eeb",
+    "physical-blades-candidate-camera.png": "8a9b254ee7ff09afb677c38e9fe8c1d053eb4de6ac81a5e2ed0ce5329402ee02",
+    "physical-blades-before-camera.png": "9347d38cad38d4fd7338ef618d73f334850b6f7343cd8ce948f115e989b06298"
+  },
+  "nearHeightProfile": {
+    "low": [
+      0.024,
+      0.04
+    ],
+    "middle": [
+      0.045,
+      0.06
+    ],
+    "emergent": [
+      0.06,
+      0.085
+    ],
+    "bladesPerTierPerFan": 2
+  },
+  "diagnostic13": {
+    "actualOriginalNearHeightMeters": 0.0439725,
+    "actualOriginalMidFarHeightMeters": 0.0439393,
+    "oldSubmissionCounts": [
+      48,
+      96,
+      24
+    ],
+    "explicitCameraRefreshCounts": [
+      39,
+      74,
+      0
+    ],
+    "verdict": "Original units correct and blades render. Sparse hooked strokes require geometry change; stale capture submissions were not the sole flat-read cause."
+  }
+}

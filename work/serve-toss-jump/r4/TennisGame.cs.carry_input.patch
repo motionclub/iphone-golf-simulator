@@ -1,0 +1,62 @@
+--- a/Assets/Scripts/Tennis/TennisGame.cs
++++ b/Assets/Scripts/Tennis/TennisGame.cs
+@@ -1272,11 +1272,12 @@
+                 if (serveTimer < TennisRules.ServeTossDelay)
+                 {
+                     // The same routine as the player's: bounce, bounce, wind up.
+-                    TennisServeRoutine.Pose(Opponent, serveTimer, out Vector3 held, out Vector3 palm);
++                    TennisServeRoutine.Pose(Opponent, Mathf.Abs(Opponent.Speed) > .2f ? 0 : serveTimer, out Vector3 held, out Vector3 palm);
+                     BallPosition = held; Opponent.ReachTossHand(palm, 1); Opponent.Prepare(0, false, true);
+                     return;
+                 }
+                 float tossAge = serveTimer - TennisRules.ServeTossDelay;
++                TennisServeRoutine.RecordServeTime(Opponent, serveTimer);
+                 float toss=Mathf.Clamp01(tossAge/.85f);
+                 BallPosition=OpponentToss(toss);
+                 Opponent.ReachTossHand(TennisServeRoutine.TossPalm(Opponent, tossAge), Opponent.Swinging ? 0 : 1);
+@@ -1508,6 +1509,19 @@
+             if (fx) fx.Stream(BallPosition, LastWasSupercharged && !incoming && Flow == Phase.Rally);
+         }
+ 
++        /// Final visual serve reach, after the match driver's current yaw/root pose.
++        /// Changes held/bouncing geometry only; phase clocks and flight/contact stay owned by Step.
++        public float ServeReachClock(TennisActor server) => server == Opponent ? serveTimer : TennisServeRoutine.CurrentTime(server);
++        public void ResolveServeReachVisual(TennisActor server, Vector3 position)
++        {
++            bool active = server == Player ? Flow == Phase.PlayerServeHold
++                : server == Opponent && Flow == Phase.OpponentServe && serveTimer < TennisRules.ServeTossDelay;
++            if (!active) return;
++            BallPosition = previousBall = position;
++            renderedBall = position;
++            if (ball) ball.position = position;
++        }
++
+         void UpdateOpponent(float dt)
+         {
+             sinceStrike += dt;
+@@ -1517,7 +1531,7 @@
+                     TennisRules.ReceiverStanceX(true, Match.DeuceCourt), dt * Profile.Speed);
+             else if (Flow == Phase.OpponentServe)
+                 opponentX = Mathf.MoveTowards(Opponent.transform.position.x,
+-                    TennisRules.ServerStanceX(false, Match.DeuceCourt), dt * Profile.Speed);
++                    TennisRules.ServerStanceX(false, Match.DeuceCourt), dt * Mathf.Min(Profile.Speed, 1.65f));
+             else
+             {
+                 // It reads the shot a beat late, then moves to where the ball will actually
+@@ -1549,6 +1563,16 @@
+             float opponentSpeed = (opponentX - Opponent.transform.position.x) / dt;
+             // Behind the baseline to serve, back up to the rally position afterwards.
+             float opponentZ = Mathf.MoveTowards(Opponent.transform.position.z, Flow == Phase.OpponentServe ? TennisRules.ServeDepth : 11.2f, dt * 4f);
++            if (Flow == Phase.OpponentServe)
++            {
++                // Pace the whole pre-serve path, including return from rally depth.
++                Vector3 spot = new Vector3(TennisRules.ServerStanceX(false, Match.DeuceCourt), .035f, TennisRules.ServeDepth);
++                var reach = Opponent.VisualTossPoint?.Target as HeroTennisDriver;
++                float pace = reach && !reach.ServeCarryReady ? 0 : Mathf.Min(Profile.Speed, 1.8f);
++                Vector3 approach = Vector3.MoveTowards(Opponent.transform.position, spot, dt * pace);
++                opponentX = approach.x; opponentZ = approach.z;
++                opponentSpeed = (opponentX - Opponent.transform.position.x) / dt;
++            }
+             Opponent.transform.position = new Vector3(opponentX,.035f,opponentZ);
+             Opponent.Advance(dt, -opponentSpeed);
+         }

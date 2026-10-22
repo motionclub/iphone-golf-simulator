@@ -1,0 +1,156 @@
+{
+ "blend": "final/l1f.blend",
+ "blend_sha256": "2d1846949688414a275f4584d3db3a1386a4ae81c2950edf2b1f2955e8912c68",
+ "start_blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/male-micro1l-head/baseline/HeroBase_Male_Silhouette.9bfd788a.blend",
+ "start_sha256": "9bfd788a1a2a10bb6c982820e9b2c65889ef7280448f3d65ed39dcd8634d91ba",
+ "verts": 33196,
+ "verts_same_count": true,
+ "moved_total": 3043,
+ "moved_outside_zone_z_lt_1_40": 0,
+ "min_z_of_moved_verts": 1.4328809976577759,
+ "max_move_mm": 3.4442175337325818,
+ "mean_move_mm_moved": 0.5199489467304856,
+ "hands_moved": 0,
+ "arms_moved": 0,
+ "torso_pelvis_legs_feet_moved": 0,
+ "weld_ring_moved": 0,
+ "topology_identical": true,
+ "tris": 66158,
+ "quad_faces": 32674,
+ "vertex_groups_identical": true,
+ "vertex_groups": [
+  "LOOP_ala_L",
+  "LOOP_ala_R",
+  "LOOP_concha_L",
+  "LOOP_concha_R",
+  "LOOP_ear_attach_L",
+  "LOOP_ear_attach_R",
+  "LOOP_helix_L",
+  "LOOP_helix_R",
+  "LOOP_jaw_ear_L",
+  "LOOP_jaw_ear_R",
+  "LOOP_lid_margin_L",
+  "LOOP_lid_margin_R",
+  "LOOP_mouth_lip_lower",
+  "LOOP_mouth_lip_upper",
+  "LOOP_mouth_seam",
+  "LOOP_nostril_L",
+  "LOOP_nostril_R"
+ ],
+ "face_m_identical": false,
+ "face_m_materials_identical": true,
+ "face_m_per_slot": {
+  "Face_Pupil": {
+   "faces_start": 128,
+   "faces_now": 128,
+   "identical": true
+  },
+  "Face_Iris": {
+   "faces_start": 192,
+   "faces_now": 192,
+   "identical": true
+  },
+  "Face_Limbal": {
+   "faces_start": 64,
+   "faces_now": 64,
+   "identical": true
+  },
+  "Face_Sclera": {
+   "faces_start": 640,
+   "faces_now": 640,
+   "identical": true
+  },
+  "Face_Catch": {
+   "faces_start": 20,
+   "faces_now": 20,
+   "identical": true
+  },
+  "Face_BrowSoft": {
+   "faces_start": 248,
+   "faces_now": 248,
+   "identical": true
+  },
+  "Face_Brow": {
+   "faces_start": 468,
+   "faces_now": 468,
+   "identical": true
+  },
+  "Face_LidLine": {
+   "faces_start": 430,
+   "faces_now": 430,
+   "identical": true
+  },
+  "Face_LidCrease": {
+   "faces_start": 78,
+   "faces_now": 78,
+   "identical": true
+  },
+  "Face_LipUp": {
+   "faces_start": 172,
+   "faces_now": 282,
+   "identical": false
+  },
+  "Face_Lip": {
+   "faces_start": 172,
+   "faces_now": 282,
+   "identical": false
+  },
+  "Face_Seam": {
+   "faces_start": 110,
+   "faces_now": 126,
+   "identical": false
+  },
+  "Face_Nostril": {
+   "faces_start": 60,
+   "faces_now": 60,
+   "identical": true
+  }
+ },
+ "face_m_nonlip_slots_identical": true,
+ "face_m_verts": [
+  3322,
+  3578
+ ],
+ "body_materials": [
+  "Blockout_Grey"
+ ],
+ "boundary_edges": 92,
+ "nonmanifold_edges": 2,
+ "boundary_edges_start": 92,
+ "nonmanifold_edges_start": 2,
+ "height_m": 1.702187180519104,
+ "nan_or_inf": false,
+ "custom_normals_present": true,
+ "normals_far_from_edit": {
+  "corners": 119174,
+  "max_angle_deg": 0.04423465579748154,
+  "changed_corners_gt_0_05deg": 0
+ },
+ "normals_edit_region": {
+  "corners": 13952,
+  "mean_rotation_deg": 3.0993828773498535,
+  "max_rotation_deg": 25.638748168945312
+ },
+ "silhouette": {
+  "body_bald_front": {
+   "diff": 3092,
+   "union": 74867,
+   "pct": 4.129990516515955
+  },
+  "body_bald_back": {
+   "diff": 3532,
+   "union": 74346,
+   "pct": 4.750759960186157
+  },
+  "withface_bald_front": {
+   "diff": 3092,
+   "union": 74867,
+   "pct": 4.129990516515955
+  },
+  "withface_bald_back": {
+   "diff": 3532,
+   "union": 74346,
+   "pct": 4.750759960186157
+  }
+ }
+}

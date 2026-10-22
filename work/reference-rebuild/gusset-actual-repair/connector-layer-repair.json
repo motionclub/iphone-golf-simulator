@@ -1,0 +1,100 @@
+{
+  "Full": {
+    "positionsIdentical": true,
+    "bindingsIdentical": true,
+    "surfaceBindingsIdentical": true,
+    "removedTriangles": 393,
+    "newTriangles": 393,
+    "bridgeOrientationEvidence": [
+      {
+        "garmentBoundaryVertices": 71,
+        "bodyBoundaryVertices": 138,
+        "orientedAreaCosine": 0.9990401129398389
+      },
+      {
+        "garmentBoundaryVertices": 111,
+        "bodyBoundaryVertices": 86,
+        "orientedAreaCosine": 0.9626825452587189
+      },
+      {
+        "garmentBoundaryVertices": 70,
+        "bodyBoundaryVertices": 138,
+        "orientedAreaCosine": 0.9991096278806648
+      },
+      {
+        "garmentBoundaryVertices": 110,
+        "bodyBoundaryVertices": 86,
+        "orientedAreaCosine": 0.9611911512405124
+      },
+      {
+        "garmentBoundaryVertices": 97,
+        "bodyBoundaryVertices": 70,
+        "orientedAreaCosine": 0.9641083382083667
+      },
+      {
+        "garmentBoundaryVertices": 69,
+        "bodyBoundaryVertices": 124,
+        "orientedAreaCosine": 0.9989230117821783
+      },
+      {
+        "garmentBoundaryVertices": 97,
+        "bodyBoundaryVertices": 70,
+        "orientedAreaCosine": 0.9624287101036147
+      },
+      {
+        "garmentBoundaryVertices": 69,
+        "bodyBoundaryVertices": 124,
+        "orientedAreaCosine": 0.9990130752104902
+      }
+    ]
+  },
+  "LOD": {
+    "positionsIdentical": true,
+    "bindingsIdentical": true,
+    "surfaceBindingsIdentical": true,
+    "removedTriangles": 765,
+    "newTriangles": 765,
+    "bridgeOrientationEvidence": [
+      {
+        "garmentBoundaryVertices": 67,
+        "bodyBoundaryVertices": 138,
+        "orientedAreaCosine": 0.9995783518225096
+      },
+      {
+        "garmentBoundaryVertices": 110,
+        "bodyBoundaryVertices": 86,
+        "orientedAreaCosine": 0.9626266960116153
+      },
+      {
+        "garmentBoundaryVertices": 67,
+        "bodyBoundaryVertices": 138,
+        "orientedAreaCosine": 0.9996421137597508
+      },
+      {
+        "garmentBoundaryVertices": 106,
+        "bodyBoundaryVertices": 86,
+        "orientedAreaCosine": 0.961076873284867
+      },
+      {
+        "garmentBoundaryVertices": 97,
+        "bodyBoundaryVertices": 70,
+        "orientedAreaCosine": 0.9640772615504409
+      },
+      {
+        "garmentBoundaryVertices": 65,
+        "bodyBoundaryVertices": 124,
+        "orientedAreaCosine": 0.9989900144172202
+      },
+      {
+        "garmentBoundaryVertices": 97,
+        "bodyBoundaryVertices": 70,
+        "orientedAreaCosine": 0.9623941472707518
+      },
+      {
+        "garmentBoundaryVertices": 64,
+        "bodyBoundaryVertices": 124,
+        "orientedAreaCosine": 0.9988881949213374
+      }
+    ]
+  }
+}

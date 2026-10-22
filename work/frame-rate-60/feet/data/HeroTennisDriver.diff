@@ -1,0 +1,168 @@
+--- a/Unity/Assets/Scripts/Tennis/HeroTennisDriver.cs (job start, sha ca9c675a)	2026-10-03 17:08:22
++++ b/Unity/Assets/Scripts/Tennis/HeroTennisDriver.cs	2026-10-03 16:44:43
+@@ -14,8 +14,9 @@
+     /// The match heroes play the 16 FBX clips of work/match-anim-set on their own skeleton, as authored. The driver keeps what
+     /// belongs to a puppet (contact lock, honest contact assist, the serve ritual, planted feet, the dive tilt) and leaves out the
+     /// stylised body layers and the clearance models that were measured on the old chibi body (see `Match`). The old Hero_* clips
+-    /// are not played by any slot: run, walk, celebrate, sad, match win / lose and the whiff overswing have no new clip, so a hero
+-    /// with none of them simply holds ReadyIdle / finishes the swing it is in.
++    /// are not played by any slot: celebrate, sad, match win / lose and the whiff overswing have no new clip, so a hero
++    /// with none of them simply holds ReadyIdle / finishes the swing it is in. (SERVE_AND_FEET: the new Serve plus Walk, RunForward, RunLeft and RunRight are in
++    /// the set; the base layer plays them by ground speed, planted-foot speed = actor speed at `walkClipSpeed` / `runClipSpeed`.)
+     [DefaultExecutionOrder(1000)]
+     public sealed class HeroTennisDriver : MonoBehaviour
+     {
+@@ -46,6 +47,8 @@
+         [Tooltip("Hero V5: the hair mesh is a closed opaque volume; skip the V4 hair-shell workarounds.")] public bool closedHairV5 = true;
+         [Tooltip("Planted-foot speed (m/s) of the run clips at 1x, measured from the baked clips (feet_report.json).")] public float runClipSpeed = 5.8f;
+         [Tooltip("Planted-foot speed of Hero_Walk_v5 at 1x (2 x 0.26 m stride over 0.54 s stance).")] public float walkClipSpeed = .96f;
++        [Tooltip("Match heroes: the forward run played backwards (backing away from the net) reads pivot - phase, so that its stance and swing line up with the sideways runs it is blended with. Written by ServeAndFeetWire from the clips' stance windows.")] public float runReversePivot = .2167f;
++        double runPhase; bool runBack;
+         float walkYaw;
+         [Tooltip("Max distance the right arm is nudged so the racket meets the gameplay ball at contact.")] public float contactAssist = .5f;
+         [Tooltip("Max body lunge toward the ball near contact (m).")] public float bodyReach = .3f;
+@@ -74,7 +77,8 @@
+             return t;
+         }
+         /// Clips the match set does not have (listed for the HERO_MAINSTAY note): these slots stay empty, so nothing plays for them.
+-        public static readonly Clip[] MissingFromMatchSet = { Clip.RunForward, Clip.RunRight, Clip.RunLeft, Clip.Walk, Clip.HitPerfect, Clip.CelebratePoint, Clip.SadPointLost, Clip.MatchWin, Clip.MatchLose, Clip.MissWhiff };
++        /// (SERVE_AND_FEET: Walk, RunForward, RunRight and RunLeft are in the set now and play from the base layer by ground speed; WalkMode / runClipSpeed / walkClipSpeed apply.)
++        public static readonly Clip[] MissingFromMatchSet = { Clip.HitPerfect, Clip.CelebratePoint, Clip.SadPointLost, Clip.MatchWin, Clip.MatchLose, Clip.MissWhiff };
+ 
+         /// Editor proof only: HERO_BASELINE=1 disables the Plan 1 fixes (measurements stay on).
+         public static readonly bool Baseline = Environment.GetEnvironmentVariable("HERO_BASELINE") == "1";
+@@ -495,6 +499,17 @@
+             target[(int)baseIdle] = 1 - runW;
+             bool walkMode = WalkMode();
+             if (runW > 0 && walkMode) target[(int)Clip.Walk] += runW;
++            else if (runW > 0 && Match)
++            {
++                // SERVE_AND_FEET: the planted foot of a blend of two run clips moves at the blended direction only when both play the same way round (work/serve-and-feet/data/run_blend_model_*.json):
++                // toward the net, RunForward + RunRight / RunLeft, the blend weight is the travel angle / 90; away from the net, the forward run played backwards + the OPPOSITE sideways run played
++                // backwards (back to the right = RunLeft reversed, back to the left = RunRight reversed), the weight is (180 - angle) / 90. The family only changes past 100 / back before 80 degrees.
++                float phi = Mathf.Atan2(v.x, v.y) * Mathf.Rad2Deg, a = Mathf.Abs(phi);
++                if (runBack) { if (a < 80f) runBack = false; } else if (a > 100f) runBack = true;
++                float wl = Mathf.Clamp01((runBack ? 180f - a : a) / 90f);
++                target[(int)Clip.RunForward] += runW * (1 - wl);
++                target[(int)((phi >= 0) != runBack ? Clip.RunRight : Clip.RunLeft)] += runW * wl;
++            }
+             else if (runW > 0)
+             {
+                 float side = Mathf.Abs(v.x), fwd = Mathf.Abs(v.y), sum = Mathf.Max(1e-4f, side + fwd);
+@@ -542,7 +557,12 @@
+                 else { upperFade = Mathf.MoveTowards(upperFade, 0, dt / MatchUpperOut); upperW = upperFade; }
+             }
+             // ---- advance clip times and blend
+-            float runRate = Mathf.Clamp(move / runClipSpeed, .25f, 1.6f);
++            // SERVE_AND_FEET: the game runs at its own pace (0.75 on the serve walk-in, 1.2 in a rally) while actor.Speed is in game seconds, so the hero
++            // really covers Speed * pace metres per second: the walk / run clips follow that ground speed, or the planted foot slides.
++            float rateMove = Match ? move * GroundPace(move, dt) : move;
++            // the three run clips share one phase (identical foot timing); the planted foot of a coherent blend moves at 0.98 of the design speed (run_blend_model)
++            float runRate = Mathf.Clamp(rateMove / (runClipSpeed * (Match ? .98f : 1f)), .25f, Match ? 2f : 1.6f);
++            if (Match && valid[(int)Clip.RunForward]) runPhase = (runPhase + dt * runRate) % length[(int)Clip.RunForward];
+             float fwdSign = v.y < -.05f && !Baseline ? -1 : 1;   // backing away from the net: forward run in reverse
+             for (int k = 0; k < Count; k++)
+             {
+@@ -551,9 +571,9 @@
+                     : Mathf.Abs(weight[k] - target[k]) < .002f ? target[k] : Mathf.SmoothDamp(weight[k], target[k], ref weightVel[k], .06f, Mathf.Infinity, dt);   // eased cross-fades
+                 var id = (Clip)k;
+                 if (id == Clip.Ready || id == Clip.Idle) time[k] = (time[k] + dt) % length[k];
+-                else if (id == Clip.RunForward) time[k] = Mathf.Repeat((float)time[k] + dt * runRate * fwdSign, length[k]);
+-                else if (id == Clip.RunRight || id == Clip.RunLeft) time[k] = (time[k] + dt * runRate) % length[k];
+-                else if (id == Clip.Walk) time[k] = (time[k] + dt * Mathf.Clamp(move / walkClipSpeed, .3f, 1.8f)) % length[k];
++                else if (id == Clip.RunForward) time[k] = Match ? (runBack ? Mathf.Repeat(runReversePivot - (float)runPhase, length[k]) : runPhase) : Mathf.Repeat((float)time[k] + dt * runRate * fwdSign, length[k]);
++                else if (id == Clip.RunRight || id == Clip.RunLeft) time[k] = Match ? (runBack ? Mathf.Repeat(runReversePivot - (float)runPhase, length[k]) : runPhase % length[k]) : (time[k] + dt * runRate) % length[k];
++                else if (id == Clip.Walk) time[k] = (time[k] + dt * Mathf.Clamp(rateMove / walkClipSpeed, .3f, 1.8f)) % length[k];
+                 else if (actionActive && id == action) { time[k] = actionTime; if (upperPlayables[k].IsValid()) upperPlayables[k].SetTime(actionTime); }
+                 else if (juiceActive && id == juice) time[k] = Math.Max(0, juiceTime);
+                 playables[k].SetTime(time[k]);
+@@ -580,9 +600,10 @@
+             float yawTo = walkMode && move > .25f ? Mathf.Atan2(v.x, v.y) * Mathf.Rad2Deg : 0;
+             walkYaw = Mathf.MoveTowardsAngle(walkYaw, yawTo, dt * 420f);
+             transform.localRotation = Quaternion.Euler(0, serveYaw + walkYaw, 0);
++            if (Match) SmoothRoot(dt);
+             graph.Evaluate(0);
+             PostProcess(swinging);
+-            if (!Baseline && !(isPlayer && game && game.DiveActive)) LockFeet(dt);
++            if (!Baseline && !(isPlayer && game && game.DiveActive) && !LocomotionOwnsFeet()) LockFeet(dt);
+             MeasureSkate(dt);
+             if (!Match) FinalArmPenetration = FinalArms();   // the clearance models were measured on the old chibi torso
+             if (trail && trail.emitting && (trailFor -= Time.deltaTime) <= 0) trail.emitting = false;
+@@ -592,6 +613,17 @@
+         }
+         /// Deepest sole below the court on the pose actually rendered this frame.
+         public float FinalSink { get; private set; }
++        /// SERVE_AND_FEET: while Walk / RunForward / RunLeft / RunRight carry the legs (>= 0.9 of the blend, no stroke), their planted foot already stands still on the court
++        /// (the clip is played at the real ground speed, the hero moves smoothly): the ankle lock would pin the foot at the first touch and fight the heel-to-toe roll. The lock
++        /// state is cleared so it starts clean when the hero stops.
++        bool LocomotionOwnsFeet()
++        {
++            if (!Match || actionActive || juiceActive) { return false; }
++            float loco = weight[(int)Clip.Walk] + weight[(int)Clip.RunForward] + weight[(int)Clip.RunLeft] + weight[(int)Clip.RunRight];
++            if (loco < .9f) return false;
++            for (int f = 0; f < 2; f++) { locked[f] = false; lockW[f] = 0; stepping[f] = false; }
++            return true;
++        }
+         // ---- foot plant lock: a foot the clip has on the ground stays put in world space (leg IK)
+         readonly bool[] locked = new bool[2]; readonly Vector3[] lockPos = new Vector3[2]; readonly float[] lockW = new float[2];
+         readonly bool[] stepping = new bool[2]; readonly float[] stepT = new float[2]; readonly Vector3[] stepFrom = new Vector3[2];
+@@ -667,6 +699,41 @@
+             up.rotation = Quaternion.FromToRotation(lo.position - up.position, knee - up.position) * up.rotation;
+             lo.rotation = Quaternion.FromToRotation(end.position - lo.position, up.position + dir * d - lo.position) * lo.rotation;
+         }
++        /// Real ground speed over commanded speed (the game's pace), smoothed over ~0.15 s: 1 until the hero has moved enough to measure it.
++        Vector3 lastActorPos; bool haveActorPos; float paceReal, paceCmd, paceRatio = 1;
++        float GroundPace(float move, float dt)
++        {
++            var p = actor.transform.position; p.y = 0;
++            if (haveActorPos && dt > 1e-4f)
++            {
++                float disp = Vector3.Distance(p, lastActorPos) / dt;
++                if (disp < move * 2f + 1.5f)   // a teleport (point reset, new match) is not walking
++                {
++                    float k = 1 - Mathf.Exp(-dt / .15f);
++                    paceReal += (disp - paceReal) * k; paceCmd += (move - paceCmd) * k;
++                }
++            }
++            lastActorPos = p; haveActorPos = true;
++            if (paceCmd > .3f) paceRatio = Mathf.Clamp(paceReal / paceCmd, .6f, 1.4f);
++            return paceRatio;
++        }
++        /// The game moves the actor in 1/120 s steps, so a rendered frame covers one, two or three of them and the hero's position along the court judders by up to
++        /// a step per frame (11 mm at a walk, 40 mm at a run) while its planted feet are held still: the world position of a planted toe then seems to slide. The hero is
++        /// drawn at the actor's position carried forward at the real ground velocity (the commanded velocity, at the game's pace) and eased back onto the actor, so the
++        /// hero is on the actor on average and moves smoothly between the steps. Visual only: the actor, the ball and the contact are not touched.
++        Vector3 smoothPos, lastRawPos, smoothLocal; bool smoothInit; int stillFrames;
++        void SmoothRoot(float dt)
++        {
++            if (dt < 1e-4f) return;
++            var raw = actor.transform.position; raw.y = 0;
++            if (!smoothInit) { smoothPos = raw; lastRawPos = raw; smoothInit = true; }
++            stillFrames = Vector3.Distance(raw, lastRawPos) < 1e-5f ? stillFrames + 1 : 0; lastRawPos = raw;
++            var vel = actor.transform.right * actor.Speed + actor.transform.forward * actor.ForwardSpeed; vel.y = 0; vel *= paceRatio;
++            // a frozen world (hit stop), a dive, a reset: sit on the actor
++            if (stillFrames >= 3 || (isPlayer && game && game.DiveActive) || Vector3.Distance(raw, smoothPos) > .25f) smoothPos = raw;
++            else { smoothPos += vel * dt; smoothPos += (raw - smoothPos) * (1 - Mathf.Exp(-dt / .1f)); }
++            smoothLocal = actor.transform.InverseTransformVector(smoothPos - raw);
++        }
+         readonly Vector3[] lastToe = new Vector3[2];
+         /// Fastest planted-toe ground slide this frame (m/s). 0 = feet locked to the court.
+         public float FootSkate { get; private set; }
+@@ -689,7 +756,7 @@
+             // Ease any contact lunge back under the actor (feet re-centre over ~0.25 s).
+             if (lungeOffset != Vector3.zero && !(swinging && IsStroke(action) && Mathf.Abs(actor.SignedTimeToContact) < .16f))
+             { lungeOffset = Vector3.MoveTowards(lungeOffset, Vector3.zero, Time.deltaTime * 1.2f); }
+-            transform.localPosition = lungeOffset;
++            transform.localPosition = lungeOffset + smoothLocal;
+             if (!FluidOff) { BodyMotion(swinging); if (!Match) ReceivingStance(Time.deltaTime); }
+             Ground();
+             // ---- hands: grip roll (eastern FH / continental volley), left-hand grip where it holds something
+@@ -1559,7 +1626,7 @@
+                 // A reach is carried by the body too: lunge the whole hero toward the ball.
+                 var toBall = (game && actor == game.Opponent && game.Flow == TennisGame.Phase.Rally ? game.BallPosition : actor.GuideBall) - stringCentre.position; toBall.y = 0;
+                 var lunge = Vector3.ClampMagnitude(toBall, bodyReach) * w;
+-                transform.position += lunge; lungeOffset = Vector3.ClampMagnitude(transform.localPosition, bodyReach); transform.localPosition = lungeOffset;
++                transform.position += lunge; lungeOffset = Vector3.ClampMagnitude(transform.localPosition - smoothLocal, bodyReach); transform.localPosition = lungeOffset + smoothLocal;
+                 // A low ball is reached by bending the knees, not by driving the arm down through the
+                 // thigh: drop the hips and re-solve both legs so the feet stay planted on the court.
+                 Vector3 g0 = game && actor == game.Opponent && game.Flow == TennisGame.Phase.Rally ? game.BallPosition : actor.GuideBall;

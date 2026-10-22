@@ -1,0 +1,308 @@
+{
+  "16_reference_a": {
+    "courtControl": {
+      "boxXYXY": [
+        1100,
+        680,
+        1230,
+        800
+      ],
+      "candidateRGB": [
+        84.305,
+        161.649,
+        164.763
+      ],
+      "controlRGB": [
+        84.305,
+        161.649,
+        164.763
+      ],
+      "meanAbsoluteRGBDelta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "candidateAnyChannelClippedPercent": 0.987,
+      "controlAnyChannelClippedPercent": 0.987
+    },
+    "waterControl": {
+      "boxXYXY": [
+        1170,
+        302,
+        1390,
+        326
+      ],
+      "candidateRGB": [
+        60.433,
+        120.134,
+        168.954
+      ],
+      "controlRGB": [
+        60.43,
+        120.13,
+        168.951
+      ],
+      "meanAbsoluteRGBDelta": [
+        0.038,
+        0.027,
+        0.041
+      ],
+      "candidateAnyChannelClippedPercent": 0.0,
+      "controlAnyChannelClippedPercent": 0.0
+    },
+    "pergolaColumn": {
+      "boxXYXY": [
+        190,
+        171,
+        248,
+        278
+      ],
+      "candidateRGB": [
+        101.301,
+        130.459,
+        146.206
+      ],
+      "controlRGB": [
+        101.3,
+        130.459,
+        146.205
+      ],
+      "meanAbsoluteRGBDelta": [
+        0.001,
+        0.003,
+        0.002
+      ],
+      "candidateAnyChannelClippedPercent": 0.0,
+      "controlAnyChannelClippedPercent": 0.0
+    },
+    "promenadePaving": {
+      "boxXYXY": [
+        1550,
+        446,
+        1640,
+        490
+      ],
+      "candidateRGB": [
+        93.571,
+        129.441,
+        115.924
+      ],
+      "controlRGB": [
+        93.714,
+        129.611,
+        116.078
+      ],
+      "meanAbsoluteRGBDelta": [
+        0.143,
+        0.17,
+        0.154
+      ],
+      "candidateAnyChannelClippedPercent": 0.0,
+      "controlAnyChannelClippedPercent": 0.48
+    }
+  },
+  "17_clubhouse_close": {
+    "plasterSide": {
+      "boxXYXY": [
+        1322,
+        553,
+        1360,
+        601
+      ],
+      "candidateRGB": [
+        158.681,
+        167.853,
+        122.771
+      ],
+      "controlRGB": [
+        158.682,
+        167.854,
+        122.77
+      ],
+      "meanAbsoluteRGBDelta": [
+        0.012,
+        0.018,
+        0.008
+      ],
+      "candidateAnyChannelClippedPercent": 0.0,
+      "controlAnyChannelClippedPercent": 0.0
+    },
+    "plasterWindowGap": {
+      "boxXYXY": [
+        809,
+        567,
+        827,
+        649
+      ],
+      "candidateRGB": [
+        90.549,
+        104.034,
+        126.022
+      ],
+      "controlRGB": [
+        91.058,
+        104.505,
+        126.579
+      ],
+      "meanAbsoluteRGBDelta": [
+        0.509,
+        0.471,
+        0.558
+      ],
+      "candidateAnyChannelClippedPercent": 0.0,
+      "controlAnyChannelClippedPercent": 1.287
+    },
+    "whiteTrim": {
+      "boxXYXY": [
+        964,
+        679,
+        1021,
+        700
+      ],
+      "candidateRGB": [
+        240.369,
+        232.791,
+        225.84
+      ],
+      "controlRGB": [
+        245.902,
+        245.698,
+        244.334
+      ],
+      "meanAbsoluteRGBDelta": [
+        5.533,
+        12.906,
+        18.495
+      ],
+      "candidateAnyChannelClippedPercent": 0.0,
+      "controlAnyChannelClippedPercent": 72.18
+    },
+    "paving": {
+      "boxXYXY": [
+        835,
+        950,
+        1125,
+        1040
+      ],
+      "candidateRGB": [
+        173.656,
+        176.564,
+        152.999
+      ],
+      "controlRGB": [
+        176.636,
+        179.671,
+        155.892
+      ],
+      "meanAbsoluteRGBDelta": [
+        3.142,
+        3.312,
+        3.008
+      ],
+      "candidateAnyChannelClippedPercent": 0.0,
+      "controlAnyChannelClippedPercent": 4.835
+    },
+    "sailCanvas": {
+      "boxXYXY": [
+        348,
+        796,
+        610,
+        832
+      ],
+      "candidateRGB": [
+        236.179,
+        233.376,
+        215.372
+      ],
+      "controlRGB": [
+        246.672,
+        243.347,
+        225.698
+      ],
+      "meanAbsoluteRGBDelta": [
+        10.498,
+        9.974,
+        10.33
+      ],
+      "candidateAnyChannelClippedPercent": 0.371,
+      "controlAnyChannelClippedPercent": 36.991
+    }
+  },
+  "12_terrace_close": {
+    "paving": {
+      "boxXYXY": [
+        800,
+        695,
+        1800,
+        1060
+      ],
+      "candidateRGB": [
+        243.18,
+        227.365,
+        205.903
+      ],
+      "controlRGB": [
+        254.08,
+        240.822,
+        218.159
+      ],
+      "meanAbsoluteRGBDelta": [
+        10.899,
+        13.457,
+        12.256
+      ],
+      "candidateAnyChannelClippedPercent": 0.0,
+      "controlAnyChannelClippedPercent": 66.55
+    },
+    "blueShadeFacade": {
+      "boxXYXY": [
+        433,
+        270,
+        993,
+        453
+      ],
+      "candidateRGB": [
+        115.678,
+        139.125,
+        161.132
+      ],
+      "controlRGB": [
+        115.678,
+        139.125,
+        161.132
+      ],
+      "meanAbsoluteRGBDelta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "candidateAnyChannelClippedPercent": 0.0,
+      "controlAnyChannelClippedPercent": 0.0
+    },
+    "foundation": {
+      "boxXYXY": [
+        477,
+        490,
+        952,
+        515
+      ],
+      "candidateRGB": [
+        114.308,
+        120.206,
+        114.68
+      ],
+      "controlRGB": [
+        114.308,
+        120.206,
+        114.68
+      ],
+      "meanAbsoluteRGBDelta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "candidateAnyChannelClippedPercent": 0.0,
+      "controlAnyChannelClippedPercent": 0.0
+    }
+  }
+}

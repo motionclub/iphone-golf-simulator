@@ -1,0 +1,400 @@
+diff --git a/GolfArcade/Unity/ArcadeScreens.swift b/GolfArcade/Unity/ArcadeScreens.swift
+index 98ad72ae..d09f9df8 100644
+--- a/GolfArcade/Unity/ArcadeScreens.swift
++++ b/GolfArcade/Unity/ArcadeScreens.swift
+@@ -83,6 +83,7 @@ struct SettingsScreen: View {
+         case "fastInput": ("120 Hz swing input", s.fastInput ? "On" : "Off")
+         case "howto":
+             ("How to connect a TV or Mac", SportsDisplays.displayKind == .mac ? "Mac connected" : SportsDisplays.displayKind == .tv ? "TV connected" : "Open")
++        case "tennisCamera": ("Tennis camera", s.tennisCamera == "elevated" ? "Elevated" : "Chase")
+         case "fps": ("120 fps on the phone", s.highFrameRate ? "On" : "Off")
+         case "overscan": ("Screen edge margin", s.overscan == 0 ? "None" : "\(Int(s.overscan * 100))%")
+         case "sound": ("Sound", s.sound ? "On" : "Off")
+diff --git a/GolfArcade/Unity/IslandScreens.swift b/GolfArcade/Unity/IslandScreens.swift
+index 1f81c60c..eddfe171 100644
+--- a/GolfArcade/Unity/IslandScreens.swift
++++ b/GolfArcade/Unity/IslandScreens.swift
+@@ -313,6 +313,7 @@ struct IslandSettingsScreen: View {
+         case let g where g.hasPrefix("guide-"):
+             let deck = GuideDeck(rowID: g)
+             return Item(title: deck?.title ?? "Guide", detail: deck?.detail ?? "", control: .link)
++        case "tennisCamera": return Item(title: "Tennis camera", detail: "Follow close behind your player or see the court from above. Applies to your next match.", control: .choice(["Chase", "Elevated"], s.tennisCamera == "elevated" ? 1 : 0))
+         case "fps": return Item(title: "120 fps on the phone", detail: "Smoother on ProMotion phones, uses more battery.", control: .toggle(s.highFrameRate))
+         case "overscan": return Item(title: "Screen edge margin", detail: "Pulls the picture in from the edges if your TV crops it.", control: .stepper(s.overscan == 0 ? "None" : "\(Int(s.overscan * 100))%"))
+         case "sound": return Item(title: "Sound", detail: "Menu and match sound.", control: .toggle(s.sound))
+diff --git a/GolfArcade/Unity/SportsSession.swift b/GolfArcade/Unity/SportsSession.swift
+index 13a2642f..9d2dff6d 100644
+--- a/GolfArcade/Unity/SportsSession.swift
++++ b/GolfArcade/Unity/SportsSession.swift
+@@ -42,6 +42,9 @@ final class SportsSession {
+     var highFrameRate = (UserDefaults.standard.object(forKey:"sports.highFrameRate") as? Bool) ?? false {
+         didSet { UserDefaults.standard.set(highFrameRate,forKey:"sports.highFrameRate") }
+     }
++    var tennisCamera = UserDefaults.standard.string(forKey: "sports.tennisCamera") ?? "chase" {
++        didSet { UserDefaults.standard.set(tennisCamera, forKey: "sports.tennisCamera") }
++    }
+     /// The in-match coaching cards (first serve, first backhand…).
+     var coachingTips = (UserDefaults.standard.object(forKey:"sports.coachingTips") as? Bool) ?? true {
+         didSet { UserDefaults.standard.set(coachingTips,forKey:"sports.coachingTips") }
+@@ -429,7 +432,7 @@ final class SportsSession {
+         pending=["holeFlyover":holeFlyover,"intros":consumePresentationIntroCut(),"bigMoments":presentationBigMoments,"presentationConstrained":reduceMotion || ProcessInfo.processInfo.thermalState == .serious || ProcessInfo.processInfo.thermalState == .critical,"version":1,"session":sessionID,"action":"start","sport":sport,"playerID":p.id.uuidString,"playerName":p.name,"female":p.standardFemale,"skin":p.standardSkin,"left":p.handedness == .left,"sound":sound && !(multiplayerControllerOnly && (sport == "tennis" || !displayConnected)),"haptics":haptics,"touch":touch || preview,"token":Int(sessionToken),"fps":highFrameRate ? 120 : 60,"inputHz":inputHz,"bench":SportsSession.benchmark,"difficulty":tennisDifficulty,"venue":sport == "tennis" ? tennisVenue : "resort",
+                  "shirt":p.outfitHex("shirt") ?? "","shorts":p.outfitHex("shorts") ?? "","accent":p.outfitHex("accent") ?? "","racket":p.outfitHex("racket") ?? "",
+                  "skinHex":p.skinHex,"hairHex":p.hairHex,
+-                 "tips":false,"overscan":overscan,
++                 "tips":false,"overscan":overscan,"tennisCamera":tennisCamera,
+                  "hairStyle":p.hairStyle,"haircut":p.shownHaircut,"hairColor":p.hairColor,"faceShape":p.faceShape,
+                  "heightChoice":p.heightChoice,"buildChoice":p.buildChoice,"bodySize":p.bodySize,
+                  "loadout":p.loadoutPayload(sport:Sport(rawValue:sport) ?? .tennis)]
+diff --git a/GolfArcade/Unity/TennisMenu.swift b/GolfArcade/Unity/TennisMenu.swift
+index e21cc80d..a8723bb7 100644
+--- a/GolfArcade/Unity/TennisMenu.swift
++++ b/GolfArcade/Unity/TennisMenu.swift
+@@ -163,7 +163,7 @@ final class TennisMenu {
+         case .gameplay: ["level", "presentationIntros", "holeFlyover", "presentationBigMoments", "golfTwists", "golfWeather", "golfBounties", "resetProgress"]
+         case .controls: ["controls", "swingPrediction", "fastInput", "range", "hand", "relock", "timing"]
+         case .guide: GuideDeck.allCases.map(\.rowID)
+-        case .display: ["fps", "overscan"]
++        case .display: ["tennisCamera", "fps", "overscan"]
+         case .audio: ["sound", "haptics", "hapticStrength", "racketSound", "feelTest", "partyVoice", "partyRecording"]
+         case .access: ["bigText", "reduceMotion"]
+         case .developer: ["bench"]
+@@ -522,6 +522,7 @@ final class TennisMenu {
+             feelTestShown = i
+             feelTestLabel = RacketFeel.playDemo(i) ?? "Open the plaza or a match first: the feel test plays through the game."
+         case "partyVoice", "partyRecording": PartyUI.shared.settingsOpen = true
++        case "tennisCamera": s.tennisCamera = s.tennisCamera == "elevated" ? "chase" : "elevated"
+         case "fps": s.highFrameRate.toggle()
+         case "range": s.travel = min(1.2, max(0.3, s.travel + Double(step) * 0.1))
+         case "overscan": s.overscan = min(0.1, max(0, s.overscan + Double(step) * 0.02))
+diff --git a/GolfArcadeTests/TennisMenuSnapshotTests.swift b/GolfArcadeTests/TennisMenuSnapshotTests.swift
+index 6e0d92a0..bb095515 100644
+--- a/GolfArcadeTests/TennisMenuSnapshotTests.swift
++++ b/GolfArcadeTests/TennisMenuSnapshotTests.swift
+@@ -8,6 +8,26 @@ import XCTest
+ /// layouts can be reviewed without a TV attached. Output: $TMPDIR/tennis-menu/.
+ @MainActor
+ final class TennisMenuSnapshotTests: XCTestCase {
++    func testTennisCameraSettingsChoicesAndLayout() async throws {
++        let menu = TennisMenu.shared, session = SportsSession.shared
++        let original = session.tennisCamera
++        defer { session.tennisCamera = original; menu.debugShow(.title) }
++        session.tennisCamera = "chase"
++        menu.debugShow(.settings, row: 1, column: 0, tab: .display)
++        XCTAssertEqual(menu.focused, "tennisCamera")
++        try await saveHosted(IslandSettingsScreen(menu: menu, compact: true), "camera-settings-chase-phone", CGSize(width: 402, height: 874))
++        menu.move(.right)
++        XCTAssertEqual(session.tennisCamera, "elevated")
++        XCTAssertEqual(UserDefaults.standard.string(forKey: "sports.tennisCamera"), "elevated")
++        try await saveHosted(IslandSettingsScreen(menu: menu, compact: true).preferredColorScheme(.dark), "camera-settings-elevated-dark", CGSize(width: 402, height: 874))
++        menu.move(.left)
++        XCTAssertEqual(session.tennisCamera, "chase")
++        try await saveHosted(IslandSettingsScreen(menu: menu, compact: true).environment(\.dynamicTypeSize, .xxxLarge), "camera-settings-large-text", CGSize(width: 402, height: 874))
++        try await saveHosted(IslandSettingsScreen(menu: menu, compact: false), "camera-settings-tv", CGSize(width: 1280, height: 720))
++        menu.tap("back")
++        XCTAssertEqual(menu.screen, .main)
++    }
++
+     func testEmoteLoadoutScreens() async throws {
+         let menu = TennisMenu.shared, session = SportsSession.shared
+         let oldPlayers = session.players, oldIndex = session.playerIndex
+diff --git a/Unity/Assets/Scripts/Game/NativeSportsSession.cs b/Unity/Assets/Scripts/Game/NativeSportsSession.cs
+index 2872d3f3..a0401565 100644
+--- a/Unity/Assets/Scripts/Game/NativeSportsSession.cs
++++ b/Unity/Assets/Scripts/Game/NativeSportsSession.cs
+@@ -24,7 +24,7 @@ namespace GolfArcade.Game
+             // The player's kit colours (hex, "" = the kit's own), coaching tips, TV edge margin.
+             public int hairStyle=1,hairColor=1,faceShape,heightChoice=2,buildChoice=2,haircut=-1;
+             public float bodySize=-1;
+-            public string shirt,shorts,accent,racket,skinHex,hairHex; public bool tips=true; public float overscan;
++            public string tennisCamera; public string shirt,shorts,accent,racket,skinHex,hairHex; public bool tips=true; public float overscan;
+             // The tennis court: "" / "resort", "skyscraper" or "volcano"; and a court colour (hex, "" = the venue's own).
+             public string venue,course,courtHex,network; public int aimSequence;
+             public string[] emotes; public string intros="full"; public bool presentationConstrained,bigMoments=true,holeFlyover=true;
+@@ -268,7 +268,7 @@ namespace GolfArcade.Game
+             if((m.sport=="tennis" && (!tennis || !tennis.Initialized)) || (m.sport=="golf" && !golf)) {
+                 loading=false; SetPaused(true); Emit("error","The sport did not initialize its gameplay scene."); yield break;
+             }
+-            if(tennis) { tennis.NativeControlled=true; tennis.AutoPlay=m.bench; if(m.difficulty>=0) tennis.OpponentDifficulty=Mathf.Clamp01(m.difficulty); tennis.SelectCharacter(m.female);
++            if(tennis) { tennis.ElevatedCamera=m.tennisCamera=="elevated"; tennis.NativeControlled=true; tennis.AutoPlay=m.bench; if(m.difficulty>=0) tennis.OpponentDifficulty=Mathf.Clamp01(m.difficulty); tennis.SelectCharacter(m.female);
+                 TennisCoach.TipsEnabled=false;
+                 tennis.ApplyOutfit(TennisLook.Kit.From(m.shirt,m.shorts,m.accent,m.racket,m.skin));
+                 tennis.Player.Customize(m.skin,m.hairStyle,m.hairColor,m.faceShape,m.heightChoice,m.buildChoice,m.bodySize,TennisLook.Kit.From(m.shirt,m.shorts,m.accent,m.racket,m.skin));
+diff --git a/Unity/Assets/Scripts/Tennis/TennisGame.Split.cs b/Unity/Assets/Scripts/Tennis/TennisGame.Split.cs
+index 603f9f30..a5bc5d15 100644
+--- a/Unity/Assets/Scripts/Tennis/TennisGame.Split.cs
++++ b/Unity/Assets/Scripts/Tennis/TennisGame.Split.cs
+@@ -11,6 +11,7 @@ namespace GolfArcade.Tennis {
+         public static bool SplitScreen = true;
+         Camera splitCamera; GameObject splitMarks; Canvas splitCanvas; Text[] splitNames;
+         float splitDisplayAspect = 16f / 9;
++        Vector3 splitLook; bool splitFramed;
+         /// The second player's camera, if the split screen is in use (NativeSportsSession keeps it on the same display).
+         public Camera SplitCamera => splitCamera;
+         bool UsesSplit => SplitScreen && networkView == NetworkConfiguration.ViewSplit && splitCamera;
+@@ -114,7 +115,7 @@ namespace GolfArcade.Tennis {
+             float half = splitDisplayAspect * .5f;
+             rightCamera.rect = new Rect(.5f, 0, .5f, 1); rightCamera.aspect = half;
+             TennisShoulderCamera.Frame(Mirror(Opponent.transform.position), Opponent.LeftHanded, Mirror(BallPosition), false, half,
+-                out Vector3 target, out Vector3 look, out float fov);
++                out Vector3 target, out Vector3 look, out float fov, ElevatedCamera);
+             target = Mirror(target); look = Mirror(look);
+             float rate = 1 - Mathf.Exp(-Time.deltaTime * 9);
+             rightCamera.transform.position = rightFramed ? Vector3.Lerp(rightCamera.transform.position, target, rate) : target;
+@@ -152,10 +153,21 @@ namespace GolfArcade.Tennis {
+                 return;
+             }
+             float half = splitDisplayAspect * .5f;
+-            if (!splitCamera.enabled) { splitCamera.enabled = true; splitMarks.SetActive(true); }
++            if (!splitCamera.enabled) { splitCamera.enabled = true; splitMarks.SetActive(true); splitFramed = false; cameraFramed = false; }
+             main.rect = new Rect(0, 0, .5f, 1); main.aspect = half;
+             splitCamera.rect = new Rect(.5f, 0, .5f, 1); splitCamera.aspect = half;
+-            Place(main, TennisSplitCamera.For(0, half)); Place(splitCamera, TennisSplitCamera.For(1, half));
++            if (ElevatedCamera) {
++                Place(main, TennisSplitCamera.For(0, half)); Place(splitCamera, TennisSplitCamera.For(1, half));
++            } else {
++                UpdateCamera(false);
++                TennisShoulderCamera.Frame(Mirror(Opponent.transform.position), Opponent.LeftHanded, Mirror(BallPosition), false, half,
++                    out var target, out var look, out var fov);
++                target = Mirror(target); look = Mirror(look);
++                float rate = 1 - Mathf.Exp(-Time.deltaTime * 9);
++                splitCamera.transform.position = splitFramed ? Vector3.Lerp(splitCamera.transform.position, target, rate) : target;
++                splitLook = splitFramed ? Vector3.Lerp(splitLook, look, rate) : look;
++                splitCamera.fieldOfView = fov; splitCamera.transform.LookAt(splitLook); splitFramed = true;
++            }
+         }
+         static void Place(Camera camera, TennisSplitCamera.Placement p) {
+             camera.transform.position = p.position; camera.transform.LookAt(p.look); camera.fieldOfView = p.fov;
+diff --git a/Unity/Assets/Scripts/Tennis/TennisGame.cs b/Unity/Assets/Scripts/Tennis/TennisGame.cs
+index 63d000e2..fa87218c 100644
+--- a/Unity/Assets/Scripts/Tennis/TennisGame.cs
++++ b/Unity/Assets/Scripts/Tennis/TennisGame.cs
+@@ -279,7 +278,9 @@ namespace GolfArcade.Tennis
+             else TennisHeroSetup.Attach(this);
+             if (SliceInit) { InitProgress = .7f; yield return null; }
+             BuildBall();
+-            landingRing=MakeLine("Predicted landing",new Color(.1f,.9f,1),.05f);
++            landingRing=MakeLine("Predicted landing",new Color(.1f,.9f,1),.09f);
++            // Unlit felt-cyan remains legible against every court at the shallow chase angle.
++            landingRing.sharedMaterial = new Material(Shader.Find("GolfArcade/VertexColorUnlit"));
+             aimRing=MakeLine("Shot aim target",new Color(1,.85f,.1f),.06f);
+             var camera = Camera.main;
+             if (!camera) { camera = new GameObject("Tennis gameplay camera").AddComponent<Camera>(); camera.tag = "MainCamera"; camera.gameObject.AddComponent<AudioListener>(); }
+@@ -294,7 +295,7 @@ namespace GolfArcade.Tennis
+             if (venue != TennisVenueKind.Resort) TennisVenueBuilder.Light(venue, light, camera);
+             { var s = TennisLook.AddContactShadow(Player.transform, .55f, .45f); s.HeightOverride = 0; s.Surface = Player.transform; }
+             { var s = TennisLook.AddContactShadow(Opponent.transform, .55f, .45f); s.HeightOverride = 0; s.Surface = Opponent.transform; }
+-            { var s = TennisLook.AddContactShadow(ball, .16f, .55f); s.FadeHeight = 4f; s.Surface = Player.transform; s.OnlyOverDeck = true; }
++            { var s = TennisLook.AddContactShadow(ball, .22f, .65f); s.FadeHeight = 12f; s.MinimumFade = .28f; s.Surface = Player.transform; s.OnlyOverDeck = true; }
+             fx = new GameObject("Tennis effects").AddComponent<TennisFx>(); fx.transform.SetParent(transform); fx.Build();
+             if (SliceInit) { InitProgress = .8f; yield return null; }
+             juice = gameObject.AddComponent<TennisJuice>();
+@@ -1057,6 +1058,7 @@ namespace GolfArcade.Tennis
+             if (ReplayPlaying)
+             {
+                 replay.Tick(Time.deltaTime);
++                if (!ElevatedCamera) UpdateCamera(false);
+                 UpdateHud();
+                 return;
+             }
+@@ -2236,7 +2236,7 @@ namespace GolfArcade.Tennis
+                 // Tight when the ball is close, wide when it is still far away.
+                 float certainty = Mathf.Clamp01(1 - Vector3.Distance(BallPosition,landing)/16);
+                 float radius = Mathf.Lerp(.85f,.34f,certainty);
+-                Ring(landingRing, landing + Vector3.up*.02f, radius);
++                Ring(landingRing, new Vector3(landing.x, TennisVenue.RenderedCourtHeight + .035f, landing.z), radius);
+                 landingRing.startColor = landingRing.endColor =
+                     TennisRules.BounceIsIn(landing) ? new Color(.1f,.9f,1) : new Color(1,.42f,.3f);
+             }
+@@ -2329,6 +2329,8 @@ namespace GolfArcade.Tennis
+             if (hud) hud.SwingCue(show, closing);
+         }
+ 
++        /// Selected by the native Settings → Display control; chase is the default for new sessions.
++        public bool ElevatedCamera { get; set; }
+         Vector3 cameraLook; bool cameraFramed;
+         /// Seconds of opening flyover left: the camera sweeps in over the resort to the
+         /// player before the first serve. Game time, so it waits while the session is paused.
+@@ -2349,8 +2351,13 @@ namespace GolfArcade.Tennis
+         void UpdateCamera(bool immediate)
+         {
+             var camera = GameplayCamera ? GameplayCamera : Camera.main; if (!camera || !Player) return;
+-            TennisShoulderCamera.Frame(Player.transform.position, Player.LeftHanded, BallPosition,
+-                Flow == Phase.Rally && incoming && TrackingOverhead, camera.aspect, out Vector3 target, out Vector3 look, out float fov);
++            Vector3 viewBall = ReplayPlaying && ball ? ball.position : BallPosition;
++            Vector3? cameraLanding = !ReplayPlaying && Flow == Phase.Rally && incoming && faultDelay <= 0
++                && TennisRules.PredictLanding(BallPosition, BallVelocity, out var predicted, BallSpin, ballCurve)
++                && TennisRules.BounceIsIn(predicted) ? predicted : null;
++            TennisShoulderCamera.Frame(Player.transform.position, Player.LeftHanded, viewBall,
++                Flow == Phase.Rally && incoming && TrackingOverhead, camera.aspect, out Vector3 target, out Vector3 look, out float fov,
++                ElevatedCamera, cameraLanding);
+             if (IntroPlaying && presentation.Drive(camera, target, look, fov, calibration != null ? 0 : Time.deltaTime)) { cameraFramed = false; return; }
+             if (presentation && presentation.Playing) presentation.Finish();
+             if (juice) { juice.BallLive = Flow == Phase.Rally; juice.NoteBallVelocity(BallVelocity); juice.EndLiveShot(); }
+diff --git a/Unity/Assets/Scripts/Tennis/TennisLook.cs b/Unity/Assets/Scripts/Tennis/TennisLook.cs
+index 892a9892..03486aff 100644
+--- a/Unity/Assets/Scripts/Tennis/TennisLook.cs
++++ b/Unity/Assets/Scripts/Tennis/TennisLook.cs
+@@ -435,6 +435,8 @@ namespace GolfArcade.Tennis
+         public float Radius = .5f, Strength = .5f, Ground = .004f, FadeHeight = 3f;
+         public Material Material;
+         public float HeightOverride = -1;
++        /// Ball-only floor on opacity: lobs retain their court-depth cue. Other shadows still fade out.
++        public float MinimumFade;
+         /// Legacy fallback for scenes without the venue court kit. Live matches use the
+         /// cached rendered court plane, not this actor root, for the occlusion disc.
+         public Transform Surface;
+@@ -449,7 +451,7 @@ namespace GolfArcade.Tennis
+             var rend = GetComponent<Renderer>(); if (rend) rend.enabled = !OnlyOverDeck || TennisVenue.OverDeck(p);
+             float court = GolfGround ? (float)GolfArcade.Course.HoleView.GroundHeight(new GolfArcade.Course.CoursePoint(p.x,p.z)) : TennisVenue.HasRenderedCourtHeight ? TennisVenue.RenderedCourtHeight : Surface ? Surface.position.y : 0;
+             float height = Mathf.Max(0, HeightOverride >= 0 ? HeightOverride : p.y - court);
+-            float fade = Mathf.Clamp01(1 - height / FadeHeight);
++            float fade = Mathf.Max(MinimumFade, Mathf.Clamp01(1 - height / FadeHeight));
+             transform.position = new Vector3(p.x, court + Ground, p.z);
+             transform.localScale = Vector3.one * (Radius * 2 * Mathf.Lerp(.6f, 1f, fade));
+             if (Material && Material.HasProperty("_Strength")) Material.SetFloat("_Strength", Strength * fade);
+diff --git a/Unity/Assets/Scripts/Tennis/TennisShoulderCamera.cs b/Unity/Assets/Scripts/Tennis/TennisShoulderCamera.cs
+index 1164ff41..fe30006b 100644
+--- a/Unity/Assets/Scripts/Tennis/TennisShoulderCamera.cs
++++ b/Unity/Assets/Scripts/Tennis/TennisShoulderCamera.cs
+@@ -4,15 +4,68 @@ namespace GolfArcade.Tennis
+ {
+     public static class TennisShoulderCamera
+     {
++        public const float ChaseDistance = 3.5f, ChaseHeight = 2.5f, ShoulderOffset = .6f;
++
+         public static void Frame(Vector3 player, bool leftHanded, Vector3 ball, bool overhead, float aspect,
+-            out Vector3 position, out Vector3 look, out float fov)
++            out Vector3 position, out Vector3 look, out float fov, bool elevated = false, Vector3? landing = null)
+         {
+-            // Restore the elevated court view used before the close shoulder camera.
+-            float lead = Mathf.Clamp(player.x, -5f, 5f);
+-            position = new Vector3(lead * .45f, 7.0f, player.z - 7.8f);
+-            float lift = overhead ? Mathf.Clamp((ball.y - 2.5f) * .18f, 0, .65f) : 0;
+-            look = new Vector3(lead * .26f, .95f + lift, player.z + 7.2f);
+-            fov = aspect < 1 ? 49 : 46;
++            if (elevated)
++            {
++                // Preserve the previous court camera, including its overhead response.
++                float lead = Mathf.Clamp(player.x, -5f, 5f);
++                position = new Vector3(lead * .45f, 7f, player.z - 7.8f);
++                float lift = overhead ? Mathf.Clamp((ball.y - 2.5f) * .18f, 0, .65f) : 0;
++                look = new Vector3(lead * .26f, .95f + lift, player.z + 7.2f);
++                fov = aspect < 1 ? 49 : 46;
++                return;
++            }
++
++            fov = 46;
++            // One steady shoulder keeps the player left of centre without a side swap at contact.
++            // Handedness changes the stroke, not the camera; both hands retain the same sightline.
++            bool liveBall = ball.y >= 0;
++            float deep = liveBall ? Mathf.SmoothStep(0, 1, Mathf.InverseLerp(-5f, -11f, ball.z)) : 0;
++            float height = ChaseHeight + (liveBall ? Mathf.Clamp((ball.y - 3f) * .12f, 0, .9f) : 0);
++            float distance = ChaseDistance + deep;
++            float centre = 0;
++            float halfAngle = fov * .5f - 4f; // spare room for the felt, trail and smoothing
++            float sightlineX = player.x + ShoulderOffset;
++            float lookZ = Mathf.Max(3f, player.z + 12f);
++            // Keep both the airborne ball and court cues in the vertical frame. Close high lobs
++            // need more room than the ordinary one-metre deep-ball retreat, never a lens cut.
++            for (int i = 0; i < 65; i++)
++            {
++                position = new Vector3(sightlineX, height, player.z - distance);
++                centre = Mathf.Atan2(1f - height, lookZ - position.z) * Mathf.Rad2Deg;
++                if (!liveBall || ball.z <= position.z + .25f) break;
++                var ground = new Vector3(ball.x, 0, ball.z);
++                float top = VerticalAngle(position, ball) - halfAngle;
++                float bottom = VerticalAngle(position, ground) + halfAngle;
++                // Leave extra bottom space for the ring radius and the existing timing HUD.
++                if (landing.HasValue && landing.Value.z > position.z + .25f)
++                    bottom = Mathf.Min(bottom, VerticalAngle(position, landing.Value) + fov * .5f - 10f);
++                // Include the net: following a lob must still leave a court reference in view.
++                bottom = Mathf.Min(bottom, VerticalAngle(position, new Vector3(player.x, 0, 0)) + halfAngle);
++                if (top <= bottom && bottom >= -10f)
++                {
++                    centre = Mathf.Clamp(centre, top, bottom);
++                    break;
++                }
++                if (i == 64) { centre = (top + bottom) * .5f; break; }
++                distance += .25f;
++            }
++            position = new Vector3(sightlineX, height, player.z - distance);
++            // Narrow split-screen halves still keep a cross-court ball inside their side edges.
++            float yaw = 0;
++            if (liveBall && ball.z > position.z + .25f) {
++                float halfWidth = Mathf.Atan(Mathf.Tan(fov * .5f * Mathf.Deg2Rad) * Mathf.Max(.3f, aspect)) * Mathf.Rad2Deg - 4f;
++                float ballYaw = Mathf.Atan2(ball.x - position.x, ball.z - position.z) * Mathf.Rad2Deg;
++                yaw = Mathf.Clamp(0, ballYaw - halfWidth, ballYaw + halfWidth);
++            }
++            look = position + new Vector3(Mathf.Tan(yaw * Mathf.Deg2Rad), Mathf.Tan(centre * Mathf.Deg2Rad), 1) * (lookZ - position.z);
+         }
++
++        static float VerticalAngle(Vector3 eye, Vector3 point) =>
++            Mathf.Atan2(point.y - eye.y, Mathf.Max(.25f, point.z - eye.z)) * Mathf.Rad2Deg;
+     }
+ }
+diff --git a/Unity/Assets/Tests/EditMode/TennisGameplayImprovementTests.cs b/Unity/Assets/Tests/EditMode/TennisGameplayImprovementTests.cs
+index 5586d64e..d71faf6f 100644
+--- a/Unity/Assets/Tests/EditMode/TennisGameplayImprovementTests.cs
++++ b/Unity/Assets/Tests/EditMode/TennisGameplayImprovementTests.cs
+@@ -196,14 +196,14 @@ namespace GolfArcade.Tests
+             }
+         }
+ 
+-        [Test] public void ShoulderFrameDoesNotReactToOrdinaryHits()
++        [Test] public void ElevatedFramePreservesPreviousCourtView()
+         {
+             var player=new Vector3(2,.035f,-11.2f);
+-            TennisShoulderCamera.Frame(player,false,Vector3.zero,false,16f/9,out var p,out var look,out var fov);
+-            TennisShoulderCamera.Frame(player,false,new Vector3(5,8,10),false,16f/9,out var p2,out var look2,out var fov2);
++            TennisShoulderCamera.Frame(player,false,Vector3.zero,false,16f/9,out var p,out var look,out var fov, true);
++            TennisShoulderCamera.Frame(player,false,new Vector3(5,8,10),false,16f/9,out var p2,out var look2,out var fov2, true);
+             Assert.AreEqual(p,p2); Assert.AreEqual(look,look2); Assert.AreEqual(fov,fov2);
+             Assert.That(p.y-player.y,Is.InRange(6.9f,7.0f)); Assert.That(player.z-p.z,Is.EqualTo(7.8f).Within(.001f));
+-            TennisShoulderCamera.Frame(player,true,Vector3.zero,false,16f/9,out var left,out _,out _);
++            TennisShoulderCamera.Frame(player,true,Vector3.zero,false,16f/9,out var left,out _,out _, true);
+             Assert.AreEqual(p, left, "Court view stays consistent for both handednesses");
+             Assert.That(fov, Is.EqualTo(46));
+             Assert.That(Vector3.Angle(look-p, Vector3.forward), Is.GreaterThan(19));
+diff --git a/Unity/Assets/Tests/PlayMode/TennisReceiveCameraTests.cs b/Unity/Assets/Tests/PlayMode/TennisReceiveCameraTests.cs
+index a56ff7ea..9c580dbc 100644
+--- a/Unity/Assets/Tests/PlayMode/TennisReceiveCameraTests.cs
++++ b/Unity/Assets/Tests/PlayMode/TennisReceiveCameraTests.cs
+@@ -42,8 +42,8 @@ namespace GolfArcade.PlayTests
+                 }
+                 Assert.That(game.Flow, Is.EqualTo(TennisGame.Phase.OpponentServe));
+                 var cam = game.GameplayCamera;
+-                if(!before) Assert.That(cam.transform.position.y - game.Player.transform.position.y, Is.InRange(2f, 2.5f));
+-                if(!before) Assert.Less(cam.transform.position.z, game.Player.transform.position.z - 3.5f);
++                if(!before) Assert.That(cam.transform.position.y - game.Player.transform.position.y, Is.InRange(2.4f, 2.5f));
++                if(!before) Assert.That(game.Player.transform.position.z - cam.transform.position.z, Is.GreaterThanOrEqualTo(3.5f - .001f));
+                 GameCapture.Save(dir + "/receiver-gameplay.png",1280,720);
+                 var pos=cam.transform.position; var rot=cam.transform.rotation; float fov=cam.fieldOfView;
+                 cam.transform.position=game.Player.transform.position + new Vector3(2.6f,1.4f,3);
+@@ -54,9 +54,9 @@ namespace GolfArcade.PlayTests
+                 for(int f=0; f<120; f++) {
+                     game.Step(1f/60); yield return null;
+                     Frame();
+-                    if(!before) Assert.That(cam.transform.position.y-game.Player.transform.position.y,Is.InRange(2f,2.5f),"point result keeps the shoulder view");
++                    if(!before) Assert.That(cam.transform.position.y-game.Player.transform.position.y,Is.InRange(2.4f,2.5f),"point result keeps the shoulder view");
+                     if(!before) Assert.That(cam.fieldOfView, Is.EqualTo(fov), "point result does not switch lenses");
+-                    if(!before) Assert.Less(cam.transform.position.z,game.Player.transform.position.z-3.5f,"point result stays behind the player");
++                    if(!before) Assert.That(game.Player.transform.position.z - cam.transform.position.z, Is.GreaterThanOrEqualTo(3.5f - .001f), "point result stays behind the player");
+                 }
+                 GameCapture.Save(dir + "/point-gameplay.png",1280,720);
+                 // All point phases retain the same shoulder framing.
+@@ -65,12 +65,12 @@ namespace GolfArcade.PlayTests
+                 foreach (var phase in new[] { TennisGame.Phase.PlayerServeHold, TennisGame.Phase.PlayerServeToss }) {
+                     flow.SetValue(game, phase);
+                     updateCamera.Invoke(game, new object[] { true });
+-                    Assert.That(cam.transform.position.y - game.Player.transform.position.y, Is.InRange(2f,2.5f));
+-                    Assert.That(cam.fieldOfView, Is.InRange(60f,66f));
++                    Assert.That(cam.transform.position.y - game.Player.transform.position.y, Is.InRange(2.4f,2.5f));
++                    Assert.That(cam.fieldOfView, Is.EqualTo(46f));
+                 }
+                 flow.SetValue(game, TennisGame.Phase.Rally);
+                 updateCamera.Invoke(game, new object[] { true });
+-                Assert.That(cam.transform.position.y-game.Player.transform.position.y, Is.InRange(2f,2.5f));
++                Assert.That(cam.transform.position.y-game.Player.transform.position.y, Is.InRange(2.4f,2.5f));
+ 
+             }
+             finally { Time.captureFramerate=oldRate; if(encoder!=null) { encoder.StandardInput.Close();encoder.WaitForExit(); Assert.That(encoder.ExitCode,Is.Zero);encoder.Dispose(); } }

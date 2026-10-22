@@ -1,0 +1,76 @@
+{
+ "start_blend": "work/female-parallel-torso/HeroBase_Female_torso.blend",
+ "start_sha256": "200dc3b93e65491a8a7c3a8220c76cde5ca02ec7d1279e339f154005b22685cd",
+ "artdir_blend_sha256_now": "200dc3b93e65491a8a7c3a8220c76cde5ca02ec7d1279e339f154005b22685cd",
+ "expected_start_sha256": "200dc3b93e65491a8a7c3a8220c76cde5ca02ec7d1279e339f154005b22685cd",
+ "candidate_blend": "work/female-parallel-torso/export/HeroBase_Female_torso_candidate.blend",
+ "candidate_sha256": "696e1be464335e52db07444f16925a4d97f161b1a5b4927428a002b4945310e9",
+ "start_sha_matches_expected": true,
+ "vertex_count": 22444,
+ "zone_vertex_count(flag)": 3320,
+ "zone_vertices_with_weight>0": 3320,
+ "moved_vertex_count": 3317,
+ "moved_outside_zone": 0,
+ "max_displacement_outside_zone_m": 0.0,
+ "max_displacement_inside_zone_mm": 41.16757429074356,
+ "regions": {
+  "head_neck_z>=1.37": {
+   "verts": 10194,
+   "moved": 0,
+   "max_disp_mm": 0.0
+  },
+  "arms_beyond_shoulder_ball(flag)": {
+   "verts": 1966,
+   "moved": 0,
+   "max_disp_mm": 0.0
+  },
+  "hands_and_arms_z<0.795": {
+   "verts": 1044,
+   "moved": 0,
+   "max_disp_mm": 0.0
+  },
+  "legs_feet_z<0.795": {
+   "verts": 5920,
+   "moved": 0,
+   "max_disp_mm": 0.0
+  },
+  "torso_zone": {
+   "verts": 3320,
+   "moved": 3317,
+   "max_disp_mm": 41.16757429074356
+  },
+  "everything_else_not_zone": {
+   "verts": 19124,
+   "moved": 0,
+   "max_disp_mm": 0.0
+  }
+ },
+ "topology_identical": {
+  "poly_start": true,
+  "poly_total": true,
+  "loop_vert": true,
+  "edges": true,
+  "mat_index": true,
+  "smooth": true,
+  "uv_UVMap_identical": true,
+  "custom_normal_raw_codes_identical(all loops)": true,
+  "attribute_list_identical": true,
+  "has_custom_normals_same": true,
+  "triangle_count": [
+   44708,
+   44708
+  ]
+ },
+ "other_objects_identical": {
+  "Body_F_transform_identical": true,
+  "Hair_F": true,
+  "LOCKED_PLATE_back": true,
+  "LOCKED_PLATE_front": true,
+  "Neutral_Back": true,
+  "Neutral_Fill": true,
+  "Neutral_Key": true,
+  "ProofCamera": true
+ },
+ "normals_note": "Only positions are written. The authored custom_normal attribute is bit-identical for every loop; its decoded value follows the new geometry (codes are relative to the computed loop normal). Blender decode itself has ~0.05deg session-to-session noise (start vs start measured 0.048deg).",
+ "PASS_outside_zone_equals_0": true
+}

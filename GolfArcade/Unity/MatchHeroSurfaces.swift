@@ -94,6 +94,27 @@ typealias HeroColor = NSColor
             let spec:Float=sub.material.contains("Iris") ? 0.85:0.52
             mat.setValue(SCNVector4(look.wrap,look.smoothness,spec,look.saturation),forKey:"athleteSurface")
         }
+        if let look=sub.look, (look.femaleSurface ?? 0)>0.5,
+           ["Iris","Sclera","Pupil","Limbal"].contains(where:{sub.material.contains($0)}) {
+            // TennisCharacter female eye depth: role 1 sclera, 2 iris, 3 pupil/limbal
+            // (shaded by the lid only). The frame comes from configureFace.
+            let role:Float=sub.material.contains("Sclera") ? 1:sub.material.contains("Iris") ? 2:3
+            mat.setValue(role,forKey:"femaleEyeRole")
+            mat.setValue((look.femaleSurface ?? 0)>2.5 ? Float(1):Float(0),forKey:"maleEye")   // MaleFaceFinish: _FemaleSurface 3 = the male tuning
+            var modifiers=mat.shaderModifiers ?? [:]
+            if modifiers[.geometry]==nil && modifiers[.surface]==nil {
+                modifiers[.geometry]=femaleEyeGeometry
+                modifiers[.surface]=femaleEyeSurface
+                if role<2.5 { modifiers[.lightingModel]=femaleEyeLighting }
+            } else if role<2.5 {
+                modifiers[.lightingModel]=femaleEyeLighting
+                modifiers[.surface]=(modifiers[.surface] ?? "#pragma body\n")+"\n_surface.ambient.rgb+=_surface.diffuse.rgb*(-0.35);\n"
+            }
+            mat.shaderModifiers=modifiers
+        }
+        if let look=sub.look, (look.femaleSurface ?? 0)>0.5, look.isCloth {
+            mat.setValue(sub.material.contains("Sole") ? Float(3):sub.material.contains("Shoe") ? Float(2):Float(0),forKey:"femaleClothKind")
+        }
         mat.name = sub.material   // the Unity material name (Skin, White_Frame, Kit_Shirt ...): the role a tint is applied to
         mat.isDoubleSided = true   // a mirrored (left-handed) hero flips the winding
         registry.setObject(Made(sub.look, sub.material, tint), forKey: mat)
@@ -114,6 +135,7 @@ typealias HeroColor = NSColor
             // acts after lighting and would tint specular / skin twice.
         }
         m.setValue(look.skinFinish ?? 0,forKey:"skinFinish")
+        m.setValue(look.maleFormPass ?? 0,forKey:"maleFormPass")
         m.setValue(ProcessInfo.processInfo.environment["VISUAL_CHARACTER_SKIN_POLISH"] == "1" ? Float(1):Float(0),forKey:"skinPolish")
         m.setValue(look.skinPigmentUV ?? 0,forKey:"skinPigmentUV")
         m.setValue((look.skinPigmentUV ?? 0)>0.5 ? Float(1):Float(0),forKey:"skinBindChannel")
@@ -216,6 +238,69 @@ typealias HeroColor = NSColor
     }
     """
 
+    /// Female eye material only. Geometry, authored pigment and catchlight stay intact.
+    static let femaleEyeLighting = """
+    #pragma arguments
+    float4 athleteSurface;
+    float femaleEyeRole;
+    #pragma body
+    float3 n=normalize(_surface.normal),v=normalize(_surface.view),l=normalize(_light.direction);
+    float nl=saturate(dot(n,l));
+    float wrapped=saturate((dot(n,l)+0.10)/1.10);
+    float3 h=normalize(l+v);float nh=saturate(dot(n,h)),vh=saturate(dot(v,h));
+    float cornea=pow(nh,femaleEyeRole>1.5 ?110.0:72.0)*0.32;
+    float fresnel=1.0+pow(1.0-vh,5.0)*3.0;
+    float occlusion=_surface.metalness>0.0 ? _surface.metalness:1.0;
+    _lightingContribution.diffuse+=_light.intensity.rgb*wrapped*0.88*occlusion;
+    _lightingContribution.specular+=_light.intensity.rgb*cornea*athleteSurface.z*fresnel*nl*occlusion;
+    """
+    /// The eye frame (bind pose) for the female eye layers: Unity's _FemaleEyeL/R/Right/Up.
+    static let femaleEyeGeometry = """
+    #pragma arguments
+    float4 faceEyeL;
+    float4 faceEyeR;
+    float4 femaleEyeRight;
+    float4 femaleEyeUp;
+    #pragma varyings
+    float2 femaleEyeUV;
+    float femaleEyeSide;
+    #pragma body
+    float3 eyeP=_geometry.position.xyz, eyeMid=(faceEyeL.xyz+faceEyeR.xyz)*0.5;
+    float4 eyeFrame=dot(eyeP-eyeMid,femaleEyeRight.xyz)<0.0 ? faceEyeL:faceEyeR;
+    out.femaleEyeSide=dot(eyeP-eyeMid,femaleEyeRight.xyz)<0.0 ? 1.0:-1.0;
+    float3 eyeD=eyeP-eyeFrame.xyz;
+    out.femaleEyeUV=femaleEyeUp.w>0.5 ? float2(dot(eyeD,femaleEyeRight.xyz)/max(femaleEyeRight.w,0.0001),dot(eyeD,femaleEyeUp.xyz)/max(eyeFrame.w,0.0001)):float2(0.0);
+    """
+    /// Upper-lid shading on every eye layer, socket corners, lower-iris caustic; the
+    /// sclera loses the energy that clipped it. The occlusion rides in metalness.
+    static let femaleEyeSurface = """
+    #pragma arguments
+    float femaleEyeRole;
+    float maleEye;
+    #pragma body
+    float2 eu=in.femaleEyeUV;
+    float lidShade=smoothstep(-0.05,0.72,eu.y), lidContact=smoothstep(0.40,0.72,eu.y);
+    float corner=smoothstep(0.50,1.0,abs(eu.x)), lowerLid=smoothstep(-0.62,-0.98,eu.y);
+    float occ=mix(1.0,0.40,lidShade)*mix(1.0,0.55,lidContact);
+    // 2026-10-17 (reference sheet 07): clean sclera with a soft shadow under the upper lid only, deeper iris, near-black pupil
+    if(femaleEyeRole<1.5){_surface.diffuse.rgb*=float3(0.89,0.87,0.845);occ=mix(1.0,0.66,smoothstep(0.48,0.86,eu.y))*mix(1.0,0.78,smoothstep(0.62,0.82,eu.y))*mix(1.0,0.82,corner)*mix(1.0,0.90,lowerLid);}
+    else if(femaleEyeRole<2.5){float caustic=smoothstep(0.22,-0.32,eu.y);_surface.diffuse.rgb*=maleEye>0.5 ? mix(float3(0.80,0.70,0.58),float3(1.12,0.92,0.66),caustic):mix(float3(0.52,0.47,0.42),float3(1.05,0.88,0.66),caustic);occ*=mix(1.0,0.86,lowerLid);}
+    else{_surface.diffuse.rgb*=0.55;}
+    if(maleEye>0.5){
+        // = TennisCharacter male eye (MaleFaceFinish 2026-10-18, _MaleLash .50/.78/.30/.55): lash line on the eye, lower-lid rim, socket corners, caruncle
+        float lash=smoothstep(0.50,0.78,eu.y), lowerRimE=smoothstep(0.30,0.55,-eu.y);
+        if(femaleEyeRole<1.5){
+            _surface.diffuse.rgb*=mix(float3(1.0),float3(0.80,0.78,0.76),smoothstep(0.35,1.0,abs(eu.x)));
+            _surface.diffuse.rgb=mix(_surface.diffuse.rgb,float3(0.07,0.045,0.035),lash*0.92);
+            _surface.diffuse.rgb*=mix(1.0,0.72,lowerRimE);
+            _surface.diffuse.rgb*=mix(float3(1.0),float3(0.92,0.62,0.58),smoothstep(0.50,0.85,eu.x*in.femaleEyeSide));
+        }else{_surface.diffuse.rgb=mix(_surface.diffuse.rgb,_surface.diffuse.rgb*0.35,lash*0.80);}
+    }
+    _surface.diffuse.rgb*=mix(femaleEyeRole<1.5 ? 0.88:0.70,1.0,occ);
+    _surface.metalness=max(occ,0.001);
+    _surface.ambient.rgb+=_surface.diffuse.rgb*((femaleEyeRole<1.5 ? 0.78:femaleEyeRole<2.5 ? 0.62:1.0)*mix(femaleEyeRole<1.5 ? 0.62:0.40,1.0,occ)-1.0);
+    """
+
     private final class FacePerformanceState {
         let group: Float, lift: Float
         var blink: Float = 0, brow: Float = 0
@@ -270,6 +355,21 @@ typealias HeroColor = NSColor
         }
         guard found.allSatisfy({$0}) else{return}
         let left=(lo[0]+hi[0])*0.5,right=(lo[1]+hi[1])*0.5
+        // Female eye frame: right between the eyes, up toward the brows (FemaleGarmentFinish.EyeFrame).
+        var browSum=SIMD3<Float>.zero, browCount:Float=0
+        for (sub,material) in geometry.materials.enumerated() where material.name?.contains("Brow") == true {
+            let element=geometry.elements[sub]
+            element.data.withUnsafeBytes { raw in
+                for k in 0..<(element.primitiveCount*3) {
+                    let i=element.bytesPerIndex==4 ? Int(raw.loadUnaligned(fromByteOffset:k*4,as:UInt32.self)):Int(raw.loadUnaligned(fromByteOffset:k*2,as:UInt16.self))
+                    browSum+=vertex(i);browCount+=1
+                }
+            }
+        }
+        let eyeRightAxis=simd_normalize(right-left)
+        var eyeUpAxis=browCount>0 ? browSum/browCount-(left+right)*0.5 : SIMD3<Float>(0,1,0)
+        eyeUpAxis=simd_normalize(eyeUpAxis-simd_dot(eyeUpAxis,eyeRightAxis)*eyeRightAxis)
+        let eyeHalfWidth=((hi[0].x-lo[0].x)+(hi[1].x-lo[1].x))*0.25
         let nl=simd_normalize(eyeNormals[0]),nr=simd_normalize(eyeNormals[1])
         let skin=root.childNode(withName:"Body",recursively:true)?.geometry?.materials.first.flatMap { made($0)?.colour } ?? SIMD3<Float>(0.76,0.48,0.3)
         let skinLinear=SIMD3(srgbToLinear(skin.x),srgbToLinear(skin.y),srgbToLinear(skin.z))
@@ -279,6 +379,8 @@ typealias HeroColor = NSColor
             material.setValue(SCNVector4(nl.x,nl.y,nl.z,(hi[0].x-lo[0].x)*0.5),forKey:"faceNormalL")
             material.setValue(SCNVector4(nr.x,nr.y,nr.z,(hi[1].x-lo[1].x)*0.5),forKey:"faceNormalR")
             material.setValue(SCNVector4(skinLinear.x,skinLinear.y,skinLinear.z,1),forKey:"faceSkin")
+            material.setValue(SCNVector4(eyeRightAxis.x,eyeRightAxis.y,eyeRightAxis.z,eyeHalfWidth),forKey:"femaleEyeRight")
+            material.setValue(SCNVector4(eyeUpAxis.x,eyeUpAxis.y,eyeUpAxis.z,browCount>0 ? 1:0),forKey:"femaleEyeUp")
         }
     }
     static func performFace(on root: SCNNode, blink: Float, gaze: SIMD2<Float> = .zero, brow: Float = 0) {
@@ -404,7 +506,13 @@ typealias HeroColor = NSColor
         m.setValue(SCNVector4(rimLight.x, rimLight.y, rimLight.z, 0), forKey: "rimLight")
         m.setValue(SCNVector4(look.wrap, look.smoothness, look.sheenStrength, look.sheenPower), forKey: "clothLook")
         m.setValue(SCNVector4(look.exposure * sceneExposure, look.knee, 0, 0), forKey: "shoulder")
-        m.shaderModifiers = [.surface: hasUV ? clothSurface : clothSurfaceFlat, .lightingModel: clothLighting, .fragment: clothShoulder]
+        if (look.femaleSurface ?? 0)>0.5 {
+            var surface=hasUV ? clothSurface:clothSurfaceFlat
+            surface += femaleClothAmbient
+            m.shaderModifiers = [.surface:surface,.lightingModel:femaleFabricLighting(golf:false,garment:false),.fragment:clothShoulder]
+        } else {
+            m.shaderModifiers = [.surface: hasUV ? clothSurface : clothSurfaceFlat, .lightingModel: clothLighting, .fragment: clothShoulder]
+        }
         return m
     }
 
@@ -440,6 +548,7 @@ typealias HeroColor = NSColor
     static let headSurfaceBody = """
     float3 hd=in.bindPos-headOrigin.xyz;
     float3 hp=float3(dot(hd,headRight.xyz),dot(hd,headUp.xyz),dot(hd,headForward.xyz))-headEye.xyz;
+    if(skinFinish>0.5&&skinFinish<1.5){float orbitM=smoothstep(-0.085,-0.022,hp.y)*(1.0-smoothstep(0.060,0.110,hp.y))*smoothstep(-0.075,-0.045,hp.z);hp.y+=0.010*(1.0-orbitM);}   // male 2026-10-17: = HeroFaceSkin (eyes no longer lowered 10 mm)
     float3 q=(hp-float3(-0.044,-0.052,-0.005))/float3(0.032,0.031,0.080);
     float cheeks=exp(-2.0*dot(q,q));q=(hp-float3(0.044,-0.052,-0.005))/float3(0.032,0.031,0.080);cheeks+=exp(-2.0*dot(q,q));
     q=(hp-float3(0.0,-0.040,0.018))/float3(0.022,0.038,0.070);float nose=exp(-2.0*dot(q,q));
@@ -509,6 +618,7 @@ typealias HeroColor = NSColor
     static let faceSkinBodyStart = """
     float3 hd=in.bindPos-headOrigin.xyz;
     float3 hp=float3(dot(hd,headRight.xyz),dot(hd,headUp.xyz),dot(hd,headForward.xyz))-headEye.xyz;
+    if(skinFinish>0.5&&skinFinish<1.5){float orbitM=smoothstep(-0.085,-0.022,hp.y)*(1.0-smoothstep(0.060,0.110,hp.y))*smoothstep(-0.075,-0.045,hp.z);hp.y+=0.010*(1.0-orbitM);}   // male 2026-10-17: = HeroFaceSkin (eyes no longer lowered 10 mm)
     float3 hs=float3(abs(hp.x),hp.y,hp.z);
     bool maleFace=skinFinish<1.5;
     float faceAmount=smoothstep(-0.19,-0.12,hp.y)*(1.0-smoothstep(0.14,0.19,abs(hp.x)));
@@ -518,28 +628,97 @@ typealias HeroColor = NSColor
     q=maleFace ? (hs-float3(0.102,-0.015,-0.095))/float3(0.018,0.042,0.030) : (hs-float3(0.092,-0.025,-0.055))/float3(0.020,0.042,0.055);float ears=exp(-2.0*dot(q,q));
     float warmth=saturate(cheeks*0.85+nose*0.40+ears*0.7);
     float3 c=skinPigmentUV>0.5 ? heroTint.rgb : _surface.diffuse.rgb;
-    c*=mix(float3(1.0),maleFace ? float3(1.0,0.99,0.97) : float3(1.08,1.09,1.04),faceAmount);
+    c*=mix(float3(1.0),maleFace ? float3(1.0,0.99,0.97) : float3(1.0),faceAmount);
     float nx=hp.x/0.025, ny=(hp.y-(maleFace ? -0.047 : -0.045))/0.007;
     float noseUnderside=exp(-2.0*nx*nx-2.0*ny*ny)*smoothstep(0.015,0.026,hp.z);
-    if(maleFace){float cx=(abs(hp.x)-0.016)/0.005, cy=(hp.y+0.042)/0.0022;float cavity=exp(-2.0*cx*cx-2.0*cy*cy)*smoothstep(0.013,0.025,hp.z);c*=mix(float3(1.0),float3(0.58,0.44,0.38),cavity*0.40);}
-    float mx=abs(hp.x)/(maleFace ? 0.035 : 0.028);
-    float seam=(maleFace ? -0.0683 : -0.0675)+(maleFace ? 0.0035 : 0.0045)*mx*mx;
+    bool malePass=maleFace&&maleFormPass>0.5;   // = HeroFaceSkin _MaleFormPass (MaleFaceFinish 2026-10-18)
+    if(malePass){float ux=hp.x/0.023, uy=(hp.y+0.0485)/0.0030;noseUnderside=exp(-2.0*ux*ux*ux*ux-2.0*uy*uy)*smoothstep(0.012,0.024,hp.z)*1.8;}
+    if(maleFace){float cx=(abs(hp.x)-0.016)/0.005, cy=(hp.y+0.042)/0.0022;float cavity=exp(-2.0*cx*cx-2.0*cy*cy)*smoothstep(0.013,0.025,hp.z);c*=mix(float3(1.0),float3(0.58,0.44,0.38),cavity*(malePass ? 0.0:0.40));}
+    if(malePass){
+        // = HeroFaceSkin male pass: teardrop nostrils, lit alar rims, columella, tip highlight, a hint of the nasolabial fold
+        float nnx=abs(hp.x)-0.0090; float nu=saturate(0.5+nnx/0.0110);
+        float halfH=mix(0.0004,0.0019,pow(nu,0.7));
+        float nny=hp.y+0.0497+0.0016*(1.0-nu)+0.16*nnx;
+        float nd=pow(nnx/0.0055,2.0)+pow(nny/max(halfH,0.0003),2.0);
+        float nostril=(1.0-smoothstep(0.35,1.0,nd))*smoothstep(0.018,0.030,hp.z)*mix(0.75,1.0,nu);
+        float nrim=(smoothstep(2.6,4.5,nd)*(1.0-smoothstep(5.0,9.0,nd)))*smoothstep(0.018,0.030,hp.z)*smoothstep(-0.0515,-0.0498,hp.y);
+        c*=mix(float3(1.0),float3(1.08,1.04,1.02),nrim*0.6);
+        float cx2=hp.x/0.0030, cy2=(hp.y+0.0480)/0.0025;float columella=exp(-2.0*cx2*cx2-2.0*cy2*cy2)*smoothstep(0.020,0.032,hp.z);
+        float tx=hp.x/0.0065, ty=(hp.y+0.0405)/0.0055;float tipLight=exp(-2.0*tx*tx-2.0*ty*ty)*smoothstep(0.030,0.045,hp.z);
+        c*=mix(float3(1.0),float3(1.07,1.05,1.04),tipLight);
+        c*=mix(float3(1.0),float3(1.06,1.04,1.03),columella*0.6);
+        float2 fa=float2(0.019,-0.050), fb=float2(0.031,-0.071), fq=float2(abs(hp.x),hp.y)-fa;
+        float ft=saturate(dot(fq,fb-fa)/dot(fb-fa,fb-fa)); float fd=length(fq-ft*(fb-fa))/0.0026; float fold=exp(-fd*fd)*(1.0-ft*0.6)*smoothstep(0.0,0.02,hp.z);
+        c*=mix(float3(1.0),float3(0.80,0.70,0.64),fold*0.75*0.3);
+        c=mix(c,c*float3(0.20,0.12,0.09),nostril*0.85);
+        c*=mix(float3(1.0),float3(0.80,0.70,0.66),(1.0-smoothstep(1.0,3.0,nd))*(1.0-nostril)*smoothstep(0.018,0.030,hp.z)*0.5);
+    }
+    float mouthWidth=maleFace ? 0.035 : 0.0265;
+    float mx=abs(hp.x)/mouthWidth;
+    float seam=(maleFace ? -0.0683 : -0.0701)+(maleFace ? -0.0010 : 0.0015)*mx*mx;   // male 2026-10-17 (= HeroFaceSkin): corners a touch down
     float fullness=saturate(1.0-mx*mx);
     float cu=(abs(hp.x)-0.008)/0.005;
     float cupid=0.0015*exp(-cu*cu)*fullness;
     float upperLipLine=seam+0.0055*fullness+cupid, lowerLipLine=seam-0.0075*fullness;
+    if(maleFace){
+        // Male lips 2026-10-17 (= HeroFaceSkin): thin bowed upper lip over a fuller lower lip, in mouth half-widths.
+        float mb=(mx-0.25)/0.13, mc=mx/0.09;
+        upperLipLine=seam+mouthWidth*(0.17*pow(saturate(1.0-pow(mx,2.4)),1.3)+0.040*exp(-mb*mb)-0.025*exp(-mc*mc));
+        lowerLipLine=seam-mouthWidth*0.30*pow(saturate(1.0-pow(mx,2.6)),1.6);
+    }
+    if(!maleFace){
+        // Female jaw/lips pass 2026-10-17 (= HeroFaceSkin): reference sheet 07 lip outline in mouth half-widths.
+        float cb=(mx-0.28)/0.12, cc=mx/0.1;
+        upperLipLine=seam+mouthWidth*(0.33*pow(saturate(1.0-pow(mx,2.8)),1.5)+0.025*exp(-cb*cb)-0.02*exp(-cc*cc));
+        lowerLipLine=seam-mouthWidth*0.47*pow(saturate(1.0-pow(mx,3.4)),1.9);
+    }
     float mouthFront=smoothstep(-0.006,0.009,hp.z);
     float lipMask=smoothstep(lowerLipLine-0.0009,lowerLipLine+0.0009,hp.y)*(1.0-smoothstep(upperLipLine-0.0009,upperLipLine+0.0009,hp.y))*(1.0-smoothstep(0.94,1.04,mx))*mouthFront;
     float sy=(hp.y-seam)/0.00085;
     float seamMask=exp(-sy*sy)*(1.0-smoothstep(0.88,1.03,mx))*mouthFront;
-    c*=mix(float3(1.0),maleFace ? float3(1.04,0.70,0.68) : float3(1.06,0.68,0.65),lipMask);
+    c*=mix(float3(1.0),maleFace ? float3(1.0,0.80,0.74) : float3(0.80,0.50,0.44),lipMask);
+    if(maleFace){
+        // male 2026-10-17 (= HeroFaceSkin): upper lip deeper/browner, lower lip lit across its upper middle, soft shadow under it
+        float upperSideM=smoothstep(seam-0.0004,seam+0.0008,hp.y);
+        float tLm=saturate((seam-hp.y)/max(seam-lowerLipLine,0.0001));
+        float lt=(tLm-0.35)/0.25, lm=mx/0.5;
+        c*=mix(float3(1.0),float3(0.74,0.66,0.64),lipMask*upperSideM);
+        if(malePass){
+            // = HeroFaceSkin male pass: lips a shade rosier and deeper, small shadows in the mouth corners
+            c*=mix(float3(1.0),float3(0.95,0.86,0.85),lipMask);
+            float kx=(abs(hp.x)-mouthWidth*1.02)/0.0024, ky=(hp.y-(seam-0.0003))/0.0022;
+            c*=mix(float3(1.0),float3(0.66,0.56,0.52),exp(-2.0*kx*kx-2.0*ky*ky)*mouthFront*0.85);
+        }else
+        c*=mix(float3(1.0),float3(1.05,1.03,1.02),exp(-lt*lt)*exp(-lm*lm)*lipMask*(1.0-upperSideM));
+        c*=mix(float3(1.0),float3(0.88,0.84,0.82),(1.0-smoothstep(0.70,1.0,mx))*lipMask);
+        float bl=(hp.y-(lowerLipLine-0.0025))/0.0025, bm=mx/0.8;
+        c*=mix(float3(1.0),float3(0.90,0.86,0.84),exp(-bl*bl)*exp(-bm*bm)*mouthFront*(1.0-lipMask));
+    }
+    if(!maleFace){
+        // the upper lip a shade deeper than the lower; lip volume as pigment form (= HeroFaceSkin 2026-10-17)
+        float upperSide=smoothstep(seam-0.0004,seam+0.0008,hp.y);
+        c*=mix(float3(1.0),float3(1.06,1.03,1.03),lipMask*upperSide);
+        float lat=1.0-smoothstep(0.70,1.0,mx);
+        float tL=saturate((seam-hp.y)/max(seam-lowerLipLine,0.0001)), tU=saturate((hp.y-seam)/max(upperLipLine-seam,0.0001));
+        float lt=(tL-0.38)/0.22, lm=mx/0.48;
+        float lit=exp(-lt*lt)*exp(-lm*lm);
+        float under=smoothstep(0.55,1.0,tL);
+        c*=mix(float3(1.0),float3(1.08,1.05,1.04),lit*lipMask*(1.0-upperSide));
+        c*=mix(float3(1.0),float3(0.86,0.80,0.79),under*lipMask*(1.0-upperSide));
+        c*=mix(float3(1.0),float3(0.90,0.86,0.86),(1.0-smoothstep(0.15,0.6,tU))*lipMask*upperSide);
+        c*=mix(float3(1.0),float3(0.85,0.80,0.80),(1.0-lat)*lipMask);
+        float bl=(hp.y-(lowerLipLine-0.0022))/0.0022, bm=mx/0.75;
+        float belowLip=exp(-bl*bl)*exp(-bm*bm)*mouthFront;
+        c*=mix(float3(1.0),float3(0.92,0.88,0.86),belowLip*(1.0-lipMask));
+    }
     c*=mix(float3(1.0),float3(0.50,0.30,0.26),seamMask*0.78);
 
     """
     static let faceSkinLidLiner = """
-    float upperRim=1.0-smoothstep(0.0010,maleFace ? 0.0025 : 0.0048,in.lidDistance.x);
+    float upperRim=maleFace ? 1.0-smoothstep(0.0012,0.0030,in.lidDistance.x) : 1.0-smoothstep(0.0014,0.0028,in.lidDistance.x);
     float lowerRim=1.0-smoothstep(0.0,0.0012,in.lidDistance.y);
-    c*=mix(float3(1.0),float3(0.12,0.065,0.040),upperRim*0.96);
+    c*=mix(float3(1.0),maleFace ? float3(0.08,0.05,0.035) : float3(0.05,0.03,0.022),upperRim*0.96);
+    if(maleFace){float cr=(in.lidDistance.x-0.0058)/(malePass ? 0.0014:0.0020);c*=mix(float3(1.0),float3(0.84,0.76,0.72),exp(-cr*cr)*step(in.lidDistance.x,in.lidDistance.y)*faceAmount*(malePass ? 0.85:0.55));}   // male 2026-10-17: upper-lid crease
     c*=mix(float3(1.0),float3(0.74,0.60,0.55),lowerRim*0.30);
 
     """
@@ -547,10 +726,11 @@ typealias HeroColor = NSColor
     c*=mix(float3(1.0),float3(1.03,0.965,0.89),warmth);
     q=maleFace ? (hs-float3(0.050,-0.032,-0.010))/float3(0.024,0.020,0.060) : (hs-float3(0.046,-0.031,-0.005))/float3(0.025,0.021,0.060);
     float blush=saturate(exp(-2.0*dot(q,q)));
-    c*=mix(float3(1.0),float3(1.06,0.66,0.70),blush);
+    c*=mix(float3(1.0),maleFace ? float3(1.02,0.93,0.91) : float3(1.035,0.80,0.77),blush);   // male 2026-10-17: no pink apples
     // skin pass: the ears and the nose tip a touch warmer; soft warm form shading (same regions as HeroFaceSkin)
     c*=mix(float3(1.0),float3(1.04,0.93,0.86),ears*0.45);
-    float noseTip=SkinRegion(hp,maleFace ? float3(0.0,-0.037,0.054) : float3(0.0,-0.037,0.032),float3(0.011,0.010,0.020));
+    if(malePass){float concha=SkinRegion(hs,float3(0.096,-0.022,-0.088),float3(0.010,0.016,0.012));c*=mix(float3(1.0),float3(1.03,0.90,0.82),ears*0.6);c*=mix(float3(1.0),float3(0.72,0.58,0.52),concha*0.6);}
+    float noseTip=SkinRegion(hp,maleFace ? float3(0.0,-0.042,0.056) : float3(0.0,-0.037,0.032),maleFace ? float3(0.014,0.012,0.020) : float3(0.011,0.010,0.020));   // male: the 10-18 rounder, lower bulb (= HeroFaceSkin)
     c*=mix(float3(1.0),float3(1.05,0.93,0.86),noseTip*0.55);
     float browHollow=SkinRegion(hs,maleFace ? float3(0.034,0.020,0.017) : float3(0.036,0.029,0.006),float3(0.021,0.007,0.035));
     float innerCorner=SkinRegion(hs,maleFace ? float3(0.016,-0.006,0.025) : float3(0.016,-0.006,0.010),float3(0.007,0.011,0.035));
@@ -560,41 +740,53 @@ typealias HeroColor = NSColor
     float jawSide=SkinRegion(hs,maleFace ? float3(0.064,-0.106,-0.020) : float3(0.060,-0.100,-0.040),float3(0.022,0.026,0.050));
     float neckWidth=1.0-smoothstep(maleFace ? 0.055 : 0.048,maleFace ? 0.080 : 0.070,abs(hp.x));
     float neck=smoothstep(-0.125,-0.160,hp.y)*(1.0-smoothstep(-0.270,-0.330,hp.y))*neckWidth;
-    float form=saturate(browHollow*0.85+innerCorner*0.70+noseSide*0.65+smileLine*0.35+cheekHollow*0.60+jawSide*0.55+neck*0.95)*(1.0-lipMask);
-    c*=1.0+float3(0.06,0.055,0.04)*smoothstep(-0.04,0.10,hp.y)*faceAmount;
+    if(malePass) neck=smoothstep(-0.120,-0.145,hp.y)*(1.0-smoothstep(-0.165,-0.215,hp.y))*(1.0-smoothstep(0.040,0.090,abs(hp.x)))*0.55;   // = HeroFaceSkin: no hard band down to the chest
+    float form=saturate(browHollow*0.85+innerCorner*0.70+noseSide*(malePass ? 0.20:0.65)+smileLine*(malePass ? 0.12:0.35)+cheekHollow*(malePass ? 0.25:0.60)+jawSide*0.55+neck*0.95)*(1.0-lipMask);
+    c*=1.0+(maleFace ? float3(0.06,0.055,0.04) : float3(0.0))*smoothstep(-0.04,0.10,hp.y)*faceAmount;
     c*=mix(float3(1.0),float3(0.80,0.66,0.55),form);
-    if(maleFace){
+    if(maleFace&&!malePass){   // the male pass is clean-shaven (= HeroFaceSkin _MaleBeard.z 0)
         q=(hp-float3(0.0,-0.126,-0.010))/float3(0.086,0.048,0.095);float jaw=exp(-2.0*dot(q,q));
         q=(hp-float3(0.0,-0.058,0.040))/float3(0.037,0.012,0.045);float upperLip=exp(-2.0*dot(q,q));
         q=(hs-float3(0.060,-0.077,0.002))/float3(0.032,0.052,0.055);float lowerCheeks=exp(-2.0*dot(q,q));
-        float beard=saturate(jaw*0.70+upperLip*0.52+lowerCheeks*0.48)*(1.0-lipMask*0.95);
-        beard*=smoothstep(-0.145,-0.120,hp.y)*smoothstep(-0.055,-0.025,hp.z);
-        c*=mix(float3(1.0),float3(0.82,0.85,0.89),beard);
+        // male 2026-10-17 (= HeroFaceSkin): the reference's visible stubble, neutral grey-brown, denser on the upper lip
+        float beard=saturate(jaw*0.90+upperLip*0.85+lowerCheeks*0.75)*(1.0-lipMask);
+        beard*=smoothstep(-0.150,-0.125,hp.y)*smoothstep(-0.055,-0.025,hp.z);
+        c*=mix(float3(1.0),float3(0.76,0.74,0.72),beard);
+        c*=mix(float3(1.0),float3(0.86,0.85,0.84),upperLip*(1.0-lipMask));
         float3 cell=floor(hp*1300.0);
-        float stipple=smoothstep(0.65,0.90,fract(sin(dot(cell,float3(12.9898,78.233,45.164)))*43758.5453));
+        float stipple=smoothstep(0.45,0.85,fract(sin(dot(cell,float3(12.9898,78.233,45.164)))*43758.5453));
         float resolved=1.0-smoothstep(0.0005,0.0015,max(length(dfdx(hp)),length(dfdy(hp))));
-        c*=1.0-stipple*beard*0.15*resolved;
+        c*=1.0-stipple*beard*mix(0.12,0.36,resolved);
     }
     // skin pass: matte smoothness, lower wrap
     float surfaceSmoothness=mix(0.26,0.30,saturate(nose+forehead*0.55));
     float facialSmoothness=mix(mix(0.27,0.32,saturate(nose+forehead*0.75)),0.34,lipMask);
     surfaceSmoothness=mix(surfaceSmoothness,facialSmoothness,faceAmount);
     float surfaceWrap=mix(mix(0.20,0.24,faceAmount),0.26,lipMask);
+    if(maleFace){
     // skin pass: golden grade (relative: every tone pick keeps its depth) and a faint grain, faded before it can alias
     c*=float3(1.0,1.035,0.92);
     float grainFootprint=max(length(dfdx(in.bindPos)),length(dfdy(in.bindPos)));
     float fineGrain=SkinNoise(in.bindPos*330.0)-0.5, coarseGrain=SkinNoise(in.bindPos*55.0)-0.5;
     c*=1.0+fineGrain*0.05*(1.0-smoothstep(0.0008,0.0025,grainFootprint));
     c*=mix(float3(1.0),float3(1.03,0.975,0.95),coarseGrain*1.2*(1.0-smoothstep(0.004,0.012,grainFootprint)));
+    }
     float lum=dot(c,float3(0.2126,0.7152,0.0722));
-    c=mix(float3(lum),c,athleteSurface.w);
+    c=mix(float3(lum),c,maleFace ? (malePass ? max(athleteSurface.w,0.86):athleteSurface.w) : max(athleteSurface.w,0.95));
     _surface.diffuse=float4(c,1.0);
     // SceneKit already lights the final diffuse with the ambient light, and _surface.ambient is ADDED on top (negative works). HeroFaceSkin now warms its
     // ambient (x .82-.97 x (1, .86, .72)): add the difference to the old one, which the default matched within 1-2 % under the lobby rig.
     float3 ambientOld=mix(float3(0.82),float3(0.985,0.94,0.89),faceAmount), ambientNew=mix(0.82,0.97,faceAmount)*float3(1.0,0.86,0.72);
+    if(!maleFace||malePass){
+        // Female (and the male pass): indirect light in the tone's own deeper hue, darker on downward planes.
+        float3 skinTone=saturate(c*c/max(dot(c,float3(0.2126,0.7152,0.0722)),0.04));
+        float3 upView=normalize((scn_frame.viewTransform*float4(0.0,1.0,0.0,0.0)).xyz);
+        float upness=saturate(dot(normalize(_surface.normal),upView)*0.5+0.5);
+        ambientNew=mix(float3(1.0),skinTone/max(c,float3(0.001)),0.45)*mix(0.60,0.88,upness*upness)*mix(1.0,1.04,faceAmount);
+    }
     _surface.ambient=float4(c*(ambientNew-ambientOld),1.0);
     // The warm lift under the nose is unlit in HeroFaceSkin, so it goes in as emission.
-    _surface.emission=float4(c*float3(0.17,0.13,0.11)*noseUnderside*0.5,0.0);
+    _surface.emission=float4(c*(maleFace ? (malePass ? float3(0.30,0.21,0.16):float3(0.17,0.13,0.11)):float3(0.08,0.035,0.025))*noseUnderside*0.5,0.0);
     _surface.shininess=surfaceSmoothness;
     _surface.roughness=surfaceWrap;
     _surface.metalness=faceAmount;
@@ -609,8 +801,25 @@ typealias HeroColor = NSColor
     float4 headOrigin;
     float skinFinish;
     float skinPolish;
+    float maleFormPass;
     #pragma body
     float3 n=normalize(_surface.normal), v=normalize(_surface.view), l=normalize(_light.direction);
+    if(skinFinish>1.5||maleFormPass>0.5){   // the male face pass uses the female light model too (= HeroFaceSkin FaceSkinShade)
+        // HeroFemaleSkinShade: Lambert form, a terminator band in the picked tone's own
+        // saturated hue, a broad satin wash plus a soft core (2026-10-16 shader pass).
+        float nl=dot(n,l), snl=saturate(nl);
+        float wrapped=saturate((nl+0.34)/1.34), band=saturate(wrapped-snl);
+        float3 h=normalize(l+v); float nh=saturate(dot(n,h)), vh=saturate(dot(v,h));
+        float smoothness=_surface.shininess, gloss=saturate((smoothness-0.22)/0.20);
+        float lobe=(pow(nh,6.0)*0.10*0.55+pow(nh,18.0+smoothness*16.0)*(0.08+0.10*gloss)*0.85)*(1.0+pow(1.0-vh,5.0)*1.6);
+        float visibility=smoothstep(-0.02,0.30,nl);
+        float3 albedo=max(_surface.diffuse.rgb,float3(0.001));
+        float3 tone=saturate(albedo*albedo/max(dot(albedo,float3(0.2126,0.7152,0.0722)),0.04));
+        _lightingContribution.diffuse+=_light.intensity.rgb*(float3(snl)+mix(float3(1.0),tone/albedo,0.75)*band*band*1.15);
+        float rim=pow(1.0-saturate(dot(n,v)),athleteRim.y)*athleteRim.x;
+        float3 sheenTint=mix(float3(1.0),saturate(albedo/max(dot(albedo,float3(0.2126,0.7152,0.0722)),0.04)),0.45);   // warm highlights (2026-10-17)
+        _lightingContribution.specular+=_light.intensity.rgb*(lobe*visibility*sheenTint+rim*0.195*(float3(0.35)+0.65*_surface.diffuse.rgb));
+    }else{
     float nl=dot(n,l), snl=saturate(nl);
     float faceAmount=_surface.metalness, wrap=_surface.roughness, smoothness=_surface.shininess;
     float3 h=normalize(l+v); float nh=saturate(dot(n,h));
@@ -628,6 +837,7 @@ typealias HeroColor = NSColor
     float rim=pow(1.0-saturate(dot(n,v)),athleteRim.y)*athleteRim.x;
     _lightingContribution.diffuse+=_light.intensity.rgb*mix(bodyDiffuse,faceDiffuse,faceAmount);
     _lightingContribution.specular+=_light.intensity.rgb*(float3(spec)+rim*0.30*(float3(0.35)+0.65*_surface.diffuse.rgb));
+    }
     """
 
     /// HeroCharacterFinish outside the court profile: HeroHighlightRoll(colour, .76, .96), a late shoulder on the brightest channel (hue kept), so a light
@@ -815,7 +1025,11 @@ typealias HeroColor = NSColor
         let fallback = look.trimColor ?? [0.035, 0.035, 0.0401]
         let c = trim ?? SIMD3(fallback[0], fallback[1], fallback[2])
         m.setValue(SCNVector4(srgbToLinear(tint.x), srgbToLinear(tint.y), srgbToLinear(tint.z), 1), forKey: "clothTint")
-        m.setValue(SCNVector4(srgbToLinear(c.x), srgbToLinear(c.y), srgbToLinear(c.z), 1), forKey: "trimTint")
+        if let bindingTone = look.bindingTone, bindingTone > 0 {
+            m.setValue(SCNVector4(srgbToLinear(tint.x) * bindingTone, srgbToLinear(tint.y) * bindingTone, srgbToLinear(tint.z) * bindingTone, 1), forKey: "trimTint")
+        } else {
+            m.setValue(SCNVector4(srgbToLinear(c.x), srgbToLinear(c.y), srgbToLinear(c.z), 1), forKey: "trimTint")
+        }
         m.setValue(SCNVector4(look.weaveTile, look.weaveAngle * .pi / 180, look.weaveNormal, look.weaveThread), forKey: "weaveParams")
         m.setValue(SCNVector4(look.normalStrength ?? 1, 0, 0, 0), forKey: "normalParams")
         m.setValue(SCNVector4(look.wrap, look.smoothness, look.sheenStrength, look.sheenPower), forKey: "clothLook")
@@ -823,15 +1037,104 @@ typealias HeroColor = NSColor
         m.setValue(SCNVector4(rimLight.x, rimLight.y, rimLight.z, 0), forKey: "rimLight")
         m.setValue(SCNVector4(look.exposure * 1.0, look.knee, 0, 0), forKey: "shoulder")
         let golf = (look.fabricVersion ?? 1) > 1.5
-        m.shaderModifiers = [.surface: golf ? garmentSurfaceV2 : garmentSurface, .lightingModel: golf ? garmentLightingV2 : garmentLighting, .fragment: garmentShoulder]
+        var surface = golf ? garmentSurfaceV2 : garmentSurface
+        var lighting = golf ? garmentLightingV2 : garmentLighting
+        var finish = garmentShoulder
+        if (look.femaleSurface ?? 0) > 0.5 {
+            surface = surface.replacingOccurrences(of:"cavity=mix(0.4,1.0,mask.g)",with:"cavity=mix(0.88,1.0,mask.g)")
+            surface = surface.replacingOccurrences(of:"#pragma body",with:femaleGrainFunctions+"\n#pragma body")
+            surface = surface.replacingOccurrences(of:"_surface.normal=n;",with:femaleGrainBody+"\n    _surface.normal=n;")
+            surface += femaleClothAmbient
+            if edges, (look.edgeLines ?? 0)>0.5, (look.edgeLines ?? 0)<1.5 {
+                surface=surface.replacingOccurrences(of:"float3 nts =",with:"id=in.kitEdge.x>=0.0?3.0:2.0;\nfloat3 nts =")
+            }
+            if (look.femaleSurface ?? 0)>1.5 {
+                surface=surface.replacingOccurrences(of:"float2 slope = (detail.rg*2.0-1.0)*weaveParams.z*fade;",with:"float2 slope = (detail.rg*2.0-1.0)*weaveParams.z*fade*(1.0-mask.b);")
+                surface=surface.replacingOccurrences(of:"weaveParams.w*fade)",with:"weaveParams.w*fade*(1.0-mask.b))")
+                surface=surface.replacingOccurrences(of:"cluster=(FemaleClothGrain(grainUV)-0.5)*grainFade;",with:"cluster=(FemaleClothGrain(grainUV)-0.5)*grainFade*(1.0-mask.b);")
+                surface=surface.replacingOccurrences(of:"_surface.shininess=cluster;",with:"_surface.shininess=mask.b;")
+            }
+            lighting = femaleFabricLighting(golf:golf,garment:true)
+            if (look.femaleSurface ?? 0)>1.5 {
+                lighting=lighting.replacingOccurrences(of:"smooth*=0.65*(1.0+_surface.shininess*0.25);sheen*=0.90;",with:"smooth*=0.65;sheen*=0.90*(1.0-_surface.shininess);")
+            }
+            finish = finish.replacingOccurrences(of:"mix(0.75, 1.0, _surface.specular.a)",with:"mix(0.95, 1.0, _surface.specular.a)")
+        }
+        m.shaderModifiers = [.surface: surface, .lightingModel: lighting, .fragment: finish]
         if edges, let kind = look.edgeLines, kind > 0.5 {
             // TennisCloth's kit edge lines (HeroKitEdges data in texcoord channels 1-2), multiplied into the finished colour as Unity does
             m.setValue(kind, forKey: "kitEdgeLines")
             m.shaderModifiers?[.geometry] = kitEdgeGeometry
-            m.shaderModifiers?[.fragment] = garmentShoulder.replacingOccurrences(of: "#pragma body", with: "float kitEdgeLines;\n#pragma body") + kitEdgeFragment
+            m.shaderModifiers?[.fragment] = finish.replacingOccurrences(of: "#pragma body", with: "float kitEdgeLines;\n#pragma body") + kitEdgeFragment
         }
         return m
     }
+    // Same neutral, derivative-filtered knit clusters as TennisCloth's female branch.
+    static let femaleGrainFunctions = """
+    #pragma declaration
+    float FemaleClothHash(float2 p){float3 h=fract(float3(p.x,p.y,p.x)*0.1031);h+=dot(h,h.yzx+33.33);return fract((h.x+h.y)*h.z);}
+    float FemaleClothGrain(float2 p){float2 c=floor(p),f=fract(p);f=f*f*(3.0-2.0*f);return mix(mix(FemaleClothHash(c),FemaleClothHash(c+float2(1.0,0.0)),f.x),mix(FemaleClothHash(c+float2(0.0,1.0)),FemaleClothHash(c+1.0),f.x),f.y);}
+    """
+    static let femaleGrainBody = """
+    float cluster=0.0;
+    if(!(id>2.5&&id<4.5)){
+        float2 grainUV=wu*9.0;
+        float grainFade=1.0-smoothstep(0.35,0.85,max(length(dfdx(grainUV)),length(dfdy(grainUV))));
+        cluster=(FemaleClothGrain(grainUV)-0.5)*grainFade;
+        albedo*=1.0+cluster*0.09;
+    }
+    _surface.shininess=cluster;
+    """
+    static func femaleFabricLighting(golf: Bool, garment: Bool) -> String {
+        let id=garment ? "float id=floor(_surface.roughness*\(golf ? "9.0":"5.0")+0.5);":"float id=femaleClothKind;"
+        let parameters=garment ? """
+        float smooth=id==0.0?0.10:id==1.0?0.13:id==2.0?0.16:id==3.0?0.04:id==4.0?0.08:0.10;
+        float sheen=id==0.0?0.55:id==1.0?0.38:id==2.0?0.24:id==5.0?0.18:0.0;
+        if(id>5.5){smooth=id<6.5?0.09:id<7.5?0.12:id<8.5?0.18:0.08;sheen=id<6.5?0.24:id<7.5?0.32:id<8.5?0.10:0.18;}
+        smooth*=0.65*(1.0+_surface.shininess*0.25);sheen*=0.90;
+        """:"float smooth=clothLook.y,sheen=clothLook.z;"
+        return """
+        #pragma arguments
+        float4 clothLook;
+        float femaleClothKind;
+        #pragma body
+        \(id)
+        \(parameters)
+        float3 n=normalize(_surface.normal),v=normalize(_surface.view),l=normalize(_light.direction);
+        float nl=saturate(dot(n,l)),nv=saturate(dot(n,v)),nh=saturate(dot(n,normalize(l+v)));
+        float wrapped=saturate((dot(n,l)+clothLook.x)/(1.0+clothLook.x));
+        // FemaleClothShade (2026-10-16): matte Lambert form, a terminator band in the
+        // colour's own deeper hue, rounded volume toward the silhouette and a Charlie
+        // velvet lobe for knit; rubber keeps a small highlight and no sheen.
+        float rubber=id>2.5&&id<4.5?1.0:0.0;
+        float3 albedo=max(_surface.diffuse.rgb,float3(0.001));
+        float band=saturate(wrapped-nl);
+        float3 deep=saturate(albedo*albedo/max(dot(albedo,float3(0.2126,0.7152,0.0722)),0.04));
+        float charlie=(2.0+1.55)*pow(max(1.0-nh*nh,0.0001),0.775)*0.15915494;
+        float visibility=1.0/max(4.0*(nl+nv-nl*nv),0.10);
+        float3 fibreTint=mix(albedo,sqrt(albedo),0.45);
+        float3 velvet=fibreTint*(charlie*visibility*nl*sheen*2.4)*(1.0-rubber);
+        float spec=pow(nh,24.0+smooth*60.0)*0.035*nl*rubber;
+        float body=mix(1.0,mix(0.64,1.0,sqrt(nv)),1.0-rubber);
+        _lightingContribution.diffuse+=_light.intensity.rgb*(float3(nl*0.96)+mix(float3(1.0),deep/albedo,0.65)*band*0.85*(1.0-rubber*0.5))*body;
+        _lightingContribution.specular+=_light.intensity.rgb*(velvet+spec);
+        """
+    }
+
+    /// TennisCloth female ambient: the folds' own deeper colour, darker on downward planes and toward the silhouette.
+    static let femaleClothAmbient = """
+
+    {
+        float3 clothA=max(_surface.diffuse.rgb,float3(0.001));
+        float3 clothDeep=saturate(clothA*clothA/max(dot(clothA,float3(0.2126,0.7152,0.0722)),0.04));
+        float3 clothUp=normalize((scn_frame.viewTransform*float4(0.0,1.0,0.0,0.0)).xyz);
+        float clothUpness=saturate(dot(normalize(_surface.normal),clothUp)*0.5+0.5);
+        float clothNv=saturate(dot(normalize(_surface.normal),normalize(_surface.view)));
+        float3 clothAmbient=mix(float3(1.0),clothDeep/clothA,0.40)*mix(0.58,0.98,clothUpness*clothUpness)*mix(0.80,1.0,sqrt(clothNv));
+        _surface.ambient.rgb+=_surface.diffuse.rgb*(clothAmbient-1.0);
+    }
+
+    """
     static let garmentShoulder = clothShoulder + "\n_output.color.rgb *= mix(0.68, 1.0, _surface.metalness) * mix(0.75, 1.0, _surface.specular.a);\n"
     static let garmentSurface = """
     #pragma arguments

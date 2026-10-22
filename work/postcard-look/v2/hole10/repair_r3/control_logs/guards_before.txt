@@ -1,0 +1,7 @@
+GATE: blender/hole_07.blend unchanged PASS
+GATE: Unity/Assets/Resources/Course/hole_07.fbx unchanged PASS
+GATE: Unity/Assets/Resources/Course/hole_07.fbx.meta unchanged PASS
+GATE: Unity/Assets/Scripts/Course/Hole.cs unchanged PASS
+GATE: Hole.cs Postcards() == design data (no drift) PASS
+GATE: GolfGame starts Course.Postcards() PASS
+GATE: Cliffside() still in Hole.cs PASS

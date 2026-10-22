@@ -1,0 +1,25 @@
+# chat E (course-fx), 2026-10-19 — every file created or edited, all uncommitted
+## owned (Course/*, ShotEffects, MoverView, scatter/dream art)
+Unity/Assets/Scripts/Course/CourseMovers.cs          launchpad + target movers (MoverKind, bodies, Lob, Rebound, KnockKind)
+Unity/Assets/Scripts/Course/QuirkyObstacles.cs       NEW: placement of the pad (hole 7) and the bullseye (hole 20), goal + lob flight checks
+Unity/Assets/Scripts/Course/Obstacles.cs             ObstacleKind.Launchpad / Target
+Unity/Assets/Scripts/Course/CourseShot.cs            knocks off a pad are soft (two flags)
+Unity/Assets/Scripts/Course/RoundEvents.cs           MoversFor adds the quirky movers
+Unity/Assets/Scripts/Course/DreamCourseLayout.cs     rock gates lose their two floating rocks (current kept)
+Unity/Assets/Scripts/Course/QuirkyObstacles.cs.meta, RockGrounding.cs.meta, FlagBeacon.cs.meta   NEW (Unity-generated GUIDs)
+Unity/Assets/Scripts/Course/RockGrounding.cs         NEW: rock-to-ground check + snap + audit log
+Unity/Assets/Scripts/Course/GolfResortDress.cs       boulders settle onto the ground
+Unity/Assets/Scripts/Course/HoleView.cs              model ROCK nodes settle; pin x1.3, emissive flag, FlagBeacon, FlagTop
+Unity/Assets/Scripts/Course/FlagBeacon.cs            NEW: pin grows with distance + glow + light column
+Unity/Assets/Scripts/Majestic/MajesticScatter.cs     boulders settle onto the ground
+Unity/Assets/Scripts/Environment/DreamWorldArt.cs    accent spires set to the lowest ground round their foot
+Unity/Assets/Scripts/Game/ShotEffects.cs             graded impact bundle (flash, flare, shock ring, sparks, divot/sand/ice, streaks)
+Unity/Assets/Scripts/Game/MoverView.cs               launchpad + gantry/bullseye models and poses
+Unity/Assets/Tests/EditMode/ObstacleTests.cs         5 new cases (pad charged/spent, bullseye hit/miss, placement)
+## minimal hooks in other chats' files
+Unity/Assets/Scripts/Game/GolfGame.cs                (A/D) 3 lines: route Launchpad/Target knocks to MoverKnock; pass lastReport.Grade to effects.Strike;
+                                                     the HUD "PIN n YD" tag anchors on HoleView.FlagTop (it sat on top of the bigger flag)
+Unity/Assets/Scripts/Game/GolfGame.Events.cs         (A) MoverKnock: LAUNCH!/Fizzle/BULLSEYE! cases
+Unity/Assets/Tests/EditMode/RoundEventsTests.cs      MoversArePlacedWhereTheyFit: expects 0 floating gate rocks, quirky movers > 0
+## proof / tools (work/course-fx)
+work/course-fx/tools/CourseFxFilm.cs, tools/film.sh, tools/sheet.py, tools/before_after.py, REFERENCES.md, refs/*.jpg, proof/*, GATE_RESULTS.md, CHANGED_FILES.txt

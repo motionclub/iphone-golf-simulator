@@ -1,0 +1,12 @@
+--- Unity/Assets/Scripts/Course/RoundEvents.cs	2026-10-15 14:45:48
++++ /private/tmp/claude-501/mw.gSep/Assets/Scripts/Course/RoundEvents.cs	2026-10-17 19:05:20
+@@ -89,7 +89,8 @@
+     {
+         public static Sky SkyOf(Hole hole) =>
+             hole == null ? Sky.Rain
+-            : hole.Theme == "magma" ? Sky.Ash
++            // MAJESTIC_WEATHER_HOOK: Adnan 10-17 (majestic-all-maps PLAN 4.5 #1): the Magma Open's holes 10 and 16 draw the ash family.
++            : hole.Theme == "magma" || hole.Number == 10 || hole.Number == 16 ? Sky.Ash
+             : Array.Exists(hole.Hazards ?? Array.Empty<CourseHazard>(), h => h.Kind == HazardKind.Ice) ? Sky.Snow
+             : Sky.Rain;
+ 

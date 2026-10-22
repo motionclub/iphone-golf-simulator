@@ -1,0 +1,171 @@
+{
+  "scope": "Root-run graphics Unity jobs; no Unity launched by tennis agent. All jobs omit -quit and -nographics, since play-mode capture drives completion/exit. Physical phone checks deferred at user request.",
+  "prerequisite": "Accepted main face/clothing/hand production sources and any approved final reaction rebake. Current hand corrective is still diagnostic; no premature rebake.",
+  "jobs": [
+    {
+      "id": "tennis_emotes_male",
+      "method": "GolfArcade.EditorTools.EmoteFilm.Run",
+      "env": {
+        "EF_OUT": "../proof/full-visual-overhaul/final-motion/emotes-male",
+        "EF_FEMALE": "0",
+        "EF_CLIPS": "Intro_Wave,Intro_BringIt,Intro_Pushups,Emote_Scuba,Emote_Thrust,Emote_Spike"
+      },
+      "traces": [
+        "*/trace.csv",
+        "triggers.json",
+        "summary.txt",
+        "capture-contract.txt"
+      ],
+      "frames": [
+        "*/game_*.png",
+        "*/front_*.png",
+        "*/side_*.png"
+      ],
+      "gate": "All six actual entry points observed; all finish and hold >40 real frames after return. Each clip has one CSV row per actual game frame; every second frame is saved. Validate contextual plain-point=0/won-game=1/point-after-game=0 and explicit Spike/intro hooks separately."
+    },
+    {
+      "id": "tennis_emotes_female",
+      "method": "GolfArcade.EditorTools.EmoteFilm.Run",
+      "env": {
+        "EF_OUT": "../proof/full-visual-overhaul/final-motion/emotes-female",
+        "EF_FEMALE": "1",
+        "EF_CLIPS": "Intro_Wave,Intro_BringIt,Intro_Pushups,Emote_Scuba,Emote_Thrust,Emote_Spike"
+      },
+      "traces": [
+        "*/trace.csv",
+        "triggers.json",
+        "summary.txt",
+        "capture-contract.txt"
+      ],
+      "frames": [
+        "*/game_*.png",
+        "*/front_*.png",
+        "*/side_*.png"
+      ],
+      "gate": "Same as male; visually inspect prop release/return in Spike and Pushups, full-body self-intersection, sleeves/hand/face, and camera coverage."
+    },
+    {
+      "id": "tennis_reactions_both",
+      "method": "GolfArcade.EditorTools.TennisPerformanceFilm.Run",
+      "env": {
+        "TPF_OUT": "../proof/full-visual-overhaul/final-motion/reactions"
+      },
+      "traces": [
+        "*/trace.csv",
+        "summary.txt",
+        "capture-contract.txt"
+      ],
+      "frames": [
+        "*/game_*.png",
+        "*/front_*.png",
+        "*/side_*.png"
+      ],
+      "gate": "Six PlayJuice reactions x both bodies; observed active then inactive plus45 real return frames. Wait for main hand corrective acceptance/rebake before calling this final."
+    },
+    {
+      "id": "tennis_locomotion_both",
+      "method": "GolfArcade.EditorTools.TennisLocomotionFilm.Run",
+      "env": {
+        "TLF_OUT": "../proof/full-visual-overhaul/final-motion/locomotion"
+      },
+      "traces": [
+        "male/trace.csv",
+        "female/trace.csv",
+        "audit.txt"
+      ],
+      "frames": [
+        "*/game_*.png",
+        "*/hero_*.png"
+      ],
+      "gate": "11 seconds/body, tracked SetLateralInput movement at60Hz; start/reverse/stop/sprint/reverse/settle/moving reaction. Hard moved/reversed/reaction and final stopped checks. Review shoe contact and full-speed continuity, not scalar no-slip claims."
+    },
+    {
+      "id": "tennis_dives_all4",
+      "method": "GolfArcade.EditorTools.TennisDiveFilm.Run",
+      "env": {
+        "TDF_OUT": "../proof/full-visual-overhaul/final-motion/dives"
+      },
+      "traces": [
+        "*/trace.csv",
+        "audit.txt"
+      ],
+      "frames": [
+        "*/game_*.png",
+        "*/front_*.png",
+        "*/side_*.png"
+      ],
+      "gate": "Both directions x both bodies, actual CanDive and accepted RequestDive required; three seconds each,180 real frames. Hard accepted/active/recovered/not-active final. No forcibly set dive pose or contact clock."
+    },
+    {
+      "id": "tennis_rally_fx_both",
+      "method": "GolfArcade.EditorTools.TennisActionFilm.Run",
+      "env": {
+        "TAF_OUT": "../proof/full-visual-overhaul/final-motion/rally-fx"
+      },
+      "traces": [
+        "male_rally/trace.csv",
+        "female_rally/trace.csv",
+        "audit.txt"
+      ],
+      "frames": [
+        "*/game_*.png",
+        "*/hero_*.png"
+      ],
+      "gate": "20 seconds live self-play per body plus eight separately labelled production FX fixture cases. Do not count dive coverage if audit dive=False; focused DiveFilm supplies that. List observed real stroke names; absence of a rare stroke variant is not proof it was exercised."
+    },
+    {
+      "id": "tennis_serve_feet_contract",
+      "method": "GolfArcade.EditorTools.ServeAndFeetProof.Run",
+      "env": {
+        "SF_PROOF_OUT": "../proof/full-visual-overhaul/final-motion/serve-feet",
+        "SF_PRODUCTION_KIT": "1"
+      },
+      "traces": [
+        "trace.csv",
+        "shots.json",
+        "audit.txt"
+      ],
+      "frames": [
+        "raw/*.png"
+      ],
+      "gate": "Guarded actual game walk-in/toss/trophy/contact/landing plus repeated serve contacts and selfplay. Existing nested IEnumerator stack is preserved. unityFrame column is the old absolute fc field renamed. Full run, not SF_QUICK=1, certifies repeated serve sample counts. Images are selected diagnostic poses rather than a consecutive30fps film."
+    },
+    {
+      "id": "tennis_contact_selfplay_contract",
+      "method": "GolfArcade.EditorTools.MatchHeroProof.Run",
+      "env": {
+        "MH_PROOF_OUT": "../proof/full-visual-overhaul/final-motion/selfplay-contract",
+        "MH_PRODUCTION_KIT": "1"
+      },
+      "traces": [
+        "trace.csv",
+        "shots.json",
+        "audit.txt"
+      ],
+      "frames": [
+        "raw/*.png"
+      ],
+      "gate": "Guarded actual default presentation plus both-sex matches, live contacts/dives/replay. Compare source durations/contact anchors, physicsRestoreError, actual player/rival string-ball gaps. Rows are grouped by scenario/role for cadence. Images are selected diagnostic poses; use ActionFilm for full-speed game sequences."
+    },
+    {
+      "id": "golf_both_five_strokes_intro_performance",
+      "method": "GolfArcade.EditorTools.GolfMotionFilm.Run",
+      "env": {
+        "GMF_OUT": "../proof/full-visual-overhaul/final-motion/golf"
+      },
+      "traces": [
+        "*/trace.csv",
+        "audit.txt"
+      ],
+      "frames": [
+        "*/game_*.jpg",
+        "*/hero_*.jpg",
+        "*/front_*.jpg",
+        "*/side_*.jpg"
+      ],
+      "gate": "Both bodies: production course intro, real synthetic Driver/Iron/PitchingWedge/Wedge/Putter shots, then Idle/Wave/Cheer/FistPump through actual GolferView.Perform. Existing real-frame guard retained. Require real flight and observed target; performance returns to Idle. Golf intro+shots+performance all carry explicit absolute unityFrame."
+    }
+  ],
+  "cadence": "One iterator step per actual Time.frameCount; captureFramerate60 and every2frames saved yields30fps footage. Validate distinct/increasing unityFrame per clip/scenario/role and real trace duration before encoding at30fps. Do not infer time from image count alone.",
+  "limits": "Runtime selfplay exercises observed stroke variants, not a guaranteed all33 live branch coverage. Existing all33 source/slot static proof and native graph parity bind the remaining assets. Report the observed clip set honestly. Older unguarded videos are provisional and removed from public gallery."
+}

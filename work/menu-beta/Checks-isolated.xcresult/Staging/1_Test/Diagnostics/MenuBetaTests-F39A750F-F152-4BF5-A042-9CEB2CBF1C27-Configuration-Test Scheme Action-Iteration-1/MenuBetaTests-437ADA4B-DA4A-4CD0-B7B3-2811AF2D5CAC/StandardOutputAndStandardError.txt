@@ -1,0 +1,133 @@
+2026-10-08 22:14:15.976052-0400 GolfArcade[68892:25164971] [Developer] ERROR: The Game Center entitlement is required to use GameKit. To avoid failing App Store Review, follow these instructions:
+https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_game-center
+2026-10-08 22:14:15.981424-0400 GolfArcade[68892:25166122] [Error] Could not load services for GameKit. This likely means your game is missing the com.apple.developer.game-center entitlement. For more info see:
+ https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_game-center
+
+ERROR: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.gamed was invalidated from this process." UserInfo={NSDebugDescription=The connection to service named com.apple.gamed was invalidated from this process.}
+2026-10-08 22:14:15.982559-0400 GolfArcade[68892:25166122] [Error] No gamed service found for selector getStoreBagValuesForKeys:handler:
+2026-10-08 22:14:16.024030-0400 GolfArcade[68892:25166122] [Error] Could not load services for GameKit. This likely means your game is missing the com.apple.developer.game-center entitlement. For more info see:
+ https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_game-center
+
+ERROR: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.gamed was invalidated from this process." UserInfo={NSDebugDescription=The connection to service named com.apple.gamed was invalidated from this process.}
+2026-10-08 22:14:16.027199-0400 GolfArcade[68892:25166122] [Error] No gamed service found for selector getOcelotStateForCurrentAppWithHandler:
+2026-10-08 22:14:17.305100-0400 GolfArcade[68892:25166218] [Core] {"msg":"file does not exist... clearing", "file":/Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot/private/var/Managed Preferences/kCFPreferencesCurrentUser/com.apple.CoreMotion.plist, "error":Error Domain=NSCocoaErrorDomain Code=260 "The file “com.apple.CoreMotion.plist” couldn’t be opened because there is no such file." UserInfo={NSFilePath=/Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot/private/var/Managed Preferences/kCFPreferencesCurrentUser/com.apple.CoreMotion.plist, NSURL=file:///Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS%2026.5.simruntime/Contents/Resources/RuntimeRoot/private/var/Managed%20Preferences/kCFPreferencesCurrentUser/com.apple.CoreMotion.plist, NSUnderlyingError=0x10a0b09f0 {Error Domain=NSPOSIXErrorDomain Code=2 "No such file or directory"}}}
+2026-10-08 22:14:17.324307-0400 GolfArcade[68892:25164971] [SportsDiagnostic] analytics session_start t=202653.967 n=76
+2026-10-08 22:14:17.324843-0400 GolfArcade[68892:25164971] [SportsDiagnostic] analytics onboarding_step_view t=202653.968 step=done
+2026-10-08 22:14:17.907710-0400 GolfArcade[68892:25164971] [UIFocus] GolfArcade.LivingClubView implements focusItemsInRect: - caching for linear focus movement is limited as long as this view is on screen.
+2026-10-08 22:14:18.029230-0400 GolfArcade[68892:25164971] [framework] CoreUI: CUIThemeStore: No theme registered with id=0
+2026-10-08 22:14:18.030457-0400 GolfArcade[68892:25164971] [framework] CoreUI: CUIThemeStore: No theme registered with id=0
+2026-10-08 22:14:18.152724-0400 GolfArcade[68892:25164971] [UIFocus] SCNView implements focusItemsInRect: - caching for linear focus movement is limited as long as this view is on screen.
+2026-10-08 22:14:18.763197-0400 GolfArcade[68892:25164971] [SportsDisplay] refresh scenes=UIWindowSceneSessionRoleApplication external=0
+2026-10-08 22:14:18.766811-0400 GolfArcade[68892:25164971] [SportsDisplay] refresh scenes=UIWindowSceneSessionRoleApplication external=0
+2026-10-08 22:14:18.794448-0400 GolfArcade[68892:25164971] [Match] Matchmaker getStoreBagValuesForKeys encountered error: Error Domain=GKErrorDomain Code=3 "The requested operation could not be completed due to an error communicating with the server." UserInfo={NSLocalizedDescription=The requested operation could not be completed due to an error communicating with the server.}
+2026-10-08 22:14:18.803389-0400 GolfArcade[68892:25164971] [SportsDisplay] refresh scenes=UIWindowSceneSessionRoleApplication external=0
+2026-10-08 22:14:18.807661-0400 GolfArcade[68892:25164971] [SportsDisplay] refresh scenes=UIWindowSceneSessionRoleApplication external=0
+Test Suite 'All tests' started at 2026-10-08 22:14:21.877.
+Test Suite 'MenuBetaTests.xctest' started at 2026-10-08 22:14:21.879.
+Test Suite 'MenuBetaTests' started at 2026-10-08 22:14:21.879.
+Test Case '-[MenuBetaTests.MenuBetaTests testControllerFocusUpdatesPreviewWithoutLaunching]' started.
+2026-10-08 22:14:22.070938-0400 GolfArcade[68892:25164971] [plugin] AddInstanceForFactory: No factory registered for id <CFUUID 0x114e899c0> F8BB1C28-BAE8-11D6-9C31-00039315CD46
+2026-10-08 22:14:22.405301-0400 GolfArcade[68892:25164971] [AQ]        LoudnessManager.mm:1755  ReadPListFile: unable to open stream for LoudnessManager plist
+2026-10-08 22:14:22.405586-0400 GolfArcade[68892:25164971] [AQ]        LoudnessManager.mm:1261  GetHardwarePlatformKey: cannot get acoustic ID
+2026-10-08 22:14:22.405715-0400 GolfArcade[68892:25164971] [AQ]        LoudnessManager.mm:1215  IsHardwareSupported: no plist loaded, returning false
+2026-10-08 22:14:22.405855-0400 GolfArcade[68892:25164971] [AQ]        LoudnessManager.mm:1215  IsHardwareSupported: no plist loaded, returning false
+2026-10-08 22:14:22.429908-0400 GolfArcade[68892:25164971] [AQ]        LoudnessManager.mm:1215  IsHardwareSupported: no plist loaded, returning false
+2026-10-08 22:14:22.430862-0400 GolfArcade[68892:25164971] [AQ]        LoudnessManager.mm:1215  IsHardwareSupported: no plist loaded, returning false
+2026-10-08 22:14:23.326559-0400 GolfArcade[68892:25164971] [AQ]        LoudnessManager.mm:1215  IsHardwareSupported: no plist loaded, returning false
+2026-10-08 22:14:23.326737-0400 GolfArcade[68892:25164971] [AQ]        LoudnessManager.mm:1215  IsHardwareSupported: no plist loaded, returning false
+Test Case '-[MenuBetaTests.MenuBetaTests testControllerFocusUpdatesPreviewWithoutLaunching]' passed (1.516 seconds).
+Test Case '-[MenuBetaTests.MenuBetaTests testFeedbackAndBundledGameplay]' started.
+Test Case '-[MenuBetaTests.MenuBetaTests testFeedbackAndBundledGameplay]' passed (0.007 seconds).
+Test Case '-[MenuBetaTests.MenuBetaTests testLastSportIsPerPlayerAndMigratesExistingHistory]' started.
+Test Case '-[MenuBetaTests.MenuBetaTests testLastSportIsPerPlayerAndMigratesExistingHistory]' passed (0.012 seconds).
+Test Case '-[MenuBetaTests.MenuBetaTests testMenuCharactersHoldTheirCurrentSportAndOnlyExplicitEmotesMove]' started.
+2026-10-08 22:14:23.782315-0400 GolfArcade[68892:25164971] [SceneKit] Warning: C3DBaseTypeFromDescription - signed/unsigned ambiguity
+Test Case '-[MenuBetaTests.MenuBetaTests testMenuCharactersHoldTheirCurrentSportAndOnlyExplicitEmotesMove]' passed (15.471 seconds).
+Test Case '-[MenuBetaTests.MenuBetaTests testPhoneAndTVProof]' started.
+2026-10-08 22:14:41.428706-0400 GolfArcade[68892:25164971] [UIFocus] GolfArcade.LivingClubView implements focusItemsInRect: - caching for linear focus movement is limited as long as this view is on screen.
+2026-10-08 22:14:41.501239-0400 GolfArcade[68892:25164971] [UIFocus] SCNView implements focusItemsInRect: - caching for linear focus movement is limited as long as this view is on screen.
+2026-10-08 22:14:42.522635-0400 GolfArcade[68892:25164971] [UIFocus] GolfArcade.LivingClubView implements focusItemsInRect: - caching for linear focus movement is limited as long as this view is on screen.
+2026-10-08 22:14:42.528694-0400 GolfArcade[68892:25164971] [UIFocus] SCNView implements focusItemsInRect: - caching for linear focus movement is limited as long as this view is on screen.
+2026-10-08 22:14:43.085739-0400 GolfArcade[68892:25164971] [UIFocus] GolfArcade.LivingClubView implements focusItemsInRect: - caching for linear focus movement is limited as long as this view is on screen.
+2026-10-08 22:14:43.088820-0400 GolfArcade[68892:25164971] [UIFocus] SCNView implements focusItemsInRect: - caching for linear focus movement is limited as long as this view is on screen.
+<unknown>:0: warning: -[MenuBetaTests.MenuBetaTests testPhoneAndTVProof] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions
+2026-10-08 22:14:44.507773-0400 GolfArcade[68892:25164971] [UIFocus] GolfArcade.LivingClubView implements focusItemsInRect: - caching for linear focus movement is limited as long as this view is on screen.
+2026-10-08 22:14:44.515157-0400 GolfArcade[68892:25164971] [UIFocus] SCNView implements focusItemsInRect: - caching for linear focus movement is limited as long as this view is on screen.
+2026-10-08 22:14:45.788168-0400 GolfArcade[68892:25164971] [UIFocus] GolfArcade.LivingClubView implements focusItemsInRect: - caching for linear focus movement is limited as long as this view is on screen.
+2026-10-08 22:14:45.796944-0400 GolfArcade[68892:25164971] [UIFocus] SCNView implements focusItemsInRect: - caching for linear focus movement is limited as long as this view is on screen.
+2026-10-08 22:14:47.225464-0400 GolfArcade[68892:25164971] [UIFocus] GolfArcade.LivingClubView implements focusItemsInRect: - caching for linear focus movement is limited as long as this view is on screen.
+2026-10-08 22:14:47.231573-0400 GolfArcade[68892:25164971] [UIFocus] SCNView implements focusItemsInRect: - caching for linear focus movement is limited as long as this view is on screen.
+2026-10-08 22:14:48.398006-0400 GolfArcade[68892:25164971] [UIFocus] GolfArcade.LivingClubView implements focusItemsInRect: - caching for linear focus movement is limited as long as this view is on screen.
+2026-10-08 22:14:48.401019-0400 GolfArcade[68892:25164971] [UIFocus] SCNView implements focusItemsInRect: - caching for linear focus movement is limited as long as this view is on screen.
+2026-10-08 22:14:48.851472-0400 GolfArcade[68892:25166593] [AMCP]          HALC_ProxyIOContext.cpp:1623  HALC_ProxyIOContext::IOWorkLoop: skipping cycle due to overload
+2026-10-08 22:14:49.838059-0400 GolfArcade[68892:25164971] [UIFocus] GolfArcade.LivingClubView implements focusItemsInRect: - caching for linear focus movement is limited as long as this view is on screen.
+2026-10-08 22:14:49.906228-0400 GolfArcade[68892:25164971] [UIFocus] GolfArcade.LivingClubView implements focusItemsInRect: - caching for linear focus movement is limited as long as this view is on screen.
+2026-10-08 22:14:50.882812-0400 GolfArcade[68892:25164971] [UIFocus] GolfArcade.LivingClubView implements focusItemsInRect: - caching for linear focus movement is limited as long as this view is on screen.
+2026-10-08 22:14:51.917485-0400 GolfArcade[68892:25164971] [UIFocus] GolfArcade.LivingClubView implements focusItemsInRect: - caching for linear focus movement is limited as long as this view is on screen.
+2026-10-08 22:14:52.941090-0400 GolfArcade[68892:25164971] [UIFocus] GolfArcade.LivingClubView implements focusItemsInRect: - caching for linear focus movement is limited as long as this view is on screen.
+2026-10-08 22:14:53.981492-0400 GolfArcade[68892:25164971] [UIFocus] GolfArcade.LivingClubView implements focusItemsInRect: - caching for linear focus movement is limited as long as this view is on screen.
+2026-10-08 22:14:54.185142-0400 GolfArcade[68892:25164971] [UIFocus] GolfArcade.LivingClubView implements focusItemsInRect: - caching for linear focus movement is limited as long as this view is on screen.
+2026-10-08 22:14:55.123842-0400 GolfArcade[68892:25168557] [] (Fig) signalled err=-12900 at <>:1242
+2026-10-08 22:14:55.123897-0400 GolfArcade[68892:25168554] [] (Fig) signalled err=-12900 at <>:1242
+2026-10-08 22:14:55.126066-0400 GolfArcade[68892:25168554] [] <<<< VRP >>>> signalled err=-12852 at <>:2336
+2026-10-08 22:14:55.126131-0400 GolfArcade[68892:25168557] [] <<<< VRP >>>> signalled err=-12852 at <>:2336
+2026-10-08 22:14:55.189410-0400 GolfArcade[68892:25164971] [UIFocus] GolfArcade.LivingClubView implements focusItemsInRect: - caching for linear focus movement is limited as long as this view is on screen.
+2026-10-08 22:14:55.269861-0400 GolfArcade[68892:25168551] [player] <<<< FigFilePlayer >>>> signalled err=-12864 at <>:10127
+2026-10-08 22:14:55.285772-0400 GolfArcade[68892:25168554] [] (Fig) signalled err=-12900 at <>:1242
+2026-10-08 22:14:55.286705-0400 GolfArcade[68892:25168554] [] <<<< VRP >>>> signalled err=-12852 at <>:2336
+2026-10-08 22:14:56.456977-0400 GolfArcade[68892:25168546] [player] <<<< Async >>>> signalled err=-12785 at <>:2025
+2026-10-08 22:14:56.462355-0400 GolfArcade[68892:25168510] [player] <<<< Async >>>> signalled err=-12785 at <>:3925
+2026-10-08 22:14:56.462665-0400 GolfArcade[68892:25167109] [player] <<<< Async >>>> signalled err=-12785 at <>:3462
+2026-10-08 22:14:56.463671-0400 GolfArcade[68892:25168582] [] (Fig) signalled err=-12900 at <>:1242
+2026-10-08 22:14:56.463810-0400 GolfArcade[68892:25168509] [] (Fig) signalled err=-12900 at <>:1242
+2026-10-08 22:14:56.464440-0400 GolfArcade[68892:25168582] [] <<<< VRP >>>> signalled err=-12852 at <>:2336
+2026-10-08 22:14:56.464629-0400 GolfArcade[68892:25168509] [] <<<< VRP >>>> signalled err=-12852 at <>:2336
+2026-10-08 22:14:57.331283-0400 GolfArcade[68892:25164971] [UIFocus] GolfArcade.LivingClubView implements focusItemsInRect: - caching for linear focus movement is limited as long as this view is on screen.
+2026-10-08 22:14:57.432315-0400 GolfArcade[68892:25164971] [UIFocus] GolfArcade.LivingClubView implements focusItemsInRect: - caching for linear focus movement is limited as long as this view is on screen.
+2026-10-08 22:14:57.525131-0400 GolfArcade[68892:25168509] [] (Fig) signalled err=-12900 at <>:1242
+2026-10-08 22:14:57.525743-0400 GolfArcade[68892:25168554] [] (Fig) signalled err=-12900 at <>:1242
+2026-10-08 22:14:57.526755-0400 GolfArcade[68892:25168509] [] <<<< VRP >>>> signalled err=-12852 at <>:2336
+2026-10-08 22:14:57.527694-0400 GolfArcade[68892:25168554] [] <<<< VRP >>>> signalled err=-12852 at <>:2336
+2026-10-08 22:14:58.406218-0400 GolfArcade[68892:25164971] [UIFocus] GolfArcade.LivingClubView implements focusItemsInRect: - caching for linear focus movement is limited as long as this view is on screen.
+2026-10-08 22:14:58.468878-0400 GolfArcade[68892:25167523] [player] <<<< Async >>>> signalled err=-12785 at <>:3934
+2026-10-08 22:14:58.471294-0400 GolfArcade[68892:25168545] [player] <<<< Async >>>> signalled err=-12785 at <>:2025
+2026-10-08 22:14:58.471827-0400 GolfArcade[68892:25168545] [player] <<<< Async >>>> signalled err=-12785 at <>:3462
+2026-10-08 22:14:58.473097-0400 GolfArcade[68892:25168556] [] (Fig) signalled err=-12900 at <>:1242
+2026-10-08 22:14:58.473466-0400 GolfArcade[68892:25168556] [] <<<< VRP >>>> signalled err=-12852 at <>:2336
+2026-10-08 22:14:59.685332-0400 GolfArcade[68892:25168554] [] (Fig) signalled err=-12900 at <>:1242
+2026-10-08 22:14:59.685823-0400 GolfArcade[68892:25168735] [] (Fig) signalled err=-12900 at <>:1242
+2026-10-08 22:14:59.685924-0400 GolfArcade[68892:25168554] [] <<<< VRP >>>> signalled err=-12852 at <>:2336
+2026-10-08 22:14:59.686341-0400 GolfArcade[68892:25168735] [] <<<< VRP >>>> signalled err=-12852 at <>:2336
+Test Case '-[MenuBetaTests.MenuBetaTests testPhoneAndTVProof]' passed (21.685 seconds).
+Test Case '-[MenuBetaTests.MenuBetaTests testPlayRoutesAndBackPaths]' started.
+2026-10-08 22:15:00.623267-0400 GolfArcade[68892:25164971] [AQ]        LoudnessManager.mm:1215  IsHardwareSupported: no plist loaded, returning false
+2026-10-08 22:15:00.623610-0400 GolfArcade[68892:25164971] [AQ]        LoudnessManager.mm:1215  IsHardwareSupported: no plist loaded, returning false
+2026-10-08 22:15:00.648105-0400 GolfArcade[68892:25164971] [AQ]        LoudnessManager.mm:1215  IsHardwareSupported: no plist loaded, returning false
+2026-10-08 22:15:00.648654-0400 GolfArcade[68892:25164971] [AQ]        LoudnessManager.mm:1215  IsHardwareSupported: no plist loaded, returning false
+2026-10-08 22:15:00.927799-0400 GolfArcade[68892:25167109] [Error] Could not load services for GameKit. This likely means your game is missing the com.apple.developer.game-center entitlement. For more info see:
+ https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_game-center
+
+ERROR: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.gamed was invalidated from this process." UserInfo={NSDebugDescription=The connection to service named com.apple.gamed was invalidated from this process.}
+2026-10-08 22:15:00.934595-0400 GolfArcade[68892:25167109] [Error] No gamed service found for selector cancelOutstandingMatchRequestWithHandler:
+2026-10-08 22:15:00.937798-0400 GolfArcade[68892:25167109] [Error] Could not load services for GameKit. This likely means your game is missing the com.apple.developer.game-center entitlement. For more info see:
+ https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_game-center
+
+ERROR: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.gamed was invalidated from this process." UserInfo={NSDebugDescription=The connection to service named com.apple.gamed was invalidated from this process.}
+2026-10-08 22:15:00.939090-0400 GolfArcade[68892:25167109] [Error] No gamed service found for selector completeMatchRecording:matchType:
+2026-10-08 22:15:00.939943-0400 GolfArcade[68892:25167109] [Error] Could not load services for GameKit. This likely means your game is missing the com.apple.developer.game-center entitlement. For more info see:
+ https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_game-center
+
+ERROR: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.gamed was invalidated from this process." UserInfo={NSDebugDescription=The connection to service named com.apple.gamed was invalidated from this process.}
+2026-10-08 22:15:00.940861-0400 GolfArcade[68892:25167109] [Error] No gamed service found for selector removeInviteSessionIfNeeded
+Test Case '-[MenuBetaTests.MenuBetaTests testPlayRoutesAndBackPaths]' passed (0.439 seconds).
+Test Suite 'MenuBetaTests' passed at 2026-10-08 22:15:01.028.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 39.131 (39.148) seconds
+Test Suite 'MenuBetaTests.xctest' passed at 2026-10-08 22:15:01.029.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 39.131 (39.150) seconds
+Test Suite 'All tests' passed at 2026-10-08 22:15:01.029.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 39.131 (39.153) seconds
+2026-10-08 22:15:01.037222-0400 GolfArcade[68892:25164971] [UIFocus] GolfArcade.LivingClubView implements focusItemsInRect: - caching for linear focus movement is limited as long as this view is on screen.
+2026-10-08 22:15:01.097741-0400 GolfArcade[68892:25164971] [UIFocus] SCNView implements focusItemsInRect: - caching for linear focus movement is limited as long as this view is on screen.
+2026-10-08 22:15:01.400567-0400 GolfArcade[68892:25168549] [player] <<<< Async >>>> signalled err=-12785 at <>:2025
+2026-10-08 22:15:01.400875-0400 GolfArcade[68892:25167526] [player] <<<< Async >>>> signalled err=-12785 at <>:3934
+2026-10-08 22:15:01.401267-0400 GolfArcade[68892:25168549] [player] <<<< Async >>>> signalled err=-12785 at <>:3462

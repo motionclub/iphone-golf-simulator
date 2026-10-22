@@ -1,0 +1,21 @@
+{
+  "user_expanded_scope": "Take over arm/dribble here",
+  "approved_lockfeet_unchanged": false,
+  "owned_files": [
+    "Assets/Scripts/Tennis/HeroTennisDriver.cs",
+    "Assets/Scripts/Tennis/TennisGame.cs",
+    "Assets/Scripts/Tennis/TennisServeRoutine.cs",
+    "Assets/Editor/ServeJumpProof.cs",
+    "Assets/Characters/MatchHeroes/Male/Male_Serve.fbx",
+    "Assets/Characters/MatchHeroes/Male/Male_Serve.fbx.meta",
+    "Assets/Characters/MatchHeroes/Female/Female_Serve.fbx",
+    "Assets/Characters/MatchHeroes/Female/Female_Serve.fbx.meta"
+  ],
+  "other_runtime_changes": [],
+  "prefab_hashes_unchanged": {
+    "Assets/Resources/Tennis/Customization/PlayerMale.prefab": "da4aa3dbd03297bcac610e7cb58887cb5166a5b2ca93c59d1d0bd9a34e49cb72",
+    "Assets/Resources/Tennis/Customization/PlayerFemale.prefab": "dd862e375449c4091c1f36ac68e6d5cbc610f48c2224a773742b91f6be347da1"
+  },
+  "no_commit": true,
+  "lockfeet_change_after_visual_approval": "Only initial turn easing; accepted independent foot anchors, knee planes, final stance and takeoff/landing targets unchanged"
+}

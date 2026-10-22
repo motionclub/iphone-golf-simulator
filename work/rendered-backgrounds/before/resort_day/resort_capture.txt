@@ -1,0 +1,81 @@
+sun dir_to_sun=(0.5298, 0.8480, 0.0092) azimuth_deg=89.00 elevation_deg=58.00 colour=RGBA(1.000, 0.950, 0.860, 1.000) intensity=1.632
+skybox=Dream world clock sky / GolfArcade/DreamSky
+fog=True Linear RGBA(0.560, 0.730, 0.810, 1.000) 45-800 far=1000
+dream_utc=1792263600 weather=Clear
+tex ArchipelagoSky 2048x1024 shader=GolfArcade/DreamSky mat=Dream world clock sky on=skybox
+tex Limestone_C 512x512 shader=GolfArcade/TennisWorldSurface mat=Coast eroded limestone on=Eroded limestone outcrops
+tex TropicalV3_029 2048x2048 shader=Universal Render Pipeline/Lit mat=TropicalV3_029 on=21-village-house | tripo_node_d5368522-00e1-4609-8581-45a6230bd812.005
+tex TropicalV3_023 2048x2048 shader=Universal Render Pipeline/Lit mat=TropicalV3_023 on=12-umpire-chair | tripo_node_ad79ea1b-dc4a-47d3-88c0-8fdd2726180a.001
+tex AcrylicAggregate 512x512 shader=GolfArcade/TennisWorldSurface mat=TropicalV3_010 (styled) C9BDA3 on=Island limestone base.001
+tex Contact shadow falloff 64x64 shader=GolfArcade/TennisShadowBlob mat=GolfArcade/TennisShadowBlob on=Contact shadow — Opponent — permanent standard
+tex EnvV4_Palette 512x128 shader=GolfArcade/TennisWorldSurface mat=Clubhouse role 4 on=EnvV4_BeachHouse
+tex SkyCoastalSmall 2048x1024 shader=GolfArcade/TennisWorldSurface mat=Clubhouse role 7 on=EnvV4_BeachHouse
+tex CoastShallows 1024x1024 shader=GolfArcade/TennisWater mat=Resort sea Luminous Coast on=Ocean water.001
+tex SummerSky 2048x1024 shader=GolfArcade/TennisWater mat=Resort sea Luminous Coast on=Ocean water.001
+tex TropicalV3_019 2048x2048 shader=GolfArcade/TennisWorldSurface mat=TropicalV3_019 (styled) E0D4BA on=16-terrace-stairs | tripo_node_8d2b1488-eff3-45e7-8f90-7b961bdd34f7.001
+tex CoastalCliffScan_C 512x512 shader=GolfArcade/GolfRock mat=Weathered edges on=Dream catalogue 100 Weathered edges
+tex CoastalCliffScan_N 512x512 shader=GolfArcade/GolfRock mat=Weathered edges on=Dream catalogue 100 Weathered edges
+tex Tennis ball felt 128x64 shader=Universal Render Pipeline/Lit mat=Tennis ball felt (Instance) on=Tennis ball surface
+tex LimestoneAshlar_C 1536x768 shader=GolfArcade/TennisWorldSurface mat=Crafted resort ashlar walls on=Crafted resort ashlar walls
+tex LimestoneAshlar_N 1536x768 shader=GolfArcade/TennisWorldSurface mat=Crafted resort ashlar walls on=Crafted resort ashlar walls
+tex ring 256x256 shader=GolfArcade/TennisFxAdditive mat=GolfArcade/TennisFxAdditive on=Bounce ripple
+tex Contact shadow falloff 64x64 shader=GolfArcade/TennisFxAlpha mat=GolfArcade/TennisFxAlpha on=Felt fuzz
+tex Contact shadow falloff 64x64 shader=GolfArcade/TennisFxAdditive mat=GolfArcade/TennisFxAdditive on=Supercharge stream
+tex dust 256x256 shader=GolfArcade/TennisFxAlpha mat=GolfArcade/TennisFxAlpha on=Bounce dust
+tex impact 256x256 shader=GolfArcade/TennisFxAdditive mat=GolfArcade/TennisFxAdditive on=Impact flash
+tex  64x64 shader=GolfArcade/WeatherParticle mat=Ash on=Ash
+tex sparkle 256x256 shader=GolfArcade/TennisFxAdditive mat=GolfArcade/TennisFxAdditive on=Sparkles
+tex Confetti 4x4 shader=GolfArcade/TennisFxAlpha mat=GolfArcade/TennisFxAlpha on=Confetti
+tex Rain streak 8x64 shader=GolfArcade/WeatherParticle mat=Rain on=Rain
+tex  64x64 shader=GolfArcade/ParticleAdd mat=Embers on=Embers
+tex OriginalEye_RelativeSclera 128x128 shader=GolfArcade/TennisCharacter mat=Reference_Face_Sclera (hero) on=OriginalSeamFeatures
+tex OriginalEye_RelativeIris 128x128 shader=GolfArcade/TennisCharacter mat=Reference_Face_IrisIn (hero) on=OriginalSeamFeatures
+tex KitV2_Tennis_Male_Top_N 2048x2048 shader=GolfArcade/TennisCloth mat=Kit_Shirt (hero) on=Kit_Top
+tex KitV2_Tennis_Male_Top_M 2048x2048 shader=GolfArcade/TennisCloth mat=Kit_Shirt (hero) on=Kit_Top
+tex KitV2_FabricAtlas 512x512 shader=GolfArcade/TennisCloth mat=Kit_Shirt (hero) on=Kit_Top
+tex KitV2_Tennis_Female_SockR_N 1024x1024 shader=GolfArcade/TennisCloth mat=Kit_Sock (hero) on=Kit_Sock_R
+tex KitV2_Tennis_Female_SockR_M 1024x1024 shader=GolfArcade/TennisCloth mat=Kit_Sock (hero) on=Kit_Sock_R
+tex KitV2_Tennis_Male_SockL_N 1024x1024 shader=GolfArcade/TennisCloth mat=Kit_Sock (hero) on=Kit_Sock_L
+tex KitV2_Tennis_Male_SockL_M 1024x1024 shader=GolfArcade/TennisCloth mat=Kit_Sock (hero) on=Kit_Sock_L
+tex HiggsUmpire_Color 2048x2048 shader=GolfArcade/TennisCharacter mat=Higgs Umpire (tennis) on=V4 Higgs Umpire
+tex HiggsUmpire_Normal 1024x1024 shader=GolfArcade/TennisCharacter mat=Higgs Umpire (tennis) on=V4 Higgs Umpire
+tex KitV2_Tennis_Male_ShoeR_N 1024x1024 shader=GolfArcade/TennisCloth mat=Kit_Shoe (hero) on=Kit_Shoe_R
+tex KitV2_Tennis_Male_ShoeR_M 1024x1024 shader=GolfArcade/TennisCloth mat=Kit_Shoe (hero) on=Kit_Shoe_R
+tex Acc_Male_tennis_cap_Cap_N 2048x2048 shader=GolfArcade/TennisCloth mat=Acc_Cap (hero) on=Acc_Cap
+tex Acc_Male_tennis_cap_Cap_M 2048x2048 shader=GolfArcade/TennisCloth mat=Acc_Cap (hero) on=Acc_Cap
+tex OriginalSeam_RelativeSkinPigment 64x64 shader=GolfArcade/HeroFaceSkin mat=Skin_OriginalSurfacePigment (hero) on=Body_F
+tex KitV2_Tennis_Female_Top_N 1024x1024 shader=GolfArcade/TennisCloth mat=Kit_Shirt (hero) on=Kit_Top
+tex KitV2_Tennis_Female_Top_M 1024x1024 shader=GolfArcade/TennisCloth mat=Kit_Shirt (hero) on=Kit_Top
+tex KitV2_Tennis_Male_ShoeL_N 1024x1024 shader=GolfArcade/TennisCloth mat=Kit_Shoe (hero) on=Kit_Shoe_L
+tex KitV2_Tennis_Male_ShoeL_M 1024x1024 shader=GolfArcade/TennisCloth mat=Kit_Shoe (hero) on=Kit_Shoe_L
+tex KitV2_Tennis_Female_SockL_N 1024x1024 shader=GolfArcade/TennisCloth mat=Kit_Sock (hero) on=Kit_Sock_L
+tex KitV2_Tennis_Female_SockL_M 1024x1024 shader=GolfArcade/TennisCloth mat=Kit_Sock (hero) on=Kit_Sock_L
+tex KitV2_Tennis_Male_SockR_N 1024x1024 shader=GolfArcade/TennisCloth mat=Kit_Sock (hero) on=Kit_Sock_R
+tex KitV2_Tennis_Male_SockR_M 1024x1024 shader=GolfArcade/TennisCloth mat=Kit_Sock (hero) on=Kit_Sock_R
+tex KitV2_Tennis_Male_Bottom_N 2048x2048 shader=GolfArcade/TennisCloth mat=Kit_Shorts (hero) on=Kit_Bottom
+tex KitV2_Tennis_Male_Bottom_M 2048x2048 shader=GolfArcade/TennisCloth mat=Kit_Shorts (hero) on=Kit_Bottom
+tex KitV2_Tennis_Female_ShoeL_N 1024x1024 shader=GolfArcade/TennisCloth mat=Kit_Shoe (hero) on=Kit_Shoe_L
+tex KitV2_Tennis_Female_ShoeL_M 1024x1024 shader=GolfArcade/TennisCloth mat=Kit_Shoe (hero) on=Kit_Shoe_L
+tex Acc_Female_tennis_cap_Cap_N 2048x2048 shader=GolfArcade/TennisCloth mat=Acc_Cap (hero) on=Acc_Cap
+tex Acc_Female_tennis_cap_Cap_M 2048x2048 shader=GolfArcade/TennisCloth mat=Acc_Cap (hero) on=Acc_Cap
+tex KitV2_Tennis_Female_Bottom_N 2048x2048 shader=GolfArcade/TennisCloth mat=Kit_Shorts (hero) on=Kit_Bottom
+tex KitV2_Tennis_Female_Bottom_M 2048x2048 shader=GolfArcade/TennisCloth mat=Kit_Shorts (hero) on=Kit_Bottom
+tex KitV2_Tennis_Female_ShoeR_N 1024x1024 shader=GolfArcade/TennisCloth mat=Kit_Shoe (hero) on=Kit_Shoe_R
+tex KitV2_Tennis_Female_ShoeR_M 1024x1024 shader=GolfArcade/TennisCloth mat=Kit_Shoe (hero) on=Kit_Shoe_R
+shot 01_gameplay pos=(2.950, 2.500, -15.850) look=(2.950, 1.000, 3.000) fov=46
+shot 02_dolly0 pos=(2.950, 2.500, -15.850) look=(2.950, 1.000, 3.000) fov=46
+shot 02_dolly2 pos=(4.950, 2.500, -15.850) look=(4.950, 1.000, 3.000) fov=46
+shot 03_elevated pos=(1.058, 7.000, -20.150) look=(0.611, 0.950, -5.150) fov=46
+shot 04_stare_rival pos=(-0.267, 1.535, 8.664) look=(-0.417, 1.395, 11.244) fov=27
+shot 05_intro_rival pos=(-0.751, 1.285, 6.459) look=(0.000, 0.985, 11.200) fov=30
+shot 06_stare_player pos=(2.083, 1.535, -9.814) look=(1.933, 1.395, -12.394) fov=27
+shot 07_drone00 pos=(42.000, 58.000, 100.000) look=(0.000, -3.000, 0.000) fov=48
+shot 07_drone35 pos=(-23.502, 37.389, 38.642) look=(0.000, -1.760, 1.127) fov=49.288
+shot 07_drone70 pos=(-22.862, 16.099, -3.810) look=(0.000, -0.521, 2.254) fov=50.576
+shot 08_ring000 pos=(0.000, 1.700, 0.000) look=(0.000, 2.900, 10.000) fov=70
+shot 08_ring090 pos=(0.000, 1.700, 0.000) look=(10.000, 2.900, 0.000) fov=70
+shot 08_ring180 pos=(0.000, 1.700, 0.000) look=(0.000, 2.900, -10.000) fov=70
+shot 08_ring270 pos=(0.000, 1.700, 0.000) look=(-10.000, 2.900, 0.000) fov=70
+shot 09_longlens pos=(0.000, 1.700, -12.000) look=(0.000, 6.000, 400.000) fov=14
+perf gameplay 1290x1398 median_ms=17.034 p10_ms=13.126 p90_ms=22.425 n=120
+perf frustum mesh renderers=115 tris=708415 (static batches counted per member)

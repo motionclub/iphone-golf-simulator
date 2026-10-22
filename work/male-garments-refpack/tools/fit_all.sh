@@ -1,0 +1,8 @@
+#!/bin/zsh
+# male-garments: pipeline fits for both male kits (one heavy job at a time via heavy.sh inside garment_fit), GP_FOOT_ALL cover rule on
+cd /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/clothing-v2/pipeline
+export GP_FOOT_ALL=1
+./garment_fit MatchHero_Male npz:/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/male-garments-refpack/out/MatchHero_Male/unity/Kit_Sock_L_final.npz@Kit_Sock_L npz:/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/male-garments-refpack/out/MatchHero_Male/unity/Kit_Sock_R_final.npz@Kit_Sock_R npz:/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/male-garments-refpack/out/MatchHero_Male/unity/Kit_Bottom_final.npz@Kit_Bottom dump:Kit_Top npz:/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/male-garments-refpack/out/MatchHero_Male/unity/Kit_Shoe_L_final.npz@Kit_Shoe_L npz:/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/male-garments-refpack/out/MatchHero_Male/unity/Kit_Shoe_R_final.npz@Kit_Shoe_R run=MG_MT resume > logs/MG_MT.log 2>&1
+echo "MT $?" >> logs/MG.done
+./garment_fit GolfKitHero_Male dump:Kit_Bottom dump:Kit_Top dump:Kit_Belt npz:/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/male-garments-refpack/out/GolfKitHero_Male/unity/Kit_Shoe_L_final.npz@Kit_Shoe_L npz:/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/male-garments-refpack/out/GolfKitHero_Male/unity/Kit_Shoe_R_final.npz@Kit_Shoe_R run=MG_GM resume > logs/MG_GM.log 2>&1
+echo "GM $?" >> logs/MG.done

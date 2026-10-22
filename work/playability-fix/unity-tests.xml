@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="2" result="Passed" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-06 18:33:51Z" end-time="2026-10-06 18:34:12Z" duration="21.2246331">
+  <test-suite type="TestSuite" id="1009" name="Golf Arcade" fullname="Golf Arcade" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-06 18:33:51Z" end-time="2026-10-06 18:34:12Z" duration="21.224633" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1004" name="GolfArcade.PlayTests.dll" fullname="/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/golf-look/device/combined/Source/Unity/Library/ScriptAssemblies/GolfArcade.PlayTests.dll" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-06 18:33:51Z" end-time="2026-10-06 18:34:12Z" duration="21.221556" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="69205" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestSuite" id="1005" name="GolfArcade" fullname="GolfArcade" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-06 18:33:51Z" end-time="2026-10-06 18:34:12Z" duration="21.221267" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1006" name="PlayTests" fullname="GolfArcade.PlayTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-06 18:33:51Z" end-time="2026-10-06 18:34:12Z" duration="21.221014" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1001" name="NativeGolfFlowTests" fullname="GolfArcade.PlayTests.NativeGolfFlowTests" classname="GolfArcade.PlayTests.NativeGolfFlowTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-06 18:33:51Z" end-time="2026-10-06 18:34:12Z" duration="21.219616" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1003" name="EveryNativeCourseStartsAtItsOwnFirstHole" fullname="GolfArcade.PlayTests.NativeGolfFlowTests.EveryNativeCourseStartsAtItsOwnFirstHole" methodname="EveryNativeCourseStartsAtItsOwnFirstHole" classname="GolfArcade.PlayTests.NativeGolfFlowTests" runstate="Runnable" seed="1294938821" result="Passed" start-time="2026-10-06 18:33:51Z" end-time="2026-10-06 18:33:57Z" duration="5.954993" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[GolfSurfaceEdges] original top-boundary segments 160/568/216/4; 256x256, 262144 bytes, geometry unchanged
+[GolfSurfaceBatching] 165 original visual renderers into 51 bounded groups; meshes/colliders/scoring unchanged
+Detected one or more triangles where the distance between any 2 vertices is greater than 500 units. The resulting Triangle Mesh can impact simulation and query stability. It is recommended to tessellate meshes that have large triangles. Source mesh name: TERRAIN_ISLAND
+[GolfSurfaceEdges] original top-boundary segments 160/568/216/4; 256x256, 262144 bytes, geometry unchanged
+[GolfSurfaceBatching] 165 original visual renderers into 51 bounded groups; meshes/colliders/scoring unchanged
+[GolfSurfaceEdges] original top-boundary segments 132/481/94/893; 256x256, 262144 bytes, geometry unchanged
+[GolfSurfaceBatching] 76 original visual renderers into 38 bounded groups; meshes/colliders/scoring unchanged
+[GolfPlantInstances] 1675 original plant renderers into 12 pivot-preserving visual batches
+[GolfLook] hole 8: 8 LK_ material slot(s) dressed, 0 lava light(s), 0 low-poly water mesh(es) densified
+Detected one or more triangles where the distance between any 2 vertices is greater than 500 units. The resulting Triangle Mesh can impact simulation and query stability. It is recommended to tessellate meshes that have large triangles. Source mesh name: TERRAIN_ISLAND_1
+]]></output>
+            </test-case>
+            <test-case id="1002" name="NativeRoundAcceptsAShotAndExitsWithoutOpeningTheLegacyMenu" fullname="GolfArcade.PlayTests.NativeGolfFlowTests.NativeRoundAcceptsAShotAndExitsWithoutOpeningTheLegacyMenu" methodname="NativeRoundAcceptsAShotAndExitsWithoutOpeningTheLegacyMenu" classname="GolfArcade.PlayTests.NativeGolfFlowTests" runstate="Runnable" seed="821084074" result="Passed" start-time="2026-10-06 18:33:57Z" end-time="2026-10-06 18:34:12Z" duration="15.250810" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[GolfSurfaceEdges] original top-boundary segments 160/568/216/4; 256x256, 262144 bytes, geometry unchanged
+[GolfSurfaceBatching] 165 original visual renderers into 51 bounded groups; meshes/colliders/scoring unchanged
+[GolfSurfaceEdges] original top-boundary segments 160/568/216/4; 256x256, 262144 bytes, geometry unchanged
+[GolfSurfaceBatching] 165 original visual renderers into 51 bounded groups; meshes/colliders/scoring unchanged
+DONE PlayMode: 2 passed, 0 failed, 0 skipped
+<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /Users/adnanyonathan/Library/Application Support/aloniewski/Golf Arcade/TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

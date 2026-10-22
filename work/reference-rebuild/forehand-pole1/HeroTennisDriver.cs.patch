@@ -1,0 +1,52 @@
+--- a/Unity/Assets/Scripts/Tennis/HeroTennisDriver.cs
++++ b/Unity/Assets/Scripts/Tennis/HeroTennisDriver.cs
+@@ -972,6 +972,10 @@
+             if (performance != null)
+                 performance.Apply(actor, game, transform, actionActive,
+                     juiceActive && IsEmote(juice), juiceActive && !IsEmote(juice), Time.deltaTime);
++            float poseTime = physicsSubstep && actor && actor.Swinging
++                ? StrokeTime((int)action, actor.SignedTimeToContact) : (float)actionTime;
++            ApplyOpenForehandClearance(actionActive ? action : Clip.Ready, poseTime,
++                actionActive ? Mathf.Max(actionWeight, UpperLayerWeight) : 0);
+ 
+         }
+ 
+@@ -1811,8 +1815,38 @@
+             bool left = c == Clip.Ready || c == Clip.Backhand || c == Clip.HitPerfect || c == Clip.CelebratePoint || c == Clip.MatchWin;
+             if (!Match) look.ApplyHands(roll, 1, left);
+             if (cosmetics) cosmetics.SetCelebrating(c == Clip.CelebratePoint || c == Clip.MatchWin);
++            ApplyOpenForehandClearance(c, t, 1);
+             FinalizeGarments();
+         }
++        // The male open forehand folds its forearm through the right waist at
++        // contact. Swivel the elbow about the unchanged shoulder-to-wrist axis;
++        // restore the wrist orientation so every finger and racket socket stays
++        // on the exact original contact transform. Only this authored clip window
++        // receives the correction; the matching sparse shirt fit is finalized later.
++        void ApplyOpenForehandClearance(Clip clip, float poseTime, float blend)
++        {
++            if (!Match || matchLook.female || matchLook.golfKit) return;
++            if (!garmentCorrectives) garmentCorrectives = matchLook.GetComponent<HeroGarmentPoseCorrectives>();
++            float relative = poseTime - contact[(int)Clip.ForehandOpen];
++            float window = 1 - Mathf.SmoothStep(0, 1, Mathf.Clamp01(Mathf.Abs(relative) / .16f));
++            float amount = clip == Clip.ForehandOpen && !(isPlayer && game && game.DiveActive)
++                ? window * Mathf.Clamp01(blend) : 0;
++            if (garmentCorrectives) garmentCorrectives.OpenForehandWaist = amount;
++            if (amount <= .00001f) return;
++            var upper = Bone(HumanBodyBones.RightUpperArm);
++            var lower = Bone(HumanBodyBones.RightLowerArm);
++            var hand = Bone(HumanBodyBones.RightHand);
++            if (!upper || !lower || !hand) return;
++            var axis = hand.position - upper.position;
++            if (axis.sqrMagnitude < .000001f) return;
++            var handRotation = hand.rotation;
++            var lowerRotation = lower.rotation;
++            var swivel = Quaternion.AngleAxis(60f * amount, axis.normalized);
++            upper.rotation = swivel * upper.rotation;
++            lower.rotation = swivel * lowerRotation;
++            hand.rotation = handRotation;
++        }
++
+         public float ContactOf(Clip c) => contact[(int)c];
+         public float LengthOf(Clip c) => length[(int)c];
+ 

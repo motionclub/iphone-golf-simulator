@@ -75,6 +75,19 @@ def build(hero_id, dname, outp):
             nn = far[1] / np.linalg.norm(far[1])
             if nn @ d < 0: nn = -nn
             Vg[j, i] = far[0] + nn * (D['lift'] + .0006); Ng[j, i] = nn
+    # outliers: a ray that missed the band or hit something behind it (a loop, a pocket) throws the strap off the waist: per row, any point
+    # whose radius from the axis is more than 12 mm off the ring's running median goes back onto the median radius (male-garments chat, 10-17)
+    qm = Vg[rows // 2] - np.array([0, yc, 0]); rm = (qm[:, :2] * np.stack([np.sin(ang), -np.cos(ang)], 1)).sum(1); k = 9
+    ref = np.array([np.median(np.take(rm, range(i - k, i + k + 1), mode='wrap')) for i in range(N)])    # the middle row (always on the band) is the reference
+    for j in range(rows):
+        q = Vg[j] - np.array([0, yc, 0]); rr = np.hypot(q[:, 0], q[:, 1]); along = (q[:, :2] * np.stack([np.sin(ang), -np.cos(ang)], 1)).sum(1)
+        med = ref
+        bad = (np.abs(rr - med) > .012) | (np.abs(along - rr) > .006)          # off the median radius, or not on its own ray
+        if bad.any():
+            dirs = np.stack([np.sin(ang), -np.cos(ang)], 1)                  # the ray's own direction (a missed ray copied its neighbour's point)
+            Vg[j, bad, 0] = dirs[bad, 0] * med[bad]; Vg[j, bad, 1] = yc + dirs[bad, 1] * med[bad]
+            Ng[j, bad] = np.stack([dirs[bad, 0], dirs[bad, 1], np.zeros(bad.sum())], 1)
+            print('BELT row %d: %d outlier points pulled onto the ring' % (j, bad.sum()))
     # smooth the strap a little so it reads as one band (not the band's triangulation)
     for _ in range(3): Vg[:, 1:-1] = (Vg[:, :-2] + 2 * Vg[:, 1:-1] + Vg[:, 2:]) / 4; Vg = (np.roll(Vg, 1, 1) + 2 * Vg + np.roll(Vg, -1, 1)) / 4
     # UV: 4 panels (islands), u = arc length from the panel start, v = height

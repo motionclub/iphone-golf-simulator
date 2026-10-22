@@ -1,0 +1,191 @@
+{
+  "shots": [
+    {
+      "name": "basalt_az0",
+      "model": "Assets/Editor/PostcardV3Scratch/fixtures/p1_fixture.fbx",
+      "hole": 10,
+      "pos": [
+        0.0,
+        12,
+        -38.0
+      ],
+      "look": [
+        0,
+        8,
+        0
+      ],
+      "fov": 39.5977527,
+      "requireBands": false
+    },
+    {
+      "name": "basalt_az35",
+      "model": "Assets/Editor/PostcardV3Scratch/fixtures/p1_fixture.fbx",
+      "hole": 10,
+      "pos": [
+        21.795904581339748,
+        12,
+        -31.127777682981687
+      ],
+      "look": [
+        0,
+        8,
+        0
+      ],
+      "fov": 39.5977527,
+      "requireBands": false
+    },
+    {
+      "name": "basalt_az-35",
+      "model": "Assets/Editor/PostcardV3Scratch/fixtures/p1_fixture.fbx",
+      "hole": 10,
+      "pos": [
+        -21.795904581339748,
+        12,
+        -31.127777682981687
+      ],
+      "look": [
+        0,
+        8,
+        0
+      ],
+      "fov": 39.5977527,
+      "requireBands": false
+    },
+    {
+      "name": "needle_az0",
+      "model": "Assets/Editor/PostcardV3Scratch/fixtures/p1_fixture.fbx",
+      "hole": 8,
+      "pos": [
+        -34.0,
+        15,
+        -43.0
+      ],
+      "look": [
+        -34,
+        8,
+        0
+      ],
+      "fov": 39.5977527,
+      "requireBands": false
+    },
+    {
+      "name": "needle_az120",
+      "model": "Assets/Editor/PostcardV3Scratch/fixtures/p1_fixture.fbx",
+      "hole": 8,
+      "pos": [
+        3.239092362730865,
+        15,
+        21.499999999999993
+      ],
+      "look": [
+        -34,
+        8,
+        0
+      ],
+      "fov": 39.5977527,
+      "requireBands": false
+    },
+    {
+      "name": "needle_az240",
+      "model": "Assets/Editor/PostcardV3Scratch/fixtures/p1_fixture.fbx",
+      "hole": 8,
+      "pos": [
+        -71.23909236273084,
+        15,
+        21.500000000000018
+      ],
+      "look": [
+        -34,
+        8,
+        0
+      ],
+      "fov": 39.5977527,
+      "requireBands": false
+    },
+    {
+      "name": "cliff_az0",
+      "model": "Assets/Editor/PostcardV3Scratch/fixtures/p1_fixture.fbx",
+      "hole": 8,
+      "pos": [
+        34.0,
+        24.97770051956177,
+        -47.015170669555665
+      ],
+      "look": [
+        34,
+        8,
+        0
+      ],
+      "fov": 39.5977527,
+      "requireBands": false
+    },
+    {
+      "name": "cliff_az120",
+      "model": "Assets/Editor/PostcardV3Scratch/fixtures/p1_fixture.fbx",
+      "hole": 8,
+      "pos": [
+        74.71633216309624,
+        24.97770051956177,
+        23.507585334777826
+      ],
+      "look": [
+        34,
+        8,
+        0
+      ],
+      "fov": 39.5977527,
+      "requireBands": false
+    },
+    {
+      "name": "cliff_az240",
+      "model": "Assets/Editor/PostcardV3Scratch/fixtures/p1_fixture.fbx",
+      "hole": 8,
+      "pos": [
+        -6.716332163096233,
+        24.97770051956177,
+        23.507585334777854
+      ],
+      "look": [
+        34,
+        8,
+        0
+      ],
+      "fov": 39.5977527,
+      "requireBands": false
+    },
+    {
+      "name": "fairway_lawn",
+      "model": "Assets/Editor/PostcardV3Scratch/fixtures/p1_fixture.fbx",
+      "hole": 8,
+      "pos": [
+        -18,
+        32,
+        -42
+      ],
+      "look": [
+        -18,
+        0,
+        -30
+      ],
+      "fov": 39.5977527,
+      "requireBands": true
+    },
+    {
+      "name": "green_lawn",
+      "model": "Assets/Editor/PostcardV3Scratch/fixtures/p1_fixture.fbx",
+      "hole": 8,
+      "pos": [
+        18,
+        32,
+        -42
+      ],
+      "look": [
+        18,
+        0,
+        -30
+      ],
+      "fov": 39.5977527,
+      "requireBands": true
+    }
+  ]
+}

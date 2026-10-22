@@ -89,7 +89,8 @@ namespace GolfArcade.Course
     {
         public static Sky SkyOf(Hole hole) =>
             hole == null ? Sky.Rain
-            : hole.Theme == "magma" ? Sky.Ash
+            // MAJESTIC_WEATHER_HOOK: Adnan 10-17 (majestic-all-maps PLAN 4.5 #1): the Magma Open's holes 10 and 16 draw the ash family.
+            : hole.Theme == "magma" || hole.Number == 10 || hole.Number == 16 ? Sky.Ash
             : Array.Exists(hole.Hazards ?? Array.Empty<CourseHazard>(), h => h.Kind == HazardKind.Ice) ? Sky.Snow
             : Sky.Rain;
 
@@ -104,10 +105,10 @@ namespace GolfArcade.Course
 
         public static string Line(this Weather w, Sky sky) => w switch
         {
-            Weather.Gusty => "The wind shifts every shot",
+            Weather.Gusty => "Wind changes between equivalent turns",
             Weather.Rain => sky switch { Sky.Snow => "Soft snow: less roll, slower greens", Sky.Ash => "Ash on the turf: less roll, slower greens", _ => "Wet turf: less roll, slower greens" },
             Weather.Storm => sky switch { Sky.Snow => "Whiteout gusts and soft snow", Sky.Ash => "The volcano rumbles: ash and wild wind", _ => "Lightning, wild wind, soaked turf" },
-            Weather.Fog => "The green is hidden: trust the flag and the map",
+            Weather.Fog => "Dense fog: play local ground; follow the compass bearing",
             _ => "Fair conditions",
         };
 
@@ -136,17 +137,16 @@ namespace GolfArcade.Course
         /// Weather to be proud of playing well in (a bounty asks for par in it).
         public static bool IsRough(this Weather w) => w is Weather.Storm or Weather.Fog;
 
-        public static void Bend(this Weather w, PlayRules r)
+        public static void Bend(this Weather w, PlayRules r, Sky sky = Sky.Rain)
         {
             if (!w.IsWet()) return;
-            r.FairwayDrag *= 1.6;
-            r.GreenDrag *= 1.3;
-            r.Bounce *= 0.7;
+            r.FairwayDrag *= sky == Sky.Snow ? 1.85 : sky == Sky.Ash ? 1.2 : 1.6;
+            r.GreenDrag *= sky == Sky.Snow ? 1.5 : sky == Sky.Ash ? 1.12 : 1.3;
+            r.Bounce *= sky == Sky.Snow ? .55 : sky == Sky.Ash ? .85 : .7;
         }
     }
 
-    /// The round's events: the twists dealt before it starts, each hole's weather (and its turns
-    /// between shots), the gusts, and the things moving about each hole. Everything is drawn from
+    /// The round's events: the twists dealt before it starts, each hole's fixed weather, the gusts, and the things moving about each hole. Everything is drawn from
     /// the round's seed, so the same seed gives every phone in a multiplayer round the same round,
     /// and a hole replayed from its seed plays the same. Pure C#, tested without a scene.
     public sealed class RoundEvents
@@ -169,14 +169,16 @@ namespace GolfArcade.Course
 
         RoundEvents(int seed, Twist[] twists, bool weather, bool challenges) { Seed = seed; Dealt = twists; weatherOn = weather; challengesOn = challenges; }
 
-        /// The round's events from its seed, as the match settings have them: `twists` dealt or
-        /// not, the `world`'s — weather and the things moving about the holes — on or not
-        /// (clear skies and empty holes), and the `challenges` — a bounty on every hole — set out or
-        /// not (the golden rings come only with the Point Frenzy twist). None when events are off altogether.
+        /// The round's events from its seed. Normal rounds always include automatic weather
+        /// and authored hazards. The legacy world argument is ignored; only development tests
+        /// may disable events. Twists and challenges remain independently selectable.
         /// `frenzy` false keeps Point Frenzy out of the deal (a multiplayer round's: its rings and coins are a single player's).
         public static RoundEvents Deal(int seed, bool twists = true, bool world = true, bool challenges = true, bool frenzy = true)
         {
-            if (!Enabled || (!twists && !world && !challenges)) return None;
+            #if UNITY_EDITOR || DEVELOPMENT_BUILD
+            if (!Enabled) return None;
+#endif
+            world = true; // v5 ignores retired player world/weather overrides.
             if (!twists) return new RoundEvents(seed, Array.Empty<Twist>(), world, challenges);
             var rng = new Dice(Mix(seed, 0, 0x7157));
             var pool = new List<Twist>(Twists.All);
@@ -197,17 +199,17 @@ namespace GolfArcade.Course
         public static RoundEvents FromCode(int seed, string code)
         {
             int colon = string.IsNullOrEmpty(code) ? -1 : code.IndexOf(':');
-            if (colon < 1) return None;
+            if (colon < 1) return Deal(seed, false, true, false);
             string flags = code.Substring(0, colon);
             var list = new List<Twist>();
             foreach (var part in code.Substring(colon + 1).Split(','))
                 if (int.TryParse(part, out int n) && Enum.IsDefined(typeof(Twist), n) && !list.Contains((Twist)n)) list.Add((Twist)n);
-            return new RoundEvents(seed, list.ToArray(), flags.IndexOf('w') >= 0, flags.IndexOf('c') >= 0);
+            return new RoundEvents(seed, list.ToArray(), true, flags.IndexOf('c') >= 0);
         }
 
         /// For the multiplayer state: "" plain golf; else the world on ('w') or still ('s'), the
         /// challenges set out ('c'), then the twists by number ("w:0,4", "wc:3,5").
-        public string Code => !Any ? "" : (weatherOn ? "w" : "s") + (challengesOn ? "c" : "") + ":" + string.Join(",", Array.ConvertAll(Dealt, t => ((int)t).ToString()));
+        public string Code => !Any ? "" : (weatherOn ? "v5w" : "s") + (challengesOn ? "c" : "") + ":" + string.Join(",", Array.ConvertAll(Dealt, t => ((int)t).ToString()));
 
         /// Weather and the things moving about the holes are on.
         public bool World => weatherOn;
@@ -238,26 +240,14 @@ namespace GolfArcade.Course
         public Weather WeatherFor(int holeIndex)
         {
             if (!weatherOn) return Weather.Clear;
-            double u = Rng(holeIndex, 1).NextDouble();
-            // (a hurricane round is wild everywhere, and blows any fog away)
-            var (clear, gusty, rain, fog) = Has(Twist.Hurricane) ? (0.12, 0.42, 0.58, 0.58) : (0.36, 0.56, 0.74, 0.85);
-            return u < clear ? Weather.Clear : u < gusty ? Weather.Gusty : u < rain ? Weather.Rain : u < fog ? Weather.Fog : Weather.Storm;
+            return DreamConditions.WeatherFor(Seed, holeIndex);
         }
 
         /// The weather turning before the hole's `shot`th swing (0 is the tee shot, which never
         /// turns): rain rolling in, a storm breaking, the sky clearing; null when it holds.
         public Weather? TurnBefore(int holeIndex, int shot, Weather now)
         {
-            if (!weatherOn || shot < 1) return null;
-            double u = Rng(holeIndex, 100 + shot).NextDouble();
-            return now switch
-            {
-                Weather.Clear => u < 0.08 ? Weather.Rain : u < 0.15 ? Weather.Gusty : u < 0.18 && !Has(Twist.Hurricane) ? Weather.Fog : null,
-                Weather.Gusty => u < 0.08 ? Weather.Storm : u < 0.16 ? Weather.Clear : null,
-                Weather.Rain => u < 0.12 ? Weather.Storm : u < 0.26 ? Weather.Clear : null,
-                Weather.Fog => u < 0.22 ? Weather.Clear : null,
-                _ => u < 0.2 ? Weather.Rain : null,
-            };
+            return null; // Stable hole identity; only bounded gust intensity changes at turn boundaries.
         }
 
         /// The hole's wind from the round's draw, as the weather and the twists have it: a gusty
@@ -290,12 +280,12 @@ namespace GolfArcade.Course
         }
 
         /// The rules for a hole in this weather: the twists' and the weather's together.
-        public PlayRules RulesFor(Weather weather)
+        public PlayRules RulesFor(Weather weather, Sky sky = Sky.Rain)
         {
             if (Dealt.Length == 0 && !weather.IsWet()) return PlayRules.Standard;
             var r = new PlayRules();
             foreach (var t in Dealt) t.Bend(r);
-            weather.Bend(r);
+            weather.Bend(r, sky);
             return r;
         }
 
@@ -309,114 +299,13 @@ namespace GolfArcade.Course
         /// nothing moves today.
         public CourseMovers MoversFor(int holeIndex, Hole hole, Weather weather, Func<CoursePoint, double> ground = null)
         {
-            if (!weatherOn || hole?.Centerline == null || hole.Centerline.Length < 2) return null;
-            ground ??= hole.Ground ?? (_ => 0);
-            var rng = Rng(holeIndex, 3);
-            var tee = hole.Tee;
-            var aim = hole.RecommendedTarget(tee);
-            double leg = tee.DistanceTo(aim);
-            if (leg < 60) return null;
-            double ux = (aim.X - tee.X) / leg, ud = (aim.D - tee.D) / leg;   // down the line of play
-            double rx = ud, rd = -ux;                                       // and to its right
-            CoursePoint At(double along, double across) => new(tee.X + ux * along + rx * across, tee.D + ud * along + rd * across);
-
-            bool magma = hole.Theme == "magma";
-            bool rainSky = Weathers.SkyOf(hole) == Sky.Rain;
-            // what this hole could have, and at most two of them (every kind, for reviews), so a hole
-            // is never crowded and no two holes look alike
-            var could = new List<(MoverKind kind, double chance)>();
-            // (balloons ride an eruption's updraught: over the crater they fly in any weather)
-            if (weather != Weather.Storm || magma) could.Add((MoverKind.Balloon, 0.45));
-            if (hole.Par >= 4) could.Add((MoverKind.Cart, 0.45));
-            if (!magma && weather != Weather.Storm) could.Add((MoverKind.Gull, 0.45));
-            // a storm over the islands can throw down a twister
-            if (weather == Weather.Storm && rainSky && hole.Par >= 4) could.Add((MoverKind.Twister, 0.55));
-            for (int i = could.Count - 1; i > 0; i--) { int j = rng.Next(i + 1); (could[i], could[j]) = (could[j], could[i]); }
-            var kinds = new List<MoverKind>();
-            foreach (var (kind, chance) in could)
-                if (EveryMover || kinds.Count < 2 && rng.NextDouble() < chance) kinds.Add(kind);
-            if (kinds.Count == 0 && could.Count > 0 && rng.NextDouble() < 0.8) kinds.Add(could[0].kind);
-            var list = new List<Mover>();
-
-            // somewhere along the line between `lo` and `hi` of the way (and `min`–`max` yards), at
-            // least 45 yards from anything else already placed
-            var placed = new List<double>();
-            double Spot(double lo, double hi, double min, double max)
-            {
-                double Gap(double at) { double g = double.MaxValue; foreach (var p in placed) g = Math.Min(g, Math.Abs(p - at)); return g; }
-                double along = min;
-                bool free = false;
-                for (int attempt = 0; attempt < 10 && !free; attempt++)
-                {
-                    along = Math.Max(min, Math.Min(max, leg * (lo + (hi - lo) * rng.NextDouble())));
-                    free = Gap(along) >= 45;
-                }
-                // (a crowded hole: the roomiest spot there is)
-                if (!free) for (double at = min; at <= max; at += 5) if (Gap(at) > Gap(along)) along = at;
-                placed.Add(along);
-                return along;
-            }
-
-            foreach (var kind in kinds)
-            {
-                switch (kind)
-                {
-                    case MoverKind.Cart:
-                    {
-                        for (int attempt = 0; attempt < 8; attempt++)
-                        {
-                            double along = Spot(0.45, 0.85, 100, Math.Min(leg - 25, 260));
-                            double half = hole.FairwayWidth / 2 + 7 + 4 * rng.NextDouble();
-                            var m = Mover.CartLoop(At(along - 2.2, -half), At(along - 2.2, half), At(along + 2.2, half), At(along + 2.2, -half),
-                                4.2 + 1.2 * rng.NextDouble(), rng.NextDouble(), ground);
-                            if (CartFits(m, hole)) { list.Add(m); break; }
-                            placed.RemoveAt(placed.Count - 1);
-                        }
-                        break;
-                    }
-                    case MoverKind.Balloon:
-                    {
-                        double along = Spot(0.25, 0.8, 55, leg - 20);
-                        double reach = hole.FairwayWidth / 2 + 26 + 14 * rng.NextDouble();
-                        bool fromLeft = rng.NextDouble() < 0.5;
-                        var a = At(along, fromLeft ? -reach : reach); var b = At(along + 16 * (rng.NextDouble() - 0.5), fromLeft ? reach : -reach);
-                        double top = double.MinValue;
-                        for (int k = 0; k <= 10; k++) { double t = k / 10.0; top = Math.Max(top, ground(new CoursePoint(a.X + (b.X - a.X) * t, a.D + (b.D - a.D) * t))); }
-                        // high over the ground (often above a tee shot's arc) and its basket clear of every tree under its drift
-                        double height = Math.Max(top + 26 + 14 * rng.NextDouble(), TallestNear(hole, a, b, Mover.Envelope + 2) + Mover.BasketDrop + Mover.Basket + 2);
-                        list.Add(Mover.Balloon(a, b, height, 70 + 30 * rng.NextDouble(), rng.NextDouble(), rng.Next(4)));
-                        break;
-                    }
-                    case MoverKind.Gull:
-                    {
-                        // wheeling off to one side of the line, crossing it only now and then
-                        double along = Spot(0.3, 0.92, 60, leg - 5);
-                        double side = rng.NextDouble() < 0.5 ? -1 : 1;
-                        var centre = At(along, side * (14 + 16 * rng.NextDouble()));
-                        double radius = 7 + 5 * rng.NextDouble();
-                        // over the trees they wheel above
-                        double height = Math.Max(ground(centre) + 14 + 10 * rng.NextDouble(), TallestNear(hole, centre, centre, radius + 3) + 3);
-                        double speed = (0.32 + 0.16 * rng.NextDouble()) * (rng.NextDouble() < 0.5 ? -1 : 1);
-                        int count = 3 + rng.Next(3);
-                        double start = rng.NextDouble() * Math.PI * 2;
-                        for (int i = 0; i < count; i++)
-                            list.Add(Mover.Gull(centre, radius + (rng.NextDouble() - 0.5) * 4, height + (rng.NextDouble() - 0.5) * 3, speed,
-                                start + i * 0.55 + (rng.NextDouble() - 0.5) * 0.3, i));
-                        break;
-                    }
-                    default:
-                    {
-                        double along = Spot(0.45, 0.9, 110, leg - 10);
-                        double reach = hole.FairwayWidth / 2 + 8 + 6 * rng.NextDouble();
-                        bool fromLeft = rng.NextDouble() < 0.5;
-                        var a = At(along - 8 + 16 * rng.NextDouble(), fromLeft ? -reach : reach);
-                        var b = At(along - 8 + 16 * rng.NextDouble(), fromLeft ? reach : -reach);
-                        list.Add(Mover.Twister(a, b, 34 + 16 * rng.NextDouble(), rng.NextDouble(), ground));
-                        break;
-                    }
-                }
-            }
-            return list.Count == 0 ? null : new CourseMovers(list.ToArray());
+            if (!weatherOn || hole?.Centerline == null) { if(hole!=null)hole.Dream=null;return null; }
+            hole.Dream=DreamCourseLayout.Build(hole,Seed,weather);
+            var quirky=QuirkyObstacles.For(hole,Seed,ground,hole.Dream);
+            var solid=hole.Dream.SolidMovers();
+            if(quirky.Length==0)return new CourseMovers(solid);
+            var all=new Mover[solid.Length+quirky.Length];solid.CopyTo(all,0);quirky.CopyTo(all,solid.Length);
+            return new CourseMovers(all);
         }
 
         // ----- What there is to chase: rings and bounties -----

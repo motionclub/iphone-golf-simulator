@@ -1,0 +1,16 @@
+{
+  "baseline_runner_sha256": "d6b10a150164551979e49bd537fffbf8459aa6073a9660081eb1d923031fc8e8",
+  "candidate_runner_sha256": "31099025e4bcac2b15d76da85d54f103346ec17dc49cdbb615b29a87a31aa6d1",
+  "target_runner": "Unity/Assets/Scripts/Course/GolfMovingTurfProofRunner.cs",
+  "harness_patch": "windmill-water-fix.patch",
+  "recommended_runtime_patch": "runtime-water19-recommendation.patch",
+  "installed_runtime_sha256": "c5d7a49e1341ee6955c8596f9e8db819c321541e4c47fc5b14de1823163a0c53",
+  "runtime_edits": false,
+  "assets_edits": false,
+  "unity_run": false,
+  "only_affected_routes": [
+    19,
+    20
+  ],
+  "compile": "PASS; compile-proof.log empty; source-only no Unity run"
+}

@@ -1,0 +1,40 @@
+{
+  "scope": "Original approved golf polo plus additional conservative derived render-body coverage only. No Unity Assets changed by this source task.",
+  "files": {
+    "author.py": "0560dc91220294184b27025a47a11ccb5af3e9b5b980bf9640f6b89bd763c7da",
+    "render.py": "d13c7b52ec5ea49f5797ce48aaedc4c196b6f9ee07730e07dc3d87bef740b9fe",
+    "audit_facing.py": "2eaa2f4d2802de583e8660fab28e6824846fe064a9d7fba2459c2e4df152bc90",
+    "Mask_Male.json": "bd503232995acd77b231a1261e89bfb808d075f8666d51c4dde3a4da62b10294",
+    "Mask_Female.json": "08d82eb72936992f180f6500f7fd5427cc88480fd89c42a18c3dcfe2bcebbffa",
+    "Mask_Male_Runtime.json": "a63599ac37aacf92026e6926e20e39e49b417f771f26bd41be4e799b2973ace8",
+    "Mask_Female_Runtime.json": "49ea3616a5269993257c076055cd7de577f0c4d81a3f01528677e51eb19aaeeb",
+    "facing-audit.json": "5b88283e6bf51e2ff43e8a2650d76183643a98063f1904ccaef02dfc6d9349f4",
+    "source-report.json": "276ce144bfe3a6d41c4cab879da8a3f72e7b7257d00cd97f5a9d8ee817c9e889",
+    "author_fragments.py": "860e2c32c2d9dcfebd8dcdf431c79800e7c4039c602534cabe89ef4f12d94d6a",
+    "Fragments_Male_Runtime.json": "f3913754c2789db960675587584f8b922df579e9cd196dd4dab2525f6080cfb3",
+    "Fragments_Female_Runtime.json": "e22f3c4d8f5d492c52c5f23cafa5755807221a447f6e85e614485c567831f01b",
+    "open-loop-audit.json": "4e3e740d5a7464e9e73fe8c5600bbf15351eaa4eaeff8dcd7dcdac1dae43e794",
+    "GATE.md": "a192de1b8bdccd112d36b5b21c155c0316e02387708f099d7687947788c54dca"
+  },
+  "actualRuntimeAcceptance": "Root mappingPASS1043M/1065F; maskalonepartial; combinedmask+twosided improvesactual, allviewsreviewpending",
+  "poses": "proof/reference-rebuild/golf-cloth-control16:40fullpose/310compactmatrices",
+  "oracle": "Body LBS\u00d71.093600 reconstructs source Bake within0.0008mm; normalizer handles yards/metres. FullBody bindposes exact across53 bones; complete cloth14 Body used for correspondence only. Render candidate uses exact current maskedBody indices and weights.",
+  "removedFaces": {
+    "Male": 1043,
+    "Female": 1065
+  },
+  "failuresParked": [
+    "Disconnected replacement panels made large seams.",
+    "Continuous added lining caused visible overlapping flaps. Neither was installed."
+  ],
+  "proofs": [
+    "male_front_before-after-hem-safe.png",
+    "male_back_before-after-hem-safe.png",
+    "female_front_before-after-hem-safe.png",
+    "female_back_before-after-hem-safe.png"
+  ],
+  "optionalUnpromotedPruneFaces": {
+    "Male": 70,
+    "Female": 66
+  }
+}

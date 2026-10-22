@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="14" result="Passed" total="14" passed="14" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-15 16:42:30Z" end-time="2026-10-15 16:42:36Z" duration="6.2179128">
+  <test-suite type="TestSuite" id="1000" name="Golf Arcade" fullname="Golf Arcade" runstate="Runnable" testcasecount="575" result="Passed" start-time="2026-10-15 16:42:30Z" end-time="2026-10-15 16:42:36Z" duration="6.217913" total="14" passed="14" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1666" name="GolfArcade.Tests.dll" fullname="/private/tmp/animation-safety-01a13e62/Library/ScriptAssemblies/GolfArcade.Tests.dll" runstate="Runnable" testcasecount="575" result="Passed" start-time="2026-10-15 16:42:30Z" end-time="2026-10-15 16:42:36Z" duration="6.213445" total="14" passed="14" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="22181" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1667" name="GolfArcade" fullname="GolfArcade" runstate="Runnable" testcasecount="487" result="Passed" start-time="2026-10-15 16:42:30Z" end-time="2026-10-15 16:42:36Z" duration="6.209535" total="14" passed="14" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1668" name="Tests" fullname="GolfArcade.Tests" runstate="Runnable" testcasecount="487" result="Passed" start-time="2026-10-15 16:42:30Z" end-time="2026-10-15 16:42:36Z" duration="6.208708" total="14" passed="14" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1097" name="AnimationSafetyTests" fullname="GolfArcade.Tests.AnimationSafetyTests" classname="GolfArcade.Tests.AnimationSafetyTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-15 16:42:30Z" end-time="2026-10-15 16:42:30Z" duration="0.062416" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1098" name="GolfAndTennisUseTheSameEmotePlaybackBudget" fullname="GolfArcade.Tests.AnimationSafetyTests.GolfAndTennisUseTheSameEmotePlaybackBudget" methodname="GolfAndTennisUseTheSameEmotePlaybackBudget" classname="GolfArcade.Tests.AnimationSafetyTests" runstate="Runnable" seed="1626727222" result="Passed" start-time="2026-10-15 16:42:30Z" end-time="2026-10-15 16:42:30Z" duration="0.012469" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1101" name="OrientationChangeRetainsVisiblePoseThenArrivesAtNewPose" fullname="GolfArcade.Tests.AnimationSafetyTests.OrientationChangeRetainsVisiblePoseThenArrivesAtNewPose" methodname="OrientationChangeRetainsVisiblePoseThenArrivesAtNewPose" classname="GolfArcade.Tests.AnimationSafetyTests" runstate="Runnable" seed="1566354628" result="Passed" start-time="2026-10-15 16:42:30Z" end-time="2026-10-15 16:42:30Z" duration="0.015473" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1099" name="ThrustTimingNeverReversesOrSkipsItsEndpoints" fullname="GolfArcade.Tests.AnimationSafetyTests.ThrustTimingNeverReversesOrSkipsItsEndpoints" methodname="ThrustTimingNeverReversesOrSkipsItsEndpoints" classname="GolfArcade.Tests.AnimationSafetyTests" runstate="Runnable" seed="1003078430" result="Passed" start-time="2026-10-15 16:42:30Z" end-time="2026-10-15 16:42:30Z" duration="0.002025" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1100" name="TwoBoneCorrectionPreservesLengthsAndReachesAReachableTarget" fullname="GolfArcade.Tests.AnimationSafetyTests.TwoBoneCorrectionPreservesLengthsAndReachesAReachableTarget" methodname="TwoBoneCorrectionPreservesLengthsAndReachesAReachableTarget" classname="GolfArcade.Tests.AnimationSafetyTests" runstate="Runnable" seed="1004754334" result="Passed" start-time="2026-10-15 16:42:30Z" end-time="2026-10-15 16:42:30Z" duration="0.001192" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1143" name="FemaleDeformationTests" fullname="GolfArcade.Tests.FemaleDeformationTests" classname="GolfArcade.Tests.FemaleDeformationTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-15 16:42:30Z" end-time="2026-10-15 16:42:36Z" duration="6.109631" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1146" name="BackhandAndServeContactTransformsStayExact" fullname="GolfArcade.Tests.FemaleDeformationTests.BackhandAndServeContactTransformsStayExact" methodname="BackhandAndServeContactTransformsStayExact" classname="GolfArcade.Tests.FemaleDeformationTests" runstate="Runnable" seed="63821513" result="Passed" start-time="2026-10-15 16:42:30Z" end-time="2026-10-15 16:42:34Z" duration="3.909929" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[HeroFaceReferenceFit] female Body: moved=12391; belowHeadChanges=0; minJacobian=0.214120612; topologySame=True; weightsSame=True; bindsSame=True
+[HeroFaceReferenceFit] female ReferenceFeatures: moved=3004; belowHeadChanges=0; minJacobian=0.6941224; topologySame=True; weightsSame=True; bindsSame=True
+[HeroOriginalSeam] blink normal isolation body: cleared=64229; base geometry/normals unchanged
+[HeroOriginalSeam] blink normal isolation features: cleared=6008; base geometry/normals unchanged
+[HeroOriginalSeam] installed Female body=34443 features=3004; original rig and eye proportions retained; legacy face layers bypassed
+[HeroHandWeights] Female Left thumb-root vertices=27 radius=0.01
+[HeroHandWeights] Female Right thumb-root vertices=9 radius=0.01
+[HeroHandWeights] exact geometry/rest retained; changed=36 maxWeightL1=1.8
+[HeroSkinNormals] field=area-continuous source=Body (reference face fit) (local blink normals) (thumb root weights)(Clone) (continuous shoulder weights) selected=18726 changed=11230 radiusMetres=0.012 capDegrees=45 maxNormalDegrees=45 maxVertexDeltaSquared=0; source topology/weights/UVs/morphs cloned unchanged
+[HeroBlinkNormalField] rebuilt=2051; source vertices/shape positions unchanged; accepted base normals retained
+[HeroHeadSurface] Female origin=(0.000000, 0.002330, 1.490000) eye=(0.000000, -0.114136, 0.057103) frame=(1.000000, 0.000009, 0.000000)/(0.000000, -0.023316, 0.999728)/(0.000009, -0.999728, -0.023316) cheekMaskMax=0.957235 noseMaskMax=0.9681084 shader=GolfArcade/HeroFaceSkin hasHeadUniform=True
+]]></output>
+            </test-case>
+            <test-case id="1145" name="NeutralSkirtAndUnderShortsKeepTheirOriginalBinding" fullname="GolfArcade.Tests.FemaleDeformationTests.NeutralSkirtAndUnderShortsKeepTheirOriginalBinding" methodname="NeutralSkirtAndUnderShortsKeepTheirOriginalBinding" classname="GolfArcade.Tests.FemaleDeformationTests" runstate="Runnable" seed="1455825889" result="Passed" start-time="2026-10-15 16:42:34Z" end-time="2026-10-15 16:42:34Z" duration="0.775265" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[HeroOriginalSeam] installed Female body=34443 features=3004; original rig and eye proportions retained; legacy face layers bypassed
+[HeroHeadSurface] Female origin=(0.000000, 0.002330, 1.490000) eye=(0.000000, -0.114136, 0.057103) frame=(1.000000, 0.000009, 0.000000)/(0.000000, -0.023316, 0.999728)/(0.000009, -0.999728, -0.023316) cheekMaskMax=0.957235 noseMaskMax=0.9681084 shader=GolfArcade/HeroFaceSkin hasHeadUniform=True
+]]></output>
+            </test-case>
+            <test-case id="1144" name="ShoulderRepairPreservesTheExactNeutralSurfaceAndNormalizedWeights" fullname="GolfArcade.Tests.FemaleDeformationTests.ShoulderRepairPreservesTheExactNeutralSurfaceAndNormalizedWeights" methodname="ShoulderRepairPreservesTheExactNeutralSurfaceAndNormalizedWeights" classname="GolfArcade.Tests.FemaleDeformationTests" runstate="Runnable" seed="1544901933" result="Passed" start-time="2026-10-15 16:42:34Z" end-time="2026-10-15 16:42:35Z" duration="0.674653" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1147" name="WaveWristDoesNotHyperextendOrMoveTheHandAnchor" fullname="GolfArcade.Tests.FemaleDeformationTests.WaveWristDoesNotHyperextendOrMoveTheHandAnchor" methodname="WaveWristDoesNotHyperextendOrMoveTheHandAnchor" classname="GolfArcade.Tests.FemaleDeformationTests" runstate="Runnable" seed="1000404635" result="Passed" start-time="2026-10-15 16:42:35Z" end-time="2026-10-15 16:42:36Z" duration="0.745921" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[HeroOriginalSeam] installed Female body=34443 features=3004; original rig and eye proportions retained; legacy face layers bypassed
+[HeroHeadSurface] Female origin=(0.000000, 0.002330, 1.490000) eye=(0.000000, -0.114136, 0.057103) frame=(1.000000, 0.000009, 0.000000)/(0.000000, -0.023316, 0.999728)/(0.000009, -0.999728, -0.023316) cheekMaskMax=0.957235 noseMaskMax=0.9681084 shader=GolfArcade/HeroFaceSkin hasHeadUniform=True
+]]></output>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1627" name="TennisSpatialContactTests" fullname="GolfArcade.Tests.TennisSpatialContactTests" classname="GolfArcade.Tests.TennisSpatialContactTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-10-15 16:42:36Z" end-time="2026-10-15 16:42:36Z" duration="0.010675" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1628" name="ComfortableSpacingBeatsCrowdingAndStretchingOnEitherWing" fullname="GolfArcade.Tests.TennisSpatialContactTests.ComfortableSpacingBeatsCrowdingAndStretchingOnEitherWing" methodname="ComfortableSpacingBeatsCrowdingAndStretchingOnEitherWing" classname="GolfArcade.Tests.TennisSpatialContactTests" runstate="Runnable" seed="1072332142" result="Passed" start-time="2026-10-15 16:42:36Z" end-time="2026-10-15 16:42:36Z" duration="0.000967" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1630" name="ForwardStretchAndLateBodyPositionAlsoMoveContactOffCenter" fullname="GolfArcade.Tests.TennisSpatialContactTests.ForwardStretchAndLateBodyPositionAlsoMoveContactOffCenter" methodname="ForwardStretchAndLateBodyPositionAlsoMoveContactOffCenter" classname="GolfArcade.Tests.TennisSpatialContactTests" runstate="Runnable" seed="1838870380" result="Passed" start-time="2026-10-15 16:42:36Z" end-time="2026-10-15 16:42:36Z" duration="0.000198" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1633" name="FrameContactsStayPlayableAndGiveUpDepth" fullname="GolfArcade.Tests.TennisSpatialContactTests.FrameContactsStayPlayableAndGiveUpDepth" methodname="FrameContactsStayPlayableAndGiveUpDepth" classname="GolfArcade.Tests.TennisSpatialContactTests" runstate="Runnable" seed="761874174" result="Passed" start-time="2026-10-15 16:42:36Z" end-time="2026-10-15 16:42:36Z" duration="0.001239" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1631" name="OverheadsHaveTheirOwnComfortableZoneAboveTheShoulder" fullname="GolfArcade.Tests.TennisSpatialContactTests.OverheadsHaveTheirOwnComfortableZoneAboveTheShoulder" methodname="OverheadsHaveTheirOwnComfortableZoneAboveTheShoulder" classname="GolfArcade.Tests.TennisSpatialContactTests" runstate="Runnable" seed="1002074330" result="Passed" start-time="2026-10-15 16:42:36Z" end-time="2026-10-15 16:42:36Z" duration="0.000118" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1632" name="RealFrameContactIsAWeakReturnRatherThanAMiss" fullname="GolfArcade.Tests.TennisSpatialContactTests.RealFrameContactIsAWeakReturnRatherThanAMiss" methodname="RealFrameContactIsAWeakReturnRatherThanAMiss" classname="GolfArcade.Tests.TennisSpatialContactTests" runstate="Runnable" seed="12934163" result="Passed" start-time="2026-10-15 16:42:36Z" end-time="2026-10-15 16:42:36Z" duration="0.000344" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1629" name="SameSpatialContactHasSameGradeSpeedAndHapticsAcrossAimWindow" fullname="GolfArcade.Tests.TennisSpatialContactTests.SameSpatialContactHasSameGradeSpeedAndHapticsAcrossAimWindow" methodname="SameSpatialContactHasSameGradeSpeedAndHapticsAcrossAimWindow" classname="GolfArcade.Tests.TennisSpatialContactTests" runstate="Runnable" seed="1033455599" result="Passed" start-time="2026-10-15 16:42:36Z" end-time="2026-10-15 16:42:36Z" duration="0.001037" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[DONE EditMode: 14 passed, 0 failed, 0 skipped
+<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /Users/adnanyonathan/Library/Application Support/aloniewski/Golf Arcade/TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

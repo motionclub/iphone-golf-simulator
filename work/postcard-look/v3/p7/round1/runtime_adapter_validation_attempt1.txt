@@ -1,0 +1,1 @@
+Initial scratch validation exit1: AssertionError at adapter byte comparison. Separate output directories necessarily give measurement adapters different output paths. This was a harness comparison error; no Unity/native gate ran. Subsequent validation normalizes ONLY these two output path strings before exact comparison.

@@ -1,0 +1,26 @@
+{
+  "manifest": "MatchHero_Male_Distance",
+  "roles": [
+    "Kit_Top"
+  ],
+  "sourceManifestSha256": "0a5639538bc2d3cba1858e6490b1bc6ae82960a6c2872e41ba4733ba9098bca5",
+  "preservedNonGarmentParts": [
+    "Body",
+    "Face",
+    "Kit_Bottom",
+    "Kit_Shoe_L",
+    "Kit_Shoe_R",
+    "Kit_Sock_L",
+    "Kit_Sock_R",
+    "Racket_Racket_Classic",
+    "Racket_ButtCap",
+    "Racket_Grip",
+    "Racket_StringBed"
+  ],
+  "animationMaxDelta": 0,
+  "status": "PASS",
+  "baseOriginalBytesPreserved": 4506032,
+  "rigOriginalBytesPreserved": 18020224,
+  "bonesUnchanged": 53,
+  "swingFramesUnchanged": 12
+}

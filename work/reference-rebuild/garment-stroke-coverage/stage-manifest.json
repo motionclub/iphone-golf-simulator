@@ -1,0 +1,34 @@
+{
+  "Male": {
+    "acceptedExistingAnchorCount": 10,
+    "acceptedExistingAnchorContentExact": true,
+    "allBaseProfileFieldsExact": true,
+    "appendedAnchors": [
+      "male_Serve_0",
+      "male_Serve_1",
+      "male_Serve_2",
+      "male_Forehand_0",
+      "male_Forehand_1",
+      "male_Forehand_2"
+    ],
+    "sourceSHA256": "1a3e7e648d75036de1046e4acb4ac0a746a687c7c4d5a37b97b3248be046b684",
+    "stageSHA256": "9eecc18395dfabc66bf52f19c033c7e10048c3e66d96ba4f1ca23b75952290a3",
+    "status": "WORK-ONLY SOURCE CANDIDATE; source raster and actual intervening-frame coverage review pending"
+  },
+  "Female": {
+    "acceptedExistingAnchorCount": 10,
+    "acceptedExistingAnchorContentExact": true,
+    "allBaseProfileFieldsExact": true,
+    "appendedAnchors": [
+      "female_Serve_0",
+      "female_Serve_1",
+      "female_Serve_2",
+      "female_Forehand_0",
+      "female_Forehand_1",
+      "female_Forehand_2"
+    ],
+    "sourceSHA256": "c51502bd7bb50e6d18616cab3919730640e6979b7c03cf3f8648943281216345",
+    "stageSHA256": "c137e99362d956f696790a1ed2f04b77a2602c17d97af78346edced004c35e11",
+    "status": "WORK-ONLY SOURCE CANDIDATE; source raster and actual intervening-frame coverage review pending"
+  }
+}

@@ -1,0 +1,42 @@
+GATE: PLANTS_ATLAS PASS Unity/Assets/Resources/Course/Look/Plants_C.png 256x256 sha d9f9063730bc (two generations identical: True)
+GATE: LIB_FACES PASS 41 library meshes, max faces 480 (max tris 480), tufts {'PLANT_TUFT_A': 78, 'PLANT_TUFT_B': 78, 'PLANT_TUFT_C': 78}, over 500: none
+GATE: ROCK_UNIQUE PASS 11 unique rock meshes, min verts 61, faces 101..210
+GATE: ROCK_VERTS_60 PASS contract target >= 60 vertices per rock mesh: min 61; under 60: none
+GATE: NO_ICOSAHEDRON PASS rock meshes with <= 12 verts: none
+GATE: BASALT_COLUMNS PASS ROCK_BASALT_A 26 column tops, 156 vertical faces (81%); ROCK_BASALT_B 17 column tops, 102 vertical faces (81%); ROCK_BASALT_C 12 column tops, 72 vertical faces (72%); ROCK_BASALT_D 23 column tops, 138 vertical faces (83%); ROCK_WALL_BASALT_A 26 column tops, 156 vertical faces (80%); ROCK_WALL_BASALT_B 26 column tops, 156 vertical faces (81%); ROCK_WALL_BASALT_C 25 column tops, 150 vertical faces (81%)
+GATE: UV_TILE_UNITS PASS box UV = object space / contract tile (rock 4, basalt 8, masonry 4, rough cap 12) on 24 meshes; bad: none
+GATE: UV_NONDEGENERATE PASS faces with zero UV area: none
+GATE: UV_IN_SWATCH PASS 16 plant meshes, every face inside one swatch 6 px inside its border; bad: none
+GATE: PLANTS_ONE_MATERIAL PASS all 16 plant meshes = [LK_PLANTS], no other prop uses it; wrong: none
+GATE: SCATTER_BUDGET_WORST PASS 600 x max tuft + 40 x max shrub + 80 x max flower + 60 x max rock = 122720 tris
+GATE: CONE_NO_UNDERCUT PASS DRESS_CONE 421 faces, 15 rings x 28: radius growing upward 0, z folds 0
+GATE: WATERFALL_SHEET PASS WATER_FALL_00: LK_FALL, v 0 (top) .. 1 (foot) monotone True, mean normal . out_dir 0.88, 96 faces, foot = {'pos': (3025.0, 10.34999942779541, 0.0), 'width': 5.1, 'dir': (0.0, -1.0)}
+GATE: BASALT_SKIN_INSIDE PASS 1 skin meshes (333 faces, max 333 per object) stay inside the pillar outline (max ellipse value 0.947 <= 1) and under its top (max z 5.980 <= 5.98)
+GATE: MASONRY_ARCH PASS DRESS_ARCH_00: 62 separate cut blocks (piers, voussoirs, keystone, haunches, mortar core), 339 faces, 20 hanging vines, rock base + fallen blocks
+GATE: MASONRY_RUIN PASS 1 ruin wall meshes, 386 faces (~77 blocks), max 386 per object
+GATE: NAMES_SECTION2 PASS 1008 prop objects + meshes, bad: none
+GATE: NO_ANIMATION PASS objects with animation data / actions: none
+hole 08: terrain+play 0.2s, scatter 0.6s: rocks 60, shrubs 40, flowers 80, tufts 600, tris 114126
+GATE: SCATTER_SAFE_08 PASS 780 props; footprint rays hitting 7 play meshes (fairway/first cut/green/apron/tee/bunker+lip): 0 []; land props standing in water: 0; nearest prop to the pin 15.9 m (>= 6)
+GATE: INSTANCED_08 PASS 780 prop objects share 19 library meshes (linked duplicates, every mesh is a hidden library mesh)
+GATE: HOLE_BUDGET_08 PASS placed 600/600 tufts + 40/40 shrubs + 80/80 flowers + 60/60 rocks = 114126 tris (<= 150k)
+GATE: PROP_NAMES_08 PASS collision-prefix / non-section-2 names: none
+GATE: DETERMINISTIC_08 PASS 19 library meshes rebuilt in a fresh file are identical: yes
+GATE: LEGACY_SWAP_08 PASS 21/21 icosahedron instances -> ['ROCK_BLOCK_A_WET', 'ROCK_BOULDER_A_WET', 'ROCK_BOULDER_B_WET', 'ROCK_SEASTACK_B_WET']; local box kept (max corner error 0.0 mm); 12-vertex rocks left: 0
+GATE: FBX_GEOMETRY_ONCE PASS props_test_08.fbx: 19 Geometry nodes for 19 unique meshes, 780 Model nodes, 754 KB
+hole 09: terrain+play 0.6s, scatter 0.6s: rocks 60, shrubs 40, flowers 80, tufts 600, tris 114116
+GATE: SCATTER_SAFE_09 PASS 780 props; footprint rays hitting 11 play meshes (fairway/first cut/green/apron/tee/bunker+lip): 0 []; land props standing in water: 0; nearest prop to the pin 19.1 m (>= 6)
+GATE: INSTANCED_09 PASS 780 prop objects share 19 library meshes (linked duplicates, every mesh is a hidden library mesh)
+GATE: HOLE_BUDGET_09 PASS placed 600/600 tufts + 40/40 shrubs + 80/80 flowers + 60/60 rocks = 114116 tris (<= 150k)
+GATE: PROP_NAMES_09 PASS collision-prefix / non-section-2 names: none
+GATE: DETERMINISTIC_09 PASS 19 library meshes rebuilt in a fresh file are identical: yes
+GATE: LEGACY_SWAP_09 PASS 21/21 icosahedron instances -> ['ROCK_BLOCK_A_WET', 'ROCK_BOULDER_A_WET', 'ROCK_BOULDER_B_WET', 'ROCK_SEASTACK_A_WET', 'ROCK_SLAB_A_WET']; local box kept (max corner error 0.0 mm); 12-vertex rocks left: 0
+hole 10: terrain+play 0.1s, scatter 0.3s: rocks 60, shrubs 40, flowers 80, tufts 600, tris 113936
+GATE: SCATTER_SAFE_10 PASS 780 props; footprint rays hitting 9 play meshes (fairway/first cut/green/apron/tee/bunker+lip): 0 []; land props standing in water: 0; nearest prop to the pin 17.8 m (>= 6)
+GATE: INSTANCED_10 PASS 780 prop objects share 17 library meshes (linked duplicates, every mesh is a hidden library mesh)
+GATE: HOLE_BUDGET_10 PASS placed 600/600 tufts + 40/40 shrubs + 80/80 flowers + 60/60 rocks = 113936 tris (<= 150k)
+GATE: PROP_NAMES_10 PASS collision-prefix / non-section-2 names: none
+GATE: DETERMINISTIC_10 PASS 17 library meshes rebuilt in a fresh file are identical: yes
+GATE: LEGACY_SWAP_10 PASS 20/20 icosahedron instances -> ['ROCK_BASALT_A', 'ROCK_BASALT_B', 'ROCK_BASALT_D', 'ROCK_WALL_BASALT_B']; local box kept (max corner error 0.0 mm); 12-vertex rocks left: 0
+GATE: PROPS_SHEET PASS ArtDir/screenshots/golf_postcards/look/props_sheet.png 2424x2030 (12 panels)
+SUMMARY: 38/38 gates PASS in 14.2s

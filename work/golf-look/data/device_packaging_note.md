@@ -1,0 +1,1 @@
+Diagnostic player uses LZ4HC lossless data packaging for BOTH before and after, to fit device storage. This changes archive packaging only; textures, geometry, graphics quality/pipeline and runtime source are unchanged. Previous uncompressed export/build logs retained. No performance pass until actual phone samples are captured.

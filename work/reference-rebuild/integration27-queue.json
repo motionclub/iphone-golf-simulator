@@ -1,0 +1,102 @@
+[
+  {
+    "name": "reference-gusset-harmonic1-framefix",
+    "method": "GolfArcade.EditorTools.VisualOverhaulCharacterCapture.Run",
+    "env": {
+      "VISUAL_CHARACTER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/gusset-harmonic1-framefix",
+      "VISUAL_REFERENCE_HEAD": "0",
+      "VISUAL_CHARACTER_STARTER": "1",
+      "VISUAL_CHARACTER_SKIN_MALE": "E58D64",
+      "VISUAL_CHARACTER_SKIN_FEMALE": "F5AB7F",
+      "VISUAL_CHARACTER_CLIPS": "IntroWave,Serve",
+      "VISUAL_CHARACTER_DISABLE_SSAO": "1",
+      "VISUAL_CHARACTER_STUDIO": "warm",
+      "VISUAL_HERO_COLOR": "0",
+      "VISUAL_CHARACTER_SURFACE": "custom",
+      "VISUAL_HERO_FILMIC": "1",
+      "VISUAL_CHARACTER_NORMALS": "continuous",
+      "VISUAL_CHARACTER_SWATCHES": "1",
+      "VISUAL_ORIGINAL_SEAM": "0",
+      "VISUAL_CHARACTER_FACE_ALIGNED": "0",
+      "VISUAL_CHARACTER_BLINK_REVIEW": "0",
+      "VISUAL_CHARACTER_FULL_REVIEW": "1",
+      "VISUAL_ORIGINAL_EYE_MATERIAL": "1",
+      "VISUAL_CHARACTER_CLOTH_REVIEW": "1",
+      "VISUAL_CHARACTER_CLOTH_MOTION_REVIEW": "1",
+      "VISUAL_CHARACTER_CLOTH_CLIPS": "Forehand",
+      "VISUAL_CHARACTER_CLOTH_SAMPLES": "5",
+      "VISUAL_CHARACTER_CLOTH_REAR": "1",
+      "VISUAL_CHARACTER_CLOTH_NO_DUMPS": "0",
+      "VISUAL_CLOTH_TWO_SIDED": "0",
+      "VISUAL_GARMENT_COVERAGE": "1",
+      "VISUAL_CHARACTER_MATCH_LOD": "0",
+      "VISUAL_UNDERARM_FIT": "0",
+      "VISUAL_CHARACTER_CLOTH_MATRIX_DUMPS": "1",
+      "VISUAL_UNDERARM_GUSSET": "1",
+      "VISUAL_CHARACTER_SEX": "female",
+      "VISUAL_UNDERARM_GUSSET_STATS": "1",
+      "VISUAL_GUSSET_OWNERSHIP_GATE": "0"
+    },
+    "continue_on_failure": true
+  },
+  {
+    "name": "reference-native-adoption1-tennis",
+    "method": "GolfArcade.EditorTools.MatchHeroLockerExport.Run",
+    "env": {
+      "VISUAL_ORIGINAL_SEAM": "1",
+      "VISUAL_ORIGINAL_BLINK": "1",
+      "VISUAL_ORIGINAL_EYE_MATERIAL": "1",
+      "VISUAL_CHARACTER_SKIN_FINISH": "1",
+      "VISUAL_CHARACTER_NORMALS": "continuous",
+      "VISUAL_REFERENCE_HEAD": "0",
+      "MH_LOCKER_FACE_PARITY": "1",
+      "MH_LOCKER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-native-adoption1/export",
+      "MH_LOCKER_GOLDEN": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-native-adoption1/golden",
+      "MH_LOCKER_REPORT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-native-adoption1/tennis-export.txt"
+    },
+    "args": [
+      "-nographics"
+    ],
+    "quit": true
+  },
+  {
+    "name": "reference-native-adoption1-tennis-distance",
+    "method": "GolfArcade.EditorTools.MatchHeroLockerExport.RunDistance",
+    "env": {
+      "VISUAL_ORIGINAL_SEAM": "1",
+      "VISUAL_ORIGINAL_BLINK": "1",
+      "VISUAL_ORIGINAL_EYE_MATERIAL": "1",
+      "VISUAL_CHARACTER_SKIN_FINISH": "1",
+      "VISUAL_CHARACTER_NORMALS": "continuous",
+      "VISUAL_REFERENCE_HEAD": "0",
+      "MH_LOCKER_FACE_PARITY": "1",
+      "MH_LOCKER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-native-adoption1/export",
+      "MH_LOCKER_GOLDEN": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-native-adoption1/golden",
+      "MH_LOCKER_REPORT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-native-adoption1/tennis-distance-export.txt"
+    },
+    "args": [
+      "-nographics"
+    ],
+    "quit": true
+  },
+  {
+    "name": "reference-native-adoption1-golf",
+    "method": "GolfArcade.EditorTools.MatchHeroLockerExport.RunGolf",
+    "env": {
+      "VISUAL_ORIGINAL_SEAM": "1",
+      "VISUAL_ORIGINAL_BLINK": "1",
+      "VISUAL_ORIGINAL_EYE_MATERIAL": "1",
+      "VISUAL_CHARACTER_SKIN_FINISH": "1",
+      "VISUAL_CHARACTER_NORMALS": "continuous",
+      "VISUAL_REFERENCE_HEAD": "0",
+      "MH_LOCKER_FACE_PARITY": "1",
+      "MH_LOCKER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-native-adoption1/export",
+      "MH_LOCKER_GOLDEN": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-native-adoption1/golden",
+      "MH_LOCKER_REPORT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-native-adoption1/golf-export.txt"
+    },
+    "args": [
+      "-nographics"
+    ],
+    "quit": true
+  }
+]

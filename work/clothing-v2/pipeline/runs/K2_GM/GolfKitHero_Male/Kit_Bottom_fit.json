@@ -1,0 +1,34 @@
+{
+ "hero": "GolfKitHero_Male",
+ "tag": "Kit_Bottom",
+ "source": "dump:Kit_Bottom",
+ "seconds": 35.8,
+ "weights": {
+  "panels": 7,
+  "matched": 0.5940949935815147,
+  "inner": 0.26970474967907576,
+  "smooth_iters": 4,
+  "edge_mm": 14.510196200975379,
+  "allowed": "{0: ('LL', 'LR'), 1: ('T', 'LL', 'LR'), 2: ('T', 'P', 'LL'), 3: ('T', 'P', 'LR'), 4: ('T', 'LL'), 5: ('T', 'LR'), 6: ('T', 'P')}",
+  "side_mm_p5": 6.689402137826515
+ },
+ "shapes": 16,
+ "log": [
+  "FIT GolfKitHero_Male Kit_Bottom from dump:Kit_Bottom: 7790 verts 15200 tris",
+  "  weights: covered body groups T 5% P 4% AL 4% AR 3% LL 42% LR 42%",
+  "  weights: 7 panels, matched 59%, inner 27%, smooth 4 it (edge 14.5 mm)",
+  "  seams: 748 coincident vertices welded into 319 groups",
+  "  weights 3.0 s",
+  "  skin deep under Kit_Bottom (hidden, no clearance needed): 8998 of 44168 body vertices",
+  "  obstacles: body",
+  "    pose 0/153  2 s",
+  "    pose 25/153  7 s",
+  "    pose 50/153  12 s",
+  "    pose 75/153  18 s",
+  "    pose 100/153  23 s",
+  "    pose 125/153  27 s",
+  "    pose 150/153  32 s",
+  "  correctives: 119/153 poses need a lift (max 25.0 mm, p90 25.0 mm) in 33 s",
+  "  16 shapes, RBF sigma 0.552, anchor fit err max 0.038, weight at rest 0.0000"
+ ]
+}

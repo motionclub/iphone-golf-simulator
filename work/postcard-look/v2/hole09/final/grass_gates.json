@@ -1,0 +1,42 @@
+[
+ {
+  "id": "GRASS_NOT_ON_PLAY_SURFACES@blend",
+  "ok": true,
+  "detail": "841 PLANT_TUFT* (423 fringe, 418 field / skirt / old), every vertex (2 of 3 sampled) ray-cast down onto the FAIRWAY / GREEN / TEE_BOX / BUNKER meshes: 0 over a play surface []"
+ },
+ {
+  "id": "GRASS_NOT_ON_WATER@blend",
+  "ok": true,
+  "detail": "841 tufts / 49002 vertices: vertices over water 0; nearest origin to a shore / lip edge 1.11 m (>= 1.0, the hole gate's margin); origin vs the ray-cast ground max |dz| 0.020 m (<= 0.06); lowest origin z 5.98 (>= 5.0)"
+ },
+ {
+  "id": "GRASS_BALL_CLEAR@blend",
+  "ok": true,
+  "detail": "3 shot-ball zones [(0.0, 0.0, 1.5), (11.8, 235.0, 4.0), (13.5, 269.0, 4.0)] (course yd, r m): nearest tuft vertex vs the balls (worst margin +5.80 m), margin to the 6 m pin disc +12.56 m, to the 1.5 m markers +7.26 m; tops in the ball corridor (<= 17.2 m off the centerline or <= 12 m from a ball): max 0.498 m (<= 0.503 m = 0.55 yd), over none; whole hole max 1.24 m"
+ },
+ {
+  "id": "GRASS_FRINGE_PRESENT@blend",
+  "ok": true,
+  "detail": "423 fringe tufts (120 tall D/E/F + 303 filler S/T) in 79 clumps of 3-7 (largest 7), 4 pairs, 32 singles; 91% stand in a clump of >= 3 (>= 55 %); nearest-neighbour mean 1.10 m, CV 2.90 (>= 0.35), 13% of the distances within 10 % of the median (<= 45 %): not a grid; lean max 12.0 deg (<= 12), median 8.6; height factor 0.60..1.80 median 0.93 (0.6-1.8); no scale component outside the SCALE_LIMITS on any of the 841 tufts; coverage of the rough-edge strips (a fringe tuft within 2.2 m of a 2 m grid point 0.35-2.5 m outside a play surface / 0.9-2.5 m inside the lip): tee view 67/166 = 40% (>= 30 %), green end 54/238 = 23% (>= 20 %), ribbon middle 56/363 = 15%; plus 130 field and 48 skirt tufts on the scrub ridge"
+ },
+ {
+  "id": "GRASS_TRI_BUDGET@blend",
+  "ok": true,
+  "detail": "247459 triangles over 1417 mesh objects (<= 250000; before the grass pass 247439: +20); all 841 PLANT_TUFT* = 48024 tris, fringe 423 tufts = 24894 tris (59 per tuft); FBX 5.31 MB (<= 20); animation actions 0"
+ },
+ {
+  "id": "GRASS_NOT_ON_PLAY_SURFACES@fbx",
+  "ok": true,
+  "detail": "841 PLANT_TUFT* (0 fringe, 841 field / skirt / old), every vertex (2 of 3 sampled) ray-cast down onto the FAIRWAY / GREEN / TEE_BOX / BUNKER meshes: 0 over a play surface []"
+ },
+ {
+  "id": "GRASS_NOT_ON_WATER@fbx",
+  "ok": true,
+  "detail": "841 tufts / 49002 vertices: vertices over water 0; nearest origin to a shore / lip edge 1.11 m (>= 1.0, the hole gate's margin); origin vs the ray-cast ground max |dz| 0.020 m (<= 0.06); lowest origin z 5.98 (>= 5.0)"
+ },
+ {
+  "id": "GRASS_BALL_CLEAR@fbx",
+  "ok": true,
+  "detail": "3 shot-ball zones [(0.0, 0.0, 1.5), (11.8, 235.0, 4.0), (13.5, 269.0, 4.0)] (course yd, r m): nearest tuft vertex vs the balls (worst margin +5.80 m), margin to the 6 m pin disc +12.56 m, to the 1.5 m markers +7.26 m; tops in the ball corridor (<= 17.2 m off the centerline or <= 12 m from a ball): max 0.498 m (<= 0.503 m = 0.55 yd), over none; whole hole max 1.24 m"
+ }
+]

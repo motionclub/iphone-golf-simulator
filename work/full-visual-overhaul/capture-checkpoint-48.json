@@ -1,0 +1,18 @@
+[
+  {
+    "name": "character-pass-26-art4",
+    "method": "GolfArcade.EditorTools.VisualOverhaulCharacterCapture.Run",
+    "env": {
+      "VISUAL_CHARACTER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/character-pass-26-art4",
+      "VISUAL_CHARACTER_STARTER": "1",
+      "VISUAL_CHARACTER_CLIPS": "Ready,IntroWave,IntroPushups"
+    }
+  },
+  {
+    "name": "golf-characters-pass-10",
+    "method": "GolfArcade.EditorTools.VisualOverhaulGolfCharacterCapture.Run",
+    "env": {
+      "VISUAL_GOLF_CHARACTER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-characters-pass-10"
+    }
+  }
+]

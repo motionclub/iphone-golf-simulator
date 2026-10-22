@@ -47,6 +47,8 @@ final class PartyChat {
     private(set) var recording: [String: String] = [:]
     /// The chat sheet is open (new messages are read as they arrive).
     var chatOpen = false { didSet { if chatOpen { unread = 0 } } }
+    /// The inline chat strip (PartyChatStrip) is open over the game: typing without leaving the controller or the Plaza.
+    var stripOpen = false { didSet { if stripOpen { unread = 0 } } }
     var incomingTextVisible: Bool { didSet { defaults.set(incomingTextVisible, forKey: "party.showText") } }
     var soundOnMessage: Bool { didSet { defaults.set(soundOnMessage, forKey: "party.msgSound") } }
     /// Muted for this session and after (their messages and voice are dropped on this phone).
@@ -58,6 +60,8 @@ final class PartyChat {
     @ObservationIgnored var now: @MainActor () -> Date = { Date() }
     @ObservationIgnored var localName: @MainActor () -> String = { "Player" }
     @ObservationIgnored var haptic: @MainActor () -> Void = {}
+    /// Already filtered, visible messages only; the Plaza displays these over the speaker.
+    @ObservationIgnored var onMessage: (@MainActor (PartyChatMessage) -> Void)?
     /// Where voice frames go (the voice coordinator; nil while voice is off).
     @ObservationIgnored var voiceHandler: (@MainActor (Data, String) -> Void)?
     /// Party members the voice engine has been told about (so it can forget the ones who left).
@@ -158,12 +162,13 @@ final class PartyChat {
             add(PartyChatMessage(senderID: sender, senderName: display, text: clean.text, date: t, filtered: clean.flagged))
         default: return
         }
-        if !chatOpen { unread += 1; haptic() }
+        if !chatOpen && !stripOpen { unread += 1; haptic() }
     }
 
     private func add(_ message: PartyChatMessage) {
         messages.append(message)
         if messages.count > Self.history { messages.removeFirst(messages.count - Self.history) }
+        if message.kind != .system { onMessage?(message) }
     }
 
     func systemNote(_ text: String) { add(PartyChatMessage(senderID: "", senderName: "", text: text, kind: .system, date: now())) }
@@ -197,7 +202,7 @@ final class PartyChat {
     func membersChanged() {
         let ids = Set(channel.members.map(\.id))
         recording = recording.filter { ids.contains($0.key) }
-        if !channel.inParty { messages = []; unread = 0 }
+        if !channel.inParty { messages = []; unread = 0; stripOpen = false }
     }
 
     func say(_ text: String) { notice = text }
@@ -207,6 +212,6 @@ final class PartyChat {
     private func decode(_ s: String) -> [String: Any]? { (try? JSONSerialization.jsonObject(with: Data(s.utf8))) as? [String: Any] }
 
     #if DEBUG
-    func debugReset() { messages = []; unread = 0; recording = [:]; muted = []; sentTimes = []; heard = [:]; names = [:]; chatOpen = false; notice = "" }
+    func debugReset() { messages = []; unread = 0; recording = [:]; muted = []; sentTimes = []; heard = [:]; names = [:]; chatOpen = false; stripOpen = false; notice = "" }
     #endif
 }

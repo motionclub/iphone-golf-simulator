@@ -1,0 +1,11 @@
+--- a/GolfArcade/Unity/TennisMenu.swift
++++ b/GolfArcade/Unity/TennisMenu.swift
+@@ -525,7 +525,7 @@
+     /// Unity finished the tutorial (tennis: every step; golf: the practice shot).
+     func tutorialFinished() {
+         guard let launch, launch.mode == .tutorial else { return }
+-        if progress.finishedTutorial(launch.sport) && !OnboardingFlow.shared.store.rewardClaimed(launch.sport) {
++        if progress.finishedTutorial(launch.sport) && !OnboardingFlow.shared.store.explicitRun && !OnboardingFlow.shared.store.rewardClaimed(launch.sport) {
+             OnboardingFlow.shared.store.markReward(launch.sport, xp: 0, item: nil)
+         }
+         progress.completeTutorial(launch.sport)

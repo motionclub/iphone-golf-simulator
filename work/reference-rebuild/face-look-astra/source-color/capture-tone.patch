@@ -1,0 +1,25 @@
+--- Unity/Assets/Editor/TennisVenueCapture.cs
++++ Unity/Assets/Editor/TennisVenueCapture.cs
+@@ -81,6 +81,22 @@
+                 game.SelectCharacter(reviewSex=="female");
+                 for(int settle=0;settle<3;settle++)yield return null;
+             }
++            var captureHero=game.Player.GetComponentInChildren<MatchHeroLook>();
++            var authoredCaptureTone=captureHero && captureHero.body && captureHero.body.sharedMaterial
++                ? ColorUtility.ToHtmlStringRGB(captureHero.body.sharedMaterial.GetColor("_BaseColor")) : "missing";
++            var reviewSkin=System.Environment.GetEnvironmentVariable("HERO_VENUE_CHARACTER_SKIN");
++            if(!string.IsNullOrEmpty(reviewSkin)){
++                if(!ColorUtility.TryParseHtmlString("#"+reviewSkin.TrimStart('#'),out var tone))
++                    throw new System.ArgumentException("Invalid HERO_VENUE_CHARACTER_SKIN: "+reviewSkin);
++                var captureStyle=game.PlayerLook ?? HeroKit.Style.From(HeroKit.DefaultSkin,HeroKit.DefaultHair,0,default,5,game.FemalePlayer);
++                captureStyle.SkinTint=tone;game.SetPlayerLook(captureStyle);
++                for(int settle=0;settle<2;settle++)yield return null;
++            }
++            var activeCaptureTone=captureHero && captureHero.body && captureHero.body.sharedMaterial
++                ? ColorUtility.ToHtmlStringRGB(captureHero.body.sharedMaterial.GetColor("_BaseColor")) : "missing";
++            var toneAudit=$"sex={(game.FemalePlayer ? "female":"male")}; sourceDefault={authoredCaptureTone}; selectedOverride={reviewSkin ?? "none"}; activeBaseColor={activeCaptureTone}; playerLook={game.PlayerLook.HasValue}; skinPolish={Shader.GetGlobalFloat("_HeroSkinPolish")}; presentationFill={Shader.GetGlobalFloat("_HeroPresentationFill")}; filmResponse={Shader.GetGlobalFloat("_HeroFilmResponse")}";
++            Debug.Log("[VenueCapture skin] "+toneAudit);
++            File.WriteAllText(Path.Combine(Out,"skin-light-audit.txt"),toneAudit+"\n");
+             HeroGarmentLOD.ForceFullDetail=true;
+             foreach(var lod in Object.FindObjectsByType<HeroGarmentLOD>(FindObjectsSortMode.None))lod.Prepare(game.GameplayCamera);
+             foreach(var skin in Object.FindObjectsByType<SkinnedMeshRenderer>(FindObjectsSortMode.None))skin.updateWhenOffscreen=true;

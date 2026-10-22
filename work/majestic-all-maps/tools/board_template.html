@@ -1,0 +1,147 @@
+<title>Majestic Course Atlas</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: an atlas. One band per course, each hole a row of its five target views; a single switch flips every frame to today's game. */
+:root {
+  --paper: #f2f4f2; --card: #ffffff; --ink: #172430; --muted: #566572; --line: #d6dcda;
+  --sea: #0f7d86; --honey: #b87a12; --ember: #c2461c; --focus: #0f7d86;
+  --tag-bg: rgba(23, 36, 48, .78); --tag-fg: #ffffff;
+  --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #0f161c; --card: #17212a; --ink: #e6ecef; --muted: #9aa8b2; --line: #2a3742;
+  --sea: #3fb8c0; --honey: #e0a845; --ember: #f07a4e; --focus: #3fb8c0; --tag-bg: rgba(0,0,0,.7); --tag-fg: #ffffff; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --paper: #0f161c; --card: #17212a; --ink: #e6ecef; --muted: #9aa8b2; --line: #2a3742;
+  --sea: #3fb8c0; --honey: #e0a845; --ember: #f07a4e; --focus: #3fb8c0; --tag-bg: rgba(0,0,0,.7); --tag-fg: #ffffff; color-scheme: dark }
+* { box-sizing: border-box }
+body { background: var(--paper); color: var(--ink); font: 400 16px/1.5 var(--body); margin: 0 }
+.wrap { max-width: 1320px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0 }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; letter-spacing: -.01em }
+.top { padding-block: 40px 24px; border-bottom: 1px solid var(--line) }
+.top h1 { font-size: clamp(2rem, 5vw, 3.4rem); font-weight: 700; line-height: 1.05 }
+.top .intro { max-width: 68ch; color: var(--muted); margin: 12px 0 0 }
+.facts { display: flex; flex-wrap: wrap; gap: 8px 24px; margin: 20px 0 0; padding: 0; list-style: none; font-family: var(--mono); font-size: .8rem; color: var(--muted) }
+.facts b { color: var(--ink); font-weight: 500 }
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--paper); border-bottom: 1px solid var(--line) }
+.bar .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding-block: 10px }
+.bar nav { display: flex; flex-wrap: wrap; gap: 6px }
+.bar nav a { font: 600 .85rem var(--body); color: var(--ink); text-decoration: none; padding: 4px 10px; border: 1px solid var(--line); border-radius: 999px }
+.bar nav a:hover { border-color: var(--ink) }
+.bar nav a .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: 1px }
+.toggle { margin-left: auto; display: flex; align-items: center; gap: 8px; font: 600 .85rem var(--body) }
+.toggle button { font: inherit; border: 1px solid var(--ink); background: var(--card); color: var(--ink); border-radius: 999px; padding: 4px 12px; cursor: pointer }
+.toggle button[aria-pressed="true"] { background: var(--ink); color: var(--paper) }
+button:focus-visible, a:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px }
+.course { padding-block: 40px 8px; border-bottom: 1px solid var(--line) }
+.course.cliffside { --acc: var(--sea) } .course.wildisles { --acc: var(--honey) } .course.magma { --acc: var(--ember) }
+.ch { max-width: 70ch; margin-bottom: 24px }
+.eyebrow, .num { font: 500 .75rem var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--acc, var(--muted)); margin: 0 0 6px }
+.ch h2 { font-size: clamp(1.7rem, 3.6vw, 2.5rem) }
+.mood { font-family: var(--display); font-size: 1.15rem; color: var(--acc); margin: 4px 0 6px }
+.lede { color: var(--muted); margin: 0 }
+.hole { display: grid; grid-template-columns: minmax(0, 260px) minmax(0, 1fr); gap: 20px; padding-block: 24px; border-top: 1px solid var(--line) }
+.hh h3 { font-size: 1.45rem }
+.par { font: 500 .8rem var(--mono); color: var(--muted); margin: 2px 0 12px }
+.dirs { margin: 0; display: grid; gap: 8px }
+.dirs dt { font: 600 .72rem var(--body); text-transform: uppercase; letter-spacing: .06em; color: var(--muted) }
+.dirs dd { margin: 0; font-size: .92rem; line-height: 1.4 }
+.design { display: inline-block; margin-top: 12px; font: 600 .85rem var(--body); color: var(--acc) }
+.shots { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 12px; min-width: 0 }
+.shot { margin: 0; background: var(--card); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; display: flex; flex-direction: column }
+.frame { position: relative; aspect-ratio: 16 / 9; max-width: 100%; background: var(--line) }
+.frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block }
+.frame .now { opacity: 0; transition: opacity .2s }
+.shot.show-now .frame .now { opacity: 1 }
+.tag { position: absolute; left: 8px; top: 8px; font: 500 .68rem var(--mono); text-transform: uppercase; letter-spacing: .08em; background: var(--tag-bg); color: var(--tag-fg); padding: 2px 6px; border-radius: 3px }
+.shot.show-now .tag::after { content: " · today" }
+.shot.show-now .tag { background: var(--ember); }
+figcaption { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; padding: 8px 10px; font-size: .88rem }
+.vl { font-weight: 600 }
+.q { font: 500 .68rem var(--mono); color: var(--muted); border: 1px solid var(--line); border-radius: 3px; padding: 0 4px }
+.q.hi { color: var(--acc, var(--sea)); border-color: currentColor }
+.swap { margin-left: auto; font: 600 .78rem var(--body); background: none; border: 1px solid var(--line); color: var(--ink); border-radius: 999px; padding: 2px 10px; cursor: pointer }
+.swap[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink) }
+.sub { flex-basis: 100%; color: var(--muted); font-size: .8rem }
+.weather { padding-block: 40px 16px; border-bottom: 1px solid var(--line); --acc: var(--sea) }
+.weather .shots { grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)) }
+.plan { padding-block: 40px 56px }
+.plan h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); margin-bottom: 12px }
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 24px 32px }
+.cols > div { min-width: 0 }
+.plan h3 { font-size: 1.1rem; margin: 0 0 8px }
+.plan p, .plan li { max-width: 65ch }
+.plan ol, .plan ul { margin: 0; padding-left: 1.2em; display: grid; gap: 6px }
+.files { font: 500 .8rem var(--mono); color: var(--muted); overflow-wrap: anywhere }
+.ask { background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 16px 18px }
+@media (max-width: 760px) { .hole { grid-template-columns: minmax(0, 1fr) } .toggle { margin-left: 0 } }
+@media (prefers-reduced-motion: reduce) { .frame .now { transition: none } }
+</style>
+
+<header class="top"><div class="wrap">
+  <h1>Majestic Course Atlas</h1>
+  <p class="intro">Target images for rolling chat 9’s Majestic look out to every golf hole, from every camera a player sees, plus one target per weather effect. Each target is an AI repaint of a real in-game frame. Routing, greens, hazards and the golfer stay where they are; look, light, dressing and sky change. Flip any frame to today’s game with its button, or all of them with the switch.</p>
+  <ul class="facts">
+    <li><b>16</b> holes × 5 views</li><li><b>16</b> weather effects</li><li><b>~450</b> real frames captured (1920×1080, 10-17)</li><li><b>180.0</b> credits spent (as approved)</li><li>Plan: <b>waiting for Adnan’s go-ahead</b></li>
+  </ul>
+</div></header>
+
+<div class="bar"><div class="wrap">
+  <nav aria-label="Sections"><a href="#cliffside"><span class="dot" style="background:var(--sea)"></span>Cliffside</a><a href="#wildisles"><span class="dot" style="background:var(--honey)"></span>Wild Isles</a><a href="#magma"><span class="dot" style="background:var(--ember)"></span>Magma Open</a><a href="#weather">Weather</a><a href="#plan">Plan</a></nav>
+  <div class="toggle"><span id="toggle-label">Every frame</span><button id="show-all" type="button" aria-pressed="false" aria-labelledby="toggle-label show-all">Show today</button></div>
+</div></div>
+
+<main class="wrap">
+{{COURSES}}
+
+<section class="weather" id="weather">
+  <header class="ch"><p class="eyebrow">13 weather looks in the game + the clearing event</p><h2>Weather</h2>
+  <p class="lede">Each effect at a representative hole or venue, built on that place’s approved clear target. Today’s weather is a full-screen grey or yellow veil with speckled turf, and costs +3–4 ms per golf frame. The targets show wet gloss, puddles, storm walls, fog banks in low ground, wind you can see, snow on branches and lava glowing through ash, while the ball, flag and players stay readable. Where a today frame exists it is linked (often from a different hole).</p></header>
+  <div class="shots">{{WEATHER}}</div>
+</section>
+
+<section class="plan" id="plan">
+  <h2>The plan, in short</h2>
+  <div class="cols">
+    <div><h3>Make room first</h3><ol>
+      <li>Golf is over budget on every hole: 1.4–5.5 M triangles per view against ≤ 1.0 M. Shadow casters, LOD/impostors and a hole-12 diet come before any new dressing.</li>
+      <li>Weather moves inside the materials: wetness, snow, ash and fog become shader terms, plus one rain/snow layer. Target: Δ ≤ 1 ms, down from +3–4 ms.</li></ol></div>
+    <div><h3>Then build, course by course</h3><ol>
+      <li>Extend chat 9’s self-attaching Majestic layer from 5 holes to all 16, with new files only.</li>
+      <li>Per hole: a landmark in every direction, clustered dressing that is dense near the corridor and thins outward, shore bands and foam on every island edge, and caldera walls on 21–23.</li>
+      <li>Order: make-room + weather in parallel, then Cliffside → Wild Isles → Magma Open. At most two heavy builders at once (heavy.sh).</li></ol></div>
+    <div><h3>Gates at every camera</h3><ul>
+      <li><b>REF_MATCH</b> against these targets, at the same 5 views.</li>
+      <li><b>NO_EMPTY_VIEW</b> and <b>NO_VOID</b> at all ~26 sampled cameras per hole, including off-line lies, putts from three sides, the flyover and the live ball cams.</li>
+      <li><b>PERF_WORST_VIEW</b>: ≤ 1.0 M triangles and ≥ 58 fps at 1080p at each hole’s heaviest view and weather. <b>READABILITY</b> for the ball and flag.</li></ul></div>
+    <div class="ask"><h3>Three decisions for Adnan</h3><ol>
+      <li>Holes 10 and 16 are on Magma Open but draw rain and thunderstorm. Switch them to ash, eruption and smoke? (Recommended; the targets show them that way.)</li>
+      <li>Keep one signature hour per course: Cliffside morning, Wild Isles golden afternoon, Magma pre-dawn?</li>
+      <li>Tennis weather: during play as today, or around play (arrival, between games, after the match)?</li></ol></div>
+  </div>
+  <p class="files">Files: work/majestic-all-maps/ · AUDIT.md · PLAN.md · design/HOLE_BRIEFS.md · design/sheets/ · refs/MANIFEST.md · audit/views_clear/hNN_cameras.json · research/WHOLE_HOLE_BEST_PRACTICE.md</p>
+</section>
+</main>
+
+<script>
+(function () {
+  function set(fig, on) {
+    fig.classList.toggle('show-now', on);
+    var b = fig.querySelector('.swap'); if (b) { b.setAttribute('aria-pressed', on ? 'true' : 'false'); b.textContent = on ? 'Show target' : 'Show today'; }
+  }
+  document.querySelectorAll('.shot.has-now .swap').forEach(function (b) {
+    b.addEventListener('click', function () { var f = b.closest('.shot'); set(f, !f.classList.contains('show-now')); });
+  });
+  var all = document.getElementById('show-all');
+  all.addEventListener('click', function () {
+    var on = all.getAttribute('aria-pressed') !== 'true';
+    all.setAttribute('aria-pressed', on ? 'true' : 'false'); all.textContent = on ? 'Show targets' : 'Show today';
+    document.querySelectorAll('.shot.has-now').forEach(function (f) { set(f, on); });
+  });
+})();
+</script>

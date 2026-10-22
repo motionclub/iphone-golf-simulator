@@ -1,0 +1,59 @@
+{
+  "info" : {
+    "arguments" : [
+      "devicectl",
+      "device",
+      "process",
+      "launch",
+      "--device",
+      "00008150-00041CD92287801C",
+      "--timeout",
+      "30",
+      "--terminate-existing",
+      "com.aloniewski.GolfArcade",
+      "--json-output",
+      "work/timing-point-fix/phone-launch.json"
+    ],
+    "commandType" : "devicectl.device.process.launch",
+    "environment" : {
+      "TERM" : "dumb"
+    },
+    "jsonVersion" : 5,
+    "outcome" : "success",
+    "version" : "642.16"
+  },
+  "result" : {
+    "deviceIdentifier" : "5724AA4B-8FB9-5224-8EBC-EBF2A5071B3B",
+    "launchOptions" : {
+      "activatedWhenStarted" : true,
+      "arguments" : [
+
+      ],
+      "environmentVariables" : {
+        "TERM" : "dumb"
+      },
+      "platformSpecificOptions" : {
+
+      },
+      "startStopped" : false,
+      "terminateExistingInstances" : true,
+      "user" : {
+        "active" : true
+      }
+    },
+    "process" : {
+      "auditToken" : [
+        4294967295,
+        501,
+        501,
+        501,
+        501,
+        75786,
+        0,
+        196521
+      ],
+      "executable" : "file:///private/var/containers/Bundle/Application/7962B22D-5555-4769-8FC5-02A5FEDC6AFB/GolfArcade.app/GolfArcade",
+      "processIdentifier" : 75786
+    }
+  }
+}

@@ -1,0 +1,13 @@
+GATE: SCORING_EXACT_H08_INSTALLED_BLEND PASS - 14 protected meshes, 2559 vertices, 2847 polygons, 9 markers; max vertex delta 0 m, marker delta 0 m; threshold 0 m; names/topology/matrices exact True
+GATE: SCORING_EXACT_H08_STAGED_BLEND PASS - 14 protected meshes, 2559 vertices, 2847 polygons, 9 markers; max vertex delta 0 m, marker delta 0 m; threshold 0 m; names/topology/matrices exact True
+GATE: SCORING_EXACT_H09_INSTALLED_BLEND PASS - 18 protected meshes, 5695 vertices, 7264 polygons, 9 markers; max vertex delta 0 m, marker delta 0 m; threshold 0 m; names/topology/matrices exact True
+GATE: SCORING_EXACT_H09_STAGED_BLEND PASS - 18 protected meshes, 5695 vertices, 7264 polygons, 9 markers; max vertex delta 0 m, marker delta 0 m; threshold 0 m; names/topology/matrices exact True
+GATE: SCORING_EXACT_H10_INSTALLED_BLEND PASS - 16 protected meshes, 3023 vertices, 3862 polygons, 9 markers; max vertex delta 0 m, marker delta 0 m; threshold 0 m; names/topology/matrices exact True
+GATE: SCORING_EXACT_H10_STAGED_BLEND PASS - 16 protected meshes, 3023 vertices, 3862 polygons, 9 markers; max vertex delta 0 m, marker delta 0 m; threshold 0 m; names/topology/matrices exact True
+GATE: SCORING_EXACT_H08_INSTALLED_FBX PASS - 14 protected meshes, 2559 vertices, 2847 polygons, 9 markers; max vertex delta 0 m, marker delta 0 m; threshold 0 m; names/topology/matrices exact True
+GATE: SCORING_EXACT_H08_STAGED_FBX PASS - 14 protected meshes, 2559 vertices, 2847 polygons, 9 markers; max vertex delta 0 m, marker delta 0 m; threshold 0 m; names/topology/matrices exact True
+GATE: SCORING_EXACT_H09_INSTALLED_FBX PASS - 18 protected meshes, 5695 vertices, 7264 polygons, 9 markers; max vertex delta 0 m, marker delta 0 m; threshold 0 m; names/topology/matrices exact True
+GATE: SCORING_EXACT_H09_STAGED_FBX PASS - 18 protected meshes, 5695 vertices, 7264 polygons, 9 markers; max vertex delta 0 m, marker delta 0 m; threshold 0 m; names/topology/matrices exact True
+GATE: SCORING_EXACT_H10_INSTALLED_FBX PASS - 16 protected meshes, 3023 vertices, 3862 polygons, 9 markers; max vertex delta 0 m, marker delta 0 m; threshold 0 m; names/topology/matrices exact True
+GATE: SCORING_EXACT_H10_STAGED_FBX PASS - 16 protected meshes, 3023 vertices, 3862 polygons, 9 markers; max vertex delta 0 m, marker delta 0 m; threshold 0 m; names/topology/matrices exact True
+RESULT: ALL PASS

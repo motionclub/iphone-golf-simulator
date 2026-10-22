@@ -1,0 +1,15 @@
+[
+  {
+    "name": "reskin-30fps-regression",
+    "env": {},
+    "args": [
+      "-runTests",
+      "-testPlatform",
+      "editmode",
+      "-testFilter",
+      "GolfArcade.Tests.EnvironmentLookTests;GolfArcade.Tests.CliffsideHoleTests;GolfArcade.Tests.CourseCatalogueTests;GolfArcade.Tests.SurfaceTests;GolfArcade.Tests.ObstacleTests;GolfArcade.Tests.TennisRulesTests;GolfArcade.Tests.TennisChaseCameraTests;GolfArcade.Tests.LuminousCoastFrameBudgetTests;GolfArcade.Tests.InputRateTests;GolfArcade.Tests.TennisPolishTests",
+      "-testResults",
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/proof/regression-30fps.xml"
+    ]
+  }
+]

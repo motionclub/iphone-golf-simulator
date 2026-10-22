@@ -1,0 +1,12 @@
+VISUAL_CHARACTER_SKIN_POLISH=UNSET; VISUAL_BLINK_NORMAL_FIELD=UNSET; production lights/post-processing unchanged.
+male Body_M vertices=44168 shapes=Hero_Blink_Half,Hero_Blink
+male OriginalSeamFeatures vertices=3824 shapes=Hero_Blink_Half,Hero_Blink
+male skin=BC9373; skinFinish=1
+male portrait-only racket renderer visibility disabled to expose face; equipment assets unchanged.
+male captured: front/30-degree three-quarter/unchanged gameplay camera; no skin tint override.
+female Body_F vertices=34443 shapes=Hero_Blink_Half,Hero_Blink
+female OriginalSeamFeatures vertices=3004 shapes=Hero_Blink_Half,Hero_Blink
+female skin=D4AA89; skinFinish=2
+female portrait-only racket renderer visibility disabled to expose face; equipment assets unchanged.
+female captured: front/30-degree three-quarter/unchanged gameplay camera; no skin tint override.
+skinPolishGlobal=0

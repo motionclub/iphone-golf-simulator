@@ -1,0 +1,123 @@
+{
+  "status": "PASS",
+  "source": "native Unity batch2 exact full PNG + LK_BASALT material mask; parent will rerender corrected coordinates",
+  "shots": [
+    {
+      "shot": "basalt_az0",
+      "ok": true,
+      "metrics": {
+        "pixels": 915230,
+        "share_of_frame": 0.6356,
+        "glow_px": 53636,
+        "glow_coverage": 0.0586,
+        "base_mean_rgb": [
+          24.0,
+          20.2,
+          21.8
+        ],
+        "base_hue": 334.8,
+        "base_s": 0.158,
+        "base_v": 0.094,
+        "base_lum_median": 17.9,
+        "base_lum_p90": 34.3,
+        "base_lum_mean": 21.2,
+        "base_s_median": 0.133,
+        "glow_mean_rgb": [
+          157.0,
+          51.6,
+          22.0
+        ],
+        "glow_mean_hue": 13.2,
+        "glow_cream_share": 0.0,
+        "glow_skeleton_px": 27114,
+        "glow_junction_clusters": 1972,
+        "glow_components": 705,
+        "glow_vertical_line_share": 0.132,
+        "glow_horizontal_rung_share": 0.172,
+        "glow_blob_share": 0.417,
+        "glow_component_height_median_px": 10,
+        "glow_component_width_median_px": 10,
+        "glow_component_height_p90_px": 33
+      }
+    },
+    {
+      "shot": "basalt_az35",
+      "ok": true,
+      "metrics": {
+        "pixels": 936847,
+        "share_of_frame": 0.6506,
+        "glow_px": 54167,
+        "glow_coverage": 0.0578,
+        "base_mean_rgb": [
+          26.1,
+          22.3,
+          23.6
+        ],
+        "base_hue": 340.0,
+        "base_s": 0.145,
+        "base_v": 0.102,
+        "base_lum_median": 21.1,
+        "base_lum_p90": 36.2,
+        "base_lum_mean": 23.2,
+        "base_s_median": 0.095,
+        "glow_mean_rgb": [
+          157.4,
+          53.0,
+          23.6
+        ],
+        "glow_mean_hue": 13.2,
+        "glow_cream_share": 0.0,
+        "glow_skeleton_px": 28690,
+        "glow_junction_clusters": 2184,
+        "glow_components": 863,
+        "glow_vertical_line_share": 0.172,
+        "glow_horizontal_rung_share": 0.182,
+        "glow_blob_share": 0.517,
+        "glow_component_height_median_px": 9,
+        "glow_component_width_median_px": 7,
+        "glow_component_height_p90_px": 28
+      }
+    },
+    {
+      "shot": "basalt_az-35",
+      "ok": true,
+      "metrics": {
+        "pixels": 922326,
+        "share_of_frame": 0.6405,
+        "glow_px": 50733,
+        "glow_coverage": 0.055,
+        "base_mean_rgb": [
+          21.9,
+          18.2,
+          20.3
+        ],
+        "base_hue": 325.4,
+        "base_s": 0.168,
+        "base_v": 0.086,
+        "base_lum_median": 15.1,
+        "base_lum_p90": 33.6,
+        "base_lum_mean": 19.1,
+        "base_s_median": 0.188,
+        "glow_mean_rgb": [
+          155.2,
+          51.0,
+          21.2
+        ],
+        "glow_mean_hue": 13.4,
+        "glow_cream_share": 0.0,
+        "glow_skeleton_px": 27053,
+        "glow_junction_clusters": 2070,
+        "glow_components": 812,
+        "glow_vertical_line_share": 0.197,
+        "glow_horizontal_rung_share": 0.195,
+        "glow_blob_share": 0.418,
+        "glow_component_height_median_px": 9,
+        "glow_component_width_median_px": 8,
+        "glow_component_height_p90_px": 31
+      }
+    }
+  ],
+  "skeleton": 82857,
+  "junctions": 6226,
+  "junctions_per100": 7.514150886467045
+}

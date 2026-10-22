@@ -1,0 +1,51 @@
+[
+  {
+    "name": "reskin-candidate8-golf",
+    "method": "GolfArcade.EditorTools.GolfCourseStandardCapture.Run",
+    "env": {
+      "GOLF_STANDARD_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/proof/candidate8/golf",
+      "GOLF_STANDARD_HOLES": "12",
+      "GOLF_STANDARD_SHOWCASE": "1",
+      "GOLF_STANDARD_CAMERA_SWEEP": "0",
+      "LUMINOUS_COAST": "1"
+    }
+  },
+  {
+    "name": "reskin-before-costs-tennis",
+    "method": "GolfArcade.EditorTools.TennisFrameCosts.Run",
+    "env": {
+      "LUMINOUS_COAST": "0",
+      "TCF_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/proof/costs/before/tennis",
+      "HERO_VENUE": "resort"
+    }
+  },
+  {
+    "name": "reskin-before-costs-golf",
+    "method": "GolfArcade.EditorTools.VisualOverhaulFrameCosts.Run",
+    "env": {
+      "LUMINOUS_COAST": "0",
+      "GOLF_COST_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/proof/costs/before/golf",
+      "GOLF_COST_HOLES": "12",
+      "GOLF_STILLS_SWAY": "8,45,0"
+    }
+  },
+  {
+    "name": "reskin-after-costs-tennis",
+    "method": "GolfArcade.EditorTools.TennisFrameCosts.Run",
+    "env": {
+      "LUMINOUS_COAST": "1",
+      "TCF_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/proof/costs/after/tennis",
+      "HERO_VENUE": "resort"
+    }
+  },
+  {
+    "name": "reskin-after-costs-golf",
+    "method": "GolfArcade.EditorTools.VisualOverhaulFrameCosts.Run",
+    "env": {
+      "LUMINOUS_COAST": "1",
+      "GOLF_COST_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/proof/costs/after/golf",
+      "GOLF_COST_HOLES": "12",
+      "GOLF_STILLS_SWAY": "8,45,0"
+    }
+  }
+]

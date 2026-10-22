@@ -1,0 +1,65 @@
+{
+ "deleted_old_tris": 6094,
+ "rings": {
+  "hand_-1": {
+   "edges": 18,
+   "z_min": 0.8725801706314087,
+   "z_max": 0.8725801706314087
+  },
+  "foot_-1": {
+   "edges": 24,
+   "z_min": 0.15728244185447693,
+   "z_max": 0.15728244185447693
+  },
+  "hand_1": {
+   "edges": 18,
+   "z_min": 0.8449010252952576,
+   "z_max": 0.8455877900123596
+  },
+  "foot_1": {
+   "edges": 24,
+   "z_min": 0.15320798754692078,
+   "z_max": 0.15753699839115143
+  }
+ },
+ "foot_1": {
+  "cut_z": 0.15728244185447693,
+  "tris_after_cut": 1772,
+  "dense_loop": 81,
+  "kept": 24,
+  "ring_verts": 24,
+  "max_weld_mm": 1.6632350410461854
+ },
+ "foot_-1": {
+  "cut_z": 0.15728244185447693,
+  "tris_after_cut": 1770,
+  "dense_loop": 78,
+  "kept": 24,
+  "ring_verts": 24,
+  "max_weld_mm": 1.6250615073760784
+ },
+ "hand_1": {
+  "cut_z": 0.8455877900123596,
+  "tris_after_cut": 1378,
+  "dense_loop": 69,
+  "kept": 18,
+  "ring_verts": 18,
+  "max_weld_mm": 3.58355097465972
+ },
+ "hand_-1": {
+  "cut_z": 0.8725801706314087,
+  "tris_after_cut": 1414,
+  "dense_loop": 70,
+  "kept": 18,
+  "ring_verts": 18,
+  "max_weld_mm": 2.5935495466504643
+ },
+ "affected_verts": 5686,
+ "normal_loops_recomputed": 29102,
+ "normal_loops_kept_raw": 67976,
+ "leg_verts_moved": 2491,
+ "tris_total": 44948,
+ "verts_total": 22512,
+ "new_verts": 3121,
+ "baseline_verts_removed": 3053
+}

@@ -1,0 +1,98 @@
+{
+  "schema": 1,
+  "scope": "P7 round1 source drafts only; root must authorize/apply. No PNG, source, stage, installed asset or P6 evidence changed while preparing.",
+  "root": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator",
+  "v3": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3",
+  "entries": [
+    {
+      "target": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/golf_look_textures.py",
+      "old_sha256": "2053d69e59ff00ae357178266568f401d1fc031233af7048b5663b87a8222b11",
+      "old_snapshot": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/p7_round1_drafts/revision3/old/golf_look_textures.py",
+      "new_sha256": "5ac085462be54c7257078158e4f6997b3192ee57122c179b77efd8ecd1af7e62",
+      "draft": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/p7_round1_drafts/revision3/drafts/golf_look_textures.py",
+      "mode": 420
+    },
+    {
+      "target": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/postcard_look_lib.py",
+      "old_sha256": "1845ac652e932da57527103516f4432e5b0694f36d5a149cce63216980047983",
+      "old_snapshot": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/p7_round1_drafts/revision3/old/postcard_look_lib.py",
+      "new_sha256": "cbbd32f50fba1199f906dc25393fed4cabd4d6dd984aa8d675a053d11d5d2f5d",
+      "draft": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/p7_round1_drafts/revision3/drafts/postcard_look_lib.py",
+      "mode": 420
+    },
+    {
+      "target": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/postcard_props_lib.py",
+      "old_sha256": "578fd900dad9e122a5836d05b517609fa3d9a137cef7fc595a13c5b06679298e",
+      "old_snapshot": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/p7_round1_drafts/revision3/old/postcard_props_lib.py",
+      "new_sha256": "b679335135517d3c83de7cda1cfc4a26ff9510f45230cfa5a8d44c8be70698bc",
+      "draft": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/p7_round1_drafts/revision3/drafts/postcard_props_lib.py",
+      "mode": 420
+    }
+  ],
+  "protected": [
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/postcard_look_verify.py",
+      "sha256": "a78560f62ee12cb38df6c8515e4530ce458dc19bc97634d0a56dd5d268b02ef4"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/postcard_look_smoke.py",
+      "sha256": "1e0b6c04b3879ca117cf67a62ac20cb525b05789713ecb67840e1e4484c64a69"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/postcard_props_smoke.py",
+      "sha256": "2cf93d39af3f22ab45522f42abdf3f0a18d4a34ae34b9f7c8ffb0e567337d39f"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/postcard_lib.py",
+      "sha256": "ff3062b6798fafcf021183e2da39461b501ff7dbce45f75dab3111884b94d3f4"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/hole08_design.py",
+      "sha256": "14502a91fb160fe935a0e0b93fe0f6429a65ebb0302b50dfa16c08c138c03c10"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/hole09_design.py",
+      "sha256": "8264099d82b9f9246a8837c4856d50d3aef151449b5c2cb57a65e12106ed82b0"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/hole10_design.py",
+      "sha256": "97c7507dafca8ef7553620d0a4dcbe8f67b179dc3701f45b549dea3426299959"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v2/hole10/tools/stage_gates.py",
+      "sha256": "8dd4750abb22f11e5cf4db0a4e5c1f457826834f742525e6d21b04b13c25a4c3"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/heavy.sh",
+      "sha256": "edd5a5281cb0a109e6f84b767a18784258da130f43e260e5a52d2285fc9751f7"
+    }
+  ],
+  "heavy_wrapper": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/heavy.sh",
+  "proof_wind_plan": {
+    "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/runtime/proof_wind_fix/source_plan.json",
+    "sha256": "03668cf0d3877433b8571cbd0fc5cc06e7c76bdd5a7f57d7b740d9b6fda7a3c2"
+  },
+  "unverified": [
+    "Full source texture suite retains historical grass minimum-contrast FAILs; candidate fixes original basalt source gates only",
+    "Reduced hot frequency80% has not been rendered/measured; prior100% paired fixture pixel gates PASS but H_GLOW side coverage FAIL",
+    "Grouped close-column cliff carve is an actual source proposal, not a final geometry PASS; final clamp/folds/water/joints/4moutline/topology require original full-stage checks",
+    "Shared L/PL SHA changes require all3 hole rebuilds plus both library smokes and full installed native proof"
+  ],
+  "required_hole10_opt_in": [
+    "near_wall UV hook: L.author_basalt_paired_columns with original H.author_uv callback and outward radial front_dir",
+    "far_ring UV hook: same seed per tile across support bands, outward radial direction",
+    "make_lava_stack UV hook before design-origin bake",
+    "build_tee_platform hook; report non-fitting narrow columns honestly"
+  ],
+  "legacy_uv_remaining": [
+    "All original BUILDERS basalt clusters/walls and crust plates/stumps retain old independent charts until explicitly authored by hole10 owner",
+    "Existing L._basalt_loop pillar and backing sheets have no paired opt-in; unwindowed sides/caps remain potential H_GLOW/H_UV FAILs",
+    "Scoring terrain/baked collider UV0 is unchanged by the paired helper and cliff carve"
+  ],
+  "revision": 3,
+  "supersedes_draft_only": {
+    "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/p7_round1_drafts/revision2/source_plan.json",
+    "sha256": "3edcdb1fb2f43d537c35fee22910d2223f524bdf2a56f247e6198e4aa51cd45e",
+    "reason": "Review: outline row must be selected from final actual X/Y projected offsets after clamps, not pre-clamp Rall. Previous drafts never applied; preserved verbatim."
+  }
+}

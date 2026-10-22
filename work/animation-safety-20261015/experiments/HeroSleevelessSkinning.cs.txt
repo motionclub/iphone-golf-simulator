@@ -1,0 +1,58 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+namespace GolfArcade.Tennis
+{
+    public static class HeroSleevelessSkinning
+    {
+        static readonly Dictionary<Mesh, Mesh> cache = new();
+        /// Sleeveless cloth belongs to the rib cage. Transferred body arm weights
+        /// were pulling the armhole across the armpit when the female hero waved.
+        public static void Apply(MatchHeroLook hero)
+        {
+            if (!hero || !hero.female || !hero.kitV2 || hero.kit == null) return;
+            var top = hero.kit.FirstOrDefault(r => r && r.name == "Kit_Top");
+            if (!top || !top.sharedMesh || !top.sharedMesh.isReadable) return;
+            var source = top.sharedMesh;
+            if (source.name.EndsWith(" (sleeveless weights)", StringComparison.Ordinal)) return;
+            if (cache.TryGetValue(source, out var ready)) { top.sharedMesh = ready; return; }
+            int chest = Array.FindIndex(top.bones, b => b && b.name == "Chest");
+            if (chest < 0) return;
+            bool Arm(string name)
+            {
+                if (name.Contains("UpperArm") || name.Contains("LowerArm") || name.EndsWith("Hand", StringComparison.Ordinal)) return true;
+                if (!name.StartsWith("ArmBlend_", StringComparison.Ordinal)) return false;
+                var fields = name.Split('_');
+                return fields.Length >= 3 && int.TryParse(fields[1], out int a) && int.TryParse(fields[2], out int b)
+                    && a < hero.body.bones.Length && b < hero.body.bones.Length
+                    && (Arm(hero.body.bones[a].name) || Arm(hero.body.bones[b].name));
+            }
+            var arms = top.bones.Select(b => b && Arm(b.name)).ToArray();
+            var weights = source.boneWeights;
+            for (int i = 0; i < weights.Length; i++)
+            {
+                var w = weights[i]; var ids = new[] { w.boneIndex0, w.boneIndex1, w.boneIndex2, w.boneIndex3 };
+                var values = new[] { w.weight0, w.weight1, w.weight2, w.weight3 };
+                var result = new Dictionary<int, float>(); float transfer = 0;
+                for (int k = 0; k < 4; k++)
+                {
+                    float keep = arms[ids[k]] ? values[k] * .15f : values[k];
+                    transfer += values[k] - keep;
+                    if (!result.ContainsKey(ids[k])) result[ids[k]] = 0;
+                    result[ids[k]] += keep;
+                }
+                if (!result.ContainsKey(chest)) result[chest] = 0;
+                result[chest] += transfer;
+                var sorted = result.OrderByDescending(p => p.Value).Take(4).ToArray(); float total = sorted.Sum(p => p.Value);
+                int Id(int k) => k < sorted.Length ? sorted[k].Key : 0;
+                float Weight(int k) => k < sorted.Length ? sorted[k].Value / total : 0;
+                weights[i] = new BoneWeight { boneIndex0 = Id(0), weight0 = Weight(0), boneIndex1 = Id(1), weight1 = Weight(1),
+                    boneIndex2 = Id(2), weight2 = Weight(2), boneIndex3 = Id(3), weight3 = Weight(3) };
+            }
+            ready = UnityEngine.Object.Instantiate(source); ready.name = source.name + " (sleeveless weights)";
+            ready.boneWeights = weights; cache[source] = ready; top.sharedMesh = ready;
+        }
+    }
+}

@@ -1,0 +1,35 @@
+{
+ "hero": "MatchHero_Male",
+ "tag": "Kit_Top",
+ "source": "npz:/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/clothing-v2/out_gp/new_ls/MatchHero_Male/unity/Kit_Top_final.npz",
+ "seconds": 511.2,
+ "weights": {
+  "panels": 10,
+  "matched": 0.47496811224489793,
+  "inner": 0.2654124149659864,
+  "smooth_iters": 11,
+  "edge_mm": 8.584198847754703,
+  "allowed": "{0: ('T',), 1: ('T',), 2: ('AR',), 3: ('AL',), 4: ('T',), 5: ('T',), 6: ('T',), 7: ('T',), 8: ('AR',), 9: ('AL',)}",
+  "side_mm_p5": 4.4318723182868665
+ },
+ "shapes": 16,
+ "log": [
+  "FIT MatchHero_Male Kit_Top from npz:/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/clothing-v2/out_gp/new_ls/MatchHero_Male/unity/Kit_Top_final.npz: 18816 verts 36474 tris",
+  "  weights: covered body groups T 38% P 3% AL 16% AR 16% LL 14% LR 13%",
+  "  weights: 10 panels, matched 47%, inner 27%, smooth 11 it (edge 8.6 mm)",
+  "  hem riding on Kit_Bottom: 1707 vertices follow it (t > .5)",
+  "  seams: 3797 coincident vertices welded into 1401 groups",
+  "  weights 146.4 s",
+  "  skin deep under Kit_Top (hidden, no clearance needed): 8947 of 44168 body vertices",
+  "  obstacles: body + Kit_Bottom",
+  "    pose 0/153  56 s",
+  "    pose 25/153  131 s",
+  "    pose 50/153  187 s",
+  "    pose 75/153  244 s",
+  "    pose 100/153  287 s",
+  "    pose 125/153  326 s",
+  "    pose 150/153  356 s",
+  "  correctives: 153/153 poses need a lift (max 25.0 mm, p90 25.0 mm) in 362 s",
+  "  16 shapes, RBF sigma 0.596, anchor fit err max 0.028, weight at rest 0.0000"
+ ]
+}

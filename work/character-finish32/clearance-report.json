@@ -1,0 +1,233 @@
+[
+  {
+    "iteration": 0,
+    "samplesInsideClearance": 60384,
+    "maxPenetrationMm": 27.196208792702237,
+    "maxSourceChangeMm": 4.000000000000108,
+    "worstPoses": [
+      {
+        "pose": "male_Forehand_2",
+        "samples": 1399,
+        "depthMm": 27.196208792702237
+      },
+      {
+        "pose": "male_Backhand_8",
+        "samples": 861,
+        "depthMm": 25.062438238819595
+      },
+      {
+        "pose": "male_Forehand_3",
+        "samples": 1223,
+        "depthMm": 24.986230302602053
+      },
+      {
+        "pose": "male_Backhand_5",
+        "samples": 1847,
+        "depthMm": 24.893153458833694
+      },
+      {
+        "pose": "male_SliceApproach_8",
+        "samples": 2444,
+        "depthMm": 24.8209647834301
+      }
+    ]
+  },
+  {
+    "iteration": 1,
+    "samplesInsideClearance": 64647,
+    "maxPenetrationMm": 26.681150367949158,
+    "maxSourceChangeMm": 7.999999999271315,
+    "worstPoses": [
+      {
+        "pose": "male_Forehand_2",
+        "samples": 1479,
+        "depthMm": 26.681150367949158
+      },
+      {
+        "pose": "male_SliceApproach_3",
+        "samples": 2666,
+        "depthMm": 26.094761211425066
+      },
+      {
+        "pose": "male_SliceApproach_8",
+        "samples": 2683,
+        "depthMm": 25.52903676405549
+      },
+      {
+        "pose": "male_Forehand_3",
+        "samples": 1304,
+        "depthMm": 25.26087360456586
+      },
+      {
+        "pose": "male_SliceApproach_4",
+        "samples": 1558,
+        "depthMm": 24.837912991642952
+      }
+    ]
+  },
+  {
+    "iteration": 2,
+    "samplesInsideClearance": 96267,
+    "maxPenetrationMm": 27.485617669299245,
+    "maxSourceChangeMm": 11.999999921318405,
+    "worstPoses": [
+      {
+        "pose": "male_SliceApproach_3",
+        "samples": 3183,
+        "depthMm": 27.485617669299245
+      },
+      {
+        "pose": "male_SliceApproach_8",
+        "samples": 3179,
+        "depthMm": 26.847608853131533
+      },
+      {
+        "pose": "male_Forehand_3",
+        "samples": 1740,
+        "depthMm": 26.30036254413426
+      },
+      {
+        "pose": "male_Forehand_2",
+        "samples": 1879,
+        "depthMm": 26.111388695426285
+      },
+      {
+        "pose": "male_SliceApproach_4",
+        "samples": 1928,
+        "depthMm": 25.046523893252015
+      }
+    ]
+  },
+  {
+    "iteration": 3,
+    "samplesInsideClearance": 134207,
+    "maxPenetrationMm": 30.830020434223115,
+    "maxSourceChangeMm": 15.999983421610356,
+    "worstPoses": [
+      {
+        "pose": "male_Forehand_2",
+        "samples": 2433,
+        "depthMm": 30.830020434223115
+      },
+      {
+        "pose": "male_SliceApproach_3",
+        "samples": 3658,
+        "depthMm": 30.697710812091827
+      },
+      {
+        "pose": "male_SliceApproach_8",
+        "samples": 3703,
+        "depthMm": 30.012969626113772
+      },
+      {
+        "pose": "male_SliceApproach_4",
+        "samples": 2604,
+        "depthMm": 27.339136693626642
+      },
+      {
+        "pose": "male_Forehand_3",
+        "samples": 2365,
+        "depthMm": 26.587442960590124
+      }
+    ]
+  },
+  {
+    "iteration": 4,
+    "samplesInsideClearance": 158971,
+    "maxPenetrationMm": 31.398525927215815,
+    "maxSourceChangeMm": 19.999980287929077,
+    "worstPoses": [
+      {
+        "pose": "male_SliceApproach_8",
+        "samples": 4052,
+        "depthMm": 31.398525927215815
+      },
+      {
+        "pose": "male_Forehand_2",
+        "samples": 2713,
+        "depthMm": 30.057913274504244
+      },
+      {
+        "pose": "male_SliceApproach_4",
+        "samples": 2867,
+        "depthMm": 29.29935068823397
+      },
+      {
+        "pose": "male_SliceApproach_3",
+        "samples": 3966,
+        "depthMm": 29.218391558970325
+      },
+      {
+        "pose": "male_SliceApproach_5",
+        "samples": 2754,
+        "depthMm": 28.12676634971467
+      }
+    ]
+  },
+  {
+    "iteration": 5,
+    "samplesInsideClearance": 180367,
+    "maxPenetrationMm": 31.662107881857082,
+    "maxSourceChangeMm": 23.999917350711296,
+    "worstPoses": [
+      {
+        "pose": "male_SliceApproach_3",
+        "samples": 4054,
+        "depthMm": 31.662107881857082
+      },
+      {
+        "pose": "male_SliceApproach_5",
+        "samples": 2993,
+        "depthMm": 31.550963409245014
+      },
+      {
+        "pose": "male_SliceApproach_4",
+        "samples": 3126,
+        "depthMm": 30.86730930954218
+      },
+      {
+        "pose": "male_Forehand_2",
+        "samples": 2982,
+        "depthMm": 30.666207312606275
+      },
+      {
+        "pose": "male_SliceApproach_8",
+        "samples": 4167,
+        "depthMm": 29.51664663851261
+      }
+    ]
+  },
+  {
+    "iteration": 6,
+    "samplesInsideClearance": 187488,
+    "maxPenetrationMm": 31.885908771073446,
+    "maxSourceChangeMm": 24.00000000000011,
+    "worstPoses": [
+      {
+        "pose": "male_SliceApproach_5",
+        "samples": 3077,
+        "depthMm": 31.885908771073446
+      },
+      {
+        "pose": "male_Forehand_2",
+        "samples": 3057,
+        "depthMm": 31.566228717565536
+      },
+      {
+        "pose": "male_SliceApproach_4",
+        "samples": 3180,
+        "depthMm": 31.51474241167307
+      },
+      {
+        "pose": "male_Forehand_8",
+        "samples": 2778,
+        "depthMm": 30.028175038751215
+      },
+      {
+        "pose": "male_SliceApproach_8",
+        "samples": 4244,
+        "depthMm": 29.56645586527884
+      }
+    ]
+  }
+]

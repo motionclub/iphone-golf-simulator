@@ -1,0 +1,761 @@
+{
+  "opponent-female-rh-ad-control": {
+    "ball_exclusion": [
+      {
+        "first": 0,
+        "last": 11,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 30,
+        "last": 73,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 116,
+        "last": 353,
+        "reason": "released_or_unbound"
+      }
+    ],
+    "reset_reason": []
+  },
+  "opponent-female-rh-ad-walk": {
+    "ball_exclusion": [
+      {
+        "first": 0,
+        "last": 0,
+        "reason": "refeed_before_rebind"
+      },
+      {
+        "first": 112,
+        "last": 133,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 176,
+        "last": 299,
+        "reason": "released_or_unbound"
+      },
+      {
+        "first": 300,
+        "last": 300,
+        "reason": "refeed_before_rebind"
+      },
+      {
+        "first": 412,
+        "last": 433,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 476,
+        "last": 599,
+        "reason": "released_or_unbound"
+      },
+      {
+        "first": 600,
+        "last": 600,
+        "reason": "refeed_before_rebind"
+      },
+      {
+        "first": 628,
+        "last": 671,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 690,
+        "last": 733,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 776,
+        "last": 899,
+        "reason": "released_or_unbound"
+      }
+    ],
+    "reset_reason": [
+      {
+        "first": 0,
+        "last": 1,
+        "reason": "fixture_opponent_root_teleport"
+      },
+      {
+        "first": 300,
+        "last": 301,
+        "reason": "fixture_opponent_root_teleport"
+      },
+      {
+        "first": 600,
+        "last": 601,
+        "reason": "fixture_opponent_root_teleport"
+      }
+    ]
+  },
+  "opponent-female-rh-deuce-control": {
+    "ball_exclusion": [
+      {
+        "first": 0,
+        "last": 11,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 30,
+        "last": 73,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 116,
+        "last": 349,
+        "reason": "released_or_unbound"
+      }
+    ],
+    "reset_reason": []
+  },
+  "opponent-female-rh-deuce-walk": {
+    "ball_exclusion": [
+      {
+        "first": 0,
+        "last": 0,
+        "reason": "refeed_before_rebind"
+      },
+      {
+        "first": 112,
+        "last": 133,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 176,
+        "last": 299,
+        "reason": "released_or_unbound"
+      },
+      {
+        "first": 300,
+        "last": 300,
+        "reason": "refeed_before_rebind"
+      },
+      {
+        "first": 412,
+        "last": 433,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 476,
+        "last": 599,
+        "reason": "released_or_unbound"
+      },
+      {
+        "first": 600,
+        "last": 600,
+        "reason": "refeed_before_rebind"
+      },
+      {
+        "first": 628,
+        "last": 671,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 690,
+        "last": 733,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 776,
+        "last": 899,
+        "reason": "released_or_unbound"
+      }
+    ],
+    "reset_reason": [
+      {
+        "first": 0,
+        "last": 1,
+        "reason": "fixture_opponent_root_teleport"
+      },
+      {
+        "first": 300,
+        "last": 301,
+        "reason": "fixture_opponent_root_teleport"
+      },
+      {
+        "first": 600,
+        "last": 601,
+        "reason": "fixture_opponent_root_teleport"
+      }
+    ]
+  },
+  "opponent-male-rh-ad-control": {
+    "ball_exclusion": [
+      {
+        "first": 0,
+        "last": 11,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 31,
+        "last": 73,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 116,
+        "last": 349,
+        "reason": "released_or_unbound"
+      }
+    ],
+    "reset_reason": []
+  },
+  "opponent-male-rh-ad-walk": {
+    "ball_exclusion": [
+      {
+        "first": 0,
+        "last": 0,
+        "reason": "refeed_before_rebind"
+      },
+      {
+        "first": 112,
+        "last": 133,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 176,
+        "last": 299,
+        "reason": "released_or_unbound"
+      },
+      {
+        "first": 300,
+        "last": 300,
+        "reason": "refeed_before_rebind"
+      },
+      {
+        "first": 412,
+        "last": 433,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 476,
+        "last": 599,
+        "reason": "released_or_unbound"
+      },
+      {
+        "first": 600,
+        "last": 600,
+        "reason": "refeed_before_rebind"
+      },
+      {
+        "first": 630,
+        "last": 671,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 691,
+        "last": 733,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 776,
+        "last": 899,
+        "reason": "released_or_unbound"
+      }
+    ],
+    "reset_reason": [
+      {
+        "first": 0,
+        "last": 1,
+        "reason": "fixture_opponent_root_teleport"
+      },
+      {
+        "first": 300,
+        "last": 301,
+        "reason": "fixture_opponent_root_teleport"
+      },
+      {
+        "first": 600,
+        "last": 601,
+        "reason": "fixture_opponent_root_teleport"
+      }
+    ]
+  },
+  "opponent-male-rh-deuce-control": {
+    "ball_exclusion": [
+      {
+        "first": 0,
+        "last": 11,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 31,
+        "last": 73,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 116,
+        "last": 349,
+        "reason": "released_or_unbound"
+      },
+      {
+        "first": 350,
+        "last": 350,
+        "reason": "intentional_bounce_flight"
+      }
+    ],
+    "reset_reason": []
+  },
+  "opponent-male-rh-deuce-walk": {
+    "ball_exclusion": [
+      {
+        "first": 0,
+        "last": 0,
+        "reason": "refeed_before_rebind"
+      },
+      {
+        "first": 112,
+        "last": 133,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 176,
+        "last": 299,
+        "reason": "released_or_unbound"
+      },
+      {
+        "first": 300,
+        "last": 300,
+        "reason": "refeed_before_rebind"
+      },
+      {
+        "first": 412,
+        "last": 433,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 476,
+        "last": 599,
+        "reason": "released_or_unbound"
+      },
+      {
+        "first": 600,
+        "last": 600,
+        "reason": "refeed_before_rebind"
+      },
+      {
+        "first": 630,
+        "last": 671,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 691,
+        "last": 733,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 776,
+        "last": 899,
+        "reason": "released_or_unbound"
+      }
+    ],
+    "reset_reason": [
+      {
+        "first": 0,
+        "last": 1,
+        "reason": "fixture_opponent_root_teleport"
+      },
+      {
+        "first": 300,
+        "last": 301,
+        "reason": "fixture_opponent_root_teleport"
+      },
+      {
+        "first": 600,
+        "last": 601,
+        "reason": "fixture_opponent_root_teleport"
+      }
+    ]
+  },
+  "player-female-rh-ad-control": {
+    "ball_exclusion": [
+      {
+        "first": 0,
+        "last": 11,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 31,
+        "last": 73,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 173,
+        "last": 216,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 262,
+        "last": 262,
+        "reason": "release_boundary"
+      },
+      {
+        "first": 263,
+        "last": 479,
+        "reason": "released_or_unbound"
+      }
+    ],
+    "reset_reason": []
+  },
+  "player-female-rh-ad-walk": {
+    "ball_exclusion": [
+      {
+        "first": 0,
+        "last": 11,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 31,
+        "last": 32,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 147,
+        "last": 170,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 345,
+        "last": 371,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 440,
+        "last": 481,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 500,
+        "last": 543,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 592,
+        "last": 592,
+        "reason": "release_boundary"
+      },
+      {
+        "first": 593,
+        "last": 767,
+        "reason": "released_or_unbound"
+      },
+      {
+        "first": 768,
+        "last": 768,
+        "reason": "refeed_before_rebind"
+      },
+      {
+        "first": 822,
+        "last": 865,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 886,
+        "last": 927,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 1030,
+        "last": 1030,
+        "reason": "release_boundary"
+      },
+      {
+        "first": 1031,
+        "last": 1199,
+        "reason": "released_or_unbound"
+      }
+    ],
+    "reset_reason": []
+  },
+  "player-female-rh-deuce-control": {
+    "ball_exclusion": [
+      {
+        "first": 0,
+        "last": 11,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 31,
+        "last": 73,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 173,
+        "last": 216,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 262,
+        "last": 262,
+        "reason": "release_boundary"
+      },
+      {
+        "first": 263,
+        "last": 479,
+        "reason": "released_or_unbound"
+      }
+    ],
+    "reset_reason": []
+  },
+  "player-female-rh-deuce-walk": {
+    "ball_exclusion": [
+      {
+        "first": 0,
+        "last": 11,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 31,
+        "last": 32,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 355,
+        "last": 371,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 440,
+        "last": 481,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 500,
+        "last": 543,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 592,
+        "last": 592,
+        "reason": "release_boundary"
+      },
+      {
+        "first": 593,
+        "last": 767,
+        "reason": "released_or_unbound"
+      },
+      {
+        "first": 768,
+        "last": 768,
+        "reason": "refeed_before_rebind"
+      },
+      {
+        "first": 821,
+        "last": 865,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 885,
+        "last": 926,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 1030,
+        "last": 1030,
+        "reason": "release_boundary"
+      },
+      {
+        "first": 1031,
+        "last": 1199,
+        "reason": "released_or_unbound"
+      }
+    ],
+    "reset_reason": []
+  },
+  "player-male-rh-ad-control": {
+    "ball_exclusion": [
+      {
+        "first": 0,
+        "last": 12,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 32,
+        "last": 73,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 174,
+        "last": 217,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 262,
+        "last": 262,
+        "reason": "release_boundary"
+      },
+      {
+        "first": 263,
+        "last": 479,
+        "reason": "released_or_unbound"
+      }
+    ],
+    "reset_reason": []
+  },
+  "player-male-rh-ad-walk": {
+    "ball_exclusion": [
+      {
+        "first": 0,
+        "last": 12,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 32,
+        "last": 32,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 149,
+        "last": 170,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 347,
+        "last": 371,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 442,
+        "last": 481,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 501,
+        "last": 543,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 592,
+        "last": 592,
+        "reason": "release_boundary"
+      },
+      {
+        "first": 593,
+        "last": 767,
+        "reason": "released_or_unbound"
+      },
+      {
+        "first": 768,
+        "last": 768,
+        "reason": "refeed_before_rebind"
+      },
+      {
+        "first": 827,
+        "last": 870,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 890,
+        "last": 930,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 1030,
+        "last": 1030,
+        "reason": "release_boundary"
+      },
+      {
+        "first": 1031,
+        "last": 1199,
+        "reason": "released_or_unbound"
+      }
+    ],
+    "reset_reason": []
+  },
+  "player-male-rh-deuce-control": {
+    "ball_exclusion": [
+      {
+        "first": 0,
+        "last": 12,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 32,
+        "last": 73,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 174,
+        "last": 217,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 262,
+        "last": 262,
+        "reason": "release_boundary"
+      },
+      {
+        "first": 263,
+        "last": 479,
+        "reason": "released_or_unbound"
+      }
+    ],
+    "reset_reason": []
+  },
+  "player-male-rh-deuce-walk": {
+    "ball_exclusion": [
+      {
+        "first": 0,
+        "last": 12,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 32,
+        "last": 32,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 357,
+        "last": 371,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 442,
+        "last": 481,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 501,
+        "last": 543,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 592,
+        "last": 592,
+        "reason": "release_boundary"
+      },
+      {
+        "first": 593,
+        "last": 767,
+        "reason": "released_or_unbound"
+      },
+      {
+        "first": 768,
+        "last": 768,
+        "reason": "refeed_before_rebind"
+      },
+      {
+        "first": 826,
+        "last": 869,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 889,
+        "last": 929,
+        "reason": "intentional_bounce_flight"
+      },
+      {
+        "first": 1030,
+        "last": 1030,
+        "reason": "release_boundary"
+      },
+      {
+        "first": 1031,
+        "last": 1199,
+        "reason": "released_or_unbound"
+      }
+    ],
+    "reset_reason": []
+  }
+}

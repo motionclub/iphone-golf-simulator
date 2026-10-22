@@ -1,0 +1,111 @@
+{
+  "hole": 8,
+  "phase": "P2",
+  "result": "FAIL",
+  "reason": "Required Unity still/aerial attempt failed to compile because protected concurrent Hero Editor source has MatchHeroLockerExport.cs:131 ReadSources missing and :141 method-group comparison errors. No protected source was edited.",
+  "raw_verifier": {
+    "measured_pass": 99,
+    "unmeasured_skipped": 1,
+    "raw_pass": 100
+  },
+  "builder": {
+    "pass": 47,
+    "total": 47
+  },
+  "exact_scoring_delta_m": 0.0,
+  "fresh_aerial": "FAIL unavailable",
+  "two_visible_needles_per_camera": "FAIL unmeasured renderer masks",
+  "waterfall_uv_scroll": "FAIL unimplemented under unchanged SHADERS_STATIC",
+  "ranked_differences": [
+    {
+      "p0_rank": 1,
+      "difference": "Dark mow bands dominate every grass pad.",
+      "scope": "P1/P2",
+      "result": "FAIL",
+      "fixed": false,
+      "evidence": "P1 shared texture was rebuilt; actual H8 Game-view band/read remains unmeasured after compile failure.",
+      "remaining": "Fresh actual Game-view aerial/side-by-side unavailable; visual re-score unmeasured. Constraints and real geometry changes are explained."
+    },
+    {
+      "p0_rank": 2,
+      "difference": "Long separated low slabs lack the reference island mass and overhangs.",
+      "scope": "P1/P2; scoring height is frozen",
+      "result": "FAIL",
+      "fixed": false,
+      "evidence": "20 eroded skirt chunks give 100% midheight shore coverage and .81m relief sd; 6m scoring height and 343-yard layout remain frozen.",
+      "remaining": "Fresh actual Game-view aerial/side-by-side unavailable; visual re-score unmeasured. Constraints and real geometry changes are explained."
+    },
+    {
+      "p0_rank": 3,
+      "difference": "Cliff faces are regular horizontal boardlike bands.",
+      "scope": "P1/P2",
+      "result": "FAIL",
+      "fixed": false,
+      "evidence": "New five-bed skirt replaces old skin. P1 longest straight-outline check remains FAIL; actual H8 aerial board/strip read is unmeasured.",
+      "remaining": "Fresh actual Game-view aerial/side-by-side unavailable; visual re-score unmeasured. Constraints and real geometry changes are explained."
+    },
+    {
+      "p0_rank": 4,
+      "difference": "Arch is tiny compared with the islands and reference arch.",
+      "scope": "P2/P5",
+      "result": "FAIL",
+      "fixed": false,
+      "evidence": "Actual supported arch depth increases to1.9m; clear span stays9.144m after wider attempt failed unchanged opening framing. All12 feet supported within.04m.",
+      "remaining": "Fresh actual Game-view aerial/side-by-side unavailable; visual re-score unmeasured. Constraints and real geometry changes are explained."
+    },
+    {
+      "p0_rank": 5,
+      "difference": "Sea stacks have bulbous stepped bases and small isolated caps.",
+      "scope": "P1/P2",
+      "result": "FAIL",
+      "fixed": false,
+      "evidence": "Nine continuous eroded needles replace multi-rock clusters. Actual height/base3.15\u20133.74, PCA r3.162\u2013.193, taper.20\u2013.31; final visual recognition unmeasured.",
+      "remaining": "Fresh actual Game-view aerial/side-by-side unavailable; visual re-score unmeasured. Constraints and real geometry changes are explained."
+    },
+    {
+      "p0_rank": 6,
+      "difference": "Waterfall is short, thin and barely readable from above.",
+      "scope": "P2",
+      "result": "FAIL",
+      "fixed": false,
+      "evidence": "Fall top4.8m, bottom6.48m; actual41m2 near-vertical sheet plus two feathered local mist cards. Frozen6m height remains short. UV scroll unimplemented.",
+      "remaining": "Fresh actual Game-view aerial/side-by-side unavailable; visual re-score unmeasured. Constraints and real geometry changes are explained."
+    },
+    {
+      "p0_rank": 7,
+      "difference": "Hanging vines are sparse and disappear at this frame scale.",
+      "scope": "P2",
+      "result": "FAIL",
+      "fixed": false,
+      "evidence": "99 wall vines pass root/support rules, with actual skirt relief behind them; pixel-scale visibility is unmeasured.",
+      "remaining": "Fresh actual Game-view aerial/side-by-side unavailable; visual re-score unmeasured. Constraints and real geometry changes are explained."
+    },
+    {
+      "p0_rank": 8,
+      "difference": "Ocean reads as repeated large specular ovals with little broken surf.",
+      "scope": "P1",
+      "result": "FAIL",
+      "fixed": false,
+      "evidence": "43 Surf objects pass unchanged shoreline coverage/run/gap caps; actual water highlights/read are unmeasured.",
+      "remaining": "Fresh actual Game-view aerial/side-by-side unavailable; visual re-score unmeasured. Constraints and real geometry changes are explained."
+    },
+    {
+      "p0_rank": 9,
+      "difference": "Path reads as a narrow regular inset lane instead of broken paving.",
+      "scope": "P1/P2",
+      "result": "FAIL",
+      "fixed": false,
+      "evidence": "Flush path unchanged and PATH_UNDER_BALL passes; shared P1 Path texture was rebuilt. Actual broken paving read is unmeasured.",
+      "remaining": "Fresh actual Game-view aerial/side-by-side unavailable; visual re-score unmeasured. Constraints and real geometry changes are explained."
+    },
+    {
+      "p0_rank": 10,
+      "difference": "Warm distant fog flattens rocks, flowers and sky depth.",
+      "scope": "P2/P5; lighting code frozen",
+      "result": "FAIL",
+      "fixed": false,
+      "evidence": "Atmosphere/camera code remains frozen; no actual new Game-view frame exists to assess fog depth.",
+      "remaining": "Fresh actual Game-view aerial/side-by-side unavailable; visual re-score unmeasured. Constraints and real geometry changes are explained."
+    }
+  ]
+}

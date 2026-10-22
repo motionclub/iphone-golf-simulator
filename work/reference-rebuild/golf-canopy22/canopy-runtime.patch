@@ -1,0 +1,25 @@
+--- a/Unity/Assets/Scripts/Course/GolfResortDress.cs
++++ b/Unity/Assets/Scripts/Course/GolfResortDress.cs
+@@ -60,8 +60,11 @@
+         void InstallTempleCanopyCandidate()
+         {
+             string review=System.Environment.GetEnvironmentVariable("VISUAL_GOLF_CANOPY");
+-            if(hole.Number is not (16 or 19 or 21 or 22 or 23)||review=="0"||(hole.Number!=19&&review!="1"))return;
+-            var kit=Resources.Load<GameObject>("Course/Resort/GolfTempleCanopy20");
++            bool curved=System.Environment.GetEnvironmentVariable("VISUAL_GOLF_CANOPY22")=="1";
++            if(hole.Number is not (16 or 19 or 21 or 22 or 23)||(!curved&&(review=="0"||(hole.Number!=19&&review!="1"))))return;
++            // One render-only prototype pilot; original palm placement, batching,
++            // collision extraction and crown-pivot transforms remain authoritative.
++            var kit=Resources.Load<GameObject>(curved?"Course/Resort/GolfTropicalCanopy22":"Course/Resort/GolfTempleCanopy20");
+             if(!kit){Debug.LogError("[GolfResortDress] Missing temple canopy candidate");return;}
+             int replaced=0;
+             foreach(var mf in kit.GetComponentsInChildren<MeshFilter>())
+@@ -73,7 +76,7 @@
+                 replaced++;
+             }
+             if(replaced!=2)throw new System.InvalidOperationException("Temple canopy candidate requires exact PALM/PALM_FAR");
+-            Debug.Log("[GolfResortDress] Temple canopy pilot: two render prototypes replaced; original PLANT marker placement and obstacle data retained");
++            Debug.Log("[GolfResortDress] "+(curved?"Curved tropical22":"Temple20")+" canopy pilot: two render prototypes replaced; original PLANT marker placement and obstacle data retained");
+         }
+ 
+         void CoastalWater(GameObject model)

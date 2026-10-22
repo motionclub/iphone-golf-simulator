@@ -1,0 +1,13 @@
+Baseline errors: 10
+Current errors: 10
+Same sorted compiler errors: True
+Assets/Scripts/Course/GolfAtmosphere.cs(4,29): error CS0234: The type or namespace name 'Universal' does not exist in the namespace 'UnityEngine.Rendering' (are you missing an assembly reference?)
+Assets/Scripts/Tennis/HeroRimLight.cs(2,29): error CS0234: The type or namespace name 'Universal' does not exist in the namespace 'UnityEngine.Rendering' (are you missing an assembly reference?)
+Assets/Scripts/Tennis/TennisGame.cs(128,31): error CS0234: The type or namespace name 'Volume' does not exist in the namespace 'UnityEngine.Rendering' (are you missing an assembly reference?)
+Assets/Scripts/Tennis/TennisLook.cs(204,23): error CS0246: The type or namespace name 'Volume' could not be found (are you missing a using directive or an assembly reference?)
+Assets/Scripts/Tennis/TennisLook.cs(222,40): error CS0246: The type or namespace name 'Volume' could not be found (are you missing a using directive or an assembly reference?)
+Assets/Scripts/Tennis/TennisLook.cs(4,29): error CS0234: The type or namespace name 'Universal' does not exist in the namespace 'UnityEngine.Rendering' (are you missing an assembly reference?)
+Assets/Scripts/Tennis/TennisQuality.cs(3,29): error CS0234: The type or namespace name 'Universal' does not exist in the namespace 'UnityEngine.Rendering' (are you missing an assembly reference?)
+Assets/Scripts/Tennis/TennisQuality.cs(55,16): error CS0246: The type or namespace name 'UniversalRenderPipelineAsset' could not be found (are you missing a using directive or an assembly reference?)
+Assets/Scripts/Tennis/TennisQuality.cs(60,23): error CS0246: The type or namespace name 'UniversalRenderPipelineAsset' could not be found (are you missing a using directive or an assembly reference?)
+Assets/Scripts/Tennis/TennisReferenceMatch.cs(3,29): error CS0234: The type or namespace name 'Universal' does not exist in the namespace 'UnityEngine.Rendering' (are you missing an assembly reference?)

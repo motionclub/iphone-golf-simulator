@@ -42,8 +42,8 @@ namespace GolfArcade.PlayTests
                 }
                 Assert.That(game.Flow, Is.EqualTo(TennisGame.Phase.OpponentServe));
                 var cam = game.GameplayCamera;
-                if(!before) Assert.That(cam.transform.position.y - game.Player.transform.position.y, Is.InRange(2f, 2.5f));
-                if(!before) Assert.Less(cam.transform.position.z, game.Player.transform.position.z - 3.5f);
+                if(!before) Assert.That(cam.transform.position.y - game.Player.transform.position.y, Is.InRange(3.2f, 3.3f));
+                if(!before) Assert.That(game.Player.transform.position.z - cam.transform.position.z, Is.GreaterThanOrEqualTo(5.6f - .001f));
                 GameCapture.Save(dir + "/receiver-gameplay.png",1280,720);
                 var pos=cam.transform.position; var rot=cam.transform.rotation; float fov=cam.fieldOfView;
                 cam.transform.position=game.Player.transform.position + new Vector3(2.6f,1.4f,3);
@@ -54,9 +54,9 @@ namespace GolfArcade.PlayTests
                 for(int f=0; f<120; f++) {
                     game.Step(1f/60); yield return null;
                     Frame();
-                    if(!before) Assert.That(cam.transform.position.y-game.Player.transform.position.y,Is.InRange(2f,2.5f),"point result keeps the shoulder view");
+                    if(!before) Assert.That(cam.transform.position.y-game.Player.transform.position.y,Is.InRange(3.2f,3.3f),"point result keeps the shoulder view");
                     if(!before) Assert.That(cam.fieldOfView, Is.EqualTo(fov), "point result does not switch lenses");
-                    if(!before) Assert.Less(cam.transform.position.z,game.Player.transform.position.z-3.5f,"point result stays behind the player");
+                    if(!before) Assert.That(game.Player.transform.position.z - cam.transform.position.z, Is.GreaterThanOrEqualTo(5.6f - .001f), "point result stays behind the player");
                 }
                 GameCapture.Save(dir + "/point-gameplay.png",1280,720);
                 // All point phases retain the same shoulder framing.
@@ -65,12 +65,12 @@ namespace GolfArcade.PlayTests
                 foreach (var phase in new[] { TennisGame.Phase.PlayerServeHold, TennisGame.Phase.PlayerServeToss }) {
                     flow.SetValue(game, phase);
                     updateCamera.Invoke(game, new object[] { true });
-                    Assert.That(cam.transform.position.y - game.Player.transform.position.y, Is.InRange(2f,2.5f));
-                    Assert.That(cam.fieldOfView, Is.InRange(60f,66f));
+                    Assert.That(cam.transform.position.y - game.Player.transform.position.y, Is.InRange(3.2f,3.3f));
+                    Assert.That(cam.fieldOfView, Is.EqualTo(48f));
                 }
                 flow.SetValue(game, TennisGame.Phase.Rally);
                 updateCamera.Invoke(game, new object[] { true });
-                Assert.That(cam.transform.position.y-game.Player.transform.position.y, Is.InRange(2f,2.5f));
+                Assert.That(cam.transform.position.y-game.Player.transform.position.y, Is.InRange(3.2f,3.3f));
 
             }
             finally { Time.captureFramerate=oldRate; if(encoder!=null) { encoder.StandardInput.Close();encoder.WaitForExit(); Assert.That(encoder.ExitCode,Is.Zero);encoder.Dispose(); } }

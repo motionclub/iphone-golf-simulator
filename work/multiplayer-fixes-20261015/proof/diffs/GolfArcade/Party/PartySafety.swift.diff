@@ -1,0 +1,10 @@
+--- before/GolfArcade/Party/PartySafety.swift
++++ GolfArcade/Party/PartySafety.swift
+@@ -172,6 +172,7 @@
+     static func sanitize(_ text: String, limit: Int = maxLength) -> String {
+         let cleaned = text.unicodeScalars.filter { s in
+             if s.properties.isBidiControl { return false }
++            if s.value == 0x200D || s.value == 0x200C { return true } // emoji and language joining characters
+             let cat = s.properties.generalCategory
+             if cat == .control || cat == .format || cat == .privateUse || cat == .unassigned { return s == "\n" || s == "\t" }
+             return true

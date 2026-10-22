@@ -1,0 +1,7 @@
+{
+  "status": "FAIL",
+  "reason": "No actual multi-device L2/L4 entry capture",
+  "requiredMaximumSpreadSeconds": 0.3,
+  "deviceSamples": [],
+  "supportingEvidence": "Native scheduled-run/readiness tests and Unity authoritative short-beat tests"
+}

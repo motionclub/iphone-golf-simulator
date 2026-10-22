@@ -1,0 +1,59 @@
+{
+ "deleted_old_tris": 6048,
+ "rings": {
+  "foot_-1": {
+   "edges": 24,
+   "z_min": 0.15728244185447693,
+   "z_max": 0.15728244185447693
+  },
+  "hand_1": {
+   "edges": 18,
+   "z_min": 0.8449010252952576,
+   "z_max": 0.8455877900123596
+  },
+  "foot_1": {
+   "edges": 24,
+   "z_min": 0.15320798754692078,
+   "z_max": 0.15753699839115143
+  },
+  "hand_-1": {
+   "edges": 24,
+   "z_min": 0.8455877900123596,
+   "z_max": 0.8590839505195618
+  }
+ },
+ "foot_1": {
+  "cut_z": 0.15728244185447693,
+  "tris_after_cut": 1931,
+  "new_loop": 119,
+  "old_ring": 24,
+  "bridge_faces": 167
+ },
+ "foot_-1": {
+  "cut_z": 0.15728244185447693,
+  "tris_after_cut": 1934,
+  "new_loop": 120,
+  "old_ring": 24,
+  "bridge_faces": 168
+ },
+ "hand_1": {
+  "cut_z": 0.8455877900123596,
+  "tris_after_cut": 274,
+  "new_loop": 204,
+  "old_ring": 18,
+  "bridge_faces": 222
+ },
+ "hand_-1": {
+  "cut_z": 0.8590839505195618,
+  "tris_after_cut": 279,
+  "new_loop": 209,
+  "old_ring": 24,
+  "bridge_faces": 233
+ },
+ "tris_total": 43868,
+ "verts_total": 21934,
+ "new_verts": 2517,
+ "baseline_verts_removed": 3027,
+ "removed_verts_zone_ok": true,
+ "removed_outside_zone": 0
+}

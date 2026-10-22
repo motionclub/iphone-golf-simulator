@@ -1,0 +1,43 @@
+{
+  "method": "Same executable, sources and packed assets for default vs DUMMY_POLO.json; only environment-selected data changed. Top cloned as Dummy_Polo_Duplicate, same mesh/maps/rig.",
+  "data": {
+    "main_hex": "3FA9F5",
+    "name": "Spec-only blue polo duplicate"
+  },
+  "sha256": {
+    "work/cloth-overhaul/locker/render": "96fe5abaa86f4b4c6c2b02efe71288a5ed3bed92e66b60508f2c94a6bc26466a",
+    "work/cloth-overhaul/locker/src/GarmentSurface.swift": "6f2401fede832ead653b72b1ff72f55ac6e697363fa1ef48ff3415cbbc6c12ed",
+    "work/cloth-overhaul/locker/src/MatchHeroData.swift": "32fdd3c489b0a48cd210423936d6c698a7b019c18f1844ec2c8dbd6af592c58a",
+    "work/cloth-overhaul/locker/src/MatchHeroMotion.swift": "fbaa8352d9aac00cb839f1581664dd769210b1b7040574aa9d8790ec459df757",
+    "work/cloth-overhaul/locker/src/MatchHeroSurfaces.swift": "72206e7fda1458865675f616aa19ed77407b82e69348a0da17eee73b5e4aa31e",
+    "work/cloth-overhaul/locker/main.swift": "0dd56ce5ba0c583cf0f9c9e9c39a85b03ab43c4248340e9063131631f779b616",
+    "work/cloth-overhaul/locker/assets/MatchHero_Female.lzfse": "844213a7a9c38585e06d3f45d8ed6a714097a0c748517bf8d3c37a67b9442a88",
+    "work/cloth-overhaul/locker/assets/MatchHero_Female_Rig.lzfse": "6617b4e86597a0fe08fe07457f4bffed2b72aae1d017d552ddf750b89595a86a",
+    "work/cloth-overhaul/locker/assets/MatchHero_Female_Swing_00.lzfse": "79bd2ee6a6aad934c2afad46b726f287c9d8fb9d475d3300072afdf5c37ef235",
+    "work/cloth-overhaul/locker/assets/MatchHero_Female_Swing_01.lzfse": "e3066190ebecf2b6d49b27db10cb1a28e0e37d086b00563ddc4b57278af871e6",
+    "work/cloth-overhaul/locker/assets/MatchHero_Female_Swing_02.lzfse": "05a0aaeec3fa3f1aacea289f78aaf80ad0ae827f3b01442c2025d89f791fee77",
+    "work/cloth-overhaul/locker/assets/MatchHero_Female_Swing_03.lzfse": "dbe17d0b35ed39b1f13e139fd5a53892cd96bb06ca351cb3765e1832985af4f6",
+    "work/cloth-overhaul/locker/assets/MatchHero_Female_Swing_04.lzfse": "d992cb5cd5c8361021ae42732ce9a02b3813c04041861f45ac20c5eaa7533c17",
+    "work/cloth-overhaul/locker/assets/MatchHero_Female_Swing_05.lzfse": "b3abca897ffd747c2ff4d31bfb2a7305f48cfeb603386228ae382023b3b65e3d",
+    "work/cloth-overhaul/locker/assets/MatchHero_Female_Swing_06.lzfse": "c5ab54947e55a3cabae32a3846f68fd491046b3aeb280f27c50ea328e246cecb",
+    "work/cloth-overhaul/locker/assets/MatchHero_Female_Swing_07.lzfse": "996452b8aeda0b77aad32c262fedca95ae0bf888da3fd59f24f977ce944d14b9",
+    "work/cloth-overhaul/locker/assets/MatchHero_Female_Swing_08.lzfse": "96a7c19bd9c13eb670edddade2e1e3ab4bb513ccacec837f4d6f0157a1464ef4",
+    "work/cloth-overhaul/locker/assets/MatchHero_Female_Swing_09.lzfse": "86c2f822d46e7c4c0a1b1ffc2fb469645ec4c4de9f5097e548a22ef26d325e91",
+    "work/cloth-overhaul/locker/assets/MatchHero_Female_Swing_10.lzfse": "c774831a0727fa3e37a215c44058ada3884488efc31145a8fb7cccc74a3970f3",
+    "work/cloth-overhaul/locker/assets/MatchHero_Female_Swing_11.lzfse": "48da5c47962593ad24b0bea0e38b5006952f2e8f92dccfb7d22b4a34d7f0ba00",
+    "work/cloth-overhaul/locker/assets/MatchHero_Male.lzfse": "315322dfe2202e7c3e42411f201875981cebed98d3b516021440d19a9f5afbec",
+    "work/cloth-overhaul/locker/assets/MatchHero_Male_Rig.lzfse": "83ecbd652b66336ac7c1774dbc0a05eccb23a6fcb1e315d9df9d38ceab5f86ce",
+    "work/cloth-overhaul/locker/assets/MatchHero_Male_Swing_00.lzfse": "08035e6cd111c4fd6e702b3448d745336432a30018b6dece742f5da65e6a1f1a",
+    "work/cloth-overhaul/locker/assets/MatchHero_Male_Swing_01.lzfse": "1bc6c87a5d4c4102bb5257bf7fa487fc0c6eb3d5904f51d78d563d00504f8cd3",
+    "work/cloth-overhaul/locker/assets/MatchHero_Male_Swing_02.lzfse": "77b8b2f979cd102e8a9c8e948034f6f62039608d6d9d9693b656b76f558e06c8",
+    "work/cloth-overhaul/locker/assets/MatchHero_Male_Swing_03.lzfse": "448a923b99c6de0de07e2a0e36f834dd2adfaaf520cc4e421315d13ec1a56c24",
+    "work/cloth-overhaul/locker/assets/MatchHero_Male_Swing_04.lzfse": "c2cdaef861312b7ac6bf0aebab350345e16f2a6efe04bc765d0dff1f99071077",
+    "work/cloth-overhaul/locker/assets/MatchHero_Male_Swing_05.lzfse": "4f6caf130be1f3380ab02198728ddaca2b29d78d4c13af3c4bbdec2ad916aaf0",
+    "work/cloth-overhaul/locker/assets/MatchHero_Male_Swing_06.lzfse": "13c1af57c3221c3327a32fb9c0090865b639af00dc31caca15d51aaefed5d513",
+    "work/cloth-overhaul/locker/assets/MatchHero_Male_Swing_07.lzfse": "ee112ebbed72092fc5fd61a14aaee1fcc8902c80936a1c685c63cc2c2392a12b",
+    "work/cloth-overhaul/locker/assets/MatchHero_Male_Swing_08.lzfse": "25fb74eb3a438f412dfa68698e6c54eeab90769828a0c1f19d73d5a71df94dc0",
+    "work/cloth-overhaul/locker/assets/MatchHero_Male_Swing_09.lzfse": "bcce51f74222236e87d5b2cde848bd39ac87cfa0a023cb3a7cd3233c6549e4ed",
+    "work/cloth-overhaul/locker/assets/MatchHero_Male_Swing_10.lzfse": "fb84de624aa0442d0a3f1d7f0ef8ed33c40d2e59d8a6cc57edbe1f7d1d752679",
+    "work/cloth-overhaul/locker/assets/MatchHero_Male_Swing_11.lzfse": "29c4b08c0f8abaf9cd65e9b97ed8dcaa059ad6c5b14e74f3a3f1f8096aea360c"
+  }
+}

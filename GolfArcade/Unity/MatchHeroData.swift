@@ -32,6 +32,11 @@ enum HeroAssets {
         let saturation: Float, bumpScale: Float, bumpTriplanar: Float, bumpTile: Float
         let baseMap: String, weaveMap: String, bumpMap: String
         let normalMap: String?, maskMap: String?, trimColor: [Float]?, normalStrength: Float?, useGarmentMaps: Float?
+        var bindingTone: Float? = nil
+        /// Female-only material response; absent in legacy and male payloads.
+        var femaleSurface: Float? = nil
+        /// HeroFaceSkin's male face pass (MaleFaceFinish 2026-10-18); absent in older payloads.
+        var maleFormPass: Float? = nil
         /// Cloth only: the size in metres of one weave tile (TennisCloth's tile = metres per UV unit / this).
         let specularStrength: Float?, environmentStrength: Float?, metallic: Float?, craftedPaint: Float?
         let headOrigin: [Float]?, headRight: [Float]?, headUp: [Float]?, headForward: [Float]?, headEye: [Float]?
@@ -90,7 +95,15 @@ enum HeroAssets {
         let swingLength: Float, swingContact: Float
         let height: Float, headCentreY: Float, headTopY: Float, headRadius: Float
         let rig: RigInfo?
+        /// MENU HERO: the racket on the back (HeroAccessories.BackRacketPose): racket node = bone(backRacketBone) * backRacket (column-major, file space).
+        let backRacket: [Float]?, backRacketBone: String?
+        var backRacketMatrix: simd_float4x4? {
+            guard let k = backRacket, k.count == 16 else { return nil }
+            return simd_float4x4(columns: (SIMD4(k[0], k[1], k[2], k[3]), SIMD4(k[4], k[5], k[6], k[7]), SIMD4(k[8], k[9], k[10], k[11]), SIMD4(k[12], k[13], k[14], k[15])))
+        }
     }
+    /// MENU HERO: the golf bag export part (shown only when it is the back pick).
+    static let bagPartName = "Acc_Bag"
 
     // MARK: resources
     /// Where the export files are found: the app bundle (the tests run inside the app). The command-line harness points this at CharacterAssets.
@@ -236,7 +249,7 @@ enum HeroAssets {
                 return MatchHeroSurfaces.material(sub, colour: colour, sceneScale: s, trimColour: trim, part: part)
             }
             let node = SCNNode(geometry: geometry); node.name = part.name
-            if part.name == "Kit_Glove_R" || (part.kind == "equipment" && part.name != "Club_Iron") { node.isHidden = true }
+            if part.name == "Kit_Glove_R" || (part.kind == "equipment" && part.name != "Club_Iron") || part.name == bagPartName { node.isHidden = true }
             node.setValue(i, forKey: "menuPartIndex")
             (part.kind == "racket" ? racket : root).addChildNode(node)
         }

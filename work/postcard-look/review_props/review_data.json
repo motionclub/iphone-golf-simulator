@@ -1,0 +1,1867 @@
+{
+ "census": {
+  "DRESS_BLOCK_A": {
+   "v": 24,
+   "f": 43,
+   "t": 44,
+   "mats": [
+    "LK_MASONRY"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.129,
+    -0.076
+   ],
+   "uvmax": [
+    0.129,
+    0.14
+   ],
+   "shared_name": true,
+   "ngon_max": 4
+  },
+  "DRESS_BLOCK_B": {
+   "v": 24,
+   "f": 43,
+   "t": 44,
+   "mats": [
+    "LK_MASONRY"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.178,
+    -0.091
+   ],
+   "uvmax": [
+    0.179,
+    0.159
+   ],
+   "shared_name": true,
+   "ngon_max": 4
+  },
+  "DRESS_SMOKE_CARD": {
+   "v": 15,
+   "f": 8,
+   "t": 16,
+   "mats": [
+    "LK_SMOKE"
+   ],
+   "nan": 0,
+   "uvmin": [
+    0.0,
+    0.0
+   ],
+   "uvmax": [
+    1.0,
+    1.0
+   ],
+   "shared_name": true,
+   "ngon_max": 4
+  },
+  "PLANT_AGAVE_A": {
+   "v": 123,
+   "f": 112,
+   "t": 164,
+   "mats": [
+    "LK_PLANTS"
+   ],
+   "nan": 0,
+   "uvmin": [
+    0.807,
+    0.034
+   ],
+   "uvmax": [
+    0.944,
+    0.22
+   ],
+   "shared_name": true,
+   "ngon_max": 4
+  },
+  "PLANT_AGAVE_B": {
+   "v": 150,
+   "f": 136,
+   "t": 200,
+   "mats": [
+    "LK_PLANTS"
+   ],
+   "nan": 0,
+   "uvmin": [
+    0.31,
+    0.784
+   ],
+   "uvmax": [
+    0.443,
+    0.97
+   ],
+   "shared_name": true,
+   "ngon_max": 4
+  },
+  "PLANT_FLOWER_PURPLE": {
+   "v": 179,
+   "f": 182,
+   "t": 221,
+   "mats": [
+    "LK_PLANTS"
+   ],
+   "nan": 0,
+   "uvmin": [
+    0.345,
+    0.345
+   ],
+   "uvmax": [
+    0.682,
+    0.97
+   ],
+   "shared_name": true,
+   "ngon_max": 4
+  },
+  "PLANT_FLOWER_WHITE": {
+   "v": 203,
+   "f": 247,
+   "t": 283,
+   "mats": [
+    "LK_PLANTS"
+   ],
+   "nan": 0,
+   "uvmin": [
+    0.084,
+    0.145
+   ],
+   "uvmax": [
+    0.956,
+    0.97
+   ],
+   "shared_name": true,
+   "ngon_max": 4
+  },
+  "PLANT_FLOWER_YELLOW": {
+   "v": 179,
+   "f": 214,
+   "t": 253,
+   "mats": [
+    "LK_PLANTS"
+   ],
+   "nan": 0,
+   "uvmin": [
+    0.069,
+    0.104
+   ],
+   "uvmax": [
+    0.704,
+    0.97
+   ],
+   "shared_name": true,
+   "ngon_max": 4
+  },
+  "PLANT_PINE_A": {
+   "v": 111,
+   "f": 105,
+   "t": 198,
+   "mats": [
+    "LK_PLANTS"
+   ],
+   "nan": 0,
+   "uvmin": [
+    0.034,
+    0.054
+   ],
+   "uvmax": [
+    0.71,
+    0.97
+   ],
+   "shared_name": true,
+   "ngon_max": 10
+  },
+  "PLANT_SHRUB_A": {
+   "v": 210,
+   "f": 400,
+   "t": 400,
+   "mats": [
+    "LK_PLANTS"
+   ],
+   "nan": 0,
+   "uvmin": [
+    0.576,
+    0.811
+   ],
+   "uvmax": [
+    0.919,
+    0.965
+   ],
+   "shared_name": true,
+   "ngon_max": 3
+  },
+  "PLANT_SHRUB_B": {
+   "v": 252,
+   "f": 480,
+   "t": 480,
+   "mats": [
+    "LK_PLANTS"
+   ],
+   "nan": 0,
+   "uvmin": [
+    0.325,
+    0.564
+   ],
+   "uvmax": [
+    0.667,
+    0.964
+   ],
+   "shared_name": true,
+   "ngon_max": 3
+  },
+  "PLANT_SHRUB_C": {
+   "v": 224,
+   "f": 368,
+   "t": 392,
+   "mats": [
+    "LK_PLANTS"
+   ],
+   "nan": 0,
+   "uvmin": [
+    0.08,
+    0.28
+   ],
+   "uvmax": [
+    0.917,
+    0.718
+   ],
+   "shared_name": true,
+   "ngon_max": 4
+  },
+  "PLANT_TREE_A": {
+   "v": 150,
+   "f": 258,
+   "t": 276,
+   "mats": [
+    "LK_PLANTS"
+   ],
+   "nan": 0,
+   "uvmin": [
+    0.327,
+    0.054
+   ],
+   "uvmax": [
+    0.71,
+    0.954
+   ],
+   "shared_name": true,
+   "ngon_max": 4
+  },
+  "PLANT_TUFT_A": {
+   "v": 91,
+   "f": 78,
+   "t": 117,
+   "mats": [
+    "LK_PLANTS"
+   ],
+   "nan": 0,
+   "uvmin": [
+    0.071,
+    0.53
+   ],
+   "uvmax": [
+    0.954,
+    0.97
+   ],
+   "shared_name": true,
+   "ngon_max": 4
+  },
+  "PLANT_TUFT_B": {
+   "v": 91,
+   "f": 78,
+   "t": 117,
+   "mats": [
+    "LK_PLANTS"
+   ],
+   "nan": 0,
+   "uvmin": [
+    0.302,
+    0.53
+   ],
+   "uvmax": [
+    0.698,
+    0.97
+   ],
+   "shared_name": true,
+   "ngon_max": 4
+  },
+  "PLANT_TUFT_C": {
+   "v": 91,
+   "f": 78,
+   "t": 117,
+   "mats": [
+    "LK_PLANTS"
+   ],
+   "nan": 0,
+   "uvmin": [
+    0.069,
+    0.28
+   ],
+   "uvmax": [
+    0.931,
+    0.72
+   ],
+   "shared_name": true,
+   "ngon_max": 4
+  },
+  "PLANT_VINE_L": {
+   "v": 135,
+   "f": 162,
+   "t": 204,
+   "mats": [
+    "LK_PLANTS"
+   ],
+   "nan": 0,
+   "uvmin": [
+    0.334,
+    0.054
+   ],
+   "uvmax": [
+    0.664,
+    0.966
+   ],
+   "shared_name": true,
+   "ngon_max": 4
+  },
+  "PLANT_VINE_M": {
+   "v": 81,
+   "f": 96,
+   "t": 120,
+   "mats": [
+    "LK_PLANTS"
+   ],
+   "nan": 0,
+   "uvmin": [
+    0.334,
+    0.054
+   ],
+   "uvmax": [
+    0.664,
+    0.966
+   ],
+   "shared_name": true,
+   "ngon_max": 4
+  },
+  "PLANT_VINE_S": {
+   "v": 39,
+   "f": 44,
+   "t": 56,
+   "mats": [
+    "LK_PLANTS"
+   ],
+   "nan": 0,
+   "uvmin": [
+    0.334,
+    0.054
+   ],
+   "uvmax": [
+    0.664,
+    0.966
+   ],
+   "shared_name": true,
+   "ngon_max": 4
+  },
+  "ROCK_BASALT_A": {
+   "v": 334,
+   "f": 193,
+   "t": 460,
+   "mats": [
+    "LK_BASALT"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.489,
+    -0.385
+   ],
+   "uvmax": [
+    0.492,
+    0.627
+   ],
+   "shared_name": true,
+   "ngon_max": 7
+  },
+  "ROCK_BASALT_B": {
+   "v": 218,
+   "f": 126,
+   "t": 300,
+   "mats": [
+    "LK_BASALT"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.45,
+    -0.215
+   ],
+   "uvmax": [
+    0.45,
+    0.456
+   ],
+   "shared_name": true,
+   "ngon_max": 7
+  },
+  "ROCK_BASALT_C": {
+   "v": 152,
+   "f": 100,
+   "t": 256,
+   "mats": [
+    "LK_BASALT"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.344,
+    -0.303
+   ],
+   "uvmax": [
+    0.346,
+    1.281
+   ],
+   "shared_name": true,
+   "ngon_max": 7
+  },
+  "ROCK_BASALT_D": {
+   "v": 288,
+   "f": 167,
+   "t": 392,
+   "mats": [
+    "LK_BASALT"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.6,
+    -0.472
+   ],
+   "uvmax": [
+    0.6,
+    0.473
+   ],
+   "shared_name": true,
+   "ngon_max": 7
+  },
+  "ROCK_BLOCK_A": {
+   "v": 64,
+   "f": 111,
+   "t": 120,
+   "mats": [
+    "LK_ROCK"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.346,
+    -0.234
+   ],
+   "uvmax": [
+    0.346,
+    0.313
+   ],
+   "shared_name": true,
+   "ngon_max": 5
+  },
+  "ROCK_BLOCK_A_BASALT": {
+   "v": 64,
+   "f": 111,
+   "t": 120,
+   "mats": [
+    "LK_BASALT"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.173,
+    -0.117
+   ],
+   "uvmax": [
+    0.173,
+    0.157
+   ],
+   "shared_name": true,
+   "ngon_max": 5
+  },
+  "ROCK_BLOCK_A_WET": {
+   "v": 64,
+   "f": 111,
+   "t": 120,
+   "mats": [
+    "LK_ROCK_WET"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.346,
+    -0.234
+   ],
+   "uvmax": [
+    0.346,
+    0.313
+   ],
+   "shared_name": true,
+   "ngon_max": 5
+  },
+  "ROCK_BOULDER_A": {
+   "v": 61,
+   "f": 105,
+   "t": 110,
+   "mats": [
+    "LK_ROCK"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.396,
+    -0.264
+   ],
+   "uvmax": [
+    0.412,
+    0.356
+   ],
+   "shared_name": true,
+   "ngon_max": 5
+  },
+  "ROCK_BOULDER_A_BASALT": {
+   "v": 61,
+   "f": 105,
+   "t": 110,
+   "mats": [
+    "LK_BASALT"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.198,
+    -0.132
+   ],
+   "uvmax": [
+    0.206,
+    0.178
+   ],
+   "shared_name": true,
+   "ngon_max": 5
+  },
+  "ROCK_BOULDER_A_WET": {
+   "v": 61,
+   "f": 105,
+   "t": 110,
+   "mats": [
+    "LK_ROCK_WET"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.396,
+    -0.264
+   ],
+   "uvmax": [
+    0.412,
+    0.356
+   ],
+   "shared_name": true,
+   "ngon_max": 5
+  },
+  "ROCK_BOULDER_B": {
+   "v": 62,
+   "f": 102,
+   "t": 112,
+   "mats": [
+    "LK_ROCK"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.272,
+    -0.212
+   ],
+   "uvmax": [
+    0.264,
+    0.315
+   ],
+   "shared_name": true,
+   "ngon_max": 5
+  },
+  "ROCK_BOULDER_B_BASALT": {
+   "v": 62,
+   "f": 102,
+   "t": 112,
+   "mats": [
+    "LK_BASALT"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.136,
+    -0.106
+   ],
+   "uvmax": [
+    0.132,
+    0.157
+   ],
+   "shared_name": true,
+   "ngon_max": 5
+  },
+  "ROCK_BOULDER_B_WET": {
+   "v": 62,
+   "f": 102,
+   "t": 112,
+   "mats": [
+    "LK_ROCK_WET"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.272,
+    -0.212
+   ],
+   "uvmax": [
+    0.264,
+    0.315
+   ],
+   "shared_name": true,
+   "ngon_max": 5
+  },
+  "ROCK_CAIRN_A": {
+   "v": 93,
+   "f": 158,
+   "t": 162,
+   "mats": [
+    "LK_ROCK"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.205,
+    -0.19
+   ],
+   "uvmax": [
+    0.226,
+    0.298
+   ],
+   "shared_name": true,
+   "ngon_max": 4
+  },
+  "ROCK_CAIRN_A_BASALT": {
+   "v": 93,
+   "f": 158,
+   "t": 162,
+   "mats": [
+    "LK_BASALT"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.103,
+    -0.095
+   ],
+   "uvmax": [
+    0.113,
+    0.149
+   ],
+   "shared_name": true,
+   "ngon_max": 4
+  },
+  "ROCK_CAIRN_A_WET": {
+   "v": 93,
+   "f": 158,
+   "t": 162,
+   "mats": [
+    "LK_ROCK_WET"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.205,
+    -0.19
+   ],
+   "uvmax": [
+    0.226,
+    0.298
+   ],
+   "shared_name": true,
+   "ngon_max": 4
+  },
+  "ROCK_LEDGE_A": {
+   "v": 61,
+   "f": 101,
+   "t": 110,
+   "mats": [
+    "LK_ROCK"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.925,
+    -0.28
+   ],
+   "uvmax": [
+    0.872,
+    0.291
+   ],
+   "shared_name": true,
+   "ngon_max": 5
+  },
+  "ROCK_LEDGE_A_BASALT": {
+   "v": 61,
+   "f": 101,
+   "t": 110,
+   "mats": [
+    "LK_BASALT"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.462,
+    -0.14
+   ],
+   "uvmax": [
+    0.436,
+    0.146
+   ],
+   "shared_name": true,
+   "ngon_max": 5
+  },
+  "ROCK_LEDGE_A_WET": {
+   "v": 61,
+   "f": 101,
+   "t": 110,
+   "mats": [
+    "LK_ROCK_WET"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.925,
+    -0.28
+   ],
+   "uvmax": [
+    0.872,
+    0.291
+   ],
+   "shared_name": true,
+   "ngon_max": 5
+  },
+  "ROCK_OUTCROP_A": {
+   "v": 101,
+   "f": 163,
+   "t": 178,
+   "mats": [
+    "LK_ROCK",
+    "LK_ROUGH"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -1.867,
+    -1.732
+   ],
+   "uvmax": [
+    1.782,
+    2.0
+   ],
+   "shared_name": true,
+   "ngon_max": 8
+  },
+  "ROCK_OUTCROP_A_BASALT": {
+   "v": 101,
+   "f": 163,
+   "t": 178,
+   "mats": [
+    "LK_BASALT",
+    "LK_BASALT"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.934,
+    -0.866
+   ],
+   "uvmax": [
+    0.891,
+    1.0
+   ],
+   "shared_name": true,
+   "ngon_max": 8
+  },
+  "ROCK_OUTCROP_A_WET": {
+   "v": 101,
+   "f": 163,
+   "t": 178,
+   "mats": [
+    "LK_ROCK_WET",
+    "LK_ROUGH"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -1.867,
+    -1.732
+   ],
+   "uvmax": [
+    1.782,
+    2.0
+   ],
+   "shared_name": true,
+   "ngon_max": 8
+  },
+  "ROCK_SEASTACK_A": {
+   "v": 129,
+   "f": 210,
+   "t": 226,
+   "mats": [
+    "LK_ROCK",
+    "LK_ROUGH"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -1.226,
+    -1.104
+   ],
+   "uvmax": [
+    1.253,
+    4.516
+   ],
+   "shared_name": true,
+   "ngon_max": 6
+  },
+  "ROCK_SEASTACK_A_BASALT": {
+   "v": 129,
+   "f": 210,
+   "t": 226,
+   "mats": [
+    "LK_BASALT",
+    "LK_BASALT"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.613,
+    -0.552
+   ],
+   "uvmax": [
+    0.626,
+    2.258
+   ],
+   "shared_name": true,
+   "ngon_max": 6
+  },
+  "ROCK_SEASTACK_A_WET": {
+   "v": 129,
+   "f": 210,
+   "t": 226,
+   "mats": [
+    "LK_ROCK_WET",
+    "LK_ROUGH"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -1.226,
+    -1.104
+   ],
+   "uvmax": [
+    1.253,
+    4.516
+   ],
+   "shared_name": true,
+   "ngon_max": 6
+  },
+  "ROCK_SEASTACK_B": {
+   "v": 119,
+   "f": 196,
+   "t": 210,
+   "mats": [
+    "LK_ROCK",
+    "LK_ROUGH"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.94,
+    -0.956
+   ],
+   "uvmax": [
+    0.982,
+    3.156
+   ],
+   "shared_name": true,
+   "ngon_max": 6
+  },
+  "ROCK_SEASTACK_B_BASALT": {
+   "v": 119,
+   "f": 196,
+   "t": 210,
+   "mats": [
+    "LK_BASALT",
+    "LK_BASALT"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.47,
+    -0.478
+   ],
+   "uvmax": [
+    0.491,
+    1.578
+   ],
+   "shared_name": true,
+   "ngon_max": 6
+  },
+  "ROCK_SEASTACK_B_WET": {
+   "v": 119,
+   "f": 196,
+   "t": 210,
+   "mats": [
+    "LK_ROCK_WET",
+    "LK_ROUGH"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.94,
+    -0.956
+   ],
+   "uvmax": [
+    0.982,
+    3.156
+   ],
+   "shared_name": true,
+   "ngon_max": 6
+  },
+  "ROCK_SLAB_A": {
+   "v": 64,
+   "f": 109,
+   "t": 116,
+   "mats": [
+    "LK_ROCK"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.573,
+    -0.377
+   ],
+   "uvmax": [
+    0.573,
+    0.372
+   ],
+   "shared_name": true,
+   "ngon_max": 5
+  },
+  "ROCK_SLAB_A_BASALT": {
+   "v": 64,
+   "f": 109,
+   "t": 116,
+   "mats": [
+    "LK_BASALT"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.286,
+    -0.189
+   ],
+   "uvmax": [
+    0.286,
+    0.186
+   ],
+   "shared_name": true,
+   "ngon_max": 5
+  },
+  "ROCK_SLAB_A_WET": {
+   "v": 64,
+   "f": 109,
+   "t": 116,
+   "mats": [
+    "LK_ROCK_WET"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.573,
+    -0.377
+   ],
+   "uvmax": [
+    0.573,
+    0.372
+   ],
+   "shared_name": true,
+   "ngon_max": 5
+  },
+  "ROCK_STONE_A": {
+   "v": 69,
+   "f": 115,
+   "t": 126,
+   "mats": [
+    "LK_ROCK"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.1,
+    -0.069
+   ],
+   "uvmax": [
+    0.101,
+    0.074
+   ],
+   "shared_name": true,
+   "ngon_max": 5
+  },
+  "ROCK_STONE_A_BASALT": {
+   "v": 69,
+   "f": 115,
+   "t": 126,
+   "mats": [
+    "LK_BASALT"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.05,
+    -0.035
+   ],
+   "uvmax": [
+    0.051,
+    0.037
+   ],
+   "shared_name": true,
+   "ngon_max": 5
+  },
+  "ROCK_STONE_A_WET": {
+   "v": 69,
+   "f": 115,
+   "t": 126,
+   "mats": [
+    "LK_ROCK_WET"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.1,
+    -0.069
+   ],
+   "uvmax": [
+    0.101,
+    0.074
+   ],
+   "shared_name": true,
+   "ngon_max": 5
+  },
+  "ROCK_STONE_B": {
+   "v": 63,
+   "f": 109,
+   "t": 118,
+   "mats": [
+    "LK_ROCK"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.124,
+    -0.087
+   ],
+   "uvmax": [
+    0.127,
+    0.092
+   ],
+   "shared_name": true,
+   "ngon_max": 6
+  },
+  "ROCK_STONE_B_BASALT": {
+   "v": 63,
+   "f": 109,
+   "t": 118,
+   "mats": [
+    "LK_BASALT"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.062,
+    -0.044
+   ],
+   "uvmax": [
+    0.064,
+    0.046
+   ],
+   "shared_name": true,
+   "ngon_max": 6
+  },
+  "ROCK_STONE_B_WET": {
+   "v": 63,
+   "f": 109,
+   "t": 118,
+   "mats": [
+    "LK_ROCK_WET"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -0.124,
+    -0.087
+   ],
+   "uvmax": [
+    0.127,
+    0.092
+   ],
+   "shared_name": true,
+   "ngon_max": 6
+  },
+  "ROCK_WALL_BASALT_A": {
+   "v": 336,
+   "f": 194,
+   "t": 464,
+   "mats": [
+    "LK_BASALT"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -2.589,
+    -0.75
+   ],
+   "uvmax": [
+    2.595,
+    5.36
+   ],
+   "shared_name": true,
+   "ngon_max": 7
+  },
+  "ROCK_WALL_BASALT_B": {
+   "v": 334,
+   "f": 193,
+   "t": 460,
+   "mats": [
+    "LK_BASALT"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -2.479,
+    -0.75
+   ],
+   "uvmax": [
+    2.483,
+    4.614
+   ],
+   "shared_name": true,
+   "ngon_max": 7
+  },
+  "ROCK_WALL_BASALT_C": {
+   "v": 320,
+   "f": 185,
+   "t": 440,
+   "mats": [
+    "LK_BASALT"
+   ],
+   "nan": 0,
+   "uvmin": [
+    -1.951,
+    -0.75
+   ],
+   "uvmax": [
+    1.951,
+    3.688
+   ],
+   "shared_name": true,
+   "ngon_max": 7
+  }
+ },
+ "ico": {
+  "ROCK_BOULDER_A": {
+   "sph": 0.371,
+   "top6": 0.183,
+   "v": 61,
+   "f": 105
+  },
+  "ROCK_BOULDER_B": {
+   "sph": 0.32,
+   "top6": 0.186,
+   "v": 62,
+   "f": 102
+  },
+  "ROCK_SLAB_A": {
+   "sph": 0.109,
+   "top6": 0.324,
+   "v": 64,
+   "f": 109
+  },
+  "ROCK_BLOCK_A": {
+   "sph": 0.56,
+   "top6": 0.265,
+   "v": 64,
+   "f": 111
+  },
+  "ROCK_CAIRN_A": {
+   "sph": 0.12,
+   "top6": 0.112,
+   "v": 93,
+   "f": 158
+  },
+  "ROCK_STONE_A": {
+   "sph": 0.303,
+   "top6": 0.228,
+   "v": 69,
+   "f": 115
+  },
+  "ROCK_STONE_B": {
+   "sph": 0.451,
+   "top6": 0.271,
+   "v": 63,
+   "f": 109
+  },
+  "ROCK_LEDGE_A": {
+   "sph": 0.182,
+   "top6": 0.277,
+   "v": 61,
+   "f": 101
+  },
+  "ROCK_SEASTACK_A": {
+   "sph": 0.138,
+   "top6": 0.204,
+   "v": 129,
+   "f": 210
+  },
+  "ROCK_SEASTACK_B": {
+   "sph": 0.171,
+   "top6": 0.181,
+   "v": 119,
+   "f": 196
+  },
+  "ROCK_OUTCROP_A": {
+   "sph": 0.253,
+   "top6": 0.337,
+   "v": 101,
+   "f": 163
+  },
+  "_ICOSAHEDRON_ref": {
+   "sph": 0.829,
+   "top6": 0.3,
+   "v": 12,
+   "f": 20
+  }
+ },
+ "hex": {
+  "ROCK_BASALT_A": {
+   "columns": 26,
+   "hex_ok": 26,
+   "bad": [],
+   "width_med": 1.37,
+   "h_med": 4.73,
+   "h_max": 6.52
+  },
+  "ROCK_BASALT_B": {
+   "columns": 17,
+   "hex_ok": 17,
+   "bad": [],
+   "width_med": 1.27,
+   "h_med": 3.55,
+   "h_max": 5.15
+  },
+  "ROCK_BASALT_C": {
+   "columns": 12,
+   "hex_ok": 12,
+   "bad": [],
+   "width_med": 1.33,
+   "h_med": 9.37,
+   "h_max": 12.24
+  },
+  "ROCK_BASALT_D": {
+   "columns": 23,
+   "hex_ok": 23,
+   "bad": [],
+   "width_med": 1.69,
+   "h_med": 2.22,
+   "h_max": 2.73
+  },
+  "ROCK_WALL_BASALT_A": {
+   "columns": 26,
+   "hex_ok": 26,
+   "bad": [],
+   "width_med": 4.05,
+   "h_med": 37.97,
+   "h_max": 48.88
+  },
+  "ROCK_WALL_BASALT_B": {
+   "columns": 26,
+   "hex_ok": 26,
+   "bad": [],
+   "width_med": 3.84,
+   "h_med": 30.8,
+   "h_max": 42.91
+  },
+  "ROCK_WALL_BASALT_C": {
+   "columns": 25,
+   "hex_ok": 25,
+   "bad": [],
+   "width_med": 3.34,
+   "h_med": 27.22,
+   "h_max": 35.51
+  }
+ },
+ "plant_swatches": {
+  "PLANT_TUFT_A": [
+   "G_LIGHT",
+   "G_LIME",
+   "G_MID"
+  ],
+  "PLANT_TUFT_B": [
+   "G_DARK",
+   "G_EMERALD",
+   "G_MID"
+  ],
+  "PLANT_TUFT_C": [
+   "OLIVE",
+   "OLIVE_DARK",
+   "OLIVE_KHAKI",
+   "STRAW"
+  ],
+  "PLANT_SHRUB_A": [
+   "G_LIGHT",
+   "G_MID"
+  ],
+  "PLANT_SHRUB_B": [
+   "G_DARK",
+   "G_EMERALD",
+   "G_MID"
+  ],
+  "PLANT_SHRUB_C": [
+   "OLIVE",
+   "OLIVE_DARK",
+   "OLIVE_KHAKI",
+   "STRAW"
+  ],
+  "PLANT_FLOWER_PURPLE": [
+   "FLOWER_PURPLE",
+   "G_DARK",
+   "G_MID"
+  ],
+  "PLANT_FLOWER_WHITE": [
+   "FLOWER_WHITE",
+   "FLOWER_YELLOW",
+   "G_DARK",
+   "G_MID"
+  ],
+  "PLANT_FLOWER_YELLOW": [
+   "FLOWER_YELLOW",
+   "G_DARK",
+   "G_MID"
+  ],
+  "PLANT_VINE_S": [
+   "G_DARK",
+   "G_MID",
+   "VINE"
+  ],
+  "PLANT_VINE_M": [
+   "G_DARK",
+   "G_MID",
+   "VINE"
+  ],
+  "PLANT_VINE_L": [
+   "G_DARK",
+   "G_MID",
+   "VINE"
+  ],
+  "PLANT_AGAVE_A": [
+   "AGAVE"
+  ],
+  "PLANT_AGAVE_B": [
+   "G_DARK"
+  ],
+  "PLANT_PINE_A": [
+   "G_DEEP",
+   "G_EMERALD",
+   "TRUNK"
+  ],
+  "PLANT_TREE_A": [
+   "G_DARK",
+   "G_MID",
+   "TRUNK"
+  ]
+ },
+ "swatch_rgb": {
+  "G_DEEP": [
+   100,
+   153,
+   109
+  ],
+  "G_DARK": [
+   120,
+   174,
+   116
+  ],
+  "G_MID": [
+   147,
+   194,
+   122
+  ],
+  "G_LIGHT": [
+   174,
+   211,
+   131
+  ],
+  "G_LIME": [
+   194,
+   221,
+   144
+  ],
+  "G_EMERALD": [
+   107,
+   183,
+   153
+  ],
+  "OLIVE_DARK": [
+   157,
+   162,
+   112
+  ],
+  "OLIVE": [
+   180,
+   181,
+   128
+  ],
+  "OLIVE_KHAKI": [
+   197,
+   191,
+   153
+  ],
+  "STRAW": [
+   221,
+   209,
+   167
+  ],
+  "FLOWER_PURPLE": [
+   196,
+   154,
+   228
+  ],
+  "FLOWER_WHITE": [
+   245,
+   245,
+   242
+  ],
+  "FLOWER_YELLOW": [
+   247,
+   225,
+   121
+  ],
+  "VINE": [
+   137,
+   181,
+   122
+  ],
+  "TRUNK": [
+   167,
+   142,
+   118
+  ],
+  "AGAVE": [
+   156,
+   193,
+   185
+  ]
+ },
+ "fall_foot": {
+  "foot": {
+   "pos": [
+    0.0,
+    -1.600000023841858,
+    0.0
+   ],
+   "width": 5.1,
+   "dir": [
+    0.0,
+    -1.0
+   ]
+  },
+  "lowest_y": -2.243544101715088
+ },
+ "arch": {
+  "blocks": 63,
+  "faces": 344,
+  "tris": 688,
+  "vines": 20,
+  "vine_dist_max": 0.075,
+  "biggest": [
+   [
+    1.3,
+    1.12,
+    5.79
+   ],
+   [
+    1.3,
+    1.12,
+    5.79
+   ],
+   [
+    1.33,
+    1.14,
+    2.39
+   ]
+  ]
+ },
+ "arch_broken": {
+  "blocks": 37,
+  "faces": 197,
+  "vines": 10
+ },
+ "ruin": {
+  "blocks": 77,
+  "faces": [
+   386
+  ],
+  "courses": [
+   -0.05,
+   0.56,
+   1.18,
+   1.8,
+   2.42,
+   3.05
+  ]
+ },
+ "cone": {
+  "faces": 421,
+  "tris": 866,
+  "mats": [
+   "LK_BASALT"
+  ]
+ },
+ "smoke": {
+  "names": [
+   "DRESS_SMOKE_00"
+  ],
+  "mesh": "DRESS_SMOKE_CARD",
+  "mats": [
+   "LK_SMOKE"
+  ]
+ },
+ "hole09": {
+  "props": 828,
+  "tris": 121862,
+  "hits": 0,
+  "hit_kinds": {},
+  "hit_names": [],
+  "pin_min_origin": 18.96,
+  "pin_min_vertex": 18.72,
+  "play_meshes": [
+   "BUNKER_01",
+   "BUNKER_01_LIP",
+   "BUNKER_02",
+   "BUNKER_02_LIP",
+   "BUNKER_03",
+   "BUNKER_03_LIP",
+   "FAIRWAY",
+   "FAIRWAY_FIRSTCUT",
+   "GREEN",
+   "GREEN_APRON",
+   "TEE_BOX"
+  ],
+  "nv_baseline": 2005,
+  "nv_scratch": 1995,
+  "unique_meshes": 23,
+  "over_edge": 1,
+  "tall_in_corridor": 0
+ },
+ "fbx_seastack_mats": [
+  [
+   "LK_ROCK",
+   "LK_ROUGH"
+  ],
+  [
+   "LK_ROCK",
+   "LK_ROUGH"
+  ],
+  [
+   "LK_ROCK",
+   "LK_ROUGH"
+  ]
+ ],
+ "hole08": {
+  "props": 811,
+  "tris": 116130,
+  "hits": 0,
+  "hit_kinds": {},
+  "hit_names": [],
+  "pin_min_origin": 16.48,
+  "pin_min_vertex": 16.16,
+  "play_meshes": [
+   "BUNKER_01",
+   "BUNKER_01_LIP",
+   "FAIRWAY",
+   "FAIRWAY_FIRSTCUT",
+   "GREEN",
+   "GREEN_APRON",
+   "TEE_BOX"
+  ],
+  "nv_baseline": 1048,
+  "nv_scratch": 1046,
+  "unique_meshes": 21,
+  "over_edge": 0,
+  "tall_in_corridor": 0
+ },
+ "hole10": {
+  "props": 828,
+  "tris": 122106,
+  "hits": 0,
+  "hit_kinds": {},
+  "hit_names": [],
+  "pin_min_origin": 17.88,
+  "pin_min_vertex": 17.64,
+  "play_meshes": [
+   "BUNKER_01",
+   "BUNKER_01_LIP",
+   "BUNKER_02",
+   "BUNKER_02_LIP",
+   "FAIRWAY",
+   "FAIRWAY_FIRSTCUT",
+   "GREEN",
+   "GREEN_APRON",
+   "TEE_BOX"
+  ],
+  "nv_baseline": 1633,
+  "nv_scratch": 1622,
+  "unique_meshes": 21,
+  "over_edge": 0,
+  "tall_in_corridor": 0
+ },
+ "swap08": {
+  "swapped": 87,
+  "kinds": {
+   "ROCK_BOULDER_B_WET": 12,
+   "ROCK_SEASTACK_B_WET": 10,
+   "ROCK_SEASTACK_A_WET": 4,
+   "ROCK_BLOCK_A_WET": 13,
+   "ROCK_BOULDER_A_WET": 11,
+   "ROCK_BLOCK_A": 13,
+   "ROCK_BOULDER_B": 15,
+   "ROCK_BOULDER_A": 7,
+   "ROCK_SEASTACK_A": 1,
+   "ROCK_SEASTACK_B": 1
+  },
+  "aniso_worst": [
+   [
+    "ROCK_BOULDER_A.004",
+    1.21,
+    4.47,
+    [
+     "0.77",
+     "0.93",
+     "3.44"
+    ]
+   ],
+   [
+    "ROCK_BOULDER_B.011",
+    1.12,
+    3.98,
+    [
+     "1.05",
+     "1.17",
+     "4.16"
+    ]
+   ],
+   [
+    "ROCK_BOULDER_A.005",
+    1.31,
+    3.95,
+    [
+     "0.77",
+     "1.01",
+     "3.04"
+    ]
+   ],
+   [
+    "ROCK_BLOCK_A.010",
+    1.32,
+    3.67,
+    [
+     "0.77",
+     "1.02",
+     "2.82"
+    ]
+   ],
+   [
+    "ROCK_BOULDER_A.000",
+    1.15,
+    3.48,
+    [
+     "1.17",
+     "1.34",
+     "4.06"
+    ]
+   ],
+   [
+    "ROCK_BLOCK_A.011",
+    1.19,
+    3.19,
+    [
+     "1.73",
+     "2.06",
+     "5.52"
+    ]
+   ]
+  ],
+  "col_widths": [],
+  "left": [],
+  "other_lowpoly": {}
+ },
+ "swap09": {
+  "swapped": 450,
+  "kinds": {
+   "ROCK_BOULDER_B_WET": 63,
+   "ROCK_BLOCK_A_WET": 75,
+   "ROCK_BOULDER_A_WET": 58,
+   "ROCK_BOULDER_B": 85,
+   "ROCK_BOULDER_A": 69,
+   "ROCK_BLOCK_A": 92,
+   "ROCK_SLAB_A": 4,
+   "ROCK_STONE_B": 2,
+   "ROCK_STONE_A": 2
+  },
+  "aniso_worst": [
+   [
+    "ROCK_BLOCK_A_WET.010",
+    1.08,
+    2.42,
+    [
+     "0.92",
+     "0.99",
+     "2.21"
+    ]
+   ],
+   [
+    "ROCK_BLOCK_A_WET.043",
+    1.11,
+    2.16,
+    [
+     "1.03",
+     "1.14",
+     "2.21"
+    ]
+   ],
+   [
+    "ROCK_BOULDER_A_WET.013",
+    1.28,
+    2.14,
+    [
+     "1.18",
+     "1.51",
+     "2.52"
+    ]
+   ],
+   [
+    "ROCK_BOULDER_A_WET.017",
+    1.17,
+    2.14,
+    [
+     "2.07",
+     "2.42",
+     "4.44"
+    ]
+   ],
+   [
+    "ROCK_BOULDER_A_WET.007",
+    1.18,
+    2.1,
+    [
+     "0.71",
+     "0.84",
+     "1.5"
+    ]
+   ],
+   [
+    "ROCK_BOULDER_A_WET.014",
+    1.19,
+    2.08,
+    [
+     "1.84",
+     "2.19",
+     "3.82"
+    ]
+   ]
+  ],
+  "col_widths": [],
+  "left": [],
+  "other_lowpoly": {}
+ },
+ "swap10": {
+  "swapped": 227,
+  "kinds": {
+   "ROCK_WALL_BASALT_B": 58,
+   "ROCK_WALL_BASALT_C": 62,
+   "ROCK_WALL_BASALT_A": 34,
+   "ROCK_BASALT_B": 37,
+   "ROCK_BASALT_D": 5,
+   "ROCK_BASALT_A": 31
+  },
+  "aniso_worst": [
+   [
+    "ROCK_WALL_BASALT_A.020",
+    4.47,
+    1.14,
+    [
+     "0.82",
+     "3.67",
+     "0.93"
+    ]
+   ],
+   [
+    "ROCK_WALL_BASALT_B.006",
+    4.29,
+    1.52,
+    [
+     "0.88",
+     "3.79",
+     "1.34"
+    ]
+   ],
+   [
+    "ROCK_WALL_BASALT_B.009",
+    4.18,
+    1.92,
+    [
+     "0.85",
+     "3.57",
+     "1.64"
+    ]
+   ],
+   [
+    "ROCK_WALL_BASALT_C.005",
+    4.14,
+    1.65,
+    [
+     "1.06",
+     "4.4",
+     "1.75"
+    ]
+   ],
+   [
+    "ROCK_WALL_BASALT_C.000",
+    4.06,
+    1.29,
+    [
+     "1.08",
+     "4.38",
+     "1.39"
+    ]
+   ],
+   [
+    "ROCK_WALL_BASALT_A.019",
+    4.04,
+    1.16,
+    [
+     "0.84",
+     "3.42",
+     "0.98"
+    ]
+   ]
+  ],
+  "col_widths": [
+   [
+    "ROCK_BASALT_A.029",
+    "0.92",
+    "0.56"
+   ],
+   [
+    "ROCK_BASALT_B.017",
+    "0.63",
+    "1.23"
+   ],
+   [
+    "ROCK_BASALT_B.025",
+    "0.63",
+    "1.23"
+   ],
+   [
+    "ROCK_BASALT_D.004",
+    "1.01",
+    "0.69"
+   ],
+   [
+    "ROCK_BASALT_B.020",
+    "0.7",
+    "1.36"
+   ],
+   [
+    "ROCK_BASALT_A.018",
+    "0.71",
+    "0.75"
+   ],
+   [
+    "ROCK_BASALT_D.001",
+    "1.27",
+    "0.77"
+   ],
+   [
+    "ROCK_BASALT_A.015",
+    "0.78",
+    "0.82"
+   ]
+  ],
+  "left": [],
+  "other_lowpoly": {}
+ }
+}

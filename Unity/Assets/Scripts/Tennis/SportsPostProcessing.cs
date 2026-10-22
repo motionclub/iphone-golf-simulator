@@ -11,16 +11,30 @@ namespace GolfArcade.Tennis
     {
         public Volume Volume { get; private set; }
         Bloom bloom;
+        DepthOfField dof;
+        bool requestedDof;
+        int lookRevision=-1;
         public void Initialize(Volume volume)
         {
             Volume = volume;
             Volume.profile.TryGet(out bloom);
+            Volume.profile.TryGet(out dof);
+            requestedDof=dof && dof.active;
             Refresh();
+        }
+        public void RequestDepthOfField(bool on)
+        {
+            requestedDof=on;Refresh();
         }
         void LateUpdate() => Refresh();
         void Refresh()
         {
             if (bloom) bloom.active = TennisQuality.Current != TennisQuality.Tier.Low;
+            if (dof) dof.active=requestedDof && TennisQuality.Current==TennisQuality.Tier.High;
+            if(Volume && lookRevision!=GolfArcade.EnvironmentArt.EnvironmentLook.Revision) {
+                lookRevision=GolfArcade.EnvironmentArt.EnvironmentLook.Revision;
+                GolfArcade.EnvironmentArt.EnvironmentLook.Post(Volume.profile);
+            }
         }
         void OnDestroy()
         {

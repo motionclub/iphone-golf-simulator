@@ -59,6 +59,7 @@ namespace GolfArcade.Tennis
                 case TennisVenueKind.Skyscraper: Skyscraper.Light(sun, camera); break;
                 case TennisVenueKind.Volcano: Volcano.Light(sun, camera); break;
             }
+            GolfArcade.EnvironmentArt.EnvironmentLook.Tennis(sun,kind);
         }
 
         // =====================================================================================

@@ -1,0 +1,9 @@
+{
+  "status": "pending",
+  "requested_at_utc": "2026-10-05T23:24:05.560066+00:00",
+  "review": "/Users/adnanyonathan/Documents/Codex/2026-10-05/in-g/outputs/serve-toss-jump-r3/REVIEW.md",
+  "candidate_sha256": "f055472cef5fa2a4d90b3650bef30381ef13cbb087156433f99cf6dcb152cd41  fbx/Female_Serve.fbx\n3bc58e8f34842a989ab02b74645ca3650ade13ff7ae1e665c400f612b02ece4a  fbx/Female_Serve.fbx.meta\nb126d4059f225586d0ddff8cb4bf3740c55c1b2cb3449d9cc36ba14033f41b1b  fbx/Male_Serve.fbx\n7bd669f74775e9519c4c6bbdf443a4d498247874c6c7400e998b0f052be37474  fbx/Male_Serve.fbx.meta\n",
+  "lockfeet_method_sha256": "94f1ca4c25c2354605b042946d752c4b7a722109b0b2c23f47828cf9e5da15ae",
+  "production_install_blocked": true,
+  "reason": "Current production carry runtime fails G7 for both heroes and G9 male. Need approved parallel carry inputs and actual production re-verification."
+}

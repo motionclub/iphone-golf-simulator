@@ -61,6 +61,13 @@ namespace GolfArcade.Game
                     // during ordinary play. Preserve the lens and downward aim angle.
                     targetPosition += Vector3.up * (course.Hole.Number==9 ? .8f : .9f);
                     if(course.Hole.Number==9) targetLookAt-=right*1.15f;
+                    if(course.Hole.Number==12 && (GolfArcade.EnvironmentArt.DreamGolfGarden.Enabled || System.Environment.GetEnvironmentVariable("GOLF_DREAM_CAMERA")=="1"))
+                    {
+                        // The island's green rises above the tee. Frame the world
+                        // beyond that wall while the ball stays above phone controls.
+                        targetPosition=ball-aimDirection*7f-right*.2f+Vector3.up*4.2f;
+                        targetLookAt=ball+aimDirection*5f+Vector3.up*1.05f;
+                    }
                 }
             }
             Look(ball, aimDirection, look, pin, 14f, 5f);
@@ -187,7 +194,7 @@ namespace GolfArcade.Game
         /// Capturing the current pose lets the launch view lead into the chase without a cut.
         public void BeginShot(Vector3 direction)
         {
-            LandingView=false;
+            LandingView=false; BroadcastStage=0;
             launchCamera = transform.position;
             launchLook = lookAt;
             flightDirection = GroundDirection(direction);
@@ -210,6 +217,8 @@ namespace GolfArcade.Game
             float back = putting ? 5f : 30f;
             float height = putting ? 2.8f : 6f;
             var chase = ball - flightDirection * back + right * (putting ? .65f : .9f) + Vector3.up * height;
+            // Keep the established landing view at a readable distance as the ball rolls.
+            if (LandingView) landingCamera = ball - flightDirection * 11f + right * 1.2f + Vector3.up * 4.2f;
             targetPosition = LandingView ? landingCamera : Vector3.Lerp(launchCamera, chase, follow);
             // Even a ricochet cannot put the camera ahead of its subject and reverse the view.
             float ahead = Vector3.Dot(targetPosition - ball, flightDirection);
@@ -220,6 +229,104 @@ namespace GolfArcade.Game
             positionLag = .065f; lookLag = .055f;
             cueUp = Vector3.up; targetRoll = 0; targetZoom = 1;
             shotFrame = true;
+        }
+
+        // ---- The broadcast shot (work/golf-flow-camera/REFERENCES.md: tour coverage of a tee shot and of a holed putt) ----
+        // A full shot is three set-ups joined by cuts, never a swoop: the address camera stays where it is behind the golfer and
+        // tilts up after the ball while the golfer holds the finish (the post-swing hold); a long lens chases the ball through the
+        // air (the follow); a static camera off to the side of where it comes down picks it up a second before touchdown and pans
+        // with the bounce and the roll (the landing camera), and holds on it at rest (the post-shot hold). A putt never leaves the
+        // address camera: it eases its look along the line to the cup, and the golfer fades out of the way (GolferFade).
+
+        /// The post-swing hold, at least this long (seconds after contact) and longer on a long flight.
+        public const float BroadcastHoldSeconds = 1.3f, BroadcastLongHoldSeconds = 1.9f;
+        /// The landing camera picks the ball up this long before it first comes down.
+        public const float BroadcastLandingLead = 1.1f;
+        /// Which of the three a full shot is on: 0 the hold, 1 the follow, 2 the landing camera.
+        public int BroadcastStage { get; private set; }
+        Vector3 landingAnchor;
+
+        /// One frame of the broadcast shot camera. `ball` where it is; `landing` and `rest` where it first comes down and where
+        /// it stops (world); `sinceLaunch` seconds since contact, `toLanding` seconds until it first comes down (negative after),
+        /// `flight` the seconds it is in the air.
+        public void BroadcastShot(Vector3 ball, Vector3 landing, Vector3 rest, Vector3 cup, float sinceLaunch, float toLanding, float flight, bool putting)
+        {
+            shotFrame = false; povThisFrame = false; cueUp = Vector3.up; targetRoll = 0;
+            if (putting)
+            {
+                // the address view holds; its eyes ease along the line so the ball and the cup both stay in the picture
+                BroadcastStage = 0;
+                targetPosition = launchCamera;
+                var along = Vector3.Lerp(ball, cup, .45f);
+                float w = Mathf.SmoothStep(0, 1, Mathf.Clamp01((sinceLaunch - .25f) / 1.2f));
+                targetLookAt = Vector3.Lerp(launchLook, new Vector3(along.x, Mathf.Lerp(launchLook.y, along.y + .2f, .5f), along.z), .55f * w);
+                positionLag = .5f; lookLag = .45f; targetZoom = 1f;
+                return;
+            }
+            float hold = flight > 4.5f ? BroadcastLongHoldSeconds : BroadcastHoldSeconds;
+            var right = Vector3.Cross(Vector3.up, flightDirection);
+            int stage = sinceLaunch < hold && toLanding > BroadcastLandingLead ? 0 : toLanding > BroadcastLandingLead ? 1 : 2;
+            if (sinceLaunch < .9f) stage = 0;   // a chip or a topped shot: the hold sees it all
+            if (stage < BroadcastStage) stage = BroadcastStage;   // never back
+            if (stage != BroadcastStage)
+            {
+                BroadcastStage = stage; SnapNext();
+                if (stage == 2)
+                {
+                    // off to the side of the run-out, back toward the tee a little, high enough to see the ground it lands on
+                    LandingView = true;
+                    var mid = Vector3.Lerp(landing, rest, .4f);
+                    float run = Vector3.Distance(new Vector3(landing.x, 0, landing.z), new Vector3(rest.x, 0, rest.z));
+                    float side = Mathf.Clamp(run * .55f + 13f, 14f, 30f);
+                    float sign = SideWithView(mid, right, side);
+                    landingAnchor = mid + right * side * sign - flightDirection * side * .45f + Vector3.up * (5f + side * .25f);
+                }
+            }
+            if (stage == 0)
+            {
+                // the address camera stays put; it tilts up after the ball, the golfer still in the bottom of the picture
+                targetPosition = launchCamera;
+                float w = Mathf.SmoothStep(0, 1, Mathf.Clamp01(sinceLaunch / .45f));
+                targetLookAt = Vector3.Lerp(launchLook, ball, .5f * w);
+                positionLag = .3f; lookLag = .12f; targetZoom = 1f;
+            }
+            else if (stage == 1)
+            {
+                // the long lens behind and above the ball
+                targetPosition = ball - flightDirection * 26f + right * 2.2f + Vector3.up * 7f;
+                targetLookAt = ball + flightDirection * 2f;
+                positionLag = .08f; lookLag = .06f; targetZoom = 1.25f;
+                shotFrame = true; flightBall = ball;
+            }
+            else
+            {
+                // the landing camera does not travel: it waits on the spot the ball comes down on, then pans with the run-out,
+                // the ground round the ball in the picture (a broadcast's landing shot is wide enough to read the bounce)
+                targetPosition = landingAnchor;
+                targetLookAt = Vector3.Lerp(ball, landing, .5f * Mathf.Clamp01(toLanding / BroadcastLandingLead));
+                positionLag = .6f; lookLag = .2f;
+                float d = Vector3.Distance(landingAnchor, ball);
+                FrameWindow(d, 24f, 24f);
+            }
+            ClearGround();
+        }
+
+        /// +1 or -1: the side of the line a landing camera at `mid` + right × `side` sees from best (the lower ground, so a
+        /// bank does not fill the lens).
+        static float SideWithView(Vector3 mid, Vector3 right, float side)
+        {
+            float GroundAt(Vector3 p) => (float)Course.HoleView.GroundHeight(Course.HoleView.ToCourse(p));
+            float r = GroundAt(mid + right * side), l = GroundAt(mid - right * side);
+            return r <= l + 1.5f ? 1f : -1f;
+        }
+
+        /// The post-shot hold: the camera that saw the ball stop stays where it is and settles its eyes on it.
+        public void HoldOnRest(Vector3 ball)
+        {
+            RestoreFov();
+            targetLookAt = ball + Vector3.up * .3f;
+            positionLag = .8f; lookLag = .45f;
+            cueUp = Vector3.up; targetRoll = 0; shotFrame = povThisFrame = false;
         }
 
         /// The hole cam: behind the cup, low, looking back along the line at the ball rolling in.

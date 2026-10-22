@@ -1,0 +1,11 @@
+{
+  "control_near": 50524,
+  "control_far": 34956,
+  "canopy20_near": 53258,
+  "canopy20_far": 37317,
+  "candidate_near": 62405,
+  "candidate_far": 63183,
+  "method": "Alpha>=128 in fixed crown ROI x65:565 y100:385; matched640x480 source camera, median golf18.3m trunk-scale/10.04m crown-radius-scale and hole22 palette. Small trunk segment included; source proof only.",
+  "nearGainVs20": 17.17488452439071,
+  "farGainVs20": 69.31425355735992
+}

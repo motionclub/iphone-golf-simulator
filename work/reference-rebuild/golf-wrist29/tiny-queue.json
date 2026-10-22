@@ -1,0 +1,38 @@
+[
+  {
+    "name": "golf-wrist29-tiny-control",
+    "method": "GolfArcade.EditorTools.VisualOverhaulGolfCharacterCapture.Run",
+    "env": {
+      "VISUAL_GOLF_CHARACTER_CLUBS": "Driver",
+      "VISUAL_GOLF_CHARACTER_STAGES": "address,top",
+      "VISUAL_ORIGINAL_SEAM": "1",
+      "VISUAL_ORIGINAL_BLINK": "1",
+      "VISUAL_CHARACTER_NORMALS": "continuous",
+      "VISUAL_CHARACTER_SKIN_FINISH": "1",
+      "VISUAL_UNDERARM_GUSSET": "0",
+      "VISUAL_UNDERARM_FIT": "0",
+      "VISUAL_GOLF_WRIST_ROLL": "0",
+      "VISUAL_GOLF_WRIST_AUDIT": "1",
+      "VISUAL_GOLF_CHARACTER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/golf-wrist29-tiny-control",
+      "VISUAL_GOLF_CHARACTER_POSE_DUMPS": "1"
+    }
+  },
+  {
+    "name": "golf-wrist29-tiny-candidate",
+    "method": "GolfArcade.EditorTools.VisualOverhaulGolfCharacterCapture.Run",
+    "env": {
+      "VISUAL_GOLF_CHARACTER_CLUBS": "Driver",
+      "VISUAL_GOLF_CHARACTER_STAGES": "address,top",
+      "VISUAL_ORIGINAL_SEAM": "1",
+      "VISUAL_ORIGINAL_BLINK": "1",
+      "VISUAL_CHARACTER_NORMALS": "continuous",
+      "VISUAL_CHARACTER_SKIN_FINISH": "1",
+      "VISUAL_UNDERARM_GUSSET": "0",
+      "VISUAL_UNDERARM_FIT": "0",
+      "VISUAL_GOLF_WRIST_ROLL": "1",
+      "VISUAL_GOLF_WRIST_AUDIT": "1",
+      "VISUAL_GOLF_CHARACTER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/golf-wrist29-tiny-candidate",
+      "VISUAL_GOLF_CHARACTER_POSE_DUMPS": "1"
+    }
+  }
+]

@@ -1,0 +1,274 @@
+{
+ "tag": "female",
+ "open_L": {
+  "LeftIndexProximal": -23.160410439694807,
+  "LeftIndexIntermediate": -8.0,
+  "LeftIndexDistal": -4.81751033567826,
+  "LeftMiddleProximal": -25.723652379691078,
+  "LeftMiddleIntermediate": -8.0,
+  "LeftMiddleDistal": -5.470115781754017,
+  "LeftRingProximal": -34.07099615570793,
+  "LeftRingIntermediate": -8.0,
+  "LeftRingDistal": -8.0,
+  "LeftLittleProximal": -35.0,
+  "LeftLittleIntermediate": -8.0,
+  "LeftLittleDistal": -8.0,
+  "LeftThumbProximal": 0.0,
+  "LeftThumbIntermediate": 0.0,
+  "LeftThumbDistal": 0.0
+ },
+ "open_R": {
+  "RightIndexProximal": -23.52402421600613,
+  "RightIndexIntermediate": -8.0,
+  "RightIndexDistal": -4.905505044838971,
+  "RightMiddleProximal": -25.829142686526975,
+  "RightMiddleIntermediate": -8.0,
+  "RightMiddleDistal": -5.4972805910634595,
+  "RightRingProximal": -35.0,
+  "RightRingIntermediate": -8.0,
+  "RightRingDistal": -8.0,
+  "RightLittleProximal": -35.0,
+  "RightLittleIntermediate": -8.0,
+  "RightLittleDistal": -8.0,
+  "RightThumbProximal": 0.0,
+  "RightThumbIntermediate": 0.0,
+  "RightThumbDistal": 0.0
+ },
+ "right_grip": {
+  "RightIndexProximal": -15.488616815480134,
+  "RightIndexIntermediate": -0.130013020833335,
+  "RightIndexDistal": -0.0947341807238109,
+  "RightMiddleProximal": -9.335708199288092,
+  "RightMiddleIntermediate": 8.542285156250003,
+  "RightMiddleDistal": 24.905265819276188,
+  "RightRingProximal": -2.623291015625,
+  "RightRingIntermediate": 22.21826171875,
+  "RightRingDistal": 49.90526581927619,
+  "RightLittleProximal": 7.943359374999993,
+  "RightLittleIntermediate": 32.080468749999994,
+  "RightLittleDistal": 28.073235778808595,
+  "RightThumbProximal": 0.0,
+  "RightThumbIntermediate": 0.0,
+  "RightThumbDistal": 0.0
+ },
+ "left_handle": {
+  "score": 5.190094994294904,
+  "delta": 0.1,
+  "roll_deg": 30.0,
+  "lift": -0.0005245104545610955,
+  "angles": {
+   "LeftIndexProximal": -12.456970705095106,
+   "LeftIndexIntermediate": 3.2594726562500025,
+   "LeftIndexDistal": 2.0550776438066505,
+   "LeftMiddleProximal": -4.154670551168238,
+   "LeftMiddleIntermediate": 14.081901041666669,
+   "LeftMiddleDistal": 27.05507764380665,
+   "LeftRingProximal": 6.695225596886843,
+   "LeftRingIntermediate": 30.388118489583334,
+   "LeftRingDistal": 45.314111328125,
+   "LeftLittleProximal": 12.190185546875,
+   "LeftLittleIntermediate": 36.04417317708334,
+   "LeftLittleDistal": 20.314111328125,
+   "LeftThumbProximal": 0.0,
+   "LeftThumbIntermediate": 0.0,
+   "LeftThumbDistal": 0.0
+  },
+  "finger_gap_mm": {
+   "index": 0.3005268269481165,
+   "middle": 0.30060990700522644,
+   "ring": 0.30063925120235935,
+   "pinky": 0.3007879309369459
+  },
+  "hand_to_racket_mm": 0.3005268269481165,
+  "hand_to_right_hand_mm": 6.9172392906112705,
+  "T_hand_in_racket": [
+   [
+    0.3032458932425149,
+    0.07553974520630213,
+    0.9499134563523577,
+    -0.04572066963245814
+   ],
+   [
+    -0.4915983218619032,
+    0.8663601993866458,
+    0.08804006265181988,
+    0.039776273138855234
+   ],
+   [
+    -0.8163169321636051,
+    -0.4936733714551178,
+    0.2998554838201636,
+    0.05550546832561672
+   ],
+   [
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ]
+  ],
+  "top5": [
+   {
+    "score": 5.190094994294904,
+    "delta": 0.1,
+    "roll": 30.0
+   },
+   {
+    "score": 5.190094994294904,
+    "delta": 0.1,
+    "roll": 45.0
+   },
+   {
+    "score": 5.169251462235977,
+    "delta": 0.09,
+    "roll": 45.0
+   },
+   {
+    "score": 3.649494532539456,
+    "delta": 0.1,
+    "roll": 15.0
+   },
+   {
+    "score": 3.425225624282057,
+    "delta": 0.07,
+    "roll": -45.0
+   }
+  ]
+ },
+ "left_throat": {
+  "score": 5.7438802518369405,
+  "delta": 0.145,
+  "roll_deg": 0.0,
+  "lift": -0.004372010684204933,
+  "angles": {
+   "LeftIndexProximal": 10.276656145854496,
+   "LeftIndexIntermediate": 27.174088541666656,
+   "LeftIndexDistal": 55.0,
+   "LeftMiddleProximal": -3.7527059952769584,
+   "LeftMiddleIntermediate": 14.493424479166666,
+   "LeftMiddleDistal": 55.0,
+   "LeftRingProximal": 5.997353682561467,
+   "LeftRingIntermediate": 29.736842679977432,
+   "LeftRingDistal": 55.0,
+   "LeftLittleProximal": 20.4736328125,
+   "LeftLittleIntermediate": 43.775390625,
+   "LeftLittleDistal": 33.74670748710632,
+   "LeftThumbProximal": 0.0,
+   "LeftThumbIntermediate": 0.0,
+   "LeftThumbDistal": 0.0
+  },
+  "finger_gap_mm": {
+   "index": 0.3001050765365967,
+   "middle": 0.30001833435181097,
+   "ring": 0.30003155104003226,
+   "pinky": 0.3001199895855782
+  },
+  "hand_to_racket_mm": 0.30001833435181097,
+  "hand_to_right_hand_mm": 23.612119498013943,
+  "T_hand_in_racket": [
+   [
+    0.6707771132231242,
+    0.3122560240716203,
+    0.6727214426877406,
+    -0.06475969963732543
+   ],
+   [
+    -0.4915983218619032,
+    0.8663601993866458,
+    0.08804006265181988,
+    0.08511500730012594
+   ],
+   [
+    -0.555328254171803,
+    -0.3897638082488925,
+    0.7346391946285141,
+    0.0280353352727461
+   ],
+   [
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ]
+  ],
+  "top5": [
+   {
+    "score": 0.7660722477139714,
+    "delta": 0.145,
+    "roll": 0.0
+   },
+   {
+    "score": 0.7660722477139714,
+    "delta": 0.145,
+    "roll": -15.0
+   },
+   {
+    "score": 0.7660722477139714,
+    "delta": 0.145,
+    "roll": 15.0
+   },
+   {
+    "score": 0.7660722477139714,
+    "delta": 0.145,
+    "roll": -30.0
+   },
+   {
+    "score": 0.7660722477139714,
+    "delta": 0.145,
+    "roll": 30.0
+   }
+  ]
+ },
+ "T_hand_R_in_racket": [
+  [
+   0.6707771132231242,
+   -0.3122560240716203,
+   -0.6727214426877406,
+   0.06770084497224998
+  ],
+  [
+   0.4915983218619032,
+   0.8663601993866458,
+   0.08804006265181988,
+   -0.060269904794425865
+  ],
+  [
+   0.555328254171803,
+   -0.3897638082488925,
+   0.7346391946285141,
+   0.02482348486479453
+  ],
+  [
+   0.0,
+   0.0,
+   0.0,
+   1.0
+  ]
+ ],
+ "T_hand_L_mirror_base": [
+  [
+   0.6707771132231242,
+   0.3122560240716203,
+   0.6727214426877406,
+   -0.06770084497224998
+  ],
+  [
+   -0.4915983218619032,
+   0.8663601993866458,
+   0.08804006265181988,
+   -0.060269904794425865
+  ],
+  [
+   -0.555328254171803,
+   -0.3897638082488925,
+   0.7346391946285141,
+   0.02482348486479453
+  ],
+  [
+   0.0,
+   0.0,
+   0.0,
+   1.0
+  ]
+ ]
+}

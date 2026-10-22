@@ -1,0 +1,10 @@
+{
+  "status": "render pending; no appearance PASS",
+  "reason": "Human rejected loss of character shine",
+  "changes": [
+    "Restore authored material rim strength with neutral profile multiplier; course rim intensity remains a separate light",
+    "Skin exposure 1, late rational shoulder knee .88 ceiling .985; original skin/eye smoothness unchanged",
+    "Cloth keeps separate .60/.82 white shoulder target in shared helper"
+  ],
+  "rollback": "work/golf-look/rollback/shine_repair_r1"
+}

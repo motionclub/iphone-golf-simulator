@@ -1,0 +1,26 @@
+[
+  {
+    "name": "reference-coastal-default-regression",
+    "args": [
+      "-runTests",
+      "-testPlatform",
+      "PlayMode",
+      "-testFilter",
+      "GolfArcade.PlayTests.GolfCourseStandardPlayTests.UpgradePreservesGroundObstaclesAndHazardsAcrossTheCatalog",
+      "-testResults",
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/coastal-default-tests/course-playmode.xml"
+    ]
+  },
+  {
+    "name": "reference-coastal-core-regression",
+    "args": [
+      "-runTests",
+      "-testPlatform",
+      "EditMode",
+      "-testFilter",
+      "GolfArcade.Tests.GolfCourseStandardTests;GolfArcade.Tests.IslandCarryHoleTests;GolfArcade.Tests.ObstacleTests;GolfArcade.Tests.SurfaceTests",
+      "-testResults",
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/coastal-default-tests/course-editmode.xml"
+    ]
+  }
+]

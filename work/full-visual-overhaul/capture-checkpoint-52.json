@@ -1,0 +1,27 @@
+[
+  {
+    "name": "tennis-world21-resort",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-worlds-pass-21",
+      "HERO_VENUE_REFERENCE": "1",
+      "HERO_VENUE_CAMERA_GRID": "1",
+      "HERO_VENUE_SURFACES": "1",
+      "HERO_VENUE_ONLY": "1_gameplay,9_hero_postcard,14_reference_camera,15_reference_a,15_reference_b,15_reference_c,15_reference_d,15_reference_e,15_reference_f,15_reference_g,15_reference_h,3_drone0,12_terrace_close"
+    }
+  },
+  {
+    "name": "character-pass-30-art6-crafted2",
+    "method": "GolfArcade.EditorTools.VisualOverhaulCharacterCapture.Run",
+    "env": {
+      "VISUAL_CHARACTER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/character-pass-30-art6-crafted2",
+      "VISUAL_CHARACTER_STARTER": "1",
+      "VISUAL_CHARACTER_CLIPS": "Ready,IntroWave,IntroPushups",
+      "VISUAL_HEAD_FORM": "crafted2",
+      "VISUAL_CHARACTER_SKIN_MALE": "D49A70",
+      "VISUAL_CHARACTER_SKIN_FEMALE": "EBC3A1",
+      "VISUAL_CHARACTER_FEATURE_DUMPS": "1"
+    }
+  }
+]

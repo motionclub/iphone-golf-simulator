@@ -570,7 +570,7 @@ export class Hub {
     const code = this.#roomCode(conn, msg); if (!code) return;
     let room = this.rooms.get(code);
     if (room && !room.allowed.has(conn.id)) return this.#send(conn, { t: 'error', code: 'room_taken', message: 'that party code is in use', ref: code });
-    if (!room) { room = { code, members: new Set(), allowed: new Set([conn.id]), emptySince: this.now() }; this.rooms.set(code, room); }
+    if (!room) { room = { code, hostID: conn.id, members: new Set(), allowed: new Set([conn.id]), emptySince: this.now() }; this.rooms.set(code, room); }
     this.#enterRoom(room, conn);
   }
 
@@ -578,7 +578,15 @@ export class Hub {
     const code = this.#roomCode(conn, msg); if (!code) return;
     const room = this.rooms.get(code);
     if (!room) return this.#send(conn, { t: 'error', code: 'room_gone', message: 'that party has ended', ref: code });
-    if (!room.allowed.has(conn.id)) return this.#send(conn, { t: 'error', code: 'room_denied', message: 'not invited to that party', ref: code });
+    if (!room.allowed.has(conn.id)) {
+      const host = this.sessions.get(room.hostID);
+      if (!host || !this.#canSee(conn, host) || !host.presence.lobby?.open
+          || host.presence.lobby.code !== code || host.presence.lobby.size >= host.presence.lobby.capacity
+          || !['plaza', 'lobby'].includes(host.presence.state)) {
+        return this.#send(conn, { t: 'error', code: 'room_denied', message: 'that friend lobby is not open', ref: code });
+      }
+      room.allowed.add(conn.id); // a dropped member can return while the party is playing
+    }
     this.#enterRoom(room, conn);
   }
 
@@ -598,6 +606,8 @@ export class Hub {
 
   #leaveRoom(room, id) {
     room.members.delete(id);
+    // Match MultiplayerService's idle host succession (lowest remaining player id).
+    if (room.hostID === id && room.members.size > 0) room.hostID = [...room.members].sort()[0];
     if (room.members.size === 0) room.emptySince = this.now();
     else this.#roomPeers(room);
     const c = this.sessions.get(id);

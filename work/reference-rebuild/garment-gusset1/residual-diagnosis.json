@@ -1,0 +1,398 @@
+[
+  {
+    "face": 8590,
+    "sourceFace": 2803,
+    "pixels": 5,
+    "deficitMm": 6.495705749832048,
+    "free": [
+      true,
+      true,
+      true
+    ],
+    "ids": [
+      26558,
+      21558,
+      30488
+    ],
+    "clearanceDisplacementMm": [
+      26.795304780452074,
+      30.19087114061836,
+      21.30594128684871
+    ],
+    "posedEdgeMaxMm": 10.726873522965272
+  },
+  {
+    "face": 11269,
+    "sourceFace": 3698,
+    "pixels": 2,
+    "deficitMm": 4.309790709557504,
+    "free": [
+      true,
+      true,
+      false
+    ],
+    "ids": [
+      14504,
+      15359,
+      14108
+    ],
+    "clearanceDisplacementMm": [
+      10.464675119999786,
+      18.54367025782238,
+      0.0
+    ],
+    "posedEdgeMaxMm": 20.108241074338384
+  },
+  {
+    "face": 16637,
+    "sourceFace": 5134,
+    "pixels": 1,
+    "deficitMm": 1.414069690103048,
+    "free": [
+      false,
+      false,
+      true
+    ],
+    "ids": [
+      15232,
+      27114,
+      27117
+    ],
+    "clearanceDisplacementMm": [
+      0.0,
+      0.0,
+      13.927140751287851
+    ],
+    "posedEdgeMaxMm": 14.451568545005392
+  },
+  {
+    "face": 19682,
+    "sourceFace": 5858,
+    "pixels": 1,
+    "deficitMm": 2.0515328983830017,
+    "free": [
+      true,
+      true,
+      true
+    ],
+    "ids": [
+      14479,
+      24878,
+      15097
+    ],
+    "clearanceDisplacementMm": [
+      17.775410056064903,
+      17.4463809014786,
+      4.637733958081154
+    ],
+    "posedEdgeMaxMm": 17.187319372893082
+  },
+  {
+    "face": 19700,
+    "sourceFace": 5858,
+    "pixels": 2,
+    "deficitMm": 7.589433744059626,
+    "free": [
+      true,
+      true,
+      true
+    ],
+    "ids": [
+      15097,
+      26691,
+      14479
+    ],
+    "clearanceDisplacementMm": [
+      4.637733958081154,
+      2.4866768687328498,
+      17.775410056064903
+    ],
+    "posedEdgeMaxMm": 18.04640856133933
+  },
+  {
+    "face": 20015,
+    "sourceFace": 5994,
+    "pixels": 1,
+    "deficitMm": 1.945988411371502,
+    "free": [
+      true,
+      true,
+      true
+    ],
+    "ids": [
+      31076,
+      17552,
+      24035
+    ],
+    "clearanceDisplacementMm": [
+      19.618531674461792,
+      0.0,
+      0.0
+    ],
+    "posedEdgeMaxMm": 21.705548847949704
+  },
+  {
+    "face": 29636,
+    "sourceFace": 9103,
+    "pixels": 3,
+    "deficitMm": 14.805551326965372,
+    "free": [
+      true,
+      true,
+      true
+    ],
+    "ids": [
+      24739,
+      20140,
+      15438
+    ],
+    "clearanceDisplacementMm": [
+      38.86472976640566,
+      28.253962304134575,
+      25.901008518548824
+    ],
+    "posedEdgeMaxMm": 34.99631142192636
+  },
+  {
+    "face": 42262,
+    "sourceFace": 12547,
+    "pixels": 1,
+    "deficitMm": 15.673260371831255,
+    "free": [
+      true,
+      true,
+      true
+    ],
+    "ids": [
+      14495,
+      24915,
+      20281
+    ],
+    "clearanceDisplacementMm": [
+      40.000000000000064,
+      0.0,
+      39.999999999999936
+    ],
+    "posedEdgeMaxMm": 43.70370463022165
+  },
+  {
+    "face": 42263,
+    "sourceFace": 12547,
+    "pixels": 2,
+    "deficitMm": 15.889367386128228,
+    "free": [
+      true,
+      true,
+      true
+    ],
+    "ids": [
+      24915,
+      17087,
+      20281
+    ],
+    "clearanceDisplacementMm": [
+      0.0,
+      0.0,
+      39.999999999999936
+    ],
+    "posedEdgeMaxMm": 43.57931813904045
+  },
+  {
+    "face": 48059,
+    "sourceFace": 17747,
+    "pixels": 1,
+    "deficitMm": 10.861621180825232,
+    "free": [
+      true,
+      true,
+      true
+    ],
+    "ids": [
+      28957,
+      20268,
+      28958
+    ],
+    "clearanceDisplacementMm": [
+      33.26799391418278,
+      0.0,
+      0.0
+    ],
+    "posedEdgeMaxMm": 47.15731661137929
+  },
+  {
+    "face": 48274,
+    "sourceFace": 17748,
+    "pixels": 1,
+    "deficitMm": 15.149060178533347,
+    "free": [
+      true,
+      true,
+      true
+    ],
+    "ids": [
+      15126,
+      26758,
+      26755
+    ],
+    "clearanceDisplacementMm": [
+      0.0,
+      0.0,
+      30.126927955763755
+    ],
+    "posedEdgeMaxMm": 34.086204843707115
+  },
+  {
+    "face": 48276,
+    "sourceFace": 17748,
+    "pixels": 2,
+    "deficitMm": 14.358162153630616,
+    "free": [
+      true,
+      true,
+      true
+    ],
+    "ids": [
+      26758,
+      20312,
+      26755
+    ],
+    "clearanceDisplacementMm": [
+      0.0,
+      30.193849141551816,
+      30.126927955763755
+    ],
+    "posedEdgeMaxMm": 38.053286688086416
+  },
+  {
+    "face": 48291,
+    "sourceFace": 17748,
+    "pixels": 4,
+    "deficitMm": 12.26138952700051,
+    "free": [
+      true,
+      true,
+      true
+    ],
+    "ids": [
+      15126,
+      26756,
+      26754
+    ],
+    "clearanceDisplacementMm": [
+      0.0,
+      25.183145499985695,
+      26.4376990352586
+    ],
+    "posedEdgeMaxMm": 34.49242491718165
+  },
+  {
+    "face": 48297,
+    "sourceFace": 17748,
+    "pixels": 1,
+    "deficitMm": 10.159997880816896,
+    "free": [
+      true,
+      true,
+      true
+    ],
+    "ids": [
+      15126,
+      26754,
+      21643
+    ],
+    "clearanceDisplacementMm": [
+      0.0,
+      26.4376990352586,
+      29.211350540128876
+    ],
+    "posedEdgeMaxMm": 32.79706025416353
+  },
+  {
+    "face": 48299,
+    "sourceFace": 17748,
+    "pixels": 2,
+    "deficitMm": 12.83280529220221,
+    "free": [
+      true,
+      true,
+      true
+    ],
+    "ids": [
+      21643,
+      26768,
+      15126
+    ],
+    "clearanceDisplacementMm": [
+      29.211350540128876,
+      24.34928829074858,
+      0.0
+    ],
+    "posedEdgeMaxMm": 32.79706025416353
+  },
+  {
+    "face": 48300,
+    "sourceFace": 17748,
+    "pixels": 1,
+    "deficitMm": 9.974240664975653,
+    "free": [
+      true,
+      true,
+      true
+    ],
+    "ids": [
+      26768,
+      15129,
+      15126
+    ],
+    "clearanceDisplacementMm": [
+      24.34928829074858,
+      0.0,
+      0.0
+    ],
+    "posedEdgeMaxMm": 25.69426328325013
+  },
+  {
+    "face": 50383,
+    "sourceFace": 18027,
+    "pixels": 1,
+    "deficitMm": 12.277198496610353,
+    "free": [
+      true,
+      true,
+      true
+    ],
+    "ids": [
+      15064,
+      26570,
+      26572
+    ],
+    "clearanceDisplacementMm": [
+      14.031048320322626,
+      8.476121414013443,
+      26.78040783806875
+    ],
+    "posedEdgeMaxMm": 30.64304390963958
+  },
+  {
+    "face": 50568,
+    "sourceFace": 18028,
+    "pixels": 3,
+    "deficitMm": 3.382946880166493,
+    "free": [
+      true,
+      true,
+      true
+    ],
+    "ids": [
+      15065,
+      26575,
+      21566
+    ],
+    "clearanceDisplacementMm": [
+      13.938083203892472,
+      20.318679765027696,
+      9.063800724623055
+    ],
+    "posedEdgeMaxMm": 12.715808423358485
+  }
+]

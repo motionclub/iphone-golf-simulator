@@ -1,0 +1,11 @@
+[
+  {
+    "name": "character-finish32-pose-normals",
+    "exit": 1,
+    "seconds": 3.38,
+    "shaderErrors": [],
+    "compileErrors": [
+      "Assets/Editor/AnimationCatalogFilm.cs(91,125): error CS1061: 'AnimationClipPlayable' does not contain a definition for 'SetTime' and no accessible extension method 'SetTime' accepting a first argument of type 'AnimationClipPlayable' could be found (are you missing a using directive or an assembly reference?)"
+    ]
+  }
+]

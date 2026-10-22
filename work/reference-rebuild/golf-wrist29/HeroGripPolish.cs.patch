@@ -1,0 +1,114 @@
+--- Unity/Assets/Scripts/Tennis/HeroGripPolish.cs
++++ Unity/Assets/Scripts/Tennis/HeroGripPolish.cs
+@@ -2,8 +2,8 @@
+ 
+ namespace GolfArcade.Tennis
+ {
+-    /// Bounded finger-only refinement on the existing Generic hierarchy. Hand/socket,
+-    /// racket contact, arm pose and rest matrices are never changed.
++    /// Shared finger refinement on the original Generic hierarchy. The golf wrist
++    /// review flag permits bounded grip roll and arm pose changes; rest/rig stay exact.
+     [DefaultExecutionOrder(1160), DisallowMultipleComponent]
+     public sealed class HeroGripPolish : MonoBehaviour
+     {
+@@ -105,7 +105,11 @@
+             float radius=.017f*Mathf.Abs(grip.lossyScale.x);
+             FitDigits(hero,false,origin,axis,radius,.006f,24,32);
+         }
+-        sealed class GolfGripData { public Transform grip;public SkinnedMeshRenderer[] clubs;public Vector3[] ends; }
++        sealed class GolfGripData { public Transform grip;public SkinnedMeshRenderer[] clubs;public Vector3[] ends;public GolfWristResult[] wrists = new GolfWristResult[2]; }
++        sealed class GolfWristResult {
++            public Vector3 shoulder, elbow, wrist, grip, shaft;
++            public Quaternion upperRotation, lowerRotation, handRotation;
++        }
+         static readonly System.Collections.Generic.Dictionary<MatchHeroLook,GolfGripData> golfData=new();
+         sealed class RestJoint { public Transform bone;public Quaternion local;public Vector3 hinge,tip,palmTarget,palmNormal; }
+         static readonly System.Collections.Generic.Dictionary<MatchHeroLook,System.Collections.Generic.Dictionary<string,RestJoint>> restData=new();
+@@ -162,6 +166,78 @@
+                 if(rest.TryGetValue(key,out var r))r.bone.localRotation=r.local*Quaternion.AngleAxis(curl[d,j],r.hinge);
+             }
+         }
++        // Review candidate: carry the sampled hand around the unchanged shaft,
++        // preserving its cylinder contact, then solve the original two-bone arm.
++        // The small shared search limits wrist and elbow translations to40mm.
++        static void ApplyGolfWristRoll(MatchHeroLook hero, GolfGripData data, bool left, Vector3 axis, float scale)
++        {
++            if (System.Environment.GetEnvironmentVariable("VISUAL_GOLF_WRIST_ROLL") != "1") return;
++            var upper = hero.Bone(left ? HumanBodyBones.LeftUpperArm : HumanBodyBones.RightUpperArm);
++            var lower = hero.Bone(left ? HumanBodyBones.LeftLowerArm : HumanBodyBones.RightLowerArm);
++            var hand = hero.Bone(left ? HumanBodyBones.LeftHand : HumanBodyBones.RightHand);
++            var middle = Bone(hero, left, "Middle", "Proximal");
++            if (!upper || !lower || !hand || !middle || scale < .0001f) return;
++            var shoulder = upper.position; var wrist = hand.position; var elbow = lower.position;
++            var origin = data.grip.position; var handRotation = hand.rotation;
++            int side = left ? 1 : 0; var last = data.wrists[side];
++            // A paused proof/locker may invoke grip repeatedly without resampling.
++            // Skip the exact solved output instead of accumulating another45deg.
++            if (last != null && (last.shoulder - shoulder).sqrMagnitude < 1e-12f &&
++                (last.elbow - elbow).sqrMagnitude < 1e-12f && (last.wrist - wrist).sqrMagnitude < 1e-12f &&
++                (last.grip - origin).sqrMagnitude < 1e-12f && (last.shaft - axis).sqrMagnitude < 1e-12f &&
++                Mathf.Abs(Quaternion.Dot(last.upperRotation, upper.rotation)) > .999999f &&
++                Mathf.Abs(Quaternion.Dot(last.lowerRotation, lower.rotation)) > .999999f &&
++                Mathf.Abs(Quaternion.Dot(last.handRotation, handRotation)) > .999999f) return;
++            var palm = (middle.position - wrist).normalized;
++            float originalAngle = Vector3.Angle(wrist - elbow, palm);
++            if (originalAngle <= 35f) return;
++            float a = Vector3.Distance(shoulder, elbow), b = Vector3.Distance(elbow, wrist);
++            if (a < .0001f || b < .0001f) return;
++            float limit = .04f * scale, bestCost = originalAngle * originalAngle, bestRoll = 0;
++            var bestWrist = wrist; var bestElbow = elbow;
++            for (int degrees = -45; degrees <= 45; degrees++) {
++                var turn = Quaternion.AngleAxis(degrees, axis);
++                var target = origin + turn * (wrist - origin);
++                if ((target - wrist).sqrMagnitude > limit * limit) continue;
++                var forward = target - shoulder; float distance = forward.magnitude;
++                if (distance >= a + b - .00001f || distance <= Mathf.Abs(a - b) + .00001f) continue;
++                forward /= distance;
++                float along = (a * a - b * b + distance * distance) / (2 * distance);
++                float radius = Mathf.Sqrt(Mathf.Max(0, a * a - along * along));
++                var centre = shoulder + forward * along;
++                var pole = Vector3.ProjectOnPlane(elbow - centre, forward);
++                if (pole.sqrMagnitude < 1e-10f) continue;
++                var trialElbow = centre + pole.normalized * radius;
++                float elbowShift = Vector3.Distance(trialElbow, elbow);
++                if (elbowShift > limit) continue;
++                float angle = Vector3.Angle(target - trialElbow, turn * palm);
++                float cost = angle * angle + .12f * degrees * degrees + 50000f * elbowShift * elbowShift / (scale * scale);
++                if (cost >= bestCost) continue;
++                bestCost = cost; bestRoll = degrees; bestWrist = target; bestElbow = trialElbow;
++            }
++            // Fade in near comfortable wrists; activation is continuous at35deg.
++            bestRoll *= Mathf.SmoothStep(0, 1, Mathf.InverseLerp(35, 50, originalAngle));
++            if (Mathf.Abs(bestRoll) < .0001f) return;
++            var bestTurn = Quaternion.AngleAxis(bestRoll, axis);
++            bestWrist = origin + bestTurn * (wrist - origin);
++            var finalAxis = bestWrist - shoulder; float finalDistance = finalAxis.magnitude;
++            if (finalDistance >= a + b - .00001f || finalDistance <= Mathf.Abs(a - b) + .00001f) return;
++            finalAxis /= finalDistance;
++            float finalAlong = (a * a - b * b + finalDistance * finalDistance) / (2 * finalDistance);
++            var finalCentre = shoulder + finalAxis * finalAlong;
++            var finalPole = Vector3.ProjectOnPlane(elbow - finalCentre, finalAxis);
++            if (finalPole.sqrMagnitude < 1e-10f) return;
++            bestElbow = finalCentre + finalPole.normalized * Mathf.Sqrt(Mathf.Max(0, a * a - finalAlong * finalAlong));
++            if (Vector3.Distance(bestElbow, elbow) > limit) return;
++            var rotation = bestTurn * handRotation;
++            upper.rotation = Quaternion.FromToRotation(lower.position - shoulder, bestElbow - shoulder) * upper.rotation;
++            lower.rotation = Quaternion.FromToRotation(hand.position - lower.position, bestWrist - lower.position) * lower.rotation;
++            hand.SetPositionAndRotation(bestWrist, rotation);
++            // Club remains untouched. Existing finger closure runs after this.
++            data.wrists[side] = new GolfWristResult { shoulder = upper.position, elbow = lower.position,
++                wrist = hand.position, grip = origin, shaft = axis, upperRotation = upper.rotation,
++                lowerRotation = lower.rotation, handRotation = hand.rotation };
++        }
+         public static void ApplyGolfGrip(MatchHeroLook hero)
+         {
+             if(!hero||!hero.golfKit)return;
+@@ -186,6 +262,8 @@
+             // local axis, not a diagonal from the grip to the farthest head corner.
+             Vector3 localAxis=Mathf.Abs(end.x)>Mathf.Abs(end.y)&&Mathf.Abs(end.x)>Mathf.Abs(end.z) ? Vector3.right*Mathf.Sign(end.x) : Mathf.Abs(end.y)>Mathf.Abs(end.z) ? Vector3.up*Mathf.Sign(end.y):Vector3.forward*Mathf.Sign(end.z);
+             var along=data.grip.TransformVector(localAxis).normalized;
++            ApplyGolfWristRoll(hero, data, false, along, scale);
++            ApplyGolfWristRoll(hero, data, true, along, scale);
+             FitDigits(hero,false,data.grip.position,along,.014f*scale,.006f*scale,35,55);
+             FitDigits(hero,true,data.grip.position,along,.014f*scale,.006f*scale,35,55);
+         }

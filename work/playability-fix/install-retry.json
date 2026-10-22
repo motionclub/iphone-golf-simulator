@@ -1,0 +1,51 @@
+{
+  "error" : {
+    "code" : 4016,
+    "domain" : "com.apple.dt.CoreDeviceError",
+    "userInfo" : {
+      "CurrentlyAssertableStates" : {
+        "array" : [
+
+        ]
+      },
+      "NSLocalizedDescription" : {
+        "string" : "The device is not able to fulfill the requested usage assertion requirements."
+      },
+      "RequestedDeviceStates" : {
+        "array" : [
+          {
+            "string" : "com.apple.coredevice.remoteServiceDiscoveryTrustedConnectivityAvailable"
+          },
+          {
+            "string" : "com.apple.coredevice.coreDeviceServicesLoaded"
+          },
+          {
+            "string" : "com.apple.coredevice.powerAssertionTaken"
+          }
+        ]
+      }
+    }
+  },
+  "info" : {
+    "arguments" : [
+      "devicectl",
+      "device",
+      "install",
+      "app",
+      "--device",
+      "00008150-00041CD92287801C",
+      "--timeout",
+      "60",
+      "work/golf-look/device/combined/DerivedData/Build/Products/Release-iphoneos/GolfArcade.app",
+      "--json-output",
+      "work/playability-fix/install-retry.json"
+    ],
+    "commandType" : "devicectl.device.install.app",
+    "environment" : {
+      "TERM" : "dumb"
+    },
+    "jsonVersion" : 5,
+    "outcome" : "failed",
+    "version" : "642.16"
+  }
+}

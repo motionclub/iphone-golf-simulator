@@ -1,0 +1,27 @@
+{
+  "generated_utc": "2026-10-05T20:33:28.301223+00:00",
+  "scope": "Scratch-only static preparation; no image collector, protected checker, Blender, Unity, Xcode or Git execution.",
+  "scripts": [
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole10/measure_native_p4.py",
+      "sha256": "468c0f9447390c2fd79a240f49ea6fd5fa851717d099d10c6e02a8710deaecb2",
+      "python_ast": "PASS"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/runtime/check_protected_unique.py",
+      "sha256": "65ca49ae1af90893fbade974110d5eb3711b7bd6c7dfd80dd851a7dc16e47f96",
+      "python_ast": "PASS"
+    }
+  ],
+  "legacy_metric_source_sha256": "2fe4ca728a0fbc3e0b6d1a2fe07dcc808b6572a82407d5d7d3fb3a22d049fab7",
+  "installed_piece_classifier_sha256": "ea7b82f095f419157a28b5260722c764c75b78201c286547a674ce475251da5e",
+  "protected_adapter_exact_source_anchor_check": "PASS",
+  "native_p4_measurement_launched": false,
+  "protected_check_launched": false,
+  "basalt_gate_policy": "All native tee/app captures require exact mask provenance, byte-exact native fullRGB, >=2000 basalt pixels, original colour/rung/vertical caps, and pooled tee/app skeleton >=200px with >=3junction clusters/100px. Every aerial remains separately diagnostic.",
+  "unmeasured_native_gates": [
+    "SMOKE_SOFT",
+    "LAVA_ORANGE_AND_BRIGHT"
+  ],
+  "unmeasured_status": "FAIL; no inferred PASS or fixture-image substitution"
+}

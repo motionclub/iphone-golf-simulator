@@ -1,0 +1,9 @@
+Source: MatchHeroLook.body, BakeMesh each rendered frame. Bone sums > 0.5.
+ARM=Left upper/lower arm, hand, all fingers (2184 vertices).
+TRUNK=Hips, Spine, Chest, UpperChest, both UpperLeg.
+Trunk triangles require all three vertices in TRUNK. Weld coincident bind vertices at 1 micrometre, cap partition boundary loops.
+boundary_edges=179, capped_loops=3, unresolved_edges=0, nonmanifold_edges=0
+Inside: majority parity of three non-axis rays through closed trunk. Depth: closest ORIGINAL trunk triangle, excluding synthetic caps. BVH rebuilt once and refitted to real skin per frame.
+Visibility: ray from ball towards camera, excluding the first ball-radius distance, against full baked body; frustum checked.
+Current HeroTennisDriver ALWAYS solves Left arm even when actor.LeftHanded=true; recorded faithfully, no simulation mirroring.
+Ball-palm uses 0.7 between wrist and middle proximal, same as production.

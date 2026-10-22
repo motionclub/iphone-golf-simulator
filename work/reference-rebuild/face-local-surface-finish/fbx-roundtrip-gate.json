@@ -1,0 +1,27 @@
+{
+  "gate": "PASS",
+  "bonesCount": 53,
+  "bonesRestHierarchyExact": true,
+  "objects": {
+    "Body": {
+      "vertices": 33472,
+      "weightsTopologyUvColorExact": true,
+      "maxPositionDeltaMetres": 0.0018000006675720215,
+      "maxShapeDeltaErrorsMetres": {
+        "Basis": 0.0,
+        "Hero_Blink_Half": 0.0,
+        "Hero_Blink": 0.0
+      }
+    },
+    "ReferenceFeatures": {
+      "vertices": 1812,
+      "weightsTopologyUvColorExact": true,
+      "maxPositionDeltaMetres": 0.0,
+      "maxShapeDeltaErrorsMetres": {
+        "Basis": 0.0,
+        "Hero_Blink_Half": 0.0,
+        "Hero_Blink": 0.0
+      }
+    }
+  }
+}

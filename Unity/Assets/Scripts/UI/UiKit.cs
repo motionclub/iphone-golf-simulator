@@ -136,7 +136,7 @@ namespace GolfArcade.UI
             return canvas;
         }
 
-        public static Text Label(Transform parent, string name, int size, TextAnchor anchor, Vector2 anchorMin, Vector2 anchorMax, Vector2 pos, Vector2 sizeDelta, Font face = null, bool shadow = true)
+        public static Text Label(Transform parent, string name, int size, TextAnchor anchor, Vector2 anchorMin, Vector2 anchorMax, Vector2 pos, Vector2 sizeDelta, Font face = null, bool shadow = true, ThemeRole? role = null)
         {
             var go = new GameObject(name);
             go.transform.SetParent(parent, false);
@@ -153,12 +153,13 @@ namespace GolfArcade.UI
             var rt = t.rectTransform;
             rt.anchorMin = anchorMin; rt.anchorMax = anchorMax; rt.pivot = anchorMin;
             rt.anchoredPosition = pos; rt.sizeDelta = sizeDelta;
+            if (role.HasValue) ThemedGraphic.Bind(go, role.Value);
             return t;
         }
 
         /// A flat colour rectangle; rounded by default (9-sliced), square when `rounded` is false
         /// for hairlines and marks.
-        public static Image Panel(Transform parent, string name, Color color, Vector2 anchorMin, Vector2 anchorMax, Vector2 pos, Vector2 sizeDelta, bool rounded = true)
+        public static Image Panel(Transform parent, string name, Color color, Vector2 anchorMin, Vector2 anchorMax, Vector2 pos, Vector2 sizeDelta, bool rounded = true, ThemeRole? role = null)
         {
             var go = new GameObject(name);
             go.transform.SetParent(parent, false);
@@ -168,15 +169,16 @@ namespace GolfArcade.UI
             var rt = img.rectTransform;
             rt.anchorMin = anchorMin; rt.anchorMax = anchorMax; rt.pivot = anchorMin;
             rt.anchoredPosition = pos; rt.sizeDelta = sizeDelta;
+            if (role.HasValue) ThemedGraphic.Bind(go, role.Value);
             return img;
         }
 
         /// A card: a faint light edge with a navy fill inset inside it. Content parented to the
         /// returned (outer) image draws over the fill.
-        public static Image Card(Transform parent, string name, Vector2 anchorMin, Vector2 anchorMax, Vector2 pos, Vector2 sizeDelta, Color? fill = null)
+        public static Image Card(Transform parent, string name, Vector2 anchorMin, Vector2 anchorMax, Vector2 pos, Vector2 sizeDelta, Color? fill = null, ThemeRole? role = null)
         {
-            var edge = Panel(parent, name, CardEdge, anchorMin, anchorMax, pos, sizeDelta);
-            var inner = Panel(edge.transform, "Fill", fill ?? CardFill, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
+            var edge = Panel(parent, name, CardEdge, anchorMin, anchorMax, pos, sizeDelta, true, role == null ? null : ThemeRole.PanelStroke);
+            var inner = Panel(edge.transform, "Fill", fill ?? CardFill, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero, true, role);
             inner.rectTransform.offsetMin = new Vector2(3, 3); inner.rectTransform.offsetMax = new Vector2(-3, -3);
             inner.raycastTarget = false;
             return edge;
@@ -218,9 +220,9 @@ namespace GolfArcade.UI
             return t;
         }
 
-        public static HoldButton Button(Transform parent, string label, Vector2 anchor, Vector2 pos, Vector2 size, int fontSize = 80, Color? tint = null, Font face = null, bool shadow = true)
+        public static HoldButton Button(Transform parent, string label, Vector2 anchor, Vector2 pos, Vector2 size, int fontSize = 80, Color? tint = null, Font face = null, bool shadow = true, ThemeRole? role = null)
         {
-            var img = Card(parent, label, anchor, anchor, pos, size, tint ?? ButtonFill);
+            var img = Card(parent, label, anchor, anchor, pos, size, tint ?? ButtonFill, role);
             img.rectTransform.pivot = new Vector2(0.5f, 0.5f);
             var hold = img.gameObject.AddComponent<HoldButton>();
             hold.Fill = img.transform.Find("Fill").GetComponent<Image>();
@@ -228,6 +230,8 @@ namespace GolfArcade.UI
             var t = Label(img.transform, "Label", fontSize, TextAnchor.MiddleCenter, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, size, face ?? Strong, shadow);
             t.text = label;
             t.raycastTarget = false;
+            // a themed button keeps its rest colour in step with the theme (the held colour is unchanged)
+            if (role.HasValue) { ThemedGraphic.Bind(t.gameObject, ThemeRole.ButtonText); hold.RestColor = hold.Fill.color; }
             return hold;
         }
     }

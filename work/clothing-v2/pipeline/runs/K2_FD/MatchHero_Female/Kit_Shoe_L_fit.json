@@ -1,0 +1,18 @@
+{
+ "hero": "MatchHero_Female",
+ "tag": "Kit_Shoe_L",
+ "source": "dump:Kit_Shoe_L",
+ "seconds": 242.2,
+ "weights": {
+  "footwear": "Left",
+  "foot_mass": 0.8054047583361418
+ },
+ "shapes": 0,
+ "log": [
+  "FIT MatchHero_Female Kit_Shoe_L from dump:Kit_Shoe_L: 14054 verts 27800 tris",
+  "  weights: footwear on the Left foot (81% of the piece on foot skin): rigid foot + toe flex + collar on the shin",
+  "  seams: 3951 coincident vertices welded into 1197 groups",
+  "  weights 242.2 s",
+  "  footwear is stiff: no pose correctives (a rigid shoe cannot bend round the sock; lifts there shredded the collar, A/B 10-17)"
+ ]
+}

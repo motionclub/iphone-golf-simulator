@@ -1,0 +1,95 @@
+{
+ "bbox_min": [
+  -0.1424063891172409,
+  -0.11100000143051147,
+  -0.019872400909662247
+ ],
+ "bbox_max": [
+  0.1424063891172409,
+  0.5769764184951782,
+  0.019806262105703354
+ ],
+ "length_m": 0.6879764199256897,
+ "width_m": 0.2848127782344818,
+ "depth_m": 0.0396786630153656,
+ "head_top_y": 0.5769764184951782,
+ "head_bottom_y": 0.22910088300704956,
+ "head_outer_height_m": 0.34787553548812866,
+ "head_outer_width_m": 0.2848127782344818,
+ "head_outer_width_y": 0.4122854471206665,
+ "frame_depth_max_m": 0.0396786630153656,
+ "grip_slices": 22,
+ "grip_diameter_mean_m": 0.03419614603847478,
+ "grip_diameter_min_m": 0.032799999676135345,
+ "grip_diameter_max_m": 0.03460000082850456,
+ "grip_y_min": -0.0989999994635582,
+ "grip_y_max": 0.0989999994635582,
+ "grip_usable_length_m": 0.1979999989271164,
+ "grip_center_y": 0.0,
+ "butt_cap_diameter_max_m": 0.03799999969527885,
+ "butt_end_y": -0.11100000143051147,
+ "tris": {
+  "Racket_Classic": 6000,
+  "StringBed": 1976,
+  "Grip": 2304,
+  "ButtCap": 480,
+  "Collider_Racket": 120
+ },
+ "tris_visual": 10760,
+ "tris_total_with_collider": 10880,
+ "verts": {
+  "Racket_Classic": 2998,
+  "StringBed": 1368,
+  "Grip": 1154,
+  "ButtCap": 242,
+  "Collider_Racket": 64
+ },
+ "materials": {
+  "Racket_Classic": [
+   "White_Frame"
+  ],
+  "StringBed": [
+   "White_Strings"
+  ],
+  "Grip": [
+   "Black_Grip"
+  ],
+  "ButtCap": [
+   "Black_Grip"
+  ],
+  "Collider_Racket": []
+ },
+ "frame_mirror_x_max_mm": 5.395960062742233,
+ "text_objects": [],
+ "images": [],
+ "image_texture_nodes": 0,
+ "uv_layers": {
+  "Racket_Classic": 0,
+  "StringBed": 0,
+  "Grip": 0,
+  "ButtCap": 0,
+  "Collider_Racket": 0
+ },
+ "object_types": {
+  "ButtCap": "MESH",
+  "Collider_Racket": "MESH",
+  "Grip": "MESH",
+  "Hand_Racket": "EMPTY",
+  "Racket_Classic": "MESH",
+  "StringBed": "MESH"
+ },
+ "manifold": {
+  "Racket_Classic": {
+   "non_manifold_edges": 0,
+   "loose_verts": 0
+  },
+  "Grip": {
+   "non_manifold_edges": 0,
+   "loose_verts": 0
+  },
+  "ButtCap": {
+   "non_manifold_edges": 0,
+   "loose_verts": 0
+  }
+ }
+}

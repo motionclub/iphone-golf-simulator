@@ -1,0 +1,26 @@
+--- Unity/Assets/Resources/Course/Shaders/GolfRock.shader
++++ work/reference-rebuild/coastal-fissures7/GolfRock.shader
+@@ -38,6 +38,7 @@
+  _DetailContrast("Texture contrast",Float)=1
+  _PaletteDetail("Retained stone fissure colour",Range(0,1))=0
+  _PaletteMidpoint("Authored scan linear-luma midpoint",Float)=.22
++ _PaletteLightShoulder("Authored scan exposed-plane shoulder",Range(0,1))=1
+  [Enum(UnityEngine.Rendering.CullMode)] _Cull("Cull mode",Float)=2
+  _Foliage("Two sided foliage lighting",Float)=0
+ 
+@@ -153,7 +154,14 @@
+   if(_PaletteMode>.5h) {
+    half value=dot(base.rgb,half3(.2126h,.7152h,.0722h));
+    half midpoint=_AuthoredUV>.5h ? _PaletteMidpoint : .22h;
+-   half3 palette=lerp(_LowColor.rgb,_HighColor.rgb,saturate(.5h+(value-midpoint)*_DetailContrast));
++   half blend=.5h+(value-midpoint)*_DetailContrast;
++   if(_AuthoredUV>.5h && _PaletteLightShoulder<.999h) {
++    // A material-local shoulder holds the scan median and darker fissures.
++    // Bright exposed albedo retains a gradient instead of clipping to cream.
++    half above=max(blend-.5h,0.0h),span=max(_PaletteLightShoulder,.001h);
++    blend=min(blend,.5h)+span*above/(span+above);
++   }
++   half3 palette=lerp(_LowColor.rgb,_HighColor.rgb,saturate(blend));
+    // Retain broad authored fissures at a bounded strength. Full palette mapping
+    // made actual rounded limestone chalk-white; full scan reads as wallpaper.
+    base.rgb=lerp(palette,base.rgb*.75h,_PaletteDetail);

@@ -1,0 +1,19 @@
+{
+ "hero": "MatchHero_Male",
+ "tag": "Kit_Shoe_R",
+ "source": "npz:/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/clothing-v2/pipeline/../../male-garments-refpack/out/MatchHero_Male/unity/Kit_Shoe_R_final.npz",
+ "seconds": 62.3,
+ "weights": {
+  "footwear": "Right",
+  "foot_mass": 0.8451313062085283
+ },
+ "shapes": 0,
+ "log": [
+  "FIT MatchHero_Male Kit_Shoe_R from npz:/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/clothing-v2/pipeline/../../male-garments-refpack/out/MatchHero_Male/unity/Kit_Shoe_R_final.npz: 17088 verts 24528 tris",
+  "  tightness: median gap 20.0 mm -> weight smoothing 4 cm",
+  "  weights: footwear on the Right foot (85% of the piece on foot skin): rigid foot + toe flex + collar on the shin",
+  "  seams: 9929 coincident vertices welded into 3750 groups",
+  "  weights 62.3 s",
+  "  footwear is stiff: no pose correctives (a rigid shoe cannot bend round the sock; lifts there shredded the collar, A/B 10-17)"
+ ]
+}

@@ -1,0 +1,202 @@
+[
+ {
+  "name": "H_NO_12_VERTEX_ROCK@blend",
+  "ok": true,
+  "detail": "457 ROCK_ objects on 215 unique meshes: min 62 welded vertices (>= 60), offenders none; 12-vertex 20-face meshes anywhere (plants and BALL_START exempt): none"
+ },
+ {
+  "name": "H_NO_STRETCH_2X@blend",
+  "ok": true,
+  "detail": "671 ROCK_/PLANT_/DRESS_ instances: every singular scale in [0.5583, 1.9990] (limits 0.5..2.0), max/min 1.286 (<= 2.0), offenders none"
+ },
+ {
+  "name": "H_NO_FOAM_STRIP@blend",
+  "ok": true,
+  "detail": "objects named FOAM/SURF/SPRAY/SHELF none; meshes with a foam / surf / sea material none (the crater has lava, no sea, no surf)"
+ },
+ {
+  "name": "H_BUDGET_TRIS@blend",
+  "ok": true,
+  "detail": "220197 triangles over 703 mesh objects (<= 250000)"
+ },
+ {
+  "name": "H_NO_COLLIDER_PROPS@blend",
+  "ok": true,
+  "detail": "collision-prefixed objects outside the 10 baseline play meshes: none; new props with a collision prefix: none"
+ },
+ {
+  "name": "H_NEAR_WALL@blend",
+  "ok": true,
+  "detail": "104 near-wall library segments (ROCK_WALL_BASALT_N*/F*, uniform scale), covering 100% of the crater's 360 deg, 205 yd at the nearest to the crater centre (>= 190), nearest vertex 41.5 yd from the shore polygon (>= 14), tops 13.6..58.0 m above the lava (12..60); legacy ROCK_WALL_FLAT/BLUNT/CLIFF_ROCK/ROCK_SMALL..: none"
+ },
+ {
+  "name": "H_FAR_RING@blend",
+  "ok": true,
+  "detail": "126 far-ring library wall segments, 126 within 268..339 m of the crater centre (270..325 m = the brief's 295..355 yd), covering 100% of the 360 deg (>= 90), tops 18.8..73.9 m above the lava (14..80; design h_max 52 m + the near-wall step)"
+ },
+ {
+  "name": "H_SKYLINE_VARIED@blend",
+  "ok": true,
+  "detail": "wall skyline over the 72 bins of 5 deg: p10 24.7 / median 55.5 / p90 70.8 m, amplitude (p90 - p10) 46.1 m (>= 40), mean step between neighbouring bins 4.81 m (>= 4.0), highest 73.9 m; the flat build of round 1 measured 30.6 m / 3.19 m (a level fence)"
+ },
+ {
+  "name": "H_CRUST@blend",
+  "ok": true,
+  "detail": "42 crust chunks (ROCK_CRUST_nn, 11494 faces): nearest vertex 25.6 yd from the shore polygon (>= 24), 42.7 yd from the line of play (>= 38), 26.1 yd from the tee -> C chord (>= 25), 36.4 yd from the nearest lava light (>= 25), highest vertex 4.63 m above the lava (<= 5.0, below every sight line from z >= 6), lowest -4.0 m (standing in the lava)"
+ },
+ {
+  "name": "H_GLOW_JOINTS@blend",
+  "ok": true,
+  "detail": "Basalt_E sampled at the authored UVs of 457 ROCK_ objects (LK_BASALT): glow texels on TOP faces 0.01% (<= 0.5 %), on SIDE faces 1.41% (texture mean 4.20%, continuous box UV = 1.0 x; allowed 0.25..0.6 x = 1.05%..2.52%), 19% of the side area carries any glow (10-50 %), median glow dash 3.2 m long in the world (>= 2.5 m; the box-UV lattice is 0.84 m), world v tile 30.2 m"
+ },
+ {
+  "name": "H_STACKS@blend",
+  "ok": true,
+  "detail": "11/11 design stack centres carry a library ROCK_BASALT_* main piece (origin within 0.00 m of the design point), highest top 12.01 m above the lava (<= 12.0), basalt pieces not standing in the lava (lowest vertex above z 0.05): none"
+ },
+ {
+  "name": "H_LAVA_LIGHTS@blend",
+  "ok": true,
+  "detail": "5 LAVA_LIGHT_nn EMPTY objects (3..5), nearest pair 50.0 yd (>= 8), heights over the lava 2.52, 2.52, 2.52, 2.52, 2.52 yd (0.5..6), 191 yd max from the crater centre (<= 193)"
+ },
+ {
+  "name": "H_ROCK_CHUNKING@blend",
+  "ok": true,
+  "detail": "71 ROCK_ pieces within 25 yd of a lava light, widest 19.3 yd across (<= 24: a renderer only gets the lights nearest its bounds); too wide: none"
+ },
+ {
+  "name": "H_RUBBLE@blend",
+  "ok": true,
+  "detail": "30 basalt rubble rocks at the cliff foot (library meshes), nearest to the lava carry line 24.3 m (>= 24, the legacy corridor)"
+ },
+ {
+  "name": "H_BACKDROP@blend",
+  "ok": true,
+  "detail": "DRESS_CONE centre 440 m from the crater centre (>= 260), top 129 m above the lava, 2 material(s) ['LK_BASALT', 'LK_LAVA']; 14 DRESS_SMOKE_nn cards (LK_SMOKE only, beyond the rim: True)"
+ },
+ {
+  "name": "H_CONE_GLOW@blend",
+  "ok": true,
+  "detail": "DRESS_CONE 1081 faces, LK_LAVA flow / crater faces = 15% of the area (5-35 %), 1 connected lava body(ies) spanning >= 60 % of the cone height (rim to foot: lava z -8..129 m of the cone's -8..129), a molten crater floor; static (no animation, no emission animation)"
+ },
+ {
+  "name": "H_TEE_CONTINUOUS@blend",
+  "ok": true,
+  "detail": "TEE_BOX materials ['LK_FAIRWAY'] vs FAIRWAY ['LK_FAIRWAY']; 162 of 162 TEE_BOX loops lie over a FAIRWAY triangle once offset by the lip parallax (dz 0.10 m, eye 2.21 m over the pad, offset 0.50 m max): max UV difference to the FAIRWAY's UV there 0.0000 / 0.0000 tile (= 0.0 / 0.0 cm of a 10 m tile; limit 0.005 = 5 cm), so the mow stripes meet across the lip in the address frame"
+ },
+ {
+  "name": "H_GROUND_UV_SLIVERS@blend",
+  "ok": true,
+  "detail": "10 play-surface meshes: above 4:1 the hole-authored ones (BUNKER_01, BUNKER_01_LIP, BUNKER_02, BUNKER_02_LIP, FAIRWAY, FAIRWAY_FIRSTCUT, GREEN, GREEN_APRON, TEE_BOX) cover 0.00 m2 in all (limit 0.5), worst 3.4:1; TERRAIN (library wall UV, hidden by the skin) 5.2 m2 (largest 2.3, verifier limit 15 / 10)"
+ },
+ {
+  "name": "H_TEE_RIM@blend",
+  "ok": true,
+  "detail": "4 ['DRESS_PADRIM'] piece(s) on the pad: materials ['LK_BASALT'] (allowed ['LK_BASALT']), 2712 vertices (1808 on the top), every top vertex inside the TEE_BOX outline by >= 0.030 m (>= 0: never on the riser), >= 1.95 m from the tee markers / ball (limit 1.5), vertex tops 1.15..1.15 cm over the pad top; against the collider (single-sided down-ray, 2034 samples) the ribbon is at most 1.15 cm above the ground (<= 1.5 cm at every sample, <= 1.2 cm at the vertices: 1.15) and 100% of the samples are >= 3 mm over it (>= 60 %); plan extent 14.3 x 12.9 m, 29.4 m2 of top over a 45.3 m lip (0.65 m mean width); Basalt_E glow texels on the rim tops 0.000% (<= 0.5 %), mean Basalt_C luminance at the authored UVs 0.148 (<= 0.17; the walls' windows 0.14); the round-2 DRESS_PATH kerb left: none"
+ },
+ {
+  "name": "H_NO_ANIMATION_ON_LAVA@blend",
+  "ok": true,
+  "detail": "objects with animation / drivers none, actions in the file 0 (lava is static)"
+ },
+ {
+  "name": "H_NO_12_VERTEX_ROCK@fbx",
+  "ok": true,
+  "detail": "457 ROCK_ objects on 215 unique meshes: min 62 welded vertices (>= 60), offenders none; 12-vertex 20-face meshes anywhere (plants and BALL_START exempt): none"
+ },
+ {
+  "name": "H_NO_STRETCH_2X@fbx",
+  "ok": true,
+  "detail": "671 ROCK_/PLANT_/DRESS_ instances: every singular scale in [0.5583, 1.9990] (limits 0.5..2.0), max/min 1.286 (<= 2.0), offenders none"
+ },
+ {
+  "name": "H_NO_FOAM_STRIP@fbx",
+  "ok": true,
+  "detail": "objects named FOAM/SURF/SPRAY/SHELF none; meshes with a foam / surf / sea material none (the crater has lava, no sea, no surf)"
+ },
+ {
+  "name": "H_BUDGET_TRIS@fbx",
+  "ok": true,
+  "detail": "220197 triangles over 703 mesh objects (<= 250000)"
+ },
+ {
+  "name": "H_NO_COLLIDER_PROPS@fbx",
+  "ok": true,
+  "detail": "collision-prefixed objects outside the 10 baseline play meshes: none; new props with a collision prefix: none"
+ },
+ {
+  "name": "H_NEAR_WALL@fbx",
+  "ok": true,
+  "detail": "104 near-wall library segments (ROCK_WALL_BASALT_N*/F*, uniform scale), covering 100% of the crater's 360 deg, 205 yd at the nearest to the crater centre (>= 190), nearest vertex 41.5 yd from the shore polygon (>= 14), tops 13.6..58.0 m above the lava (12..60); legacy ROCK_WALL_FLAT/BLUNT/CLIFF_ROCK/ROCK_SMALL..: none"
+ },
+ {
+  "name": "H_FAR_RING@fbx",
+  "ok": true,
+  "detail": "126 far-ring library wall segments, 126 within 268..339 m of the crater centre (270..325 m = the brief's 295..355 yd), covering 100% of the 360 deg (>= 90), tops 18.8..73.9 m above the lava (14..80; design h_max 52 m + the near-wall step)"
+ },
+ {
+  "name": "H_SKYLINE_VARIED@fbx",
+  "ok": true,
+  "detail": "wall skyline over the 72 bins of 5 deg: p10 24.7 / median 55.5 / p90 70.8 m, amplitude (p90 - p10) 46.1 m (>= 40), mean step between neighbouring bins 4.81 m (>= 4.0), highest 73.9 m; the flat build of round 1 measured 30.6 m / 3.19 m (a level fence)"
+ },
+ {
+  "name": "H_CRUST@fbx",
+  "ok": true,
+  "detail": "42 crust chunks (ROCK_CRUST_nn, 11494 faces): nearest vertex 25.6 yd from the shore polygon (>= 24), 42.7 yd from the line of play (>= 38), 26.1 yd from the tee -> C chord (>= 25), 36.4 yd from the nearest lava light (>= 25), highest vertex 4.63 m above the lava (<= 5.0, below every sight line from z >= 6), lowest -4.0 m (standing in the lava)"
+ },
+ {
+  "name": "H_GLOW_JOINTS@fbx",
+  "ok": true,
+  "detail": "Basalt_E sampled at the authored UVs of 457 ROCK_ objects (LK_BASALT): glow texels on TOP faces 0.01% (<= 0.5 %), on SIDE faces 1.41% (texture mean 4.20%, continuous box UV = 1.0 x; allowed 0.25..0.6 x = 1.05%..2.52%), 19% of the side area carries any glow (10-50 %), median glow dash 3.2 m long in the world (>= 2.5 m; the box-UV lattice is 0.84 m), world v tile 30.2 m"
+ },
+ {
+  "name": "H_STACKS@fbx",
+  "ok": true,
+  "detail": "11/11 design stack centres carry a library ROCK_BASALT_* main piece (origin within 0.00 m of the design point), highest top 12.01 m above the lava (<= 12.0), basalt pieces not standing in the lava (lowest vertex above z 0.05): none"
+ },
+ {
+  "name": "H_LAVA_LIGHTS@fbx",
+  "ok": true,
+  "detail": "5 LAVA_LIGHT_nn EMPTY objects (3..5), nearest pair 50.0 yd (>= 8), heights over the lava 2.52, 2.52, 2.52, 2.52, 2.52 yd (0.5..6), 191 yd max from the crater centre (<= 193)"
+ },
+ {
+  "name": "H_ROCK_CHUNKING@fbx",
+  "ok": true,
+  "detail": "71 ROCK_ pieces within 25 yd of a lava light, widest 19.3 yd across (<= 24: a renderer only gets the lights nearest its bounds); too wide: none"
+ },
+ {
+  "name": "H_RUBBLE@fbx",
+  "ok": true,
+  "detail": "30 basalt rubble rocks at the cliff foot (library meshes), nearest to the lava carry line 24.3 m (>= 24, the legacy corridor)"
+ },
+ {
+  "name": "H_BACKDROP@fbx",
+  "ok": true,
+  "detail": "DRESS_CONE centre 440 m from the crater centre (>= 260), top 129 m above the lava, 2 material(s) ['LK_BASALT', 'LK_LAVA']; 14 DRESS_SMOKE_nn cards (LK_SMOKE only, beyond the rim: True)"
+ },
+ {
+  "name": "H_CONE_GLOW@fbx",
+  "ok": true,
+  "detail": "DRESS_CONE 1081 faces, LK_LAVA flow / crater faces = 15% of the area (5-35 %), 1 connected lava body(ies) spanning >= 60 % of the cone height (rim to foot: lava z -8..129 m of the cone's -8..129), a molten crater floor; static (no animation, no emission animation)"
+ },
+ {
+  "name": "H_TEE_CONTINUOUS@fbx",
+  "ok": true,
+  "detail": "TEE_BOX materials ['LK_FAIRWAY'] vs FAIRWAY ['LK_FAIRWAY']; 162 of 162 TEE_BOX loops lie over a FAIRWAY triangle once offset by the lip parallax (dz 0.10 m, eye 2.21 m over the pad, offset 0.50 m max): max UV difference to the FAIRWAY's UV there 0.0000 / 0.0000 tile (= 0.0 / 0.0 cm of a 10 m tile; limit 0.005 = 5 cm), so the mow stripes meet across the lip in the address frame"
+ },
+ {
+  "name": "H_GROUND_UV_SLIVERS@fbx",
+  "ok": true,
+  "detail": "10 play-surface meshes: above 4:1 the hole-authored ones (BUNKER_01, BUNKER_01_LIP, BUNKER_02, BUNKER_02_LIP, FAIRWAY, FAIRWAY_FIRSTCUT, GREEN, GREEN_APRON, TEE_BOX) cover 0.00 m2 in all (limit 0.5), worst 3.4:1; TERRAIN (library wall UV, hidden by the skin) 5.2 m2 (largest 2.3, verifier limit 15 / 10)"
+ },
+ {
+  "name": "H_TEE_RIM@fbx",
+  "ok": true,
+  "detail": "4 ['DRESS_PADRIM'] piece(s) on the pad: materials ['LK_BASALT'] (allowed ['LK_BASALT']), 2712 vertices (1808 on the top), every top vertex inside the TEE_BOX outline by >= 0.030 m (>= 0: never on the riser), >= 1.95 m from the tee markers / ball (limit 1.5), vertex tops 1.15..1.15 cm over the pad top; against the collider (single-sided down-ray, 2034 samples) the ribbon is at most 1.15 cm above the ground (<= 1.5 cm at every sample, <= 1.2 cm at the vertices: 1.15) and 100% of the samples are >= 3 mm over it (>= 60 %); plan extent 14.3 x 12.9 m, 29.4 m2 of top over a 45.3 m lip (0.65 m mean width); Basalt_E glow texels on the rim tops 0.000% (<= 0.5 %), mean Basalt_C luminance at the authored UVs 0.148 (<= 0.17; the walls' windows 0.14); the round-2 DRESS_PATH kerb left: none"
+ },
+ {
+  "name": "H_NO_ANIMATION_ON_LAVA@fbx",
+  "ok": true,
+  "detail": "objects with animation / drivers none, actions in the file 0 (lava is static)"
+ }
+]

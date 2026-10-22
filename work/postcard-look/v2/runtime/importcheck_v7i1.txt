@@ -1,0 +1,75 @@
+INFO: course 'Postcards', 3 hole(s), Unity 6000.3.24f1, render pipeline UniversalRenderPipelineAsset
+GATE: PALETTE_READABLE PASS - HoleView.Palette has 28 entries (MAT_LAVA is not one of them)
+=== hole 8 (par 4) ===
+GATE: FBX_LOADED PASS - Resources.Load<GameObject>("Course/hole_08") -> 'hole_08'
+GATE: MODEL_LOGS_CLEAN PASS - none of 'Course model needs MARKER_*', 'pin is N yd off', 'up is N deg off' was logged
+GATE: COLLIDERS_ON_GROUND_MESHES PASS - 8 MeshCollider(s) created, 8 ground-prefixed mesh(es) in the FBX (TERRAIN, FAIRWAY, GREEN, TEE_BOX, BUNKER, CART_PATH); on: BUNKER_01, BUNKER_01_LIP, FAIRWAY, FAIRWAY_FIRSTCUT, GREEN, GREEN_APRON, TEE_BOX, TERRAIN_NEEDLE
+GATE: TEE_PIN_WORLD PASS - tee marker (0.00, 0.00) vs ToWorld(Tee) (0.00, 0.00) off 0.000 yd (<= 0.05); pin marker (-6.00, 340.00) vs ToWorld(Pin) (-6.00, 340.00) off 0.000 yd (<= 0.5, the game's own warning limit); tee->pin model (-6.0, 340.0) vs course (-6.0, 340.0) same direction True; ToWorld keeps X and D True
+GATE: MARKER_UP_50M PASS - MARKER_UP is 54.68 yd above the tee marker (want 54.68 = 50 m), 0.00 deg off vertical (<= 1)
+INFO: hole 8 sampled 3096 jittered point(s) + 5 fixed probe(s): 412 land, 2383 water, 306 skipped near a lie boundary; lies Tee 4, Fairway 199, Rough 140, Bunker 11, Green 58, Water 2383
+INFO: hole 8 topmost ground collider by lie: Bunker <- BUNKER x11, Fairway <- FAIRWAY x199, Green <- GREEN x58, Rough <- FAIRWAY x65, Rough <- GREEN x3, Rough <- TERRAIN x72, Tee <- TEE_BOX x4, Water <- (miss) x2383
+GATE: SAMPLE_COVERAGE PASS - 412 land and 2383 water sample(s) kept (need >= 200 and >= 300)
+GATE: GROUND_HEIGHT_LAND_BAND PASS - 412 land sample(s) read 6.56..6.89 yd, band 6.51..7.26 yd (6 m = 6.56 yd, up to +0.7)
+GATE: GROUND_HEIGHT_WATER_ZERO PASS - 2383 water sample(s) read 0 (|h| <= 0.01)
+GATE: HAZARD_CENTRES_ON_MODEL PASS - 2 water centre(s) read 0, 1 bunker centre(s) read a BUNKER mesh at play height
+INFO: hole 8 material rules: 951 LK_ slot(s) -> GolfLook (10 ground kinds: LK_CLIFF, LK_CLIFF_DARK, LK_FAIRWAY, LK_GREEN, LK_MASONRY, LK_PATH, LK_ROCK, LK_ROCK_WET, LK_ROUGH, LK_SAND), 0 WATER* slot(s) -> TennisWater/GolfSurf/lava, 6 palette slot(s) flat, 0 kept (own maps), 0 empty
+GATE: PALETTE_OVERRIDES_APPLIED PASS - 951 LK_ slot(s) textured by GolfLook, 0 water slot(s) on TennisWater/GolfSurf/emissive lava, 6 palette slot(s) flat
+GATE: PALETTE_NO_LEAKS PASS - every slot is LK_, water/lava, a Palette name, or carries its own maps
+GATE: GROUND_ALBEDO_AND_NORMAL PASS - 10 LK_ ground kind(s) in the instantiated hole, 0 without base map + normal map + _NORMALMAP; LK_FAIRWAY, LK_GREEN, LK_ROUGH present; ground kinds >= 5 needed
+GATE: NO_FLAT_POSTCARD_GROUND PASS - no flat _BaseColor-only URP Lit left on a visible renderer (gameplay MAT_FLAG/POLE/CUP/BALL aside)
+GATE: NO_FOAM_STRIP_8_10 PASS - no foam strip: no WATER_FOAM / DRESS_FOAM / MAT_FOAM, every LK_SURF piece is a patch <= 12 yd long and >= 7 yd from the next
+GATE: NO_LAVA_OUTSIDE_HOLE_10 PASS - no WATER_LAVA renderer
+GATE: GAMEPLAY_PLACEHOLDERS_HIDDEN PASS - FLAG*, HOLE_CUP*, BALL_START*, MARKER_* objects are all hidden by HoleView
+=== hole 9 (par 5) ===
+GATE: FBX_LOADED PASS - Resources.Load<GameObject>("Course/hole_09") -> 'hole_09'
+GATE: MODEL_LOGS_CLEAN PASS - none of 'Course model needs MARKER_*', 'pin is N yd off', 'up is N deg off' was logged
+GATE: COLLIDERS_ON_GROUND_MESHES PASS - 12 MeshCollider(s) created, 12 ground-prefixed mesh(es) in the FBX (TERRAIN, FAIRWAY, GREEN, TEE_BOX, BUNKER, CART_PATH); on: BUNKER_01, BUNKER_01_LIP, BUNKER_02, BUNKER_02_LIP, BUNKER_03, BUNKER_03_LIP, FAIRWAY, FAIRWAY_FIRSTCUT, GREEN, GREEN_APRON, TEE_BOX, TERRAIN_SPLIT
+GATE: TEE_PIN_WORLD PASS - tee marker (0.00, 0.00) vs ToWorld(Tee) (0.00, 0.00) off 0.000 yd (<= 0.05); pin marker (-10.00, 492.00) vs ToWorld(Pin) (-10.00, 492.00) off 0.000 yd (<= 0.5, the game's own warning limit); tee->pin model (-10.0, 492.0) vs course (-10.0, 492.0) same direction True; ToWorld keeps X and D True
+GATE: MARKER_UP_50M PASS - MARKER_UP is 54.68 yd above the tee marker (want 54.68 = 50 m), 0.00 deg off vertical (<= 1)
+INFO: hole 9 sampled 3108 jittered point(s) + 6 fixed probe(s): 1353 land, 1410 water, 351 skipped near a lie boundary; lies Tee 1, Fairway 194, Rough 1108, Bunker 18, Green 32, Water 1410
+INFO: hole 9 topmost ground collider by lie: Bunker <- BUNKER x18, Fairway <- FAIRWAY x191, Fairway <- TEE_BOX x3, Green <- GREEN x32, Rough <- FAIRWAY x42, Rough <- GREEN x4, Rough <- TERRAIN x1062, Tee <- TEE_BOX x1, Water <- (miss) x1410
+GATE: SAMPLE_COVERAGE PASS - 1353 land and 1410 water sample(s) kept (need >= 200 and >= 300)
+GATE: GROUND_HEIGHT_LAND_BAND PASS - 1353 land sample(s) read 6.56..6.89 yd, band 6.51..7.26 yd (6 m = 6.56 yd, up to +0.7)
+GATE: GROUND_HEIGHT_WATER_ZERO PASS - 1410 water sample(s) read 0 (|h| <= 0.01)
+GATE: HAZARD_CENTRES_ON_MODEL PASS - 1 water centre(s) read 0, 3 bunker centre(s) read a BUNKER mesh at play height
+INFO: hole 9 material rules: 882 LK_ slot(s) -> GolfLook (10 ground kinds: LK_CLIFF, LK_CLIFF_DARK, LK_FAIRWAY, LK_GREEN, LK_MASONRY, LK_ROCK, LK_ROCK_WET, LK_ROUGH, LK_SAND, LK_SCRUB), 0 WATER* slot(s) -> TennisWater/GolfSurf/lava, 6 palette slot(s) flat, 0 kept (own maps), 0 empty
+GATE: PALETTE_OVERRIDES_APPLIED PASS - 882 LK_ slot(s) textured by GolfLook, 0 water slot(s) on TennisWater/GolfSurf/emissive lava, 6 palette slot(s) flat
+GATE: PALETTE_NO_LEAKS PASS - every slot is LK_, water/lava, a Palette name, or carries its own maps
+GATE: GROUND_ALBEDO_AND_NORMAL PASS - 10 LK_ ground kind(s) in the instantiated hole, 0 without base map + normal map + _NORMALMAP; LK_FAIRWAY, LK_GREEN, LK_ROUGH present; ground kinds >= 5 needed
+GATE: NO_FLAT_POSTCARD_GROUND PASS - no flat _BaseColor-only URP Lit left on a visible renderer (gameplay MAT_FLAG/POLE/CUP/BALL aside)
+GATE: NO_FOAM_STRIP_8_10 PASS - no foam strip: no WATER_FOAM / DRESS_FOAM / MAT_FOAM, every LK_SURF piece is a patch <= 12 yd long and >= 7 yd from the next
+GATE: NO_LAVA_OUTSIDE_HOLE_10 PASS - no WATER_LAVA renderer
+GATE: GAMEPLAY_PLACEHOLDERS_HIDDEN PASS - FLAG*, HOLE_CUP*, BALL_START*, MARKER_* objects are all hidden by HoleView
+=== hole 10 (par 4) ===
+GATE: FBX_LOADED PASS - Resources.Load<GameObject>("Course/hole_10") -> 'hole_10'
+GATE: MODEL_LOGS_CLEAN PASS - none of 'Course model needs MARKER_*', 'pin is N yd off', 'up is N deg off' was logged
+GATE: COLLIDERS_ON_GROUND_MESHES PASS - 10 MeshCollider(s) created, 10 ground-prefixed mesh(es) in the FBX (TERRAIN, FAIRWAY, GREEN, TEE_BOX, BUNKER, CART_PATH); on: BUNKER_01, BUNKER_01_LIP, BUNKER_02, BUNKER_02_LIP, FAIRWAY, FAIRWAY_FIRSTCUT, GREEN, GREEN_APRON, TEE_BOX, TERRAIN_CRATER
+GATE: TEE_PIN_WORLD PASS - tee marker (0.00, 0.00) vs ToWorld(Tee) (0.00, 0.00) off 0.000 yd (<= 0.05); pin marker (261.00, 164.70) vs ToWorld(Pin) (261.00, 164.70) off 0.000 yd (<= 0.5, the game's own warning limit); tee->pin model (261.0, 164.7) vs course (261.0, 164.7) same direction True; ToWorld keeps X and D True
+GATE: MARKER_UP_50M PASS - MARKER_UP is 54.68 yd above the tee marker (want 54.68 = 50 m), 0.00 deg off vertical (<= 1)
+INFO: hole 10 sampled 3036 jittered point(s) + 5 fixed probe(s): 323 land, 2531 water, 187 skipped near a lie boundary; lies Tee 1, Fairway 179, Rough 107, Bunker 9, Green 27, Water 2531
+INFO: hole 10 topmost ground collider by lie: Bunker <- BUNKER x9, Fairway <- FAIRWAY x175, Fairway <- TEE_BOX x4, Green <- GREEN x27, Rough <- FAIRWAY x33, Rough <- GREEN x8, Rough <- TERRAIN x66, Tee <- TEE_BOX x1, Water <- (miss) x2531
+GATE: SAMPLE_COVERAGE PASS - 323 land and 2531 water sample(s) kept (need >= 200 and >= 300)
+GATE: GROUND_HEIGHT_LAND_BAND PASS - 323 land sample(s) read 6.56..6.89 yd, band 6.51..7.26 yd (6 m = 6.56 yd, up to +0.7)
+GATE: GROUND_HEIGHT_WATER_ZERO PASS - 2531 water sample(s) read 0 (|h| <= 0.01)
+GATE: HAZARD_CENTRES_ON_MODEL PASS - 1 water centre(s) read 0, 2 bunker centre(s) read a BUNKER mesh at play height
+INFO: hole 10 material rules: 693 LK_ slot(s) -> GolfLook (5 ground kinds: LK_BASALT, LK_FAIRWAY, LK_GREEN, LK_ROUGH, LK_SAND), 0 WATER* slot(s) -> TennisWater/GolfSurf/lava, 6 palette slot(s) flat, 0 kept (own maps), 0 empty
+GATE: PALETTE_OVERRIDES_APPLIED PASS - 693 LK_ slot(s) textured by GolfLook, 0 water slot(s) on TennisWater/GolfSurf/emissive lava, 6 palette slot(s) flat
+GATE: PALETTE_NO_LEAKS PASS - every slot is LK_, water/lava, a Palette name, or carries its own maps
+GATE: GROUND_ALBEDO_AND_NORMAL PASS - 5 LK_ ground kind(s) in the instantiated hole, 0 without base map + normal map + _NORMALMAP; LK_FAIRWAY, LK_GREEN, LK_ROUGH present; ground kinds >= 5 needed
+GATE: NO_FLAT_POSTCARD_GROUND PASS - no flat _BaseColor-only URP Lit left on a visible renderer (gameplay MAT_FLAG/POLE/CUP/BALL aside)
+GATE: NO_FOAM_STRIP_8_10 PASS - no foam strip: no WATER_FOAM / DRESS_FOAM / MAT_FOAM, every LK_SURF piece is a patch <= 12 yd long and >= 7 yd from the next
+GATE: LAVA_RENDERER_PRESENT PASS - 1 WATER_LAVA renderer(s)
+GATE: LAVA_MAPPING_DENSITY PASS - lava mapping reads: WATER_LAVA: world projection 1.00x of one tile per 24 m (24 m per tile); covers 30.4 tiles across (>= 2)
+GATE: LAVA_LIGHTS_PLACED PASS - 5 LAVA_LIGHT empties, nearest pair 50.0 yd apart (>= 8), each 0.5..6 yd over the lava
+GATE: ROCK_NEAR_LAVA_CHUNKED PASS - 71 ROCK_ piece(s) within 25 yd of a lava light, none wider than 24 yd
+INFO: hole 10 WATER_LAVA 'LK_LAVA' shader 'GolfArcade/GolfLava' _BaseColor #000000, emission map Lava_E, _EMISSION False, multiplier (0.00,0.00,0.00): self-lit GolfLava: ramp _Deep hue 15 S 0.98 V 0.33, _Crust hue 11 S 0.92 V 0.82, _Flow hue 18 S 0.92 V 0.88, _Hot hue 28 S 0.76 V 1.00 (hue 8..28, S >= .75, V >= .7 except _Deep); no emission multiplier, no bloom
+GATE: LAVA_READS_ORANGE PASS - WATER_LAVA is emissive and its brightest emission texels x the multiplier encode to orange without bloom: self-lit GolfLava: ramp _Deep hue 15 S 0.98 V 0.33, _Crust hue 11 S 0.92 V 0.82, _Flow hue 18 S 0.92 V 0.88, _Hot hue 28 S 0.76 V 1.00 (hue 8..28, S >= .75, V >= .7 except _Deep); no emission multiplier, no bloom
+GATE: LAVA_SHADER_RENDERS_IN_PIPELINE PASS - the lava shader is drawn by the active pipeline
+GATE: GAMEPLAY_PLACEHOLDERS_HIDDEN PASS - FLAG*, HOLE_CUP*, BALL_START*, MARKER_* objects are all hidden by HoleView
+=== hole 7 (Cliffside, unchanged rule) ===
+GATE: HOLE7_MATERIALS_FLAT_AS_BEFORE PASS - 245 palette slot(s) are HoleView's flat game colour, 0 slot(s) as imported, 0 different, 0 LK_ slot(s), 0 light(s) added, 0 renderer(s) with a different shadow mode than the old rule; 169 renderers
+=== whole run ===
+INFO: 8 'Destroy may not be called from edit mode' notice(s) from HoleView.Primitive (it uses Destroy; harmless here, the pin primitives' colliders are removed with DestroyImmediate before sampling)
+GATE: NO_EXCEPTIONS PASS - 0 exception log(s), 0 caught while building or checking
+GATE: NO_ERROR_LOGS PASS - no error logs apart from the edit-mode Destroy notices
+GATE: POSTCARD_IMPORT_CHECK PASS - 57 gate lines, 0 failed

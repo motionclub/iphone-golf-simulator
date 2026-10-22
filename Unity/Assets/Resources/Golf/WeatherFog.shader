@@ -42,6 +42,7 @@ Shader "GolfArcade/WeatherFog"
                 float4 _SunDir, _Drift;
                 float _Density, _Falloff, _Base, _Banks, _Near, _Far, _MaxFog;
             CBUFFER_END
+            float4 _DreamObserver;
             struct A { float4 positionOS : POSITION; };
             struct V { float4 positionCS : SV_POSITION; };
             V vert(A i) { V o; o.positionCS = TransformObjectToHClip(i.positionOS.xyz); return o; }
@@ -75,7 +76,14 @@ Shader "GolfArcade/WeatherFog"
                 float banks = WeatherFbm(probe.xz * 0.014 + _Drift.xy * _Time.y * 0.012, 3);
                 depth *= lerp(1.0, 0.25 + 1.5 * banks, _Banks);
 
-                float fog = min(1 - exp(-max(depth, 0)), _MaxFog);
+                if (_DreamObserver.w > .5) {
+                    float2 delta=world.xz-_DreamObserver.xz;
+                    float distance=sky?_Far:length(delta);
+                    float bank=1+.18*sin((world.x+_DreamObserver.x)*.009)+.12*cos((world.z+_DreamObserver.z)*.013);
+                    float height=1+.12*tanh((_DreamObserver.y-world.y)/20);
+                    depth=max(0,distance-12)*.042*bank*height;
+                }
+                float fog = _DreamObserver.w>.5 ? 1-exp(-max(depth,0)) : min(1 - exp(-max(depth, 0)), _MaxFog);
                 half3 col = _FogColor.rgb + _SunColor.rgb * pow(saturate(dot(d, normalize(_SunDir.xyz))), 8) * 0.3;
                 // lightning lights the fog too
                 col += _GolfWeatherFlashColor.rgb * _GolfWeatherFlash * 0.25;

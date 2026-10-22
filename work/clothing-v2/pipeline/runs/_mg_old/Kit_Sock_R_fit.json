@@ -1,0 +1,35 @@
+{
+ "hero": "MatchHero_Male",
+ "tag": "Kit_Sock_R",
+ "source": "npz:/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/male-garments-refpack/out/MatchHero_Male/unity/Kit_Sock_R_final.npz",
+ "seconds": 36.7,
+ "weights": {
+  "panels": 11,
+  "matched": 0.3896457765667575,
+  "inner": 0.45473811686345744,
+  "smooth_iters": 10,
+  "edge_mm": 9.005497698466593,
+  "allowed": "{0: ('LR',), 1: ('LR',), 2: ('LR',), 3: ('LR',), 4: ('LR',), 5: ('LR',), 6: ('LR',), 7: ('LR',), 8: ('LR',), 9: ('LR',), 10: ('LR',)}",
+  "side_mm_p5": 2.3355191768333805
+ },
+ "shapes": 16,
+ "log": [
+  "FIT MatchHero_Male Kit_Sock_R from npz:/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/male-garments-refpack/out/MatchHero_Male/unity/Kit_Sock_R_final.npz: 3303 verts 6128 tris",
+  "  weights: LL covered 31% but not wrapped (one side only): not followed",
+  "  weights: covered body groups P 1% AR 3% LL 31% LR 65%",
+  "  weights: 11 panels, matched 39%, inner 45%, smooth 10 it (edge 9.0 mm)",
+  "  seams: 935 coincident vertices welded into 309 groups",
+  "  weights 16.8 s",
+  "  skin deep under Kit_Sock_R (hidden, no clearance needed): 1159 of 44168 body vertices",
+  "  obstacles: body",
+  "    pose 0/153  2 s",
+  "    pose 25/153  4 s",
+  "    pose 50/153  6 s",
+  "    pose 75/153  9 s",
+  "    pose 100/153  12 s",
+  "    pose 125/153  16 s",
+  "    pose 150/153  19 s",
+  "  correctives: 153/153 poses need a lift (max 25.0 mm, p90 25.0 mm) in 20 s",
+  "  16 shapes, RBF sigma 0.596, anchor fit err max 0.068, weight at rest 0.0000"
+ ]
+}

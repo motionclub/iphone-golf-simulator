@@ -1,0 +1,57 @@
+[
+  {
+    "name": "character-pass-31-art7-crafted2",
+    "method": "GolfArcade.EditorTools.VisualOverhaulCharacterCapture.Run",
+    "env": {
+      "VISUAL_CHARACTER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/character-pass-31-art7-crafted2",
+      "VISUAL_CHARACTER_STARTER": "1",
+      "VISUAL_CHARACTER_CLIPS": "Ready,IntroWave,IntroPushups",
+      "VISUAL_HEAD_FORM": "crafted2",
+      "VISUAL_CHARACTER_SKIN_MALE": "D49A70",
+      "VISUAL_CHARACTER_SKIN_FEMALE": "EBC3A1",
+      "VISUAL_CHARACTER_FEATURE_DUMPS": "1"
+    }
+  },
+  {
+    "name": "character-pass-32-art7-crafted3",
+    "method": "GolfArcade.EditorTools.VisualOverhaulCharacterCapture.Run",
+    "env": {
+      "VISUAL_CHARACTER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/character-pass-32-art7-crafted3",
+      "VISUAL_CHARACTER_STARTER": "1",
+      "VISUAL_CHARACTER_CLIPS": "Ready,IntroWave,IntroPushups",
+      "VISUAL_HEAD_FORM": "crafted3",
+      "VISUAL_CHARACTER_SKIN_MALE": "D49A70",
+      "VISUAL_CHARACTER_SKIN_FEMALE": "EBC3A1",
+      "VISUAL_CHARACTER_FEATURE_DUMPS": "1"
+    }
+  },
+  {
+    "name": "golf-characters-pass-13",
+    "method": "GolfArcade.EditorTools.VisualOverhaulGolfCharacterCapture.Run",
+    "env": {
+      "VISUAL_GOLF_CHARACTER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-characters-pass-13",
+      "VISUAL_HEAD_FORM": "crafted3"
+    }
+  },
+  {
+    "name": "golf-world20-pilots",
+    "method": "GolfArcade.EditorTools.GolfCourseStandardCapture.Run",
+    "env": {
+      "GOLF_STANDARD_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-world20-pilots",
+      "GOLF_STANDARD_HOLES": "12,19,21",
+      "GOLF_STANDARD_SHOWCASE": "1",
+      "GOLF_STANDARD_CAMERA_SWEEP": "1"
+    }
+  },
+  {
+    "name": "tennis-world21-sky",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-world21-sky",
+      "HERO_VENUE_REFERENCE": "1",
+      "HERO_VENUE_CAMERA_GRID": "1",
+      "HERO_VENUE_ONLY": "1_gameplay,14_reference_camera,15_reference_a,15_reference_h"
+    }
+  }
+]

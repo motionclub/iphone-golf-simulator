@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="7" result="Passed" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-15 22:58:57Z" end-time="2026-10-15 22:59:03Z" duration="5.8141364">
+  <test-suite type="TestSuite" id="1000" name="Golf Arcade" fullname="Golf Arcade" runstate="Runnable" testcasecount="598" result="Passed" start-time="2026-10-15 22:58:57Z" end-time="2026-10-15 22:59:03Z" duration="5.814136" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1694" name="GolfArcade.Tests.dll" fullname="/private/var/folders/38/dmjzs7x97qldqhndz__9gldr0000gn/T/female-alive-UnityClone/Library/ScriptAssemblies/GolfArcade.Tests.dll" runstate="Runnable" testcasecount="598" result="Passed" start-time="2026-10-15 22:58:57Z" end-time="2026-10-15 22:59:03Z" duration="5.811314" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="74767" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1695" name="GolfArcade" fullname="GolfArcade" runstate="Runnable" testcasecount="510" result="Passed" start-time="2026-10-15 22:58:57Z" end-time="2026-10-15 22:59:03Z" duration="5.809992" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1696" name="Tests" fullname="GolfArcade.Tests" runstate="Runnable" testcasecount="510" result="Passed" start-time="2026-10-15 22:58:57Z" end-time="2026-10-15 22:59:03Z" duration="5.809584" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1160" name="FemaleDeformationTests" fullname="GolfArcade.Tests.FemaleDeformationTests" classname="GolfArcade.Tests.FemaleDeformationTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-15 22:58:57Z" end-time="2026-10-15 22:59:02Z" duration="5.043136" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1163" name="BackhandAndServeContactTransformsStayExact" fullname="GolfArcade.Tests.FemaleDeformationTests.BackhandAndServeContactTransformsStayExact" methodname="BackhandAndServeContactTransformsStayExact" classname="GolfArcade.Tests.FemaleDeformationTests" runstate="Runnable" seed="1477625897" result="Passed" start-time="2026-10-15 22:58:57Z" end-time="2026-10-15 22:59:00Z" duration="3.275302" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[HeroFaceReferenceFit] female Body: moved=12391; belowHeadChanges=0; minJacobian=0.214120612; topologySame=True; weightsSame=True; bindsSame=True
+[HeroFaceReferenceFit] female ReferenceFeatures: moved=3004; belowHeadChanges=0; minJacobian=0.6941224; topologySame=True; weightsSame=True; bindsSame=True
+[HeroOriginalSeam] blink normal isolation body: cleared=64229; base geometry/normals unchanged
+[HeroOriginalSeam] blink normal isolation features: cleared=6008; base geometry/normals unchanged
+[HeroOriginalSeam] installed Female body=34443 features=3004; original rig and eye proportions retained; legacy face layers bypassed
+[HeroHandWeights] Female Left thumb-root vertices=27 radius=0.01
+[HeroHandWeights] Female Right thumb-root vertices=9 radius=0.01
+[HeroHandWeights] exact geometry/rest retained; changed=36 maxWeightL1=1.8
+[HeroSkinNormals] field=area-continuous source=Body (reference face fit) (local blink normals) (thumb root weights)(Clone) (continuous shoulder weights) selected=18726 changed=11230 radiusMetres=0.012 capDegrees=45 maxNormalDegrees=45 maxVertexDeltaSquared=0; source topology/weights/UVs/morphs cloned unchanged
+[HeroBlinkNormalField] rebuilt=2051; source vertices/shape positions unchanged; accepted base normals retained
+[HeroHeadSurface] Female origin=(0.000000, 0.002330, 1.490000) eye=(0.000000, -0.114136, 0.057103) frame=(1.000000, 0.000009, 0.000000)/(0.000000, -0.023316, 0.999728)/(0.000009, -0.999728, -0.023316) cheekMaskMax=0.957235 noseMaskMax=0.9681084 shader=GolfArcade/HeroFaceSkin hasHeadUniform=True
+]]></output>
+            </test-case>
+            <test-case id="1162" name="NeutralSkirtAndUnderShortsKeepTheirOriginalBinding" fullname="GolfArcade.Tests.FemaleDeformationTests.NeutralSkirtAndUnderShortsKeepTheirOriginalBinding" methodname="NeutralSkirtAndUnderShortsKeepTheirOriginalBinding" classname="GolfArcade.Tests.FemaleDeformationTests" runstate="Runnable" seed="975293411" result="Passed" start-time="2026-10-15 22:59:00Z" end-time="2026-10-15 22:59:01Z" duration="0.653605" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[HeroOriginalSeam] installed Female body=34443 features=3004; original rig and eye proportions retained; legacy face layers bypassed
+[HeroHeadSurface] Female origin=(0.000000, 0.002330, 1.490000) eye=(0.000000, -0.114136, 0.057103) frame=(1.000000, 0.000009, 0.000000)/(0.000000, -0.023316, 0.999728)/(0.000009, -0.999728, -0.023316) cheekMaskMax=0.957235 noseMaskMax=0.9681084 shader=GolfArcade/HeroFaceSkin hasHeadUniform=True
+]]></output>
+            </test-case>
+            <test-case id="1161" name="ShoulderRepairPreservesTheExactNeutralSurfaceAndNormalizedWeights" fullname="GolfArcade.Tests.FemaleDeformationTests.ShoulderRepairPreservesTheExactNeutralSurfaceAndNormalizedWeights" methodname="ShoulderRepairPreservesTheExactNeutralSurfaceAndNormalizedWeights" classname="GolfArcade.Tests.FemaleDeformationTests" runstate="Runnable" seed="1409400009" result="Passed" start-time="2026-10-15 22:59:01Z" end-time="2026-10-15 22:59:01Z" duration="0.487612" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1164" name="WaveWristDoesNotHyperextendOrMoveTheHandAnchor" fullname="GolfArcade.Tests.FemaleDeformationTests.WaveWristDoesNotHyperextendOrMoveTheHandAnchor" methodname="WaveWristDoesNotHyperextendOrMoveTheHandAnchor" classname="GolfArcade.Tests.FemaleDeformationTests" runstate="Runnable" seed="1916132126" result="Passed" start-time="2026-10-15 22:59:01Z" end-time="2026-10-15 22:59:02Z" duration="0.619726" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[HeroOriginalSeam] installed Female body=34443 features=3004; original rig and eye proportions retained; legacy face layers bypassed
+[HeroHeadSurface] Female origin=(0.000000, 0.002330, 1.490000) eye=(0.000000, -0.114136, 0.057103) frame=(1.000000, 0.000009, 0.000000)/(0.000000, -0.023316, 0.999728)/(0.000009, -0.999728, -0.023316) cheekMaskMax=0.957235 noseMaskMax=0.9681084 shader=GolfArcade/HeroFaceSkin hasHeadUniform=True
+]]></output>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1165" name="FemaleHeroAliveTests" fullname="GolfArcade.Tests.FemaleHeroAliveTests" classname="GolfArcade.Tests.FemaleHeroAliveTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-15 22:59:02Z" end-time="2026-10-15 22:59:03Z" duration="0.759261" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1166" name="MaleNeverGetsAnAliveComponent" fullname="GolfArcade.Tests.FemaleHeroAliveTests.MaleNeverGetsAnAliveComponent" methodname="MaleNeverGetsAnAliveComponent" classname="GolfArcade.Tests.FemaleHeroAliveTests" runstate="Runnable" seed="1597795997" result="Passed" start-time="2026-10-15 22:59:02Z" end-time="2026-10-15 22:59:02Z" duration="0.000463" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-suite type="ParameterizedMethod" id="1169" name="RealGarmentsKeepSourceBindingsAndBoundedOutwardMotion" fullname="GolfArcade.Tests.FemaleHeroAliveTests.RealGarmentsKeepSourceBindingsAndBoundedOutwardMotion" classname="GolfArcade.Tests.FemaleHeroAliveTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-15 22:59:02Z" end-time="2026-10-15 22:59:03Z" duration="0.757223" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1167" name="RealGarmentsKeepSourceBindingsAndBoundedOutwardMotion(&quot;Tennis/Customization/PlayerFemale&quot;,False)" fullname="GolfArcade.Tests.FemaleHeroAliveTests.RealGarmentsKeepSourceBindingsAndBoundedOutwardMotion(&quot;Tennis/Customization/PlayerFemale&quot;,False)" methodname="RealGarmentsKeepSourceBindingsAndBoundedOutwardMotion" classname="GolfArcade.Tests.FemaleHeroAliveTests" runstate="Runnable" seed="861269961" result="Passed" start-time="2026-10-15 22:59:02Z" end-time="2026-10-15 22:59:02Z" duration="0.323307" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Tennis/Customization/PlayerFemale/Kit_Top: vertices=26430 maxOutward=0.005000m moving=13852 pinned=12578
+Tennis/Customization/PlayerFemale/Kit_Bottom: vertices=14328 maxOutward=0.010000m moving=6732 pinned=7596
+]]></output>
+              </test-case>
+              <test-case id="1168" name="RealGarmentsKeepSourceBindingsAndBoundedOutwardMotion(&quot;Tennis/Customization/PlayerFemaleGolfKit&quot;,True)" fullname="GolfArcade.Tests.FemaleHeroAliveTests.RealGarmentsKeepSourceBindingsAndBoundedOutwardMotion(&quot;Tennis/Customization/PlayerFemaleGolfKit&quot;,True)" methodname="RealGarmentsKeepSourceBindingsAndBoundedOutwardMotion" classname="GolfArcade.Tests.FemaleHeroAliveTests" runstate="Runnable" seed="1176396767" result="Passed" start-time="2026-10-15 22:59:02Z" end-time="2026-10-15 22:59:03Z" duration="0.433203" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Tennis/Customization/PlayerFemaleGolfKit/Kit_Top: vertices=21171 maxOutward=0.005000m moving=4461 pinned=16710
+Tennis/Customization/PlayerFemaleGolfKit/Kit_Bottom: vertices=12992 maxOutward=0.010000m moving=5766 pinned=7226
+DONE EditMode: 7 passed, 0 failed, 0 skipped
+<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /Users/adnanyonathan/Library/Application Support/aloniewski/Golf Arcade/TestResults.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

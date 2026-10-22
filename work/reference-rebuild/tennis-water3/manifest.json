@@ -1,0 +1,111 @@
+{
+  "baseline": {
+    "Unity/Assets/Resources/Tennis/Shaders/TennisWater.shader": "6b5735100620d6dfba2887a925a6848be45177507b3aec39d71d6c0b0b4609d4",
+    "Unity/Assets/Scripts/Tennis/TennisResortMaterials.cs": "66a219d263ca0e240cd0a7526d569572bed325747cfa66b2cb2547f5a0fc4018"
+  },
+  "changes": [
+    "Derivative-filtered procedural wave slopes only, activated on resort sea"
+  ],
+  "unchanged": [
+    "fragment fog",
+    "current blue water palette",
+    "sky reflection weight .18",
+    "sun sheen 1.6 and roughness-squared .0105",
+    "court/material1",
+    "sun/ambient/post/geometry/collision"
+  ],
+  "actualGate": "PASS bounded wave alias removal and retained blue sea; full target water quality PARTIAL",
+  "installed": {
+    "Unity/Assets/Resources/Tennis/Shaders/TennisWater.shader": "f4add62dcf1561078e1e8cde29d474bf7ce9610520393906880c137648fdb341",
+    "Unity/Assets/Scripts/Tennis/TennisResortMaterials.cs": "1a9874b6fdd4086bee80451db1734e707fd90f954ac6f6232ee27efcf5c03f0c"
+  },
+  "status": "accepted bounded improvement from actual no-post matching views; no further source edits",
+  "staticFootprintAudit": "footprint-assay.json",
+  "actualEvidence": [
+    "proof/reference-rebuild/tennis-water3/resort_16_reference_a.png",
+    "proof/reference-rebuild/tennis-water3/resort_17_clubhouse_close.png",
+    "proof/reference-rebuild/tennis-water2-tone/resort_16_reference_a.png"
+  ],
+  "actualComparison": {
+    "clearSeaCentre": {
+      "boundsXYXY": [
+        740,
+        302,
+        890,
+        326
+      ],
+      "filteredMeanRGB": [
+        74.011,
+        125.957,
+        171.253
+      ],
+      "unfilteredMeanRGB": [
+        68.028,
+        123.407,
+        169.855
+      ],
+      "filteredMeanVerticalRGBStep": 1.478,
+      "unfilteredMeanVerticalRGBStep": 5.818,
+      "meanAbsoluteRGBDifference": [
+        7.331,
+        3.017,
+        1.899
+      ]
+    },
+    "clearSeaRight": {
+      "boundsXYXY": [
+        1170,
+        302,
+        1390,
+        326
+      ],
+      "filteredMeanRGB": [
+        60.432,
+        120.129,
+        168.952
+      ],
+      "unfilteredMeanRGB": [
+        59.527,
+        119.712,
+        168.188
+      ],
+      "filteredMeanVerticalRGBStep": 1.307,
+      "unfilteredMeanVerticalRGBStep": 3.103,
+      "meanAbsoluteRGBDifference": [
+        2.318,
+        0.69,
+        2.019
+      ]
+    },
+    "courtControl": {
+      "boundsXYXY": [
+        1100,
+        680,
+        1230,
+        800
+      ],
+      "filteredMeanRGB": [
+        84.305,
+        161.649,
+        164.763
+      ],
+      "unfilteredMeanRGB": [
+        84.305,
+        161.649,
+        164.763
+      ],
+      "filteredMeanVerticalRGBStep": 2.105,
+      "unfilteredMeanVerticalRGBStep": 2.105,
+      "meanAbsoluteRGBDifference": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "remainingVisualGap": "Sea still lacks target broad sun shimmer and turquoise depth variation; it reads as a mostly uniform blue backdrop at the reference camera. Overall reference form/material quality remains unmet.",
+  "installedHashesStillMatch": {
+    "Unity/Assets/Resources/Tennis/Shaders/TennisWater.shader": true,
+    "Unity/Assets/Scripts/Tennis/TennisResortMaterials.cs": true
+  }
+}

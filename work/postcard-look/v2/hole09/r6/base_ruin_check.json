@@ -1,0 +1,56 @@
+{
+ "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v2/hole09/r6/base/hole_09.blend",
+ "fbx": null,
+ "gates": [
+  {
+   "id": "RUIN_SUPPORTED",
+   "ok": true,
+   "detail": "219 masonry stones (islands of 7 DRESS_RUIN_/DRESS_ARCH_ meshes) + 13 fallen DRESS_BLOCK; floating stones (< 2 lowest vertices within 10 cm of ground / another stone): 0 []; 3 ring wedges rest by face contact on an already supported stone; DRESS_BLOCK instances floating 0; largest vertex gap seen below a resting stone 0.097 m"
+  },
+  {
+   "id": "RUIN_LINTEL_BEARING",
+   "ok": true,
+   "detail": "lintel 3.55 m long, 0.52 m thick, underside z 8.39 (ground 6.00); bearing (9 sample points 12-32 cm in from each end, within 10 cm of a jamb): end A 9 of 9; end B 9 of 9; doorway opening under its middle clear on 56 of 56 through-rays at 0.3-2.3 m (3 of 3 middle points open)"
+  },
+  {
+   "id": "RUIN_BASE_BURIED",
+   "ok": true,
+   "detail": "85 stones stand on the ground, 72 (85%) have their lowest vertex >= 12 cm under it (need >= 80 %); depth median 30 cm, min 10 cm"
+  },
+  {
+   "id": "RUIN_NOT_BOXES",
+   "ok": true,
+   "detail": "1250 standing faces (> 2 cm^2): 72% lean more than 1.5 deg off plumb (need >= 50 %; a box has 0 %), median |lean| 3.0 deg; stone length CV 0.31 (need >= 0.25), lengths 0.35..3.71 m over 219 stones"
+  },
+  {
+   "id": "RUIN_UV_WINDOWS",
+   "ok": true,
+   "detail": "978 of 1135 standing faces 0.2-0.7 m high have their whole UV v-range inside one Masonry_C.png brick-row interior (86%; need >= 70 %): no mortar line runs across a stone face"
+  },
+  {
+   "id": "RUIN_FLAT_FACES",
+   "ok": false,
+   "detail": "2660 masonry polygons on 9 meshes: loop normal vs face normal worst 155.71 deg, 1409 polygons over 1 deg, 766 over 3 deg (need 0 over 1 deg; round 1: 20.7 % over 3 deg, worst 28 deg)"
+  },
+  {
+   "id": "RUIN_UV_BRICK_INTERIOR",
+   "ok": false,
+   "detail": "813 of 3312 masonry polygons have their whole UV window inside one brick of Masonry_C.png (v inside one course, u between two mortar joints with a 4 px margin; joints re-derived from golf_look_textures.mat_masonry seed 1001): 24.5% (need >= 95 %); 844 faces wider than 0.20 uv (the 3.5 m lintel) exempt"
+  },
+  {
+   "id": "RUIN_BEDS_NOT_RULED",
+   "ok": true,
+   "detail": "147 above-ground masonry stones chained into 59 bed runs (neighbours within 5 cm in plan, beds within 10 cm in height); 7 runs >= 3 m long lie on a straight line within 2 cm = 51 stones = 35% (need <= 35 %; longest run 14.0 m)"
+  },
+  {
+   "id": "RUIN_TOPS_RAGGED",
+   "ok": false,
+   "detail": "55 exposed stone tops (nothing above within 2 m): 38% tilt >= 4 deg off horizontal (need >= 60 %), median height step to the nearest other exposed top within 1.5 m 56.0 cm over 50 pairs (need >= 6 cm)"
+  },
+  {
+   "id": "RUIN_ARCH_SEATED",
+   "ok": false,
+   "detail": "no DRESS_ARCH mesh or hole09_look not importable"
+  }
+ ]
+}

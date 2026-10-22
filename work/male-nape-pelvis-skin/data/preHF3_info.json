@@ -1,0 +1,142 @@
+{
+ "Body_M": {
+  "type": "MESH",
+  "parent": null,
+  "loc": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "hide_render": false,
+  "nv": 31628,
+  "nf": 31854,
+  "mats": [
+   "Blockout_Grey"
+  ],
+  "vgroups": [
+   "LOOP_mouth_seam",
+   "LOOP_mouth_lip_upper",
+   "LOOP_mouth_lip_lower",
+   "LOOP_nostril_L",
+   "LOOP_nostril_R",
+   "LOOP_ala_L",
+   "LOOP_ala_R",
+   "LOOP_ear_attach_L",
+   "LOOP_helix_L",
+   "LOOP_concha_L",
+   "LOOP_ear_attach_R",
+   "LOOP_helix_R",
+   "LOOP_concha_R",
+   "LOOP_jaw_ear_L",
+   "LOOP_jaw_ear_R",
+   "LOOP_lid_margin_L",
+   "LOOP_lid_margin_R"
+  ],
+  "nvg": 17,
+  "shape_keys": false,
+  "mods": [],
+  "has_custom_normals": true
+ },
+ "Face_M": {
+  "type": "MESH",
+  "parent": null,
+  "loc": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "hide_render": false,
+  "nv": 3322,
+  "nf": 2782,
+  "mats": [
+   "Face_Brow",
+   "Face_Sclera",
+   "Face_Iris",
+   "Face_Pupil",
+   "Face_Limbal",
+   "Face_Catch",
+   "Face_LidLine",
+   "Face_Lip",
+   "Face_LipUp",
+   "Face_Seam",
+   "Face_Nostril",
+   "Face_BrowSoft",
+   "Face_LidCrease"
+  ],
+  "vgroups": [],
+  "nvg": 0,
+  "shape_keys": false,
+  "mods": [],
+  "has_custom_normals": false
+ },
+ "Locked_bald_back": {
+  "type": "CAMERA",
+  "parent": null,
+  "loc": [
+   0.7958828806877136,
+   5.0,
+   0.8398981094360352
+  ],
+  "hide_render": false
+ },
+ "Locked_bald_front": {
+  "type": "CAMERA",
+  "parent": null,
+  "loc": [
+   0.822765588760376,
+   -5.0,
+   0.8428330421447754
+  ],
+  "hide_render": false
+ },
+ "Locked_left": {
+  "type": "CAMERA",
+  "parent": null,
+  "loc": [
+   5.0,
+   -0.9142611622810364,
+   -0.09931271523237228
+  ],
+  "hide_render": false
+ },
+ "LOCKED_Male_Head_Detail": {
+  "type": "EMPTY",
+  "parent": null,
+  "loc": [
+   3.0,
+   0.0,
+   1.2999999523162842
+  ],
+  "hide_render": true
+ },
+ "Locked_right": {
+  "type": "CAMERA",
+  "parent": null,
+  "loc": [
+   -5.0,
+   2.5003435611724854,
+   -0.09931271523237228
+  ],
+  "hide_render": false
+ },
+ "Locked_sheet_back": {
+  "type": "CAMERA",
+  "parent": null,
+  "loc": [
+   -0.9329623579978943,
+   5.0,
+   -0.09315068274736404
+  ],
+  "hide_render": false
+ },
+ "Locked_sheet_front": {
+  "type": "CAMERA",
+  "parent": null,
+  "loc": [
+   2.651883602142334,
+   -5.0,
+   -0.09315068274736404
+  ],
+  "hide_render": false
+ }
+}

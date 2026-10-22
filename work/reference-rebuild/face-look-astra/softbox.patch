@@ -1,0 +1,35 @@
+--- Unity/Assets/Resources/Tennis/Shaders/HeroLighting.hlsl
++++ Unity/Assets/Resources/Tennis/Shaders/HeroLighting.hlsl
+@@ -97,13 +97,13 @@
+     half nh = saturate(dot(n, h));
+     half broad = pow(nh, 18 + smoothness * 18) * .075h;
+     if (_HeroSkinPolish > .5h) {
+-        // Satin skin: a wide soft reflection with a restrained central sheen.
+-        // Diffuse/pigment and geometric normals remain the accepted source.
+-        // The reference's broad source reflection needs a wider lobe than a
+-        // point-light varnish. Keep rougher lips/neck below the forehead/nose.
++        // Softbox skin: concentrate the broad wash into a visible satin core.
++        // Lower integrated reflection energy preserves the side-plane colour;
++        // the soft shoulder keeps the highlight transition from becoming oily.
++        // Rougher lips/neck remain below the forehead/nose response.
+         half glossWeight = .5h + .5h * saturate((smoothness - .32h) / .08h);
+-        broad = (pow(nh, 5 + smoothness * 6) * .22h
+-               + pow(nh, 48 + smoothness * 60) * .018h) * glossWeight;
++        broad = (pow(nh, 5 + smoothness * 6) * .035h
++               + pow(nh, 18 + smoothness * 18) * .40h) * glossWeight;
+     }
+     half visibility = smoothstep(-.06h, .24h, ndl);
+     half shadow = lerp(light.shadowAttenuation, 1, .12h);
+--- GolfArcade/Unity/MatchHeroSurfaces.swift
++++ GolfArcade/Unity/MatchHeroSurfaces.swift
+@@ -173,8 +173,9 @@
+         edge=saturate(wrapped-saturate(nl));
+         float skinLobe=pow(nh,18.0+smoothness*18.0)*0.075;
+         if(skinPolish>0.5) {
++            // Same soft shoulder / satin core as Unity's HeroSkinShade.
+             float glossWeight=0.5+0.5*saturate((smoothness-0.32)/0.08);
+-            skinLobe=(pow(nh,5.0+smoothness*6.0)*0.22+pow(nh,48.0+smoothness*60.0)*0.018)*glossWeight;
++            skinLobe=(pow(nh,5.0+smoothness*6.0)*0.035+pow(nh,18.0+smoothness*18.0)*0.40)*glossWeight;
+         }
+         spec=skinLobe*0.95*smoothstep(-0.06,0.24,nl);
+         _lightingContribution.diffuse += _light.intensity.rgb*(float3(wrapped*0.84)+athleteWarmth.rgb*edge);

@@ -1,0 +1,231 @@
+{
+  "schema": "xcodebuildmcp.output.test-result",
+  "schemaVersion": "3",
+  "didError": false,
+  "error": null,
+  "data": {
+    "summary": {
+      "status": "SUCCEEDED",
+      "durationMs": 59326,
+      "counts": {
+        "passed": 15,
+        "failed": 0,
+        "skipped": 0
+      },
+      "target": "simulator"
+    },
+    "artifacts": {
+      "buildLogPath": "~/Library/Developer/XcodeBuildMCP/workspaces/iphone-golf-simulator-48645ed5e609/logs/test_sim_2026-10-15T20-35-58-511Z_pid33808_0f611f5c.log",
+      "xcresultPath": "/private/tmp/multiplayer-fixes-gather.xcresult",
+      "testProductsPath": "~/Library/Developer/XcodeBuildMCP/workspaces/iphone-golf-simulator-48645ed5e609/test-products/test_sim_2026-10-15T20-35-58-511Z_pid33808_d0b59527.xctestproducts"
+    },
+    "tests": {
+      "selected": [
+        "GolfArcadeTests/HubPartyTests/testAFriendElsewhereInThePlazaStaysThereWhileTheBenchPlays",
+        "GolfArcadeTests/HubPartyTests/testAFriendJoiningKeepsBothPhonesInThePlaza",
+        "GolfArcadeTests/HubPartyTests/testAFriendsPresenceBecomesAPlazaFriendInTheirLook",
+        "GolfArcadeTests/HubPartyTests/testBackToThePlazaFromAPartyMatchBringsEveryoneBack",
+        "GolfArcadeTests/HubPartyTests/testCallPartyReachesTheOthers",
+        "GolfArcadeTests/HubPartyTests/testCallPartyWaitsForEveryoneIncludingAFriendInTheLocker",
+        "GolfArcadeTests/HubPartyTests/testFourFriendsSeatedInTheGolfBayStartOneMatchAndComeBackToIt",
+        "GolfArcadeTests/HubPartyTests/testHostBenchSettingsRenderAfterBothFriendsSit",
+        "GolfArcadeTests/HubPartyTests/testInviteInThePlazaOpensTheHubAndNoMenuScreen",
+        "GolfArcadeTests/HubPartyTests/testJoiningClearsTheUnityStationAndKeepsWalkingAndEmotesAvailable",
+        "GolfArcadeTests/HubPartyTests/testPartyCallWaitsWhileThePhoneIsInactive",
+        "GolfArcadeTests/HubPartyTests/testSittingDownTogetherStartsTheMatchFromTheHostsPhone",
+        "GolfArcadeTests/HubPartyTests/testSoloBenchesAreLockedUntilTheFriendLeavesAndStartRequiresSeats",
+        "GolfArcadeTests/HubPartyTests/testTheHostLeavingAnIdleLobbyHandsItOver",
+        "GolfArcadeTests/HubPartyTests/testThePartyLandsInOneMatchAndComesBackToTheSameBay"
+      ],
+      "discovered": {
+        "total": 15,
+        "items": [
+          "GolfArcadeTests/HubPartyTests/testAFriendElsewhereInThePlazaStaysThereWhileTheBenchPlays",
+          "GolfArcadeTests/HubPartyTests/testAFriendJoiningKeepsBothPhonesInThePlaza",
+          "GolfArcadeTests/HubPartyTests/testAFriendsPresenceBecomesAPlazaFriendInTheirLook",
+          "GolfArcadeTests/HubPartyTests/testBackToThePlazaFromAPartyMatchBringsEveryoneBack",
+          "GolfArcadeTests/HubPartyTests/testCallPartyReachesTheOthers",
+          "GolfArcadeTests/HubPartyTests/testCallPartyWaitsForEveryoneIncludingAFriendInTheLocker"
+        ]
+      }
+    },
+    "diagnostics": {
+      "warnings": [
+        {
+          "message": "'now' mutated after capture by sendable closure",
+          "location": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/GolfArcadeTests/MultiplayerTests.swift:130"
+        },
+        {
+          "message": "variable 'sent' was never mutated; consider changing to 'let' constant [#VariableNeverMutated]",
+          "location": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/GolfArcadeTests/HubSessionTests.swift:277"
+        },
+        {
+          "message": "value 'l' was defined but never used; consider replacing with boolean test [#NoUsage]",
+          "location": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/GolfArcade/Unity/TennisMenu.swift:1205"
+        },
+        {
+          "message": "result of 'try?' is unused [#NoUsage]",
+          "location": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/GolfArcade/Unity/SportsSession.swift:870"
+        },
+        {
+          "message": "'timeSensitive' was deprecated in iOS 15.0: Use time-sensitive entitlement [#DeprecatedDeclaration]",
+          "location": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/GolfArcade/Social/ClubHubLive.swift:135"
+        },
+        {
+          "message": "-[GolfArcadeTests.HubPartyTests testAFriendElsewhereInThePlazaStaysThereWhileTheBenchPlays] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+          "location": "<unknown>:0"
+        },
+        {
+          "message": "-[GolfArcadeTests.HubPartyTests testAFriendJoiningKeepsBothPhonesInThePlaza] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+          "location": "<unknown>:0"
+        },
+        {
+          "message": "-[GolfArcadeTests.HubPartyTests testAFriendsPresenceBecomesAPlazaFriendInTheirLook] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+          "location": "<unknown>:0"
+        },
+        {
+          "message": "-[GolfArcadeTests.HubPartyTests testBackToThePlazaFromAPartyMatchBringsEveryoneBack] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+          "location": "<unknown>:0"
+        },
+        {
+          "message": "-[GolfArcadeTests.HubPartyTests testCallPartyReachesTheOthers] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+          "location": "<unknown>:0"
+        },
+        {
+          "message": "-[GolfArcadeTests.HubPartyTests testCallPartyWaitsForEveryoneIncludingAFriendInTheLocker] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+          "location": "<unknown>:0"
+        },
+        {
+          "message": "-[GolfArcadeTests.HubPartyTests testFourFriendsSeatedInTheGolfBayStartOneMatchAndComeBackToIt] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+          "location": "<unknown>:0"
+        },
+        {
+          "message": "-[GolfArcadeTests.HubPartyTests testHostBenchSettingsRenderAfterBothFriendsSit] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+          "location": "<unknown>:0"
+        },
+        {
+          "message": "-[GolfArcadeTests.HubPartyTests testInviteInThePlazaOpensTheHubAndNoMenuScreen] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+          "location": "<unknown>:0"
+        },
+        {
+          "message": "-[GolfArcadeTests.HubPartyTests testJoiningClearsTheUnityStationAndKeepsWalkingAndEmotesAvailable] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+          "location": "<unknown>:0"
+        },
+        {
+          "message": "-[GolfArcadeTests.HubPartyTests testPartyCallWaitsWhileThePhoneIsInactive] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+          "location": "<unknown>:0"
+        },
+        {
+          "message": "-[GolfArcadeTests.HubPartyTests testSittingDownTogetherStartsTheMatchFromTheHostsPhone] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+          "location": "<unknown>:0"
+        },
+        {
+          "message": "-[GolfArcadeTests.HubPartyTests testSoloBenchesAreLockedUntilTheFriendLeavesAndStartRequiresSeats] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+          "location": "<unknown>:0"
+        },
+        {
+          "message": "-[GolfArcadeTests.HubPartyTests testTheHostLeavingAnIdleLobbyHandsItOver] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+          "location": "<unknown>:0"
+        },
+        {
+          "message": "-[GolfArcadeTests.HubPartyTests testThePartyLandsInOneMatchAndComesBackToTheSameBay] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+          "location": "<unknown>:0"
+        }
+      ],
+      "errors": [],
+      "testFailures": []
+    },
+    "testCases": [
+      {
+        "suite": "HubPartyTests",
+        "test": "testAFriendElsewhereInThePlazaStaysThereWhileTheBenchPlays",
+        "status": "passed",
+        "durationMs": 1483
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testAFriendJoiningKeepsBothPhonesInThePlaza",
+        "status": "passed",
+        "durationMs": 491
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testAFriendsPresenceBecomesAPlazaFriendInTheirLook",
+        "status": "passed",
+        "durationMs": 456
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testBackToThePlazaFromAPartyMatchBringsEveryoneBack",
+        "status": "passed",
+        "durationMs": 469
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testCallPartyReachesTheOthers",
+        "status": "passed",
+        "durationMs": 440
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testCallPartyWaitsForEveryoneIncludingAFriendInTheLocker",
+        "status": "passed",
+        "durationMs": 372
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testFourFriendsSeatedInTheGolfBayStartOneMatchAndComeBackToIt",
+        "status": "passed",
+        "durationMs": 398
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testHostBenchSettingsRenderAfterBothFriendsSit",
+        "status": "passed",
+        "durationMs": 1618
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testInviteInThePlazaOpensTheHubAndNoMenuScreen",
+        "status": "passed",
+        "durationMs": 356
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testJoiningClearsTheUnityStationAndKeepsWalkingAndEmotesAvailable",
+        "status": "passed",
+        "durationMs": 423
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testPartyCallWaitsWhileThePhoneIsInactive",
+        "status": "passed",
+        "durationMs": 390
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testSittingDownTogetherStartsTheMatchFromTheHostsPhone",
+        "status": "passed",
+        "durationMs": 360
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testSoloBenchesAreLockedUntilTheFriendLeavesAndStartRequiresSeats",
+        "status": "passed",
+        "durationMs": 295
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testTheHostLeavingAnIdleLobbyHandsItOver",
+        "status": "passed",
+        "durationMs": 397
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testThePartyLandsInOneMatchAndComesBackToTheSameBay",
+        "status": "passed",
+        "durationMs": 485
+      }
+    ]
+  }
+}

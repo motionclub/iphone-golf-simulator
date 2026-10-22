@@ -1,0 +1,6 @@
+GATE: BASALT_JOINTS FAIL - tee/approach required; 186/2143 skeleton junctions/pixels = 8.679/100; inherited >=3/100 and >=200px
+GATE: SMOKE_SOFT FAIL - native unmeasured; missing inherited correct category/dry inputs
+GATE: LAVA_ORANGE_AND_BRIGHT FAIL - native unmeasured; missing inherited correct category/difference inputs
+hole10_1_tee PASS AUTHORITATIVE /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole10/unity_attempt3: basalt=113542px Ymedian=33.5 S=0.224 glow=0.0256 vertical=0.45 rungs=0.189
+hole10_2_approach FAIL AUTHORITATIVE /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole10/unity_attempt3: basalt=85756px Ymedian=23.9 S=0.347 glow=0.0541 vertical=0.63 rungs=0.035
+hole10_aerial_staged FAIL DIAGNOSTIC /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole10/unity_attempt3: basalt=351082px Ymedian=48.2 S=0.208 glow=0.0031 vertical=0.0 rungs=0.267

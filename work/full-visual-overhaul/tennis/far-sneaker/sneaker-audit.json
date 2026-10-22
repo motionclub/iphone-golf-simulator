@@ -1,0 +1,169 @@
+{
+  "scope": "Actual approved fitted source on left; sealed rounded exterior LOD on right. Source preserved.",
+  "shoes": [
+    {
+      "sex": "Male",
+      "side": "L",
+      "input": "ArtDir/golf/source/gallery3-inputs/MaleGolfMaster.blend",
+      "input_sha256": "a17faf8c9e09c71efad03573818ac194f84b86d836634c15392c11a30212e1cf",
+      "source_bounds": [
+        [
+          0.11567407846450806,
+          0.3021174669265747
+        ],
+        [
+          -0.24258266389369965,
+          0.10274680703878403
+        ],
+        [
+          -0.030500000342726707,
+          0.16041475534439087
+        ]
+      ],
+      "bounds": [
+        [
+          0.11727088689804077,
+          0.30186715722084045
+        ],
+        [
+          -0.23183372616767883,
+          0.09344574809074402
+        ],
+        [
+          -0.030500000342726707,
+          0.1512570083141327
+        ]
+      ],
+      "source_exterior_polygons": 10584,
+      "voxel_triangles": 33884,
+      "triangles": 260,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "signed_volume": 0.006216919213664444,
+      "sole_top": 0.0044999984093010426
+    },
+    {
+      "sex": "Male",
+      "side": "R",
+      "input": "ArtDir/golf/source/gallery3-inputs/MaleGolfMaster.blend",
+      "input_sha256": "a17faf8c9e09c71efad03573818ac194f84b86d836634c15392c11a30212e1cf",
+      "source_bounds": [
+        [
+          -0.30211740732192993,
+          -0.11567407101392746
+        ],
+        [
+          -0.24258266389369965,
+          0.10274679213762283
+        ],
+        [
+          -0.03049999289214611,
+          0.16041475534439087
+        ]
+      ],
+      "bounds": [
+        [
+          -0.30186712741851807,
+          -0.11728494614362717
+        ],
+        [
+          -0.23187950253486633,
+          0.0934457927942276
+        ],
+        [
+          -0.03049999289214611,
+          0.147356778383255
+        ]
+      ],
+      "source_exterior_polygons": 10566,
+      "voxel_triangles": 33820,
+      "triangles": 260,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "signed_volume": 0.006177604636550088,
+      "sole_top": 0.004500005394220352
+    },
+    {
+      "sex": "Female",
+      "side": "L",
+      "input": "ArtDir/golf/source/gallery3-inputs/FemaleGolfMaster.blend",
+      "input_sha256": "5020024224ce7c1e737ff12dcf8ff9490fd2b5ba6abbb3662045c60abb2d6de3",
+      "source_bounds": [
+        [
+          0.0628741905093193,
+          0.20047618448734283
+        ],
+        [
+          -0.156952902674675,
+          0.1202368512749672
+        ],
+        [
+          -0.02550000138580799,
+          0.1379999816417694
+        ]
+      ],
+      "bounds": [
+        [
+          0.06298244744539261,
+          0.20015041530132294
+        ],
+        [
+          -0.1526557058095932,
+          0.10962267220020294
+        ],
+        [
+          -0.02550000138580799,
+          0.1161024272441864
+        ]
+      ],
+      "source_exterior_polygons": 7681,
+      "voxel_triangles": 19640,
+      "triangles": 260,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "signed_volume": 0.0026293296695349753,
+      "sole_top": 0.0040000006556510925
+    },
+    {
+      "sex": "Female",
+      "side": "R",
+      "input": "ArtDir/golf/source/gallery3-inputs/FemaleGolfMaster.blend",
+      "input_sha256": "5020024224ce7c1e737ff12dcf8ff9490fd2b5ba6abbb3662045c60abb2d6de3",
+      "source_bounds": [
+        [
+          -0.20047615468502045,
+          -0.0628741979598999
+        ],
+        [
+          -0.1569528877735138,
+          0.1202368512749672
+        ],
+        [
+          -0.02550000138580799,
+          0.1380000114440918
+        ]
+      ],
+      "bounds": [
+        [
+          -0.20015040040016174,
+          -0.06298244744539261
+        ],
+        [
+          -0.1526557058095932,
+          0.10962595790624619
+        ],
+        [
+          -0.02550000138580799,
+          0.11624771356582642
+        ]
+      ],
+      "source_exterior_polygons": 7691,
+      "voxel_triangles": 19620,
+      "triangles": 260,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "signed_volume": 0.0026397342478635165,
+      "sole_top": 0.004000012297183275
+    }
+  ]
+}

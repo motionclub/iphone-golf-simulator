@@ -1,0 +1,18 @@
+[
+  {
+    "name": "original-native-parity1-export",
+    "method": "GolfArcade.EditorTools.MatchHeroLockerExport.Run",
+    "env": {
+      "MH_LOCKER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-native-parity1/export",
+      "MH_LOCKER_REPORT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-native-parity1/export-report.txt",
+      "MH_LOCKER_GOLDEN": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-native-parity1/golden",
+      "MH_LOCKER_FACE_PARITY": "1",
+      "VISUAL_ORIGINAL_SEAM": "1",
+      "VISUAL_ORIGINAL_BLINK": "1",
+      "VISUAL_ORIGINAL_EYE_MATERIAL": "1",
+      "VISUAL_CHARACTER_SKIN_FINISH": "1",
+      "VISUAL_CHARACTER_NORMALS": "continuous",
+      "VISUAL_REFERENCE_HEAD": "0"
+    }
+  }
+]

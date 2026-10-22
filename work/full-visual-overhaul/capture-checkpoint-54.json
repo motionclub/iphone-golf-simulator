@@ -1,0 +1,33 @@
+[
+  {
+    "name": "character-pass-33-art7-shorts-tailored",
+    "method": "GolfArcade.EditorTools.VisualOverhaulCharacterCapture.Run",
+    "env": {
+      "VISUAL_CHARACTER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/character-pass-33-art7-shorts-tailored",
+      "VISUAL_CHARACTER_STARTER": "1",
+      "VISUAL_CHARACTER_CLIPS": "Ready,IntroWave,IntroPushups",
+      "VISUAL_HEAD_FORM": "crafted3",
+      "VISUAL_SKIN_NORMAL_FIELD": "head-neck",
+      "VISUAL_SHORTS_FORM": "tailored",
+      "VISUAL_CHARACTER_SKIN_MALE": "D49A70",
+      "VISUAL_CHARACTER_SKIN_FEMALE": "EBC3A1",
+      "VISUAL_CHARACTER_FEATURE_DUMPS": "1",
+      "VISUAL_CHARACTER_POSE_DUMPS": "1"
+    }
+  },
+  {
+    "name": "character-pass-34-art7-shorts-short",
+    "method": "GolfArcade.EditorTools.VisualOverhaulCharacterCapture.Run",
+    "env": {
+      "VISUAL_CHARACTER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/character-pass-34-art7-shorts-short",
+      "VISUAL_CHARACTER_STARTER": "1",
+      "VISUAL_CHARACTER_CLIPS": "Ready,IntroWave,IntroPushups",
+      "VISUAL_HEAD_FORM": "crafted3",
+      "VISUAL_SKIN_NORMAL_FIELD": "head-neck",
+      "VISUAL_SHORTS_FORM": "short",
+      "VISUAL_CHARACTER_SKIN_MALE": "D49A70",
+      "VISUAL_CHARACTER_SKIN_FEMALE": "EBC3A1",
+      "VISUAL_CHARACTER_FEATURE_DUMPS": "1"
+    }
+  }
+]

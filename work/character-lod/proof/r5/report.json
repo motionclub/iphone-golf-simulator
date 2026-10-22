@@ -1,0 +1,19 @@
+{
+  "hero_visible_tris": [198356, 95813, 57483, 22987, 19156],
+  "bands": [0.6, 0.46, 0.16, 0.04], "hysteresis": 0.025,
+  "identity": [
+    {"view": "closeup_front", "screen_h": 1.246, "level": 0, "pixels_differ": 2412, "max_diff": 169 },
+    {"view": "closeup_face", "screen_h": 2.734, "level": 0, "pixels_differ": 0, "max_diff": 0 },
+    {"view": "closeup_side", "screen_h": 0.963, "level": 0, "pixels_differ": 0, "max_diff": 0 }
+  ],
+  "pop": [
+    {"swap": "swap01", "levels": [0, 1], "hero_px": 244323, "differ_gt8": 3401, "differ_gt32": 286, "max_diff": 170, "share_gt8": 0.0139 },
+    {"swap": "swap12", "levels": [1, 2], "hero_px": 143598, "differ_gt8": 1806, "differ_gt32": 339, "max_diff": 170, "share_gt8": 0.0126 },
+    {"swap": "swap23", "levels": [2, 3], "hero_px": 11821, "differ_gt8": 769, "differ_gt32": 131, "max_diff": 174, "share_gt8": 0.0651 },
+    {"swap": "swap34", "levels": [3, 4], "hero_px": 609, "differ_gt8": 35, "differ_gt32": 4, "max_diff": 60, "share_gt8": 0.0575 },
+    {"swap": "tee_0_vs_chosen", "levels": [0, 2], "hero_px": 129731, "differ_gt8": 3180, "differ_gt32": 398, "max_diff": 173, "share_gt8": 0.0245 }
+  ],
+  "perf_median_ms": {"tee_off": 13.13, "greenBack_off": 7.86, "driveGood_0_off": 13.35, "tee_on": 11.74, "greenBack_on": 7.53, "driveGood_0_on": 12.80},
+  "frame_timing_tee_1080p": {"golfers_1": {"gpu_ms_off": 24.18, "gpu_ms_on": 24.02, "cpu_ms_off": 15.81, "cpu_ms_on": 15.60, "samples": 240}, "golfers_4": {"gpu_ms_off": 13.05, "gpu_ms_on": 11.29, "cpu_ms_off": 17.37, "cpu_ms_on": 17.77, "samples": 240}},
+  "cache": {"hits": 0, "misses": 26}
+}

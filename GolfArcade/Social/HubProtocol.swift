@@ -28,7 +28,8 @@ struct HubInvite: Codable, Equatable, Identifiable, Sendable {
     /// Milliseconds since 1970, by the service's clock (the app corrects for the offset it measured at welcome).
     var expiresAt: Double
     var id: String { inviteID }
-    var sportTitle: String { sport == "golf" ? "Golf" : "Tennis" }
+    /// A Game Center party invite is to the party (sport-neutral), not to a sport.
+    var sportTitle: String { sport == "golf" ? "Golf" : sport == "party" ? "their party" : "Tennis" }
 }
 
 enum HubServerMessage: Equatable, Sendable {

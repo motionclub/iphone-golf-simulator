@@ -1,0 +1,49 @@
+{
+  "actualFile": "proof/reference-rebuild/face-finish30-lids-normal0/poses/female_closed.json",
+  "mappedEyelidVertices": 2152,
+  "maxPositionErrorMm": 0.0011348487084321412,
+  "medianPositionErrorMm": 0.00011334860131795882,
+  "p99PositionErrorMm": 0.00022696897832188908,
+  "largest": [
+    {
+      "source": 17048,
+      "actual": 17048,
+      "errorMm": 0.0004492973230470539
+    },
+    {
+      "source": 19137,
+      "actual": 19137,
+      "errorMm": 0.0005540501651155181
+    },
+    {
+      "source": 20774,
+      "actual": 20774,
+      "errorMm": 0.0007984828217645129
+    },
+    {
+      "source": 22006,
+      "actual": 22006,
+      "errorMm": 0.00082563894181441
+    },
+    {
+      "source": 18656,
+      "actual": 18656,
+      "errorMm": 0.0008646299092421851
+    },
+    {
+      "source": 16084,
+      "actual": 16084,
+      "errorMm": 0.0009877886825426297
+    },
+    {
+      "source": 22820,
+      "actual": 22820,
+      "errorMm": 0.0010507552473291687
+    },
+    {
+      "source": 22493,
+      "actual": 22493,
+      "errorMm": 0.0011348487084321412
+    }
+  ]
+}

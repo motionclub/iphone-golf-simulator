@@ -1,0 +1,28 @@
+{
+  "female_Forehand_1": {
+    "changedVertices": 1833,
+    "maxPosedDisplacementMm": 28.000000000000004,
+    "maxRestDisplacementMm": 29.435690128047433,
+    "restBounds": {
+      "min": [
+        -0.18999272034302314,
+        1.061126704930258,
+        -0.08763901985345089
+      ],
+      "max": [
+        -0.0742234973265353,
+        1.256771782194983,
+        0.09674590941973064
+      ]
+    },
+    "triangleReversals": 0,
+    "views": [
+      {
+        "view": "front",
+        "initialSkinPixels": 231,
+        "remainingSkinPixels": 0,
+        "remainingSkinPixelsAfterLocalFoldGuard": 0
+      }
+    ]
+  }
+}

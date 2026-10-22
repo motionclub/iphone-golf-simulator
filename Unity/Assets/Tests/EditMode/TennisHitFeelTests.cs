@@ -30,12 +30,12 @@ namespace GolfArcade.Tests
         }
 
         [Test]
-        public void LatenessEitherWayIsMistimingUpToTheEdgeOfGood()
+        public void IntentionalDirectionalTimingKeepsTheSameCrispContact()
         {
             Assert.AreEqual(0, Rally(late: 0).Mistime, 1e-5f);
             Assert.AreEqual(Rally(late: .07f).Mistime, Rally(late: -.07f).Mistime, 1e-5f, "early and late alike");
-            Assert.AreEqual(.5f, Rally(late: .07f).Mistime, 1e-3f);
-            Assert.AreEqual(1, Rally(late: .3f).Mistime, 1e-5f, "past GOOD it is simply mistimed");
+            Assert.AreEqual(0, Rally(late: .07f).Mistime, 1e-3f);
+            Assert.AreEqual(0, Rally(late: .3f).Mistime, 1e-5f, "timing chooses aim, not haptic quality");
         }
 
         [Test]

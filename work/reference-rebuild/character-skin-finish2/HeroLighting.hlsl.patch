@@ -1,0 +1,25 @@
+--- Unity/Assets/Resources/Tennis/Shaders/HeroLighting.hlsl
++++ Unity/Assets/Resources/Tennis/Shaders/HeroLighting.hlsl
+@@ -71,4 +71,22 @@
+     reflection = spec * light.color * atten;
+     return (albedo * wrapped + subsurface * edge * albedo) * light.color * atten + reflection;
+ }
++// Work-only skin response, selected per Body material. Other character roles
++// retain HeroCharacterShade. Keep direct/fill energy bounded and the skin lobe
++// broad, rather than using the narrow varnish contribution of eyes/equipment.
++half3 HeroSkinShade (Light light, half3 n, half3 v, half3 albedo, half wrap, half smoothness, half3 subsurface, half specularStrength, out half3 reflection)
++{
++    half ndl = dot(n, light.direction);
++    half wrapped = saturate((ndl + wrap) / (1 + wrap));
++    half edge = saturate(wrapped - saturate(ndl));
++    half3 h = SafeNormalize(light.direction + v);
++    half nh = saturate(dot(n, h));
++    half broad = pow(nh, 18 + smoothness * 18) * .105h;
++    half fine = pow(nh, 64) * .012h;
++    half visibility = smoothstep(-.06h, .24h, ndl);
++    half shadow = lerp(light.shadowAttenuation, 1, .12h);
++    half atten = light.distanceAttenuation * shadow;
++    reflection = (broad + fine) * specularStrength * visibility * light.color * atten;
++    return albedo * (wrapped * .84h + subsurface * edge) * light.color * atten + reflection;
++}
+ #endif

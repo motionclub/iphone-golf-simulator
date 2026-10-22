@@ -1,0 +1,1 @@
+./garment_fit GolfKitHero_Male dump:Kit_Bottom dump:Kit_Top dump:Kit_Belt npz:../out_gp2/GolfKitHero_Male/unity/Kit_Shoe_L_final.npz@Kit_Shoe_L npz:../out_gp2/GolfKitHero_Male/unity/Kit_Shoe_R_final.npz@Kit_Shoe_R run=g1 > logs/g1.log 2>&1

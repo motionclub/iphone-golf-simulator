@@ -1,0 +1,58 @@
+using System.Collections;
+using System.IO;
+using System.Linq;
+using GolfArcade.Game;
+using GolfArcade.Course;
+using GolfArcade.Tennis;
+using NUnit.Framework;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.TestTools;
+
+namespace GolfArcade.PlayTests
+{
+    public class EnvironmentReducedFxProofTests
+    {
+        static string Out=>System.Environment.GetEnvironmentVariable("REDUCED_OUT");
+        static void Clear(ParticleSystem[] systems) {
+            foreach(var ps in systems){ps.Stop(true,ParticleSystemStopBehavior.StopEmittingAndClear);ps.useAutoRandomSeed=false;ps.randomSeed=14026;ps.Play();}
+        }
+        static float MaxSpeed(ParticleSystem[] systems) {
+            float speed=0;
+            foreach(var ps in systems){var particles=new ParticleSystem.Particle[ps.particleCount];int n=ps.GetParticles(particles);for(int i=0;i<n;i++)speed=Mathf.Max(speed,particles[i].velocity.magnitude);}
+            return speed;
+        }
+        static void Compare(string name,Component owner,System.Action action,bool velocity=false) {
+            var systems=owner.GetComponentsInChildren<ParticleSystem>(true);
+            Clear(systems);PresentationPolicy.Constrained=false;Random.InitState(14026);action();
+            var sequence=Random.state;int full=systems.Sum(p=>p.particleCount);float fullSpeed=MaxSpeed(systems);
+            GameCapture.Save(Path.Combine(Out,name+"_full.png"),960,540);
+            Clear(systems);PresentationPolicy.Constrained=true;Random.InitState(14026);action();
+            Assert.AreEqual(sequence,Random.state,name+": thinning emissions must preserve the shared random sequence");
+            int reduced=systems.Sum(p=>p.particleCount);float reducedSpeed=MaxSpeed(systems);
+            Assert.Greater(reduced,0,name+": keep the core feedback");Assert.Less(reduced,full,name+": fewer decorative particles");
+            if(velocity)Assert.LessOrEqual(reducedSpeed,fullSpeed*.5f,name+": reduce decorative travel speed");
+            GameCapture.Save(Path.Combine(Out,name+"_reduced.png"),960,540);
+            File.AppendAllText(Path.Combine(Out,"counts.tsv"),name+"\t"+full+"\t"+reduced+"\t"+fullSpeed+"\t"+reducedSpeed+"\n");
+        }
+        [UnityTest,Timeout(240000)] public IEnumerator ExistingPreferenceThinsPoolsWithoutChangingRandomSequence() {
+            Directory.CreateDirectory(Out);bool prior=PresentationPolicy.Constrained;
+            try {
+                yield return SceneManager.LoadSceneAsync("Tennis");yield return null;
+                var tennis=Object.FindFirstObjectByType<TennisGame>();tennis.ManualSimulation=true;tennis.NativeControlled=true;
+                tennis.ConfigureMatch(TennisGame.Mode.Training,null,null,null);for(int i=0;i<360;i++)tennis.Step(1f/120);
+                var fx=Object.FindFirstObjectByType<TennisFx>();var at=tennis.Player.transform.position+Vector3.up;
+                Compare("perfect-contact",fx,()=>fx.Contact(at,Timing.Perfect,false));
+                Compare("celebration",fx,()=>fx.Celebrate(tennis.Player.transform.position,.5f),true);
+                yield return SceneManager.LoadSceneAsync("Golf");yield return null;
+                var golf=Object.FindFirstObjectByType<GolfGame>();golf.InstantReplays=false;golf.ChooseHoles(0);golf.Play();yield return null;golf.JumpToHole(7);
+                while(golf.Current!=GolfGame.State.Aim){golf.SkipPresentation();yield return null;}
+                var effects=Object.FindFirstObjectByType<ShotEffects>();at=HoleView.ToWorld(golf.CurrentHole.Tee)+Vector3.forward*4;
+                Compare("grass",effects,()=>effects.Touchdown(at,CourseLie.Fairway,1));
+                Compare("sand",effects,()=>effects.Touchdown(at,CourseLie.Bunker,1));
+                Compare("ice",effects,()=>effects.Touchdown(at,CourseLie.Ice,1));
+                Compare("water",effects,()=>effects.Splash(at));Compare("lava",effects,()=>effects.LavaBurst(at));
+            } finally {PresentationPolicy.Constrained=prior;}
+        }
+    }
+}

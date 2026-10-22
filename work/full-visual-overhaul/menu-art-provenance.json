@@ -1,0 +1,86 @@
+[
+  {
+    "name": "map-golf-cliffside",
+    "source": "proof/full-visual-overhaul/golf-pass-18/hole12_preview.png",
+    "sourceSha256": "d08b014497ec7e88b67e771559e5152bb87454c11ca87959b49b737d28815f70",
+    "output": "GolfArcade/Unity/MenuArt/map-golf-cliffside.jpg",
+    "size": [
+      1280,
+      720
+    ],
+    "outputSha256": "767c681ba936b20a6ebdbfbc1cc6711d4deb92662e59e1ccc5f580009d189ba3",
+    "provenance": "Actual Unity runtime capture; aspect-preserving downsample and JPEG encoding only"
+  },
+  {
+    "name": "map-golf-postcards",
+    "source": "proof/full-visual-overhaul/golf-pass-18/hole07_preview.png",
+    "sourceSha256": "6794d4ec3bcfef168622678b3637c859ca35dce3838cc1c7759c33286d77a7fc",
+    "output": "GolfArcade/Unity/MenuArt/map-golf-postcards.jpg",
+    "size": [
+      1280,
+      720
+    ],
+    "outputSha256": "d4f55385346337da679f89b75e7a563715e10c87dff0d35ac493d6e5369553df",
+    "provenance": "Actual Unity runtime capture; aspect-preserving downsample and JPEG encoding only"
+  },
+  {
+    "name": "map-golf-wildisles",
+    "source": "proof/full-visual-overhaul/golf-pass-18/hole19_preview.png",
+    "sourceSha256": "e41627904bb93fc8091c9465fbde76218076824d000a0977cb9dd7f35ffe6d5f",
+    "output": "GolfArcade/Unity/MenuArt/map-golf-wildisles.jpg",
+    "size": [
+      1280,
+      720
+    ],
+    "outputSha256": "2154f9e133e8ff540d78d3addd3218a6be165f7487002f6fc0a3894c7e1c0ad5",
+    "provenance": "Actual Unity runtime capture; aspect-preserving downsample and JPEG encoding only"
+  },
+  {
+    "name": "map-golf-magma",
+    "source": "proof/full-visual-overhaul/golf-pass-18/hole21_preview.png",
+    "sourceSha256": "f93eef91ece4922931cf4ab914e78ebe7a54a0f4634b2629ced1dedef858d706",
+    "output": "GolfArcade/Unity/MenuArt/map-golf-magma.jpg",
+    "size": [
+      1280,
+      720
+    ],
+    "outputSha256": "fb9f6f30917a35c50f6659e83b142c83f1bd305acc55cb7aff55313f607f0dc0",
+    "provenance": "Actual Unity runtime capture; aspect-preserving downsample and JPEG encoding only"
+  },
+  {
+    "name": "map-resort",
+    "source": "proof/full-visual-overhaul/tennis-worlds-pass-11/resort_2_postcard.png",
+    "sourceSha256": "5b7830c01f2c8c18d03bc0e5e0a90ea3f56ad81f07a0b6489a506e8aaa4d53fb",
+    "output": "GolfArcade/Unity/MenuArt/map-resort.jpg",
+    "size": [
+      1600,
+      900
+    ],
+    "outputSha256": "f13c827f0c442a81e1b1a6b37aac272e2f193a9279b49b6a963e19b6a1ac8a7c",
+    "provenance": "Actual Unity runtime capture; aspect-preserving downsample and JPEG encoding only"
+  },
+  {
+    "name": "map-skyscraper",
+    "source": "proof/full-visual-overhaul/tennis-worlds-pass-11/skyscraper_2_postcard.png",
+    "sourceSha256": "27d229840151d9f0a5384677476b67ce3e7894418f25a8137c542ab56d87372e",
+    "output": "GolfArcade/Unity/MenuArt/map-skyscraper.jpg",
+    "size": [
+      1600,
+      900
+    ],
+    "outputSha256": "d8992339d238b7b849cc7af4050a338847c024e152dc36bb152441caaaa19f0a",
+    "provenance": "Actual Unity runtime capture; aspect-preserving downsample and JPEG encoding only"
+  },
+  {
+    "name": "map-volcano",
+    "source": "proof/full-visual-overhaul/tennis-worlds-pass-11/volcano_2_postcard.png",
+    "sourceSha256": "4459cc0ce8ccca1f73dca1779928c75ee936dff68243287017118298244267ff",
+    "output": "GolfArcade/Unity/MenuArt/map-volcano.jpg",
+    "size": [
+      1600,
+      900
+    ],
+    "outputSha256": "eaa3514fbcc3a0461609effc3b9bb0d83042055f64bb2014bcde076db282d2e9",
+    "provenance": "Actual Unity runtime capture; aspect-preserving downsample and JPEG encoding only"
+  }
+]

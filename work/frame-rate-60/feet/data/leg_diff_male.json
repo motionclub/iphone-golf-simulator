@@ -1,0 +1,38 @@
+{
+ "Walk": {
+  "mean_deg": 19.842597161984234,
+  "per_bone_mean_deg": {
+   "LeftUpperLeg": 26.575144851039855,
+   "RightUpperLeg": 26.611465805834264,
+   "LeftLowerLeg": 13.114640150547745,
+   "RightLowerLeg": 13.069137840515069
+  }
+ },
+ "RunForward": {
+  "mean_deg": 33.628227986642266,
+  "per_bone_mean_deg": {
+   "LeftUpperLeg": 30.44673241539917,
+   "RightUpperLeg": 30.252042330153465,
+   "LeftLowerLeg": 36.56429186452871,
+   "RightLowerLeg": 37.24984533648774
+  }
+ },
+ "RunRight": {
+  "mean_deg": 34.03562624417693,
+  "per_bone_mean_deg": {
+   "LeftUpperLeg": 29.603085113735943,
+   "RightUpperLeg": 32.46925930425379,
+   "LeftLowerLeg": 38.48856862299811,
+   "RightLowerLeg": 35.58159193571989
+  }
+ },
+ "RunLeft": {
+  "mean_deg": 34.309539498808434,
+  "per_bone_mean_deg": {
+   "LeftUpperLeg": 32.82229139211922,
+   "RightUpperLeg": 29.49073345575757,
+   "LeftLowerLeg": 36.17012593991923,
+   "RightLowerLeg": 38.75500720743775
+  }
+ }
+}

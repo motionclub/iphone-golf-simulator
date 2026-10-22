@@ -1,0 +1,235 @@
+{
+  "schema": "xcodebuildmcp.output.test-result",
+  "schemaVersion": "3",
+  "didError": false,
+  "error": null,
+  "data": {
+    "summary": {
+      "status": "SUCCEEDED",
+      "durationMs": 43674,
+      "counts": {
+        "passed": 23,
+        "failed": 0,
+        "skipped": 0
+      },
+      "target": "simulator"
+    },
+    "artifacts": {
+      "buildLogPath": "~/Library/Developer/XcodeBuildMCP/workspaces/iphone-golf-simulator-48645ed5e609/logs/test_sim_2026-10-15T20-51-57-798Z_pid33808_46aa055a.log",
+      "xcresultPath": "/private/tmp/multiplayer-fixes-reset-check.xcresult",
+      "testProductsPath": "~/Library/Developer/XcodeBuildMCP/workspaces/iphone-golf-simulator-48645ed5e609/test-products/test_sim_2026-10-15T20-51-57-798Z_pid33808_a0be4da0.xctestproducts"
+    },
+    "tests": {
+      "selected": [
+        "GolfArcadeTests/HubPartyTests/testAFriendElsewhereInThePlazaStaysThereWhileTheBenchPlays",
+        "GolfArcadeTests/HubPartyTests/testAFriendJoiningKeepsBothPhonesInThePlaza",
+        "GolfArcadeTests/HubPartyTests/testAFriendsPresenceBecomesAPlazaFriendInTheirLook",
+        "GolfArcadeTests/HubPartyTests/testBackToThePlazaFromAPartyMatchBringsEveryoneBack",
+        "GolfArcadeTests/HubPartyTests/testCallPartyReachesTheOthers",
+        "GolfArcadeTests/HubPartyTests/testCallPartyWaitsForEveryoneIncludingAFriendInTheLocker",
+        "GolfArcadeTests/HubPartyTests/testFourFriendsSeatedInTheGolfBayStartOneMatchAndComeBackToIt",
+        "GolfArcadeTests/HubPartyTests/testHostBenchSettingsRenderAfterBothFriendsSit",
+        "GolfArcadeTests/HubPartyTests/testInviteInThePlazaOpensTheHubAndNoMenuScreen",
+        "GolfArcadeTests/HubPartyTests/testJoiningClearsTheUnityStationAndKeepsWalkingAndEmotesAvailable",
+        "GolfArcadeTests/HubPartyTests/testPartyCallWaitsWhileThePhoneIsInactive",
+        "GolfArcadeTests/HubPartyTests/testSittingDownTogetherStartsTheMatchFromTheHostsPhone",
+        "GolfArcadeTests/HubPartyTests/testSoloBenchesAreLockedUntilTheFriendLeavesAndStartRequiresSeats",
+        "GolfArcadeTests/HubPartyTests/testTheHostLeavingAnIdleLobbyHandsItOver",
+        "GolfArcadeTests/HubPartyTests/testThePartyLandsInOneMatchAndComesBackToTheSameBay",
+        "GolfArcadeTests/HubSessionTests/testBootLoadingBarFollowsUnityAndFadesIntoTheArrival",
+        "GolfArcadeTests/HubSessionTests/testLoadingScreenSnapshots",
+        "GolfArcadeTests/HubSessionTests/testMatchTakesTheRuntimeAndThePlazaReloadsAfter",
+        "GolfArcadeTests/HubSessionTests/testNoTVThePlazaOpensOnThePhone",
+        "GolfArcadeTests/HubSessionTests/testPhoneControllerSnapshots",
+        "GolfArcadeTests/HubSessionTests/testThePlazaIsTheOnlyMenuAndOldScreensNeverShow",
+        "GolfArcadeTests/HubSessionTests/testUnityLifecycleDoesNotRepeatPauseOrRenderOnEnteringBackground",
+        "GolfArcadeTests/HubSessionTests/testUnityReportsReachThePhone"
+      ],
+      "discovered": {
+        "total": 23,
+        "items": [
+          "GolfArcadeTests/HubPartyTests/testAFriendElsewhereInThePlazaStaysThereWhileTheBenchPlays",
+          "GolfArcadeTests/HubPartyTests/testAFriendJoiningKeepsBothPhonesInThePlaza",
+          "GolfArcadeTests/HubPartyTests/testAFriendsPresenceBecomesAPlazaFriendInTheirLook",
+          "GolfArcadeTests/HubPartyTests/testBackToThePlazaFromAPartyMatchBringsEveryoneBack",
+          "GolfArcadeTests/HubPartyTests/testCallPartyReachesTheOthers",
+          "GolfArcadeTests/HubPartyTests/testCallPartyWaitsForEveryoneIncludingAFriendInTheLocker"
+        ]
+      }
+    },
+    "diagnostics": {
+      "warnings": [
+        {
+          "message": "-[GolfArcadeTests.HubPartyTests testAFriendElsewhereInThePlazaStaysThereWhileTheBenchPlays] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+          "location": "<unknown>:0"
+        },
+        {
+          "message": "-[GolfArcadeTests.HubPartyTests testAFriendJoiningKeepsBothPhonesInThePlaza] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+          "location": "<unknown>:0"
+        },
+        {
+          "message": "-[GolfArcadeTests.HubPartyTests testAFriendsPresenceBecomesAPlazaFriendInTheirLook] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+          "location": "<unknown>:0"
+        },
+        {
+          "message": "-[GolfArcadeTests.HubPartyTests testBackToThePlazaFromAPartyMatchBringsEveryoneBack] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+          "location": "<unknown>:0"
+        },
+        {
+          "message": "-[GolfArcadeTests.HubSessionTests testBootLoadingBarFollowsUnityAndFadesIntoTheArrival] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+          "location": "<unknown>:0"
+        },
+        {
+          "message": "-[GolfArcadeTests.HubSessionTests testLoadingScreenSnapshots] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+          "location": "<unknown>:0"
+        },
+        {
+          "message": "-[GolfArcadeTests.HubSessionTests testUnityReportsReachThePhone] : [Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+          "location": "<unknown>:0"
+        }
+      ],
+      "errors": [],
+      "testFailures": []
+    },
+    "testCases": [
+      {
+        "suite": "HubPartyTests",
+        "test": "testAFriendElsewhereInThePlazaStaysThereWhileTheBenchPlays",
+        "status": "passed",
+        "durationMs": 839
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testAFriendJoiningKeepsBothPhonesInThePlaza",
+        "status": "passed",
+        "durationMs": 394
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testAFriendsPresenceBecomesAPlazaFriendInTheirLook",
+        "status": "passed",
+        "durationMs": 227
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testBackToThePlazaFromAPartyMatchBringsEveryoneBack",
+        "status": "passed",
+        "durationMs": 180
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testCallPartyReachesTheOthers",
+        "status": "passed",
+        "durationMs": 95
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testCallPartyWaitsForEveryoneIncludingAFriendInTheLocker",
+        "status": "passed",
+        "durationMs": 96
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testFourFriendsSeatedInTheGolfBayStartOneMatchAndComeBackToIt",
+        "status": "passed",
+        "durationMs": 97
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testHostBenchSettingsRenderAfterBothFriendsSit",
+        "status": "passed",
+        "durationMs": 95
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testInviteInThePlazaOpensTheHubAndNoMenuScreen",
+        "status": "passed",
+        "durationMs": 111
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testJoiningClearsTheUnityStationAndKeepsWalkingAndEmotesAvailable",
+        "status": "passed",
+        "durationMs": 168
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testPartyCallWaitsWhileThePhoneIsInactive",
+        "status": "passed",
+        "durationMs": 94
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testSittingDownTogetherStartsTheMatchFromTheHostsPhone",
+        "status": "passed",
+        "durationMs": 85
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testSoloBenchesAreLockedUntilTheFriendLeavesAndStartRequiresSeats",
+        "status": "passed",
+        "durationMs": 96
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testTheHostLeavingAnIdleLobbyHandsItOver",
+        "status": "passed",
+        "durationMs": 93
+      },
+      {
+        "suite": "HubPartyTests",
+        "test": "testThePartyLandsInOneMatchAndComesBackToTheSameBay",
+        "status": "passed",
+        "durationMs": 96
+      },
+      {
+        "suite": "HubSessionTests",
+        "test": "testBootLoadingBarFollowsUnityAndFadesIntoTheArrival",
+        "status": "passed",
+        "durationMs": 1384
+      },
+      {
+        "suite": "HubSessionTests",
+        "test": "testLoadingScreenSnapshots",
+        "status": "passed",
+        "durationMs": 3770
+      },
+      {
+        "suite": "HubSessionTests",
+        "test": "testMatchTakesTheRuntimeAndThePlazaReloadsAfter",
+        "status": "passed",
+        "durationMs": 105
+      },
+      {
+        "suite": "HubSessionTests",
+        "test": "testNoTVThePlazaOpensOnThePhone",
+        "status": "passed",
+        "durationMs": 95
+      },
+      {
+        "suite": "HubSessionTests",
+        "test": "testPhoneControllerSnapshots",
+        "status": "passed",
+        "durationMs": 6019
+      },
+      {
+        "suite": "HubSessionTests",
+        "test": "testThePlazaIsTheOnlyMenuAndOldScreensNeverShow",
+        "status": "passed",
+        "durationMs": 1003
+      },
+      {
+        "suite": "HubSessionTests",
+        "test": "testUnityLifecycleDoesNotRepeatPauseOrRenderOnEnteringBackground",
+        "status": "passed",
+        "durationMs": 120
+      },
+      {
+        "suite": "HubSessionTests",
+        "test": "testUnityReportsReachThePhone",
+        "status": "passed",
+        "durationMs": 591
+      }
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "overallVisualGate": "FAIL",
+  "wristContactInvariant": "PASS",
+  "femaleIsolation": "PASS all25 Body skin matrices exactly equal",
+  "scope": "25 actual Unity poses .36-.72s plus exactcontact included, front/rear, full+gameplayLOD",
+  "failure": "New right waist body breakthroughs in transition frames6-10 and15-17; broad single-contact cloth overlay must not ship",
+  "controlComparison": [
+    "proof/reference-rebuild/forehand-clearance-control1/male_ForehandOpen_8.png",
+    "proof/reference-rebuild/forehand-clearance1/male_ForehandOpen_8.png",
+    "proof/reference-rebuild/forehand-clearance-control1/male_ForehandOpen_15.png",
+    "proof/reference-rebuild/forehand-clearance1/male_ForehandOpen_15.png"
+  ],
+  "nextBoundedCheck": "Elbow correction retained, waist overlay disabled; inspect remaining wrist region before authoring any more cloth",
+  "invariants": "unity-invariants.json",
+  "reviewSheets": [
+    "forehand-clearance1-review.jpg",
+    "forehand-clearance1_rear-review.jpg",
+    "forehand-clearance1-lod-review.jpg",
+    "forehand-clearance1-lod_rear-review.jpg"
+  ]
+}

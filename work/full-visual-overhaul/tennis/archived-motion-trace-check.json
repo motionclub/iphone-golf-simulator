@@ -1,0 +1,374 @@
+[
+  {
+    "trace": "work/emote-fluid/iterations/24/film/after/female/Emote_Scuba/trace.csv",
+    "frames": 323,
+    "active_frames": 282,
+    "first_active_time": "0.0167",
+    "last_active_time": "4.7000",
+    "returned_to_ready": true,
+    "final_grip_to_hand_m": 0.0,
+    "max_grip_to_hand_m": 1.18,
+    "min_racket_y_m": -0.0028,
+    "largest_body_jumps_m_and_frame": {
+      "hips": [
+        0.043875847570160977,
+        262
+      ],
+      "rwrist": [
+        0.0979376332162463,
+        262
+      ],
+      "lwrist": [
+        0.10525516614399506,
+        220
+      ],
+      "head": [
+        0.08421270687966274,
+        263
+      ]
+    },
+    "review_flag": false,
+    "numerical_continuity_pass": true
+  },
+  {
+    "trace": "work/emote-fluid/iterations/24/film/after/female/Emote_Spike/trace.csv",
+    "frames": 233,
+    "active_frames": 192,
+    "first_active_time": "0.0167",
+    "last_active_time": "3.2000",
+    "returned_to_ready": true,
+    "final_grip_to_hand_m": 0.0,
+    "max_grip_to_hand_m": 0.0,
+    "min_racket_y_m": -0.0057,
+    "largest_body_jumps_m_and_frame": {
+      "hips": [
+        0.009138927727036656,
+        71
+      ],
+      "rwrist": [
+        0.20772546786564233,
+        71
+      ],
+      "lwrist": [
+        0.0890809182709743,
+        175
+      ],
+      "head": [
+        0.07702473628646836,
+        67
+      ]
+    },
+    "review_flag": false,
+    "numerical_continuity_pass": true
+  },
+  {
+    "trace": "work/emote-fluid/iterations/24/film/after/female/Emote_Thrust/trace.csv",
+    "frames": 251,
+    "active_frames": 210,
+    "first_active_time": "0.0167",
+    "last_active_time": "3.5000",
+    "returned_to_ready": true,
+    "final_grip_to_hand_m": 0.0,
+    "max_grip_to_hand_m": 0.0,
+    "min_racket_y_m": 0.7262,
+    "largest_body_jumps_m_and_frame": {
+      "hips": [
+        0.09332872012408615,
+        101
+      ],
+      "rwrist": [
+        0.07349897958475343,
+        190
+      ],
+      "lwrist": [
+        0.09165484166152929,
+        190
+      ],
+      "head": [
+        0.09216273650451147,
+        101
+      ]
+    },
+    "review_flag": false,
+    "numerical_continuity_pass": true
+  },
+  {
+    "trace": "work/emote-fluid/iterations/24/film/after/female/Intro_BringIt/trace.csv",
+    "frames": 221,
+    "active_frames": 180,
+    "first_active_time": "0.0167",
+    "last_active_time": "3.0000",
+    "returned_to_ready": true,
+    "final_grip_to_hand_m": 0.0,
+    "max_grip_to_hand_m": 0.0,
+    "min_racket_y_m": 0.8315,
+    "largest_body_jumps_m_and_frame": {
+      "hips": [
+        0.004699999999999999,
+        116
+      ],
+      "rwrist": [
+        0.03353341616954645,
+        162
+      ],
+      "lwrist": [
+        0.01855613106226632,
+        28
+      ],
+      "head": [
+        0.00731710325197071,
+        162
+      ]
+    },
+    "review_flag": false,
+    "numerical_continuity_pass": true
+  },
+  {
+    "trace": "work/emote-fluid/iterations/24/film/after/female/Intro_Pushups/trace.csv",
+    "frames": 221,
+    "active_frames": 180,
+    "first_active_time": "0.0167",
+    "last_active_time": "3.0000",
+    "returned_to_ready": true,
+    "final_grip_to_hand_m": 0.0,
+    "max_grip_to_hand_m": 0.9209,
+    "min_racket_y_m": -0.0136,
+    "largest_body_jumps_m_and_frame": {
+      "hips": [
+        0.07799711533127361,
+        32
+      ],
+      "rwrist": [
+        0.14911076419896724,
+        129
+      ],
+      "lwrist": [
+        0.10339429384642074,
+        14
+      ],
+      "head": [
+        0.14079705252596736,
+        17
+      ]
+    },
+    "review_flag": false,
+    "numerical_continuity_pass": true
+  },
+  {
+    "trace": "work/emote-fluid/iterations/24/film/after/female/Intro_Wave/trace.csv",
+    "frames": 160,
+    "active_frames": 119,
+    "first_active_time": "0.0167",
+    "last_active_time": "1.9833",
+    "returned_to_ready": true,
+    "final_grip_to_hand_m": 0.0,
+    "max_grip_to_hand_m": 0.0,
+    "min_racket_y_m": 0.8188,
+    "largest_body_jumps_m_and_frame": {
+      "hips": [
+        0.001315294643796604,
+        128
+      ],
+      "rwrist": [
+        0.05127621280866987,
+        104
+      ],
+      "lwrist": [
+        0.09457372785292963,
+        18
+      ],
+      "head": [
+        0.003611094017053559,
+        83
+      ]
+    },
+    "review_flag": false,
+    "numerical_continuity_pass": true
+  },
+  {
+    "trace": "work/emote-fluid/iterations/24/film/after/male/Emote_Scuba/trace.csv",
+    "frames": 323,
+    "active_frames": 282,
+    "first_active_time": "0.0167",
+    "last_active_time": "4.7000",
+    "returned_to_ready": true,
+    "final_grip_to_hand_m": 0.0,
+    "max_grip_to_hand_m": 1.2358,
+    "min_racket_y_m": -0.003,
+    "largest_body_jumps_m_and_frame": {
+      "hips": [
+        0.03968941924493224,
+        262
+      ],
+      "rwrist": [
+        0.09999319976878429,
+        262
+      ],
+      "lwrist": [
+        0.10669348621167088,
+        220
+      ],
+      "head": [
+        0.08391757861139687,
+        263
+      ]
+    },
+    "review_flag": false,
+    "numerical_continuity_pass": true
+  },
+  {
+    "trace": "work/emote-fluid/iterations/24/film/after/male/Emote_Spike/trace.csv",
+    "frames": 233,
+    "active_frames": 192,
+    "first_active_time": "0.0167",
+    "last_active_time": "3.2000",
+    "returned_to_ready": true,
+    "final_grip_to_hand_m": 0.0,
+    "max_grip_to_hand_m": 0.0,
+    "min_racket_y_m": -0.0252,
+    "largest_body_jumps_m_and_frame": {
+      "hips": [
+        0.009087353850269082,
+        72
+      ],
+      "rwrist": [
+        0.211687647254156,
+        69
+      ],
+      "lwrist": [
+        0.11133234031493273,
+        178
+      ],
+      "head": [
+        0.08030977524560745,
+        67
+      ]
+    },
+    "review_flag": false,
+    "numerical_continuity_pass": true
+  },
+  {
+    "trace": "work/emote-fluid/iterations/24/film/after/male/Emote_Thrust/trace.csv",
+    "frames": 251,
+    "active_frames": 210,
+    "first_active_time": "0.0167",
+    "last_active_time": "3.5000",
+    "returned_to_ready": true,
+    "final_grip_to_hand_m": 0.0,
+    "max_grip_to_hand_m": 0.0,
+    "min_racket_y_m": 0.7402,
+    "largest_body_jumps_m_and_frame": {
+      "hips": [
+        0.09323014533936975,
+        101
+      ],
+      "rwrist": [
+        0.0843037958813243,
+        190
+      ],
+      "lwrist": [
+        0.0981,
+        190
+      ],
+      "head": [
+        0.09203157067006952,
+        101
+      ]
+    },
+    "review_flag": false,
+    "numerical_continuity_pass": true
+  },
+  {
+    "trace": "work/emote-fluid/iterations/24/film/after/male/Intro_BringIt/trace.csv",
+    "frames": 221,
+    "active_frames": 180,
+    "first_active_time": "0.0167",
+    "last_active_time": "3.0000",
+    "returned_to_ready": true,
+    "final_grip_to_hand_m": 0.0,
+    "max_grip_to_hand_m": 0.0,
+    "min_racket_y_m": 0.829,
+    "largest_body_jumps_m_and_frame": {
+      "hips": [
+        0.004699999999999999,
+        116
+      ],
+      "rwrist": [
+        0.03549661955736067,
+        162
+      ],
+      "lwrist": [
+        0.021321819809763012,
+        28
+      ],
+      "head": [
+        0.0076426435217142015,
+        162
+      ]
+    },
+    "review_flag": false,
+    "numerical_continuity_pass": true
+  },
+  {
+    "trace": "work/emote-fluid/iterations/24/film/after/male/Intro_Pushups/trace.csv",
+    "frames": 221,
+    "active_frames": 180,
+    "first_active_time": "0.0167",
+    "last_active_time": "3.0000",
+    "returned_to_ready": true,
+    "final_grip_to_hand_m": 0.0,
+    "max_grip_to_hand_m": 0.9752,
+    "min_racket_y_m": -0.0152,
+    "largest_body_jumps_m_and_frame": {
+      "hips": [
+        0.07906364524862237,
+        32
+      ],
+      "rwrist": [
+        0.16631563366081975,
+        129
+      ],
+      "lwrist": [
+        0.10083030298476735,
+        13
+      ],
+      "head": [
+        0.13814173880475078,
+        17
+      ]
+    },
+    "review_flag": false,
+    "numerical_continuity_pass": true
+  },
+  {
+    "trace": "work/emote-fluid/iterations/24/film/after/male/Intro_Wave/trace.csv",
+    "frames": 160,
+    "active_frames": 119,
+    "first_active_time": "0.0167",
+    "last_active_time": "1.9833",
+    "returned_to_ready": true,
+    "final_grip_to_hand_m": 0.0,
+    "max_grip_to_hand_m": 0.0,
+    "min_racket_y_m": 0.8066,
+    "largest_body_jumps_m_and_frame": {
+      "hips": [
+        0.001334166406412626,
+        128
+      ],
+      "rwrist": [
+        0.060417298847267244,
+        104
+      ],
+      "lwrist": [
+        0.12572772168459903,
+        18
+      ],
+      "head": [
+        0.003701351104664351,
+        83
+      ]
+    },
+    "review_flag": false,
+    "numerical_continuity_pass": true
+  }
+]

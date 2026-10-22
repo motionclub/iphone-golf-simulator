@@ -1,0 +1,29 @@
+INFO: probe: quality level 2 'Medium', pipeline asset 'TennisURP', camera near 0.3 far 900, probe assets Assets/_NoProbeAssets
+=== hole 8 ===
+INFO: hole08_tee_current: ball (0.0,0.0) ground 6.82 yd, lower 55 %: 1/1980 flat 20 px tiles (0.1 %)
+INFO: hole08_green_current: ball (-3.7,325.2) ground 6.71 yd, lower 55 %: 1/1980 flat 20 px tiles (0.1 %)
+INFO: hole08_arch_current: ball (-4.0,322.0) ground 6.71 yd, lower 55 %: 0/1980 flat 20 px tiles (0.0 %)
+INFO: hole 8: no probe model at Assets/_NoProbeAssets/hole_08.fbx, probe views skipped
+INFO: hole 8 golfer (hole light): 49565 px, mean (117,111,112); skin 25549 px mean (140,102,80) clipped 1.7 %; blue 15595 px mean (55,96,131) clipped 0.0 %; near-white 4629 px; any channel >= 250 7.3 %, 2+ channels 3.6 %
+INFO: hole 8 golfer (legacy light): 49565 px, mean (105,105,108); skin 23875 px mean (127,96,77) clipped 0.0 %; blue 16405 px mean (45,87,123) clipped 0.0 %; near-white 5076 px; any channel >= 250 6.7 %, 2+ channels 5.3 %
+GATE: GOLFER_SHIRT_READABLE hole8 PASS - shirt px 15595 (>= 60 % of the legacy light's 16405), mean (55,96,131) luminance 90 (>= 60 % of the legacy 81 = 48), B - R 76 levels (>= 20); exposure (1.00,1.00,1.00)
+GATE: GOLFER_NOT_CLIPPED hole8 PASS - 49565 golfer px; skin px with a channel >= 250: 1.7 % (<= 5 %), shirt/blue 0.0 % (<= 5 %), whole figure with 2+ channels >= 250 3.6 % (<= max(5 %, legacy 5.3 % + 2))
+=== hole 9 ===
+INFO: hole09_tee_current: ball (0.0,0.0) ground 6.82 yd, lower 55 %: 0/1980 flat 20 px tiles (0.0 %)
+INFO: hole09_green_current: ball (-6.5,477.4) ground 6.85 yd, lower 55 %: 0/1980 flat 20 px tiles (0.0 %)
+INFO: hole09_ridge_current: ball (-61.2,261.7) ground 6.56 yd, lower 55 %: 0/1980 flat 20 px tiles (0.0 %)
+INFO: hole 9: no probe model at Assets/_NoProbeAssets/hole_09.fbx, probe views skipped
+INFO: hole 9 golfer (hole light): 49565 px, mean (118,119,122); skin 25172 px mean (140,110,89) clipped 3.0 %; blue 16491 px mean (56,104,144) clipped 0.0 %; near-white 4498 px; any channel >= 250 9.7 %, 2+ channels 6.8 %
+INFO: hole 9 golfer (legacy light): 49565 px, mean (106,106,109); skin 24000 px mean (128,97,78) clipped 0.0 %; blue 16386 px mean (46,88,124) clipped 0.0 %; near-white 5013 px; any channel >= 250 6.8 %, 2+ channels 5.4 %
+GATE: GOLFER_SHIRT_READABLE hole9 PASS - shirt px 16491 (>= 60 % of the legacy light's 16386), mean (56,104,144) luminance 97 (>= 60 % of the legacy 82 = 49), B - R 88 levels (>= 20); exposure (1.00,1.00,1.00)
+GATE: GOLFER_NOT_CLIPPED hole9 PASS - 49565 golfer px; skin px with a channel >= 250: 3.0 % (<= 5 %), shirt/blue 0.0 % (<= 5 %), whole figure with 2+ channels >= 250 6.8 % (<= max(5 %, legacy 5.4 % + 2))
+=== hole 10 ===
+INFO: hole10_tee_current: ball (0.0,0.0) ground 6.82 yd, lower 55 %: 0/1980 flat 20 px tiles (0.0 %)
+INFO: hole10_green_current: ball (246.0,164.2) ground 6.85 yd, lower 55 %: 0/1980 flat 20 px tiles (0.0 %)
+INFO: hole10_lavaedge_current: ball (113.1,159.5) ground 6.71 yd, lower 55 %: 0/1980 flat 20 px tiles (0.0 %)
+INFO: hole 10: no probe model at Assets/_NoProbeAssets/hole_10.fbx, probe views skipped
+INFO: hole 10 golfer (hole light): 49560 px, mean (89,78,76); skin 18686 px mean (120,84,59) clipped 0.2 %; blue 13803 px mean (46,69,98) clipped 0.0 %; near-white 3376 px; any channel >= 250 1.4 %, 2+ channels 0.6 %
+INFO: hole 10 golfer (legacy light): 49565 px, mean (103,103,107); skin 23785 px mean (124,94,76) clipped 0.0 %; blue 16411 px mean (45,86,121) clipped 0.0 %; near-white 5060 px; any channel >= 250 6.4 %, 2+ channels 5.0 %
+GATE: GOLFER_SHIRT_READABLE hole10 PASS - shirt px 13803 (>= 60 % of the legacy light's 16411), mean (46,69,98) luminance 66 (>= 60 % of the legacy 80 = 48), B - R 52 levels (>= 20); exposure (0.76,0.90,1.20)
+GATE: GOLFER_NOT_CLIPPED hole10 PASS - 49560 golfer px; skin px with a channel >= 250: 0.2 % (<= 5 %), shirt/blue 0.0 % (<= 5 %), whole figure with 2+ channels >= 250 0.6 % (<= max(5 %, legacy 5.0 % + 2))
+SUMMARY: 6/6 probe gates PASS

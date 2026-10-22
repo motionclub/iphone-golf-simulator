@@ -1,0 +1,117 @@
+{
+ "tag": "female",
+ "copy_sha256_before_edit": "a1d73a334f4dc18052db0582df6b4b54b1df166d9a3531ab700ee114e86d2ac1",
+ "source_mesh_geometry_hash": {
+  "Body_F": "ffedfbe31b6ee7fa83b9c67476b7859f0d44ed19bc8efdcc628956a8c5e56567",
+  "Face_F": "7db259b342603f7433e6c0b2a6ea97aad0057cd94f595622ef6fe3328f1dbc8e",
+  "Hair_F": "1e1b8f472901f067e17a77dded360c1b2e7a80da479a0c7c02e6c0f9735c9d2e"
+ },
+ "source_vgroups": [
+  "LOOP_eyeL",
+  "LOOP_eyeR",
+  "LOOP_nostril_L",
+  "LOOP_nostril_R",
+  "LOOP_seam",
+  "LOOP_lip_up",
+  "LOOP_lip_lo",
+  "LOOP_ear_attach_L",
+  "LOOP_helix_L",
+  "LOOP_concha_L",
+  "LOOP_ear_attach_R",
+  "LOOP_helix_R",
+  "LOOP_concha_R",
+  "LOOP_lid_up_L",
+  "LOOP_lid_low_L",
+  "LOOP_lid_up_R",
+  "LOOP_lid_low_R",
+  "LOOP_jaw_ear_L",
+  "LOOP_ala_L",
+  "LOOP_jaw_ear_R",
+  "LOOP_ala_R"
+ ],
+ "source_vgroups_hash": "fc7a64e96aeee04d75cac1b520af5b1884656a958b5344a1a6acfa10f0d5c455",
+ "source_nverts": {
+  "Body_F": 22123,
+  "Face_F": 3986,
+  "Hair_F": 2516
+ },
+ "unit": [
+  "METRIC",
+  1.0
+ ],
+ "hands": {
+  "L": {
+   "n_hand_vertices": 1079,
+   "n_wrist_blend": 69,
+   "wrist": [
+    0.23453241608666184,
+    0.005382629302445209,
+    0.8547793785007876
+   ]
+  },
+  "R": {
+   "n_hand_vertices": 1159,
+   "n_wrist_blend": 128,
+   "wrist": [
+    -0.23453241608666184,
+    0.005382629302445209,
+    0.8547793785007876
+   ]
+  }
+ },
+ "weights": {
+  "min_sum": 0.9999998658895493,
+  "max_sum": 1.0000001452863216,
+  "unweighted": 0,
+  "max_influences": 4
+ },
+ "hand_racket_world_err": 5.960464477539063e-08,
+ "racket_geometry_hash": {
+  "Racket_Classic": "c29eee1ea754255eabafd7ea7b0f4bfaad908dbf3ab218b963941de6beb67f30",
+  "StringBed": "da8f6587338626ceb20f3e5d6a4471c12e96db01efc2318e85ef2fe21cf4a335",
+  "Grip": "322ff0c7be79a2ac4c77ab6129b1494db40c5c69bd741133a0bda881c42b52df",
+  "ButtCap": "1de0466f392b6462a970c69b8d412b56bdd3f8484c1815e3c713e2c62eba37f4",
+  "Collider_Racket": "f544d2d498ace9731edbf8f347aab5455cfd42c46a09af90324df9dbc42b921d"
+ },
+ "right_grip_angles_deg": {
+  "RightIndexProximal": -15.488616815480134,
+  "RightIndexIntermediate": -0.130013020833335,
+  "RightIndexDistal": -0.0947341807238109,
+  "RightMiddleProximal": -9.335708199288092,
+  "RightMiddleIntermediate": 8.542285156250003,
+  "RightMiddleDistal": 24.905265819276188,
+  "RightRingProximal": -2.623291015625,
+  "RightRingIntermediate": 22.21826171875,
+  "RightRingDistal": 49.90526581927619,
+  "RightLittleProximal": 7.943359374999993,
+  "RightLittleIntermediate": 32.080468749999994,
+  "RightLittleDistal": 28.073235778808595,
+  "RightThumbProximal": 0.0,
+  "RightThumbIntermediate": 0.0,
+  "RightThumbDistal": 0.0
+ },
+ "right_grip_source": "work/dressed-look/data/build_female.json rig.angles (same digit model, same bone rest geometry)",
+ "saved": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/match-anim-set/export/_stage/Female_rig.blend",
+ "mesh_geometry_hash_after": {
+  "Body_F": "ffedfbe31b6ee7fa83b9c67476b7859f0d44ed19bc8efdcc628956a8c5e56567",
+  "Face_F": "7db259b342603f7433e6c0b2a6ea97aad0057cd94f595622ef6fe3328f1dbc8e",
+  "Hair_F": "1e1b8f472901f067e17a77dded360c1b2e7a80da479a0c7c02e6c0f9735c9d2e"
+ },
+ "mesh_hash_equal": {
+  "Body_F": true,
+  "Face_F": true,
+  "Hair_F": true
+ },
+ "measures": {
+  "shoulder_joint_width": 0.2932272490471425,
+  "upper_arm": 0.2549901131400379,
+  "forearm": 0.20949987019769245,
+  "arm_length_shoulder_to_wrist": 0.4631782464477597,
+  "thigh": 0.4159367670740454,
+  "shank": 0.39026940269034244,
+  "leg_length_hip_to_ankle": 0.806176644512684,
+  "hip_joint_width": 0.18922994916355046,
+  "foot_ankle_to_ball": 0.12706850256215044,
+  "pelvis_height": 0.8900000000000001
+ }
+}

@@ -1,0 +1,2 @@
+import Foundation
+for path in CommandLine.arguments.dropFirst(){let url=URL(fileURLWithPath:path);let compressed=try Data(contentsOf:url);let decoded=try (compressed as NSData).decompressed(using:.lzfse);let output=URL(fileURLWithPath:"work/full-visual-overhaul/characters/native/"+url.deletingPathExtension().lastPathComponent+".bin");try (decoded as Data).write(to:output);print(output.path,decoded.length)}

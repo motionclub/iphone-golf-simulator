@@ -19,6 +19,7 @@ Shader "GolfArcade/CoastalFoliage"
   Cull [_Cull] ZWrite On AlphaToMask On
   HLSLINCLUDE
   #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+#include "../../Environment/Shaders/EnvironmentSurface.hlsl"
   #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
   TEXTURE2D(_BaseMap);SAMPLER(sampler_BaseMap);TEXTURE2D(_BumpMap);SAMPLER(sampler_BumpMap);
   CBUFFER_START(UnityPerMaterial)
@@ -43,6 +44,7 @@ Shader "GolfArcade/CoastalFoliage"
    #pragma multi_compile_fragment _ _SHADOWS_SOFT
    #pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
    #pragma multi_compile_fog
+   #pragma multi_compile_fragment _ MAJESTIC_WEATHER_ON // MAJESTIC_WEATHER_HOOK
    half4 frag(V i,FRONT_FACE_TYPE front:FRONT_FACE_SEMANTIC):SV_Target {
     half4 c=Coverage(i.uv);half3 n=Normal(i,IS_FRONT_VFACE(front,1,-1));Light sun=GetMainLight(TransformWorldToShadowCoord(i.w));
     half wrapped=saturate((dot(n,sun.direction)+.45h)/1.45h);
@@ -62,7 +64,7 @@ Shader "GolfArcade/CoastalFoliage"
     // Distant views already contain their own small branch/needle relief.
     lit=lerp(lit,half3(.89h,.92h,.85h)*lerp(.80h,1.0h,sun.shadowAttenuation),_Baked);
     half3 result=c.rgb*lit;
-    return half4(MixFog(result,i.fog),c.a);
+    return half4(EnvironmentFog(result,i.fog,i.w),c.a);
    }
    ENDHLSL
   }

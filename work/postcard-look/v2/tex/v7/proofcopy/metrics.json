@@ -1,0 +1,2284 @@
+{
+ "meta": {
+  "stills_dir": "work/postcard-look/v2/tex/v7/stills9",
+  "pipeline_stills": "TennisURP",
+  "quality_level": 2,
+  "unity": "6000.3.24f1",
+  "pipeline_masks": {
+   "_pipeline_9": "TennisURP",
+   "_pipeline_extra": "TennisURP"
+  },
+  "thresholds": {
+   "grass_hue": [
+    60.0,
+    76.0
+   ],
+   "rough_hue": [
+    54.0,
+    76.0
+   ],
+   "grass_clip_max": 0.05,
+   "flat_win": 8,
+   "flat_sd": 0.006,
+   "block_sd": 0.003,
+   "flat_max": 0.15,
+   "lower": 0.6,
+   "lum_sd_min": 12.0,
+   "shelf_top2_max": 0.1,
+   "shelf_vs_sea_max": 1.3,
+   "shelf_hue": [
+    170.0,
+    205.0
+   ],
+   "lava_band": 0.85,
+   "lava_gclip_max": 0.05,
+   "lava_dark_max": 0.15,
+   "lava_meanV_min": 0.7,
+   "basalt_glow_cov_max": 0.2,
+   "basalt_median_lum_max": 55.0,
+   "basalt_vert_share_min": 0.5,
+   "basalt_rung_share_max": 0.2,
+   "smoke_edge_p99_max": 6.0,
+   "smoke_dp95_min": 8.0,
+   "smoke_dmax_max": 110.0,
+   "smoke_px_min": 500,
+   "ball_visible_min": 0.9,
+   "path_max_cm": 1.5
+  },
+  "note": "mask-based statistics read masks/<k>/<name>.full.png (the frame the masks were made from); it equals the proof still except for animated water pixels (consistency per shot below)"
+ },
+ "shots": {
+  "hole08_1_tee": {
+   "consistency_full_vs_proof_still": {
+    "max_abs_channel_diff": 1,
+    "frac_px_sum_diff_gt8": 0.0
+   },
+   "grass": {
+    "central_lower_third": {
+     "mean_rgb": [
+      165.9,
+      182.5,
+      66.4
+     ],
+     "hue": 68.6,
+     "s": 0.636,
+     "v": 0.716
+    },
+    "fairway": {
+     "pixels": 704044,
+     "share_of_lower60": 0.8149,
+     "mean_rgb": [
+      157.2,
+      173.9,
+      64.3
+     ],
+     "hue_of_mean": 69.2,
+     "hue_median": 69.6,
+     "hue_p10": 65.3,
+     "hue_p90": 73.2,
+     "s": 0.63,
+     "v": 0.682,
+     "clip_any_ch_250": 0.0003,
+     "clip_g_250": 0.0003,
+     "share_hue_in_60_76": 0.993
+    },
+    "green": {
+     "pixels": 0
+    },
+    "rough": {
+     "pixels": 0
+    },
+    "scrub": {
+     "pixels": 0
+    }
+   },
+   "flat": {
+    "lower60_lum_sd": 23.59,
+    "lower60_lum_mean": 161.0,
+    "flat_window_share": 0.0476,
+    "median_window_sd": 0.0212,
+    "windows": 13440,
+    "id_kinds_ge_1pct": {
+     "fairway": 0.633,
+     "path": 0.155,
+     "cliff": 0.012,
+     "rock": 0.013,
+     "ocean": 0.017
+    },
+    "colour_cells_ge_1pct": 20,
+    "largest_colour_cell_share": 0.111
+   },
+   "shelf": {
+    "top2_lum_cut": 223.3,
+    "top2_px": 28808,
+    "top2_share_shelf": 0.0,
+    "top2_share_surf": 0.0,
+    "top2_share_fall": 0.0,
+    "top2_share_ocean": 0.0,
+    "top2_share_lava": 0.0,
+    "top2_share_other_or_sky": 0.9209,
+    "shelf_px": 21,
+    "shelf_share_of_frame": 1e-05
+   },
+   "ball": {
+    "centre_px": [
+     450,
+     952.3
+    ],
+    "radius_px": 16.4,
+    "expected_px": 844,
+    "visible_px_in_1p3r_disc": 1144,
+    "visible_ratio": 1.354,
+    "ring_categories": {
+     "fairway": 0.893
+    },
+    "ball_lum_mean": 193.0,
+    "ring_lum_mean": 173.7
+   },
+   "surf": {
+    "id_surf_px": 9,
+    "id_surf_share_of_frame": 1e-05,
+    "diff_surf_px": 35
+   }
+  },
+  "hole08_2_approach": {
+   "consistency_full_vs_proof_still": {
+    "max_abs_channel_diff": 11,
+    "frac_px_sum_diff_gt8": 0.0018326388888888889
+   },
+   "grass": {
+    "central_lower_third": {
+     "mean_rgb": [
+      160.5,
+      177.3,
+      62.9
+     ],
+     "hue": 68.8,
+     "s": 0.645,
+     "v": 0.695
+    },
+    "fairway": {
+     "pixels": 713760,
+     "share_of_lower60": 0.8261,
+     "mean_rgb": [
+      164.9,
+      181.4,
+      65.2
+     ],
+     "hue_of_mean": 68.5,
+     "hue_median": 69.0,
+     "hue_p10": 64.8,
+     "hue_p90": 72.5,
+     "s": 0.64,
+     "v": 0.711,
+     "clip_any_ch_250": 0.0006,
+     "clip_g_250": 0.0006,
+     "share_hue_in_60_76": 0.996
+    },
+    "green": {
+     "pixels": 0
+    },
+    "rough": {
+     "pixels": 0
+    },
+    "scrub": {
+     "pixels": 0
+    }
+   },
+   "flat": {
+    "lower60_lum_sd": 24.19,
+    "lower60_lum_mean": 167.5,
+    "flat_window_share": 0.0391,
+    "median_window_sd": 0.0221,
+    "windows": 13440,
+    "id_kinds_ge_1pct": {
+     "fairway": 0.637,
+     "path": 0.148,
+     "cliff": 0.011,
+     "rock": 0.016,
+     "ocean": 0.016
+    },
+    "colour_cells_ge_1pct": 21,
+    "largest_colour_cell_share": 0.107
+   },
+   "shelf": {
+    "top2_lum_cut": 229.4,
+    "top2_px": 28825,
+    "top2_share_shelf": 0.0,
+    "top2_share_surf": 0.0,
+    "top2_share_fall": 0.005,
+    "top2_share_ocean": 0.0,
+    "top2_share_lava": 0.0,
+    "top2_share_other_or_sky": 0.9091,
+    "shelf_px": 0,
+    "shelf_share_of_frame": 0.0
+   },
+   "ball": {
+    "centre_px": [
+     450,
+     952.3
+    ],
+    "radius_px": 16.4,
+    "expected_px": 844,
+    "visible_px_in_1p3r_disc": 1117,
+    "visible_ratio": 1.322,
+    "ring_categories": {
+     "fairway": 0.891
+    },
+    "ball_lum_mean": 187.1,
+    "ring_lum_mean": 145.9
+   },
+   "surf": {
+    "id_surf_px": 0,
+    "id_surf_share_of_frame": 0.0,
+    "diff_surf_px": 0
+   }
+  },
+  "hole08_3_arch": {
+   "consistency_full_vs_proof_still": {
+    "max_abs_channel_diff": 242,
+    "frac_px_sum_diff_gt8": 0.07481527777777777
+   },
+   "grass": {
+    "central_lower_third": {
+     "mean_rgb": [
+      120.7,
+      121.4,
+      74.6
+     ],
+     "hue": 60.9,
+     "s": 0.386,
+     "v": 0.476
+    },
+    "fairway": {
+     "pixels": 0
+    },
+    "green": {
+     "pixels": 0
+    },
+    "rough": {
+     "pixels": 206462,
+     "share_of_lower60": 0.239,
+     "mean_rgb": [
+      127.5,
+      128.7,
+      59.9
+     ],
+     "hue_of_mean": 61.0,
+     "hue_median": 61.1,
+     "hue_p10": 56.2,
+     "hue_p90": 68.6,
+     "s": 0.534,
+     "v": 0.505,
+     "clip_any_ch_250": 0.0,
+     "clip_g_250": 0.0,
+     "share_hue_in_60_76": 0.65
+    },
+    "scrub": {
+     "pixels": 0
+    }
+   },
+   "flat": {
+    "lower60_lum_sd": 40.66,
+    "lower60_lum_mean": 109.8,
+    "flat_window_share": 0.0948,
+    "median_window_sd": 0.0304,
+    "windows": 13440,
+    "id_kinds_ge_1pct": {
+     "rough": 0.144,
+     "masonry": 0.175,
+     "rock": 0.123,
+     "plant": 0.034,
+     "ocean": 0.111
+    },
+    "colour_cells_ge_1pct": 28,
+    "largest_colour_cell_share": 0.082
+   },
+   "shelf": {
+    "top2_lum_cut": 253.6,
+    "top2_px": 31868,
+    "top2_share_shelf": 0.0,
+    "top2_share_surf": 0.0,
+    "top2_share_fall": 0.0,
+    "top2_share_ocean": 0.2013,
+    "top2_share_lava": 0.0,
+    "top2_share_other_or_sky": 0.7985,
+    "shelf_px": 0,
+    "shelf_share_of_frame": 0.0
+   },
+   "ball": null,
+   "surf": {
+    "id_surf_px": 0,
+    "id_surf_share_of_frame": 0.0,
+    "diff_surf_px": 0
+   }
+  },
+  "hole09_1_tee": {
+   "consistency_full_vs_proof_still": {
+    "max_abs_channel_diff": 14,
+    "frac_px_sum_diff_gt8": 0.0012090277777777778
+   },
+   "grass": {
+    "central_lower_third": {
+     "mean_rgb": [
+      146.6,
+      163.5,
+      66.9
+     ],
+     "hue": 70.5,
+     "s": 0.591,
+     "v": 0.641
+    },
+    "fairway": {
+     "pixels": 861826,
+     "share_of_lower60": 0.9975,
+     "mean_rgb": [
+      150.6,
+      167.1,
+      68.3
+     ],
+     "hue_of_mean": 70.0,
+     "hue_median": 70.2,
+     "hue_p10": 66.7,
+     "hue_p90": 73.8,
+     "s": 0.591,
+     "v": 0.655,
+     "clip_any_ch_250": 0.0,
+     "clip_g_250": 0.0,
+     "share_hue_in_60_76": 0.989
+    },
+    "green": {
+     "pixels": 0
+    },
+    "rough": {
+     "pixels": 0
+    },
+    "scrub": {
+     "pixels": 0
+    }
+   },
+   "flat": {
+    "lower60_lum_sd": 16.44,
+    "lower60_lum_mean": 156.5,
+    "flat_window_share": 0.037,
+    "median_window_sd": 0.0214,
+    "windows": 13440,
+    "id_kinds_ge_1pct": {
+     "fairway": 0.801,
+     "rough": 0.02
+    },
+    "colour_cells_ge_1pct": 16,
+    "largest_colour_cell_share": 0.217
+   },
+   "shelf": {
+    "top2_lum_cut": 231.5,
+    "top2_px": 28851,
+    "top2_share_shelf": 0.0,
+    "top2_share_surf": 0.0,
+    "top2_share_fall": 0.0,
+    "top2_share_ocean": 0.0,
+    "top2_share_lava": 0.0,
+    "top2_share_other_or_sky": 0.9994,
+    "shelf_px": 0,
+    "shelf_share_of_frame": 0.0
+   },
+   "ball": {
+    "centre_px": [
+     450,
+     952.3
+    ],
+    "radius_px": 16.4,
+    "expected_px": 844,
+    "visible_px_in_1p3r_disc": 1120,
+    "visible_ratio": 1.326,
+    "ring_categories": {
+     "fairway": 0.891
+    },
+    "ball_lum_mean": 193.2,
+    "ring_lum_mean": 162.5
+   },
+   "surf": {
+    "id_surf_px": 0,
+    "id_surf_share_of_frame": 0.0,
+    "diff_surf_px": 0
+   }
+  },
+  "hole09_2_approach": {
+   "consistency_full_vs_proof_still": {
+    "max_abs_channel_diff": 23,
+    "frac_px_sum_diff_gt8": 0.008674305555555555
+   },
+   "grass": {
+    "central_lower_third": {
+     "mean_rgb": [
+      132.7,
+      148.7,
+      61.7
+     ],
+     "hue": 71.0,
+     "s": 0.585,
+     "v": 0.583
+    },
+    "fairway": {
+     "pixels": 861814,
+     "share_of_lower60": 0.9975,
+     "mean_rgb": [
+      131.9,
+      149.2,
+      64.3
+     ],
+     "hue_of_mean": 72.2,
+     "hue_median": 72.4,
+     "hue_p10": 68.4,
+     "hue_p90": 77.1,
+     "s": 0.569,
+     "v": 0.585,
+     "clip_any_ch_250": 0.0,
+     "clip_g_250": 0.0,
+     "share_hue_in_60_76": 0.833
+    },
+    "green": {
+     "pixels": 0
+    },
+    "rough": {
+     "pixels": 0
+    },
+    "scrub": {
+     "pixels": 0
+    }
+   },
+   "flat": {
+    "lower60_lum_sd": 18.32,
+    "lower60_lum_mean": 139.4,
+    "flat_window_share": 0.0493,
+    "median_window_sd": 0.0188,
+    "windows": 13440,
+    "id_kinds_ge_1pct": {
+     "fairway": 0.774,
+     "cliff": 0.029,
+     "ocean": 0.015
+    },
+    "colour_cells_ge_1pct": 14,
+    "largest_colour_cell_share": 0.138
+   },
+   "shelf": {
+    "top2_lum_cut": 231.4,
+    "top2_px": 29065,
+    "top2_share_shelf": 0.0,
+    "top2_share_surf": 0.0,
+    "top2_share_fall": 0.0,
+    "top2_share_ocean": 0.0,
+    "top2_share_lava": 0.0,
+    "top2_share_other_or_sky": 1.0,
+    "shelf_px": 419,
+    "shelf_share_of_frame": 0.00029,
+    "shelf_mean_rgb": [
+     26.9,
+     85.8,
+     110.9
+    ],
+    "shelf_hue": 197.9,
+    "shelf_s": 0.757,
+    "shelf_v": 0.435,
+    "shelf_lum_mean": 75.1,
+    "shelf_lum_p95": 79.0,
+    "ocean_lum_mean": 87.7,
+    "ocean_mean_rgb": [
+     39.6,
+     96.6,
+     142.0
+    ],
+    "shelf_vs_ocean_lum": 0.856,
+    "turquoise_px_share_of_frame": 0.0041,
+    "top2_share_turquoise": 0.0
+   },
+   "ball": {
+    "centre_px": [
+     450,
+     952.3
+    ],
+    "radius_px": 16.4,
+    "expected_px": 844,
+    "visible_px_in_1p3r_disc": 1082,
+    "visible_ratio": 1.281,
+    "ring_categories": {
+     "fairway": 0.891
+    },
+    "ball_lum_mean": 188.0,
+    "ring_lum_mean": 123.8
+   },
+   "surf": {
+    "id_surf_px": 152,
+    "id_surf_share_of_frame": 0.00011,
+    "id_surf_components": 3,
+    "id_surf_longest_px": 45,
+    "id_surf_longest_share_of_frame_h": 0.028,
+    "diff_surf_px": 312
+   }
+  },
+  "hole09_3_ruin": {
+   "consistency_full_vs_proof_still": {
+    "max_abs_channel_diff": 17,
+    "frac_px_sum_diff_gt8": 0.04503125
+   },
+   "grass": {
+    "central_lower_third": {
+     "mean_rgb": [
+      123.6,
+      116.7,
+      86.0
+     ],
+     "hue": 49.0,
+     "s": 0.304,
+     "v": 0.485
+    },
+    "fairway": {
+     "pixels": 0
+    },
+    "green": {
+     "pixels": 0
+    },
+    "rough": {
+     "pixels": 0
+    },
+    "scrub": {
+     "pixels": 648470,
+     "share_of_lower60": 0.7505,
+     "mean_rgb": [
+      123.9,
+      115.6,
+      80.5
+     ],
+     "hue_of_mean": 48.5,
+     "hue_median": 49.7,
+     "hue_p10": 42.9,
+     "hue_p90": 55.7,
+     "s": 0.351,
+     "v": 0.486,
+     "clip_any_ch_250": 0.0,
+     "clip_g_250": 0.0,
+     "share_hue_in_60_76": 0.044
+    }
+   },
+   "flat": {
+    "lower60_lum_sd": 23.43,
+    "lower60_lum_mean": 120.3,
+    "flat_window_share": 0.0035,
+    "median_window_sd": 0.0558,
+    "windows": 13440,
+    "id_kinds_ge_1pct": {
+     "rough": 0.04,
+     "scrub": 0.636,
+     "cliff": 0.021,
+     "masonry": 0.153,
+     "rock": 0.014,
+     "plant": 0.037,
+     "ocean": 0.084
+    },
+    "colour_cells_ge_1pct": 21,
+    "largest_colour_cell_share": 0.106
+   },
+   "shelf": {
+    "top2_lum_cut": 176.8,
+    "top2_px": 28807,
+    "top2_share_shelf": 0.0,
+    "top2_share_surf": 0.0008,
+    "top2_share_fall": 0.0,
+    "top2_share_ocean": 0.0,
+    "top2_share_lava": 0.0,
+    "top2_share_other_or_sky": 0.0264,
+    "shelf_px": 390,
+    "shelf_share_of_frame": 0.00027,
+    "shelf_mean_rgb": [
+     25.9,
+     92.5,
+     111.1
+    ],
+    "shelf_hue": 193.1,
+    "shelf_s": 0.767,
+    "shelf_v": 0.436,
+    "shelf_lum_mean": 79.7,
+    "shelf_lum_p95": 81.1,
+    "ocean_lum_mean": 89.4,
+    "ocean_mean_rgb": [
+     41.4,
+     97.8,
+     146.4
+    ],
+    "shelf_vs_ocean_lum": 0.891,
+    "turquoise_px_share_of_frame": 0.0033,
+    "top2_share_turquoise": 0.0
+   },
+   "ball": null,
+   "surf": {
+    "id_surf_px": 306,
+    "id_surf_share_of_frame": 0.00021,
+    "id_surf_components": 1,
+    "id_surf_longest_px": 33,
+    "id_surf_longest_share_of_frame_h": 0.021,
+    "diff_surf_px": 333
+   }
+  },
+  "hole10_1_tee": {
+   "consistency_full_vs_proof_still": {
+    "max_abs_channel_diff": 26,
+    "frac_px_sum_diff_gt8": 6.944444444444445e-07
+   },
+   "grass": {
+    "central_lower_third": {
+     "mean_rgb": [
+      157.7,
+      183.8,
+      36.8
+     ],
+     "hue": 70.6,
+     "s": 0.8,
+     "v": 0.721
+    },
+    "fairway": {
+     "pixels": 861855,
+     "share_of_lower60": 0.9975,
+     "mean_rgb": [
+      162.6,
+      188.1,
+      38.3
+     ],
+     "hue_of_mean": 70.2,
+     "hue_median": 70.4,
+     "hue_p10": 67.9,
+     "hue_p90": 72.7,
+     "s": 0.796,
+     "v": 0.738,
+     "clip_any_ch_250": 0.0085,
+     "clip_g_250": 0.0085,
+     "share_hue_in_60_76": 1.0
+    },
+    "green": {
+     "pixels": 0
+    },
+    "rough": {
+     "pixels": 0
+    },
+    "scrub": {
+     "pixels": 0
+    }
+   },
+   "flat": {
+    "lower60_lum_sd": 22.45,
+    "lower60_lum_mean": 171.9,
+    "flat_window_share": 0.0041,
+    "median_window_sd": 0.0393,
+    "windows": 13440,
+    "id_kinds_ge_1pct": {
+     "fairway": 0.814,
+     "basalt": 0.1,
+     "smoke": 0.069
+    },
+    "colour_cells_ge_1pct": 18,
+    "largest_colour_cell_share": 0.114
+   },
+   "shelf": {
+    "top2_lum_cut": 216.5,
+    "top2_px": 28813,
+    "top2_share_shelf": 0.0,
+    "top2_share_surf": 0.0,
+    "top2_share_fall": 0.0,
+    "top2_share_ocean": 0.0,
+    "top2_share_lava": 0.0,
+    "top2_share_other_or_sky": 0.0092,
+    "shelf_px": 0,
+    "shelf_share_of_frame": 0.0
+   },
+   "lava": {
+    "pixels": 4645,
+    "share_of_frame": 0.0032,
+    "mean_rgb": [
+     194.3,
+     77.9,
+     30.8
+    ],
+    "mean_hue": 17.3,
+    "mean_s": 0.841,
+    "mean_v": 0.762,
+    "in_band_hue8_28_s75_v70": 0.9214,
+    "in_band_hue_s_only": 1.0,
+    "dark_v_lt_040": 0.0138,
+    "dark_v_lt_025": 0.0,
+    "v_median": 0.765,
+    "g_ge_250": 0.0,
+    "lum_mean": 99.2,
+    "lum_p10": 78.3,
+    "lum_p90": 132.1,
+    "cream_min_ch_ge_230": 0.0,
+    "dark_components": 4,
+    "dark_largest_px": 21,
+    "dark_median_px": 11,
+    "dark_largest_share_of_lava": 0.0045,
+    "dark_components_ge_400px": 0,
+    "dark_median_elongation": 2.96,
+    "frame_lum_mean": 151.2
+   },
+   "basalt": {
+    "pixels": 144553,
+    "share_of_frame": 0.1004,
+    "glow_px": 4095,
+    "glow_coverage": 0.0283,
+    "base_mean_rgb": [
+     55.7,
+     28.4,
+     26.0
+    ],
+    "base_hue": 4.8,
+    "base_s": 0.534,
+    "base_v": 0.219,
+    "base_lum_median": 34.3,
+    "base_lum_p90": 44.8,
+    "base_lum_mean": 34.0,
+    "base_s_median": 0.552,
+    "glow_mean_rgb": [
+     130.2,
+     49.8,
+     26.8
+    ],
+    "glow_mean_hue": 13.3,
+    "glow_cream_share": 0.0,
+    "glow_components": 247,
+    "glow_vertical_line_share": 0.896,
+    "glow_horizontal_rung_share": 0.004,
+    "glow_blob_share": 0.022,
+    "glow_component_height_median_px": 8,
+    "glow_component_width_median_px": 3,
+    "glow_component_height_p90_px": 15
+   },
+   "smoke": {
+    "card_diff_mask_px": 43737,
+    "changed_px_gt1p5": 41194,
+    "frame_share_changed": 0.0286,
+    "delta_lum_median": 13.91,
+    "delta_lum_p95": 35.93,
+    "delta_lum_p99": 44.7,
+    "delta_lum_max": 50.97,
+    "edge_band_px": 6519,
+    "edge_band_px_on_smooth_backdrop": 4673,
+    "edge_step_p99_all_boundary": 6.21,
+    "edge_step_p99_levels_per_px": 1.02,
+    "edge_step_max": 1.55,
+    "smoke_pixel_mean_rgb": [
+     187.6,
+     127.1,
+     116.0
+    ],
+    "plume_mean_s": 0.38,
+    "through_px": 662,
+    "through_corr": 0.903,
+    "transmission_est": 0.779
+   },
+   "ball": {
+    "centre_px": [
+     450,
+     952.3
+    ],
+    "radius_px": 16.4,
+    "expected_px": 844,
+    "visible_px_in_1p3r_disc": 1131,
+    "visible_ratio": 1.339,
+    "ring_categories": {
+     "fairway": 0.893
+    },
+    "ball_lum_mean": 152.1,
+    "ring_lum_mean": 188.4
+   },
+   "surf": {
+    "id_surf_px": 0,
+    "id_surf_share_of_frame": 0.0
+   }
+  },
+  "hole10_2_approach": {
+   "consistency_full_vs_proof_still": {
+    "max_abs_channel_diff": 0,
+    "frac_px_sum_diff_gt8": 0.0
+   },
+   "grass": {
+    "central_lower_third": {
+     "mean_rgb": [
+      148.0,
+      170.9,
+      42.7
+     ],
+     "hue": 70.7,
+     "s": 0.75,
+     "v": 0.67
+    },
+    "fairway": {
+     "pixels": 861930,
+     "share_of_lower60": 0.9976,
+     "mean_rgb": [
+      147.3,
+      168.2,
+      46.0
+     ],
+     "hue_of_mean": 70.3,
+     "hue_median": 70.4,
+     "hue_p10": 67.6,
+     "hue_p90": 72.7,
+     "s": 0.726,
+     "v": 0.66,
+     "clip_any_ch_250": 0.0,
+     "clip_g_250": 0.0,
+     "share_hue_in_60_76": 1.0
+    },
+    "green": {
+     "pixels": 0
+    },
+    "rough": {
+     "pixels": 0
+    },
+    "scrub": {
+     "pixels": 0
+    }
+   },
+   "flat": {
+    "lower60_lum_sd": 15.14,
+    "lower60_lum_mean": 154.9,
+    "flat_window_share": 0.0244,
+    "median_window_sd": 0.0227,
+    "windows": 13440,
+    "id_kinds_ge_1pct": {
+     "fairway": 0.665,
+     "basalt": 0.093,
+     "lava": 0.124,
+     "smoke": 0.112
+    },
+    "colour_cells_ge_1pct": 24,
+    "largest_colour_cell_share": 0.092
+   },
+   "shelf": {
+    "top2_lum_cut": 186.4,
+    "top2_px": 28805,
+    "top2_share_shelf": 0.0,
+    "top2_share_surf": 0.0,
+    "top2_share_fall": 0.0,
+    "top2_share_ocean": 0.0,
+    "top2_share_lava": 0.0,
+    "top2_share_other_or_sky": 0.0093,
+    "shelf_px": 0,
+    "shelf_share_of_frame": 0.0
+   },
+   "lava": {
+    "pixels": 179100,
+    "share_of_frame": 0.1244,
+    "mean_rgb": [
+     220.2,
+     84.2,
+     25.1
+    ],
+    "mean_hue": 18.2,
+    "mean_s": 0.886,
+    "mean_v": 0.864,
+    "in_band_hue8_28_s75_v70": 0.9486,
+    "in_band_hue_s_only": 1.0,
+    "dark_v_lt_040": 0.0169,
+    "dark_v_lt_025": 0.0,
+    "v_median": 0.871,
+    "g_ge_250": 0.0,
+    "lum_mean": 108.9,
+    "lum_p10": 85.3,
+    "lum_p90": 146.9,
+    "cream_min_ch_ge_230": 0.0,
+    "dark_components": 138,
+    "dark_largest_px": 159,
+    "dark_median_px": 10,
+    "dark_largest_share_of_lava": 0.0009,
+    "dark_components_ge_400px": 0,
+    "dark_median_elongation": 9.99,
+    "frame_lum_mean": 126.5
+   },
+   "basalt": {
+    "pixels": 134044,
+    "share_of_frame": 0.0931,
+    "glow_px": 2423,
+    "glow_coverage": 0.0181,
+    "base_mean_rgb": [
+     40.8,
+     18.1,
+     17.2
+    ],
+    "base_hue": 2.3,
+    "base_s": 0.579,
+    "base_v": 0.16,
+    "base_lum_median": 21.0,
+    "base_lum_p90": 32.8,
+    "base_lum_mean": 22.9,
+    "base_s_median": 0.595,
+    "glow_mean_rgb": [
+     156.0,
+     58.6,
+     21.1
+    ],
+    "glow_mean_hue": 16.7,
+    "glow_cream_share": 0.0,
+    "glow_components": 93,
+    "glow_vertical_line_share": 0.92,
+    "glow_horizontal_rung_share": 0.007,
+    "glow_blob_share": 0.02,
+    "glow_component_height_median_px": 13,
+    "glow_component_width_median_px": 3,
+    "glow_component_height_p90_px": 31
+   },
+   "smoke": {
+    "card_diff_mask_px": 88066,
+    "changed_px_gt1p5": 96728,
+    "frame_share_changed": 0.0672,
+    "delta_lum_median": 30.8,
+    "delta_lum_p95": 117.45,
+    "delta_lum_p99": 123.39,
+    "delta_lum_max": 132.18,
+    "edge_band_px": 33141,
+    "edge_band_px_on_smooth_backdrop": 22930,
+    "edge_step_p99_all_boundary": 2.72,
+    "edge_step_p99_levels_per_px": 2.77,
+    "edge_step_max": 5.18,
+    "smoke_pixel_mean_rgb": [
+     95.1,
+     72.7,
+     72.0
+    ],
+    "plume_mean_s": 0.326,
+    "through_px": 21132,
+    "through_corr": 0.803,
+    "transmission_est": 0.355
+   },
+   "ball": {
+    "centre_px": [
+     450,
+     952.3
+    ],
+    "radius_px": 16.4,
+    "expected_px": 844,
+    "visible_px_in_1p3r_disc": 1113,
+    "visible_ratio": 1.317,
+    "ring_categories": {
+     "fairway": 0.909
+    },
+    "ball_lum_mean": 130.5,
+    "ring_lum_mean": 154.1
+   },
+   "surf": {
+    "id_surf_px": 0,
+    "id_surf_share_of_frame": 0.0
+   }
+  },
+  "hole10_3_lavarim": {
+   "consistency_full_vs_proof_still": {
+    "max_abs_channel_diff": 0,
+    "frac_px_sum_diff_gt8": 0.0
+   },
+   "grass": {
+    "central_lower_third": {
+     "mean_rgb": [
+      210.7,
+      77.4,
+      22.3
+     ],
+     "hue": 17.5,
+     "s": 0.894,
+     "v": 0.826
+    },
+    "fairway": {
+     "pixels": 15556,
+     "share_of_lower60": 0.018,
+     "mean_rgb": [
+      159.5,
+      184.3,
+      50.0
+     ],
+     "hue_of_mean": 71.1,
+     "hue_median": 71.4,
+     "hue_p10": 68.6,
+     "hue_p90": 74.0,
+     "s": 0.729,
+     "v": 0.723,
+     "clip_any_ch_250": 0.0024,
+     "clip_g_250": 0.0024,
+     "share_hue_in_60_76": 0.998
+    },
+    "green": {
+     "pixels": 114,
+     "share_of_lower60": 0.0001,
+     "mean_rgb": [
+      153.3,
+      169.1,
+      48.4
+     ],
+     "hue_of_mean": 67.9,
+     "hue_median": 67.8,
+     "hue_p10": 66.2,
+     "hue_p90": 69.9,
+     "s": 0.714,
+     "v": 0.663,
+     "clip_any_ch_250": 0.0,
+     "clip_g_250": 0.0,
+     "share_hue_in_60_76": 1.0
+    },
+    "rough": {
+     "pixels": 117050,
+     "share_of_lower60": 0.1355,
+     "mean_rgb": [
+      116.3,
+      118.6,
+      39.6
+     ],
+     "hue_of_mean": 61.7,
+     "hue_median": 62.1,
+     "hue_p10": 58.8,
+     "hue_p90": 65.1,
+     "s": 0.666,
+     "v": 0.465,
+     "clip_any_ch_250": 0.0,
+     "clip_g_250": 0.0,
+     "share_hue_in_60_76": 0.829
+    },
+    "scrub": {
+     "pixels": 0
+    }
+   },
+   "flat": {
+    "lower60_lum_sd": 39.84,
+    "lower60_lum_mean": 97.8,
+    "flat_window_share": 0.129,
+    "median_window_sd": 0.0459,
+    "windows": 13440,
+    "id_kinds_ge_1pct": {
+     "fairway": 0.012,
+     "rough": 0.081,
+     "basalt": 0.25,
+     "lava": 0.416,
+     "smoke": 0.123
+    },
+    "colour_cells_ge_1pct": 25,
+    "largest_colour_cell_share": 0.153
+   },
+   "shelf": {
+    "top2_lum_cut": 164.8,
+    "top2_px": 28984,
+    "top2_share_shelf": 0.0,
+    "top2_share_surf": 0.0,
+    "top2_share_fall": 0.0,
+    "top2_share_ocean": 0.0,
+    "top2_share_lava": 0.5897,
+    "top2_share_other_or_sky": 0.0134,
+    "shelf_px": 0,
+    "shelf_share_of_frame": 0.0
+   },
+   "lava": {
+    "pixels": 598558,
+    "share_of_frame": 0.4157,
+    "mean_rgb": [
+     217.7,
+     83.2,
+     25.0
+    ],
+    "mean_hue": 18.1,
+    "mean_s": 0.885,
+    "mean_v": 0.854,
+    "in_band_hue8_28_s75_v70": 0.9263,
+    "in_band_hue_s_only": 1.0,
+    "dark_v_lt_040": 0.0287,
+    "dark_v_lt_025": 0.0,
+    "v_median": 0.867,
+    "g_ge_250": 0.0,
+    "lum_mean": 107.6,
+    "lum_p10": 81.6,
+    "lum_p90": 150.1,
+    "cream_min_ch_ge_230": 0.0,
+    "dark_components": 254,
+    "dark_largest_px": 3626,
+    "dark_median_px": 10,
+    "dark_largest_share_of_lava": 0.0061,
+    "dark_components_ge_400px": 8,
+    "dark_median_elongation": 5.9,
+    "frame_lum_mean": 86.5
+   },
+   "basalt": {
+    "pixels": 359650,
+    "share_of_frame": 0.2498,
+    "glow_px": 5657,
+    "glow_coverage": 0.0157,
+    "base_mean_rgb": [
+     45.4,
+     22.1,
+     21.4
+    ],
+    "base_hue": 1.7,
+    "base_s": 0.529,
+    "base_v": 0.178,
+    "base_lum_median": 25.7,
+    "base_lum_p90": 39.3,
+    "base_lum_mean": 27.0,
+    "base_s_median": 0.6,
+    "glow_mean_rgb": [
+     160.3,
+     58.0,
+     22.1
+    ],
+    "glow_mean_hue": 15.6,
+    "glow_cream_share": 0.0,
+    "glow_components": 160,
+    "glow_vertical_line_share": 0.98,
+    "glow_horizontal_rung_share": 0.0,
+    "glow_blob_share": 0.007,
+    "glow_component_height_median_px": 15,
+    "glow_component_width_median_px": 2,
+    "glow_component_height_p90_px": 36
+   },
+   "smoke": {
+    "card_diff_mask_px": 76542,
+    "changed_px_gt1p5": 78726,
+    "frame_share_changed": 0.0547,
+    "delta_lum_median": 46.88,
+    "delta_lum_p95": 75.82,
+    "delta_lum_p99": 79.11,
+    "delta_lum_max": 81.11,
+    "edge_band_px": 4459,
+    "edge_band_px_on_smooth_backdrop": 3235,
+    "edge_step_p99_all_boundary": 11.12,
+    "edge_step_p99_levels_per_px": 1.32,
+    "edge_step_max": 2.54,
+    "smoke_pixel_mean_rgb": [
+     147.8,
+     118.1,
+     120.9
+    ],
+    "plume_mean_s": 0.214,
+    "through_px": 608,
+    "through_corr": 0.959,
+    "transmission_est": 0.924
+   },
+   "ball": null,
+   "surf": {
+    "id_surf_px": 0,
+    "id_surf_share_of_frame": 0.0
+   }
+  },
+  "hole08_4_pathball": {
+   "consistency_full_vs_proof_still": {
+    "max_abs_channel_diff": 1,
+    "frac_px_sum_diff_gt8": 0.0
+   },
+   "grass": {
+    "central_lower_third": {
+     "mean_rgb": [
+      184.7,
+      165.9,
+      118.8
+     ],
+     "hue": 42.9,
+     "s": 0.357,
+     "v": 0.724
+    },
+    "fairway": {
+     "pixels": 108783,
+     "share_of_lower60": 0.1259,
+     "mean_rgb": [
+      189.8,
+      204.5,
+      72.9
+     ],
+     "hue_of_mean": 66.7,
+     "hue_median": 66.9,
+     "hue_p10": 63.8,
+     "hue_p90": 69.8,
+     "s": 0.643,
+     "v": 0.802,
+     "clip_any_ch_250": 0.0123,
+     "clip_g_250": 0.0123,
+     "share_hue_in_60_76": 1.0
+    },
+    "green": {
+     "pixels": 0
+    },
+    "rough": {
+     "pixels": 0
+    },
+    "scrub": {
+     "pixels": 0
+    }
+   },
+   "flat": {
+    "lower60_lum_sd": 35.41,
+    "lower60_lum_mean": 165.1,
+    "flat_window_share": 0.2027,
+    "median_window_sd": 0.0159,
+    "windows": 13440,
+    "id_kinds_ge_1pct": {
+     "fairway": 0.218,
+     "path": 0.564,
+     "cliff": 0.016,
+     "rock": 0.013,
+     "ocean": 0.022
+    },
+    "colour_cells_ge_1pct": 20,
+    "largest_colour_cell_share": 0.071
+   },
+   "shelf": {
+    "top2_lum_cut": 224.2,
+    "top2_px": 28817,
+    "top2_share_shelf": 0.0,
+    "top2_share_surf": 0.0,
+    "top2_share_fall": 0.0,
+    "top2_share_ocean": 0.0,
+    "top2_share_lava": 0.0,
+    "top2_share_other_or_sky": 0.7847,
+    "shelf_px": 37,
+    "shelf_share_of_frame": 3e-05
+   },
+   "ball": {
+    "centre_px": [
+     450,
+     952.3
+    ],
+    "radius_px": 16.4,
+    "expected_px": 844,
+    "visible_px_in_1p3r_disc": 1022,
+    "visible_ratio": 1.21,
+    "ring_categories": {
+     "path": 0.837
+    },
+    "ball_lum_mean": 193.5,
+    "ring_lum_mean": 160.7
+   },
+   "surf": {
+    "id_surf_px": 13,
+    "id_surf_share_of_frame": 1e-05,
+    "diff_surf_px": 52
+   }
+  },
+  "hole08_aerial": {
+   "consistency_full_vs_proof_still": {
+    "max_abs_channel_diff": 226,
+    "frac_px_sum_diff_gt8": 0.02773263888888889
+   },
+   "grass": {
+    "central_lower_third": {
+     "mean_rgb": [
+      10.7,
+      69.4,
+      118.0
+     ],
+     "hue": 207.2,
+     "s": 0.91,
+     "v": 0.463
+    },
+    "fairway": {
+     "pixels": 34578,
+     "share_of_lower60": 0.04,
+     "mean_rgb": [
+      167.5,
+      183.2,
+      80.1
+     ],
+     "hue_of_mean": 69.1,
+     "hue_median": 69.4,
+     "hue_p10": 65.9,
+     "hue_p90": 73.3,
+     "s": 0.563,
+     "v": 0.718,
+     "clip_any_ch_250": 0.0001,
+     "clip_g_250": 0.0001,
+     "share_hue_in_60_76": 0.979
+    },
+    "green": {
+     "pixels": 1811,
+     "share_of_lower60": 0.0021,
+     "mean_rgb": [
+      173.8,
+      187.4,
+      115.2
+     ],
+     "hue_of_mean": 71.3,
+     "hue_median": 72.2,
+     "hue_p10": 67.9,
+     "hue_p90": 73.5,
+     "s": 0.385,
+     "v": 0.735,
+     "clip_any_ch_250": 0.0,
+     "clip_g_250": 0.0,
+     "share_hue_in_60_76": 0.985
+    },
+    "rough": {
+     "pixels": 16902,
+     "share_of_lower60": 0.0196,
+     "mean_rgb": [
+      136.3,
+      136.7,
+      68.4
+     ],
+     "hue_of_mean": 60.3,
+     "hue_median": 60.8,
+     "hue_p10": 56.8,
+     "hue_p90": 64.6,
+     "s": 0.499,
+     "v": 0.536,
+     "clip_any_ch_250": 0.0,
+     "clip_g_250": 0.0,
+     "share_hue_in_60_76": 0.645
+    },
+    "scrub": {
+     "pixels": 0
+    }
+   },
+   "flat": {
+    "lower60_lum_sd": 30.01,
+    "lower60_lum_mean": 77.0,
+    "flat_window_share": 0.5891,
+    "median_window_sd": 0.0049,
+    "windows": 13440,
+    "id_kinds_ge_1pct": {
+     "fairway": 0.024,
+     "rough": 0.012,
+     "cliff": 0.014,
+     "ocean": 0.614
+    },
+    "colour_cells_ge_1pct": 21,
+    "largest_colour_cell_share": 0.266
+   },
+   "shelf": {
+    "top2_lum_cut": 234.2,
+    "top2_px": 28910,
+    "top2_share_shelf": 0.0,
+    "top2_share_surf": 0.0002,
+    "top2_share_fall": 0.0,
+    "top2_share_ocean": 0.0347,
+    "top2_share_lava": 0.0,
+    "top2_share_other_or_sky": 0.965,
+    "shelf_px": 3281,
+    "shelf_share_of_frame": 0.00228,
+    "shelf_mean_rgb": [
+     33.6,
+     83.0,
+     95.7
+    ],
+    "shelf_hue": 192.2,
+    "shelf_s": 0.649,
+    "shelf_v": 0.375,
+    "shelf_lum_mean": 73.4,
+    "shelf_lum_p95": 100.6,
+    "ocean_lum_mean": 79.3,
+    "ocean_mean_rgb": [
+     41.3,
+     85.8,
+     127.3
+    ],
+    "shelf_vs_ocean_lum": 0.926,
+    "turquoise_px_share_of_frame": 0.0024,
+    "top2_share_turquoise": 0.0
+   },
+   "ball": null,
+   "surf": {
+    "id_surf_px": 2839,
+    "id_surf_share_of_frame": 0.00197,
+    "id_surf_components": 9,
+    "id_surf_longest_px": 57,
+    "id_surf_longest_share_of_frame_h": 0.036,
+    "diff_surf_px": 3117
+   }
+  },
+  "hole09_aerial": {
+   "consistency_full_vs_proof_still": {
+    "max_abs_channel_diff": 86,
+    "frac_px_sum_diff_gt8": 0.07152916666666667
+   },
+   "grass": {
+    "central_lower_third": {
+     "mean_rgb": [
+      7.3,
+      55.1,
+      107.4
+     ],
+     "hue": 211.4,
+     "s": 0.932,
+     "v": 0.421
+    },
+    "fairway": {
+     "pixels": 47868,
+     "share_of_lower60": 0.0554,
+     "mean_rgb": [
+      138.2,
+      156.4,
+      72.4
+     ],
+     "hue_of_mean": 73.0,
+     "hue_median": 73.6,
+     "hue_p10": 69.1,
+     "hue_p90": 77.6,
+     "s": 0.537,
+     "v": 0.613,
+     "clip_any_ch_250": 0.0,
+     "clip_g_250": 0.0,
+     "share_hue_in_60_76": 0.777
+    },
+    "green": {
+     "pixels": 1880,
+     "share_of_lower60": 0.0022,
+     "mean_rgb": [
+      150.5,
+      168.2,
+      84.3
+     ],
+     "hue_of_mean": 72.6,
+     "hue_median": 72.7,
+     "hue_p10": 69.5,
+     "hue_p90": 76.5,
+     "s": 0.499,
+     "v": 0.66,
+     "clip_any_ch_250": 0.0,
+     "clip_g_250": 0.0,
+     "share_hue_in_60_76": 0.877
+    },
+    "rough": {
+     "pixels": 54738,
+     "share_of_lower60": 0.0634,
+     "mean_rgb": [
+      119.6,
+      128.7,
+      66.1
+     ],
+     "hue_of_mean": 68.7,
+     "hue_median": 69.0,
+     "hue_p10": 65.5,
+     "hue_p90": 72.2,
+     "s": 0.487,
+     "v": 0.505,
+     "clip_any_ch_250": 0.0,
+     "clip_g_250": 0.0,
+     "share_hue_in_60_76": 0.99
+    },
+    "scrub": {
+     "pixels": 80917,
+     "share_of_lower60": 0.0937,
+     "mean_rgb": [
+      131.2,
+      122.4,
+      87.9
+     ],
+     "hue_of_mean": 47.8,
+     "hue_median": 48.0,
+     "hue_p10": 45.3,
+     "hue_p90": 51.0,
+     "s": 0.33,
+     "v": 0.515,
+     "clip_any_ch_250": 0.0,
+     "clip_g_250": 0.0,
+     "share_hue_in_60_76": 0.005
+    }
+   },
+   "flat": {
+    "lower60_lum_sd": 36.5,
+    "lower60_lum_mean": 72.4,
+    "flat_window_share": 0.6414,
+    "median_window_sd": 0.0028,
+    "windows": 13440,
+    "id_kinds_ge_1pct": {
+     "fairway": 0.037,
+     "rough": 0.05,
+     "scrub": 0.076,
+     "cliff": 0.043,
+     "ocean": 0.641
+    },
+    "colour_cells_ge_1pct": 15,
+    "largest_colour_cell_share": 0.321
+   },
+   "shelf": {
+    "top2_lum_cut": 198.0,
+    "top2_px": 29041,
+    "top2_share_shelf": 0.0,
+    "top2_share_surf": 0.0147,
+    "top2_share_fall": 0.0,
+    "top2_share_ocean": 0.0,
+    "top2_share_lava": 0.0,
+    "top2_share_other_or_sky": 0.7959,
+    "shelf_px": 7992,
+    "shelf_share_of_frame": 0.00555,
+    "shelf_mean_rgb": [
+     28.1,
+     89.3,
+     110.4
+    ],
+    "shelf_hue": 195.4,
+    "shelf_s": 0.745,
+    "shelf_v": 0.433,
+    "shelf_lum_mean": 77.8,
+    "shelf_lum_p95": 100.2,
+    "ocean_lum_mean": 74.5,
+    "ocean_mean_rgb": [
+     38.0,
+     80.0,
+     127.7
+    ],
+    "shelf_vs_ocean_lum": 1.044,
+    "turquoise_px_share_of_frame": 0.0065,
+    "top2_share_turquoise": 0.0
+   },
+   "ball": null,
+   "surf": {
+    "id_surf_px": 3273,
+    "id_surf_share_of_frame": 0.00227,
+    "id_surf_components": 14,
+    "id_surf_longest_px": 46,
+    "id_surf_longest_share_of_frame_h": 0.029,
+    "diff_surf_px": 3561
+   }
+  },
+  "hole10_aerial": {
+   "consistency_full_vs_proof_still": {
+    "max_abs_channel_diff": 0,
+    "frac_px_sum_diff_gt8": 0.0
+   },
+   "grass": {
+    "central_lower_third": {
+     "mean_rgb": [
+      191.1,
+      101.8,
+      30.3
+     ],
+     "hue": 26.7,
+     "s": 0.841,
+     "v": 0.749
+    },
+    "fairway": {
+     "pixels": 122877,
+     "share_of_lower60": 0.1422,
+     "mean_rgb": [
+      157.8,
+      182.5,
+      41.5
+     ],
+     "hue_of_mean": 70.5,
+     "hue_median": 70.6,
+     "hue_p10": 68.0,
+     "hue_p90": 73.3,
+     "s": 0.773,
+     "v": 0.716,
+     "clip_any_ch_250": 0.0012,
+     "clip_g_250": 0.0012,
+     "share_hue_in_60_76": 1.0
+    },
+    "green": {
+     "pixels": 4129,
+     "share_of_lower60": 0.0048,
+     "mean_rgb": [
+      158.8,
+      174.1,
+      50.1
+     ],
+     "hue_of_mean": 67.4,
+     "hue_median": 66.8,
+     "hue_p10": 65.5,
+     "hue_p90": 70.1,
+     "s": 0.712,
+     "v": 0.683,
+     "clip_any_ch_250": 0.0002,
+     "clip_g_250": 0.0002,
+     "share_hue_in_60_76": 1.0
+    },
+    "rough": {
+     "pixels": 70170,
+     "share_of_lower60": 0.0812,
+     "mean_rgb": [
+      118.8,
+      120.9,
+      38.3
+     ],
+     "hue_of_mean": 61.5,
+     "hue_median": 61.9,
+     "hue_p10": 58.9,
+     "hue_p90": 64.3,
+     "s": 0.684,
+     "v": 0.474,
+     "clip_any_ch_250": 0.0,
+     "clip_g_250": 0.0,
+     "share_hue_in_60_76": 0.84
+    },
+    "scrub": {
+     "pixels": 0
+    }
+   },
+   "flat": {
+    "lower60_lum_sd": 46.1,
+    "lower60_lum_mean": 102.6,
+    "flat_window_share": 0.0247,
+    "median_window_sd": 0.0516,
+    "windows": 13440,
+    "id_kinds_ge_1pct": {
+     "fairway": 0.085,
+     "rough": 0.049,
+     "basalt": 0.183,
+     "lava": 0.338,
+     "smoke": 0.159
+    },
+    "colour_cells_ge_1pct": 29,
+    "largest_colour_cell_share": 0.113
+   },
+   "shelf": {
+    "top2_lum_cut": 183.1,
+    "top2_px": 28858,
+    "top2_share_shelf": 0.0,
+    "top2_share_surf": 0.0,
+    "top2_share_fall": 0.0,
+    "top2_share_ocean": 0.0,
+    "top2_share_lava": 0.0,
+    "top2_share_other_or_sky": 0.0007,
+    "shelf_px": 0,
+    "shelf_share_of_frame": 0.0
+   },
+   "lava": {
+    "pixels": 486688,
+    "share_of_frame": 0.338,
+    "mean_rgb": [
+     216.4,
+     83.5,
+     26.3
+    ],
+    "mean_hue": 18.1,
+    "mean_s": 0.878,
+    "mean_v": 0.849,
+    "in_band_hue8_28_s75_v70": 0.9403,
+    "in_band_hue_s_only": 1.0,
+    "dark_v_lt_040": 0.0189,
+    "dark_v_lt_025": 0.0,
+    "v_median": 0.859,
+    "g_ge_250": 0.0,
+    "lum_mean": 107.7,
+    "lum_p10": 83.5,
+    "lum_p90": 147.7,
+    "cream_min_ch_ge_230": 0.0,
+    "dark_components": 356,
+    "dark_largest_px": 220,
+    "dark_median_px": 11,
+    "dark_largest_share_of_lava": 0.0005,
+    "dark_components_ge_400px": 0,
+    "dark_median_elongation": 3.14,
+    "frame_lum_mean": 96.4
+   },
+   "basalt": {
+    "pixels": 263336,
+    "share_of_frame": 0.1829,
+    "glow_px": 3375,
+    "glow_coverage": 0.0128,
+    "base_mean_rgb": [
+     54.3,
+     27.5,
+     26.5
+    ],
+    "base_hue": 2.1,
+    "base_s": 0.512,
+    "base_v": 0.213,
+    "base_lum_median": 34.2,
+    "base_lum_p90": 45.0,
+    "base_lum_mean": 33.1,
+    "base_s_median": 0.591,
+    "glow_mean_rgb": [
+     135.8,
+     49.0,
+     22.7
+    ],
+    "glow_mean_hue": 13.9,
+    "glow_cream_share": 0.0,
+    "glow_components": 197,
+    "glow_vertical_line_share": 0.971,
+    "glow_horizontal_rung_share": 0.007,
+    "glow_blob_share": 0.013,
+    "glow_component_height_median_px": 10,
+    "glow_component_width_median_px": 2,
+    "glow_component_height_p90_px": 18
+   },
+   "smoke": {
+    "card_diff_mask_px": 73670,
+    "changed_px_gt1p5": 78219,
+    "frame_share_changed": 0.0543,
+    "delta_lum_median": 15.21,
+    "delta_lum_p95": 107.48,
+    "delta_lum_p99": 115.48,
+    "delta_lum_max": 125.25,
+    "edge_band_px": 21954,
+    "edge_band_px_on_smooth_backdrop": 16490,
+    "edge_step_p99_all_boundary": 2.32,
+    "edge_step_p99_levels_per_px": 2.11,
+    "edge_step_max": 5.26,
+    "smoke_pixel_mean_rgb": [
+     142.1,
+     100.7,
+     91.8
+    ],
+    "plume_mean_s": 0.362,
+    "through_px": 7888,
+    "through_corr": 0.877,
+    "transmission_est": 0.454
+   },
+   "ball": {
+    "centre_px": [
+     1089.9,
+     3280.8
+    ],
+    "radius_px": 3.12,
+    "expected_px": 30,
+    "visible_px_in_1p3r_disc": 0,
+    "visible_ratio": 0.0,
+    "ring_categories": {}
+   },
+   "surf": {
+    "id_surf_px": 0,
+    "id_surf_share_of_frame": 0.0
+   }
+  }
+ },
+ "mesh": {
+  "hole8": {
+   "fbx": "Unity/Assets/Resources/Course/hole_08.fbx",
+   "objects": 933,
+   "prefixes": {
+    "BALL_": 1,
+    "BUNKER_": 2,
+    "DRESS_": 7,
+    "FAIRWAY": 1,
+    "FAIRWAY_": 1,
+    "FLAG": 1,
+    "FLAG_": 1,
+    "GREEN": 1,
+    "GREEN_": 1,
+    "HOLE_": 1,
+    "PLANT_": 809,
+    "ROCK_": 83,
+    "TEE_": 3,
+    "TERRAIN_": 1,
+    "WATER_": 20
+   },
+   "materials": {
+    "MAT_BALL": 1,
+    "LK_SAND": 1,
+    "LK_ROUGH": 20,
+    "LK_MASONRY": 5,
+    "LK_PATH": 2,
+    "LK_FAIRWAY": 4,
+    "MAT_FLAG": 1,
+    "MAT_POLE": 3,
+    "LK_GREEN": 1,
+    "MAT_CUP": 1,
+    "LK_PLANTS": 809,
+    "LK_ROCK": 28,
+    "LK_ROCK_WET": 51,
+    "LK_CLIFF": 5,
+    "LK_CLIFF_DARK": 5,
+    "LK_FALL": 1,
+    "LK_WATER": 1,
+    "LK_WATER_SHALLOW": 1,
+    "LK_SURF": 17
+   },
+   "triangles": 139552,
+   "foam_named_objects": [],
+   "foam_materials": [],
+   "legacy_materials": [],
+   "ocean_dimensions": [
+    4000.0,
+    4000.0,
+    0.0
+   ],
+   "z_is_up": true,
+   "vines": {
+    "count": 131,
+    "attached": 123,
+    "unattached": 8,
+    "root_gap_max_m": 0.8888611793518066,
+    "bottom_above_sea_min_m": 2.911774834348135,
+    "unattached_names": [
+     "PLANT_VINE_L.026",
+     "PLANT_VINE_M.053",
+     "PLANT_VINE_M.054",
+     "PLANT_VINE_M.055",
+     "PLANT_VINE_M.056",
+     "PLANT_VINE_M.058",
+     "PLANT_VINE_M.061",
+     "PLANT_VINE_M.062"
+    ]
+   },
+   "plants": {
+    "plants": 809,
+    "vine_objects_judged_by_root": 0,
+    "on_sea": 0,
+    "floating_no_surface_1m": 0,
+    "on_ground_or_rock": 678,
+    "no_hit_at_all": 0
+   },
+   "plants_support_by_surface": {
+    "ROCK_OUTCROP": 83,
+    "TERRAIN_": 595
+   },
+   "plants_on_sea_names": [],
+   "plants_floating_names": [],
+   "path": {
+    "objects": 2,
+    "samples": 14433,
+    "max_cm": 1.15,
+    "p99_cm": 1.15,
+    "mean_cm": 0.53,
+    "min_cm": -14.0,
+    "ball_radius_cm": 5.49,
+    "above_1p5cm": 0
+   },
+   "shelf": {
+    "objects": 1,
+    "faces": 923,
+    "area_m2": 2659.1,
+    "width_mean_m": 3.02,
+    "width_p95_m": 5.17,
+    "width_max_m": 7.94,
+    "boundary_samples": 2326
+   },
+   "rocks": {
+    "objects": 83,
+    "non_unit_object_scale": 79,
+    "anisotropy_max": 1.875,
+    "anisotropy_worst": [
+     [
+      1.875,
+      "ROCK_OUTCROP_A.000",
+      [
+       1.398,
+       1.398,
+       0.745
+      ]
+     ],
+     [
+      1.348,
+      "ROCK_SEASTACK_D.000",
+      [
+       1.375,
+       1.483,
+       1.1
+      ]
+     ],
+     [
+      1.335,
+      "ROCK_SEASTACK_A.009",
+      [
+       1.187,
+       1.268,
+       0.95
+      ]
+     ],
+     [
+      1.287,
+      "ROCK_SPIRE_A.000",
+      [
+       1.24,
+       1.277,
+       0.992
+      ]
+     ],
+     [
+      1.272,
+      "ROCK_SPIRE_A.006",
+      [
+       1.023,
+       1.041,
+       0.818
+      ]
+     ]
+    ],
+    "count_anisotropy_gt_2": 0,
+    "scale_max": 1.999,
+    "scale_min": 0.547,
+    "count_scale_gt_2": 0,
+    "count_scale_lt_0p4": 0
+   }
+  },
+  "hole9": {
+   "fbx": "Unity/Assets/Resources/Course/hole_09.fbx",
+   "objects": 832,
+   "prefixes": {
+    "BALL_": 1,
+    "BUNKER_": 6,
+    "DRESS_": 53,
+    "FAIRWAY": 1,
+    "FAIRWAY_": 1,
+    "FLAG": 1,
+    "FLAG_": 1,
+    "GREEN": 1,
+    "GREEN_": 1,
+    "HOLE_": 1,
+    "PLANT_": 400,
+    "ROCK_": 298,
+    "TEE_": 3,
+    "TERRAIN_": 1,
+    "WATER_": 63
+   },
+   "materials": {
+    "MAT_BALL": 1,
+    "LK_SAND": 6,
+    "LK_GREEN": 4,
+    "LK_MASONRY": 20,
+    "LK_SCRUB": 31,
+    "LK_ROCK": 210,
+    "LK_FAIRWAY": 3,
+    "LK_ROUGH": 11,
+    "MAT_FLAG": 1,
+    "MAT_POLE": 3,
+    "MAT_CUP": 1,
+    "LK_PLANTS": 400,
+    "LK_ROCK_WET": 104,
+    "LK_CLIFF": 15,
+    "LK_CLIFF_DARK": 15,
+    "LK_WATER": 1,
+    "LK_WATER_SHALLOW": 1,
+    "LK_SURF": 61
+   },
+   "triangles": 184274,
+   "foam_named_objects": [],
+   "foam_materials": [],
+   "legacy_materials": [],
+   "ocean_dimensions": [
+    4000.0,
+    4000.0,
+    0.0
+   ],
+   "z_is_up": true,
+   "vines": {
+    "count": 0,
+    "attached": 0,
+    "unattached": 0,
+    "root_gap_max_m": 0.0,
+    "bottom_above_sea_min_m": null,
+    "unattached_names": []
+   },
+   "plants": {
+    "plants": 400,
+    "vine_objects_judged_by_root": 0,
+    "on_sea": 0,
+    "floating_no_surface_1m": 0,
+    "on_ground_or_rock": 400,
+    "no_hit_at_all": 0
+   },
+   "plants_support_by_surface": {
+    "TERRAIN_": 400
+   },
+   "plants_on_sea_names": [],
+   "plants_floating_names": [],
+   "path": {
+    "objects": 0,
+    "samples": 0,
+    "max_cm": null,
+    "p99_cm": null,
+    "mean_cm": null,
+    "min_cm": null,
+    "ball_radius_cm": 5.49,
+    "above_1p5cm": 0
+   },
+   "shelf": {
+    "objects": 1,
+    "faces": 3447,
+    "area_m2": 12141.3,
+    "width_mean_m": 3.39,
+    "width_p95_m": 6.27,
+    "width_max_m": 8.19,
+    "boundary_samples": 8966
+   },
+   "rocks": {
+    "objects": 298,
+    "non_unit_object_scale": 284,
+    "anisotropy_max": 1.346,
+    "anisotropy_worst": [
+     [
+      1.346,
+      "ROCK_SEASTACK_A.001",
+      [
+       0.962,
+       1.035,
+       0.769
+      ]
+     ],
+     [
+      1.273,
+      "ROCK_SLAB_A_WET.014",
+      [
+       1.411,
+       1.624,
+       1.276
+      ]
+     ],
+     [
+      1.27,
+      "ROCK_STONE_A.032",
+      [
+       0.758,
+       0.868,
+       0.684
+      ]
+     ],
+     [
+      1.262,
+      "ROCK_SPIRE_A.000",
+      [
+       1.25,
+       1.262,
+       1.0
+      ]
+     ],
+     [
+      1.261,
+      "ROCK_STONE_B.025",
+      [
+       0.881,
+       1.022,
+       0.81
+      ]
+     ]
+    ],
+    "count_anisotropy_gt_2": 0,
+    "scale_max": 1.999,
+    "scale_min": 0.6,
+    "count_scale_gt_2": 0,
+    "count_scale_lt_0p4": 0
+   }
+  },
+  "hole10": {
+   "fbx": "Unity/Assets/Resources/Course/hole_10.fbx",
+   "objects": 697,
+   "prefixes": {
+    "BALL_": 1,
+    "BUNKER_": 4,
+    "DRESS_": 13,
+    "FAIRWAY": 1,
+    "FAIRWAY_": 1,
+    "FLAG": 1,
+    "FLAG_": 1,
+    "GREEN": 1,
+    "GREEN_": 1,
+    "HOLE_": 1,
+    "PLANT_": 210,
+    "ROCK_": 457,
+    "TEE_": 3,
+    "TERRAIN_": 1,
+    "WATER_": 1
+   },
+   "materials": {
+    "MAT_BALL": 1,
+    "LK_SAND": 2,
+    "LK_GREEN": 3,
+    "LK_BASALT": 459,
+    "LK_LAVA": 2,
+    "LK_SMOKE": 12,
+    "LK_FAIRWAY": 4,
+    "MAT_FLAG": 1,
+    "MAT_POLE": 3,
+    "MAT_CUP": 1,
+    "LK_PLANTS": 210,
+    "LK_ROUGH": 1
+   },
+   "triangles": 113935,
+   "foam_named_objects": [],
+   "foam_materials": [],
+   "legacy_materials": [],
+   "z_is_up": true,
+   "vines": {
+    "count": 0,
+    "attached": 0,
+    "unattached": 0,
+    "root_gap_max_m": 0.0,
+    "bottom_above_sea_min_m": null,
+    "unattached_names": []
+   },
+   "plants": {
+    "plants": 210,
+    "vine_objects_judged_by_root": 0,
+    "on_sea": 0,
+    "floating_no_surface_1m": 0,
+    "on_ground_or_rock": 210,
+    "no_hit_at_all": 0
+   },
+   "plants_support_by_surface": {
+    "TERRAIN_": 210
+   },
+   "plants_on_sea_names": [],
+   "plants_floating_names": [],
+   "path": {
+    "objects": 0,
+    "samples": 0,
+    "max_cm": null,
+    "p99_cm": null,
+    "mean_cm": null,
+    "min_cm": null,
+    "ball_radius_cm": 5.49,
+    "above_1p5cm": 0
+   },
+   "shelf": {
+    "objects": 0
+   },
+   "rocks": {
+    "objects": 457,
+    "non_unit_object_scale": 287,
+    "anisotropy_max": 1.286,
+    "anisotropy_worst": [
+     [
+      1.286,
+      "ROCK_CAIRN_A_BASALT.004",
+      [
+       1.286,
+       1.4,
+       1.088
+      ]
+     ],
+     [
+      1.229,
+      "ROCK_BLOCK_A_BASALT.002",
+      [
+       0.768,
+       0.808,
+       0.658
+      ]
+     ],
+     [
+      1.223,
+      "ROCK_BLOCK_A_BASALT.005",
+      [
+       0.912,
+       0.964,
+       0.788
+      ]
+     ],
+     [
+      1.216,
+      "ROCK_BLOCK_A_BASALT.010",
+      [
+       0.786,
+       0.842,
+       0.693
+      ]
+     ],
+     [
+      1.212,
+      "ROCK_BLOCK_A_BASALT.003",
+      [
+       1.124,
+       1.326,
+       1.094
+      ]
+     ]
+    ],
+    "count_anisotropy_gt_2": 0,
+    "scale_max": 1.922,
+    "scale_min": 0.558,
+    "count_scale_gt_2": 0,
+    "count_scale_lt_0p4": 0
+   }
+  }
+ },
+ "gates": {
+  "GRASS_HUE_GAMEVIEW hole08": {
+   "result": "PASS",
+   "detail": "hole08_1_tee: central lower third mean #A6B642 h68.6 S0.636 V0.716; fairway+green px 704044 mean hue 69.2 (median 69.6), clipped(any ch>=250) 0.0%; hole08_2_approach: central lower third mean #A0B13F h68.8 S0.645 V0.695; fairway+green px 713760 mean hue 68.5 (median 69.0), clipped(any ch>=250) 0.1%; target fairway/green h60..76 (stills h64-73), clip <= 5% | info: hole08_3_arch rough 206462px h61.0 S0.534 V0.505; hole08_aerial rough 16902px h60.3 S0.499 V0.536",
+   "numbers": {}
+  },
+  "GRASS_HUE_GAMEVIEW hole09": {
+   "result": "PASS",
+   "detail": "hole09_1_tee: central lower third mean #93A443 h70.5 S0.591 V0.641; fairway+green px 861826 mean hue 70.0 (median 70.2), clipped(any ch>=250) 0.0%; hole09_2_approach: central lower third mean #85953E h71.0 S0.585 V0.583; fairway+green px 861814 mean hue 72.2 (median 72.4), clipped(any ch>=250) 0.0%; target fairway/green h60..76 (stills h64-73), clip <= 5% | info: hole09_3_ruin scrub 648470px h48.5 S0.351 V0.486; hole09_aerial rough 54738px h68.7 S0.487 V0.505; hole09_aerial scrub 80917px h47.8 S0.33 V0.515",
+   "numbers": {}
+  },
+  "GRASS_HUE_GAMEVIEW hole10": {
+   "result": "PASS",
+   "detail": "hole10_1_tee: central lower third mean #9EB825 h70.6 S0.8 V0.721; fairway+green px 861855 mean hue 70.2 (median 70.4), clipped(any ch>=250) 0.9%; hole10_2_approach: central lower third mean #94AB2B h70.7 S0.75 V0.67; fairway+green px 861930 mean hue 70.3 (median 70.4), clipped(any ch>=250) 0.0%; target fairway/green h60..76 (stills h64-73), clip <= 5% | info: hole10_3_lavarim rough 117050px h61.7 S0.666 V0.465; hole10_aerial rough 70170px h61.5 S0.684 V0.474",
+   "numbers": {}
+  },
+  "NOT_FLAT_PER_STILL": {
+   "result": "PASS",
+   "detail": "(sd >= 12, largest colour cell <= 50%, address stills flat windows <= 15%; failing: none) hole08_1_tee: lower-60% lum sd 23.59, flat 8px windows 4.8%, largest colour cell 11%, 20 colour cells >= 1% ok | hole08_2_approach: lower-60% lum sd 24.19, flat 8px windows 3.9%, largest colour cell 11%, 21 colour cells >= 1% ok | hole08_3_arch: lower-60% lum sd 40.66, flat 8px windows 9.5% (landmark: info), largest colour cell 8%, 28 colour cells >= 1% ok | hole09_1_tee: lower-60% lum sd 16.44, flat 8px windows 3.7%, largest colour cell 22%, 16 colour cells >= 1% ok | hole09_2_approach: lower-60% lum sd 18.32, flat 8px windows 4.9%, largest colour cell 14%, 14 colour cells >= 1% ok | hole09_3_ruin: lower-60% lum sd 23.43, flat 8px windows 0.4% (landmark: info), largest colour cell 11%, 21 colour cells >= 1% ok | hole10_1_tee: lower-60% lum sd 22.45, flat 8px windows 0.4%, largest colour cell 11%, 18 colour cells >= 1% ok | hole10_2_approach: lower-60% lum sd 15.14, flat 8px windows 2.4%, largest colour cell 9%, 24 colour cells >= 1% ok | hole10_3_lavarim: lower-60% lum sd 39.84, flat 8px windows 12.9% (landmark: info), largest colour cell 15%, 25 colour cells >= 1% ok; flat baseline stills for contrast: hole08_layup sd 6.42 flat 99% cell 44%, hole08_midpad sd 6.58 flat 99% cell 32%, hole08_tee sd 4.18 flat 99% cell 58%, hole09_fairway sd 6.9 flat 99% cell 45%, hole09_ridge sd 0.44 flat 100% cell 60%, hole09_tee sd 1.48 flat 100% cell 65%, hole10_approach sd 0.65 flat 100% cell 64%, hole10_rim sd 4.55 flat 99% cell 57%, hole10_tee sd 1.57 flat 100% cell 63%",
+   "numbers": {}
+  },
+  "SHELF_NOT_LOUDEST": {
+   "result": "PASS",
+   "detail": "(shelf <= 10% of the brightest 2%, <= 1.3 x the open sea) hole08_aerial: shelf 3281 px = 0.23% of the frame, mean #225360 h192.2 V0.375 lum 73.4, ocean beside it lum 79.3, ratio 0.926, shelf = 0.0% and turquoise = 0.0% of the brightest 2% (lum >= 234.2), brightest 2% is sky/other 96.5%, surf 0.0%, ocean 3.5% ok | hole09_aerial: shelf 7992 px = 0.56% of the frame, mean #1C596E h195.4 V0.433 lum 77.8, ocean beside it lum 74.5, ratio 1.044, shelf = 0.0% and turquoise = 0.0% of the brightest 2% (lum >= 198.0), brightest 2% is sky/other 79.59%, surf 1.5%, ocean 0.0% ok | hole08_1_tee: shelf 21 px (< 300: not measurable here) | hole08_2_approach: shelf 0 px (< 300: not measurable here) | hole08_3_arch: shelf 0 px (< 300: not measurable here) | hole09_1_tee: shelf 0 px (< 300: not measurable here) | hole09_2_approach: shelf 419 px = 0.03% of the frame, mean #1B566F h197.9 V0.435 lum 75.1, ocean beside it lum 87.7, ratio 0.856, shelf = 0.0% and turquoise = 0.0% of the brightest 2% (lum >= 231.4), brightest 2% is sky/other 100.0%, surf 0.0%, ocean 0.0% ok | hole09_3_ruin: shelf 390 px = 0.03% of the frame, mean #1A5C6F h193.1 V0.436 lum 79.7, ocean beside it lum 89.4, ratio 0.891, shelf = 0.0% and turquoise = 0.0% of the brightest 2% (lum >= 176.8), brightest 2% is sky/other 2.64%, surf 0.1%, ocean 0.0% ok",
+   "numbers": {}
+  },
+  "LAVA_ORANGE_AND_BRIGHT": {
+   "result": "PASS",
+   "detail": "(in band >= 85%, G>=250 <= 5%, dark V<.40 <= 15%, mean V >= 0.7; crater.jpg pool (212,62,14) h15 S.93 V.83) hole10_1_tee: lava 4645 px (0.3% of frame) mean #C24E1F h17.3 S0.841 V0.762, in band (h8-28 S>=.75 V>=.7) 92.1% (h+S only 100.0%), dark V<.40 1.4%, G>=250 0.0%, cream 0.00%, dark components 4 largest 21 px (0.45% of the lava) ok | hole10_2_approach: lava 179100 px (12.4% of frame) mean #DC5419 h18.2 S0.886 V0.864, in band (h8-28 S>=.75 V>=.7) 94.9% (h+S only 100.0%), dark V<.40 1.7%, G>=250 0.0%, cream 0.00%, dark components 138 largest 159 px (0.09% of the lava) ok | hole10_3_lavarim: lava 598558 px (41.6% of frame) mean #DA5319 h18.1 S0.885 V0.854, in band (h8-28 S>=.75 V>=.7) 92.6% (h+S only 100.0%), dark V<.40 2.9%, G>=250 0.0%, cream 0.00%, dark components 254 largest 3626 px (0.61% of the lava) ok | hole10_aerial (extra aerial, info): lava 486688 px (33.8% of frame) mean #D8541A h18.1 S0.878 V0.849, in band (h8-28 S>=.75 V>=.7) 94.0% (h+S only 100.0%), dark V<.40 1.9%, G>=250 0.0%, cream 0.00%, dark components 356 largest 220 px (0.05% of the lava) ok",
+   "numbers": {}
+  },
+  "BASALT_JOINTS": {
+   "result": "PASS",
+   "detail": "(glow <= 20% of the basalt, non-glow median lum <= 55.0, glow in vertical lines >= 50%, horizontal rungs <= 20%; crater.jpg basalt (26,25,29)) hole10_1_tee: basalt 144553 px, non-glow mean #381C1A h4.8 S0.534 V0.219 median lum 34.3, glow 2.8% of basalt in 247 components (vertical-line 90%, horizontal-rung 0%, blob 2%, median height 8 px x width 3 px), glow mean #82321B h13.3 ok | hole10_2_approach: basalt 134044 px, non-glow mean #291211 h2.3 S0.579 V0.16 median lum 21.0, glow 1.8% of basalt in 93 components (vertical-line 92%, horizontal-rung 1%, blob 2%, median height 13 px x width 3 px), glow mean #9C3B15 h16.7 ok | hole10_3_lavarim: basalt 359650 px, non-glow mean #2D1615 h1.7 S0.529 V0.178 median lum 25.7, glow 1.6% of basalt in 160 components (vertical-line 98%, horizontal-rung 0%, blob 1%, median height 15 px x width 2 px), glow mean #A03A16 h15.6 ok | hole10_aerial (extra aerial, info): basalt 263336 px, non-glow mean #361C1A h2.1 S0.512 V0.213 median lum 34.2, glow 1.3% of basalt in 197 components (vertical-line 97%, horizontal-rung 1%, blob 1%, median height 10 px x width 2 px), glow mean #883117 h13.9 ok",
+   "numbers": {}
+  },
+  "SMOKE_SOFT": {
+   "result": "FAIL",
+   "detail": "(visible dLum p95 >= 8.0, max <= 110.0, edge step p99 <= 6.0 levels/px) hole10_1_tee: smoke changes 41194 px (2.86% of frame), |dLum| median 13.91 p95 35.93 p99 44.7 max 50.97, edge step p99 1.02 levels/px over 4673 boundary px on a smooth backdrop (all boundary px: 6.21), plume mean #BC7F74, see-through (info) backdrop detail kept 0.779 (corr 0.903, 662 px) ok | hole10_2_approach: smoke changes 96728 px (6.72% of frame), |dLum| median 30.8 p95 117.45 p99 123.39 max 132.18, edge step p99 2.77 levels/px over 22930 boundary px on a smooth backdrop (all boundary px: 2.72), plume mean #5F4948, see-through (info) backdrop detail kept 0.355 (corr 0.803, 21132 px) FAIL | hole10_3_lavarim: smoke changes 78726 px (5.47% of frame), |dLum| median 46.88 p95 75.82 p99 79.11 max 81.11, edge step p99 1.32 levels/px over 3235 boundary px on a smooth backdrop (all boundary px: 11.12), plume mean #947679, see-through (info) backdrop detail kept 0.924 (corr 0.959, 608 px) ok | hole10_aerial (extra aerial, info): smoke changes 78219 px (5.43% of frame), |dLum| median 15.21 p95 107.48 p99 115.48 max 125.25, edge step p99 2.11 levels/px over 16490 boundary px on a smooth backdrop (all boundary px: 2.32), plume mean #8E655C, see-through (info) backdrop detail kept 0.454 (corr 0.877, 7888 px) FAIL",
+   "numbers": {}
+  },
+  "NO_PLANT_ON_SEA": {
+   "result": "PASS",
+   "detail": "installed FBX, ray down from each plant base through every non-plant mesh: hole8: 809 PLANT_ objects (incl. 131 vines): 0 on the sea, 0 floating (no surface within 1 m under the base), support {'ROCK_OUTCROP': 83, 'TERRAIN_': 595}; vines judged by root: 123 attached (root <= 0.6 m from rock/ground), 8 root 0.6..0.89 m off ['PLANT_VINE_L.026', 'PLANT_VINE_M.053', 'PLANT_VINE_M.054', 'PLANT_VINE_M.055', 'PLANT_VINE_M.056', 'PLANT_VINE_M.058', 'PLANT_VINE_M.061', 'PLANT_VINE_M.062'], lowest vine tip 2.91 m above the sea | hole9: 400 PLANT_ objects (incl. 0 vines): 0 on the sea, 0 floating (no surface within 1 m under the base), support {'TERRAIN_': 400} | hole10: 210 PLANT_ objects (incl. 0 vines): 0 on the sea, 0 floating (no surface within 1 m under the base), support {'TERRAIN_': 210}",
+   "numbers": {}
+  },
+  "NO_ROCK_STRETCH_2X": {
+   "result": "PASS",
+   "detail": "installed FBX object scales (open-shell cliff / wall skins carry their stretch in the vertices: postcard_look_verify NO_ROCK_STRETCH_2X judges those): hole8: 83 ROCK_ objects, object scale 0.547..1.999, anisotropy max 1.875 (worst ROCK_OUTCROP_A.000), > 2x: 0 abs / 0 aniso, < 0.4: 0 | hole9: 298 ROCK_ objects, object scale 0.6..1.999, anisotropy max 1.346 (worst ROCK_SEASTACK_A.001), > 2x: 0 abs / 0 aniso, < 0.4: 0 | hole10: 457 ROCK_ objects, object scale 0.558..1.922, anisotropy max 1.286 (worst ROCK_CAIRN_A_BASALT.004), > 2x: 0 abs / 0 aniso, < 0.4: 0",
+   "numbers": {}
+  },
+  "NO_FOAM_STRIP": {
+   "result": "PASS",
+   "detail": "installed FBX names / materials + surf patches in the aerials: hole8: foam-named objects [], foam materials [], legacy MAT_ [], LK_SURF slots 17 | hole9: foam-named objects [], foam materials [], legacy MAT_ [], LK_SURF slots 61 | hole10: foam-named objects [], foam materials [], legacy MAT_ [], LK_SURF slots None | hole08_aerial: surf patches 9, longest 57 px = 3.6% of the frame height, surf 0.20% of the frame | hole09_aerial: surf patches 14, longest 46 px = 2.9% of the frame height, surf 0.23% of the frame | hole09_2_approach: surf patches 3, longest 45 px = 2.8% of the frame height, surf 0.01% of the frame",
+   "numbers": {}
+  },
+  "PATH_UNDER_BALL": {
+   "result": "PASS",
+   "detail": "installed hole 8 FBX: 2 path meshes, 14433 up-facing vertices, height over the play surface max 1.15 cm / p99 1.15 cm / mean 0.53 cm (limit 1.5 cm, 0 above; game ball radius 5.49 cm; before: up to 11 cm) | hole08_1_tee: ball radius 16.4 px, visible 1144 / 844 expected px (ratio 1.354), ring {'fairway': 0.893}, ball lum 193.0 vs ring 173.7 | hole08_2_approach: ball radius 16.4 px, visible 1117 / 844 expected px (ratio 1.322), ring {'fairway': 0.891}, ball lum 187.1 vs ring 145.9 | hole08_4_pathball: ball radius 16.4 px, visible 1022 / 844 expected px (ratio 1.21), ring {'path': 0.837}, ball lum 193.5 vs ring 160.7",
+   "numbers": {}
+  }
+ },
+ "baseline_flat_stills": {
+  "hole08_layup.jpg": {
+   "lower60_lum_sd": 6.42,
+   "flat_window_share": 0.993,
+   "largest_colour_cell_share": 0.444
+  },
+  "hole08_midpad.jpg": {
+   "lower60_lum_sd": 6.58,
+   "flat_window_share": 0.992,
+   "largest_colour_cell_share": 0.323
+  },
+  "hole08_tee.jpg": {
+   "lower60_lum_sd": 4.18,
+   "flat_window_share": 0.992,
+   "largest_colour_cell_share": 0.579
+  },
+  "hole09_fairway.jpg": {
+   "lower60_lum_sd": 6.9,
+   "flat_window_share": 0.992,
+   "largest_colour_cell_share": 0.452
+  },
+  "hole09_ridge.jpg": {
+   "lower60_lum_sd": 0.44,
+   "flat_window_share": 1.0,
+   "largest_colour_cell_share": 0.605
+  },
+  "hole09_tee.jpg": {
+   "lower60_lum_sd": 1.48,
+   "flat_window_share": 0.999,
+   "largest_colour_cell_share": 0.651
+  },
+  "hole10_approach.jpg": {
+   "lower60_lum_sd": 0.65,
+   "flat_window_share": 1.0,
+   "largest_colour_cell_share": 0.645
+  },
+  "hole10_rim.jpg": {
+   "lower60_lum_sd": 4.55,
+   "flat_window_share": 0.992,
+   "largest_colour_cell_share": 0.567
+  },
+  "hole10_tee.jpg": {
+   "lower60_lum_sd": 1.57,
+   "flat_window_share": 0.998,
+   "largest_colour_cell_share": 0.63
+  }
+ }
+}

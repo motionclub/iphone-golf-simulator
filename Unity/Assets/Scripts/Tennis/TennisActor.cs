@@ -49,6 +49,9 @@ namespace GolfArcade.Tennis
         Transform armUpper, armLower, offUpper, offLower;
         readonly Dictionary<int, Vector3> contactPose = new();
         Vector3 guideBall, guideOffset, guideBody;
+        Vector2 guideFace;
+        public Vector3 GuideSweetTarget => guideBall - StringRight * guideFace.x - StringUp * guideFace.y;
+        public Vector3 StringPoint(Vector2 face) => SweetSpot.position + StringRight * face.x + StringUp * face.y;
         float guideClock, guideLead, guideWeight, swingPace = 1;
         bool guiding, guideAuthored, guideFrozen;
         float bodyYaw;
@@ -427,8 +430,9 @@ namespace GolfArcade.Tennis
         /// Steer the racket so the strings meet `ball` in `inSeconds`. The swing keeps its own
         /// arc; the arm (and, for a reach, the body) carries it the difference, easing in to the
         /// contact and back out through the follow-through.
-        public void GuideContact(Vector3 ball, float inSeconds)
+        public void GuideContact(Vector3 ball, float inSeconds, Vector2 faceOffset = default)
         {
+            guideFace = faceOffset;
             guideBall = ball; guideLead = Mathf.Max(inSeconds, .04f); guideClock = guideLead;
             // Early enough to aim the whole swing from its authored contact; otherwise the
             // racket is eased straight to the ball.
@@ -453,7 +457,7 @@ namespace GolfArcade.Tennis
                 {
                     float k = 1 - guideClock / guideLead;
                     guideWeight = k * k * (3 - 2 * k);
-                    if (guideAuthored) guideOffset = guideBall - AuthoredContact;
+                    if (guideAuthored) guideOffset = GuideSweetTarget - AuthoredContact;
                 }
                 else
                 {
@@ -481,13 +485,13 @@ namespace GolfArcade.Tennis
         {
             if (guideWeight <= 0 || !armUpper || !armLower || !hand) return;
             Vector3 actual = SweetSpot.position - guideBody;       // where the swing alone has it
-            if (guiding && !guideAuthored && guideClock > 0) guideOffset = guideBall - actual;
+            if (guiding && !guideAuthored && guideClock > 0) guideOffset = GuideSweetTarget - actual;
             if (guiding && guideClock <= 0 && !guideFrozen)
             {
                 // Contact: from here the follow-through keeps its shape, shifted by the offset
                 // the strings needed at the ball.
                 guideFrozen = true;
-                guideOffset = guideBall - actual;
+                guideOffset = GuideSweetTarget - actual;
             }
             Vector3 delta = guideOffset * guideWeight - guideBody;
             if (delta.sqrMagnitude < 1e-6f) return;

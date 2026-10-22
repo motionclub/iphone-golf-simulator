@@ -1,0 +1,32 @@
+{
+  "Male": {
+    "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/face-finish30/ears/Male_OriginalFaceFinish30Ears.blend",
+    "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/face-finish30/composed-ears/Male_OriginalFaceFinish30ComposedEars.blend",
+    "blendSha256": "6c470fd77c04bc57d980f4cdaab6a8d608c8d213375db8221b9d64c5f3e5c3ee",
+    "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/face-finish30/composed-ears/Male_OriginalFaceFinish30ComposedEars.fbx",
+    "fbxSha256": "b6e2342a4c53ebc3f670dc94219589b95c37c9286467a572191ceaa77cd84c00",
+    "bodyVertices": 43900,
+    "bodyTriangles": 87566,
+    "operation": {
+      "sex": "Male",
+      "eyelids": "accepted Smooth1/eye13 unchanged; male operation pending"
+    },
+    "femaleEyeOperationSha256": null
+  },
+  "Female": {
+    "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/face-finish30/ears/Female_OriginalFaceFinish30Ears.blend",
+    "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/face-finish30/composed-ears/Female_OriginalFaceFinish30ComposedEars.blend",
+    "blendSha256": "b402279dc7f2840575121f2e9b225c5a9656043e6582c4e8d553bdd81209c537",
+    "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/face-finish30/composed-ears/Female_OriginalFaceFinish30ComposedEars.fbx",
+    "fbxSha256": "2f8cedf076ac7e19741aac7c8f240b8877c55bf04882fb0c6de54e6ad8389c4b",
+    "bodyVertices": 34366,
+    "bodyTriangles": 68476,
+    "operation": {
+      "sex": "Female",
+      "originalPrefix": 22891,
+      "activeEyelidSourceConflictMetres": 0.0,
+      "changedBasisVertices": 2152
+    },
+    "femaleEyeOperationSha256": "c5f92baf39fdf3d4ba73bd53eed68f7588286b2ca889cede496da3f1d9199c3b"
+  }
+}

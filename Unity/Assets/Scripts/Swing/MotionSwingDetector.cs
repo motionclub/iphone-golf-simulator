@@ -149,6 +149,11 @@ namespace GolfArcade.Swing
         public SwingPhase Phase { get; private set; } = SwingPhase.Settling;
         /// Latest backswing load (0–1) for HUD polling between events.
         public double Load { get; private set; }
+
+        /// While the phone comes down: how far it has turned from the top of its backswing back to address, along the swing's
+        /// own arc: 0 at the top, 1 at the ball (more once past it). A golfer on screen follows this to meet the ball with the phone.
+        public double DownswingProgress { get; private set; }
+        double topTurn;
         /// Whether the last sample had the phone hanging like a club: long axis near vertical
         /// with the top edge down (when gravity is known — the attitude fallback cannot tell ends).
         public bool PointedDown { get; private set; }
@@ -175,6 +180,7 @@ namespace GolfArcade.Swing
             Phase = SwingPhase.Settling;
             stillSince = null;
             peakAngle = peakSpeed = downswingStart = swingStart = backswingLoad = 0;
+            DownswingProgress = topTurn = 0;
             swingAxis = Vector3.Zero;
             previous = reference = hasReadyPose ? readyPose : Quaternion.Identity;
             Load = 0;
@@ -187,7 +193,7 @@ namespace GolfArcade.Swing
             var fresh = new MotionSwingDetector { FullSpeed = club.MotionFullSpeed() };
             if (club == Shot.GolfClub.Putter)
             {
-                fresh.BackswingStart = 0.055;      // 3°: a tremble at address is not a stroke
+                fresh.BackswingStart = 0.09;       // 5°: a tremble or the tap's own jolt at address is not a stroke (the nearest mark, 25 %, is 8.6°)
                 fresh.FullBackswing = 0.6;         // a long putt's stroke: the arms swung well back
                 fresh.AlongTheArc = true;
                 fresh.CommitPerRadian = 1.5;       // a pendulum peaks near 4× its arc a second; a push is well under
@@ -301,6 +307,7 @@ namespace GolfArcade.Swing
                         // (half a turn back the axis flips sign; keep the backswing's sense)
                         var axis = RotationAxis(reference, attitude);
                         if (Vector3.Dot(axis, swingAxis) >= 0) swingAxis = axis;
+                        topTurn = AlongTheArc ? angle : TurnAbout(reference, attitude, swingAxis);
                     }
                     // A big backswing carries the phone past pointing straight up, and from there
                     // it is nearer address again while still going back; only turning back down
@@ -313,6 +320,7 @@ namespace GolfArcade.Swing
                         downswingStart = time;
                         backswingLoad = LoadFor(peakAngle);
                         Load = backswingLoad;
+                        DownswingProgress = Progress(angle, attitude);
                         return SwingEvent.Loaded(Load);
                     }
                     if (angle < BackswingStart && speed < DownswingSpeed)
@@ -326,6 +334,7 @@ namespace GolfArcade.Swing
 
                 case SwingPhase.Downswing:
                     peakSpeed = Math.Max(peakSpeed, speed);
+                    DownswingProgress = Progress(angle, attitude);
                     bool decelerated = StrikeOnSlowing && speed < peakSpeed * 0.4;
                     if (UseReadyPose && !AlongTheArc) {
                         // A Ready tap fixes the ball plane. Require a small crossing of that
@@ -375,6 +384,13 @@ namespace GolfArcade.Swing
         }
 
         double LoadFor(double angle) => Math.Min(1, Math.Max(0, angle / FullBackswing));
+
+        /// DownswingProgress for the phone at `attitude`: the turn back from the top, as a share of the top's turn from address.
+        double Progress(double angle, Quaternion attitude)
+        {
+            double turn = AlongTheArc ? angle : TurnAbout(reference, attitude, swingAxis);
+            return topTurn > 1e-3 ? Math.Max(0, (topTurn - turn) / topTurn) : 1;
+        }
 
         static double Clamp(double v, double lo, double hi) => Math.Max(lo, Math.Min(hi, v));
 

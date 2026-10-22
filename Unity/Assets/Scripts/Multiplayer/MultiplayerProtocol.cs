@@ -5,8 +5,10 @@ namespace GolfArcade.Multiplayer {
     [Serializable] public sealed class NetworkParticipant { public string id,name,controllerID,view; public int seat=-1; public bool ready,loaded,connected=true,female,left,invited=true; public NetworkEmoteLoadout loadout; }
     [Serializable] public sealed class NetworkConfiguration {
         public string lobbyID,matchID,hostID,localID,sport,venue; public int sets=1,games=3,seed;
-        /// Golf's match settings: the round twists off, the weather and things moving about the holes off (missing: on).
-        public bool twistsOff,weatherOff;
+        /// Optional round twists; automatic conditions use the versioned seed and UTC anchor.
+        public bool twistsOff;
+        public int environmentVersion=GolfArcade.Course.DreamConditions.Version;
+        public double environmentUtc=DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         public NetworkParticipant[] participants;
         public bool Controls(string device, int seat) => participants != null && participants.Any(p=>p.seat==seat && p.connected && (p.id==device || (sport=="golf" && device==hostID && p.controllerID==device)));
         public int Seat(string id)=>participants?.FirstOrDefault(p=>p.id==id)?.seat ?? -1;
@@ -28,7 +30,7 @@ namespace GolfArcade.Multiplayer {
                 return split<=1 && (split==0 || participants.Where(p=>p.seat>=0 && p.view!=ViewSplit).All(p=>p.view==ViewNone));
             }
         }
-        public bool Valid => !string.IsNullOrEmpty(matchID) && !string.IsNullOrEmpty(lobbyID) && !string.IsNullOrEmpty(localID)
+        public bool Valid => double.IsFinite(environmentUtc) && environmentUtc>0 && environmentVersion==GolfArcade.Course.DreamConditions.Version && !string.IsNullOrEmpty(matchID) && !string.IsNullOrEmpty(lobbyID) && !string.IsNullOrEmpty(localID)
             && (sport=="tennis" || sport=="golf") && participants!=null && participants.Length>=2 && participants.Length<=4
             && participants.Any(p=>p.id==hostID) && participants.Any(p=>p.id==localID)
             && participants.Select(p=>p.id).Distinct().Count()==participants.Length
@@ -39,7 +41,7 @@ namespace GolfArcade.Multiplayer {
             && participants.Count(p=>p.seat>=0)>=2 && sets>=1 && sets<=3 && (games==1 || games==3 || games==6);
     }
     [Serializable] public sealed class NetworkPacket {
-        public const int Version=4;
+        public const int Version=5;
         public int version=Version; public string lobbyID,matchID,sender,kind,payload; public long sequence; public bool reliable=true; public double sentAt;
     }
     [Serializable] public sealed class NetworkInput {

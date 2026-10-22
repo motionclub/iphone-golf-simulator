@@ -1,0 +1,49 @@
+tennis_cream_default skin=EEBB8F
+tennis_cream_light skin=EEBB8F
+tennis_cream_dark skin=EEBB8F
+tennis Body_F Skin_OriginalSurfacePigment (hero) shader=GolfArcade/HeroFaceSkin female=-1 eye=-1 skin=2 wrap=0.25
+tennis OriginalSeamFeatures Reference_Face_Brow (hero) shader=GolfArcade/TennisCharacter female=0 eye=0 skin=0 wrap=0.3
+tennis OriginalSeamFeatures Reference_Face_Sclera (hero) shader=GolfArcade/TennisCharacter female=1 eye=1 skin=0 wrap=0.18
+tennis OriginalSeamFeatures Reference_Face_IrisIn (hero) shader=GolfArcade/TennisCharacter female=1 eye=2 skin=0 wrap=0.18
+tennis OriginalSeamFeatures Reference_Face_Iris (hero) shader=GolfArcade/TennisCharacter female=1 eye=2 skin=0 wrap=0.18
+tennis OriginalSeamFeatures Reference_Face_Limbal (hero) shader=GolfArcade/TennisCharacter female=1 eye=3 skin=0 wrap=0.18
+tennis OriginalSeamFeatures Reference_Face_Pupil (hero) shader=GolfArcade/TennisCharacter female=1 eye=3 skin=0 wrap=0.18
+tennis OriginalSeamFeatures Reference_Face_Catch (hero) shader=GolfArcade/TennisCharacter female=0 eye=0 skin=0 wrap=0.18
+tennis Racket_Classic White_Frame (hero) shader=GolfArcade/TennisCharacter female=0 eye=0 skin=0 wrap=0.18
+tennis ButtCap Black_Grip (hero) shader=GolfArcade/TennisCloth female=1 eye=-1 skin=-1 wrap=0.3
+tennis Grip Black_Grip (hero) shader=GolfArcade/TennisCloth female=1 eye=-1 skin=-1 wrap=0.3
+tennis StringBed White_Strings (hero) shader=GolfArcade/TennisCharacter female=0 eye=0 skin=0 wrap=0.2
+tennis Kit_Top Kit_Shirt (hero) shader=GolfArcade/TennisCloth female=1 eye=-1 skin=-1 wrap=0.3
+tennis Kit_Bottom Kit_Shorts (hero) shader=GolfArcade/TennisCloth female=1 eye=-1 skin=-1 wrap=0.3
+tennis Kit_Sock_L Kit_Sock (hero) shader=GolfArcade/TennisCloth female=1 eye=-1 skin=-1 wrap=0.3
+tennis Kit_Sock_R Kit_Sock (hero) shader=GolfArcade/TennisCloth female=1 eye=-1 skin=-1 wrap=0.3
+tennis Kit_Shoe_L Kit_Shoe (hero) shader=GolfArcade/TennisCloth female=1 eye=-1 skin=-1 wrap=0.3
+tennis Kit_Shoe_L Kit_Buckle (hero) shader=GolfArcade/TennisCharacter female=0 eye=0 skin=0 wrap=0.18
+tennis Kit_Shoe_R Kit_Shoe (hero) shader=GolfArcade/TennisCloth female=1 eye=-1 skin=-1 wrap=0.3
+tennis Kit_Shoe_R Kit_Buckle (hero) shader=GolfArcade/TennisCharacter female=0 eye=0 skin=0 wrap=0.18
+tennis Acc_Cap Acc_Cap (hero) shader=GolfArcade/TennisCloth female=1 eye=-1 skin=-1 wrap=0.3
+tennis Acc_Cap Acc_CapMetal (hero) shader=GolfArcade/TennisCharacter female=0 eye=0 skin=0 wrap=0.18
+globals film=1 profile=0 lighting=0 fill=0.12 skinExp=1
+golf_cream_default skin=EEBB8F
+golf_cream_light skin=EEBB8F
+golf_cream_dark skin=EEBB8F
+golf Body Skin_OriginalSurfacePigment (hero) shader=GolfArcade/HeroFaceSkin female=-1 eye=-1 skin=2 wrap=0.25
+golf OriginalSeamFeatures Reference_Face_Brow (hero) shader=GolfArcade/TennisCharacter female=0 eye=0 skin=0 wrap=0.3
+golf OriginalSeamFeatures Reference_Face_Sclera (hero) shader=GolfArcade/TennisCharacter female=1 eye=1 skin=0 wrap=0.18
+golf OriginalSeamFeatures Reference_Face_IrisIn (hero) shader=GolfArcade/TennisCharacter female=1 eye=2 skin=0 wrap=0.18
+golf OriginalSeamFeatures Reference_Face_Iris (hero) shader=GolfArcade/TennisCharacter female=1 eye=2 skin=0 wrap=0.18
+golf OriginalSeamFeatures Reference_Face_Limbal (hero) shader=GolfArcade/TennisCharacter female=1 eye=3 skin=0 wrap=0.18
+golf OriginalSeamFeatures Reference_Face_Pupil (hero) shader=GolfArcade/TennisCharacter female=1 eye=3 skin=0 wrap=0.18
+golf OriginalSeamFeatures Reference_Face_Catch (hero) shader=GolfArcade/TennisCharacter female=0 eye=0 skin=0 wrap=0.18
+golf Kit_Top Kit_Shirt (hero) shader=GolfArcade/TennisCloth female=1 eye=-1 skin=-1 wrap=0.3
+golf Kit_Bottom Kit_Shorts (hero) shader=GolfArcade/TennisCloth female=1 eye=-1 skin=-1 wrap=0.3
+golf Kit_Glove_L Kit_Glove (hero) shader=GolfArcade/TennisCloth female=1 eye=-1 skin=-1 wrap=0.3
+golf Kit_Glove_R Kit_Glove (hero) shader=GolfArcade/TennisCloth female=1 eye=-1 skin=-1 wrap=0.3
+golf Kit_Shoe_L Kit_Shoe (hero) shader=GolfArcade/TennisCloth female=1 eye=-1 skin=-1 wrap=0.3
+golf Kit_Shoe_L Kit_Buckle (hero) shader=GolfArcade/TennisCharacter female=0 eye=0 skin=0 wrap=0.18
+golf Kit_Shoe_R Kit_Shoe (hero) shader=GolfArcade/TennisCloth female=1 eye=-1 skin=-1 wrap=0.3
+golf Kit_Shoe_R Kit_Buckle (hero) shader=GolfArcade/TennisCharacter female=0 eye=0 skin=0 wrap=0.18
+golf Acc_Cap Acc_Cap (hero) shader=GolfArcade/TennisCloth female=2 eye=-1 skin=-1 wrap=0.3
+golf Acc_GloveL Acc_Glove (hero) shader=GolfArcade/TennisCloth female=1 eye=-1 skin=-1 wrap=0.3
+golf Acc_GloveR Acc_Glove (hero) shader=GolfArcade/TennisCloth female=1 eye=-1 skin=-1 wrap=0.3
+globals film=1 profile=1 lighting=0 fill=0.12 skinExp=1

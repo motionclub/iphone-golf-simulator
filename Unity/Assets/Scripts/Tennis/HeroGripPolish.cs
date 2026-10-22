@@ -14,6 +14,7 @@ namespace GolfArcade.Tennis
             // Re-canonicalizing digits on an already rolled hand breaks that grip.
             if (look && look.golfKit) return;
             ApplyGrip(look);
+            ApplyFreeHand(look,Time.deltaTime);
         }
         static Transform Bone(MatchHeroLook hero, bool left, string finger, string joint)
         {
@@ -92,6 +93,54 @@ namespace GolfArcade.Tennis
             if(digit=="Thumb")return Vector3.Lerp(Bone(hero,left,"Index","Proximal").position,Bone(hero,left,"Index","Intermediate").position,.65f)+hand.TransformVector(r.palmNormal).normalized*.008f;
             return hand.TransformPoint(r.palmTarget);
         }
+        /// Chat 4 (2026-10-17): the off hand when it is not on the racket. The clips carry one stiff finger pose for it (a claw with straight
+        /// knuckles and bent tips, or a flat splayed paddle; left curl frozen at 63-68 deg in every run frame). Real players keep that hand
+        /// soft (REFERENCES.md: t2hmOyh61_M, f7aHe4JHz3c, n1ilKdCCnpw - the off hand reaches out loose during the take-back and folds in on
+        /// the finish), so its fingers ease toward a relaxed athletic curl. Fists (curl > 140 deg, the point emotes) and the hand on the
+        /// racket are left alone; the serve's tossing hand is left to the toss.
+        static readonly float[] RelaxCurl={22,32,16}, RelaxThumb={10,14,8};
+        public const float RelaxWeight=.8f;
+        static readonly System.Collections.Generic.Dictionary<MatchHeroLook,float> freeWeight=new();
+        public static float FreeHandWeight(MatchHeroLook hero)=>hero&&freeWeight.TryGetValue(hero,out var w)?w:0;
+        public static void ApplyFreeHand(MatchHeroLook hero,float dt)
+        {
+            if(!hero||hero.golfKit||!hero.racketGrip||System.Environment.GetEnvironmentVariable("HERO_FREE_HAND")=="0")return;
+            var hand=hero.Bone(HumanBodyBones.LeftHand);if(!hand)return;
+            var rest=Rest(hero);
+            // off the racket: farther than a hand's length from the handle / throat line
+            var g=hero.racketGrip;var axis=g.up.normalized;var d=hand.position-g.position;float along=Mathf.Clamp(Vector3.Dot(d,axis),-.05f,.35f*Mathf.Abs(g.lossyScale.y));
+            float off=Mathf.InverseLerp(.10f,.17f,(d-axis*along).magnitude);
+            // a fist stays a fist
+            float curl=0;int n=0;
+            foreach(string digit in new[]{"Index","Middle","Ring","Little"}){
+                var p=Bone(hero,true,digit,"Proximal");var m=Bone(hero,true,digit,"Intermediate");var t=Bone(hero,true,digit,"Distal");if(!p||!m||!t)continue;
+                curl+=Vector3.Angle(p.position-hand.position,m.position-p.position)+Vector3.Angle(m.position-p.position,t.position-m.position);n++;
+            }
+            if(n>0&&curl/n>140)off=0;
+            float target=off*RelaxWeight;
+            if(!freeWeight.TryGetValue(hero,out var w))w=target;
+            w=Mathf.MoveTowards(w,target,(dt>0?dt:1f/60)/.15f);freeWeight[hero]=w;
+            if(w<=.001f)return;
+            foreach(string digit in new[]{"Index","Middle","Ring","Little","Thumb"})
+                for(int j=0;j<3;j++){
+                    if(!rest.TryGetValue("Left"+digit+WrapJoints[j],out var r))continue;
+                    float angle=(digit=="Thumb"?RelaxThumb:RelaxCurl)[j]+(digit=="Little"?6:digit=="Ring"?3:0);   // the outer fingers curl a little more, as in a loose hand
+                    var relaxed=r.local*Quaternion.AngleAxis(CurlSign(hero,true)*angle,r.hinge);
+                    r.bone.localRotation=Quaternion.Slerp(r.bone.localRotation,relaxed,w);
+                }
+            // a loose hand fans its fingers only slightly: pull each finger's spread toward a small fan round the middle finger
+            // (index -6, ring +5, little +10 deg in the palm plane), about the palm normal only, so the curl above is kept
+            if(!rest.TryGetValue("LeftMiddleProximal",out var mid)||!rest.TryGetValue("LeftMiddleIntermediate",out var midI))return;
+            var pn=hand.TransformDirection(mid.palmNormal).normalized;
+            var dm=Vector3.ProjectOnPlane(midI.bone.position-mid.bone.position,pn);
+            foreach(var (digit,fan) in new[]{("Index",-6f),("Ring",5f),("Little",10f)}){
+                if(!rest.TryGetValue("Left"+digit+"Proximal",out var p)||!rest.TryGetValue("Left"+digit+"Intermediate",out var pi))continue;
+                var df=Vector3.ProjectOnPlane(pi.bone.position-p.bone.position,pn);if(df.sqrMagnitude<1e-8f||dm.sqrMagnitude<1e-8f)continue;
+                float current=Vector3.SignedAngle(dm,df,pn);float side=Mathf.Sign(current==0?fan:current);
+                float want=Mathf.Abs(fan)*side;   // keep each finger on its own side of the middle finger
+                p.bone.rotation=Quaternion.AngleAxis((want-current)*w,pn)*p.bone.rotation;
+            }
+        }
         static void Turn(Transform bone,Vector3 direction,Vector3 palm,float degrees)
         {
             var axis=Vector3.Cross(direction.normalized,palm).normalized;
@@ -137,7 +186,7 @@ namespace GolfArcade.Tennis
         static readonly System.Collections.Generic.Dictionary<MatchHeroLook,GolfGripData> golfData=new();
         sealed class RestJoint { public Transform bone;public Quaternion local;public Vector3 hinge,tip,palmTarget,palmNormal;public Vector3[] skin;public int[] skinBin; }
         static readonly System.Collections.Generic.Dictionary<MatchHeroLook,System.Collections.Generic.Dictionary<string,RestJoint>> restData=new();
-        void OnDestroy(){if(look){golfData.Remove(look);restData.Remove(look);wrapMemory.Remove(look);handles.Remove(look);}}
+        void OnDestroy(){if(look){curlSign.Remove((look,true));curlSign.Remove((look,false));golfData.Remove(look);restData.Remove(look);wrapMemory.Remove(look);handles.Remove(look);}}
         static System.Collections.Generic.Dictionary<string,RestJoint> Rest(MatchHeroLook hero,float palmHeight=.68f)
         {
             if(restData.TryGetValue(hero,out var found))return found;
@@ -295,6 +344,41 @@ namespace GolfArcade.Tennis
             hand.SetPositionAndRotation(wrist,handRotation);
             data.grip.SetPositionAndRotation(clubPosition,clubRotation);
         }
+        // Carry the closed hand around the shaft, retaining every finger's
+        // cylinder radius and station. Fit the wrist and elbow together instead
+        // of leaving a sharply cocked wrist after the torso clearance solve.
+        static void FitFemaleGolfWrist(MatchHeroLook hero,GolfGripData data,bool left,Vector3 shaft,float scale)
+        {
+            var upper=hero.Bone(left?HumanBodyBones.LeftUpperArm:HumanBodyBones.RightUpperArm);
+            var lower=hero.Bone(left?HumanBodyBones.LeftLowerArm:HumanBodyBones.RightLowerArm);
+            var hand=hero.Bone(left?HumanBodyBones.LeftHand:HumanBodyBones.RightHand);
+            var middle=Bone(hero,left,"Middle","Proximal");if(!upper||!lower||!hand||!middle)return;
+            var shoulder=upper.position;var wrist=hand.position;var elbow=lower.position;var rotation=hand.rotation;
+            var origin=data.grip.position;var clubRotation=data.grip.rotation;var palm=(middle.position-wrist).normalized;
+            float a=Vector3.Distance(shoulder,elbow),b=Vector3.Distance(elbow,wrist);
+            float Cost(float degrees) {
+                var turn=Quaternion.AngleAxis(degrees,shaft);var target=origin+turn*(wrist-origin);var direction=target-shoulder;float d=direction.magnitude;
+                float violation=Mathf.Max(0,d-(a+b-.00002f))+Mathf.Max(0,Mathf.Abs(a-b)+.00002f-d);
+                d=Mathf.Clamp(d,Mathf.Abs(a-b)+.00002f,a+b-.00002f);direction.Normalize();
+                float along=(a*a-b*b+d*d)/(2*d),radius=Mathf.Sqrt(Mathf.Max(0,a*a-along*along));var p=turn*palm;
+                float cosine=((d-along)*Vector3.Dot(direction,p)+radius*Vector3.ProjectOnPlane(p,direction).magnitude)/b;
+                float excess=Mathf.Max(0,Mathf.Acos(Mathf.Clamp(cosine,-1,1))-35*Mathf.Deg2Rad);
+                return excess*excess+degrees*degrees*.000008f+violation*violation*100000/(scale*scale);
+            }
+            float best=0,cost=Cost(0);for(int angle=-90;angle<=90;angle+=5){float c=Cost(angle);if(c<cost){best=angle;cost=c;}}
+            float lo=Mathf.Max(-90,best-5),hi=Mathf.Min(90,best+5);
+            for(int i=0;i<16;i++){float x=Mathf.Lerp(lo,hi,1f/3),y=Mathf.Lerp(lo,hi,2f/3);if(Cost(x)<Cost(y))hi=y;else lo=x;}
+            var roll=Quaternion.AngleAxis((lo+hi)*.5f,shaft);var destination=origin+roll*(wrist-origin);var axis=(destination-shoulder).normalized;float distance=Vector3.Distance(destination,shoulder);
+            float run=(a*a-b*b+distance*distance)/(2*Mathf.Max(distance,.00001f));float height=Mathf.Sqrt(Mathf.Max(0,a*a-run*run));
+            var oldPole=Vector3.ProjectOnPlane(elbow-shoulder,axis).normalized;var desired=-Vector3.ProjectOnPlane(roll*palm,axis).normalized;
+            if(oldPole.sqrMagnitude<.1f)oldPole=Vector3.ProjectOnPlane(upper.forward,axis).normalized;
+            float flex=Vector3.Angle(destination-(shoulder+axis*run+oldPole*height),roll*palm);
+            var pole=desired.sqrMagnitude>.1f?Vector3.Slerp(oldPole,desired,Mathf.SmoothStep(0,1,Mathf.InverseLerp(35,65,flex))).normalized:oldPole;
+            var targetElbow=shoulder+axis*run+pole*height;
+            upper.rotation=Quaternion.FromToRotation(elbow-shoulder,targetElbow-shoulder)*upper.rotation;
+            lower.rotation=Quaternion.FromToRotation(hand.position-lower.position,destination-lower.position)*lower.rotation;
+            hand.SetPositionAndRotation(destination,roll*rotation);data.grip.SetPositionAndRotation(origin,clubRotation);
+        }
         public static void ApplyGolfGrip(MatchHeroLook hero)
         {
             if(!hero||!hero.golfKit)return;
@@ -343,10 +427,19 @@ namespace GolfArcade.Tennis
             var along=data.grip.TransformVector(localAxis).normalized;
             // Roll the rigid hand/subtree around the real shaft before elbow relaxation.
             // Every authored pad keeps its shaft station and cylinder radius.
-            ApplyGolfWristRoll(hero, data, false, along, scale);
-            ApplyGolfWristRoll(hero, data, true, along, scale);
-            RelaxGolfElbow(hero, data, false, scale);
-            RelaxGolfElbow(hero, data, true, scale);
+            // Both heroes use the continuous solvers. The female used to take FitFemaleGolfWrist, a per-frame angle search whose answer
+            // switches between frames: the forearms flipped up to 115 degrees in one frame through the backswing and downswing (2026-10-19).
+            // FEMALE_GOLF_WRIST_SEARCH=1 brings the old search back for comparison in the Editor.
+#if UNITY_EDITOR
+            if(hero.female && System.Environment.GetEnvironmentVariable("FEMALE_GOLF_WRIST_SEARCH")=="1") {FitFemaleGolfWrist(hero,data,false,along,scale);FitFemaleGolfWrist(hero,data,true,along,scale);}
+            else
+#endif
+            {
+                ApplyGolfWristRoll(hero, data, false, along, scale);
+                ApplyGolfWristRoll(hero, data, true, along, scale);
+                RelaxGolfElbow(hero, data, false, scale);
+                RelaxGolfElbow(hero, data, true, scale);
+            }
             data.solvedPose ??= new Matrix4x4[data.solvedBones.Length];
             for(int bone=0;bone<data.solvedBones.Length;bone++)if(data.solvedBones[bone])data.solvedPose[bone]=data.solvedBones[bone].localToWorldMatrix;
         }
@@ -414,6 +507,28 @@ namespace GolfArcade.Tennis
             return Mathf.DeltaAngle(0,angle);
         }
 
+        /// +1 when a positive turn about Rest's hinge curls the fingers of this hand, -1 when it opens them (chat 4, 2026-10-17).
+        /// Racket hand: measured on its rest pose, the turn that brings the index fingertip nearer the palm target (Rest's own palm skin
+        /// point) closes it. The old fixed -1 opened the male racket fingers to 61 deg in play; this test closes them (94 deg, wrapped on the
+        /// handle in the hand close-ups) and keeps the female's. Off hand: Rest's own convention (+1), which gave a relaxed curl on both
+        /// heroes in play (the tip test and a clip-pose test both flattened the male off hand, a handle test opened the male racket hand).
+        static readonly System.Collections.Generic.Dictionary<(MatchHeroLook,bool),float> curlSign=new();
+        public static float CurlSign(MatchHeroLook hero,bool left)
+        {
+            if(left)return 1;
+            if(curlSign.TryGetValue((hero,false),out var known))return known;
+            var rest=Rest(hero);float sign=-1;
+            if(rest.TryGetValue("RightIndexProximal",out var a)&&rest.TryGetValue("RightIndexIntermediate",out var b)&&rest.TryGetValue("RightIndexDistal",out var c)){
+                var hand=hero.Bone(HumanBodyBones.RightHand);
+                var saved=new[]{a.bone.localRotation,b.bone.localRotation,c.bone.localRotation};
+                a.bone.localRotation=a.local;b.bone.localRotation=b.local;c.bone.localRotation=c.local;
+                float D()=>Vector3.Distance(c.bone.TransformPoint(c.tip),hand.TransformPoint(a.palmTarget));
+                a.bone.localRotation=a.local*Quaternion.AngleAxis(25,a.hinge);float dp=D();a.bone.localRotation=a.local*Quaternion.AngleAxis(-25,a.hinge);float dn=D();
+                a.bone.localRotation=saved[0];b.bone.localRotation=saved[1];c.bone.localRotation=saved[2];
+                if(Mathf.Abs(dp-dn)>1e-4f)sign=dp<dn?1:-1;
+            }
+            curlSign[(hero,false)]=sign;return sign;
+        }
         static void WrapDigits(MatchHeroLook hero,bool left,Vector3 origin,Vector3 axis,float radius,float start,float end)
         {
             var rest=Rest(hero);string prefix=left?"Left":"Right";
@@ -421,7 +536,7 @@ namespace GolfArcade.Tennis
             bool solved=memory[0]>.5f;
             // Rest's hinges come from a mirrored palm normal: +angle curls a LEFT finger and opens a RIGHT one (see ApplyFist).
             // The solver works in flexion (positive = curl toward the palm) and turns it into hinge angles here.
-            float flex=left?1:-1;
+            float flex=CurlSign(hero,left);   // chat 4: measured per hero and hand (the male right hand curled the wrong way: fingers peeled off the handle)
             // In play the fingers move smoothly: every other frame reuses the previous answer (sampling tools always solve).
             if(solved&&Application.isPlaying&&((Time.frameCount+hero.GetInstanceID())&1)==1){
                 for(int f=0;f<WrapDigitNames.Length;f++)for(int j=0;j<3;j++)

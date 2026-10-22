@@ -1,0 +1,22 @@
+[
+  {
+    "name": "reference-grass-coverage24-pilot",
+    "method": "GolfArcade.EditorTools.GolfMovingTurfProof.Run",
+    "continue_on_failure": true,
+    "env": {
+      "VISUAL_GRASS_COVERAGE24": "1",
+      "VISUAL_MOVING_TURF": "all",
+      "GOLF_MOVING_TURF_CONFIG": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/grass-coverage24/proof-pilot-config.json"
+    }
+  },
+  {
+    "name": "reference-grass-coverage24-control",
+    "method": "GolfArcade.EditorTools.GolfMovingTurfProof.Run",
+    "continue_on_failure": true,
+    "env": {
+      "VISUAL_GRASS_COVERAGE24": "1",
+      "VISUAL_MOVING_TURF": "0",
+      "GOLF_MOVING_TURF_CONFIG": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/grass-coverage24/proof-control-config.json"
+    }
+  }
+]

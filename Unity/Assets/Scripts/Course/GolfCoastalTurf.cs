@@ -75,7 +75,7 @@ namespace GolfArcade.Course
         public static bool Supports(int number) => number is 7 or 8 or 9 or 10 or 12 or 13 or 14 or 15 or 16 or 17 or 18 or 19 or 20 or 21 or 22 or 23 || CoverageCandidate(number);
         public static bool EligibleCollider(string name,int number)=>name.StartsWith("TERRAIN")||name.StartsWith("TEE_BOX")||name.StartsWith("FAIRWAY")
             ||SupportsApron(number)&&name.StartsWith("GREEN_APRON");
-        static float CutHeightScale(Hole hole)=>hole.Number==18?.55f:hole.Number==17?.65f:
+        static float CutHeightScale(Hole hole)=>hole.Number==12&&GolfArcade.EnvironmentArt.LuminousCoastPilot.Enabled?.19f:hole.Number==18?.55f:hole.Number==17?.65f:
             hole.Number==16||hole.Theme=="magma"?.75f:1f;
         public static void Apply(GameObject model,Hole hole)
         {
@@ -338,6 +338,10 @@ namespace GolfArcade.Course
                         detail.SetFloat("_DetailContrast",6.5f);detail.SetColor("_BaseColor",Color.white);
                         var role=source.name.Contains(" Rough")?GolfCourseLook.Surface.Rough:source.name.Contains(" Fringe")?GolfCourseLook.Surface.Fringe:source.name.Contains(" Tee")?GolfCourseLook.Surface.Tee:GolfCourseLook.Surface.Fairway;
                         GolfTurfPalette.ApplyGround(detail,hole,role,true);
+                        if(hole.Number==12 && GolfArcade.EnvironmentArt.LuminousCoastPilot.Enabled) {
+                            detail.SetFloat("_TileYards",.55f*YardsPerMeter);
+                            detail.SetFloat("_DetailContrast",2.8f);detail.SetFloat("_BumpScale",.38f);
+                        }
                         // Keep the course-coordinate map for longitudinal fairway
                         // bands; the tee uses its own much quieter mowing treatment.
                         detail.SetFloat("_Wrap",.32f);

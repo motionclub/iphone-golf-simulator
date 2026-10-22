@@ -166,7 +166,7 @@ namespace GolfArcade.Tennis
         /// KitDerive exactly; no clothing ID or persistence schema changes.
         Color StarterShirt=>golfKit ? (female?new Color(.9373f,.5725f,.4980f,1):new Color(.1608f,.7176f,.7294f,1)) : (female?new Color(.7647f,.9020f,.3608f,1):new Color(.8824f,.2980f,.2471f,1));
         Color StarterLower=>golfKit ? StarterNavy : (female?new Color(.96f,.94f,.89f,1):new Color(.17f,.30f,.60f,1));
-        Color StarterTrim(string role)=>role==RoleShirt||role==RoleShirtTrim ? StarterShirt*.82f:role==RoleShorts||role==RoleShortsBand ? StarterLower*.82f:role==RoleShoe ? (golfKit?StarterNavy:new Color(.93f,.93f,.94f,1)):StarterCream;
+        Color StarterTrim(string role)=>role==RoleShirt||role==RoleShirtTrim ? StarterShirt*.82f:role==RoleShorts||role==RoleShortsBand ? StarterLower*.82f:role==RoleShoe ? (golfKit||!female?StarterNavy:new Color(.93f,.93f,.94f,1)) /* male pack 13 / 14: navy panels on both male shoes (example colour; picks still derive the trim) */:StarterCream;
         bool StarterColour(string role,out Color colour) {
             colour=default;
             // CLOTHING V2 accessories keep their own colours (picks do not reach them): leather belt, metal buckle, white glove leather.
@@ -519,6 +519,7 @@ namespace GolfArcade.Tennis
             if (face && !GetComponent<MatchHeroFacePerformance>()) gameObject.AddComponent<MatchHeroFacePerformance>().look = this;
             if (!golfKit && !GetComponent<HeroGarmentLOD>()) gameObject.AddComponent<HeroGarmentLOD>().look = this;
             KitV2PoseCorrectives.Attach(this);
+            FemaleHeroAlive.Attach(this);
         }
 
         /// This hero's own copies of the shared skin and frame materials, so a tint never reaches the prefab asset or another hero.
@@ -548,7 +549,8 @@ namespace GolfArcade.Tennis
             {
                 // the soft skin normal needs the bind-pose position in mesh channel 1 (the body has no UVs): a shared copy of the body mesh carries it
                 body.sharedMesh=HeroHandWeights.Prepare(body,female);
-                body.sharedMesh=HeroGarmentAxillaWeights.Prepare(body,female);
+                body.sharedMesh=HeroHandShape.Prepare(body,female);   // 10-19: fuller female fingers and pads (hand reference sheets)
+                body.sharedMesh=female ? HeroShoulderWeights.Prepare(body) : HeroGarmentAxillaWeights.Prepare(body,false);
                 if (!referenceAnatomy) {
                     body.sharedMesh=HeroHeadVolume.Prepare(this);
                     body.sharedMesh=HeroSkinNormals.Prepare(body,Bone(HumanBodyBones.Head));
@@ -582,8 +584,10 @@ namespace GolfArcade.Tennis
                 }
                 body.sharedMaterials = skinMaterials;
                 ApplySkinSaturation(skinTone);
-                if(!golfKit)HeroArmSkinning.Build(body);
+                if(!golfKit || female)HeroArmSkinning.Build(body);
                 BindKitV2();
+                HeroShoulderDeformation.Attach(this);
+                MaleFaceFinish.Attach(this);   // male face pass 2026-10-18: eye depth + painted form (no-op for the female)
                 ApplyKitV2Cover();
             }
             else skinMaterials = new Material[0];

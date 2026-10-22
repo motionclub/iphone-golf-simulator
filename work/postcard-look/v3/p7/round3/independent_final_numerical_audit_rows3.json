@@ -1,0 +1,175 @@
+{
+  "audit_scope": "Read-only independent audit; no extractor/native/report/Git execution. Overall goal remains FAIL. Physical judgments are parent-owned, verified only through bound review records.",
+  "audit_status": "PASS",
+  "errors": [],
+  "reporting_caveats": [
+    "Native smoke has158/161 emitted gate lines including the same intersection FAIL in active,TennisURP,HeroBaseStudioURP. Its own summary is94/95; retain both counting conventions, not161 independent tests.",
+    "Inherited mesh_checks.json key triangles counts polygons (installed_mesh_checks.py:68), e.g.H8=170692/H9=182285; use the exact original verifier geometry totals240380/248807/248314.",
+    "Framing rows12=6 required shots captured twice; unsupported per-frame mowing samples remain FAIL/unmeasured while every hole/material has actual supported samples. Do not count duplicate captures as extra independent viewpoints."
+  ],
+  "source": {
+    "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/runtime/runs/p7_installed_round2/final_report_rows_3.json",
+    "sha256": "dee3b82b0d9a7aa7707c525a95c408f75f5e1c31ce20491e6bd22ddf835aee5c"
+  },
+  "gate_count": 41,
+  "gate_counts": {
+    "PASS": 33,
+    "FAIL": 8
+  },
+  "unique_gate_names": 41,
+  "primary_evidence_refs_checked": 84,
+  "primary_hash_failures": 0,
+  "scope_failures": [],
+  "failed_gates": [
+    "PROTECTED_FILES",
+    "SPLIT_CLIFF_ISLANDS",
+    "GAMEPLAY_FRAMING",
+    "SMOKE_SOFT",
+    "GOLF_LOOK_SMOKE_BOTH_URP",
+    "TEE_DRAW_CALL_CAP_H08",
+    "TEE_DRAW_CALL_CAP_H09",
+    "TEE_DRAW_CALL_CAP_H10"
+  ],
+  "sidecars": {
+    "native_exit": "1",
+    "all_steps": [
+      {
+        "step": "final_installed_sidecars",
+        "exit": 0
+      },
+      {
+        "step": "publication",
+        "exit": 0
+      },
+      {
+        "step": "protected",
+        "exit": 1
+      }
+    ],
+    "helpers_changed": [],
+    "inputs101_equal": true,
+    "publication12plus3_hash_check": true,
+    "contact_sheets_checked": 5,
+    "meta_changed_count": 0
+  },
+  "current": {
+    "source_geometry": [
+      {
+        "hole": 8,
+        "geometry_triangles": 240380,
+        "verifier_total": 100,
+        "verifier_passed": 100,
+        "original_cap250000_status": "PASS"
+      },
+      {
+        "hole": 9,
+        "geometry_triangles": 248807,
+        "verifier_total": 96,
+        "verifier_passed": 96,
+        "original_cap250000_status": "PASS"
+      },
+      {
+        "hole": 10,
+        "geometry_triangles": 248314,
+        "verifier_total": 103,
+        "verifier_passed": 103,
+        "original_cap250000_status": "PASS"
+      }
+    ],
+    "tee_costs": [
+      {
+        "hole": 8,
+        "triangles": 422962,
+        "drawCalls": 406,
+        "setPass": 38,
+        "measurement_status": "PASS",
+        "draw_cap_status": "FAIL",
+        "sole_camera_three_stable_samples": true,
+        "scope": "Play mode, sole automatically rendered Game camera, 900x1600 target; frame-published ProfilerRecorder; includes shadow/render passes; Editor Metal only"
+      },
+      {
+        "hole": 9,
+        "triangles": 313882,
+        "drawCalls": 810,
+        "setPass": 32,
+        "measurement_status": "PASS",
+        "draw_cap_status": "FAIL",
+        "sole_camera_three_stable_samples": true,
+        "scope": "Play mode, sole automatically rendered Game camera, 900x1600 target; frame-published ProfilerRecorder; includes shadow/render passes; Editor Metal only"
+      },
+      {
+        "hole": 10,
+        "triangles": 157787,
+        "drawCalls": 525,
+        "setPass": 30,
+        "measurement_status": "PASS",
+        "draw_cap_status": "FAIL",
+        "sole_camera_three_stable_samples": true,
+        "scope": "Play mode, sole automatically rendered Game camera, 900x1600 target; frame-published ProfilerRecorder; includes shadow/render passes; Editor Metal only"
+      }
+    ],
+    "smoke_emitted_gate_counts": {
+      "PASS": 158,
+      "FAIL": 3
+    },
+    "smoke_reported_summary": [
+      "SUMMARY: 94/95 gates PASS"
+    ],
+    "synthetic_intersection_p99": 6.2,
+    "game_smoke_tee_edge_p99": 35.11,
+    "BASALT_JOINTS": "PASS",
+    "LAVA_ORANGE": "PASS",
+    "MOW_BAND_CONTRAST": "PASS",
+    "mow_unmeasured_frame_counts": {
+      "8:fairway": 2,
+      "8:green": 9,
+      "9:fairway": 2,
+      "9:green": 8,
+      "10:fairway": 0,
+      "10:green": 8
+    },
+    "framing_status": "FAIL",
+    "framing_rows": 12,
+    "framing_unique_shots": 6,
+    "physical_review": {
+      "round": 3,
+      "recognisable_NO": 3,
+      "unwanted_read_YES": 3,
+      "differences_FAIL": 30
+    },
+    "editmode": {
+      "passed": 37,
+      "total": 37
+    },
+    "ios": {
+      "export": "PASS",
+      "device_build_exit": 0,
+      "physical_device_run": false
+    },
+    "scoring": "12/12 exact0m",
+    "ruin_cuboids": "0/394 in blend and FBX",
+    "protected": "61/1359 FAIL"
+  },
+  "superseded_audit": {
+    "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round3/independent_final_numerical_audit.json",
+    "sha256": "da606a93caae30cd5d24a21cff5e60e5854718dd9d8b1340805a96581326518e",
+    "reason": "Authoritative extraction revision3 only corrects minimum labels; no new measurement."
+  },
+  "revision3_vs2_differences": [
+    {
+      "path": "/gates/9/compactMeasurement",
+      "old": "Frozen closed boundaries1 (requires2); control drift0px; ridge_shore_with_shared_north_south_joins: cliff196/5036 = 3.892% (cap80%); SURF364px; fairway_shore_with_shared_north_south_joins: cliff255/5380 = 4.740% (cap80%); SURF490px",
+      "new": "Frozen closed boundaries1 (requires2); control drift0px; ridge_shore_with_shared_north_south_joins: cliff196/5036 = 3.892% (minimum80%); SURF364px; fairway_shore_with_shared_north_south_joins: cliff255/5380 = 4.740% (minimum80%); SURF490px"
+    },
+    {
+      "path": "/gates/11/compactMeasurement",
+      "old": "H08 tee: water1.7298%, landmark209px PASS, cliffPASS; H08 approach: water1.5933%, landmark198px PASS, cliffPASS; H09 tee: water0.4840%, landmark0px FAIL, cliffPASS; H09 approach: water1.5164%, landmark24px FAIL, cliffPASS; H10 tee: water0.2362%, landmark197px PASS, cliffPASS; H10 approach: water12.4008%, landmark98px PASS, cliffPASS; water cap15%: all6FAIL; each landmark cap64px, single alternative",
+      "new": "H08 tee: water1.7298%, landmark209px PASS, cliffPASS; H08 approach: water1.5933%, landmark198px PASS, cliffPASS; H09 tee: water0.4840%, landmark0px FAIL, cliffPASS; H09 approach: water1.5164%, landmark24px FAIL, cliffPASS; H10 tee: water0.2362%, landmark197px PASS, cliffPASS; H10 approach: water12.4008%, landmark98px PASS, cliffPASS; water minimum15%: all6FAIL; each landmark minimum64px, single alternative"
+    },
+    {
+      "path": "/generatedUtc",
+      "old": "2026-10-06T00:41:27.790481+00:00",
+      "new": "2026-10-06T00:42:55.323276+00:00"
+    }
+  ]
+}

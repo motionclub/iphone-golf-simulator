@@ -1,0 +1,111 @@
+{
+ "verts": 30296,
+ "moved_total": 2502,
+ "moved_outside_zone": 0,
+ "moved_in_R": 1251,
+ "moved_in_L": 1251,
+ "moved_hand_shell": 1746,
+ "moved_forearm_nonshell": 756,
+ "max_disp_mm_all": 20.214096861574866,
+ "max_disp_mm_nonshell": 7.573022329894276,
+ "p95_disp_mm_nonshell": 2.788292989534702,
+ "bit_identical_head_neck(z>=1.40)": true,
+ "moved_in_head_neck(z>=1.40)": 0,
+ "bit_identical_torso+pelvis(|x|<0.215,z>=0.78)": true,
+ "moved_in_torso+pelvis(|x|<0.215,z>=0.78)": 0,
+ "bit_identical_legs_feet(z<0.78,|x|<0.40)": true,
+ "moved_in_legs_feet(z<0.78,|x|<0.40)": 0,
+ "bit_identical_whole_body_outside_arm_zone": true,
+ "moved_in_whole_body_outside_arm_zone": 0,
+ "upper_arm_and_deltoid_moved": 0,
+ "topology": "coordinate-only edit: vertex count and polygon list unchanged (verified again after the blend is written)",
+ "mirror_mean_p95_max_mm_start": [
+  0.5799287223248424,
+  1.9031987984595078,
+  5.689411687162826
+ ],
+ "mirror_mean_p95_max_mm_cand": [
+  0.5811826816193986,
+  1.8635866391070282,
+  5.744799314865273
+ ],
+ "quality_start": {
+  "R_upper_hf_rms_mm": 0.1017871837838132,
+  "R_upper_hf_p99_mm": 0.30140346608796165,
+  "R_fore_hf_rms_mm": 0.1420806310002798,
+  "R_fore_hf_p99_mm": 0.4225768223870639,
+  "R_wristhand_hf_rms_mm": 0.4573229026494779,
+  "R_wristhand_hf_p99_mm": 2.096068996217424,
+  "L_upper_hf_rms_mm": 0.12662430279879072,
+  "L_upper_hf_p99_mm": 0.4011155206038752,
+  "L_fore_hf_rms_mm": 0.18436310591843252,
+  "L_fore_hf_p99_mm": 0.45169529762279886,
+  "L_wristhand_hf_rms_mm": 0.4620973542582719,
+  "L_wristhand_hf_p99_mm": 2.0331052947598747,
+  "edges": 13106,
+  "dihedral_gt30": 724,
+  "dihedral_gt45": 279,
+  "dihedral_gt60": 96,
+  "dihedral_max": 163.2892189870686
+ },
+ "quality_cand": {
+  "R_upper_hf_rms_mm": 0.10178718437885358,
+  "R_upper_hf_p99_mm": 0.3014034725922451,
+  "R_fore_hf_rms_mm": 0.12879472295126845,
+  "R_fore_hf_p99_mm": 0.4222710348132443,
+  "R_wristhand_hf_rms_mm": 0.3273247182800117,
+  "R_wristhand_hf_p99_mm": 1.2125953504013622,
+  "L_upper_hf_rms_mm": 0.1266243038119393,
+  "L_upper_hf_p99_mm": 0.401115520599314,
+  "L_fore_hf_rms_mm": 0.1645697681870965,
+  "L_fore_hf_p99_mm": 0.43182909918779805,
+  "L_wristhand_hf_rms_mm": 0.3289584065342105,
+  "L_wristhand_hf_p99_mm": 1.2096357530274167,
+  "edges": 13106,
+  "dihedral_gt30": 720,
+  "dihedral_gt45": 232,
+  "dihedral_gt60": 52,
+  "dihedral_max": 103.76261065248823
+ },
+ "hand_roi_xor_start": 2461,
+ "hand_roi_xor_cand": 2218,
+ "hand_roi_xor_per_roi": {
+  "bald_front_L": [
+   285,
+   332
+  ],
+  "bald_front_R": [
+   487,
+   438
+  ],
+  "bald_back_L": [
+   460,
+   367
+  ],
+  "bald_back_R": [
+   430,
+   325
+  ],
+  "sheet_front_L": [
+   159,
+   170
+  ],
+  "sheet_front_R": [
+   174,
+   161
+  ],
+  "sheet_back_L": [
+   346,
+   335
+  ],
+  "sheet_back_R": [
+   120,
+   90
+  ]
+ },
+ "zone_polys": 6530,
+ "flipped_polys(dot<0 vs start)": 4,
+ "polys_normal_turn_gt60deg": 10,
+ "zone_min_poly_area_mm2": 4.8155105541225955,
+ "zone_degenerate_polys(<0.05mm2)": 0
+}

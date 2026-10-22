@@ -1,0 +1,128 @@
+{
+  "samples": 624,
+  "anchors": 96,
+  "worst": [
+    {
+      "sample": "twist-motion-data:male_Forehand_9",
+      "maximumMm": 104.78544588257456,
+      "p95Mm": 85.58818154374576,
+      "over2mm": 8751
+    },
+    {
+      "sample": "twist-motion-data:male_SliceApproach_3",
+      "maximumMm": 95.9300207759222,
+      "p95Mm": 55.59637767886912,
+      "over2mm": 12558
+    },
+    {
+      "sample": "twist-motion-data:male_ForehandWide_12",
+      "maximumMm": 85.45673193976153,
+      "p95Mm": 49.52301106134231,
+      "over2mm": 6860
+    },
+    {
+      "sample": "twist-motion-data:male_SliceApproach_7",
+      "maximumMm": 79.13152782556259,
+      "p95Mm": 40.322318642878486,
+      "over2mm": 13728
+    },
+    {
+      "sample": "twist-motion-data:male_Forehand_4",
+      "maximumMm": 75.17563970796935,
+      "p95Mm": 25.984574012973262,
+      "over2mm": 12838
+    },
+    {
+      "sample": "collision-poses:male_Backhand_3",
+      "maximumMm": 72.6208737540554,
+      "p95Mm": 59.42174762598367,
+      "over2mm": 12666
+    },
+    {
+      "sample": "twist-motion-data:male_Smash_4",
+      "maximumMm": 62.953160462748734,
+      "p95Mm": 32.443021115521674,
+      "over2mm": 12958
+    },
+    {
+      "sample": "twist-motion-data:male_BackhandWide_9",
+      "maximumMm": 61.450166870523724,
+      "p95Mm": 29.299128430580154,
+      "over2mm": 13207
+    },
+    {
+      "sample": "twist-motion-data:male_ForehandOpen_10",
+      "maximumMm": 60.70219985554827,
+      "p95Mm": 15.926312055834893,
+      "over2mm": 9273
+    },
+    {
+      "sample": "twist-motion-data:male_ForehandOpen_11",
+      "maximumMm": 60.0293863251194,
+      "p95Mm": 14.545901564471393,
+      "over2mm": 8736
+    },
+    {
+      "sample": "twist-motion-data:male_Backhand_6",
+      "maximumMm": 58.65010689685298,
+      "p95Mm": 48.588655393157275,
+      "over2mm": 13216
+    },
+    {
+      "sample": "twist-motion-data:male_VolleyBackhand_16",
+      "maximumMm": 57.363531755460144,
+      "p95Mm": 46.8587990394449,
+      "over2mm": 13948
+    },
+    {
+      "sample": "twist-motion-data:male_EmoteScuba_1",
+      "maximumMm": 56.27805946766234,
+      "p95Mm": 42.29260223825233,
+      "over2mm": 13334
+    },
+    {
+      "sample": "twist-motion-data:male_BackhandWide_5",
+      "maximumMm": 55.707208317225046,
+      "p95Mm": 31.86660666242993,
+      "over2mm": 11117
+    },
+    {
+      "sample": "twist-motion-data:male_Volley_8",
+      "maximumMm": 51.089541757508336,
+      "p95Mm": 40.55288971105291,
+      "over2mm": 12560
+    },
+    {
+      "sample": "twist-motion-data:male_ForehandOpen_3",
+      "maximumMm": 50.88015443388254,
+      "p95Mm": 25.74767653625885,
+      "over2mm": 13418
+    },
+    {
+      "sample": "twist-motion-data:male_BackhandWide_16",
+      "maximumMm": 50.61447478454273,
+      "p95Mm": 38.964033898979444,
+      "over2mm": 13501
+    },
+    {
+      "sample": "twist-motion-data:male_MatchWin_11",
+      "maximumMm": 50.277972666790106,
+      "p95Mm": 25.12526945144485,
+      "over2mm": 12026
+    },
+    {
+      "sample": "twist-motion-data:male_SliceApproach_11",
+      "maximumMm": 49.24293579887523,
+      "p95Mm": 24.60876221876073,
+      "over2mm": 13344
+    },
+    {
+      "sample": "twist-motion-data:male_Backhand_5",
+      "maximumMm": 49.02833010391451,
+      "p95Mm": 28.45032503610491,
+      "over2mm": 13101
+    }
+  ],
+  "framesOver2mm": 520,
+  "maxMm": 104.78544588257456
+}

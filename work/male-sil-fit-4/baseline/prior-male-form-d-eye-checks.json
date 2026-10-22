@@ -1,0 +1,35 @@
+{
+  "review": "Manual review of current saved Blender all-around renders and actual saved Unity captures after local jaw/neck depth fairing. Body defect flags apply only to their defined geometry requirements; full head likeness remains FAIL.",
+  "source_sha256": "d977d900d02058c4893d5169e690675a6379ae1e328ca26dbe2dc7648301ca6a",
+  "unity_capture_sha256": {
+    "front": "b66a75997d7275e3538cc89a43271d263ab65552768fc8ee7fe22c0139874e9f",
+    "back": "7ad2001de7e2b10b8ce556192c1ebd438bf0c1898420304597b8a3cebc3252dc",
+    "left": "404a27a8303a984cc546e4d04c8b92721d2346a30014e3e8c961c063ea0e5140",
+    "right": "f50d1adced5e4dcbec79bda3a7cd14a93a0387217a6ac6a42179d4657568f9bd",
+    "threequarter": "52b76fc0d58824f7058d9345d280274e133df2dd2f9b67f2173e68bf459e3d41",
+    "head_side": "e969eb473376185efc868bd8c2d353062b7bf01a419a762507b109e902700309",
+    "foot_side": "15c527758a20dcb5de21d48e3ade334e5ee05eefbf7428b3cdf5d8e0ec4cd205"
+  },
+  "checks": {
+    "ARMS_SIDE": {
+      "flag": "PASS",
+      "note": "Left/right profiles show closed rounded deltoid, upper-arm and forearm depth; wrist narrows continuously. No thin arm cards."
+    },
+    "CHIN": {
+      "flag": "FAIL",
+      "note": "Old beard/stubble cap absent. Local jaw/under-chin/neck depth sculpt reduces surface ripples and retains the improved central reference profile. Lower-jaw curvature and neck transition remain visibly different in actual all-around Blender and saved Unity proof; no chin likeness PASS."
+    },
+    "FEET_SIDE": {
+      "flag": "PASS",
+      "note": "Both profiles show a rounded toe box, sloped instep, ankle and heel; a broad low sole can plant on the ground. No old twisted slab."
+    },
+    "SHOULDERS": {
+      "flag": "PASS",
+      "note": "Full rounded deltoid at both arm joins. Folded front/rear deltoid/torso triangles were locally unfolded; the previous horizontal cavity/crease is absent in front, back and three-quarter proof."
+    },
+    "WAIST": {
+      "flag": "PASS",
+      "note": "Waist tapers below the chest and widens toward the hips without the former waist shelf/love-handle ridge. Front/back and three-quarter views reviewed."
+    }
+  }
+}

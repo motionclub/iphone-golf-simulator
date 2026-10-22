@@ -1,0 +1,349 @@
+{
+  "gate": "CPU EXACT COUNT/SOURCE/PALETTE/PATCH CHECKS PASS; ROOT ACCEPTED UNITY SMOOTH1+LIP3; NATIVE ART/BUNDLE PENDING",
+  "unityPaletteShaderSha256": "b9bf9c194534a020b5c4f0382aa5b5edacadb1faa46b4d84d6bd0c6339511491",
+  "nativeBaselineSha256": "7520e27c85c3c493540ed2d2613fafb7bbc2c0b5497c15fe68ac6e32cfbaa9cb",
+  "nativeCandidateSha256": "960d9a98335d25e7cde2de27003d8f16a4e20e75aa1be022fc94399359b27e88",
+  "skinPigmentUV2Only": true,
+  "mode0and1CoefficientsUnchanged": true,
+  "sourceExportsOrGPUPerformed": false,
+  "mode2Palette": {
+    "male": [
+      0.95,
+      0.68,
+      0.69
+    ],
+    "female": [
+      0.94,
+      0.61,
+      0.64
+    ],
+    "line": [
+      0.62,
+      0.44,
+      0.42
+    ],
+    "lineGain": 1.65,
+    "lipGateMultiplier": 4
+  },
+  "nativeFillDefault": "Root removes optional fill experiment; native preview consumers retain established lights; Unity owns gameplay on-map presentation",
+  "unityArtAcceptedByRoot": true,
+  "cpuPaletteCases": 420,
+  "productionWritesByAgent": false,
+  "sourceCountProof": {
+    "gate": "PASS EXACT 11 ATTRIBUTE-SPLIT COLLAPSE, NO SOURCE FACE OR WEIGHT LOSS",
+    "oldVertexCount": 33705,
+    "newVertexCount": 33694,
+    "unchangedIndexCount": 178914,
+    "unchangedTriangleCount": 59638,
+    "allTriangleCornersMapConsistently": true,
+    "mappedOldVertices": 30239,
+    "mappedNewVertices": 30228,
+    "mergedOldDuplicates": 11,
+    "distinctMergedGroups": 11,
+    "fixedXZMaxDeltaMetres": 0.0,
+    "weightsBonesMorphDeltasExactAfterMapping": true,
+    "morphDeltaMaxErrorMetres": {
+      "Hero_Blink_Half": 0.0,
+      "Hero_Blink": 0.0
+    },
+    "intentionalDepthMaxDeltaMm": 3.2457709312438965,
+    "mergeDetails": [
+      {
+        "newVertex": 30050,
+        "oldSplitVertices": [
+          30050,
+          33523
+        ],
+        "sourceRestPosition": [
+          0.0038178442046046257,
+          -0.1502915769815445,
+          -1.5064082145690918
+        ],
+        "oldNormalMaxDifference": 0.0,
+        "oldUvMaxDifference": 0.0,
+        "newNormal": [
+          0.1398850530385971,
+          -0.9901654124259949,
+          0.0021720491349697113
+        ],
+        "newUv": [
+          0.6968749761581421,
+          0.35051649808883667
+        ],
+        "oldPositionWeightsBonesMorphDeltasExactWithinMerge": true
+      },
+      {
+        "newVertex": 27946,
+        "oldSplitVertices": [
+          27946,
+          33511
+        ],
+        "sourceRestPosition": [
+          0.002508915960788727,
+          -0.15040113031864166,
+          -1.5062810182571411
+        ],
+        "oldNormalMaxDifference": 0.0,
+        "oldUvMaxDifference": 0.0,
+        "newNormal": [
+          0.0885225385427475,
+          -0.9960715770721436,
+          -0.0022970475256443024
+        ],
+        "newUv": [
+          0.6968749761581421,
+          0.3471003472805023
+        ],
+        "oldPositionWeightsBonesMorphDeltasExactWithinMerge": true
+      },
+      {
+        "newVertex": 30039,
+        "oldSplitVertices": [
+          30039,
+          33522
+        ],
+        "sourceRestPosition": [
+          -0.0014117215760052204,
+          -0.15044662356376648,
+          -1.5061887502670288
+        ],
+        "oldNormalMaxDifference": 0.0,
+        "oldUvMaxDifference": 0.0,
+        "newNormal": [
+          -0.05163554102182388,
+          -0.9986053109169006,
+          -0.011009962297976017
+        ],
+        "newUv": [
+          0.6968749761581421,
+          0.3431417942047119
+        ],
+        "oldPositionWeightsBonesMorphDeltasExactWithinMerge": true
+      },
+      {
+        "newVertex": 27968,
+        "oldSplitVertices": [
+          27968,
+          33514
+        ],
+        "sourceRestPosition": [
+          -0.0026740359608083963,
+          -0.15038391947746277,
+          -1.5062930583953857
+        ],
+        "oldNormalMaxDifference": 0.0,
+        "oldUvMaxDifference": 0.0,
+        "newNormal": [
+          -0.10015099495649338,
+          -0.9949371218681335,
+          -0.00835352297872305
+        ],
+        "newUv": [
+          0.6968749761581421,
+          0.34748485684394836
+        ],
+        "oldPositionWeightsBonesMorphDeltasExactWithinMerge": true
+      },
+      {
+        "newVertex": 30030,
+        "oldSplitVertices": [
+          30030,
+          33521
+        ],
+        "sourceRestPosition": [
+          -0.006607518065720797,
+          -0.14975817501544952,
+          -1.5065518617630005
+        ],
+        "oldNormalMaxDifference": 0.0,
+        "oldUvMaxDifference": 0.0,
+        "newNormal": [
+          -0.2586968243122101,
+          -0.965957522392273,
+          -0.0014081001281738281
+        ],
+        "newUv": [
+          0.6968749761581421,
+          0.35114845633506775
+        ],
+        "oldPositionWeightsBonesMorphDeltasExactWithinMerge": true
+      },
+      {
+        "newVertex": 29693,
+        "oldSplitVertices": [
+          29693,
+          33513
+        ],
+        "sourceRestPosition": [
+          -0.003983103670179844,
+          -0.15026509761810303,
+          -1.5064219236373901
+        ],
+        "oldNormalMaxDifference": 0.0,
+        "oldUvMaxDifference": 0.0,
+        "newNormal": [
+          -0.15200476348400116,
+          -0.9883680939674377,
+          0.004796326160430908
+        ],
+        "newUv": [
+          0.6968749761581421,
+          0.35073980689048767
+        ],
+        "oldPositionWeightsBonesMorphDeltasExactWithinMerge": true
+      },
+      {
+        "newVertex": 28466,
+        "oldSplitVertices": [
+          28466,
+          33512
+        ],
+        "sourceRestPosition": [
+          -0.005246875341981649,
+          -0.15008476376533508,
+          -1.5065244436264038
+        ],
+        "oldNormalMaxDifference": 0.0,
+        "oldUvMaxDifference": 0.0,
+        "newNormal": [
+          -0.20385344326496124,
+          -0.9789866805076599,
+          0.005371943116188049
+        ],
+        "newUv": [
+          0.6968749761581421,
+          0.35183924436569214
+        ],
+        "oldPositionWeightsBonesMorphDeltasExactWithinMerge": true
+      },
+      {
+        "newVertex": 29670,
+        "oldSplitVertices": [
+          29670,
+          33510
+        ],
+        "sourceRestPosition": [
+          0.0012434873497113585,
+          -0.15045464038848877,
+          -1.5061795711517334
+        ],
+        "oldNormalMaxDifference": 0.0,
+        "oldUvMaxDifference": 0.0,
+        "newNormal": [
+          0.03983811289072037,
+          -0.9991291165351868,
+          -0.012410495430231094
+        ],
+        "newUv": [
+          0.6968749761581421,
+          0.3426945209503174
+        ],
+        "oldPositionWeightsBonesMorphDeltasExactWithinMerge": true
+      },
+      {
+        "newVertex": 28502,
+        "oldSplitVertices": [
+          28502,
+          33509
+        ],
+        "sourceRestPosition": [
+          -8.540703856851906e-05,
+          -0.15047027170658112,
+          -1.5061115026474
+        ],
+        "oldNormalMaxDifference": 0.0,
+        "oldUvMaxDifference": 0.0,
+        "newNormal": [
+          -0.006014696788042784,
+          -0.9998732209205627,
+          -0.014743569307029247
+        ],
+        "newUv": [
+          0.6968749761581421,
+          0.3385455310344696
+        ],
+        "oldPositionWeightsBonesMorphDeltasExactWithinMerge": true
+      },
+      {
+        "newVertex": 29636,
+        "oldSplitVertices": [
+          29636,
+          33507
+        ],
+        "sourceRestPosition": [
+          0.00644273916259408,
+          -0.14980177581310272,
+          -1.5065443515777588
+        ],
+        "oldNormalMaxDifference": 0.0,
+        "oldUvMaxDifference": 0.0,
+        "newNormal": [
+          0.2484922558069229,
+          -0.9686108827590942,
+          -0.006675988435745239
+        ],
+        "newUv": [
+          0.6968749761581421,
+          0.3511749804019928
+        ],
+        "oldPositionWeightsBonesMorphDeltasExactWithinMerge": true
+      },
+      {
+        "newVertex": 28553,
+        "oldSplitVertices": [
+          28553,
+          33506
+        ],
+        "sourceRestPosition": [
+          0.005080804694443941,
+          -0.15011906623840332,
+          -1.5065107345581055
+        ],
+        "oldNormalMaxDifference": 0.0,
+        "oldUvMaxDifference": 0.0,
+        "newNormal": [
+          0.19277173280715942,
+          -0.9811975359916687,
+          0.009510785341262817
+        ],
+        "newUv": [
+          0.6968749761581421,
+          0.3517378568649292
+        ],
+        "oldPositionWeightsBonesMorphDeltasExactWithinMerge": true
+      }
+    ],
+    "rawDecodedBytesBeforeAfter": [
+      [
+        5851672,
+        21151848
+      ],
+      [
+        5851188,
+        19833332
+      ]
+    ],
+    "explanation": "Same indexed triangle-corner order defines exact old-to-new source mapping. Each removed old vertex duplicates position, bone indices, weights and half/full morph deltas of retained vertex; old exported UV0 and rest normals also match within all eleven pairs. Smooth1 reduces duplicate imported mouth-seam records without removing triangles or physical source topology. The importer-only attribute responsible for splitting is not exported and is not inferred here.",
+    "filesChecked": {
+      "oldBase": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-native-adoption1/export/MatchHero_Male.lzfse",
+      "newBase": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-native-adoption29/export/MatchHero_Male.lzfse"
+    }
+  },
+  "strictCounts": {
+    "Male": {
+      "Body": 33694,
+      "Face": 3824
+    },
+    "Female": {
+      "Body": 23230,
+      "Face": 3004
+    }
+  },
+  "countPatch": "xctest-source-count.patch",
+  "countPatchCleanApplyAndSwiftParse": "PASS",
+  "pending": [
+    "root all6 fresh119 package audit/native ART",
+    "fresh6 packed fixtures and built-bundle bytes",
+    "actual XCTest only within authorized scope"
+  ]
+}

@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="1" result="Failed(Child)" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-06 20:13:47Z" end-time="2026-10-06 20:13:51Z" duration="4.4554242">
+  <test-suite type="TestSuite" id="1204" name="Golf Arcade" fullname="Golf Arcade" runstate="Runnable" testcasecount="147" result="Failed" site="Child" start-time="2026-10-06 20:13:47Z" end-time="2026-10-06 20:13:51Z" duration="4.455424" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="1198" name="GolfArcade.PlayTests.dll" fullname="/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/gameplay-regression/Unity/Library/ScriptAssemblies/GolfArcade.PlayTests.dll" runstate="Runnable" testcasecount="147" result="Failed" site="Child" start-time="2026-10-06 20:13:47Z" end-time="2026-10-06 20:13:51Z" duration="4.450467" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="89215" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestSuite" id="1199" name="GolfArcade" fullname="GolfArcade" runstate="Runnable" testcasecount="147" result="Failed" site="Child" start-time="2026-10-06 20:13:47Z" end-time="2026-10-06 20:13:51Z" duration="4.449291" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-suite type="TestSuite" id="1201" name="PlayTests" fullname="GolfArcade.PlayTests" runstate="Runnable" testcasecount="139" result="Failed" site="Child" start-time="2026-10-06 20:13:47Z" end-time="2026-10-06 20:13:51Z" duration="4.448363" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <failure>
+            <message><![CDATA[One or more child tests had errors]]></message>
+          </failure>
+          <test-suite type="TestFixture" id="1021" name="ControllerTimingRegressionTests" fullname="GolfArcade.PlayTests.ControllerTimingRegressionTests" classname="GolfArcade.PlayTests.ControllerTimingRegressionTests" runstate="Runnable" testcasecount="1" result="Failed" site="Child" start-time="2026-10-06 20:13:47Z" end-time="2026-10-06 20:13:51Z" duration="4.445738" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <failure>
+              <message><![CDATA[One or more child tests had errors]]></message>
+            </failure>
+            <test-case id="1022" name="OnTimePhoneServeMakesRealContactAcrossScreenDelaysAndCharacters" fullname="GolfArcade.PlayTests.ControllerTimingRegressionTests.OnTimePhoneServeMakesRealContactAcrossScreenDelaysAndCharacters" methodname="OnTimePhoneServeMakesRealContactAcrossScreenDelaysAndCharacters" classname="GolfArcade.PlayTests.ControllerTimingRegressionTests" runstate="Runnable" seed="751746089" result="Failed" start-time="2026-10-06 20:13:47Z" end-time="2026-10-06 20:13:51Z" duration="4.437678" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <failure>
+                <message><![CDATA[  female=False delay=0.00 toss=1.00 shots=0 misses=1 gap=0.550 FAULT — second serve
+female=False delay=0.00 toss=0.85 shots=0 misses=1 gap=0.550 FAULT — second serve
+female=True delay=0.00 toss=1.00 shots=0 misses=1 gap=0.627 FAULT — second serve
+female=True delay=0.00 toss=0.85 shots=0 misses=1 gap=0.627 FAULT — second serve
+  Expected: <empty>
+  But was:  < "female=False delay=0.00 toss=1.00 shots=0 misses=1 gap=0.550 FAULT — second serve", "female=False delay=0.00 toss=0.85 shots=0 misses=1 gap=0.550 FAULT — second serve", "female=True delay=0.00 toss=1.00 shots=0 misses=1 gap=0.627 FAULT — second serve", "female=True delay=0.00 toss=0.85 shots=0 misses=1 gap=0.627 FAULT — second serve" >
+]]></message>
+                <stack-trace><![CDATA[at GolfArcade.PlayTests.ControllerTimingRegressionTests+<OnTimePhoneServeMakesRealContactAcrossScreenDelaysAndCharacters>d__4.MoveNext () [0x002f3] in /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/gameplay-regression/Unity/Assets/Tests/PlayMode/ControllerTimingRegressionTests.cs:58
+at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in ./Library/PackageCache/com.unity.test-framework@bd7f943e9647/UnityEngine.TestRunner/NUnitExtensions/Attributes/TestEnumerator.cs:44
+]]></stack-trace>
+              </failure>
+              <output><![CDATA[[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Tennis] missing animation clip 'Ready'; falling back to Ready
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Tennis] missing animation clip 'Ready'; falling back to Ready
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 1; arms will not be visible
+[Arms] no skin material found for Resort walker 1; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 2; arms will not be visible
+[Arms] no skin material found for Resort walker 2; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 3; arms will not be visible
+[Arms] no skin material found for Resort walker 3; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 4; arms will not be visible
+[Arms] no skin material found for Resort walker 4; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 5; arms will not be visible
+[Arms] no skin material found for Resort walker 5; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 6; arms will not be visible
+[Arms] no skin material found for Resort walker 6; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 7; arms will not be visible
+[Arms] no skin material found for Resort walker 7; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 8; arms will not be visible
+[Arms] no skin material found for Resort walker 8; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 9; arms will not be visible
+[Arms] no skin material found for Resort walker 9; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 10; arms will not be visible
+[Arms] no skin material found for Resort walker 10; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 11; arms will not be visible
+[Arms] no skin material found for Resort walker 11; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 12; arms will not be visible
+[Arms] no skin material found for Resort walker 12; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 13; arms will not be visible
+[Arms] no skin material found for Resort walker 13; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 14; arms will not be visible
+[Arms] no skin material found for Resort walker 14; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 15; arms will not be visible
+[Arms] no skin material found for Resort walker 15; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 16; arms will not be visible
+[Arms] no skin material found for Resort walker 16; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Tennis] missing animation clip 'Ready'; falling back to Ready
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Tennis] missing animation clip 'Serve'; falling back to Ready
+[Tennis] missing animation clip 'BrakeRight'; falling back to Ready
+[ControllerTimingRegression] female=False delay=0.00 toss=1.00 shots=0 misses=1 gap=0.550 FAULT — second serve
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Tennis] missing animation clip 'Ready'; falling back to Ready
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Tennis] missing animation clip 'DirectionChange'; falling back to Ready
+[Tennis] missing animation clip 'Serve'; falling back to Ready
+[ControllerTimingRegression] female=False delay=0.00 toss=0.85 shots=0 misses=1 gap=0.550 FAULT — second serve
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Tennis] missing animation clip 'Ready'; falling back to Ready
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Tennis] missing animation clip 'Serve'; falling back to Ready
+[Tennis] missing animation clip 'SplitStep'; falling back to Ready
+[ControllerTimingRegression] female=False delay=0.18 toss=1.00 shots=1 misses=0 gap=0.050 SERVE IN · 134 km/h
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Tennis] missing animation clip 'Ready'; falling back to Ready
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Tennis] missing animation clip 'Serve'; falling back to Ready
+[ControllerTimingRegression] female=False delay=0.18 toss=0.85 shots=1 misses=0 gap=0.050 SERVE IN · 134 km/h
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Tennis] missing animation clip 'Ready'; falling back to Ready
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Tennis] missing animation clip 'Serve'; falling back to Ready
+[ControllerTimingRegression] female=False delay=0.40 toss=1.00 shots=1 misses=0 gap=0.051 SERVE IN · 116 km/h
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Tennis] missing animation clip 'Ready'; falling back to Ready
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Tennis] missing animation clip 'Serve'; falling back to Ready
+[ControllerTimingRegression] female=False delay=0.40 toss=0.85 shots=1 misses=0 gap=0.051 SERVE IN · 116 km/h
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Tennis] missing animation clip 'Ready'; falling back to Ready
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Tennis] missing animation clip 'Serve'; falling back to Ready
+[ControllerTimingRegression] female=False delay=0.70 toss=1.00 shots=1 misses=0 gap=0.135 SERVE IN · 99 km/h
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Tennis] missing animation clip 'Ready'; falling back to Ready
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Tennis] missing animation clip 'Serve'; falling back to Ready
+[ControllerTimingRegression] female=False delay=0.70 toss=0.85 shots=1 misses=0 gap=0.135 SERVE IN · 99 km/h
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Tennis] missing animation clip 'Ready'; falling back to Ready
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Tennis] missing animation clip 'Serve'; falling back to Ready
+[ControllerTimingRegression] female=True delay=0.00 toss=1.00 shots=0 misses=1 gap=0.627 FAULT — second serve
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Tennis] missing animation clip 'Ready'; falling back to Ready
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Tennis] missing animation clip 'Serve'; falling back to Ready
+[ControllerTimingRegression] female=True delay=0.00 toss=0.85 shots=0 misses=1 gap=0.627 FAULT — second serve
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Tennis] missing animation clip 'Ready'; falling back to Ready
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Tennis] missing animation clip 'Serve'; falling back to Ready
+[ControllerTimingRegression] female=True delay=0.18 toss=1.00 shots=1 misses=0 gap=0.050 SERVE IN · 134 km/h
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Tennis] missing animation clip 'Ready'; falling back to Ready
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Tennis] missing animation clip 'Serve'; falling back to Ready
+[ControllerTimingRegression] female=True delay=0.18 toss=0.85 shots=1 misses=0 gap=0.050 SERVE IN · 134 km/h
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Tennis] missing animation clip 'Ready'; falling back to Ready
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Tennis] missing animation clip 'Serve'; falling back to Ready
+[ControllerTimingRegression] female=True delay=0.40 toss=1.00 shots=1 misses=0 gap=0.052 SERVE IN · 116 km/h
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Tennis] missing animation clip 'Ready'; falling back to Ready
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Tennis] missing animation clip 'Serve'; falling back to Ready
+[ControllerTimingRegression] female=True delay=0.40 toss=0.85 shots=1 misses=0 gap=0.052 SERVE IN · 116 km/h
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Tennis] missing animation clip 'Ready'; falling back to Ready
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Tennis] missing animation clip 'Serve'; falling back to Ready
+[ControllerTimingRegression] female=True delay=0.70 toss=1.00 shots=1 misses=0 gap=0.100 SERVE IN · 99 km/h
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Tennis] missing animation clip 'Ready'; falling back to Ready
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Tennis] missing animation clip 'Serve'; falling back to Ready
+[ControllerTimingRegression] female=True delay=0.70 toss=0.85 shots=1 misses=0 gap=0.100 SERVE IN · 99 km/h
+DONE PlayMode: 0 passed, 1 failed, 0 skipped
+<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /Users/adnanyonathan/Library/Application Support/aloniewski/Golf Arcade/TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

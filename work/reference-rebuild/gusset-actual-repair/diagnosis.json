@@ -1,0 +1,41 @@
+{
+  "intro": {
+    "snapshot": "proof/reference-rebuild/underarm-gusset1-materials/poses/female_intro.json",
+    "maxRestOffsetMetres": 0.05768160861593381,
+    "maxPosedOffsetMetres": 0.04000010031136832,
+    "maxInputNormalLength": 3.535199281193417,
+    "maxBakedNormalLength": 2.8835723163681077,
+    "maxBlendedMatrixConditionNumber": 1.421477563947777,
+    "bakedPositionsMin": [
+      -0.2911985516548157,
+      -0.1979854255914688,
+      0.923287034034729
+    ],
+    "bakedPositionsMax": [
+      0.2549695670604706,
+      0.1130668967962265,
+      1.3763694763183594
+    ],
+    "bakeOracleMaxMetres": 3.7133503383302013e-07
+  },
+  "forehand_sample2": {
+    "snapshot": "proof/reference-rebuild/gusset-actual-bounds/poses/female_Forehand_2_invalid_bounds.json",
+    "maxRestOffsetMetres": 7.855603412638673,
+    "maxPosedOffsetMetres": 0.040000073024948006,
+    "maxInputNormalLength": 248.84189588377683,
+    "maxBakedNormalLength": 2.902520043113113,
+    "maxBlendedMatrixConditionNumber": 2853.084480962115,
+    "bakedPositionsMin": [
+      -0.23414479196071625,
+      -0.30160999298095703,
+      0.8817738890647888
+    ],
+    "bakedPositionsMax": [
+      0.03745829313993454,
+      0.18898266553878784,
+      1.410374641418457
+    ],
+    "bakeOracleMaxMetres": 9.122931032834458e-07
+  },
+  "diagnosis": "The actual rendered vertices remain bounded. Inverse blended skin matrices create huge rest offsets at near-singular poses; Unity conservative skinned bounds grow from these rest inputs. Additive imported/geometric normal differences produce non-unit shading normals and cratered lighting."
+}

@@ -1,0 +1,26 @@
+{
+  "manifest": "MatchHero_Male",
+  "roles": [
+    "Kit_Top"
+  ],
+  "sourceManifestSha256": "9a8d2e96ddb1ec6bb74b3da4f3477a14c4ea971859de7afcccad419bab562eb9",
+  "preservedNonGarmentParts": [
+    "Body",
+    "Face",
+    "Kit_Bottom",
+    "Kit_Shoe_L",
+    "Kit_Shoe_R",
+    "Kit_Sock_L",
+    "Kit_Sock_R",
+    "Racket_Racket_Classic",
+    "Racket_ButtCap",
+    "Racket_Grip",
+    "Racket_StringBed"
+  ],
+  "animationMaxDelta": 0,
+  "status": "PASS",
+  "baseOriginalBytesPreserved": 5851188,
+  "rigOriginalBytesPreserved": 19833332,
+  "bonesUnchanged": 53,
+  "swingFramesUnchanged": 12
+}

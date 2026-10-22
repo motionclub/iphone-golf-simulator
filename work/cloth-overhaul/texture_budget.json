@@ -1,0 +1,186 @@
+{
+  "maps": [
+    {
+      "map": "Cloth_FabricAtlas.png",
+      "size": 512,
+      "format": "ASTC_4x4",
+      "mipmapped_bytes": 349552,
+      "MB": 0.349552
+    },
+    {
+      "map": "Kit_Female_Bottom_M.png",
+      "size": 1024,
+      "format": "ASTC_8x8",
+      "mipmapped_bytes": 349568,
+      "MB": 0.349568
+    },
+    {
+      "map": "Kit_Female_Bottom_N.png",
+      "size": 1024,
+      "format": "ASTC_8x8",
+      "mipmapped_bytes": 349568,
+      "MB": 0.349568
+    },
+    {
+      "map": "Kit_Female_ShoeL_M.png",
+      "size": 1024,
+      "format": "ASTC_8x8",
+      "mipmapped_bytes": 349568,
+      "MB": 0.349568
+    },
+    {
+      "map": "Kit_Female_ShoeL_N.png",
+      "size": 1024,
+      "format": "ASTC_8x8",
+      "mipmapped_bytes": 349568,
+      "MB": 0.349568
+    },
+    {
+      "map": "Kit_Female_ShoeR_M.png",
+      "size": 1024,
+      "format": "ASTC_8x8",
+      "mipmapped_bytes": 349568,
+      "MB": 0.349568
+    },
+    {
+      "map": "Kit_Female_ShoeR_N.png",
+      "size": 1024,
+      "format": "ASTC_8x8",
+      "mipmapped_bytes": 349568,
+      "MB": 0.349568
+    },
+    {
+      "map": "Kit_Female_SockL_M.png",
+      "size": 512,
+      "format": "ASTC_8x8",
+      "mipmapped_bytes": 87424,
+      "MB": 0.087424
+    },
+    {
+      "map": "Kit_Female_SockL_N.png",
+      "size": 512,
+      "format": "ASTC_8x8",
+      "mipmapped_bytes": 87424,
+      "MB": 0.087424
+    },
+    {
+      "map": "Kit_Female_SockR_M.png",
+      "size": 512,
+      "format": "ASTC_8x8",
+      "mipmapped_bytes": 87424,
+      "MB": 0.087424
+    },
+    {
+      "map": "Kit_Female_SockR_N.png",
+      "size": 512,
+      "format": "ASTC_8x8",
+      "mipmapped_bytes": 87424,
+      "MB": 0.087424
+    },
+    {
+      "map": "Kit_Female_Top_M.png",
+      "size": 2048,
+      "format": "ASTC_8x8",
+      "mipmapped_bytes": 1398144,
+      "MB": 1.398144
+    },
+    {
+      "map": "Kit_Female_Top_N.png",
+      "size": 2048,
+      "format": "ASTC_8x8",
+      "mipmapped_bytes": 1398144,
+      "MB": 1.398144
+    },
+    {
+      "map": "Kit_Male_Bottom_M.png",
+      "size": 1024,
+      "format": "ASTC_8x8",
+      "mipmapped_bytes": 349568,
+      "MB": 0.349568
+    },
+    {
+      "map": "Kit_Male_Bottom_N.png",
+      "size": 1024,
+      "format": "ASTC_8x8",
+      "mipmapped_bytes": 349568,
+      "MB": 0.349568
+    },
+    {
+      "map": "Kit_Male_ShoeL_M.png",
+      "size": 1024,
+      "format": "ASTC_8x8",
+      "mipmapped_bytes": 349568,
+      "MB": 0.349568
+    },
+    {
+      "map": "Kit_Male_ShoeL_N.png",
+      "size": 1024,
+      "format": "ASTC_8x8",
+      "mipmapped_bytes": 349568,
+      "MB": 0.349568
+    },
+    {
+      "map": "Kit_Male_ShoeR_M.png",
+      "size": 1024,
+      "format": "ASTC_8x8",
+      "mipmapped_bytes": 349568,
+      "MB": 0.349568
+    },
+    {
+      "map": "Kit_Male_ShoeR_N.png",
+      "size": 1024,
+      "format": "ASTC_8x8",
+      "mipmapped_bytes": 349568,
+      "MB": 0.349568
+    },
+    {
+      "map": "Kit_Male_SockL_M.png",
+      "size": 512,
+      "format": "ASTC_8x8",
+      "mipmapped_bytes": 87424,
+      "MB": 0.087424
+    },
+    {
+      "map": "Kit_Male_SockL_N.png",
+      "size": 512,
+      "format": "ASTC_8x8",
+      "mipmapped_bytes": 87424,
+      "MB": 0.087424
+    },
+    {
+      "map": "Kit_Male_SockR_M.png",
+      "size": 512,
+      "format": "ASTC_8x8",
+      "mipmapped_bytes": 87424,
+      "MB": 0.087424
+    },
+    {
+      "map": "Kit_Male_SockR_N.png",
+      "size": 512,
+      "format": "ASTC_8x8",
+      "mipmapped_bytes": 87424,
+      "MB": 0.087424
+    },
+    {
+      "map": "Kit_Male_Top_M.png",
+      "size": 2048,
+      "format": "ASTC_8x8",
+      "mipmapped_bytes": 1398144,
+      "MB": 1.398144
+    },
+    {
+      "map": "Kit_Male_Top_N.png",
+      "size": 2048,
+      "format": "ASTC_8x8",
+      "mipmapped_bytes": 1398144,
+      "MB": 1.398144
+    }
+  ],
+  "shared_atlas_and_legacy_weave_bytes": 436960,
+  "per_hero_total_bytes": {
+    "Male": 5680352,
+    "Female": 5680352
+  },
+  "limit_bytes": 6000000,
+  "pass": true
+}

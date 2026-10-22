@@ -1,0 +1,9 @@
+{
+  "part": "head/jaw/neck sagittal profile",
+  "baseline_sha256": "e87ab1835f49e803a586c8c1a996eb38b1585397d19ec9e4ed58acad6fca5538",
+  "method": "Existing per-layer Y-coordinate sculpt from fixed, normalized outer head-detail contours and the current central surface rays; 20 mm neck-to-body falloff. No remesh, replacement or primary-mask/camera changes.",
+  "X_Z_coordinates_unchanged": true,
+  "body_below_1_385m_unchanged": true,
+  "changed_vertices": 2408,
+  "maximum_displacement_metres": 0.037255017522231315
+}

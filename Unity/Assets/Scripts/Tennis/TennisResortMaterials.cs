@@ -23,9 +23,9 @@ namespace GolfArcade.Tennis
             }
             if(!Active)return;
             if(role.StartsWith("TropicalV3_002") && !TennisVenue.CourtColorOverride.HasValue)
-            { Colour(m,new Color(.036f,.47f,.51f),.22f);m.SetFloat("_Variation",.045f); }
+            { Colour(m,GolfArcade.EnvironmentArt.EnvironmentLook.Court(new Color(.036f,.47f,.51f),TennisVenueKind.Resort,false),.22f);m.SetFloat("_Variation",.045f); }
             else if(role.StartsWith("TropicalV3_011") && !TennisVenue.CourtColorOverride.HasValue)
-            { Colour(m,new Color(.045f,.34f,.315f),.19f);m.SetFloat("_Variation",.04f); }
+            { Colour(m,GolfArcade.EnvironmentArt.EnvironmentLook.Court(new Color(.045f,.34f,.315f),TennisVenueKind.Resort,true),.19f);m.SetFloat("_Variation",.04f); }
             else if(role.StartsWith("TropicalV3_010"))Colour(m,new Color(.74f,.75f,.71f),.24f);
             else if(role=="Resort cut stone" || role=="Crafted resort limestone")Colour(m,new Color(.78f,.79f,.735f),.20f);
             else if(role=="Crafted resort ivory ceramic")Colour(m,new Color(.80f,.82f,.765f),.38f);

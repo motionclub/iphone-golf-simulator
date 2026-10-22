@@ -35,7 +35,7 @@ namespace GolfArcade.Course
             oceanRenderer.sharedMaterial = sea;
             oceanRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             if (!island && !boat) return;
-            if (island)
+            if (island && !GolfArcade.EnvironmentArt.RenderedBackdrop.GolfIslands(root, course, along))   // rendered backgrounds (work/rendered-backgrounds)
             {
                 // beyond the green, off to one side of it, and away on the far flank
                 PutIsland(island, root, centre + along * (reach + 600) + right * 220, 270, 20, -4);

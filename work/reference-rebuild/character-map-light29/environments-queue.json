@@ -1,0 +1,72 @@
+[
+  {
+    "name": "character-map-light29-golf-control",
+    "method": "GolfArcade.EditorTools.GolfCourseStandardCapture.Run",
+    "env": {
+      "GOLF_STANDARD_HOLES": "12,17,21",
+      "GOLF_STANDARD_CHARACTER": "1",
+      "GOLF_STANDARD_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/character-map-light29-golf-control",
+      "VISUAL_CHARACTER_STAGE_LIGHT": "0",
+      "VISUAL_UNDERARM_GUSSET": "0"
+    }
+  },
+  {
+    "name": "character-map-light29-golf-candidate",
+    "method": "GolfArcade.EditorTools.GolfCourseStandardCapture.Run",
+    "env": {
+      "GOLF_STANDARD_HOLES": "12,17,21",
+      "GOLF_STANDARD_CHARACTER": "1",
+      "GOLF_STANDARD_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/character-map-light29-golf-candidate",
+      "VISUAL_CHARACTER_STAGE_LIGHT": "1",
+      "VISUAL_UNDERARM_GUSSET": "0"
+    }
+  },
+  {
+    "name": "character-map-light29-skyscraper-control",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "skyscraper",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/character-map-light29-skyscraper-control",
+      "HERO_VENUE_ONLY": "1_gameplay,8_rivalintro,15_face",
+      "HERO_VENUE_CHARACTER": "1",
+      "VISUAL_CHARACTER_STAGE_LIGHT": "0",
+      "VISUAL_UNDERARM_GUSSET": "0"
+    }
+  },
+  {
+    "name": "character-map-light29-skyscraper-candidate",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "skyscraper",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/character-map-light29-skyscraper-candidate",
+      "HERO_VENUE_ONLY": "1_gameplay,8_rivalintro,15_face",
+      "HERO_VENUE_CHARACTER": "1",
+      "VISUAL_CHARACTER_STAGE_LIGHT": "1",
+      "VISUAL_UNDERARM_GUSSET": "0"
+    }
+  },
+  {
+    "name": "character-map-light29-volcano-control",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "volcano",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/character-map-light29-volcano-control",
+      "HERO_VENUE_ONLY": "1_gameplay,8_rivalintro,15_face",
+      "HERO_VENUE_CHARACTER": "1",
+      "VISUAL_CHARACTER_STAGE_LIGHT": "0",
+      "VISUAL_UNDERARM_GUSSET": "0"
+    }
+  },
+  {
+    "name": "character-map-light29-volcano-candidate",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "volcano",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/character-map-light29-volcano-candidate",
+      "HERO_VENUE_ONLY": "1_gameplay,8_rivalintro,15_face",
+      "HERO_VENUE_CHARACTER": "1",
+      "VISUAL_CHARACTER_STAGE_LIGHT": "1",
+      "VISUAL_UNDERARM_GUSSET": "0"
+    }
+  }
+]

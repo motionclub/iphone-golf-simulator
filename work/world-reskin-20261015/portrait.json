@@ -1,0 +1,50 @@
+[
+  {
+    "name": "reskin-before-portrait-resort",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/proof/portrait-before/resort",
+      "HERO_VENUE_ONLY": "1_gameplay",
+      "HERO_VENUE_PORTRAIT": "1",
+      "LUMINOUS_COAST": "0",
+      "LUMINOUS_AUDIT_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/proof/portrait-before/resort/audit.json"
+    }
+  },
+  {
+    "name": "reskin-before-portrait-skyscraper",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "skyscraper",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/proof/portrait-before/skyscraper",
+      "HERO_VENUE_ONLY": "1_gameplay",
+      "HERO_VENUE_PORTRAIT": "1",
+      "LUMINOUS_COAST": "0",
+      "LUMINOUS_AUDIT_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/proof/portrait-before/skyscraper/audit.json"
+    }
+  },
+  {
+    "name": "reskin-after-portrait-resort",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/proof/portrait-after/resort",
+      "HERO_VENUE_ONLY": "1_gameplay",
+      "HERO_VENUE_PORTRAIT": "1",
+      "LUMINOUS_COAST": "1",
+      "LUMINOUS_AUDIT_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/proof/portrait-after/resort/audit.json"
+    }
+  },
+  {
+    "name": "reskin-after-portrait-skyscraper",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "skyscraper",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/proof/portrait-after/skyscraper",
+      "HERO_VENUE_ONLY": "1_gameplay",
+      "HERO_VENUE_PORTRAIT": "1",
+      "LUMINOUS_COAST": "1",
+      "LUMINOUS_AUDIT_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/proof/portrait-after/skyscraper/audit.json"
+    }
+  }
+]

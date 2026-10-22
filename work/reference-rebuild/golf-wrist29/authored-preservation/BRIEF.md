@@ -1,0 +1,9 @@
+# Authored finger preservation
+
+The actual tiny control's address finger poses are the original source contract: all16 proximal joints carry +/-66degree fan, followed by the original50-68degree curl. Independent matrix checks of48 non-thumb joints match the authoring function with maximum0.001403degree residual. The source CanonicalGolfFingers replacement discarded that fan before revision2's rigid wrist carry. Top baseline already used canonical output; top relative-Hand matrices were rigidly preserved despite its poor visible grip.
+
+HeroGripPolish.cs.patch is incremental to installed revision2. It skips canonicalization and FitDigits only on the opt-in review path, carrying actual sampled digit local TRS with the Hand. The legacy flag0 retains its output. The existing synchronous GolferView hook completes source evaluation, clearance, feet and grip once; golf review LateUpdate skips re-curling. The output matrix guard now includes all30 digits as well as7 rigid anchors, so a finger-only resample cannot masquerade as an unchanged complete output. No wrist math, original bones/rest/weights, Club, mesh, or timing changes in this patch.
+
+GATE: Source authored fan/curl diagnosis PASS. Actual new integration PENDING. Astra owns continuous wrist math; current greedy roll search remains rejected for both art and90degree branch discontinuity. Do not run this patch with the inherited greedy search and promote it.
+
+A held broad queue is prepared for root only after merged continuous math passes focused actual. It runs one fresh flag0control then one flag1candidate, all5clubs/4landmarks/bothsexes with full Body/Top/Bottom poses and31 dense matrix samples per clip. Optional editor-only patch adds before/after arm/Hand/Club stamps during dense samples. This supports exact Club world-matrix equality, static-pose drift, and bounded elbow/wrist change checks; images still require art review. Neither the queue nor any Unity/GPU job was executed here.

@@ -7,6 +7,7 @@ import UserNotifications
 @MainActor final class MultiplayerRoom: ClubHubRoom {
     private var service: MultiplayerService { .shared }
     var inLobby: Bool { service.lobby != nil && service.isParty }
+    var isHost: Bool { service.isOwner }
     var partySize: Int { service.lobby?.participants.filter { !$0.isGuest }.count ?? 1 }
     var sport: String { service.lobby?.sport.rawValue ?? "tennis" }
     var capacity: Int { service.lobby?.capacity ?? 2 }
@@ -35,9 +36,28 @@ extension ClubHub {
         }
         playerName = { TennisMenu.shared.player?.name ?? "Player" }
         tvToast = { HubSession.shared.toast($0) }
+        PartyChat.shared.onMessage = { HubSession.shared.showChat($0) }
         onJoined = { HubSession.shared.joinedParty(host: $0) }
         haptic = { if SportsSession.shared.haptics { UINotificationFeedbackGenerator().notificationOccurred(.warning) } }
         requestPushPermission = { ClubPush.requestPermission() }
+        friendInParty = { id in
+            let service = MultiplayerService.shared
+            let gameID = (ClubHub.shared.source as? GameKitFriendsSource)?.player(id)?.gamePlayerID
+            return service.isParty && service.lobby?.participants.contains { $0.id == id || $0.id == gameID } == true
+        }
+        nativeCancel = { MultiplayerService.shared.cancelSearch() }
+        nativeAccept = { try await MultiplayerService.shared.acceptGameCenterInvitation($0) }
+        nativeDecline = { MultiplayerService.shared.declineGameCenterInvitation($0) }
+        nativeRefresh = { await MultiplayerService.shared.refreshGameCenterInvitations() }
+        autoOpenLobby = true
+        nativeInvite = { id in
+            guard let player = (ClubHub.shared.source as? GameKitFriendsSource)?.player(id) else {
+                throw MultiplayerError.unavailable("Refresh your Game Center friends list and try again.")
+            }
+            TennisMenu.shared.online.identity(TennisMenu.shared)
+            MultiplayerService.shared.setScreen(SportsSession.shared.displayConnected)
+            try await MultiplayerService.shared.inviteGameCenterFriend(player)
+        }
         ClubPush.registerIfAuthorized()
         ClubSignIn.start()
     }
@@ -45,24 +65,35 @@ extension ClubHub {
 
 /// Game Center sign-in on every launch, silently (Apple: set the handler as early as possible). Without it a returning player was
 /// never signed in after onboarding, so the Club Hub saw them as signed out and nobody could see them online or invite them.
-/// The sign-in screen itself is never pushed over the controller: it is offered from the Friends screen (Sign in).
+/// Present Apple's controller when it is needed; returning signed-in players have no additional screen.
 @MainActor enum ClubSignIn {
     private(set) static var started = false
-    /// Apple's sign-in screen, when Game Center has one to show (shown only if the player taps Sign in).
+    /// Apple's sign-in controller while the account needs the player's attention.
     private(set) static var pendingController: UIViewController?
     static func start() {
         guard !started, !ProcessInfo.processInfo.arguments.contains("--lobby-mock") else { return }
         started = true
         Task { @MainActor in
-            do { try await MultiplayerService.shared.authenticate { pendingController = $0 } } catch {}
+            do { try await MultiplayerService.shared.authenticate { offer($0) } } catch { ClubHub.shared.say(error.localizedDescription) }
             pendingController = nil
             await ClubHub.shared.refresh()
             askForFriendsOnce()
         }
     }
+    static func authenticationFinished() { pendingController = nil }
+    static func offer(_ controller: UIViewController) { pendingController = controller; presentPending() }
+    static func presentPending() {
+        guard let controller = pendingController, controller.presentingViewController == nil else { return }
+        guard UIApplication.shared.applicationState == .active,
+              let top = GameKitFriendsSource.topViewController(), top.viewIfLoaded?.window != nil,
+              !top.isBeingDismissed, !top.isBeingPresented else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { presentPending() }; return
+        }
+        top.present(controller, animated: true)
+    }
     /// The Friends screen's Sign in: Apple's screen if Game Center offered one, else the normal flow.
     static func signIn() {
-        if let vc = pendingController, let top = GameKitFriendsSource.topViewController() { top.present(vc, animated: true); return }
+        if pendingController != nil { presentPending(); return }
         Task { @MainActor in
             try? await MultiplayerService.shared.authenticate { vc in GameKitFriendsSource.topViewController()?.present(vc, animated: true) }
             await ClubHub.shared.refresh()

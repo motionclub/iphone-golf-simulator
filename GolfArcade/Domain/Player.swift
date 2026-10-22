@@ -24,6 +24,9 @@ struct Player: Codable, Identifiable, Equatable, Sendable {
     /// Equipped gear, sport -> slot -> item id (LockerCatalog.swift). Optional like every field added after players.v1:
     /// older profiles decode without it, and an id the catalog no longer has falls back to the Standard item.
     var loadout: [String: [String: String]]?
+    /// MENU HERO: what the hero carries on the back in the menus and the plaza (the locker's "On your back" pick). Optional like the fields above.
+    var backCarryValue: String?
+    var backCarry: BackCarry { get { backCarryValue.flatMap(BackCarry.init(rawValue:)) ?? .bag } set { backCarryValue = newValue.rawValue } }
     /// Three controller slots. Optional storage keeps players.v1 saves compatible.
     var emoteIDs: [String]?
     var equippedEmotes: [String] { EmoteCatalog.normalized(emoteIDs) }
@@ -60,6 +63,14 @@ struct Player: Codable, Identifiable, Equatable, Sendable {
         self.handedness = handedness
         self.calibration = calibration
     }
+}
+
+/// The back item: the golf carry bag (the plaza's default since the accessories pass) or the tennis racket slung on the back.
+enum BackCarry: String, CaseIterable, Codable, Sendable {
+    case bag, racket
+    /// The HeroAccessories item id on the Unity side.
+    var accessoryID: String { self == .bag ? "golf_bag" : "racket_back" }
+    var title: String { self == .bag ? "Golf bag" : "Racket" }
 }
 
 enum EmoteCatalog {

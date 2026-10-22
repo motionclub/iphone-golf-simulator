@@ -1,0 +1,32 @@
+[
+  {
+    "name": "BASALT_BEVELS (three planes per column: side bevels tilted |nx| .3-.55, clearly different shade)",
+    "ok": true,
+    "detail": "bevel texels 35.0% (>= 34; v8 35.2, the crack-network groove walls are no longer flat bevel texels) (left 18.0%, right 16.9%, front 36.2%), mean |nx| of bevels 0.429, albedo means left/front/right {'left': 30.2, 'front': 46.8, 'right': 35.0} -> spread 16.6 levels, 11 columns"
+  },
+  {
+    "name": "BASALT_PRISM_GLOW_JOINTS cross fractures (stacked blocks 1.3-3.4 m tall, 3-5 per column per 8 m, never in courses, not aligned with the neighbour column)",
+    "ok": true,
+    "detail": "11 columns, fractures per column per 8 m: mean 3.27 min 3 max 4 (3..5), spacing within a column 1.32..3.39 m (1.3..3.6), neighbour-aligned (within 40 cm) 0 of 36 = 0% (<= 10%), worst 30 cm band holds fractures of 36% of the columns (<= 45%), block height/width median 3.65 (1.4..5), blocks taller than 6 widths 8% (<= 10%) [v3 asked for 0.4..2 fractures >= 3 m apart; the review found that read as planks]"
+  },
+  {
+    "name": "BASALT_PRISM_GLOW_JOINTS glow (v9: a branching crack NETWORK in the joints, vertical-line share <= 70 %, junction density >= 4 per 100 skeleton px, 1-6% texels, hotter toward v = 0)",
+    "ok": true,
+    "detail": "glow texels 3.33% (1..6%), 24 components >= 40 px in wall space (x1.6 u, x2.8 v): vertical 15% (<= 70; v8 99), horizontal rungs 0% (<= 20), blobs 0%, other 85%; skeleton 9931 px, 502 junction clusters = 5.05 per 100 px (>= 4.0; v8 2.6); 100.0% of the glow within 6 px of a groove / joint wall (tilt >= .20; >= 95%), longest horizontal glow run 42 px = 4.1% of the tile (<= 12%), glow near v=0/1 vs mid-height x1.76 (>= 1.3), brightest E (255,160,40)"
+  },
+  {
+    "name": "BASALT_BUILDER_WINDOWS (the constants of hole10_look.py still describe this tile: no re-bake of the hole-10 UV windows is needed)",
+    "ok": false,
+    "detail": "glow share inside the 5 glow-free zones max 0.0000 % (<= 0.02 %), narrowest edge window at each of the 6 glow lines 3.9 % glow (>= 4 %), Basalt_C luminance profile deviation 0.0488 (<= 0.01), glow texels 3.22 % of the tile (constants read from hole10_look.py)"
+  },
+  {
+    "name": "BASALT_ALBEDO_NEUTRAL (the rock of Basalt_C is charcoal, not brown: mean-colour saturation <= .15, mean of the per-texel saturation <= .20, 95 % of the texels <= .30; glow texels excluded)",
+    "ok": true,
+    "detail": "rock mean colour (39,36,39) S 0.081 (<= .15), per-texel S mean 0.104 (<= .20) p95 0.154 (<= .30); 4.0 % of the texels are glow and excluded (crater.jpg basalt (26,25,29) S .10)"
+  },
+  {
+    "name": "BASALT_PRISM_GLOW_JOINTS lit darkness (model of BASALT_RENDERS_DARK with the live LK_BASALT Tint (0.56, 0.74, 0.9); lit mean = the real run of v2 repair round 3, (30,30,30))",
+    "ok": true,
+    "detail": "predicted key-lit wall: median luminance 29 (18..40; runtime limit 40, crater.jpg charcoal 30..34), mean (30,30,30) S 0.00 (<= .25, within 4 levels of (30,30,30)), mean linear albedo vs v3 -0.7% (info); calibration: the installed Basalt_C under this model gives median 29, mean (30,30,30) = the real run smoke_cand3 (tint source: GolfLook.cs LK_BASALT)"
+  }
+]

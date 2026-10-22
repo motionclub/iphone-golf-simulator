@@ -1,0 +1,46 @@
+{
+ "taken": "2026-10-02 23:39:13",
+ "all_ok": true,
+ "files": {
+  "male_body": {
+   "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/male-pelvis-form3/export/merged_fd04bc28.blend",
+   "sha256": "d6c4dcfb1150853a8802a8dc7501aa64066adb8b2734c14a4d6ed8e82dada781",
+   "expected": "d6c4dcfb1150853a8802a8dc7501aa64066adb8b2734c14a4d6ed8e82dada781",
+   "ok": true,
+   "size": 4925355,
+   "mtime_ns": 1790978369560521991
+  },
+  "female_body": {
+   "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/female-full-merge/export/HeroBase_Female_FULL_STAGED.blend",
+   "sha256": "a1d73a334f4dc18052db0582df6b4b54b1df166d9a3531ab700ee114e86d2ac1",
+   "expected": "a1d73a334f4dc18052db0582df6b4b54b1df166d9a3531ab700ee114e86d2ac1",
+   "ok": true,
+   "size": 1668280,
+   "mtime_ns": 1790995261268437535
+  },
+  "kit_male": {
+   "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/standard-tennis-kit-worn/export/StandardKit_Male.blend",
+   "sha256": "ad07a7b9ba984b0f220f975b9fe1b0c1b7068d9897c7e6f96e44f70d23aa77a9",
+   "expected": "ad07a7b9ba984b0f220f975b9fe1b0c1b7068d9897c7e6f96e44f70d23aa77a9",
+   "ok": true,
+   "size": 19725294,
+   "mtime_ns": 1790997168773452343
+  },
+  "kit_female": {
+   "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/standard-tennis-kit-worn/export/StandardKit_Female.blend",
+   "sha256": "f19a9c03789b7af343c56b005ed587137e8764779d31c3109942156ee71eaf4e",
+   "expected": "f19a9c03789b7af343c56b005ed587137e8764779d31c3109942156ee71eaf4e",
+   "ok": true,
+   "size": 9411282,
+   "mtime_ns": 1790997170089524441
+  },
+  "racket": {
+   "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/classic-tennis-racket/export/Racket_Classic.blend",
+   "sha256": "53e83714856a14c1533653b3fce3e164dfb17e9c58c995cbdb325d86eec7e8ba",
+   "expected": "53e83714856a14c1533653b3fce3e164dfb17e9c58c995cbdb325d86eec7e8ba",
+   "ok": true,
+   "size": 362491,
+   "mtime_ns": 1790980064167009188
+  }
+ }
+}

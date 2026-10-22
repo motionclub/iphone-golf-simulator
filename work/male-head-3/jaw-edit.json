@@ -1,0 +1,13 @@
+{
+  "method": "Existing jaw/under-chin/neck Y-coordinate sculpt: local depth fairing and rounded lower-face depth guided by fixed head-detail profile calipers, with continuous falloffs and central profile retention. No remesh.",
+  "baseline_sha256": "8da71e595209e5aaae165e509525406c6fac76d2df9b69148ac991bb7c2dcf3b",
+  "accepted_blend_fraction": 1,
+  "changed_vertices": 928,
+  "maximum_displacement_metres": 0.01907156119054665,
+  "X_Z_coordinates_unchanged": true,
+  "body_below_1_35m_unchanged": true,
+  "head_triangle_normal_reversals": 0,
+  "diagnostic_mean_absolute_depth_laplacian_mm_before": 0.46483986493614,
+  "diagnostic_mean_absolute_depth_laplacian_mm_after": 0.24881709473433167,
+  "rejected_candidates": "Unconstrained XYZ fairing worsened both authority view errors; full-strength local jaw projection rotated existing thin face normals. Both rejected before main-file mutation."
+}

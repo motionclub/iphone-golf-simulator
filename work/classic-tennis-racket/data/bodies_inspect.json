@@ -1,0 +1,537 @@
+{
+ "male": {
+  "info": {
+   "objects": [
+    "Locked_sheet_front",
+    "Locked_sheet_back",
+    "Locked_right",
+    "LOCKED_Male_Head_Detail",
+    "Locked_left",
+    "Locked_bald_front",
+    "Locked_bald_back",
+    "Face_M",
+    "Body_M"
+   ],
+   "meshes": [
+    "Face_M.001",
+    "Body_M"
+   ],
+   "materials": [
+    "Face_Seam",
+    "Face_Sclera",
+    "Face_Pupil",
+    "Face_Nostril",
+    "Face_LipUp",
+    "Face_Lip",
+    "Face_Limbal",
+    "Face_LidLine",
+    "Face_LidCrease",
+    "Face_Iris",
+    "Face_Catch",
+    "Face_BrowSoft",
+    "Face_Brow",
+    "Blockout_Grey"
+   ],
+   "collections": [],
+   "images": [
+    "male_multiangle_body.jpg",
+    "male_head_detail.jpg",
+    "male_body_bald.jpg"
+   ],
+   "armatures": []
+  },
+  "objects": {
+   "Locked_sheet_front": {
+    "type": "CAMERA",
+    "parent": null,
+    "loc": [
+     2.65188,
+     -5.0,
+     -0.09315
+    ],
+    "rot": [
+     1.5708,
+     -0.0,
+     0.0
+    ],
+    "scale": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "modifiers": []
+   },
+   "Locked_sheet_back": {
+    "type": "CAMERA",
+    "parent": null,
+    "loc": [
+     -0.93296,
+     5.0,
+     -0.09315
+    ],
+    "rot": [
+     1.5708,
+     -0.0,
+     3.14159
+    ],
+    "scale": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "modifiers": []
+   },
+   "Locked_right": {
+    "type": "CAMERA",
+    "parent": null,
+    "loc": [
+     -5.0,
+     2.50034,
+     -0.09931
+    ],
+    "rot": [
+     1.5708,
+     -0.0,
+     -1.5708
+    ],
+    "scale": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "modifiers": []
+   },
+   "LOCKED_Male_Head_Detail": {
+    "type": "EMPTY",
+    "parent": null,
+    "loc": [
+     3.0,
+     0.0,
+     1.3
+    ],
+    "rot": [
+     1.5708,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "modifiers": []
+   },
+   "Locked_left": {
+    "type": "CAMERA",
+    "parent": null,
+    "loc": [
+     5.0,
+     -0.91426,
+     -0.09931
+    ],
+    "rot": [
+     1.5708,
+     -0.0,
+     1.5708
+    ],
+    "scale": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "modifiers": []
+   },
+   "Locked_bald_front": {
+    "type": "CAMERA",
+    "parent": null,
+    "loc": [
+     0.82277,
+     -5.0,
+     0.84283
+    ],
+    "rot": [
+     1.5708,
+     -0.0,
+     0.0
+    ],
+    "scale": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "modifiers": []
+   },
+   "Locked_bald_back": {
+    "type": "CAMERA",
+    "parent": null,
+    "loc": [
+     0.79588,
+     5.0,
+     0.8399
+    ],
+    "rot": [
+     1.5708,
+     -0.0,
+     3.14159
+    ],
+    "scale": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "modifiers": []
+   },
+   "Face_M": {
+    "type": "MESH",
+    "parent": null,
+    "loc": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rot": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "modifiers": [],
+    "verts": 3578,
+    "polys": 3018,
+    "tris": 5888,
+    "bbox_min": [
+     -0.0689,
+     -0.1633,
+     1.4965
+    ],
+    "bbox_max": [
+     0.0689,
+     0.0612,
+     1.6175
+    ],
+    "mats": [
+     "Face_Brow",
+     "Face_Sclera",
+     "Face_Iris",
+     "Face_Pupil",
+     "Face_Limbal",
+     "Face_Catch",
+     "Face_LidLine",
+     "Face_Lip",
+     "Face_LipUp",
+     "Face_Seam",
+     "Face_Nostril",
+     "Face_BrowSoft",
+     "Face_LidCrease"
+    ],
+    "vgroups": []
+   },
+   "Body_M": {
+    "type": "MESH",
+    "parent": null,
+    "loc": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rot": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "modifiers": [],
+    "verts": 33196,
+    "polys": 33484,
+    "tris": 66158,
+    "bbox_min": [
+     -0.6714,
+     -0.2236,
+     0.0025
+    ],
+    "bbox_max": [
+     0.6714,
+     0.1097,
+     1.7047
+    ],
+    "mats": [
+     "Blockout_Grey"
+    ],
+    "vgroups": [
+     "LOOP_mouth_seam",
+     "LOOP_mouth_lip_upper",
+     "LOOP_mouth_lip_lower",
+     "LOOP_nostril_L",
+     "LOOP_nostril_R",
+     "LOOP_ala_L",
+     "LOOP_ala_R",
+     "LOOP_ear_attach_L",
+     "LOOP_helix_L",
+     "LOOP_concha_L",
+     "LOOP_ear_attach_R",
+     "LOOP_helix_R",
+     "LOOP_concha_R",
+     "LOOP_jaw_ear_L",
+     "LOOP_jaw_ear_R",
+     "LOOP_lid_margin_L",
+     "LOOP_lid_margin_R"
+    ]
+   }
+  }
+ },
+ "female": {
+  "info": {
+   "objects": [
+    "ProofCamera",
+    "Neutral_Key",
+    "Neutral_Fill",
+    "Neutral_Back",
+    "LOCKED_PLATE_front",
+    "LOCKED_PLATE_back",
+    "Hair_F",
+    "Body_F"
+   ],
+   "meshes": [
+    "Hair_F",
+    "Body_F"
+   ],
+   "materials": [
+    "Teeth",
+    "Skin_F",
+    "Pupil",
+    "Mouth",
+    "Lip_F",
+    "Iris_Dark",
+    "Hair_F",
+    "Eye_White",
+    "Ear_Shadow_F",
+    "Brow",
+    "Base_Grey_F"
+   ],
+   "collections": [
+    "Collection"
+   ],
+   "images": [
+    "Viewer Node",
+    "Render Result",
+    "Head_Female_Albedo.png",
+    "female_body_plain.jpg.001",
+    "female_body_plain.jpg"
+   ],
+   "armatures": []
+  },
+  "objects": {
+   "ProofCamera": {
+    "type": "CAMERA",
+    "parent": null,
+    "loc": [
+     0.0,
+     -5.0,
+     0.82794
+    ],
+    "rot": [
+     1.5708,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "modifiers": []
+   },
+   "Neutral_Key": {
+    "type": "LIGHT",
+    "parent": null,
+    "loc": [
+     -2.8,
+     -3.4,
+     4.0
+    ],
+    "rot": [
+     0.97286,
+     0.0,
+     -0.68892
+    ],
+    "scale": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "modifiers": []
+   },
+   "Neutral_Fill": {
+    "type": "LIGHT",
+    "parent": null,
+    "loc": [
+     2.6,
+     -1.8,
+     2.0
+    ],
+    "rot": [
+     1.26452,
+     0.0,
+     0.96525
+    ],
+    "scale": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "modifiers": []
+   },
+   "Neutral_Back": {
+    "type": "LIGHT",
+    "parent": null,
+    "loc": [
+     0.0,
+     2.6,
+     3.0
+    ],
+    "rot": [
+     0.9151,
+     -0.0,
+     -3.14159
+    ],
+    "scale": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "modifiers": []
+   },
+   "LOCKED_PLATE_front": {
+    "type": "EMPTY",
+    "parent": null,
+    "loc": [
+     0.51908,
+     0.55,
+     0.82794
+    ],
+    "rot": [
+     1.5708,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "modifiers": []
+   },
+   "LOCKED_PLATE_back": {
+    "type": "EMPTY",
+    "parent": null,
+    "loc": [
+     0.53725,
+     -0.55,
+     0.82794
+    ],
+    "rot": [
+     1.5708,
+     0.0,
+     3.14159
+    ],
+    "scale": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "modifiers": []
+   },
+   "Hair_F": {
+    "type": "MESH",
+    "parent": null,
+    "loc": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rot": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "modifiers": [],
+    "verts": 2516,
+    "polys": 2648,
+    "tris": 4960,
+    "bbox_min": [
+     -0.1644,
+     -0.108,
+     1.4493
+    ],
+    "bbox_max": [
+     0.1644,
+     0.1276,
+     1.7077
+    ],
+    "mats": [
+     "Hair_F"
+    ],
+    "vgroups": []
+   },
+   "Body_F": {
+    "type": "MESH",
+    "parent": null,
+    "loc": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rot": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "modifiers": [],
+    "verts": 22444,
+    "polys": 23012,
+    "tris": 44708,
+    "bbox_min": [
+     -0.2618,
+     -0.1298,
+     -0.0
+    ],
+    "bbox_max": [
+     0.2618,
+     0.1189,
+     1.7039
+    ],
+    "mats": [
+     "Base_Grey_F",
+     "Skin_F",
+     "Eye_White",
+     "Iris_Dark",
+     "Pupil",
+     "Brow",
+     "Mouth",
+     "Teeth",
+     "Lip_F",
+     "Ear_Shadow_F"
+    ],
+    "vgroups": []
+   }
+  }
+ }
+}

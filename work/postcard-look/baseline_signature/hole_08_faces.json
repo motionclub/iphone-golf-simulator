@@ -1,0 +1,28 @@
+{
+ "hole": 8,
+ "built": "2026-10-04 10:03:52",
+ "tool": "postcard_look_verify.py --build-face-baseline",
+ "baseline_blend": "work/postcard-look/baseline/blender/hole_08.blend",
+ "baseline_blend_sha256": "38c2517837b8538ebc29e2b91cb1c302b8eef01023629bc0cd64a64810f0691d",
+ "baseline_fbx": "work/postcard-look/baseline/fbx/hole_08.fbx",
+ "baseline_fbx_sha256": "d19a46b6dd59cdf9e33ae4d583d6536a312e6ccb3303faf4f66a8b9d238a1ac6",
+ "npz_sha256": "0dad326f6a36924e135dbacdf212e3070272c0c622bf363f9c528eac4a700358",
+ "up_triangles": {
+  "blend::faces::BUNKER_01": 38,
+  "blend::faces::BUNKER_01_LIP": 118,
+  "blend::faces::FAIRWAY": 415,
+  "blend::faces::FAIRWAY_FIRSTCUT": 514,
+  "blend::faces::GREEN": 104,
+  "blend::faces::GREEN_APRON": 116,
+  "blend::faces::TEE_BOX": 32,
+  "blend::faces::TERRAIN_NEEDLE": 317,
+  "fbx::faces::BUNKER_01": 38,
+  "fbx::faces::BUNKER_01_LIP": 118,
+  "fbx::faces::FAIRWAY": 415,
+  "fbx::faces::FAIRWAY_FIRSTCUT": 514,
+  "fbx::faces::GREEN": 104,
+  "fbx::faces::GREEN_APRON": 116,
+  "fbx::faces::TEE_BOX": 32,
+  "fbx::faces::TERRAIN_NEEDLE": 317
+ }
+}

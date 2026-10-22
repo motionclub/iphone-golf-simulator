@@ -1,0 +1,11 @@
+--- a/Unity/Assets/Scripts/Tennis/TennisGame.cs
++++ b/Unity/Assets/Scripts/Tennis/TennisGame.cs
+@@ -1147,7 +1147,7 @@
+                 serveWalkSpeed = Mathf.MoveTowards(serveWalkSpeed, Mathf.Min(ServeWalkPace, Mathf.Sqrt(2 * 3f * toSpot)), dt * 4f);
+                 float planted = Mathf.MoveTowards(playerPosition.x, serveX, dt * Mathf.Max(serveWalkSpeed, .15f));
+                 LateralSpeed = (planted - playerPosition.x) / dt; moveVelocity = Vector2.zero;
+-                Player.transform.position = new Vector3(planted, playerPosition.y, Mathf.MoveTowards(playerPosition.z, -TennisRules.ServeDepth, dt * 4f));
++                Player.transform.position = new Vector3(planted, playerPosition.y, Mathf.MoveTowards(playerPosition.z, -TennisRules.ServeDepth, dt * ServeWalkPace));
+             }
+             else MovePlayer(dt, playerPosition);
+             // Overhead positioning is assisted; the stroke starts only on confirmed player input.

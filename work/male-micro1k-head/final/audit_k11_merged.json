@@ -1,0 +1,84 @@
+{
+ "blend": "final/k11_merged.blend",
+ "blend_sha256": "1fe4d53b3bcb9cfaef885d64350150e323a1d726cc4d54cc305ea71e323119bb",
+ "start_blend": "baseline/artdir_pre_k/HeroBase_Male_Silhouette.59a74b85.blend",
+ "start_sha256": "59a74b8573a089198207a6155ad815625d55f4c670531d6530bc698c1b78ac28",
+ "verts": 30296,
+ "verts_same_count": true,
+ "moved_total": 2335,
+ "moved_outside_zone_z_lt_1_40": 20,
+ "min_z_of_moved_verts": 1.3618885278701782,
+ "max_move_mm": 5.828334775291273,
+ "mean_move_mm_moved": 0.7267764453652872,
+ "hands_moved": 0,
+ "arms_moved": 0,
+ "torso_pelvis_legs_feet_moved": 20,
+ "weld_ring_moved": 2,
+ "topology_identical": true,
+ "tris": 60358,
+ "quad_faces": 29840,
+ "vertex_groups_identical": true,
+ "vertex_groups": [
+  "LOOP_ala_L",
+  "LOOP_ala_R",
+  "LOOP_concha_L",
+  "LOOP_concha_R",
+  "LOOP_ear_attach_L",
+  "LOOP_ear_attach_R",
+  "LOOP_helix_L",
+  "LOOP_helix_R",
+  "LOOP_jaw_ear_L",
+  "LOOP_jaw_ear_R",
+  "LOOP_lid_margin_L",
+  "LOOP_lid_margin_R",
+  "LOOP_mouth_lip_lower",
+  "LOOP_mouth_lip_upper",
+  "LOOP_mouth_seam",
+  "LOOP_nostril_L",
+  "LOOP_nostril_R"
+ ],
+ "face_m_identical": true,
+ "face_m_materials_identical": true,
+ "body_materials": [
+  "Blockout_Grey"
+ ],
+ "boundary_edges": 92,
+ "nonmanifold_edges": 2,
+ "boundary_edges_start": 92,
+ "nonmanifold_edges_start": 2,
+ "height_m": 1.702187180519104,
+ "nan_or_inf": false,
+ "custom_normals_present": true,
+ "normals_far_from_edit": {
+  "corners": 110051,
+  "max_angle_deg": 1.517750859260559,
+  "changed_corners_gt_0_05deg": 123
+ },
+ "normals_edit_region": {
+  "corners": 11343,
+  "mean_rotation_deg": 3.9470906257629395,
+  "max_rotation_deg": 27.753429412841797
+ },
+ "silhouette": {
+  "body_bald_front": {
+   "diff": 3235,
+   "union": 74879,
+   "pct": 4.32030342285554
+  },
+  "body_bald_back": {
+   "diff": 3251,
+   "union": 74133,
+   "pct": 4.385361444970526
+  },
+  "withface_bald_front": {
+   "diff": 3235,
+   "union": 74879,
+   "pct": 4.32030342285554
+  },
+  "withface_bald_back": {
+   "diff": 3251,
+   "union": 74133,
+   "pct": 4.385361444970526
+  }
+ }
+}

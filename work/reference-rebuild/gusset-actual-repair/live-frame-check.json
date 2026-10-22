@@ -1,0 +1,603 @@
+{
+  "originalMissingBoundaryRepresentatives": 38,
+  "fixedMissingBoundaryRepresentatives": 0,
+  "rows": [
+    {
+      "sample": "female_Forehand_0",
+      "time": 0.0,
+      "frames": [
+        {
+          "panel": 0,
+          "boundaryAreaVectorLength": 0.008408171493570038,
+          "tangentSpanMetres": 0.13919834374706444,
+          "passed": true
+        },
+        {
+          "panel": 1,
+          "boundaryAreaVectorLength": 4.3198433365180616e-05,
+          "tangentSpanMetres": 0.008080571280703743,
+          "passed": true
+        },
+        {
+          "panel": 2,
+          "boundaryAreaVectorLength": 0.00863117451473446,
+          "tangentSpanMetres": 0.12110440749363882,
+          "passed": true
+        },
+        {
+          "panel": 3,
+          "boundaryAreaVectorLength": 0.0008210436486039351,
+          "tangentSpanMetres": 0.006401244987771434,
+          "passed": true
+        },
+        {
+          "panel": 4,
+          "boundaryAreaVectorLength": 2.8816519643453315e-05,
+          "tangentSpanMetres": 0.006734424656432722,
+          "passed": true
+        },
+        {
+          "panel": 5,
+          "boundaryAreaVectorLength": 0.00010659987384225391,
+          "tangentSpanMetres": 0.017577899526465338,
+          "passed": true
+        },
+        {
+          "panel": 6,
+          "boundaryAreaVectorLength": 9.900104358825057e-05,
+          "tangentSpanMetres": 0.01976992818481282,
+          "passed": true
+        },
+        {
+          "panel": 7,
+          "boundaryAreaVectorLength": 0.006629603906271095,
+          "tangentSpanMetres": 0.11039875268437334,
+          "passed": true
+        },
+        {
+          "panel": 8,
+          "boundaryAreaVectorLength": 0.006932870421686157,
+          "tangentSpanMetres": 0.12067161937313557,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "sample": "female_Forehand_1",
+      "time": 0.40000003576278687,
+      "frames": [
+        {
+          "panel": 0,
+          "boundaryAreaVectorLength": 0.006800245617486872,
+          "tangentSpanMetres": 0.16379550539316554,
+          "passed": true
+        },
+        {
+          "panel": 1,
+          "boundaryAreaVectorLength": 6.488596961832905e-05,
+          "tangentSpanMetres": 0.00789667501706447,
+          "passed": true
+        },
+        {
+          "panel": 2,
+          "boundaryAreaVectorLength": 0.006442161215704614,
+          "tangentSpanMetres": 0.0947804748838403,
+          "passed": true
+        },
+        {
+          "panel": 3,
+          "boundaryAreaVectorLength": 0.00038580246172076246,
+          "tangentSpanMetres": 0.036369537023791344,
+          "passed": true
+        },
+        {
+          "panel": 4,
+          "boundaryAreaVectorLength": 0.0001378385682143699,
+          "tangentSpanMetres": 0.009796200418101041,
+          "passed": true
+        },
+        {
+          "panel": 5,
+          "boundaryAreaVectorLength": 5.279879770826305e-05,
+          "tangentSpanMetres": 0.018180770930771417,
+          "passed": true
+        },
+        {
+          "panel": 6,
+          "boundaryAreaVectorLength": 2.155134020196366e-05,
+          "tangentSpanMetres": 0.01217687730236476,
+          "passed": true
+        },
+        {
+          "panel": 7,
+          "boundaryAreaVectorLength": 0.012610526087652733,
+          "tangentSpanMetres": 0.2570650025840343,
+          "passed": true
+        },
+        {
+          "panel": 8,
+          "boundaryAreaVectorLength": 0.01280890878680046,
+          "tangentSpanMetres": 0.18337016693908462,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "sample": "female_Forehand_2",
+      "time": 0.8000000715255737,
+      "frames": [
+        {
+          "panel": 0,
+          "boundaryAreaVectorLength": 0.018734686513601388,
+          "tangentSpanMetres": 0.09981213529791663,
+          "passed": true
+        },
+        {
+          "panel": 1,
+          "boundaryAreaVectorLength": 5.2868953523231736e-05,
+          "tangentSpanMetres": 0.006799775931066561,
+          "passed": true
+        },
+        {
+          "panel": 2,
+          "boundaryAreaVectorLength": 0.019699272199459758,
+          "tangentSpanMetres": 0.13791192598901542,
+          "passed": true
+        },
+        {
+          "panel": 3,
+          "boundaryAreaVectorLength": 0.00041997127770428393,
+          "tangentSpanMetres": 0.04054871689797571,
+          "passed": true
+        },
+        {
+          "panel": 4,
+          "boundaryAreaVectorLength": 7.504363055967275e-05,
+          "tangentSpanMetres": 0.010541489911813268,
+          "passed": true
+        },
+        {
+          "panel": 5,
+          "boundaryAreaVectorLength": 0.00011731108830470044,
+          "tangentSpanMetres": 0.01518779284092704,
+          "passed": true
+        },
+        {
+          "panel": 6,
+          "boundaryAreaVectorLength": 8.119700912973294e-05,
+          "tangentSpanMetres": 0.01306849158927974,
+          "passed": true
+        },
+        {
+          "panel": 7,
+          "boundaryAreaVectorLength": 0.04209423766874222,
+          "tangentSpanMetres": 0.29620309895571023,
+          "passed": true
+        },
+        {
+          "panel": 8,
+          "boundaryAreaVectorLength": 0.04518772227119774,
+          "tangentSpanMetres": 0.16328892039991044,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "sample": "female_EmoteSpike_1",
+      "time": 1.066666841506958,
+      "frames": [
+        {
+          "panel": 0,
+          "boundaryAreaVectorLength": 0.008745100540240122,
+          "tangentSpanMetres": 0.11885930857405833,
+          "passed": true
+        },
+        {
+          "panel": 1,
+          "boundaryAreaVectorLength": 2.6281880746369812e-05,
+          "tangentSpanMetres": 0.0048485999484587875,
+          "passed": true
+        },
+        {
+          "panel": 2,
+          "boundaryAreaVectorLength": 0.009860206570405443,
+          "tangentSpanMetres": 0.16202319505966384,
+          "passed": true
+        },
+        {
+          "panel": 3,
+          "boundaryAreaVectorLength": 0.00042429887094666774,
+          "tangentSpanMetres": 0.040044352332172545,
+          "passed": true
+        },
+        {
+          "panel": 4,
+          "boundaryAreaVectorLength": 6.544576070387193e-05,
+          "tangentSpanMetres": 0.01078440643119081,
+          "passed": true
+        },
+        {
+          "panel": 5,
+          "boundaryAreaVectorLength": 0.00011445926269894328,
+          "tangentSpanMetres": 0.014372455208609095,
+          "passed": true
+        },
+        {
+          "panel": 6,
+          "boundaryAreaVectorLength": 8.160732072217757e-05,
+          "tangentSpanMetres": 0.011612597971981152,
+          "passed": true
+        },
+        {
+          "panel": 7,
+          "boundaryAreaVectorLength": 0.03817106237308285,
+          "tangentSpanMetres": 0.30232767755790807,
+          "passed": true
+        },
+        {
+          "panel": 8,
+          "boundaryAreaVectorLength": 0.04082993944796916,
+          "tangentSpanMetres": 0.16259924767216852,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "passed": true,
+  "actualBakedBoundaryChecks": [
+    {
+      "snapshot": "proof/reference-rebuild/gusset-smooth-cage1/poses/female_Forehand_4.json",
+      "frames": [
+        {
+          "panel": 0,
+          "boundaryAreaVectorLength": 0.012527589820327052,
+          "tangentSpanMetres": 0.11993263959309045,
+          "passed": true
+        },
+        {
+          "panel": 1,
+          "boundaryAreaVectorLength": 5.644788675903353e-05,
+          "tangentSpanMetres": 0.007882165082712368,
+          "passed": true
+        },
+        {
+          "panel": 2,
+          "boundaryAreaVectorLength": 0.012897152673080012,
+          "tangentSpanMetres": 0.1157531542561686,
+          "passed": true
+        },
+        {
+          "panel": 3,
+          "boundaryAreaVectorLength": 0.0003537441842010849,
+          "tangentSpanMetres": 0.03584584592286981,
+          "passed": true
+        },
+        {
+          "panel": 4,
+          "boundaryAreaVectorLength": 6.657905861193936e-05,
+          "tangentSpanMetres": 0.010551502629889709,
+          "passed": true
+        },
+        {
+          "panel": 5,
+          "boundaryAreaVectorLength": 8.984335962960724e-05,
+          "tangentSpanMetres": 0.015171129201404203,
+          "passed": true
+        },
+        {
+          "panel": 6,
+          "boundaryAreaVectorLength": 7.714888858698728e-05,
+          "tangentSpanMetres": 0.01508395166838093,
+          "passed": true
+        },
+        {
+          "panel": 7,
+          "boundaryAreaVectorLength": 0.017684534910847045,
+          "tangentSpanMetres": 0.16534346481680073,
+          "passed": true
+        },
+        {
+          "panel": 8,
+          "boundaryAreaVectorLength": 0.019320043153359487,
+          "tangentSpanMetres": 0.09933937690009285,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "snapshot": "proof/reference-rebuild/gusset-smooth-cage1/poses/female_Forehand_3.json",
+      "frames": [
+        {
+          "panel": 0,
+          "boundaryAreaVectorLength": 0.008196650367484936,
+          "tangentSpanMetres": 0.1426513324634187,
+          "passed": true
+        },
+        {
+          "panel": 1,
+          "boundaryAreaVectorLength": 4.2690133772366664e-05,
+          "tangentSpanMetres": 0.00802219117716869,
+          "passed": true
+        },
+        {
+          "panel": 2,
+          "boundaryAreaVectorLength": 0.00846813928088439,
+          "tangentSpanMetres": 0.12201412590069703,
+          "passed": true
+        },
+        {
+          "panel": 3,
+          "boundaryAreaVectorLength": 0.0009187197478639435,
+          "tangentSpanMetres": 0.01337259764422076,
+          "passed": true
+        },
+        {
+          "panel": 4,
+          "boundaryAreaVectorLength": 2.913194632947546e-05,
+          "tangentSpanMetres": 0.006728479968828683,
+          "passed": true
+        },
+        {
+          "panel": 5,
+          "boundaryAreaVectorLength": 0.00010657896974044963,
+          "tangentSpanMetres": 0.017499958025840038,
+          "passed": true
+        },
+        {
+          "panel": 6,
+          "boundaryAreaVectorLength": 9.89781685347845e-05,
+          "tangentSpanMetres": 0.019743254256420543,
+          "passed": true
+        },
+        {
+          "panel": 7,
+          "boundaryAreaVectorLength": 0.006639540333813547,
+          "tangentSpanMetres": 0.10999401245502023,
+          "passed": true
+        },
+        {
+          "panel": 8,
+          "boundaryAreaVectorLength": 0.006992063139265574,
+          "tangentSpanMetres": 0.1204740096321418,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "snapshot": "proof/reference-rebuild/gusset-smooth-cage1/poses/female_Forehand_2.json",
+      "frames": [
+        {
+          "panel": 0,
+          "boundaryAreaVectorLength": 0.01873473212195308,
+          "tangentSpanMetres": 0.09981229666890704,
+          "passed": true
+        },
+        {
+          "panel": 1,
+          "boundaryAreaVectorLength": 5.286989446713487e-05,
+          "tangentSpanMetres": 0.006799753683878494,
+          "passed": true
+        },
+        {
+          "panel": 2,
+          "boundaryAreaVectorLength": 0.019699318973166843,
+          "tangentSpanMetres": 0.13791215017459868,
+          "passed": true
+        },
+        {
+          "panel": 3,
+          "boundaryAreaVectorLength": 0.0004199687888124274,
+          "tangentSpanMetres": 0.04054871561073793,
+          "passed": true
+        },
+        {
+          "panel": 4,
+          "boundaryAreaVectorLength": 7.504473756161214e-05,
+          "tangentSpanMetres": 0.010541512214075968,
+          "passed": true
+        },
+        {
+          "panel": 5,
+          "boundaryAreaVectorLength": 0.00011731036501920547,
+          "tangentSpanMetres": 0.015187524586094004,
+          "passed": true
+        },
+        {
+          "panel": 6,
+          "boundaryAreaVectorLength": 8.119135180870615e-05,
+          "tangentSpanMetres": 0.013068438641768331,
+          "passed": true
+        },
+        {
+          "panel": 7,
+          "boundaryAreaVectorLength": 0.04209421521106528,
+          "tangentSpanMetres": 0.29620275320850054,
+          "passed": true
+        },
+        {
+          "panel": 8,
+          "boundaryAreaVectorLength": 0.04518772248039074,
+          "tangentSpanMetres": 0.1632890521091814,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "snapshot": "proof/reference-rebuild/gusset-smooth-cage1/poses/female_intro.json",
+      "frames": [
+        {
+          "panel": 0,
+          "boundaryAreaVectorLength": 0.028181642609562005,
+          "tangentSpanMetres": 0.17806601393643592,
+          "passed": true
+        },
+        {
+          "panel": 1,
+          "boundaryAreaVectorLength": 0.00017589952017597223,
+          "tangentSpanMetres": 0.012585287466822748,
+          "passed": true
+        },
+        {
+          "panel": 2,
+          "boundaryAreaVectorLength": 0.028493567557658393,
+          "tangentSpanMetres": 0.13649132186183147,
+          "passed": true
+        },
+        {
+          "panel": 3,
+          "boundaryAreaVectorLength": 0.000605491110686554,
+          "tangentSpanMetres": 0.022265918439352553,
+          "passed": true
+        },
+        {
+          "panel": 4,
+          "boundaryAreaVectorLength": 0.00011249917827652727,
+          "tangentSpanMetres": 0.03023577074052358,
+          "passed": true
+        },
+        {
+          "panel": 5,
+          "boundaryAreaVectorLength": 0.00016732468882285157,
+          "tangentSpanMetres": 0.027389470052979824,
+          "passed": true
+        },
+        {
+          "panel": 6,
+          "boundaryAreaVectorLength": 0.0001527540903399713,
+          "tangentSpanMetres": 0.02873699664720865,
+          "passed": true
+        },
+        {
+          "panel": 7,
+          "boundaryAreaVectorLength": 0.011934035607992789,
+          "tangentSpanMetres": 0.10016422799991725,
+          "passed": true
+        },
+        {
+          "panel": 8,
+          "boundaryAreaVectorLength": 0.011833335033071619,
+          "tangentSpanMetres": 0.1365494725412331,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "snapshot": "proof/reference-rebuild/gusset-smooth-cage1/poses/female_Forehand_1.json",
+      "frames": [
+        {
+          "panel": 0,
+          "boundaryAreaVectorLength": 0.006800241407755843,
+          "tangentSpanMetres": 0.1637954702407034,
+          "passed": true
+        },
+        {
+          "panel": 1,
+          "boundaryAreaVectorLength": 6.488865635355344e-05,
+          "tangentSpanMetres": 0.00789675804033282,
+          "passed": true
+        },
+        {
+          "panel": 2,
+          "boundaryAreaVectorLength": 0.006442164882011146,
+          "tangentSpanMetres": 0.09478037317728617,
+          "passed": true
+        },
+        {
+          "panel": 3,
+          "boundaryAreaVectorLength": 0.00038580150878689577,
+          "tangentSpanMetres": 0.03636931855277914,
+          "passed": true
+        },
+        {
+          "panel": 4,
+          "boundaryAreaVectorLength": 0.00013783957707337618,
+          "tangentSpanMetres": 0.009796262551834483,
+          "passed": true
+        },
+        {
+          "panel": 5,
+          "boundaryAreaVectorLength": 5.280047103161117e-05,
+          "tangentSpanMetres": 0.018180768168231255,
+          "passed": true
+        },
+        {
+          "panel": 6,
+          "boundaryAreaVectorLength": 2.155225932320681e-05,
+          "tangentSpanMetres": 0.012176919617608093,
+          "passed": true
+        },
+        {
+          "panel": 7,
+          "boundaryAreaVectorLength": 0.012610505120623281,
+          "tangentSpanMetres": 0.2570648291466396,
+          "passed": true
+        },
+        {
+          "panel": 8,
+          "boundaryAreaVectorLength": 0.01280889330616968,
+          "tangentSpanMetres": 0.18337027560009303,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "snapshot": "proof/reference-rebuild/gusset-smooth-cage1/poses/female_Forehand_0.json",
+      "frames": [
+        {
+          "panel": 0,
+          "boundaryAreaVectorLength": 0.008408163904631135,
+          "tangentSpanMetres": 0.13919823886391106,
+          "passed": true
+        },
+        {
+          "panel": 1,
+          "boundaryAreaVectorLength": 4.31978215662034e-05,
+          "tangentSpanMetres": 0.008080401173606375,
+          "passed": true
+        },
+        {
+          "panel": 2,
+          "boundaryAreaVectorLength": 0.008631157763103981,
+          "tangentSpanMetres": 0.12110429778813266,
+          "passed": true
+        },
+        {
+          "panel": 3,
+          "boundaryAreaVectorLength": 0.0008210455669190724,
+          "tangentSpanMetres": 0.006401234354802469,
+          "passed": true
+        },
+        {
+          "panel": 4,
+          "boundaryAreaVectorLength": 2.8817362814920782e-05,
+          "tangentSpanMetres": 0.006734675354681077,
+          "passed": true
+        },
+        {
+          "panel": 5,
+          "boundaryAreaVectorLength": 0.00010659803706398183,
+          "tangentSpanMetres": 0.017577813449175545,
+          "passed": true
+        },
+        {
+          "panel": 6,
+          "boundaryAreaVectorLength": 9.900178303737722e-05,
+          "tangentSpanMetres": 0.019769943645804183,
+          "passed": true
+        },
+        {
+          "panel": 7,
+          "boundaryAreaVectorLength": 0.006629613587929017,
+          "tangentSpanMetres": 0.11039862631429337,
+          "passed": true
+        },
+        {
+          "panel": 8,
+          "boundaryAreaVectorLength": 0.006932875969767061,
+          "tangentSpanMetres": 0.12067173482671946,
+          "passed": true
+        }
+      ]
+    }
+  ]
+}

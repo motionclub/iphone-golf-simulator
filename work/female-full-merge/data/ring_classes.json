@@ -1,0 +1,26 @@
+{
+ "adjacency: neck (not adjacent to arm zone, z>1.3)": {
+  "verts": 45,
+  "displacement_step_vs_ArtDir_mm": 0.5671694173672348
+ },
+ "adjacency: armpit/shoulder (adjacent to arm zone)": {
+  "verts": 81,
+  "displacement_step_vs_ArtDir_mm": 9.415268668805563
+ },
+ "adjacency: other 8 border verts (z<=1.3, not adjacent to arm)": {
+  "verts": 8,
+  "displacement_step_vs_ArtDir_mm": 0.9330292615076199
+ },
+ "z-based: neck (z>1.3)": {
+  "verts": 72,
+  "displacement_step_vs_ArtDir_mm": 0.5671694173672348
+ },
+ "z-based: rest (arm junction, z<=1.3, not floor)": {
+  "verts": 62,
+  "displacement_step_vs_ArtDir_mm": 9.415268668805563
+ },
+ "floor ring (|z-.62|<.01)": {
+  "verts": 88,
+  "displacement_step_vs_ArtDir_mm": 1.352949593786038
+ }
+}

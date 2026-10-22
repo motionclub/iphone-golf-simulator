@@ -1,0 +1,140 @@
+--- Unity/Assets/Editor/MatchHeroLockerExport.cs
++++ Unity/Assets/Editor/MatchHeroLockerExport.cs
+@@ -62,7 +62,8 @@
+             /// "TennisCloth", "TennisCharacter", or "Lit" (a hero material that is not on one of the hero shaders: the export refuses it).
+             public string shader;
+             public float[] color, rimColor, subsurface, headOrigin, headRight, headUp, headForward, headEye;
+-            public float specularStrength, environmentStrength, metallic, craftedPaint;
++            public float specularStrength, environmentStrength, metallic, craftedPaint, skinFinish, skinPigmentUV;
++            public bool anatomicalFace, baseMapLinear;
+             public float smoothness, wrap, rimStrength, rimPower, exposure, knee, weaveTile, weaveAngle, weaveNormal, weaveThread, sheenStrength, sheenPower, saturation, bumpScale, bumpTriplanar, bumpTile;
+             /// Cloth only: the size in metres of one weave tile (MatchHeroLook.ClothFor(role).tileMetres): weaveTile = metres per UV unit / tileMetres.
+             public float tileMetres;
+@@ -226,6 +227,8 @@
+                 var ready=motions.First(m=>m.id=="ready").clip;
+                 if(golf)PrepareMenuIronSocket(root,motions.First(m=>m.id=="golfIron").clip);
+                 var fore=golf ? motions.First(m=>m.id=="golfDrive"):new MotionSource{clip=driver.slots.First(s=>s.id==HeroTennisDriver.Clip.Forehand).clip,contact=driver.slots.First(s=>s.id==HeroTennisDriver.Clip.Forehand).contact};
++                if (!golf && Environment.GetEnvironmentVariable("MH_LOCKER_FACE_PARITY") == "1")
++                    motions.Add(new MotionSource { id="forehand", clip=fore.clip, contact=fore.contact, loop=false });
+                 var sources = Collect(root);
+                 sb.AppendLine("  parts: " + string.Join(", ", sources.Select(p => $"{p.name}[{p.kind}] v={p.mesh.vertexCount} subs={p.mesh.subMeshCount}")));
+                 foreach (var p in sources) if (!p.mesh.isReadable) throw new InvalidOperationException(p.name + " mesh is not readable");
+@@ -284,16 +287,16 @@
+                     {
+                         var idx = p.mesh.GetIndices(s); if (idx.Length == 0) continue;
+                         var mat = p.materials[Mathf.Min(s, p.materials.Length - 1)];
+-                        subs.Add(new Sub { material = Key(mat,p.kind=="body"), indexOffset = bin.Count, indexCount = idx.Length, look = ReadLook(mat, copiedMaps, golf) });
++                        subs.Add(new Sub { material = Key(mat,p.kind=="body"), indexOffset = bin.Count, indexCount = idx.Length, look = ReadLook(mat, copiedMaps, golf, p.kind == "face" && p.skinned) });
+                         for (int i = 0; i + 2 < idx.Length; i += 3) { AddInt(bin, idx[i]); AddInt(bin, idx[i + 2]); AddInt(bin, idx[i + 1]); }   // winding flipped with the z mirror
+                     }
+-                    if (p.kind == "kit")
++                    if (p.kind == "kit" || ((p.kind == "body" || p.kind == "face") && p.mesh.uv.Length == p.pos.Length))
+                     {
+                         // the kit parts have UVs in Unity (seam / collar / hem maps, the weave tiles per UV unit); the body, the painted face and the racket do not
+                         var uv = p.mesh.uv; if (uv.Length != p.pos.Length) throw new InvalidOperationException(p.name + ": kit mesh has no UV0");
+                         info.uvOffset = bin.Count; AddV2(bin, uv);
+                     }
+-                    else if (p.kind == "body")
++                    if (p.kind == "body")
+                     {
+                         // the soft skin normal is projected from the BIND-pose position (the body has no UVs): MatchHeroLook.WithBindPose puts mesh.vertices in channel 1
+                         info.bindPositionOffset = bin.Count; AddV3(bin, p.mesh.vertices, true);
+@@ -369,7 +372,7 @@
+             return "MatchHero_" + name;
+         }
+ 
+-        static Look ReadLook(Material m, SortedSet<string> maps, bool golf)
++        static Look ReadLook(Material m, SortedSet<string> maps, bool golf, bool anatomicalFace)
+         {
+             var look = new Look { shader = m && m.shader ? m.shader.name.Replace("GolfArcade/", "") : "Missing" };
+             if (!m) return look;
+@@ -380,7 +383,15 @@
+                 if (!m.HasProperty(n)) return "";
+                 var tex = m.GetTexture(n); if (!tex) return "";
+                 string path = AssetDatabase.GetAssetPath(tex);
+-                if (string.IsNullOrEmpty(path)) return "";   // a built-in default (the shader's "bump" / "white"), nothing to ship
++                if (string.IsNullOrEmpty(path)) {
++                    // Eye13 and relative pigment are runtime, linear multiplier LUTs.
++                    // Built-in white/bump defaults still have nothing to ship.
++                    if (!(tex is Texture2D generated) || !tex.name.StartsWith("Original")) return "";
++                    string cache = Path.Combine(OutDir, ".generated-maps"); Directory.CreateDirectory(cache);
++                    path = Path.Combine(cache, generated.name + ".png");
++                    File.WriteAllBytes(path, generated.EncodeToPNG());
++                    if (n == "_BaseMap") look.baseMapLinear = true;
++                }
+                 if (!path.EndsWith(".png")) throw new InvalidOperationException($"{m.name}.{n}: texture '{tex.name}' is not a PNG asset ({path})");
+                 maps.Add(path);
+                 return MapResourceName(path, golf);
+@@ -388,6 +399,7 @@
+             float[] V(string name){if(!m.HasProperty(name))return new float[0];var v=m.GetVector(name);return new[]{v.x,v.y,v.z,v.w};}
+             look.headOrigin=V("_HeadOrigin");look.headRight=V("_HeadRight");look.headUp=V("_HeadUp");look.headForward=V("_HeadForward");look.headEye=V("_HeadEye");
+             look.color = C("_BaseColor"); look.rimColor = C("_RimColor"); look.subsurface = C("_Subsurface");
++            look.anatomicalFace=anatomicalFace; look.skinFinish=F("_SkinFinish"); look.skinPigmentUV=F("_SkinPigmentUV");
+             look.craftedPaint=F("_CraftedPaint"); look.specularStrength = F("_SpecularStrength"); look.environmentStrength = F("_EnvironmentStrength"); look.metallic=F("_Metallic");
+             look.smoothness = F("_Smoothness"); look.wrap = F("_Wrap"); look.rimStrength = F("_RimStrength"); look.rimPower = F("_RimPower"); look.exposure = F("_Exposure"); look.knee = F("_Knee");
+             look.weaveTile = F("_WeaveTile"); look.weaveAngle = F("_WeaveAngle"); look.weaveNormal = F("_WeaveNormal"); look.weaveThread = F("_WeaveThread"); look.sheenStrength = F("_SheenStrength"); look.sheenPower = F("_SheenPower");
+@@ -638,9 +650,49 @@
+             // ---- golden samples for the Swift tests (what the live rig gives at known clip times), when asked for
+             if (!string.IsNullOrEmpty(GoldenDir)) {
+                 WriteGolden(root, motions, sources, rig, clipInfos, baseName);
++                WriteBlinkParity(root, motions, sources, clipInfos, baseName);
+                 WriteEmoteParity(root, motions, bones, rigid, rigidRef, baseName);
+             }
+             return rig;
++        }
++
++        [Serializable] class BlinkVertex { public int index; public float[] position; }
++        [Serializable] class BlinkSample { public string clip, part; public float time, blink; public BlinkVertex[] vertices; }
++        [Serializable] class BlinkProof { public BlinkSample[] samples; }
++        static void WriteBlinkParity(GameObject root, List<MotionSource> motions, List<PartSource> sources, List<ClipInfo> clips, string baseName)
++        {
++            var face = sources.First(p => p.name == "Face");
++            if (!face.skinned || face.mesh.GetBlendShapeIndex("Hero_Blink_Half") < 0) return;
++            Directory.CreateDirectory(GoldenDir);
++            var result = new List<BlinkSample>();
++            var look = root.GetComponent<MatchHeroLook>();
++            foreach (var ci in clips.Where(c => c.id == "ready" || c.id == "serve" || c.id == "forehand" || c.id == "wave")) {
++                var clip = motions.First(m => m.id == ci.id).clip;
++                foreach (float requested in (ci.contact > 0 ? new[] {clip.length*.5f,ci.contact} : new[] {clip.length*.5f}).Distinct()) {
++                int frame = ci.times != null ? Enumerable.Range(0,ci.frames).OrderBy(i => Mathf.Abs(ci.times[i]-requested)).First() : Mathf.RoundToInt(requested / clip.length * (ci.frames-1));
++                float t = ci.times != null ? ci.times[frame] : frame * clip.length / (ci.frames - 1);
++                foreach (float blink in new[] { 0f, .25f, .5f, .75f, 1f }) {
++                    SamplePose(root, clip, t); look.SetFacePerformance(blink, Vector2.zero);
++                    foreach (var part in sources.Where(p => p.name == "Body" || p.name == "Face")) {
++                        Pose(root, part);
++                        var indices = new SortedSet<int>();
++                        int stride = Mathf.Max(1, part.pos.Length / 160);
++                        for (int i = 0; i < part.pos.Length; i += stride) indices.Add(i);
++                        // Include every moved eyelid vertex, not a sparse anatomical guess.
++                        if (part.name == "Body") foreach (string name in new[] { "Hero_Blink_Half", "Hero_Blink" }) {
++                            int shape = part.mesh.GetBlendShapeIndex(name); if (shape < 0) continue;
++                            var dp = new Vector3[part.mesh.vertexCount]; var dn = new Vector3[dp.Length]; var dt = new Vector3[dp.Length];
++                            part.mesh.GetBlendShapeFrameVertices(shape, part.mesh.GetBlendShapeFrameCount(shape)-1, dp, dn, dt);
++                            for (int i = 0; i < dp.Length; i++) if (dp[i].sqrMagnitude > 1e-12f) indices.Add(i);
++                        }
++                        result.Add(new BlinkSample { clip=ci.id, part=part.name, time=t, blink=blink,
++                            vertices=indices.Select(i => new BlinkVertex { index=i, position=new[] {part.pos[i].x,part.pos[i].y,-part.pos[i].z} }).ToArray() });
++                    }
++                }
++            }
++            }
++            look.SetFacePerformance(0, Vector2.zero);
++            File.WriteAllText(Path.Combine(GoldenDir, baseName + "_blink_parity.json"), JsonUtility.ToJson(new BlinkProof { samples=result.ToArray() }, true));
+         }
+ 
+         /// Independent Unity samples at ten times BETWEEN the 60 Hz samples. Swift checks bone rotation and rigid racket playback against these.
+@@ -716,8 +768,12 @@
+             var list = new List<PartSource>();
+             var body = root.GetComponentsInChildren<SkinnedMeshRenderer>(true).First(r => r.enabled && (r.name.StartsWith("Body_")||r.name=="Body"));
+             list.Add(new PartSource { name = "Body", kind = "body", mesh = body.sharedMesh, renderer = body, skinned = body, materials = body.sharedMaterials });
+-            var face = root.GetComponentsInChildren<MeshRenderer>(true).First(r => r.name.StartsWith("Face_"));
+-            list.Add(new PartSource { name = "Face", kind = "face", mesh = face.GetComponent<MeshFilter>().sharedMesh, renderer = face, materials = face.sharedMaterials });
++            var face = root.GetComponent<MatchHeroLook>().face;
++            if (!face || !face.enabled) throw new InvalidOperationException("Active match face renderer missing");
++            var skinnedFace = face as SkinnedMeshRenderer;
++            var faceMesh = skinnedFace ? skinnedFace.sharedMesh : face.GetComponent<MeshFilter>()?.sharedMesh;
++            if (!faceMesh) throw new InvalidOperationException("Active match face mesh missing");
++            list.Add(new PartSource { name = "Face", kind = "face", mesh = faceMesh, renderer = face, skinned = skinnedFace, materials = face.sharedMaterials });
+             // the worn kit: skinned to the same bones, posed by the same CPU skinning as the body (checked against BakeMesh below)
+             foreach (var k in root.GetComponentsInChildren<SkinnedMeshRenderer>(true).Where(r => r.name.StartsWith("Kit_") && (r.enabled||r.name=="Kit_Glove_R")).OrderBy(r => r.name, StringComparer.Ordinal))
+                 list.Add(new PartSource { name = k.name, kind = "kit", mesh = k.sharedMesh, renderer = k, skinned = k, materials = k.sharedMaterials });

@@ -1,0 +1,19 @@
+# Golf original-polo coverage candidate
+
+Source isolation PASS: all existing polo vertices, triangles, weights, UVs and seven GolfFit morphs remain exact. Only additional Body render triangles are removed:1043male/1065female. Every Body vertex/normal/weight/bind/morph remains exact; complete editable Body is preserved. Added mask begins at1.095m male/1.10m female, leaving the hem unchanged. Neck/Head-dominant and forearm/hand faces are explicitly preserved. Measured original sleeve ends at upper-arm fraction.75; mask stops at.66.
+
+Pose dataset replay:155states per body across Driver/Iron/PitchingWedge/Wedge/Putter. Source poses unchanged by construction. Control Bake output carries1.0936m→yard scaling; canonical normalization reconstructs LBS within.0008mm. Runtime snapshot's unnormalized oracle is not a valid metre error. CompleteBody matching:53bind matrices exact; all current torso/arm vertices match complete source within1µm, with max weightL1difference3.6e-6.
+
+Source visual gate PARTIAL: hem-safe front/back sheets include exact captured Kit_Bottom and show preserved waist/cuff/neck silhouettes; skin breakthroughs decrease. Small folded cavities remain in female axilla, so cloth integrity is not certified. Source open-edge audit finds local true boundary edges (98male/72female) even after spatial welding, plus posed inversions. Root actual two-sided control did not repair the skin breakthroughs; no CullOff production promotion.
+
+Actual mask-only Unity mapping PASS: root golf-coverage1 command27.76s; all1043male/1065female canonicaltriangle correspondences matched exactly, approved garment mesh unchanged. Mask-only reduces skin breakthroughs but leaves pale openings; it is insufficient alone. Runtime profiles contain additional removed triangles as unordered canonicalrootspace positions (metres), quantized1e-5. Source hash/pose hash, expected counts and original garment hash included. OptionalOriginalSeam variants may map matching faces, but these profiles do not recreate or certify preexisting baseline Body coverage. Verify actual matched removed counts and all5clubs/bothsex front/back before promotion.
+
+Rejected off-Assets source attempts: disconnected clean patches caused large moving seam gaps; added fitted lining produced overlapping flaps. These remain rejected, not installed. No physics, contacts, rig, animation, skeleton, style, lighting or shader change is part of this candidate.
+
+## Combined actual candidate
+
+Root captured `proof/reference-rebuild/golf-coverage-two-sided1` with both additionalBody mask and controlled two-sided Top/facingnormal handling. FemaleDriverTop direct review shows no brownskin/background leak at the previous axilla breakthrough; a sharp white fold remains. Allgolf actual views are under independent review by golf_worlds. This is a bounded improvement, not full motion/garment quality certification.
+
+Independent projected coverage audit at `work/reference-rebuild/garment-coverage-independent1`:310states×4views with exactBottom. AdditionalCullBackmask changed104views; worst genuinelynew opening98pixels at maleIron021rear. Two-sided originalTop restored allfourworst cases; residual≤7pixels across1240views. Existing baselineBodycoverage was alreadycut, so this verifies the additionalmask only.
+
+Optional notinstalled prune profiles: `Fragments_{Male,Female}_Runtime.json` omit70male/66female faces belonging only to7/4 tiny detached internalaxilla components. Main garment/collar/placket/cuff remain exact; all source attributes and7morphs remain exact. FaceIDs/rootkeys/materialslot0/submesh0 and sourcehash included. No newfaces or vertexdeformation. Hold until actualcombined review necessitates a small source cleanup. Maincomponent closedloops nearaxilla are the intended cuffs at along≈.75, which must not be capped.

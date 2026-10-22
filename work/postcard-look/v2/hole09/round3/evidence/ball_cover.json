@@ -1,0 +1,26 @@
+{
+ "n": 3677,
+ "n_corridor": 1653,
+ "inside_share_all": 0.08186021212945335,
+ "inside_share_corridor": 0.016333938294010888,
+ "inside_share_off_route": 0.13537549407114624,
+ "inside_by_class_off_route": {
+  "crag": 0.014822134387351778,
+  "knoll": 0.09140316205533597,
+  "masonry": 0.003952569169960474,
+  "plant": 0.007411067193675889,
+  "rock": 0.017786561264822136,
+  "stack": 0.0
+ },
+ "inside_by_class_corridor": {
+  "crag": 0.0,
+  "knoll": 0.013914095583787053,
+  "masonry": 0.0012099213551119178,
+  "plant": 0.0,
+  "rock": 0.0012099213551119178,
+  "stack": 0.0
+ },
+ "occluded_share_off_route_any_heading": 0.4174901185770751,
+ "occluded_share_off_route_mean_heading": 0.2682806324110672,
+ "occluded_share_corridor_mean_heading": 0.02571082879612825
+}

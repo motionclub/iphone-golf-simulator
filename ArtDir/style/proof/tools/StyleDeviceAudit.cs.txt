@@ -1,0 +1,93 @@
+// SCRATCH BUILD ONLY. Never install in the shipping Assets tree.
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Globalization;
+using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Profiling;
+using Unity.Profiling;
+using GolfArcade.Game;
+using GolfArcade.Tennis;
+using GolfArcade.Hub;
+using GolfArcade.Course;
+using GolfArcade.EnvironmentArt;
+
+public sealed class StyleDeviceAudit : MonoBehaviour
+{
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+    static void Boot() { if(!Application.isEditor) { var go=new GameObject("StyleDeviceAudit");DontDestroyOnLoad(go);go.AddComponent<StyleDeviceAudit>(); } }
+    [Serializable] class Sample { public double renderedMs,cpuMs,gpuMs;public long batches,setPass,triangles,memory;public int renderInterval,reductions; }
+    [Serializable] class Report {
+        public string device,os,unity,scenario,tier,status,scope;public int stage,width,height,frames,points;public float duration;
+        public Sample[] samples;
+    }
+    readonly List<Sample> samples=new();readonly FrameTiming[] timings=new FrameTiming[1];
+    ProfilerRecorder batches,setPass,triangles;bool recording;double previous;int frame=-1;string root;
+    void Awake() {
+        root=Path.Combine(Application.persistentDataPath,"style-audit");Directory.CreateDirectory(root);
+        batches=ProfilerRecorder.StartNew(ProfilerCategory.Render,"Batches Count");
+        setPass=ProfilerRecorder.StartNew(ProfilerCategory.Render,"SetPass Calls Count");
+        triangles=ProfilerRecorder.StartNew(ProfilerCategory.Render,"Triangles Count");
+        RenderPipelineManager.endFrameRendering+=Rendered;
+    }
+    void Rendered(ScriptableRenderContext context,Camera[] cameras) {
+        if(!recording || Time.frameCount==frame || !cameras.Any(c=>c && c.cameraType==CameraType.Game))return;
+        frame=Time.frameCount;double now=Time.realtimeSinceStartupAsDouble;
+        FrameTimingManager.CaptureFrameTimings();uint count=FrameTimingManager.GetLatestTimings(1,timings);
+        if(previous>0)samples.Add(new Sample {renderedMs=(now-previous)*1000,cpuMs=count>0?timings[0].cpuFrameTime:-1,gpuMs=count>0?timings[0].gpuFrameTime:-1,
+            batches=batches.Valid?batches.LastValue:-1,setPass=setPass.Valid?setPass.LastValue:-1,triangles=triangles.Valid?triangles.LastValue:-1,
+            memory=Profiler.GetTotalAllocatedMemoryLong(),renderInterval=OnDemandRendering.renderFrameInterval,reductions=TennisQuality.Reductions});
+        previous=now;
+    }
+    void OnDestroy() { RenderPipelineManager.endFrameRendering-=Rendered;batches.Dispose();setPass.Dispose();triangles.Dispose(); }
+    IEnumerator Start() {
+        Screen.sleepTimeout=SleepTimeout.NeverSleep;
+        foreach(int stage in new[]{0,7}) foreach(var tier in new[]{TennisQuality.Tier.High,TennisQuality.Tier.Low}) {
+            Environment.SetEnvironmentVariable("VISUAL_ENVIRONMENT_STAGE",stage.ToString());
+            Environment.SetEnvironmentVariable("VISUAL_HERO_LIGHTING",stage==0?"0":"1");
+            typeof(EnvironmentLook).GetMethod("Reset",BindingFlags.Static|BindingFlags.NonPublic).Invoke(null,null);
+            typeof(HeroLightingProfile).GetMethod("Initialize",BindingFlags.Static|BindingFlags.NonPublic).Invoke(null,null);
+            WeatherDirector.Reset();
+            foreach(string scenario in new[]{"tennis","hub","golf-rain","golf-storm"}) {
+                string id="stage"+stage+"-"+tier+"-"+scenario;
+                File.WriteAllText(Path.Combine(root,"status.txt"),id+" loading");
+                GolfGame.ForcedWeather=scenario=="golf-rain"?Weather.Rain:scenario=="golf-storm"?Weather.Storm:null;
+                var bridge=FindFirstObjectByType<NativeSportsSession>();
+                var message=new NativeSportsSession.Message {version=1,session=id,action="start",sport=scenario.StartsWith("golf")?"golf":scenario,
+                    course="cliffside",venue="resort",mode="training",bench=scenario!="hub",touch=true,sound=false,haptics=false,
+                    fps=60,inputHz=60,shirt="E8505B",shorts="24345E",accent="FFFFFF",intros="off",holeFlyover=false,bigMoments=false,noTwists=true};
+                bridge.Receive(JsonUtility.ToJson(message));yield return null;
+                float deadline=Time.realtimeSinceStartup+120;
+                while(!bridge.Ready && Time.realtimeSinceStartup<deadline)yield return null;
+                if(!bridge.Ready) {File.WriteAllText(Path.Combine(root,id+"-FAIL.txt"),"Native scene readiness timed out");continue;}
+                TennisQuality.Apply(tier);Application.targetFrameRate=60;
+                bridge.Receive(JsonUtility.ToJson(new NativeSportsSession.Message {version=1,session=id,action="resume"}));
+                // Remove the existing Update-only/photo probe from this diagnostic build:
+                // capture I/O must not contaminate the measured render windows.
+                foreach(var probe in FindObjectsByType<SportsVisualTelemetry>(FindObjectsSortMode.None))Destroy(probe);
+                yield return new WaitForSecondsRealtime(30);
+                samples.Clear();previous=0;recording=true;float start=Time.realtimeSinceStartup;
+                float duration=scenario=="golf-storm"?60:120;
+                var hub=HubWorld.Find();var tennis=FindFirstObjectByType<TennisGame>();var golf=FindFirstObjectByType<GolfGame>();
+                int points=0;var flow=tennis?tennis.Flow:TennisGame.Phase.Rally;
+                while(Time.realtimeSinceStartup-start<duration) {
+                    if(hub && scenario=="hub")hub.Player.SetStick(0,Mathf.Sin((Time.realtimeSinceStartup-start)*.7f),.55f);
+                    if(tennis && flow!=tennis.Flow) { flow=tennis.Flow;if(flow==TennisGame.Phase.PointOver)points++; }
+                    if(golf && golf.Current==GolfGame.State.Aim && Time.realtimeSinceStartup-start>95)golf.StrikeToward(golf.CurrentHole.Pin);
+                    yield return null;
+                }
+                recording=false;if(hub && scenario=="hub")hub.Player.SetStick(0,0,0);
+                var report=new Report {device=SystemInfo.deviceModel,os=SystemInfo.operatingSystem,unity=Application.unityVersion,scenario=scenario,tier=tier.ToString(),stage=stage,
+                    width=Screen.width,height=Screen.height,frames=samples.Count,points=points,duration=Time.realtimeSinceStartup-start,status="captured",
+                    scope="Standalone diagnostic player, same native-session scene entry. 30s warmup. Deduplicated endFrameRendering wall-clock intervals; CPU/GPU timestamps when supported. -1 means unavailable. No screenshot I/O inside measurement. No native host UI overhead. Transparent cost and shadow triangles require a GPU trace.",samples=samples.ToArray()};
+                File.WriteAllText(Path.Combine(root,id+".json"),JsonUtility.ToJson(report));
+                ScreenCapture.CaptureScreenshot(Path.Combine(root,id+".png"));yield return new WaitForSecondsRealtime(2);
+            }
+        }
+        File.WriteAllText(Path.Combine(root,"status.txt"),"COMPLETE");
+    }
+}

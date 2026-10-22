@@ -1,0 +1,1 @@
+Review bundle com.aloniewski.GolfArcade.CoastReview. Pilot defaults on only in this clone; exact two-map guard preserved. FrameTimingStats enabled. Game Center entitlement omitted for review signing. Explicit --reskin-pilot golf benchmark restricts route to cliffside-12. Original production app data untouched.

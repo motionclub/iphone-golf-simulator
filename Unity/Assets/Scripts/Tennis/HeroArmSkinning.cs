@@ -5,6 +5,7 @@ namespace GolfArcade.Tennis
 {
     /// Volume-preserving support palette for the body's arm joints. The authored
     /// skeleton and rest vertices stay intact; garments keep their own palette.
+    [DefaultExecutionOrder(1200)]
     public sealed class HeroArmSkinning : MonoBehaviour
     {
         struct Pair { public int a,b; public Transform[] support; }
@@ -30,17 +31,21 @@ namespace GolfArcade.Tennis
             supportRoot=new GameObject("ArmVolumePalette").transform;supportRoot.SetParent(body.transform,false);
             var palette=new List<Transform>(source);var binds=new List<Matrix4x4>(bind);var lookup=new Dictionary<long,int>();
             var weights=owned.boneWeights;
+            bool limbOnly=body.sharedMesh.name.Contains("(anatomical arm weights)");
             for(int v=0;v<weights.Length;v++)
             {
                 var w=weights[v];var ids=new[]{w.boneIndex0,w.boneIndex1,w.boneIndex2,w.boneIndex3};var ws=new[]{w.weight0,w.weight1,w.weight2,w.weight3};
                 // Sort explicitly: imported weights need not arrive in descending order.
                 for(int i=0;i<4;i++)for(int j=i+1;j<4;j++)if(ws[j]>ws[i]){var f=ws[i];ws[i]=ws[j];ws[j]=f;var k=ids[i];ids[i]=ids[j];ids[j]=k;}
                 if(ws[1]<.00001f||!Joint(source[ids[0]].name,source[ids[1]].name))continue;
+                // The torso/arm fold needs linear skinning: rotating that thin
+                // bridge through a DQ arc creates a broad web under a raised arm.
+                if(limbOnly && (source[ids[0]].name.EndsWith("Shoulder") || source[ids[1]].name.EndsWith("Shoulder") || !Arm(source[ids[0]].name) || !Arm(source[ids[1]].name)))continue;
                 int a=Mathf.Min(ids[0],ids[1]),b=Mathf.Max(ids[0],ids[1]);long key=((long)a<<32)|(uint)b;
                 if(!lookup.TryGetValue(key,out int first))
                 {
                     first=palette.Count;lookup.Add(key,first);var pair=new Pair{a=a,b=b,support=new Transform[Steps-1]};
-                    for(int n=1;n<Steps;n++){var t=new GameObject($"ArmBlend_{a}_{b}_{n}").transform;t.SetParent(supportRoot,false);pair.support[n-1]=t;palette.Add(t);binds.Add(Matrix4x4.identity);}pairs.Add(pair);
+                    for(int n=1;n<Steps;n++){var t=new GameObject((body.name.StartsWith("Acc_Glove")||body.name=="Kit_Top"?body.name+"_":"")+$"ArmBlend_{a}_{b}_{n}").transform;t.SetParent(supportRoot,false);pair.support[n-1]=t;palette.Add(t);binds.Add(Matrix4x4.identity);}pairs.Add(pair);
                 }
                 float total=ws[0]+ws[1],tweight=(ids[0]==b?ws[0]:ws[1])/total*Steps;int lo=Mathf.Clamp(Mathf.FloorToInt(tweight),0,Steps-1);float u=tweight-lo;
                 int Index(int n)=>n==0?a:n==Steps?b:first+n-1;
@@ -72,6 +77,7 @@ namespace GolfArcade.Tennis
                 }
             }
         }
+        void LateUpdate()=>Apply();
         void OnDestroy(){if(Application.isPlaying){if(owned)Destroy(owned);if(supportRoot)Destroy(supportRoot.gameObject);}else{if(owned)DestroyImmediate(owned);if(supportRoot)DestroyImmediate(supportRoot.gameObject);}}
     }
 }

@@ -1,0 +1,93 @@
+GATE: blender/hole_07.blend unchanged PASS
+GATE: Unity/Assets/Resources/Course/hole_07.fbx unchanged PASS
+GATE: Unity/Assets/Resources/Course/hole_07.fbx.meta unchanged PASS
+GATE: Unity/Assets/Scripts/Course/Hole.cs unchanged PASS
+GATE: Hole.cs Postcards() == design data (no drift) PASS
+GATE: GolfGame starts Course.Postcards() PASS
+GATE: Cliffside() still in Hole.cs PASS
+start lines:      495, now lines:      510
+79a80,82
+> c59c25a0c8b13430a33caa8987bb63b22e2ef465d4ef339ba1fa71454db0da68  Unity/Assets/Characters/MatchHeroes/Female/Female_Emote_Scuba.fbx
+> 8e535cb52563aeac4daee03294b3e291eb0aee26de23fcfac807ea4cefa54ba4  Unity/Assets/Characters/MatchHeroes/Female/Female_Emote_Spike.fbx
+> 19b511a237c14af9f6a776948eae360777a623a5fbbb84be81c675f287d98b05  Unity/Assets/Characters/MatchHeroes/Female/Female_Emote_Thrust.fbx
+83a87,89
+> b6e9d804ba1d3d5e8c80fe69161a97cb0afa014714c8685073605b303c2750d7  Unity/Assets/Characters/MatchHeroes/Female/Female_Intro_BringIt.fbx
+> bfdb1e5f4cdfbf2b8eff50ce7c345ea0212ea76c427e16ad237169709fc58605  Unity/Assets/Characters/MatchHeroes/Female/Female_Intro_Pushups.fbx
+> f45322e05606058f84d05244ce1372eb1f0e78b8ec3c878c4ade34fdda9338bd  Unity/Assets/Characters/MatchHeroes/Female/Female_Intro_Wave.fbx
+99a106,108
+> 7c4df4a7ea13a7d081bb5f2e7b60165358306e9cb29de924451dac41319785c8  Unity/Assets/Characters/MatchHeroes/Male/Male_Emote_Scuba.fbx
+> 6bd88fc62fa57512f0fc05f9083fcdd7acccc42c45c3752de2eab3768701b83e  Unity/Assets/Characters/MatchHeroes/Male/Male_Emote_Spike.fbx
+> 566b612d0fdfaa3195da670b5a19c5b3705d5be0f7b219cb217ab142ae9066b8  Unity/Assets/Characters/MatchHeroes/Male/Male_Emote_Thrust.fbx
+103a113,115
+> faa807851339998ed317f325f85ecc174aed1294d22898e750d4b10c695a5759  Unity/Assets/Characters/MatchHeroes/Male/Male_Intro_BringIt.fbx
+> 37d3794e094a127a831ae713956278ab169dd543affbff800abe31fbae324b1b  Unity/Assets/Characters/MatchHeroes/Male/Male_Intro_Pushups.fbx
+> e01f4bfb8a35b2fe291547182270b6c21ac7f00f8fdd8622e8652e7135a418e0  Unity/Assets/Characters/MatchHeroes/Male/Male_Intro_Wave.fbx
+207c219
+< fa6bc3d5bbb7b13aa6e79edd4ac49b61b3ee30952c329152c06cc852d753f750  Unity/Assets/Resources/Tennis/Customization/PlayerFemale.prefab
+---
+> 8bbcb8c5ee17e30f196a699f5ec65881f58a08253a6d825db7fa4234e70ec03a  Unity/Assets/Resources/Tennis/Customization/PlayerFemale.prefab
+215c227
+< d248661e19c1c807433b193a83b5f46b5d4e0b2fcf3b0366ac779b7c75b3e4b2  Unity/Assets/Resources/Tennis/Customization/PlayerMale.prefab
+---
+> e65b950c373c2c8b5826b29be6dc1f3baf1106930f08c1703f83b801b23e764c  Unity/Assets/Resources/Tennis/Customization/PlayerMale.prefab
+275c287
+< 8b02166e8d1b1c93f2d67d1ba0b0bf34169d598f62cf7d259f794cca9f3b7c34  Unity/Assets/Resources/Tennis/KitsV3/Materials/KitV3_016.mat
+---
+> 6551133ee7cc1d765ab7a502fb52b6a18eeee0ad8fba2713026533814fc00a32  Unity/Assets/Resources/Tennis/KitsV3/Materials/KitV3_016.mat
+417c429
+< d8aabca163f674b8cb1ddf7b60c49f40382551a84292160dab2a781efdabe0a7  Unity/Assets/Scripts/Tennis/HeroTennisDriver.cs
+---
+> a4e5c6f8edeaa509848a900216482b3b0db20e02cc671710e3804f2223a0497b  Unity/Assets/Scripts/Tennis/HeroTennisDriver.cs
+425c437,438
+< 30a225dd21b0fcf12c9a66a633bbc86af8e5c9779f0da862520e078ac4eeb9f7  Unity/Assets/Scripts/Tennis/TennisActor.cs
+---
+> ebbead12a6397ff53bf39ae89d004e4e5cf2da0111b89640402545fe1f4c3786  Unity/Assets/Scripts/Tennis/TennisActor.cs
+> e872f1e6646f9e726f85596c5b3528cacc41f0bce25812e607270a5f9a95cbcd  Unity/Assets/Scripts/Tennis/TennisAimPractice.cs
+429c442
+< 48e5a24e4099070358e109f2b3dbea0243bba6d1b63b8f5117ccc6da8eaa35d2  Unity/Assets/Scripts/Tennis/TennisBall.cs
+---
+> d93e52b5b013ef8f07278370c931b637f29e5716d0ecaafd3902c58367b17bf5  Unity/Assets/Scripts/Tennis/TennisBall.cs
+431c444
+< 00c52231e8eeaa5df886dc132155c49d25bd9da7202b7672bde7c0a99a177697  Unity/Assets/Scripts/Tennis/TennisCoach.cs
+---
+> a325b976e4a405be8b6b04575dc6c6f85063973bb9f2828dcc29051622516c59  Unity/Assets/Scripts/Tennis/TennisCoach.cs
+436c449,450
+< 2d58496a4c6eca395600d50aa24590c303fa868fd8775da87bbd4691779e3459  Unity/Assets/Scripts/Tennis/TennisGame.cs
+---
+> e48480c3b63c80430f8430dce45ec2524ad9076706cc1271dcf4b0b088303025  Unity/Assets/Scripts/Tennis/TennisGame.Network.cs
+> 9df54a482a2733b5a99de28b41f3473980ee17dc991181dc2f115fc87ee8f07b  Unity/Assets/Scripts/Tennis/TennisGame.cs
+438,440c452,454
+< d057d3cc2aefaab0047aeba25a2473104c099e90dabc67225fc4e8c5ec8984eb  Unity/Assets/Scripts/Tennis/TennisHitMap.cs
+< b0289984a6b6fcb6dcc4f6e65e35b2cd885abb6785ed230bb1c6ce7a96047875  Unity/Assets/Scripts/Tennis/TennisHud.cs
+< e1fa7b1df47fe6da84a679c83027af998e97c881a5fc59caebff8ffc91f50567  Unity/Assets/Scripts/Tennis/TennisJuice.cs
+---
+> 2c9682c95d09868f59ac368ca70e2151f2445e1c83ab8d691ed3447028b1f76b  Unity/Assets/Scripts/Tennis/TennisHitMap.cs
+> 77539af07502e7f788612cdb4bc61ae14d7c32259a074679544d830c4c15f8c9  Unity/Assets/Scripts/Tennis/TennisHud.cs
+> c94077562c2629ff5ab5bc3477b6e578da32235077637db05089244e8e594b13  Unity/Assets/Scripts/Tennis/TennisJuice.cs
+446,448c460,462
+< 7a45aabe926140857ab7ce1dd09501c5c1b7fa6ff3cee128e0a45f2df4d76f9e  Unity/Assets/Scripts/Tennis/TennisOpponent.cs
+< e7aec4be65aaa34dd210ad67aab804142b6d4f10b27a00a54e29cfe0ea7c9767  Unity/Assets/Scripts/Tennis/TennisOpponentProfile.cs
+< 1fb82d0e876e623ffc9f9d16bc4f325d0e11b5d74bb2fb5292257d37a158a2cf  Unity/Assets/Scripts/Tennis/TennisOverheads.cs
+---
+> db928a3a1f8ae9ae866982dfaa5183cbd158e8b87422e367d8f0ed57025cff82  Unity/Assets/Scripts/Tennis/TennisOpponent.cs
+> 66243f7c8e6c941860f3997d852712ab226bdc4a05f223e2430d7e70848b8cb6  Unity/Assets/Scripts/Tennis/TennisOpponentProfile.cs
+> 71688d8d501e3e70c91aef2eca63ab2f4bd0773defdf7bead5001bd431a01f66  Unity/Assets/Scripts/Tennis/TennisOverheads.cs
+456c470
+< a452853777324418824b060a1eb1fe70d95101a49511416339382bfec5543583  Unity/Assets/Scripts/Tennis/TennisRules.cs
+---
+> d709703d7d51bdbe2b88addf251f858e79d56679be679a77284f57ba6b185fb7  Unity/Assets/Scripts/Tennis/TennisRules.cs
+457a472
+> cece62bea621f83cddcb03c24e492c0ea820da38843f4b22967f374259b47358  Unity/Assets/Scripts/Tennis/TennisShoulderCamera.cs
+487c502
+< 81c9da2474498701386b000d8a9b2a95e6a83a4400cb7ad272f30e603d862bec  Unity/ProjectSettings/QualitySettings.asset
+---
+> 138837f0befc43514148199a51423e547b6316b99a55cde68ee32742228a32fa  Unity/ProjectSettings/QualitySettings.asset
+
+--- files in the protected trees modified after my session start (find -newer unity_r2/GolfLook.cs.at_r2_start):
+Unity/ProjectSettings/QualitySettings.asset
+(end of list)
+--- hole_07 + meta + Hole.cs mtimes:
+-rw-r--r--@ 1 adnanyonathan  staff  523596 Sep 20 20:55 Unity/Assets/Resources/Course/hole_07.fbx
+-rw-r--r--@ 1 adnanyonathan  staff    2891 Sep 20 20:55 Unity/Assets/Resources/Course/hole_07.fbx.meta
+-rw-r--r--@ 1 adnanyonathan  staff   27866 Oct  3 17:40 Unity/Assets/Scripts/Course/Hole.cs
+-rw-r--r--@ 1 adnanyonathan  staff  375444 Sep 20 20:55 blender/hole_07.blend

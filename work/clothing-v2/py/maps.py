@@ -108,10 +108,14 @@ def details_polo2(cv, D):
     cv.groove(dcu, D.get('cuff_w', .024), cf + shell * (dcu < .03), width=.0008, depth=.0005, dark=.25)
     trim = np.zeros(cv.n)
     plain = bool(D.get('plain'))
-    for lo, hi in ([] if plain else TIP2): trim = np.maximum(trim, band(dcu, lo, hi, aa) * cf)
+    # optional per-garment tipping (male pack sheet 09: ONE navy tip on the collar edge, plain rib cuffs): mapdata_tip_collar / _cuff = flat (lo, hi) pairs
+    tipc = np.asarray(cv.g['mapdata_tip_collar']).reshape(-1, 2).tolist() if 'mapdata_tip_collar' in cv.g.files and np.asarray(cv.g['mapdata_tip_collar']).size >= 2 else ([] if plain else TIP2)
+    tipu = np.asarray(cv.g['mapdata_tip_cuff']).reshape(-1, 2).tolist() if 'mapdata_tip_cuff' in cv.g.files and np.asarray(cv.g['mapdata_tip_cuff']).size >= 2 else ([] if plain or 'mapdata_tip_cuff' in cv.g.files else TIP2)
+    for lo, hi in tipu: trim = np.maximum(trim, band(dcu, lo, hi, aa) * cf)
     # collar: tipping near the fall's free edge, a soft ridge at the roll line
     co = (k == 1).astype(float); ce = cv.A('collar_edge', 1.0)
-    for lo, hi in ([] if plain else TIP2): trim = np.maximum(trim, band(ce, lo, hi, aa) * co)
+    for lo, hi in tipc: trim = np.maximum(trim, band(ce, lo, hi, aa) * co)
+    trim = np.maximum(trim, co * smoothstep(.3, .7, cv.A('collar_under', 0.0)))       # golf: contrast underside / stand (sheet 10)
     # placket: box stitch, the overlap edge, buttonholes
     pk = (k == 2).astype(float)
     if pk.any():
@@ -164,6 +168,8 @@ def details_shorts2(cv, D):
 DETAILS = {'polo2': lambda cv: details_polo2(cv, dict(hem_w=.026, cuff_w=.024, placket_w=.030, plain='plain' in cv.g.files and int(cv.g['plain']) == 1)),
            'shorts2': lambda cv: details_shorts2(cv, dict(hem_w=.026, band_h=.044)),
            'shoe2': lambda cv: details_shoe2(cv, {}),
+           'shoe3': lambda cv: details_shoe3(cv, {}),
+           'shoe4': lambda cv: details_shoe4(cv, {}),
            'sock2': lambda cv: details_sock2(cv, {}),
            'tank2': lambda cv: details_tank2(cv, dict(hem_band=.030, trim_w=.0075)),
            'skirt2': lambda cv: details_skirt2(cv, dict(z_stitch=.905)),
@@ -218,12 +224,171 @@ def details_shoe2(cv, D):
         u_ = u_ + .5 * (np.floor(v_) % 2)
         gx = (u_ % 1.0) - .5; gy = (v_ % 1.0 - .5) * .87
         dot = smoothstep(.34, .20, np.hypot(gx, gy * 1.15))
-        pm = up * smoothstep(.20, .26, qy) * (1 - smoothstep(.60, .66, qy)) * smoothstep(.020, .030, qz) * (1 - smoothstep(.062, .074, qz)) * smoothstep(.025, .035, np.abs(qx)) \
+        py0, py1 = (float(cv.g['mapdata_shoetrim'][4]), float(cv.g['mapdata_shoetrim'][5])) if 'mapdata_shoetrim' in cv.g.files else (.20, .66)
+        pm = up * smoothstep(py0, py0 + .06, qy) * (1 - smoothstep(py1 - .06, py1, qy)) * smoothstep(.020, .030, qz) * (1 - smoothstep(.062, .074, qz)) * smoothstep(.025, .035, np.abs(qx)) \
             * smoothstep(.014, .020, d_rim) * smoothstep(.002, .008, f_eye if f_eye is not None else .05)
         cv.H -= .00060 * dot * pm; cv.C *= 1 - .55 * dot * pm
     if cv.A('tr_sole', 0.0).max() > .5:
         trim = np.maximum(trim, sole * (pz < zos - .0006) * (cv.A('tr_sole', 0.0) > .5))
         trim = np.maximum(trim, (k == 10).astype(float))
+    return np.clip(trim, 0, 1)
+
+
+def details_shoe3(cv, D):
+    """shoe3 (designed last): shoe2's construction marks, but the wing overlays are drawn PER TEXEL from the interpolated (y/L, z)
+    against the design's polygons (crisp edges), and the outsole band (below the sole_zos line) is the trim on tennis designs."""
+    trim = details_shoe2(cv, D)
+    g = cv.g
+    if 'mapdata_wings' in g.files and float(np.asarray(g['mapdata_wing_n']).sum()) > 0:
+        k = cv.kind; up = (k == 19).astype(float); aa = cv.texel * .7
+        qy, qz, qx = cv.A('qy', 0.0), cv.A('qz', 0.0), cv.A('qx', 0.0)
+        flat = np.asarray(g['mapdata_wings']).reshape(-1, 2); counts = [int(c) for c in np.asarray(g['mapdata_wing_n'])]
+        inside = np.zeros(cv.n, bool); o = 0
+        for c in counts:
+            poly = flat[o:o + c]; o += c
+            x, y = qy, qz; ins = np.zeros(cv.n, bool)
+            for i in range(c):
+                (x1, y1), (x2, y2) = poly[i], poly[(i + 1) % c]
+                ins ^= ((y1 > y) != (y2 > y)) & (x < (x2 - x1) * (y - y1) / (y2 - y1 + 1e-12) + x1)
+            inside |= ins
+        side = smoothstep(.022, .034, np.abs(qx))
+        wing = inside.astype(float) * side * up * smoothstep(.006, .014, cv.A('d_rim', 1.0))
+        trim = np.maximum(trim, wing)
+    if 'mapdata_shoetrim' in g.files:        # design trims (male pack 13): heel counter, toe cap, padded collar + tab in the trim colour; darker outsole
+        ct, tt, cw, otone = [float(v) for v in np.asarray(g['mapdata_shoetrim'])[:4]]
+        k = cv.kind; up = (k == 19).astype(float); aa = cv.texel * .7
+        if ct > 0: trim = np.maximum(trim, up * smoothstep(-aa, aa, cv.A('f_counter', -1.0)))
+        if tt > 0: trim = np.maximum(trim, up * smoothstep(-aa, aa, cv.A('f_toe', -1.0)))
+        if cw > 0:
+            trim = np.maximum(trim, ((k == 12) | (k == 17)).astype(float))
+            trim = np.maximum(trim, up * smoothstep(cw + aa, cw - aa, cv.A('d_rim', 1.0)) * smoothstep(.43, .40, cv.A('qy', 0.0)))
+        if otone < 1:
+            sole = (k == 9).astype(float); zos = cv.A('sole_zos', 0.0)
+            cv.C *= (1 - (1 - otone) * sole * (cv.pos[:, 2] < zos - .0006))[:, None] if cv.C.ndim == 2 else (1 - (1 - otone) * sole * (cv.pos[:, 2] < zos - .0006))
+    return np.clip(trim, 0, 1)
+
+
+def _s4_polys(g, key):
+    if 'mapdata_' + key not in g.files or np.asarray(g['mapdata_' + key]).size < 2: return []
+    flat = np.asarray(g['mapdata_' + key]).reshape(-1, 2); counts = [int(c) for c in np.asarray(g['mapdata_' + key + '_n'])]
+    out = []; o = 0
+    for c in counts:
+        if c > 0: out.append(flat[o:o + c])
+        o += c
+    return out
+
+
+def _poly_sdist(x, y, poly):
+    """signed distance (reference units) to a closed polygon in (s, h): negative inside."""
+    d = np.full(len(x), np.inf); ins = np.zeros(len(x), bool)
+    for i in range(len(poly)):
+        (x1, y1), (x2, y2) = poly[i], poly[(i + 1) % len(poly)]
+        dx, dy = x2 - x1, y2 - y1; t = np.clip(((x - x1) * dx + (y - y1) * dy) / (dx * dx + dy * dy + 1e-12), 0, 1)
+        d = np.minimum(d, np.hypot(x - (x1 + t * dx), y - (y1 + t * dy)))
+        ins ^= ((y1 > y) != (y2 > y)) & (x < dx * (y - y1) / (dy + 1e-12) + x1)
+    return np.where(ins, -d, d)
+
+
+def _line_dist(x, y, line):
+    d = np.full(len(x), np.inf)
+    for i in range(len(line) - 1):
+        (x1, y1), (x2, y2) = line[i], line[i + 1]
+        dx, dy = x2 - x1, y2 - y1; t = np.clip(((x - x1) * dx + (y - y1) * dy) / (dx * dx + dy * dy + 1e-12), 0, 1)
+        d = np.minimum(d, np.hypot(x - (x1 + t * dx), y - (y1 + t * dy)))
+    return d
+
+
+def details_shoe4(cv, D):
+    """shoe4 (male pack sheets 13 / 14): every mark is placed in the sheet's own (s, h) units, so the panels land where the sheet draws them.
+    trim (B) = heel counter + saddle + toe cap (+ collar roll, heel loop, lining, golf sole); perforations; stitched panel edges; eyestay +
+    vamp seams; padded collar / tongue; midsole sculpt lines; outsole herringbone (tennis) or traction lugs (golf)."""
+    g = cv.g; k = cv.kind; p = cv.pos; aa = cv.texel * .7; along = cv.um + cv.vm * .37
+    Ls = float(np.asarray(cv.A('shoeL', .33)).mean()) if cv.n else .33
+    s4, h4, qx = cv.A('s4', 0.0), cv.A('h4', 0.0), cv.A('qx', 0.0)
+    col = np.asarray(g['mapdata_s4_col']) if 'mapdata_s4_col' in g.files else np.array([1, 0, .68, 1, 0, 1, .47, .76])
+    collar_trim, tongue_trim, otone, mtone, sole_trim, tread, t0, t1 = [float(v) for v in col[:8]]
+    up = (k == 19).astype(float); lin = (k == 21).astype(float); tg = (k == 6).astype(float); lace = (k == 7).astype(float)
+    roll = (k == 12).astype(float); tab = (k == 17).astype(float); sole = (k == 9).astype(float)
+    d_rim = cv.A('d_rim', 1.0)
+    trim = np.zeros(cv.n)
+    # ---- trim panels: one signed distance over all trim polygons (metres on the shoe = reference units * Ls)
+    polys = _s4_polys(g, 's4_trim')
+    sd = np.min([_poly_sdist(s4, h4, q) for q in polys], axis=0) * Ls if polys else np.full(cv.n, 1.0)
+    trim = np.maximum(trim, up * smoothstep(aa, -aa, sd))
+    # panel edges: a turned edge groove + a stitch row 2.2 mm inside the panel
+    edge = up * (np.abs(sd) < .008)
+    cv.groove(sd, 0.0, edge, width=.0006, depth=.00055, dark=.30)
+    cv.stitch(sd, -.0022, along, edge, pitch=.0032)
+    # heel counter emboss (a raised inner outline on the counter)
+    for q in _s4_polys(g, 's4_emboss'):
+        de = _poly_sdist(s4, h4, q) * Ls
+        cv.ridge(de, 0.0, up * (np.abs(de) < .006), width=.0010, height=.00045)
+    # seams (eyestay panel, vamp overlay): groove + double stitch
+    for q in _s4_polys(g, 's4_seams'):
+        dl = _line_dist(s4, h4, q) * Ls
+        m = up * (dl < .008) * smoothstep(.004, .008, d_rim)
+        cv.groove(dl, 0.0, m, width=.0006, depth=.0005, dark=.28)
+        cv.stitch(dl, .0024, along, m, pitch=.0032)
+    # perforations: staggered dot grid inside the perf polygon, fading toward its edges like the sheet
+    pp = _s4_polys(g, 's4_perf')
+    if pp:
+        pitch, r = [float(v) for v in np.asarray(g['mapdata_s4_perfp'])[:2]]
+        dp = _poly_sdist(s4, h4, pp[0]) * Ls
+        u_ = s4 * Ls / pitch; v_ = h4 * Ls / (pitch * .866); u_ = u_ + .5 * (np.floor(v_) % 2)
+        gx = (u_ % 1.0 - .5) * pitch; gy = (v_ % 1.0 - .5) * pitch * .866
+        dot = smoothstep(r + aa, r - aa, np.hypot(gx, gy))
+        pm = up * smoothstep(.0, -.006, dp) * (1 - trim) * smoothstep(.006, .012, d_rim)
+        cv.H -= .0007 * dot * pm; cv.C *= 1 - .62 * dot * pm
+    # collar roll, heel loop, lining: trim colour (sheet: navy padded collar + lining + pull loop)
+    if collar_trim > 0:
+        mouth = smoothstep(.3, .7, cv.A('mouth', 1.0))
+        trim = np.maximum(trim, roll * mouth + tab + lin * smoothstep(t0 + .02, t0 - .02, s4))
+    if tongue_trim > 0: trim = np.maximum(trim, tg)
+    cv.folds(along, .010, .00040, roll, 3)
+    cv.stitch(d_rim, .0042, along, up * (d_rim < .008) * (s4 < t0 + .02), pitch=.0032)
+    # eyestay stitch along the throat edge
+    cv.stitch(d_rim, .0060, along, up * (d_rim < .010) * (s4 > t0 - .01), pitch=.0032)
+    # tongue: padded mesh with a bound top edge
+    tgy = cv.A('tg_edge', 1.0)
+    cv.stitch(tgy, .88, along, tg, pitch=.0032)
+    cv.folds(cv.vm, .009, .0003, tg, 5)
+    # laces: twisted weave
+    cv.stitch(cv.vm, 0.0, cv.um, lace, pitch=.0016, width=.0004)
+    # ---- sole: midsole (foam) / outsole (rubber) joint, sculpted sidewall lines, tread
+    zos, zms, zbt = cv.A('sole_os', 0.0), cv.A('sole_ms', 0.0), cv.A('sole_bot', 0.0)
+    nz = cv.I(cv.g['nrm'])[:, 2]
+    pz = p[:, 2]
+    side = sole * (nz > -.6) * (nz < .6)
+    bottom = sole * (nz <= -.6)
+    out_band = side * (pz < zos)
+    cv.groove(pz - zos, 0.0, side, width=.0006, depth=.0007, dark=.40)
+    # midsole sculpt: two flowing lines (sheet 13 lateral) - a high one that dips toward the arch and a low one that rises to the heel
+    if tread == 1:
+        f1 = zms + (zos - zms) * (.30 + .10 * np.sin(np.clip(s4, 0, 1) * math.pi * 1.2))
+        f2 = zms + (zos - zms) * (.62 - .12 * smoothstep(.0, .35, s4) + .10 * smoothstep(.55, .95, s4))
+        ms_side = side * (pz > zos + .002) * (pz < zms - .002)
+        cv.groove(pz - f1, 0.0, ms_side, width=.0010, depth=.0007, dark=.12)
+        cv.groove(pz - f2, 0.0, ms_side * smoothstep(.05, .2, s4) * (1 - smoothstep(.75, .9, s4)), width=.0012, depth=.0008, dark=.10)
+    if otone < 1:
+        cv.C *= 1 - (1 - otone) * (out_band + bottom)
+    if sole_trim > 0:
+        trim = np.maximum(trim, sole * (pz < zms + .0012))
+    cx_, hw_ = cv.A('sole_cx', 0.0), cv.A('sole_hw', .05)
+    lx = p[:, 0] - cx_          # world x is the hero's lateral axis only roughly; the pattern only needs a consistent cross coordinate
+    if tread == 1:
+        # herringbone: chevrons across the sole, pointing toe-ward, 6.5 mm pitch; they also show on the outsole band's edge
+        ph = (s4 * Ls / .0065 + np.abs(lx) / .0065 * .85) % 1.0
+        groove = smoothstep(.22, .06, np.abs(ph - .5) - .25)
+        cv.H -= .0016 * groove * bottom; cv.C *= 1 - .38 * groove * bottom
+        cv.H -= .0006 * groove * out_band * smoothstep(zos - .002, zbt + .002, pz); cv.C *= 1 - .25 * groove * out_band * smoothstep(zos - .002, zbt + .002, pz)
+        # the flat arch bridge is midsole foam (not rubber)
+        arch = bottom * smoothstep(.30, .38, s4) * (1 - smoothstep(.52, .60, s4)) * smoothstep(.15, .45, -lx / (hw_ + 1e-6))
+        cv.C *= 1 + (1 / max(otone, .3) - 1) * arch
+    else:
+        # golf: blocky traction lugs on the low outsole bottom between the spikes
+        u_ = s4 * Ls / .011; v_ = lx / .009 + .5 * (np.floor(u_) % 2)
+        lug = smoothstep(.40, .30, np.maximum(np.abs(u_ % 1.0 - .5), np.abs(v_ % 1.0 - .5)))
+        cv.H += .0010 * lug * bottom; cv.C *= 1 - .25 * (1 - lug) * bottom
     return np.clip(trim, 0, 1)
 
 
@@ -618,7 +783,7 @@ def trims(cv, piece, D, vertex_trim):
 def ambient_occlusion(hero_id, body, pieces, rays=20, dist=.05, only=None):
     """per-vertex AO of every piece against the body + every other piece (rest pose)."""
     allp = [body.pos]; allt = [body.tri]; off = len(body.pos)
-    cf = os.path.join(ROOT, 'out', hero_id, 'unity', 'cover.npz')
+    cf = os.path.join(os.environ.get('CV2_OUT', os.path.join(ROOT, 'out')), hero_id, 'unity', 'cover.npz')
     if os.path.exists(cf):
         cvz = np.load(cf); hid = np.zeros(len(body.pos), bool)
         for k in cvz.files:
@@ -662,7 +827,7 @@ def bake(hero_id):
     import designs
     hero = cv2io.Hero(hero_id); body = G.Body(hero)
     D = designs.design(hero_id)
-    udir = os.path.join(ROOT, 'out', hero_id, 'unity')
+    udir = os.path.join(os.environ.get('CV2_OUT', os.path.join(ROOT, 'out')), hero_id, 'unity')
     pieces = {os.path.basename(f)[:-10]: dict(np.load(f)) for f in sorted(glob.glob(os.path.join(udir, 'Kit_*_final.npz')))}
     only = set(os.environ['CV2_PIECES'].split(',')) if os.environ.get('CV2_PIECES') else None
     aos = ambient_occlusion(hero_id, body, pieces, only=only)

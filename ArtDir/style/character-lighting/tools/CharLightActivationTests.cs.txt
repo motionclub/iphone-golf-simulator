@@ -1,0 +1,27 @@
+using System;
+using System.Linq;
+using System.Reflection;
+using GolfArcade.Tennis;
+using NUnit.Framework;
+using UnityEngine;
+namespace GolfArcade.PlayTests {
+ public class CharLightActivationTests {
+  [TestCase(null,0f)] [TestCase("0",0f)] [TestCase("1",1f)]
+  public void LookDevIsExplicitAndDoesNotMutateVenue(string setting,float expected) {
+   var previous=Environment.GetEnvironmentVariable("VISUAL_HERO_LIGHTING");
+   var initialize=typeof(HeroLightingProfile).GetMethod("Initialize",BindingFlags.Static|BindingFlags.NonPublic);
+   var lights=UnityEngine.Object.FindObjectsByType<Light>(FindObjectsSortMode.None).OrderBy(l=>l.GetInstanceID()).ToArray();
+   var values=lights.Select(l=>(l.intensity,l.color,l.shadows,l.shadowStrength,l.transform.position,l.transform.rotation)).ToArray();
+   var ambient=(RenderSettings.ambientMode,RenderSettings.ambientLight,RenderSettings.ambientSkyColor,RenderSettings.ambientEquatorColor,RenderSettings.ambientGroundColor);
+   var fog=(RenderSettings.fog,RenderSettings.fogColor,RenderSettings.fogStartDistance,RenderSettings.fogEndDistance,RenderSettings.skybox);
+   try {
+    Environment.SetEnvironmentVariable("VISUAL_HERO_LIGHTING",setting);initialize.Invoke(null,null);
+    Assert.AreEqual(expected,Shader.GetGlobalFloat("_HeroLightingEnabled"));
+    Assert.AreEqual(lights.Length,UnityEngine.Object.FindObjectsByType<Light>(FindObjectsSortMode.None).Length);
+    CollectionAssert.AreEqual(values,lights.Select(l=>(l.intensity,l.color,l.shadows,l.shadowStrength,l.transform.position,l.transform.rotation)).ToArray());
+    Assert.AreEqual(ambient,(RenderSettings.ambientMode,RenderSettings.ambientLight,RenderSettings.ambientSkyColor,RenderSettings.ambientEquatorColor,RenderSettings.ambientGroundColor));
+    Assert.AreEqual(fog,(RenderSettings.fog,RenderSettings.fogColor,RenderSettings.fogStartDistance,RenderSettings.fogEndDistance,RenderSettings.skybox));
+   } finally { Environment.SetEnvironmentVariable("VISUAL_HERO_LIGHTING",previous);initialize.Invoke(null,null); }
+  }
+ }
+}

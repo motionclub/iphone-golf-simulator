@@ -1,0 +1,35 @@
+{
+ "params": {
+  "r_a": 0.0124,
+  "r_n": 0.0155,
+  "kp_scale": 1.15,
+  "flex_scale": 2.0,
+  "mcp_flex": 2.5,
+  "len_scale": 1.03,
+  "splay_scale": 0.7,
+  "thumb_r_scale": 1.06,
+  "thumb_len_scale": 0.95,
+  "thumb_pitch": -0.004,
+  "thumb_ip_bend": 15.0,
+  "gap": 0.0034
+ },
+ "cost": 2000.5,
+ "result": {
+  "roi_total": 2347,
+  "roi": {
+   "bald_front_L": 263,
+   "bald_front_R": 452,
+   "bald_back_L": 441,
+   "bald_back_R": 421,
+   "sheet_front_L": 154,
+   "sheet_front_R": 170,
+   "sheet_back_L": 343,
+   "sheet_back_R": 103
+  },
+  "full": {
+   "bald_front": 4.498,
+   "bald_back": 4.467
+  },
+  "sec": 0.4
+ }
+}

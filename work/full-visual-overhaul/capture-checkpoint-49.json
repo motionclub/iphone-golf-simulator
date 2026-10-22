@@ -1,0 +1,50 @@
+[
+  {
+    "name": "character-pass-27-art5",
+    "method": "GolfArcade.EditorTools.VisualOverhaulCharacterCapture.Run",
+    "env": {
+      "VISUAL_CHARACTER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/character-pass-27-art5",
+      "VISUAL_CHARACTER_STARTER": "1"
+    }
+  },
+  {
+    "name": "golf-characters-pass-11",
+    "method": "GolfArcade.EditorTools.VisualOverhaulGolfCharacterCapture.Run",
+    "env": {
+      "VISUAL_GOLF_CHARACTER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-characters-pass-11"
+    }
+  },
+  {
+    "name": "tennis-world20-resort",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-worlds-pass-20",
+      "HERO_VENUE_SURFACES": "1",
+      "HERO_VENUE_REFERENCE": "1",
+      "HERO_VENUE_ONLY": "1_gameplay,9_hero_postcard,14_reference_camera,3_drone0,11_surface_close,12_terrace_close,12_facade_close,12_basalt_close"
+    }
+  },
+  {
+    "name": "tennis-world20-skyscraper",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "skyscraper",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-worlds-pass-20",
+      "HERO_VENUE_SURFACES": "1",
+      "HERO_VENUE_REFERENCE": "1",
+      "HERO_VENUE_ONLY": "1_gameplay,9_hero_postcard,14_reference_camera,3_drone0,11_surface_close,12_terrace_close,12_facade_close,12_basalt_close"
+    }
+  },
+  {
+    "name": "tennis-world20-volcano",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "volcano",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-worlds-pass-20",
+      "HERO_VENUE_SURFACES": "1",
+      "HERO_VENUE_REFERENCE": "1",
+      "HERO_VENUE_ONLY": "1_gameplay,9_hero_postcard,14_reference_camera,3_drone0,11_surface_close,12_terrace_close,12_facade_close,12_basalt_close"
+    }
+  }
+]

@@ -1,0 +1,221 @@
+--- a/Unity/Assets/Scripts/Course/GolfMovingTurfProofRunner.cs
++++ b/Unity/Assets/Scripts/Course/GolfMovingTurfProofRunner.cs
+@@ -59,7 +59,7 @@
+         const BindingFlags Private=BindingFlags.Instance|BindingFlags.NonPublic;
+         [Serializable] public sealed class PoseReport
+         {
+-            public string label,image,physicsGate,physicsHash,poolHash,selectedCollider,selectedSurface;
++            public string label,image,physicsGate,physicsHash,poolHash,selectedCollider,selectedSurface,courseLie;
+             public Vector3 requestedPoint;public float selectionDistanceMeters,clearanceMeters;
+             public int hole,placedFrame,renderedFrame,lateUpdateFrame,rebuildBefore,rebuildAfter;
+             public int cells,near,mid,far,retainedBlocks,retainedCells,regeneratedComparedCells;
+@@ -71,7 +71,11 @@
+         [Serializable] public sealed class HoleReport
+         {
+             public int hole,flightFrames,flightCoarseStations;
+-            public bool moving,ownerExact,dressingPhysicsExact,flightRebuildsAbsent;
++            public bool moving,ownerExact,dressingPhysicsExact,flightRebuildsAbsent,flightStaticPhysicsExact,windmillStaticExact,windmillLaunchExact,windmillPhaseExact=true;
++            public double windmillLaunchExpected,windmillLaunchActual,windmillMaximumPhaseError,windmillCurrentAngleBefore,windmillCurrentAngleAfter,windmillInitialFlightTime;
++            public string flightBeforeAudit,flightAfterAudit;
++            public int renderedWaterTriangles;public bool knownWaterStationRejected;
++            public List<WindFieldChange> windmillChangedFields=new();
+             public string gate,dressingAudit,baselinePhysicsHash;
+             public List<PoseReport> poses=new();
+         }
+@@ -81,6 +85,14 @@
+             public string timingScope="Stopwatch timestamps inside production RefreshForAddress only; excludes capture/audit overhead. Desktop latency, no phone-FPS claim.";
+             public List<HoleReport> holes=new();
+         }
++        [Serializable] public sealed class WindFieldChange {public string field,before,after;}
++        sealed class WindSnapshot {public SpinningSails instance;public Delegate angle,drive;public readonly Dictionary<string,string> fields=new();}
++        readonly struct WaterTriangle
++        {
++            public readonly Vector3 a,b,c;public readonly Vector2 lo,hi;
++            public WaterTriangle(Vector3 x,Vector3 y,Vector3 z){a=x;b=y;c=z;lo=Vector2.Min(new(x.x,x.z),Vector2.Min(new(y.x,y.z),new(z.x,z.z)));hi=Vector2.Max(new(x.x,x.z),Vector2.Max(new(y.x,y.z),new(z.x,z.z)));}
++        }
++        readonly List<WaterTriangle> renderedWater=new();
+         sealed class BlockSnapshot {public object block;public object[] cells;public string[] hashes;}
+         sealed class Pose {public string label;public CoursePoint point,requested;public bool sameStation,recordForReturn,returnStation;public float clearance;}
+         sealed class SelectionGround {public MeshCollider collider;public Bounds bounds;public Material[] materials;public int[] triangleEnds;}
+@@ -160,6 +172,12 @@
+                 foreach(var canvas in Object.FindObjectsByType<Canvas>(FindObjectsSortMode.None))canvas.enabled=false;
+                 HideAim();golfer.SetVisible(true);
+                 CacheSelectionGround();
++                holeReport.renderedWaterTriangles=renderedWater.Count;
++                if(number==19){
++                    var priorWater=new CoursePoint(-.004415035247802734,179.12255859375);
++                    holeReport.knownWaterStationRejected=!GrassAt(priorWater,out var unusedPoint,out var unusedName,out var unusedRole);
++                    Check(holeReport.knownWaterStationRejected&&renderedWater.Count>0,"Known underwater station was accepted or actual water mask is absent");
++                }
+                 var earlier=new Dictionary<Vector2Int,BlockSnapshot>();
+                 foreach(var pose in Poses(hole)){
+                     // Next-frame placement prevents multiple addresses sharing a
+@@ -170,6 +188,8 @@
+                     var aim=HoleView.ToWorld(hole.Pin)-ball.position;aim.y=0;
+                     if(aim.sqrMagnitude<.00001f)aim=Vector3.forward;aim.Normalize();
+                     cam.fieldOfView=60;rig.FrameAddress(ball.position,aim,false);rig.SnapNext();rig.ApplyFrame();
++                    Check(DryPlayable(pose.point)&&!UnderRenderedWater(ball.position-Vector3.up*.06f),"Selected address is water/nonplayable or below rendered water: "+pose.label);
++                    Check(!UnderRenderedWater(cam.transform.position),"Address camera is below a rendered water sheet: "+pose.label);
+                     Check(game.Current==GolfGame.State.Aim,"DropBall did not enter real Aim state");
+                     pendingPlacedFrame=Time.frameCount;pendingImage=Path.Combine(config.output,$"hole{number:00}_{pose.label}.png");pending=true;
+                     while(pending){CheckDeadline();yield return null;}
+@@ -179,7 +199,7 @@
+                     var p=new PoseReport{hole=number,label=pose.label,image=pendingImage,placedFrame=pendingPlacedFrame,
+                         renderedFrame=lastReadFrame,lateUpdateFrame=lastLateUpdateFrame,rebuildBefore=rebuildBefore,rebuildAfter=lastLateRebuild,
+                         cells=turf.CellCount,near=turf.LastNearCells,mid=turf.LastMidCells,far=turf.LastFarCells,
+-                        selectedCollider=selectedCollider,selectedSurface=SurfaceName(selectedSurface),
++                        selectedCollider=selectedCollider,selectedSurface=SurfaceName(selectedSurface),courseLie=hole.LieAt(pose.point).ToString(),
+                         requestedPoint=new Vector3((float)pose.requested.X,0,(float)pose.requested.D),
+                         selectionDistanceMeters=(float)pose.point.DistanceTo(pose.requested)*.9144f,clearanceMeters=pose.clearance,
+                         groundQueries=turf.GroundQueriesThisRebuild,colliderRaycasts=turf.ColliderRaycastsThisRebuild,
+@@ -215,15 +235,43 @@
+                     yield return null;game.DropBall(hole.Tee);game.enabled=true;rig.enabled=true;
+                     yield return null;
+                     flightRebuildCount=turf.RebuildCount;flightStations.Clear();flightWatching=true;
+-                    game.StrikeToward(hole.RecommendedTarget(hole.Tee));
+-                    Check(game.Current==GolfGame.State.Flight,"Real StrikeToward did not enter Flight");
+-                    while(game.Current==GolfGame.State.Flight){CheckDeadline();yield return null;}
+-                    flightWatching=false;game.enabled=false;rig.enabled=false;
+-                    holeReport.flightCoarseStations=flightStations.Count;
+-                    holeReport.flightRebuildsAbsent=callbackError==null;
++                    var beforeFlight=PhysicsState();var windBefore=WindState();
++                    holeReport.flightBeforeAudit=Path.Combine(config.output,$"hole{number:00}_flight_physics_before.json");
++                    File.WriteAllText(holeReport.flightBeforeAudit,beforeFlight);
++                    double launchBase=hole.Windmill?.CurrentAngle()??0;holeReport.windmillCurrentAngleBefore=launchBase;
++                    try{
++                        game.StrikeToward(hole.RecommendedTarget(hole.Tee));
++                        Check(game.Current==GolfGame.State.Flight,"Real StrikeToward did not enter Flight");
++                        if(hole.Windmill!=null){
++                            double initialTime=Convert.ToDouble(Field(game,"flightTime"));holeReport.windmillInitialFlightTime=initialTime;
++                            holeReport.windmillLaunchExpected=launchBase-hole.Windmill.DegreesPerSecond*initialTime;
++                            holeReport.windmillLaunchActual=hole.Windmill.AngleAtLaunch;
++                            holeReport.windmillLaunchExact=holeReport.windmillLaunchExpected==holeReport.windmillLaunchActual;
++                        }else holeReport.windmillLaunchExact=true;
++                        while(game.Current==GolfGame.State.Flight){CheckDeadline();yield return null;}
++                    }finally{
++                        flightWatching=false;game.enabled=false;rig.enabled=false;
++                        // Preserve full source audits even when timeout/phase/rebuild
++                        // checks throw during flight, before reporting any failure.
++                        var afterFlight=PhysicsState();var windAfter=WindState();holeReport.windmillCurrentAngleAfter=hole.Windmill?.CurrentAngle()??0;
++                        holeReport.flightAfterAudit=Path.Combine(config.output,$"hole{number:00}_flight_physics_after.json");
++                        File.WriteAllText(holeReport.flightAfterAudit,afterFlight);
++                        holeReport.windmillStaticExact=CompareWind(windBefore,windAfter,holeReport.windmillChangedFields);
++                        if(hole.Windmill!=null)holeReport.windmillLaunchExact&=hole.Windmill.AngleAtLaunch==holeReport.windmillLaunchActual;
++                        var beforeState=JsonUtility.FromJson<GolfVisualPhysicsGate.State>(beforeFlight);
++                        var afterState=JsonUtility.FromJson<GolfVisualPhysicsGate.State>(afterFlight);
++                        // This hash includes the allowed mutable launch phase; its
++                        // geometry/rate/bindings are checked separately and exactly.
++                        if(hole.Windmill!=null)afterState.windmillHash=beforeState.windmillHash;
++                        holeReport.flightStaticPhysicsExact=JsonUtility.ToJson(beforeState)==JsonUtility.ToJson(afterState);
++                        holeReport.flightCoarseStations=flightStations.Count;
++                        holeReport.flightRebuildsAbsent=callbackError==null;
++                        Flush();
++                    }
+                     Check(holeReport.flightFrames>0&&holeReport.flightCoarseStations>1,"Real shot did not cross multiple flight stations");
+                     Check(holeReport.flightRebuildsAbsent,"Production turf rebuilt during actual flight");
+-                    Check(TextHash(PhysicsState())==holeReport.baselinePhysicsHash,"Physics changed during actual shot");
++                    Check(holeReport.flightStaticPhysicsExact,"Static physics changed during actual shot; full before/after audits saved");
++                    Check(holeReport.windmillStaticExact&&holeReport.windmillLaunchExact&&holeReport.windmillPhaseExact,"Windmill changed outside its exact launch/flight contract; full audits and changed fields saved");
+                     Check(initialMaterials.SequenceEqual(MaterialIds()),"Owned turf materials changed during actual shot");
+                 }
+                 else holeReport.flightRebuildsAbsent=true;
+@@ -253,7 +301,7 @@
+         }
+         void CacheSelectionGround()
+         {
+-            selectionGround.Clear();
++            selectionGround.Clear();CacheRenderedWater();
+             foreach(var collider in turf.gameObject.GetComponentsInChildren<MeshCollider>()){
+                 if(!collider.sharedMesh)continue;
+                 var ends=new int[collider.sharedMesh.subMeshCount];int total=0;
+@@ -263,14 +311,16 @@
+         }
+         bool GrassAt(CoursePoint at,out Vector3 point,out string colliderName,out float surface)
+         {
+-            point=default;colliderName="none";surface=-1;SelectionGround land=null;RaycastHit best=default;float nearest=float.MaxValue;
++            point=default;colliderName="none";surface=-1;
++            if(!DryPlayable(at))return false;
++            SelectionGround land=null;RaycastHit best=default;float nearest=float.MaxValue;
+             var ray=new Ray(new Vector3((float)at.X,1000,(float)at.D),Vector3.down);
+             foreach(var source in selectionGround){
+                 if(!source.collider||!source.collider.enabled||!source.collider.gameObject.activeInHierarchy
+                     ||at.X<source.bounds.min.x||at.X>source.bounds.max.x||at.D<source.bounds.min.z||at.D>source.bounds.max.z)continue;
+                 if(source.collider.Raycast(ray,out var hit,2000)&&hit.distance<nearest){land=source;best=hit;nearest=hit.distance;}
+             }
+-            if(land==null||best.normal.y<.92f)return false;
++            if(land==null||best.normal.y<.92f||UnderRenderedWater(best.point))return false;
+             colliderName=land.collider.name;
+             if(!(colliderName.StartsWith("TERRAIN")||colliderName.StartsWith("TEE_BOX")||colliderName.StartsWith("FAIRWAY")))return false;
+             int sub=0;while(sub<land.triangleEnds.Length&&best.triangleIndex>=land.triangleEnds[sub])sub++;
+@@ -347,6 +397,12 @@
+                 var p=game.BallPosition;float step=4/.9144f;
+                 flightStations.Add(new Vector2Int(Mathf.FloorToInt((p.x-(float)hole.Tee.X)/step+.5f),Mathf.FloorToInt((p.z-(float)hole.Tee.D)/step+.5f)));
+                 if(turf.RebuildCount!=flightRebuildCount)callbackError="Production turf rebuilt while actual game state was Flight";
++                if(hole.Windmill!=null){
++                    double time=Convert.ToDouble(Field(game,"flightTime"));
++                    double error=Math.Abs(hole.Windmill.CurrentAngle()-hole.Windmill.AngleAt(time));
++                    holeReport.windmillMaximumPhaseError=Math.Max(holeReport.windmillMaximumPhaseError,error);
++                    if(error>1e-9)holeReport.windmillPhaseExact=false;
++                }
+             }
+         }
+         void AfterRender(ScriptableRenderContext context,List<Camera> cameras)
+@@ -359,6 +415,58 @@
+                 finally{RenderTexture.active=previous;Object.DestroyImmediate(texture);}
+                 lastReadFrame=Time.frameCount;pending=false;
+             }catch(Exception e){callbackError=e.ToString();pending=false;}
++        }
++        bool DryPlayable(CoursePoint at)=>hole.LieAt(at) is CourseLie.Tee or CourseLie.Fairway or CourseLie.Rough or CourseLie.Fringe;
++        void CacheRenderedWater()
++        {
++            renderedWater.Clear();
++            foreach(var filter in view.GetComponentsInChildren<MeshFilter>()){
++                var mesh=filter.sharedMesh;if(!mesh||!mesh.isReadable||!filter.TryGetComponent<Renderer>(out var renderer)||!renderer.enabled||!renderer.gameObject.activeInHierarchy)continue;
++                var mats=renderer.sharedMaterials;var vertices=mesh.vertices;
++                for(int sub=0;sub<Math.Min(mesh.subMeshCount,mats.Length);sub++){
++                    var mat=mats[sub];if(!mat)continue;string name=mat.name;
++                    if(!(name.Contains(" Water")||name.Contains(" Shallow")||name.Contains(" Surf")||name.Contains(" Fall")||name.StartsWith("LK_WATER")||name.StartsWith("LK_SURF")||name.StartsWith("LK_FALL")))continue;
++                    var indices=mesh.GetTriangles(sub);
++                    for(int i=0;i+2<indices.Length;i+=3){
++                        var a=filter.transform.TransformPoint(vertices[indices[i]]);var b=filter.transform.TransformPoint(vertices[indices[i+1]]);var c=filter.transform.TransformPoint(vertices[indices[i+2]]);
++                        if(Math.Abs((b.x-a.x)*(c.z-a.z)-(b.z-a.z)*(c.x-a.x))>.000001f)renderedWater.Add(new(a,b,c));
++                    }
++                }
++            }
++        }
++        bool UnderRenderedWater(Vector3 point)
++        {
++            foreach(var triangle in renderedWater){
++                if(point.x<triangle.lo.x||point.x>triangle.hi.x||point.z<triangle.lo.y||point.z>triangle.hi.y)continue;
++                float bx=triangle.b.x-triangle.a.x,bz=triangle.b.z-triangle.a.z,cx=triangle.c.x-triangle.a.x,cz=triangle.c.z-triangle.a.z;
++                float px=point.x-triangle.a.x,pz=point.z-triangle.a.z,den=bx*cz-bz*cx;
++                float u=(px*cz-pz*cx)/den,v=(bx*pz-bz*px)/den;
++                if(u<0||v<0||u+v>1)continue;
++                float height=triangle.a.y+u*(triangle.b.y-triangle.a.y)+v*(triangle.c.y-triangle.a.y);
++                if(point.y<=height+.05f)return true;
++            }
++            return false;
++        }
++        WindSnapshot WindState()
++        {
++            var result=new WindSnapshot{instance=hole.Windmill};
++            if(result.instance==null)return result;
++            result.angle=result.instance.CurrentAngle;result.drive=result.instance.Drive;
++            foreach(var field in typeof(SpinningSails).GetFields(BindingFlags.Instance|BindingFlags.Public|BindingFlags.NonPublic)){
++                var value=field.GetValue(result.instance);
++                if(value is double number)result.fields[field.Name]=number.ToString("R",System.Globalization.CultureInfo.InvariantCulture);
++                else if(value is double[] numbers)result.fields[field.Name]=Hash(w=>{w.Write(numbers.Length);foreach(var number in numbers)w.Write(number);});
++            }
++            return result;
++        }
++        static bool CompareWind(WindSnapshot before,WindSnapshot after,List<WindFieldChange> changes)
++        {
++            bool exact=ReferenceEquals(before.instance,after.instance)&&ReferenceEquals(before.angle,after.angle)&&ReferenceEquals(before.drive,after.drive)&&before.fields.Count==after.fields.Count;
++            foreach(var entry in before.fields){
++                bool exists=after.fields.TryGetValue(entry.Key,out var value);
++                if(!exists||value!=entry.Value){changes.Add(new(){field=entry.Key,before=entry.Value,after=exists?value:"missing"});if(entry.Key!="AngleAtLaunch")exact=false;}
++            }
++            return exact;
+         }
+         string PhysicsState()
+         {

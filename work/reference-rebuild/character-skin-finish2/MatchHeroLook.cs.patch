@@ -1,0 +1,16 @@
+--- Unity/Assets/Scripts/Tennis/MatchHeroLook.cs
++++ Unity/Assets/Scripts/Tennis/MatchHeroLook.cs
+@@ -354,7 +354,12 @@
+                     skinMaterials[i] = shared[i] ? SkinSurface(OnShader(shared[i], CharacterShader, shared[i].name + " (hero)"), bump) : null;
+                     if (skinMaterials[i]) {
+                         if(!referenceAnatomy || originalSeam)HeroHeadSurface.Configure(this,skinMaterials[i]);
+-                        if(originalSeam)HeroOriginalSeamAnatomy.ConfigurePigment(skinMaterials[i]);
++                        if(originalSeam){
++                            HeroOriginalSeamAnatomy.ConfigurePigment(skinMaterials[i]);
++                            skinMaterials[i].SetFloat("_SkinPigmentUV",1);
++                        }
++                        if(System.Environment.GetEnvironmentVariable("VISUAL_CHARACTER_SKIN_FINISH")=="1")
++                            skinMaterials[i].SetFloat("_SkinFinish",female?2:1);
+                         owned.Add(skinMaterials[i]);
+                     }
+                 }

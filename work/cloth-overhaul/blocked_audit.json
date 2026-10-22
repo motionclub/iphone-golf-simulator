@@ -1,0 +1,21 @@
+{
+  "consecutive_goal_turns_with_same_external_blocker": 3,
+  "previous_turn_classification": "no progress: passcode-required state and absent eye approval were revalidated",
+  "this_turn_classification": "no progress: same external blockers confirmed again; no safe action can complete the missing gates",
+  "blockers": [
+    "Physical iPhone requires passcode before app launch/profiling",
+    "Adnan visual approval of final package absent"
+  ],
+  "device_lock_state": {
+    "deviceIdentifier": "5724AA4B-8FB9-5224-8EBC-EBF2A5071B3B",
+    "passcodeRequired": true,
+    "unlockedSinceBoot": true
+  },
+  "remaining_gate_status": {
+    "G10": "FAIL",
+    "G12": "FAIL"
+  },
+  "production_matches_staged_manifest": true,
+  "goal_status": "blocked",
+  "blocked_threshold": 3
+}

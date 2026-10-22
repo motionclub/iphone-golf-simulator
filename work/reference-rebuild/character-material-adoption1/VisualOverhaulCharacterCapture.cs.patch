@@ -1,0 +1,11 @@
+--- Unity/Assets/Editor/VisualOverhaulCharacterCapture.cs
++++ Unity/Assets/Editor/VisualOverhaulCharacterCapture.cs
+@@ -192,7 +192,7 @@
+                             if(volume.profile.TryGet(out Tonemapping tone))tone.mode.Override(variant.tone);
+                             if(volume.profile.TryGet(out ColorAdjustments grade))grade.postExposure.Override(variant.exposure);
+                         }
+-                        foreach(var material in hero.body.sharedMaterials)if(material&&material.HasProperty("_SkinResponse"))material.SetFloat("_SkinResponse",variant.response*(female?2:1));
++                        if(Environment.GetEnvironmentVariable("VISUAL_CHARACTER_USE_MATERIAL_RESPONSE")!="1")foreach(var material in hero.body.sharedMaterials)if(material&&material.HasProperty("_SkinResponse"))material.SetFloat("_SkinResponse",variant.response*(female?2:1));
+                         style.SkinTint=HeroKit.Hex(female?variant.woman:variant.male);game.SetPlayerLook(style);yield return Frames(2);
+                         var front=faceAligned?reviewTarget+reviewForward*.90f+reviewUp*.01f:reviewHead+hero.transform.TransformDirection(new Vector3(0,.06f,1));
+                         Shot(sex+"_"+variant.name+"_front",front,reviewTarget,24,900,900,reviewUp);

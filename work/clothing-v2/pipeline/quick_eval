@@ -1,0 +1,22 @@
+#!/bin/zsh
+# GARMENT PIPELINE quick iteration (one hero, a stress-pose subset, an earlier run's cover): fit pieces, then the suite on the worst N poses
+#   quick_eval <hero> <run> <base_run (cover + worst-pose list)> <N> <source>@<Tag> [...]       env like garment_fit (GP_*)
+# The full garment_fit (all frames' cover + 153-pose suite) is for the final candidate only.
+set -e
+P=${0:A:h}; cd $P
+HV=${GP_HEAVY:-$P/../../delegation-2026-10-17/heavy.sh}
+HERO=$1; RUN=$2; BASE=$3; N=$4; shift 4
+RD=runs/$RUN; mkdir -p $RD/$HERO logs
+for s in $@; do src=${s%@*}; tag=${s##*@}; python3 gp/fit.py $HERO $src $RD --tag $tag 2>&1 | tee -a $RD/$HERO/fit.log | grep -E "^FIT DONE|limb tube|weights:|Trace"; done
+cp runs/$BASE/$HERO/body.npz $RD/$HERO/body.npz
+for f in runs/$BASE/$HERO/Kit_*.npz(N) runs/$BASE/$HERO/Acc_*.npz(N); do [[ -f $RD/$HERO/${f:t} ]] || cp $f $RD/$HERO/; done      # pieces not re-fitted here keep the base run's fit
+python3 - $BASE $HERO $N $RD <<'PY'
+import json, sys, glob, os
+base, hero, n, rd = sys.argv[1], sys.argv[2], int(sys.argv[3]), sys.argv[4]
+f = sorted(glob.glob('runs/%s/suite/%s/rows_*.jsonl' % (base, hero)), key=os.path.getmtime)[-1]
+rows = [json.loads(l) for l in open(f)]
+sub = [r['i'] for r in sorted(rows, key=lambda r: -(r['tear'] + r['layer']))[:n]]
+json.dump(sub, open(rd + '/subset.json', 'w')); print('subset', len(sub), 'base tear on it', sum(r['tear'] for r in rows if r['i'] in sub))
+PY
+for c in $(seq 1 60); do GP_SUITE_SUBSET=$PWD/$RD/subset.json $HV blender /Applications/Blender.app/Contents/MacOS/Blender -b --factory-startup --python gp/suite.py -- $HERO $RD/suite --cand $RD > logs/${RUN}_qsuite.log 2>&1 && break; grep -q "SUITE chunk done" logs/${RUN}_qsuite.log || { tail -5 logs/${RUN}_qsuite.log; exit 1; }; done
+python3 gp/report.py $RD/suite/$HERO runs/$BASE/suite/$HERO > /dev/null; grep -E "GATE|victim<" $RD/suite/$HERO/REPORT.md | cut -c1-200

@@ -1,0 +1,19 @@
+MODEL vs REAL GolfLookSmoke runs (card over the Crater sky; real = v2/runtime/smoke_<run>.txt / logs; model = tools/smoke_model.py with the per-run fitted light)
+  t2   tint (0.62, 0.56, 0.56) gain 1.00 selflight 0.05 lit 0.6 | model N 18076 median 4.85 p99 14.7 step 1.03 | real N 18036 median 4.9 p99 14.7 step 1.03
+  t4d  tint (1.0, 0.95, 0.92) gain 1.35 selflight 0.35 lit 0.8 | model N 32362 median 8.15 p99 76.9 step 3.96 | real N 32349 median 8.1 p99 77.1 step 4.00
+  t4e  tint (1.0, 0.95, 0.92) gain 1.30 selflight 0.30 lit 0.8 | model N 31361 median 7.41 p99 72.1 step 3.86 | real N 31369 median 7.4 p99 72.2 step 3.93
+light model G_c = f_c (1 - Lit + Lit e) + fS_c Lit : f [1.566 0.992 0.869] fS [0.43  0.448 0.466], max |residual of G| over the 3 runs 0.0095 (so settings that were never run can be predicted)
+
+LIVE LK_SMOKE (GolfLook.cs LK_SMOKE): tint (1.0, 0.95, 0.92, 1.0) AlphaGain 1.35 Lit 0.80 SelfLight 0.40 EdgeFade 0.18
+setting                            | v3 (thin S curl)             | v4 (installed)
+LIVE                               | a 0.70 med  8.6 p99 80.3 st 4.3 PASS | a 0.67 med 14.9 p99 61.5 st 2.4 PASS
+AlphaGain 1.10                     | a 0.57 med  7.6 p99 69.4 st 3.8 FAIL | a 0.55 med 13.0 p99 52.9 st 2.1 FAIL
+AlphaGain 1.20                     | a 0.62 med  8.2 p99 74.0 st 3.9 PASS | a 0.60 med 13.8 p99 56.5 st 2.3 PASS
+AlphaGain 1.30                     | a 0.67 med  8.4 p99 78.1 st 4.0 PASS | a 0.65 med 14.6 p99 59.7 st 2.4 PASS
+AlphaGain 1.40                     | a 0.72 med  8.9 p99 82.2 st 4.4 FAIL | a 0.70 med 15.2 p99 63.1 st 2.5 PASS
+SelfLight 0.25                     | a 0.70 med  7.1 p99 70.4 st 3.8 FAIL | a 0.67 med 12.5 p99 53.2 st 2.3 PASS
+SelfLight 0.35                     | a 0.70 med  8.1 p99 76.9 st 4.0 PASS | a 0.67 med 14.0 p99 58.7 st 2.4 PASS
+Lit 0.6                            | a 0.70 med  9.3 p99 83.0 st 4.4 PASS | a 0.67 med 15.8 p99 64.1 st 2.5 PASS
+tint white                         | a 0.70 med  9.7 p99 86.4 st 4.5 PASS | a 0.67 med 17.0 p99 67.0 st 2.5 PASS
+tint (.62,.56,.56) gain 1.0 (10:50) | a 0.52 med  4.8 p99 14.7 st 1.0 FAIL | a 0.50 med  5.9 p99 23.8 st 1.4 FAIL
+(PASS/FAIL here = the runtime SMOKE_SOFT thresholds: effective alpha .55..0.72, median >= 8, p99 28..90, edge step <= 6; border alpha is 0 on both)

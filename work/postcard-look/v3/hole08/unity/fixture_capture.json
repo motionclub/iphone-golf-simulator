@@ -1,0 +1,19 @@
+{
+    "tool": "PostcardV3FixtureCapture",
+    "status": "PASS",
+    "reason": "Rendering/import and explicitly required authored-band measurements only. BASALT_JOINTS is a separate frozen-threshold image measurement, not implied by this runner status.",
+    "rendered": 3,
+    "requiredBandFrames": 0,
+    "failedBandFrames": 0,
+    "files": [
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole08/unity/hole08_aerial_staged.stage_provenance.json",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole08/unity/hole08_aerial_staged.full.png",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole08/unity/hole08_aerial_staged.v3_frame_proof.json",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole08/unity/hole08_1_tee.stage_provenance.json",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole08/unity/hole08_1_tee.full.png",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole08/unity/hole08_1_tee.v3_frame_proof.json",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole08/unity/hole08_2_approach.stage_provenance.json",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole08/unity/hole08_2_approach.full.png",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole08/unity/hole08_2_approach.v3_frame_proof.json"
+    ]
+}

@@ -1,0 +1,110 @@
+{
+  "hole": 9,
+  "phase": "P3",
+  "result": "FAIL",
+  "reason": "Actual reference comparison remains FAIL: long connectedC-shaped flat strips, boardlike cliff bands, washed ridge, sparse surf and an invisible address-view ruin. Literal two-independent-island topology fails. Native counter publication and pending>=80% outline masks remain FAIL.",
+  "verifier": {
+    "pass_count": 96,
+    "total": 96,
+    "failures": []
+  },
+  "builder": {
+    "pass_count": 16,
+    "total": 16
+  },
+  "exact_scoring_pass": true,
+  "fresh_aerial": "PASS captured and viewed",
+  "split_cliff_islands": "FAIL",
+  "ranked_differences": [
+    {
+      "p0_rank": 1,
+      "difference": "The whole course reads as two long flat strips, not rugged islands.",
+      "scope": "P3",
+      "result": "FAIL",
+      "fixed": false,
+      "evidence": "76 real four-bed cliff chunks/67200tri plus30 taller narrow ridges clad the frozenC-shaped land; exact scoring untouched. One connected boundary remains, so two independent islands fail.",
+      "remaining": "This agent opened the actual native vs-reference sheet and both address views. Remaining visual differences and measured masks/counter limitations are explained; the reference recognition answer is NO."
+    },
+    {
+      "p0_rank": 2,
+      "difference": "Left rough ridge has almost no real height variation.",
+      "scope": "P3",
+      "result": "FAIL",
+      "fixed": false,
+      "evidence": "30 narrow scenery ridges reach measured2.0\u20133.9m over the frozen6m top; original H_RIDGE_RELIEF passes and89% of80 spine stations have a knoll/crag within14m.",
+      "remaining": "This agent opened the actual native vs-reference sheet and both address views. Remaining visual differences and measured masks/counter limitations are explained; the reference recognition answer is NO."
+    },
+    {
+      "p0_rank": 3,
+      "difference": "Cliffs form continuous straight dark retaining-wall edges.",
+      "scope": "P1/P3",
+      "result": "FAIL",
+      "fixed": false,
+      "evidence": "Actual shell tortuosity1.236904>=1.15 and joint full-height rate15%<=25%,CV0.55>=0.40. Actual outer straight-run diagnostic is 14.844193m against4m; geometry cannot be declared a visual retaining-wall fix.",
+      "remaining": "This agent opened the actual native vs-reference sheet and both address views. Remaining visual differences and measured masks/counter limitations are explained; the reference recognition answer is NO."
+    },
+    {
+      "p0_rank": 4,
+      "difference": "Ruin is tiny and square blocklike from the aerial.",
+      "scope": "P1/P3/P5",
+      "result": "FAIL",
+      "fixed": false,
+      "evidence": "Standing2.3m x2.4m through-doorway,5.9m broken arch and381 masonry stones plus13 fallen blocks are support-checked; exact independent unbroken-box census 0/394 in blend and 0/394 inFBX. Actual native ruin mask is0px in both address frames and92px in the aerial; it remains tiny against the reference.",
+      "remaining": "This agent opened the actual native vs-reference sheet and both address views. Remaining visual differences and measured masks/counter limitations are explained; the reference recognition answer is NO."
+    },
+    {
+      "p0_rank": 5,
+      "difference": "Fairway mow bands are too dark and repetitive.",
+      "scope": "P1",
+      "result": "FAIL",
+      "fixed": false,
+      "evidence": "P1 shared fairway/green PNG contrast was rebuilt and measured on its fixture; actual H9 bands are visibly subtler. Raw gaps tee1.37%/approach8.06% are below12%, but repeated-control drift invalidates the cap measurements, so the gate remains FAIL.",
+      "remaining": "This agent opened the actual native vs-reference sheet and both address views. Remaining visual differences and measured masks/counter limitations are explained; the reference recognition answer is NO."
+    },
+    {
+      "p0_rank": 6,
+      "difference": "Scrub top is smooth dull olive with widely spaced identical clumps.",
+      "scope": "P1/P3",
+      "result": "FAIL",
+      "fixed": false,
+      "evidence": "Real faceted LK_ROCK caps and LK_SCRUB flanks now vary the ridge. Original ridge533plants/158rocks and13 thickets holding86% of76 shrubs pass. No new Split hanging vines were added; actual aerial still shows a washed dull ridge and isolated scattered props; it lacks the dense rocky golden-green scrub of the reference.",
+      "remaining": "This agent opened the actual native vs-reference sheet and both address views. Remaining visual differences and measured masks/counter limitations are explained; the reference recognition answer is NO."
+    },
+    {
+      "p0_rank": 7,
+      "difference": "Surf is sparse isolated spots instead of broken shoreline whitewater.",
+      "scope": "P1/P3",
+      "result": "FAIL",
+      "fixed": false,
+      "evidence": "Existing broken surf is retained and unchanged sparse-surf/no-foam-strip tests pass. Actual base adjacency/coverage on both semantic shores remains unmeasured; no continuous fake strip was added.",
+      "remaining": "This agent opened the actual native vs-reference sheet and both address views. Remaining visual differences and measured masks/counter limitations are explained; the reference recognition answer is NO."
+    },
+    {
+      "p0_rank": 8,
+      "difference": "Channel is straight with parallel banks instead of eroded coves.",
+      "scope": "P3; scoring shore frozen",
+      "result": "FAIL",
+      "fixed": false,
+      "evidence": "The original channel water ellipse/shoreline stays frozen. Cliff geometry avoids the water ellipse and adds spatial erosion outside the land; the long connected scoring shore and parallel corridor cannot be replaced with two islands. Frozen approach water ceiling is3.359792% atz0 or6.171528% atz5.99, below15%.",
+      "remaining": "This agent opened the actual native vs-reference sheet and both address views. Remaining visual differences and measured masks/counter limitations are explained; the reference recognition answer is NO."
+    },
+    {
+      "p0_rank": 9,
+      "difference": "Rocks and stacks are squat detached props with little rocky mass.",
+      "scope": "P1/P3",
+      "result": "FAIL",
+      "fixed": false,
+      "evidence": "Existing12 rock crags and seastacks are retained; all unchanged rock shape/PCA/prop-face/instancing gates are measured by final verifier. Split stacks were not replaced by new tall needles; actual aerial still shows thin detached stacks/rocks and insufficient coherent rocky mass.",
+      "remaining": "This agent opened the actual native vs-reference sheet and both address views. Remaining visual differences and measured masks/counter limitations are explained; the reference recognition answer is NO."
+    },
+    {
+      "p0_rank": 10,
+      "difference": "Scoring ellipse bunkers are smooth uniform ovals rather than irregular sand lips.",
+      "scope": "P3; ellipse outline frozen",
+      "result": "FAIL",
+      "fixed": false,
+      "evidence": "All3 frozen elliptical bunkers retain their sand textures and soft scoring lips; exact geometry and original sand/relief rules pass. Ellipse outlines remain smooth by the frozen scoring rule.",
+      "remaining": "This agent opened the actual native vs-reference sheet and both address views. Remaining visual differences and measured masks/counter limitations are explained; the reference recognition answer is NO."
+    }
+  ]
+}

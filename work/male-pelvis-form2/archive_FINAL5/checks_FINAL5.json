@@ -1,0 +1,468 @@
+{
+ "task": "MALE_PELVIS_FORM2",
+ "candidate_tag": "FINAL5",
+ "start_blend_sha256": "9bfd788a1a2a10bb6c982820e9b2c65889ef7280448f3d65ed39dcd8634d91ba",
+ "start_fbx_sha256": "69428fc8cf5d1deea5ebc9e232440bf20a8e67b8492e20145ba3f463029570d7",
+ "candidate_blend_sha256": "ab3a8aba15b4a47f0f6376e60324e0d766de83844e8e2058093e80646e75ed84",
+ "params_file": "data/P_FINAL5.json",
+ "params_sha256": "2c25966c75636e0813a1daa3c1dd8623f37dcdfba294cc0fba6825243b62da1a",
+ "arttdir_blend_sha256_now": "8a9ad64b87b3538087cbb6a1d8fad63fe44a22a102aa990ec283c4c949cbd5a1",
+ "candidate_fbx_sha256": "f5b2c0f5d38bd7021d10eb0362da81e6cb26c487f32662b725b0f4e05518156b",
+ "audit": {
+  "vertices": 33196,
+  "faces": 33484,
+  "TOPOLOGY_IDENTICAL": true,
+  "NAN": 0,
+  "moved": 3003,
+  "max_move_mm": 31.171823101097587,
+  "mean_move_mm_moved": 5.035228231533887,
+  "max_dx_mm": 30.704627990722656,
+  "max_dy_mm": 14.262007713317871,
+  "max_dz_mm": 29.454172134399414,
+  "zones": {
+   "PELVIS": "z in [0.77,1.07], |x|<=0.22 (original positions)",
+   "LEG_TOP": "z in [0.705,0.77), |x|<=0.22 (original positions)"
+  },
+  "moved_in_PELVIS": 2372,
+  "moved_in_LEG_TOP": 631,
+  "max_move_PELVIS_mm": 31.171823101097587,
+  "max_move_LEG_TOP_mm": 29.1538969850005,
+  "ZONE_OUTSIDE": 0,
+  "max_move_below_z0p735_mm": 10.656142927713447,
+  "moved_below_z0p735": 190,
+  "moved_below_z0p77": 631,
+  "moved_loop_groups": 0,
+  "moved_head_z_ge_1p10": 0,
+  "moved_calves_feet_z_lt_0p70": 0,
+  "moved_arms_hands_absx_gt_0p215_z_gt_0p78": 0,
+  "moved_absx_gt_0p215": 0,
+  "face_m_identical": true,
+  "flipped_faces_vs_start": 0,
+  "min_face_normal_dot": 0.6882072148456847,
+  "faces_turned_gt_45deg": 2,
+  "faces_turned_gt_60deg": 0,
+  "degenerate_faces_after": 0,
+  "self_intersections_start": 6,
+  "self_intersections_after": 6,
+  "self_intersections_new": 0,
+  "new_self_intersection_centroids_mm": [],
+  "custom_normals": {
+   "has_custom": true,
+   "moved_corner_count": 12013,
+   "angle_deg_median": 0.0,
+   "angle_deg_p95": 0.019124180419550843,
+   "angle_deg_max": 0.026531057739724025
+  }
+ },
+ "zone_report": {
+  "zones": {
+   "PELVIS": "z in [0.77,1.07], |x|<=0.22",
+   "LEG_TOP": "z in [0.705,0.77), |x|<=0.22"
+  },
+  "moved_before_mask": 3530,
+  "moved_outside_zone_before_mask": 0,
+  "moved": 3003,
+  "moved_in_PELVIS": 2372,
+  "moved_in_LEG_TOP": 631,
+  "moved_outside_zones": 0,
+  "max_move_mm": 31.171823101097587,
+  "mean_move_mm": 5.035228231533887,
+  "max_move_PELVIS_mm": 31.171823101097587,
+  "max_move_LEG_TOP_mm": 29.1538969850005,
+  "moved_below_z0p735": 190,
+  "max_move_below_z0p735_mm": 10.656142927713447,
+  "max_dx_mm": 30.70462867617607,
+  "max_dy_mm": 14.262007549405098,
+  "max_dz_mm": 29.454171657562256,
+  "max_move_at_zone_edge_band_mm": 1.751581485929356
+ },
+ "silhouette_pct": {
+  "chat9": {
+   "bald_front": 4.1273,
+   "bald_back": 4.7467,
+   "left": 9.1687,
+   "right": 9.4523
+  },
+  "form2": {
+   "bald_front": 4.2943,
+   "bald_back": 4.9712,
+   "left": 8.9945,
+   "right": 9.3246
+  },
+  "gate": "bald front/back <= 5.0 %",
+  "front_back_PASS": true,
+  "note": "left/right reported only. The rise in back/front vs chat-9 is the lowered see-through gap apex: the plate target masks classify the dark crotch shadow (darker than the background) as gap down to z~0.78, the plate luminance shows the real apex at z 0.748 (back) / 0.762 (front)."
+ },
+ "gap_apex_z_m": {
+  "plate_luminance": {
+   "main_back": 0.748,
+   "main_front": 0.762,
+   "sheet_back": 0.724,
+   "sheet_front": 0.748
+  },
+  "chat9": {
+   "back": 0.7720000000000075,
+   "front": 0.7720000000000075
+  },
+  "form2": {
+   "back": 0.7470000000000102,
+   "front": 0.7470000000000102
+  },
+  "note": "plate: first row where the background-level slot starts (luminance table on the plate); the plate mask target puts the apex at ~0.783 because the shadowed crotch is darker than the background"
+ },
+ "side_contour_mm": {
+  "z_range": "0.76-0.95",
+  "chat9_mean_abs": 1.01,
+  "chat9_max_abs": 3.38,
+  "form2_mean_abs": 1.68,
+  "form2_max_abs": 3.72,
+  "form2_signed_at_lobe_belly_z0p82_0p86": [
+   3.0,
+   3.1,
+   3.4,
+   3.5
+  ],
+  "note": "+3..+4 mm at z 0.81-0.86 is the documented boldness bias (pin target = plate + 4 mm in z 0.80-0.855); z 0.78-0.79 underside is 3-4 mm under the plate (rounded kink)",
+  "subpixel_profile_json": [
+   "proof/P6_profile_side_contour_z074_104.json",
+   "proof/P6b_profile_side_contour_underbutt.json"
+  ]
+ },
+ "side_contour_subpixel": {
+  "z_0p76_1p02": {
+   "range": [
+    0.76,
+    1.02
+   ],
+   "before_mean_abs_mm": 1.389643466594975,
+   "before_max_abs_mm": 8.321878579610933,
+   "after_mean_abs_mm": 1.766793819896075,
+   "after_max_abs_mm": 7.418158799059535
+  },
+  "z_0p72_0p88": {
+   "range": [
+    0.72,
+    0.88
+   ],
+   "before_mean_abs_mm": 3.1037616015548406,
+   "before_max_abs_mm": 8.859811437130633,
+   "after_mean_abs_mm": 2.765364645506316,
+   "after_max_abs_mm": 7.418158799059535
+  }
+ },
+ "cleft_depth_mm": {
+  "z0.80": {
+   "chat9": 24.9,
+   "form2": 17.0
+  },
+  "z0.82": {
+   "chat9": 23.7,
+   "form2": 18.8
+  },
+  "z0.84": {
+   "chat9": 16.6,
+   "form2": 14.8
+  },
+  "z0.86": {
+   "chat9": 9.4,
+   "form2": 10.5
+  },
+  "z0.88": {
+   "chat9": 2.5,
+   "form2": 6.3
+  },
+  "z0.90": {
+   "chat9": -1.8,
+   "form2": 3.3
+  }
+ },
+ "cleft_note": "chat-9 cleft was a flat-floored trench (10 mm flat floor, ~33 deg walls, 26 mm deep at z 0.80); FORM2 is a soft V (Hermite valley between the lobe ridges, no flat floor)",
+ "q3_back_silhouette_bulge_mm": {
+  "z": [
+   0.74,
+   0.76,
+   0.78,
+   0.8,
+   0.82,
+   0.84,
+   0.86,
+   0.88,
+   0.9,
+   0.92,
+   0.94,
+   0.96,
+   0.98
+  ],
+  "chat9": {
+   "q_bl": [
+    [
+     2.9,
+     -1.0
+    ],
+    [
+     0.0,
+     -3.9
+    ],
+    [
+     4.9,
+     -2.0
+    ],
+    [
+     4.9,
+     -2.0
+    ],
+    [
+     -1.0,
+     2.0
+    ],
+    [
+     0.0,
+     0.0
+    ],
+    [
+     -1.0,
+     4.9
+    ],
+    [
+     -1.0,
+     8.8
+    ],
+    [
+     -1.0,
+     6.9
+    ],
+    [
+     2.9,
+     3.9
+    ],
+    [
+     3.9,
+     7.8
+    ],
+    [
+     12.7,
+     9.8
+    ],
+    [
+     11.8,
+     -295.0
+    ]
+   ],
+   "q_br": [
+    [
+     2.9,
+     0.0
+    ],
+    [
+     5.8,
+     -2.9
+    ],
+    [
+     3.9,
+     -1.0
+    ],
+    [
+     3.9,
+     -1.0
+    ],
+    [
+     0.0,
+     -1.0
+    ],
+    [
+     -3.9,
+     3.9
+    ],
+    [
+     -9.7,
+     4.9
+    ],
+    [
+     -200.5,
+     3.9
+    ],
+    [
+     -10.7,
+     3.9
+    ],
+    [
+     -8.8,
+     5.8
+    ],
+    [
+     -7.8,
+     0.0
+    ],
+    [
+     -6.8,
+     -1.0
+    ],
+    [
+     231.7,
+     -8.8
+    ]
+   ]
+  },
+  "form2": {
+   "q_bl": [
+    [
+     2.9,
+     -1.0
+    ],
+    [
+     0.0,
+     -3.9
+    ],
+    [
+     3.9,
+     -1.0
+    ],
+    [
+     4.9,
+     0.0
+    ],
+    [
+     -1.0,
+     3.9
+    ],
+    [
+     0.0,
+     2.0
+    ],
+    [
+     -1.0,
+     1.0
+    ],
+    [
+     -1.0,
+     2.0
+    ],
+    [
+     -1.0,
+     -1.0
+    ],
+    [
+     2.9,
+     -3.9
+    ],
+    [
+     3.9,
+     0.0
+    ],
+    [
+     11.8,
+     2.0
+    ],
+    [
+     11.8,
+     -295.0
+    ]
+   ],
+   "q_br": [
+    [
+     2.9,
+     0.0
+    ],
+    [
+     5.8,
+     -2.9
+    ],
+    [
+     2.9,
+     -1.0
+    ],
+    [
+     1.9,
+     -1.0
+    ],
+    [
+     -1.9,
+     -1.0
+    ],
+    [
+     -4.9,
+     3.9
+    ],
+    [
+     -6.8,
+     4.9
+    ],
+    [
+     -193.7,
+     3.9
+    ],
+    [
+     -3.9,
+     3.9
+    ],
+    [
+     -1.0,
+     5.8
+    ],
+    [
+     0.0,
+     0.0
+    ],
+    [
+     1.0,
+     -1.9
+    ],
+    [
+     231.7,
+     -7.8
+    ]
+   ]
+  },
+  "note": "(plate - mesh) edge offset minus thigh-level reference, per panel [L,R]; |values| <= ~5 mm are inside the 2 px sheet calibration noise; -193/231/-295 are arm/hand interference rows"
+ },
+ "form3_gate_regions": {
+  "start": {
+   "front_chest": 0.651,
+   "front_abdomen": 0.621,
+   "front_pelvis": 0.784,
+   "back_chest": 0.447,
+   "back_abdomen": 0.331,
+   "back_pelvis": 0.197,
+   "mean": 0.505
+  },
+  "form2": {
+   "front_chest": 0.651,
+   "front_abdomen": 0.624,
+   "front_pelvis": 0.872,
+   "back_chest": 0.447,
+   "back_abdomen": 0.376,
+   "back_pelvis": 0.198,
+   "mean": 0.528
+  },
+  "form2_FINAL4_previous": {
+   "front_chest": 0.651,
+   "front_abdomen": 0.624,
+   "front_pelvis": 0.872,
+   "back_chest": 0.447,
+   "back_abdomen": 0.376,
+   "back_pelvis": 0.2,
+   "mean": 0.528
+  },
+  "form2_FINAL3_previous": {
+   "front_chest": 0.651,
+   "front_abdomen": 0.624,
+   "front_pelvis": 0.881,
+   "back_chest": 0.447,
+   "back_abdomen": 0.372,
+   "back_pelvis": 0.16,
+   "mean": 0.522
+  },
+  "note": "torso FORM3 gate metric (Unity-clay band-pass r, |x|<0.12, DoG 1.2/5), regions chest z1.15-1.32, abdomen .90-1.15, pelvis .80-.90"
+ },
+ "dihedral_roughness_deg": {
+  "p99": 26.763534730979508,
+  "max": 45.389353484503175,
+  "p99_start": 30.9234882480926,
+  "new_sharp": 0
+ },
+ "mesh": {
+  "moved": 3003,
+  "max_move_mm": 31.171823101097587,
+  "tris_unchanged": 66158
+ }
+}

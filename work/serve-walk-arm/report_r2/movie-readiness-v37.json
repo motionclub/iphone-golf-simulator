@@ -1,0 +1,120 @@
+{
+  "pass": true,
+  "look_approval_claimed": false,
+  "checks": {
+    "film_r2/player-male-game-before-after-half-speed.mp4": {
+      "duration_seconds": 40.0,
+      "fps": 15.0,
+      "expected_duration_seconds": 40,
+      "paired_half_speed": true,
+      "bytes": 8070503
+    },
+    "film_r2/player-male-front-before-after-half-speed.mp4": {
+      "duration_seconds": 40.0,
+      "fps": 15.0,
+      "expected_duration_seconds": 40,
+      "paired_half_speed": true,
+      "bytes": 10736819
+    },
+    "film_r2/player-male-side-before-after-half-speed.mp4": {
+      "duration_seconds": 40.0,
+      "fps": 15.0,
+      "expected_duration_seconds": 40,
+      "paired_half_speed": true,
+      "bytes": 11411884
+    },
+    "film_r2/player-female-game-before-after-half-speed.mp4": {
+      "duration_seconds": 40.0,
+      "fps": 15.0,
+      "expected_duration_seconds": 40,
+      "paired_half_speed": true,
+      "bytes": 7896493
+    },
+    "film_r2/player-female-front-before-after-half-speed.mp4": {
+      "duration_seconds": 40.0,
+      "fps": 15.0,
+      "expected_duration_seconds": 40,
+      "paired_half_speed": true,
+      "bytes": 10453766
+    },
+    "film_r2/player-female-side-before-after-half-speed.mp4": {
+      "duration_seconds": 40.0,
+      "fps": 15.0,
+      "expected_duration_seconds": 40,
+      "paired_half_speed": true,
+      "bytes": 11152157
+    },
+    "film_r2/opponent-male-game-before-after-half-speed.mp4": {
+      "duration_seconds": 30.0,
+      "fps": 15.0,
+      "expected_duration_seconds": 30,
+      "paired_half_speed": true,
+      "bytes": 3546564
+    },
+    "film_r2/opponent-male-front-before-after-half-speed.mp4": {
+      "duration_seconds": 30.0,
+      "fps": 15.0,
+      "expected_duration_seconds": 30,
+      "paired_half_speed": true,
+      "bytes": 7691525
+    },
+    "film_r2/opponent-male-side-before-after-half-speed.mp4": {
+      "duration_seconds": 30.0,
+      "fps": 15.0,
+      "expected_duration_seconds": 30,
+      "paired_half_speed": true,
+      "bytes": 8793132
+    },
+    "film_r2/opponent-female-game-before-after-half-speed.mp4": {
+      "duration_seconds": 30.0,
+      "fps": 15.0,
+      "expected_duration_seconds": 30,
+      "paired_half_speed": true,
+      "bytes": 3582312
+    },
+    "film_r2/opponent-female-front-before-after-half-speed.mp4": {
+      "duration_seconds": 30.0,
+      "fps": 15.0,
+      "expected_duration_seconds": 30,
+      "paired_half_speed": true,
+      "bytes": 7601479
+    },
+    "film_r2/opponent-female-side-before-after-half-speed.mp4": {
+      "duration_seconds": 30.0,
+      "fps": 15.0,
+      "expected_duration_seconds": 30,
+      "paired_half_speed": true,
+      "bytes": 8793479
+    },
+    "film_r2/real-input-female-rh-ad.mp4": {
+      "duration_seconds": 9.0,
+      "fps": 30.0,
+      "expected_duration_seconds": 9,
+      "paired_half_speed": false,
+      "bytes": 3627271
+    },
+    "film_r2/real-input-female-rh-deuce.mp4": {
+      "duration_seconds": 9.0,
+      "fps": 30.0,
+      "expected_duration_seconds": 9,
+      "paired_half_speed": false,
+      "bytes": 3901931
+    },
+    "film_r2/real-input-male-rh-ad.mp4": {
+      "duration_seconds": 9.0,
+      "fps": 30.0,
+      "expected_duration_seconds": 9,
+      "paired_half_speed": false,
+      "bytes": 3650959
+    },
+    "film_r2/real-input-male-rh-deuce.mp4": {
+      "duration_seconds": 9.0,
+      "fps": 30.0,
+      "expected_duration_seconds": 9,
+      "paired_half_speed": false,
+      "bytes": 3927863
+    }
+  },
+  "six_sheets_present": true,
+  "24_LH_archive_films_explicitly_named_unsupported": true
+}

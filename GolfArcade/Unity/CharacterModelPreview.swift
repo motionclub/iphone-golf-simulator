@@ -101,6 +101,9 @@ struct CharacterModelPreview: UIViewRepresentable {
     var menuActivity: ClubPreviewActivity? = nil
     var emote: String? = nil
     var emoteSequence = 0
+    /// MENU HERO: set = the tennis hero stands relaxed (the plaza's stand, not the ready crouch) with this on its back and nothing in its hands;
+    /// nil = the usual stance with the racket in hand.
+    var backCarry: BackCarry? = nil
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     func makeCoordinator() -> Coordinator { Coordinator(cameraDistance: cameraDistance) }
     func makeUIView(context: Context) -> SCNView {
@@ -116,12 +119,14 @@ struct CharacterModelPreview: UIViewRepresentable {
         view.antialiasingMode = .multisampling4X
         view.accessibilityLabel = idleSport == nil ? "Your 3D character. Drag to rotate." : "Your player warming up"
         context.coordinator.update(player, sport: outfitSport)
+        context.coordinator.setBackCarry(backCarry)
         context.coordinator.setFraming(framing, view: view, animated: false)
         updateIdle(view, context: context)
         return view
     }
     func updateUIView(_ view: SCNView, context: Context) {
         context.coordinator.update(player, sport: outfitSport)
+        context.coordinator.setBackCarry(backCarry)
         context.coordinator.setFraming(framing, view: view, animated: true)
         updateIdle(view, context: context)
     }
@@ -163,7 +168,7 @@ struct CharacterModelPreview: UIViewRepresentable {
         func applyFraming() {
             guard let cam = camera else { return }
             framed = true
-            racket?.isHidden = framing == .head || outfitSport == .golf
+            refreshCarry()
             hero?.setValue(framing == .head, forKey: "heroEquipmentHidden")
             MatchHero.golfEquipment(in: hero)?.isHidden = framing == .head
             let t = framingTarget(framing)
@@ -224,6 +229,12 @@ struct CharacterModelPreview: UIViewRepresentable {
                 return
             }
             guard outfitSport == .tennis else { return }
+            // FRAME_RATE_60B: the Forehand as exported bone tracks (60 Hz samples, skinned like every other menu clip) when the
+            // export has it; the morph swing below blends 12 stored poses and stays only for exports made before the clip was added.
+            if let root = hero, MatchHero.asset(female: root.value(forKey: "heroFemale") as? Bool ?? false)?.rig()?.clips["forehand"] != nil {
+                play(MenuMotion(kind: .clipOnce("forehand"), lead: 0.18, fadeIn: 0.24, fadeOut: 0.35))
+                return
+            }
             guard rig != nil, var playing = motion else { startMorphPractice(); return }
             // the hero is on its skeleton (ReadyIdle): ease it to the still Ready stance first, then hand over to the morph swing
             playing.settleFrom = CACurrentMediaTime() - motionStart; motion = playing
@@ -274,6 +285,7 @@ struct CharacterModelPreview: UIViewRepresentable {
             motion = m
             guard let m, let root = hero, let asset = MatchHero.asset(female: root.value(forKey: "heroFemale") as? Bool ?? false, golf: outfitSport == .golf), let r = HeroRig(root: root, asset: asset) else { return }
             r.attach(); rig = r
+            r.racketOnBack = carrying && backCarry == .racket
             serveZoom = m.kind == .serveOnce && framing == .body ? computeServeZoom(root: root, rig: r.data, asset: asset) : nil
             if !keepClock { motionStart = CACurrentMediaTime() }
             pose(at: CACurrentMediaTime() - motionStart)
@@ -331,6 +343,24 @@ struct CharacterModelPreview: UIViewRepresentable {
             @objc func fire(_ link: CADisplayLink) { if let owner { owner.pose(at: link.targetTimestamp - owner.motionStart) } }
         }
 
+        // MARK: MENU HERO - the back pick
+        private(set) var backCarry: BackCarry?
+        /// The relaxed stand with a back item is on (tennis only: the golf hero holds its club and has no back export).
+        var carrying: Bool { backCarry != nil && outfitSport == .tennis }
+        func setBackCarry(_ carry: BackCarry?) {
+            guard carry != backCarry else { return }
+            let was = carrying; backCarry = carry
+            refreshCarry()
+            if was != carrying { clubKey = nil; idleKey = nil }   // the next configureClub / configureIdle re-picks the stance
+            rig?.racketOnBack = carrying && carry == .racket
+        }
+        /// The racket (in the hand, or on the back) and the golf bag: what the framing, the sport and the back pick show.
+        func refreshCarry() {
+            racket?.isHidden = framing == .head || outfitSport == .golf || (carrying && backCarry == .bag)
+            hero?.childNode(withName: MatchHeroData.bagPartName, recursively: false)?.isHidden = !(carrying && backCarry == .bag) || framing == .head
+            rig?.racketOnBack = carrying && backCarry == .racket
+        }
+
         var clubTimer: Timer?
         private var clubKey: String?
         func configureClub(_ activity: ClubPreviewActivity, animate: Bool) {
@@ -342,15 +372,18 @@ struct CharacterModelPreview: UIViewRepresentable {
             scene.rootNode.childNode(withName: "clubProps", recursively: false)?.removeFromParentNode()
             scene.rootNode.childNode(withName: "idleBall", recursively: false)?.removeFromParentNode()
             clubKey = key
-            racket?.isHidden = outfitSport == .golf || framing == .head
+            refreshCarry()
             applyFraming()
+            if carrying { play(.relaxed) }   // MENU HERO: the main menu's relaxed stand (one pose; the display link stops once it is posed)
         }
         private var lastEmoteSequence = 0
         func playEmote(_ id: String?, sequence: Int) {
             guard sequence != lastEmoteSequence, let id, (EmoteCatalog.ids + ["cheer", "hitPerfect"]).contains(id) else { return }
             lastEmoteSequence = sequence
             // Golf exports share the emotes that are supported by that character's rig.
-            play(MenuMotion(kind: .clipOnce(id), lead: 0, fadeIn: 0.15, fadeOut: 0.25, freezeIdle: true))
+            var m = MenuMotion(kind: .clipOnce(id), lead: 0, fadeIn: 0.15, fadeOut: 0.25, freezeIdle: true)
+            if carrying { m.idle = MenuMotion.relaxed.idle }   // the emote starts from and settles back into the relaxed stand
+            play(m)
         }
 
         private var idleKey: String?
@@ -397,21 +430,22 @@ struct CharacterModelPreview: UIViewRepresentable {
             character.addChildNode(hero)
             scene.rootNode.childNode(withName: "hero-floor", recursively: false)?.isHidden = false
             if !framed { applyFraming() }   // re-tinting never moves the camera the player has turned
-            racket?.isHidden = framing == .head || sport == .golf
+            refreshCarry()
             if let playing { play(playing, keepClock: true) }   // a new look on the stage keeps the tile's motion (and its clock) going
         }
         /// Small original prop comedy: a ball bounces too high, or rolls past a golfer's feet.
         /// Reduced motion keeps the same sport-specific props in a still pose.
         func configureIdle(sport: Sport?, animate: Bool) {
-            let key = "\(sport?.rawValue ?? "none")-\(animate)"
+            let key = "\(sport?.rawValue ?? "none")-\(animate)-\(backCarry?.rawValue ?? "hand")"
             guard key != idleKey else { return }; idleKey = key
             idleWanted = animate && (sport == .tennis || sport == .golf)
             character.removeAllActions(); character.position = SCNVector3Zero; character.eulerAngles = SCNVector3Zero
             stopMotion()
             scene.rootNode.childNode(withName: "idleBall", recursively: false)?.removeFromParentNode()
             character.childNode(withName: "idleClub", recursively: false)?.removeFromParentNode()
-            character.childNode(withName: MatchHero.racketName, recursively: true)?.isHidden = (sport == .golf || outfitSport == .golf) || framing == .head   // close-ups: the Ready racket crosses the chin
-            guard let sport else { return }
+            refreshCarry()
+            character.childNode(withName: MatchHero.racketName, recursively: true)?.isHidden = (sport == .golf || outfitSport == .golf) || framing == .head || (carrying && backCarry == .bag)   // close-ups: the Ready racket crosses the chin
+            guard let sport else { if carrying { play(.relaxed) }; return }   // MENU HERO: the locker's Customize stage stands relaxed with the back pick
             let ball = SCNNode(geometry: SCNSphere(radius: sport == .golf ? 0.032 : 0.065))
             ball.name = "idleBall"
             ball.geometry?.firstMaterial?.diffuse.contents = sport == .golf ? UIColor.white : UIColor(red: 0.8, green: 1, blue: 0.2, alpha: 1)

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using GolfArcade.Course;
 using GolfArcade.Profile;
+using GolfArcade.Shot;
 using GolfArcade.Swing;
 namespace GolfArcade.Game {
     public sealed partial class GolfGame {
@@ -57,6 +58,7 @@ namespace GolfArcade.Game {
         RenderTexture phoneMapTexture;
         object renderedPhoneMapFor;
         Vector3 renderedPhoneMapPosition;
+        Quaternion renderedPhoneMapRotation;
         float renderedPhoneMapSize;
 
         /// Golf as it played on the standalone build: the course and its overlay on the TV, and the
@@ -95,7 +97,12 @@ namespace GolfArcade.Game {
             sheet.SetScreen(true);
             sheet.Skip.Pressed = () => { if (Current is State.Replay or State.Result) SkipReplay(); else SkipPresentation(); };
             for (int i = 0; i < sheet.IntroEmotes.Length; i++) { int slot = i; sheet.IntroEmotes[i].Pressed = () => ChooseIntroEmote(slot); }
-            sheet.StartSwing.Pressed = () => NativeStartSwing();
+            // tap to swing: a tap starts the swing at once, a second tap cancels it
+            sheet.StartSwing.Pressed = () => {
+                if (NativeSwingTracking) { heldOnSheet = true; NativeReleaseSwing(); return; }
+                NativeStartSwing(); heldOnSheet = NativeSwingTracking; if (heldOnSheet) Haptics.Tick();
+            };
+            sheet.StartSwing.Released = null;
             sheet.Pause.gameObject.SetActive(true);
             sheet.Pause.Pressed = () => NativePauseRequested?.Invoke();
             hud.PhoneMapCamera = phoneMapCamera;
@@ -118,10 +125,11 @@ namespace GolfArcade.Game {
             phoneMapCamera.orthographicSize = Mathf.Max(halfUp, halfAcross / aspect) * 1.14f;
             phoneMapCamera.aspect = aspect;
             if (renderedPhoneMapFor == hole && (renderedPhoneMapPosition - framed.position).sqrMagnitude <= .01f &&
+                Quaternion.Angle(renderedPhoneMapRotation, framed.rotation) <= .1f &&
                 Mathf.Abs(renderedPhoneMapSize - phoneMapCamera.orthographicSize) <= .01f) return;
             UnityEngine.Rendering.RenderPipeline.SubmitRenderRequest(phoneMapCamera,
                 new UnityEngine.Rendering.Universal.UniversalRenderPipeline.SingleCameraRequest { destination = phoneMapTexture });
-            renderedPhoneMapFor = hole; renderedPhoneMapPosition = framed.position; renderedPhoneMapSize = phoneMapCamera.orthographicSize;
+            renderedPhoneMapFor = hole; renderedPhoneMapPosition = framed.position; renderedPhoneMapRotation = framed.rotation; renderedPhoneMapSize = phoneMapCamera.orthographicSize;
         }
 
         public void NativeAim(float value) { if(Current==State.Aim) Nudge(Mathf.Clamp(value,-1,1)*AimTapDegrees); }
@@ -157,6 +165,8 @@ namespace GolfArcade.Game {
             public double yards,wind,windDegrees,clubYards,aimDegrees;
             public ControllerPoint ball,pin,landing,direction;
             public ControllerPoint[] path,reach;
+            /// A putt's meter marks on the map (25/50/75/100 %) and their feet; empty on a full shot.
+            public ControllerPoint[] targets; public string[] targetLabels;
         }
         int controllerMapHole=-1;
         Vector3 controllerMapPosition;
@@ -179,6 +189,9 @@ namespace GolfArcade.Game {
                 path=ControllerPoints(hud.Map.Path),reach=ControllerPoints(hud.Map.Reach),
                 direction=new ControllerPoint(minimapCamera.transform.InverseTransformDirection(AimDirection()))
             };
+            if(hud.Map.TargetLabels.Count>0){
+                reading.targets=ControllerPoints(hud.Map.Targets);reading.targetLabels=hud.Map.TargetLabels.ToArray();
+            }
             if(minimapTexture && renderedMapHole==hole.Number &&
                (controllerMapHole!=hole.Number || controllerMapTarget!=minimapTexture ||
                 controllerMapPosition!=minimapCamera.transform.position || controllerMapSize!=minimapCamera.orthographicSize)) {
@@ -217,22 +230,26 @@ namespace GolfArcade.Game {
             OnImpact(new SwingImpact { Power=power, Backswing=power, PeakSpeed=power*16, Commit=1.2, DownswingSeconds=.25, TempoSeconds=.7 });
         }
         public bool NativeShotReady { get; private set; }
-        /// Motion counts only while this is on: the player taps Start Swing on the phone, and the
-        /// shot ends it (as does a cancelled swing, a new aim, a club change or a pause). Without
-        /// it, handling the phone to aim or change club could be read as the start of a swing.
+        /// Motion counts only while this is on: the player taps the swing button on the phone, and
+        /// the shot ends it (as does a second tap, a new aim, a club change, a pause or a stretch with
+        /// no backswing). Without it, handling the phone to aim or change club could be read as a swing.
         public bool NativeSwingTracking { get; private set; }
-        /// The Start Swing button's face: 0 tap to start · 1 hold still while the grip is set · 2 swing now.
-        public int NativeSwingState => !NativeSwingTracking ? 0 : needsReadyPose ? 1 : 2;
+        /// The swing button's face: 0 tap to swing · 2 swinging, tap again to cancel (1, hold still, is retired:
+        /// a tap starts the swing at once).
+        public int NativeSwingState => NativeSwingTracking ? 2 : 0;
         public void RequireNativeReady() {
             NativeShotReady = false; needsReadyPose = false; NativeSwingTracking = false;
             Swing.Detector.Reset();
             RefreshSwingButton();
         }
         bool needsReadyPose;
-        // The starting grip is taken after the phone has been held this still for this long.
-        const float GripStillRate = .8f;
-        const double GripHoldSeconds = .5;
-        double gripStillSince = -1;
+        // The tap starts the swing at once. Its grip is the phone's pose on the first calm sample (the tap itself
+        // jolts the phone), or on whatever sample comes GripMaxWaitSeconds after the tap: never a wait for stillness.
+        const float GripStillRate = .8f, PuttGripStillRate = .3f;
+        const double GripMaxWaitSeconds = .3;
+        // A swing started and then left alone this long (the phone put down, a chat in the middle of a putt) resets.
+        const double TapIdleSeconds = 12;
+        double gripStillSince = -1, trackingSince = -1;
         int nativeLoadFrame = -1;
         /// The shot is lined up and can be aimed (and swung by touch). It does not start motion
         /// tracking: that waits for NativeStartSwing.
@@ -242,15 +259,43 @@ namespace GolfArcade.Game {
             if (grip.HasValue) CaptureNativeGrip(grip.Value);
             RefreshSwingButton();
         }
-        /// Start Swing: take the phone's current hold as the starting grip (the next quiet moment
-        /// when the phone does not send one) and begin reading the swing.
+        /// The swing button tapped: begin reading the swing at once, whatever the phone is doing. The starting
+        /// grip is the phone's pose as it settles from the tap (the one sent with the tap when it sends one).
         public void NativeStartSwing(System.Numerics.Quaternion? grip = null) {
+            heldOnSheet = false; releasePending = false; CancelInvoke(nameof(FinishNativeRelease));
             if (Current != State.Aim || !NativeShotReady) return;
-            NativeSwingTracking = true; Swing.Detector.UseReadyPose=true; needsReadyPose=true; gripStillSince=-1; Swing.Detector.Reset();
+            NativeSwingTracking = true; Swing.Detector.UseReadyPose=true; needsReadyPose=true; gripStillSince=-1; trackingSince=-1; Swing.Detector.Reset();
             if (grip.HasValue) CaptureNativeGrip(grip.Value);
             RefreshSwingButton();
         }
-        /// Back to waiting for Start Swing, ending a backswing already begun.
+        /// The swing button tapped again (or the old let-go). Before contact that resets the swing: the golfer back at the
+        /// address, nothing hit, the button to be tapped again. Once the club is on its way down a
+        /// let-go waits ReleaseGraceSeconds first, so a thumb that comes off at contact, or a
+        /// release that reaches Unity a sample ahead of the impact, doesn't throw away a struck ball.
+        public void NativeReleaseSwing() {
+            if (!NativeSwingTracking || releasePending) return;
+            if (Swing.Phase == SwingPhase.Downswing) { releasePending = true; Invoke(nameof(FinishNativeRelease), ReleaseGraceSeconds); return; }
+            ResetHeldSwing();
+        }
+        public const float ReleaseGraceSeconds = .2f;
+        bool releasePending, heldOnSheet;
+        void FinishNativeRelease() {
+            if (!releasePending) return;
+            releasePending = false;
+            if (Current == State.Aim && NativeSwingTracking) ResetHeldSwing();
+        }
+        void ResetHeldSwing() {
+            NativeCancelSwing();
+            if (heldOnSheet) Haptics.Warning();   // (the app's own button buzzes on the phone side)
+            heldOnSheet = false;
+            swingResetAt = Time.time;
+        }
+        float swingResetAt = -10;
+        /// The TV's line while the swing button is not held: for a moment after a let-go, that it reset.
+        string NativeIdleStatus => Time.time - swingResetAt < 2.5f
+            ? "Swing cancelled — tap the swing button to go again"
+            : "Line up your shot, then tap the swing button on your phone and swing";
+        /// Back to waiting for the swing button, ending a backswing already begun.
         public void NativeCancelSwing() {
             if (!NativeSwingTracking) return;
             if (Swing.Phase is SwingPhase.Backswing or SwingPhase.Downswing) OnCancel();
@@ -279,33 +324,43 @@ namespace GolfArcade.Game {
             var gravity = new System.Numerics.Vector3(sample.gx,sample.gy,sample.gz);
             if(float.IsNaN(q.LengthSquared()) || float.IsInfinity(q.LengthSquared()) || q.LengthSquared()<.5f ||
                float.IsNaN(rate.LengthSquared()) || float.IsInfinity(rate.LengthSquared())) return;
-            if(needsReadyPose) {
-                // The grip is where the phone is held still, not where it was when Start Swing was
-                // tapped: the player lifts it into their stance first.
-                if (rate.Length() > GripStillRate) { gripStillSince = -1; return; }
+            if (trackingSince < 0) trackingSince = sample.time;
+            if (needsReadyPose) {
+                // The swing is live from the tap. Its grip is the first calm pose (the tap's own jolt dies out
+                // within a moment), and past GripMaxWaitSeconds the pose as it is: nothing waits for stillness.
                 if (gripStillSince < 0) gripStillSince = sample.time;
-                if (sample.time - gripStillSince < GripHoldSeconds) return;
+                bool calm = rate.Length() <= (club == GolfClub.Putter ? PuttGripStillRate : GripStillRate);
+                if (!calm && sample.time - gripStillSince < GripMaxWaitSeconds) return;
                 CaptureNativeGrip(q);
                 Debug.Log("[SportsMotion] Ready pose captured");
             }
+            if (Swing.Phase is SwingPhase.Backswing or SwingPhase.Downswing) trackingSince = sample.time;
+            else if (sample.time - trackingSince > TapIdleSeconds) { ResetHeldSwing(); return; }
             var detector = Swing.Detector;
             var before = detector.Phase;
             var e = detector.Ingest(sample.time,q,rate,gravity);
+            // the golfer's downswing follows the phone's, turn for turn, so the club meets the ball on the sample the phone does
+            if (detector.Phase == SwingPhase.Downswing) golfer.PaceDownswing((float)detector.DownswingProgress, sample.time);
             if(e==null) return;
             switch(e.Value.Kind) {
                 case SwingEventKind.Load:
-                    if (detector.Phase == SwingPhase.Downswing && before != SwingPhase.Downswing) golfer.Strike();
+                    if (detector.Phase == SwingPhase.Downswing && before != SwingPhase.Downswing) {
+                        ExperienceTrace.Begin("golf", "downswing-pose");
+                        ExperienceTrace.NativeEvent("golf", "downswing-source", 0, sample.time);
+                        golfer.Strike();
+                    }
                     else if (detector.Phase == SwingPhase.Backswing && nativeLoadFrame != Time.frameCount) {
                         nativeLoadFrame = Time.frameCount;
                         OnLoad(e.Value.Load);
                     }
                     break;
-                case SwingEventKind.Cancel: OnCancel(); break;
+                case SwingEventKind.Cancel: ExperienceTrace.Mark("golf", "cancel"); OnCancel(); break;
                 case SwingEventKind.Impact:
                     var impact=e.Value.Impact;
                     Debug.Log($"[SportsMotion] golf impact speed={impact.PeakSpeed:F2} power={impact.Power:F2}");
                     if(NativeSportsSession.Left) { impact.FaceDegrees*=-1; impact.CurveDegrees*=-1; impact.StartLineDegrees*=-1; }
-                    OnImpact(impact); break;
+                    OnImpact(impact);
+                    ExperienceTrace.NativeEvent("golf", "address-crossing-source", 0, sample.time); break;
             }
         }
 

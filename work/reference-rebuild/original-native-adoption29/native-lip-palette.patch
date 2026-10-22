@@ -1,0 +1,20 @@
+--- a/GolfArcade/Unity/MatchHeroSurfaces.swift
++++ b/GolfArcade/Unity/MatchHeroSurfaces.swift
+@@ -460,8 +460,16 @@
+     if(skinFinish>0.5){
+         if(skinPigmentUV>0.5){
+             float2 masks=saturate((_surface.diffuseTexcoord*64.0-0.5)/63.0);
++            float lipPigment=masks.x, linePigment=masks.y;
+             float3 lip=skinFinish<1.5 ? float3(0.99,0.83,0.80):float3(0.99,0.76,0.74);
+-            _surface.diffuse.rgb=heroTint.rgb*mix(float3(1.0),lip,masks.x)*mix(float3(1.0),float3(0.80,0.67,0.64),masks.y);
++            float3 line=float3(0.80,0.67,0.64);
++            if(skinPigmentUV>1.5){
++                // Exact SkinPigmentUV2 relative palette and mouth-only seam gain.
++                lip=skinFinish<1.5 ? float3(0.95,0.68,0.69):float3(0.94,0.61,0.64);
++                line=float3(0.62,0.44,0.42);
++                linePigment=saturate(linePigment*mix(1.0,1.65,saturate(lipPigment*4.0)));
++            }
++            _surface.diffuse.rgb=heroTint.rgb*mix(float3(1.0),lip,lipPigment)*mix(float3(1.0),line,linePigment);
+         }
+         _surface.diffuse.rgb*=mix(float3(1.0),float3(1.012,0.965,0.955),warmth);
+         if(skinFinish<1.5){

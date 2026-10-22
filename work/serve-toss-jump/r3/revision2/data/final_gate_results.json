@@ -1,0 +1,67 @@
+{
+  "TOSS_FEET_DOWN": {
+    "pass": false,
+    "male": false,
+    "female": false
+  },
+  "NO_AIR_BEFORE_DRIVE": {
+    "pass": false,
+    "male": false,
+    "female": false
+  },
+  "RELEASE_ON_PATH": {
+    "pass": false,
+    "male": false,
+    "female": false
+  },
+  "LOAD_AT_TROPHY": {
+    "pass": false,
+    "male": false,
+    "female": false
+  },
+  "TAKEOFF": {
+    "pass": false,
+    "male": false,
+    "female": false
+  },
+  "AIR_AT_CONTACT": {
+    "pass": false,
+    "male": false,
+    "female": false
+  },
+  "APEX_AFTER_CONTACT": {
+    "pass": false,
+    "male": false,
+    "female": false
+  },
+  "FRONT_FOOT_LANDS_FIRST": {
+    "pass": false,
+    "male": false,
+    "female": false
+  },
+  "CONTACT_POSE_KEPT": {
+    "pass": false,
+    "male": true,
+    "female": false
+  },
+  "NO_FOOT_SLIDE": {
+    "pass": false,
+    "male": false,
+    "female": false
+  },
+  "WRIST_SMOOTH": {
+    "pass": false,
+    "male": false,
+    "female": false
+  },
+  "CLEARANCE": {
+    "pass": false,
+    "male": false,
+    "female": false
+  },
+  "GAME_TIMES_UNCHANGED": {
+    "pass": true,
+    "male": true,
+    "female": true
+  }
+}

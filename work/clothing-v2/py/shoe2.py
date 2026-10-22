@@ -175,6 +175,8 @@ def tube_path(path, r, k=8, cap=True, flat=1.0):
 # ------------------------------------------------------------------ build
 def build(hero_id, design, side, outp):
     D = DESIGNS[design]()
+    if os.environ.get('SHOE_DESIGN'):                                   # design overrides for the fast loop: SHOE_DESIGN='{"sole_t": [0.042, 0.028]}'
+        import json as _json; D.update(_json.loads(os.environ['SHOE_DESIGN']))
     bpy.ops.wm.read_factory_settings(use_empty=True)
     import cv2io, glib as G, fit
     import builtins

@@ -361,10 +361,13 @@ enum GolfForecast {
 
     /// RoundEvents.WeatherFor: a hole's weather as it starts.
     static func weather(_ seed: Int, hole: Int, hurricane: Bool) -> Weather {
-        var dice = Dice(mix(seed, hole, 1))
-        let u = dice.nextDouble()
-        let (clear, gusty, rain, fog) = hurricane ? (0.12, 0.42, 0.58, 0.58) : (0.36, 0.56, 0.74, 0.85)
-        return u < clear ? .clear : u < gusty ? .gusty : u < rain ? .rain : u < fog ? .fog : .storm
+        func raw(_ index: Int) -> Weather {
+            let u = Double(mix(seed, index, 0x574541)) / 2147483648.0
+            return u < 0.25 ? .clear : u < 0.5 ? .gusty : u < 0.75 ? .rain : u < 0.9 ? .fog : .storm
+        }
+        let condition = raw(hole)
+        if condition == .storm && ((hole > 0 && raw(hole - 1) == .storm) || (hole > 1 && raw(hole - 2) == .storm)) { return .rain }
+        return condition
     }
 
     /// Today as yyyymmdd: the round's seed.

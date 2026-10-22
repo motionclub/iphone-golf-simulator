@@ -1,0 +1,222 @@
+{
+ "version": 1,
+ "hero": "GolfKitHero_Male",
+ "units": "m",
+ "pieces": [
+  {
+   "piece": "Kit_Top",
+   "bones": {
+    "Chest": {
+     "rest_p50": 0.0224,
+     "rest_p95": 0.0353,
+     "pose_p95": 0.0341,
+     "max": 0.047
+    },
+    "Hips": {
+     "rest_p50": 0.0224,
+     "rest_p95": 0.0237,
+     "pose_p95": 0.0553,
+     "max": 0.0635
+    },
+    "LeftShoulder": {
+     "rest_p50": 0.0204,
+     "rest_p95": 0.044,
+     "pose_p95": 0.0405,
+     "max": 0.0488
+    },
+    "LeftUpperArm": {
+     "rest_p50": 0.011,
+     "rest_p95": 0.0238,
+     "pose_p95": 0.0233,
+     "max": 0.041
+    },
+    "LeftUpperLeg": {
+     "rest_p50": 0.0325,
+     "rest_p95": 0.0522,
+     "pose_p95": 0.0503,
+     "max": 0.0735
+    },
+    "RightShoulder": {
+     "rest_p50": 0.0202,
+     "rest_p95": 0.044,
+     "pose_p95": 0.0412,
+     "max": 0.0477
+    },
+    "RightUpperArm": {
+     "rest_p50": 0.0111,
+     "rest_p95": 0.024,
+     "pose_p95": 0.0233,
+     "max": 0.0365
+    },
+    "Spine": {
+     "rest_p50": 0.034,
+     "rest_p95": 0.0529,
+     "pose_p95": 0.0488,
+     "max": 0.0637
+    },
+    "UpperChest": {
+     "rest_p50": 0.0061,
+     "rest_p95": 0.0119,
+     "pose_p95": 0.0117,
+     "max": 0.0149
+    }
+   }
+  },
+  {
+   "piece": "Kit_Bottom",
+   "bones": {
+    "Hips": {
+     "rest_p50": 0.0087,
+     "rest_p95": 0.0129,
+     "pose_p95": 0.0143,
+     "max": 0.0245
+    },
+    "LeftLowerLeg": {
+     "rest_p50": 0.0144,
+     "rest_p95": 0.0292,
+     "pose_p95": 0.0288,
+     "max": 0.0465
+    },
+    "LeftUpperLeg": {
+     "rest_p50": 0.0125,
+     "rest_p95": 0.0335,
+     "pose_p95": 0.0301,
+     "max": 0.0541
+    },
+    "RightLowerLeg": {
+     "rest_p50": 0.0144,
+     "rest_p95": 0.0296,
+     "pose_p95": 0.0291,
+     "max": 0.0424
+    },
+    "RightUpperLeg": {
+     "rest_p50": 0.0128,
+     "rest_p95": 0.0344,
+     "pose_p95": 0.0299,
+     "max": 0.0534
+    },
+    "Spine": {
+     "rest_p50": 0.0149,
+     "rest_p95": 0.0169,
+     "pose_p95": 0.0162,
+     "max": 0.0179
+    }
+   }
+  },
+  {
+   "piece": "Kit_Shoe_L",
+   "bones": {
+    "LeftFoot": {
+     "rest_p50": 0.0098,
+     "rest_p95": 0.0258,
+     "pose_p95": 0.0255,
+     "max": 0.0322
+    },
+    "LeftToes": {
+     "rest_p50": 0.0206,
+     "rest_p95": 0.0343,
+     "pose_p95": 0.034,
+     "max": 0.0418
+    }
+   }
+  },
+  {
+   "piece": "Kit_Shoe_R",
+   "bones": {
+    "RightFoot": {
+     "rest_p50": 0.0094,
+     "rest_p95": 0.0264,
+     "pose_p95": 0.026,
+     "max": 0.0324
+    },
+    "RightToes": {
+     "rest_p50": 0.0206,
+     "rest_p95": 0.0347,
+     "pose_p95": 0.0339,
+     "max": 0.0418
+    }
+   }
+  },
+  {
+   "piece": "Kit_Belt",
+   "bones": {
+    "Hips": {
+     "rest_p50": 0.012,
+     "rest_p95": 0.0207,
+     "pose_p95": 0.0168,
+     "max": 0.0279
+    },
+    "LeftUpperLeg": {
+     "rest_p50": 0.0177,
+     "rest_p95": 0.0227,
+     "pose_p95": 0.023,
+     "max": 0.0259
+    },
+    "RightUpperLeg": {
+     "rest_p50": 0.0184,
+     "rest_p95": 0.0232,
+     "pose_p95": 0.0237,
+     "max": 0.0265
+    },
+    "Spine": {
+     "rest_p50": 0.0175,
+     "rest_p95": 0.0206,
+     "pose_p95": 0.0209,
+     "max": 0.0232
+    }
+   }
+  },
+  {
+   "piece": "Kit_Sock_L",
+   "bones": {
+    "LeftFoot": {
+     "rest_p50": 0.0146,
+     "rest_p95": 0.0512,
+     "pose_p95": 0.0468,
+     "max": 0.0796
+    },
+    "LeftLowerLeg": {
+     "rest_p50": 0.0044,
+     "rest_p95": 0.0245,
+     "pose_p95": 0.0248,
+     "max": 0.0486
+    }
+   }
+  },
+  {
+   "piece": "Kit_Sock_R",
+   "bones": {
+    "RightFoot": {
+     "rest_p50": 0.0144,
+     "rest_p95": 0.0513,
+     "pose_p95": 0.0441,
+     "max": 0.0797
+    },
+    "RightLowerLeg": {
+     "rest_p50": 0.0044,
+     "rest_p95": 0.0238,
+     "pose_p95": 0.0243,
+     "max": 0.0476
+    }
+   }
+  }
+ ],
+ "bones": {
+  "Chest": 0.0341,
+  "Hips": 0.0553,
+  "LeftShoulder": 0.0405,
+  "LeftUpperArm": 0.0233,
+  "LeftUpperLeg": 0.0503,
+  "RightShoulder": 0.0412,
+  "RightUpperArm": 0.0233,
+  "Spine": 0.0488,
+  "UpperChest": 0.0117,
+  "LeftLowerLeg": 0.0288,
+  "RightLowerLeg": 0.0291,
+  "RightUpperLeg": 0.0299,
+  "LeftFoot": 0.0468,
+  "LeftToes": 0.034,
+  "RightFoot": 0.0441,
+  "RightToes": 0.0339
+ }
+}

@@ -1,0 +1,662 @@
+{
+ "generated": "2026-10-03T17:13:11",
+ "serve": {
+  "thin": true,
+  "thin_reason": "the bounce is not in frame of rxo1uEdLouY t=178-181 (the ball is hidden in the left fist until t=178.75): no bounce is keyed, no bounce time is given, no ball object is added",
+  "contact_s": 1.7,
+  "contact_frame": 51,
+  "marker": "Contact",
+  "bounce_time": null
+ },
+ "gates": {
+  "FROM_WATCH": {
+   "passed": false,
+   "failed_lines": [
+    "media files written elsewhere in the repo while this job ran (other sessions: ArtDir motion / flyover renders; none under work/serve-and-feet, none written by this job): ['ArtDir/ui/motion-club-radial-v1/runtime/Motion_Club_Menus_and_Transitions.mp4', 'ArtDir/ui/motion-club-radial-v1/runtime/Motion_Club_Living_Backgrounds.mp4', 'ArtDir/ui/motion-club-radial-v1/runtime/Motion_Club_Hinge_Transitions.mp4', 'ArtDir/screenshots/golf_flyover/cliffside_flyover.mp4']"
+   ],
+   "numbers": {
+    "ids_in_files": [
+     "JJEDwXeDjBc",
+     "rxo1uEdLouY"
+    ],
+    "other_non_id_tokens": [],
+    "serve_keys": 41,
+    "serve_keys_with_src": 35,
+    "serve_tokens": [
+     "S3.C",
+     "S3.C/S3.H3",
+     "S3.F1/S3.F3/S3.F4/S3.F5/S3.F7/S3.F9",
+     "S3.F1/S3.F3/S3.F4/S3.F5/S3.F8/S3.F9",
+     "S3.F8",
+     "S3.F9",
+     "S3.H1",
+     "S3.H1/S3.F2",
+     "S3.H1/S3.F3",
+     "S3.H1/S3.H2",
+     "S3.H3/S3.F4",
+     "S3.H3/S3.F5",
+     "S3.H3/S3.F6",
+     "S3.H3/S3.F7",
+     "S3.R1",
+     "S3.R2",
+     "S3.R3",
+     "S3.R4",
+     "S3.R5",
+     "S3.R6",
+     "S3.R7",
+     "S3.R8"
+    ],
+    "gait_src": {
+     "male/Walk": "W:S2.1/S2.2/S2.3/S2.5 (JJEDwXeDjBc t=245.00-246.10, 309.00-310.10)",
+     "male/RunForward": "W:S1.1/S1.2/S1.4/S1.5/S1.6 (JJEDwXeDjBc t=301.70-302.37, 392.40-393.50)",
+     "male/RunLeft": "W:S1.1/S1.2/S1.4/S1.5/S1.6 (JJEDwXeDjBc t=301.70-302.37, 392.40-393.50)",
+     "male/RunRight": "W:S1.1/S1.2/S1.4/S1.5/S1.6 (JJEDwXeDjBc t=301.70-302.37, 392.40-393.50)",
+     "female/Walk": "W:S2.1/S2.2/S2.3/S2.5 (JJEDwXeDjBc t=245.00-246.10, 309.00-310.10)",
+     "female/RunForward": "W:S1.1/S1.2/S1.4/S1.5/S1.6 (JJEDwXeDjBc t=301.70-302.37, 392.40-393.50)",
+     "female/RunLeft": "W:S1.1/S1.2/S1.4/S1.5/S1.6 (JJEDwXeDjBc t=301.70-302.37, 392.40-393.50)",
+     "female/RunRight": "W:S1.1/S1.2/S1.4/S1.5/S1.6 (JJEDwXeDjBc t=301.70-302.37, 392.40-393.50)"
+    },
+    "media_under_job_dir": [],
+    "media_modified_in_repo_during_job_by_other_sessions": [
+     "ArtDir/ui/motion-club-radial-v1/runtime/Motion_Club_Menus_and_Transitions.mp4",
+     "ArtDir/ui/motion-club-radial-v1/runtime/Motion_Club_Living_Backgrounds.mp4",
+     "ArtDir/ui/motion-club-radial-v1/runtime/Motion_Club_Hinge_Transitions.mp4",
+     "ArtDir/screenshots/golf_flyover/cliffside_flyover.mp4"
+    ]
+   }
+  },
+  "SERVE_BOUNCE": {
+   "passed": true,
+   "failed_lines": [],
+   "numbers": {
+    "palm": {
+     "male": {
+      "palm_min_to_release": 0.8814,
+      "palm_frame0": 0.8829,
+      "palm_stance": 0.8814,
+      "drop_after_stance_mm": 0.0,
+      "drop_from_frame0_mm": 1.5000000000000568,
+      "palm_min_to_contact": 0.8814
+     },
+     "female": {
+      "palm_min_to_release": 0.8933,
+      "palm_frame0": 0.8948,
+      "palm_stance": 0.8933,
+      "drop_after_stance_mm": 0.0,
+      "drop_from_frame0_mm": 1.5000000000000568,
+      "palm_min_to_contact": 0.8933
+     }
+    },
+    "fbx_objects": [
+     "ARMATURE:Rig_Male",
+     "EMPTY:Hand_Racket",
+     "MESH:Body_M",
+     "MESH:ButtCap",
+     "MESH:Face_M",
+     "MESH:Grip",
+     "MESH:Racket_Classic",
+     "MESH:StringBed"
+    ],
+    "bounce_time_in_checks": null
+   }
+  },
+  "SERVE_HIPS": {
+   "passed": true,
+   "failed_lines": [],
+   "numbers": {
+    "blender": {
+     "male": {
+      "frame0": -0.0,
+      "stance": 30.0,
+      "release": 36.0,
+      "trophy": 58.0,
+      "deepest": 70.0,
+      "contact": 4.0,
+      "load_from_stance": 40.0,
+      "load_from_frame0": 70.0,
+      "unwind_to_contact": 66.0,
+      "chest_deepest": 95.16,
+      "chest_stance": 37.9
+     },
+     "female": {
+      "frame0": -0.0,
+      "stance": 30.0,
+      "release": 36.0,
+      "trophy": 58.0,
+      "deepest": 70.0,
+      "contact": 4.0,
+      "load_from_stance": 40.0,
+      "load_from_frame0": 70.0,
+      "unwind_to_contact": 66.0,
+      "chest_deepest": 95.16,
+      "chest_stance": 37.9
+     }
+    },
+    "play_mode": {
+     "vs_Nadia/PLAYER/M": {
+      "load": 42.24775491540923,
+      "unwind": 65.08145833333333
+     },
+     "vs_Nadia/RIVAL/F": {
+      "load": 40.965581395348835,
+      "unwind": 66.2342857142857
+     },
+     "vs_Viktor/PLAYER/F": {
+      "load": 41.992294685990345,
+      "unwind": 64.21111111111112
+     },
+     "vs_Viktor/RIVAL/M": {
+      "load": 40.06237373737373,
+      "unwind": 64.975
+     }
+    }
+   }
+  },
+  "SERVE_CONTACT": {
+   "passed": true,
+   "failed_lines": [],
+   "numbers": {
+    "male": {
+     "contact_s": 1.7,
+     "contact_frame": 51,
+     "marker": [
+      [
+       "Contact",
+       51
+      ]
+     ],
+     "sweet_z_at_contact": 2.2553,
+     "sweet_z_max_within_0_2s": 2.2553,
+     "argmax_frame": 51
+    },
+    "female": {
+     "contact_s": 1.7,
+     "contact_frame": 51,
+     "marker": [
+      [
+       "Contact",
+       51
+      ]
+     ],
+     "sweet_z_at_contact": 2.1531,
+     "sweet_z_max_within_0_2s": 2.1531,
+     "argmax_frame": 51
+    },
+    "play_mode": {
+     "player_serves": 59,
+     "rival_serves": 16,
+     "sexes": [
+      "F",
+      "M"
+     ],
+     "every_serve_within_1_frame": true,
+     "delta_ms_range": [
+      -13.700000000000001,
+      3.3
+     ],
+     "player_gap_at_contact_instant": {
+      "frac_le_12cm": 1.0,
+      "frac_le_20cm": 1.0,
+      "max_m": 0.0821
+     },
+     "player_gap_on_the_logged_frame_raw": {
+      "frac_le_12cm": 0.6440677966101694,
+      "max_m": 0.3678,
+      "why": "the logged frame can come after the game has launched the ball (ball 14 ms away at 25 m/s); the gate value is read at the instant the game time-to-contact reaches 0"
+     },
+     "previous_serve_from_hero_mainstay_contact_lands": {
+      "Female_Serve": "Female_Serve                 10                  2.0     0.0     3.3                -26.8",
+      "Male_Serve": "Male_Serve                   11                  2.1     0.0     3.3                -21.5"
+     }
+    }
+   }
+  },
+  "WALK_STEPS": {
+   "passed": true,
+   "failed_lines": [],
+   "numbers": {
+    "blender": {
+     "male": {
+      "cycle_s": 1.1,
+      "loop_closure": {
+       "max_quat_diff": 0.0,
+       "max_hips_diff": 0.0
+      },
+      "L": {
+       "planted_frac": 0.6363636363636364,
+       "clear40_frac": 0.2727272727272727,
+       "clear60_frac": 0.15151515151515152,
+       "peak_mm": 94.94476930938175,
+       "min_mm": -0.014648979981624847
+      },
+      "R": {
+       "planted_frac": 0.6363636363636364,
+       "clear40_frac": 0.24242424242424243,
+       "clear60_frac": 0.18181818181818182,
+       "peak_mm": 93.96118836245945,
+       "min_mm": -0.020508163129174476
+      },
+      "one_foot_planted_every_frame": true,
+      "planted_speed_ratio": {
+       "L": [
+        0.9999994039535522,
+        1.000004768371582
+       ],
+       "R": [
+        0.9999990463256836,
+        1.000004768371582
+       ]
+      }
+     },
+     "female": {
+      "cycle_s": 1.1,
+      "loop_closure": {
+       "max_quat_diff": 0.0,
+       "max_hips_diff": 0.0
+      },
+      "L": {
+       "planted_frac": 0.6363636363636364,
+       "clear40_frac": 0.2727272727272727,
+       "clear60_frac": 0.15151515151515152,
+       "peak_mm": 94.94158199279667,
+       "min_mm": -0.038454847046119706
+      },
+      "R": {
+       "planted_frac": 0.6363636363636364,
+       "clear40_frac": 0.24242424242424243,
+       "clear60_frac": 0.18181818181818182,
+       "peak_mm": 93.95755401103855,
+       "min_mm": -0.03284118381230308
+      },
+      "one_foot_planted_every_frame": true,
+      "planted_speed_ratio": {
+       "L": [
+        0.9999972581863403,
+        1.0000026226043701
+       ],
+       "R": [
+        0.9999983310699463,
+        1.0000033378601074
+       ]
+      }
+     }
+    },
+    "play_mode": {
+     "vs_Nadia/M": {
+      "frames": 119,
+      "foot_skate_median": 0.027,
+      "walk_weight_min": 1.0,
+      "ready_weight_max": 0.0
+     },
+     "vs_Viktor/F": {
+      "frames": 119,
+      "foot_skate_median": 0.027,
+      "walk_weight_min": 1.0,
+      "ready_weight_max": 0.0
+     }
+    }
+   }
+  },
+  "RUN_BOTH_LEGS": {
+   "passed": true,
+   "failed_lines": [],
+   "numbers": {
+    "male/RunForward": {
+     "cycle_s": 0.5666666666666667,
+     "L": {
+      "planted": 0.4117647058823529,
+      "clear60": 0.5294117647058824,
+      "peak": 199.45261792979647
+     },
+     "R": {
+      "planted": 0.4117647058823529,
+      "clear60": 0.47058823529411764,
+      "peak": 199.97755603633334
+     },
+     "weaker_over_stronger": 0.9973750148919637,
+     "hips_yaw_mean": 0.0023529411764706427,
+     "socket_max_dev": 1.7881393432617188e-07,
+     "planted_speed_ratio": {
+      "L": [
+       1.0000007799693518,
+       1.0000029802322388
+      ],
+      "R": [
+       1.00000022990363,
+       1.0000027051993778
+      ]
+     }
+    },
+    "male/RunLeft": {
+     "cycle_s": 0.5666666666666667,
+     "L": {
+      "planted": 0.4117647058823529,
+      "clear60": 0.5294117647058824,
+      "peak": 199.4523050054114
+     },
+     "R": {
+      "planted": 0.4117647058823529,
+      "clear60": 0.47058823529411764,
+      "peak": 199.9778987630408
+     },
+     "weaker_over_stronger": 0.9973717407729532,
+     "hips_yaw_mean": -69.99764705882353,
+     "socket_max_dev": 1.6391277313232422e-07,
+     "planted_speed_ratio": {
+      "L": [
+       1.0000009862439974,
+       1.0000038053308216
+      ],
+      "R": [
+       0.9999998173543386,
+       1.0000033927815302
+      ]
+     }
+    },
+    "male/RunRight": {
+     "cycle_s": 0.5666666666666667,
+     "L": {
+      "planted": 0.4117647058823529,
+      "clear60": 0.5294117647058824,
+      "peak": 199.4530351623099
+     },
+     "R": {
+      "planted": 0.4117647058823529,
+      "clear60": 0.47058823529411764,
+      "peak": 199.97724311194827
+     },
+     "weaker_over_stronger": 0.9973786619843293,
+     "hips_yaw_mean": 70.00235294117647,
+     "socket_max_dev": 2.2351741790771484e-07,
+     "planted_speed_ratio": {
+      "L": [
+       1.0000000923871994,
+       1.0000032552650997
+      ],
+      "R": [
+       1.0000009174857822,
+       1.0000032552650997
+      ]
+     }
+    },
+    "female/RunForward": {
+     "cycle_s": 0.5666666666666667,
+     "L": {
+      "planted": 0.4117647058823529,
+      "clear60": 0.5294117647058824,
+      "peak": 199.44743385761143
+     },
+     "R": {
+      "planted": 0.4117647058823529,
+      "clear60": 0.47058823529411764,
+      "peak": 199.9723719641483
+     },
+     "weaker_over_stronger": 0.9973749468420019,
+     "hips_yaw_mean": 0.0023529411764706427,
+     "socket_max_dev": 1.1920928955078125e-07,
+     "planted_speed_ratio": {
+      "L": [
+       0.9999990610139711,
+       1.0000007799693518
+      ],
+      "R": [
+       0.9999988547393255,
+       1.0000014675515039
+      ]
+     }
+    },
+    "female/RunLeft": {
+     "cycle_s": 0.5666666666666667,
+     "L": {
+      "planted": 0.4117647058823529,
+      "clear60": 0.5294117647058824,
+      "peak": 199.44743385761143
+     },
+     "R": {
+      "planted": 0.4117647058823529,
+      "clear60": 0.47058823529411764,
+      "peak": 199.97231235950352
+     },
+     "weaker_over_stronger": 0.9973752441240541,
+     "hips_yaw_mean": -69.99764705882353,
+     "socket_max_dev": 1.1920928955078125e-07,
+     "planted_speed_ratio": {
+      "L": [
+       0.9999985797064646,
+       1.000000298661845
+      ],
+      "R": [
+       0.9999980296407428,
+       1.0000010550022125
+      ]
+     }
+    },
+    "female/RunRight": {
+     "cycle_s": 0.5666666666666667,
+     "L": {
+      "planted": 0.4117647058823529,
+      "clear60": 0.5294117647058824,
+      "peak": 199.4472550436771
+     },
+     "R": {
+      "planted": 0.4117647058823529,
+      "clear60": 0.47058823529411764,
+      "peak": 199.97241666763188
+     },
+     "weaker_over_stronger": 0.9973738296875833,
+     "hips_yaw_mean": 70.00235294117647,
+     "socket_max_dev": 1.5273690223693848e-07,
+     "planted_speed_ratio": {
+      "L": [
+       0.9999984421900341,
+       1.0000009862439974
+      ],
+      "R": [
+       0.999998992255756,
+       1.0000006424529213
+      ]
+     }
+    },
+    "toe_bone_slide_at_design_speed": {
+     "male": {
+      "Walk": {
+       "Left": 0,
+       "Right": 0
+      },
+      "RunForward": {
+       "Left": 1,
+       "Right": 1
+      },
+      "RunRight": {
+       "Left": 1,
+       "Right": 1
+      },
+      "RunLeft": {
+       "Left": 1,
+       "Right": 1
+      }
+     },
+     "female": {
+      "Walk": {
+       "Left": 0,
+       "Right": 0
+      },
+      "RunForward": {
+       "Left": 1,
+       "Right": 1
+      },
+      "RunRight": {
+       "Left": 1,
+       "Right": 1
+      },
+      "RunLeft": {
+       "Left": 1,
+       "Right": 1
+      }
+     }
+    },
+    "play_mode": {
+     "windows": 101,
+     "passing": 101,
+     "by_clip": {
+      "RunForward": 50,
+      "RunLeft": 23,
+      "RunRight": 28
+     },
+     "by_sex": {
+      "M": 70,
+      "F": 31
+     }
+    }
+   }
+  },
+  "NO_SLIDE_SUBSTITUTE": {
+   "passed": false,
+   "failed_lines": [
+    "share of moving frames whose planted toe slides faster than 0.15 m/s: 41.6% (limit 20 %; HERO_MAINSTAY 87 %); the action layer (the other 15 clips) is 32% of the moving frames at 61%"
+   ],
+   "numbers": {
+    "male": {
+     "Walk": 19.842597161984234,
+     "RunForward": 33.628227986642266,
+     "RunRight": 34.03562624417693,
+     "RunLeft": 34.309539498808434
+    },
+    "female": {
+     "Walk": 20.016228043832687,
+     "RunForward": 32.445404099202264,
+     "RunRight": 32.63204361397369,
+     "RunLeft": 33.02890406962071
+    },
+    "play_mode": {
+     "run_frames_after_blend": 7295,
+     "share_run_clip_frames": 1.0,
+     "moving_frames": 20406,
+     "share_toe_slide_over_0_15": 0.4160541017347839,
+     "by_what_plays": {
+      "blending (no clip >= 0.9)": {
+       "frames": 729,
+       "share_of_moving_frames": 0.0357247868274037,
+       "share_slide_over_0_15": 0.7366255144032922,
+       "median": 1.158
+      },
+      "Walk >= 0.9": {
+       "frames": 5697,
+       "share_of_moving_frames": 0.2791825933548956,
+       "share_slide_over_0_15": 0.17517991925574863,
+       "median": 0.027
+      },
+      "action layer (stroke / serve clip of the other 15 + Serve)": {
+       "frames": 6447,
+       "share_of_moving_frames": 0.3159364892678624,
+       "share_slide_over_0_15": 0.614704513727315,
+       "median": 0.428
+      },
+      "Run clips >= 0.9": {
+       "frames": 7533,
+       "share_of_moving_frames": 0.36915613054983826,
+       "share_slide_over_0_15": 0.39718571618213194,
+       "median": 0.111
+      }
+     },
+     "previous": 0.87
+    }
+   }
+  },
+  "OTHER_CLIPS_UNCHANGED": {
+   "passed": true,
+   "failed_lines": [],
+   "numbers": {
+    "hash_list_files": 96,
+    "changed_in_unity": [
+     "Unity/Assets/Characters/MatchHeroes/Female/Female_Serve.fbx",
+     "Unity/Assets/Characters/MatchHeroes/Female/Female_Serve.fbx.meta",
+     "Unity/Assets/Characters/MatchHeroes/Male/Male_Serve.fbx",
+     "Unity/Assets/Characters/MatchHeroes/Male/Male_Serve.fbx.meta"
+    ],
+    "new_in_unity": [
+     "Unity/Assets/Characters/MatchHeroes/Female/Female_RunForward.fbx",
+     "Unity/Assets/Characters/MatchHeroes/Female/Female_RunForward.fbx.meta",
+     "Unity/Assets/Characters/MatchHeroes/Female/Female_RunLeft.fbx",
+     "Unity/Assets/Characters/MatchHeroes/Female/Female_RunLeft.fbx.meta",
+     "Unity/Assets/Characters/MatchHeroes/Female/Female_RunRight.fbx",
+     "Unity/Assets/Characters/MatchHeroes/Female/Female_RunRight.fbx.meta",
+     "Unity/Assets/Characters/MatchHeroes/Female/Female_Walk.fbx",
+     "Unity/Assets/Characters/MatchHeroes/Female/Female_Walk.fbx.meta",
+     "Unity/Assets/Characters/MatchHeroes/Male/Male_RunForward.fbx",
+     "Unity/Assets/Characters/MatchHeroes/Male/Male_RunForward.fbx.meta",
+     "Unity/Assets/Characters/MatchHeroes/Male/Male_RunLeft.fbx",
+     "Unity/Assets/Characters/MatchHeroes/Male/Male_RunLeft.fbx.meta",
+     "Unity/Assets/Characters/MatchHeroes/Male/Male_RunRight.fbx",
+     "Unity/Assets/Characters/MatchHeroes/Male/Male_RunRight.fbx.meta",
+     "Unity/Assets/Characters/MatchHeroes/Male/Male_Walk.fbx",
+     "Unity/Assets/Characters/MatchHeroes/Male/Male_Walk.fbx.meta"
+    ],
+    "actions": {
+     "male": {
+      "other_actions": 15,
+      "identical": true,
+      "serve_changed": true
+     },
+     "female": {
+      "other_actions": 15,
+      "identical": true,
+      "serve_changed": true
+     }
+    },
+    "source_hero_blends": {
+     "male": "d6c4dcfb1150853a8802a8dc7501aa64066adb8b2734c14a4d6ed8e82dada781",
+     "female": "a1d73a334f4dc18052db0582df6b4b54b1df166d9a3531ab700ee114e86d2ac1"
+    },
+    "mesh_hash": {
+     "male": {
+      "Body_M": "e0341c9834e8e2e58c3e7867e300f75975b97e1532c97386333285bb2e3d980b",
+      "Face_M": "cb9dff284bd36f8e114a58dbdf374eaa1a958f8db816692ebaee9309dd44808d"
+     },
+     "female": {
+      "Body_F": "ffedfbe31b6ee7fa83b9c67476b7859f0d44ed19bc8efdcc628956a8c5e56567",
+      "Face_F": "7db259b342603f7433e6c0b2a6ea97aad0057cd94f595622ef6fe3328f1dbc8e",
+      "Hair_F": "1e1b8f472901f067e17a77dded360c1b2e7a80da479a0c7c02e6c0f9735c9d2e"
+     }
+    }
+   }
+  },
+  "NO_OLD_HERO": {
+   "passed": true,
+   "failed_lines": [],
+   "numbers": {
+    "PlayerMale": {
+     "changed_lines": 29,
+     "outside_slot_list_and_speed_fields": []
+    },
+    "PlayerFemale": {
+     "changed_lines": 29,
+     "outside_slot_list_and_speed_fields": []
+    },
+    "look_in_play": {
+     "legacy_look_lines": 0,
+     "matchlook_lines": 4,
+     "clip_names_not_Male_or_Female": []
+    }
+   }
+  },
+  "BALL_UNCHANGED": {
+   "passed": false,
+   "failed_lines": [
+    ".cs files other than the driver differ from the job-start hash (not edited by this job; see the owner column in GATE_RESULTS.md): ['Unity/Assets/Scripts/Tennis/HeroKit.cs']"
+   ],
+   "numbers": {
+    "scripts_compared": 90,
+    "differing": [
+     "Unity/Assets/Scripts/Tennis/HeroKit.cs",
+     "Unity/Assets/Scripts/Tennis/HeroTennisDriver.cs",
+     "Unity/Assets/Scripts/Tennis/MatchHeroLook.cs"
+    ],
+    "gameplay_files_differing": [],
+    "driver_diff_hunks": 11,
+    "driver_diff_touching_ball_members": [],
+    "driver_job_start_sha256_reconstructed": true
+   }
+  }
+ }
+}

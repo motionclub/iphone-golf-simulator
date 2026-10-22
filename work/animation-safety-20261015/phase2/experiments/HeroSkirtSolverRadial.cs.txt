@@ -1,0 +1,123 @@
+using Unity.Burst;
+using Unity.Collections;
+using Unity.Collections.LowLevel.Unsafe;
+using Unity.Jobs;
+using Unity.Mathematics;
+
+namespace GolfArcade.Tennis
+{
+    internal static class HeroSkirtSolver
+    {
+        internal struct Weight { public int4 ids; public float4 values; }
+        internal struct Volume { public float4x4 world, inverse; public float3 center, radius; }
+        internal struct Capsule { public float3 start, end; public float radius; }
+        [BurstCompile]
+        internal struct Matrices : IJobParallelFor
+        {
+            [ReadOnly] public NativeArray<Weight> weights;
+            [ReadOnly] public NativeArray<float4x4> bones;
+            [WriteOnly] public NativeArray<float4x4> skin, inverse;
+            public void Execute(int i)
+            {
+                var w=weights[i];var m=bones[w.ids.x]*w.values.x+bones[w.ids.y]*w.values.y+bones[w.ids.z]*w.values.z+bones[w.ids.w]*w.values.w;
+                skin[i]=m;inverse[i]=math.inverse(m);
+            }
+        }
+        [BurstCompile]
+        internal struct Project : IJobParallelFor
+        {
+            [ReadOnly] public NativeArray<float3> rest;
+            [ReadOnly] public NativeArray<int> controls, groups;
+            [ReadOnly] public NativeArray<float4x4> skin;
+            [ReadOnly] public NativeArray<Volume> volumes;
+            [ReadOnly] public NativeArray<Capsule> capsules;
+            [ReadOnly] public NativeArray<float3> input;
+            [WriteOnly] public NativeArray<float3> output;
+            public bool fromRest;
+            public void Execute(int i)
+            {
+                var origin=math.transform(skin[groups[i]],rest[controls[i]]);
+                var point=origin+(fromRest?float3.zero:input[i]);
+                // A consistent outward material direction prevents neighbouring
+                // vertices from escaping opposite sides of a limb.
+                var radial=rest[controls[i]];radial.z=0;
+                var direction=math.normalizesafe(math.rotate(skin[groups[i]],radial),new float3(1,0,0));
+                for(int pass=0;pass<12;pass++) {
+                    float travel=0;
+                    for(int k=0;k<volumes.Length;k++) {
+                        var v=volumes[k];var q=(math.transform(v.inverse,point)-v.center)/v.radius;var d=math.rotate(v.inverse,direction)/v.radius;
+                        float c=math.lengthsq(q)-1;if(c>=0)continue;float a=math.lengthsq(d),b=math.dot(q,d);
+                        travel=math.max(travel,(-b+math.sqrt(math.max(0,b*b-a*c)))/math.max(1e-8f,a)+.001f);
+                    }
+                    for(int k=0;k<capsules.Length;k++) {
+                        var c=capsules[k];var axis=c.end-c.start;float t=math.saturate(math.dot(point-c.start,axis)/math.max(1e-8f,math.lengthsq(axis)));
+                        var q=point-math.lerp(c.start,c.end,t);float e=math.lengthsq(q)-c.radius*c.radius;if(e>=0)continue;float b=math.dot(q,direction);
+                        travel=math.max(travel,-b+math.sqrt(math.max(0,b*b-e))+.001f);
+                    }
+                    if(travel<=0)break;point+=direction*travel;
+                }
+                output[i]=point-origin;
+            }
+        }
+        [BurstCompile]
+        internal struct Anchor : IJobParallelFor
+        {
+            [ReadOnly] public NativeArray<float3> rest;
+            [ReadOnly] public NativeArray<int> controls;
+            public NativeArray<float3> deltas;
+            public float top;
+            public void Execute(int i) { deltas[i]*=math.smoothstep(.008f,.055f,top-rest[controls[i]].z); }
+        }
+        [BurstCompile]
+        internal struct Smooth : IJobParallelFor
+        {
+            [ReadOnly] public NativeArray<float3> input;
+            [ReadOnly] public NativeArray<int> offsets, neighbors;
+            [WriteOnly] public NativeArray<float3> output;
+            public void Execute(int i)
+            {
+                float3 sum=0;int count=offsets[i+1]-offsets[i];
+                for(int k=offsets[i];k<offsets[i+1];k++)sum+=input[neighbors[k]];
+                output[i]=count>0?math.lerp(input[i],sum/count,.45f):input[i];
+            }
+        }
+        [BurstCompile]
+        internal struct Normals : IJobParallelFor
+        {
+            [ReadOnly] public NativeArray<float3> rest, deltas;
+            [ReadOnly] public NativeArray<int> controls, groups, triangles, offsets, faces;
+            [ReadOnly] public NativeArray<float4x4> skin;
+            [WriteOnly] public NativeArray<quaternion> rotations;
+            float3 Point(int i)=>math.transform(skin[groups[i]],rest[controls[i]]);
+            public void Execute(int i)
+            {
+                float3 original=0,corrected=0;
+                for(int k=offsets[i];k<offsets[i+1];k++)
+                {
+                    int f=faces[k]*3,a=triangles[f],b=triangles[f+1],c=triangles[f+2];
+                    var pa=Point(a);var pb=Point(b);var pc=Point(c);
+                    original+=math.cross(pb-pa,pc-pa);
+                    corrected+=math.cross(pb+deltas[b]-pa-deltas[a],pc+deltas[c]-pa-deltas[a]);
+                }
+                original=math.normalizesafe(original);corrected=math.normalizesafe(corrected);
+                float dot=math.dot(original,corrected);
+                rotations[i]=dot>-.999f?math.normalize(new quaternion(new float4(math.cross(original,corrected),1+dot))):quaternion.identity;
+            }
+        }
+        [BurstCompile]
+        internal struct Apply : IJobParallelFor
+        {
+            [ReadOnly] public NativeArray<float3> rest, normals, deltas;
+            [ReadOnly] public NativeArray<int> shell, guide, groups;
+            [ReadOnly] public NativeArray<float4x4> skin, inverse;
+            [ReadOnly] public NativeArray<quaternion> rotations;
+            [NativeDisableParallelForRestriction] public NativeArray<float3> positions, outputNormals;
+            public void Execute(int i)
+            {
+                int vertex=shell[i],g=groups[i],control=guide[i];
+                positions[vertex]=rest[vertex]+math.rotate(inverse[g],deltas[control]);
+                outputNormals[vertex]=math.normalizesafe(math.rotate(inverse[g],math.mul(rotations[control],math.rotate(skin[g],normals[vertex]))),normals[vertex]);
+            }
+        }
+    }
+}

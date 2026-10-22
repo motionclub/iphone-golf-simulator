@@ -1,0 +1,41 @@
+        static readonly System.Collections.Generic.Dictionary<string,GameObject> frozen=new();
+        static void FreezeForLookDev(string name,Transform source) {
+            if(!name.EndsWith("__a_gameplay") || !(name.Contains("tennis_resort") || name.Contains("golf_07_clear")))return;
+            string key=name.Split(new[]{"__"},System.StringSplitOptions.None)[0];if(frozen.ContainsKey(key))return;
+            var root=new GameObject("Frozen lookdev "+key);root.transform.SetPositionAndRotation(source.position,source.rotation);Object.DontDestroyOnLoad(root);
+            foreach(var r in source.GetComponentsInChildren<Renderer>()) {
+                if(!r.enabled || !r.gameObject.activeInHierarchy || !(r is SkinnedMeshRenderer || r is MeshRenderer))continue;
+                Mesh mesh=null;
+                if(r is SkinnedMeshRenderer skin) { mesh=new Mesh();skin.BakeMesh(mesh); }
+                else if(r.GetComponent<MeshFilter>())mesh=Object.Instantiate(r.GetComponent<MeshFilter>().sharedMesh);
+                if(!mesh)continue;
+                var go=new GameObject(r.name);go.transform.SetParent(root.transform,false);go.transform.SetPositionAndRotation(r.transform.position,r.transform.rotation);go.transform.localScale=r.transform.lossyScale;
+                go.AddComponent<MeshFilter>().sharedMesh=mesh;var mr=go.AddComponent<MeshRenderer>();mr.sharedMaterials=r.sharedMaterials.Select(m=>m?new Material(m):null).ToArray();mr.shadowCastingMode=r.shadowCastingMode;mr.receiveShadows=r.receiveShadows;mr.renderingLayerMask=r.renderingLayerMask;
+            }
+            root.SetActive(false);frozen.Add(key,root);
+        }
+        [UnityTest,Timeout(900000)] public IEnumerator D_FourHeroesBothEnvironments() {
+            Assert.AreEqual(4,frozen.Count,"Four hero snapshots required from A and B");
+            foreach(bool golfScene in new[]{false,true}) {
+                Camera cam;Transform player;
+                if(!golfScene) {
+                    TennisVenue.Selected=TennisVenueKind.Resort;yield return SceneManager.LoadSceneAsync("Tennis");yield return null;
+                    var g=Object.FindFirstObjectByType<TennisGame>();g.ManualSimulation=true;g.NativeControlled=true;g.ConfigureMatch(TennisGame.Mode.Training,null,null,null);
+                    for(int i=0;i<40;i++)yield return null;
+                    player=g.Player.transform;player.position=new Vector3(0,.035f,TennisRules.BaselineZ);cam=g.GameplayCamera?g.GameplayCamera:Camera.main;
+                } else {
+                    yield return SceneManager.LoadSceneAsync("Golf");yield return null;
+                    var g=Object.FindFirstObjectByType<GolfGame>();g.InstantReplays=false;g.SetRoundEvents(true,true,true);g.ChooseHoles(0);g.Play();GolfGame.ForcedWeather=Weather.Clear;g.JumpToHole(7);
+                    yield return Wait(()=>{if(g.Current!=GolfGame.State.Aim)g.SkipPresentation();return g.Current==GolfGame.State.Aim;},60);yield return new WaitForSecondsRealtime(1.5f);player=Object.FindFirstObjectByType<GolferView>().transform;cam=Camera.main;g.enabled=false;
+                }
+                foreach(var r in player.GetComponentsInChildren<Renderer>())r.enabled=false;
+                foreach(var entry in frozen) {
+                    var hero=entry.Value.transform;hero.position=player.position;hero.rotation=Quaternion.identity;entry.Value.SetActive(true);
+                    // Frozen production poses let both environments light all four kits without changing any rig/clip asset.
+                    cam.transform.position=hero.position+new Vector3(1.3f,1.55f,2.4f);cam.transform.LookAt(hero.position+Vector3.up*1.1f);cam.fieldOfView=34;
+                    Still(cam,"lookdev_"+(golfScene?"golf07":"resort")+"__"+entry.Key+"__b_close",hero);
+                    entry.Value.SetActive(false);
+                }
+            }
+            foreach(var go in frozen.Values){foreach(var r in go.GetComponentsInChildren<MeshRenderer>(true)){foreach(var m in r.sharedMaterials)Object.Destroy(m);Object.Destroy(r.GetComponent<MeshFilter>().sharedMesh);}Object.Destroy(go);}frozen.Clear();GolfGame.ForcedWeather=null;
+        }

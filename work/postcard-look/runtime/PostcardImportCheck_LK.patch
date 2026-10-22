@@ -1,0 +1,13 @@
+--- a/Unity/Assets/Editor/PostcardImportCheck.cs	2026-10-03 22:21:59
++++ b/Unity/Assets/Editor/PostcardImportCheck.cs	2026-10-03 22:21:59
+@@ -333,6 +333,10 @@
+ 
+         static void CheckMaterials(Hole hole, GameObject prefab, Transform model, Dictionary<string, Color> palette)
+         {
++            // POSTCARD_LOOK: holes 8-10 render LK_ materials (GolfLook), TennisWater/GolfSurf on WATER*, and an emissive textured LK_LAVA,
++            // so the flat-palette rules below no longer apply there. Same gate names and count, LK-aware meaning
++            // (GolfArcade.EditorTools.PostcardLookMaterialRules in GolfLookSmoke.cs; work/postcard-look/RUNTIME.md section 7).
++            if (GolfLook.IsPostcard(hole.Number)) { PostcardLookMaterialRules.Check(hole.Number, prefab, model, palette, Gate, Say); return; }
+             var proto = prefab.GetComponentsInChildren<Renderer>(true);
+             var live = model.GetComponentsInChildren<Renderer>(true);
+             if (palette == null || proto.Length != live.Length)

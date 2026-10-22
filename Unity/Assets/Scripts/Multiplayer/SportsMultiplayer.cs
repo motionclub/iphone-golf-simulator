@@ -66,6 +66,7 @@ namespace GolfArcade.Multiplayer {
             Instance.Initialize(c);
         }
         void Initialize(NetworkConfiguration c) {
+            GolfArcade.EnvironmentArt.DreamEnvironment.StartSession(c.seed,c.environmentUtc);
             pendingResult=null; startScheduled=false; scheduledStart=double.PositiveInfinity;
             PresentationPolicy.Multiplayer=true; Configuration=c;Running=false;LocalTarget=0;lastSwing=lastStart=lastAbort=0;eventID=0;lastTick=lastRevision=-1;nextSnapshot=lastMove=0;nextStats=maxSnapshotGap=0;lastSnapshot=packetAt=Clock;clockOffset=0;suspended.Clear();GolfShot=null;TennisState=null;GolfState=null;compactSnapshots=false;
             tennisView=FindFirstObjectByType<TennisGame>();golfView=FindFirstObjectByType<GolfGame>();
@@ -77,14 +78,14 @@ namespace GolfArcade.Multiplayer {
                 Time.timeScale=1; return;
             }
             if(IsHost) {
-                if(c.sport=="tennis") {tennis=new(c.sets,c.games,c.participants.Where(p=>p.seat>=0).OrderBy(p=>p.seat).Select(p=>p.loadout?.emotes).ToArray(),intro:true);TennisState=tennis.State;golf=null;tennis.Result=Result;compactSnapshots=NetworkTuning.CompactSnapshots&&NetworkTennisWire.SelfTest();}
+                if(c.sport=="tennis") {tennis=new(c.sets,c.games,c.participants.Where(p=>p.seat>=0).OrderBy(p=>p.seat).Select(p=>p.loadout?.emotes).ToArray(),intro:true,seed:c.seed,venue:c.venue=="volcano"?2:c.venue=="skyscraper"?1:0);TennisState=tennis.State;golf=null;tennis.Result=Result;compactSnapshots=NetworkTuning.CompactSnapshots&&NetworkTennisWire.SelfTest();}
                 else {
                     // pass the phone: every golfer is on this phone, so no hole intros and turns just pass
                     bool shared=c.participants.Where(p=>p.seat>=0).All(p=>c.Controls(c.localID,p.seat));
-                    golf=new(c.participants.Where(p=>p.seat>=0).Select(p=>p.seat).ToArray(),c.seed,intro:!shared,courseKey:c.venue,playing:golfView?golfView.PlayingCourse:null,waitForLoad:true,sharedPhone:shared,twists:!c.twistsOff,world:!c.weatherOff);GolfState=golf.State;tennis=null;golf.Result=Result;golf.Shot=shot=>{GolfShot=shot;Send("golfShot",JsonUtility.ToJson(shot));};
+                    golf=new(c.participants.Where(p=>p.seat>=0).Select(p=>p.seat).ToArray(),c.seed,intro:!shared,courseKey:c.venue,playing:golfView?golfView.PlayingCourse:null,waitForLoad:true,sharedPhone:shared,twists:!c.twistsOff,world:true);GolfState=golf.State;tennis=null;golf.Result=Result;golf.Shot=shot=>{GolfShot=shot;Send("golfShot",JsonUtility.ToJson(shot));};
                     golf.SamePhone=seat=>{var phone=PhoneOf(c,seat);return c.participants.Where(p=>p.seat>=0&&PhoneOf(c,p.seat)==phone).Select(p=>p.seat).ToArray();};
                     if(golfView&&!shared) golf.ConfigureIntro(golfView.NetworkIntroFull,golfView.NetworkVenueSeconds,golfView.NetworkStartSeconds,
-                        PresentationDirector.GolfOverShoulder+PresentationDirector.IntroWindow,PresentationDirector.GolfOverShoulder,golfView.NetworkEmoteSeconds);}
+                        0,0,golfView.NetworkEmoteSeconds);}   // (no golfer introduction any more, 2026-10-19: the flyover goes straight to the address)
             } else {tennis=null;golf=null;TennisState=null;GolfState=null;}
             tennisView?.ConfigureNetwork(c);golfView?.ConfigureNetwork(c);
             Time.timeScale=1;
@@ -108,7 +109,8 @@ namespace GolfArcade.Multiplayer {
             if(Clock>=nextStats){nextStats=Clock+10;ReportStats();}
             if(IsHost) {
                 if(tennis!=null){tennis.State.paused=suspended.Count>0;tennis.Step(Time.unscaledDeltaTime);TennisState=tennis.State;}
-                if(golf!=null){golf.State.paused=suspended.Count>0;golf.Step(Time.unscaledDeltaTime);GolfState=golf.State;}
+                // an away golfer no longer holds everyone up: their turns pass (NetworkGolfRound.AwayTurnPassSeconds) until they are back
+                if(golf!=null){golf.State.paused=false;golf.SetAway(suspended.Select(Configuration.Seat).Where(n=>n>=0));golf.Step(Time.unscaledDeltaTime);GolfState=golf.State;}
                 if(Clock>=nextSnapshot){nextSnapshot=Clock+1.0/30;SendSnapshot(false);}
             }
         }
@@ -190,7 +192,7 @@ namespace GolfArcade.Multiplayer {
                 case "pause":Instance.Send("availability","false");return true;
                 case "resume":Instance.Send("availability","true");Time.timeScale=1;return true;
                 case "touch":case "motion":case "recalibrate":case "latency":case "golfAimDirection":
-                case "golfStartSwing":case "golfCancelSwing":case "golfLoad":return false;
+                case "golfStartSwing":case "golfReleaseSwing":case "golfCancelSwing":case "golfLoad":return false;
                 // golf's taps on (skip the intro or the replay, finish the result): single player's, and the round follows (GolfGame.Network)
                 case "presentationSkip":case "golfContinue":return Instance.Configuration.sport!="golf";
                 case "toss":

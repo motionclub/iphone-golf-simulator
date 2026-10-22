@@ -1,0 +1,139 @@
+{
+  "male": {
+    "file": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/characters/male_reference_pilot.fbx",
+    "meshes": [
+      {
+        "name": "Brow_L",
+        "vertices": 200,
+        "triangles": 384,
+        "materials": [
+          "DarkBrownBrow"
+        ]
+      },
+      {
+        "name": "Brow_R",
+        "vertices": 200,
+        "triangles": 384,
+        "materials": [
+          "DarkBrownBrow"
+        ]
+      },
+      {
+        "name": "Eye_Iris_L",
+        "vertices": 400,
+        "triangles": 800,
+        "materials": [
+          "BrownIris",
+          "DeepPupil"
+        ]
+      },
+      {
+        "name": "Eye_Iris_R",
+        "vertices": 400,
+        "triangles": 800,
+        "materials": [
+          "BrownIris",
+          "DeepPupil"
+        ]
+      },
+      {
+        "name": "Eye_Sclera_L",
+        "vertices": 546,
+        "triangles": 1088,
+        "materials": [
+          "IvorySclera"
+        ]
+      },
+      {
+        "name": "Eye_Sclera_R",
+        "vertices": 546,
+        "triangles": 1088,
+        "materials": [
+          "IvorySclera"
+        ]
+      },
+      {
+        "name": "HeadSkin",
+        "vertices": 12716,
+        "triangles": 25344,
+        "materials": [
+          "WarmSkin",
+          "NaturalLip"
+        ]
+      }
+    ],
+    "totalTriangles": 29888,
+    "sourceFrame": "metres, eye midpoint=(0,0,0), source front -Y, up Z",
+    "noProductionIntegration": true,
+    "facialMorphs": "pending actual art approval"
+  },
+  "female": {
+    "file": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/characters/female_reference_pilot.fbx",
+    "meshes": [
+      {
+        "name": "Brow_L",
+        "vertices": 200,
+        "triangles": 384,
+        "materials": [
+          "DarkBrownBrow"
+        ]
+      },
+      {
+        "name": "Brow_R",
+        "vertices": 200,
+        "triangles": 384,
+        "materials": [
+          "DarkBrownBrow"
+        ]
+      },
+      {
+        "name": "Eye_Iris_L",
+        "vertices": 512,
+        "triangles": 960,
+        "materials": [
+          "BrownIris",
+          "DeepPupil"
+        ]
+      },
+      {
+        "name": "Eye_Iris_R",
+        "vertices": 512,
+        "triangles": 960,
+        "materials": [
+          "BrownIris",
+          "DeepPupil"
+        ]
+      },
+      {
+        "name": "Eye_Sclera_L",
+        "vertices": 802,
+        "triangles": 1600,
+        "materials": [
+          "IvorySclera"
+        ]
+      },
+      {
+        "name": "Eye_Sclera_R",
+        "vertices": 802,
+        "triangles": 1600,
+        "materials": [
+          "IvorySclera"
+        ]
+      },
+      {
+        "name": "HeadSkin",
+        "vertices": 16972,
+        "triangles": 33796,
+        "materials": [
+          "WarmSkin",
+          "NaturalLip"
+        ]
+      }
+    ],
+    "totalTriangles": 39684,
+    "sourceFrame": "metres, eye midpoint=(0,0,0), source front -Y, up Z",
+    "noProductionIntegration": true,
+    "facialMorphs": "pending actual art approval",
+    "irisExportLOD": "32 angular samples vs64 studio; maximum circle chord deviation0.118mm at24.5mmradius"
+  }
+}

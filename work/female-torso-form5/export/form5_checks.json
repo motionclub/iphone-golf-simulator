@@ -1,0 +1,175 @@
+{
+ "moved_vs_form4_start": 4239,
+ "moved_outside_zone5_vs_form4_start": 0,
+ "moved_vs_artdir_200dc3b9": 4540,
+ "moved_outside_zone5_vs_artdir_200dc3b9": 0,
+ "border5_vertices": 222,
+ "border5_vertices_moved_vs_artdir": 0,
+ "border5_vertices_moved_vs_form4_start": 0,
+ "zone5_vertices": 4762,
+ "old_zone_vertices": 3320,
+ "legtop_extension_vertices": 1442,
+ "legtop_floor_ring_vertices": 96,
+ "old_class1_border_now_interior": 112,
+ "nan_or_inf": 0,
+ "topology": {
+  "poly_start": true,
+  "poly_total": true,
+  "loop_vert": true,
+  "edges": true,
+  "mat_index": true,
+  "smooth": true,
+  "poly_start_vs_artdir": true,
+  "poly_total_vs_artdir": true,
+  "loop_vert_vs_artdir": true,
+  "edges_vs_artdir": true,
+  "mat_index_vs_artdir": true,
+  "smooth_vs_artdir": true,
+  "custom_normal_raw_identical_outside_weighted_corners": true,
+  "custom_normal_raw_changed_corners": 13131,
+  "custom_normal_raw_code1_untouched": true,
+  "custom_normal_raw_identical_outside_weighted_corners_vs_artdir": true,
+  "custom_normal_raw_changed_corners_vs_artdir": 13131,
+  "custom_normal_raw_code1_untouched_vs_artdir": true,
+  "custom_normal_weighted_corners": 14836,
+  "custom_normal_weighted_vertices": 3708,
+  "custom_normal_raw": true,
+  "custom_normal_raw_vs_artdir": true,
+  "uv": true,
+  "hair_identical": true,
+  "tris_form4_start_vs_new": [
+   44708,
+   44708
+  ],
+  "other_objects_identical": true
+ },
+ "topology_detail_other": {
+  "Body_F_matrix_identical": true,
+  "Body_F_materials_identical": true,
+  "Hair_F_matrix_identical": true,
+  "Hair_F_materials_identical": true,
+  "LOCKED_PLATE_back_matrix_identical": true,
+  "LOCKED_PLATE_back_materials_identical": true,
+  "LOCKED_PLATE_front_matrix_identical": true,
+  "LOCKED_PLATE_front_materials_identical": true,
+  "Neutral_Back_matrix_identical": true,
+  "Neutral_Back_materials_identical": true,
+  "Neutral_Fill_matrix_identical": true,
+  "Neutral_Fill_materials_identical": true,
+  "Neutral_Key_matrix_identical": true,
+  "Neutral_Key_materials_identical": true,
+  "ProofCamera_matrix_identical": true,
+  "ProofCamera_materials_identical": true
+ },
+ "delta_moved_vertices": 4540,
+ "flipped_zone5_tris_vs_original": 0,
+ "zone5_tris_turned_gt60deg": 0,
+ "max_vertex_move_mm_vs_original": 43.67160370710093,
+ "dihedral": {
+  "original": {
+   "edges": 14037,
+   "mean_deg": 4.213124521844622,
+   "p95_deg": 12.022737712447261,
+   "max_deg": 79.98227795076419,
+   "n_gt30": 78,
+   "n_gt40": 36
+  },
+  "form4": {
+   "edges": 14037,
+   "mean_deg": 4.413710421975495,
+   "p95_deg": 11.925846311189531,
+   "max_deg": 79.98227795076419,
+   "n_gt30": 63,
+   "n_gt40": 36
+  },
+  "form5": {
+   "edges": 14037,
+   "mean_deg": 4.489035470904055,
+   "p95_deg": 12.175090592415424,
+   "max_deg": 79.97704993926001,
+   "n_gt30": 46,
+   "n_gt40": 29
+  }
+ },
+ "border_steps_mm": {
+  "form5": {
+   "legs_floor": {
+    "max_mm": 1.352949593786038,
+    "p95_mm": 0.8639159712641646
+   },
+   "arm": {
+    "max_mm": 9.415268668805563,
+    "p95_mm": 7.0609629340175335
+   },
+   "top": {
+    "max_mm": 0.5671694173672348,
+    "p95_mm": 0.42004957495418294
+   }
+  },
+  "form4": {
+   "legs_floor": {
+    "max_mm": 0.0,
+    "p95_mm": 0.0
+   },
+   "arm": {
+    "max_mm": 7.035498308778382,
+    "p95_mm": 6.090781874014874
+   },
+   "top": {
+    "max_mm": 0.5046255982850784,
+    "p95_mm": 0.39885661381357457
+   }
+  }
+ },
+ "bi_laplacian_roughness_mm_zone5_interior": {
+  "original": {
+   "mean": 0.9222591064752484,
+   "p95": 1.9802675832603958,
+   "max": 4.475908774243903
+  },
+  "form4": {
+   "mean": 0.3517219736898964,
+   "p95": 1.3424011921606194,
+   "max": 4.475908774243903
+  },
+  "form5": {
+   "mean": 0.1849586349455277,
+   "p95": 0.7935207320342039,
+   "max": 3.9972345289205538
+  }
+ },
+ "self_intersection_pairs": {
+  "original": {
+   "whole_mesh": 4444,
+   "touching_zone5": 0
+  },
+  "form4": {
+   "whole_mesh": 4444,
+   "touching_zone5": 0
+  },
+  "form5": {
+   "whole_mesh": 4444,
+   "touching_zone5": 0
+  }
+ },
+ "custom_normals_vs_geometry_deg_zone5": {
+  "original": {
+   "corners": 19028,
+   "median_deg": 0.6545244631090993,
+   "p95_deg": 3.3650243371944684,
+   "max_deg": 51.281411237596885
+  },
+  "form4": {
+   "corners": 19028,
+   "median_deg": 0.6557025084822088,
+   "p95_deg": 3.388314092966841,
+   "max_deg": 51.281411237596885
+  },
+  "form5": {
+   "corners": 19028,
+   "median_deg": 0.22338355544024205,
+   "p95_deg": 2.642690991347214,
+   "max_deg": 51.322081208617305
+  }
+ }
+}

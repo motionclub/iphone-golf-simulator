@@ -1,0 +1,12 @@
+--- before/GolfArcade/Unity/SportsHome.swift
++++ GolfArcade/Unity/SportsHome.swift
+@@ -208,7 +208,8 @@
+             if phase == .active { ClubSignIn.presentPending(); clubHub.start(); Task { await clubHub.refresh() } } else { clubHub.background() }
+             clubHub.updateBanner()
+             if phase != .active { session.pause(reason:"App inactive — return to the controller and tap Ready") }
+-            SportsRuntime.shared().setForeground(phase == .active)
++            // UIKit notifications forward Unity's lifecycle once, at the actual boundary.
++            hub.setForeground(phase == .active)
+         }
+     }
+ }

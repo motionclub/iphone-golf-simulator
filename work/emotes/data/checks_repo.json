@@ -1,0 +1,322 @@
+{
+ "N1": {
+  "ok": true,
+  "files": 12,
+  "detail": {
+   "Male_Emote_Scuba": {
+    "ok": true,
+    "work": true,
+    "unity_copy_identical": true,
+    "imported_clip_named": true
+   },
+   "Male_Emote_Thrust": {
+    "ok": true,
+    "work": true,
+    "unity_copy_identical": true,
+    "imported_clip_named": true
+   },
+   "Male_Emote_Spike": {
+    "ok": true,
+    "work": true,
+    "unity_copy_identical": true,
+    "imported_clip_named": true
+   },
+   "Male_Intro_Wave": {
+    "ok": true,
+    "work": true,
+    "unity_copy_identical": true,
+    "imported_clip_named": true
+   },
+   "Male_Intro_BringIt": {
+    "ok": true,
+    "work": true,
+    "unity_copy_identical": true,
+    "imported_clip_named": true
+   },
+   "Male_Intro_Pushups": {
+    "ok": true,
+    "work": true,
+    "unity_copy_identical": true,
+    "imported_clip_named": true
+   },
+   "Female_Emote_Scuba": {
+    "ok": true,
+    "work": true,
+    "unity_copy_identical": true,
+    "imported_clip_named": true
+   },
+   "Female_Emote_Thrust": {
+    "ok": true,
+    "work": true,
+    "unity_copy_identical": true,
+    "imported_clip_named": true
+   },
+   "Female_Emote_Spike": {
+    "ok": true,
+    "work": true,
+    "unity_copy_identical": true,
+    "imported_clip_named": true
+   },
+   "Female_Intro_Wave": {
+    "ok": true,
+    "work": true,
+    "unity_copy_identical": true,
+    "imported_clip_named": true
+   },
+   "Female_Intro_BringIt": {
+    "ok": true,
+    "work": true,
+    "unity_copy_identical": true,
+    "imported_clip_named": true
+   },
+   "Female_Intro_Pushups": {
+    "ok": true,
+    "work": true,
+    "unity_copy_identical": true,
+    "imported_clip_named": true
+   }
+  }
+ },
+ "N2": {
+  "ok": true,
+  "added": 12,
+  "removed": [],
+  "unexpected": []
+ },
+ "G1": {
+  "ok": true,
+  "detail": {
+   "Male_Emote_Scuba": {
+    "ok": true,
+    "played_fraction": 0.9916666666666667,
+    "other_emote_clips": [],
+    "back_to_ready": true,
+    "film": "work/emotes/film/Emote_Scuba_male.mp4",
+    "film_seconds": 2.6666666666666665,
+    "clip_seconds": 2.0
+   },
+   "Male_Emote_Thrust": {
+    "ok": true,
+    "played_fraction": 0.9916666666666667,
+    "other_emote_clips": [],
+    "back_to_ready": true,
+    "film": "work/emotes/film/Emote_Thrust_male.mp4",
+    "film_seconds": 2.6666666666666665,
+    "clip_seconds": 2.0
+   },
+   "Male_Emote_Spike": {
+    "ok": true,
+    "played_fraction": 0.9916666666666667,
+    "other_emote_clips": [],
+    "back_to_ready": true,
+    "film": "work/emotes/film/Emote_Spike_male.mp4",
+    "film_seconds": 2.6666666666666665,
+    "clip_seconds": 2.0
+   },
+   "Male_Intro_Wave": {
+    "ok": true,
+    "played_fraction": 0.9916666666666667,
+    "other_emote_clips": [],
+    "back_to_ready": true,
+    "film": "work/emotes/film/Intro_Wave_male.mp4",
+    "film_seconds": 2.6666666666666665,
+    "clip_seconds": 2.0
+   },
+   "Male_Intro_BringIt": {
+    "ok": true,
+    "played_fraction": 1.0,
+    "other_emote_clips": [],
+    "back_to_ready": true,
+    "film": "work/emotes/film/Intro_BringIt_male.mp4",
+    "film_seconds": 3.6666666666666665,
+    "clip_seconds": 3.0
+   },
+   "Male_Intro_Pushups": {
+    "ok": true,
+    "played_fraction": 1.0,
+    "other_emote_clips": [],
+    "back_to_ready": true,
+    "film": "work/emotes/film/Intro_Pushups_male.mp4",
+    "film_seconds": 3.6666666666666665,
+    "clip_seconds": 3.0
+   },
+   "Female_Emote_Scuba": {
+    "ok": true,
+    "played_fraction": 0.9916666666666667,
+    "other_emote_clips": [],
+    "back_to_ready": true,
+    "film": "work/emotes/film/Emote_Scuba_female.mp4",
+    "film_seconds": 2.6666666666666665,
+    "clip_seconds": 2.0
+   },
+   "Female_Emote_Thrust": {
+    "ok": true,
+    "played_fraction": 0.9916666666666667,
+    "other_emote_clips": [],
+    "back_to_ready": true,
+    "film": "work/emotes/film/Emote_Thrust_female.mp4",
+    "film_seconds": 2.6666666666666665,
+    "clip_seconds": 2.0
+   },
+   "Female_Emote_Spike": {
+    "ok": true,
+    "played_fraction": 0.9916666666666667,
+    "other_emote_clips": [],
+    "back_to_ready": true,
+    "film": "work/emotes/film/Emote_Spike_female.mp4",
+    "film_seconds": 2.6666666666666665,
+    "clip_seconds": 2.0
+   },
+   "Female_Intro_Wave": {
+    "ok": true,
+    "played_fraction": 0.9916666666666667,
+    "other_emote_clips": [],
+    "back_to_ready": true,
+    "film": "work/emotes/film/Intro_Wave_female.mp4",
+    "film_seconds": 2.6666666666666665,
+    "clip_seconds": 2.0
+   },
+   "Female_Intro_BringIt": {
+    "ok": true,
+    "played_fraction": 1.0,
+    "other_emote_clips": [],
+    "back_to_ready": true,
+    "film": "work/emotes/film/Intro_BringIt_female.mp4",
+    "film_seconds": 3.6666666666666665,
+    "clip_seconds": 3.0
+   },
+   "Female_Intro_Pushups": {
+    "ok": true,
+    "played_fraction": 1.0,
+    "other_emote_clips": [],
+    "back_to_ready": true,
+    "film": "work/emotes/film/Intro_Pushups_female.mp4",
+    "film_seconds": 3.6666666666666665,
+    "clip_seconds": 3.0
+   }
+  }
+ },
+ "G2": {
+  "ok": true,
+  "detail": {
+   "Male_Emote_Scuba": {
+    "ok": true,
+    "max_grip_hand_distance_m": 0.0
+   },
+   "Male_Emote_Thrust": {
+    "ok": true,
+    "max_grip_hand_distance_m": 0.0
+   },
+   "Male_Emote_Spike": {
+    "ok": true,
+    "intervals": 1,
+    "off_seconds": 0.6166666666666667,
+    "max_dist_after_return_m": 0.0,
+    "floor_contact_events": 1,
+    "origin_rise_m": 0.4986
+   },
+   "Male_Intro_Wave": {
+    "ok": true,
+    "max_grip_hand_distance_m": 0.0
+   },
+   "Male_Intro_BringIt": {
+    "ok": true,
+    "max_grip_hand_distance_m": 0.0
+   },
+   "Male_Intro_Pushups": {
+    "ok": true,
+    "intervals": 1,
+    "off_seconds": 1.9833333333333334,
+    "max_dist_after_return_m": 0.0,
+    "rest_seconds": 1.7833333333333334,
+    "rest_move_m": 0.019163551401869094
+   },
+   "Female_Emote_Scuba": {
+    "ok": true,
+    "max_grip_hand_distance_m": 0.0
+   },
+   "Female_Emote_Thrust": {
+    "ok": true,
+    "max_grip_hand_distance_m": 0.0
+   },
+   "Female_Emote_Spike": {
+    "ok": true,
+    "intervals": 1,
+    "off_seconds": 0.6166666666666667,
+    "max_dist_after_return_m": 0.0,
+    "floor_contact_events": 1,
+    "origin_rise_m": 0.5
+   },
+   "Female_Intro_Wave": {
+    "ok": true,
+    "max_grip_hand_distance_m": 0.0
+   },
+   "Female_Intro_BringIt": {
+    "ok": true,
+    "max_grip_hand_distance_m": 0.0
+   },
+   "Female_Intro_Pushups": {
+    "ok": true,
+    "intervals": 1,
+    "off_seconds": 1.9833333333333334,
+    "max_dist_after_return_m": 0.0,
+    "rest_seconds": 1.7833333333333334,
+    "rest_move_m": 0.017817757009345847
+   }
+  }
+ },
+ "G3": {
+  "ok": true,
+  "detail": {
+   "Male": {
+    "ok": true,
+    "plain_point_emotes": 0,
+    "won_game_emotes": 1,
+    "won_game_clip": "EmoteScuba",
+    "point_after_game_emotes": 0,
+    "play_taunt_spike": {
+     "ok": true,
+     "clip": "EmoteSpike",
+     "count": 1
+    },
+    "intro_hook": {
+     "count": 1,
+     "clip": "IntroWave"
+    }
+   },
+   "Female": {
+    "ok": true,
+    "plain_point_emotes": 0,
+    "won_game_emotes": 1,
+    "won_game_clip": "EmoteScuba",
+    "point_after_game_emotes": 0,
+    "play_taunt_spike": {
+     "ok": true,
+     "clip": "EmoteSpike",
+     "count": 1
+    },
+    "intro_hook": {
+     "count": 1,
+     "clip": "IntroWave"
+    }
+   }
+  }
+ },
+ "X1": {
+  "ok": true,
+  "new_media_files": 24,
+  "new_media_outside_film": [],
+  "script_hits": []
+ },
+ "X2": {
+  "ok": false,
+  "differences_by_other_sessions": [
+   "Unity/Assets/Editor/GolfLookSmoke.cs",
+   "Unity/Assets/Scripts/Course/GolfLook.cs"
+  ],
+  "on_my_write_list": [],
+  "inside_my_run_windows": [
+   "Unity/Assets/Editor/GolfLookSmoke.cs"
+  ]
+ }
+}

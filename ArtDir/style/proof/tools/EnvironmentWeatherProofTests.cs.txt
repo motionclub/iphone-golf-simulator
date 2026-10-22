@@ -1,0 +1,61 @@
+using System.Collections;
+using System.IO;
+using System.Reflection;
+using GolfArcade.EnvironmentArt;
+using GolfArcade.Game;
+using GolfArcade.Tennis;
+using GolfArcade.Course;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.TestTools;
+using NUnit.Framework;
+
+namespace GolfArcade.PlayTests
+{
+    public class EnvironmentWeatherProofTests
+    {
+        static string Out=>System.Environment.GetEnvironmentVariable("WEATHER_OUT");
+        [UnityTest,Timeout(900000)] public IEnumerator CoastalSnowAshTransitionsAndRestore()
+        {
+            Directory.CreateDirectory(Out);RoundEvents.Enabled=true;
+            yield return SceneManager.LoadSceneAsync("Golf");yield return null;
+            var game=Object.FindFirstObjectByType<GolfGame>();game.InstantReplays=false;
+            game.SetRoundEvents(true,true,true);game.ChooseHoles(0);game.Play();yield return null;
+            try {
+                foreach(int hole in new[]{7,17,22}) {
+                    GolfGame.ForcedWeather=Weather.Clear;game.JumpToHole(hole);
+                    while(game.Current!=GolfGame.State.Aim) {game.SkipPresentation();yield return null;}
+                    var view=game.WeatherShown;var original=game.Wind;game.enabled=false;
+                    Color sky=RenderSettings.ambientSkyColor,fog=RenderSettings.fogColor;
+                    float near=RenderSettings.fogStartDistance,far=RenderSettings.fogEndDistance;
+                    // Accelerate only the scratch test's wall-clock; assertions use the
+                    // existing scaled-time blend logic. Not a real-time timing clip.
+                    Time.timeScale=4;
+                    foreach(var weather in new[]{Weather.Gusty,Weather.Rain,Weather.Storm,Weather.Fog}) {
+                        view.Change(weather);yield return new WaitForSeconds(12.5f);
+                        Assert.AreEqual(weather,view.Weather);
+                        Assert.AreEqual(original.SpeedMPH,game.Wind.SpeedMPH,"Presentation cannot alter authoritative wind");
+                        Assert.AreEqual(original.DirectionDegrees,game.Wind.DirectionDegrees);
+                        if(weather==Weather.Storm)Assert.That(WeatherDirector.Storm,Is.EqualTo(1).Within(.01),"Storm adapter must include the brighter snow biome");
+                        GameCapture.Save(Path.Combine(Out,$"golf_{hole:00}_{weather.ToString().ToLower()}_transition.png"),1600,900);
+                        view.Change(Weather.Clear);yield return new WaitForSeconds(41);
+                        Assert.That(WeatherDirector.Precipitation,Is.LessThan(.001));
+                        Assert.That(WeatherDirector.Mist,Is.LessThan(.001));
+                        Assert.That(view.Wetness,Is.LessThan(.001));Assert.That(view.Settled,Is.LessThan(.001));
+                    }
+                    foreach(var weather in new[]{Weather.Rain,Weather.Storm,Weather.Fog}) {view.Change(weather);yield return new WaitForSeconds(12.5f);}
+                    view.Restore();yield return null;
+                    Assert.AreEqual(0,Shader.GetGlobalFloat("_EnvironmentWetness"));
+                    Assert.AreEqual(0,Shader.GetGlobalFloat("_EnvironmentSnow"));
+                    Assert.AreEqual(0,Shader.GetGlobalFloat("_EnvironmentWeatherEnabled"));
+                    Assert.AreEqual(sky,RenderSettings.ambientSkyColor);Assert.AreEqual(fog,RenderSettings.fogColor);
+                    Assert.AreEqual(near,RenderSettings.fogStartDistance);Assert.AreEqual(far,RenderSettings.fogEndDistance);
+                    Time.timeScale=1;game.enabled=true;
+                }
+                yield return SceneManager.LoadSceneAsync("Tennis");yield return null;
+                Assert.AreEqual(0,Shader.GetGlobalFloat("_EnvironmentWetness"));
+                Assert.AreEqual(0,Shader.GetGlobalFloat("_EnvironmentWeatherEnabled"));
+            } finally {Time.timeScale=1;GolfGame.ForcedWeather=null;RoundEvents.Enabled=false;if(game)game.enabled=true;}
+        }
+    }
+}

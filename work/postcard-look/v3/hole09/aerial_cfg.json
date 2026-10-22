@@ -1,0 +1,59 @@
+{
+  "shots": [
+    {
+      "name": "hole09_aerial_staged",
+      "hole": 9,
+      "model": "Assets/Editor/PostcardV3Scratch/staged/hole_09.fbx",
+      "pos": [
+        140,
+        360,
+        -200
+      ],
+      "look": [
+        -28,
+        0,
+        230
+      ],
+      "fov": 53,
+      "requireBands": false,
+      "buildCourseModel": true,
+      "splitCfg": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/split_outline_cfg.json"
+    },
+    {
+      "name": "hole09_1_tee",
+      "hole": 9,
+      "model": "Assets/Editor/PostcardV3Scratch/staged/hole_09.fbx",
+      "pos": [
+        -0.22471927217194,
+        9.284203029575831,
+        -4.494385247885503
+      ],
+      "look": [
+        -0.1783533554429666,
+        8.912812299433238,
+        -3.5670669729106796
+      ],
+      "fov": 60.0,
+      "requireBands": false,
+      "buildCourseModel": true
+    },
+    {
+      "name": "hole09_2_approach",
+      "hole": 9,
+      "model": "Assets/Editor/PostcardV3Scratch/staged/hole_09.fbx",
+      "pos": [
+        13.729294245428719,
+        9.174734901568396,
+        264.5058519258274
+      ],
+      "look": [
+        13.681984351313986,
+        8.803343664786322,
+        265.43312227866784
+      ],
+      "fov": 60.0,
+      "requireBands": false,
+      "buildCourseModel": true
+    }
+  ]
+}

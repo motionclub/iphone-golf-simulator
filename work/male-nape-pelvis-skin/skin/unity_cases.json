@@ -1,0 +1,179 @@
+{
+ "cases": [
+  {
+   "name": "before_default",
+   "color": [
+    0.74,
+    0.555,
+    0.435,
+    1
+   ],
+   "floats": [
+    {
+     "k": "_Smoothness",
+     "v": 0.4
+    },
+    {
+     "k": "_Metallic",
+     "v": 0.0
+    }
+   ]
+  },
+  {
+   "name": "before_fair",
+   "color": [
+    1.0,
+    0.8784313725490196,
+    0.7686274509803922,
+    1.0
+   ],
+   "floats": [
+    {
+     "k": "_Smoothness",
+     "v": 0.4
+    },
+    {
+     "k": "_Metallic",
+     "v": 0.0
+    }
+   ]
+  },
+  {
+   "name": "before_light",
+   "color": [
+    0.9333333333333333,
+    0.7686274509803922,
+    0.6274509803921569,
+    1.0
+   ],
+   "floats": [
+    {
+     "k": "_Smoothness",
+     "v": 0.4
+    },
+    {
+     "k": "_Metallic",
+     "v": 0.0
+    }
+   ]
+  },
+  {
+   "name": "before_tan",
+   "color": [
+    0.8862745098039215,
+    0.6274509803921569,
+    0.43137254901960786,
+    1.0
+   ],
+   "floats": [
+    {
+     "k": "_Smoothness",
+     "v": 0.4
+    },
+    {
+     "k": "_Metallic",
+     "v": 0.0
+    }
+   ]
+  },
+  {
+   "name": "before_olive",
+   "color": [
+    0.7686274509803922,
+    0.48627450980392156,
+    0.3137254901960784,
+    1.0
+   ],
+   "floats": [
+    {
+     "k": "_Smoothness",
+     "v": 0.4
+    },
+    {
+     "k": "_Metallic",
+     "v": 0.0
+    }
+   ]
+  },
+  {
+   "name": "before_brown",
+   "color": [
+    0.5882352941176471,
+    0.35294117647058826,
+    0.2196078431372549,
+    1.0
+   ],
+   "floats": [
+    {
+     "k": "_Smoothness",
+     "v": 0.4
+    },
+    {
+     "k": "_Metallic",
+     "v": 0.0
+    }
+   ]
+  },
+  {
+   "name": "before_deep",
+   "color": [
+    0.3764705882352941,
+    0.23529411764705882,
+    0.1568627450980392,
+    1.0
+   ],
+   "floats": [
+    {
+     "k": "_Smoothness",
+     "v": 0.4
+    },
+    {
+     "k": "_Metallic",
+     "v": 0.0
+    }
+   ]
+  },
+  {
+   "name": "after_default",
+   "asset": "Assets/Characters/HeroBase/Materials/Male_Form_Skin.mat"
+  },
+  {
+   "name": "after_fair",
+   "asset": "Assets/Characters/HeroBase/Materials/Male_Form_Skin.mat",
+   "tone": 0
+  },
+  {
+   "name": "after_light",
+   "asset": "Assets/Characters/HeroBase/Materials/Male_Form_Skin.mat",
+   "tone": 1
+  },
+  {
+   "name": "after_tan",
+   "asset": "Assets/Characters/HeroBase/Materials/Male_Form_Skin.mat",
+   "tone": 2
+  },
+  {
+   "name": "after_olive",
+   "asset": "Assets/Characters/HeroBase/Materials/Male_Form_Skin.mat",
+   "tone": 3
+  },
+  {
+   "name": "after_brown",
+   "asset": "Assets/Characters/HeroBase/Materials/Male_Form_Skin.mat",
+   "tone": 4
+  },
+  {
+   "name": "after_deep",
+   "asset": "Assets/Characters/HeroBase/Materials/Male_Form_Skin.mat",
+   "tone": 5
+  }
+ ],
+ "views": [
+  "head_front",
+  "head_side",
+  "head_q",
+  "head_back",
+  "body_front",
+  "torso_q"
+ ]
+}

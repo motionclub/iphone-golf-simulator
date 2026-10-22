@@ -1,0 +1,842 @@
+[
+  {
+    "sex": "Male",
+    "clip": "golfDrive",
+    "stage": "address",
+    "sides": {
+      "Left": {
+        "originalAngle": 59.72468185424805,
+        "candidateAngle": 41.581375883167276,
+        "rollDegrees": -45.0,
+        "elbowShiftMm": 19.21413125219931,
+        "wristShiftMm": 31.65561234736225
+      },
+      "Right": {
+        "originalAngle": 60.81591796875,
+        "candidateAngle": 46.259107704075596,
+        "rollDegrees": 45.0,
+        "elbowShiftMm": 33.2909697418946,
+        "wristShiftMm": 31.65511501774826
+      }
+    }
+  },
+  {
+    "sex": "Male",
+    "clip": "golfDrive",
+    "stage": "top",
+    "sides": {
+      "Left": {
+        "originalAngle": 37.44029235839844,
+        "candidateAngle": 36.335314833589216,
+        "rollDegrees": 1.5573535543016304,
+        "elbowShiftMm": 2.364620022895648,
+        "wristShiftMm": 1.9198792970157894
+      },
+      "Right": {
+        "originalAngle": 102.9333267211914,
+        "candidateAngle": 75.83545878790957,
+        "rollDegrees": 42.0,
+        "elbowShiftMm": 26.673230303081045,
+        "wristShiftMm": 39.86687790131739
+      }
+    }
+  },
+  {
+    "sex": "Male",
+    "clip": "golfDrive",
+    "stage": "contact",
+    "sides": {
+      "Left": {
+        "originalAngle": 57.81904983520508,
+        "candidateAngle": 49.690145891845006,
+        "rollDegrees": -45.0,
+        "elbowShiftMm": 14.718183034053276,
+        "wristShiftMm": 31.6552734331973
+      },
+      "Right": {
+        "originalAngle": 94.05398559570312,
+        "candidateAngle": 78.04775425932004,
+        "rollDegrees": 45.0,
+        "elbowShiftMm": 33.103339654184076,
+        "wristShiftMm": 31.655076555305257
+      }
+    }
+  },
+  {
+    "sex": "Male",
+    "clip": "golfDrive",
+    "stage": "follow",
+    "sides": {
+      "Left": {
+        "originalAngle": 49.7758903503418,
+        "candidateAngle": 19.901869218414635,
+        "rollDegrees": 31.978784054961327,
+        "elbowShiftMm": 32.8808541943847,
+        "wristShiftMm": 38.91417430389946
+      },
+      "Right": {
+        "originalAngle": 94.63542175292969,
+        "candidateAngle": 83.7734785351103,
+        "rollDegrees": 32.0,
+        "elbowShiftMm": 2.6673584829033956,
+        "wristShiftMm": 38.939518080983184
+      }
+    }
+  },
+  {
+    "sex": "Male",
+    "clip": "golfIron",
+    "stage": "address",
+    "sides": {
+      "Left": {
+        "originalAngle": 51.69131088256836,
+        "candidateAngle": 34.669265936038194,
+        "rollDegrees": -45.0,
+        "elbowShiftMm": 19.7973566606191,
+        "wristShiftMm": 31.655527735084725
+      },
+      "Right": {
+        "originalAngle": 53.42565155029297,
+        "candidateAngle": 39.79871666139557,
+        "rollDegrees": 45.0,
+        "elbowShiftMm": 33.0718815234027,
+        "wristShiftMm": 31.655269284326415
+      }
+    }
+  },
+  {
+    "sex": "Male",
+    "clip": "golfIron",
+    "stage": "top",
+    "sides": {
+      "Left": {
+        "originalAngle": 45.7557258605957,
+        "candidateAngle": 36.55085119129535,
+        "rollDegrees": 16.102445699813305,
+        "elbowShiftMm": 34.46222293431017,
+        "wristShiftMm": 19.786191344891336
+      },
+      "Right": {
+        "originalAngle": 110.14059448242188,
+        "candidateAngle": 83.25216242262694,
+        "rollDegrees": 42.0,
+        "elbowShiftMm": 33.72429645053626,
+        "wristShiftMm": 39.86689496185269
+      }
+    }
+  },
+  {
+    "sex": "Male",
+    "clip": "golfIron",
+    "stage": "contact",
+    "sides": {
+      "Left": {
+        "originalAngle": 53.87811279296875,
+        "candidateAngle": 44.50660953393561,
+        "rollDegrees": -45.0,
+        "elbowShiftMm": 14.715218748383505,
+        "wristShiftMm": 31.65557445247171
+      },
+      "Right": {
+        "originalAngle": 86.99808502197266,
+        "candidateAngle": 70.52422861411992,
+        "rollDegrees": 45.0,
+        "elbowShiftMm": 31.2493359972332,
+        "wristShiftMm": 31.655031165073137
+      }
+    }
+  },
+  {
+    "sex": "Male",
+    "clip": "golfIron",
+    "stage": "follow",
+    "sides": {
+      "Left": {
+        "originalAngle": 35.84515380859375,
+        "candidateAngle": 35.61205124168425,
+        "rollDegrees": 0.22915156962287286,
+        "elbowShiftMm": 0.259758486024599,
+        "wristShiftMm": 0.28250048519109305
+      },
+      "Right": {
+        "originalAngle": 88.64923095703125,
+        "candidateAngle": 81.56533935667329,
+        "rollDegrees": 28.0,
+        "elbowShiftMm": 2.363199411774321,
+        "wristShiftMm": 34.176604211042424
+      }
+    }
+  },
+  {
+    "sex": "Male",
+    "clip": "golfHalf",
+    "stage": "address",
+    "sides": {
+      "Left": {
+        "originalAngle": 51.73902893066406,
+        "candidateAngle": 34.7418217229958,
+        "rollDegrees": -45.0,
+        "elbowShiftMm": 19.735509292180264,
+        "wristShiftMm": 31.65548836647259
+      },
+      "Right": {
+        "originalAngle": 53.14523696899414,
+        "candidateAngle": 39.580407208888914,
+        "rollDegrees": 45.0,
+        "elbowShiftMm": 33.59497380663722,
+        "wristShiftMm": 31.655272036161467
+      }
+    }
+  },
+  {
+    "sex": "Male",
+    "clip": "golfHalf",
+    "stage": "top",
+    "sides": {
+      "Left": {
+        "originalAngle": 8.576201438903809,
+        "candidateAngle": 8.57619671850893,
+        "rollDegrees": 0,
+        "elbowShiftMm": 1.009000920870875e-05,
+        "wristShiftMm": 0.0
+      },
+      "Right": {
+        "originalAngle": 72.54171752929688,
+        "candidateAngle": 42.17549117358396,
+        "rollDegrees": 38.0,
+        "elbowShiftMm": 14.171894416460164,
+        "wristShiftMm": 39.101592330151604
+      }
+    }
+  },
+  {
+    "sex": "Male",
+    "clip": "golfHalf",
+    "stage": "contact",
+    "sides": {
+      "Left": {
+        "originalAngle": 53.21583938598633,
+        "candidateAngle": 41.78125270079768,
+        "rollDegrees": -45.0,
+        "elbowShiftMm": 15.387923103724166,
+        "wristShiftMm": 31.65513995671416
+      },
+      "Right": {
+        "originalAngle": 81.18084716796875,
+        "candidateAngle": 64.75160795638824,
+        "rollDegrees": 45.0,
+        "elbowShiftMm": 31.263879209674037,
+        "wristShiftMm": 31.65520828054808
+      }
+    }
+  },
+  {
+    "sex": "Male",
+    "clip": "golfHalf",
+    "stage": "follow",
+    "sides": {
+      "Left": {
+        "originalAngle": 108.78479766845703,
+        "candidateAngle": 100.99130568501322,
+        "rollDegrees": -45.0,
+        "elbowShiftMm": 30.20256480114387,
+        "wristShiftMm": 31.654998925670363
+      },
+      "Right": {
+        "originalAngle": 33.325462341308594,
+        "candidateAngle": 33.325450350190195,
+        "rollDegrees": 0,
+        "elbowShiftMm": 1.543551854465612e-05,
+        "wristShiftMm": 0.0
+      }
+    }
+  },
+  {
+    "sex": "Male",
+    "clip": "golfChip",
+    "stage": "address",
+    "sides": {
+      "Left": {
+        "originalAngle": 44.84299850463867,
+        "candidateAngle": 31.566678487788785,
+        "rollDegrees": -32.70050065807431,
+        "elbowShiftMm": 11.700891860241265,
+        "wristShiftMm": 23.286238946475653
+      },
+      "Right": {
+        "originalAngle": 51.7245979309082,
+        "candidateAngle": 34.39385421352968,
+        "rollDegrees": 45.0,
+        "elbowShiftMm": 21.953856182734125,
+        "wristShiftMm": 31.655371891860426
+      }
+    }
+  },
+  {
+    "sex": "Male",
+    "clip": "golfChip",
+    "stage": "top",
+    "sides": {
+      "Left": {
+        "originalAngle": 69.8534164428711,
+        "candidateAngle": 53.58727881785154,
+        "rollDegrees": -45.0,
+        "elbowShiftMm": 22.91279764507609,
+        "wristShiftMm": 31.65559545799628
+      },
+      "Right": {
+        "originalAngle": 41.324607849121094,
+        "candidateAngle": 35.14660167992683,
+        "rollDegrees": 17.25403823189998,
+        "elbowShiftMm": 11.019149809154626,
+        "wristShiftMm": 12.40799005831065
+      }
+    }
+  },
+  {
+    "sex": "Male",
+    "clip": "golfChip",
+    "stage": "contact",
+    "sides": {
+      "Left": {
+        "originalAngle": 41.490535736083984,
+        "candidateAngle": 39.6760224133104,
+        "rollDegrees": -17.984841808547486,
+        "elbowShiftMm": 2.9246663541252906,
+        "wristShiftMm": 12.929441077328775
+      },
+      "Right": {
+        "originalAngle": 69.59954071044922,
+        "candidateAngle": 52.163874314549865,
+        "rollDegrees": 45.0,
+        "elbowShiftMm": 28.59223029619548,
+        "wristShiftMm": 31.655179546883947
+      }
+    }
+  },
+  {
+    "sex": "Male",
+    "clip": "golfChip",
+    "stage": "follow",
+    "sides": {
+      "Left": {
+        "originalAngle": 35.687339782714844,
+        "candidateAngle": 35.5753540201099,
+        "rollDegrees": -0.2748022783625377,
+        "elbowShiftMm": 0.08314140331584789,
+        "wristShiftMm": 0.19837141510216416
+      },
+      "Right": {
+        "originalAngle": 79.54609680175781,
+        "candidateAngle": 62.95099025932364,
+        "rollDegrees": 45.0,
+        "elbowShiftMm": 26.881266214462162,
+        "wristShiftMm": 31.65538568139506
+      }
+    }
+  },
+  {
+    "sex": "Male",
+    "clip": "golfPutt",
+    "stage": "address",
+    "sides": {
+      "Left": {
+        "originalAngle": 62.15269470214844,
+        "candidateAngle": 47.01597143942189,
+        "rollDegrees": -45.0,
+        "elbowShiftMm": 27.260768208676204,
+        "wristShiftMm": 31.65549095909237
+      },
+      "Right": {
+        "originalAngle": 67.09379577636719,
+        "candidateAngle": 54.62569001440281,
+        "rollDegrees": 45.0,
+        "elbowShiftMm": 32.5621568591623,
+        "wristShiftMm": 31.655370527900406
+      }
+    }
+  },
+  {
+    "sex": "Male",
+    "clip": "golfPutt",
+    "stage": "top",
+    "sides": {
+      "Left": {
+        "originalAngle": 70.90489196777344,
+        "candidateAngle": 57.018444287986256,
+        "rollDegrees": -45.0,
+        "elbowShiftMm": 28.849567057427027,
+        "wristShiftMm": 31.655465545050852
+      },
+      "Right": {
+        "originalAngle": 56.2938346862793,
+        "candidateAngle": 43.58616758391328,
+        "rollDegrees": 45.0,
+        "elbowShiftMm": 36.11476830727479,
+        "wristShiftMm": 31.655108766200904
+      }
+    }
+  },
+  {
+    "sex": "Male",
+    "clip": "golfPutt",
+    "stage": "contact",
+    "sides": {
+      "Left": {
+        "originalAngle": 61.30963134765625,
+        "candidateAngle": 48.05530200805216,
+        "rollDegrees": -45.0,
+        "elbowShiftMm": 23.199197563074414,
+        "wristShiftMm": 31.655238598971966
+      },
+      "Right": {
+        "originalAngle": 61.55098342895508,
+        "candidateAngle": 61.550956491600246,
+        "rollDegrees": 0,
+        "elbowShiftMm": 0.00018025419650807245,
+        "wristShiftMm": 1.862645149230957e-06
+      }
+    }
+  },
+  {
+    "sex": "Male",
+    "clip": "golfPutt",
+    "stage": "follow",
+    "sides": {
+      "Left": {
+        "originalAngle": 50.05381774902344,
+        "candidateAngle": 36.46736197171658,
+        "rollDegrees": -45.0,
+        "elbowShiftMm": 19.867956038127147,
+        "wristShiftMm": 31.655506810352847
+      },
+      "Right": {
+        "originalAngle": 75.44355010986328,
+        "candidateAngle": 62.68109651126484,
+        "rollDegrees": 45.0,
+        "elbowShiftMm": 36.64172340521935,
+        "wristShiftMm": 31.65540901875965
+      }
+    }
+  },
+  {
+    "sex": "Female",
+    "clip": "golfDrive",
+    "stage": "address",
+    "sides": {
+      "Left": {
+        "originalAngle": 65.4299087524414,
+        "candidateAngle": 48.01180737192205,
+        "rollDegrees": -45.0,
+        "elbowShiftMm": 22.615140303279873,
+        "wristShiftMm": 31.655566537119004
+      },
+      "Right": {
+        "originalAngle": 46.94905471801758,
+        "candidateAngle": 16.906977294191588,
+        "rollDegrees": 40.17234676204485,
+        "elbowShiftMm": 38.86444778568789,
+        "wristShiftMm": 28.493301494848716
+      }
+    }
+  },
+  {
+    "sex": "Female",
+    "clip": "golfDrive",
+    "stage": "top",
+    "sides": {
+      "Left": {
+        "originalAngle": 39.91656494140625,
+        "candidateAngle": 33.35177952554701,
+        "rollDegrees": 7.052474615059371,
+        "elbowShiftMm": 8.648288671460342,
+        "wristShiftMm": 8.688977209500292
+      },
+      "Right": {
+        "originalAngle": 99.595703125,
+        "candidateAngle": 71.46417310936168,
+        "rollDegrees": 45.0,
+        "elbowShiftMm": 26.671148889802282,
+        "wristShiftMm": 38.973151379465214
+      }
+    }
+  },
+  {
+    "sex": "Female",
+    "clip": "golfDrive",
+    "stage": "contact",
+    "sides": {
+      "Left": {
+        "originalAngle": 66.98221588134766,
+        "candidateAngle": 57.074349862461695,
+        "rollDegrees": -45.0,
+        "elbowShiftMm": 18.645408047542332,
+        "wristShiftMm": 31.655402164185748
+      },
+      "Right": {
+        "originalAngle": 93.63040924072266,
+        "candidateAngle": 79.2204256159649,
+        "rollDegrees": 45.0,
+        "elbowShiftMm": 35.63600072458852,
+        "wristShiftMm": 31.65484970704896
+      }
+    }
+  },
+  {
+    "sex": "Female",
+    "clip": "golfDrive",
+    "stage": "follow",
+    "sides": {
+      "Left": {
+        "originalAngle": 51.770484924316406,
+        "candidateAngle": 21.21378563758289,
+        "rollDegrees": 34.0,
+        "elbowShiftMm": 33.57306383758682,
+        "wristShiftMm": 39.55116269024958
+      },
+      "Right": {
+        "originalAngle": 83.26860809326172,
+        "candidateAngle": 67.25578536531326,
+        "rollDegrees": 32.0,
+        "elbowShiftMm": 3.387121113607138,
+        "wristShiftMm": 38.93934658996104
+      }
+    }
+  },
+  {
+    "sex": "Female",
+    "clip": "golfIron",
+    "stage": "address",
+    "sides": {
+      "Left": {
+        "originalAngle": 55.548248291015625,
+        "candidateAngle": 38.63127138823154,
+        "rollDegrees": -45.0,
+        "elbowShiftMm": 21.65122785813566,
+        "wristShiftMm": 31.65529867544316
+      },
+      "Right": {
+        "originalAngle": 40.35933303833008,
+        "candidateAngle": 35.44325849381634,
+        "rollDegrees": 13.12858560872926,
+        "elbowShiftMm": 25.86263091925136,
+        "wristShiftMm": 9.523209173856852
+      }
+    }
+  },
+  {
+    "sex": "Female",
+    "clip": "golfIron",
+    "stage": "top",
+    "sides": {
+      "Left": {
+        "originalAngle": 47.384613037109375,
+        "candidateAngle": 26.098437175957574,
+        "rollDegrees": 29.420739247225328,
+        "elbowShiftMm": 34.42996984474178,
+        "wristShiftMm": 35.873348102203686
+      },
+      "Right": {
+        "originalAngle": 104.59063720703125,
+        "candidateAngle": 76.80316517516736,
+        "rollDegrees": 45.0,
+        "elbowShiftMm": 33.18996620997843,
+        "wristShiftMm": 38.97311353010019
+      }
+    }
+  },
+  {
+    "sex": "Female",
+    "clip": "golfIron",
+    "stage": "contact",
+    "sides": {
+      "Left": {
+        "originalAngle": 58.63939666748047,
+        "candidateAngle": 48.43584198426774,
+        "rollDegrees": -45.0,
+        "elbowShiftMm": 16.900574327887988,
+        "wristShiftMm": 31.655780360961007
+      },
+      "Right": {
+        "originalAngle": 84.33277130126953,
+        "candidateAngle": 68.87665558937745,
+        "rollDegrees": 45.0,
+        "elbowShiftMm": 32.877953508876345,
+        "wristShiftMm": 31.65515544309958
+      }
+    }
+  },
+  {
+    "sex": "Female",
+    "clip": "golfIron",
+    "stage": "follow",
+    "sides": {
+      "Left": {
+        "originalAngle": 38.69439697265625,
+        "candidateAngle": 34.01603371439004,
+        "rollDegrees": 4.258813611680406,
+        "elbowShiftMm": 4.809686929199402,
+        "wristShiftMm": 5.249111828392241
+      },
+      "Right": {
+        "originalAngle": 76.00404357910156,
+        "candidateAngle": 65.12570014112804,
+        "rollDegrees": 29.0,
+        "elbowShiftMm": 2.192431815074858,
+        "wristShiftMm": 35.37126153669412
+      }
+    }
+  },
+  {
+    "sex": "Female",
+    "clip": "golfHalf",
+    "stage": "address",
+    "sides": {
+      "Left": {
+        "originalAngle": 55.57539367675781,
+        "candidateAngle": 38.687492800704476,
+        "rollDegrees": -45.0,
+        "elbowShiftMm": 21.60294176883013,
+        "wristShiftMm": 31.655397858416265
+      },
+      "Right": {
+        "originalAngle": 40.46928787231445,
+        "candidateAngle": 34.279231173232525,
+        "rollDegrees": 13.58510832967359,
+        "elbowShiftMm": 26.34524190753734,
+        "wristShiftMm": 9.872803618729616
+      }
+    }
+  },
+  {
+    "sex": "Female",
+    "clip": "golfHalf",
+    "stage": "top",
+    "sides": {
+      "Left": {
+        "originalAngle": 22.742923736572266,
+        "candidateAngle": 22.742920719723116,
+        "rollDegrees": 0,
+        "elbowShiftMm": 1.0910526316349072e-05,
+        "wristShiftMm": 0.0
+      },
+      "Right": {
+        "originalAngle": 82.4495620727539,
+        "candidateAngle": 49.397201364025854,
+        "rollDegrees": 42.0,
+        "elbowShiftMm": 18.661629911107944,
+        "wristShiftMm": 39.867146983642016
+      }
+    }
+  },
+  {
+    "sex": "Female",
+    "clip": "golfHalf",
+    "stage": "contact",
+    "sides": {
+      "Left": {
+        "originalAngle": 60.013309478759766,
+        "candidateAngle": 47.12822097741766,
+        "rollDegrees": -45.0,
+        "elbowShiftMm": 18.21199693073511,
+        "wristShiftMm": 31.65523225412009
+      },
+      "Right": {
+        "originalAngle": 81.68354797363281,
+        "candidateAngle": 65.99918058004327,
+        "rollDegrees": 45.0,
+        "elbowShiftMm": 31.75691945832697,
+        "wristShiftMm": 31.655265130621494
+      }
+    }
+  },
+  {
+    "sex": "Female",
+    "clip": "golfHalf",
+    "stage": "follow",
+    "sides": {
+      "Left": {
+        "originalAngle": 106.01468658447266,
+        "candidateAngle": 99.23929763651894,
+        "rollDegrees": 45.0,
+        "elbowShiftMm": 9.923694562730496,
+        "wristShiftMm": 31.655379248792936
+      },
+      "Right": {
+        "originalAngle": 31.18899154663086,
+        "candidateAngle": 31.18899154663086,
+        "rollDegrees": 0,
+        "elbowShiftMm": 0.0,
+        "wristShiftMm": 0.0
+      }
+    }
+  },
+  {
+    "sex": "Female",
+    "clip": "golfChip",
+    "stage": "address",
+    "sides": {
+      "Left": {
+        "originalAngle": 51.226219177246094,
+        "candidateAngle": 32.1063552647053,
+        "rollDegrees": -45.0,
+        "elbowShiftMm": 17.160939593835483,
+        "wristShiftMm": 31.65522359392559
+      },
+      "Right": {
+        "originalAngle": 48.125701904296875,
+        "candidateAngle": 33.501812426709996,
+        "rollDegrees": 43.067787902373915,
+        "elbowShiftMm": 23.861461306792002,
+        "wristShiftMm": 30.361986660867746
+      }
+    }
+  },
+  {
+    "sex": "Female",
+    "clip": "golfChip",
+    "stage": "top",
+    "sides": {
+      "Left": {
+        "originalAngle": 77.13147735595703,
+        "candidateAngle": 61.99262372328897,
+        "rollDegrees": -45.0,
+        "elbowShiftMm": 25.462378447085964,
+        "wristShiftMm": 31.655389631443487
+      },
+      "Right": {
+        "originalAngle": 40.6749267578125,
+        "candidateAngle": 36.14128517707544,
+        "rollDegrees": 14.449280342986993,
+        "elbowShiftMm": 9.883168089174346,
+        "wristShiftMm": 10.402766223578949
+      }
+    }
+  },
+  {
+    "sex": "Female",
+    "clip": "golfChip",
+    "stage": "contact",
+    "sides": {
+      "Left": {
+        "originalAngle": 49.5295295715332,
+        "candidateAngle": 42.68684502503943,
+        "rollDegrees": -44.869971480631925,
+        "elbowShiftMm": 10.796900744182285,
+        "wristShiftMm": 31.56879200516327
+      },
+      "Right": {
+        "originalAngle": 68.4700927734375,
+        "candidateAngle": 51.59274175644376,
+        "rollDegrees": 45.0,
+        "elbowShiftMm": 31.102461017668606,
+        "wristShiftMm": 31.65542991899844
+      }
+    }
+  },
+  {
+    "sex": "Female",
+    "clip": "golfChip",
+    "stage": "follow",
+    "sides": {
+      "Left": {
+        "originalAngle": 43.96506118774414,
+        "candidateAngle": 30.837205974104666,
+        "rollDegrees": -29.008918981929874,
+        "elbowShiftMm": 8.90609414103797,
+        "wristShiftMm": 20.71767953937668
+      },
+      "Right": {
+        "originalAngle": 78.9286880493164,
+        "candidateAngle": 64.57091923515067,
+        "rollDegrees": 45.0,
+        "elbowShiftMm": 28.071451186638402,
+        "wristShiftMm": 31.655251463527254
+      }
+    }
+  },
+  {
+    "sex": "Female",
+    "clip": "golfPutt",
+    "stage": "address",
+    "sides": {
+      "Left": {
+        "originalAngle": 69.2712631225586,
+        "candidateAngle": 54.37482862371231,
+        "rollDegrees": -45.0,
+        "elbowShiftMm": 28.71468320474912,
+        "wristShiftMm": 31.65529851350317
+      },
+      "Right": {
+        "originalAngle": 64.684326171875,
+        "candidateAngle": 54.9426448980593,
+        "rollDegrees": 45.0,
+        "elbowShiftMm": 35.88356740646608,
+        "wristShiftMm": 31.654970486857433
+      }
+    }
+  },
+  {
+    "sex": "Female",
+    "clip": "golfPutt",
+    "stage": "top",
+    "sides": {
+      "Left": {
+        "originalAngle": 77.38119506835938,
+        "candidateAngle": 64.45467988129657,
+        "rollDegrees": -45.0,
+        "elbowShiftMm": 30.378225745866068,
+        "wristShiftMm": 31.655527153790725
+      },
+      "Right": {
+        "originalAngle": 51.59915542602539,
+        "candidateAngle": 34.40806236262616,
+        "rollDegrees": 27.0,
+        "elbowShiftMm": 39.85459055921611,
+        "wristShiftMm": 21.522581184515637
+      }
+    }
+  },
+  {
+    "sex": "Female",
+    "clip": "golfPutt",
+    "stage": "contact",
+    "sides": {
+      "Left": {
+        "originalAngle": 67.5919189453125,
+        "candidateAngle": 54.34994511725615,
+        "rollDegrees": -45.0,
+        "elbowShiftMm": 25.494526076069754,
+        "wristShiftMm": 31.65523678412799
+      },
+      "Right": {
+        "originalAngle": 55.3658447265625,
+        "candidateAngle": 55.3658447265625,
+        "rollDegrees": 0,
+        "elbowShiftMm": 0.0,
+        "wristShiftMm": 0.0
+      }
+    }
+  },
+  {
+    "sex": "Female",
+    "clip": "golfPutt",
+    "stage": "follow",
+    "sides": {
+      "Left": {
+        "originalAngle": 56.44430923461914,
+        "candidateAngle": 41.87265657706973,
+        "rollDegrees": -45.0,
+        "elbowShiftMm": 22.074786497527136,
+        "wristShiftMm": 31.655484456396113
+      },
+      "Right": {
+        "originalAngle": 72.12106323242188,
+        "candidateAngle": 62.38715794747156,
+        "rollDegrees": 44.0,
+        "elbowShiftMm": 39.467734997072824,
+        "wristShiftMm": 30.987092705009374
+      }
+    }
+  }
+]

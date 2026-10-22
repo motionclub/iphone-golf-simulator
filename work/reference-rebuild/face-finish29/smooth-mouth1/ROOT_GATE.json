@@ -1,0 +1,17 @@
+{
+  "status": "ACCEPTED incremental original-face finish: continuous mouth shape + lip palette3 in Unity default",
+  "visualReview": [
+    "male/female studio front",
+    "both full blinks",
+    "male Serve occluded blink",
+    "resort on-map face with accepted fill"
+  ],
+  "source": "Smooth1 FBXs",
+  "sha256": {
+    "Male": "106171a7dafb39bcdd224c149ee5e8a29c9a1caa86691b85e760acc18373081c",
+    "Female": "02ac48c1fe531dc6a15d3ed1ad7cedfffc5344d0d41223a536936ebbf9225366"
+  },
+  "images": "proof/reference-rebuild/face-finish29-lip3 + face-finish29-lip3-resort",
+  "rigAndAnimation": "53 bone/rest/weights/blink deltas preserved. Source max depth changes3.246mm male/2.524mm female. Small evaluated eyelid-normal drift(.5/1.26deg) documented, actual closure reviewed.",
+  "remaining": "This completes stronger natural lip definition, not full reference fidelity: male cheek/socket shading and jagged blink crease remain older visible limitations. Native resources/UV2 colour parity adoption pending."
+}

@@ -1,5 +1,7 @@
 """Fit a built cap to a hero's head, write the piece (.bin + npz + manifest entry) and bake its maps.
-Blender -b --factory-startup --python cap_export.py -- <tennis|golf> <Male|Female|both> [--skip-maps]
+Blender -b --factory-startup --python cap_export.py -- <tennis|golf> <Male|Female|both> [--skip-maps] [--keep-fit]
+--keep-fit: reuse the socket fit (scale / pitch / anchor) of the piece.json already in out/ and only re-run hug + relieve on the
+current head dump (ACC_DUMP): the cap keeps its height and bill-on-brow placement when only the head shape changed (10-17 male re-hug).
 Outputs: work/accessories/out/<Sex>/<item>/ (item = tennis_cap | golf_cap)."""
 import sys, os, json, math
 sys.path.insert(0, os.path.dirname(__file__))
@@ -95,6 +97,23 @@ def fit(hd, sex, piece, D, verbose=True):
     return best, rep, clear
 
 
+def keep_fit(hd, sex, piece, D, params):
+    """the previous socket fit, evaluated on the current head (same report fields as fit)."""
+    k, z, tri = piece['kind'], piece['zone'], piece['tri']
+    def vset(mask): return np.unique(tri[mask])
+    inner = vset((k == CAP.K_CROWN) & (z == 2)); band = vset((k == CAP.K_BAND) & (z == 0)); brim = vset((k == CAP.K_BRIM) & (z == 2))
+    head_pos, head_tri = F.region(hd, hd.rest_pos['Head'][2] - 0.07)
+    clear = F.Clearance(head_pos, head_tri)
+    best = np.array(params, float); P = piece['pos']
+    Pw = lambda idx: world_N(hd, best, P[idx])
+    ci, cb, cr = clear(Pw(inner)), clear(Pw(band)), clear(Pw(brim))
+    zf = world_N(hd, best, np.array([[0, -D['B'], 0.0]]))[0, 2]
+    rep = dict(params=[float(v) for v in best], cost=None, kept_fit=True, min_inner=float(ci.min()), min_band=float(cb.min()), mean_band=float(cb.mean()),
+               mean_inner=float(ci.mean()), min_brim=float(cr.min()), front_rim_z=float(zf), target_front_rim_z=FRONT_RIM_Z[sex])
+    print(sex, 'kept fit', json.dumps(rep))
+    return best, rep, clear
+
+
 def hug(hd, piece, Pw, clear, target=.0022, minimum=.0015, factor=.78, sigma=.008, lim=.03):
     """the cap hugs the head: smooth displacement of the crown-side vertices toward (or away from) the head so the lining sits ~2 mm off the skin.
     The head is never touched. Brim: only its root, fading with distance from the crown. Returns new positions and a report."""
@@ -160,7 +179,11 @@ def main():
         print('wrote product', out_dir); return
     for sex in (['Male', 'Female'] if which == 'both' else [which]):
         hd = A.HeroData(sex)
-        best, rep, clear = fit(hd, sex, piece0, D)
+        prev = os.path.join(OUT, sex, item, 'piece.json')
+        if '--keep-fit' in args and os.path.exists(prev):
+            best, rep, clear = keep_fit(hd, sex, piece0, D, json.load(open(prev))['fit_report']['params'])
+        else:
+            best, rep, clear = fit(hd, sex, piece0, D)
         P = world_N(hd, best, piece0['pos'])
         for it in range(3):
             P, hrep = hug(hd, piece0, P, clear, target=.0021 if it < 2 else .0019, factor=.78 if it == 0 else .5)

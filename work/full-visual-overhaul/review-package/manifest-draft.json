@@ -1,0 +1,193 @@
+{
+  "output": "/Users/adnanyonathan/Documents/Codex/2026-10-06/open-4/outputs/implementation-review",
+  "status": "In progress \u00b7 character appearance and final motion remain open; phone testing deferred",
+  "comparisons": [
+    {
+      "title": "Coastal golf",
+      "before": "/Users/adnanyonathan/Documents/Codex/2026-10-06/open-4/outputs/visual-overhaul/before/coastal-gameplay.png",
+      "reference": "/Users/adnanyonathan/Documents/Codex/2026-10-06/open-4/outputs/visual-overhaul/after/coastal-gameplay.png",
+      "actual": "proof/full-visual-overhaul/golf-pass-final/hole12_gameplay.png",
+      "note": "Current runtime implementation. Art target comparison remains partial."
+    },
+    {
+      "title": "Temple golf",
+      "before": "/Users/adnanyonathan/Documents/Codex/2026-10-06/open-4/outputs/visual-overhaul/before/temple-course.png",
+      "reference": "/Users/adnanyonathan/Documents/Codex/2026-10-06/open-4/outputs/visual-overhaul/after/temple-course.png",
+      "actual": "proof/full-visual-overhaul/golf-pass-final/hole19_gameplay.png",
+      "note": "Current runtime implementation. Art target comparison remains partial."
+    },
+    {
+      "title": "Volcanic golf",
+      "before": "/Users/adnanyonathan/Documents/Codex/2026-10-06/open-4/outputs/visual-overhaul/before/volcanic-gameplay.png",
+      "reference": "/Users/adnanyonathan/Documents/Codex/2026-10-06/open-4/outputs/visual-overhaul/after/volcanic-gameplay.png",
+      "actual": "proof/full-visual-overhaul/golf-pass-final/hole21_gameplay.png",
+      "note": "Current runtime implementation. Art target comparison remains partial."
+    },
+    {
+      "title": "Male character",
+      "before": "/Users/adnanyonathan/Documents/Codex/2026-10-06/open-4/outputs/visual-overhaul/before/male-tennis-locker.png",
+      "reference": "/Users/adnanyonathan/Documents/Codex/2026-10-06/open-4/outputs/visual-overhaul/after/male-character-target.png",
+      "actual": "proof/full-visual-overhaul/character-current-starter-2/male_intro.png",
+      "note": "Fresh production render with the actual starter palette and approved wave animation. Appearance gate remains FAIL: facial finish and clothing shape still fall short of the reference; repairs and a stronger art pass are underway."
+    },
+    {
+      "title": "Female character",
+      "before": "/Users/adnanyonathan/Documents/Codex/2026-10-06/open-4/outputs/visual-overhaul/before/female-tennis-locker.png",
+      "reference": "/Users/adnanyonathan/Documents/Codex/2026-10-06/open-4/outputs/visual-overhaul/after/female-character-target.png",
+      "actual": "proof/full-visual-overhaul/character-current-starter-2/female_intro.png",
+      "note": "Fresh production render with the actual starter palette and approved wave animation. Appearance gate remains FAIL: facial finish and clothing shape still fall short of the reference; repairs and a stronger art pass are underway."
+    },
+    {
+      "title": "Four-player lobby",
+      "before": "/Users/adnanyonathan/Documents/Codex/2026-10-06/open-4/outputs/visual-overhaul/before/party-lobby.png",
+      "reference": "/Users/adnanyonathan/Documents/Codex/2026-10-06/open-4/outputs/visual-overhaul/after/party-lobby.png",
+      "actual": "proof/full-visual-overhaul/native-performance-4/performance-golf.png",
+      "note": "Actual four-character golf lobby. Complete morph rendering and equipped clubs are verified. Simulator rendering measured about 59.6 FPS; final character assets still require a refresh."
+    },
+    {
+      "title": "Tennis resort showcase",
+      "reference": "/Users/adnanyonathan/Documents/Codex/2026-10-06/open-4/outputs/visual-overhaul/after/tennis-resort-target.png",
+      "actual": "proof/full-visual-overhaul/tennis-worlds-pass-17/resort_9_hero_postcard.png",
+      "note": "Actual runtime with rebuilt furnishings, hero-derived crowd and grounded shoes. Walking crowd knees and far footwear are rejected and under repair. Concept parity remains partial."
+    }
+  ],
+  "catalog": [
+    {
+      "title": "Golf hole 7",
+      "path": "proof/full-visual-overhaul/golf-pass-final/hole07_preview.png"
+    },
+    {
+      "title": "Golf hole 12",
+      "path": "proof/full-visual-overhaul/golf-pass-final/hole12_preview.png"
+    },
+    {
+      "title": "Golf hole 13",
+      "path": "proof/full-visual-overhaul/golf-pass-final/hole13_preview.png"
+    },
+    {
+      "title": "Golf hole 14",
+      "path": "proof/full-visual-overhaul/golf-pass-final/hole14_preview.png"
+    },
+    {
+      "title": "Golf hole 15",
+      "path": "proof/full-visual-overhaul/golf-pass-final/hole15_preview.png"
+    },
+    {
+      "title": "Golf hole 16",
+      "path": "proof/full-visual-overhaul/golf-pass-final/hole16_preview.png"
+    },
+    {
+      "title": "Golf hole 17",
+      "path": "proof/full-visual-overhaul/golf-pass-final/hole17_preview.png"
+    },
+    {
+      "title": "Golf hole 18",
+      "path": "proof/full-visual-overhaul/golf-pass-final/hole18_preview.png"
+    },
+    {
+      "title": "Golf hole 19",
+      "path": "proof/full-visual-overhaul/golf-pass-final/hole19_preview.png"
+    },
+    {
+      "title": "Golf hole 20",
+      "path": "proof/full-visual-overhaul/golf-pass-final/hole20_preview.png"
+    },
+    {
+      "title": "Golf hole 21",
+      "path": "proof/full-visual-overhaul/golf-pass-final/hole21_preview.png"
+    },
+    {
+      "title": "Golf hole 22",
+      "path": "proof/full-visual-overhaul/golf-pass-final/hole22_preview.png"
+    },
+    {
+      "title": "Golf hole 23",
+      "path": "proof/full-visual-overhaul/golf-pass-final/hole23_preview.png"
+    },
+    {
+      "title": "Golf hole 8",
+      "path": "proof/full-visual-overhaul/golf-pass-final/hole08_preview.png"
+    },
+    {
+      "title": "Golf hole 9",
+      "path": "proof/full-visual-overhaul/golf-pass-final/hole09_preview.png"
+    },
+    {
+      "title": "Golf hole 10",
+      "path": "proof/full-visual-overhaul/golf-pass-final/hole10_preview.png"
+    },
+    {
+      "title": "Golf hole 1",
+      "path": "proof/full-visual-overhaul/golf-pass-final/hole01_preview.png"
+    },
+    {
+      "title": "Golf hole 2",
+      "path": "proof/full-visual-overhaul/golf-pass-final/hole02_preview.png"
+    },
+    {
+      "title": "Golf hole 3",
+      "path": "proof/full-visual-overhaul/golf-pass-final/hole03_preview.png"
+    },
+    {
+      "title": "Tennis \u00b7 resort",
+      "path": "proof/full-visual-overhaul/tennis-worlds-pass-17/resort_2_postcard.png"
+    },
+    {
+      "title": "Tennis \u00b7 skyscraper",
+      "path": "proof/full-visual-overhaul/tennis-worlds-pass-17/skyscraper_2_postcard.png"
+    },
+    {
+      "title": "Tennis \u00b7 volcano",
+      "path": "proof/full-visual-overhaul/tennis-worlds-pass-17/volcano_2_postcard.png"
+    },
+    {
+      "title": "Phone \u00b7 four-player lobby",
+      "path": "proof/full-visual-overhaul/native-ui-4/lobby-4-phone.png"
+    },
+    {
+      "title": "Phone \u00b7 match results",
+      "path": "proof/full-visual-overhaul/native-ui-4/results-phone.png"
+    },
+    {
+      "title": "TV \u00b7 golf lobby",
+      "path": "proof/full-visual-overhaul/native-ui-4/golf-four-tv.png"
+    },
+    {
+      "title": "Golf \u00b7 fitted spectators cheering",
+      "path": "proof/full-visual-overhaul/golf-gallery-proof-4/gallery_cheer_55.png"
+    }
+  ],
+  "films": [],
+  "verification": [
+    "Character appearance remains FAIL against the intended transformation. New palette, cloth detail and materials are installed; facial finish, clothing shape and deformation still require further work.",
+    "Final motion films are pending. Earlier locomotion and dive movies were removed from this review because their capture cadence was not verified against actual Unity frames; real-frame harnesses are now repaired for final recapture.",
+    "Golf FINAL: 19/19 exact collision, ground and obstacle invariance checks pass. All routes have actual rendered coverage. Concept material and planting parity remains partial.",
+    "Golf completed sole-camera Editor Metal counters: maximum 214 draw calls and 2,000,738 shadow-inclusive triangles. These are Editor measurements, not device FPS.",
+    "Actual native four-player Simulator rendering: 59.4 FPS tennis / 59.6 FPS golf with complete characters and equipment. Final character assets require a repeat.",
+    "Native live-graph and bundled XCTest pass: 1,073,922 independent Unity vertices across six provisional exports, worst error 0.04 mm. Final accepted assets require fresh exports.",
+    "Tennis 17 actual render measurement: resort 2,018,265 triangles / 531 draws; rooftop 1,117,629 / 362; crater 1,267,901 / 303. Measurements are valid; performance acceptance remains open.",
+    "Tennis NPC4 inventory PASS: 36 seated + 6 visitors, zero legacy drawable actors. Walking art FAIL: knee gaps, shirt flap and angular far shoes. Source5 is installed; actual review is underway.",
+    "Gallery4: all 7 actual seated golf figures reviewed near, mid and far, cheering and in face plates. Solid fitted garments and bounded distant meshes accepted.",
+    "Hand diagnostic matches independent source positions/normals, but the authored closed-fist surface remains rejected. It has not been promoted into the main production body.",
+    "Per-shoe contact occlusion passes measured-floor and frozen ON/OFF image checks for both bodies in all 3 tennis venues; actual grounding views accepted.",
+    "Interim iOS export, local integrated build, signing and installation succeeded. Physical-phone testing is deferred at the user\u2019s request; no valid device performance result has been collected."
+  ],
+  "reports": [
+    {
+      "title": "Native graph parity \u00b7 independent 1,073,922-vertex XCTest",
+      "path": "proof/full-visual-overhaul/native-golden-provisional-2/native-live-graph-parity.txt"
+    },
+    {
+      "title": "Golf \u00b7 final completed frame counters, all 19 routes",
+      "path": "proof/full-visual-overhaul/golf/catalog-frame-costs-final.json"
+    },
+    {
+      "title": "Golf \u00b7 final exact world physics, all 19 routes",
+      "path": "proof/full-visual-overhaul/golf/catalog-runtime-physics-final.json"
+    },
+    {
+      "title": "Tennis resort \u00b7 actual measured rendering and NPC inventory; budget open",
+      "path": "proof/full-visual-overhaul/tennis-costs-17/resort_instancing_on.frame_costs.json"
+    }
+  ]
+}

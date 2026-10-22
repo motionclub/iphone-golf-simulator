@@ -1,0 +1,319 @@
+{
+ "units": [
+  "METRIC",
+  1.0
+ ],
+ "objects": {
+  "Body_F": {
+   "type": "MESH",
+   "loc": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "hide_viewport": false,
+   "hide_render": false,
+   "parent": null,
+   "collections": [
+    "Collection"
+   ],
+   "modifiers": [],
+   "mesh": "Body_F",
+   "verts": 22123,
+   "polys": 23531,
+   "co_sha": "60980b62bfa0f8dbbbd629f44fe534152a9b44888f156ac4ce59819fc622d093",
+   "materials": [
+    "Base_Grey_F",
+    "Skin_F"
+   ],
+   "vgroups": 21,
+   "has_custom_normals": true,
+   "uv_layers": [
+    "UVMap"
+   ]
+  },
+  "Face_F": {
+   "type": "MESH",
+   "loc": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "hide_viewport": false,
+   "hide_render": false,
+   "parent": null,
+   "collections": [
+    "Collection"
+   ],
+   "modifiers": [],
+   "mesh": "Face_F",
+   "verts": 3986,
+   "polys": 3100,
+   "co_sha": "648883fd1edb1d514bfcc2af5e22e302c69b1a1eab3b452cfd408b364a009f02",
+   "materials": [
+    "Face_Brow",
+    "Face_BrowSoft",
+    "Face_Sclera",
+    "Face_IrisIn",
+    "Face_Iris",
+    "Face_Limbal",
+    "Face_Pupil",
+    "Face_Catch",
+    "Face_LidLine",
+    "Face_LidLower",
+    "Face_Lip",
+    "Face_LipUp",
+    "Face_Seam",
+    "Face_Nostril"
+   ],
+   "vgroups": 0,
+   "has_custom_normals": true,
+   "uv_layers": []
+  },
+  "Hair_F": {
+   "type": "MESH",
+   "loc": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "hide_viewport": true,
+   "hide_render": true,
+   "parent": null,
+   "collections": [
+    "Collection"
+   ],
+   "modifiers": [],
+   "mesh": "Hair_F",
+   "verts": 2516,
+   "polys": 2648,
+   "co_sha": "424d0b0e4f8338d1c2124fb673c99bb69f44ee266433accaa26ee5f3ac162839",
+   "materials": [
+    "Hair_F"
+   ],
+   "vgroups": 0,
+   "has_custom_normals": false,
+   "uv_layers": [
+    "UVMap"
+   ],
+   "hair_topology_sha": "8d9e4261aa3f5aac6390796617f74e2b31368c6c4ba3cf7af2088efda0806596"
+  },
+  "LOCKED_PLATE_back": {
+   "type": "EMPTY",
+   "loc": [
+    0.5372519,
+    -0.55,
+    0.8279389
+   ],
+   "rot": [
+    1.5707964,
+    0.0,
+    3.1415927
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "hide_viewport": true,
+   "hide_render": true,
+   "parent": null,
+   "collections": [
+    "Collection"
+   ],
+   "modifiers": []
+  },
+  "LOCKED_PLATE_front": {
+   "type": "EMPTY",
+   "loc": [
+    0.519084,
+    0.55,
+    0.8279389
+   ],
+   "rot": [
+    1.5707964,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "hide_viewport": true,
+   "hide_render": true,
+   "parent": null,
+   "collections": [
+    "Collection"
+   ],
+   "modifiers": []
+  },
+  "Neutral_Back": {
+   "type": "LIGHT",
+   "loc": [
+    0.0,
+    2.5999999,
+    3.0
+   ],
+   "rot": [
+    0.9151008,
+    -1e-07,
+    -3.1415925
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "hide_viewport": false,
+   "hide_render": false,
+   "parent": null,
+   "collections": [
+    "Collection"
+   ],
+   "modifiers": [],
+   "light": [
+    "AREA",
+    70.0
+   ]
+  },
+  "Neutral_Fill": {
+   "type": "LIGHT",
+   "loc": [
+    2.5999999,
+    -1.8,
+    2.0
+   ],
+   "rot": [
+    1.264519,
+    1e-07,
+    0.9652517
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "hide_viewport": false,
+   "hide_render": false,
+   "parent": null,
+   "collections": [
+    "Collection"
+   ],
+   "modifiers": [],
+   "light": [
+    "AREA",
+    145.0
+   ]
+  },
+  "Neutral_Key": {
+   "type": "LIGHT",
+   "loc": [
+    -2.8,
+    -3.4000001,
+    4.0
+   ],
+   "rot": [
+    0.9728577,
+    0.0,
+    -0.6889243
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "hide_viewport": false,
+   "hide_render": false,
+   "parent": null,
+   "collections": [
+    "Collection"
+   ],
+   "modifiers": [],
+   "light": [
+    "AREA",
+    300.0
+   ]
+  },
+  "ProofCamera": {
+   "type": "CAMERA",
+   "loc": [
+    0.0,
+    -5.0,
+    0.8279389
+   ],
+   "rot": [
+    1.5707964,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "hide_viewport": false,
+   "hide_render": false,
+   "parent": null,
+   "collections": [
+    "Collection"
+   ],
+   "modifiers": []
+  }
+ },
+ "materials": [
+  "Base_Grey_F",
+  "Face_Brow",
+  "Face_BrowSoft",
+  "Face_Catch",
+  "Face_Iris",
+  "Face_IrisIn",
+  "Face_LidLine",
+  "Face_LidLower",
+  "Face_Limbal",
+  "Face_Lip",
+  "Face_LipUp",
+  "Face_Nostril",
+  "Face_Pupil",
+  "Face_Sclera",
+  "Face_Seam",
+  "Hair_F",
+  "Skin_F"
+ ],
+ "images": [
+  "Head_Female_Albedo.png",
+  "female_body_plain.jpg",
+  "female_body_plain.jpg.001"
+ ],
+ "body_validate_changed_something": false
+}

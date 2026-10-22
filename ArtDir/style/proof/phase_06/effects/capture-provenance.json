@@ -1,0 +1,11 @@
+{
+  "raw": "/private/tmp/combined-style-compile/fx-proof-final-r2",
+  "frames": 352,
+  "recipes": 9,
+  "beforeStage": 5,
+  "afterStage": 6,
+  "timestamps": "Recorded Unity Time.time after each actual capture, retained in MP4 presentation timestamps",
+  "camera": "Tennis uses the existing live view; golf uses a fixed scratch-only view at each surface. Golf CameraRig is disabled only in the fixture so it cannot overwrite that diagnostic transform.",
+  "interpretation": "Recipe invocation, not confirmation of gameplay dispatch or an FPS benchmark",
+  "encoding": "Native AVFoundation H264, 6Mbps, first decoded-frame orientation verified (2.67/255 mean error versus source, 69.64 vertically reversed)."
+}

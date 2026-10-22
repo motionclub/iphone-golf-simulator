@@ -1,0 +1,125 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using UnityEngine;
+namespace GolfArcade.Tennis {
+/// Simulate a connected 192-particle cloth cage, then skin the separate pleats,
+/// inner wall and trim from it. Simulating the UV-split render mesh directly tears
+/// seams and layers. Only the outer shell receives the cage; shorts remain skinned.
+[DisallowMultipleComponent, DefaultExecutionOrder(1250)] public sealed class HeroSkirtCloth:MonoBehaviour {
+[Serializable] class Profile {public int vertexCount; public uint positionHash; public int[] shell;}
+struct Leg {public Transform a,b;public SphereCollider upper,lower;}
+readonly List<Leg> legs=new();
+readonly List<(Transform a,Transform b,float radius)> armSegments=new();
+struct Segment {public Transform a,b;public CapsuleCollider collider;}
+readonly List<Segment> segments=new();const int Columns=24,Rows=8;
+readonly List<GameObject> ownedObjects=new();Mesh ownedMesh,originalMesh;Transform[] originalBones;
+public int ParticleCount=>rest?.Length??0;public float LastUpdateMilliseconds {get;private set;}
+BoneWeight[] targetWeights,currentWeights;float[] mass;readonly int[] selected=new int[4];readonly float[] selectedMass=new float[4];Mesh cageMesh;int hipIndex,leftLegIndex,rightLegIndex;float frameScale;float lastFloor=-1,lastCrouch=-1;
+SphereCollider pelvisCollider;
+Cloth cloth;SkinnedMeshRenderer proxy,skirt;Transform hips;Matrix4x4 hipBind;Vector3[] rest;Transform[] nodes;Quaternion[] restFrame;
+public static void Attach(MatchHeroLook look){if(!Application.isPlaying||!look.female||!look.kitV2||look.GetComponent<HeroSkirtCloth>())return;var c=look.gameObject.AddComponent<HeroSkirtCloth>();try{c.Init(look);}catch{c.enabled=false;Destroy(c);throw;}}
+void Init(MatchHeroLook look){
+skirt=look.kit.First(k=>k&&k.name=="Kit_Bottom");hips=look.Bone(HumanBodyBones.Hips);originalMesh=skirt.sharedMesh;originalBones=skirt.bones;var mesh=Instantiate(skirt.sharedMesh);ownedMesh=mesh;mesh.name+=" (cloth cage)";mesh.hideFlags=HideFlags.DontSave;var w=mesh.boneWeights;int hi=Array.IndexOf(skirt.bones,hips);hipBind=mesh.bindposes[hi];hipIndex=hi;
+var profile=JsonUtility.FromJson<Profile>(Resources.Load<TextAsset>($"{(look.golfKit?"Golf":"Tennis")}/KitsV2/Female/SkirtCloth").text);if(profile.vertexCount!=mesh.vertexCount || profile.positionHash!=PositionHash(mesh))throw new InvalidOperationException("Skirt cloth profile does not match garment topology");var p=mesh.vertices;float top=profile.shell.Max(i=>p[i].z),bottom=profile.shell.Min(i=>p[i].z);
+rest=new Vector3[Columns*Rows];nodes=new Transform[rest.Length];restFrame=new Quaternion[rest.Length];var faces=new List<int>();
+for(int row=0;row<Rows;row++)for(int col=0;col<Columns;col++){
+ float t=row/(float)(Rows-1),angle=2*Mathf.PI*col/Columns;float a=Mathf.Lerp(.133f,.2275f,Mathf.Pow(t,.62f)),yf=Mathf.Lerp(-.123f,-.142f,t),yb=Mathf.Lerp(.083f,.138f,Mathf.Pow(t,.6f));
+ float sn=Mathf.Sin(angle),cs=Mathf.Cos(angle);rest[row*Columns+col]=new Vector3(a*Mathf.Sign(sn)*Mathf.Pow(Mathf.Abs(sn),2/2.35f),(yb+yf)*.5f-(yb-yf)*.5f*Mathf.Sign(cs)*Mathf.Pow(Mathf.Abs(cs),2/2.35f),Mathf.Lerp(top,bottom,t));
+ if(row<Rows-1){int x=row*Columns+col,y=row*Columns+(col+1)%Columns,z=x+Columns,v=y+Columns;faces.AddRange(new[]{x,z,y,y,z,v});}
+}
+var cage=new GameObject("Skirt cloth cage");ownedObjects.Add(cage);cage.transform.SetParent(skirt.transform,false);proxy=cage.AddComponent<SkinnedMeshRenderer>();proxy.updateWhenOffscreen=true;proxy.forceRenderingOff=true;proxy.sharedMaterials=new[]{skirt.sharedMaterials[0]};
+var cm=new Mesh{name="Skirt cloth cage"};cm.vertices=rest;cm.triangles=faces.ToArray();cm.RecalculateNormals();var cw=new BoneWeight[rest.Length];for(int i=0;i<rest.Length;i++){float best=float.PositiveInfinity;int nearest=0;foreach(int v in profile.shell){float d=(p[v]-rest[i]).sqrMagnitude;if(d<best){best=d;nearest=v;}}cw[i]=w[nearest];}targetWeights=cw;currentWeights=(BoneWeight[])cw.Clone();mass=new float[originalBones.Length];leftLegIndex=Array.FindIndex(originalBones,b=>b.name=="LeftUpperLeg");rightLegIndex=Array.FindIndex(originalBones,b=>b.name=="RightUpperLeg");cageMesh=cm;cm.boneWeights=cw;cm.bindposes=mesh.bindposes;proxy.sharedMesh=cm;proxy.bones=skirt.bones;proxy.rootBone=hips;
+var bones=skirt.bones.ToList();var bind=mesh.bindposes.ToList();int first=bones.Count;
+for(int i=0;i<rest.Length;i++){nodes[i]=new GameObject("Skirt cloth node "+i).transform;nodes[i].SetParent(skirt.transform,false);ownedObjects.Add(nodes[i].gameObject);bones.Add(nodes[i]);bind.Add(Matrix4x4.Translate(-rest[i]));restFrame[i]=Frame(rest,i);}
+foreach(int i in profile.shell){float z=Mathf.Clamp((top-p[i].z)/(top-bottom)*(Rows-1),0,Rows-1-.00001f);int row=Mathf.FloorToInt(z);float v=z-row;float t=z/(Rows-1);float width=Mathf.Lerp(.133f,.2275f,Mathf.Pow(t,.62f)),front=Mathf.Lerp(-.123f,-.142f,t),back=Mathf.Lerp(.083f,.138f,Mathf.Pow(t,.6f));
+ float x=p[i].x/width,y=((front+back)*.5f-p[i].y)/((back-front)*.5f);
+ float angle=Mathf.Repeat(Mathf.Atan2(Mathf.Sign(x)*Mathf.Pow(Mathf.Abs(x),2.35f/2),Mathf.Sign(y)*Mathf.Pow(Mathf.Abs(y),2.35f/2))/(2*Mathf.PI)*Columns,Columns);int column=Mathf.FloorToInt(angle);int col=column%Columns;float u=angle-column;int a=row*Columns+col,b=row*Columns+(col+1)%Columns;
+ w[i]=new BoneWeight{boneIndex0=first+a,weight0=(1-u)*(1-v),boneIndex1=first+b,weight1=u*(1-v),boneIndex2=first+a+Columns,weight2=(1-u)*v,boneIndex3=first+b+Columns,weight3=u*v};}
+for(int i=0;i<w.Length;i++) {
+ var bw=w[i];var ids=new[]{bw.boneIndex0,bw.boneIndex1,bw.boneIndex2,bw.boneIndex3};var weights=new[]{bw.weight0,bw.weight1,bw.weight2,bw.weight3};
+ Array.Sort(weights,ids);Array.Reverse(weights);Array.Reverse(ids);
+ w[i]=new BoneWeight{boneIndex0=ids[0],boneIndex1=ids[1],boneIndex2=ids[2],boneIndex3=ids[3],weight0=weights[0],weight1=weights[1],weight2=weights[2],weight3=weights[3]};
+}
+mesh.boneWeights=w;mesh.bindposes=bind.ToArray();skirt.sharedMesh=mesh;skirt.bones=bones.ToArray();
+foreach(bool left in new[]{true,false})AddLeg(look.Bone(left?HumanBodyBones.LeftUpperLeg:HumanBodyBones.RightUpperLeg),look.Bone(left?HumanBodyBones.LeftLowerLeg:HumanBodyBones.RightLowerLeg));
+AddCollider(hips,look.Bone(HumanBodyBones.Chest),.125f);
+foreach(bool left in new[]{true,false}) {
+ var upper=look.Bone(left?HumanBodyBones.LeftUpperArm:HumanBodyBones.RightUpperArm);var lower=look.Bone(left?HumanBodyBones.LeftLowerArm:HumanBodyBones.RightLowerArm);var hand=look.Bone(left?HumanBodyBones.LeftHand:HumanBodyBones.RightHand);var middle=look.Bone(left?HumanBodyBones.LeftMiddleProximal:HumanBodyBones.RightMiddleProximal);
+ armSegments.Add((upper,lower,.055f));armSegments.Add((lower,hand,.070f));armSegments.Add((hand,middle,.075f));
+}
+cloth=cage.AddComponent<Cloth>();var coefficients=new ClothSkinningCoefficient[rest.Length];for(int i=0;i<rest.Length;i++)coefficients[i].maxDistance=i<Columns?0:i<2*Columns?.025f:Mathf.Lerp(.06f,.18f,(i/Columns)/(float)(Rows-1));
+var pelvis=new GameObject("Cloth pelvis").AddComponent<SphereCollider>();pelvis.transform.SetParent(hips,false);pelvis.center=hipBind.MultiplyPoint3x4(new Vector3(0,0,.84f));pelvisCollider=pelvis;pelvis.radius=.155f;pelvis.isTrigger=true;pelvis.gameObject.layer=2;ownedObjects.Add(pelvis.gameObject);cloth.sphereColliders=legs.Select(l=>new ClothSphereColliderPair(l.upper,l.lower)).Append(new ClothSphereColliderPair(pelvis)).ToArray();cloth.coefficients=coefficients;cloth.capsuleColliders=segments.Select(s=>s.collider).ToArray();cloth.useGravity=true;cloth.stretchingStiffness=1;cloth.bendingStiffness=.35f;cloth.damping=.35f;cloth.friction=.35f;cloth.worldVelocityScale=.05f;cloth.worldAccelerationScale=0;cloth.clothSolverFrequency=180;cloth.enableContinuousCollision=true;cloth.collisionMassScale=.5f;
+Apply(true);
+}
+void AddLeg(Transform a,Transform b){
+ SphereCollider Sphere(float radius){var c=new GameObject("Cloth thigh exclusion").AddComponent<SphereCollider>();c.transform.SetParent(transform,false);c.isTrigger=true;c.gameObject.layer=2;ownedObjects.Add(c.gameObject);c.radius=radius;return c;}
+ legs.Add(new Leg{a=a,b=b,upper=Sphere(.132f),lower=Sphere(.098f)});
+}
+void AddCollider(Transform a,Transform b,float radius){var c=new GameObject("Cloth exclusion").AddComponent<CapsuleCollider>();c.transform.SetParent(transform,false);c.isTrigger=true;c.gameObject.layer=2;ownedObjects.Add(c.gameObject);c.radius=radius;c.direction=1;segments.Add(new Segment{a=a,b=b,collider=c});}
+Quaternion Frame(Vector3[] p,int i){int row=i/Columns,col=i%Columns;var tangent=p[row*Columns+(col+1)%Columns]-p[row*Columns+(col+Columns-1)%Columns];var down=p[Mathf.Min(Rows-1,row+1)*Columns+col]-p[Mathf.Max(0,row-1)*Columns+col];var normal=Vector3.Cross(tangent,down);if(normal.sqrMagnitude<1e-10f||down.sqrMagnitude<1e-10f)return restFrame!=null&&restFrame[i]!=default?restFrame[i]:Quaternion.identity;return Quaternion.LookRotation(normal.normalized,down.normalized);}
+void Apply(bool initial=false){
+var hipWorld=hips.localToWorldMatrix*hipBind;float tilt=Vector3.Angle(hipWorld.MultiplyVector(Vector3.back),Vector3.down);float legBend=0;foreach(var leg in legs)legBend=Mathf.Max(legBend,Vector3.Angle(hipWorld.MultiplyVector(Vector3.back),leg.b.position-leg.a.position));
+float floor=Mathf.SmoothStep(0,1,Mathf.InverseLerp(35,70,tilt))*(1-Mathf.SmoothStep(0,1,Mathf.InverseLerp(40,65,legBend)));
+float crouch=Mathf.SmoothStep(0,1,Mathf.InverseLerp(45,85,legBend))*(1-floor);
+if(Mathf.Abs(floor-lastFloor)>.001f||Mathf.Abs(crouch-lastCrouch)>.001f)UpdateTargetWeights(floor,crouch);
+frameScale=Mathf.Abs(transform.lossyScale.x);
+foreach(var leg in legs){var direction=(leg.b.position-leg.a.position).normalized;leg.upper.transform.position=leg.a.position+direction*.10f;leg.lower.transform.position=leg.b.position;}
+foreach(var s in segments){var d=s.b.position-s.a.position;var start=s.a.position+d.normalized*.05f;s.collider.transform.SetPositionAndRotation((start+s.b.position)*.5f,Quaternion.FromToRotation(Vector3.up,d));s.collider.height=Vector3.Distance(start,s.b.position)+s.collider.radius*2;}
+var m=skirt.transform.worldToLocalMatrix*hips.localToWorldMatrix*hipBind;var space=skirt.transform.worldToLocalMatrix*proxy.rootBone.localToWorldMatrix;// Cloth.vertices are expressed in rootBone space, not renderer space.
+var p=initial?new Vector3[rest.Length]:cloth.vertices;
+if(initial){for(int i=0;i<p.Length;i++)p[i]=m.MultiplyPoint3x4(rest[i]);}
+else {
+ Vector3 Goal(int i){var w=currentWeights[i];var bind=cageMesh.bindposes;var bones=originalBones;return
+ (bones[w.boneIndex0].localToWorldMatrix*bind[w.boneIndex0]).MultiplyPoint3x4(rest[i])*w.weight0+
+ (bones[w.boneIndex1].localToWorldMatrix*bind[w.boneIndex1]).MultiplyPoint3x4(rest[i])*w.weight1+
+ (bones[w.boneIndex2].localToWorldMatrix*bind[w.boneIndex2]).MultiplyPoint3x4(rest[i])*w.weight2+
+ (bones[w.boneIndex3].localToWorldMatrix*bind[w.boneIndex3]).MultiplyPoint3x4(rest[i])*w.weight3;}
+ var a=p[0];var b=p[Columns/4];var c=p[Columns/2];var d=p[Columns*3/4];
+ var ga=Goal(0);var gb=Goal(Columns/4);var gc=Goal(Columns/2);var gd=Goal(Columns*3/4);
+ var sourceCenter=(a+b+c+d)*.25f;var targetCenter=(ga+gb+gc+gd)*.25f;
+ var from=Quaternion.LookRotation(a-c,Vector3.Cross(a-c,b-d));var to=Quaternion.LookRotation(ga-gc,Vector3.Cross(ga-gc,gb-gd));var rotation=to*Quaternion.Inverse(from);
+ float scale=((ga-gc).magnitude+(gb-gd).magnitude)/Mathf.Max(.001f,(a-c).magnitude+(b-d).magnitude);
+ for(int i=0;i<p.Length;i++)p[i]=skirt.transform.InverseTransformPoint(targetCenter+rotation*((p[i]-sourceCenter)*scale));
+}
+
+if(p.Length!=rest.Length)return;
+// Native cloth advances before the final animation pose. Project its small cage
+// against this frame's body volumes so fast turns cannot outrun collision.
+for(int i=0;i<p.Length;i++) {
+ var world=skirt.transform.TransformPoint(p[i]);
+
+ for(int pass=0;pass<6;pass++) {
+  foreach(var arm in armSegments)Project(ref world,arm.a.position,arm.b.position,arm.radius,arm.radius,.010f);
+  foreach(var leg in legs)Project(ref world,leg.upper.transform.position,leg.lower.transform.position,leg.upper.radius,leg.lower.radius,.012f);
+  var center=pelvisCollider.transform.TransformPoint(pelvisCollider.center);
+  Project(ref world,center,center,pelvisCollider.radius,pelvisCollider.radius,.008f);
+  foreach(var segment in segments){var a=segment.a.position+(segment.b.position-segment.a.position).normalized*.05f;Project(ref world,a,segment.b.position,segment.collider.radius,segment.collider.radius,.012f);}
+ }
+ p[i]=skirt.transform.InverseTransformPoint(world);
+}
+for(int i=0;i<rest.Length;i++){nodes[i].localPosition=p[i];nodes[i].localRotation=Frame(p,i)*Quaternion.Inverse(restFrame[i]);}
+}
+void UpdateTargetWeights(float floor,float crouch) {
+ lastFloor=floor;lastCrouch=crouch;
+ for(int i=0;i<currentWeights.Length;i++) {
+  Array.Clear(mass,0,mass.Length);var w=targetWeights[i];
+  float knee=crouch*Mathf.SmoothStep(0,1,(i/Columns)/(float)(Rows-1))*(1-Mathf.SmoothStep(0,1,Mathf.InverseLerp(-.02f,.06f,rest[i].y)))*.9f;
+  float source=(1-floor)*(1-knee);mass[w.boneIndex0]+=w.weight0*source;mass[w.boneIndex1]+=w.weight1*source;mass[w.boneIndex2]+=w.weight2*source;mass[w.boneIndex3]+=w.weight3*source;mass[hipIndex]+=floor*(1-knee);
+  float left=Mathf.Clamp01(.5f-rest[i].x/.14f);mass[leftLegIndex]+=knee*left;mass[rightLegIndex]+=knee*(1-left);
+  float sum=0;for(int k=0;k<4;k++){int best=0;for(int j=1;j<mass.Length;j++)if(mass[j]>mass[best])best=j;selected[k]=best;selectedMass[k]=mass[best];sum+=mass[best];mass[best]=0;}
+  currentWeights[i]=new BoneWeight{boneIndex0=selected[0],boneIndex1=selected[1],boneIndex2=selected[2],boneIndex3=selected[3],weight0=selectedMass[0]/sum,weight1=selectedMass[1]/sum,weight2=selectedMass[2]/sum,weight3=selectedMass[3]/sum};
+ }
+ cageMesh.boneWeights=currentWeights;
+}
+void Project(ref Vector3 point,Vector3 a,Vector3 b,float radiusA,float radiusB,float allowance) {
+ var axis=b-a;float t=axis.sqrMagnitude>1e-8f?Mathf.Clamp01(Vector3.Dot(point-a,axis)/axis.sqrMagnitude):0;
+ var center=Vector3.Lerp(a,b,t);var delta=point-center;float radius=(Mathf.Lerp(radiusA,radiusB,t)+allowance)*frameScale;
+ if(delta.sqrMagnitude<radius*radius)point=center+(delta.sqrMagnitude>1e-10f?delta.normalized:transform.forward)*radius;
+}
+void LateUpdate(){if(!cloth)return;long start=System.Diagnostics.Stopwatch.GetTimestamp();Apply();LastUpdateMilliseconds=(float)((System.Diagnostics.Stopwatch.GetTimestamp()-start)*1000.0/System.Diagnostics.Stopwatch.Frequency);}
+static uint PositionHash(Mesh mesh){uint hash=2166136261;unchecked{foreach(var p in mesh.vertices)foreach(float value in new[]{p.x,p.y,p.z})foreach(byte b in BitConverter.GetBytes(value))hash=(hash^b)*16777619;}return hash;}
+void OnDisable(){if(cloth)cloth.enabled=false;}
+void OnEnable(){if(cloth){cloth.enabled=true;cloth.ClearTransformMotion();}}
+void OnDestroy(){if(skirt){skirt.sharedMesh=originalMesh;skirt.bones=originalBones;}foreach(var o in ownedObjects)if(o)Destroy(o);if(ownedMesh)Destroy(ownedMesh);if(cageMesh)Destroy(cageMesh);}
+}}

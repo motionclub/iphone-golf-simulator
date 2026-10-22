@@ -1,0 +1,12 @@
+diff --git a/work/onboarding/baseline-owned-files/GolfArcade/Unity/SportProgress.swift b/GolfArcade/Unity/SportProgress.swift
+index a448a504..ac3d3f5d 100644
+--- a/work/onboarding/baseline-owned-files/GolfArcade/Unity/SportProgress.swift
++++ b/GolfArcade/Unity/SportProgress.swift
+@@ -59,6 +59,7 @@ final class SportProgress {
+     private static func key(_ s: Sport) -> String { "sport.\(s.rawValue).tutorialDone.v1" }
+ 
+     func finishedTutorial(_ s: Sport) -> Bool { tutorialDone.contains(s) }
++    var anyTutorialDone: Bool { finishedTutorial(.tennis) || finishedTutorial(.golf) }
+     func completeTutorial(_ s: Sport) { tutorialDone.insert(s); defaults.set(true, forKey: Self.key(s)) }
+     func resetTutorials() {
+         for s in Sport.allCases { defaults.removeObject(forKey: Self.key(s)) }

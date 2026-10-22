@@ -1,0 +1,29 @@
+{
+  "status": "PASS staged integration; all-six actual adoption pending",
+  "production_or_unity_writes": false,
+  "gpu_runs": false,
+  "checks": {
+    "pbx_plists": "PASS both",
+    "patch_apply_checks": "PASS both -p0",
+    "python_shell_syntax": "PASS",
+    "installed_native_and_harness_typecheck": "PASS",
+    "staged_xctest_parse": "PASS; build/execution pending",
+    "prior_two_export_resource_rehearsal": "PASS58 resources; both staged app phases"
+  },
+  "pending": [
+    "fresh main/distance/GolfKit six exports",
+    "all-six exact package audit",
+    "12-frame desktop Metal parity and picture review",
+    "native build-for-testing and built .app hash audit",
+    "XCTest independent fresh goldens; Unity-linked build root-owned"
+  ],
+  "patches": {
+    "resource-registration.patch": "2aa675b41b7bd0260b53bc83f2a3e3520a803de064c9905878836937b795604d",
+    "test-contract-migration.patch": "2c276514ffefa3983dee504d1b5813336a81264981244977e019e64f5473e98a"
+  },
+  "runtime_current": {
+    "MatchHeroData.swift": "eb0010d38bf9984180cac2a2f5dd5495aae8348539d62e434030451329a71b55",
+    "MatchHeroSurfaces.swift": "481bc244a455c68aa945f58225efeaea1c039492be62026e6140ff22d9320cac",
+    "MatchHeroMotion.swift": "84af0e6c6d7a915dae62e92397b30ffef5d34e14fe3dccafa9d869ee73e0592c"
+  }
+}

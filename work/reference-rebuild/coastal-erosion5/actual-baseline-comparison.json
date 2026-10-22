@@ -1,0 +1,23 @@
+{
+  "comparison": "coastal-colour4 -> coastal-erosion5",
+  "obstacleCountBefore": 159,
+  "obstacleCountAfter": 159,
+  "obstacleHashExact": true,
+  "colliderCountExact": true,
+  "groundContractsExact": true,
+  "snapshotOnlyCounters": {
+    "before": {
+      "drawCalls": 465,
+      "triangles": 3188149,
+      "cameraMeshTriangles": 1617315,
+      "cameraMaterialPasses": 176
+    },
+    "after": {
+      "drawCalls": 465,
+      "triangles": 3188149,
+      "cameraMeshTriangles": 1617315,
+      "cameraMaterialPasses": 176
+    }
+  },
+  "counterLimitations": "These are capture snapshot counters, not sole-camera published device/frame performance evidence."
+}

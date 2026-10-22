@@ -1,0 +1,405 @@
+{
+ "verdict": "FAIL",
+ "lines": [
+  {
+   "id": "L1",
+   "clip": "Emote_Scuba",
+   "ok": true
+  },
+  {
+   "id": "P1",
+   "clip": "Emote_Scuba",
+   "ok": true
+  },
+  {
+   "id": "B1",
+   "clip": "Emote_Scuba",
+   "ok": true
+  },
+  {
+   "id": "R1",
+   "clip": "Emote_Scuba",
+   "ok": false
+  },
+  {
+   "id": "F1",
+   "clip": "Emote_Scuba",
+   "ok": true
+  },
+  {
+   "id": "S1",
+   "clip": "Emote_Scuba",
+   "ok": true
+  },
+  {
+   "id": "S2",
+   "clip": "Emote_Scuba",
+   "ok": true
+  },
+  {
+   "id": "S3",
+   "clip": "Emote_Scuba",
+   "ok": true
+  },
+  {
+   "id": "S4",
+   "clip": "Emote_Scuba",
+   "ok": true
+  },
+  {
+   "id": "same timing (L1)",
+   "clip": "Emote_Scuba",
+   "ok": true
+  },
+  {
+   "id": "L1",
+   "clip": "Emote_Thrust",
+   "ok": true
+  },
+  {
+   "id": "P1",
+   "clip": "Emote_Thrust",
+   "ok": true
+  },
+  {
+   "id": "B1",
+   "clip": "Emote_Thrust",
+   "ok": true
+  },
+  {
+   "id": "R1",
+   "clip": "Emote_Thrust",
+   "ok": false
+  },
+  {
+   "id": "F1",
+   "clip": "Emote_Thrust",
+   "ok": true
+  },
+  {
+   "id": "T1",
+   "clip": "Emote_Thrust",
+   "ok": true
+  },
+  {
+   "id": "T2",
+   "clip": "Emote_Thrust",
+   "ok": true
+  },
+  {
+   "id": "T3",
+   "clip": "Emote_Thrust",
+   "ok": true
+  },
+  {
+   "id": "T4",
+   "clip": "Emote_Thrust",
+   "ok": false
+  },
+  {
+   "id": "same timing (L1)",
+   "clip": "Emote_Thrust",
+   "ok": true
+  },
+  {
+   "id": "L1",
+   "clip": "Emote_Spike",
+   "ok": true
+  },
+  {
+   "id": "P1",
+   "clip": "Emote_Spike",
+   "ok": true
+  },
+  {
+   "id": "B1",
+   "clip": "Emote_Spike",
+   "ok": true
+  },
+  {
+   "id": "R1",
+   "clip": "Emote_Spike",
+   "ok": true
+  },
+  {
+   "id": "F1",
+   "clip": "Emote_Spike",
+   "ok": true
+  },
+  {
+   "id": "K1",
+   "clip": "Emote_Spike",
+   "ok": true
+  },
+  {
+   "id": "K2",
+   "clip": "Emote_Spike",
+   "ok": true
+  },
+  {
+   "id": "K3",
+   "clip": "Emote_Spike",
+   "ok": true
+  },
+  {
+   "id": "K4",
+   "clip": "Emote_Spike",
+   "ok": true
+  },
+  {
+   "id": "K5",
+   "clip": "Emote_Spike",
+   "ok": true
+  },
+  {
+   "id": "same timing (L1)",
+   "clip": "Emote_Spike",
+   "ok": true
+  },
+  {
+   "id": "L1",
+   "clip": "Intro_Wave",
+   "ok": true
+  },
+  {
+   "id": "P1",
+   "clip": "Intro_Wave",
+   "ok": true
+  },
+  {
+   "id": "B1",
+   "clip": "Intro_Wave",
+   "ok": true
+  },
+  {
+   "id": "R1",
+   "clip": "Intro_Wave",
+   "ok": false
+  },
+  {
+   "id": "F1",
+   "clip": "Intro_Wave",
+   "ok": true
+  },
+  {
+   "id": "W1",
+   "clip": "Intro_Wave",
+   "ok": true
+  },
+  {
+   "id": "W2",
+   "clip": "Intro_Wave",
+   "ok": true
+  },
+  {
+   "id": "same timing (L1)",
+   "clip": "Intro_Wave",
+   "ok": true
+  },
+  {
+   "id": "L1",
+   "clip": "Intro_BringIt",
+   "ok": true
+  },
+  {
+   "id": "P1",
+   "clip": "Intro_BringIt",
+   "ok": true
+  },
+  {
+   "id": "B1",
+   "clip": "Intro_BringIt",
+   "ok": true
+  },
+  {
+   "id": "R1",
+   "clip": "Intro_BringIt",
+   "ok": false
+  },
+  {
+   "id": "F1",
+   "clip": "Intro_BringIt",
+   "ok": true
+  },
+  {
+   "id": "C1",
+   "clip": "Intro_BringIt",
+   "ok": true
+  },
+  {
+   "id": "C2",
+   "clip": "Intro_BringIt",
+   "ok": true
+  },
+  {
+   "id": "C3",
+   "clip": "Intro_BringIt",
+   "ok": true
+  },
+  {
+   "id": "same timing (L1)",
+   "clip": "Intro_BringIt",
+   "ok": true
+  },
+  {
+   "id": "L1",
+   "clip": "Intro_Pushups",
+   "ok": true
+  },
+  {
+   "id": "P1",
+   "clip": "Intro_Pushups",
+   "ok": true
+  },
+  {
+   "id": "B1",
+   "clip": "Intro_Pushups",
+   "ok": true
+  },
+  {
+   "id": "R1",
+   "clip": "Intro_Pushups",
+   "ok": true
+  },
+  {
+   "id": "F1",
+   "clip": "Intro_Pushups",
+   "ok": true
+  },
+  {
+   "id": "U1",
+   "clip": "Intro_Pushups",
+   "ok": true
+  },
+  {
+   "id": "U2",
+   "clip": "Intro_Pushups",
+   "ok": true
+  },
+  {
+   "id": "U3",
+   "clip": "Intro_Pushups",
+   "ok": true
+  },
+  {
+   "id": "U4",
+   "clip": "Intro_Pushups",
+   "ok": true
+  },
+  {
+   "id": "same timing (L1)",
+   "clip": "Intro_Pushups",
+   "ok": true
+  },
+  {
+   "id": "N1",
+   "clip": "all",
+   "ok": true
+  },
+  {
+   "id": "N2",
+   "clip": "all",
+   "ok": true
+  },
+  {
+   "id": "G1",
+   "clip": "all",
+   "ok": true
+  },
+  {
+   "id": "G2",
+   "clip": "all",
+   "ok": true
+  },
+  {
+   "id": "G3",
+   "clip": "all",
+   "ok": true
+  },
+  {
+   "id": "X1",
+   "clip": "all",
+   "ok": true
+  },
+  {
+   "id": "X2",
+   "clip": "all",
+   "ok": false
+  }
+ ],
+ "failed": [
+  {
+   "id": "R1",
+   "clip": "Emote_Scuba"
+  },
+  {
+   "id": "R1",
+   "clip": "Emote_Thrust"
+  },
+  {
+   "id": "T4",
+   "clip": "Emote_Thrust"
+  },
+  {
+   "id": "R1",
+   "clip": "Intro_Wave"
+  },
+  {
+   "id": "R1",
+   "clip": "Intro_BringIt"
+  },
+  {
+   "id": "X2",
+   "clip": "all"
+  }
+ ],
+ "supplement": {
+  "male": {
+   "T4_thrust_window_frames": [
+    11,
+    47
+   ],
+   "T4_min_wrist_to_hips_in_window_m": 0.41837712040130753,
+   "T4_min_over_all_frames_m": 0.19208804108076372,
+   "T4_min_in_the_ReadyIdle_clip_itself_m": 0.18692990427160333
+  },
+  "female": {
+   "T4_thrust_window_frames": [
+    11,
+    47
+   ],
+   "T4_min_wrist_to_hips_in_window_m": 0.4064043064657781,
+   "T4_min_over_all_frames_m": 0.1933906754692223,
+   "T4_min_in_the_ReadyIdle_clip_itself_m": 0.1889594402321916
+  },
+  "R1_noise_floor_shipped_clips": {
+   "Male_Forehand": {
+    "max_rot_dev_deg": 0.07912937001338383,
+    "max_pos_dev_m": 1.8189184913808276e-07
+   },
+   "Male_ReadyIdle": {
+    "max_rot_dev_deg": 0.07401874722002606,
+    "max_pos_dev_m": 1.5041364065382368e-07
+   },
+   "Female_Forehand": {
+    "max_rot_dev_deg": 0.1370561110185936,
+    "max_pos_dev_m": 2.682209014892578e-07
+   },
+   "Female_ReadyIdle": {
+    "max_rot_dev_deg": 0.1341703946898555,
+    "max_pos_dev_m": 1.2731557319511921e-07
+   }
+  },
+  "R1_in_game_max_grip_hand_distance_m": {
+   "Male_Emote_Scuba": 0.0,
+   "Male_Emote_Thrust": 0.0,
+   "Male_Intro_Wave": 0.0,
+   "Male_Intro_BringIt": 0.0,
+   "Female_Emote_Scuba": 0.0,
+   "Female_Emote_Thrust": 0.0,
+   "Female_Intro_Wave": 0.0,
+   "Female_Intro_BringIt": 0.0
+  }
+ },
+ "finished": "2026-10-04 16:02:55"
+}

@@ -1,0 +1,16 @@
+# Golf look — GATE PRECONDITIONS: WAITING
+
+Read the full 30_GOLF_SHADERS_AND_KIT_SOL_GOAL.txt, AGENTS.md, AUDIT.md and REPORT.md.
+Goal remains incomplete. No commits were made; only task-owned preparation is staged.
+
+15: HEAD 2225264c; v3/PHASE_STATUS explicitly says P8 NOT RUN. RESUME is stale and is not a completion certificate. Need a genuine course-only P8 commit before touching any course-owned file.
+29: Codex chat 01a10d4b-7d91-7183-ae74-92c78736a28b active; draft GARMENT_SPEC now exists, but there is no final completion report or dependency release. It has already changed TennisCloth and MatchHeroLook, so do not edit them. Locker preview also changed concurrently.
+
+Ready: protected-input snapshots, course source/material/texture/shader audit, P1 design in ArtDir/hero/kit/golf/, isolated Male/Female Blender drafts, construction review sheets, fabric prototypes, 1170×2532 proof-tool source draft, and NEXT_SWING.md.
+Not ready: exact Unity/aerial BEFORE captures, P4 swing retarget and deformation measurements, final garment AO/N/M bakes, shared shader profiles, ground/rock runtime shaders, locker integration, iPhone/Metal timing, tennis diff proofs, G12 eye approval.
+
+Draft defects are recorded, not waived: sharpen actual collar stand/vent/cuff construction, add trouser pocket openings, improve shoe saddle boundary, finish female pleats/inner-shorts detail, prove glove perforations/knuckle articulation, and measure both-handed swing extremes. Draft Blender renders are geometry reviews only and never count as Unity light/identity evidence.
+
+On continuation first check git history + v3 phase file, final cloth REPORT/GARMENT_SPEC, and the owner's compact status. If G0 is still WAITING, obey prompt section 0: stop without editing owned integration files. Record the repeated blocking turn; only after the same external blockers occur on three consecutive goal turns with no authorized progress left may the goal be marked blocked. Do not mark complete or paused.
+
+When G0 clears: capture fresh dependency baselines (the original snapshots are pre-29), refresh kit budget against delivered tennis kit, install proof tools only into an isolated Unity copy, and run Unity only through work/postcard-look/heavy.sh. The proof tool is UNCOMPILED and its aerial matrix is provisional; copy 15's exact delivered camera transform before claiming aerial parity. Build all gates on actual captures. Stage only our explicit paths, no commit. Adnan's eye is required at G12.

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="1" result="Passed" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-06 18:08:38Z" end-time="2026-10-06 18:08:53Z" duration="15.7815131">
+  <test-suite type="TestSuite" id="1008" name="Golf Arcade" fullname="Golf Arcade" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-06 18:08:38Z" end-time="2026-10-06 18:08:53Z" duration="15.781513" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1003" name="GolfArcade.PlayTests.dll" fullname="/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/golf-look/device/combined/Source/Unity/Library/ScriptAssemblies/GolfArcade.PlayTests.dll" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-06 18:08:38Z" end-time="2026-10-06 18:08:53Z" duration="15.778176" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="63857" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestSuite" id="1004" name="GolfArcade" fullname="GolfArcade" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-06 18:08:38Z" end-time="2026-10-06 18:08:53Z" duration="15.777806" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1005" name="PlayTests" fullname="GolfArcade.PlayTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-06 18:08:38Z" end-time="2026-10-06 18:08:53Z" duration="15.777567" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1001" name="NativeGolfFlowTests" fullname="GolfArcade.PlayTests.NativeGolfFlowTests" classname="GolfArcade.PlayTests.NativeGolfFlowTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-06 18:08:38Z" end-time="2026-10-06 18:08:53Z" duration="15.777022" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1002" name="NativeRoundAcceptsAShotAndExitsWithoutOpeningTheLegacyMenu" fullname="GolfArcade.PlayTests.NativeGolfFlowTests.NativeRoundAcceptsAShotAndExitsWithoutOpeningTheLegacyMenu" methodname="NativeRoundAcceptsAShotAndExitsWithoutOpeningTheLegacyMenu" classname="GolfArcade.PlayTests.NativeGolfFlowTests" runstate="Runnable" seed="944127837" result="Passed" start-time="2026-10-06 18:08:38Z" end-time="2026-10-06 18:08:53Z" duration="15.769956" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[GolfSurfaceEdges] original top-boundary segments 160/568/216/4; 256x256, 262144 bytes, geometry unchanged
+[GolfSurfaceBatching] 165 original visual renderers into 51 bounded groups; meshes/colliders/scoring unchanged
+Detected one or more triangles where the distance between any 2 vertices is greater than 500 units. The resulting Triangle Mesh can impact simulation and query stability. It is recommended to tessellate meshes that have large triangles. Source mesh name: TERRAIN_ISLAND
+[GolfSurfaceEdges] original top-boundary segments 160/568/216/4; 256x256, 262144 bytes, geometry unchanged
+[GolfSurfaceBatching] 165 original visual renderers into 51 bounded groups; meshes/colliders/scoring unchanged
+DONE PlayMode: 1 passed, 0 failed, 0 skipped
+<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /Users/adnanyonathan/Library/Application Support/aloniewski/Golf Arcade/TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

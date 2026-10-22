@@ -1,0 +1,22 @@
+{
+ "zones": {
+  "PELVIS": "z in [0.77,1.07], |x|<=0.22",
+  "LEG_TOP": "z in [0.705,0.77), |x|<=0.22"
+ },
+ "moved_before_mask": 3101,
+ "moved_outside_zone_before_mask": 0,
+ "moved": 2655,
+ "moved_in_PELVIS": 2150,
+ "moved_in_LEG_TOP": 505,
+ "moved_outside_zones": 0,
+ "max_move_mm": 25.97475989951573,
+ "mean_move_mm": 4.749149590507848,
+ "max_move_PELVIS_mm": 25.97475989951573,
+ "max_move_LEG_TOP_mm": 25.017702473671413,
+ "moved_below_z0p735": 175,
+ "max_move_below_z0p735_mm": 8.091891499003463,
+ "max_dx_mm": 9.983772411942482,
+ "max_dy_mm": 14.219505712389946,
+ "max_dz_mm": 25.940656661987305,
+ "max_move_at_zone_edge_band_mm": 0.7554609061018779
+}

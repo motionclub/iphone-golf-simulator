@@ -18,7 +18,7 @@ namespace GolfArcade.Tennis
 
         void Update()
         {
-            if (Application.isEditor || Time.timeScale == 0) return;
+            if (Application.isEditor || Time.timeScale == 0 || GolfArcade.EnvironmentArt.LuminousCoastPilot.Active) return;
             // With 120 Hz swing input (InputRate) only every other loop is drawn: judge the frames the TV gets, and start
             // the window again whenever the loop rate changes.
             if (inputRate != GolfArcade.Game.InputRate.Generation) { inputRate = GolfArcade.Game.InputRate.Generation; elapsed = 0; frames = late = 0; sinceDrawn = 0; settle = Mathf.Max(settle, 1); }

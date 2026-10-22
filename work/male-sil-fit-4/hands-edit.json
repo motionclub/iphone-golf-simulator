@@ -1,0 +1,10 @@
+{
+  "part": "distal hands / thumb volume",
+  "baseline_sha256": "d977d900d02058c4893d5169e690675a6379ae1e328ca26dbe2dc7648301ca6a",
+  "method": "Local existing-coordinate unfolding using verified historical thumb vertex correspondence, continuous wrist falloff and plate-guided thumb placement. Current head, torso, legs and arm depth above wrist retained. No restart, remesh or replacement mesh.",
+  "changed_vertices": 1348,
+  "maximum_displacement_metres": 0.04324312076279799,
+  "hand_scope": "Original corresponding vertices with |X|>0.50m and Z<0.953m, fades to zero at wrist; no changes below Z 0.745m.",
+  "no_vertices_added_removed": true,
+  "head_unchanged": true
+}

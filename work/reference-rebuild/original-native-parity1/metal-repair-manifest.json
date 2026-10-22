@@ -1,0 +1,7 @@
+{
+  "base_sha256": "f51509b087453b22a817aec4693f66a3d59322345e9ba2356063cd30b676d3a1",
+  "candidate_sha256": "481bc244a455c68aa945f58225efeaea1c039492be62026e6140ff22d9320cac",
+  "cause": "SceneKit modifier argument parser accepts individual declarations; arguments shared across modifier stages must not repeat",
+  "change": "single declarations for six surface-only arguments; shared headOrigin/athleteSurface/skinFinish remain once in lighting modifier",
+  "color_repair": "Relative texture tint now applied to diffuse albedo before lighting; removed post-light multiply/double skin tint"
+}

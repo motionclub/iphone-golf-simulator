@@ -18,7 +18,7 @@ namespace GolfArcade.Tennis
                 Hint = "Turn the phone before the ball arrives, then swing across your chest. Your player handles the running." },
             new Step { Kind = Kind.Aim, Goal = 1,
                 Say = "AIM LEFT: swing a touch EARLY, just before the ball reaches your racket. Early goes left, on the ball goes straight, late goes right. Land a return toward the gold ring.",
-                Hint = "Start the swing a beat before the ring closes. A little early goes left; a lot early goes to the corner. In touch mode, use the aim pad, then tap Swing." },
+                Hint = "Start the swing a beat before the ring closes. A little early goes left; a lot early goes to the corner. In touch mode, tap Swing a beat early too." },
             new Step { Kind = Kind.Serve, Goal = 1,
                 Say = "SERVE: press TOSS near the meter's middle. Swing overhead as the ball reaches its highest point. Land one in the box.",
                 Hint = "Leave the aim in the middle. Press TOSS, watch the ball rise, then swing. If you miss the toss, try again." },
@@ -38,7 +38,7 @@ namespace GolfArcade.Tennis
         public string TouchInstruction => Current.Kind switch {
             Kind.Forehand => "FOREHAND: your player runs to the ball. Tap SWING as the ball rises after the bounce.",
             Kind.Backhand => "BACKHAND: the ball is on your other side. Your player handles the running. Tap SWING after the bounce.",
-            Kind.Aim => "AIM LEFT: move the aim pad left, then tap SWING after the bounce. Land one return toward the gold ring.",
+            Kind.Aim => "AIM LEFT: tap SWING a touch early, before the ball reaches your racket. Land one return toward the gold ring.",
             Kind.Serve => "SERVE: tap TOSS near the meter’s middle, then tap SWING when the ball peaks. Land one in the box.",
             _ => "PLAY A POINT: toss, serve and tap SWING to return. Win or lose, the lesson is complete!"
         };

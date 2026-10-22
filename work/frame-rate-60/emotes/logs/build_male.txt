@@ -1,0 +1,144 @@
+== jumpjoy racket
+INFO:scenario:Scenario for Blender registered
+REPLAY_MAX_MM 0.003
+INFO {"dz_to": 0.0745, "dz_td": 0.0537, "v_to": 2.4536, "v_td": -2.5353, "t_flight": 0.5086, "f_td": 30.2565, "f_bot": 33.8717, "apex": 0.3813}
+MIN_BODY_Z 0.0021 at 20 MIN_RACKET_Z 0.28
+BUILD_DONE male Emote_JumpJoy 125
+INFO:scenario:Scenario for Blender unregistered
+== jumpjoy none
+INFO:scenario:Scenario for Blender registered
+REPLAY_MAX_MM 0.003
+INFO {"dz_to": 0.0745, "dz_td": 0.0537, "v_to": 2.4536, "v_td": -2.5353, "t_flight": 0.5086, "f_td": 30.2565, "f_bot": 33.8717, "apex": 0.3813}
+MIN_BODY_Z 0.0021 at 20 MIN_RACKET_Z 0.28
+BUILD_DONE male Emote_JumpJoy_Free 125
+INFO:scenario:Scenario for Blender unregistered
+== fistpump racket
+INFO:scenario:Scenario for Blender registered
+REPLAY_MAX_MM 0.003
+INFO {}
+MIN_BODY_Z 0.0015 at 10 MIN_RACKET_Z 0.197
+BUILD_DONE male Emote_FistPump 95
+INFO:scenario:Scenario for Blender unregistered
+== fistpump none
+INFO:scenario:Scenario for Blender registered
+REPLAY_MAX_MM 0.003
+INFO {}
+MIN_BODY_Z 0.0015 at 10 MIN_RACKET_Z 0.197
+BUILD_DONE male Emote_FistPump_Free 95
+INFO:scenario:Scenario for Blender unregistered
+== stomp racket
+INFO:scenario:Scenario for Blender registered
+REPLAY_MAX_MM 0.003
+INFO {}
+MIN_BODY_Z 0.0021 at 29 MIN_RACKET_Z 0.17
+BUILD_DONE male Emote_Stomp 131
+INFO:scenario:Scenario for Blender unregistered
+== stomp none
+INFO:scenario:Scenario for Blender registered
+REPLAY_MAX_MM 0.003
+INFO {}
+MIN_BODY_Z 0.0021 at 29 MIN_RACKET_Z 0.17
+BUILD_DONE male Emote_Stomp_Free 131
+INFO:scenario:Scenario for Blender unregistered
+== slump racket
+INFO:scenario:Scenario for Blender registered
+REPLAY_MAX_MM 0.003
+INFO {}
+MIN_BODY_Z 0.0006 at 58 MIN_RACKET_Z 0.13
+BUILD_DONE male Emote_Slump 155
+INFO:scenario:Scenario for Blender unregistered
+== slump none
+INFO:scenario:Scenario for Blender registered
+REPLAY_MAX_MM 0.003
+INFO {}
+MIN_BODY_Z 0.0006 at 58 MIN_RACKET_Z 0.13
+BUILD_DONE male Emote_Slump_Free 155
+INFO:scenario:Scenario for Blender unregistered
+== shock racket
+INFO:scenario:Scenario for Blender registered
+REPLAY_MAX_MM 0.003
+INFO {}
+MIN_BODY_Z 0.0014 at 16 MIN_RACKET_Z 0.985
+BUILD_DONE male Emote_Shock 131
+INFO:scenario:Scenario for Blender unregistered
+== shock none
+INFO:scenario:Scenario for Blender registered
+REPLAY_MAX_MM 0.003
+INFO {}
+MIN_BODY_Z 0.0014 at 16 MIN_RACKET_Z 0.985
+BUILD_DONE male Emote_Shock_Free 131
+INFO:scenario:Scenario for Blender unregistered
+== victory racket
+INFO:scenario:Scenario for Blender registered
+REPLAY_MAX_MM 0.004
+INFO {"dz_to": 0.0745, "dz_td": 0.0537, "v_to": 2.6936, "f_td": 31.7027, "f_bot": 35.1762, "apex": 0.4443, "t_flight": 0.5568}
+MIN_BODY_Z 0.002 at 70 MIN_RACKET_Z 0.661
+BUILD_DONE male Emote_Victory 191
+INFO:scenario:Scenario for Blender unregistered
+== victory none
+INFO:scenario:Scenario for Blender registered
+REPLAY_MAX_MM 0.004
+INFO {"dz_to": 0.0745, "dz_td": 0.0537, "v_to": 2.6936, "f_td": 31.7027, "f_bot": 35.1762, "apex": 0.4443, "t_flight": 0.5568}
+MIN_BODY_Z 0.002 at 70 MIN_RACKET_Z 0.661
+BUILD_DONE male Emote_Victory_Free 191
+INFO:scenario:Scenario for Blender unregistered
+== defeat racket
+INFO:scenario:Scenario for Blender registered
+REPLAY_MAX_MM 0.003
+INFO {"kneel_dz": -0.4068, "kneel_df": 0.4991, "knee_f": 0.6079, "ankle_z": 0.1767}
+MIN_BODY_Z -0.0048 at 30 MIN_RACKET_Z 0.027
+BUILD_DONE male Emote_Defeat 199
+INFO:scenario:Scenario for Blender unregistered
+== defeat none
+INFO:scenario:Scenario for Blender registered
+REPLAY_MAX_MM 0.003
+INFO {"kneel_dz": -0.4068, "kneel_df": 0.4991, "knee_f": 0.6079, "ankle_z": 0.1767}
+MIN_BODY_Z -0.0048 at 30 MIN_RACKET_Z 0.027
+BUILD_DONE male Emote_Defeat_Free 199
+INFO:scenario:Scenario for Blender unregistered
+== walk none
+INFO:scenario:Scenario for Blender registered
+REPLAY_MAX_MM 0.004
+INFO {"max_leg_extension": 0.985, "clip_speed": 1.2, "period_frames": 64.0, "step_m": 0.64, "cadence_spm": 112.5, "hips_guard_mm": 17.5475}
+MIN_BODY_Z 0.0003 at 7 MIN_RACKET_Z 0.35
+BUILD_DONE male Walk_Free 65
+INFO:scenario:Scenario for Blender unregistered
+== run none
+INFO:scenario:Scenario for Blender registered
+REPLAY_MAX_MM 0.003
+INFO {"max_leg_extension": 0.985, "clip_speed": 3.5, "period_frames": 40.0, "step_m": 1.1667, "cadence_spm": 180.0, "hips_guard_mm": 30.4854}
+MIN_BODY_Z 0.001 at 21 MIN_RACKET_Z 0.422
+BUILD_DONE male Run_Free 41
+INFO:scenario:Scenario for Blender unregistered
+FBX export starting... '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/frame-rate-60/emotes/fbx/Male_Emote_JumpJoy.fbx'
+FBX Emote_JumpJoy 125 3073212 /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/frame-rate-60/emotes/fbx/Male_Emote_JumpJoy.fbx
+FBX export starting... '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/frame-rate-60/emotes/fbx/Male_Emote_JumpJoy_Free.fbx'
+FBX Emote_JumpJoy_Free 125 744428 /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/frame-rate-60/emotes/fbx/Male_Emote_JumpJoy_Free.fbx
+FBX export starting... '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/frame-rate-60/emotes/fbx/Male_Emote_FistPump.fbx'
+FBX Emote_FistPump 95 2975660 /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/frame-rate-60/emotes/fbx/Male_Emote_FistPump.fbx
+FBX export starting... '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/frame-rate-60/emotes/fbx/Male_Emote_FistPump_Free.fbx'
+FBX Emote_FistPump_Free 95 656716 /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/frame-rate-60/emotes/fbx/Male_Emote_FistPump_Free.fbx
+FBX export starting... '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/frame-rate-60/emotes/fbx/Male_Emote_Stomp.fbx'
+FBX Emote_Stomp 131 3092780 /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/frame-rate-60/emotes/fbx/Male_Emote_Stomp.fbx
+FBX export starting... '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/frame-rate-60/emotes/fbx/Male_Emote_Stomp_Free.fbx'
+FBX Emote_Stomp_Free 131 762204 /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/frame-rate-60/emotes/fbx/Male_Emote_Stomp_Free.fbx
+FBX export starting... '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/frame-rate-60/emotes/fbx/Male_Emote_Slump.fbx'
+FBX Emote_Slump 155 3174700 /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/frame-rate-60/emotes/fbx/Male_Emote_Slump.fbx
+FBX export starting... '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/frame-rate-60/emotes/fbx/Male_Emote_Slump_Free.fbx'
+FBX Emote_Slump_Free 155 838828 /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/frame-rate-60/emotes/fbx/Male_Emote_Slump_Free.fbx
+FBX export starting... '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/frame-rate-60/emotes/fbx/Male_Emote_Shock.fbx'
+FBX Emote_Shock 131 3090268 /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/frame-rate-60/emotes/fbx/Male_Emote_Shock.fbx
+FBX export starting... '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/frame-rate-60/emotes/fbx/Male_Emote_Shock_Free.fbx'
+FBX Emote_Shock_Free 131 761692 /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/frame-rate-60/emotes/fbx/Male_Emote_Shock_Free.fbx
+FBX export starting... '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/frame-rate-60/emotes/fbx/Male_Emote_Victory.fbx'
+FBX Emote_Victory 191 3301708 /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/frame-rate-60/emotes/fbx/Male_Emote_Victory.fbx
+FBX export starting... '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/frame-rate-60/emotes/fbx/Male_Emote_Victory_Free.fbx'
+FBX Emote_Victory_Free 191 951420 /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/frame-rate-60/emotes/fbx/Male_Emote_Victory_Free.fbx
+FBX export starting... '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/frame-rate-60/emotes/fbx/Male_Emote_Defeat.fbx'
+FBX Emote_Defeat 199 3311404 /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/frame-rate-60/emotes/fbx/Male_Emote_Defeat.fbx
+FBX export starting... '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/frame-rate-60/emotes/fbx/Male_Emote_Defeat_Free.fbx'
+FBX Emote_Defeat_Free 199 959660 /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/frame-rate-60/emotes/fbx/Male_Emote_Defeat_Free.fbx
+FBX export starting... '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/frame-rate-60/emotes/fbx/Male_Walk_Free.fbx'
+FBX Walk_Free 65 554124 /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/frame-rate-60/emotes/fbx/Male_Walk_Free.fbx
+FBX export starting... '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/frame-rate-60/emotes/fbx/Male_Run_Free.fbx'
+FBX Run_Free 41 476636 /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/frame-rate-60/emotes/fbx/Male_Run_Free.fbx

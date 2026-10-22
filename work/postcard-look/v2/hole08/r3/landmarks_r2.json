@@ -1,0 +1,62 @@
+{
+  "shots": [
+    {
+      "name": "hole08_tee",
+      "hole": 8,
+      "kind": "address",
+      "ball": [
+        0,
+        0
+      ],
+      "aim": [
+        19,
+        178
+      ],
+      "putting": false
+    },
+    {
+      "name": "hole08_approach",
+      "hole": 8,
+      "kind": "address",
+      "ball": [
+        19,
+        178
+      ],
+      "aim": [
+        -6,
+        340
+      ],
+      "putting": false
+    },
+    {
+      "name": "hole08_arch",
+      "hole": 8,
+      "kind": "landmark",
+      "pos": [
+        -9.84,
+        10.37,
+        301.84
+      ],
+      "look": [
+        -28.7,
+        10.72,
+        317.0
+      ],
+      "fov": 60.0
+    },
+    {
+      "name": "hole08_pathball",
+      "hole": 8,
+      "kind": "address",
+      "ball": [
+        0.8,
+        18.0
+      ],
+      "aim": [
+        19,
+        178
+      ],
+      "putting": false
+    }
+  ]
+}

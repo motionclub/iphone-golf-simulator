@@ -1,0 +1,114 @@
+{
+ "gate": "PASS",
+ "sil_front": 3.97,
+ "sil_back": 4.2166,
+ "tris": 49304,
+ "verts": 24652,
+ "polys": 24670,
+ "blend_sha": "57a08123bd714e58d744e2a59780e6aacb81dd71879f3ffeb14b31725eee6d73",
+ "fbx_sha": "db600eb1fd9eec00b5077da2a9ed49fe489e4619fffb4b38b97df91617f962cc",
+ "moved": 1746,
+ "moved_all_in_hand_shell": true,
+ "moved_original_body_vertices": 0,
+ "weld_ring_vertices": 84,
+ "weld_ring_unchanged": true,
+ "same_faces_as_lock": true,
+ "max_disp_mm": 23.71894442287907,
+ "height_m": 1.702187418937683,
+ "regression_regions": {
+  "SHOULDERS": {
+   "verts": 4806,
+   "changed": 0,
+   "max_disp_mm": 0.0
+  },
+  "WAIST": {
+   "verts": 1832,
+   "changed": 0,
+   "max_disp_mm": 0.0
+  },
+  "ARMS_SIDE(upper+fore, above wrist)": {
+   "verts": 3366,
+   "changed": 0,
+   "max_disp_mm": 0.0
+  },
+  "FEET_SIDE": {
+   "verts": 3482,
+   "changed": 0,
+   "max_disp_mm": 0.0
+  }
+ },
+ "fbx_reimport_max_mm": 0.00027939677238464355,
+ "start_lock_sha": "35766aea1c493bab0ce1bddd6bc7639c4b304630c500c1d654b4336c2e113d90",
+ "hand_params": {
+  "r_a": 0.0136,
+  "r_n": 0.0185,
+  "gap": 0.0016,
+  "taper": 0.08,
+  "taper2": 0.03,
+  "tip_bulb": 0.14,
+  "f_tip": [
+   0.15,
+   0.162,
+   0.154,
+   0.134
+  ],
+  "splay_deg": [
+   3.5,
+   1.2,
+   -1.2,
+   -3.5
+  ],
+  "pad_mcp": 0.2,
+  "pad_pip": 0.18,
+  "pad_dip": 0.14,
+  "hinge_pip": 0.02,
+  "hinge_dip": 0.016,
+  "curl": 0.0,
+  "curl2": 0.0,
+  "ridge": 0.0035,
+  "palm_thick": 0.003,
+  "thenar": 0.009,
+  "thenar_sig": 0.7,
+  "hypo": 0.0035,
+  "thumb_pts": [
+   [
+    0.04,
+    -0.004,
+    0.036
+   ],
+   [
+    0.055,
+    0.012,
+    0.047
+   ],
+   [
+    0.062,
+    0.028,
+    0.072
+   ],
+   [
+    0.06,
+    0.042,
+    0.098
+   ]
+  ],
+  "thumb_r": [
+   0.024,
+   0.0225,
+   0.0195,
+   0.0165
+  ],
+  "thumb_flat": 0.9,
+  "thumb_first": 0.014
+ },
+ "manifold": {
+  "boundary_edges": 0,
+  "nonmanifold_edges_inherited": 2,
+  "zero_area_faces": 0,
+  "loose_vertices": 0
+ },
+ "feet": {
+  "below_4mm": 318,
+  "lowest_z_m": 0.0024724886752665043
+ }
+}

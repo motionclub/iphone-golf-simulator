@@ -35,6 +35,67 @@ namespace GolfArcade.Tests
         }
         [TearDown] public void Clean() { HubWorld.EditorDriven = false; if (host) Object.DestroyImmediate(host); Time.timeScale = 1; }
 
+        [UnityTest, Timeout(300000)] public IEnumerator FriendsCanWalkEmoteChatAndGather()
+        {
+            yield return BootHub(); var hub = HubWorld.Find(); Assert.IsNotNull(hub);
+            hub.HurryArrival(); yield return new WaitForSecondsRealtime(.4f);
+            var start = hub.Player.transform.position;
+            var remotes = HubRemotes.For(hub);
+            var friend = new RemoteState { id = "mia", name = "Mia", place = hub.Place, female = true,
+                shirt = "4E88D4", shorts = "24345E", skinHex = "C47A4C", x = start.x + 1.3f, y = start.y, z = start.z + 3f, yaw = 180, speed = 2 };
+            hub.Player.SetStick(1, 0, 1);
+            for (float t = 0; t < 1.2f; t += Time.unscaledDeltaTime) {
+                friend.x += Time.unscaledDeltaTime * 2; Send("hub-p", "hubRemote", m => m.remote = JsonUtility.ToJson(friend)); yield return null;
+            }
+            hub.Player.SetStick(0, 0, 0);
+            Assert.Greater(Vector3.Distance(start, hub.Player.transform.position), 1f, "local movement survives a friend joining");
+            Assert.IsFalse(hub.Player.locked);
+            Assert.IsTrue(remotes.TryGetShown("mia", out var moved)); Assert.Greater(moved.x, start.x + 2f, "remote movement is rendered");
+            yield return new WaitForSecondsRealtime(.6f);
+            friend.x = hub.Player.transform.position.x + 1.5f; friend.z = hub.Player.transform.position.z + 2.7f;
+            friend.speed = 0; friend.emote = HeroTennisDriver.Clip.IntroWave.ToString();
+            Send("hub-p", "hubRemote", m => m.remote = JsonUtility.ToJson(friend));
+            Send("hub-p", "hubEmote", m => m.mode = "wave"); yield return new WaitForSecondsRealtime(.2f);
+            Assert.IsNotEmpty(hub.Player.hero.Playing, "local emote plays in the party");
+            var friendHero = hub.GetComponentsInChildren<HubHeroAnimator>().First(h => h != hub.Player.hero && h.transform.parent.name == "Friend Mia");
+            Assert.IsNotEmpty(friendHero.Playing, "friend's emote plays too");
+            Send("hub-p", "hubChat", m => { m.remote = "mia"; m.mode = "Meet at the bench!"; });
+            Send("hub-p", "hubChat", m => { m.remote = ""; m.mode = "Ready! Let's play 🎾"; });
+            Assert.IsTrue(remotes.HasSpeech("mia")); Assert.IsTrue(remotes.HasSpeech(""));
+            Assert.IsFalse(hub.GetComponentsInChildren<UnityEngine.UI.Text>().First(t => t.text == "Meet at the bench!").supportRichText);
+            yield return new WaitForSecondsRealtime(.3f);
+            if (!string.IsNullOrEmpty(ProofDir)) Still(ProofDir, hub.Camera, "friends-chat-and-emote");
+            Send("hub-p", "hubGather", m => m.mode = "bay-tennis-online"); yield return null;
+            Assert.AreEqual("bay-tennis-online", hub.Station?.id); Assert.IsTrue(hub.SeatedInBay);
+            friend.place = hub.Place; friend.bay = "bay-tennis-online"; friend.emote = "";
+            Send("hub-p", "hubRemote", m => m.remote = JsonUtility.ToJson(friend)); yield return new WaitForSecondsRealtime(.5f);
+            foreach (var canvas in hub.GetComponentsInChildren<Canvas>().Where(c => c.name.StartsWith("Party speech"))) {
+                var rect = (RectTransform)canvas.transform; var corners = new Vector3[4]; rect.GetWorldCorners(corners);
+                float width = Mathf.Abs(hub.Camera.WorldToViewportPoint(corners[3]).x - hub.Camera.WorldToViewportPoint(corners[0]).x);
+                Assert.LessOrEqual(width, .225f, "close bench cameras keep chat bubbles bounded");
+            }
+            if (!string.IsNullOrEmpty(ProofDir)) Still(ProofDir, hub.Camera, "call-party-seated");
+            Send("hub-p", "hubB"); Assert.IsFalse(hub.Player.locked); Assert.IsFalse(hub.SeatedInBay);
+            yield return new WaitForSecondsRealtime(8.1f); Assert.IsFalse(remotes.HasSpeech("mia")); Assert.IsFalse(remotes.HasSpeech(""));
+            Write("MOVEMENT_EMOTE_CHAT_GATHER=PASS (real Unity runtime; remote presence injected at native bridge)");
+        }
+
+        [UnityTest, Timeout(300000)] public IEnumerator GatheringSurvivesDoorTravelAndWorksOnAControllerOnlyPhone()
+        {
+            yield return BootHub(); var hub = HubWorld.Find(); hub.HurryArrival(); yield return new WaitForSecondsRealtime(.4f);
+            hub.GoTo("rack-shirt", true);
+            Assert.IsTrue(hub.Transitioning);
+            Send("hub-p", "hubGather", m => m.mode = "bay-golf-online");
+            for (int i = 0; i < 180 && (!hub.SeatedInBay || hub.Station.id != "bay-golf-online"); i++) yield return null;
+            Assert.AreEqual("bay-golf-online", hub.Station?.id); Assert.IsTrue(hub.SeatedInBay);
+            Send("hub-p", "hubB"); HubWorld.PhoneOnly = true;
+            try {
+                Send("hub-p", "hubGather", m => m.mode = "bay-tennis-online");
+                Assert.AreEqual("bay-tennis-online", hub.Station?.id); Assert.IsTrue(hub.SeatedInBay);
+                Assert.IsFalse(hub.GatherParty("rack-shirt"));
+            } finally { HubWorld.PhoneOnly = false; }
+        }
+
         static Vector3 Loop(int who, double t)
         {
             // three friends jogging different loops on the plaza (run speed ~2.5-3.3 m/s)

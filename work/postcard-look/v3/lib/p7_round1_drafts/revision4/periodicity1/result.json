@@ -1,0 +1,31 @@
+{
+  "scope": "Original generate(...extra=(1,1)) byte predicate at actual1024 grid; no production writes or native render",
+  "rows": [
+    {
+      "file": "Basalt_C.png",
+      "zero_phase_identical": true,
+      "zero_phase_sha256": "ef97413109c0011f89a82145856a2d6f4efa0e8bad5f9c3b9204948858908173",
+      "original_periodicity_ok": true,
+      "differing_by_over_one_level_fraction": 1.9073486328125e-06,
+      "max_delta_levels": 6
+    },
+    {
+      "file": "Basalt_N.png",
+      "zero_phase_identical": true,
+      "zero_phase_sha256": "fb2938d4d0da8b618ae1fc786061e6cbda7baf18c4c4f52b1322b71d80a417b3",
+      "original_periodicity_ok": true,
+      "differing_by_over_one_level_fraction": 1.5894571940104167e-06,
+      "max_delta_levels": 28
+    },
+    {
+      "file": "Basalt_E.png",
+      "zero_phase_identical": true,
+      "zero_phase_sha256": "ce4142f7f177313a38a3ad91dc8713d86f91766d180dc27eb905350b35cd26f9",
+      "original_periodicity_ok": true,
+      "differing_by_over_one_level_fraction": 0.0,
+      "max_delta_levels": 0
+    }
+  ],
+  "ok": true,
+  "elapsed_s": 9.456223011016846
+}

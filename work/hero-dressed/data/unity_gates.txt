@@ -1,0 +1,52 @@
+== Male
+  bounds Kit_Top: Unity bind min=(-0.3619, 0.9449, -0.1231) max=(0.3621, 1.4712, 0.1993) | Blender->Unity min=(-0.3619, 0.9449, -0.1231) max=(0.3621, 1.4712, 0.1993)
+  bounds Kit_Bottom: Unity bind min=(-0.2585, 0.5739, -0.1223) max=(0.2580, 0.9650, 0.2079) | Blender->Unity min=(-0.2585, 0.5739, -0.1223) max=(0.2580, 0.9650, 0.2079)
+  bounds Kit_Sock_L: Unity bind min=(-0.2892, -0.0043, -0.0906) max=(-0.0952, 0.3018, 0.2289) | Blender->Unity min=(-0.2892, -0.0043, -0.0906) max=(-0.0952, 0.3018, 0.2289)
+  bounds Kit_Sock_R: Unity bind min=(0.0938, -0.0043, -0.0906) max=(0.2897, 0.3018, 0.2288) | Blender->Unity min=(0.0938, -0.0043, -0.0906) max=(0.2897, 0.3018, 0.2288)
+  bounds Kit_Shoe_L: Unity bind min=(-0.3021, -0.0305, -0.1027) max=(-0.1157, 0.1604, 0.2426) | Blender->Unity min=(-0.3021, -0.0305, -0.1027) max=(-0.1157, 0.1604, 0.2426)
+  bounds Kit_Shoe_R: Unity bind min=(0.1157, -0.0305, -0.1027) max=(0.3021, 0.1604, 0.2426) | Blender->Unity min=(0.1157, -0.0305, -0.1027) max=(0.3021, 0.1604, 0.2426)
+  ReadyIdle t=0 (prefab as saved): lowest shoe vertex y = -30.75 mm, lowest body vertex y = 2.45 mm relative to the prefab root
+  triangles: body 66158, face 5888, kit 91226, racket 10760, total 174032
+    default and SetKit(null|empty): authored White kit, 7 roles OK=True
+    shirt only  : changed [Kit_Shirt,Kit_ShirtTrim] formula True others-untouched True -> Shirt RGBA(0.930, 0.463, 0.292, 1.000) Trim RGBA(0.605, 0.301, 0.190, 1.000) Shorts RGBA(0.930, 0.930, 0.930, 1.000) Band RGBA(0.035, 0.035, 0.040, 1.000) Shoe RGBA(0.930, 0.930, 0.930, 1.000) Sole RGBA(0.660, 0.650, 0.630, 1.000) Sock RGBA(0.930, 0.930, 0.930, 1.000)
+    shorts only : changed [Kit_Shorts,Kit_ShortsBand] formula True others-untouched True -> Shirt RGBA(0.930, 0.930, 0.930, 1.000) Trim RGBA(0.035, 0.035, 0.040, 1.000) Shorts RGBA(0.109, 0.153, 0.401, 1.000) Band RGBA(0.397, 0.425, 0.586, 1.000) Shoe RGBA(0.930, 0.930, 0.930, 1.000) Sole RGBA(0.660, 0.650, 0.630, 1.000) Sock RGBA(0.930, 0.930, 0.930, 1.000)
+    shoes only  : changed [Kit_Shoe] formula True others-untouched True -> Shirt RGBA(0.930, 0.930, 0.930, 1.000) Trim RGBA(0.035, 0.035, 0.040, 1.000) Shorts RGBA(0.930, 0.930, 0.930, 1.000) Band RGBA(0.035, 0.035, 0.040, 1.000) Shoe RGBA(0.452, 0.919, 0.040, 1.000) Sole RGBA(0.660, 0.650, 0.630, 1.000) Sock RGBA(0.930, 0.930, 0.930, 1.000)
+    all three   : changed [Kit_Shirt,Kit_ShirtTrim,Kit_Shorts,Kit_ShortsBand,Kit_Shoe] formula True others-untouched True -> Shirt RGBA(0.930, 0.463, 0.292, 1.000) Trim RGBA(0.605, 0.301, 0.190, 1.000) Shorts RGBA(0.109, 0.153, 0.401, 1.000) Band RGBA(0.397, 0.425, 0.586, 1.000) Shoe RGBA(0.452, 0.919, 0.040, 1.000) Sole RGBA(0.660, 0.650, 0.630, 1.000) Sock RGBA(0.930, 0.930, 0.930, 1.000)
+    white shirt : changed [Kit_ShirtTrim] formula True others-untouched True -> Shirt RGBA(0.930, 0.930, 0.930, 1.000) Trim RGBA(0.605, 0.605, 0.605, 1.000) Shorts RGBA(0.930, 0.930, 0.930, 1.000) Band RGBA(0.035, 0.035, 0.040, 1.000) Shoe RGBA(0.930, 0.930, 0.930, 1.000) Sole RGBA(0.660, 0.650, 0.630, 1.000) Sock RGBA(0.930, 0.930, 0.930, 1.000)
+    black shirt : changed [Kit_Shirt,Kit_ShirtTrim] formula True others-untouched True -> Shirt RGBA(0.035, 0.035, 0.040, 1.000) Trim RGBA(0.326, 0.326, 0.326, 1.000) Shorts RGBA(0.930, 0.930, 0.930, 1.000) Band RGBA(0.035, 0.035, 0.040, 1.000) Shoe RGBA(0.930, 0.930, 0.930, 1.000) Sole RGBA(0.660, 0.650, 0.630, 1.000) Sock RGBA(0.930, 0.930, 0.930, 1.000)
+    material assets untouched by tints: True; second instance untouched: ok
+  kit pieces:
+    Kit_Top     verts= 15273 tris= 22298 bones=53 maxInfl=4 wsumErr=1.8E-007 bind max=0.0003 mm  poses max mm=[0.001, 0.001, 0.001] mean=[0.0003, 0.0003, 0.0005] roles=Kit_Shirt,Kit_ShirtTrim
+    Kit_Bottom  verts= 13425 tris= 21032 bones=53 maxInfl=4 wsumErr=1.2E-007 bind max=0.0002 mm  poses max mm=[0.001, 0.001, 0.001] mean=[0.0003, 0.0003, 0.0003] roles=Kit_Shorts,Kit_ShortsBand
+    Kit_Sock_L  verts=  4164 tris=  6270 bones=53 maxInfl=3 wsumErr=1.2E-007 bind max=0.0000 mm  poses max mm=[0.001, 0.001, 0.001] mean=[0.0006, 0.0005, 0.0005] roles=Kit_Sock
+    Kit_Sock_R  verts=  4197 tris=  6270 bones=53 maxInfl=3 wsumErr=1.2E-007 bind max=0.0001 mm  poses max mm=[0.001, 0.001, 0.001] mean=[0.0006, 0.0006, 0.0006] roles=Kit_Sock
+    Kit_Shoe_L  verts= 12868 tris= 17678 bones=53 maxInfl=3 wsumErr=1.2E-007 bind max=0.0000 mm  poses max mm=[0.001, 0.001, 0.001] mean=[0.0007, 0.0005, 0.0006] roles=Kit_Shoe,Kit_Sole
+    Kit_Shoe_R  verts= 12868 tris= 17678 bones=53 maxInfl=3 wsumErr=1.2E-007 bind max=0.0001 mm  poses max mm=[0.001, 0.001, 0.001] mean=[0.0007, 0.0007, 0.0007] roles=Kit_Shoe,Kit_Sole
+  kit-minus-body centroid vs Blender (mm): [0.001, 0.001, 0.001]
+  Male: all Unity checks PASS
+== Female
+  bounds Kit_Top: Unity bind min=(-0.2270, 0.9752, -0.1095) max=(0.2269, 1.4125, 0.1445) | Blender->Unity min=(-0.2270, 0.9752, -0.1095) max=(0.2269, 1.4125, 0.1445)
+  bounds Kit_Bottom: Unity bind min=(-0.2050, 0.6289, -0.1640) max=(0.2095, 0.9950, 0.1645) | Blender->Unity min=(-0.2050, 0.6289, -0.1640) max=(0.2095, 0.9950, 0.1645)
+  bounds Kit_Sock_L: Unity bind min=(-0.1879, -0.0068, -0.1091) max=(-0.0477, 0.2867, 0.1458) | Blender->Unity min=(-0.1879, -0.0068, -0.1091) max=(-0.0477, 0.2867, 0.1458)
+  bounds Kit_Sock_R: Unity bind min=(0.0477, -0.0068, -0.1091) max=(0.1871, 0.2867, 0.1458) | Blender->Unity min=(0.0477, -0.0068, -0.1091) max=(0.1871, 0.2867, 0.1458)
+  bounds Kit_Shoe_L: Unity bind min=(-0.2005, -0.0255, -0.1202) max=(-0.0629, 0.1380, 0.1570) | Blender->Unity min=(-0.2005, -0.0255, -0.1202) max=(-0.0629, 0.1380, 0.1570)
+  bounds Kit_Shoe_R: Unity bind min=(0.0629, -0.0255, -0.1202) max=(0.2005, 0.1380, 0.1570) | Blender->Unity min=(0.0629, -0.0255, -0.1202) max=(0.2005, 0.1380, 0.1570)
+  ReadyIdle t=0 (prefab as saved): lowest shoe vertex y = -25.52 mm, lowest body vertex y = 1.07 mm relative to the prefab root
+  triangles: body 43990, face 6052, kit 81038, racket 10760, total 141840
+    default and SetKit(null|empty): authored White kit, 7 roles OK=True
+    shirt only  : changed [Kit_Shirt,Kit_ShirtTrim] formula True others-untouched True -> Shirt RGBA(0.930, 0.463, 0.292, 1.000) Trim RGBA(0.605, 0.301, 0.190, 1.000) Shorts RGBA(0.930, 0.930, 0.930, 1.000) Band RGBA(0.035, 0.035, 0.040, 1.000) Shoe RGBA(0.930, 0.930, 0.930, 1.000) Sole RGBA(0.660, 0.650, 0.630, 1.000) Sock RGBA(0.930, 0.930, 0.930, 1.000)
+    shorts only : changed [Kit_Shorts,Kit_ShortsBand] formula True others-untouched True -> Shirt RGBA(0.930, 0.930, 0.930, 1.000) Trim RGBA(0.035, 0.035, 0.040, 1.000) Shorts RGBA(0.109, 0.153, 0.401, 1.000) Band RGBA(0.397, 0.425, 0.586, 1.000) Shoe RGBA(0.930, 0.930, 0.930, 1.000) Sole RGBA(0.660, 0.650, 0.630, 1.000) Sock RGBA(0.930, 0.930, 0.930, 1.000)
+    shoes only  : changed [Kit_Shoe] formula True others-untouched True -> Shirt RGBA(0.930, 0.930, 0.930, 1.000) Trim RGBA(0.035, 0.035, 0.040, 1.000) Shorts RGBA(0.930, 0.930, 0.930, 1.000) Band RGBA(0.035, 0.035, 0.040, 1.000) Shoe RGBA(0.452, 0.919, 0.040, 1.000) Sole RGBA(0.660, 0.650, 0.630, 1.000) Sock RGBA(0.930, 0.930, 0.930, 1.000)
+    all three   : changed [Kit_Shirt,Kit_ShirtTrim,Kit_Shorts,Kit_ShortsBand,Kit_Shoe] formula True others-untouched True -> Shirt RGBA(0.930, 0.463, 0.292, 1.000) Trim RGBA(0.605, 0.301, 0.190, 1.000) Shorts RGBA(0.109, 0.153, 0.401, 1.000) Band RGBA(0.397, 0.425, 0.586, 1.000) Shoe RGBA(0.452, 0.919, 0.040, 1.000) Sole RGBA(0.660, 0.650, 0.630, 1.000) Sock RGBA(0.930, 0.930, 0.930, 1.000)
+    white shirt : changed [Kit_ShirtTrim] formula True others-untouched True -> Shirt RGBA(0.930, 0.930, 0.930, 1.000) Trim RGBA(0.605, 0.605, 0.605, 1.000) Shorts RGBA(0.930, 0.930, 0.930, 1.000) Band RGBA(0.035, 0.035, 0.040, 1.000) Shoe RGBA(0.930, 0.930, 0.930, 1.000) Sole RGBA(0.660, 0.650, 0.630, 1.000) Sock RGBA(0.930, 0.930, 0.930, 1.000)
+    black shirt : changed [Kit_Shirt,Kit_ShirtTrim] formula True others-untouched True -> Shirt RGBA(0.035, 0.035, 0.040, 1.000) Trim RGBA(0.326, 0.326, 0.326, 1.000) Shorts RGBA(0.930, 0.930, 0.930, 1.000) Band RGBA(0.035, 0.035, 0.040, 1.000) Shoe RGBA(0.930, 0.930, 0.930, 1.000) Sole RGBA(0.660, 0.650, 0.630, 1.000) Sock RGBA(0.930, 0.930, 0.930, 1.000)
+    material assets untouched by tints: True; second instance untouched: ok
+  kit pieces:
+    Kit_Top     verts= 13600 tris= 19408 bones=53 maxInfl=4 wsumErr=2.4E-007 bind max=0.0004 mm  poses max mm=[0.001, 0.001, 0.001] mean=[0.0005, 0.0005, 0.0004] roles=Kit_Shirt,Kit_ShirtTrim
+    Kit_Bottom  verts= 16744 tris= 25646 bones=53 maxInfl=4 wsumErr=1.2E-007 bind max=0.0001 mm  poses max mm=[0.001, 0.000, 0.001] mean=[0.0002, 0.0002, 0.0003] roles=Kit_Shorts,Kit_ShortsBand
+    Kit_Sock_L  verts=  3426 tris=  5082 bones=53 maxInfl=3 wsumErr=1.2E-007 bind max=0.0001 mm  poses max mm=[0.000, 0.000, 0.000] mean=[0.0001, 0.0001, 0.0002] roles=Kit_Sock
+    Kit_Sock_R  verts=  3443 tris=  5082 bones=53 maxInfl=3 wsumErr=1.2E-007 bind max=0.0001 mm  poses max mm=[0.000, 0.000, 0.000] mean=[0.0001, 0.0004, 0.0001] roles=Kit_Sock
+    Kit_Shoe_L  verts=  9935 tris= 12910 bones=53 maxInfl=3 wsumErr=1.2E-007 bind max=0.0000 mm  poses max mm=[0.000, 0.000, 0.000] mean=[0.0001, 0.0002, 0.0003] roles=Kit_Shoe,Kit_Sole
+    Kit_Shoe_R  verts=  9935 tris= 12910 bones=53 maxInfl=3 wsumErr=1.2E-007 bind max=0.0000 mm  poses max mm=[0.000, 0.000, 0.000] mean=[0.0001, 0.0004, 0.0001] roles=Kit_Shoe,Kit_Sole
+  kit-minus-body centroid vs Blender (mm): [0.001, 0.001, 0.000]
+  Female: all Unity checks PASS

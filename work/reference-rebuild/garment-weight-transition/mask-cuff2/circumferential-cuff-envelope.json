@@ -1,0 +1,554 @@
+{
+  "Male": {
+    "Left": {
+      "upperArmLengthM": 0.23828674721023788,
+      "bins": [
+        {
+          "bin": 0,
+          "angleStart": 0.0,
+          "rimMinT": 0.459568511363255,
+          "rimMaxT": 0.4689326626360472,
+          "insetMaskLimitT": 0.43858538889195553,
+          "vertices": 45
+        },
+        {
+          "bin": 1,
+          "angleStart": 0.39269908169872414,
+          "rimMinT": 0.4605907809605409,
+          "rimMaxT": 0.4705235201316794,
+          "insetMaskLimitT": 0.43960765848924144,
+          "vertices": 62
+        },
+        {
+          "bin": 2,
+          "angleStart": 0.7853981633974483,
+          "rimMinT": 0.4603127954649554,
+          "rimMaxT": 0.47017533116673904,
+          "insetMaskLimitT": 0.43932967299365594,
+          "vertices": 71
+        },
+        {
+          "bin": 3,
+          "angleStart": 1.1780972450961724,
+          "rimMinT": 0.45783503246283797,
+          "rimMaxT": 0.46710853303902694,
+          "insetMaskLimitT": 0.4368519099915385,
+          "vertices": 52
+        },
+        {
+          "bin": 4,
+          "angleStart": 1.5707963267948966,
+          "rimMinT": 0.45363037701507797,
+          "rimMaxT": 0.4635519071240916,
+          "insetMaskLimitT": 0.4326472545437785,
+          "vertices": 42
+        },
+        {
+          "bin": 5,
+          "angleStart": 1.9634954084936207,
+          "rimMinT": 0.44863602507294326,
+          "rimMaxT": 0.4583539997840686,
+          "insetMaskLimitT": 0.4276529026016438,
+          "vertices": 52
+        },
+        {
+          "bin": 6,
+          "angleStart": 2.356194490192345,
+          "rimMinT": 0.44388613470213745,
+          "rimMaxT": 0.45272337831676857,
+          "insetMaskLimitT": 0.422903012230838,
+          "vertices": 37
+        },
+        {
+          "bin": 7,
+          "angleStart": 2.748893571891069,
+          "rimMinT": 0.43762182962725815,
+          "rimMaxT": 0.4473392587826487,
+          "insetMaskLimitT": 0.4166387071559587,
+          "vertices": 40
+        },
+        {
+          "bin": 8,
+          "angleStart": 3.141592653589793,
+          "rimMinT": 0.43336634208541397,
+          "rimMaxT": 0.4431472531345047,
+          "insetMaskLimitT": 0.4123832196141145,
+          "vertices": 41
+        },
+        {
+          "bin": 9,
+          "angleStart": 3.5342917352885173,
+          "rimMinT": 0.4327923619880932,
+          "rimMaxT": 0.4416307384118025,
+          "insetMaskLimitT": 0.4118092395167937,
+          "vertices": 46
+        },
+        {
+          "bin": 10,
+          "angleStart": 3.9269908169872414,
+          "rimMinT": 0.432990658444943,
+          "rimMaxT": 0.44269115126397823,
+          "insetMaskLimitT": 0.41200753597364353,
+          "vertices": 47
+        },
+        {
+          "bin": 11,
+          "angleStart": 4.319689898685965,
+          "rimMinT": 0.43617969920132105,
+          "rimMaxT": 0.4455647326969375,
+          "insetMaskLimitT": 0.4151965767300216,
+          "vertices": 37
+        },
+        {
+          "bin": 12,
+          "angleStart": 4.71238898038469,
+          "rimMinT": 0.43857773745929857,
+          "rimMaxT": 0.4482635291195689,
+          "insetMaskLimitT": 0.4175946149879991,
+          "vertices": 33
+        },
+        {
+          "bin": 13,
+          "angleStart": 5.105088062083414,
+          "rimMinT": 0.44466159334900424,
+          "rimMaxT": 0.4542250501157421,
+          "insetMaskLimitT": 0.42367847087770477,
+          "vertices": 44
+        },
+        {
+          "bin": 14,
+          "angleStart": 5.497787143782138,
+          "rimMinT": 0.45099525778814,
+          "rimMaxT": 0.4601477799366713,
+          "insetMaskLimitT": 0.4300121353168405,
+          "vertices": 51
+        },
+        {
+          "bin": 15,
+          "angleStart": 5.890486225480862,
+          "rimMinT": 0.45535098837998184,
+          "rimMaxT": 0.46526242905419946,
+          "insetMaskLimitT": 0.43436786590868237,
+          "vertices": 39
+        }
+      ],
+      "minCircumferentialLimit": 0.4118092395167937,
+      "minRimT": 0.4327923619880932,
+      "maxRimT": 0.4705235201316794,
+      "marginMetres": 0.005
+    },
+    "Right": {
+      "upperArmLengthM": 0.2382866233311522,
+      "bins": [
+        {
+          "bin": 0,
+          "angleStart": 0.0,
+          "rimMinT": 0.43637287491929383,
+          "rimMaxT": 0.4459684376946404,
+          "insetMaskLimitT": 0.4153897415394088,
+          "vertices": 46
+        },
+        {
+          "bin": 1,
+          "angleStart": 0.39269908169872414,
+          "rimMinT": 0.4418186690560394,
+          "rimMaxT": 0.45157096439936184,
+          "insetMaskLimitT": 0.42083553567615434,
+          "vertices": 47
+        },
+        {
+          "bin": 2,
+          "angleStart": 0.7853981633974483,
+          "rimMinT": 0.4477029773539298,
+          "rimMaxT": 0.45752809187943244,
+          "insetMaskLimitT": 0.4267198439740447,
+          "vertices": 41
+        },
+        {
+          "bin": 3,
+          "angleStart": 1.1780972450961724,
+          "rimMinT": 0.4544062859731462,
+          "rimMaxT": 0.4636019716313139,
+          "insetMaskLimitT": 0.43342315259326114,
+          "vertices": 43
+        },
+        {
+          "bin": 4,
+          "angleStart": 1.5707963267948966,
+          "rimMinT": 0.45865213808118654,
+          "rimMaxT": 0.4675760587156522,
+          "insetMaskLimitT": 0.4376690047013015,
+          "vertices": 33
+        },
+        {
+          "bin": 5,
+          "angleStart": 1.9634954084936207,
+          "rimMinT": 0.4606511288800035,
+          "rimMaxT": 0.4706147378969702,
+          "insetMaskLimitT": 0.4396679955001184,
+          "vertices": 74
+        },
+        {
+          "bin": 6,
+          "angleStart": 2.356194490192345,
+          "rimMinT": 0.4616174615944582,
+          "rimMaxT": 0.4710964129975847,
+          "insetMaskLimitT": 0.44063432821457316,
+          "vertices": 61
+        },
+        {
+          "bin": 7,
+          "angleStart": 2.748893571891069,
+          "rimMinT": 0.45977025763303375,
+          "rimMaxT": 0.4696468165701682,
+          "insetMaskLimitT": 0.4387871242531487,
+          "vertices": 48
+        },
+        {
+          "bin": 8,
+          "angleStart": 3.141592653589793,
+          "rimMinT": 0.4568424657149336,
+          "rimMaxT": 0.4665385243205884,
+          "insetMaskLimitT": 0.43585933233504853,
+          "vertices": 46
+        },
+        {
+          "bin": 9,
+          "angleStart": 3.5342917352885173,
+          "rimMinT": 0.4513088491276236,
+          "rimMaxT": 0.4612934862964554,
+          "insetMaskLimitT": 0.43032571574773854,
+          "vertices": 45
+        },
+        {
+          "bin": 10,
+          "angleStart": 3.9269908169872414,
+          "rimMinT": 0.4478778329968237,
+          "rimMaxT": 0.45699022388925986,
+          "insetMaskLimitT": 0.42689469961693866,
+          "vertices": 37
+        },
+        {
+          "bin": 11,
+          "angleStart": 4.319689898685965,
+          "rimMinT": 0.44121018841605164,
+          "rimMaxT": 0.4510189220570154,
+          "insetMaskLimitT": 0.4202270550361666,
+          "vertices": 31
+        },
+        {
+          "bin": 12,
+          "angleStart": 4.71238898038469,
+          "rimMinT": 0.43600259103084765,
+          "rimMaxT": 0.44583803349832596,
+          "insetMaskLimitT": 0.4150194576509626,
+          "vertices": 47
+        },
+        {
+          "bin": 13,
+          "angleStart": 5.105088062083414,
+          "rimMinT": 0.43303201584686013,
+          "rimMaxT": 0.4429661068200571,
+          "insetMaskLimitT": 0.4120488824669751,
+          "vertices": 52
+        },
+        {
+          "bin": 14,
+          "angleStart": 5.497787143782138,
+          "rimMinT": 0.43249911649299405,
+          "rimMaxT": 0.4411970168046431,
+          "insetMaskLimitT": 0.411515983113109,
+          "vertices": 46
+        },
+        {
+          "bin": 15,
+          "angleStart": 5.890486225480862,
+          "rimMinT": 0.4328033971527159,
+          "rimMaxT": 0.44276891001763674,
+          "insetMaskLimitT": 0.4118202637728308,
+          "vertices": 47
+        }
+      ],
+      "minCircumferentialLimit": 0.411515983113109,
+      "minRimT": 0.43249911649299405,
+      "maxRimT": 0.4710964129975847,
+      "marginMetres": 0.005
+    }
+  },
+  "Female": {
+    "Left": {
+      "upperArmLengthM": 0.25499068729405655,
+      "bins": [
+        {
+          "bin": 0,
+          "angleStart": 0.0,
+          "rimMinT": 0.4376131409261696,
+          "rimMaxT": 0.44742296363050627,
+          "insetMaskLimitT": 0.4180045816761842,
+          "vertices": 41
+        },
+        {
+          "bin": 1,
+          "angleStart": 0.39269908169872414,
+          "rimMinT": 0.4405499707862734,
+          "rimMaxT": 0.4501687108022206,
+          "insetMaskLimitT": 0.420941411536288,
+          "vertices": 47
+        },
+        {
+          "bin": 2,
+          "angleStart": 0.7853981633974483,
+          "rimMinT": 0.44219081171386754,
+          "rimMaxT": 0.4506594795587376,
+          "insetMaskLimitT": 0.42258225246388215,
+          "vertices": 89
+        },
+        {
+          "bin": 3,
+          "angleStart": 1.1780972450961724,
+          "rimMinT": 0.44370285882044447,
+          "rimMaxT": 0.4534045561912034,
+          "insetMaskLimitT": 0.4240942995704591,
+          "vertices": 113
+        },
+        {
+          "bin": 4,
+          "angleStart": 1.5707963267948966,
+          "rimMinT": 0.4407498239273928,
+          "rimMaxT": 0.45048336186866533,
+          "insetMaskLimitT": 0.4211412646774074,
+          "vertices": 55
+        },
+        {
+          "bin": 5,
+          "angleStart": 1.9634954084936207,
+          "rimMinT": 0.44016448412460146,
+          "rimMaxT": 0.44996999869120907,
+          "insetMaskLimitT": 0.42055592487461607,
+          "vertices": 43
+        },
+        {
+          "bin": 6,
+          "angleStart": 2.356194490192345,
+          "rimMinT": 0.4398289677862977,
+          "rimMaxT": 0.449493755508096,
+          "insetMaskLimitT": 0.4202204085363123,
+          "vertices": 41
+        },
+        {
+          "bin": 7,
+          "angleStart": 2.748893571891069,
+          "rimMinT": 0.4380327866109365,
+          "rimMaxT": 0.4473621266212064,
+          "insetMaskLimitT": 0.4184242273609511,
+          "vertices": 56
+        },
+        {
+          "bin": 8,
+          "angleStart": 3.141592653589793,
+          "rimMinT": 0.4339989381746674,
+          "rimMaxT": 0.44394426053477865,
+          "insetMaskLimitT": 0.414390378924682,
+          "vertices": 43
+        },
+        {
+          "bin": 9,
+          "angleStart": 3.5342917352885173,
+          "rimMinT": 0.4320732601122713,
+          "rimMaxT": 0.4418092138493242,
+          "insetMaskLimitT": 0.4124647008622859,
+          "vertices": 43
+        },
+        {
+          "bin": 10,
+          "angleStart": 3.9269908169872414,
+          "rimMinT": 0.4303629037655248,
+          "rimMaxT": 0.44013791993513146,
+          "insetMaskLimitT": 0.4107543445155394,
+          "vertices": 41
+        },
+        {
+          "bin": 11,
+          "angleStart": 4.319689898685965,
+          "rimMinT": 0.4296418233856977,
+          "rimMaxT": 0.4383803625996839,
+          "insetMaskLimitT": 0.4100332641357123,
+          "vertices": 48
+        },
+        {
+          "bin": 12,
+          "angleStart": 4.71238898038469,
+          "rimMinT": 0.429024841827854,
+          "rimMaxT": 0.43861403940508775,
+          "insetMaskLimitT": 0.4094162825778686,
+          "vertices": 60
+        },
+        {
+          "bin": 13,
+          "angleStart": 5.105088062083414,
+          "rimMinT": 0.43075216993540255,
+          "rimMaxT": 0.44006997757427485,
+          "insetMaskLimitT": 0.41114361068541716,
+          "vertices": 51
+        },
+        {
+          "bin": 14,
+          "angleStart": 5.497787143782138,
+          "rimMinT": 0.43226670529217065,
+          "rimMaxT": 0.441905820380036,
+          "insetMaskLimitT": 0.41265814604218526,
+          "vertices": 45
+        },
+        {
+          "bin": 15,
+          "angleStart": 5.890486225480862,
+          "rimMinT": 0.4348659946659552,
+          "rimMaxT": 0.444858639095762,
+          "insetMaskLimitT": 0.4152574354159698,
+          "vertices": 47
+        }
+      ],
+      "minCircumferentialLimit": 0.4094162825778686,
+      "minRimT": 0.429024841827854,
+      "maxRimT": 0.4534045561912034,
+      "marginMetres": 0.005
+    },
+    "Right": {
+      "upperArmLengthM": 0.2549901996014655,
+      "bins": [
+        {
+          "bin": 0,
+          "angleStart": 0.0,
+          "rimMinT": 0.43504421322099396,
+          "rimMaxT": 0.44438437263068414,
+          "insetMaskLimitT": 0.4154356164678062,
+          "vertices": 64
+        },
+        {
+          "bin": 1,
+          "angleStart": 0.39269908169872414,
+          "rimMinT": 0.4382593563739064,
+          "rimMaxT": 0.4474570382363144,
+          "insetMaskLimitT": 0.4186507596207186,
+          "vertices": 33
+        },
+        {
+          "bin": 2,
+          "angleStart": 0.7853981633974483,
+          "rimMinT": 0.4400093474984008,
+          "rimMaxT": 0.44943903237644856,
+          "insetMaskLimitT": 0.42040075074521305,
+          "vertices": 54
+        },
+        {
+          "bin": 3,
+          "angleStart": 1.1780972450961724,
+          "rimMinT": 0.440715039522446,
+          "rimMaxT": 0.45061604088392443,
+          "insetMaskLimitT": 0.42110644276925824,
+          "vertices": 44
+        },
+        {
+          "bin": 4,
+          "angleStart": 1.5707963267948966,
+          "rimMinT": 0.44129569301748994,
+          "rimMaxT": 0.45083203350490986,
+          "insetMaskLimitT": 0.4216870962643022,
+          "vertices": 37
+        },
+        {
+          "bin": 5,
+          "angleStart": 1.9634954084936207,
+          "rimMinT": 0.4414263271202019,
+          "rimMaxT": 0.45070852867773936,
+          "insetMaskLimitT": 0.42181773036701414,
+          "vertices": 62
+        },
+        {
+          "bin": 6,
+          "angleStart": 2.356194490192345,
+          "rimMinT": 0.44093449660605116,
+          "rimMaxT": 0.4505921540579628,
+          "insetMaskLimitT": 0.4213258998528634,
+          "vertices": 36
+        },
+        {
+          "bin": 7,
+          "angleStart": 2.748893571891069,
+          "rimMinT": 0.4401059083556293,
+          "rimMaxT": 0.44951019753694277,
+          "insetMaskLimitT": 0.4204973116024415,
+          "vertices": 38
+        },
+        {
+          "bin": 8,
+          "angleStart": 3.141592653589793,
+          "rimMinT": 0.4371762542617471,
+          "rimMaxT": 0.44713669421228636,
+          "insetMaskLimitT": 0.41756765750855934,
+          "vertices": 43
+        },
+        {
+          "bin": 9,
+          "angleStart": 3.5342917352885173,
+          "rimMinT": 0.43379073000916346,
+          "rimMaxT": 0.44312062415807857,
+          "insetMaskLimitT": 0.4141821332559757,
+          "vertices": 45
+        },
+        {
+          "bin": 10,
+          "angleStart": 3.9269908169872414,
+          "rimMinT": 0.4313202006863817,
+          "rimMaxT": 0.4405881857787747,
+          "insetMaskLimitT": 0.41171160393319395,
+          "vertices": 40
+        },
+        {
+          "bin": 11,
+          "angleStart": 4.319689898685965,
+          "rimMinT": 0.4289940339143063,
+          "rimMaxT": 0.4386447667293132,
+          "insetMaskLimitT": 0.4093854371611185,
+          "vertices": 53
+        },
+        {
+          "bin": 12,
+          "angleStart": 4.71238898038469,
+          "rimMinT": 0.4290044952811917,
+          "rimMaxT": 0.4385624653332533,
+          "insetMaskLimitT": 0.40939589852800395,
+          "vertices": 42
+        },
+        {
+          "bin": 13,
+          "angleStart": 5.105088062083414,
+          "rimMinT": 0.42917026217397686,
+          "rimMaxT": 0.43858657940694656,
+          "insetMaskLimitT": 0.4095616654207891,
+          "vertices": 38
+        },
+        {
+          "bin": 14,
+          "angleStart": 5.497787143782138,
+          "rimMinT": 0.430187712183076,
+          "rimMaxT": 0.4401227180113301,
+          "insetMaskLimitT": 0.41057911542988823,
+          "vertices": 51
+        },
+        {
+          "bin": 15,
+          "angleStart": 5.890486225480862,
+          "rimMinT": 0.4318600984617246,
+          "rimMaxT": 0.441785883782633,
+          "insetMaskLimitT": 0.4122515017085368,
+          "vertices": 42
+        }
+      ],
+      "minCircumferentialLimit": 0.4093854371611185,
+      "minRimT": 0.4289940339143063,
+      "maxRimT": 0.45083203350490986,
+      "marginMetres": 0.005
+    }
+  }
+}

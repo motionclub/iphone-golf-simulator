@@ -1,0 +1,27 @@
+--- blender/scripts/hole10_build.py	2026-10-05 16:14:27
++++ work/postcard-look/v3/p7/round1/hole_drafts/drafts/hole10_build.py	2026-10-05 17:43:25
+@@ -453,10 +453,23 @@
+ #         lava rim = over the north-east wall in the sky + a second plume in the east; plus one plume off the volcano's summit (background, not in a proof frame). All beyond the rim circle.
+ TEE_CAM, APP_CAM, RIM_CAM = (-0.87, -4.02), (93.82, 145.52), (64.01, 98.76)      # the three proof cameras (Blender m, x / y), from landmarks.json via FrameAddress
+ smoke = []
+-smoke += HL.smoke_group(D,TEE_CAM,(20.0,300.0,0.0),(150.0,130.0),3,seed=1,spread=.30)
++# Lower volcanic vent: choose an actual exposed cone surface just above lava.
++# The old broad sky placement failed the original tee geometric frame gate.
++_cone_bvh=BVHTree.FromObject(cone,bpy.context.evaluated_depsgraph_get())
++_vent_probes=[]
++for _r in np.linspace(90.,135.,181):
++    _x,_y=CONE_C[0]-_r/math.sqrt(2.),CONE_C[1]-_r/math.sqrt(2.)
++    _hit=_cone_bvh.ray_cast(Vector((_x,_y,200.)),Vector((0,0,-1)))
++    if _hit[0] is not None and float(_hit[0].z)+.10>=.10:
++        _vent_probes.append((_x,_y,float(_hit[0].z)+.10))
++if not _vent_probes:raise RuntimeError('no exposed actual cone/lava flank vent')
++_tee_vent=min(_vent_probes,key=lambda p:p[2])
++smoke += HL.smoke_group(D,TEE_CAM,_tee_vent,(150.0,80.0),3,seed=1,spread=.035,parallel=True)
++# The already-passing approach and rim geometry is retained exactly.
+ smoke += HL.smoke_group(D,APP_CAM,(305.0,118.0,0.0),(90.0,90.0),3,seed=2)
+ smoke += HL.smoke_group(D,RIM_CAM,(300.0,330.0,30.0),(130.0,110.0),3,seed=3)
+ 
++
+ # ---- 6. cameras, light, previews
+ P.build_cameras_and_light(D)
+ frame_overview(D, OVERVIEW_RES)

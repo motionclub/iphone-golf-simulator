@@ -1,0 +1,39 @@
+{
+  "rows": [
+    {
+      "file": "female_match_phone.png",
+      "pixels": 57379,
+      "mask_changed_pixels": 0,
+      "mean_bytes": 0.0071628993185660255,
+      "max_bytes": 1,
+      "PASS": true
+    },
+    {
+      "file": "female_match_behind.png",
+      "pixels": 4325,
+      "mask_changed_pixels": 0,
+      "mean_bytes": 0.008477842003853564,
+      "max_bytes": 1,
+      "PASS": true
+    },
+    {
+      "file": "male_match_phone.png",
+      "pixels": 65887,
+      "mask_changed_pixels": 0,
+      "mean_bytes": 0.0057522728307556874,
+      "max_bytes": 1,
+      "PASS": true
+    },
+    {
+      "file": "male_match_behind.png",
+      "pixels": 4993,
+      "mask_changed_pixels": 0,
+      "mean_bytes": 0.007009813739234929,
+      "max_bytes": 1,
+      "PASS": true
+    }
+  ],
+  "status": "PASS",
+  "before": "work/golf-look/proof/tennis_parity_current/before",
+  "after": "work/golf-look/proof/tennis_final_after_r16"
+}

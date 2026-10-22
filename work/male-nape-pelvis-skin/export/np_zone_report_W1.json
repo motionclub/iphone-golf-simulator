@@ -1,0 +1,36 @@
+{
+ "zones": {
+  "NAPE": {
+   "z": [
+    1.3,
+    1.5
+   ],
+   "ax": 0.18
+  },
+  "PELVIS": {
+   "z": [
+    0.725,
+    1.07
+   ],
+   "ax": 0.22
+  }
+ },
+ "moved_before_mask": 4088,
+ "moved_outside_zone_before_mask": 286,
+ "max_outside_zone_mm_before_mask": 0.24828882437578356,
+ "moved": 2887,
+ "moved_in_NAPE": 536,
+ "moved_in_PELVIS": 2351,
+ "moved_outside_zones": 0,
+ "max_move_mm": 22.680336857072778,
+ "mean_move_mm": 3.2750892312407838,
+ "max_move_nape_mm": 20.449932664632797,
+ "max_move_pelvis_mm": 22.680336857072778,
+ "max_move_pelvis_below_z0p77_mm": 16.647598694992343,
+ "moved_pelvis_below_z0p77": 410,
+ "moved_nape_above_z1p42": 183,
+ "max_dx_mm": 11.029843240976334,
+ "max_dy_mm": 22.67729490995407,
+ "max_dz_mm": 0.0,
+ "max_move_at_zone_edge_band_mm": 1.738954335451126
+}

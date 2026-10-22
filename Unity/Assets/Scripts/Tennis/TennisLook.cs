@@ -260,7 +260,9 @@ namespace GolfArcade.Tennis
         public static void ReplayFocus(Volume volume, bool on, float distance)
         {
             if (!volume || !volume.profile.TryGet(out DepthOfField dof)) return;
-            dof.active = on;
+            var owner=volume.GetComponentInParent<SportsPostProcessing>();
+            if(owner)owner.RequestDepthOfField(on);
+            else dof.active=on && TennisQuality.Current==TennisQuality.Tier.High;
             dof.gaussianStart.Override(Mathf.Max(1, distance + 2)); dof.gaussianEnd.Override(distance + 14);
         }
 
@@ -303,13 +305,17 @@ namespace GolfArcade.Tennis
             var panorama = Resources.Load<Texture2D>("Course/Resort/SkyCoastalSmall");
             if (skyShader && panorama)
             {
-                if (!resortSky) resortSky = new Material(skyShader) { name = "Resort coastal sky" };
+                if (!resortSky) resortSky = GolfArcade.EnvironmentArt.EnvironmentMaterials.Create(skyShader,"Resort coastal sky");
                 resortSky.SetTexture("_Panorama", panorama);
                 resortSky.SetFloat("_Rotation", -45); resortSky.SetFloat("_Exposure", 1);
                 resortSky.SetFloat("_AirColorShare",.24f);resortSky.SetFloat("_DayHaze",.04f);
                 if (resortSky.HasProperty("_CloudCompression")) resortSky.SetFloat("_CloudCompression", 1.05f);
                 RenderSettings.skybox = resortSky;
             }
+            if(TennisVenue.Current==TennisVenueKind.Resort)
+                GolfArcade.EnvironmentArt.EnvironmentLook.Tennis(sun,TennisVenueKind.Resort);
+            GolfArcade.EnvironmentArt.LuminousCoastPilot.TennisLight(sun);
+            GolfArcade.EnvironmentArt.RenderedBackdrop.TennisEarly();   // rendered backgrounds (work/rendered-backgrounds)
         }
 
         /// Re-surface the imported arena by what each material is (the Blender names travel
@@ -435,6 +441,8 @@ namespace GolfArcade.Tennis
         public float Radius = .5f, Strength = .5f, Ground = .004f, FadeHeight = 3f;
         public Material Material;
         public float HeightOverride = -1;
+        /// Ball-only floor on opacity: lobs retain their court-depth cue. Other shadows still fade out.
+        public float MinimumFade;
         /// Legacy fallback for scenes without the venue court kit. Live matches use the
         /// cached rendered court plane, not this actor root, for the occlusion disc.
         public Transform Surface;
@@ -449,7 +457,7 @@ namespace GolfArcade.Tennis
             var rend = GetComponent<Renderer>(); if (rend) rend.enabled = !OnlyOverDeck || TennisVenue.OverDeck(p);
             float court = GolfGround ? (float)GolfArcade.Course.HoleView.GroundHeight(new GolfArcade.Course.CoursePoint(p.x,p.z)) : TennisVenue.HasRenderedCourtHeight ? TennisVenue.RenderedCourtHeight : Surface ? Surface.position.y : 0;
             float height = Mathf.Max(0, HeightOverride >= 0 ? HeightOverride : p.y - court);
-            float fade = Mathf.Clamp01(1 - height / FadeHeight);
+            float fade = Mathf.Max(MinimumFade, Mathf.Clamp01(1 - height / FadeHeight));
             transform.position = new Vector3(p.x, court + Ground, p.z);
             transform.localScale = Vector3.one * (Radius * 2 * Mathf.Lerp(.6f, 1f, fade));
             if (Material && Material.HasProperty("_Strength")) Material.SetFloat("_Strength", Strength * fade);

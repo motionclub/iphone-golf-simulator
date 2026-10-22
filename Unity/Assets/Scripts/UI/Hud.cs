@@ -19,10 +19,14 @@ namespace GolfArcade.UI
         /// The face that sinks into its base while held (the club's slabs), and the menu sound a press makes.
         public RectTransform Sink;
         public string Sound;
+        /// A thumb sliding off lets go (aim sweeps), unless this is off: then only lifting it does (tap to swing).
+        public bool ReleaseOnExit = true;
         bool sunk;
         public void OnPointerDown(PointerEventData e) { IsHeld = true; Light(true); ClubSound.Play(Sound); Pressed?.Invoke(); }
         public void OnPointerUp(PointerEventData e) { if (IsHeld) Released?.Invoke(); IsHeld = false; Light(false); }
-        public void OnPointerExit(PointerEventData e) { if (IsHeld) Released?.Invoke(); IsHeld = false; Light(false); }
+        public void OnPointerExit(PointerEventData e) { if (!ReleaseOnExit) return; if (IsHeld) Released?.Invoke(); IsHeld = false; Light(false); }
+        // hidden while held (the shot went, the state moved on): the lift will never reach it
+        void OnDisable() { if (IsHeld) { IsHeld = false; Light(false); } }
         void Light(bool on)
         {
             if (Fill) Fill.color = on ? PressedColor ?? UiKit.ButtonPressed : RestColor;
@@ -116,6 +120,8 @@ namespace GolfArcade.UI
         public void UseGolfPresentation(Camera camera)
         {
             simple = GolfShotHud.Create(camera);
+            // the pin's marker joins the broadcast layer: the same 1920x1080 canvas (and scale) as the cards, in view of the camera
+            pinLocator.transform.SetParent(simple.transform, false);
             // Retain the legacy control callbacks and menus, but retire their dense broadcast widgets.
             foreach (var t in new Transform[] { board, shotCard, meterRect, minimapHolder, statusText.transform,
                 tempoText.transform, faceDial.transform, tvMap.transform, swingCard.transform })
@@ -136,6 +142,7 @@ namespace GolfArcade.UI
         void Build()
         {
             UiKit.Canvas(gameObject);
+            MenuFocus.Ensure(transform);
 
             // Every element hangs off this, and it shrinks to the phone's safe area.
             safeArea = new GameObject("Safe area").AddComponent<RectTransform>();
@@ -246,7 +253,7 @@ namespace GolfArcade.UI
             AimRight = Button("▶", new Vector2(1, 0), new Vector2(-150, 170), new Vector2(240, 240));
             ClubUp = Button("▲", new Vector2(0.5f, 0), new Vector2(-95, 200), new Vector2(150, 110));
             ClubDown = Button("▼", new Vector2(0.5f, 0), new Vector2(95, 200), new Vector2(150, 110));
-            SwingHold = Button("HOLD TO SWING", new Vector2(0.5f, 0), new Vector2(0, 90), new Vector2(360, 90), 30);
+            SwingHold = Button("TAP TO SWING", new Vector2(0.5f, 0), new Vector2(0, 90), new Vector2(360, 90), 30);
 
             // Who you play as: body and skin tone, under the minimap. Cycles on a tap.
 
@@ -292,8 +299,9 @@ namespace GolfArcade.UI
             minimapHolder.localScale = Vector3.one * s;
             meterRect.localScale = Vector3.one * held;
             faceDial.transform.localScale = Vector3.one * held;
-            strikePopup.Size = held;
-            landingBadge.Size = Mathf.Lerp(1f, s, 0.5f);
+            // (the clear style draws its words straight on the picture, so they are bigger than the badges they replace)
+            strikePopup.Size = held * (GlassKit.ClearStyle ? 1.5f : 1f);
+            landingBadge.Size = Mathf.Lerp(1f, s, 0.5f) * (GlassKit.ClearStyle ? 1.4f : 1f);
             bannerGroup.transform.localScale = Vector3.one * held;
             foreach (var b in new[] { AimLeft, AimRight, ClubUp, ClubDown, SwingHold }) b.transform.localScale = Vector3.one * held;
         }
@@ -559,6 +567,12 @@ namespace GolfArcade.UI
             public bool ShowBall, ShowLanding, ShowLoad;
             /// The meter's checkpoint targets, where each comes down (empty hides them).
             public readonly System.Collections.Generic.List<Vector3> Targets = new();
+            /// A putt: the map zooms onto the green (out to `PuttReach` yards round the ball), each
+            /// target is labelled with its feet (`TargetLabels`, else its %), and the live dot with
+            /// the feet the backswing so far rolls (`LoadLabel`).
+            public bool Putt; public float PuttReach;
+            public readonly System.Collections.Generic.List<string> TargetLabels = new();
+            public string LoadLabel;
             /// The golden rings still standing over the hole (the shot map marks them).
             public readonly System.Collections.Generic.List<Vector3> Rings = new();
             internal int Version;
@@ -569,8 +583,10 @@ namespace GolfArcade.UI
         RectTransform mapPin, mapBall, mapLanding, mapLoad, mapShapes;
         Image mapZoneFill, mapZoneEdge;
         readonly System.Collections.Generic.List<RectTransform> mapDots = new(), mapReach = new(), mapTargets = new();
+        readonly System.Collections.Generic.List<Text> mapTargetFeet = new();
+        Text mapLoadFeet;
         readonly System.Collections.Generic.List<Image> mapTraceUnder = new(), mapTraceLine = new();
-        int mapDrawn = -1;
+        int mapDrawn = -1, fogDrawn = -1;
         Camera mapDrawnWith;
         const int MapDots = 16, ReachDots = 17;
         static readonly Color MapInk = new(0.06f, 0.1f, 0.18f, 0.9f);
@@ -602,10 +618,26 @@ namespace GolfArcade.UI
             for (int i = 0; i < ReachDots; i++) mapReach.Add(MapMark(mapShapes, $"Reach {i}", new Color(1, 1, 1, 0.8f), 7, UiKit.Circle, false));
             for (int i = 0; i < MapDots; i++) mapDots.Add(MapMark(map, $"Path {i}", new Color(1, 1, 1, 0.95f), 10, UiKit.Circle, false));
             mapLanding = MapMark(map, "Landing", amber, 24, UiKit.Ring, false);
-            for (int i = 0; i < 3; i++) mapTargets.Add(MapMark(map, $"Target {i + 1}", Color.white, 13, UiKit.Circle, true));
+            for (int i = 0; i < 4; i++)
+            {
+                mapTargets.Add(MapMark(map, $"Target {i + 1}", Color.white, 13, UiKit.Circle, true));
+                mapTargetFeet.Add(MapFeet(mapTargets[i], 1, Color.white));   // a ruler up the line on the right
+            }
             mapLoad = MapMark(map, "Load", amber, 18, UiKit.Circle, true);
+            mapLoadFeet = MapFeet(mapLoad, -1, amber);   // the live reading on the left
             mapPin = MapMark(map, "Pin", UiKit.Hex("E8352F"), 20, UiKit.Circle, true);
             mapBall = MapMark(map, "Ball", Color.white, 22, UiKit.Circle, true);
+        }
+
+        /// A putt mark's feet beside its dot on the map (`side` 1 right, -1 left).
+        Text MapFeet(RectTransform mark, int side, Color ink)
+        {
+            var pill = UiKit.Panel(mark, "Feet", MapInk, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(side * 44, 0), new Vector2(64, 26), false);
+            pill.raycastTarget = false;
+            var t = UiKit.Label(pill.transform, "Feet", 19, TextAnchor.MiddleCenter, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero, UiKit.Strong, false);
+            t.color = ink; t.raycastTarget = false;
+            pill.gameObject.SetActive(false);
+            return t;
         }
 
         /// A world point in the map's own rect coordinates (its centre is 0,0).
@@ -651,24 +683,31 @@ namespace GolfArcade.UI
             if (PhoneMapCamera) map = PhoneMapCamera;
             if (mapBall == null) BuildMinimapMarks();
             var plan = Map;
+            GolfArcade.EnvironmentArt.DreamVisibility.Mask(Minimap, map);
             bool Place(RectTransform mark, Vector3 world, bool show)
             {
                 var vp = map.WorldToViewportPoint(world);
-                bool inside = show && vp.x >= 0 && vp.x <= 1 && vp.y >= 0 && vp.y <= 1;
+                bool inside = show && (mark == mapBall || GolfArcade.EnvironmentArt.DreamVisibility.Visible(world)) && vp.x >= 0 && vp.x <= 1 && vp.y >= 0 && vp.y <= 1;
                 mark.gameObject.SetActive(inside);
                 if (inside) { mark.anchorMin = mark.anchorMax = new Vector2(vp.x, vp.y); mark.anchoredPosition = Vector2.zero; }
                 return inside;
             }
             Place(mapPin, plan.Pin, plan.Pin != Vector3.zero);
             Place(mapBall, plan.Ball, plan.ShowBall);
+            mapBall.SetAsLastSibling();
             Place(mapLanding, plan.Landing, plan.ShowLanding);
             if (onTv && tvMap.gameObject.activeSelf) tvMap.Draw(map, Minimap.texture, plan.Pin, plan.Ball, plan.ShowBall, plan.Landing, plan.ShowLanding);
             Place(mapLoad, plan.Load, plan.ShowLoad);
-            if (plan.Version == mapDrawn && map == mapDrawnWith) return;
+            mapLoadFeet.transform.parent.gameObject.SetActive(!string.IsNullOrEmpty(plan.LoadLabel));
+            mapLoadFeet.text = plan.LoadLabel;
+            mapLoad.SetAsLastSibling(); mapBall.SetAsLastSibling();
+            if (plan.Version == mapDrawn && map == mapDrawnWith && fogDrawn == GolfArcade.EnvironmentArt.DreamVisibility.Revision) return;
+            fogDrawn = GolfArcade.EnvironmentArt.DreamVisibility.Revision;
             mapDrawn = plan.Version; mapDrawnWith = map;
 
             // the zone: an ellipse on the aim, sized off the map's own scale
-            mapZoneFill.gameObject.SetActive(plan.ShowZone); mapZoneEdge.gameObject.SetActive(plan.ShowZone);
+            bool zoneVisible = plan.ShowZone && GolfArcade.EnvironmentArt.DreamVisibility.Visible(plan.ZoneCentre);
+            mapZoneFill.gameObject.SetActive(zoneVisible); mapZoneEdge.gameObject.SetActive(zoneVisible);
             if (plan.ShowZone)
             {
                 float h = plan.ZoneHeading * Mathf.Deg2Rad;
@@ -686,17 +725,24 @@ namespace GolfArcade.UI
                 }
             }
             // the checkpoints' targets
-            for (int i = 0; i < mapTargets.Count; i++) Place(mapTargets[i], i < plan.Targets.Count ? plan.Targets[i] : Vector3.zero, i < plan.Targets.Count);
+            for (int i = 0; i < mapTargets.Count; i++)
+            {
+                Place(mapTargets[i], i < plan.Targets.Count ? plan.Targets[i] : Vector3.zero, i < plan.Targets.Count);
+                bool feet = i < plan.TargetLabels.Count;   // (a putt's marks say how far they roll)
+                mapTargetFeet[i].transform.parent.gameObject.SetActive(feet);
+                if (feet) mapTargetFeet[i].text = plan.TargetLabels[i];
+            }
             // the reach: a dotted arc as far as a full swing with this club carries
             for (int i = 0; i < ReachDots; i++) Place(mapReach[i], i < plan.Reach.Count ? plan.Reach[i] : Vector3.zero, i < plan.Reach.Count);
             // the trace: the ball's own flight, a dark edge under the shot's colour
             int n = 0;
             var line = plan.TraceColor; line.a = 1f;
-            for (int i = 1; i < plan.Trace.Count; i++, n++)
+            for (int i = 1; i < plan.Trace.Count; i++)
             {
+                if (!GolfArcade.EnvironmentArt.DreamVisibility.Visible(plan.Trace[i-1]) || !GolfArcade.EnvironmentArt.DreamVisibility.Visible(plan.Trace[i])) continue;
                 var a = MapPoint(map, plan.Trace[i - 1]); var b = MapPoint(map, plan.Trace[i]);
                 Stretch(TraceBar(mapTraceUnder, n, new Color(MapInk.r, MapInk.g, MapInk.b, 0.5f), "Trace edge"), a, b, 8f);
-                Stretch(TraceBar(mapTraceLine, n, line, "Trace"), a, b, 4.5f);
+                Stretch(TraceBar(mapTraceLine, n, line, "Trace"), a, b, 4.5f); n++;
             }
             for (int i = n; i < mapTraceUnder.Count; i++) mapTraceUnder[i].gameObject.SetActive(false);
             for (int i = n; i < mapTraceLine.Count; i++) mapTraceLine[i].gameObject.SetActive(false);
@@ -767,6 +813,7 @@ namespace GolfArcade.UI
         /// pin, drawn in yellow (-1 for none).
         public void SetCheckpoints(float[] loads, string[] yards, int pin = -1)
         {
+            if (simple) simple.SetCheckpoints(loads, pin);
             if (loads == null) { foreach (var c in checkpoints) c.Root.gameObject.SetActive(false); return; }
             while (checkpoints.Count < loads.Length)
             {
@@ -1039,6 +1086,7 @@ namespace GolfArcade.UI
 
         /// The club and what it carries, on the yellow pill.
         public void SetClubSelection(GolfArcade.Shot.GolfClub club, bool announce = false) { if (simple) simple.SetClubSelection(club, announce); }
+        public void SetClubYards(string[] yards) { if (simple) simple.SetClubYards(yards); }
         public void SetClub(string text, bool putter = false) { yardage.SetClub(text, putter); if (simple) simple.SetClub(text); }
         /// Where the ball lies and what that costs the club in hand, on its own chip under the shot info.
         public void SetLie(GolfArcade.Course.CourseLie lie, GolfArcade.Shot.GolfClub club) { if (simple) simple.SetLie(lie, club); }

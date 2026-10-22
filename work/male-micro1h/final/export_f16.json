@@ -1,0 +1,51 @@
+{
+ "blend_sha256": "5bfb56f6e49f8c17888e0320bec8e59a2428fc4995089da25eb4c3912ce4a3fd",
+ "fbx_sha256": "e631772d00615d1e843d4bda70f7a7a158b9cdb47f3dbd2b251e10a888a413a1",
+ "body_tris": 60358,
+ "face_tris": 4580,
+ "face_slots": [
+  "Face_Brow",
+  "Face_Sclera",
+  "Face_Iris",
+  "Face_Pupil",
+  "Face_Limbal",
+  "Face_Catch",
+  "Face_LidLine",
+  "Face_Lip",
+  "Face_LipUp",
+  "Face_Seam",
+  "Face_Nostril"
+ ],
+ "imported_objects": [
+  "Body_M",
+  "Face_M"
+ ],
+ "Body_M": {
+  "verts": 30296,
+  "tris": 60358,
+  "max_reimport_mm": 0.00027939677238464355,
+  "materials": [
+   "Blockout_Grey"
+  ],
+  "height_m": 1.702187436632812
+ },
+ "Face_M": {
+  "verts": 2686,
+  "tris": 4580,
+  "max_reimport_mm": 0.0002682209014892578,
+  "materials": [
+   "Face_Brow",
+   "Face_Sclera",
+   "Face_Iris",
+   "Face_Pupil",
+   "Face_Limbal",
+   "Face_Catch",
+   "Face_LidLine",
+   "Face_Lip",
+   "Face_LipUp",
+   "Face_Seam",
+   "Face_Nostril"
+  ],
+  "height_m": null
+ }
+}

@@ -1,0 +1,13 @@
+[postcard_lib    0.0s] start: hole 10 Crater, play_z 6.0, 29 materials
+[postcard_lib    0.1s] terrain TERRAIN_CRATER: 333 top verts, 497 top tris, 2 loops (2 outer, 0 hole), 1487 faces total
+[postcard_lib    0.6s] play surfaces: FAIRWAY 988f, FAIRWAY_FIRSTCUT 642f, GREEN 188f, GREEN_APRON 178f, TEE_BOX 32f, BUNKER_01 66f, BUNKER_01_LIP 64f, BUNKER_02 76f, BUNKER_02_LIP 64f
+[postcard_lib    0.6s] gameplay: tee marker (0, 0, 6.24), pin (238.66, 150.60, 6.26)
+HOLE 10 markers [('BALL_START', 0.0, 0.0), ('FLAG', 238.6584014892578, 150.6016845703125), ('FLAG_POLE', 238.6584014892578, 150.6016845703125), ('HOLE_CUP', 238.6584014892578, 150.6016845703125)]
+plant kinds ['PLANT_TUFT_A', 'PLANT_TUFT_B', 'PLANT_TUFT_C', 'PLANT_SHRUB_A', 'PLANT_SHRUB_B', 'PLANT_SHRUB_C', 'PLANT_FLOWER_PURPLE', 'PLANT_FLOWER_WHITE', 'PLANT_FLOWER_YELLOW', 'PLANT_VINE_S', 'PLANT_VINE_M', 'PLANT_VINE_L', 'PLANT_AGAVE_A', 'PLANT_AGAVE_B', 'PLANT_PINE_A', 'PLANT_TREE_A']
+TOTAL placed 4357 bad 0
+path objs 0
+  [mixed] n=1700 onWater/noGround=0 onPlay=0 dzmax=0.020 nearPin=17.7 nearMarker=10.8
+D=None exc scatter(D=None, PLANT_TUFT_A): plants and dressing need D for the land mask (nothing else knows where the water is); pass the postcard_lib handle, use surface='any' / 'sea' with ROCK_ kinds, or allow_low=True in a test scene on a reference ground
+Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:49:19)
+
+Blender quit

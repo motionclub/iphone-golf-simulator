@@ -1,0 +1,327 @@
+{
+ "tag": "female",
+ "knobs": {
+  "cloth_iters": 6,
+  "cloth_factor": 0.5,
+  "bottom_iters": 2,
+  "bottom_factor": 0.5,
+  "sock_iters": 2,
+  "sock_factor": 0.5,
+  "shoe_iters": 0,
+  "shoe_factor": 0.5,
+  "transfer": "nearest",
+  "ray_blend": 1.0,
+  "fill_iters": 400,
+  "top_legs": 1,
+  "ray_gap": 0.035,
+  "weld_eps": 0.002,
+  "top_env": 0.0,
+  "top_sleeve": 0.0,
+  "top_sleeve_R": 0.07,
+  "top_env_pow": 3.0,
+  "top_env_lo": 0.025,
+  "restrict_nearest": 1,
+  "skirt_env": 1.0,
+  "skirt_env_pow": 3.0,
+  "skirt_ramp": 0.0,
+  "shoe_profile": 1,
+  "shoe_shift": 0.0,
+  "shoe_blend": 0.75,
+  "shoe_ankle": 0,
+  "side_split": 1,
+  "bottom_hips": -1.0,
+  "bottom_hips_gain": 1.0,
+  "ray_tol": 0.004
+ },
+ "pieces": {
+  "Top": {
+   "source_object": "Kit_Top_Polo_F_White",
+   "world_matrix_vs_identity": 0.0,
+   "weight_folded_vertex_equiv": 4.207723638065785,
+   "weld": {
+    "eps_mm": 2.0,
+    "pairs": 2973,
+    "clustered_vertices": 3068
+   },
+   "object": "Kit_Top",
+   "verts": 9722,
+   "tris": 19408,
+   "roles": [
+    "Kit_Shirt",
+    "Kit_ShirtTrim"
+   ],
+   "faces_per_role": [
+    18080,
+    1328
+   ],
+   "smoothing": {
+    "cls": "cloth",
+    "iters": 6,
+    "factor": 0.5
+   },
+   "nearest_body_distance_mm": {
+    "mean": 13.56029117290988,
+    "p99": 32.740312702953815,
+    "max": 35.411544144153595
+   },
+   "influences_max": 4,
+   "bones_used": 13
+  },
+  "Bottom": {
+   "source_object": "Kit_Bottom_Skort_F_White",
+   "world_matrix_vs_identity": 0.0,
+   "weight_folded_vertex_equiv": 34.61775873136243,
+   "skirt_env": {
+    "power": 3.0,
+    "blended_vertices": 3348
+   },
+   "weld": {
+    "eps_mm": 2.0,
+    "pairs": 9908,
+    "clustered_vertices": 8275
+   },
+   "object": "Kit_Bottom",
+   "verts": 12827,
+   "tris": 25646,
+   "roles": [
+    "Kit_Shorts",
+    "Kit_ShortsBand"
+   ],
+   "faces_per_role": [
+    22766,
+    2880
+   ],
+   "smoothing": {
+    "cls": "bottom",
+    "iters": 2,
+    "factor": 0.5
+   },
+   "nearest_body_distance_mm": {
+    "mean": 24.042157359352135,
+    "p99": 95.18275141716002,
+    "max": 105.54184764623642
+   },
+   "influences_max": 4,
+   "bones_used": 4
+  },
+  "Sock_L": {
+   "source_object": "Kit_Sock_R_White",
+   "world_matrix_vs_identity": 0.0,
+   "weight_folded_vertex_equiv": 0.0,
+   "weld": {
+    "eps_mm": 2.0,
+    "pairs": 1117,
+    "clustered_vertices": 1503
+   },
+   "object": "Kit_Sock_L",
+   "verts": 2543,
+   "tris": 5082,
+   "roles": [
+    "Kit_Sock"
+   ],
+   "faces_per_role": [
+    5082
+   ],
+   "smoothing": {
+    "cls": "sock",
+    "iters": 2,
+    "factor": 0.5
+   },
+   "nearest_body_distance_mm": {
+    "mean": 5.730892027092118,
+    "p99": 8.883365802466868,
+    "max": 10.32287161797285
+   },
+   "influences_max": 3,
+   "bones_used": 3
+  },
+  "Sock_R": {
+   "source_object": "Kit_Sock_L_White",
+   "world_matrix_vs_identity": 0.0,
+   "weight_folded_vertex_equiv": 0.0,
+   "weld": {
+    "eps_mm": 2.0,
+    "pairs": 1135,
+    "clustered_vertices": 1545
+   },
+   "object": "Kit_Sock_R",
+   "verts": 2543,
+   "tris": 5082,
+   "roles": [
+    "Kit_Sock"
+   ],
+   "faces_per_role": [
+    5082
+   ],
+   "smoothing": {
+    "cls": "sock",
+    "iters": 2,
+    "factor": 0.5
+   },
+   "nearest_body_distance_mm": {
+    "mean": 5.727756925119872,
+    "p99": 8.870159443467855,
+    "max": 10.323470458388329
+   },
+   "influences_max": 3,
+   "bones_used": 3
+  },
+  "Shoe_L": {
+   "source_object": "Kit_Shoe_R_White",
+   "world_matrix_vs_identity": 0.0,
+   "weight_folded_vertex_equiv": 0.0,
+   "shoe_profile": {
+    "u_samples": [
+     0.375,
+     0.575,
+     0.775,
+     0.975,
+     1.175,
+     1.375
+    ],
+    "toes_share": [
+     0.0,
+     0.024,
+     0.128,
+     0.303,
+     0.76,
+     0.88
+    ]
+   },
+   "weld": {
+    "eps_mm": 2.0,
+    "pairs": 3348,
+    "clustered_vertices": 3132
+   },
+   "object": "Kit_Shoe_L",
+   "verts": 6529,
+   "tris": 12910,
+   "roles": [
+    "Kit_Shoe",
+    "Kit_Sole"
+   ],
+   "faces_per_role": [
+    10652,
+    2258
+   ],
+   "smoothing": {
+    "cls": "shoe",
+    "iters": 0,
+    "factor": 0.5
+   },
+   "nearest_body_distance_mm": {
+    "mean": 14.876291737802582,
+    "p99": 38.50245326757432,
+    "max": 43.44553500413895
+   },
+   "influences_max": 3,
+   "bones_used": 3
+  },
+  "Shoe_R": {
+   "source_object": "Kit_Shoe_L_White",
+   "world_matrix_vs_identity": 0.0,
+   "weight_folded_vertex_equiv": 0.0,
+   "shoe_profile": {
+    "u_samples": [
+     0.375,
+     0.575,
+     0.775,
+     0.975,
+     1.175,
+     1.375
+    ],
+    "toes_share": [
+     0.0,
+     0.018,
+     0.127,
+     0.305,
+     0.758,
+     0.88
+    ]
+   },
+   "weld": {
+    "eps_mm": 2.0,
+    "pairs": 3348,
+    "clustered_vertices": 3132
+   },
+   "object": "Kit_Shoe_R",
+   "verts": 6529,
+   "tris": 12910,
+   "roles": [
+    "Kit_Shoe",
+    "Kit_Sole"
+   ],
+   "faces_per_role": [
+    10652,
+    2258
+   ],
+   "smoothing": {
+    "cls": "shoe",
+    "iters": 0,
+    "factor": 0.5
+   },
+   "nearest_body_distance_mm": {
+    "mean": 14.8766606815472,
+    "p99": 38.493469208478935,
+    "max": 43.44552755355835
+   },
+   "influences_max": 3,
+   "bones_used": 3
+  }
+ },
+ "kit_blend_sha": "87514133967ca9cc85dd1450f5961f41cb37750db87118eeeccd58dce8a2677d",
+ "anim_blend_sha": "d8b387f1a7d5010b9d183a3608ad0762172cb77df44f405f8e29938caac73970",
+ "materials": {
+  "Kit_Shirt": [
+   0.84809,
+   0.84809,
+   0.84809,
+   1.0
+  ],
+  "Kit_ShirtTrim": [
+   0.84809,
+   0.84809,
+   0.84809,
+   1.0
+  ],
+  "Kit_Shoe": [
+   0.84809,
+   0.84809,
+   0.84809,
+   1.0
+  ],
+  "Kit_Shorts": [
+   0.84809,
+   0.84809,
+   0.84809,
+   1.0
+  ],
+  "Kit_ShortsBand": [
+   0.00271,
+   0.00271,
+   0.0031,
+   1.0
+  ],
+  "Kit_Sock": [
+   0.84809,
+   0.84809,
+   0.84809,
+   1.0
+  ],
+  "Kit_Sole": [
+   0.84809,
+   0.84809,
+   0.84809,
+   1.0
+  ]
+ },
+ "triangles": {
+  "Top": 19408,
+  "Bottom": 25646,
+  "Sock_L": 5082,
+  "Sock_R": 5082,
+  "Shoe_L": 12910,
+  "Shoe_R": 12910
+ },
+ "kit_triangles_total": 81038
+}

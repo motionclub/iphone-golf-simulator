@@ -1,0 +1,152 @@
+{
+  "seed": 3005,
+  "status": "P5 PREPARATION ONLY; GARMENT_SPEC in progress; no final M packing or IDs",
+  "fabrics": [
+    {
+      "fabric_key": "golf.performance_knit",
+      "numeric_id": null,
+      "normal": "maps/fabric_prototypes/performance_knit_N_DRAFT.png",
+      "relief": "maps/fabric_prototypes/performance_knit_RELIEF_DRAFT.png",
+      "size": [
+        512,
+        512
+      ],
+      "normal_space": "tangent OpenGL +Y prototype \u2014 reconcile with 29",
+      "tile_seam_p99_rgb_levels": 8.0,
+      "status": "prototype input, not garment AO/cavity/trim/fabric M bake"
+    },
+    {
+      "fabric_key": "golf.twill",
+      "numeric_id": null,
+      "normal": "maps/fabric_prototypes/twill_N_DRAFT.png",
+      "relief": "maps/fabric_prototypes/twill_RELIEF_DRAFT.png",
+      "size": [
+        512,
+        512
+      ],
+      "normal_space": "tangent OpenGL +Y prototype \u2014 reconcile with 29",
+      "tile_seam_p99_rgb_levels": 8.0,
+      "status": "prototype input, not garment AO/cavity/trim/fabric M bake"
+    },
+    {
+      "fabric_key": "golf.pleated_twill",
+      "numeric_id": null,
+      "normal": "maps/fabric_prototypes/pleated_twill_N_DRAFT.png",
+      "relief": "maps/fabric_prototypes/pleated_twill_RELIEF_DRAFT.png",
+      "size": [
+        512,
+        512
+      ],
+      "normal_space": "tangent OpenGL +Y prototype \u2014 reconcile with 29",
+      "tile_seam_p99_rgb_levels": 8.0,
+      "status": "prototype input, not garment AO/cavity/trim/fabric M bake"
+    },
+    {
+      "fabric_key": "golf.cap_twill",
+      "numeric_id": null,
+      "normal": "maps/fabric_prototypes/cap_twill_N_DRAFT.png",
+      "relief": "maps/fabric_prototypes/cap_twill_RELIEF_DRAFT.png",
+      "size": [
+        512,
+        512
+      ],
+      "normal_space": "tangent OpenGL +Y prototype \u2014 reconcile with 29",
+      "tile_seam_p99_rgb_levels": 13.0,
+      "status": "prototype input, not garment AO/cavity/trim/fabric M bake"
+    },
+    {
+      "fabric_key": "golf.leather",
+      "numeric_id": null,
+      "normal": "maps/fabric_prototypes/leather_N_DRAFT.png",
+      "relief": "maps/fabric_prototypes/leather_RELIEF_DRAFT.png",
+      "size": [
+        512,
+        512
+      ],
+      "normal_space": "tangent OpenGL +Y prototype \u2014 reconcile with 29",
+      "tile_seam_p99_rgb_levels": 14.0,
+      "status": "prototype input, not garment AO/cavity/trim/fabric M bake"
+    },
+    {
+      "fabric_key": "golf.synthetic_leather",
+      "numeric_id": null,
+      "normal": "maps/fabric_prototypes/synthetic_leather_N_DRAFT.png",
+      "relief": "maps/fabric_prototypes/synthetic_leather_RELIEF_DRAFT.png",
+      "size": [
+        512,
+        512
+      ],
+      "normal_space": "tangent OpenGL +Y prototype \u2014 reconcile with 29",
+      "tile_seam_p99_rgb_levels": 9.0,
+      "status": "prototype input, not garment AO/cavity/trim/fabric M bake"
+    },
+    {
+      "fabric_key": "golf.rubber",
+      "numeric_id": null,
+      "normal": "maps/fabric_prototypes/rubber_N_DRAFT.png",
+      "relief": "maps/fabric_prototypes/rubber_RELIEF_DRAFT.png",
+      "size": [
+        512,
+        512
+      ],
+      "normal_space": "tangent OpenGL +Y prototype \u2014 reconcile with 29",
+      "tile_seam_p99_rgb_levels": 1.0,
+      "status": "prototype input, not garment AO/cavity/trim/fabric M bake"
+    }
+  ],
+  "planned_per_hero": {
+    "format": "ASTC 6x6",
+    "mips": true,
+    "textures": [
+      {
+        "garment": "polo",
+        "size": 1024,
+        "maps": [
+          "N",
+          "M"
+        ],
+        "bytes": 1252576
+      },
+      {
+        "garment": "bottom",
+        "size": 1024,
+        "maps": [
+          "N",
+          "M"
+        ],
+        "bytes": 1252576
+      },
+      {
+        "garment": "shoe_shared_lr",
+        "size": 1024,
+        "maps": [
+          "N",
+          "M"
+        ],
+        "bytes": 1252576
+      },
+      {
+        "garment": "glove",
+        "size": 512,
+        "maps": [
+          "N",
+          "M"
+        ],
+        "bytes": 316864
+      },
+      {
+        "garment": "headwear",
+        "size": 512,
+        "maps": [
+          "N",
+          "M"
+        ],
+        "bytes": 316864
+      }
+    ],
+    "bytes": 4391456,
+    "MB": 4.391456,
+    "MiB": 4.188018798828125,
+    "limit_MB": 6
+  }
+}

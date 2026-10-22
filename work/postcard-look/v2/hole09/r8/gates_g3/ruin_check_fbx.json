@@ -1,0 +1,71 @@
+{
+ "blend": null,
+ "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v2/hole09/r8/g3/hole_09.fbx",
+ "gates": [
+  {
+   "id": "RUIN_SUPPORTED",
+   "ok": true,
+   "detail": "389 masonry stones (islands of 17 DRESS_RUIN_/DRESS_ARCH_ meshes) + 13 fallen DRESS_BLOCK; floating stones (< 2 lowest vertices within 10 cm of ground / another stone): 0 []; 2 ring wedges rest by face contact on an already supported stone; DRESS_BLOCK instances floating 0; largest vertex gap seen below a resting stone 0.088 m"
+  },
+  {
+   "id": "RUIN_LINTEL_BEARING",
+   "ok": true,
+   "detail": "lintel 3.56 m long, 0.53 m thick, underside z 8.39 (ground 6.00); bearing (9 sample points 12-32 cm in from each end, within 10 cm of a jamb): end A 9 of 9; end B 9 of 9; doorway opening under its middle clear on 56 of 56 through-rays at 0.3-2.3 m (3 of 3 middle points open)"
+  },
+  {
+   "id": "RUIN_BASE_BURIED",
+   "ok": true,
+   "detail": "90 stones stand on the ground, 81 (90%) have their lowest vertex >= 12 cm under it (need >= 80 %); depth median 22 cm, min 11 cm"
+  },
+  {
+   "id": "RUIN_NOT_BOXES",
+   "ok": true,
+   "detail": "1677 standing faces (> 2 cm^2): 70% lean more than 1.5 deg off plumb (need >= 50 %; a box has 0 %), median |lean| 2.8 deg; stone length CV 0.27 along the stone's own axis / 0.26 by bounding box = the round-1 definition (need >= 0.25 on both), lengths 0.32..3.56 m over 389 stones"
+  },
+  {
+   "id": "RUIN_UV_WINDOWS",
+   "ok": true,
+   "detail": "1346 of 1346 standing LK_MASONRY faces 0.2-0.7 m high have their whole UV v-range inside one Masonry_C.png brick-row interior (100%; need >= 70 %): no mortar line runs across a stone face"
+  },
+  {
+   "id": "RUIN_FLAT_FACES",
+   "ok": true,
+   "detail": "6305 masonry polygons on 25 meshes: loop normal vs face normal worst 0.81 deg, 0 polygons over 1 deg, 0 over 3 deg (need 0 over 1 deg; round 1: 20.7 % over 3 deg, worst 28 deg)"
+  },
+  {
+   "id": "RUIN_UV_BRICK_INTERIOR",
+   "ok": true,
+   "detail": "6063 of 6077 LK_MASONRY polygons have their whole UV window inside one brick of Masonry_C.png (v inside one course, u between two mortar joints with a 4 px margin; joints re-derived from golf_look_textures.mat_masonry seed 1001): 99.8% (need >= 95 %); 16 faces wider than 0.20 uv (the 3.5 m lintel) exempt"
+  },
+  {
+   "id": "RUIN_BEDS_NOT_RULED",
+   "ok": true,
+   "detail": "312 above-ground masonry stones chained into 130 bed runs (neighbours within 5 cm in plan, beds within 10 cm in height); 4 runs >= 3 m long lie on a straight line within 2 cm = 29 stones = 9% (need <= 35 %; longest run 12.3 m)"
+  },
+  {
+   "id": "RUIN_TOPS_RAGGED",
+   "ok": true,
+   "detail": "78 exposed stone tops (nothing above within 2 m): 92% tilt >= 4 deg off horizontal (need >= 60 %), median height step to the nearest other exposed top within 1.5 m 43.4 cm over 76 pairs (need >= 6 cm)"
+  },
+  {
+   "id": "RUIN_ARCH_SEATED",
+   "ok": true,
+   "detail": "arch opening centre (-58.0, 113.8), intrados radius 2.00 m at spring z 8.70: masonry within 6 cm at 138 of 181 sampled angles (need >= 127 = 70 %: the missing wedge is 16 deg, the chipped wedge corners cost some more), longest uncovered arc 13 deg = 0.45 m (need <= 1.0 m), springers covered True, 63 loose stones lie within 3 m of the opening centre under the gap (need >= 3)"
+  },
+  {
+   "id": "RUIN_PLANAR_FACES",
+   "ok": true,
+   "detail": "4769 DRESS_RUIN / DRESS_ARCH polygons on 17 meshes: worst vertex distance from its own plane 0.019 mm, 0 over 1 mm (need 0; the hull faces of round 2 were split into triangles because they were not planar)"
+  },
+  {
+   "id": "RUIN_NO_UV_SPLIT",
+   "ok": true,
+   "detail": "17 pairs of adjacent polygons within 12 deg of coplanar in DRESS_RUIN / DRESS_ARCH stones: 0 have a UV mismatch along the shared edge (worst 0.00 mm of texture; need 0; round-2 stage 1,092 of 1,411); DRESS_BLOCK instances: 2236 near-coplanar pairs, 8 on a border of their three projection regions (reported)"
+  },
+  {
+   "id": "RUIN_MASONRY_SHARE",
+   "ok": true,
+   "detail": "17 DRESS_RUIN / DRESS_ARCH meshes: lowest LK_MASONRY share 66% (need >= 50 %), highest LK_ROCK share 34% (need < 50 %); per mesh [('DRESS_ARCH_01_00', 0.71, 0.29), ('DRESS_ARCH_01_01', 0.72, 0.28), ('DRESS_ARCH_01_02', 0.73, 0.27), ('DRESS_ARCH_01_03', 0.78, 0.22), ('DRESS_RUIN_01_00', 0.67, 0.33), ('DRESS_RUIN_01_01', 0.71, 0.29)]..."
+  }
+ ]
+}

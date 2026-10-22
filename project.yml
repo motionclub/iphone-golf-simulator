@@ -10,6 +10,8 @@ settings:
     CODE_SIGN_STYLE: Automatic
     CURRENT_PROJECT_VERSION: 1
     MARKETING_VERSION: 0.1.0
+    # the app's id; the Control Center extension's id must start with it
+    APP_BUNDLE_ID: com.adnanandrew.motionsports
 targets:
   GolfArcade:
     type: application
@@ -19,7 +21,7 @@ targets:
         excludes: [Unity/SportsInfo.plist, Unity/MenuVideo, "Unity/CharacterAssets/Custom*", "Unity/CharacterAssets/Higgs*", "Unity/CharacterAssets/Hero*", "Unity/CharacterAssets/Player*"]
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.aloniewski.GolfArcade
+        PRODUCT_BUNDLE_IDENTIFIER: $(APP_BUNDLE_ID)
         CODE_SIGN_ENTITLEMENTS: GolfArcade/Multiplayer/GolfArcade.entitlements
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_FILE: GolfArcade/Unity/SportsInfo.plist
@@ -35,6 +37,26 @@ targets:
         INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
         TARGETED_DEVICE_FAMILY: "1"
         SUPPORTS_MACCATALYST: NO
+    dependencies:
+      - target: MotionClubControls
+  # "Record the TV" in Control Center / Lock Screen / Action button (iOS 18 controls). The intent itself runs in the app.
+  MotionClubControls:
+    type: app-extension
+    platform: iOS
+    deploymentTarget: "18.0"
+    sources:
+      - path: MotionClubControls
+        excludes: [Info.plist]
+      - path: GolfArcade/Party/RecordTVIntent.swift
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(APP_BUNDLE_ID).controls
+        INFOPLIST_FILE: MotionClubControls/Info.plist
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: Motion Club
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: $(inherited) MOTION_CLUB_CONTROLS
+        TARGETED_DEVICE_FAMILY: "1"
+        SKIP_INSTALL: YES
   GolfArcadeTests:
     type: bundle.unit-test
     platform: iOS

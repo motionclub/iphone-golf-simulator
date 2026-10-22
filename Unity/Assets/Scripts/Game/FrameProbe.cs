@@ -10,6 +10,25 @@ namespace GolfArcade.Game
     {
         public static int Target(int requested, double panelHz) =>
             requested >= 120 && panelHz >= 100 ? 120 : 60;
+
+        /// FRAME_RATE_60B: the floor every scene starts from. A phone's default (`targetFrameRate` -1) is 30 fps, and only
+        /// the scenes the app loads through NativeSportsSession (and Golf's Awake) asked for 60, so anything drawn before or
+        /// outside them (the first frames, a scene opened another way) ran at 30. Every scene load lifts a target under 60 to 60;
+        /// higher targets (the optional 120 Hz loop) are left alone. vSync stays off: the target, not the panel, paces the game.
+        public const int Floor = 60;
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        static void Hold()
+        {
+            Lift();
+            UnityEngine.SceneManagement.SceneManager.sceneLoaded -= Lifted;
+            UnityEngine.SceneManagement.SceneManager.sceneLoaded += Lifted;
+        }
+        static void Lifted(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode) => Lift();
+        public static void Lift()
+        {
+            if (Application.targetFrameRate < Floor) Application.targetFrameRate = Floor;
+            QualitySettings.vSyncCount = 0;
+        }
     }
 
     /// Frame-time probe. Records every frame into a fixed ring (no allocation per frame) and

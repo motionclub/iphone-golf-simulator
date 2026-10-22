@@ -1,0 +1,32 @@
+{
+  "package": "PASS all6 variants,119 exact runtime resources,50 garment KTX maps",
+  "source": "PASS exact accepted BlinkFinish FBX/LUT hashes, Body33705/23230,Face3824/3004,tennis53/golf53+Club",
+  "practice_frames": "PASS exact baseline tennis12/golf0",
+  "metal": "INTERRUPTED on root urgent shirt request; GPU released; no visual/parity adoption gate",
+  "partial_portraits": [
+    "GolfKitHero_Male_ready_t1000_blink_0.png",
+    "GolfKitHero_Male_ready_t1000_blink_100.png",
+    "MatchHero_Female_Distance_ready_t1100_blink_0.png",
+    "MatchHero_Female_Distance_ready_t1100_blink_100.png",
+    "MatchHero_Female_ready_t1100_blink_0.png",
+    "MatchHero_Female_ready_t1100_blink_100.png",
+    "MatchHero_Male_Distance_ready_t1100_blink_0.png",
+    "MatchHero_Male_Distance_ready_t1100_blink_100.png",
+    "MatchHero_Male_ready_t1100_blink_0.png",
+    "MatchHero_Male_ready_t1100_blink_100.png"
+  ],
+  "renderer_exit_code": 130,
+  "production_asset_adoption": "NOT PERFORMED",
+  "forehand_proof_track": {
+    "extra_unused_clip_only_tennis": true,
+    "all_four_tennis_decoded_tail_bytes": 5237312,
+    "same_12_practice_frames": true,
+    "recommendation": "Keep proof export separate. Before publication re-export tennis Run/RunDistance with MH_LOCKER_FACE_PARITY=0, or explicitly stage/remove the verified final clip tail and filter matching fixtures, then revalidate. No shipping surgery performed."
+  },
+  "pending": [
+    "complete all-six native Metal proof and art inspection after GPU release",
+    "native built-bundle hash check and XCTest",
+    "remove proof-only forehand from adoption shipping exports"
+  ],
+  "status": "CPU PACKAGE PASS; NATIVE ADOPTION PAUSED"
+}

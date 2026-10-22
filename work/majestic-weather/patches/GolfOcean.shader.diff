@@ -1,0 +1,11 @@
+--- /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/Course/Shaders/GolfOcean.shader	2026-10-15 14:04:34
++++ /private/tmp/claude-501/mwpatch/Assets/Resources/Course/Shaders/GolfOcean.shader	2026-10-17 20:26:20
+@@ -77,7 +77,7 @@
+     foam*=.55+.25*sin(dot(i.w.xz,float2(1.21,.73))-_Time.y*.6);
+     colour=lerp(colour,half3(.69,.89,.87),foam*.38);
+     half fog=InitializeInputDataFog(float4(i.w,1),0);
+-    return half4(EnvironmentFog(colour*lerp(half3(1,1,1),half3(.35,.55,.75),_DreamNight),fog,i.w),1);
++    return half4(EnvironmentFog(MajesticWeatherWater(colour*lerp(half3(1,1,1),half3(.35,.55,.75),_DreamNight)),fog,i.w),1); // MAJESTIC_WEATHER_HOOK
+    }
+    ENDHLSL
+   }

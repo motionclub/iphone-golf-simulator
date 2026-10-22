@@ -1,0 +1,85 @@
+{
+ "hole": "09",
+ "gates": [
+  {
+   "name": "TOP_VERTS_VS_FROZEN_BASELINE",
+   "ok": true,
+   "detail": "frozen postcard-look/baseline/blender/hole_09.blend: ground meshes frozen 12 / look 12 (same set True), 5628 vertices, max |delta| 0.00e+00 m, topology equal; problems []"
+  },
+  {
+   "name": "GROUND_HEIGHT_GRID_IDENTICAL",
+   "ok": true,
+   "detail": "179010 points at 0.75 m over the shore box +30 m, ground-only ray casts from z 60: hit masks equal True, max |dz| 0.00e+00 m, land hits 64444 (0.1s)"
+  },
+  {
+   "name": "NO_LIB_GEOMETRY_ABOVE_PLAY_SURFACE",
+   "ok": true,
+   "detail": "grid points where a lib mesh is the top hit above the ground collider (DRESS_PATH excluded, it is meant to sit 3.5 cm on top): {}; DRESS_PATH 0 pts, max +0.000 m"
+  },
+  {
+   "name": "SKIN_UPFACE_IN_WATER_ELLIPSES",
+   "ok": true,
+   "detail": "grid points (0.75 m cells = 0.56 m2 each) inside a scoring water ellipse where ROCK_SKIN is hit from above above z 0.2: 0 (= 0 m2), highest 0.00 m, reaching 0.00 m past the scoring shore; outside the shore: 1607 pts (= 904 m2) up to z 5.82 m, 0.86 m out"
+  },
+  {
+   "name": "NO_NEW_COLLISION_PREFIX",
+   "ok": true,
+   "detail": "40 objects new vs frozen; with a ground prefix: []"
+  },
+  {
+   "name": "NO_MAT_FOAM",
+   "ok": true,
+   "detail": "MAT_FOAM users {}, meshes using it [], WATER_FOAM* objects [] (frozen had ['WATER_FOAM', 'WATER_FOAM_CREST'])"
+  },
+  {
+   "name": "OCEAN_ONE_FLAT_PLANE_LK_WATER",
+   "ok": true,
+   "detail": "objects ['WATER_OCEAN']; 4560 verts 4415 faces, z range 0.0000..0.0000, all normals up True, materials ['LK_WATER'] (frozen: 4 verts)"
+  },
+  {
+   "name": "SHELF_AND_SURF_EXIST",
+   "ok": true,
+   "detail": "WATER_SHELF present mats ['LK_WATER_SHALLOW'] z 0.060; WATER_SURF objects 25; WATER_SHALLOW still present: False"
+  },
+  {
+   "name": "SURF_MANY_RAGGED_PIECES",
+   "ok": true,
+   "detail": "67 connected pieces in 25 objects; area m2 min 3.8 / median 83.5 / max 692.7 / total 8534 (largest = 8% of total); extent m median 21.3 max 93.2; design shore length 1895 m"
+  },
+  {
+   "name": "SURF_NO_OVERLAP",
+   "ok": true,
+   "detail": "0 grid cells (0 m2) covered by >= 2 WATER_SURF objects at the same z 0.12 (alpha-blended: double foam / sort popping); covered total 8519 m2"
+  },
+  {
+   "name": "LK_FACES_HAVE_TILE_UVS",
+   "ok": true,
+   "detail": "meshes with LK_ but no / extra UV layer []; NaN []; zero-area UV faces {}; sqrt(UV area * tile^2 / world area) p1/median/p99/n per material {'LK_CLIFF': (0.38, 0.84, 1.23, 20081), 'LK_CLIFF(wall)': (0.9, 0.96, 1.02, 722), 'LK_CLIFF_DARK': (0.51, 0.93, 1.26, 8045), 'LK_CLIFF_DARK(wall)': (0.89, 0.99, 1.29, 721), 'LK_FAIRWAY': (0.98, 1.0, 1.01, 2146), 'LK_GREEN': (0.93, 1.0, 1.0, 480), 'LK_ROCK': (0.77, 1.99, 7.16, 9070), 'LK_ROUGH': (0.86, 0.99, 1.13, 1274), 'LK_ROUGH(wall)': (0.98, 0.99, 1.0, 391), 'LK_SAND': (1.0, 1.0, 1.0, 244), 'LK_SCRUB': (0.87, 0.99, 1.15, 653), 'LK_SURF': (1.0, 1.0, 1.0, 8093), 'LK_WATER': (1.0, 1.0, 1.0, 4415), 'LK_WATER_SHALLOW': (1.0, 1.0, 1.0, 2569)}"
+  },
+  {
+   "name": "FAIRWAY_UV_FOLLOWS_CENTRELINE",
+   "ok": true,
+   "detail": "20 random FAIRWAY points: u*10 - lateral(raw centreline) median +0.00 m, max |err| 0.70 m; v*10 - arc(raw) median offset -190.02 m (integer-tile shift), spread max |dev| 0.25 m; stripe direction (grad v) vs raw centreline tangent: median 0.0 deg, max 1.4 deg (raw = unsmoothed design polyline; differences come from the lib's Chaikin smoothing)"
+  },
+  {
+   "name": "WALL_UV_CONTINUOUS",
+   "ok": true,
+   "detail": "TERRAIN wall: 4/2589 shared edges with a UV jump (max 157.93); ROCK_SKIN per-piece jumps 0/51812 edges (max 0.00); across piece boundaries 182 shared positions, u mismatch modulo 1 tile: max 0.067, >0.01 at 13"
+  },
+  {
+   "name": "SKIN_IS_JAGGED",
+   "ok": true,
+   "detail": "strata skin, signed distance of every vertex to the scoring shore (rows below the cap): mean along-shore std 0.23 m, adjacent-column steps > 0.2 m: 6.1% of column pairs, mean per-column vertical std 0.43 m, offset range -1.74..0.99 m; mid-row plan tortuosity vs 9-col smooth 1.026 (smooth extrusion = 0 / 0 % / 0 / 1.000)"
+  },
+  {
+   "name": "WALL_HIDDEN_FROM_VIEWPOINTS",
+   "ok": true,
+   "detail": "948 shore samples x 5 wall heights x 3 viewpoints (aerial 40 m out +15 m, low 40 m out +2 m, oblique 25 m out 20 m along +8 m): smooth TERRAIN wall seen first 0/7391 rays (0.0%); per view {'aerial': '0/2195', 'low': '0/2195', 'oblique': '0/3001'}; exposed by wall height {}"
+  },
+  {
+   "name": "FBX_REIMPORT_MATERIALS_UVS",
+   "ok": true,
+   "detail": "15 materials ['LK_CLIFF', 'LK_CLIFF_DARK', 'LK_FAIRWAY', 'LK_GREEN', 'LK_ROCK', 'LK_ROUGH', 'LK_SAND', 'LK_SCRUB', 'LK_SURF', 'LK_WATER', 'LK_WATER_SHALLOW', 'MAT_BALL', 'MAT_CUP', 'MAT_FLAG', 'MAT_POLE']; '.001'-style names []; LK_ meshes without exactly 1 UV layer []; images []; raw bytes 'Texture::' 0, '.png' 0; per-object material sets equal to the blend: 517/517 (diff [], missing [])"
+  }
+ ]
+}

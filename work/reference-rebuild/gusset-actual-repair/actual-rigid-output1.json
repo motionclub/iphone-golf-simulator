@@ -1,0 +1,95 @@
+{
+  "female_Forehand_4": {
+    "maximumBakedNormalLength": 1.0000000620770524,
+    "minimumBakedNormalLength": 0.9999997804855223,
+    "bakedRootMinimum": [
+      -0.2927873160727601,
+      0.8664573938335758,
+      -0.09510769026270657
+    ],
+    "bakedRootMaximum": [
+      0.1301537279002066,
+      1.3380329864583507,
+      0.2828371503331927
+    ],
+    "oracle": 1.2013700256829907e-07
+  },
+  "female_Forehand_3": {
+    "maximumBakedNormalLength": 1.0000000677987226,
+    "minimumBakedNormalLength": 0.9999997886848289,
+    "bakedRootMinimum": [
+      -0.21268971525507754,
+      0.9233819673035911,
+      -0.11308385484737822
+    ],
+    "bakedRootMaximum": [
+      0.22315044439954157,
+      1.376288661791068,
+      0.18627855048030495
+    ],
+    "oracle": 1.2013700256829907e-07
+  },
+  "female_Forehand_2": {
+    "maximumBakedNormalLength": 1.0000000789509622,
+    "minimumBakedNormalLength": 0.9999997896629399,
+    "bakedRootMinimum": [
+      -0.23414477967101113,
+      0.8817739632279493,
+      -0.18898296686466418
+    ],
+    "bakedRootMaximum": [
+      0.037458316605496735,
+      1.4103747418879597,
+      0.30160945648336923
+    ],
+    "oracle": 1.2013700256829907e-07
+  },
+  "female_intro": {
+    "maximumBakedNormalLength": 1.0000000805824885,
+    "minimumBakedNormalLength": 0.9999998434850552,
+    "bakedRootMinimum": [
+      -0.2911986138709091,
+      0.9232871363300871,
+      -0.11306723261867187
+    ],
+    "bakedRootMaximum": [
+      0.2549695644490204,
+      1.376369724251369,
+      0.19798499016534643
+    ],
+    "oracle": 1.2013700256829907e-07
+  },
+  "female_Forehand_1": {
+    "maximumBakedNormalLength": 1.000000059464792,
+    "minimumBakedNormalLength": 0.9999997714882386,
+    "bakedRootMinimum": [
+      0.04217696673791687,
+      0.835589465443041,
+      -0.19679499587427074
+    ],
+    "bakedRootMaximum": [
+      0.39174306131523906,
+      1.4035052816149922,
+      0.258189226212941
+    ],
+    "oracle": 1.2013700256829907e-07,
+    "sourceOraclePositionErrorMaxMetres": 0.03297323551953277,
+    "sourceOraclePositionErrorMedianMetres": 9.169464139667805e-08,
+    "sourceOraclePositionErrorP99Metres": 8.128767868748045e-06
+  },
+  "female_Forehand_0": {
+    "maximumBakedNormalLength": 1.0000000705382908,
+    "minimumBakedNormalLength": 0.9999997933192787,
+    "bakedRootMinimum": [
+      -0.21427324675398654,
+      0.92360536539461,
+      -0.11317698700819175
+    ],
+    "bakedRootMaximum": [
+      0.22282558418435452,
+      1.376288661791068,
+      0.18585997696852485
+    ],
+    "oracle": 1.2013700256829907e-07
+  }
+}

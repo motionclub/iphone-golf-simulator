@@ -1,0 +1,305 @@
+<title>Party Sports Feel Board</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: one reading column; a court-blue "stage" band holds our mock-ups; reference clips sit in a filterable card grid below. */
+:root{
+  --bg:#F3F7FB; --surface:#FFFFFF; --ink:#1B2A3A; --muted:#5A6B7D; --line:#D6E1EC;
+  --court:#2F7FD0; --court-deep:#1F5FA6; --stage-ink:#F6FAFF;
+  --gold:#FFD152; --cream:#FFF4DA; --weak:#A3C2DB; --white:#FFFFFF; --player:#FF7EB6;
+  --tennis:#2F7FD0; --golf:#3E9B5B; --feel:#8A5CD1; --tag-ink:#FFFFFF;
+  --chip:#E7EEF6;
+  --display:"Baloo 2", "Arial Rounded MT Bold", "Trebuchet MS", sans-serif;
+  --body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0F1720; --surface:#17222E; --ink:#E6EEF6; --muted:#9AAABB; --line:#2A3949;
+  --court:#1E4F86; --court-deep:#163C66; --stage-ink:#EAF3FF; --chip:#223142;
+  --tennis:#4C96E0; --golf:#4FB06C; --feel:#A07BE0; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#0F1720; --surface:#17222E; --ink:#E6EEF6; --muted:#9AAABB; --line:#2A3949;
+  --court:#1E4F86; --court-deep:#163C66; --stage-ink:#EAF3FF; --chip:#223142;
+  --tennis:#4C96E0; --golf:#4FB06C; --feel:#A07BE0; color-scheme:dark }
+body{background:var(--bg);color:var(--ink);font:16px/1.55 var(--body)}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{padding-block:40px 24px}
+.eyebrow{font:700 12px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1{font:800 clamp(34px,6vw,54px)/1.02 var(--display);margin:10px 0 12px;text-wrap:balance}
+h2{font:800 28px/1.1 var(--display);margin:0 0 6px;text-wrap:balance}
+h3{font:700 17px/1.3 var(--body);margin:0}
+p{margin:0;max-width:68ch}
+.lede{font-size:18px;color:var(--muted)}
+.status{display:inline-flex;gap:8px;align-items:center;margin-top:16px;padding:6px 12px;border-radius:999px;background:var(--chip);font-weight:700;font-size:14px}
+.status i{width:9px;height:9px;border-radius:50%;background:var(--gold);display:inline-block}
+section{padding-block:28px}
+.sub{color:var(--muted);margin-bottom:18px}
+a{color:var(--court-deep)}
+:root[data-theme="dark"] a{color:#9CC8F5}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) a{color:#9CC8F5}}
+a:focus-visible,button:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:6px}
+
+/* stage band */
+.stage{background:var(--court);color:var(--stage-ink)}
+.stage .wrap{padding-block:32px}
+.stage h2{color:var(--stage-ink)}
+.stage .sub{color:var(--stage-ink);opacity:.85}
+.ladder{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.rung{background:var(--court-deep);border-radius:16px;padding:12px 10px 14px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;min-width:0}
+.rung svg{width:100%;max-width:120px;height:auto}
+.rung b{font:800 19px/1 var(--display)}
+.rung small{font-size:12.5px;line-height:1.35;opacity:.92}
+.adds{font:500 11px/1.3 var(--mono);opacity:.8}
+@media (max-width:820px){.ladder{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:440px){.ladder{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.diagrams{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+@media (max-width:820px){.diagrams{grid-template-columns:1fr}}
+.panel{background:var(--court-deep);border-radius:16px;padding:16px;min-width:0}
+.panel h3{margin-bottom:10px;color:var(--stage-ink)}
+.scroll{overflow-x:auto}
+.panel svg text{font-family:var(--body)}
+
+/* filters + cards */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.filters button{font:700 14px var(--body);border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:7px 14px;border-radius:999px;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.card .top{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.tag{font:700 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--tag-ink);padding:5px 8px;border-radius:6px;white-space:nowrap}
+.tag.tennis{background:var(--tennis)} .tag.golf{background:var(--golf)} .tag.feel{background:var(--feel)}
+.game{font:700 13px var(--body);color:var(--muted)}
+.vt{font-weight:700;overflow-wrap:anywhere}
+.id{font:500 13px var(--mono);overflow-wrap:anywhere}
+.look{font-size:14.5px}
+.look b{font-weight:700}
+.ts{font:500 12px var(--mono);color:var(--muted)}
+.note{font-size:14px;color:var(--muted);margin-top:14px}
+
+/* lessons + decisions */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media (max-width:820px){.two{grid-template-columns:1fr}}
+ol.lessons,ol.decide{margin:0;padding-left:22px;display:grid;gap:8px}
+ol.lessons li::marker,ol.decide li::marker{font-weight:800;color:var(--muted)}
+.src{font-size:13px;color:var(--muted)}
+table{border-collapse:collapse;width:100%;font-size:14.5px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+footer{padding-block:24px 48px;color:var(--muted);font-size:14px}
+@media (prefers-reduced-motion:no-preference){.rung svg .pop{transform-origin:50% 50%;animation:pop 2.4s cubic-bezier(.34,1.56,.64,1) infinite}}
+@keyframes pop{0%,60%,100%{transform:scale(1)}8%{transform:scale(.82)}18%{transform:scale(1.12)}30%{transform:scale(1)}}
+</style>
+
+<header class="wrap">
+  <div class="eyebrow">VFX · sound · phone haptics · research 2026-10-17</div>
+  <h1>Party Sports Feel Board</h1>
+  <p class="lede">What the best tennis, golf and "juicy" games do at the moment of contact, and the system we propose to build. Our own mock-ups are first, then the reference clips to study, then the decisions waiting on you.</p>
+  <div class="status"><i></i>Proposal only. Nothing is built until you say "proceed".</div>
+</header>
+
+<div class="stage">
+  <div class="wrap">
+    <h2>The hit ladder (our mock-up)</h2>
+    <p class="sub">One ladder for both sports. Each step adds a channel, and shape carries the meaning because player colours are customisable. No camera shake and no hit-stop: weight comes from shape, trail, squash and sound.</p>
+    <div class="ladder" role="list">
+      <div class="rung" role="listitem">
+        <svg viewBox="0 0 120 120" aria-hidden="true"><g class="pop"><circle cx="60" cy="60" r="34" fill="none" stroke="var(--white)" stroke-width="6" stroke-dasharray="20 12" stroke-linecap="round"/></g></svg>
+        <b>Miss</b><small>white swish ring, comic whoop</small><span class="adds">whiff haptic</span>
+      </div>
+      <div class="rung" role="listitem">
+        <svg viewBox="0 0 120 120" aria-hidden="true"><g class="pop"><circle cx="58" cy="62" r="20" fill="var(--weak)"/><circle cx="84" cy="70" r="6" fill="var(--weak)"/><circle cx="36" cy="76" r="5" fill="var(--weak)"/></g></svg>
+        <b>Weak</b><small>small grey-blue puff, dull "pok" + frame clack</small><span class="adds">+ sting buzz</span>
+      </div>
+      <div class="rung" role="listitem">
+        <svg viewBox="0 0 120 120" aria-hidden="true"><g class="pop"><circle cx="60" cy="60" r="38" fill="none" stroke="var(--cream)" stroke-width="4"/><circle cx="60" cy="60" r="22" fill="var(--cream)"/></g></svg>
+        <b>Solid</b><small>round puff + thin ring, clean pop</small><span class="adds">+ ring</span>
+      </div>
+      <div class="rung" role="listitem">
+        <svg viewBox="0 0 120 120" aria-hidden="true"><g class="pop"><circle cx="60" cy="60" r="40" fill="none" stroke="var(--white)" stroke-width="6"/><circle cx="60" cy="60" r="18" fill="var(--white)"/><rect x="92" y="28" width="12" height="9" rx="3" fill="var(--cream)" transform="rotate(25 98 32)"/><rect x="14" y="36" width="11" height="9" rx="3" fill="var(--cream)" transform="rotate(-20 19 40)"/><rect x="90" y="86" width="10" height="8" rx="3" fill="var(--cream)" transform="rotate(40 95 90)"/><rect x="20" y="88" width="12" height="8" rx="3" fill="var(--cream)" transform="rotate(-35 26 92)"/><rect x="56" y="6" width="10" height="9" rx="3" fill="var(--cream)"/></g></svg>
+        <b>Great</b><small>ring + plastic chips + flash, crisp "thwack"</small><span class="adds">+ chips, sweetener</span>
+      </div>
+      <div class="rung" role="listitem">
+        <svg viewBox="0 0 120 120" aria-hidden="true"><g class="pop"><circle cx="60" cy="61" r="48" fill="none" stroke="var(--gold)" stroke-width="3"/><circle cx="60" cy="61" r="40" fill="none" stroke="var(--gold)" stroke-width="5"/><polygon points="60,26 69,49 94,50 74,65 81,89 60,75 39,89 46,65 26,50 51,49" fill="var(--gold)" stroke="var(--gold)" stroke-width="7" stroke-linejoin="round"/><circle cx="14" cy="26" r="4" fill="var(--white)"/><circle cx="104" cy="22" r="3.5" fill="var(--white)"/><circle cx="108" cy="98" r="4" fill="var(--white)"/></g></svg>
+        <b>Perfect</b><small>gold rounded star + double ring; gold trail; chime in the music key</small><span class="adds">+ star, trail, chime</span>
+      </div>
+      <div class="rung" role="listitem">
+        <svg viewBox="0 0 120 120" aria-hidden="true"><g class="pop"><path d="M14 92 C 40 80, 58 64, 74 40" fill="none" stroke="var(--player)" stroke-width="12" stroke-linecap="round" opacity=".55"/><path d="M28 98 C 50 84, 66 70, 80 50" fill="none" stroke="var(--player)" stroke-width="7" stroke-linecap="round" opacity=".8"/><circle cx="82" cy="38" r="20" fill="var(--player)" stroke="var(--gold)" stroke-width="5"/></g></svg>
+        <b>Special</b><small>player-colour signature comet with a gold rim. Rare.</small><span class="adds">+ signature, duck, title</span>
+      </div>
+    </div>
+
+    <div class="diagrams">
+      <div class="panel">
+        <h3>Two clocks: the phone is "now", the TV is "world"</h3>
+        <div class="scroll">
+        <svg viewBox="0 0 460 210" width="100%" role="img" aria-label="Timeline: phone haptic fires at contact; TV picture and TV sound arrive together about 100 to 200 milliseconds later; TV-seen haptics are delayed to match">
+          <line x1="40" y1="182" x2="440" y2="182" stroke="var(--stage-ink)" stroke-opacity=".5" stroke-width="2"/>
+          <text x="40" y="202" fill="var(--stage-ink)" font-size="12">contact (0 ms)</text>
+          <text x="300" y="202" fill="var(--stage-ink)" font-size="12">+100–200 ms AirPlay</text>
+          <line x1="70" y1="26" x2="70" y2="182" stroke="var(--gold)" stroke-dasharray="4 4"/>
+          <line x1="330" y1="26" x2="330" y2="182" stroke="var(--gold)" stroke-dasharray="4 4"/>
+          <rect x="40" y="30" width="60" height="30" rx="8" fill="var(--gold)"/><text x="70" y="50" text-anchor="middle" font-size="12" font-weight="700" fill="#1B2A3A">haptic</text>
+          <rect x="106" y="30" width="120" height="30" rx="8" fill="var(--cream)"/><text x="166" y="50" text-anchor="middle" font-size="12" font-weight="700" fill="#1B2A3A">phone knock (opt)</text>
+          <text x="236" y="50" font-size="12" fill="var(--stage-ink)">PHONE · your own hit</text>
+          <rect x="300" y="78" width="60" height="30" rx="8" fill="var(--white)"/><text x="330" y="98" text-anchor="middle" font-size="12" font-weight="700" fill="#1B2A3A">VFX</text>
+          <rect x="300" y="114" width="60" height="30" rx="8" fill="var(--white)"/><text x="330" y="134" text-anchor="middle" font-size="12" font-weight="700" fill="#1B2A3A">TV sound</text>
+          <text x="370" y="104" font-size="12" fill="var(--stage-ink)">TV · same</text>
+          <text x="370" y="120" font-size="12" fill="var(--stage-ink)">rendered frame</text>
+          <rect x="300" y="150" width="60" height="24" rx="8" fill="var(--gold)" opacity=".85"/><text x="330" y="166" text-anchor="middle" font-size="11" font-weight="700" fill="#1B2A3A">bounce buzz</text>
+          <text x="40" y="150" font-size="12" fill="var(--stage-ink)">TV-seen events buzz</text>
+          <text x="40" y="166" font-size="12" fill="var(--stage-ink)">after TvLatency →</text>
+        </svg>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>One pipe instead of five copies</h3>
+        <div class="scroll">
+        <svg viewBox="0 0 460 210" width="100%" role="img" aria-label="Gameplay emits one FeelEvent; the FeelDirector reads a preset and dispatches VFX, TV sound, phone, UI and crowd; camera stays off">
+          <rect x="150" y="10" width="160" height="34" rx="10" fill="var(--white)"/><text x="230" y="32" text-anchor="middle" font-size="13" font-weight="700" fill="#1B2A3A">Feel.Emit(FeelEvent)</text>
+          <line x1="230" y1="44" x2="230" y2="66" stroke="var(--stage-ink)" stroke-width="2"/>
+          <rect x="90" y="66" width="280" height="40" rx="10" fill="var(--gold)"/><text x="230" y="84" text-anchor="middle" font-size="13" font-weight="700" fill="#1B2A3A">FeelDirector</text><text x="230" y="99" text-anchor="middle" font-size="11" fill="#1B2A3A">cue preset · tier row · surface row · gates</text>
+          <g font-size="11" font-weight="700" fill="#1B2A3A" text-anchor="middle">
+            <line x1="230" y1="106" x2="230" y2="124" stroke="var(--stage-ink)" stroke-width="2"/>
+            <line x1="44" y1="124" x2="416" y2="124" stroke="var(--stage-ink)" stroke-width="2"/>
+            <rect x="10" y="134" width="66" height="30" rx="8" fill="var(--cream)"/><text x="43" y="153">VFX</text>
+            <rect x="84" y="134" width="66" height="30" rx="8" fill="var(--cream)"/><text x="117" y="153">TV sound</text>
+            <rect x="158" y="134" width="66" height="30" rx="8" fill="var(--cream)"/><text x="191" y="153">Phone</text>
+            <rect x="232" y="134" width="66" height="30" rx="8" fill="var(--cream)"/><text x="265" y="153">UI pop</text>
+            <rect x="306" y="134" width="66" height="30" rx="8" fill="var(--cream)"/><text x="339" y="153">Crowd/VO</text>
+            <rect x="380" y="134" width="70" height="30" rx="8" fill="none" stroke="var(--stage-ink)" stroke-dasharray="4 3"/><text x="415" y="153" fill="var(--stage-ink)">Camera off</text>
+          </g>
+          <text x="230" y="194" text-anchor="middle" font-size="12" fill="var(--stage-ink)">solo · serve · opponent · Versus · online · replay all use this</text>
+        </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="wrap" id="clips">
+  <h2>Reference clips to study</h2>
+  <p class="sub">Each id was checked against YouTube on 2026-10-17 (title and channel match). Links open at the start unless a timestamp is known. No clip was downloaded or frame-stepped here, so "look for" is the brief for whoever studies it next.</p>
+  <div class="filters" role="group" aria-label="Filter clips">
+    <button type="button" id="f-all" data-f="all" aria-pressed="true">All</button>
+    <button type="button" id="f-tennis" data-f="tennis" aria-pressed="false">Tennis</button>
+    <button type="button" id="f-golf" data-f="golf" aria-pressed="false">Golf</button>
+    <button type="button" id="f-feel" data-f="feel" aria-pressed="false">Feel talks</button>
+  </div>
+  <div class="grid" id="grid"></div>
+  <p class="note">Dropped: <span class="id">MbHumqb00Yg</span> was returned as Switch Sports, but it is "Casual Sport Series: Tennis" by Revulo Games.</p>
+</section>
+
+<section class="wrap">
+  <div class="two">
+    <div>
+      <h2>Ten lessons we're taking</h2>
+      <p class="sub">The full list of 24 patterns with sources is in RESEARCH.md, Part D.</p>
+      <ol class="lessons">
+        <li><b>One event, every channel, one timestamp.</b> <span class="src">Celeste dash; Feel MMF_Player</span></li>
+        <li><b>Quality changes the timbre</b>, not just the volume. <span class="src">Matchpoint, PGA 2K, Loughborough golf-feel studies</span></li>
+        <li><b>The controller plays only your own hit, never a TV copy.</b> <span class="src">Wii Remote speaker; Iwata Asks, Super Mario Galaxy</span></li>
+        <li><b>Haptic and sound keep the same tempo</b>, scaled by impact. <span class="src">Apple WWDC19 810</span></li>
+        <li><b>Each tier adds a channel; the top tier stays rare.</b> <span class="src">Mario Tennis Aces ladder; Fever review</span></li>
+        <li><b>The trail carries the grade in flight.</b> <span class="src">Aces shot colours; Switch Sports red serve</span></li>
+        <li><b>Celebrate outcomes, not inputs; make failures funny.</b> <span class="src">Mario Golf Nice Shot; Everybody's Golf miscue</span></li>
+        <li><b>Duck the bed, never boost the hit; music never masks hits.</b> <span class="src">Rocket League HDR; Switch Sports</span></li>
+        <li><b>Surfaces sound different and leave marks.</b> <span class="src">TopSpin 2K25 clay/grass</span></li>
+        <li><b>Budget particles by copies on screen; overdraw is the limit.</b> <span class="src">Azur Games 2026; Apple TBDR</span></li>
+      </ol>
+    </div>
+    <div>
+      <h2>Decisions for you</h2>
+      <p class="sub">Say "proceed" and I'll use the recommended default for any you skip.</p>
+      <ol class="decide">
+        <li>Keep camera shake and hit-stop <b>off</b>? <span class="src">recommended: yes</span></li>
+        <li>One sound theme first, or all three? <span class="src">recommended: one, a Toybox × Clubhouse blend</span></li>
+        <li>Phone knock on by default after the device test?</li>
+        <li>About $550–700 Foley kit + ≤$300 packs; AI SFX for ideation only?</li>
+        <li>Announcer: in-house voice, hired, or silent for now?</li>
+        <li>Golf and hub music in this pass?</li>
+        <li>Special tier at most once per ~20 s?</li>
+        <li>Cinematic cuts or replay for big moments, outside live play?</li>
+        <li>Split <span class="id">Lag</span> into TV latency + player bias, with a calibration screen?</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <h2>Plan at a glance</h2>
+  <p class="sub">Every phase has binary gates and writes GATE_RESULTS.md. About 2.5–3 weeks with parallel chats. Full detail is in PROPOSAL.md §10.</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Phase</th><th>What</th><th>Key gate</th><th>Time</th></tr></thead>
+    <tbody>
+      <tr><td>P0</td><td>Your decisions; budget sync with the 60 fps chat</td><td>numbers agreed</td><td>0.5 d</td></tr>
+      <tr><td>P1</td><td>Spine: FeelEvent + FeelDirector wrapping today's effects and sounds</td><td>trace parity, same-frame sync, 0 B per event</td><td>3–4 d</td></tr>
+      <tr><td>P2</td><td>Audio foundation: mixer, buses, ducking, banks</td><td>no runtime synthesis; contact never culled</td><td>3 d</td></tr>
+      <tr><td>P3</td><td>Hit sounds v1 + Foley day</td><td>friends name the tier by ear ≥80%</td><td>5–7 d</td></tr>
+      <tr><td>P4</td><td>VFX art system: toon mesh FX, ladder, surfaces</td><td>60 fps at 1920×1080 in the stress scene</td><td>6–8 d</td></tr>
+      <tr><td>P5</td><td>Phone channel: per-tier knock, new haptics, latency split</td><td>haptic-to-TV offset ≤1 frame on device</td><td>3–4 d</td></tr>
+      <tr><td>P6</td><td>Crowd, announcer, music</td><td>crowd follows rally tension; hits stay on top</td><td>5 d</td></tr>
+      <tr><td>P7–P8</td><td>Moments, polish, device sweep</td><td>p95 frame ≤16.7 ms; your sign-off</td><td>6 d</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<footer class="wrap">Files: work/vfx-audio-research/ — RESEARCH.md · CURRENT_STATE.md · PROPOSAL.md · notes/ (inventory and three research tracks, with URLs on every claim). Research only: nothing in the game was changed.</footer>
+
+<script>
+const clips = [
+  {c:"tennis",g:"Wii Sports (2006)",t:"Wii Sports 2006 full gameplay (ALL 5 SPORTS)",ch:"Mis",id:"OsnNlg_Sask",s:14,look:"<b>Tennis from 0:14.</b> The serve trail on a well-timed serve, the contact flash or lack of one, and how the crowd reacts after each point."},
+  {c:"tennis",g:"Wii Sports",t:"Wii Sports - Tennis",ch:"WatchmeplayNintendo",id:"bMnN3m_5X-A",look:"How rare and small the hit effects are; how much the <b>crowd and Mii reactions</b> carry instead."},
+  {c:"tennis",g:"Nintendo Switch Sports",t:"Nintendo Switch Sports - Official Gameplay Trailer",ch:"IGN",id:"T9MhqWwhsIA",look:"The tennis section: contact frame, ball trail, and the <b>red perfect-serve trail</b>. Notice the music sits under the hit sounds."},
+  {c:"tennis",g:"Mario Tennis Aces",t:"Mario Tennis Aces - Nintendo Direct Trailer",ch:"GameSpot Trailers",id:"0lPJCJqpcK8",look:"The <b>tier ladder</b>: how trail width, flash, slowdown and camera change step up from a normal shot to a Zone Shot."},
+  {c:"tennis",g:"Mario Tennis Aces",t:"All Zone Shots Animations (All Characters)",ch:"YTSunny",id:"J7NG82-2iXs",look:"How slow-motion starts, the screen tint, and how quickly it <b>snaps back</b>."},
+  {c:"tennis",g:"Mario Tennis Aces",t:"All 9 Special Shots in Mario Tennis Aces Demo",ch:"GameXplain",id:"A5BUIycx8iE",look:"Per-character signature shapes for the top tier. This is the model for our player-colour <b>Special</b> tier."},
+  {c:"tennis",g:"Mario Tennis Fever (2026)",t:"Mario Tennis Fever - Trailer | Nintendo Direct",ch:"IGN",id:"0qlPHM5wQyY",look:"Effects that spawn where the ball lands. Reviewers found them <b>tiring when they fire every point</b>."},
+  {c:"tennis",g:"Mario Tennis Fever (2026)",t:"Mario Tennis Fever Overview Trailer",ch:"IGN",id:"iP5MGnurtLQ",look:"Court-hazard decals, the Talking Flower commentary, and instant replays."},
+  {c:"tennis",g:"TopSpin 2K25",t:"TopSpin 2K25 - Official Gameplay Showcase Trailer",ch:"GameTrailers",id:"7eNj6n6WUmQ",look:"<b>Clay slide dust and scuff marks</b> that stay; grass wearing at the baseline."},
+  {c:"tennis",g:"TopSpin 2K25",t:"How to turn on and off Timing Feedback in TopSpin 2K25",ch:"sadeqe info",id:"3a3Er6BhL24",look:"The post-shot label (perfect / good / too soon / too late): how it pops and its colour per grade."},
+  {c:"tennis",g:"TopSpin 2K25",t:"How to turn on and off Timing Meter in TopSpin 2K25",ch:"sadeqe info",id:"r_nLe9Ek9Oc",look:"How small and readable the timing meter is."},
+  {c:"tennis",g:"Tennis Clash (mobile)",t:"Tennis Clash gameplay",ch:"andro-games",id:"5JvngTcVAVo",look:"Mobile-budget hit spark and swipe trail: what a few particles can do."},
+  {c:"golf",g:"Wii Sports Resort",t:"Every Hole in One in Wii Sports Resort Golf",ch:"packattack04082",id:"1hEVZTld8u4",look:"The <b>big-moment payoff</b>: celebration length, crowd and camera."},
+  {c:"golf",g:"Nintendo Switch Sports",t:"Nintendo Switch Sports Golf Update and Overview Trailer",ch:"GameSpot Trailers",id:"LivrZI3_TPc",look:"Ball-flight trail, cup-in celebration, and the Survival elimination UI."},
+  {c:"golf",g:"Nintendo Switch Sports",t:"Nintendo Switch Sports - Official Golf Update Trailer",ch:"GameTrailers",id:"NDLfV1dhiok",look:"Strike moment and landing puffs on each lie."},
+  {c:"golf",g:"Mario Golf: Super Rush",t:"All 16 Special Shots in Mario Golf: Super Rush!",ch:"GameXplain",id:"g__umJvdlh4",look:"<b>Shockwave rings that push other balls</b>, ground decals, and the camera on the landing."},
+  {c:"golf",g:"Mario Golf: Super Rush",t:"All Special Shots & Dashes",ch:"KokiriGaming",id:"ds-0l01i2hs",look:"The same as above, from a second angle: the timing of the anticipation before each burst."},
+  {c:"golf",g:"Everybody's Golf",t:"Everybodys Golf | E3 2017 Gameplay Trailer",ch:"PlayStation Australia",id:"bwMnPKKf5uo",look:"Perfect-impact sparkle, chip-in fireworks, and the <b>comic miscue effect</b>."},
+  {c:"golf",g:"Everybody's Golf",t:"'Complete Guide' Gameplay Trailer",ch:"ARNOTS GAMING",id:"_K5R5fkh6po",look:"Where the screen gets \"a little busy\". Use it as the upper limit."},
+  {c:"golf",g:"Golf Clash (mobile)",t:"How to hit the PERFECT shot! Needle Trainer Tutorial",ch:"BK Golf Clash",id:"CeOY62p0Tmo",look:"The Perfect label animation and the bullseye: <b>mobile-scale reward</b>."},
+  {c:"golf",g:"PGA Tour 2K25",t:"PGA TOUR 2K25 Official Gameplay Trailer",ch:"PGA TOUR 2K",id:"9okRdqlh3_Q",look:"Shot tracer, the post-shot tempo graphic, and the camera after impact."},
+  {c:"golf",g:"EA Sports PGA Tour",t:"Official Gameplay Overview (4K)",ch:"GameTrailers",id:"0ZCOFsKQuGI",look:"Realistic reference for strike and landing sounds per lie."},
+  {c:"golf",g:"EA Sports PGA Tour",t:"EA SPORTS PGA TOUR Launch Trailer",ch:"XBOX",id:"VUGvJ3WPDUk",look:"Broadcast-style presentation. This is the opposite of our toy tone."},
+  {c:"golf",g:"Golf Story",t:"Golf Story Reveal Trailer",ch:"SideBarGames",id:"YyjTzc7EH4I",look:"A 2D shot meter and impact pop: charm with very few effects."},
+  {c:"golf",g:"Sports Story",t:"Sports Story Trailer (Golf Story Sequel)",ch:"Esquad Productions",id:"geq1XrcqgHM",look:"Tennis and golf in one stylised game."},
+  {c:"feel",g:"Sakurai",t:"Stop for Big Moments! [Design Specifics]",ch:"Masahiro Sakurai on Creating Games",id:"OdVkEOzdCPw",look:"Hit-stop and slow-motion snap-back for KOs. Relevant only if you reopen hit-stop."},
+  {c:"feel",g:"Sakurai",t:"Eight Hit Stop Techniques [Design Specifics]",ch:"Masahiro Sakurai on Creating Games",id:"tycbMSjDDLg",look:"#1 <b>shake the hit object, not the camera</b>: weight without moving the camera."},
+  {c:"feel",g:"GDC Europe 2012",t:"Juice it or lose it",ch:"grapefrukt",id:"Fy0aCDmgnxg",look:"Tween, squash, particles and sound per hit added live, one layer at a time."},
+  {c:"feel",g:"Vlambeer",t:"The art of screenshake (INDIGO 2013)",ch:"Dutch Game Garden",id:"AJdEqssNZ-U",look:"White flash frame, permanent marks, and a material sound per hit."},
+  {c:"feel",g:"GDC 2016",t:"Math for Game Programmers: Juicing Your Cameras With Math",ch:"GDC",id:"tu-Qe66AvtY",look:"The trauma shake model. On file only, because camera shake is off."},
+  {c:"feel",g:"GDC 2017",t:"Art Directing VFX for Stylized Games",ch:"GDC",id:"x30j-PUN1G4",look:"Turning art direction into VFX pillars: shape, palette, timing."},
+  {c:"feel",g:"GDC",t:"Developing the Art of Fortnite",ch:"GDC",id:"498KToofNf8",look:"Readable stylised shapes and hand-painted over photo textures."},
+  {c:"feel",g:"GDC",t:"50 Game Camera Mistakes",ch:"GDC",id:"C7307qRmlMI",look:"Camera rules for the big-moment shots outside live play."}
+];
+const grid = document.getElementById('grid');
+function esc(s){return String(s).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]))}
+function render(f){
+  grid.innerHTML = clips.filter(c=>f==='all'||c.c===f).map(c=>{
+    const url = 'https://www.youtube.com/watch?v='+c.id+(c.s?'&t='+c.s+'s':'');
+    const ts = c.s ? 'starts at '+Math.floor(c.s/60)+':'+String(c.s%60).padStart(2,'0') : 'opens at the start';
+    const label = c.c==='feel'?'Feel talk':c.c;
+    return `<article class="card"><div class="top"><span class="game">${esc(c.g)}</span><span class="tag ${c.c}">${label}</span></div>
+      <div class="vt">${esc(c.t)}</div>
+      <div><a class="id" href="${url}" target="_blank" rel="noopener">${c.id}</a> <span class="ts">· ${esc(c.ch)} · ${ts}</span></div>
+      <div class="look">${c.look}</div></article>`;
+  }).join('');
+}
+let saved='all'; try{ saved = localStorage.getItem('feelboard-filter') || 'all'; }catch(e){}
+function setF(f){ document.querySelectorAll('.filters button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.f===f))); render(f); try{localStorage.setItem('feelboard-filter',f)}catch(e){} }
+document.querySelectorAll('.filters button').forEach(b=>b.addEventListener('click',()=>setF(b.dataset.f)));
+setF(['all','tennis','golf','feel'].includes(saved)?saved:'all');
+</script>

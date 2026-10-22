@@ -297,7 +297,6 @@ struct IslandSettingsScreen: View {
         case "holeFlyover": return Item(title: "Hole flyovers", detail: "Show the course before each hole. Overview stays available at address.", control: .toggle(s.holeFlyover))
         case "presentationBigMoments": return Item(title: "Big moments", detail: "Allow one special camera moment per golf hole.", control: .toggle(s.presentationBigMoments))
         case "golfTwists": return Item(title: "Golf twists", detail: "Two random modifiers each round: Bounce House, Pinball, Point Frenzy and more.", control: .toggle(s.golfTwists))
-        case "golfWeather": return Item(title: "Golf weather & hazards", detail: "Rain, storms, fog and gusts, with balloons, carts, gulls and twisters on the holes.", control: .toggle(s.golfWeather))
         case "golfBounties": return Item(title: "Golf bounties", detail: "A task on every hole that pays coins toward your XP.", control: .toggle(s.golfChallenges))
         case "coaching": return Item(title: "Coaching tips", detail: "Short hints on the phone and TV during matches.", control: .toggle(s.coachingTips))
         case "resetTips": return Item(title: "Show every coaching tip again", detail: "The hints you have already seen will come back.", control: .action("Reset", danger: false))
@@ -313,6 +312,7 @@ struct IslandSettingsScreen: View {
         case let g where g.hasPrefix("guide-"):
             let deck = GuideDeck(rowID: g)
             return Item(title: deck?.title ?? "Guide", detail: deck?.detail ?? "", control: .link)
+        case "tennisCamera": return Item(title: "Tennis camera", detail: "Follow close behind your player or see the court from above. Applies to your next match.", control: .choice(["Chase", "Elevated"], s.tennisCamera == "elevated" ? 1 : 0))
         case "fps": return Item(title: "120 fps on the phone", detail: "Smoother on ProMotion phones, uses more battery.", control: .toggle(s.highFrameRate))
         case "overscan": return Item(title: "Screen edge margin", detail: "Pulls the picture in from the edges if your TV crops it.", control: .stepper(s.overscan == 0 ? "None" : "\(Int(s.overscan * 100))%"))
         case "sound": return Item(title: "Sound", detail: "Menu and match sound.", control: .toggle(s.sound))
@@ -701,7 +701,6 @@ struct IslandOnlineScreen: View {
                         choices("Games",values:["1","3","6"],selected:String(lobby.games),prefix:"net-games-")
                     } else {
                         choices("Round twists",values:["on","off"],selected:lobby.twistsOff == true ? "off" : "on",prefix:"net-twists-")
-                        choices("Weather & hazards",values:["on","off"],selected:lobby.weatherOff == true ? "off" : "on",prefix:"net-weather-")
                     }
                     action("net-settings-seats","Player Seats",icon:"person.2.fill")
                 }
@@ -740,8 +739,11 @@ struct MultiplayerMatchOverlay: View {
         return p.paused == true ? "\(p.name) paused" : nil
     }
     var body: some View {
-        if let lobby = service.lobby, [.calibrating,.playing,.interrupted].contains(lobby.phase) {
+        if let lobby = service.lobby, [.loading,.calibrating,.playing,.interrupted].contains(lobby.phase) {
             VStack(alignment:.leading,spacing:8) {
+                if lobby.sport == .tennis, SportsSession.shared.showsOnlineTennisSetup {
+                    OnlineTennisTVSetup(session: .shared, service: service)
+                }
                 HStack {
                     if service.localSeat < 0 { IslandNotice(text:"Watching",compact:compact) }
                     Spacer()

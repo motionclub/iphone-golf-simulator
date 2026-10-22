@@ -1,0 +1,118 @@
+{
+  "hole": 8,
+  "phase": "P2",
+  "result": "FAIL",
+  "reason": "Native capture succeeded after primary compile recovered. Complete required verifier100/100 and exact scoring0.000m PASS; visual recognition remainsNO and waterfall UVscroll is unimplemented under the retained shader contract.",
+  "raw_verifier": {
+    "measured_pass": 100,
+    "unmeasured_skipped": 0,
+    "raw_pass": 100
+  },
+  "builder": {
+    "pass": 47,
+    "total": 47
+  },
+  "exact_scoring_delta_m": 0.0,
+  "fresh_aerial": "PASS hole08_vs_ref_staged.jpg with actual900x1600frame",
+  "two_visible_needles_per_camera": {
+    "status": "PASS",
+    "tee": 9,
+    "approach": 4,
+    "minimum": 2
+  },
+  "waterfall_uv_scroll": "FAIL unimplemented under unchanged SHADERS_STATIC",
+  "ranked_differences": [
+    {
+      "p0_rank": 1,
+      "difference": "Dark mow bands dominate every grass pad.",
+      "scope": "P1/P2",
+      "result": "FAIL",
+      "fixed": false,
+      "evidence": "Subtle bands are visible in the native address views; source textures improved, but the controlled contrast test remainsFAIL/unmeasured because edit-mode water changes27217/19647pixels between repeats.",
+      "remaining": "Explained from actual native image and frozen constraints; visual target still not fully met."
+    },
+    {
+      "p0_rank": 2,
+      "difference": "Long separated low slabs lack the reference island mass and overhangs.",
+      "scope": "P1/P2; scoring height is frozen",
+      "result": "FAIL",
+      "fixed": false,
+      "evidence": "The aerial still shows three separated low slabs. Frozen6m play height and343yd layout limit mass and proportions; skirts add relief without moving frozen meshes.",
+      "remaining": "Explained from actual native image and frozen constraints; visual target still not fully met."
+    },
+    {
+      "p0_rank": 3,
+      "difference": "Cliff faces are regular horizontal boardlike bands.",
+      "scope": "P1/P2",
+      "result": "FAIL",
+      "fixed": false,
+      "evidence": "Layered skirts are present, but the distant aerial still reads as thin bands. Shared cliff4m outline requirement remainsFAIL in its measured fixture; this native view does not prove a fix.",
+      "remaining": "Explained from actual native image and frozen constraints; visual target still not fully met."
+    },
+    {
+      "p0_rank": 4,
+      "difference": "Arch is tiny compared with the islands and reference arch.",
+      "scope": "P2/P5",
+      "result": "FAIL",
+      "fixed": false,
+      "evidence": "Arch height12.2m, with actual68px tee/146px approach masks. It remains only38px tall in this reference aerial, so its relationship to the islands differs.",
+      "remaining": "Explained from actual native image and frozen constraints; visual target still not fully met."
+    },
+    {
+      "p0_rank": 5,
+      "difference": "Sea stacks have bulbous stepped bases and small isolated caps.",
+      "scope": "P1/P2",
+      "result": "FAIL",
+      "fixed": false,
+      "evidence": "Nine actual needles have height/base3.15\u20133.74 and no PCA stretch failure. They are visible9tee/4approach, but the aerial reads as sparse thin spikes against the denser reference stacks.",
+      "remaining": "Explained from actual native image and frozen constraints; visual target still not fully met."
+    },
+    {
+      "p0_rank": 6,
+      "difference": "Waterfall is short, thin and barely readable from above.",
+      "scope": "P2",
+      "result": "FAIL",
+      "fixed": false,
+      "evidence": "Waterfall source top5.7m reaches sea0 with4.8m width; it is small at aerial scale versus the reference broad tall fall. UVscroll remains unimplemented; staticgeometry is preserved.",
+      "remaining": "Explained from actual native image and frozen constraints; visual target still not fully met."
+    },
+    {
+      "p0_rank": 7,
+      "difference": "Hanging vines are sparse and disappear at this frame scale.",
+      "scope": "P2",
+      "result": "FAIL",
+      "fixed": false,
+      "evidence": "99 supported wall vines are built. Their aerial scale is too small to reproduce the reference hanging foliage; they are not relabelled as visually fixed.",
+      "remaining": "Explained from actual native image and frozen constraints; visual target still not fully met."
+    },
+    {
+      "p0_rank": 8,
+      "difference": "Ocean reads as repeated large specular ovals with little broken surf.",
+      "scope": "P1",
+      "result": "FAIL",
+      "fixed": false,
+      "evidence": "Native ocean has strong repeating specular ovals.43brokenSurfobjects meet inheritedgeometrycaps, but reference surf is richer and uneven. ProtectedTennisWatershader is unchanged.",
+      "remaining": "Explained from actual native image and frozen constraints; visual target still not fully met."
+    },
+    {
+      "p0_rank": 9,
+      "difference": "Path reads as a narrow regular inset lane instead of broken paving.",
+      "scope": "P1/P2",
+      "result": "FAIL",
+      "fixed": false,
+      "evidence": "The flush stone path is visible and PATH_UNDER_BALL passes. Its narrow regular lane and paving detail remain less rugged than the reference.",
+      "remaining": "Explained from actual native image and frozen constraints; visual target still not fully met."
+    },
+    {
+      "p0_rank": 10,
+      "difference": "Warm distant fog flattens rocks, flowers and sky depth.",
+      "scope": "P2/P5; lighting code frozen",
+      "result": "FAIL",
+      "fixed": false,
+      "evidence": "Actual lighting/fog makes the aerial pale and flattens distant rocks. The reference has warm directional light and stronger depth; no protectedpipeline/camera/runtime edit was used to manufacture a match.",
+      "remaining": "Explained from actual native image and frozen constraints; visual target still not fully met."
+    }
+  ],
+  "native_eye": "NO",
+  "native_evidence": "hole08/unity/;verify_native_final.json"
+}

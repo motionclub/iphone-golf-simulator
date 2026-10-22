@@ -50,7 +50,7 @@ struct ClubEnvironmentView: UIViewRepresentable {
         view.autoenablesDefaultLighting = false
         view.allowsCameraControl = false
         view.isUserInteractionEnabled = false
-        view.preferredFramesPerSecond = 30
+        view.preferredFramesPerSecond = 60   // FRAME_RATE_60B: the camera drift and foliage move at the 60 fps of the rest of the app
         view.accessibilityElementsHidden = true
         updateUIView(view, context: context)
         return view
@@ -145,7 +145,7 @@ struct ClubLivingImageView: UIViewRepresentable {
         let view = LivingClubView()
         view.isUserInteractionEnabled = false
         view.accessibilityElementsHidden = true
-        view.preferredFramesPerSecond = 30
+        view.preferredFramesPerSecond = 60   // FRAME_RATE_60B (was 30: the cinemagraph stepped beside the 60 fps heroes)
         view.ignoresSiblingOrder = true
         return view
     }

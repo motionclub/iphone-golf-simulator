@@ -1,0 +1,84 @@
+{
+ "blend": "final/k8.blend",
+ "blend_sha256": "706e0f7b989dc3d8310970968560f247765d9041b26e3026f75f6fa27f849aaa",
+ "start_blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/male-micro1k-head/baseline/HeroBase_Male_Silhouette.blend",
+ "start_sha256": "72fc6465f0623a3c963ca3af58a5358c0a498265c7b9da059a941b58050c1059",
+ "verts": 30296,
+ "verts_same_count": true,
+ "moved_total": 2220,
+ "moved_outside_zone_z_lt_1_40": 20,
+ "min_z_of_moved_verts": 1.3618885278701782,
+ "max_move_mm": 6.15933028292612,
+ "mean_move_mm_moved": 0.8450652999128657,
+ "hands_moved": 0,
+ "arms_moved": 0,
+ "torso_pelvis_legs_feet_moved": 20,
+ "weld_ring_moved": 2,
+ "topology_identical": true,
+ "tris": 60358,
+ "quad_faces": 29840,
+ "vertex_groups_identical": true,
+ "vertex_groups": [
+  "LOOP_ala_L",
+  "LOOP_ala_R",
+  "LOOP_concha_L",
+  "LOOP_concha_R",
+  "LOOP_ear_attach_L",
+  "LOOP_ear_attach_R",
+  "LOOP_helix_L",
+  "LOOP_helix_R",
+  "LOOP_jaw_ear_L",
+  "LOOP_jaw_ear_R",
+  "LOOP_lid_margin_L",
+  "LOOP_lid_margin_R",
+  "LOOP_mouth_lip_lower",
+  "LOOP_mouth_lip_upper",
+  "LOOP_mouth_seam",
+  "LOOP_nostril_L",
+  "LOOP_nostril_R"
+ ],
+ "face_m_identical": true,
+ "face_m_materials_identical": true,
+ "body_materials": [
+  "Blockout_Grey"
+ ],
+ "boundary_edges": 92,
+ "nonmanifold_edges": 2,
+ "boundary_edges_start": 92,
+ "nonmanifold_edges_start": 2,
+ "height_m": 1.702187180519104,
+ "nan_or_inf": false,
+ "custom_normals_present": true,
+ "normals_far_from_edit": {
+  "corners": 110633,
+  "max_angle_deg": 1.517750859260559,
+  "changed_corners_gt_0_05deg": 123
+ },
+ "normals_edit_region": {
+  "corners": 10761,
+  "mean_rotation_deg": 4.368619918823242,
+  "max_rotation_deg": 24.283567428588867
+ },
+ "silhouette": {
+  "body_bald_front": {
+   "diff": 3219,
+   "union": 74879,
+   "pct": 4.298935616127352
+  },
+  "body_bald_back": {
+   "diff": 3233,
+   "union": 74133,
+   "pct": 4.361080760255217
+  },
+  "withface_bald_front": {
+   "diff": 3219,
+   "union": 74879,
+   "pct": 4.298935616127352
+  },
+  "withface_bald_back": {
+   "diff": 3233,
+   "union": 74133,
+   "pct": 4.361080760255217
+  }
+ }
+}

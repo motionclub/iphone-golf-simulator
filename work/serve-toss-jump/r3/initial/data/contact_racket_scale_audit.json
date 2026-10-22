@@ -1,0 +1,84 @@
+{
+  "male": {
+    "baseline": {
+      "strings_13": [
+        -0.15069322288036346,
+        -0.5974146127700806,
+        2.34616756439209
+      ],
+      "original_racket_scale": [
+        1.0000001192092896,
+        1.0,
+        1.0
+      ],
+      "StringBed_parent": "Racket_Classic",
+      "imported_frame_range": [
+        1.0,
+        76.0
+      ],
+      "imported_fps": 30.0,
+      "imported_length_s": 2.5
+    },
+    "candidate": {
+      "strings_13": [
+        -0.1636955589056015,
+        -0.5990854501724243,
+        2.3471994400024414
+      ],
+      "original_racket_scale": [
+        0.9999998807907104,
+        0.9999998807907104,
+        0.9999999403953552
+      ],
+      "StringBed_parent": "Racket_Classic",
+      "imported_frame_range": [
+        1.0,
+        76.0
+      ],
+      "imported_fps": 30.0,
+      "imported_length_s": 2.5
+    },
+    "strings_delta_13_mm": 13.149798744220844
+  },
+  "female": {
+    "baseline": {
+      "strings_13": [
+        -0.13494224846363068,
+        -0.5382728576660156,
+        2.243436098098755
+      ],
+      "original_racket_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "StringBed_parent": "Racket_Classic",
+      "imported_frame_range": [
+        1.0,
+        76.0
+      ],
+      "imported_fps": 30.0,
+      "imported_length_s": 2.5
+    },
+    "candidate": {
+      "strings_13": [
+        -0.16713930666446686,
+        -0.5466790795326233,
+        2.2402687072753906
+      ],
+      "original_racket_scale": [
+        1.0,
+        1.0,
+        0.9999999403953552
+      ],
+      "StringBed_parent": "Racket_Classic",
+      "imported_frame_range": [
+        1.0,
+        76.0
+      ],
+      "imported_fps": 30.0,
+      "imported_length_s": 2.5
+    },
+    "strings_delta_13_mm": 33.426748084230354
+  }
+}

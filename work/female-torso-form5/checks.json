@@ -1,0 +1,946 @@
+{
+ "gate": "FEMALE_TORSO_FORM5",
+ "lines": [
+  {
+   "group": "ZONE_OUTSIDE",
+   "line": "moved outside the DOCUMENTED zone5 mask vs FORM4 start (aa3e1e44)",
+   "value": 0,
+   "limit": "== 0",
+   "result": "PASS",
+   "basis": "float32 exact, audit dumps; zone5 = chat-7 torso zone (3,320) + LEG-TOP extension (1442 verts, z .62-.795, flood-filled thigh tubes, floor ring 96 verts pinned)"
+  },
+  {
+   "group": "ZONE_OUTSIDE",
+   "line": "moved outside zone5 vs ORIGINAL ArtDir 200dc3b9",
+   "value": 0,
+   "limit": "== 0",
+   "result": "PASS",
+   "basis": "float32 exact"
+  },
+  {
+   "group": "ZONE_OUTSIDE",
+   "line": "zone5 border vertices moved vs ArtDir (222: neck / arm junction / NEW leg-top floor ring)",
+   "value": 0,
+   "limit": "== 0",
+   "result": "PASS",
+   "basis": "bit-identical to the original ring the neighbours rely on"
+  },
+  {
+   "group": "ZONE_OUTSIDE",
+   "line": "zone5 border vertices moved vs FORM4 start",
+   "value": 0,
+   "limit": "== 0",
+   "result": "PASS",
+   "basis": ""
+  },
+  {
+   "group": "TOPOLOGY",
+   "line": "poly/loop/edge/material/smooth/UV/Hair/other objects identical; custom-normal raw codes identical OUTSIDE the disclosed offset rescale (vs FORM4 start AND vs ArtDir)",
+   "value": true,
+   "limit": "all True",
+   "result": "PASS",
+   "basis": "audit dumps; ROUND 5 DEVIATION from positions-only (brief: topology identical PREFERRED): the authored custom-normal OFFSET (raw code0) is scaled by (1-w) on 14836 corners of 3708 moved/tapered vertices (code1 and every other loop untouched) because the offsets baked on the ORIGINAL mesh flatten the new under-butt fold shading (same geometry: smile +1.7 px with them, +6.5 px without)"
+  },
+  {
+   "group": "TOPOLOGY",
+   "line": "triangles (budget 35-50k; NO densify)",
+   "value": 44708,
+   "limit": "unchanged, <=50k",
+   "result": "PASS",
+   "basis": "positions only"
+  },
+  {
+   "group": "TOPOLOGY",
+   "line": "flipped zone5 triangles vs original",
+   "value": 0,
+   "limit": "== 0",
+   "result": "PASS",
+   "basis": "face-normal dot < 0"
+  },
+  {
+   "group": "TOPOLOGY",
+   "line": "zone5 triangles turned >60 deg vs original",
+   "value": 0,
+   "limit": "<= 2",
+   "result": "PASS",
+   "basis": ""
+  },
+  {
+   "group": "SIDE_SIL",
+   "line": "side-profile torso-band XOR vs plate (z .82-1.30; torso band unchanged by the leg-top extension)",
+   "value": 0.0239,
+   "limit": "<= 0.05 (FORM4 0.0232)",
+   "result": "PASS",
+   "basis": "chat-7 gate script metrics_side.py"
+  },
+  {
+   "group": "FRONT_BACK_TORSO_EDGE",
+   "line": "front torso visible-edge XOR vs bald plate",
+   "value": 0.0342,
+   "limit": "<= 0.05",
+   "result": "PASS",
+   "basis": "chat-7 gate script metrics_fb.py (x is untouched in the torso; <=1 mm denoise in the leg-top band)"
+  },
+  {
+   "group": "FRONT_BACK_TORSO_EDGE",
+   "line": "back torso visible-edge XOR vs bald plate",
+   "value": 0.0445,
+   "limit": "<= 0.05",
+   "result": "PASS",
+   "basis": ""
+  },
+  {
+   "group": "SEAM_CLEAN",
+   "line": "displacement step at the NEW leg-top floor ring (mm)",
+   "value": 1.35,
+   "limit": "<= 8 (FORM4 zone-floor budget; new border far smaller)",
+   "result": "PASS",
+   "basis": "|d(v)-d(border)| over one edge (~12 mm), d = displacement vs the original"
+  },
+  {
+   "group": "SEAM_CLEAN",
+   "line": "... arm junction (mm)",
+   "value": 9.42,
+   "limit": "<= 10",
+   "result": "PASS",
+   "basis": ""
+  },
+  {
+   "group": "SEAM_CLEAN",
+   "line": "... neck/shoulder top (mm)",
+   "value": 0.57,
+   "limit": "<= 1",
+   "result": "PASS",
+   "basis": ""
+  },
+  {
+   "group": "SEAM_CLEAN",
+   "line": "zone5 edges with dihedral >40 deg (count)",
+   "value": 29,
+   "limit": "<= original (36)",
+   "result": "PASS",
+   "basis": "inherited mesh creases are not increased (FORM4 36)"
+  },
+  {
+   "group": "SEAM_CLEAN",
+   "line": "worst zone5 dihedral (deg)",
+   "value": 80.0,
+   "limit": "<= original (80.0) + .5",
+   "result": "PASS",
+   "basis": "the 80 deg is the crotch arch inherited from the original"
+  },
+  {
+   "group": "SEAM_CLEAN",
+   "line": "bi-Laplacian roughness mean (mm), zone5 interior",
+   "value": 0.185,
+   "limit": "<= 1.15 x FORM4 (0.352)",
+   "result": "PASS",
+   "basis": "smoothness not worse than FORM4"
+  },
+  {
+   "group": "SEAM_CLEAN",
+   "line": "bi-Laplacian roughness p95 (mm)",
+   "value": 0.794,
+   "limit": "<= 1.15 x FORM4 (1.342)",
+   "result": "PASS",
+   "basis": ""
+  },
+  {
+   "group": "NO_SELF_INTERSECT",
+   "line": "no NaN/inf coordinates",
+   "value": 0,
+   "limit": "== 0",
+   "result": "PASS",
+   "basis": ""
+  },
+  {
+   "group": "NO_SELF_INTERSECT",
+   "line": "exact triangle-triangle intersecting pairs touching zone5 (original / FORM4 / FORM5)",
+   "value": [
+    0,
+    0,
+    0
+   ],
+   "limit": "<= original (0)",
+   "result": "PASS",
+   "basis": "mathutils BVHTree.overlap = exact tri-tri test; the 4,444 whole-mesh pairs (identical in all files) are eyes/teeth/ears/hands"
+  },
+  {
+   "group": "NO_SELF_INTERSECT",
+   "line": "whole-mesh intersecting pairs unchanged vs original",
+   "value": [
+    4444,
+    4444
+   ],
+   "limit": "<= original",
+   "result": "PASS",
+   "basis": ""
+  },
+  {
+   "group": "NO_SELF_INTERSECT",
+   "line": "decoded custom normals still follow the geometry in zone5 (median / p95 deg, FORM5 vs original)",
+   "value": [
+    0.22,
+    2.64,
+    0.65,
+    3.37
+   ],
+   "limit": "within 0.5 / 1.0 deg of the original",
+   "result": "PASS",
+   "basis": "raw codes untouched"
+  },
+  {
+   "group": "BUST_KEEP",
+   "line": "side-envelope bump band z 1.15-1.27: RMS vs SUB-PIXEL plate contour (mm) [FORM5, FORM4]",
+   "value": [
+    0.32,
+    1.88
+   ],
+   "limit": "<= 3.0 and not worse than FORM4",
+   "result": "PASS",
+   "basis": "plate_side4.py sub-pixel gradient edge"
+  },
+  {
+   "group": "BUST_KEEP",
+   "line": "upper-chest diagonal: front line vs plate at z 1.28/1.30/1.32 (mm, negative = model further forward) [FORM5, FORM4, FORM3]",
+   "value": [
+    [
+     -3.9,
+     -10.7,
+     -17.9
+    ],
+    [
+     -3.2,
+     -10.1,
+     -18.1
+    ],
+    [
+     -9.9,
+     -16.0,
+     -22.0
+    ]
+   ],
+   "limit": "|FORM5| <= |FORM4| + 1.0 mm (0.4 plate px) and better than FORM3 at all three heights (brief: keep the upper-chest diagonal better than FORM3)",
+   "result": "PASS",
+   "basis": "ROUND 5 CHANGE (disclosed): was |FORM5| <= |FORM4|+0.05; the landing was relaxed to remove the neck-base dark band the round-4 critic found; residual above z~1.30 is the pinned neck-base ring (hand-off)"
+  },
+  {
+   "group": "BUST_KEEP",
+   "line": "mound apex curvature radius of the side envelope (cm): round, not flat nor pointed; plate 5.6 [FORM5, FORM4]",
+   "value": [
+    4.9,
+    4.4
+   ],
+   "limit": "4..8 (plate 5.6)",
+   "result": "PASS",
+   "basis": "parabola fit of the front envelope over +-2 cm around the apex"
+  },
+  {
+   "group": "BUST_KEEP",
+   "line": "mound column surface slope (98th pct |dy/dz| angle along |x| .06-.085, deg) [FORM5, FORM4]",
+   "value": [
+    36.0,
+    36.7
+   ],
+   "limit": "<= 38 (plate profile max ~39 on the diagonal)",
+   "result": "PASS",
+   "basis": ""
+  },
+  {
+   "group": "BUST_SOFT_PLASTIC",
+   "line": "upper-chest front profile is ONE concave sweep (no stall-then-steepen groove): max slope INCREASE between successive 1 cm samples, z 1.27-1.345 (deg) [FORM5, FORM4, FORM5-v1 (first staged version, rejected by the reviewers)]",
+   "value": [
+    -0.0,
+    1.4,
+    3.3
+   ],
+   "limit": "<= 2.0 (FORM5-v1 3.3 = stall to 5 deg then steepen to 12+ deg: the clay clavicle-level groove)",
+   "result": "PASS",
+   "basis": "front envelope, sub-pixel plate contour is monotone here; slopes [30.1, 28.1, 24.9, 22.2, 20.2, 19.2, 18.7, 18.7]"
+  },
+  {
+   "group": "BUST_SOFT_PLASTIC",
+   "line": "no dark band under the neck-base ring: centre dip of the plate-lit front render (grey levels below the straight line z 1.26 -> 1.38, z 1.29-1.36) [FORM5, FORM4, plate]",
+   "value": [
+    6.1,
+    7.4,
+    -9.5
+   ],
+   "limit": "<= FORM4 (+0.5): the round-4 critic read FORM5-r4 (12.3) as a NEW dark band at clavicle level",
+   "result": "PASS",
+   "basis": "ROUND 5 LINE: numpy plate-lit domain (gain 1.5 = the proofs soft look); a pure-plate profile has no dip (negative)"
+  },
+  {
+   "group": "BUST_SOFT_PLASTIC",
+   "line": "no near-vertical wall above the mound (front envelope slope z 1.30-1.355, deg from vertical; plate diagonal 35-40)",
+   "value": [
+    20.7,
+    20.2,
+    19.2,
+    18.7,
+    18.5,
+    18.4
+   ],
+   "limit": ">= 15 deg everywhere (round-4 FORM5 fell to 8 deg = the wall the critic saw as a step in the side contour; FORM4 14.5)",
+   "result": "PASS",
+   "basis": "ROUND 5 LINE"
+  },
+  {
+   "group": "BUST_SOFT_PLASTIC",
+   "line": "no hard shelf / crease: worst dihedral on the front bust region (deg) [FORM5, FORM4]",
+   "value": [
+    27.5,
+    30.0
+   ],
+   "limit": "<= 31 (11 mm mesh: 31 deg = 2 cm radius, soft)",
+   "result": "PASS",
+   "basis": "border-adjacent edges and inherited creases (<=15 deg in the original) excluded"
+  },
+  {
+   "group": "BUST_SOFT_PLASTIC",
+   "line": "no hard shelf / crease: dihedral increase vs original, bust region (deg)",
+   "value": 19.8,
+   "limit": "<= 25",
+   "result": "PASS",
+   "basis": ""
+  },
+  {
+   "group": "BUST_SOFT_PLASTIC",
+   "line": "soft cleavage (contact, not a knife crease): worst dihedral on the sternum strip |x|<2.2 cm, z 1.15-1.30 (deg) [FORM5, FORM4]",
+   "value": [
+    15.6,
+    15.9
+   ],
+   "limit": "<= 20 (smooth valley: >=2.5 cm radius at 11 mm spacing)",
+   "result": "PASS",
+   "basis": ""
+  },
+  {
+   "group": "BUST_SOFT_PLASTIC",
+   "line": "readable soft cleavage: front surface at the sternum strip is BEHIND the mound apex by (mm)",
+   "value": 10.2,
+   "limit": "5..22 (plate: soft valley; FORM4 9.7)",
+   "result": "PASS",
+   "basis": "sternum strip |x|<6 mm at the apex height; not a deep pit and not absent"
+  },
+  {
+   "group": "BUST_SOFT_PLASTIC",
+   "line": "side fill: lateral chest flank |x| .095-.105, z 1.19-1.23 (mean front y, mm; more negative = fuller) [FORM5, FORM4]",
+   "value": [
+    -91.9,
+    -85.7
+   ],
+   "limit": "not thinner than FORM4 by more than 2 mm",
+   "result": "PASS",
+   "basis": "the pinned arm seam (<=10 mm step) limits lateral relief"
+  },
+  {
+   "group": "BUST_SOFT_PLASTIC",
+   "line": "under-bust crescent position (z of lowest plate-lit luminance) at |x| .03/.06/.085 vs plate [FORM5 (plate)]",
+   "value": {
+    "0.03": [
+     1.202,
+     1.202
+    ],
+    "0.06": [
+     1.186,
+     1.188
+    ],
+    "0.085": [
+     1.184,
+     1.18
+    ]
+   },
+   "limit": "within 1.5 cm of the plate",
+   "result": "PASS",
+   "basis": "plate-fit light x2.5, plate pixel grid"
+  },
+  {
+   "group": "BUST_SOFT_PLASTIC",
+   "line": "open crescent, not a closed rim: fraction of the circle (r 3.5-6.5 cm about each mound) darker than the mound centre, UPPER half [F5 max, plate max]",
+   "value": [
+    0.21,
+    0.19
+   ],
+   "limit": "<= 0.30 (plate ~0.2; closed rim >0.6)",
+   "result": "PASS",
+   "basis": "soft render luminance, plate grid (informational for F4: 0.24)"
+  },
+  {
+   "group": "INFO_BUST_SOFT_PLASTIC",
+   "line": "plate-lit band-pass NCC, bust WIDE ROI [FORM5, FORM4]",
+   "value": [
+    0.751,
+    0.696
+   ],
+   "limit": "informational",
+   "result": "PASS",
+   "basis": "NCC alone is not evidence (see FORM3/FORM4)"
+  },
+  {
+   "group": "UNDERBUTT_CONTINUOUS",
+   "line": "back envelope vs SUB-PIXEL plate contour, z .70-.88 (mm; max |dev|) [FORM5, FORM4]",
+   "value": [
+    3.1,
+    12.7
+   ],
+   "limit": "<= 4 (FORM4 shows the thigh 10-13 mm too deep at z .72-.80)",
+   "result": "PASS",
+   "basis": "torso-chat plate anchor (knee centre); limbs-chat anchor puts the plate thigh ~11 mm deeper - disclosed in RESULTS"
+  },
+  {
+   "group": "UNDERBUTT_CONTINUOUS",
+   "line": "fold ONSET height (lower flank of the dark under-bum band reaches 50 % of its depth) at |x| .03/.06/.09/.12 vs plate (m) [FORM5, FORM4, plate]",
+   "value": [
+    [
+     0.784,
+     0.782,
+     0.79,
+     0.798
+    ],
+    [
+     0.808,
+     0.81,
+     0.81,
+     0.808
+    ],
+    [
+     0.79,
+     0.792,
+     0.794,
+     0.8
+    ]
+   ],
+   "limit": "within 1.2 cm of the plate at every column (FORM4 is 1.2-2 cm too high)",
+   "result": "PASS",
+   "basis": "plate-fit light x2.0, plate pixel grid"
+  },
+  {
+   "group": "UNDERBUTT_CONTINUOUS",
+   "line": "dark fold BAND (centroid of the plate-lit luminance deficit) is a SMILE: rise from |x| .045 to .12 (cm) [FORM5, FORM4, plate]",
+   "value": [
+    1.9,
+    -0.4,
+    1.7
+   ],
+   "limit": ">= 1.0 cm (plate 1.8; FORM4 flat / inverted)",
+   "result": "PASS",
+   "basis": "robust band centroid per column (the argmin flips between the thin crease and the broad band), plate-fit light x2.0, plate pixel grid, columns |x| .02 .03 .045 .06 .075 .09 .105 .12 .135"
+  },
+  {
+   "group": "UNDERBUTT_CONTINUOUS",
+   "line": "dark fold BAND height vs plate: rms of the centroid line over 9 columns (cm) [FORM5, FORM4]",
+   "value": [
+    0.57,
+    1.57
+   ],
+   "limit": "<= 1.0 cm and better than FORM4",
+   "result": "PASS",
+   "basis": "the cleft columns |x| <= .03 are dominated by the V-cleft shading and by the plate AO next to the gap (plate band 1-2 cm lower there)"
+  },
+  {
+   "group": "UNDERBUTT_CONTINUOUS",
+   "line": "fold is a CURVED smile, not a straight band: rise of the fold onset from |x| .06 to .12 (cm) [FORM5, FORM4, plate]",
+   "value": [
+    1.6,
+    -0.2,
+    0.8
+   ],
+   "limit": ">= 0.4 cm and larger than FORM4 (plate ~1 cm)",
+   "result": "PASS",
+   "basis": "a horizontal band has rise ~0; lateral columns are bounded by the pinned hip/thigh silhouette"
+  },
+  {
+   "group": "UNDERBUTT_CONTINUOUS",
+   "line": "RENDERED fold line (traced in the soft Blender panel proof/06z, what the eye sees): rms error vs plate over dx +-45..105 px (px, ~0.8 px/mm) [FORM5, FORM4]",
+   "value": [
+    5.8,
+    14.9
+   ],
+   "limit": "<= 6 px (~0.75 cm) and better than FORM4",
+   "result": "PASS",
+   "basis": "ROUND 5 LINE (added after the round-4 critics traced a flat bar in the renders while the numpy centroid gate passed): high-pass luminance (sigma 10 px) deficit centroid per column; clay panels reported in checks.json measurements"
+  },
+  {
+   "group": "UNDERBUTT_CONTINUOUS",
+   "line": "RENDERED fold line is a smile: lateral rise of the traced fold line from |dx| 45 to 105 px (px) [FORM5, FORM4, plate]",
+   "value": [
+    10.3,
+    -2.5,
+    14.3
+   ],
+   "limit": ">= 8 px (plate 14; FORM4 -3; FORM5 round 4 -0.5)",
+   "result": "PASS",
+   "basis": "ROUND 5 LINE: soft panel; (px / 0.8) = mm"
+  },
+  {
+   "group": "INFO_UNDERBUTT_CONTINUOUS",
+   "line": "RENDERED fold line, shape vs placement: mean offset of the traced line vs plate (px; negative = fold HIGHER than the plate) / shape error after removing that offset (px) [FORM5, FORM4]",
+   "value": [
+    [
+     -5.2,
+     2.6
+    ],
+    [
+     -13.3,
+     6.7
+    ]
+   ],
+   "limit": "informational (the pre-set gate above stays as defined)",
+   "result": "PASS",
+   "basis": "ROUND 5: separates the smile SHAPE from a constant vertical offset (partly the plate AO); not used to relax any gate"
+  },
+  {
+   "group": "UNDERBUTT_CONTINUOUS",
+   "line": "no hard line: worst dihedral on the underbutt region z .70-.90, |x| .035-.17 (deg; crotch/gap excluded) [FORM5, FORM4]",
+   "value": [
+    25.0,
+    34.8
+   ],
+   "limit": "<= max(FORM4, 30)",
+   "result": "PASS",
+   "basis": ""
+  },
+  {
+   "group": "UNDERBUTT_CONTINUOUS",
+   "line": "continuous under-curve: max slope change per 1 cm along the lower flank z .74-.86 at |x| .065/.09 (deg) [FORM5, FORM4]",
+   "value": [
+    16.8,
+    17.5
+   ],
+   "limit": "<= 22 and not worse than FORM4",
+   "result": "PASS",
+   "basis": "sagittal sections of the denoised profile"
+  },
+  {
+   "group": "UNDERBUTT_CONTINUOUS",
+   "line": "LEG-TOP band (documented): max displacement vs FORM4 (mm) / max in-plane (x,z) movement (mm) / vertices moved",
+   "value": [
+    17.2,
+    2.75,
+    1346
+   ],
+   "limit": "in-plane movement <= 3 mm (Taubin denoise only; < 1.2 plate pixels; front/back silhouettes unchanged)",
+   "result": "PASS",
+   "basis": "y-only recess <= 12.5 mm at z .74-.78 tapering to 0 at the floor ring z .62"
+  },
+  {
+   "group": "INFO_UNDERBUTT_CONTINUOUS",
+   "line": "LEG-TOP disclosure: thigh-back recess vs FORM4 at z .64 .66 .68 .70 .72 .74 .76 .78 (mm, envelope)",
+   "value": [
+    -0.7,
+    -2.6,
+    -8.0,
+    -10.8,
+    -13.8,
+    -14.2,
+    -14.2,
+    -14.3,
+    -6.5
+   ],
+   "limit": "informational",
+   "result": "PASS",
+   "basis": "plate (torso anchor) thigh back +81..83 mm; FORM4 +90..96"
+  },
+  {
+   "group": "GLUTE_HOLD_LANGUAGE",
+   "line": "two distinct round lobes: apex |x| (m) / z (m)",
+   "value": [
+    0.06,
+    0.87
+   ],
+   "limit": "|x| .045..095, z .84..90",
+   "result": "PASS",
+   "basis": "plate lobe centres ~ +-0.05..0.08, apex z ~0.86"
+  },
+  {
+   "group": "GLUTE_HOLD_LANGUAGE",
+   "line": "lobe horizontal curvature radius at the apex (cm): round cheeks, not flat pads [FORM5, FORM4]",
+   "value": [
+    6.2,
+    6.4
+   ],
+   "limit": "4..14",
+   "result": "PASS",
+   "basis": ""
+  },
+  {
+   "group": "GLUTE_HOLD_LANGUAGE",
+   "line": "cleft is a soft V (not a box/pit): width(50% depth)/width(10% depth), worst over z",
+   "value": {
+    "0.86": {
+     "depth_mm": 16.4,
+     "ratio": 0.61
+    },
+    "0.88": {
+     "depth_mm": 12.8,
+     "ratio": 0.62
+    },
+    "0.9": {
+     "depth_mm": 8.4,
+     "ratio": 0.59
+    },
+    "0.92": {
+     "depth_mm": 3.8,
+     "ratio": null
+    },
+    "0.94": {
+     "depth_mm": 0.8,
+     "ratio": null
+    }
+   },
+   "limit": "<= 0.80 (vertical-walled pit ~1.0)",
+   "result": "PASS",
+   "basis": "FORM2 cleft was a square cavity"
+  },
+  {
+   "group": "GLUTE_HOLD_LANGUAGE",
+   "line": "cleft depth monotone, deepening downward (mm at z .86 .88 .90 .92 .94)",
+   "value": [
+    16.4,
+    12.8,
+    8.4,
+    3.8,
+    0.8
+   ],
+   "limit": "monotone, >=12 at z .86, <=12 at z .94",
+   "result": "PASS",
+   "basis": ""
+  },
+  {
+   "group": "GLUTE_HOLD_LANGUAGE",
+   "line": "no hard rim / flat-top ledge: worst dihedral on the glute region z .80-1.02 (deg) [FORM5, FORM4]",
+   "value": [
+    24.8,
+    34.0
+   ],
+   "limit": "<= 30",
+   "result": "PASS",
+   "basis": "border-adjacent edges and inherited creases excluded"
+  },
+  {
+   "group": "GLUTE_HOLD_LANGUAGE",
+   "line": "no hard rim: dihedral increase vs original, glute region (deg)",
+   "value": 24.8,
+   "limit": "<= 25",
+   "result": "PASS",
+   "basis": ""
+  },
+  {
+   "group": "GLUTE_HOLD_LANGUAGE",
+   "line": "back-envelope apex vs SUB-PIXEL plate contour at z .85/.86/.87/.88 (mm) [FORM5, FORM4]",
+   "value": [
+    [
+     1.0,
+     0.3,
+     -0.5,
+     -0.8
+    ],
+    [
+     1.0,
+     0.6,
+     -0.3,
+     -1.1
+    ]
+   ],
+   "limit": "|FORM5| max <= max(|FORM4| max, 2) + .5",
+   "result": "PASS",
+   "basis": "apex held"
+  },
+  {
+   "group": "GLUTE_HOLD_LANGUAGE",
+   "line": "lobe-top shape held: max drift vs FORM4 at z .88-.99 (mm)",
+   "value": 0.8,
+   "limit": "<= 1.0 (was 0.5 in the first FORM5 draft: the fairing of FORM4 lattice ripple now fades over z .88-.94 so the processed-region boundary does not show as a hairline; p99 drift ~0.5 mm, macro lobe shape unchanged)",
+   "result": "PASS",
+   "basis": "chest build blends in only above z .99"
+  },
+  {
+   "group": "BUST_EYE_PASS",
+   "line": "VISUAL plate | FORM4 | FORM5 (proof/05 soft + clay + side + zoom, proof/04): conventional soft-plastic breasts with cleavage / under-bust / side fill; NO circular/disk/target blobs *(eye check)*",
+   "value": "FAIL",
+   "limit": "author reading of the proofs + independent reviewer notes",
+   "result": "FAIL",
+   "basis": "AUTHOR verdict; Adnan eye overrides",
+   "eye_check_required": true
+  },
+  {
+   "group": "UNDERBUTT_EYE_PASS",
+   "line": "VISUAL plate | FORM4 | FORM5 (proof/06 back + 3/4 + side, soft + clay): continuous soft round into hamstrings/leg-top; NO mechanical horizontal cut *(eye check)*",
+   "value": "FAIL",
+   "limit": "author reading of the proofs + independent reviewer notes",
+   "result": "FAIL",
+   "basis": "AUTHOR verdict; Adnan eye overrides",
+   "eye_check_required": true
+  },
+  {
+   "group": "MIRROR_SOFT",
+   "line": "mirror-stripe test (proof/07): organic (no square/polygonal rings, no bullseye of concentric circles) *(eye check)*",
+   "value": "PASS",
+   "limit": "author reading of proof/07",
+   "result": "PASS",
+   "basis": "",
+   "eye_check_required": true
+  }
+ ],
+ "measurements": {
+  "bust_apex": {
+   "R": {
+    "apex_x": 0.05400000000000016,
+    "apex_z": 1.2200000000000002
+   },
+   "L": {
+    "apex_x": -0.051999999999999935,
+    "apex_z": 1.2220000000000002
+   }
+  },
+  "glute_apex": {
+   "R": [
+    0.06000000000000022,
+    0.8700000000000001,
+    0.1184804287903594
+   ],
+   "L": [
+    -0.05999999999999989,
+    0.8700000000000001,
+    0.11845126253887794
+   ]
+  },
+  "cleft": {
+   "0.86": {
+    "depth_mm": 16.4,
+    "ratio": 0.61
+   },
+   "0.88": {
+    "depth_mm": 12.8,
+    "ratio": 0.62
+   },
+   "0.9": {
+    "depth_mm": 8.4,
+    "ratio": 0.59
+   },
+   "0.92": {
+    "depth_mm": 3.8,
+    "ratio": null
+   },
+   "0.94": {
+    "depth_mm": 0.8,
+    "ratio": null
+   }
+  },
+  "crescent": {
+   "0.03": [
+    1.2020000000000002,
+    -14.236111111111114,
+    1.2020000000000002,
+    -19.081486435607104
+   ],
+   "0.06": [
+    1.1880000000000002,
+    -20.958333333333343,
+    1.1860000000000002,
+    -30.70637973433071
+   ],
+   "0.085": [
+    1.1800000000000002,
+    -18.87499999999997,
+    1.1840000000000002,
+    -27.767440932962074
+   ],
+   "0.11": [
+    1.1860000000000002,
+    -3.6527777777778,
+    1.1840000000000002,
+    22.165292049332095
+   ]
+  },
+  "fold_z": {
+   "form5": [
+    0.784,
+    0.782,
+    0.79,
+    0.798
+   ],
+   "form4": [
+    0.808,
+    0.81,
+    0.81,
+    0.808
+   ],
+   "plate": [
+    0.79,
+    0.792,
+    0.794,
+    0.8
+   ]
+  },
+  "score4_form5": {
+   "J": 15.192072038261854,
+   "ncc1": 0.8258075533475306,
+   "ncc2": 0.862714251179507,
+   "amp": 0.6758402187586148,
+   "rms": 6.280689046058501,
+   "rms_low": 0.38970023183584807,
+   "slope98": 36.00192487501109,
+   "rc": 4.881731394095666,
+   "dih": 27.466599757553443,
+   "dihi": 19.757325908458895,
+   "dihc": 15.567929865979625,
+   "shift": 0,
+   "arm": 9.41526604436568,
+   "top": 0.5671677991533669,
+   "legs": 12.224050799963756,
+   "pen": 14.557438123538766
+  },
+  "score4_form4": {
+   "J": 1.6580944527657233,
+   "ncc1": 0.7972550993318097,
+   "ncc2": 0.8052554264475204,
+   "amp": 0.7531271863662883,
+   "rms": 6.3291783511918815,
+   "rms_low": 1.8133827391628345,
+   "slope98": 36.656620833523796,
+   "rc": 4.444275711371528,
+   "dih": 30.04879048871149,
+   "dihi": 20.897572705025276,
+   "dihc": 15.879113111029643,
+   "shift": 2,
+   "arm": 7.035498308778382,
+   "top": 0.5046255982850784,
+   "legs": 7.595558391251756,
+   "pen": 1.074456106072934
+  },
+  "panel_fold_rows": {
+   "plate": {
+    "-105": 182.5,
+    "-90": 189.7,
+    "-75": 194.9,
+    "-60": 198.8,
+    "-45": 199.8,
+    "45": 201.5,
+    "60": 200.5,
+    "75": 199.1,
+    "90": 195.5,
+    "105": 190.1
+   },
+   "F4soft": {
+    "-105": 184.1,
+    "-90": 182.0,
+    "-75": 179.9,
+    "-60": 180.1,
+    "-45": 180.1,
+    "45": 182.5,
+    "60": 181.8,
+    "75": 181.8,
+    "90": 183.3,
+    "105": 183.5
+   },
+   "F4clay": {
+    "-105": 184.1,
+    "-90": 182.5,
+    "-75": 181.1,
+    "-60": 180.8,
+    "-45": 180.1,
+    "45": 180.7,
+    "60": 180.4,
+    "75": 180.7,
+    "90": 183.7,
+    "105": 183.8
+   },
+   "F5soft": {
+    "-105": 181.9,
+    "-90": 185.7,
+    "-75": 190.8,
+    "-60": 192.3,
+    "-45": 193.8,
+    "45": 194.6,
+    "60": 191.8,
+    "75": 190.1,
+    "90": 193.9,
+    "105": 185.9
+   },
+   "F5clay": {
+    "-105": 182.8,
+    "-90": 191.6,
+    "-75": 191.3,
+    "-60": 192.1,
+    "-45": 194.8,
+    "45": 194.3,
+    "60": 192.0,
+    "75": 191.5,
+    "90": 189.0,
+    "105": 184.6
+   }
+  },
+  "panel_fold_summary": {
+   "F4soft": {
+    "rms_err_px": 14.917525733060288,
+    "rise_px": -2.4601395184521664,
+    "crest_grad": 1.5666664123535115,
+    "mean_offset_px": -13.334198450300473,
+    "shape_err_px": 6.688178054187872
+   },
+   "F4clay": {
+    "rms_err_px": 15.221703477957647,
+    "rise_px": -3.5581334657899504,
+    "crest_grad": 3.776190694173178,
+    "mean_offset_px": -13.472471988864356,
+    "shape_err_px": 7.08468455756029
+   },
+   "F5soft": {
+    "rms_err_px": 5.802614654836989,
+    "rise_px": 10.3176092826875,
+    "crest_grad": 1.742855834960943,
+    "mean_offset_px": -5.169550816805147,
+    "shape_err_px": 2.6355419148627144
+   },
+   "F5clay": {
+    "rms_err_px": 5.8565833738707465,
+    "rise_px": 10.803431803714744,
+    "crest_grad": 4.290475718180341,
+    "mean_offset_px": -4.85649902281917,
+    "shape_err_px": 3.273222579730212
+   },
+   "plate": {
+    "rise_px": 14.32038262044631,
+    "crest_grad": 1.3952372233072936
+   }
+  }
+ },
+ "group_results": {
+  "ZONE_OUTSIDE": "PASS",
+  "TOPOLOGY": "PASS",
+  "SIDE_SIL": "PASS",
+  "FRONT_BACK_TORSO_EDGE": "PASS",
+  "SEAM_CLEAN": "PASS",
+  "NO_SELF_INTERSECT": "PASS",
+  "BUST_KEEP": "PASS",
+  "BUST_SOFT_PLASTIC": "PASS",
+  "UNDERBUTT_CONTINUOUS": "PASS",
+  "GLUTE_HOLD_LANGUAGE": "PASS",
+  "BUST_EYE_PASS": "FAIL",
+  "UNDERBUTT_EYE_PASS": "FAIL",
+  "MIRROR_SOFT": "PASS"
+ },
+ "overall": "FAIL",
+ "failed_lines": [
+  {
+   "group": "BUST_EYE_PASS",
+   "line": "VISUAL plate | FORM4 | FORM5 (proof/05 soft + clay + side + zoom, proof/04): conventional soft-plastic breasts with cleavage / under-bust / side fill; NO circular/disk/target blobs *(eye check)*",
+   "value": "FAIL",
+   "limit": "author reading of the proofs + independent reviewer notes",
+   "result": "FAIL",
+   "basis": "AUTHOR verdict; Adnan eye overrides",
+   "eye_check_required": true
+  },
+  {
+   "group": "UNDERBUTT_EYE_PASS",
+   "line": "VISUAL plate | FORM4 | FORM5 (proof/06 back + 3/4 + side, soft + clay): continuous soft round into hamstrings/leg-top; NO mechanical horizontal cut *(eye check)*",
+   "value": "FAIL",
+   "limit": "author reading of the proofs + independent reviewer notes",
+   "result": "FAIL",
+   "basis": "AUTHOR verdict; Adnan eye overrides",
+   "eye_check_required": true
+  }
+ ]
+}

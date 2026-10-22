@@ -1,0 +1,24 @@
+[
+  {
+    "name": "character-map-light29-control",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/character-map-light29-control",
+      "HERO_VENUE_ONLY": "1_gameplay,7_rear,8_rivalintro",
+      "VISUAL_CHARACTER_STAGE_LIGHT": "0",
+      "VISUAL_UNDERARM_GUSSET": "0"
+    }
+  },
+  {
+    "name": "character-map-light29-candidate",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/character-map-light29-candidate",
+      "HERO_VENUE_ONLY": "1_gameplay,7_rear,8_rivalintro",
+      "VISUAL_CHARACTER_STAGE_LIGHT": "1",
+      "VISUAL_UNDERARM_GUSSET": "0"
+    }
+  }
+]

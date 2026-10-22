@@ -1,0 +1,24 @@
+[
+  {
+    "name": "reskin-default-on-golf",
+    "method": "GolfArcade.EditorTools.GolfCourseStandardCapture.Run",
+    "env": {
+      "GOLF_STANDARD_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/proof/default-on/golf",
+      "GOLF_STANDARD_HOLES": "12,7",
+      "GOLF_STANDARD_SHOWCASE": "1",
+      "GOLF_STANDARD_CAMERA_SWEEP": "0",
+      "GOLF_STANDARD_WIND": "8,45",
+      "LUMINOUS_AUDIT_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/proof/default-on/golf/exit-to-hole7-audit.json"
+    }
+  },
+  {
+    "name": "reskin-default-on-tennis",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/proof/default-on/tennis",
+      "HERO_VENUE_ONLY": "1_gameplay",
+      "LUMINOUS_AUDIT_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/proof/default-on/tennis/audit.json"
+    }
+  }
+]

@@ -1,0 +1,64 @@
+{
+ "shots": [
+  {
+   "name": "fr_lip",
+   "kind": "aerial",
+   "pos": [
+    60,
+    10,
+    135
+   ],
+   "look": [
+    88,
+    6.6,
+    150
+   ],
+   "fov": 55
+  },
+  {
+   "name": "fr_pad",
+   "kind": "aerial",
+   "pos": [
+    -14,
+    7.8,
+    -14
+   ],
+   "look": [
+    2,
+    6.6,
+    4
+   ],
+   "fov": 55
+  },
+  {
+   "name": "fr_pillar",
+   "kind": "aerial",
+   "pos": [
+    222,
+    9,
+    150
+   ],
+   "look": [
+    258,
+    6.8,
+    165
+   ],
+   "fov": 55
+  },
+  {
+   "name": "fr_side",
+   "kind": "aerial",
+   "pos": [
+    40,
+    9,
+    96
+   ],
+   "look": [
+    62,
+    6.6,
+    118
+   ],
+   "fov": 60
+  }
+ ]
+}

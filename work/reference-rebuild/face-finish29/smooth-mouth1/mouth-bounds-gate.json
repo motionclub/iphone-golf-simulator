@@ -1,0 +1,39 @@
+{
+  "gate": "PASS",
+  "results": {
+    "Male": {
+      "gate": "PASS",
+      "uvChangedLoops": 1184,
+      "colorChangedVertices": 275,
+      "uvColorOutsideMouthExact": true,
+      "blinkActivePositionsExact": true,
+      "maxBlinkActiveCornerNormalDelta": 0.008641374840108086,
+      "mouthRegionRestBounds": {
+        "absXMax": 0.041,
+        "absZFromCentreMax": 0.036,
+        "frontYMax": -0.08
+      },
+      "maxCornerNormalDelta": 0.32747324122494115,
+      "blinkActiveCornerNormalsExact": false,
+      "maxBlinkActiveCornerNormalAngleDegrees": 0.4951158480353587,
+      "normalNote": "Original encoded custom normals outside mouth preserved; evaluated normals depend on changed surrounding facial surface. Small angle change is recorded, not labelled exact."
+    },
+    "Female": {
+      "gate": "PASS",
+      "uvChangedLoops": 846,
+      "colorChangedVertices": 223,
+      "uvColorOutsideMouthExact": true,
+      "blinkActivePositionsExact": true,
+      "maxBlinkActiveCornerNormalDelta": 0.021918264763343707,
+      "mouthRegionRestBounds": {
+        "absXMax": 0.041,
+        "absZFromCentreMax": 0.036,
+        "frontYMax": -0.08
+      },
+      "maxCornerNormalDelta": 0.1660219216688167,
+      "blinkActiveCornerNormalsExact": false,
+      "maxBlinkActiveCornerNormalAngleDegrees": 1.2558492045008545,
+      "normalNote": "Original encoded custom normals outside mouth preserved; evaluated normals depend on changed surrounding facial surface. Small angle change is recorded, not labelled exact."
+    }
+  }
+}

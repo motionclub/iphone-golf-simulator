@@ -1,0 +1,6044 @@
+[
+  {
+    "shot": "golf_07_clear_1_tee_gameplay",
+    "beforeSHA256": "be85a5f5b202dcdae92595b0e145a5e84446058e7bf8d534df9cc836adbd69f2",
+    "afterSHA256": "3d391d644b55a41d684f96eeda74b1b19a31d640e90e4126509e6470e1b553ac",
+    "reference": "r3",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#0058C0",
+        "HSL": [
+          212.5,
+          100.0,
+          37.65
+        ],
+        "linearLuminanceMedian": 0.1079,
+        "LabRangeP90P10": 2.27
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#85AD10",
+        "HSL": [
+          75.29,
+          83.07,
+          37.06
+        ],
+        "linearLuminanceMedian": 0.3491,
+        "LabRangeP90P10": 7.39
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#628F0E",
+        "HSL": [
+          80.93,
+          82.17,
+          30.78
+        ],
+        "linearLuminanceMedian": 0.2362,
+        "LabRangeP90P10": 59.43
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#0058C0",
+        "HSL": [
+          212.5,
+          100.0,
+          37.65
+        ],
+        "linearLuminanceMedian": 0.1074,
+        "LabRangeP90P10": 2.62
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#85AD10",
+        "HSL": [
+          75.29,
+          83.07,
+          37.06
+        ],
+        "linearLuminanceMedian": 0.3491,
+        "LabRangeP90P10": 7.39
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#628F0E",
+        "HSL": [
+          80.93,
+          82.17,
+          30.78
+        ],
+        "linearLuminanceMedian": 0.2362,
+        "LabRangeP90P10": 59.43
+      }
+    }
+  },
+  {
+    "shot": "golf_07_clear_2_approach",
+    "beforeSHA256": "4d0a458ce50745f4b230dc5d15181374fafad313727c49cfafc29b2ecacf5018",
+    "afterSHA256": "88ac0b041691500ef103e6296a23623238bb53804c1e2d8cf5b4ae6499546b84",
+    "reference": "r3",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#0055BC",
+        "HSL": [
+          212.87,
+          100.0,
+          36.86
+        ],
+        "linearLuminanceMedian": 0.1013,
+        "LabRangeP90P10": 0.76
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#7AAC12",
+        "HSL": [
+          79.48,
+          81.05,
+          37.25
+        ],
+        "linearLuminanceMedian": 0.337,
+        "LabRangeP90P10": 9.63
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#629820",
+        "HSL": [
+          87.0,
+          65.22,
+          36.08
+        ],
+        "linearLuminanceMedian": 0.2618,
+        "LabRangeP90P10": 29.92
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#0055BC",
+        "HSL": [
+          212.87,
+          100.0,
+          36.86
+        ],
+        "linearLuminanceMedian": 0.1013,
+        "LabRangeP90P10": 0.76
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#7AAC12",
+        "HSL": [
+          79.48,
+          81.05,
+          37.25
+        ],
+        "linearLuminanceMedian": 0.3369,
+        "LabRangeP90P10": 9.62
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#63981F",
+        "HSL": [
+          86.28,
+          66.12,
+          35.88
+        ],
+        "linearLuminanceMedian": 0.2618,
+        "LabRangeP90P10": 29.99
+      }
+    }
+  },
+  {
+    "shot": "golf_07_clear_3_green",
+    "beforeSHA256": "075e3b110bdea479bb4b60945d5a3abb6dddffd7dedef5b28b58649e293a9a1a",
+    "afterSHA256": "0bfaa323f9b57bf62184f5cec7bb6e488b1d8a6278df10118c36ac577d8b9e8d",
+    "reference": "r3",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#0054BC",
+        "HSL": [
+          213.19,
+          100.0,
+          36.86
+        ],
+        "linearLuminanceMedian": 0.1001,
+        "LabRangeP90P10": 0.56
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#568A00",
+        "HSL": [
+          82.61,
+          100.0,
+          27.06
+        ],
+        "linearLuminanceMedian": 0.2011,
+        "LabRangeP90P10": 13.38
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#3E8114",
+        "HSL": [
+          96.88,
+          73.15,
+          29.22
+        ],
+        "linearLuminanceMedian": 0.1874,
+        "LabRangeP90P10": 30.12
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#0054BC",
+        "HSL": [
+          213.19,
+          100.0,
+          36.86
+        ],
+        "linearLuminanceMedian": 0.1001,
+        "LabRangeP90P10": 0.51
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#70A307",
+        "HSL": [
+          79.62,
+          91.76,
+          33.33
+        ],
+        "linearLuminanceMedian": 0.2965,
+        "LabRangeP90P10": 14.98
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#3F7D79",
+        "HSL": [
+          176.13,
+          32.98,
+          36.86
+        ],
+        "linearLuminanceMedian": 0.1852,
+        "LabRangeP90P10": 29.55
+      }
+    }
+  },
+  {
+    "shot": "golf_07_clear_4_overview",
+    "beforeSHA256": "26a7c975e94350105d511194c850ef984cdd79dde7f6caf842ef76c6a68d4517",
+    "afterSHA256": "940a8af05ca86e85a3d83eecfdf4ff2577634012b122577ae8a3bd506670cda9",
+    "reference": "r3",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#6A965F",
+        "HSL": [
+          108.0,
+          22.45,
+          48.04
+        ],
+        "linearLuminanceMedian": 0.2569,
+        "LabRangeP90P10": 9.62
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#083959",
+        "HSL": [
+          203.7,
+          83.51,
+          19.02
+        ],
+        "linearLuminanceMedian": 0.0371,
+        "LabRangeP90P10": 18.18
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#2B6669",
+        "HSL": [
+          182.9,
+          41.89,
+          29.02
+        ],
+        "linearLuminanceMedian": 0.1127,
+        "LabRangeP90P10": 35.98
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#6A9661",
+        "HSL": [
+          109.81,
+          21.46,
+          48.43
+        ],
+        "linearLuminanceMedian": 0.2574,
+        "LabRangeP90P10": 15.7
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#09395A",
+        "HSL": [
+          204.44,
+          81.82,
+          19.41
+        ],
+        "linearLuminanceMedian": 0.0372,
+        "LabRangeP90P10": 18.16
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#2B666B",
+        "HSL": [
+          184.69,
+          42.67,
+          29.41
+        ],
+        "linearLuminanceMedian": 0.1127,
+        "LabRangeP90P10": 34.56
+      }
+    }
+  },
+  {
+    "shot": "golf_07_fog_1_tee_gameplay",
+    "beforeSHA256": "40e9c459da41a2562298963ed0562efd03d719ed163ffad0d94628119ace6391",
+    "afterSHA256": "455e9b6963a62eeff61345fd28b919f3267189ad509fc8586a46c2260dbe3e9d",
+    "reference": "r5 panel 3",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#B8BDC0",
+        "HSL": [
+          202.5,
+          5.97,
+          73.73
+        ],
+        "linearLuminanceMedian": 0.5044,
+        "LabRangeP90P10": 0.37
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#85A92A",
+        "HSL": [
+          77.01,
+          60.19,
+          41.37
+        ],
+        "linearLuminanceMedian": 0.3352,
+        "LabRangeP90P10": 7.01
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#8FAA63",
+        "HSL": [
+          82.82,
+          29.46,
+          52.75
+        ],
+        "linearLuminanceMedian": 0.3572,
+        "LabRangeP90P10": 23.78
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#B8BDC0",
+        "HSL": [
+          202.5,
+          5.97,
+          73.73
+        ],
+        "linearLuminanceMedian": 0.5039,
+        "LabRangeP90P10": 10.39
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#85A92A",
+        "HSL": [
+          77.01,
+          60.19,
+          41.37
+        ],
+        "linearLuminanceMedian": 0.3352,
+        "LabRangeP90P10": 7.01
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#90AB66",
+        "HSL": [
+          83.48,
+          29.11,
+          53.53
+        ],
+        "linearLuminanceMedian": 0.3624,
+        "LabRangeP90P10": 22.88
+      }
+    }
+  },
+  {
+    "shot": "golf_07_fog_2_approach",
+    "beforeSHA256": "fc5f38fb782e28a35b49c999a4c347e638ed2b3b06382f982f172765c3db297f",
+    "afterSHA256": "1b6c350cae64a7af78e6def90d2239917b2f237ff45ebb2d0704f91d31adfa54",
+    "reference": "r5 panel 3",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#B7BCC0",
+        "HSL": [
+          206.67,
+          6.67,
+          73.53
+        ],
+        "linearLuminanceMedian": 0.4984,
+        "LabRangeP90P10": 0.29
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#77A81A",
+        "HSL": [
+          80.7,
+          73.2,
+          38.04
+        ],
+        "linearLuminanceMedian": 0.3194,
+        "LabRangeP90P10": 9.6
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#92B76C",
+        "HSL": [
+          89.6,
+          34.25,
+          57.06
+        ],
+        "linearLuminanceMedian": 0.406,
+        "LabRangeP90P10": 16.62
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#B8BCC0",
+        "HSL": [
+          210.0,
+          5.97,
+          73.73
+        ],
+        "linearLuminanceMedian": 0.4996,
+        "LabRangeP90P10": 0.37
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#77A81A",
+        "HSL": [
+          80.7,
+          73.2,
+          38.04
+        ],
+        "linearLuminanceMedian": 0.3193,
+        "LabRangeP90P10": 9.54
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#92B766",
+        "HSL": [
+          87.41,
+          36.0,
+          55.88
+        ],
+        "linearLuminanceMedian": 0.4098,
+        "LabRangeP90P10": 16.71
+      }
+    }
+  },
+  {
+    "shot": "golf_07_gusty_1_tee_gameplay",
+    "beforeSHA256": "5e772e84c712de42ea2260a868ec2419dd43ccdd173ce6a3de2c90ce4caa9ae1",
+    "afterSHA256": "d9047f1a503f8cfee78aafc41e2cf97008f4ce3bc1f281cba00517d27d5ba8b3",
+    "reference": "r5 panel 4",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#3772BF",
+        "HSL": [
+          213.97,
+          55.28,
+          48.24
+        ],
+        "linearLuminanceMedian": 0.166,
+        "LabRangeP90P10": 4.97
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#85AC0E",
+        "HSL": [
+          74.81,
+          84.95,
+          36.47
+        ],
+        "linearLuminanceMedian": 0.3465,
+        "LabRangeP90P10": 7.43
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#68930D",
+        "HSL": [
+          79.25,
+          83.75,
+          31.37
+        ],
+        "linearLuminanceMedian": 0.2519,
+        "LabRangeP90P10": 57.64
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#3371C0",
+        "HSL": [
+          213.62,
+          58.02,
+          47.65
+        ],
+        "linearLuminanceMedian": 0.1631,
+        "LabRangeP90P10": 4.46
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#85AC0E",
+        "HSL": [
+          74.81,
+          84.95,
+          36.47
+        ],
+        "linearLuminanceMedian": 0.3465,
+        "LabRangeP90P10": 7.43
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#68940D",
+        "HSL": [
+          79.56,
+          83.85,
+          31.57
+        ],
+        "linearLuminanceMedian": 0.25,
+        "LabRangeP90P10": 57.64
+      }
+    }
+  },
+  {
+    "shot": "golf_07_gusty_2_approach",
+    "beforeSHA256": "75438b9d87cd8681343c772d7f58b8fbdc322637460eec6eca19016b3f253763",
+    "afterSHA256": "c666599b88c63ff3bfb1ad126222a3ac68f5433ea5a8f3e70f6f50181537a1ea",
+    "reference": "r5 panel 4",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#4272B7",
+        "HSL": [
+          215.38,
+          46.99,
+          48.82
+        ],
+        "linearLuminanceMedian": 0.1665,
+        "LabRangeP90P10": 0.73
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#7AAB11",
+        "HSL": [
+          79.09,
+          81.91,
+          36.86
+        ],
+        "linearLuminanceMedian": 0.3345,
+        "LabRangeP90P10": 9.79
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#6A9B1F",
+        "HSL": [
+          83.71,
+          66.67,
+          36.47
+        ],
+        "linearLuminanceMedian": 0.2952,
+        "LabRangeP90P10": 20.81
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#236CBD",
+        "HSL": [
+          211.56,
+          68.75,
+          43.92
+        ],
+        "linearLuminanceMedian": 0.1474,
+        "LabRangeP90P10": 1.03
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#7AAB10",
+        "HSL": [
+          78.97,
+          82.89,
+          36.67
+        ],
+        "linearLuminanceMedian": 0.3338,
+        "LabRangeP90P10": 9.6
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#699C1E",
+        "HSL": [
+          84.29,
+          67.74,
+          36.47
+        ],
+        "linearLuminanceMedian": 0.2932,
+        "LabRangeP90P10": 21.83
+      }
+    }
+  },
+  {
+    "shot": "golf_07_rain_1_tee_gameplay",
+    "beforeSHA256": "173c6ad683e29fff43bc421d3fd11901781cf291ebe48429ff668864daf9b8f3",
+    "afterSHA256": "0d2bd1c9266c62690b8a6254c4c39cd70e301b5baa7510604a5142f83756cafc",
+    "reference": "r5 panel 1",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#8694AA",
+        "HSL": [
+          216.67,
+          17.48,
+          59.61
+        ],
+        "linearLuminanceMedian": 0.2911,
+        "LabRangeP90P10": 5.28
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#769E1C",
+        "HSL": [
+          78.46,
+          69.89,
+          36.47
+        ],
+        "linearLuminanceMedian": 0.2846,
+        "LabRangeP90P10": 7.57
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#759046",
+        "HSL": [
+          81.89,
+          34.58,
+          41.96
+        ],
+        "linearLuminanceMedian": 0.254,
+        "LabRangeP90P10": 51.18
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#8190A5",
+        "HSL": [
+          215.0,
+          16.67,
+          57.65
+        ],
+        "linearLuminanceMedian": 0.2733,
+        "LabRangeP90P10": 22.1
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#769E1C",
+        "HSL": [
+          78.46,
+          69.89,
+          36.47
+        ],
+        "linearLuminanceMedian": 0.2846,
+        "LabRangeP90P10": 7.53
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#779248",
+        "HSL": [
+          81.89,
+          33.94,
+          42.75
+        ],
+        "linearLuminanceMedian": 0.2619,
+        "LabRangeP90P10": 51.14
+      }
+    }
+  },
+  {
+    "shot": "golf_07_rain_2_approach",
+    "beforeSHA256": "2dcd80965c84328362f9e5cffd2ead8c8c8c1d0c1982dc4170288fcae83ac8fa",
+    "afterSHA256": "e893a491055209180304e5e2d81dec7beba30c4c79151a7a244a93e10f268b29",
+    "reference": "r5 panel 1",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#4E6284",
+        "HSL": [
+          217.78,
+          25.71,
+          41.18
+        ],
+        "linearLuminanceMedian": 0.1202,
+        "LabRangeP90P10": 1.07
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#73A130",
+        "HSL": [
+          84.42,
+          54.07,
+          40.98
+        ],
+        "linearLuminanceMedian": 0.2931,
+        "LabRangeP90P10": 9.46
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#789673",
+        "HSL": [
+          111.43,
+          14.29,
+          51.96
+        ],
+        "linearLuminanceMedian": 0.273,
+        "LabRangeP90P10": 26.1
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#71829C",
+        "HSL": [
+          216.28,
+          17.84,
+          52.75
+        ],
+        "linearLuminanceMedian": 0.2188,
+        "LabRangeP90P10": 2.16
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#72A12F",
+        "HSL": [
+          84.74,
+          54.81,
+          40.78
+        ],
+        "linearLuminanceMedian": 0.2923,
+        "LabRangeP90P10": 9.49
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#7F9973",
+        "HSL": [
+          101.05,
+          15.7,
+          52.55
+        ],
+        "linearLuminanceMedian": 0.2941,
+        "LabRangeP90P10": 17.15
+      }
+    }
+  },
+  {
+    "shot": "golf_07_storm_1_tee_gameplay",
+    "beforeSHA256": "197269029b9020059b31e15b6f23fbd6ed5ac7c6b00dcb29b2a268d3d22d5e43",
+    "afterSHA256": "74bf05f4a4a069fe18cbbe60a38f3820f5823765f23310b0e9df4bc65429d5f7",
+    "reference": "r5 panel 2",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#485671",
+        "HSL": [
+          219.51,
+          22.16,
+          36.27
+        ],
+        "linearLuminanceMedian": 0.0926,
+        "LabRangeP90P10": 1.81
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#6D9512",
+        "HSL": [
+          78.32,
+          78.44,
+          32.75
+        ],
+        "linearLuminanceMedian": 0.2467,
+        "LabRangeP90P10": 7.91
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#5A7A3B",
+        "HSL": [
+          90.48,
+          34.81,
+          35.49
+        ],
+        "linearLuminanceMedian": 0.1666,
+        "LabRangeP90P10": 45.34
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#384358",
+        "HSL": [
+          219.38,
+          22.22,
+          28.24
+        ],
+        "linearLuminanceMedian": 0.0556,
+        "LabRangeP90P10": 2.77
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#6D9511",
+        "HSL": [
+          78.18,
+          79.52,
+          32.55
+        ],
+        "linearLuminanceMedian": 0.249,
+        "LabRangeP90P10": 7.84
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#5A7A3C",
+        "HSL": [
+          90.97,
+          34.07,
+          35.69
+        ],
+        "linearLuminanceMedian": 0.1664,
+        "LabRangeP90P10": 44.87
+      }
+    }
+  },
+  {
+    "shot": "golf_07_storm_2_approach",
+    "beforeSHA256": "7714f6c8123e042fab74dc315a9530513b11ce5d9c0856d329959b8f994c7853",
+    "afterSHA256": "a59538a272b980827e5fe4357a81197cb11b7c77b119da0a68cca146e6890396",
+    "reference": "r5 panel 2",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#2F3A4C",
+        "HSL": [
+          217.24,
+          23.58,
+          24.12
+        ],
+        "linearLuminanceMedian": 0.0413,
+        "LabRangeP90P10": 4.88
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#689721",
+        "HSL": [
+          83.9,
+          64.13,
+          36.08
+        ],
+        "linearLuminanceMedian": 0.2528,
+        "LabRangeP90P10": 10.2
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#588051",
+        "HSL": [
+          111.06,
+          22.49,
+          40.98
+        ],
+        "linearLuminanceMedian": 0.187,
+        "LabRangeP90P10": 39.24
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#2E394B",
+        "HSL": [
+          217.24,
+          23.97,
+          23.73
+        ],
+        "linearLuminanceMedian": 0.0403,
+        "LabRangeP90P10": 2.08
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#679721",
+        "HSL": [
+          84.41,
+          64.13,
+          36.08
+        ],
+        "linearLuminanceMedian": 0.2519,
+        "LabRangeP90P10": 10.36
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#577F57",
+        "HSL": [
+          120.0,
+          18.69,
+          41.96
+        ],
+        "linearLuminanceMedian": 0.1867,
+        "LabRangeP90P10": 35.98
+      }
+    }
+  },
+  {
+    "shot": "golf_12_clear_1_tee_gameplay",
+    "beforeSHA256": "96779cba26174db75f15a8098e2b17ae43a5310b5080db2a8dfaee504330dc14",
+    "afterSHA256": "4b9eb3ac6e317404c536e2f5be22ac3dfe2f6fae0be5a632b35fd36e1933c737",
+    "reference": "r3",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#0082C9",
+        "HSL": [
+          201.19,
+          100.0,
+          39.41
+        ],
+        "linearLuminanceMedian": 0.2018,
+        "LabRangeP90P10": 2.75
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#7AB21E",
+        "HSL": [
+          82.7,
+          71.15,
+          40.78
+        ],
+        "linearLuminanceMedian": 0.36,
+        "LabRangeP90P10": 6.93
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#71A525",
+        "HSL": [
+          84.38,
+          63.37,
+          39.61
+        ],
+        "linearLuminanceMedian": 0.3319,
+        "LabRangeP90P10": 35.81
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#0082C9",
+        "HSL": [
+          201.19,
+          100.0,
+          39.41
+        ],
+        "linearLuminanceMedian": 0.2018,
+        "LabRangeP90P10": 2.75
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#7AB21E",
+        "HSL": [
+          82.7,
+          71.15,
+          40.78
+        ],
+        "linearLuminanceMedian": 0.36,
+        "LabRangeP90P10": 6.93
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#71A525",
+        "HSL": [
+          84.38,
+          63.37,
+          39.61
+        ],
+        "linearLuminanceMedian": 0.3319,
+        "LabRangeP90P10": 35.96
+      }
+    }
+  },
+  {
+    "shot": "golf_12_clear_2_approach",
+    "beforeSHA256": "ca87a4ebf119f6dcd1244f3211576b91fca2ea4cf83974eaec0d0e2e7a8d6f9d",
+    "afterSHA256": "b13a1b4e6ec14a8eec1f6a88e71e1a50bc56801e9d9f60522c98e1620552b9ab",
+    "reference": "r3",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#007DC8",
+        "HSL": [
+          202.5,
+          100.0,
+          39.22
+        ],
+        "linearLuminanceMedian": 0.1884,
+        "LabRangeP90P10": 0.3
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#006380",
+        "HSL": [
+          193.59,
+          100.0,
+          25.1
+        ],
+        "linearLuminanceMedian": 0.1046,
+        "LabRangeP90P10": 8.97
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#348299",
+        "HSL": [
+          193.66,
+          49.27,
+          40.2
+        ],
+        "linearLuminanceMedian": 0.2018,
+        "LabRangeP90P10": 39.64
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#007DC8",
+        "HSL": [
+          202.5,
+          100.0,
+          39.22
+        ],
+        "linearLuminanceMedian": 0.1884,
+        "LabRangeP90P10": 0.3
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#006885",
+        "HSL": [
+          193.08,
+          100.0,
+          26.08
+        ],
+        "linearLuminanceMedian": 0.1154,
+        "LabRangeP90P10": 10.04
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#34829A",
+        "HSL": [
+          194.12,
+          49.51,
+          40.39
+        ],
+        "linearLuminanceMedian": 0.2018,
+        "LabRangeP90P10": 39.73
+      }
+    }
+  },
+  {
+    "shot": "golf_12_clear_3_green",
+    "beforeSHA256": "9e7420849e579ffe25060f7a52b35d24a63632794e5ba4d9fdef4103309da291",
+    "afterSHA256": "e6c75baaf702219602cdb9674f921b82d75275ef96ee6037ac3b67aaf55421c4",
+    "reference": "r3",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#007DC8",
+        "HSL": [
+          202.5,
+          100.0,
+          39.22
+        ],
+        "linearLuminanceMedian": 0.1884,
+        "LabRangeP90P10": 0.3
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#5C960B",
+        "HSL": [
+          85.04,
+          86.34,
+          31.57
+        ],
+        "linearLuminanceMedian": 0.2429,
+        "LabRangeP90P10": 13.71
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#54928E",
+        "HSL": [
+          176.13,
+          26.96,
+          45.1
+        ],
+        "linearLuminanceMedian": 0.2449,
+        "LabRangeP90P10": 36.98
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#007DC8",
+        "HSL": [
+          202.5,
+          100.0,
+          39.22
+        ],
+        "linearLuminanceMedian": 0.1884,
+        "LabRangeP90P10": 0.3
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#5A940A",
+        "HSL": [
+          85.22,
+          87.34,
+          30.98
+        ],
+        "linearLuminanceMedian": 0.2337,
+        "LabRangeP90P10": 14.5
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#51908F",
+        "HSL": [
+          179.05,
+          28.0,
+          44.12
+        ],
+        "linearLuminanceMedian": 0.2406,
+        "LabRangeP90P10": 37.59
+      }
+    }
+  },
+  {
+    "shot": "golf_12_clear_4_overview",
+    "beforeSHA256": "88a21d551c434aa1f358858541925185b8fe68bce4496ba26d1a5502faa72748",
+    "afterSHA256": "cde0ed6243898504c1755ec0b7d0c6387521ba2d3aa4bfe1088c352996f06753",
+    "reference": "r3",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#C0B795",
+        "HSL": [
+          47.44,
+          25.44,
+          66.86
+        ],
+        "linearLuminanceMedian": 0.4721,
+        "LabRangeP90P10": 24.56
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#00486F",
+        "HSL": [
+          201.08,
+          100.0,
+          21.76
+        ],
+        "linearLuminanceMedian": 0.058,
+        "LabRangeP90P10": 20.97
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#005670",
+        "HSL": [
+          193.93,
+          100.0,
+          21.96
+        ],
+        "linearLuminanceMedian": 0.0814,
+        "LabRangeP90P10": 36.39
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#C0B794",
+        "HSL": [
+          47.73,
+          25.88,
+          66.67
+        ],
+        "linearLuminanceMedian": 0.47,
+        "LabRangeP90P10": 24.17
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#00486F",
+        "HSL": [
+          201.08,
+          100.0,
+          21.76
+        ],
+        "linearLuminanceMedian": 0.0585,
+        "LabRangeP90P10": 22.85
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#005771",
+        "HSL": [
+          193.81,
+          100.0,
+          22.16
+        ],
+        "linearLuminanceMedian": 0.0817,
+        "LabRangeP90P10": 36.99
+      }
+    }
+  },
+  {
+    "shot": "golf_14_clear_1_tee_gameplay",
+    "beforeSHA256": "73b90e5ade9164584c4c8f41f3e3686ec62febf9f6937b0bbccb18cb7cb0cfd8",
+    "afterSHA256": "147e4250316091b49d595388e814813e672038a16d853a977cedf7ce0f03df22",
+    "reference": "r3",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#0058C1",
+        "HSL": [
+          212.64,
+          100.0,
+          37.84
+        ],
+        "linearLuminanceMedian": 0.1087,
+        "LabRangeP90P10": 2.26
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#35740D",
+        "HSL": [
+          96.7,
+          79.84,
+          25.29
+        ],
+        "linearLuminanceMedian": 0.1336,
+        "LabRangeP90P10": 6.14
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#2D6D12",
+        "HSL": [
+          102.2,
+          71.65,
+          24.9
+        ],
+        "linearLuminanceMedian": 0.1175,
+        "LabRangeP90P10": 53.12
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#0058C1",
+        "HSL": [
+          212.64,
+          100.0,
+          37.84
+        ],
+        "linearLuminanceMedian": 0.1087,
+        "LabRangeP90P10": 2.26
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#35740D",
+        "HSL": [
+          96.7,
+          79.84,
+          25.29
+        ],
+        "linearLuminanceMedian": 0.1336,
+        "LabRangeP90P10": 6.14
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#2D6D12",
+        "HSL": [
+          102.2,
+          71.65,
+          24.9
+        ],
+        "linearLuminanceMedian": 0.1174,
+        "LabRangeP90P10": 53.12
+      }
+    }
+  },
+  {
+    "shot": "golf_14_clear_2_approach",
+    "beforeSHA256": "32b4420b4e668806b29d3abb6cf335d3c2c8685f51b19a3b9b5509f99c69734f",
+    "afterSHA256": "087aaaa20d4b98e59be521699e9ddfcb18e90eef5bbee659e4210cae633afcf8",
+    "reference": "r3",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#5774B4",
+        "HSL": [
+          221.29,
+          38.27,
+          52.35
+        ],
+        "linearLuminanceMedian": 0.1777,
+        "LabRangeP90P10": 0.61
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#00586D",
+        "HSL": [
+          191.56,
+          100.0,
+          21.37
+        ],
+        "linearLuminanceMedian": 0.0808,
+        "LabRangeP90P10": 1.15
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#00586D",
+        "HSL": [
+          191.56,
+          100.0,
+          21.37
+        ],
+        "linearLuminanceMedian": 0.0808,
+        "LabRangeP90P10": 58.75
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#5774B4",
+        "HSL": [
+          221.29,
+          38.27,
+          52.35
+        ],
+        "linearLuminanceMedian": 0.1777,
+        "LabRangeP90P10": 0.61
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#00586D",
+        "HSL": [
+          191.56,
+          100.0,
+          21.37
+        ],
+        "linearLuminanceMedian": 0.0806,
+        "LabRangeP90P10": 0.81
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#00586D",
+        "HSL": [
+          191.56,
+          100.0,
+          21.37
+        ],
+        "linearLuminanceMedian": 0.0808,
+        "LabRangeP90P10": 57.0
+      }
+    }
+  },
+  {
+    "shot": "golf_14_clear_3_green",
+    "beforeSHA256": "408ddd3ed0919d8902aab4c68f5376f41e6d123f802599c097fab2164862f923",
+    "afterSHA256": "1cdee2cd2f9d2d8f2112ac999e84a8a320049ba04711adb5cbcc69a28d38d0cc",
+    "reference": "r3",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#0055BC",
+        "HSL": [
+          212.87,
+          100.0,
+          36.86
+        ],
+        "linearLuminanceMedian": 0.1008,
+        "LabRangeP90P10": 0.64
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#00556B",
+        "HSL": [
+          192.34,
+          100.0,
+          20.98
+        ],
+        "linearLuminanceMedian": 0.0756,
+        "LabRangeP90P10": 1.93
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#005872",
+        "HSL": [
+          193.68,
+          100.0,
+          22.35
+        ],
+        "linearLuminanceMedian": 0.0886,
+        "LabRangeP90P10": 39.0
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#5774B4",
+        "HSL": [
+          221.29,
+          38.27,
+          52.35
+        ],
+        "linearLuminanceMedian": 0.1777,
+        "LabRangeP90P10": 0.61
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#005D70",
+        "HSL": [
+          190.18,
+          100.0,
+          21.96
+        ],
+        "linearLuminanceMedian": 0.09,
+        "LabRangeP90P10": 1.48
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#005C71",
+        "HSL": [
+          191.15,
+          100.0,
+          22.16
+        ],
+        "linearLuminanceMedian": 0.088,
+        "LabRangeP90P10": 45.03
+      }
+    }
+  },
+  {
+    "shot": "golf_14_clear_4_overview",
+    "beforeSHA256": "a9abfccbe8f25d3441111d2c29f3893e6c03924d66d37931fee207353d54fede",
+    "afterSHA256": "2bae7fdefd7898088094548cb4081cb87ed2aaca041f543ce76267a86cc62026",
+    "reference": "r3",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#42872C",
+        "HSL": [
+          105.49,
+          50.84,
+          35.1
+        ],
+        "linearLuminanceMedian": 0.1863,
+        "LabRangeP90P10": 19.5
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#002345",
+        "HSL": [
+          209.57,
+          100.0,
+          13.53
+        ],
+        "linearLuminanceMedian": 0.0163,
+        "LabRangeP90P10": 1.99
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#003D4B",
+        "HSL": [
+          191.2,
+          100.0,
+          14.71
+        ],
+        "linearLuminanceMedian": 0.0404,
+        "LabRangeP90P10": 38.25
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#43882D",
+        "HSL": [
+          105.49,
+          50.28,
+          35.49
+        ],
+        "linearLuminanceMedian": 0.1892,
+        "LabRangeP90P10": 19.55
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#002345",
+        "HSL": [
+          209.57,
+          100.0,
+          13.53
+        ],
+        "linearLuminanceMedian": 0.0163,
+        "LabRangeP90P10": 1.99
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#003E4B",
+        "HSL": [
+          190.4,
+          100.0,
+          14.71
+        ],
+        "linearLuminanceMedian": 0.0406,
+        "LabRangeP90P10": 38.17
+      }
+    }
+  },
+  {
+    "shot": "golf_16_clear_1_tee_gameplay",
+    "beforeSHA256": "a1690d50298b3f4f438efa361ee153e1417a92a0dfe860dbf7f52675220f9dbe",
+    "afterSHA256": "785124c00b9beff4579a1044d260dc86a59a93ebfa9303326f958286a8fe9834",
+    "reference": "r4 panel 4",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#02247C",
+        "HSL": [
+          223.28,
+          96.83,
+          24.71
+        ],
+        "linearLuminanceMedian": 0.0279,
+        "LabRangeP90P10": 9.22
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#6E9D00",
+        "HSL": [
+          77.96,
+          100.0,
+          30.78
+        ],
+        "linearLuminanceMedian": 0.2737,
+        "LabRangeP90P10": 10.43
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#566A02",
+        "HSL": [
+          71.54,
+          96.3,
+          21.18
+        ],
+        "linearLuminanceMedian": 0.15,
+        "LabRangeP90P10": 52.2
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#02247C",
+        "HSL": [
+          223.28,
+          96.83,
+          24.71
+        ],
+        "linearLuminanceMedian": 0.0279,
+        "LabRangeP90P10": 9.22
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#6E9D00",
+        "HSL": [
+          77.96,
+          100.0,
+          30.78
+        ],
+        "linearLuminanceMedian": 0.2737,
+        "LabRangeP90P10": 10.43
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#566A02",
+        "HSL": [
+          71.54,
+          96.3,
+          21.18
+        ],
+        "linearLuminanceMedian": 0.1503,
+        "LabRangeP90P10": 52.2
+      }
+    }
+  },
+  {
+    "shot": "golf_16_clear_2_approach",
+    "beforeSHA256": "55203602a84b2a94aa8ed299f4d81a55c256f3a64af1460b625b44050ab57850",
+    "afterSHA256": "8084623bb7b3f67461cc5b0f4e2b38bda21335ad03e349150f378c4d11eceb5a",
+    "reference": "r4 panel 4",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#001060",
+        "HSL": [
+          230.0,
+          100.0,
+          18.82
+        ],
+        "linearLuminanceMedian": 0.0122,
+        "LabRangeP90P10": 2.9
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#005868",
+        "HSL": [
+          189.23,
+          100.0,
+          20.39
+        ],
+        "linearLuminanceMedian": 0.0798,
+        "LabRangeP90P10": 0.9
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#105366",
+        "HSL": [
+          193.26,
+          72.88,
+          23.14
+        ],
+        "linearLuminanceMedian": 0.0756,
+        "LabRangeP90P10": 44.66
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#001060",
+        "HSL": [
+          230.0,
+          100.0,
+          18.82
+        ],
+        "linearLuminanceMedian": 0.0122,
+        "LabRangeP90P10": 2.9
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#005869",
+        "HSL": [
+          189.71,
+          100.0,
+          20.59
+        ],
+        "linearLuminanceMedian": 0.08,
+        "LabRangeP90P10": 1.24
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#125467",
+        "HSL": [
+          193.41,
+          70.25,
+          23.73
+        ],
+        "linearLuminanceMedian": 0.0778,
+        "LabRangeP90P10": 50.83
+      }
+    }
+  },
+  {
+    "shot": "golf_16_clear_3_green",
+    "beforeSHA256": "5ae4f567c5941fd62972835ee04dc931863d9b64efcc6e669c6317ad436e98d6",
+    "afterSHA256": "554d2a71043ceeae856f13f40a7b4f9e381032be5412e214ae2745604ca0b658",
+    "reference": "r4 panel 4",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#001667",
+        "HSL": [
+          227.18,
+          100.0,
+          20.2
+        ],
+        "linearLuminanceMedian": 0.0156,
+        "LabRangeP90P10": 6.52
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#146401",
+        "HSL": [
+          108.48,
+          98.02,
+          19.8
+        ],
+        "linearLuminanceMedian": 0.0927,
+        "LabRangeP90P10": 21.35
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#222D17",
+        "HSL": [
+          90.0,
+          32.35,
+          13.33
+        ],
+        "linearLuminanceMedian": 0.0356,
+        "LabRangeP90P10": 47.91
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#001667",
+        "HSL": [
+          227.18,
+          100.0,
+          20.2
+        ],
+        "linearLuminanceMedian": 0.0159,
+        "LabRangeP90P10": 7.53
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#3C7100",
+        "HSL": [
+          88.14,
+          100.0,
+          22.16
+        ],
+        "linearLuminanceMedian": 0.1277,
+        "LabRangeP90P10": 13.51
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#2E3012",
+        "HSL": [
+          64.0,
+          45.45,
+          12.94
+        ],
+        "linearLuminanceMedian": 0.0482,
+        "LabRangeP90P10": 49.48
+      }
+    }
+  },
+  {
+    "shot": "golf_16_clear_4_overview",
+    "beforeSHA256": "4dcc28e66444a5d78a1d5cf7ed83379a01d85fb906a650566d0be945d7db3957",
+    "afterSHA256": "6b5f46474aae599d9becff62faa2a69929b72815350392d116ff46673787a084",
+    "reference": "r4 panel 4",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#3E7100",
+        "HSL": [
+          87.08,
+          100.0,
+          22.16
+        ],
+        "linearLuminanceMedian": 0.1283,
+        "LabRangeP90P10": 47.32
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#00193A",
+        "HSL": [
+          214.14,
+          100.0,
+          11.37
+        ],
+        "linearLuminanceMedian": 0.01,
+        "LabRangeP90P10": 1.67
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#00203A",
+        "HSL": [
+          206.9,
+          100.0,
+          11.37
+        ],
+        "linearLuminanceMedian": 0.014,
+        "LabRangeP90P10": 37.83
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#3E7100",
+        "HSL": [
+          87.08,
+          100.0,
+          22.16
+        ],
+        "linearLuminanceMedian": 0.1283,
+        "LabRangeP90P10": 47.5
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#001A3B",
+        "HSL": [
+          213.56,
+          100.0,
+          11.57
+        ],
+        "linearLuminanceMedian": 0.0105,
+        "LabRangeP90P10": 1.67
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#00203A",
+        "HSL": [
+          206.9,
+          100.0,
+          11.37
+        ],
+        "linearLuminanceMedian": 0.0145,
+        "LabRangeP90P10": 38.24
+      }
+    }
+  },
+  {
+    "shot": "golf_17_clear_1_tee_gameplay",
+    "beforeSHA256": "8f21060df69f579c6d404520b38bc3d63d37d791a6466b263fe8512d8b916f46",
+    "afterSHA256": "e1a5b51de4d708b4b15e017da0cf58d5dbba28db97679d6bacd3534fe1837cad",
+    "reference": "r4 panel 3",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#0058C0",
+        "HSL": [
+          212.5,
+          100.0,
+          37.65
+        ],
+        "linearLuminanceMedian": 0.1079,
+        "LabRangeP90P10": 2.19
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#6FAB34",
+        "HSL": [
+          90.25,
+          53.36,
+          43.73
+        ],
+        "linearLuminanceMedian": 0.3283,
+        "LabRangeP90P10": 7.77
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#518E2E",
+        "HSL": [
+          98.13,
+          51.06,
+          36.86
+        ],
+        "linearLuminanceMedian": 0.2256,
+        "LabRangeP90P10": 68.27
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#0058C0",
+        "HSL": [
+          212.5,
+          100.0,
+          37.65
+        ],
+        "linearLuminanceMedian": 0.1079,
+        "LabRangeP90P10": 2.19
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#6FAB34",
+        "HSL": [
+          90.25,
+          53.36,
+          43.73
+        ],
+        "linearLuminanceMedian": 0.3283,
+        "LabRangeP90P10": 7.77
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#518E2E",
+        "HSL": [
+          98.13,
+          51.06,
+          36.86
+        ],
+        "linearLuminanceMedian": 0.2254,
+        "LabRangeP90P10": 68.27
+      }
+    }
+  },
+  {
+    "shot": "golf_17_clear_2_approach",
+    "beforeSHA256": "eca3c5151589e1a025a8f7e8f69c7fcb2523b15f02f01c2dccfeacf2cc983bb2",
+    "afterSHA256": "24759db19b4e5b71e934adb7595712b13d376e5692e468e920bc9e9970e3fe90",
+    "reference": "r4 panel 3",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#0055BC",
+        "HSL": [
+          212.87,
+          100.0,
+          36.86
+        ],
+        "linearLuminanceMedian": 0.1011,
+        "LabRangeP90P10": 0.76
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#49ACC2",
+        "HSL": [
+          190.91,
+          49.79,
+          52.35
+        ],
+        "linearLuminanceMedian": 0.3482,
+        "LabRangeP90P10": 0.36
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#4194C3",
+        "HSL": [
+          201.69,
+          52.0,
+          50.98
+        ],
+        "linearLuminanceMedian": 0.2617,
+        "LabRangeP90P10": 49.84
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#0055BC",
+        "HSL": [
+          212.87,
+          100.0,
+          36.86
+        ],
+        "linearLuminanceMedian": 0.1011,
+        "LabRangeP90P10": 0.76
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#49ACC2",
+        "HSL": [
+          190.91,
+          49.79,
+          52.35
+        ],
+        "linearLuminanceMedian": 0.3482,
+        "LabRangeP90P10": 0.36
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#4194C3",
+        "HSL": [
+          201.69,
+          52.0,
+          50.98
+        ],
+        "linearLuminanceMedian": 0.2617,
+        "LabRangeP90P10": 49.76
+      }
+    }
+  },
+  {
+    "shot": "golf_17_clear_3_green",
+    "beforeSHA256": "e4b69f0a7e46f8aaac71f10027d69139785f38704ef5080963c5a04d8e384c50",
+    "afterSHA256": "33ead50ab0213b976672fe508f41312c4e865758b37887fe5e107d5a6dc61c40",
+    "reference": "r4 panel 3",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#0055BC",
+        "HSL": [
+          212.87,
+          100.0,
+          36.86
+        ],
+        "linearLuminanceMedian": 0.1008,
+        "LabRangeP90P10": 0.64
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#D5D5D5",
+        "HSL": [
+          0.0,
+          0.0,
+          83.53
+        ],
+        "linearLuminanceMedian": 0.6654,
+        "LabRangeP90P10": 3.35
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#1977BE",
+        "HSL": [
+          205.82,
+          76.74,
+          42.16
+        ],
+        "linearLuminanceMedian": 0.1759,
+        "LabRangeP90P10": 72.32
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#0055BC",
+        "HSL": [
+          212.87,
+          100.0,
+          36.86
+        ],
+        "linearLuminanceMedian": 0.1008,
+        "LabRangeP90P10": 0.64
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#49ACC3",
+        "HSL": [
+          191.31,
+          50.41,
+          52.55
+        ],
+        "linearLuminanceMedian": 0.3486,
+        "LabRangeP90P10": 0.84
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#3488C3",
+        "HSL": [
+          204.76,
+          57.89,
+          48.43
+        ],
+        "linearLuminanceMedian": 0.222,
+        "LabRangeP90P10": 45.83
+      }
+    }
+  },
+  {
+    "shot": "golf_17_clear_4_overview",
+    "beforeSHA256": "151db8fe4052c506c05f5173391355e6d74da9ad6ba799c7ac8df101727a6d5e",
+    "afterSHA256": "f3195b069b1a77832bf0e1d512179c283aa244c67517328a269bff2d18cadf49",
+    "reference": "r4 panel 3",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#D5D5D5",
+        "HSL": [
+          0.0,
+          0.0,
+          83.53
+        ],
+        "linearLuminanceMedian": 0.6654,
+        "LabRangeP90P10": 48.95
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#050E1E",
+        "HSL": [
+          218.4,
+          71.43,
+          6.86
+        ],
+        "linearLuminanceMedian": 0.0044,
+        "LabRangeP90P10": 0.9
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#142536",
+        "HSL": [
+          210.0,
+          45.95,
+          14.51
+        ],
+        "linearLuminanceMedian": 0.0176,
+        "LabRangeP90P10": 81.65
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#D5D5D5",
+        "HSL": [
+          0.0,
+          0.0,
+          83.53
+        ],
+        "linearLuminanceMedian": 0.6654,
+        "LabRangeP90P10": 48.98
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#040D1D",
+        "HSL": [
+          218.4,
+          75.76,
+          6.47
+        ],
+        "linearLuminanceMedian": 0.004,
+        "LabRangeP90P10": 0.73
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#142536",
+        "HSL": [
+          210.0,
+          45.95,
+          14.51
+        ],
+        "linearLuminanceMedian": 0.0177,
+        "LabRangeP90P10": 81.76
+      }
+    }
+  },
+  {
+    "shot": "golf_20_clear_1_tee_gameplay",
+    "beforeSHA256": "19000117f643ec0eed0f6d19922fcbf0c61bdf31862a3d972a0c7589e4315cb1",
+    "afterSHA256": "e5cb0baaae6f43bea93c787b1bb2157b21d07eefbb97f6cd32eb246e1e26a60f",
+    "reference": "r3",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#0058C1",
+        "HSL": [
+          212.64,
+          100.0,
+          37.84
+        ],
+        "linearLuminanceMedian": 0.1083,
+        "LabRangeP90P10": 2.26
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#77AD13",
+        "HSL": [
+          81.04,
+          80.21,
+          37.65
+        ],
+        "linearLuminanceMedian": 0.34,
+        "LabRangeP90P10": 8.89
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#508B0D",
+        "HSL": [
+          88.1,
+          82.89,
+          29.8
+        ],
+        "linearLuminanceMedian": 0.2188,
+        "LabRangeP90P10": 57.04
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#0058C1",
+        "HSL": [
+          212.64,
+          100.0,
+          37.84
+        ],
+        "linearLuminanceMedian": 0.1083,
+        "LabRangeP90P10": 2.26
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#77AD13",
+        "HSL": [
+          81.04,
+          80.21,
+          37.65
+        ],
+        "linearLuminanceMedian": 0.34,
+        "LabRangeP90P10": 8.89
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#508B0D",
+        "HSL": [
+          88.1,
+          82.89,
+          29.8
+        ],
+        "linearLuminanceMedian": 0.2188,
+        "LabRangeP90P10": 57.04
+      }
+    }
+  },
+  {
+    "shot": "golf_20_clear_2_approach",
+    "beforeSHA256": "79b3e60289b1c0c14b4ec93bdf013fbdf391df92afa21ee7648b5e69d7e584bb",
+    "afterSHA256": "78a9b471cf43cd92a096e5750ffe53d7ab91f978f6016974c4bb6c37bc0d8a3a",
+    "reference": "r3",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#0055BC",
+        "HSL": [
+          212.87,
+          100.0,
+          36.86
+        ],
+        "linearLuminanceMedian": 0.1013,
+        "LabRangeP90P10": 0.76
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#6AAA12",
+        "HSL": [
+          85.26,
+          80.85,
+          36.86
+        ],
+        "linearLuminanceMedian": 0.3179,
+        "LabRangeP90P10": 12.4
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#458818",
+        "HSL": [
+          95.89,
+          70.0,
+          31.37
+        ],
+        "linearLuminanceMedian": 0.1988,
+        "LabRangeP90P10": 27.26
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#0055BC",
+        "HSL": [
+          212.87,
+          100.0,
+          36.86
+        ],
+        "linearLuminanceMedian": 0.1013,
+        "LabRangeP90P10": 0.76
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#6AAA12",
+        "HSL": [
+          85.26,
+          80.85,
+          36.86
+        ],
+        "linearLuminanceMedian": 0.3179,
+        "LabRangeP90P10": 12.41
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#458818",
+        "HSL": [
+          95.89,
+          70.0,
+          31.37
+        ],
+        "linearLuminanceMedian": 0.199,
+        "LabRangeP90P10": 27.29
+      }
+    }
+  },
+  {
+    "shot": "golf_20_clear_3_green",
+    "beforeSHA256": "db953c80eb50b45916de2f3ed0ff7c5a15731d389f2ccc4d76bd23326cb93bab",
+    "afterSHA256": "05ca12d8831ed23c2e71207c8c578a2e0619832f95a68bfacf22f12c7098cd5f",
+    "reference": "r3",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#0055BC",
+        "HSL": [
+          212.87,
+          100.0,
+          36.86
+        ],
+        "linearLuminanceMedian": 0.1008,
+        "LabRangeP90P10": 0.64
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#28746C",
+        "HSL": [
+          173.68,
+          48.72,
+          30.59
+        ],
+        "linearLuminanceMedian": 0.1457,
+        "LabRangeP90P10": 27.79
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#1D6D6C",
+        "HSL": [
+          179.25,
+          57.97,
+          27.06
+        ],
+        "linearLuminanceMedian": 0.1334,
+        "LabRangeP90P10": 30.81
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#0055BC",
+        "HSL": [
+          212.87,
+          100.0,
+          36.86
+        ],
+        "linearLuminanceMedian": 0.1008,
+        "LabRangeP90P10": 0.64
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#6FAD16",
+        "HSL": [
+          84.64,
+          77.44,
+          38.24
+        ],
+        "linearLuminanceMedian": 0.3332,
+        "LabRangeP90P10": 5.56
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#2C7618",
+        "HSL": [
+          107.23,
+          66.2,
+          27.84
+        ],
+        "linearLuminanceMedian": 0.1473,
+        "LabRangeP90P10": 31.14
+      }
+    }
+  },
+  {
+    "shot": "golf_20_clear_4_overview",
+    "beforeSHA256": "525ff4e7faa68f405c43a54ebfe5f527c1d9310344878baadb712824b86b082d",
+    "afterSHA256": "54b3f1cf96a6e2d489ce7500286c3a2002615d67816db4cb40ee5c62cd16c559",
+    "reference": "r3",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#548E36",
+        "HSL": [
+          99.55,
+          44.9,
+          38.43
+        ],
+        "linearLuminanceMedian": 0.2139,
+        "LabRangeP90P10": 27.05
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#001D40",
+        "HSL": [
+          212.81,
+          100.0,
+          12.55
+        ],
+        "linearLuminanceMedian": 0.0125,
+        "LabRangeP90P10": 2.28
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#0C5A42",
+        "HSL": [
+          161.54,
+          76.47,
+          20.0
+        ],
+        "linearLuminanceMedian": 0.0837,
+        "LabRangeP90P10": 48.12
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#538D38",
+        "HSL": [
+          100.94,
+          43.15,
+          38.63
+        ],
+        "linearLuminanceMedian": 0.2137,
+        "LabRangeP90P10": 26.66
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#001D40",
+        "HSL": [
+          212.81,
+          100.0,
+          12.55
+        ],
+        "linearLuminanceMedian": 0.0125,
+        "LabRangeP90P10": 1.92
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#0C5A42",
+        "HSL": [
+          161.54,
+          76.47,
+          20.0
+        ],
+        "linearLuminanceMedian": 0.0837,
+        "LabRangeP90P10": 48.19
+      }
+    }
+  },
+  {
+    "shot": "golf_20_fog_1_tee_gameplay",
+    "beforeSHA256": "6bcaaf16500c058a9f3ce246f4d7ded939fac8552d2fbeca839fb3317de7fc26",
+    "afterSHA256": "327cdfbc5aca40d58f64bb726bfb249ebfc82d333ebe9795e93e2a01d4521838",
+    "reference": "r5 panel 3",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#B8BDC0",
+        "HSL": [
+          202.5,
+          5.97,
+          73.73
+        ],
+        "linearLuminanceMedian": 0.5039,
+        "LabRangeP90P10": 0.41
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#78A92E",
+        "HSL": [
+          83.9,
+          57.21,
+          42.16
+        ],
+        "linearLuminanceMedian": 0.3251,
+        "LabRangeP90P10": 8.32
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#89A866",
+        "HSL": [
+          88.18,
+          27.5,
+          52.94
+        ],
+        "linearLuminanceMedian": 0.3428,
+        "LabRangeP90P10": 23.59
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#B8BDC0",
+        "HSL": [
+          202.5,
+          5.97,
+          73.73
+        ],
+        "linearLuminanceMedian": 0.5044,
+        "LabRangeP90P10": 0.37
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#77A92C",
+        "HSL": [
+          84.0,
+          58.69,
+          41.76
+        ],
+        "linearLuminanceMedian": 0.3247,
+        "LabRangeP90P10": 8.31
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#87A864",
+        "HSL": [
+          89.12,
+          28.1,
+          52.55
+        ],
+        "linearLuminanceMedian": 0.3387,
+        "LabRangeP90P10": 23.71
+      }
+    }
+  },
+  {
+    "shot": "golf_20_fog_2_approach",
+    "beforeSHA256": "2413bb5535c6c096da193f433d9c68bf847026bf8a29d14e075bc08fea89478e",
+    "afterSHA256": "9a20b70848dd3e73b44f891c8403441c5bed86c17ea162a47d996e63973ad10f",
+    "reference": "r5 panel 3",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#B8BDC0",
+        "HSL": [
+          202.5,
+          5.97,
+          73.73
+        ],
+        "linearLuminanceMedian": 0.5039,
+        "LabRangeP90P10": 0.55
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#7CA955",
+        "HSL": [
+          92.14,
+          33.07,
+          49.8
+        ],
+        "linearLuminanceMedian": 0.3328,
+        "LabRangeP90P10": 9.46
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#A8B5B0",
+        "HSL": [
+          156.92,
+          8.07,
+          68.43
+        ],
+        "linearLuminanceMedian": 0.4364,
+        "LabRangeP90P10": 16.66
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#B8BCC0",
+        "HSL": [
+          210.0,
+          5.97,
+          73.73
+        ],
+        "linearLuminanceMedian": 0.4996,
+        "LabRangeP90P10": 0.37
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#79A84F",
+        "HSL": [
+          91.69,
+          36.03,
+          48.43
+        ],
+        "linearLuminanceMedian": 0.3263,
+        "LabRangeP90P10": 9.93
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#ACB6B3",
+        "HSL": [
+          162.0,
+          6.41,
+          69.41
+        ],
+        "linearLuminanceMedian": 0.4475,
+        "LabRangeP90P10": 17.75
+      }
+    }
+  },
+  {
+    "shot": "golf_20_rain_1_tee_gameplay",
+    "beforeSHA256": "e62a56dab4d1845f3569cfd028485be45dfd7898c5774852ef783938145cb4af",
+    "afterSHA256": "b3a3e7e625f9f6803716454fc76f0b9981bcb92e9480615cf94c8add8d274c48",
+    "reference": "r5 panel 1",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#8D9AB0",
+        "HSL": [
+          217.71,
+          18.13,
+          62.16
+        ],
+        "linearLuminanceMedian": 0.3187,
+        "LabRangeP90P10": 3.08
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#6A9E20",
+        "HSL": [
+          84.76,
+          66.32,
+          37.25
+        ],
+        "linearLuminanceMedian": 0.2769,
+        "LabRangeP90P10": 9.0
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#709345",
+        "HSL": [
+          86.92,
+          36.11,
+          42.35
+        ],
+        "linearLuminanceMedian": 0.2635,
+        "LabRangeP90P10": 45.65
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#8391A7",
+        "HSL": [
+          216.67,
+          16.98,
+          58.43
+        ],
+        "linearLuminanceMedian": 0.2782,
+        "LabRangeP90P10": 1.39
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#6A9E20",
+        "HSL": [
+          84.76,
+          66.32,
+          37.25
+        ],
+        "linearLuminanceMedian": 0.2768,
+        "LabRangeP90P10": 9.01
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#6F9145",
+        "HSL": [
+          86.84,
+          35.51,
+          41.96
+        ],
+        "linearLuminanceMedian": 0.2533,
+        "LabRangeP90P10": 45.17
+      }
+    }
+  },
+  {
+    "shot": "golf_20_rain_2_approach",
+    "beforeSHA256": "394150206de6bc9400cad4c76bca6356ee8b81db47f8bcd29e7daf2f9c6d9ec2",
+    "afterSHA256": "547694570dbebdb71fb98f4b329fdfadf476df923fc1266603f8c27a1ddece2f",
+    "reference": "r5 panel 1",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#8A98B1",
+        "HSL": [
+          218.46,
+          20.0,
+          61.76
+        ],
+        "linearLuminanceMedian": 0.3095,
+        "LabRangeP90P10": 1.14
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#669B3D",
+        "HSL": [
+          93.83,
+          43.52,
+          42.35
+        ],
+        "linearLuminanceMedian": 0.2657,
+        "LabRangeP90P10": 11.35
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#78967E",
+        "HSL": [
+          132.0,
+          12.5,
+          52.94
+        ],
+        "linearLuminanceMedian": 0.282,
+        "LabRangeP90P10": 24.35
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#7D93B9",
+        "HSL": [
+          218.0,
+          30.0,
+          60.78
+        ],
+        "linearLuminanceMedian": 0.2881,
+        "LabRangeP90P10": 4.5
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#669B3E",
+        "HSL": [
+          94.19,
+          42.86,
+          42.55
+        ],
+        "linearLuminanceMedian": 0.2656,
+        "LabRangeP90P10": 11.27
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#7B977E",
+        "HSL": [
+          126.43,
+          11.86,
+          53.73
+        ],
+        "linearLuminanceMedian": 0.2871,
+        "LabRangeP90P10": 24.62
+      }
+    }
+  },
+  {
+    "shot": "golf_20_storm_1_tee_gameplay",
+    "beforeSHA256": "17ceee54b88056bda0e87200b72424bdfb90ab3896e90f4426206ec84f4ef7eb",
+    "afterSHA256": "340b610c98f37d491e058123380f8b08fb95fb774c54cba756c0ded86f43632d",
+    "reference": "r5 panel 2",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#424E62",
+        "HSL": [
+          217.5,
+          19.51,
+          32.16
+        ],
+        "linearLuminanceMedian": 0.0751,
+        "LabRangeP90P10": 2.18
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#609417",
+        "HSL": [
+          84.96,
+          73.1,
+          33.53
+        ],
+        "linearLuminanceMedian": 0.2377,
+        "LabRangeP90P10": 9.34
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#527A3D",
+        "HSL": [
+          99.34,
+          33.33,
+          35.88
+        ],
+        "linearLuminanceMedian": 0.161,
+        "LabRangeP90P10": 40.33
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#2E394E",
+        "HSL": [
+          219.38,
+          25.81,
+          24.31
+        ],
+        "linearLuminanceMedian": 0.0406,
+        "LabRangeP90P10": 2.62
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#609416",
+        "HSL": [
+          84.76,
+          74.12,
+          33.33
+        ],
+        "linearLuminanceMedian": 0.2385,
+        "LabRangeP90P10": 9.18
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#527A3D",
+        "HSL": [
+          99.34,
+          33.33,
+          35.88
+        ],
+        "linearLuminanceMedian": 0.1613,
+        "LabRangeP90P10": 40.12
+      }
+    }
+  },
+  {
+    "shot": "golf_20_storm_2_approach",
+    "beforeSHA256": "eda498e41c4040a4a2325ee0533b526ae4d6ee58e4f0848e3ee962b0ee767ee9",
+    "afterSHA256": "1af235532936e70fe70dbbc3b7e574ef0a258e3b78d3bfd09aa744f4f978e766",
+    "reference": "r5 panel 2",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#3E485C",
+        "HSL": [
+          220.0,
+          19.48,
+          30.2
+        ],
+        "linearLuminanceMedian": 0.0633,
+        "LabRangeP90P10": 1.34
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#538A2D",
+        "HSL": [
+          95.48,
+          50.82,
+          35.88
+        ],
+        "linearLuminanceMedian": 0.2021,
+        "LabRangeP90P10": 14.16
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#49635C",
+        "HSL": [
+          163.85,
+          15.12,
+          33.73
+        ],
+        "linearLuminanceMedian": 0.1085,
+        "LabRangeP90P10": 27.84
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#354255",
+        "HSL": [
+          215.62,
+          23.19,
+          27.06
+        ],
+        "linearLuminanceMedian": 0.0527,
+        "LabRangeP90P10": 3.07
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#538A2E",
+        "HSL": [
+          95.87,
+          50.0,
+          36.08
+        ],
+        "linearLuminanceMedian": 0.2023,
+        "LabRangeP90P10": 14.17
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#48605C",
+        "HSL": [
+          170.0,
+          14.29,
+          32.94
+        ],
+        "linearLuminanceMedian": 0.1022,
+        "LabRangeP90P10": 26.98
+      }
+    }
+  },
+  {
+    "shot": "golf_22_clear_1_tee_gameplay",
+    "beforeSHA256": "d4b9aeece2ca56c1378c2e172bd3d89163bb4e7b7f3efb07d89a967d97e415e2",
+    "afterSHA256": "ac0485bbd5551643ccf2a7d0846cdeb9ffa7c23ae78d8371892c187d90c9798a",
+    "reference": "r4 panel 4",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#5E294B",
+        "HSL": [
+          321.51,
+          39.26,
+          26.47
+        ],
+        "linearLuminanceMedian": 0.0453,
+        "LabRangeP90P10": 19.36
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#6C9A00",
+        "HSL": [
+          77.92,
+          100.0,
+          30.2
+        ],
+        "linearLuminanceMedian": 0.263,
+        "LabRangeP90P10": 11.15
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#546D06",
+        "HSL": [
+          74.56,
+          89.57,
+          22.55
+        ],
+        "linearLuminanceMedian": 0.1498,
+        "LabRangeP90P10": 55.23
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#5F2A4D",
+        "HSL": [
+          320.38,
+          38.69,
+          26.86
+        ],
+        "linearLuminanceMedian": 0.0461,
+        "LabRangeP90P10": 17.34
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#6C9A00",
+        "HSL": [
+          77.92,
+          100.0,
+          30.2
+        ],
+        "linearLuminanceMedian": 0.263,
+        "LabRangeP90P10": 11.15
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#546E07",
+        "HSL": [
+          75.15,
+          88.03,
+          22.94
+        ],
+        "linearLuminanceMedian": 0.1498,
+        "LabRangeP90P10": 55.15
+      }
+    }
+  },
+  {
+    "shot": "golf_22_clear_2_approach",
+    "beforeSHA256": "6d20f2b3e3dab416c2d8ec706cdcfb56952a779a2be5743175dc29500ddc945e",
+    "afterSHA256": "c0db099b62ba42308a640f4a4575889a7c150ebb70bb6f1e7c627605d6da0ac1",
+    "reference": "r4 panel 4",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#001060",
+        "HSL": [
+          230.0,
+          100.0,
+          18.82
+        ],
+        "linearLuminanceMedian": 0.0122,
+        "LabRangeP90P10": 2.88
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#7A320C",
+        "HSL": [
+          20.63,
+          82.16,
+          26.37
+        ],
+        "linearLuminanceMedian": 0.0649,
+        "LabRangeP90P10": 76.46
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#201E1E",
+        "HSL": [
+          0.0,
+          3.23,
+          12.16
+        ],
+        "linearLuminanceMedian": 0.0149,
+        "LabRangeP90P10": 55.27
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#001060",
+        "HSL": [
+          230.0,
+          100.0,
+          18.82
+        ],
+        "linearLuminanceMedian": 0.0122,
+        "LabRangeP90P10": 2.88
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#020306",
+        "HSL": [
+          225.0,
+          50.0,
+          1.57
+        ],
+        "linearLuminanceMedian": 0.0009,
+        "LabRangeP90P10": 0.27
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#201E1E",
+        "HSL": [
+          0.0,
+          3.23,
+          12.16
+        ],
+        "linearLuminanceMedian": 0.0148,
+        "LabRangeP90P10": 55.34
+      }
+    }
+  },
+  {
+    "shot": "golf_22_clear_3_green",
+    "beforeSHA256": "615171cfd29059d2fc31b55b1b3c1e2893eeb24dacafcf0aa12479ae88778450",
+    "afterSHA256": "2ae13c04250ce3f856de9cd8837dc4435f62ebb4e901eff54a5788fd9d1a1175",
+    "reference": "r4 panel 4",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#001264",
+        "HSL": [
+          229.2,
+          100.0,
+          19.61
+        ],
+        "linearLuminanceMedian": 0.0137,
+        "LabRangeP90P10": 3.04
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#020306",
+        "HSL": [
+          225.0,
+          50.0,
+          1.57
+        ],
+        "linearLuminanceMedian": 0.0009,
+        "LabRangeP90P10": 0.27
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#232020",
+        "HSL": [
+          0.0,
+          4.48,
+          13.14
+        ],
+        "linearLuminanceMedian": 0.0171,
+        "LabRangeP90P10": 68.27
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#001265",
+        "HSL": [
+          229.31,
+          100.0,
+          19.8
+        ],
+        "linearLuminanceMedian": 0.0139,
+        "LabRangeP90P10": 3.14
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#030406",
+        "HSL": [
+          220.0,
+          33.33,
+          1.76
+        ],
+        "linearLuminanceMedian": 0.0013,
+        "LabRangeP90P10": 75.13
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#201F1E",
+        "HSL": [
+          30.0,
+          3.23,
+          12.16
+        ],
+        "linearLuminanceMedian": 0.0157,
+        "LabRangeP90P10": 58.58
+      }
+    }
+  },
+  {
+    "shot": "golf_22_clear_4_overview",
+    "beforeSHA256": "8c090faffa11b881e461ab2defd49d977e9b277be4c6d7fc6d38e15eb15594e9",
+    "afterSHA256": "6cb826623bc1b03a13e239761eb01fab1da4038ce24ea55c9b7189b576b21f61",
+    "reference": "r4 panel 4",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#120807",
+        "HSL": [
+          5.45,
+          44.0,
+          4.9
+        ],
+        "linearLuminanceMedian": 0.0031,
+        "LabRangeP90P10": 73.96
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#020406",
+        "HSL": [
+          210.0,
+          50.0,
+          1.57
+        ],
+        "linearLuminanceMedian": 0.0011,
+        "LabRangeP90P10": 69.16
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#2E1B0A",
+        "HSL": [
+          28.33,
+          64.29,
+          10.98
+        ],
+        "linearLuminanceMedian": 0.0166,
+        "LabRangeP90P10": 74.11
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#181007",
+        "HSL": [
+          30.86,
+          55.56,
+          6.18
+        ],
+        "linearLuminanceMedian": 0.0088,
+        "LabRangeP90P10": 75.52
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#DAAD2E",
+        "HSL": [
+          44.3,
+          69.92,
+          51.76
+        ],
+        "linearLuminanceMedian": 0.4514,
+        "LabRangeP90P10": 75.4
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#2B1A0A",
+        "HSL": [
+          29.09,
+          62.26,
+          10.39
+        ],
+        "linearLuminanceMedian": 0.0147,
+        "LabRangeP90P10": 74.09
+      }
+    }
+  },
+  {
+    "shot": "hub_1_spawn",
+    "beforeSHA256": "a3cdcb197bcae8587cf64c6fddecf90a6b20e3252bd377f958ed7cdbb4d14f55",
+    "afterSHA256": "d185ed9b74eea81dcff63ee7ade71ecd23b1ed89ecdb6f17f9df463fbdc59e07",
+    "reference": "r1",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#496B7A",
+        "HSL": [
+          198.37,
+          25.13,
+          38.24
+        ],
+        "linearLuminanceMedian": 0.1336,
+        "LabRangeP90P10": 6.47
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#2B3349",
+        "HSL": [
+          224.0,
+          25.86,
+          22.75
+        ],
+        "linearLuminanceMedian": 0.0343,
+        "LabRangeP90P10": 28.8
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#4B6749",
+        "HSL": [
+          116.0,
+          17.05,
+          34.51
+        ],
+        "linearLuminanceMedian": 0.1236,
+        "LabRangeP90P10": 46.81
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#496B7A",
+        "HSL": [
+          198.37,
+          25.13,
+          38.24
+        ],
+        "linearLuminanceMedian": 0.1323,
+        "LabRangeP90P10": 4.21
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#2B3349",
+        "HSL": [
+          224.0,
+          25.86,
+          22.75
+        ],
+        "linearLuminanceMedian": 0.0343,
+        "LabRangeP90P10": 28.8
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#4B6749",
+        "HSL": [
+          116.0,
+          17.05,
+          34.51
+        ],
+        "linearLuminanceMedian": 0.1239,
+        "LabRangeP90P10": 46.81
+      }
+    }
+  },
+  {
+    "shot": "hub_2_walk",
+    "beforeSHA256": "ebb64c81583e4e26d68607dfd1daeb09a6d5627d85984d7adf69e8086ae3bcaf",
+    "afterSHA256": "c1f68074e904917afd214f11a347df2f7e2c22e3e60edc0e2c8eac612d940672",
+    "reference": "r1",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#F5E6A5",
+        "HSL": [
+          48.75,
+          80.0,
+          80.39
+        ],
+        "linearLuminanceMedian": 0.8038,
+        "LabRangeP90P10": 65.28
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#C49E74",
+        "HSL": [
+          31.5,
+          40.4,
+          61.18
+        ],
+        "linearLuminanceMedian": 0.3745,
+        "LabRangeP90P10": 29.83
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#C5A575",
+        "HSL": [
+          36.0,
+          40.82,
+          61.57
+        ],
+        "linearLuminanceMedian": 0.3977,
+        "LabRangeP90P10": 59.84
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#F5E6A6",
+        "HSL": [
+          48.61,
+          79.8,
+          80.59
+        ],
+        "linearLuminanceMedian": 0.8057,
+        "LabRangeP90P10": 65.32
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#C49E74",
+        "HSL": [
+          31.5,
+          40.4,
+          61.18
+        ],
+        "linearLuminanceMedian": 0.3745,
+        "LabRangeP90P10": 29.93
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#C5A575",
+        "HSL": [
+          36.0,
+          40.82,
+          61.57
+        ],
+        "linearLuminanceMedian": 0.3971,
+        "LabRangeP90P10": 59.79
+      }
+    }
+  },
+  {
+    "shot": "hub_3_wide",
+    "beforeSHA256": "e198dc18d6c8dc92b4247caf59405e293671fcd8363f1359f1642ef4de245d9c",
+    "afterSHA256": "7b623bbfbac34a3a66d9e2b974196cec7f59cfb4d1cfa4ba8c757422e020df40",
+    "reference": "r1",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#F1CDAD",
+        "HSL": [
+          28.24,
+          70.83,
+          81.18
+        ],
+        "linearLuminanceMedian": 0.6051,
+        "LabRangeP90P10": 32.04
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#C3A17C",
+        "HSL": [
+          31.27,
+          37.17,
+          62.55
+        ],
+        "linearLuminanceMedian": 0.3855,
+        "LabRangeP90P10": 7.51
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#A69A6B",
+        "HSL": [
+          47.8,
+          24.89,
+          53.53
+        ],
+        "linearLuminanceMedian": 0.3349,
+        "LabRangeP90P10": 51.87
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#F1CDAD",
+        "HSL": [
+          28.24,
+          70.83,
+          81.18
+        ],
+        "linearLuminanceMedian": 0.6051,
+        "LabRangeP90P10": 32.11
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#C3A17C",
+        "HSL": [
+          31.27,
+          37.17,
+          62.55
+        ],
+        "linearLuminanceMedian": 0.3855,
+        "LabRangeP90P10": 7.51
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#A69A6B",
+        "HSL": [
+          47.8,
+          24.89,
+          53.53
+        ],
+        "linearLuminanceMedian": 0.3354,
+        "LabRangeP90P10": 51.73
+      }
+    }
+  },
+  {
+    "shot": "tennis_resort_1_gameplay",
+    "beforeSHA256": "e490dcb4d5ead9dd40d3f79926500895eb6e92c944f5a62c9c39b5213caa93b1",
+    "afterSHA256": "82419d06c7181b633f926c571489bc795e622b7d05821c0d9d610cda0423cd36",
+    "reference": "r2",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#CED0D5",
+        "HSL": [
+          222.86,
+          7.69,
+          82.16
+        ],
+        "linearLuminanceMedian": 0.6304,
+        "LabRangeP90P10": 5.72
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#007FBE",
+        "HSL": [
+          199.89,
+          100.0,
+          37.25
+        ],
+        "linearLuminanceMedian": 0.189,
+        "LabRangeP90P10": 23.77
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#2D84BD",
+        "HSL": [
+          203.75,
+          61.54,
+          45.88
+        ],
+        "linearLuminanceMedian": 0.2031,
+        "LabRangeP90P10": 41.95
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#CED0D5",
+        "HSL": [
+          222.86,
+          7.69,
+          82.16
+        ],
+        "linearLuminanceMedian": 0.6304,
+        "LabRangeP90P10": 5.72
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#007FBE",
+        "HSL": [
+          199.89,
+          100.0,
+          37.25
+        ],
+        "linearLuminanceMedian": 0.189,
+        "LabRangeP90P10": 23.77
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#2D84BE",
+        "HSL": [
+          204.0,
+          61.7,
+          46.08
+        ],
+        "linearLuminanceMedian": 0.2035,
+        "LabRangeP90P10": 41.86
+      }
+    }
+  },
+  {
+    "shot": "tennis_resort_2_close",
+    "beforeSHA256": "33765f62954483f2d5f7c140144ea65680c924e1d57e69632b27157c99c93f03",
+    "afterSHA256": "5143f60216f7c13a7493729dd36fca5cfeb1f6e52f1db7115152d0871c1c580e",
+    "reference": "r2",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#C8CDD5",
+        "HSL": [
+          216.92,
+          13.4,
+          80.98
+        ],
+        "linearLuminanceMedian": 0.6067,
+        "LabRangeP90P10": 31.34
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#007EBC",
+        "HSL": [
+          199.79,
+          100.0,
+          36.86
+        ],
+        "linearLuminanceMedian": 0.1855,
+        "LabRangeP90P10": 0.41
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#3286BD",
+        "HSL": [
+          203.74,
+          58.16,
+          46.86
+        ],
+        "linearLuminanceMedian": 0.2112,
+        "LabRangeP90P10": 50.8
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#C8CDD5",
+        "HSL": [
+          216.92,
+          13.4,
+          80.98
+        ],
+        "linearLuminanceMedian": 0.6067,
+        "LabRangeP90P10": 31.34
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#007EBC",
+        "HSL": [
+          199.79,
+          100.0,
+          36.86
+        ],
+        "linearLuminanceMedian": 0.1855,
+        "LabRangeP90P10": 0.41
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#3286BD",
+        "HSL": [
+          203.74,
+          58.16,
+          46.86
+        ],
+        "linearLuminanceMedian": 0.2118,
+        "LabRangeP90P10": 50.96
+      }
+    }
+  },
+  {
+    "shot": "tennis_resort_3_wide",
+    "beforeSHA256": "69adb69c5a5dcd19125ab2cf164345daf15ad125d7260b0024deb29626176de4",
+    "afterSHA256": "11b512a29d0756eb2e9db2cf1437302424497a7dbbe1bd28207a364031da9516",
+    "reference": "r2",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#C5C3A9",
+        "HSL": [
+          55.71,
+          19.44,
+          71.76
+        ],
+        "linearLuminanceMedian": 0.5436,
+        "LabRangeP90P10": 64.36
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#007BBD",
+        "HSL": [
+          200.95,
+          100.0,
+          37.06
+        ],
+        "linearLuminanceMedian": 0.1784,
+        "LabRangeP90P10": 12.6
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#0D78B9",
+        "HSL": [
+          202.67,
+          86.87,
+          38.82
+        ],
+        "linearLuminanceMedian": 0.1706,
+        "LabRangeP90P10": 41.94
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#C5C3A9",
+        "HSL": [
+          55.71,
+          19.44,
+          71.76
+        ],
+        "linearLuminanceMedian": 0.5436,
+        "LabRangeP90P10": 64.36
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#007BBD",
+        "HSL": [
+          200.95,
+          100.0,
+          37.06
+        ],
+        "linearLuminanceMedian": 0.1784,
+        "LabRangeP90P10": 12.6
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#0D78B9",
+        "HSL": [
+          202.67,
+          86.87,
+          38.82
+        ],
+        "linearLuminanceMedian": 0.1706,
+        "LabRangeP90P10": 41.94
+      }
+    }
+  },
+  {
+    "shot": "tennis_resort_4_surface",
+    "beforeSHA256": "5bf804a70cf91e381b5415a7e016e31fa7e3fe11bac8af8da3150a608472ad24",
+    "afterSHA256": "17fba532bd1b3bc79e2a882c224a4ed2aedf50c0ef0de8c1fd632ce18d0db721",
+    "reference": "r2",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#0F80CF",
+        "HSL": [
+          204.69,
+          86.49,
+          43.53
+        ],
+        "linearLuminanceMedian": 0.2004,
+        "LabRangeP90P10": 1.01
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#0085C0",
+        "HSL": [
+          198.44,
+          100.0,
+          37.65
+        ],
+        "linearLuminanceMedian": 0.2063,
+        "LabRangeP90P10": 0.7
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#3B8EC2",
+        "HSL": [
+          203.11,
+          53.36,
+          49.61
+        ],
+        "linearLuminanceMedian": 0.2397,
+        "LabRangeP90P10": 49.98
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#0F80CF",
+        "HSL": [
+          204.69,
+          86.49,
+          43.53
+        ],
+        "linearLuminanceMedian": 0.2004,
+        "LabRangeP90P10": 1.01
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#0085C0",
+        "HSL": [
+          198.44,
+          100.0,
+          37.65
+        ],
+        "linearLuminanceMedian": 0.2063,
+        "LabRangeP90P10": 0.7
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#3B8EC2",
+        "HSL": [
+          203.11,
+          53.36,
+          49.61
+        ],
+        "linearLuminanceMedian": 0.2397,
+        "LabRangeP90P10": 50.01
+      }
+    }
+  },
+  {
+    "shot": "tennis_skyscraper_1_gameplay",
+    "beforeSHA256": "b8c07cc76bf3dd7f540a8a26725a33459013a248eea178156da5a139d9fd4d77",
+    "afterSHA256": "afc06f5b8ca10e311d34a3446f9baebb43e4ebc9b7f0538230c153f6a81d64ec",
+    "reference": "r4 panel 1",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#8678A7",
+        "HSL": [
+          257.87,
+          21.08,
+          56.27
+        ],
+        "linearLuminanceMedian": 0.2129,
+        "LabRangeP90P10": 2.98
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#003932",
+        "HSL": [
+          172.63,
+          100.0,
+          11.18
+        ],
+        "linearLuminanceMedian": 0.0316,
+        "LabRangeP90P10": 33.59
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#0B3D37",
+        "HSL": [
+          172.8,
+          69.44,
+          14.12
+        ],
+        "linearLuminanceMedian": 0.0361,
+        "LabRangeP90P10": 45.59
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#8678A7",
+        "HSL": [
+          257.87,
+          21.08,
+          56.27
+        ],
+        "linearLuminanceMedian": 0.2129,
+        "LabRangeP90P10": 2.98
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#003932",
+        "HSL": [
+          172.63,
+          100.0,
+          11.18
+        ],
+        "linearLuminanceMedian": 0.0316,
+        "LabRangeP90P10": 32.85
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#0B3D37",
+        "HSL": [
+          172.8,
+          69.44,
+          14.12
+        ],
+        "linearLuminanceMedian": 0.0361,
+        "LabRangeP90P10": 45.5
+      }
+    }
+  },
+  {
+    "shot": "tennis_skyscraper_2_close",
+    "beforeSHA256": "2f6969fea0f94fa5b31e55d0b4bff90ce628d2e8367c3670094127a5fd8ddc4d",
+    "afterSHA256": "03036e2c03051ae81f542ed11ef25674780eee613bfe74d2ddb326a5f66b90c5",
+    "reference": "r4 panel 1",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#706FAC",
+        "HSL": [
+          240.98,
+          26.87,
+          55.49
+        ],
+        "linearLuminanceMedian": 0.1775,
+        "LabRangeP90P10": 2.16
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#003932",
+        "HSL": [
+          172.63,
+          100.0,
+          11.18
+        ],
+        "linearLuminanceMedian": 0.0316,
+        "LabRangeP90P10": 0.77
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#193E38",
+        "HSL": [
+          170.27,
+          42.53,
+          17.06
+        ],
+        "linearLuminanceMedian": 0.0376,
+        "LabRangeP90P10": 46.4
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#706FAC",
+        "HSL": [
+          240.98,
+          26.87,
+          55.49
+        ],
+        "linearLuminanceMedian": 0.1775,
+        "LabRangeP90P10": 2.16
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#003932",
+        "HSL": [
+          172.63,
+          100.0,
+          11.18
+        ],
+        "linearLuminanceMedian": 0.0316,
+        "LabRangeP90P10": 0.77
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#193E38",
+        "HSL": [
+          170.27,
+          42.53,
+          17.06
+        ],
+        "linearLuminanceMedian": 0.0383,
+        "LabRangeP90P10": 46.41
+      }
+    }
+  },
+  {
+    "shot": "tennis_skyscraper_3_wide",
+    "beforeSHA256": "ac2dd99629bcb7c08fa7e4f2f101a6ee6cad037379bd20b4faa4b07a53c1f505",
+    "afterSHA256": "753ba380cea454de723767b73e3b28830ac07119a1a0e5cf7be5e2d2905f642b",
+    "reference": "r4 panel 1",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#9FA2A9",
+        "HSL": [
+          222.0,
+          5.49,
+          64.31
+        ],
+        "linearLuminanceMedian": 0.3608,
+        "LabRangeP90P10": 18.99
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#003631",
+        "HSL": [
+          174.44,
+          100.0,
+          10.59
+        ],
+        "linearLuminanceMedian": 0.0286,
+        "LabRangeP90P10": 6.27
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#003631",
+        "HSL": [
+          174.44,
+          100.0,
+          10.59
+        ],
+        "linearLuminanceMedian": 0.0286,
+        "LabRangeP90P10": 51.87
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#9FA2A9",
+        "HSL": [
+          222.0,
+          5.49,
+          64.31
+        ],
+        "linearLuminanceMedian": 0.3608,
+        "LabRangeP90P10": 18.99
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#003631",
+        "HSL": [
+          174.44,
+          100.0,
+          10.59
+        ],
+        "linearLuminanceMedian": 0.0286,
+        "LabRangeP90P10": 6.27
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#003631",
+        "HSL": [
+          174.44,
+          100.0,
+          10.59
+        ],
+        "linearLuminanceMedian": 0.0286,
+        "LabRangeP90P10": 51.87
+      }
+    }
+  },
+  {
+    "shot": "tennis_skyscraper_4_surface",
+    "beforeSHA256": "2de9084dccb5b3a020ef8b5a21a2405510c94abed42c2fc8d9549b1cc7140fe3",
+    "afterSHA256": "6d349319a77b9f49419cf90479b00d7ab9f91ab6a6d6ec08e1b7e272763ba9ad",
+    "reference": "r4 panel 1",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#7F76AB",
+        "HSL": [
+          250.19,
+          23.98,
+          56.67
+        ],
+        "linearLuminanceMedian": 0.2041,
+        "LabRangeP90P10": 3.56
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#003B34",
+        "HSL": [
+          172.88,
+          100.0,
+          11.57
+        ],
+        "linearLuminanceMedian": 0.0338,
+        "LabRangeP90P10": 0.83
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#20433F",
+        "HSL": [
+          173.14,
+          35.35,
+          19.41
+        ],
+        "linearLuminanceMedian": 0.0458,
+        "LabRangeP90P10": 44.34
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#7F76AB",
+        "HSL": [
+          250.19,
+          23.98,
+          56.67
+        ],
+        "linearLuminanceMedian": 0.2041,
+        "LabRangeP90P10": 3.56
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#003B34",
+        "HSL": [
+          172.88,
+          100.0,
+          11.57
+        ],
+        "linearLuminanceMedian": 0.0338,
+        "LabRangeP90P10": 0.83
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#20433F",
+        "HSL": [
+          173.14,
+          35.35,
+          19.41
+        ],
+        "linearLuminanceMedian": 0.0458,
+        "LabRangeP90P10": 44.32
+      }
+    }
+  },
+  {
+    "shot": "tennis_volcano_1_gameplay",
+    "beforeSHA256": "2b6d4ff75e669ddad5d1db75a05041090f668d7288c026e34c960aa0ecf8abe3",
+    "afterSHA256": "1defee237294899f01c71be61ea3ea49706b1abd9a05258a65b7e952a49ef1cc",
+    "reference": "r4 panel 2",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#A95D59",
+        "HSL": [
+          3.0,
+          31.75,
+          50.59
+        ],
+        "linearLuminanceMedian": 0.1704,
+        "LabRangeP90P10": 10.42
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#060A0F",
+        "HSL": [
+          213.33,
+          42.86,
+          4.12
+        ],
+        "linearLuminanceMedian": 0.0029,
+        "LabRangeP90P10": 32.09
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#06090F",
+        "HSL": [
+          220.0,
+          42.86,
+          4.12
+        ],
+        "linearLuminanceMedian": 0.0027,
+        "LabRangeP90P10": 13.27
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#A95D59",
+        "HSL": [
+          3.0,
+          31.75,
+          50.59
+        ],
+        "linearLuminanceMedian": 0.1704,
+        "LabRangeP90P10": 10.42
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#060A0F",
+        "HSL": [
+          213.33,
+          42.86,
+          4.12
+        ],
+        "linearLuminanceMedian": 0.0029,
+        "LabRangeP90P10": 32.09
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#06090F",
+        "HSL": [
+          220.0,
+          42.86,
+          4.12
+        ],
+        "linearLuminanceMedian": 0.0027,
+        "LabRangeP90P10": 13.79
+      }
+    }
+  },
+  {
+    "shot": "tennis_volcano_2_close",
+    "beforeSHA256": "70c4bbd3b822d007fdc73f84d9b9d69796fe24f8e262f4996374cb60a1fb89ef",
+    "afterSHA256": "d532b11d77934cd8727caa14f8338b782f12cb8df3f7a12ccbd02fb0eacddd3f",
+    "reference": "r4 panel 2",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#623F74",
+        "HSL": [
+          279.62,
+          29.61,
+          35.1
+        ],
+        "linearLuminanceMedian": 0.0741,
+        "LabRangeP90P10": 5.8
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#070A0F",
+        "HSL": [
+          217.5,
+          36.36,
+          4.31
+        ],
+        "linearLuminanceMedian": 0.003,
+        "LabRangeP90P10": 0.65
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#070A10",
+        "HSL": [
+          220.0,
+          39.13,
+          4.51
+        ],
+        "linearLuminanceMedian": 0.003,
+        "LabRangeP90P10": 18.3
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#623F74",
+        "HSL": [
+          279.62,
+          29.61,
+          35.1
+        ],
+        "linearLuminanceMedian": 0.0741,
+        "LabRangeP90P10": 5.8
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#070A0F",
+        "HSL": [
+          217.5,
+          36.36,
+          4.31
+        ],
+        "linearLuminanceMedian": 0.003,
+        "LabRangeP90P10": 0.65
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#070A10",
+        "HSL": [
+          220.0,
+          39.13,
+          4.51
+        ],
+        "linearLuminanceMedian": 0.003,
+        "LabRangeP90P10": 18.14
+      }
+    }
+  },
+  {
+    "shot": "tennis_volcano_3_wide",
+    "beforeSHA256": "c9bd453c428bb442258bf4c201a28e0463896f45f8333227bce366df633907cc",
+    "afterSHA256": "85e0c7817cfa05be4b118ad790e1a5473cefde48819baa0797d9b5f861ea643a",
+    "reference": "r4 panel 2",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#040203",
+        "HSL": [
+          330.0,
+          33.33,
+          1.18
+        ],
+        "linearLuminanceMedian": 0.0008,
+        "LabRangeP90P10": 0.55
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#020407",
+        "HSL": [
+          216.0,
+          55.56,
+          1.76
+        ],
+        "linearLuminanceMedian": 0.0012,
+        "LabRangeP90P10": 0.24
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#07080D",
+        "HSL": [
+          230.0,
+          30.0,
+          3.92
+        ],
+        "linearLuminanceMedian": 0.0027,
+        "LabRangeP90P10": 16.5
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#040203",
+        "HSL": [
+          330.0,
+          33.33,
+          1.18
+        ],
+        "linearLuminanceMedian": 0.0008,
+        "LabRangeP90P10": 0.55
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#020407",
+        "HSL": [
+          216.0,
+          55.56,
+          1.76
+        ],
+        "linearLuminanceMedian": 0.0012,
+        "LabRangeP90P10": 0.24
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#07080D",
+        "HSL": [
+          230.0,
+          30.0,
+          3.92
+        ],
+        "linearLuminanceMedian": 0.0027,
+        "LabRangeP90P10": 17.57
+      }
+    }
+  },
+  {
+    "shot": "tennis_volcano_4_surface",
+    "beforeSHA256": "1400a1ab68d154d433cdb5ea4e0d1ead372e68a5a365283ea0299f56bd9477ff",
+    "afterSHA256": "37ef44362380db73344b79f4cbaf32b50801a85defc818f129a567ba8d99fc93",
+    "reference": "r4 panel 2",
+    "before": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#523A74",
+        "HSL": [
+          264.83,
+          33.33,
+          34.12
+        ],
+        "linearLuminanceMedian": 0.0604,
+        "LabRangeP90P10": 5.02
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#04060A",
+        "HSL": [
+          220.0,
+          42.86,
+          2.75
+        ],
+        "linearLuminanceMedian": 0.0018,
+        "LabRangeP90P10": 0.53
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#06090F",
+        "HSL": [
+          220.0,
+          42.86,
+          4.12
+        ],
+        "linearLuminanceMedian": 0.0027,
+        "LabRangeP90P10": 10.34
+      }
+    },
+    "after": {
+      "upper_sky": {
+        "box": [
+          0.45,
+          0.04,
+          0.55,
+          0.1
+        ],
+        "hex": "#523A74",
+        "HSL": [
+          264.83,
+          33.33,
+          34.12
+        ],
+        "linearLuminanceMedian": 0.0604,
+        "LabRangeP90P10": 5.02
+      },
+      "near_surface": {
+        "box": [
+          0.62,
+          0.8,
+          0.72,
+          0.88
+        ],
+        "hex": "#04060A",
+        "HSL": [
+          220.0,
+          42.86,
+          2.75
+        ],
+        "linearLuminanceMedian": 0.0018,
+        "LabRangeP90P10": 0.53
+      },
+      "scene_range": {
+        "box": [
+          0.05,
+          0.15,
+          0.95,
+          0.9
+        ],
+        "hex": "#06090F",
+        "HSL": [
+          220.0,
+          42.86,
+          4.12
+        ],
+        "linearLuminanceMedian": 0.0027,
+        "LabRangeP90P10": 10.59
+      }
+    }
+  }
+]

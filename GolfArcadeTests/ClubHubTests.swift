@@ -7,6 +7,65 @@ import XCTest
 /// payloads, codes. The real service is ClubHubLiveServiceTests; APNs and two real phones are device / deployment gates.
 @MainActor
 final class ClubHubTests: XCTestCase {
+    func testGameCenterInvitationDataIsPrivateBoundedAndExpiring() throws {
+        let now = 1_800_000_000_000.0
+        let invite = GameCenterPartyInvitation(host: "host", recipient: "guest", name: "Ann", group: 0x60000001,
+            players: ["host", "guest"], expiresAt: now + 120_000)
+        XCTAssertTrue(invite.valid(for: "guest", now: now))
+        XCTAssertFalse(invite.valid(for: "stranger", now: now))
+        XCTAssertFalse(invite.valid(for: "guest", now: now + 120_001))
+        var bad = invite; bad.players = ["guest", "guest"]; XCTAssertFalse(bad.valid(for: "guest", now: now))
+        bad = invite; bad.kind = "another-game"; XCTAssertFalse(bad.valid(for: "guest", now: now))
+        bad = invite; bad.group = 0; XCTAssertFalse(bad.valid(for: "guest", now: now))
+        XCTAssertEqual(try JSONDecoder().decode(GameCenterPartyInvitation.self, from: JSONEncoder().encode(invite)), invite)
+    }
+
+    /// Online is Game Center only: a shipped build never has a Club Hub address, and a Game Center invite reads as an invite to
+    /// the party (not to tennis). The proof sheets show the banner and the inline chat strip over the Plaza controller.
+    func testGameCenterOnlyBannerAndInlineChatStrip() async throws {
+        if ClubHubConfig.override("clubHubURL") == nil { XCTAssertNil(ClubHubConfig.serverURL, "no service unless a dev build asks for one") }
+        let card = GameCenterPartyInvitation(host: "a", recipient: "b", name: "Ann", group: 0x60000002, players: ["a", "b"], expiresAt: 220_000).card("m1")
+        XCTAssertEqual(card.id, "gc:m1"); XCTAssertEqual(card.sportTitle, "their party")
+        let p = Phone(nil, id: "b", name: "Bea", friends: [])
+        p.hub.now = { 100_000 }; p.hub.nativeAccept = { _ in }
+        p.hub.gameCenterInvitations([card])
+        XCTAssertEqual(p.hub.banner?.id, "gc:m1")
+        try await save(ZStack(alignment: .top) { Color(hex: "0E1B33").ignoresSafeArea(); InviteBanner(hub: p.hub, invite: card).padding(12) }, "online-invite-banner", size: CGSize(width: 402, height: 300))
+        p.hub.debugReset()
+    }
+
+    func testGameCenterInboxCanJoinAndDeclineWithoutAService() async throws {
+        let p = Phone(nil, id: "guest", name: "Bea", friends: [])
+        p.hub.now = { 100_000 }; await p.hub.refresh()
+        var joined: [String] = [], declined: [String] = []
+        p.hub.nativeAccept = { joined.append($0.id) }; p.hub.nativeDecline = { declined.append($0) }
+        let one = HubInvite(inviteID: "gc:first", from: HubPlayerRef(id: "a", name: "Ann"), sport: "tennis", lobbyCode: "first", group: 0x60000001, capacity: 2, expiresAt: 200_000)
+        var two = one; two.inviteID = "gc:second"; two.from = HubPlayerRef(id: "c", name: "Cy")
+        p.hub.gameCenterInvitations([one, two])
+        XCTAssertEqual(p.hub.unreadInvites, 2); XCTAssertNotNil(p.hub.banner)
+        p.hub.nativeInvite = { _ in }
+        try await save(ClubHubView(hub: p.hub), "game-center-inbox", size: CGSize(width: 402, height: 874))
+        let haptics = p.haptics
+        p.hub.snooze(one); p.hub.gameCenterInvitations([one, two])
+        XCTAssertEqual(p.haptics, haptics, "polling does not replay the arrival")
+        XCTAssertEqual(p.hub.banner?.id, two.id)
+        p.hub.decline(two); XCTAssertEqual(declined, [two.id])
+        p.hub.accept(one)
+        await until("native join") { p.hub.joining == nil }
+        XCTAssertEqual(joined, [one.id]); XCTAssertTrue(p.hub.invites.isEmpty)
+        XCTAssertTrue(p.room.joined.isEmpty, "no relay room or server used")
+        p.hub.debugReset()
+    }
+
+    func testGameCenterInboxHoldsDuringMatchAndRemovesCancelledInvites() async {
+        let p = Phone(nil, id: "guest", name: "Bea", friends: [])
+        p.hub.now = { 100_000 }; p.context.inMatch = true
+        let card = HubInvite(inviteID: "gc:held", from: HubPlayerRef(id: "a", name: "Ann"), sport: "tennis", lobbyCode: "held", group: 0x60000001, capacity: 2, expiresAt: 200_000)
+        p.hub.gameCenterInvitations([card]); XCTAssertNil(p.hub.banner); XCTAssertEqual(p.hub.unreadInvites, 1)
+        p.context.inMatch = false; p.hub.updateBanner(); XCTAssertEqual(p.hub.banner?.id, card.id)
+        p.hub.gameCenterInvitations([]); XCTAssertTrue(p.hub.invites.isEmpty); XCTAssertNil(p.hub.banner)
+        p.hub.debugReset()
+    }
     // MARK: an in-memory service speaking club-hub/PROTOCOL.md (just the rules the app depends on)
     @MainActor final class FakeService {
         struct Session { var transport: FakeTransport; var friends: Set<String>; var presence: [String: Any]; var name: String }
@@ -319,6 +378,25 @@ final class ClubHubTests: XCTestCase {
         XCTAssertEqual(bea.hub.banner?.lobbyCode, ann.hub.party?.code)
     }
 
+    /// AwayPolicy: back from the background, a phone opens its Club Hub connection afresh at once (iOS closed the old one without a
+    /// word) and is back in its party's room, still in the party, and both phones hear each other again.
+    func testComingBackFromTheBackgroundRejoinsTheParty() async {
+        let service = FakeService(); let (ann, bea) = await pair(service, realLobby: true)
+        defer { finish(ann, bea) }
+        ann.hub.invite(ann.hub.friends[0])
+        await until("banner") { bea.hub.banner != nil }
+        bea.hub.accept(bea.hub.banner!)
+        await until("Bea in Ann's party") { bea.mp.lobby?.ownerID == "ann" && ann.mp.lobby?.participants.count == 2 && bea.hub.joining == nil }
+        let code = ann.hub.party?.code ?? ""
+        bea.hub.returned(after: 2)   // a glance away keeps the connection
+        XCTAssertEqual(bea.hub.link, .online)
+        bea.hub.returned(after: 40)
+        await until("Bea online again") { bea.hub.link == .online }
+        await until("Bea back in the room") { service.rooms[code]?.members.sorted() == ["ann", "bea"] }
+        var heardByAnn: [String] = []; ann.mp.onHub = { _, _, from in heardByAnn.append(from) }
+        await until("still one party, heard again") { bea.mp.sendHub("hubPresence", payload: "{}", reliable: false); return heardByAnn.contains("bea") && ann.mp.lobby?.participants.count == 2 && bea.mp.lobby?.ownerID == "ann" }
+    }
+
     /// A join that the service refuses (the party ended) says so and leaves nothing behind.
     func testJoiningAnEndedPartySaysSo() async {
         let service = FakeService(); let (_, bea) = await pair(service, realLobby: true)
@@ -504,6 +582,42 @@ final class ClubHubTests: XCTestCase {
         XCTAssertEqual(d(#"{"t":"somethingNew"}"#), .unknown("somethingNew")); XCTAssertNil(d("not json"))
         let hello = try? JSONSerialization.jsonObject(with: HubClientMessage.hello(auth: .dev("a"), name: "Ann", friends: ["b"], presence: HubPresence(state: .plaza), push: nil)) as? [String: Any]
         XCTAssertEqual(hello?["t"] as? String, "hello"); XCTAssertEqual(hello?["v"] as? Int, 1); XCTAssertEqual((hello?["auth"] as? [String: Any])?["dev"] as? String, "a")
+    }
+
+    func testGameCenterInvitesWorkWithoutAPresenceServerAndCancelIsNotStuck() async throws {
+        let phone = Phone(nil, id: "ann", name: "Ann", friends: [FriendProfile(id: "bea", name: "Bea")], url: nil)
+        defer { finish(phone) }
+        var invited: [String] = [], cancelled = 0
+        phone.hub.nativeInvite = { id in invited.append(id); try await Task.sleep(for: .seconds(0.1)) }
+        phone.hub.nativeCancel = { cancelled += 1 }
+        phone.hub.start()
+        await until("no server") { phone.hub.link == .notConfigured && !phone.hub.friends.isEmpty }
+        XCTAssertTrue(phone.hub.canInvite)
+        try await save(ClubHubView(hub: phone.hub), "game-center-friends-no-service", size: CGSize(width: 402, height: 874))
+        phone.hub.invite(phone.hub.friends[0]); phone.hub.invite(phone.hub.friends[0])
+        await until("one native invite") { invited.count == 1 }
+        XCTAssertEqual(invited, ["bea"], "one tap uses the cached Game Center player, no matchmaking sheet")
+        phone.hub.cancelInvite(to: phone.hub.friends[0])
+        try? await Task.sleep(for: .seconds(0.2))
+        XCTAssertEqual(cancelled, 1); XCTAssertEqual(phone.hub.sent["bea"], .cancelled)
+    }
+
+    func testOpenFriendLobbyIsJoinableAndMatchOrClosedLobbyIsNot() async {
+        let service = FakeService(), (ann, bea) = await pair(service)
+        defer { finish(ann, bea) }
+        ann.hub.invite(ann.hub.friends[0])
+        await until("open lobby") { bea.hub.friends[0].lobby?.open == true }
+        let friend = bea.hub.friends[0]
+        XCTAssertTrue(bea.hub.canJoin(friend))
+        var busy = friend; busy.state = .match
+        XCTAssertFalse(bea.hub.canJoin(busy))
+        var closed = friend; closed.lobby?.open = false
+        XCTAssertFalse(bea.hub.canJoin(closed))
+        var full = friend; let capacity = full.lobby?.capacity ?? 4; full.lobby?.size = capacity
+        XCTAssertFalse(bea.hub.canJoin(full))
+        bea.hub.join(friend)
+        await until("friend lobby joined") { bea.room.joined.count == 1 && bea.hub.joining == nil }
+        XCTAssertEqual(bea.room.joined[0].host, "ann")
     }
 
     func testSnapshots() async throws {

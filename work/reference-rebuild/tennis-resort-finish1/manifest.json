@@ -1,0 +1,32 @@
+{
+  "scope": "Resort-only PALM/PALM_FAR source substitution",
+  "toggle": "TENNIS_RESORT_PALM_FINISH1=1",
+  "candidateResource": "Tennis/Premium/TennisResortPalmFinish1",
+  "source": "Derived from approved golf-canopy20 arches; tennis adaptation uses18 shared frond axes,22/20 slimmer featherlet pairs and7/6 smooth curved blade samples with transverse crease. Coarse wide golf far prototype rejected after root actual closeup.",
+  "assetSHA256": "9682f08e4e8c339e0ac43461e885c2ab83a9471fedd3acd3378c99942bf6a82e",
+  "codeBaselineSHA256": "e9bd431b67056c230d9b3093443e7f475f68f65fa71e5cab7a09843798c05921",
+  "unchanged": [
+    "all placement calls and ordering",
+    "all tree roots radii heights yaw",
+    "all tree LOD thresholds",
+    "court net actors physics colliders",
+    "shared palettes and materials",
+    "Skyscraper and Volcano source selection"
+  ],
+  "sourceBudget": {
+    "oldTennisNear": 31876,
+    "oldTennisFar": 14284,
+    "candidateNear": 20252,
+    "candidateFar": 15108
+  },
+  "status": "curved source silhouette PASS; actual Unity capture pending",
+  "coverage": {
+    "before_near": 47095,
+    "before_far": 42744,
+    "candidate_near": 56777,
+    "candidate_far": 57315,
+    "nearGainPercent": 20.558445694872063,
+    "farGainPercent": 34.08899494665918,
+    "method": "Alpha >=128 in fixed crown ROI x70:560 y100:370; identical 640x480 camera, 12.5 trunk height, 4.65 crown radius, runtime palette. Includes a small identical trunk segment. Source proof only."
+  }
+}

@@ -1,0 +1,429 @@
+scene: Assets/Scenes/Tennis.unity  quality tier=High  unity=6000.3.24f1
+== vs_Nadia: player Male, rival Female
+  PLAYER legacy look=False matchLook=True walkClipSpeed=1.250 runClipSpeed=3.251 serve ritual stance/release/trophy=0.200/0.700/1.333
+      Ready=Male_ReadyIdle len=2.200 contact=0.0000 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_ReadyIdle.fbx
+      Forehand=Male_Forehand len=1.200 contact=0.6667 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_Forehand.fbx
+      Backhand=Male_Backhand len=1.200 contact=0.6333 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_Backhand.fbx
+      Serve=Male_Serve len=2.500 contact=1.7000 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_Serve.fbx
+      Volley=Male_VolleyForehand len=0.700 contact=0.3000 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_VolleyForehand.fbx
+      Smash=Male_Overhead len=1.200 contact=0.7333 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_Overhead.fbx
+      ForehandWide=Male_ForehandWide len=1.300 contact=0.8667 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_ForehandWide.fbx
+      ForehandShort=Male_ForehandShort len=1.000 contact=0.4667 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_ForehandShort.fbx
+      BackhandWide=Male_BackhandWide len=1.300 contact=0.7667 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_BackhandWide.fbx
+      SliceApproach=Male_SliceApproach len=1.200 contact=0.5000 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_SliceApproach.fbx
+      Return=Male_Return len=0.900 contact=0.4333 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_Return.fbx
+      VolleyBackhand=Male_VolleyBackhand len=0.700 contact=0.3000 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_VolleyBackhand.fbx
+      ForehandOpen=Male_ForehandOpen len=1.000 contact=0.5333 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_ForehandOpen.fbx
+      SplitToForehand=Male_SplitToForehand len=0.600 contact=0.0000 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_SplitToForehand.fbx
+      SplitToBackhand=Male_SplitToBackhand len=0.600 contact=0.0000 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_SplitToBackhand.fbx
+      RecoverCenter=Male_RecoverCenter len=0.800 contact=0.0000 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_RecoverCenter.fbx
+      Walk=Male_Walk len=1.100 contact=0.0000 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_Walk.fbx
+      RunForward=Male_RunForward len=0.567 contact=0.0000 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_RunForward.fbx
+      RunLeft=Male_RunLeft len=0.567 contact=0.0000 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_RunLeft.fbx
+      RunRight=Male_RunRight len=0.567 contact=0.0000 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_RunRight.fbx
+  foot probe Male PLAYER: ok, 1622/1621 foot vertices, floor 2.45 mm
+  RIVAL legacy look=False matchLook=True walkClipSpeed=1.250 runClipSpeed=3.251 serve ritual stance/release/trophy=0.200/0.700/1.333
+      Ready=Female_ReadyIdle len=2.200 contact=0.0000 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_ReadyIdle.fbx
+      Forehand=Female_Forehand len=1.200 contact=0.6667 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_Forehand.fbx
+      Backhand=Female_Backhand len=1.200 contact=0.6333 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_Backhand.fbx
+      Serve=Female_Serve len=2.500 contact=1.7000 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_Serve.fbx
+      Volley=Female_VolleyForehand len=0.700 contact=0.3000 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_VolleyForehand.fbx
+      Smash=Female_Overhead len=1.200 contact=0.7333 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_Overhead.fbx
+      ForehandWide=Female_ForehandWide len=1.300 contact=0.8667 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_ForehandWide.fbx
+      ForehandShort=Female_ForehandShort len=1.000 contact=0.4667 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_ForehandShort.fbx
+      BackhandWide=Female_BackhandWide len=1.300 contact=0.7667 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_BackhandWide.fbx
+      SliceApproach=Female_SliceApproach len=1.200 contact=0.5000 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_SliceApproach.fbx
+      Return=Female_Return len=0.900 contact=0.4333 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_Return.fbx
+      VolleyBackhand=Female_VolleyBackhand len=0.700 contact=0.3000 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_VolleyBackhand.fbx
+      ForehandOpen=Female_ForehandOpen len=1.000 contact=0.5333 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_ForehandOpen.fbx
+      SplitToForehand=Female_SplitToForehand len=0.600 contact=0.0000 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_SplitToForehand.fbx
+      SplitToBackhand=Female_SplitToBackhand len=0.600 contact=0.0000 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_SplitToBackhand.fbx
+      RecoverCenter=Female_RecoverCenter len=0.800 contact=0.0000 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_RecoverCenter.fbx
+      Walk=Female_Walk len=1.100 contact=0.0000 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_Walk.fbx
+      RunForward=Female_RunForward len=0.567 contact=0.0000 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_RunForward.fbx
+      RunLeft=Female_RunLeft len=0.567 contact=0.0000 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_RunLeft.fbx
+      RunRight=Female_RunRight len=0.567 contact=0.0000 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_RunRight.fbx
+  foot probe Female RIVAL: ok, 703/706 foot vertices, floor 1.07 mm
+  [vs_Nadia] walk: 18 close-ups; player x=2.35
+  [vs_Nadia] serve: 57 sample times, swung=True, tossAccuracy=1.00
+  [vs_Nadia] perfect-toss serves logged: 14 in 14 tries
+  [vs_Nadia] rally: frames=43200 hits=42 serve contacts logged player=25 rival=5; run close-ups player=56 rival=40; honestMisses=2
+== vs_Viktor: player Female, rival Male
+  PLAYER legacy look=False matchLook=True walkClipSpeed=1.250 runClipSpeed=3.251 serve ritual stance/release/trophy=0.200/0.700/1.333
+      Ready=Female_ReadyIdle len=2.200 contact=0.0000 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_ReadyIdle.fbx
+      Forehand=Female_Forehand len=1.200 contact=0.6667 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_Forehand.fbx
+      Backhand=Female_Backhand len=1.200 contact=0.6333 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_Backhand.fbx
+      Serve=Female_Serve len=2.500 contact=1.7000 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_Serve.fbx
+      Volley=Female_VolleyForehand len=0.700 contact=0.3000 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_VolleyForehand.fbx
+      Smash=Female_Overhead len=1.200 contact=0.7333 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_Overhead.fbx
+      ForehandWide=Female_ForehandWide len=1.300 contact=0.8667 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_ForehandWide.fbx
+      ForehandShort=Female_ForehandShort len=1.000 contact=0.4667 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_ForehandShort.fbx
+      BackhandWide=Female_BackhandWide len=1.300 contact=0.7667 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_BackhandWide.fbx
+      SliceApproach=Female_SliceApproach len=1.200 contact=0.5000 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_SliceApproach.fbx
+      Return=Female_Return len=0.900 contact=0.4333 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_Return.fbx
+      VolleyBackhand=Female_VolleyBackhand len=0.700 contact=0.3000 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_VolleyBackhand.fbx
+      ForehandOpen=Female_ForehandOpen len=1.000 contact=0.5333 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_ForehandOpen.fbx
+      SplitToForehand=Female_SplitToForehand len=0.600 contact=0.0000 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_SplitToForehand.fbx
+      SplitToBackhand=Female_SplitToBackhand len=0.600 contact=0.0000 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_SplitToBackhand.fbx
+      RecoverCenter=Female_RecoverCenter len=0.800 contact=0.0000 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_RecoverCenter.fbx
+      Walk=Female_Walk len=1.100 contact=0.0000 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_Walk.fbx
+      RunForward=Female_RunForward len=0.567 contact=0.0000 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_RunForward.fbx
+      RunLeft=Female_RunLeft len=0.567 contact=0.0000 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_RunLeft.fbx
+      RunRight=Female_RunRight len=0.567 contact=0.0000 human=False  asset=Assets/Characters/MatchHeroes/Female/Female_RunRight.fbx
+  foot probe Female PLAYER: ok, 703/706 foot vertices, floor 1.07 mm
+  RIVAL legacy look=False matchLook=True walkClipSpeed=1.250 runClipSpeed=3.251 serve ritual stance/release/trophy=0.200/0.700/1.333
+      Ready=Male_ReadyIdle len=2.200 contact=0.0000 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_ReadyIdle.fbx
+      Forehand=Male_Forehand len=1.200 contact=0.6667 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_Forehand.fbx
+      Backhand=Male_Backhand len=1.200 contact=0.6333 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_Backhand.fbx
+      Serve=Male_Serve len=2.500 contact=1.7000 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_Serve.fbx
+      Volley=Male_VolleyForehand len=0.700 contact=0.3000 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_VolleyForehand.fbx
+      Smash=Male_Overhead len=1.200 contact=0.7333 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_Overhead.fbx
+      ForehandWide=Male_ForehandWide len=1.300 contact=0.8667 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_ForehandWide.fbx
+      ForehandShort=Male_ForehandShort len=1.000 contact=0.4667 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_ForehandShort.fbx
+      BackhandWide=Male_BackhandWide len=1.300 contact=0.7667 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_BackhandWide.fbx
+      SliceApproach=Male_SliceApproach len=1.200 contact=0.5000 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_SliceApproach.fbx
+      Return=Male_Return len=0.900 contact=0.4333 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_Return.fbx
+      VolleyBackhand=Male_VolleyBackhand len=0.700 contact=0.3000 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_VolleyBackhand.fbx
+      ForehandOpen=Male_ForehandOpen len=1.000 contact=0.5333 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_ForehandOpen.fbx
+      SplitToForehand=Male_SplitToForehand len=0.600 contact=0.0000 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_SplitToForehand.fbx
+      SplitToBackhand=Male_SplitToBackhand len=0.600 contact=0.0000 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_SplitToBackhand.fbx
+      RecoverCenter=Male_RecoverCenter len=0.800 contact=0.0000 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_RecoverCenter.fbx
+      Walk=Male_Walk len=1.100 contact=0.0000 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_Walk.fbx
+      RunForward=Male_RunForward len=0.567 contact=0.0000 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_RunForward.fbx
+      RunLeft=Male_RunLeft len=0.567 contact=0.0000 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_RunLeft.fbx
+      RunRight=Male_RunRight len=0.567 contact=0.0000 human=False  asset=Assets/Characters/MatchHeroes/Male/Male_RunRight.fbx
+  foot probe Male RIVAL: ok, 1622/1621 foot vertices, floor 2.45 mm
+  [vs_Viktor] walk: 18 close-ups; player x=3.97
+  [vs_Viktor] serve: 52 sample times, swung=True, tossAccuracy=1.00
+  [vs_Viktor] perfect-toss serves logged: 14 in 14 tries
+  [vs_Viktor] rally: frames=43200 hits=39 serve contacts logged player=47 rival=10; run close-ups player=56 rival=40; honestMisses=3
+total serve contacts: player 47, rival 10
+
+-- gameplay contacts --
+PLAYER Male   clip=Male_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.015m ttc=0.005 kind=Serve
+RIVAL  Female clip=Female_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.109m ttc=0.000 kind=Drive
+PLAYER Male   clip=Male_Serve clipTime=1.703s clipContact=1.700s delta=+0.003s stringsToBall=0.324m ttc=-0.003 kind=Serve
+RIVAL  Female clip=Female_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.051m ttc=0.000 kind=Drive
+PLAYER Male   clip=Male_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.015m ttc=0.005 kind=Serve
+RIVAL  Female clip=Female_Forehand clipTime=0.658s clipContact=0.667s delta=-0.008s stringsToBall=0.209m ttc=0.008 kind=Drive
+PLAYER Male   clip=Male_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.015m ttc=0.005 kind=Serve
+RIVAL  Female clip=Female_Forehand clipTime=0.658s clipContact=0.667s delta=-0.008s stringsToBall=0.164m ttc=0.008 kind=Drive
+PLAYER Male   clip=Male_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.015m ttc=0.005 kind=Serve
+RIVAL  Female clip=Female_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.082m ttc=0.000 kind=Drive
+PLAYER Male   clip=Male_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.015m ttc=0.005 kind=Serve
+RIVAL  Female clip=Female_Forehand clipTime=0.658s clipContact=0.667s delta=-0.008s stringsToBall=0.133m ttc=0.008 kind=Drive
+PLAYER Male   clip=Male_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.015m ttc=0.005 kind=Serve
+RIVAL  Female clip=Female_Forehand clipTime=0.658s clipContact=0.667s delta=-0.008s stringsToBall=0.211m ttc=0.008 kind=Drive
+PLAYER Male   clip=Male_Serve clipTime=1.703s clipContact=1.700s delta=+0.003s stringsToBall=0.354m ttc=-0.003 kind=Serve
+RIVAL  Female clip=Female_Forehand clipTime=0.658s clipContact=0.667s delta=-0.008s stringsToBall=0.241m ttc=0.008 kind=Drive
+PLAYER Male   clip=Male_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.015m ttc=0.005 kind=Serve
+RIVAL  Female clip=Female_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.054m ttc=0.000 kind=Drive
+PLAYER Male   clip=Male_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.015m ttc=0.005 kind=Serve
+RIVAL  Female clip=Female_Forehand clipTime=0.658s clipContact=0.667s delta=-0.008s stringsToBall=0.186m ttc=0.008 kind=Drive
+PLAYER Male   clip=Male_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.015m ttc=0.005 kind=Serve
+RIVAL  Female clip=Female_Forehand clipTime=0.658s clipContact=0.667s delta=-0.008s stringsToBall=0.144m ttc=0.008 kind=Drive
+PLAYER Male   clip=Male_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.015m ttc=0.005 kind=Serve
+RIVAL  Female clip=Female_Forehand clipTime=0.658s clipContact=0.667s delta=-0.008s stringsToBall=0.212m ttc=0.008 kind=Drive
+PLAYER Male   clip=Male_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.015m ttc=0.005 kind=Serve
+RIVAL  Female clip=Female_Forehand clipTime=0.658s clipContact=0.667s delta=-0.008s stringsToBall=0.166m ttc=0.008 kind=Drive
+PLAYER Male   clip=Male_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.015m ttc=0.005 kind=Serve
+RIVAL  Female clip=Female_Forehand clipTime=0.658s clipContact=0.667s delta=-0.008s stringsToBall=0.136m ttc=0.008 kind=Drive
+PLAYER Male   clip=Male_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.015m ttc=0.005 kind=Serve
+RIVAL  Female clip=Female_Forehand clipTime=0.658s clipContact=0.667s delta=-0.008s stringsToBall=0.195m ttc=0.008 kind=Drive
+PLAYER Male   clip=Male_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.015m ttc=0.005 kind=Serve
+RIVAL  Female clip=Female_Return clipTime=0.433s clipContact=0.433s delta=+0.000s stringsToBall=0.038m ttc=0.000 kind=Drive
+PLAYER Male   clip=Male_Backhand clipTime=0.642s clipContact=0.633s delta=+0.008s stringsToBall=0.439m ttc=-0.008 kind=Drive
+RIVAL  Female clip=Female_Backhand clipTime=0.626s clipContact=0.633s delta=-0.008s stringsToBall=0.008m ttc=0.008 kind=Drive
+PLAYER Male   clip=Male_Overhead clipTime=0.730s clipContact=0.733s delta=-0.004s stringsToBall=0.102m ttc=0.004 kind=Smash
+RIVAL  Female clip=Female_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.067m ttc=0.000 kind=Drive
+PLAYER Male   clip=Male_VolleyForehand clipTime=0.293s clipContact=0.300s delta=-0.007s stringsToBall=0.119m ttc=0.007 kind=Volley
+RIVAL  Female clip=Female_Backhand clipTime=0.626s clipContact=0.633s delta=-0.007s stringsToBall=0.054m ttc=0.007 kind=Drive
+PLAYER Male   clip=Male_VolleyBackhand clipTime=0.308s clipContact=0.300s delta=+0.008s stringsToBall=0.342m ttc=-0.008 kind=Volley
+RIVAL  Female clip=Female_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.024m ttc=0.000 kind=Drive
+PLAYER Male   clip=Male_Overhead clipTime=0.726s clipContact=0.733s delta=-0.007s stringsToBall=0.205m ttc=0.007 kind=Smash
+RIVAL  Female clip=Female_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.384m ttc=0.000 kind=Drive
+PLAYER Male   clip=Male_Serve clipTime=1.703s clipContact=1.700s delta=+0.003s stringsToBall=0.368m ttc=-0.003 kind=Serve
+RIVAL  Female clip=Female_Forehand clipTime=0.659s clipContact=0.667s delta=-0.008s stringsToBall=0.174m ttc=0.008 kind=Drive
+PLAYER Male   clip=Male_Backhand clipTime=0.642s clipContact=0.633s delta=+0.008s stringsToBall=0.472m ttc=-0.008 kind=Drive
+RIVAL  Female clip=Female_Backhand clipTime=0.625s clipContact=0.633s delta=-0.008s stringsToBall=0.008m ttc=0.008 kind=Drive
+PLAYER Male   clip=Male_Overhead clipTime=0.730s clipContact=0.733s delta=-0.004s stringsToBall=0.101m ttc=0.004 kind=Smash
+RIVAL  Female clip=Female_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.065m ttc=0.000 kind=Drive
+PLAYER Male   clip=Male_VolleyBackhand clipTime=0.300s clipContact=0.300s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Volley
+RIVAL  Female clip=Female_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.323m ttc=0.000 kind=Drive
+PLAYER Male   clip=Male_Serve clipTime=1.703s clipContact=1.700s delta=+0.003s stringsToBall=0.352m ttc=-0.003 kind=Serve
+RIVAL  Female clip=Female_Return clipTime=0.433s clipContact=0.433s delta=+0.000s stringsToBall=0.098m ttc=0.000 kind=Drive
+PLAYER Male   clip=Male_BackhandWide clipTime=0.759s clipContact=0.767s delta=-0.008s stringsToBall=0.716m ttc=0.008 kind=Running
+PLAYER Male   clip=Male_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.015m ttc=0.005 kind=Serve
+RIVAL  Female clip=Female_Forehand clipTime=0.658s clipContact=0.667s delta=-0.008s stringsToBall=0.209m ttc=0.008 kind=Drive
+PLAYER Male   clip=Male_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Drive
+RIVAL  Female clip=Female_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Drive
+PLAYER Male   clip=Male_Overhead clipTime=0.730s clipContact=0.733s delta=-0.004s stringsToBall=0.102m ttc=0.004 kind=Smash
+RIVAL  Female clip=Female_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.061m ttc=0.000 kind=Drive
+PLAYER Male   clip=Male_VolleyBackhand clipTime=0.308s clipContact=0.300s delta=+0.008s stringsToBall=0.353m ttc=-0.008 kind=Volley
+RIVAL  Female clip=Female_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.023m ttc=0.000 kind=Drive
+PLAYER Male   clip=Male_VolleyBackhand clipTime=0.300s clipContact=0.300s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Volley
+RIVAL  Female clip=Female_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Drive
+PLAYER Male   clip=Male_Overhead clipTime=0.733s clipContact=0.733s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Smash
+RIVAL  Female clip=Female_Forehand clipTime=0.659s clipContact=0.667s delta=-0.008s stringsToBall=0.451m ttc=0.008 kind=Drive
+PLAYER Male   clip=Male_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.015m ttc=0.005 kind=Serve
+RIVAL  Female clip=Female_Return clipTime=0.433s clipContact=0.433s delta=+0.000s stringsToBall=0.092m ttc=0.000 kind=Drive
+PLAYER Male   clip=Male_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Drive
+RIVAL  Female clip=Female_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.062m ttc=0.000 kind=Drive
+PLAYER Male   clip=Male_Overhead clipTime=0.733s clipContact=0.733s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Smash
+RIVAL  Female clip=Female_Backhand clipTime=0.625s clipContact=0.633s delta=-0.008s stringsToBall=0.101m ttc=0.008 kind=Drive
+PLAYER Male   clip=Male_VolleyForehand clipTime=0.300s clipContact=0.300s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Volley
+RIVAL  Female clip=Female_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.312m ttc=0.000 kind=Drive
+RIVAL  Female clip=Female_Serve clipTime=1.700s clipContact=1.700s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Serve
+PLAYER Male   clip=Male_Return clipTime=0.433s clipContact=0.433s delta=+0.000s stringsToBall=0.031m ttc=0.000 kind=Drive
+RIVAL  Female clip=Female_Serve clipTime=1.700s clipContact=1.700s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Serve
+PLAYER Male   clip=Male_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.008m ttc=0.000 kind=LowPickup
+RIVAL  Female clip=Female_Forehand clipTime=0.659s clipContact=0.667s delta=-0.008s stringsToBall=0.259m ttc=0.008 kind=Drive
+PLAYER Male   clip=Male_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Drive
+RIVAL  Female clip=Female_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.048m ttc=0.000 kind=Drive
+PLAYER Male   clip=Male_Backhand clipTime=0.642s clipContact=0.633s delta=+0.008s stringsToBall=0.473m ttc=-0.008 kind=Drive
+RIVAL  Female clip=Female_Forehand clipTime=0.659s clipContact=0.667s delta=-0.008s stringsToBall=0.273m ttc=0.008 kind=Drive
+PLAYER Male   clip=Male_Overhead clipTime=0.726s clipContact=0.733s delta=-0.007s stringsToBall=0.205m ttc=0.007 kind=Smash
+RIVAL  Female clip=Female_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.384m ttc=0.000 kind=Drive
+RIVAL  Female clip=Female_Serve clipTime=1.700s clipContact=1.700s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Serve
+PLAYER Male   clip=Male_Return clipTime=0.442s clipContact=0.433s delta=+0.008s stringsToBall=0.451m ttc=-0.008 kind=Drive
+RIVAL  Female clip=Female_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Drive
+PLAYER Male   clip=Male_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Drive
+RIVAL  Female clip=Female_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.034m ttc=0.000 kind=Drive
+PLAYER Male   clip=Male_Backhand clipTime=0.642s clipContact=0.633s delta=+0.008s stringsToBall=0.498m ttc=-0.008 kind=Drive
+RIVAL  Female clip=Female_Backhand clipTime=0.626s clipContact=0.633s delta=-0.008s stringsToBall=0.110m ttc=0.008 kind=Drive
+PLAYER Male   clip=Male_Overhead clipTime=0.730s clipContact=0.733s delta=-0.004s stringsToBall=0.101m ttc=0.004 kind=Smash
+RIVAL  Female clip=Female_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.068m ttc=0.000 kind=Drive
+PLAYER Male   clip=Male_VolleyForehand clipTime=0.292s clipContact=0.300s delta=-0.008s stringsToBall=0.127m ttc=0.008 kind=Volley
+RIVAL  Female clip=Female_Forehand clipTime=0.659s clipContact=0.667s delta=-0.007s stringsToBall=0.166m ttc=0.007 kind=Drive
+PLAYER Male   clip=Male_VolleyBackhand clipTime=0.308s clipContact=0.300s delta=+0.008s stringsToBall=0.375m ttc=-0.008 kind=Volley
+RIVAL  Female clip=Female_Backhand clipTime=0.626s clipContact=0.633s delta=-0.007s stringsToBall=0.077m ttc=0.007 kind=Drive
+PLAYER Male   clip=Male_Overhead clipTime=0.726s clipContact=0.733s delta=-0.007s stringsToBall=0.203m ttc=0.007 kind=Smash
+RIVAL  Female clip=Female_Forehand clipTime=0.659s clipContact=0.667s delta=-0.008s stringsToBall=0.415m ttc=0.008 kind=Drive
+RIVAL  Female clip=Female_Serve clipTime=1.700s clipContact=1.700s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Serve
+PLAYER Male   clip=Male_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.016m ttc=0.000 kind=LowPickup
+RIVAL  Female clip=Female_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.048m ttc=0.000 kind=Drive
+PLAYER Male   clip=Male_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=LowPickup
+RIVAL  Female clip=Female_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.022m ttc=0.000 kind=Drive
+PLAYER Male   clip=Male_Backhand clipTime=0.642s clipContact=0.633s delta=+0.008s stringsToBall=0.506m ttc=-0.008 kind=Drive
+RIVAL  Female clip=Female_Forehand clipTime=0.659s clipContact=0.667s delta=-0.008s stringsToBall=0.372m ttc=0.008 kind=Drive
+RIVAL  Female clip=Female_Serve clipTime=1.700s clipContact=1.700s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Serve
+PLAYER Male   clip=Male_Return clipTime=0.433s clipContact=0.433s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Drive
+RIVAL  Female clip=Female_Forehand clipTime=0.659s clipContact=0.667s delta=-0.008s stringsToBall=0.226m ttc=0.008 kind=Drive
+PLAYER Male   clip=Male_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=LowPickup
+RIVAL  Female clip=Female_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.044m ttc=0.000 kind=Drive
+PLAYER Male   clip=Male_Backhand clipTime=0.642s clipContact=0.633s delta=+0.008s stringsToBall=0.503m ttc=-0.008 kind=Drive
+RIVAL  Female clip=Female_Forehand clipTime=0.659s clipContact=0.667s delta=-0.008s stringsToBall=0.415m ttc=0.008 kind=Drive
+PLAYER Male   clip=Male_Serve clipTime=1.703s clipContact=1.700s delta=+0.003s stringsToBall=0.368m ttc=-0.003 kind=Serve
+RIVAL  Female clip=Female_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.066m ttc=0.000 kind=Drive
+PLAYER Male   clip=Male_Forehand clipTime=0.675s clipContact=0.667s delta=+0.008s stringsToBall=0.817m ttc=-0.008 kind=LowPickup
+PLAYER Male   clip=Male_Serve clipTime=1.703s clipContact=1.700s delta=+0.003s stringsToBall=0.352m ttc=-0.003 kind=Serve
+RIVAL  Female clip=Female_Return clipTime=0.425s clipContact=0.433s delta=-0.008s stringsToBall=0.077m ttc=0.008 kind=Drive
+PLAYER Male   clip=Male_Backhand clipTime=0.642s clipContact=0.633s delta=+0.008s stringsToBall=0.443m ttc=-0.008 kind=Drive
+RIVAL  Female clip=Female_Backhand clipTime=0.626s clipContact=0.633s delta=-0.008s stringsToBall=0.007m ttc=0.008 kind=Drive
+PLAYER Male   clip=Male_Overhead clipTime=0.730s clipContact=0.733s delta=-0.004s stringsToBall=0.102m ttc=0.004 kind=Smash
+RIVAL  Female clip=Female_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.383m ttc=0.000 kind=Drive
+PLAYER Male   clip=Male_Serve clipTime=1.703s clipContact=1.700s delta=+0.003s stringsToBall=0.355m ttc=-0.003 kind=Serve
+RIVAL  Female clip=Female_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.086m ttc=0.000 kind=Drive
+PLAYER Male   clip=Male_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.040m ttc=0.000 kind=LowPickup
+RIVAL  Female clip=Female_Backhand clipTime=0.626s clipContact=0.633s delta=-0.008s stringsToBall=0.010m ttc=0.008 kind=Drive
+PLAYER Male   clip=Male_Overhead clipTime=0.730s clipContact=0.733s delta=-0.004s stringsToBall=0.102m ttc=0.004 kind=Smash
+RIVAL  Female clip=Female_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.067m ttc=0.000 kind=Drive
+PLAYER Male   clip=Male_VolleyForehand clipTime=0.300s clipContact=0.300s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Volley
+RIVAL  Female clip=Female_Forehand clipTime=0.675s clipContact=0.667s delta=+0.008s stringsToBall=0.352m ttc=-0.008 kind=Drive
+PLAYER Male   clip=Male_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.015m ttc=0.005 kind=Serve
+RIVAL  Female clip=Female_Return clipTime=0.433s clipContact=0.433s delta=+0.000s stringsToBall=0.017m ttc=0.000 kind=Drive
+PLAYER Male   clip=Male_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Drive
+RIVAL  Female clip=Female_Backhand clipTime=0.626s clipContact=0.633s delta=-0.008s stringsToBall=0.009m ttc=0.008 kind=Drive
+PLAYER Male   clip=Male_Overhead clipTime=0.730s clipContact=0.733s delta=-0.004s stringsToBall=0.102m ttc=0.004 kind=Smash
+RIVAL  Female clip=Female_Forehand clipTime=0.659s clipContact=0.667s delta=-0.008s stringsToBall=0.414m ttc=0.008 kind=Drive
+PLAYER Male   clip=Male_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.015m ttc=0.005 kind=Serve
+RIVAL  Female clip=Female_Forehand clipTime=0.658s clipContact=0.667s delta=-0.008s stringsToBall=0.192m ttc=0.008 kind=Drive
+PLAYER Male   clip=Male_Backhand clipTime=0.642s clipContact=0.633s delta=+0.008s stringsToBall=0.483m ttc=-0.008 kind=Drive
+RIVAL  Female clip=Female_Backhand clipTime=0.626s clipContact=0.633s delta=-0.008s stringsToBall=0.010m ttc=0.008 kind=Drive
+PLAYER Female clip=Female_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.015m ttc=0.005 kind=Serve
+RIVAL  Male   clip=Male_Forehand clipTime=0.658s clipContact=0.667s delta=-0.008s stringsToBall=0.227m ttc=0.008 kind=Drive
+PLAYER Female clip=Female_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.015m ttc=0.005 kind=Serve
+RIVAL  Male   clip=Male_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.033m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.015m ttc=0.005 kind=Serve
+RIVAL  Male   clip=Male_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.029m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.015m ttc=0.005 kind=Serve
+RIVAL  Male   clip=Male_Forehand clipTime=0.658s clipContact=0.667s delta=-0.008s stringsToBall=0.207m ttc=0.008 kind=Drive
+PLAYER Female clip=Female_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.015m ttc=0.005 kind=Serve
+RIVAL  Male   clip=Male_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.091m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.015m ttc=0.005 kind=Serve
+RIVAL  Male   clip=Male_Forehand clipTime=0.658s clipContact=0.667s delta=-0.008s stringsToBall=0.205m ttc=0.008 kind=Drive
+PLAYER Female clip=Female_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.015m ttc=0.005 kind=Serve
+RIVAL  Male   clip=Male_Forehand clipTime=0.658s clipContact=0.667s delta=-0.008s stringsToBall=0.184m ttc=0.008 kind=Drive
+PLAYER Female clip=Female_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.015m ttc=0.005 kind=Serve
+RIVAL  Male   clip=Male_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.033m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_Serve clipTime=1.703s clipContact=1.700s delta=+0.003s stringsToBall=0.339m ttc=-0.003 kind=Serve
+RIVAL  Male   clip=Male_Forehand clipTime=0.658s clipContact=0.667s delta=-0.008s stringsToBall=0.202m ttc=0.008 kind=Drive
+PLAYER Female clip=Female_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.015m ttc=0.005 kind=Serve
+RIVAL  Male   clip=Male_Forehand clipTime=0.658s clipContact=0.667s delta=-0.008s stringsToBall=0.185m ttc=0.008 kind=Drive
+PLAYER Female clip=Female_Serve clipTime=1.703s clipContact=1.700s delta=+0.003s stringsToBall=0.333m ttc=-0.003 kind=Serve
+RIVAL  Male   clip=Male_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.028m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.015m ttc=0.005 kind=Serve
+RIVAL  Male   clip=Male_Forehand clipTime=0.658s clipContact=0.667s delta=-0.008s stringsToBall=0.154m ttc=0.008 kind=Drive
+PLAYER Female clip=Female_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.015m ttc=0.005 kind=Serve
+RIVAL  Male   clip=Male_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.061m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_Serve clipTime=1.703s clipContact=1.700s delta=+0.003s stringsToBall=0.329m ttc=-0.003 kind=Serve
+RIVAL  Male   clip=Male_Forehand clipTime=0.658s clipContact=0.667s delta=-0.008s stringsToBall=0.149m ttc=0.008 kind=Drive
+PLAYER Female clip=Female_Serve clipTime=1.703s clipContact=1.700s delta=+0.003s stringsToBall=0.329m ttc=-0.003 kind=Serve
+RIVAL  Male   clip=Male_Forehand clipTime=0.658s clipContact=0.667s delta=-0.008s stringsToBall=0.146m ttc=0.008 kind=Drive
+PLAYER Female clip=Female_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.007m ttc=0.000 kind=Drive
+RIVAL  Male   clip=Male_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_Overhead clipTime=0.730s clipContact=0.733s delta=-0.004s stringsToBall=0.101m ttc=0.004 kind=Smash
+RIVAL  Male   clip=Male_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.393m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.015m ttc=0.005 kind=Serve
+RIVAL  Male   clip=Male_Return clipTime=0.425s clipContact=0.433s delta=-0.008s stringsToBall=0.042m ttc=0.008 kind=Drive
+PLAYER Female clip=Female_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.088m ttc=0.000 kind=LowPickup
+RIVAL  Male   clip=Male_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_Overhead clipTime=0.726s clipContact=0.733s delta=-0.007s stringsToBall=0.204m ttc=0.007 kind=Smash
+RIVAL  Male   clip=Male_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.432m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.015m ttc=0.005 kind=Serve
+RIVAL  Male   clip=Male_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.054m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_Backhand clipTime=0.625s clipContact=0.633s delta=-0.008s stringsToBall=0.581m ttc=0.008 kind=Drive
+RIVAL  Male   clip=Male_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_Overhead clipTime=0.730s clipContact=0.733s delta=-0.004s stringsToBall=0.103m ttc=0.004 kind=Smash
+RIVAL  Male   clip=Male_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.394m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.015m ttc=0.005 kind=Serve
+RIVAL  Male   clip=Male_Return clipTime=0.433s clipContact=0.433s delta=+0.000s stringsToBall=0.014m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_Forehand clipTime=0.675s clipContact=0.667s delta=+0.008s stringsToBall=0.465m ttc=-0.008 kind=LowPickup
+RIVAL  Male   clip=Male_Forehand clipTime=0.659s clipContact=0.667s delta=-0.008s stringsToBall=0.279m ttc=0.008 kind=Drive
+RIVAL  Male   clip=Male_Serve clipTime=1.700s clipContact=1.700s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Serve
+PLAYER Female clip=Female_Return clipTime=0.433s clipContact=0.433s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Drive
+RIVAL  Male   clip=Male_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.033m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_Backhand clipTime=0.642s clipContact=0.633s delta=+0.008s stringsToBall=0.482m ttc=-0.008 kind=Drive
+RIVAL  Male   clip=Male_Backhand clipTime=0.625s clipContact=0.633s delta=-0.008s stringsToBall=0.011m ttc=0.008 kind=Drive
+PLAYER Female clip=Female_Forehand clipTime=0.675s clipContact=0.667s delta=+0.008s stringsToBall=0.443m ttc=-0.008 kind=LowPickup
+RIVAL  Male   clip=Male_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.345m ttc=0.000 kind=Drive
+RIVAL  Male   clip=Male_Serve clipTime=1.700s clipContact=1.700s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Serve
+PLAYER Female clip=Female_Return clipTime=0.433s clipContact=0.433s delta=+0.000s stringsToBall=0.302m ttc=0.000 kind=Drive
+RIVAL  Male   clip=Male_Serve clipTime=1.700s clipContact=1.700s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Serve
+PLAYER Female clip=Female_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.064m ttc=0.000 kind=LowPickup
+RIVAL  Male   clip=Male_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.042m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.026m ttc=0.000 kind=LowPickup
+RIVAL  Male   clip=Male_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.050m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_Backhand clipTime=0.642s clipContact=0.633s delta=+0.008s stringsToBall=0.499m ttc=-0.008 kind=Drive
+RIVAL  Male   clip=Male_Backhand clipTime=0.625s clipContact=0.633s delta=-0.008s stringsToBall=0.030m ttc=0.008 kind=Drive
+PLAYER Female clip=Female_Overhead clipTime=0.730s clipContact=0.733s delta=-0.004s stringsToBall=0.101m ttc=0.004 kind=Smash
+RIVAL  Male   clip=Male_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.034m ttc=0.000 kind=Drive
+RIVAL  Male   clip=Male_Serve clipTime=1.700s clipContact=1.700s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Serve
+PLAYER Female clip=Female_Forehand clipTime=0.675s clipContact=0.667s delta=+0.008s stringsToBall=0.453m ttc=-0.008 kind=LowPickup
+RIVAL  Male   clip=Male_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.033m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Drive
+RIVAL  Male   clip=Male_Backhand clipTime=0.626s clipContact=0.633s delta=-0.008s stringsToBall=0.010m ttc=0.008 kind=Drive
+PLAYER Female clip=Female_Forehand clipTime=0.675s clipContact=0.667s delta=+0.008s stringsToBall=0.463m ttc=-0.008 kind=LowPickup
+RIVAL  Male   clip=Male_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.382m ttc=0.000 kind=Drive
+RIVAL  Male   clip=Male_Serve clipTime=1.700s clipContact=1.700s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Serve
+PLAYER Female clip=Female_Return clipTime=0.442s clipContact=0.433s delta=+0.008s stringsToBall=0.455m ttc=-0.008 kind=Drive
+RIVAL  Male   clip=Male_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.024m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Drive
+RIVAL  Male   clip=Male_Forehand clipTime=0.659s clipContact=0.667s delta=-0.008s stringsToBall=0.261m ttc=0.008 kind=Drive
+PLAYER Female clip=Female_Forehand clipTime=0.675s clipContact=0.667s delta=+0.008s stringsToBall=0.468m ttc=-0.008 kind=LowPickup
+RIVAL  Male   clip=Male_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.043m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_Overhead clipTime=0.730s clipContact=0.733s delta=-0.004s stringsToBall=0.102m ttc=0.004 kind=Smash
+RIVAL  Male   clip=Male_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.392m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.015m ttc=0.005 kind=Serve
+RIVAL  Male   clip=Male_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.038m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Drive
+RIVAL  Male   clip=Male_Forehand clipTime=0.659s clipContact=0.667s delta=-0.008s stringsToBall=0.253m ttc=0.008 kind=Drive
+PLAYER Female clip=Female_Overhead clipTime=0.730s clipContact=0.733s delta=-0.004s stringsToBall=0.102m ttc=0.004 kind=Smash
+RIVAL  Male   clip=Male_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.042m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_VolleyForehand clipTime=0.308s clipContact=0.300s delta=+0.008s stringsToBall=0.346m ttc=-0.008 kind=Volley
+RIVAL  Male   clip=Male_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_VolleyForehand clipTime=0.300s clipContact=0.300s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Volley
+RIVAL  Male   clip=Male_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.032m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_Overhead clipTime=0.733s clipContact=0.733s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Smash
+RIVAL  Male   clip=Male_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.394m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.015m ttc=0.005 kind=Serve
+RIVAL  Male   clip=Male_Return clipTime=0.425s clipContact=0.433s delta=-0.008s stringsToBall=0.009m ttc=0.008 kind=Drive
+PLAYER Female clip=Female_Forehand clipTime=0.675s clipContact=0.667s delta=+0.008s stringsToBall=0.371m ttc=-0.008 kind=LowPickup
+RIVAL  Male   clip=Male_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_Overhead clipTime=0.726s clipContact=0.733s delta=-0.007s stringsToBall=0.205m ttc=0.007 kind=Smash
+RIVAL  Male   clip=Male_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.393m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_Serve clipTime=1.686s clipContact=1.700s delta=-0.014s stringsToBall=0.087m ttc=0.005 kind=Serve
+RIVAL  Male   clip=Male_Forehand clipTime=0.659s clipContact=0.667s delta=-0.008s stringsToBall=0.006m ttc=0.008 kind=Drive
+PLAYER Female clip=Female_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.114m ttc=0.000 kind=LowPickup
+RIVAL  Male   clip=Male_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_Overhead clipTime=0.730s clipContact=0.733s delta=-0.004s stringsToBall=0.102m ttc=0.004 kind=Smash
+RIVAL  Male   clip=Male_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.043m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_VolleyBackhand clipTime=0.300s clipContact=0.300s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Volley
+RIVAL  Male   clip=Male_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.007m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_VolleyBackhand clipTime=0.300s clipContact=0.300s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Volley
+RIVAL  Male   clip=Male_Backhand clipTime=0.626s clipContact=0.633s delta=-0.008s stringsToBall=0.006m ttc=0.008 kind=Drive
+PLAYER Female clip=Female_Overhead clipTime=0.726s clipContact=0.733s delta=-0.007s stringsToBall=0.205m ttc=0.007 kind=Smash
+RIVAL  Male   clip=Male_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.041m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_VolleyForehand clipTime=0.308s clipContact=0.300s delta=+0.008s stringsToBall=0.358m ttc=-0.008 kind=Volley
+RIVAL  Male   clip=Male_Forehand clipTime=0.675s clipContact=0.667s delta=+0.008s stringsToBall=0.387m ttc=-0.008 kind=Drive
+PLAYER Female clip=Female_Serve clipTime=1.703s clipContact=1.700s delta=+0.003s stringsToBall=0.354m ttc=-0.003 kind=Serve
+RIVAL  Male   clip=Male_Return clipTime=0.433s clipContact=0.433s delta=+0.000s stringsToBall=0.058m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_Forehand clipTime=0.675s clipContact=0.667s delta=+0.008s stringsToBall=0.459m ttc=-0.008 kind=LowPickup
+RIVAL  Male   clip=Male_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.052m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_Overhead clipTime=0.730s clipContact=0.733s delta=-0.004s stringsToBall=0.102m ttc=0.004 kind=Smash
+RIVAL  Male   clip=Male_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.038m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_VolleyForehand clipTime=0.300s clipContact=0.300s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Volley
+RIVAL  Male   clip=Male_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_VolleyBackhand clipTime=0.300s clipContact=0.300s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Volley
+RIVAL  Male   clip=Male_Backhand clipTime=0.633s clipContact=0.633s delta=+0.000s stringsToBall=0.000m ttc=0.000 kind=Drive
+PLAYER Female clip=Female_Overhead clipTime=0.730s clipContact=0.733s delta=-0.004s stringsToBall=0.103m ttc=0.004 kind=Smash
+RIVAL  Male   clip=Male_Forehand clipTime=0.667s clipContact=0.667s delta=+0.000s stringsToBall=0.394m ttc=0.000 kind=Drive
+
+-- serves --
+PLAYER,M,1.6863,1.7000,-0.0137,0.0146,537,1.00,perfect-showcase
+PLAYER,M,1.7033,1.7000,0.0033,0.3237,987,1.00,perfect
+PLAYER,M,1.6863,1.7000,-0.0137,0.0146,1691,1.00,perfect
+PLAYER,M,1.6863,1.7000,-0.0137,0.0146,2113,1.00,perfect
+PLAYER,M,1.6863,1.7000,-0.0137,0.0146,2777,1.00,perfect
+PLAYER,M,1.6863,1.7000,-0.0137,0.0146,3468,1.00,perfect
+PLAYER,M,1.6863,1.7000,-0.0137,0.0146,4121,1.00,perfect
+PLAYER,M,1.7033,1.7000,0.0033,0.3543,4610,1.00,perfect
+PLAYER,M,1.6863,1.7000,-0.0137,0.0146,5257,1.00,perfect
+PLAYER,M,1.6863,1.7000,-0.0137,0.0146,5972,1.00,perfect
+PLAYER,M,1.6863,1.7000,-0.0137,0.0146,6724,1.00,perfect
+PLAYER,M,1.6863,1.7000,-0.0137,0.0146,7213,1.00,perfect
+PLAYER,M,1.6863,1.7000,-0.0137,0.0146,7657,1.00,perfect
+PLAYER,M,1.6863,1.7000,-0.0137,0.0146,8356,1.00,perfect
+PLAYER,M,1.6863,1.7000,-0.0137,0.0146,9029,1.00,perfect
+PLAYER,M,1.6863,1.7000,-0.0137,0.0147,9706,0.35,auto
+PLAYER,M,1.7033,1.7000,0.0033,0.3678,10883,0.47,auto
+PLAYER,M,1.7033,1.7000,0.0033,0.3523,11835,0.82,auto
+PLAYER,M,1.6863,1.7000,-0.0137,0.0146,12491,0.63,auto
+PLAYER,M,1.6863,1.7000,-0.0137,0.0147,13680,0.54,auto
+RIVAL,F,1.7000,1.7000,0.0000,0.0000,14430,1.00,auto
+RIVAL,F,1.7000,1.7000,0.0000,0.0000,14742,1.00,auto
+RIVAL,F,1.7000,1.7000,0.0000,0.0000,15574,1.00,auto
+RIVAL,F,1.7000,1.7000,0.0000,0.0000,16722,1.00,auto
+RIVAL,F,1.7000,1.7000,0.0000,0.0000,17437,1.00,auto
+PLAYER,M,1.7033,1.7000,0.0033,0.3675,18339,0.58,auto
+PLAYER,M,1.7033,1.7000,0.0033,0.3522,19006,0.94,auto
+PLAYER,M,1.7033,1.7000,0.0033,0.3546,19849,0.56,auto
+PLAYER,M,1.6863,1.7000,-0.0137,0.0146,20799,0.76,auto
+PLAYER,M,1.6863,1.7000,-0.0137,0.0146,21643,0.34,auto
+PLAYER,F,1.6863,1.7000,-0.0137,0.0153,52771,1.00,perfect-showcase
+PLAYER,F,1.6863,1.7000,-0.0137,0.0153,53423,1.00,perfect
+PLAYER,F,1.6863,1.7000,-0.0137,0.0153,53859,1.00,perfect
+PLAYER,F,1.6863,1.7000,-0.0137,0.0153,54605,1.00,perfect
+PLAYER,F,1.6863,1.7000,-0.0137,0.0153,55326,1.00,perfect
+PLAYER,F,1.6863,1.7000,-0.0137,0.0153,55762,1.00,perfect
+PLAYER,F,1.6863,1.7000,-0.0137,0.0153,56213,1.00,perfect
+PLAYER,F,1.6863,1.7000,-0.0137,0.0153,56948,1.00,perfect
+PLAYER,F,1.7033,1.7000,0.0033,0.3391,57375,1.00,perfect
+PLAYER,F,1.6863,1.7000,-0.0137,0.0153,57825,1.00,perfect
+PLAYER,F,1.7033,1.7000,0.0033,0.3325,58437,1.00,perfect
+PLAYER,F,1.6863,1.7000,-0.0137,0.0153,58879,1.00,perfect
+PLAYER,F,1.6863,1.7000,-0.0137,0.0153,59310,1.00,perfect
+PLAYER,F,1.7033,1.7000,0.0033,0.3294,59938,1.00,perfect
+PLAYER,F,1.7033,1.7000,0.0033,0.3294,60371,1.00,perfect
+PLAYER,F,1.6863,1.7000,-0.0137,0.0153,61239,0.56,auto
+PLAYER,F,1.6863,1.7000,-0.0137,0.0153,62081,0.76,auto
+PLAYER,F,1.6863,1.7000,-0.0137,0.0153,62919,0.72,auto
+RIVAL,M,1.7000,1.7000,0.0000,0.0000,63442,1.00,auto
+RIVAL,M,1.7000,1.7000,0.0000,0.0000,64142,1.00,auto
+RIVAL,M,1.7000,1.7000,0.0000,0.0000,64552,1.00,auto
+RIVAL,M,1.7000,1.7000,0.0000,0.0000,65414,1.00,auto
+RIVAL,M,1.7000,1.7000,0.0000,0.0000,66128,1.00,auto
+PLAYER,F,1.6863,1.7000,-0.0137,0.0153,67144,0.67,auto
+PLAYER,F,1.6863,1.7000,-0.0137,0.0153,68318,0.64,auto
+PLAYER,F,1.6863,1.7000,-0.0137,0.0867,69179,0.34,auto
+PLAYER,F,1.7033,1.7000,0.0033,0.3542,70467,0.63,auto

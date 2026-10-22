@@ -90,12 +90,22 @@ namespace GolfArcade.Game
 
         float Frame(float seconds) => Mathf.Clamp(data.start - 1 + seconds * data.fps, 0, data.frames - 1);
 
+        /// The track between its frames: a Catmull-Rom curve through the file's samples (FRAME_RATE_60B). The file is
+        /// baked at 30 fps, and joining its samples with straight lines made the chase camera and the ball change speed
+        /// and direction in a step every 1/30 s, which reads as 30 fps on a 60 fps screen. The curve passes through
+        /// every sample, so the file's own frames are unchanged.
         Vector3 Sample(float[] flat, int stride, int offset, float frame)
         {
             int i = Mathf.FloorToInt(frame); float f = frame - i;
-            int j = Mathf.Min(i + 1, data.frames - 1);
-            Vector3 At(int k) => new(flat[k * stride + offset], flat[k * stride + offset + 1], flat[k * stride + offset + 2]);
-            return Vector3.LerpUnclamped(At(i), At(j), f);
+            Vector3 At(int k) { k = Mathf.Clamp(k, 0, data.frames - 1); return new(flat[k * stride + offset], flat[k * stride + offset + 1], flat[k * stride + offset + 2]); }
+            return CatmullRom(At(i - 1), At(i), At(i + 1), At(i + 2), f);
+        }
+
+        /// Uniform Catmull-Rom between p1 (t = 0) and p2 (t = 1).
+        public static Vector3 CatmullRom(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float t)
+        {
+            float t2 = t * t, t3 = t2 * t;
+            return .5f * (2f * p1 + (p2 - p0) * t + (2f * p0 - 5f * p1 + 4f * p2 - p3) * t2 + (3f * p1 - p0 - 3f * p2 + p3) * t3);
         }
 
         /// Where the ball's underside touches, `seconds` into the shot — the file's ball is a
@@ -120,8 +130,9 @@ namespace GolfArcade.Game
             position = ToWorld(Sample(track, CamStride, 0, frame));
             lookAt = ToWorld(Sample(track, CamStride, 3, frame));
             up = toWorld.MultiplyVector(Sample(track, CamStride, 6, frame)).normalized;
-            int i = Mathf.FloorToInt(frame), j = Mathf.Min(i + 1, data.frames - 1);
-            float mm = Mathf.Lerp(track[i * CamStride + 9], track[j * CamStride + 9], frame - i);
+            int i = Mathf.FloorToInt(frame);
+            float Lens(int k) => track[Mathf.Clamp(k, 0, data.frames - 1) * CamStride + 9];
+            float mm = CatmullRom(new Vector3(Lens(i - 1), 0, 0), new Vector3(Lens(i), 0, 0), new Vector3(Lens(i + 1), 0, 0), new Vector3(Lens(i + 2), 0, 0), frame - i).x;
             hfov = HorizontalFov(mm);
         }
     }

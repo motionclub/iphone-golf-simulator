@@ -52,6 +52,8 @@ namespace GolfArcade.Course
         public bool IsHoled => HoledAt.HasValue;
         /// It caught the cup and spun out (a groan from the gallery).
         public readonly bool LippedOut;
+        /// Sample time at the first lip crossing, independent of when the ball comes to rest.
+        public readonly double? LipAt;
         public int PenaltyStrokes => IsHoled ? 0 : Lie.PenaltyStrokes();
         public double Total => Origin.DistanceTo(Rest);
 
@@ -60,6 +62,7 @@ namespace GolfArcade.Course
 
         public (double x, double h, double d) PositionAt(double time)
         {
+            if(Burned && time>=BurnTime)return (Rest.X,0,Rest.D);
             if (time <= 0) return path[0];
             double index = time / SampleInterval;
             int lower = (int)index;
@@ -74,6 +77,7 @@ namespace GolfArcade.Course
         /// under the turf), on the ground and its hops after that — as GolfGame.FlyBall has it.
         public (double x, double y, double d) WorldAt(double time, Func<CoursePoint, double> ground)
         {
+            if(Burned && time>=BurnTime)return (Rest.X,BurnHeight,Rest.D);
             var p = PositionAt(time);
             double under = ground(new CoursePoint(p.x, p.d));
             if (time < LandingTime && LandingTime > 0)
@@ -248,35 +252,36 @@ namespace GolfArcade.Course
             { Landing = landing; Time = time; Vx = vx; Vy = vy; Vd = vd; Samples = samples; Knocks = knocks; }
         }
 
-        public static Fall FallFrom(ObstacleHit hit, Obstacle[] obstacles, Func<CoursePoint, double> ground, PlayRules rules = null)
+        public static Fall FallFrom(ObstacleHit hit, Obstacle[] obstacles, Func<CoursePoint, double> ground, PlayRules rules = null, CourseMovers movers = null)
         {
             rules ??= PlayRules.Standard;
             var met = new List<int> { hit.Index };
             var o0 = obstacles[hit.Index];
             var knocked = new List<Knock> { new(hit.Time, hit.X, hit.Y, hit.D, o0.Kind, o0.IsHard(hit.Trunk)) };
             var (vx, vy, vd) = Rebound(o0, hit.Trunk, hit.X, hit.Y, hit.D, hit.Vx, hit.Vy, hit.Vd, Luck(hit.X, hit.D, hit.Index), rules.ObstacleKick);
-            return Down(hit.Time, hit.X, hit.Y, hit.D, vx, vy, vd, met, knocked, obstacles, ground, rules);
+            return Down(hit.Time, hit.X, hit.Y, hit.D, vx, vy, vd, met, knocked, obstacles, ground, rules, movers);
         }
 
         /// Off a windmill's blade (a wooden knock), and down.
-        public static Fall FallFromSail(ObstacleHit hit, SpinningSails sails, Obstacle[] obstacles, Func<CoursePoint, double> ground, PlayRules rules = null)
+        public static Fall FallFromSail(ObstacleHit hit, SpinningSails sails, Obstacle[] obstacles, Func<CoursePoint, double> ground, PlayRules rules = null, CourseMovers movers = null)
         {
             var knocked = new List<Knock> { new(hit.Time, hit.X, hit.Y, hit.D, ObstacleKind.Tree, true) };
             var (vx, vy, vd) = sails.Rebound(hit.X, hit.Y, hit.D, hit.Vx, hit.Vy, hit.Vd);
-            return Down(hit.Time, hit.X, hit.Y, hit.D, vx, vy, vd, new List<int>(), knocked, obstacles, ground, rules ?? PlayRules.Standard);
+            return Down(hit.Time, hit.X, hit.Y, hit.D, vx, vy, vd, new List<int>(), knocked, obstacles, ground, rules ?? PlayRules.Standard, movers);
         }
 
         /// Off something moving about the hole (a balloon's envelope, its basket, a cart, a gull), and down.
         public static Fall FallFromMover(CourseMovers.Hit hit, CourseMovers movers, Obstacle[] obstacles, Func<CoursePoint, double> ground, PlayRules rules = null)
         {
             var kind = movers.All[hit.Mover].Kind;
-            var knocked = new List<Knock> { new(hit.Time, hit.X, hit.Y, hit.D, CourseMovers.KnockKind(kind), kind is not (MoverKind.Gull or MoverKind.Twister)) };
+            var knocked = new List<Knock> { new(hit.Time, hit.X, hit.Y, hit.D, CourseMovers.KnockKind(kind), kind is not (MoverKind.Gull or MoverKind.Twister or MoverKind.WindLift or MoverKind.Launchpad)) };
             var (vx, vy, vd) = movers.Rebound(hit, Luck(hit.X, hit.D, 11 + hit.Mover));
-            return Down(hit.Time, hit.X, hit.Y, hit.D, vx, vy, vd, new List<int>(), knocked, obstacles, ground, rules ?? PlayRules.Standard);
+            return Down(hit.Time, hit.X, hit.Y, hit.D, vx, vy, vd, new List<int>(), knocked, obstacles, ground, rules ?? PlayRules.Standard, movers, hit.Mover);
         }
 
-        static Fall Down(double t, double x, double y, double d, double vx, double vy, double vd, List<int> met, List<Knock> knocked, Obstacle[] obstacles, Func<CoursePoint, double> ground, PlayRules rules)
+        static Fall Down(double t, double x, double y, double d, double vx, double vy, double vd, List<int> met, List<Knock> knocked, Obstacle[] obstacles, Func<CoursePoint, double> ground, PlayRules rules, CourseMovers movers = null, int ignoredMover = -1)
         {
+            var metMovers = new HashSet<int> { ignoredMover };
             double g = rules.GravityYards;
             var samples = new List<(double, double, double, double)>();
             double next = Math.Ceiling(t / SampleInterval) * SampleInterval;
@@ -296,6 +301,25 @@ namespace GolfArcade.Course
                         met.Add(i);
                         knocked.Add(new Knock(t, x, y, d, obstacles[i].Kind, obstacles[i].IsHard(trunk)));
                         break;
+                    }
+                // Continue deterministic mover collisions after the first rebound. Each volume
+                // can act once per airborne segment, preventing repeated current acceleration.
+                if (movers != null && metMovers.Count < 9)
+                    for (int i = 0; i < movers.All.Length; i++)
+                    {
+                        if (metMovers.Contains(i)) continue;
+                        var mover = movers.All[i];
+                        for (int bodyIndex = 0; bodyIndex < mover.Bodies; bodyIndex++)
+                        {
+                            var body = mover.Body(bodyIndex, movers.PhaseAtLaunch + t);
+                            double dx=x-body.x, dy=y-body.y, dz=d-body.d, radius=body.r+BallRadius;
+                            if (dx*dx+dy*dy+dz*dz > radius*radius) continue;
+                            var hit = new CourseMovers.Hit(i,bodyIndex,t,x,y,d,vx,vy,vd);
+                            (vx,vy,vd)=movers.Rebound(hit,Luck(x,d,11+i));
+                            metMovers.Add(i);
+                            knocked.Add(new Knock(t,x,y,d,CourseMovers.KnockKind(mover.Kind),mover.Kind is not (MoverKind.Gull or MoverKind.Twister or MoverKind.WindLift or MoverKind.Launchpad)));
+                            break;
+                        }
                     }
                 double floor = ground(new CoursePoint(x, d));
                 if (y <= floor) return new Fall(new CoursePoint(x, d), t, vx, vy, vd, samples, knocked);
@@ -514,7 +538,31 @@ namespace GolfArcade.Course
             return new CupCrossing(false, true, seconds, depth, pin.X + nx * r * 1.02, pin.D + nd * r * 1.02, nvx, nvd);
         }
 
+        public readonly bool Burned;
+        public readonly double BurnTime, BurnHeight;
+        public readonly string BurnHazard;
         public CourseShot(GolfClub club, SwingImpact impact, double heading, CoursePoint origin, Hole hole, double lieFactor = 1, Wind wind = default)
+            : this(club,impact,heading,origin,hole,lieFactor,wind,true)
+        {
+            if(hole.Dream==null || Duration<=0 || Power<=0 || !Array.Exists(hole.Dream.Hazards,h=>h.Kind==DreamHazardKind.LavaVent))return;
+            var ground=hole.Ground ?? (_=>0.0);
+            // Substeps bounded at 1/600 s: the narrowest plume is 8 yd wide and shots are <150 yd/s.
+            // This includes rebounds and rolling, and only runs for a committed moving shot.
+            for(double t=1.0/600;t<=Duration;t+=1.0/600){
+                var w=WorldAt(t,ground);
+                if(!hole.Dream.Burns(w.x,w.y,w.d,(hole.Movers?.PhaseAtLaunch??0)+t,out var hazard))continue;
+                var samples=new List<(double x,double y,double d)>();
+                for(double q=0;q<t;q+=SampleInterval)samples.Add(WorldAt(q,ground));
+                samples.Add(w);
+                Burned=true;BurnTime=t;BurnHeight=w.y;BurnHazard=hazard.Id;
+                Rest=Landing=Touchdown=new CoursePoint(w.x,w.d);NextPosition=hole.Dream.SafeRecovery(hole,origin);
+                Duration=CarryTime=LandingTime=t;Roll=0;HoledAt=null;Lie=CourseLie.Water;
+                path.Clear();double g0=ground(origin),g1=ground(Rest);
+                for(int i=0;i<samples.Count;i++){double q=Math.Min(t,i*SampleInterval);var v=samples[i];path.Add((v.x,v.y-(g0+(g1-g0)*q/Math.Max(t,.001)),v.d));}
+                knocks.RemoveAll(k=>k.Time>t);return;
+            }
+        }
+        CourseShot(GolfClub club, SwingImpact impact, double heading, CoursePoint origin, Hole hole, double lieFactor, Wind wind, bool core)
         {
             Club = club;
             Wind = wind;
@@ -592,7 +640,7 @@ namespace GolfArcade.Course
                 if (obstacleHit is ObstacleHit oh)
                 {
                     var fall = oh.Index == MoverIndex ? FallFromMover(moverHit.Value, hole.Movers, hole.Obstacles, groundAt, rules)
-                             : oh.Index < 0 ? FallFromSail(oh, hole.Windmill, hole.Obstacles, groundAt, rules) : FallFrom(oh, hole.Obstacles, groundAt, rules);
+                             : oh.Index < 0 ? FallFromSail(oh, hole.Windmill, hole.Obstacles, groundAt, rules, hole.Movers) : FallFrom(oh, hole.Obstacles, groundAt, rules, hole.Movers);
                     knocks.AddRange(fall.Knocks);
                     double gDown = groundAt(fall.Landing);
                     Landing = fall.Landing; LandingTime = fall.Time;
@@ -796,7 +844,7 @@ namespace GolfArcade.Course
                         path.Add((x, -DropDepth, d));
                         break;
                     }
-                    if (cross.Lipped) lippedEver = true;
+                    if (cross.Lipped) { lippedEver = true; if (!LipAt.HasValue) LipAt = elapsed - cross.Seconds; }
                     x = cross.X; d = cross.D; vx = cross.Vx; vd = cross.Vd;
                     path.Add((x, 0, d));
                     continue;

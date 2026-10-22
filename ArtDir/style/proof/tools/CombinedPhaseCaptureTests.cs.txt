@@ -1,0 +1,41 @@
+using System.Collections;
+using System.IO;
+using System.Reflection;
+using GolfArcade.EnvironmentArt;
+using UnityEngine.TestTools;
+using NUnit.Framework;
+
+namespace GolfArcade.PlayTests
+{
+    // Scratch-only orchestration. Each stage rebuilds scenes from their normal
+    // entry points; cameras and final capture views remain in the source harness.
+    public class CombinedPhaseCaptureTests
+    {
+        static void Stage(int stage,string path)
+        {
+            System.Environment.SetEnvironmentVariable("VISUAL_ENVIRONMENT_STAGE",stage.ToString());
+            System.Environment.SetEnvironmentVariable("AUDIT_OUT",path);
+            typeof(EnvironmentLook).GetMethod("Reset",BindingFlags.Static|BindingFlags.NonPublic).Invoke(null,null);
+            WeatherDirector.Reset();
+            Directory.CreateDirectory(path);
+        }
+        [UnityTest,Timeout(7200000)] public IEnumerator CaptureStages()
+        {
+            string root=System.Environment.GetEnvironmentVariable("PHASE_ROOT");
+            int first=int.Parse(System.Environment.GetEnvironmentVariable("PHASE_FIRST")??"3");
+            int last=int.Parse(System.Environment.GetEnvironmentVariable("PHASE_LAST")??"6");
+            for(int phase=first;phase<=last;phase++) {
+                Stage(phase,Path.Combine(root,"phase_"+phase.ToString("00")));
+                var world=new EnvBriefCaptureTests();
+                bool repairOnly=System.Environment.GetEnvironmentVariable("ENV_REPAIR_ONLY")=="1";
+                if(!repairOnly){yield return world.A_Tennis();yield return world.B_Golf();}
+                yield return world.C_Hub();
+                var heroes=new CharLightCaptureTests();
+                if(!repairOnly)yield return heroes.A_Tennis();
+                yield return heroes.B_Golf();
+                yield return heroes.C_Hub();
+                if(!repairOnly)yield return heroes.D_FourHeroesBothEnvironments();
+            }
+        }
+    }
+}

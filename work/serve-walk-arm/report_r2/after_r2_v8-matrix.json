@@ -1,0 +1,2349 @@
+{
+  "opponent-female-rh-ad-control": {
+    "complete": true,
+    "frames": 480,
+    "scope_frames": 255,
+    "carry_frames": 114,
+    "G1_mm": {
+      "value": 0.0,
+      "frame": 0,
+      "segment": "control",
+      "phase": "OpponentServe"
+    },
+    "G1_inside_vertices": {
+      "value": 0.0,
+      "frame": 0,
+      "segment": "control",
+      "phase": "OpponentServe"
+    },
+    "G2_m": {
+      "value": 0.03,
+      "frame": 16,
+      "segment": "control",
+      "phase": "OpponentServe"
+    },
+    "G3": {
+      "game_visible": 100.0,
+      "front_visible": 100.0,
+      "side_visible": 100.0
+    },
+    "G4_elbow": [
+      7.556656,
+      64.20191
+    ],
+    "G4_belt_marker": "wrist_above_hips_m",
+    "G4_wrist_above_belt_m": {
+      "value": 0.190703,
+      "frame": 370,
+      "segment": "control",
+      "phase": "OpponentServe"
+    },
+    "G5_step_m": {
+      "value": 0.190447,
+      "frame": 362,
+      "segment": "control",
+      "phase": "OpponentServe"
+    },
+    "G5_delta_speed": {
+      "value": 9.747586,
+      "frame": 363,
+      "segment": "control",
+      "phase": "OpponentServe"
+    },
+    "all_IK_step_m": {
+      "value": 0.190447,
+      "frame": 362,
+      "segment": "control",
+      "phase": "OpponentServe"
+    },
+    "all_IK_delta_speed": {
+      "value": 9.747586,
+      "frame": 363,
+      "segment": "control",
+      "phase": "OpponentServe"
+    },
+    "excluded_ranges": {
+      "ball_exclusion": [
+        {
+          "first": 0,
+          "last": 15,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 34,
+          "last": 73,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 116,
+          "last": 353,
+          "reason": "released_or_unbound"
+        },
+        {
+          "first": 468,
+          "last": 479,
+          "reason": "intentional_bounce_flight"
+        }
+      ],
+      "reset_reason": []
+    },
+    "G7_root_target_equal_pct": 100.0,
+    "G6_release": {
+      "candidate_frame": 116,
+      "baseline_frame": 116,
+      "pose_delta_mm": {
+        "wrist": 0.0,
+        "palm": 0.0,
+        "elbow": 0.0,
+        "ball": 0.0
+      },
+      "candidate_first_rally_frame": 184,
+      "baseline_first_rally_frame": 184
+    },
+    "directional_metrics": {},
+    "gates": {
+      "G1": true,
+      "G2": true,
+      "G3": true,
+      "G4": false,
+      "G5": false,
+      "G7": true,
+      "G5_ALL_IK": false,
+      "G6_NO_WALK_RELEASE": true
+    }
+  },
+  "opponent-female-rh-ad-walk": {
+    "complete": true,
+    "frames": 900,
+    "scope_frames": 541,
+    "carry_frames": 243,
+    "G1_mm": {
+      "value": 0.0,
+      "frame": 0,
+      "segment": "opponent_walk_left",
+      "phase": "OpponentServe"
+    },
+    "G1_inside_vertices": {
+      "value": 0.0,
+      "frame": 0,
+      "segment": "opponent_walk_left",
+      "phase": "OpponentServe"
+    },
+    "G2_m": {
+      "value": 0.03,
+      "frame": 1,
+      "segment": "opponent_walk_left",
+      "phase": "OpponentServe"
+    },
+    "G3": {
+      "game_visible": 100.0,
+      "front_visible": 100.0,
+      "side_visible": 100.0
+    },
+    "G4_elbow": [
+      7.55658,
+      61.1908
+    ],
+    "G4_belt_marker": "wrist_above_hips_m",
+    "G4_wrist_above_belt_m": {
+      "value": 0.10087,
+      "frame": 301,
+      "segment": "opponent_walk_right",
+      "phase": "OpponentServe"
+    },
+    "G5_step_m": {
+      "value": 0.071534,
+      "frame": 186,
+      "segment": "opponent_walk_left",
+      "phase": "OpponentServe"
+    },
+    "G5_delta_speed": {
+      "value": 2.702262,
+      "frame": 183,
+      "segment": "opponent_walk_left",
+      "phase": "OpponentServe"
+    },
+    "all_IK_step_m": {
+      "value": 0.071534,
+      "frame": 186,
+      "segment": "opponent_walk_left",
+      "phase": "OpponentServe"
+    },
+    "all_IK_delta_speed": {
+      "value": 2.702262,
+      "frame": 183,
+      "segment": "opponent_walk_left",
+      "phase": "OpponentServe"
+    },
+    "excluded_ranges": {
+      "ball_exclusion": [
+        {
+          "first": 0,
+          "last": 0,
+          "reason": "refeed_before_rebind"
+        },
+        {
+          "first": 122,
+          "last": 133,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 176,
+          "last": 299,
+          "reason": "released_or_unbound"
+        },
+        {
+          "first": 300,
+          "last": 300,
+          "reason": "refeed_before_rebind"
+        },
+        {
+          "first": 422,
+          "last": 433,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 476,
+          "last": 599,
+          "reason": "released_or_unbound"
+        },
+        {
+          "first": 600,
+          "last": 600,
+          "reason": "refeed_before_rebind"
+        },
+        {
+          "first": 636,
+          "last": 675,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 694,
+          "last": 733,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 776,
+          "last": 899,
+          "reason": "released_or_unbound"
+        }
+      ],
+      "reset_reason": [
+        {
+          "first": 0,
+          "last": 1,
+          "reason": "fixture_point_reset"
+        },
+        {
+          "first": 300,
+          "last": 301,
+          "reason": "fixture_point_reset"
+        },
+        {
+          "first": 600,
+          "last": 601,
+          "reason": "fixture_point_reset"
+        }
+      ]
+    },
+    "G7_root_target_equal_pct": 100.0,
+    "G6_release": {
+      "candidate_frame": 176,
+      "baseline_frame": 176,
+      "pose_delta_mm": {
+        "wrist": 201.18064390492424,
+        "palm": 238.7632046693958,
+        "elbow": 176.03230136824325,
+        "ball": 274.1994572496454
+      },
+      "candidate_first_rally_frame": 244,
+      "baseline_first_rally_frame": 244
+    },
+    "directional_metrics": {
+      "left": {
+        "depth": 0.0,
+        "ball_palm": 0.03,
+        "game": 100.0,
+        "front": 100.0,
+        "side": 100.0,
+        "elbow_range_violation": 7.443405,
+        "belt_violation": 0,
+        "step": 0.029833,
+        "delta_speed": 0.499689
+      },
+      "right": {
+        "depth": 0.0,
+        "ball_palm": 0.03,
+        "game": 100.0,
+        "front": 100.0,
+        "side": 100.0,
+        "elbow_range_violation": 7.44342,
+        "belt_violation": 0.10087,
+        "step": 0.029834,
+        "delta_speed": 0.470886
+      }
+    },
+    "gates": {
+      "G1": true,
+      "G2": true,
+      "G3": true,
+      "G4": false,
+      "G5": false,
+      "G7": true,
+      "G5_ALL_IK": false,
+      "G6_NO_WALK_RELEASE": false,
+      "G6_RIGHT_NO_WORSE": false
+    }
+  },
+  "opponent-female-rh-deuce-control": {
+    "complete": true,
+    "frames": 480,
+    "scope_frames": 259,
+    "carry_frames": 114,
+    "G1_mm": {
+      "value": 32.07926,
+      "frame": 379,
+      "segment": "control",
+      "phase": "OpponentServe"
+    },
+    "G1_inside_vertices": {
+      "value": 81.0,
+      "frame": 378,
+      "segment": "control",
+      "phase": "OpponentServe"
+    },
+    "G2_m": {
+      "value": 0.03,
+      "frame": 16,
+      "segment": "control",
+      "phase": "OpponentServe"
+    },
+    "G3": {
+      "game_visible": 100.0,
+      "front_visible": 100.0,
+      "side_visible": 100.0
+    },
+    "G4_elbow": [
+      7.556686,
+      64.29771
+    ],
+    "G4_belt_marker": "wrist_above_hips_m",
+    "G4_wrist_above_belt_m": {
+      "value": 0.229596,
+      "frame": 366,
+      "segment": "control",
+      "phase": "OpponentServe"
+    },
+    "G5_step_m": {
+      "value": 0.203338,
+      "frame": 366,
+      "segment": "control",
+      "phase": "OpponentServe"
+    },
+    "G5_delta_speed": {
+      "value": 10.48527,
+      "frame": 367,
+      "segment": "control",
+      "phase": "OpponentServe"
+    },
+    "all_IK_step_m": {
+      "value": 0.203338,
+      "frame": 366,
+      "segment": "control",
+      "phase": "OpponentServe"
+    },
+    "all_IK_delta_speed": {
+      "value": 10.48527,
+      "frame": 367,
+      "segment": "control",
+      "phase": "OpponentServe"
+    },
+    "excluded_ranges": {
+      "ball_exclusion": [
+        {
+          "first": 0,
+          "last": 15,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 34,
+          "last": 73,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 116,
+          "last": 349,
+          "reason": "released_or_unbound"
+        },
+        {
+          "first": 464,
+          "last": 479,
+          "reason": "intentional_bounce_flight"
+        }
+      ],
+      "reset_reason": []
+    },
+    "G7_root_target_equal_pct": 100.0,
+    "G6_release": {
+      "candidate_frame": 116,
+      "baseline_frame": 116,
+      "pose_delta_mm": {
+        "wrist": 0.0,
+        "palm": 0.0,
+        "elbow": 0.0,
+        "ball": 0.0
+      },
+      "candidate_first_rally_frame": 184,
+      "baseline_first_rally_frame": 184
+    },
+    "directional_metrics": {},
+    "gates": {
+      "G1": false,
+      "G2": true,
+      "G3": true,
+      "G4": false,
+      "G5": false,
+      "G7": true,
+      "G5_ALL_IK": false,
+      "G6_NO_WALK_RELEASE": true
+    }
+  },
+  "opponent-female-rh-deuce-walk": {
+    "complete": true,
+    "frames": 900,
+    "scope_frames": 541,
+    "carry_frames": 243,
+    "G1_mm": {
+      "value": 0.0,
+      "frame": 0,
+      "segment": "opponent_walk_left",
+      "phase": "OpponentServe"
+    },
+    "G1_inside_vertices": {
+      "value": 0.0,
+      "frame": 0,
+      "segment": "opponent_walk_left",
+      "phase": "OpponentServe"
+    },
+    "G2_m": {
+      "value": 0.03,
+      "frame": 1,
+      "segment": "opponent_walk_left",
+      "phase": "OpponentServe"
+    },
+    "G3": {
+      "game_visible": 100.0,
+      "front_visible": 100.0,
+      "side_visible": 100.0
+    },
+    "G4_elbow": [
+      7.556595,
+      61.19085
+    ],
+    "G4_belt_marker": "wrist_above_hips_m",
+    "G4_wrist_above_belt_m": {
+      "value": 0.10087,
+      "frame": 301,
+      "segment": "opponent_walk_right",
+      "phase": "OpponentServe"
+    },
+    "G5_step_m": {
+      "value": 0.071534,
+      "frame": 186,
+      "segment": "opponent_walk_left",
+      "phase": "OpponentServe"
+    },
+    "G5_delta_speed": {
+      "value": 2.702262,
+      "frame": 183,
+      "segment": "opponent_walk_left",
+      "phase": "OpponentServe"
+    },
+    "all_IK_step_m": {
+      "value": 0.071534,
+      "frame": 186,
+      "segment": "opponent_walk_left",
+      "phase": "OpponentServe"
+    },
+    "all_IK_delta_speed": {
+      "value": 2.702262,
+      "frame": 183,
+      "segment": "opponent_walk_left",
+      "phase": "OpponentServe"
+    },
+    "excluded_ranges": {
+      "ball_exclusion": [
+        {
+          "first": 0,
+          "last": 0,
+          "reason": "refeed_before_rebind"
+        },
+        {
+          "first": 122,
+          "last": 133,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 176,
+          "last": 299,
+          "reason": "released_or_unbound"
+        },
+        {
+          "first": 300,
+          "last": 300,
+          "reason": "refeed_before_rebind"
+        },
+        {
+          "first": 422,
+          "last": 433,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 476,
+          "last": 599,
+          "reason": "released_or_unbound"
+        },
+        {
+          "first": 600,
+          "last": 600,
+          "reason": "refeed_before_rebind"
+        },
+        {
+          "first": 636,
+          "last": 675,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 694,
+          "last": 733,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 776,
+          "last": 899,
+          "reason": "released_or_unbound"
+        }
+      ],
+      "reset_reason": [
+        {
+          "first": 0,
+          "last": 1,
+          "reason": "fixture_point_reset"
+        },
+        {
+          "first": 300,
+          "last": 301,
+          "reason": "fixture_point_reset"
+        },
+        {
+          "first": 600,
+          "last": 601,
+          "reason": "fixture_point_reset"
+        }
+      ]
+    },
+    "G7_root_target_equal_pct": 100.0,
+    "G6_release": {
+      "candidate_frame": 176,
+      "baseline_frame": 176,
+      "pose_delta_mm": {
+        "wrist": 201.1815438876041,
+        "palm": 238.76320466939615,
+        "elbow": 176.03137577148036,
+        "ball": 274.1994572496458
+      },
+      "candidate_first_rally_frame": 244,
+      "baseline_first_rally_frame": 244
+    },
+    "directional_metrics": {
+      "left": {
+        "depth": 0.0,
+        "ball_palm": 0.03,
+        "game": 100.0,
+        "front": 100.0,
+        "side": 100.0,
+        "elbow_range_violation": 7.443405,
+        "belt_violation": 0,
+        "step": 0.029833,
+        "delta_speed": 0.499673
+      },
+      "right": {
+        "depth": 0.0,
+        "ball_palm": 0.03,
+        "game": 100.0,
+        "front": 100.0,
+        "side": 100.0,
+        "elbow_range_violation": 7.443314,
+        "belt_violation": 0.10087,
+        "step": 0.029834,
+        "delta_speed": 0.470862
+      }
+    },
+    "gates": {
+      "G1": true,
+      "G2": true,
+      "G3": true,
+      "G4": false,
+      "G5": false,
+      "G7": true,
+      "G5_ALL_IK": false,
+      "G6_NO_WALK_RELEASE": false,
+      "G6_RIGHT_NO_WORSE": false
+    }
+  },
+  "opponent-male-rh-ad-control": {
+    "complete": true,
+    "frames": 480,
+    "scope_frames": 259,
+    "carry_frames": 114,
+    "G1_mm": {
+      "value": 0.0,
+      "frame": 0,
+      "segment": "control",
+      "phase": "OpponentServe"
+    },
+    "G1_inside_vertices": {
+      "value": 0.0,
+      "frame": 0,
+      "segment": "control",
+      "phase": "OpponentServe"
+    },
+    "G2_m": {
+      "value": 0.03,
+      "frame": 16,
+      "segment": "control",
+      "phase": "OpponentServe"
+    },
+    "G3": {
+      "game_visible": 100.0,
+      "front_visible": 100.0,
+      "side_visible": 100.0
+    },
+    "G4_elbow": [
+      7.204056,
+      49.03227
+    ],
+    "G4_belt_marker": "wrist_above_hips_m",
+    "G4_wrist_above_belt_m": {
+      "value": 0.161519,
+      "frame": 366,
+      "segment": "control",
+      "phase": "OpponentServe"
+    },
+    "G5_step_m": {
+      "value": 0.181435,
+      "frame": 358,
+      "segment": "control",
+      "phase": "OpponentServe"
+    },
+    "G5_delta_speed": {
+      "value": 9.190502,
+      "frame": 359,
+      "segment": "control",
+      "phase": "OpponentServe"
+    },
+    "all_IK_step_m": {
+      "value": 0.181435,
+      "frame": 358,
+      "segment": "control",
+      "phase": "OpponentServe"
+    },
+    "all_IK_delta_speed": {
+      "value": 9.190502,
+      "frame": 359,
+      "segment": "control",
+      "phase": "OpponentServe"
+    },
+    "excluded_ranges": {
+      "ball_exclusion": [
+        {
+          "first": 0,
+          "last": 15,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 34,
+          "last": 73,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 116,
+          "last": 349,
+          "reason": "released_or_unbound"
+        },
+        {
+          "first": 464,
+          "last": 479,
+          "reason": "intentional_bounce_flight"
+        }
+      ],
+      "reset_reason": []
+    },
+    "G7_root_target_equal_pct": 100.0,
+    "G6_release": {
+      "candidate_frame": 116,
+      "baseline_frame": 116,
+      "pose_delta_mm": {
+        "wrist": 0.0,
+        "palm": 0.0,
+        "elbow": 0.0,
+        "ball": 0.0
+      },
+      "candidate_first_rally_frame": 184,
+      "baseline_first_rally_frame": 184
+    },
+    "directional_metrics": {},
+    "gates": {
+      "G1": true,
+      "G2": true,
+      "G3": true,
+      "G4": false,
+      "G5": false,
+      "G7": true,
+      "G5_ALL_IK": false,
+      "G6_NO_WALK_RELEASE": true
+    }
+  },
+  "opponent-male-rh-ad-walk": {
+    "complete": true,
+    "frames": 900,
+    "scope_frames": 541,
+    "carry_frames": 243,
+    "G1_mm": {
+      "value": 11.22886,
+      "frame": 306,
+      "segment": "opponent_walk_right",
+      "phase": "OpponentServe"
+    },
+    "G1_inside_vertices": {
+      "value": 36.0,
+      "frame": 306,
+      "segment": "opponent_walk_right",
+      "phase": "OpponentServe"
+    },
+    "G2_m": {
+      "value": 0.03,
+      "frame": 1,
+      "segment": "opponent_walk_left",
+      "phase": "OpponentServe"
+    },
+    "G3": {
+      "game_visible": 100.0,
+      "front_visible": 100.0,
+      "side_visible": 100.0
+    },
+    "G4_elbow": [
+      14.46248,
+      55.98225
+    ],
+    "G4_belt_marker": "wrist_above_hips_m",
+    "G4_wrist_above_belt_m": {
+      "value": 0.071747,
+      "frame": 301,
+      "segment": "opponent_walk_right",
+      "phase": "OpponentServe"
+    },
+    "G5_step_m": {
+      "value": 0.075684,
+      "frame": 186,
+      "segment": "opponent_walk_left",
+      "phase": "OpponentServe"
+    },
+    "G5_delta_speed": {
+      "value": 2.487918,
+      "frame": 186,
+      "segment": "opponent_walk_left",
+      "phase": "OpponentServe"
+    },
+    "all_IK_step_m": {
+      "value": 0.075684,
+      "frame": 186,
+      "segment": "opponent_walk_left",
+      "phase": "OpponentServe"
+    },
+    "all_IK_delta_speed": {
+      "value": 2.914648,
+      "frame": 191,
+      "segment": "opponent_walk_left",
+      "phase": "OpponentServe"
+    },
+    "excluded_ranges": {
+      "ball_exclusion": [
+        {
+          "first": 0,
+          "last": 0,
+          "reason": "refeed_before_rebind"
+        },
+        {
+          "first": 122,
+          "last": 133,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 176,
+          "last": 299,
+          "reason": "released_or_unbound"
+        },
+        {
+          "first": 300,
+          "last": 300,
+          "reason": "refeed_before_rebind"
+        },
+        {
+          "first": 422,
+          "last": 433,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 476,
+          "last": 599,
+          "reason": "released_or_unbound"
+        },
+        {
+          "first": 600,
+          "last": 600,
+          "reason": "refeed_before_rebind"
+        },
+        {
+          "first": 636,
+          "last": 675,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 694,
+          "last": 733,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 776,
+          "last": 899,
+          "reason": "released_or_unbound"
+        }
+      ],
+      "reset_reason": [
+        {
+          "first": 0,
+          "last": 1,
+          "reason": "fixture_point_reset"
+        },
+        {
+          "first": 300,
+          "last": 301,
+          "reason": "fixture_point_reset"
+        },
+        {
+          "first": 600,
+          "last": 601,
+          "reason": "fixture_point_reset"
+        }
+      ]
+    },
+    "G7_root_target_equal_pct": 100.0,
+    "G6_release": {
+      "candidate_frame": 176,
+      "baseline_frame": 176,
+      "pose_delta_mm": {
+        "wrist": 309.36939635490734,
+        "palm": 326.08916278373937,
+        "elbow": 260.0474630620337,
+        "ball": 374.74540098712396
+      },
+      "candidate_first_rally_frame": 244,
+      "baseline_first_rally_frame": 244
+    },
+    "directional_metrics": {
+      "left": {
+        "depth": 0.0,
+        "ball_palm": 0.03,
+        "game": 100.0,
+        "front": 100.0,
+        "side": 100.0,
+        "elbow_range_violation": 0,
+        "belt_violation": 0,
+        "step": 0.029834,
+        "delta_speed": 0.499551
+      },
+      "right": {
+        "depth": 11.22886,
+        "ball_palm": 0.03,
+        "game": 100.0,
+        "front": 100.0,
+        "side": 100.0,
+        "elbow_range_violation": 0.5375200000000007,
+        "belt_violation": 0.071747,
+        "step": 0.031399,
+        "delta_speed": 0.478922
+      }
+    },
+    "gates": {
+      "G1": false,
+      "G2": true,
+      "G3": true,
+      "G4": false,
+      "G5": false,
+      "G7": true,
+      "G5_ALL_IK": false,
+      "G6_NO_WALK_RELEASE": false,
+      "G6_RIGHT_NO_WORSE": false
+    }
+  },
+  "opponent-male-rh-deuce-control": {
+    "complete": true,
+    "frames": 480,
+    "scope_frames": 259,
+    "carry_frames": 114,
+    "G1_mm": {
+      "value": 58.54472,
+      "frame": 380,
+      "segment": "control",
+      "phase": "OpponentServe"
+    },
+    "G1_inside_vertices": {
+      "value": 211.0,
+      "frame": 381,
+      "segment": "control",
+      "phase": "OpponentServe"
+    },
+    "G2_m": {
+      "value": 0.03,
+      "frame": 16,
+      "segment": "control",
+      "phase": "OpponentServe"
+    },
+    "G3": {
+      "game_visible": 100.0,
+      "front_visible": 100.0,
+      "side_visible": 100.0
+    },
+    "G4_elbow": [
+      7.204086,
+      59.04005
+    ],
+    "G4_belt_marker": "wrist_above_hips_m",
+    "G4_wrist_above_belt_m": {
+      "value": 0.235416,
+      "frame": 366,
+      "segment": "control",
+      "phase": "OpponentServe"
+    },
+    "G5_step_m": {
+      "value": 0.197628,
+      "frame": 366,
+      "segment": "control",
+      "phase": "OpponentServe"
+    },
+    "G5_delta_speed": {
+      "value": 10.13145,
+      "frame": 367,
+      "segment": "control",
+      "phase": "OpponentServe"
+    },
+    "all_IK_step_m": {
+      "value": 0.197628,
+      "frame": 366,
+      "segment": "control",
+      "phase": "OpponentServe"
+    },
+    "all_IK_delta_speed": {
+      "value": 10.13145,
+      "frame": 367,
+      "segment": "control",
+      "phase": "OpponentServe"
+    },
+    "excluded_ranges": {
+      "ball_exclusion": [
+        {
+          "first": 0,
+          "last": 15,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 34,
+          "last": 73,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 116,
+          "last": 349,
+          "reason": "released_or_unbound"
+        },
+        {
+          "first": 350,
+          "last": 350,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 465,
+          "last": 479,
+          "reason": "intentional_bounce_flight"
+        }
+      ],
+      "reset_reason": []
+    },
+    "G7_root_target_equal_pct": 100.0,
+    "G6_release": {
+      "candidate_frame": 116,
+      "baseline_frame": 116,
+      "pose_delta_mm": {
+        "wrist": 0.0,
+        "palm": 0.0,
+        "elbow": 0.0,
+        "ball": 0.0
+      },
+      "candidate_first_rally_frame": 184,
+      "baseline_first_rally_frame": 184
+    },
+    "directional_metrics": {},
+    "gates": {
+      "G1": false,
+      "G2": true,
+      "G3": true,
+      "G4": false,
+      "G5": false,
+      "G7": true,
+      "G5_ALL_IK": false,
+      "G6_NO_WALK_RELEASE": true
+    }
+  },
+  "opponent-male-rh-deuce-walk": {
+    "complete": true,
+    "frames": 900,
+    "scope_frames": 541,
+    "carry_frames": 243,
+    "G1_mm": {
+      "value": 11.22793,
+      "frame": 306,
+      "segment": "opponent_walk_right",
+      "phase": "OpponentServe"
+    },
+    "G1_inside_vertices": {
+      "value": 36.0,
+      "frame": 306,
+      "segment": "opponent_walk_right",
+      "phase": "OpponentServe"
+    },
+    "G2_m": {
+      "value": 0.03,
+      "frame": 1,
+      "segment": "opponent_walk_left",
+      "phase": "OpponentServe"
+    },
+    "G3": {
+      "game_visible": 100.0,
+      "front_visible": 100.0,
+      "side_visible": 100.0
+    },
+    "G4_elbow": [
+      14.47057,
+      55.9837
+    ],
+    "G4_belt_marker": "wrist_above_hips_m",
+    "G4_wrist_above_belt_m": {
+      "value": 0.071748,
+      "frame": 301,
+      "segment": "opponent_walk_right",
+      "phase": "OpponentServe"
+    },
+    "G5_step_m": {
+      "value": 0.075684,
+      "frame": 186,
+      "segment": "opponent_walk_left",
+      "phase": "OpponentServe"
+    },
+    "G5_delta_speed": {
+      "value": 2.487918,
+      "frame": 186,
+      "segment": "opponent_walk_left",
+      "phase": "OpponentServe"
+    },
+    "all_IK_step_m": {
+      "value": 0.075684,
+      "frame": 186,
+      "segment": "opponent_walk_left",
+      "phase": "OpponentServe"
+    },
+    "all_IK_delta_speed": {
+      "value": 2.914648,
+      "frame": 191,
+      "segment": "opponent_walk_left",
+      "phase": "OpponentServe"
+    },
+    "excluded_ranges": {
+      "ball_exclusion": [
+        {
+          "first": 0,
+          "last": 0,
+          "reason": "refeed_before_rebind"
+        },
+        {
+          "first": 122,
+          "last": 133,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 176,
+          "last": 299,
+          "reason": "released_or_unbound"
+        },
+        {
+          "first": 300,
+          "last": 300,
+          "reason": "refeed_before_rebind"
+        },
+        {
+          "first": 422,
+          "last": 433,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 476,
+          "last": 599,
+          "reason": "released_or_unbound"
+        },
+        {
+          "first": 600,
+          "last": 600,
+          "reason": "refeed_before_rebind"
+        },
+        {
+          "first": 636,
+          "last": 675,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 694,
+          "last": 733,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 776,
+          "last": 899,
+          "reason": "released_or_unbound"
+        }
+      ],
+      "reset_reason": [
+        {
+          "first": 0,
+          "last": 1,
+          "reason": "fixture_point_reset"
+        },
+        {
+          "first": 300,
+          "last": 301,
+          "reason": "fixture_point_reset"
+        },
+        {
+          "first": 600,
+          "last": 601,
+          "reason": "fixture_point_reset"
+        }
+      ]
+    },
+    "G7_root_target_equal_pct": 100.0,
+    "G6_release": {
+      "candidate_frame": 176,
+      "baseline_frame": 176,
+      "pose_delta_mm": {
+        "wrist": 309.36939635490734,
+        "palm": 326.08916278373937,
+        "elbow": 260.0474630620342,
+        "ball": 374.74540098712396
+      },
+      "candidate_first_rally_frame": 244,
+      "baseline_first_rally_frame": 244
+    },
+    "directional_metrics": {
+      "left": {
+        "depth": 0.0,
+        "ball_palm": 0.03,
+        "game": 100.0,
+        "front": 100.0,
+        "side": 100.0,
+        "elbow_range_violation": 0,
+        "belt_violation": 0,
+        "step": 0.029834,
+        "delta_speed": 0.499573
+      },
+      "right": {
+        "depth": 11.22793,
+        "ball_palm": 0.03,
+        "game": 100.0,
+        "front": 100.0,
+        "side": 100.0,
+        "elbow_range_violation": 0.5294299999999996,
+        "belt_violation": 0.071748,
+        "step": 0.0314,
+        "delta_speed": 0.478845
+      }
+    },
+    "gates": {
+      "G1": false,
+      "G2": true,
+      "G3": true,
+      "G4": false,
+      "G5": false,
+      "G7": true,
+      "G5_ALL_IK": false,
+      "G6_NO_WALK_RELEASE": false,
+      "G6_RIGHT_NO_WORSE": false
+    }
+  },
+  "player-female-rh-ad-control": {
+    "complete": true,
+    "frames": 480,
+    "scope_frames": 276,
+    "carry_frames": 0,
+    "G1_mm": {
+      "value": 0.0,
+      "frame": 0,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "G1_inside_vertices": {
+      "value": 0.0,
+      "frame": 0,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "G2_m": {
+      "value": 0.03,
+      "frame": 16,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "G3": {
+      "game_visible": null,
+      "front_visible": null,
+      "side_visible": null
+    },
+    "G4_elbow": null,
+    "G4_belt_marker": "wrist_above_hips_m",
+    "G4_wrist_above_belt_m": null,
+    "G5_step_m": {
+      "value": 0.031333,
+      "frame": 270,
+      "segment": "control",
+      "phase": "PlayerServeToss"
+    },
+    "G5_delta_speed": {
+      "value": 1.052223,
+      "frame": 270,
+      "segment": "control",
+      "phase": "PlayerServeToss"
+    },
+    "all_IK_step_m": {
+      "value": 0.031333,
+      "frame": 270,
+      "segment": "control",
+      "phase": "PlayerServeToss"
+    },
+    "all_IK_delta_speed": {
+      "value": 1.052223,
+      "frame": 270,
+      "segment": "control",
+      "phase": "PlayerServeToss"
+    },
+    "excluded_ranges": {
+      "ball_exclusion": [
+        {
+          "first": 0,
+          "last": 15,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 34,
+          "last": 73,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 180,
+          "last": 219,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 262,
+          "last": 262,
+          "reason": "release_boundary"
+        },
+        {
+          "first": 263,
+          "last": 479,
+          "reason": "released_or_unbound"
+        }
+      ],
+      "reset_reason": []
+    },
+    "G7_root_target_equal_pct": 100.0,
+    "G6_release": {
+      "candidate_frame": 263,
+      "baseline_frame": 263,
+      "pose_delta_mm": {
+        "wrist": 0.0,
+        "palm": 0.0,
+        "elbow": 0.0,
+        "ball": 0.0
+      },
+      "candidate_first_rally_frame": 358,
+      "baseline_first_rally_frame": 358
+    },
+    "gates": {
+      "G1": true,
+      "G2": true,
+      "G3": true,
+      "G4": true,
+      "G5": false,
+      "G7": true,
+      "G5_ALL_IK": false,
+      "G6_NO_WALK_RELEASE": true
+    }
+  },
+  "player-female-rh-ad-walk": {
+    "complete": true,
+    "frames": 1200,
+    "scope_frames": 869,
+    "carry_frames": 298,
+    "G1_mm": {
+      "value": 20.42378,
+      "frame": 776,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "G1_inside_vertices": {
+      "value": 156.0,
+      "frame": 776,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "G2_m": {
+      "value": 0.03,
+      "frame": 16,
+      "segment": "stand",
+      "phase": "PlayerServeHold"
+    },
+    "G3": {
+      "game_visible": 65.43624161073825,
+      "front_visible": 100.0,
+      "side_visible": 100.0
+    },
+    "G4_elbow": [
+      7.556808,
+      32.42944
+    ],
+    "G4_belt_marker": "wrist_above_hips_m",
+    "G4_wrist_above_belt_m": {
+      "value": -0.005411,
+      "frame": 322,
+      "segment": "plant_tap_left",
+      "phase": "PlayerServeHold"
+    },
+    "G5_step_m": {
+      "value": 0.126328,
+      "frame": 799,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "G5_delta_speed": {
+      "value": 5.852625,
+      "frame": 800,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "all_IK_step_m": {
+      "value": 0.126328,
+      "frame": 799,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "all_IK_delta_speed": {
+      "value": 5.852625,
+      "frame": 800,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "excluded_ranges": {
+      "ball_exclusion": [
+        {
+          "first": 0,
+          "last": 15,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 154,
+          "last": 170,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 352,
+          "last": 371,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 447,
+          "last": 483,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 504,
+          "last": 543,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 592,
+          "last": 592,
+          "reason": "release_boundary"
+        },
+        {
+          "first": 593,
+          "last": 767,
+          "reason": "released_or_unbound"
+        },
+        {
+          "first": 768,
+          "last": 768,
+          "reason": "refeed_before_rebind"
+        },
+        {
+          "first": 828,
+          "last": 869,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 889,
+          "last": 927,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 1030,
+          "last": 1030,
+          "reason": "release_boundary"
+        },
+        {
+          "first": 1031,
+          "last": 1199,
+          "reason": "released_or_unbound"
+        }
+      ],
+      "reset_reason": [
+        {
+          "first": 768,
+          "last": 769,
+          "reason": "fixture_point_reset"
+        }
+      ]
+    },
+    "G7_root_target_equal_pct": 100.0,
+    "G6_release": {
+      "candidate_frame": 593,
+      "baseline_frame": 593,
+      "pose_delta_mm": {
+        "wrist": 0.0,
+        "palm": 0.0,
+        "elbow": 0.0,
+        "ball": 0.0
+      },
+      "candidate_first_rally_frame": 688,
+      "baseline_first_rally_frame": 688
+    },
+    "directional_metrics": {
+      "left": {
+        "depth": 0.0,
+        "ball_palm": 0.03,
+        "game": 81.89655172413794,
+        "front": 100.0,
+        "side": 100.0,
+        "elbow_range_violation": 7.443192,
+        "belt_violation": 0,
+        "step": 0.029834,
+        "delta_speed": 0.508315
+      },
+      "right": {
+        "depth": 0.0,
+        "ball_palm": 0.03,
+        "game": 54.94505494505494,
+        "front": 100.0,
+        "side": 100.0,
+        "elbow_range_violation": 7.443161,
+        "belt_violation": 0,
+        "step": 0.029834,
+        "delta_speed": 0.494387
+      }
+    },
+    "gates": {
+      "G1": false,
+      "G2": true,
+      "G3": false,
+      "G4": false,
+      "G5": false,
+      "G7": true,
+      "G5_ALL_IK": false,
+      "G6_NO_WALK_RELEASE": true,
+      "G6_RIGHT_NO_WORSE": false
+    }
+  },
+  "player-female-rh-deuce-control": {
+    "complete": true,
+    "frames": 480,
+    "scope_frames": 276,
+    "carry_frames": 0,
+    "G1_mm": {
+      "value": 0.0,
+      "frame": 0,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "G1_inside_vertices": {
+      "value": 0.0,
+      "frame": 0,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "G2_m": {
+      "value": 0.03,
+      "frame": 16,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "G3": {
+      "game_visible": null,
+      "front_visible": null,
+      "side_visible": null
+    },
+    "G4_elbow": null,
+    "G4_belt_marker": "wrist_above_hips_m",
+    "G4_wrist_above_belt_m": null,
+    "G5_step_m": {
+      "value": 0.031333,
+      "frame": 270,
+      "segment": "control",
+      "phase": "PlayerServeToss"
+    },
+    "G5_delta_speed": {
+      "value": 1.052223,
+      "frame": 270,
+      "segment": "control",
+      "phase": "PlayerServeToss"
+    },
+    "all_IK_step_m": {
+      "value": 0.031333,
+      "frame": 270,
+      "segment": "control",
+      "phase": "PlayerServeToss"
+    },
+    "all_IK_delta_speed": {
+      "value": 1.052223,
+      "frame": 270,
+      "segment": "control",
+      "phase": "PlayerServeToss"
+    },
+    "excluded_ranges": {
+      "ball_exclusion": [
+        {
+          "first": 0,
+          "last": 15,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 34,
+          "last": 73,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 180,
+          "last": 219,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 262,
+          "last": 262,
+          "reason": "release_boundary"
+        },
+        {
+          "first": 263,
+          "last": 479,
+          "reason": "released_or_unbound"
+        }
+      ],
+      "reset_reason": []
+    },
+    "G7_root_target_equal_pct": 100.0,
+    "G6_release": {
+      "candidate_frame": 263,
+      "baseline_frame": 263,
+      "pose_delta_mm": {
+        "wrist": 0.0,
+        "palm": 0.0,
+        "elbow": 0.0,
+        "ball": 0.0
+      },
+      "candidate_first_rally_frame": 358,
+      "baseline_first_rally_frame": 358
+    },
+    "gates": {
+      "G1": true,
+      "G2": true,
+      "G3": true,
+      "G4": true,
+      "G5": false,
+      "G7": true,
+      "G5_ALL_IK": false,
+      "G6_NO_WALK_RELEASE": true
+    }
+  },
+  "player-female-rh-deuce-walk": {
+    "complete": true,
+    "frames": 1200,
+    "scope_frames": 869,
+    "carry_frames": 354,
+    "G1_mm": {
+      "value": 0.0,
+      "frame": 0,
+      "segment": "stand",
+      "phase": "PlayerServeHold"
+    },
+    "G1_inside_vertices": {
+      "value": 0.0,
+      "frame": 0,
+      "segment": "stand",
+      "phase": "PlayerServeHold"
+    },
+    "G2_m": {
+      "value": 0.03,
+      "frame": 16,
+      "segment": "stand",
+      "phase": "PlayerServeHold"
+    },
+    "G3": {
+      "game_visible": 96.61016949152543,
+      "front_visible": 100.0,
+      "side_visible": 100.0
+    },
+    "G4_elbow": [
+      7.556686,
+      36.66133
+    ],
+    "G4_belt_marker": "wrist_above_hips_m",
+    "G4_wrist_above_belt_m": {
+      "value": 0.000343,
+      "frame": 317,
+      "segment": "tap_left",
+      "phase": "PlayerServeHold"
+    },
+    "G5_step_m": {
+      "value": 0.228212,
+      "frame": 778,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "G5_delta_speed": {
+      "value": 11.90271,
+      "frame": 778,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "all_IK_step_m": {
+      "value": 0.228212,
+      "frame": 778,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "all_IK_delta_speed": {
+      "value": 11.90271,
+      "frame": 778,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "excluded_ranges": {
+      "ball_exclusion": [
+        {
+          "first": 0,
+          "last": 15,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 362,
+          "last": 371,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 447,
+          "last": 483,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 504,
+          "last": 543,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 592,
+          "last": 592,
+          "reason": "release_boundary"
+        },
+        {
+          "first": 593,
+          "last": 767,
+          "reason": "released_or_unbound"
+        },
+        {
+          "first": 768,
+          "last": 768,
+          "reason": "refeed_before_rebind"
+        },
+        {
+          "first": 828,
+          "last": 868,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 888,
+          "last": 926,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 1030,
+          "last": 1030,
+          "reason": "release_boundary"
+        },
+        {
+          "first": 1031,
+          "last": 1199,
+          "reason": "released_or_unbound"
+        }
+      ],
+      "reset_reason": [
+        {
+          "first": 768,
+          "last": 769,
+          "reason": "fixture_point_reset"
+        }
+      ]
+    },
+    "G7_root_target_equal_pct": 100.0,
+    "G6_release": {
+      "candidate_frame": 593,
+      "baseline_frame": 593,
+      "pose_delta_mm": {
+        "wrist": 0.0,
+        "palm": 0.0,
+        "elbow": 0.0,
+        "ball": 0.0
+      },
+      "candidate_first_rally_frame": 688,
+      "baseline_first_rally_frame": 688
+    },
+    "directional_metrics": {
+      "left": {
+        "depth": 0.0,
+        "ball_palm": 0.03,
+        "game": 98.20359281437126,
+        "front": 100.0,
+        "side": 100.0,
+        "elbow_range_violation": 7.443314,
+        "belt_violation": 0.000343,
+        "step": 0.029834,
+        "delta_speed": 0.490082
+      },
+      "right": {
+        "depth": 0.0,
+        "ball_palm": 0.03,
+        "game": 95.18716577540107,
+        "front": 100.0,
+        "side": 100.0,
+        "elbow_range_violation": 7.443161,
+        "belt_violation": 0,
+        "step": 0.022593,
+        "delta_speed": 0.427201
+      }
+    },
+    "gates": {
+      "G1": true,
+      "G2": true,
+      "G3": true,
+      "G4": false,
+      "G5": false,
+      "G7": true,
+      "G5_ALL_IK": false,
+      "G6_NO_WALK_RELEASE": true,
+      "G6_RIGHT_NO_WORSE": false
+    }
+  },
+  "player-male-rh-ad-control": {
+    "complete": true,
+    "frames": 480,
+    "scope_frames": 276,
+    "carry_frames": 0,
+    "G1_mm": {
+      "value": 0.0,
+      "frame": 0,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "G1_inside_vertices": {
+      "value": 0.0,
+      "frame": 0,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "G2_m": {
+      "value": 0.03,
+      "frame": 16,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "G3": {
+      "game_visible": null,
+      "front_visible": null,
+      "side_visible": null
+    },
+    "G4_elbow": null,
+    "G4_belt_marker": "wrist_above_hips_m",
+    "G4_wrist_above_belt_m": null,
+    "G5_step_m": {
+      "value": 0.03304,
+      "frame": 270,
+      "segment": "control",
+      "phase": "PlayerServeToss"
+    },
+    "G5_delta_speed": {
+      "value": 1.090202,
+      "frame": 270,
+      "segment": "control",
+      "phase": "PlayerServeToss"
+    },
+    "all_IK_step_m": {
+      "value": 0.03304,
+      "frame": 270,
+      "segment": "control",
+      "phase": "PlayerServeToss"
+    },
+    "all_IK_delta_speed": {
+      "value": 1.090202,
+      "frame": 270,
+      "segment": "control",
+      "phase": "PlayerServeToss"
+    },
+    "excluded_ranges": {
+      "ball_exclusion": [
+        {
+          "first": 0,
+          "last": 15,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 34,
+          "last": 73,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 180,
+          "last": 219,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 262,
+          "last": 262,
+          "reason": "release_boundary"
+        },
+        {
+          "first": 263,
+          "last": 479,
+          "reason": "released_or_unbound"
+        }
+      ],
+      "reset_reason": []
+    },
+    "G7_root_target_equal_pct": 100.0,
+    "G6_release": {
+      "candidate_frame": 263,
+      "baseline_frame": 263,
+      "pose_delta_mm": {
+        "wrist": 0.0,
+        "palm": 0.0,
+        "elbow": 0.0,
+        "ball": 0.0
+      },
+      "candidate_first_rally_frame": 357,
+      "baseline_first_rally_frame": 357
+    },
+    "gates": {
+      "G1": true,
+      "G2": true,
+      "G3": true,
+      "G4": true,
+      "G5": false,
+      "G7": true,
+      "G5_ALL_IK": false,
+      "G6_NO_WALK_RELEASE": true
+    }
+  },
+  "player-male-rh-ad-walk": {
+    "complete": true,
+    "frames": 1200,
+    "scope_frames": 869,
+    "carry_frames": 298,
+    "G1_mm": {
+      "value": 100.2629,
+      "frame": 771,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "G1_inside_vertices": {
+      "value": 1805.0,
+      "frame": 771,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "G2_m": {
+      "value": 0.03,
+      "frame": 16,
+      "segment": "stand",
+      "phase": "PlayerServeHold"
+    },
+    "G3": {
+      "game_visible": 66.10738255033557,
+      "front_visible": 100.0,
+      "side_visible": 100.0
+    },
+    "G4_elbow": [
+      23.88106,
+      50.75735
+    ],
+    "G4_belt_marker": "wrist_above_hips_m",
+    "G4_wrist_above_belt_m": {
+      "value": -0.019074,
+      "frame": 181,
+      "segment": "walk_right",
+      "phase": "PlayerServeHold"
+    },
+    "G5_step_m": {
+      "value": 0.250252,
+      "frame": 797,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "G5_delta_speed": {
+      "value": 13.29157,
+      "frame": 798,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "all_IK_step_m": {
+      "value": 0.250252,
+      "frame": 797,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "all_IK_delta_speed": {
+      "value": 13.29157,
+      "frame": 798,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "excluded_ranges": {
+      "ball_exclusion": [
+        {
+          "first": 0,
+          "last": 15,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 154,
+          "last": 170,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 352,
+          "last": 371,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 447,
+          "last": 483,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 504,
+          "last": 543,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 592,
+          "last": 592,
+          "reason": "release_boundary"
+        },
+        {
+          "first": 593,
+          "last": 767,
+          "reason": "released_or_unbound"
+        },
+        {
+          "first": 768,
+          "last": 768,
+          "reason": "refeed_before_rebind"
+        },
+        {
+          "first": 832,
+          "last": 872,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 893,
+          "last": 930,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 1030,
+          "last": 1030,
+          "reason": "release_boundary"
+        },
+        {
+          "first": 1031,
+          "last": 1199,
+          "reason": "released_or_unbound"
+        }
+      ],
+      "reset_reason": [
+        {
+          "first": 768,
+          "last": 769,
+          "reason": "fixture_point_reset"
+        }
+      ]
+    },
+    "G7_root_target_equal_pct": 100.0,
+    "G6_release": {
+      "candidate_frame": 593,
+      "baseline_frame": 593,
+      "pose_delta_mm": {
+        "wrist": 0.0,
+        "palm": 0.0,
+        "elbow": 0.0,
+        "ball": 0.0
+      },
+      "candidate_first_rally_frame": 687,
+      "baseline_first_rally_frame": 687
+    },
+    "directional_metrics": {
+      "left": {
+        "depth": 0.0,
+        "ball_palm": 0.03,
+        "game": 81.89655172413794,
+        "front": 100.0,
+        "side": 100.0,
+        "elbow_range_violation": 0,
+        "belt_violation": 0,
+        "step": 0.029834,
+        "delta_speed": 0.499449
+      },
+      "right": {
+        "depth": 0.0,
+        "ball_palm": 0.03,
+        "game": 56.043956043956044,
+        "front": 100.0,
+        "side": 100.0,
+        "elbow_range_violation": 0,
+        "belt_violation": 0,
+        "step": 0.029834,
+        "delta_speed": 0.495187
+      }
+    },
+    "gates": {
+      "G1": false,
+      "G2": true,
+      "G3": false,
+      "G4": true,
+      "G5": false,
+      "G7": true,
+      "G5_ALL_IK": false,
+      "G6_NO_WALK_RELEASE": true,
+      "G6_RIGHT_NO_WORSE": false
+    }
+  },
+  "player-male-rh-deuce-control": {
+    "complete": true,
+    "frames": 480,
+    "scope_frames": 276,
+    "carry_frames": 0,
+    "G1_mm": {
+      "value": 0.0,
+      "frame": 0,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "G1_inside_vertices": {
+      "value": 0.0,
+      "frame": 0,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "G2_m": {
+      "value": 0.03,
+      "frame": 16,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "G3": {
+      "game_visible": null,
+      "front_visible": null,
+      "side_visible": null
+    },
+    "G4_elbow": null,
+    "G4_belt_marker": "wrist_above_hips_m",
+    "G4_wrist_above_belt_m": null,
+    "G5_step_m": {
+      "value": 0.03304,
+      "frame": 270,
+      "segment": "control",
+      "phase": "PlayerServeToss"
+    },
+    "G5_delta_speed": {
+      "value": 1.090202,
+      "frame": 270,
+      "segment": "control",
+      "phase": "PlayerServeToss"
+    },
+    "all_IK_step_m": {
+      "value": 0.03304,
+      "frame": 270,
+      "segment": "control",
+      "phase": "PlayerServeToss"
+    },
+    "all_IK_delta_speed": {
+      "value": 1.090202,
+      "frame": 270,
+      "segment": "control",
+      "phase": "PlayerServeToss"
+    },
+    "excluded_ranges": {
+      "ball_exclusion": [
+        {
+          "first": 0,
+          "last": 15,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 34,
+          "last": 73,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 180,
+          "last": 219,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 262,
+          "last": 262,
+          "reason": "release_boundary"
+        },
+        {
+          "first": 263,
+          "last": 479,
+          "reason": "released_or_unbound"
+        }
+      ],
+      "reset_reason": []
+    },
+    "G7_root_target_equal_pct": 100.0,
+    "G6_release": {
+      "candidate_frame": 263,
+      "baseline_frame": 263,
+      "pose_delta_mm": {
+        "wrist": 0.0,
+        "palm": 0.0,
+        "elbow": 0.0,
+        "ball": 0.0
+      },
+      "candidate_first_rally_frame": 357,
+      "baseline_first_rally_frame": 357
+    },
+    "gates": {
+      "G1": true,
+      "G2": true,
+      "G3": true,
+      "G4": true,
+      "G5": false,
+      "G7": true,
+      "G5_ALL_IK": false,
+      "G6_NO_WALK_RELEASE": true
+    }
+  },
+  "player-male-rh-deuce-walk": {
+    "complete": true,
+    "frames": 1200,
+    "scope_frames": 869,
+    "carry_frames": 354,
+    "G1_mm": {
+      "value": 0.0,
+      "frame": 0,
+      "segment": "stand",
+      "phase": "PlayerServeHold"
+    },
+    "G1_inside_vertices": {
+      "value": 0.0,
+      "frame": 0,
+      "segment": "stand",
+      "phase": "PlayerServeHold"
+    },
+    "G2_m": {
+      "value": 0.03,
+      "frame": 16,
+      "segment": "stand",
+      "phase": "PlayerServeHold"
+    },
+    "G3": {
+      "game_visible": 96.61016949152543,
+      "front_visible": 100.0,
+      "side_visible": 100.0
+    },
+    "G4_elbow": [
+      20.48315,
+      50.75735
+    ],
+    "G4_belt_marker": "wrist_above_hips_m",
+    "G4_wrist_above_belt_m": {
+      "value": -0.017775,
+      "frame": 179,
+      "segment": "walk_right",
+      "phase": "PlayerServeHold"
+    },
+    "G5_step_m": {
+      "value": 0.264527,
+      "frame": 798,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "G5_delta_speed": {
+      "value": 14.15644,
+      "frame": 799,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "all_IK_step_m": {
+      "value": 0.264527,
+      "frame": 798,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "all_IK_delta_speed": {
+      "value": 14.15644,
+      "frame": 799,
+      "segment": "control",
+      "phase": "PlayerServeHold"
+    },
+    "excluded_ranges": {
+      "ball_exclusion": [
+        {
+          "first": 0,
+          "last": 15,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 362,
+          "last": 371,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 447,
+          "last": 483,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 504,
+          "last": 543,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 592,
+          "last": 592,
+          "reason": "release_boundary"
+        },
+        {
+          "first": 593,
+          "last": 767,
+          "reason": "released_or_unbound"
+        },
+        {
+          "first": 768,
+          "last": 768,
+          "reason": "refeed_before_rebind"
+        },
+        {
+          "first": 831,
+          "last": 871,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 892,
+          "last": 929,
+          "reason": "intentional_bounce_flight"
+        },
+        {
+          "first": 1030,
+          "last": 1030,
+          "reason": "release_boundary"
+        },
+        {
+          "first": 1031,
+          "last": 1199,
+          "reason": "released_or_unbound"
+        }
+      ],
+      "reset_reason": [
+        {
+          "first": 768,
+          "last": 769,
+          "reason": "fixture_point_reset"
+        }
+      ]
+    },
+    "G7_root_target_equal_pct": 100.0,
+    "G6_release": {
+      "candidate_frame": 593,
+      "baseline_frame": 593,
+      "pose_delta_mm": {
+        "wrist": 0.0,
+        "palm": 0.0,
+        "elbow": 0.0,
+        "ball": 0.0
+      },
+      "candidate_first_rally_frame": 687,
+      "baseline_first_rally_frame": 687
+    },
+    "directional_metrics": {
+      "left": {
+        "depth": 0.0,
+        "ball_palm": 0.03,
+        "game": 98.20359281437126,
+        "front": 100.0,
+        "side": 100.0,
+        "elbow_range_violation": 0,
+        "belt_violation": 0,
+        "step": 0.029834,
+        "delta_speed": 0.492765
+      },
+      "right": {
+        "depth": 0.0,
+        "ball_palm": 0.03,
+        "game": 95.18716577540107,
+        "front": 100.0,
+        "side": 100.0,
+        "elbow_range_violation": 0,
+        "belt_violation": 0,
+        "step": 0.025337,
+        "delta_speed": 0.478837
+      }
+    },
+    "gates": {
+      "G1": true,
+      "G2": true,
+      "G3": true,
+      "G4": true,
+      "G5": false,
+      "G7": true,
+      "G5_ALL_IK": false,
+      "G6_NO_WALK_RELEASE": true,
+      "G6_RIGHT_NO_WORSE": false
+    }
+  }
+}

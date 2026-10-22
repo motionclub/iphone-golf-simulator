@@ -1,0 +1,68 @@
+[
+  {
+    "name": "face-finish30-resort-color-defaults-male",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/face-finish30-resort-color-defaults-male",
+      "HERO_VENUE_ONLY": "16_player_face,17_player_intro",
+      "HERO_VENUE_CHARACTER": "1",
+      "HERO_VENUE_CHARACTER_SEX": "male",
+      "VISUAL_CHARACTER_STAGE_LIGHT": "1",
+      "VISUAL_CHARACTER_SKIN_POLISH": "1",
+      "VISUAL_UNDERARM_GUSSET": "0",
+      "VISUAL_CHARACTER_NORMALS": "continuous",
+      "VISUAL_BLINK_NORMAL_FIELD": "1"
+    }
+  },
+  {
+    "name": "face-finish30-resort-color-defaults-female",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/face-finish30-resort-color-defaults-female",
+      "HERO_VENUE_ONLY": "16_player_face,17_player_intro",
+      "HERO_VENUE_CHARACTER": "1",
+      "HERO_VENUE_CHARACTER_SEX": "female",
+      "VISUAL_CHARACTER_STAGE_LIGHT": "1",
+      "VISUAL_CHARACTER_SKIN_POLISH": "1",
+      "VISUAL_UNDERARM_GUSSET": "0",
+      "VISUAL_CHARACTER_NORMALS": "continuous",
+      "VISUAL_BLINK_NORMAL_FIELD": "1"
+    }
+  },
+  {
+    "name": "face-finish30-resort-color-matched-male",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/face-finish30-resort-color-matched-male",
+      "HERO_VENUE_ONLY": "16_player_face,17_player_intro",
+      "HERO_VENUE_CHARACTER": "1",
+      "HERO_VENUE_CHARACTER_SEX": "male",
+      "VISUAL_CHARACTER_STAGE_LIGHT": "1",
+      "VISUAL_CHARACTER_SKIN_POLISH": "1",
+      "VISUAL_UNDERARM_GUSSET": "0",
+      "VISUAL_CHARACTER_NORMALS": "continuous",
+      "HERO_VENUE_CHARACTER_SKIN": "EA8D71",
+      "VISUAL_BLINK_NORMAL_FIELD": "1"
+    }
+  },
+  {
+    "name": "face-finish30-resort-color-matched-female",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/face-finish30-resort-color-matched-female",
+      "HERO_VENUE_ONLY": "16_player_face,17_player_intro",
+      "HERO_VENUE_CHARACTER": "1",
+      "HERO_VENUE_CHARACTER_SEX": "female",
+      "VISUAL_CHARACTER_STAGE_LIGHT": "1",
+      "VISUAL_CHARACTER_SKIN_POLISH": "1",
+      "VISUAL_UNDERARM_GUSSET": "0",
+      "VISUAL_CHARACTER_NORMALS": "continuous",
+      "HERO_VENUE_CHARACTER_SKIN": "FBAE8F",
+      "VISUAL_BLINK_NORMAL_FIELD": "1"
+    }
+  }
+]

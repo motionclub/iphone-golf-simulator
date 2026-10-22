@@ -1,5 +1,6 @@
 import Foundation
 
+/// DORMANT since 2026-10-19 (online is Game Center only; a shipped build never opens the service). Kept for the service's tests.
 /// A friends' party over the Club Hub relay (club-hub/PROTOCOL.md, Party rooms): the lobby, where everyone walks in the Plaza, and
 /// the match all go through the service's room for the party's code, not Game Center. Invites from the Friends list make one: the
 /// host opens the room, an invited friend joins it, and the service lets nobody else in.

@@ -1,0 +1,215 @@
+# Hole 10 Crater: install of the staged look build (repair round 3 staged 2026-10-05 04:00 EDT; the repo holds the repair-round-2 build: blend cfb1dd61, FBX 597acc88)
+
+## Repair round 3 (2026-10-05 04:00 EDT, staged, NOT installed): rebuilt on the libs fixers' round 3 + the tee pad's edge ribbon replaced
+
+State found: the libs / texture fixers had changed `postcard_props_lib.py` (shrubs A / B, arch, spires), `postcard_look_verify.py`, `golf_look_textures.py` and eight Look PNGs (Fairway_C / N, Green_C / N, Lava_C / E / N, Smoke_C) after the repair-round-2 stage. Lists: `libs_sha_repair_r2.txt` (before) -> `libs_sha_repair_r3_start.txt` = `libs_sha_repair_r3.txt` (= `logs/libs_sha_after.txt`; identical at my start and at the gated run). `postcard_look_lib.py` and the Basalt maps did not move, so `PROFILE128` / `GLOW_U` / `ZONES` stand (the build's own `H_UV_WINDOWS` re-measures them from the PNGs: PASS).
+**`v2/proof/install_holes.py` `LIBLISTS["10"]` still points at an older list: change it to `libs_sha_repair_r3.txt` before running its `pre` step** (the older lists no longer match the files on disk, by design). It is the integrator's file, I did not touch it.
+Rebuild = `work/postcard-look/v2/hole10/run_all.sh` (about 80 s). Files I own and changed: `blender/scripts/hole10_build.py`, `blender/scripts/hole10_look.py` (+ `tee_rim_plan`, `build_tee_rim`), the tools of this folder (`tools/stage_gates.py` H_TEE_KERB -> H_TEE_RIM, `tools/tee_edge.py`, new `tools/rim_contrast.py`, `tools/summarize.py`, `tools/run_all.sh`, `tools/seam_metric.py` text); `hole10_design.py` byte-identical (sha `97c7507d...`, SCENERY included), `postcard_emit_cs.py --check`: no drift, scoring meshes bit-identical to `baseline/blender/hole_10.blend` (H_PLAY_UNCHANGED: 2,956 vertices, 3,807 polygons, max delta 0.000 m; PLAY_SURFACE_* / MARKERS_FROZEN PASS at blend and FBX). No lib, texture, Unity, tennis, shader, QualitySettings, Serve or hole 7 file was touched; no Unity run.
+**Control run first** (round-2 scripts, new libs, `repair_r3/control_logs/`, `repair_r3/GATES_control_newlibs.txt`): the libs changes alone cost nothing: `postcard_look_verify` ALL PASS (52 / 52 lines on the blend, 53 / 53 on the FBX), stage gates 40 / 40, geometry hash `b0bb306b...` (the new shrubs); only the review finding below was open.
+
+| finding / need | cause | change | evidence |
+|---|---|---|---|
+| review (low): "Tee reads as the square tee pad; no paved road across the fairway" (`hole10_1_tee.png` y 600-650, full width) | the round-2 fix for the missing pad edge is a 1.3 m LK_PATH flagstone kerb: tan-brown, 44 pixel rows over 100 % of the frame width (3 % of the frame), a brown that appears nowhere in crater.jpg (a grass SQUARE on BLACK rock): it reads as a crosswalk | the kerb (`DRESS_PATH_01`) is gone. Replaced by a DARK BORDER, the review's own second option ("a 20-30 cm dark border instead of tan paving"): `hole10_look.build_tee_rim(..., material="LK_PLANTS", uv_mode="atlas")` = `DRESS_PADEDGE_01..04`: a continuous ragged ribbon hugging the pad's lip on the far edge, both sides and the back (closed ring), 16.7 m2 of top, 0.16-0.89 m wide (mean 0.37; design widths: base 0.40 m x 1.7 on the far edge the tee camera sees, x 0.85 on the sides, x 0.70 at the back, +-34 % wander, bites), painted with the two darkest GREEN swatches of the Plants atlas (G_DEEP (51,80,32) / G_DARK (76,103,41) = the stills' dark-green "pillar rim" family, one swatch per 0.45-1.05 m slab), 1.15 cm over the collider (the library's path height: under the ball), apron 4 cm under the ground, no collision prefix. Pad outline, height and grass UV unchanged | build gate `H_TEE_RIM` and stage gate `H_TEE_RIM@blend` / `@fbx` (LK_PLANTS only, every top vertex inside the TEE_BOX outline, >= 2.53 m from the markers / ball, at most 1.15 cm above the collider at 2,034 down-ray samples, 100 % of them >= 3 mm over it, albedo luminance 0.337 vs Fairway_C 0.602 = ratio 0.56, UVs inside the atlas cell, 16.7 m2 of flat grass-material top against the verifier's DRESS_ lawn budget of < 20 m2); `H_TEE_EDGE_VISIBLE` (ray casts through the 900 x 1600 tee camera: ribbon in 100 % of the columns, median thickness **20 px**, thinnest 5 % **12 px**, max 28 px, 1.3 % of the frame; thresholds >= 10 / >= 4 px / >= 0.5 % were fixed before the measurement; controls = the stage before round 2 and the round-2 kerb build both FAIL as they must); `H_TEE_EDGE_CONTRAST` (new, Blender preview: ribbon luminance 95 vs 176 for the grass beside it, ratio median **0.55** <= 0.70, p90 0.64 <= 0.85); `H_TEE_SEAM_PREVIEW` PASS (worst grass row 1.38 x its neighbourhood, limit 1.6; the ribbon rows 588-623 are not searched, the 1,064 others are); verifier `PROPS_OFF_PLAY`, `PROP_MATERIALS`, `ONE_GREEN`, `UV_DENSITY`, `CRATER_TEE_PAD` PASS; `repair_r3/sheet_tee_edge_r3.jpg` (= `sheet_repair_r3.jpg`: round-2 Game view, round-2 preview, this build, the basalt variant, three pad aerials) |
+| why not the black-basalt rim the review suggests first | built and verified: `hole10_look.build_tee_rim(material="LK_BASALT")`, staged as `stage_rim_variant/` (`--rim basalt`). It looks right (`repair_r3/iter2/`, `sheet_tee_edge_r3.jpg`) and passes every gate EXCEPT 4 lines (blend + FBX): the verifier judges a mesh a ROCK by MATERIAL (`rock_candidates`: >= 50 % of its area on LK_BASALT / LK_ROCK / LK_CLIFF*, "renaming a material is not an escape"), a flush 1.15 cm ribbon is then a flat open box to `ROCK_NOT_ICOSAHEDRON` (3 facet orientations < 6, 30 % open edges) and a baked flat stretch to `NO_ROCK_STRETCH_2X` (PCA extent ratio 0.01 < 0.15). The only overlays the verifier lets lie on a play surface are `DRESS_PATH` (LK_PATH >= 60 %: the tan stone) and `DRESS_SAND`; no dark non-rock LK_ material exists (Path_C / Masonry_C are tan / grey, Rough / Scrub olive; only Basalt / CliffDark are dark and both are ROCKISH) | not installable under the current gates: I do not edit the verifier and did not weaken a gate. A verifier owner who accepts a flush basalt decal could (a) skip rock classification for meshes whose top is <= 3 cm over the ground (the same limit PROPS_OFF_PLAY uses), or (b) add a `DRESS_PADRIM` overlay name to `OVERLAY_OK` / `PROP_RULES`; then `stage_rim_variant/` installs as it is (4 verifier lines would pass, nothing else changes) | `stage_rim_variant/` (blend `c970ab51...`, FBX `f340f310...`), `repair_r3/variant_basalt_logs/` (`look_verify.log`: RESULT FAILURES the 4 lines named above, every other line passes; stage gates 40 / 40 incl. H_TEE_RIM basalt: glow texels on the rim tops 0.000 %, Basalt_C luminance 0.148 vs the walls' 0.14); geometry hash `8a96208b...` |
+| first try of the dark border: LK_ROUGH collar | measured 20 % darker than the fairway, a faint line (`repair_r3/iter3/`): not visible enough; LK_PLANTS with OLIVE_DARK turned brown under the warm Crater key (`repair_r3/iter4/`, the review's own complaint about the tan kerb): only the two greenest dark swatches stay | `--rim rough` (LK_ROUGH) is kept in the script for the record, `--rim plants` is the default | `repair_r3/iter3`, `iter4`, `iter5`, `iter6` |
+| the libs / texture changes on this hole | new shrubs (hole 10 rim shrubs A / B), new Fairway / Green / Lava / Smoke PNGs | rebuild only | SMOKE_IN_FRAME on the new Smoke_C: tee **1.77 %**, approach **2.13 %**, lava rim **2.82 %** (limit 1.5 %: the margin on the tee is 18 %, the texture agent chose the wisp position for it); `H_UV_WINDOWS` PASS (Basalt_E / _C unchanged) |
+| PROTECTED_FILES (low) | other chats' tennis / emote / multiplayer / locker files; `Unity/ProjectSettings/QualitySettings.asset` differs from the job-start hash (the iPhone quality level pointed at HeroBaseStudioURP by another chat) | none for this job: `find -newer libs_sha_repair_r3_start.txt` over `Scripts/Tennis`, `Resources/Tennis`, `Characters`, `ProjectSettings`, `Scenes`: no file; I ran no Unity | `bash work/postcard-look/v2/runtime/protected_check.sh`; `guards.sh` 7 PASS |
+
+Gates of the staged run (`GATES_hole10.txt`, `logs/`): `postcard_look_verify` (blend + FBX re-import in one run) **RESULT: ALL PASS** (52 / 52 lines on the blend, 53 / 53 on the FBX; no `--require-stills`), stage gates **40 / 40**, 23 / 23 build gates (new `H_TEE_RIM`, replacing `H_TEE_KERB`), `H_TEE_EDGE_VISIBLE` PASS (+ 2 controls FAIL as they must), `H_TEE_EDGE_CONTRAST` PASS (new), `H_GROUND_UV_SLIVERS` PASS (+ control FAIL), `H_TEE_SEAM_PREVIEW` PASS, `H_OPEN_LAVA` PASS, 3 / 3 landmark rays (cameras unchanged), `H_PLAY_UNCHANGED`, `H_REPRODUCIBLE` (geometry hash `4cce777c3d4a30d2`, two builds), `postcard_check` ALL PASS, `postcard_verify` 26 / 29 (the 3 old-allow-list lines fail by design as before: MATERIALS@blend / @fbx, FBX_BUDGET@fbx), `emit_cs --check` no drift, guards 7 / 7, libs unchanged during the run.
+Only FAIL lines left in `GATES_hole10.txt`: PROTECTED_FILES (other chats) and the 6 `U_*` lines that only a Unity run can measure (reported as FAIL = UNMEASURED, never PASS).
+Staged geometry: 703 objects, 155,067 vertices, 113,029 faces, 220,197 triangles (budget 250k), FBX 3,840,316 bytes (3.66 MB); geometry hash (vertices, material names, UV0) `4cce777c3d4a30d2bd88f1f5edfc5c0e674c31aa1e7bbd8aac487eeac50b27af` (round 2: 700 objects, 156,207 vertices, 225,937 triangles).
+
+Install (same commands as below; the first INSTALL.md line that names a staged file is the table, so `v2/proof/install_holes.py` reads these shas):
+
+| from (staged) | to (repo) | sha256 of the staged file |
+|---|---|---|
+| `work/postcard-look/v2/hole10/stage/hole_10.blend` | `blender/hole_10.blend` | `3b8b90985153176d1655384778fc8c5b1af1cefcde0cef351967bdcebc9565ac` |
+| `work/postcard-look/v2/hole10/stage/hole_10.fbx` | `Unity/Assets/Resources/Course/hole_10.fbx` | `19b0ef81d82c49cf97fb310a550392cf4578ac083cbfec795952f11f470b6727` (3,840,316 bytes = 3.66 MB) |
+
+Scripts that produced them (sha256, snapshot + tools in `scripts_repair_r3/sha256.txt`): `hole10_build.py` `3801c2d306221696864c378da3680837b568da74f2a26d3e36e73f472c1d0a7a`, `hole10_look.py` `f3510857712b665ca2de462afeececf101a0bfb71b9d04110d6a3512f5d14ed4`,
+`hole10_design.py` `97c7507dafca8ef7553620d0a4dcbe8f67b179dc3701f45b549dea3426299959` (unchanged). Never copy `stage/hole_10.fbx.meta` (fresh GUID, sha `918719e7...`): the repo's `.meta` (`bf25a2be...`) stays.
+Rollback targets: the build the repo holds now (repair round 2) = `stage_before_repair_r3/hole_10.blend` (`cfb1dd61...`) and `hole_10.fbx` (`597acc88...`) (`install_holes.py` also keeps a `prev_<sha8>` copy); older: `repair_r2/installed_r1_copy/`, `stage_before_repair_r1/`; the flat baseline `work/postcard-look/baseline/`.
+Optional variant (only if a verifier owner changes the rock classification, see the table): `stage_rim_variant/hole_10.blend` `c970ab5179a4b4394c104d6b09b7a1621e97e8d759e041fdcd8ea02f056f2cac`, `hole_10.fbx` `f340f31014cc9a1a01d7749c9c7ef7de8c67ce0971ad4f2c5fdbdb25206bcaaa` (the same hole with a black basalt rim instead of the dark-green border; 4 verifier lines fail by classification; rebuild: `hole10_build.py -- --out <dir> --rim basalt`).
+After the install: Unity re-import, `run_importcheck.sh`, `run_stills.sh` (three proof shots + the smoke block; `landmarks.json` cameras unchanged), then `postcard_look_verify.py -- 10 --require-stills` reads SMOKE_VISIBLE_STILLS from the fresh stats. Things to judge in the Game view that nothing here measured: the dark-green border across the tee frame (a Blender preview number only: contrast 0.55, 20 px; LK_PLANTS under the real Crater light is unmeasured, the table tint is .94 and no HoleTint applies to it),
+whether a 0.6 m dark-green band is a strong enough pad edge for the reviewer (the black rock of crater.jpg is not reachable under the current gates), the two cone-flank wisps against the dark flank, the streak band at the right edge of the first cut at course x 84-93 yd, d 129-160 yd.
+
+
+## Repair round 2 (2026-10-05 00:34 EDT, staged, NOT installed): rebuilt on the libs fixers' round 2 + three hole-script changes
+
+State found: the libs fixers had changed `postcard_look_lib.py` (pillar prism relief `BASALT_MIN_RELIEF`), `postcard_props_lib.py`, `postcard_look_verify.py` (new `GROUND_UV_LOCAL_SMEAR`), `golf_look_textures.py` and seven Look PNGs
+(Basalt_C / E / N, Lava_C / E / N, Smoke_C) after the repair-round-1 stage. Lists: `libs_sha_repair_r1.txt` (before) -> `libs_sha_repair_r2.txt` (= `logs/libs_sha_after.txt`, identical before / after my run, checked against `libs_sha_repair_r2_start.txt`).
+**`v2/proof/install_holes.py` still points `LIBLISTS["10"]` at `libs_sha_repair_r1.txt`: change it to `libs_sha_repair_r2.txt` before running its `pre` step** (the r1 list no longer matches the files on disk, by design).
+Rebuild = `work/postcard-look/v2/hole10/run_all.sh` (about 2 min). Files I own and changed: `blender/scripts/hole10_build.py`, `blender/scripts/hole10_look.py` (+ `unfold_sliver_uv`, `tri_uv_ratio`, `mesh_tris_uv`, `pad_outline`, `inset_polygon`, `tee_kerb_polyline`), the tools of this folder
+(`tools/stage_gates.py` + H_GROUND_UV_SLIVERS / H_TEE_KERB, new `tools/ground_uv_lib.py`, `ground_uv_control.py`, `tee_edge.py`, `seam_metric.py` exclude option, `summarize.py`, `run_all.sh`); `hole10_design.py` byte-identical (sha `97c7507d...`),
+`postcard_emit_cs.py --check`: no drift, scoring meshes bit-identical to `baseline/blender/hole_10.blend` (H_PLAY_UNCHANGED: 2,956 vertices, 3,807 polygons, max delta 0.000 m; PLAY_SURFACE_* / MARKERS_FROZEN PASS at blend and FBX). No lib, texture, Unity, tennis, shader, QualitySettings, Serve or hole 7 file was touched; no Unity run.
+
+| finding / need | cause | change | evidence |
+|---|---|---|---|
+| verifier `GROUND_UV_LOCAL_SMEAR@blend/@fbx` FAIL (the only failing line of the new libs; same on the installed r1 build): "FAIRWAY_FIRSTCUT: 3 triangle(s) ... cover 103 m2 (largest 73 m2, worst 1000:1)" = the wedge of hard horizontal streaks in the upper-left fairway of the lava-rim still (RUNTIME.md) | `assign_uvs` gives every vertex the centerline UV of its nearest point; the first cut has 3 long sliver triangles between the curved outline and the chord of two outline vertices 36-52 m apart (course x 80-100 yd, 2.8 m wide): their three vertex UVs lie on one line (lateral 8-10 m) while the triangle is 2.8 m wide: Jacobian 26:1, 4.7:1, collapsed | `hole10_look.unfold_sliver_uv` (build step 4d): triangles above 2.5:1 are re-authored as ONE similarity per connected cluster (w = a z + b, complex least squares, weight 4 on vertices a normal triangle shares): ratio exactly 1.000, the cluster stays continuous inside itself, the largest UV step left to a neighbour is the least-squares residual 2.53 m of the 10 m tile. Geometry untouched | build + stage gate H_GROUND_UV_SLIVERS (blend + FBX): hole-authored meshes 0.00 m2 above 4:1 (limit 0.5), TERRAIN wall UV 5.2 m2 (verifier limit 15 / 10); verifier GROUND_UV_LOCAL_SMEAR PASS at both stages; negative control = the stage before the repair (`stage_before_repair_r2/`): 103.1 m2, largest 72.8, worst 1000:1 -> FAILS the same measure as it must; `repair_r2/sheet_repair_r2.jpg`, `sheet_uv_wedge.png` (the streak band at the right edge of the first cut is gone) |
+| review (low): "Tee reads as the square tee pad": the tee frame is one continuous fairway plane with no distinct square pad edge | round 1 made the pad the fairway's own grass with the fairway's UV (no seam), so from the tee camera the pad has no edge at all (only the far lip row is in frame: the pad is wider than the 36 degree frame) | step 4e: a 1.3 m flagstone kerb (library `build_path`: DRESS_PATH_nn, LK_PATH, non-colliding, 11.5 mm over the lowest collider sample = under the ball) along the pad's far edge and both sides, its centre line inset 1.05 m from the lip (every vertex stays on the pad top), open 4.5 m behind the player. Outline, height and grass UV of TEE_BOX unchanged | stage gate H_TEE_KERB (LK_PATH only, every top vertex >= 0.33 m inside the pad outline, >= 1.26 m from the tee markers / ball, top 1.15 cm over the pad); `tools/tee_edge.py` ray casts through the 900 x 1600 tee camera: kerb 3.1 % of the frame, crosses >= 95 % of the width on 44 consecutive pixel rows (rows 604-647; control without kerb: 0 rows, FAILS as it must); verifier PATH_UNDER_BALL PASS (top 1.17 cm, ball hidden 0.0 %), PROPS_OFF_PLAY PASS (DRESS_PATH is the allowed overlay), CRATER_TEE_PAD PASS; `repair_r2/sheet_repair_r2.jpg` (tee before / after, three aerials of the pad) |
+| review (low): "tee still has no visible smoke plume (the cone shows none)" | the tee frame only reaches 8.7 degrees above the horizon (the cone's top is at 14.2): the big haze plume (20, 300) reads as a pale smudge over the orange sky; no wisp touches the cone | a fifth smoke group (`hole10_look.smoke_group`, 2 narrow wisp cards 70 x 110 m at (96, 390), z -5): the soft S-shaped Smoke_C wisps rise behind the wall ridge in front of the DARK left flank of the cone, all beyond the rim circle | verifier SMOKE_IN_FRAME (blend + FBX): tee **2.69 %** (was 1.96 % on the new Smoke_C; r1 3.03 % on the old one), approach 2.47 %, lava rim 3.74 % (limit 1.5 %); SMOKE_SOFT, CRATER_CONE_SMOKE PASS (14 cards); `repair_r2/sheet_three_frames_smoke_standin.jpg` and `sheet_tee_smoke.jpg` show the three frames with a stand-in smoke material (unlit pale lavender, AlphaGain 1.35: shapes only, NOT the Unity smoke shader). The Game view needs the re-shoot |
+| review (low): "the dark patch at x850-900 y285-310 reads as a dark hole beside the fairway; if it is a bunker, make it read as sand" | identified in round 1 by ray casts (`repair_r1/pixel_probe.py`): NOT a bunker, hazard or lava puddle but the crater-side rim lip at course (36-46, 64-80) yd: TERRAIN_CRATER rough, the LK_BASALT lip band and ROCK_SKIN_70/71 cladding with the lava glow joints, seen over the shelf edge at 75 yd | unchanged (the real cliff drop; bunker 1 at (57.4, 110.3) yd is a 3-px sliver at that range) | `repair_r1/` notes; the new Basalt textures keep the glow joints visible in the lip (preview crop `repair_r2/tee_patch_zoom.png`) |
+| PROTECTED_FILES (low) | other chats' tennis / emote / multiplayer files | none for this job: the protected trees have no file newer than my first action of this round (find -newer on `libs_sha_repair_r2_start.txt`: none), I ran no Unity; `GATES_hole10.txt` lists the 32 differing files (one more than the last review: `Scripts/Tennis/TennisTossMeter.cs`, modified by another chat) | `bash work/postcard-look/v2/runtime/protected_check.sh`; `guards.sh` 7 PASS |
+
+Gates of the staged run (`GATES_hole10.txt`, `logs/`): `postcard_look_verify` (blend + FBX re-import in one run) **99 gates, 0 failed, RESULT: ALL PASS** (the summary's per-stage parse: 52 / 52 lines on the blend, 53 / 53 on the FBX; the r1 stage rebuilt on the new libs had 97 / 99, only GROUND_UV_LOCAL_SMEAR); stage gates **40 / 40** (new: H_GROUND_UV_SLIVERS, H_TEE_KERB at blend + FBX),
+23 / 23 build gates (new H_GROUND_UV_SLIVERS, H_TEE_KERB), H_TEE_EDGE_VISIBLE PASS (+ control FAIL as it must), ground-UV control FAIL as it must, H_TEE_SEAM_PREVIEW PASS (worst grass row 1.43 x its neighbourhood, limit 1.6; the deliberate kerb band rows 600-659 are not searched, the 1040 other rows are),
+3 / 3 landmark rays (cameras unchanged), H_PLAY_UNCHANGED, H_REPRODUCIBLE (geometry hash `fb1019f702d15e25`, two builds), `postcard_check` ALL PASS, `postcard_verify` 26 / 29 (the 3 old-allow-list lines fail by design as before), `emit_cs --check` no drift, guards 7 / 7.
+Only FAIL lines left in `GATES_hole10.txt`: PROTECTED_FILES (other chats) and the 6 `U_*` lines that only a Unity run can measure (reported as FAIL = UNMEASURED, never PASS).
+Staged geometry: 700 objects, 156,207 vertices, 116,699 faces, 225,937 triangles (budget 250k), FBX 3,927,756 bytes (3.75 MB); geometry hash (vertices, material names, UV0) `fb1019f702d15e2538820701f8bee77cb93271d8003e061232ca79d73bd9e410`.
+
+Install (same commands as below; the first INSTALL.md line that names a staged file is the table, so `v2/proof/install_holes.py` reads these shas):
+
+| from (staged) | to (repo) | sha256 of the staged file |
+|---|---|---|
+| `work/postcard-look/v2/hole10/stage/hole_10.blend` | `blender/hole_10.blend` | `cfb1dd612d38aaadfbc1a247f418a8c7915b89086957a27b678d21faff2db7fa` |
+| `work/postcard-look/v2/hole10/stage/hole_10.fbx` | `Unity/Assets/Resources/Course/hole_10.fbx` | `597acc8805b616c33a141aba1205e5d2c28394906e78e92b4a9715fe00bbc7f3` (3,927,756 bytes = 3.75 MB) |
+
+Scripts that produced them (sha256, snapshot + tools in `scripts_repair_r2/sha256.txt`): `hole10_build.py` `c0d1fc15fea74ea4044a9f86f00cf5db2c267dad9025f90d2e883867b8426134`, `hole10_look.py` `db75a850a46379d876f8b50b76a50685915443257271b60af28859997c28c8c6`,
+`hole10_design.py` `97c7507dafca8ef7553620d0a4dcbe8f67b179dc3701f45b549dea3426299959` (unchanged). Never copy `stage/hole_10.fbx.meta` (fresh GUID, sha `dbf48b7c...`): the repo's `.meta` (`bf25a2be...`) stays.
+Rollback targets: the build the repo holds now (repair round 1, installed by the integrator) = `repair_r2/installed_r1_copy/hole_10.blend` (`ef572f89...`) and `hole_10.fbx` (`5f3d5bf7...`) (`install_holes.py` also keeps a `prev_<sha8>` copy); the round-4 build `stage_before_repair_r1/`; the flat baseline `work/postcard-look/baseline/`.
+After the install: Unity re-import, `run_importcheck.sh`, `run_stills.sh` (three proof shots + the smoke block; `landmarks.json` cameras unchanged), then `postcard_look_verify.py -- 10 --require-stills` reads SMOKE_VISIBLE_STILLS from the fresh stats. Things to judge in the Game view that nothing here measured:
+the stone kerb across the tee frame (LK_PATH lit under the Crater key: the Blender preview does not clip, max channel 247 of 255; Unity `SURFACES_NO_CLIP` does not list LK_PATH for hole 10), the two cone-flank wisps against the dark flank, the streak band at the right edge of the first cut at course x 84-93 yd, d 129-160 yd.
+
+## What follows is the repair-round-1 text (superseded for shas and counts by the section above; the commands are still valid)
+
+Staged 2026-10-04 (round 3, after the second skeptic review; first staging 14:42, round 2 15:29, round 3 16:14 EDT) by `blender/scripts/hole10_build.py -- --out work/postcard-look/v2/hole10/stage`
+(it imports `blender/scripts/hole10_look.py`: keep both scripts together; snapshot with sha256 in `scripts_round3/`). Nothing in the repo's `blender/` (except the two hole10 scripts) or
+`Unity/Assets/Resources/Course/` was written. The install is a separate step, to be done AFTER the Unity Game-view calibration that is running now
+has finished (a changed FBX makes Unity reimport).
+
+## Repair round 1 (2026-10-04 22:11 EDT, staged, NOT installed): rebuilt on the shared fixers' libs / textures + three hole-script fixes
+
+State found: the proof phase had installed the round-4 stage (repo `blender/hole_10.blend` sha `2987bef2...`, `Unity/.../hole_10.fbx` sha `c8a86ecd...`, backup of the flat baseline in `v2/install_backup/`), reviewers failed the Game-view stills, and the shared
+fixers then changed `postcard_look_lib.py`, `postcard_props_lib.py`, `postcard_look_verify.py`, `golf_look_textures.py` and 14 Look PNGs (the sha lists before / after: `libs_sha_repair_r1_before.txt` = the file as found,
+`libs_sha_repair_r1.txt` = at the gated run; `libs_sha_round4.txt`, the file `v2/proof/install_holes.py` reads, now holds the repair-round-1 list and the old one is `libs_sha_round4_before_repair_r1.txt`).
+Rebuild = `work/postcard-look/v2/hole10/run_all.sh` (60 s). What changed in MY files only (`blender/scripts/hole10_build.py`, `hole10_look.py`; `hole10_design.py` byte-identical, `postcard_emit_cs --check` no drift, scoring meshes bit-identical: H_PLAY_UNCHANGED, PLAY_SURFACE_* PASS):
+
+| finding / need | cause | change | evidence |
+|---|---|---|---|
+| H_UV_WINDOWS FAIL after the texture agent's v6 (Basalt_C luminance profile deviation 0.0228) | `PROFILE128` (the weights that make the walls come out dark) was baked from the v5 Basalt_C | re-measured on the v6 Basalt_C / Basalt_E (the six glow cores and the five glow-free zones did NOT move: same `GLOW_U` / `ZONES`), `PROFILE128` re-baked | build gate H_UV_WINDOWS PASS (zone glow 0.0000 %, edge glow 9.3 %, profile deviation <= 0.01), stage H_GLOW_JOINTS PASS |
+| NEW verifier gate SMOKE_IN_FRAME FAIL (smoke 0.47 / 0.01 / 0.00 % of the tee / approach / lava-rim frames, need 1.5 %) | three single cards behind the wall; Smoke_C peaks at alpha .50 (x AlphaGain 1.35) and only 11 % of a card reaches the gate's effective alpha .30 | `hole10_look.smoke_group`: four stacked plumes of 3 big cards (one per proof camera + one off the volcano's summit), 12 DRESS_SMOKE cards, all beyond the rim circle | verifier SMOKE_IN_FRAME@blend/@fbx PASS: tee **3.03 %**, approach **4.01 %**, lava rim **4.67 %** (limit 1.5 %); `repair_r1/sheet_smoke_frames.png`; CRATER_CONE_SMOKE, SMOKE_SOFT PASS |
+| review (medium): hard horizontal seam at the tee pad, hole10_1_tee.png row 590 (mean abs row step 16.4 vs 5.5), no distinct pad | TEE_BOX (z 6.24, 10 cm over the FAIRWAY) was LK_GREEN with planar UVs beside LK_FAIRWAY with centerline UVs: stripes stopped, texture scale / phase jumped; and its far lip hides ~0.4 m of fairway behind it for the address camera | TEE_BOX keeps outline + height and wears LK_FAIRWAY with the FAIRWAY's own centerline UV, offset per vertex by the lip parallax for FrameAddress (dz 0.10 m, eye 2.21 m over the pad: up to 0.50 m): the mow stripes and blades meet across the lip in the tee frame | stage gate H_TEE_CONTINUOUS (UV of every TEE_BOX loop vs the FAIRWAY's UV at p + parallax: 0.0000 tile, negative controls: the round-4 stage 0.49 tile, a constant 0.04 shift 0.046 tile); Blender preview row-step seam gate H_TEE_SEAM_PREVIEW (worst ground row 1.43 x its neighbourhood, limit 1.6; round-4 build 1.98 at row 590, the review's Game-view still 2.90); `repair_r1/sheet_tee_seam.png`. CRATER_TEE_PAD PASS (LK_FAIRWAY is allowed; square fill 0.99, aspect 1.17). The Game-view number needs the Unity re-shoot |
+| review (low): dark red-speckled patch at the right of the tee frame (hole10_1_tee.png x 850-900, y 285-310) | identified with ray casts through the tee camera (`repair_r1/pixel_probe.py`): it is NOT a bunker, hazard or lava puddle but the crater-side rim lip at course (36-46, 64-80) yd, 75 yd out, at the right edge of the frame: TERRAIN_CRATER rough, the LK_BASALT lip band and ROCK_SKIN_70 / ROCK_SKIN_71 basalt cladding seen over the shelf edge with the lava glow joints, partly behind PLANT_AGAVE_B.010 / .012 | no geometry change (it is the real cliff drop; bunker 1 at (57.4, 110.3) yd is a 3-px sliver at that distance and angle) | pixel probe table in `repair_r1/` notes (README.md "repair round 1") |
+| PROTECTED_FILES (low) | other chats' tennis / emote / multiplayer files | none for this job (this build writes only under `v2/hole10/` and `blender/scripts/hole10_*.py`) | GATES_hole10.txt PROTECTED_FILES line lists the 31 files, none ours |
+
+Gates of the staged run (`GATES_hole10.txt`, `logs/`): `postcard_look_verify` on the blend **50 / 51** and on the FBX re-import **51 / 52** (every line passes except `SMOKE_VISIBLE_STILLS`, which reads `ArtDir/screenshots/golf_postcards/look/stills_stats.json`: that file
+was written by the previous stills tool and carries no `smoke` block, so it needs the Unity re-shoot after the install, it is not measurable here), 36 / 36 stage gates (new H_TEE_CONTINUOUS), 21 / 21 build gates, 3 / 3 landmark rays, H_REPRODUCIBLE, guards 7 / 7.
+Staged geometry: 697 objects, 153,165 vertices, 113,935 faces, 220,409 triangles (budget 250k), FBX 3,800,460 bytes; geometry hash (vertices, material names, UV0) `3e191bb53f4f004566228a8224da75171d2ca1239dede02ae4ef197874b1c0cc`.
+`landmarks.json`: cameras unchanged, ray tests re-run on the new stage (3 / 3 PASS).
+
+Install (same commands as below; the first INSTALL.md line that names a staged file is the table, so `v2/proof/install_holes.py` reads these shas):
+
+| from (staged) | to (repo) | sha256 of the staged file |
+|---|---|---|
+| `work/postcard-look/v2/hole10/stage/hole_10.blend` | `blender/hole_10.blend` | `ef572f8931856cd6004d8848f171be638a2e9629ec2e1f1c1092968938990609` |
+| `work/postcard-look/v2/hole10/stage/hole_10.fbx` | `Unity/Assets/Resources/Course/hole_10.fbx` | `5f3d5bf7c217a1607cf7618cd45997dfcf1a992859a503780d62e564803b929e` (3,800,460 bytes = 3.62 MB) |
+
+Scripts that produced them (sha256, snapshot + the tools in `scripts_repair_r1/sha256.txt`): `hole10_build.py` `39f69d7427f2c57f6442134485edeb55f3d5b9e31b5abe5a7862d42f3598ea1e`, `hole10_look.py` `233691f9860ec17615057bf766a17f54114a71ca1ae135a3dffde4cf6cee59e3`,
+`hole10_design.py` `97c7507dafca8ef7553620d0a4dcbe8f67b179dc3701f45b549dea3426299959` (unchanged).
+Round-4 rollback target (what the repo holds now): `stage_before_repair_r1/` (blend `2987bef2...`, fbx `c8a86ecd...`); the flat baseline is `work/postcard-look/baseline/`. After the install: Unity re-import, `run_importcheck.sh`, `run_stills.sh` (the three proof shots + the smoke block), then
+`postcard_look_verify.py -- 10 --require-stills` must read SMOKE_VISIBLE_STILLS from the fresh stats.
+
+## What follows is the round-4 text (superseded for shas and counts by the section above; the commands are still valid)
+
+## Round 4 (2026-10-04 20:37 EDT): rebuilt on the FINAL textures + the final gate tool (rebuild-only step, no design change)
+
+Between the round-3 staging (16:14) and now the texture agent regenerated 12 Look PNGs (Fairway_C, Green_C, Rough_C/N, Scrub_C/N, Lava_C/E/N, Basalt_C/N/E; TEXTURES.md "v5") and the gate agent changed `postcard_look_verify.py`
+(sha `884448e1fc04...`, was `edc96d4d755b...`). `postcard_look_lib.py` / `postcard_props_lib.py` / `postcard_lib.py` did NOT change (same sha as `libs_sha_at_start.txt`). Snapshot of the libs + every Look PNG: `libs_sha_round4.txt`
+(= `logs/libs_sha_after.txt`); the round-3 list is in `logs_prev_20261004_1618/libs_sha_after.txt`.
+
+* **What had to change in my scripts (`hole10_look.py`, `hole10_build.py`; `hole10_design.py` is byte-identical, `postcard_emit_cs --check` = no drift)**: the UV windows of round 3 hard-coded the glow-free zones of the OLD Basalt_E. The v5 Basalt_E has the SAME six joint cores
+  (u 0.123 / 0.446 / 0.534 / 0.718 / 0.806 / 0.930) but its new fork and T-junction cracks spread glow over +-0.05 of u round every joint: 6 of the 8 round-3 "glow-free" zones now held 0.07-0.6 % glow texels (measured by `r3/zone_stale_v5.py`).
+  Rebuilt on the stale constants, `H_GLOW_JOINTS` still passed but with tops 0.22 % (round 3: 0.01 %), sides 1.28 % (limit 1.58 %), 46 % of the side area lit (limit 50 %): glow on the faces' middles and on the tops. Now: `ZONES` re-measured (5 strictly glow-free zones, 2 px margin, `r3/basalt_zones_v5.py`),
+  the Basalt_C luminance profile (128 bins) is baked into `hole10_look.PROFILE128` and the window position inside a zone is drawn with weight (0.14 / window luminance)^3 (`pick_u0`; caps of tops too), so the walls still come out darker than the tile mean.
+  Result (stage gates, blend and FBX): tops **0.01 %**, sides **0.91 %** (allowed 0.66-1.58 %), **18 %** of the side area carries any glow (10-50 %), median dash 3.2 m, 31 % of the side faces take a window that starts on a glow line.
+* **New guard (not a loosened gate)**: the build's `H_UV_WINDOWS` now re-measures the constants from the PNGs on disk (`hole10_look.texture_measure()`): glow share inside every glow-free zone <= 0.02 % (measured 0.0000 %), the narrowest edge window at each of the 6 glow lines >= 4 % glow (measured 7.3 %),
+  Basalt_C profile deviation <= 0.01 (0.0005). A later texture change fails the build gate instead of drifting quietly. Everything else of round 3 is unchanged (same walls, crust, stacks, plants, cone, lava lights, scoring meshes).
+* **Gate result** (`GATES_hole10.txt`, `run_all.sh` 39 s): `postcard_look_verify` **49/49 on the blend, 50/50 on the FBX re-import, RESULT: ALL PASS** (round 3: LOOK_FILES failed on Fairway_C / Green_C; the new textures and the new gate definition cure it), 34/34 stage gates, 3/3 landmark rays, 21/21 build gates,
+  H_REPRODUCIBLE (geometry hash `73b4f872f8909778` twice), guards 7/7. Unchanged FAIL lines: `PROTECTED_FILES` (31 files of tennis / MatchHeroes / Customization / QualitySettings changed by other sessions since the job-start hashes, none written by this build) and the 5 `U_*` lines that only a Unity run can measure.
+* Geometry vs round 3: same vertices / faces / objects (158,454 / 117,027 / 689, 227,497 triangles); only UV0 changed, so the geometry hash moved (`17b370a9fcdd9d7d` -> `73b4f872f8909778`). Landmarks, cameras, the three proof shots: unchanged (ray tests pass on the new stage).
+* Superseded round-3 stage (stale window constants on the new texture, tops 0.22 %): `logs_stale_constants_20261004_2037/` (previews + the gate table). Round-3 original: `logs_prev_20261004_1618/`.
+* Script snapshot: `scripts_round4/` (`*.before_texture_v5` = the round-3 scripts, plus the new ones with `sha256.txt`).
+
+
+## What gets copied (two files, nothing else)
+
+| from (staged) | to (repo) | sha256 of the staged file |
+|---|---|---|
+| (round 4, installed 20:43) `stage_before_repair_r1/hole_10.blend` | `blender/hole_10.blend` | `2987bef29470fb8b77093b7965f0e475f809f0cd639f7bfb41366fa64d017686` |
+| (round 4, installed 20:43) `stage_before_repair_r1/hole_10.fbx` | `Unity/Assets/Resources/Course/hole_10.fbx` | `c8a86ecd160ea323bc9e4d5d6a28e46a2aa1271a5e23441647cb0bf76977208c` (4,000,300 bytes = 3.81 MB) |
+
+Scripts that produced them (sha256): `hole10_build.py` `ae5eeb2dab7a9253153e986fe6e6747b863b3094517c2535005b356ac8a90e89`, `hole10_look.py` `8fd4b129a77522db71efc44ed781176f6ce7e948bb6cd9578bd1f6ba5141fb94`,
+`hole10_design.py` `97c7507dafca8ef7553620d0a4dcbe8f67b179dc3701f45b549dea3426299959` (unchanged). Geometry hash of the build (vertices, material names, UV0): `73b4f872f89097788a7072daffc0468c143e8cefa8898450831eb6a4059c9c1a`,
+689 objects, 158,454 vertices, 117,027 faces, 227,497 triangles (a rebuild into any folder gives the same hash; the .blend / .fbx BYTES differ run to run: the FBX header carries the time and the source path).
+
+Files that must NOT be copied or touched:
+
+* `stage/hole_10.fbx.meta` (sha `b4fcf335d3a0...`): it was written by `postcard_lib.export_fbx` with a FRESH random GUID because the staging folder had no .meta.
+  The repo's `Unity/Assets/Resources/Course/hole_10.fbx.meta` (sha `bf25a2beedbd...`, GUID of the asset, `isReadable: 1`, `tangentImportMode: 3`, `normalImportMode: 0`,
+  `materialName: 0`) stays exactly as it is. Copying the staged one would change the GUID and break every reference to the hole.
+* `stage/hole_10_overview.png` is optional (Blender preview). If wanted: `cp stage/hole_10_overview.png blender/previews/hole_10_overview.png`.
+* `hole_07.*`, `Hole.cs`, any tennis / hero / locker / Serve file, `QualitySettings.asset`.
+
+The staged .blend keeps ABSOLUTE image paths (`/Users/adnanyonathan/.../Unity/Assets/Resources/Course/Look/*.png`; saved with `relative_remap=False`), so it opens with
+its textures from `blender/` as well as from the staging folder.
+
+## Commands (run from the repo root, with Unity closed or idle; use bash)
+
+```bash
+cd /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator
+S=work/postcard-look/v2/hole10
+
+# 0. the staged files are the ones that were gated (the hashes above), the libs / textures / scripts did not move since
+shasum -a 256 $S/stage/hole_10.blend $S/stage/hole_10.fbx blender/scripts/hole10_build.py blender/scripts/hole10_look.py
+diff <(cat $S/logs/libs_sha_after.txt) <(shasum -a 256 blender/scripts/postcard_look_lib.py blender/scripts/postcard_props_lib.py blender/scripts/postcard_look_verify.py blender/scripts/postcard_lib.py blender/scripts/golf_look_textures.py Unity/Assets/Resources/Course/Look/*.png) \
+  && echo "libs + textures identical to the gated run" || echo "LIBS OR TEXTURES CHANGED SINCE THE GATED RUN: rerun $S/tools/run_all.sh first (it rebuilds into stage/ and re-gates; then refresh the hashes above from stage_sha256.txt)"
+
+# 1. back up the flat baseline (already in work/postcard-look/baseline/blender/hole_10.blend and baseline/fbx/hole_10.fbx; this just proves it)
+shasum -a 256 work/postcard-look/baseline/blender/hole_10.blend work/postcard-look/baseline/fbx/hole_10.fbx blender/hole_10.blend Unity/Assets/Resources/Course/hole_10.fbx
+#    expected: the baseline copies b0c478e6f2a7... / e99475de7175...; the repo files are the round-4 build 2987bef2... / c8a86ecd... until the repair-round-1 stage is installed (v2/proof/install_holes.py keeps the first backup and saves a prev_<sha8> copy)
+
+# 2. install: the .blend and the .fbx ONLY
+cp $S/stage/hole_10.blend blender/hole_10.blend
+cp $S/stage/hole_10.fbx   Unity/Assets/Resources/Course/hole_10.fbx
+# NEVER: cp $S/stage/hole_10.fbx.meta ...   (see above)
+shasum -a 256 blender/hole_10.blend Unity/Assets/Resources/Course/hole_10.fbx Unity/Assets/Resources/Course/hole_10.fbx.meta
+#    expected: ef572f89..., 5f3d5bf7..., bf25a2be... (the .meta unchanged)
+
+# 3. the same gate tool on the installed files (default paths = the repo files): every line must read as in $S/GATES_hole10.txt (repair round 1: 50/51 on the blend, 51/52 on the FBX re-import; the only line that fails is SMOKE_VISIBLE_STILLS until the stills are re-shot, then ALL PASS)
+/Applications/Blender.app/Contents/MacOS/Blender -b --factory-startup --python blender/scripts/postcard_look_verify.py -- 10 --json /tmp/h10_installed_verify.json | grep -E "^GATE|^RESULT"
+bash work/postcard-look/guards.sh                                   # 7 PASS
+python3 blender/scripts/postcard_emit_cs.py --check Unity/Assets/Scripts/Course/Hole.cs   # HOLE_CS_MATCHES_DESIGN PASS
+
+# 4. Unity (through heavy.sh, never two Unity runs at once): reimport + PostcardImportCheck + the proof shots
+work/postcard-look/v2/runtime/run_importcheck.sh hole10_installed          # GROUND_ALBEDO_AND_NORMAL, NO_FLAT_POSTCARD_GROUND, LAVA_LIGHTS_PLACED, ROCK_NEAR_LAVA_CHUNKED must read PASS for hole 10
+work/postcard-look/v2/runtime/run_stills.sh hole10_proof ArtDir/screenshots/golf_postcards/look GOLF_STILLS_CFG=$PWD/$S/landmarks.json GOLF_STILLS_HOLES=10
+#    -> hole10_tee.png, hole10_approach.png, hole10_lavarim.png (900x1600 Game view) + stills_stats.json
+#    (hole 8 / 9 shots come from their own landmarks.json: run them in one cfg if the three holes are installed together)
+```
+
+## Rollback (if the Game view or any gate is worse)
+
+```bash
+cp work/postcard-look/baseline/blender/hole_10.blend blender/hole_10.blend
+cp work/postcard-look/baseline/fbx/hole_10.fbx Unity/Assets/Resources/Course/hole_10.fbx     # the .meta is untouched either way
+```
+The round-2 staged build (not recommended: it failed review) is in `round2/hole_10_round2.blend` / `.fbx`.
+
+## Rebuild instead of copy (e.g. a lib or texture changed after the staged run)
+
+Needs `blender/scripts/hole10_build.py` AND `blender/scripts/hole10_look.py` (wall / crust / cone / UV-window helpers) in the repo.
+
+```bash
+S=work/postcard-look/v2/hole10; $S/tools/run_all.sh | tee $S/logs/run_all_output.txt; python3 $S/tools/summarize.py
+```
+`run_all.sh` (about 50 s) rebuilds into `stage/` (and a second time into `stage_repro/` for the reproducibility gate), re-runs every gate and refreshes the sha256 above in
+`stage_sha256.txt`. The build itself is `blender/scripts/hole10_build.py -- --out DIR` (add `--no-render` to skip the EEVEE overview). Without `--out` the
+script writes the repo paths directly: that is what an install-by-rebuild would do, and it is the reason this folder uses `--out` for everything.
+
+## What Unity should show after the install (the checks that only the Game view can make)
+
+* `hole10_tee.png`: textured fairway (mow stripes), the near terraced wall and the far ring as dark columnar basalt with sparse long orange cracks and a low window to the right where the volcano shows, the volcano with its lava flows, no flat colour.
+* `hole10_approach.png`: the pillar with basalt sides dropping into orange lava (GolfLava), a flag on a grass top at play height, the tall dark wall behind it with sparse cracks (not a field of dashes).
+* `hole10_lavarim.png`: the raised rim camera: the basalt columns of the rim with glowing joints meeting the lava, the grass shelf with agave, the pillar, the wall.
+* Round 3 additions to judge in the Game view: the glow on the wall faces should read as a few long cracks along column edges (3 m dashes, a third of the old density), the walls darker (dark UV slices), the crust as black plates with lava rivers (not dark stains), the volcano glowing along its flanks.
+* Unity-side lines of the brief that nothing here measured: lava orange without bloom, basalt dark with joints only, smoke wisps soft, grass hue 64-73, albedo + normal on the real meshes (`GATES.md` "Unity-side companions"). The staged `DRESS_CONE` carries LK_LAVA faces (the Blender verifier allows it): confirm PostcardImportCheck accepts that.

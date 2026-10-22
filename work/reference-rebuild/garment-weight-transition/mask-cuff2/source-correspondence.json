@@ -1,0 +1,42 @@
+{
+  "male": {
+    "default-source": {
+      "vertexCount": 33196,
+      "triangles": 66158,
+      "maskPhysicalFaces": 7072,
+      "matchedPhysicalFaces": 7072,
+      "unmatchedPhysicalFaces": 0,
+      "mappedRenderFaces": 7072,
+      "positionPrecisionMetres": 1e-05
+    },
+    "current-matrix-canonical": {
+      "vertexCount": 33472,
+      "triangles": 66710,
+      "maskPhysicalFaces": 7072,
+      "matchedPhysicalFaces": 7072,
+      "unmatchedPhysicalFaces": 0,
+      "mappedRenderFaces": 7072,
+      "positionPrecisionMetres": 1e-05
+    }
+  },
+  "female": {
+    "default-source": {
+      "vertexCount": 23683,
+      "triangles": 43990,
+      "maskPhysicalFaces": 3064,
+      "matchedPhysicalFaces": 3064,
+      "unmatchedPhysicalFaces": 0,
+      "mappedRenderFaces": 3064,
+      "positionPrecisionMetres": 1e-05
+    },
+    "current-matrix-canonical": {
+      "vertexCount": 22891,
+      "triangles": 45526,
+      "maskPhysicalFaces": 3064,
+      "matchedPhysicalFaces": 3064,
+      "unmatchedPhysicalFaces": 0,
+      "mappedRenderFaces": 3064,
+      "positionPrecisionMetres": 1e-05
+    }
+  }
+}

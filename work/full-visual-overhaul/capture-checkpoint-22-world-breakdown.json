@@ -1,0 +1,56 @@
+[
+  {
+    "name": "tennis-breakdown1-resort",
+    "method": "GolfArcade.EditorTools.TennisRenderBreakdown.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "TCB_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-breakdown-1"
+    },
+    "batch": false
+  },
+  {
+    "name": "tennis-showcase12-resort",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-showcase-12",
+      "HERO_VENUE_ONLY": "9_hero_postcard,3_drone0,3_drone5"
+    }
+  },
+  {
+    "name": "tennis-breakdown1-skyscraper",
+    "method": "GolfArcade.EditorTools.TennisRenderBreakdown.Run",
+    "env": {
+      "HERO_VENUE": "skyscraper",
+      "TCB_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-breakdown-1"
+    },
+    "batch": false
+  },
+  {
+    "name": "tennis-showcase12-skyscraper",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "skyscraper",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-showcase-12",
+      "HERO_VENUE_ONLY": "9_hero_postcard,3_drone0,3_drone5"
+    }
+  },
+  {
+    "name": "tennis-breakdown1-volcano",
+    "method": "GolfArcade.EditorTools.TennisRenderBreakdown.Run",
+    "env": {
+      "HERO_VENUE": "volcano",
+      "TCB_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-breakdown-1"
+    },
+    "batch": false
+  },
+  {
+    "name": "tennis-showcase12-volcano",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "volcano",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-showcase-12",
+      "HERO_VENUE_ONLY": "9_hero_postcard,3_drone0,3_drone5"
+    }
+  }
+]

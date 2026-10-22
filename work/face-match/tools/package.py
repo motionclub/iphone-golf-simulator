@@ -1,0 +1,67 @@
+from pathlib import Path
+import json,hashlib,shutil,subprocess,html
+repo=Path.cwd();r=repo/'work/face-match';dest=Path('/Users/adnanyonathan/Documents/Codex/2026-10-08/op/outputs/face-match');dest.mkdir(parents=True,exist_ok=True)
+for stage in ['before','after']:
+ target=dest/stage;target.mkdir(exist_ok=True)
+ for file in (r/stage).glob('*_sheet.png'):shutil.copy2(file,target/file.name)
+previous=dest/'previous';previous.mkdir(exist_ok=True)
+for file in (r/'pass1-after').glob('*_sheet.png'):shutil.copy2(file,previous/file.name)
+for file in (r/'after').glob('*.mp4'):shutil.copy2(file,dest/'after'/file.name)
+shutil.copytree(r/'proof',dest/'proof',dirs_exist_ok=True);shutil.copytree(r/'after/proof',dest/'proof',dirs_exist_ok=True)
+for sex in ['male','female']:
+ shutil.copy2(r/'after/raw'/f'{sex}_idle/trace.csv',dest/'proof'/f'{sex}_motion_trace.csv')
+for file,to in [(r/'after/raw/audit.txt','capture-audit.txt'),(r/'ear-check/baseline-check.log','check-before.log'),(r/'after/check.log','check-after.log'),(r/'before/DIFFERENCES.md','baseline-differences.md'),(repo/'work/full-visual-overhaul/face-match-after.log','unity-final.log'),(r/'after/queue.json.results.json','unity-final-results.json')]:shutil.copy2(file,dest/'proof'/to)
+manifest=[]
+for stage in ['before','after']:
+ for sex in ['male','female']:
+  for angle in ['front','threequarter','gameplay']:
+   name=f'{sex}_{angle}_sheet.png';p=r/stage/name
+   manifest.append({'stage':stage,'hero':sex,'angle':angle,'canonical_path':str(p),'review_copy':str(dest/stage/name),'sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'exists':p.exists()})
+(dest/'proof/G1-sheets.json').write_text(json.dumps(manifest,indent=2))
+maximum_skin_difference=max(x['deltaE76'] for x in json.loads((r/'after/proof/skin-patches.json').read_text())['measurements'])
+checks=json.loads((r/'proof/check-comparison.json').read_text())
+gates={
+'G1':{'status':'PASS','reason':'12 sheets exist: before and after, both heroes, front / 30-degree three-quarter / actual gameplay camera. Only frontal targets were supplied; the other sheets explicitly retain those frontal targets on the left.','proof':['proof/G1-sheets.json','before/','after/']},
+'G2':{'status':'FAIL','reason':'Manual front overlays show deviations up to about 15%, exceeding ~5%. Eye heights/positions, male brow thickness, female nose dimensions and lip proportions still differ.','proof':['proof/landmarks.json','proof/male_front_overlay.png','proof/female_front_overlay.png']},
+'G3':{'status':'FAIL','reason':f'Skin and cheek shading are closer than the previous candidate, but the court shadow direction and nasal gradients still differ from the studio references. Five-pixel patch measurements show CIE76 differences up to {maximum_skin_difference}; these include illumination differences.','proof':['proof/skin-patches.json','after/male_front_sheet.png','after/female_front_sheet.png']},
+'G4':{'status':'FAIL','reason':'Blink, gaze and brow morphs run, but enlarged closed-lid frames retain small edge/shading artifacts, and the female jaw/neck boundary remains visually hard. Cannot certify the no-tearing/no-seam visual requirement. Topology/weights/binds are retained and no vertices below the head moved.','proof':['after/male_idle_3s.mp4','after/female_idle_3s.mp4','proof/male_motion_contact.png','proof/female_motion_contact.png','proof/geometry.txt','proof/motion.json']},
+'G5':{'status':'PASS' if not checks['new_errors'] and not checks['new_test_failures'] else 'FAIL','reason':f"The updated check.sh compiles. Current: {checks['after_test_summary']}; isolated pre-ear source baseline with current shared code: {checks['baseline_test_summary']}. Identical failures show no ear regression. Final Unity capture has zero C# or shader errors. The index contains only 8 face/head source files and their 8 metadata files.",'proof':['proof/check-comparison.json','proof/check-before.log','proof/check-after.log','proof/unity-final-results.json','proof/staged-files.txt','proof/source-verification.json']},
+'G6':{'status':'FAIL','reason':'Not yet approved by Adnan. Agent review is not approval.','proof':['proof/G6-approval.json']}}
+(dest/'proof/gates.json').write_text(json.dumps(gates,indent=2));(r/'after/GATE_RESULTS.json').write_text(json.dumps(gates,indent=2))
+(dest/'proof/G6-approval.json').write_text(json.dumps({'approved_by_Adnan':False,'state':'Awaiting explicit review of the saved after sheets','note':'No agent PASS substitutes for user approval.'},indent=2))
+def link(label,path):return f'[{label}]({dest/path})'
+lines=['# Face reference matching — staged candidate','', '**The reference-match goal is not complete.** This snapshot improves the baseline but does not pass G2, G3, or G4. G6 requires Adnan’s approval. The separate native SceneKit locker/out-of-game rendering path was not updated or verified, so parity outside Unity is not claimed.','',
+'Both required environment variables were **unset** in every saved capture: `VISUAL_CHARACTER_SKIN_POLISH` and `VISUAL_BLINK_NORMAL_FIELD`. The final runtime uses the face material and coherent blink normals by default, rather than relying on these flags.','',
+'Changes retained: fuller male head/jaw silhouette, lower and wider eye apertures, smaller female brows, a lifted/wider female nose, continuous lip contours with a satin finish, restrained cheek warmth, darker brown irises, subtle male stubble, skin-attached lid pigment, and working gaze/brow expression shapes. Rejected trials and their reasons are in '+link('the iteration log','proof/iteration-log.md')+'.','',
+'This continuation adds small rounded cheekbone volumes, a more front-facing male ear surface with clearer cartilage normals, rounder nasal planes, warmer skin transmission on shaded planes, male ear warmth, and better-positioned upper-lip/lower-cheek stubble. A small male nostril-base pigment is retained; the female pigment trial was rejected. Only HeroFaceReferenceFit.cs, HeroSkinNormals.cs and HeroFaceSkin.shader changed in this continuation.','',
+'The mean CIE76 difference across the two fixed cheek patches fell from 9.82 to 8.56 for the male and 5.88 to 3.76 for the female. This is a local color/shading comparison, not a whole-face quality score. '+link('Measurement proof','proof/continuation-comparison.json')+' · '+link('Male previous/current comparison','proof/male_progress.png')+' · '+link('Female previous/current comparison','proof/female_progress.png'),'',
+'## Gates','', '| Gate | Result | Evidence / limitation |','|---|---|---|']
+for key,item in gates.items():lines.append(f"| {key} | **{item['status']}** | {item['reason']} {link('Proof',item['proof'][0])} |")
+lines+=['','## Before / after sheets','','| Hero / angle | Before | After |','|---|---|---|']
+for sex in ['male','female']:
+ for angle in ['front','threequarter','gameplay']:
+  file=f'{sex}_{angle}_sheet.png';lines.append(f'| {sex} / {angle} | {link("Before","before/"+file)} | {link("After","after/"+file)} |')
+lines+=['','Canonical requested folders:',f'`{r}/before/`',f'`{r}/after/`','',
+'Portrait comparisons use the same 24-degree camera and head-relative framing before/after. A uniform crown/chin registration aligns the front images; there is no facial warping, retouching, relighting, or generated evidence. The racket is hidden only in the portrait proof to expose the face. The actual gameplay image retains the normal camera; its near player faces away. The locked targets are frontal studio images, so exact matching-angle 3/4 references and their original light setup are unavailable. Court lights, map, and post-processing were not edited.','',
+'## Three-second motion proof','',link('Male idle / blink / gaze / brows','after/male_idle_3s.mp4')+' · '+link('Female idle / blink / gaze / brows','after/female_idle_3s.mp4'),'',
+'Each clip is 90 actual Unity renders at 30 fps, exercising the existing Idle animation and production face deformation with deterministic inputs. Actual morph weights are logged: full blink reaches 100%; gaze moves in both directions; positive and negative brow shapes activate. This proves the exercised deformation path, not spontaneous blink scheduling or an iPhone build. Contact sheets enlarge the eyelids and neck so remaining artifacts are visible.','',
+'## Remaining differences and why','',
+'- Eyelids: upper contours remain too angular and insufficiently sculpted, especially on the female face. Surface pigment improves definition but cannot reproduce the reference’s raised lid roll. Closed lids retain edge/shading defects from the source lid surface. The final geometry was not certified tear/seam-free.',
+'- Nose: broader nasal planes are rounder and the male nasal-base transition is less harsh. The nostrils and tip still lack the reference’s sculpted definition, especially on the female face. The female pigment trial was rejected because it looked detached; the small male cavity tint remains registered to the revised base.',
+'- Brows/mouth: male brows remain about 15% too thick by the traced bounds. Female lip height and smile volume still differ. The overlay method has ±1 reference-pixel tracing uncertainty and no perspective correction.',
+'- Skin: diffuse gradients remain too flat in some regions and too grey/dark in others. The unchanged court lighting is directional and differs from the softly lit locked references. Material refinements helped, but they have not reproduced that quality.',
+'- Cheeks/jaw/ears: rounded cheek support and the male auricle orientation are closer. The male inner-ear folds now read in front and 3/4 views, but their contours remain coarser than the target. The female jaw is still sharper and its jaw-to-neck edge conspicuous. Both targets are bald, so no hair was added.',
+'- Outside-game presentation: the separate native SceneKit asset/material path still needs an equivalent face-only update and rendered proof. No parity, phone performance, or device-quality claim is made.',
+'', '## Staged files','',
+'Only the following 8 source files and their `.meta` companions are staged (16 paths total). The index was empty at the start. Several face helpers already existed as untracked files; staging those paths necessarily includes their existing helper implementations. Other working-tree changes remain intact. No commit, push, stash, checkout, or reset was performed.','']
+for p in (r/'proof/staged-files.txt').read_text().splitlines():lines.append(f'- `{p}`')
+lines+=['',link('Exact staged path list','proof/staged-files.txt')+' · '+link('Capture/source verification','proof/source-verification.json'),'',
+'Runtime geometry audits show zero changed vertices below the head boundary, positive deformation Jacobians, and unchanged triangle indices, bone weights and bind poses. Body proportions, sockets, rig sources, clothes, LockFeet, serve/walk animations, course/map files and post-processing were not edited in this task. Shared `MatchHeroLook.cs`, `TennisCharacter.shader` and `HeroLighting.hlsl` still match their start-of-task hashes.','',
+f"`Unity/Tools/check.sh` was updated by another chat during this pass. It now compiles, then exits 1: {checks['after_test_summary']}. An isolated copy using the pre-ear face sources and current shared code produces {checks['baseline_test_summary']} with the same failures. In addition to the prior two native-call SecurityExceptions and two campaign-test NullReferenceExceptions, the parallel gameplay refactor exposes two multiplayer assertion failures. They are also present with pre-ear sources. This pass did not edit or stage the check script or alter gameplay to fix those assertions. The final Unity batch capture exits 0 with no C# or shader compile errors.",'',
+'G6 remains unapproved. Review the after sheets and clips before accepting this candidate; approval does not erase the remaining failed gates.']
+(dest/'REPORT.md').write_text('\n'.join(lines)+'\n');(r/'after/REPORT.md').write_text('\n'.join(lines)+'\n')
+body=['<!doctype html><meta charset="utf-8"><title>Face match review</title><style>body{font:16px system-ui;background:#eee9e0;color:#24211c;margin:32px auto;max-width:1180px}img{width:100%;display:block;margin:16px 0}video{width:49%;max-height:650px}summary{cursor:pointer;padding:12px;background:#ddd6ca}a{color:#80512a}p{line-height:1.5}.status{background:#fff8dd;padding:16px;border-radius:8px}h2{margin-top:32px}</style><h1>Face match — staged candidate</h1><p class="status"><b>Not accepted:</b> G1 and G5 pass. G2, G3 and G4 fail. G6 awaits Adnan. Native locker parity remains unverified.</p><p><a href="REPORT.md">Full report, measured overlays, gates and staged file list</a></p>']
+for sex in ['male','female']:
+ body.append(f'<h2>{sex.title()} — reference / previous / current</h2><img src="proof/{sex}_progress.png"><details open><summary>Reference and current front</summary><img src="after/{sex}_front_sheet.png"></details><details><summary>Original before front</summary><img src="before/{sex}_front_sheet.png"></details><details><summary>Other angles</summary><img src="after/{sex}_threequarter_sheet.png"><img src="after/{sex}_gameplay_sheet.png"></details><details><summary>Measurement and motion proof</summary><img src="proof/{sex}_front_overlay.png"><img src="proof/{sex}_motion_contact.png"></details>')
+body.append('<h2>Three-second clips</h2><video controls loop src="after/male_idle_3s.mp4"></video> <video controls loop src="after/female_idle_3s.mp4"></video>')
+(dest/'review.html').write_text('\n'.join(body));print(dest/'REPORT.md')

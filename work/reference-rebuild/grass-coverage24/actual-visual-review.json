@@ -1,0 +1,75 @@
+{
+  "gate": "FAIL",
+  "promotableRoutes": [
+    16,
+    17,
+    18,
+    21,
+    22,
+    23
+  ],
+  "holdRoutes": [
+    10
+  ],
+  "reason": "Hole10 tee stepping-stone grass intrusion visible in both candidate moving and candidate static control. Numerical physics/pool gates do not cover triangle interiors of render-only basalt stones.",
+  "images": [
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole10_tee.png",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole10_fairway.png",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole16_tee.png",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole16_fairway.png",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole17_tee.png",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole17_fairway.png",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole17_approach_fairway.png",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole18_tee.png",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole18_fairway.png",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole18_approach_fairway.png",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole21_tee.png",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole21_fairway.png",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole21_approach_fairway.png",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole22_tee.png",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole22_fairway.png",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole22_approach_fairway.png",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole23_tee.png",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole23_fairway.png",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole23_approach_fairway.png"
+  ],
+  "controlComparisonImage": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-control/hole10_tee.png",
+  "perCourse": [
+    {
+      "hole": 10,
+      "gate": "FAIL",
+      "notes": "Tee and moved fairway are dry with readable ball/club; molten/crater surfaces remain bare. FAIL: yellow grass blades visibly cover dark tee stepping-stone interiors in both pilot and static control."
+    },
+    {
+      "hole": 16,
+      "gate": "PASS",
+      "notes": "Tee and moved fairway have dense short grass; native ash stays bare. Temple stair tops/risers remain clear in moved address. Putting apron not separately reviewed."
+    },
+    {
+      "hole": 17,
+      "gate": "PASS",
+      "notes": "Tee and fairway blades stay inside authored green turf islands beside white native snow. Approach apron ends at smooth putting green; icy/snow native foreground stays bare."
+    },
+    {
+      "hole": 18,
+      "gate": "PASS",
+      "notes": "Tee island ends against bare desert. Generic fairway and approach images are actual GREEN_APRON_1 source Fairway around a smooth putting green; approach analytical lie is Rough. Small blade tips overhang the near native boundary without a broad grass population on desert."
+    },
+    {
+      "hole": 21,
+      "gate": "PASS",
+      "notes": "Tee and fairway are dry; ash and lava rock surfaces stay bare. Approach grass ends outside smooth putting green."
+    },
+    {
+      "hole": 22,
+      "gate": "PASS",
+      "notes": "Tee, fairway and approach are dry with bare surrounding ash and molten sheet. Bunker sand interior is bare and green remains smooth. Driver occludes much of the tee ball, while fairway and approach ball/club are readable."
+    },
+    {
+      "hole": 23,
+      "gate": "PASS",
+      "notes": "Tee, fairway and approach remain on authored turf; ash banks, cliff face and orange molten sheet are bare. Apron ends outside smooth putting green."
+    }
+  ],
+  "limits": "Human image inspection covers seven tees, seven moved middle addresses, and five approaches. This is not an exhaustive every-path/hazard-edge sweep; root independent review is still required."
+}
