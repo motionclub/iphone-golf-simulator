@@ -37,7 +37,7 @@ namespace GolfArcade.Tennis
             gruntServe = GameAudio.Load("sfx/grunt/" + me + "_serve"); gruntSmash = GameAudio.Load("sfx/grunt/" + me + "_smash");
             gruntOpp = GameAudio.Load("sfx/grunt/" + them + "_ground");
         }
-        static AudioClip Pick(AudioClip[] a) => a == null || a.Length == 0 ? null : a[Random.Range(0, a.Length)];
+        static AudioClip Pick(AudioClip[] a) => a == null || a.Length == 0 ? null : a[UnityEngine.Random.Range(0, a.Length)];
         void SwapV2()
         {
             GameAudio.Swap(ref pop, "sfx/tennis/hit_normal"); GameAudio.Swap(ref popSweet, "sfx/tennis/hit_sweet"); GameAudio.Swap(ref mishit, "sfx/tennis/mishit");
