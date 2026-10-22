@@ -16,8 +16,6 @@ namespace GolfArcade.Tennis
         bool matchPoint, welcomed;
         int pointsThisMatch, lastRally;
 
-        void Update() { GolfArcade.Game.IntroMusic.Drive(TennisVenue.Current.ToString(), game && game.IntroPlaying); }
-
         public static TennisAudioDirector Create(TennisGame game)
         {
             var d = new GameObject("Tennis audio").AddComponent<TennisAudioDirector>();
@@ -98,6 +96,7 @@ namespace GolfArcade.Tennis
 
         void Update()
         {
+            GolfArcade.Game.IntroMusic.Drive(TennisVenue.Current.ToString(), game && game.IntroPlaying);
             if (!game) return;
             var flow = game.Flow;
             bool serving = game.Serving, rally = flow == TennisGame.Phase.Rally;
