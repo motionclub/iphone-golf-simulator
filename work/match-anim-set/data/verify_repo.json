@@ -1,0 +1,62 @@
+{
+ "taken": "2026-10-03 11:47:37",
+ "source_sha": {
+  "male": {
+   "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/male-pelvis-form3/export/merged_fd04bc28.blend",
+   "sha256": "d6c4dcfb1150853a8802a8dc7501aa64066adb8b2734c14a4d6ed8e82dada781",
+   "expected": "d6c4dcfb1150853a8802a8dc7501aa64066adb8b2734c14a4d6ed8e82dada781",
+   "equal": true
+  },
+  "female": {
+   "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/female-full-merge/export/HeroBase_Female_FULL_STAGED.blend",
+   "sha256": "a1d73a334f4dc18052db0582df6b4b54b1df166d9a3531ab700ee114e86d2ac1",
+   "expected": "a1d73a334f4dc18052db0582df6b4b54b1df166d9a3531ab700ee114e86d2ac1",
+   "equal": true
+  }
+ },
+ "artdir": {
+  "files_before": 21521,
+  "files_after": 21522,
+  "added": [
+   "hero/base_lock/parallel_prompts/16_TENNIS_SHOES_FIT.txt"
+  ],
+  "n_added": 1,
+  "removed": [],
+  "n_removed": 0,
+  "changed": [],
+  "n_changed": 0,
+  "base_lock_hash_changes": [
+   "hero/base_lock/parallel_prompts/16_TENNIS_SHOES_FIT.txt"
+  ]
+ },
+ "scripts_mentioning_ArtDir": [],
+ "git": {
+  "baseline_entries": 185,
+  "now_entries": 185,
+  "new": [],
+  "n_new": 0,
+  "disappeared": [],
+  "n_disappeared": 0,
+  "new_outside_match_anim_set": []
+ },
+ "media": {
+  "baseline": 108,
+  "now": 109,
+  "new": [
+   "./work/match-anim-set/proof/Review_Female.mp4",
+   "./work/match-anim-set/proof/Review_Male.mp4"
+  ],
+  "allowed": [
+   "./work/match-anim-set/proof/Review_Female.mp4",
+   "./work/match-anim-set/proof/Review_Male.mp4"
+  ]
+ },
+ "network_or_youtube_references_in_scripts": [],
+ "media_inside_match_anim_set": [
+  "proof/Review_Female.mp4",
+  "proof/Review_Male.mp4"
+ ],
+ "failed": [
+  "ArtDir differs from the baseline: +1 -0 ~0 (base_lock hash changes: 1) - see data/verify_repo.json; none of the match-anim-set scripts opens an ArtDir path (checked below)"
+ ]
+}

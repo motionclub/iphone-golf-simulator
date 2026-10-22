@@ -1,0 +1,124 @@
+using System.Collections;
+using System.IO;
+using System.Reflection;
+using GolfArcade.Game;
+using GolfArcade.Tennis;
+using NUnit.Framework;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.TestTools;
+
+namespace GolfArcade.PlayTests
+{
+    /// Audit only (not part of the project): sweeps swing timing through the real game code.
+    public class AuditSweepTests
+    {
+        static string Out => System.Environment.GetEnvironmentVariable("AUDIT_OUT") ?? "Library/Captures/audit";
+        static FieldInfo swingPaceField = typeof(TennisActor).GetField("swingPace", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        [UnityTest, Timeout(1200000)] public IEnumerator ServeSweep()
+        {
+            Directory.CreateDirectory(Out);
+            var rows = new System.Text.StringBuilder("offset,flow,feedback,honestMisses,gap,paceAtLaunch,framesToLaunch,speed,landX,landZ,landIn,power\n");
+            foreach (float off in new[] { -.40f, -.30f, -.20f, -.12f, -.06f, -.03f, 0f, .03f, .06f, .12f, .20f, .30f, .40f })
+            {
+                yield return SceneManager.LoadSceneAsync("Tennis", LoadSceneMode.Single); yield return null;
+                var game = Object.FindFirstObjectByType<TennisGame>(); game.ManualSimulation = true; game.NativeControlled = true;
+                game.ConfigureMatch(TennisGame.Mode.Training, null, null, null);
+                for (int i = 0; i < 360; i++) game.Step(1f / 120);
+                if (game.Flow != TennisGame.Phase.PlayerServeHold) { rows.AppendLine($"{off},NOTHOLD_{game.Flow},,,,,,,,,,"); continue; }
+                game.Toss(1f);
+                for (int i = 0; i < 240 && game.Flow != TennisGame.Phase.PlayerServeToss; i++) game.Step(1f / 120);
+                bool landed = false; Vector3 land = Vector3.zero; bool landIn = false;
+                System.Action<bool, bool, Vector3, bool> h = (by, inn, p, serve) => { if (!landed) { landed = true; land = p; landIn = inn; } };
+                TennisGame.Landed += h;
+                int steps = Mathf.RoundToInt((TennisRules.ServeApex + off) * 120);
+                for (int i = 0; i < steps && game.Flow == TennisGame.Phase.PlayerServeToss; i++) game.Step(1f / 120);
+                float power = 0;
+                if (game.Flow == TennisGame.Phase.PlayerServeToss)
+                {
+                    game.BeginSwing(0, .3f, 1, 0);
+                    for (int i = 0; i < 4; i++) game.Step(1f / 120);
+                    game.RequestSwing(.8f, 0, .3f, 1, .03f);
+                    power = game.Player.Power;
+                }
+                float pace = swingPaceField != null ? (float)swingPaceField.GetValue(game.Player) : -1;
+                int launch = -1;
+                for (int i = 0; i < 300; i++)
+                {
+                    if (launch < 0 && game.Flow == TennisGame.Phase.Rally) launch = i;
+                    if (launch >= 0 && landed) break;
+                    game.Step(1f / 120);
+                }
+                for (int i = 0; i < 360 && !landed; i++) game.Step(1f / 120);
+                TennisGame.Landed -= h;
+                rows.AppendLine(System.FormattableString.Invariant($"{off},{game.Flow},\"{game.Feedback?.Replace("\n", " ")}\",{game.HonestMisses},{game.LastContactGap:F3},{pace:F2},{launch},{game.BallVelocity.magnitude:F1},{land.x:F2},{land.z:F2},{landIn},{power:F2}"));
+                File.WriteAllText(Out + "/serve_sweep.csv", rows.ToString());
+            }
+            File.WriteAllText(Out + "/serve_sweep.csv", rows.ToString());
+        }
+
+        [UnityTest, Timeout(2400000)] public IEnumerator RallySweep()
+        {
+            Directory.CreateDirectory(Out);
+            var rows = new System.Text.StringBuilder("ballX,power,swingAt,lateness,grade,speed,landX,landZ,landIn\n");
+            yield return SceneManager.LoadSceneAsync("Tennis", LoadSceneMode.Single); yield return null;
+            var game = Object.FindFirstObjectByType<TennisGame>(); game.ManualSimulation = true; game.NativeControlled = true;
+            game.ConfigureMatch(TennisGame.Mode.Training, null, null, null);
+            Debug.Log($"[Audit] TimingAims={game.TimingAims} Touch={NativeSportsSession.Touch} AutoPlay={game.AutoPlay}");
+            foreach (float bx in new[] { 0f, 1.5f, -1.5f })
+                foreach (float pw in new[] { .4f, .7f, .95f })
+                {
+                    for (float at = .20f; at < .95f; at += .02f)
+                    {
+                        game.Player.CancelSwing(); game.Player.Tick(1, 0);
+                        game.Player.transform.position = new Vector3(0, .035f, -11.2f);
+                        game.InjectBall(new Vector3(bx, 1.3f, 6f), new Vector3(0, 2.2f, -16.5f));
+                        int before = game.Returns; bool swung = false; bool landed = false; Vector3 land = Vector3.zero; bool landIn = false;
+                        System.Action<bool, bool, Vector3, bool> h = (by, inn, p, serve) => { if (by && !landed) { landed = true; land = p; landIn = inn; } };
+                        TennisGame.Landed += h;
+                        bool returned = false;
+                        for (float t = 0; t < 3.5f; t += 1f / 120)
+                        {
+                            if (!swung && t >= at) { game.RequestSwing(pw); swung = true; }
+                            game.Step(1f / 120);
+                            if (!returned && game.Returns > before) { returned = true; }
+                            if (returned && landed) break;
+                        }
+                        TennisGame.Landed -= h;
+                        if (returned)
+                            rows.AppendLine(System.FormattableString.Invariant($"{bx},{pw},{at:F2},{TennisGame.LastLateness:F3},{(int)game.LastGrade},{game.LastHit.Speed:F1},{land.x:F2},{land.z:F2},{landIn}"));
+                    }
+                    File.WriteAllText(Out + "/rally_sweep.csv", rows.ToString());
+                    yield return null;
+                }
+            File.WriteAllText(Out + "/rally_sweep.csv", rows.ToString());
+        }
+
+        [UnityTest, Timeout(600000)] public IEnumerator ServeFilm()
+        {
+            Directory.CreateDirectory(Out + "/film");
+            var rows = new System.Text.StringBuilder("step,flow,ballY,ballX,ballZ,racketX,racketY,racketZ,racketSpeed,age,pace\n");
+            yield return SceneManager.LoadSceneAsync("Tennis", LoadSceneMode.Single); yield return null;
+            var game = Object.FindFirstObjectByType<TennisGame>(); game.ManualSimulation = true; game.NativeControlled = true;
+            game.ConfigureMatch(TennisGame.Mode.Training, null, null, null);
+            for (int i = 0; i < 360; i++) game.Step(1f / 120);
+            game.Toss(1f);
+            for (int i = 0; i < 240 && game.Flow != TennisGame.Phase.PlayerServeToss; i++) game.Step(1f / 120);
+            int apexSteps = Mathf.RoundToInt((TennisRules.ServeApex + .03f) * 120);
+            Vector3 prev = game.Player.SweetSpot.position; int frame = 0; int swingStep = -1;
+            for (int i = 0; i < 260; i++)
+            {
+                if (i == apexSteps) { game.BeginSwing(0, .3f, 1, 0); swingStep = i; }
+                if (i == apexSteps + 4) game.RequestSwing(.8f, 0, .3f, 1, .03f);
+                game.Step(1f / 120);
+                var r = game.Player.SweetSpot.position;
+                float pace = swingPaceField != null ? (float)swingPaceField.GetValue(game.Player) : -1;
+                rows.AppendLine(System.FormattableString.Invariant($"{i},{game.Flow},{game.BallPosition.y:F3},{game.BallPosition.x:F3},{game.BallPosition.z:F3},{r.x:F3},{r.y:F3},{r.z:F3},{(r - prev).magnitude * 120:F2},{game.Player.ContactAge:F3},{pace:F2}"));
+                prev = r;
+                if (i % 8 == 0 && i >= apexSteps - 48) { yield return null; GameCapture.Save(Out + "/film/f" + frame.ToString("D2") + "_s" + i + ".png", 640, 360); frame++; }
+            }
+            File.WriteAllText(Out + "/serve_film.csv", rows.ToString());
+        }
+    }
+}

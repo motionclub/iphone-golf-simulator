@@ -305,22 +305,28 @@ namespace GolfArcade.UI
         public RoundCard(Transform parent, string title, string headline, int[] holes, int[] pars, int?[] strokes, int total, int toPar, Highlight[] highlights, bool nextHole, Row[] players = null, string againLabel = null)
         {
             this.againLabel = againLabel ?? "Play again";
+            bool clear = GlassKit.ClearStyle;
             players ??= new[] { new Row { Name = "You", Color = Club.Sun, Strokes = strokes } };
             bool solo = players.Length == 1;
             int tableRows = 2 + players.Length;
             const float W = 980;
             float y = 0;
             // the course under the lagoon; touches stop here
-            var sheet = UiKit.Panel(parent, "Scorecard", Club.Deep(0.72f), Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero, false);
+            var sheet = UiKit.Panel(parent, "Scorecard", Club.Deep(clear ? 0.30f : 0.72f), Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero, false);
             Root = sheet.rectTransform;
             var card = Club.Box(Root, "Round card", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(W, 1200));
             var f = card;
             float inner = W;
 
             // what finished, and the headline
-            var what = Club.Words(f, "Title", title.ToUpperInvariant(), Club.Caps, 40, Club.White(0.8f), TextAnchor.UpperLeft);
+            Text Chunk(Transform to, string name, string text, int size, Color fill, TextAnchor anchor)
+            {
+                var t = UiKit.Chunky(to, name, size, fill, GlassKit.Ink, Mathf.Clamp(size * .075f, 2f, 6f)); t.text = text; t.alignment = anchor; t.horizontalOverflow = HorizontalWrapMode.Overflow;
+                return t;
+            }
+            var what = clear ? Chunk(f, "Title", title.ToUpperInvariant(), 40, Color.white, TextAnchor.MiddleLeft) : Club.Words(f, "Title", title.ToUpperInvariant(), Club.Caps, 40, Club.White(0.8f), TextAnchor.UpperLeft);
             Top(what.rectTransform, y, 50); y -= 58;
-            var head = Club.Words(f, "Headline", headline ?? ToParWords(toPar), Club.Display, 150, Club.Sun, TextAnchor.UpperLeft, 18);
+            var head = clear ? Chunk(f, "Headline", headline ?? ToParWords(toPar), 150, GlassKit.Gold, TextAnchor.MiddleLeft) : Club.Words(f, "Headline", headline ?? ToParWords(toPar), Club.Display, 150, Club.Sun, TextAnchor.UpperLeft, 18);
             Icons.Fit(head, 80, 150);
             Top(head.rectTransform, y, 170); y -= 170 + 26;
 
@@ -330,18 +336,29 @@ namespace GolfArcade.UI
             float colW = Mathf.Min(140, (inner - 48 - labelW) / Mathf.Max(1, n));
             float tableH = tableRows * rowH + 36;
             var slab = Club.Box(f, "Card", new Vector2(0, 1), new Vector2(1, 1), new Vector2(0.5f, 1), new Vector2(0, y), new Vector2(0, tableH));
-            var bas = Club.Paint(slab, "Base", Club.CreamDeep, 60); bas.rectTransform.offsetMin = new Vector2(0, -18); bas.rectTransform.offsetMax = new Vector2(0, -18);
-            var face = Club.Paint(slab, "Face", Club.Cream, 60);
-            var strip = Club.Paint(face.transform, "Strip", Club.Green);
-            face.gameObject.AddComponent<Mask>().showMaskGraphic = true;
-            strip.rectTransform.anchorMin = new Vector2(0, 1); strip.rectTransform.offsetMin = new Vector2(0, -18);
-            var tt = face.transform;
+            Transform tt = slab;
+            if (!clear)
+            {
+                var bas = Club.Paint(slab, "Base", Club.CreamDeep, 60); bas.rectTransform.offsetMin = new Vector2(0, -18); bas.rectTransform.offsetMax = new Vector2(0, -18);
+                var face = Club.Paint(slab, "Face", Club.Cream, 60);
+                var strip = Club.Paint(face.transform, "Strip", Club.Green);
+                face.gameObject.AddComponent<Mask>().showMaskGraphic = true;
+                strip.rectTransform.anchorMin = new Vector2(0, 1); strip.rectTransform.offsetMin = new Vector2(0, -18);
+                tt = face.transform;
+            }
             float left = -inner / 2 + 24;
             Text Cell(string text, float x, float yy, float w, int size, Color c, Font font = null)
             {
                 var l = UiKit.Label(tt, "Cell", size, TextAnchor.MiddleCenter, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(x, yy), new Vector2(w, rowH), font ?? Club.Title, false);
                 l.rectTransform.pivot = new Vector2(0.5f, 0.5f);
-                l.text = text; l.color = c; l.raycastTarget = false; return l;
+                l.text = text; l.color = c; l.raycastTarget = false;
+                if (clear)
+                {
+                    // the clear style's lettering: dark ink on the cream becomes white, with the club card's outline
+                    l.font = UiKit.Display; l.color = c == Club.Muted ? Color.white : c.grayscale < .5f ? Color.white : c;
+                    l.horizontalOverflow = HorizontalWrapMode.Overflow; GlassKit.Outline(l);
+                }
+                return l;
             }
             Image Mark(float x, float yy, Color c, bool round, float size)
             {
@@ -351,21 +368,34 @@ namespace GolfArcade.UI
                 m.raycastTarget = false; return m;
             }
             float r0 = (tableRows * rowH) / 2 - rowH / 2 - 9, r1 = r0 - rowH;
+            if (clear)
+                for (int k = 0; k < tableRows - 1; k++)
+                {
+                    float ry = r0 - rowH * k - rowH / 2;
+                    foreach (var (off, h, col) in new[] { (3f, 8f, new Color(GlassKit.Ink.r, GlassKit.Ink.g, GlassKit.Ink.b, .6f)), (0f, 4f, Color.white) })
+                    {
+                        var rule = UiKit.Panel(tt, "Rule", col, new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(0, ry - off), new Vector2(inner - 48, h), false);
+                        rule.rectTransform.pivot = new Vector2(.5f, .5f); rule.raycastTarget = false;
+                    }
+                }
             Cell("HOLE", left + labelW / 2, r0, labelW, 34, Club.Muted, Club.Caps);
             Cell("PAR", left + labelW / 2, r1, labelW, 34, Club.Muted, Club.Caps);
             for (int i = 0; i < n; i++)
             {
                 float x = left + labelW + 12 + colW * (i + 0.5f);
-                Mark(x, r0, Club.Ink, true, 62);
+                if (!clear) Mark(x, r0, Club.Ink, true, 62);
                 Cell($"{holes[i]}", x, r0, colW, 32, Color.white, Club.Caps);
                 Cell($"{pars[i]}", x, r1, colW, 42, Club.Ink);
             }
             for (int p = 0; p < players.Length; p++)
             {
                 float r2 = r1 - rowH * (p + 1);
-                var band = UiKit.Panel(tt, players[p].Name, players[p].Color, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(left + labelW / 2, r2), new Vector2(labelW, rowH - 14));
-                band.rectTransform.pivot = new Vector2(0.5f, 0.5f); band.sprite = UiKit.Circle; band.type = Image.Type.Sliced; band.raycastTarget = false;
-                var name = Cell(players[p].Name, left + labelW / 2, r2, labelW - 24, 38, Club.Ink);
+                if (!clear)
+                {
+                    var band = UiKit.Panel(tt, players[p].Name, players[p].Color, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(left + labelW / 2, r2), new Vector2(labelW, rowH - 14));
+                    band.rectTransform.pivot = new Vector2(0.5f, 0.5f); band.sprite = UiKit.Circle; band.type = Image.Type.Sliced; band.raycastTarget = false;
+                }
+                var name = Cell(players[p].Name, left + labelW / 2, r2, labelW - 24, 38, clear ? players[p].Color : Club.Ink);
                 Icons.Fit(name, 18, 38);
                 for (int i = 0; i < n; i++)
                 {
@@ -378,9 +408,10 @@ namespace GolfArcade.UI
                     else if (i < players[p].Strokes.Length && players[p].Strokes[i] is int st)
                     {
                         int d = st - pars[i];
-                        if (d < 0) Mark(x, r2, Club.Sun, true, 70);
+                        if (d < 0 && clear) { var ring = Mark(x, r2, GlassKit.Gold, true, 70); ring.sprite = UiKit.RingOf(128, 9); ring.color = UiKit.Hex("D7F044"); }
+                        else if (d < 0) Mark(x, r2, Club.Sun, true, 70);
                         else if (d > 0) Mark(x, r2, d == 1 ? Club.Coral : UiKit.Hex("C23A2E"), false, 64);
-                        Cell($"{st}", x, r2, colW, 46, d > 0 ? Color.white : Club.Ink);
+                        Cell($"{st}", x, r2, colW, 46, d > 0 ? Color.white : clear && d < 0 ? GlassKit.Gold : Club.Ink);
                     }
                     else Cell("–", x, r2, colW, 46, Club.Muted);
                 }
@@ -403,16 +434,18 @@ namespace GolfArcade.UI
         void AddTotal(RectTransform f, ref float y, int total, int toPar)
         {
             var row = Club.Box(f, "Total", new Vector2(0, 1), new Vector2(1, 1), new Vector2(0.5f, 1), new Vector2(0, y), new Vector2(0, 110));
-            var bg = Club.Paint(row, "Fill", Club.Deep(0.85f), 40);
-            var edge = Club.Paint(row, "Edge", Club.White(0.14f), 40, true);
+            bool clear = GlassKit.ClearStyle;
+            if (!clear) { Club.Paint(row, "Fill", Club.Deep(0.85f), 40); Club.Paint(row, "Edge", Club.White(0.14f), 40, true); }
             var tl = Club.Words(row, "Label", "Total", Club.Title, 56, Color.white, TextAnchor.MiddleLeft);
             tl.rectTransform.offsetMin = new Vector2(40, 0);
             var tv = Club.Words(row, "Value", $"{total}", Club.Display, 90, Color.white, TextAnchor.MiddleRight);
             tv.rectTransform.offsetMax = new Vector2(-40, 0);
+            if (clear) { foreach (var t in new[] { tl, tv }) { t.font = UiKit.Display; GlassKit.Outline(t); } tv.color = GlassKit.Gold; }
             var chip = Club.Box(row, "To par", new Vector2(1, 0.5f), new Vector2(1, 0.5f), new Vector2(1, 0.5f), new Vector2(-170, 0), new Vector2(170, 70));
             var ci = chip.gameObject.AddComponent<Image>(); ci.sprite = UiKit.Circle; ci.type = Image.Type.Sliced; ci.raycastTarget = false;
-            ci.color = toPar < 0 ? Club.Sun : toPar == 0 ? Club.Cream : Club.Coral;
-            var cv = Club.Words(chip, "Text", GolfArcade.Course.Scorecard.FormatToPar(toPar), Club.Title, 44, toPar > 0 ? Color.white : Club.Ink, TextAnchor.MiddleCenter);
+            ci.color = clear ? (toPar > 0 ? Club.Coral : Color.clear) : toPar < 0 ? Club.Sun : toPar == 0 ? Club.Cream : Club.Coral;
+            var cv = Club.Words(chip, "Text", GolfArcade.Course.Scorecard.FormatToPar(toPar), Club.Title, 44, clear ? (toPar < 0 ? UiKit.Hex("D7F044") : Color.white) : toPar > 0 ? Color.white : Club.Ink, TextAnchor.MiddleCenter);
+            if (clear) { cv.font = UiKit.Display; GlassKit.Outline(cv); }
             y -= 110 + 26;
         }
 
@@ -427,18 +460,29 @@ namespace GolfArcade.UI
                 int col = i % 3;
                 float ty = y - (i / 3) * (tileH + tileGap);
                 var tile = Club.Box(f, $"Highlight {i}", new Vector2(0.5f, 1), new Vector2(0.5f, 1), new Vector2(0.5f, 1), new Vector2(-inner / 2 + hw / 2 + col * (hw + tileGap - 9), ty), new Vector2(hw, tileH));
-                var tb = Club.Paint(tile, "Base", Club.CreamDeep, 40); tb.rectTransform.offsetMin = new Vector2(0, -10); tb.rectTransform.offsetMax = new Vector2(0, -10);
-                Club.Paint(tile, "Face", Club.Cream, 40);
-                var disc = UiKit.Panel(tile, "Disc", Club.Ink, new Vector2(0, 1), new Vector2(0, 1), new Vector2(50, -50), new Vector2(64, 64));
+                bool clear = GlassKit.ClearStyle;
+                if (!clear)
+                {
+                    var tb = Club.Paint(tile, "Base", Club.CreamDeep, 40); tb.rectTransform.offsetMin = new Vector2(0, -10); tb.rectTransform.offsetMax = new Vector2(0, -10);
+                    Club.Paint(tile, "Face", Club.Cream, 40);
+                }
+                else
+                {
+                    var rim = UiKit.Panel(tile, "Disc rim", Color.white, new Vector2(0, 1), new Vector2(0, 1), new Vector2(50, -50), new Vector2(76, 76));
+                    rim.sprite = UiKit.Circle; rim.type = Image.Type.Simple; rim.raycastTarget = false; rim.rectTransform.pivot = new Vector2(0.5f, 0.5f);
+                }
+                var disc = UiKit.Panel(tile, "Disc", clear ? UiKit.Hex("2A84E6") : Club.Ink, new Vector2(0, 1), new Vector2(0, 1), new Vector2(50, -50), new Vector2(64, 64));
                 disc.sprite = UiKit.Circle; disc.type = Image.Type.Simple; disc.raycastTarget = false; disc.rectTransform.pivot = new Vector2(0.5f, 0.5f);
-                Icons.Place(disc.transform, h.Icon, Club.Sun, new Vector2(0.5f, 0.5f), Vector2.zero, 38);
+                Icons.Place(disc.transform, h.Icon, clear ? Color.white : Club.Sun, new Vector2(0.5f, 0.5f), Vector2.zero, 38);
                 var ht = Club.Words(tile, "Title", h.Title.ToUpperInvariant(), Club.Caps, 22, Club.Muted, TextAnchor.MiddleLeft);
                 ht.rectTransform.anchorMin = new Vector2(0, 1); ht.rectTransform.anchorMax = new Vector2(1, 1); ht.rectTransform.pivot = new Vector2(0, 0.5f);
                 ht.rectTransform.anchoredPosition = new Vector2(92, -50); ht.rectTransform.sizeDelta = new Vector2(-104, 56);
+                if (clear) { ht.font = UiKit.Display; ht.color = Color.white; GlassKit.Outline(ht); }
                 Icons.Fit(ht, 15, 22);
                 var hv = Club.Words(tile, "Value", h.Value, Club.Title, 50, Club.Ink, TextAnchor.MiddleCenter);
                 hv.rectTransform.anchorMin = new Vector2(0, 0); hv.rectTransform.anchorMax = new Vector2(1, 0); hv.rectTransform.pivot = new Vector2(0.5f, 0);
                 hv.rectTransform.anchoredPosition = new Vector2(0, 14); hv.rectTransform.sizeDelta = new Vector2(-20, 66);
+                if (clear) { hv.font = UiKit.Display; hv.color = GlassKit.Gold; GlassKit.Outline(hv); }
                 Icons.Fit(hv, 26, 50);
             }
             int rows = (highlights.Length + 2) / 3;
@@ -448,6 +492,8 @@ namespace GolfArcade.UI
             HoldButton Button(string name, string text, Club.Style style, float size, float x, float w, string art)
             {
                 var b = Club.Button(f, name, text, style, size, null, art);
+                FocusItem.Mark(b, style == Club.Style.Primary);
+                if (GlassKit.ClearStyle) ClearButton(b, style);
                 var rt = (RectTransform)b.transform;
                 rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 1); rt.pivot = new Vector2(0.5f, 1);
                 rt.anchoredPosition = new Vector2(x, y); rt.sizeDelta = new Vector2(w, 140);
@@ -468,6 +514,22 @@ namespace GolfArcade.UI
             // as small as a short screen needs
             float room = parent is RectTransform area && area.rect.height > 0 ? area.rect.height - 60 : -y;
             card.localScale = Vector3.one * Mathf.Min(1f, room / -y);
+        }
+
+        /// The clear style's button: the way on is a gold slab with dark lettering, the others blue with white outlined lettering,
+        /// all in the one face (Rubik ExtraBold) like every other word in the round.
+        static void ClearButton(HoldButton b, Club.Style style)
+        {
+            bool gold = style == Club.Style.Primary;
+            var face = gold ? GlassKit.Gold : UiKit.Hex("2A84E6"); var baseColor = gold ? UiKit.Hex("C99A1C") : UiKit.Hex("1557B8");
+            b.Fill.color = face; b.RestColor = face; b.PressedColor = face;
+            var bas = b.transform.Find("Base"); if (bas) bas.GetComponent<Image>().color = baseColor;
+            foreach (var t in b.GetComponentsInChildren<Text>(true))
+            {
+                t.font = UiKit.Display;
+                if (gold) t.color = ThemeService.Current.buttonText;
+                else { t.color = Color.white; GlassKit.Outline(t); }
+            }
         }
 
         public static string ToParWords(int toPar) => toPar == 0 ? "Even par" : toPar < 0 ? $"{-toPar} under par" : $"{toPar} over par";

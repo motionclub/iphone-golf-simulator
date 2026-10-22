@@ -1,0 +1,37 @@
+{
+ "hero": "GolfKitHero_Male",
+ "tag": "Kit_Belt",
+ "source": "npz:/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/male-garments-refpack/out/GolfKitHero_Male/unity/Kit_Belt_final.npz",
+ "seconds": 135.7,
+ "weights": {
+  "panels": 66,
+  "matched": 0.31610169491525425,
+  "inner": 0.3149717514124294,
+  "smooth_iters": 14,
+  "edge_mm": 7.429812871268593,
+  "allowed": "{0: ('T', 'P', 'LR'), 1: ('T', 'LR'), 2: ('T', 'LL'), 3: ('T', 'P', 'LL'), 4: ('T', 'P'), 5: ('T', 'P'), 6: ('T', 'P'), 7: ('T', 'P'), 8: ('T', 'P'), 9: ('T', 'P'), 10: ('T', 'P'), 11: ('T', 'P'), 12: ('T', 'P'), 13: ('T', 'P'), 14: ('T', 'P'), 15: ('T', 'P'), 16: ('T', 'P', 'LL'), 17: ('T', 'P'), 18: ('T', 'P'), 19: ('T', 'P'), 20: ('T', 'P'), 21: ('T', 'P', 'LL'), 22: ('T', 'P'), 23: ('T', 'P'), 24: ('T', 'P', 'LR'), 25: ('T', 'P', 'LR'), 26: ('T', 'P', 'LR'), 27: ('T', 'P', 'LR'), 28: ('T', 'P'), 29: ('T', 'P', 'LR'), 30: ('T', 'P'), 31: ('T', 'P'), 32: ('T', 'P'), 33: ('T', 'P'), 34: ('T', 'P'), 35: ('T', 'P'), 36: ('T', 'P', 'LR'), 37: ('T', 'P', 'LR'), 38: ('T', 'P'), 39: ('T', 'P'), 40: ('T', 'P'), 41: ('T', 'P'), 42: ('T', 'P'), 43: ('T', 'P'), 44: ('T', 'P'), 45: ('T', 'P'), 46: ('T', 'P'), 47: ('T', 'P'), 48: ('T', 'P'), 49: ('T', 'P'), 50: ('T', 'P'), 51: ('T', 'P'), 52: ('T', 'P'), 53: ('T', 'P'), 54: ('T', 'P'), 55: ('T', 'P'), 56: ('T', 'P'), 57: ('T', 'P'), 58: ('T', 'P'), 59: ('T', 'P'), 60: ('T', 'P'), 61: ('T', 'P'), 62: ('T', 'P'), 63: ('T', 'P'), 64: ('T', 'P', 'LL'), 65: ('T', 'P')}",
+  "side_mm_p5": 11.048658635891455
+ },
+ "shapes": 16,
+ "log": [
+  "FIT GolfKitHero_Male Kit_Belt from npz:/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/male-garments-refpack/out/GolfKitHero_Male/unity/Kit_Belt_final.npz: 3540 verts 6208 tris",
+  "  weights: AL covered 14% but not wrapped (one side only): not followed",
+  "  weights: AR covered 9% but not wrapped (one side only): not followed",
+  "  weights: covered body groups T 26% P 11% AL 14% AR 9% LL 23% LR 17%",
+  "  weights: 66 panels, matched 32%, inner 31%, smooth 14 it (edge 7.4 mm)",
+  "  hem riding on Kit_Bottom: 3540 vertices follow it (t > .5)",
+  "  seams: 2210 coincident vertices welded into 650 groups",
+  "  weights 37.8 s",
+  "  skin deep under Kit_Belt (hidden, no clearance needed): 210 of 44168 body vertices",
+  "  obstacles: body + Kit_Bottom",
+  "    pose 0/153  4 s",
+  "    pose 25/153  22 s",
+  "    pose 50/153  46 s",
+  "    pose 75/153  61 s",
+  "    pose 100/153  74 s",
+  "    pose 125/153  81 s",
+  "    pose 150/153  96 s",
+  "  correctives: 153/153 poses need a lift (max 25.0 mm, p90 25.0 mm) in 98 s",
+  "  16 shapes, RBF sigma 0.552, anchor fit err max 0.013, weight at rest 0.0006"
+ ]
+}

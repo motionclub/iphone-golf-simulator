@@ -1,0 +1,807 @@
+{
+  "status": "SOURCE_CONTINUITY_REVIEW_NOT_RUNTIME_PASS",
+  "source": "accepted pre-roll adaptive native source track; all recorded samples; model metre scale",
+  "tracks": [
+    {
+      "sex": "Male",
+      "clip": "golfDrive",
+      "side": "Left",
+      "frames": 436,
+      "activeFrames": 270,
+      "maxSourceIntervalSec": 0.016666889190673828,
+      "maxNeighborRollChangeDegrees": 90.0,
+      "maxNeighborWristCorrectionChangeMm": 70.37299814471444,
+      "maxNeighborElbowCorrectionChangeMm": 77.15536568189884,
+      "maxWristShiftMm": 39.962065326174745,
+      "maxElbowShiftMm": 39.89331067188367,
+      "thresholdSamples35to50": 80,
+      "boundaryProbes": [
+        {
+          "sourceTime": 2.441887549703104,
+          "rollStepDegrees": 87.0,
+          "correctionStepMm": 68.88094068656659,
+          "elbowCorrectionStepMm": 72.46815948243797
+        },
+        {
+          "sourceTime": 2.424141544896738,
+          "rollStepDegrees": 90.0,
+          "correctionStepMm": 65.7567316180045,
+          "elbowCorrectionStepMm": 70.61794638930603
+        },
+        {
+          "sourceTime": 2.435776602254304,
+          "rollStepDegrees": 89.0,
+          "correctionStepMm": 62.72981833936304,
+          "elbowCorrectionStepMm": 77.64791800866453
+        },
+        {
+          "sourceTime": 2.4306723379680157,
+          "rollStepDegrees": 90.0,
+          "correctionStepMm": 61.34071881603261,
+          "elbowCorrectionStepMm": 76.52884798305371
+        }
+      ]
+    },
+    {
+      "sex": "Male",
+      "clip": "golfDrive",
+      "side": "Right",
+      "frames": 436,
+      "activeFrames": 378,
+      "maxSourceIntervalSec": 0.016666889190673828,
+      "maxNeighborRollChangeDegrees": 55.45273228001243,
+      "maxNeighborWristCorrectionChangeMm": 47.21713325288337,
+      "maxNeighborElbowCorrectionChangeMm": 6.7394531942590845,
+      "maxWristShiftMm": 39.976298846999036,
+      "maxElbowShiftMm": 35.77173897359725,
+      "thresholdSamples35to50": 122,
+      "boundaryProbes": [
+        {
+          "sourceTime": 2.4416677761871917,
+          "rollStepDegrees": 0.0002872520551022717,
+          "correctionStepMm": 0.00023911324234922372,
+          "elbowCorrectionStepMm": 0.00022055492128612842
+        },
+        {
+          "sourceTime": 2.0416679922027114,
+          "rollStepDegrees": 0.00019850319562664254,
+          "correctionStepMm": 0.0002461468788377018,
+          "elbowCorrectionStepMm": 4.829251647136416e-05
+        },
+        {
+          "sourceTime": 2.0500009684083906,
+          "rollStepDegrees": 0.0002571868682572642,
+          "correctionStepMm": 0.0003158656535109929,
+          "elbowCorrectionStepMm": 3.278748579952784e-05
+        },
+        {
+          "sourceTime": 2.227083916174726,
+          "rollStepDegrees": 0.000857795829150021,
+          "correctionStepMm": 0.0007772994593754116,
+          "elbowCorrectionStepMm": 0.00010056885832330772
+        }
+      ]
+    },
+    {
+      "sex": "Male",
+      "clip": "golfIron",
+      "side": "Left",
+      "frames": 404,
+      "activeFrames": 232,
+      "maxSourceIntervalSec": 0.016666889190673828,
+      "maxNeighborRollChangeDegrees": 90.0,
+      "maxNeighborWristCorrectionChangeMm": 67.40427522333523,
+      "maxNeighborElbowCorrectionChangeMm": 68.6152817161333,
+      "maxWristShiftMm": 39.6850522900257,
+      "maxElbowShiftMm": 39.449020684596384,
+      "thresholdSamples35to50": 85,
+      "boundaryProbes": [
+        {
+          "sourceTime": 2.24428032496564,
+          "rollStepDegrees": 90.0,
+          "correctionStepMm": 67.33900340398255,
+          "elbowCorrectionStepMm": 43.823434741611074
+        },
+        {
+          "sourceTime": 2.3627416097508096,
+          "rollStepDegrees": 90.0,
+          "correctionStepMm": 61.75707259553694,
+          "elbowCorrectionStepMm": 57.661027518509634
+        },
+        {
+          "sourceTime": 2.302585519244582,
+          "rollStepDegrees": 90.0,
+          "correctionStepMm": 59.920686227591986,
+          "elbowCorrectionStepMm": 68.75148344921689
+        },
+        {
+          "sourceTime": 2.2264597767322236,
+          "rollStepDegrees": 90.0,
+          "correctionStepMm": 60.81748111595022,
+          "elbowCorrectionStepMm": 31.874034142947128
+        }
+      ]
+    },
+    {
+      "sex": "Male",
+      "clip": "golfIron",
+      "side": "Right",
+      "frames": 404,
+      "activeFrames": 351,
+      "maxSourceIntervalSec": 0.016666889190673828,
+      "maxNeighborRollChangeDegrees": 45.851612190691526,
+      "maxNeighborWristCorrectionChangeMm": 37.01453589116818,
+      "maxNeighborElbowCorrectionChangeMm": 11.476937006280446,
+      "maxWristShiftMm": 39.92622215001568,
+      "maxElbowShiftMm": 39.85766302297919,
+      "thresholdSamples35to50": 125,
+      "boundaryProbes": [
+        {
+          "sourceTime": 2.354167738685053,
+          "rollStepDegrees": 0.00026520866825308076,
+          "correctionStepMm": 0.0002537896789384582,
+          "elbowCorrectionStepMm": 0.00014099438347274875
+        },
+        {
+          "sourceTime": 1.9583347651164016,
+          "rollStepDegrees": 0.00015715697361073921,
+          "correctionStepMm": 0.0001926052359284127,
+          "elbowCorrectionStepMm": 2.513787597068641e-05
+        },
+        {
+          "sourceTime": 1.9666679239510874,
+          "rollStepDegrees": 0.00018078633112672549,
+          "correctionStepMm": 0.00022775741777144646,
+          "elbowCorrectionStepMm": 9.256266825229078e-06
+        },
+        {
+          "sourceTime": 2.137500544858563,
+          "rollStepDegrees": 0.0007729390630153432,
+          "correctionStepMm": 0.0007026219842606881,
+          "elbowCorrectionStepMm": 3.6152082460935164e-05
+        }
+      ]
+    },
+    {
+      "sex": "Male",
+      "clip": "golfHalf",
+      "side": "Left",
+      "frames": 308,
+      "activeFrames": 207,
+      "maxSourceIntervalSec": 0.016666889190673828,
+      "maxNeighborRollChangeDegrees": 90.0,
+      "maxNeighborWristCorrectionChangeMm": 63.05209516676716,
+      "maxNeighborElbowCorrectionChangeMm": 57.173666595964534,
+      "maxWristShiftMm": 36.62741058384015,
+      "maxElbowShiftMm": 33.91459197560267,
+      "thresholdSamples35to50": 43,
+      "boundaryProbes": [
+        {
+          "sourceTime": 1.8386424877054601,
+          "rollStepDegrees": 90.0,
+          "correctionStepMm": 63.61111574735917,
+          "elbowCorrectionStepMm": 33.88724347975587
+        },
+        {
+          "sourceTime": 1.9145627922885593,
+          "rollStepDegrees": 90.0,
+          "correctionStepMm": 59.50827325776109,
+          "elbowCorrectionStepMm": 57.46199073241584
+        },
+        {
+          "sourceTime": 0.2554130558766041,
+          "rollStepDegrees": 90.0,
+          "correctionStepMm": 58.65078187465899,
+          "elbowCorrectionStepMm": 17.23086715919329
+        },
+        {
+          "sourceTime": 1.829966875058374,
+          "rollStepDegrees": 90.0,
+          "correctionStepMm": 59.01879583863497,
+          "elbowCorrectionStepMm": 27.815779328263186
+        }
+      ]
+    },
+    {
+      "sex": "Male",
+      "clip": "golfHalf",
+      "side": "Right",
+      "frames": 308,
+      "activeFrames": 252,
+      "maxSourceIntervalSec": 0.016666889190673828,
+      "maxNeighborRollChangeDegrees": 90.0,
+      "maxNeighborWristCorrectionChangeMm": 61.06009441467321,
+      "maxNeighborElbowCorrectionChangeMm": 77.62213668225075,
+      "maxWristShiftMm": 39.98962965557348,
+      "maxElbowShiftMm": 39.79212258986384,
+      "thresholdSamples35to50": 65,
+      "boundaryProbes": [
+        {
+          "sourceTime": 2.024381832697525,
+          "rollStepDegrees": 90.0,
+          "correctionStepMm": 60.712651880154915,
+          "elbowCorrectionStepMm": 18.199070721873987
+        },
+        {
+          "sourceTime": 1.8299265767129604,
+          "rollStepDegrees": 1.0,
+          "correctionStepMm": 0.9003409427233257,
+          "elbowCorrectionStepMm": 1.3978993910704256
+        },
+        {
+          "sourceTime": 1.583333967687616,
+          "rollStepDegrees": 0.0003363631754069729,
+          "correctionStepMm": 0.00042208615867354794,
+          "elbowCorrectionStepMm": 4.310127482145094e-06
+        },
+        {
+          "sourceTime": 1.6750008902194242,
+          "rollStepDegrees": 0.0002443100361029238,
+          "correctionStepMm": 0.0002537821084613823,
+          "elbowCorrectionStepMm": 3.1717370681025305e-05
+        }
+      ]
+    },
+    {
+      "sex": "Male",
+      "clip": "golfChip",
+      "side": "Left",
+      "frames": 187,
+      "activeFrames": 159,
+      "maxSourceIntervalSec": 0.016666889190673828,
+      "maxNeighborRollChangeDegrees": 3.890156334266372,
+      "maxNeighborWristCorrectionChangeMm": 3.0883480564343078,
+      "maxNeighborElbowCorrectionChangeMm": 1.5114424896240874,
+      "maxWristShiftMm": 32.19127932691782,
+      "maxElbowShiftMm": 22.91278889158828,
+      "thresholdSamples35to50": 70,
+      "boundaryProbes": [
+        {
+          "sourceTime": 1.3583358247121056,
+          "rollStepDegrees": 8.488333166667417e-05,
+          "correctionStepMm": 6.86707179986388e-05,
+          "elbowCorrectionStepMm": 3.586889891558044e-05
+        },
+        {
+          "sourceTime": 1.4333368977127918,
+          "rollStepDegrees": 5.712764752985322e-05,
+          "correctionStepMm": 4.100511734057018e-05,
+          "elbowCorrectionStepMm": 8.094827703275284e-06
+        },
+        {
+          "sourceTime": 1.4083357557632112,
+          "rollStepDegrees": 8.56522181251762e-05,
+          "correctionStepMm": 6.155594548825143e-05,
+          "elbowCorrectionStepMm": 1.6274972899380372e-05
+        },
+        {
+          "sourceTime": 4.507104790829608e-06,
+          "rollStepDegrees": 4.437429011971972e-05,
+          "correctionStepMm": 3.101562683798189e-05,
+          "elbowCorrectionStepMm": 1.3228919958849543e-05
+        }
+      ]
+    },
+    {
+      "sex": "Male",
+      "clip": "golfChip",
+      "side": "Right",
+      "frames": 187,
+      "activeFrames": 186,
+      "maxSourceIntervalSec": 0.016666889190673828,
+      "maxNeighborRollChangeDegrees": 42.07021522730389,
+      "maxNeighborWristCorrectionChangeMm": 36.602035781134376,
+      "maxNeighborElbowCorrectionChangeMm": 76.23327946566539,
+      "maxWristShiftMm": 37.18747512337658,
+      "maxElbowShiftMm": 39.94396983391706,
+      "thresholdSamples35to50": 83,
+      "boundaryProbes": [
+        {
+          "sourceTime": 1.159631258408551,
+          "rollStepDegrees": 41.083697232670495,
+          "correctionStepMm": 34.73598365790621,
+          "elbowCorrectionStepMm": 39.99993015747387
+        },
+        {
+          "sourceTime": 1.1541733141630033,
+          "rollStepDegrees": 3.0230436152578477e-05,
+          "correctionStepMm": 6.373085425063365e-05,
+          "elbowCorrectionStepMm": 0.00039360568314356
+        },
+        {
+          "sourceTime": 1.3473314333472466,
+          "rollStepDegrees": 27.0,
+          "correctionStepMm": 22.06164533916993,
+          "elbowCorrectionStepMm": 5.154777014178345
+        },
+        {
+          "sourceTime": 1.1500046483943258,
+          "rollStepDegrees": 4.3926940840322004e-05,
+          "correctionStepMm": 9.028197089833013e-05,
+          "elbowCorrectionStepMm": 0.00046625526365068505
+        }
+      ]
+    },
+    {
+      "sex": "Male",
+      "clip": "golfPutt",
+      "side": "Left",
+      "frames": 182,
+      "activeFrames": 182,
+      "maxSourceIntervalSec": 0.016666889190673828,
+      "maxNeighborRollChangeDegrees": 0.0,
+      "maxNeighborWristCorrectionChangeMm": 0.5620036880104613,
+      "maxNeighborElbowCorrectionChangeMm": 0.5172031083218872,
+      "maxWristShiftMm": 31.834957694654108,
+      "maxElbowShiftMm": 28.849559756236758,
+      "thresholdSamples35to50": 0,
+      "boundaryProbes": [
+        {
+          "sourceTime": 1.5500000715255737,
+          "rollStepDegrees": 0.0,
+          "correctionStepMm": 3.379208042518871e-06,
+          "elbowCorrectionStepMm": 8.695420622477543e-07
+        },
+        {
+          "sourceTime": 1.1333333253860474,
+          "rollStepDegrees": 0.0,
+          "correctionStepMm": 3.115774398852478e-06,
+          "elbowCorrectionStepMm": 2.0599795355295482e-06
+        },
+        {
+          "sourceTime": 1.2333333492279053,
+          "rollStepDegrees": 0.0,
+          "correctionStepMm": 2.7192095211836967e-06,
+          "elbowCorrectionStepMm": 3.057207370917984e-06
+        },
+        {
+          "sourceTime": 1.5833333730697632,
+          "rollStepDegrees": 0.0,
+          "correctionStepMm": 2.7047110368840567e-06,
+          "elbowCorrectionStepMm": 6.086470518075667e-07
+        }
+      ]
+    },
+    {
+      "sex": "Male",
+      "clip": "golfPutt",
+      "side": "Right",
+      "frames": 182,
+      "activeFrames": 171,
+      "maxSourceIntervalSec": 0.016666889190673828,
+      "maxNeighborRollChangeDegrees": 31.0,
+      "maxNeighborWristCorrectionChangeMm": 21.91956280248427,
+      "maxNeighborElbowCorrectionChangeMm": 57.61922664428613,
+      "maxWristShiftMm": 31.93334438380595,
+      "maxElbowShiftMm": 39.96538257487733,
+      "thresholdSamples35to50": 0,
+      "boundaryProbes": [
+        {
+          "sourceTime": 1.1841256669306954,
+          "rollStepDegrees": 1.0,
+          "correctionStepMm": 0.7650363196411344,
+          "elbowCorrectionStepMm": 1.046482874355183
+        },
+        {
+          "sourceTime": 1.3266679868959157,
+          "rollStepDegrees": 1.0,
+          "correctionStepMm": 0.7152667462922241,
+          "elbowCorrectionStepMm": 1.0079618797713992
+        },
+        {
+          "sourceTime": 1.4799344586875343,
+          "rollStepDegrees": 23.0,
+          "correctionStepMm": 19.101336615899836,
+          "elbowCorrectionStepMm": 51.13832572913622
+        },
+        {
+          "sourceTime": 1.2970595155793734,
+          "rollStepDegrees": 30.0,
+          "correctionStepMm": 21.547875427575857,
+          "elbowCorrectionStepMm": 56.88100056242191
+        }
+      ]
+    },
+    {
+      "sex": "Female",
+      "clip": "golfDrive",
+      "side": "Left",
+      "frames": 953,
+      "activeFrames": 643,
+      "maxSourceIntervalSec": 0.016666889190673828,
+      "maxNeighborRollChangeDegrees": 90.0,
+      "maxNeighborWristCorrectionChangeMm": 62.09617448973655,
+      "maxNeighborElbowCorrectionChangeMm": 44.42700903254589,
+      "maxWristShiftMm": 39.99601246450129,
+      "maxElbowShiftMm": 33.60703624134283,
+      "thresholdSamples35to50": 83,
+      "boundaryProbes": [
+        {
+          "sourceTime": 2.342908665275175,
+          "rollStepDegrees": 90.0,
+          "correctionStepMm": 62.10265202731543,
+          "elbowCorrectionStepMm": 38.936996972063774
+        },
+        {
+          "sourceTime": 2.386957160737338,
+          "rollStepDegrees": 90.0,
+          "correctionStepMm": 60.87575944916774,
+          "elbowCorrectionStepMm": 44.60210176265248
+        },
+        {
+          "sourceTime": 2.3298424838592497,
+          "rollStepDegrees": 90.0,
+          "correctionStepMm": 60.31110202613806,
+          "elbowCorrectionStepMm": 33.1982636483219
+        },
+        {
+          "sourceTime": 2.469403272929532,
+          "rollStepDegrees": 90.0,
+          "correctionStepMm": 58.696539082541435,
+          "elbowCorrectionStepMm": 42.97025509816281
+        }
+      ]
+    },
+    {
+      "sex": "Female",
+      "clip": "golfDrive",
+      "side": "Right",
+      "frames": 953,
+      "activeFrames": 788,
+      "maxSourceIntervalSec": 0.016666889190673828,
+      "maxNeighborRollChangeDegrees": 30.0,
+      "maxNeighborWristCorrectionChangeMm": 26.414678513735534,
+      "maxNeighborElbowCorrectionChangeMm": 51.69963267405396,
+      "maxWristShiftMm": 39.988026032609525,
+      "maxElbowShiftMm": 39.98024240718568,
+      "thresholdSamples35to50": 118,
+      "boundaryProbes": [
+        {
+          "sourceTime": 0.04219224985350202,
+          "rollStepDegrees": 1.0,
+          "correctionStepMm": 0.9224513283216667,
+          "elbowCorrectionStepMm": 9.39799737544502
+        },
+        {
+          "sourceTime": 2.225000608569271,
+          "rollStepDegrees": 0.0008806832150760613,
+          "correctionStepMm": 0.0007334543234064906,
+          "elbowCorrectionStepMm": 5.9646699496339694e-05
+        },
+        {
+          "sourceTime": 0.03400763087612117,
+          "rollStepDegrees": 1.0,
+          "correctionStepMm": 0.9688929884362647,
+          "elbowCorrectionStepMm": 3.854116815232308
+        },
+        {
+          "sourceTime": 2.0583344291102117,
+          "rollStepDegrees": 0.00019377657919861235,
+          "correctionStepMm": 0.00024015632332553472,
+          "elbowCorrectionStepMm": 1.924652550050121e-05
+        }
+      ]
+    },
+    {
+      "sex": "Female",
+      "clip": "golfIron",
+      "side": "Left",
+      "frames": 1022,
+      "activeFrames": 622,
+      "maxSourceIntervalSec": 0.016666889190673828,
+      "maxNeighborRollChangeDegrees": 90.0,
+      "maxNeighborWristCorrectionChangeMm": 63.64082028660696,
+      "maxNeighborElbowCorrectionChangeMm": 49.36537236099576,
+      "maxWristShiftMm": 39.92059237244486,
+      "maxElbowShiftMm": 34.429973249174154,
+      "thresholdSamples35to50": 108,
+      "boundaryProbes": [
+        {
+          "sourceTime": 2.256199139937207,
+          "rollStepDegrees": 90.0,
+          "correctionStepMm": 62.77538166642994,
+          "elbowCorrectionStepMm": 47.1899408375571
+        },
+        {
+          "sourceTime": 2.2250954477283464,
+          "rollStepDegrees": 90.0,
+          "correctionStepMm": 63.332626518800616,
+          "elbowCorrectionStepMm": 35.75953693683794
+        },
+        {
+          "sourceTime": 2.277315020783199,
+          "rollStepDegrees": 90.0,
+          "correctionStepMm": 59.15852473899108,
+          "elbowCorrectionStepMm": 49.596271652569854
+        },
+        {
+          "sourceTime": 0.3960023079939621,
+          "rollStepDegrees": 90.0,
+          "correctionStepMm": 58.450542926012275,
+          "elbowCorrectionStepMm": 21.21033306966798
+        }
+      ]
+    },
+    {
+      "sex": "Female",
+      "clip": "golfIron",
+      "side": "Right",
+      "frames": 1022,
+      "activeFrames": 879,
+      "maxSourceIntervalSec": 0.016666889190673828,
+      "maxNeighborRollChangeDegrees": 41.0,
+      "maxNeighborWristCorrectionChangeMm": 32.315028498821384,
+      "maxNeighborElbowCorrectionChangeMm": 53.1861182832483,
+      "maxWristShiftMm": 39.996793663019695,
+      "maxElbowShiftMm": 39.92263188050637,
+      "thresholdSamples35to50": 194,
+      "boundaryProbes": [
+        {
+          "sourceTime": 0.04212466550123706,
+          "rollStepDegrees": 29.0,
+          "correctionStepMm": 24.581975766920333,
+          "elbowCorrectionStepMm": 49.5968701221112
+        },
+        {
+          "sourceTime": 0.04144995273079105,
+          "rollStepDegrees": 28.0,
+          "correctionStepMm": 23.877444746918318,
+          "elbowCorrectionStepMm": 52.71578871171906
+        },
+        {
+          "sourceTime": 0.03584007896132306,
+          "rollStepDegrees": 16.0,
+          "correctionStepMm": 14.110570305112287,
+          "elbowCorrectionStepMm": 16.080167217680785
+        },
+        {
+          "sourceTime": 1.975001590231916,
+          "rollStepDegrees": 0.00013821331771879386,
+          "correctionStepMm": 0.00017837961799642608,
+          "elbowCorrectionStepMm": 6.5673532926838025e-06
+        }
+      ]
+    },
+    {
+      "sex": "Female",
+      "clip": "golfHalf",
+      "side": "Left",
+      "frames": 802,
+      "activeFrames": 601,
+      "maxSourceIntervalSec": 0.016666889190673828,
+      "maxNeighborRollChangeDegrees": 90.0,
+      "maxNeighborWristCorrectionChangeMm": 66.6320985404281,
+      "maxNeighborElbowCorrectionChangeMm": 48.31549627027694,
+      "maxWristShiftMm": 36.396137677565804,
+      "maxElbowShiftMm": 30.763396849283886,
+      "thresholdSamples35to50": 38,
+      "boundaryProbes": [
+        {
+          "sourceTime": 1.8467474688205137,
+          "rollStepDegrees": 90.0,
+          "correctionStepMm": 66.49276774066504,
+          "elbowCorrectionStepMm": 43.249382397366894
+        },
+        {
+          "sourceTime": 1.8278459427386,
+          "rollStepDegrees": 90.0,
+          "correctionStepMm": 60.0344624839108,
+          "elbowCorrectionStepMm": 31.30436552874409
+        },
+        {
+          "sourceTime": 1.8861816200441197,
+          "rollStepDegrees": 90.0,
+          "correctionStepMm": 59.173341406456025,
+          "elbowCorrectionStepMm": 48.440647772739794
+        },
+        {
+          "sourceTime": 0.23470477338245865,
+          "rollStepDegrees": 90.0,
+          "correctionStepMm": 58.51847338978973,
+          "elbowCorrectionStepMm": 20.242399021731654
+        }
+      ]
+    },
+    {
+      "sex": "Female",
+      "clip": "golfHalf",
+      "side": "Right",
+      "frames": 802,
+      "activeFrames": 689,
+      "maxSourceIntervalSec": 0.016666889190673828,
+      "maxNeighborRollChangeDegrees": 64.42818248715243,
+      "maxNeighborWristCorrectionChangeMm": 45.286924963103615,
+      "maxNeighborElbowCorrectionChangeMm": 34.83615986453443,
+      "maxWristShiftMm": 39.947511897903915,
+      "maxElbowShiftMm": 37.293205662454454,
+      "thresholdSamples35to50": 145,
+      "boundaryProbes": [
+        {
+          "sourceTime": 2.0416678631078504,
+          "rollStepDegrees": 0.00022765079795306065,
+          "correctionStepMm": 0.0001657406384595148,
+          "elbowCorrectionStepMm": 0.00011182932632299829
+        },
+        {
+          "sourceTime": 1.6000004952370728,
+          "rollStepDegrees": 0.00042427940930522823,
+          "correctionStepMm": 0.0005165309964429944,
+          "elbowCorrectionStepMm": 1.236810589776877e-06
+        },
+        {
+          "sourceTime": 0.008334157243413957,
+          "rollStepDegrees": 0.0002428737410582471,
+          "correctionStepMm": 0.00017659424621160226,
+          "elbowCorrectionStepMm": 0.00010963356198945255
+        },
+        {
+          "sourceTime": 1.5958339388256917,
+          "rollStepDegrees": 0.00031384813790680255,
+          "correctionStepMm": 0.00038292948224954185,
+          "elbowCorrectionStepMm": 1.2090209724891561e-05
+        }
+      ]
+    },
+    {
+      "sex": "Female",
+      "clip": "golfChip",
+      "side": "Left",
+      "frames": 555,
+      "activeFrames": 555,
+      "maxSourceIntervalSec": 0.016666889190673828,
+      "maxNeighborRollChangeDegrees": 6.6568053681738135,
+      "maxNeighborWristCorrectionChangeMm": 4.500868858778792,
+      "maxNeighborElbowCorrectionChangeMm": 1.864481604096192,
+      "maxWristShiftMm": 32.2147046528394,
+      "maxElbowShiftMm": 25.46238028215824,
+      "thresholdSamples35to50": 102,
+      "boundaryProbes": [
+        {
+          "sourceTime": 1.4333361640123194,
+          "rollStepDegrees": 7.228084310639815e-05,
+          "correctionStepMm": 4.8168110440056755e-05,
+          "elbowCorrectionStepMm": 2.2107104911161386e-05
+        },
+        {
+          "sourceTime": 1.4583358429349893,
+          "rollStepDegrees": 8.508346892455165e-05,
+          "correctionStepMm": 6.234493516779566e-05,
+          "elbowCorrectionStepMm": 2.1435847746438573e-05
+        },
+        {
+          "sourceTime": 1.450002530308049,
+          "rollStepDegrees": 8.462483758009398e-05,
+          "correctionStepMm": 6.070020099526193e-05,
+          "elbowCorrectionStepMm": 2.269773843651104e-05
+        },
+        {
+          "sourceTime": 1.4666692129313454,
+          "rollStepDegrees": 8.349847790967146e-05,
+          "correctionStepMm": 5.798504620564835e-05,
+          "elbowCorrectionStepMm": 1.7673466596344412e-05
+        }
+      ]
+    },
+    {
+      "sex": "Female",
+      "clip": "golfChip",
+      "side": "Right",
+      "frames": 555,
+      "activeFrames": 499,
+      "maxSourceIntervalSec": 0.016666889190673828,
+      "maxNeighborRollChangeDegrees": 28.0,
+      "maxNeighborWristCorrectionChangeMm": 24.96288036081865,
+      "maxNeighborElbowCorrectionChangeMm": 75.9212567999394,
+      "maxWristShiftMm": 39.87523333107994,
+      "maxElbowShiftMm": 39.974509524913564,
+      "thresholdSamples35to50": 346,
+      "boundaryProbes": [
+        {
+          "sourceTime": 1.3364961023394182,
+          "rollStepDegrees": 1.0,
+          "correctionStepMm": 0.912136122719687,
+          "elbowCorrectionStepMm": 0.5415776356476415
+        },
+        {
+          "sourceTime": 1.1940379014179374,
+          "rollStepDegrees": 1.0,
+          "correctionStepMm": 0.86460122161205,
+          "elbowCorrectionStepMm": 1.7112509663582811
+        },
+        {
+          "sourceTime": 1.1833550093178968,
+          "rollStepDegrees": 9.24229139087629e-06,
+          "correctionStepMm": 7.515956205444306e-05,
+          "elbowCorrectionStepMm": 0.0005163735940259993
+        },
+        {
+          "sourceTime": 1.3875658177704246,
+          "rollStepDegrees": 1.0,
+          "correctionStepMm": 0.78052660537712,
+          "elbowCorrectionStepMm": 0.6752825146033649
+        }
+      ]
+    },
+    {
+      "sex": "Female",
+      "clip": "golfPutt",
+      "side": "Left",
+      "frames": 426,
+      "activeFrames": 426,
+      "maxSourceIntervalSec": 0.016666889190673828,
+      "maxNeighborRollChangeDegrees": 0.0,
+      "maxNeighborWristCorrectionChangeMm": 0.5752869097816959,
+      "maxNeighborElbowCorrectionChangeMm": 0.5109516077152721,
+      "maxWristShiftMm": 31.835846452422935,
+      "maxElbowShiftMm": 30.378228659000936,
+      "thresholdSamples35to50": 0,
+      "boundaryProbes": [
+        {
+          "sourceTime": 1.350000023841858,
+          "rollStepDegrees": 0.0,
+          "correctionStepMm": 3.4551379996489162e-06,
+          "elbowCorrectionStepMm": 1.7365450213676402e-06
+        },
+        {
+          "sourceTime": 1.5500000715255737,
+          "rollStepDegrees": 0.0,
+          "correctionStepMm": 3.302301014256047e-06,
+          "elbowCorrectionStepMm": 1.1095150864465602e-06
+        },
+        {
+          "sourceTime": 1.4666666984558105,
+          "rollStepDegrees": 0.0,
+          "correctionStepMm": 3.256412880419569e-06,
+          "elbowCorrectionStepMm": 1.639915775490236e-06
+        },
+        {
+          "sourceTime": 1.4833333492279053,
+          "rollStepDegrees": 0.0,
+          "correctionStepMm": 3.1481904871305965e-06,
+          "elbowCorrectionStepMm": 1.4655831947758274e-06
+        }
+      ]
+    },
+    {
+      "sex": "Female",
+      "clip": "golfPutt",
+      "side": "Right",
+      "frames": 426,
+      "activeFrames": 397,
+      "maxSourceIntervalSec": 0.016666889190673828,
+      "maxNeighborRollChangeDegrees": 57.0,
+      "maxNeighborWristCorrectionChangeMm": 42.09012427756225,
+      "maxNeighborElbowCorrectionChangeMm": 77.22013152740946,
+      "maxWristShiftMm": 36.83630034080287,
+      "maxElbowShiftMm": 39.99880264981269,
+      "thresholdSamples35to50": 0,
+      "boundaryProbes": [
+        {
+          "sourceTime": 0.3105660599473459,
+          "rollStepDegrees": 1.0,
+          "correctionStepMm": 0.7681045851137834,
+          "elbowCorrectionStepMm": 0.8391966446823396
+        },
+        {
+          "sourceTime": 0.6474342724718254,
+          "rollStepDegrees": 51.0,
+          "correctionStepMm": 37.24652026027469,
+          "elbowCorrectionStepMm": 71.79218948911203
+        },
+        {
+          "sourceTime": 0.5214784665240852,
+          "rollStepDegrees": 1.0,
+          "correctionStepMm": 0.7730424693566641,
+          "elbowCorrectionStepMm": 7.455284575667638
+        },
+        {
+          "sourceTime": 1.6212146866006663,
+          "rollStepDegrees": 46.0,
+          "correctionStepMm": 34.6465167169342,
+          "elbowCorrectionStepMm": 74.01682366335969
+        }
+      ]
+    }
+  ],
+  "note": "Sub-frame probes interpolate recorded world positions and Club rotation. Measures candidate correction separately from existing source motion. Quantized roll, feasibility gates, and final 40mm rejection may create discontinuities; appearance gate separate."
+}

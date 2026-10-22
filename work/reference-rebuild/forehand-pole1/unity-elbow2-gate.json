@@ -1,0 +1,29 @@
+{
+  "overallBoundedGate": "PASS",
+  "selection": "Male ForehandOpen elbow-only correction; waist overlay disabled by default and rejected for broad contact window",
+  "visualScope": "25 dense samples at .36-.72s including exact .533330 contact, front and rear, full and gameplay LOD; all 100 male Unity images reviewed in sheets plus critical full-resolution contact frames",
+  "visualResult": "Previously occluded/intersecting forearm now has a continuous exposed silhouette; no new torso skin breakthrough in elbow-only transition images; retained source shirt and body mask unchanged",
+  "wristContactInvariant": "PASS max wrist translation difference .000209944mm and orientation .000037411deg across paired25 poses at each LOD",
+  "fingerDetail": "Strict all-finger exactness FAIL after HeroGripPolish LateUpdate re-solves world-space digits: maximum .034149mm/.091617deg. Wrist and racket/socket ancestry remain preserved. This subpixel numerical drift is reported separately, not called exact.",
+  "femaleIsolation": "PASS all25 Body skin matrices exactly unchanged in paired control/candidate1 proof; helper excludes female",
+  "physicsScope": "No gameplay physics or contact timing code changed. Fixed wrist plus unchanged hand-descendant local animation preserves racket/string transforms; string descendants were not separately serialized in matrix captures. No live selfplay rerun claimed.",
+  "source": "Unity/Assets/Scripts/Tennis/HeroTennisDriver.cs",
+  "sourceSha256": "c5a0f7bf7cf1c5491f0b0779a5daba5e66bd3260a2da617be52a40c0e6085d50",
+  "criticalProofs": [
+    "proof/reference-rebuild/forehand-elbow2/male_ForehandOpen_24.png",
+    "proof/reference-rebuild/forehand-elbow2-lod/male_ForehandOpen_24.png"
+  ],
+  "invariantData": "work/reference-rebuild/forehand-pole1/unity-elbow2-invariants.json",
+  "reviewSheets": [
+    "forehand-elbow2-review.jpg",
+    "forehand-elbow2_rear-review.jpg",
+    "forehand-elbow2-lod-review.jpg",
+    "forehand-elbow2-lod_rear-review.jpg"
+  ],
+  "knownOpenIssues": [
+    "All 33 full-speed entry/return motion approval remains separate; current final-motion folder empty.",
+    "No universal geometric no-intersection assertion: bounded pass is evaluated dense front/rear visible forearm and shirt coverage.",
+    "Rejected sparse waist asset may remain staged but must remain default0."
+  ],
+  "handoff": "No further forehand authoring necessary for this bounded visible defect. Root owns final broader character/motion acceptance."
+}

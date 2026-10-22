@@ -1,0 +1,47 @@
+[
+  {
+    "path": "work/golf-look/PRECONDITIONS.json",
+    "backup": "work/golf-look/rollback/pre_waiting_turn4/PRECONDITIONS.json",
+    "sha256": "5330082efdd825d7f09f5edb49bffd57fcdd41315a46314ee9699ad892854957"
+  },
+  {
+    "path": "work/golf-look/RESUME.md",
+    "backup": "work/golf-look/rollback/pre_waiting_turn4/RESUME.md",
+    "sha256": "f7a960f04a9056dfbf58daab3d7a7ca4f8cd14ece693a70ed79f438da7c2c53c"
+  },
+  {
+    "path": "work/golf-look/REPORT.md",
+    "backup": "work/golf-look/rollback/pre_waiting_turn4/REPORT.md",
+    "sha256": "f445cc6f160be18583a23bbd581ebe4a40a591f6253b42dbe74a4f47bcd5f450"
+  },
+  {
+    "path": "work/golf-look/AUDIT.md",
+    "backup": "work/golf-look/rollback/pre_waiting_turn4/AUDIT.md",
+    "sha256": "ec5f072094ac6d6627e27f8746349a812691574d0e059043cc02aaf37f53dd40"
+  },
+  {
+    "path": "work/golf-look/scripts/write_checkpoint.py",
+    "backup": "work/golf-look/rollback/pre_waiting_turn4/scripts/write_checkpoint.py",
+    "sha256": "3bdd03481a6fa89151c6b76c9e20a06b8273fc36be7674a563a2d676eadfb84e"
+  },
+  {
+    "path": "work/golf-look/data/gates_checkpoint.json",
+    "backup": "work/golf-look/rollback/pre_waiting_turn4/data/gates_checkpoint.json",
+    "sha256": "12806562910607bd830685bee47259ddfd16ff054a495c3aa8a7867c3876b1f2"
+  },
+  {
+    "path": "work/golf-look/data/proof_manifest.json",
+    "backup": "work/golf-look/rollback/pre_waiting_turn4/data/proof_manifest.json",
+    "sha256": "010f6be92159b0a8deb2e6aaf6433f99b94538ac64af76b1311c70f9d79a5f3e"
+  },
+  {
+    "path": "work/golf-look/data/staged_paths.txt",
+    "backup": "work/golf-look/rollback/pre_waiting_turn4/data/staged_paths.txt",
+    "sha256": "45df2b655559c83f04bbaf793bd70bedd7fd282e74dcc0bfb432fa27e7b6b175"
+  },
+  {
+    "path": "work/golf-look/data/validation_construction3_checkpoint.json",
+    "backup": "work/golf-look/rollback/pre_waiting_turn4/data/validation_construction3_checkpoint.json",
+    "sha256": "5a94f0142ef319a9c3c22791c179f5d799cdc7a2a783f00cb651ff95eba2072a"
+  }
+]

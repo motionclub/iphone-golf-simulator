@@ -1,0 +1,1096 @@
+{
+  "generatedUtc": "2026-10-05T20:34:53.451344+00:00",
+  "tool": "measure_native_p4",
+  "status": "FAIL",
+  "scope": "Staged P4 native Game-camera evidence, not final installed P6 proof. Global repeat/control and semantic results are retained separately; their FAILs are not relabelled by a basalt colour/network measurement.",
+  "measureSource": {
+    "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/measure.py",
+    "sha256": "2fe4ca728a0fbc3e0b6d1a2fe07dcc808b6572a82407d5d7d3fb3a22d049fab7",
+    "functions": [
+      "basalt_metrics",
+      "basalt_shot_ok",
+      "basalt_network_ok"
+    ],
+    "modified": false
+  },
+  "thresholds": {
+    "grass_hue": [
+      60.0,
+      76.0
+    ],
+    "rough_hue": [
+      54.0,
+      76.0
+    ],
+    "grass_clip_max": 0.05,
+    "flat_win": 8,
+    "flat_sd": 0.006,
+    "block_sd": 0.003,
+    "flat_max": 0.15,
+    "lower": 0.6,
+    "lum_sd_min": 12.0,
+    "shelf_top2_max": 0.1,
+    "shelf_vs_sea_max": 1.3,
+    "shelf_hue": [
+      170.0,
+      205.0
+    ],
+    "lava_band": 0.85,
+    "lava_gclip_max": 0.05,
+    "lava_dark_max": 0.15,
+    "lava_meanV_min": 0.7,
+    "basalt_glow_cov_max": 0.2,
+    "basalt_median_lum_max": 55.0,
+    "basalt_vert_share_min": 0.5,
+    "basalt_rung_share_max": 0.2,
+    "basalt_base_s_max": 0.25,
+    "basalt_vert_share_max": 0.8,
+    "basalt_junction_per100_min": 3.0,
+    "smoke_edge_p99_max": 6.0,
+    "smoke_dp95_min": 8.0,
+    "smoke_dmax_max": 110.0,
+    "smoke_px_min": 500,
+    "ball_visible_min": 0.9,
+    "path_max_cm": 1.5
+  },
+  "fixtureCfg": {
+    "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole10/aerial_cfg.json",
+    "sha256": "476e8f3f4f7ea25fb5e77f05406ee213617e06052d267dfe1ef663461acbebb2"
+  },
+  "gates": {
+    "BASALT_JOINTS": {
+      "gate": "BASALT_JOINTS",
+      "status": "FAIL",
+      "authoritativeShots": [
+        "hole10_1_tee",
+        "hole10_2_approach"
+      ],
+      "everyRequiredCaptureMeasured": true,
+      "network": {
+        "status": "PASS",
+        "skeletonPixels": 2143,
+        "junctionClusters": 186,
+        "junctionsPer100Pixels": 8.67942137190854,
+        "minimumSkeletonPixels": 200,
+        "minimumJunctionsPer100Pixels": 3.0
+      },
+      "rows": [
+        {
+          "shot": "hole10_1_tee",
+          "input": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole10/unity_attempt3",
+          "authority": true,
+          "status": "PASS",
+          "reason": "Unmodified inherited per-shot basalt thresholds",
+          "metrics": {
+            "pixels": 113542,
+            "share_of_frame": 0.0788,
+            "glow_px": 2902,
+            "glow_coverage": 0.0256,
+            "base_mean_rgb": [
+              41.5,
+              32.2,
+              33.7
+            ],
+            "base_hue": 350.5,
+            "base_s": 0.224,
+            "base_v": 0.163,
+            "base_lum_median": 33.5,
+            "base_lum_p90": 47.7,
+            "base_lum_mean": 34.3,
+            "base_s_median": 0.129,
+            "glow_mean_rgb": [
+              122.8,
+              48.1,
+              31.1
+            ],
+            "glow_mean_hue": 11.1,
+            "glow_cream_share": 0.0,
+            "glow_skeleton_px": 762,
+            "glow_junction_clusters": 59,
+            "glow_components": 112,
+            "glow_vertical_line_share": 0.45,
+            "glow_horizontal_rung_share": 0.189,
+            "glow_blob_share": 0.206,
+            "glow_component_height_median_px": 5,
+            "glow_component_width_median_px": 3,
+            "glow_component_height_p90_px": 9
+          },
+          "basaltPixels": 113542,
+          "files": {
+            "full": {
+              "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole10/unity_attempt3/hole10_1_tee.full.png",
+              "exists": true,
+              "bytes": 2136637,
+              "sha256": "550732fb5d3ba44060135eba7dc9b4f15eebaf05d04a55bce790e155ac47bbff"
+            },
+            "basalt": {
+              "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole10/unity_attempt3/hole10_1_tee.basalt.png",
+              "exists": true,
+              "bytes": 25905,
+              "sha256": "367f8e4f36b7483390e40cb325bb3dba8ba1e1eda58f56c11b6be4535b395531"
+            },
+            "frameProof": {
+              "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole10/unity_attempt3/hole10_1_tee.v3_frame_proof.json",
+              "exists": true,
+              "bytes": 509440,
+              "sha256": "b768b828ab5692105f43d3689b409dba15603e675865b7ce301d759e85643111"
+            }
+          },
+          "semanticControl": {
+            "tool": "PostcardV3FrameProof",
+            "unityProject": null,
+            "unity": "6000.3.24f1",
+            "graphicsAPI": "Metal",
+            "shot": "hole10_1_tee",
+            "hole": 10,
+            "width": 900,
+            "height": 1600,
+            "frame": 1,
+            "cameraPosition": [
+              -0.9501398205757141,
+              9.284202575683594,
+              -4.3985490798950195
+            ],
+            "cameraRotation": [
+              21.801389694213867,
+              12.18929386138916,
+              -2.2988555770098174e-07
+            ],
+            "fov": 60.0,
+            "applicationIsPlaying": null,
+            "gameTime": null,
+            "timeScale": null,
+            "fullRgbSha256": "146e859e0305c666615ffabe4e0d4335cb1562108932be36ebcb8aa86824b0f7",
+            "idOcclusion": "Conservative opaque depth: alpha cards occlude their full geometry; plant vertices use the live GolfPlants displacement. ID masks are underestimates where translucent cards overlap.",
+            "landmarks": [
+              {
+                "name": "volcano",
+                "maskKind": "Explicit renderer ID, conservative opaque occlusion",
+                "status": "PASS",
+                "reason": "Fixed landmark height >=64 of1600 pixels (4%); exact selected renderer paths listed. Multiple separate stacks are measured individually.",
+                "file": "hole10_1_tee.landmark_volcano.png",
+                "exactMembership": true,
+                "pixels": 9865,
+                "heightPixels": 197,
+                "largestComponentHeight": 197,
+                "xMin": 837,
+                "xMax": 899,
+                "yMin": 1403,
+                "yMax": 1599,
+                "members": [
+                  {
+                    "path": "DRESS_CONE",
+                    "centre": [
+                      190.6494903564453,
+                      66.14863586425781,
+                      483.9862060546875
+                    ],
+                    "size": [
+                      289.75762939453125,
+                      149.7952423095703,
+                      286.01922607421875
+                    ],
+                    "materials": [
+                      "LK_BASALT",
+                      "LK_LAVA"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "channel": {
+              "name": "channel",
+              "maskKind": "",
+              "status": "FAIL",
+              "reason": "No audited explicit channel polygon supplied",
+              "file": "",
+              "exactMembership": false,
+              "pixels": 0,
+              "heightPixels": 0,
+              "largestComponentHeight": 0,
+              "xMin": -1,
+              "xMax": -1,
+              "yMin": -1,
+              "yMax": -1,
+              "members": []
+            },
+            "basalt": {
+              "name": "basalt",
+              "maskKind": "Exact LK_BASALT material slots, conservative opaque depth",
+              "status": "PASS",
+              "reason": "Mask support only; BASALT_JOINTS must be independently measured on the full image using this mask and frozen skeleton thresholds.",
+              "file": "hole10_1_tee.basalt.png",
+              "exactMembership": true,
+              "pixels": 113542,
+              "heightPixels": 640,
+              "largestComponentHeight": 231,
+              "xMin": 0,
+              "xMax": 899,
+              "yMin": 960,
+              "yMax": 1599,
+              "members": []
+            },
+            "cliff": {
+              "status": "PASS",
+              "reason": "Below-play-surface vertical cliff-category pixels directly beneath visible playing top on at least one screen half. Counts supplied; binary side presence has no invented minimum-area threshold.",
+              "file": "hole10_1_tee.cliff_top.png",
+              "cliffPixels": 182,
+              "topPixels": 13266,
+              "leftHalfCliffPixels": 0,
+              "rightHalfCliffPixels": 182,
+              "leftAdjacentPixels": 0,
+              "rightAdjacentPixels": 182,
+              "playY": 6.561679840087891,
+              "leftSidePresent": false,
+              "rightSidePresent": true
+            },
+            "bands": {
+              "status": "FAIL",
+              "reason": "THRESHOLDS.md fixed relative-to-light caps: fairway .12, green .08. Every rendered material needs >=512 pixels per authored plateau after controlled shadow-off exclusion and 1px erosion. Original repeat must be pixel-identical. Absent material retains an unverified/FAIL cap status but is not claimed as measured; an overall phase gate must require both materials proven in supported frames. No luminance-percentile selection.",
+              "file": "hole10_1_tee.mow_bands.png",
+              "membership": "actual interpolated UV0 and BaseMap_ST, exact generator primary band field; >=.9 light / <=.1 dark",
+              "fairwayLightPixels": 752796,
+              "fairwayDarkPixels": 201307,
+              "greenLightPixels": 124,
+              "greenDarkPixels": 113,
+              "fairwayLightMean": 0.5698707611425518,
+              "fairwayDarkMean": 0.5645815268825923,
+              "greenLightMean": 0.5819911701454777,
+              "greenDarkMean": 0.5668959847301753,
+              "fairwayGapOverMean": 0.009324736378586575,
+              "greenGapOverMean": 0.02627792529708665,
+              "fairwayGapOverLight": 0.009281462781762777,
+              "greenGapOverLight": 0.025937138206975095,
+              "fairwayCapStatus": "PASS",
+              "greenCapStatus": "FAIL",
+              "excludedShadowPixels": 49960,
+              "excludedEdgePixels": 17057,
+              "controlDriftPixels": 0,
+              "minimumPlateauPixels": 512,
+              "fairwayRendered": true,
+              "greenRendered": true
+            },
+            "costs": {
+              "status": "FAIL",
+              "reason": "Counter publication could not isolate three consistent positive single-render deltas; raw samples retained. No mesh/submesh estimate substituted.",
+              "scope": "Editor Metal, isolated synchronous 900x1600 camera render; includes shadow passes; no claim of device runtime cost",
+              "meshInstanceTriangles": 248229,
+              "samples": [
+                {
+                  "frameBefore": 1,
+                  "frameAfter": 1,
+                  "unityBefore": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "unityAfter": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "profilerBefore": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "profilerAfter": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "unityDelta": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "profilerDelta": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  }
+                },
+                {
+                  "frameBefore": 1,
+                  "frameAfter": 1,
+                  "unityBefore": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "unityAfter": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "profilerBefore": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "profilerAfter": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "unityDelta": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "profilerDelta": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  }
+                },
+                {
+                  "frameBefore": 1,
+                  "frameAfter": 1,
+                  "unityBefore": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "unityAfter": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "profilerBefore": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "profilerAfter": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "unityDelta": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "profilerDelta": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  }
+                }
+              ],
+              "triangles": 0,
+              "drawCalls": 0,
+              "setPass": 0,
+              "triangleCapStatus": "PASS",
+              "drawCallCapStatus": "FAIL"
+            },
+            "rendererInventoryCount": 1187
+          },
+          "fullRgbHashOrientation": [
+            "Unity bottom-to-top"
+          ]
+        },
+        {
+          "shot": "hole10_2_approach",
+          "input": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole10/unity_attempt3",
+          "authority": true,
+          "status": "FAIL",
+          "reason": "Unmodified inherited per-shot basalt thresholds",
+          "metrics": {
+            "pixels": 85756,
+            "share_of_frame": 0.0596,
+            "glow_px": 4643,
+            "glow_coverage": 0.0541,
+            "base_mean_rgb": [
+              36.4,
+              24.0,
+              23.8
+            ],
+            "base_hue": 1.0,
+            "base_s": 0.347,
+            "base_v": 0.143,
+            "base_lum_median": 23.9,
+            "base_lum_p90": 39.6,
+            "base_lum_mean": 26.6,
+            "base_s_median": 0.188,
+            "glow_mean_rgb": [
+              129.0,
+              54.8,
+              26.7
+            ],
+            "glow_mean_hue": 16.4,
+            "glow_cream_share": 0.0,
+            "glow_skeleton_px": 1381,
+            "glow_junction_clusters": 127,
+            "glow_components": 148,
+            "glow_vertical_line_share": 0.63,
+            "glow_horizontal_rung_share": 0.035,
+            "glow_blob_share": 0.182,
+            "glow_component_height_median_px": 6,
+            "glow_component_width_median_px": 3,
+            "glow_component_height_p90_px": 13
+          },
+          "basaltPixels": 85756,
+          "files": {
+            "full": {
+              "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole10/unity_attempt3/hole10_2_approach.full.png",
+              "exists": true,
+              "bytes": 2014703,
+              "sha256": "47c9c5e7c6e3c3e329d1f40e39986f46a1752c1e4c3d223f6dbe558745b9e50d"
+            },
+            "basalt": {
+              "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole10/unity_attempt3/hole10_2_approach.basalt.png",
+              "exists": true,
+              "bytes": 21126,
+              "sha256": "b2e389f9694678b73dff8b3c79d6638b0fa419cc982a6074f9b7c166abaf953b"
+            },
+            "frameProof": {
+              "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole10/unity_attempt3/hole10_2_approach.v3_frame_proof.json",
+              "exists": true,
+              "bytes": 509391,
+              "sha256": "f5edb9614c9860667680cbb8b34bd1abf2561f9cade75fd2fcc82996c34a39c3"
+            }
+          },
+          "semanticControl": {
+            "tool": "PostcardV3FrameProof",
+            "unityProject": null,
+            "unity": "6000.3.24f1",
+            "graphicsAPI": "Metal",
+            "shot": "hole10_2_approach",
+            "hole": 10,
+            "width": 900,
+            "height": 1600,
+            "frame": 1,
+            "cameraPosition": [
+              102.60277557373047,
+              9.174735069274902,
+              159.1422119140625
+            ],
+            "cameraRotation": [
+              21.801517486572266,
+              87.99018859863281,
+              1.8390859395367443e-06
+            ],
+            "fov": 60.0,
+            "applicationIsPlaying": null,
+            "gameTime": null,
+            "timeScale": null,
+            "fullRgbSha256": "44056fe694c541ff204792b65f975790daca27a56e5f14de79df059a40d4c709",
+            "idOcclusion": "Conservative opaque depth: alpha cards occlude their full geometry; plant vertices use the live GolfPlants displacement. ID masks are underestimates where translucent cards overlap.",
+            "landmarks": [
+              {
+                "name": "volcano",
+                "maskKind": "Explicit renderer ID, conservative opaque occlusion",
+                "status": "FAIL",
+                "reason": "Fixed landmark height >=64 of1600 pixels (4%); exact selected renderer paths listed. Multiple separate stacks are measured individually.",
+                "file": "hole10_2_approach.landmark_volcano.png",
+                "exactMembership": true,
+                "pixels": 0,
+                "heightPixels": 0,
+                "largestComponentHeight": 0,
+                "xMin": -1,
+                "xMax": -1,
+                "yMin": -1,
+                "yMax": -1,
+                "members": [
+                  {
+                    "path": "DRESS_CONE",
+                    "centre": [
+                      190.6494903564453,
+                      66.14863586425781,
+                      483.9862060546875
+                    ],
+                    "size": [
+                      289.75762939453125,
+                      149.7952423095703,
+                      286.01922607421875
+                    ],
+                    "materials": [
+                      "LK_BASALT",
+                      "LK_LAVA"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "channel": {
+              "name": "channel",
+              "maskKind": "",
+              "status": "FAIL",
+              "reason": "No audited explicit channel polygon supplied",
+              "file": "",
+              "exactMembership": false,
+              "pixels": 0,
+              "heightPixels": 0,
+              "largestComponentHeight": 0,
+              "xMin": -1,
+              "xMax": -1,
+              "yMin": -1,
+              "yMax": -1,
+              "members": []
+            },
+            "basalt": {
+              "name": "basalt",
+              "maskKind": "Exact LK_BASALT material slots, conservative opaque depth",
+              "status": "PASS",
+              "reason": "Mask support only; BASALT_JOINTS must be independently measured on the full image using this mask and frozen skeleton thresholds.",
+              "file": "hole10_2_approach.basalt.png",
+              "exactMembership": true,
+              "pixels": 85756,
+              "heightPixels": 230,
+              "largestComponentHeight": 230,
+              "xMin": 0,
+              "xMax": 736,
+              "yMin": 1235,
+              "yMax": 1464,
+              "members": []
+            },
+            "cliff": {
+              "status": "PASS",
+              "reason": "Below-play-surface vertical cliff-category pixels directly beneath visible playing top on at least one screen half. Counts supplied; binary side presence has no invented minimum-area threshold.",
+              "file": "hole10_2_approach.cliff_top.png",
+              "cliffPixels": 32745,
+              "topPixels": 895,
+              "leftHalfCliffPixels": 16286,
+              "rightHalfCliffPixels": 16459,
+              "leftAdjacentPixels": 5037,
+              "rightAdjacentPixels": 5066,
+              "playY": 6.561679840087891,
+              "leftSidePresent": true,
+              "rightSidePresent": true
+            },
+            "bands": {
+              "status": "PASS",
+              "reason": "THRESHOLDS.md fixed relative-to-light caps: fairway .12, green .08. Every rendered material needs >=512 pixels per authored plateau after controlled shadow-off exclusion and 1px erosion. Original repeat must be pixel-identical. Absent material retains an unverified/FAIL cap status but is not claimed as measured; an overall phase gate must require both materials proven in supported frames. No luminance-percentile selection.",
+              "file": "hole10_2_approach.mow_bands.png",
+              "membership": "actual interpolated UV0 and BaseMap_ST, exact generator primary band field; >=.9 light / <=.1 dark",
+              "fairwayLightPixels": 443855,
+              "fairwayDarkPixels": 347405,
+              "greenLightPixels": 0,
+              "greenDarkPixels": 0,
+              "fairwayLightMean": 0.6316570514686349,
+              "fairwayDarkMean": 0.5692599819626333,
+              "greenLightMean": 0.0,
+              "greenDarkMean": 0.0,
+              "fairwayGapOverMean": 0.10391570403114415,
+              "greenGapOverMean": 0.0,
+              "fairwayGapOverLight": 0.09878314405091383,
+              "greenGapOverLight": 0.0,
+              "fairwayCapStatus": "PASS",
+              "greenCapStatus": "FAIL",
+              "excludedShadowPixels": 43076,
+              "excludedEdgePixels": 7535,
+              "controlDriftPixels": 0,
+              "minimumPlateauPixels": 512,
+              "fairwayRendered": true,
+              "greenRendered": false
+            },
+            "costs": {
+              "status": "FAIL",
+              "reason": "Counter publication could not isolate three consistent positive single-render deltas; raw samples retained. No mesh/submesh estimate substituted.",
+              "scope": "Editor Metal, isolated synchronous 900x1600 camera render; includes shadow passes; no claim of device runtime cost",
+              "meshInstanceTriangles": 248229,
+              "samples": [
+                {
+                  "frameBefore": 1,
+                  "frameAfter": 1,
+                  "unityBefore": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "unityAfter": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "profilerBefore": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "profilerAfter": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "unityDelta": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "profilerDelta": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  }
+                },
+                {
+                  "frameBefore": 1,
+                  "frameAfter": 1,
+                  "unityBefore": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "unityAfter": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "profilerBefore": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "profilerAfter": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "unityDelta": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "profilerDelta": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  }
+                },
+                {
+                  "frameBefore": 1,
+                  "frameAfter": 1,
+                  "unityBefore": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "unityAfter": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "profilerBefore": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "profilerAfter": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "unityDelta": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "profilerDelta": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  }
+                }
+              ],
+              "triangles": 0,
+              "drawCalls": 0,
+              "setPass": 0,
+              "triangleCapStatus": "PASS",
+              "drawCallCapStatus": "FAIL"
+            },
+            "rendererInventoryCount": 1187
+          },
+          "fullRgbHashOrientation": [
+            "Unity bottom-to-top"
+          ]
+        },
+        {
+          "shot": "hole10_aerial_staged",
+          "input": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole10/unity_attempt3",
+          "authority": false,
+          "status": "FAIL",
+          "reason": "Unmodified inherited per-shot basalt thresholds",
+          "metrics": {
+            "pixels": 351082,
+            "share_of_frame": 0.2438,
+            "glow_px": 1076,
+            "glow_coverage": 0.0031,
+            "base_mean_rgb": [
+              56.3,
+              44.6,
+              46.6
+            ],
+            "base_hue": 350.0,
+            "base_s": 0.208,
+            "base_v": 0.221,
+            "base_lum_median": 48.2,
+            "base_lum_p90": 56.1,
+            "base_lum_mean": 47.2,
+            "base_s_median": 0.155,
+            "glow_mean_rgb": [
+              112.4,
+              51.7,
+              39.8
+            ],
+            "glow_mean_hue": 9.8,
+            "glow_cream_share": 0.0,
+            "glow_skeleton_px": 23,
+            "glow_junction_clusters": 2,
+            "glow_components": 6,
+            "glow_vertical_line_share": 0.0,
+            "glow_horizontal_rung_share": 0.267,
+            "glow_blob_share": 0.222,
+            "glow_component_height_median_px": 3,
+            "glow_component_width_median_px": 4,
+            "glow_component_height_p90_px": 4
+          },
+          "basaltPixels": 351082,
+          "files": {
+            "full": {
+              "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole10/unity_attempt3/hole10_aerial_staged.full.png",
+              "exists": true,
+              "bytes": 2145458,
+              "sha256": "83327dfbfe4fb41c2e251c375d4dd4dc014e4e9379ed5caf95c2766249983e3c"
+            },
+            "basalt": {
+              "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole10/unity_attempt3/hole10_aerial_staged.basalt.png",
+              "exists": true,
+              "bytes": 61019,
+              "sha256": "02b51e629f0d9031b0bda2b5fdcf6b19ccf725070038647eef43d3a33c932765"
+            },
+            "frameProof": {
+              "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole10/unity_attempt3/hole10_aerial_staged.v3_frame_proof.json",
+              "exists": true,
+              "bytes": 509372,
+              "sha256": "e434706cdcbe3d0f74822f7c8cdd215b5ba57a66faaa140de5d7f22bb5f2bcae"
+            }
+          },
+          "semanticControl": {
+            "tool": "PostcardV3FrameProof",
+            "unityProject": null,
+            "unity": "6000.3.24f1",
+            "graphicsAPI": "Metal",
+            "shot": "hole10_aerial_staged",
+            "hole": 10,
+            "width": 900,
+            "height": 1600,
+            "frame": 1,
+            "cameraPosition": [
+              -130.0,
+              320.0,
+              -165.0
+            ],
+            "cameraRotation": [
+              40.75995635986328,
+              44.454349517822266,
+              3.38149766321294e-06
+            ],
+            "fov": 58.0,
+            "applicationIsPlaying": null,
+            "gameTime": null,
+            "timeScale": null,
+            "fullRgbSha256": "c7bc901fc183b34f6fb6615a3d5917a433d2419168aea48e8b5c8e55c5534de7",
+            "idOcclusion": "Conservative opaque depth: alpha cards occlude their full geometry; plant vertices use the live GolfPlants displacement. ID masks are underestimates where translucent cards overlap.",
+            "landmarks": [
+              {
+                "name": "volcano",
+                "maskKind": "Explicit renderer ID, conservative opaque occlusion",
+                "status": "PASS",
+                "reason": "Fixed landmark height >=64 of1600 pixels (4%); exact selected renderer paths listed. Multiple separate stacks are measured individually.",
+                "file": "hole10_aerial_staged.landmark_volcano.png",
+                "exactMembership": true,
+                "pixels": 24243,
+                "heightPixels": 383,
+                "largestComponentHeight": 244,
+                "xMin": 0,
+                "xMax": 286,
+                "yMin": 1124,
+                "yMax": 1506,
+                "members": [
+                  {
+                    "path": "DRESS_CONE",
+                    "centre": [
+                      190.6494903564453,
+                      66.14863586425781,
+                      483.9862060546875
+                    ],
+                    "size": [
+                      289.75762939453125,
+                      149.7952423095703,
+                      286.01922607421875
+                    ],
+                    "materials": [
+                      "LK_BASALT",
+                      "LK_LAVA"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "channel": {
+              "name": "channel",
+              "maskKind": "",
+              "status": "FAIL",
+              "reason": "No audited explicit channel polygon supplied",
+              "file": "",
+              "exactMembership": false,
+              "pixels": 0,
+              "heightPixels": 0,
+              "largestComponentHeight": 0,
+              "xMin": -1,
+              "xMax": -1,
+              "yMin": -1,
+              "yMax": -1,
+              "members": []
+            },
+            "basalt": {
+              "name": "basalt",
+              "maskKind": "Exact LK_BASALT material slots, conservative opaque depth",
+              "status": "PASS",
+              "reason": "Mask support only; BASALT_JOINTS must be independently measured on the full image using this mask and frozen skeleton thresholds.",
+              "file": "hole10_aerial_staged.basalt.png",
+              "exactMembership": true,
+              "pixels": 351082,
+              "heightPixels": 1507,
+              "largestComponentHeight": 468,
+              "xMin": 0,
+              "xMax": 899,
+              "yMin": 0,
+              "yMax": 1506,
+              "members": []
+            },
+            "cliff": {
+              "status": "PASS",
+              "reason": "Below-play-surface vertical cliff-category pixels directly beneath visible playing top on at least one screen half. Counts supplied; binary side presence has no invented minimum-area threshold.",
+              "file": "hole10_aerial_staged.cliff_top.png",
+              "cliffPixels": 5109,
+              "topPixels": 28311,
+              "leftHalfCliffPixels": 3766,
+              "rightHalfCliffPixels": 1343,
+              "leftAdjacentPixels": 3766,
+              "rightAdjacentPixels": 1343,
+              "playY": 6.561679840087891,
+              "leftSidePresent": true,
+              "rightSidePresent": true
+            },
+            "bands": {
+              "status": "FAIL",
+              "reason": "THRESHOLDS.md fixed relative-to-light caps: fairway .12, green .08. Every rendered material needs >=512 pixels per authored plateau after controlled shadow-off exclusion and 1px erosion. Original repeat must be pixel-identical. Absent material retains an unverified/FAIL cap status but is not claimed as measured; an overall phase gate must require both materials proven in supported frames. No luminance-percentile selection.",
+              "file": "hole10_aerial_staged.mow_bands.png",
+              "membership": "actual interpolated UV0 and BaseMap_ST, exact generator primary band field; >=.9 light / <=.1 dark",
+              "fairwayLightPixels": 9133,
+              "fairwayDarkPixels": 10001,
+              "greenLightPixels": 0,
+              "greenDarkPixels": 0,
+              "fairwayLightMean": 0.5132087284422251,
+              "fairwayDarkMean": 0.488853273025642,
+              "greenLightMean": 0.0,
+              "greenDarkMean": 0.0,
+              "fairwayGapOverMean": 0.04861067554883044,
+              "greenGapOverMean": 0.0,
+              "fairwayGapOverLight": 0.047457211981781225,
+              "greenGapOverLight": 0.0,
+              "fairwayCapStatus": "PASS",
+              "greenCapStatus": "FAIL",
+              "excludedShadowPixels": 0,
+              "excludedEdgePixels": 14598,
+              "controlDriftPixels": 0,
+              "minimumPlateauPixels": 512,
+              "fairwayRendered": true,
+              "greenRendered": true
+            },
+            "costs": {
+              "status": "FAIL",
+              "reason": "Counter publication could not isolate three consistent positive single-render deltas; raw samples retained. No mesh/submesh estimate substituted.",
+              "scope": "Editor Metal, isolated synchronous 900x1600 camera render; includes shadow passes; no claim of device runtime cost",
+              "meshInstanceTriangles": 248229,
+              "samples": [
+                {
+                  "frameBefore": 1,
+                  "frameAfter": 1,
+                  "unityBefore": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "unityAfter": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "profilerBefore": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "profilerAfter": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "unityDelta": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "profilerDelta": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  }
+                },
+                {
+                  "frameBefore": 1,
+                  "frameAfter": 1,
+                  "unityBefore": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "unityAfter": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "profilerBefore": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "profilerAfter": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "unityDelta": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "profilerDelta": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  }
+                },
+                {
+                  "frameBefore": 1,
+                  "frameAfter": 1,
+                  "unityBefore": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "unityAfter": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "profilerBefore": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "profilerAfter": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "unityDelta": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  },
+                  "profilerDelta": {
+                    "triangles": 0,
+                    "drawCalls": 0,
+                    "setPass": 0,
+                    "valid": true
+                  }
+                }
+              ],
+              "triangles": 0,
+              "drawCalls": 0,
+              "setPass": 0,
+              "triangleCapStatus": "PASS",
+              "drawCallCapStatus": "FAIL"
+            },
+            "rendererInventoryCount": 1187
+          },
+          "fullRgbHashOrientation": [
+            "Unity bottom-to-top"
+          ]
+        }
+      ],
+      "aerialScope": "Retained raw per-shot diagnostic; not added to tee/approach authority or network denominator"
+    },
+    "SMOKE_SOFT": {
+      "gate": "SMOKE_SOFT",
+      "status": "FAIL",
+      "measured": false,
+      "reason": "FAIL: native FixtureCapture supplies no correct inherited category/difference/dry-frame inputs; actual P5/P6 masks must measure this gate."
+    },
+    "LAVA_ORANGE_AND_BRIGHT": {
+      "gate": "LAVA_ORANGE_AND_BRIGHT",
+      "status": "FAIL",
+      "measured": false,
+      "reason": "FAIL: native FixtureCapture supplies no correct inherited category/difference/dry-frame inputs; actual P5/P6 masks must measure this gate."
+    }
+  }
+}

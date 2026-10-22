@@ -3,14 +3,14 @@ using UnityEngine.UI;
 
 namespace GolfArcade.UI
 {
-    /// Where the pin is, on the course picture: a red pill ("PIN 139 YD") standing over the pin
-    /// when it is in view; when it is out of frame — off to one side, or behind the camera — the
+    /// Where the pin is, on the course picture: a glass pill ("PIN 139 yd") standing over the pin on a thin
+    /// white stem when it is in view; when it is out of frame — off to one side, or behind the camera — the
     /// pill waits at the edge of the screen nearest it with an arrow pointing the way. Placed by viewport, so it sits right on the phone and on the TV.
     public sealed class PinLocator : MonoBehaviour
     {
-        RectTransform root, pill, arrow;
-        Text label;
-        static readonly Color Red = UiKit.Hex("FF665A");
+        RectTransform root, pill, arrow, stem;
+        Image foot;
+        Text caption, label;
 
         public static PinLocator Create(Transform canvasRoot)
         {
@@ -19,11 +19,23 @@ namespace GolfArcade.UI
             var p = go.AddComponent<PinLocator>();
             p.root = (RectTransform)go.transform;
             p.root.sizeDelta = Vector2.zero;
-            p.pill = UiKit.Pill(p.root, "Pill", Red, new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(174, 44), out var fill, 2f);
-            p.label = UiKit.Label(fill.transform, "Label", 22, TextAnchor.MiddleCenter, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero, UiKit.Strong, false);
-            p.label.color = Color.white; p.label.raycastTarget = false;
-            var a = UiKit.Label(p.root, "Arrow", 32, TextAnchor.MiddleCenter, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(44, 44), UiKit.Display);
-            a.text = "▲"; a.color = Red; a.raycastTarget = false;
+            // the stem and its foot first, so the pill draws over them
+            var stem = UiKit.Panel(p.root, "Pin stem", new Color(1, 1, 1, .9f), new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(0, 19), new Vector2(3, 20), false);
+            stem.rectTransform.pivot = new Vector2(.5f, 1); stem.raycastTarget = false; p.stem = stem.rectTransform;
+            p.foot = GlassKit.Dot(p.root, "Pin foot", new Color(1, 1, 1, .95f), Vector2.zero, 10);
+            p.foot.rectTransform.anchorMin = p.foot.rectTransform.anchorMax = new Vector2(.5f, .5f); p.foot.rectTransform.anchoredPosition = Vector2.zero;
+            p.pill = GlassKit.Panel(p.root, "Pill", new Vector2(.5f, .5f), Vector2.zero, new Vector2(180, 48), 24);
+            Text Row(string name, int size, Font face, ThemeRole role)
+            {
+                var t = UiKit.Label(p.pill, name, size, TextAnchor.MiddleLeft, new Vector2(0, .5f), new Vector2(0, .5f), Vector2.zero, new Vector2(160, 48), face, false);
+                t.rectTransform.pivot = new Vector2(0, .5f); t.raycastTarget = false; ThemedGraphic.Bind(t.gameObject, role);
+                if (GlassKit.ClearStyle) { t.font = UiKit.Display; t.fontSize = size + 3; GlassKit.Outline(t); }
+                return t;
+            }
+            p.caption = Row("Caption", 15, GlassKit.SemiBold, ThemeRole.PanelTextMuted);
+            p.label = Row("Value", 24, GlassKit.Regular, ThemeRole.PanelText);
+            var a = UiKit.Label(p.root, "Arrow", 32, TextAnchor.MiddleCenter, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(44, 44), UiKit.Display, true, ThemeRole.Accent);
+            a.text = "▲"; a.raycastTarget = false;
             p.arrow = a.rectTransform;
             go.SetActive(false);
             return p;
@@ -37,8 +49,13 @@ namespace GolfArcade.UI
             if (!on) return;
             transform.SetAsLastSibling();
             bool obscured = !GolfArcade.EnvironmentArt.DreamVisibility.Visible(pin);
-            label.text = obscured ? "HOLE BEARING" : text;
-            pill.sizeDelta = new Vector2(Mathf.Max(132, label.preferredWidth + 30), 44);
+            // "PIN  416 YD" reads as the caption PIN over a big 416 yd
+            string value = obscured ? "Hole bearing" : text.Trim(), cap = "";
+            if (!obscured && value.StartsWith("PIN")) { cap = "PIN"; value = value.Substring(3).Trim().Replace(" YD", " yd").Replace(" FT", " ft"); }
+            caption.text = cap; label.text = value;
+            float capW = cap.Length > 0 ? caption.preferredWidth + 18 : 0;
+            caption.rectTransform.anchoredPosition = new Vector2(26, 0); label.rectTransform.anchoredPosition = new Vector2(26 + capW, 0);
+            pill.sizeDelta = new Vector2(Mathf.Max(150, 52 + capW + label.preferredWidth), 48);
             var canvas = ((RectTransform)transform.parent).rect.size;
             var vp = view.WorldToViewportPoint(pin);
             bool behind = vp.z < 0;
@@ -68,12 +85,9 @@ namespace GolfArcade.UI
             root.anchoredPosition = Vector2.zero;
             // over the pin, the pill stands on it; at the edge, the arrow points out past it
             pill.anchoredPosition = inView ? new Vector2(0, 44) : Vector2.zero;
-            arrow.gameObject.SetActive(true);
-            if (inView)
-            {
-                arrow.anchoredPosition = new Vector2(0, 6); arrow.localRotation = Quaternion.Euler(0, 0, 180);
-            }
-            else
+            stem.gameObject.SetActive(inView); foot.gameObject.SetActive(inView);
+            arrow.gameObject.SetActive(!inView);
+            if (!inView)
             {
                 var screenDir = new Vector2(d.x * canvas.x, d.y * canvas.y).normalized;
                 arrow.anchoredPosition = new Vector2(screenDir.x * (pill.sizeDelta.x / 2 + 26), screenDir.y * 56);

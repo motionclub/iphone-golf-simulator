@@ -1,0 +1,61 @@
+[
+  {
+    "name": "tennis-full-provisional-2",
+    "method": "GolfArcade.EditorTools.MatchHeroLockerExport.Run",
+    "env": {
+      "MH_LOCKER_REPORT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-full-provisional-2.txt",
+      "MH_LOCKER_GOLDEN": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/native-golden-provisional-2"
+    }
+  },
+  {
+    "name": "tennis-distance-provisional-2",
+    "method": "GolfArcade.EditorTools.MatchHeroLockerExport.RunDistance",
+    "env": {
+      "MH_LOCKER_REPORT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-distance-provisional-2.txt",
+      "MH_LOCKER_GOLDEN": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/native-golden-provisional-2"
+    }
+  },
+  {
+    "name": "golf-full-provisional-2",
+    "method": "GolfArcade.EditorTools.MatchHeroLockerExport.RunGolf",
+    "env": {
+      "MH_LOCKER_REPORT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-full-provisional-2.txt",
+      "MH_LOCKER_GOLDEN": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/native-golden-provisional-2"
+    }
+  },
+  {
+    "name": "tennis-costs12-resort",
+    "method": "GolfArcade.EditorTools.TennisFrameCosts.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "TCF_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-costs-12"
+    },
+    "batch": false
+  },
+  {
+    "name": "tennis-costs12-skyscraper",
+    "method": "GolfArcade.EditorTools.TennisFrameCosts.Run",
+    "env": {
+      "HERO_VENUE": "skyscraper",
+      "TCF_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-costs-12"
+    },
+    "batch": false
+  },
+  {
+    "name": "tennis-costs12-volcano",
+    "method": "GolfArcade.EditorTools.TennisFrameCosts.Run",
+    "env": {
+      "HERO_VENUE": "volcano",
+      "TCF_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-costs-12"
+    },
+    "batch": false
+  },
+  {
+    "name": "tennis-world12-resort",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-worlds-pass-12"
+    }
+  }
+]

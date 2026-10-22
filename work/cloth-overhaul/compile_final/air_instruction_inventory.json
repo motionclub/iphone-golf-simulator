@@ -1,0 +1,139 @@
+{
+  "basis": "Unity Metal CompileVariant output compiled to optimized iOS AIR; vector IR instruction inventory, not GPU hardware ALU counts or Xcode Compiler Statistics",
+  "compiler": "Apple metal version 32023.921 (metalfe-32023.921.6)\nTarget: air64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /private/var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v27.1.266.1.N2xUMW/Metal.xctoolchain/usr/metal/current/bin\n",
+  "variants": {
+    "after_court": {
+      "floating_IR_instructions": {
+        "fmul": 86,
+        "fcmp": 10,
+        "fneg": 12,
+        "fsub": 12,
+        "fadd": 14,
+        "fdiv": 9
+      },
+      "floating_IR_count": 143,
+      "AIR_intrinsics": {
+        "dot": 25,
+        "fast_rsqrt": 4,
+        "sample_texture_2d": 3,
+        "fma": 49,
+        "fast_floor": 1,
+        "fast_sin": 1,
+        "fast_cos": 1,
+        "dfdx": 1,
+        "dfdy": 1,
+        "fast_fabs": 4,
+        "fast_fmax": 12,
+        "fast_clamp": 2,
+        "sample_texture_2d_grad": 1,
+        "convert": 63,
+        "rsqrt": 4,
+        "clamp": 9,
+        "fast_saturate": 1,
+        "sample_compare_depth_2d": 2,
+        "fast_log2": 2,
+        "fast_exp2": 2,
+        "log2": 3,
+        "exp2": 4,
+        "fmin": 1,
+        "fmax": 4
+      },
+      "sample_calls": 6
+    },
+    "after_plain": {
+      "floating_IR_instructions": {
+        "fmul": 61,
+        "fcmp": 8,
+        "fneg": 7,
+        "fadd": 8,
+        "fsub": 7,
+        "fdiv": 5
+      },
+      "floating_IR_count": 96,
+      "AIR_intrinsics": {
+        "dot": 18,
+        "fast_rsqrt": 3,
+        "sample_texture_2d": 2,
+        "fma": 31,
+        "fast_floor": 1,
+        "fast_sin": 1,
+        "fast_cos": 1,
+        "dfdx": 1,
+        "dfdy": 1,
+        "fast_fabs": 4,
+        "fast_fmax": 8,
+        "fast_clamp": 1,
+        "sample_texture_2d_grad": 1,
+        "convert": 49,
+        "rsqrt": 3,
+        "clamp": 4,
+        "fast_log2": 1,
+        "fast_exp2": 1,
+        "log2": 2,
+        "exp2": 3,
+        "fmax": 3
+      },
+      "sample_calls": 3
+    },
+    "before_court": {
+      "floating_IR_instructions": {
+        "fmul": 51,
+        "fcmp": 6,
+        "fneg": 6,
+        "fsub": 9,
+        "fadd": 9,
+        "fdiv": 6
+      },
+      "floating_IR_count": 87,
+      "AIR_intrinsics": {
+        "dot": 25,
+        "fast_rsqrt": 4,
+        "fast_sin": 1,
+        "fast_cos": 1,
+        "fma": 31,
+        "sample_texture_2d": 3,
+        "convert": 41,
+        "fmax": 5,
+        "sqrt": 1,
+        "rsqrt": 3,
+        "fast_sqrt": 1,
+        "clamp": 9,
+        "fast_saturate": 1,
+        "sample_compare_depth_2d": 4,
+        "log2": 3,
+        "exp2": 5,
+        "fmin": 1,
+        "fast_fmax": 1
+      },
+      "sample_calls": 7
+    },
+    "before_plain": {
+      "floating_IR_instructions": {
+        "fmul": 34,
+        "fneg": 4,
+        "fcmp": 4,
+        "fsub": 6,
+        "fadd": 3,
+        "fdiv": 3
+      },
+      "floating_IR_count": 54,
+      "AIR_intrinsics": {
+        "fast_cos": 1,
+        "fast_sin": 1,
+        "fma": 19,
+        "sample_texture_2d": 2,
+        "dot": 18,
+        "fast_rsqrt": 3,
+        "convert": 28,
+        "fmax": 4,
+        "sqrt": 1,
+        "rsqrt": 2,
+        "clamp": 4,
+        "log2": 2,
+        "exp2": 4,
+        "fast_sqrt": 1
+      },
+      "sample_calls": 2
+    }
+  }
+}

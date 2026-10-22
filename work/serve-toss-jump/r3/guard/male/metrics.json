@@ -1,0 +1,84 @@
+{
+  "rows": 1107,
+  "entryFrame": 107,
+  "entryTime": 2.8,
+  "serveEnd": 1.978333,
+  "G1_heights_mm": {
+    "Lheel": 12.13992,
+    "Ltoe": 0.761688,
+    "Rheel": 12.24762,
+    "Rtoe": 3.225088
+  },
+  "G2_knee_deg": 74.51609,
+  "G2_time": 1.312903,
+  "G3_first_clearance": {
+    "L": 1.572265,
+    "R": 1.471547
+  },
+  "G7_entry_max_step": {
+    "mm": 36.60462649720661,
+    "bone": "Lhand",
+    "frame": 116,
+    "clipTime": 0.152272
+  },
+  "G9_hands": {
+    "L_all": {
+      "mm": 390.6219098885776,
+      "frame": 387,
+      "clipTime": 1.703333
+    },
+    "L_before": {
+      "mm": 249.65424446021342,
+      "frame": 383,
+      "clipTime": 1.572265
+    },
+    "L_contact": {
+      "mm": 390.6219098885776,
+      "frame": 387,
+      "clipTime": 1.703333
+    },
+    "L_after": {
+      "mm": 133.55466117661342,
+      "frame": 390,
+      "clipTime": 1.761667
+    },
+    "R_all": {
+      "mm": 287.15038869728176,
+      "frame": 387,
+      "clipTime": 1.703333
+    },
+    "R_before": {
+      "mm": 227.9231725187239,
+      "frame": 385,
+      "clipTime": 1.638944
+    },
+    "R_contact": {
+      "mm": 287.15038869728176,
+      "frame": 387,
+      "clipTime": 1.703333
+    },
+    "R_after": {
+      "mm": 205.0629069675937,
+      "frame": 395,
+      "clipTime": 1.861667
+    }
+  },
+  "G11_drift": {
+    "live": {
+      "mm": 474.8240281409524,
+      "side": "R",
+      "part": "heel",
+      "frame": 382,
+      "clipTime": 1.530292
+    },
+    "pureServe": {
+      "mm": 548.598892103329,
+      "side": "R",
+      "part": "toe",
+      "frame": 382,
+      "clipTime": 1.530292
+    }
+  },
+  "nonServeSteps": 4,
+  "totalSteps": 5
+}

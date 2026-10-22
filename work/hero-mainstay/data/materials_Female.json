@@ -1,0 +1,333 @@
+{
+ "materials": {
+  "Base_Grey_F": {
+   "base_linear": [
+    0.50708,
+    0.50708,
+    0.50708,
+    1.0
+   ],
+   "roughness": 0.62,
+   "metallic": 0.0,
+   "spec": 0.5,
+   "alpha": 1.0
+  },
+  "Black_Grip": {
+   "base_linear": [
+    0.01161,
+    0.01161,
+    0.0137,
+    1.0
+   ],
+   "roughness": 0.78,
+   "metallic": 0.0,
+   "spec": 0.35,
+   "alpha": 1.0
+  },
+  "Face_Brow": {
+   "base_linear": [
+    0.8,
+    0.8,
+    0.8,
+    1.0
+   ],
+   "roughness": 0.5,
+   "metallic": 0.0,
+   "spec": 0.5,
+   "alpha": 1.0
+  },
+  "Face_BrowSoft": {
+   "base_linear": [
+    0.8,
+    0.8,
+    0.8,
+    1.0
+   ],
+   "roughness": 0.5,
+   "metallic": 0.0,
+   "spec": 0.5,
+   "alpha": 1.0
+  },
+  "Face_Catch": {
+   "base_linear": [
+    0.8,
+    0.8,
+    0.8,
+    1.0
+   ],
+   "roughness": 0.5,
+   "metallic": 0.0,
+   "spec": 0.5,
+   "alpha": 1.0
+  },
+  "Face_Iris": {
+   "base_linear": [
+    0.8,
+    0.8,
+    0.8,
+    1.0
+   ],
+   "roughness": 0.5,
+   "metallic": 0.0,
+   "spec": 0.5,
+   "alpha": 1.0
+  },
+  "Face_IrisIn": {
+   "base_linear": [
+    0.8,
+    0.8,
+    0.8,
+    1.0
+   ],
+   "roughness": 0.5,
+   "metallic": 0.0,
+   "spec": 0.5,
+   "alpha": 1.0
+  },
+  "Face_LidLine": {
+   "base_linear": [
+    0.8,
+    0.8,
+    0.8,
+    1.0
+   ],
+   "roughness": 0.5,
+   "metallic": 0.0,
+   "spec": 0.5,
+   "alpha": 1.0
+  },
+  "Face_LidLower": {
+   "base_linear": [
+    0.8,
+    0.8,
+    0.8,
+    1.0
+   ],
+   "roughness": 0.5,
+   "metallic": 0.0,
+   "spec": 0.5,
+   "alpha": 1.0
+  },
+  "Face_Limbal": {
+   "base_linear": [
+    0.8,
+    0.8,
+    0.8,
+    1.0
+   ],
+   "roughness": 0.5,
+   "metallic": 0.0,
+   "spec": 0.5,
+   "alpha": 1.0
+  },
+  "Face_Lip": {
+   "base_linear": [
+    0.8,
+    0.8,
+    0.8,
+    1.0
+   ],
+   "roughness": 0.5,
+   "metallic": 0.0,
+   "spec": 0.5,
+   "alpha": 1.0
+  },
+  "Face_LipUp": {
+   "base_linear": [
+    0.8,
+    0.8,
+    0.8,
+    1.0
+   ],
+   "roughness": 0.5,
+   "metallic": 0.0,
+   "spec": 0.5,
+   "alpha": 1.0
+  },
+  "Face_Nostril": {
+   "base_linear": [
+    0.8,
+    0.8,
+    0.8,
+    1.0
+   ],
+   "roughness": 0.5,
+   "metallic": 0.0,
+   "spec": 0.5,
+   "alpha": 1.0
+  },
+  "Face_Pupil": {
+   "base_linear": [
+    0.8,
+    0.8,
+    0.8,
+    1.0
+   ],
+   "roughness": 0.5,
+   "metallic": 0.0,
+   "spec": 0.5,
+   "alpha": 1.0
+  },
+  "Face_Sclera": {
+   "base_linear": [
+    0.8,
+    0.8,
+    0.8,
+    1.0
+   ],
+   "roughness": 0.5,
+   "metallic": 0.0,
+   "spec": 0.5,
+   "alpha": 1.0
+  },
+  "Face_Seam": {
+   "base_linear": [
+    0.8,
+    0.8,
+    0.8,
+    1.0
+   ],
+   "roughness": 0.5,
+   "metallic": 0.0,
+   "spec": 0.5,
+   "alpha": 1.0
+  },
+  "Hair_F": {
+   "base_linear": [
+    0.0035,
+    0.00294,
+    0.00248,
+    1.0
+   ],
+   "roughness": 0.64,
+   "metallic": 0.0,
+   "spec": 0.2,
+   "alpha": 1.0
+  },
+  "Skin_F": {
+   "base_linear": [
+    0.71057,
+    0.43388,
+    0.26327,
+    1.0
+   ],
+   "roughness": 0.62,
+   "metallic": 0.0,
+   "spec": 0.5,
+   "alpha": 1.0
+  },
+  "White_Frame": {
+   "base_linear": [
+    0.85499,
+    0.84687,
+    0.82279,
+    1.0
+   ],
+   "roughness": 0.5,
+   "metallic": 0.0,
+   "spec": 0.35,
+   "alpha": 1.0
+  },
+  "White_Strings": {
+   "base_linear": [
+    0.80695,
+    0.7991,
+    0.76815,
+    1.0
+   ],
+   "roughness": 0.55,
+   "metallic": 0.0,
+   "spec": 0.35,
+   "alpha": 1.0
+  }
+ },
+ "racket": {
+  "string_bed_local_min": [
+   -0.1217,
+   0.24986,
+   -0.00328
+  ],
+  "string_bed_local_max": [
+   0.1217,
+   0.5562,
+   0.00328
+  ],
+  "string_bed_local_centre": [
+   0.0,
+   0.40303,
+   -0.0
+  ],
+  "all_local_min": [
+   -0.1424,
+   -0.111,
+   -0.0199
+  ],
+  "all_local_max": [
+   0.1424,
+   0.577,
+   0.0198
+  ]
+ },
+ "objects": {
+  "Body_F": {
+   "verts": 22123,
+   "mats": [
+    "Base_Grey_F",
+    "Skin_F"
+   ]
+  },
+  "ButtCap": {
+   "verts": 242,
+   "mats": [
+    "Black_Grip"
+   ]
+  },
+  "Collider_Racket": {
+   "verts": 64,
+   "mats": []
+  },
+  "Face_F": {
+   "verts": 3986,
+   "mats": [
+    "Face_Brow",
+    "Face_BrowSoft",
+    "Face_Sclera",
+    "Face_IrisIn",
+    "Face_Iris",
+    "Face_Limbal",
+    "Face_Pupil",
+    "Face_Catch",
+    "Face_LidLine",
+    "Face_LidLower",
+    "Face_Lip",
+    "Face_LipUp",
+    "Face_Seam",
+    "Face_Nostril"
+   ]
+  },
+  "Grip": {
+   "verts": 1154,
+   "mats": [
+    "Black_Grip"
+   ]
+  },
+  "Hair_F": {
+   "verts": 2516,
+   "mats": [
+    "Hair_F"
+   ]
+  },
+  "Racket_Classic": {
+   "verts": 2998,
+   "mats": [
+    "White_Frame"
+   ]
+  },
+  "StringBed": {
+   "verts": 1368,
+   "mats": [
+    "White_Strings"
+   ]
+  }
+ }
+}

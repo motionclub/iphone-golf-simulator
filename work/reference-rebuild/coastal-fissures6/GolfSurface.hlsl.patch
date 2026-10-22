@@ -1,0 +1,11 @@
+--- Unity/Assets/Resources/Course/Shaders/GolfSurface.hlsl
++++ work/reference-rebuild/coastal-fissures6/GolfSurface.hlsl
+@@ -5,7 +5,7 @@
+ float4 _BaseColor,_BaseMap_ST,_EmissionColor,_StripeDirection;
+ float4 _MowingBounds;
+ half4 _LowColor,_HighColor;
+-half _PaletteMode,_DetailContrast,_PaletteDetail;
++half _PaletteMode,_DetailContrast,_PaletteDetail,_PaletteMidpoint;
+ float _WorldUV,_TileYards,_FollowCourse,_RockScale,_StrataStrength,_RockMipBias,_TriplanarNormals,_AuthoredUV;
+ half _Smoothness,_BumpScale,_Surface,_Bands,_StripeWidth,_SheenFromAlpha;
+ half _Wrap,_Rock,_Basalt,_Cap,_NormalEnabled,_EmissionEnabled;

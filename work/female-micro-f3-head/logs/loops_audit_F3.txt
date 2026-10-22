@@ -1,0 +1,21 @@
+LOOP_ala_L         chain verts   10 comps  1 largest   10 cyc   1 ends  2 deg {1: 2, 2: 6, 3: 2} edge mm mean 4.24 max 5.65 min 3.14  OK
+LOOP_ala_R         chain verts   10 comps  1 largest   10 cyc   1 ends  2 deg {1: 2, 2: 6, 3: 2} edge mm mean 4.24 max 5.65 min 3.14  OK
+LOOP_concha_L      ring  verts   22 comps  1 largest   22 cyc   1 ends  0 deg {2: 22} edge mm mean 2.71 max 3.78 min 2.17  OK
+LOOP_concha_R      ring  verts   22 comps  1 largest   22 cyc   1 ends  0 deg {2: 22} edge mm mean 2.71 max 3.78 min 2.17  OK
+LOOP_ear_attach_L  band  verts  212 comps  1 largest  212 cyc   9 ends  0 deg {2: 196, 3: 16} edge mm mean 1.47 max 3.86 min 0.32  OK
+LOOP_ear_attach_R  band  verts  212 comps  1 largest  212 cyc   9 ends  0 deg {2: 196, 3: 16} edge mm mean 1.47 max 3.86 min 0.32  OK
+LOOP_eyeL          band  verts  128 comps  1 largest  128 cyc   1 ends  0 deg {2: 128} edge mm mean 1.38 max 2.34 min 1.11  OK
+LOOP_eyeR          band  verts  128 comps  1 largest  128 cyc   1 ends  0 deg {2: 128} edge mm mean 1.38 max 2.40 min 1.18  OK
+LOOP_helix_L       band  verts  169 comps  1 largest  169 cyc   9 ends  0 deg {2: 153, 3: 16} edge mm mean 1.48 max 4.00 min 0.95  OK
+LOOP_helix_R       band  verts  169 comps  1 largest  169 cyc   9 ends  0 deg {2: 153, 3: 16} edge mm mean 1.48 max 4.00 min 0.95  OK
+LOOP_jaw_ear_L     chain verts   44 comps  1 largest   44 cyc   0 ends  2 deg {1: 2, 2: 42} edge mm mean 4.01 max 9.11 min 2.50  OK
+LOOP_jaw_ear_R     chain verts   46 comps  1 largest   46 cyc   0 ends  2 deg {1: 2, 2: 44} edge mm mean 4.01 max 9.14 min 2.60  OK
+LOOP_lid_low_L     chain verts   76 comps  1 largest   76 cyc   0 ends  2 deg {1: 2, 2: 74} edge mm mean 1.34 max 1.66 min 1.11  OK
+LOOP_lid_low_R     chain verts   75 comps  1 largest   75 cyc   0 ends  2 deg {1: 2, 2: 73} edge mm mean 1.35 max 1.65 min 1.18  OK
+LOOP_lid_up_L      chain verts   52 comps  1 largest   52 cyc   0 ends  2 deg {1: 2, 2: 50} edge mm mean 1.43 max 2.34 min 1.19  OK
+LOOP_lid_up_R      chain verts   53 comps  1 largest   53 cyc   0 ends  2 deg {1: 2, 2: 51} edge mm mean 1.44 max 2.40 min 1.19  OK
+LOOP_lip_lo        chain verts   25 comps  1 largest   25 cyc   0 ends  2 deg {1: 2, 2: 23} edge mm mean 2.59 max 2.77 min 2.49  OK
+LOOP_lip_up        chain verts   35 comps  1 largest   35 cyc   0 ends  2 deg {1: 2, 2: 33} edge mm mean 2.24 max 2.52 min 1.88  OK
+LOOP_nostril_L     ring  verts   16 comps  1 largest   16 cyc   3 ends  0 deg {2: 12, 3: 4} edge mm mean 2.58 max 4.33 min 1.60  OK
+LOOP_nostril_R     ring  verts   16 comps  1 largest   16 cyc   3 ends  0 deg {2: 12, 3: 4} edge mm mean 2.58 max 4.33 min 1.60  OK
+LOOP_seam          chain verts   55 comps  1 largest   55 cyc   0 ends  2 deg {1: 2, 2: 53} edge mm mean 1.40 max 1.48 min 1.34  OK

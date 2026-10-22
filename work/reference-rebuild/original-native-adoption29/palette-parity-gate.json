@@ -1,0 +1,10 @@
+{
+  "gate": "PASS CPU SOURCE PALETTE PARITY",
+  "exactStrongPaletteCoefficients": true,
+  "mouthOnlyGainExpressionExact": true,
+  "relativeSkinTonePreserved": true,
+  "boundaryAndSkinToneCases": 420,
+  "maxDoublePrecisionReferenceError": 2.220446049250313e-16,
+  "nativeMetalOrArt": "NOT RUN, ROOT REQUIRED",
+  "mode0and1": "No changes to existing coefficients or branch guard"
+}

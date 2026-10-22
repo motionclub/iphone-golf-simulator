@@ -77,6 +77,7 @@ namespace GolfArcade.Hub
         void Awake()
         {
             Instance = this;
+            if (!GetComponent<GolfArcade.Game.PlazaMusic>()) gameObject.AddComponent<GolfArcade.Game.PlazaMusic>();
             if (!DeferBuild) Build(StartFemale);
             DeferBuild = false;   // one plaza only: a later load (a test's, a retry's) builds itself again
         }

@@ -1,0 +1,79 @@
+{
+ "heroes": {
+  "Male": {
+   "nodes": {
+    "before": 62,
+    "after": 68,
+    "missing": [],
+    "added": [
+     "Kit_Top",
+     "Kit_Bottom",
+     "Kit_Sock_L",
+     "Kit_Sock_R",
+     "Kit_Shoe_L",
+     "Kit_Shoe_R"
+    ],
+    "changed": [],
+    "root_components_equal": true
+   },
+   "added_only_kit": true,
+   "meshes": {
+    "before": 6,
+    "after": 12,
+    "differing": [],
+    "added": [
+     "Kit_Top",
+     "Kit_Bottom",
+     "Kit_Sock_L",
+     "Kit_Sock_R",
+     "Kit_Shoe_L",
+     "Kit_Shoe_R"
+    ]
+   },
+   "clips": {
+    "count": 16,
+    "differing": []
+   },
+   "animator_avatar_equal": true,
+   "pass": true
+  },
+  "Female": {
+   "nodes": {
+    "before": 62,
+    "after": 68,
+    "missing": [],
+    "added": [
+     "Kit_Top",
+     "Kit_Bottom",
+     "Kit_Sock_L",
+     "Kit_Sock_R",
+     "Kit_Shoe_L",
+     "Kit_Shoe_R"
+    ],
+    "changed": [],
+    "root_components_equal": true
+   },
+   "added_only_kit": true,
+   "meshes": {
+    "before": 6,
+    "after": 12,
+    "differing": [],
+    "added": [
+     "Kit_Top",
+     "Kit_Bottom",
+     "Kit_Sock_L",
+     "Kit_Sock_R",
+     "Kit_Shoe_L",
+     "Kit_Shoe_R"
+    ]
+   },
+   "clips": {
+    "count": 16,
+    "differing": []
+   },
+   "animator_avatar_equal": true,
+   "pass": true
+  }
+ },
+ "pass": true
+}

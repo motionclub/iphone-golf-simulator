@@ -1,0 +1,15 @@
+{
+  "gate": "PASS",
+  "checks": [
+    "Island fallback/Pergola/Column/Make byte-unchanged",
+    "no collider/actor/camera/global fog/light changes",
+    "one shared mesh/material within2\u201310k budget",
+    "all three island shells manifold and sealed",
+    "geometry remains beyondz500m, crest below65m",
+    "dedicated shader differs only in name and horizon-specific linear fog share"
+  ],
+  "triangles": 7540,
+  "vertices": 3777,
+  "liveAssetsEditedByThisAgent": false,
+  "UnityRunsByThisAgent": 0
+}

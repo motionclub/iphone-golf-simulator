@@ -1,0 +1,69 @@
+{
+  "sex": "Female",
+  "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/golf-look/export/Golf_Female_Draft.blend",
+  "sourceSha256": "7a5f70838e351ccfbe84df22f9644e98ce2a4ba7b913ecb5bdda5f96db79e6a0",
+  "parts": [
+    {
+      "tag": "Bottom",
+      "vertices": 3010,
+      "triangles": 5950,
+      "materials": [
+        "Kit_Shorts",
+        "Kit_GolfHardware"
+      ]
+    },
+    {
+      "tag": "Head",
+      "vertices": 8362,
+      "triangles": 16644,
+      "materials": [
+        "Kit_GolfHead"
+      ]
+    },
+    {
+      "tag": "Glove_L",
+      "vertices": 2224,
+      "triangles": 4444,
+      "materials": [
+        "Kit_GolfGlove"
+      ]
+    },
+    {
+      "tag": "Glove_R",
+      "vertices": 2388,
+      "triangles": 4772,
+      "materials": [
+        "Kit_GolfGlove"
+      ]
+    },
+    {
+      "tag": "Shoe_L",
+      "vertices": 4024,
+      "triangles": 7820,
+      "materials": [
+        "Kit_Shoe"
+      ]
+    },
+    {
+      "tag": "Shoe_R",
+      "vertices": 4024,
+      "triangles": 7820,
+      "materials": [
+        "Kit_Shoe"
+      ]
+    },
+    {
+      "tag": "Top",
+      "vertices": 5181,
+      "triangles": 10049,
+      "materials": [
+        "Kit_Shirt"
+      ]
+    }
+  ],
+  "totalKitTriangles": 57499,
+  "hairIncluded": true,
+  "bones": 53,
+  "status": "candidate; UV/maps/import/fit validation pending",
+  "poloLOD": "primary outer faces and turned edges retained; hidden main inward duplicate removed, collar/placket construction retained"
+}

@@ -1,0 +1,50 @@
+{
+  "installedRun": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/runtime/runs/p7_installed_round2",
+  "helper": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/make_vs_ref.py",
+  "helperSha256": "4946ff60d6832a955c7a3c6932ad253875e61539d0df55f893a0e4d154d24e94",
+  "scope": "Scratch-only prepublication images from finished current native run; physical review not yet performed",
+  "rows": [
+    {
+      "hole": 8,
+      "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/runtime/runs/p7_installed_round2/aerial/hole08_4_aerial.png",
+      "sourceSha256": "87a8e5a50fa28524210277cdc3fb04cd17c81b5ed37c8a9fbc471d8326f494b2",
+      "target": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round3/prepublication_review/hole08_vs_ref.jpg",
+      "sha256": "6c04ec7f11ce71e1d7efa394e98dae5cee5b802482b931e74cf7fcac36697082",
+      "command": [
+        "python3",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/make_vs_ref.py",
+        "8",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/runtime/runs/p7_installed_round2/aerial/hole08_4_aerial.png",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round3/prepublication_review/hole08_vs_ref.jpg"
+      ]
+    },
+    {
+      "hole": 9,
+      "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/runtime/runs/p7_installed_round2/aerial/hole09_4_aerial.png",
+      "sourceSha256": "388de55e5c1254c186c5d7d82de44c1a6e3d72cc001b3ddf47793616d81e5485",
+      "target": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round3/prepublication_review/hole09_vs_ref.jpg",
+      "sha256": "9d6683093b72d56b9db3c860bebd4f70a98344cb6020d60ea13682164ee4f66b",
+      "command": [
+        "python3",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/make_vs_ref.py",
+        "9",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/runtime/runs/p7_installed_round2/aerial/hole09_4_aerial.png",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round3/prepublication_review/hole09_vs_ref.jpg"
+      ]
+    },
+    {
+      "hole": 10,
+      "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/runtime/runs/p7_installed_round2/aerial/hole10_4_aerial.png",
+      "sourceSha256": "6b6f8bf805928905b632279399999dd1138666ccf89a3b870770dba95be7d1da",
+      "target": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round3/prepublication_review/hole10_vs_ref.jpg",
+      "sha256": "cc9eaac43865deb730e81c8fb96dff947c9e38e91ac964a7bf8480631f17cf93",
+      "command": [
+        "python3",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/make_vs_ref.py",
+        "10",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/runtime/runs/p7_installed_round2/aerial/hole10_4_aerial.png",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round3/prepublication_review/hole10_vs_ref.jpg"
+      ]
+    }
+  ]
+}

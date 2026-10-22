@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="3" result="Passed" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-14 18:13:00Z" end-time="2026-10-14 18:14:17Z" duration="77.7578643">
+  <test-suite type="TestSuite" id="1296" name="Golf Arcade" fullname="Golf Arcade" runstate="Runnable" testcasecount="218" result="Passed" start-time="2026-10-14 18:13:00Z" end-time="2026-10-14 18:14:17Z" duration="77.757864" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1290" name="GolfArcade.PlayTests.dll" fullname="/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/tennis-chase-camera/Unity/Library/ScriptAssemblies/GolfArcade.PlayTests.dll" runstate="Runnable" testcasecount="218" result="Passed" start-time="2026-10-14 18:13:00Z" end-time="2026-10-14 18:14:17Z" duration="77.744314" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="16321" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestSuite" id="1291" name="GolfArcade" fullname="GolfArcade" runstate="Runnable" testcasecount="218" result="Passed" start-time="2026-10-14 18:13:00Z" end-time="2026-10-14 18:14:17Z" duration="77.739432" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1293" name="PlayTests" fullname="GolfArcade.PlayTests" runstate="Runnable" testcasecount="182" result="Passed" start-time="2026-10-14 18:13:00Z" end-time="2026-10-14 18:14:17Z" duration="77.734044" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1200" name="TennisChaseCameraProofTests" fullname="GolfArcade.PlayTests.TennisChaseCameraProofTests" classname="GolfArcade.PlayTests.TennisChaseCameraProofTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-14 18:13:00Z" end-time="2026-10-14 18:13:50Z" duration="50.292441" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1202" name="BothSplitLayoutsChaseFromEachPlayersEnd" fullname="GolfArcade.PlayTests.TennisChaseCameraProofTests.BothSplitLayoutsChaseFromEachPlayersEnd" methodname="BothSplitLayoutsChaseFromEachPlayersEnd" classname="GolfArcade.PlayTests.TennisChaseCameraProofTests" runstate="Runnable" seed="1009764876" result="Passed" start-time="2026-10-14 18:13:00Z" end-time="2026-10-14 18:13:26Z" duration="26.547025" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="Timeout" value="180000" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[TennisVenue] Resort horizontal court planes min=0.038000 top=0.050000
+[TennisCoast] shoreline UV anchors (-272.50, 0.00, -217.50) U=(265.00, 0.00, -217.50) V=(-272.50, 0.00, 475.00)
+[TennisResortFixtures] replaced 93 dense render-only scanned fixtures in their measured envelopes; court/net/actor physics unchanged.
+[TennisHorizon2] renderer=Authored layered resort horizon active=True enabled=True layer=0 boundsMin=(-488.05, -5.10, 500.65) boundsMax=(422.62, 61.84, 778.96) scale=(1.000, 1.000, 1.000) shaderSupported=True
+[TennisHorizon2] Render-only layered horizon; original court, light/fog and physics retained
+[TennisArt] static pockets=0; 20m tree LOD pockets=122; 24m understory LOD pockets=127; actual far meshes omit distant shadow passes
+[CrowdColours] vertex skin RGBA(0.886, 0.694, 0.557, 0.000) linearDistance=0.051217 gammaDistance=0.000000 decodeSRGB=True
+[Crowd] Clean authored seated spectators: 36; rigid meshes, no skinning
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[HeroFaceReferenceFit] male Body: moved=18582; belowHeadChanges=0; minJacobian=0.219590679; topologySame=True; weightsSame=True; bindsSame=True
+[HeroFaceReferenceFit] male ReferenceFeatures: moved=3824; belowHeadChanges=0; minJacobian=0.280234665; topologySame=True; weightsSame=True; bindsSame=True
+[HeroOriginalSeam] blink normal isolation body: cleared=86168; base geometry/normals unchanged
+[HeroOriginalSeam] blink normal isolation features: cleared=7648; base geometry/normals unchanged
+[HeroOriginalSeam] installed Male body=44168 features=3824; original rig and eye proportions retained; legacy face layers bypassed
+[HeroHandWeights] Male Left thumb-root vertices=50 radius=0.012
+[HeroHandWeights] Male Right thumb-root vertices=53 radius=0.012
+[HeroHandWeights] exact geometry/rest retained; changed=103 maxWeightL1=1.8
+[HeroGarmentAxillaWeights] Male Body_M: modified=1765 maxArmMassTransfer=0.460045546 normalizedError=1.04308128E-07; rest vertices/UVs/indices/palette and outside weights exact
+[HeroSkinNormals] field=area-continuous source=Body (reference face fit) (local blink normals) (thumb root weights) (axilla weight field) selected=17954 changed=12193 radiusMetres=0.012 capDegrees=45 maxNormalDegrees=45 maxVertexDeltaSquared=0; source topology/weights/UVs/morphs cloned unchanged
+[HeroBlinkNormalField] rebuilt=1772; source vertices/shape positions unchanged; accepted base normals retained
+[HeroHeadSurface] Male origin=(0.000000, -0.027810, 1.510000) eye=(-0.000002, -0.080255, 0.065851) frame=(0.999993, 0.003879, 0.000100)/(0.000000, -0.025677, 0.999670)/(0.003880, -0.999663, -0.025677) cheekMaskMax=0.6915238 noseMaskMax=0.6737289 shader=GolfArcade/HeroFaceSkin hasHeadUniform=True
+[HeroFaceReferenceFit] female Body: moved=12391; belowHeadChanges=0; minJacobian=0.214120612; topologySame=True; weightsSame=True; bindsSame=True
+[HeroFaceReferenceFit] female ReferenceFeatures: moved=3004; belowHeadChanges=0; minJacobian=0.6941224; topologySame=True; weightsSame=True; bindsSame=True
+[HeroOriginalSeam] blink normal isolation body: cleared=64229; base geometry/normals unchanged
+[HeroOriginalSeam] blink normal isolation features: cleared=6008; base geometry/normals unchanged
+[HeroOriginalSeam] installed Female body=34443 features=3004; original rig and eye proportions retained; legacy face layers bypassed
+[HeroHandWeights] Female Left thumb-root vertices=27 radius=0.01
+[HeroHandWeights] Female Right thumb-root vertices=9 radius=0.01
+[HeroHandWeights] exact geometry/rest retained; changed=36 maxWeightL1=1.8
+[HeroGarmentAxillaWeights] Female Body_F: modified=676 maxArmMassTransfer=0.6437218 normalizedError=9.685755E-08; rest vertices/UVs/indices/palette and outside weights exact
+[HeroSkinNormals] field=area-continuous source=Body (reference face fit) (local blink normals) (thumb root weights) (axilla weight field) selected=18726 changed=11230 radiusMetres=0.012 capDegrees=45 maxNormalDegrees=45 maxVertexDeltaSquared=0; source topology/weights/UVs/morphs cloned unchanged
+[HeroBlinkNormalField] rebuilt=2051; source vertices/shape positions unchanged; accepted base normals retained
+[HeroHeadSurface] Female origin=(0.000000, 0.002330, 1.490000) eye=(0.000000, -0.114136, 0.057103) frame=(1.000000, 0.000009, 0.000000)/(0.000000, -0.023316, 0.999728)/(0.000009, -0.999728, -0.023316) cheekMaskMax=0.957235 noseMaskMax=0.9681084 shader=GolfArcade/HeroFaceSkin hasHeadUniform=True
+[Presentation] 1|1|Venue|begin|27.624|Short
+[Crowd] Six fitted promenade visitors; eleven cosmetic joints and one renderer per active detail, zero legacy full skins.
+]]></output>
+            </test-case>
+            <test-case id="1201" name="ServeRallyLobAndVolley" fullname="GolfArcade.PlayTests.TennisChaseCameraProofTests.ServeRallyLobAndVolley" methodname="ServeRallyLobAndVolley" classname="GolfArcade.PlayTests.TennisChaseCameraProofTests" runstate="Runnable" seed="1782303657" result="Passed" start-time="2026-10-14 18:13:26Z" end-time="2026-10-14 18:13:50Z" duration="23.719950" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="Timeout" value="600000" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[TennisVenue] Resort horizontal court planes min=0.038000 top=0.050000
+[TennisCoast] shoreline UV anchors (-272.50, 0.00, -217.50) U=(265.00, 0.00, -217.50) V=(-272.50, 0.00, 475.00)
+[TennisResortFixtures] replaced 93 dense render-only scanned fixtures in their measured envelopes; court/net/actor physics unchanged.
+[TennisHorizon2] renderer=Authored layered resort horizon active=True enabled=True layer=0 boundsMin=(-488.05, -5.10, 500.65) boundsMax=(422.62, 61.84, 778.96) scale=(1.000, 1.000, 1.000) shaderSupported=True
+[TennisHorizon2] Render-only layered horizon; original court, light/fog and physics retained
+[TennisArt] static pockets=0; 20m tree LOD pockets=122; 24m understory LOD pockets=127; actual far meshes omit distant shadow passes
+[CrowdColours] vertex skin RGBA(0.886, 0.694, 0.557, 0.000) linearDistance=0.051217 gammaDistance=0.000000 decodeSRGB=True
+[Crowd] Clean authored seated spectators: 36; rigid meshes, no skinning
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[HeroOriginalSeam] installed Male body=44168 features=3824; original rig and eye proportions retained; legacy face layers bypassed
+[HeroHeadSurface] Male origin=(0.000000, -0.027810, 1.510000) eye=(-0.000002, -0.080255, 0.065851) frame=(0.999993, 0.003879, 0.000100)/(0.000000, -0.025677, 0.999670)/(0.003880, -0.999663, -0.025677) cheekMaskMax=0.6915238 noseMaskMax=0.6737289 shader=GolfArcade/HeroFaceSkin hasHeadUniform=True
+[HeroOriginalSeam] installed Female body=34443 features=3004; original rig and eye proportions retained; legacy face layers bypassed
+[HeroHeadSurface] Female origin=(0.000000, 0.002330, 1.490000) eye=(0.000000, -0.114136, 0.057103) frame=(1.000000, 0.000009, 0.000000)/(0.000000, -0.023316, 0.999728)/(0.000009, -0.999728, -0.023316) cheekMaskMax=0.957235 noseMaskMax=0.9681084 shader=GolfArcade/HeroFaceSkin hasHeadUniform=True
+[Presentation] 1|1|Venue|begin|46.581|Short
+[Crowd] Six fitted promenade visitors; eleven cosmetic joints and one renderer per active detail, zero legacy full skins.
+]]></output>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1253" name="TennisReceiveCameraTests" fullname="GolfArcade.PlayTests.TennisReceiveCameraTests" classname="GolfArcade.PlayTests.TennisReceiveCameraTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-14 18:13:50Z" end-time="2026-10-14 18:14:17Z" duration="27.420202" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1254" name="ReceiverAndPointKeepShoulderGameplayCamera" fullname="GolfArcade.PlayTests.TennisReceiveCameraTests.ReceiverAndPointKeepShoulderGameplayCamera" methodname="ReceiverAndPointKeepShoulderGameplayCamera" classname="GolfArcade.PlayTests.TennisReceiveCameraTests" runstate="Runnable" seed="1106433684" result="Passed" start-time="2026-10-14 18:13:50Z" end-time="2026-10-14 18:14:17Z" duration="27.402848" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="Timeout" value="180000" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[TennisVenue] Resort horizontal court planes min=0.038000 top=0.050000
+[TennisCoast] shoreline UV anchors (-272.50, 0.00, -217.50) U=(265.00, 0.00, -217.50) V=(-272.50, 0.00, 475.00)
+[TennisResortFixtures] replaced 93 dense render-only scanned fixtures in their measured envelopes; court/net/actor physics unchanged.
+[TennisHorizon2] renderer=Authored layered resort horizon active=True enabled=True layer=0 boundsMin=(-488.05, -5.10, 500.65) boundsMax=(422.62, 61.84, 778.96) scale=(1.000, 1.000, 1.000) shaderSupported=True
+[TennisHorizon2] Render-only layered horizon; original court, light/fog and physics retained
+[TennisArt] static pockets=0; 20m tree LOD pockets=122; 24m understory LOD pockets=127; actual far meshes omit distant shadow passes
+[CrowdColours] vertex skin RGBA(0.886, 0.694, 0.557, 0.000) linearDistance=0.051217 gammaDistance=0.000000 decodeSRGB=True
+[Crowd] Clean authored seated spectators: 36; rigid meshes, no skinning
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[HeroOriginalSeam] installed Male body=44168 features=3824; original rig and eye proportions retained; legacy face layers bypassed
+[HeroHeadSurface] Male origin=(0.000000, -0.027810, 1.510000) eye=(-0.000002, -0.080255, 0.065851) frame=(0.999993, 0.003879, 0.000100)/(0.000000, -0.025677, 0.999670)/(0.003880, -0.999663, -0.025677) cheekMaskMax=0.6915238 noseMaskMax=0.6737289 shader=GolfArcade/HeroFaceSkin hasHeadUniform=True
+[HeroOriginalSeam] installed Female body=34443 features=3004; original rig and eye proportions retained; legacy face layers bypassed
+[HeroHeadSurface] Female origin=(0.000000, 0.002330, 1.490000) eye=(0.000000, -0.114136, 0.057103) frame=(1.000000, 0.000009, 0.000000)/(0.000000, -0.023316, 0.999728)/(0.000009, -0.999728, -0.023316) cheekMaskMax=0.957235 noseMaskMax=0.9681084 shader=GolfArcade/HeroFaceSkin hasHeadUniform=True
+[Presentation] 1|1|Venue|begin|74.006|Short
+[Crowd] Six fitted promenade visitors; eleven cosmetic joints and one renderer per active detail, zero legacy full skins.
+[Presentation] 1|1|Point|begin|82.652|0.80
+[Presentation] 1|1|Point|complete|83.257|
+DONE PlayMode: 3 passed, 0 failed, 0 skipped
+<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /Users/adnanyonathan/Library/Application Support/aloniewski/Golf Arcade/TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

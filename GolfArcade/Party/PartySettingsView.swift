@@ -30,6 +30,7 @@ struct PartySettingsSections: View {
     @State private var showLibrary = false
 
     var body: some View {
+        GameAudioSettingsSection()
         voiceSection
         chatSection
         recordingSection
@@ -191,7 +192,7 @@ struct CaptureDock: View {
         if session.active && session.sport == "golf" { return true }
         return session.active && !session.paused && !session.touch && session.finishedMatch == nil && session.setupStage == .playing
     }
-    var visible: Bool { tvOn || inParty || recording.isRecording }
+    var visible: Bool { tvOn || inParty || recording.isRecording || recording.showsOutcome }
 
     /// Room a controller's own top bar leaves free at the trailing edge so the dock never covers it (0 when there is no dock).
     @MainActor static func reservedWidth(session: SportsSession = .shared, chat: PartyChat = .shared, recording: RecordingService = .shared, voice: PartyVoiceCoordinator = .shared) -> CGFloat {
@@ -219,7 +220,7 @@ struct CaptureDock: View {
     var body: some View {
         if visible {
             HStack(spacing: compact ? 6 : 8) {
-                if tvOn || recording.isRecording { recordButton }
+                if tvOn || recording.isRecording || recording.showsOutcome { recordButton }
                 if inParty || voice.isLive { VoiceMicButton(voice: voice, onNeedsSetup: { showSettings = true }) }
                 if !compact {
                     if inParty { chatButton }

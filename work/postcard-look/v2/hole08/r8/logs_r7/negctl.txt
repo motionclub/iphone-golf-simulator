@@ -1,0 +1,24 @@
+BASE all pass: True []
+NEGCTL needle 10 yd from the centerline: expected FAIL ['NEEDLES'] -> failed ['NEEDLES', 'ROCKS_OFF_PLAY_SURFACES'] => OK
+NEGCTL needle summit above 18 m: expected FAIL ['NEEDLES'] -> failed ['NEEDLES', 'ROCKS_CONTACT_CHAIN', 'ROCKS_STAND_IN_THE_SEA'] => OK
+NEGCTL needle 3 back at its design position (in front of the arch opening): expected FAIL ['ARCH_OPENING_CLEAR'] -> failed ['ARCH_OPENING_CLEAR'] => OK
+NEGCTL a land rock hovering 2 m up: expected FAIL ['ROCKS_CONTACT_CHAIN', 'ROCKS_REST'] -> failed ['ROCKS_CONTACT_CHAIN', 'ROCKS_REST'] => OK
+NEGCTL a rock stands on the landing fairway: expected FAIL ['ROCKS_OFF_PLAY_SURFACES'] -> failed ['ROCKS_OFF_PLAY_SURFACES'] => OK
+NEGCTL a boulder on the line of play 60 yd from the tee, 6 m tall: expected FAIL ['LINES_OF_PLAY_VISIBLE'] -> failed ['LINES_OF_PLAY_VISIBLE', 'ROCKS_CONTACT_CHAIN', 'ROCKS_OFF_PLAY_SURFACES', 'ROCKS_REST'] => OK
+NEGCTL a fallen block hovering 1 m over the outcrop: expected FAIL ['ARCH_FALLEN_BLOCKS_REST'] -> failed ['ARCH_FALLEN_BLOCKS_REST', 'ROCKS_CONTACT_CHAIN'] => OK
+NEGCTL the arch shifted 4 m off the outcrop: expected FAIL ['ARCH'] -> failed ['ARCH'] => OK
+NEGCTL a needle straight behind the flag seen from the middle pad: expected FAIL ['NEEDLES_NOT_BEHIND_TARGETS'] -> failed ['NEEDLES_NOT_BEHIND_TARGETS'] => OK
+NEGCTL the tee box back on LK_GREEN: expected FAIL ['MOW_PATTERN'] -> failed ['MOW_PATTERN'] => OK
+NEGCTL the tee box UV scaled x3: expected FAIL ['MOW_PATTERN'] -> failed ['MOW_PATTERN', 'TEE_SEAM_SEEN'] => OK
+NEGCTL the fairway stripe shift removed: expected FAIL ['MOW_PATTERN'] -> failed ['MOW_PATTERN', 'TEE_SEAM_SEEN'] => OK
+NEGCTL the tee path moved 2.2 m onto the tee ball: expected FAIL ['PATH_CLEAR_OF_BALL'] -> failed ['PATH_CLEAR_OF_BALL', 'PATH_SEAM_JUMP', 'PATH_STEP_CONTINUOUS'] => OK
+NEGCTL the tee box back on the cross-mown (90 degree) stripes: expected FAIL ['TEE_SEAM_SEEN'] -> failed ['TEE_SEAM_SEEN'] => OK
+NEGCTL the tee path bent right before the tee box's front edge: expected FAIL ['PATH_SEAM_JUMP'] -> failed ['PATH_SEAM_JUMP', 'PATH_STEP_CONTINUOUS'] => OK
+NEGCTL one capping-ledge face back on dark LK_CLIFF: expected FAIL ['LEDGES_ARE_TURF'] -> failed ['LEDGES_ARE_TURF'] => OK
+NEGCTL the bunker lip back on LK_GREEN: expected FAIL ['BUNKER_LIP_NOT_GREEN'] -> failed ['BUNKER_LIP_NOT_GREEN'] => OK
+NEGCTL the outcrop vines 6 m off the rock: expected FAIL ['OUTCROP_VINES'] -> failed ['OUTCROP_VINES'] => OK
+NEGCTL the tee box UV without the hidden-band shift (round 5): expected FAIL ['TEE_SEAM_SEEN'] -> failed ['TEE_SEAM_SEEN'] => OK
+NEGCTL the path's plate part sunk under the plate near the front edge (round 5 draping): expected FAIL ['PATH_STEP_CONTINUOUS'] -> failed ['PATH_STEP_CONTINUOUS'] => OK
+NEGCTL the stones beyond the plate edge slid 15 cm (hidden band not compensated): expected FAIL ['PATH_STEP_CONTINUOUS'] -> failed ['PATH_STEP_CONTINUOUS'] => OK
+NEGCTL the outcrop wall back on bare rock (round 5): expected FAIL ['ARCH_SLAB_COVERED'] -> failed ['ARCH_SLAB_COVERED'] => OK
+NEGCTL SUMMARY 22/22 mutations caught; base scene passes every gate: True

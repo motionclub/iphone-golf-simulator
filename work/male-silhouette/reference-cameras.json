@@ -1,0 +1,145 @@
+{
+  "height_metres": 1.7,
+  "origin_calibration": "Median ankle-outline centre at canonical rows 580\u2013590 (about 0.18\u20130.21m above the sole), measured from source masks only. Front/back origin is the midpoint of the two ankles; profile origin is their overlapping cross-section centre. Initial approximate centres corrected to these anatomical measurements. Scale and calibrated origins are locked for subsequent modeling; no candidate mask determines them.",
+  "mask_method": "Source-only background subtraction against per-row ROI borders, threshold +7.5 sRGB levels, largest eight-connected foreground; enclosed shading holes filled. Excludes floor shadows and labels. No candidate render is used. Masks visually inspected.",
+  "views": [
+    {
+      "name": "bald_front",
+      "file": "male_body_bald.jpg",
+      "sha256": "76c005d722ecfefab530b266606a147486693340a75bc22654c07b950c6bc4a0",
+      "roi": [
+        105,
+        51,
+        604,
+        659
+      ],
+      "centre_x": 353.0,
+      "sole_y": 654,
+      "height_pixels": 593,
+      "metres_per_pixel": 0.0028667790893760537,
+      "angle_degrees": 0,
+      "foreground_pixels": 73430,
+      "bbox": [
+        116,
+        59,
+        591,
+        652
+      ]
+    },
+    {
+      "name": "bald_back",
+      "file": "male_body_bald.jpg",
+      "sha256": "76c005d722ecfefab530b266606a147486693340a75bc22654c07b950c6bc4a0",
+      "roi": [
+        675,
+        51,
+        1160,
+        655
+      ],
+      "centre_x": 915.75,
+      "sole_y": 651,
+      "height_pixels": 589,
+      "metres_per_pixel": 0.0028862478777589135,
+      "angle_degrees": 180,
+      "foreground_pixels": 72916,
+      "bbox": [
+        683,
+        61,
+        1148,
+        649
+      ]
+    },
+    {
+      "name": "sheet_front",
+      "file": "male_multiangle_body.jpg",
+      "sha256": "7e8b5534dc7a87a465e0acd9bfb4835e1df5ea3ce9777920b8c4e1fdb50386b4",
+      "roi": [
+        55,
+        49,
+        315,
+        347
+      ],
+      "centre_x": 184.5,
+      "sole_y": 344,
+      "height_pixels": 292,
+      "metres_per_pixel": 0.005821917808219178,
+      "angle_degrees": 0,
+      "foreground_pixels": 18179,
+      "bbox": [
+        68,
+        51,
+        303,
+        343
+      ]
+    },
+    {
+      "name": "sheet_back",
+      "file": "male_multiangle_body.jpg",
+      "sha256": "7e8b5534dc7a87a465e0acd9bfb4835e1df5ea3ce9777920b8c4e1fdb50386b4",
+      "roi": [
+        350,
+        49,
+        620,
+        347
+      ],
+      "centre_x": 479.75,
+      "sole_y": 344,
+      "height_pixels": 292,
+      "metres_per_pixel": 0.005821917808219178,
+      "angle_degrees": 180,
+      "foreground_pixels": 17903,
+      "bbox": [
+        367,
+        52,
+        595,
+        342
+      ]
+    },
+    {
+      "name": "left",
+      "file": "male_multiangle_body.jpg",
+      "sha256": "7e8b5534dc7a87a465e0acd9bfb4835e1df5ea3ce9777920b8c4e1fdb50386b4",
+      "roi": [
+        739,
+        49,
+        825,
+        347
+      ],
+      "centre_x": 796.5,
+      "sole_y": 343,
+      "height_pixels": 291,
+      "metres_per_pixel": 0.00584192439862543,
+      "angle_degrees": 90,
+      "foreground_pixels": 10951,
+      "bbox": [
+        758,
+        51,
+        815,
+        343
+      ]
+    },
+    {
+      "name": "right",
+      "file": "male_multiangle_body.jpg",
+      "sha256": "7e8b5534dc7a87a465e0acd9bfb4835e1df5ea3ce9777920b8c4e1fdb50386b4",
+      "roi": [
+        1038,
+        49,
+        1138,
+        347
+      ],
+      "centre_x": 1068.0,
+      "sole_y": 343,
+      "height_pixels": 291,
+      "metres_per_pixel": 0.00584192439862543,
+      "angle_degrees": -90,
+      "foreground_pixels": 11251,
+      "bbox": [
+        1049,
+        51,
+        1108,
+        343
+      ]
+    }
+  ]
+}

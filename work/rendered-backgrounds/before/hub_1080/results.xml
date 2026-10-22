@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="1" result="Passed" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-17 15:01:32Z" end-time="2026-10-17 15:02:21Z" duration="48.6880418">
+  <test-suite type="TestSuite" id="1329" name="Golf Arcade" fullname="Golf Arcade" runstate="Runnable" testcasecount="241" result="Passed" start-time="2026-10-17 15:01:32Z" end-time="2026-10-17 15:02:21Z" duration="48.688042" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="SetUpFixture" id="1001" name="GolfArcade.PlayTests.dll" fullname="ClassicConditionsForTests" classname="ClassicConditionsForTests" runstate="Runnable" testcasecount="241" result="Passed" start-time="2026-10-17 15:01:32Z" end-time="2026-10-17 15:02:21Z" duration="48.672906" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="34657" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestSuite" id="1324" name="GolfArcade" fullname="GolfArcade" runstate="Runnable" testcasecount="241" result="Passed" start-time="2026-10-17 15:01:32Z" end-time="2026-10-17 15:02:21Z" duration="48.658442" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1325" name="Tests" fullname="GolfArcade.Tests" runstate="Runnable" testcasecount="39" result="Passed" start-time="2026-10-17 15:01:32Z" end-time="2026-10-17 15:02:21Z" duration="48.642223" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1047" name="RenderedBackgroundsHubProof" fullname="GolfArcade.Tests.RenderedBackgroundsHubProof" classname="GolfArcade.Tests.RenderedBackgroundsHubProof" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-17 15:01:32Z" end-time="2026-10-17 15:02:21Z" duration="48.624127" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1048" name="Plaza" fullname="GolfArcade.Tests.RenderedBackgroundsHubProof.Plaza" methodname="Plaza" classname="GolfArcade.Tests.RenderedBackgroundsHubProof" runstate="Runnable" seed="2120722182" result="Passed" start-time="2026-10-17 15:01:32Z" end-time="2026-10-17 15:02:21Z" duration="48.575874" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="Timeout" value="600000" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[HeroFaceReferenceFit] male Body: moved=18582; belowHeadChanges=0; minJacobian=0.219590679; topologySame=True; weightsSame=True; bindsSame=True
+[HeroFaceReferenceFit] male ReferenceFeatures: moved=3824; belowHeadChanges=0; minJacobian=0.280234665; topologySame=True; weightsSame=True; bindsSame=True
+[HeroOriginalSeam] blink normal isolation body: cleared=86168; base geometry/normals unchanged
+[HeroOriginalSeam] blink normal isolation features: cleared=7648; base geometry/normals unchanged
+[HeroOriginalSeam] installed Male body=44168 features=3824; original rig and eye proportions retained; legacy face layers bypassed
+[HeroHandWeights] Male Left thumb-root vertices=50 radius=0.012
+[HeroHandWeights] Male Right thumb-root vertices=53 radius=0.012
+[HeroHandWeights] exact geometry/rest retained; changed=103 maxWeightL1=1.8
+[HeroGarmentAxillaWeights] Male Body_M: modified=1765 maxArmMassTransfer=0.460045546 normalizedError=1.04308128E-07; rest vertices/UVs/indices/palette and outside weights exact
+[HeroSkinNormals] field=area-continuous source=Body (reference face fit) (local blink normals) (thumb root weights) (axilla weight field) selected=17954 changed=12193 radiusMetres=0.012 capDegrees=45 maxNormalDegrees=45 maxVertexDeltaSquared=0; source topology/weights/UVs/morphs cloned unchanged
+[HeroBlinkNormalField] rebuilt=1772; source vertices/shape positions unchanged; accepted base normals retained
+[HeroHeadSurface] Male origin=(0.000000, -0.027810, 1.510000) eye=(-0.000002, -0.080255, 0.065851) frame=(0.999993, 0.003879, 0.000100)/(0.000000, -0.025677, 0.999670)/(0.003880, -0.999663, -0.025677) cheekMaskMax=0.6915238 noseMaskMax=0.6737289 shader=GolfArcade/HeroFaceSkin hasHeadUniform=True
+[HeroFaceReferenceFit] female Body: moved=12391; belowHeadChanges=0; minJacobian=0.214120612; topologySame=True; weightsSame=True; bindsSame=True
+[HeroFaceReferenceFit] female ReferenceFeatures: moved=3004; belowHeadChanges=0; minJacobian=0.6941224; topologySame=True; weightsSame=True; bindsSame=True
+[HeroOriginalSeam] blink normal isolation body: cleared=64229; base geometry/normals unchanged
+[HeroOriginalSeam] blink normal isolation features: cleared=6008; base geometry/normals unchanged
+[HeroOriginalSeam] installed Female body=34443 features=3004; original rig and eye proportions retained; legacy face layers bypassed
+[HeroHandWeights] Female Left thumb-root vertices=27 radius=0.01
+[HeroHandWeights] Female Right thumb-root vertices=9 radius=0.01
+[HeroHandWeights] exact geometry/rest retained; changed=36 maxWeightL1=1.8
+[HeroSkinNormals] field=area-continuous source=Body (reference face fit) (local blink normals) (thumb root weights)(Clone) (anatomical arm weights) selected=18726 changed=11230 radiusMetres=0.012 capDegrees=45 maxNormalDegrees=45 maxVertexDeltaSquared=0; source topology/weights/UVs/morphs cloned unchanged
+[HeroBlinkNormalField] rebuilt=2051; source vertices/shape positions unchanged; accepted base normals retained
+[HeroHeadSurface] Female origin=(0.000000, 0.002330, 1.490000) eye=(0.000000, -0.114136, 0.057103) frame=(1.000000, 0.000009, 0.000000)/(0.000000, -0.023316, 0.999728)/(0.000009, -0.999728, -0.023316) cheekMaskMax=0.957235 noseMaskMax=0.9681084 shader=GolfArcade/HeroFaceSkin hasHeadUniform=True
+[SportsDisplay] camera=Hub camera aspect=1.32092 size=1206x913
+[SportsDisplay] Gameplay cameras routed to display 0, active=True
+DONE PlayMode: 1 passed, 0 failed, 0 skipped
+<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /Users/adnanyonathan/Library/Application Support/aloniewski/Golf Arcade/TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

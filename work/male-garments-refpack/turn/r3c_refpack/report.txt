@@ -1,0 +1,11 @@
+Hero turnaround 2026-10-18 03:16  Unity 6000.3.24f1
+VISUAL_CHARACTER_SKIN_POLISH=UNSET; VISUAL_BLINK_NORMAL_FIELD=UNSET
+== GolfKitHero_Male
+  shader profile: HeroLightingProfile.Golf(studio key, studio ambient, rim .35, cloth 1.05)  _HeroSkinPolish=0
+  parts: Body[body] v=44168, OriginalSeamFeatures[face] v=3824, CLUB_IRON[equipment] v=1232, Kit_Top[kit] v=20289, Kit_Bottom[kit] v=7786, Kit_Shoe_L[kit] v=17066, Kit_Shoe_R[kit] v=16980, Kit_Belt[kit] v=3540, Kit_Sock_L[kit] v=1828, Kit_Sock_R[kit] v=1973, Acc_Cap[other] v=6605, Acc_GloveL[other] v=6543
+  tris: 199505 (hero) + 1540 (equipment)
+  top kit: Kit_Top; bottom kit: Kit_Bottom
+  look: skin B7744A, TARGET hues of clothing-v2 (proof only)
+  ready pose: Idle t=0 + menu iron socket
+  rest bounds 1.343 x 1.747 x 0.345 m; turntable heading 0.8 deg
+  50 stills + contact sheet -> /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/male-garments-refpack/turn/r3c_refpack/GolfKitHero_Male

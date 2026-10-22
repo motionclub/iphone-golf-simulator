@@ -1,0 +1,19 @@
+{
+  "tool": "PostcardLookStills",
+  "unity": "6000.3.24f1",
+  "pipeline": "TennisURP",
+  "qualityLevel": 2,
+  "anisotropicFiltering": "Enable",
+  "golfLookAniso": 16,
+  "board": false,
+  "size": [900, 1600],
+  "shots": [
+    { "name": "hole10_approach", "hole": 10, "file": "hole10_approach.png",
+      "camera": { "pos": [102.6028, 9.1748, 159.1422], "look": [103.5307, 8.8034, 159.1748], "fov": 60 },
+      "mean_rgb": [146.3194, 134.6122, 48.9865], "luminance": 130.919,
+      "central_lower_third": { "region": [300, 0, 600, 533], "mean_rgb": [163.8597, 176.5088, 50.0048], "mean_hsv": [65.9993, 0.7167, 0.6922], "luminance": 164.686 },
+      "hue_bands": { "red_0_30": 0.1401, "orange_30_60": 0.0202, "yellow_60_90": 0.6486, "lime_90_120": 0, "green_120_150": 0, "spring_150_180": 0, "cyan_180_210": 0, "azure_210_240": 0.0001, "blue_240_270": 0.0001, "violet_270_300": 0, "magenta_300_330": 0, "rose_330_360": 0.0014, "grey": 0.0497, "dark": 0.1398 },
+      "smoke": { "cards": 14, "changed_px": 61666, "share_changed": 0.0428, "readable_px": 51496, "share_readable": 0.0358, "delta_lum_median": 43.4174, "delta_lum_p95": 80.5656, "delta_lum_p99": 88.6378, "plume_mean_rgb": [88.3218, 77.873, 78.9624] },
+      "wind_hook": { "game_mph": 5, "game_deg": 4, "hook_set": true, "same": true } }
+  ]
+}

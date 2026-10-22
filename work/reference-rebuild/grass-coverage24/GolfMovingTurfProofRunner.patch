@@ -1,0 +1,39 @@
+--- a/Unity/Assets/Scripts/Course/GolfMovingTurfProofRunner.cs
++++ b/Unity/Assets/Scripts/Course/GolfMovingTurfProofRunner.cs
+@@ -322,11 +322,12 @@
+             }
+             if(land==null||best.normal.y<.92f||UnderRenderedWater(best.point))return false;
+             colliderName=land.collider.name;
+-            if(!(colliderName.StartsWith("TERRAIN")||colliderName.StartsWith("TEE_BOX")||colliderName.StartsWith("FAIRWAY")))return false;
++            if(!GolfCoastalTurf.EligibleCollider(colliderName,hole.Number))return false;
+             int sub=0;while(sub<land.triangleEnds.Length&&best.triangleIndex>=land.triangleEnds[sub])sub++;
+             var mats=land.materials;if(mats==null||sub>=mats.Length||!mats[sub])return false;
+             if(colliderName.StartsWith("TERRAIN")){if(!mats[sub].name.Contains(" Rough"))return false;surface=0;}
+             else surface=mats[sub].HasProperty("_Surface")?mats[sub].GetFloat("_Surface"):colliderName.StartsWith("TEE")?3:1;
++            if(colliderName.StartsWith("GREEN_APRON")&&surface!=1&&surface!=4)return false;
+             if(surface!=0&&surface!=1&&surface!=3&&surface!=4)return false;
+             // Reuse the actual cached visual-path mask without invoking Ground,
+             // changing runtime query counters or moving/submitting the turf pool.
+@@ -340,11 +341,12 @@
+             var candidates=new List<Vector3>();
+             foreach(var source in selectionGround){
+                 var mesh=source.collider.sharedMesh;var mats=source.materials;string name=source.collider.name;
+-                if(!mesh.isReadable||mats==null||!(name.StartsWith("TERRAIN")||name.StartsWith("TEE_BOX")||name.StartsWith("FAIRWAY")))continue;
++                if(!mesh.isReadable||mats==null||!GolfCoastalTurf.EligibleCollider(name,hole.Number))continue;
+                 var vertices=mesh.vertices;
+                 for(int sub=0;sub<Math.Min(mesh.subMeshCount,mats.Length);sub++){
+                     var material=mats[sub];if(!material)continue;
+                     float role=material.HasProperty("_Surface")?material.GetFloat("_Surface"):-1;
++                    if(name.StartsWith("GREEN_APRON")&&role!=1&&role!=4)continue;
+                     if(name.StartsWith("TERRAIN")?!material.name.Contains(" Rough"):(role!=0&&role!=1&&role!=3&&role!=4))continue;
+                     var indices=mesh.GetTriangles(sub);
+                     for(int i=0;i+2<indices.Length;i+=3){
+@@ -425,7 +427,7 @@
+                 var mats=renderer.sharedMaterials;var vertices=mesh.vertices;
+                 for(int sub=0;sub<Math.Min(mesh.subMeshCount,mats.Length);sub++){
+                     var mat=mats[sub];if(!mat)continue;string name=mat.name;
+-                    if(!(name.Contains(" Water")||name.Contains(" Shallow")||name.Contains(" Surf")||name.Contains(" Fall")||name.StartsWith("LK_WATER")||name.StartsWith("LK_SURF")||name.StartsWith("LK_FALL")))continue;
++                    if(!(name.Contains(" Water")||name.Contains(" Shallow")||name.Contains(" Surf")||name.Contains(" Fall")||name.StartsWith("LK_WATER")||name.StartsWith("LK_SURF")||name.StartsWith("LK_FALL")||name.Contains(" Lava")||name.StartsWith("LK_LAVA")))continue;
+                     var indices=mesh.GetTriangles(sub);
+                     for(int i=0;i+2<indices.Length;i+=3){
+                         var a=filter.transform.TransformPoint(vertices[indices[i]]);var b=filter.transform.TransformPoint(vertices[indices[i+1]]);var c=filter.transform.TransformPoint(vertices[indices[i+2]]);

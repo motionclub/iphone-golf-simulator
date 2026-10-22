@@ -1,0 +1,156 @@
+{
+  "status": "INSTALLED behind pilot flag; Unity compile and actual same-geometry A/B pending",
+  "candidate": "AUTHORED_FISSURE6",
+  "flag": "VISUAL_COASTAL_FISSURES=1, only inside GolfCoastalComposition.Enabled hole12 material branch",
+  "scope": "Per-material scanned-albedo palette calibration only; no new noise, maps, lights or geometry",
+  "legacyDefault": "Palette midpoint .22 retained; runtime override only explicit candidate flag",
+  "scanLinearLuma": {
+    "median": 0.07,
+    "p10": 0.027,
+    "p90": 0.147
+  },
+  "paletteContrast": {
+    "current": 1.8,
+    "candidate": 5.2
+  },
+  "midpointReflectanceExact": [
+    0.5635,
+    0.5674,
+    0.5167
+  ],
+  "retainedArtistColorMix": 0.06,
+  "samples": [
+    {
+      "sample": "zero",
+      "scanLinearLuma": 0,
+      "current": {
+        "blend": 0.10399999999999998,
+        "rgb": [
+          0.5068,
+          0.51952,
+          0.48016000000000003
+        ]
+      },
+      "candidate": {
+        "blend": 0.13599999999999995,
+        "rgb": [
+          0.313432,
+          0.3581728,
+          0.3735024
+        ]
+      }
+    },
+    {
+      "sample": "p10",
+      "scanLinearLuma": 0.027,
+      "current": {
+        "blend": 0.15259999999999996,
+        "rgb": [
+          0.52867,
+          0.5379879999999999,
+          0.49425399999999997
+        ]
+      },
+      "candidate": {
+        "blend": 0.2764,
+        "rgb": [
+          0.4098868,
+          0.43887472,
+          0.42873576
+        ]
+      }
+    },
+    {
+      "sample": "median",
+      "scanLinearLuma": 0.07,
+      "current": {
+        "blend": 0.22999999999999998,
+        "rgb": [
+          0.5635,
+          0.5674,
+          0.5167
+        ]
+      },
+      "candidate": {
+        "blend": 0.5,
+        "rgb": [
+          0.5635,
+          0.5674,
+          0.5167
+        ]
+      }
+    },
+    {
+      "sample": "p90",
+      "scanLinearLuma": 0.147,
+      "current": {
+        "blend": 0.3686,
+        "rgb": [
+          0.62587,
+          0.620068,
+          0.556894
+        ]
+      },
+      "candidate": {
+        "blend": 0.9003999999999999,
+        "rgb": [
+          0.8385748,
+          0.7975499199999999,
+          0.67421736
+        ]
+      }
+    },
+    {
+      "sample": "white",
+      "scanLinearLuma": 1,
+      "current": {
+        "blend": 1,
+        "rgb": [
+          0.91,
+          0.86,
+          0.74
+        ]
+      },
+      "candidate": {
+        "blend": 1,
+        "rgb": [
+          0.907,
+          0.8548,
+          0.7134
+        ]
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "Unity/Assets/Resources/Course/Shaders/GolfRock.shader",
+      "sourceSha256": "235937a8d6d8a489310852264db5bde5eba7c3c3e5325e463543324cb5f4528f",
+      "staged": "work/reference-rebuild/coastal-fissures6/GolfRock.shader",
+      "stagedSha256": "e0c887a879e4fe2b2279df1213b3f10b67b68d3fdd39869786ccf4d40e727563",
+      "installedSha256": "e0c887a879e4fe2b2279df1213b3f10b67b68d3fdd39869786ccf4d40e727563"
+    },
+    {
+      "path": "Unity/Assets/Resources/Course/Shaders/GolfSurface.hlsl",
+      "sourceSha256": "f3ab71ceff59805f3865fcd1745cfe4b10894ff2f24b320fa24afcaaa1251642",
+      "staged": "work/reference-rebuild/coastal-fissures6/GolfSurface.hlsl",
+      "stagedSha256": "e4f0b2d1c78d202ed5017b580e92c2bbf66f5451e7ddb2897094d78b9df56206",
+      "installedSha256": "e4f0b2d1c78d202ed5017b580e92c2bbf66f5451e7ddb2897094d78b9df56206"
+    },
+    {
+      "path": "Unity/Assets/Scripts/Course/GolfCoastalCliff12.cs",
+      "sourceSha256": "a072d2f21214f2ff37f44865eee22b308436458863fb2a05aeb6a80006b86379",
+      "staged": "work/reference-rebuild/coastal-fissures6/GolfCoastalCliff12.cs",
+      "stagedSha256": "9543a25ecad0df2a682f93d27b9d1aef750368c6d37d604e733f698aac2815f8",
+      "installedSha256": "9543a25ecad0df2a682f93d27b9d1aef750368c6d37d604e733f698aac2815f8"
+    }
+  ],
+  "limitations": [
+    "Quantitative palette range is source evidence, not a guarantee of actual reference fidelity.",
+    "Shader compile and actual Unity highlights/shadows must be reviewed before candidate adoption."
+  ],
+  "colorSpaceBasis": {
+    "scan": "Linear luminance after sRGB texture decode",
+    "materialColors": "_LowColor/_HighColor have neither HDR nor Gamma attribute; Unity Material.SetColor stores provided values without conversion, so raw RGB midpoint interpolation is the shader reflectance basis.",
+    "primarySource": "https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Material.SetColor.html"
+  }
+}

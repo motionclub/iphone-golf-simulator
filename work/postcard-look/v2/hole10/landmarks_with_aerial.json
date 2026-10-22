@@ -1,0 +1,265 @@
+{
+  "shots": [
+    {
+      "name": "hole10_tee",
+      "hole": 10,
+      "kind": "address",
+      "ball": [
+        0,
+        0
+      ],
+      "aim": [
+        14.3,
+        66.2
+      ]
+    },
+    {
+      "name": "hole10_approach",
+      "hole": 10,
+      "kind": "address",
+      "ball": [
+        107.1,
+        159.3
+      ],
+      "aim": [
+        261,
+        164.7
+      ]
+    },
+    {
+      "name": "hole10_lavarim",
+      "hole": 10,
+      "kind": "landmark",
+      "pos": [
+        70,
+        14,
+        108
+      ],
+      "look": [
+        140,
+        1,
+        150
+      ],
+      "fov": 55
+    },
+    {
+      "name": "hole10_aerial",
+      "hole": 10,
+      "kind": "aerial",
+      "pos": [
+        -25,
+        60,
+        20
+      ],
+      "look": [
+        170,
+        0,
+        120
+      ],
+      "fov": 50
+    },
+    {
+      "name": "hole10_aerial2",
+      "hole": 10,
+      "kind": "aerial",
+      "pos": [
+        250,
+        75,
+        -60
+      ],
+      "look": [
+        90,
+        0,
+        120
+      ],
+      "fov": 55
+    },
+    {
+      "name": "hole10_aerial3",
+      "hole": 10,
+      "kind": "aerial",
+      "pos": [
+        -40,
+        45,
+        230
+      ],
+      "look": [
+        160,
+        0,
+        110
+      ],
+      "fov": 55
+    },
+    {
+      "name": "hole10_aerial4",
+      "hole": 10,
+      "kind": "aerial",
+      "pos": [
+        330,
+        70,
+        170
+      ],
+      "look": [
+        120,
+        0,
+        40
+      ],
+      "fov": 60
+    },
+    {
+      "name": "hole10_wallclose",
+      "hole": 10,
+      "kind": "aerial",
+      "pos": [
+        150,
+        22,
+        95
+      ],
+      "look": [
+        190,
+        14,
+        238
+      ],
+      "fov": 55
+    },
+    {
+      "name": "hole10_wallclose2",
+      "hole": 10,
+      "kind": "aerial",
+      "pos": [
+        300,
+        25,
+        120
+      ],
+      "look": [
+        400,
+        15,
+        160
+      ],
+      "fov": 55
+    },
+    {
+      "name": "hole10_plan",
+      "hole": 10,
+      "kind": "ortho",
+      "center": [
+        173,
+        40
+      ],
+      "ortho_scale_m": 900
+    },
+    {
+      "name": "hole10_rimin",
+      "hole": 10,
+      "kind": "landmark",
+      "pos": [
+        100,
+        8.8,
+        134
+      ],
+      "look": [
+        150,
+        3,
+        60
+      ],
+      "fov": 60
+    },
+    {
+      "name": "hole10_aerial5",
+      "hole": 10,
+      "kind": "aerial",
+      "pos": [
+        60,
+        40,
+        200
+      ],
+      "look": [
+        180,
+        0,
+        60
+      ],
+      "fov": 55
+    },
+    {
+      "name": "hole10_cone",
+      "hole": 10,
+      "kind": "aerial",
+      "pos": [
+        170,
+        45,
+        180
+      ],
+      "look": [
+        170,
+        75,
+        440
+      ],
+      "fov": 50
+    },
+    {
+      "name": "hole10_rimA",
+      "hole": 10,
+      "kind": "aerial",
+      "pos": [
+        96,
+        16,
+        132
+      ],
+      "look": [
+        150,
+        2,
+        148
+      ],
+      "fov": 55
+    },
+    {
+      "name": "hole10_rimB",
+      "hole": 10,
+      "kind": "aerial",
+      "pos": [
+        70,
+        14,
+        108
+      ],
+      "look": [
+        140,
+        1,
+        150
+      ],
+      "fov": 55
+    },
+    {
+      "name": "hole10_rimC",
+      "hole": 10,
+      "kind": "aerial",
+      "pos": [
+        118,
+        14,
+        150
+      ],
+      "look": [
+        165,
+        0,
+        100
+      ],
+      "fov": 55
+    },
+    {
+      "name": "hole10_rimD",
+      "hole": 10,
+      "kind": "aerial",
+      "pos": [
+        104,
+        11,
+        128
+      ],
+      "look": [
+        170,
+        2,
+        175
+      ],
+      "fov": 60
+    }
+  ],
+  "_comment": "Preview-only superset of landmarks.json (adds the aerial / close-up cameras used by tools/render_views.py; NOT for PostcardLookStills). Round 4, 2026-10-04 20:37: hole rebuilt on the final v5 textures; cameras unchanged."
+}

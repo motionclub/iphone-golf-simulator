@@ -1,0 +1,22 @@
+import json,numpy as np,hashlib
+from pathlib import Path
+from review import *
+old=json.loads((W/'revision2/dense-continuity.json').read_text()); rows=[];allimp=[];allactive=[];length=[];contact=[];maxes={}; rng=np.random.default_rng(2910)
+def outputs(v):
+ t,h,e,o,n=solve(*v);return np.c_[t,h-v[2],e-v[1]],o,n
+for sex,c,side,v,tr,ids,club in load():
+ out,orig,new=outputs(v);times=np.asarray(c['times']);s,e,h,p,C,A=v
+ def interp(t):
+  ii=np.clip(np.searchsorted(times,t,side='right')-1,0,len(times)-2);u=(t-times[ii])/(times[ii+1]-times[ii]);u=np.clip(u,0,1);q1=tr[ii,club,3:7];q2=tr[ii+1,club,3:7];q2=q2*np.where(dot(q1,q2)<0,-1,1)[:,None];q=q1*(1-u[:,None])+q2*u[:,None];q/=norm(q)[:,None];axis=qmat(q)@np.array([0.,0.,1.]);return tuple(x[ii]*(1-u[:,None])+x[ii+1]*u[:,None] for x in v[:-1])+(axis,)
+ prior=next(x for x in old['tracks'] if (x['sex'],x['clip'],x['side'])==(sex,c['id'],side));ts=np.r_[[(p['sourceTime']) for p in prior['boundaryProbes']],(times[:-1]+times[1:])/2];delta=1e-7
+ before=outputs(interp(np.clip(ts-delta,times[0],times[-1])))[0];after=outputs(interp(np.clip(ts+delta,times[0],times[-1])))[0];steps=after-before
+ # Same inputs evaluated in a random seek order; solver contains no persistent state.
+ perm=rng.permutation(len(times));permuted=outputs(tuple(x[perm] for x in v))[0];seekerror=np.max(np.abs(permuted-out[perm]))
+ t,H,E,_,_=solve(*v);err=np.maximum(abs(norm(E-s)-norm(e-s)),abs(norm(H-E)-norm(h-e)));length.extend(err.tolist())
+ # Every subtree point is carried by the same roll about the unchanged shaft.
+ finger=tr[:,[i for i,n in enumerate(json.loads((R/f'work/reference-rebuild/original-native-adoption1/export/GolfKitHero_{sex}.json').read_text())['rig']['bones']) if n.startswith(side) and any(d in n for d in ['Thumb','Index','Middle','Ring','Little'])],:3]
+ newf=C[:,None]+turn(A[:,None],t[:,None],finger-C[:,None]);contact.extend(abs(norm(np.cross(A[:,None],newf-C[:,None]))-norm(np.cross(A[:,None],finger-C[:,None]))).flatten().tolist())
+ gain=orig-new;allimp.extend(gain[orig>35].tolist());allactive.extend((orig>35).tolist())
+ rows.append(dict(sex=sex,clip=c['id'],side=side,samples=len(times),subframeProbeCount=len(ts),oldFlipProbeCount=4,maxRollDegrees=float(abs(np.degrees(t)).max()),maxWristShiftMm=float(norm(H-h).max()*1000),maxElbowShiftMm=float(norm(E-e).max()*1000),maxNeighborRollChangeDegrees=float(abs(np.diff(np.degrees(t))).max()),maxNeighborWristCorrectionChangeMm=float(norm(np.diff(H-h,axis=0)).max()*1000),maxNeighborElbowCorrectionChangeMm=float(norm(np.diff(E-e,axis=0)).max()*1000),maxTwoTenthMicrosecondRollStepDegrees=float(abs(np.degrees(steps[:,0])).max()),maxTwoTenthMicrosecondWristStepMm=float(norm(steps[:,1:4]).max()*1000),maxTwoTenthMicrosecondElbowStepMm=float(norm(steps[:,4:7]).max()*1000),randomSeekDifference=float(seekerror),activeMeanAngleImprovementDegrees=float(gain[orig>35].mean()),maxAngleRegressionDegrees=float(max(0,-gain.min())),sourceMaxWristAngleDegrees=float(orig.max()),candidateMaxWristAngleDegrees=float(new.max()),addressAnglesDegrees=[float(orig[0]),float(new[0])]))
+report={'status':'SOURCE_CONTINUITY_PASS_NOT_RUNTIME_OR_ART_ACCEPTANCE','source':'Accepted pre-roll adaptive native source tracks, model-metre units; all20 sex/clip/hand tracks. Midpoint probes interpolate source positions and nlerp Club rotation; do not represent a new animation bake.','samples':sum(x['samples'] for x in rows),'subframeProbeCount':sum(x['subframeProbeCount'] for x in rows),'maximumWristShiftMm':max(x['maxWristShiftMm'] for x in rows),'maximumElbowShiftMm':max(x['maxElbowShiftMm'] for x in rows),'maxSubframeWristStepMm':max(x['maxTwoTenthMicrosecondWristStepMm'] for x in rows),'maxSubframeElbowStepMm':max(x['maxTwoTenthMicrosecondElbowStepMm'] for x in rows),'maxLengthErrorMm':max(length)*1000,'maxSubtreeRadialContactErrorMm':max(contact)*1000,'randomSeekMaxDifference':max(x['randomSeekDifference'] for x in rows),'activeMeanAngleImprovementDegrees':float(np.mean(allimp)),'maxAngleRegressionDegrees':max(x['maxAngleRegressionDegrees'] for x in rows),'tracks':rows,'limits':'Continuity and preservation evidence only. Source wrist bends exceeding120 degrees remain. Actual authored-finger ordering, skinned surface, and new native exporter parity still require root runtime review.'}
+(O/'continuous-source-evidence.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps({k:v for k,v in report.items() if k not in ['tracks','source','limits']},indent=2))

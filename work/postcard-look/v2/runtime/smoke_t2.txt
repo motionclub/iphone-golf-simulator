@@ -1,0 +1,53 @@
+INFO: active pipeline asset 'HeroBaseStudioURP', quality level 2 'Medium', Unity 6000.3.24f1, Metal
+INFO: CRATER board lights in the scene: 5 enabled (4 Point, 1 Directional); main light = 'Board sun', additional directionals 0
+INFO: CRATER lava, phone view (rim height, grazing), HeroBaseStudioURP, 4 lava point lights: 912303 px: in band 92.6 % (>= 85), G clipped 0.0 % (<= 5), cream 0.00 %; misses: dark 7.4 %, pale 0.0 %, yellow 0.0 %, red 0.0 %; mean (217,79,18) h18 s0.92 v0.85
+INFO: CRATER lava, 40 deg down view: 1264497 px: in band 92.6 % (>= 85), G clipped 0.0 % (<= 5), cream 0.00 %; misses: dark 7.4 %, pale 0.0 %, yellow 0.0 %, red 0.0 %; mean (217,79,18) h18 s0.92 v0.85
+INFO: CRATER lava lights (4 point lights I 200 range 52 lift 4, additional-lights limit 4): wall 1059415 px, +7.7 luminance on average, >= +8 on 36.7 % of it; lava pixels brightened by >= 40 levels: 0.0 %
+INFO: CRATER grass ledge 10-30 yd from the lava lights: lights off (158,180,53) hue 70 V 0.71; lights on (159,180,53) hue 70 V 0.71, G clipped 0.0 %
+GATE: LAVA_LIGHTS_KEEP_GRASS_GREEN PASS - grass near the lights: hue 70 -> 70 (|shift| <= 4), G clipped 0.0 % (<= 5); 788360 px
+INFO: BASALT glow pixels (emission adds >= 24 levels): 30897 px = 2.2 % of the wall, mean (191,78,36) hue 16 S 0.81 V 0.75, hue 8..32 on 74 %, cream 0.00 %, G clipped 0.00 %; wall median luminance 52
+INFO: SWEEP basalt emission (1.00,0.50,0.35): 30781 glow px = 2.2 % of the wall, mean (192,68,35) hue 13, hue 8..32 on 59 %, cream 0.00 %
+INFO: SWEEP basalt emission (1.00,0.70,0.45): 30862 glow px = 2.2 % of the wall, mean (192,75,36) hue 15, hue 8..32 on 71 %, cream 0.00 %
+INFO: SWEEP basalt emission (1.00,0.80,0.50): 30897 glow px = 2.2 % of the wall, mean (191,78,36) hue 16, hue 8..32 on 74 %, cream 0.00 %
+INFO: SWEEP basalt emission (1.00,1.00,0.60): 30968 glow px = 2.2 % of the wall, mean (191,83,36) hue 18, hue 8..32 on 73 %, cream 0.00 %
+INFO: SWEEP basalt emission (1.30,0.90,0.50): 31670 glow px = 2.3 % of the wall, mean (199,80,36) hue 16, hue 8..32 on 68 %, cream 0.00 %
+INFO: SWEEP basalt emission (1.60,0.90,0.50): 32302 glow px = 2.3 % of the wall, mean (204,79,36) hue 15, hue 8..32 on 62 %, cream 0.00 %
+INFO: SWEEP basalt emission (2.00,1.00,0.60): 33128 glow px = 2.4 % of the wall, mean (208,80,36) hue 15, hue 8..32 on 55 %, cream 0.00 %
+GATE: LAVA_ORANGE_NO_BLOOM phone PASS - 912303 px: in band 92.6 % (>= 85), G clipped 0.0 % (<= 5), cream 0.00 %; misses: dark 7.4 %, pale 0.0 %, yellow 0.0 %, red 0.0 %; mean (217,79,18) h18 s0.92 v0.85
+GATE: LAVA_ORANGE_NO_BLOOM down PASS - 1264497 px: in band 92.6 % (>= 85), G clipped 0.0 % (<= 5), cream 0.00 %; misses: dark 7.4 %, pale 0.0 %, yellow 0.0 %, red 0.0 %; mean (217,79,18) h18 s0.92 v0.85
+GATE: BASALT_GLOW_ORANGE PASS - 30897 glow px (2.2 % of the wall, <= 20): mean hue 16 (8..32), brightest quarter (crack cores) (255,131,41) hue 25 (12..34), cream 0.00 % (<= 1), G clipped 0.00 % (<= 5); mean (191,78,36)
+GATE: BASALT_RENDERS_DARK FAIL - key-lit wall facing the sun (emission off, worst case): median luminance 52 (<= 40), mean (68,52,43) S 0.37 (<= 0.25); wall beside the lava lights (lights on): median 57 (<= 55), mean (81,52,41) S 0.50 (<= 0.65); crater.jpg: charcoal (26,25,29), median 30..34 S .2..28, lava-lit (52,27,23) S .5..62
+GATE: LAVA_LIGHTS_REACH_BASALT PASS - 4 lava point lights, additional-lights limit 4: >= +8 luminance on 36.7 % of the wall near a light (>= 20), +7.7 on average; lava pixels brightened by >= 40 levels 0.0 % (<= 10, no hot pools)
+INFO: SWEEP lava heat albedo 1.5 glow 1.5 bias -0.10 gain 1.5 relief 0.15: phone in-band 94 % dark 6 % yellow 0 % red 0 % mean (223,86,19) | down in-band 94 % dark 6 % yellow 0 % red 0 % mean (223,87,20)
+INFO: SWEEP lava heat albedo 1.5 glow 1.5 bias -0.15 gain 1.5 relief 0.15: phone in-band 92 % dark 8 % yellow 0 % red 0 % mean (217,79,18) | down in-band 92 % dark 8 % yellow 0 % red 0 % mean (217,80,18)
+INFO: SWEEP lava heat albedo 1.5 glow 1.5 bias -0.20 gain 1.3 relief 0.15: phone in-band 91 % dark 9 % yellow 0 % red 0 % mean (211,72,17) | down in-band 91 % dark 9 % yellow 0 % red 0 % mean (212,73,17)
+INFO: SWEEP lava heat albedo 1.5 glow 1.5 bias -0.25 gain 1.1 relief 0.15: phone in-band 90 % dark 10 % yellow 0 % red 0 % mean (207,67,16) | down in-band 91 % dark 9 % yellow 0 % red 0 % mean (207,68,16)
+INFO: SWEEP lava heat albedo 1.5 glow 1.5 bias -0.30 gain 1.0 relief 0.15: phone in-band 89 % dark 11 % yellow 0 % red 0 % mean (203,63,15) | down in-band 89 % dark 11 % yellow 0 % red 0 % mean (203,64,15)
+INFO: SWEEP lava heat albedo 1.5 glow 1.5 bias -0.20 gain 1.3 relief 0.35: phone in-band 90 % dark 10 % yellow 0 % red 0 % mean (211,72,17) | down in-band 91 % dark 9 % yellow 0 % red 0 % mean (212,73,17)
+INFO: SWEEP lava heat albedo 1.8 glow 1.2 bias -0.30 gain 1.2 relief 0.25: phone in-band 80 % dark 20 % yellow 0 % red 0 % mean (195,57,14) | down in-band 80 % dark 20 % yellow 0 % red 0 % mean (195,58,15)
+INFO: SWEEP lava lights I 28 range 48 lift 0 (limit 4): wall >= +8 on 0.3 % (+1.1 mean), lava hot 0.0 %
+INFO: SWEEP lava lights I 60 range 48 lift 0 (limit 4): wall >= +8 on 6.0 % (+2.2 mean), lava hot 0.0 %
+INFO: SWEEP lava lights I 100 range 48 lift 0 (limit 4): wall >= +8 on 14.9 % (+3.5 mean), lava hot 0.0 %
+INFO: SWEEP lava lights I 100 range 48 lift 3 (limit 4): wall >= +8 on 17.6 % (+4.1 mean), lava hot 0.0 %
+INFO: SWEEP lava lights I 150 range 52 lift 3 (limit 4): wall >= +8 on 28.2 % (+5.9 mean), lava hot 0.0 %
+INFO: SWEEP lava lights I 200 range 52 lift 4 (limit 4): wall >= +8 on 36.7 % (+7.7 mean), lava hot 0.0 %
+INFO: SWEEP lava lights I 300 range 56 lift 4 (limit 4): wall >= +8 on 47.4 % (+10.8 mean), lava hot 0.0 %
+INFO: SWEEP lava lights I 400 range 60 lift 5 (limit 4): wall >= +8 on 56.8 % (+13.9 mean), lava hot 0.0 %
+INFO: SWEEP basalt tint (0.94,0.94,0.94) matte False smooth 0.15: key-lit wall emission off mean (68,52,43) hue 21 S 0.37 median lum 52 | lights I 200: wall median 57, mean (81,52,41) S 0.50, >= +8 on 37 %, +7.7 mean
+INFO: SWEEP basalt tint (0.94,0.94,0.94) matte True smooth 0.15: key-lit wall emission off mean (58,36,29) hue 16 S 0.50 median lum 36 | lights I 200: wall median 38, mean (66,35,25) S 0.62, >= +8 on 27 %, +5.9 mean | lights I 400: wall median 41, mean (76,38,26) S 0.67, >= +8 on 46 %, +10.4 mean
+INFO: SWEEP basalt tint (0.70,0.78,0.92) matte True smooth 0.15: key-lit wall emission off mean (44,30,28) hue 6 S 0.37 median lum 29 | lights I 200: wall median 30, mean (52,29,25) S 0.52, >= +8 on 17 %, +4.4 mean | lights I 400: wall median 33, mean (59,32,25) S 0.58, >= +8 on 36 %, +7.9 mean | lights I 700: wall median 37, mean (68,35,26) S 0.62, >= +8 on 51 %, +12.3 mean
+INFO: SWEEP basalt tint (0.55,0.66,0.84) matte True smooth 0.15: key-lit wall emission off mean (37,25,25) hue 357 S 0.33 median lum 25 | lights I 200: wall median 25, mean (43,24,22) S 0.48, >= +8 on 11 %, +3.4 mean | lights I 400: wall median 27, mean (49,27,23) S 0.53, >= +8 on 28 %, +6.2 mean | lights I 700: wall median 30, mean (55,29,23) S 0.58, >= +8 on 43 %, +9.7 mean
+INFO: SWEEP basalt tint (0.45,0.57,0.80) matte True smooth 0.15: key-lit wall emission off mean (32,21,24) hue 344 S 0.34 median lum 21 | lights I 200: wall median 22, mean (38,21,21) S 0.44, >= +8 on 7 %, +2.7 mean | lights I 400: wall median 24, mean (42,23,22) S 0.48, >= +8 on 21 %, +5.0 mean | lights I 700: wall median 26, mean (48,25,22) S 0.53, >= +8 on 36 %, +7.9 mean
+INFO: SWEEP basalt tint (0.60,0.70,0.90) matte False smooth 0.05: key-lit wall emission off mean (49,41,38) hue 14 S 0.22 median lum 41 | lights I 200: wall median 45, mean (60,41,36) S 0.40, >= +8 on 28 %, +5.9 mean | lights I 400: wall median 48, mean (70,44,36) S 0.48, >= +8 on 48 %, +10.4 mean
+INFO: SWEEP basalt tint (0.40,0.52,0.76) matte True smooth 0.15: key-lit wall emission off mean (30,19,23) hue 340 S 0.36 median lum 20 | lights I 200: wall median 20, mean (36,19,20) S 0.45, >= +8 on 5 %, +2.4 mean | lights I 400: wall median 22, mean (39,21,21) S 0.47, >= +8 on 17 %, +4.4 mean | lights I 700: wall median 24, mean (44,23,21) S 0.52, >= +8 on 32 %, +6.9 mean
+INFO: SMOKE card over the crater sky: effective alpha max 0.52 p95 0.27 border 0.000 (_Color.a 1.00, _AlphaGain 1.00, _AlphaPower 1.00, _EdgeFade 0.18); 18036 px move the frame, |delta luminance| median 4.9 p99 14.7, edge step p99 1.03 levels/px
+GATE: SMOKE_SOFT FAIL - effective alpha max 0.52 (0.55..0.72: translucent, never a ball), border alpha 0.000 (<= .02, no hard rim), card moves the frame by median 4.9 (>= 8) / p99 14.7 luminance levels (p99 28..90: readable but never a ball; 18036 px), edge step p99 1.03 levels/px (<= 6)
+INFO: SWEEP smoke tint (0.62,0.56,0.56) gain 1.0 (alpha peak 0.52) emission 0.05 lit 0.6: 18036 px, |delta| median 4.9 p99 14.7; brightest 10 % of the plume (120,83,80) S 0.33 (crater.jpg plume (183,154,150) S .18)
+INFO: SWEEP smoke tint (0.62,0.56,0.56) gain 1.3 (alpha peak 0.67) emission 0.05 lit 0.6: 19790 px, |delta| median 5.9 p99 19.4; brightest 10 % of the plume (120,86,82) S 0.31 (crater.jpg plume (183,154,150) S .18)
+INFO: SWEEP smoke tint (0.80,0.74,0.72) gain 1.3 (alpha peak 0.67) emission 0.10 lit 0.6: 22518 px, |delta| median 4.5 p99 37.3; brightest 10 % of the plume (149,110,103) S 0.31 (crater.jpg plume (183,154,150) S .18)
+INFO: SWEEP smoke tint (0.90,0.82,0.80) gain 1.3 (alpha peak 0.67) emission 0.15 lit 0.6: 24513 px, |delta| median 5.5 p99 51.1; brightest 10 % of the plume (164,122,113) S 0.31 (crater.jpg plume (183,154,150) S .18)
+INFO: SWEEP smoke tint (0.90,0.82,0.80) gain 1.4 (alpha peak 0.72) emission 0.25 lit 0.6: 25861 px, |delta| median 6.3 p99 58.1; brightest 10 % of the plume (169,129,119) S 0.30 (crater.jpg plume (183,154,150) S .18)
+INFO: SWEEP smoke tint (1.00,0.92,0.88) gain 1.4 (alpha peak 0.72) emission 0.25 lit 0.6: 31114 px, |delta| median 7.3 p99 73.0; brightest 10 % of the plume (184,143,130) S 0.29 (crater.jpg plume (183,154,150) S .18)
+INFO: SWEEP smoke tint (1.00,0.92,0.88) gain 1.4 (alpha peak 0.72) emission 0.40 lit 0.8: 32236 px, |delta| median 8.1 p99 78.1; brightest 10 % of the plume (192,146,133) S 0.31 (crater.jpg plume (183,154,150) S .18)
+INFO: SWEEP smoke tint (0.90,0.82,0.80) gain 1.5 (alpha peak 0.78) emission 0.30 lit 0.6: 27000 px, |delta| median 6.4 p99 63.0; brightest 10 % of the plume (173,133,124) S 0.28 (crater.jpg plume (183,154,150) S .18)
+SUMMARY: 5/7 gates PASS

@@ -1,0 +1,32 @@
+{
+ "hero": "GolfKitHero_Male",
+ "tag": "Kit_Bottom",
+ "source": "dump:Kit_Bottom",
+ "seconds": 42.2,
+ "weights": {
+  "panels": 7,
+  "matched": 0.5940949935815147,
+  "inner": 0.26970474967907576,
+  "smooth_iters": 1,
+  "edge_mm": 14.510196200975379,
+  "allowed": "{0: ('AL', 'AR'), 1: ('T', 'AL', 'AR'), 2: ('T', 'P', 'AL'), 3: ('T', 'P', 'AR'), 4: ('T', 'AL'), 5: ('T', 'AR'), 6: ('T', 'P')}",
+  "side_mm_p5": 6.689402137826515
+ },
+ "shapes": 16,
+ "log": [
+  "FIT GolfKitHero_Male Kit_Bottom from dump:Kit_Bottom: 7790 verts 15200 tris",
+  "  weights: 7 panels, matched 59%, inner 27%, smooth 1 it (edge 14.5 mm)",
+  "  weights 1.0 s",
+  "  (coverage failed: Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:49:19)\n\nBlender quit\nr/work/clothing-v2/pipeline/gp/cov_cli.py\", line 11, in <module>\n    d = os.path.dirname(extra); one = CA.load_dir(d, h); t = str(np.load(extra)['tag']); cand[t] = one[t]\n                                                                                                   ~~~^^^\nKeyError: 'Kit_Bottom'\n)",
+  "  obstacles: body",
+  "    pose 0/153  2 s",
+  "    pose 25/153  8 s",
+  "    pose 50/153  14 s",
+  "    pose 75/153  21 s",
+  "    pose 100/153  28 s",
+  "    pose 125/153  34 s",
+  "    pose 150/153  40 s",
+  "  correctives: 130/153 poses need a lift (max 59.7 mm, p90 55.1 mm) in 41 s",
+  "  16 shapes, RBF sigma 0.552, anchor fit err max 0.021, weight at rest 0.0000"
+ ]
+}

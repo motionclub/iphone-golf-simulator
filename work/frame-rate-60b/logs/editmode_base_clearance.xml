@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="6" result="Failed(Child)" total="6" passed="4" failed="2" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-17 06:02:28Z" end-time="2026-10-17 06:02:46Z" duration="17.3741052">
+  <test-suite type="TestSuite" id="1000" name="Golf Arcade" fullname="Golf Arcade" runstate="Runnable" testcasecount="604" result="Failed" site="Child" start-time="2026-10-17 06:02:28Z" end-time="2026-10-17 06:02:46Z" duration="17.374105" total="6" passed="4" failed="2" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="1703" name="GolfArcade.Tests.dll" fullname="/private/tmp/fps60b-BaseClone/Library/ScriptAssemblies/GolfArcade.Tests.dll" runstate="Runnable" testcasecount="604" result="Failed" site="Child" start-time="2026-10-17 06:02:28Z" end-time="2026-10-17 06:02:46Z" duration="17.356653" total="6" passed="4" failed="2" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="3906" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestSuite" id="1704" name="GolfArcade" fullname="GolfArcade" runstate="Runnable" testcasecount="516" result="Failed" site="Child" start-time="2026-10-17 06:02:28Z" end-time="2026-10-17 06:02:46Z" duration="17.351109" total="6" passed="4" failed="2" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-suite type="TestSuite" id="1705" name="Tests" fullname="GolfArcade.Tests" runstate="Runnable" testcasecount="516" result="Failed" site="Child" start-time="2026-10-17 06:02:28Z" end-time="2026-10-17 06:02:46Z" duration="17.348047" total="6" passed="4" failed="2" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <failure>
+            <message><![CDATA[One or more child tests had errors]]></message>
+          </failure>
+          <test-suite type="TestFixture" id="1246" name="HeroClearanceTests" fullname="GolfArcade.Tests.HeroClearanceTests" classname="GolfArcade.Tests.HeroClearanceTests" runstate="Runnable" testcasecount="6" result="Failed" site="Child" start-time="2026-10-17 06:02:28Z" end-time="2026-10-17 06:02:46Z" duration="17.333673" total="6" passed="4" failed="2" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <failure>
+              <message><![CDATA[One or more child tests had errors]]></message>
+            </failure>
+            <test-case id="1254" name="ABiggerShirtGrowsTheTorsoProxyWithNoTuning" fullname="GolfArcade.Tests.HeroClearanceTests.ABiggerShirtGrowsTheTorsoProxyWithNoTuning" methodname="ABiggerShirtGrowsTheTorsoProxyWithNoTuning" classname="GolfArcade.Tests.HeroClearanceTests" runstate="Runnable" seed="1313568214" result="Passed" start-time="2026-10-17 06:02:28Z" end-time="2026-10-17 06:02:37Z" duration="9.065207" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-suite type="ParameterizedMethod" id="1252" name="BuriedHandsComeOutWithLengthsAndGripKept" fullname="GolfArcade.Tests.HeroClearanceTests.BuriedHandsComeOutWithLengthsAndGripKept" classname="GolfArcade.Tests.HeroClearanceTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-17 06:02:38Z" end-time="2026-10-17 06:02:41Z" duration="3.175057" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1250" name="BuriedHandsComeOutWithLengthsAndGripKept(False)" fullname="GolfArcade.Tests.HeroClearanceTests.BuriedHandsComeOutWithLengthsAndGripKept(False)" methodname="BuriedHandsComeOutWithLengthsAndGripKept" classname="GolfArcade.Tests.HeroClearanceTests" runstate="Runnable" seed="2063439259" result="Passed" start-time="2026-10-17 06:02:38Z" end-time="2026-10-17 06:02:38Z" duration="0.406210" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1251" name="BuriedHandsComeOutWithLengthsAndGripKept(True)" fullname="GolfArcade.Tests.HeroClearanceTests.BuriedHandsComeOutWithLengthsAndGripKept(True)" methodname="BuriedHandsComeOutWithLengthsAndGripKept" classname="GolfArcade.Tests.HeroClearanceTests" runstate="Runnable" seed="346060491" result="Passed" start-time="2026-10-17 06:02:38Z" end-time="2026-10-17 06:02:41Z" duration="2.755588" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-case id="1253" name="LockedHandsAtContactDoNotMove" fullname="GolfArcade.Tests.HeroClearanceTests.LockedHandsAtContactDoNotMove" methodname="LockedHandsAtContactDoNotMove" classname="GolfArcade.Tests.HeroClearanceTests" runstate="Runnable" seed="1825931008" result="Passed" start-time="2026-10-17 06:02:41Z" end-time="2026-10-17 06:02:45Z" duration="4.608739" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-suite type="ParameterizedMethod" id="1249" name="ProxyIsFittedForEveryBodyPartAndEnclosesItsOwnSkin" fullname="GolfArcade.Tests.HeroClearanceTests.ProxyIsFittedForEveryBodyPartAndEnclosesItsOwnSkin" classname="GolfArcade.Tests.HeroClearanceTests" runstate="Runnable" testcasecount="2" result="Failed" site="Child" start-time="2026-10-17 06:02:45Z" end-time="2026-10-17 06:02:46Z" duration="0.430955" total="2" passed="0" failed="2" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <failure>
+                <message><![CDATA[One or more child tests had errors]]></message>
+              </failure>
+              <test-case id="1247" name="ProxyIsFittedForEveryBodyPartAndEnclosesItsOwnSkin(False)" fullname="GolfArcade.Tests.HeroClearanceTests.ProxyIsFittedForEveryBodyPartAndEnclosesItsOwnSkin(False)" methodname="ProxyIsFittedForEveryBodyPartAndEnclosesItsOwnSkin" classname="GolfArcade.Tests.HeroClearanceTests" runstate="Runnable" seed="644275627" result="Failed" start-time="2026-10-17 06:02:45Z" end-time="2026-10-17 06:02:46Z" duration="0.290654" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <failure>
+                  <message><![CDATA[  skin within 4 mm of its own proxy: 4013/4481
+  Expected: greater than 0.970000029f
+  But was:  0.895559013f
+]]></message>
+                  <stack-trace><![CDATA[at GolfArcade.Tests.HeroClearanceTests.ProxyIsFittedForEveryBodyPartAndEnclosesItsOwnSkin (System.Boolean female) [0x00185] in /private/tmp/fps60b-BaseClone/Assets/Tests/EditMode/HeroClearanceTests.cs:33
+]]></stack-trace>
+                </failure>
+              </test-case>
+              <test-case id="1248" name="ProxyIsFittedForEveryBodyPartAndEnclosesItsOwnSkin(True)" fullname="GolfArcade.Tests.HeroClearanceTests.ProxyIsFittedForEveryBodyPartAndEnclosesItsOwnSkin(True)" methodname="ProxyIsFittedForEveryBodyPartAndEnclosesItsOwnSkin" classname="GolfArcade.Tests.HeroClearanceTests" runstate="Runnable" seed="573185936" result="Failed" start-time="2026-10-17 06:02:46Z" end-time="2026-10-17 06:02:46Z" duration="0.126077" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <failure>
+                  <message><![CDATA[  skin within 4 mm of its own proxy: 2927/3216
+  Expected: greater than 0.970000029f
+  But was:  0.910136819f
+]]></message>
+                  <stack-trace><![CDATA[at GolfArcade.Tests.HeroClearanceTests.ProxyIsFittedForEveryBodyPartAndEnclosesItsOwnSkin (System.Boolean female) [0x00185] in /private/tmp/fps60b-BaseClone/Assets/Tests/EditMode/HeroClearanceTests.cs:33
+]]></stack-trace>
+                </failure>
+                <output><![CDATA[DONE EditMode: 4 passed, 2 failed, 0 skipped
+<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /Users/adnanyonathan/Library/Application Support/aloniewski/Golf Arcade/TestResults.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

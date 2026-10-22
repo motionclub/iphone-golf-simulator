@@ -16,6 +16,8 @@ namespace GolfArcade.Tennis
         bool matchPoint, welcomed;
         int pointsThisMatch, lastRally;
 
+        void Update() { GolfArcade.Game.IntroMusic.Drive(TennisVenue.Current.ToString(), game && game.IntroPlaying); }
+
         public static TennisAudioDirector Create(TennisGame game)
         {
             var d = new GameObject("Tennis audio").AddComponent<TennisAudioDirector>();
@@ -36,7 +38,7 @@ namespace GolfArcade.Tennis
             if (match.PlayerGames + match.OpponentGames == 0 && match.PlayerPoints + match.OpponentPoints == 0)
             {
                 pointsThisMatch = 0;
-                if (!welcomed) { Announcer.Say("welcome", .8f, 4); welcomed = true; Announcer.Say("play", 1.2f, 6); }
+                if (!welcomed) { Announcer.Say(Announcer.Has("welcome_" + TennisVenue.Current.ToString().ToLowerInvariant()) ? "welcome_" + TennisVenue.Current.ToString().ToLowerInvariant() : "welcome", .8f, 4); welcomed = true; Announcer.Say("play", 1.2f, 6); }
                 else Announcer.Say("play", .9f, 3);
                 return;
             }
@@ -59,6 +61,8 @@ namespace GolfArcade.Tennis
         public void OnPointOver(TennisMatch match, bool toPlayer, string call, int rally, bool gameWon, bool smash)
         {
             pointsThisMatch++;
+            if (toPlayer && (call == "WINNER" || call == "ACE" || gameWon)) GolfArcade.Game.GameAudioHost.Instance.PlayUI("sfx/ui/point_win", .9f);
+            else if (!toPlayer && (call == "DOUBLE FAULT" || gameWon)) GolfArcade.Game.GameAudioHost.Instance.PlayUI("sfx/ui/point_lose", .9f);
             bool winner = call == "WINNER", ace = call == "ACE";
             bool longRally = rally >= 8;
             float excitement = Mathf.Clamp01(rally / 10f + (winner || ace ? .35f : 0) + (match.Complete ? .5f : 0));

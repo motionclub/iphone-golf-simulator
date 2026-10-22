@@ -1,0 +1,37 @@
+{
+  "protocol": "same full hero silhouette masks; every RGB component, byte units",
+  "rows": [
+    {
+      "view": "male_match_behind",
+      "pixels": 5632,
+      "meanByte": 0.007220643939393939,
+      "maxByte": 1,
+      "silhouettePixelsDifferent": 0,
+      "status": "PASS"
+    },
+    {
+      "view": "male_match_phone",
+      "pixels": 68172,
+      "meanByte": 0.0057012654266658845,
+      "maxByte": 1,
+      "silhouettePixelsDifferent": 0,
+      "status": "PASS"
+    },
+    {
+      "view": "female_match_behind",
+      "pixels": 4957,
+      "meanByte": 0.0083383767063412,
+      "maxByte": 1,
+      "silhouettePixelsDifferent": 0,
+      "status": "PASS"
+    },
+    {
+      "view": "female_match_phone",
+      "pixels": 59672,
+      "meanByte": 0.007060821379094606,
+      "maxByte": 1,
+      "silhouettePixelsDifferent": 0,
+      "status": "PASS"
+    }
+  ]
+}

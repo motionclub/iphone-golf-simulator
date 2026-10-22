@@ -1,0 +1,14 @@
+BLENDER 5.2.2 LTS
+Body_M MESH (0.0, 0.0, 0.0) (1.0, 1.0, 1.0) parent= None verts=31628 polys=31854 loops=126730 uv=[] attrs=['custom_normal', '.select_vert', '.select_edge', '.select_poly', 'position', '.edge_verts', '.corner_vert', '.corner_edge'] vg=17 mods=[] mats=['Blockout_Grey'] shapekeys=None
+Face_M MESH (0.0, 0.0, 0.0) (1.0, 1.0, 1.0) parent= None verts=3322 polys=2782 loops=10980 uv=[] attrs=['.select_vert', 'position', '.corner_vert', '.corner_edge', '.select_poly', '.edge_verts', '.select_edge', 'material_index'] vg=0 mods=[] mats=['Face_Brow', 'Face_Sclera', 'Face_Iris', 'Face_Pupil', 'Face_Limbal', 'Face_Catch', 'Face_LidLine', 'Face_Lip', 'Face_LipUp', 'Face_Seam', 'Face_Nostril', 'Face_BrowSoft', 'Face_LidCrease'] shapekeys=None
+Locked_bald_back CAMERA (0.7959, 5.0, 0.8399) (1.0, 1.0, 1.0) parent= None 
+Locked_bald_front CAMERA (0.8228, -5.0, 0.8428) (1.0, 1.0, 1.0) parent= None 
+Locked_left CAMERA (5.0, -0.9143, -0.0993) (1.0, 1.0, 1.0) parent= None 
+LOCKED_Male_Head_Detail EMPTY (3.0, 0.0, 1.3) (1.0, 1.0, 1.0) parent= None 
+Locked_right CAMERA (-5.0, 2.5003, -0.0993) (1.0, 1.0, 1.0) parent= None 
+Locked_sheet_back CAMERA (-0.933, 5.0, -0.0932) (1.0, 1.0, 1.0) parent= None 
+Locked_sheet_front CAMERA (2.6519, -5.0, -0.0932) (1.0, 1.0, 1.0) parent= None 
+collections []
+cameras ['Locked_bald_back', 'Locked_bald_front', 'Locked_left', 'Locked_right', 'Locked_sheet_back', 'Locked_sheet_front'] lights []
+scenes [('Scene', 'BLENDER_WORKBENCH')]
+VG names ['LOOP_mouth_seam', 'LOOP_mouth_lip_upper', 'LOOP_mouth_lip_lower', 'LOOP_nostril_L', 'LOOP_nostril_R', 'LOOP_ala_L', 'LOOP_ala_R', 'LOOP_ear_attach_L', 'LOOP_helix_L', 'LOOP_concha_L', 'LOOP_ear_attach_R', 'LOOP_helix_R', 'LOOP_concha_R', 'LOOP_jaw_ear_L', 'LOOP_jaw_ear_R', 'LOOP_lid_margin_L', 'LOOP_lid_margin_R']

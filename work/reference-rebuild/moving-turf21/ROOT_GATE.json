@@ -1,0 +1,26 @@
+{
+  "gate": "ACCEPTED_PILOTS_TRACKING",
+  "holes": [
+    12,
+    14
+  ],
+  "sourceProof": "proof/reference-rebuild/moving-turf21-pilot-stations2/moving-turf-proof.json",
+  "actualMovingFrames": 1090,
+  "noFlightRebuilds": true,
+  "exactDressingPhysics": true,
+  "maximumAddressRebuildMs": 8.7623,
+  "positiveReturnedCells": [
+    279,
+    401
+  ],
+  "renderReview": [
+    "hole12_mid_rough",
+    "hole14_fairway",
+    "hole14_approach_fairway"
+  ],
+  "remaining": [
+    "soften visibly hard outer patch edge",
+    "seven supported course rollout",
+    "real player build performance; phone tests deferred"
+  ]
+}

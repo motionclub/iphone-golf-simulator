@@ -27,6 +27,7 @@ namespace GolfArcade.Tennis
         };
         static readonly int[] Scale = { 0, 2, 4, 5, 7, 9, 11 };             // F major, from F
 
+        const bool GameplayLoopEnabled = false;
         AudioSource beat, keys, lead, stings;
         readonly Dictionary<Sting, AudioClip> stingClips = new Dictionary<Sting, AudioClip>();
         Task<float[][]> rendering;
@@ -69,6 +70,7 @@ namespace GolfArcade.Tennis
 
         void Update()
         {
+            if (!GameplayLoopEnabled) return;   // the old synthesised gameplay music loop is off
             if (!started && rendering != null && rendering.IsCompleted)
             {
                 if (rendering.Status == TaskStatus.RanToCompletion)

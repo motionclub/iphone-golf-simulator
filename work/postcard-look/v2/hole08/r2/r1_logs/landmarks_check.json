@@ -1,0 +1,54 @@
+{
+  "arch_camera_blender_m": {
+    "pos": [
+      -9.0,
+      276.0,
+      9.48
+    ],
+    "look": [
+      -26.243,
+      289.865,
+      9.8
+    ],
+    "fov_v": 60.0
+  },
+  "arch_camera_unity_yards": {
+    "pos": [
+      -9.84,
+      10.37,
+      301.84
+    ],
+    "look": [
+      -28.7,
+      10.72,
+      317.0
+    ],
+    "fov": 60.0
+  },
+  "search": {
+    "width_frac": 0.749842660373938,
+    "height_frac": 0.5374492260194307,
+    "blocked": 0.03,
+    "outcrop_in_frame": 0.875,
+    "ground": 6.0800018310546875,
+    "height_above_ground": 3.4
+  },
+  "dense_blocked_of": [
+    0,
+    400
+  ],
+  "look_ray_hit": null,
+  "arch_centre_m": [
+    -26.24328,
+    289.8648,
+    5.2
+  ],
+  "arch_height_m": 12.200000000000001,
+  "arch_span_m": 9.144,
+  "shots_notes": {
+    "tee": "default shot: ball on the tee (0,0), aim = the landing station M (19,178) = RecommendedTarget",
+    "approach": "second shot from the landing station M (19,178) on the middle pad, 164 yd to the pin (-6,340): a real 7-iron approach over gap 2",
+    "arch": "close-up of the masonry arch from the green pad's north-west rim, beside the bunker",
+    "pathball": "OPTIONAL extra: a lay-up lie on the tee-pad path (a path vertex, course yards): proves the ball is not hidden by the path"
+  }
+}

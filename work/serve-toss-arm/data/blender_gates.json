@@ -1,0 +1,28 @@
+{
+ "male": {
+  "g4": true,
+  "nonarm_max_deg": 3.818191820832845e-06,
+  "hips_loc_max_m": 0.0,
+  "frames0_6_max_deg": 3.4150945850063755e-06,
+  "frames46_75_max_deg": 3.4150945850063755e-06,
+  "g5": true,
+  "tip_step_max_mm": 211.98589368214678,
+  "tip_step_at": 23,
+  "arm_step_max_deg": 33.94567000112019,
+  "g6": true,
+  "racket_inside": []
+ },
+ "female": {
+  "g4": true,
+  "nonarm_max_deg": 3.4150945850063755e-06,
+  "hips_loc_max_m": 0.0,
+  "frames0_6_max_deg": 2.9575586669421963e-06,
+  "frames46_75_max_deg": 3.4150945850063755e-06,
+  "g5": true,
+  "tip_step_max_mm": 156.23066970886177,
+  "tip_step_at": 41,
+  "arm_step_max_deg": 37.451128698301616,
+  "g6": true,
+  "racket_inside": []
+ }
+}

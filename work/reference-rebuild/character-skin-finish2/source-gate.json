@@ -1,0 +1,11 @@
+{
+  "gate": "PASS",
+  "productionSourcesUntouchedByAgent": true,
+  "characterVertexStageExact": true,
+  "defaultHeroCharacterShadeFunctionExact": true,
+  "candidateFlagDefault": 0,
+  "candidateScope": "Body material properties + skin-only fragment/lighting response; no skin tint, normals, positions, weights, bones, animation or role changes",
+  "relativePigmentMultiplierPositiveBounded": true,
+  "maximumNewSkinSpecularLobeBeforeLights": 0.117,
+  "unityCompilation": "PENDING root serialized capture"
+}

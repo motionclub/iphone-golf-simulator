@@ -1,0 +1,1076 @@
+{
+ "tag": "male",
+ "dressed": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/dressed-look/export/HeroBase_Male_Dressed.blend",
+ "BODIES": {
+  "per_mesh": {
+   "Body_M": {
+    "source_geometry": "e0341c9834e8e2e58c3e7867e300f75975b97e1532c97386333285bb2e3d980b",
+    "dressed_geometry": "e0341c9834e8e2e58c3e7867e300f75975b97e1532c97386333285bb2e3d980b",
+    "geometry_equal": true,
+    "verts_hash_equal": true,
+    "n_verts_equal": true,
+    "source_vgroups": 17,
+    "dressed_vgroups": 33,
+    "dressed_modifiers": [
+     [
+      "Rig_Hand_R",
+      "ARMATURE"
+     ]
+    ]
+   },
+   "Face_M": {
+    "source_geometry": "cb9dff284bd36f8e114a58dbdf374eaa1a958f8db816692ebaee9309dd44808d",
+    "dressed_geometry": "cb9dff284bd36f8e114a58dbdf374eaa1a958f8db816692ebaee9309dd44808d",
+    "geometry_equal": true,
+    "verts_hash_equal": true,
+    "n_verts_equal": true,
+    "source_vgroups": 0,
+    "dressed_vgroups": 0,
+    "dressed_modifiers": []
+   }
+  },
+  "ok": true,
+  "note": "vertex groups on Body_* added by the right-hand rig: 16"
+ },
+ "KIT_SEPARATE": {
+  "rows": {
+   "Kit_Top_Polo_M_White": {
+    "is_mesh": true,
+    "parent": "Chest_Top",
+    "parent_type": "OBJECT",
+    "expected_socket": "Chest_Top",
+    "parent_is_socket": true,
+    "own_datablock": true,
+    "datablock_users": 1,
+    "in_collection": true,
+    "ok": true
+   },
+   "Kit_Bottom_Shorts_M_White": {
+    "is_mesh": true,
+    "parent": "Hip_Bottom",
+    "parent_type": "OBJECT",
+    "expected_socket": "Hip_Bottom",
+    "parent_is_socket": true,
+    "own_datablock": true,
+    "datablock_users": 1,
+    "in_collection": true,
+    "ok": true
+   },
+   "Kit_Sock_L_White": {
+    "is_mesh": true,
+    "parent": "Foot_L_Shoe",
+    "parent_type": "OBJECT",
+    "expected_socket": "Foot_L_Shoe",
+    "parent_is_socket": true,
+    "own_datablock": true,
+    "datablock_users": 1,
+    "in_collection": true,
+    "ok": true
+   },
+   "Kit_Shoe_L_White": {
+    "is_mesh": true,
+    "parent": "Foot_L_Shoe",
+    "parent_type": "OBJECT",
+    "expected_socket": "Foot_L_Shoe",
+    "parent_is_socket": true,
+    "own_datablock": true,
+    "datablock_users": 1,
+    "in_collection": true,
+    "ok": true
+   },
+   "Kit_Sock_R_White": {
+    "is_mesh": true,
+    "parent": "Foot_R_Shoe",
+    "parent_type": "OBJECT",
+    "expected_socket": "Foot_R_Shoe",
+    "parent_is_socket": true,
+    "own_datablock": true,
+    "datablock_users": 1,
+    "in_collection": true,
+    "ok": true
+   },
+   "Kit_Shoe_R_White": {
+    "is_mesh": true,
+    "parent": "Foot_R_Shoe",
+    "parent_type": "OBJECT",
+    "expected_socket": "Foot_R_Shoe",
+    "parent_is_socket": true,
+    "own_datablock": true,
+    "datablock_users": 1,
+    "in_collection": true,
+    "ok": true
+   },
+   "Kit_Top_Polo_M_Black": {
+    "is_mesh": true,
+    "parent": "Chest_Top",
+    "parent_type": "OBJECT",
+    "expected_socket": "Chest_Top",
+    "parent_is_socket": true,
+    "own_datablock": true,
+    "datablock_users": 1,
+    "in_collection": true,
+    "ok": true
+   },
+   "Kit_Bottom_Shorts_M_Black": {
+    "is_mesh": true,
+    "parent": "Hip_Bottom",
+    "parent_type": "OBJECT",
+    "expected_socket": "Hip_Bottom",
+    "parent_is_socket": true,
+    "own_datablock": true,
+    "datablock_users": 1,
+    "in_collection": true,
+    "ok": true
+   },
+   "Kit_Sock_L_Black": {
+    "is_mesh": true,
+    "parent": "Foot_L_Shoe",
+    "parent_type": "OBJECT",
+    "expected_socket": "Foot_L_Shoe",
+    "parent_is_socket": true,
+    "own_datablock": true,
+    "datablock_users": 1,
+    "in_collection": true,
+    "ok": true
+   },
+   "Kit_Shoe_L_Black": {
+    "is_mesh": true,
+    "parent": "Foot_L_Shoe",
+    "parent_type": "OBJECT",
+    "expected_socket": "Foot_L_Shoe",
+    "parent_is_socket": true,
+    "own_datablock": true,
+    "datablock_users": 1,
+    "in_collection": true,
+    "ok": true
+   },
+   "Kit_Sock_R_Black": {
+    "is_mesh": true,
+    "parent": "Foot_R_Shoe",
+    "parent_type": "OBJECT",
+    "expected_socket": "Foot_R_Shoe",
+    "parent_is_socket": true,
+    "own_datablock": true,
+    "datablock_users": 1,
+    "in_collection": true,
+    "ok": true
+   },
+   "Kit_Shoe_R_Black": {
+    "is_mesh": true,
+    "parent": "Foot_R_Shoe",
+    "parent_type": "OBJECT",
+    "expected_socket": "Foot_R_Shoe",
+    "parent_is_socket": true,
+    "own_datablock": true,
+    "datablock_users": 1,
+    "in_collection": true,
+    "ok": true
+   }
+  },
+  "sockets": {
+   "Chest_Top": {
+    "exists": true,
+    "type": "EMPTY",
+    "parent": "Body_M",
+    "world": [
+     0.0,
+     0.0,
+     1.25
+    ]
+   },
+   "Hip_Bottom": {
+    "exists": true,
+    "type": "EMPTY",
+    "parent": "Body_M",
+    "world": [
+     0.0,
+     0.0,
+     0.95
+    ]
+   },
+   "Foot_L_Shoe": {
+    "exists": true,
+    "type": "EMPTY",
+    "parent": "Body_M",
+    "world": [
+     -0.18,
+     0.0,
+     0.09
+    ]
+   },
+   "Foot_R_Shoe": {
+    "exists": true,
+    "type": "EMPTY",
+    "parent": "Body_M",
+    "world": [
+     0.18,
+     0.0,
+     0.09
+    ]
+   }
+  },
+  "ok": true,
+  "body_vertex_count_equal_source": true
+ },
+ "NO_REFIT": {
+  "rows": {
+   "Kit_Top_Polo_M_White": {
+    "geometry_equal": true,
+    "world_exact_equal": true,
+    "max_abs_world_diff": 0.0,
+    "n_verts_equal": true,
+    "modifiers": 0,
+    "shape_keys": false,
+    "vgroups": 0,
+    "matrix_dressed": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "matrix_source": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "ok": true
+   },
+   "Kit_Bottom_Shorts_M_White": {
+    "geometry_equal": true,
+    "world_exact_equal": true,
+    "max_abs_world_diff": 0.0,
+    "n_verts_equal": true,
+    "modifiers": 0,
+    "shape_keys": false,
+    "vgroups": 0,
+    "matrix_dressed": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "matrix_source": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "ok": true
+   },
+   "Kit_Sock_L_White": {
+    "geometry_equal": true,
+    "world_exact_equal": true,
+    "max_abs_world_diff": 0.0,
+    "n_verts_equal": true,
+    "modifiers": 0,
+    "shape_keys": false,
+    "vgroups": 0,
+    "matrix_dressed": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "matrix_source": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "ok": true
+   },
+   "Kit_Shoe_L_White": {
+    "geometry_equal": true,
+    "world_exact_equal": true,
+    "max_abs_world_diff": 0.0,
+    "n_verts_equal": true,
+    "modifiers": 0,
+    "shape_keys": false,
+    "vgroups": 0,
+    "matrix_dressed": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "matrix_source": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "ok": true
+   },
+   "Kit_Sock_R_White": {
+    "geometry_equal": true,
+    "world_exact_equal": true,
+    "max_abs_world_diff": 0.0,
+    "n_verts_equal": true,
+    "modifiers": 0,
+    "shape_keys": false,
+    "vgroups": 0,
+    "matrix_dressed": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "matrix_source": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "ok": true
+   },
+   "Kit_Shoe_R_White": {
+    "geometry_equal": true,
+    "world_exact_equal": true,
+    "max_abs_world_diff": 0.0,
+    "n_verts_equal": true,
+    "modifiers": 0,
+    "shape_keys": false,
+    "vgroups": 0,
+    "matrix_dressed": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "matrix_source": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "ok": true
+   },
+   "Kit_Top_Polo_M_Black": {
+    "geometry_equal": true,
+    "world_exact_equal": true,
+    "max_abs_world_diff": 0.0,
+    "n_verts_equal": true,
+    "modifiers": 0,
+    "shape_keys": false,
+    "vgroups": 0,
+    "matrix_dressed": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "matrix_source": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "ok": true
+   },
+   "Kit_Bottom_Shorts_M_Black": {
+    "geometry_equal": true,
+    "world_exact_equal": true,
+    "max_abs_world_diff": 0.0,
+    "n_verts_equal": true,
+    "modifiers": 0,
+    "shape_keys": false,
+    "vgroups": 0,
+    "matrix_dressed": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "matrix_source": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "ok": true
+   },
+   "Kit_Sock_L_Black": {
+    "geometry_equal": true,
+    "world_exact_equal": true,
+    "max_abs_world_diff": 0.0,
+    "n_verts_equal": true,
+    "modifiers": 0,
+    "shape_keys": false,
+    "vgroups": 0,
+    "matrix_dressed": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "matrix_source": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "ok": true
+   },
+   "Kit_Shoe_L_Black": {
+    "geometry_equal": true,
+    "world_exact_equal": true,
+    "max_abs_world_diff": 0.0,
+    "n_verts_equal": true,
+    "modifiers": 0,
+    "shape_keys": false,
+    "vgroups": 0,
+    "matrix_dressed": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "matrix_source": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "ok": true
+   },
+   "Kit_Sock_R_Black": {
+    "geometry_equal": true,
+    "world_exact_equal": true,
+    "max_abs_world_diff": 0.0,
+    "n_verts_equal": true,
+    "modifiers": 0,
+    "shape_keys": false,
+    "vgroups": 0,
+    "matrix_dressed": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "matrix_source": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "ok": true
+   },
+   "Kit_Shoe_R_Black": {
+    "geometry_equal": true,
+    "world_exact_equal": true,
+    "max_abs_world_diff": 0.0,
+    "n_verts_equal": true,
+    "modifiers": 0,
+    "shape_keys": false,
+    "vgroups": 0,
+    "matrix_dressed": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "matrix_source": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "ok": true
+   }
+  },
+  "ok": true
+ },
+ "BOTH_COLORS": {
+  "collections": {
+   "White": [
+    "Kit_Bottom_Shorts_M_White",
+    "Kit_Shoe_L_White",
+    "Kit_Shoe_R_White",
+    "Kit_Sock_L_White",
+    "Kit_Sock_R_White",
+    "Kit_Top_Polo_M_White"
+   ],
+   "Black": [
+    "Kit_Bottom_Shorts_M_Black",
+    "Kit_Shoe_L_Black",
+    "Kit_Shoe_R_Black",
+    "Kit_Sock_L_Black",
+    "Kit_Sock_R_Black",
+    "Kit_Top_Polo_M_Black"
+   ]
+  },
+  "materials_on_kit_pieces": [
+   "Std_Black_Lit",
+   "Std_White_Lit"
+  ],
+  "materials_ok": true,
+  "six_each": true,
+  "kit_materials_in_file": [
+   "Std_Black_Lit",
+   "Std_White_Lit"
+  ],
+  "ok": true
+ },
+ "BOTH_SEXES_part": {
+  "polo": "Kit_Top_Polo_M",
+  "bottom": "Kit_Bottom_Shorts_M",
+  "present": [
+   "Kit_Top_Polo_M_White",
+   "Kit_Bottom_Shorts_M_White",
+   "Kit_Top_Polo_M_Black",
+   "Kit_Bottom_Shorts_M_Black"
+  ]
+ },
+ "RACKET_IN_HAND": {
+  "rows": {
+   "Racket_Classic": {
+    "exists": true,
+    "geometry_equal": true,
+    "parent": "Hand_Racket",
+    "expected_parent": "Hand_Racket",
+    "loc_rot_scale_equal": true
+   },
+   "StringBed": {
+    "exists": true,
+    "geometry_equal": true,
+    "parent": "Racket_Classic",
+    "expected_parent": "Racket_Classic",
+    "loc_rot_scale_equal": true
+   },
+   "Grip": {
+    "exists": true,
+    "geometry_equal": true,
+    "parent": "Racket_Classic",
+    "expected_parent": "Racket_Classic",
+    "loc_rot_scale_equal": true
+   },
+   "ButtCap": {
+    "exists": true,
+    "geometry_equal": true,
+    "parent": "Racket_Classic",
+    "expected_parent": "Racket_Classic",
+    "loc_rot_scale_equal": true
+   },
+   "Collider_Racket": {
+    "exists": true,
+    "geometry_equal": true,
+    "parent": "Racket_Classic",
+    "expected_parent": "Racket_Classic",
+    "loc_rot_scale_equal": true
+   }
+  },
+  "hand_racket": {
+   "exists": true,
+   "type": "EMPTY",
+   "parent": "Rig_Hand_R",
+   "parent_type": "BONE",
+   "parent_bone": "Hand_R",
+   "world": [
+    "-0.5801",
+    "-0.10979",
+    "0.85069"
+   ]
+  },
+  "grip_to_evaluated_hand_min_mm": 0.9041524026542902,
+  "hand_vertex_nearest_to_grip_origin_mm": 22.864468862518276,
+  "action": "Pose_GripClosed",
+  "socket_ok": true,
+  "chain_ok": true,
+  "geometry_ok": true,
+  "in_hand_measured": true,
+  "ok": true,
+  "float_label": null
+ },
+ "visibility": {
+  "Kit_White_hidden_in_viewport": false,
+  "Kit_Black_hidden_in_viewport": true
+ },
+ "sources_sha_before_verify": {
+  "male_body": true,
+  "female_body": true,
+  "kit_male": true,
+  "kit_female": true,
+  "racket": true
+ }
+}

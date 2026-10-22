@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="1" result="Passed" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-18 20:04:39Z" end-time="2026-10-18 20:08:17Z" duration="217.4962534">
+  <test-suite type="TestSuite" id="1329" name="Golf Arcade" fullname="Golf Arcade" runstate="Runnable" testcasecount="241" result="Passed" start-time="2026-10-18 20:04:39Z" end-time="2026-10-18 20:08:17Z" duration="217.496253" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="SetUpFixture" id="1001" name="GolfArcade.PlayTests.dll" fullname="ClassicConditionsForTests" classname="ClassicConditionsForTests" runstate="Runnable" testcasecount="241" result="Passed" start-time="2026-10-18 20:04:39Z" end-time="2026-10-18 20:08:17Z" duration="217.490549" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="75746" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestSuite" id="1324" name="GolfArcade" fullname="GolfArcade" runstate="Runnable" testcasecount="241" result="Passed" start-time="2026-10-18 20:04:39Z" end-time="2026-10-18 20:08:17Z" duration="217.475079" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1326" name="PlayTests" fullname="GolfArcade.PlayTests" runstate="Runnable" testcasecount="202" result="Passed" start-time="2026-10-18 20:04:39Z" end-time="2026-10-18 20:08:17Z" duration="217.458998" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1318" name="VersusPeerCapture" fullname="GolfArcade.PlayTests.VersusPeerCapture" classname="GolfArcade.PlayTests.VersusPeerCapture" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-18 20:04:39Z" end-time="2026-10-18 20:08:17Z" duration="217.441847" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1319" name="TennisVersusPeer" fullname="GolfArcade.PlayTests.VersusPeerCapture.TennisVersusPeer" methodname="TennisVersusPeer" classname="GolfArcade.PlayTests.VersusPeerCapture" runstate="Runnable" seed="692190126" result="Passed" start-time="2026-10-18 20:04:40Z" end-time="2026-10-18 20:08:17Z" duration="217.411376" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="Timeout" value="1800000" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[
+IgnoreFailingMessages:true
+[TennisVenue] Resort horizontal court planes min=0.038000 top=0.050000
+[TennisCoast] shoreline UV anchors (-272.50, 0.00, -217.50) U=(265.00, 0.00, -217.50) V=(-272.50, 0.00, 475.00)
+[TennisResortFixtures] replaced 93 dense render-only scanned fixtures in their measured envelopes; court/net/actor physics unchanged.
+[TennisHorizon2] renderer=Authored layered resort horizon active=True enabled=True layer=0 boundsMin=(-488.05, -5.10, 500.65) boundsMax=(422.62, 61.84, 778.96) scale=(1.000, 1.000, 1.000) shaderSupported=True
+[TennisHorizon2] Render-only layered horizon; original court, light/fog and physics retained
+[TennisArt] static pockets=0; 20m tree LOD pockets=122; 24m understory LOD pockets=127; actual far meshes omit distant shadow passes
+[LuminousCoast] installed tennis Resort; render-only pilot, no new lights/colliders, owned materials=3
+[CrowdColours] vertex skin RGBA(0.886, 0.694, 0.557, 0.000) linearDistance=0.051217 gammaDistance=0.000000 decodeSRGB=True
+[Crowd] Clean authored seated spectators: 36; rigid meshes, no skinning
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[HeroFaceReferenceFit] male Body: moved=18582; belowHeadChanges=0; minJacobian=0.182430565; topologySame=True; weightsSame=True; bindsSame=True
+[HeroFaceReferenceFit] male ReferenceFeatures: moved=3824; belowHeadChanges=0; minJacobian=0.7163173; topologySame=True; weightsSame=True; bindsSame=True
+[HeroOriginalSeam] blink normal isolation body: cleared=86168; base geometry/normals unchanged
+[HeroOriginalSeam] blink normal isolation features: cleared=7648; base geometry/normals unchanged
+[HeroOriginalSeam] installed Male body=44168 features=3824; original rig and eye proportions retained; legacy face layers bypassed
+[HeroHandWeights] Male Left thumb-root vertices=50 radius=0.012
+[HeroHandWeights] Male Right thumb-root vertices=53 radius=0.012
+[HeroHandWeights] exact geometry/rest retained; changed=103 maxWeightL1=1.8
+[HeroGarmentAxillaWeights] Male Body_M: modified=1765 maxArmMassTransfer=0.460045546 normalizedError=1.04308128E-07; rest vertices/UVs/indices/palette and outside weights exact
+[HeroSkinNormals] field=area-continuous source=Body (reference face fit) (local blink normals) (thumb root weights) (axilla weight field) selected=18268 changed=11363 radiusMetres=0.012 capDegrees=45 maxNormalDegrees=45 maxVertexDeltaSquared=0; source topology/weights/UVs/morphs cloned unchanged
+[HeroBlinkNormalField] rebuilt=1685; source vertices/shape positions unchanged; accepted base normals retained
+[HeroHeadSurface] Male origin=(0.000000, -0.027810, 1.510000) eye=(-0.000002, -0.080509, 0.075703) frame=(1.000000, -0.000536, -0.000014)/(0.000000, -0.025677, 0.999670)/(-0.000536, -0.999670, -0.025677) cheekMaskMax=0.720943 noseMaskMax=0.5090379 shader=GolfArcade/HeroFaceSkin hasHeadUniform=True
+[HeroFaceReferenceFit] female Body: moved=12388; belowHeadChanges=0; minJacobian=0.214120612; topologySame=True; weightsSame=True; bindsSame=True
+[HeroFaceReferenceFit] female ReferenceFeatures: moved=3004; belowHeadChanges=0; minJacobian=0.6941224; topologySame=True; weightsSame=True; bindsSame=True
+[HeroOriginalSeam] blink normal isolation body: cleared=64227; base geometry/normals unchanged
+[HeroOriginalSeam] blink normal isolation features: cleared=6008; base geometry/normals unchanged
+[HeroOriginalSeam] installed Female body=34443 features=3004; original rig and eye proportions retained; legacy face layers bypassed
+[HeroHandWeights] Female Left thumb-root vertices=27 radius=0.01
+[HeroHandWeights] Female Right thumb-root vertices=9 radius=0.01
+[HeroHandWeights] exact geometry/rest retained; changed=36 maxWeightL1=1.8
+[HeroSkinNormals] field=area-continuous source=Body (reference face fit) (local blink normals) (thumb root weights)(Clone) (anatomical arm weights) selected=18729 changed=11239 radiusMetres=0.012 capDegrees=45 maxNormalDegrees=45 maxVertexDeltaSquared=0; source topology/weights/UVs/morphs cloned unchanged
+[HeroBlinkNormalField] rebuilt=2053; source vertices/shape positions unchanged; accepted base normals retained
+[HeroHeadSurface] Female origin=(0.000000, 0.002330, 1.490000) eye=(0.000000, -0.114136, 0.057103) frame=(1.000000, 0.000009, 0.000000)/(0.000000, -0.023316, 0.999728)/(0.000009, -0.999728, -0.023316) cheekMaskMax=0.9567224 noseMaskMax=0.9669558 shader=GolfArcade/HeroFaceSkin hasHeadUniform=True
+[Presentation] 1|1|Venue|begin|12.314|Short
+[Crowd] Six fitted promenade visitors; eleven cosmetic joints and one renderer per active detail, zero legacy full skins.
+[Majestic] crowd fans=24 variantParts=24 trisPerVariantSet=45285 material=Sporting spectator vertex palette instancing=True
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[HeroOriginalSeam] installed Female body=34443 features=3004; original rig and eye proportions retained; legacy face layers bypassed
+[HeroHeadSurface] Female origin=(0.000000, 0.002330, 1.490000) eye=(0.000000, -0.114136, 0.057103) frame=(1.000000, 0.000009, 0.000000)/(0.000000, -0.023316, 0.999728)/(0.000009, -0.999728, -0.023316) cheekMaskMax=0.9567224 noseMaskMax=0.9669558 shader=GolfArcade/HeroFaceSkin hasHeadUniform=True
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[HeroOriginalSeam] installed Male body=44168 features=3824; original rig and eye proportions retained; legacy face layers bypassed
+[HeroHeadSurface] Male origin=(0.000000, -0.027810, 1.510000) eye=(-0.000002, -0.080509, 0.075703) frame=(1.000000, -0.000536, -0.000014)/(0.000000, -0.025677, 0.999670)/(-0.000536, -0.999670, -0.025677) cheekMaskMax=0.720943 noseMaskMax=0.5090379 shader=GolfArcade/HeroFaceSkin hasHeadUniform=True
+[SportsDisplay] camera=Tennis gameplay camera aspect=1.333333 size=640x480
+[SportsDisplay] Gameplay cameras routed to display 0, active=True
+[Presentation] 1|2|Venue|begin|20.624|Short
+[Presentation] 1|1|Venue|scheduledBegin|20.624|20.451
+[Presentation] 1|2|Venue|complete|22.807|
+[Presentation] 1|3|WalkOn|begin|22.808|Short
+[Presentation] 1|3|WalkOn|complete|32.260|
+[Presentation] 1|4|Start|begin|32.261|Full
+[Presentation] 1|4|Start|complete|33.460|
+[TennisBalance] point toPlayer=False rally=1 why="MISSED IT" incoming=1 reachable=1 jumps=0 dives=0 honestMisses=1 lastLateMs=0 lagMs=0 timingAims=True rival=club
+[Presentation] 1|1|Point|begin|36.014|0.80
+[Presentation] 1|1|Point|complete|36.827|
+[TennisBalance] point toPlayer=True rally=2 why="WINNER" incoming=2 reachable=2 jumps=0 dives=0 honestMisses=1 lastLateMs=21 lagMs=0 timingAims=True rival=club
+[Presentation] 1|2|Point|begin|41.612|0.80
+[Presentation] 1|2|Point|complete|42.407|
+[TennisBalance] point toPlayer=False rally=1 why="MISSED IT" incoming=3 reachable=3 jumps=0 dives=0 honestMisses=2 lastLateMs=21 lagMs=0 timingAims=True rival=club
+[Presentation] 1|3|Point|begin|46.941|0.80
+[Presentation] 1|3|Point|complete|47.741|
+[TennisBalance] point toPlayer=False rally=1 why="MISSED IT" incoming=4 reachable=4 jumps=0 dives=0 honestMisses=3 lastLateMs=21 lagMs=0 timingAims=True rival=club
+[Presentation] 1|4|Point|begin|52.712|0.80
+[Presentation] 1|4|Point|complete|53.511|
+[TennisBalance] point toPlayer=False rally=1 why="MISSED IT" incoming=5 reachable=4 jumps=0 dives=0 honestMisses=3 lastLateMs=21 lagMs=0 timingAims=True rival=club
+[Presentation] 1|5|Game|begin|57.316|1.50
+[Presentation] 1|5|Game|complete|58.814|
+[Versus] back after time away: asking the other phone for the score
+[Versus] rejoined at point 9: 1-1 GAMES 1–1  ·  0–0  ·  OPPONENT SERVES
+[TennisBalance] point toPlayer=False rally=1 why="MISSED IT" incoming=6 reachable=5 jumps=0 dives=0 honestMisses=5 lastLateMs=21 lagMs=35 timingAims=True rival=club
+[Presentation] 1|6|Point|begin|90.593|0.80
+[Presentation] 1|6|Point|complete|91.408|
+[TennisBalance] point toPlayer=False rally=1 why="MISSED IT" incoming=7 reachable=6 jumps=0 dives=0 honestMisses=6 lastLateMs=21 lagMs=35 timingAims=True rival=club
+[Presentation] 1|7|Point|begin|96.405|0.80
+[Presentation] 1|7|Point|complete|97.205|
+[TennisBalance] point toPlayer=False rally=1 why="MISSED IT" incoming=8 reachable=6 jumps=1 dives=0 honestMisses=6 lastLateMs=21 lagMs=35 timingAims=True rival=club
+[Presentation] 1|8|Point|begin|100.825|0.80
+[Presentation] 1|8|Point|complete|101.625|
+[TennisBalance] point toPlayer=False rally=1 why="MISSED IT" incoming=9 reachable=7 jumps=1 dives=0 honestMisses=7 lastLateMs=21 lagMs=35 timingAims=True rival=club
+[Presentation] 1|9|Game|begin|105.862|1.50
+[Presentation] 1|9|Game|complete|107.361|
+DONE PlayMode: 1 passed, 0 failed, 0 skipped
+<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /Users/adnanyonathan/Library/Application Support/aloniewski/Golf Arcade/TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

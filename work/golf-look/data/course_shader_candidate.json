@@ -1,0 +1,20 @@
+{
+  "installed": false,
+  "shaders": [
+    "GolfArcade/GolfGround",
+    "GolfArcade/GolfRock"
+  ],
+  "variants": {
+    "forward_before_stripping": 256,
+    "other_passes": 2
+  },
+  "fetches": {
+    "ground_base": 1,
+    "ground_normal": 1,
+    "ground_edges": 1,
+    "rock_triplanar": 3,
+    "rock_emission": 0,
+    "shadow": "two shared contact-filter taps"
+  },
+  "G11": "FAIL until compiled Metal stats/device timing"
+}

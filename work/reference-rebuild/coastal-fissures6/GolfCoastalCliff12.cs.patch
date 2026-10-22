@@ -1,0 +1,19 @@
+--- Unity/Assets/Scripts/Course/GolfCoastalCliff12.cs
++++ work/reference-rebuild/coastal-fissures6/GolfCoastalCliff12.cs
+@@ -101,6 +101,16 @@
+                 material.SetFloat("_GeologicalMacro",0);material.SetFloat("_HeightStrength",0);
+                 material.SetColor("_LowColor",new Color(.46f,.48f,.45f));
+                 material.SetColor("_HighColor",new Color(.91f,.86f,.74f));
++                if (Environment.GetEnvironmentVariable("VISUAL_COASTAL_FISSURES") == "1")
++                {
++                    // The scan's measured linear-luma median is .070, not .22.
++                    // Keep the old median limestone reflectance while recovering
++                    // its authored dark/cool fissures and warmer exposed planes.
++                    material.SetFloat("_PaletteMidpoint",.070f);
++                    material.SetFloat("_DetailContrast",5.2f);
++                    material.SetColor("_LowColor",new Color(.22f,.28f,.32f));
++                    material.SetColor("_HighColor",new Color(.907f,.8548f,.7134f));
++                }
+             }
+             foreach (var filter in visual.GetComponentsInChildren<MeshFilter>())
+             {

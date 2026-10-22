@@ -1,0 +1,11 @@
+[
+  {
+    "name": "character-female33-finished-lod-smoke",
+    "method": "GolfArcade.EditorTools.ClothingLodSmoke.Run",
+    "env": {
+      "VISUAL_ORIGINAL_SEAM": "1",
+      "VISUAL_GARMENT_COVERAGE": "1",
+      "VISUAL_REFERENCE_HEAD": "0"
+    }
+  }
+]

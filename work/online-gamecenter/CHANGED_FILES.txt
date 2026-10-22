@@ -1,0 +1,16 @@
+GolfArcade/Multiplayer/GameCenterTransport.swift   notification tap = join; GC card is a party invite
+GolfArcade/Multiplayer/MultiplayerService.swift    wires onInvitationOpened -> ClubHub.accept
+GolfArcade/Social/FriendsSource.swift              ClubHubConfig.serverURL: nil in shipped builds (no relay)
+GolfArcade/Social/HubProtocol.swift                sportTitle "their party"
+GolfArcade/Social/ClubHub.swift                    doc only (Game Center only)
+GolfArcade/Social/HubRoomTransport.swift           doc only (dormant)
+GolfArcade/Social/ClubHubView.swift                inline chat strip hosted in the banner overlay window
+GolfArcade/Party/PartyChat.swift                   stripOpen state
+GolfArcade/Party/PartyChatView.swift               new PartyChatStrip view
+GolfArcade/Party/PartySettingsView.swift           dock chat button opens the strip, not a sheet
+GolfArcade/Unity/HubSession.swift                  MINIMAL HOOK (not in my section): party follows leader on place change
+GolfArcade/Unity/GolfController.swift              MINIMAL HOOK (chat C's file): golf menu "Party chat" opens the strip
+GolfArcadeTests/ClubHubTests.swift                 +1 test
+GolfArcadeTests/HubPartyTests.swift                +1 test
+GolfArcadeTests/PartyChatTests.swift               +1 test
+work/online-gamecenter/*                           README, GATE_RESULTS, TWO_PHONE_TEST, REFERENCES, refs/, proof/

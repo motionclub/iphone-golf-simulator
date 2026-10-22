@@ -183,8 +183,9 @@ namespace GolfArcade.Game
                     case "rallyAim": if(tennis) tennis.SetShotAim(m.value,m.value2); break;
                     case "aimPractice": if(tennis) tennis.SetAimPractice(m.value>0); break;
                     case "aimFeed": if(tennis) tennis.FeedAimPractice(m.value,m.value2<0,m.aimSequence); break;
-                    case "aim": if(tennis) tennis.AimInput=Mathf.Clamp(m.value,-1,1); if(golf && !paused) golf.NativeAim(m.value); break;
-                    case "golfAimDirection": if(golf && !paused) golf.NativeAimDirection(m.value,m.value2); break;
+                    case "aim": if(tennis) tennis.AimInput=Mathf.Clamp(m.value,-1,1); if(golf && !paused && GolfArcade.UI.MenuFocus.Wants) { if(Mathf.Abs(m.value)>.01f) GolfArcade.UI.MenuFocus.Step(Mathf.Sign(m.value),0); } else if(golf && !paused) { golf.NativeAim(m.value); aimDirtyFrame=Time.frameCount; } break;
+                    case "golfAimDirection": if(golf && !paused) { if(GolfArcade.UI.MenuFocus.Wants) GolfArcade.UI.MenuFocus.Move(m.value,m.value2); else { golf.NativeAimDirection(m.value,m.value2); aimDirtyFrame=Time.frameCount; } } break;
+                    case "golfSelect": if(golf && !paused) GolfArcade.UI.MenuFocus.Select(); break;
                     case "golfEmote": if(golf && !paused && m.value == Mathf.Floor(m.value)) golf.PlayResultEmote((int)m.value); break;
                     case "golfLoad": if(golf && touch && !paused && !float.IsNaN(m.value) && !float.IsInfinity(m.value)) golf.ShowBackswing(Mathf.Clamp01(m.value)); break;
                     case "presentationSkip": if(!paused) { if(tennis) tennis.RequestSwing(.1f); if(golf) golf.NativeContinue(); } break;
@@ -459,7 +460,16 @@ namespace GolfArcade.Game
                     Emit("feedback",tennis?$"Hits {tennis.Hits} · {message}":message,tennis?tennis.Stamina:1);
                 }
             }
+            // While the aim is being turned the phone's map follows at 30 Hz, not the 4 Hz above: its landing mark, path and
+            // aim ring were a quarter-second behind the thumb. One frame after the aim moved (the landing is worked out in
+            // the game's frame), and it carries the map picture only when the map was re-framed (GolfGame freezes the framing while turning).
+            if(golf && aimDirtyFrame>=0 && Time.frameCount>aimDirtyFrame && Time.unscaledTime>=nextAimEmit) {
+                aimDirtyFrame=-1; nextAimEmit=Time.unscaledTime+AimEmitSeconds; nextGolfController=Time.unscaledTime+.25f;
+                Emit("golfController","");
+            }
         }
+        const float AimEmitSeconds=1f/30;
+        int aimDirtyFrame=-1; float nextAimEmit;
         /// Versus tennis plays the phone exactly as single player does (TennisGame.Versus).
         bool VersusTennis => tennis && tennis.Versus;
         internal static double DiagnosticClock => SportsClock();

@@ -1,0 +1,23 @@
+{
+  "shots": [
+    {
+      "name": "hole09_aerial_staged",
+      "hole": 9,
+      "model": "Assets/Editor/PostcardV3Scratch/staged/hole_09.fbx",
+      "pos": [
+        140,
+        360,
+        -200
+      ],
+      "look": [
+        -28,
+        0,
+        230
+      ],
+      "fov": 53,
+      "requireBands": false,
+      "buildCourseModel": true,
+      "splitCfg": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/split_outline_cfg.json"
+    }
+  ]
+}

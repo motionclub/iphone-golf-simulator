@@ -1,0 +1,634 @@
+[
+  {
+    "label": "male_Driver_top",
+    "fingerRelativeHandChanges": [
+      {
+        "bone": "LeftThumbProximal",
+        "rotationDegrees": 1.0933637455190016e-05,
+        "positionMm": 5.902979768420565e-05
+      },
+      {
+        "bone": "LeftThumbIntermediate",
+        "rotationDegrees": 1.3499346641909611e-05,
+        "positionMm": 0.0001128438161668891
+      },
+      {
+        "bone": "LeftThumbDistal",
+        "rotationDegrees": 1.344524082641768e-05,
+        "positionMm": 0.00018955257758923667
+      },
+      {
+        "bone": "LeftIndexProximal",
+        "rotationDegrees": 9.956626120759437e-06,
+        "positionMm": 0.00015035449405015856
+      },
+      {
+        "bone": "LeftIndexIntermediate",
+        "rotationDegrees": 1.277811388052082e-05,
+        "positionMm": 0.00029175554240533174
+      },
+      {
+        "bone": "LeftIndexDistal",
+        "rotationDegrees": 9.956626120759437e-06,
+        "positionMm": 0.00016633534883544936
+      },
+      {
+        "bone": "LeftMiddleProximal",
+        "rotationDegrees": 7.824964720612764e-06,
+        "positionMm": 0.00015361048825725563
+      },
+      {
+        "bone": "LeftMiddleIntermediate",
+        "rotationDegrees": 1.2372355563799738e-05,
+        "positionMm": 0.00021293863744267633
+      },
+      {
+        "bone": "LeftMiddleDistal",
+        "rotationDegrees": 6.037091348628668e-06,
+        "positionMm": 0.0003127025497342026
+      },
+      {
+        "bone": "LeftRingProximal",
+        "rotationDegrees": 4.182619578303747e-06,
+        "positionMm": 0.00023001446950409346
+      },
+      {
+        "bone": "LeftRingIntermediate",
+        "rotationDegrees": 1.1454575462498553e-05,
+        "positionMm": 0.0001731527680743278
+      },
+      {
+        "bone": "LeftRingDistal",
+        "rotationDegrees": 1.0316186218701491e-05,
+        "positionMm": 0.0002033578968176531
+      },
+      {
+        "bone": "LeftLittleProximal",
+        "rotationDegrees": 8.365239156607497e-06,
+        "positionMm": 0.00015179942760222917
+      },
+      {
+        "bone": "LeftLittleIntermediate",
+        "rotationDegrees": 1.2605816820395112e-05,
+        "positionMm": 0.00021813506684874098
+      },
+      {
+        "bone": "LeftLittleDistal",
+        "rotationDegrees": 1.045654894575938e-05,
+        "positionMm": 0.0002515623946495626
+      },
+      {
+        "bone": "RightThumbProximal",
+        "rotationDegrees": 4.00455336570039e-06,
+        "positionMm": 7.037544128675577e-05
+      },
+      {
+        "bone": "RightThumbIntermediate",
+        "rotationDegrees": 4.676310850554341e-06,
+        "positionMm": 0.0002189233298991519
+      },
+      {
+        "bone": "RightThumbDistal",
+        "rotationDegrees": 6.502146373618258e-06,
+        "positionMm": 0.00020271486523765108
+      },
+      {
+        "bone": "RightIndexProximal",
+        "rotationDegrees": 4.517745487845102e-06,
+        "positionMm": 0.00013168015485868565
+      },
+      {
+        "bone": "RightIndexIntermediate",
+        "rotationDegrees": 6.156649318399953e-06,
+        "positionMm": 0.0002768363892382708
+      },
+      {
+        "bone": "RightIndexDistal",
+        "rotationDegrees": 4.182619578303747e-06,
+        "positionMm": 0.00032957149199612214
+      },
+      {
+        "bone": "RightMiddleProximal",
+        "rotationDegrees": 3.6222548091772e-06,
+        "positionMm": 4.722671719292927e-05
+      },
+      {
+        "bone": "RightMiddleIntermediate",
+        "rotationDegrees": 4.829673078902934e-06,
+        "positionMm": 0.00019010985056813583
+      },
+      {
+        "bone": "RightMiddleDistal",
+        "rotationDegrees": 3.818191820832846e-06,
+        "positionMm": 0.0003486736366747267
+      },
+      {
+        "bone": "RightRingProximal",
+        "rotationDegrees": 1.0866764427531615e-05,
+        "positionMm": 9.947628980654402e-05
+      },
+      {
+        "bone": "RightRingIntermediate",
+        "rotationDegrees": 7.040397847728103e-06,
+        "positionMm": 0.00014238995481747358
+      },
+      {
+        "bone": "RightRingDistal",
+        "rotationDegrees": 5.663293681020318e-06,
+        "positionMm": 0.00016443551531164385
+      },
+      {
+        "bone": "RightLittleProximal",
+        "rotationDegrees": 3.818191820832846e-06,
+        "positionMm": 3.1763354240990315e-05
+      },
+      {
+        "bone": "RightLittleIntermediate",
+        "rotationDegrees": 9.35262170110869e-06,
+        "positionMm": 0.00012899182258889263
+      },
+      {
+        "bone": "RightLittleDistal",
+        "rotationDegrees": 1.1643920115677384e-05,
+        "positionMm": 0.00013449882816015025
+      }
+    ],
+    "exactVertices": false,
+    "exactWeights": false,
+    "exactBinds": true
+  },
+  {
+    "label": "male_Driver_address",
+    "fingerRelativeHandChanges": [
+      {
+        "bone": "LeftThumbProximal",
+        "rotationDegrees": 9.195423586105984e-06,
+        "positionMm": 0.0001830526333875412
+      },
+      {
+        "bone": "LeftThumbIntermediate",
+        "rotationDegrees": 9.659346157805877e-06,
+        "positionMm": 0.00012362065499976966
+      },
+      {
+        "bone": "LeftThumbDistal",
+        "rotationDegrees": 1.2605816820395112e-05,
+        "positionMm": 6.128138844096308e-05
+      },
+      {
+        "bone": "LeftIndexProximal",
+        "rotationDegrees": 71.60353326826592,
+        "positionMm": 9.383603114171661e-05
+      },
+      {
+        "bone": "LeftIndexIntermediate",
+        "rotationDegrees": 73.77426344676044,
+        "positionMm": 29.435983663568877
+      },
+      {
+        "bone": "LeftIndexDistal",
+        "rotationDegrees": 81.5316369382299,
+        "positionMm": 16.065876751987314
+      },
+      {
+        "bone": "LeftMiddleProximal",
+        "rotationDegrees": 70.71310660606636,
+        "positionMm": 5.870081864725199e-05
+      },
+      {
+        "bone": "LeftMiddleIntermediate",
+        "rotationDegrees": 70.16183549325949,
+        "positionMm": 31.704387798270673
+      },
+      {
+        "bone": "LeftMiddleDistal",
+        "rotationDegrees": 65.79677999284571,
+        "positionMm": 12.09338379239625
+      },
+      {
+        "bone": "LeftRingProximal",
+        "rotationDegrees": 70.93869840855648,
+        "positionMm": 0.00012968365256294713
+      },
+      {
+        "bone": "LeftRingIntermediate",
+        "rotationDegrees": 68.93731253081776,
+        "positionMm": 23.892674379451663
+      },
+      {
+        "bone": "LeftRingDistal",
+        "rotationDegrees": 63.26952595622906,
+        "positionMm": 3.48622517731841
+      },
+      {
+        "bone": "LeftLittleProximal",
+        "rotationDegrees": 80.57268413391203,
+        "positionMm": 0.00015271918314397142
+      },
+      {
+        "bone": "LeftLittleIntermediate",
+        "rotationDegrees": 80.55086131197044,
+        "positionMm": 22.375688467066944
+      },
+      {
+        "bone": "LeftLittleDistal",
+        "rotationDegrees": 28.010920838415764,
+        "positionMm": 15.85903277370214
+      },
+      {
+        "bone": "RightThumbProximal",
+        "rotationDegrees": 4.829673078902934e-06,
+        "positionMm": 0.00023296333022832433
+      },
+      {
+        "bone": "RightThumbIntermediate",
+        "rotationDegrees": 6.722620413208828e-06,
+        "positionMm": 6.662914666538901e-05
+      },
+      {
+        "bone": "RightThumbDistal",
+        "rotationDegrees": 6.037091348628668e-06,
+        "positionMm": 0.00020008626563648227
+      },
+      {
+        "bone": "RightIndexProximal",
+        "rotationDegrees": 82.62615316973206,
+        "positionMm": 0.00041750498921576385
+      },
+      {
+        "bone": "RightIndexIntermediate",
+        "rotationDegrees": 139.04642119946126,
+        "positionMm": 48.26900282773468
+      },
+      {
+        "bone": "RightIndexDistal",
+        "rotationDegrees": 70.26321113458154,
+        "positionMm": 72.28935248211107
+      },
+      {
+        "bone": "RightMiddleProximal",
+        "rotationDegrees": 114.11049215523826,
+        "positionMm": 0.00014784304182525332
+      },
+      {
+        "bone": "RightMiddleIntermediate",
+        "rotationDegrees": 84.96536890454857,
+        "positionMm": 73.18620839921353
+      },
+      {
+        "bone": "RightMiddleDistal",
+        "rotationDegrees": 100.1430769523103,
+        "positionMm": 93.5473511001179
+      },
+      {
+        "bone": "RightRingProximal",
+        "rotationDegrees": 151.73143766304258,
+        "positionMm": 0.00014563962420071288
+      },
+      {
+        "bone": "RightRingIntermediate",
+        "rotationDegrees": 58.676329831465694,
+        "positionMm": 76.54851167229614
+      },
+      {
+        "bone": "RightRingDistal",
+        "rotationDegrees": 134.2453775498627,
+        "positionMm": 77.27372742385928
+      },
+      {
+        "bone": "RightLittleProximal",
+        "rotationDegrees": 157.18711987075957,
+        "positionMm": 0.00014953888449188027
+      },
+      {
+        "bone": "RightLittleIntermediate",
+        "rotationDegrees": 47.87686537569976,
+        "positionMm": 65.82429930867669
+      },
+      {
+        "bone": "RightLittleDistal",
+        "rotationDegrees": 115.60625430236294,
+        "positionMm": 66.54961176715216
+      }
+    ],
+    "exactVertices": false,
+    "exactWeights": false,
+    "exactBinds": true
+  },
+  {
+    "label": "female_Driver_top",
+    "fingerRelativeHandChanges": [
+      {
+        "bone": "LeftThumbProximal",
+        "rotationDegrees": 2.4148365394514667e-06,
+        "positionMm": 0.00023445996369146415
+      },
+      {
+        "bone": "LeftThumbIntermediate",
+        "rotationDegrees": 9.115808030550376e-06,
+        "positionMm": 0.0002610378632531246
+      },
+      {
+        "bone": "LeftThumbDistal",
+        "rotationDegrees": 7.636383641665695e-06,
+        "positionMm": 0.0003138449180753404
+      },
+      {
+        "bone": "LeftIndexProximal",
+        "rotationDegrees": 8.2776426154535e-06,
+        "positionMm": 0.00024049626268627346
+      },
+      {
+        "bone": "LeftIndexIntermediate",
+        "rotationDegrees": 1.0526028440638427e-05,
+        "positionMm": 0.00046708995069606784
+      },
+      {
+        "bone": "LeftIndexDistal",
+        "rotationDegrees": 1.0731768324341125e-05,
+        "positionMm": 9.888188571560248e-05
+      },
+      {
+        "bone": "LeftMiddleProximal",
+        "rotationDegrees": 6.156649318399953e-06,
+        "positionMm": 0.00036401703799927577
+      },
+      {
+        "bone": "LeftMiddleIntermediate",
+        "rotationDegrees": 6.936089891014029e-06,
+        "positionMm": 0.00031107828298916086
+      },
+      {
+        "bone": "LeftMiddleDistal",
+        "rotationDegrees": 9.88314448090898e-06,
+        "positionMm": 9.425341021805707e-05
+      },
+      {
+        "bone": "LeftRingProximal",
+        "rotationDegrees": 1.1131846416284069e-05,
+        "positionMm": 0.000341049139350424
+      },
+      {
+        "bone": "LeftRingIntermediate",
+        "rotationDegrees": 7.143182815269534e-06,
+        "positionMm": 0.00030767668151032387
+      },
+      {
+        "bone": "LeftRingDistal",
+        "rotationDegrees": 7.244509618354405e-06,
+        "positionMm": 0.0002367474701302204
+      },
+      {
+        "bone": "LeftLittleProximal",
+        "rotationDegrees": 8.706816964856289e-06,
+        "positionMm": 7.032319371209042e-05
+      },
+      {
+        "bone": "LeftLittleIntermediate",
+        "rotationDegrees": 7.540324677666867e-06,
+        "positionMm": 0.00013995839032197058
+      },
+      {
+        "bone": "LeftLittleDistal",
+        "rotationDegrees": 0.0,
+        "positionMm": 0.00019175674338645503
+      },
+      {
+        "bone": "RightThumbProximal",
+        "rotationDegrees": 7.040397847728103e-06,
+        "positionMm": 0.00030715345819655557
+      },
+      {
+        "bone": "RightThumbIntermediate",
+        "rotationDegrees": 1.4489019236708837e-05,
+        "positionMm": 0.0003663588807170816
+      },
+      {
+        "bone": "RightThumbDistal",
+        "rotationDegrees": 1.024528375501914e-05,
+        "positionMm": 0.0003866183348387844
+      },
+      {
+        "bone": "RightIndexProximal",
+        "rotationDegrees": 7.824964720612764e-06,
+        "positionMm": 0.00043911926747773047
+      },
+      {
+        "bone": "RightIndexIntermediate",
+        "rotationDegrees": 1.1390761175093017e-05,
+        "positionMm": 0.0003072490416620583
+      },
+      {
+        "bone": "RightIndexDistal",
+        "rotationDegrees": 1.0101986015864608e-05,
+        "positionMm": 0.0006273601916880939
+      },
+      {
+        "bone": "RightMiddleProximal",
+        "rotationDegrees": 1.289169934879393e-05,
+        "positionMm": 0.0004369199654769779
+      },
+      {
+        "bone": "RightMiddleIntermediate",
+        "rotationDegrees": 8.009106731400786e-06,
+        "positionMm": 0.0004571149756497369
+      },
+      {
+        "bone": "RightMiddleDistal",
+        "rotationDegrees": 6.722620413208828e-06,
+        "positionMm": 0.0004095915610291411
+      },
+      {
+        "bone": "RightRingProximal",
+        "rotationDegrees": 7.443026089337888e-06,
+        "positionMm": 0.00042636341064464624
+      },
+      {
+        "bone": "RightRingIntermediate",
+        "rotationDegrees": 1.3766686389570068e-05,
+        "positionMm": 0.0003367300676693953
+      },
+      {
+        "bone": "RightRingDistal",
+        "rotationDegrees": 1.024528375501914e-05,
+        "positionMm": 0.00039737524670659504
+      },
+      {
+        "bone": "RightLittleProximal",
+        "rotationDegrees": 4.517745487845102e-06,
+        "positionMm": 0.000419263968735614
+      },
+      {
+        "bone": "RightLittleIntermediate",
+        "rotationDegrees": 6.3890569402604e-06,
+        "positionMm": 0.00043923389431270356
+      },
+      {
+        "bone": "RightLittleDistal",
+        "rotationDegrees": 1.1952831047522336e-05,
+        "positionMm": 0.0004601557354551347
+      }
+    ],
+    "exactVertices": false,
+    "exactWeights": false,
+    "exactBinds": true
+  },
+  {
+    "label": "female_Driver_address",
+    "fingerRelativeHandChanges": [
+      {
+        "bone": "LeftThumbProximal",
+        "rotationDegrees": 5.122641877509565e-06,
+        "positionMm": 0.00017268393189304954
+      },
+      {
+        "bone": "LeftThumbIntermediate",
+        "rotationDegrees": 6.156649318399953e-06,
+        "positionMm": 7.520317674253699e-05
+      },
+      {
+        "bone": "LeftThumbDistal",
+        "rotationDegrees": 8.622691156561379e-06,
+        "positionMm": 0.000164265040604459
+      },
+      {
+        "bone": "LeftIndexProximal",
+        "rotationDegrees": 72.88707073093039,
+        "positionMm": 9.113326373118692e-05
+      },
+      {
+        "bone": "LeftIndexIntermediate",
+        "rotationDegrees": 71.02548767242489,
+        "positionMm": 31.727774736499562
+      },
+      {
+        "bone": "LeftIndexDistal",
+        "rotationDegrees": 71.52924842826116,
+        "positionMm": 14.827956279669587
+      },
+      {
+        "bone": "LeftMiddleProximal",
+        "rotationDegrees": 73.43119751341055,
+        "positionMm": 4.209752558814286e-05
+      },
+      {
+        "bone": "LeftMiddleIntermediate",
+        "rotationDegrees": 66.29818357466802,
+        "positionMm": 33.31831655657373
+      },
+      {
+        "bone": "LeftMiddleDistal",
+        "rotationDegrees": 54.333680745244784,
+        "positionMm": 10.51875551200924
+      },
+      {
+        "bone": "LeftRingProximal",
+        "rotationDegrees": 74.86492048990243,
+        "positionMm": 6.027797588036991e-05
+      },
+      {
+        "bone": "LeftRingIntermediate",
+        "rotationDegrees": 65.25342313515178,
+        "positionMm": 28.34198560754881
+      },
+      {
+        "bone": "LeftRingDistal",
+        "rotationDegrees": 49.34279220965571,
+        "positionMm": 8.467822178600223
+      },
+      {
+        "bone": "LeftLittleProximal",
+        "rotationDegrees": 80.22682055838759,
+        "positionMm": 0.00017619920165908603
+      },
+      {
+        "bone": "LeftLittleIntermediate",
+        "rotationDegrees": 66.94789473178638,
+        "positionMm": 18.258964095428254
+      },
+      {
+        "bone": "LeftLittleDistal",
+        "rotationDegrees": 40.766232021719304,
+        "positionMm": 6.244508926001782
+      },
+      {
+        "bone": "RightThumbProximal",
+        "rotationDegrees": 9.80911239371097e-06,
+        "positionMm": 3.158384657648622e-05
+      },
+      {
+        "bone": "RightThumbIntermediate",
+        "rotationDegrees": 1.1768457563181822e-05,
+        "positionMm": 8.957045611395071e-05
+      },
+      {
+        "bone": "RightThumbDistal",
+        "rotationDegrees": 1.7075472925031942e-05,
+        "positionMm": 0.00014249567805384094
+      },
+      {
+        "bone": "RightIndexProximal",
+        "rotationDegrees": 83.35600833431184,
+        "positionMm": 0.00013430232249188044
+      },
+      {
+        "bone": "RightIndexIntermediate",
+        "rotationDegrees": 140.7845325053848,
+        "positionMm": 51.13416311038821
+      },
+      {
+        "bone": "RightIndexDistal",
+        "rotationDegrees": 79.62101464040337,
+        "positionMm": 82.26364509950008
+      },
+      {
+        "bone": "RightMiddleProximal",
+        "rotationDegrees": 98.31426458889383,
+        "positionMm": 0.00012061337350315633
+      },
+      {
+        "bone": "RightMiddleIntermediate",
+        "rotationDegrees": 93.00452257528625,
+        "positionMm": 66.62621251289693
+      },
+      {
+        "bone": "RightMiddleDistal",
+        "rotationDegrees": 87.02275900508708,
+        "positionMm": 92.05449766665113
+      },
+      {
+        "bone": "RightRingProximal",
+        "rotationDegrees": 131.17941284490024,
+        "positionMm": 0.00013827142788292278
+      },
+      {
+        "bone": "RightRingIntermediate",
+        "rotationDegrees": 77.02554647791708,
+        "positionMm": 67.50675200823065
+      },
+      {
+        "bone": "RightRingDistal",
+        "rotationDegrees": 121.49866585147663,
+        "positionMm": 75.66808935429252
+      },
+      {
+        "bone": "RightLittleProximal",
+        "rotationDegrees": 150.39058890823262,
+        "positionMm": 3.71501324303065e-05
+      },
+      {
+        "bone": "RightLittleIntermediate",
+        "rotationDegrees": 76.02756874316593,
+        "positionMm": 57.043581282972056
+      },
+      {
+        "bone": "RightLittleDistal",
+        "rotationDegrees": 143.52611721101113,
+        "positionMm": 58.0920839069568
+      }
+    ],
+    "exactVertices": false,
+    "exactWeights": false,
+    "exactBinds": true
+  }
+]

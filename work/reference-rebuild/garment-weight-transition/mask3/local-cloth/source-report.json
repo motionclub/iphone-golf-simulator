@@ -1,0 +1,92 @@
+{
+  "female_Forehand_1": {
+    "changedVertices": 2450,
+    "maxPosedDisplacementMm": 35.0,
+    "maxRestDisplacementMm": 36.70820919357929,
+    "restBounds": {
+      "min": [
+        -0.16756987798930353,
+        1.08491050351065,
+        -0.07312076829367221
+      ],
+      "max": [
+        0.17351352502458464,
+        1.2492512645164164,
+        0.08003636989526502
+      ]
+    },
+    "triangleReversals": 69,
+    "views": [
+      {
+        "view": "front",
+        "initialSkinPixels": 285,
+        "remainingSkinPixels": 0
+      },
+      {
+        "view": "rear",
+        "initialSkinPixels": 130,
+        "remainingSkinPixels": 0
+      }
+    ]
+  },
+  "female_Forehand_2": {
+    "changedVertices": 1763,
+    "maxPosedDisplacementMm": 35.00000000000001,
+    "maxRestDisplacementMm": 36.868106172065,
+    "restBounds": {
+      "min": [
+        -0.15730732418689625,
+        1.0864677404735958,
+        -0.09080050847606051
+      ],
+      "max": [
+        0.14883579891457868,
+        1.2468964493598165,
+        0.045455129981926204
+      ]
+    },
+    "triangleReversals": 7,
+    "views": [
+      {
+        "view": "front",
+        "initialSkinPixels": 22,
+        "remainingSkinPixels": 0
+      },
+      {
+        "view": "rear",
+        "initialSkinPixels": 34,
+        "remainingSkinPixels": 1
+      }
+    ]
+  },
+  "female_Forehand_4": {
+    "changedVertices": 3016,
+    "maxPosedDisplacementMm": 35.00000000000001,
+    "maxRestDisplacementMm": 40.92199007167421,
+    "restBounds": {
+      "min": [
+        -0.16756987798930353,
+        1.0880034964479617,
+        -0.06383500825180759
+      ],
+      "max": [
+        0.2135851565473188,
+        1.272199295793576,
+        0.1447405445041413
+      ]
+    },
+    "triangleReversals": 34,
+    "views": [
+      {
+        "view": "front",
+        "initialSkinPixels": 276,
+        "remainingSkinPixels": 57
+      },
+      {
+        "view": "rear",
+        "initialSkinPixels": 88,
+        "remainingSkinPixels": 27
+      }
+    ]
+  }
+}

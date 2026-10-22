@@ -1,0 +1,125 @@
+--- Unity/Assets/Scripts/Tennis/HeroGripPolish.cs
++++ Unity/Assets/Scripts/Tennis/HeroGripPolish.cs
+@@ -8,7 +8,13 @@
+     public sealed class HeroGripPolish : MonoBehaviour
+     {
+         public MatchHeroLook look;
+-        void LateUpdate() { if (!look) look=GetComponent<MatchHeroLook>(); ApplyGrip(look); }
++        void LateUpdate() {
++            if (!look) look=GetComponent<MatchHeroLook>();
++            // The review golfer evaluates grip synchronously once per source pose.
++            // Re-canonicalizing digits on an already rolled hand breaks that grip.
++            if (look && look.golfKit && System.Environment.GetEnvironmentVariable("VISUAL_GOLF_WRIST_ROLL") == "1") return;
++            ApplyGrip(look);
++        }
+         static Transform Bone(MatchHeroLook hero, bool left, string finger, string joint)
+         {
+             string name=(left ? "Left":"Right")+finger+joint;
+@@ -105,7 +111,7 @@
+             float radius=.017f*Mathf.Abs(grip.lossyScale.x);
+             FitDigits(hero,false,origin,axis,radius,.006f,24,32);
+         }
+-        sealed class GolfGripData { public Transform grip;public SkinnedMeshRenderer[] clubs;public Vector3[] ends;public GolfWristResult[] wrists = new GolfWristResult[2]; }
++        sealed class GolfGripData { public Transform grip;public SkinnedMeshRenderer[] clubs;public Vector3[] ends;public GolfWristResult[] wrists = new GolfWristResult[2];public Transform[] solvedBones;public Matrix4x4[] solvedPose; }
+         sealed class GolfWristResult {
+             public Vector3 shoulder, elbow, wrist, grip, shaft;
+             public Quaternion upperRotation, lowerRotation, handRotation;
+@@ -238,7 +244,7 @@
+             upper.rotation = Quaternion.FromToRotation(lower.position - shoulder, bestElbow - shoulder) * upper.rotation;
+             lower.rotation = Quaternion.FromToRotation(hand.position - lower.position, bestWrist - lower.position) * lower.rotation;
+             hand.SetPositionAndRotation(bestWrist, rotation);
+-            // Club remains untouched. Existing finger closure runs after this.
++            // Club remains untouched. Carry the already closed finger subtree rigidly.
+             data.wrists[side] = new GolfWristResult { shoulder = upper.position, elbow = lower.position,
+                 wrist = hand.position, grip = origin, shaft = axis, upperRotation = upper.rotation,
+                 lowerRotation = lower.rotation, handRotation = hand.rotation };
+@@ -255,9 +261,23 @@
+                     var r=data.clubs[k];int b=System.Array.FindIndex(r.bones,t=>t==data.grip);if(b<0)continue;
+                     foreach(var v in r.sharedMesh.vertices){var point=r.sharedMesh.bindposes[b].MultiplyPoint3x4(v);if(point.sqrMagnitude>data.ends[k].sqrMagnitude)data.ends[k]=point;}
+                 }
++                data.solvedBones = new[] {
++                    hero.Bone(HumanBodyBones.LeftUpperArm), hero.Bone(HumanBodyBones.LeftLowerArm), hero.Bone(HumanBodyBones.LeftHand),
++                    hero.Bone(HumanBodyBones.RightUpperArm), hero.Bone(HumanBodyBones.RightLowerArm), hero.Bone(HumanBodyBones.RightHand), data.grip };
+                 golfData[hero]=data;
+             }
+             int active=System.Array.FindIndex(data.clubs,r=>r&&r.gameObject.activeInHierarchy);if(active<0)return;
++            bool wristReview = System.Environment.GetEnvironmentVariable("VISUAL_GOLF_WRIST_ROLL") == "1";
++            if (wristReview && data.solvedPose != null) {
++                bool same = true;
++                for (int bone=0;bone<data.solvedBones.Length && same;bone++) {
++                    if (!data.solvedBones[bone]) { same=false;break; }
++                    var matrix=data.solvedBones[bone].localToWorldMatrix;
++                    for(int k=0;k<16;k++) if(Mathf.Abs(matrix[k]-data.solvedPose[bone][k])>1e-6f) { same=false;break; }
++                }
++                // Covers repeated export/sample calls too, before any digit reset.
++                if(same)return;
++            }
+             // Authored golf keys bend every joint about +localX, but intermediate and
+             // distal rolls differ. Reconstruct the same curl amounts on the measured
+             // original bind hinges before bounded cylinder-contact refinement.
+@@ -267,56 +287,17 @@
+             // local axis, not a diagonal from the grip to the farthest head corner.
+             Vector3 localAxis=Mathf.Abs(end.x)>Mathf.Abs(end.y)&&Mathf.Abs(end.x)>Mathf.Abs(end.z) ? Vector3.right*Mathf.Sign(end.x) : Mathf.Abs(end.y)>Mathf.Abs(end.z) ? Vector3.up*Mathf.Sign(end.y):Vector3.forward*Mathf.Sign(end.z);
+             var along=data.grip.TransformVector(localAxis).normalized;
++            // Baseline grip first, in the sampled authored hand frame.
++            FitDigits(hero,false,data.grip.position,along,.014f*scale,.006f*scale,35,55);
++            FitDigits(hero,true,data.grip.position,along,.014f*scale,.006f*scale,35,55);
++            // Last operation is a rigid hand/subtree rotation around the real shaft.
++            // Every baseline pad keeps its shaft station and cylinder radius.
+             ApplyGolfWristRoll(hero, data, false, along, scale);
+             ApplyGolfWristRoll(hero, data, true, along, scale);
+-            if (System.Environment.GetEnvironmentVariable("VISUAL_GOLF_WRIST_ROLL") == "1") {
+-                FitGolfSkinTips(hero, false, data.grip.position, along, scale);
+-                FitGolfSkinTips(hero, true, data.grip.position, along, scale);
+-            } else {
+-            FitDigits(hero,false,data.grip.position,along,.014f*scale,.006f*scale,35,55);
+-            FitDigits(hero,true,data.grip.position,along,.014f*scale,.006f*scale,35,55);
+-            }
+-        }
+-        static void FitGolfSkinTips(MatchHeroLook hero, bool left, Vector3 origin, Vector3 axis, float scale)
+-        {
+-            var records = Rest(hero); string prefix = left ? "Left" : "Right";
+-            string[] joints = { "Proximal", "Intermediate", "Distal" };
+-            float[,] canonical = { {50,70,40}, {55,75,45}, {62,80,45}, {68,82,45} };
+-            string[] digits = { "Index", "Middle", "Ring", "Little" };
+-            float worst = 0;
+-            for (int digit = 0; digit < digits.Length; digit++) {
+-                var chain = new RestJoint[3]; bool complete = true;
+-                for (int j = 0; j < 3; j++) if (!records.TryGetValue(prefix+digits[digit]+joints[j],out chain[j])) { complete=false; break; }
+-                if (!complete) continue;
+-                var angles = new float[3];
+-                for (int j = 0; j < 3; j++) angles[j] = canonical[digit,j];
+-                Vector3 Tip() => chain[2].bone.TransformPoint(chain[2].tip);
+-                void Set(int joint, float degrees) { angles[joint]=degrees;chain[joint].bone.localRotation=chain[joint].local*Quaternion.AngleAxis(degrees,chain[joint].hinge); }
+-                var tip = Tip(); float along = Mathf.Clamp(Vector3.Dot(tip-origin,axis),-.065f*scale,.155f*scale);
+-                var radial = Vector3.ProjectOnPlane(tip-origin,axis);
+-                if (radial.sqrMagnitude < 1e-10f) continue;
+-                // Target the actual skin tip on the finite rubber grip. Existing
+-                // CCD's d.up surrogate cannot identify rolled distal skin pads.
+-                var target = origin+axis*along+radial.normalized*(.017f*scale);
+-                float Cost() => (Tip()-target).sqrMagnitude;
+-                for (int pass=0;pass<3;pass++) for (int j=2;j>=0;j--) {
+-                    float selected=angles[j],cost=Cost(),limit=j==0 ? 110f : j==1 ? 140f : 95f;
+-                    for (float degrees=0;degrees<=limit;degrees+=5) {
+-                        Set(j,degrees);float trial=Cost();if(trial<cost){cost=trial;selected=degrees;}
+-                    }
+-                    Set(j,selected);
+-                }
+-                // Refine the selected interval without permitting hyperextension.
+-                for (int pass=0;pass<2;pass++) for (int j=2;j>=0;j--) {
+-                    float selected=angles[j],cost=Cost(),limit=j==0 ? 110f : j==1 ? 140f : 95f;
+-                    float lo=Mathf.Max(0,selected-5),hi=Mathf.Min(limit,selected+5);
+-                    for(float degrees=lo;degrees<=hi;degrees+=1){Set(j,degrees);float trial=Cost();if(trial<cost){cost=trial;selected=degrees;}}
+-                    Set(j,selected);
+-                }
+-                worst=Mathf.Max(worst,Vector3.Distance(Tip(),target));
+-            }
+-            if(System.Environment.GetEnvironmentVariable("VISUAL_GOLF_WRIST_AUDIT")=="1")
+-                Debug.Log($"[GolfSkinTips] {(hero.female ? "Female" : "Male")} {(left ? "Left" : "Right")} worstTargetError={worst:F6}m");
++            if(wristReview) {
++                data.solvedPose ??= new Matrix4x4[data.solvedBones.Length];
++                for(int bone=0;bone<data.solvedBones.Length;bone++)if(data.solvedBones[bone])data.solvedPose[bone]=data.solvedBones[bone].localToWorldMatrix;
++            }
+         }
+         static void FitDigits(MatchHeroLook hero,bool left,Vector3 origin,Vector3 axis,float radius,float padding,float proximalLimit,float distalLimit)
+         {

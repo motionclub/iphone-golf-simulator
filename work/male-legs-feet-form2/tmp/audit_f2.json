@@ -1,0 +1,141 @@
+{
+ "base": "baseline/start_b51cbb05.blend",
+ "base_sha256": "b51cbb05d5135325b083462efc1b6e05d444a8a514c6c3b58547dad9564431ee",
+ "new": "tmp/f2.blend",
+ "new_sha256": "2e8f973b892b1e1bfba541341fa5d21b07565ddcf1aa23c7f4e09d93596bee3f",
+ "verts": {
+  "base": 31936,
+  "new": 33196,
+  "appended": 1260
+ },
+ "faces": {
+  "base": 32162,
+  "new": 33484
+ },
+ "tris": {
+  "base": 63638,
+  "new": 66158,
+  "delta": 2520
+ },
+ "topology_identical": false,
+ "zone_def": {
+  "start_z_lt": 0.765,
+  "absx_lt": 0.27,
+  "literal_zone_verts": 8745,
+  "effective_zone_verts": 8952,
+  "extension": "207 foot lateral-wall vertices (orig |x|>=0.27, z<0.15) unmoved by the earlier legs chat; the only |x|>=0.27 geometry below the crotch"
+ },
+ "moved_outside_literal_zone": 207,
+ "moved_inside_zone": 8742,
+ "moved_outside_zone": 0,
+ "outside_zone_bit_identical": true,
+ "appended_vertices_inside_zone_region": true,
+ "appended_vertices_z_range": [
+  0.002472762716934085,
+  0.06867284327745438
+ ],
+ "faces_kept_from_base": 31282,
+ "faces_removed_from_base": 880,
+ "faces_added": 2202,
+ "removed_faces_all_in_zone": true,
+ "face_m_unchanged": true,
+ "vertex_groups_equal": true,
+ "materials_equal": true,
+ "all_faces_smooth": true,
+ "has_custom_normals": true,
+ "custom_normal_corners": {
+  "unchanged_equal": 124442,
+  "unchanged_but_different": 0,
+  "new_corners": 8684
+ },
+ "custom_normal_new_corners_all_zero": true,
+ "boundary_nonmanifold": {
+  "base": [
+   92,
+   2
+  ],
+  "new": [
+   92,
+   2
+  ]
+ },
+ "manifold_same_direction_pairs": {
+  "base": 46,
+  "new": 46
+ },
+ "nan_or_inf": false,
+ "flipped_faces_vs_neighbours": 2,
+ "new_region_quad_angle_min_max_bad": [
+  13.77594905302343,
+  148.51471117259808,
+  0
+ ],
+ "new_region_edge_mm": {
+  "mean": 7.228366790629711,
+  "p01": 2.064191547723469,
+  "p99": 15.016226187430224,
+  "min": 1.2495077907174785,
+  "max": 17.885424784374646
+ },
+ "new_region_faces": 2202,
+ "new_region_tris": 4280,
+ "new_region_tri_count_faces": 124,
+ "self_intersecting_triangle_pairs": {
+  "total_nonadjacent": 3,
+  "in_legs_zone": 0
+ },
+ "self_intersecting_triangle_pairs_base": {
+  "total_nonadjacent": 3,
+  "in_legs_zone": 0
+ },
+ "ground": {
+  "min_z_base": 0.002472762716934085,
+  "min_z_new": 0.002472762716934085,
+  "min_z_equal": true,
+  "height_base": 1.702187180519104,
+  "height_new": 1.702187180519104,
+  "sole_vertices_on_plane": 200
+ },
+ "silhouette_native": {
+  "base_body_bald_front": {
+   "pct": 4.162656400384986,
+   "xor_px": 3114,
+   "union_px": 74808
+  },
+  "base_body_bald_back": {
+   "pct": 4.690972268986788,
+   "xor_px": 3483,
+   "union_px": 74249
+  },
+  "base_withface_bald_front": {
+   "pct": 4.162656400384986,
+   "xor_px": 3114,
+   "union_px": 74808
+  },
+  "base_withface_bald_back": {
+   "pct": 4.690972268986788,
+   "xor_px": 3483,
+   "union_px": 74249
+  },
+  "new_body_bald_front": {
+   "pct": 4.14072312337992,
+   "xor_px": 3099,
+   "union_px": 74842
+  },
+  "new_body_bald_back": {
+   "pct": 4.734030384993204,
+   "xor_px": 3518,
+   "union_px": 74313
+  },
+  "new_withface_bald_front": {
+   "pct": 4.14072312337992,
+   "xor_px": 3099,
+   "union_px": 74842
+  },
+  "new_withface_bald_back": {
+   "pct": 4.734030384993204,
+   "xor_px": 3518,
+   "union_px": 74313
+  }
+ }
+}

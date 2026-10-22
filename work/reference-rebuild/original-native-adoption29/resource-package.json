@@ -1,0 +1,569 @@
+{
+  "status": "PASS",
+  "manifests": [
+    "MatchHero_Male",
+    "MatchHero_Female",
+    "MatchHero_Male_Distance",
+    "MatchHero_Female_Distance",
+    "GolfKitHero_Male",
+    "GolfKitHero_Female"
+  ],
+  "maps": [
+    {
+      "name": "MatchHero_Cloth_FabricAtlas",
+      "source_png_sha256": "128701f06966d396cc25c1b17775594f6a624e72999e4e57f9528f5439752ffd",
+      "format": "ASTC4x4",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "eb145e7cc92e16ccaa7f051c735d8ebb24846eed408e84e55ccfec646fdba054",
+      "ktx_sha256": "eb145e7cc92e16ccaa7f051c735d8ebb24846eed408e84e55ccfec646fdba054",
+      "ktx_bytes": 349944
+    },
+    {
+      "name": "MatchHero_GolfKit_FabricAtlas",
+      "source_png_sha256": "79f8dc7cbba58946493a56d5c9fb77da6926fa3a333805c54730a6847b5718e9",
+      "format": "ASTC4x4",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "edee42bb46893edfe87d74c24bbcc0a8ee5f6b0cb8d89751eb06eb3ae0f6f4f8",
+      "ktx_sha256": "edee42bb46893edfe87d74c24bbcc0a8ee5f6b0cb8d89751eb06eb3ae0f6f4f8",
+      "ktx_bytes": 349944
+    },
+    {
+      "name": "MatchHero_GolfKit_Female_Bottom_M",
+      "source_png_sha256": "1fcde5e91a5663b9c7f8e4273573968acc7446b76a19801049841635875fa1c5",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "0c9175ddba1ff988b227db5ad1e5333a68ce406459180fbad85bee185c6dc8fc",
+      "ktx_sha256": "0c9175ddba1ff988b227db5ad1e5333a68ce406459180fbad85bee185c6dc8fc",
+      "ktx_bytes": 349964
+    },
+    {
+      "name": "MatchHero_GolfKit_Female_Bottom_N",
+      "source_png_sha256": "411c76c48c17557ab6319d2713b3f3228d2514a7f3b289ec6e0e1c2778e2de5e",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "7f589239f5c16a2961dca129929d6e8005d44a42cc2f896b9cad7293f6c4882a",
+      "ktx_sha256": "7f589239f5c16a2961dca129929d6e8005d44a42cc2f896b9cad7293f6c4882a",
+      "ktx_bytes": 349964
+    },
+    {
+      "name": "MatchHero_GolfKit_Female_GloveL_M",
+      "source_png_sha256": "6f2977814e4e3ea9ceac78baabb96ef13b4c95aa4173f8fe13b32c3056c6a9da",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "46dd0db525f139d7ef6567b928a05b12f2040a872f7d7b7cae91f2472dcf944e",
+      "ktx_sha256": "46dd0db525f139d7ef6567b928a05b12f2040a872f7d7b7cae91f2472dcf944e",
+      "ktx_bytes": 87816
+    },
+    {
+      "name": "MatchHero_GolfKit_Female_GloveL_N",
+      "source_png_sha256": "4939518c7927e5ba33c0af7a6a828c3aeed453d19c9abcd48919f2b501e6ab5d",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "3e3716757a564bdc240058e34e9f711af39f6d8d00e7e2c035f1854694e6af2d",
+      "ktx_sha256": "3e3716757a564bdc240058e34e9f711af39f6d8d00e7e2c035f1854694e6af2d",
+      "ktx_bytes": 87816
+    },
+    {
+      "name": "MatchHero_GolfKit_Female_GloveR_M",
+      "source_png_sha256": "9722a343d690641b5dbd4f198c3538fcaadca618102b4d511938a5dd1947729e",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "8eddb070f4a7f7e972764778760984659d3ae006ba9ecdea7448a3154cce86ad",
+      "ktx_sha256": "8eddb070f4a7f7e972764778760984659d3ae006ba9ecdea7448a3154cce86ad",
+      "ktx_bytes": 87816
+    },
+    {
+      "name": "MatchHero_GolfKit_Female_GloveR_N",
+      "source_png_sha256": "66ae323a9033862bb0c8112aa30c3e31bc5d5d8aa371bef07405ce8f12f5e3aa",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "6b94badf5bde3c778de05a36e4798809121391f5e15b7afe7837671a3727349d",
+      "ktx_sha256": "6b94badf5bde3c778de05a36e4798809121391f5e15b7afe7837671a3727349d",
+      "ktx_bytes": 87816
+    },
+    {
+      "name": "MatchHero_GolfKit_Female_ShoeL_M",
+      "source_png_sha256": "941ef997ef7f4ba512cd90fcdfc96e7c69d0744d89b7d6758634eb38d1ebb24a",
+      "format": "ASTC8x8",
+      "method": "existing production converter workflow",
+      "command": [
+        "/Applications/Xcode.app/Contents/Developer/usr/bin/TextureConverter",
+        "--compression_format=ASTC8x8",
+        "--compression_quality=Highest",
+        "--alpha_mode=Preserve",
+        "--channel_weighting=Linear",
+        "--gamma_in=1",
+        "--gamma_out=1",
+        "--flip_y",
+        "--wrap_mode=Clamp",
+        "--file_format=KTX",
+        "--output=/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-native-adoption29/export/MatchHero_GolfKit_Female_ShoeL_M.ktx",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-native-adoption29/export/MatchHero_GolfKit_Female_ShoeL_M.png"
+      ],
+      "ktx_sha256": "7c1ad79c2b317e79edd67291c37b5f01d6c4704175d8ef0b59ff4f69fd066ba7",
+      "ktx_bytes": 349964
+    },
+    {
+      "name": "MatchHero_GolfKit_Female_ShoeL_N",
+      "source_png_sha256": "57ad5a06166b0302d643d14f9bcd3633d59a8d1150218a0ea66e1171a542abba",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "54fbe4d6c5e567b6080e9f6ce6ceced78f1906478b80acbc2bd63edccea9160a",
+      "ktx_sha256": "54fbe4d6c5e567b6080e9f6ce6ceced78f1906478b80acbc2bd63edccea9160a",
+      "ktx_bytes": 349964
+    },
+    {
+      "name": "MatchHero_GolfKit_Female_ShoeR_M",
+      "source_png_sha256": "3ae057e471ee7b33c6b3a0e79b3e5a489892f46bace5d94f813789477b3ee7e2",
+      "format": "ASTC8x8",
+      "method": "existing production converter workflow",
+      "command": [
+        "/Applications/Xcode.app/Contents/Developer/usr/bin/TextureConverter",
+        "--compression_format=ASTC8x8",
+        "--compression_quality=Highest",
+        "--alpha_mode=Preserve",
+        "--channel_weighting=Linear",
+        "--gamma_in=1",
+        "--gamma_out=1",
+        "--flip_y",
+        "--wrap_mode=Clamp",
+        "--file_format=KTX",
+        "--output=/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-native-adoption29/export/MatchHero_GolfKit_Female_ShoeR_M.ktx",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-native-adoption29/export/MatchHero_GolfKit_Female_ShoeR_M.png"
+      ],
+      "ktx_sha256": "b1b2aeb0ff33d8d839d96e9d58aa48f2cf9962bd1c86b00d7189cc9e72611ad2",
+      "ktx_bytes": 349964
+    },
+    {
+      "name": "MatchHero_GolfKit_Female_ShoeR_N",
+      "source_png_sha256": "c3f3371f7c981839b7cbea7cc059b216cb4c44aee04827c11b1b49b671b87931",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "e4c4cf13cce2c5ec9f0dff7f25e0af5e6cbb33e5aee8585bb05e88baf3e3bc65",
+      "ktx_sha256": "e4c4cf13cce2c5ec9f0dff7f25e0af5e6cbb33e5aee8585bb05e88baf3e3bc65",
+      "ktx_bytes": 349964
+    },
+    {
+      "name": "MatchHero_GolfKit_Female_Top_M",
+      "source_png_sha256": "18211c88b52319bc9109ec04c060f2653dcad0b34c0655f1b117ef45e6641d02",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "6b20a0f9bd05863d73518c8196f3ee3dcb0842baf95702a6c3d912ece93c1dd8",
+      "ktx_sha256": "6b20a0f9bd05863d73518c8196f3ee3dcb0842baf95702a6c3d912ece93c1dd8",
+      "ktx_bytes": 1398544
+    },
+    {
+      "name": "MatchHero_GolfKit_Female_Top_N",
+      "source_png_sha256": "4861849ee15060298eb1a11333833105e2eb2794a2faf1558d69f63d4abb4fee",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "1a6863cd23bbb7f24495cbb69738d08782cb3b5c7f1a7d8a513dc5132dadcc04",
+      "ktx_sha256": "1a6863cd23bbb7f24495cbb69738d08782cb3b5c7f1a7d8a513dc5132dadcc04",
+      "ktx_bytes": 1398544
+    },
+    {
+      "name": "MatchHero_GolfKit_Male_Bottom_M",
+      "source_png_sha256": "b7c35fae4425477fbbf0e0fe682c76c02ef87eac05f35e924b6644d7ea41075d",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "a26b128e3cf4be6b68af1268e8344d9cbf1599145dfc47017d9206adfe7abf72",
+      "ktx_sha256": "a26b128e3cf4be6b68af1268e8344d9cbf1599145dfc47017d9206adfe7abf72",
+      "ktx_bytes": 349964
+    },
+    {
+      "name": "MatchHero_GolfKit_Male_Bottom_N",
+      "source_png_sha256": "3b7f34e41b8f59756833a155b6794a76d9dcacf450f044be6def0d594c580e2b",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "59ca0167cd50e4a9c1cf8b66308982d13906331aca14b1fdab70b47072cbf043",
+      "ktx_sha256": "59ca0167cd50e4a9c1cf8b66308982d13906331aca14b1fdab70b47072cbf043",
+      "ktx_bytes": 349964
+    },
+    {
+      "name": "MatchHero_GolfKit_Male_GloveL_M",
+      "source_png_sha256": "84affc30e2ed96b080d41539adeb6b864ed544915d05d1709e9a9d4c2ad7dfe3",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "64544ae4cee9c1e4d41e11b6a0e428a2e636749abfb63678fdb61a3a1a7864d6",
+      "ktx_sha256": "64544ae4cee9c1e4d41e11b6a0e428a2e636749abfb63678fdb61a3a1a7864d6",
+      "ktx_bytes": 87816
+    },
+    {
+      "name": "MatchHero_GolfKit_Male_GloveL_N",
+      "source_png_sha256": "3b4e003c76ed9e8b7e871738223b1315059af54be93055361d2ab50802d19672",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "c3d8d19ca8ffd99f0fc00f8148834d18c0e2fc84f4a8c9fa91058712109d2039",
+      "ktx_sha256": "c3d8d19ca8ffd99f0fc00f8148834d18c0e2fc84f4a8c9fa91058712109d2039",
+      "ktx_bytes": 87816
+    },
+    {
+      "name": "MatchHero_GolfKit_Male_GloveR_M",
+      "source_png_sha256": "d82f48202b0637d2d5094a261f8c1f97dde40179c0658bc18e7be2771a451fdd",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "4a1af14245561b90df2adf82091e7aa83fcd74c9acb53582ea311705689e1292",
+      "ktx_sha256": "4a1af14245561b90df2adf82091e7aa83fcd74c9acb53582ea311705689e1292",
+      "ktx_bytes": 87816
+    },
+    {
+      "name": "MatchHero_GolfKit_Male_GloveR_N",
+      "source_png_sha256": "6757d23fd717a837060aa342d0a6487257bce916c8a09cb10dcbfe8a732d0d4f",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "73438fee1e05cfabec46bfdd382f6aab70fd1ec34becc7a249c4ca4265cec688",
+      "ktx_sha256": "73438fee1e05cfabec46bfdd382f6aab70fd1ec34becc7a249c4ca4265cec688",
+      "ktx_bytes": 87816
+    },
+    {
+      "name": "MatchHero_GolfKit_Male_ShoeL_M",
+      "source_png_sha256": "06a5046b6c125d2b341e44d41cd7eb80cc3637ee40a5a6bce9587ca8034bcd4f",
+      "format": "ASTC8x8",
+      "method": "existing production converter workflow",
+      "command": [
+        "/Applications/Xcode.app/Contents/Developer/usr/bin/TextureConverter",
+        "--compression_format=ASTC8x8",
+        "--compression_quality=Highest",
+        "--alpha_mode=Preserve",
+        "--channel_weighting=Linear",
+        "--gamma_in=1",
+        "--gamma_out=1",
+        "--flip_y",
+        "--wrap_mode=Clamp",
+        "--file_format=KTX",
+        "--output=/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-native-adoption29/export/MatchHero_GolfKit_Male_ShoeL_M.ktx",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-native-adoption29/export/MatchHero_GolfKit_Male_ShoeL_M.png"
+      ],
+      "ktx_sha256": "af228d79c9d4aa7088436881be7fd1e2753203d18667cf4bf3a8c9c217654755",
+      "ktx_bytes": 349964
+    },
+    {
+      "name": "MatchHero_GolfKit_Male_ShoeL_N",
+      "source_png_sha256": "e9b5ad423efa4e200431059d81ea86d5caa6c3d609ec084d5924ad149875496b",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "79b7444afb205e273afbc1e67702efab1d2b25a413a0aeb5c4d3a71bb75c1c6f",
+      "ktx_sha256": "79b7444afb205e273afbc1e67702efab1d2b25a413a0aeb5c4d3a71bb75c1c6f",
+      "ktx_bytes": 349964
+    },
+    {
+      "name": "MatchHero_GolfKit_Male_ShoeR_M",
+      "source_png_sha256": "9975cdfcf352c910cdeb7597fc9fcb5a2e7f6315f256db2e36d57802b41bdca7",
+      "format": "ASTC8x8",
+      "method": "existing production converter workflow",
+      "command": [
+        "/Applications/Xcode.app/Contents/Developer/usr/bin/TextureConverter",
+        "--compression_format=ASTC8x8",
+        "--compression_quality=Highest",
+        "--alpha_mode=Preserve",
+        "--channel_weighting=Linear",
+        "--gamma_in=1",
+        "--gamma_out=1",
+        "--flip_y",
+        "--wrap_mode=Clamp",
+        "--file_format=KTX",
+        "--output=/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-native-adoption29/export/MatchHero_GolfKit_Male_ShoeR_M.ktx",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-native-adoption29/export/MatchHero_GolfKit_Male_ShoeR_M.png"
+      ],
+      "ktx_sha256": "dab28fd7588af447066f3ce081facf7f86d010f70010f55265f9ca6ab112bfb7",
+      "ktx_bytes": 349964
+    },
+    {
+      "name": "MatchHero_GolfKit_Male_ShoeR_N",
+      "source_png_sha256": "ffb853d9708d12b36109864adfc5cffb7dfa363ee39bd8f2526c5dbfe0fede94",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "ce1d21ff7736283de364d5fbfd4804bd0dd1fb2bbbc4a4a3c9826935e4d99c9f",
+      "ktx_sha256": "ce1d21ff7736283de364d5fbfd4804bd0dd1fb2bbbc4a4a3c9826935e4d99c9f",
+      "ktx_bytes": 349964
+    },
+    {
+      "name": "MatchHero_GolfKit_Male_Top_M",
+      "source_png_sha256": "b65b97ff58513b50762ddbbbd2525e212a4a366804a0bb3190a2d429d26df889",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "26b32117d3b4c3491ca3456cec863640348720c8ee76c4e40c1f9bb4e12c90f7",
+      "ktx_sha256": "26b32117d3b4c3491ca3456cec863640348720c8ee76c4e40c1f9bb4e12c90f7",
+      "ktx_bytes": 1398544
+    },
+    {
+      "name": "MatchHero_GolfKit_Male_Top_N",
+      "source_png_sha256": "3451c0f5d7d9409dce8f177ff194f3b16f63f6195e539c3cd5aa36399b47a67d",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "d64e1c066bc476349dc75fd6a4e3ebfef1b144238eb0eccf1b374b8807a4840b",
+      "ktx_sha256": "d64e1c066bc476349dc75fd6a4e3ebfef1b144238eb0eccf1b374b8807a4840b",
+      "ktx_bytes": 1398544
+    },
+    {
+      "name": "MatchHero_Kit_Female_Bottom_M",
+      "source_png_sha256": "a303d9781f5c896e0fcf08a374135532ab2507e5f38cb4238f8552b3dc9f8395",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "255b281e42d1c57b0ee23c997c509262a3e56af4f9e4fd9fde9eae478fc8845d",
+      "ktx_sha256": "255b281e42d1c57b0ee23c997c509262a3e56af4f9e4fd9fde9eae478fc8845d",
+      "ktx_bytes": 349964
+    },
+    {
+      "name": "MatchHero_Kit_Female_Bottom_N",
+      "source_png_sha256": "84600eb995f43f1d461916fa9da4097179e2718de6be922b89787313e5ebf611",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "083c40594a1a7a7a82dd2165a9c74a70faab8bbe30a4819f65d0506f550e74d5",
+      "ktx_sha256": "083c40594a1a7a7a82dd2165a9c74a70faab8bbe30a4819f65d0506f550e74d5",
+      "ktx_bytes": 349964
+    },
+    {
+      "name": "MatchHero_Kit_Female_ShoeL_M",
+      "source_png_sha256": "5fccf563dd3fa1de199c23cf5343fec5fbc2ed286c20283419e55d60029422b4",
+      "format": "ASTC8x8",
+      "method": "existing production converter workflow",
+      "command": [
+        "/Applications/Xcode.app/Contents/Developer/usr/bin/TextureConverter",
+        "--compression_format=ASTC8x8",
+        "--compression_quality=Highest",
+        "--alpha_mode=Preserve",
+        "--channel_weighting=Linear",
+        "--gamma_in=1",
+        "--gamma_out=1",
+        "--flip_y",
+        "--wrap_mode=Clamp",
+        "--file_format=KTX",
+        "--output=/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-native-adoption29/export/MatchHero_Kit_Female_ShoeL_M.ktx",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-native-adoption29/export/MatchHero_Kit_Female_ShoeL_M.png"
+      ],
+      "ktx_sha256": "c0dab4b9b7bb35936fee10a10eefcedb7c4ae5286d2e0ff318f5c79804fcae76",
+      "ktx_bytes": 349964
+    },
+    {
+      "name": "MatchHero_Kit_Female_ShoeL_N",
+      "source_png_sha256": "d8feaf7fdd2bac332dcda985385abaff5b4c93732db79bb0c9f1a0eb6ec2d48a",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "dc46d6ef144d97634e3d89885bf0f8c112442ef136a5397c664c0713485543ed",
+      "ktx_sha256": "dc46d6ef144d97634e3d89885bf0f8c112442ef136a5397c664c0713485543ed",
+      "ktx_bytes": 349964
+    },
+    {
+      "name": "MatchHero_Kit_Female_ShoeR_M",
+      "source_png_sha256": "a3b96d13b9a5015540e2851290f047f878546d095ae5971ff4e9f3994f227b9e",
+      "format": "ASTC8x8",
+      "method": "existing production converter workflow",
+      "command": [
+        "/Applications/Xcode.app/Contents/Developer/usr/bin/TextureConverter",
+        "--compression_format=ASTC8x8",
+        "--compression_quality=Highest",
+        "--alpha_mode=Preserve",
+        "--channel_weighting=Linear",
+        "--gamma_in=1",
+        "--gamma_out=1",
+        "--flip_y",
+        "--wrap_mode=Clamp",
+        "--file_format=KTX",
+        "--output=/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-native-adoption29/export/MatchHero_Kit_Female_ShoeR_M.ktx",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-native-adoption29/export/MatchHero_Kit_Female_ShoeR_M.png"
+      ],
+      "ktx_sha256": "6c2e882eace0e93398fb3f58b725e16dc0a2f5c1f18338bf96422e9012615ef3",
+      "ktx_bytes": 349964
+    },
+    {
+      "name": "MatchHero_Kit_Female_ShoeR_N",
+      "source_png_sha256": "1b463a8279a6636b898d03c64075502bd08483427f23ffb7d69acd564455d2d1",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "64978e8235665b7901e2960aae07fdc73b0c2530e72a4d781aa3fd8fb8b6f71e",
+      "ktx_sha256": "64978e8235665b7901e2960aae07fdc73b0c2530e72a4d781aa3fd8fb8b6f71e",
+      "ktx_bytes": 349964
+    },
+    {
+      "name": "MatchHero_Kit_Female_SockL_M",
+      "source_png_sha256": "2d61934f1a11009022148ddb66aef12a1645516f0292b9bccda961585ceb9a9e",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "4cd1cc869694008ffa7d330e3e82900719c1749a11ccf606eb9da68abd3c0d77",
+      "ktx_sha256": "4cd1cc869694008ffa7d330e3e82900719c1749a11ccf606eb9da68abd3c0d77",
+      "ktx_bytes": 87816
+    },
+    {
+      "name": "MatchHero_Kit_Female_SockL_N",
+      "source_png_sha256": "bac5605827b8b4435761be30a4b8ad5cd41abd453888d72bd2eac47463976d36",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "d150114ae384f65a5e81af263f467341d644c4b92e72cac33f41938ff57305c1",
+      "ktx_sha256": "d150114ae384f65a5e81af263f467341d644c4b92e72cac33f41938ff57305c1",
+      "ktx_bytes": 87816
+    },
+    {
+      "name": "MatchHero_Kit_Female_SockR_M",
+      "source_png_sha256": "88759221f4dec7fda316c41217596ca2c583acb5f3c1951dcfc3bafe5efd78d6",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "018d4a9c5efae1ce18a82af9bf3b115e3ae022502709517131ac4931e6a04f82",
+      "ktx_sha256": "018d4a9c5efae1ce18a82af9bf3b115e3ae022502709517131ac4931e6a04f82",
+      "ktx_bytes": 87816
+    },
+    {
+      "name": "MatchHero_Kit_Female_SockR_N",
+      "source_png_sha256": "6e9bc682f86f5286c102709b71bba64c4b2cb502a242496078c76c134bca1314",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "6f9e2a64c30a43ac9011391c7b919dff9665ab6c5faa884592e67d7540cfc1ac",
+      "ktx_sha256": "6f9e2a64c30a43ac9011391c7b919dff9665ab6c5faa884592e67d7540cfc1ac",
+      "ktx_bytes": 87816
+    },
+    {
+      "name": "MatchHero_Kit_Female_Top_M",
+      "source_png_sha256": "8ca8e7d7d90233c769a0abaaf71c73a94fa336dc8073a8434573faccf11bc01b",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "5d71820eb05176fb00616f8f286f3650653d0a52c4e7582f8eb502b1a4988241",
+      "ktx_sha256": "5d71820eb05176fb00616f8f286f3650653d0a52c4e7582f8eb502b1a4988241",
+      "ktx_bytes": 1398544
+    },
+    {
+      "name": "MatchHero_Kit_Female_Top_N",
+      "source_png_sha256": "13874d66ed2ae2e661a950ba02d4926498f6afd4c361aa7c1846b4eaf0c35a85",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "e35847282bbbe3dc6c831360fe21bcce624e416f3e6d1add4b2b3ce62f3b918c",
+      "ktx_sha256": "e35847282bbbe3dc6c831360fe21bcce624e416f3e6d1add4b2b3ce62f3b918c",
+      "ktx_bytes": 1398544
+    },
+    {
+      "name": "MatchHero_Kit_Male_Bottom_M",
+      "source_png_sha256": "8a551c4c254b8f01fa01a272eca44628f760417e3a8a62ee306afbc5559fbb1c",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "d0aac58d481b2a535106ca61e9160c7a14d8637f31409ad6d626e0259db045c1",
+      "ktx_sha256": "d0aac58d481b2a535106ca61e9160c7a14d8637f31409ad6d626e0259db045c1",
+      "ktx_bytes": 349964
+    },
+    {
+      "name": "MatchHero_Kit_Male_Bottom_N",
+      "source_png_sha256": "4f4364f6fe4b83a083cc017fd09fe89a9fb32389386fc95ee0e8521095f0609f",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "371e349a6f23f20508927b2f2ebc10f5c9c2a39d841fe633c35816601da7b959",
+      "ktx_sha256": "371e349a6f23f20508927b2f2ebc10f5c9c2a39d841fe633c35816601da7b959",
+      "ktx_bytes": 349964
+    },
+    {
+      "name": "MatchHero_Kit_Male_ShoeL_M",
+      "source_png_sha256": "7a5316a8b4554c1c1f3f6972f63a4923fccbcd63b672fb16cfac0aba9d5112bf",
+      "format": "ASTC8x8",
+      "method": "existing production converter workflow",
+      "command": [
+        "/Applications/Xcode.app/Contents/Developer/usr/bin/TextureConverter",
+        "--compression_format=ASTC8x8",
+        "--compression_quality=Highest",
+        "--alpha_mode=Preserve",
+        "--channel_weighting=Linear",
+        "--gamma_in=1",
+        "--gamma_out=1",
+        "--flip_y",
+        "--wrap_mode=Clamp",
+        "--file_format=KTX",
+        "--output=/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-native-adoption29/export/MatchHero_Kit_Male_ShoeL_M.ktx",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-native-adoption29/export/MatchHero_Kit_Male_ShoeL_M.png"
+      ],
+      "ktx_sha256": "3f28de8f1d3cf5048829f383ebde02ca88c3d2bb346c9b1d49a8473de7d8ede8",
+      "ktx_bytes": 349964
+    },
+    {
+      "name": "MatchHero_Kit_Male_ShoeL_N",
+      "source_png_sha256": "66b1ca2c966747a3af7eb1e7544a4929e01d25bacef0e73db6e7a73e71cca8ef",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "0052e9c2c0f1b5191eaf9dae779cac52a67f9890474ddce8037a589dc1b0cce8",
+      "ktx_sha256": "0052e9c2c0f1b5191eaf9dae779cac52a67f9890474ddce8037a589dc1b0cce8",
+      "ktx_bytes": 349964
+    },
+    {
+      "name": "MatchHero_Kit_Male_ShoeR_M",
+      "source_png_sha256": "f104a1750db12fd43b3c3cf2d7d52535938d1c7d517c2c027e2f2a2a9a863d61",
+      "format": "ASTC8x8",
+      "method": "existing production converter workflow",
+      "command": [
+        "/Applications/Xcode.app/Contents/Developer/usr/bin/TextureConverter",
+        "--compression_format=ASTC8x8",
+        "--compression_quality=Highest",
+        "--alpha_mode=Preserve",
+        "--channel_weighting=Linear",
+        "--gamma_in=1",
+        "--gamma_out=1",
+        "--flip_y",
+        "--wrap_mode=Clamp",
+        "--file_format=KTX",
+        "--output=/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-native-adoption29/export/MatchHero_Kit_Male_ShoeR_M.ktx",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-native-adoption29/export/MatchHero_Kit_Male_ShoeR_M.png"
+      ],
+      "ktx_sha256": "de8dc79c992ddfe3b4f5f1252c46f12cf3b772f1cdf70c8bbf572ea47b23c262",
+      "ktx_bytes": 349964
+    },
+    {
+      "name": "MatchHero_Kit_Male_ShoeR_N",
+      "source_png_sha256": "6302fe89585fb07249c2710652557f95606d15f3d6739d0b1d2e67bf2ee9426e",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "65aa8723ff90e0f5a68a08449688469fa2b5ee04b8a6959757ae04dde5a114be",
+      "ktx_sha256": "65aa8723ff90e0f5a68a08449688469fa2b5ee04b8a6959757ae04dde5a114be",
+      "ktx_bytes": 349964
+    },
+    {
+      "name": "MatchHero_Kit_Male_SockL_M",
+      "source_png_sha256": "1ea511869a6a016b2823b43079e33849aa0a65ebfc29addf7728a264b80f4731",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "514b0cd4cb9d1940fa469210b878ea9c985bf8c13803358bab7523afefbe5008",
+      "ktx_sha256": "514b0cd4cb9d1940fa469210b878ea9c985bf8c13803358bab7523afefbe5008",
+      "ktx_bytes": 87816
+    },
+    {
+      "name": "MatchHero_Kit_Male_SockL_N",
+      "source_png_sha256": "bc44c71fb60ca94d98f182e3c289cbae143714ca12c07c34838f905ad1e232e9",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "96e32648bc6e57853f60b8b4856e01ad73f91ca20ba03487af5651aa72d5fc12",
+      "ktx_sha256": "96e32648bc6e57853f60b8b4856e01ad73f91ca20ba03487af5651aa72d5fc12",
+      "ktx_bytes": 87816
+    },
+    {
+      "name": "MatchHero_Kit_Male_SockR_M",
+      "source_png_sha256": "a6dc8214f154950925800ed6c0b27d0c3d8ab1bf43b61fa52362af3266d0ad59",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "17ad87a369ec72aac6695e765b9feff82b869e563dd023ed99a884167e36986e",
+      "ktx_sha256": "17ad87a369ec72aac6695e765b9feff82b869e563dd023ed99a884167e36986e",
+      "ktx_bytes": 87816
+    },
+    {
+      "name": "MatchHero_Kit_Male_SockR_N",
+      "source_png_sha256": "f9682ea886228995cdda1dc6fb527c5f02fdd45ac6f446667d11b083f2274234",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "69c3bf33d8b17a8d2eba5f6f11ccbd2031d43e99f92e5ab8f0c9943e24510684",
+      "ktx_sha256": "69c3bf33d8b17a8d2eba5f6f11ccbd2031d43e99f92e5ab8f0c9943e24510684",
+      "ktx_bytes": 87816
+    },
+    {
+      "name": "MatchHero_Kit_Male_Top_M",
+      "source_png_sha256": "a20bb0a29353e56730bdf79d8c7ad9816def39b5bea1eb6e6d85181173ee7545",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "2853bc178f78e12ae59ef1375852b8868dac90286971113578b9e5427c65f9cb",
+      "ktx_sha256": "2853bc178f78e12ae59ef1375852b8868dac90286971113578b9e5427c65f9cb",
+      "ktx_bytes": 1398544
+    },
+    {
+      "name": "MatchHero_Kit_Male_Top_N",
+      "source_png_sha256": "a5345c3b3c45de6a680db0a414ea7f6383907880b4be0567ebbbb055d74db7f7",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "fe7561bad722f72cc9c1490447640223a1db640fe1e82b2b9a53b98884ecaad4",
+      "ktx_sha256": "fe7561bad722f72cc9c1490447640223a1db640fe1e82b2b9a53b98884ecaad4",
+      "ktx_bytes": 1398544
+    }
+  ],
+  "linear_face_luts_preserved_uncompressed_png": true,
+  "no_material_bypass": true
+}

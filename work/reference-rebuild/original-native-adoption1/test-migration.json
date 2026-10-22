@@ -1,0 +1,22 @@
+{
+  "status": "STAGED; XCTest not run",
+  "files": [
+    {
+      "file": "GolfArcadeTests/MatchHeroLockerTests.swift",
+      "source_sha256": "0ad53aa2c073dc8d923faa1028e9a7d503f20eb22a05cf8475ff4b6674d88bc2",
+      "candidate_sha256": "5adaad3020ed6cf2683aa4222ffdf423dfcc42263b1c0d876aaee7283bb9410a"
+    },
+    {
+      "file": "GolfArcadeTests/LockerMirrorTests.swift",
+      "source_sha256": "dfb754695d36436cfc3c3333af6e186424443793717b65490d8e1607f83cb9cf",
+      "candidate_sha256": "2c751d92afbde56b2f696d6de5a3d96a965eafce98cb9fd83037f239d33dd91e"
+    },
+    {
+      "file": "GolfArcadeTests/VisualOverhaulNativeTests.swift",
+      "source_sha256": "3b2a6e15bcb63a58cba580dd36393bc950b64d77f9335d0ceb46e11035486f45",
+      "candidate_sha256": "1fab9cd6fff2ef0e7d6656b6a5ebf02a41e93c9d3f57069e0ce056420ef5f68c"
+    }
+  ],
+  "counts": "exact accepted source counts; legacy exact counts remain; no tolerance relaxation",
+  "fixtures": "All six fresh Unity golden/emote/blink files required. Do not run against stale old-index fixtures."
+}

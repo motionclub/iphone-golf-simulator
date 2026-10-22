@@ -1,0 +1,80 @@
+[
+ {
+  "piece": "Kit_Bottom",
+  "verts": 12827,
+  "tris": 25646,
+  "uv_cover": 0.227,
+  "ao_mean": 0.3695,
+  "groove_mean": 0.0107,
+  "edge_mean": 0.2643,
+  "border_verts": 0,
+  "seam_verts": 815,
+  "mult_min": 0.5,
+  "mult_mean": 0.7782
+ },
+ {
+  "piece": "Kit_Shoe_L",
+  "verts": 6529,
+  "tris": 12910,
+  "uv_cover": 0.239,
+  "ao_mean": 0.319,
+  "groove_mean": 0.014,
+  "edge_mean": 0.3574,
+  "border_verts": 0,
+  "seam_verts": 0,
+  "mult_min": 0.5,
+  "mult_mean": 0.7957
+ },
+ {
+  "piece": "Kit_Shoe_R",
+  "verts": 6529,
+  "tris": 12910,
+  "uv_cover": 0.239,
+  "ao_mean": 0.3183,
+  "groove_mean": 0.014,
+  "edge_mean": 0.3574,
+  "border_verts": 0,
+  "seam_verts": 0,
+  "mult_min": 0.5,
+  "mult_mean": 0.7959
+ },
+ {
+  "piece": "Kit_Sock_L",
+  "verts": 2543,
+  "tris": 5082,
+  "uv_cover": 0.203,
+  "ao_mean": 0.0468,
+  "groove_mean": 0.0511,
+  "edge_mean": 0.1752,
+  "border_verts": 0,
+  "seam_verts": 0,
+  "mult_min": 0.5,
+  "mult_mean": 0.9225
+ },
+ {
+  "piece": "Kit_Sock_R",
+  "verts": 2543,
+  "tris": 5082,
+  "uv_cover": 0.212,
+  "ao_mean": 0.0467,
+  "groove_mean": 0.0507,
+  "edge_mean": 0.1756,
+  "border_verts": 0,
+  "seam_verts": 0,
+  "mult_min": 0.5,
+  "mult_mean": 0.9226
+ },
+ {
+  "piece": "Kit_Top",
+  "verts": 9722,
+  "tris": 19408,
+  "uv_cover": 0.234,
+  "ao_mean": 0.147,
+  "groove_mean": 0.0229,
+  "edge_mean": 0.2598,
+  "border_verts": 126,
+  "seam_verts": 345,
+  "mult_min": 0.5,
+  "mult_mean": 0.8669
+ }
+]

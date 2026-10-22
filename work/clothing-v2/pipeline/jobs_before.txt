@@ -1,0 +1,3 @@
+/Applications/Blender.app/Contents/MacOS/Blender -b --factory-startup --python gp/suite.py -- MatchHero_Female runs/before > logs/before_MatchHero_Female.log 2>&1
+/Applications/Blender.app/Contents/MacOS/Blender -b --factory-startup --python gp/suite.py -- GolfKitHero_Male runs/before > logs/before_GolfKitHero_Male.log 2>&1
+/Applications/Blender.app/Contents/MacOS/Blender -b --factory-startup --python gp/suite.py -- GolfKitHero_Female runs/before > logs/before_GolfKitHero_Female.log 2>&1

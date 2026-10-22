@@ -1,0 +1,74 @@
+{
+ "names_equal": true,
+ "parents_equal": true,
+ "head_max_err_mm": 0.0,
+ "tail_max_err_mm": 0.0,
+ "bones": 53,
+ "meshes": {
+  "Kit_Shoe_R": {
+   "vertices": 8913,
+   "triangles": 17678,
+   "max_influences": 3,
+   "weight_sum_err": 3.5390257835388184e-08,
+   "materials": [
+    "Kit_Shoe",
+    "Kit_Sole"
+   ],
+   "pos_max_diff_mm": 4.025714306528372e-05
+  },
+  "Kit_Bottom": {
+   "vertices": 10522,
+   "triangles": 21032,
+   "max_influences": 4,
+   "weight_sum_err": 4.470348358154297e-08,
+   "materials": [
+    "Kit_Shorts",
+    "Kit_ShortsBand"
+   ],
+   "pos_max_diff_mm": 0.0001722628901745793
+  },
+  "Kit_Sock_L": {
+   "vertices": 3137,
+   "triangles": 6270,
+   "max_influences": 3,
+   "weight_sum_err": 4.0978193283081055e-08,
+   "materials": [
+    "Kit_Sock"
+   ],
+   "pos_max_diff_mm": 5.7380752538360724e-05
+  },
+  "Kit_Shoe_L": {
+   "vertices": 8913,
+   "triangles": 17678,
+   "max_influences": 3,
+   "weight_sum_err": 3.5390257835388184e-08,
+   "materials": [
+    "Kit_Shoe",
+    "Kit_Sole"
+   ],
+   "pos_max_diff_mm": 4.0257138298263606e-05
+  },
+  "Kit_Sock_R": {
+   "vertices": 3135,
+   "triangles": 6270,
+   "max_influences": 3,
+   "weight_sum_err": 4.1443854570388794e-08,
+   "materials": [
+    "Kit_Sock"
+   ],
+   "pos_max_diff_mm": 5.7387243776463315e-05
+  },
+  "Kit_Top": {
+   "vertices": 11167,
+   "triangles": 22298,
+   "max_influences": 4,
+   "weight_sum_err": 4.842877388000488e-08,
+   "materials": [
+    "Kit_Shirt",
+    "Kit_ShirtTrim"
+   ],
+   "pos_max_diff_mm": 0.00024389691943155212
+  }
+ },
+ "pass": true
+}

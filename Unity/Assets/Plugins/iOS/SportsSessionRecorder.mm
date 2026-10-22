@@ -20,9 +20,12 @@ static const double kMinFreeWhileRecording = 300.0 * 1024.0 * 1024.0;
 static const double kMaxSessionSeconds = 90.0 * 60.0;
 static const double kWatchdogInterval = 0.5, kDiskInterval = 5.0;
 static const int kMaxPendingFrames = 4;
-static const double kDisplayMissingSeconds = 2.0;
-static const double kNoFrameBackstopSeconds = 15.0, kFirstFrameTimeoutSeconds = 10.0;
-static const double kBadPictureSeconds = 5.0;
+// Going from the menu or Plaza into a match (and back) loads a whole scene: the TV gets no frames, and its surface may be
+// swapped, for as long as that takes (the app budgets 15-20 s). A take rides through that; a TV that really went away is
+// ended at once by the app (sceneDidDisconnect -> RecordingService.displayLost), so these are only the backstop.
+static const double kDisplayMissingSeconds = 45.0;
+static const double kNoFrameBackstopSeconds = 60.0, kFirstFrameTimeoutSeconds = 10.0;
+static const double kBadPictureSeconds = 30.0;
 static const size_t kMaxQueuedAudio = 300;   // ~3 s of 10 ms ticks waiting for the writer
 
 enum { kIdle = 0, kActive = 1, kFinishing = 2 };

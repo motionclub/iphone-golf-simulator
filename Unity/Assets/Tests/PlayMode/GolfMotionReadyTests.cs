@@ -78,7 +78,7 @@ namespace GolfArcade.PlayTests {
             float angle=1.8f, delta=(-.5f-1.8f)/25;
             for(int i=0;i<samples;i++) { angle+=delta; Sample(game,ref time,angle,delta/.01f,grip); }
         }
-        // Hold to swing: holding the button arms the swing, letting go before contact resets it.
+        // Tap to swing: a tap arms the swing, a second tap before contact resets it.
         [UnityTest, Timeout(120000)] public IEnumerator LettingGoBeforeContactResetsTheSwing() {
             yield return SceneManager.LoadSceneAsync("Golf",LoadSceneMode.Single);
             yield return null;
@@ -94,13 +94,13 @@ namespace GolfArcade.PlayTests {
                 game.NativeReleaseSwing();
                 Assert.AreEqual(GolfGame.State.Aim,game.Current,"Letting go before contact hits nothing");
                 Assert.IsFalse(game.NativeSwingTracking,"Letting go resets the swing");
-                Assert.AreEqual(0,game.NativeSwingState,"The button asks to be held again");
+                Assert.AreEqual(0,game.NativeSwingState,"The button asks to be tapped again");
                 Assert.IsTrue(game.NativeShotReady,"A reset needs no Ready again");
                 Stroke(game,ref time,Q.Identity);
                 Assert.AreEqual(GolfGame.State.Aim,game.Current,"A swing after letting go does not count");
                 game.NativeStartSwing(Q.Identity);
                 Stroke(game,ref time,Q.Identity);
-                Assert.AreEqual(GolfGame.State.Flight,game.Current,"Held again, a whole stroke is struck");
+                Assert.AreEqual(GolfGame.State.Flight,game.Current,"Tapped again, a whole stroke is struck");
                 game.NativeReleaseSwing();
                 Assert.AreEqual(GolfGame.State.Flight,game.Current,"Letting go after contact changes nothing");
                 yield return null;
@@ -128,20 +128,36 @@ namespace GolfArcade.PlayTests {
             Assert.AreEqual(GolfGame.State.Aim,game.Current);
             Assert.IsFalse(game.NativeSwingTracking,"No contact after the grace: the swing resets");
         }
-        [UnityTest, Timeout(120000)] public IEnumerator StartSwingTakesTheGripOnlyOnceThePhoneIsHeldStill() {
+        [UnityTest, Timeout(120000)] public IEnumerator ATapStartsTheSwingAtOnceWithTheGripWhereThePhoneSettles() {
             yield return SceneManager.LoadSceneAsync("Golf",LoadSceneMode.Single);
             yield return null;
             var game=Object.FindFirstObjectByType<GolfGame>(); game.PrepareNativeAddress();
             double time=1;
+            var grip=Q.CreateFromAxisAngle(V.UnitY,.8f);
+            // no grip sent and no waiting for stillness: the swing is live the moment of the tap
             game.DropBall(game.CurrentHole.Tee); game.NativeReady(); game.NativeStartSwing();
-            Assert.AreEqual(1,game.NativeSwingState,"Without a grip the phone is asked to hold still");
-            // lifting the phone from the tap into the stance is not a grip
-            for(int i=0;i<100;i++) Sample(game,ref time,i*.02f,3f,Q.Identity);
-            Assert.AreEqual(1,game.NativeSwingState,"A moving phone is not a grip");
-            for(int i=0;i<30;i++) Sample(game,ref time,2f,0f,Q.Identity);
-            Assert.AreEqual(1,game.NativeSwingState,"A moment's stillness is not yet a grip");
-            for(int i=0;i<40;i++) Sample(game,ref time,2f,0f,Q.Identity);
-            Assert.AreEqual(2,game.NativeSwingState,"Held still in the stance, the grip is set");
+            Assert.AreEqual(2,game.NativeSwingState,"A tap starts the swing at once");
+            // the tap's own jolt, then the phone settles in the stance: that pose is the grip
+            for(int i=0;i<8;i++) Sample(game,ref time,.02f*i,3f,grip);
+            Stroke(game,ref time,grip);
+            Assert.AreEqual(GolfGame.State.Flight,game.Current,"A whole stroke from where the phone settled is struck");
+            // a phone that never goes still still gets a grip: nothing waits for stillness
+            yield return new WaitForSeconds(.5f);
+            game.DropBall(game.CurrentHole.Tee); game.NativeReady(); game.NativeStartSwing();
+            for(int i=0;i<40;i++) Sample(game,ref time,.01f*i,3f,grip);
+            Assert.IsTrue(game.NativeSwingTracking,"Still armed after a restless moment");
+        }
+        [UnityTest, Timeout(120000)] public IEnumerator ASwingLeftAloneResetsOnItsOwn() {
+            yield return SceneManager.LoadSceneAsync("Golf",LoadSceneMode.Single);
+            yield return null;
+            var game=Object.FindFirstObjectByType<GolfGame>(); game.PrepareNativeAddress();
+            double time=1;
+            game.DropBall(game.CurrentHole.Tee); game.NativeReady(); game.NativeStartSwing(Q.Identity);
+            for(int i=0;i<500;i++) Sample(game,ref time,0f,0f,Q.Identity);
+            Assert.IsTrue(game.NativeSwingTracking,"Five quiet seconds is still a swing waiting");
+            for(int i=0;i<900;i++) Sample(game,ref time,0f,0f,Q.Identity);
+            Assert.IsFalse(game.NativeSwingTracking,"A swing never started resets: the phone cannot swing by itself later");
+            Assert.AreEqual(GolfGame.State.Aim,game.Current);
         }
     }
 }

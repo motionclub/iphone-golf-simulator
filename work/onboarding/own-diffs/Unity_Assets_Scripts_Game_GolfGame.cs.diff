@@ -1,0 +1,15 @@
+diff --git a/work/onboarding/baseline-owned-files/Unity/Assets/Scripts/Game/GolfGame.cs b/Unity/Assets/Scripts/Game/GolfGame.cs
+index d17f2582..c749a1e3 100644
+--- a/work/onboarding/baseline-owned-files/Unity/Assets/Scripts/Game/GolfGame.cs
++++ b/Unity/Assets/Scripts/Game/GolfGame.cs
+@@ -59,6 +59,10 @@ namespace GolfArcade.Game
+         public SwingController Swing { get; private set; }
+         public Scorecard Card { get; private set; }
+         public Wind Wind { get; private set; }
++        public double TutorialHeading => heading;
++        public int TutorialStrokes => holeStrokes;
++        public int TutorialHole => holeIndex;
++        public Hud TutorialHud => hud;
+ 
+         Course.Course course;
+         GolfSounds sounds;

@@ -1,0 +1,101 @@
+--- a/GolfArcade/Unity/GolfController.swift
++++ b/GolfArcade/Unity/GolfController.swift
+@@ -102,6 +102,9 @@
+     @State private var lastAimSent = -Double.infinity
+     private var reading: GolfControllerReading { session.golfController }
+     private var canAim: Bool { session.ready && session.golfPhase == "Aim" && !session.paused && (reading.party?.myTurn ?? true) }
++    /// A result screen with buttons is up on the TV (a shot's result, a hole out, the round's end): the pad steers its buttons
++    /// instead of the aim, and its centre taps the one that is lit.
++    private var canMenu: Bool { session.ready && !session.paused && session.golfMenuOpen }
+     private var isDesignPreview: Bool {
+         #if DEBUG
+         ProcessInfo.processInfo.arguments.contains("-golfControllerDesign")
+@@ -350,7 +353,8 @@
+             aimArrow("triangle.fill", rotation: -90, x: -54, y: 0, label: "Aim left") { nudge(-1) }
+             aimArrow("triangle.fill", rotation: 90, x: 54, y: 0, label: "Aim right") { nudge(1) }
+             Button {
+-                if session.paused || !session.golfShotReady { session.readyToPlay() }
++                if canMenu { session.selectGolfMenu() }
++                else if session.paused || !session.golfShotReady { session.readyToPlay() }
+                 else if session.touch { touchSheet = true }
+             } label: {
+                 ZStack {
+@@ -359,14 +363,16 @@
+                 }.frame(width: 61, height: 61).overlay(Circle().stroke(.white, lineWidth: 3))
+                     .shadow(color: GolfControllerStyle.ink.opacity(0.5), radius: 0, y: 4)
+             }.offset(thumbOffset)
+-                .disabled(!canAim)
+-                .accessibilityLabel(session.touch ? "Swing controls" : "Ready for shot")
++                .disabled(!canAim && !canMenu)
++                .accessibilityLabel(canMenu ? "Select" : session.touch ? "Swing controls" : "Ready for shot")
+                 .accessibilityIdentifier("golf-aim-center")
+         }.contentShape(Circle())
+             .simultaneousGesture(DragGesture(minimumDistance: 8, coordinateSpace: .local)
+                 .onChanged { drag in updateJoystick(drag.location, final: false) }
+                 .onEnded { drag in
+                     updateJoystick(drag.location, final: true)
++                    // (the TV's menu ring re-arms when the stick comes back to the middle)
++                    if canMenu { session.aimGolf(across: 0, forward: 0) }
+                     draggingAim = false; stickOffset = .zero
+                 })
+             .accessibilityIdentifier("golf-aim-joystick")
+@@ -398,7 +404,7 @@
+         return CGSize(width: direction.x * 16, height: -direction.y * 16)
+     }
+     private func updateJoystick(_ location: CGPoint, final: Bool) {
+-        guard canAim else { return }
++        guard canAim || canMenu else { return }
+         let dx = location.x - 78, dy = location.y - 78
+         let distance = hypot(dx, dy)
+         guard distance > 10 else { return }
+@@ -416,7 +422,7 @@
+         Button(action: action) {
+             Image(systemName: symbol).font(.system(size: 13, weight: .bold)).foregroundStyle(.white)
+                 .rotationEffect(.degrees(rotation)).frame(width: 52, height: 52)
+-        }.offset(x: x, y: y).disabled(!canAim).accessibilityLabel(label)
++        }.offset(x: x, y: y).disabled(!canAim && !canMenu).accessibilityLabel(label)
+             .accessibilityIdentifier("golf-\(label.lowercased().replacingOccurrences(of: " ", with: "-"))")
+     }
+     private func nudge(_ direction: Double) {
+--- a/GolfArcade/Unity/SportsSession.swift
++++ b/GolfArcade/Unity/SportsSession.swift
+@@ -748,7 +748,7 @@
+     }
+     /// A direction in the phone course map: +x right, +y toward the top of the map.
+     func aimGolf(across: Double, forward: Double) {
+-        guard active, sport == "golf", ready, !paused, golfPhase == "Aim",
++        guard active, sport == "golf", ready, !paused, golfPhase == "Aim" || golfMenuOpen,
+               across.isFinite, forward.isFinite else { return }
+         sendJSON(["version":1,"session":sessionID,"action":"golfAimDirection",
+                   "value":max(-1,min(1,across)),"value2":max(-1,min(1,forward))])
+@@ -912,6 +912,16 @@
+         }
+         SportsDiagnostics.write("postMatch tapped: \(choice) mode=\(TennisMenu.shared.launch?.mode.rawValue ?? "none") round=\(TennisMenu.shared.launch?.round ?? -1)")
+         TennisMenu.shared.finishMatch(choice)
++    }
++
++    /// A result screen with buttons is on the TV: the shot's result (its emotes and NEXT SHOT), the hole's end, the round's end.
++    /// (Not a multiplayer round's, where the lobby owns what comes next.)
++    var golfMenuOpen: Bool { active && sport == "golf" && multiplayerMatchID == nil && ["Result", "HoleDone", "RoundDone"].contains(golfPhase) }
++    /// The pad's centre: tap whichever TV button the ring is on.
++    func selectGolfMenu() {
++        guard golfMenuOpen, !paused else { return }
++        command("golfSelect")
++        if haptics { UIImpactFeedbackGenerator(style: .light).impactOccurred() }
+     }
+ 
+     func continueGolfRound() {
+diff --git a/Unity/Assets/Scripts/Game/NativeSportsSession.cs b/Unity/Assets/Scripts/Game/NativeSportsSession.cs
+index 9ff7993e85..866a788d82 100644
+--- a/Unity/Assets/Scripts/Game/NativeSportsSession.cs
++++ b/Unity/Assets/Scripts/Game/NativeSportsSession.cs
+@@ -184,6 +184,7 @@ namespace GolfArcade.Game
+                     case "aimPractice": if(tennis) tennis.SetAimPractice(m.value>0); break;
+                     case "aimFeed": if(tennis) tennis.FeedAimPractice(m.value,m.value2<0,m.aimSequence); break;
+-                    case "aim": if(tennis) tennis.AimInput=Mathf.Clamp(m.value,-1,1); if(golf && !paused) golf.NativeAim(m.value); break;
+-                    case "golfAimDirection": if(golf && !paused) golf.NativeAimDirection(m.value,m.value2); break;
++                    case "aim": if(tennis) tennis.AimInput=Mathf.Clamp(m.value,-1,1); if(golf && !paused && GolfArcade.UI.MenuFocus.Wants) { if(Mathf.Abs(m.value)>.01f) GolfArcade.UI.MenuFocus.Step(Mathf.Sign(m.value),0); } else if(golf && !paused) { golf.NativeAim(m.value); aimDirtyFrame=Time.frameCount; } break;
++                    case "golfAimDirection": if(golf && !paused) { if(GolfArcade.UI.MenuFocus.Wants) GolfArcade.UI.MenuFocus.Move(m.value,m.value2); else { golf.NativeAimDirection(m.value,m.value2); aimDirtyFrame=Time.frameCount; } } break;
++                    case "golfSelect": if(golf && !paused) GolfArcade.UI.MenuFocus.Select(); break;
+                     case "golfEmote": if(golf && !paused && m.value == Mathf.Floor(m.value)) golf.PlayResultEmote((int)m.value); break;
+                     case "golfLoad": if(golf && touch && !paused && !float.IsNaN(m.value) && !float.IsInfinity(m.value)) golf.ShowBackswing(Mathf.Clamp01(m.value)); break;

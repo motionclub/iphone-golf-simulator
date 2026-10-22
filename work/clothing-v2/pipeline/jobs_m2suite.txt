@@ -1,0 +1,2 @@
+for c in 1 2 3 4 5; do /Applications/Blender.app/Contents/MacOS/Blender -b --factory-startup --python gp/suite.py -- MatchHero_Male runs/m2/suite --cand runs/m2 > logs/m2_suite_MatchHero_Male.log 2>&1 && break; grep -q "SUITE chunk done" logs/m2_suite_MatchHero_Male.log || break; done; grep -q "SUITE MatchHero_Male" logs/m2_suite_MatchHero_Male.log
+python3 gp/report.py runs/m2/suite/MatchHero_Male runs/before/MatchHero_Male > logs/m2_report.log 2>&1

@@ -1,0 +1,914 @@
+[
+  {
+    "image": "female_Driver_address_back34.png",
+    "changedPixels": 2509,
+    "bbox": [
+      439,
+      453,
+      638,
+      681
+    ],
+    "defaultSHA256": "85ad8f74b660af99477cf0997df634e57815651766752ec326bbce0dfc2696db",
+    "optionalSHA256": "44102275204dc8156a89b11ece7defcce84a5bfa1df0268733f158c0b5273909"
+  },
+  {
+    "image": "female_Driver_address_front34.png",
+    "changedPixels": 2191,
+    "bbox": [
+      254,
+      416,
+      501,
+      704
+    ],
+    "defaultSHA256": "27084707c62dbd5a6f3f973c587845ca227a31b01aa08e5052e274fdf927dbd6",
+    "optionalSHA256": "d71df33cbf0745e28665647478d0f86d2fea167e5b718157bf14fe962f0ff85a"
+  },
+  {
+    "image": "female_Driver_address_grip.png",
+    "changedPixels": 17018,
+    "bbox": [
+      258,
+      110,
+      898,
+      899
+    ],
+    "defaultSHA256": "5775545e7960709f049575bc639a88f8358eb5c7a5c4aeaf60e3a905649e7693",
+    "optionalSHA256": "2542951c2aeb92523e254c55e7d4becf708dccd20329d9516f7e3bc9a0a8952e"
+  },
+  {
+    "image": "female_Driver_contact_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "c56caa413dd88814accfbd6b797014221253e29b6f085c7c1b99d0117e04ceb1",
+    "optionalSHA256": "c56caa413dd88814accfbd6b797014221253e29b6f085c7c1b99d0117e04ceb1"
+  },
+  {
+    "image": "female_Driver_contact_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "7abe7c93ba886a556446247702d2f5c47af8558faf48f8f764e2217a060a899a",
+    "optionalSHA256": "7abe7c93ba886a556446247702d2f5c47af8558faf48f8f764e2217a060a899a"
+  },
+  {
+    "image": "female_Driver_contact_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "e5cfb0d318d866b97a5fffabe8e6acd15499717c5a48dc7dbc11d75f4a2ac57f",
+    "optionalSHA256": "e5cfb0d318d866b97a5fffabe8e6acd15499717c5a48dc7dbc11d75f4a2ac57f"
+  },
+  {
+    "image": "female_Driver_follow_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "c8f83fbfb70d6ccf2cb0299e0d3b2910aa39685ae5dc4e1ba17820c19ed3ed4d",
+    "optionalSHA256": "c8f83fbfb70d6ccf2cb0299e0d3b2910aa39685ae5dc4e1ba17820c19ed3ed4d"
+  },
+  {
+    "image": "female_Driver_follow_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "c059670b2f12863ffbb30735f43102608a73071925c8f263a58d6119797caf38",
+    "optionalSHA256": "c059670b2f12863ffbb30735f43102608a73071925c8f263a58d6119797caf38"
+  },
+  {
+    "image": "female_Driver_follow_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "532475728423930b3c58585f4c1ad2437b34ee5cd03ea12927e2debb903bac01",
+    "optionalSHA256": "532475728423930b3c58585f4c1ad2437b34ee5cd03ea12927e2debb903bac01"
+  },
+  {
+    "image": "female_Driver_top_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "d8f3e1322bad5065e92edf4da85e36da8d6d9cdc01e19d549949a8a3e6deabaf",
+    "optionalSHA256": "d8f3e1322bad5065e92edf4da85e36da8d6d9cdc01e19d549949a8a3e6deabaf"
+  },
+  {
+    "image": "female_Driver_top_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "753958d93f3552e6dc3549c1c5454da55ba89745a0ec8a40ea62bf6816abfb3c",
+    "optionalSHA256": "753958d93f3552e6dc3549c1c5454da55ba89745a0ec8a40ea62bf6816abfb3c"
+  },
+  {
+    "image": "female_Driver_top_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "eb5b2dcfccb1b5b232ea1ea602e80b601b215deed73e15da5d71859ef7903ecc",
+    "optionalSHA256": "eb5b2dcfccb1b5b232ea1ea602e80b601b215deed73e15da5d71859ef7903ecc"
+  },
+  {
+    "image": "female_Iron_address_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "1088b028a25c5e518f61db3c032498c87cd739455689318b54fbfc724c1ce208",
+    "optionalSHA256": "1088b028a25c5e518f61db3c032498c87cd739455689318b54fbfc724c1ce208"
+  },
+  {
+    "image": "female_Iron_address_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "5f6d58ef68fcf15df0e7d973d4cae4dccb6a0816d2c473ac1cc6af01ebf466c1",
+    "optionalSHA256": "5f6d58ef68fcf15df0e7d973d4cae4dccb6a0816d2c473ac1cc6af01ebf466c1"
+  },
+  {
+    "image": "female_Iron_address_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "55d743c13ee588d996be46b33cf3912a829b2784d74ad8ac6b15e4affa97b79c",
+    "optionalSHA256": "55d743c13ee588d996be46b33cf3912a829b2784d74ad8ac6b15e4affa97b79c"
+  },
+  {
+    "image": "female_Iron_contact_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "c3eab0838cc9f8e7b9da46bf8feae67f98501398bd46a3c247eeef05bd9a479f",
+    "optionalSHA256": "c3eab0838cc9f8e7b9da46bf8feae67f98501398bd46a3c247eeef05bd9a479f"
+  },
+  {
+    "image": "female_Iron_contact_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "178d785938d7ba97fd1dfc572634d4a4d530203162ed79b42ad15aabec744186",
+    "optionalSHA256": "178d785938d7ba97fd1dfc572634d4a4d530203162ed79b42ad15aabec744186"
+  },
+  {
+    "image": "female_Iron_contact_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "b3eb0dd0bd5601540dd8cf720819859f71e6d2c6508f3b5d8d504436e283b84a",
+    "optionalSHA256": "b3eb0dd0bd5601540dd8cf720819859f71e6d2c6508f3b5d8d504436e283b84a"
+  },
+  {
+    "image": "female_Iron_follow_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "3373eba37a372b38bfab42109b46220c35a47f0a6c63baeee3992892035d453a",
+    "optionalSHA256": "3373eba37a372b38bfab42109b46220c35a47f0a6c63baeee3992892035d453a"
+  },
+  {
+    "image": "female_Iron_follow_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "766c211307986a3c52fa6b631bd58fd0d709324a4fc704c56dbe2ea62d84fab8",
+    "optionalSHA256": "766c211307986a3c52fa6b631bd58fd0d709324a4fc704c56dbe2ea62d84fab8"
+  },
+  {
+    "image": "female_Iron_follow_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "e3763c6381afa27638199a6653d0f0e163c08e19004d6c137fe8052b05c05b39",
+    "optionalSHA256": "e3763c6381afa27638199a6653d0f0e163c08e19004d6c137fe8052b05c05b39"
+  },
+  {
+    "image": "female_Iron_top_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "e68c40edc8d01698fb13d047951e5dea9caa2b15b5fa4f4d97c3fd90d8afcab9",
+    "optionalSHA256": "e68c40edc8d01698fb13d047951e5dea9caa2b15b5fa4f4d97c3fd90d8afcab9"
+  },
+  {
+    "image": "female_Iron_top_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "0f19c2d5bdf8d225a7ba047c99c7b693005a45cf4dc156a0c21baf2e3e90dab3",
+    "optionalSHA256": "0f19c2d5bdf8d225a7ba047c99c7b693005a45cf4dc156a0c21baf2e3e90dab3"
+  },
+  {
+    "image": "female_Iron_top_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "fb68521d95758661224e1210db168379ee35fb04568d718d2f09f49a9048d713",
+    "optionalSHA256": "fb68521d95758661224e1210db168379ee35fb04568d718d2f09f49a9048d713"
+  },
+  {
+    "image": "female_PitchingWedge_address_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "77ff18a57255296f4474f18130fcc40692f670f4dca22a37822f43c33e597407",
+    "optionalSHA256": "77ff18a57255296f4474f18130fcc40692f670f4dca22a37822f43c33e597407"
+  },
+  {
+    "image": "female_PitchingWedge_address_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "baf2929e3e38dad2973536d59ed7cf711c13f7e2f88342720ceac2e981b569d6",
+    "optionalSHA256": "baf2929e3e38dad2973536d59ed7cf711c13f7e2f88342720ceac2e981b569d6"
+  },
+  {
+    "image": "female_PitchingWedge_address_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "320ac54838e8b2eb5d522cbea4ba9912e0b8b7dfd3d4458aaa9461004db2bff7",
+    "optionalSHA256": "320ac54838e8b2eb5d522cbea4ba9912e0b8b7dfd3d4458aaa9461004db2bff7"
+  },
+  {
+    "image": "female_PitchingWedge_contact_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "b380a2e6185e8744c173dc6b3d4a8ced2489cd325ce88241719cbb150dacdc32",
+    "optionalSHA256": "b380a2e6185e8744c173dc6b3d4a8ced2489cd325ce88241719cbb150dacdc32"
+  },
+  {
+    "image": "female_PitchingWedge_contact_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "bd5ef958b4c4db5c251bd24dcac12b977a3b587683d77d010564683e120bfb0b",
+    "optionalSHA256": "bd5ef958b4c4db5c251bd24dcac12b977a3b587683d77d010564683e120bfb0b"
+  },
+  {
+    "image": "female_PitchingWedge_contact_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "22615e778788b9c59b0d3e52c7c804393840d639c89e02dc1bbfff9551146f41",
+    "optionalSHA256": "22615e778788b9c59b0d3e52c7c804393840d639c89e02dc1bbfff9551146f41"
+  },
+  {
+    "image": "female_PitchingWedge_follow_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "9104cd63d2ea63af76a43fccf46a5b1b4e2f1e84912e4b2c3ffb76b9fe2b8297",
+    "optionalSHA256": "9104cd63d2ea63af76a43fccf46a5b1b4e2f1e84912e4b2c3ffb76b9fe2b8297"
+  },
+  {
+    "image": "female_PitchingWedge_follow_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "ba0cf3d009a17ba7b81ac9a6ccf70fe1e15d2e6cf58e3140e680963a64854a64",
+    "optionalSHA256": "ba0cf3d009a17ba7b81ac9a6ccf70fe1e15d2e6cf58e3140e680963a64854a64"
+  },
+  {
+    "image": "female_PitchingWedge_follow_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "4bbc8723045d7fac63c2006d49ce692d426c6604e55727353666a4cefa51a91e",
+    "optionalSHA256": "4bbc8723045d7fac63c2006d49ce692d426c6604e55727353666a4cefa51a91e"
+  },
+  {
+    "image": "female_PitchingWedge_top_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "7bad77cf432d60cadb02171c5638d010c04f6285cfcc96cc20cdbc231fed7dd1",
+    "optionalSHA256": "7bad77cf432d60cadb02171c5638d010c04f6285cfcc96cc20cdbc231fed7dd1"
+  },
+  {
+    "image": "female_PitchingWedge_top_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "4e574a15b3d1f329ebdad3d814b281faf0d1b6a6028c3cabcf15ecc30af062f1",
+    "optionalSHA256": "4e574a15b3d1f329ebdad3d814b281faf0d1b6a6028c3cabcf15ecc30af062f1"
+  },
+  {
+    "image": "female_PitchingWedge_top_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "422a9edbc2c062231a2159259e3d53a3320bd064a3543193a19a80dd75395ce6",
+    "optionalSHA256": "422a9edbc2c062231a2159259e3d53a3320bd064a3543193a19a80dd75395ce6"
+  },
+  {
+    "image": "female_Putter_address_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "337b4de543e96ce1ef430b2352bc886e02cb0426e9c7b07aed36f8b15bb32c11",
+    "optionalSHA256": "337b4de543e96ce1ef430b2352bc886e02cb0426e9c7b07aed36f8b15bb32c11"
+  },
+  {
+    "image": "female_Putter_address_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "3affe4f8933ce6f9d3adaa52f431e9c3ce0aaa3a9ad7b60aa71ad658de9d14cb",
+    "optionalSHA256": "3affe4f8933ce6f9d3adaa52f431e9c3ce0aaa3a9ad7b60aa71ad658de9d14cb"
+  },
+  {
+    "image": "female_Putter_address_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "4b501865e97a16a55d5da74e4d18f34261c54a0510d778d95aecb0697a05bc4e",
+    "optionalSHA256": "4b501865e97a16a55d5da74e4d18f34261c54a0510d778d95aecb0697a05bc4e"
+  },
+  {
+    "image": "female_Putter_contact_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "cd6bc05568646f3d6d4b83806c1af3d888b6f1adb3744337b878d1856c911ef1",
+    "optionalSHA256": "cd6bc05568646f3d6d4b83806c1af3d888b6f1adb3744337b878d1856c911ef1"
+  },
+  {
+    "image": "female_Putter_contact_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "6801531bab35748d5964d140e3b786ed8142e2036e16b53e119fb230a65511cf",
+    "optionalSHA256": "6801531bab35748d5964d140e3b786ed8142e2036e16b53e119fb230a65511cf"
+  },
+  {
+    "image": "female_Putter_contact_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "1aed961428c6b4f18e025e4e55cd7c6b419f98cea99da026372e74ff293549e7",
+    "optionalSHA256": "1aed961428c6b4f18e025e4e55cd7c6b419f98cea99da026372e74ff293549e7"
+  },
+  {
+    "image": "female_Putter_follow_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "8d83925099e57fc7070fb90e431047d69693297e854338788fa4b34cfd7cae84",
+    "optionalSHA256": "8d83925099e57fc7070fb90e431047d69693297e854338788fa4b34cfd7cae84"
+  },
+  {
+    "image": "female_Putter_follow_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "11c647679d920fb03fa03527aaa7fa8b59390543eff38155373a903809fa0aa6",
+    "optionalSHA256": "11c647679d920fb03fa03527aaa7fa8b59390543eff38155373a903809fa0aa6"
+  },
+  {
+    "image": "female_Putter_follow_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "474137b24fb56579c972870ea9af16ff01c19067899eaa51f58ffde471bbc88f",
+    "optionalSHA256": "474137b24fb56579c972870ea9af16ff01c19067899eaa51f58ffde471bbc88f"
+  },
+  {
+    "image": "female_Putter_top_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "4f3929f711eaa78fb706b08bea61a137367b456b494b8d18db1fb3eb52cdc58b",
+    "optionalSHA256": "4f3929f711eaa78fb706b08bea61a137367b456b494b8d18db1fb3eb52cdc58b"
+  },
+  {
+    "image": "female_Putter_top_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "889debc679dd64e2b7d2ab03b882f913aab9f8d17c7db2d53ef6274e3fd1f0eb",
+    "optionalSHA256": "889debc679dd64e2b7d2ab03b882f913aab9f8d17c7db2d53ef6274e3fd1f0eb"
+  },
+  {
+    "image": "female_Putter_top_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "1605341b44d4f3a4a9c7303ccfbd4de0bc82005d8534d7f6a5dffe424404000d",
+    "optionalSHA256": "1605341b44d4f3a4a9c7303ccfbd4de0bc82005d8534d7f6a5dffe424404000d"
+  },
+  {
+    "image": "female_Wedge_address_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "e9e873a8e3c1589b54198ab57bf4476dd8b733ee293244edfa931bf460c7c5d7",
+    "optionalSHA256": "e9e873a8e3c1589b54198ab57bf4476dd8b733ee293244edfa931bf460c7c5d7"
+  },
+  {
+    "image": "female_Wedge_address_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "36095938041519e1c968c849dae36d1a50c18eb8aae1b39e30f1c9bd1b658f89",
+    "optionalSHA256": "36095938041519e1c968c849dae36d1a50c18eb8aae1b39e30f1c9bd1b658f89"
+  },
+  {
+    "image": "female_Wedge_address_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "b1f905635c7e25572eef289d6d518bd927b18015337893c43aa55270f508d165",
+    "optionalSHA256": "b1f905635c7e25572eef289d6d518bd927b18015337893c43aa55270f508d165"
+  },
+  {
+    "image": "female_Wedge_contact_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "fd75bc702feefcee4f22b1bfd872a5f39111475aa50d017d18ad0e4f245e4a31",
+    "optionalSHA256": "fd75bc702feefcee4f22b1bfd872a5f39111475aa50d017d18ad0e4f245e4a31"
+  },
+  {
+    "image": "female_Wedge_contact_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "9483f51dc749f89422e5c945d9f43f0e820a004afcbe8644544a2d02352f7e8f",
+    "optionalSHA256": "9483f51dc749f89422e5c945d9f43f0e820a004afcbe8644544a2d02352f7e8f"
+  },
+  {
+    "image": "female_Wedge_contact_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "6866f6df0b6f74138da20ece0507ed9202842de5a4ee3d04a2a36ef8b09d591d",
+    "optionalSHA256": "6866f6df0b6f74138da20ece0507ed9202842de5a4ee3d04a2a36ef8b09d591d"
+  },
+  {
+    "image": "female_Wedge_follow_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "6cda7dfc4768ef1749a8a08d50ac82ef2a07b5ce8948c62950910b13e28bfd47",
+    "optionalSHA256": "6cda7dfc4768ef1749a8a08d50ac82ef2a07b5ce8948c62950910b13e28bfd47"
+  },
+  {
+    "image": "female_Wedge_follow_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "287552ceb983d87b70431560d3e5aad5c1a40ea76825f70a4abcdc4ecbb3515a",
+    "optionalSHA256": "287552ceb983d87b70431560d3e5aad5c1a40ea76825f70a4abcdc4ecbb3515a"
+  },
+  {
+    "image": "female_Wedge_follow_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "d5a98046446715c24ee04d26fa4f71dac85f3eadca4fd87eac604a3b483698f7",
+    "optionalSHA256": "d5a98046446715c24ee04d26fa4f71dac85f3eadca4fd87eac604a3b483698f7"
+  },
+  {
+    "image": "female_Wedge_top_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "372b2d94429291340a8c942c8f8289258712e81eed06874910fa66f93c1f50f4",
+    "optionalSHA256": "372b2d94429291340a8c942c8f8289258712e81eed06874910fa66f93c1f50f4"
+  },
+  {
+    "image": "female_Wedge_top_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "fb901eb1999287062f31b80df9a97c0a306fefa52d5d8c283922d5dae9ea8bf6",
+    "optionalSHA256": "fb901eb1999287062f31b80df9a97c0a306fefa52d5d8c283922d5dae9ea8bf6"
+  },
+  {
+    "image": "female_Wedge_top_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "68d1cf1ca520d6758ba9b17cc8c8bc30d101d29ac1d336e14480bbb86adf24c1",
+    "optionalSHA256": "68d1cf1ca520d6758ba9b17cc8c8bc30d101d29ac1d336e14480bbb86adf24c1"
+  },
+  {
+    "image": "female_golf_blink_0.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "9402dacb75e5f7b497fdef2b37a210765f45f440e1e2e45acaf7663116da8633",
+    "optionalSHA256": "9402dacb75e5f7b497fdef2b37a210765f45f440e1e2e45acaf7663116da8633"
+  },
+  {
+    "image": "female_golf_blink_100.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "8119a4fa167256ddf7b6ccd40653895affb0ba924a589066d11ee4bcafa88f1b",
+    "optionalSHA256": "8119a4fa167256ddf7b6ccd40653895affb0ba924a589066d11ee4bcafa88f1b"
+  },
+  {
+    "image": "female_golf_blink_50.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "fefc15402a76c7ebe7780595ae979fc4765d70b4fd8f81c86b04a1bf414ca721",
+    "optionalSHA256": "fefc15402a76c7ebe7780595ae979fc4765d70b4fd8f81c86b04a1bf414ca721"
+  },
+  {
+    "image": "male_Driver_address_back34.png",
+    "changedPixels": 3149,
+    "bbox": [
+      459,
+      470,
+      622,
+      687
+    ],
+    "defaultSHA256": "2759e92d88eee4ef6837ccfd56e5f9bce76a958b4e656dbcdfd13c47ada2d4f3",
+    "optionalSHA256": "7c3251cecdc7bacf3543fbb0b2f591fb6c81d163836e1e7d5b93acdac7ff40fb"
+  },
+  {
+    "image": "male_Driver_address_front34.png",
+    "changedPixels": 3850,
+    "bbox": [
+      233,
+      418,
+      519,
+      736
+    ],
+    "defaultSHA256": "e8ebeb102bd775593db6903204816ebfd6f66e031825fec33b75920b27e89727",
+    "optionalSHA256": "c743831bffe9a2df1d211eea894575f1fd2052fa84c529d0aa818a661e0cc7ab"
+  },
+  {
+    "image": "male_Driver_address_grip.png",
+    "changedPixels": 27710,
+    "bbox": [
+      250,
+      105,
+      899,
+      899
+    ],
+    "defaultSHA256": "fe81a953360aea9757bbdee97a1022a05712bba1d00f38e8a7b7498ac5a4227d",
+    "optionalSHA256": "365c136417e171432fc47e1828cb154efc8d74d7b18e59926148341fa85cb136"
+  },
+  {
+    "image": "male_Driver_contact_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "9c9dbd8b162e6625d6181faeb4b7196e4ab7e67ee591b156cec83a1176468223",
+    "optionalSHA256": "9c9dbd8b162e6625d6181faeb4b7196e4ab7e67ee591b156cec83a1176468223"
+  },
+  {
+    "image": "male_Driver_contact_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "048d55f5658813df0c94143831f5dacef84ace3d59b1aaac257c26dc8c02a2a1",
+    "optionalSHA256": "048d55f5658813df0c94143831f5dacef84ace3d59b1aaac257c26dc8c02a2a1"
+  },
+  {
+    "image": "male_Driver_contact_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "bac6e5fb5c512152698d8f4108036e1ef36e2638a61f8cb600d21593ce0757e8",
+    "optionalSHA256": "bac6e5fb5c512152698d8f4108036e1ef36e2638a61f8cb600d21593ce0757e8"
+  },
+  {
+    "image": "male_Driver_follow_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "5754309459d5f658b8ebed7658f2af17dc50ac7b16f2bac59faaeceacebd56b0",
+    "optionalSHA256": "5754309459d5f658b8ebed7658f2af17dc50ac7b16f2bac59faaeceacebd56b0"
+  },
+  {
+    "image": "male_Driver_follow_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "c88414b88410b2f0ef194de70faf57688d628a522a978a949d15c3426317afcb",
+    "optionalSHA256": "c88414b88410b2f0ef194de70faf57688d628a522a978a949d15c3426317afcb"
+  },
+  {
+    "image": "male_Driver_follow_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "5c6175c5e558c2c33ae097bbaa7deb8061cc398131032775cd6c07612848fd92",
+    "optionalSHA256": "5c6175c5e558c2c33ae097bbaa7deb8061cc398131032775cd6c07612848fd92"
+  },
+  {
+    "image": "male_Driver_top_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "e69076da28bbfb51bc1c583e36580198de89464481360fc5639fa1f41df8282a",
+    "optionalSHA256": "e69076da28bbfb51bc1c583e36580198de89464481360fc5639fa1f41df8282a"
+  },
+  {
+    "image": "male_Driver_top_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "87e15dee6cd5500d088940ad0bac8403c694df34750ec480df46dbcd22e2dfee",
+    "optionalSHA256": "87e15dee6cd5500d088940ad0bac8403c694df34750ec480df46dbcd22e2dfee"
+  },
+  {
+    "image": "male_Driver_top_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "4cee13c6f11f135460b1aaaa4d86f4a6fe90196846581ade59a3d74c0f3dbb37",
+    "optionalSHA256": "4cee13c6f11f135460b1aaaa4d86f4a6fe90196846581ade59a3d74c0f3dbb37"
+  },
+  {
+    "image": "male_Iron_address_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "46e241a3acae1166ddbbf02cd16446af418fd9174f8bbddf003d213005f1ca4f",
+    "optionalSHA256": "46e241a3acae1166ddbbf02cd16446af418fd9174f8bbddf003d213005f1ca4f"
+  },
+  {
+    "image": "male_Iron_address_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "e138d366fca2eca0a5629a5a24f749c0ad2eb9e12b0e8659ee45229a80e65ccd",
+    "optionalSHA256": "e138d366fca2eca0a5629a5a24f749c0ad2eb9e12b0e8659ee45229a80e65ccd"
+  },
+  {
+    "image": "male_Iron_address_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "4403fc6a1889248e8436d0f7d5e1a956bf3a8cc55b7184bf6703864b62724682",
+    "optionalSHA256": "4403fc6a1889248e8436d0f7d5e1a956bf3a8cc55b7184bf6703864b62724682"
+  },
+  {
+    "image": "male_Iron_contact_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "abd4cfa9a43bddd6807da794581c46d8cffbdb21be0116606836e26586853fb8",
+    "optionalSHA256": "abd4cfa9a43bddd6807da794581c46d8cffbdb21be0116606836e26586853fb8"
+  },
+  {
+    "image": "male_Iron_contact_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "3b4dfd7746dc9c1ced823ecd539614251d80115681332344eadf3ec816b97e09",
+    "optionalSHA256": "3b4dfd7746dc9c1ced823ecd539614251d80115681332344eadf3ec816b97e09"
+  },
+  {
+    "image": "male_Iron_contact_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "7b89adae71a817bef11e8025f467080bde1c7a36d1e134945632b0819c67c14d",
+    "optionalSHA256": "7b89adae71a817bef11e8025f467080bde1c7a36d1e134945632b0819c67c14d"
+  },
+  {
+    "image": "male_Iron_follow_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "27421c7afcc6aa982ad7ec6cff89b89e43d1fec335a8d2fc54ea5d9cca4c559f",
+    "optionalSHA256": "27421c7afcc6aa982ad7ec6cff89b89e43d1fec335a8d2fc54ea5d9cca4c559f"
+  },
+  {
+    "image": "male_Iron_follow_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "79941e82b711aebc7700e6351d6407e3627c964dc3929f6d3f754da33d5fd85d",
+    "optionalSHA256": "79941e82b711aebc7700e6351d6407e3627c964dc3929f6d3f754da33d5fd85d"
+  },
+  {
+    "image": "male_Iron_follow_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "b3360cfc517438d7f43f8ff26507b65f70bdd4ebe78d2a67398e8f8b0c371723",
+    "optionalSHA256": "b3360cfc517438d7f43f8ff26507b65f70bdd4ebe78d2a67398e8f8b0c371723"
+  },
+  {
+    "image": "male_Iron_top_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "fb1db20ee450ba9a82cce79c8570f4051bc569a56f7d72ddad5da79e2163516c",
+    "optionalSHA256": "fb1db20ee450ba9a82cce79c8570f4051bc569a56f7d72ddad5da79e2163516c"
+  },
+  {
+    "image": "male_Iron_top_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "1dac86430e6653aab48e3f8b7615f946b1d62bf3cdbed9ade22a721d42f23453",
+    "optionalSHA256": "1dac86430e6653aab48e3f8b7615f946b1d62bf3cdbed9ade22a721d42f23453"
+  },
+  {
+    "image": "male_Iron_top_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "556328e1a9e8022e26951ada3ffcfd0855be0814bd1e6d1d676ec2d6d90a6b50",
+    "optionalSHA256": "556328e1a9e8022e26951ada3ffcfd0855be0814bd1e6d1d676ec2d6d90a6b50"
+  },
+  {
+    "image": "male_PitchingWedge_address_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "fd1e728c5ea541ea1d68fc18f79248d4aaebd1ea5f2cd49cce9a904078287474",
+    "optionalSHA256": "fd1e728c5ea541ea1d68fc18f79248d4aaebd1ea5f2cd49cce9a904078287474"
+  },
+  {
+    "image": "male_PitchingWedge_address_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "0cba2b5653b22e07fbd10b8b8cff496d4ab481c4ae6b881c98006def980bbfe9",
+    "optionalSHA256": "0cba2b5653b22e07fbd10b8b8cff496d4ab481c4ae6b881c98006def980bbfe9"
+  },
+  {
+    "image": "male_PitchingWedge_address_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "7d087b5eb504e360e7914a7417e76599b205707eec1519523dd67cca5f40a6da",
+    "optionalSHA256": "7d087b5eb504e360e7914a7417e76599b205707eec1519523dd67cca5f40a6da"
+  },
+  {
+    "image": "male_PitchingWedge_contact_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "fb312265b51d63c2e40eca23f0ad37a7ddcc460c0493d18e14e66ccef1448d10",
+    "optionalSHA256": "fb312265b51d63c2e40eca23f0ad37a7ddcc460c0493d18e14e66ccef1448d10"
+  },
+  {
+    "image": "male_PitchingWedge_contact_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "6f1ba07cdd03d3d36988fe2c22201da4d91ae247fee7e9edc3f60f47a88f3749",
+    "optionalSHA256": "6f1ba07cdd03d3d36988fe2c22201da4d91ae247fee7e9edc3f60f47a88f3749"
+  },
+  {
+    "image": "male_PitchingWedge_contact_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "8fe2155a8d680614ba5887bb6627e385417c70aa1580cb24ec1c8353a519919d",
+    "optionalSHA256": "8fe2155a8d680614ba5887bb6627e385417c70aa1580cb24ec1c8353a519919d"
+  },
+  {
+    "image": "male_PitchingWedge_follow_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "49338e1341554ca56970f0fce8c84e4dd88ec52e642aedb9ec9485d9df8b98da",
+    "optionalSHA256": "49338e1341554ca56970f0fce8c84e4dd88ec52e642aedb9ec9485d9df8b98da"
+  },
+  {
+    "image": "male_PitchingWedge_follow_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "fb5119def575635b73e9d2d0006179fd62782ac389ccc13ec022bbf7bd962521",
+    "optionalSHA256": "fb5119def575635b73e9d2d0006179fd62782ac389ccc13ec022bbf7bd962521"
+  },
+  {
+    "image": "male_PitchingWedge_follow_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "3cfd9a123ed17522b8ef38070530f78224cb2b1497223dd10849828728883271",
+    "optionalSHA256": "3cfd9a123ed17522b8ef38070530f78224cb2b1497223dd10849828728883271"
+  },
+  {
+    "image": "male_PitchingWedge_top_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "bf0c35b921de3f1b2def07666b5d68d66fe642ac1f6439d6e39fddc3b9d0a3b9",
+    "optionalSHA256": "bf0c35b921de3f1b2def07666b5d68d66fe642ac1f6439d6e39fddc3b9d0a3b9"
+  },
+  {
+    "image": "male_PitchingWedge_top_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "fac65746c4ff29307491f8b7fbfec9a82f4e867794a37177e42ca492ca4f308d",
+    "optionalSHA256": "fac65746c4ff29307491f8b7fbfec9a82f4e867794a37177e42ca492ca4f308d"
+  },
+  {
+    "image": "male_PitchingWedge_top_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "2e08e72db682c93f159df041ce58fd1b0109a17cefd4b6ada7bab93114625ee5",
+    "optionalSHA256": "2e08e72db682c93f159df041ce58fd1b0109a17cefd4b6ada7bab93114625ee5"
+  },
+  {
+    "image": "male_Putter_address_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "9747e3a0dd31979fb0bd706580beda450ccc2d1c771ae48812f950693b184557",
+    "optionalSHA256": "9747e3a0dd31979fb0bd706580beda450ccc2d1c771ae48812f950693b184557"
+  },
+  {
+    "image": "male_Putter_address_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "d6384a0d537d34ecb868c7f9896a7682fb3b3dbc39a75fb5fb9acf283fe65aa3",
+    "optionalSHA256": "d6384a0d537d34ecb868c7f9896a7682fb3b3dbc39a75fb5fb9acf283fe65aa3"
+  },
+  {
+    "image": "male_Putter_address_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "ff702a70ff74017bb1a1b79edf1f202fdf22d440f0d6ff0981fb7b753d4c84f3",
+    "optionalSHA256": "ff702a70ff74017bb1a1b79edf1f202fdf22d440f0d6ff0981fb7b753d4c84f3"
+  },
+  {
+    "image": "male_Putter_contact_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "03799ec08cd9b46b7725ca37b9a60637744732c9e35e2e9e448fdad6cee6d216",
+    "optionalSHA256": "03799ec08cd9b46b7725ca37b9a60637744732c9e35e2e9e448fdad6cee6d216"
+  },
+  {
+    "image": "male_Putter_contact_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "8694c6d423e39137ad72d965e4735641cecf5dfe72ae49d85cf85c624a995bc9",
+    "optionalSHA256": "8694c6d423e39137ad72d965e4735641cecf5dfe72ae49d85cf85c624a995bc9"
+  },
+  {
+    "image": "male_Putter_contact_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "39ba478db4052a304114d0f5cbf49754f8aebe0fcdbb0e97198c7fcf3ca41ce2",
+    "optionalSHA256": "39ba478db4052a304114d0f5cbf49754f8aebe0fcdbb0e97198c7fcf3ca41ce2"
+  },
+  {
+    "image": "male_Putter_follow_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "8c85602d2dd61242104fae5de6594573b5b13e31cafa66a5d86b12f6986a5e8e",
+    "optionalSHA256": "8c85602d2dd61242104fae5de6594573b5b13e31cafa66a5d86b12f6986a5e8e"
+  },
+  {
+    "image": "male_Putter_follow_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "b81da35be02d2c1d33906ed3d3cfe178bf105d26d57e77dd68c2c4aee7c71a30",
+    "optionalSHA256": "b81da35be02d2c1d33906ed3d3cfe178bf105d26d57e77dd68c2c4aee7c71a30"
+  },
+  {
+    "image": "male_Putter_follow_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "46a61c54d16095e0b6b3806e1a768cab2b7b5e9753b1e7f05ceea1bac4261ca7",
+    "optionalSHA256": "46a61c54d16095e0b6b3806e1a768cab2b7b5e9753b1e7f05ceea1bac4261ca7"
+  },
+  {
+    "image": "male_Putter_top_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "24a95b6307898530b3dd8923151b66bf0d4f04ccb5752796f02a536b2270ee5f",
+    "optionalSHA256": "24a95b6307898530b3dd8923151b66bf0d4f04ccb5752796f02a536b2270ee5f"
+  },
+  {
+    "image": "male_Putter_top_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "b1710d6427e214bc9f644b00db98df81f4065845903a475f9a9098ee11f76c80",
+    "optionalSHA256": "b1710d6427e214bc9f644b00db98df81f4065845903a475f9a9098ee11f76c80"
+  },
+  {
+    "image": "male_Putter_top_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "e27e02f476e587da80d2a6c8ecef232acf5732055311ebd11dd2b22e4e3f295a",
+    "optionalSHA256": "e27e02f476e587da80d2a6c8ecef232acf5732055311ebd11dd2b22e4e3f295a"
+  },
+  {
+    "image": "male_Wedge_address_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "461b6d2e8c2a62fe7472cae9efabb637d2ed6ce0be3f5f18f9d331442d3f95f5",
+    "optionalSHA256": "461b6d2e8c2a62fe7472cae9efabb637d2ed6ce0be3f5f18f9d331442d3f95f5"
+  },
+  {
+    "image": "male_Wedge_address_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "e41da875c8930e8bce98a1e862cca2cd27845fb2c37a105a6b897dd90c543dd1",
+    "optionalSHA256": "e41da875c8930e8bce98a1e862cca2cd27845fb2c37a105a6b897dd90c543dd1"
+  },
+  {
+    "image": "male_Wedge_address_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "2996d1556cd14c95a1a2ffab22210ee88bd2285e0976b21e8a1c2e02750b0364",
+    "optionalSHA256": "2996d1556cd14c95a1a2ffab22210ee88bd2285e0976b21e8a1c2e02750b0364"
+  },
+  {
+    "image": "male_Wedge_contact_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "54c4eb53f40efa4e85bcbc2fb792411eb357747dd48419996e324dc593961399",
+    "optionalSHA256": "54c4eb53f40efa4e85bcbc2fb792411eb357747dd48419996e324dc593961399"
+  },
+  {
+    "image": "male_Wedge_contact_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "b74ad9ed4e755b7c28b4366177a221a2b1371ff79690b2e32558bf9f1cafc909",
+    "optionalSHA256": "b74ad9ed4e755b7c28b4366177a221a2b1371ff79690b2e32558bf9f1cafc909"
+  },
+  {
+    "image": "male_Wedge_contact_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "d591ba68b0c20bd2c612e0d7bdee05e634264627c0c8c48174c2575bbe3693d3",
+    "optionalSHA256": "d591ba68b0c20bd2c612e0d7bdee05e634264627c0c8c48174c2575bbe3693d3"
+  },
+  {
+    "image": "male_Wedge_follow_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "d6a692bc278e3805df4652e37c07411e5b71d84113fe9df3083f0de580f9cd38",
+    "optionalSHA256": "d6a692bc278e3805df4652e37c07411e5b71d84113fe9df3083f0de580f9cd38"
+  },
+  {
+    "image": "male_Wedge_follow_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "2ab8a0632d6330898c560c8a02737bddacae81fc6f415cc77fabd431b7723bd8",
+    "optionalSHA256": "2ab8a0632d6330898c560c8a02737bddacae81fc6f415cc77fabd431b7723bd8"
+  },
+  {
+    "image": "male_Wedge_follow_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "593a0bc2b8ee220cac3039ad8ee2b3f47dfb9a7df7e92d5a2ee7aa38ebbd10ad",
+    "optionalSHA256": "593a0bc2b8ee220cac3039ad8ee2b3f47dfb9a7df7e92d5a2ee7aa38ebbd10ad"
+  },
+  {
+    "image": "male_Wedge_top_back34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "35c71f9c47522d099de0d5346739a7b128f54a566525129466e44dc40a9db2c7",
+    "optionalSHA256": "35c71f9c47522d099de0d5346739a7b128f54a566525129466e44dc40a9db2c7"
+  },
+  {
+    "image": "male_Wedge_top_front34.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "713c35524e3f7208ddda76e91eafb672431ef1e972abb8f49817924e2bf42690",
+    "optionalSHA256": "713c35524e3f7208ddda76e91eafb672431ef1e972abb8f49817924e2bf42690"
+  },
+  {
+    "image": "male_Wedge_top_grip.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "f850ab55ac5737a84220a6b3de598a2166e1d90c0b8689919bc855fa8fd80171",
+    "optionalSHA256": "f850ab55ac5737a84220a6b3de598a2166e1d90c0b8689919bc855fa8fd80171"
+  },
+  {
+    "image": "male_golf_blink_0.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "6a0ee0442082d3f0857dc5d390e7d69b5cc642d7866de85aa19b1d11600eabff",
+    "optionalSHA256": "6a0ee0442082d3f0857dc5d390e7d69b5cc642d7866de85aa19b1d11600eabff"
+  },
+  {
+    "image": "male_golf_blink_100.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "ba8f4f0c91985751c65aae05595b24ba0019396abe4a6bf8abbf521841f8474d",
+    "optionalSHA256": "ba8f4f0c91985751c65aae05595b24ba0019396abe4a6bf8abbf521841f8474d"
+  },
+  {
+    "image": "male_golf_blink_50.png",
+    "changedPixels": 0,
+    "bbox": null,
+    "defaultSHA256": "7d461bc69ea9d4e7d55fda8c9c66c56e17dc91a8cea29be24fd3a27854e9915c",
+    "optionalSHA256": "7d461bc69ea9d4e7d55fda8c9c66c56e17dc91a8cea29be24fd3a27854e9915c"
+  }
+]

@@ -1,0 +1,333 @@
+{
+ "objects": [
+  {
+   "name": "Body_F",
+   "type": "MESH",
+   "parent": null,
+   "matrix_world": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "hide_render": false,
+   "modifiers": [],
+   "verts": 22444,
+   "polys": 23012,
+   "loops": 90732,
+   "edges": 45366,
+   "tris": 44708,
+   "materials": [
+    "Base_Grey_F",
+    "Skin_F",
+    "Eye_White",
+    "Iris_Dark",
+    "Pupil",
+    "Brow",
+    "Mouth",
+    "Teeth",
+    "Lip_F",
+    "Ear_Shadow_F"
+   ],
+   "vgroups": [],
+   "shape_keys": [],
+   "attributes": [
+    ".corner_edge",
+    ".corner_vert",
+    ".edge_verts",
+    ".select_edge",
+    ".select_poly",
+    ".select_vert",
+    ".uv_select_edge",
+    ".uv_select_face",
+    ".uv_select_vert",
+    "UVMap",
+    "custom_normal",
+    "material_index",
+    "position"
+   ],
+   "has_custom_normals": true,
+   "uv_layers": [
+    "UVMap"
+   ]
+  },
+  {
+   "name": "Hair_F",
+   "type": "MESH",
+   "parent": null,
+   "matrix_world": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "hide_render": true,
+   "modifiers": [],
+   "verts": 2516,
+   "polys": 2648,
+   "loops": 10256,
+   "edges": 5128,
+   "tris": 4960,
+   "materials": [
+    "Hair_F"
+   ],
+   "vgroups": [],
+   "shape_keys": [],
+   "attributes": [
+    ".corner_edge",
+    ".corner_vert",
+    ".edge_verts",
+    ".select_edge",
+    ".select_poly",
+    ".select_vert",
+    ".uv_select_edge",
+    ".uv_select_face",
+    ".uv_select_vert",
+    "UVMap",
+    "position"
+   ],
+   "has_custom_normals": false,
+   "uv_layers": [
+    "UVMap"
+   ]
+  },
+  {
+   "name": "LOCKED_PLATE_back",
+   "type": "EMPTY",
+   "parent": null,
+   "matrix_world": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "hide_render": true,
+   "modifiers": []
+  },
+  {
+   "name": "LOCKED_PLATE_front",
+   "type": "EMPTY",
+   "parent": null,
+   "matrix_world": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "hide_render": true,
+   "modifiers": []
+  },
+  {
+   "name": "Neutral_Back",
+   "type": "LIGHT",
+   "parent": null,
+   "matrix_world": [
+    [
+     -1.0,
+     1.869272807653033e-07,
+     -4.671097286745862e-08,
+     0.0
+    ],
+    [
+     -1.5099580252808664e-07,
+     -0.609710693359375,
+     0.7926240563392639,
+     2.5999999046325684
+    ],
+    [
+     1.1968288049502007e-07,
+     0.7926240563392639,
+     0.609710693359375,
+     3.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "hide_render": false,
+   "modifiers": []
+  },
+  {
+   "name": "Neutral_Fill",
+   "type": "LIGHT",
+   "parent": null,
+   "matrix_world": [
+    [
+     0.5692099332809448,
+     -0.24790024757385254,
+     0.7839295268058777,
+     2.5999999046325684
+    ],
+    [
+     0.8221922516822815,
+     0.17162327468395233,
+     -0.5427203178405762,
+     -1.7999999523162842
+    ],
+    [
+     -5.555379090083079e-08,
+     0.9534626007080078,
+     0.30151131749153137,
+     2.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "hide_render": false,
+   "modifiers": []
+  },
+  {
+   "name": "Neutral_Key",
+   "type": "LIGHT",
+   "parent": null,
+   "matrix_world": [
+    [
+     0.7719302773475647,
+     0.35786500573158264,
+     -0.5254105925559998,
+     -2.799999952316284
+    ],
+    [
+     -0.6357071995735168,
+     0.43455037474632263,
+     -0.6379987001419067,
+     -3.4000000953674316
+    ],
+    [
+     -4.039541323663798e-08,
+     0.8264977931976318,
+     0.5629399418830872,
+     4.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "hide_render": false,
+   "modifiers": []
+  },
+  {
+   "name": "ProofCamera",
+   "type": "CAMERA",
+   "parent": null,
+   "matrix_world": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     -4.371138828673793e-08,
+     -1.0,
+     -5.0
+    ],
+    [
+     0.0,
+     1.0,
+     -4.371138828673793e-08,
+     0.8279389142990112
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "hide_render": false,
+   "modifiers": []
+  }
+ ]
+}

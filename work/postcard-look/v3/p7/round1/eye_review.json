@@ -1,0 +1,340 @@
+{
+  "installedRun": "p6_installed_1",
+  "scope": "P7 final installed image review; all30 P0 differences must be re-scored manually. Earlier hole08/09 rescoring is not final P6 evidence.",
+  "holes": [
+    {
+      "hole": 8,
+      "recognisableFromReference": false,
+      "hasBoxPlankFlatStripStripeOrPlasticRead": true,
+      "contactSheet": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/runtime/runs/p6_installed_1/contact_sheets/sheet_hole08.jpg",
+      "vsRef": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/ArtDir/screenshots/golf_postcards/look/hole08_vs_ref.jpg",
+      "differences": [
+        {
+          "p0_rank": 1,
+          "difference": "Dark mow bands dominate every grass pad.",
+          "original_scope": "P1/P2",
+          "result": "FAIL",
+          "fixed": false,
+          "evidence": "Physical review of current installed vs-reference sheet; P6 raw proof retained",
+          "remaining": "The numerical fairway/green contrast caps now pass, but this aerial still reads patchy striped grass and is far from the nearly uniform reference green.",
+          "current_rank": 10
+        },
+        {
+          "p0_rank": 2,
+          "difference": "Long separated low slabs lack the reference island mass and overhangs.",
+          "original_scope": "P1/P2; scoring height is frozen",
+          "result": "FAIL",
+          "fixed": false,
+          "evidence": "Physical review of current installed vs-reference sheet; P6 raw proof retained",
+          "remaining": "Three low separated pads lack the reference deep irregular stone mass; frozen PLAY_Z remains6m.",
+          "current_rank": 1
+        },
+        {
+          "p0_rank": 3,
+          "difference": "Cliff faces are regular horizontal boardlike bands.",
+          "original_scope": "P1/P2",
+          "result": "FAIL",
+          "fixed": false,
+          "evidence": "Physical review of current installed vs-reference sheet; P6 raw proof retained",
+          "remaining": "Regular shallow horizontal skirts still look manufactured.",
+          "current_rank": 2
+        },
+        {
+          "p0_rank": 4,
+          "difference": "Arch is tiny compared with the islands and reference arch.",
+          "original_scope": "P2/P5",
+          "result": "FAIL",
+          "fixed": false,
+          "evidence": "Physical review of current installed vs-reference sheet; P6 raw proof retained",
+          "remaining": "Arch remains very small in the full-course aerial despite native gameplay68px tee/146px approach evidence.",
+          "current_rank": 5
+        },
+        {
+          "p0_rank": 5,
+          "difference": "Sea stacks have bulbous stepped bases and small isolated caps.",
+          "original_scope": "P1/P2",
+          "result": "FAIL",
+          "fixed": false,
+          "evidence": "Physical review of current installed vs-reference sheet; P6 raw proof retained",
+          "remaining": "Needles are thin isolated spikes with tiny caps, much simpler than layered reference stacks.",
+          "current_rank": 6
+        },
+        {
+          "p0_rank": 6,
+          "difference": "Waterfall is short, thin and barely readable from above.",
+          "original_scope": "P2",
+          "result": "FAIL",
+          "fixed": false,
+          "evidence": "Physical review of current installed vs-reference sheet; P6 raw proof retained",
+          "remaining": "Fall remains a tiny white patch instead of a large textured cascade; shader UV scroll absent.",
+          "current_rank": 4
+        },
+        {
+          "p0_rank": 7,
+          "difference": "Hanging vines are sparse and disappear at this frame scale.",
+          "original_scope": "P2",
+          "result": "FAIL",
+          "fixed": false,
+          "evidence": "Physical review of current installed vs-reference sheet; P6 raw proof retained",
+          "remaining": "Vines are not legible at this aerial scale.",
+          "current_rank": 7
+        },
+        {
+          "p0_rank": 8,
+          "difference": "Ocean reads as repeated large specular ovals with little broken surf.",
+          "original_scope": "P1",
+          "result": "FAIL",
+          "fixed": false,
+          "evidence": "Physical review of current installed vs-reference sheet; P6 raw proof retained",
+          "remaining": "Large repeated specular ovals and isolated surf spots remain; protected TennisWater cannot be edited.",
+          "current_rank": 8
+        },
+        {
+          "p0_rank": 9,
+          "difference": "Path reads as a narrow regular inset lane instead of broken paving.",
+          "original_scope": "P1/P2",
+          "result": "FAIL",
+          "fixed": false,
+          "evidence": "Physical review of current installed vs-reference sheet; P6 raw proof retained",
+          "remaining": "Path remains a narrow straight inset strip; flush scoring/path check passes but visual paving differs.",
+          "current_rank": 9
+        },
+        {
+          "p0_rank": 10,
+          "difference": "Warm distant fog flattens rocks, flowers and sky depth.",
+          "original_scope": "P2/P5; lighting code frozen",
+          "result": "FAIL",
+          "fixed": false,
+          "evidence": "Physical review of current installed vs-reference sheet; P6 raw proof retained",
+          "remaining": "Native fog strongly washes out the distant course, and the sky lacks the reference clouds.",
+          "current_rank": 3
+        }
+      ],
+      "vsRefSha256": "548cfa82a6009f30d0dbe7aa074e27d17917bdf17e69826dfed462dad5679203"
+    },
+    {
+      "hole": 9,
+      "recognisableFromReference": false,
+      "hasBoxPlankFlatStripStripeOrPlasticRead": true,
+      "contactSheet": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/runtime/runs/p6_installed_1/contact_sheets/sheet_hole09.jpg",
+      "vsRef": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/ArtDir/screenshots/golf_postcards/look/hole09_vs_ref.jpg",
+      "differences": [
+        {
+          "p0_rank": 1,
+          "difference": "The whole course reads as two long flat strips, not rugged islands.",
+          "original_scope": "P3",
+          "result": "FAIL",
+          "fixed": false,
+          "evidence": "Physical review of current installed vs-reference sheet; P6 raw proof retained",
+          "remaining": "Frozen single C shore reads as one long flat bent ribbon, lacking the two rugged masses.",
+          "current_rank": 1
+        },
+        {
+          "p0_rank": 2,
+          "difference": "Left rough ridge has almost no real height variation.",
+          "original_scope": "P3",
+          "result": "FAIL",
+          "fixed": false,
+          "evidence": "Physical review of current installed vs-reference sheet; P6 raw proof retained",
+          "remaining": "Actual added knolls remain too small and sparse to produce the reference rocky left ridge.",
+          "current_rank": 2
+        },
+        {
+          "p0_rank": 3,
+          "difference": "Cliffs form continuous straight dark retaining-wall edges.",
+          "original_scope": "P1/P3",
+          "result": "FAIL",
+          "fixed": false,
+          "evidence": "Physical review of current installed vs-reference sheet; P6 raw proof retained",
+          "remaining": "Cliff exterior straight run14.844m still exceeds4m, with shallow boardlike edge.",
+          "current_rank": 3
+        },
+        {
+          "p0_rank": 4,
+          "difference": "Ruin is tiny and square blocklike from the aerial.",
+          "original_scope": "P1/P3/P5",
+          "result": "FAIL",
+          "fixed": false,
+          "evidence": "Physical review of current installed vs-reference sheet; P6 raw proof retained",
+          "remaining": "Census0/394 cuboids is good geometry evidence, but the ruin is tiny and indistinct in this aerial; tee/approachruin0px.",
+          "current_rank": 6
+        },
+        {
+          "p0_rank": 5,
+          "difference": "Fairway mow bands are too dark and repetitive.",
+          "original_scope": "P1",
+          "result": "FAIL",
+          "fixed": false,
+          "evidence": "Physical review of current installed vs-reference sheet; P6 raw proof retained",
+          "remaining": "Measured contrast caps pass, but repeated bands remain visible compared with the reference clean cut.",
+          "current_rank": 10
+        },
+        {
+          "p0_rank": 6,
+          "difference": "Scrub top is smooth dull olive with widely spaced identical clumps.",
+          "original_scope": "P1/P3",
+          "result": "FAIL",
+          "fixed": false,
+          "evidence": "Physical review of current installed vs-reference sheet; P6 raw proof retained",
+          "remaining": "Smooth olive top and isolated scrub cannot match dense rugged golden-green heather slopes.",
+          "current_rank": 5
+        },
+        {
+          "p0_rank": 7,
+          "difference": "Surf is sparse isolated spots instead of broken shoreline whitewater.",
+          "original_scope": "P1/P3",
+          "result": "FAIL",
+          "fixed": false,
+          "evidence": "Physical review of current installed vs-reference sheet; P6 raw proof retained",
+          "remaining": "Surf remains sparse isolated spots rather than broken continuous shoreline whitewater. Native import spacing is PASS on Hole9; all30 close relationships belong toHole8.",
+          "current_rank": 7
+        },
+        {
+          "p0_rank": 8,
+          "difference": "Channel is straight with parallel banks instead of eroded coves.",
+          "original_scope": "P3; scoring shore frozen",
+          "result": "FAIL",
+          "fixed": false,
+          "evidence": "Physical review of current installed vs-reference sheet; P6 raw proof retained",
+          "remaining": "Single C shoreline and long parallel channel remain; gameplaychannel0/24px, not64.",
+          "current_rank": 4
+        },
+        {
+          "p0_rank": 9,
+          "difference": "Rocks and stacks are squat detached props with little rocky mass.",
+          "original_scope": "P1/P3",
+          "result": "FAIL",
+          "fixed": false,
+          "evidence": "Physical review of current installed vs-reference sheet; P6 raw proof retained",
+          "remaining": "Detached simple rock spikes do not produce the massive reference waterline rockwork.",
+          "current_rank": 8
+        },
+        {
+          "p0_rank": 10,
+          "difference": "Scoring ellipse bunkers are smooth uniform ovals rather than irregular sand lips.",
+          "original_scope": "P3; ellipse outline frozen",
+          "result": "FAIL",
+          "fixed": false,
+          "evidence": "Physical review of current installed vs-reference sheet; P6 raw proof retained",
+          "remaining": "Frozen bunker ellipses remain flat simple ovals; cosmetic lips do not match the organic reference shapes.",
+          "current_rank": 9
+        }
+      ],
+      "vsRefSha256": "42b4ef89a22dfc7139ab511716c575c0b83bf59d269c9ba9ddf8ed83478d0be5"
+    },
+    {
+      "hole": 10,
+      "recognisableFromReference": false,
+      "hasBoxPlankFlatStripStripeOrPlasticRead": true,
+      "contactSheet": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/runtime/runs/p6_installed_1/contact_sheets/sheet_hole10.jpg",
+      "vsRef": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/ArtDir/screenshots/golf_postcards/look/hole10_vs_ref.jpg",
+      "differences": [
+        {
+          "p0_rank": 1,
+          "difference": "Wall columns read as black full-height fence planks.",
+          "original_scope": "P1/P4",
+          "result": "FAIL",
+          "fixed": false,
+          "evidence": "Physical review of current installed vs-reference sheet; P6 raw proof retained",
+          "remaining": "Black rim is still a thin repetitive plank fence; stacked dark blocks read as detached patches.",
+          "current_rank": 1
+        },
+        {
+          "p0_rank": 2,
+          "difference": "Orange joints are mainly thin isolated vertical streaks.",
+          "original_scope": "P1/P4",
+          "result": "FAIL",
+          "fixed": false,
+          "evidence": "Physical review of current installed vs-reference sheet; P6 raw proof retained",
+          "remaining": "Visible joints still resemble vertical ticks with sparse branching; approachbasalt saturatedS.347>.25 earlierproof remains.",
+          "current_rank": 2
+        },
+        {
+          "p0_rank": 3,
+          "difference": "Grass is strongly striped rather than a clean pale centre band.",
+          "original_scope": "P1/P4",
+          "result": "FAIL",
+          "fixed": false,
+          "evidence": "Physical review of current installed vs-reference sheet; P6 raw proof retained",
+          "remaining": "Numeric subtle-mow caps pass, but broad dull striped field and dark collar lack reference bright grass colour.",
+          "current_rank": 10
+        },
+        {
+          "p0_rank": 4,
+          "difference": "Green bulb reads as a low grass slab rather than a deep column pillar.",
+          "original_scope": "P4; top height frozen",
+          "result": "FAIL",
+          "fixed": false,
+          "evidence": "Physical review of current installed vs-reference sheet; P6 raw proof retained",
+          "remaining": "Supported green top still looks like a low slab, not a deep dramatic circular column pillar.",
+          "current_rank": 4
+        },
+        {
+          "p0_rank": 5,
+          "difference": "Rim is a repetitive horizontal tessellation rather than broken stacked columns.",
+          "original_scope": "P1/P4",
+          "result": "FAIL",
+          "fixed": false,
+          "evidence": "Physical review of current installed vs-reference sheet; P6 raw proof retained",
+          "remaining": "Far rim has a repetitive thin fence band and a conspicuous tall rectangular panel.",
+          "current_rank": 3
+        },
+        {
+          "p0_rank": 6,
+          "difference": "Volcano is a huge clipped textured flank, not a readable peak in this aerial.",
+          "original_scope": "P4/P5",
+          "result": "FAIL",
+          "fixed": false,
+          "evidence": "Physical review of current installed vs-reference sheet; P6 raw proof retained",
+          "remaining": "Huge volcano flank is clipped to the left instead of a peak in the background.",
+          "current_rank": 7
+        },
+        {
+          "p0_rank": 7,
+          "difference": "Tee square and dark stone platform do not read independently of the fairway.",
+          "original_scope": "P4",
+          "result": "FAIL",
+          "fixed": false,
+          "evidence": "Physical review of current installed vs-reference sheet; P6 raw proof retained",
+          "remaining": "Tee/platform components remain visually weak at this scale despite valid dark raised compactplatform.",
+          "current_rank": 8
+        },
+        {
+          "p0_rank": 8,
+          "difference": "Lava swirl texture has dense repeated wormlike patterns at this angle.",
+          "original_scope": "P1/P4; preserve orange gate",
+          "result": "FAIL",
+          "fixed": false,
+          "evidence": "Physical review of current installed vs-reference sheet; P6 raw proof retained",
+          "remaining": "Lava uses dense identical wormlike swirls, unlike the large flowing molten channels in the reference.",
+          "current_rank": 5
+        },
+        {
+          "p0_rank": 9,
+          "difference": "Smoke plumes have separate star-shaped card silhouettes from above.",
+          "original_scope": "P4; preserve soft-edge gate",
+          "result": "FAIL",
+          "fixed": false,
+          "evidence": "Physical review of current installed vs-reference sheet; P6 raw proof retained",
+          "remaining": "Top smoke has an obvious star/cross card silhouette; soft alphaedge alone does not fix it.",
+          "current_rank": 6
+        },
+        {
+          "p0_rank": 10,
+          "difference": "Bunkers are simple flat ellipses without the reference soft rocky margins.",
+          "original_scope": "P4; scoring ellipses frozen",
+          "result": "FAIL",
+          "fixed": false,
+          "evidence": "Physical review of current installed vs-reference sheet; P6 raw proof retained",
+          "remaining": "Frozen simple elliptical bunker outline and flat lips remain less rocky/organic than the reference.",
+          "current_rank": 9
+        }
+      ],
+      "vsRefSha256": "1d9136778992156e3a91e031dfc40466dda91de3d895d7db9a7bd316528548a8"
+    }
+  ],
+  "round": 1,
+  "reviewedUtc": "2026-10-05T21:28:56.837394+00:00",
+  "status": "FAIL",
+  "physicalImageReview": true
+}

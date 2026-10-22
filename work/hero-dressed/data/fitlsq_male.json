@@ -1,0 +1,20 @@
+{
+ "tag": "male",
+ "pieces": {
+  "Top": {
+   "cfg": {
+    "smooth_iters": 8,
+    "smooth_factor": 0.5,
+    "gmin": 0.004,
+    "reg": 0.02,
+    "stride": 6,
+    "iters": 300,
+    "push": 1,
+    "outset": 0.02
+   },
+   "l1_change_mean": 0.18140083533342014,
+   "l1_change_p99": 0.48186881278056154,
+   "pushed_fraction": 0.07847074668960582
+  }
+ }
+}

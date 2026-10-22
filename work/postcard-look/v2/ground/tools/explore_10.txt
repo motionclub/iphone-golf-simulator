@@ -1,0 +1,90 @@
+00:00.797  render           | Saved: '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v2/ground/tools/_scratch_10/hole_10_overview.png'
+[hole10_build] wall ring 154 rocks, tops 31.5..50.5 m above the lava; 11 stacks (8.8, 6.5, 6.7, 7.4, 9.7, 12.0, 9.2, 10.6, 7.9, 6.7, 8.8 m measured, sightline rounds 6); foot rubble 40; objects 248 tris 9576
+play_z 6.0 number 10
+loop 0 verts 117 len 471.4 area 7161 bbox [-14.3 -14.9] [110.5 161.2]
+loop 1 verts 48 len 165.9 area 1712 bbox [202.7 129.8] [259.4 171.4]
+total loop length 637.3
+hazard ('water', 171.1, 161.5, 112.0, 76.0, 'lava')
+hazard ('bunker', 57.4, 110.3, 17.0, 12.0, 'rim inside')
+hazard ('bunker', 74.3, 154.0, 18.0, 13.0, 'rim outside')
+shore bbox (np.float64(-14.26464), np.float64(-14.904720000000001), np.float64(259.41528), np.float64(171.35856))
+rocks 233
+CLIFF_ROCK verts 12 zmin -9.52 zmax 7.56 c [-0.  -0.1 -0.3] sd -13.5
+CLIFF_ROCK.000 verts 12 zmin -14.18 zmax 31.50 c [116.6 266.6  10.4] sd 106.7
+CLIFF_ROCK.001 verts 12 zmin -15.28 zmax 33.95 c [ 47.9 249.9  11.2] sd 99.4
+CLIFF_ROCK.002 verts 12 zmin -15.71 zmax 34.91 c [  8.2 224.2  11.5] sd 93.9
+CLIFF_ROCK.003 verts 12 zmin -14.46 zmax 32.13 c [-44.9 177.5  10.6] sd 92.5
+CLIFF_ROCK.004 verts 12 zmin -15.29 zmax 33.99 c [-97.7  87.5  11.2] sd 96.6
+CLIFF_ROCK.005 verts 12 zmin -15.71 zmax 34.91 c [-98.1 -87.7  11.5] sd 115.6
+CLIFF_ROCK.006 verts 12 zmin -16.50 zmax 36.67 c [ -60.2 -150.3   12.1] sd 147.4
+CLIFF_ROCK.007 verts 12 zmin -15.15 zmax 33.67 c [ 224.  -257.6   11.1] sd 325.2
+CLIFF_ROCK.008 verts 12 zmin -18.71 zmax 41.57 c [453.4  28.9  13.7] sd 226.1
+CLIFF_ROCK.009 verts 12 zmin -16.37 zmax 36.37 c [414.2 155.6  12. ] sd 154.8
+CLIFF_ROCK.010 verts 12 zmin -17.90 zmax 39.77 c [338.5 244.2  13.1] sd 116.1
+CLIFF_ROCK.011 verts 12 zmin -17.67 zmax 39.28 c [126.7 301.7  13. ] sd 143.0
+CLIFF_ROCK.012 verts 12 zmin -17.67 zmax 39.27 c [ 91.2 292.1  13. ] sd 131.1
+CLIFF_ROCK.013 verts 12 zmin -19.26 zmax 42.80 c [ 55.6 284.4  14.1] sd 129.3
+CLIFF_ROCK.014 verts 12 zmin -16.71 zmax 37.14 c [-109.2  139.6   12.3] sd 127.8
+CLIFF_ROCK.015 verts 12 zmin -19.01 zmax 42.25 c [-137.2   -4.2   14. ] sd 123.0
+CLIFF_ROCK.016 verts 12 zmin -19.77 zmax 43.92 c [-134.8  -36.2   14.5] sd 123.8
+CLIFF_ROCK.017 verts 12 zmin -18.02 zmax 40.04 c [-104.5 -140.2   13.2] sd 159.0
+CLIFF_ROCK.018 verts 12 zmin -18.72 zmax 41.60 c [ -31.5 -229.8   13.7] sd 217.8
+CLIFF_ROCK.019 verts 12 zmin -17.21 zmax 38.24 c [ 134.2 -296.    12.6] sd 309.1
+CLIFF_ROCK.020 verts 12 zmin -17.30 zmax 38.45 c [ 412.5 -147.5   12.7] sd 324.3
+CLIFF_ROCK.021 verts 12 zmin -17.91 zmax 39.79 c [ 426.4 -120.6   13.1] sd 309.2
+CLIFF_ROCK.022 verts 12 zmin -19.64 zmax 43.64 c [451.5 -44.5  14.4] sd 268.0
+CLIFF_ROCK.023 verts 12 zmin -21.66 zmax 48.13 c [474.6  69.6  15.9] sd 228.7
+CLIFF_ROCK.024 verts 12 zmin -21.07 zmax 46.83 c [437.7 172.3  15.5] sd 179.6
+CLIFF_ROCK.025 verts 12 zmin -21.82 zmax 48.50 c [405.  209.7  16. ] sd 155.8
+CLIFF_ROCK.026 verts 12 zmin -20.59 zmax 45.76 c [362.7 254.1  15.1] sd 140.8
+CLIFF_ROCK.027 verts 12 zmin -20.11 zmax 44.69 c [269.  309.6  14.8] sd 141.1
+CLIFF_ROCK.028 verts 12 zmin -21.02 zmax 46.70 c [232.4 323.3  15.4] sd 152.1
+CLIFF_ROCK.029 verts 12 zmin -19.43 zmax 43.17 c [159.8 326.8  14.3] sd 169.7
+CLIFF_ROCK.030 verts 12 zmin -21.79 zmax 48.42 c [ 47.1 310.   16. ] sd 156.3
+CLIFF_ROCK.031 verts 12 zmin -19.92 zmax 44.27 c [-45.4 255.3  14.6] sd 150.4
+CLIFF_ROCK.032 verts 12 zmin -20.27 zmax 45.04 c [-110.4  176.7   14.9] sd 148.1
+CLIFF_ROCK.033 verts 12 zmin -22.58 zmax 50.17 c [-130.4  143.1   16.6] sd 147.9
+CLIFF_ROCK.034 verts 12 zmin -21.39 zmax 47.53 c [-158.8   72.4   15.7] sd 154.2
+CLIFF_ROCK.035 verts 12 zmin -22.73 zmax 50.50 c [ -99.5 -203.    16.7] sd 211.0
+CLIFF_ROCK.036 verts 12 zmin -21.90 zmax 48.67 c [  17.6 -295.3   16.1] sd 280.7
+CLIFF_ROCK.037 verts 12 zmin -22.70 zmax 50.45 c [ 152.2 -320.2   16.7] sd 338.6
+CLIFF_ROCK.038 verts 12 zmin -20.98 zmax 46.62 c [ 357.8 -258.4   15.4] sd 405.2
+CLIFF_ROCK.039 verts 12 zmin -21.58 zmax 47.96 c [471.7 -71.5  15.8] sd 301.3
+ROCK_LARGE verts 12 zmin -0.75 zmax 3.50 c [ 0.1 -0.   0.5] sd -13.5
+ROCK_LARGE.000 verts 12 zmin -1.93 zmax 3.10 c [126.9 -12.1  -0.4] sd 109.9
+ROCK_LARGE.001 verts 12 zmin -1.86 zmax 2.07 c [187.5 -48.4  -0.7] sd 179.8
+ROCK_LARGE.002 verts 12 zmin -1.86 zmax 2.17 c [115.3  75.3  -0.7] sd 51.4
+ROCK_LARGE.003 verts 12 zmin -1.88 zmax 2.48 c [246.6  53.5  -0.6] sd 76.6
+ROCK_LARGE.004 verts 12 zmin -1.96 zmax 3.52 c [245.6 -21.2  -0.3] sd 151.2
+ROCK_LARGE.005 verts 12 zmin -2.03 zmax 4.56 c [-53.6  47.2  -0.1] sd 46.1
+ROCK_LARGE.006 verts 12 zmin -1.94 zmax 3.31 c [ 55.3 196.3  -0.4] sd 46.8
+ROCK_LARGE.007 verts 12 zmin -1.99 zmax 3.93 c [ 1.878e+02  2.124e+02 -2.000e-01] sd 52.0
+ROCK_LARGE.008 verts 12 zmin -1.90 zmax 2.69 c [309.1 129.1  -0.5] sd 52.9
+ROCK_LARGE.009 verts 12 zmin -1.86 zmax 2.14 c [146.5 107.6  -0.7] sd 43.7
+ROCK_LARGE.010 verts 12 zmin -1.93 zmax 3.10 c [171.2 191.7  -0.4] sd 42.9
+ROCK_LARGE.011 verts 12 zmin -1.17 zmax 2.37 c [5.970e+01 1.558e+02 1.000e-01] sd 8.3
+ROCK_LARGE.012 verts 12 zmin -2.40 zmax 2.64 c [56.5 82.7 -0.5] sd 5.3
+ROCK_LARGE.013 verts 12 zmin -2.53 zmax 3.58 c [ 28.7 127.5  -0.3] sd 3.8
+ROCK_LARGE.014 verts 12 zmin -1.47 zmax 2.35 c [ 15.4 -16.7  -0.2] sd 6.9
+ROCK_LARGE.015 verts 12 zmin -1.13 zmax 1.75 c [63.1 90.2 -0.2] sd 5.8
+ROCK_LARGE.016 verts 12 zmin -1.60 zmax 1.99 c [26.7 24.2 -0.2] sd 3.4
+ROCK_LARGE.017 verts 12 zmin -2.06 zmax 2.02 c [46.7 71.3 -0.5] sd 4.6
+ROCK_LARGE.018 verts 12 zmin -1.65 zmax 2.88 c [-6.9 71.6  0. ] sd 5.4
+ROCK_LARGE.019 verts 12 zmin -2.24 zmax 3.40 c [242.6 124.4  -0.4] sd 5.8
+ROCK_LARGE.020 verts 12 zmin -2.15 zmax 4.39 c [  1.4 -22.1   0.3] sd 7.6
+ROCK_LARGE.021 verts 12 zmin -1.58 zmax 3.79 c [ 23.  120.1   0.4] sd 4.0
+ROCK_LARGE.022 verts 12 zmin -1.52 zmax 2.94 c [2.326e+02 1.252e+02 1.000e-01] sd 5.5
+ROCK_LARGE.023 verts 12 zmin -1.05 zmax 3.26 c [ 80.4 163.2   0.3] sd 6.8
+ROCK_LARGE.024 verts 12 zmin -2.74 zmax 4.44 c [37.7 46.4 -0.1] sd 9.0
+ROCK_LARGE.025 verts 12 zmin -2.43 zmax 3.65 c [ 7.8 90.6 -0.3] sd 2.9
+ROCK_LARGE.026 verts 12 zmin -2.12 zmax 3.18 c [ 47.7 145.8  -0.3] sd 8.3
+ROCK_MEDIUM verts 12 zmin -0.48 zmax 2.22 c [-0.   0.1  0.3] sd -13.5
+ROCK_MEDIUM.000 verts 12 zmin 0.92 zmax 5.95 c [126.7 -12.4   2.4] sd 109.8
+ROCK_MEDIUM.001 verts 12 zmin 3.76 zmax 8.79 c [126.7 -12.    5.2] sd 109.7
+ROCK_MEDIUM.002 verts 12 zmin 0.36 zmax 4.28 c [187.5 -48.6   1.5] sd 179.9
+ROCK_MEDIUM.003 verts 12 zmin 2.58 zmax 6.50 c [187.1 -47.9   3.7] sd 179.2
+ROCK_MEDIUM.004 verts 12 zmin 0.41 zmax 4.44 c [115.9  74.8   1.6] sd 52.1
+ROCK_MEDIUM.005 verts 12 zmin 2.69 zmax 6.72 c [116.6  74.8   3.9] sd 52.5
+ROCK_MEDIUM.006 verts 12 zmin 0.58 zmax 4.95 c [246.6  53.6   1.8] sd 76.5
+ROCK_MEDIUM.007 verts 12 zmin 3.05 zmax 7.42 c [246.5  54.    4.3] sd 76.1
+ROCK_MEDIUM.008 verts 12 zmin 1.14 zmax 6.61 c [246.8 -21.6   2.7] sd 151.6

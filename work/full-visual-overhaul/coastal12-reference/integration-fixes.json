@@ -1,0 +1,20 @@
+{
+  "status": "PASS source integration checks; actual Unity render/ground gate pending",
+  "normalTextureType": 1,
+  "normalSRGB": 0,
+  "normalGreenFlip": 0,
+  "turfWhitelistOccurrences": 1,
+  "shoreVerticesBefore": 40,
+  "shoreVerticesAfter": 46,
+  "isletVerticesBefore": 23,
+  "isletVerticesAfter": 25,
+  "sampledBoundaryPoints": 6363,
+  "maximumBoundaryApproximationErrorYards": 3.596848460197426e-14,
+  "landClassificationSamples": 5000,
+  "landClassificationMismatches": 0,
+  "files": {
+    "Unity/Assets/Resources/Course/Resort/ReferenceCliff02_N.exr.meta": "7150eeb67559e391e8e60d63c2f2d13fb4415a9bde4064893b0e3815f54e02e0",
+    "Unity/Assets/Editor/ProjectSetup.cs": "120169d960c8a0a192cd92f9dc9f8d86bdeabaf3c8e18326a0206d0a3ff0b182",
+    "Unity/Assets/Scripts/Course/GolfCoastalComposition.cs": "bf247c41a0c2fd6d2931a0735bdec726d4bbe662e1580f63f174e51df0fd5e7a"
+  }
+}

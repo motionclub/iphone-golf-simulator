@@ -1,0 +1,11 @@
+[
+  {
+    "name": "ios-interim-export-1",
+    "method": "GolfArcade.EditorTools.BuildMenu.BuildIOS",
+    "quit": true,
+    "args": [
+      "-buildTarget",
+      "iOS"
+    ]
+  }
+]

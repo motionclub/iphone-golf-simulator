@@ -1,0 +1,63 @@
+{
+  "_comment": "POSTCARD_LOOK hole 10 Crater proof shots for PostcardLookStills (schema: work/postcard-look/RUNTIME.md v2.8). Unity WORLD YARDS: course x right, z (= course d) down the hole, y = model metres x 1.0936 (lava at 0, play surface 6.56), tee marker at the origin (HoleView.BuildFromModel). tee = default address shot (aim = recommended target A); approach = ball on the fairway at station C (the last dry fairway, 154 yd to the pin: where the iron second shot is played; the camera is CameraRig.FrameAddress); lavarim = the landmark close-up (round 3 2026-10-04: moved from the 2.2 yd shelf eye to a raised camera 14 yd over the lava, 7 yd above the play surface, just off the inner shoulder of the rim between B and C, looking east-south-east along the rim cliff: the basalt columns of the rim with their glowing joints and the lava at their foot fill the left, the grass shelf with agave on the rim, the lava channel, the pillar with the flag and the tall black wall behind it; the cameras of tee and approach did not move). [Round 4, 2026-10-04 20:37: hole rebuilt on the final v5 textures; cameras and positions unchanged, ray tests re-run on the new stage: lens clear, wall / lava / pillar in frame.] [Repair round 1, 2026-10-04 22:11: hole rebuilt on the shared fixers' libs / textures with a seam-free tee pad and four stacked smoke plumes; cameras and positions unchanged, ray tests re-run on the new stage: 3 / 3 PASS (lens clear, wall / lava / pillar in frame).] [Repair round 2, 2026-10-05: hole rebuilt on the libs fixers' round 2 (new Basalt / Lava / Smoke textures, pillar prism relief) with the FAIRWAY_FIRSTCUT UV sliver repair and a flagstone kerb on the tee pad; cameras and positions unchanged, ray tests re-run on the new stage: 3 / 3 PASS (lens clear, wall / lava / pillar in frame; the kerb is 1.15 cm high and in the tee frame by design, H_TEE_EDGE_VISIBLE).] [Repair round 3, 2026-10-05: hole rebuilt on the libs fixers' round 3 (new Fairway / Green / Lava / Smoke PNGs, props lib shrubs / arch / spires) and the round-2 tan flagstone kerb replaced by a dark-green edge ribbon on the tee pad (DRESS_PADEDGE_nn, 1.15 cm over the collider = under the ball; the black-basalt rim variant is staged separately because the verifier judges a flush LK_BASALT ribbon a rock); cameras and positions unchanged, ray tests re-run on the new stage: 3 / 3 PASS (lens clear, wall / lava / pillar in frame).] [Repair round 4, 2026-10-05, GRASS LIVELINESS + SWAY add-on: hole rebuilt on the shared fixers' libs / textures with the edge fringe (scatter_fringe, ~750 tufts, 245,307 triangles) instead of the tuft carpet and a thinner tee pad edge ribbon (one swatch, shallow ramp); cameras and positions unchanged, ray tests re-run on the new stage. The fringe keeps 4 m (1.5 m at the tee ball) clear of every ball position listed here, 6 m of the pin.]",
+  "shots": [
+    {
+      "name": "hole10_tee",
+      "hole": 10,
+      "kind": "address",
+      "ball": [
+        0,
+        0
+      ],
+      "aim": [
+        14.3,
+        66.2
+      ]
+    },
+    {
+      "name": "hole10_approach",
+      "hole": 10,
+      "kind": "address",
+      "ball": [
+        107.1,
+        159.3
+      ],
+      "aim": [
+        261,
+        164.7
+      ]
+    },
+    {
+      "name": "hole10_lavarim",
+      "hole": 10,
+      "kind": "landmark",
+      "pos": [
+        70,
+        14,
+        108
+      ],
+      "look": [
+        140,
+        1,
+        150
+      ],
+      "fov": 55
+    }
+  ],
+  "aerial_preview_only": {
+    "name": "hole10_aerial",
+    "hole": 10,
+    "kind": "aerial",
+    "pos": [
+      -25,
+      60,
+      20
+    ],
+    "look": [
+      170,
+      0,
+      120
+    ],
+    "fov": 50
+  }
+}

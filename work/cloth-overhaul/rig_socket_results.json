@@ -1,0 +1,32 @@
+{
+  "male": {
+    "socket_max_mm": 8.89958950978098e-06,
+    "socket_deltas_mm": {
+      "('Ready', 'Hand_Racket')": 0.0,
+      "('Ready', 'Kit_Shoe_L')": 8.89958950978098e-06,
+      "('Ready', 'Kit_Shoe_R')": 8.89958950978098e-06,
+      "('Serve', 'Hand_Racket')": 0.0,
+      "('Serve', 'Kit_Shoe_L')": 8.89958950978098e-06,
+      "('Serve', 'Kit_Shoe_R')": 8.89958950978098e-06
+    },
+    "kit_before": 91226,
+    "kit_after": 93839,
+    "total_before": 174032,
+    "total_after": 176645
+  },
+  "female": {
+    "socket_max_mm": 2.611517446737821e-06,
+    "socket_deltas_mm": {
+      "('Ready', 'Hand_Racket')": 0.0,
+      "('Ready', 'Kit_Shoe_L')": 2.611517446737821e-06,
+      "('Ready', 'Kit_Shoe_R')": 2.611517446737821e-06,
+      "('Serve', 'Hand_Racket')": 0.0,
+      "('Serve', 'Kit_Shoe_L')": 2.611517446737821e-06,
+      "('Serve', 'Kit_Shoe_R')": 2.611517446737821e-06
+    },
+    "kit_before": 81038,
+    "kit_after": 76962,
+    "total_before": 141840,
+    "total_after": 137764
+  }
+}

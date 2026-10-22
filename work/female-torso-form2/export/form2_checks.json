@@ -1,0 +1,89 @@
+{
+ "moved_vs_chat7_candidate": 3317,
+ "moved_outside_zone_vs_chat7_candidate": 0,
+ "moved_vs_original_start": 3082,
+ "moved_outside_zone_vs_original_start": 0,
+ "border_vertices": 238,
+ "border_vertices_moved_vs_original": 0,
+ "zone_vertices": 3320,
+ "topology": {
+  "poly_start": true,
+  "poly_total": true,
+  "loop_vert": true,
+  "edges": true,
+  "mat_index": true,
+  "smooth": true,
+  "custom_normal_raw": true,
+  "uv": true,
+  "hair_identical": true,
+  "tris_candidate_vs_new": [
+   44708,
+   44708
+  ],
+  "other_objects_identical": true
+ },
+ "delta_moved_vertices": 3082,
+ "flipped_zone_tris_vs_original": 0,
+ "zone_tris_turned_gt60deg": 0,
+ "max_vertex_move_mm_vs_original": 43.41516875255281,
+ "dihedral": {
+  "original": {
+   "edges": 9702,
+   "mean_deg": 4.494561231317744,
+   "p95_deg": 13.17865732619757,
+   "p99_deg": 24.93594393303596,
+   "max_deg": 79.98227795076419,
+   "n_gt30": 74,
+   "n_gt40": 36
+  },
+  "chat7_candidate": {
+   "edges": 9702,
+   "mean_deg": 4.655534873575449,
+   "p95_deg": 12.950740447651354,
+   "p99_deg": 25.435898915211506,
+   "max_deg": 90.659033824951,
+   "n_gt30": 55,
+   "n_gt40": 35
+  },
+  "form2": {
+   "edges": 9702,
+   "mean_deg": 5.043214903426462,
+   "p95_deg": 14.835815178253256,
+   "p99_deg": 25.555711045805467,
+   "max_deg": 79.98227795076419,
+   "n_gt30": 64,
+   "n_gt40": 36
+  }
+ },
+ "border_steps_mm": {
+  "legs": {
+   "max_mm": 7.5404927418854495,
+   "p95_mm": 6.049191462840606
+  },
+  "arm": {
+   "max_mm": 9.439211907151085,
+   "p95_mm": 6.669274838039774
+  },
+  "top": {
+   "max_mm": 0.7329061391100973,
+   "p95_mm": 0.2416372990043008
+  }
+ },
+ "bi_laplacian_roughness_mm_zone_interior": {
+  "original": {
+   "mean": 1.0132692515400787,
+   "p95": 2.1057904060151924,
+   "max": 3.748855168987564
+  },
+  "chat7_candidate": {
+   "mean": 0.24022616089749493,
+   "p95": 1.4382181802434713,
+   "max": 3.019952243399404
+  },
+  "form2": {
+   "mean": 0.23216733057606923,
+   "p95": 1.2651719989833266,
+   "max": 3.0210584087957497
+  }
+ }
+}

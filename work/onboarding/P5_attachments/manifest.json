@@ -1,0 +1,41 @@
+[
+  {
+    "attachments" : [
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "03AEFA81-ACF7-4EDD-AE9C-842E8E90B902",
+        "deviceName" : "Onboarding iPhone 17 Pro",
+        "exportedFileName" : "4656E20F-703E-4BC0-AED3-6974EF2744C9.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "P5 game cards_0_1145D410-8F86-4892-B414-779C1EE78CD5.png",
+        "timestamp" : 1791299548.829
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "03AEFA81-ACF7-4EDD-AE9C-842E8E90B902",
+        "deviceName" : "Onboarding iPhone 17 Pro",
+        "exportedFileName" : "AA0D6255-7B1E-4718-888D-CE227CAE51E5.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "P5 game cards_0_16A4A6D9-AD0C-4624-9AA3-02E92DEF57E5.png",
+        "timestamp" : 1791299535.892
+      }
+    ],
+    "testIdentifier" : "OnboardingUITests/testGameCardsSelectBothTutorials()",
+    "testIdentifierURL" : "test://com.apple.xcode/GolfArcade/GolfArcadeUITests/OnboardingUITests/testGameCardsSelectBothTutorials"
+  },
+  {
+    "attachments" : [
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "03AEFA81-ACF7-4EDD-AE9C-842E8E90B902",
+        "deviceName" : "Onboarding iPhone 17 Pro",
+        "exportedFileName" : "B429AEEE-F457-4E35-9BB4-477DCCD51E4E.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "P4 waiting_0_08E119C3-55BA-439E-ADB0-09B5D3897A24.png",
+        "timestamp" : 1791299560.165
+      }
+    ],
+    "testIdentifier" : "OnboardingUITests/testNoDisplayContinuesToChoose()",
+    "testIdentifierURL" : "test://com.apple.xcode/GolfArcade/GolfArcadeUITests/OnboardingUITests/testNoDisplayContinuesToChoose"
+  }
+]

@@ -1,0 +1,8 @@
+# Compact column architecture decisions
+
+1. Direct Phase1 thin row chunks failed PCA in rows=1 and rows=2 read-only fixtures (PLAN.md);16/18 also contained regular disconnected components. Before a third attempt, reconstruct genuine whole connected shafts and group actual neighboring depth rows.
+2. Attempt1 radial corner planes created a sliver in a full-height cluster. Attempt2 uses a plane through points on all three actual incident edges. Full-height15m/25m geometry passed every measured inherited check, but projected wall triangles exceeded250k before mandatory ground/plants/crust. Four genuine cuts/shaft are too costly for all rings. Retain attempts1/2; do not call local geometry PASS a whole-hole budget PASS.
+3. Attempt3's all-pentagon, one-cut tile costs44.406tri/m and has good PCA, but18m and22m both fail original facet directions (5<6);26m also fails. At tall heights, horizontal caps/corner chip area falls below the frozen2% orientation significance. A third pentagon-angle retry is not authorized as a fix. Change actual geological topology to a mix of5/6-sided whole columns; preserve every component, width, count, budget and facet check.
+4. Low5.5m bands pass local shape but fail NEAR_TOP<12m. They must never be renamed or excluded from the real near list to bypass H_NEAR_WALL. Near prototypes are full-height12..60m. All shared PNG/window FAILs remain unchanged.
+
+5. First support run measured all three band geometry gates PASS, then failed while serializing a numpy.bool_ bearing field. This is a harness FAIL, preserved in support_attempt1.log. Cast the measured bool to Python bool without changing art or any threshold, then rerun support.

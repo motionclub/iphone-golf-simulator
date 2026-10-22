@@ -1,0 +1,23 @@
+[
+  {
+    "name": "starter-palette-1",
+    "method": "GolfArcade.EditorTools.HeroStarterPaletteProbe.Run",
+    "env": {
+      "HSP_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/characters/starter-palette-builder-audit.txt"
+    }
+  },
+  {
+    "name": "character-pass-20-all33",
+    "method": "GolfArcade.EditorTools.VisualOverhaulCharacterCapture.Run",
+    "env": {
+      "VISUAL_CHARACTER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/character-pass-20-all33"
+    }
+  },
+  {
+    "name": "golf-characters-pass-5",
+    "method": "GolfArcade.EditorTools.VisualOverhaulGolfCharacterCapture.Run",
+    "env": {
+      "VISUAL_GOLF_CHARACTER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-characters-pass-5"
+    }
+  }
+]

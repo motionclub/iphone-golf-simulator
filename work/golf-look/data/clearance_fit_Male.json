@@ -1,0 +1,323 @@
+{
+  "sex": "Male",
+  "rows": [
+    {
+      "piece": "Golf_Polo",
+      "vertices": 11099,
+      "max_bind_change_mm": 25.200000000000742,
+      "history": [
+        {
+          "iteration": 0,
+          "max_violation_mm": 34.42996209802033,
+          "candidate_samples": 9465,
+          "moved": 5556
+        },
+        {
+          "iteration": 1,
+          "max_violation_mm": 33.388774811593095,
+          "candidate_samples": 9516,
+          "moved": 5544
+        },
+        {
+          "iteration": 2,
+          "max_violation_mm": 33.84880716120697,
+          "candidate_samples": 9643,
+          "moved": 5537
+        },
+        {
+          "iteration": 3,
+          "max_violation_mm": 33.26051646466784,
+          "candidate_samples": 9778,
+          "moved": 5536
+        },
+        {
+          "iteration": 4,
+          "max_violation_mm": 31.251301910831835,
+          "candidate_samples": 9787,
+          "moved": 5534
+        },
+        {
+          "iteration": 5,
+          "max_violation_mm": 29.242121201642895,
+          "candidate_samples": 9877,
+          "moved": 5530
+        },
+        {
+          "iteration": 6,
+          "max_violation_mm": 31.026876803756593,
+          "candidate_samples": 9926,
+          "moved": 5523
+        },
+        {
+          "iteration": 7,
+          "max_violation_mm": 32.03136363989145,
+          "candidate_samples": 10080,
+          "moved": 5513
+        },
+        {
+          "iteration": 8,
+          "max_violation_mm": 32.87424179800347,
+          "candidate_samples": 10088,
+          "moved": 5497
+        },
+        {
+          "iteration": 9,
+          "max_violation_mm": 32.40529170261851,
+          "candidate_samples": 10152,
+          "moved": 5446
+        },
+        {
+          "iteration": 10,
+          "max_violation_mm": 31.289059574167158,
+          "candidate_samples": 10117,
+          "moved": 5335
+        },
+        {
+          "iteration": 11,
+          "max_violation_mm": 32.05351783210308,
+          "candidate_samples": 10076,
+          "moved": 5215
+        }
+      ]
+    },
+    {
+      "piece": "Golf_Trousers",
+      "vertices": 12212,
+      "max_bind_change_mm": 23.943788891476423,
+      "history": [
+        {
+          "iteration": 0,
+          "max_violation_mm": 24.301935553915033,
+          "candidate_samples": 4627,
+          "moved": 3331
+        },
+        {
+          "iteration": 1,
+          "max_violation_mm": 22.20193261270462,
+          "candidate_samples": 4674,
+          "moved": 3324
+        },
+        {
+          "iteration": 2,
+          "max_violation_mm": 20.10193036714269,
+          "candidate_samples": 4725,
+          "moved": 3321
+        },
+        {
+          "iteration": 3,
+          "max_violation_mm": 18.147460747152937,
+          "candidate_samples": 4783,
+          "moved": 3316
+        },
+        {
+          "iteration": 4,
+          "max_violation_mm": 21.131712651478512,
+          "candidate_samples": 4920,
+          "moved": 3316
+        },
+        {
+          "iteration": 5,
+          "max_violation_mm": 19.310919361944418,
+          "candidate_samples": 5095,
+          "moved": 3315
+        },
+        {
+          "iteration": 6,
+          "max_violation_mm": 17.99164752376298,
+          "candidate_samples": 5281,
+          "moved": 3312
+        },
+        {
+          "iteration": 7,
+          "max_violation_mm": 15.669373593316102,
+          "candidate_samples": 5662,
+          "moved": 3309
+        },
+        {
+          "iteration": 8,
+          "max_violation_mm": 17.302366939348182,
+          "candidate_samples": 6451,
+          "moved": 3302
+        },
+        {
+          "iteration": 9,
+          "max_violation_mm": 15.299275110204759,
+          "candidate_samples": 6664,
+          "moved": 3274
+        },
+        {
+          "iteration": 10,
+          "max_violation_mm": 13.836435288099226,
+          "candidate_samples": 6828,
+          "moved": 3215
+        },
+        {
+          "iteration": 11,
+          "max_violation_mm": 12.27825422732963,
+          "candidate_samples": 6855,
+          "moved": 3142
+        }
+      ]
+    },
+    {
+      "piece": "Golf_Shoe_L",
+      "vertices": 3432,
+      "max_bind_change_mm": 12.074694407783607,
+      "history": [
+        {
+          "iteration": 0,
+          "max_violation_mm": 8.737629934829055,
+          "candidate_samples": 1118,
+          "moved": 300
+        },
+        {
+          "iteration": 1,
+          "max_violation_mm": 7.729290831845148,
+          "candidate_samples": 934,
+          "moved": 300
+        },
+        {
+          "iteration": 2,
+          "max_violation_mm": 6.021453044321301,
+          "candidate_samples": 756,
+          "moved": 300
+        },
+        {
+          "iteration": 3,
+          "max_violation_mm": 6.285752137776237,
+          "candidate_samples": 631,
+          "moved": 300
+        },
+        {
+          "iteration": 4,
+          "max_violation_mm": 4.649902287916292,
+          "candidate_samples": 543,
+          "moved": 300
+        },
+        {
+          "iteration": 5,
+          "max_violation_mm": 5.254868945704964,
+          "candidate_samples": 498,
+          "moved": 298
+        },
+        {
+          "iteration": 6,
+          "max_violation_mm": 4.558820689275692,
+          "candidate_samples": 456,
+          "moved": 298
+        },
+        {
+          "iteration": 7,
+          "max_violation_mm": 5.164042486334583,
+          "candidate_samples": 434,
+          "moved": 297
+        },
+        {
+          "iteration": 8,
+          "max_violation_mm": 4.298085008338122,
+          "candidate_samples": 391,
+          "moved": 292
+        },
+        {
+          "iteration": 9,
+          "max_violation_mm": 4.442551943783418,
+          "candidate_samples": 357,
+          "moved": 283
+        },
+        {
+          "iteration": 10,
+          "max_violation_mm": 3.5452713653497576,
+          "candidate_samples": 316,
+          "moved": 266
+        },
+        {
+          "iteration": 11,
+          "max_violation_mm": 3.5393599738777537,
+          "candidate_samples": 284,
+          "moved": 244
+        }
+      ]
+    },
+    {
+      "piece": "Golf_Shoe_R",
+      "vertices": 3432,
+      "max_bind_change_mm": 14.027655829651314,
+      "history": [
+        {
+          "iteration": 0,
+          "max_violation_mm": 9.095482149516489,
+          "candidate_samples": 1444,
+          "moved": 343
+        },
+        {
+          "iteration": 1,
+          "max_violation_mm": 7.317728352706781,
+          "candidate_samples": 1125,
+          "moved": 343
+        },
+        {
+          "iteration": 2,
+          "max_violation_mm": 5.529626126685747,
+          "candidate_samples": 864,
+          "moved": 343
+        },
+        {
+          "iteration": 3,
+          "max_violation_mm": 6.994335556499208,
+          "candidate_samples": 714,
+          "moved": 343
+        },
+        {
+          "iteration": 4,
+          "max_violation_mm": 6.013236558206339,
+          "candidate_samples": 621,
+          "moved": 339
+        },
+        {
+          "iteration": 5,
+          "max_violation_mm": 5.634649028323881,
+          "candidate_samples": 581,
+          "moved": 338
+        },
+        {
+          "iteration": 6,
+          "max_violation_mm": 4.7588358641158,
+          "candidate_samples": 526,
+          "moved": 336
+        },
+        {
+          "iteration": 7,
+          "max_violation_mm": 5.587436493850733,
+          "candidate_samples": 477,
+          "moved": 336
+        },
+        {
+          "iteration": 8,
+          "max_violation_mm": 4.695773027090206,
+          "candidate_samples": 451,
+          "moved": 331
+        },
+        {
+          "iteration": 9,
+          "max_violation_mm": 5.2532129666272045,
+          "candidate_samples": 406,
+          "moved": 325
+        },
+        {
+          "iteration": 10,
+          "max_violation_mm": 4.7224216638888885,
+          "candidate_samples": 367,
+          "moved": 300
+        },
+        {
+          "iteration": 11,
+          "max_violation_mm": 5.069983667965012,
+          "candidate_samples": 329,
+          "moved": 280
+        }
+      ]
+    }
+  ],
+  "body_rest_unchanged": true,
+  "status": "candidate fit; rerun independent G7 diagnostics and own-eye crops"
+}

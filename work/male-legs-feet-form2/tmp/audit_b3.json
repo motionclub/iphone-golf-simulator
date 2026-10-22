@@ -1,0 +1,99 @@
+{
+ "base": "baseline/start_1fe4d53b.blend",
+ "base_sha256": "1fe4d53b3bcb9cfaef885d64350150e323a1d726cc4d54cc305ea71e323119bb",
+ "new": "tmp/b3.blend",
+ "new_sha256": "6f99f6009c50f02e93086a067b50f9da1b571cc8051b2c67aa09d754e5cfc4ea",
+ "verts": {
+  "base": 30296,
+  "new": 31374,
+  "appended": 1078
+ },
+ "faces": {
+  "base": 30518,
+  "new": 31611
+ },
+ "tris": {
+  "base": 60358,
+  "new": 62514,
+  "delta": 2156
+ },
+ "topology_identical": false,
+ "zone_def": {
+  "start_z_lt": 0.765,
+  "absx_lt": 0.27,
+  "literal_zone_verts": 8745,
+  "effective_zone_verts": 8952,
+  "extension": "207 foot lateral-wall vertices (orig |x|>=0.27, z<0.15) unmoved by the earlier legs chat; the only |x|>=0.27 geometry below the crotch"
+ },
+ "moved_outside_literal_zone": 186,
+ "moved_inside_zone": 8674,
+ "moved_outside_zone": 0,
+ "outside_zone_bit_identical": true,
+ "appended_vertices_inside_zone_region": true,
+ "appended_vertices_z_range": [
+  0.002472999971359968,
+  0.06382407993078232
+ ],
+ "faces_kept_from_base": 29638,
+ "faces_removed_from_base": 880,
+ "faces_added": 1973,
+ "removed_faces_all_in_zone": true,
+ "face_m_unchanged": true,
+ "vertex_groups_equal": true,
+ "materials_equal": true,
+ "all_faces_smooth": true,
+ "has_custom_normals": true,
+ "custom_normal_corners": {
+  "unchanged_equal": 117874,
+  "unchanged_but_different": 0,
+  "new_corners": 7862
+ },
+ "custom_normal_new_corners_all_zero": true,
+ "boundary_nonmanifold": {
+  "base": [
+   92,
+   2
+  ],
+  "new": [
+   92,
+   2
+  ]
+ },
+ "manifold_same_direction_pairs": {
+  "base": 46,
+  "new": 46
+ },
+ "nan_or_inf": false,
+ "flipped_faces_vs_neighbours": 14,
+ "new_region_quad_angle_min_max_bad": [
+  1.9704127213738099,
+  176.9005189933008,
+  6
+ ],
+ "new_region_edge_mm": {
+  "mean": 7.994243159637227,
+  "p01": 2.1503172786331555,
+  "p99": 16.04952701679813,
+  "min": 0.48484332203074865,
+  "max": 26.387154612095816
+ },
+ "new_region_faces": 1973,
+ "new_region_tris": 3916,
+ "new_region_tri_count_faces": 30,
+ "self_intersecting_triangle_pairs": {
+  "total_nonadjacent": 3,
+  "in_legs_zone": 0
+ },
+ "self_intersecting_triangle_pairs_base": {
+  "total_nonadjacent": 3,
+  "in_legs_zone": 0
+ },
+ "ground": {
+  "min_z_base": 0.002472762716934085,
+  "min_z_new": 0.002472999971359968,
+  "min_z_equal": false,
+  "height_base": 1.702187180519104,
+  "height_new": 1.702186942100525,
+  "sole_vertices_on_plane": 263
+ }
+}

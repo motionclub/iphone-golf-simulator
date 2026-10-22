@@ -1,0 +1,78 @@
+{
+  "all": {
+    "frames": 900,
+    "deepest_mm": 91.4729,
+    "worst_frame": 308,
+    "worst_bone": "LeftUpperArm",
+    "inside_pct_at_worst": 1.923077,
+    "inside_pct_max": 19.8718,
+    "game_visibility_pct": 98.0,
+    "front_visibility_pct": 100.0,
+    "ball_palm_max_cm": 2898.989,
+    "elbow_range_deg": [
+      7.55632,
+      148.0573
+    ],
+    "length_delta_mm": 0.001386,
+    "hand_step_max_cm": 261.5643,
+    "hand_speed_change_max": 156.8948,
+    "hip_lateral_min_cm": 0.041
+  },
+  "walk": {
+    "frames": 78,
+    "deepest_mm": 91.4729,
+    "worst_frame": 308,
+    "worst_bone": "LeftUpperArm",
+    "inside_pct_at_worst": 1.923077,
+    "inside_pct_max": 19.8718,
+    "game_visibility_pct": 100.0,
+    "front_visibility_pct": 100.0,
+    "ball_palm_max_cm": 98.56190000000001,
+    "elbow_range_deg": [
+      7.556595,
+      91.93864
+    ],
+    "length_delta_mm": 0.001386,
+    "hand_step_max_cm": 37.534099999999995,
+    "hand_speed_change_max": 63.99363,
+    "hip_lateral_min_cm": 0.752
+  },
+  "left": {
+    "frames": 39,
+    "deepest_mm": 91.4729,
+    "worst_frame": 308,
+    "worst_bone": "LeftUpperArm",
+    "inside_pct_at_worst": 1.923077,
+    "inside_pct_max": 19.8718,
+    "game_visibility_pct": 100.0,
+    "front_visibility_pct": 100.0,
+    "ball_palm_max_cm": 89.5681,
+    "elbow_range_deg": [
+      7.556595,
+      88.958
+    ],
+    "length_delta_mm": 0.001386,
+    "hand_step_max_cm": 13.8791,
+    "hand_speed_change_max": 63.99363,
+    "hip_lateral_min_cm": 0.752
+  },
+  "walk_turn_plant": {
+    "frames": 352,
+    "deepest_mm": 91.4729,
+    "worst_frame": 308,
+    "worst_bone": "LeftUpperArm",
+    "inside_pct_at_worst": 1.923077,
+    "inside_pct_max": 19.8718,
+    "game_visibility_pct": 100.0,
+    "front_visibility_pct": 100.0,
+    "ball_palm_max_cm": 239.35940000000002,
+    "elbow_range_deg": [
+      7.556595,
+      148.0573
+    ],
+    "length_delta_mm": 0.001386,
+    "hand_step_max_cm": 115.97370000000001,
+    "hand_speed_change_max": 69.56295,
+    "hip_lateral_min_cm": 0.5091
+  }
+}

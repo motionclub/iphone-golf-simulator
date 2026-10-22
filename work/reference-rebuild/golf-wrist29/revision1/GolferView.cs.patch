@@ -1,0 +1,13 @@
+--- Unity/Assets/Scripts/Game/GolferView.cs
++++ Unity/Assets/Scripts/Game/GolferView.cs
+@@ -505,6 +505,10 @@
+                 bone.localRotation *= fix;
+                 if (at is Vector3 p) bone.localPosition = p;
+             }
++            // Complete the golf review pose synchronously after the source clip
++            // and shaft-clearance solve; scrubbing/export does not rely on LateUpdate.
++            if (heroFigure != null && System.Environment.GetEnvironmentVariable("VISUAL_GOLF_WRIST_ROLL") == "1")
++                GolfArcade.Tennis.HeroGripPolish.ApplyGrip(heroFigure.Root.GetComponent<GolfArcade.Tennis.MatchHeroLook>());
+         }
+ 
+         GolfClub shownClub = GolfClub.Driver;

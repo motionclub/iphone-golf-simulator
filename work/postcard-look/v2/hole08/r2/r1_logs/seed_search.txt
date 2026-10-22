@@ -1,0 +1,7 @@
+build_sea seed search for hole 8 (tools/seed_search.sh; build with --sea-seed N, then the verifier's g_no_foam_strip / g_surf / g_shelf_thin on the blend). Results as printed on 2026-10-04.
+
+A. default build_sea (rock_puffs = 6), geometry of the 14:35 build, seeds 0-14: the verifier's NO_FOAM_STRIP failed on 14 of 15 seeds
+   seed 0 gap 1 m | 1 gap 4 m | 2 run 12 m | 3 gap 3 m | 4 run 13 m | 5 PASS (but the lib's own surf_gate FAILED: shortest gap 1.5 m, build exit 1) | 6 gap 4 m | 7 gap 1 m | 8 gap 1 m | 9 gap 7 m | 10 run 12 m | 11 gap 3 m | 12 gap 6 m | 13 gap 7 m | 14 run 11 m + gap 6 m
+   The short gaps are at (-18, 296) -> (-17.5, 293.5) (arch outcrop puff next to a shore patch) and (29.9, 167) (a foot-boulder puff) in seeds 0 and 7 (tools/dbg_foam.py).
+B. rock_puffs = 0 (hole08_look.SEA_PUFFS), seeds 0-1: seed 0 verifier PASS but the lib's own surf_gate FAILED (gap 1.5 m); seed 1 PASS in BOTH (verifier: 17 % of 522 m of shore in 18 runs, longest 6 m, min gap 15 m; lib: PASS) -> SEA_SEED = 1.
+   Re-checked after the waterfall width (4.2 m) and the tee path moved: seed 1 still PASS in both (the final staged build).

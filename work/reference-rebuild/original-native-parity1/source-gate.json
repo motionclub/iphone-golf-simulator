@@ -1,0 +1,57 @@
+{
+  "status": "PASS staged source / PENDING Unity and native runtime",
+  "swift_typecheck": "PASS",
+  "git_apply_check_p0": "PASS",
+  "production_sources_unchanged_by_this_agent": true,
+  "bones_weights_inverse_binds_morph_binary_serializer": "existing exact implementation reused",
+  "two_stage_blink": {
+    "0": {
+      "half": 0,
+      "full": 0
+    },
+    "0.25": {
+      "half": 0.5,
+      "full": 0
+    },
+    "0.5": {
+      "half": 1.0,
+      "full": 0
+    },
+    "0.75": {
+      "half": 0.5,
+      "full": 0.5
+    },
+    "1": {
+      "half": 0,
+      "full": 1
+    }
+  },
+  "rig_contract": 53,
+  "legacy_optional_metadata": "decodes as nil; default paths retained",
+  "unity_run": false,
+  "native_renderer_run": true,
+  "phone_run": false,
+  "ambient_shadow_reflection_parity": "PENDING actual",
+  "garment_texture_packaging": "PASS 25 KTX maps; 21 exact matching shipped copies + 4 source-exact fresh conversions",
+  "unity_export": "PASS 43.28s per root",
+  "native_first_run": "Compiler and near-plane/tint defects repaired; final 60-frame Metal sweep PASS",
+  "native_renderer": "PASS 60 portraits / 0 magenta / 0 compiler failures",
+  "geometry_position_parity": [
+    {
+      "art": "PENDING actual snapshot inspection",
+      "boneCount": 53,
+      "maxPositionErrorMm": 0.004332651849836111,
+      "samples": 43080,
+      "sex": "Male"
+    },
+    {
+      "art": "PENDING actual snapshot inspection",
+      "boneCount": 53,
+      "maxPositionErrorMm": 0.013501611538231373,
+      "samples": 80700,
+      "sex": "Female"
+    }
+  ],
+  "production_patch": "MatchHeroSurfaces.repair1.patch",
+  "repair_patch_status": "Production already equals final candidate at last source check; root installation confirmed by hash"
+}

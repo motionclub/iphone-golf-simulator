@@ -1,0 +1,80 @@
+{
+  "error" : {
+    "code" : 3002,
+    "domain" : "com.apple.dt.CoreDeviceError",
+    "userInfo" : {
+      "NSLocalizedDescription" : {
+        "string" : "Failed to install the app on the device."
+      },
+      "NSURL" : {
+        "url" : "file:///Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/golf-look/device/before/DerivedData/Build/Products/Release-iphoneos/GolfArcade.app/"
+      },
+      "NSUnderlyingError" : {
+        "error" : {
+          "code" : 7,
+          "domain" : "IXRemoteErrorDomain",
+          "userInfo" : {
+            "FunctionName" : {
+              "string" : "+[IXSRemoteInstaller _cancelAppAssetPromise:withUnderlyingError:]"
+            },
+            "NSLocalizedDescription" : {
+              "string" : "Failed to stream the app asset from remote device"
+            },
+            "NSLocalizedFailureReason" : {
+              "string" : "Unhandled error domain IXRemoteErrorDomain, code 7"
+            },
+            "NSUnderlyingError" : {
+              "error" : {
+                "code" : 11,
+                "domain" : "IXUserPresentableErrorDomain",
+                "userInfo" : {
+                  "AdditionalDiskSpaceRequired" : {
+                    "int" : 57980128
+                  },
+                  "FunctionName" : {
+                    "string" : "IXPreflightWithCacheDelete_block_invoke"
+                  },
+                  "NSLocalizedDescription" : {
+                    "string" : "Not enough space for for /private/var/containers/Shared/SystemGroup/systemgroup.com.apple.installcoordinationd/Library/InstallCoordination/PromiseStaging/7F5EB5F1-5672-4AA7-BE4F-83D5AB8E34D0 : 491103456 bytes needed, 433123328 bytes available (85229568 bytes were purged)."
+                  },
+                  "NSLocalizedFailureReason" : {
+                    "string" : "Insufficient storage."
+                  },
+                  "SourceFileLine" : {
+                    "int" : 111
+                  },
+                  "TotalDiskSpaceRequired" : {
+                    "int" : 491103456
+                  }
+                }
+              }
+            },
+            "SourceFileLine" : {
+              "int" : 549
+            }
+          }
+        }
+      }
+    }
+  },
+  "info" : {
+    "arguments" : [
+      "devicectl",
+      "device",
+      "install",
+      "app",
+      "--device",
+      "00008150-00041CD92287801C",
+      "work/golf-look/device/before/DerivedData/Build/Products/Release-iphoneos/GolfArcade.app",
+      "--json-output",
+      "work/golf-look/device/before/install_lz4.json"
+    ],
+    "commandType" : "devicectl.device.install.app",
+    "environment" : {
+      "TERM" : "dumb"
+    },
+    "jsonVersion" : 5,
+    "outcome" : "failed",
+    "version" : "642.16"
+  }
+}

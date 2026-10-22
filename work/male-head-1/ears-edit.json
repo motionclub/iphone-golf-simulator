@@ -1,0 +1,6 @@
+{
+  "part": "ear placement and forehead transition",
+  "method": "Existing coordinate depth sculpt; ear depth moved toward the posterior skull with a continuous falloff and local depth fairing. X/Z retained; no remesh.",
+  "maximum_ear_depth_shift_metres": 0.026,
+  "changed_vertices_since_jaw": 986
+}

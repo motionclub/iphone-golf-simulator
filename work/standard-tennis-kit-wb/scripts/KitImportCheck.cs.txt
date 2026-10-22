@@ -1,0 +1,68 @@
+using System;
+using System.IO;
+using System.Linq;
+using System.Text;
+using UnityEditor;
+using UnityEngine;
+
+public static class KitImportCheck
+{
+    public static void Run()
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine("{");
+        bool allOk = true;
+        AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
+        var fbxs = Directory.GetFiles("Assets/Kit", "*.fbx").OrderBy(s => s).ToArray();
+        sb.AppendLine("\"fbx\": [");
+        for (int i = 0; i < fbxs.Length; i++)
+        {
+            var path = fbxs[i].Replace('\\', '/');
+            var go = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+            var imp = AssetImporter.GetAtPath(path) as ModelImporter;
+            sb.AppendLine("  {\"file\": \"" + Path.GetFileName(path) + "\", \"loaded\": " + (go != null ? "true" : "false") + ",");
+            if (go == null) { allOk = false; sb.AppendLine("  \"error\": \"load failed\"}" + (i < fbxs.Length - 1 ? "," : "")); continue; }
+            sb.AppendLine("  \"globalScale\": " + imp.globalScale.ToString("R") + ", \"useFileScale\": " + (imp.useFileScale ? "true" : "false") + ", \"fileScale\": " + imp.fileScale.ToString("R") + ",");
+            sb.AppendLine("  \"importNormals\": \"" + imp.importNormals + "\", \"meshes\": [");
+            var mfs = go.GetComponentsInChildren<MeshFilter>(true);
+            for (int k = 0; k < mfs.Length; k++)
+            {
+                var mf = mfs[k];
+                var mesh = mf.sharedMesh;
+                var mr = mf.GetComponent<MeshRenderer>();
+                var b = mesh.bounds;
+                var wb = mr.bounds;
+                int tris = 0;
+                for (int s = 0; s < mesh.subMeshCount; s++) tris += (int)(mesh.GetIndexCount(s) / 3);
+                var mats = string.Join("|", mr.sharedMaterials.Select(m => m != null ? m.name : "null"));
+                bool uv = mesh.uv != null && mesh.uv.Length == mesh.vertexCount;
+                bool nrm = mesh.normals != null && mesh.normals.Length == mesh.vertexCount;
+                // size in meters of the instantiated object (scale 1 expected): world bounds of the renderer with identity root
+                sb.AppendLine("    {\"name\": \"" + mf.name + "\", \"verts\": " + mesh.vertexCount + ", \"tris\": " + tris + ", \"submeshes\": " + mesh.subMeshCount +
+                    ", \"localScale\": [" + mf.transform.lossyScale.x.ToString("R") + "," + mf.transform.lossyScale.y.ToString("R") + "," + mf.transform.lossyScale.z.ToString("R") + "]" +
+                    ", \"boundsMin\": [" + b.min.x.ToString("F4") + "," + b.min.y.ToString("F4") + "," + b.min.z.ToString("F4") + "]" +
+                    ", \"boundsMax\": [" + b.max.x.ToString("F4") + "," + b.max.y.ToString("F4") + "," + b.max.z.ToString("F4") + "]" +
+                    ", \"materials\": \"" + mats + "\", \"uv\": " + (uv ? "true" : "false") + ", \"normals\": " + (nrm ? "true" : "false") + "}" + (k < mfs.Length - 1 ? "," : ""));
+                if (!uv || !nrm || tris == 0) allOk = false;
+            }
+            sb.AppendLine("  ]}" + (i < fbxs.Length - 1 ? "," : ""));
+        }
+        sb.AppendLine("],");
+        sb.AppendLine("\"materials\": [");
+        var matPaths = Directory.GetFiles("Assets/Kit/Materials", "*.mat").OrderBy(s => s).ToArray();
+        for (int i = 0; i < matPaths.Length; i++)
+        {
+            var m = AssetDatabase.LoadAssetAtPath<Material>(matPaths[i].Replace('\\', '/'));
+            bool urp = m != null && m.shader != null && m.shader.name == "Universal Render Pipeline/Lit";
+            if (!urp) allOk = false;
+            var c = m.GetColor("_BaseColor");
+            sb.AppendLine("  {\"name\": \"" + m.name + "\", \"shader\": \"" + m.shader.name + "\", \"urpLit\": " + (urp ? "true" : "false") + ", \"baseColor\": [" + c.r.ToString("F3") + "," + c.g.ToString("F3") + "," + c.b.ToString("F3") + "], \"smoothness\": " + m.GetFloat("_Smoothness").ToString("F2") + ", \"metallic\": " + m.GetFloat("_Metallic").ToString("F2") + ", \"surface\": " + m.GetFloat("_Surface").ToString("F0") + ", \"hasBaseMap\": " + (m.GetTexture("_BaseMap") != null ? "true" : "false") + "}" + (i < matPaths.Length - 1 ? "," : ""));
+        }
+        sb.AppendLine("],");
+        sb.AppendLine("\"STDKIT_UNITY_IMPORT\": \"" + (allOk ? "PASS" : "FAIL") + "\"");
+        sb.AppendLine("}");
+        File.WriteAllText("unity_import_report.json", sb.ToString());
+        Debug.Log("STDKIT_UNITY_IMPORT=" + (allOk ? "PASS" : "FAIL"));
+        EditorApplication.Exit(allOk ? 0 : 2);
+    }
+}

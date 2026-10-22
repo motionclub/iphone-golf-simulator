@@ -1,0 +1,27 @@
+[
+  {
+    "name": "character-pass-25-art3",
+    "method": "GolfArcade.EditorTools.VisualOverhaulCharacterCapture.Run",
+    "env": {
+      "VISUAL_CHARACTER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/character-pass-25-art3",
+      "VISUAL_CHARACTER_STARTER": "1",
+      "VISUAL_CHARACTER_CLIPS": "Ready,IntroWave,IntroPushups"
+    }
+  },
+  {
+    "name": "golf-characters-pass-9",
+    "method": "GolfArcade.EditorTools.VisualOverhaulGolfCharacterCapture.Run",
+    "env": {
+      "VISUAL_GOLF_CHARACTER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-characters-pass-9"
+    }
+  },
+  {
+    "name": "tennis-promenade7",
+    "method": "GolfArcade.EditorTools.TennisPromenadeFilm.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "TWALK_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-promenade-film-7",
+      "TWALK_ISOLATE": "1"
+    }
+  }
+]

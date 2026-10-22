@@ -1,0 +1,12 @@
+{
+  "source": "frozen post-cloth baseline",
+  "installed": false,
+  "files": [
+    "Unity/Assets/Resources/Tennis/Shaders/HeroLighting.hlsl",
+    "Unity/Assets/Resources/Tennis/Shaders/HeroCloth.hlsl",
+    "Unity/Assets/Resources/Tennis/Shaders/TennisCharacter.shader",
+    "Unity/Assets/Resources/Tennis/Shaders/TennisFace.shader",
+    "Unity/Assets/Resources/Tennis/Shaders/TennisCloth.shader"
+  ],
+  "tennis": "same original math through profile 0; requires fresh image diffs, not certified by source inspection"
+}

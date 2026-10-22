@@ -1,0 +1,17 @@
+work/emote-overhaul/proof_r2/decode.swift:10:39: warning: 'duration' was deprecated in macOS 13.0: Use load(.duration) instead [#DeprecatedDeclaration]
+ 8 | gen.requestedTimeToleranceAfter = .zero
+ 9 | try FileManager.default.createDirectory(atPath: args[2], withIntermediateDirectories: true)
+10 | let duration = CMTimeGetSeconds(asset.duration)
+   |                                       `- warning: 'duration' was deprecated in macOS 13.0: Use load(.duration) instead [#DeprecatedDeclaration]
+11 | for n in 0..<Int(duration * 12) {
+12 |  let t = Double(n) / 12
+
+work/emote-overhaul/proof_r2/decode.swift:13:19: warning: 'copyCGImage(at:actualTime:)' was deprecated in macOS 15.0: Use generateCGImageAsynchronouslyForTime:completionHandler: instead [#DeprecatedDeclaration]
+11 | for n in 0..<Int(duration * 12) {
+12 |  let t = Double(n) / 12
+13 |  let cg = try gen.copyCGImage(at: CMTime(seconds: t, preferredTimescale: 600), actualTime: nil)
+   |                   `- warning: 'copyCGImage(at:actualTime:)' was deprecated in macOS 15.0: Use generateCGImageAsynchronouslyForTime:completionHandler: instead [#DeprecatedDeclaration]
+14 |  let rep = NSBitmapImageRep(cgImage: cg)
+15 |  try rep.representation(using: .png, properties: [:])!.write(to: URL(fileURLWithPath: args[2] + String(format: "/frame_%04d.png", n)))
+
+[#DeprecatedDeclaration]: <https://docs.swift.org/compiler/documentation/diagnostics/deprecated-declaration>

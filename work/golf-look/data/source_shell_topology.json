@@ -1,0 +1,86 @@
+[
+  {
+    "sex": "Male",
+    "object": "Kit_Top",
+    "vertices": 11167,
+    "edges": 33447,
+    "faces": 22298,
+    "edge_face_counts": {
+      "0": 0,
+      "1": 0,
+      "2": 33447
+    },
+    "nonmanifold_edges": 0,
+    "Euler": 18
+  },
+  {
+    "sex": "Male",
+    "object": "Kit_Bottom",
+    "vertices": 10522,
+    "edges": 31548,
+    "faces": 21032,
+    "edge_face_counts": {
+      "0": 0,
+      "1": 0,
+      "2": 31548
+    },
+    "nonmanifold_edges": 0,
+    "Euler": 6
+  },
+  {
+    "sex": "Male",
+    "object": "Kit_Shoe_L",
+    "vertices": 8913,
+    "edges": 26517,
+    "faces": 17678,
+    "edge_face_counts": {
+      "0": 0,
+      "1": 0,
+      "2": 26517
+    },
+    "nonmanifold_edges": 0,
+    "Euler": 74
+  },
+  {
+    "sex": "Female",
+    "object": "Kit_Top",
+    "vertices": 9722,
+    "edges": 29112,
+    "faces": 19408,
+    "edge_face_counts": {
+      "0": 0,
+      "1": 0,
+      "2": 29112
+    },
+    "nonmanifold_edges": 0,
+    "Euler": 18
+  },
+  {
+    "sex": "Female",
+    "object": "Kit_Bottom",
+    "vertices": 12827,
+    "edges": 38469,
+    "faces": 25646,
+    "edge_face_counts": {
+      "0": 0,
+      "1": 0,
+      "2": 38469
+    },
+    "nonmanifold_edges": 0,
+    "Euler": 4
+  },
+  {
+    "sex": "Female",
+    "object": "Kit_Shoe_L",
+    "vertices": 6529,
+    "edges": 19365,
+    "faces": 12910,
+    "edge_face_counts": {
+      "0": 0,
+      "1": 0,
+      "2": 19365
+    },
+    "nonmanifold_edges": 0,
+    "Euler": 74
+  }
+]

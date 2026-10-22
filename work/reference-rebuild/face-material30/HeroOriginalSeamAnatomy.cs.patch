@@ -1,0 +1,12 @@
+--- Unity/Assets/Scripts/Tennis/HeroOriginalSeamAnatomy.cs
++++ Unity/Assets/Scripts/Tennis/HeroOriginalSeamAnatomy.cs
+@@ -131,7 +131,8 @@
+                 material.SetTexture("_BaseMap", EyeLookup(iris));
+                 material.SetTextureScale("_BaseMap", Vector2.one); material.SetTextureOffset("_BaseMap", Vector2.zero);
+                 material.SetFloat("_Smoothness", iris ? .90f : .82f);
+-                material.SetFloat("_SpecularStrength", iris ? .70f : .45f);
++                bool polish = Environment.GetEnvironmentVariable("VISUAL_CHARACTER_SKIN_POLISH") == "1";
++                material.SetFloat("_SpecularStrength", polish ? (iris ? .85f : .52f) : (iris ? .70f : .45f));
+                 material.SetFloat("_EnvironmentStrength", iris ? .5f : .32f);
+             }
+             else if (sourceName.Contains("Brow")) {

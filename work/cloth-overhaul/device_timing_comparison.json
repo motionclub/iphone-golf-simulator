@@ -1,0 +1,115 @@
+{
+  "device": "iPhone18,2",
+  "gpu": "Apple A19 Pro GPU",
+  "os": "iOS 26.6.1",
+  "before_version": "29.1.0",
+  "after_version": "29.2.0",
+  "heroes": 2,
+  "samples": 540,
+  "statistics": {
+    "cpuMs": {
+      "mean": {
+        "before_ms": 33.34545632592592,
+        "after_ms": 33.33625,
+        "delta_ms": -0.009206325925923409
+      },
+      "median": {
+        "before_ms": 33.335729,
+        "after_ms": 33.336938,
+        "delta_ms": 0.0012090000000029022
+      },
+      "p95": {
+        "before_ms": 33.39451425,
+        "after_ms": 33.3843497,
+        "delta_ms": -0.01016454999999894
+      }
+    },
+    "gpuMs": {
+      "mean": {
+        "before_ms": 11.08673665827761,
+        "after_ms": 13.881656017878818,
+        "delta_ms": 2.7949193596012076
+      },
+      "median": {
+        "before_ms": 7.564312545582652,
+        "after_ms": 8.845208212733269,
+        "delta_ms": 1.2808956671506166
+      },
+      "p95": {
+        "before_ms": 21.541312604676932,
+        "after_ms": 21.44693526206538,
+        "delta_ms": -0.09437734261155128
+      }
+    },
+    "cpuMainThreadMs": {
+      "mean": {
+        "before_ms": 4.370982594444444,
+        "after_ms": 3.4808368055555556,
+        "delta_ms": -0.890145788888888
+      },
+      "median": {
+        "before_ms": 5.0895415,
+        "after_ms": 4.649333,
+        "delta_ms": -0.4402084999999998
+      },
+      "p95": {
+        "before_ms": 6.121660099999999,
+        "after_ms": 5.691269699999999,
+        "delta_ms": -0.4303903999999994
+      }
+    },
+    "cpuRenderThreadMs": {
+      "mean": {
+        "before_ms": 4.8171225407407405,
+        "after_ms": 3.887607583333334,
+        "delta_ms": -0.9295149574074064
+      },
+      "median": {
+        "before_ms": 5.141500499999999,
+        "after_ms": 4.3934585,
+        "delta_ms": -0.748041999999999
+      },
+      "p95": {
+        "before_ms": 6.811087799999999,
+        "after_ms": 6.16634375,
+        "delta_ms": -0.644744049999999
+      }
+    },
+    "presentWaitMs": {
+      "mean": {
+        "before_ms": 28.95711862777778,
+        "after_ms": 29.841369975925925,
+        "delta_ms": 0.884251348148144
+      },
+      "median": {
+        "before_ms": 28.2310215,
+        "after_ms": 28.700188,
+        "delta_ms": 0.46916650000000004
+      },
+      "p95": {
+        "before_ms": 31.878206600000002,
+        "after_ms": 31.98162465,
+        "delta_ms": 0.10341804999999837
+      }
+    },
+    "elapsedMs": {
+      "mean": {
+        "before_ms": 47.26512514043738,
+        "after_ms": 33.33636028854935,
+        "delta_ms": -13.928764851888026
+      },
+      "median": {
+        "before_ms": 33.33553695678711,
+        "after_ms": 33.33610153198242,
+        "delta_ms": 0.0005645751953125
+      },
+      "p95": {
+        "before_ms": 33.37289810180664,
+        "after_ms": 33.3694673538208,
+        "delta_ms": -0.0034307479858384227
+      }
+    }
+  },
+  "nonzero_gpu_rows": 540,
+  "cpu_frame_delta_pass": true
+}

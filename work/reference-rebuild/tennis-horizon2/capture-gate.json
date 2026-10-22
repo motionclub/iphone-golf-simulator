@@ -1,0 +1,24 @@
+[
+  {
+    "name": "reference-tennis-horizon2-before",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/tennis-horizon2/before",
+      "HERO_VENUE_REFERENCE": "1",
+      "HERO_VENUE_ONLY": "1_gameplay,9_hero_postcard,14_reference_camera",
+      "TENNIS_HORIZON2": "0"
+    }
+  },
+  {
+    "name": "reference-tennis-horizon2-candidate",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/tennis-horizon2/candidate",
+      "HERO_VENUE_REFERENCE": "1",
+      "HERO_VENUE_ONLY": "1_gameplay,9_hero_postcard,14_reference_camera",
+      "TENNIS_HORIZON2": "1"
+    }
+  }
+]

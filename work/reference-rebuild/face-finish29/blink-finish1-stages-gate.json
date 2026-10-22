@@ -1,0 +1,475 @@
+{
+  "gate": "PASS",
+  "rigSource": "Existing Unity recorded matrices17 sample2; canonical renderer/bone mapping from cloth14-control snapshots",
+  "fullBlinkVisibleEyeRays": 0,
+  "results": {
+    "Male": [
+      {
+        "clip": "Ready",
+        "time": 1.4666666984558105,
+        "openPosedMaxWeightCorrectionDeltaMetres": 0.0,
+        "openPosedMeanChangedWeightCorrectionDeltaMetres": NaN,
+        "stages": [
+          {
+            "blink": 0,
+            "halfWeight": 0,
+            "fullWeight": 0,
+            "visibleEyeRays": [
+              3929,
+              4113
+            ],
+            "testRaysPerAperture": 12221
+          },
+          {
+            "blink": 0.25,
+            "halfWeight": 0.5,
+            "fullWeight": 0,
+            "visibleEyeRays": [
+              2884,
+              3070
+            ],
+            "testRaysPerAperture": 12221
+          },
+          {
+            "blink": 0.5,
+            "halfWeight": 1.0,
+            "fullWeight": 0,
+            "visibleEyeRays": [
+              1908,
+              2046
+            ],
+            "testRaysPerAperture": 12221
+          },
+          {
+            "blink": 0.75,
+            "halfWeight": 0.5,
+            "fullWeight": 0.5,
+            "visibleEyeRays": [
+              924,
+              1024
+            ],
+            "testRaysPerAperture": 12221
+          },
+          {
+            "blink": 1,
+            "halfWeight": 0,
+            "fullWeight": 1,
+            "visibleEyeRays": [
+              0,
+              0
+            ],
+            "testRaysPerAperture": 12221
+          }
+        ]
+      },
+      {
+        "clip": "Serve",
+        "time": 1.666666865348816,
+        "openPosedMaxWeightCorrectionDeltaMetres": 0.0,
+        "openPosedMeanChangedWeightCorrectionDeltaMetres": NaN,
+        "stages": [
+          {
+            "blink": 0,
+            "halfWeight": 0,
+            "fullWeight": 0,
+            "visibleEyeRays": [
+              1880,
+              135
+            ],
+            "testRaysPerAperture": 12221
+          },
+          {
+            "blink": 0.25,
+            "halfWeight": 0.5,
+            "fullWeight": 0,
+            "visibleEyeRays": [
+              1369,
+              78
+            ],
+            "testRaysPerAperture": 12221
+          },
+          {
+            "blink": 0.5,
+            "halfWeight": 1.0,
+            "fullWeight": 0,
+            "visibleEyeRays": [
+              836,
+              37
+            ],
+            "testRaysPerAperture": 12221
+          },
+          {
+            "blink": 0.75,
+            "halfWeight": 0.5,
+            "fullWeight": 0.5,
+            "visibleEyeRays": [
+              124,
+              0
+            ],
+            "testRaysPerAperture": 12221
+          },
+          {
+            "blink": 1,
+            "halfWeight": 0,
+            "fullWeight": 1,
+            "visibleEyeRays": [
+              0,
+              0
+            ],
+            "testRaysPerAperture": 12221
+          }
+        ]
+      },
+      {
+        "clip": "Forehand",
+        "time": 0.8000000715255737,
+        "openPosedMaxWeightCorrectionDeltaMetres": 0.0,
+        "openPosedMeanChangedWeightCorrectionDeltaMetres": NaN,
+        "stages": [
+          {
+            "blink": 0,
+            "halfWeight": 0,
+            "fullWeight": 0,
+            "visibleEyeRays": [
+              1150,
+              1167
+            ],
+            "testRaysPerAperture": 12221
+          },
+          {
+            "blink": 0.25,
+            "halfWeight": 0.5,
+            "fullWeight": 0,
+            "visibleEyeRays": [
+              794,
+              804
+            ],
+            "testRaysPerAperture": 12221
+          },
+          {
+            "blink": 0.5,
+            "halfWeight": 1.0,
+            "fullWeight": 0,
+            "visibleEyeRays": [
+              491,
+              496
+            ],
+            "testRaysPerAperture": 12221
+          },
+          {
+            "blink": 0.75,
+            "halfWeight": 0.5,
+            "fullWeight": 0.5,
+            "visibleEyeRays": [
+              153,
+              156
+            ],
+            "testRaysPerAperture": 12221
+          },
+          {
+            "blink": 1,
+            "halfWeight": 0,
+            "fullWeight": 1,
+            "visibleEyeRays": [
+              0,
+              0
+            ],
+            "testRaysPerAperture": 12221
+          }
+        ]
+      },
+      {
+        "clip": "IntroWave",
+        "time": 1.3333333730697632,
+        "openPosedMaxWeightCorrectionDeltaMetres": 0.0,
+        "openPosedMeanChangedWeightCorrectionDeltaMetres": NaN,
+        "stages": [
+          {
+            "blink": 0,
+            "halfWeight": 0,
+            "fullWeight": 0,
+            "visibleEyeRays": [
+              3924,
+              4106
+            ],
+            "testRaysPerAperture": 12221
+          },
+          {
+            "blink": 0.25,
+            "halfWeight": 0.5,
+            "fullWeight": 0,
+            "visibleEyeRays": [
+              2889,
+              3068
+            ],
+            "testRaysPerAperture": 12221
+          },
+          {
+            "blink": 0.5,
+            "halfWeight": 1.0,
+            "fullWeight": 0,
+            "visibleEyeRays": [
+              1907,
+              2047
+            ],
+            "testRaysPerAperture": 12221
+          },
+          {
+            "blink": 0.75,
+            "halfWeight": 0.5,
+            "fullWeight": 0.5,
+            "visibleEyeRays": [
+              909,
+              1019
+            ],
+            "testRaysPerAperture": 12221
+          },
+          {
+            "blink": 1,
+            "halfWeight": 0,
+            "fullWeight": 1,
+            "visibleEyeRays": [
+              0,
+              0
+            ],
+            "testRaysPerAperture": 12221
+          }
+        ]
+      }
+    ],
+    "Female": [
+      {
+        "clip": "Ready",
+        "time": 1.4666666984558105,
+        "openPosedMaxWeightCorrectionDeltaMetres": 0.0,
+        "openPosedMeanChangedWeightCorrectionDeltaMetres": NaN,
+        "stages": [
+          {
+            "blink": 0,
+            "halfWeight": 0,
+            "fullWeight": 0,
+            "visibleEyeRays": [
+              5825,
+              5813
+            ],
+            "testRaysPerAperture": 12221
+          },
+          {
+            "blink": 0.25,
+            "halfWeight": 0.5,
+            "fullWeight": 0,
+            "visibleEyeRays": [
+              4355,
+              4350
+            ],
+            "testRaysPerAperture": 12221
+          },
+          {
+            "blink": 0.5,
+            "halfWeight": 1.0,
+            "fullWeight": 0,
+            "visibleEyeRays": [
+              2899,
+              2890
+            ],
+            "testRaysPerAperture": 12221
+          },
+          {
+            "blink": 0.75,
+            "halfWeight": 0.5,
+            "fullWeight": 0.5,
+            "visibleEyeRays": [
+              1437,
+              1432
+            ],
+            "testRaysPerAperture": 12221
+          },
+          {
+            "blink": 1,
+            "halfWeight": 0,
+            "fullWeight": 1,
+            "visibleEyeRays": [
+              0,
+              0
+            ],
+            "testRaysPerAperture": 12221
+          }
+        ]
+      },
+      {
+        "clip": "Serve",
+        "time": 1.666666865348816,
+        "openPosedMaxWeightCorrectionDeltaMetres": 0.0,
+        "openPosedMeanChangedWeightCorrectionDeltaMetres": NaN,
+        "stages": [
+          {
+            "blink": 0,
+            "halfWeight": 0,
+            "fullWeight": 0,
+            "visibleEyeRays": [
+              2329,
+              3919
+            ],
+            "testRaysPerAperture": 12221
+          },
+          {
+            "blink": 0.25,
+            "halfWeight": 0.5,
+            "fullWeight": 0,
+            "visibleEyeRays": [
+              1753,
+              2913
+            ],
+            "testRaysPerAperture": 12221
+          },
+          {
+            "blink": 0.5,
+            "halfWeight": 1.0,
+            "fullWeight": 0,
+            "visibleEyeRays": [
+              1155,
+              1898
+            ],
+            "testRaysPerAperture": 12221
+          },
+          {
+            "blink": 0.75,
+            "halfWeight": 0.5,
+            "fullWeight": 0.5,
+            "visibleEyeRays": [
+              520,
+              720
+            ],
+            "testRaysPerAperture": 12221
+          },
+          {
+            "blink": 1,
+            "halfWeight": 0,
+            "fullWeight": 1,
+            "visibleEyeRays": [
+              0,
+              0
+            ],
+            "testRaysPerAperture": 12221
+          }
+        ]
+      },
+      {
+        "clip": "Forehand",
+        "time": 0.8000000715255737,
+        "openPosedMaxWeightCorrectionDeltaMetres": 0.0,
+        "openPosedMeanChangedWeightCorrectionDeltaMetres": NaN,
+        "stages": [
+          {
+            "blink": 0,
+            "halfWeight": 0,
+            "fullWeight": 0,
+            "visibleEyeRays": [
+              4921,
+              4664
+            ],
+            "testRaysPerAperture": 12221
+          },
+          {
+            "blink": 0.25,
+            "halfWeight": 0.5,
+            "fullWeight": 0,
+            "visibleEyeRays": [
+              4068,
+              3486
+            ],
+            "testRaysPerAperture": 12221
+          },
+          {
+            "blink": 0.5,
+            "halfWeight": 1.0,
+            "fullWeight": 0,
+            "visibleEyeRays": [
+              2849,
+              2309
+            ],
+            "testRaysPerAperture": 12221
+          },
+          {
+            "blink": 0.75,
+            "halfWeight": 0.5,
+            "fullWeight": 0.5,
+            "visibleEyeRays": [
+              1386,
+              1119
+            ],
+            "testRaysPerAperture": 12221
+          },
+          {
+            "blink": 1,
+            "halfWeight": 0,
+            "fullWeight": 1,
+            "visibleEyeRays": [
+              0,
+              0
+            ],
+            "testRaysPerAperture": 12221
+          }
+        ]
+      },
+      {
+        "clip": "IntroWave",
+        "time": 1.3333333730697632,
+        "openPosedMaxWeightCorrectionDeltaMetres": 0.0,
+        "openPosedMeanChangedWeightCorrectionDeltaMetres": NaN,
+        "stages": [
+          {
+            "blink": 0,
+            "halfWeight": 0,
+            "fullWeight": 0,
+            "visibleEyeRays": [
+              5732,
+              5917
+            ],
+            "testRaysPerAperture": 12221
+          },
+          {
+            "blink": 0.25,
+            "halfWeight": 0.5,
+            "fullWeight": 0,
+            "visibleEyeRays": [
+              4301,
+              4430
+            ],
+            "testRaysPerAperture": 12221
+          },
+          {
+            "blink": 0.5,
+            "halfWeight": 1.0,
+            "fullWeight": 0,
+            "visibleEyeRays": [
+              2864,
+              2945
+            ],
+            "testRaysPerAperture": 12221
+          },
+          {
+            "blink": 0.75,
+            "halfWeight": 0.5,
+            "fullWeight": 0.5,
+            "visibleEyeRays": [
+              1415,
+              1463
+            ],
+            "testRaysPerAperture": 12221
+          },
+          {
+            "blink": 1,
+            "halfWeight": 0,
+            "fullWeight": 1,
+            "visibleEyeRays": [
+              0,
+              0
+            ],
+            "testRaysPerAperture": 12221
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "assumption": "Original opponent shoulder trajectory through toss start remains unchanged. G6 only locks the ball-hand pose at the first release, so this assumption is stronger than the brief.",
+  "status": "Resolved by v18 opponent-only visual toss sampling after the first release; Serve asset and gameplay clocks unchanged.",
+  "original_path_bounds": [
+    {
+      "case": "opponent-female-rh-deuce-control",
+      "start_frame": 116,
+      "frame": 122,
+      "required_min_wrist_travel_m_allowing_5mm_pose_error": 0.19384132409226695,
+      "G5_max_travel_m": 0.18,
+      "deficit_m": 0.01384132409226696,
+      "baseline_start_wrist": [
+        -2.340249,
+        1.737894,
+        12.11468
+      ],
+      "shoulder": [
+        -2.370258,
+        1.101173,
+        12.29824
+      ],
+      "arm_span_m": 0.46448999999999996
+    },
+    {
+      "case": "opponent-male-rh-ad-control",
+      "start_frame": 116,
+      "frame": 122,
+      "required_min_wrist_travel_m_allowing_5mm_pose_error": 0.19031297497672095,
+      "G5_max_travel_m": 0.18,
+      "deficit_m": 0.010312974976720957,
+      "baseline_start_wrist": [
+        2.403457,
+        1.791519,
+        11.99768
+      ],
+      "shoulder": [
+        2.354551,
+        1.124647,
+        12.21614
+      ],
+      "arm_span_m": 0.508132
+    },
+    {
+      "case": "opponent-male-rh-deuce-control",
+      "start_frame": 116,
+      "frame": 122,
+      "required_min_wrist_travel_m_allowing_5mm_pose_error": 0.1903129054538667,
+      "G5_max_travel_m": 0.18,
+      "deficit_m": 0.010312905453866705,
+      "baseline_start_wrist": [
+        -2.296543,
+        1.791519,
+        11.99768
+      ],
+      "shoulder": [
+        -2.345448,
+        1.124647,
+        12.21614
+      ],
+      "arm_span_m": 0.508132
+    },
+    {
+      "case": "opponent-female-rh-ad-control",
+      "start_frame": 116,
+      "frame": 122,
+      "required_min_wrist_travel_m_allowing_5mm_pose_error": 0.19384136933285478,
+      "G5_max_travel_m": 0.18,
+      "deficit_m": 0.013841369332854792,
+      "baseline_start_wrist": [
+        2.359751,
+        1.737894,
+        12.11468
+      ],
+      "shoulder": [
+        2.329741,
+        1.101173,
+        12.29824
+      ],
+      "arm_span_m": 0.46448999999999996
+    }
+  ]
+}

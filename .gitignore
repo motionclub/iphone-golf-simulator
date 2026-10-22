@@ -63,3 +63,5 @@ blender/cmugolf/
 /work/**/*.jpg
 /work/**/*.mp4
 /work/**/*.png
+# Local secrets written by `elevenlabs onboard`
+/.env.local

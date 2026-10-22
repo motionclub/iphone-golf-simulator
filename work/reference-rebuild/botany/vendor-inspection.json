@@ -1,0 +1,1413 @@
+[
+  {
+    "name": "fir_tree_01_a_LOD0",
+    "type": "MESH",
+    "loc": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_LOD0"
+    ],
+    "vertices": 5337567,
+    "polys": 2107255,
+    "materials": [
+      "fir_tree_01_bark",
+      "fir_tree_01_trunk_a",
+      "fir_tree_01_twig",
+      "fir_tree_01_dead_branches"
+    ],
+    "uv": [],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_a_LOD1",
+    "type": "MESH",
+    "loc": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_LOD1"
+    ],
+    "vertices": 138058,
+    "polys": 88980,
+    "materials": [
+      "fir_tree_01_bark",
+      "fir_tree_01_trunk_a",
+      "fir_tree_01_twig",
+      "fir_tree_01_dead_branches"
+    ],
+    "uv": [],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_a_LOD2",
+    "type": "MESH",
+    "loc": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_LOD2"
+    ],
+    "vertices": 73227,
+    "polys": 48149,
+    "materials": [
+      "fir_tree_01_bark",
+      "fir_tree_01_trunk_a",
+      "fir_tree_01_twig",
+      "fir_tree_01_dead_branches"
+    ],
+    "uv": [],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_b_LOD0",
+    "type": "MESH",
+    "loc": [
+      6.0,
+      0.0,
+      0.0
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_LOD0"
+    ],
+    "vertices": 2899226,
+    "polys": 1161596,
+    "materials": [
+      "fir_tree_01_bark",
+      "fir_tree_01_trunk_b",
+      "fir_tree_01_twig",
+      "fir_tree_01_dead_branches"
+    ],
+    "uv": [],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_b_LOD1",
+    "type": "MESH",
+    "loc": [
+      6.0,
+      0.0,
+      0.0
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_LOD1"
+    ],
+    "vertices": 90714,
+    "polys": 64508,
+    "materials": [
+      "fir_tree_01_bark",
+      "fir_tree_01_trunk_b",
+      "fir_tree_01_twig",
+      "fir_tree_01_dead_branches"
+    ],
+    "uv": [],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_b_LOD2",
+    "type": "MESH",
+    "loc": [
+      6.0,
+      0.0,
+      0.0
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_LOD2"
+    ],
+    "vertices": 48164,
+    "polys": 41742,
+    "materials": [
+      "fir_tree_01_bark",
+      "fir_tree_01_trunk_b",
+      "fir_tree_01_twig",
+      "fir_tree_01_dead_branches"
+    ],
+    "uv": [],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_c_LOD0",
+    "type": "MESH",
+    "loc": [
+      12.0,
+      0.0,
+      0.0
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_LOD0"
+    ],
+    "vertices": 620039,
+    "polys": 255682,
+    "materials": [
+      null,
+      "fir_tree_01_bark",
+      "fir_tree_01_twig",
+      "fir_tree_01_dead_branches",
+      "fir_tree_01_trunk_c"
+    ],
+    "uv": [],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_c_LOD1",
+    "type": "MESH",
+    "loc": [
+      12.0,
+      0.0,
+      0.0
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_LOD1"
+    ],
+    "vertices": 43277,
+    "polys": 34656,
+    "materials": [
+      "fir_tree_01_bark",
+      "fir_tree_01_twig",
+      "fir_tree_01_dead_branches",
+      "fir_tree_01_trunk_c"
+    ],
+    "uv": [],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_c_LOD2",
+    "type": "MESH",
+    "loc": [
+      12.0,
+      0.0,
+      0.0
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_LOD2"
+    ],
+    "vertices": 22574,
+    "polys": 22079,
+    "materials": [
+      "fir_tree_01_bark",
+      "fir_tree_01_twig",
+      "fir_tree_01_dead_branches",
+      "fir_tree_01_trunk_c"
+    ],
+    "uv": [],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_dead_branch_a",
+    "type": "MESH",
+    "loc": [
+      12.044425964355469,
+      -0.0006212163134478033,
+      -0.0005589627544395626
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_dead_branches"
+    ],
+    "vertices": 56,
+    "polys": 55,
+    "materials": [
+      "fir_tree_01_dead_branches"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_dead_branch_b",
+    "type": "MESH",
+    "loc": [
+      12.16246223449707,
+      -0.0011166910408064723,
+      0.002458675066009164
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_dead_branches"
+    ],
+    "vertices": 46,
+    "polys": 45,
+    "materials": [
+      "fir_tree_01_dead_branches"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_dead_branch_c",
+    "type": "MESH",
+    "loc": [
+      12.306560516357422,
+      -0.0012392839416861534,
+      -6.778520764783025e-05
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_dead_branches"
+    ],
+    "vertices": 21,
+    "polys": 20,
+    "materials": [
+      "fir_tree_01_dead_branches"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_dead_branch_d",
+    "type": "MESH",
+    "loc": [
+      12.420554161071777,
+      -0.001580720767378807,
+      0.00124931032769382
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_dead_branches"
+    ],
+    "vertices": 31,
+    "polys": 30,
+    "materials": [
+      "fir_tree_01_dead_branches"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_dead_branch_e",
+    "type": "MESH",
+    "loc": [
+      12.542791366577148,
+      -0.002083855913951993,
+      -0.0012030082289129496
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_dead_branches"
+    ],
+    "vertices": 69,
+    "polys": 71,
+    "materials": [
+      "fir_tree_01_dead_branches"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_dead_branch_f",
+    "type": "MESH",
+    "loc": [
+      12.701974868774414,
+      -0.004064565058797598,
+      0.0007587340078316629
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_dead_branches"
+    ],
+    "vertices": 36,
+    "polys": 35,
+    "materials": [
+      "fir_tree_01_dead_branches"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_dead_branch_g",
+    "type": "MESH",
+    "loc": [
+      12.844046592712402,
+      -0.002780047943815589,
+      0.00524340383708477
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_dead_branches"
+    ],
+    "vertices": 46,
+    "polys": 45,
+    "materials": [
+      "fir_tree_01_dead_branches"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_dead_branch_h",
+    "type": "MESH",
+    "loc": [
+      13.027653694152832,
+      -0.002083898289129138,
+      -0.0012030082289129496
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_dead_branches"
+    ],
+    "vertices": 110,
+    "polys": 111,
+    "materials": [
+      "fir_tree_01_dead_branches"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_dead_branch_i",
+    "type": "MESH",
+    "loc": [
+      13.392741203308105,
+      -0.005527203902602196,
+      0.0032851409632712603
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_dead_branches"
+    ],
+    "vertices": 77,
+    "polys": 75,
+    "materials": [
+      "fir_tree_01_dead_branches"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_dead_branch_j",
+    "type": "MESH",
+    "loc": [
+      13.675185203552246,
+      -0.005527119617909193,
+      0.0032851460855454206
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_dead_branches"
+    ],
+    "vertices": 215,
+    "polys": 217,
+    "materials": [
+      "fir_tree_01_dead_branches"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_geometry_nodes",
+    "type": "CURVE",
+    "loc": [
+      -12.930569648742676,
+      0.0,
+      0.0
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_geometry_nodes"
+    ],
+    "modifiers": [
+      {
+        "name": "GeometryNodes",
+        "type": "NODES",
+        "group": "fir_tree_01",
+        "inputs": {
+          "Output_1": "None",
+          "Input_0": "None",
+          "Input_3": "None",
+          "Input_4": "None",
+          "Input_16": "None",
+          "Input_2": "None",
+          "Input_13": "None",
+          "Input_11": "None",
+          "Input_5": "None",
+          "Input_12": "None",
+          "Input_7": "None",
+          "Input_8": "None",
+          "Input_9": "None",
+          "Input_10": "None",
+          "Input_14": "None"
+        }
+      }
+    ]
+  },
+  {
+    "name": "fir_tree_01_needle_a",
+    "type": "MESH",
+    "loc": [
+      23.360475540161133,
+      -0.0047050598077476025,
+      0.0012003681622445583
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_needles"
+    ],
+    "vertices": 6,
+    "polys": 2,
+    "materials": [
+      "fir_tree_01_twig"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": [
+      {
+        "name": "Solidify",
+        "type": "SOLIDIFY"
+      }
+    ]
+  },
+  {
+    "name": "fir_tree_01_needle_b",
+    "type": "MESH",
+    "loc": [
+      23.405433654785156,
+      -0.0047050598077476025,
+      0.0012003681622445583
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_needles"
+    ],
+    "vertices": 6,
+    "polys": 2,
+    "materials": [
+      "fir_tree_01_twig"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": [
+      {
+        "name": "Solidify",
+        "type": "SOLIDIFY"
+      }
+    ]
+  },
+  {
+    "name": "fir_tree_01_needle_c",
+    "type": "MESH",
+    "loc": [
+      23.44113540649414,
+      -0.0047050598077476025,
+      0.0012003681622445583
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_needles"
+    ],
+    "vertices": 6,
+    "polys": 2,
+    "materials": [
+      "fir_tree_01_twig"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": [
+      {
+        "name": "Solidify",
+        "type": "SOLIDIFY"
+      }
+    ]
+  },
+  {
+    "name": "fir_tree_01_needle_d",
+    "type": "MESH",
+    "loc": [
+      23.48476791381836,
+      -0.0047050598077476025,
+      0.0012003681622445583
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_needles"
+    ],
+    "vertices": 6,
+    "polys": 2,
+    "materials": [
+      "fir_tree_01_twig"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": [
+      {
+        "name": "Solidify",
+        "type": "SOLIDIFY"
+      }
+    ]
+  },
+  {
+    "name": "fir_tree_01_trunk_a",
+    "type": "MESH",
+    "loc": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_trunks"
+    ],
+    "vertices": 42391,
+    "polys": 42222,
+    "materials": [
+      "fir_tree_01_trunk_a"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_trunk_b",
+    "type": "MESH",
+    "loc": [
+      5.0,
+      0.0,
+      0.0
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_trunks"
+    ],
+    "vertices": 39564,
+    "polys": 39442,
+    "materials": [
+      "fir_tree_01_trunk_b"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_trunk_c",
+    "type": "MESH",
+    "loc": [
+      9.0,
+      0.0,
+      0.0
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_trunks"
+    ],
+    "vertices": 23290,
+    "polys": 23186,
+    "materials": [
+      "fir_tree_01_trunk_c"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_twig_main_a",
+    "type": "MESH",
+    "loc": [
+      15.753096580505371,
+      -0.0168001651763916,
+      0.001200360246002674
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_twigs_main_LOD0"
+    ],
+    "vertices": 478,
+    "polys": 470,
+    "materials": [
+      "fir_tree_01_twig"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": [
+      {
+        "name": "GeometryNodes",
+        "type": "NODES",
+        "group": "fir_twig",
+        "inputs": {
+          "Output_1": "None",
+          "Input_0": "None"
+        }
+      }
+    ]
+  },
+  {
+    "name": "fir_tree_01_twig_main_a_LOD1",
+    "type": "MESH",
+    "loc": [
+      15.753097534179688,
+      -0.016800284385681152,
+      0.0012003601295873523
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_twigs_main_LOD1"
+    ],
+    "vertices": 54,
+    "polys": 21,
+    "materials": [
+      "fir_tree_01_twig"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_twig_main_a_LOD2",
+    "type": "MESH",
+    "loc": [
+      15.753097534179688,
+      -0.016800284385681152,
+      0.0012003601295873523
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_twigs_main_LOD2"
+    ],
+    "vertices": 37,
+    "polys": 15,
+    "materials": [
+      "fir_tree_01_twig"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_twig_main_b",
+    "type": "MESH",
+    "loc": [
+      17.105791091918945,
+      -0.0006524724885821342,
+      0.001200360246002674
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_twigs_main_LOD0"
+    ],
+    "vertices": 118,
+    "polys": 115,
+    "materials": [
+      "fir_tree_01_twig"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": [
+      {
+        "name": "GeometryNodes",
+        "type": "NODES",
+        "group": "fir_twig",
+        "inputs": {
+          "Output_1": "None",
+          "Input_0": "None"
+        }
+      }
+    ]
+  },
+  {
+    "name": "fir_tree_01_twig_main_b_LOD1",
+    "type": "MESH",
+    "loc": [
+      17.105789184570312,
+      -0.000652313232421875,
+      0.001200360246002674
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_twigs_main_LOD1"
+    ],
+    "vertices": 33,
+    "polys": 13,
+    "materials": [
+      "fir_tree_01_twig"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_twig_main_b_LOD2",
+    "type": "MESH",
+    "loc": [
+      17.105789184570312,
+      -0.000652313232421875,
+      0.001200360246002674
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_twigs_main_LOD2"
+    ],
+    "vertices": 22,
+    "polys": 9,
+    "materials": [
+      "fir_tree_01_twig"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_twig_main_c",
+    "type": "MESH",
+    "loc": [
+      18.47947883605957,
+      0.002939300611615181,
+      0.009735913947224617
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_twigs_main_LOD0"
+    ],
+    "vertices": 299,
+    "polys": 290,
+    "materials": [
+      "fir_tree_01_twig"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": [
+      {
+        "name": "GeometryNodes",
+        "type": "NODES",
+        "group": "fir_twig",
+        "inputs": {
+          "Output_1": "None",
+          "Input_0": "None"
+        }
+      }
+    ]
+  },
+  {
+    "name": "fir_tree_01_twig_main_c_LOD1",
+    "type": "MESH",
+    "loc": [
+      18.479480743408203,
+      0.0029393434524536133,
+      0.009735913947224617
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_twigs_main_LOD1"
+    ],
+    "vertices": 54,
+    "polys": 25,
+    "materials": [
+      "fir_tree_01_twig"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_twig_main_c_LOD2",
+    "type": "MESH",
+    "loc": [
+      18.479480743408203,
+      0.0029393434524536133,
+      0.009735913947224617
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_twigs_main_LOD2"
+    ],
+    "vertices": 35,
+    "polys": 18,
+    "materials": [
+      "fir_tree_01_twig"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_twig_tip_a",
+    "type": "MESH",
+    "loc": [
+      20.451642990112305,
+      -0.003399965353310108,
+      0.0018799244426190853
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_twigs_tip_LOD0"
+    ],
+    "vertices": 42,
+    "polys": 40,
+    "materials": [
+      "fir_tree_01_twig"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": [
+      {
+        "name": "GeometryNodes",
+        "type": "NODES",
+        "group": "fir_twig",
+        "inputs": {
+          "Output_1": "None",
+          "Input_0": "None"
+        }
+      }
+    ]
+  },
+  {
+    "name": "fir_tree_01_twig_tip_a_LOD1",
+    "type": "MESH",
+    "loc": [
+      20.451642990112305,
+      -0.0034000277519226074,
+      0.0018799244426190853
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_twigs_tip_LOD1"
+    ],
+    "vertices": 20,
+    "polys": 7,
+    "materials": [
+      "fir_tree_01_twig"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_twig_tip_a_LOD2",
+    "type": "MESH",
+    "loc": [
+      20.451642990112305,
+      -0.0034000277519226074,
+      0.0018799244426190853
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_twigs_tip_LOD2"
+    ],
+    "vertices": 13,
+    "polys": 5,
+    "materials": [
+      "fir_tree_01_twig"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_twig_tip_b",
+    "type": "MESH",
+    "loc": [
+      21.08637237548828,
+      -0.0057644168846309185,
+      0.001200360246002674
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_twigs_tip_LOD0"
+    ],
+    "vertices": 128,
+    "polys": 125,
+    "materials": [
+      "fir_tree_01_twig"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": [
+      {
+        "name": "GeometryNodes",
+        "type": "NODES",
+        "group": "fir_twig",
+        "inputs": {
+          "Output_1": "None",
+          "Input_0": "None"
+        }
+      }
+    ]
+  },
+  {
+    "name": "fir_tree_01_twig_tip_b_LOD1",
+    "type": "MESH",
+    "loc": [
+      21.08637237548828,
+      -0.005764424800872803,
+      0.001200360246002674
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_twigs_tip_LOD1"
+    ],
+    "vertices": 29,
+    "polys": 11,
+    "materials": [
+      "fir_tree_01_twig"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_twig_tip_b_LOD2",
+    "type": "MESH",
+    "loc": [
+      21.08637237548828,
+      -0.005764424800872803,
+      0.001200360246002674
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_twigs_tip_LOD2"
+    ],
+    "vertices": 18,
+    "polys": 8,
+    "materials": [
+      "fir_tree_01_twig"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_twig_tip_c",
+    "type": "MESH",
+    "loc": [
+      21.74461555480957,
+      -0.0006053317338228226,
+      0.0012003681622445583
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_twigs_tip_LOD0"
+    ],
+    "vertices": 41,
+    "polys": 40,
+    "materials": [
+      "fir_tree_01_twig"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": [
+      {
+        "name": "GeometryNodes",
+        "type": "NODES",
+        "group": "fir_twig",
+        "inputs": {
+          "Output_1": "None",
+          "Input_0": "None"
+        }
+      }
+    ]
+  },
+  {
+    "name": "fir_tree_01_twig_tip_c_LOD1",
+    "type": "MESH",
+    "loc": [
+      21.74461555480957,
+      -0.0006053447723388672,
+      0.0012003680458292365
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_twigs_tip_LOD1"
+    ],
+    "vertices": 8,
+    "polys": 2,
+    "materials": [
+      "fir_tree_01_twig"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_twig_tip_c_LOD2",
+    "type": "MESH",
+    "loc": [
+      21.74461555480957,
+      -0.0006053447723388672,
+      0.0012003680458292365
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_twigs_tip_LOD2"
+    ],
+    "vertices": 8,
+    "polys": 2,
+    "materials": [
+      "fir_tree_01_twig"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_twig_tip_d",
+    "type": "MESH",
+    "loc": [
+      22.555280685424805,
+      -0.0060241371393203735,
+      0.06481482833623886
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_twigs_tip_LOD0"
+    ],
+    "vertices": 193,
+    "polys": 190,
+    "materials": [
+      "fir_tree_01_twig"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": [
+      {
+        "name": "GeometryNodes",
+        "type": "NODES",
+        "group": "fir_twig",
+        "inputs": {
+          "Output_1": "None",
+          "Input_0": "None"
+        }
+      }
+    ]
+  },
+  {
+    "name": "fir_tree_01_twig_tip_d_LOD1",
+    "type": "MESH",
+    "loc": [
+      22.555282592773438,
+      -0.00602412223815918,
+      0.06481482833623886
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_twigs_tip_LOD1"
+    ],
+    "vertices": 46,
+    "polys": 19,
+    "materials": [
+      "fir_tree_01_twig"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": []
+  },
+  {
+    "name": "fir_tree_01_twig_tip_d_LOD2",
+    "type": "MESH",
+    "loc": [
+      22.555282592773438,
+      -0.00602412223815918,
+      0.06481482833623886
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "hide": false,
+    "collections": [
+      "fir_tree_01_twigs_tip_LOD2"
+    ],
+    "vertices": 29,
+    "polys": 11,
+    "materials": [
+      "fir_tree_01_twig"
+    ],
+    "uv": [
+      "UVMap"
+    ],
+    "modifiers": []
+  }
+]

@@ -1,0 +1,398 @@
+[
+  {
+    "sex": "Male",
+    "side": "Left",
+    "restSkeletalForearmPalmAngle": 8.031012535095215,
+    "rigidSkinPalmVsSkeletalPalmAxisDegrees": 18.517745971679688,
+    "coreBandSampleCounts": [
+      83,
+      90
+    ],
+    "restCoreCentres": [
+      [
+        -0.5586777925491333,
+        -0.09164541959762573,
+        -0.9395514130592346
+      ],
+      [
+        -0.5810288786888123,
+        -0.1094808578491211,
+        -0.9111743569374084
+      ]
+    ],
+    "clips": [
+      {
+        "clip": "golfDrive",
+        "samples": [
+          {
+            "frame": 0,
+            "skeletalPalmAngle": 59.724647521972656,
+            "skinPalmAngle": 41.212074279785156
+          },
+          {
+            "frame": 239,
+            "skeletalPalmAngle": 57.81907653808594,
+            "skinPalmAngle": 43.9122200012207
+          }
+        ]
+      },
+      {
+        "clip": "golfIron",
+        "samples": [
+          {
+            "frame": 0,
+            "skeletalPalmAngle": 51.69131088256836,
+            "skinPalmAngle": 33.17972183227539
+          },
+          {
+            "frame": 232,
+            "skeletalPalmAngle": 53.878089904785156,
+            "skinPalmAngle": 38.99129104614258
+          }
+        ]
+      },
+      {
+        "clip": "golfHalf",
+        "samples": [
+          {
+            "frame": 0,
+            "skeletalPalmAngle": 51.7390022277832,
+            "skinPalmAngle": 33.229835510253906
+          },
+          {
+            "frame": 167,
+            "skeletalPalmAngle": 53.215843200683594,
+            "skinPalmAngle": 37.121788024902344
+          }
+        ]
+      },
+      {
+        "clip": "golfChip",
+        "samples": [
+          {
+            "frame": 0,
+            "skeletalPalmAngle": 44.842979431152344,
+            "skinPalmAngle": 26.487667083740234
+          },
+          {
+            "frame": 115,
+            "skeletalPalmAngle": 41.49056625366211,
+            "skinPalmAngle": 28.680219650268555
+          }
+        ]
+      },
+      {
+        "clip": "golfPutt",
+        "samples": [
+          {
+            "frame": 0,
+            "skeletalPalmAngle": 62.15265655517578,
+            "skinPalmAngle": 43.68043518066406
+          },
+          {
+            "frame": 101,
+            "skeletalPalmAngle": 61.30961990356445,
+            "skinPalmAngle": 43.72812271118164
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "sex": "Male",
+    "side": "Right",
+    "restSkeletalForearmPalmAngle": 8.031061172485352,
+    "rigidSkinPalmVsSkeletalPalmAxisDegrees": 18.521812438964844,
+    "coreBandSampleCounts": [
+      83,
+      90
+    ],
+    "restCoreCentres": [
+      [
+        0.5586801767349243,
+        -0.0916445255279541,
+        -0.9395534992218018
+      ],
+      [
+        0.5810288786888123,
+        -0.10948086529970169,
+        -0.9111743569374084
+      ]
+    ],
+    "clips": [
+      {
+        "clip": "golfDrive",
+        "samples": [
+          {
+            "frame": 0,
+            "skeletalPalmAngle": 60.81587219238281,
+            "skinPalmAngle": 42.35898208618164
+          },
+          {
+            "frame": 239,
+            "skeletalPalmAngle": 94.0539779663086,
+            "skinPalmAngle": 76.98629760742188
+          }
+        ]
+      },
+      {
+        "clip": "golfIron",
+        "samples": [
+          {
+            "frame": 0,
+            "skeletalPalmAngle": 53.425636291503906,
+            "skinPalmAngle": 34.90385437011719
+          },
+          {
+            "frame": 232,
+            "skeletalPalmAngle": 86.99799346923828,
+            "skinPalmAngle": 69.19227600097656
+          }
+        ]
+      },
+      {
+        "clip": "golfHalf",
+        "samples": [
+          {
+            "frame": 0,
+            "skeletalPalmAngle": 53.14522933959961,
+            "skinPalmAngle": 34.623775482177734
+          },
+          {
+            "frame": 167,
+            "skeletalPalmAngle": 81.1808090209961,
+            "skinPalmAngle": 63.236053466796875
+          }
+        ]
+      },
+      {
+        "clip": "golfChip",
+        "samples": [
+          {
+            "frame": 0,
+            "skeletalPalmAngle": 51.72453689575195,
+            "skinPalmAngle": 33.299076080322266
+          },
+          {
+            "frame": 115,
+            "skeletalPalmAngle": 69.59950256347656,
+            "skinPalmAngle": 54.614013671875
+          }
+        ]
+      },
+      {
+        "clip": "golfPutt",
+        "samples": [
+          {
+            "frame": 0,
+            "skeletalPalmAngle": 67.09374237060547,
+            "skinPalmAngle": 48.774288177490234
+          },
+          {
+            "frame": 101,
+            "skeletalPalmAngle": 61.55101013183594,
+            "skinPalmAngle": 43.141456604003906
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "sex": "Female",
+    "side": "Left",
+    "restSkeletalForearmPalmAngle": 22.975643157958984,
+    "rigidSkinPalmVsSkeletalPalmAxisDegrees": 8.3988676071167,
+    "coreBandSampleCounts": [
+      80,
+      89
+    ],
+    "restCoreCentres": [
+      [
+        -0.23325657844543457,
+        -0.0025353857781738043,
+        -0.8292169570922852
+      ],
+      [
+        -0.23484891653060913,
+        -0.021475065499544144,
+        -0.7943935394287109
+      ]
+    ],
+    "clips": [
+      {
+        "clip": "golfDrive",
+        "samples": [
+          {
+            "frame": 0,
+            "skeletalPalmAngle": 65.42987060546875,
+            "skinPalmAngle": 58.860225677490234
+          },
+          {
+            "frame": 612,
+            "skeletalPalmAngle": 66.98224639892578,
+            "skinPalmAngle": 63.76411437988281
+          }
+        ]
+      },
+      {
+        "clip": "golfIron",
+        "samples": [
+          {
+            "frame": 0,
+            "skeletalPalmAngle": 55.54820251464844,
+            "skinPalmAngle": 48.916847229003906
+          },
+          {
+            "frame": 693,
+            "skeletalPalmAngle": 58.63945770263672,
+            "skinPalmAngle": 55.19083786010742
+          }
+        ]
+      },
+      {
+        "clip": "golfHalf",
+        "samples": [
+          {
+            "frame": 0,
+            "skeletalPalmAngle": 55.575382232666016,
+            "skinPalmAngle": 48.9649772644043
+          },
+          {
+            "frame": 473,
+            "skeletalPalmAngle": 60.013336181640625,
+            "skinPalmAngle": 55.57130813598633
+          }
+        ]
+      },
+      {
+        "clip": "golfChip",
+        "samples": [
+          {
+            "frame": 0,
+            "skeletalPalmAngle": 51.22618103027344,
+            "skinPalmAngle": 44.12178421020508
+          },
+          {
+            "frame": 456,
+            "skeletalPalmAngle": 49.52956008911133,
+            "skinPalmAngle": 47.263057708740234
+          }
+        ]
+      },
+      {
+        "clip": "golfPutt",
+        "samples": [
+          {
+            "frame": 0,
+            "skeletalPalmAngle": 69.27124786376953,
+            "skinPalmAngle": 62.649169921875
+          },
+          {
+            "frame": 224,
+            "skeletalPalmAngle": 67.59190368652344,
+            "skinPalmAngle": 62.25424575805664
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "sex": "Female",
+    "side": "Right",
+    "restSkeletalForearmPalmAngle": 22.97569465637207,
+    "rigidSkinPalmVsSkeletalPalmAxisDegrees": 9.50177001953125,
+    "coreBandSampleCounts": [
+      90,
+      89
+    ],
+    "restCoreCentres": [
+      [
+        0.23391681909561157,
+        -0.004752432927489281,
+        -0.8315445184707642
+      ],
+      [
+        0.23454123735427856,
+        -0.022628895938396454,
+        -0.7946169376373291
+      ]
+    ],
+    "clips": [
+      {
+        "clip": "golfDrive",
+        "samples": [
+          {
+            "frame": 0,
+            "skeletalPalmAngle": 46.94901657104492,
+            "skinPalmAngle": 40.995323181152344
+          },
+          {
+            "frame": 612,
+            "skeletalPalmAngle": 93.6303482055664,
+            "skinPalmAngle": 85.57942962646484
+          }
+        ]
+      },
+      {
+        "clip": "golfIron",
+        "samples": [
+          {
+            "frame": 0,
+            "skeletalPalmAngle": 40.35931396484375,
+            "skinPalmAngle": 35.15784454345703
+          },
+          {
+            "frame": 693,
+            "skeletalPalmAngle": 84.33280181884766,
+            "skinPalmAngle": 76.81365203857422
+          }
+        ]
+      },
+      {
+        "clip": "golfHalf",
+        "samples": [
+          {
+            "frame": 0,
+            "skeletalPalmAngle": 40.4692268371582,
+            "skinPalmAngle": 35.218849182128906
+          },
+          {
+            "frame": 473,
+            "skeletalPalmAngle": 81.68356323242188,
+            "skinPalmAngle": 74.4966812133789
+          }
+        ]
+      },
+      {
+        "clip": "golfChip",
+        "samples": [
+          {
+            "frame": 0,
+            "skeletalPalmAngle": 48.125614166259766,
+            "skinPalmAngle": 42.516090393066406
+          },
+          {
+            "frame": 456,
+            "skeletalPalmAngle": 68.47008514404297,
+            "skinPalmAngle": 59.59920120239258
+          }
+        ]
+      },
+      {
+        "clip": "golfPutt",
+        "samples": [
+          {
+            "frame": 0,
+            "skeletalPalmAngle": 64.68428802490234,
+            "skinPalmAngle": 60.48869705200195
+          },
+          {
+            "frame": 224,
+            "skeletalPalmAngle": 55.36582565307617,
+            "skinPalmAngle": 48.98408508300781
+          }
+        ]
+      }
+    ]
+  }
+]

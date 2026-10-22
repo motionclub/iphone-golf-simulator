@@ -1,0 +1,11 @@
+--- a/Unity/Assets/Scripts/Tennis/HeroTennisDriver.cs
++++ b/Unity/Assets/Scripts/Tennis/HeroTennisDriver.cs
+@@ -1034,7 +1034,7 @@
+                 hand.rotation = Quaternion.FromToRotation(mid.position - hand.position, fingers) * hand.rotation;
+                 Vector3 gripNormal = Vector3.Cross(mid.position - hand.position, index.position - hand.position).normalized;
+                 hand.rotation = Quaternion.AngleAxis(Vector3.SignedAngle(gripNormal, Vector3.ProjectOnPlane(view, fingers).normalized, fingers), fingers) * hand.rotation;
+-                float clearRoll = opponentServer ? Mathf.Clamp(Vector3.SignedAngle(Vector3.up, Vector3.ProjectOnPlane(view, fingers).normalized, fingers), -30, 30) : 0;
++                float clearRoll = opponentServer ? Mathf.Clamp(Vector3.SignedAngle(Vector3.up, Vector3.ProjectOnPlane(view, fingers).normalized, fingers), -75, 75) : 0;
+                 hand.rotation = Quaternion.AngleAxis(-clearRoll, fingers) * hand.rotation;
+             }
+             if (pre && prepare <= .001f) carryHandRotation = hand.rotation;

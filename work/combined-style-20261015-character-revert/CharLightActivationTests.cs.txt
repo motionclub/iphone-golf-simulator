@@ -1,0 +1,50 @@
+using System;
+using System.Linq;
+using System.Reflection;
+using GolfArcade.Tennis;
+using NUnit.Framework;
+using UnityEngine;
+namespace GolfArcade.PlayTests {
+ public class CharLightActivationTests {
+  [TestCase(null,"0",0f)] [TestCase("0","0",0f)] [TestCase("1","0",1f)]
+  [TestCase(null,"1",0f)] [TestCase(null,"2",1f)] [TestCase("0","4",1f)]
+  [TestCase(null,"5",1f)] [TestCase("0","6",1f)] [TestCase(null,"7",1f)]
+  public void ExplicitHeroOrCombinedStageDoesNotMutateVenue(string setting,string stage,float expected) {
+   var previous=Environment.GetEnvironmentVariable("VISUAL_HERO_LIGHTING");
+   var previousStage=Environment.GetEnvironmentVariable("VISUAL_ENVIRONMENT_STAGE");
+   var reset=typeof(GolfArcade.EnvironmentArt.EnvironmentLook).GetMethod("Reset",BindingFlags.Static|BindingFlags.NonPublic);
+   var initialize=typeof(HeroLightingProfile).GetMethod("Initialize",BindingFlags.Static|BindingFlags.NonPublic);
+   var lights=UnityEngine.Object.FindObjectsByType<Light>(FindObjectsSortMode.None).OrderBy(l=>l.GetInstanceID()).ToArray();
+   var values=lights.Select(l=>(l.intensity,l.color,l.shadows,l.shadowStrength,l.transform.position,l.transform.rotation)).ToArray();
+   var ambient=(RenderSettings.ambientMode,RenderSettings.ambientLight,RenderSettings.ambientSkyColor,RenderSettings.ambientEquatorColor,RenderSettings.ambientGroundColor);
+   var fog=(RenderSettings.fog,RenderSettings.fogColor,RenderSettings.fogStartDistance,RenderSettings.fogEndDistance,RenderSettings.skybox);
+   try {
+    Environment.SetEnvironmentVariable("VISUAL_ENVIRONMENT_STAGE",stage);reset.Invoke(null,null);
+    Environment.SetEnvironmentVariable("VISUAL_HERO_LIGHTING",setting);initialize.Invoke(null,null);
+    Assert.AreEqual(expected,Shader.GetGlobalFloat("_HeroLightingEnabled"));
+    Assert.AreEqual(lights.Length,UnityEngine.Object.FindObjectsByType<Light>(FindObjectsSortMode.None).Length);
+    CollectionAssert.AreEqual(values,lights.Select(l=>(l.intensity,l.color,l.shadows,l.shadowStrength,l.transform.position,l.transform.rotation)).ToArray());
+    Assert.AreEqual(ambient,(RenderSettings.ambientMode,RenderSettings.ambientLight,RenderSettings.ambientSkyColor,RenderSettings.ambientEquatorColor,RenderSettings.ambientGroundColor));
+    Assert.AreEqual(fog,(RenderSettings.fog,RenderSettings.fogColor,RenderSettings.fogStartDistance,RenderSettings.fogEndDistance,RenderSettings.skybox));
+   } finally { Environment.SetEnvironmentVariable("VISUAL_ENVIRONMENT_STAGE",previousStage);reset.Invoke(null,null);Environment.SetEnvironmentVariable("VISUAL_HERO_LIGHTING",previous);initialize.Invoke(null,null); }
+  }
+  [Test] public void CombinedStageCanInitializeAfterHeroProfile() {
+   var previous=Environment.GetEnvironmentVariable("VISUAL_HERO_LIGHTING");
+   var previousStage=Environment.GetEnvironmentVariable("VISUAL_ENVIRONMENT_STAGE");
+   var reset=typeof(GolfArcade.EnvironmentArt.EnvironmentLook).GetMethod("Reset",BindingFlags.Static|BindingFlags.NonPublic);
+   var initialize=typeof(HeroLightingProfile).GetMethod("Initialize",BindingFlags.Static|BindingFlags.NonPublic);
+   try {
+    Environment.SetEnvironmentVariable("VISUAL_HERO_LIGHTING",null);
+    Environment.SetEnvironmentVariable("VISUAL_ENVIRONMENT_STAGE","0");reset.Invoke(null,null);initialize.Invoke(null,null);
+    Assert.AreEqual(0,Shader.GetGlobalFloat("_HeroLightingEnabled"));
+    Environment.SetEnvironmentVariable("VISUAL_ENVIRONMENT_STAGE","7");reset.Invoke(null,null);HeroLightingProfile.Tennis();
+    Assert.AreEqual(1,Shader.GetGlobalFloat("_HeroLightingEnabled"));
+    Environment.SetEnvironmentVariable("VISUAL_ENVIRONMENT_STAGE","0");reset.Invoke(null,null);HeroLightingProfile.Tennis();
+    Assert.AreEqual(0,Shader.GetGlobalFloat("_HeroLightingEnabled"));
+   } finally {
+    Environment.SetEnvironmentVariable("VISUAL_HERO_LIGHTING",previous);Environment.SetEnvironmentVariable("VISUAL_ENVIRONMENT_STAGE",previousStage);
+    reset.Invoke(null,null);initialize.Invoke(null,null);
+   }
+  }
+ }
+}

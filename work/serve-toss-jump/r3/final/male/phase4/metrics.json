@@ -1,0 +1,204 @@
+{
+  "rows": 431,
+  "entryFrame": 1,
+  "entryTime": 2.8,
+  "serveEnd": 1.978333,
+  "G1_heights_mm": {
+    "Lheel": 0.34155,
+    "Ltoe": 0.047982,
+    "Rheel": 0.018775,
+    "Rtoe": 0.629123
+  },
+  "G2_knee_deg": 71.89139,
+  "G2_time": 1.278853,
+  "tossKneeThroughRelease": 31.70624,
+  "G3_first_clearance": {
+    "L": 1.594016,
+    "R": 1.594016
+  },
+  "G4_G8_contact": {
+    "clipTime": 1.7,
+    "strings_x": 0.158255022233537,
+    "strings_y": 2.2458747937881873,
+    "strings_z": 0.5567792902240325,
+    "Lheel_mm": 122.51390650033946,
+    "Ltoe_mm": 103.65636182959946,
+    "Rheel_mm": 510.4425988289204,
+    "Rtoe_mm": 427.4620710794296,
+    "Lknee_deg": 12.325557958078779,
+    "Rknee_deg": 117.54694960964017,
+    "Relbow_deg": 172.7959434317719,
+    "bracket_ttc": [
+      0.005,
+      -0.003333
+    ]
+  },
+  "G4_G8_rendered_contact": {
+    "frame": 281,
+    "clipTime": 1.703333,
+    "strings": [
+      0.159111,
+      2.248499,
+      0.559707
+    ],
+    "elbow": 172.7959,
+    "frontKnee": 8.612259,
+    "footHeights": {
+      "L": [
+        120.9116,
+        103.2441
+      ],
+      "R": [
+        527.0665,
+        443.6965
+      ]
+    }
+  },
+  "G5_apex": 1.761667,
+  "G6_touch": {
+    "frame": 290,
+    "clipTime": 1.878333
+  },
+  "G6_settled": {
+    "frame": 294,
+    "clipTime": 1.961667
+  },
+  "G7_entry_max_step": {
+    "mm": 21.768874591948943,
+    "bone": "Rhand",
+    "frame": 1,
+    "clipTime": 0.150057
+  },
+  "G7_entry_world_max_step": {
+    "mm": 20.864612649173104,
+    "bone": "Rhand",
+    "frame": 1,
+    "clipTime": 0.150057
+  },
+  "G9_hands": {
+    "L_all": {
+      "mm": 131.07928195180196,
+      "frame": 271,
+      "clipTime": 1.402685
+    },
+    "L_before": {
+      "mm": 131.07928195180196,
+      "frame": 271,
+      "clipTime": 1.402685
+    },
+    "L_contact": {
+      "mm": 117.8578259641676,
+      "frame": 280,
+      "clipTime": 1.662085
+    },
+    "L_after": {
+      "mm": 126.74319269294118,
+      "frame": 291,
+      "clipTime": 1.903333
+    },
+    "R_all": {
+      "mm": 221.18373667383412,
+      "frame": 280,
+      "clipTime": 1.662085
+    },
+    "R_before": {
+      "mm": 113.56163568300704,
+      "frame": 273,
+      "clipTime": 1.453222
+    },
+    "R_contact": {
+      "mm": 221.18373667383412,
+      "frame": 280,
+      "clipTime": 1.662085
+    },
+    "R_after": {
+      "mm": 109.26368481796696,
+      "frame": 289,
+      "clipTime": 1.861667
+    }
+  },
+  "G9_world_hands": {
+    "L_all": {
+      "mm": 149.6821517783589,
+      "frame": 291,
+      "clipTime": 1.903333
+    },
+    "L_before": {
+      "mm": 131.07928195180264,
+      "frame": 271,
+      "clipTime": 1.402685
+    },
+    "L_contact": {
+      "mm": 117.85782596416819,
+      "frame": 280,
+      "clipTime": 1.662085
+    },
+    "L_after": {
+      "mm": 149.6821517783589,
+      "frame": 291,
+      "clipTime": 1.903333
+    },
+    "R_all": {
+      "mm": 221.18373667383426,
+      "frame": 280,
+      "clipTime": 1.662085
+    },
+    "R_before": {
+      "mm": 113.56163568300752,
+      "frame": 273,
+      "clipTime": 1.453222
+    },
+    "R_contact": {
+      "mm": 221.18373667383426,
+      "frame": 280,
+      "clipTime": 1.662085
+    },
+    "R_after": {
+      "mm": 118.22323460724715,
+      "frame": 289,
+      "clipTime": 1.861667
+    }
+  },
+  "G9_followthrough": {
+    "actorLocal": {
+      "maxTurn": {
+        "degrees": 55.33089925812976,
+        "frame": 293,
+        "clipTime": 1.936667
+      },
+      "reversals": []
+    },
+    "world": {
+      "maxTurn": {
+        "degrees": 38.04535040378245,
+        "frame": 293,
+        "clipTime": 1.936667
+      },
+      "reversals": []
+    }
+  },
+  "G9_wrist": {
+    "degrees": 12.396925843273607,
+    "side": "L",
+    "frame": 149,
+    "clipTime": 0.25
+  },
+  "G11_drift": {
+    "live": {
+      "mm": 3.9852002459098363,
+      "side": "R",
+      "part": "toe",
+      "frame": 154,
+      "clipTime": 0.308333
+    },
+    "pureServe": {
+      "mm": 466.5150188847086,
+      "side": "R",
+      "part": "toe",
+      "frame": 271,
+      "clipTime": 1.402685
+    }
+  },
+  "nonServeSteps": 5,
+  "totalSteps": 5
+}

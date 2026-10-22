@@ -1,0 +1,159 @@
+sun dir_to_light=(0.5298, 0.8480, 0.0092) azimuth_deg=89.00 elevation_deg=58.00 colour=RGBA(1.000, 0.870, 0.730, 1.000) intensity=1.632
+rendered_sky_disc dir=(0.5298, 0.8480, 0.0092) azimuth_deg=89.00 elevation_deg=58.00
+rendered_sky_scatter dir=(0.5298, 0.8480, 0.0092) azimuth_deg=89.00
+skybox=Rendered sky / GolfArcade/RenderedSky
+fog=True Linear RGBA(0.667, 0.818, 0.765, 1.000) 45-9000 far=6000 near=0.08
+dream_utc=1792263600 weather=Clear rendered_sky_env=
+renderer Crowd_Female_SeatedApplause.014 enabled=False bounds=(-14.9, 1.6, 4.2)/(0.6, 1.4, 0.6)
+renderer Crowd_Female_SeatedRelaxed.016 enabled=False bounds=(-16.1, 2.3, 8.6)/(0.6, 1.4, 0.6)
+renderer Crowd_Male_SeatedApplause.016 enabled=False bounds=(-14.9, 1.6, 8.6)/(0.7, 1.4, 0.6)
+renderer Crowd_Female_SeatedRelaxed.014 enabled=False bounds=(-13.7, 1.0, 4.2)/(0.6, 1.4, 0.6)
+renderer Crowd_Male_SeatedRelaxed.015 enabled=False bounds=(-16.1, 2.3, 4.2)/(0.7, 1.4, 0.6)
+renderer Crowd_Male_SeatedApplause.010 enabled=False bounds=(-14.9, 1.6, -9.0)/(0.7, 1.4, 0.6)
+renderer Crowd_Male_SeatedApplause.018 enabled=False bounds=(-13.7, 1.0, 15.2)/(0.7, 1.4, 0.6)
+renderer Crowd_Male_SeatedApplause.014 enabled=False bounds=(-16.1, 2.3, 2.0)/(0.7, 1.4, 0.6)
+renderer Crowd_Female_SeatedApplause.016 enabled=False bounds=(-13.7, 1.0, 10.8)/(0.6, 1.4, 0.6)
+renderer Crowd_Male_SeatedRelaxed.011 enabled=False bounds=(-14.9, 1.6, -6.8)/(0.7, 1.4, 0.6)
+renderer Crowd_Male_SeatedRelaxed.010 enabled=False bounds=(-13.7, 1.0, -9.0)/(0.7, 1.4, 0.6)
+renderer Crowd_Female_SeatedRelaxed.015 enabled=False bounds=(-14.9, 1.6, 6.4)/(0.6, 1.4, 0.6)
+renderer Crowd_Female_SeatedRelaxed.017 enabled=False bounds=(-13.7, 1.0, 13.0)/(0.6, 1.4, 0.6)
+renderer Crowd_Female_SeatedRelaxed.010 enabled=False bounds=(-16.1, 2.3, -9.0)/(0.6, 1.4, 0.6)
+renderer Crowd_Female_SeatedRelaxed.012 enabled=False bounds=(-14.9, 1.6, -2.4)/(0.6, 1.4, 0.6)
+renderer Crowd_Female_SeatedApplause.015 enabled=False bounds=(-16.1, 2.3, 6.4)/(0.6, 1.4, 0.6)
+renderer Crowd_Female_SeatedApplause.017 enabled=False bounds=(-14.9, 1.6, 13.0)/(0.6, 1.4, 0.6)
+renderer Crowd_Female_SeatedApplause.013 enabled=False bounds=(-13.7, 1.0, 2.0)/(0.6, 1.4, 0.6)
+renderer Crowd_Male_SeatedApplause.011 enabled=False bounds=(-16.1, 2.3, -6.8)/(0.7, 1.4, 0.6)
+renderer Crowd_Female_SeatedApplause.012 enabled=False bounds=(-16.1, 2.3, -2.4)/(0.6, 1.4, 0.6)
+renderer Crowd_Male_SeatedApplause.012 enabled=False bounds=(-13.7, 1.0, -2.4)/(0.7, 1.4, 0.6)
+renderer Crowd_Female_SeatedRelaxed.011 enabled=False bounds=(-13.7, 1.0, -4.6)/(0.6, 1.4, 0.6)
+renderer Crowd_Female_SeatedApplause.011 enabled=False bounds=(-14.9, 1.6, -4.6)/(0.6, 1.4, 0.6)
+renderer Crowd_Male_SeatedApplause.017 enabled=False bounds=(-16.1, 2.3, 10.8)/(0.7, 1.4, 0.6)
+renderer Crowd_Male_SeatedRelaxed.016 enabled=False bounds=(-13.7, 1.0, 8.6)/(0.7, 1.4, 0.6)
+renderer Crowd_Male_SeatedRelaxed.017 enabled=False bounds=(-14.9, 1.6, 10.8)/(0.7, 1.4, 0.6)
+renderer Crowd_Female_SeatedApplause.010 enabled=False bounds=(-13.7, 1.0, -6.8)/(0.6, 1.4, 0.6)
+renderer Crowd_Male_SeatedRelaxed.013 enabled=False bounds=(-13.7, 1.0, -0.2)/(0.7, 1.4, 0.6)
+renderer Crowd_Male_SeatedRelaxed.012 enabled=False bounds=(-16.1, 2.3, -4.6)/(0.7, 1.4, 0.6)
+renderer Crowd_Female_SeatedRelaxed.013 enabled=False bounds=(-16.1, 2.3, -0.2)/(0.6, 1.4, 0.6)
+renderer Crowd_Female_SeatedRelaxed.018 enabled=False bounds=(-14.9, 1.6, 15.2)/(0.6, 1.4, 0.6)
+renderer Ocean water.001 enabled=False bounds=(0.0, -4.0, 420.0)/(2400.0, 0.1, 1500.0)
+renderer Crowd_Male_SeatedApplause.015 enabled=False bounds=(-13.7, 1.0, 6.4)/(0.7, 1.4, 0.6)
+renderer Crowd_Female_SeatedApplause.018 enabled=False bounds=(-16.1, 2.3, 15.2)/(0.6, 1.4, 0.6)
+renderer Crowd_Male_SeatedRelaxed.014 enabled=False bounds=(-14.9, 1.6, 2.0)/(0.7, 1.4, 0.6)
+renderer Rendered clouds enabled=True bounds=(0.0, 0.0, 0.0)/(100000.0, 100000.0, 100000.0)
+renderer Crowd_Male_SeatedApplause.013 enabled=False bounds=(-14.9, 1.6, -0.2)/(0.7, 1.4, 0.6)
+renderer Crowd_Male_SeatedRelaxed.018 enabled=False bounds=(-16.1, 2.3, 13.0)/(0.7, 1.4, 0.6)
+renderer OriginalSeamFeatures enabled=True bounds=(2.3, 1.6, -12.1)/(0.2, 0.1, 0.1)
+renderer OriginalSeamFeatures enabled=True bounds=(0.0, 1.5, 11.0)/(0.2, 0.1, 0.1)
+tex Facade cream stone 128x256 slot=73 shader=GolfArcade/TennisTowerAtmosphere mat=cream stone cloud-immersed facade on=Towers cream stone
+tex Facade cream stone glow 128x256 slot=412 shader=GolfArcade/TennisTowerAtmosphere mat=cream stone cloud-immersed facade on=Towers cream stone
+tex CloudSea_Tint 1024x1024 slot=1049 shader=GolfArcade/TennisTowerAtmosphere mat=cream stone cloud-immersed facade on=Towers cream stone
+tex Rendered sky reflection 256x128 slot=1060 shader=GolfArcade/TennisTowerAtmosphere mat=cream stone cloud-immersed facade on=Towers cream stone
+tex UnityWhite 4x4 slot=73 shader=Universal Render Pipeline/Lit mat=Universal Render Pipeline/Lit (Instance) on=Beacon
+tex UnityWhite 4x4 slot=412 shader=Universal Render Pipeline/Lit mat=Universal Render Pipeline/Lit (Instance) on=Beacon
+tex Contact shadow falloff 64x64 slot=7 shader=GolfArcade/TennisShadowBlob mat=GolfArcade/TennisShadowBlob on=Contact shadow — Player — permanent standard
+tex AcrylicAggregate 512x512 slot=1017 shader=GolfArcade/TennisWorldSurface mat=TropicalV3_002 (styled) 267AC7 on=Regulation sapphire court.001
+tex CoastalCliffScan_C 512x512 slot=73 shader=GolfArcade/GolfRock mat=Sculpted stone on=Dream catalogue 101 Sculpted stone
+tex CoastalCliffScan_N 512x512 slot=265 shader=GolfArcade/GolfRock mat=Sculpted stone on=Dream catalogue 101 Sculpted stone
+tex Facade terracotta brick 128x256 slot=73 shader=GolfArcade/TennisTowerAtmosphere mat=terracotta brick cloud-immersed facade on=Towers terracotta brick
+tex Facade terracotta brick glow 128x256 slot=412 shader=GolfArcade/TennisTowerAtmosphere mat=terracotta brick cloud-immersed facade on=Towers terracotta brick
+tex TropicalV3_023 2048x2048 slot=7 shader=Universal Render Pipeline/Lit mat=TropicalV3_023 on=12-umpire-chair | tripo_node_ad79ea1b-dc4a-47d3-88c0-8fdd2726180a.001
+tex TropicalV3_023 2048x2048 slot=73 shader=Universal Render Pipeline/Lit mat=TropicalV3_023 on=12-umpire-chair | tripo_node_ad79ea1b-dc4a-47d3-88c0-8fdd2726180a.001
+tex Facade charcoal gold 128x256 slot=73 shader=GolfArcade/TennisTowerAtmosphere mat=charcoal gold cloud-immersed facade on=Deck tower
+tex Facade charcoal gold glow 128x256 slot=412 shader=GolfArcade/TennisTowerAtmosphere mat=charcoal gold cloud-immersed facade on=Deck tower
+tex Saucer windows 64x16 slot=73 shader=Universal Render Pipeline/Lit mat=Universal Render Pipeline/Lit on=Saucer window ring
+tex Saucer windows glow 64x16 slot=412 shader=Universal Render Pipeline/Lit mat=Universal Render Pipeline/Lit on=Saucer window ring
+tex CloudSea_A 1024x1024 slot=1163 shader=GolfArcade/RenderedCloudSea mat=Rendered cloud sea on=Cloud sea surface
+tex CloudSea_B 1024x1024 slot=1167 shader=GolfArcade/RenderedCloudSea mat=Rendered cloud sea on=Cloud sea surface
+tex Facade lavender coral 128x256 slot=73 shader=GolfArcade/TennisTowerAtmosphere mat=lavender coral cloud-immersed facade on=Towers lavender coral
+tex Facade lavender coral glow 128x256 slot=412 shader=GolfArcade/TennisTowerAtmosphere mat=lavender coral cloud-immersed facade on=Towers lavender coral
+tex Facade blue glass 128x256 slot=73 shader=GolfArcade/TennisTowerAtmosphere mat=blue glass cloud-immersed facade on=Towers blue glass
+tex Facade blue glass glow 128x256 slot=412 shader=GolfArcade/TennisTowerAtmosphere mat=blue glass cloud-immersed facade on=Towers blue glass
+tex CloudSixWay_A 2048x2048 slot=1149 shader=GolfArcade/RenderedClouds mat=Rendered clouds on=Rendered clouds
+tex CloudSixWay_B 2048x2048 slot=1153 shader=GolfArcade/RenderedClouds mat=Rendered clouds on=Rendered clouds
+tex Tennis ball felt 128x64 slot=73 shader=Universal Render Pipeline/Lit mat=Tennis ball felt (Instance) on=Tennis ball surface
+tex Facade mint ribbon 128x256 slot=73 shader=GolfArcade/TennisTowerAtmosphere mat=mint ribbon cloud-immersed facade on=Towers mint ribbon
+tex Facade mint ribbon glow 128x256 slot=412 shader=GolfArcade/TennisTowerAtmosphere mat=mint ribbon cloud-immersed facade on=Towers mint ribbon
+tex ring 256x256 slot=73 shader=GolfArcade/TennisFxAdditive mat=GolfArcade/TennisFxAdditive on=Bounce ripple
+tex Contact shadow falloff 64x64 slot=73 shader=GolfArcade/TennisFxAlpha mat=GolfArcade/TennisFxAlpha on=Felt fuzz
+tex  64x64 slot=7 shader=GolfArcade/WeatherParticle mat=Splashes on=Splashes
+tex impact 256x256 slot=73 shader=GolfArcade/TennisFxAdditive mat=GolfArcade/TennisFxAdditive on=Impact flash
+tex dust 256x256 slot=73 shader=GolfArcade/TennisFxAlpha mat=GolfArcade/TennisFxAlpha on=Bounce dust
+tex Contact shadow falloff 64x64 slot=73 shader=GolfArcade/TennisFxAdditive mat=GolfArcade/TennisFxAdditive on=Supercharge stream
+tex Rain streak 8x64 slot=7 shader=GolfArcade/WeatherParticle mat=Rain on=Rain
+tex Confetti 4x4 slot=73 shader=GolfArcade/TennisFxAlpha mat=GolfArcade/TennisFxAlpha on=Confetti
+tex sparkle 256x256 slot=73 shader=GolfArcade/TennisFxAdditive mat=GolfArcade/TennisFxAdditive on=Sparkles
+tex  64x64 slot=7 shader=GolfArcade/ParticleAdd mat=Embers on=Embers
+tex KitV2_Tennis_Male_ShoeR_N 1024x1024 slot=266 shader=GolfArcade/TennisCloth mat=Kit_Shoe (hero) on=Kit_Shoe_R
+tex KitV2_Tennis_Male_ShoeR_M 1024x1024 slot=833 shader=GolfArcade/TennisCloth mat=Kit_Shoe (hero) on=Kit_Shoe_R
+tex KitV2_FabricAtlas 512x512 slot=842 shader=GolfArcade/TennisCloth mat=Kit_Shoe (hero) on=Kit_Shoe_R
+tex OriginalSeam_RelativeSkinPigment 64x64 slot=73 shader=GolfArcade/HeroFaceSkin mat=Skin_OriginalSurfacePigment (hero) on=Body_F
+tex HiggsUmpire_Color 2048x2048 slot=73 shader=GolfArcade/TennisCharacter mat=Higgs Umpire (tennis) on=V4 Higgs Umpire
+tex HiggsUmpire_Normal 1024x1024 slot=265 shader=GolfArcade/TennisCharacter mat=Higgs Umpire (tennis) on=V4 Higgs Umpire
+tex KitV2_Tennis_Female_SockL_N 1024x1024 slot=266 shader=GolfArcade/TennisCloth mat=Kit_Sock (hero) on=Kit_Sock_L
+tex KitV2_Tennis_Female_SockL_M 1024x1024 slot=833 shader=GolfArcade/TennisCloth mat=Kit_Sock (hero) on=Kit_Sock_L
+tex KitV2_Tennis_Female_Bottom_N 2048x2048 slot=266 shader=GolfArcade/TennisCloth mat=Kit_Shorts (hero) on=Kit_Bottom
+tex KitV2_Tennis_Female_Bottom_M 2048x2048 slot=833 shader=GolfArcade/TennisCloth mat=Kit_Shorts (hero) on=Kit_Bottom
+tex Acc_Female_tennis_cap_Cap_N 2048x2048 slot=266 shader=GolfArcade/TennisCloth mat=Acc_Cap (hero) on=Acc_Cap
+tex Acc_Female_tennis_cap_Cap_M 2048x2048 slot=833 shader=GolfArcade/TennisCloth mat=Acc_Cap (hero) on=Acc_Cap
+tex OriginalEye_RelativeSclera 128x128 slot=73 shader=GolfArcade/TennisCharacter mat=Reference_Face_Sclera (hero) on=OriginalSeamFeatures
+tex OriginalEye_RelativeIris 128x128 slot=73 shader=GolfArcade/TennisCharacter mat=Reference_Face_Iris (hero) on=OriginalSeamFeatures
+tex KitV2_Tennis_Female_SockR_N 1024x1024 slot=266 shader=GolfArcade/TennisCloth mat=Kit_Sock (hero) on=Kit_Sock_R
+tex KitV2_Tennis_Female_SockR_M 1024x1024 slot=833 shader=GolfArcade/TennisCloth mat=Kit_Sock (hero) on=Kit_Sock_R
+tex KitV2_Tennis_Male_Bottom_N 2048x2048 slot=266 shader=GolfArcade/TennisCloth mat=Kit_Shorts (hero) on=Kit_Bottom
+tex KitV2_Tennis_Male_Bottom_M 2048x2048 slot=833 shader=GolfArcade/TennisCloth mat=Kit_Shorts (hero) on=Kit_Bottom
+tex KitV2_Tennis_Female_ShoeL_N 1024x1024 slot=266 shader=GolfArcade/TennisCloth mat=Kit_Shoe (hero) on=Kit_Shoe_L
+tex KitV2_Tennis_Female_ShoeL_M 1024x1024 slot=833 shader=GolfArcade/TennisCloth mat=Kit_Shoe (hero) on=Kit_Shoe_L
+tex KitV2_Tennis_Male_SockR_N 1024x1024 slot=266 shader=GolfArcade/TennisCloth mat=Kit_Sock (hero) on=Kit_Sock_R
+tex KitV2_Tennis_Male_SockR_M 1024x1024 slot=833 shader=GolfArcade/TennisCloth mat=Kit_Sock (hero) on=Kit_Sock_R
+tex KitV2_Tennis_Female_ShoeR_N 1024x1024 slot=266 shader=GolfArcade/TennisCloth mat=Kit_Shoe (hero) on=Kit_Shoe_R
+tex KitV2_Tennis_Female_ShoeR_M 1024x1024 slot=833 shader=GolfArcade/TennisCloth mat=Kit_Shoe (hero) on=Kit_Shoe_R
+tex Acc_Male_tennis_cap_Cap_N 2048x2048 slot=266 shader=GolfArcade/TennisCloth mat=Acc_Cap (hero) on=Acc_Cap
+tex Acc_Male_tennis_cap_Cap_M 2048x2048 slot=833 shader=GolfArcade/TennisCloth mat=Acc_Cap (hero) on=Acc_Cap
+tex KitV2_Tennis_Female_Top_N 1024x1024 slot=266 shader=GolfArcade/TennisCloth mat=Kit_Shirt (hero) on=Kit_Top
+tex KitV2_Tennis_Female_Top_M 1024x1024 slot=833 shader=GolfArcade/TennisCloth mat=Kit_Shirt (hero) on=Kit_Top
+tex KitV2_Tennis_Male_ShoeL_N 1024x1024 slot=266 shader=GolfArcade/TennisCloth mat=Kit_Shoe (hero) on=Kit_Shoe_L
+tex KitV2_Tennis_Male_ShoeL_M 1024x1024 slot=833 shader=GolfArcade/TennisCloth mat=Kit_Shoe (hero) on=Kit_Shoe_L
+tex KitV2_Tennis_Male_Top_N 2048x2048 slot=266 shader=GolfArcade/TennisCloth mat=Kit_Shirt (hero) on=Kit_Top
+tex KitV2_Tennis_Male_Top_M 2048x2048 slot=833 shader=GolfArcade/TennisCloth mat=Kit_Shirt (hero) on=Kit_Top
+tex KitV2_Tennis_Male_SockL_N 1024x1024 slot=266 shader=GolfArcade/TennisCloth mat=Kit_Sock (hero) on=Kit_Sock_L
+tex KitV2_Tennis_Male_SockL_M 1024x1024 slot=833 shader=GolfArcade/TennisCloth mat=Kit_Sock (hero) on=Kit_Sock_L
+shot 01_gameplay pos=(2.950, 2.500, -15.850) look=(2.950, 1.000, 3.000) fov=46
+shot 02_dolly0 pos=(2.950, 2.500, -15.850) look=(2.950, 1.000, 3.000) fov=46
+shot 02_dolly2 pos=(4.950, 2.500, -15.850) look=(4.950, 1.000, 3.000) fov=46
+shot 02_crane0 pos=(0.000, 90.000, -40.000) look=(0.000, 82.000, 400.000) fov=46
+shot 02_crane60 pos=(60.000, 90.000, -40.000) look=(60.000, 82.000, 400.000) fov=46
+shot 02_craneB0 pos=(0.000, 90.000, -40.000) look=(0.000, 82.000, -480.000) fov=46
+shot 02_craneB60 pos=(60.000, 90.000, -40.000) look=(60.000, 82.000, -480.000) fov=46
+landmark dolly Cloud0 dist_m=4449 radius_m=0 a_px=(799.57,210.42) b_px=(798.98,210.42) predicted_dx=-0.595
+landmark crane Cloud0 dist_m=4458 radius_m=0 a_px=(803.58,319.20) b_px=(786.08,319.20) predicted_dx=-17.503
+landmark dolly Cloud1 dist_m=5919 radius_m=0 a_px=(1019.19,367.82) b_px=(1018.76,367.82) predicted_dx=-0.434
+landmark crane Cloud1 dist_m=5939 radius_m=0 a_px=(1019.19,465.68) b_px=(1006.30,465.68) predicted_dx=-12.887
+landmark dolly Cloud2 dist_m=6718 radius_m=0 a_px=(1360.21,297.43) b_px=(1359.81,297.43) predicted_dx=-0.404
+landmark crane Cloud2 dist_m=6733 radius_m=0 a_px=(1355.32,395.30) b_px=(1343.38,395.30) predicted_dx=-11.942
+landmark dolly Cloud3 dist_m=5553 radius_m=0 a_px=(919.26,305.94) b_px=(918.79,305.94) predicted_dx=-0.466
+landmark crane Cloud3 dist_m=5569 radius_m=0 a_px=(920.50,406.39) b_px=(906.71,406.39) predicted_dx=-13.788
+landmark dolly Cloud4 dist_m=4583 radius_m=0 a_px=(1029.87,325.14) b_px=(1029.30,325.14) predicted_dx=-0.564
+landmark crane Cloud4 dist_m=4600 radius_m=0 a_px=(1029.71,429.49) b_px=(1013.03,429.49) predicted_dx=-16.681
+landmark dolly Cloud6 dist_m=9859 radius_m=0 a_px=(1198.54,391.97) b_px=(1198.27,391.97) predicted_dx=-0.264
+landmark crane Cloud6 dist_m=9880 radius_m=0 a_px=(1197.05,482.05) b_px=(1189.18,482.05) predicted_dx=-7.866
+landmark dolly Cloud8 dist_m=7618 radius_m=0 a_px=(1468.80,337.18) b_px=(1468.43,337.18) predicted_dx=-0.364
+landmark crane Cloud8 dist_m=7636 radius_m=0 a_px=(1463.51,432.47) b_px=(1452.73,432.47) predicted_dx=-10.784
+landmark crane Cloud10 dist_m=10097 radius_m=0 a_px=(1835.91,454.19) b_px=(1826.72,454.19) predicted_dx=-9.193
+landmark craneB Cloud13 dist_m=10363 radius_m=0 a_px=(1270.20,422.41) b_px=(1277.81,422.41) predicted_dx=7.612
+landmark dolly Cloud15 dist_m=4037 radius_m=0 a_px=(1476.82,168.23) b_px=(1476.12,168.23) predicted_dx=-0.705
+landmark crane Cloud15 dist_m=4044 radius_m=0 a_px=(1466.15,283.38) b_px=(1445.49,283.38) predicted_dx=-20.667
+shot 03_elevated pos=(1.058, 7.000, -20.150) look=(0.611, 0.950, -5.150) fov=46
+shot 04_stare_rival pos=(-0.267, 1.535, 8.664) look=(-0.417, 1.395, 11.244) fov=27
+shot 05_intro_rival pos=(-0.751, 1.285, 6.459) look=(0.000, 0.985, 11.200) fov=30
+shot 06_stare_player pos=(2.083, 1.535, -9.814) look=(1.933, 1.395, -12.394) fov=27
+shot 07_drone00 pos=(75.000, 115.000, -120.000) look=(0.000, -45.000, 0.000) fov=54
+shot 07_drone35 pos=(40.070, 69.740, -78.937) look=(0.000, -33.800, 0.855) fov=53.356
+shot 07_drone70 pos=(8.010, 28.674, -42.395) look=(0.000, -12.445, 2.485) fov=52.712
+shot 08_ring000 pos=(0.000, 1.700, 0.000) look=(0.000, 2.900, 10.000) fov=70
+shot 08_ring090 pos=(0.000, 1.700, 0.000) look=(10.000, 2.900, 0.000) fov=70
+shot 08_ring180 pos=(0.000, 1.700, 0.000) look=(0.000, 2.900, -10.000) fov=70
+shot 08_ring270 pos=(0.000, 1.700, 0.000) look=(-10.000, 2.900, 0.000) fov=70
+shot 09_longlens pos=(0.000, 1.700, -12.000) look=(0.000, 6.000, 400.000) fov=14
+shot 10_char_rival pos=(0.000, 1.335, 8.000) look=(0.000, 1.135, 11.200) fov=30
+perfAB gameplay 1920x1080 painted_median_ms=10.177 rendered_median_ms=9.953 delta_median_ms=-0.225 painted_q1_ms=8.942 rendered_q1_ms=9.001 delta_q1_ms=0.059 n=200/200
+perfAB ring000 1920x1080 painted_median_ms=7.434 rendered_median_ms=6.611 delta_median_ms=-0.823 painted_q1_ms=6.398 rendered_q1_ms=5.713 delta_q1_ms=-0.685 n=200/200

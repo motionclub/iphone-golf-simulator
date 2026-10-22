@@ -1,0 +1,33 @@
+include:
+  - project.yml
+name: MenuFlowChecks
+targets:
+  MenuFlowTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [GolfArcadeTests/MenuFlowRegressionTests.swift, GolfArcadeTests/SportsDelayProbeTests.swift]
+    dependencies:
+      - target: GolfArcade
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.aloniewski.MenuFlowTests
+        GENERATE_INFOPLIST_FILE: YES
+  MenuTouchTests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [GolfArcadeUITests/MenuNavigationRegressionTests.swift]
+    dependencies:
+      - target: GolfArcade
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.aloniewski.MenuTouchTests
+        GENERATE_INFOPLIST_FILE: YES
+schemes:
+  MenuFlowChecks:
+    build:
+      targets:
+        GolfArcade: all
+        MenuFlowTests: [test]
+        MenuTouchTests: [test]
+    test:
+      targets: [MenuFlowTests, MenuTouchTests]

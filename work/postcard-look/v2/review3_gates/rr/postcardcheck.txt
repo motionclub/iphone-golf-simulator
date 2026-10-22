@@ -1,0 +1,18 @@
+# Tools/PostcardCheck/run.sh <command> [args...]   (works from any cwd)
+#
+# Builds the standalone C# harness into Tools/PostcardCheck/.build/ with the Roslyn (csc.dll) and the
+# dotnet runtime that ship inside Unity (no Unity launch, no project edit), then runs it.
+# The harness compiles the REAL game sources (Hole.cs, CourseShot.cs, Wind.cs, Scorecard.cs, BallFlight.cs,
+# GolfClub.cs, MotionSwingDetector.cs) from Unity/Assets/Scripts together with src/*.cs.
+#
+#   run.sh report --course Postcards            per hole: par, length, shore, hazards, widths, water carries
+#   run.sh lies   --course Cliffside --step 2   dump LieAt of every grid cell as letters (equivalence testing; see equiv.py)
+#   run.sh probe  --course X --hole N --at x,d  every sub-expression of LieAt at a point
+#   run.sh gates  --course Postcards            independent design gates, GATE: NAME PASS|FAIL - detail (brief limits built in)
+#   run.sh plan   --course Postcards [--hole 9] shot planner over the real CourseShot: PAR_REACHABLE, min strokes, ridge route
+#   run.sh plan-selfcheck --course X            brute-force proof that the planner's prunings lose no finish
+#   run.sh tests  <file.cs> [more.cs]           compile an NUnit test file against the real sources + shim and run it
+#   run.sh build | clean | help
+# Python helpers (system python3): equiv.py (Python mirror vs real LieAt), gates_diff.py (Python gates vs C# gates).
+# Env: PC_HOLE_CS=/abs/Hole.cs (build against a patched Hole.cs), PC_BUILD=/abs/dir (alternative build dir), PC_EXTRA_SOURCES="a.cs b.cs",
+#      PC_UNITY_SCRIPTING=<Unity .../Contents/Resources/Scripting> (otherwise the newest Unity under /Applications/Unity/Hub/Editor).

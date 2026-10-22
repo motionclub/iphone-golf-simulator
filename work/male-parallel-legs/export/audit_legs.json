@@ -1,0 +1,106 @@
+{
+ "base": "baseline/artdir_after_torso.blend",
+ "base_sha256": "b9cc85967819b5fc31d323c0aa806c925a9e2e849b878e31c1866a2a8404909c",
+ "new": "export/HeroBase_Male_Silhouette_legs.blend",
+ "new_sha256": "e4877a6eebdae062f8a9cc9962a945e2ae9ad0f878a6ed997b1152ac7a82acef",
+ "verts": 30296,
+ "faces_identical": true,
+ "edges_equal": true,
+ "zone_def": {
+  "z_lt": 0.765,
+  "absx_lt": 0.27,
+  "zone_verts": 8745
+ },
+ "moved_total": 8744,
+ "moved_in_zone": 8744,
+ "moved_outside_zone": 0,
+ "outside_zone_bit_identical": true,
+ "moved_head_z_ge_1.40": 0,
+ "moved_torso_z_0.765_1.40": 0,
+ "moved_arms_hands_absx_ge_0.27": 0,
+ "face_m_unchanged": true,
+ "vertex_groups_equal": true,
+ "materials_equal": true,
+ "zone_move_mm": {
+  "rms": 10.322083167337672,
+  "max": 33.29041465884876,
+  "verts_moved_gt_1mm": 5159,
+  "verts_moved_gt_10mm": 2629
+ },
+ "zone_top_band_3cm_move_mm": {
+  "max": 1.0168218158726199,
+  "rms": 0.2777083506504767
+ },
+ "min_z_base": 0.0024724886752665043,
+ "min_z_new": 0.002472762716934085,
+ "max_z_equal": true,
+ "height_m_base": 1.702187418937683,
+ "height_m_new": 1.702187180519104,
+ "nan_or_inf": false,
+ "tris_base": 60358,
+ "tris_new": 60358,
+ "boundary_nonmanifold_base": [
+  92,
+  2
+ ],
+ "boundary_nonmanifold_new": [
+  92,
+  2
+ ],
+ "zone_faces": 8866,
+ "flipped_faces": 0,
+ "min_face_normal_dot_vs_base": 0.7115150245553792,
+ "zone_edge_mm_base": {
+  "mean": 9.918858269123167,
+  "p99": 14.66967645726129,
+  "max": 19.09544125782524
+ },
+ "zone_edge_mm_new": {
+  "mean": 9.959579488187876,
+  "p99": 14.507354507480539,
+  "max": 21.01581809390754
+ },
+ "zone_quad_angle_base": [
+  23.146743704561878,
+  161.96429559680618
+ ],
+ "zone_quad_angle_new": [
+  19.054464975950815,
+  170.35225193537485
+ ],
+ "min_gap_between_legs_vertices_mm": 48.615766196043744,
+ "silhouette": {
+  "base_body_bald_front": {
+   "pct": 4.299239898653154,
+   "legs_pct": 4.591518553164952
+  },
+  "base_body_bald_back": {
+   "pct": 4.578118691966088,
+   "legs_pct": 5.229837599779796
+  },
+  "base_withface_bald_front": {
+   "pct": 4.299239898653154,
+   "legs_pct": 4.591518553164952
+  },
+  "base_withface_bald_back": {
+   "pct": 4.578118691966088,
+   "legs_pct": 5.229837599779796
+  },
+  "new_body_bald_front": {
+   "pct": 4.287201110162255,
+   "legs_pct": 4.556813744631003
+  },
+  "new_body_bald_back": {
+   "pct": 4.604492778981655,
+   "legs_pct": 5.303328349988197
+  },
+  "new_withface_bald_front": {
+   "pct": 4.287201110162255,
+   "legs_pct": 4.556813744631003
+  },
+  "new_withface_bald_back": {
+   "pct": 4.604492778981655,
+   "legs_pct": 5.303328349988197
+  }
+ }
+}

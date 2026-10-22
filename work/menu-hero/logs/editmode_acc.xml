@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="15" result="Passed" total="15" passed="15" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-19 20:49:37Z" end-time="2026-10-19 20:49:42Z" duration="5.9197375">
+  <test-suite type="TestSuite" id="1000" name="Golf Arcade" fullname="Golf Arcade" runstate="Runnable" testcasecount="624" result="Passed" start-time="2026-10-19 20:49:37Z" end-time="2026-10-19 20:49:42Z" duration="5.919738" total="15" passed="15" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1728" name="GolfArcade.Tests.dll" fullname="/Users/adnanyonathan/unity-clones/menu-hero/Library/ScriptAssemblies/GolfArcade.Tests.dll" runstate="Runnable" testcasecount="624" result="Passed" start-time="2026-10-19 20:49:37Z" end-time="2026-10-19 20:49:42Z" duration="5.909256" total="15" passed="15" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="79764" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1729" name="GolfArcade" fullname="GolfArcade" runstate="Runnable" testcasecount="536" result="Passed" start-time="2026-10-19 20:49:37Z" end-time="2026-10-19 20:49:42Z" duration="5.903348" total="15" passed="15" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1730" name="Tests" fullname="GolfArcade.Tests" runstate="Runnable" testcasecount="536" result="Passed" start-time="2026-10-19 20:49:37Z" end-time="2026-10-19 20:49:42Z" duration="5.898836" total="15" passed="15" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1241" name="HeroAccessoriesTests" fullname="GolfArcade.Tests.HeroAccessoriesTests" classname="GolfArcade.Tests.HeroAccessoriesTests" runstate="Runnable" testcasecount="15" result="Passed" start-time="2026-10-19 20:49:37Z" end-time="2026-10-19 20:49:42Z" duration="5.884628" total="15" passed="15" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1259" name="ASlotTakesItsOwnColoursAndCanBeHidden" fullname="GolfArcade.Tests.HeroAccessoriesTests.ASlotTakesItsOwnColoursAndCanBeHidden" methodname="ASlotTakesItsOwnColoursAndCanBeHidden" classname="GolfArcade.Tests.HeroAccessoriesTests" runstate="Runnable" seed="2043405879" result="Passed" start-time="2026-10-19 20:49:37Z" end-time="2026-10-19 20:49:39Z" duration="1.950357" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-suite type="ParameterizedMethod" id="1250" name="EveryItemHasDataForBothBodies" fullname="GolfArcade.Tests.HeroAccessoriesTests.EveryItemHasDataForBothBodies" classname="GolfArcade.Tests.HeroAccessoriesTests" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-10-19 20:49:39Z" end-time="2026-10-19 20:49:39Z" duration="0.148772" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1242" name="EveryItemHasDataForBothBodies(&quot;tennis_cap&quot;,&quot;Male&quot;)" fullname="GolfArcade.Tests.HeroAccessoriesTests.EveryItemHasDataForBothBodies(&quot;tennis_cap&quot;,&quot;Male&quot;)" methodname="EveryItemHasDataForBothBodies" classname="GolfArcade.Tests.HeroAccessoriesTests" runstate="Runnable" seed="1450633274" result="Passed" start-time="2026-10-19 20:49:39Z" end-time="2026-10-19 20:49:39Z" duration="0.004042" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1243" name="EveryItemHasDataForBothBodies(&quot;tennis_cap&quot;,&quot;Female&quot;)" fullname="GolfArcade.Tests.HeroAccessoriesTests.EveryItemHasDataForBothBodies(&quot;tennis_cap&quot;,&quot;Female&quot;)" methodname="EveryItemHasDataForBothBodies" classname="GolfArcade.Tests.HeroAccessoriesTests" runstate="Runnable" seed="1698775832" result="Passed" start-time="2026-10-19 20:49:39Z" end-time="2026-10-19 20:49:39Z" duration="0.012656" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1244" name="EveryItemHasDataForBothBodies(&quot;golf_cap&quot;,&quot;Male&quot;)" fullname="GolfArcade.Tests.HeroAccessoriesTests.EveryItemHasDataForBothBodies(&quot;golf_cap&quot;,&quot;Male&quot;)" methodname="EveryItemHasDataForBothBodies" classname="GolfArcade.Tests.HeroAccessoriesTests" runstate="Runnable" seed="1908374452" result="Passed" start-time="2026-10-19 20:49:39Z" end-time="2026-10-19 20:49:39Z" duration="0.011406" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1245" name="EveryItemHasDataForBothBodies(&quot;golf_cap&quot;,&quot;Female&quot;)" fullname="GolfArcade.Tests.HeroAccessoriesTests.EveryItemHasDataForBothBodies(&quot;golf_cap&quot;,&quot;Female&quot;)" methodname="EveryItemHasDataForBothBodies" classname="GolfArcade.Tests.HeroAccessoriesTests" runstate="Runnable" seed="1311061965" result="Passed" start-time="2026-10-19 20:49:39Z" end-time="2026-10-19 20:49:39Z" duration="0.011761" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1246" name="EveryItemHasDataForBothBodies(&quot;golf_glove&quot;,&quot;Male&quot;)" fullname="GolfArcade.Tests.HeroAccessoriesTests.EveryItemHasDataForBothBodies(&quot;golf_glove&quot;,&quot;Male&quot;)" methodname="EveryItemHasDataForBothBodies" classname="GolfArcade.Tests.HeroAccessoriesTests" runstate="Runnable" seed="904573780" result="Passed" start-time="2026-10-19 20:49:39Z" end-time="2026-10-19 20:49:39Z" duration="0.023052" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1247" name="EveryItemHasDataForBothBodies(&quot;golf_glove&quot;,&quot;Female&quot;)" fullname="GolfArcade.Tests.HeroAccessoriesTests.EveryItemHasDataForBothBodies(&quot;golf_glove&quot;,&quot;Female&quot;)" methodname="EveryItemHasDataForBothBodies" classname="GolfArcade.Tests.HeroAccessoriesTests" runstate="Runnable" seed="1738936502" result="Passed" start-time="2026-10-19 20:49:39Z" end-time="2026-10-19 20:49:39Z" duration="0.023013" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1248" name="EveryItemHasDataForBothBodies(&quot;golf_bag&quot;,&quot;Male&quot;)" fullname="GolfArcade.Tests.HeroAccessoriesTests.EveryItemHasDataForBothBodies(&quot;golf_bag&quot;,&quot;Male&quot;)" methodname="EveryItemHasDataForBothBodies" classname="GolfArcade.Tests.HeroAccessoriesTests" runstate="Runnable" seed="1211465841" result="Passed" start-time="2026-10-19 20:49:39Z" end-time="2026-10-19 20:49:39Z" duration="0.024283" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1249" name="EveryItemHasDataForBothBodies(&quot;golf_bag&quot;,&quot;Female&quot;)" fullname="GolfArcade.Tests.HeroAccessoriesTests.EveryItemHasDataForBothBodies(&quot;golf_bag&quot;,&quot;Female&quot;)" methodname="EveryItemHasDataForBothBodies" classname="GolfArcade.Tests.HeroAccessoriesTests" runstate="Runnable" seed="546323145" result="Passed" start-time="2026-10-19 20:49:39Z" end-time="2026-10-19 20:49:39Z" duration="0.023659" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="ParameterizedMethod" id="1253" name="RacketOnTheBackSwapsWithTheBag" fullname="GolfArcade.Tests.HeroAccessoriesTests.RacketOnTheBackSwapsWithTheBag" classname="GolfArcade.Tests.HeroAccessoriesTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-19 20:49:39Z" end-time="2026-10-19 20:49:41Z" duration="2.698632" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1251" name="RacketOnTheBackSwapsWithTheBag(&quot;Male&quot;)" fullname="GolfArcade.Tests.HeroAccessoriesTests.RacketOnTheBackSwapsWithTheBag(&quot;Male&quot;)" methodname="RacketOnTheBackSwapsWithTheBag" classname="GolfArcade.Tests.HeroAccessoriesTests" runstate="Runnable" seed="278983433" result="Passed" start-time="2026-10-19 20:49:39Z" end-time="2026-10-19 20:49:39Z" duration="0.011413" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1252" name="RacketOnTheBackSwapsWithTheBag(&quot;Female&quot;)" fullname="GolfArcade.Tests.HeroAccessoriesTests.RacketOnTheBackSwapsWithTheBag(&quot;Female&quot;)" methodname="RacketOnTheBackSwapsWithTheBag" classname="GolfArcade.Tests.HeroAccessoriesTests" runstate="Runnable" seed="1658383145" result="Passed" start-time="2026-10-19 20:49:39Z" end-time="2026-10-19 20:49:41Z" duration="2.681222" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="ParameterizedMethod" id="1258" name="TheDefaultCapSitsOnItsSocketAndNothingElseChanges" fullname="GolfArcade.Tests.HeroAccessoriesTests.TheDefaultCapSitsOnItsSocketAndNothingElseChanges" classname="GolfArcade.Tests.HeroAccessoriesTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-19 20:49:41Z" end-time="2026-10-19 20:49:42Z" duration="1.067724" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1254" name="TheDefaultCapSitsOnItsSocketAndNothingElseChanges(&quot;Male&quot;,False,&quot;tennis_cap&quot;)" fullname="GolfArcade.Tests.HeroAccessoriesTests.TheDefaultCapSitsOnItsSocketAndNothingElseChanges(&quot;Male&quot;,False,&quot;tennis_cap&quot;)" methodname="TheDefaultCapSitsOnItsSocketAndNothingElseChanges" classname="GolfArcade.Tests.HeroAccessoriesTests" runstate="Runnable" seed="122081965" result="Passed" start-time="2026-10-19 20:49:41Z" end-time="2026-10-19 20:49:41Z" duration="0.018927" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1255" name="TheDefaultCapSitsOnItsSocketAndNothingElseChanges(&quot;Female&quot;,False,&quot;tennis_cap&quot;)" fullname="GolfArcade.Tests.HeroAccessoriesTests.TheDefaultCapSitsOnItsSocketAndNothingElseChanges(&quot;Female&quot;,False,&quot;tennis_cap&quot;)" methodname="TheDefaultCapSitsOnItsSocketAndNothingElseChanges" classname="GolfArcade.Tests.HeroAccessoriesTests" runstate="Runnable" seed="1453421773" result="Passed" start-time="2026-10-19 20:49:41Z" end-time="2026-10-19 20:49:41Z" duration="0.003646" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1256" name="TheDefaultCapSitsOnItsSocketAndNothingElseChanges(&quot;Male&quot;,True,&quot;golf_cap&quot;)" fullname="GolfArcade.Tests.HeroAccessoriesTests.TheDefaultCapSitsOnItsSocketAndNothingElseChanges(&quot;Male&quot;,True,&quot;golf_cap&quot;)" methodname="TheDefaultCapSitsOnItsSocketAndNothingElseChanges" classname="GolfArcade.Tests.HeroAccessoriesTests" runstate="Runnable" seed="614668011" result="Passed" start-time="2026-10-19 20:49:41Z" end-time="2026-10-19 20:49:42Z" duration="0.629911" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1257" name="TheDefaultCapSitsOnItsSocketAndNothingElseChanges(&quot;Female&quot;,True,&quot;golf_cap&quot;)" fullname="GolfArcade.Tests.HeroAccessoriesTests.TheDefaultCapSitsOnItsSocketAndNothingElseChanges(&quot;Female&quot;,True,&quot;golf_cap&quot;)" methodname="TheDefaultCapSitsOnItsSocketAndNothingElseChanges" classname="GolfArcade.Tests.HeroAccessoriesTests" runstate="Runnable" seed="583014851" result="Passed" start-time="2026-10-19 20:49:42Z" end-time="2026-10-19 20:49:42Z" duration="0.389297" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[DONE EditMode: 15 passed, 0 failed, 0 skipped
+<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /Users/adnanyonathan/Library/Application Support/aloniewski/Golf Arcade/TestResults.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

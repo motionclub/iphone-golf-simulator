@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="1" result="Passed" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-04 03:10:06Z" end-time="2026-10-04 03:10:49Z" duration="42.7311654">
+  <test-suite type="TestSuite" id="1116" name="Golf Arcade" fullname="Golf Arcade" runstate="Runnable" testcasecount="77" result="Passed" start-time="2026-10-04 03:10:06Z" end-time="2026-10-04 03:10:49Z" duration="42.731165" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1110" name="GolfArcade.PlayTests.dll" fullname="/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Library/ScriptAssemblies/GolfArcade.PlayTests.dll" runstate="Runnable" testcasecount="77" result="Passed" start-time="2026-10-04 03:10:06Z" end-time="2026-10-04 03:10:49Z" duration="42.726276" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="35605" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestSuite" id="1111" name="GolfArcade" fullname="GolfArcade" runstate="Runnable" testcasecount="77" result="Passed" start-time="2026-10-04 03:10:06Z" end-time="2026-10-04 03:10:49Z" duration="42.725011" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1113" name="PlayTests" fullname="GolfArcade.PlayTests" runstate="Runnable" testcasecount="76" result="Passed" start-time="2026-10-04 03:10:06Z" end-time="2026-10-04 03:10:49Z" duration="42.723356" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1091" name="TennisSinglePointCaptureTests" fullname="GolfArcade.PlayTests.TennisSinglePointCaptureTests" classname="GolfArcade.PlayTests.TennisSinglePointCaptureTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-04 03:10:06Z" end-time="2026-10-04 03:10:49Z" duration="42.720045" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1093" name="FilmTwoPoints60" fullname="GolfArcade.PlayTests.TennisSinglePointCaptureTests.FilmTwoPoints60" methodname="FilmTwoPoints60" classname="GolfArcade.PlayTests.TennisSinglePointCaptureTests" runstate="Explicit" seed="760680421" result="Passed" start-time="2026-10-04 03:10:06Z" end-time="2026-10-04 03:10:49Z" duration="42.707680" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="Timeout" value="1800000" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[TwoPointCapture] seconds=0 points=0 score=GAMES 0–0  ·  0–0  ·  YOUR SERVE hits=0
+[TwoPointCapture] seconds=10 points=0 score=GAMES 0–0  ·  0–0  ·  YOUR SERVE hits=2
+[TwoPointCapture] seconds=20 points=1 score=GAMES 0–0  ·  15–0  ·  YOUR SERVE hits=6
+[TwoPointCapture] seconds=30 points=1 score=GAMES 0–0  ·  15–0  ·  YOUR SERVE hits=7
+DONE PlayMode: 1 passed, 0 failed, 0 skipped
+<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /Users/adnanyonathan/Library/Application Support/aloniewski/Golf Arcade/TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

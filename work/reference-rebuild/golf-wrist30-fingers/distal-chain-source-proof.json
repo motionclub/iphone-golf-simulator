@@ -1,0 +1,398 @@
+[
+  {
+    "label": "female_Driver_address",
+    "changedCounts": {
+      "LeftIndex": 113,
+      "LeftMiddle": 113,
+      "LeftRing": 113,
+      "LeftLittle": 105,
+      "RightIndex": 113,
+      "RightMiddle": 113,
+      "RightRing": 113,
+      "RightLittle": 105
+    },
+    "changedVertices": 363,
+    "maxWeightL1": 1.454406853195223,
+    "maxPosedShiftMm": 36.84915759725757,
+    "affectedEdgeStretchBefore": [
+      1.0830459194963147,
+      2.2561062155169287,
+      3.926565636064719,
+      4.421670933066774
+    ],
+    "affectedEdgeStretchAfter": [
+      1.0660686521034193,
+      1.5276887793369285,
+      2.580921890740685,
+      2.9719990474202715
+    ],
+    "indexTriangle22311BeforeAfter": [
+      3.9256426441773264,
+      1.3920829749159664
+    ],
+    "worsenedAffectedTriangles": 88
+  },
+  {
+    "label": "female_Driver_contact",
+    "changedCounts": {
+      "LeftIndex": 113,
+      "LeftMiddle": 113,
+      "LeftRing": 113,
+      "LeftLittle": 105,
+      "RightIndex": 113,
+      "RightMiddle": 113,
+      "RightRing": 113,
+      "RightLittle": 105
+    },
+    "changedVertices": 363,
+    "maxWeightL1": 1.454406853195223,
+    "maxPosedShiftMm": 36.84922446381121,
+    "affectedEdgeStretchBefore": [
+      1.0830404123388577,
+      2.2561046042124326,
+      3.926571570292689,
+      4.421668990755321
+    ],
+    "affectedEdgeStretchAfter": [
+      1.0660718346092013,
+      1.5276873796081498,
+      2.5809235480718073,
+      2.9720063954077136
+    ],
+    "indexTriangle22311BeforeAfter": [
+      3.92564625655563,
+      1.3920997496022067
+    ],
+    "worsenedAffectedTriangles": 88
+  },
+  {
+    "label": "female_Driver_top",
+    "changedCounts": {
+      "LeftIndex": 113,
+      "LeftMiddle": 113,
+      "LeftRing": 113,
+      "LeftLittle": 105,
+      "RightIndex": 113,
+      "RightMiddle": 113,
+      "RightRing": 113,
+      "RightLittle": 105
+    },
+    "changedVertices": 363,
+    "maxWeightL1": 1.454406853195223,
+    "maxPosedShiftMm": 34.88944845976551,
+    "affectedEdgeStretchBefore": [
+      1.0631647565052824,
+      2.1558126035113645,
+      3.7108049191777734,
+      4.316791823406717
+    ],
+    "affectedEdgeStretchAfter": [
+      1.0610906953021881,
+      1.4579944768361328,
+      2.452659579685822,
+      2.8703681069284834
+    ],
+    "indexTriangle22311BeforeAfter": [
+      3.831038723964158,
+      1.3920880991604088
+    ],
+    "worsenedAffectedTriangles": 82
+  },
+  {
+    "label": "female_Putter_address",
+    "changedCounts": {
+      "LeftIndex": 113,
+      "LeftMiddle": 113,
+      "LeftRing": 113,
+      "LeftLittle": 105,
+      "RightIndex": 113,
+      "RightMiddle": 113,
+      "RightRing": 113,
+      "RightLittle": 105
+    },
+    "changedVertices": 363,
+    "maxWeightL1": 1.454406853195223,
+    "maxPosedShiftMm": 36.84919292162063,
+    "affectedEdgeStretchBefore": [
+      1.083043884599332,
+      2.256108618551222,
+      3.9265638767521565,
+      4.421654920599218
+    ],
+    "affectedEdgeStretchAfter": [
+      1.0660689704390973,
+      1.5276892364171974,
+      2.580919507152467,
+      2.9719910584571703
+    ],
+    "indexTriangle22311BeforeAfter": [
+      3.925636948690329,
+      1.3920827898196237
+    ],
+    "worsenedAffectedTriangles": 88
+  },
+  {
+    "label": "female_Putter_contact",
+    "changedCounts": {
+      "LeftIndex": 113,
+      "LeftMiddle": 113,
+      "LeftRing": 113,
+      "LeftLittle": 105,
+      "RightIndex": 113,
+      "RightMiddle": 113,
+      "RightRing": 113,
+      "RightLittle": 105
+    },
+    "changedVertices": 363,
+    "maxWeightL1": 1.454406853195223,
+    "maxPosedShiftMm": 36.849228852924284,
+    "affectedEdgeStretchBefore": [
+      1.083046125101848,
+      2.2561096808094137,
+      3.926570830537809,
+      4.421670449046925
+    ],
+    "affectedEdgeStretchAfter": [
+      1.0660652347622956,
+      1.5276901616607999,
+      2.5809205747493658,
+      2.9720073285966455
+    ],
+    "indexTriangle22311BeforeAfter": [
+      3.925646695206513,
+      1.3920870599269117
+    ],
+    "worsenedAffectedTriangles": 88
+  },
+  {
+    "label": "female_Putter_top",
+    "changedCounts": {
+      "LeftIndex": 113,
+      "LeftMiddle": 113,
+      "LeftRing": 113,
+      "LeftLittle": 105,
+      "RightIndex": 113,
+      "RightMiddle": 113,
+      "RightRing": 113,
+      "RightLittle": 105
+    },
+    "changedVertices": 363,
+    "maxWeightL1": 1.454406853195223,
+    "maxPosedShiftMm": 35.85469620730435,
+    "affectedEdgeStretchBefore": [
+      1.083544637531486,
+      2.219718184038436,
+      3.888281887967839,
+      4.409053238139383
+    ],
+    "affectedEdgeStretchAfter": [
+      1.0660824648940983,
+      1.5258489583458548,
+      2.521441892286042,
+      2.9526117990400724
+    ],
+    "indexTriangle22311BeforeAfter": [
+      3.8771829129325557,
+      1.392089507196293
+    ],
+    "worsenedAffectedTriangles": 85
+  },
+  {
+    "label": "male_Driver_address",
+    "changedCounts": {
+      "LeftIndex": 185,
+      "LeftMiddle": 195,
+      "LeftRing": 195,
+      "LeftLittle": 190,
+      "RightIndex": 185,
+      "RightMiddle": 195,
+      "RightRing": 195,
+      "RightLittle": 191
+    },
+    "changedVertices": 653,
+    "maxWeightL1": 1.1956798401277133,
+    "maxPosedShiftMm": 11.166615815369367,
+    "affectedEdgeStretchBefore": [
+      1.1220422294491355,
+      1.7913758007207052,
+      3.234000910308685,
+      5.001044252218177
+    ],
+    "affectedEdgeStretchAfter": [
+      1.0444101629612184,
+      1.6153414408019633,
+      2.846337413816932,
+      5.303492488995828
+    ],
+    "indexTriangle22311BeforeAfter": [
+      1.0073831087384963,
+      1.0073831087384963
+    ],
+    "worsenedAffectedTriangles": 146
+  },
+  {
+    "label": "male_Driver_contact",
+    "changedCounts": {
+      "LeftIndex": 185,
+      "LeftMiddle": 195,
+      "LeftRing": 195,
+      "LeftLittle": 190,
+      "RightIndex": 185,
+      "RightMiddle": 195,
+      "RightRing": 195,
+      "RightLittle": 191
+    },
+    "changedVertices": 653,
+    "maxWeightL1": 1.1956798401277133,
+    "maxPosedShiftMm": 11.166608009060385,
+    "affectedEdgeStretchBefore": [
+      1.1220416830488917,
+      1.7913732557582958,
+      3.2340026516241274,
+      5.001068359446318
+    ],
+    "affectedEdgeStretchAfter": [
+      1.0444082713207474,
+      1.6153368981334837,
+      2.8463321339338954,
+      5.303517914123491
+    ],
+    "indexTriangle22311BeforeAfter": [
+      0.9973915296218002,
+      0.9973915296218002
+    ],
+    "worsenedAffectedTriangles": 146
+  },
+  {
+    "label": "male_Driver_top",
+    "changedCounts": {
+      "LeftIndex": 185,
+      "LeftMiddle": 195,
+      "LeftRing": 195,
+      "LeftLittle": 190,
+      "RightIndex": 185,
+      "RightMiddle": 195,
+      "RightRing": 195,
+      "RightLittle": 191
+    },
+    "changedVertices": 653,
+    "maxWeightL1": 1.1956798401277133,
+    "maxPosedShiftMm": 11.778083003724776,
+    "affectedEdgeStretchBefore": [
+      1.1015984204669016,
+      1.7339206537810727,
+      3.136360191251844,
+      4.928948104245077
+    ],
+    "affectedEdgeStretchAfter": [
+      1.0365646997230882,
+      1.5753329569858965,
+      2.4625566810238793,
+      5.225085711101061
+    ],
+    "indexTriangle22311BeforeAfter": [
+      1.030327117398846,
+      1.030327117398846
+    ],
+    "worsenedAffectedTriangles": 139
+  },
+  {
+    "label": "male_Putter_address",
+    "changedCounts": {
+      "LeftIndex": 185,
+      "LeftMiddle": 195,
+      "LeftRing": 195,
+      "LeftLittle": 190,
+      "RightIndex": 185,
+      "RightMiddle": 195,
+      "RightRing": 195,
+      "RightLittle": 191
+    },
+    "changedVertices": 653,
+    "maxWeightL1": 1.1956798401277133,
+    "maxPosedShiftMm": 11.166641132869264,
+    "affectedEdgeStretchBefore": [
+      1.1220397360216625,
+      1.7913737197355903,
+      3.234000273861975,
+      5.001061509886084
+    ],
+    "affectedEdgeStretchAfter": [
+      1.044408989428691,
+      1.6153475446535979,
+      2.8463374685943905,
+      5.303510730836953
+    ],
+    "indexTriangle22311BeforeAfter": [
+      1.0096906747504493,
+      1.0096906747504493
+    ],
+    "worsenedAffectedTriangles": 146
+  },
+  {
+    "label": "male_Putter_contact",
+    "changedCounts": {
+      "LeftIndex": 185,
+      "LeftMiddle": 195,
+      "LeftRing": 195,
+      "LeftLittle": 190,
+      "RightIndex": 185,
+      "RightMiddle": 195,
+      "RightRing": 195,
+      "RightLittle": 191
+    },
+    "changedVertices": 653,
+    "maxWeightL1": 1.1956798401277133,
+    "maxPosedShiftMm": 11.373091765423812,
+    "affectedEdgeStretchBefore": [
+      1.122151970609559,
+      1.7770275404561646,
+      3.106065841691114,
+      4.976232267890304
+    ],
+    "affectedEdgeStretchAfter": [
+      1.0428240364868366,
+      1.5949067820523224,
+      2.8463366634762632,
+      5.27653459714636
+    ],
+    "indexTriangle22311BeforeAfter": [
+      1.0074304632564741,
+      1.0074304632564741
+    ],
+    "worsenedAffectedTriangles": 144
+  },
+  {
+    "label": "male_Putter_top",
+    "changedCounts": {
+      "LeftIndex": 185,
+      "LeftMiddle": 195,
+      "LeftRing": 195,
+      "LeftLittle": 190,
+      "RightIndex": 185,
+      "RightMiddle": 195,
+      "RightRing": 195,
+      "RightLittle": 191
+    },
+    "changedVertices": 653,
+    "maxWeightL1": 1.1956798401277133,
+    "maxPosedShiftMm": 11.166613212647189,
+    "affectedEdgeStretchBefore": [
+      1.1220415578283125,
+      1.7913752775894805,
+      3.234001434843195,
+      5.001060197177976
+    ],
+    "affectedEdgeStretchAfter": [
+      1.0444083847597674,
+      1.6153357966381479,
+      2.846333104852043,
+      5.303509097857363
+    ],
+    "indexTriangle22311BeforeAfter": [
+      1.0024164826250568,
+      1.0024164826250568
+    ],
+    "worsenedAffectedTriangles": 146
+  }
+]

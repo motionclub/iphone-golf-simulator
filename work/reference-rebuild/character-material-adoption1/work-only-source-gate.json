@@ -1,0 +1,11 @@
+{
+  "gate": "PASS",
+  "productionSourcesUntouchedByAgent": {
+    "Unity/Assets/Scripts/Tennis/MatchHeroLook.cs": true,
+    "Unity/Assets/Resources/Tennis/Shaders/TennisCharacter.shader": true,
+    "Unity/Assets/Editor/VisualOverhaulCharacterCapture.cs": true
+  },
+  "newHelperMutatesOnlyMaterialProperties": true,
+  "unityCompilation": "PENDING root serialized capture",
+  "sourceUvMaxDifference": 1.0981862625209874e-05
+}

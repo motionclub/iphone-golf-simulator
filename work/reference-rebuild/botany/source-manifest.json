@@ -1,0 +1,126 @@
+{
+  "status": "source candidate; actual Unity art/counters pending",
+  "schema": "CONIFER_A/B/C,SHRUB_A/B,FERN with exact FAR partners; actual metres Z up; CORNER palette RGB and alpha breeze weight; all mesh roots at origin",
+  "objects": [
+    {
+      "mesh": "CONIFER_A",
+      "triangles": 97384,
+      "vertices": 56700,
+      "boundary": 0,
+      "nonmanifold": 0,
+      "height": 12.801664352416992,
+      "width": 7.062305927276611,
+      "feet": -0.0011380604701116681
+    },
+    {
+      "mesh": "CONIFER_B",
+      "triangles": 97384,
+      "vertices": 56700,
+      "boundary": 0,
+      "nonmanifold": 0,
+      "height": 10.502921104431152,
+      "width": 8.846090316772461,
+      "feet": -0.0021298551000654697
+    },
+    {
+      "mesh": "CONIFER_C",
+      "triangles": 97384,
+      "vertices": 56700,
+      "boundary": 0,
+      "nonmanifold": 0,
+      "height": 15.201803207397461,
+      "width": 6.8822526931762695,
+      "feet": -0.0009004134335555136
+    },
+    {
+      "mesh": "SHRUB_A",
+      "triangles": 12576,
+      "vertices": 6960,
+      "boundary": 0,
+      "nonmanifold": 0,
+      "height": 1.1692719459533691,
+      "width": 2.5083117485046387,
+      "feet": -0.014933855272829533
+    },
+    {
+      "mesh": "SHRUB_B",
+      "triangles": 14672,
+      "vertices": 8120,
+      "boundary": 0,
+      "nonmanifold": 0,
+      "height": 0.8543713688850403,
+      "width": 2.8961477279663086,
+      "feet": -0.019784748554229736
+    },
+    {
+      "mesh": "FERN",
+      "triangles": 9252,
+      "vertices": 5094,
+      "boundary": 0,
+      "nonmanifold": 0,
+      "height": 0.8428353071212769,
+      "width": 2.150486469268799,
+      "feet": 0.07346244156360626
+    },
+    {
+      "mesh": "CONIFER_A_FAR",
+      "triangles": 21424,
+      "vertices": 18720,
+      "boundary": 0,
+      "nonmanifold": 0,
+      "height": 12.801590919494629,
+      "width": 7.062559127807617,
+      "feet": -0.0010106486734002829
+    },
+    {
+      "mesh": "CONIFER_B_FAR",
+      "triangles": 21424,
+      "vertices": 18720,
+      "boundary": 0,
+      "nonmanifold": 0,
+      "height": 10.502558708190918,
+      "width": 8.84542465209961,
+      "feet": -0.0021299119107425213
+    },
+    {
+      "mesh": "CONIFER_C_FAR",
+      "triangles": 21424,
+      "vertices": 18720,
+      "boundary": 0,
+      "nonmanifold": 0,
+      "height": 15.201902389526367,
+      "width": 6.882002830505371,
+      "feet": -0.0008945388835854828
+    },
+    {
+      "mesh": "SHRUB_A_FAR",
+      "triangles": 3772,
+      "vertices": 2558,
+      "boundary": 0,
+      "nonmanifold": 0,
+      "height": 1.1693929433822632,
+      "width": 2.5110015869140625,
+      "feet": -0.015032298862934113
+    },
+    {
+      "mesh": "SHRUB_B_FAR",
+      "triangles": 4400,
+      "vertices": 2984,
+      "boundary": 0,
+      "nonmanifold": 0,
+      "height": 0.8545218110084534,
+      "width": 2.888296365737915,
+      "feet": -0.019937509670853615
+    },
+    {
+      "mesh": "FERN_FAR",
+      "triangles": 2774,
+      "vertices": 1855,
+      "boundary": 0,
+      "nonmanifold": 0,
+      "height": 0.8415008187294006,
+      "width": 2.1508374214172363,
+      "feet": 0.07253394275903702
+    }
+  ]
+}

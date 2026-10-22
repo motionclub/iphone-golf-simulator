@@ -1,0 +1,1034 @@
+{
+  "status": "PASS",
+  "scope": "all six adoption exports",
+  "variants": [
+    {
+      "manifest": "MatchHero_Male",
+      "sex": "Male",
+      "bones": 53,
+      "source_counts": {
+        "Body": 33694,
+        "Face": 3824
+      }
+    },
+    {
+      "manifest": "MatchHero_Female",
+      "sex": "Female",
+      "bones": 53,
+      "source_counts": {
+        "Body": 23230,
+        "Face": 3004
+      }
+    },
+    {
+      "manifest": "MatchHero_Male_Distance",
+      "sex": "Male",
+      "bones": 53,
+      "source_counts": {
+        "Body": 33694,
+        "Face": 3824
+      }
+    },
+    {
+      "manifest": "MatchHero_Female_Distance",
+      "sex": "Female",
+      "bones": 53,
+      "source_counts": {
+        "Body": 23230,
+        "Face": 3004
+      }
+    },
+    {
+      "manifest": "GolfKitHero_Male",
+      "sex": "Male",
+      "bones": 54,
+      "source_counts": {
+        "Body": 33694,
+        "Face": 3824
+      }
+    },
+    {
+      "manifest": "GolfKitHero_Female",
+      "sex": "Female",
+      "bones": 54,
+      "source_counts": {
+        "Body": 23230,
+        "Face": 3004
+      }
+    }
+  ],
+  "registrations": {
+    "GolfArcade": "PASS every referenced app resource exactly once",
+    "GolfArcadeUnity": "PASS every referenced app resource exactly once"
+  },
+  "resources": [
+    {
+      "file": "GolfKitHero_Female.json",
+      "sha256": "042d5dc769862f9ca3f60d55a6f85d1db16b33c499b1d2adfb8fd84287836d21",
+      "bytes": 423186,
+      "current_production_sha256": "98257415d97a502f184007a1c8123be1a87e130fc9d54adf1ee05d73c7d2ebfe"
+    },
+    {
+      "file": "GolfKitHero_Female.lzfse",
+      "sha256": "016f9b8907e4837d5802b849481007428bf1b32a07c5fb8b3915a3420e3dcfcd",
+      "bytes": 2086225,
+      "current_production_sha256": "3add4d7afeedfb8b8620380e8c36dc22aff1c7a01d259ecaf240845e46149c72"
+    },
+    {
+      "file": "GolfKitHero_Female_Rig.lzfse",
+      "sha256": "6669a10ba7ef1fb4055c66f8b25eb9eaf7426bb7ab5250e4ffb47947afb22fef",
+      "bytes": 13385191,
+      "current_production_sha256": "20d697b7fdad1bb593d5c258fcef2bbb98ed2caff8b79d6c8dce592181431be8"
+    },
+    {
+      "file": "GolfKitHero_Male.json",
+      "sha256": "e33b5769d05802cd1ff786e089246a26dae3c78bfcd9fa573367f2a25fa0a952",
+      "bytes": 313252,
+      "current_production_sha256": "bc56fa4b89bd4e20744d87984fb3b5c87bba4511e6486e128f6c547eb57b45ca"
+    },
+    {
+      "file": "GolfKitHero_Male.lzfse",
+      "sha256": "08f7ad6eecf1b6c080a5e1e90c7c2f91ff3844dff9f414047ddbe9f0fdace689",
+      "bytes": 3094751,
+      "current_production_sha256": "1d2bc25e1f0b9347c334bd52d44e65e9b03d95f294d1763b1ed84cb74933e32c"
+    },
+    {
+      "file": "GolfKitHero_Male_Rig.lzfse",
+      "sha256": "9568e3762ac74355117401ffe7143f3a98f28b99f09355e4fb500d976dce96bf",
+      "bytes": 13973716,
+      "current_production_sha256": "b6ca305527ef9c6bc8d7996c4650624b5ec1c5dbc48e0cc5d5c529aef36d78dc"
+    },
+    {
+      "file": "MatchHero_Cloth_FabricAtlas.ktx",
+      "sha256": "eb145e7cc92e16ccaa7f051c735d8ebb24846eed408e84e55ccfec646fdba054",
+      "bytes": 349944,
+      "current_production_sha256": "eb145e7cc92e16ccaa7f051c735d8ebb24846eed408e84e55ccfec646fdba054"
+    },
+    {
+      "file": "MatchHero_Female.json",
+      "sha256": "af163b256c48032d1c0fc88967b36410f1231d5b2c8a8fddd114ed77f1e9742d",
+      "bytes": 261985,
+      "current_production_sha256": "9aced159d556361e0cea9e46160ae4921c880fc95839f84f576d204025cb35e7"
+    },
+    {
+      "file": "MatchHero_Female.lzfse",
+      "sha256": "258cff72065b6938f14eb6d6b8dfba1dcf72c037ba5c0e71b43ea7e52e0ade65",
+      "bytes": 2667172,
+      "current_production_sha256": "f2fcc475d17ff0560e96049582ee7ab1e7dacdc2053a947ed709ea5abe527612"
+    },
+    {
+      "file": "MatchHero_Female_Distance.json",
+      "sha256": "86c9a8ac75ad18485eac027506c50ec854a41681dfe1029c7070418250a694f8",
+      "bytes": 262096,
+      "current_production_sha256": "9c649dfd15a8b9fba079eb241b21093b69a7948e6091f12d58ed5dccbabbe754"
+    },
+    {
+      "file": "MatchHero_Female_Distance.lzfse",
+      "sha256": "eff56d0fc62f9841d9a728b2f3d10feb2a43ff4e4f5e171d9fff451d88810a67",
+      "bytes": 1961491,
+      "current_production_sha256": "c9f70d060cac02774f3c19efbcd0149460cf2fd490b0f313a4b3838d392dd5cc"
+    },
+    {
+      "file": "MatchHero_Female_Distance_Rig.lzfse",
+      "sha256": "e09a07a5498b16db929e2157a3db3ef64bda560d23e3e97dce86e0b7543de4e5",
+      "bytes": 10113503,
+      "current_production_sha256": "6dd5ed47280445fe375fe150c9779bc10366ac57f7a513193d15ff03f9c10bbf"
+    },
+    {
+      "file": "MatchHero_Female_Distance_Swing_00.lzfse",
+      "sha256": "c83dd6b1df694e92e97ea42e8f58e1c78538ab962a6ab11728ba99a854436b8f",
+      "bytes": 1055474,
+      "current_production_sha256": "ace79060e847e315cb4e89fa00b351c4e170da3e34a3328f43db4d35fd6141d6"
+    },
+    {
+      "file": "MatchHero_Female_Distance_Swing_01.lzfse",
+      "sha256": "0ecfd1b372b9047f5bb10906414018eb22dbebac985741964d9c87fd8e2d8994",
+      "bytes": 1065920,
+      "current_production_sha256": "9feac4a834aa1892e9c411e48c012fcaa0615cbbd2d259f2e40d690e1b6514c0"
+    },
+    {
+      "file": "MatchHero_Female_Distance_Swing_02.lzfse",
+      "sha256": "7a63d483cbc369f40dcd8cebaad42e52855d6e2eefba7df6b4e5be1d5c60e3ba",
+      "bytes": 1061687,
+      "current_production_sha256": "f822c6fc20aeeded2da302c54e9b3f26716bf5ebcfcfe38e8db537dcd8629d1c"
+    },
+    {
+      "file": "MatchHero_Female_Distance_Swing_03.lzfse",
+      "sha256": "1ac7dbcd65043dc4b22e153a81e79610f80d532dcfb644649ec1a26816957d5e",
+      "bytes": 1061236,
+      "current_production_sha256": "8de548084c50528b8a7dca7dded23ec0c8d2ab32db767190c70f181539679c7d"
+    },
+    {
+      "file": "MatchHero_Female_Distance_Swing_04.lzfse",
+      "sha256": "0233c1ae8f16c7651bd04a97a98d9e3fd6dbf038dc032245b0143c32726d04fa",
+      "bytes": 1063107,
+      "current_production_sha256": "db06df20afb22957b24240187c742be86a71676a4e358cb7d9c4acd95d120a26"
+    },
+    {
+      "file": "MatchHero_Female_Distance_Swing_05.lzfse",
+      "sha256": "31317d1c7063cf001a4856ace8b4ae31e84ee3873b1bda91e3b9dd839f4e17b2",
+      "bytes": 1063076,
+      "current_production_sha256": "04b4fe4e81af7060f6977a9d23d996828dfd0d7fb6f884940ccb6c87215a8047"
+    },
+    {
+      "file": "MatchHero_Female_Distance_Swing_06.lzfse",
+      "sha256": "9158af048f9b362b36fd0402372a84d1b57b71e5598070c9d5d3358f13f058e8",
+      "bytes": 1062490,
+      "current_production_sha256": "4e9a81d6d678dbe0d3178c135a8277f6a562171599bfa7e20c17eb6e2ca50467"
+    },
+    {
+      "file": "MatchHero_Female_Distance_Swing_07.lzfse",
+      "sha256": "b6239e1a66d65af32becce750783bb256921cd26fd834c71f996425a4194eea7",
+      "bytes": 1061020,
+      "current_production_sha256": "dc42fd645b8069408cc6b37ba6c05acae162ed387c34bf8a4b191f56b7372591"
+    },
+    {
+      "file": "MatchHero_Female_Distance_Swing_08.lzfse",
+      "sha256": "f15e86500f20d02f2081752719190f94a722eeb5f28119c1cd35eb11778ecf9c",
+      "bytes": 1060973,
+      "current_production_sha256": "0dbae0877f45fd32e87c4b280d6cef0062dad2a02f198264d0553434786f7cdf"
+    },
+    {
+      "file": "MatchHero_Female_Distance_Swing_09.lzfse",
+      "sha256": "1426eb90faa902da731d32c8b6460681ae4d468d311c38f14dcabf0816c13a73",
+      "bytes": 1060836,
+      "current_production_sha256": "f0fd9beb7c7f67cac46286043e7d3e0515d8aab8a9676b59946f9b29d66512a2"
+    },
+    {
+      "file": "MatchHero_Female_Distance_Swing_10.lzfse",
+      "sha256": "9f1be21056884099356444e2b3ab5670e8a09a69281e602b2860210478c464bc",
+      "bytes": 1063597,
+      "current_production_sha256": "459d760f2f19ddadc52c658523a1b48afeea505d73660692cd678050bee2c8b9"
+    },
+    {
+      "file": "MatchHero_Female_Distance_Swing_11.lzfse",
+      "sha256": "3d16bca8a1cb3b8f4ca50c7461aaced721950cdabbc160bcda22abe84cd20801",
+      "bytes": 1055637,
+      "current_production_sha256": "6366b5a56e4206face284847364b1e811e65c86eab4dc94bd8450baaa00fdeb5"
+    },
+    {
+      "file": "MatchHero_Female_Rig.lzfse",
+      "sha256": "f4c663da66da0a0769d8169fb84833e307f61a2e1d98d15f3c466d331f0f5248",
+      "bytes": 11363269,
+      "current_production_sha256": "8e922d1dcdc8e0f0cc37bb730a46feb267efe6ea0e9f450e1238df3bf9eb5dc6"
+    },
+    {
+      "file": "MatchHero_Female_Swing_00.lzfse",
+      "sha256": "40238b842c840ce207dc4c2d54a0ef284c1285aa36089c445cc197be4d1b0828",
+      "bytes": 1400312,
+      "current_production_sha256": "cf97239ed5cbbf3409cb3f9f8b3e0b3da04d5e4b66129a38ebac5b85e0df066f"
+    },
+    {
+      "file": "MatchHero_Female_Swing_01.lzfse",
+      "sha256": "1f7f6a09b65f897aa8388907afb39cb4ee4114fd02c3739750efe203ed247b9f",
+      "bytes": 1416679,
+      "current_production_sha256": "9526a07666421abd91bf6d87ae55b995a84e1ecdd70d71894f5376be1b90bfcd"
+    },
+    {
+      "file": "MatchHero_Female_Swing_02.lzfse",
+      "sha256": "ad3e2746aa9afcb801c94436c0e3f2b91e5cee29f2528a7be7eb8b40b45e9f3f",
+      "bytes": 1410646,
+      "current_production_sha256": "789ebaa1403f2269d0180c3fcb54d044c4c50c9a0688a5dbe4ffc31451c339d2"
+    },
+    {
+      "file": "MatchHero_Female_Swing_03.lzfse",
+      "sha256": "38cd914ded976697ce13a1be1a33c8b6a03ae9b39f7b2281d0b6dba628405e98",
+      "bytes": 1402108,
+      "current_production_sha256": "3c6b83a4c90e8cd7dea5a7369453e85c59cdcc5cf67bf30977fb9d60978d39d0"
+    },
+    {
+      "file": "MatchHero_Female_Swing_04.lzfse",
+      "sha256": "59380387928e359d9332360321ec4c6f75a03fd69b375404fd2327c480c6d158",
+      "bytes": 1411567,
+      "current_production_sha256": "8405d6f6ff3201129f8c55396b8e6472f866fb4f851ca55a52a8a3ee84c83d20"
+    },
+    {
+      "file": "MatchHero_Female_Swing_05.lzfse",
+      "sha256": "7381babae4fe12dbbaab28b52698cd4c304cb6a11ece70f9c68c918b3df63c21",
+      "bytes": 1412949,
+      "current_production_sha256": "3803a99bcab29c4532025bb75b2624a6e17233b3f01b117229fe2c9ac46239f1"
+    },
+    {
+      "file": "MatchHero_Female_Swing_06.lzfse",
+      "sha256": "24925d8c00034f8eef5d4dbdefbf0a1d52632f9ff60fe14398f6907e309b06e0",
+      "bytes": 1412363,
+      "current_production_sha256": "e0ece5f177002a8dedb5db097335ae7546fc81de707c0518d21676cb1f82438b"
+    },
+    {
+      "file": "MatchHero_Female_Swing_07.lzfse",
+      "sha256": "15f86ab18334babff4688aeef7ccffb54b6f4cc06651c3e576f8f3d271527f19",
+      "bytes": 1410412,
+      "current_production_sha256": "bd91165a02d12c1584c349db1a7ecf07811741d39630e86e873ac65d083f7f97"
+    },
+    {
+      "file": "MatchHero_Female_Swing_08.lzfse",
+      "sha256": "1333eeca273bf3cb3de10b7b9272f2e30457f9e929a52aa7d0732353a751ff50",
+      "bytes": 1410114,
+      "current_production_sha256": "3ebd50cb1748889e3db90538a043d43d9cea38f957090e29d8b7b06f4616f249"
+    },
+    {
+      "file": "MatchHero_Female_Swing_09.lzfse",
+      "sha256": "61022b6be944738c38559525081f08c78dc8705649d07011db0afa158fe64b36",
+      "bytes": 1407359,
+      "current_production_sha256": "73d44f34c42660a771171c23038fe73ab34385b0112f755427da48c627269985"
+    },
+    {
+      "file": "MatchHero_Female_Swing_10.lzfse",
+      "sha256": "fabf360545e4d39d4b6b816597ab0756ad833589203961405233d942a673950c",
+      "bytes": 1401919,
+      "current_production_sha256": "080187c9ffd3eff4d2a0254b9d2c310d5eea18ef9316e332d32c6726622609c5"
+    },
+    {
+      "file": "MatchHero_Female_Swing_11.lzfse",
+      "sha256": "d5011da3bb3332849824e77a88cf5699d391bcd0e838346d050ec75bb70ab5b6",
+      "bytes": 1401099,
+      "current_production_sha256": "5b83e837bf1461106ce670de0fc7133cc5a4210fcfb1a270f2bfd3d7014c86ef"
+    },
+    {
+      "file": "MatchHero_GolfKit_FabricAtlas.ktx",
+      "sha256": "edee42bb46893edfe87d74c24bbcc0a8ee5f6b0cb8d89751eb06eb3ae0f6f4f8",
+      "bytes": 349944,
+      "current_production_sha256": "edee42bb46893edfe87d74c24bbcc0a8ee5f6b0cb8d89751eb06eb3ae0f6f4f8"
+    },
+    {
+      "file": "MatchHero_GolfKit_Female_Bottom_M.ktx",
+      "sha256": "0c9175ddba1ff988b227db5ad1e5333a68ce406459180fbad85bee185c6dc8fc",
+      "bytes": 349964,
+      "current_production_sha256": "0c9175ddba1ff988b227db5ad1e5333a68ce406459180fbad85bee185c6dc8fc"
+    },
+    {
+      "file": "MatchHero_GolfKit_Female_Bottom_N.ktx",
+      "sha256": "7f589239f5c16a2961dca129929d6e8005d44a42cc2f896b9cad7293f6c4882a",
+      "bytes": 349964,
+      "current_production_sha256": "7f589239f5c16a2961dca129929d6e8005d44a42cc2f896b9cad7293f6c4882a"
+    },
+    {
+      "file": "MatchHero_GolfKit_Female_GloveL_M.ktx",
+      "sha256": "46dd0db525f139d7ef6567b928a05b12f2040a872f7d7b7cae91f2472dcf944e",
+      "bytes": 87816,
+      "current_production_sha256": "46dd0db525f139d7ef6567b928a05b12f2040a872f7d7b7cae91f2472dcf944e"
+    },
+    {
+      "file": "MatchHero_GolfKit_Female_GloveL_N.ktx",
+      "sha256": "3e3716757a564bdc240058e34e9f711af39f6d8d00e7e2c035f1854694e6af2d",
+      "bytes": 87816,
+      "current_production_sha256": "3e3716757a564bdc240058e34e9f711af39f6d8d00e7e2c035f1854694e6af2d"
+    },
+    {
+      "file": "MatchHero_GolfKit_Female_GloveR_M.ktx",
+      "sha256": "8eddb070f4a7f7e972764778760984659d3ae006ba9ecdea7448a3154cce86ad",
+      "bytes": 87816,
+      "current_production_sha256": "8eddb070f4a7f7e972764778760984659d3ae006ba9ecdea7448a3154cce86ad"
+    },
+    {
+      "file": "MatchHero_GolfKit_Female_GloveR_N.ktx",
+      "sha256": "6b94badf5bde3c778de05a36e4798809121391f5e15b7afe7837671a3727349d",
+      "bytes": 87816,
+      "current_production_sha256": "6b94badf5bde3c778de05a36e4798809121391f5e15b7afe7837671a3727349d"
+    },
+    {
+      "file": "MatchHero_GolfKit_Female_ShoeL_M.ktx",
+      "sha256": "7c1ad79c2b317e79edd67291c37b5f01d6c4704175d8ef0b59ff4f69fd066ba7",
+      "bytes": 349964,
+      "current_production_sha256": "8ad4c7a52b887b5019b772a25e40a22cd1534be7bc9c7eaac258ef68ec4fb153"
+    },
+    {
+      "file": "MatchHero_GolfKit_Female_ShoeL_N.ktx",
+      "sha256": "54fbe4d6c5e567b6080e9f6ce6ceced78f1906478b80acbc2bd63edccea9160a",
+      "bytes": 349964,
+      "current_production_sha256": "54fbe4d6c5e567b6080e9f6ce6ceced78f1906478b80acbc2bd63edccea9160a"
+    },
+    {
+      "file": "MatchHero_GolfKit_Female_ShoeR_M.ktx",
+      "sha256": "b1b2aeb0ff33d8d839d96e9d58aa48f2cf9962bd1c86b00d7189cc9e72611ad2",
+      "bytes": 349964,
+      "current_production_sha256": "ff55d6fc25fc65bbb228938d1c4a2f2e31bb4efdaa647ff3ede1596b7c0798cb"
+    },
+    {
+      "file": "MatchHero_GolfKit_Female_ShoeR_N.ktx",
+      "sha256": "e4c4cf13cce2c5ec9f0dff7f25e0af5e6cbb33e5aee8585bb05e88baf3e3bc65",
+      "bytes": 349964,
+      "current_production_sha256": "e4c4cf13cce2c5ec9f0dff7f25e0af5e6cbb33e5aee8585bb05e88baf3e3bc65"
+    },
+    {
+      "file": "MatchHero_GolfKit_Female_Top_M.ktx",
+      "sha256": "6b20a0f9bd05863d73518c8196f3ee3dcb0842baf95702a6c3d912ece93c1dd8",
+      "bytes": 1398544,
+      "current_production_sha256": "6b20a0f9bd05863d73518c8196f3ee3dcb0842baf95702a6c3d912ece93c1dd8"
+    },
+    {
+      "file": "MatchHero_GolfKit_Female_Top_N.ktx",
+      "sha256": "1a6863cd23bbb7f24495cbb69738d08782cb3b5c7f1a7d8a513dc5132dadcc04",
+      "bytes": 1398544,
+      "current_production_sha256": "1a6863cd23bbb7f24495cbb69738d08782cb3b5c7f1a7d8a513dc5132dadcc04"
+    },
+    {
+      "file": "MatchHero_GolfKit_Male_Bottom_M.ktx",
+      "sha256": "a26b128e3cf4be6b68af1268e8344d9cbf1599145dfc47017d9206adfe7abf72",
+      "bytes": 349964,
+      "current_production_sha256": "a26b128e3cf4be6b68af1268e8344d9cbf1599145dfc47017d9206adfe7abf72"
+    },
+    {
+      "file": "MatchHero_GolfKit_Male_Bottom_N.ktx",
+      "sha256": "59ca0167cd50e4a9c1cf8b66308982d13906331aca14b1fdab70b47072cbf043",
+      "bytes": 349964,
+      "current_production_sha256": "59ca0167cd50e4a9c1cf8b66308982d13906331aca14b1fdab70b47072cbf043"
+    },
+    {
+      "file": "MatchHero_GolfKit_Male_GloveL_M.ktx",
+      "sha256": "64544ae4cee9c1e4d41e11b6a0e428a2e636749abfb63678fdb61a3a1a7864d6",
+      "bytes": 87816,
+      "current_production_sha256": "64544ae4cee9c1e4d41e11b6a0e428a2e636749abfb63678fdb61a3a1a7864d6"
+    },
+    {
+      "file": "MatchHero_GolfKit_Male_GloveL_N.ktx",
+      "sha256": "c3d8d19ca8ffd99f0fc00f8148834d18c0e2fc84f4a8c9fa91058712109d2039",
+      "bytes": 87816,
+      "current_production_sha256": "c3d8d19ca8ffd99f0fc00f8148834d18c0e2fc84f4a8c9fa91058712109d2039"
+    },
+    {
+      "file": "MatchHero_GolfKit_Male_GloveR_M.ktx",
+      "sha256": "4a1af14245561b90df2adf82091e7aa83fcd74c9acb53582ea311705689e1292",
+      "bytes": 87816,
+      "current_production_sha256": "4a1af14245561b90df2adf82091e7aa83fcd74c9acb53582ea311705689e1292"
+    },
+    {
+      "file": "MatchHero_GolfKit_Male_GloveR_N.ktx",
+      "sha256": "73438fee1e05cfabec46bfdd382f6aab70fd1ec34becc7a249c4ca4265cec688",
+      "bytes": 87816,
+      "current_production_sha256": "73438fee1e05cfabec46bfdd382f6aab70fd1ec34becc7a249c4ca4265cec688"
+    },
+    {
+      "file": "MatchHero_GolfKit_Male_ShoeL_M.ktx",
+      "sha256": "af228d79c9d4aa7088436881be7fd1e2753203d18667cf4bf3a8c9c217654755",
+      "bytes": 349964,
+      "current_production_sha256": "93c5120465a8cb0c708d80d27d6b59eb8e38d0e32b93884d3f5019439b487c80"
+    },
+    {
+      "file": "MatchHero_GolfKit_Male_ShoeL_N.ktx",
+      "sha256": "79b7444afb205e273afbc1e67702efab1d2b25a413a0aeb5c4d3a71bb75c1c6f",
+      "bytes": 349964,
+      "current_production_sha256": "79b7444afb205e273afbc1e67702efab1d2b25a413a0aeb5c4d3a71bb75c1c6f"
+    },
+    {
+      "file": "MatchHero_GolfKit_Male_ShoeR_M.ktx",
+      "sha256": "dab28fd7588af447066f3ce081facf7f86d010f70010f55265f9ca6ab112bfb7",
+      "bytes": 349964,
+      "current_production_sha256": "6f71ca2911251f06b2d04619dd1d021356959727108278325cf4955ede6b8c40"
+    },
+    {
+      "file": "MatchHero_GolfKit_Male_ShoeR_N.ktx",
+      "sha256": "ce1d21ff7736283de364d5fbfd4804bd0dd1fb2bbbc4a4a3c9826935e4d99c9f",
+      "bytes": 349964,
+      "current_production_sha256": "ce1d21ff7736283de364d5fbfd4804bd0dd1fb2bbbc4a4a3c9826935e4d99c9f"
+    },
+    {
+      "file": "MatchHero_GolfKit_Male_Top_M.ktx",
+      "sha256": "26b32117d3b4c3491ca3456cec863640348720c8ee76c4e40c1f9bb4e12c90f7",
+      "bytes": 1398544,
+      "current_production_sha256": "26b32117d3b4c3491ca3456cec863640348720c8ee76c4e40c1f9bb4e12c90f7"
+    },
+    {
+      "file": "MatchHero_GolfKit_Male_Top_N.ktx",
+      "sha256": "d64e1c066bc476349dc75fd6a4e3ebfef1b144238eb0eccf1b374b8807a4840b",
+      "bytes": 1398544,
+      "current_production_sha256": "d64e1c066bc476349dc75fd6a4e3ebfef1b144238eb0eccf1b374b8807a4840b"
+    },
+    {
+      "file": "MatchHero_Kit_Female_Bottom_M.ktx",
+      "sha256": "255b281e42d1c57b0ee23c997c509262a3e56af4f9e4fd9fde9eae478fc8845d",
+      "bytes": 349964,
+      "current_production_sha256": "255b281e42d1c57b0ee23c997c509262a3e56af4f9e4fd9fde9eae478fc8845d"
+    },
+    {
+      "file": "MatchHero_Kit_Female_Bottom_N.ktx",
+      "sha256": "083c40594a1a7a7a82dd2165a9c74a70faab8bbe30a4819f65d0506f550e74d5",
+      "bytes": 349964,
+      "current_production_sha256": "083c40594a1a7a7a82dd2165a9c74a70faab8bbe30a4819f65d0506f550e74d5"
+    },
+    {
+      "file": "MatchHero_Kit_Female_ShoeL_M.ktx",
+      "sha256": "c0dab4b9b7bb35936fee10a10eefcedb7c4ae5286d2e0ff318f5c79804fcae76",
+      "bytes": 349964,
+      "current_production_sha256": "68d3f8ada462e81dc601fd4ad44782be6a0a25d7db263cc73771818249bf2363"
+    },
+    {
+      "file": "MatchHero_Kit_Female_ShoeL_N.ktx",
+      "sha256": "dc46d6ef144d97634e3d89885bf0f8c112442ef136a5397c664c0713485543ed",
+      "bytes": 349964,
+      "current_production_sha256": "dc46d6ef144d97634e3d89885bf0f8c112442ef136a5397c664c0713485543ed"
+    },
+    {
+      "file": "MatchHero_Kit_Female_ShoeR_M.ktx",
+      "sha256": "6c2e882eace0e93398fb3f58b725e16dc0a2f5c1f18338bf96422e9012615ef3",
+      "bytes": 349964,
+      "current_production_sha256": "0c065e30a966d60199e3aef7e287d06b85607698e61122878b8747ba917603d7"
+    },
+    {
+      "file": "MatchHero_Kit_Female_ShoeR_N.ktx",
+      "sha256": "64978e8235665b7901e2960aae07fdc73b0c2530e72a4d781aa3fd8fb8b6f71e",
+      "bytes": 349964,
+      "current_production_sha256": "64978e8235665b7901e2960aae07fdc73b0c2530e72a4d781aa3fd8fb8b6f71e"
+    },
+    {
+      "file": "MatchHero_Kit_Female_SockL_M.ktx",
+      "sha256": "4cd1cc869694008ffa7d330e3e82900719c1749a11ccf606eb9da68abd3c0d77",
+      "bytes": 87816,
+      "current_production_sha256": "4cd1cc869694008ffa7d330e3e82900719c1749a11ccf606eb9da68abd3c0d77"
+    },
+    {
+      "file": "MatchHero_Kit_Female_SockL_N.ktx",
+      "sha256": "d150114ae384f65a5e81af263f467341d644c4b92e72cac33f41938ff57305c1",
+      "bytes": 87816,
+      "current_production_sha256": "d150114ae384f65a5e81af263f467341d644c4b92e72cac33f41938ff57305c1"
+    },
+    {
+      "file": "MatchHero_Kit_Female_SockR_M.ktx",
+      "sha256": "018d4a9c5efae1ce18a82af9bf3b115e3ae022502709517131ac4931e6a04f82",
+      "bytes": 87816,
+      "current_production_sha256": "018d4a9c5efae1ce18a82af9bf3b115e3ae022502709517131ac4931e6a04f82"
+    },
+    {
+      "file": "MatchHero_Kit_Female_SockR_N.ktx",
+      "sha256": "6f9e2a64c30a43ac9011391c7b919dff9665ab6c5faa884592e67d7540cfc1ac",
+      "bytes": 87816,
+      "current_production_sha256": "6f9e2a64c30a43ac9011391c7b919dff9665ab6c5faa884592e67d7540cfc1ac"
+    },
+    {
+      "file": "MatchHero_Kit_Female_Top_M.ktx",
+      "sha256": "5d71820eb05176fb00616f8f286f3650653d0a52c4e7582f8eb502b1a4988241",
+      "bytes": 1398544,
+      "current_production_sha256": "5d71820eb05176fb00616f8f286f3650653d0a52c4e7582f8eb502b1a4988241"
+    },
+    {
+      "file": "MatchHero_Kit_Female_Top_N.ktx",
+      "sha256": "e35847282bbbe3dc6c831360fe21bcce624e416f3e6d1add4b2b3ce62f3b918c",
+      "bytes": 1398544,
+      "current_production_sha256": "e35847282bbbe3dc6c831360fe21bcce624e416f3e6d1add4b2b3ce62f3b918c"
+    },
+    {
+      "file": "MatchHero_Kit_Male_Bottom_M.ktx",
+      "sha256": "d0aac58d481b2a535106ca61e9160c7a14d8637f31409ad6d626e0259db045c1",
+      "bytes": 349964,
+      "current_production_sha256": "d0aac58d481b2a535106ca61e9160c7a14d8637f31409ad6d626e0259db045c1"
+    },
+    {
+      "file": "MatchHero_Kit_Male_Bottom_N.ktx",
+      "sha256": "371e349a6f23f20508927b2f2ebc10f5c9c2a39d841fe633c35816601da7b959",
+      "bytes": 349964,
+      "current_production_sha256": "371e349a6f23f20508927b2f2ebc10f5c9c2a39d841fe633c35816601da7b959"
+    },
+    {
+      "file": "MatchHero_Kit_Male_ShoeL_M.ktx",
+      "sha256": "3f28de8f1d3cf5048829f383ebde02ca88c3d2bb346c9b1d49a8473de7d8ede8",
+      "bytes": 349964,
+      "current_production_sha256": "4341c9685f54b2f9c25c4b7ee35c7f36bae6fe51f90343e1e4f98229030ee3de"
+    },
+    {
+      "file": "MatchHero_Kit_Male_ShoeL_N.ktx",
+      "sha256": "0052e9c2c0f1b5191eaf9dae779cac52a67f9890474ddce8037a589dc1b0cce8",
+      "bytes": 349964,
+      "current_production_sha256": "0052e9c2c0f1b5191eaf9dae779cac52a67f9890474ddce8037a589dc1b0cce8"
+    },
+    {
+      "file": "MatchHero_Kit_Male_ShoeR_M.ktx",
+      "sha256": "de8dc79c992ddfe3b4f5f1252c46f12cf3b772f1cdf70c8bbf572ea47b23c262",
+      "bytes": 349964,
+      "current_production_sha256": "83d8cceee3eab10c3dc943f262e86938faab23c980aa5c3b5d005aae64eea39b"
+    },
+    {
+      "file": "MatchHero_Kit_Male_ShoeR_N.ktx",
+      "sha256": "65aa8723ff90e0f5a68a08449688469fa2b5ee04b8a6959757ae04dde5a114be",
+      "bytes": 349964,
+      "current_production_sha256": "65aa8723ff90e0f5a68a08449688469fa2b5ee04b8a6959757ae04dde5a114be"
+    },
+    {
+      "file": "MatchHero_Kit_Male_SockL_M.ktx",
+      "sha256": "514b0cd4cb9d1940fa469210b878ea9c985bf8c13803358bab7523afefbe5008",
+      "bytes": 87816,
+      "current_production_sha256": "514b0cd4cb9d1940fa469210b878ea9c985bf8c13803358bab7523afefbe5008"
+    },
+    {
+      "file": "MatchHero_Kit_Male_SockL_N.ktx",
+      "sha256": "96e32648bc6e57853f60b8b4856e01ad73f91ca20ba03487af5651aa72d5fc12",
+      "bytes": 87816,
+      "current_production_sha256": "96e32648bc6e57853f60b8b4856e01ad73f91ca20ba03487af5651aa72d5fc12"
+    },
+    {
+      "file": "MatchHero_Kit_Male_SockR_M.ktx",
+      "sha256": "17ad87a369ec72aac6695e765b9feff82b869e563dd023ed99a884167e36986e",
+      "bytes": 87816,
+      "current_production_sha256": "17ad87a369ec72aac6695e765b9feff82b869e563dd023ed99a884167e36986e"
+    },
+    {
+      "file": "MatchHero_Kit_Male_SockR_N.ktx",
+      "sha256": "69c3bf33d8b17a8d2eba5f6f11ccbd2031d43e99f92e5ab8f0c9943e24510684",
+      "bytes": 87816,
+      "current_production_sha256": "69c3bf33d8b17a8d2eba5f6f11ccbd2031d43e99f92e5ab8f0c9943e24510684"
+    },
+    {
+      "file": "MatchHero_Kit_Male_Top_M.ktx",
+      "sha256": "2853bc178f78e12ae59ef1375852b8868dac90286971113578b9e5427c65f9cb",
+      "bytes": 1398544,
+      "current_production_sha256": "2853bc178f78e12ae59ef1375852b8868dac90286971113578b9e5427c65f9cb"
+    },
+    {
+      "file": "MatchHero_Kit_Male_Top_N.ktx",
+      "sha256": "fe7561bad722f72cc9c1490447640223a1db640fe1e82b2b9a53b98884ecaad4",
+      "bytes": 1398544,
+      "current_production_sha256": "fe7561bad722f72cc9c1490447640223a1db640fe1e82b2b9a53b98884ecaad4"
+    },
+    {
+      "file": "MatchHero_Male.json",
+      "sha256": "9a8d2e96ddb1ec6bb74b3da4f3477a14c4ea971859de7afcccad419bab562eb9",
+      "bytes": 260214,
+      "current_production_sha256": "2d7b89620a4af0229b69f092f197f94d72ddc7aaaf7301feae36f9937c8c16df"
+    },
+    {
+      "file": "MatchHero_Male.lzfse",
+      "sha256": "1f370460210905d2305541e62f43607eb4c7213e2d5587d9204152ffabcdd55d",
+      "bytes": 3440250,
+      "current_production_sha256": "e7cede12d340fa4307fa193f6f35b2fc0e3f8fc6e43e34ea45c389fd3a287dd4"
+    },
+    {
+      "file": "MatchHero_Male_Distance.json",
+      "sha256": "0a5639538bc2d3cba1858e6490b1bc6ae82960a6c2872e41ba4733ba9098bca5",
+      "bytes": 260310,
+      "current_production_sha256": "da1df7c1ae38335f2cabbfa3bdda0f1f9c1df23aea117eb6e5ae2fdaf8b88863"
+    },
+    {
+      "file": "MatchHero_Male_Distance.lzfse",
+      "sha256": "9bc36717e7bf9c4c065eff7d4cc547e9f0392555f5b7325830cdec90cc620f25",
+      "bytes": 2655542,
+      "current_production_sha256": "62d21bb5ef443dbd5e92d4e02e443980a222dea7630b523b977788cbbe54d241"
+    },
+    {
+      "file": "MatchHero_Male_Distance_Rig.lzfse",
+      "sha256": "a04a7d587461302957cd328bfd1fb9fed6c343b8648d1bd06bc4a91f9b424256",
+      "bytes": 11634210,
+      "current_production_sha256": "2808bcffa35d75477558063debc28add79b741ef0efd0c7719c601823d8676e1"
+    },
+    {
+      "file": "MatchHero_Male_Distance_Swing_00.lzfse",
+      "sha256": "8d2cb9e7734f2455ea2417bcb2133cd33ad9e545d5e3fe419ef414aa67a66236",
+      "bytes": 1416380,
+      "current_production_sha256": "cdd7adb4fe3a2dc16ea879d1d0a635fb0be2de764f368102dc27ea4c4457adc4"
+    },
+    {
+      "file": "MatchHero_Male_Distance_Swing_01.lzfse",
+      "sha256": "934f358fa2d2ac7a04930ab7b75f17295cbbb750506c2d4e337119cbaec814d2",
+      "bytes": 1419448,
+      "current_production_sha256": "37cc60c328afc8a904207814b9dd2f5a6445fd41a425b93b8f5f3db501817701"
+    },
+    {
+      "file": "MatchHero_Male_Distance_Swing_02.lzfse",
+      "sha256": "1a4a98e974d8a70194b5325e9ce307700e9aaadcab6c87b4f16430794f942330",
+      "bytes": 1413859,
+      "current_production_sha256": "17c74fb92fc3cc2846afcdcad5efc1921df2683f97aa10be1d91b78cec726cc5"
+    },
+    {
+      "file": "MatchHero_Male_Distance_Swing_03.lzfse",
+      "sha256": "77d117cbf50cdf1df6af5b8a3ca090a5850d8afb21e1038e2b36f09f9d40149e",
+      "bytes": 1413154,
+      "current_production_sha256": "da6698b5e68e3115fd8da76d9a555e5c5944719fdd2ccf450e2c756f8d16eb6d"
+    },
+    {
+      "file": "MatchHero_Male_Distance_Swing_04.lzfse",
+      "sha256": "a4b975f7638a86aab89f9285984544f3f4b1b77eeae26ed28cb22f5dc54e0ab3",
+      "bytes": 1415334,
+      "current_production_sha256": "f88517f76ecde3b59950512a159b5558451be6e4125e88fd228551c1eec0f82a"
+    },
+    {
+      "file": "MatchHero_Male_Distance_Swing_05.lzfse",
+      "sha256": "ada6a29d5b24960718635a5c64ecd7484cffae85777704f839440b21e2cf7524",
+      "bytes": 1415767,
+      "current_production_sha256": "c7104abc260917a858c42e1507e8f22e84314c091ead44b5023d8e5cdf23085a"
+    },
+    {
+      "file": "MatchHero_Male_Distance_Swing_06.lzfse",
+      "sha256": "d78738030fec967482252cdff8b0e7fe4189d85dc76071ca4d8e17f622088e89",
+      "bytes": 1414561,
+      "current_production_sha256": "69ccccd97a11e0e077f88b555cd154889957aeecf35aa7cdbba8d4463dbbd1b0"
+    },
+    {
+      "file": "MatchHero_Male_Distance_Swing_07.lzfse",
+      "sha256": "fe6a10fb417e9df0bd2dd0294cd8b1cf96a665abd0388abb79444bb4411d7f83",
+      "bytes": 1412758,
+      "current_production_sha256": "bbd2ea1210c998f304541158d8fb251824f5f19c6f1e7ff9e63fa0e53223b0bb"
+    },
+    {
+      "file": "MatchHero_Male_Distance_Swing_08.lzfse",
+      "sha256": "f1a7e156aac7a0fda5d862399f159a5314d6fad5b3625b7c3bfa1d39e69fbb3e",
+      "bytes": 1411248,
+      "current_production_sha256": "68723a06452a91ef19570e465fc29fd7751bad21e16a80edad64ba44ebfaf13c"
+    },
+    {
+      "file": "MatchHero_Male_Distance_Swing_09.lzfse",
+      "sha256": "b81251fb5a7439a1b537f9784f3e3fa96848c71849e5a97053c04e97e747e738",
+      "bytes": 1411094,
+      "current_production_sha256": "544cd24c23a3d1c7bb851d89378e2cb4e36d7a5bf52084eeead47cd0e59464fe"
+    },
+    {
+      "file": "MatchHero_Male_Distance_Swing_10.lzfse",
+      "sha256": "4a348d7ffdd6f5406af74331f459c08a9db0e77b6c9beb9d845ee26846501a19",
+      "bytes": 1413991,
+      "current_production_sha256": "e3a1acf9ccb72a51aee592cf98d7fb62836f7e239a2d4c592c985d56736ba05e"
+    },
+    {
+      "file": "MatchHero_Male_Distance_Swing_11.lzfse",
+      "sha256": "79f753ec006fd55dea6abd4eee25ef10f08b8d416d05ec1b49d0a36fd1050e55",
+      "bytes": 1416441,
+      "current_production_sha256": "70cdab60f75edc8dfd5336945624657ced54aab674abad6a42981518c90a22e0"
+    },
+    {
+      "file": "MatchHero_Male_Rig.lzfse",
+      "sha256": "7057e9a2e2cc16334e8982a33b2736208d2659f35b4dcc108959b084d7a5b25f",
+      "bytes": 13019630,
+      "current_production_sha256": "f7c12ce4898e99fe3c7caf2ed06c6bca11c3a31968ec0df7f5086feff726e9aa"
+    },
+    {
+      "file": "MatchHero_Male_Swing_00.lzfse",
+      "sha256": "6ab9fcd75937750cb0e0a0025e60d0dc6834ec35c0ae0a343936bcefd8da95b7",
+      "bytes": 1802981,
+      "current_production_sha256": "8691627ac255f6eeb56007d35b3943b0117700398b0c36a1912ea3b5b6d979a0"
+    },
+    {
+      "file": "MatchHero_Male_Swing_01.lzfse",
+      "sha256": "24cf039a596079a7c05cabf53f963297c19faf0cfe24eff5705463bdd53e0fe1",
+      "bytes": 1808042,
+      "current_production_sha256": "e24d2f2537f493011dde233bc17ba861e1ec44a866d7720a4613fa2a48ba353a"
+    },
+    {
+      "file": "MatchHero_Male_Swing_02.lzfse",
+      "sha256": "3a394fe9cfd2ec43b42ac727f12a6d22684cdbeb6f9c27a5b5c31792dd9c877d",
+      "bytes": 1793773,
+      "current_production_sha256": "43cbaadca713f8fd3c8020c44f2cb1b9fda7f07ba6e1054e292c1d1e87a78796"
+    },
+    {
+      "file": "MatchHero_Male_Swing_03.lzfse",
+      "sha256": "265b6f09ca71b10dd7bb3e686e9c49befa7ab539ee2395fd897649a73dc65315",
+      "bytes": 1792485,
+      "current_production_sha256": "38b1e12a50017d2ea8bf6ae4b60c5a4152e56eb4479cee7fbc2fb2ad3a911d88"
+    },
+    {
+      "file": "MatchHero_Male_Swing_04.lzfse",
+      "sha256": "aae52990885fa6dd21d7585ea32e8b60257d0ff45c4be05b77f867806ba7c294",
+      "bytes": 1802224,
+      "current_production_sha256": "4957077bb0ff49bbc48553a4dbaceae08463a6fb436ee2a30f9a7b81defbb99b"
+    },
+    {
+      "file": "MatchHero_Male_Swing_05.lzfse",
+      "sha256": "0fd3254e1b8507699f89f1a9e09a80a241a41ae2c76fc3a9953b7d84f297ca33",
+      "bytes": 1802984,
+      "current_production_sha256": "90e78013fc06bb48bd33d63797ab176a2421cac8ec9e9e03f3e788978789b358"
+    },
+    {
+      "file": "MatchHero_Male_Swing_06.lzfse",
+      "sha256": "37621d856b252a1a55ec345d1903ec950d5d4578cf7d5d0d593717f4fecf0480",
+      "bytes": 1801989,
+      "current_production_sha256": "b12c20a18f1b1759c207a09fca4cec3183716ab2aaf2eb4d87886dc3832aa415"
+    },
+    {
+      "file": "MatchHero_Male_Swing_07.lzfse",
+      "sha256": "2731374aa4208e7d38f13be5fddb89a0e900797581b7f4e56b1e66b782c5c9f8",
+      "bytes": 1800763,
+      "current_production_sha256": "a912fed8d68c0a412e7504339540e13f5e2b038e9afbc838ddfc129a843153bc"
+    },
+    {
+      "file": "MatchHero_Male_Swing_08.lzfse",
+      "sha256": "102d61778240f49947544b79a1ffa29ab271d90d8b73f0caf9c914a131de0c5e",
+      "bytes": 1789217,
+      "current_production_sha256": "f5feedaddd78ed74c1c7b845d904cd50e90dd65c10ecacc80297a360f049ef2f"
+    },
+    {
+      "file": "MatchHero_Male_Swing_09.lzfse",
+      "sha256": "4232023aecd6c6e4ed960f4f4461b52f9d7400b7c4db98b728c1c2b755309874",
+      "bytes": 1790253,
+      "current_production_sha256": "f6a0d84096508461db5371184bec800f972a4b137a6ab7d76801cda0d3b6eb87"
+    },
+    {
+      "file": "MatchHero_Male_Swing_10.lzfse",
+      "sha256": "d8dd704bcd508f84e88efde1bacaf0f8098041bd68349f029407a773ece16493",
+      "bytes": 1790379,
+      "current_production_sha256": "0210a3e8fa3c51ab4dc31a0042272d75ef9362b489cec088725b81f1dd6649ef"
+    },
+    {
+      "file": "MatchHero_Male_Swing_11.lzfse",
+      "sha256": "fcb88d7f9701a36f4d9906eee58d84d55b3f7553ff6e6beaae9c44f6adf8b1cb",
+      "bytes": 1803386,
+      "current_production_sha256": "81341e3bf0c822eca3aef3b6af6b14abc62cee18e47a95512b8fdc3b2f9198e2"
+    },
+    {
+      "file": "MatchHero_OriginalEye_RelativeIris.png",
+      "sha256": "be7cdfe03eb32bc95e0946acd22e3dcaaf4e3638023030fc67c85ca3ff2eafd1",
+      "bytes": 18266,
+      "current_production_sha256": null
+    },
+    {
+      "file": "MatchHero_OriginalEye_RelativeSclera.png",
+      "sha256": "6402a262d627348b104eee69b02b9c6c7b43eee60b5f62dd9ab37358240ba780",
+      "bytes": 4671,
+      "current_production_sha256": null
+    },
+    {
+      "file": "MatchHero_OriginalSeam_RelativeSkinPigment.png",
+      "sha256": "b4fb2bbb574bf77149f6dfd6a86dd4c669a8aa46911e9604a5a5f8ca58ee339a",
+      "bytes": 3861,
+      "current_production_sha256": null
+    }
+  ],
+  "source_png_sidecars": [
+    {
+      "file": "MatchHero_Cloth_FabricAtlas.png",
+      "sha256": "128701f06966d396cc25c1b17775594f6a624e72999e4e57f9528f5439752ffd",
+      "bytes": 17814
+    },
+    {
+      "file": "MatchHero_GolfKit_FabricAtlas.png",
+      "sha256": "79f8dc7cbba58946493a56d5c9fb77da6926fa3a333805c54730a6847b5718e9",
+      "bytes": 46392
+    },
+    {
+      "file": "MatchHero_GolfKit_Female_Bottom_M.png",
+      "sha256": "1fcde5e91a5663b9c7f8e4273573968acc7446b76a19801049841635875fa1c5",
+      "bytes": 220828
+    },
+    {
+      "file": "MatchHero_GolfKit_Female_Bottom_N.png",
+      "sha256": "411c76c48c17557ab6319d2713b3f3228d2514a7f3b289ec6e0e1c2778e2de5e",
+      "bytes": 292249
+    },
+    {
+      "file": "MatchHero_GolfKit_Female_GloveL_M.png",
+      "sha256": "6f2977814e4e3ea9ceac78baabb96ef13b4c95aa4173f8fe13b32c3056c6a9da",
+      "bytes": 61417
+    },
+    {
+      "file": "MatchHero_GolfKit_Female_GloveL_N.png",
+      "sha256": "4939518c7927e5ba33c0af7a6a828c3aeed453d19c9abcd48919f2b501e6ab5d",
+      "bytes": 127076
+    },
+    {
+      "file": "MatchHero_GolfKit_Female_GloveR_M.png",
+      "sha256": "9722a343d690641b5dbd4f198c3538fcaadca618102b4d511938a5dd1947729e",
+      "bytes": 62338
+    },
+    {
+      "file": "MatchHero_GolfKit_Female_GloveR_N.png",
+      "sha256": "66ae323a9033862bb0c8112aa30c3e31bc5d5d8aa371bef07405ce8f12f5e3aa",
+      "bytes": 127788
+    },
+    {
+      "file": "MatchHero_GolfKit_Female_ShoeL_M.png",
+      "sha256": "941ef997ef7f4ba512cd90fcdfc96e7c69d0744d89b7d6758634eb38d1ebb24a",
+      "bytes": 60745
+    },
+    {
+      "file": "MatchHero_GolfKit_Female_ShoeL_N.png",
+      "sha256": "57ad5a06166b0302d643d14f9bcd3633d59a8d1150218a0ea66e1171a542abba",
+      "bytes": 78176
+    },
+    {
+      "file": "MatchHero_GolfKit_Female_ShoeR_M.png",
+      "sha256": "3ae057e471ee7b33c6b3a0e79b3e5a489892f46bace5d94f813789477b3ee7e2",
+      "bytes": 59844
+    },
+    {
+      "file": "MatchHero_GolfKit_Female_ShoeR_N.png",
+      "sha256": "c3f3371f7c981839b7cbea7cc059b216cb4c44aee04827c11b1b49b671b87931",
+      "bytes": 75171
+    },
+    {
+      "file": "MatchHero_GolfKit_Female_Top_M.png",
+      "sha256": "18211c88b52319bc9109ec04c060f2653dcad0b34c0655f1b117ef45e6641d02",
+      "bytes": 235007
+    },
+    {
+      "file": "MatchHero_GolfKit_Female_Top_N.png",
+      "sha256": "4861849ee15060298eb1a11333833105e2eb2794a2faf1558d69f63d4abb4fee",
+      "bytes": 390219
+    },
+    {
+      "file": "MatchHero_GolfKit_Male_Bottom_M.png",
+      "sha256": "b7c35fae4425477fbbf0e0fe682c76c02ef87eac05f35e924b6644d7ea41075d",
+      "bytes": 74554
+    },
+    {
+      "file": "MatchHero_GolfKit_Male_Bottom_N.png",
+      "sha256": "3b7f34e41b8f59756833a155b6794a76d9dcacf450f044be6def0d594c580e2b",
+      "bytes": 164524
+    },
+    {
+      "file": "MatchHero_GolfKit_Male_GloveL_M.png",
+      "sha256": "84affc30e2ed96b080d41539adeb6b864ed544915d05d1709e9a9d4c2ad7dfe3",
+      "bytes": 69249
+    },
+    {
+      "file": "MatchHero_GolfKit_Male_GloveL_N.png",
+      "sha256": "3b4e003c76ed9e8b7e871738223b1315059af54be93055361d2ab50802d19672",
+      "bytes": 140179
+    },
+    {
+      "file": "MatchHero_GolfKit_Male_GloveR_M.png",
+      "sha256": "d82f48202b0637d2d5094a261f8c1f97dde40179c0658bc18e7be2771a451fdd",
+      "bytes": 69858
+    },
+    {
+      "file": "MatchHero_GolfKit_Male_GloveR_N.png",
+      "sha256": "6757d23fd717a837060aa342d0a6487257bce916c8a09cb10dcbfe8a732d0d4f",
+      "bytes": 139737
+    },
+    {
+      "file": "MatchHero_GolfKit_Male_ShoeL_M.png",
+      "sha256": "06a5046b6c125d2b341e44d41cd7eb80cc3637ee40a5a6bce9587ca8034bcd4f",
+      "bytes": 116317
+    },
+    {
+      "file": "MatchHero_GolfKit_Male_ShoeL_N.png",
+      "sha256": "e9b5ad423efa4e200431059d81ea86d5caa6c3d609ec084d5924ad149875496b",
+      "bytes": 166982
+    },
+    {
+      "file": "MatchHero_GolfKit_Male_ShoeR_M.png",
+      "sha256": "9975cdfcf352c910cdeb7597fc9fcb5a2e7f6315f256db2e36d57802b41bdca7",
+      "bytes": 115077
+    },
+    {
+      "file": "MatchHero_GolfKit_Male_ShoeR_N.png",
+      "sha256": "ffb853d9708d12b36109864adfc5cffb7dfa363ee39bd8f2526c5dbfe0fede94",
+      "bytes": 166574
+    },
+    {
+      "file": "MatchHero_GolfKit_Male_Top_M.png",
+      "sha256": "b65b97ff58513b50762ddbbbd2525e212a4a366804a0bb3190a2d429d26df889",
+      "bytes": 317672
+    },
+    {
+      "file": "MatchHero_GolfKit_Male_Top_N.png",
+      "sha256": "3451c0f5d7d9409dce8f177ff194f3b16f63f6195e539c3cd5aa36399b47a67d",
+      "bytes": 470310
+    },
+    {
+      "file": "MatchHero_Kit_Female_Bottom_M.png",
+      "sha256": "a303d9781f5c896e0fcf08a374135532ab2507e5f38cb4238f8552b3dc9f8395",
+      "bytes": 174806
+    },
+    {
+      "file": "MatchHero_Kit_Female_Bottom_N.png",
+      "sha256": "84600eb995f43f1d461916fa9da4097179e2718de6be922b89787313e5ebf611",
+      "bytes": 148180
+    },
+    {
+      "file": "MatchHero_Kit_Female_ShoeL_M.png",
+      "sha256": "5fccf563dd3fa1de199c23cf5343fec5fbc2ed286c20283419e55d60029422b4",
+      "bytes": 241747
+    },
+    {
+      "file": "MatchHero_Kit_Female_ShoeL_N.png",
+      "sha256": "d8feaf7fdd2bac332dcda985385abaff5b4c93732db79bb0c9f1a0eb6ec2d48a",
+      "bytes": 338222
+    },
+    {
+      "file": "MatchHero_Kit_Female_ShoeR_M.png",
+      "sha256": "a3b96d13b9a5015540e2851290f047f878546d095ae5971ff4e9f3994f227b9e",
+      "bytes": 240220
+    },
+    {
+      "file": "MatchHero_Kit_Female_ShoeR_N.png",
+      "sha256": "1b463a8279a6636b898d03c64075502bd08483427f23ffb7d69acd564455d2d1",
+      "bytes": 334150
+    },
+    {
+      "file": "MatchHero_Kit_Female_SockL_M.png",
+      "sha256": "2d61934f1a11009022148ddb66aef12a1645516f0292b9bccda961585ceb9a9e",
+      "bytes": 20819
+    },
+    {
+      "file": "MatchHero_Kit_Female_SockL_N.png",
+      "sha256": "bac5605827b8b4435761be30a4b8ad5cd41abd453888d72bd2eac47463976d36",
+      "bytes": 7028
+    },
+    {
+      "file": "MatchHero_Kit_Female_SockR_M.png",
+      "sha256": "88759221f4dec7fda316c41217596ca2c583acb5f3c1951dcfc3bafe5efd78d6",
+      "bytes": 21225
+    },
+    {
+      "file": "MatchHero_Kit_Female_SockR_N.png",
+      "sha256": "6e9bc682f86f5286c102709b71bba64c4b2cb502a242496078c76c134bca1314",
+      "bytes": 7380
+    },
+    {
+      "file": "MatchHero_Kit_Female_Top_M.png",
+      "sha256": "8ca8e7d7d90233c769a0abaaf71c73a94fa336dc8073a8434573faccf11bc01b",
+      "bytes": 557408
+    },
+    {
+      "file": "MatchHero_Kit_Female_Top_N.png",
+      "sha256": "13874d66ed2ae2e661a950ba02d4926498f6afd4c361aa7c1846b4eaf0c35a85",
+      "bytes": 418080
+    },
+    {
+      "file": "MatchHero_Kit_Male_Bottom_M.png",
+      "sha256": "8a551c4c254b8f01fa01a272eca44628f760417e3a8a62ee306afbc5559fbb1c",
+      "bytes": 120299
+    },
+    {
+      "file": "MatchHero_Kit_Male_Bottom_N.png",
+      "sha256": "4f4364f6fe4b83a083cc017fd09fe89a9fb32389386fc95ee0e8521095f0609f",
+      "bytes": 73897
+    },
+    {
+      "file": "MatchHero_Kit_Male_ShoeL_M.png",
+      "sha256": "7a5316a8b4554c1c1f3f6972f63a4923fccbcd63b672fb16cfac0aba9d5112bf",
+      "bytes": 240586
+    },
+    {
+      "file": "MatchHero_Kit_Male_ShoeL_N.png",
+      "sha256": "66b1ca2c966747a3af7eb1e7544a4929e01d25bacef0e73db6e7a73e71cca8ef",
+      "bytes": 343311
+    },
+    {
+      "file": "MatchHero_Kit_Male_ShoeR_M.png",
+      "sha256": "f104a1750db12fd43b3c3cf2d7d52535938d1c7d517c2c027e2f2a2a9a863d61",
+      "bytes": 239953
+    },
+    {
+      "file": "MatchHero_Kit_Male_ShoeR_N.png",
+      "sha256": "6302fe89585fb07249c2710652557f95606d15f3d6739d0b1d2e67bf2ee9426e",
+      "bytes": 341306
+    },
+    {
+      "file": "MatchHero_Kit_Male_SockL_M.png",
+      "sha256": "1ea511869a6a016b2823b43079e33849aa0a65ebfc29addf7728a264b80f4731",
+      "bytes": 19770
+    },
+    {
+      "file": "MatchHero_Kit_Male_SockL_N.png",
+      "sha256": "bc44c71fb60ca94d98f182e3c289cbae143714ca12c07c34838f905ad1e232e9",
+      "bytes": 8909
+    },
+    {
+      "file": "MatchHero_Kit_Male_SockR_M.png",
+      "sha256": "a6dc8214f154950925800ed6c0b27d0c3d8ab1bf43b61fa52362af3266d0ad59",
+      "bytes": 20137
+    },
+    {
+      "file": "MatchHero_Kit_Male_SockR_N.png",
+      "sha256": "f9682ea886228995cdda1dc6fb527c5f02fdd45ac6f446667d11b083f2274234",
+      "bytes": 9173
+    },
+    {
+      "file": "MatchHero_Kit_Male_Top_M.png",
+      "sha256": "a20bb0a29353e56730bdf79d8c7ad9816def39b5bea1eb6e6d85181173ee7545",
+      "bytes": 466869
+    },
+    {
+      "file": "MatchHero_Kit_Male_Top_N.png",
+      "sha256": "a5345c3b3c45de6a680db0a414ea7f6383907880b4be0567ebbbb055d74db7f7",
+      "bytes": 322319
+    }
+  ],
+  "bundle": "NOT RUN",
+  "production_writes": false
+}

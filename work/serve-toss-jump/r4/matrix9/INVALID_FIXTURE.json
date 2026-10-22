@@ -1,0 +1,6 @@
+{
+  "valid_case": "male/phase0 only",
+  "invalid_cases": "All subsequent cases",
+  "reason": "ConfigureMatch reused pose/phase/aim state from prior simulated points. Comparisons differed by up to 441 mm and phases were not distinct. Not accepted as gate evidence.",
+  "replacement": "matrix10 reloads a fresh play-mode scene for every case"
+}

@@ -100,9 +100,11 @@ struct GolfPhoneController: View {
     @State private var stickOffset = CGSize.zero
     @State private var draggingAim = false
     @State private var lastAimSent = -Double.infinity
-    @State private var swingFingerDown = false
     private var reading: GolfControllerReading { session.golfController }
     private var canAim: Bool { session.ready && session.golfPhase == "Aim" && !session.paused && (reading.party?.myTurn ?? true) }
+    /// A result screen with buttons is up on the TV (a shot's result, a hole out, the round's end): the pad steers its buttons
+    /// instead of the aim, and its centre taps the one that is lit.
+    private var canMenu: Bool { session.ready && !session.paused && session.golfMenuOpen }
     private var isDesignPreview: Bool {
         #if DEBUG
         ProcessInfo.processInfo.arguments.contains("-golfControllerDesign")
@@ -180,7 +182,7 @@ struct GolfPhoneController: View {
                 .overlay(RoundedRectangle(cornerRadius: 14).stroke(.white, lineWidth: 3))
                 .shadow(color: .black.opacity(0.15), radius: 0, y: 3).position(x: 232, y: 946)
                 .accessibilityIdentifier("golf-aim-reading")
-            Text(reading.party?.phase == "result" ? (reading.party?.shared == true ? "NEXT PLAYER STARTS AUTOMATICALLY" : "PICK AN EMOTE · NEXT PLAYER STARTS AUTOMATICALLY") : reading.party?.myTurn == false ? "WATCH THE SHOT · REACT WITH YOUR PLAYER" : session.touch ? "DRAG TO AIM · TAP BALL TO SWING" : "DRAG TO AIM · HOLD THE BUTTON AND SWING · LET GO TO RESET")
+            Text(reading.party?.phase == "result" ? (reading.party?.shared == true ? "NEXT PLAYER STARTS AUTOMATICALLY" : "PICK AN EMOTE · NEXT PLAYER STARTS AUTOMATICALLY") : reading.party?.myTurn == false ? "WATCH THE SHOT · REACT WITH YOUR PLAYER" : session.touch ? "DRAG TO AIM · TAP BALL TO SWING" : "DRAG TO AIM · TAP TO SWING · TAP AGAIN TO CANCEL")
                 .font(GolfControllerStyle.font(11)).foregroundStyle(GolfControllerStyle.ink)
                 .position(x: 232, y: 985)
         }.overlay {
@@ -280,7 +282,7 @@ struct GolfPhoneController: View {
             } else if session.paused || (session.golfPhase == "Aim" && !session.golfShotReady && reading.party == nil) {
                 VStack(spacing: 10) {
                     GolfControllerText(text: "READY TO SWING?", size: 25)
-                    Text("Tap Ready, then hold the swing button and swing.").font(Club.ui(16, 700)).foregroundStyle(.white)
+                    Text("Tap Ready, then tap the swing button and swing.").font(Club.ui(16, 700)).foregroundStyle(.white)
                     Button { session.readyToPlay() } label: {
                         GolfControllerText(text: "READY", size: 26).padding(.horizontal, 34).padding(.vertical, 12)
                             .background(GolfControllerStyle.yellow, in: Capsule())
@@ -351,7 +353,8 @@ struct GolfPhoneController: View {
             aimArrow("triangle.fill", rotation: -90, x: -54, y: 0, label: "Aim left") { nudge(-1) }
             aimArrow("triangle.fill", rotation: 90, x: 54, y: 0, label: "Aim right") { nudge(1) }
             Button {
-                if session.paused || !session.golfShotReady { session.readyToPlay() }
+                if canMenu { session.selectGolfMenu() }
+                else if session.paused || !session.golfShotReady { session.readyToPlay() }
                 else if session.touch { touchSheet = true }
             } label: {
                 ZStack {
@@ -360,44 +363,39 @@ struct GolfPhoneController: View {
                 }.frame(width: 61, height: 61).overlay(Circle().stroke(.white, lineWidth: 3))
                     .shadow(color: GolfControllerStyle.ink.opacity(0.5), radius: 0, y: 4)
             }.offset(thumbOffset)
-                .disabled(!canAim)
-                .accessibilityLabel(session.touch ? "Swing controls" : "Ready for shot")
+                .disabled(!canAim && !canMenu)
+                .accessibilityLabel(canMenu ? "Select" : session.touch ? "Swing controls" : "Ready for shot")
                 .accessibilityIdentifier("golf-aim-center")
         }.contentShape(Circle())
             .simultaneousGesture(DragGesture(minimumDistance: 8, coordinateSpace: .local)
                 .onChanged { drag in updateJoystick(drag.location, final: false) }
                 .onEnded { drag in
                     updateJoystick(drag.location, final: true)
+                    // (the TV's menu ring re-arms when the stick comes back to the middle)
+                    if canMenu { session.aimGolf(across: 0, forward: 0) }
                     draggingAim = false; stickOffset = .zero
                 })
             .accessibilityIdentifier("golf-aim-joystick")
     }
-    /// Hold to swing (Wii Sports Resort's hold-B): motion counts only while this is held, so aiming
-    /// or changing club can't be read as a swing. Press and keep the thumb on it, hold still in the
-    /// stance until it turns green, swing; lifting the thumb before contact resets the swing. It sits
-    /// beside the pad, under the thumb that just aimed. Only lifting the thumb lets go: sliding over
-    /// the glass mid-swing does not.
+    /// Tap to swing: motion counts only after this is tapped, so aiming or changing club can't be read as
+    /// a swing. One tap starts the swing at once, whatever the phone is doing; tap it again to cancel.
+    /// A swing left alone for a while, a new aim or a club change cancels it too. It sits beside the pad,
+    /// under the thumb that just aimed.
     private var startSwingButton: some View {
-        let face = session.golfHold.face
-        let label = face == .holdStill ? "HOLD\nSTILL" : face == .swing ? "SWING!" : "HOLD TO\nSWING"
-        let fill = face == .holdStill ? GolfControllerStyle.amber : face == .swing ? GolfControllerStyle.green : GolfControllerStyle.yellow
-        let held = face != .hold
-        return GolfControllerText(text: label, size: face == .swing ? 26 : 21, stroke: 3, lines: 2).frame(width: 108, height: 108)
-            .background(fill, in: Circle()).overlay(Circle().stroke(.white, lineWidth: held ? 6 : 4))
-            .shadow(color: GolfControllerStyle.ink.opacity(0.25), radius: 0, y: held ? 1 : 4)
-            .scaleEffect(held ? 1.12 : 1).offset(y: held ? 3 : 0)
-            .animation(.easeOut(duration: 0.1), value: face)
-            .contentShape(Circle())
-            .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .local)
-                .onChanged { _ in
-                    guard !swingFingerDown else { return }
-                    swingFingerDown = true; session.pressGolfSwing()
-                }
-                .onEnded { _ in swingFingerDown = false; session.releaseGolfSwing() })
-            .onDisappear { if swingFingerDown { swingFingerDown = false; session.releaseGolfSwing() } }
-            .accessibilityElement().accessibilityAddTraits(.isButton)
-            .accessibilityLabel(face == .hold ? "Hold to swing" : face == .holdStill ? "Holding: keep the phone still" : "Holding: swing now")
-            .accessibilityHint("Keep holding while you swing. Letting go resets the swing.")
+        let face = session.golfTap.face
+        let putting = !(reading.targets ?? []).isEmpty
+        let label = face == .swinging ? (putting ? "PUTT!\nTAP: CANCEL" : "SWING!\nTAP: CANCEL") : (putting ? "TAP TO\nPUTT" : "TAP TO\nSWING")
+        let fill = face == .swinging ? GolfControllerStyle.green : GolfControllerStyle.yellow
+        let live = face == .swinging
+        return Button { session.tapGolfSwing() } label: {
+            GolfControllerText(text: label, size: live ? 19 : 21, stroke: 3, lines: 2).frame(width: 108, height: 108)
+                .background(fill, in: Circle()).overlay(Circle().stroke(.white, lineWidth: live ? 6 : 4))
+                .shadow(color: GolfControllerStyle.ink.opacity(0.25), radius: 0, y: live ? 1 : 4)
+                .scaleEffect(live ? 1.08 : 1).offset(y: live ? 3 : 0)
+                .animation(.easeOut(duration: 0.1), value: face)
+        }.buttonStyle(.plain)
+            .accessibilityLabel(live ? (putting ? "Putting: swing now, tap to cancel" : "Swinging: swing now, tap to cancel") : (putting ? "Tap to putt" : "Tap to swing"))
+            .accessibilityHint("Starts the swing at once. Tap again to cancel it.")
             .accessibilityIdentifier("golf-start-swing")
     }
     private var thumbOffset: CGSize {
@@ -406,7 +404,7 @@ struct GolfPhoneController: View {
         return CGSize(width: direction.x * 16, height: -direction.y * 16)
     }
     private func updateJoystick(_ location: CGPoint, final: Bool) {
-        guard canAim else { return }
+        guard canAim || canMenu else { return }
         let dx = location.x - 78, dy = location.y - 78
         let distance = hypot(dx, dy)
         guard distance > 10 else { return }
@@ -424,7 +422,7 @@ struct GolfPhoneController: View {
         Button(action: action) {
             Image(systemName: symbol).font(.system(size: 13, weight: .bold)).foregroundStyle(.white)
                 .rotationEffect(.degrees(rotation)).frame(width: 52, height: 52)
-        }.offset(x: x, y: y).disabled(!canAim).accessibilityLabel(label)
+        }.offset(x: x, y: y).disabled(!canAim && !canMenu).accessibilityLabel(label)
             .accessibilityIdentifier("golf-\(label.lowercased().replacingOccurrences(of: " ", with: "-"))")
     }
     private func nudge(_ direction: Double) {

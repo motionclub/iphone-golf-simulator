@@ -1,0 +1,161 @@
+{
+ "dump": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/accessories/dump_1017",
+ "head_top_z": 1.704699993133545,
+ "head_width_at_temple": 0.15512125939130783,
+ "tennis_before": {
+  "lining_min_mm": -1.74,
+  "lining_mean_mm": 5.27,
+  "lining_p95_mm": 10.88,
+  "lining_inside": 40,
+  "band_sectors": {
+   "front": {
+    "n": 48,
+    "mean_mm": -0.04,
+    "max_mm": 2.48,
+    "min_mm": -1.74
+   },
+   "temple": {
+    "n": 42,
+    "mean_mm": 5.53,
+    "max_mm": 7.92,
+    "min_mm": 2.37
+   },
+   "side": {
+    "n": 52,
+    "mean_mm": 9.92,
+    "max_mm": 11.14,
+    "min_mm": 7.92
+   },
+   "back": {
+    "n": 78,
+    "mean_mm": 7.58,
+    "max_mm": 10.83,
+    "min_mm": 3.9
+   }
+  },
+  "brim_front_lowest_z": 1.6223,
+  "brim_front_y": -0.2255,
+  "cap_top_z": 1.7116,
+  "width_at_band_mm": 187.0
+ },
+ "golf_before": {
+  "lining_min_mm": -1.74,
+  "lining_mean_mm": 5.27,
+  "lining_p95_mm": 10.88,
+  "lining_inside": 40,
+  "band_sectors": {
+   "front": {
+    "n": 48,
+    "mean_mm": -0.04,
+    "max_mm": 2.48,
+    "min_mm": -1.74
+   },
+   "temple": {
+    "n": 42,
+    "mean_mm": 5.53,
+    "max_mm": 7.92,
+    "min_mm": 2.37
+   },
+   "side": {
+    "n": 52,
+    "mean_mm": 9.92,
+    "max_mm": 11.14,
+    "min_mm": 7.92
+   },
+   "back": {
+    "n": 78,
+    "mean_mm": 7.58,
+    "max_mm": 10.83,
+    "min_mm": 3.9
+   }
+  },
+  "brim_front_lowest_z": 1.6223,
+  "brim_front_y": -0.2255,
+  "cap_top_z": 1.7116,
+  "width_at_band_mm": 187.0
+ },
+ "tennis_after": {
+  "lining_min_mm": 1.62,
+  "lining_mean_mm": 3.06,
+  "lining_p95_mm": 5.31,
+  "lining_inside": 0,
+  "band_sectors": {
+   "front": {
+    "n": 50,
+    "mean_mm": 2.12,
+    "max_mm": 2.55,
+    "min_mm": 1.62
+   },
+   "temple": {
+    "n": 40,
+    "mean_mm": 1.87,
+    "max_mm": 2.1,
+    "min_mm": 1.73
+   },
+   "side": {
+    "n": 50,
+    "mean_mm": 2.09,
+    "max_mm": 2.52,
+    "min_mm": 1.76
+   },
+   "back": {
+    "n": 80,
+    "mean_mm": 1.95,
+    "max_mm": 2.17,
+    "min_mm": 1.78
+   }
+  },
+  "brim_front_lowest_z": 1.6223,
+  "brim_front_y": -0.2255,
+  "cap_top_z": 1.7116,
+  "width_at_band_mm": 169.3
+ },
+ "golf_after": {
+  "lining_min_mm": 1.62,
+  "lining_mean_mm": 3.06,
+  "lining_p95_mm": 5.31,
+  "lining_inside": 0,
+  "band_sectors": {
+   "front": {
+    "n": 50,
+    "mean_mm": 2.12,
+    "max_mm": 2.55,
+    "min_mm": 1.62
+   },
+   "temple": {
+    "n": 40,
+    "mean_mm": 1.87,
+    "max_mm": 2.1,
+    "min_mm": 1.73
+   },
+   "side": {
+    "n": 50,
+    "mean_mm": 2.09,
+    "max_mm": 2.52,
+    "min_mm": 1.76
+   },
+   "back": {
+    "n": 80,
+    "mean_mm": 1.95,
+    "max_mm": 2.17,
+    "min_mm": 1.78
+   }
+  },
+  "brim_front_lowest_z": 1.6223,
+  "brim_front_y": -0.2255,
+  "cap_top_z": 1.7116,
+  "width_at_band_mm": 169.3
+ },
+ "tennis_delta": {
+  "brim_max_mm": 6.42,
+  "brim_front_max_mm": 3.62,
+  "brim_mean_mm": 0.94,
+  "all_max_mm": 8.89
+ },
+ "golf_delta": {
+  "brim_max_mm": 6.42,
+  "brim_front_max_mm": 3.62,
+  "brim_mean_mm": 0.94,
+  "all_max_mm": 8.89
+ }
+}

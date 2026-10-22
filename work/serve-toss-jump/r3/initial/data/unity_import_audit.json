@@ -1,0 +1,28 @@
+{
+  "male": {
+    "FBX_bone_count": 53,
+    "Unity_mapped_bone_count": 52,
+    "Unity_frames": 76,
+    "Unity_bone_position_max_error_mm": 0.008978119779802965,
+    "Unity_imported_palm_anchor_error_mm": [
+      0.0047108439725200195,
+      0.004161747272879971,
+      0.0024815025093413595
+    ],
+    "root_translation_max_mm": 0.0,
+    "bone_length_variation_max_mm": 0.0004842975986907305
+  },
+  "female": {
+    "FBX_bone_count": 53,
+    "Unity_mapped_bone_count": 52,
+    "Unity_frames": 76,
+    "Unity_bone_position_max_error_mm": 0.008662275412418687,
+    "Unity_imported_palm_anchor_error_mm": [
+      0.004444748068393574,
+      0.0050890025177329325,
+      0.004802553483373758
+    ],
+    "root_translation_max_mm": 0.0,
+    "bone_length_variation_max_mm": 0.0012203051249493058
+  }
+}

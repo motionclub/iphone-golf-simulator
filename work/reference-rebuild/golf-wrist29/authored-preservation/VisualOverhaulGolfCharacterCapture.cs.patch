@@ -1,0 +1,15 @@
+--- Unity/Assets/Editor/VisualOverhaulGolfCharacterCapture.cs
++++ Unity/Assets/Editor/VisualOverhaulGolfCharacterCapture.cs
+@@ -109,7 +109,11 @@
+                         matrixSamples=Mathf.Clamp(matrixSamples,3,121);
+                         for(int sample=0;sample<matrixSamples;sample++){
+                             float t=end*sample/(matrixSamples-1);
+-                            typeof(GolferView).GetMethod("Show",Private).Invoke(golfer,new object[]{t});yield return Frames(2);
++                            typeof(GolferView).GetMethod("Show",Private).Invoke(golfer,new object[]{t});
++                            string stamp=$"{sex}_{club}_dense_{sample:000}";
++                            if(Environment.GetEnvironmentVariable("VISUAL_GOLF_WRIST_AUDIT")=="1")audit.Add(stamp+" before: "+WristStamp(hero));
++                            yield return Frames(2);
++                            if(Environment.GetEnvironmentVariable("VISUAL_GOLF_WRIST_AUDIT")=="1")audit.Add(stamp+" after: "+WristStamp(hero));
+                             HeroGarmentPoseSnapshot.SaveMatrices(look,$"{sex}_{club}_{sample:000}",t,Path.Combine(output,"matrices"));
+                         }
+                     }

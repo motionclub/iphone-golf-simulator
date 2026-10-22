@@ -1,0 +1,188 @@
+{
+  "palms": {
+    "16": 32,
+    "19": 38,
+    "21": 5,
+    "22": 3,
+    "23": 7
+  },
+  "total": 85,
+  "course_metrics": [
+    {
+      "hole": 7,
+      "name": "Cliffside",
+      "colliders": 21,
+      "obstacles": 119,
+      "textures_mib": 15.73,
+      "camera_mesh_triangles": 54412,
+      "camera_material_passes": 64,
+      "editor_aggregate_draws": 568,
+      "editor_aggregate_triangles": 848679
+    },
+    {
+      "hole": 12,
+      "name": "Island Carry",
+      "colliders": 14,
+      "obstacles": 161,
+      "textures_mib": 16.78,
+      "camera_mesh_triangles": 139476,
+      "camera_material_passes": 61,
+      "editor_aggregate_draws": 536,
+      "editor_aggregate_triangles": 979372
+    },
+    {
+      "hole": 13,
+      "name": "The Spiral",
+      "colliders": 16,
+      "obstacles": 138,
+      "textures_mib": 14.52,
+      "camera_mesh_triangles": 58950,
+      "camera_material_passes": 31,
+      "editor_aggregate_draws": 498,
+      "editor_aggregate_triangles": 864513
+    },
+    {
+      "hole": 14,
+      "name": "The Witch\u2019s Lair",
+      "colliders": 14,
+      "obstacles": 247,
+      "textures_mib": 15.13,
+      "camera_mesh_triangles": 69552,
+      "camera_material_passes": 52,
+      "editor_aggregate_draws": 520,
+      "editor_aggregate_triangles": 871965
+    },
+    {
+      "hole": 15,
+      "name": "The Steps",
+      "colliders": 11,
+      "obstacles": 97,
+      "textures_mib": 15.13,
+      "camera_mesh_triangles": 58866,
+      "camera_material_passes": 51,
+      "editor_aggregate_draws": 507,
+      "editor_aggregate_triangles": 851387
+    },
+    {
+      "hole": 16,
+      "name": "Volcano Rim",
+      "colliders": 16,
+      "obstacles": 178,
+      "textures_mib": 18.35,
+      "camera_mesh_triangles": 89552,
+      "camera_material_passes": 53,
+      "editor_aggregate_draws": 510,
+      "editor_aggregate_triangles": 903789
+    },
+    {
+      "hole": 17,
+      "name": "Frostbite Fjord",
+      "colliders": 19,
+      "obstacles": 186,
+      "textures_mib": 14.78,
+      "camera_mesh_triangles": 72190,
+      "camera_material_passes": 44,
+      "editor_aggregate_draws": 509,
+      "editor_aggregate_triangles": 871980
+    },
+    {
+      "hole": 18,
+      "name": "Mesa Canyon",
+      "colliders": 9,
+      "obstacles": 84,
+      "textures_mib": 10.73,
+      "camera_mesh_triangles": 39398,
+      "camera_material_passes": 40,
+      "editor_aggregate_draws": 487,
+      "editor_aggregate_triangles": 812169
+    },
+    {
+      "hole": 19,
+      "name": "Temple Falls",
+      "colliders": 14,
+      "obstacles": 171,
+      "textures_mib": 16.49,
+      "camera_mesh_triangles": 106320,
+      "camera_material_passes": 60,
+      "editor_aggregate_draws": 530,
+      "editor_aggregate_triangles": 945324
+    },
+    {
+      "hole": 20,
+      "name": "Windmill Links",
+      "colliders": 14,
+      "obstacles": 125,
+      "textures_mib": 15.13,
+      "camera_mesh_triangles": 84486,
+      "camera_material_passes": 92,
+      "editor_aggregate_draws": 590,
+      "editor_aggregate_triangles": 899237
+    },
+    {
+      "hole": 21,
+      "name": "Obsidian Slab",
+      "colliders": 15,
+      "obstacles": 66,
+      "textures_mib": 15.68,
+      "camera_mesh_triangles": 93996,
+      "camera_material_passes": 55,
+      "editor_aggregate_draws": 529,
+      "editor_aggregate_triangles": 947502
+    },
+    {
+      "hole": 22,
+      "name": "Ember Causeway",
+      "colliders": 20,
+      "obstacles": 75,
+      "textures_mib": 15.68,
+      "camera_mesh_triangles": 97090,
+      "camera_material_passes": 57,
+      "editor_aggregate_draws": 539,
+      "editor_aggregate_triangles": 954592
+    },
+    {
+      "hole": 23,
+      "name": "Caldera Crown",
+      "colliders": 20,
+      "obstacles": 84,
+      "textures_mib": 15.68,
+      "camera_mesh_triangles": 100540,
+      "camera_material_passes": 34,
+      "editor_aggregate_draws": 540,
+      "editor_aggregate_triangles": 968187
+    },
+    {
+      "hole": 8,
+      "name": "Needle \u00b7 reference",
+      "colliders": 8,
+      "obstacles": 133,
+      "textures_mib": 14.93,
+      "camera_mesh_triangles": 251397,
+      "camera_material_passes": 114,
+      "editor_aggregate_draws": 621,
+      "editor_aggregate_triangles": 1241279
+    },
+    {
+      "hole": 9,
+      "name": "Split \u00b7 reference",
+      "colliders": 12,
+      "obstacles": 762,
+      "textures_mib": 16.26,
+      "camera_mesh_triangles": 247395,
+      "camera_material_passes": 153,
+      "editor_aggregate_draws": 698,
+      "editor_aggregate_triangles": 1251604
+    },
+    {
+      "hole": 10,
+      "name": "Crater \u00b7 reference",
+      "colliders": 10,
+      "obstacles": 8291,
+      "textures_mib": 16.83,
+      "camera_mesh_triangles": 160839,
+      "camera_material_passes": 95,
+      "editor_aggregate_draws": 628,
+      "editor_aggregate_triangles": 1058023
+    }
+  ]
+}

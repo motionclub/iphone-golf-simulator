@@ -1,0 +1,97 @@
+{
+ "params": {
+  "shear_y": 0.02729928346708059,
+  "curl": 0.916020511779023,
+  "B_gain": 1.1019364967658216,
+  "A_gain": 0.9552680405513786,
+  "NC_gain": 0.2,
+  "span": 0.045,
+  "thumb_r_scale": 1.097178096346156,
+  "thumb_a_shift": -0.011308911636047364,
+  "thumb_n_shift": -0.004,
+  "thumb_len_scale": 1.0303717132044958,
+  "mid_tip": 0.15075405620692445,
+  "psi_deg": 0.0,
+  "out_deg": 3.8,
+  "lean_deg": 0.0
+ },
+ "cost": 1836.0843963053576,
+ "result": {
+  "total": 1758.5,
+  "thumb_front_over_mm": 0.0,
+  "lm_err_mm": 8.62,
+  "tip_y_mm": [
+   -57.4,
+   3.2
+  ],
+  "shelf_slope_palmar": 0.7,
+  "shelf_slope_dorsal": 0.419,
+  "cost": 1836.0843963053576
+ },
+ "per": {
+  "bald_front_p": {
+   "xor": 344,
+   "union": 1244,
+   "mesh_only": 25,
+   "plate_only": 319,
+   "plate": 1219,
+   "mesh": 925
+  },
+  "bald_front_m": {
+   "xor": 390,
+   "union": 1242,
+   "mesh_only": 74,
+   "plate_only": 316,
+   "plate": 1168,
+   "mesh": 926
+  },
+  "bald_back_p": {
+   "xor": 321,
+   "union": 1362,
+   "mesh_only": 40,
+   "plate_only": 281,
+   "plate": 1322,
+   "mesh": 1081
+  },
+  "bald_back_m": {
+   "xor": 439,
+   "union": 1080,
+   "mesh_only": 129,
+   "plate_only": 310,
+   "plate": 951,
+   "mesh": 770
+  },
+  "sheet_front_p": {
+   "xor": 129,
+   "union": 261,
+   "mesh_only": 10,
+   "plate_only": 119,
+   "plate": 251,
+   "mesh": 142
+  },
+  "sheet_front_m": {
+   "xor": 98,
+   "union": 212,
+   "mesh_only": 5,
+   "plate_only": 93,
+   "plate": 207,
+   "mesh": 119
+  },
+  "sheet_back_p": {
+   "xor": 122,
+   "union": 239,
+   "mesh_only": 2,
+   "plate_only": 120,
+   "plate": 237,
+   "mesh": 119
+  },
+  "sheet_back_m": {
+   "xor": 180,
+   "union": 308,
+   "mesh_only": 14,
+   "plate_only": 166,
+   "plate": 294,
+   "mesh": 142
+  }
+ }
+}

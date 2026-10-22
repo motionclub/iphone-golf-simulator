@@ -31,7 +31,7 @@
       "Unity/Assets/Scripts/Tennis/HeroBlinkNormalField.cs": "0a9e40063123ce16ffa495ac9ac83e1c330048e601228f97386b7061b681546c",
       "Unity/Assets/Scripts/Tennis/HeroSkinNormals.cs": "0f428b389441b19e2238a958593a83cc0161d5280f39a372d6d974ca01956a88",
       "Unity/Assets/Scripts/Tennis/HeroHandWeights.cs": "5f08d0e06aaa8cdc710c26ba01650f316d90c3a479befb3491d276896f1e541d",
-      "Unity/Assets/Scripts/Tennis/HeroHandShape.cs": "cabe5abc295b173902c9d438dc86d8ec770d68266dae7b8276d940a0733a0f1b",
+      "Unity/Assets/Scripts/Tennis/HeroHandShape.cs": "2e1ae1952426f8cc53012f18b356f335f18912ac8d470f61382429e277c2d0b5",
       "Unity/Assets/Scripts/Tennis/HeroArmSkinning.cs": "63ef29e7cd21b310c376fcd131dfcf81aefa0f123038d5080221726aac9e9884",
       "Unity/Assets/Scripts/Tennis/HeroGripPolish.cs": "9507379fa1a74d7e84f51cea56a8be8f62dccff0fb700efdfdb73831248fcf48",
       "Unity/Assets/Scripts/Tennis/HeroAuthoredHandPose.cs": "342f6fcd81c3418c802a9946f216f57a762d9cd0bef605a8f081c3562ad6e08f",
@@ -233,7 +233,7 @@
       "Unity/Assets/Resources/Tennis/KitsV2/Female/FemaleShoulderFitProfile.json": "962017f32a69a966ad7ab7a0ef6c2ea38a35832f9fa6a0f58e1f4d241bb5bb02",
       "Unity/Assets/Resources/Golf/KitsV2/Female/FemaleShoulderFit.bytes": "7586301c133ed95077c165163676c9f1f36d876a230a322c6642167c45ca35a8",
       "Unity/Assets/Resources/Golf/KitsV2/Female/FemaleShoulderFitProfile.json": "aa5de761a29d1edae1265a62561b49d7acb70ebd28cb6def2ad401cc8e3df1a9",
-      "Unity/Assets/Scripts/Hub/HubHeroAnimator.cs": "b469066c649482478cc76390dba525e88ef5a0b9280faaa5f5c4b69fb19c3164",
+      "Unity/Assets/Scripts/Hub/HubHeroAnimator.cs": "e58dc2357192ff977972ae21cafa246dec43807f2de6de9dfd744826ca8db5e4",
       "Unity/Assets/Resources/Accessories/Female/golf_bag/Acc_Female_golf_bag_Bag_M.png": "200ad80d7b43cddaf20d0af5888ac762ef2c7ea62ed3dd7da260e52a63199131",
       "Unity/Assets/Resources/Accessories/Female/golf_bag/Acc_Female_golf_bag_Bag_N.png": "36cb8794d78bcab150a60852a90fe15486c09ab5df8ee5061aad4b28cd8e744d",
       "Unity/Assets/Resources/Accessories/Female/golf_bag/Kit_Bag.asset": "3fe7bbf61a976a7a54bae265c80a2d528bd2d1ce25e8ea67433971402e8d5090",
@@ -243,16 +243,16 @@
       "Unity/Assets/Resources/Accessories/Male/golf_bag/Kit_Bag.asset": "2167d4f3f1347404dda4a7a83738c11bb6c1e791309c18184fefbfb97e2e9dea",
       "Unity/Assets/Resources/Accessories/Male/golf_bag/item.json": "44d6ee590f31956f1512a2a167c042b40564296c84dd81cc1a1c08a67739d79d"
     },
-    "note": "HERO_SYNC 2026-10-19: work/hero-sync/sync_heroes.sh export of the current Unity heroes"
+    "note": "HERO_SYNC 2026-10-20: work/hero-sync/sync_heroes.sh export of the current Unity heroes"
   },
   {
     "name": "MatchHero_Female",
     "source": "work/hero-sync/out/golden/MatchHero_Female_golden.json",
     "unitySampleCount": 2016,
-    "unitySourceSha256": "662cbb5588ddd51acc321cd855bb491f86d221f28fe2c02bb6a7fa27b4a234ee",
-    "packedSha256": "f79d7904bfb84d2461dffd161773ed139c9611eaf2dceffa9a3c09f1fcfde88b",
-    "packedBytes": 5711810,
-    "manifestSha256": "8116ea853eb01f988dc1cf88275e90ffe840fd40a66e7a33f6de7b5ff9297cd4",
+    "unitySourceSha256": "6c0c19253f5465358657b0f5909dd0f5388e3608e19f04b22cf28ffb8ac1ad5f",
+    "packedSha256": "49b28dd96c1a4f1d18eceaa624a1c694e1ccc465eec2d6d34974710ed765115b",
+    "packedBytes": 5714307,
+    "manifestSha256": "57203b2fe6e15c9596d812ce414358f0bc9ed4302a551cd3eb33b30fb6a13040",
     "frozenFaceSourceFiles": {
       "Unity/Assets/Resources/Tennis/OriginalSeamBlinkFinish/Male.fbx": "a4d990442ca2f619d6e765614a6aea4c1dc55886433c1853c9b36e34fda8f09d",
       "Unity/Assets/Resources/Tennis/OriginalSeamBlinkFinish/Female.fbx": "0c42573de8c538b2e35903af08f62d10e70ca5f541ba80df50df5fcc47e6ed5e"
@@ -277,7 +277,7 @@
       "Unity/Assets/Scripts/Tennis/HeroBlinkNormalField.cs": "0a9e40063123ce16ffa495ac9ac83e1c330048e601228f97386b7061b681546c",
       "Unity/Assets/Scripts/Tennis/HeroSkinNormals.cs": "0f428b389441b19e2238a958593a83cc0161d5280f39a372d6d974ca01956a88",
       "Unity/Assets/Scripts/Tennis/HeroHandWeights.cs": "5f08d0e06aaa8cdc710c26ba01650f316d90c3a479befb3491d276896f1e541d",
-      "Unity/Assets/Scripts/Tennis/HeroHandShape.cs": "cabe5abc295b173902c9d438dc86d8ec770d68266dae7b8276d940a0733a0f1b",
+      "Unity/Assets/Scripts/Tennis/HeroHandShape.cs": "2e1ae1952426f8cc53012f18b356f335f18912ac8d470f61382429e277c2d0b5",
       "Unity/Assets/Scripts/Tennis/HeroArmSkinning.cs": "63ef29e7cd21b310c376fcd131dfcf81aefa0f123038d5080221726aac9e9884",
       "Unity/Assets/Scripts/Tennis/HeroGripPolish.cs": "9507379fa1a74d7e84f51cea56a8be8f62dccff0fb700efdfdb73831248fcf48",
       "Unity/Assets/Scripts/Tennis/HeroAuthoredHandPose.cs": "342f6fcd81c3418c802a9946f216f57a762d9cd0bef605a8f081c3562ad6e08f",
@@ -479,7 +479,7 @@
       "Unity/Assets/Resources/Tennis/KitsV2/Female/FemaleShoulderFitProfile.json": "962017f32a69a966ad7ab7a0ef6c2ea38a35832f9fa6a0f58e1f4d241bb5bb02",
       "Unity/Assets/Resources/Golf/KitsV2/Female/FemaleShoulderFit.bytes": "7586301c133ed95077c165163676c9f1f36d876a230a322c6642167c45ca35a8",
       "Unity/Assets/Resources/Golf/KitsV2/Female/FemaleShoulderFitProfile.json": "aa5de761a29d1edae1265a62561b49d7acb70ebd28cb6def2ad401cc8e3df1a9",
-      "Unity/Assets/Scripts/Hub/HubHeroAnimator.cs": "b469066c649482478cc76390dba525e88ef5a0b9280faaa5f5c4b69fb19c3164",
+      "Unity/Assets/Scripts/Hub/HubHeroAnimator.cs": "e58dc2357192ff977972ae21cafa246dec43807f2de6de9dfd744826ca8db5e4",
       "Unity/Assets/Resources/Accessories/Female/golf_bag/Acc_Female_golf_bag_Bag_M.png": "200ad80d7b43cddaf20d0af5888ac762ef2c7ea62ed3dd7da260e52a63199131",
       "Unity/Assets/Resources/Accessories/Female/golf_bag/Acc_Female_golf_bag_Bag_N.png": "36cb8794d78bcab150a60852a90fe15486c09ab5df8ee5061aad4b28cd8e744d",
       "Unity/Assets/Resources/Accessories/Female/golf_bag/Kit_Bag.asset": "3fe7bbf61a976a7a54bae265c80a2d528bd2d1ce25e8ea67433971402e8d5090",
@@ -489,7 +489,7 @@
       "Unity/Assets/Resources/Accessories/Male/golf_bag/Kit_Bag.asset": "2167d4f3f1347404dda4a7a83738c11bb6c1e791309c18184fefbfb97e2e9dea",
       "Unity/Assets/Resources/Accessories/Male/golf_bag/item.json": "44d6ee590f31956f1512a2a167c042b40564296c84dd81cc1a1c08a67739d79d"
     },
-    "note": "HERO_SYNC 2026-10-19: work/hero-sync/sync_heroes.sh export of the current Unity heroes"
+    "note": "HERO_SYNC 2026-10-20: work/hero-sync/sync_heroes.sh export of the current Unity heroes"
   },
   {
     "name": "MatchHero_Male_Distance",
@@ -523,7 +523,7 @@
       "Unity/Assets/Scripts/Tennis/HeroBlinkNormalField.cs": "0a9e40063123ce16ffa495ac9ac83e1c330048e601228f97386b7061b681546c",
       "Unity/Assets/Scripts/Tennis/HeroSkinNormals.cs": "0f428b389441b19e2238a958593a83cc0161d5280f39a372d6d974ca01956a88",
       "Unity/Assets/Scripts/Tennis/HeroHandWeights.cs": "5f08d0e06aaa8cdc710c26ba01650f316d90c3a479befb3491d276896f1e541d",
-      "Unity/Assets/Scripts/Tennis/HeroHandShape.cs": "cabe5abc295b173902c9d438dc86d8ec770d68266dae7b8276d940a0733a0f1b",
+      "Unity/Assets/Scripts/Tennis/HeroHandShape.cs": "2e1ae1952426f8cc53012f18b356f335f18912ac8d470f61382429e277c2d0b5",
       "Unity/Assets/Scripts/Tennis/HeroArmSkinning.cs": "63ef29e7cd21b310c376fcd131dfcf81aefa0f123038d5080221726aac9e9884",
       "Unity/Assets/Scripts/Tennis/HeroGripPolish.cs": "9507379fa1a74d7e84f51cea56a8be8f62dccff0fb700efdfdb73831248fcf48",
       "Unity/Assets/Scripts/Tennis/HeroAuthoredHandPose.cs": "342f6fcd81c3418c802a9946f216f57a762d9cd0bef605a8f081c3562ad6e08f",
@@ -725,7 +725,7 @@
       "Unity/Assets/Resources/Tennis/KitsV2/Female/FemaleShoulderFitProfile.json": "962017f32a69a966ad7ab7a0ef6c2ea38a35832f9fa6a0f58e1f4d241bb5bb02",
       "Unity/Assets/Resources/Golf/KitsV2/Female/FemaleShoulderFit.bytes": "7586301c133ed95077c165163676c9f1f36d876a230a322c6642167c45ca35a8",
       "Unity/Assets/Resources/Golf/KitsV2/Female/FemaleShoulderFitProfile.json": "aa5de761a29d1edae1265a62561b49d7acb70ebd28cb6def2ad401cc8e3df1a9",
-      "Unity/Assets/Scripts/Hub/HubHeroAnimator.cs": "b469066c649482478cc76390dba525e88ef5a0b9280faaa5f5c4b69fb19c3164",
+      "Unity/Assets/Scripts/Hub/HubHeroAnimator.cs": "e58dc2357192ff977972ae21cafa246dec43807f2de6de9dfd744826ca8db5e4",
       "Unity/Assets/Resources/Accessories/Female/golf_bag/Acc_Female_golf_bag_Bag_M.png": "200ad80d7b43cddaf20d0af5888ac762ef2c7ea62ed3dd7da260e52a63199131",
       "Unity/Assets/Resources/Accessories/Female/golf_bag/Acc_Female_golf_bag_Bag_N.png": "36cb8794d78bcab150a60852a90fe15486c09ab5df8ee5061aad4b28cd8e744d",
       "Unity/Assets/Resources/Accessories/Female/golf_bag/Kit_Bag.asset": "3fe7bbf61a976a7a54bae265c80a2d528bd2d1ce25e8ea67433971402e8d5090",
@@ -735,16 +735,16 @@
       "Unity/Assets/Resources/Accessories/Male/golf_bag/Kit_Bag.asset": "2167d4f3f1347404dda4a7a83738c11bb6c1e791309c18184fefbfb97e2e9dea",
       "Unity/Assets/Resources/Accessories/Male/golf_bag/item.json": "44d6ee590f31956f1512a2a167c042b40564296c84dd81cc1a1c08a67739d79d"
     },
-    "note": "HERO_SYNC 2026-10-19: work/hero-sync/sync_heroes.sh export of the current Unity heroes"
+    "note": "HERO_SYNC 2026-10-20: work/hero-sync/sync_heroes.sh export of the current Unity heroes"
   },
   {
     "name": "MatchHero_Female_Distance",
     "source": "work/hero-sync/out/golden/MatchHero_Female_Distance_golden.json",
     "unitySampleCount": 2016,
-    "unitySourceSha256": "662cbb5588ddd51acc321cd855bb491f86d221f28fe2c02bb6a7fa27b4a234ee",
-    "packedSha256": "f79d7904bfb84d2461dffd161773ed139c9611eaf2dceffa9a3c09f1fcfde88b",
-    "packedBytes": 5711810,
-    "manifestSha256": "dcb86197f04dd6e02ff3cdce07868c040a14d8aff5043c00e0c32942a0376276",
+    "unitySourceSha256": "6c0c19253f5465358657b0f5909dd0f5388e3608e19f04b22cf28ffb8ac1ad5f",
+    "packedSha256": "49b28dd96c1a4f1d18eceaa624a1c694e1ccc465eec2d6d34974710ed765115b",
+    "packedBytes": 5714307,
+    "manifestSha256": "9fcba64f9a33a1f61398f109ed04c589466641134803b74b12e1c59e1d4fcf91",
     "frozenFaceSourceFiles": {
       "Unity/Assets/Resources/Tennis/OriginalSeamBlinkFinish/Male.fbx": "a4d990442ca2f619d6e765614a6aea4c1dc55886433c1853c9b36e34fda8f09d",
       "Unity/Assets/Resources/Tennis/OriginalSeamBlinkFinish/Female.fbx": "0c42573de8c538b2e35903af08f62d10e70ca5f541ba80df50df5fcc47e6ed5e"
@@ -769,7 +769,7 @@
       "Unity/Assets/Scripts/Tennis/HeroBlinkNormalField.cs": "0a9e40063123ce16ffa495ac9ac83e1c330048e601228f97386b7061b681546c",
       "Unity/Assets/Scripts/Tennis/HeroSkinNormals.cs": "0f428b389441b19e2238a958593a83cc0161d5280f39a372d6d974ca01956a88",
       "Unity/Assets/Scripts/Tennis/HeroHandWeights.cs": "5f08d0e06aaa8cdc710c26ba01650f316d90c3a479befb3491d276896f1e541d",
-      "Unity/Assets/Scripts/Tennis/HeroHandShape.cs": "cabe5abc295b173902c9d438dc86d8ec770d68266dae7b8276d940a0733a0f1b",
+      "Unity/Assets/Scripts/Tennis/HeroHandShape.cs": "2e1ae1952426f8cc53012f18b356f335f18912ac8d470f61382429e277c2d0b5",
       "Unity/Assets/Scripts/Tennis/HeroArmSkinning.cs": "63ef29e7cd21b310c376fcd131dfcf81aefa0f123038d5080221726aac9e9884",
       "Unity/Assets/Scripts/Tennis/HeroGripPolish.cs": "9507379fa1a74d7e84f51cea56a8be8f62dccff0fb700efdfdb73831248fcf48",
       "Unity/Assets/Scripts/Tennis/HeroAuthoredHandPose.cs": "342f6fcd81c3418c802a9946f216f57a762d9cd0bef605a8f081c3562ad6e08f",
@@ -971,7 +971,7 @@
       "Unity/Assets/Resources/Tennis/KitsV2/Female/FemaleShoulderFitProfile.json": "962017f32a69a966ad7ab7a0ef6c2ea38a35832f9fa6a0f58e1f4d241bb5bb02",
       "Unity/Assets/Resources/Golf/KitsV2/Female/FemaleShoulderFit.bytes": "7586301c133ed95077c165163676c9f1f36d876a230a322c6642167c45ca35a8",
       "Unity/Assets/Resources/Golf/KitsV2/Female/FemaleShoulderFitProfile.json": "aa5de761a29d1edae1265a62561b49d7acb70ebd28cb6def2ad401cc8e3df1a9",
-      "Unity/Assets/Scripts/Hub/HubHeroAnimator.cs": "b469066c649482478cc76390dba525e88ef5a0b9280faaa5f5c4b69fb19c3164",
+      "Unity/Assets/Scripts/Hub/HubHeroAnimator.cs": "e58dc2357192ff977972ae21cafa246dec43807f2de6de9dfd744826ca8db5e4",
       "Unity/Assets/Resources/Accessories/Female/golf_bag/Acc_Female_golf_bag_Bag_M.png": "200ad80d7b43cddaf20d0af5888ac762ef2c7ea62ed3dd7da260e52a63199131",
       "Unity/Assets/Resources/Accessories/Female/golf_bag/Acc_Female_golf_bag_Bag_N.png": "36cb8794d78bcab150a60852a90fe15486c09ab5df8ee5061aad4b28cd8e744d",
       "Unity/Assets/Resources/Accessories/Female/golf_bag/Kit_Bag.asset": "3fe7bbf61a976a7a54bae265c80a2d528bd2d1ce25e8ea67433971402e8d5090",
@@ -981,7 +981,7 @@
       "Unity/Assets/Resources/Accessories/Male/golf_bag/Kit_Bag.asset": "2167d4f3f1347404dda4a7a83738c11bb6c1e791309c18184fefbfb97e2e9dea",
       "Unity/Assets/Resources/Accessories/Male/golf_bag/item.json": "44d6ee590f31956f1512a2a167c042b40564296c84dd81cc1a1c08a67739d79d"
     },
-    "note": "HERO_SYNC 2026-10-19: work/hero-sync/sync_heroes.sh export of the current Unity heroes"
+    "note": "HERO_SYNC 2026-10-20: work/hero-sync/sync_heroes.sh export of the current Unity heroes"
   },
   {
     "name": "GolfKitHero_Male",
@@ -1015,7 +1015,7 @@
       "Unity/Assets/Scripts/Tennis/HeroBlinkNormalField.cs": "0a9e40063123ce16ffa495ac9ac83e1c330048e601228f97386b7061b681546c",
       "Unity/Assets/Scripts/Tennis/HeroSkinNormals.cs": "0f428b389441b19e2238a958593a83cc0161d5280f39a372d6d974ca01956a88",
       "Unity/Assets/Scripts/Tennis/HeroHandWeights.cs": "5f08d0e06aaa8cdc710c26ba01650f316d90c3a479befb3491d276896f1e541d",
-      "Unity/Assets/Scripts/Tennis/HeroHandShape.cs": "cabe5abc295b173902c9d438dc86d8ec770d68266dae7b8276d940a0733a0f1b",
+      "Unity/Assets/Scripts/Tennis/HeroHandShape.cs": "2e1ae1952426f8cc53012f18b356f335f18912ac8d470f61382429e277c2d0b5",
       "Unity/Assets/Scripts/Tennis/HeroArmSkinning.cs": "63ef29e7cd21b310c376fcd131dfcf81aefa0f123038d5080221726aac9e9884",
       "Unity/Assets/Scripts/Tennis/HeroGripPolish.cs": "9507379fa1a74d7e84f51cea56a8be8f62dccff0fb700efdfdb73831248fcf48",
       "Unity/Assets/Scripts/Tennis/HeroAuthoredHandPose.cs": "342f6fcd81c3418c802a9946f216f57a762d9cd0bef605a8f081c3562ad6e08f",
@@ -1217,7 +1217,7 @@
       "Unity/Assets/Resources/Tennis/KitsV2/Female/FemaleShoulderFitProfile.json": "962017f32a69a966ad7ab7a0ef6c2ea38a35832f9fa6a0f58e1f4d241bb5bb02",
       "Unity/Assets/Resources/Golf/KitsV2/Female/FemaleShoulderFit.bytes": "7586301c133ed95077c165163676c9f1f36d876a230a322c6642167c45ca35a8",
       "Unity/Assets/Resources/Golf/KitsV2/Female/FemaleShoulderFitProfile.json": "aa5de761a29d1edae1265a62561b49d7acb70ebd28cb6def2ad401cc8e3df1a9",
-      "Unity/Assets/Scripts/Hub/HubHeroAnimator.cs": "b469066c649482478cc76390dba525e88ef5a0b9280faaa5f5c4b69fb19c3164",
+      "Unity/Assets/Scripts/Hub/HubHeroAnimator.cs": "e58dc2357192ff977972ae21cafa246dec43807f2de6de9dfd744826ca8db5e4",
       "Unity/Assets/Resources/Accessories/Female/golf_bag/Acc_Female_golf_bag_Bag_M.png": "200ad80d7b43cddaf20d0af5888ac762ef2c7ea62ed3dd7da260e52a63199131",
       "Unity/Assets/Resources/Accessories/Female/golf_bag/Acc_Female_golf_bag_Bag_N.png": "36cb8794d78bcab150a60852a90fe15486c09ab5df8ee5061aad4b28cd8e744d",
       "Unity/Assets/Resources/Accessories/Female/golf_bag/Kit_Bag.asset": "3fe7bbf61a976a7a54bae265c80a2d528bd2d1ce25e8ea67433971402e8d5090",
@@ -1227,15 +1227,15 @@
       "Unity/Assets/Resources/Accessories/Male/golf_bag/Kit_Bag.asset": "2167d4f3f1347404dda4a7a83738c11bb6c1e791309c18184fefbfb97e2e9dea",
       "Unity/Assets/Resources/Accessories/Male/golf_bag/item.json": "44d6ee590f31956f1512a2a167c042b40564296c84dd81cc1a1c08a67739d79d"
     },
-    "note": "HERO_SYNC 2026-10-19: work/hero-sync/sync_heroes.sh export of the current Unity heroes"
+    "note": "HERO_SYNC 2026-10-20: work/hero-sync/sync_heroes.sh export of the current Unity heroes"
   },
   {
     "name": "GolfKitHero_Female",
     "source": "work/hero-sync/out/golden/GolfKitHero_Female_golden.json",
     "unitySampleCount": 1014,
-    "unitySourceSha256": "c6bfef54eb72e4d2299a9aea1e7d8e57c55e83d062a0890b815632c444744889",
-    "packedSha256": "b8a581a937a4323f33bb367651e177b58bd94d8717497ff85c70c5350032f983",
-    "packedBytes": 2514578,
+    "unitySourceSha256": "08d80db397544ca8b5143cdcda6cfc8e11cd5b605bf1356a79656557eb8ded12",
+    "packedSha256": "8e88525e29c032ab766442a964e015b73294e852bf7be82b3199de64551b63dc",
+    "packedBytes": 2514722,
     "manifestSha256": "8f951c5162f718539ca0305eb12840730b5238d4d8cc275a909a21f173aaf4d8",
     "frozenFaceSourceFiles": {
       "Unity/Assets/Resources/Tennis/OriginalSeamBlinkFinish/Male.fbx": "a4d990442ca2f619d6e765614a6aea4c1dc55886433c1853c9b36e34fda8f09d",
@@ -1261,7 +1261,7 @@
       "Unity/Assets/Scripts/Tennis/HeroBlinkNormalField.cs": "0a9e40063123ce16ffa495ac9ac83e1c330048e601228f97386b7061b681546c",
       "Unity/Assets/Scripts/Tennis/HeroSkinNormals.cs": "0f428b389441b19e2238a958593a83cc0161d5280f39a372d6d974ca01956a88",
       "Unity/Assets/Scripts/Tennis/HeroHandWeights.cs": "5f08d0e06aaa8cdc710c26ba01650f316d90c3a479befb3491d276896f1e541d",
-      "Unity/Assets/Scripts/Tennis/HeroHandShape.cs": "cabe5abc295b173902c9d438dc86d8ec770d68266dae7b8276d940a0733a0f1b",
+      "Unity/Assets/Scripts/Tennis/HeroHandShape.cs": "2e1ae1952426f8cc53012f18b356f335f18912ac8d470f61382429e277c2d0b5",
       "Unity/Assets/Scripts/Tennis/HeroArmSkinning.cs": "63ef29e7cd21b310c376fcd131dfcf81aefa0f123038d5080221726aac9e9884",
       "Unity/Assets/Scripts/Tennis/HeroGripPolish.cs": "9507379fa1a74d7e84f51cea56a8be8f62dccff0fb700efdfdb73831248fcf48",
       "Unity/Assets/Scripts/Tennis/HeroAuthoredHandPose.cs": "342f6fcd81c3418c802a9946f216f57a762d9cd0bef605a8f081c3562ad6e08f",
@@ -1463,7 +1463,7 @@
       "Unity/Assets/Resources/Tennis/KitsV2/Female/FemaleShoulderFitProfile.json": "962017f32a69a966ad7ab7a0ef6c2ea38a35832f9fa6a0f58e1f4d241bb5bb02",
       "Unity/Assets/Resources/Golf/KitsV2/Female/FemaleShoulderFit.bytes": "7586301c133ed95077c165163676c9f1f36d876a230a322c6642167c45ca35a8",
       "Unity/Assets/Resources/Golf/KitsV2/Female/FemaleShoulderFitProfile.json": "aa5de761a29d1edae1265a62561b49d7acb70ebd28cb6def2ad401cc8e3df1a9",
-      "Unity/Assets/Scripts/Hub/HubHeroAnimator.cs": "b469066c649482478cc76390dba525e88ef5a0b9280faaa5f5c4b69fb19c3164",
+      "Unity/Assets/Scripts/Hub/HubHeroAnimator.cs": "e58dc2357192ff977972ae21cafa246dec43807f2de6de9dfd744826ca8db5e4",
       "Unity/Assets/Resources/Accessories/Female/golf_bag/Acc_Female_golf_bag_Bag_M.png": "200ad80d7b43cddaf20d0af5888ac762ef2c7ea62ed3dd7da260e52a63199131",
       "Unity/Assets/Resources/Accessories/Female/golf_bag/Acc_Female_golf_bag_Bag_N.png": "36cb8794d78bcab150a60852a90fe15486c09ab5df8ee5061aad4b28cd8e744d",
       "Unity/Assets/Resources/Accessories/Female/golf_bag/Kit_Bag.asset": "3fe7bbf61a976a7a54bae265c80a2d528bd2d1ce25e8ea67433971402e8d5090",
@@ -1473,6 +1473,6 @@
       "Unity/Assets/Resources/Accessories/Male/golf_bag/Kit_Bag.asset": "2167d4f3f1347404dda4a7a83738c11bb6c1e791309c18184fefbfb97e2e9dea",
       "Unity/Assets/Resources/Accessories/Male/golf_bag/item.json": "44d6ee590f31956f1512a2a167c042b40564296c84dd81cc1a1c08a67739d79d"
     },
-    "note": "HERO_SYNC 2026-10-19: work/hero-sync/sync_heroes.sh export of the current Unity heroes"
+    "note": "HERO_SYNC 2026-10-20: work/hero-sync/sync_heroes.sh export of the current Unity heroes"
   }
 ]

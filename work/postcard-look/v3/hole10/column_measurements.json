@@ -1,0 +1,310 @@
+[
+  {
+    "height": 12.0,
+    "rows": 1,
+    "chunks": [
+      {
+        "name": "ROCK_WALL_PLAN_000",
+        "polygons": 458,
+        "triangles": 1070,
+        "pca_r3": 0.093467271847134,
+        "pca_ok": false,
+        "shape_ok": false,
+        "shape_why": [
+          "3 of 65 components are regular solids (<= 2 distinct vertex valences, e.g. {3: 6} on 6 vertices): a bundle of icosahedra / octahedra / cubes"
+        ],
+        "columns": 63,
+        "side_area_fraction": 0.9038328824734115,
+        "column_gate_ok": true,
+        "horizontal_aabb_diagonal": 17.19749193769468
+      },
+      {
+        "name": "ROCK_WALL_PLAN_001",
+        "polygons": 213,
+        "triangles": 504,
+        "pca_r3": 0.09724695991906862,
+        "pca_ok": false,
+        "shape_ok": true,
+        "shape_why": [],
+        "columns": 29,
+        "side_area_fraction": 0.9063796057651775,
+        "column_gate_ok": true,
+        "horizontal_aabb_diagonal": 7.248032079882894
+      }
+    ],
+    "triangle_total": 1574
+  },
+  {
+    "height": 12.0,
+    "rows": 2,
+    "chunks": [
+      {
+        "name": "ROCK_WALL_PLAN_000",
+        "polygons": 458,
+        "triangles": 1070,
+        "pca_r3": 0.093467271847134,
+        "pca_ok": false,
+        "shape_ok": false,
+        "shape_why": [
+          "3 of 65 components are regular solids (<= 2 distinct vertex valences, e.g. {3: 6} on 6 vertices): a bundle of icosahedra / octahedra / cubes"
+        ],
+        "columns": 63,
+        "side_area_fraction": 0.9038328824734115,
+        "column_gate_ok": true,
+        "horizontal_aabb_diagonal": 17.19749193769468
+      },
+      {
+        "name": "ROCK_WALL_PLAN_001",
+        "polygons": 213,
+        "triangles": 504,
+        "pca_r3": 0.09724695991906862,
+        "pca_ok": false,
+        "shape_ok": true,
+        "shape_why": [],
+        "columns": 29,
+        "side_area_fraction": 0.9063796057651775,
+        "column_gate_ok": true,
+        "horizontal_aabb_diagonal": 7.248032079882894
+      },
+      {
+        "name": "ROCK_WALL_PLAN_002",
+        "polygons": 482,
+        "triangles": 1142,
+        "pca_r3": 0.12900745971300911,
+        "pca_ok": false,
+        "shape_ok": false,
+        "shape_why": [
+          "4 of 66 components are regular solids (<= 2 distinct vertex valences, e.g. {3: 6} on 6 vertices): a bundle of icosahedra / octahedra / cubes"
+        ],
+        "columns": 66,
+        "side_area_fraction": 0.9014037240337843,
+        "column_gate_ok": true,
+        "horizontal_aabb_diagonal": 16.69710998458205
+      },
+      {
+        "name": "ROCK_WALL_PLAN_003",
+        "polygons": 237,
+        "triangles": 558,
+        "pca_r3": 0.12039485855284857,
+        "pca_ok": false,
+        "shape_ok": false,
+        "shape_why": [
+          "1 of 33 components are regular solids (<= 2 distinct vertex valences, e.g. {3: 12} on 12 vertices): a bundle of icosahedra / octahedra / cubes"
+        ],
+        "columns": 32,
+        "side_area_fraction": 0.9055538254644188,
+        "column_gate_ok": true,
+        "horizontal_aabb_diagonal": 8.129066039133436
+      }
+    ],
+    "triangle_total": 3274
+  },
+  {
+    "height": 30.0,
+    "rows": 1,
+    "chunks": [
+      {
+        "name": "ROCK_WALL_PLAN_000",
+        "polygons": 467,
+        "triangles": 1096,
+        "pca_r3": 0.043564602521711994,
+        "pca_ok": false,
+        "shape_ok": false,
+        "shape_why": [
+          "6 of 65 components are regular solids (<= 2 distinct vertex valences, e.g. {3: 6} on 6 vertices): a bundle of icosahedra / octahedra / cubes"
+        ],
+        "columns": 65,
+        "side_area_fraction": 0.9494269788132256,
+        "column_gate_ok": true,
+        "horizontal_aabb_diagonal": 13.545284044713306
+      },
+      {
+        "name": "ROCK_WALL_PLAN_001",
+        "polygons": 394,
+        "triangles": 924,
+        "pca_r3": 0.04323758566599523,
+        "pca_ok": false,
+        "shape_ok": false,
+        "shape_why": [
+          "5 of 55 components are regular solids (<= 2 distinct vertex valences, e.g. {3: 6} on 6 vertices): a bundle of icosahedra / octahedra / cubes"
+        ],
+        "columns": 55,
+        "side_area_fraction": 0.9511153606508111,
+        "column_gate_ok": true,
+        "horizontal_aabb_diagonal": 10.80422182143562
+      }
+    ],
+    "triangle_total": 2020
+  },
+  {
+    "height": 30.0,
+    "rows": 2,
+    "chunks": [
+      {
+        "name": "ROCK_WALL_PLAN_000",
+        "polygons": 467,
+        "triangles": 1096,
+        "pca_r3": 0.043564602521711994,
+        "pca_ok": false,
+        "shape_ok": false,
+        "shape_why": [
+          "6 of 65 components are regular solids (<= 2 distinct vertex valences, e.g. {3: 6} on 6 vertices): a bundle of icosahedra / octahedra / cubes"
+        ],
+        "columns": 65,
+        "side_area_fraction": 0.9494269788132256,
+        "column_gate_ok": true,
+        "horizontal_aabb_diagonal": 13.545284044713306
+      },
+      {
+        "name": "ROCK_WALL_PLAN_001",
+        "polygons": 394,
+        "triangles": 924,
+        "pca_r3": 0.04323758566599523,
+        "pca_ok": false,
+        "shape_ok": false,
+        "shape_why": [
+          "5 of 55 components are regular solids (<= 2 distinct vertex valences, e.g. {3: 6} on 6 vertices): a bundle of icosahedra / octahedra / cubes"
+        ],
+        "columns": 55,
+        "side_area_fraction": 0.9511153606508111,
+        "column_gate_ok": true,
+        "horizontal_aabb_diagonal": 10.80422182143562
+      },
+      {
+        "name": "ROCK_WALL_PLAN_002",
+        "polygons": 466,
+        "triangles": 1092,
+        "pca_r3": 0.0529897427123049,
+        "pca_ok": false,
+        "shape_ok": false,
+        "shape_why": [
+          "2 of 65 components are regular solids (<= 2 distinct vertex valences, e.g. {3: 12} on 12 vertices): a bundle of icosahedra / octahedra / cubes"
+        ],
+        "columns": 64,
+        "side_area_fraction": 0.9545156422586273,
+        "column_gate_ok": true,
+        "horizontal_aabb_diagonal": 11.971694103779628
+      },
+      {
+        "name": "ROCK_WALL_PLAN_003",
+        "polygons": 426,
+        "triangles": 992,
+        "pca_r3": 0.052732336135667794,
+        "pca_ok": false,
+        "shape_ok": false,
+        "shape_why": [
+          "3 of 60 components are regular solids (<= 2 distinct vertex valences, e.g. {3: 6} on 6 vertices): a bundle of icosahedra / octahedra / cubes"
+        ],
+        "columns": 60,
+        "side_area_fraction": 0.9501830729245709,
+        "column_gate_ok": true,
+        "horizontal_aabb_diagonal": 12.237217817957285
+      }
+    ],
+    "triangle_total": 4104
+  },
+  {
+    "height": 50.0,
+    "rows": 1,
+    "chunks": [
+      {
+        "name": "ROCK_WALL_PLAN_000",
+        "polygons": 467,
+        "triangles": 1096,
+        "pca_r3": 0.026207734941952786,
+        "pca_ok": false,
+        "shape_ok": false,
+        "shape_why": [
+          "4 of 65 components are regular solids (<= 2 distinct vertex valences, e.g. {3: 6} on 6 vertices): a bundle of icosahedra / octahedra / cubes"
+        ],
+        "columns": 65,
+        "side_area_fraction": 0.9684640840205433,
+        "column_gate_ok": true,
+        "horizontal_aabb_diagonal": 13.545284044713306
+      },
+      {
+        "name": "ROCK_WALL_PLAN_001",
+        "polygons": 394,
+        "triangles": 924,
+        "pca_r3": 0.026211335711724234,
+        "pca_ok": false,
+        "shape_ok": false,
+        "shape_why": [
+          "1 of 55 components are regular solids (<= 2 distinct vertex valences, e.g. {3: 6} on 6 vertices): a bundle of icosahedra / octahedra / cubes"
+        ],
+        "columns": 55,
+        "side_area_fraction": 0.9695417902564534,
+        "column_gate_ok": true,
+        "horizontal_aabb_diagonal": 10.80422182143562
+      }
+    ],
+    "triangle_total": 2020
+  },
+  {
+    "height": 50.0,
+    "rows": 2,
+    "chunks": [
+      {
+        "name": "ROCK_WALL_PLAN_000",
+        "polygons": 467,
+        "triangles": 1096,
+        "pca_r3": 0.026207734941952786,
+        "pca_ok": false,
+        "shape_ok": false,
+        "shape_why": [
+          "4 of 65 components are regular solids (<= 2 distinct vertex valences, e.g. {3: 6} on 6 vertices): a bundle of icosahedra / octahedra / cubes"
+        ],
+        "columns": 65,
+        "side_area_fraction": 0.9684640840205433,
+        "column_gate_ok": true,
+        "horizontal_aabb_diagonal": 13.545284044713306
+      },
+      {
+        "name": "ROCK_WALL_PLAN_001",
+        "polygons": 394,
+        "triangles": 924,
+        "pca_r3": 0.026211335711724234,
+        "pca_ok": false,
+        "shape_ok": false,
+        "shape_why": [
+          "1 of 55 components are regular solids (<= 2 distinct vertex valences, e.g. {3: 6} on 6 vertices): a bundle of icosahedra / octahedra / cubes"
+        ],
+        "columns": 55,
+        "side_area_fraction": 0.9695417902564534,
+        "column_gate_ok": true,
+        "horizontal_aabb_diagonal": 10.80422182143562
+      },
+      {
+        "name": "ROCK_WALL_PLAN_002",
+        "polygons": 466,
+        "triangles": 1092,
+        "pca_r3": 0.032065528672403004,
+        "pca_ok": false,
+        "shape_ok": false,
+        "shape_why": [
+          "2 of 65 components are regular solids (<= 2 distinct vertex valences, e.g. {3: 12} on 12 vertices): a bundle of icosahedra / octahedra / cubes"
+        ],
+        "columns": 64,
+        "side_area_fraction": 0.9717546796681501,
+        "column_gate_ok": true,
+        "horizontal_aabb_diagonal": 11.971694103779628
+      },
+      {
+        "name": "ROCK_WALL_PLAN_003",
+        "polygons": 426,
+        "triangles": 992,
+        "pca_r3": 0.031894727844460215,
+        "pca_ok": false,
+        "shape_ok": false,
+        "shape_why": [
+          "3 of 60 components are regular solids (<= 2 distinct vertex valences, e.g. {3: 6} on 6 vertices): a bundle of icosahedra / octahedra / cubes"
+        ],
+        "columns": 60,
+        "side_area_fraction": 0.9689744702725959,
+        "column_gate_ok": true,
+        "horizontal_aabb_diagonal": 12.237217817957285
+      }
+    ],
+    "triangle_total": 4104
+  }
+]

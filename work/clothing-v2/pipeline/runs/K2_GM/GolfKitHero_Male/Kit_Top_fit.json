@@ -1,0 +1,36 @@
+{
+ "hero": "GolfKitHero_Male",
+ "tag": "Kit_Top",
+ "source": "dump:Kit_Top",
+ "seconds": 260.7,
+ "weights": {
+  "panels": 19,
+  "matched": 0.5013813517513567,
+  "inner": 0.36660088801184015,
+  "smooth_iters": 12,
+  "edge_mm": 8.206214163748708,
+  "allowed": "{0: ('T',), 1: ('T',), 2: ('AR',), 3: ('AL',), 4: ('T',), 5: ('T',), 6: ('T',), 7: ('T',), 8: ('T', 'AR'), 9: ('T', 'AR'), 10: ('T', 'AL'), 11: ('T', 'AL'), 12: ('T',), 13: ('T',), 14: ('T',), 15: ('T',), 16: ('T',), 17: ('AR',), 18: ('AL',)}",
+  "side_mm_p5": 6.078187903746394
+ },
+ "shapes": 16,
+ "log": [
+  "FIT GolfKitHero_Male Kit_Top from dump:Kit_Top: 20270 verts 39144 tris",
+  "  weights: covered body groups T 52% P 2% AL 14% AR 13% LL 10% LR 10%",
+  "  weights: 19 panels, matched 50%, inner 37%, smooth 12 it (edge 8.2 mm)",
+  "  hem riding on Kit_Bottom: 733 vertices follow it (t > .5)",
+  "  hem riding on Kit_Belt: 664 vertices follow it (t > .5)",
+  "  seams: 3753 coincident vertices welded into 1290 groups",
+  "  weights 11.3 s",
+  "  skin deep under Kit_Top (hidden, no clearance needed): 6210 of 44168 body vertices",
+  "  obstacles: body + Kit_Bottom + Kit_Belt",
+  "    pose 0/153  10 s",
+  "    pose 25/153  42 s",
+  "    pose 50/153  84 s",
+  "    pose 75/153  125 s",
+  "    pose 100/153  165 s",
+  "    pose 125/153  204 s",
+  "    pose 150/153  245 s",
+  "  correctives: 146/153 poses need a lift (max 25.0 mm, p90 25.0 mm) in 249 s",
+  "  16 shapes, RBF sigma 0.552, anchor fit err max 0.044, weight at rest 0.0006"
+ ]
+}

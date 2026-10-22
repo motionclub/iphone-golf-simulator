@@ -1,0 +1,1 @@
+Add sky.SetFloat("_CloudLatitudeOffset",volcanic?0:.13f); only in GolfAtmosphere.Sky, preserving root other methods.

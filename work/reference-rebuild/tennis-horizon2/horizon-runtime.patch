@@ -1,0 +1,42 @@
+--- a/Unity/Assets/Scripts/Tennis/TennisResortVista.cs
++++ b/Unity/Assets/Scripts/Tennis/TennisResortVista.cs
+@@ -8,6 +8,7 @@
+     {
+         public static void Build(Transform root)
+         {
++            if(System.Environment.GetEnvironmentVariable("TENNIS_HORIZON2")=="1" && AuthoredHorizon(root))return;
+             var green = new TennisVenueBuilder.MB { Colors=true };
+             var rock = new TennisVenueBuilder.MB();
+             var beach = new TennisVenueBuilder.MB();
+@@ -22,6 +23,31 @@
+             Make(root,"Distant lush resort islands",green,foliage);
+             Make(root,"Distant exposed island ridges",rock,mineral);
+             Make(root,"Distant island beaches",beach,TennisVenueArt.Surface("Resort distant warm beaches",new Color(.78f,.76f,.64f),.12f));
++        }
++
++        // One authored render-only archipelago on the original distant envelopes.
++        // No global atmosphere, court camera, collider or gameplay actor changes.
++        static bool AuthoredHorizon(Transform root)
++        {
++            var prefab=Resources.Load<GameObject>("Tennis/Premium/TennisHorizon2");
++            var shader=Resources.Load<Shader>("Tennis/Shaders/TennisHorizon2");
++            if(!prefab||!shader)return false;
++            var horizon=Object.Instantiate(prefab,root);
++            horizon.name="Authored layered resort horizon";
++            horizon.transform.SetPositionAndRotation(Vector3.zero,prefab.transform.rotation);
++            var material=new Material(shader){name="Resort horizon forest and limestone",enableInstancing=true};
++            material.SetColor("_BaseColor",Color.white);
++            material.SetFloat("_VertexTint",1);material.SetFloat("_Smoothness",.08f);
++            material.SetFloat("_Variation",.012f);material.SetFloat("_Grain",0);
++            material.SetFloat("_HorizonFogShare",.40f);
++            foreach(var renderer in horizon.GetComponentsInChildren<MeshRenderer>())
++            {
++                renderer.sharedMaterial=material;
++                renderer.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
++                renderer.receiveShadows=false;
++            }
++            Debug.Log("[TennisHorizon2] Render-only layered horizon; original court, light/fog and physics retained");
++            return true;
+         }
+ 
+         static void Island(TennisVenueBuilder.MB green,TennisVenueBuilder.MB rock,TennisVenueBuilder.MB beach,

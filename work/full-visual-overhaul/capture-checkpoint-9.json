@@ -1,0 +1,83 @@
+[
+  {
+    "name": "finger-joint-probe-2",
+    "method": "GolfArcade.EditorTools.HeroFingerProbe.Run",
+    "quit": true,
+    "env": {
+      "HFP_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/finger-joint-probe-2"
+    }
+  },
+  {
+    "name": "fist-probe-5",
+    "method": "GolfArcade.EditorTools.TennisFistProbe.Run",
+    "quit": true,
+    "env": {
+      "TFP_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/fist-probe-5"
+    }
+  },
+  {
+    "name": "character-pass-11",
+    "method": "GolfArcade.EditorTools.VisualOverhaulCharacterCapture.Run",
+    "env": {
+      "VISUAL_CHARACTER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/character-pass-11",
+      "VISUAL_CHARACTER_CLIPS": "Ready"
+    }
+  },
+  {
+    "name": "tennis-resort-6",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-resort-6"
+    }
+  },
+  {
+    "name": "tennis-rooftop-6",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "skyscraper",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-rooftop-6"
+    }
+  },
+  {
+    "name": "tennis-volcano-6",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "volcano",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-volcano-6"
+    }
+  },
+  {
+    "name": "tennis-crowd-1",
+    "method": "GolfArcade.EditorTools.TennisCrowdProof.Run",
+    "env": {
+      "TCP_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-crowd-1"
+    }
+  },
+  {
+    "name": "golf-pass-9",
+    "method": "GolfArcade.EditorTools.GolfCourseStandardCapture.Run",
+    "env": {
+      "GOLF_STANDARD_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-pass-9",
+      "GOLF_STANDARD_HOLES": "7,12,13,14,15,16,17,18,19,20,21,22,23,8,9,10,1,2,3",
+      "GOLF_STANDARD_TREES": "1",
+      "GOLF_VISUAL_PHYSICS_GATE": "1"
+    }
+  },
+  {
+    "name": "golf-costs-3",
+    "method": "GolfArcade.EditorTools.VisualOverhaulFrameCosts.Run",
+    "batch": false,
+    "continue_on_failure": true,
+    "env": {
+      "GOLF_COST_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-costs-3"
+    }
+  },
+  {
+    "name": "matchhero-proof-2",
+    "method": "GolfArcade.EditorTools.MatchHeroProof.Run",
+    "env": {
+      "MH_PROOF_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/matchhero-proof-2"
+    }
+  }
+]

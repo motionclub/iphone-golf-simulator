@@ -1,0 +1,16 @@
+{
+  "originalVertices": 11533,
+  "vertices": 15989,
+  "originalFaces": 15914,
+  "faces": 23946,
+  "selectedSourceFaces": 360,
+  "freeVertices": 4161,
+  "originalVertexPositionError": 0.0,
+  "weightsRule": "Original bindings preserved at existing vertices; barycentric interpolation for new vertices, four largest influences normalized.",
+  "clearanceRule": "Outward exit against 104-vertex Body proxy, 3 mm clearance, 40 mm total displacement cap; six triangle contact iterations capped at 8 mm each. Original outer boundary pinned. Corrected UV-alias edge subdivisions.",
+  "weldedOpenEdges": 0,
+  "weldedNonmanifoldEdges": 0,
+  "initialDiagnosticBodyFaces": 4554,
+  "runtimeProxyFaces": 135,
+  "runtimeProxyVertices": 104
+}

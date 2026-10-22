@@ -193,7 +193,7 @@ namespace GolfArcade.Swing
             var fresh = new MotionSwingDetector { FullSpeed = club.MotionFullSpeed() };
             if (club == Shot.GolfClub.Putter)
             {
-                fresh.BackswingStart = 0.055;      // 3°: a tremble at address is not a stroke
+                fresh.BackswingStart = 0.09;       // 5°: a tremble or the tap's own jolt at address is not a stroke (the nearest mark, 25 %, is 8.6°)
                 fresh.FullBackswing = 0.6;         // a long putt's stroke: the arms swung well back
                 fresh.AlongTheArc = true;
                 fresh.CommitPerRadian = 1.5;       // a pendulum peaks near 4× its arc a second; a push is well under

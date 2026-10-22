@@ -26,18 +26,20 @@ namespace GolfArcade.UI
             p.root.anchoredPosition = new Vector2(0, 430); p.root.sizeDelta = new Vector2(900, 260);
             p.group = go.AddComponent<CanvasGroup>();
             p.group.alpha = 0; p.group.blocksRaycasts = false; p.group.interactable = false;
-            p.word = UiKit.Chunky(p.root, "Word", 132, UiKit.ArcadeYellow, UiKit.ArcadeInk, 6f);
+            p.word = UiKit.Chunky(p.root, "Word", 132, UiKit.ArcadeYellow, GlassKit.Ink, 6f);
             p.word.rectTransform.anchorMin = new Vector2(0, 0.35f); p.word.rectTransform.anchorMax = Vector2.one;
             p.word.horizontalOverflow = HorizontalWrapMode.Overflow;
             p.pill = UiKit.Pill(p.root, "Shape", UiKit.ArcadeBlue, new Vector2(0.5f, 0.5f), new Vector2(0, -78), new Vector2(240, 60), out var fill, 4f);
             p.shape = UiKit.Label(fill.transform, "Shape", 34, TextAnchor.MiddleCenter, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero, UiKit.Display, false);
             p.shape.color = Color.white; p.shape.raycastTarget = false;
+            // the clear style: the ball's shape is plain lettering under the word, no pill
+            if (GlassKit.ClearStyle) { GlassKit.Hide(p.pill); p.shape.fontSize = 54; GlassKit.Outline(p.shape); p.pill.anchoredPosition = new Vector2(0, -96); }
             return p;
         }
 
         public void Show(string text, Color color, string shapeText)
         {
-            word.text = text; word.color = color;
+            word.text = text; word.color = GlassKit.ClearStyle && color == UiKit.ArcadeYellow ? GlassKit.Gold : color;   // (PERFECT is the theme's gold)
             pill.gameObject.SetActive(!string.IsNullOrEmpty(shapeText));
             if (!string.IsNullOrEmpty(shapeText))
             {

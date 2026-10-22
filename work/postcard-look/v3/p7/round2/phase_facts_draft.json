@@ -1,0 +1,151 @@
+{
+  "schema": "phase_facts_draft_v1",
+  "root": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator",
+  "scope": "Retained phase0\u20135; later fixes do not erase historical FAILs. Final native round2 not run; no final-native PASS claimed.",
+  "rows": [
+    {
+      "phase": 0,
+      "formal_gate": "PASS",
+      "completed": "Initial389-line audit, full table, three fresh aerial/reference comparisons,30 ranked differences, guards7/7.",
+      "required_unfinished": [],
+      "evidence": [
+        {
+          "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/AUDIT.md",
+          "sha256": "f164b7997349b63fc7a0243d4fe4f971c00f9b423affa8c6de0a20c9c482fd10"
+        },
+        {
+          "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/audit/guards_start.txt",
+          "sha256": "afa018fe0cfcd419066791466f6c4f148dd1e9b7ff44b3994e726823a0c35679"
+        },
+        {
+          "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/audit/scoring_exact.json",
+          "sha256": "af0e20f0d74a86604f8b75370c993e6e688c443f6f519b666f8dcb2c902360bc"
+        }
+      ]
+    },
+    {
+      "phase": 1,
+      "formal_gate": "FAIL",
+      "completed": "Smoke entry checks26/26+115/115 PASS; native sway15/15, lawn contrasts4.6821%/3.7757% PASS; three-view fixtures saved.",
+      "required_unfinished": [
+        "Basalt az35 rungs21.1%>20% FAIL.",
+        "Current recheck retains three raw child-verifier FAILs and seven original grass-gate FAILs.",
+        "Latest cliff runs H8 5.3545m/H9 5.1865m>4m FAIL; H10 extractor unsupported, FAIL/unmeasured."
+      ],
+      "evidence": [
+        {
+          "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/PHASE1.md",
+          "sha256": "3c913e72f112e9135c04907a3a9730cd136348a137fbb895b7dcf54b9d5828ce"
+        },
+        {
+          "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/shared_checks/full_smokes_summary.json",
+          "sha256": "a419c6e790dfcef6e352f616dfbeaa9e08f1d37f02495727c264e930ce0444d9"
+        },
+        {
+          "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/shared_checks/all_original_texture_gates.log",
+          "sha256": "a42e47fc0626be6a1dfc2a339227cc339cacc18bc30f96f543a4f37b9982cc72"
+        },
+        {
+          "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/round1_cliff_outline_current.json",
+          "sha256": "dacdbf2a2fa7bb5663ce17f5b4cb0c5df00ad002eb209296353fda873abe42ac"
+        }
+      ]
+    },
+    {
+      "phase": 2,
+      "formal_gate": "PASS",
+      "completed": "Staged blend/FBX verifier100/100, exact scoring0m, fresh aerial comparison; ten differences fixed or explained.",
+      "required_unfinished": [
+        "Requirement2.2 shader UV scrolling unimplemented, FAIL; formal gate PASS leaves this requirement unfinished."
+      ],
+      "evidence": [
+        {
+          "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole08/verify_native_final.json",
+          "sha256": "1abb26b3c17917fd23f860d7114e8132a6540bf7246a23512634ad8488f1ee6d"
+        },
+        {
+          "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/audit/scoring_exact_p2.json",
+          "sha256": "6d530068c7e2d273c2e62365109b6a3ccee2cb8e25cbd31af0d4a14ae31fe1f1"
+        },
+        {
+          "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole08/ranked_rescore.json",
+          "sha256": "41127fa0c07e5fb75ef5f3549da0abafe91795e503b96f488046e358028e921f"
+        }
+      ]
+    },
+    {
+      "phase": 3,
+      "formal_gate": "FAIL",
+      "completed": "Verifier96/96, builder16/16, QA27/27, ruin support13/13, cuboids0/394, exact scoring0m PASS; fresh aerial comparison saved.",
+      "required_unfinished": [
+        "SPLIT_CLIFF_ISLANDS FAIL: one frozen boundary; required two-island/80% cliff-and-surf result not achieved.",
+        "Historical straight run14.8442m>4m FAIL."
+      ],
+      "evidence": [
+        {
+          "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole09/GATES_hole09.md",
+          "sha256": "5445c73271e8d7bdced91b5c1dddc10d6fc7ade4965ffb09aa620c0a499acf75"
+        },
+        {
+          "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole09/verify_required.json",
+          "sha256": "19dfae862f06868f95012a31b87e06ebbe9c3a2d014ceb22bdece995989967fe"
+        },
+        {
+          "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole09/scenery_metrics.json",
+          "sha256": "52a9f96b7da5b68d743c3b048bbf5ac5da465c4e3b663604552f2cb4fde5f78e"
+        },
+        {
+          "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/audit/scoring_exact_p3.json",
+          "sha256": "269142ab0263a3adbd73048d1094705725dba3070d5ef81a23f558812e1ea550"
+        }
+      ]
+    },
+    {
+      "phase": 4,
+      "formal_gate": "FAIL",
+      "completed": "Real column geometry, exact scoring0m PASS;248314tri; fresh native three views/aerial comparison saved.",
+      "required_unfinished": [
+        "Required verifier97/103; texture/window and tee smoke0.82%<1.5% FAIL.",
+        "Native BASALT_JOINTS approach saturation0.347>0.25 FAIL; phase-specific lava/smoke certification incomplete."
+      ],
+      "evidence": [
+        {
+          "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole10/verify_required.json",
+          "sha256": "6886c1c1e805bd008b58476c05794bb973e93e0df73b4a21acc58527bed3a492"
+        },
+        {
+          "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole10/GATES_hole10.md",
+          "sha256": "984d11da8c9d2c4a347bf03edc22a1183ca0159c5fa7ea7b759652dc4074c117"
+        },
+        {
+          "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole10/native_p4/native_p4_metrics.json",
+          "sha256": "3c4e22551df658bc1e93d930283eb4a0b52b3328e3b97cf908143cb80d42808e"
+        },
+        {
+          "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/audit/scoring_exact_p4.json",
+          "sha256": "b0aa4d5bac52d8e49efe0a6d263ea6afb54dd5634dc219da6ec85c3f70cee423"
+        }
+      ]
+    },
+    {
+      "phase": 5,
+      "formal_gate": "FAIL",
+      "completed": "Play-mode12/12 staged frames, RGB drift0; cliff presence6/6, Needle stacks9/4 PASS.",
+      "required_unfinished": [
+        "Six water masks0.2261\u201312.4001%<15% FAIL.",
+        "Configured Split landmarks0/24px, Crater approach volcano0px<64 FAIL; other allowed alternatives not universally excluded.",
+        "Green contrast unsupported: FAIL/unmeasured."
+      ],
+      "evidence": [
+        {
+          "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/p5/P5_RESULT.md",
+          "sha256": "fd8cea7195097aa223582e4f8386278c62f8b35966d777607a08d013bd1f0a02"
+        },
+        {
+          "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/p5/required_frame_gates.json",
+          "sha256": "cb5432f284322d51bb686dfe948125824803f9ff975be05359c99014f72e5319"
+        }
+      ]
+    }
+  ]
+}

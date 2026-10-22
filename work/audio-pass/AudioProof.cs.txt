@@ -1,0 +1,182 @@
+#if UNITY_EDITOR
+// Audio pass proof harness (chat D, 2026-10-19). Copied into a clone's Assets/Editor as AudioProof.cs; not installed in
+// the main project. Plays the real game in real time and records what its AudioListener hears to a WAV, plus the
+// GameAudio.Heard log (announcer lines, crowd voices, songs, strikes) as text.
+//   golf:   AUDIO_OUT=<file.wav> AUDIO_HOLE=<n>  -executeMethod GolfArcade.EditorTools.AudioProof.Golf
+//   tennis: AUDIO_OUT=<file.wav>                 -executeMethod GolfArcade.EditorTools.AudioProof.Tennis
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using GolfArcade.Course;
+using GolfArcade.Game;
+using GolfArcade.Shot;
+using GolfArcade.Tennis;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEngine;
+using Object = UnityEngine.Object;
+
+namespace GolfArcade.EditorTools
+{
+    [InitializeOnLoad]
+    public static class AudioProof
+    {
+        const string Flag = "AudioProof.Mode";
+        static AudioProof() { EditorApplication.update += Boot; }
+        public static void Golf() => Start("golf", "Assets/Scenes/Golf.unity");
+        public static void Tennis() => Start("tennis", "Assets/Scenes/Tennis.unity");
+        public static void Plaza() => Start("plaza", "Assets/Scenes/Hub.unity");
+        static void Start(string mode, string scene)
+        {
+            SessionState.SetString(Flag, mode);
+            EditorUtility.audioMasterMute = Env("AUDIO_MUTE", "1") == "1";   // the tap sits before the master mute
+            EditorSceneManager.OpenScene(scene); EditorApplication.isPlaying = true;
+        }
+        static void Boot()
+        {
+            var mode = SessionState.GetString(Flag, ""); if (mode == "" || !EditorApplication.isPlaying) return;
+            if (Object.FindFirstObjectByType<ProofRun>()) return;
+            try
+            {
+                if (mode == "plaza") { if (!GolfArcade.Hub.HubWorld.Instance || Time.unscaledTime < 3) return; new GameObject("Audio proof").AddComponent<PlazaProof>(); }
+                else if (mode == "golf") { var g = Object.FindFirstObjectByType<GolfGame>(); if (!g || !HoleView.Current) return; new GameObject("Audio proof").AddComponent<GolfProof>().Begin(g); }
+                else { var t = Object.FindFirstObjectByType<TennisGame>(); if (!t || !t.Initialized) return; new GameObject("Audio proof").AddComponent<TennisProof>().Begin(t); }
+            }
+            catch (Exception e) { Debug.LogException(e); End(1); }
+        }
+        public static void End(int code) { SessionState.EraseString(Flag); EditorApplication.isPlaying = false; EditorApplication.Exit(code); }
+        public static string Env(string k, string d) => Environment.GetEnvironmentVariable(k) ?? d;
+    }
+
+    /// Records the listener's mix (OnAudioFilterRead runs on the audio thread).
+    public sealed class WavTap : MonoBehaviour
+    {
+        readonly List<float> samples = new List<float>(48000 * 60 * 2);
+        public int Channels = 2, Rate;
+        public bool Recording;
+        void Awake() { Rate = AudioSettings.outputSampleRate; }
+        void OnAudioFilterRead(float[] data, int channels)
+        {
+            if (!Recording) return;
+            lock (samples) { Channels = channels; samples.AddRange(data); }
+        }
+        public (float peak, float rms) Save(string path)
+        {
+            float[] d; lock (samples) d = samples.ToArray();
+            float peak = 0; double sum = 0;
+            foreach (var v in d) { peak = Mathf.Max(peak, Mathf.Abs(v)); sum += v * v; }
+            using var w = new BinaryWriter(File.Create(path));
+            int bytes = d.Length * 2;
+            w.Write(Encoding.ASCII.GetBytes("RIFF")); w.Write(36 + bytes); w.Write(Encoding.ASCII.GetBytes("WAVEfmt "));
+            w.Write(16); w.Write((short)1); w.Write((short)Channels); w.Write(Rate); w.Write(Rate * Channels * 2); w.Write((short)(Channels * 2)); w.Write((short)16);
+            w.Write(Encoding.ASCII.GetBytes("data")); w.Write(bytes);
+            foreach (var v in d) w.Write((short)Mathf.Clamp(Mathf.RoundToInt(v * 32767), -32768, 32767));
+            return (peak, d.Length > 0 ? Mathf.Sqrt((float)(sum / d.Length)) : 0);
+        }
+    }
+
+    public abstract class ProofRun : MonoBehaviour
+    {
+        protected WavTap tap; protected float started; protected readonly StringBuilder notes = new StringBuilder();
+        protected void Open()
+        {
+            var listener = Object.FindFirstObjectByType<AudioListener>();
+            if (!listener) throw new Exception("no AudioListener");
+            AudioListener.volume = 1; AudioListener.pause = false;
+            tap = listener.gameObject.AddComponent<WavTap>(); tap.Recording = true;
+            GameAudio.Heard = new List<(float, string)>();
+            started = Time.unscaledTime;
+            Note($"listener on '{listener.name}', output {AudioSettings.outputSampleRate} Hz");
+        }
+        protected void Note(string s) { notes.AppendLine($"{Time.unscaledTime - started,6:F2}s  {s}"); Debug.Log("[AudioProof] " + s); }
+        protected void Finish(string summary)
+        {
+            tap.Recording = false;
+            string path = Path.GetFullPath(AudioProof.Env("AUDIO_OUT", "audio_proof.wav"));
+            Directory.CreateDirectory(Path.GetDirectoryName(path));
+            var (peak, rms) = tap.Save(path);
+            var log = new StringBuilder();
+            log.AppendLine(summary);
+            log.AppendLine($"wav {path}  seconds={(Time.unscaledTime - started):F1}  peak={peak:F3}  rms={rms:F4}  channels={tap.Channels} rate={tap.Rate}");
+            log.AppendLine("-- harness --"); log.Append(notes);
+            log.AppendLine("-- heard (GameAudio.Heard) --");
+            foreach (var (at, what) in GameAudio.Heard) log.AppendLine($"{at - started,6:F2}s  {what}");
+            File.WriteAllText(Path.ChangeExtension(path, ".txt"), log.ToString());
+            Debug.Log("[AudioProof] done " + summary + $" peak={peak} rms={rms}");
+            AudioProof.End(peak > 0.001f ? 0 : 3);
+        }
+    }
+
+    /// Golf: a real hole, real time — the round's welcome, an address with the backswing tension, a tee shot onto the
+    /// green, then a holing putt; the gallery, the announcer and the golf song as the game plays them.
+    public sealed class GolfProof : ProofRun
+    {
+        GolfGame game; int stage, shots; float t0; bool sawFlight; GolfGame.State last;
+        public void Begin(GolfGame g)
+        {
+            game = g; UnityEngine.Random.InitState(1019);
+            game.Demo = true; game.InstantReplays = false; game.CompressRunout = true; game.ChooseHoles(0); game.Play();
+            int hole = int.Parse(AudioProof.Env("AUDIO_HOLE", "8"));
+            game.JumpToHole(hole); game.DropBall(game.CurrentHole.Tee);
+            game.SetWind(new Wind(2, 0));
+            Open(); t0 = Time.unscaledTime;
+            Note($"golf hole {game.CurrentHole.Number} par {game.CurrentHole.Par}");
+        }
+        float Since => Time.unscaledTime - t0;
+        void Next() { stage++; t0 = Time.unscaledTime; }
+        void Update()
+        {
+            if (game.Current != last) { Note($"state {last} -> {game.Current} (club {game.ClubInHand})"); last = game.Current; }
+            if (game.Current == GolfGame.State.Flight) sawFlight = true;
+            switch (stage)
+            {
+                case 0: if (game.Current == GolfGame.State.Aim && Since > 4f) Next(); break;                 // welcome + murmur
+                case 1: game.ShowBackswing((game.ClubInHand == GolfClub.Putter ? .35 : .9) * Mathf.SmoothStep(0, 1, Since / 1.2f)); if (Since > 1.5f) Next(); break;
+                case 2:
+                {
+                    shots++;
+                    if (game.ClubInHand == GolfClub.Putter) { bool holed = game.StrikeHolingPutt(); Note($"putt {shots} (drops: {holed})"); }
+                    else
+                    {
+                        var target = game.GreenTarget(3, 16, 6) ?? game.CurrentHole.Pin;
+                        Note($"shot {shots} with {game.ClubInHand} toward {target.X:F0},{target.D:F0}"); game.StrikeToward(target);
+                    }
+                    sawFlight = false; Next(); break;
+                }
+                case 3:
+                    if (game.Current is GolfGame.State.HoleDone or GolfGame.State.RoundDone) { stage = 9; t0 = Time.unscaledTime; }
+                    else if (sawFlight && game.Current == GolfGame.State.Aim && Since > 1.5f) { if (shots >= 6) Finish("golf: not holed in 6"); else { stage = 1; t0 = Time.unscaledTime; } }
+                    else if (Since > 30) Finish("golf: stuck");
+                    break;
+                case 9: if (Since > 8) Finish($"golf hole {game.CurrentHole.Number} par {game.CurrentHole.Par}: holed in {shots}"); break;
+            }
+        }
+    }
+
+    /// The plaza (menus on the TV): the menu song, 20 s.
+    public sealed class PlazaProof : ProofRun
+    {
+        void Start() { Open(); Note("plaza up"); }
+        void Update() { if (Time.unscaledTime - started > 20) Finish($"plaza: music now {GameMusic.Playing}"); }
+    }
+
+    /// Tennis: the live match in AutoPlay, real time, ~32 s from the first serve.
+    public sealed class TennisProof : ProofRun
+    {
+        TennisGame game; int warm; bool armed; float from;
+        public void Begin(TennisGame g)
+        {
+            game = g; TennisGame.AutoPlayTimingJitter = .12f;
+            game.ManualSimulation = false; game.AutoPlay = false; game.NativeControlled = true; game.SetControllerSetup(false);
+            var presentation = game.GetComponent<TennisPresentation>(); if (presentation) presentation.Finish();
+            game.Refeed();
+        }
+        void Update()
+        {
+            if (!armed) { if (++warm < 30) return; Open(); game.AutoPlayLean = true; game.AutoPlay = true; armed = true; from = Time.unscaledTime; Note("autoplay on"); return; }
+            if (Time.unscaledTime - from > 34) Finish($"tennis venue {TennisVenue.Current}: AutoPlay, rally shots now {game.RallyShots}, score {game.Match.PlayerPoints}-{game.Match.OpponentPoints}");
+        }
+    }
+}
+#endif

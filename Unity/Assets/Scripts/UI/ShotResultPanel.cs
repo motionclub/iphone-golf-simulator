@@ -63,6 +63,16 @@ namespace GolfArcade.UI
             c.carry = GolfShotHud.Label(c.summary,"Carry",26,new Vector2(28,-204),new Vector2(384,62));
             c.extra=GolfShotHud.Label(c.summary,"Roll and apex",24,new Vector2(28,-282),new Vector2(384,62));
             c.extra.color=GolfShotHud.Mint;
+            if (GlassKit.ClearStyle)
+            {
+                // the clear style: the figures stand on the picture in the club card's lettering, right-aligned, no card
+                c.summary.GetComponent<Image>().color = Color.clear;
+                foreach (var t in new[] { c.quality, c.distance, c.carry, c.extra }) { t.font = UiKit.Display; t.alignment = TextAnchor.UpperRight; GlassKit.Outline(t); }
+                c.quality.fontSize = 30; c.distance.fontSize = 100; c.carry.fontSize = 26; c.extra.fontSize = 24;
+                c.distance.rectTransform.anchoredPosition = new Vector2(28, -66); c.distance.rectTransform.sizeDelta = new Vector2(384, 120);
+                c.carry.rectTransform.anchoredPosition = new Vector2(28, -196); c.extra.rectTransform.anchoredPosition = new Vector2(28, -272);
+                c.extra.color = GlassKit.Gold;
+            }
             c.remaining = UiKit.Pill(go.transform, "Remaining distance", GolfShotHud.Ink, new Vector2(1, 1), Vector2.zero,
                 new Vector2(440, 68), out var detailFill, 4).GetComponent<RectTransform>();
             c.remaining.pivot = new Vector2(1, 1);
@@ -70,6 +80,7 @@ namespace GolfArcade.UI
                 Vector2.zero, Vector2.zero, UiKit.Strong, false);
             c.detail.color = Color.white;
             c.detail.rectTransform.offsetMin = new Vector2(14, 0); c.detail.rectTransform.offsetMax = new Vector2(-14, 0);
+            if (GlassKit.ClearStyle) { GlassKit.Hide(c.remaining); c.detail.font = UiKit.Display; c.detail.fontSize = 42; c.detail.alignment = TextAnchor.MiddleRight; GlassKit.Outline(c.detail); }
             Icons.Fit(c.detail, 18, 26);
             c.footer = new GameObject("Shot actions", typeof(RectTransform)).GetComponent<RectTransform>();
             c.footer.SetParent(go.transform, false); c.footer.sizeDelta = new Vector2(440, 216);
@@ -78,12 +89,16 @@ namespace GolfArcade.UI
             c.prompt=caption;caption.text = "CHOOSE AN EMOTE";
             for (int i = 0; i < 3; i++)
             {
-                c.emotes[i] = UiKit.Button(c.footer, "EMOTE", new Vector2(.5f, 0), new Vector2((i - 1) * 150, 132), new Vector2(140, 72), 21, GolfShotHud.Mint);
-                c.emotes[i].GetComponentInChildren<Text>().color = UiKit.ArcadeInk;
+                c.emotes[i] = UiKit.Button(c.footer, "EMOTE", new Vector2(.5f, 0), new Vector2((i - 1) * 150, 132), new Vector2(140, 72), 21, GlassKit.ClearStyle ? GlassKit.Gold : GolfShotHud.Mint);
+                FocusItem.Mark(c.emotes[i], false);
+                if (GlassKit.ClearStyle) c.emotes[i].GetComponentInChildren<Text>().font = UiKit.Display;
+                c.emotes[i].GetComponentInChildren<Text>().color = GlassKit.ClearStyle ? ThemeService.Current.buttonText : UiKit.ArcadeInk;
             }
-            c.next = UiKit.Button(c.footer, "NEXT SHOT", new Vector2(.5f, 0), new Vector2(0, 40), new Vector2(440, 80), 28, GolfShotHud.Ink);
+            c.next = UiKit.Button(c.footer, "NEXT SHOT", new Vector2(.5f, 0), new Vector2(0, 40), new Vector2(440, 80), 28, GlassKit.ClearStyle ? UiKit.Hex("2A84E6") : GolfShotHud.Ink);
+            FocusItem.Mark(c.next, true);
+            if (GlassKit.ClearStyle) c.next.GetComponentInChildren<Text>().font = UiKit.Display;
             c.countdown=UiKit.Label(c.footer,"Next player countdown",25,TextAnchor.MiddleCenter,new Vector2(.5f,0),new Vector2(.5f,0),new Vector2(0,40),new Vector2(440,56),UiKit.Strong,false);
-            c.countdown.color=Color.white;
+            c.countdown.color=Color.white;if(GlassKit.ClearStyle){c.countdown.font=UiKit.Display;GlassKit.Outline(c.countdown);}
             var bar=UiKit.Panel(c.footer,"Countdown track",GolfShotHud.Ink,new Vector2(0,0),new Vector2(1,0),Vector2.zero,new Vector2(0,6),false);
             c.progress=UiKit.Panel(bar.transform,"Time left",GolfShotHud.Mint,Vector2.zero,Vector2.one,Vector2.zero,Vector2.zero,false);
             c.progress.rectTransform.offsetMin=c.progress.rectTransform.offsetMax=Vector2.zero;
@@ -98,7 +113,7 @@ namespace GolfArcade.UI
             elapsed=0;countDistance=false;extra.text="";prompt.text="CHOOSE AN EMOTE";
             next.gameObject.SetActive(true);countdown.gameObject.SetActive(false);progress.transform.parent.gameObject.SetActive(false);
             gameObject.SetActive(true); LateUpdate();
-            quality.color=gradeColor;
+            quality.color=GlassKit.ClearStyle&&gradeColor==GolfShotHud.Mint?GlassKit.Gold:gradeColor;
             quality.text = grade.TrimEnd('!') + " CONTACT";
             distance.text = tiles.Length > 5 ? tiles[5].value : "—";
             carry.text = $"CARRY  {(tiles.Length > 4 ? tiles[4].value : "—")}\n{outcome.ToUpperInvariant()}";

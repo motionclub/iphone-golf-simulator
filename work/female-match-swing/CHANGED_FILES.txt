@@ -1,0 +1,12 @@
+# Female hands + swing (2026-10-19). Everything uncommitted, nothing staged. Originals of the edited files: work/female-match-swing/backup/
+Unity/Assets/Scripts/Tennis/HeroGripPolish.cs        # female golf grip uses the continuous wrist solvers (FitFemaleGolfWrist angle search kept behind FEMALE_GOLF_WRIST_SEARCH=1, Editor only)
+Unity/Assets/Resources/HeroClearance/Tracks_Female_Golf.bytes   # re-baked against the new wrist solver (26 clips, SWEEP_CONTEXTS=golf_female)
+Unity/Assets/Scripts/Hub/HubHeroAnimator.cs          # RelaxFingers: soft finger curl + thumb along the index in the relaxed stand (menu / plaza), both heroes
+Unity/Assets/Scripts/Tennis/HeroHandShape.cs (+.meta) # NEW, female only: fuller fingers/fingertips (radial growth about each finger axis), smooth radial finger normals, smooth palm/back normals
+Unity/Assets/Scripts/Tennis/MatchHeroLook.cs         # one line: body.sharedMesh = HeroHandShape.Prepare(body, female) after HeroHandWeights
+Unity/Assets/Scripts/Tennis/HeroAccessories.cs       # female golf glove: also hide any body triangle touching the gloved hand / hand half of the wrist blend (knuckle skin shards poked through the glove)
+work/hero-sync/look_sources.txt                      # + HeroHandShape.cs
+GolfArcade/Unity/CharacterAssets/*                   # re-exported by work/hero-sync/sync_heroes.sh (lobby/locker/menu heroes)
+GolfArcadeTests/VisualGolden/*                       # goldens + provenance from the sync
+ArtDir/style/alive/hand-reference-2026-10-19/        # NEW: 13-hands-relaxed-all-angles.png, 14-hands-golf-grip-all-angles.png (AI-generated hand reference sheets)
+work/female-match-swing/{scripts,unity,logs,proof,backup}   # diagnosis + capture harnesses (clone ~/unity-clones/review-1019 and ~/unity-clones/female-sync)

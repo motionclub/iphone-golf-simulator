@@ -1,0 +1,17 @@
+# Ordered eyelid strips — source held for outer-transition fairing
+
+Reusable source operation: `repair.py: repair(body, sex)`. Current `.blend`/`.fbx` builds use frozen face-finish30/ears. Do not layer the earlier sparse female operation.
+
+The replacement removes the original annular triangles, retains original vertex prefix and outside faces/attributes/weights/shape names, and appends ordered radial rings. Original inner boundary vertices are reused and repositioned. Each eye appends 1,440 points: 15 rings ×96 angular samples. Eye order is negative X first, positive X second. Original counts Male43,900/Female34,366; final46,780/37,246. Ring fractions: .02,.04,.07,.11,.17,.25,.35,.46,.58,.69,.78,.86,.92,.96,.98. Inner two rows plus original eye boundary should retain the shaped rim/closure. Original boundary IDs are in face-finish30-lids/{male,female}-lids.npz edges.
+
+Current front culling source images: male/female_lids_cull_0.png and _100.png. Backface transparency and actual feature full retreat×2 are enabled. New UV pigment is also reflected in source SkinPigment colors on new strip faces, unlike the earlier false-clean CPU preview.
+
+Visual result: no old serrated lid teeth or corner holes; female upper contour and closed arc are curved. Still held: outer ruled ring surface forms radial cheek/brow creases, especially male. Broader boundary radius removes all used original blink-active faces, but a tangent Hermite depth transition alone does not recover the rounded surrounding head form. Broad forms agent is reviewing a local fairing of the strip outer rows against the frozen original smooth head. Male socket still looks too deep in CPU.
+
+Keep `HeroBlinkNormalField` runtime candidate: actual coherent1 proved the earlier brown patches were imported normal-delta mismatch, and zero/transported deltas eliminated them without any pose-position change. New topology has not had an actual capture yet.
+
+Update: a precise join audit exposed radial bridge folds at the non-star-shaped outer boundary. Final triangulation now uses constrained Delaunay in the eye tangent plane, preserving exact inner/outer boundary edges and filtering the annular domain. JOIN_AUDIT.json: zero same-direction shared edges and zero non-manifold edges for both sexes. Latest culling previews replace prior versions. Remaining V/spoke shading is now the depth surface and can be faired; topology is frozen for the forms agent. Final triangles Male90,026/Female69,086.
+
+Half-state correction: `apply-half-clearance.py` alone was insufficient and is superseded by `apply-corneal-clearance.py`. Male left Half skin at x−37.5,z1589mm was Y−121.17mm while the iris/pupil were ≈−124.7mm; right skin Y−126.07mm cleared correctly. Half triangle projection had zero inverted triangles. The new operation constrains only local skin Y against the exact eye-feature triangles with 0.35mm ease, preserving every eye part and all X/Z. CPU male_lids_cornea_50.png confirms the formerly protruding left iris now occludes properly. Compose this operation last after fairing. Basis/Half/Full checked individually; Full feature envelope includes runtime's2×retreat. Current raw strip: Male191 Basis vertices up to9.65mm,96 Half up to4.73mm; Female53 Basis up to1.56mm; Full unchanged for both. Do not promote until final composed source and actual review.
+
+Root is filming current live composed-ears/color-corrected gameplay. Every eye candidate is work-only and held until filming completes.

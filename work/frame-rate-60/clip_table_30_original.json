@@ -1,0 +1,294 @@
+{
+ "fps": 30,
+ "source": "work/match-anim-set/export/fbx",
+ "clips": [
+  {
+   "name": "ReadyIdle",
+   "sex": "Male",
+   "length": 2.2,
+   "contact": 0.0,
+   "leftRelease": 0.0,
+   "fbxSha256": "9bdc8912aa276fbbd0397225c9083d84d3c40a6d2fb822dbc741d2753fb07b19",
+   "frames": 67
+  },
+  {
+   "name": "SplitToForehand",
+   "sex": "Male",
+   "length": 0.6,
+   "contact": 0.0,
+   "leftRelease": 0.0,
+   "fbxSha256": "9515d6088840c8eed7a46d42e63b41af06b74d73657f1ba7eb4e25974139a2a2",
+   "frames": 19
+  },
+  {
+   "name": "SplitToBackhand",
+   "sex": "Male",
+   "length": 0.6,
+   "contact": 0.0,
+   "leftRelease": 0.0,
+   "fbxSha256": "5a41ea09493f936d7a5fede7f60f5fe4f99b4f6ca0778e17538f52e652f046f1",
+   "frames": 19
+  },
+  {
+   "name": "RecoverCenter",
+   "sex": "Male",
+   "length": 0.8,
+   "contact": 0.0,
+   "leftRelease": 0.0,
+   "fbxSha256": "1899f8a5004c13643a1b8ad76bc000219002ffa5e8700a0ca8f7ef25a172e5d9",
+   "frames": 25
+  },
+  {
+   "name": "Forehand",
+   "sex": "Male",
+   "length": 1.2,
+   "contact": 0.6666666666666666,
+   "leftRelease": 0.0,
+   "fbxSha256": "09a2ab0d4ca043415a993a3bb51dc1bb9ff629b6ac1d2807c89afe0e9fe6c269",
+   "frames": 37
+  },
+  {
+   "name": "ForehandOpen",
+   "sex": "Male",
+   "length": 1.0,
+   "contact": 0.5333333333333333,
+   "leftRelease": 0.0,
+   "fbxSha256": "ad58c0910b017e0f53e7fa470896a7f52329f447189541982d852404f36c5b08",
+   "frames": 31
+  },
+  {
+   "name": "ForehandWide",
+   "sex": "Male",
+   "length": 1.3,
+   "contact": 0.8666666666666667,
+   "leftRelease": 0.0,
+   "fbxSha256": "ec6fd0e6c585e1b2b1b07689d67774b6c50729558fb1b611867c0ad377207926",
+   "frames": 40
+  },
+  {
+   "name": "ForehandShort",
+   "sex": "Male",
+   "length": 1.0,
+   "contact": 0.4666666666666667,
+   "leftRelease": 0.0,
+   "fbxSha256": "d3ebde0af1ce0ff89dc07fc0aef554881bed1e3b8dd342ecfd6ceb91cc0882b0",
+   "frames": 31
+  },
+  {
+   "name": "Backhand",
+   "sex": "Male",
+   "length": 1.2,
+   "contact": 0.6333333333333333,
+   "leftRelease": 0.9666666666666667,
+   "fbxSha256": "b4b62efb869e2d8c75e462b09dcce7970b7878206ba278b9b3ea50406d012360",
+   "frames": 37
+  },
+  {
+   "name": "BackhandWide",
+   "sex": "Male",
+   "length": 1.3,
+   "contact": 0.7666666666666667,
+   "leftRelease": 1.0333333333333334,
+   "fbxSha256": "06ba82f9e6194f5e89eb7983bb6f857607ce5b305ca5d3601c451a5ce50bfeb0",
+   "frames": 40
+  },
+  {
+   "name": "SliceApproach",
+   "sex": "Male",
+   "length": 1.2,
+   "contact": 0.5,
+   "leftRelease": 0.5,
+   "fbxSha256": "4173489e88bfc18cefd35edefe5056b2498d1b15a31c1644e0c9cd3a96cb157d",
+   "frames": 37
+  },
+  {
+   "name": "Serve",
+   "sex": "Male",
+   "length": 1.6,
+   "contact": 0.9,
+   "leftRelease": 0.0,
+   "fbxSha256": "0d2ce1dd7c054188e6026d5062a40cdf4f657844eda1bbbe7a4e8a6cd511fafe",
+   "frames": 49
+  },
+  {
+   "name": "Return",
+   "sex": "Male",
+   "length": 0.9,
+   "contact": 0.43333333333333335,
+   "leftRelease": 0.6333333333333333,
+   "fbxSha256": "db6fe6801a81967dfa61a7de042467e45b5d7036ff56289131dfd24c1e63a551",
+   "frames": 28
+  },
+  {
+   "name": "VolleyForehand",
+   "sex": "Male",
+   "length": 0.7,
+   "contact": 0.3,
+   "leftRelease": 0.0,
+   "fbxSha256": "8ee81aa656bbd8a1704c460363d8ffc054a689326e94b0288f6750eb50700288",
+   "frames": 22
+  },
+  {
+   "name": "VolleyBackhand",
+   "sex": "Male",
+   "length": 0.7,
+   "contact": 0.3,
+   "leftRelease": 0.5,
+   "fbxSha256": "d1465c357afd04d9b9bc456e849e93bcb1a886f66b98e9bae2cc86ff53c36b2f",
+   "frames": 22
+  },
+  {
+   "name": "Overhead",
+   "sex": "Male",
+   "length": 1.2,
+   "contact": 0.7333333333333333,
+   "leftRelease": 0.0,
+   "fbxSha256": "7af5a85298ae21d0a1f522c68342cb822b302df557b82531d7d83b6bc761bfc0",
+   "frames": 37
+  },
+  {
+   "name": "ReadyIdle",
+   "sex": "Female",
+   "length": 2.2,
+   "contact": 0.0,
+   "leftRelease": 0.0,
+   "fbxSha256": "00728b5f7ab2b14f2bb76ea836b358fe40e35d15f60978ddba11181ced3e6266",
+   "frames": 67
+  },
+  {
+   "name": "SplitToForehand",
+   "sex": "Female",
+   "length": 0.6,
+   "contact": 0.0,
+   "leftRelease": 0.0,
+   "fbxSha256": "faac67f7bbb36f839f858760b5b1b542dba7f36fdae4d99376046d22cfa0befc",
+   "frames": 19
+  },
+  {
+   "name": "SplitToBackhand",
+   "sex": "Female",
+   "length": 0.6,
+   "contact": 0.0,
+   "leftRelease": 0.0,
+   "fbxSha256": "6a8b1666270652bb0674b650489b685c67c420ab61e536888b15e4c7f9575007",
+   "frames": 19
+  },
+  {
+   "name": "RecoverCenter",
+   "sex": "Female",
+   "length": 0.8,
+   "contact": 0.0,
+   "leftRelease": 0.0,
+   "fbxSha256": "885fa386ebf2f9a194df18ecb6566350472aa17b0ada77ace2f65715b89fcd36",
+   "frames": 25
+  },
+  {
+   "name": "Forehand",
+   "sex": "Female",
+   "length": 1.2,
+   "contact": 0.6666666666666666,
+   "leftRelease": 0.0,
+   "fbxSha256": "0b8f8f9aeec9d53f38180930be9a431fd4bc63e758a97a5c800146ad4b418792",
+   "frames": 37
+  },
+  {
+   "name": "ForehandOpen",
+   "sex": "Female",
+   "length": 1.0,
+   "contact": 0.5333333333333333,
+   "leftRelease": 0.0,
+   "fbxSha256": "0c1ce8fdedeffefef56e1b03ec948a90b251e7b6bde88f889aec302c636b4d91",
+   "frames": 31
+  },
+  {
+   "name": "ForehandWide",
+   "sex": "Female",
+   "length": 1.3,
+   "contact": 0.8666666666666667,
+   "leftRelease": 0.0,
+   "fbxSha256": "34b152a692ff303d0d5b68635d332462a1414c0662b90ada9f2d914bb762d761",
+   "frames": 40
+  },
+  {
+   "name": "ForehandShort",
+   "sex": "Female",
+   "length": 1.0,
+   "contact": 0.4666666666666667,
+   "leftRelease": 0.0,
+   "fbxSha256": "609a61ecc15c366cfe551d3b19c30415e2136579cc85341a46f9c08f5c1d23e9",
+   "frames": 31
+  },
+  {
+   "name": "Backhand",
+   "sex": "Female",
+   "length": 1.2,
+   "contact": 0.6333333333333333,
+   "leftRelease": 0.9666666666666667,
+   "fbxSha256": "d9e69529a444a3ab0fa7806606ed9e955bf4c2c39d36000d0beefc5af65b5a74",
+   "frames": 37
+  },
+  {
+   "name": "BackhandWide",
+   "sex": "Female",
+   "length": 1.3,
+   "contact": 0.7666666666666667,
+   "leftRelease": 1.0333333333333334,
+   "fbxSha256": "5be88ec9047de9db2658f26df570b33f5d9a86ec5e2b27e881022503b3a4e047",
+   "frames": 40
+  },
+  {
+   "name": "SliceApproach",
+   "sex": "Female",
+   "length": 1.2,
+   "contact": 0.5,
+   "leftRelease": 0.5,
+   "fbxSha256": "c419ad37186f8f549fcfe664ba84f371368ab2091b8155c8a5355015fa77c5e8",
+   "frames": 37
+  },
+  {
+   "name": "Serve",
+   "sex": "Female",
+   "length": 1.6,
+   "contact": 0.9,
+   "leftRelease": 0.0,
+   "fbxSha256": "e5924c61fc19ea9080dd4b91aea6124ca58e7f0c07b5f45f4cd4f90f1d5e806e",
+   "frames": 49
+  },
+  {
+   "name": "Return",
+   "sex": "Female",
+   "length": 0.9,
+   "contact": 0.43333333333333335,
+   "leftRelease": 0.6333333333333333,
+   "fbxSha256": "9a151ac97496f3d06b4074e20c65888ee269cb07ffa0fb4fc079716fcbbd2976",
+   "frames": 28
+  },
+  {
+   "name": "VolleyForehand",
+   "sex": "Female",
+   "length": 0.7,
+   "contact": 0.3,
+   "leftRelease": 0.0,
+   "fbxSha256": "7cd9b03a8d701fa156a9ea90a9d9a9404f8186f871dacf38cf3bc28cd199cab8",
+   "frames": 22
+  },
+  {
+   "name": "VolleyBackhand",
+   "sex": "Female",
+   "length": 0.7,
+   "contact": 0.3,
+   "leftRelease": 0.5,
+   "fbxSha256": "a59728c426fdadc1f18b4ad6ce24a627d1b131473a7ad68776426ebc3f6e0ecf",
+   "frames": 22
+  },
+  {
+   "name": "Overhead",
+   "sex": "Female",
+   "length": 1.2,
+   "contact": 0.7333333333333333,
+   "leftRelease": 0.0,
+   "fbxSha256": "25ba66840a856e1035d9739e37310613449dbcc7b9266d9028ffb5b7fd050e70",
+   "frames": 37
+  }
+ ]
+}

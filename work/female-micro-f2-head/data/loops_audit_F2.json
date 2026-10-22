@@ -1,0 +1,357 @@
+{
+ "LOOP_ala_L": {
+  "kind": "chain",
+  "verts": 10,
+  "components": 1,
+  "largest": 10,
+  "edges": 10,
+  "cyclomatic": 1,
+  "ends": 2,
+  "deg_hist": {
+   "1": 2,
+   "2": 6,
+   "3": 2
+  },
+  "edge_mm_mean": 4.244025391449897,
+  "edge_mm_max": 5.645209202455193,
+  "edge_mm_min": 3.1427786792677224,
+  "connected_ok": true
+ },
+ "LOOP_ala_R": {
+  "kind": "chain",
+  "verts": 10,
+  "components": 1,
+  "largest": 10,
+  "edges": 10,
+  "cyclomatic": 1,
+  "ends": 2,
+  "deg_hist": {
+   "1": 2,
+   "2": 6,
+   "3": 2
+  },
+  "edge_mm_mean": 4.244025391449897,
+  "edge_mm_max": 5.645209202455193,
+  "edge_mm_min": 3.1427786792677224,
+  "connected_ok": true
+ },
+ "LOOP_concha_L": {
+  "kind": "ring",
+  "verts": 22,
+  "components": 1,
+  "largest": 22,
+  "edges": 22,
+  "cyclomatic": 1,
+  "ends": 0,
+  "deg_hist": {
+   "2": 22
+  },
+  "edge_mm_mean": 2.711367245610283,
+  "edge_mm_max": 3.782061872404492,
+  "edge_mm_min": 2.1741029794915203,
+  "connected_ok": true
+ },
+ "LOOP_concha_R": {
+  "kind": "ring",
+  "verts": 22,
+  "components": 1,
+  "largest": 22,
+  "edges": 22,
+  "cyclomatic": 1,
+  "ends": 0,
+  "deg_hist": {
+   "2": 22
+  },
+  "edge_mm_mean": 2.71136724672759,
+  "edge_mm_max": 3.782061872404492,
+  "edge_mm_min": 2.1741029794915203,
+  "connected_ok": true
+ },
+ "LOOP_ear_attach_L": {
+  "kind": "band",
+  "verts": 212,
+  "components": 1,
+  "largest": 212,
+  "edges": 220,
+  "cyclomatic": 9,
+  "ends": 0,
+  "deg_hist": {
+   "2": 196,
+   "3": 16
+  },
+  "edge_mm_mean": 1.4721961366992486,
+  "edge_mm_max": 3.862402367570593,
+  "edge_mm_min": 0.3159902853717312,
+  "connected_ok": true
+ },
+ "LOOP_ear_attach_R": {
+  "kind": "band",
+  "verts": 212,
+  "components": 1,
+  "largest": 212,
+  "edges": 220,
+  "cyclomatic": 9,
+  "ends": 0,
+  "deg_hist": {
+   "2": 196,
+   "3": 16
+  },
+  "edge_mm_mean": 1.471768936028391,
+  "edge_mm_max": 3.862402367570593,
+  "edge_mm_min": 0.3159902853717312,
+  "connected_ok": true
+ },
+ "LOOP_eyeL": {
+  "kind": "band",
+  "verts": 128,
+  "components": 1,
+  "largest": 128,
+  "edges": 128,
+  "cyclomatic": 1,
+  "ends": 0,
+  "deg_hist": {
+   "2": 128
+  },
+  "edge_mm_mean": 1.3822619445664002,
+  "edge_mm_max": 2.3406034216113505,
+  "edge_mm_min": 1.1137358778585609,
+  "connected_ok": true
+ },
+ "LOOP_eyeR": {
+  "kind": "band",
+  "verts": 128,
+  "components": 1,
+  "largest": 128,
+  "edges": 128,
+  "cyclomatic": 1,
+  "ends": 0,
+  "deg_hist": {
+   "2": 128
+  },
+  "edge_mm_mean": 1.3823162220781553,
+  "edge_mm_max": 2.398954652373483,
+  "edge_mm_min": 1.1845510305881106,
+  "connected_ok": true
+ },
+ "LOOP_helix_L": {
+  "kind": "band",
+  "verts": 169,
+  "components": 1,
+  "largest": 169,
+  "edges": 177,
+  "cyclomatic": 9,
+  "ends": 0,
+  "deg_hist": {
+   "2": 153,
+   "3": 16
+  },
+  "edge_mm_mean": 1.4761100657220414,
+  "edge_mm_max": 4.002323978074215,
+  "edge_mm_min": 0.9544153139050049,
+  "connected_ok": true
+ },
+ "LOOP_helix_R": {
+  "kind": "band",
+  "verts": 169,
+  "components": 1,
+  "largest": 169,
+  "edges": 177,
+  "cyclomatic": 9,
+  "ends": 0,
+  "deg_hist": {
+   "2": 153,
+   "3": 16
+  },
+  "edge_mm_mean": 1.4761113493448161,
+  "edge_mm_max": 4.00257193485647,
+  "edge_mm_min": 0.9544153139050049,
+  "connected_ok": true
+ },
+ "LOOP_jaw_ear_L": {
+  "kind": "chain",
+  "verts": 44,
+  "components": 1,
+  "largest": 44,
+  "edges": 43,
+  "cyclomatic": 0,
+  "ends": 2,
+  "deg_hist": {
+   "1": 2,
+   "2": 42
+  },
+  "edge_mm_mean": 3.996120435365542,
+  "edge_mm_max": 8.877384458821718,
+  "edge_mm_min": 2.4966480662103736,
+  "connected_ok": true
+ },
+ "LOOP_jaw_ear_R": {
+  "kind": "chain",
+  "verts": 46,
+  "components": 1,
+  "largest": 46,
+  "edges": 45,
+  "cyclomatic": 0,
+  "ends": 2,
+  "deg_hist": {
+   "1": 2,
+   "2": 44
+  },
+  "edge_mm_mean": 4.0048878102506995,
+  "edge_mm_max": 8.910381942095196,
+  "edge_mm_min": 2.582135045040611,
+  "connected_ok": true
+ },
+ "LOOP_lid_low_L": {
+  "kind": "chain",
+  "verts": 76,
+  "components": 1,
+  "largest": 76,
+  "edges": 75,
+  "cyclomatic": 0,
+  "ends": 2,
+  "deg_hist": {
+   "1": 2,
+   "2": 74
+  },
+  "edge_mm_mean": 1.342345003261607,
+  "edge_mm_max": 1.6559661070968816,
+  "edge_mm_min": 1.1137358778585609,
+  "connected_ok": true
+ },
+ "LOOP_lid_low_R": {
+  "kind": "chain",
+  "verts": 75,
+  "components": 1,
+  "largest": 75,
+  "edges": 74,
+  "cyclomatic": 0,
+  "ends": 2,
+  "deg_hist": {
+   "1": 2,
+   "2": 73
+  },
+  "edge_mm_mean": 1.3461735783433246,
+  "edge_mm_max": 1.6526157371716845,
+  "edge_mm_min": 1.1845510305881106,
+  "connected_ok": true
+ },
+ "LOOP_lid_up_L": {
+  "kind": "chain",
+  "verts": 52,
+  "components": 1,
+  "largest": 52,
+  "edges": 51,
+  "cyclomatic": 0,
+  "ends": 2,
+  "deg_hist": {
+   "1": 2,
+   "2": 50
+  },
+  "edge_mm_mean": 1.4258772047376567,
+  "edge_mm_max": 2.3368442572182935,
+  "edge_mm_min": 1.1939220488918385,
+  "connected_ok": true
+ },
+ "LOOP_lid_up_R": {
+  "kind": "chain",
+  "verts": 53,
+  "components": 1,
+  "largest": 53,
+  "edges": 52,
+  "cyclomatic": 0,
+  "ends": 2,
+  "deg_hist": {
+   "1": 2,
+   "2": 51
+  },
+  "edge_mm_mean": 1.435442704654367,
+  "edge_mm_max": 2.398954652373483,
+  "edge_mm_min": 1.194194155329728,
+  "connected_ok": true
+ },
+ "LOOP_lip_lo": {
+  "kind": "chain",
+  "verts": 25,
+  "components": 1,
+  "largest": 25,
+  "edges": 24,
+  "cyclomatic": 0,
+  "ends": 2,
+  "deg_hist": {
+   "1": 2,
+   "2": 23
+  },
+  "edge_mm_mean": 2.5868106767496752,
+  "edge_mm_max": 2.7735386046247603,
+  "edge_mm_min": 2.493505691374841,
+  "connected_ok": true
+ },
+ "LOOP_lip_up": {
+  "kind": "chain",
+  "verts": 35,
+  "components": 1,
+  "largest": 35,
+  "edges": 34,
+  "cyclomatic": 0,
+  "ends": 2,
+  "deg_hist": {
+   "1": 2,
+   "2": 33
+  },
+  "edge_mm_mean": 2.236493517300561,
+  "edge_mm_max": 2.5177181909079156,
+  "edge_mm_min": 1.876721433795872,
+  "connected_ok": true
+ },
+ "LOOP_nostril_L": {
+  "kind": "ring",
+  "verts": 16,
+  "components": 1,
+  "largest": 16,
+  "edges": 18,
+  "cyclomatic": 3,
+  "ends": 0,
+  "deg_hist": {
+   "2": 12,
+   "3": 4
+  },
+  "edge_mm_mean": 2.577090315234588,
+  "edge_mm_max": 4.330545144042929,
+  "edge_mm_min": 1.6025563781367045,
+  "connected_ok": true
+ },
+ "LOOP_nostril_R": {
+  "kind": "ring",
+  "verts": 16,
+  "components": 1,
+  "largest": 16,
+  "edges": 18,
+  "cyclomatic": 3,
+  "ends": 0,
+  "deg_hist": {
+   "2": 12,
+   "3": 4
+  },
+  "edge_mm_mean": 2.577090315234588,
+  "edge_mm_max": 4.330545144042929,
+  "edge_mm_min": 1.6025563781367045,
+  "connected_ok": true
+ },
+ "LOOP_seam": {
+  "kind": "chain",
+  "verts": 55,
+  "components": 1,
+  "largest": 55,
+  "edges": 54,
+  "cyclomatic": 0,
+  "ends": 2,
+  "deg_hist": {
+   "1": 2,
+   "2": 53
+  },
+  "edge_mm_mean": 1.3978222383720986,
+  "edge_mm_max": 1.4751970391535345,
+  "edge_mm_min": 1.3370298626753063,
+  "connected_ok": true
+ }
+}

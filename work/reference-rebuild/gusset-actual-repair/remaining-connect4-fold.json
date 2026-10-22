@@ -1,0 +1,389 @@
+[
+  {
+    "actualFace": 16434,
+    "profileFace": 17762,
+    "pixels": 124,
+    "group": "lining connector",
+    "vertices": [
+      7765,
+      7510,
+      14572
+    ],
+    "bodyOffsets": [
+      0.0,
+      0.0,
+      0.0025
+    ],
+    "originalSourceParent": 12348,
+    "normalVsFaceDegrees": [
+      88.23041093603037,
+      22.181998342727887,
+      4.540156900207023
+    ],
+    "maximumEdgeMetres": 0.06895832649919159
+  },
+  {
+    "actualFace": 3012,
+    "profileFace": 3012,
+    "pixels": 65,
+    "group": "retained",
+    "vertices": [
+      10205,
+      7719,
+      7809
+    ],
+    "bodyOffsets": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "originalSourceParent": 3698,
+    "normalVsFaceDegrees": [
+      0.000435524991965184,
+      12.042598484763488,
+      5.8086303802332
+    ],
+    "maximumEdgeMetres": 0.057354140784545586
+  },
+  {
+    "actualFace": 641,
+    "profileFace": 641,
+    "pixels": 58,
+    "group": "retained",
+    "vertices": [
+      7684,
+      7933,
+      7904
+    ],
+    "bodyOffsets": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "originalSourceParent": 804,
+    "normalVsFaceDegrees": [
+      3.0952760243847663,
+      12.105270955433605,
+      25.64850856610089
+    ],
+    "maximumEdgeMetres": 0.07653147661330406
+  },
+  {
+    "actualFace": 640,
+    "profileFace": 640,
+    "pixels": 55,
+    "group": "retained",
+    "vertices": [
+      7697,
+      7684,
+      7904
+    ],
+    "bodyOffsets": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "originalSourceParent": 803,
+    "normalVsFaceDegrees": [
+      10.945991935117252,
+      6.411742821379422,
+      22.330457022199276
+    ],
+    "maximumEdgeMetres": 0.07545634121592136
+  },
+  {
+    "actualFace": 17168,
+    "profileFace": 18496,
+    "pixels": 55,
+    "group": "copied Body outer",
+    "vertices": [
+      15054,
+      15117,
+      15327
+    ],
+    "bodyOffsets": [
+      0.004,
+      0.004,
+      0.004
+    ],
+    "originalSourceParent": 12547,
+    "normalVsFaceDegrees": [
+      16.006389203308544,
+      0.41357303288209424,
+      2.0880498235674807
+    ],
+    "maximumEdgeMetres": 0.09594960176173996,
+    "canonicalBodySourceFace": 15925,
+    "canonicalBodySourceVertices": [
+      8238,
+      8239,
+      8644
+    ]
+  },
+  {
+    "actualFace": 17170,
+    "profileFace": 18498,
+    "pixels": 52,
+    "group": "copied Body outer",
+    "vertices": [
+      15327,
+      15117,
+      15120
+    ],
+    "bodyOffsets": [
+      0.004,
+      0.004,
+      0.004
+    ],
+    "originalSourceParent": 12547,
+    "normalVsFaceDegrees": [
+      2.4532275119116576,
+      0.6949135193401007,
+      1.9849471786957433
+    ],
+    "maximumEdgeMetres": 0.1884797695757763,
+    "canonicalBodySourceFace": 15926,
+    "canonicalBodySourceVertices": [
+      8239,
+      8644,
+      8645
+    ]
+  },
+  {
+    "actualFace": 3004,
+    "profileFace": 3004,
+    "pixels": 46,
+    "group": "retained",
+    "vertices": [
+      7809,
+      7658,
+      10010
+    ],
+    "bodyOffsets": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "originalSourceParent": 3688,
+    "normalVsFaceDegrees": [
+      2.565925037834052,
+      6.215787323519967,
+      6.770361936862834
+    ],
+    "maximumEdgeMetres": 0.032880254496847346
+  },
+  {
+    "actualFace": 3011,
+    "profileFace": 3011,
+    "pixels": 46,
+    "group": "retained",
+    "vertices": [
+      7684,
+      10204,
+      7933
+    ],
+    "bodyOffsets": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "originalSourceParent": 3697,
+    "normalVsFaceDegrees": [
+      8.896458918856167,
+      7.221330353091512e-05,
+      24.025859052345883
+    ],
+    "maximumEdgeMetres": 0.07653147661330406
+  },
+  {
+    "actualFace": 16807,
+    "profileFace": 18135,
+    "pixels": 38,
+    "group": "copied Body outer",
+    "vertices": [
+      15046,
+      15049,
+      15050
+    ],
+    "bodyOffsets": [
+      0.004,
+      0.004,
+      0.004
+    ],
+    "originalSourceParent": 849,
+    "normalVsFaceDegrees": [
+      3.899783315888382,
+      23.14427065585187,
+      8.642821172337296
+    ],
+    "maximumEdgeMetres": 0.07154971449527109,
+    "canonicalBodySourceFace": 6358,
+    "canonicalBodySourceVertices": [
+      8206,
+      8227,
+      8228
+    ]
+  },
+  {
+    "actualFace": 17517,
+    "profileFace": 18845,
+    "pixels": 32,
+    "group": "outer connector",
+    "vertices": [
+      10280,
+      7641,
+      15064
+    ],
+    "bodyOffsets": [
+      0.0,
+      0.0,
+      0.004
+    ],
+    "originalSourceParent": 5697,
+    "normalVsFaceDegrees": [
+      163.59762369709682,
+      156.67146054895017,
+      6.00473619442863
+    ],
+    "maximumEdgeMetres": 0.06461713906030783
+  },
+  {
+    "actualFace": 17165,
+    "profileFace": 18493,
+    "pixels": 29,
+    "group": "copied Body outer",
+    "vertices": [
+      15049,
+      15111,
+      15326
+    ],
+    "bodyOffsets": [
+      0.004,
+      0.004,
+      0.004
+    ],
+    "originalSourceParent": 13243,
+    "normalVsFaceDegrees": [
+      14.711814878489122,
+      1.7637790385979233,
+      14.050184494997591
+    ],
+    "maximumEdgeMetres": 0.11706724585875207,
+    "canonicalBodySourceFace": 15921,
+    "canonicalBodySourceVertices": [
+      8227,
+      8228,
+      8614
+    ]
+  },
+  {
+    "actualFace": 17174,
+    "profileFace": 18502,
+    "pixels": 26,
+    "group": "copied Body outer",
+    "vertices": [
+      15329,
+      15330,
+      15057
+    ],
+    "bodyOffsets": [
+      0.004,
+      0.004,
+      0.004
+    ],
+    "originalSourceParent": 12547,
+    "normalVsFaceDegrees": [
+      3.510142516798113,
+      87.09373900051176,
+      14.870175074849458
+    ],
+    "maximumEdgeMetres": 0.18847320473413265,
+    "canonicalBodySourceFace": 15927,
+    "canonicalBodySourceVertices": [
+      8239,
+      8240,
+      8645
+    ]
+  },
+  {
+    "actualFace": 3003,
+    "profileFace": 3003,
+    "pixels": 24,
+    "group": "retained",
+    "vertices": [
+      7644,
+      7658,
+      7809
+    ],
+    "bodyOffsets": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "originalSourceParent": 3687,
+    "normalVsFaceDegrees": [
+      10.915908609573894,
+      3.136839356189817,
+      1.0870712315719762
+    ],
+    "maximumEdgeMetres": 0.051728804031913225
+  },
+  {
+    "actualFace": 17381,
+    "profileFace": 18709,
+    "pixels": 23,
+    "group": "copied Body outer",
+    "vertices": [
+      15326,
+      15111,
+      15118
+    ],
+    "bodyOffsets": [
+      0.004,
+      0.004,
+      0.004
+    ],
+    "originalSourceParent": 13062,
+    "normalVsFaceDegrees": [
+      15.03926738244661,
+      29.798409269021057,
+      11.625354456595419
+    ],
+    "maximumEdgeMetres": 0.11706724585875207,
+    "canonicalBodySourceFace": 19358,
+    "canonicalBodySourceVertices": [
+      8228,
+      8614,
+      8643
+    ]
+  },
+  {
+    "actualFace": 16803,
+    "profileFace": 18131,
+    "pixels": 20,
+    "group": "copied Body outer",
+    "vertices": [
+      15045,
+      15044,
+      15046
+    ],
+    "bodyOffsets": [
+      0.004,
+      0.004,
+      0.004
+    ],
+    "originalSourceParent": 3745,
+    "normalVsFaceDegrees": [
+      6.944918067397059,
+      12.643278930671443,
+      1.9346982084897493
+    ],
+    "maximumEdgeMetres": 0.07113939247722875,
+    "canonicalBodySourceFace": 6333,
+    "canonicalBodySourceVertices": [
+      8170,
+      8205,
+      8206
+    ]
+  }
+]

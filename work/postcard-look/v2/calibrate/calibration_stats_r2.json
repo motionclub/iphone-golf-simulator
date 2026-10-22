@@ -1,0 +1,1000 @@
+{
+ "smoke": "work/postcard-look/v2/runtime/smoke_r2final.txt",
+ "summary": [
+  "SUMMARY: 83/83 gates PASS"
+ ],
+ "calibration_gates": [
+  {
+   "id": "LAVA_LIGHTS_KEEP_GRASS_GREEN",
+   "pass": true,
+   "detail": "grass near the lights: hue 70 -> 70 (|shift| <= 4), G clipped 0.0 % (<= 5); 788360 px"
+  },
+  {
+   "id": "LAVA_ORANGE_NO_BLOOM phone",
+   "pass": true,
+   "detail": "911933 px: in band 92.7 % (>= 85), G clipped 0.0 % (<= 5), cream 0.00 %; misses: dark 7.3 %, pale 0.0 %, yellow 0.0 %, red 0.0 %; mean (216,78,18) h18 s0.92 v0.85"
+  },
+  {
+   "id": "LAVA_ORANGE_NO_BLOOM down",
+   "pass": true,
+   "detail": "1263593 px: in band 92.8 % (>= 85), G clipped 0.0 % (<= 5), cream 0.00 %; misses: dark 7.2 %, pale 0.0 %, yellow 0.0 %, red 0.0 %; mean (216,79,18) h18 s0.92 v0.85"
+  },
+  {
+   "id": "LAVA_GAMEVIEW_ORANGE",
+   "pass": true,
+   "detail": "calibration id (both lava views, post OFF, no bloom): phone 92.7 % / down 92.8 % of the lava pixels in hue 8..28, S >= 0.75, V >= 0.7 (>= 85 %), G clipped 0.0 % / 0.0 % (<= 5 %), mean (216,78,18) h18 S0.92 V0.85 (crater.jpg pool (212,62,14) h15 S.93 V.83)"
+  },
+  {
+   "id": "BASALT_JOINT_ORANGE",
+   "pass": true,
+   "detail": "calibration id (basalt joints orange, not cream; emission alone): 37410 glow px, mean hue 18 (8..32), brightest quarter (crack cores) (253,127,28) hue 26 (12..34), cream 0.00 % (<= 1), G clipped 0.00 % (<= 5), 2.6 % of the wall (<= 20)"
+  },
+  {
+   "id": "BASALT_RENDERS_DARK",
+   "pass": true,
+   "detail": "key-lit wall facing the sun (emission off, worst case): median luminance 28 (<= 40), mean (36,29,29) S 0.18 (<= 0.25); wall beside the lava lights (lights on): median 33 (<= 55), mean (52,33,26) S 0.50 (<= 0.65); crater.jpg: charcoal (26,25,29), median 30..34 S .2..28, lava-lit (52,27,23) S .5..62"
+  },
+  {
+   "id": "LAVA_LIGHTS_REACH_BASALT",
+   "pass": true,
+   "detail": "4 lava point lights, additional-lights limit 4: >= +8 luminance on 40.9 % of the wall near a light (>= 20), +8.9 on average; lava pixels brightened by >= 40 levels 0.0 % (<= 10, no hot pools)"
+  },
+  {
+   "id": "SHELF_COLOUR_NOT_LOUDEST hole8",
+   "pass": true,
+   "detail": "6 yd worst-case shelf mean (22,78,91) hue 191 (175..200), V 0.36 (<= 0.65), luminance 67 (<= 100; the stills' teal ~65) and <= 1.3 x the open sea beside it 63 = 81, shelf is 0.0 % of the aerial frame's brightest 2 % (<= 10), below the sky horizon 216; 53100 shelf px; no foam on the board"
+  },
+  {
+   "id": "SHELF_NOT_LOUDEST hole8",
+   "pass": true,
+   "detail": "typical 1.5 yd shelf edge: 12600 px mean (22,78,91) hue 191 S 0.76 V 0.36 lum 67 (hue 175..200), luminance 67 <= 1.3 x the stills' teal 66 = 86 and <= 1.2 x the open sea beside it 63 = 75, 0.0 % of the aerial frame's brightest 2 % (<= 10), below the sky horizon 216"
+  },
+  {
+   "id": "OCEAN_DEEP_BLUE hole8",
+   "pass": true,
+   "detail": "open ocean mean (48,100,141) hue 206 (195..215), S 0.66 (>= .45), V 0.55 (.35..78); stills deep blue h202..206 V .44..71"
+  },
+  {
+   "id": "SEA_NEAR_FAR_BLUE hole8",
+   "pass": true,
+   "detail": "open ocean near the tee (19,86,132) hue 205 S 0.86 V 0.52 lum 75 and far toward the horizon (91,124,157) hue 210 S 0.42 V 0.61 lum 119: both hue 195..215, S >= .40, V .35..78 (stills: needle.jpg deep (29,77,112) h205 V.44, split.jpg (48,102,140) h202 V.55 .. far (80,137,182) h206 V.71)"
+  },
+  {
+   "id": "SHELF_COLOUR_NOT_LOUDEST hole9",
+   "pass": true,
+   "detail": "6 yd worst-case shelf mean (24,92,109) hue 192 (175..200), V 0.43 (<= 0.65), luminance 79 (<= 100; the stills' teal ~65) and <= 1.3 x the open sea beside it 74 = 96, shelf is 0.0 % of the aerial frame's brightest 2 % (<= 10), below the sky horizon 228; 53100 shelf px; no foam on the board"
+  },
+  {
+   "id": "SHELF_NOT_LOUDEST hole9",
+   "pass": true,
+   "detail": "typical 1.5 yd shelf edge: 12600 px mean (24,92,109) hue 192 S 0.78 V 0.43 lum 79 (hue 175..200), luminance 79 <= 1.3 x the stills' teal 64 = 83 and <= 1.2 x the open sea beside it 74 = 89, 0.0 % of the aerial frame's brightest 2 % (<= 10), below the sky horizon 228"
+  },
+  {
+   "id": "OCEAN_DEEP_BLUE hole9",
+   "pass": true,
+   "detail": "open ocean mean (43,101,147) hue 207 (195..215), S 0.71 (>= .45), V 0.58 (.35..78); stills deep blue h202..206 V .44..71"
+  },
+  {
+   "id": "SEA_NEAR_FAR_BLUE hole9",
+   "pass": true,
+   "detail": "open ocean near the tee (20,91,143) hue 205 S 0.86 V 0.56 lum 80 and far toward the horizon (80,121,160) hue 210 S 0.50 V 0.63 lum 115: both hue 195..215, S >= .40, V .35..78 (stills: needle.jpg deep (29,77,112) h205 V.44, split.jpg (48,102,140) h202 V.55 .. far (80,137,182) h206 V.71)"
+  },
+  {
+   "id": "GRASS_HUE_GAMEVIEW hole8",
+   "pass": true,
+   "detail": "fairway (173,186,68) h66 S0.63 V0.73 (hue 64..73, S 0.55..0.66 V 0.55..0.75), green (174,185,73) h66 S0.61 V0.72 (hue 64..73, S 0.55..0.66 V 0.55..0.75), rough (136,136,57) h60 S0.58 V0.54 (hue 58..72, S 0.50..0.70 V 0.45..0.75); hue True, S/V True; the old build measured hue 86..89"
+  },
+  {
+   "id": "GRASS_NO_CLIP hole8",
+   "pass": true,
+   "detail": "pixels with a channel >= 250 over the lower 60 % of the phone frame (<= 3 %): fairway clipped 0.0 % (>=250) / 0.0 % (255), green clipped 0.0 % (>=250) / 0.0 % (255), rough clipped 0.0 % (>=250) / 0.0 % (255); the stills are light, saturated and not clipped"
+  },
+  {
+   "id": "SURFACES_NO_CLIP hole8",
+   "pass": true,
+   "detail": "sand / rock / path / masonry as flat up-facing quads under the key (pixels with a channel >= 250 <= 3 %): sand (212,185,150) h34 S0.29 V0.83 clipped 0.0 % (>=250) / 0.0 % (255); rock (143,127,106) h34 S0.26 V0.56 clipped 0.0 % (>=250) / 0.0 % (255); path (172,160,113) h48 S0.35 V0.68 clipped 0.1 % (>=250) / 0.0 % (255); masonry (160,142,120) h34 S0.25 V0.63 clipped 0.0 % (>=250) / 0.0 % (255)"
+  },
+  {
+   "id": "GRASS_HUE_GAMEVIEW hole9",
+   "pass": true,
+   "detail": "fairway (147,165,68) h71 S0.59 V0.65 (hue 64..73, S 0.55..0.66 V 0.55..0.75), green (154,172,75) h71 S0.57 V0.67 (hue 64..73, S 0.55..0.66 V 0.55..0.75), rough (121,129,61) h67 S0.53 V0.51 (hue 58..72, S 0.50..0.70 V 0.45..0.75); scrub (124,116,77) h49 S0.38 V0.49 (hue 40..58, S 0.30..0.50 V 0.40..0.60); hue True, S/V True; the old build measured hue 86..89"
+  },
+  {
+   "id": "GRASS_NO_CLIP hole9",
+   "pass": true,
+   "detail": "pixels with a channel >= 250 over the lower 60 % of the phone frame (<= 3 %): fairway clipped 0.0 % (>=250) / 0.0 % (255), green clipped 0.0 % (>=250) / 0.0 % (255), rough clipped 0.0 % (>=250) / 0.0 % (255), scrub clipped 0.0 % (>=250) / 0.0 % (255); the stills are light, saturated and not clipped"
+  },
+  {
+   "id": "SURFACES_NO_CLIP hole9",
+   "pass": true,
+   "detail": "sand / rock / path / masonry as flat up-facing quads under the key (pixels with a channel >= 250 <= 3 %): sand (221,202,163) h41 S0.26 V0.87 clipped 0.0 % (>=250) / 0.0 % (255); rock (152,146,127) h45 S0.16 V0.60 clipped 0.0 % (>=250) / 0.0 % (255); masonry (170,164,144) h45 S0.15 V0.67 clipped 0.0 % (>=250) / 0.0 % (255)"
+  },
+  {
+   "id": "GRASS_HUE_GAMEVIEW hole10",
+   "pass": true,
+   "detail": "fairway (165,189,43) h70 S0.78 V0.74 (hue 64..73, S 0.72..0.88 V 0.55..0.75), green (161,183,44) h69 S0.76 V0.72 (hue 64..73, S 0.72..0.88 V 0.55..0.75), rough (126,129,38) h62 S0.71 V0.50 (hue 58..72, S 0.65..0.88 V 0.40..0.75); hue True, S/V True; the old build measured hue 86..89"
+  },
+  {
+   "id": "GRASS_NO_CLIP hole10",
+   "pass": true,
+   "detail": "pixels with a channel >= 250 over the lower 60 % of the phone frame (<= 3 %): fairway clipped 0.0 % (>=250) / 0.0 % (255), green clipped 0.0 % (>=250) / 0.0 % (255), rough clipped 0.0 % (>=250) / 0.0 % (255); the stills are light, saturated and not clipped"
+  },
+  {
+   "id": "SURFACES_NO_CLIP hole10",
+   "pass": true,
+   "detail": "sand / rock / path / masonry as flat up-facing quads under the key (pixels with a channel >= 250 <= 3 %): sand (211,149,103) h26 S0.51 V0.83 clipped 0.0 % (>=250) / 0.0 % (255); rock (121,93,72) h26 S0.41 V0.48 clipped 0.0 % (>=250) / 0.0 % (255)"
+  },
+  {
+   "id": "SMOKE_SOFT_GAMEVIEW",
+   "pass": true,
+   "detail": "calibration id (Game-view card over the Crater sky, post OFF): effective alpha max 0.67 (0.55..0.72), border 0.000 (<= .02), median |delta lum| 14.8 (>= 8), p99 61.0 (28..90), edge step p99 2.43 (<= 6); 40485 px"
+  },
+  {
+   "id": "SMOKE_SOFT",
+   "pass": true,
+   "detail": "effective alpha max 0.67 (0.55..0.72: translucent, never a ball), border alpha 0.000 (<= .02, no hard rim), card moves the frame by median 14.8 (>= 8) / p99 61.0 luminance levels (p99 28..90: readable but never a ball; 40485 px), edge step p99 2.43 levels/px (<= 6)"
+  },
+  {
+   "id": "NO_POST_DEPENDENCE",
+   "pass": true,
+   "detail": "hole 8: renderPostProcessing after Apply False, Volumes in scene 0, frame with post forced on vs off max |diff| 0; hole 9: renderPostProcessing after Apply False, Volumes in scene 0, frame with post forced on vs off max |diff| 0; hole 10: renderPostProcessing after Apply False, Volumes in scene 0, frame with post forced on vs off max |diff| 0; TennisURP renderer 'TennisURP_Renderer' postProcessData none; HeroBaseStudioURP renderer 'HeroBaseStudio_Renderer' postProcessData none; code lines naming Volume/TennisPost/Bloom/Tonemapping in GolfAtmosphere/GolfLook/HoleView: none"
+  },
+  {
+   "id": "URP_BOTH_ASSETS",
+   "pass": true,
+   "detail": "TennisURP (per-object additional lights 2): 29/29 gates PASS; HeroBaseStudioURP (per-object additional lights 4): 29/29 gates PASS; lava lights gates pass under both: True; same PASS/FAIL under both assets: True"
+  }
+ ],
+ "info": [
+  "INFO: CRATER board lights in the scene: 5 enabled (4 Point, 1 Directional); main light = 'Board sun', additional directionals 0",
+  "INFO: CRATER lava, phone view (rim height, grazing), HeroBaseStudioURP, 4 lava point lights: 911933 px: in band 92.7 % (>= 85), G clipped 0.0 % (<= 5), cream 0.00 %; misses: dark 7.3 %, pale 0.0 %, yellow 0.0 %, red 0.0 %; mean (216,78,18) h18 s0.92 v0.85",
+  "INFO: CRATER lava, 40 deg down view: 1263593 px: in band 92.8 % (>= 85), G clipped 0.0 % (<= 5), cream 0.00 %; misses: dark 7.2 %, pale 0.0 %, yellow 0.0 %, red 0.0 %; mean (216,79,18) h18 s0.92 v0.85",
+  "INFO: CRATER lava lights (4 point lights I 600 range 52 lift 4, additional-lights limit 4): wall 1072756 px, +8.9 luminance on average, >= +8 on 40.9 % of it; lava pixels brightened by >= 40 levels: 0.0 %",
+  "INFO: CRATER grass ledge 10-30 yd from the lava lights: lights off (158,180,53) hue 70 V 0.71; lights on (160,181,53) hue 70 V 0.71, G clipped 0.0 %",
+  "INFO: BASALT glow pixels (emission adds >= 24 levels): 37410 px = 2.6 % of the wall, mean (184,70,20) hue 18 S 0.89 V 0.72, hue 8..32 on 84 %, cream 0.00 %, G clipped 0.00 %; wall median luminance 29",
+  "INFO: SEA hole 8 (HeroBaseStudioURP): shelf 6 yd (aerial) 53100 px mean (22,78,91) hue 191 S 0.76 V 0.36 lum 67 (p95 V 0.37); open ocean beside it (aerial) 915615 px mean (11,72,122) lum 63; shelf share of the brightest 2 % of the aerial frame 0.0 %; open ocean (phone) 83700 px mean (48,100,141) hue 206 S 0.66 V 0.55 lum 92; sky just above the horizon (row 1354) lum 216",
+  "INFO: SEA hole 8 thin shelf 1.5 yd (aerial): 12600 px mean (22,78,91) hue 191 S 0.76 V 0.36 lum 67; open ocean beside it lum 63; thin shelf share of the brightest 2 % 0.0 %; stills' teal lum 66 (needle.jpg 66, split.jpg 64); open ocean (phone) NEAR the tee 27900 px (19,86,132) hue 205 S 0.86 V 0.52 lum 75, FAR 27900 px (91,124,157) hue 210 S 0.42 V 0.61 lum 119; stills' blue (needle.jpg (38,72,96) lum 62, split.jpg (47,96,131) lum 90)",
+  "INFO: SEA hole 9 (HeroBaseStudioURP): shelf 6 yd (aerial) 53100 px mean (24,92,109) hue 192 S 0.78 V 0.43 lum 79 (p95 V 0.45); open ocean beside it (aerial) 936260 px mean (12,85,147) lum 74; shelf share of the brightest 2 % of the aerial frame 0.0 %; open ocean (phone) 83700 px mean (43,101,147) hue 207 S 0.71 V 0.58 lum 92; sky just above the horizon (row 1354) lum 228",
+  "INFO: SEA hole 9 thin shelf 1.5 yd (aerial): 12600 px mean (24,92,109) hue 192 S 0.78 V 0.43 lum 79; open ocean beside it lum 74; thin shelf share of the brightest 2 % 0.0 %; stills' teal lum 64 (needle.jpg 66, split.jpg 64); open ocean (phone) NEAR the tee 27900 px (20,91,143) hue 205 S 0.86 V 0.56 lum 80, FAR 27900 px (80,121,160) hue 210 S 0.50 V 0.63 lum 115; stills' blue (needle.jpg (38,72,96) lum 62, split.jpg (47,96,131) lum 90)",
+  "INFO: GRASS hole 8 lit (HeroBaseStudioURP): fairway (173,186,68) h66 S0.63 V0.73 clipped 0.0 % (>=250) / 0.0 % (255); green (174,185,73) h66 S0.61 V0.72 clipped 0.0 % (>=250) / 0.0 % (255); rough (136,136,57) h60 S0.58 V0.54 clipped 0.0 % (>=250) / 0.0 % (255)",
+  "INFO: GRASS hole 9 lit: scrub (Split ridge; split.jpg ridge scrub (122,111,75) h46 S.39 V.48, dark scrub (63,59,41)) (124,116,77) h49 S0.38 V0.49; clipped 0.0 % (>=250) / 0.0 % (255)",
+  "INFO: GRASS hole 9 lit (HeroBaseStudioURP): fairway (147,165,68) h71 S0.59 V0.65 clipped 0.0 % (>=250) / 0.0 % (255); green (154,172,75) h71 S0.57 V0.67 clipped 0.0 % (>=250) / 0.0 % (255); rough (121,129,61) h67 S0.53 V0.51 clipped 0.0 % (>=250) / 0.0 % (255)",
+  "INFO: GRASS hole 10 lit (HeroBaseStudioURP): fairway (165,189,43) h70 S0.78 V0.74 clipped 0.0 % (>=250) / 0.0 % (255); green (161,183,44) h69 S0.76 V0.72 clipped 0.0 % (>=250) / 0.0 % (255); rough (126,129,38) h62 S0.71 V0.50 clipped 0.0 % (>=250) / 0.0 % (255)",
+  "INFO: SMOKE card over the crater sky: effective alpha max 0.67 p95 0.56 border 0.000 (_Color.a 1.00, _AlphaGain 1.35, _AlphaPower 1.00, _EdgeFade 0.18); 40485 px move the frame, |delta luminance| median 14.8 p99 61.0, edge step p99 2.43 levels/px"
+ ],
+ "probe_runs": {
+  "r2f": {
+   "gates": [
+    {
+     "id": "PROBE_SWAP_TOOK_EFFECT hole8",
+     "pass": true,
+     "detail": "1 HoleView(s) (need 1), 1 'Course model' child(ren) (need 1), 0 MeshFilter(s) still on the installed baseline Assets/Resources/Course/hole_08.fbx (need 0), 128 mesh(es) of the probe model; 5 player frame(s) since StartHole, 1 HoleView(s) alive"
+    },
+    {
+     "id": "PROBE_GROUND_TEXTURED hole8 tee",
+     "pass": true,
+     "detail": "0/1980 tiles of the lower 55 % are flat colour (luminance std < 1.5): 0.0 % <= 15 %"
+    },
+    {
+     "id": "PROBE_GROUND_TEXTURED hole8 green",
+     "pass": true,
+     "detail": "43/1980 tiles of the lower 55 % are flat colour (luminance std < 1.5): 2.2 % <= 15 %"
+    },
+    {
+     "id": "PROBE_GROUND_TEXTURED hole8 arch",
+     "pass": true,
+     "detail": "7/1980 tiles of the lower 55 % are flat colour (luminance std < 1.5): 0.4 % <= 15 %"
+    },
+    {
+     "id": "PROBE_SHELF_NOT_LOUDEST hole8",
+     "pass": true,
+     "detail": "aerial on the ground library's shelf: 3787 shelf px (0.26 % of the frame), mean (36,85,96) hue 191 lum 75 <= 1.3 x the open sea 83 = 108; shelf is 0.0 % of the brightest 2 % of the frame (<= 10 %)"
+    },
+    {
+     "id": "GOLFER_SHIRT_READABLE hole8",
+     "pass": true,
+     "detail": "shirt px 15672 (>= 60 % of the legacy light's 16615), mean (57,101,137) luminance 94 (>= 60 % of the legacy 84 = 51), B - R 80 levels (>= 20); exposure (1.00,1.00,1.00)"
+    },
+    {
+     "id": "GOLFER_NOT_CLIPPED hole8",
+     "pass": true,
+     "detail": "49565 golfer px; skin px with a channel >= 250: 2.0 % (<= 5 %), shirt/blue 0.0 % (<= 5 %), whole figure with 2+ channels >= 250 4.1 % (<= max(5 %, legacy 6.7 % + 2))"
+    },
+    {
+     "id": "PROBE_SWAP_TOOK_EFFECT hole9",
+     "pass": true,
+     "detail": "1 HoleView(s) (need 1), 1 'Course model' child(ren) (need 1), 0 MeshFilter(s) still on the installed baseline Assets/Resources/Course/hole_09.fbx (need 0), 560 mesh(es) of the probe model; 5 player frame(s) since StartHole, 1 HoleView(s) alive"
+    },
+    {
+     "id": "PROBE_GROUND_TEXTURED hole9 tee",
+     "pass": true,
+     "detail": "0/1980 tiles of the lower 55 % are flat colour (luminance std < 1.5): 0.0 % <= 15 %"
+    },
+    {
+     "id": "PROBE_GROUND_TEXTURED hole9 green",
+     "pass": true,
+     "detail": "1/1980 tiles of the lower 55 % are flat colour (luminance std < 1.5): 0.1 % <= 15 %"
+    },
+    {
+     "id": "PROBE_GROUND_TEXTURED hole9 ridge",
+     "pass": true,
+     "detail": "95/1980 tiles of the lower 55 % are flat colour (luminance std < 1.5): 4.8 % <= 15 %"
+    },
+    {
+     "id": "PROBE_SHELF_NOT_LOUDEST hole9",
+     "pass": true,
+     "detail": "aerial on the ground library's shelf: 7015 shelf px (0.49 % of the frame), mean (37,96,114) hue 194 lum 85 <= 1.3 x the open sea 87 = 114; shelf is 0.0 % of the brightest 2 % of the frame (<= 10 %)"
+    },
+    {
+     "id": "GOLFER_SHIRT_READABLE hole9",
+     "pass": true,
+     "detail": "shirt px 16589 (>= 60 % of the legacy light's 16602), mean (58,108,150) luminance 100 (>= 60 % of the legacy 85 = 51), B - R 92 levels (>= 20); exposure (1.00,1.00,1.00)"
+    },
+    {
+     "id": "GOLFER_NOT_CLIPPED hole9",
+     "pass": true,
+     "detail": "49565 golfer px; skin px with a channel >= 250: 3.5 % (<= 5 %), shirt/blue 1.1 % (<= 5 %), whole figure with 2+ channels >= 250 7.8 % (<= max(5 %, legacy 6.8 % + 2))"
+    },
+    {
+     "id": "PROBE_SWAP_TOOK_EFFECT hole10",
+     "pass": true,
+     "detail": "1 HoleView(s) (need 1), 1 'Course model' child(ren) (need 1), 0 MeshFilter(s) still on the installed baseline Assets/Resources/Course/hole_10.fbx (need 0), 259 mesh(es) of the probe model; 5 player frame(s) since StartHole, 1 HoleView(s) alive"
+    },
+    {
+     "id": "PROBE_GROUND_TEXTURED hole10 tee",
+     "pass": true,
+     "detail": "0/1980 tiles of the lower 55 % are flat colour (luminance std < 1.5): 0.0 % <= 15 %"
+    },
+    {
+     "id": "PROBE_GROUND_TEXTURED hole10 green",
+     "pass": true,
+     "detail": "16/1980 tiles of the lower 55 % are flat colour (luminance std < 1.5): 0.8 % <= 15 %"
+    },
+    {
+     "id": "PROBE_GROUND_TEXTURED hole10 lavaedge",
+     "pass": true,
+     "detail": "3/1980 tiles of the lower 55 % are flat colour (luminance std < 1.5): 0.2 % <= 15 %"
+    },
+    {
+     "id": "GOLFER_SHIRT_READABLE hole10",
+     "pass": true,
+     "detail": "shirt px 12215 (>= 60 % of the legacy light's 16633), mean (52,72,103) luminance 70 (>= 60 % of the legacy 84 = 50), B - R 50 levels (>= 20); exposure (0.76,0.90,1.20)"
+    },
+    {
+     "id": "GOLFER_NOT_CLIPPED hole10",
+     "pass": true,
+     "detail": "49563 golfer px; skin px with a channel >= 250: 1.6 % (<= 5 %), shirt/blue 0.0 % (<= 5 %), whole figure with 2+ channels >= 250 1.0 % (<= max(5 %, legacy 6.4 % + 2))"
+    }
+   ],
+   "summary": "SUMMARY: 58/63 probe gates PASS",
+   "views": {
+    "hole08_tee_probe": {
+     "central_lower_third": {
+      "mean_rgb": [
+       173.0,
+       183.6,
+       72.3
+      ],
+      "hue": 65.7,
+      "S": 0.606,
+      "V": 0.72,
+      "clip250_pct": 0.0
+     },
+     "lower60_clip250_pct": 0.05
+    },
+    "hole08_green_probe": {
+     "central_lower_third": {
+      "mean_rgb": [
+       173.9,
+       186.6,
+       70.1
+      ],
+      "hue": 66.6,
+      "S": 0.624,
+      "V": 0.732,
+      "clip250_pct": 0.0
+     },
+     "lower60_clip250_pct": 0.0
+    },
+    "hole08_arch_probe": {
+     "central_lower_third": {
+      "mean_rgb": [
+       167.6,
+       180.5,
+       68.2
+      ],
+      "hue": 66.9,
+      "S": 0.622,
+      "V": 0.708,
+      "clip250_pct": 0.0
+     },
+     "lower60_clip250_pct": 0.0
+    },
+    "hole09_tee_probe": {
+     "central_lower_third": {
+      "mean_rgb": [
+       153.9,
+       171.2,
+       74.3
+      ],
+      "hue": 70.7,
+      "S": 0.566,
+      "V": 0.671,
+      "clip250_pct": 0.0
+     },
+     "lower60_clip250_pct": 0.06
+    },
+    "hole09_green_probe": {
+     "central_lower_third": {
+      "mean_rgb": [
+       160.2,
+       178.1,
+       77.5
+      ],
+      "hue": 70.7,
+      "S": 0.565,
+      "V": 0.699,
+      "clip250_pct": 0.0
+     },
+     "lower60_clip250_pct": 0.0
+    },
+    "hole09_ridge_probe": {
+     "central_lower_third": {
+      "mean_rgb": [
+       127.2,
+       117.4,
+       81.7
+      ],
+      "hue": 47.1,
+      "S": 0.358,
+      "V": 0.499,
+      "clip250_pct": 0.0
+     },
+     "lower60_clip250_pct": 0.0
+    },
+    "hole10_tee_probe": {
+     "central_lower_third": {
+      "mean_rgb": [
+       158.0,
+       180.8,
+       39.6
+      ],
+      "hue": 69.7,
+      "S": 0.781,
+      "V": 0.709,
+      "clip250_pct": 0.0
+     },
+     "lower60_clip250_pct": 0.03
+    },
+    "hole10_green_probe": {
+     "central_lower_third": {
+      "mean_rgb": [
+       154.4,
+       172.3,
+       46.6
+      ],
+      "hue": 68.6,
+      "S": 0.729,
+      "V": 0.676,
+      "clip250_pct": 0.0
+     },
+     "lower60_clip250_pct": 0.0
+    },
+    "hole10_lavaedge_probe": {
+     "central_lower_third": {
+      "mean_rgb": [
+       148.3,
+       174.2,
+       44.1
+      ],
+      "hue": 71.9,
+      "S": 0.747,
+      "V": 0.683,
+      "clip250_pct": 0.0
+     },
+     "lower60_clip250_pct": 1.13
+    }
+   }
+  },
+  "r2g": {
+   "gates": [
+    {
+     "id": "PROBE_SWAP_TOOK_EFFECT hole8",
+     "pass": true,
+     "detail": "1 HoleView(s) (need 1), 1 'Course model' child(ren) (need 1), 0 MeshFilter(s) still on the installed baseline Assets/Resources/Course/hole_08.fbx (need 0), 128 mesh(es) of the probe model; 5 player frame(s) since StartHole, 1 HoleView(s) alive"
+    },
+    {
+     "id": "PROBE_GROUND_TEXTURED hole8 tee",
+     "pass": true,
+     "detail": "0/1980 tiles of the lower 55 % are flat colour (luminance std < 1.5): 0.0 % <= 15 %"
+    },
+    {
+     "id": "PROBE_GROUND_TEXTURED hole8 green",
+     "pass": true,
+     "detail": "43/1980 tiles of the lower 55 % are flat colour (luminance std < 1.5): 2.2 % <= 15 %"
+    },
+    {
+     "id": "PROBE_GROUND_TEXTURED hole8 arch",
+     "pass": true,
+     "detail": "7/1980 tiles of the lower 55 % are flat colour (luminance std < 1.5): 0.4 % <= 15 %"
+    },
+    {
+     "id": "PROBE_SHELF_NOT_LOUDEST hole8",
+     "pass": true,
+     "detail": "aerial on the ground library's shelf: 3785 shelf px (0.26 % of the frame), mean (36,84,96) hue 191 lum 75 <= 1.3 x the open sea 83 = 108; shelf is 0.0 % of the brightest 2 % of the frame (<= 10 %)"
+    },
+    {
+     "id": "GOLFER_SHIRT_READABLE hole8",
+     "pass": true,
+     "detail": "shirt px 15672 (>= 60 % of the legacy light's 16615), mean (57,101,137) luminance 94 (>= 60 % of the legacy 84 = 51), B - R 80 levels (>= 20); exposure (1.00,1.00,1.00)"
+    },
+    {
+     "id": "GOLFER_NOT_CLIPPED hole8",
+     "pass": true,
+     "detail": "49565 golfer px; skin px with a channel >= 250: 2.0 % (<= 5 %), shirt/blue 0.0 % (<= 5 %), whole figure with 2+ channels >= 250 4.1 % (<= max(5 %, legacy 6.7 % + 2))"
+    },
+    {
+     "id": "PROBE_SWAP_TOOK_EFFECT hole9",
+     "pass": true,
+     "detail": "1 HoleView(s) (need 1), 1 'Course model' child(ren) (need 1), 0 MeshFilter(s) still on the installed baseline Assets/Resources/Course/hole_09.fbx (need 0), 560 mesh(es) of the probe model; 5 player frame(s) since StartHole, 1 HoleView(s) alive"
+    },
+    {
+     "id": "PROBE_GROUND_TEXTURED hole9 tee",
+     "pass": true,
+     "detail": "0/1980 tiles of the lower 55 % are flat colour (luminance std < 1.5): 0.0 % <= 15 %"
+    },
+    {
+     "id": "PROBE_GROUND_TEXTURED hole9 green",
+     "pass": true,
+     "detail": "1/1980 tiles of the lower 55 % are flat colour (luminance std < 1.5): 0.1 % <= 15 %"
+    },
+    {
+     "id": "PROBE_GROUND_TEXTURED hole9 ridge",
+     "pass": true,
+     "detail": "95/1980 tiles of the lower 55 % are flat colour (luminance std < 1.5): 4.8 % <= 15 %"
+    },
+    {
+     "id": "PROBE_SHELF_NOT_LOUDEST hole9",
+     "pass": true,
+     "detail": "aerial on the ground library's shelf: 7014 shelf px (0.49 % of the frame), mean (37,96,114) hue 194 lum 85 <= 1.3 x the open sea 87 = 114; shelf is 0.0 % of the brightest 2 % of the frame (<= 10 %)"
+    },
+    {
+     "id": "GOLFER_SHIRT_READABLE hole9",
+     "pass": true,
+     "detail": "shirt px 16589 (>= 60 % of the legacy light's 16602), mean (58,108,150) luminance 100 (>= 60 % of the legacy 85 = 51), B - R 92 levels (>= 20); exposure (1.00,1.00,1.00)"
+    },
+    {
+     "id": "GOLFER_NOT_CLIPPED hole9",
+     "pass": true,
+     "detail": "49565 golfer px; skin px with a channel >= 250: 3.5 % (<= 5 %), shirt/blue 1.1 % (<= 5 %), whole figure with 2+ channels >= 250 7.8 % (<= max(5 %, legacy 6.8 % + 2))"
+    },
+    {
+     "id": "PROBE_SWAP_TOOK_EFFECT hole10",
+     "pass": true,
+     "detail": "1 HoleView(s) (need 1), 1 'Course model' child(ren) (need 1), 0 MeshFilter(s) still on the installed baseline Assets/Resources/Course/hole_10.fbx (need 0), 259 mesh(es) of the probe model; 5 player frame(s) since StartHole, 1 HoleView(s) alive"
+    },
+    {
+     "id": "PROBE_GROUND_TEXTURED hole10 tee",
+     "pass": true,
+     "detail": "0/1980 tiles of the lower 55 % are flat colour (luminance std < 1.5): 0.0 % <= 15 %"
+    },
+    {
+     "id": "PROBE_GROUND_TEXTURED hole10 green",
+     "pass": true,
+     "detail": "16/1980 tiles of the lower 55 % are flat colour (luminance std < 1.5): 0.8 % <= 15 %"
+    },
+    {
+     "id": "PROBE_GROUND_TEXTURED hole10 lavaedge",
+     "pass": true,
+     "detail": "3/1980 tiles of the lower 55 % are flat colour (luminance std < 1.5): 0.2 % <= 15 %"
+    },
+    {
+     "id": "GOLFER_SHIRT_READABLE hole10",
+     "pass": true,
+     "detail": "shirt px 12215 (>= 60 % of the legacy light's 16633), mean (52,72,103) luminance 70 (>= 60 % of the legacy 84 = 50), B - R 50 levels (>= 20); exposure (0.76,0.90,1.20)"
+    },
+    {
+     "id": "GOLFER_NOT_CLIPPED hole10",
+     "pass": true,
+     "detail": "49563 golfer px; skin px with a channel >= 250: 1.6 % (<= 5 %), shirt/blue 0.0 % (<= 5 %), whole figure with 2+ channels >= 250 1.0 % (<= max(5 %, legacy 6.4 % + 2))"
+    }
+   ],
+   "summary": "SUMMARY: 58/63 probe gates PASS",
+   "views": {
+    "hole08_tee_probe": {
+     "central_lower_third": {
+      "mean_rgb": [
+       173.0,
+       183.6,
+       72.3
+      ],
+      "hue": 65.7,
+      "S": 0.606,
+      "V": 0.72,
+      "clip250_pct": 0.0
+     },
+     "lower60_clip250_pct": 0.05
+    },
+    "hole08_green_probe": {
+     "central_lower_third": {
+      "mean_rgb": [
+       173.9,
+       186.6,
+       70.1
+      ],
+      "hue": 66.6,
+      "S": 0.624,
+      "V": 0.732,
+      "clip250_pct": 0.0
+     },
+     "lower60_clip250_pct": 0.0
+    },
+    "hole08_arch_probe": {
+     "central_lower_third": {
+      "mean_rgb": [
+       167.6,
+       180.5,
+       68.2
+      ],
+      "hue": 66.9,
+      "S": 0.622,
+      "V": 0.708,
+      "clip250_pct": 0.0
+     },
+     "lower60_clip250_pct": 0.0
+    },
+    "hole09_tee_probe": {
+     "central_lower_third": {
+      "mean_rgb": [
+       153.9,
+       171.2,
+       74.3
+      ],
+      "hue": 70.7,
+      "S": 0.566,
+      "V": 0.671,
+      "clip250_pct": 0.0
+     },
+     "lower60_clip250_pct": 0.06
+    },
+    "hole09_green_probe": {
+     "central_lower_third": {
+      "mean_rgb": [
+       160.2,
+       178.1,
+       77.5
+      ],
+      "hue": 70.7,
+      "S": 0.565,
+      "V": 0.699,
+      "clip250_pct": 0.0
+     },
+     "lower60_clip250_pct": 0.0
+    },
+    "hole09_ridge_probe": {
+     "central_lower_third": {
+      "mean_rgb": [
+       127.2,
+       117.4,
+       81.7
+      ],
+      "hue": 47.1,
+      "S": 0.358,
+      "V": 0.499,
+      "clip250_pct": 0.0
+     },
+     "lower60_clip250_pct": 0.0
+    },
+    "hole10_tee_probe": {
+     "central_lower_third": {
+      "mean_rgb": [
+       158.0,
+       180.8,
+       39.6
+      ],
+      "hue": 69.7,
+      "S": 0.781,
+      "V": 0.709,
+      "clip250_pct": 0.0
+     },
+     "lower60_clip250_pct": 0.03
+    },
+    "hole10_green_probe": {
+     "central_lower_third": {
+      "mean_rgb": [
+       154.4,
+       172.3,
+       46.6
+      ],
+      "hue": 68.6,
+      "S": 0.729,
+      "V": 0.676,
+      "clip250_pct": 0.0
+     },
+     "lower60_clip250_pct": 0.0
+    },
+    "hole10_lavaedge_probe": {
+     "central_lower_third": {
+      "mean_rgb": [
+       148.3,
+       174.2,
+       44.1
+      ],
+      "hue": 71.9,
+      "S": 0.747,
+      "V": 0.683,
+      "clip250_pct": 0.0
+     },
+     "lower60_clip250_pct": 1.13
+    }
+   }
+  }
+ },
+ "stills_board": {
+  "tool": "PostcardLookStills",
+  "unity": "6000.3.24f1",
+  "pipeline": "HeroBaseStudioURP",
+  "qualityLevel": 2,
+  "board": true,
+  "size": [
+   900,
+   1600
+  ],
+  "shots": [
+   {
+    "name": "hole08_tee",
+    "hole": 8,
+    "file": "hole08_tee.png",
+    "camera": {
+     "pos": [
+      -0.4776,
+      9.2842,
+      -4.4746
+     ],
+     "look": [
+      -0.3791,
+      8.9128,
+      -3.5513
+     ],
+     "fov": 60
+    },
+    "mean_rgb": [
+     190.1501,
+     217.6586,
+     100.1957
+    ],
+    "luminance": 203.3295,
+    "central_lower_third": {
+     "region": [
+      300,
+      0,
+      600,
+      533
+     ],
+     "mean_rgb": [
+      203.1165,
+      255,
+      92.6643
+     ],
+     "mean_hsv": [
+      79.1764,
+      0.6366,
+      1
+     ],
+     "luminance": 232.2489
+    },
+    "hue_bands": {
+     "red_0_30": 0.0418,
+     "orange_30_60": 0.1005,
+     "yellow_60_90": 0.7209,
+     "lime_90_120": 0.0775,
+     "green_120_150": 0.0007,
+     "spring_150_180": 0.0001,
+     "cyan_180_210": 0.0123,
+     "azure_210_240": 0.0139,
+     "blue_240_270": 0,
+     "violet_270_300": 0,
+     "magenta_300_330": 0,
+     "rose_330_360": 0,
+     "grey": 0.0324,
+     "dark": 0
+    }
+   },
+   {
+    "name": "hole08_approach",
+    "hole": 8,
+    "file": "hole08_approach.png",
+    "camera": {
+     "pos": [
+      19.6863,
+      9.1748,
+      173.5526
+     ],
+     "look": [
+      19.5447,
+      8.8034,
+      174.4703
+     ],
+     "fov": 60
+    },
+    "mean_rgb": [
+     157.4334,
+     226.2205,
+     94.7224
+    ],
+    "luminance": 202.1022,
+    "central_lower_third": {
+     "region": [
+      300,
+      0,
+      600,
+      533
+     ],
+     "mean_rgb": [
+      147.2023,
+      239.0132,
+      73.8186
+     ],
+     "mean_hsv": [
+      93.3465,
+      0.6912,
+      0.9373
+     ],
+     "luminance": 207.5672
+    },
+    "hue_bands": {
+     "red_0_30": 0.0349,
+     "orange_30_60": 0.1034,
+     "yellow_60_90": 0.001,
+     "lime_90_120": 0.7939,
+     "green_120_150": 0.0002,
+     "spring_150_180": 0.0001,
+     "cyan_180_210": 0.012,
+     "azure_210_240": 0.0156,
+     "blue_240_270": 0,
+     "violet_270_300": 0,
+     "magenta_300_330": 0,
+     "rose_330_360": 0,
+     "grey": 0.0389,
+     "dark": 0
+    }
+   },
+   {
+    "name": "hole09_tee",
+    "hole": 9,
+    "file": "hole09_tee.png",
+    "camera": {
+     "pos": [
+      -0.2247,
+      9.2841,
+      -4.4944
+     ],
+     "look": [
+      -0.1784,
+      8.9128,
+      -3.5671
+     ],
+     "fov": 60
+    },
+    "mean_rgb": [
+     185.0226,
+     209.6658,
+     116.4876
+    ],
+    "luminance": 197.6992,
+    "central_lower_third": {
+     "region": [
+      300,
+      0,
+      600,
+      533
+     ],
+     "mean_rgb": [
+      218,
+      255,
+      112.1784
+     ],
+     "mean_hsv": [
+      75.5439,
+      0.5601,
+      1
+     ],
+     "luminance": 236.8221
+    },
+    "hue_bands": {
+     "red_0_30": 0,
+     "orange_30_60": 0.0191,
+     "yellow_60_90": 0.795,
+     "lime_90_120": 0.0141,
+     "green_120_150": 0.0014,
+     "spring_150_180": 0.0003,
+     "cyan_180_210": 0.0045,
+     "azure_210_240": 0.0606,
+     "blue_240_270": 0,
+     "violet_270_300": 0,
+     "magenta_300_330": 0,
+     "rose_330_360": 0,
+     "grey": 0.105,
+     "dark": 0
+    }
+   },
+   {
+    "name": "hole09_approach",
+    "hole": 9,
+    "file": "hole09_approach.png",
+    "camera": {
+     "pos": [
+      11.9441,
+      9.1748,
+      230.5023
+     ],
+     "look": [
+      11.9144,
+      8.8034,
+      231.4303
+     ],
+     "fov": 60
+    },
+    "mean_rgb": [
+     162.1053,
+     245.654,
+     114.3206
+    ],
+    "luminance": 218.4093,
+    "central_lower_third": {
+     "region": [
+      300,
+      0,
+      600,
+      533
+     ],
+     "mean_rgb": [
+      145.8367,
+      255,
+      84.364
+     ],
+     "mean_hsv": [
+      98.3846,
+      0.6692,
+      1
+     ],
+     "luminance": 219.472
+    },
+    "hue_bands": {
+     "red_0_30": 0,
+     "orange_30_60": 0,
+     "yellow_60_90": 0.0005,
+     "lime_90_120": 0.8158,
+     "green_120_150": 0.0007,
+     "spring_150_180": 0.0001,
+     "cyan_180_210": 0.0065,
+     "azure_210_240": 0.0668,
+     "blue_240_270": 0,
+     "violet_270_300": 0,
+     "magenta_300_330": 0,
+     "rose_330_360": 0,
+     "grey": 0.1096,
+     "dark": 0
+    }
+   },
+   {
+    "name": "hole10_tee",
+    "hole": 10,
+    "file": "hole10_tee.png",
+    "camera": {
+     "pos": [
+      -0.9501,
+      9.2841,
+      -4.3985
+     ],
+     "look": [
+      -0.7541,
+      8.9128,
+      -3.491
+     ],
+     "fov": 60
+    },
+    "mean_rgb": [
+     156.5595,
+     172.5421,
+     54.6912
+    ],
+    "luminance": 160.6354,
+    "central_lower_third": {
+     "region": [
+      300,
+      0,
+      600,
+      533
+     ],
+     "mean_rgb": [
+      184,
+      209,
+      62.0975
+     ],
+     "mean_hsv": [
+      70.2108,
+      0.7029,
+      0.8196
+     ],
+     "luminance": 193.0786
+    },
+    "hue_bands": {
+     "red_0_30": 0.1217,
+     "orange_30_60": 0.0002,
+     "yellow_60_90": 0.8106,
+     "lime_90_120": 0.0127,
+     "green_120_150": 0,
+     "spring_150_180": 0,
+     "cyan_180_210": 0,
+     "azure_210_240": 0,
+     "blue_240_270": 0,
+     "violet_270_300": 0,
+     "magenta_300_330": 0.0005,
+     "rose_330_360": 0.0543,
+     "grey": 0.0001,
+     "dark": 0
+    }
+   },
+   {
+    "name": "hole10_approach",
+    "hole": 10,
+    "file": "hole10_approach.png",
+    "camera": {
+     "pos": [
+      102.6028,
+      9.1748,
+      159.1422
+     ],
+     "look": [
+      103.5307,
+      8.8034,
+      159.1748
+     ],
+     "fov": 60
+    },
+    "mean_rgb": [
+     146.4053,
+     150.5325,
+     53.088
+    ],
+    "luminance": 142.6196,
+    "central_lower_third": {
+     "region": [
+      300,
+      0,
+      600,
+      533
+     ],
+     "mean_rgb": [
+      147.457,
+      193.5303,
+      57.9434
+     ],
+     "mean_hsv": [
+      80.3884,
+      0.7006,
+      0.7589
+     ],
+     "luminance": 173.9457
+    },
+    "hue_bands": {
+     "red_0_30": 0.2131,
+     "orange_30_60": 0.0004,
+     "yellow_60_90": 0.6711,
+     "lime_90_120": 0.001,
+     "green_120_150": 0,
+     "spring_150_180": 0,
+     "cyan_180_210": 0,
+     "azure_210_240": 0,
+     "blue_240_270": 0,
+     "violet_270_300": 0,
+     "magenta_300_330": 0.0013,
+     "rose_330_360": 0.112,
+     "grey": 0,
+     "dark": 0.0011
+    }
+   }
+  ]
+ }
+}

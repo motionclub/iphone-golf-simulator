@@ -1,0 +1,7 @@
+# Rollback scope
+
+No existing shared runtime, shader, hero, course or locker file was replaced. All installation is blocked at G0. New task-owned files live under work/golf-look/ plus ArtDir/hero/kit/golf/GOLF_KIT_DESIGN.md. The inputs/ directory holds frozen source copies; source hashes are in inputs/SOURCE_MANIFEST.json. Draft iteration backup: build_golf_draft_before_fit.py. Do not undo files changed by the concurrent cloth, lobby or serve chats.
+
+`pre_weight_cleanup/` holds the initial draft models, retarget proofs, clearance JSONs, review images and scripts (33 paths, SHA manifest) before garment transfer repairs. `pre_saddle_geometry/` preserves the next isolated model/build state before replacing triangle-selected shoe trim with cut overlay geometry. `Golf_Male_SwingProof_pre_ground_fix.blend` preserves the first ground-correction iteration. These large iteration binaries stay unstaged. Script snapshots, baseline report/design snapshots and the manifest document what can be restored. Never restore an owner file from this task's old audit snapshot over concurrent work.
+
+`pre_shell_cleanup/` preserves garment drafts/proofs before correcting closed-shirt double solidification and restoring trousers' original pelvis/Spine weight lineage. `pre_final_proof_refresh/` preserves earlier images and metadata; `user_outputs_before_refresh/` preserves the first delivered checkpoint. `index_checkpoint/` retains initial metadata from the task's staged checkpoint. Final retarget/render/measurement logs use new filenames.

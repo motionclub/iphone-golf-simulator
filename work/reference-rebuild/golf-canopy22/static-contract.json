@@ -1,0 +1,13 @@
+{
+  "gate": "PASS",
+  "checks": [
+    "Only InstallTempleCanopyCandidate source selection and diagnostic changed",
+    "CoastalWater through end-of-file byte-unchanged; includes RNG/placement/proportion/normals/LOD/batching",
+    "eligible holes16/19/21/22/23 only",
+    "18 shared frond axes and UV2 leaf pivot .90",
+    "source near/far crown width difference below1%"
+  ],
+  "sourceNearFarWidthDifferencePercent": 0.25259763411424885,
+  "liveAssetsEditedByThisAgent": false,
+  "UnityRunsByThisAgent": 0
+}

@@ -1,0 +1,155 @@
+import Foundation
+import SceneKit
+import simd
+
+/// LOCKER_MIRROR: the match hero on the locker stage MOVES by playing its clips on its own skeleton, not by turning the character root.
+/// `FrozenHeroRig` swaps the hero's skinned parts (Body and the six kit pieces) to their bind-pose meshes with SceneKit skinners, hangs a flat skeleton of bone nodes under the hero root, and
+/// poses it from bone tracks sampled from Unity's own clips (<Sex>_ReadyIdle, <Sex>_Serve; see FrozenRigData). The rigid parts (the face, the racket) follow their track. At frame 0 of ReadyIdle the
+/// skinned hero is the static Ready-stance hero, so switching between the two does not move a vertex.
+@MainActor final class FrozenHeroRig {
+    let data: FrozenRigData
+    let root: SCNNode
+    private let asset: FrozenMatchHeroData.Asset
+    private(set) var isAttached = false
+    private let skeleton = SCNNode()
+    /// The skeleton's bone nodes (flat, one per bone of the export, hero-space transforms) while attached.
+    private(set) var boneNodes: [SCNNode] = []
+    private var rigid: [(node: SCNNode, track: Int)] = []
+    private var staticGeometry: [String: SCNGeometry] = [:]
+
+    init?(root: SCNNode, asset: FrozenMatchHeroData.Asset) {
+        guard let data = asset.rig() else { return nil }
+        self.data = data; self.root = root; self.asset = asset
+        skeleton.name = "skeleton"
+    }
+
+    /// The skinned parts and the bone nodes go in; the hero is posed at frame 0 of ReadyIdle (identical to the static stance).
+    func attach() {
+        guard !isAttached else { return }
+        root.addChildNode(skeleton)
+        boneNodes = data.info.bones.map { name in let b = SCNNode(); b.name = name; skeleton.addChildNode(b); return b }
+        for part in data.skinned {
+            guard let node = root.childNode(withName: part.name, recursively: false), let old = node.geometry, let g = part.geometry.copy() as? SCNGeometry else { continue }
+            staticGeometry[part.name] = old
+            g.materials = old.materials   // the hero's own materials (skin tone, kit tints) ride along
+            node.geometry = g
+            let skinner = SCNSkinner(baseGeometry: g, bones: part.bones.map { boneNodes[$0] }, boneInverseBindTransforms: part.inverseBinds, boneWeights: part.weights, boneIndices: part.indices)
+            skinner.skeleton = skeleton
+            node.skinner = skinner
+        }
+        rigid = data.info.parts.compactMap { rp in
+            guard rp.kind == "rigid", let node = root.childNode(withName: rp.part, recursively: true) else { return nil }
+            return (node, rp.track)
+        }
+        isAttached = true
+        if let ready = data.clips["ready"] { apply(ready.pose(at: 0, loop: true)) }
+    }
+
+    /// Back to the static Ready-stance hero (what the morph practice swing and the thumbnails build on).
+    func detach() {
+        guard isAttached else { return }
+        for part in data.skinned {
+            guard let node = root.childNode(withName: part.name, recursively: false) else { continue }
+            node.skinner = nil
+            if let old = staticGeometry[part.name] { old.materials = node.geometry?.materials ?? old.materials; node.geometry = old }
+        }
+        SCNTransaction.begin(); SCNTransaction.disableActions = true
+        for r in rigid { r.node.simdTransform = matrix_identity_float4x4 }
+        SCNTransaction.commit()
+        skeleton.removeFromParentNode(); skeleton.childNodes.forEach { $0.removeFromParentNode() }
+        boneNodes = []; rigid = []; staticGeometry = [:]
+        isAttached = false
+    }
+
+    /// Put the skeleton and the rigid parts in `pose` (one entry per track).
+    func apply(_ pose: [FrozenHeroTrackPose]) {
+        guard isAttached, pose.count == data.info.trackCount else { return }
+        SCNTransaction.begin(); SCNTransaction.disableActions = true
+        for (i, node) in boneNodes.enumerated() { node.simdTransform = pose[i].matrix }
+        for r in rigid { r.node.simdTransform = pose[r.track].matrix }
+        SCNTransaction.commit()
+    }
+
+    func apply(_ motion: FrozenMenuMotion, at time: Double) { apply(motion.pose(data, at: time)) }
+}
+
+/// What a menu tile plays on the hero, as a function of time since the tile came up. Never the character root.
+struct FrozenMenuMotion: Equatable {
+    enum Kind: Equatable { case ready, serveOnce, clipOnce(String) }
+    var kind: Kind
+    /// Serve once: a beat of Ready first, then the Serve is blended in over `fadeIn`, plays through, and blends back out into the Ready loop over `fadeOut`. After that it is the Ready loop for good.
+    var lead = 0.7, fadeIn = 0.2, fadeOut = 0.4
+    var idleOffset = 0.0
+    /// Set when something has to take the hero off the skeleton (the loading screen's morph practice swing builds on the static Ready stance, which is frame 0 of ReadyIdle): from this time the
+    /// pose eases from where it was to ReadyIdle frame 0 over `settleDuration`, so nothing pops.
+    var settleFrom: Double?
+    var settleDuration = 0.12
+
+    static let ready = FrozenMenuMotion(kind: .ready)
+    static let serveOnce = FrozenMenuMotion(kind: .serveOnce)
+
+    private static func smooth(_ x: Double) -> Float { let c = min(1, max(0, x)); return Float(c * c * (3 - 2 * c)) }
+
+    /// Seconds until only the Ready loop is left playing (0 for the Ready loop itself).
+    @MainActor func settledAfter(_ rig: FrozenRigData) -> Double {
+        switch kind {
+        case .ready: return 0
+        case .serveOnce: return lead + (rig.clips["serve"]?.length ?? 0)
+        case .clipOnce(let id): return lead + (rig.clips[id]?.length ?? 0) + fadeOut
+        }
+    }
+
+    /// 0...1: how much of the Serve is in the pose at `t` (0 before it and after it, eased in over `fadeIn` and out over `fadeOut`).
+    @MainActor func serveWeight(_ rig: FrozenRigData, at t: Double) -> Float {
+        guard kind == .serveOnce, let serve = rig.clips["serve"] else { return 0 }
+        let ts = t - lead
+        guard ts > 0, ts < serve.length else { return 0 }
+        return min(Self.smooth(ts / fadeIn), Self.smooth((serve.length - ts) / fadeOut))
+    }
+
+    /// The pose at time `t`: the Ready loop, with the Serve laid over it for one pass in `serveOnce`; easing to the still Ready stance once `settleFrom` is set.
+    @MainActor func pose(_ rig: FrozenRigData, at t: Double) -> [FrozenHeroTrackPose] {
+        guard let from = settleFrom, let ready = rig.clips["ready"] else { return playing(rig, at: t) }
+        return FrozenRigData.blend(playing(rig, at: from), ready.pose(at: 0, loop: true), Self.smooth((t - from) / settleDuration))
+    }
+    @MainActor private func playing(_ rig: FrozenRigData, at t: Double) -> [FrozenHeroTrackPose] {
+        guard let ready = rig.clips["ready"] else { return [] }
+        let base = ready.pose(at: t + idleOffset, loop: true)
+        if case .clipOnce(let id) = kind, let clip = rig.clips[id] {
+            let elapsed = t - lead
+            if elapsed < 0 { return base }
+            // Play through the last frame, then ease into the idle. Never cut the end of an emote off.
+            let weight = elapsed <= clip.length ? Self.smooth(elapsed / max(0.001, fadeIn)) : 1 - Self.smooth((elapsed - clip.length) / max(0.001, fadeOut))
+            return FrozenRigData.blend(base, clip.pose(at: elapsed, loop: false), weight)
+        }
+        let w = serveWeight(rig, at: t)
+        guard w > 0, let serve = rig.clips["serve"] else { return base }
+        return FrozenRigData.blend(base, serve.pose(at: t - lead, loop: false), w)
+    }
+}
+
+/// A lobby hero owns one animation clock and at most one pending emote. Clock values use the lobby owner's timeline.
+@MainActor final class FrozenLobbyHeroMotion {
+    let rig: FrozenHeroRig
+    let idleOffset: Double
+    private(set) var clip: String?
+    private(set) var queued: String?
+    private(set) var startedAt = 0.0
+    init(rig: FrozenHeroRig, idleOffset: Double) { self.rig = rig; self.idleOffset = idleOffset; rig.attach() }
+    func play(_ id: String, at time: Double, now: Double) {
+        guard rig.data.clips[id] != nil else { return }
+        if clip != nil, now < endTime { queued = id; return }
+        clip = id; startedAt = min(time, now)
+    }
+    var endTime: Double { startedAt + (clip.flatMap { rig.data.clips[$0]?.length } ?? 0) + 0.2 }
+    func pose(at time: Double) {
+        if clip != nil, time >= endTime {
+            if let next = queued { startedAt = endTime; clip = next; queued = nil }
+            else { clip = nil }
+        }
+        var motion = FrozenMenuMotion.ready; var t = time
+        if let clip { motion = FrozenMenuMotion(kind: .clipOnce(clip), lead: 0, fadeIn: 0.12, fadeOut: 0.2); t = time - startedAt }
+        motion.idleOffset = idleOffset + (clip == nil ? 0 : startedAt)
+        rig.apply(motion, at: t)
+    }
+}

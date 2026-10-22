@@ -97,7 +97,7 @@ namespace GolfArcade.Tennis
         void ResetPointAbilities()
         {
             UltimateArmed = false; playerUltCharged = rivalUltCharged = false;
-            diveTime = 0; ballCurve = 0; TrackingOverhead = false; overheadAttempted = false;
+            diveTime = 0; ballCurve = 0; TrackingOverhead = false; overheadAttempted = false; queuedOverheadPower = -1;
         }
         void ResetMatchAbilities()
         {

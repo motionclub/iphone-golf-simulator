@@ -1,0 +1,211 @@
+[
+  {
+    "file": "Unity/Assets/Resources/Tennis/Shaders/KitRecolor.shader",
+    "shader": "Hidden/GolfArcade/KitRecolor",
+    "pragmas": [
+      "#pragma vertex vert_img",
+      "#pragma fragment frag"
+    ],
+    "includes": [
+      "UnityCG.cginc"
+    ]
+  },
+  {
+    "file": "Unity/Assets/Resources/Tennis/Shaders/TennisCharacter.shader",
+    "shader": "GolfArcade/TennisCharacter",
+    "pragmas": [
+      "#pragma vertex vert",
+      "#pragma fragment frag",
+      "#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN",
+      "#pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS",
+      "#pragma multi_compile_fragment _ _SHADOWS_SOFT _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH",
+      "#pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION",
+      "#pragma multi_compile _ _LIGHT_LAYERS",
+      "#pragma multi_compile_fog",
+      "#pragma multi_compile_local _ _NORMALMAP"
+    ],
+    "includes": [
+      "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl",
+      "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+    ]
+  },
+  {
+    "file": "Unity/Assets/Resources/Tennis/Shaders/TennisCloth.shader",
+    "shader": "GolfArcade/TennisCloth",
+    "pragmas": [
+      "#pragma vertex vert",
+      "#pragma fragment frag",
+      "#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN",
+      "#pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS",
+      "#pragma multi_compile_fragment _ _SHADOWS_SOFT _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH",
+      "#pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION",
+      "#pragma multi_compile _ _LIGHT_LAYERS",
+      "#pragma multi_compile_fog"
+    ],
+    "includes": [
+      "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl",
+      "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+    ]
+  },
+  {
+    "file": "Unity/Assets/Resources/Tennis/Shaders/TennisFace.shader",
+    "shader": "GolfArcade/TennisFace",
+    "pragmas": [
+      "#pragma vertex vert",
+      "#pragma fragment frag",
+      "#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN",
+      "#pragma multi_compile_fragment _ _SHADOWS_SOFT _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH",
+      "#pragma multi_compile_fog"
+    ],
+    "includes": [
+      "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl",
+      "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+    ]
+  },
+  {
+    "file": "Unity/Assets/Resources/Tennis/Shaders/TennisFxAdditive.shader",
+    "shader": "GolfArcade/TennisFxAdditive",
+    "pragmas": [
+      "#pragma vertex vert",
+      "#pragma fragment frag"
+    ],
+    "includes": [
+      "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+    ]
+  },
+  {
+    "file": "Unity/Assets/Resources/Tennis/Shaders/TennisFxAlpha.shader",
+    "shader": "GolfArcade/TennisFxAlpha",
+    "pragmas": [
+      "#pragma vertex vert",
+      "#pragma fragment frag"
+    ],
+    "includes": [
+      "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+    ]
+  },
+  {
+    "file": "Unity/Assets/Resources/Tennis/Shaders/TennisShadowBlob.shader",
+    "shader": "GolfArcade/TennisShadowBlob",
+    "pragmas": [
+      "#pragma vertex vert",
+      "#pragma fragment frag"
+    ],
+    "includes": [
+      "UnityCG.cginc"
+    ]
+  },
+  {
+    "file": "Unity/Assets/Resources/Tennis/Shaders/TennisSky.shader",
+    "shader": "GolfArcade/TennisSky",
+    "pragmas": [
+      "#pragma vertex vert",
+      "#pragma fragment frag"
+    ],
+    "includes": [
+      "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+    ]
+  },
+  {
+    "file": "Unity/Assets/Resources/Tennis/Shaders/TennisWater.shader",
+    "shader": "GolfArcade/TennisWater",
+    "pragmas": [
+      "#pragma vertex vert",
+      "#pragma fragment frag",
+      "#pragma multi_compile_fog"
+    ],
+    "includes": [
+      "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl",
+      "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+    ]
+  },
+  {
+    "file": "Unity/Assets/Resources/Course/Shaders/GolfLava.shader",
+    "shader": "GolfArcade/GolfLava",
+    "pragmas": [
+      "#pragma vertex vert",
+      "#pragma fragment frag",
+      "#pragma multi_compile_fog"
+    ],
+    "includes": [
+      "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+    ]
+  },
+  {
+    "file": "Unity/Assets/Resources/Course/Shaders/GolfPlants.shader",
+    "shader": "GolfArcade/GolfPlants",
+    "pragmas": [
+      "#pragma target 2.0",
+      "#pragma vertex PlantPassVertex",
+      "#pragma fragment LitPassFragment",
+      "#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN",
+      "#pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS",
+      "#pragma multi_compile _ EVALUATE_SH_MIXED EVALUATE_SH_VERTEX",
+      "#pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS",
+      "#pragma multi_compile_fragment _ _REFLECTION_PROBE_BLENDING",
+      "#pragma multi_compile_fragment _ _REFLECTION_PROBE_BOX_PROJECTION",
+      "#pragma multi_compile_fragment _ _REFLECTION_PROBE_ATLAS",
+      "#pragma multi_compile_fragment _ _SHADOWS_SOFT _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH",
+      "#pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION",
+      "#pragma multi_compile_fragment _ _SCREEN_SPACE_IRRADIANCE",
+      "#pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3",
+      "#pragma multi_compile_fragment _ _LIGHT_COOKIES",
+      "#pragma multi_compile _ _LIGHT_LAYERS",
+      "#pragma multi_compile _ _CLUSTER_LIGHT_LOOP",
+      "#pragma multi_compile _ LIGHTMAP_SHADOW_MIXING",
+      "#pragma multi_compile _ SHADOWS_SHADOWMASK",
+      "#pragma multi_compile _ DIRLIGHTMAP_COMBINED",
+      "#pragma multi_compile _ LIGHTMAP_ON",
+      "#pragma multi_compile_fragment _ LIGHTMAP_BICUBIC_SAMPLING",
+      "#pragma multi_compile_fragment _ REFLECTION_PROBE_ROTATION",
+      "#pragma multi_compile _ DYNAMICLIGHTMAP_ON",
+      "#pragma multi_compile _ USE_LEGACY_LIGHTMAPS",
+      "#pragma multi_compile _ LOD_FADE_CROSSFADE",
+      "#pragma multi_compile_fragment _ DEBUG_DISPLAY",
+      "#pragma multi_compile_instancing",
+      "#pragma instancing_options renderinglayer",
+      "#pragma target 2.0",
+      "#pragma vertex PlantShadowVertex",
+      "#pragma fragment ShadowPassFragment",
+      "#pragma multi_compile_instancing",
+      "#pragma multi_compile _ LOD_FADE_CROSSFADE",
+      "#pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW",
+      "#pragma target 2.0",
+      "#pragma vertex PlantDepthVertex",
+      "#pragma fragment DepthOnlyFragment",
+      "#pragma multi_compile _ LOD_FADE_CROSSFADE",
+      "#pragma multi_compile_instancing",
+      "#pragma target 2.0",
+      "#pragma vertex PlantDepthNormalsVertex",
+      "#pragma fragment DepthNormalsFragment",
+      "#pragma multi_compile _ LOD_FADE_CROSSFADE",
+      "#pragma multi_compile_instancing"
+    ],
+    "includes": [
+      "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl",
+      "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl",
+      "Packages/com.unity.render-pipelines.universal/Shaders/LitForwardPass.hlsl",
+      "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl",
+      "Packages/com.unity.render-pipelines.universal/Shaders/ShadowCasterPass.hlsl",
+      "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl",
+      "Packages/com.unity.render-pipelines.universal/Shaders/DepthOnlyPass.hlsl",
+      "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl",
+      "Packages/com.unity.render-pipelines.universal/Shaders/LitDepthNormalsPass.hlsl"
+    ]
+  },
+  {
+    "file": "Unity/Assets/Resources/Course/Shaders/GolfSurf.shader",
+    "shader": "GolfArcade/GolfSurf",
+    "pragmas": [
+      "#pragma vertex vert",
+      "#pragma fragment frag",
+      "#pragma multi_compile_fog",
+      "#pragma multi_compile_instancing"
+    ],
+    "includes": [
+      "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl",
+      "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl",
+      "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
+    ]
+  }
+]

@@ -1,0 +1,46 @@
+Unity/Assets/Scripts/Tennis/TennisTutorial.cs:7:    public sealed class TutorialLesson
+Unity/Assets/Scripts/Tennis/TennisTutorial.cs:56:        public TutorialLesson Lesson { get; private set; } = new TutorialLesson();
+Unity/Assets/Scripts/Tennis/TennisTutorial.cs:67:            Stop(); game = g; coach = c; Lesson = new TutorialLesson(); active = true; feeds = 0;
+Unity/Assets/Scripts/Tennis/TennisTutorial.cs:92:            StepChanged?.Invoke(Lesson.Index, TutorialLesson.Steps.Length, Lesson.Instruction);
+Unity/Assets/Scripts/Tennis/TennisTutorial.cs:100:            game.Drill = Lesson.Current.Kind != TutorialLesson.Kind.Point;
+Unity/Assets/Scripts/Tennis/TennisTutorial.cs:102:            if (Lesson.Current.Kind == TutorialLesson.Kind.Serve || Lesson.Current.Kind == TutorialLesson.Kind.Point)
+Unity/Assets/Scripts/Tennis/TennisTutorial.cs:117:            marker.enabled = Lesson.Current.Kind == TutorialLesson.Kind.Aim;
+Unity/Assets/Scripts/Tennis/TennisTutorial.cs:123:                game.Feed(Lesson.Current.Kind == TutorialLesson.Kind.Backhand
+Unity/Assets/Scripts/Tennis/TennisTutorial.cs:124:                    || (Lesson.Current.Kind == TutorialLesson.Kind.Aim && feeds % 2 == 0));
+Unity/Assets/Scripts/Tennis/TennisTutorial.cs:147:            if (Lesson.Current.Kind == TutorialLesson.Kind.Serve)
+Unity/Assets/Scripts/Tennis/TennisTutorial.cs:149:            else if (Lesson.Current.Kind != TutorialLesson.Kind.Point && feedAt < 0)
+Unity/Assets/Scripts/Tennis/TennisTutorial.cs:154:            if (!active || pendingStep || !byPlayer || resolved || Lesson.Current.Kind == TutorialLesson.Kind.Point) return;
+Unity/Assets/Scripts/Tennis/TennisTutorial.cs:155:            if (Lesson.Current.Kind == TutorialLesson.Kind.Serve && !serve) return;
+Unity/Assets/Scripts/Tennis/TennisTutorial.cs:158:            if (Lesson.Current.Kind == TutorialLesson.Kind.Aim)
+Unity/Assets/Scripts/Tennis/TennisTutorial.cs:171:            if (active && !pendingStep && Lesson.Current.Kind == TutorialLesson.Kind.Point)
+GolfArcade/Unity/SportsDisplays.swift:32:                  screen.nativeBounds.width, screen.nativeBounds.height, Self.displayKind.rawValue)
+GolfArcade/Unity/SportsDisplays.swift:112:    static var displayKind: DisplayKind {
+GolfArcade/Multiplayer/MultiplayerService.swift:94:    func setIdentity(name: String, female: Bool = false, left: Bool = false, loadout: MultiplayerLoadout? = nil) {
+GolfArcade/Multiplayer/MultiplayerService.swift:524:        leave(); setIdentity(name:player.name,female:player.standardFemale,left:player.handedness == .left,loadout:player.multiplayerLoadout)
+GolfArcade/Unity/SportsSession.swift:55:    var tutorialStep: (index: Int, count: Int, text: String)?
+GolfArcade/Unity/SportsSession.swift:329:        score = TennisScore(); contacts = []; tutorialStep = nil
+GolfArcade/Unity/SportsSession.swift:594:        TennisMenu.shared.matchFinished(won: won, score: score)
+GolfArcade/Unity/SportsSession.swift:632:        loading.cancel(); tutorialStep=nil; finishedMatch=nil
+GolfArcade/Unity/SportsSession.swift:726:            case "tutorialStep":
+GolfArcade/Unity/SportsSession.swift:728:                if parts.count == 3, let i=Int(parts[0]), let n=Int(parts[1]) { tutorialStep=(i,n,parts[2]) }
+GolfArcade/Unity/SportsSession.swift:730:                if event["type"] as? String == "tutorialDone" || TennisMenu.shared.launch?.mode == .tutorial { TennisMenu.shared.tutorialFinished() }
+GolfArcade/Unity/Progression.swift:55:/// Something a level unlocks. There are none yet: `LevelRewards.rewards` is the place to add them.
+GolfArcade/Unity/Progression.swift:62:enum LevelRewards {
+GolfArcade/Unity/Progression.swift:137:    func award(player: UUID, stats: MatchStats, won: Bool, score: String, opponent: String, practice: Bool, difficulty: Double) -> PostMatchSummary {
+Unity/Assets/Scripts/Game/NativeSportsSession.cs:112:            TennisTutorial.StepChanged+=(i,n,text)=>Emit("tutorialStep",$"{i}|{n}|{text}");
+Unity/Assets/Scripts/Game/NativeSportsSession.cs:115:            GolfGame.ShotStruck+=()=>Emit("shot","");
+Unity/Assets/Scripts/Game/NativeSportsSession.cs:236:                tennis.ConfigureMatch(mode,m.opponent,m.opponentName,m.round,m.sets,m.games,
+GolfArcade/Unity/TennisMenu.swift:137:    static func settingsRows(_ tab: SettingsTab) -> [String] {
+GolfArcade/Unity/TennisMenu.swift:170:            return [SettingsTab.visible.map { "tab-\($0.rawValue)" }] + Self.settingsRows(settingsTab).map { [$0] } + [["back"]]
+GolfArcade/Unity/TennisMenu.swift:230:        if !progress.finishedTutorial(.tennis) { startTutorial(.tennis); return }
+GolfArcade/Unity/TennisMenu.swift:308:        case "homeCampaign": if progress.finishedTutorial(.tennis) { show(.campaign) } else { startTutorial(.tennis) }
+GolfArcade/Unity/TennisMenu.swift:328:            startTutorial(sport)
+GolfArcade/Unity/TennisMenu.swift:356:        case "randomize": randomize()
+GolfArcade/Unity/TennisMenu.swift:480:    private func randomize() {
+GolfArcade/Unity/TennisMenu.swift:499:    func startTutorial(_ sport: Sport) {
+GolfArcade/Unity/TennisMenu.swift:512:    func tutorialFinished() {
+GolfArcade/Unity/TennisMenu.swift:593:    func matchFinished(won: Bool, score: String) {
+GolfArcade/Unity/TennisMenu.swift:604:            postMatch = Progression.shared.award(player: session.players[session.playerIndex].id, stats: session.lastMatchStats ?? MatchStats(won: won),
+GolfArcade/Unity/TennisMenu.swift:1005:        service.setIdentity(name:p.name, female:p.standardFemale, left:p.handedness == .left, loadout:p.multiplayerLoadout)
+Unity/Assets/Scripts/Game/GolfGame.cs:17:        public static event System.Action ShotStruck;
+Unity/Assets/Scripts/Game/GolfGame.cs:429:            ShotStruck?.Invoke();

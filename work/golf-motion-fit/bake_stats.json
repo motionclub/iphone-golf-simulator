@@ -1,0 +1,264 @@
+[
+  {
+    "sex": "Male",
+    "piece": "Kit_Bottom",
+    "size": 1024,
+    "tris": 23026,
+    "uvCoverage": 0.37777042388916016,
+    "overlapTexels": 0,
+    "pxPerCm": 4.243544228375063,
+    "paddingPx": 6,
+    "AOmin": 0.9391748309135437,
+    "fabricIDs": [
+      6.0
+    ]
+  },
+  {
+    "sex": "Male",
+    "piece": "Kit_Glove_Left",
+    "size": 512,
+    "tris": 7032,
+    "uvCoverage": 0.4508819580078125,
+    "overlapTexels": 301,
+    "pxPerCm": 8.967997643738494,
+    "paddingPx": 3,
+    "AOmin": 1.0,
+    "fabricIDs": [
+      8.0
+    ]
+  },
+  {
+    "sex": "Male",
+    "piece": "Kit_Glove_Right",
+    "size": 512,
+    "tris": 7028,
+    "uvCoverage": 0.45101165771484375,
+    "overlapTexels": 268,
+    "pxPerCm": 8.970709856942737,
+    "paddingPx": 3,
+    "AOmin": 1.0,
+    "fabricIDs": [
+      8.0
+    ]
+  },
+  {
+    "sex": "Male",
+    "piece": "Kit_Head",
+    "size": 512,
+    "tris": 3960,
+    "uvCoverage": 0.1917724609375,
+    "overlapTexels": 48,
+    "pxPerCm": 4.843151985528559,
+    "paddingPx": 3,
+    "AOmin": 1.0,
+    "fabricIDs": [
+      6.0
+    ]
+  },
+  {
+    "sex": "Male",
+    "piece": "Kit_Shoe_L",
+    "size": 1024,
+    "tris": 11844,
+    "uvCoverage": 0.2924318313598633,
+    "overlapTexels": 1,
+    "pxPerCm": 8.850796229262539,
+    "paddingPx": 6,
+    "AOmin": 1.0,
+    "fabricIDs": [
+      3.0,
+      4.0,
+      9.0
+    ]
+  },
+  {
+    "sex": "Male",
+    "piece": "Kit_Shoe_R",
+    "size": 1024,
+    "tris": 11844,
+    "uvCoverage": 0.2930307388305664,
+    "overlapTexels": 2,
+    "pxPerCm": 8.85436117814661,
+    "paddingPx": 6,
+    "AOmin": 1.0,
+    "fabricIDs": [
+      3.0,
+      4.0,
+      9.0
+    ]
+  },
+  {
+    "sex": "Male",
+    "piece": "Kit_Sock_L",
+    "size": 256,
+    "tris": 3694,
+    "uvCoverage": 0.48431396484375,
+    "overlapTexels": 0,
+    "pxPerCm": 3.3889454539390336,
+    "paddingPx": 3,
+    "AOmin": 1.0,
+    "fabricIDs": [
+      1.0
+    ]
+  },
+  {
+    "sex": "Male",
+    "piece": "Kit_Sock_R",
+    "size": 256,
+    "tris": 3720,
+    "uvCoverage": 0.500274658203125,
+    "overlapTexels": 5,
+    "pxPerCm": 3.439369985926183,
+    "paddingPx": 3,
+    "AOmin": 1.0,
+    "fabricIDs": [
+      1.0
+    ]
+  },
+  {
+    "sex": "Male",
+    "piece": "Kit_Top",
+    "size": 2048,
+    "tris": 22267,
+    "uvCoverage": 0.3063788414001465,
+    "overlapTexels": 0,
+    "pxPerCm": 9.274218192966114,
+    "paddingPx": 12,
+    "AOmin": 0.9160001277923584,
+    "fabricIDs": [
+      1.0,
+      7.0
+    ]
+  },
+  {
+    "sex": "Female",
+    "piece": "Kit_Bottom",
+    "size": 1024,
+    "tris": 16878,
+    "uvCoverage": 0.4554128646850586,
+    "overlapTexels": 42,
+    "pxPerCm": 5.000543746811651,
+    "paddingPx": 6,
+    "AOmin": 0.9020000100135803,
+    "fabricIDs": [
+      6.0
+    ]
+  },
+  {
+    "sex": "Female",
+    "piece": "Kit_Glove_Left",
+    "size": 512,
+    "tris": 4444,
+    "uvCoverage": 0.4128456115722656,
+    "overlapTexels": 1689,
+    "pxPerCm": 11.014792399146932,
+    "paddingPx": 3,
+    "AOmin": 1.0,
+    "fabricIDs": [
+      8.0
+    ]
+  },
+  {
+    "sex": "Female",
+    "piece": "Kit_Glove_Right",
+    "size": 512,
+    "tris": 4772,
+    "uvCoverage": 0.4059028625488281,
+    "overlapTexels": 303,
+    "pxPerCm": 10.843720397827324,
+    "paddingPx": 3,
+    "AOmin": 1.0,
+    "fabricIDs": [
+      8.0
+    ]
+  },
+  {
+    "sex": "Female",
+    "piece": "Kit_Head",
+    "size": 512,
+    "tris": 2052,
+    "uvCoverage": 0.2695121765136719,
+    "overlapTexels": 24,
+    "pxPerCm": 7.706882994508863,
+    "paddingPx": 3,
+    "AOmin": 1.0,
+    "fabricIDs": [
+      6.0
+    ]
+  },
+  {
+    "sex": "Female",
+    "piece": "Kit_Shoe_L",
+    "size": 1024,
+    "tris": 7874,
+    "uvCoverage": 0.29919910430908203,
+    "overlapTexels": 10,
+    "pxPerCm": 11.498056037923797,
+    "paddingPx": 6,
+    "AOmin": 1.0,
+    "fabricIDs": [
+      3.0,
+      4.0,
+      9.0
+    ]
+  },
+  {
+    "sex": "Female",
+    "piece": "Kit_Shoe_R",
+    "size": 1024,
+    "tris": 7874,
+    "uvCoverage": 0.29319190979003906,
+    "overlapTexels": 6,
+    "pxPerCm": 11.379585980300579,
+    "paddingPx": 6,
+    "AOmin": 1.0,
+    "fabricIDs": [
+      3.0,
+      4.0,
+      9.0
+    ]
+  },
+  {
+    "sex": "Female",
+    "piece": "Kit_Sock_L",
+    "size": 256,
+    "tris": 5082,
+    "uvCoverage": 0.393341064453125,
+    "overlapTexels": 0,
+    "pxPerCm": 3.2018074691425245,
+    "paddingPx": 3,
+    "AOmin": 1.0,
+    "fabricIDs": [
+      1.0
+    ]
+  },
+  {
+    "sex": "Female",
+    "piece": "Kit_Sock_R",
+    "size": 256,
+    "tris": 5082,
+    "uvCoverage": 0.3879241943359375,
+    "overlapTexels": 0,
+    "pxPerCm": 3.1805439902988364,
+    "paddingPx": 3,
+    "AOmin": 1.0,
+    "fabricIDs": [
+      1.0
+    ]
+  },
+  {
+    "sex": "Female",
+    "piece": "Kit_Top",
+    "size": 2048,
+    "tris": 19408,
+    "uvCoverage": 0.27066636085510254,
+    "overlapTexels": 0,
+    "pxPerCm": 10.621539844432263,
+    "paddingPx": 12,
+    "AOmin": 0.9160010814666748,
+    "fabricIDs": [
+      1.0,
+      7.0
+    ]
+  }
+]

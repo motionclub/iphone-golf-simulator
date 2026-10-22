@@ -1,0 +1,72 @@
+[
+  {
+    "name": "tennis-audience4",
+    "method": "GolfArcade.EditorTools.TennisAudienceProof.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "TAP_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-audience-4"
+    }
+  },
+  {
+    "name": "tennis-promenade4",
+    "method": "GolfArcade.EditorTools.TennisPromenadeFilm.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "TWALK_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-promenade-film-4"
+    }
+  },
+  {
+    "name": "tennis-costs17-resort",
+    "method": "GolfArcade.EditorTools.TennisFrameCosts.Run",
+    "batch": false,
+    "env": {
+      "HERO_VENUE": "resort",
+      "TCF_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-costs-17"
+    }
+  },
+  {
+    "name": "tennis-costs17-skyscraper",
+    "method": "GolfArcade.EditorTools.TennisFrameCosts.Run",
+    "batch": false,
+    "env": {
+      "HERO_VENUE": "skyscraper",
+      "TCF_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-costs-17"
+    }
+  },
+  {
+    "name": "tennis-costs17-volcano",
+    "method": "GolfArcade.EditorTools.TennisFrameCosts.Run",
+    "batch": false,
+    "env": {
+      "HERO_VENUE": "volcano",
+      "TCF_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-costs-17"
+    }
+  },
+  {
+    "name": "tennis-world17-resort",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-worlds-pass-17",
+      "HERO_VENUE_ONLY": "1_gameplay,2_postcard,9_hero_postcard,3_drone0,3_drone5"
+    }
+  },
+  {
+    "name": "tennis-world17-skyscraper",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "skyscraper",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-worlds-pass-17",
+      "HERO_VENUE_ONLY": "1_gameplay,2_postcard,9_hero_postcard,3_drone0,3_drone5"
+    }
+  },
+  {
+    "name": "tennis-world17-volcano",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "volcano",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-worlds-pass-17",
+      "HERO_VENUE_ONLY": "1_gameplay,2_postcard,9_hero_postcard,3_drone0,3_drone5"
+    }
+  }
+]

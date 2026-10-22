@@ -1,0 +1,78 @@
+{
+ "blend": "final/HeroBase_Male_Silhouette_f1.blend",
+ "blend_sha256": "fe1a6710ffd3f64cfd49d1949579fb31c6d26c655e58c962d0396c26edb73dc5",
+ "verts": 29857,
+ "polys": 30532,
+ "tris": 59462,
+ "quad_faces": 28930,
+ "tri_faces": 1602,
+ "ngon_faces": 0,
+ "face_m": {
+  "verts": 3570,
+  "tris": 6220,
+  "materials": [
+   "Face_Brow",
+   "Face_Sclera",
+   "Face_Iris",
+   "Face_Pupil",
+   "Face_Limbal",
+   "Face_Catch",
+   "Face_LidLine",
+   "Face_Lip",
+   "Face_Seam",
+   "Face_Nostril"
+  ]
+ },
+ "original_vertices": 24652,
+ "moved_total": 1832,
+ "moved_outside_head_zone": 0,
+ "moved_in_hands": 0,
+ "body_below_neck_bit_identical": true,
+ "chin_band_orig_verts": 270,
+ "chin_band_moved": 100,
+ "chin_band_max_mm": 2.783950989373377,
+ "new_vertices": 5205,
+ "boundary_edges": 96,
+ "nonmanifold_edges": 2,
+ "height_m": 1.7021874501369894,
+ "nan_or_inf": false,
+ "signed_volume_m3": 0.09119762726224093,
+ "head_edge_mm": {
+  "mean": 4.594157466654922,
+  "median": 3.5898942313441577,
+  "p5": 1.4475684638276138,
+  "p95": 11.279257679447669,
+  "max": 17.388967249699316,
+  "n": 14967
+ },
+ "face_zone_edge_mm": {
+  "mean": 3.8815486556363945,
+  "median": 3.605922039929236,
+  "p5": 1.399549441608807,
+  "p95": 7.23761417111845,
+  "max": 17.388967249699316,
+  "n": 8407
+ },
+ "silhouette": {
+  "body_bald_front": {
+   "diff": 3276,
+   "union": 74994,
+   "pct": 4.368349467957437
+  },
+  "body_bald_back": {
+   "diff": 3468,
+   "union": 74322,
+   "pct": 4.6661822878824575
+  },
+  "withface_bald_front": {
+   "diff": 3276,
+   "union": 74994,
+   "pct": 4.368349467957437
+  },
+  "withface_bald_back": {
+   "diff": 3468,
+   "union": 74322,
+   "pct": 4.6661822878824575
+  }
+ }
+}

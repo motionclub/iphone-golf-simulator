@@ -1,0 +1,441 @@
+{
+ "hole8": {
+  "fbx": "Unity/Assets/Resources/Course/hole_08.fbx",
+  "objects": 933,
+  "prefixes": {
+   "BALL_": 1,
+   "BUNKER_": 2,
+   "DRESS_": 7,
+   "FAIRWAY": 1,
+   "FAIRWAY_": 1,
+   "FLAG": 1,
+   "FLAG_": 1,
+   "GREEN": 1,
+   "GREEN_": 1,
+   "HOLE_": 1,
+   "PLANT_": 809,
+   "ROCK_": 83,
+   "TEE_": 3,
+   "TERRAIN_": 1,
+   "WATER_": 20
+  },
+  "materials": {
+   "MAT_BALL": 1,
+   "LK_SAND": 1,
+   "LK_ROUGH": 20,
+   "LK_MASONRY": 5,
+   "LK_PATH": 2,
+   "LK_FAIRWAY": 4,
+   "MAT_FLAG": 1,
+   "MAT_POLE": 3,
+   "LK_GREEN": 1,
+   "MAT_CUP": 1,
+   "LK_PLANTS": 822,
+   "LK_ROCK": 28,
+   "LK_ROCK_WET": 51,
+   "LK_CLIFF": 5,
+   "LK_CLIFF_DARK": 5,
+   "LK_FALL": 1,
+   "LK_WATER": 1,
+   "LK_WATER_SHALLOW": 1,
+   "LK_SURF": 17
+  },
+  "triangles": 139723,
+  "foam_named_objects": [],
+  "foam_materials": [],
+  "legacy_materials": [],
+  "ocean_dimensions": [
+   4000.0,
+   4000.0,
+   0.0
+  ],
+  "z_is_up": true,
+  "vines": {
+   "count": 131,
+   "attached": 123,
+   "unattached": 8,
+   "root_gap_max_m": 0.8567224144935608,
+   "bottom_above_sea_min_m": 2.911774833752958,
+   "unattached_names": [
+    "PLANT_VINE_L.026",
+    "PLANT_VINE_L.041",
+    "PLANT_VINE_L.042",
+    "PLANT_VINE_M.053",
+    "PLANT_VINE_M.054",
+    "PLANT_VINE_M.055",
+    "PLANT_VINE_M.060",
+    "PLANT_VINE_M.061"
+   ]
+  },
+  "plants": {
+   "plants": 809,
+   "vine_objects_judged_by_root": 0,
+   "on_sea": 0,
+   "floating_no_surface_1m": 0,
+   "on_ground_or_rock": 678,
+   "no_hit_at_all": 0
+  },
+  "plants_support_by_surface": {
+   "ROCK_OUTCROP": 83,
+   "TERRAIN_": 595
+  },
+  "plants_on_sea_names": [],
+  "plants_floating_names": [],
+  "path": {
+   "objects": 2,
+   "samples": 14506,
+   "max_cm": 1.15,
+   "p99_cm": 1.15,
+   "mean_cm": 0.56,
+   "min_cm": -14.0,
+   "ball_radius_cm": 5.49,
+   "above_1p5cm": 0
+  },
+  "shelf": {
+   "objects": 1,
+   "faces": 923,
+   "area_m2": 2659.1,
+   "width_mean_m": 3.02,
+   "width_p95_m": 5.17,
+   "width_max_m": 7.94,
+   "boundary_samples": 2326
+  },
+  "rocks": {
+   "objects": 83,
+   "non_unit_object_scale": 79,
+   "anisotropy_max": 1.875,
+   "anisotropy_worst": [
+    [
+     1.875,
+     "ROCK_OUTCROP_A.000",
+     [
+      1.398,
+      1.398,
+      0.745
+     ]
+    ],
+    [
+     1.348,
+     "ROCK_SEASTACK_D.000",
+     [
+      1.375,
+      1.483,
+      1.1
+     ]
+    ],
+    [
+     1.335,
+     "ROCK_SEASTACK_A.009",
+     [
+      1.187,
+      1.268,
+      0.95
+     ]
+    ],
+    [
+     1.287,
+     "ROCK_SPIRE_A.000",
+     [
+      1.24,
+      1.277,
+      0.992
+     ]
+    ],
+    [
+     1.272,
+     "ROCK_SPIRE_A.006",
+     [
+      1.023,
+      1.041,
+      0.818
+     ]
+    ]
+   ],
+   "count_anisotropy_gt_2": 0,
+   "scale_max": 1.999,
+   "scale_min": 0.547,
+   "count_scale_gt_2": 0,
+   "count_scale_lt_0p4": 0
+  }
+ },
+ "hole9": {
+  "fbx": "Unity/Assets/Resources/Course/hole_09.fbx",
+  "objects": 837,
+  "prefixes": {
+   "BALL_": 1,
+   "BUNKER_": 6,
+   "DRESS_": 58,
+   "FAIRWAY": 1,
+   "FAIRWAY_": 1,
+   "FLAG": 1,
+   "FLAG_": 1,
+   "GREEN": 1,
+   "GREEN_": 1,
+   "HOLE_": 1,
+   "PLANT_": 400,
+   "ROCK_": 298,
+   "TEE_": 3,
+   "TERRAIN_": 1,
+   "WATER_": 63
+  },
+  "materials": {
+   "MAT_BALL": 1,
+   "LK_SAND": 6,
+   "LK_GREEN": 4,
+   "LK_MASONRY": 25,
+   "LK_SCRUB": 31,
+   "LK_ROCK": 210,
+   "LK_FAIRWAY": 3,
+   "LK_ROUGH": 11,
+   "MAT_FLAG": 1,
+   "MAT_POLE": 3,
+   "MAT_CUP": 1,
+   "LK_PLANTS": 409,
+   "LK_ROCK_WET": 104,
+   "LK_CLIFF": 15,
+   "LK_CLIFF_DARK": 15,
+   "LK_WATER": 1,
+   "LK_WATER_SHALLOW": 1,
+   "LK_SURF": 61
+  },
+  "triangles": 187187,
+  "foam_named_objects": [],
+  "foam_materials": [],
+  "legacy_materials": [],
+  "ocean_dimensions": [
+   4000.0,
+   4000.0,
+   0.0
+  ],
+  "z_is_up": true,
+  "vines": {
+   "count": 0,
+   "attached": 0,
+   "unattached": 0,
+   "root_gap_max_m": 0.0,
+   "bottom_above_sea_min_m": null,
+   "unattached_names": []
+  },
+  "plants": {
+   "plants": 400,
+   "vine_objects_judged_by_root": 0,
+   "on_sea": 0,
+   "floating_no_surface_1m": 0,
+   "on_ground_or_rock": 400,
+   "no_hit_at_all": 0
+  },
+  "plants_support_by_surface": {
+   "TERRAIN_": 400
+  },
+  "plants_on_sea_names": [],
+  "plants_floating_names": [],
+  "path": {
+   "objects": 0,
+   "samples": 0,
+   "max_cm": null,
+   "p99_cm": null,
+   "mean_cm": null,
+   "min_cm": null,
+   "ball_radius_cm": 5.49,
+   "above_1p5cm": 0
+  },
+  "shelf": {
+   "objects": 1,
+   "faces": 3447,
+   "area_m2": 12141.3,
+   "width_mean_m": 3.39,
+   "width_p95_m": 6.27,
+   "width_max_m": 8.19,
+   "boundary_samples": 8966
+  },
+  "rocks": {
+   "objects": 298,
+   "non_unit_object_scale": 284,
+   "anisotropy_max": 1.346,
+   "anisotropy_worst": [
+    [
+     1.346,
+     "ROCK_SEASTACK_A.001",
+     [
+      0.962,
+      1.035,
+      0.769
+     ]
+    ],
+    [
+     1.273,
+     "ROCK_SLAB_A_WET.014",
+     [
+      1.411,
+      1.624,
+      1.276
+     ]
+    ],
+    [
+     1.27,
+     "ROCK_STONE_A.032",
+     [
+      0.758,
+      0.868,
+      0.684
+     ]
+    ],
+    [
+     1.262,
+     "ROCK_SPIRE_A.000",
+     [
+      1.25,
+      1.262,
+      1.0
+     ]
+    ],
+    [
+     1.261,
+     "ROCK_STONE_B.025",
+     [
+      0.881,
+      1.022,
+      0.81
+     ]
+    ]
+   ],
+   "count_anisotropy_gt_2": 0,
+   "scale_max": 1.999,
+   "scale_min": 0.6,
+   "count_scale_gt_2": 0,
+   "count_scale_lt_0p4": 0
+  }
+ },
+ "hole10": {
+  "fbx": "Unity/Assets/Resources/Course/hole_10.fbx",
+  "objects": 700,
+  "prefixes": {
+   "BALL_": 1,
+   "BUNKER_": 4,
+   "DRESS_": 16,
+   "FAIRWAY": 1,
+   "FAIRWAY_": 1,
+   "FLAG": 1,
+   "FLAG_": 1,
+   "GREEN": 1,
+   "GREEN_": 1,
+   "HOLE_": 1,
+   "PLANT_": 210,
+   "ROCK_": 457,
+   "TEE_": 3,
+   "TERRAIN_": 1,
+   "WATER_": 1
+  },
+  "materials": {
+   "MAT_BALL": 1,
+   "LK_SAND": 2,
+   "LK_GREEN": 3,
+   "LK_BASALT": 459,
+   "LK_LAVA": 2,
+   "LK_PATH": 1,
+   "LK_SMOKE": 14,
+   "LK_FAIRWAY": 4,
+   "MAT_FLAG": 1,
+   "MAT_POLE": 3,
+   "MAT_CUP": 1,
+   "LK_PLANTS": 210,
+   "LK_ROUGH": 1
+  },
+  "triangles": 116699,
+  "foam_named_objects": [],
+  "foam_materials": [],
+  "legacy_materials": [],
+  "z_is_up": true,
+  "vines": {
+   "count": 0,
+   "attached": 0,
+   "unattached": 0,
+   "root_gap_max_m": 0.0,
+   "bottom_above_sea_min_m": null,
+   "unattached_names": []
+  },
+  "plants": {
+   "plants": 210,
+   "vine_objects_judged_by_root": 0,
+   "on_sea": 0,
+   "floating_no_surface_1m": 0,
+   "on_ground_or_rock": 210,
+   "no_hit_at_all": 0
+  },
+  "plants_support_by_surface": {
+   "TERRAIN_": 210
+  },
+  "plants_on_sea_names": [],
+  "plants_floating_names": [],
+  "path": {
+   "objects": 1,
+   "samples": 2992,
+   "max_cm": 1.15,
+   "p99_cm": 1.15,
+   "mean_cm": 0.29,
+   "min_cm": -4.0,
+   "ball_radius_cm": 5.49,
+   "above_1p5cm": 0
+  },
+  "shelf": {
+   "objects": 0
+  },
+  "rocks": {
+   "objects": 457,
+   "non_unit_object_scale": 287,
+   "anisotropy_max": 1.286,
+   "anisotropy_worst": [
+    [
+     1.286,
+     "ROCK_CAIRN_A_BASALT.004",
+     [
+      1.286,
+      1.4,
+      1.088
+     ]
+    ],
+    [
+     1.229,
+     "ROCK_BLOCK_A_BASALT.002",
+     [
+      0.768,
+      0.808,
+      0.658
+     ]
+    ],
+    [
+     1.223,
+     "ROCK_BLOCK_A_BASALT.005",
+     [
+      0.912,
+      0.964,
+      0.788
+     ]
+    ],
+    [
+     1.216,
+     "ROCK_BLOCK_A_BASALT.010",
+     [
+      0.786,
+      0.842,
+      0.693
+     ]
+    ],
+    [
+     1.212,
+     "ROCK_BLOCK_A_BASALT.003",
+     [
+      1.124,
+      1.326,
+      1.094
+     ]
+    ]
+   ],
+   "count_anisotropy_gt_2": 0,
+   "scale_max": 1.922,
+   "scale_min": 0.558,
+   "count_scale_gt_2": 0,
+   "count_scale_lt_0p4": 0
+  }
+ }
+}

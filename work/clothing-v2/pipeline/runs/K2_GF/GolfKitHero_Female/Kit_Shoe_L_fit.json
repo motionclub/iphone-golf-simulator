@@ -1,0 +1,18 @@
+{
+ "hero": "GolfKitHero_Female",
+ "tag": "Kit_Shoe_L",
+ "source": "dump:Kit_Shoe_L",
+ "seconds": 1.9,
+ "weights": {
+  "footwear": "Left",
+  "foot_mass": 0.8152296684606825
+ },
+ "shapes": 0,
+ "log": [
+  "FIT GolfKitHero_Female Kit_Shoe_L from dump:Kit_Shoe_L: 14175 verts 28022 tris",
+  "  weights: footwear on the Left foot (82% of the piece on foot skin): rigid foot + toe flex + collar on the shin",
+  "  seams: 3943 coincident vertices welded into 1217 groups",
+  "  weights 1.9 s",
+  "  footwear is stiff: no pose correctives (a rigid shoe cannot bend round the sock; lifts there shredded the collar, A/B 10-17)"
+ ]
+}

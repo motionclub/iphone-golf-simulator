@@ -1,0 +1,11 @@
+{
+  "consecutive_goal_turns": 3,
+  "condition": "Current production carry runtime fails G7; scope forbids changing carry, and human EYE decision is pending.",
+  "goal_status": "blocked",
+  "last_completed_work": "Revalidated exact current production hashes and all 36 deliverable checksums; no EYE answer or approved carry runtime yet.",
+  "next": "Resume after human EYE input or approved parallel production runtime becomes available. Recheck actual inputs, renew matching films if needed, and install only if every gate passes.",
+  "last_checked_utc": "2026-10-05T23:31:38.926358+00:00",
+  "previous_turn_classification": "verified wait: specific parallel thread remained active; exact production source/asset hashes and EYE state unchanged",
+  "parallel_cursor": "e939a087-496d-4b71-a3b9-f9f1b412da68:11",
+  "blocking_audit_passed": true
+}

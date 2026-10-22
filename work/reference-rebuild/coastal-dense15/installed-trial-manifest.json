@@ -1,0 +1,20 @@
+{
+  "status": "INSTALLED controlled Dense15 trial; canonical promotion pending actual",
+  "files": [
+    {
+      "path": "Unity/Assets/Resources/Course/Resort/CoastalTurf.fbx",
+      "previousSha256": "859ea137735f2f35cb52002ed5ae3f8c3327e39fa2cd44f6c35ae245f81f71a6",
+      "sha256": "ce71822a5df680c86eaffc142f2f937da40228cb4cfd6505f8e960e28a20026f",
+      "backup": "work/reference-rebuild/coastal-dense15/previous-installed12/CoastalTurf.fbx"
+    },
+    {
+      "path": "Unity/Assets/Scripts/Course/GolfCoastalTurf.cs",
+      "previousSha256": "88f3ffdd7c865a9ac3da8c57c2728b76070816b673262a7ebe2b06db62d1f308",
+      "sha256": "75478330b9baff5d4b23bdd9e9cf0c5c09c52e6a7299a986f0b0f233f473f1f3",
+      "backup": "work/reference-rebuild/coastal-dense15/previous-installed12/GolfCoastalTurf.cs"
+    }
+  ],
+  "maximumTriangles": 542720,
+  "submissions": 3,
+  "scope": "Geometry and rough multiplier1.8 only. Same cell allocation/query/subdivision/frustum bounds, ground maps/palette/shader/meta GUIDs untouched."
+}

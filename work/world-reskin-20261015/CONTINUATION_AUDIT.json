@@ -1,0 +1,16 @@
+{
+  "status": "complete under revised user requirements",
+  "userClarification": [
+    "if it cant run 60 it can be 30",
+    "skip this (physical-device testing)"
+  ],
+  "physicalDeviceFPS": "not measured; user waived test",
+  "pilotsEnabledByDefault": [
+    "authored golf hole 12",
+    "Resort tennis"
+  ],
+  "defaultCaptureAndIsolation": "PASS",
+  "frameBudget": "60 target; sustained-load fallback to 30, policy tested",
+  "proof": "proof/comparisons",
+  "priorBlocker": "Phone lock remains historical; no longer a completion dependency."
+}

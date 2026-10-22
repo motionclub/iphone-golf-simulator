@@ -1,0 +1,55 @@
+{
+  "generator": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/golf_look_textures.py",
+  "generator_sha256": "2053d69e59ff00ae357178266568f401d1fc031233af7048b5663b87a8222b11",
+  "size": 1024,
+  "float_format": "little-endian float32",
+  "texture_origin": "bottom-left",
+  "parameters": {
+    "on": 1,
+    "fw_K": 2,
+    "fw_amp": 0.035,
+    "fw_edge": 0.28,
+    "fw_wob": [
+      0.01,
+      0.004
+    ],
+    "gr_K": 3,
+    "gr_amp": 0.02,
+    "gr_cross": 0.2,
+    "gr_edge": 0.3,
+    "mott_scale": 0.9,
+    "sheen_l": 0.12,
+    "sheen_d": 0.1,
+    "sheen_mott": 0.01,
+    "sheen_streak": 0.01,
+    "lean_deg": 0.6,
+    "lean_streak_deg": 1.0,
+    "lean_sign": 1.0,
+    "streak_lum": 0.018,
+    "grain_comp": 1,
+    "micro_boost": 1.1,
+    "micro_boost_green": 1.0,
+    "hue_shift": 0.08
+  },
+  "seeds": {
+    "Fairway": 101,
+    "Green": 201
+  },
+  "files": {
+    "fairway": {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/band-fields/fairway.f32",
+      "sha256": "9620b2a87809920ca6a15674b99a33ace025cb1d5a074a23a0b8cf2610952d93"
+    },
+    "green": {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/band-fields/green.f32",
+      "sha256": "95861baf6778735d08b98289bf0a4f520c86b29724e894789bc7884f1473f159"
+    },
+    "green_cross": {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/band-fields/green_cross.f32",
+      "sha256": "6ee6ffe354ea10ac947e214df4aabf8258906ae94bba536061e533718a6da18a"
+    }
+  },
+  "plateau_light_min": 0.9,
+  "plateau_dark_max": 0.1,
+  "role": "authored primary band membership only; luminance comes from the same Game-view frame"
+}

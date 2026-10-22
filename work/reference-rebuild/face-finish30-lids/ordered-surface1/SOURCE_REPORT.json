@@ -1,0 +1,140 @@
+{
+  "Male": {
+    "sex": "Male",
+    "vertices": 46780,
+    "triangles": 90026,
+    "originalPrefix": 43900,
+    "protectedFirstTwoRowsErrorMetres": {
+      "Basis": 0.0,
+      "Hero_Blink_Half": 0.0,
+      "Hero_Blink": 0.0
+    },
+    "xzMaxErrorMetres": 0,
+    "reference": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/face-finish30/ears/Male_OriginalFaceFinish30Ears.blend",
+    "shapes": {
+      "Basis": {
+        "iterations": 561,
+        "lastStepMm": 1.991721485218264e-05,
+        "maxStripDepthChangeMm": 11.747865705427184
+      },
+      "Hero_Blink_Half": {
+        "iterations": 625,
+        "lastStepMm": 1.99049264489558e-05,
+        "maxStripDepthChangeMm": 8.203802262658835
+      },
+      "Hero_Blink": {
+        "iterations": 654,
+        "lastStepMm": 1.9871434261628258e-05,
+        "maxStripDepthChangeMm": 7.9947547383371065
+      }
+    },
+    "foreheadComposed": false,
+    "cornealGuardBefore": {
+      "sex": "Male",
+      "frames": {
+        "Basis": {
+          "changed": 191,
+          "maxForwardMm": 9.64961682099054
+        },
+        "Hero_Blink_Half": {
+          "changed": 96,
+          "maxForwardMm": 4.732854149817917
+        },
+        "Hero_Blink": {
+          "changed": 0,
+          "maxForwardMm": 0
+        }
+      },
+      "featureGeometryUnchanged": true,
+      "otherAxesUnchanged": true
+    },
+    "cornealGuardAfter": {
+      "sex": "Male",
+      "frames": {
+        "Basis": {
+          "changed": 101,
+          "maxForwardMm": 3.6995467106448743e-06
+        },
+        "Hero_Blink_Half": {
+          "changed": 30,
+          "maxForwardMm": 3.6294390964863865e-06
+        },
+        "Hero_Blink": {
+          "changed": 0,
+          "maxForwardMm": 0
+        }
+      },
+      "featureGeometryUnchanged": true,
+      "otherAxesUnchanged": true
+    }
+  },
+  "Female": {
+    "sex": "Female",
+    "vertices": 37246,
+    "triangles": 69086,
+    "originalPrefix": 34366,
+    "protectedFirstTwoRowsErrorMetres": {
+      "Basis": 0.0,
+      "Hero_Blink_Half": 0.0,
+      "Hero_Blink": 0.0
+    },
+    "xzMaxErrorMetres": 0,
+    "reference": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/face-finish30/forehead-check/Female_OriginalFaceFinish30Forehead.blend",
+    "shapes": {
+      "Basis": {
+        "iterations": 391,
+        "lastStepMm": 1.9679545148446224e-05,
+        "maxStripDepthChangeMm": 5.483081464142655
+      },
+      "Hero_Blink_Half": {
+        "iterations": 440,
+        "lastStepMm": 1.9980810870266503e-05,
+        "maxStripDepthChangeMm": 5.655868637188435
+      },
+      "Hero_Blink": {
+        "iterations": 470,
+        "lastStepMm": 1.993594864494949e-05,
+        "maxStripDepthChangeMm": 5.647387669167933
+      }
+    },
+    "foreheadComposed": true,
+    "cornealGuardBefore": {
+      "sex": "Female",
+      "frames": {
+        "Basis": {
+          "changed": 53,
+          "maxForwardMm": 1.5580026470317225
+        },
+        "Hero_Blink_Half": {
+          "changed": 0,
+          "maxForwardMm": 0
+        },
+        "Hero_Blink": {
+          "changed": 0,
+          "maxForwardMm": 0
+        }
+      },
+      "featureGeometryUnchanged": true,
+      "otherAxesUnchanged": true
+    },
+    "cornealGuardAfter": {
+      "sex": "Female",
+      "frames": {
+        "Basis": {
+          "changed": 26,
+          "maxForwardMm": 3.677875379248796e-06
+        },
+        "Hero_Blink_Half": {
+          "changed": 0,
+          "maxForwardMm": 0
+        },
+        "Hero_Blink": {
+          "changed": 0,
+          "maxForwardMm": 0
+        }
+      },
+      "featureGeometryUnchanged": true,
+      "otherAxesUnchanged": true
+    }
+  }
+}

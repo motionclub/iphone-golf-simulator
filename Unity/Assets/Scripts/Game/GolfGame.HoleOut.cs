@@ -87,7 +87,8 @@ namespace GolfArcade.Game
         }
 
         /// How long the result holds before the game goes on by itself (an emote played extends it).
-        public float ResultWaitSeconds => networkConfigured ? HoleOutSeconds
+        /// (A shot that stays out passes to the next player as promptly in a multiplayer round as alone; only a hole-out holds for its celebration.)
+        public float ResultWaitSeconds => networkConfigured && (LastShot == null || LastShot.IsHoled) ? HoleOutSeconds
             : Mathf.Max(LastShot != null && !LastShot.IsHoled ? LocalShotResultSeconds : LocalResultSeconds, resultHold);
         /// A holed ball earns a celebration; routine rest positions return promptly to address.
         public const float LocalResultSeconds = 3f;

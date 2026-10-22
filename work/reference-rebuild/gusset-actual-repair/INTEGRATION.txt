@@ -1,0 +1,62 @@
+COHERENT ANATOMICAL BAND — ACTUAL REVIEW CANDIDATE, NOT ACCEPTED
+
+Staged files: HeroGarmentGusset.cs, existing HeroGarmentGussetLifetime.cs,
+UnderarmGusset_Female_Full.json, UnderarmGusset_Female_LOD.json.
+Same VISUAL_UNDERARM_GUSSET=1 opt-in and existing stats flag. Default remains off.
+This schema supersedes the rejected DQ/harmonic/cage profiles; do not mix them.
+
+Diagnosis: visible Forehand skin is in front of continuous, front-facing cloth.
+The original sleeve/torso triangles bridge 94–97% arm vertices to 2–15% arm
+vertices and grow from 20–45mm edges to 213–311mm posed chords. This is not a
+missing-face defect. Full Top DQ and SleeveFit ablation did not close it.
+
+Replacement: remove each complete original transition face at the torso side;
+clip the stable sleeve boundary at 90% UpperArm weight; sew a connected copied
+Body shoulder triangle patch between the original outer and lining seam loops.
+Body remains immutable. The patch keeps its continuous anatomical triangle
+correspondence, not independent nearest-vertex weight transfer. It follows the
+posed canonical Body surface with 4mm outer / 2.5mm lining geometric-normal
+offsets. Source edge cuts interpolate posed source triangle endpoints exactly.
+All original non-patch vertices keep their original GPU rig and shape channels.
+The CPU-bound patch uses one well-conditioned root transport; named blendshape
+controls remain available but GPU deltas are zero at CPU-bound vertices.
+
+Full: 16748 vertices, 21858 triangles, 2413 CPU vertices (491 source cuts,
+1922 surface vertices). LOD: 14268 vertices, 18564 triangles, 2408 CPU vertices.
+403Full/327LOD added vertices replace the malformed left cuff from the mirrored
+intact right cuff, preserving ordinary GPU skinning and side-swapped bone roles.
+Both use 968 canonical Body proxy vertices and 1723 normal-support triangles.
+No per-frame nearest searches, rays, collision iterations, or inverse LBS.
+
+Source compilation: PASS. Cuff2 physical welded mesh: Full32787/LOD27846 edges, all incidence2.
+Recorded source front/rear intro/FH1/FH2: closes broad strips; FH1 retains a tiny
+~2pixel trace and FH2 has1 new pixel. Not an art acceptance or full motion gate.
+Root must inspect actual lighting/silhouette and timing before broad validation.
+LOD uses the canonical full Body surface and needs actual LOD intersection review.
+
+Native limitation: this candidate is a posed-surface CPU deformer. Native export
+must serialize the surface-binding contract and mirror evaluation, or obtain an
+equivalent validated static/helper-bone representation. Exporting one mutable
+CPU rest-state snapshot as an ordinary fixed LBS mesh is not a valid port.
+
+Authoring: BAND_DETAIL=Full|LOD python3 author_bodyband.py, then stage_bodyband.py,
+run from repository root. author_annulus.py is used as a source clipping library.
+Full recorded comparison files: bodyband_cpu_female_* PNGs and
+bodyband-cpu-targeted.json. Source comparison is a diagnosis, not acceptance.
+
+CURRENT REVISION: connector4 (actual inspected, ART FAIL; held at root request)
+Loop pairing uses authored normal orientation, never perimeter. The former
+perimeter rule crossed the Full left sleeve shell/lining connection (LOD also
+crossed the right torso pair). Only393Full/765LOD triangles changed from cuff2;
+all positions, weights and Body surface bindings are byte-identical. All eight
+connector loop oriented-area cosines>=.961; shell/lining normal signs verified.
+Detailed proof: connector-layer-repair.json, region_female_* label renders.
+
+Actual history: Bodyband1 mean2.10ms; cuff2 mean1.95ms, zero per-Apply managed
+allocation. Broad pink strips close, but cuff2 still has crossed corrugated
+connectors and is NOT ACCEPTED. Garment normal0 ablation did not fix it.
+Smooth-normal-ablation/smooth3 is REJECTED: exact vertex parity0.0m, worse
+lighting streaks. Main helper intentionally retains geometric normals.
+
+Final current status and exact remaining face diagnosis: STOPPED_HANDOFF.md.
+No additional shirt implementation or broad GPU queue while hold is active.

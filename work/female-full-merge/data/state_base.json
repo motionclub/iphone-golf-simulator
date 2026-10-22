@@ -1,0 +1,273 @@
+{
+ "units": [
+  "METRIC",
+  1.0
+ ],
+ "objects": {
+  "Body_F": {
+   "type": "MESH",
+   "loc": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "hide_viewport": false,
+   "hide_render": false,
+   "parent": null,
+   "collections": [
+    "Collection"
+   ],
+   "modifiers": [],
+   "mesh": "Body_F",
+   "verts": 23247,
+   "polys": 25370,
+   "co_sha": "65668a6a3a33ea9b9eeca1250864a633d7bd9e0d74cc824be628f6901220a011",
+   "materials": [
+    "Base_Grey_F",
+    "Skin_F",
+    "Eye_White",
+    "Iris_Dark",
+    "Pupil",
+    "Brow",
+    "Mouth",
+    "Teeth",
+    "Lip_F",
+    "Ear_Shadow_F"
+   ],
+   "vgroups": 0,
+   "has_custom_normals": true,
+   "uv_layers": [
+    "UVMap"
+   ]
+  },
+  "Hair_F": {
+   "type": "MESH",
+   "loc": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rot": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "hide_viewport": true,
+   "hide_render": true,
+   "parent": null,
+   "collections": [
+    "Collection"
+   ],
+   "modifiers": [],
+   "mesh": "Hair_F",
+   "verts": 2516,
+   "polys": 2648,
+   "co_sha": "424d0b0e4f8338d1c2124fb673c99bb69f44ee266433accaa26ee5f3ac162839",
+   "materials": [
+    "Hair_F"
+   ],
+   "vgroups": 0,
+   "has_custom_normals": false,
+   "uv_layers": [
+    "UVMap"
+   ],
+   "hair_topology_sha": "8d9e4261aa3f5aac6390796617f74e2b31368c6c4ba3cf7af2088efda0806596"
+  },
+  "LOCKED_PLATE_back": {
+   "type": "EMPTY",
+   "loc": [
+    0.5372519,
+    -0.55,
+    0.8279389
+   ],
+   "rot": [
+    1.5707964,
+    0.0,
+    3.1415927
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "hide_viewport": true,
+   "hide_render": true,
+   "parent": null,
+   "collections": [
+    "Collection"
+   ],
+   "modifiers": []
+  },
+  "LOCKED_PLATE_front": {
+   "type": "EMPTY",
+   "loc": [
+    0.519084,
+    0.55,
+    0.8279389
+   ],
+   "rot": [
+    1.5707964,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "hide_viewport": true,
+   "hide_render": true,
+   "parent": null,
+   "collections": [
+    "Collection"
+   ],
+   "modifiers": []
+  },
+  "Neutral_Back": {
+   "type": "LIGHT",
+   "loc": [
+    0.0,
+    2.5999999,
+    3.0
+   ],
+   "rot": [
+    0.9151008,
+    -1e-07,
+    -3.1415925
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "hide_viewport": false,
+   "hide_render": false,
+   "parent": null,
+   "collections": [
+    "Collection"
+   ],
+   "modifiers": [],
+   "light": [
+    "AREA",
+    70.0
+   ]
+  },
+  "Neutral_Fill": {
+   "type": "LIGHT",
+   "loc": [
+    2.5999999,
+    -1.8,
+    2.0
+   ],
+   "rot": [
+    1.264519,
+    1e-07,
+    0.9652517
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "hide_viewport": false,
+   "hide_render": false,
+   "parent": null,
+   "collections": [
+    "Collection"
+   ],
+   "modifiers": [],
+   "light": [
+    "AREA",
+    145.0
+   ]
+  },
+  "Neutral_Key": {
+   "type": "LIGHT",
+   "loc": [
+    -2.8,
+    -3.4000001,
+    4.0
+   ],
+   "rot": [
+    0.9728577,
+    0.0,
+    -0.6889243
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "hide_viewport": false,
+   "hide_render": false,
+   "parent": null,
+   "collections": [
+    "Collection"
+   ],
+   "modifiers": [],
+   "light": [
+    "AREA",
+    300.0
+   ]
+  },
+  "ProofCamera": {
+   "type": "CAMERA",
+   "loc": [
+    0.0,
+    -5.0,
+    0.8279389
+   ],
+   "rot": [
+    1.5707964,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "hide_viewport": false,
+   "hide_render": false,
+   "parent": null,
+   "collections": [
+    "Collection"
+   ],
+   "modifiers": []
+  }
+ },
+ "materials": [
+  "Base_Grey_F",
+  "Brow",
+  "Ear_Shadow_F",
+  "Eye_White",
+  "Hair_F",
+  "Iris_Dark",
+  "Lip_F",
+  "Mouth",
+  "Pupil",
+  "Skin_F",
+  "Teeth"
+ ],
+ "images": [
+  "Head_Female_Albedo.png",
+  "female_body_plain.jpg",
+  "female_body_plain.jpg.001"
+ ],
+ "body_validate_changed_something": false
+}

@@ -1,0 +1,4 @@
+until grep -qE "FIT DONE|Traceback" logs/t1_fit.log; do sleep 20; done; grep -q "FIT DONE" logs/t1_fit.log
+/Applications/Blender.app/Contents/MacOS/Blender -b --factory-startup --python gp/cover.py -- MatchHero_Male runs/t1 3 > logs/t1_cover.log 2>&1; grep -q COVER logs/t1_cover.log
+/Applications/Blender.app/Contents/MacOS/Blender -b --factory-startup --python gp/suite.py -- MatchHero_Male runs/t1/suite --cand runs/t1 > logs/t1_suite.log 2>&1; grep -q SUITE logs/t1_suite.log
+python3 gp/report.py runs/t1/suite/MatchHero_Male runs/before/MatchHero_Male > logs/t1_report.log 2>&1

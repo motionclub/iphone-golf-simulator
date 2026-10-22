@@ -1,0 +1,18 @@
+{
+  "status": "INSTALLED controlled actual trial; root Blades14 review pending",
+  "files": [
+    {
+      "path": "Unity/Assets/Resources/Course/Resort/CoastalTurf.fbx",
+      "previousSha256": "859ea137735f2f35cb52002ed5ae3f8c3327e39fa2cd44f6c35ae245f81f71a6",
+      "sha256": "d6fd20a4fb542e14a74075fd69bef5d75d731c93281215559e0d8b22dd8e3962",
+      "backup": "work/reference-rebuild/coastal-blades13/previous-installed12/CoastalTurf.fbx"
+    },
+    {
+      "path": "Unity/Assets/Scripts/Course/GolfCoastalTurf.cs",
+      "previousSha256": "88f3ffdd7c865a9ac3da8c57c2728b76070816b673262a7ebe2b06db62d1f308",
+      "sha256": "75478330b9baff5d4b23bdd9e9cf0c5c09c52e6a7299a986f0b0f233f473f1f3",
+      "backup": "work/reference-rebuild/coastal-blades13/previous-installed12/GolfCoastalTurf.cs"
+    }
+  ],
+  "scope": "FBX blade geometry and rough height1.8 only. Existing ground maps/shaders/palette/metaGUIDs untouched; no collider/ground physics changes. Canonical source promotion pending actual review."
+}

@@ -1,0 +1,31 @@
+{
+ "DRESS_PATH_01": {
+  "samples": 217735,
+  "over_1p2cm": 0,
+  "area_m2": 0.0,
+  "max_cm": 1.151,
+  "min_cm": -4.0,
+  "buried_share": 0.0254,
+  "worst": []
+ },
+ "DRESS_PATH_02": {
+  "samples": 396052,
+  "over_1p2cm": 2,
+  "area_m2": 0.0008,
+  "max_cm": 1.864,
+  "min_cm": -9.977,
+  "buried_share": 0.0936,
+  "worst": [
+   [
+    6.45,
+    166.77,
+    1.86
+   ],
+   [
+    6.3,
+    186.24,
+    1.81
+   ]
+  ]
+ }
+}

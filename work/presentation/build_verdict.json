@@ -1,0 +1,14 @@
+{
+  "recordedUTC": "2026-10-08T23:00:56.695773+00:00",
+  "export": "Succeeded 234s errors=0 warnings=23 -> /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/presentation/UnityBuild/Builds/iOS",
+  "xcodeExitCode": 0,
+  "build": "PASS",
+  "signed": false,
+  "installed": false,
+  "debugSymbols": "disabled for unsigned review build",
+  "sourceManifest": "source_manifest.json",
+  "binaries": {
+    "IntegratedDerivedData/Build/Products/Release-iphoneos/GolfArcade.app/GolfArcade": "f6675612e4919d68858343414265150c166fccf1ad07afb5a9bbfb27c021af06",
+    "IntegratedDerivedData/Build/Products/Release-iphoneos/GolfArcade.app/Frameworks/UnityFramework.framework/UnityFramework": "5155a025c6caacc8c943aae7aeac4b243380bc261ff55afdcd33b0dc74356f92"
+  }
+}

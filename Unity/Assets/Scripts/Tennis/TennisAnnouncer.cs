@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using GolfArcade.Game;
 using UnityEngine;
 
 namespace GolfArcade.Tennis
@@ -57,8 +58,29 @@ namespace GolfArcade.Tennis
                 if (!a.lines.TryGetValue(key, out var takes)) a.lines[key] = takes = new List<AudioClip>();
                 takes.Add(clip);
             }
+            a.LoadV2();
             return a;
         }
+
+        static readonly Dictionary<string, string> alias = new Dictionary<string, string> { { "quiet", "quiet_please" }, { "match", "game_set_match" } };
+        static readonly HashSet<string> calls = new HashSet<string> { "game", "game_point", "break_point", "match_point", "game_set_match", "fault", "double_fault", "out", "quiet_please", "play", "deuce", "advantage_server", "advantage_receiver" };
+        float lastReaction = -99;
+
+        /// The ElevenLabs takes (Resources/Audio/v2/voice, three per line) replace the old recordings for the same key.
+        void LoadV2()
+        {
+            var fresh = new HashSet<string>();
+            foreach (var clip in Resources.LoadAll<AudioClip>("Audio/v2/voice"))
+            {
+                int us = clip.name.LastIndexOf('_');
+                string key = us > 0 ? clip.name.Substring(0, us) : clip.name;
+                if (alias.TryGetValue(key, out var k2)) key = k2;
+                if (fresh.Add(key)) lines[key] = new List<AudioClip>();
+                lines[key].Add(clip);
+            }
+        }
+
+        static bool IsScore(string key) => key.Contains("love") || key.Contains("_all") || key.EndsWith("fifteen") || key.EndsWith("thirty") || key.EndsWith("forty");
 
         public bool Has(string key) => lines.ContainsKey(key);
 
@@ -67,6 +89,12 @@ namespace GolfArcade.Tennis
         public void Say(string key, float delay = 0, float patience = 2.5f)
         {
             if (key == null || !lines.ContainsKey(key)) return;
+            // Not over-used: every score/rules call is read, but reactions are spaced out and roughly one in three stays silent.
+            if (!calls.Contains(key) && !key.StartsWith("score") && !IsScore(key))
+            {
+                if (Time.unscaledTime - lastReaction < 7f || Random.value < .35f) return;
+                lastReaction = Time.unscaledTime;
+            }
             float at = Time.unscaledTime + delay;
             queue.Add((key, at, at + patience));
         }
@@ -85,7 +113,7 @@ namespace GolfArcade.Tennis
                 if (now < at) continue;
                 queue.RemoveAt(i);
                 var clip = Pick(key);
-                voice.PlayOneShot(clip, Volume);
+                voice.PlayOneShot(clip, Volume * GameAudio.VoiceVolume); GameAudio.VoicePlaying(clip.length + .3f);
                 busyUntil = now + clip.length + .12f;
                 return;
             }

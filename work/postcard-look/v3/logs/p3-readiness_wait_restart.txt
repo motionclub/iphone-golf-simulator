@@ -1,0 +1,1 @@
+Stopped only our waiting wrapper59398 before Unity launch. Unmodified heavy.sh checks/lock remain. Requeue with1s polling rather than15s so brief idle slots are observed. No Unity run was terminated.

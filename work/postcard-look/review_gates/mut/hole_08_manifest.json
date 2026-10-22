@@ -1,0 +1,271 @@
+[
+ {
+  "name": "req_rock_ico12",
+  "expect": [
+   "ROCK_NOT_ICOSAHEDRON"
+  ],
+  "kind": "required",
+  "note": "new ROCK_ICO_T = 12-vertex 20-face icosahedron in the water",
+  "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_req_rock_ico12.blend",
+  "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_req_rock_ico12.fbx",
+  "look": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/st/Look"
+ },
+ {
+  "name": "req_mat_foam_strip",
+  "expect": [
+   "NO_MAT_FOAM"
+  ],
+  "kind": "required",
+  "note": "WATER_EDGE_01 white strip along a quarter of the shore, material MAT_FOAM (object name has no FOAM)",
+  "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_req_mat_foam_strip.blend",
+  "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_req_mat_foam_strip.fbx",
+  "look": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/st/Look"
+ },
+ {
+  "name": "req_sand_patch_BUNKER_09",
+  "expect": [
+   "SAND_NAMES",
+   "PLAY_SURFACE_NAMES"
+  ],
+  "kind": "required",
+  "note": "4x4 m LK_SAND patch named BUNKER_09 on the rough at play height + 2 cm",
+  "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_req_sand_patch_BUNKER_09.blend",
+  "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_req_sand_patch_BUNKER_09.fbx",
+  "look": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/st/Look"
+ },
+ {
+  "name": "ctl_sand_patch_DRESS_SAND_01",
+  "expect": [],
+  "kind": "control",
+  "note": "4x4 m LK_SAND patch named DRESS_SAND_01 on the rough at play height + 2 cm",
+  "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_ctl_sand_patch_DRESS_SAND_01.blend",
+  "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_ctl_sand_patch_DRESS_SAND_01.fbx",
+  "look": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/st/Look"
+ },
+ {
+  "name": "req_collision_prefix_TERRAIN_rock",
+  "expect": [
+   "PLAY_SURFACE_NAMES",
+   "NEW_OBJECT_PREFIXES"
+  ],
+  "kind": "required",
+  "note": "a rock instance named TERRAIN_ROCK.000 on the rough",
+  "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_req_collision_prefix_TERRAIN_rock.blend",
+  "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_req_collision_prefix_TERRAIN_rock.fbx",
+  "look": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/st/Look"
+ },
+ {
+  "name": "req_collision_prefix_GREENERY_plant",
+  "expect": [
+   "PLAY_SURFACE_NAMES",
+   "NEW_OBJECT_PREFIXES"
+  ],
+  "kind": "required",
+  "note": "a shrub instance named GREENERY_BUSH.000 (starts with GREEN -> HoleView MeshCollider)",
+  "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_req_collision_prefix_GREENERY_plant.blend",
+  "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_req_collision_prefix_GREENERY_plant.fbx",
+  "look": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/st/Look"
+ },
+ {
+  "name": "req_terrain_top_vertex_up5cm",
+  "expect": [
+   "PLAY_SURFACE_TOPS"
+  ],
+  "kind": "required",
+  "note": "TERRAIN_NEEDLE vertex 217 on an up-facing face moved (0, 0, 0.05) m",
+  "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_req_terrain_top_vertex_up5cm.blend",
+  "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_req_terrain_top_vertex_up5cm.fbx",
+  "look": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/st/Look"
+ },
+ {
+  "name": "req_terrain_top_vertex_side3cm",
+  "expect": [
+   "PLAY_SURFACE_TOPS"
+  ],
+  "kind": "required",
+  "note": "TERRAIN_NEEDLE vertex 217 on an up-facing face moved (0.03, 0, 0) m",
+  "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_req_terrain_top_vertex_side3cm.blend",
+  "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_req_terrain_top_vertex_side3cm.fbx",
+  "look": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/st/Look"
+ },
+ {
+  "name": "req_normal_map_unlinked",
+  "expect": [
+   "LK_TEXTURED"
+  ],
+  "kind": "required",
+  "note": "LK_CLIFF: Normal Map link removed",
+  "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_req_normal_map_unlinked.blend",
+  "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_req_normal_map_unlinked.fbx",
+  "look": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/st/Look"
+ },
+ {
+  "name": "req_normal_file_deleted",
+  "expect": [
+   "LK_TEXTURED",
+   "LOOK_FILES"
+  ],
+  "kind": "required",
+  "note": "Cliff_N.png deleted from the Look folder",
+  "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_req_normal_file_deleted.blend",
+  "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_req_normal_file_deleted.fbx",
+  "look": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/look_08_no_normal_file/Look"
+ },
+ {
+  "name": "req_second_GREEN",
+  "expect": [
+   "ONE_GREEN",
+   "PLAY_SURFACE_NAMES",
+   "NEW_OBJECT_PREFIXES"
+  ],
+  "kind": "required",
+  "note": "GREEN.001 = copy of the green moved onto the rough",
+  "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_req_second_GREEN.blend",
+  "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_req_second_GREEN.fbx",
+  "look": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/st/Look"
+ },
+ {
+  "name": "req_prop_renamed_FLAG",
+  "expect": [
+   "RESERVED_NAMES",
+   "NEW_OBJECT_PREFIXES"
+  ],
+  "kind": "required",
+  "note": "one tuft renamed FLAG_TUFT",
+  "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_req_prop_renamed_FLAG.blend",
+  "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_req_prop_renamed_FLAG.fbx",
+  "look": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/st/Look"
+ },
+ {
+  "name": "rt_all_rocks_split_icosahedron",
+  "expect": [
+   "ROCK_NOT_ICOSAHEDRON"
+  ],
+  "kind": "redteam",
+  "note": "every loose rock / stack mesh ['RK_A', 'RK_B', 'RK_C', 'RK_D', 'RK_STACK'] -> 20-face icosahedron with split vertices (60 verts)",
+  "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_rt_all_rocks_split_icosahedron.blend",
+  "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_rt_all_rocks_split_icosahedron.fbx",
+  "look": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/st/Look"
+ },
+ {
+  "name": "rt_all_rocks_ico_plus_loose_vertex",
+  "expect": [
+   "ROCK_NOT_ICOSAHEDRON"
+  ],
+  "kind": "redteam",
+  "note": "every loose rock / stack mesh -> 12-vertex icosahedron + 1 loose vertex (13 verts, 20 faces)",
+  "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_rt_all_rocks_ico_plus_loose_vertex.blend",
+  "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_rt_all_rocks_ico_plus_loose_vertex.fbx",
+  "look": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/st/Look"
+ },
+ {
+  "name": "rt_dress_boulder_on_pin",
+  "expect": [
+   "PROPS_OFF_PLAY"
+  ],
+  "kind": "redteam",
+  "note": "DRESS_BOULDER (RK_A x3) standing on the green 0.5 m from the pin",
+  "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_rt_dress_boulder_on_pin.blend",
+  "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_rt_dress_boulder_on_pin.fbx",
+  "look": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/st/Look"
+ },
+ {
+  "name": "rt_rock_wall_on_pin",
+  "expect": [
+   "PROPS_OFF_PLAY"
+  ],
+  "kind": "redteam",
+  "note": "ROCK_WALL_PILE (rock) standing on the pin (ROCK_WALL_ is exempt)",
+  "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_rt_rock_wall_on_pin.blend",
+  "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_rt_rock_wall_on_pin.fbx",
+  "look": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/st/Look"
+ },
+ {
+  "name": "rt_white_band_dress_lk_surf",
+  "expect": [
+   "NO_MAT_FOAM"
+  ],
+  "kind": "redteam",
+  "note": "DRESS_SHOREBAND = one continuous 2.7 m LK_SURF strip round the whole shore, no vertex colour (renders as a solid white band)",
+  "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_rt_white_band_dress_lk_surf.blend",
+  "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_rt_white_band_dress_lk_surf.fbx",
+  "look": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/st/Look"
+ },
+ {
+  "name": "rt_white_band_surf_alpha1",
+  "expect": [
+   "SURF_SHORE"
+  ],
+  "kind": "redteam",
+  "note": "WATER_SURF_99 = continuous strip round the shore, vertex alpha 1 everywhere except one vertex (alpha range 1.0)",
+  "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_rt_white_band_surf_alpha1.blend",
+  "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_rt_white_band_surf_alpha1.fbx",
+  "look": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/st/Look"
+ },
+ {
+  "name": "rt_fairway_C_flat_rgb_noisy_alpha",
+  "expect": [
+   "LOOK_FILES"
+  ],
+  "kind": "redteam",
+  "note": "Fairway_C.png = one flat green RGB, random alpha",
+  "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_rt_fairway_C_flat_rgb_noisy_alpha.blend",
+  "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_rt_fairway_C_flat_rgb_noisy_alpha.fbx",
+  "look": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/look_08_rt_fairway_C_flat_rgb_noisy_alpha/Look"
+ },
+ {
+  "name": "rt_fairway_C_near_flat",
+  "expect": [
+   "LOOK_FILES"
+  ],
+  "kind": "redteam",
+  "note": "Fairway_C.png = one flat green + luminance noise sd 0.0095 (2.4/255)",
+  "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_rt_fairway_C_near_flat.blend",
+  "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_rt_fairway_C_near_flat.fbx",
+  "look": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/look_08_rt_fairway_C_near_flat/Look"
+ },
+ {
+  "name": "rt_fairway_N_flat_dither",
+  "expect": [
+   "LOOK_FILES"
+  ],
+  "kind": "redteam",
+  "note": "Fairway_N.png = flat (128,128,255) + xy noise sd 0.0055",
+  "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_rt_fairway_N_flat_dither.blend",
+  "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_rt_fairway_N_flat_dither.fbx",
+  "look": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/look_08_rt_fairway_N_flat_dither/Look"
+ },
+ {
+  "name": "rt_wall_uv_stretched_16to1",
+  "expect": [
+   "UV_DENSITY"
+  ],
+  "kind": "redteam",
+  "note": "LK_CLIFF wall UVs u x4, v x0.25 (16:1 anisotropic smear)",
+  "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_rt_wall_uv_stretched_16to1.blend",
+  "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_rt_wall_uv_stretched_16to1.fbx",
+  "look": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/st/Look"
+ },
+ {
+  "name": "rt_arch_is_a_solid_wall",
+  "expect": [
+   "NEEDLE_ARCH"
+  ],
+  "kind": "redteam",
+  "note": "DRESS_ARCH_01 = a solid 6 x 7 block wall, no opening (no arch)",
+  "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_rt_arch_is_a_solid_wall.blend",
+  "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_rt_arch_is_a_solid_wall.fbx",
+  "look": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/st/Look"
+ },
+ {
+  "name": "rt_second_green_as_dressing",
+  "expect": [
+   "ONE_GREEN"
+  ],
+  "kind": "redteam",
+  "note": "DRESS_LAWN 8 m plant-green disc + DRESS_FLAGSTICK pole on the rough",
+  "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_rt_second_green_as_dressing.blend",
+  "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_08_rt_second_green_as_dressing.fbx",
+  "look": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/st/Look"
+ }
+]

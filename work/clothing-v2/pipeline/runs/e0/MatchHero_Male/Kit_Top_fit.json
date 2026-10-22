@@ -1,0 +1,21 @@
+{
+ "hero": "MatchHero_Male",
+ "tag": "Kit_Top",
+ "source": "dump:Kit_Top",
+ "seconds": 78.1,
+ "weights": {
+  "panels": 18,
+  "matched": 0.4711362248014661,
+  "inner": 0.34580533496232946,
+  "smooth_iters": 12,
+  "edge_mm": 8.238298406029179,
+  "allowed": "{0: ('T',), 1: ('T',), 2: ('AR',), 3: ('AL',), 4: ('T',), 5: ('T',), 6: ('T',), 7: ('T',), 8: ('T', 'AR'), 9: ('T', 'AR'), 10: ('T', 'AL'), 11: ('T', 'AL'), 12: ('T',), 13: ('T',), 14: ('T',), 15: ('T',), 16: ('AR',), 17: ('AL',)}",
+  "side_mm_p5": 6.003546379172047
+ },
+ "shapes": 0,
+ "log": [
+  "FIT MatchHero_Male Kit_Top from dump:Kit_Top: 19644 verts 37876 tris",
+  "  weights: 18 panels, matched 47%, inner 35%, smooth 12 it (edge 8.2 mm)",
+  "  weights 78.1 s"
+ ]
+}

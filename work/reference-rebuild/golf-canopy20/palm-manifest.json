@@ -1,0 +1,30 @@
+{
+  "status": "source candidate, actual Unity visual review required",
+  "schema": "PALM/PALM_FAR; seven shared golf material roles; UV2.x leaf pivot .90; WindWeight r for tip breeze",
+  "representations": [
+    {
+      "mesh": "PALM",
+      "triangles": 11396,
+      "vertices": 10398,
+      "boundaryEdges": 8064,
+      "nonmanifoldEdges": 8064,
+      "leafPivot": 0.9,
+      "topology": "Closed trunk, deliberate open leaf rims; existing GolfBotanical CullOff + front-face normal handles thin leaves",
+      "fronds": 18,
+      "pairedFeatherlets": 18,
+      "crownArch": "irregular compact spear/arched fans; overlapping inner featherlet bases form a connected crown silhouette; split thin rim normals"
+    },
+    {
+      "mesh": "PALM_FAR",
+      "triangles": 2316,
+      "vertices": 2444,
+      "boundaryEdges": 2064,
+      "nonmanifoldEdges": 2064,
+      "leafPivot": 0.9,
+      "topology": "Closed trunk, deliberate open leaf rims; existing GolfBotanical CullOff + front-face normal handles thin leaves",
+      "fronds": 12,
+      "pairedFeatherlets": 10,
+      "crownArch": "irregular compact spear/arched fans; overlapping inner featherlet bases form a connected crown silhouette; split thin rim normals"
+    }
+  ]
+}

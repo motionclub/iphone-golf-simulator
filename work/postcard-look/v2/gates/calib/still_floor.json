@@ -1,0 +1,26 @@
+{
+  "tool": "work/postcard-look/v2/gates/tools/still_floor.py (Pillow, no numpy) + blender/scripts/postcard_look_verify.py g_still_floor_selfcheck",
+  "date": "2026-10-04",
+  "statistic": "luminance (Rec.709 on stored sRGB 0..1) sd of non-overlapping windows of a crop",
+  "stills": "ArtDir/environments/refs/{needle,split,crater}.jpg, 1280x720; ~0.13-0.18 m per pixel (Crater green 29.3 m = ~220 px, Split green 31.1 m = ~177 px)",
+  "grass_crops": 11,
+  "w8_lowest_p10": 0.0121,
+  "w8_lowest_median": 0.0180,
+  "w16_lowest_p10": 0.0159,
+  "chosen": {
+    "TH2.win_sd": 0.012,
+    "TH2.win_frac": 0.90,
+    "TH2.win_foot_m": 1.2,
+    "STILL_TH.win": 8,
+    "STILL_TH.flat_sd": 0.006,
+    "STILL_TH.block_sd": 0.003,
+    "STILL_TH.flat_max": 0.15,
+    "STILL_TH.lower": 0.60
+  },
+  "provenance": {
+    "win_sd": "10th percentile of the 8 px windows of the lowest of 11 mown-grass crops (0.0121), rounded down; the stills pass it by construction (STILL_FLOOR_SELFCHECK)",
+    "win_foot_m": "8 px x ~0.15 m/px = ~1.2 m: the stills' finest resolved window, so the texture is compared at the SAME ground footprint",
+    "flat_sd": "half of win_sd's source (0.0121/2): the Game view's 8 px window covers ~0.05-0.4 m, window sd ~ footprint^0.4 in the stills' own w8/w16/w32 series",
+    "flat_max": "the Unity probe's PROBE_GROUND_TEXTURED cap (15 %); the stills' own clean crops have <= 5 % flat windows"
+  }
+}

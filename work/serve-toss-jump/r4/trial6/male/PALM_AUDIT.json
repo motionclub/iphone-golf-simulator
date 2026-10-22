@@ -1,0 +1,1784 @@
+{
+  "frames": 252,
+  "minimum_plane": {
+    "frame": 187,
+    "palmDown": 0.9950379085363954,
+    "planeClearance_mm": 44.5261715524411,
+    "nearestFingerSurface_mm": 3.9996605753785315,
+    "nearestFinger": "LeftThumbDistal"
+  },
+  "minimum_finger": {
+    "frame": 240,
+    "palmDown": 0.9950369319436196,
+    "planeClearance_mm": 44.527430026748114,
+    "nearestFingerSurface_mm": 3.998654907101433,
+    "nearestFinger": "LeftThumbDistal"
+  },
+  "min_palmDown": 0.9950359773984319,
+  "samples": [
+    {
+      "frame": 0,
+      "palmDown": 0.9950369103820239,
+      "planeClearance_mm": 44.52645531644625,
+      "nearestFingerSurface_mm": 3.9996813120465395,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 1,
+      "palmDown": 0.9950370033872961,
+      "planeClearance_mm": 44.5274204686828,
+      "nearestFingerSurface_mm": 4.000422932237159,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 2,
+      "palmDown": 0.9950369101183683,
+      "planeClearance_mm": 44.52645528249125,
+      "nearestFingerSurface_mm": 3.9996813120465395,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 3,
+      "palmDown": 0.9950369103949558,
+      "planeClearance_mm": 44.52754986892099,
+      "nearestFingerSurface_mm": 4.000920451574845,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 4,
+      "palmDown": 0.9950378429536861,
+      "planeClearance_mm": 44.52715184127859,
+      "nearestFingerSurface_mm": 3.9996813120466226,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 5,
+      "palmDown": 0.9950378429644016,
+      "planeClearance_mm": 44.52705235209153,
+      "nearestFingerSurface_mm": 4.000375396692298,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 6,
+      "palmDown": 0.9950378429871357,
+      "planeClearance_mm": 44.527151854105604,
+      "nearestFingerSurface_mm": 4.000131290101565,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 7,
+      "palmDown": 0.9950370036365112,
+      "planeClearance_mm": 44.52742050488098,
+      "nearestFingerSurface_mm": 3.9999254196180707,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 8,
+      "palmDown": 0.9950369101183681,
+      "planeClearance_mm": 44.52745031940136,
+      "nearestFingerSurface_mm": 4.000422932237131,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 9,
+      "palmDown": 0.9950369101415228,
+      "planeClearance_mm": 44.52754984321014,
+      "nearestFingerSurface_mm": 4.000920451574817,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 10,
+      "palmDown": 0.9950379361539835,
+      "planeClearance_mm": 44.52712196957151,
+      "nearestFingerSurface_mm": 3.9991837961331282,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 11,
+      "palmDown": 0.9950378429536861,
+      "planeClearance_mm": 44.52814686768791,
+      "nearestFingerSurface_mm": 3.999972964282429,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 12,
+      "palmDown": 0.9950370036365113,
+      "planeClearance_mm": 44.52652498356155,
+      "nearestFingerSurface_mm": 3.9989396958738586,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 13,
+      "palmDown": 0.9950370034462261,
+      "planeClearance_mm": 44.52642544943642,
+      "nearestFingerSurface_mm": 3.999183796133142,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 14,
+      "palmDown": 0.9950369101183683,
+      "planeClearance_mm": 44.526455307193984,
+      "nearestFingerSurface_mm": 3.999231341112304,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 15,
+      "palmDown": 0.9950369103633655,
+      "planeClearance_mm": 44.52754986584404,
+      "nearestFingerSurface_mm": 4.0001788346786045,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 16,
+      "palmDown": 0.9950379361998919,
+      "planeClearance_mm": 44.52811701764104,
+      "nearestFingerSurface_mm": 4.000422932237159,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 17,
+      "palmDown": 0.9950369101183681,
+      "planeClearance_mm": 44.52735078818171,
+      "nearestFingerSurface_mm": 4.000375396692353,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 18,
+      "palmDown": 0.9950379361539914,
+      "planeClearance_mm": 44.52811702255563,
+      "nearestFingerSurface_mm": 4.000375396692256,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 19,
+      "palmDown": 0.9950378429536861,
+      "planeClearance_mm": 44.52715186414591,
+      "nearestFingerSurface_mm": 3.9993896769085144,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 20,
+      "palmDown": 0.995036910372693,
+      "planeClearance_mm": 44.527450366293465,
+      "nearestFingerSurface_mm": 3.9996813120466226,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 21,
+      "palmDown": 0.9950369101415226,
+      "planeClearance_mm": 44.52655478159723,
+      "nearestFingerSurface_mm": 4.000628810734826,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 22,
+      "palmDown": 0.9950369101183681,
+      "planeClearance_mm": 44.5274503441041,
+      "nearestFingerSurface_mm": 3.99997296428254,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 23,
+      "palmDown": 0.995037003387296,
+      "planeClearance_mm": 44.526524912709,
+      "nearestFingerSurface_mm": 4.000131290101676,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 24,
+      "palmDown": 0.9950369101183681,
+      "planeClearance_mm": 44.52645525778848,
+      "nearestFingerSurface_mm": 4.000131290101648,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 25,
+      "palmDown": 0.995037003387296,
+      "planeClearance_mm": 44.5264254071249,
+      "nearestFingerSurface_mm": 4.000131290101634,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 26,
+      "palmDown": 0.9950369103820207,
+      "planeClearance_mm": 44.526355829832525,
+      "nearestFingerSurface_mm": 3.999633776186985,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 27,
+      "palmDown": 0.9950378429536861,
+      "planeClearance_mm": 44.52715185271225,
+      "nearestFingerSurface_mm": 3.999681312046581,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 28,
+      "palmDown": 0.995037003627045,
+      "planeClearance_mm": 44.52752000339516,
+      "nearestFingerSurface_mm": 3.9996813120466364,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 29,
+      "palmDown": 0.9950369103726965,
+      "planeClearance_mm": 44.52745035634214,
+      "nearestFingerSurface_mm": 3.9996813120466226,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 30,
+      "palmDown": 0.9950378427504576,
+      "planeClearance_mm": 44.52715185820188,
+      "nearestFingerSurface_mm": 3.9999729642824016,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 31,
+      "palmDown": 0.9950369101183894,
+      "planeClearance_mm": 44.526455307196095,
+      "nearestFingerSurface_mm": 3.9996813120466506,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 32,
+      "palmDown": 0.995037841961932,
+      "planeClearance_mm": 44.52715178940505,
+      "nearestFingerSurface_mm": 3.999389676908542,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 33,
+      "palmDown": 0.995036910372693,
+      "planeClearance_mm": 44.52745034638983,
+      "nearestFingerSurface_mm": 3.9999729642824153,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 34,
+      "palmDown": 0.9950378429536861,
+      "planeClearance_mm": 44.52804738193086,
+      "nearestFingerSurface_mm": 3.9999254196180987,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 35,
+      "palmDown": 0.9950369101183681,
+      "planeClearance_mm": 44.52645528249122,
+      "nearestFingerSurface_mm": 4.000131290101662,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 36,
+      "palmDown": 0.9950369103726965,
+      "planeClearance_mm": 44.52745036629341,
+      "nearestFingerSurface_mm": 4.000131290101565,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 37,
+      "palmDown": 0.9950369103726933,
+      "planeClearance_mm": 44.52745036629338,
+      "nearestFingerSurface_mm": 4.000131290101551,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 38,
+      "palmDown": 0.9950369101183681,
+      "planeClearance_mm": 44.526554764305196,
+      "nearestFingerSurface_mm": 4.000628810734826,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 39,
+      "palmDown": 0.9950379361680851,
+      "planeClearance_mm": 44.52712198010417,
+      "nearestFingerSurface_mm": 3.999925419617974,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 40,
+      "palmDown": 0.9950369101183683,
+      "planeClearance_mm": 44.5264553071941,
+      "nearestFingerSurface_mm": 3.9996813120466364,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 41,
+      "palmDown": 0.9950378429644017,
+      "planeClearance_mm": 44.52814687569126,
+      "nearestFingerSurface_mm": 4.000422932237145,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 42,
+      "palmDown": 0.995037842728694,
+      "planeClearance_mm": 44.527052321535535,
+      "nearestFingerSurface_mm": 3.9999254196180707,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 43,
+      "palmDown": 0.9950378429536861,
+      "planeClearance_mm": 44.52814687912157,
+      "nearestFingerSurface_mm": 3.9999729642824016,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 44,
+      "palmDown": 0.9950369103726965,
+      "planeClearance_mm": 44.52745037624511,
+      "nearestFingerSurface_mm": 4.000581275277352,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 45,
+      "palmDown": 0.9950370026908161,
+      "planeClearance_mm": 44.52752000736363,
+      "nearestFingerSurface_mm": 3.9998396650638077,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 46,
+      "palmDown": 0.9950369101183681,
+      "planeClearance_mm": 44.52754992472918,
+      "nearestFingerSurface_mm": 4.000312204921981,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 47,
+      "palmDown": 0.9950369101183891,
+      "planeClearance_mm": 44.52745039351008,
+      "nearestFingerSurface_mm": 4.000714591470354,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 48,
+      "palmDown": 0.9950378429536861,
+      "planeClearance_mm": 44.527052378388746,
+      "nearestFingerSurface_mm": 4.00008376336148,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 49,
+      "palmDown": 0.995036910372693,
+      "planeClearance_mm": 44.52745036629335,
+      "nearestFingerSurface_mm": 4.000131290101565,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 50,
+      "palmDown": 0.995036910372693,
+      "planeClearance_mm": 44.52745037624531,
+      "nearestFingerSurface_mm": 4.000581275277339,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 51,
+      "palmDown": 0.9950379361539835,
+      "planeClearance_mm": 44.52712201471248,
+      "nearestFingerSurface_mm": 4.000083763361577,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 52,
+      "palmDown": 0.995036910372693,
+      "planeClearance_mm": 44.52745036629335,
+      "nearestFingerSurface_mm": 4.000131290101648,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 53,
+      "palmDown": 0.995037003387296,
+      "planeClearance_mm": 44.527520072485146,
+      "nearestFingerSurface_mm": 4.000312204921981,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 54,
+      "palmDown": 0.995036910372693,
+      "planeClearance_mm": 44.52745037624531,
+      "nearestFingerSurface_mm": 4.000083763361577,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 55,
+      "palmDown": 0.9950370033872961,
+      "planeClearance_mm": 44.526524912709085,
+      "nearestFingerSurface_mm": 3.9996813120466506,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 56,
+      "palmDown": 0.9950369101184107,
+      "planeClearance_mm": 44.527450418211686,
+      "nearestFingerSurface_mm": 4.000264633615906,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 57,
+      "palmDown": 0.9950378427504576,
+      "planeClearance_mm": 44.52715185820197,
+      "nearestFingerSurface_mm": 3.9999729642824153,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 58,
+      "palmDown": 0.9950378429536861,
+      "planeClearance_mm": 44.527151875579676,
+      "nearestFingerSurface_mm": 4.00103126757357,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 59,
+      "palmDown": 0.9950359777038531,
+      "planeClearance_mm": 44.52685335463674,
+      "nearestFingerSurface_mm": 3.9998872008359734,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 60,
+      "palmDown": 0.995036910372693,
+      "planeClearance_mm": 44.52754986285851,
+      "nearestFingerSurface_mm": 4.0001788346786595,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 61,
+      "palmDown": 0.9950370036365113,
+      "planeClearance_mm": 44.52752000036522,
+      "nearestFingerSurface_mm": 4.000872907312693,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 62,
+      "palmDown": 0.9950378429536861,
+      "planeClearance_mm": 44.52715181841127,
+      "nearestFingerSurface_mm": 3.9999729642824153,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 63,
+      "palmDown": 0.9950369101183681,
+      "planeClearance_mm": 44.526554863116296,
+      "nearestFingerSurface_mm": 4.000020526783866,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 64,
+      "palmDown": 0.9950369101183681,
+      "planeClearance_mm": 44.52745039350961,
+      "nearestFingerSurface_mm": 4.000714591470354,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 65,
+      "palmDown": 0.9950370033643023,
+      "planeClearance_mm": 44.52642546360214,
+      "nearestFingerSurface_mm": 3.9994754496644678,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 66,
+      "palmDown": 0.9950359773984319,
+      "planeClearance_mm": 44.526853319519525,
+      "nearestFingerSurface_mm": 4.000470485619003,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 67,
+      "palmDown": 0.9950360706849742,
+      "planeClearance_mm": 44.5268234140859,
+      "nearestFingerSurface_mm": 3.9993896769085144,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 68,
+      "palmDown": 0.9950369101183894,
+      "planeClearance_mm": 44.52645535659999,
+      "nearestFingerSurface_mm": 3.9999729642824153,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 69,
+      "palmDown": 0.9950369101415636,
+      "planeClearance_mm": 44.52745038610037,
+      "nearestFingerSurface_mm": 3.999972964282429,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 70,
+      "palmDown": 0.9950369103820178,
+      "planeClearance_mm": 44.52635584973724,
+      "nearestFingerSurface_mm": 3.9993421498537365,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 71,
+      "palmDown": 0.9950378429536861,
+      "planeClearance_mm": 44.52814690198878,
+      "nearestFingerSurface_mm": 4.000872907312609,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 72,
+      "palmDown": 0.9950369103726965,
+      "planeClearance_mm": 44.52745036629363,
+      "nearestFingerSurface_mm": 4.000131290101662,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 73,
+      "palmDown": 0.9950378429871357,
+      "planeClearance_mm": 44.527151830200204,
+      "nearestFingerSurface_mm": 3.999972964282443,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 74,
+      "palmDown": 0.995035977398432,
+      "planeClearance_mm": 44.52685339807311,
+      "nearestFingerSurface_mm": 3.999523003448531,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 75,
+      "palmDown": 0.9950369103726965,
+      "planeClearance_mm": 44.52745039614808,
+      "nearestFingerSurface_mm": 3.9998396650638353,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 76,
+      "palmDown": 0.9950370033873168,
+      "planeClearance_mm": 44.52652501092774,
+      "nearestFingerSurface_mm": 3.999523003448531,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 77,
+      "palmDown": 0.9950369103726968,
+      "planeClearance_mm": 44.52655482594856,
+      "nearestFingerSurface_mm": 3.999389676908417,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 78,
+      "palmDown": 0.9950370036365113,
+      "planeClearance_mm": 44.52752004076527,
+      "nearestFingerSurface_mm": 3.9998396650638077,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 79,
+      "palmDown": 0.9950370036365112,
+      "planeClearance_mm": 44.52742052508102,
+      "nearestFingerSurface_mm": 4.000083763361563,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 80,
+      "palmDown": 0.9950369101183681,
+      "planeClearance_mm": 44.52645535659949,
+      "nearestFingerSurface_mm": 3.999231341112318,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 81,
+      "palmDown": 0.9950359773984319,
+      "planeClearance_mm": 44.52685329333497,
+      "nearestFingerSurface_mm": 4.000628810734853,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 82,
+      "palmDown": 0.9950369101183895,
+      "planeClearance_mm": 44.52745039351014,
+      "nearestFingerSurface_mm": 3.999523003448517,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 83,
+      "palmDown": 0.9950378429644058,
+      "planeClearance_mm": 44.528047389934684,
+      "nearestFingerSurface_mm": 4.00037539669227,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 84,
+      "palmDown": 0.9950369100952137,
+      "planeClearance_mm": 44.527450376217445,
+      "nearestFingerSurface_mm": 3.999972964282443,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 85,
+      "palmDown": 0.9950379361998919,
+      "planeClearance_mm": 44.527022529773944,
+      "nearestFingerSurface_mm": 4.000083763361563,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 86,
+      "palmDown": 0.9950369101183894,
+      "planeClearance_mm": 44.52645535659988,
+      "nearestFingerSurface_mm": 3.999523003448517,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 87,
+      "palmDown": 0.9950369103726965,
+      "planeClearance_mm": 44.527549862859004,
+      "nearestFingerSurface_mm": 4.0001788346786045,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 88,
+      "palmDown": 0.9950379361998919,
+      "planeClearance_mm": 44.527121979704795,
+      "nearestFingerSurface_mm": 4.000422932237242,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 89,
+      "palmDown": 0.9950370035957079,
+      "planeClearance_mm": 44.52751997740731,
+      "nearestFingerSurface_mm": 3.9999729642824016,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 90,
+      "palmDown": 0.9950369103726965,
+      "planeClearance_mm": 44.52655482594861,
+      "nearestFingerSurface_mm": 3.9994372218003713,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 91,
+      "palmDown": 0.9950370035957143,
+      "planeClearance_mm": 44.52642548908181,
+      "nearestFingerSurface_mm": 3.9988921596995146,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 92,
+      "palmDown": 0.9950370034659931,
+      "planeClearance_mm": 44.52742048011354,
+      "nearestFingerSurface_mm": 3.9999254196180014,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 93,
+      "palmDown": 0.9950379361998918,
+      "planeClearance_mm": 44.52811702922271,
+      "nearestFingerSurface_mm": 3.9999729642824153,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 94,
+      "palmDown": 0.9950369100952355,
+      "planeClearance_mm": 44.527450376218525,
+      "nearestFingerSurface_mm": 4.000714591470341,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 95,
+      "palmDown": 0.9950369103726933,
+      "planeClearance_mm": 44.526554835900036,
+      "nearestFingerSurface_mm": 3.998939695873914,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 96,
+      "palmDown": 0.9950369101183681,
+      "planeClearance_mm": 44.527549850620936,
+      "nearestFingerSurface_mm": 4.000920451574928,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 97,
+      "palmDown": 0.9950378429536861,
+      "planeClearance_mm": 44.52715184127859,
+      "nearestFingerSurface_mm": 3.9996813120465395,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 98,
+      "palmDown": 0.9950378429536907,
+      "planeClearance_mm": 44.52715184127937,
+      "nearestFingerSurface_mm": 3.9996813120466364,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 99,
+      "palmDown": 0.9950370036365113,
+      "planeClearance_mm": 44.52742050488101,
+      "nearestFingerSurface_mm": 3.9996813120465533,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 100,
+      "palmDown": 0.9950379361539835,
+      "planeClearance_mm": 44.527221495923584,
+      "nearestFingerSurface_mm": 4.000131290101662,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 101,
+      "palmDown": 0.9950378429536861,
+      "planeClearance_mm": 44.5271518412787,
+      "nearestFingerSurface_mm": 3.9996813120466226,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 102,
+      "palmDown": 0.9950369103726933,
+      "planeClearance_mm": 44.527450366293465,
+      "nearestFingerSurface_mm": 4.000131290101565,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 103,
+      "palmDown": 0.9950369103726965,
+      "planeClearance_mm": 44.52655482594861,
+      "nearestFingerSurface_mm": 4.000178834678674,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 104,
+      "palmDown": 0.9950370034660084,
+      "planeClearance_mm": 44.52751998569976,
+      "nearestFingerSurface_mm": 4.000872907312609,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 105,
+      "palmDown": 0.9950369334516399,
+      "planeClearance_mm": 44.52749701767772,
+      "nearestFingerSurface_mm": 4.000520347005578,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 106,
+      "palmDown": 0.9950369290648898,
+      "planeClearance_mm": 44.52748248420155,
+      "nearestFingerSurface_mm": 4.001096905342817,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 107,
+      "palmDown": 0.9950369741869066,
+      "planeClearance_mm": 44.527463732354164,
+      "nearestFingerSurface_mm": 3.999495181898079,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 108,
+      "palmDown": 0.995036950403602,
+      "planeClearance_mm": 44.52642658828848,
+      "nearestFingerSurface_mm": 3.9995997046418306,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 109,
+      "palmDown": 0.9950369177727832,
+      "planeClearance_mm": 44.5273936965708,
+      "nearestFingerSurface_mm": 4.000714381650234,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 110,
+      "palmDown": 0.9950369344895578,
+      "planeClearance_mm": 44.5275377287363,
+      "nearestFingerSurface_mm": 4.000029825888853,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 111,
+      "palmDown": 0.9950370107793246,
+      "planeClearance_mm": 44.52745515109971,
+      "nearestFingerSurface_mm": 4.000082633898041,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 112,
+      "palmDown": 0.9950369852291924,
+      "planeClearance_mm": 44.527558881616415,
+      "nearestFingerSurface_mm": 3.9998517945447967,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 113,
+      "palmDown": 0.9950368977448163,
+      "planeClearance_mm": 44.52742149094063,
+      "nearestFingerSurface_mm": 4.000316718302164,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 114,
+      "palmDown": 0.9950369615760544,
+      "planeClearance_mm": 44.527473575566525,
+      "nearestFingerSurface_mm": 4.000151294540586,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 115,
+      "palmDown": 0.9950378228920397,
+      "planeClearance_mm": 44.52720943515176,
+      "nearestFingerSurface_mm": 4.000223513169858,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 116,
+      "palmDown": 0.9950378942744778,
+      "planeClearance_mm": 44.527084923953716,
+      "nearestFingerSurface_mm": 3.9996247181212157,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 117,
+      "palmDown": 0.9950369876612253,
+      "planeClearance_mm": 44.52745908618999,
+      "nearestFingerSurface_mm": 4.000807336375916,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 118,
+      "palmDown": 0.9950360113026858,
+      "planeClearance_mm": 44.52681027204383,
+      "nearestFingerSurface_mm": 3.9993850563475526,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 119,
+      "palmDown": 0.9950369425083565,
+      "planeClearance_mm": 44.527463982438455,
+      "nearestFingerSurface_mm": 4.0000357589228885,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 120,
+      "palmDown": 0.9950369748385518,
+      "planeClearance_mm": 44.52652561848469,
+      "nearestFingerSurface_mm": 3.9992199347834227,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 121,
+      "palmDown": 0.9950369280516413,
+      "planeClearance_mm": 44.52741477572059,
+      "nearestFingerSurface_mm": 3.9993004531724203,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 122,
+      "palmDown": 0.995036907943572,
+      "planeClearance_mm": 44.52741406690858,
+      "nearestFingerSurface_mm": 4.000082575862394,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 123,
+      "palmDown": 0.9950369911222448,
+      "planeClearance_mm": 44.527483324949266,
+      "nearestFingerSurface_mm": 3.9998355579150475,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 124,
+      "palmDown": 0.9950378171372432,
+      "planeClearance_mm": 44.528107387968504,
+      "nearestFingerSurface_mm": 4.000123236539372,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 125,
+      "palmDown": 0.9950369742048937,
+      "planeClearance_mm": 44.52648647827184,
+      "nearestFingerSurface_mm": 3.9994088109396655,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 126,
+      "palmDown": 0.9950369677496962,
+      "planeClearance_mm": 44.526488653112125,
+      "nearestFingerSurface_mm": 3.9991346841572946,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 127,
+      "palmDown": 0.9950368709650863,
+      "planeClearance_mm": 44.526420035056304,
+      "nearestFingerSurface_mm": 4.000343794115145,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 128,
+      "palmDown": 0.99503687119939,
+      "planeClearance_mm": 44.52750745503989,
+      "nearestFingerSurface_mm": 4.000631533933742,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 129,
+      "palmDown": 0.9950368709680335,
+      "planeClearance_mm": 44.52750744703404,
+      "nearestFingerSurface_mm": 4.000645167784624,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 130,
+      "palmDown": 0.9950369677484792,
+      "planeClearance_mm": 44.526385641595226,
+      "nearestFingerSurface_mm": 3.9994088109396655,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 131,
+      "palmDown": 0.9950378071316633,
+      "planeClearance_mm": 44.52711199952117,
+      "nearestFingerSurface_mm": 3.999408810939749,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 132,
+      "palmDown": 0.9950368711993902,
+      "planeClearance_mm": 74.36259869160958,
+      "nearestFingerSurface_mm": 23.500612329372817,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 133,
+      "palmDown": 0.9950369674893828,
+      "planeClearance_mm": 137.73851698702825,
+      "nearestFingerSurface_mm": 82.26583354349246,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 134,
+      "palmDown": 0.9950369641761655,
+      "planeClearance_mm": 170.5776992954037,
+      "nearestFingerSurface_mm": 113.75746831392163,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 135,
+      "palmDown": 0.9950369677484792,
+      "planeClearance_mm": 242.77294933473866,
+      "nearestFingerSurface_mm": 183.69000486989603,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 136,
+      "palmDown": 0.9950369641790905,
+      "planeClearance_mm": 282.45771191974154,
+      "nearestFingerSurface_mm": 222.51975095294986,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 137,
+      "palmDown": 0.9950369641761654,
+      "planeClearance_mm": 362.22173915296815,
+      "nearestFingerSurface_mm": 301.1277745277139,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 138,
+      "palmDown": 0.9950369644028688,
+      "planeClearance_mm": 403.93990213235963,
+      "nearestFingerSurface_mm": 342.45255371570494,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 139,
+      "palmDown": 0.995036957470853,
+      "planeClearance_mm": 487.7918313779176,
+      "nearestFingerSurface_mm": 425.78549447694803,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 140,
+      "palmDown": 0.995037886979575,
+      "planeClearance_mm": 531.6404820883262,
+      "nearestFingerSurface_mm": 469.41711860837654,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 141,
+      "palmDown": 0.9950369508506866,
+      "planeClearance_mm": 610.5827485379467,
+      "nearestFingerSurface_mm": 548.0587644937,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 142,
+      "palmDown": 0.9950368512131023,
+      "planeClearance_mm": 648.8907162627863,
+      "nearestFingerSurface_mm": 586.3083121128539,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 143,
+      "palmDown": 0.9950369444188798,
+      "planeClearance_mm": 600.7091140416735,
+      "nearestFingerSurface_mm": 538.2258507193905,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 144,
+      "palmDown": 0.995036930842968,
+      "planeClearance_mm": 573.9153033965717,
+      "nearestFingerSurface_mm": 511.510759065571,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 145,
+      "palmDown": 0.995036931103437,
+      "planeClearance_mm": 523.2236391630372,
+      "nearestFingerSurface_mm": 461.0133853030173,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 146,
+      "palmDown": 0.9950378536697336,
+      "planeClearance_mm": 498.7139821697035,
+      "nearestFingerSurface_mm": 436.6282111137836,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 147,
+      "palmDown": 0.9950370076723116,
+      "planeClearance_mm": 452.29462982306103,
+      "nearestFingerSurface_mm": 390.5066853002074,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 148,
+      "palmDown": 0.9950369144989843,
+      "planeClearance_mm": 429.9821996279344,
+      "nearestFingerSurface_mm": 368.375711330878,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 149,
+      "palmDown": 0.9950369108651675,
+      "planeClearance_mm": 387.76994082473834,
+      "nearestFingerSurface_mm": 326.58461632920233,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 150,
+      "palmDown": 0.9950378371261767,
+      "planeClearance_mm": 367.603291089862,
+      "nearestFingerSurface_mm": 306.6645514316362,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 151,
+      "palmDown": 0.995036897593642,
+      "planeClearance_mm": 329.55746605889425,
+      "nearestFingerSurface_mm": 269.18338238050734,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 152,
+      "palmDown": 0.9950368975967856,
+      "planeClearance_mm": 311.50144814527147,
+      "nearestFingerSurface_mm": 251.4520368227171,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 153,
+      "palmDown": 0.9950369877255106,
+      "planeClearance_mm": 277.5958232245752,
+      "nearestFingerSurface_mm": 218.27465902978125,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 154,
+      "palmDown": 0.995036897853665,
+      "planeClearance_mm": 261.6290871042667,
+      "nearestFingerSurface_mm": 202.7205407918826,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 155,
+      "palmDown": 0.9950379269490046,
+      "planeClearance_mm": 231.84835682246265,
+      "nearestFingerSurface_mm": 173.85392651868455,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 156,
+      "palmDown": 0.9950378371261767,
+      "planeClearance_mm": 217.96163637007822,
+      "nearestFingerSurface_mm": 160.47482837130187,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 157,
+      "palmDown": 0.9950378437525967,
+      "planeClearance_mm": 192.2959245175372,
+      "nearestFingerSurface_mm": 135.91395259189258,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 158,
+      "palmDown": 0.9950369244305193,
+      "planeClearance_mm": 180.4676355846722,
+      "nearestFingerSurface_mm": 124.71133450264074,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 159,
+      "palmDown": 0.9950379601598991,
+      "planeClearance_mm": 155.96025209941087,
+      "nearestFingerSurface_mm": 101.04419764489991,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 160,
+      "palmDown": 0.9950369508506866,
+      "planeClearance_mm": 143.5191102493978,
+      "nearestFingerSurface_mm": 89.28246760672879,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 161,
+      "palmDown": 0.9950369710572312,
+      "planeClearance_mm": 120.22395959215879,
+      "nearestFingerSurface_mm": 67.86599490805484,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 162,
+      "palmDown": 0.9950379136278629,
+      "planeClearance_mm": 111.25073864993618,
+      "nearestFingerSurface_mm": 59.772675442099334,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 163,
+      "palmDown": 0.9950369809130343,
+      "planeClearance_mm": 97.26097501206743,
+      "nearestFingerSurface_mm": 47.3388185129525,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 164,
+      "palmDown": 0.9950368812017862,
+      "planeClearance_mm": 92.17409891613282,
+      "nearestFingerSurface_mm": 42.89778191212751,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 165,
+      "palmDown": 0.9950378038211986,
+      "planeClearance_mm": 84.61405433349026,
+      "nearestFingerSurface_mm": 36.36736202826452,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 166,
+      "palmDown": 0.9950369507636099,
+      "planeClearance_mm": 81.98093121431174,
+      "nearestFingerSurface_mm": 34.12507897271331,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 167,
+      "palmDown": 0.9950370176354628,
+      "planeClearance_mm": 78.17577883599913,
+      "nearestFingerSurface_mm": 30.900446813536245,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 168,
+      "palmDown": 0.9950378370923425,
+      "planeClearance_mm": 76.73492094601691,
+      "nearestFingerSurface_mm": 29.69059958108975,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 169,
+      "palmDown": 0.9950369776294189,
+      "planeClearance_mm": 44.52753729792438,
+      "nearestFingerSurface_mm": 4.001277532892485,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 170,
+      "palmDown": 0.9950369577327568,
+      "planeClearance_mm": 44.52743362183964,
+      "nearestFingerSurface_mm": 3.999903241029633,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 171,
+      "palmDown": 0.9950378772725569,
+      "planeClearance_mm": 44.52723880319767,
+      "nearestFingerSurface_mm": 4.000605382292501,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 172,
+      "palmDown": 0.9950379605582303,
+      "planeClearance_mm": 44.52720154780934,
+      "nearestFingerSurface_mm": 3.999670740587484,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 173,
+      "palmDown": 0.9950378673702374,
+      "planeClearance_mm": 44.527135481541414,
+      "nearestFingerSurface_mm": 4.000138057950596,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 174,
+      "palmDown": 0.9950378673702375,
+      "planeClearance_mm": 44.527135481541386,
+      "nearestFingerSurface_mm": 4.000138057950638,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 175,
+      "palmDown": 0.9950378839071187,
+      "planeClearance_mm": 44.528132283365245,
+      "nearestFingerSurface_mm": 3.999903241029605,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 176,
+      "palmDown": 0.9950368810485,
+      "planeClearance_mm": 44.52647018151737,
+      "nearestFingerSurface_mm": 4.000068549086112,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 177,
+      "palmDown": 0.9950378470471368,
+      "planeClearance_mm": 44.52707791179847,
+      "nearestFingerSurface_mm": 3.999504561404167,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 178,
+      "palmDown": 0.9950369577116674,
+      "planeClearance_mm": 44.527483333051535,
+      "nearestFingerSurface_mm": 4.000357401215508,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 179,
+      "palmDown": 0.9950369313767939,
+      "planeClearance_mm": 44.527520305606195,
+      "nearestFingerSurface_mm": 4.000523105921229,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 180,
+      "palmDown": 0.9950369084638611,
+      "planeClearance_mm": 44.52646529454682,
+      "nearestFingerSurface_mm": 4.000569583373061,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 181,
+      "palmDown": 0.9950369000898324,
+      "planeClearance_mm": 44.52750285096482,
+      "nearestFingerSurface_mm": 3.999943883914482,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 182,
+      "palmDown": 0.9950369090502695,
+      "planeClearance_mm": 44.527447784461884,
+      "nearestFingerSurface_mm": 3.999737169334501,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 183,
+      "palmDown": 0.9950378616809463,
+      "planeClearance_mm": 44.52719410770178,
+      "nearestFingerSurface_mm": 3.99953502582049,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 184,
+      "palmDown": 0.9950369673298178,
+      "planeClearance_mm": 44.52744368513167,
+      "nearestFingerSurface_mm": 4.000510766692451,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 185,
+      "palmDown": 0.9950369208887867,
+      "planeClearance_mm": 44.526431281378706,
+      "nearestFingerSurface_mm": 3.999998276785731,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 186,
+      "palmDown": 0.9950369904198779,
+      "planeClearance_mm": 44.526484552466606,
+      "nearestFingerSurface_mm": 4.000680756859755,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 187,
+      "palmDown": 0.9950379085363954,
+      "planeClearance_mm": 44.5261715524411,
+      "nearestFingerSurface_mm": 3.9996605753785315,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 188,
+      "palmDown": 0.9950369667876034,
+      "planeClearance_mm": 44.52645461321308,
+      "nearestFingerSurface_mm": 4.000145258834388,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 189,
+      "palmDown": 0.9950378964408371,
+      "planeClearance_mm": 103.09438967061516,
+      "nearestFingerSurface_mm": 52.39397754591652,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 190,
+      "palmDown": 0.9950369554837334,
+      "planeClearance_mm": 135.73918540517622,
+      "nearestFingerSurface_mm": 82.43500102134591,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 191,
+      "palmDown": 0.995037792316722,
+      "planeClearance_mm": 201.2224614616058,
+      "nearestFingerSurface_mm": 144.58538758012116,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 192,
+      "palmDown": 0.995036948642343,
+      "planeClearance_mm": 239.27154493344463,
+      "nearestFingerSurface_mm": 181.12446779544618,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 193,
+      "palmDown": 0.9950369461892945,
+      "planeClearance_mm": 316.59870515494026,
+      "nearestFingerSurface_mm": 256.5268905499292,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 194,
+      "palmDown": 0.9950369422652886,
+      "planeClearance_mm": 357.29107651009826,
+      "nearestFingerSurface_mm": 296.55620211535506,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 195,
+      "palmDown": 0.9950369399661707,
+      "planeClearance_mm": 439.3340288901162,
+      "nearestFingerSurface_mm": 377.7438615824188,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 196,
+      "palmDown": 0.9950378725291741,
+      "planeClearance_mm": 482.08890849179954,
+      "nearestFingerSurface_mm": 420.21192038802,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 197,
+      "palmDown": 0.9950369376759146,
+      "planeClearance_mm": 563.4619653719828,
+      "nearestFingerSurface_mm": 501.19121546276426,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 198,
+      "palmDown": 0.9950369289559167,
+      "planeClearance_mm": 602.9862128988566,
+      "nearestFingerSurface_mm": 540.5568780962853,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 199,
+      "palmDown": 0.9950369141829669,
+      "planeClearance_mm": 634.2392443344297,
+      "nearestFingerSurface_mm": 571.7353872015198,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 200,
+      "palmDown": 0.9950369048697291,
+      "planeClearance_mm": 606.7781165745233,
+      "nearestFingerSurface_mm": 544.3392562846421,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 201,
+      "palmDown": 0.9950368885943995,
+      "planeClearance_mm": 554.5524139476264,
+      "nearestFingerSurface_mm": 492.2813455755558,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 202,
+      "palmDown": 0.995036865678626,
+      "planeClearance_mm": 529.3267050296987,
+      "nearestFingerSurface_mm": 467.1623662401775,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 203,
+      "palmDown": 0.9950369287683011,
+      "planeClearance_mm": 481.32639066043913,
+      "nearestFingerSurface_mm": 419.42475832956495,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 204,
+      "palmDown": 0.9950369001431479,
+      "planeClearance_mm": 458.262756510932,
+      "nearestFingerSurface_mm": 396.51917947883817,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 205,
+      "palmDown": 0.995037876707451,
+      "planeClearance_mm": 414.4321060733286,
+      "nearestFingerSurface_mm": 353.0638743449762,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 206,
+      "palmDown": 0.9950368912710065,
+      "planeClearance_mm": 393.48127100268704,
+      "nearestFingerSurface_mm": 332.33334494107993,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 207,
+      "palmDown": 0.9950378524937877,
+      "planeClearance_mm": 353.78340500423786,
+      "nearestFingerSurface_mm": 293.14539834204754,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 208,
+      "palmDown": 0.9950378771796303,
+      "planeClearance_mm": 334.918993528013,
+      "nearestFingerSurface_mm": 274.572516914114,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 209,
+      "palmDown": 0.995036952106082,
+      "planeClearance_mm": 299.3270367586964,
+      "nearestFingerSurface_mm": 239.64890597986928,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 210,
+      "palmDown": 0.9950369470111429,
+      "planeClearance_mm": 282.5280188898636,
+      "nearestFingerSurface_mm": 223.2252861754367,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 211,
+      "palmDown": 0.9950378662930227,
+      "planeClearance_mm": 251.03183096885985,
+      "nearestFingerSurface_mm": 192.57289067046617,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 212,
+      "palmDown": 0.9950370002713763,
+      "planeClearance_mm": 236.2859060894679,
+      "nearestFingerSurface_mm": 178.29582075887876,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 213,
+      "palmDown": 0.9950369602073014,
+      "planeClearance_mm": 208.87045883856578,
+      "nearestFingerSurface_mm": 151.91591217160985,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 214,
+      "palmDown": 0.9950369871997052,
+      "planeClearance_mm": 196.17093766617634,
+      "nearestFingerSurface_mm": 139.7804387981424,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 215,
+      "palmDown": 0.9950369295079444,
+      "planeClearance_mm": 171.50493951510407,
+      "nearestFingerSurface_mm": 116.13375936926585,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 216,
+      "palmDown": 0.9950369384740485,
+      "planeClearance_mm": 159.07163079874988,
+      "nearestFingerSurface_mm": 104.0658252477282,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 217,
+      "palmDown": 0.995037862368369,
+      "planeClearance_mm": 134.12069319427778,
+      "nearestFingerSurface_mm": 80.58269763156953,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 218,
+      "palmDown": 0.9950370095226377,
+      "planeClearance_mm": 123.04972941802966,
+      "nearestFingerSurface_mm": 70.44475200464711,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 219,
+      "palmDown": 0.9950379019758918,
+      "planeClearance_mm": 105.45241314439718,
+      "nearestFingerSurface_mm": 54.57555626846248,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 220,
+      "palmDown": 0.9950369293549493,
+      "planeClearance_mm": 98.92466852544123,
+      "nearestFingerSurface_mm": 48.798676018007285,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 221,
+      "palmDown": 0.9950369603020364,
+      "planeClearance_mm": 88.94270954014172,
+      "nearestFingerSurface_mm": 40.07656718400788,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 222,
+      "palmDown": 0.9950368850366673,
+      "planeClearance_mm": 85.44157608207253,
+      "nearestFingerSurface_mm": 37.06344001504994,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 223,
+      "palmDown": 0.9950369919308484,
+      "planeClearance_mm": 80.33707716482408,
+      "nearestFingerSurface_mm": 32.705359105472624,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 224,
+      "palmDown": 0.9950379165733956,
+      "planeClearance_mm": 78.54582036538457,
+      "nearestFingerSurface_mm": 31.190727546772997,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 225,
+      "palmDown": 0.995037802897011,
+      "planeClearance_mm": 75.73782143950645,
+      "nearestFingerSurface_mm": 28.824973615930208,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 226,
+      "palmDown": 0.995036947912612,
+      "planeClearance_mm": 74.45983331736375,
+      "nearestFingerSurface_mm": 27.75590691015987,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 227,
+      "palmDown": 0.9950379326557637,
+      "planeClearance_mm": 44.52714467644975,
+      "nearestFingerSurface_mm": 4.000086861573402,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 228,
+      "palmDown": 0.995037884060139,
+      "planeClearance_mm": 44.52710068370786,
+      "nearestFingerSurface_mm": 3.99940282876516,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 229,
+      "palmDown": 0.995036988440883,
+      "planeClearance_mm": 44.52751330621352,
+      "nearestFingerSurface_mm": 4.000691051439485,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 230,
+      "palmDown": 0.9950369330731325,
+      "planeClearance_mm": 44.52746312690284,
+      "nearestFingerSurface_mm": 4.000299057636416,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 231,
+      "palmDown": 0.9950378882827893,
+      "planeClearance_mm": 44.52718511438331,
+      "nearestFingerSurface_mm": 3.9996483655194632,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 232,
+      "palmDown": 0.9950379120299025,
+      "planeClearance_mm": 44.52709742990349,
+      "nearestFingerSurface_mm": 3.9992793682173193,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 233,
+      "palmDown": 0.9950369880899018,
+      "planeClearance_mm": 44.526517584287326,
+      "nearestFingerSurface_mm": 3.9998722409985352,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 234,
+      "palmDown": 0.9950369051791196,
+      "planeClearance_mm": 44.52745612500997,
+      "nearestFingerSurface_mm": 3.9999959910712937,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 235,
+      "palmDown": 0.995037010029916,
+      "planeClearance_mm": 44.526440290759055,
+      "nearestFingerSurface_mm": 3.999662986100043,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 236,
+      "palmDown": 0.9950379443265762,
+      "planeClearance_mm": 44.527158588363534,
+      "nearestFingerSurface_mm": 4.000758582252427,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 237,
+      "palmDown": 0.9950369177727832,
+      "planeClearance_mm": 44.52639865965299,
+      "nearestFingerSurface_mm": 3.999502079250365,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 238,
+      "palmDown": 0.9950369231366188,
+      "planeClearance_mm": 44.527403290526514,
+      "nearestFingerSurface_mm": 4.000423914376307,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 239,
+      "palmDown": 0.9950370157707137,
+      "planeClearance_mm": 44.52649436384232,
+      "nearestFingerSurface_mm": 4.000343048581816,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 240,
+      "palmDown": 0.9950369319436196,
+      "planeClearance_mm": 44.527430026748114,
+      "nearestFingerSurface_mm": 3.998654907101433,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 241,
+      "palmDown": 0.9950369277728955,
+      "planeClearance_mm": 44.52744544534057,
+      "nearestFingerSurface_mm": 3.999814834668304,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 242,
+      "palmDown": 0.9950379627779882,
+      "planeClearance_mm": 44.52712915339851,
+      "nearestFingerSurface_mm": 3.99908776860642,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 243,
+      "palmDown": 0.9950369369011731,
+      "planeClearance_mm": 44.52737399754708,
+      "nearestFingerSurface_mm": 4.00006124998322,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 244,
+      "palmDown": 0.995036943217371,
+      "planeClearance_mm": 44.52738906684811,
+      "nearestFingerSurface_mm": 4.000782858871086,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 245,
+      "palmDown": 0.9950378839036964,
+      "planeClearance_mm": 44.52720915013953,
+      "nearestFingerSurface_mm": 4.0003046335142995,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 246,
+      "palmDown": 0.9950369613975996,
+      "planeClearance_mm": 44.527416097739774,
+      "nearestFingerSurface_mm": 4.000372182417271,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 247,
+      "palmDown": 0.9950378239799488,
+      "planeClearance_mm": 44.527167494364974,
+      "nearestFingerSurface_mm": 4.000373128842792,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 248,
+      "palmDown": 0.995036926690814,
+      "planeClearance_mm": 44.52648784067911,
+      "nearestFingerSurface_mm": 3.999879580292402,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 249,
+      "palmDown": 0.9950368874290055,
+      "planeClearance_mm": 44.52742851999433,
+      "nearestFingerSurface_mm": 4.000657765925612,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 250,
+      "palmDown": 0.9950369569899393,
+      "planeClearance_mm": 44.52745436304609,
+      "nearestFingerSurface_mm": 3.9996608298435503,
+      "nearestFinger": "LeftThumbDistal"
+    },
+    {
+      "frame": 251,
+      "palmDown": 0.9950369340463984,
+      "planeClearance_mm": 44.527407032100285,
+      "nearestFingerSurface_mm": 3.999385056347539,
+      "nearestFinger": "LeftThumbDistal"
+    }
+  ]
+}

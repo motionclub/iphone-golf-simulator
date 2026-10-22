@@ -1,0 +1,35 @@
+{
+  "review": "Manual review of current saved Blender renders and seven actual saved Unity captures. The chin flag remains FAIL because matching central contour calipers does not certify jaw/neck surface forms or head likeness.",
+  "source_sha256": "8da71e595209e5aaae165e509525406c6fac76d2df9b69148ac991bb7c2dcf3b",
+  "unity_capture_sha256": {
+    "front": "5f0ebaf2b1209086b4256872a9582ea21867ad92660c57fa64df15e243557283",
+    "back": "bca7c45c843d4972d6f8b70a0b620d7f54446be852288119a522edd6bc2bac87",
+    "left": "a81d02c26045fce13e7bd53c747eff77e3013aa1ca106153bf5b498630feb6b7",
+    "right": "e7c23694a9efcb66f52364268dca978c236df4cf2aea101e2213f5708adea8c1",
+    "threequarter": "cb52b00844e71d2871e6bf7065aaa0a16d413135d5f6a2007b010f6ece46b14e",
+    "head_side": "2bbc8cb3a50940a1c1b450f16003b43809fce1fa93776f2b0dd7301d59aa464c",
+    "foot_side": "15c527758a20dcb5de21d48e3ade334e5ee05eefbf7428b3cdf5d8e0ec4cd205"
+  },
+  "checks": {
+    "ARMS_SIDE": {
+      "flag": "PASS",
+      "note": "Left/right profiles show closed rounded deltoid, upper-arm and forearm depth; wrist narrows continuously. No thin arm cards."
+    },
+    "CHIN": {
+      "flag": "FAIL",
+      "note": "The old beard/stubble cap is absent, and front throat/rear neck contour depth is closer to the fixed head-detail profile. Chin curvature, uneven jaw surface and neck/shoulder transition still differ visibly in all-around Blender and saved Unity captures; matching the sampled central calipers alone is insufficient for PASS."
+    },
+    "FEET_SIDE": {
+      "flag": "PASS",
+      "note": "Both profiles show a rounded toe box, sloped instep, ankle and heel; a broad low sole can plant on the ground. No old twisted slab."
+    },
+    "SHOULDERS": {
+      "flag": "PASS",
+      "note": "Full rounded deltoid at both arm joins. Folded front/rear deltoid/torso triangles were locally unfolded; the previous horizontal cavity/crease is absent in front, back and three-quarter proof."
+    },
+    "WAIST": {
+      "flag": "PASS",
+      "note": "Waist tapers below the chest and widens toward the hips without the former waist shelf/love-handle ridge. Front/back and three-quarter views reviewed."
+    }
+  }
+}

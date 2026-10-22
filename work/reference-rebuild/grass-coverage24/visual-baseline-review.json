@@ -1,0 +1,19 @@
+{
+  "baselineVisualAudit": "PASS",
+  "candidateVisualGate": "NOT_RUN",
+  "reviewedImages": [
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-physics-final/hole01_tee.png",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-physics-final/hole02_tee.png",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-physics-final/hole03_tee.png",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/turf-path19-hole10/hole10_tee.png",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/golf-canopy22/candidate/hole16_tee.png",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/turf-surfaces16/hole17_tee.png",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/turf-surfaces16/hole18_tee.png",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-physics-final/hole18_approach.png",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/golf-canopy22/candidate/hole21_tee.png",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/golf-canopy22/candidate/hole22_tee.png",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/golf-canopy22/candidate/hole23_tee.png"
+  ],
+  "finding": "All omitted cut-turf tees and three Meadow tees show surface texture without physical address blades. Native dark ash, white snow and tan desert are visually distinct and must stay bare. Hole18 has a cut tee island and separate green/apron, with no authored fairway between them.",
+  "exclusions": "Actual candidate review must confirm no native ash/snow/desert/ice/lava/path/sand or putting-green intrusion. Historical photos do not prove the extension."
+}

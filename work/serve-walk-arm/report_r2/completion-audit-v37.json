@@ -1,0 +1,67 @@
+{
+  "candidate": "v37",
+  "complete": false,
+  "requirements": {
+    "G1": {
+      "pass": true,
+      "evidence": "after_r2_v37-matrix.json: all sixteen depths and inside-vertex counts exactly zero; both directions per walk case"
+    },
+    "G2": {
+      "pass": true,
+      "evidence": "after_r2_v37-matrix.json and exclusion-ranges.json: held-only distances <=3.5 cm; reasons/ranges retained"
+    },
+    "G3": {
+      "pass": true,
+      "evidence": "after_r2_v37-matrix.json: game >=90%, front/side >=95% on RH carry frames"
+    },
+    "G4": {
+      "pass": true,
+      "evidence": "after_r2_v37-matrix.json: elbow 15\u201360 degrees; independent physical pelvis-top belt marker"
+    },
+    "G5": {
+      "pass": false,
+      "evidence": "after_r2_v37-matrix.json and REFEED_CONSTRAINT_CONFLICT.json: failed player Refeed frames retained; caps unchanged"
+    },
+    "G6": {
+      "pass": true,
+      "evidence": "GAME_TIMES_UNCHANGED.json and after_r2_v37-matrix.json: eight controls match first-release pose/timing/contact and right no worse than left"
+    },
+    "G7": {
+      "pass": true,
+      "evidence": "after_r2_v37-matrix.json: 100% target/root/yaw/Unity frame equality during hand IK"
+    },
+    "G8": {
+      "pass": true,
+      "evidence": "real-input-final.json: four completed SetLateralInput captures, two sexes/two sides/both directions, 0 mm/0 vertices"
+    },
+    "G9": {
+      "pass": true,
+      "evidence": "LEFTY_GAP.md and film_r2/manifest.json: 24 explicitly unsupported LH archive films, excluded from matrix"
+    },
+    "G10": {
+      "pass": true,
+      "evidence": "GAME_TIMES_UNCHANGED.json and protected-assets-audit.json: constants, signed contact transitions and protected serve imports unchanged"
+    },
+    "G11": {
+      "pass": true,
+      "evidence": "source-diff-v37.json and staging-manifest.json: exactly three owned runtime differences in clone; only owned Editor/proof files staged; unrelated index preserved"
+    },
+    "G12": {
+      "pass": true,
+      "evidence": "movie-readiness-v37.json and film_r2/manifest.json: twelve paired half-speed RH films, six sheets including f547 and opponent, four input films; no look approval claimed"
+    }
+  },
+  "fresh_before_cases": 16,
+  "fresh_after_cases": 16,
+  "successful_source_verified_captures": 40,
+  "production_runtime_installed": false,
+  "production_reverification": "Not performed because G5 blocks installation. Required once all candidate gates pass.",
+  "failure_branch_artifacts": [
+    "CANDIDATE_R2_GATES_FAIL.patch",
+    "GATE_RESULTS.md",
+    "SCOPE_DECISION.md"
+  ],
+  "approval_needed": "Player Refeed transition/baseline return and any short delay before entering Hold.",
+  "goal_status": "blocked",
+  "blocking_condition_revalidated": "All four pre-Refeed raw speeds exceed 2.4 m/s; the next Hold frame cannot satisfy both speed caps. Production files still match baseline. No human scope authorization has arrived."
+}

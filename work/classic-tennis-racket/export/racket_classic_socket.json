@@ -1,0 +1,282 @@
+{
+ "asset": "Racket_Classic",
+ "units": "metres",
+ "racket_local_frame": {
+  "origin": "centre of the usable grip (palm hold point)",
+  "Y": "shaft, towards the head",
+  "Z": "hitting-face normal (palm side)",
+  "X": "Y x Z, across the face"
+ },
+ "unity_axis_mapping": {
+  "blender_to_unity": "(x, y, z) -> (-x, z, -y)  (verified in Unity 6000.3.24f1: same conversion as the HeroBase FBXs)",
+  "rotation_conversion": "R_unity = C R_blender C^T with C = [[-1,0,0],[0,0,1],[0,-1,0]]",
+  "fbx_import": "Racket_Classic.fbx imports with prefab-root Euler (270,0,0), scale 1, file scale 1 - keep that local rotation when parenting"
+ },
+ "unity_usage": [
+  "socket = new GameObject(\"Hand_Racket\"); socket.transform.SetParent(rightHandBone, false)  // bind-pose world pose below",
+  "socket.transform.position = <position>; socket.transform.rotation = Quaternion.LookRotation(<forward>, <up>)  (bind pose world values; then parent to the hand bone with worldPositionStays = true)",
+  "racket = Instantiate(Racket_Classic prefab); racket.transform.SetParent(socket.transform, false)  // local position 0, keep the imported local rotation (270,0,0)"
+ ],
+ "bodies": {
+  "male": {
+   "hero_blend": "ArtDir/hero/base_lock/blender/HeroBase_Male_Silhouette.blend",
+   "hand_object": "right hand (character right = world -X in Blender, +X in Unity)",
+   "hand_frame_blender": {
+    "origin": [
+     -0.611378970712358,
+     -0.11731411977225722,
+     0.8716471031424743
+    ],
+    "u_fingers": [
+     -0.8048380807085148,
+     -0.13865996199198172,
+     -0.5770693881863915
+    ],
+    "v_thumb": [
+     0.11577204831021738,
+     -0.9903261591343826,
+     0.07649138097980786
+    ],
+    "p_palm_normal": [
+     0.5820932027360316,
+     0.0052453288289301655,
+     -0.8131051530115804
+    ]
+   },
+   "hand_frame_unity": {
+    "origin": [
+     0.611378970712358,
+     0.8716471031424743,
+     0.11731411977225722
+    ],
+    "u_fingers": [
+     0.8048380807085148,
+     -0.5770693881863915,
+     0.13865996199198172
+    ],
+    "v_thumb": [
+     -0.11577204831021738,
+     0.07649138097980786,
+     0.9903261591343826
+    ],
+    "p_palm_normal": [
+     -0.5820932027360316,
+     -0.8131051530115804,
+     -0.0052453288289301655
+    ]
+   },
+   "grip_in_hand_frame": {
+    "phi_deg": 52.0,
+    "U_g": -0.02,
+    "V_g": 0.0,
+    "W_g": 0.028712298365380074,
+    "roll_deg": 45.0,
+    "axis_UVW": [
+     0.788010753606722,
+     0.6156614753256583,
+     0.0
+    ],
+    "origin_UVW": [
+     -0.02,
+     0.0,
+     0.028712298365380074
+    ],
+    "meaning": "U along the fingers, V towards the thumb, W = palm normal; handle axis = (sin phi, cos phi, 0) in (U,V,W); grip centre = (U_g, V_g, W_g)"
+   },
+   "socket_bind_pose_blender": {
+    "position": [
+     -0.5785689753847711,
+     -0.11439031508605682,
+     0.8598423731505056
+    ],
+    "X": [
+     0.003283956956952716,
+     -0.4951624094604319,
+     0.8687942241313791
+    ],
+    "Y": [
+     -0.5629446724463628,
+     -0.7189712053306476,
+     -0.40764408700440297
+    ],
+    "Z": [
+     0.8264880588314404,
+     -0.4877443942914522,
+     -0.28111011089304877
+    ],
+    "euler_xyz_deg": [
+     55.40997794362014,
+     -119.68118376922637,
+     90.37998641857348
+    ]
+   },
+   "socket_bind_pose_unity": {
+    "position": [
+     0.5785689753847711,
+     0.8598423731505056,
+     0.11439031508605682
+    ],
+    "right": [
+     0.003283956956952716,
+     -0.8687942241313791,
+     -0.4951624094604319
+    ],
+    "up": [
+     -0.8264880588314404,
+     -0.28111011089304877,
+     0.4877443942914522
+    ],
+    "forward": [
+     -0.5629446724463628,
+     0.40764408700440297,
+     -0.7189712053306476
+    ],
+    "quaternion_xyzw_of_matrix": [
+     0.7077014446258545,
+     -0.598869264125824,
+     -0.37378302216529846,
+     0.028295915573835373
+    ],
+    "use": "transform.position = position; transform.rotation = Quaternion.LookRotation(forward, up)"
+   },
+   "ready_stance_proof_pose": {
+    "adduct": 16.0,
+    "flex": 95.0,
+    "twist": 0.0
+   },
+   "notes": {
+    "A-pose bind": "unposed locked hero hand; racket clears hand and body (0 overlapping triangles, min clearance 0.50 mm)"
+   }
+  },
+  "female": {
+   "hero_blend": "ArtDir/hero/base_lock/blender/HeroBase_Female.blend",
+   "hand_object": "right hand (character right = world -X in Blender, +X in Unity)",
+   "hand_frame_blender": {
+    "origin": [
+     -0.2322852895543584,
+     -0.00622757091367363,
+     0.7421454671784081
+    ],
+    "u_fingers": [
+     0.019397001991042436,
+     -0.021206198543168076,
+     -0.9995869414198582
+    ],
+    "v_thumb": [
+     0.9998118604586362,
+     0.0004114140786203346,
+     0.019392638415038247
+    ],
+    "p_palm_normal": [
+     5.421010862427522e-20,
+     0.9997750386370943,
+     -0.021210189018402235
+    ]
+   },
+   "hand_frame_unity": {
+    "origin": [
+     0.2322852895543584,
+     0.7421454671784081,
+     0.00622757091367363
+    ],
+    "u_fingers": [
+     -0.019397001991042436,
+     -0.9995869414198582,
+     0.021206198543168076
+    ],
+    "v_thumb": [
+     -0.9998118604586362,
+     0.019392638415038247,
+     -0.0004114140786203346
+    ],
+    "p_palm_normal": [
+     -5.421010862427522e-20,
+     -0.021210189018402235,
+     -0.9997750386370943
+    ]
+   },
+   "grip_in_hand_frame": {
+    "phi_deg": 52.0,
+    "U_g": -0.02,
+    "V_g": 0.0,
+    "W_g": 0.04024045214196075,
+    "roll_deg": 45.0,
+    "axis_UVW": [
+     0.788010753606722,
+     0.6156614753256583,
+     0.0
+    ],
+    "origin_UVW": [
+     -0.02,
+     0.0,
+     0.04024045214196075
+    ],
+    "meaning": "U along the fingers, V towards the thumb, W = palm normal; handle axis = (sin phi, cos phi, 0) in (U,V,W); grip centre = (U_g, V_g, W_g)"
+   },
+   "socket_bind_pose_blender": {
+    "position": [
+     -0.23267322959417924,
+     0.03442795265219268,
+     0.7612836984106883
+    ],
+    "X": [
+     0.5486586548217156,
+     -0.6974865937380905,
+     0.4609621807099379
+    ],
+    "Y": [
+     0.6308306912147277,
+     -0.016457420696522507,
+     -0.7757459586266412
+    ],
+    "Z": [
+     0.5486586548217155,
+     0.7164088252245736,
+     0.43096644373961646
+    ],
+    "euler_xyz_deg": [
+     -60.945593548916186,
+     -27.449213755318727,
+     -51.81061168499599
+    ]
+   },
+   "socket_bind_pose_unity": {
+    "position": [
+     0.23267322959417924,
+     0.7612836984106883,
+     -0.03442795265219268
+    ],
+    "right": [
+     0.5486586548217156,
+     -0.4609621807099379,
+     -0.6974865937380905
+    ],
+    "up": [
+     -0.5486586548217155,
+     0.43096644373961646,
+     -0.7164088252245736
+    ],
+    "forward": [
+     0.6308306912147277,
+     0.7757459586266412,
+     -0.016457420696522507
+    ],
+    "quaternion_xyzw_of_matrix": [
+     -0.5324823260307312,
+     0.4740161597728729,
+     0.03129487484693527,
+     0.7005653977394104
+    ],
+    "use": "transform.position = position; transform.rotation = Quaternion.LookRotation(forward, up)"
+   },
+   "ready_stance_proof_pose": {
+    "adduct": 0.0,
+    "flex": 95.0,
+    "twist": 90.0
+   },
+   "notes": {
+    "A-pose bind": "racket clears the hand pieces (0 overlapping triangles) but the arm hangs flush to the thigh with a pronated placeholder hand, so the racket crosses the thigh in the static bind pose; fit is shown in the ready-stance proof pose."
+   }
+  }
+ }
+}

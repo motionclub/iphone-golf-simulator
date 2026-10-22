@@ -1,0 +1,132 @@
+{
+ "gates": [
+  {
+   "name": "GRASS_NOT_ON_PLAY_SURFACES@blend",
+   "ok": true,
+   "detail": "616 tufts / 38868 vertices (every vertex) ray-cast down onto 13 play meshes (BUNKER, BUNKER_01_LIP, BUNKER_02_LIP, DRESS_PADEDGE, FAIRWAY, FAIRWAY_FIRSTCUT, GREEN, GREEN_APRON, TEE_BOX): 0 tufts over a play surface []"
+  },
+  {
+   "name": "GRASS_NOT_ON_WATER@blend",
+   "ok": true,
+   "detail": "616 tufts / 38868 vertices: vertices over the lava 0 expected, found 0; origins on a collider top max |dz| 0.020 m (<= 0.05), lowest origin z 5.98 (>= 5.0), nearest origin to the cliff edge / lava 1.10 m (>= 1.0; the probe stops at 3 m)"
+  },
+  {
+   "name": "GRASS_BALL_CLEAR@blend",
+   "ok": true,
+   "detail": "2 shot-ball zones [(0.0, 0.0, 1.5), (107.1, 159.3, 4.0)] (course yd, r m): nearest tuft vertex vs the balls worst margin +9.39 m, margin to the 6 m pin disc +11.61 m, to the 1.5 m tee markers / ball / cup (6 markers) +8.87 m; 533 tufts in the ball corridor (<= 19.1 m off the centerline tee -> C or <= 12 m from a ball): tallest top 0.498 m (<= 0.503 + 4 mm = 0.55 yd), over none; whole hole tallest 1.02 m"
+  },
+  {
+   "name": "GRASS_FRINGE_PRESENT@blend",
+   "ok": true,
+   "detail": "616 tufts (245 tall D/E/F + 371 fillers S/T; by kind {'PLANT_TUFT_D': 165, 'PLANT_TUFT_E': 80, 'PLANT_TUFT_S': 371}), 79% have >= 2 neighbours within 1 m (a clump; >= 55 %), 51 singles (>= 5); nearest-neighbour distance mean 0.57 m, CV 0.73 (>= 0.35), 20% within 10 % of the median (<= 45 %): not a grid; lean max 12.0 deg (<= 12), median 8.4 (>= 3); height over its ground / library height of its kind 0.50..1.76 (median 0.80; the corridor cap scales some down), tallest 1.02 m; rough-edge coverage 74% of 759 samples (2 x 2 m blocks of 7653 land cells 0.35-3 m outside the play footprint / <= 3 m inside the cliff edge; a tuft within 2.5 m; >= 20 %), 74% of the 278 within 45 m of a still ball (>= 40 %)"
+  },
+  {
+   "name": "GRASS_TRI_BUDGET@blend",
+   "ok": true,
+   "detail": "242283 triangles over 1149 mesh objects (<= 250,000; round 3 stage: 220197, +22086), the 616 tufts 41976 triangles (68 per tuft <= 90, largest 135 <= 135, 371 of 616 are 36-triangle fillers >= 50 %); the 170 old A / B tufts of round 3 (19,890 triangles) are gone; .blend 2.13 MB (<= 20 for the FBX)"
+  },
+  {
+   "name": "GRASS_NO_CARDS@blend",
+   "ok": true,
+   "detail": "3 tuft kinds, every one a 3-D clump: bounding box >= 8 cm on every axis, >= 36 triangles, tall <= 120 faces (bad none; extents m {'PLANT_TUFT_D': [0.27, 0.32, 0.65], 'PLANT_TUFT_E': [0.91, 0.56, 0.6], 'PLANT_TUFT_S': [0.34, 0.32, 0.4]}); largest instance scale 1.80 (<= 2.0)"
+  },
+  {
+   "name": "GRASS_NOT_ON_PLAY_SURFACES@fbx",
+   "ok": true,
+   "detail": "616 tufts / 38868 vertices (every vertex) ray-cast down onto 13 play meshes (BUNKER, BUNKER_01_LIP, BUNKER_02_LIP, DRESS_PADEDGE, FAIRWAY, FAIRWAY_FIRSTCUT, GREEN, GREEN_APRON, TEE_BOX): 0 tufts over a play surface []"
+  },
+  {
+   "name": "GRASS_NOT_ON_WATER@fbx",
+   "ok": true,
+   "detail": "616 tufts / 38868 vertices: vertices over the lava 0 expected, found 0; origins on a collider top max |dz| 0.020 m (<= 0.05), lowest origin z 5.98 (>= 5.0), nearest origin to the cliff edge / lava 1.10 m (>= 1.0; the probe stops at 3 m)"
+  },
+  {
+   "name": "GRASS_BALL_CLEAR@fbx",
+   "ok": true,
+   "detail": "2 shot-ball zones [(0.0, 0.0, 1.5), (107.1, 159.3, 4.0)] (course yd, r m): nearest tuft vertex vs the balls worst margin +9.39 m, margin to the 6 m pin disc +11.61 m, to the 1.5 m tee markers / ball / cup (6 markers) +8.87 m; 533 tufts in the ball corridor (<= 19.1 m off the centerline tee -> C or <= 12 m from a ball): tallest top 0.498 m (<= 0.503 + 4 mm = 0.55 yd), over none; whole hole tallest 1.02 m"
+  },
+  {
+   "name": "GRASS_FRINGE_PRESENT@fbx",
+   "ok": true,
+   "detail": "616 tufts (245 tall D/E/F + 371 fillers S/T; by kind {'PLANT_TUFT_D': 165, 'PLANT_TUFT_E': 80, 'PLANT_TUFT_S': 371}), 79% have >= 2 neighbours within 1 m (a clump; >= 55 %), 51 singles (>= 5); nearest-neighbour distance mean 0.57 m, CV 0.73 (>= 0.35), 20% within 10 % of the median (<= 45 %): not a grid; lean max 12.0 deg (<= 12), median 8.4 (>= 3); height over its ground / library height of its kind 0.50..1.76 (median 0.80; the corridor cap scales some down), tallest 1.02 m; rough-edge coverage 74% of 759 samples (2 x 2 m blocks of 7653 land cells 0.35-3 m outside the play footprint / <= 3 m inside the cliff edge; a tuft within 2.5 m; >= 20 %), 74% of the 278 within 45 m of a still ball (>= 40 %)"
+  },
+  {
+   "name": "GRASS_TRI_BUDGET@fbx",
+   "ok": true,
+   "detail": "242283 triangles over 1149 mesh objects (<= 250,000; round 3 stage: 220197, +22086), the 616 tufts 41976 triangles (68 per tuft <= 90, largest 135 <= 135, 371 of 616 are 36-triangle fillers >= 50 %); the 170 old A / B tufts of round 3 (19,890 triangles) are gone; FBX 4.01 MB (<= 20 for the FBX)"
+  },
+  {
+   "name": "GRASS_NO_CARDS@fbx",
+   "ok": true,
+   "detail": "3 tuft kinds, every one a 3-D clump: bounding box >= 8 cm on every axis, >= 36 triangles, tall <= 120 faces (bad none; extents m {'PLANT_TUFT_D': [0.27, 0.32, 0.65], 'PLANT_TUFT_E': [0.91, 0.56, 0.6], 'PLANT_TUFT_S': [0.34, 0.32, 0.4]}); largest instance scale 1.80 (<= 2.0)"
+  }
+ ],
+ "stats": {
+  "blend": {
+   "n": 616,
+   "tall": 245,
+   "fill": 371,
+   "by_kind": {
+    "PLANT_TUFT_D": 165,
+    "PLANT_TUFT_E": 80,
+    "PLANT_TUFT_S": 371
+   },
+   "tris_all": 242283,
+   "tris_tufts": 41976,
+   "cov": 0.7364953886693018,
+   "cov_focus": 0.7446043165467626,
+   "lean_max": 11.986079563353353,
+   "tallest": 1.016271687247606,
+   "top_corridor": 0.49792476720831313,
+   "clump_share": 0.7905844155844156,
+   "singles": 51,
+   "nn_cv": 0.7258491195150629,
+   "grid": 0.20292207792207792,
+   "balls": [
+    [
+     0.0,
+     0.0,
+     1.5
+    ],
+    [
+     97.93224,
+     145.66392000000002,
+     4.0
+    ]
+   ]
+  },
+  "fbx": {
+   "n": 616,
+   "tall": 245,
+   "fill": 371,
+   "by_kind": {
+    "PLANT_TUFT_D": 165,
+    "PLANT_TUFT_E": 80,
+    "PLANT_TUFT_S": 371
+   },
+   "tris_all": 242283,
+   "tris_tufts": 41976,
+   "cov": 0.7364953886693018,
+   "cov_focus": 0.7446043165467626,
+   "lean_max": 11.986081763068762,
+   "tallest": 1.0162726336071106,
+   "top_corridor": 0.4979244131526732,
+   "clump_share": 0.7905844155844156,
+   "singles": 51,
+   "nn_cv": 0.7258491090799501,
+   "grid": 0.20292207792207792,
+   "balls": [
+    [
+     0.0,
+     0.0,
+     1.5
+    ],
+    [
+     97.93224,
+     145.66392000000002,
+     4.0
+    ]
+   ]
+  }
+ }
+}

@@ -39,7 +39,7 @@ namespace GolfArcade.UI
 
             b.badge = UiKit.Pill(b.root, "Badge", Color.green, new Vector2(0.5f, 0.5f), new Vector2(40, 60), new Vector2(620, BadgeHeight), out b.fill, 7f, false);
             foreach (var img in b.badge.GetComponentsInChildren<Image>()) img.sprite = UiKit.RoundedLarge;
-            b.word = UiKit.Chunky(b.fill.transform, "Word", 72, Color.white, UiKit.ArcadeInk, 4f);
+            b.word = UiKit.Chunky(b.fill.transform, "Word", 72, Color.white, GlassKit.Ink, 4f);
             // one line's height, so a long word shrinks rather than wraps
             b.word.rectTransform.offsetMin = new Vector2(96, 22); b.word.rectTransform.offsetMax = new Vector2(-18, -22);
             Icons.Fit(b.word, 36, 72);
@@ -67,6 +67,16 @@ namespace GolfArcade.UI
             Icons.Fit(b.stats, 18, 28);
 
             foreach (var g in go.GetComponentsInChildren<Graphic>()) g.raycastTarget = false;
+            // the clear style: the word, the detail and the figures stand straight on the picture, in the ground's colour; only the
+            // round medallion is left of the badge
+            if (GlassKit.ClearStyle)
+            {
+                GlassKit.Hide(b.badge); GlassKit.Hide(b.detailPill); GlassKit.Hide(b.statsStrip);
+                b.detail.fontSize = 44; GlassKit.Outline(b.detail); b.stats.fontSize = 32; GlassKit.Outline(b.stats);
+                b.detail.color = GlassKit.Gold; b.stats.color = Color.white;
+                b.detail.rectTransform.offsetMin = b.stats.rectTransform.offsetMin = new Vector2(-400, 0); b.detail.rectTransform.offsetMax = b.stats.rectTransform.offsetMax = new Vector2(400, 0);
+                b.detail.horizontalOverflow = b.stats.horizontalOverflow = HorizontalWrapMode.Overflow;
+            }
             go.SetActive(false);
             return b;
         }
@@ -96,7 +106,7 @@ namespace GolfArcade.UI
                 Kind.Event => (EventColor, Color.white, EventIcon, EventColor, EventColor.grayscale > 0.68f),
                 _ => (UiKit.ArcadeYellow, UiKit.ArcadeBlue, "trophy", UiKit.ArcadeYellow, true),
             };
-            fill.color = fillColor;
+            fill.color = GlassKit.ClearStyle ? Color.clear : fillColor;
             disc.color = discColor;
             icon.enabled = iconName != null;
             if (iconName != null) { icon.sprite = Icons.Get(iconName); icon.color = iconColor; }
@@ -104,8 +114,8 @@ namespace GolfArcade.UI
             drop.color = dropTip.color = iconColor;
             bang.enabled = kind == Kind.OutOfBounds;
             word.text = wordText.ToUpperInvariant();
-            word.color = ink ? UiKit.ArcadeInk : Color.white;
-            foreach (var o in word.GetComponents<Shadow>()) o.enabled = !ink;
+            word.color = GlassKit.ClearStyle ? WordColour(kind, fillColor) : ink ? UiKit.ArcadeInk : Color.white;
+            foreach (var o in word.GetComponents<Shadow>()) o.enabled = GlassKit.ClearStyle || !ink;
             detail.text = detailText.ToUpperInvariant();
             detailPill.gameObject.SetActive(!string.IsNullOrEmpty(detailText));
             stats.text = statsText?.ToUpperInvariant() ?? "";
@@ -113,6 +123,22 @@ namespace GolfArcade.UI
             shownAt = Time.unscaledTime; holdFor = seconds;
             Tick();
         }
+
+        /// The clear style's lettering: the colour of the ground it found (white on the fairway, a lighter green for the grass),
+        /// gold for a hole out, the player's or the event's own colour.
+        static Color WordColour(Kind kind, Color ground) => kind switch
+        {
+            Kind.Green or Kind.Putt => UiKit.Hex("7DE05A"),
+            Kind.Fairway => Color.white,
+            Kind.Rough => UiKit.Hex("B8F06A"),
+            Kind.Bunker => UiKit.Hex("F1D38C"),
+            Kind.Water => UiKit.Hex("6CB8FF"),
+            Kind.OutOfBounds => UiKit.Hex("FF6E62"),
+            Kind.Ice => UiKit.Hex("8FD8FF"),
+            Kind.Lava => UiKit.Hex("FF8A4A"),
+            Kind.Turn or Kind.Event => Color.Lerp(ground, Color.white, .25f),
+            _ => GlassKit.Gold,
+        };
 
         public void Hide() { shownAt = -99f; gameObject.SetActive(false); }
 

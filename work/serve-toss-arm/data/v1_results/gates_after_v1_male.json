@@ -1,0 +1,46 @@
+{
+ "label": "AFTER male",
+ "frame_windup_start": 253,
+ "frame_release": 292,
+ "frame_T_H": 277,
+ "t_H_after_windup_start": 0.4,
+ "g1": {
+  "lwrist_minus_head_y": -0.03400000000000003,
+  "flexL_TH": 108.59637661644847,
+  "flexL_TH_minus_0p1": 117.76650944403906,
+  "rwrist_minus_rshoulder_y": -0.131,
+  "flexL_TH_plus_0p15": 48.04019946837033,
+  "lwrist_minus_head_y_plus_0p15": 0.16700000000000004,
+  "parts": [
+   true,
+   false,
+   false,
+   true,
+   false
+  ]
+ },
+ "g2b": {
+  "frame": 289,
+  "elev": 68.88217827200984,
+  "hoop_minus_head_y": 0.24299999999999988,
+  "hoop_head_horiz": 0.5678811495374714
+ },
+ "g2": {
+  "elev_TH": 25.01213053538153,
+  "longest_sideways_at_waist_run_frames": 0,
+  "parts": [
+   false,
+   true,
+   true
+  ]
+ },
+ "g3": {
+  "max_ball_to_left_wrist": 0.10979070998950685,
+  "at_frame": 38
+ },
+ "pass": {
+  "g1": false,
+  "g2": false,
+  "g3": true
+ }
+}

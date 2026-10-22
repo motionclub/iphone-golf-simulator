@@ -1,0 +1,87 @@
+{
+  "source_plan": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round2/smoke_parallel/apply_plan.json",
+  "source_plan_sha256": "3c288781c802f48cafd76252a5a200e824022bd845990517a834864c1786881c",
+  "target": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/hole10_build.py",
+  "old_sha256": "ca9064b5a3a4a18bd06d87f139ec308cf363d68739f47b123d5bb1b4640297d9",
+  "new_sha256": "ced511c71f6c301300bdaf3c009eee914983914f26cfd996ec9c804a03c565d8",
+  "production_applied": false,
+  "scene_saved_or_exported": false,
+  "serialization_status": "PASS",
+  "heavy_owner": "P7R2_SMOKE_PARALLEL_READ_ONLY_RECHECK | Mon Oct  5 18:37:29 EDT 2026\n",
+  "heavy_ancestor": "/bin/bash /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/heavy.sh P7R2_SMOKE_PARALLEL_READ_ONLY_RECHECK /Applications/Blender.app/Contents/MacOS/Blender --background --python work/postcard-look/v3/p7/round2/smoke_parallel/fixture.py",
+  "original_checker_sha256": "a78560f62ee12cb38df6c8515e4530ce458dc19bc97634d0a56dd5d268b02ef4",
+  "original_smoke_constants": {
+    "share_min": 0.015,
+    "alpha_readable": 0.2,
+    "readable_delta": 10.0,
+    "grid": [
+      72,
+      128
+    ],
+    "fov": 60.0,
+    "addr_back": 4.5,
+    "addr_up": 2.4,
+    "addr_ahead": 1.5
+  },
+  "camera_shares_before": {
+    "hole10_1_tee": 0.018120659722222224,
+    "hole10_2_approach": 0.0166015625,
+    "hole10_3_lavarim": 0.028428819444444444
+  },
+  "camera_shares_candidate": {
+    "hole10_1_tee": 0.018120659722222224,
+    "hole10_2_approach": 0.017252604166666668,
+    "hole10_3_lavarim": 0.028754340277777776
+  },
+  "original_SMOKE_IN_FRAME_status": "PASS",
+  "geometry_check_pass": true,
+  "existing_tee_three_cards_exact": true,
+  "groups": [
+    {
+      "group": 2,
+      "geometry_uv_dimensions_rng_positions_anchor_exact": true,
+      "common_rigid_heading_exact": true,
+      "min_center_plane_separation_m": 0.1994613423004239,
+      "old_yaws_rad": [
+        4.620186805725098,
+        4.712680816650391,
+        4.707932472229004
+      ],
+      "new_yaws_rad": [
+        4.582803726196289,
+        4.582803726196289,
+        4.582803726196289
+      ]
+    },
+    {
+      "group": 3,
+      "geometry_uv_dimensions_rng_positions_anchor_exact": true,
+      "common_rigid_heading_exact": true,
+      "min_center_plane_separation_m": 0.8356171579470697,
+      "old_yaws_rad": [
+        -0.9344407320022583,
+        -0.8079041242599487,
+        -0.851189374923706
+      ],
+      "new_yaws_rad": [
+        -0.7955641150474548,
+        -0.7955641150474548,
+        -0.7955641150474548
+      ]
+    }
+  ],
+  "native_unmeasured": true,
+  "visual_star_cross_result": "UNMEASURED: requires fresh actual Game-view review",
+  "SMOKE_SOFT_INTERSECTION": "FAIL unchanged: current native p99 6.20 > original cap 6; hole layout does not affect isolated synthetic smoke/wall test",
+  "historical_attempt1": {
+    "serialization": "FAIL: unchanged wrapper lock-protocol error; serialization unverified, no inference of overlapping processes",
+    "directory": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round2/smoke_parallel/attempt1_serialization_fail"
+  },
+  "evidence": {
+    "apply_plan.json": "3c288781c802f48cafd76252a5a200e824022bd845990517a834864c1786881c",
+    "raw.patch": "dd4ba356363392c4315ce4b58efbfb55d953411e7b9e11f60cdd8681db07a24f",
+    "fixture.py": "f6db69a1d5d27bb38f342baeecaf7ade88db9355f7f201f26ecc1b9b2edd1d5c",
+    "fixture.log": "eae000c394d9e75e51ea3e453fddf314e479710e7855dea6d1887cc68934ddc7",
+    "result.json": "e4915ccbeded6312514edfa74eeb8112486d8f318d207059f289a1c7efeb6e83"
+  }
+}

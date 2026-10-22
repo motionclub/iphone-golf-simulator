@@ -1,0 +1,34 @@
+{
+  "baseline": {
+    "Unity/Assets/Scripts/Tennis/TennisVenueArt.cs": "3f91234b42df8ae3390047cee3597aca6f34125bb64a88685e5a80a12ba0cc78",
+    "Unity/Assets/Scripts/Tennis/TennisEnvironmentV4.cs": "069ce7bfed2ed6ca3a2de747793ebd27ecfa8ca8295430fe35847479aa781cd5",
+    "Unity/Assets/Scripts/Tennis/TennisLook.cs": "d58111adb0cda9fcfcd41455f6e0dee17e97e1c41e76380a9cb41da3c6dd9674",
+    "Unity/Assets/Resources/Tennis/Shaders/TennisWorldSurface.shader": "a8354272d8b75882f9b2b6b1004ef7bf14b5cd9bf7de45c784602b5ed6e8f773",
+    "Unity/Assets/Resources/Tennis/Shaders/TennisBotanical.shader": "9e2feda4ba9067ca0db719c51169137dea17e155515ef130a1ed4cbc8eb3899d"
+  },
+  "newFiles": [
+    "Unity/Assets/Scripts/Tennis/TennisResortMaterials.cs"
+  ],
+  "intent": [
+    "cyan matte acrylic vs grey teal",
+    "neutral ivory, warmer timber and distinct glazing",
+    "turquoise/blue sea and deeper warm leaf hierarchy"
+  ],
+  "unchanged": [
+    "geometry/colliders/contact/net",
+    "HeroLighting",
+    "renderer/postprocess",
+    "other venues"
+  ],
+  "actualGate": "PARTIAL material improvement; full reference appearance FAIL",
+  "installed": {
+    "Unity/Assets/Scripts/Tennis/TennisVenueArt.cs": "e9bd431b67056c230d9b3093443e7f475f68f65fa71e5cab7a09843798c05921",
+    "Unity/Assets/Scripts/Tennis/TennisEnvironmentV4.cs": "8dfb6b6c35eb323ea27cbb934125301a4f59631c1528378c3105a2b7a0b853f0",
+    "Unity/Assets/Scripts/Tennis/TennisLook.cs": "bf69f33323bcea061489f99276b8c133f8b0b6b6400477f3ec0406f08b83afea",
+    "Unity/Assets/Resources/Tennis/Shaders/TennisWorldSurface.shader": "943040e362251da7fcb4daeadc45dddefdc829131355d9aa02474f67803a0811",
+    "Unity/Assets/Resources/Tennis/Shaders/TennisBotanical.shader": "30330565d2404ef9a1371ffc65b6d50ebf84f95be37150cf724d9ba1bb058a2d",
+    "Unity/Assets/Scripts/Tennis/TennisResortMaterials.cs": "f6817b1f7a55f7a2b2458afc1e2b66fcb58852e00e3eb67d459750cb4306522b"
+  },
+  "status": "installed and actual Unity capture PASS; sea remains grey-blue and is isolated by water2",
+  "actualEvidence": "proof/reference-rebuild/tennis-resort-material1 (all seven views visually reviewed)"
+}

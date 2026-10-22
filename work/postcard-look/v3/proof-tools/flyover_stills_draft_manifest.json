@@ -1,0 +1,21 @@
+{
+  "status": "DRAFT_NOT_INSTALLED",
+  "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Editor/GolfFlyoverCapture.cs",
+  "original_sha256": "8d3177f9cffd35d716861adbfd7ae433de0fa63eb954f75ec0eb3607164f3f6c",
+  "draft": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof-tools/GolfFlyoverCapture.cs",
+  "draft_sha256": "59419dbf448583d538c75d51adb4cef585d42f73d1e653714e0888837b5e4191",
+  "new_branch": "GOLF_FLY_STILLS_CFG + explicit GOLF_FLY_OUT delegates to existing PostcardLookStills.Run actual settled StartHole,portrait Gamecamera, unchanged lighting",
+  "legacy_movie_path": "byte-identical suffix after new branch, unchanged Cliffside7 original",
+  "aerial_config": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof-tools/aerial_cfg_3.json",
+  "config_sha256": "d9ea844e828cfced7995ec9f6faaaa6f541327cec40ec9330e7ac91c44956b1b",
+  "frozen_source_config": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/stills_cfg_12.json",
+  "source_config_sha256": "76169c73f2f69fa745b3ba8ee162cc1676cf4ecb8d5134f64300765cbf0749bd",
+  "shots": [
+    "hole08_4_aerial",
+    "hole09_4_aerial",
+    "hole10_4_aerial"
+  ],
+  "installation": "Parent atP5/6 replaces ONLY allowed Unity/Assets/Editor/GolfFlyoverCapture.cs with this draft and compiles. Do not copy draft into Assets/Editor/PostcardV3Scratch because class name would duplicate.",
+  "entrypoint": "GolfArcade.EditorTools.GolfFlyoverCapture.Run",
+  "output": "Actual three PNGs+stills_stats.json under per-run aerial folder. Root later publishes named ArtDir images/vsref. Never call unmodified legacy path as8-10 proof."
+}

@@ -1,0 +1,22 @@
+{
+  "Male": {
+    "earMaskPositionErrorMm": 0.0,
+    "operationSha256": "3285a11af4b7d4c15164be1e84652a2127b93630af685ad52717d75ee9cd84ea"
+  },
+  "Female": {
+    "earMaskPositionErrorMm": 0.0,
+    "operationSha256": "c5f92baf39fdf3d4ba73bd53eed68f7588286b2ca889cede496da3f1d9199c3b",
+    "composedVsStandaloneActiveMm": {
+      "Basis": 0.00011920928955078125,
+      "Hero_Blink_Half": 0.00011920928955078125,
+      "Hero_Blink": 0.00011920928955078125,
+      "mesh": 0.00011920928955078125
+    },
+    "composedVsExpectedActiveMm": {
+      "Basis": 5.9656413568397836e-05,
+      "Hero_Blink_Half": 5.9855823408869e-05,
+      "Hero_Blink": 6.0008517732344896e-05,
+      "mesh": 5.9656413568397836e-05
+    }
+  }
+}

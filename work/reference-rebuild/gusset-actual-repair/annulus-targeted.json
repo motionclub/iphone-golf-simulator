@@ -1,0 +1,110 @@
+[
+  {
+    "sample": "female_intro",
+    "mode": "static",
+    "views": [
+      {
+        "view": "front",
+        "newSkinPixels": 43,
+        "coveredSkinPixels": 19,
+        "newBackgroundPixels": 135
+      },
+      {
+        "view": "rear",
+        "newSkinPixels": 217,
+        "coveredSkinPixels": 0,
+        "newBackgroundPixels": 166
+      }
+    ]
+  },
+  {
+    "sample": "female_intro",
+    "mode": "posedloft",
+    "views": [
+      {
+        "view": "front",
+        "newSkinPixels": 0,
+        "coveredSkinPixels": 13,
+        "newBackgroundPixels": 18
+      },
+      {
+        "view": "rear",
+        "newSkinPixels": 0,
+        "coveredSkinPixels": 24,
+        "newBackgroundPixels": 19
+      }
+    ]
+  },
+  {
+    "sample": "female_Forehand_1",
+    "mode": "static",
+    "views": [
+      {
+        "view": "front",
+        "newSkinPixels": 0,
+        "coveredSkinPixels": 6,
+        "newBackgroundPixels": 0
+      },
+      {
+        "view": "rear",
+        "newSkinPixels": 15,
+        "coveredSkinPixels": 36,
+        "newBackgroundPixels": 1
+      }
+    ]
+  },
+  {
+    "sample": "female_Forehand_1",
+    "mode": "posedloft",
+    "views": [
+      {
+        "view": "front",
+        "newSkinPixels": 0,
+        "coveredSkinPixels": 0,
+        "newBackgroundPixels": 0
+      },
+      {
+        "view": "rear",
+        "newSkinPixels": 11,
+        "coveredSkinPixels": 4,
+        "newBackgroundPixels": 1
+      }
+    ]
+  },
+  {
+    "sample": "female_Forehand_2",
+    "mode": "static",
+    "views": [
+      {
+        "view": "front",
+        "newSkinPixels": 249,
+        "coveredSkinPixels": 20,
+        "newBackgroundPixels": 1
+      },
+      {
+        "view": "rear",
+        "newSkinPixels": 1,
+        "coveredSkinPixels": 55,
+        "newBackgroundPixels": 0
+      }
+    ]
+  },
+  {
+    "sample": "female_Forehand_2",
+    "mode": "posedloft",
+    "views": [
+      {
+        "view": "front",
+        "newSkinPixels": 52,
+        "coveredSkinPixels": 47,
+        "newBackgroundPixels": 2
+      },
+      {
+        "view": "rear",
+        "newSkinPixels": 4,
+        "coveredSkinPixels": 37,
+        "newBackgroundPixels": 6
+      }
+    ]
+  }
+]

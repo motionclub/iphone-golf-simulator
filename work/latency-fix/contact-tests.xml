@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="6" result="Failed(Child)" total="6" passed="4" failed="2" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-06 19:50:41Z" end-time="2026-10-06 19:51:02Z" duration="20.8477316">
+  <test-suite type="TestSuite" id="1017" name="Golf Arcade" fullname="Golf Arcade" runstate="Runnable" testcasecount="8" result="Failed" site="Child" start-time="2026-10-06 19:50:41Z" end-time="2026-10-06 19:51:02Z" duration="20.847732" total="6" passed="4" failed="2" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="1012" name="GolfArcade.PlayTests.dll" fullname="/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/golf-look/device/combined/Source/Unity/Library/ScriptAssemblies/GolfArcade.PlayTests.dll" runstate="Runnable" testcasecount="8" result="Failed" site="Child" start-time="2026-10-06 19:50:41Z" end-time="2026-10-06 19:51:02Z" duration="20.844645" total="6" passed="4" failed="2" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="84504" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestSuite" id="1013" name="GolfArcade" fullname="GolfArcade" runstate="Runnable" testcasecount="8" result="Failed" site="Child" start-time="2026-10-06 19:50:41Z" end-time="2026-10-06 19:51:02Z" duration="20.844249" total="6" passed="4" failed="2" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-suite type="TestSuite" id="1014" name="PlayTests" fullname="GolfArcade.PlayTests" runstate="Runnable" testcasecount="8" result="Failed" site="Child" start-time="2026-10-06 19:50:41Z" end-time="2026-10-06 19:51:02Z" duration="20.843915" total="6" passed="4" failed="2" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <failure>
+            <message><![CDATA[One or more child tests had errors]]></message>
+          </failure>
+          <test-suite type="TestFixture" id="1001" name="MatchHeroClipMapTests" fullname="GolfArcade.PlayTests.MatchHeroClipMapTests" classname="GolfArcade.PlayTests.MatchHeroClipMapTests" runstate="Runnable" testcasecount="1" result="Failed" site="Child" start-time="2026-10-06 19:50:41Z" end-time="2026-10-06 19:50:42Z" duration="1.488184" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <failure>
+              <message><![CDATA[One or more child tests had errors]]></message>
+            </failure>
+            <test-case id="1002" name="EveryStrokePlaysItsOwnMatchClipOnBothSexes" fullname="GolfArcade.PlayTests.MatchHeroClipMapTests.EveryStrokePlaysItsOwnMatchClipOnBothSexes" methodname="EveryStrokePlaysItsOwnMatchClipOnBothSexes" classname="GolfArcade.PlayTests.MatchHeroClipMapTests" runstate="Runnable" seed="545615099" result="Failed" start-time="2026-10-06 19:50:41Z" end-time="2026-10-06 19:50:42Z" duration="1.482716" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="Timeout" value="300000" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <failure>
+                <message><![CDATA[  Male_Serve contact time
+  Expected: 0.89999997615814209d +/- 0.0010000000474974513d
+  But was:  1.7000000476837158d
+]]></message>
+                <stack-trace><![CDATA[at GolfArcade.PlayTests.MatchHeroClipMapTests+<EveryStrokePlaysItsOwnMatchClipOnBothSexes>d__1.MoveNext () [0x0024e] in /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/golf-look/device/combined/Source/Unity/Assets/Tests/PlayMode/MatchHeroClipMapTests.cs:42
+at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in ./Library/PackageCache/com.unity.test-framework@bd7f943e9647/UnityEngine.TestRunner/NUnitExtensions/Attributes/TestEnumerator.cs:44
+]]></stack-trace>
+              </failure>
+              <output><![CDATA[[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Tennis] missing animation clip 'Ready'; falling back to Ready
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Tennis] missing animation clip 'Ready'; falling back to Ready
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 1; arms will not be visible
+[Arms] no skin material found for Resort walker 1; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 2; arms will not be visible
+[Arms] no skin material found for Resort walker 2; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 3; arms will not be visible
+[Arms] no skin material found for Resort walker 3; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 4; arms will not be visible
+[Arms] no skin material found for Resort walker 4; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 5; arms will not be visible
+[Arms] no skin material found for Resort walker 5; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 6; arms will not be visible
+[Arms] no skin material found for Resort walker 6; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 7; arms will not be visible
+[Arms] no skin material found for Resort walker 7; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 8; arms will not be visible
+[Arms] no skin material found for Resort walker 8; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 9; arms will not be visible
+[Arms] no skin material found for Resort walker 9; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 10; arms will not be visible
+[Arms] no skin material found for Resort walker 10; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 11; arms will not be visible
+[Arms] no skin material found for Resort walker 11; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 12; arms will not be visible
+[Arms] no skin material found for Resort walker 12; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 13; arms will not be visible
+[Arms] no skin material found for Resort walker 13; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 14; arms will not be visible
+[Arms] no skin material found for Resort walker 14; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 15; arms will not be visible
+[Arms] no skin material found for Resort walker 15; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 16; arms will not be visible
+[Arms] no skin material found for Resort walker 16; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Tennis] missing animation clip 'Ready'; falling back to Ready
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+]]></output>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1006" name="NativeTennisSetupTests" fullname="GolfArcade.PlayTests.NativeTennisSetupTests" classname="GolfArcade.PlayTests.NativeTennisSetupTests" runstate="Runnable" testcasecount="5" result="Failed" site="Child" start-time="2026-10-06 19:50:42Z" end-time="2026-10-06 19:51:02Z" duration="19.354976" total="5" passed="4" failed="1" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <failure>
+              <message><![CDATA[One or more child tests had errors]]></message>
+            </failure>
+            <test-case id="1011" name="CalibrationHoldsPointPlayUntilReadyWithoutATutorial" fullname="GolfArcade.PlayTests.NativeTennisSetupTests.CalibrationHoldsPointPlayUntilReadyWithoutATutorial" methodname="CalibrationHoldsPointPlayUntilReadyWithoutATutorial" classname="GolfArcade.PlayTests.NativeTennisSetupTests" runstate="Runnable" seed="1956790589" result="Passed" start-time="2026-10-06 19:50:42Z" end-time="2026-10-06 19:50:43Z" duration="0.346251" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Tennis] missing animation clip 'Ready'; falling back to Ready
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Tennis] missing animation clip 'Ready'; falling back to Ready
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 1; arms will not be visible
+[Arms] no skin material found for Resort walker 1; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 2; arms will not be visible
+[Arms] no skin material found for Resort walker 2; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 3; arms will not be visible
+[Arms] no skin material found for Resort walker 3; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 4; arms will not be visible
+[Arms] no skin material found for Resort walker 4; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 5; arms will not be visible
+[Arms] no skin material found for Resort walker 5; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 6; arms will not be visible
+[Arms] no skin material found for Resort walker 6; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 7; arms will not be visible
+[Arms] no skin material found for Resort walker 7; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 8; arms will not be visible
+[Arms] no skin material found for Resort walker 8; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 9; arms will not be visible
+[Arms] no skin material found for Resort walker 9; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 10; arms will not be visible
+[Arms] no skin material found for Resort walker 10; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 11; arms will not be visible
+[Arms] no skin material found for Resort walker 11; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 12; arms will not be visible
+[Arms] no skin material found for Resort walker 12; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 13; arms will not be visible
+[Arms] no skin material found for Resort walker 13; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 14; arms will not be visible
+[Arms] no skin material found for Resort walker 14; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 15; arms will not be visible
+[Arms] no skin material found for Resort walker 15; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 16; arms will not be visible
+[Arms] no skin material found for Resort walker 16; arms will not be visible
+[Tennis] missing animation clip 'Serve'; falling back to Ready
+[Tennis] missing animation clip 'BrakeRight'; falling back to Ready
+]]></output>
+            </test-case>
+            <test-case id="1008" name="PhoneRallyStrokeHasFullArmWeightInItsFirstRenderedFrame" fullname="GolfArcade.PlayTests.NativeTennisSetupTests.PhoneRallyStrokeHasFullArmWeightInItsFirstRenderedFrame" methodname="PhoneRallyStrokeHasFullArmWeightInItsFirstRenderedFrame" classname="GolfArcade.PlayTests.NativeTennisSetupTests" runstate="Runnable" seed="444939103" result="Passed" start-time="2026-10-06 19:50:43Z" end-time="2026-10-06 19:50:43Z" duration="0.478676" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[Tennis] missing animation clip 'Forehand'; falling back to Ready
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Tennis] missing animation clip 'Ready'; falling back to Ready
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Tennis] missing animation clip 'Ready'; falling back to Ready
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 1; arms will not be visible
+[Arms] no skin material found for Resort walker 1; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 2; arms will not be visible
+[Arms] no skin material found for Resort walker 2; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 3; arms will not be visible
+[Arms] no skin material found for Resort walker 3; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 4; arms will not be visible
+[Arms] no skin material found for Resort walker 4; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 5; arms will not be visible
+[Arms] no skin material found for Resort walker 5; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 6; arms will not be visible
+[Arms] no skin material found for Resort walker 6; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 7; arms will not be visible
+[Arms] no skin material found for Resort walker 7; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 8; arms will not be visible
+[Arms] no skin material found for Resort walker 8; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 9; arms will not be visible
+[Arms] no skin material found for Resort walker 9; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 10; arms will not be visible
+[Arms] no skin material found for Resort walker 10; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 11; arms will not be visible
+[Arms] no skin material found for Resort walker 11; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 12; arms will not be visible
+[Arms] no skin material found for Resort walker 12; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 13; arms will not be visible
+[Arms] no skin material found for Resort walker 13; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 14; arms will not be visible
+[Arms] no skin material found for Resort walker 14; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 15; arms will not be visible
+[Arms] no skin material found for Resort walker 15; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 16; arms will not be visible
+[Arms] no skin material found for Resort walker 16; arms will not be visible
+[Tennis] missing animation clip 'Forehand'; falling back to Ready
+]]></output>
+            </test-case>
+            <test-case id="1010" name="PointWinnerStaysVisibleAndCelebrationsHoldTheNextServe" fullname="GolfArcade.PlayTests.NativeTennisSetupTests.PointWinnerStaysVisibleAndCelebrationsHoldTheNextServe" methodname="PointWinnerStaysVisibleAndCelebrationsHoldTheNextServe" classname="GolfArcade.PlayTests.NativeTennisSetupTests" runstate="Runnable" seed="1602901551" result="Passed" start-time="2026-10-06 19:50:43Z" end-time="2026-10-06 19:50:44Z" duration="0.804644" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Tennis] missing animation clip 'Ready'; falling back to Ready
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Tennis] missing animation clip 'Ready'; falling back to Ready
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 1; arms will not be visible
+[Arms] no skin material found for Resort walker 1; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 2; arms will not be visible
+[Arms] no skin material found for Resort walker 2; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 3; arms will not be visible
+[Arms] no skin material found for Resort walker 3; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 4; arms will not be visible
+[Arms] no skin material found for Resort walker 4; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 5; arms will not be visible
+[Arms] no skin material found for Resort walker 5; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 6; arms will not be visible
+[Arms] no skin material found for Resort walker 6; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 7; arms will not be visible
+[Arms] no skin material found for Resort walker 7; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 8; arms will not be visible
+[Arms] no skin material found for Resort walker 8; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 9; arms will not be visible
+[Arms] no skin material found for Resort walker 9; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 10; arms will not be visible
+[Arms] no skin material found for Resort walker 10; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 11; arms will not be visible
+[Arms] no skin material found for Resort walker 11; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 12; arms will not be visible
+[Arms] no skin material found for Resort walker 12; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 13; arms will not be visible
+[Arms] no skin material found for Resort walker 13; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 14; arms will not be visible
+[Arms] no skin material found for Resort walker 14; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 15; arms will not be visible
+[Arms] no skin material found for Resort walker 15; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 16; arms will not be visible
+[Arms] no skin material found for Resort walker 16; arms will not be visible
+[Tennis] missing animation clip 'Serve'; falling back to Ready
+[Tennis] missing animation clip 'BrakeRight'; falling back to Ready
+]]></output>
+            </test-case>
+            <test-case id="1007" name="ServeMovesOnOnsetButCannotLaunchBeforeConfirmation" fullname="GolfArcade.PlayTests.NativeTennisSetupTests.ServeMovesOnOnsetButCannotLaunchBeforeConfirmation" methodname="ServeMovesOnOnsetButCannotLaunchBeforeConfirmation" classname="GolfArcade.PlayTests.NativeTennisSetupTests" runstate="Runnable" seed="1914421043" result="Failed" start-time="2026-10-06 19:50:44Z" end-time="2026-10-06 19:50:44Z" duration="0.347516" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <failure>
+                <message><![CDATA[  Immediate animation must preserve visible racket-ball contact
+  Expected: less than or equal to 0.230000004f
+  But was:  1.76778209f
+]]></message>
+                <stack-trace><![CDATA[at GolfArcade.PlayTests.NativeTennisSetupTests+<ServeMovesOnOnsetButCannotLaunchBeforeConfirmation>d__0.MoveNext () [0x0030b] in /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/golf-look/device/combined/Source/Unity/Assets/Tests/PlayMode/NativeTennisSetupTests.cs:47
+at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in ./Library/PackageCache/com.unity.test-framework@bd7f943e9647/UnityEngine.TestRunner/NUnitExtensions/Attributes/TestEnumerator.cs:44
+]]></stack-trace>
+              </failure>
+              <output><![CDATA[[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Tennis] missing animation clip 'Ready'; falling back to Ready
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Tennis] missing animation clip 'Ready'; falling back to Ready
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 1; arms will not be visible
+[Arms] no skin material found for Resort walker 1; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 2; arms will not be visible
+[Arms] no skin material found for Resort walker 2; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 3; arms will not be visible
+[Arms] no skin material found for Resort walker 3; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 4; arms will not be visible
+[Arms] no skin material found for Resort walker 4; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 5; arms will not be visible
+[Arms] no skin material found for Resort walker 5; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 6; arms will not be visible
+[Arms] no skin material found for Resort walker 6; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 7; arms will not be visible
+[Arms] no skin material found for Resort walker 7; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 8; arms will not be visible
+[Arms] no skin material found for Resort walker 8; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 9; arms will not be visible
+[Arms] no skin material found for Resort walker 9; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 10; arms will not be visible
+[Arms] no skin material found for Resort walker 10; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 11; arms will not be visible
+[Arms] no skin material found for Resort walker 11; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 12; arms will not be visible
+[Arms] no skin material found for Resort walker 12; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 13; arms will not be visible
+[Arms] no skin material found for Resort walker 13; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 14; arms will not be visible
+[Arms] no skin material found for Resort walker 14; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 15; arms will not be visible
+[Arms] no skin material found for Resort walker 15; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 16; arms will not be visible
+[Arms] no skin material found for Resort walker 16; arms will not be visible
+[Tennis] missing animation clip 'Serve'; falling back to Ready
+[Tennis] missing animation clip 'BrakeRight'; falling back to Ready
+]]></output>
+            </test-case>
+            <test-case id="1009" name="TimingFinishesWithTheMatchStillHeldForReady" fullname="GolfArcade.PlayTests.NativeTennisSetupTests.TimingFinishesWithTheMatchStillHeldForReady" methodname="TimingFinishesWithTheMatchStillHeldForReady" classname="GolfArcade.PlayTests.NativeTennisSetupTests" runstate="Runnable" seed="761923891" result="Passed" start-time="2026-10-06 19:50:44Z" end-time="2026-10-06 19:51:02Z" duration="17.371042" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Tennis] missing animation clip 'Ready'; falling back to Ready
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Tennis] missing animation clip 'Ready'; falling back to Ready
+RACKETFIT bounds=(0.29, 0.69, 0.06) width=0.286 wanted=0.380 raw=1.330
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 1; arms will not be visible
+[Arms] no skin material found for Resort walker 1; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 2; arms will not be visible
+[Arms] no skin material found for Resort walker 2; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 3; arms will not be visible
+[Arms] no skin material found for Resort walker 3; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 4; arms will not be visible
+[Arms] no skin material found for Resort walker 4; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 5; arms will not be visible
+[Arms] no skin material found for Resort walker 5; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 6; arms will not be visible
+[Arms] no skin material found for Resort walker 6; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 7; arms will not be visible
+[Arms] no skin material found for Resort walker 7; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 8; arms will not be visible
+[Arms] no skin material found for Resort walker 8; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 9; arms will not be visible
+[Arms] no skin material found for Resort walker 9; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 10; arms will not be visible
+[Arms] no skin material found for Resort walker 10; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 11; arms will not be visible
+[Arms] no skin material found for Resort walker 11; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 12; arms will not be visible
+[Arms] no skin material found for Resort walker 12; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 13; arms will not be visible
+[Arms] no skin material found for Resort walker 13; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 14; arms will not be visible
+[Arms] no skin material found for Resort walker 14; arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_male_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 15; arms will not be visible
+[Arms] no skin material found for Resort walker 15; arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for standard_female_tennis(Clone); arms will not be visible
+[Arms] no skin material found for Resort walker 16; arms will not be visible
+[Arms] no skin material found for Resort walker 16; arms will not be visible
+DONE PlayMode: 4 passed, 2 failed, 0 skipped
+<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /Users/adnanyonathan/Library/Application Support/aloniewski/Golf Arcade/TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

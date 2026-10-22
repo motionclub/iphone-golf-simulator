@@ -1,0 +1,55 @@
+[
+  {
+    "name": "reference-turf-surfaces16",
+    "method": "GolfArcade.EditorTools.GolfCourseStandardCapture.Run",
+    "env": {
+      "GOLF_STANDARD_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/turf-surfaces16",
+      "GOLF_STANDARD_HOLES": "12,1,16,17,18,19",
+      "GOLF_STANDARD_SHOWCASE": "0",
+      "GOLF_STANDARD_CAMERA_SWEEP": "1"
+    }
+  },
+  {
+    "name": "reference-garment-runtime-order1",
+    "args": [
+      "-runTests",
+      "-testPlatform",
+      "PlayMode",
+      "-testFilter",
+      "GolfArcade.PlayTests.HeroGarmentRuntimeOrderTests.LiveDriverGarmentsUseThisFramesFinalPose",
+      "-testResults",
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/garment-runtime-order1/live-order.xml"
+    ],
+    "batch": false,
+    "continue_on_failure": true
+  },
+  {
+    "name": "reference-character-motion-control16",
+    "method": "GolfArcade.EditorTools.VisualOverhaulCharacterCapture.Run",
+    "env": {
+      "VISUAL_CHARACTER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/character-motion-control16",
+      "VISUAL_REFERENCE_HEAD": "0",
+      "VISUAL_CHARACTER_STARTER": "1",
+      "VISUAL_CHARACTER_SKIN_MALE": "E58D64",
+      "VISUAL_CHARACTER_SKIN_FEMALE": "F5AB7F",
+      "VISUAL_CHARACTER_CLIPS": "IntroWave,Serve",
+      "VISUAL_CHARACTER_DISABLE_SSAO": "1",
+      "VISUAL_CHARACTER_STUDIO": "warm",
+      "VISUAL_HERO_COLOR": "0",
+      "VISUAL_CHARACTER_SURFACE": "custom",
+      "VISUAL_HERO_FILMIC": "1",
+      "VISUAL_CHARACTER_NORMALS": "continuous",
+      "VISUAL_CHARACTER_SWATCHES": "1",
+      "VISUAL_ORIGINAL_SEAM": "1",
+      "VISUAL_CHARACTER_FACE_ALIGNED": "0",
+      "VISUAL_CHARACTER_BLINK_REVIEW": "0",
+      "VISUAL_CHARACTER_FULL_REVIEW": "1",
+      "VISUAL_ORIGINAL_EYE_MATERIAL": "1",
+      "VISUAL_CHARACTER_CLOTH_REVIEW": "1",
+      "VISUAL_CHARACTER_CLOTH_MOTION_REVIEW": "1",
+      "VISUAL_CHARACTER_CLOTH_CLIPS": "all",
+      "VISUAL_CHARACTER_CLOTH_SAMPLES": "5",
+      "VISUAL_CHARACTER_CLOTH_NO_DUMPS": "1"
+    }
+  }
+]

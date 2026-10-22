@@ -1,0 +1,227 @@
+{
+  "resolution": [
+    900,
+    1600
+  ],
+  "water_z_m": 5.99,
+  "method": "infinite water plane; all removable scenery absent; frozen collision bodies opaque with backface culling; pixel-centre rays",
+  "camera_source": "CameraRig.FrameAddress + v2/proof/stills_cfg_9.json",
+  "shots": [
+    {
+      "name": "hole08_1_tee",
+      "hole": 8,
+      "camera_position_m": [
+        -0.4367392063140869,
+        -4.091556549072266,
+        8.48941421508789
+      ],
+      "camera_forward": [
+        0.09854724258184433,
+        0.9232320189476013,
+        -0.371390700340271
+      ],
+      "fov_deg": 60.0,
+      "frozen_meshes": [
+        "BUNKER_01",
+        "BUNKER_01_LIP",
+        "FAIRWAY",
+        "FAIRWAY_FIRSTCUT",
+        "GREEN",
+        "GREEN_APRON",
+        "TEE_BOX",
+        "TERRAIN_NEEDLE"
+      ],
+      "pixels_total": 1440000,
+      "water_possible_pixels": 71976,
+      "frozen_occluded_pixels": 1146624,
+      "rays_above_water_horizon": 221400,
+      "backfaces_skipped": 0,
+      "upper_bound_water_share": 0.04998333333333333,
+      "threshold": 0.15,
+      "feasible_at_15_percent": false,
+      "elapsed_s": 0.91
+    },
+    {
+      "name": "hole08_2_approach",
+      "hole": 8,
+      "camera_position_m": [
+        18.001171112060547,
+        158.696533203125,
+        8.38943862915039
+      ],
+      "camera_forward": [
+        -0.1416069120168686,
+        0.917614758014679,
+        -0.37139004468917847
+      ],
+      "fov_deg": 60.0,
+      "frozen_meshes": [
+        "BUNKER_01",
+        "BUNKER_01_LIP",
+        "FAIRWAY",
+        "FAIRWAY_FIRSTCUT",
+        "GREEN",
+        "GREEN_APRON",
+        "TEE_BOX",
+        "TERRAIN_NEEDLE"
+      ],
+      "pixels_total": 1440000,
+      "water_possible_pixels": 77534,
+      "frozen_occluded_pixels": 1141066,
+      "rays_above_water_horizon": 221400,
+      "backfaces_skipped": 0,
+      "upper_bound_water_share": 0.053843055555555554,
+      "threshold": 0.15,
+      "feasible_at_15_percent": false,
+      "elapsed_s": 0.95
+    },
+    {
+      "name": "hole09_1_tee",
+      "hole": 9,
+      "camera_position_m": [
+        -0.2054833024740219,
+        -4.109665870666504,
+        8.48947525024414
+      ],
+      "camera_forward": [
+        0.04636591672897339,
+        0.927318274974823,
+        -0.3713907301425934
+      ],
+      "fov_deg": 60.0,
+      "frozen_meshes": [
+        "BUNKER_01",
+        "BUNKER_01_LIP",
+        "BUNKER_02",
+        "BUNKER_02_LIP",
+        "BUNKER_03",
+        "BUNKER_03_LIP",
+        "FAIRWAY",
+        "FAIRWAY_FIRSTCUT",
+        "GREEN",
+        "GREEN_APRON",
+        "TEE_BOX",
+        "TERRAIN_SPLIT"
+      ],
+      "pixels_total": 1440000,
+      "water_possible_pixels": 26799,
+      "frozen_occluded_pixels": 1191801,
+      "rays_above_water_horizon": 221400,
+      "backfaces_skipped": 0,
+      "upper_bound_water_share": 0.018610416666666667,
+      "threshold": 0.15,
+      "feasible_at_15_percent": false,
+      "elapsed_s": 0.98
+    },
+    {
+      "name": "hole09_2_approach",
+      "hole": 9,
+      "camera_position_m": [
+        12.55406665802002,
+        241.86415100097656,
+        8.38937759399414
+      ],
+      "camera_forward": [
+        -0.04730989411473274,
+        0.9272703528404236,
+        -0.371391236782074
+      ],
+      "fov_deg": 60.0,
+      "frozen_meshes": [
+        "BUNKER_01",
+        "BUNKER_01_LIP",
+        "BUNKER_02",
+        "BUNKER_02_LIP",
+        "BUNKER_03",
+        "BUNKER_03_LIP",
+        "FAIRWAY",
+        "FAIRWAY_FIRSTCUT",
+        "GREEN",
+        "GREEN_APRON",
+        "TEE_BOX",
+        "TERRAIN_SPLIT"
+      ],
+      "pixels_total": 1440000,
+      "water_possible_pixels": 88870,
+      "frozen_occluded_pixels": 1129730,
+      "rays_above_water_horizon": 221400,
+      "backfaces_skipped": 0,
+      "upper_bound_water_share": 0.06171527777777778,
+      "threshold": 0.15,
+      "feasible_at_15_percent": false,
+      "elapsed_s": 1.01
+    },
+    {
+      "name": "hole10_1_tee",
+      "hole": 10,
+      "camera_position_m": [
+        -0.868807852268219,
+        -4.022033214569092,
+        8.48947525024414
+      ],
+      "camera_forward": [
+        0.1960405856370926,
+        0.9075444936752319,
+        -0.371390700340271
+      ],
+      "fov_deg": 60.0,
+      "frozen_meshes": [
+        "BUNKER_01",
+        "BUNKER_01_LIP",
+        "BUNKER_02",
+        "BUNKER_02_LIP",
+        "FAIRWAY",
+        "FAIRWAY_FIRSTCUT",
+        "GREEN",
+        "GREEN_APRON",
+        "TEE_BOX",
+        "TERRAIN_CRATER"
+      ],
+      "pixels_total": 1440000,
+      "water_possible_pixels": 33157,
+      "frozen_occluded_pixels": 1185443,
+      "rays_above_water_horizon": 221400,
+      "backfaces_skipped": 0,
+      "upper_bound_water_share": 0.023025694444444446,
+      "threshold": 0.15,
+      "feasible_at_15_percent": false,
+      "elapsed_s": 0.96
+    },
+    {
+      "name": "hole10_2_approach",
+      "hole": 10,
+      "camera_position_m": [
+        93.81997680664062,
+        145.51963806152344,
+        8.38937759399414
+      ],
+      "camera_forward": [
+        0.9279056191444397,
+        0.032557412981987,
+        -0.37139075994491577
+      ],
+      "fov_deg": 60.0,
+      "frozen_meshes": [
+        "BUNKER_01",
+        "BUNKER_01_LIP",
+        "BUNKER_02",
+        "BUNKER_02_LIP",
+        "FAIRWAY",
+        "FAIRWAY_FIRSTCUT",
+        "GREEN",
+        "GREEN_APRON",
+        "TEE_BOX",
+        "TERRAIN_CRATER"
+      ],
+      "pixels_total": 1440000,
+      "water_possible_pixels": 255582,
+      "frozen_occluded_pixels": 963018,
+      "rays_above_water_horizon": 221400,
+      "backfaces_skipped": 0,
+      "upper_bound_water_share": 0.1774875,
+      "threshold": 0.15,
+      "feasible_at_15_percent": true,
+      "elapsed_s": 0.98
+    }
+  ]
+}

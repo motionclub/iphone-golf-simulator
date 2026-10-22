@@ -1,0 +1,50 @@
+[
+  {
+    "name": "current-film-tennis-resort-human-timing",
+    "method": "GolfArcade.EditorTools.CurrentTennisPointFilm.Run",
+    "env": {
+      "VISUAL_CHARACTER_SKIN_POLISH": "1",
+      "VISUAL_BLINK_NORMAL_FIELD": "1",
+      "VISUAL_CHARACTER_NORMALS": "continuous",
+      "VISUAL_UNDERARM_GUSSET": "0",
+      "VISUAL_GOLF_WRIST_ROLL": "0",
+      "FILM_AUDIO": "1",
+      "FILM_MIN_SHOTS": "5",
+      "FILM_MAX_ATTEMPTS": "4",
+      "FILM_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/gameplay-films31/frames/tennis-resort",
+      "HERO_VENUE": "resort"
+    }
+  },
+  {
+    "name": "current-film-tennis-skyscraper-human-timing",
+    "method": "GolfArcade.EditorTools.CurrentTennisPointFilm.Run",
+    "env": {
+      "VISUAL_CHARACTER_SKIN_POLISH": "1",
+      "VISUAL_BLINK_NORMAL_FIELD": "1",
+      "VISUAL_CHARACTER_NORMALS": "continuous",
+      "VISUAL_UNDERARM_GUSSET": "0",
+      "VISUAL_GOLF_WRIST_ROLL": "0",
+      "FILM_AUDIO": "1",
+      "FILM_MIN_SHOTS": "5",
+      "FILM_MAX_ATTEMPTS": "4",
+      "FILM_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/gameplay-films31/frames/tennis-skyscraper",
+      "HERO_VENUE": "skyscraper"
+    }
+  },
+  {
+    "name": "current-film-tennis-volcano-human-timing",
+    "method": "GolfArcade.EditorTools.CurrentTennisPointFilm.Run",
+    "env": {
+      "VISUAL_CHARACTER_SKIN_POLISH": "1",
+      "VISUAL_BLINK_NORMAL_FIELD": "1",
+      "VISUAL_CHARACTER_NORMALS": "continuous",
+      "VISUAL_UNDERARM_GUSSET": "0",
+      "VISUAL_GOLF_WRIST_ROLL": "0",
+      "FILM_AUDIO": "1",
+      "FILM_MIN_SHOTS": "5",
+      "FILM_MAX_ATTEMPTS": "4",
+      "FILM_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/gameplay-films31/frames/tennis-volcano",
+      "HERO_VENUE": "volcano"
+    }
+  }
+]

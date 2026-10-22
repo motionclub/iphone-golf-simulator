@@ -1,0 +1,39 @@
+start cost 3006 roi 2716 lm 9.1 mm
+0 cost 3006 roi 2716 lm 9.1 sigma 0.150 0s
+25 cost 2073 roi 1950 lm 13.7 sigma 0.188 4s
+50 cost 1741 roi 1652 lm 9.9 sigma 0.150 8s
+75 cost 1726 roi 1670 lm 6.2 sigma 0.120 12s
+100 cost 1726 roi 1670 lm 6.2 sigma 0.077 16s
+125 cost 1712 roi 1654 lm 6.4 sigma 0.061 20s
+150 cost 1682 roi 1625 lm 6.3 sigma 0.049 24s
+175 cost 1682 roi 1625 lm 6.3 sigma 0.039 28s
+200 cost 1677 roi 1619 lm 6.4 sigma 0.025 32s
+225 cost 1667 roi 1609 lm 6.4 sigma 0.020 36s
+250 cost 1645 roi 1587 lm 6.5 sigma 0.020 40s
+275 cost 1645 roi 1587 lm 6.5 sigma 0.020 44s
+300 cost 1643 roi 1585 lm 6.5 sigma 0.020 48s
+325 cost 1643 roi 1585 lm 6.5 sigma 0.020 52s
+350 cost 1643 roi 1585 lm 6.5 sigma 0.020 56s
+375 cost 1643 roi 1585 lm 6.5 sigma 0.020 60s
+400 cost 1643 roi 1585 lm 6.5 sigma 0.020 64s
+425 cost 1643 roi 1585 lm 6.5 sigma 0.020 69s
+450 cost 1643 roi 1585 lm 6.5 sigma 0.020 73s
+475 cost 1643 roi 1585 lm 6.5 sigma 0.020 77s
+500 cost 1643 roi 1585 lm 6.5 sigma 0.020 81s
+525 cost 1643 roi 1585 lm 6.5 sigma 0.020 86s
+550 cost 1643 roi 1585 lm 6.5 sigma 0.020 90s
+575 cost 1640 roi 1581 lm 6.5 sigma 0.020 94s
+600 cost 1640 roi 1581 lm 6.5 sigma 0.020 98s
+625 cost 1640 roi 1581 lm 6.5 sigma 0.020 104s
+650 cost 1640 roi 1581 lm 6.5 sigma 0.020 110s
+675 cost 1640 roi 1581 lm 6.5 sigma 0.020 117s
+700 cost 1640 roi 1581 lm 6.5 sigma 0.020 122s
+725 cost 1640 roi 1581 lm 6.5 sigma 0.020 129s
+750 cost 1639 roi 1579 lm 6.7 sigma 0.020 133s
+775 cost 1639 roi 1579 lm 6.7 sigma 0.020 138s
+800 cost 1639 roi 1579 lm 6.7 sigma 0.020 143s
+825 cost 1638 roi 1579 lm 6.5 sigma 0.020 147s
+850 cost 1638 roi 1579 lm 6.5 sigma 0.020 151s
+875 cost 1638 roi 1579 lm 6.5 sigma 0.020 156s
+BEST 1638 1579.0 6.53
+{"out_deg": -0.41790279051602397, "lean_deg": 0.18931891560094094, "psi_deg": 20.0, "shear_y": 0.029851901684129926, "curl": 0.5960633393806892, "B_gain": 1.0240748439836407, "A_gain": 1.0947979295093795, "thumb_r_scale": 1.15, "thumb_a_shift": -0.009740084344606747, "thumb_n_shift": -0.003927618187328349, "thumb_len_scale": 1.0267376760592213, "mid_tip": 0.14965746796602608}

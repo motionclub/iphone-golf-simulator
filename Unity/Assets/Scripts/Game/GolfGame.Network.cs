@@ -462,7 +462,16 @@ namespace GolfArcade.Game {
             hud.ShowPlayHud(false);
             hud.ShowScorecard(card,more?$"Hole {hole.PlayNumber} complete":"Round complete",headline,tiles,more,rows);
             int holeNow=state.hole;
-            if(hud.NextHole) hud.NextHole.Pressed=()=>{ if(SportsMultiplayer.Active) SportsMultiplayer.Instance.Submit(new NetworkInput{action="golfHoleCardDone",value=holeNow,actorSeat=mine.seat}); };
+            if(hud.NextHole) {
+                var next=hud.NextHole;
+                next.Pressed=()=>{
+                    if(SportsMultiplayer.Active) SportsMultiplayer.Instance.Submit(new NetworkInput{action="golfHoleCardDone",value=holeNow,actorSeat=mine.seat});
+                    // straight on: the button says the next hole is on its way (never a card that sits there as if nothing happened)
+                    var words=next.GetComponentInChildren<UnityEngine.UI.Text>(true);
+                    if(words) words.text="LOADING NEXT HOLE…";
+                    next.Pressed=null;
+                };
+            }
             // (the lobby takes everyone on after the round: no play-again or menu here)
             if(hud.PlayAgain) hud.PlayAgain.gameObject.SetActive(false);
             if(hud.RoundMenu) hud.RoundMenu.gameObject.SetActive(false);

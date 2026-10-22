@@ -19,7 +19,7 @@ namespace GolfArcade.UI
         /// The face that sinks into its base while held (the club's slabs), and the menu sound a press makes.
         public RectTransform Sink;
         public string Sound;
-        /// A thumb sliding off lets go (aim sweeps), unless this is off: then only lifting it does (hold to swing).
+        /// A thumb sliding off lets go (aim sweeps), unless this is off: then only lifting it does (tap to swing).
         public bool ReleaseOnExit = true;
         bool sunk;
         public void OnPointerDown(PointerEventData e) { IsHeld = true; Light(true); ClubSound.Play(Sound); Pressed?.Invoke(); }
@@ -120,6 +120,8 @@ namespace GolfArcade.UI
         public void UseGolfPresentation(Camera camera)
         {
             simple = GolfShotHud.Create(camera);
+            // the pin's marker joins the broadcast layer: the same 1920x1080 canvas (and scale) as the cards, in view of the camera
+            pinLocator.transform.SetParent(simple.transform, false);
             // Retain the legacy control callbacks and menus, but retire their dense broadcast widgets.
             foreach (var t in new Transform[] { board, shotCard, meterRect, minimapHolder, statusText.transform,
                 tempoText.transform, faceDial.transform, tvMap.transform, swingCard.transform })
@@ -140,6 +142,7 @@ namespace GolfArcade.UI
         void Build()
         {
             UiKit.Canvas(gameObject);
+            MenuFocus.Ensure(transform);
 
             // Every element hangs off this, and it shrinks to the phone's safe area.
             safeArea = new GameObject("Safe area").AddComponent<RectTransform>();
@@ -250,7 +253,7 @@ namespace GolfArcade.UI
             AimRight = Button("▶", new Vector2(1, 0), new Vector2(-150, 170), new Vector2(240, 240));
             ClubUp = Button("▲", new Vector2(0.5f, 0), new Vector2(-95, 200), new Vector2(150, 110));
             ClubDown = Button("▼", new Vector2(0.5f, 0), new Vector2(95, 200), new Vector2(150, 110));
-            SwingHold = Button("HOLD TO SWING", new Vector2(0.5f, 0), new Vector2(0, 90), new Vector2(360, 90), 30);
+            SwingHold = Button("TAP TO SWING", new Vector2(0.5f, 0), new Vector2(0, 90), new Vector2(360, 90), 30);
 
             // Who you play as: body and skin tone, under the minimap. Cycles on a tap.
 
@@ -296,8 +299,9 @@ namespace GolfArcade.UI
             minimapHolder.localScale = Vector3.one * s;
             meterRect.localScale = Vector3.one * held;
             faceDial.transform.localScale = Vector3.one * held;
-            strikePopup.Size = held;
-            landingBadge.Size = Mathf.Lerp(1f, s, 0.5f);
+            // (the clear style draws its words straight on the picture, so they are bigger than the badges they replace)
+            strikePopup.Size = held * (GlassKit.ClearStyle ? 1.5f : 1f);
+            landingBadge.Size = Mathf.Lerp(1f, s, 0.5f) * (GlassKit.ClearStyle ? 1.4f : 1f);
             bannerGroup.transform.localScale = Vector3.one * held;
             foreach (var b in new[] { AimLeft, AimRight, ClubUp, ClubDown, SwingHold }) b.transform.localScale = Vector3.one * held;
         }
@@ -809,6 +813,7 @@ namespace GolfArcade.UI
         /// pin, drawn in yellow (-1 for none).
         public void SetCheckpoints(float[] loads, string[] yards, int pin = -1)
         {
+            if (simple) simple.SetCheckpoints(loads, pin);
             if (loads == null) { foreach (var c in checkpoints) c.Root.gameObject.SetActive(false); return; }
             while (checkpoints.Count < loads.Length)
             {
@@ -1081,6 +1086,7 @@ namespace GolfArcade.UI
 
         /// The club and what it carries, on the yellow pill.
         public void SetClubSelection(GolfArcade.Shot.GolfClub club, bool announce = false) { if (simple) simple.SetClubSelection(club, announce); }
+        public void SetClubYards(string[] yards) { if (simple) simple.SetClubYards(yards); }
         public void SetClub(string text, bool putter = false) { yardage.SetClub(text, putter); if (simple) simple.SetClub(text); }
         /// Where the ball lies and what that costs the club in hand, on its own chip under the shot info.
         public void SetLie(GolfArcade.Course.CourseLie lie, GolfArcade.Shot.GolfClub club) { if (simple) simple.SetLie(lie, club); }

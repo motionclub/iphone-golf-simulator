@@ -1,0 +1,59 @@
+sun dir_to_light=(0.5298, 0.8480, 0.0092) azimuth_deg=89.00 elevation_deg=58.00 colour=RGBA(1.000, 0.910, 0.790, 1.000) intensity=2.016
+skybox=Dream world clock sky / GolfArcade/DreamSky
+fog=True RGBA(0.570, 0.730, 0.820, 1.000) 260-1800 far=2100 hole=12 utc=1792263600
+tex ArchipelagoSky 2048x1024 slot=806 shader=GolfArcade/DreamSky mat=Dream world clock sky on=skybox
+tex CoastalTurf_C 512x512 slot=73 shader=GolfArcade/GolfGround mat=Course 12 Fairway on=GOLF_SURFACE_BATCH_7
+tex CoastalTurf_N 512x512 slot=265 shader=GolfArcade/GolfGround mat=Course 12 Fairway on=GOLF_SURFACE_BATCH_7
+tex Course mowing 12 128x128 slot=931 shader=GolfArcade/GolfGround mat=Course 12 Fairway on=GOLF_SURFACE_BATCH_7
+tex Sand_C 512x512 slot=73 shader=GolfArcade/GolfGround mat=Course 12 Sand on=GOLF_SURFACE_BATCH_2
+tex Sand_N 512x512 slot=265 shader=GolfArcade/GolfGround mat=Course 12 Sand on=GOLF_SURFACE_BATCH_2
+tex  64x64 slot=7 shader=GolfArcade/ParticleSoft mat=GolfArcade/ParticleSoft on=Dot
+tex CoastalCliffScan_C 512x512 slot=73 shader=GolfArcade/GolfRock mat=Sculpted stone on=Dream catalogue 12 Sculpted stone
+tex CoastalCliffScan_N 512x512 slot=265 shader=GolfArcade/GolfRock mat=Sculpted stone on=Dream catalogue 12 Sculpted stone
+tex CoastalCliffScan_C 512x512 slot=1129 shader=GolfArcade/DreamCoastSurface mat=Dream Coast Gold on=DREAM_Gold
+tex CoastalCliffScan_N 512x512 slot=1133 shader=GolfArcade/DreamCoastSurface mat=Dream Coast Gold on=DREAM_Gold
+tex Font Texture 256x256 slot=7 shader=GUI/Text Shader mat=Font Material on=Window sign
+tex Contact shadow falloff 64x64 slot=7 shader=GolfArcade/TennisShadowBlob mat=GolfArcade/TennisShadowBlob on=Contact shadow — Golfer
+tex Fall_C 256x512 slot=7 shader=GolfArcade/GolfSurf mat=Course 12 Fall on=WATERFALL
+tex CoastalCliffScan_C 512x512 slot=73 shader=Universal Render Pipeline/Lit mat=Universal Render Pipeline/Lit on=Solid floating rock
+tex CoastalCliffScan_N 512x512 slot=265 shader=Universal Render Pipeline/Lit mat=Universal Render Pipeline/Lit on=Solid floating rock
+tex Wood_C 512x512 slot=73 shader=GolfArcade/GolfRock mat=Course 12 Wood:C8975DFF Luminous Coast on=GOLF_SURFACE_BATCH_0
+tex Wood_N 512x512 slot=265 shader=GolfArcade/GolfRock mat=Course 12 Wood:C8975DFF Luminous Coast on=GOLF_SURFACE_BATCH_0
+tex Course mowing 12 128x128 slot=931 shader=GolfArcade/GolfRock mat=Course 12 Wood:C8975DFF Luminous Coast on=GOLF_SURFACE_BATCH_0
+tex GeologyLimestone_C 512x512 slot=73 shader=GolfArcade/GolfRock mat=Course 12 Basalt on=GOLF_SURFACE_BATCH_14
+tex Limestone_N 512x512 slot=265 shader=GolfArcade/GolfRock mat=Course 12 Basalt on=GOLF_SURFACE_BATCH_14
+tex Basalt_E 1024x1024 slot=412 shader=GolfArcade/GolfRock mat=Course 12 Basalt on=GOLF_SURFACE_BATCH_14
+tex ReferenceCliff02_C 512x512 slot=73 shader=GolfArcade/GolfRock mat=Coastal 12 authored chalk Luminous Coast on=GOLF_SURFACE_BATCH_19
+tex ReferenceCliff02_N 512x512 slot=265 shader=GolfArcade/GolfRock mat=Coastal 12 authored chalk Luminous Coast on=GOLF_SURFACE_BATCH_19
+tex sailboat 512x512 slot=7 shader=Universal Render Pipeline/Lit mat=MAT_SAILBOAT on=sailboat
+tex sailboat 512x512 slot=73 shader=Universal Render Pipeline/Lit mat=MAT_SAILBOAT on=sailboat
+tex Surf_C 512x512 slot=7 shader=GolfArcade/GolfSurf mat=Course 12 Surf on=WATER_FOAM
+tex ball_dimples_normal 512x512 slot=968 shader=GolfArcade/GolfBall mat=Ball (dimpled) on=Codex ball
+tex dust 256x256 slot=7 shader=GolfArcade/ParticleSoft mat=Effect dust on=Puffs
+tex  64x64 slot=7 shader=GolfArcade/WeatherParticle mat=Snow on=Snow
+tex grass 512x512 slot=7 shader=GolfArcade/ParticleSoft mat=Effect grass on=Clippings
+tex Rain streak 8x64 slot=7 shader=GolfArcade/WeatherParticle mat=Rain on=Rain
+tex  64x64 slot=7 shader=GolfArcade/ParticleAdd mat=Embers on=Embers
+tex OriginalEye_RelativeSclera 128x128 slot=73 shader=GolfArcade/TennisCharacter mat=Reference_Face_Sclera (hero) on=OriginalSeamFeatures
+tex OriginalEye_RelativeIris 128x128 slot=73 shader=GolfArcade/TennisCharacter mat=Reference_Face_IrisIn (hero) on=OriginalSeamFeatures
+tex KitV2_Golf_Female_Top_N 1024x1024 slot=266 shader=GolfArcade/TennisCloth mat=Kit_Shirt (hero) on=Kit_Top
+tex KitV2_Golf_Female_Top_M 1024x1024 slot=833 shader=GolfArcade/TennisCloth mat=Kit_Shirt (hero) on=Kit_Top
+tex KitV2_FabricAtlas 512x512 slot=842 shader=GolfArcade/TennisCloth mat=Kit_Shirt (hero) on=Kit_Top
+tex OriginalSeam_RelativeSkinPigment 64x64 slot=73 shader=GolfArcade/HeroFaceSkin mat=Skin_OriginalSurfacePigment (hero) on=Body
+tex Acc_Female_golf_glove_Glove_N 2048x2048 slot=266 shader=GolfArcade/TennisCloth mat=Acc_Glove (hero) on=Acc_GloveL
+tex Acc_Female_golf_glove_Glove_M 2048x2048 slot=833 shader=GolfArcade/TennisCloth mat=Acc_Glove (hero) on=Acc_GloveL
+tex flag_4 512x256 slot=73 shader=Universal Render Pipeline/Lit mat=Flag 4 on=FLAG
+tex KitV2_Golf_Female_Bottom_N 2048x2048 slot=266 shader=GolfArcade/TennisCloth mat=Kit_Shorts (hero) on=Kit_Bottom
+tex KitV2_Golf_Female_Bottom_M 2048x2048 slot=833 shader=GolfArcade/TennisCloth mat=Kit_Shorts (hero) on=Kit_Bottom
+tex Acc_Female_golf_cap_Cap_N 2048x2048 slot=266 shader=GolfArcade/TennisCloth mat=Acc_Cap (hero) on=Acc_Cap
+tex Acc_Female_golf_cap_Cap_M 2048x2048 slot=833 shader=GolfArcade/TennisCloth mat=Acc_Cap (hero) on=Acc_Cap
+tex KitV2_Golf_Female_ShoeR_N 1024x1024 slot=266 shader=GolfArcade/TennisCloth mat=Kit_Shoe (hero) on=Kit_Shoe_R
+tex KitV2_Golf_Female_ShoeR_M 1024x1024 slot=833 shader=GolfArcade/TennisCloth mat=Kit_Shoe (hero) on=Kit_Shoe_R
+tex KitV2_Golf_Female_ShoeL_N 1024x1024 slot=266 shader=GolfArcade/TennisCloth mat=Kit_Shoe (hero) on=Kit_Shoe_L
+tex KitV2_Golf_Female_ShoeL_M 1024x1024 slot=833 shader=GolfArcade/TennisCloth mat=Kit_Shoe (hero) on=Kit_Shoe_L
+shot 01_tee pos=(0.55, 18.62, -3.85) rot=(9.09, 355.41, 0.00) fov=60.0
+shot 02_approach pos=(0.55, 25.15, 164.37) rot=(9.09, 355.41, 0.00) fov=60.0
+shot 03_aerial pos=(150.00, 249.84, -81.05) rot=(44.47, 320.19, 0.00) fov=50.0
+shot 04_longlens pos=(0.00, 18.21, 0.00) rot=(357.14, 0.00, 0.00) fov=20.0
+shot 05_crane0 pos=(0.00, 46.51, -40.00) rot=(1.15, 0.00, 0.00) fov=46.0
+shot 05_crane60 pos=(60.00, 46.51, -40.00) rot=(1.15, 0.00, 0.00) fov=46.0

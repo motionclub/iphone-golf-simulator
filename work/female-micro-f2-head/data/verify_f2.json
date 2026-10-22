@@ -1,0 +1,90 @@
+{
+ "TOPOLOGY Body_F": {
+  "passed": true,
+  "detail": "faces+offsets True, material idx True, smooth flags True, UVs True (1 layers)"
+ },
+ "TOPOLOGY Face_F": {
+  "passed": true,
+  "detail": "faces+offsets True, material idx True, smooth flags True, UVs True (0 layers)"
+ },
+ "VERTEX_GROUPS (21 LOOP_*)": {
+  "passed": true,
+  "detail": "21 groups, membership+weights identical: True"
+ },
+ "MATERIALS/OBJECTS": {
+  "passed": true,
+  "detail": "slots ['Base_Grey_F', 'Skin_F'], edges 42449, custom normals False"
+ },
+ "NO_DENSIFY (tri budget)": {
+  "passed": true,
+  "detail": "Body_F 42296 + Face_F 5364 = 47660 tris (F1: 42,296 + 5,364 = 47,660); verts 21780 / 3611"
+ },
+ "MANIFOLD": {
+  "passed": true,
+  "detail": "boundary edges 256 (= the two 128-vertex eye apertures), non-manifold 0 (F1: 256, 0)"
+ },
+ "BODY_BELOW_NECK (vs F1)": {
+  "passed": true,
+  "detail": "12506 verts with z < 1.4225 (collar ring z 1.3965-1.4053 and everything below): moved 0, max diff 0.0e+00 m"
+ },
+ "ZONE_OUTSIDE (head only, lower face)": {
+  "passed": true,
+  "detail": "moved 1671 Body_F verts, z 1425.9..1524.3 mm; y -124..33 mm; |x| max 89 mm"
+ },
+ "HOLD mouth/nose/eyes/brows/cranial": {
+  "passed": true,
+  "detail": "verts above the lower face (z>1.53): 5614, moved 0; mouth/nose core |x|<20 mm, z>1.4575: 790, moved 0"
+ },
+ "lip_extent_max_move_mm": 0.19071306868763105,
+ "loops_moved": {
+  "LOOP_eyeL": 0.0,
+  "LOOP_eyeR": 0.0,
+  "LOOP_ear_attach_L": 0.0,
+  "LOOP_ear_attach_R": 0.0,
+  "LOOP_helix_L": 0.0,
+  "LOOP_helix_R": 0.0,
+  "LOOP_concha_L": 0.0,
+  "LOOP_concha_R": 0.0,
+  "LOOP_nostril_L": 0.0,
+  "LOOP_nostril_R": 0.0,
+  "LOOP_ala_L": 0.0,
+  "LOOP_ala_R": 0.0,
+  "LOOP_seam": 0.0,
+  "LOOP_lip_up": 0.0,
+  "LOOP_lip_lo": 0.0
+ },
+ "LOOPS hold (eye/ear/nose/mouth)": {
+  "passed": true,
+  "detail": "loops that moved (mm): none"
+ },
+ "jaw_loops": {
+  "LOOP_jaw_ear_L": {
+   "n": 44,
+   "moved_mean_mm": 1.6388624098378641,
+   "moved_max_mm": 3.1284287379174183
+  },
+  "LOOP_jaw_ear_R": {
+   "n": 46,
+   "moved_mean_mm": 1.579771424547878,
+   "moved_max_mm": 3.154167453734619
+  }
+ },
+ "face_f_changed": 194,
+ "face_f_max_shift_mm": 0.02194579265083625,
+ "NO_FOLDS / inversions": {
+  "passed": true,
+  "detail": "faces touching moved verts 1763: max face-normal change 31.0 deg, >30deg 2, inverted(>90) 0, min area 0.76 mm2 (F1 min 0.99)"
+ },
+ "edge_len_mm": {
+  "F1": [
+   1.354596183047113,
+   4.279748688684329,
+   11.970935492326381
+  ],
+  "F2": [
+   1.3172546962912544,
+   4.255757465557728,
+   11.97092560770019
+  ]
+ }
+}

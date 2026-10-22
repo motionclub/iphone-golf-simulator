@@ -1,0 +1,586 @@
+{
+ "overall": "PASS",
+ "gates": {
+  "BODIES": {
+   "ok": true,
+   "source_sha_before_after": true,
+   "copy_equals_source_before_edit": true,
+   "geometry_equal": {
+    "male": {
+     "Body_M": true,
+     "Face_M": true
+    },
+    "female": {
+     "Body_F": true,
+     "Face_F": true,
+     "Hair_F": true
+    }
+   },
+   "vertex_hash_equal": {
+    "male": {
+     "Body_M": true,
+     "Face_M": true
+    },
+    "female": {
+     "Body_F": true,
+     "Face_F": true,
+     "Hair_F": true
+    }
+   },
+   "vertex_groups_added_on_body": {
+    "male": 16,
+    "female": 16
+   }
+  },
+  "KIT_SEPARATE": {
+   "ok": true,
+   "sockets": {
+    "male": {
+     "Chest_Top": {
+      "exists": true,
+      "type": "EMPTY",
+      "parent": "Body_M",
+      "world": [
+       0.0,
+       0.0,
+       1.25
+      ]
+     },
+     "Hip_Bottom": {
+      "exists": true,
+      "type": "EMPTY",
+      "parent": "Body_M",
+      "world": [
+       0.0,
+       0.0,
+       0.95
+      ]
+     },
+     "Foot_L_Shoe": {
+      "exists": true,
+      "type": "EMPTY",
+      "parent": "Body_M",
+      "world": [
+       -0.18,
+       0.0,
+       0.09
+      ]
+     },
+     "Foot_R_Shoe": {
+      "exists": true,
+      "type": "EMPTY",
+      "parent": "Body_M",
+      "world": [
+       0.18,
+       0.0,
+       0.09
+      ]
+     }
+    },
+    "female": {
+     "Chest_Top": {
+      "exists": true,
+      "type": "EMPTY",
+      "parent": "Body_F",
+      "world": [
+       0.0,
+       0.0,
+       1.22
+      ]
+     },
+     "Hip_Bottom": {
+      "exists": true,
+      "type": "EMPTY",
+      "parent": "Body_F",
+      "world": [
+       0.0,
+       0.0,
+       0.975
+      ]
+     },
+     "Foot_L_Shoe": {
+      "exists": true,
+      "type": "EMPTY",
+      "parent": "Body_F",
+      "world": [
+       -0.125,
+       0.0,
+       0.08
+      ]
+     },
+     "Foot_R_Shoe": {
+      "exists": true,
+      "type": "EMPTY",
+      "parent": "Body_F",
+      "world": [
+       0.125,
+       0.0,
+       0.08
+      ]
+     }
+    }
+   },
+   "pieces": {
+    "male": {
+     "Kit_Top_Polo_M_White": {
+      "parent": "Chest_Top",
+      "ok": true
+     },
+     "Kit_Bottom_Shorts_M_White": {
+      "parent": "Hip_Bottom",
+      "ok": true
+     },
+     "Kit_Sock_L_White": {
+      "parent": "Foot_L_Shoe",
+      "ok": true
+     },
+     "Kit_Shoe_L_White": {
+      "parent": "Foot_L_Shoe",
+      "ok": true
+     },
+     "Kit_Sock_R_White": {
+      "parent": "Foot_R_Shoe",
+      "ok": true
+     },
+     "Kit_Shoe_R_White": {
+      "parent": "Foot_R_Shoe",
+      "ok": true
+     },
+     "Kit_Top_Polo_M_Black": {
+      "parent": "Chest_Top",
+      "ok": true
+     },
+     "Kit_Bottom_Shorts_M_Black": {
+      "parent": "Hip_Bottom",
+      "ok": true
+     },
+     "Kit_Sock_L_Black": {
+      "parent": "Foot_L_Shoe",
+      "ok": true
+     },
+     "Kit_Shoe_L_Black": {
+      "parent": "Foot_L_Shoe",
+      "ok": true
+     },
+     "Kit_Sock_R_Black": {
+      "parent": "Foot_R_Shoe",
+      "ok": true
+     },
+     "Kit_Shoe_R_Black": {
+      "parent": "Foot_R_Shoe",
+      "ok": true
+     }
+    },
+    "female": {
+     "Kit_Top_Polo_F_White": {
+      "parent": "Chest_Top",
+      "ok": true
+     },
+     "Kit_Bottom_Skort_F_White": {
+      "parent": "Hip_Bottom",
+      "ok": true
+     },
+     "Kit_Sock_L_White": {
+      "parent": "Foot_L_Shoe",
+      "ok": true
+     },
+     "Kit_Shoe_L_White": {
+      "parent": "Foot_L_Shoe",
+      "ok": true
+     },
+     "Kit_Sock_R_White": {
+      "parent": "Foot_R_Shoe",
+      "ok": true
+     },
+     "Kit_Shoe_R_White": {
+      "parent": "Foot_R_Shoe",
+      "ok": true
+     },
+     "Kit_Top_Polo_F_Black": {
+      "parent": "Chest_Top",
+      "ok": true
+     },
+     "Kit_Bottom_Skort_F_Black": {
+      "parent": "Hip_Bottom",
+      "ok": true
+     },
+     "Kit_Sock_L_Black": {
+      "parent": "Foot_L_Shoe",
+      "ok": true
+     },
+     "Kit_Shoe_L_Black": {
+      "parent": "Foot_L_Shoe",
+      "ok": true
+     },
+     "Kit_Sock_R_Black": {
+      "parent": "Foot_R_Shoe",
+      "ok": true
+     },
+     "Kit_Shoe_R_Black": {
+      "parent": "Foot_R_Shoe",
+      "ok": true
+     }
+    }
+   }
+  },
+  "RACKET_IN_HAND": {
+   "ok": true,
+   "hand_racket": {
+    "male": {
+     "exists": true,
+     "type": "EMPTY",
+     "parent": "Rig_Hand_R",
+     "parent_type": "BONE",
+     "parent_bone": "Hand_R",
+     "world": [
+      "-0.5801",
+      "-0.10979",
+      "0.85069"
+     ]
+    },
+    "female": {
+     "exists": true,
+     "type": "EMPTY",
+     "parent": "Rig_Hand_R",
+     "parent_type": "BONE",
+     "parent_bone": "Hand_R",
+     "world": [
+      "-0.22202",
+      "-0.00232",
+      "0.76196"
+     ]
+    }
+   },
+   "grip_to_evaluated_hand_min_mm": {
+    "male": 0.9041524026542902,
+    "female": 0.048679139581508934
+   },
+   "hand_vertex_nearest_to_grip_origin_mm": {
+    "male": 22.864468862518276,
+    "female": 18.18379720834305
+   },
+   "in_hand_measured": {
+    "male": true,
+    "female": true
+   },
+   "float_label": {
+    "male": null,
+    "female": null
+   },
+   "action": {
+    "male": "Pose_GripClosed",
+    "female": "Pose_GripClosed"
+   }
+  },
+  "BOTH_COLORS": {
+   "ok": true,
+   "collections": {
+    "male": {
+     "White": [
+      "Kit_Bottom_Shorts_M_White",
+      "Kit_Shoe_L_White",
+      "Kit_Shoe_R_White",
+      "Kit_Sock_L_White",
+      "Kit_Sock_R_White",
+      "Kit_Top_Polo_M_White"
+     ],
+     "Black": [
+      "Kit_Bottom_Shorts_M_Black",
+      "Kit_Shoe_L_Black",
+      "Kit_Shoe_R_Black",
+      "Kit_Sock_L_Black",
+      "Kit_Sock_R_Black",
+      "Kit_Top_Polo_M_Black"
+     ]
+    },
+    "female": {
+     "White": [
+      "Kit_Bottom_Skort_F_White",
+      "Kit_Shoe_L_White",
+      "Kit_Shoe_R_White",
+      "Kit_Sock_L_White",
+      "Kit_Sock_R_White",
+      "Kit_Top_Polo_F_White"
+     ],
+     "Black": [
+      "Kit_Bottom_Skort_F_Black",
+      "Kit_Shoe_L_Black",
+      "Kit_Shoe_R_Black",
+      "Kit_Sock_L_Black",
+      "Kit_Sock_R_Black",
+      "Kit_Top_Polo_F_Black"
+     ]
+    }
+   },
+   "materials_on_kit_pieces": {
+    "male": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "female": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ]
+   },
+   "sheets_for_both_colours": true
+  },
+  "BOTH_SEXES": {
+   "ok": true,
+   "blends": {
+    "male": true,
+    "female": true
+   },
+   "pieces": {
+    "male": [
+     "Kit_Top_Polo_M_White",
+     "Kit_Bottom_Shorts_M_White",
+     "Kit_Top_Polo_M_Black",
+     "Kit_Bottom_Shorts_M_Black"
+    ],
+    "female": [
+     "Kit_Top_Polo_F_White",
+     "Kit_Bottom_Skort_F_White",
+     "Kit_Top_Polo_F_Black",
+     "Kit_Bottom_Skort_F_Black"
+    ]
+   }
+  },
+  "NO_REFIT": {
+   "ok": true,
+   "max_abs_world_diff_all_24_pieces": 0.0,
+   "pieces_checked": 24,
+   "geometry_equal_all": true,
+   "modifiers_total": 0
+  },
+  "SOURCES_UNCHANGED": {
+   "ok": true,
+   "sha_after": {
+    "male_body": "d6c4dcfb1150853a8802a8dc7501aa64066adb8b2734c14a4d6ed8e82dada781",
+    "female_body": "a1d73a334f4dc18052db0582df6b4b54b1df166d9a3531ab700ee114e86d2ac1",
+    "kit_male": "ad07a7b9ba984b0f220f975b9fe1b0c1b7068d9897c7e6f96e44f70d23aa77a9",
+    "kit_female": "f19a9c03789b7af343c56b005ed587137e8764779d31c3109942156ee71eaf4e",
+    "racket": "53e83714856a14c1533653b3fce3e164dfb17e9c58c995cbdb325d86eec7e8ba"
+   },
+   "sha_ok_after": {
+    "male_body": true,
+    "female_body": true,
+    "kit_male": true,
+    "kit_female": true,
+    "racket": true
+   },
+   "mtimes_unchanged": true
+  },
+  "ARTDIR_UNCHANGED": {
+   "ok": true,
+   "files_before": 21520,
+   "files_after": 21520,
+   "added": [],
+   "removed": [],
+   "changed": [],
+   "base_lock_sha256_files": 790,
+   "base_lock_sha256_differences": [],
+   "scripts_mentioning_ArtDir": {
+    "artdir_snapshot.py": 3,
+    "final_report.py": 4
+   },
+   "snapshot_before": "2026-10-02 23:38:59",
+   "snapshot_after": "2026-10-03 01:24:27"
+  },
+  "PROOFS": {
+   "ok": true,
+   "raw_cells_32": true,
+   "sheets": {
+    "Male_White": {
+     "exists": true,
+     "bytes": 3707455
+    },
+    "Male_Black": {
+     "exists": true,
+     "bytes": 3864629
+    },
+    "Female_White": {
+     "exists": true,
+     "bytes": 3681739
+    },
+    "Female_Black": {
+     "exists": true,
+     "bytes": 3841409
+    }
+   },
+   "turntables": {
+    "Male": {
+     "exists": true,
+     "bytes": 1932900,
+     "size": [
+      1080,
+      1350
+     ],
+     "fps": 24.0,
+     "frames": 240,
+     "duration_s": 10.0,
+     "decode_ok": true,
+     "mean_abs_diff_vs_first": [
+      0.02334456890821457,
+      0.007559599354863167,
+      0.022178107872605324,
+      0.0013709235936403275
+     ]
+    },
+    "Female": {
+     "exists": true,
+     "bytes": 1663917,
+     "size": [
+      1080,
+      1350
+     ],
+     "fps": 24.0,
+     "frames": 240,
+     "duration_s": 10.0,
+     "decode_ok": true,
+     "mean_abs_diff_vs_first": [
+      0.012048530392348766,
+      0.004771890584379435,
+      0.011229136027395725,
+      0.0012630894780158997
+     ]
+    }
+   }
+  }
+ },
+ "clip_float": {
+  "male": {
+   "findings": [],
+   "racket": {
+    "overlap_tri_pairs_vs_body_not_hand": 0,
+    "overlap_tri_pairs_vs_hand": 0,
+    "overlap_vs_kit": {
+     "Kit_Top_Polo_M_White": 0,
+     "Kit_Bottom_Shorts_M_White": 0,
+     "Kit_Sock_L_White": 0,
+     "Kit_Shoe_L_White": 0,
+     "Kit_Sock_R_White": 0,
+     "Kit_Shoe_R_White": 0
+    },
+    "body_region": null,
+    "racket_samples_inside_body": 0,
+    "max_depth_inside_body_mm": 0.0,
+    "grip_to_hand_min_mm": 0.9041524026542902
+   },
+   "hand": {
+    "posed_hand_vs_body_not_hand_tri_pairs": 0,
+    "posed_hand_vs_kit_tri_pairs": {
+     "Kit_Top_Polo_M_White": 0,
+     "Kit_Bottom_Shorts_M_White": 0,
+     "Kit_Sock_L_White": 0,
+     "Kit_Shoe_L_White": 0,
+     "Kit_Sock_R_White": 0,
+     "Kit_Shoe_R_White": 0
+    }
+   }
+  },
+  "female": {
+   "findings": [
+    {
+     "kind": "FLOAT",
+     "piece": "Kit_Top_Polo_F_White",
+     "text": "Top_Polo_F: stands off the new body at the centre chest (back), z 0.98-1.28 m (1198 verts, up to 25.0 mm more than on the body it was fitted to)"
+    },
+    {
+     "kind": "FLOAT",
+     "piece": "Kit_Bottom_Skort_F_White",
+     "text": "Bottom_Skort_F: stands off the new body at the centre upper thigh / hip (back), z 0.67-0.99 m (737 verts, up to 16.0 mm more than on the body it was fitted to)"
+    },
+    {
+     "kind": "CLIP",
+     "piece": "Kit_Sock_L_White",
+     "text": "Sock_L: body surface pokes through the cloth at the right lower leg (back), z 0.00-0.29 m (496 verts, up to 29.7 mm)"
+    },
+    {
+     "kind": "SQUEEZE",
+     "piece": "Kit_Sock_L_White",
+     "text": "Sock_L: cloth squeezed into the body at the right lower leg (back), z 0.00-0.29 m (470 verts, up to 29.3 mm)"
+    },
+    {
+     "kind": "FLOAT",
+     "piece": "Kit_Sock_L_White",
+     "text": "Sock_L: stands off the new body at the right lower leg (front), z 0.01-0.29 m (789 verts, up to 62.5 mm more than on the body it was fitted to)"
+    },
+    {
+     "kind": "CLIP",
+     "piece": "Kit_Shoe_L_White",
+     "text": "Shoe_L: body surface pokes through the cloth at the right foot / ankle (back), z 0.00-0.10 m (382 verts, up to 29.4 mm)"
+    },
+    {
+     "kind": "SQUEEZE",
+     "piece": "Kit_Shoe_L_White",
+     "text": "Shoe_L: cloth squeezed into the body at the right foot / ankle (back), z 0.00-0.10 m (331 verts, up to 29.0 mm)"
+    },
+    {
+     "kind": "FLOAT",
+     "piece": "Kit_Shoe_L_White",
+     "text": "Shoe_L: stands off the new body at the right foot / ankle (front), z 0.03-0.13 m (822 verts, up to 49.4 mm more than on the body it was fitted to)"
+    },
+    {
+     "kind": "CLIP",
+     "piece": "Kit_Sock_R_White",
+     "text": "Sock_R: body surface pokes through the cloth at the left lower leg (back), z 0.00-0.29 m (506 verts, up to 29.5 mm)"
+    },
+    {
+     "kind": "SQUEEZE",
+     "piece": "Kit_Sock_R_White",
+     "text": "Sock_R: cloth squeezed into the body at the left lower leg (back), z 0.00-0.29 m (473 verts, up to 28.6 mm)"
+    },
+    {
+     "kind": "FLOAT",
+     "piece": "Kit_Sock_R_White",
+     "text": "Sock_R: stands off the new body at the left lower leg (front), z 0.02-0.29 m (780 verts, up to 62.4 mm more than on the body it was fitted to)"
+    },
+    {
+     "kind": "CLIP",
+     "piece": "Kit_Shoe_R_White",
+     "text": "Shoe_R: body surface pokes through the cloth at the left foot / ankle (back), z 0.00-0.10 m (380 verts, up to 29.5 mm)"
+    },
+    {
+     "kind": "SQUEEZE",
+     "piece": "Kit_Shoe_R_White",
+     "text": "Shoe_R: cloth squeezed into the body at the left foot / ankle (back), z 0.00-0.10 m (357 verts, up to 29.8 mm)"
+    },
+    {
+     "kind": "FLOAT",
+     "piece": "Kit_Shoe_R_White",
+     "text": "Shoe_R: stands off the new body at the left foot / ankle (front), z 0.03-0.13 m (822 verts, up to 49.3 mm more than on the body it was fitted to)"
+    }
+   ],
+   "racket": {
+    "overlap_tri_pairs_vs_body_not_hand": 0,
+    "overlap_tri_pairs_vs_hand": 0,
+    "overlap_vs_kit": {
+     "Kit_Top_Polo_F_White": 0,
+     "Kit_Bottom_Skort_F_White": 0,
+     "Kit_Sock_L_White": 0,
+     "Kit_Shoe_L_White": 0,
+     "Kit_Sock_R_White": 0,
+     "Kit_Shoe_R_White": 0
+    },
+    "body_region": null,
+    "racket_samples_inside_body": 0,
+    "max_depth_inside_body_mm": 0.0,
+    "grip_to_hand_min_mm": 0.048679139581508934
+   },
+   "hand": {
+    "posed_hand_vs_body_not_hand_tri_pairs": 0,
+    "posed_hand_vs_kit_tri_pairs": {
+     "Kit_Top_Polo_F_White": 0,
+     "Kit_Bottom_Skort_F_White": 0,
+     "Kit_Sock_L_White": 0,
+     "Kit_Shoe_L_White": 0,
+     "Kit_Sock_R_White": 0,
+     "Kit_Shoe_R_White": 0
+    }
+   }
+  }
+ },
+ "disclosures": [
+  "Vertex groups were added to the dressed copy of the body (16 per hero: the right-hand finger skin weights, names = bone names) plus an Armature modifier and a parent to the rig: that is the carrier of the finger pose. Mesh geometry (positions, topology, normals, UVs, materials indices) is bit-identical to the source; the geometry hash deliberately excludes vertex-group weights (see GATE_DEFS)."
+ ]
+}

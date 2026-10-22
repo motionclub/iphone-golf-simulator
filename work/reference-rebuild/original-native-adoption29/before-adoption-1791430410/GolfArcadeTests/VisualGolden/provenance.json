@@ -1,0 +1,50 @@
+[
+  {
+    "name": "MatchHero_Male",
+    "source": "proof/full-visual-overhaul/native-golden-provisional-2/MatchHero_Male_golden.json",
+    "unitySampleCount": 1080,
+    "unitySourceSha256": "7613c1b295f63b53c89d05da88b1d3b8b43ba8791f60290586a9a4383bf11333",
+    "packedSha256": "94e9014dd9875d95ed46514c5045a56079ea38cab9524106845cfc71567ec9e4",
+    "packedBytes": 2514977
+  },
+  {
+    "name": "MatchHero_Female",
+    "source": "proof/full-visual-overhaul/native-golden-provisional-2/MatchHero_Female_golden.json",
+    "unitySampleCount": 1080,
+    "unitySourceSha256": "bd216af6716c4a7733a06ebedb3ff26c4baee95214a1798acdd3ad83bf3df8ad",
+    "packedSha256": "ccc83e4afb016bc498466d22197df90499f7469678f660aaf63d478552b6d190",
+    "packedBytes": 2530640
+  },
+  {
+    "name": "MatchHero_Male_Distance",
+    "source": "proof/full-visual-overhaul/native-golden-provisional-2/MatchHero_Male_Distance_golden.json",
+    "unitySampleCount": 1080,
+    "unitySourceSha256": "31b1a767564369d5f8d3f13399163eb2b754e78c0f4393467ae58b0d01b1b2e4",
+    "packedSha256": "ab07dd519dd34ae39379cea6ea8b627c3394eea1ec76daeb482f21eb79fa5132",
+    "packedBytes": 2535515
+  },
+  {
+    "name": "MatchHero_Female_Distance",
+    "source": "proof/full-visual-overhaul/native-golden-provisional-2/MatchHero_Female_Distance_golden.json",
+    "unitySampleCount": 1080,
+    "unitySourceSha256": "4d7a5a95c14253e974e4531eac73e0fa306d4773b44f97d565470f38970fa343",
+    "packedSha256": "04d8558b1162763a85ec18262b9c662384411c458c293a6fc500d653da89a19a",
+    "packedBytes": 2538313
+  },
+  {
+    "name": "GolfKitHero_Male",
+    "source": "proof/full-visual-overhaul/native-golden-provisional-2/GolfKitHero_Male_golden.json",
+    "unitySampleCount": 936,
+    "unitySourceSha256": "99a743d88812d82d95a57973cb2ea00cc2f183bd42cf80742368290a7ac58b89",
+    "packedSha256": "c320c2d776ca235603e662f484acd0ba0c521e3bb44a72f32b308bbba65f73c9",
+    "packedBytes": 2305087
+  },
+  {
+    "name": "GolfKitHero_Female",
+    "source": "proof/full-visual-overhaul/native-golden-provisional-2/GolfKitHero_Female_golden.json",
+    "unitySampleCount": 936,
+    "unitySourceSha256": "8b414f8b0c0ad5890a70a9ce6972ea357edd3909b2e98ff2382b8995c54749d0",
+    "packedSha256": "2229d1701a4e7dd4cb1fbc718d069a0aaefcfbe62e82f4544a511339cabc789d",
+    "packedBytes": 2303510
+  }
+]

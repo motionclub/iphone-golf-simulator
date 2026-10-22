@@ -1,0 +1,70 @@
+name: GolfArcade
+options:
+  bundleIdPrefix: com.aloniewski
+  deploymentTarget:
+    iOS: "17.0"
+  groupSortPosition: top
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    CODE_SIGN_STYLE: Automatic
+    CURRENT_PROJECT_VERSION: 1
+    MARKETING_VERSION: 0.1.0
+targets:
+  GolfArcade:
+    type: application
+    platform: iOS
+    sources:
+      - path: GolfArcade
+        excludes: [Unity/SportsInfo.plist, Unity/MenuVideo, "Unity/CharacterAssets/Custom*", "Unity/CharacterAssets/Higgs*", "Unity/CharacterAssets/Hero*", "Unity/CharacterAssets/Player*"]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.aloniewski.GolfArcade
+        CODE_SIGN_ENTITLEMENTS: GolfArcade/Multiplayer/GolfArcade.entitlements
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_FILE: GolfArcade/Unity/SportsInfo.plist
+        SWIFT_OBJC_BRIDGING_HEADER: GolfArcade/Unity/GolfArcade-Bridging-Header.h
+        CLANG_CXX_LANGUAGE_STANDARD: c++17
+        INFOPLIST_KEY_NSMotionUsageDescription: Phone motion controls your sports swings.
+        INFOPLIST_KEY_NSMicrophoneUsageDescription: Motion Club uses the microphone for party voice chat, only after you turn it on. Only the people in your party can hear you, and your voice can be heard in a TV recording you or a friend makes.
+        INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription: Motion Club saves your gameplay recordings to Photos. It never reads your photo library.
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: NO
+        INFOPLIST_KEY_NSCameraUsageDescription: The rear camera tracks your phone position for physical tennis steering. Images are processed on your phone, not recorded or uploaded.
+        INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+        TARGETED_DEVICE_FAMILY: "1"
+        SUPPORTS_MACCATALYST: NO
+  GolfArcadeTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: GolfArcadeTests
+    dependencies:
+      - target: GolfArcade
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.aloniewski.GolfArcadeTests
+        GENERATE_INFOPLIST_FILE: YES
+  GolfArcadeUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: GolfArcadeUITests
+    dependencies:
+      - target: GolfArcade
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.aloniewski.GolfArcadeUITests
+        GENERATE_INFOPLIST_FILE: YES
+schemes:
+  GolfArcade:
+    build:
+      targets:
+        GolfArcade: all
+        GolfArcadeTests: [test]
+        GolfArcadeUITests: [test]
+    test:
+      targets:
+        - GolfArcadeTests
+        - GolfArcadeUITests

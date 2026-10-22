@@ -1,0 +1,68 @@
+--- a/Unity/Assets/Scripts/Course/GolfResortDress.cs
++++ b/Unity/Assets/Scripts/Course/GolfResortDress.cs
+@@ -9,7 +9,7 @@
+     /// ObstacleScan and Ground sampling: original gameplay meshes/markers remain intact.
+     public sealed class GolfResortDress : MonoBehaviour
+     {
+-        sealed class Template { public Mesh mesh; public Matrix4x4 toRoot; public int[] paletteSlots; }
++        sealed class Template { public Mesh mesh; public Matrix4x4 toRoot; public int[] paletteSlots; public bool preserveLeafRim; }
+         sealed class Batch { public Material material; public string lodKind; public readonly List<CombineInstance> pieces = new(), farPieces = new(); }
+         readonly List<Mesh> meshes = new();
+         readonly List<Material> materials = new();
+@@ -50,9 +50,28 @@
+                     owner.templates[mf.name]=new Template{mesh=mf.sharedMesh,toRoot=kit.transform.worldToLocalMatrix*mf.transform.localToWorldMatrix,paletteSlots=slots};
+                 }
+             if(owner.templates.Count==0){Debug.LogError("Golf botanical kit requires readable meshes");return owner;}
+-            owner.CreateMaterials();owner.ReplaceMarkers();owner.ScatterRough();owner.DressShore();owner.BuildCliffForms();GolfCliffSculpt.Apply(model,hole);if(hole.Number is >=1 and <=3)owner.DressMeadow();owner.BuildBatches();
++            owner.InstallTempleCanopyCandidate();owner.CreateMaterials();owner.ReplaceMarkers();owner.ScatterRough();owner.DressShore();owner.BuildCliffForms();GolfCliffSculpt.Apply(model,hole);if(hole.Number is >=1 and <=3)owner.DressMeadow();owner.BuildBatches();
+             Debug.Log($"[GolfResortDress] hole {hole.Number}: {owner.plants} botanical assets, {owner.triangles} triangles in {owner.batches.Count} bounded batches; original physics retained");
+             return owner;
++        }
++
++        // Work-only pilot integration: exact existing marker stream; no new obstacles.
++        void InstallTempleCanopyCandidate()
++        {
++            if(hole.Number!=19||System.Environment.GetEnvironmentVariable("VISUAL_GOLF_CANOPY")!="1")return;
++            var kit=Resources.Load<GameObject>("Course/Resort/GolfTempleCanopy20");
++            if(!kit){Debug.LogError("[GolfResortDress] Missing temple canopy candidate");return;}
++            int replaced=0;
++            foreach(var mf in kit.GetComponentsInChildren<MeshFilter>())
++            {
++                if((mf.name!="PALM"&&mf.name!="PALM_FAR")||!mf.sharedMesh||!mf.sharedMesh.isReadable)continue;
++                var mats=mf.GetComponent<Renderer>().sharedMaterials;var slots=new int[mf.sharedMesh.subMeshCount];
++                for(int i=0;i<slots.Length;i++)slots[i]=i<mats.Length&&mats[i]?PaletteIndex(mats[i].name):Mathf.Min(i,6);
++                templates[mf.name]=new Template{mesh=mf.sharedMesh,toRoot=kit.transform.worldToLocalMatrix*mf.transform.localToWorldMatrix,paletteSlots=slots,preserveLeafRim=true};
++                replaced++;
++            }
++            if(replaced!=2)throw new System.InvalidOperationException("Temple canopy candidate requires exact PALM/PALM_FAR");
++            Debug.Log("[GolfResortDress] Temple canopy pilot: two render prototypes replaced; original PLANT marker placement and obstacle data retained");
+         }
+ 
+         void CoastalWater(GameObject model)
+@@ -158,15 +177,24 @@
+                 if(!proportioned.TryGetValue(shapeKey,out asset)){
+                     asset=Instantiate(template.mesh);asset.name=kind+" crown proportions";meshes.Add(asset);
+                     var vertices=asset.vertices;var pivots=asset.uv2;var inverse=template.toRoot.inverse;
++                    var preservedNormals=template.preserveLeafRim?asset.normals:null;
++                    var crownNormalMatrix=(inverse*Matrix4x4.Scale(new Vector3(1,scale.x/Mathf.Max(scale.y,.01f),1))*template.toRoot).inverse.transpose;
+                     for(int i=0;i<vertices.Length;i++)if(pivots[i].x>=0){
+                         var position=template.toRoot.MultiplyPoint3x4(vertices[i]);float centre=pivots[i].x;
+                         float proportion=scale.x/Mathf.Max(scale.y,.01f);
+                         if(kind.StartsWith("PINE"))proportion=Mathf.Lerp(1,proportion,.55f);
+                         position.y=centre+(position.y-centre)*proportion;
++                        if(preservedNormals!=null&&preservedNormals.Length==vertices.Length){
++                            preservedNormals[i]=crownNormalMatrix.MultiplyVector(preservedNormals[i]).normalized;
++                        }
+                         vertices[i]=inverse.MultiplyPoint3x4(position);
+                     }
+-                    asset.vertices=vertices;asset.RecalculateNormals();
+-                    if(kind.StartsWith("PALM")||kind.StartsWith("PINE")||kind.StartsWith("OAK"))SmoothConnectedNormals(asset);
++                    asset.vertices=vertices;
++                    if(preservedNormals!=null&&preservedNormals.Length==vertices.Length)asset.normals=preservedNormals;
++                    else {
++                        asset.RecalculateNormals();
++                        if(kind.StartsWith("PALM")||kind.StartsWith("PINE")||kind.StartsWith("OAK"))SmoothConnectedNormals(asset);
++                    }
+                     asset.RecalculateBounds();proportioned.Add(shapeKey,asset);
+                 }
+             }

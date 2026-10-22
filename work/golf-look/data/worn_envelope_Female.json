@@ -1,0 +1,458 @@
+{
+  "sex": "Female",
+  "scope": "closed outer wear envelopes with virtual cuffs/neck/hems; all declared covered-body vertices, triangle centroids and edge midpoints; remaining boundary and triangle-interior coverage plus glove/head proof required",
+  "poses": [
+    {
+      "action": "ReadyIdle",
+      "pieces": [
+        {
+          "piece": "Top",
+          "coveredBodyTriangles": 5203,
+          "samples": 23484,
+          "closureFaces": 4,
+          "pokeMaxMm": 0,
+          "over3mm": 0,
+          "worstWorld": null
+        },
+        {
+          "piece": "Bottom",
+          "coveredBodyTriangles": 2281,
+          "samples": 10339,
+          "closureFaces": 4,
+          "pokeMaxMm": 10.151832364499569,
+          "over3mm": 44,
+          "worstWorld": [
+            0.12431879341602325,
+            -0.03217273950576782,
+            0.9357030391693115
+          ]
+        },
+        {
+          "piece": "Shoe_L",
+          "coveredBodyTriangles": 1368,
+          "samples": 6175,
+          "closureFaces": 0,
+          "pokeMaxMm": 20.70053108036518,
+          "over3mm": 5987,
+          "worstWorld": [
+            0.1498548835515976,
+            0.34138023853302,
+            -0.0012209322303533554
+          ]
+        },
+        {
+          "piece": "Shoe_R",
+          "coveredBodyTriangles": 1374,
+          "samples": 6202,
+          "closureFaces": 0,
+          "pokeMaxMm": 20.70053108036518,
+          "over3mm": 6021,
+          "worstWorld": [
+            0.1498551219701767,
+            -0.26911503076553345,
+            -0.0012208828702569008
+          ]
+        }
+      ]
+    },
+    {
+      "action": "GolfProof_RH_Top",
+      "pieces": [
+        {
+          "piece": "Top",
+          "coveredBodyTriangles": 5203,
+          "samples": 23484,
+          "closureFaces": 4,
+          "pokeMaxMm": 15.959195792675018,
+          "over3mm": 2187,
+          "worstWorld": [
+            -0.203590656320254,
+            0.14795565605163574,
+            1.2556718985239665
+          ]
+        },
+        {
+          "piece": "Bottom",
+          "coveredBodyTriangles": 2281,
+          "samples": 10339,
+          "closureFaces": 4,
+          "pokeMaxMm": 11.506104841828346,
+          "over3mm": 24,
+          "worstWorld": [
+            0.026198485866189003,
+            0.007940839976072311,
+            0.9469552636146545
+          ]
+        },
+        {
+          "piece": "Shoe_L",
+          "coveredBodyTriangles": 1368,
+          "samples": 6175,
+          "closureFaces": 0,
+          "pokeMaxMm": 20.622164011001587,
+          "over3mm": 5824,
+          "worstWorld": [
+            -0.1468745917081833,
+            -0.1725078672170639,
+            0.03421557694673538
+          ]
+        },
+        {
+          "piece": "Shoe_R",
+          "coveredBodyTriangles": 1374,
+          "samples": 6202,
+          "closureFaces": 0,
+          "pokeMaxMm": 19.722187891602516,
+          "over3mm": 5586,
+          "worstWorld": [
+            -0.23890802760918936,
+            0.15540140867233276,
+            0.030327878892421722
+          ]
+        }
+      ]
+    },
+    {
+      "action": "GolfProof_RH_Impact",
+      "pieces": [
+        {
+          "piece": "Top",
+          "coveredBodyTriangles": 5203,
+          "samples": 23484,
+          "closureFaces": 4,
+          "pokeMaxMm": 17.512375488877296,
+          "over3mm": 2459,
+          "worstWorld": [
+            -0.21197693049907684,
+            -0.057726360857486725,
+            1.2185936570167542
+          ]
+        },
+        {
+          "piece": "Bottom",
+          "coveredBodyTriangles": 2281,
+          "samples": 10339,
+          "closureFaces": 4,
+          "pokeMaxMm": 10.37574838846922,
+          "over3mm": 13,
+          "worstWorld": [
+            0.006651664152741432,
+            0.09547165036201477,
+            0.9275258779525757
+          ]
+        },
+        {
+          "piece": "Shoe_L",
+          "coveredBodyTriangles": 1368,
+          "samples": 6175,
+          "closureFaces": 0,
+          "pokeMaxMm": 20.621929317712784,
+          "over3mm": 5851,
+          "worstWorld": [
+            -0.24798832833766937,
+            -0.007832333445549011,
+            0.031298279762268066
+          ]
+        },
+        {
+          "piece": "Shoe_R",
+          "coveredBodyTriangles": 1374,
+          "samples": 6202,
+          "closureFaces": 0,
+          "pokeMaxMm": 20.747626200318336,
+          "over3mm": 5874,
+          "worstWorld": [
+            -0.15333811938762665,
+            0.35549455881118774,
+            0.06393753737211227
+          ]
+        }
+      ]
+    },
+    {
+      "action": "GolfProof_RH_Finish",
+      "pieces": [
+        {
+          "piece": "Top",
+          "coveredBodyTriangles": 5203,
+          "samples": 23484,
+          "closureFaces": 4,
+          "pokeMaxMm": 14.752860181033611,
+          "over3mm": 957,
+          "worstWorld": [
+            -0.11198053136467934,
+            -0.0983988456428051,
+            1.262544870376587
+          ]
+        },
+        {
+          "piece": "Bottom",
+          "coveredBodyTriangles": 2281,
+          "samples": 10339,
+          "closureFaces": 4,
+          "pokeMaxMm": 8.310056291520596,
+          "over3mm": 15,
+          "worstWorld": [
+            -0.001699935644865036,
+            -0.06529776751995087,
+            0.9878808856010437
+          ]
+        },
+        {
+          "piece": "Shoe_L",
+          "coveredBodyTriangles": 1368,
+          "samples": 6175,
+          "closureFaces": 0,
+          "pokeMaxMm": 20.621931180357933,
+          "over3mm": 5891,
+          "worstWorld": [
+            -0.2775117754936218,
+            -0.008111484348773956,
+            0.03809705376625061
+          ]
+        },
+        {
+          "piece": "Shoe_R",
+          "coveredBodyTriangles": 1374,
+          "samples": 6202,
+          "closureFaces": 0,
+          "pokeMaxMm": 19.789040088653564,
+          "over3mm": 6059,
+          "worstWorld": [
+            -0.16715902090072632,
+            0.502038300037384,
+            0.10547308623790741
+          ]
+        }
+      ]
+    },
+    {
+      "action": "GolfProof_LH_ReadyIdle",
+      "pieces": [
+        {
+          "piece": "Top",
+          "coveredBodyTriangles": 5203,
+          "samples": 23484,
+          "closureFaces": 4,
+          "pokeMaxMm": 0.10581519018160179,
+          "over3mm": 0,
+          "worstWorld": [
+            0.086350513001283,
+            -0.09975899010896683,
+            1.0504804452260335
+          ]
+        },
+        {
+          "piece": "Bottom",
+          "coveredBodyTriangles": 2281,
+          "samples": 10339,
+          "closureFaces": 4,
+          "pokeMaxMm": 10.934555903077126,
+          "over3mm": 63,
+          "worstWorld": [
+            0.08843090385198593,
+            -0.086946040391922,
+            0.9916315078735352
+          ]
+        },
+        {
+          "piece": "Shoe_L",
+          "coveredBodyTriangles": 1368,
+          "samples": 6175,
+          "closureFaces": 0,
+          "pokeMaxMm": 20.700538530945778,
+          "over3mm": 5987,
+          "worstWorld": [
+            0.30524760484695435,
+            -0.1331828385591507,
+            0.053461022675037384
+          ]
+        },
+        {
+          "piece": "Shoe_R",
+          "coveredBodyTriangles": 1374,
+          "samples": 6202,
+          "closureFaces": 0,
+          "pokeMaxMm": 20.70053480565548,
+          "over3mm": 6021,
+          "worstWorld": [
+            -0.3052474856376648,
+            -0.1331828236579895,
+            0.053460896015167236
+          ]
+        }
+      ]
+    },
+    {
+      "action": "GolfProof_LH_Top",
+      "pieces": [
+        {
+          "piece": "Top",
+          "coveredBodyTriangles": 5203,
+          "samples": 23484,
+          "closureFaces": 4,
+          "pokeMaxMm": 15.83859883248806,
+          "over3mm": 2173,
+          "worstWorld": [
+            0.21464893221855164,
+            0.134161539375782,
+            1.2433162331581116
+          ]
+        },
+        {
+          "piece": "Bottom",
+          "coveredBodyTriangles": 2281,
+          "samples": 10339,
+          "closureFaces": 4,
+          "pokeMaxMm": 13.761392794549465,
+          "over3mm": 22,
+          "worstWorld": [
+            0.02099776826798916,
+            -0.02395225316286087,
+            0.9488298296928406
+          ]
+        },
+        {
+          "piece": "Shoe_L",
+          "coveredBodyTriangles": 1368,
+          "samples": 6175,
+          "closureFaces": 0,
+          "pokeMaxMm": 19.716262817382812,
+          "over3mm": 5563,
+          "worstWorld": [
+            0.23887634774049124,
+            0.15537028511365256,
+            0.03035050506393115
+          ]
+        },
+        {
+          "piece": "Shoe_R",
+          "coveredBodyTriangles": 1374,
+          "samples": 6202,
+          "closureFaces": 0,
+          "pokeMaxMm": 20.619498565793037,
+          "over3mm": 5842,
+          "worstWorld": [
+            0.14689607918262482,
+            -0.17253230512142181,
+            0.03420039638876915
+          ]
+        }
+      ]
+    },
+    {
+      "action": "GolfProof_LH_Impact",
+      "pieces": [
+        {
+          "piece": "Top",
+          "coveredBodyTriangles": 5203,
+          "samples": 23484,
+          "closureFaces": 4,
+          "pokeMaxMm": 17.51755177974701,
+          "over3mm": 2449,
+          "worstWorld": [
+            0.22495704889297485,
+            -0.04557725414633751,
+            1.2017658948898315
+          ]
+        },
+        {
+          "piece": "Bottom",
+          "coveredBodyTriangles": 2281,
+          "samples": 10339,
+          "closureFaces": 4,
+          "pokeMaxMm": 12.903359718620777,
+          "over3mm": 19,
+          "worstWorld": [
+            -0.02543056756258011,
+            0.053695641458034515,
+            0.9297810196876526
+          ]
+        },
+        {
+          "piece": "Shoe_L",
+          "coveredBodyTriangles": 1368,
+          "samples": 6175,
+          "closureFaces": 0,
+          "pokeMaxMm": 20.57773806154728,
+          "over3mm": 5818,
+          "worstWorld": [
+            0.15331195294857025,
+            0.3554754853248596,
+            0.06402832269668579
+          ]
+        },
+        {
+          "piece": "Shoe_R",
+          "coveredBodyTriangles": 1374,
+          "samples": 6202,
+          "closureFaces": 0,
+          "pokeMaxMm": 20.61927504837513,
+          "over3mm": 5879,
+          "worstWorld": [
+            0.24800990521907806,
+            -0.007857047021389008,
+            0.03134280815720558
+          ]
+        }
+      ]
+    },
+    {
+      "action": "GolfProof_LH_Finish",
+      "pieces": [
+        {
+          "piece": "Top",
+          "coveredBodyTriangles": 5203,
+          "samples": 23484,
+          "closureFaces": 4,
+          "pokeMaxMm": 16.19594916701317,
+          "over3mm": 1127,
+          "worstWorld": [
+            0.12107743322849274,
+            -0.0950703298052152,
+            1.2696601549784343
+          ]
+        },
+        {
+          "piece": "Bottom",
+          "coveredBodyTriangles": 2281,
+          "samples": 10339,
+          "closureFaces": 4,
+          "pokeMaxMm": 8.71019996702671,
+          "over3mm": 21,
+          "worstWorld": [
+            0.029214514419436455,
+            0.11604569852352142,
+            0.9897730946540833
+          ]
+        },
+        {
+          "piece": "Shoe_L",
+          "coveredBodyTriangles": 1368,
+          "samples": 6175,
+          "closureFaces": 0,
+          "pokeMaxMm": 19.784707576036453,
+          "over3mm": 6033,
+          "worstWorld": [
+            0.1671474277973175,
+            0.5020189881324768,
+            0.10551407933235168
+          ]
+        },
+        {
+          "piece": "Shoe_R",
+          "coveredBodyTriangles": 1374,
+          "samples": 6202,
+          "closureFaces": 0,
+          "pokeMaxMm": 20.619269460439682,
+          "over3mm": 5923,
+          "worstWorld": [
+            0.27753329277038574,
+            -0.008136056363582611,
+            0.038093388080596924
+          ]
+        }
+      ]
+    }
+  ]
+}

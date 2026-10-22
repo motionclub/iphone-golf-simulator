@@ -1,0 +1,159 @@
+INFO: active pipeline asset 'HeroBaseStudioURP', quality level 2 'Medium', Unity 6000.3.24f1, Metal
+GATE: SHADER_OK GolfArcade/GolfSurf PASS - found 'GolfArcade/GolfSurf', supported True, errors False, graphics API Metal
+GATE: SHADER_OK GolfArcade/GolfLava PASS - found 'GolfArcade/GolfLava', supported True, errors False, graphics API Metal
+GATE: SHADER_OK GolfArcade/TennisWater PASS - found 'GolfArcade/TennisWater', supported True, errors False, graphics API Metal
+GATE: SHADER_OK GolfArcade/TennisSky PASS - found 'GolfArcade/TennisSky', supported True, errors False, graphics API Metal
+GATE: SHADER_OK Universal Render Pipeline/Lit PASS - found 'Universal Render Pipeline/Lit', supported True, errors False, graphics API Metal
+GATE: MATERIAL LK_FAIRWAY PASS - shader 'Universal Render Pipeline/Lit', _BaseMap Fairway_C, _BumpMap Fairway_N, _EmissionMap null, S 0.10
+GATE: MATERIAL LK_GREEN PASS - shader 'Universal Render Pipeline/Lit', _BaseMap Green_C, _BumpMap Green_N, _EmissionMap null, S 0.12
+GATE: MATERIAL LK_ROUGH PASS - shader 'Universal Render Pipeline/Lit', _BaseMap Rough_C, _BumpMap Rough_N, _EmissionMap null, S 0.08
+GATE: MATERIAL LK_SCRUB PASS - shader 'Universal Render Pipeline/Lit', _BaseMap Scrub_C, _BumpMap Scrub_N, _EmissionMap null, S 0.08
+GATE: MATERIAL LK_SAND PASS - shader 'Universal Render Pipeline/Lit', _BaseMap Sand_C, _BumpMap Sand_N, _EmissionMap null, S 0.12
+GATE: MATERIAL LK_CLIFF PASS - shader 'Universal Render Pipeline/Lit', _BaseMap Cliff_C, _BumpMap Cliff_N, _EmissionMap null, S 0.12
+GATE: MATERIAL LK_CLIFF_DARK PASS - shader 'Universal Render Pipeline/Lit', _BaseMap CliffDark_C, _BumpMap CliffDark_N, _EmissionMap null, S 0.35
+GATE: MATERIAL LK_ROCK PASS - shader 'Universal Render Pipeline/Lit', _BaseMap Rock_C, _BumpMap Rock_N, _EmissionMap null, S 0.12
+GATE: MATERIAL LK_ROCK_WET PASS - shader 'Universal Render Pipeline/Lit', _BaseMap Rock_C, _BumpMap Rock_N, _EmissionMap null, S 0.35
+GATE: MATERIAL LK_PATH PASS - shader 'Universal Render Pipeline/Lit', _BaseMap Path_C, _BumpMap Path_N, _EmissionMap null, S 0.10
+GATE: MATERIAL LK_MASONRY PASS - shader 'Universal Render Pipeline/Lit', _BaseMap Masonry_C, _BumpMap Masonry_N, _EmissionMap null, S 0.10
+GATE: MATERIAL LK_BASALT PASS - shader 'Universal Render Pipeline/Lit', _BaseMap Basalt_C, _BumpMap Basalt_N, _EmissionMap Basalt_E, S 0.15, emission (linear) (1.00, 0.80, 0.50)
+GATE: MATERIAL LK_LAVA PASS - shader 'GolfArcade/GolfLava', _BaseMap Lava_C, _EmissionMap Lava_E, _BumpMap Lava_N, ramp #96210A / #BA2B0D / #E04F11 / #FF801C
+GATE: MATERIAL LK_PLANTS PASS - shader 'Universal Render Pipeline/Lit', _BaseMap Plants_C, _BumpMap null, _EmissionMap null, S 0.10
+GATE: MATERIAL LK_WATER PASS - shader 'GolfArcade/TennisWater', _Shallow #0C5690, _Deep #063668, _DeepDistance 260
+GATE: MATERIAL LK_WATER_SHALLOW PASS - shader 'GolfArcade/TennisWater', _Shallow #1B6A78, _Deep #165C74, _DeepDistance 420
+GATE: MATERIAL LK_SURF PASS - shader 'GolfArcade/GolfSurf', _MainTex Surf_C
+GATE: MATERIAL LK_FALL PASS - shader 'GolfArcade/GolfSurf', _MainTex Fall_C
+GATE: MATERIAL LK_SMOKE PASS - shader 'GolfArcade/GolfSurf', _MainTex Smoke_C
+INFO: missing Look textures: none
+GATE: FBX_META hole_08 PASS - isReadable True, importTangents CalculateMikk (meta tangentImportMode 3)
+GATE: FBX_META hole_09 PASS - isReadable True, importTangents CalculateMikk (meta tangentImportMode 3)
+GATE: FBX_META hole_10 PASS - isReadable True, importTangents CalculateMikk (meta tangentImportMode 3)
+GATE: LOOK_TEXTURE_IMPORT PASS - 31 texture(s) under Assets/Resources/Course/Look, 19.47 MB on disk
+GATE: LOOK_FOLDER_SIZE PASS - 19.47 MB <= 25 MB
+GATE: HOLE7_UNCHANGED_RULE PASS - hole 7: 245 palette slot(s) flat as before, 0 slot(s) kept as imported, 0 different (renderers 169/169)
+INFO: hole 8: 4 LK_ slot(s) (0 textured URP Lit, 2 GolfSurf), 104 flat palette slot(s) [#1C1C1C, #3A9426, #545A64, #54B02C, #64C030, #767A82, #76D038, #8A8C92, #9CE448, #A6E45A, #E82828, #F0DAA0, #F0F0F0, #FAFAFA], 0 kept as imported, 4 water slot(s), 0 lava point light(s)
+GATE: HOLE8_WATER_NEVER_FLAT PASS - 4 WATER* slot(s), 0 not TennisWater/GolfSurf/emissive lava
+GATE: HOLE8_LK_NOT_FLAT PASS - 4 LK_ slot(s), 0 URP Lit LK_ slot(s) without a base map
+GATE: HOLE8_NO_PROP_COLLIDERS PASS - colliders only on TERRAIN/FAIRWAY/GREEN/TEE_BOX/BUNKER/CART_PATH
+INFO: hole 8 material rules: 0 LK_ slot(s) -> GolfLook (0 ground kinds: ), 4 WATER* slot(s) -> TennisWater/GolfSurf/lava, 104 palette slot(s) flat, 0 kept (own maps), 0 empty
+GATE: LK_RULES hole8 PALETTE_OVERRIDES_APPLIED PASS - 0 LK_ slot(s) textured by GolfLook, 4 water slot(s) on TennisWater/GolfSurf/emissive lava, 104 palette slot(s) flat
+GATE: LK_RULES hole8 PALETTE_NO_LEAKS PASS - every slot is LK_, water/lava, a Palette name, or carries its own maps
+INFO: (waits for install) GROUND_ALBEDO_AND_NORMAL would read: 0 LK_ ground kind(s) in the instantiated hole, 0 without base map + normal map + _NORMALMAP
+INFO: (waits for install) NO_FLAT_POSTCARD_GROUND would read: flat palette material(s) still drawn: MAT_BUNKER_LIP x1, MAT_CLIFF x1, MAT_CLIFF_DARK x1, MAT_FAIRWAY x2, MAT_FAIRWAY_STRIPE x1, MAT_FIRSTCUT x1, MAT_GREEN x2, MAT_ROCK x87, MAT_ROUGH x1, MAT_SAND x1
+INFO: (waits for install) NO_FOAM_STRIP_8_10 would FAIL: 2 foam renderer(s) still in the hole: WATER_FOAM, WATER_FOAM_CREST
+GATE: LK_RULES hole8 NO_LAVA_OUTSIDE_HOLE_10 PASS - no WATER_LAVA renderer
+INFO: hole 9: 4 LK_ slot(s) (0 textured URP Lit, 2 GolfSurf), 503 flat palette slot(s) [#1C1C1C, #3A9426, #545A64, #54B02C, #64C030, #767A82, #76D038, #8A8C92, #9CE448, #A6E45A, #E82828, #F0DAA0, #F0F0F0, #FAFAFA], 0 kept as imported, 4 water slot(s), 0 lava point light(s)
+GATE: HOLE9_WATER_NEVER_FLAT PASS - 4 WATER* slot(s), 0 not TennisWater/GolfSurf/emissive lava
+GATE: HOLE9_LK_NOT_FLAT PASS - 4 LK_ slot(s), 0 URP Lit LK_ slot(s) without a base map
+GATE: HOLE9_NO_PROP_COLLIDERS PASS - colliders only on TERRAIN/FAIRWAY/GREEN/TEE_BOX/BUNKER/CART_PATH
+INFO: hole 9 material rules: 0 LK_ slot(s) -> GolfLook (0 ground kinds: ), 4 WATER* slot(s) -> TennisWater/GolfSurf/lava, 503 palette slot(s) flat, 0 kept (own maps), 0 empty
+GATE: LK_RULES hole9 PALETTE_OVERRIDES_APPLIED PASS - 0 LK_ slot(s) textured by GolfLook, 4 water slot(s) on TennisWater/GolfSurf/emissive lava, 503 palette slot(s) flat
+GATE: LK_RULES hole9 PALETTE_NO_LEAKS PASS - every slot is LK_, water/lava, a Palette name, or carries its own maps
+INFO: (waits for install) GROUND_ALBEDO_AND_NORMAL would read: 0 LK_ ground kind(s) in the instantiated hole, 0 without base map + normal map + _NORMALMAP
+INFO: (waits for install) NO_FLAT_POSTCARD_GROUND would read: flat palette material(s) still drawn: MAT_BUNKER_LIP x3, MAT_CLIFF x9, MAT_CLIFF_DARK x9, MAT_FAIRWAY x2, MAT_FAIRWAY_STRIPE x1, MAT_FIRSTCUT x1, MAT_GREEN x2, MAT_ROCK x458, MAT_ROUGH x9, MAT_SAND x3
+INFO: (waits for install) NO_FOAM_STRIP_8_10 would FAIL: 2 foam renderer(s) still in the hole: WATER_FOAM, WATER_FOAM_CREST
+GATE: LK_RULES hole9 NO_LAVA_OUTSIDE_HOLE_10 PASS - no WATER_LAVA renderer
+INFO: hole 10: 1 LK_ slot(s) (0 textured URP Lit, 0 GolfSurf), 246 flat palette slot(s) [#1C1C1C, #3A9426, #545A64, #54B02C, #62666E, #64C030, #76D038, #9CE448, #A6E45A, #E82828, #F0DAA0, #F0F0F0, #FAFAFA], 0 kept as imported, 1 water slot(s), 0 lava point light(s)
+GATE: HOLE10_WATER_NEVER_FLAT PASS - 1 WATER* slot(s), 0 not TennisWater/GolfSurf/emissive lava
+GATE: HOLE10_LK_NOT_FLAT PASS - 1 LK_ slot(s), 0 URP Lit LK_ slot(s) without a base map
+GATE: HOLE10_NO_PROP_COLLIDERS PASS - colliders only on TERRAIN/FAIRWAY/GREEN/TEE_BOX/BUNKER/CART_PATH
+INFO: hole 10 material rules: 0 LK_ slot(s) -> GolfLook (0 ground kinds: ), 1 WATER* slot(s) -> TennisWater/GolfSurf/lava, 246 palette slot(s) flat, 0 kept (own maps), 0 empty
+GATE: LK_RULES hole10 PALETTE_OVERRIDES_APPLIED PASS - 0 LK_ slot(s) textured by GolfLook, 1 water slot(s) on TennisWater/GolfSurf/emissive lava, 246 palette slot(s) flat
+GATE: LK_RULES hole10 PALETTE_NO_LEAKS PASS - every slot is LK_, water/lava, a Palette name, or carries its own maps
+INFO: (waits for install) GROUND_ALBEDO_AND_NORMAL would read: 0 LK_ ground kind(s) in the instantiated hole, 0 without base map + normal map + _NORMALMAP
+INFO: (waits for install) NO_FLAT_POSTCARD_GROUND would read: flat palette material(s) still drawn: MAT_BUNKER_LIP x2, MAT_CLIFF_DARK x155, MAT_FAIRWAY x2, MAT_FAIRWAY_STRIPE x1, MAT_FIRSTCUT x1, MAT_GREEN x2, MAT_ROCK_DARK x74, MAT_ROUGH x1, MAT_SAND x2
+INFO: (waits for install) NO_FOAM_STRIP_8_10 would PASS: no WATER_SURF / WATER_FOAM / DRESS_FOAM renderer and nothing draws LK_SURF / MAT_FOAM on this hole (the white foam strips are deleted)
+GATE: LK_RULES hole10 LAVA_RENDERER_PRESENT PASS - 1 WATER_LAVA renderer(s)
+GATE: LK_RULES hole10 LAVA_MAPPING_DENSITY PASS - lava mapping reads: WATER_LAVA: world projection 1.00x of one tile per 24 m (24 m per tile); covers 166.7 tiles across (>= 2)
+INFO: (waits for install) LAVA_LIGHTS_PLACED would FAIL: 0 LAVA_LIGHT empties (want 3..5)
+INFO: (waits for install) ROCK_NEAR_LAVA_CHUNKED would FAIL: no LAVA_LIGHT empties, so nothing could light the walls (see LAVA_LIGHTS_PLACED)
+INFO: hole 10 WATER_LAVA 'LK_LAVA' shader 'GolfArcade/GolfLava' _BaseColor #000000, emission map Lava_E, _EMISSION False, multiplier (0.00,0.00,0.00): self-lit GolfLava: ramp _Deep hue 10 S 0.93 V 0.59, _Crust hue 10 S 0.93 V 0.73, _Flow hue 18 S 0.92 V 0.88, _Hot hue 26 S 0.89 V 1.00 (hue 8..28, S >= .75, V >= .7 except _Deep); no emission multiplier, no bloom
+GATE: LK_RULES hole10 LAVA_READS_ORANGE PASS - WATER_LAVA is emissive and its brightest emission texels x the multiplier encode to orange without bloom: self-lit GolfLava: ramp _Deep hue 10 S 0.93 V 0.59, _Crust hue 10 S 0.93 V 0.73, _Flow hue 18 S 0.92 V 0.88, _Hot hue 26 S 0.89 V 1.00 (hue 8..28, S >= .75, V >= .7 except _Deep); no emission multiplier, no bloom
+GATE: LK_RULES hole10 LAVA_SHADER_RENDERS_IN_PIPELINE PASS - the lava shader is drawn by the active pipeline
+GATE: IMPORTCHECK_INSTALL_LINES_PROVEN PASS - scratch hole 10 (primitive quads with LK_ materials, a 120 yd lava quad, 4 LAVA_LIGHT empties, an 18 yd wall piece; dressed like HoleView): all 11 LK-aware lines PASS = True; injected defects fail the intended line: flat MAT_FAIRWAY -> NO_FLAT_POSTCARD_GROUND True, flat slot -> PALETTE_OVERRIDES_APPLIED True, no normal map -> GROUND_ALBEDO_AND_NORMAL True, WATER_SURF foam strip -> NO_FOAM_STRIP_8_10 True, lava on the mesh UVs (unit quad over 120 yd) -> LAVA_MAPPING_DENSITY True, 70 yd wall beside the lights -> ROCK_NEAR_LAVA_CHUNKED True, 2 of 4 lava-light empties deleted -> LAVA_LIGHTS_PLACED True, 30 yd lava (1.1 tiles) -> LAVA_MAPPING_DENSITY True
+INFO: CRATER board lights in the scene: 5 enabled (4 Point, 1 Directional); main light = 'Board sun', additional directionals 0
+INFO: CRATER lava, phone view (rim height, grazing), HeroBaseStudioURP, 4 lava point lights: 912308 px: in band 92.6 % (>= 85), G clipped 0.0 % (<= 5), cream 0.00 %; misses: dark 7.4 %, pale 0.0 %, yellow 0.0 %, red 0.0 %; mean (217,79,18) h18 s0.92 v0.85
+INFO: CRATER lava, 40 deg down view: 1264497 px: in band 92.6 % (>= 85), G clipped 0.0 % (<= 5), cream 0.00 %; misses: dark 7.4 %, pale 0.0 %, yellow 0.0 %, red 0.0 %; mean (217,79,18) h18 s0.92 v0.85
+INFO: CRATER lava lights (4 point lights I 600 range 52 lift 4, additional-lights limit 4): wall 1075090 px, +9.6 luminance on average, >= +8 on 43.5 % of it; lava pixels brightened by >= 40 levels: 0.0 %
+INFO: CRATER grass ledge 10-30 yd from the lava lights: lights off (158,180,53) hue 70 V 0.71; lights on (160,181,53) hue 70 V 0.71, G clipped 0.0 %
+GATE: LAVA_LIGHTS_KEEP_GRASS_GREEN PASS - grass near the lights: hue 70 -> 70 (|shift| <= 4), G clipped 0.0 % (<= 5); 788360 px
+INFO: BASALT glow pixels (emission adds >= 24 levels): 30714 px = 2.1 % of the wall, mean (182,68,20) hue 18 S 0.89 V 0.71, hue 8..32 on 86 %, cream 0.00 %, G clipped 0.00 %; wall median luminance 29
+GATE: LAVA_ORANGE_NO_BLOOM phone PASS - 912308 px: in band 92.6 % (>= 85), G clipped 0.0 % (<= 5), cream 0.00 %; misses: dark 7.4 %, pale 0.0 %, yellow 0.0 %, red 0.0 %; mean (217,79,18) h18 s0.92 v0.85
+GATE: LAVA_ORANGE_NO_BLOOM down PASS - 1264497 px: in band 92.6 % (>= 85), G clipped 0.0 % (<= 5), cream 0.00 %; misses: dark 7.4 %, pale 0.0 %, yellow 0.0 %, red 0.0 %; mean (217,79,18) h18 s0.92 v0.85
+GATE: BASALT_GLOW_ORANGE PASS - 30714 glow px (2.1 % of the wall, <= 20): mean hue 18 (8..32), brightest quarter (crack cores) (253,125,27) hue 26 (12..34), cream 0.00 % (<= 1), G clipped 0.00 % (<= 5); mean (182,68,20)
+GATE: BASALT_RENDERS_DARK PASS - key-lit wall facing the sun (emission off, worst case): median luminance 29 (<= 40), mean (36,31,28) S 0.21 (<= 0.25); wall beside the lava lights (lights on): median 33 (<= 55), mean (51,35,25) S 0.50 (<= 0.65); crater.jpg: charcoal (26,25,29), median 30..34 S .2..28, lava-lit (52,27,23) S .5..62
+GATE: LAVA_LIGHTS_REACH_BASALT PASS - 4 lava point lights, additional-lights limit 4: >= +8 luminance on 43.5 % of the wall near a light (>= 20), +9.6 on average; lava pixels brightened by >= 40 levels 0.0 % (<= 10, no hot pools)
+INFO: SEA hole 8 (HeroBaseStudioURP): shelf (aerial) 53100 px mean (24,89,103) hue 191 S 0.77 V 0.40 (p95 0.42) lum 76; open ocean beside it (aerial) 937509 px mean (10,71,122) lum 62; shelf share of the brightest 2 % of the aerial frame 0.0 %; open ocean (phone) 83700 px mean (48,100,141) hue 206 S 0.66 V 0.55 lum 92; sky just above the horizon (row 1354) lum 216
+GATE: SHELF_COLOUR_NOT_LOUDEST hole8 PASS - shelf mean (24,89,103) hue 191 (175..200), V 0.40 (<= 0.65), luminance 76 (<= 100; the stills' teal ~70) and <= 1.3 x the open sea beside it 62 = 80, shelf is 0.0 % of the aerial frame's brightest 2 % (<= 10), below the sky horizon 216; 53100 shelf px; no foam on the board
+GATE: OCEAN_DEEP_BLUE hole8 PASS - open ocean mean (48,100,141) hue 206 (195..215), S 0.66 (>= .45), V 0.55 (.35..78); stills deep blue h202..206 V .44..71
+INFO: SEA hole 9 (HeroBaseStudioURP): shelf (aerial) 53100 px mean (27,105,124) hue 192 S 0.78 V 0.48 (p95 0.50) lum 90; open ocean beside it (aerial) 937800 px mean (12,85,147) lum 74; shelf share of the brightest 2 % of the aerial frame 0.0 %; open ocean (phone) 83700 px mean (43,101,147) hue 207 S 0.71 V 0.58 lum 92; sky just above the horizon (row 1354) lum 228
+GATE: SHELF_COLOUR_NOT_LOUDEST hole9 PASS - shelf mean (27,105,124) hue 192 (175..200), V 0.48 (<= 0.65), luminance 90 (<= 100; the stills' teal ~70) and <= 1.3 x the open sea beside it 74 = 96, shelf is 0.0 % of the aerial frame's brightest 2 % (<= 10), below the sky horizon 228; 53100 shelf px; no foam on the board
+GATE: OCEAN_DEEP_BLUE hole9 PASS - open ocean mean (43,101,147) hue 207 (195..215), S 0.71 (>= .45), V 0.58 (.35..78); stills deep blue h202..206 V .44..71
+INFO: GRASS hole 8 lit (HeroBaseStudioURP): fairway (186,200,72) h67 S0.64 V0.78; green (185,197,77) h66 S0.61 V0.77; rough (136,136,57) h60 S0.58 V0.54
+GATE: GRASS_HUE_LIT hole8 PASS - fairway (186,200,72) h67 S0.64 V0.78 (60..76), green (185,197,77) h66 S0.61 V0.77 (60..76), rough (136,136,57) h60 S0.58 V0.54 (54..76); the stills' greens sit at hue 64..73; the old build measured 86..89
+INFO: GRASS hole 9 lit: scrub (Split ridge; split.jpg ridge scrub (122,111,75) h46 S.39 V.48, dark scrub (63,59,41)) (124,116,77) h49 S0.38 V0.49
+INFO: GRASS hole 9 lit (HeroBaseStudioURP): fairway (147,165,68) h71 S0.59 V0.65; green (154,172,78) h71 S0.55 V0.67; rough (121,129,61) h67 S0.53 V0.51
+GATE: GRASS_HUE_LIT hole9 PASS - fairway (147,165,68) h71 S0.59 V0.65 (60..76), green (154,172,78) h71 S0.55 V0.67 (60..76), rough (121,129,61) h67 S0.53 V0.51 (54..76); the stills' greens sit at hue 64..73; the old build measured 86..89
+INFO: GRASS hole 10 lit (HeroBaseStudioURP): fairway (165,189,43) h70 S0.78 V0.74; green (161,183,44) h69 S0.76 V0.72; rough (126,129,38) h62 S0.71 V0.50
+GATE: GRASS_HUE_LIT hole10 PASS - fairway (165,189,43) h70 S0.78 V0.74 (60..76), green (161,183,44) h69 S0.76 V0.72 (60..76), rough (126,129,38) h62 S0.71 V0.50 (54..76); the stills' greens sit at hue 64..73; the old build measured 86..89
+INFO: SMOKE card over the crater sky: effective alpha max 0.70 p95 0.37 border 0.000 (_Color.a 1.00, _AlphaGain 1.35, _AlphaPower 1.00, _EdgeFade 0.18); 32987 px move the frame, |delta luminance| median 8.4 p99 80.0, edge step p99 4.32 levels/px
+GATE: SMOKE_SOFT PASS - effective alpha max 0.70 (0.55..0.72: translucent, never a ball), border alpha 0.000 (<= .02, no hard rim), card moves the frame by median 8.4 (>= 8) / p99 80.0 luminance levels (p99 28..90: readable but never a ball; 32987 px), edge step p99 4.32 levels/px (<= 6)
+INFO: NO_POST TennisURP renderer 'TennisURP_Renderer' postProcessData none | HeroBaseStudioURP renderer 'HeroBaseStudio_Renderer' postProcessData none
+GATE: NO_POST_DEPENDENCE PASS - hole 8: renderPostProcessing after Apply False, Volumes in scene 0, frame with post forced on vs off max |diff| 0; hole 9: renderPostProcessing after Apply False, Volumes in scene 0, frame with post forced on vs off max |diff| 0; hole 10: renderPostProcessing after Apply False, Volumes in scene 0, frame with post forced on vs off max |diff| 0; TennisURP renderer 'TennisURP_Renderer' postProcessData none; HeroBaseStudioURP renderer 'HeroBaseStudio_Renderer' postProcessData none; code lines naming Volume/TennisPost/Bloom/Tonemapping in GolfAtmosphere/GolfLook/HoleView: none
+INFO: [TennisURP] asset settings: HDR True, MSAA 4, additional lights PerPixel, per-object limit 2, main light shadows True (2048), shadow distance 42, cascades 2, soft shadows True, render scale 1.00
+INFO: [TennisURP] CRATER board lights in the scene: 5 enabled (4 Point, 1 Directional); main light = 'Board sun', additional directionals 0
+INFO: [TennisURP] CRATER lava, phone view (rim height, grazing), TennisURP, 4 lava point lights: 912308 px: in band 92.6 % (>= 85), G clipped 0.0 % (<= 5), cream 0.00 %; misses: dark 7.4 %, pale 0.0 %, yellow 0.0 %, red 0.0 %; mean (217,79,18) h18 s0.92 v0.85
+INFO: [TennisURP] CRATER lava, 40 deg down view: 1264497 px: in band 92.6 % (>= 85), G clipped 0.0 % (<= 5), cream 0.00 %; misses: dark 7.4 %, pale 0.0 %, yellow 0.0 %, red 0.0 %; mean (217,79,18) h18 s0.92 v0.85
+INFO: [TennisURP] CRATER lava lights (4 point lights I 600 range 52 lift 4, additional-lights limit 2): wall 1075091 px, +9.7 luminance on average, >= +8 on 43.6 % of it; lava pixels brightened by >= 40 levels: 0.0 %
+INFO: [TennisURP] CRATER grass ledge 10-30 yd from the lava lights: lights off (158,180,53) hue 70 V 0.71; lights on (160,180,53) hue 70 V 0.71, G clipped 0.0 %
+GATE: [TennisURP] LAVA_LIGHTS_KEEP_GRASS_GREEN PASS - grass near the lights: hue 70 -> 70 (|shift| <= 4), G clipped 0.0 % (<= 5); 788360 px
+INFO: [TennisURP] BASALT glow pixels (emission adds >= 24 levels): 31193 px = 2.2 % of the wall, mean (179,67,18) hue 18 S 0.90 V 0.70, hue 8..32 on 87 %, cream 0.00 %, G clipped 0.00 %; wall median luminance 28
+GATE: [TennisURP] LAVA_ORANGE_NO_BLOOM phone PASS - 912308 px: in band 92.6 % (>= 85), G clipped 0.0 % (<= 5), cream 0.00 %; misses: dark 7.4 %, pale 0.0 %, yellow 0.0 %, red 0.0 %; mean (217,79,18) h18 s0.92 v0.85
+GATE: [TennisURP] LAVA_ORANGE_NO_BLOOM down PASS - 1264497 px: in band 92.6 % (>= 85), G clipped 0.0 % (<= 5), cream 0.00 %; misses: dark 7.4 %, pale 0.0 %, yellow 0.0 %, red 0.0 %; mean (217,79,18) h18 s0.92 v0.85
+GATE: [TennisURP] BASALT_GLOW_ORANGE PASS - 31193 glow px (2.2 % of the wall, <= 20): mean hue 18 (8..32), brightest quarter (crack cores) (252,124,26) hue 26 (12..34), cream 0.00 % (<= 1), G clipped 0.00 % (<= 5); mean (179,67,18)
+GATE: [TennisURP] BASALT_RENDERS_DARK PASS - key-lit wall facing the sun (emission off, worst case): median luminance 28 (<= 40), mean (35,30,28) S 0.20 (<= 0.25); wall beside the lava lights (lights on): median 33 (<= 55), mean (51,35,25) S 0.50 (<= 0.65); crater.jpg: charcoal (26,25,29), median 30..34 S .2..28, lava-lit (52,27,23) S .5..62
+GATE: [TennisURP] LAVA_LIGHTS_REACH_BASALT PASS - 4 lava point lights, additional-lights limit 2: >= +8 luminance on 43.6 % of the wall near a light (>= 20), +9.7 on average; lava pixels brightened by >= 40 levels 0.0 % (<= 10, no hot pools)
+INFO: [TennisURP] SEA hole 8 (TennisURP): shelf (aerial) 53100 px mean (24,89,103) hue 191 S 0.77 V 0.40 (p95 0.42) lum 76; open ocean beside it (aerial) 917373 px mean (10,72,122) lum 62; shelf share of the brightest 2 % of the aerial frame 0.0 %; open ocean (phone) 83700 px mean (48,100,141) hue 206 S 0.66 V 0.55 lum 92; sky just above the horizon (row 1354) lum 216
+GATE: [TennisURP] SHELF_COLOUR_NOT_LOUDEST hole8 PASS - shelf mean (24,89,103) hue 191 (175..200), V 0.40 (<= 0.65), luminance 76 (<= 100; the stills' teal ~70) and <= 1.3 x the open sea beside it 62 = 81, shelf is 0.0 % of the aerial frame's brightest 2 % (<= 10), below the sky horizon 216; 53100 shelf px; no foam on the board
+GATE: [TennisURP] OCEAN_DEEP_BLUE hole8 PASS - open ocean mean (48,100,141) hue 206 (195..215), S 0.66 (>= .45), V 0.55 (.35..78); stills deep blue h202..206 V .44..71
+INFO: [TennisURP] SEA hole 9 (TennisURP): shelf (aerial) 53100 px mean (27,105,124) hue 192 S 0.78 V 0.49 (p95 0.51) lum 90; open ocean beside it (aerial) 929467 px mean (12,85,147) lum 74; shelf share of the brightest 2 % of the aerial frame 0.0 %; open ocean (phone) 83700 px mean (43,101,147) hue 207 S 0.71 V 0.58 lum 92; sky just above the horizon (row 1354) lum 228
+GATE: [TennisURP] SHELF_COLOUR_NOT_LOUDEST hole9 PASS - shelf mean (27,105,124) hue 192 (175..200), V 0.49 (<= 0.65), luminance 90 (<= 100; the stills' teal ~70) and <= 1.3 x the open sea beside it 74 = 96, shelf is 0.0 % of the aerial frame's brightest 2 % (<= 10), below the sky horizon 228; 53100 shelf px; no foam on the board
+GATE: [TennisURP] OCEAN_DEEP_BLUE hole9 PASS - open ocean mean (43,101,147) hue 207 (195..215), S 0.71 (>= .45), V 0.58 (.35..78); stills deep blue h202..206 V .44..71
+INFO: [TennisURP] GRASS hole 8 lit (TennisURP): fairway (184,198,71) h66 S0.64 V0.78; green (184,196,76) h66 S0.61 V0.77; rough (133,134,55) h60 S0.59 V0.52
+GATE: [TennisURP] GRASS_HUE_LIT hole8 PASS - fairway (184,198,71) h66 S0.64 V0.78 (60..76), green (184,196,76) h66 S0.61 V0.77 (60..76), rough (133,134,55) h60 S0.59 V0.52 (54..76); the stills' greens sit at hue 64..73; the old build measured 86..89
+INFO: [TennisURP] GRASS hole 9 lit: scrub (Split ridge; split.jpg ridge scrub (122,111,75) h46 S.39 V.48, dark scrub (63,59,41)) (123,114,76) h49 S0.38 V0.48
+INFO: [TennisURP] GRASS hole 9 lit (TennisURP): fairway (146,164,68) h71 S0.59 V0.64; green (153,171,77) h71 S0.55 V0.67; rough (119,127,59) h67 S0.53 V0.50
+GATE: [TennisURP] GRASS_HUE_LIT hole9 PASS - fairway (146,164,68) h71 S0.59 V0.64 (60..76), green (153,171,77) h71 S0.55 V0.67 (60..76), rough (119,127,59) h67 S0.53 V0.50 (54..76); the stills' greens sit at hue 64..73; the old build measured 86..89
+INFO: [TennisURP] GRASS hole 10 lit (TennisURP): fairway (164,188,42) h70 S0.78 V0.74; green (160,182,44) h69 S0.76 V0.71; rough (124,126,36) h62 S0.71 V0.50
+GATE: [TennisURP] GRASS_HUE_LIT hole10 PASS - fairway (164,188,42) h70 S0.78 V0.74 (60..76), green (160,182,44) h69 S0.76 V0.71 (60..76), rough (124,126,36) h62 S0.71 V0.50 (54..76); the stills' greens sit at hue 64..73; the old build measured 86..89
+INFO: [TennisURP] SMOKE card over the crater sky: effective alpha max 0.70 p95 0.37 border 0.000 (_Color.a 1.00, _AlphaGain 1.35, _AlphaPower 1.00, _EdgeFade 0.18); 32987 px move the frame, |delta luminance| median 8.4 p99 80.0, edge step p99 4.32 levels/px
+GATE: [TennisURP] SMOKE_SOFT PASS - effective alpha max 0.70 (0.55..0.72: translucent, never a ball), border alpha 0.000 (<= .02, no hard rim), card moves the frame by median 8.4 (>= 8) / p99 80.0 luminance levels (p99 28..90: readable but never a ball; 32987 px), edge step p99 4.32 levels/px (<= 6)
+INFO: [HeroBaseStudioURP] asset settings: HDR True, MSAA 4, additional lights PerPixel, per-object limit 4, main light shadows True (2048), shadow distance 42, cascades 2, soft shadows True, render scale 1.00
+INFO: [HeroBaseStudioURP] CRATER board lights in the scene: 5 enabled (4 Point, 1 Directional); main light = 'Board sun', additional directionals 0
+INFO: [HeroBaseStudioURP] CRATER lava, phone view (rim height, grazing), HeroBaseStudioURP, 4 lava point lights: 912308 px: in band 92.6 % (>= 85), G clipped 0.0 % (<= 5), cream 0.00 %; misses: dark 7.4 %, pale 0.0 %, yellow 0.0 %, red 0.0 %; mean (217,79,18) h18 s0.92 v0.85
+INFO: [HeroBaseStudioURP] CRATER lava, 40 deg down view: 1264497 px: in band 92.6 % (>= 85), G clipped 0.0 % (<= 5), cream 0.00 %; misses: dark 7.4 %, pale 0.0 %, yellow 0.0 %, red 0.0 %; mean (217,79,18) h18 s0.92 v0.85
+INFO: [HeroBaseStudioURP] CRATER lava lights (4 point lights I 600 range 52 lift 4, additional-lights limit 4): wall 1075090 px, +9.6 luminance on average, >= +8 on 43.5 % of it; lava pixels brightened by >= 40 levels: 0.0 %
+INFO: [HeroBaseStudioURP] CRATER grass ledge 10-30 yd from the lava lights: lights off (158,180,53) hue 70 V 0.71; lights on (160,181,53) hue 70 V 0.71, G clipped 0.0 %
+GATE: [HeroBaseStudioURP] LAVA_LIGHTS_KEEP_GRASS_GREEN PASS - grass near the lights: hue 70 -> 70 (|shift| <= 4), G clipped 0.0 % (<= 5); 788360 px
+INFO: [HeroBaseStudioURP] BASALT glow pixels (emission adds >= 24 levels): 30714 px = 2.1 % of the wall, mean (182,68,20) hue 18 S 0.89 V 0.71, hue 8..32 on 86 %, cream 0.00 %, G clipped 0.00 %; wall median luminance 29
+GATE: [HeroBaseStudioURP] LAVA_ORANGE_NO_BLOOM phone PASS - 912308 px: in band 92.6 % (>= 85), G clipped 0.0 % (<= 5), cream 0.00 %; misses: dark 7.4 %, pale 0.0 %, yellow 0.0 %, red 0.0 %; mean (217,79,18) h18 s0.92 v0.85
+GATE: [HeroBaseStudioURP] LAVA_ORANGE_NO_BLOOM down PASS - 1264497 px: in band 92.6 % (>= 85), G clipped 0.0 % (<= 5), cream 0.00 %; misses: dark 7.4 %, pale 0.0 %, yellow 0.0 %, red 0.0 %; mean (217,79,18) h18 s0.92 v0.85
+GATE: [HeroBaseStudioURP] BASALT_GLOW_ORANGE PASS - 30714 glow px (2.1 % of the wall, <= 20): mean hue 18 (8..32), brightest quarter (crack cores) (253,125,27) hue 26 (12..34), cream 0.00 % (<= 1), G clipped 0.00 % (<= 5); mean (182,68,20)
+GATE: [HeroBaseStudioURP] BASALT_RENDERS_DARK PASS - key-lit wall facing the sun (emission off, worst case): median luminance 29 (<= 40), mean (36,31,28) S 0.21 (<= 0.25); wall beside the lava lights (lights on): median 33 (<= 55), mean (51,35,25) S 0.50 (<= 0.65); crater.jpg: charcoal (26,25,29), median 30..34 S .2..28, lava-lit (52,27,23) S .5..62
+GATE: [HeroBaseStudioURP] LAVA_LIGHTS_REACH_BASALT PASS - 4 lava point lights, additional-lights limit 4: >= +8 luminance on 43.5 % of the wall near a light (>= 20), +9.6 on average; lava pixels brightened by >= 40 levels 0.0 % (<= 10, no hot pools)
+INFO: [HeroBaseStudioURP] SEA hole 8 (HeroBaseStudioURP): shelf (aerial) 53100 px mean (24,89,103) hue 191 S 0.77 V 0.40 (p95 0.42) lum 76; open ocean beside it (aerial) 926582 px mean (10,72,122) lum 62; shelf share of the brightest 2 % of the aerial frame 0.0 %; open ocean (phone) 83700 px mean (48,100,141) hue 206 S 0.66 V 0.55 lum 92; sky just above the horizon (row 1354) lum 216
+GATE: [HeroBaseStudioURP] SHELF_COLOUR_NOT_LOUDEST hole8 PASS - shelf mean (24,89,103) hue 191 (175..200), V 0.40 (<= 0.65), luminance 76 (<= 100; the stills' teal ~70) and <= 1.3 x the open sea beside it 62 = 81, shelf is 0.0 % of the aerial frame's brightest 2 % (<= 10), below the sky horizon 216; 53100 shelf px; no foam on the board
+GATE: [HeroBaseStudioURP] OCEAN_DEEP_BLUE hole8 PASS - open ocean mean (48,100,141) hue 206 (195..215), S 0.66 (>= .45), V 0.55 (.35..78); stills deep blue h202..206 V .44..71
+INFO: [HeroBaseStudioURP] SEA hole 9 (HeroBaseStudioURP): shelf (aerial) 53100 px mean (27,105,124) hue 192 S 0.78 V 0.49 (p95 0.50) lum 90; open ocean beside it (aerial) 934973 px mean (12,85,147) lum 74; shelf share of the brightest 2 % of the aerial frame 0.0 %; open ocean (phone) 83700 px mean (43,101,147) hue 207 S 0.71 V 0.58 lum 92; sky just above the horizon (row 1354) lum 228
+GATE: [HeroBaseStudioURP] SHELF_COLOUR_NOT_LOUDEST hole9 PASS - shelf mean (27,105,124) hue 192 (175..200), V 0.49 (<= 0.65), luminance 90 (<= 100; the stills' teal ~70) and <= 1.3 x the open sea beside it 74 = 96, shelf is 0.0 % of the aerial frame's brightest 2 % (<= 10), below the sky horizon 228; 53100 shelf px; no foam on the board
+GATE: [HeroBaseStudioURP] OCEAN_DEEP_BLUE hole9 PASS - open ocean mean (43,101,147) hue 207 (195..215), S 0.71 (>= .45), V 0.58 (.35..78); stills deep blue h202..206 V .44..71
+INFO: [HeroBaseStudioURP] GRASS hole 8 lit (HeroBaseStudioURP): fairway (186,200,72) h67 S0.64 V0.78; green (185,197,77) h66 S0.61 V0.77; rough (136,136,57) h60 S0.58 V0.54
+GATE: [HeroBaseStudioURP] GRASS_HUE_LIT hole8 PASS - fairway (186,200,72) h67 S0.64 V0.78 (60..76), green (185,197,77) h66 S0.61 V0.77 (60..76), rough (136,136,57) h60 S0.58 V0.54 (54..76); the stills' greens sit at hue 64..73; the old build measured 86..89
+INFO: [HeroBaseStudioURP] GRASS hole 9 lit: scrub (Split ridge; split.jpg ridge scrub (122,111,75) h46 S.39 V.48, dark scrub (63,59,41)) (124,116,77) h49 S0.38 V0.49
+INFO: [HeroBaseStudioURP] GRASS hole 9 lit (HeroBaseStudioURP): fairway (147,165,68) h71 S0.59 V0.65; green (154,172,78) h71 S0.55 V0.67; rough (121,129,61) h67 S0.53 V0.51
+GATE: [HeroBaseStudioURP] GRASS_HUE_LIT hole9 PASS - fairway (147,165,68) h71 S0.59 V0.65 (60..76), green (154,172,78) h71 S0.55 V0.67 (60..76), rough (121,129,61) h67 S0.53 V0.51 (54..76); the stills' greens sit at hue 64..73; the old build measured 86..89
+INFO: [HeroBaseStudioURP] GRASS hole 10 lit (HeroBaseStudioURP): fairway (165,189,43) h70 S0.78 V0.74; green (161,183,44) h69 S0.76 V0.72; rough (126,129,38) h62 S0.71 V0.50
+GATE: [HeroBaseStudioURP] GRASS_HUE_LIT hole10 PASS - fairway (165,189,43) h70 S0.78 V0.74 (60..76), green (161,183,44) h69 S0.76 V0.72 (60..76), rough (126,129,38) h62 S0.71 V0.50 (54..76); the stills' greens sit at hue 64..73; the old build measured 86..89
+INFO: [HeroBaseStudioURP] SMOKE card over the crater sky: effective alpha max 0.70 p95 0.37 border 0.000 (_Color.a 1.00, _AlphaGain 1.35, _AlphaPower 1.00, _EdgeFade 0.18); 32987 px move the frame, |delta luminance| median 8.4 p99 80.0, edge step p99 4.32 levels/px
+GATE: [HeroBaseStudioURP] SMOKE_SOFT PASS - effective alpha max 0.70 (0.55..0.72: translucent, never a ball), border alpha 0.000 (<= .02, no hard rim), card moves the frame by median 8.4 (>= 8) / p99 80.0 luminance levels (p99 28..90: readable but never a ball; 32987 px), edge step p99 4.32 levels/px (<= 6)
+GATE: URP_BOTH_ASSETS PASS - TennisURP (per-object additional lights 2): 14/14 gates PASS; HeroBaseStudioURP (per-object additional lights 4): 14/14 gates PASS; lava lights gates pass under both: True; same PASS/FAIL under both assets: True
+SUMMARY: 68/68 gates PASS

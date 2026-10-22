@@ -1,0 +1,50 @@
+{
+  "baseline": {
+    "Unity/Assets/Resources/Tennis/Shaders/TennisWorldSurface.shader": "943040e362251da7fcb4daeadc45dddefdc829131355d9aa02474f67803a0811",
+    "Unity/Assets/Scripts/Tennis/TennisResortMaterials.cs": "1a9874b6fdd4086bee80451db1734e707fd90f954ac6f6232ee27efcf5c03f0c"
+  },
+  "candidate": {
+    "Unity/Assets/Resources/Tennis/Shaders/TennisWorldSurface.shader": "240069b94242904cb254e4071e19eb2be9a5ea806e35f3bfd5931c958ecfb43c",
+    "Unity/Assets/Scripts/Tennis/TennisResortMaterials.cs": "3effc0e4d1c8a6c5f378bff81e2e1439005f6f9e780e72ea1c90e1acdb47f7df"
+  },
+  "proposal": "One resort architectural light relief pass: weaker unshadowed vertex fill and hue-preserving bright-surface shoulder",
+  "productionPipeline": "GraphicsSettings/Quality GUID826b -> TennisURP -> renderer8aac TennisURP_Renderer; additionalLights mode1 is PerPixel in URP17.3 (PerVertex=2), AO1.4 radius.3",
+  "changes": [
+    "Architecture only: vertex fill scale.35",
+    "Architecture only: maxRGB shoulder knee.72 width.26, cap.98"
+  ],
+  "unchanged": [
+    "Sun/ambient colors and intensities",
+    "Global post/AO/renderer",
+    "Court/runoff/water/foliage/heroes material response",
+    "All geometry/contact/collision"
+  ],
+  "control": "TENNIS_RESORT_RELIEF_OFF=1 disables both changes",
+  "gate": "PASS bounded architecture highlight clipping correction; PARTIAL overall relief/reference appearance",
+  "expectedGain": "Stronger readable eave/column and paving relief while creamy bright-surface detail survives clipping; full target not promised",
+  "actualEvidence": [
+    "proof/reference-rebuild/tennis-architecture-relief1/resort_16_reference_a.png",
+    "proof/reference-rebuild/tennis-architecture-relief1/resort_17_clubhouse_close.png",
+    "proof/reference-rebuild/tennis-architecture-relief1/resort_12_terrace_close.png",
+    "proof/reference-rebuild/tennis-architecture-relief1-control"
+  ],
+  "actualAudit": "actual-image-audit.json",
+  "verifiedResults": [
+    "Court control patch pixel-identical",
+    "Water patch mean absolute difference <.042/255 per channel (tiny animated surface variation)",
+    "Close terrace paving clipped pixels66.55% control ->0% candidate",
+    "Clubhouse white trim clipped pixels72.18% ->0%; sail canvas36.99% ->.37%",
+    "Shaded facade and foundation patches pixel-identical; no measurable new eave/plane contrast from fill reduction in these views"
+  ],
+  "limitations": "Observable gain is soft ivory highlight control. No new eave/plane contrast is demonstrated; production PerPixel lights bypass the proposed vertex scaling. Full reference form/material quality remains unmet.",
+  "status": "root installed and actual three-view paired capture complete; stopping tennis iterations per root instruction",
+  "currentSourceHashes": {
+    "Unity/Assets/Resources/Tennis/Shaders/TennisWorldSurface.shader": "240069b94242904cb254e4071e19eb2be9a5ea806e35f3bfd5931c958ecfb43c",
+    "Unity/Assets/Scripts/Tennis/TennisResortMaterials.cs": "3effc0e4d1c8a6c5f378bff81e2e1439005f6f9e780e72ea1c90e1acdb47f7df"
+  },
+  "candidateHashesMatchCurrent": {
+    "Unity/Assets/Resources/Tennis/Shaders/TennisWorldSurface.shader": true,
+    "Unity/Assets/Scripts/Tennis/TennisResortMaterials.cs": true
+  },
+  "correction": "The proposed vertex-fill reduction does not affect this PerPixel production path. Root removed that unused scaling/comment, retaining the accepted highlight shoulder only."
+}

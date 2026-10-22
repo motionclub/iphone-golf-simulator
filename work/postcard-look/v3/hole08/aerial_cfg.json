@@ -1,0 +1,58 @@
+{
+  "shots": [
+    {
+      "name": "hole08_aerial_staged",
+      "hole": 8,
+      "model": "Assets/Editor/PostcardV3Scratch/staged/hole_08.fbx",
+      "pos": [
+        120,
+        290,
+        -170
+      ],
+      "look": [
+        5,
+        0,
+        170
+      ],
+      "fov": 53,
+      "requireBands": false,
+      "buildCourseModel": true
+    },
+    {
+      "name": "hole08_1_tee",
+      "model": "Assets/Editor/PostcardV3Scratch/staged/hole_08.fbx",
+      "hole": 8,
+      "pos": [
+        -0.47762380393054127,
+        9.284136280717291,
+        -4.47458065296617
+      ],
+      "look": [
+        -0.37907656134869694,
+        8.91274558037702,
+        -3.5513486340185683
+      ],
+      "fov": 60.0,
+      "requireBands": false,
+      "buildCourseModel": true
+    },
+    {
+      "name": "hole08_2_approach",
+      "model": "Assets/Editor/PostcardV3Scratch/staged/hole_08.fbx",
+      "hole": 8,
+      "pos": [
+        19.686320113801997,
+        9.174801650426936,
+        173.5526391110291
+      ],
+      "look": [
+        19.54471320178513,
+        8.803411605737757,
+        174.47025386904377
+      ],
+      "fov": 60.0,
+      "requireBands": false,
+      "buildCourseModel": true
+    }
+  ]
+}

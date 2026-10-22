@@ -1,0 +1,1138 @@
+{
+  "Male": {
+    "bindCandidates": 3862,
+    "worstBind": [
+      {
+        "vertex": 4925,
+        "restRoot": [
+          -0.11982478699671972,
+          1.0530497514733212,
+          0.14918193453498627
+        ],
+        "signedRestMm": -93.48727110773325,
+        "weightL1Mismatch": 1.5487302988767624,
+        "current": {
+          "Hips": 0.4897903501987457,
+          "Spine": 0.27493566274642944,
+          "Chest": 0.128655806183815,
+          "LeftUpperLeg": 0.10661820322275162
+        },
+        "bodySurface": {
+          "Spine": 0.0969790443778038,
+          "Chest": 0.5826343894004822,
+          "LeftShoulder": 0.2536777853965759,
+          "LeftUpperArm": 0.0667087584733963
+        }
+      },
+      {
+        "vertex": 4791,
+        "restRoot": [
+          -0.11127974928842121,
+          1.0529239865737228,
+          0.15655039748273
+        ],
+        "signedRestMm": -89.34787707403302,
+        "weightL1Mismatch": 1.5525706633925438,
+        "current": {
+          "Hips": 0.4975101351737976,
+          "Spine": 0.2761279046535492,
+          "Chest": 0.1267356127500534,
+          "LeftUpperLeg": 0.09962634742259979
+        },
+        "bodySurface": {
+          "Spine": 0.0969790443778038,
+          "Chest": 0.5826343894004822,
+          "LeftShoulder": 0.2536777853965759,
+          "LeftUpperArm": 0.0667087584733963
+        }
+      },
+      {
+        "vertex": 2368,
+        "restRoot": [
+          0.1190027789486443,
+          1.0528729641480996,
+          0.14934610070764395
+        ],
+        "signedRestMm": -89.1767181456089,
+        "weightL1Mismatch": 1.5474029031910965,
+        "current": {
+          "Hips": 0.4949493110179901,
+          "Spine": 0.2701976001262665,
+          "Chest": 0.12998558580875397,
+          "RightUpperLeg": 0.10486753284931183
+        },
+        "bodySurface": {
+          "Spine": 0.0963129998485827,
+          "Chest": 0.5829727241925293,
+          "RightShoulder": 0.25447611564902556,
+          "RightUpperArm": 0.06623820501331004
+        }
+      },
+      {
+        "vertex": 10258,
+        "restRoot": [
+          0.1190027789486443,
+          1.0528729641480996,
+          0.14934610070764395
+        ],
+        "signedRestMm": -89.1767181456089,
+        "weightL1Mismatch": 1.5474029031910965,
+        "current": {
+          "Hips": 0.4949493110179901,
+          "Spine": 0.2701976001262665,
+          "Chest": 0.12998558580875397,
+          "RightUpperLeg": 0.10486753284931183
+        },
+        "bodySurface": {
+          "Spine": 0.0963129998485827,
+          "Chest": 0.5829727241925293,
+          "RightShoulder": 0.25447611564902556,
+          "RightUpperArm": 0.06623820501331004
+        }
+      },
+      {
+        "vertex": 4924,
+        "restRoot": [
+          -0.11983192465633508,
+          1.0645634596731355,
+          0.15116712617129383
+        ],
+        "signedRestMm": -86.46705839782953,
+        "weightL1Mismatch": 1.3280924335122108,
+        "current": {
+          "Hips": 0.17118854820728302,
+          "Spine": 0.4411763846874237,
+          "Chest": 0.23897472023963928,
+          "LeftUpperLeg": 0.1486603319644928
+        },
+        "bodySurface": {
+          "Spine": 0.0969790443778038,
+          "Chest": 0.5826343894004822,
+          "LeftShoulder": 0.2536777853965759,
+          "LeftUpperArm": 0.0667087584733963
+        }
+      },
+      {
+        "vertex": 4771,
+        "restRoot": [
+          -0.10323118870551795,
+          1.0528995494038635,
+          0.1626751643568922
+        ],
+        "signedRestMm": -86.1006744671613,
+        "weightL1Mismatch": 1.5543629825115204,
+        "current": {
+          "Hips": 0.5018582344055176,
+          "Spine": 0.27849990129470825,
+          "Chest": 0.1258394569158554,
+          "LeftUpperLeg": 0.09380241483449936
+        },
+        "bodySurface": {
+          "Spine": 0.0969790443778038,
+          "Chest": 0.5826343894004822,
+          "LeftShoulder": 0.2536777853965759,
+          "LeftUpperArm": 0.0667087584733963
+        }
+      },
+      {
+        "vertex": 4937,
+        "restRoot": [
+          -0.12689507097960728,
+          1.0716708348243393,
+          0.14588057887202638
+        ],
+        "signedRestMm": -85.96338331699371,
+        "weightL1Mismatch": 1.218344435095787,
+        "current": {
+          "Hips": 0.0688246563076973,
+          "Spine": 0.4796479642391205,
+          "Chest": 0.2938487231731415,
+          "LeftUpperLeg": 0.15767864882946014
+        },
+        "bodySurface": {
+          "Spine": 0.0969790443778038,
+          "Chest": 0.5826343894004822,
+          "LeftShoulder": 0.2536777853965759,
+          "LeftUpperArm": 0.0667087584733963
+        }
+      },
+      {
+        "vertex": 2534,
+        "restRoot": [
+          0.11044609597731991,
+          1.052834222009454,
+          0.15667380895457358
+        ],
+        "signedRestMm": -85.58199554681778,
+        "weightL1Mismatch": 1.5506577787318299,
+        "current": {
+          "Hips": 0.5000448822975159,
+          "Spine": 0.2730746865272522,
+          "Chest": 0.12835808098316193,
+          "RightUpperLeg": 0.09852224588394165
+        },
+        "bodySurface": {
+          "Spine": 0.0963129998485827,
+          "Chest": 0.5829727241925293,
+          "RightShoulder": 0.25447611564902556,
+          "RightUpperArm": 0.06623820501331004
+        }
+      },
+      {
+        "vertex": 10305,
+        "restRoot": [
+          0.11044609597731991,
+          1.052834222009454,
+          0.15667380895457358
+        ],
+        "signedRestMm": -85.58199554681778,
+        "weightL1Mismatch": 1.5506577787318299,
+        "current": {
+          "Hips": 0.5000448822975159,
+          "Spine": 0.2730746865272522,
+          "Chest": 0.12835808098316193,
+          "RightUpperLeg": 0.09852224588394165
+        },
+        "bodySurface": {
+          "Spine": 0.0963129998485827,
+          "Chest": 0.5829727241925293,
+          "RightShoulder": 0.25447611564902556,
+          "RightUpperArm": 0.06623820501331004
+        }
+      },
+      {
+        "vertex": 4598,
+        "restRoot": [
+          -0.07578956969478057,
+          1.2068549495026095,
+          -0.1054802341217788
+        ],
+        "signedRestMm": -84.86081461887807,
+        "weightL1Mismatch": 1.379979092241959,
+        "current": {
+          "Spine": 0.04613897204399109,
+          "Chest": 0.6504162549972534,
+          "UpperChest": 0.2511764168739319,
+          "LeftShoulder": 0.0522683821618557
+        },
+        "bodySurface": {
+          "Chest": 0.006565668347418434,
+          "UpperChest": 0.41070999487807774,
+          "Neck": 0.12082369338455831,
+          "LeftShoulder": 0.4619006443212845
+        }
+      },
+      {
+        "vertex": 4638,
+        "restRoot": [
+          -0.09544771245607464,
+          1.0529776321169073,
+          0.16806359007510305
+        ],
+        "signedRestMm": -83.3690594881773,
+        "weightL1Mismatch": 1.5540260672569275,
+        "current": {
+          "Hips": 0.5029340982437134,
+          "Spine": 0.2823387086391449,
+          "Chest": 0.12600791454315186,
+          "LeftUpperLeg": 0.08871928602457047
+        },
+        "bodySurface": {
+          "Spine": 0.0969790443778038,
+          "Chest": 0.5826343894004822,
+          "LeftShoulder": 0.2536777853965759,
+          "LeftUpperArm": 0.0667087584733963
+        }
+      },
+      {
+        "vertex": 2513,
+        "restRoot": [
+          0.10244556185984521,
+          1.0528318385487594,
+          0.16275278454138184
+        ],
+        "signedRestMm": -82.85520493518561,
+        "weightL1Mismatch": 1.5527165902175972,
+        "current": {
+          "Hips": 0.5036780834197998,
+          "Spine": 0.2760568857192993,
+          "Chest": 0.12732872366905212,
+          "RightUpperLeg": 0.09293629974126816
+        },
+        "bodySurface": {
+          "Spine": 0.0963129998485827,
+          "Chest": 0.5829727241925293,
+          "RightShoulder": 0.25447611564902556,
+          "RightUpperArm": 0.06623820501331004
+        }
+      }
+    ],
+    "fullPoses": {
+      "male_Driver_address": {
+        "topOracleMaxMm": 0.0005962684873558364,
+        "bodyOracleMaxMm": 0.0006063467706006244,
+        "insideSamplesBelow3mm": 898,
+        "worstSignedClearanceMm": -97.94937999686226,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.022056141193479477,
+          "GolfFit_RH_Impact": 0.02982774354347633,
+          "GolfFit_RH_Finish": 0.022020636168526765,
+          "GolfFit_LH_ReadyIdle": 0.551074504946332,
+          "GolfFit_LH_Top": 0.020447877505713287,
+          "GolfFit_LH_Impact": 0.030037195137268113,
+          "GolfFit_LH_Finish": 0.03593368607155158
+        }
+      },
+      "male_Driver_contact": {
+        "topOracleMaxMm": 0.0006556253941958761,
+        "bodyOracleMaxMm": 0.0005992649571767253,
+        "insideSamplesBelow3mm": 930,
+        "worstSignedClearanceMm": -113.40486397966743,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.043569092631480205,
+          "GolfFit_RH_Impact": 0.042849084473894385,
+          "GolfFit_RH_Finish": 0.05267154338347319,
+          "GolfFit_LH_ReadyIdle": 0.4565269537405567,
+          "GolfFit_LH_Top": 0.061623474861348906,
+          "GolfFit_LH_Impact": 0.0538853929193784,
+          "GolfFit_LH_Finish": 0.09736266468767975
+        }
+      },
+      "male_Driver_follow": {
+        "topOracleMaxMm": 0.0006851926669268751,
+        "bodyOracleMaxMm": 0.0009727272770333062,
+        "insideSamplesBelow3mm": 2422,
+        "worstSignedClearanceMm": -280.256902333349,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.10967493500427605,
+          "GolfFit_RH_Impact": 0.03687586908982998,
+          "GolfFit_RH_Finish": 0.07730688693634187,
+          "GolfFit_LH_ReadyIdle": 0.030454624235335098,
+          "GolfFit_LH_Top": 0.5166266517024869,
+          "GolfFit_LH_Impact": 0.04979347714251008,
+          "GolfFit_LH_Finish": 0.15556204161619155
+        }
+      },
+      "male_Driver_top": {
+        "topOracleMaxMm": 0.0007571888070991447,
+        "bodyOracleMaxMm": 0.0009047648434457791,
+        "insideSamplesBelow3mm": 2285,
+        "worstSignedClearanceMm": -289.74699322134256,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.23533016214334002,
+          "GolfFit_RH_Impact": 0.06445206710061022,
+          "GolfFit_RH_Finish": 0.2961009392296292,
+          "GolfFit_LH_ReadyIdle": 0.04727949446133845,
+          "GolfFit_LH_Top": 0.13641854307959492,
+          "GolfFit_LH_Impact": 0.04922760712949156,
+          "GolfFit_LH_Finish": 0.09550600291684538
+        }
+      },
+      "male_Iron_address": {
+        "topOracleMaxMm": 3.7693673440984474,
+        "bodyOracleMaxMm": 0.0004972969165348731,
+        "insideSamplesBelow3mm": 964,
+        "worstSignedClearanceMm": -117.79932677745819,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.05784146047855994,
+          "GolfFit_RH_Impact": 0.06144951691022449,
+          "GolfFit_RH_Finish": 0.04489063867028982,
+          "GolfFit_LH_ReadyIdle": 0.34734969944181365,
+          "GolfFit_LH_Top": 0.042585648480531695,
+          "GolfFit_LH_Impact": 0.0544698463549912,
+          "GolfFit_LH_Finish": 0.05920644698033966
+        }
+      },
+      "male_Iron_contact": {
+        "topOracleMaxMm": 0.0005365943311055859,
+        "bodyOracleMaxMm": 0.0006862274763559695,
+        "insideSamplesBelow3mm": 828,
+        "worstSignedClearanceMm": -114.86503295600414,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.05312093462673522,
+          "GolfFit_RH_Impact": 0.04342169512375464,
+          "GolfFit_RH_Finish": 0.056484340891170756,
+          "GolfFit_LH_ReadyIdle": 0.39766789771682837,
+          "GolfFit_LH_Top": 0.05474226594883532,
+          "GolfFit_LH_Impact": 0.04616257969784595,
+          "GolfFit_LH_Finish": 0.07819185139470067
+        }
+      },
+      "male_Iron_follow": {
+        "topOracleMaxMm": 0.0005348896978314751,
+        "bodyOracleMaxMm": 0.0006527558287871474,
+        "insideSamplesBelow3mm": 1287,
+        "worstSignedClearanceMm": -161.00576985627413,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.10796074156245607,
+          "GolfFit_RH_Impact": 0.053009462611122715,
+          "GolfFit_RH_Finish": 0.09971180476088075,
+          "GolfFit_LH_ReadyIdle": 0.10352603862134098,
+          "GolfFit_LH_Top": 0.25984013897260494,
+          "GolfFit_LH_Impact": 0.06883896957776688,
+          "GolfFit_LH_Finish": 0.24008430890954524
+        }
+      },
+      "male_Iron_top": {
+        "topOracleMaxMm": 0.0006788835694780386,
+        "bodyOracleMaxMm": 0.0007730893907300878,
+        "insideSamplesBelow3mm": 1976,
+        "worstSignedClearanceMm": -195.1104155741632,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.204751510189196,
+          "GolfFit_RH_Impact": 0.07691783363466509,
+          "GolfFit_RH_Finish": 0.3137370755440548,
+          "GolfFit_LH_ReadyIdle": 0.052985047706924956,
+          "GolfFit_LH_Top": 0.11977172366350357,
+          "GolfFit_LH_Impact": 0.05636258926479998,
+          "GolfFit_LH_Finish": 0.08656991034725145
+        }
+      },
+      "male_PitchingWedge_address": {
+        "topOracleMaxMm": 1.7725450495934167,
+        "bodyOracleMaxMm": 0.0005327153003645071,
+        "insideSamplesBelow3mm": 962,
+        "worstSignedClearanceMm": -117.80149675905704,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.05773363167655523,
+          "GolfFit_RH_Impact": 0.06156626776739546,
+          "GolfFit_RH_Finish": 0.04463880854119337,
+          "GolfFit_LH_ReadyIdle": 0.3498835279903995,
+          "GolfFit_LH_Top": 0.04278483423743162,
+          "GolfFit_LH_Impact": 0.05483284087706745,
+          "GolfFit_LH_Finish": 0.05969353934922612
+        }
+      },
+      "male_PitchingWedge_contact": {
+        "topOracleMaxMm": 0.0004592274364833771,
+        "bodyOracleMaxMm": 0.0005720638978806161,
+        "insideSamplesBelow3mm": 826,
+        "worstSignedClearanceMm": -114.85945759341121,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.050162369861924745,
+          "GolfFit_RH_Impact": 0.04277493252501321,
+          "GolfFit_RH_Finish": 0.051279246671869644,
+          "GolfFit_LH_ReadyIdle": 0.41017412188993835,
+          "GolfFit_LH_Top": 0.04923954541775938,
+          "GolfFit_LH_Impact": 0.04460603633066575,
+          "GolfFit_LH_Finish": 0.07212596671089228
+        }
+      },
+      "male_PitchingWedge_follow": {
+        "topOracleMaxMm": 0.0006107776016906557,
+        "bodyOracleMaxMm": 0.0006742139025682327,
+        "insideSamplesBelow3mm": 1033,
+        "worstSignedClearanceMm": -100.46994034200907,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.05835544121500051,
+          "GolfFit_RH_Impact": 0.07375698761736162,
+          "GolfFit_RH_Finish": 0.06260631737106052,
+          "GolfFit_LH_ReadyIdle": 0.2606639892397658,
+          "GolfFit_LH_Top": 0.06746784123541522,
+          "GolfFit_LH_Impact": 0.09104815355848077,
+          "GolfFit_LH_Finish": 0.26250558742479624
+        }
+      },
+      "male_PitchingWedge_top": {
+        "topOracleMaxMm": 0.0005166420200130627,
+        "bodyOracleMaxMm": 0.000689997150882015,
+        "insideSamplesBelow3mm": 1442,
+        "worstSignedClearanceMm": -159.70121882855892,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.172275290384905,
+          "GolfFit_RH_Impact": 0.07518072187010853,
+          "GolfFit_RH_Finish": 0.2411075981182076,
+          "GolfFit_LH_ReadyIdle": 0.09635962953331358,
+          "GolfFit_LH_Top": 0.0980043750099556,
+          "GolfFit_LH_Impact": 0.05805835830110816,
+          "GolfFit_LH_Finish": 0.10386784481488356
+        }
+      },
+      "male_Putter_address": {
+        "topOracleMaxMm": 1.5489962467577434,
+        "bodyOracleMaxMm": 0.0005449578803548951,
+        "insideSamplesBelow3mm": 1050,
+        "worstSignedClearanceMm": -136.69503573328257,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.15144619590927352,
+          "GolfFit_RH_Impact": 0.0783763414108642,
+          "GolfFit_RH_Finish": 0.09266187737065583,
+          "GolfFit_LH_ReadyIdle": 0.191996313793762,
+          "GolfFit_LH_Top": 0.09163724289486992,
+          "GolfFit_LH_Impact": 0.06575546846685891,
+          "GolfFit_LH_Finish": 0.10241867238529706
+        }
+      },
+      "male_Putter_contact": {
+        "topOracleMaxMm": 0.000647493110008613,
+        "bodyOracleMaxMm": 0.0006567977779521228,
+        "insideSamplesBelow3mm": 1056,
+        "worstSignedClearanceMm": -137.32594344764948,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.14098299458073169,
+          "GolfFit_RH_Impact": 0.08277801774010018,
+          "GolfFit_RH_Finish": 0.07148014166673915,
+          "GolfFit_LH_ReadyIdle": 0.20498448343173525,
+          "GolfFit_LH_Top": 0.11483166877884741,
+          "GolfFit_LH_Impact": 0.08295240628286321,
+          "GolfFit_LH_Finish": 0.14207874413240176
+        }
+      },
+      "male_Putter_follow": {
+        "topOracleMaxMm": 0.0004885695119164488,
+        "bodyOracleMaxMm": 0.0005062046891867534,
+        "insideSamplesBelow3mm": 972,
+        "worstSignedClearanceMm": -124.51354041695595,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.08782509048096207,
+          "GolfFit_RH_Impact": 0.06545549618908182,
+          "GolfFit_RH_Finish": 0.06726204631082064,
+          "GolfFit_LH_ReadyIdle": 0.2820570308971178,
+          "GolfFit_LH_Top": 0.06293502004480907,
+          "GolfFit_LH_Impact": 0.05824133657088094,
+          "GolfFit_LH_Finish": 0.07231245692848376
+        }
+      },
+      "male_Putter_top": {
+        "topOracleMaxMm": 0.000508781128896588,
+        "bodyOracleMaxMm": 0.0005455815321673738,
+        "insideSamplesBelow3mm": 1095,
+        "worstSignedClearanceMm": -128.58573207631707,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.15982471574959253,
+          "GolfFit_RH_Impact": 0.08026251303432984,
+          "GolfFit_RH_Finish": 0.08380900926620798,
+          "GolfFit_LH_ReadyIdle": 0.1817102679577468,
+          "GolfFit_LH_Top": 0.11141471960986168,
+          "GolfFit_LH_Impact": 0.07263475009533228,
+          "GolfFit_LH_Finish": 0.13527261832864898
+        }
+      },
+      "male_Wedge_address": {
+        "topOracleMaxMm": 1.4762600363158689,
+        "bodyOracleMaxMm": 0.0005774700939973082,
+        "insideSamplesBelow3mm": 895,
+        "worstSignedClearanceMm": -97.04344160854816,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.016897492133752103,
+          "GolfFit_RH_Impact": 0.026885825038138505,
+          "GolfFit_RH_Finish": 0.01767197650542588,
+          "GolfFit_LH_ReadyIdle": 0.40887593278422324,
+          "GolfFit_LH_Top": 0.01289501394312418,
+          "GolfFit_LH_Impact": 0.0231313848509155,
+          "GolfFit_LH_Finish": 0.019843307689946594
+        }
+      },
+      "male_Wedge_contact": {
+        "topOracleMaxMm": 0.0004927003071583065,
+        "bodyOracleMaxMm": 0.0005282572563938984,
+        "insideSamplesBelow3mm": 898,
+        "worstSignedClearanceMm": -105.09521304629743,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.02132847080290789,
+          "GolfFit_RH_Impact": 0.02802056764188401,
+          "GolfFit_RH_Finish": 0.022584283620730162,
+          "GolfFit_LH_ReadyIdle": 0.6025712808097572,
+          "GolfFit_LH_Top": 0.02390549745090621,
+          "GolfFit_LH_Impact": 0.03183524104779326,
+          "GolfFit_LH_Finish": 0.03643018872864476
+        }
+      },
+      "male_Wedge_follow": {
+        "topOracleMaxMm": 0.0005174373046895407,
+        "bodyOracleMaxMm": 0.0005355952766408134,
+        "insideSamplesBelow3mm": 788,
+        "worstSignedClearanceMm": -76.53938030125573,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.004957716377899199,
+          "GolfFit_RH_Impact": 0.010015271975950436,
+          "GolfFit_RH_Finish": 0.007044074601121594,
+          "GolfFit_LH_ReadyIdle": 0.23762003346884986,
+          "GolfFit_LH_Top": 0.0037649954726491804,
+          "GolfFit_LH_Impact": 0.008188647738894574,
+          "GolfFit_LH_Finish": 0.006106396033274498
+        }
+      },
+      "male_Wedge_top": {
+        "topOracleMaxMm": 0.0006376542662718463,
+        "bodyOracleMaxMm": 0.0006489176374768297,
+        "insideSamplesBelow3mm": 945,
+        "worstSignedClearanceMm": -101.48613387718797,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.03748813484410733,
+          "GolfFit_RH_Impact": 0.0459398326574912,
+          "GolfFit_RH_Finish": 0.03478682764158877,
+          "GolfFit_LH_ReadyIdle": 0.48184208663696193,
+          "GolfFit_LH_Top": 0.03840254641515034,
+          "GolfFit_LH_Impact": 0.04937730642512854,
+          "GolfFit_LH_Finish": 0.08016495076063247
+        }
+      }
+    }
+  },
+  "Female": {
+    "bindCandidates": 998,
+    "worstBind": [
+      {
+        "vertex": 725,
+        "restRoot": [
+          0.11022154282163399,
+          1.223979623500994,
+          0.09750706774487594
+        ],
+        "signedRestMm": -29.538321774452925,
+        "weightL1Mismatch": 0.676984397043432,
+        "current": {
+          "Spine": 0.06700372695922852,
+          "Chest": 0.6573300361633301,
+          "RightShoulder": 0.1289006769657135,
+          "RightUpperArm": 0.1467655599117279
+        },
+        "bodySurface": {
+          "Chest": 0.44581377696452096,
+          "LeftShoulder": 0.08801964783119254,
+          "RightShoulder": 0.3793732239309604,
+          "RightUpperArm": 0.08679334382277294
+        }
+      },
+      {
+        "vertex": 3551,
+        "restRoot": [
+          -0.18298642122094577,
+          1.3329375975594222,
+          -0.006205656099153506
+        ],
+        "signedRestMm": -26.886818697676063,
+        "weightL1Mismatch": 0.8598622943403684,
+        "current": {
+          "LeftShoulder": 0.46238261461257935,
+          "LeftUpperArm": 0.5376173853874207
+        },
+        "bodySurface": {
+          "UpperChest": 0.37538190419501327,
+          "Neck": 0.05454924297518466,
+          "LeftShoulder": 0.45402901279048674,
+          "LeftUpperArm": 0.11603984003934277
+        }
+      },
+      {
+        "vertex": 724,
+        "restRoot": [
+          0.11216057224774545,
+          1.2370547337422393,
+          0.09149032532165935
+        ],
+        "signedRestMm": -26.817284524440765,
+        "weightL1Mismatch": 0.5401525695817125,
+        "current": {
+          "Chest": 0.5138024687767029,
+          "UpperChest": 0.09016307443380356,
+          "RightShoulder": 0.19731658697128296,
+          "RightUpperArm": 0.19871786236763
+        },
+        "bodySurface": {
+          "Chest": 0.44581377696452096,
+          "LeftShoulder": 0.08801964783119254,
+          "RightShoulder": 0.3793732239309604,
+          "RightUpperArm": 0.08679334382277294
+        }
+      },
+      {
+        "vertex": 723,
+        "restRoot": [
+          0.11462328088198248,
+          1.2501303205532264,
+          0.08323104674368587
+        ],
+        "signedRestMm": -26.187153533101082,
+        "weightL1Mismatch": 0.5135713851137446,
+        "current": {
+          "Chest": 0.3534737229347229,
+          "UpperChest": 0.08063484728336334,
+          "RightShoulder": 0.30426427721977234,
+          "RightUpperArm": 0.2616271674633026
+        },
+        "bodySurface": {
+          "Chest": 0.4318721102412611,
+          "LeftShoulder": 0.08883448931044949,
+          "RightShoulder": 0.3938170839086597,
+          "RightUpperArm": 0.0854763129387965
+        }
+      },
+      {
+        "vertex": 5460,
+        "restRoot": [
+          0.11462328088198248,
+          1.2501303205532264,
+          0.08323104674368587
+        ],
+        "signedRestMm": -26.187153533101082,
+        "weightL1Mismatch": 0.5135713851137446,
+        "current": {
+          "Chest": 0.3534737229347229,
+          "UpperChest": 0.08063484728336334,
+          "RightShoulder": 0.30426427721977234,
+          "RightUpperArm": 0.2616271674633026
+        },
+        "bodySurface": {
+          "Chest": 0.4318721102412611,
+          "LeftShoulder": 0.08883448931044949,
+          "RightShoulder": 0.3938170839086597,
+          "RightUpperArm": 0.0854763129387965
+        }
+      },
+      {
+        "vertex": 2322,
+        "restRoot": [
+          -0.0740171800337599,
+          1.2489767118047455,
+          -0.09007578572085691
+        ],
+        "signedRestMm": -25.456168281380087,
+        "weightL1Mismatch": 0.5988432192260487,
+        "current": {
+          "Chest": 0.1784256100654602,
+          "UpperChest": 0.5369839668273926,
+          "LeftShoulder": 0.09632012993097305,
+          "LeftUpperArm": 0.18827027082443237
+        },
+        "bodySurface": {
+          "UpperChest": 0.5161612717496884,
+          "Neck": 0.06413187598702223,
+          "LeftShoulder": 0.33160985983171004,
+          "LeftUpperArm": 0.08809696262930737
+        }
+      },
+      {
+        "vertex": 583,
+        "restRoot": [
+          0.12115234698165622,
+          1.2620738959644506,
+          0.07338960714275482
+        ],
+        "signedRestMm": -25.161961559206247,
+        "weightL1Mismatch": 0.6018122159046897,
+        "current": {
+          "Chest": 0.18790143728256226,
+          "UpperChest": 0.02000497281551361,
+          "RightShoulder": 0.43204590678215027,
+          "RightUpperArm": 0.36004769802093506
+        },
+        "bodySurface": {
+          "Chest": 0.3648687242461113,
+          "LeftShoulder": 0.09275069287177506,
+          "RightShoulder": 0.463234034899171,
+          "RightUpperArm": 0.07914656288410378
+        }
+      },
+      {
+        "vertex": 2469,
+        "restRoot": [
+          -0.08400460612992333,
+          1.2498539731392098,
+          -0.08731151512726765
+        ],
+        "signedRestMm": -24.39188153948635,
+        "weightL1Mismatch": 0.7317263998426482,
+        "current": {
+          "Chest": 0.17101481556892395,
+          "UpperChest": 0.48973846435546875,
+          "LeftShoulder": 0.10914584994316101,
+          "LeftUpperArm": 0.2301008552312851
+        },
+        "bodySurface": {
+          "UpperChest": 0.41726416849884124,
+          "Neck": 0.05740008831425584,
+          "LeftShoulder": 0.41760896456767,
+          "LeftUpperArm": 0.1077267697529531
+        }
+      },
+      {
+        "vertex": 3176,
+        "restRoot": [
+          -0.182862503105369,
+          1.3329567898166506,
+          -0.00985434502602976
+        ],
+        "signedRestMm": -23.824481235351413,
+        "weightL1Mismatch": 0.859862264538046,
+        "current": {
+          "LeftShoulder": 0.46042534708976746,
+          "LeftUpperArm": 0.5395746231079102
+        },
+        "bodySurface": {
+          "UpperChest": 0.37538190419501327,
+          "Neck": 0.05454924297518466,
+          "LeftShoulder": 0.45402901279048674,
+          "LeftUpperArm": 0.11603984003934277
+        }
+      },
+      {
+        "vertex": 3098,
+        "restRoot": [
+          -0.17584996860022528,
+          1.340800044550697,
+          -0.008681402500813382
+        ],
+        "signedRestMm": -23.518275003880262,
+        "weightL1Mismatch": 0.8598623241426908,
+        "current": {
+          "LeftShoulder": 0.518335223197937,
+          "LeftUpperArm": 0.4816648066043854
+        },
+        "bodySurface": {
+          "UpperChest": 0.37538190419501327,
+          "Neck": 0.05454924297518466,
+          "LeftShoulder": 0.45402901279048674,
+          "LeftUpperArm": 0.11603984003934277
+        }
+      },
+      {
+        "vertex": 590,
+        "restRoot": [
+          0.12755145254200784,
+          1.2744797653607436,
+          0.06726311025729344
+        ],
+        "signedRestMm": -23.047944821882993,
+        "weightL1Mismatch": 0.7160015513821992,
+        "current": {
+          "Chest": 0.09961864352226257,
+          "UpperChest": 0.0016746711917221546,
+          "RightShoulder": 0.5004048943519592,
+          "RightUpperArm": 0.3983018100261688
+        },
+        "bodySurface": {
+          "Chest": 0.3648687242461113,
+          "LeftShoulder": 0.09275069287177506,
+          "RightShoulder": 0.463234034899171,
+          "RightUpperArm": 0.07914656288410378
+        }
+      },
+      {
+        "vertex": 567,
+        "restRoot": [
+          0.1366494204518034,
+          1.2930876017824833,
+          -0.059355065513018675
+        ],
+        "signedRestMm": -22.89013471454382,
+        "weightL1Mismatch": 1.0021890094544776,
+        "current": {
+          "Chest": 0.006119556725025177,
+          "UpperChest": 0.11151140928268433,
+          "RightShoulder": 0.3163834512233734,
+          "RightUpperArm": 0.5659856200218201
+        },
+        "bodySurface": {
+          "UpperChest": 0.3761873487885961,
+          "Neck": 0.09182944504772296,
+          "RightShoulder": 0.4609725751222582,
+          "RightUpperArm": 0.07101067574488723
+        }
+      }
+    ],
+    "fullPoses": {
+      "female_Driver_address": {
+        "topOracleMaxMm": 0.0004982176733120347,
+        "bodyOracleMaxMm": 0.0005445979586790616,
+        "insideSamplesBelow3mm": 280,
+        "worstSignedClearanceMm": -45.79290095716715,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.06540755821842355,
+          "GolfFit_RH_Impact": 0.06387949598079541,
+          "GolfFit_RH_Finish": 0.04579885862746753,
+          "GolfFit_LH_ReadyIdle": 0.2844835741071864,
+          "GolfFit_LH_Top": 0.05942869829899167,
+          "GolfFit_LH_Impact": 0.06299603798204893,
+          "GolfFit_LH_Finish": 0.08988110092818287
+        }
+      },
+      "female_Driver_contact": {
+        "topOracleMaxMm": 0.000594802953711316,
+        "bodyOracleMaxMm": 0.0006051282755530704,
+        "insideSamplesBelow3mm": 346,
+        "worstSignedClearanceMm": -33.04573893547058,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.06341301593895993,
+          "GolfFit_RH_Impact": 0.04219653221306615,
+          "GolfFit_RH_Finish": 0.061639803668994325,
+          "GolfFit_LH_ReadyIdle": 0.30216364859106287,
+          "GolfFit_LH_Top": 0.09416012198145539,
+          "GolfFit_LH_Impact": 0.050932116718304984,
+          "GolfFit_LH_Finish": 0.10984385498235512
+        }
+      },
+      "female_Driver_follow": {
+        "topOracleMaxMm": 0.0006638612448905499,
+        "bodyOracleMaxMm": 0.0007484118634752302,
+        "insideSamplesBelow3mm": 446,
+        "worstSignedClearanceMm": -60.45962474308908,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.10551285498892699,
+          "GolfFit_RH_Impact": 0.040320772097461224,
+          "GolfFit_RH_Finish": 0.08139708685664125,
+          "GolfFit_LH_ReadyIdle": 0.0357243198835211,
+          "GolfFit_LH_Top": 0.5307278782320013,
+          "GolfFit_LH_Impact": 0.05414783997269721,
+          "GolfFit_LH_Finish": 0.11708554175631077
+        }
+      },
+      "female_Driver_top": {
+        "topOracleMaxMm": 0.0006817432243764699,
+        "bodyOracleMaxMm": 0.0010666059236234984,
+        "insideSamplesBelow3mm": 572,
+        "worstSignedClearanceMm": -71.62821013480425,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.24313906359048817,
+          "GolfFit_RH_Impact": 0.05690470685524028,
+          "GolfFit_RH_Finish": 0.24571615638039682,
+          "GolfFit_LH_ReadyIdle": 0.07767441397401277,
+          "GolfFit_LH_Top": 0.14299557822814848,
+          "GolfFit_LH_Impact": 0.04615436191044431,
+          "GolfFit_LH_Finish": 0.1024996093661938
+        }
+      },
+      "female_Iron_address": {
+        "topOracleMaxMm": 0.39135154221050644,
+        "bodyOracleMaxMm": 0.0005528835585616868,
+        "insideSamplesBelow3mm": 339,
+        "worstSignedClearanceMm": -47.23778471816331,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.09921122388859227,
+          "GolfFit_RH_Impact": 0.08205590258878183,
+          "GolfFit_RH_Finish": 0.05889233470902809,
+          "GolfFit_LH_ReadyIdle": 0.24699883279293813,
+          "GolfFit_LH_Top": 0.07200428964738183,
+          "GolfFit_LH_Impact": 0.07295522719186444,
+          "GolfFit_LH_Finish": 0.09327061044189475
+        }
+      },
+      "female_Iron_contact": {
+        "topOracleMaxMm": 0.000565114312083307,
+        "bodyOracleMaxMm": 0.0006465112144530284,
+        "insideSamplesBelow3mm": 282,
+        "worstSignedClearanceMm": -40.28622014448047,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.06837884467124608,
+          "GolfFit_RH_Impact": 0.040495852586898064,
+          "GolfFit_RH_Finish": 0.057345690748027325,
+          "GolfFit_LH_ReadyIdle": 0.3317855573652418,
+          "GolfFit_LH_Top": 0.06806642731622198,
+          "GolfFit_LH_Impact": 0.0417982735640959,
+          "GolfFit_LH_Finish": 0.07827746091672144
+        }
+      },
+      "female_Iron_follow": {
+        "topOracleMaxMm": 0.0005594874333266557,
+        "bodyOracleMaxMm": 0.0006459807707004946,
+        "insideSamplesBelow3mm": 323,
+        "worstSignedClearanceMm": -36.952797905541956,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.11138764010088101,
+          "GolfFit_RH_Impact": 0.050705769343378726,
+          "GolfFit_RH_Finish": 0.10798150597292609,
+          "GolfFit_LH_ReadyIdle": 0.10881878523774154,
+          "GolfFit_LH_Top": 0.24920802707759834,
+          "GolfFit_LH_Impact": 0.06233360376459559,
+          "GolfFit_LH_Finish": 0.19546214044261567
+        }
+      },
+      "female_Iron_top": {
+        "topOracleMaxMm": 0.0006654238391776485,
+        "bodyOracleMaxMm": 0.0008022462822930984,
+        "insideSamplesBelow3mm": 521,
+        "worstSignedClearanceMm": -69.16690478101373,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.21799173673409028,
+          "GolfFit_RH_Impact": 0.06378998979622522,
+          "GolfFit_RH_Finish": 0.2629165299924589,
+          "GolfFit_LH_ReadyIdle": 0.0896721652491658,
+          "GolfFit_LH_Top": 0.12283668085673664,
+          "GolfFit_LH_Impact": 0.049824383662511976,
+          "GolfFit_LH_Finish": 0.09451425536207286
+        }
+      },
+      "female_PitchingWedge_address": {
+        "topOracleMaxMm": 0.7296642747946515,
+        "bodyOracleMaxMm": 0.0005280470987791206,
+        "insideSamplesBelow3mm": 335,
+        "worstSignedClearanceMm": -39.717878331430256,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.09840463724158217,
+          "GolfFit_RH_Impact": 0.08164637164345881,
+          "GolfFit_RH_Finish": 0.058665371793007605,
+          "GolfFit_LH_ReadyIdle": 0.24781147345710125,
+          "GolfFit_LH_Top": 0.07194682895767197,
+          "GolfFit_LH_Impact": 0.07283659694694582,
+          "GolfFit_LH_Finish": 0.09316019726034515
+        }
+      },
+      "female_PitchingWedge_contact": {
+        "topOracleMaxMm": 0.0005322917338014199,
+        "bodyOracleMaxMm": 0.0005570854571845593,
+        "insideSamplesBelow3mm": 255,
+        "worstSignedClearanceMm": -28.831673320382833,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.06707082872615323,
+          "GolfFit_RH_Impact": 0.03909545261611472,
+          "GolfFit_RH_Finish": 0.05656400728035771,
+          "GolfFit_LH_ReadyIdle": 0.334598280450718,
+          "GolfFit_LH_Top": 0.06428903981452151,
+          "GolfFit_LH_Impact": 0.039817023407119546,
+          "GolfFit_LH_Finish": 0.07964590278513445
+        }
+      },
+      "female_PitchingWedge_follow": {
+        "topOracleMaxMm": 0.0005688137095767169,
+        "bodyOracleMaxMm": 0.0005939308660170249,
+        "insideSamplesBelow3mm": 329,
+        "worstSignedClearanceMm": -39.88111391663551,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.0611431534204146,
+          "GolfFit_RH_Impact": 0.055737807025599904,
+          "GolfFit_RH_Finish": 0.06513441070150419,
+          "GolfFit_LH_ReadyIdle": 0.21689000056676944,
+          "GolfFit_LH_Top": 0.07103454439243181,
+          "GolfFit_LH_Impact": 0.0634301176063516,
+          "GolfFit_LH_Finish": 0.23004218488028289
+        }
+      },
+      "female_PitchingWedge_top": {
+        "topOracleMaxMm": 0.0005548715279495531,
+        "bodyOracleMaxMm": 0.0006399399436286603,
+        "insideSamplesBelow3mm": 475,
+        "worstSignedClearanceMm": -73.52991309016943,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.17215465675406472,
+          "GolfFit_RH_Impact": 0.06194442889108858,
+          "GolfFit_RH_Finish": 0.1955841565756702,
+          "GolfFit_LH_ReadyIdle": 0.15471239833490574,
+          "GolfFit_LH_Top": 0.097683968297713,
+          "GolfFit_LH_Impact": 0.05028218673625695,
+          "GolfFit_LH_Finish": 0.10490106149283171
+        }
+      },
+      "female_Putter_address": {
+        "topOracleMaxMm": 1.2017759541534683,
+        "bodyOracleMaxMm": 0.0005995654685300558,
+        "insideSamplesBelow3mm": 323,
+        "worstSignedClearanceMm": -65.00810402212664,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.22218154333919848,
+          "GolfFit_RH_Impact": 0.06833262963454292,
+          "GolfFit_RH_Finish": 0.0919912558743178,
+          "GolfFit_LH_ReadyIdle": 0.15178477948433836,
+          "GolfFit_LH_Top": 0.12623587737178574,
+          "GolfFit_LH_Impact": 0.05889615089218703,
+          "GolfFit_LH_Finish": 0.12049792701536327
+        }
+      },
+      "female_Putter_contact": {
+        "topOracleMaxMm": 0.0005729982685687851,
+        "bodyOracleMaxMm": 0.0005672358581122329,
+        "insideSamplesBelow3mm": 318,
+        "worstSignedClearanceMm": -50.74515729211271,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.18306203581139446,
+          "GolfFit_RH_Impact": 0.07248970102810423,
+          "GolfFit_RH_Finish": 0.07888018215127483,
+          "GolfFit_LH_ReadyIdle": 0.1417706222460285,
+          "GolfFit_LH_Top": 0.1527996712290477,
+          "GolfFit_LH_Impact": 0.07078148489182996,
+          "GolfFit_LH_Finish": 0.14792672269246715
+        }
+      },
+      "female_Putter_follow": {
+        "topOracleMaxMm": 0.0005636118646427403,
+        "bodyOracleMaxMm": 0.0005629928403227621,
+        "insideSamplesBelow3mm": 305,
+        "worstSignedClearanceMm": -38.01613161340356,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.14891453598762644,
+          "GolfFit_RH_Impact": 0.0669294806824825,
+          "GolfFit_RH_Finish": 0.08031255756527872,
+          "GolfFit_LH_ReadyIdle": 0.22004429771878017,
+          "GolfFit_LH_Top": 0.10234345285782424,
+          "GolfFit_LH_Impact": 0.06057476851992828,
+          "GolfFit_LH_Finish": 0.10006163631416738
+        }
+      },
+      "female_Putter_top": {
+        "topOracleMaxMm": 0.0005524128285318052,
+        "bodyOracleMaxMm": 0.0005701106302448383,
+        "insideSamplesBelow3mm": 347,
+        "worstSignedClearanceMm": -74.89074394106865,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.22894882880877201,
+          "GolfFit_RH_Impact": 0.0746187588252102,
+          "GolfFit_RH_Finish": 0.08076533164809964,
+          "GolfFit_LH_ReadyIdle": 0.1159997845294161,
+          "GolfFit_LH_Top": 0.149196918445392,
+          "GolfFit_LH_Impact": 0.06763751650811742,
+          "GolfFit_LH_Finish": 0.1552839671691988
+        }
+      },
+      "female_Wedge_address": {
+        "topOracleMaxMm": 0.5684003102220837,
+        "bodyOracleMaxMm": 0.0004838719946434487,
+        "insideSamplesBelow3mm": 268,
+        "worstSignedClearanceMm": -35.03826539963484,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.0429313410293974,
+          "GolfFit_RH_Impact": 0.04485865616072982,
+          "GolfFit_RH_Finish": 0.0340004789883202,
+          "GolfFit_LH_ReadyIdle": 0.36864202272788515,
+          "GolfFit_LH_Top": 0.031005986594520023,
+          "GolfFit_LH_Impact": 0.03880578980329925,
+          "GolfFit_LH_Finish": 0.044690647919628367
+        }
+      },
+      "female_Wedge_contact": {
+        "topOracleMaxMm": 0.0004825253632656716,
+        "bodyOracleMaxMm": 0.0005873148766425591,
+        "insideSamplesBelow3mm": 264,
+        "worstSignedClearanceMm": -41.081372648477554,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.046560784719457134,
+          "GolfFit_RH_Impact": 0.04061371488804659,
+          "GolfFit_RH_Finish": 0.04070121863828387,
+          "GolfFit_LH_ReadyIdle": 0.35878115457125453,
+          "GolfFit_LH_Top": 0.05379675589136587,
+          "GolfFit_LH_Impact": 0.04493247308243872,
+          "GolfFit_LH_Finish": 0.06669093237834958
+        }
+      },
+      "female_Wedge_follow": {
+        "topOracleMaxMm": 0.0005985881191387383,
+        "bodyOracleMaxMm": 0.0006343051726696242,
+        "insideSamplesBelow3mm": 274,
+        "worstSignedClearanceMm": -57.13775404728949,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.007412967302219339,
+          "GolfFit_RH_Impact": 0.011282939400979457,
+          "GolfFit_RH_Finish": 0.008968999601548214,
+          "GolfFit_LH_ReadyIdle": 0.4663466239100321,
+          "GolfFit_LH_Top": 0.005273189618206501,
+          "GolfFit_LH_Impact": 0.009186613745495445,
+          "GolfFit_LH_Finish": 0.008458550736298854
+        }
+      },
+      "female_Wedge_top": {
+        "topOracleMaxMm": 0.0007219215740917206,
+        "bodyOracleMaxMm": 0.0007188053739075969,
+        "insideSamplesBelow3mm": 268,
+        "worstSignedClearanceMm": -31.980792060494423,
+        "weightedShapes": {
+          "GolfFit_RH_Top": 0.0640439991217972,
+          "GolfFit_RH_Impact": 0.05119035447311787,
+          "GolfFit_RH_Finish": 0.04757625069221418,
+          "GolfFit_LH_ReadyIdle": 0.27674412669741283,
+          "GolfFit_LH_Top": 0.06464432620151903,
+          "GolfFit_LH_Impact": 0.05278088330996391,
+          "GolfFit_LH_Finish": 0.11389643662096925
+        }
+      }
+    }
+  }
+}

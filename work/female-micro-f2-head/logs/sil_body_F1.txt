@@ -1,0 +1,10 @@
+00:00.355  blend            | Read blend: "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/female-micro-f2-head/start/F1_STAGED.blend"
+00:00.542  render           | Saved: '/private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/5da9cfa8-44d8-45af-9e98-1ceff00fd75b/scratchpad/sil_front.png'
+00:00.589  render           | Saved: '/private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/5da9cfa8-44d8-45af-9e98-1ceff00fd75b/scratchpad/sil_back.png'
+front rows 23 129 centre col 440.1 SIL error 2.13 % mean |edge err| 0.71 px (1 px = 2.60 mm)
+  worst rows (row, dL, dR px): [(72, -5.0, 4.0), (101, -3.5, 2.8), (71, -4.0, 2.2), (83, 1.5, -2.2), (87, 1.2, -2.0), (25, -1.0, 2.2), (117, -1.8, 1.0), (116, -1.8, 1.0)]
+back rows 24 130 centre col 845.3 SIL error 4.68 % mean |edge err| 1.52 px (1 px = 2.60 mm)
+  worst rows (row, dL, dR px): [(102, -4.5, 6.0), (101, -4.0, 3.5), (25, -4.5, 3.0), (72, -3.8, 3.5), (117, -3.5, 3.2), (119, -3.5, 3.0), (118, -3.5, 3.0), (115, -3.5, 3.0)]
+Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:49:19)
+
+Blender quit

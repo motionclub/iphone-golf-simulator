@@ -11,11 +11,11 @@ namespace GolfArcade.Tests
             var player = new Vector3(0, .035f, -11.2f);
             TennisShoulderCamera.Frame(player, false, new Vector3(1, 1, 8), false, 16f/9,
                 out var eye, out var look, out var fov);
-            Assert.That(eye.z, Is.EqualTo(player.z - 3.5f).Within(.001f));
-            Assert.That(eye.y, Is.EqualTo(2.5f));
-            Assert.That(eye.x, Is.EqualTo(.6f));
-            Assert.That(fov, Is.EqualTo(46));
-            Assert.That(Vector3.Angle(look-eye, Vector3.forward), Is.LessThan(6));
+            Assert.That(eye.z, Is.EqualTo(player.z - 5.6f).Within(.001f));
+            Assert.That(eye.y, Is.EqualTo(3.3f));
+            Assert.That(eye.x, Is.EqualTo(.9f));
+            Assert.That(fov, Is.EqualTo(48));
+            Assert.That(Vector3.Angle(look-eye, Vector3.forward), Is.LessThan(8));
             var cam = new GameObject("Projection test").AddComponent<Camera>();
             try {
                 cam.aspect = 16f/9; cam.fieldOfView = fov; cam.transform.position = eye; cam.transform.LookAt(look);
@@ -28,7 +28,7 @@ namespace GolfArcade.Tests
             var player = new Vector3(2, .035f, -11.2f);
             TennisShoulderCamera.Frame(player, false, new Vector3(3, 1, -11), false, 16f/9,
                 out var eye, out var look, out var fov);
-            Assert.That(player.z-eye.z, Is.EqualTo(4.5f).Within(.001f));
+            Assert.That(player.z-eye.z, Is.EqualTo(6.6f).Within(.001f));
             TennisShoulderCamera.Frame(player, true, new Vector3(3, 1, -11), false, 16f/9,
                 out var leftEye, out var leftLook, out var leftFov);
             Assert.AreEqual(eye, leftEye); Assert.AreEqual(look, leftLook); Assert.AreEqual(fov, leftFov);
@@ -65,7 +65,7 @@ namespace GolfArcade.Tests
                     var v = cam.WorldToViewportPoint(point);
                     Assert.Greater(v.z, 0); Assert.That(v.y, Is.InRange(.04f, .96f), point.ToString());
                 }
-                Assert.AreEqual(46, fov, "Lobs dolly smoothly instead of switching lenses");
+                Assert.AreEqual(48, fov, "Lobs dolly smoothly instead of switching lenses");
             } finally { Object.DestroyImmediate(cam.gameObject); }
         }
     }

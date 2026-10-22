@@ -1,0 +1,23 @@
+[
+  {
+    "name": "reskin-candidate3-tennis",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/proof/candidate3/tennis",
+      "HERO_VENUE_ONLY": "1_gameplay,2_postcard,3_drone0,3_drone3,7_rear",
+      "LUMINOUS_COAST": "1"
+    }
+  },
+  {
+    "name": "reskin-candidate3-golf",
+    "method": "GolfArcade.EditorTools.GolfCourseStandardCapture.Run",
+    "env": {
+      "GOLF_STANDARD_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/proof/candidate3/golf",
+      "GOLF_STANDARD_HOLES": "12",
+      "GOLF_STANDARD_SHOWCASE": "1",
+      "GOLF_STANDARD_CAMERA_SWEEP": "0",
+      "LUMINOUS_COAST": "1"
+    }
+  }
+]

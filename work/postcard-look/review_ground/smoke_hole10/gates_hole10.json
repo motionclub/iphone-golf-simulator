@@ -1,0 +1,113 @@
+{
+ "hole": "10",
+ "script": "work/postcard-look/baseline/scripts/hole10_build.py",
+ "build_s": 0.5,
+ "look_s": 0.2,
+ "tris": 52471,
+ "skin_tris": 29712,
+ "surf_tris": 0,
+ "water_tris": {
+  "WATER_LAVA": 13185
+ },
+ "renders": [
+  "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_ground/smoke_hole10/render_top.png",
+  "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_ground/smoke_hole10/render_oblique.png",
+  "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_ground/smoke_hole10/render_phone_tee.png",
+  "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_ground/smoke_hole10/render_phone_mid.png",
+  "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_ground/smoke_hole10/render_shore.png"
+ ],
+ "missing_textures": [],
+ "gates": [
+  {
+   "name": "LOOK_TOP_SURFACES_UNCHANGED",
+   "ok": true,
+   "detail": "10 ground meshes, 2956 vertices, max |delta| 0.00e+00 m (tol 1e-05)"
+  },
+  {
+   "name": "LOOK_NO_COLLISION_PREFIX",
+   "ok": true,
+   "detail": "16 objects made by postcard_look_lib, none with a ground prefix; ground meshes 10 all on the postcard_verify allow-list"
+  },
+  {
+   "name": "LOOK_NO_MAT_FOAM",
+   "ok": true,
+   "detail": "exported meshes using MAT_FOAM [], WATER_FOAM* objects [], MAT_FOAM datablock users 0 (0-user data is neither saved nor exported)"
+  },
+  {
+   "name": "LOOK_GROUND_WATER_ARE_LK",
+   "ok": true,
+   "detail": "non-LK materials on ground/water meshes: []"
+  },
+  {
+   "name": "LOOK_UV_SANE",
+   "ok": true,
+   "detail": "11 ground/water meshes: one UV layer, finite, max |uv| 36.9, UV*tile/world edge ratio on every top/flat face 0.53..1.47 (limits 0.45..2.2); TERRAIN wall faces (hidden by the skin; arc-of-the-top-loop u) max ratio 3.36 (<= 8: no seam jump)"
+  },
+  {
+   "name": "LOOK_SKIN_BELOW_PLAY",
+   "ok": true,
+   "detail": "11 ROCK_SKIN pieces, 29712 tris, highest vertex 5.880 m (play 6.0 - 0.05)"
+  },
+  {
+   "name": "LOOK_WATER_STACK",
+   "ok": true,
+   "detail": "1 WATER_* meshes inside z 0..0.2"
+  },
+  {
+   "name": "LOOK_LAVA_MESH",
+   "ok": true,
+   "detail": "WATER_LAVA 13185 tris (>= 3000), materials ['LK_LAVA'], 4 LAVA_LIGHT empties (3..5)"
+  },
+  {
+   "name": "LOOK_WALL_HIDDEN_BY_SKIN",
+   "ok": true,
+   "detail": "261 rays from 12 m out toward the TERRAIN wall that land on it between z 0.05 and the lowest skin top (play - 1.5): 261 hit ROCK_SKIN first (100.0 %, >= 97 %), 0 reach the smooth wall"
+  },
+  {
+   "name": "LOOK_SKIN_NO_UPFACE_IN_PLAY",
+   "ok": true,
+   "detail": "0 up-facing ROCK_SKIN faces with centre above play_z - 0.1"
+  },
+  {
+   "name": "LOOK_BUDGET",
+   "ok": true,
+   "detail": "52471 tris in the export set (<= 250000), FBX 1.29 MB (<= 20)"
+  },
+  {
+   "name": "FBX_GROUND_SET",
+   "ok": true,
+   "detail": "ground meshes 10 == expected 10"
+  },
+  {
+   "name": "FBX_LK_MATERIALS",
+   "ok": true,
+   "detail": "LK materials in the file: ['LK_BASALT', 'LK_FAIRWAY', 'LK_GREEN', 'LK_LAVA', 'LK_ROUGH', 'LK_SAND']"
+  },
+  {
+   "name": "FBX_UV0",
+   "ok": true,
+   "detail": "every ground/water/skin/path mesh has exactly one UV layer"
+  },
+  {
+   "name": "FBX_SURF_COLOURS",
+   "ok": true,
+   "detail": "0 WATER_SURF meshes, all with a colour layer: True, max alpha 0.00"
+  },
+  {
+   "name": "FBX_NO_TEXTURE_REFS",
+   "ok": true,
+   "detail": "texture references in the FBX: [] (Unity names materials by base texture name with materialName 0, so the LK_* names only survive without them)"
+  },
+  {
+   "name": "FBX_NO_MAT_FOAM",
+   "ok": true,
+   "detail": "MAT_FOAM materials in the file: []"
+  },
+  {
+   "name": "POSTCARD_VERIFY_NO_REGRESSION",
+   "ok": true,
+   "detail": "29 postcard_verify gates on the look build; base build failed []; look build fails ['MATERIALS@blend', 'MATERIALS@fbx']; new failures outside the superseded MATERIALS/FBX_BUDGET: []"
+  }
+ ],
+ "fails": []
+}

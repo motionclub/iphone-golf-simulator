@@ -1,0 +1,96 @@
+{
+ "clips": [
+  {
+   "name": "Serve",
+   "sex": "Male",
+   "fbxSha256": "691f531a783f75266a70be707f55732d928854e4d0139a7e6b45c2a15384d255",
+   "length": 2.5,
+   "contact": 1.7,
+   "loop": false
+  },
+  {
+   "name": "Walk",
+   "sex": "Male",
+   "fbxSha256": "7ac87f3d994fd83ad45de5bb47078f85fbd149fd25ad0675bc050f9fe961b20a",
+   "length": 1.1,
+   "contact": 0.0,
+   "loop": true
+  },
+  {
+   "name": "RunForward",
+   "sex": "Male",
+   "fbxSha256": "712165a5908afd4803b00cceb6f466c60b61aaf99a0789866f45a58b2b075d35",
+   "length": 0.566667,
+   "contact": 0.0,
+   "loop": true
+  },
+  {
+   "name": "RunLeft",
+   "sex": "Male",
+   "fbxSha256": "83ac839292b9755dd44410bce378562dc022af63b14a983f4cbed04140d1c30c",
+   "length": 0.566667,
+   "contact": 0.0,
+   "loop": true
+  },
+  {
+   "name": "RunRight",
+   "sex": "Male",
+   "fbxSha256": "a612236850450cc0038c0bcee4ca902b98e6dc685da46ca23d92ffa3a7c97675",
+   "length": 0.566667,
+   "contact": 0.0,
+   "loop": true
+  },
+  {
+   "name": "Serve",
+   "sex": "Female",
+   "fbxSha256": "afc1847bedef890438abb4a5613038f7a5b34f539fd6079363b96376c7054f04",
+   "length": 2.5,
+   "contact": 1.7,
+   "loop": false
+  },
+  {
+   "name": "Walk",
+   "sex": "Female",
+   "fbxSha256": "e9df398ae0caf7ef3fa54e0aa9e522929faa9165769d14b1f54ac1f776aabd49",
+   "length": 1.1,
+   "contact": 0.0,
+   "loop": true
+  },
+  {
+   "name": "RunForward",
+   "sex": "Female",
+   "fbxSha256": "b0cc39e95341afe67bf592368449343d95a77d94d362b96bc808ede6c4f9c910",
+   "length": 0.566667,
+   "contact": 0.0,
+   "loop": true
+  },
+  {
+   "name": "RunLeft",
+   "sex": "Female",
+   "fbxSha256": "bf7f5128787ee8f75f2ce642eefc9466ba0353eceaf3ee8eedbd6dfec6fdcec6",
+   "length": 0.566667,
+   "contact": 0.0,
+   "loop": true
+  },
+  {
+   "name": "RunRight",
+   "sex": "Female",
+   "fbxSha256": "88702c4f59892e79999a5053be563127e6fc9602bfe82aef181e2aaccf29180a",
+   "length": 0.566667,
+   "contact": 0.0,
+   "loop": true
+  }
+ ],
+ "serve": {
+  "stance": 0.2,
+  "release": 0.7,
+  "trophy": 1.3333333333333333,
+  "deepest": 1.5,
+  "takeoff": 1.6,
+  "contact": 1.7,
+  "landing": 1.9
+ },
+ "walkSpeed": 1.25,
+ "runSpeed": 3.2507739938080493,
+ "runReversePivot": 0.216667
+}

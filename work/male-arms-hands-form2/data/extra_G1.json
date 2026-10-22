@@ -1,0 +1,49 @@
+{
+ "T1_thenar_mound_mm": 13.505142613413135,
+ "T1_at": [
+  8,
+  34
+ ],
+ "T5_dihedral": {
+  "edges": 132,
+  "max": 68.24161904945925,
+  "gt60": 2,
+  "gt45": 7
+ },
+ "thumb_radius_increases": [
+  [
+   6,
+   0.9500000000000011
+  ]
+ ],
+ "finger_width_cv": [
+  {
+   "finger": 0,
+   "cv": 0.14706497141562178,
+   "rows": 12,
+   "longest_equal_width_run_rows": 2,
+   "run_frac": 0.16666666666666666
+  },
+  {
+   "finger": 1,
+   "cv": 0.14743007335586544,
+   "rows": 12,
+   "longest_equal_width_run_rows": 2,
+   "run_frac": 0.16666666666666666
+  },
+  {
+   "finger": 2,
+   "cv": 0.14699946313261128,
+   "rows": 12,
+   "longest_equal_width_run_rows": 2,
+   "run_frac": 0.16666666666666666
+  },
+  {
+   "finger": 3,
+   "cv": 0.1462986116174089,
+   "rows": 12,
+   "longest_equal_width_run_rows": 2,
+   "run_frac": 0.16666666666666666
+  }
+ ]
+}

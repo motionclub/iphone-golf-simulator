@@ -1,0 +1,29 @@
+{
+ "gate": "FEMALE_ARMS_FORM",
+ "result": "PASS",
+ "lines": {
+  "ZONE_OUTSIDE=0": {
+   "pass": true,
+   "evidence": "moved 1592 of 1699 arm-zone verts; moved outside zone 0 (max disp outside 0.0 m, float32 bit-exact); pinned seam verts 107 moved 0 (max 0.0 mm); wrist rings moved R 0 / L 0; Hair_F + all other objects identical"
+  },
+  "TOPOLOGY": {
+   "pass": true,
+   "evidence": "verts/edges/loops/polygons/material ids/smooth flags/UV/attribute data (incl. raw custom_normal codes) identical to start; tris 44762 (+4960 hair = 49722 <= 50000); non-manifold 0, degenerate 0, loose 0, signed volume 0.05590 m3 (>0); self-intersecting face pairs 2004 = start 2004 (all in the head: eyes/lashes; 0 in the arms)"
+  },
+  "ARMPIT_CLEAN": {
+   "pass": true,
+   "evidence": "torso/arm seam verts moved 0 (limit 0.3 mm); face-normal flips 0; max face-normal change in arm zone 28.7 deg; armpit/shoulder-seam dihedral max 94.3 -> 96.3 deg, p99 58.3 -> 61.6 deg (limit +5 deg); edge stretch 0.76..1.37 (limit 0.6..1.5)"
+  },
+  "SIL_NOT_WRECKED": {
+   "pass": true,
+   "evidence": "arm-zone XOR vs plate polygon front 11.67 -> 9.86 %, back 21.12 -> 21.31 % (limit start+1 pt; the plate back view is itself ~20 % off its own mean); consensus ratio (model/plate-self, <=1.25 and <= start) 0.835 -> 0.798; outer-edge deviation to plate consensus rows y175..340: mean 5.32 -> 3.05 mm, max 12.98 -> 12.98 mm"
+  },
+  "ARM_FORM_DEFINED": {
+   "pass": true,
+   "evidence": "R: arm axis y at z1.08 = +29.7 mm (start +0.3; plate ~ +35; limit >= +25), at z0.92 = +6.8 mm (leans forward toward the wrist); elbow-neck dip in half-width = 2.39 mm (start 1.05; limit >= 1.8); added relief (per-slice displacement with the rigid shift removed, z0.90-1.30) RMS 5.38 mm (limit >= 1.5), p95 10.96 mm (limit >= 3.0) -> ok | L: arm axis y at z1.08 = +30.0 mm (start +0.1; plate ~ +35; limit >= +25), at z0.92 = +3.8 mm (leans forward toward the wrist); elbow-neck dip in half-width = 2.07 mm (start 1.11; limit >= 1.8); added relief (per-slice displacement with the rigid shift removed, z0.90-1.30) RMS 5.34 mm (limit >= 1.5), p95 10.98 mm (limit >= 3.0) -> ok"
+  }
+ },
+ "start_sha256": "5c54f3959a92f4bbe8185a13442cfd6104bff10c51466c43eaedbaaa44ea5920",
+ "candidate_sha256": "573ab4431d83f8651936f0081ad3bda9c6890c56ee5dce3061140198c9455f0e",
+ "artdir_sha256": "200dc3b93e65491a8a7c3a8220c76cde5ca02ec7d1279e339f154005b22685cd"
+}

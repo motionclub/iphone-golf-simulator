@@ -1,0 +1,32 @@
+{
+    "tool": "PostcardV3FixtureCapture",
+    "status": "PASS",
+    "reason": "Rendering/import and explicitly required authored-band measurements only. BASALT_JOINTS is a separate frozen-threshold image measurement, not implied by this runner status.",
+    "rendered": 11,
+    "requiredBandFrames": 2,
+    "failedBandFrames": 0,
+    "files": [
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/unity3/basalt_az0.full.png",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/unity3/basalt_az0.v3_frame_proof.json",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/unity3/basalt_az35.full.png",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/unity3/basalt_az35.v3_frame_proof.json",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/unity3/basalt_az-35.full.png",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/unity3/basalt_az-35.v3_frame_proof.json",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/unity3/needle_az0.full.png",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/unity3/needle_az0.v3_frame_proof.json",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/unity3/needle_az120.full.png",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/unity3/needle_az120.v3_frame_proof.json",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/unity3/needle_az240.full.png",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/unity3/needle_az240.v3_frame_proof.json",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/unity3/cliff_az0.full.png",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/unity3/cliff_az0.v3_frame_proof.json",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/unity3/cliff_az120.full.png",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/unity3/cliff_az120.v3_frame_proof.json",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/unity3/cliff_az240.full.png",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/unity3/cliff_az240.v3_frame_proof.json",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/unity3/fairway_lawn.full.png",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/unity3/fairway_lawn.v3_frame_proof.json",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/unity3/green_lawn.full.png",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/unity3/green_lawn.v3_frame_proof.json"
+    ]
+}

@@ -1,0 +1,89 @@
+{
+ "COLLAR_OFFSET": {
+  "row1": {
+   "verts": 60,
+   "z_mean": 1.412500023841858,
+   "max_dist_mm": 7.922830060124397,
+   "mean_dist_mm": 2.9778716818592934,
+   "max_abs_signed_normal_offset_mm": 7.922829409383825
+  },
+  "row2": {
+   "verts": 60,
+   "z_mean": 1.422930516799291,
+   "max_dist_mm": 9.323760867118835,
+   "mean_dist_mm": 3.9941493912920123,
+   "max_abs_signed_normal_offset_mm": 9.323761365575342
+  },
+  "row3": {
+   "verts": 60,
+   "z_mean": 1.4320493857065837,
+   "max_dist_mm": 11.200381442904472,
+   "mean_dist_mm": 5.079431059039052,
+   "max_abs_signed_normal_offset_mm": 11.200380641984614
+  },
+  "row4": {
+   "verts": 60,
+   "z_mean": 1.4403269112110137,
+   "max_dist_mm": 8.862329646945,
+   "mean_dist_mm": 5.855216703154535,
+   "max_abs_signed_normal_offset_mm": 8.862329818767723
+  },
+  "row5": {
+   "verts": 60,
+   "z_mean": 1.4478075524171194,
+   "max_dist_mm": 7.846685126423836,
+   "mean_dist_mm": 5.116800328445,
+   "max_abs_signed_normal_offset_mm": 7.846684497685762
+  },
+  "row6": {
+   "verts": 60,
+   "z_mean": 1.4541772147019705,
+   "max_dist_mm": 10.017779655754566,
+   "mean_dist_mm": 2.75608627149874,
+   "max_abs_signed_normal_offset_mm": 10.017779310757403
+  }
+ },
+ "COLLAR_OFFSET_MM_row1_max": 7.922830060124397,
+ "collar_ring_dihedral_deg": {
+  "merged_max": 52.41815647175662,
+  "merged_mean": 13.155244602815856,
+  "ArtDir_original_max": 28.17433088488419,
+  "ArtDir_original_mean": 12.533956311473048,
+  "n_merged": 120,
+  "n_ArtDir": 61
+ },
+ "bvh_hands_base": {
+  "tris": 46402,
+  "nonadjacent_overlap_pairs": 3053,
+  "breakdown": {
+   "zones:head": 3053
+  },
+  "example_hand_pair_centres": []
+ },
+ "bvh_stage3_torso_merged_old_head": {
+  "tris": 46402,
+  "nonadjacent_overlap_pairs": 3053,
+  "breakdown": {
+   "zones:head": 3053
+  },
+  "example_hand_pair_centres": []
+ },
+ "bvh_merged": {
+  "tris": 43990,
+  "nonadjacent_overlap_pairs": 32,
+  "breakdown": {
+   "zones:head": 32
+  },
+  "example_hand_pair_centres": []
+ },
+ "bvh_F3_body": null,
+ "Face_F_alignment": {
+  "face_vertices": 3986,
+  "merged_min_gap_mm": 0.04754410474561155,
+  "F3_min_gap_mm": 0.04754410474561155,
+  "max_abs_diff_between_merged_and_F3_gaps_mm": 0.0,
+  "Face_F_positions_identical_to_F3": true,
+  "Face_F_topology_identical_to_F3": true,
+  "Face_F_custom_normals_identical_to_F3": true
+ }
+}

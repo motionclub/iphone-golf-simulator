@@ -1,0 +1,1094 @@
+{
+ "taken": "2026-10-04 14:34:37",
+ "n": 272,
+ "files": {
+  "GolfArcade/Unity/CharacterAssets/CustomBob.json": {
+   "sha": "71b6c64f4b704bb04c0dc2f4db48cb815b1bac57cba2a7f3ca9195babcf58514",
+   "mtime": 1790355364.9892588
+  },
+  "GolfArcade/Unity/CharacterAssets/CustomBodyF.json": {
+   "sha": "7d28f0c401ca508b59acf60cfcb8ddc6b86a4861c228adea94f4862ab2952525",
+   "mtime": 1790355364.005561
+  },
+  "GolfArcade/Unity/CharacterAssets/CustomBodyM.json": {
+   "sha": "3c089c0f3ae0cf579fa8e26bd7e3a7010a84982c9a6687455465b6add07a68cb",
+   "mtime": 1790355362.6327217
+  },
+  "GolfArcade/Unity/CharacterAssets/CustomCurls.json": {
+   "sha": "27469c07ef107d70e7b3f3b81bc27e6c6f140d5bcd7a179911145c619fc22a8c",
+   "mtime": 1790355364.775061
+  },
+  "GolfArcade/Unity/CharacterAssets/CustomHead.json": {
+   "sha": "040ceab2fb9b921df554a52bd1f202cee28fbbe0a331b99bafd5ff9c0dc641f1",
+   "mtime": 1790355364.3288133
+  },
+  "GolfArcade/Unity/CharacterAssets/CustomHead.png": {
+   "sha": "a7847d635c94df479ba5a47546e682601563f72095bdfce5c8a5b724804a73be",
+   "mtime": 1790355364.0817597
+  },
+  "GolfArcade/Unity/CharacterAssets/CustomHeadMask.mask": {
+   "sha": "9e7128995ba26406371db4b818e30047659fba9259902d505a3d7af0594b0b07",
+   "mtime": 1790355364.1581607
+  },
+  "GolfArcade/Unity/CharacterAssets/CustomHeadMask.png": {
+   "sha": "aa2f2ebed83eecd02840f23ac322588639692996ada85962a70dd14453573fa2",
+   "mtime": 1790355364.1618218
+  },
+  "GolfArcade/Unity/CharacterAssets/CustomQuiff.json": {
+   "sha": "c30f149149ffcdd372a272bba3730f0e551ef908f538fdd100a2566bb51034a1",
+   "mtime": 1790355364.5552351
+  },
+  "GolfArcade/Unity/CharacterAssets/HeroLounge.lzfse": {
+   "sha": "2333587253e58432a42285f51eef358cc24ac5ff7433312bca8ab921c9f61015",
+   "mtime": 1790730289.5713573
+  },
+  "GolfArcade/Unity/CharacterAssets/HeroMenu.json": {
+   "sha": "be1f72b4910fa6890a8895c78d7144be93d27bf0ebad073b847ce1e227537258",
+   "mtime": 1790730196.6925983
+  },
+  "GolfArcade/Unity/CharacterAssets/HeroMenu.lzfse": {
+   "sha": "7bdd0904f4722fe8f3e6572155016fcea7cfcdffeaf9125cae8b227c111bd200",
+   "mtime": 1790730194.1707497
+  },
+  "GolfArcade/Unity/CharacterAssets/HeroSwing_00.lzfse": {
+   "sha": "a51f4581fd92eea27d2c324c40188859f51de4b705ede36dc5a64447050d3bfb",
+   "mtime": 1790730194.4901798
+  },
+  "GolfArcade/Unity/CharacterAssets/HeroSwing_03.lzfse": {
+   "sha": "dfef5c1da4199d7f5c1db258072a277f4e3d384071e1a2122fe87d9dd36727f5",
+   "mtime": 1790730194.8047543
+  },
+  "GolfArcade/Unity/CharacterAssets/HeroSwing_06.lzfse": {
+   "sha": "ccdcb541d6a84e54ccc97304e529b9987469e8553bf0a8d1ed56867200c73ab5",
+   "mtime": 1790730195.1298919
+  },
+  "GolfArcade/Unity/CharacterAssets/HeroSwing_09.lzfse": {
+   "sha": "d9eef670aebd194cdbf1a8f4435ed48f02969dae17ce7144f58b8be8760655bf",
+   "mtime": 1790730195.4384804
+  },
+  "GolfArcade/Unity/CharacterAssets/HeroSwing_12.lzfse": {
+   "sha": "a870eb6c0c1c81304f07a5c58cd542e08358e3b649b3ccdca62898b3fd12bb17",
+   "mtime": 1790730195.7337906
+  },
+  "GolfArcade/Unity/CharacterAssets/HeroSwing_15.lzfse": {
+   "sha": "3a874ea641a65d04a2c789fe48a595a8bb63b046fc5f8aad6c9f77a7ddf6c78a",
+   "mtime": 1790730196.034953
+  },
+  "GolfArcade/Unity/CharacterAssets/HeroSwing_18.lzfse": {
+   "sha": "6b26ed35204cf0d2a77f162ba9ddf021b62f1c4afe9eff856992afef14a26914",
+   "mtime": 1790730196.3612716
+  },
+  "GolfArcade/Unity/CharacterAssets/HeroSwing_19.lzfse": {
+   "sha": "5b832d7bdcda4919bb9b63e1e00f5f83784f3a3dd70326f995bf5e6c77bd15d8",
+   "mtime": 1790730196.6884677
+  },
+  "GolfArcade/Unity/CharacterAssets/HeroV4.bin": {
+   "sha": "b04cd010b056696d804abd914b5ade74bf135d06964321a775a1c7c0a62ab8c8",
+   "mtime": 1790730083.5707726
+  },
+  "GolfArcade/Unity/CharacterAssets/HeroV4.json": {
+   "sha": "1395745561396cb2c6d5afc06e105b0e4967847d6b09cf4744ff25648f20a61e",
+   "mtime": 1790730083.548988
+  },
+  "GolfArcade/Unity/CharacterAssets/HeroV4_Atlas.png": {
+   "sha": "5c625b6852a12fd191371a78d3b57958aeab558d9eb23bba5bebdb70d050977f",
+   "mtime": 1790726361.4173954
+  },
+  "GolfArcade/Unity/CharacterAssets/HeroV4_Hair_Buzz.png": {
+   "sha": "2c02a723bb72a626bec55f1014293f7a90de86f4a69b5b2dfcd0f706d36428c6",
+   "mtime": 1790615908.6758769
+  },
+  "GolfArcade/Unity/CharacterAssets/HeroV4_Hair_Waves.png": {
+   "sha": "79956e1cd3a0c43466b4eb831277c204b3b4bca9da262bc76d4291836768c472",
+   "mtime": 1790615908.7175326
+  },
+  "GolfArcade/Unity/CharacterAssets/HeroV4_Iris.png": {
+   "sha": "a110d731a8d886666eab4fe56db6244845f3ce41befd60e440cc8f403ec22ca4",
+   "mtime": 1790726361.4275882
+  },
+  "GolfArcade/Unity/CharacterAssets/HeroV4_KitMask.png": {
+   "sha": "146bdc7f2b42100c0239e1a641b933949b33bf6ea312e3b5a14ff88cf633c364",
+   "mtime": 1790726361.3632028
+  },
+  "GolfArcade/Unity/CharacterAssets/HeroV4_KitRef.json": {
+   "sha": "5d4e6ef1daf6bc470e756496bd3c6b5fcb83758e8aa0d50180dab631ab445444",
+   "mtime": 1790726361.3752255
+  },
+  "GolfArcade/Unity/CharacterAssets/HeroV4_SkinMask.png": {
+   "sha": "933d31017780e4717df330dd153c3e3dae8274b86002a57e759657d332ef1704",
+   "mtime": 1790726361.374782
+  },
+  "GolfArcade/Unity/CharacterAssets/HiggsAvatarF_Color.png": {
+   "sha": "20d53b83300a695b7d4c6a7239e5fa3722c58a5cf2d29398735559f4b18b04be",
+   "mtime": 1790355362.8294234
+  },
+  "GolfArcade/Unity/CharacterAssets/HiggsAvatarF_Mask.mask": {
+   "sha": "7940671ce0e106778d2a79a0895b716580721e4b741c41a388b9cd844931f04f",
+   "mtime": 1790355362.862069
+  },
+  "GolfArcade/Unity/CharacterAssets/HiggsAvatarF_Mask.png": {
+   "sha": "ff4e9962efd25c97efafd53ccdc8b5652e2bd474d17b88e5845c04ea12b2b8a5",
+   "mtime": 1790355362.8663452
+  },
+  "GolfArcade/Unity/CharacterAssets/HiggsAvatar_Color.png": {
+   "sha": "e05e0dc8c85df13d89e1d29902c50e2a78ced62b91eb82104a8d8206149811e1",
+   "mtime": 1790355361.2225504
+  },
+  "GolfArcade/Unity/CharacterAssets/HiggsAvatar_Mask.mask": {
+   "sha": "070134a8b0fcd0ed403a223712e16cef26856c07af5ef59a3215f55bae6776a4",
+   "mtime": 1790355361.2608325
+  },
+  "GolfArcade/Unity/CharacterAssets/HiggsAvatar_Mask.png": {
+   "sha": "e49453bb829aa794788098ee96a1aaef1f8ce8d8784cbfeb8cb51433e4ea5df0",
+   "mtime": 1790355361.2667167
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Cloth_Weave.png": {
+   "sha": "784ce63d813c6213f8f9f5954df9f8d1111f8a02936eb33146d1d4826cf4bec4",
+   "mtime": 1791125221.6014528
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Female.json": {
+   "sha": "34faade55e674e57291926eff89027f248a946776bbdad32799f2d4ece1fb919",
+   "mtime": 1791125221.6028974
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Female.lzfse": {
+   "sha": "76ccacd0dda925f29037803077dff7963eca5d37746238d8967895b2ebc8904f",
+   "mtime": 1791125221.6041462
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Rig.lzfse": {
+   "sha": "61c1883fde845ace2c74e35fa7706744b580c685dc48b15320673619dcede11e",
+   "mtime": 1791125221.6071115
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_00.lzfse": {
+   "sha": "f4d445bc457c4fd9bcd92df525bc202cdb02793257a639737c95f081e329cdf4",
+   "mtime": 1791125221.608289
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_01.lzfse": {
+   "sha": "ce01ac04f7db3235b6f4190c343b4c9d91195b51b41e4a820c061f9ed32d8fd6",
+   "mtime": 1791125221.6124353
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_02.lzfse": {
+   "sha": "4487feefaa148e86c75380ebf6f82124f285054704b95bb0d936a8ae16d66a88",
+   "mtime": 1791125221.6135993
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_03.lzfse": {
+   "sha": "1fa0587f4a056fdf826486bf057e31292b7c8be61e5649c4543a6b651d721444",
+   "mtime": 1791125221.6166122
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_04.lzfse": {
+   "sha": "e4aa7de73e7f94fdd51ce28dd491b88b87d055b028516bc94c2046b3d2b9b349",
+   "mtime": 1791125221.617502
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_05.lzfse": {
+   "sha": "0d1dbaeb94cec61c157f5342b29b29ebaa3f6e6a54bdee6f286ab3cc774eb0d3",
+   "mtime": 1791125221.6193163
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_06.lzfse": {
+   "sha": "6c534e0c188c73a1dc305433ca63797f57544333d64462ccf5b8bde5045be1d7",
+   "mtime": 1791125221.6208432
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_07.lzfse": {
+   "sha": "d9a86e2a6bc1ab721d33c9317e60b7fff82cfeb3329b3655226c3498a10fe5d6",
+   "mtime": 1791125221.622068
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_08.lzfse": {
+   "sha": "4d6a1a1048a034270a6f755d26e62a88396a1bd7aa570c3235927b24052fb874",
+   "mtime": 1791125221.624654
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_09.lzfse": {
+   "sha": "8f0d2a8eab7dd2c1472693018b5af3f94c6da0682579c23675a0ecfd6d1c6420",
+   "mtime": 1791125221.6263633
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_10.lzfse": {
+   "sha": "6c00e4557327e5fdcd3f649222865bdebbf131a48002128e7cba10544a431d61",
+   "mtime": 1791125221.629183
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_11.lzfse": {
+   "sha": "3571be03d7142315b0743173dc3fdf7f86ed289008a30561d266d03c9890b696",
+   "mtime": 1791125221.630382
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_Bottom.png": {
+   "sha": "33b6e55b5466e76b905ffca9828bf39f22857017d81300ade6dd7359c01685f0",
+   "mtime": 1791125221.6330056
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_ShoeL.png": {
+   "sha": "f64672bedd0ad435ed6c6105d00c1fcefd6f4cc6685889fe38de99c7899fd277",
+   "mtime": 1791125221.633404
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_ShoeR.png": {
+   "sha": "a89cf9258731d86a93593cbb04c5f12dfeb327d69c83534513694e69926aaaf3",
+   "mtime": 1791125221.6338742
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_SockL.png": {
+   "sha": "0d2d724884cc6fe9c70dcc32c48d6b6d9dbcdfe017a13ea2ebe035023d72e716",
+   "mtime": 1791125221.634368
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_SockR.png": {
+   "sha": "a2d905371160c981929071752dc11ce9c53b10a776f4ad5f216341d1444ab41b",
+   "mtime": 1791125221.6351807
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_Top.png": {
+   "sha": "f7de29ab79277739ae2dde2e02916095d48622dc5ec4da4bcc75c67e5e15ca7f",
+   "mtime": 1791125221.6358216
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_Bottom.png": {
+   "sha": "ff9e0a1904b722b1b3527249ec7c66f4c53883f1c4e25ddf4af95a84bf3bd44f",
+   "mtime": 1791125221.6362777
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_ShoeL.png": {
+   "sha": "e6cda354f7e22d69efa87ea33c05cf57ecc1acb54fa1b0d2c7e77040492909a2",
+   "mtime": 1791125221.6368346
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_ShoeR.png": {
+   "sha": "fd9ecbc40f0a1ae4ccc0c8d1ef7dead2d740dfbb5ba406b39991e330a636e84c",
+   "mtime": 1791125221.6373682
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_SockL.png": {
+   "sha": "039ccf7d1e8b993fd7f421278b4e28560db7514d8ad2dafd1d2815661df6c38a",
+   "mtime": 1791125221.6378074
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_SockR.png": {
+   "sha": "818626d042878df9337d0619a1f28050fc9572509df9efbe3b2b93f951c69f29",
+   "mtime": 1791125221.6383023
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_Top.png": {
+   "sha": "2be70dd33dbca7f341d739a18215457644d75b734a739278edf738e968a368c5",
+   "mtime": 1791125221.6389148
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Male.json": {
+   "sha": "61c0d6febe5d53b3d227fb7577e67349f58e7f4e03909363f22b47ed8743f0ae",
+   "mtime": 1791125221.639768
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Male.lzfse": {
+   "sha": "c374680976e37e00e9de3f5cb6600a556052f500c518d27e3ab6f84d793622f0",
+   "mtime": 1791125221.641137
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Rig.lzfse": {
+   "sha": "b71355033ed6cd83a06b51d0cafd5fb4b2c76845037a5f8448767e27d7d42ff9",
+   "mtime": 1791125221.6420898
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_00.lzfse": {
+   "sha": "eac6cbb6e0a82b4ea026433f9d025da5a4952c4fc6f733645e8f66fc427c0fdf",
+   "mtime": 1791125221.646809
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_01.lzfse": {
+   "sha": "dd0151d1a5150ce6d53f1841a050db945e04c9fa9463adfe7284fa9b3bdcaa19",
+   "mtime": 1791125221.6488585
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_02.lzfse": {
+   "sha": "22b3ba9470e3d09c2fdb28709ea67114e8d3ef7b1fdb14675efebc70ae2c2060",
+   "mtime": 1791125221.6495368
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_03.lzfse": {
+   "sha": "3536d3872e11dc0718963f3018342685ef9d5311ef67a8040a7bf515d87db4f0",
+   "mtime": 1791125221.6508002
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_04.lzfse": {
+   "sha": "2539837f6c5cff9126a0a1a269fa88c52740d3e1fc8aa988ba396cd22137449d",
+   "mtime": 1791125221.6543307
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_05.lzfse": {
+   "sha": "68c09e2960df073013869fbbe09a08a418421ee0fe23db8dcd6e385e76a13755",
+   "mtime": 1791125221.6550097
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_06.lzfse": {
+   "sha": "5e3566122eef1164accffbd3dfd095524b9bdae21e573bb155009e4f16343bf1",
+   "mtime": 1791125221.6566448
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_07.lzfse": {
+   "sha": "d350b2e1cad2e1b2748da583a3125859b4d787f5393fca27aa0fd49fb01ffb1f",
+   "mtime": 1791125221.6572804
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_08.lzfse": {
+   "sha": "dc19b47ee71ea37a154dde75c2f995fe6d6c8b30d6d676d747a9489de1916d95",
+   "mtime": 1791125221.6589034
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_09.lzfse": {
+   "sha": "343259f19903b20d4365acc7cf9089c8d2379b19fbcd7eac53a8d7f77c10e0f0",
+   "mtime": 1791125221.661311
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_10.lzfse": {
+   "sha": "6727a4f1c0830a1775772f982649f0a0ab6d59314ff06faf0a7d6552a8ff3cb1",
+   "mtime": 1791125221.6624172
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_11.lzfse": {
+   "sha": "e84de243d72d9ef25d23a694dad23721eff98e147dfb19964216344520d97d4b",
+   "mtime": 1791125221.6660464
+  },
+  "GolfArcade/Unity/CharacterAssets/MatchHero_Skin_Soft_N.png": {
+   "sha": "f266f4b0661592d6fdabd948b1cef26c11d8e3186286845055553e446adb5848",
+   "mtime": 1791125221.6676419
+  },
+  "GolfArcade/Unity/CharacterAssets/PlayerFemaleBob.json": {
+   "sha": "f9cdb94995dcfede2005d85f2af0e85b12f263769e68202adf1f8149d50530ef",
+   "mtime": 1790383852.5774739
+  },
+  "GolfArcade/Unity/CharacterAssets/PlayerFemaleBottom.json": {
+   "sha": "11411df305ff0f69762138efd6f422e90f0a06fd5b15422f957fa8489cf9f08a",
+   "mtime": 1790384055.7375307
+  },
+  "GolfArcade/Unity/CharacterAssets/PlayerFemaleColor.png": {
+   "sha": "5869b9e1bf2e4117d58a250be022720aa8a95cd8fb074f331ef95cec6208e014",
+   "mtime": 1790384053.451019
+  },
+  "GolfArcade/Unity/CharacterAssets/PlayerFemaleCurls.json": {
+   "sha": "b8556cb5a7e927444453bf4d28cfbae4e461e2694c3e6825d60ba792c1251faa",
+   "mtime": 1790383852.5426352
+  },
+  "GolfArcade/Unity/CharacterAssets/PlayerFemaleHandL.json": {
+   "sha": "15266b983735d0875b6811571f19f976d06ce3049b1f5b6a5c724b4715095af3",
+   "mtime": 1790384055.830839
+  },
+  "GolfArcade/Unity/CharacterAssets/PlayerFemaleHandR.json": {
+   "sha": "64d392dfa67a911ac4e44763aa1c92bf8ddc2c97ddb7202ee4a61998ede2888f",
+   "mtime": 1790384055.8464727
+  },
+  "GolfArcade/Unity/CharacterAssets/PlayerFemaleLimb.json": {
+   "sha": "093d8374df061bf7296738e79facd70c1f037a4ac9db6f36d67fed184a6efb35",
+   "mtime": 1790384055.7987778
+  },
+  "GolfArcade/Unity/CharacterAssets/PlayerFemaleMask.mask": {
+   "sha": "87cd25210d0dd798717e08a46fba18011fd8b8f121d9f31a8158751e45b5778c",
+   "mtime": 1790384053.4687612
+  },
+  "GolfArcade/Unity/CharacterAssets/PlayerFemaleMask.png": {
+   "sha": "bc848c1ab2ad81f9a79c0d605c32e79eb69110986f0c5e80b0640c37cf675190",
+   "mtime": 1790384053.4677112
+  },
+  "GolfArcade/Unity/CharacterAssets/PlayerFemaleShoes.json": {
+   "sha": "befe80e1444fc96fce811e9b06a6f0050236ac7c71443b6e3b4b8dad40c0a2ea",
+   "mtime": 1790384055.7538223
+  },
+  "GolfArcade/Unity/CharacterAssets/PlayerFemaleSkin.json": {
+   "sha": "b45b6065329444dac2ff44aca29570b4303ac62699c909491f6125ce4a8b78b9",
+   "mtime": 1790384055.7065728
+  },
+  "GolfArcade/Unity/CharacterAssets/PlayerFemaleSwept.json": {
+   "sha": "790a2ef5b4749dba9a282398d143cb1b636c589d49785aa7b7ca8c6b97f19bde",
+   "mtime": 1790383852.096834
+  },
+  "GolfArcade/Unity/CharacterAssets/PlayerFemaleTop.json": {
+   "sha": "fb3de5dfc8b5fdaa24b565ec88892c9c8f3d5251dc1dc42d959354e077ae072f",
+   "mtime": 1790384055.727099
+  },
+  "GolfArcade/Unity/CharacterAssets/PlayerFemaleTrim.json": {
+   "sha": "a54c3d4e2569ee28aaf5762a1c4595eb85f53b223082bb25e1fb452e980ac883",
+   "mtime": 1790384055.8152354
+  },
+  "GolfArcade/Unity/CharacterAssets/PlayerMaleBob.json": {
+   "sha": "f9cdb94995dcfede2005d85f2af0e85b12f263769e68202adf1f8149d50530ef",
+   "mtime": 1790383851.525384
+  },
+  "GolfArcade/Unity/CharacterAssets/PlayerMaleBottom.json": {
+   "sha": "c9b03b8b300b57e749d371a645edaa1c5cb6be5d7733b647a00dfebfd7d9728c",
+   "mtime": 1790384045.8983912
+  },
+  "GolfArcade/Unity/CharacterAssets/PlayerMaleColor.png": {
+   "sha": "15a179b2b7e29932420730751e68a26e34dce775c299f10c50e9f448ffb6deb1",
+   "mtime": 1790384043.5426111
+  },
+  "GolfArcade/Unity/CharacterAssets/PlayerMaleCurls.json": {
+   "sha": "2e2ca50e89fdd7dece0b88277589968003970b5d1d577244213a71b77fcfdf8a",
+   "mtime": 1790383851.491174
+  },
+  "GolfArcade/Unity/CharacterAssets/PlayerMaleHandL.json": {
+   "sha": "bd7dbf607c81dda1c62f5c375a7aa0a47b51fa2f33a194bf353536bda0b69631",
+   "mtime": 1790384045.9919653
+  },
+  "GolfArcade/Unity/CharacterAssets/PlayerMaleHandR.json": {
+   "sha": "7d0696dfb931cb439c985d2ea0036be84fe490d6ed14b21799f431a474bc3dd0",
+   "mtime": 1790384046.0068734
+  },
+  "GolfArcade/Unity/CharacterAssets/PlayerMaleLimb.json": {
+   "sha": "8feb1cd7213bcc89b6ed8c1abda7e9113fac98235e249d0dc356e7e0c7493943",
+   "mtime": 1790384045.9604473
+  },
+  "GolfArcade/Unity/CharacterAssets/PlayerMaleMask.mask": {
+   "sha": "18e58e4e3355f4ecd55357ab76761b9923a90436ea9ba272e793191dda016a96",
+   "mtime": 1790384043.561931
+  },
+  "GolfArcade/Unity/CharacterAssets/PlayerMaleMask.png": {
+   "sha": "8f51e8ab7376da667f2d210d5defb2b5b4a5b418ca8b5fd7254844471569b6f4",
+   "mtime": 1790384043.5604372
+  },
+  "GolfArcade/Unity/CharacterAssets/PlayerMaleShoes.json": {
+   "sha": "7fe51494fed63566a97b35a92ec983a171fe54b4324494061062eb802b1180fe",
+   "mtime": 1790384045.9146135
+  },
+  "GolfArcade/Unity/CharacterAssets/PlayerMaleSkin.json": {
+   "sha": "92d7cc2b03246e3ee16c2a75e242cfc55996118e1870b145c5f0bf8275808a6b",
+   "mtime": 1790384045.86727
+  },
+  "GolfArcade/Unity/CharacterAssets/PlayerMaleSwept.json": {
+   "sha": "790a2ef5b4749dba9a282398d143cb1b636c589d49785aa7b7ca8c6b97f19bde",
+   "mtime": 1790383851.039587
+  },
+  "GolfArcade/Unity/CharacterAssets/PlayerMaleTop.json": {
+   "sha": "ba1d88bd95c9cab489847693dc616e1a779848fe41b660c83bde694ad55abaef",
+   "mtime": 1790384045.8876922
+  },
+  "GolfArcade/Unity/CharacterAssets/PlayerMaleTrim.json": {
+   "sha": "e08cbf69217166440ba07bedbd490bb4c0f23d797f2a49b985c9e464390eee20",
+   "mtime": 1790384045.977588
+  },
+  "GolfArcade/Unity/CharacterModelPreview.swift": {
+   "sha": "d72fb095d7ff70cdb231c5c1b7ac2fc3ad7ce7ab6fec55876b5461925a79e455",
+   "mtime": 1791126306.3596194
+  },
+  "GolfArcade/Unity/LockerCatalog.swift": {
+   "sha": "3a7ec2e3396ffa87899e72b0453cfb218d727570545c1ac78f4a1418759a70c1",
+   "mtime": 1791051931.4307833
+  },
+  "GolfArcade/Unity/LockerColors.swift": {
+   "sha": "b01184553a920f7386a879b06d6a0247ab81daae8faa65e719595e44074c4ee7",
+   "mtime": 1791059274.9431386
+  },
+  "GolfArcade/Unity/LockerStudio.swift": {
+   "sha": "a0e18911bbf00c90d693527b10d4d559b856bb71c2505f60d27a5d7f7aa09f58",
+   "mtime": 1791053783.770869
+  },
+  "GolfArcade/Unity/MatchHeroData.swift": {
+   "sha": "a17b52501402ccaa019b66a2e7827e6f8d3edb62ddf67e6e8acba3664b97211e",
+   "mtime": 1791125176.888633
+  },
+  "GolfArcade/Unity/MatchHeroMotion.swift": {
+   "sha": "82ef6b64b6aff40f6f9de0fd19862ad8251ab93c68dd99b0fc8cd6b1a861f252",
+   "mtime": 1791126306.3592863
+  },
+  "GolfArcade/Unity/MatchHeroSurfaces.swift": {
+   "sha": "01907266028132b99843cdd63b410974b4778e306eb331eeec7ba071e2ec0573",
+   "mtime": 1791125284.6061149
+  },
+  "GolfArcadeTests/LockerMirrorProofTests.swift": {
+   "sha": "a493f80e68b1ece4af00f10db59436eec1d60e9856bdf30131910ac4274a7217",
+   "mtime": 1791126381.4564302
+  },
+  "GolfArcadeTests/LockerMirrorTests.swift": {
+   "sha": "716766324702a34baf2df8cdfe138d639589c45b3dc7ed9498fc9f37c65e0e52",
+   "mtime": 1791126341.8565748
+  },
+  "GolfArcadeTests/LockerTests.swift": {
+   "sha": "5129b1e8cb21b9fb4a48a7cd1bd82fb1a30ce66cf7f0d0b40ad28ebd23715e14",
+   "mtime": 1791059274.9451098
+  },
+  "GolfArcadeTests/MatchHeroLockerTests.swift": {
+   "sha": "0ad53aa2c073dc8d923faa1028e9a7d503f20eb22a05cf8475ff4b6674d88bc2",
+   "mtime": 1791057220.6214576
+  },
+  "Unity/Assets/Characters/MatchHeroes/Female/Female_RunForward.fbx": {
+   "sha": "b0cc39e95341afe67bf592368449343d95a77d94d362b96bc808ede6c4f9c910",
+   "mtime": 1791058761.5102286
+  },
+  "Unity/Assets/Characters/MatchHeroes/Female/Female_RunForward.fbx.meta": {
+   "sha": "1bddbd0e4a96e8f7d19c35163d5ecf78c1141c0dec1e05099a0e7ad2c39e198a",
+   "mtime": 1791060853.9742203
+  },
+  "Unity/Assets/Characters/MatchHeroes/Female/Female_RunLeft.fbx": {
+   "sha": "bf7f5128787ee8f75f2ce642eefc9466ba0353eceaf3ee8eedbd6dfec6fdcec6",
+   "mtime": 1791058761.9278836
+  },
+  "Unity/Assets/Characters/MatchHeroes/Female/Female_RunLeft.fbx.meta": {
+   "sha": "ac786baa9409574fc807e84bb1cda7e2ae59050ee18b3ed035c1521fdd6f97aa",
+   "mtime": 1791060854.0124493
+  },
+  "Unity/Assets/Characters/MatchHeroes/Female/Female_RunRight.fbx": {
+   "sha": "88702c4f59892e79999a5053be563127e6fc9602bfe82aef181e2aaccf29180a",
+   "mtime": 1791058762.3284802
+  },
+  "Unity/Assets/Characters/MatchHeroes/Female/Female_RunRight.fbx.meta": {
+   "sha": "c1ef581126376472d4fd64b0da6f861fea45793ed108635833d40f15da7a0dd2",
+   "mtime": 1791060854.050606
+  },
+  "Unity/Assets/Characters/MatchHeroes/Female/Female_Serve.fbx": {
+   "sha": "6f83909bca49a050e93ca987a44a11f3912085500fc583bb38bc4ec6cbd5ed3f",
+   "mtime": 1791081767.0318928
+  },
+  "Unity/Assets/Characters/MatchHeroes/Female/Female_Serve.fbx.meta": {
+   "sha": "3bc58e8f34842a989ab02b74645ca3650ade13ff7ae1e665c400f612b02ece4a",
+   "mtime": 1791060853.8878512
+  },
+  "Unity/Assets/Characters/MatchHeroes/Female/Female_Walk.fbx": {
+   "sha": "e9df398ae0caf7ef3fa54e0aa9e522929faa9165769d14b1f54ac1f776aabd49",
+   "mtime": 1791058761.1101627
+  },
+  "Unity/Assets/Characters/MatchHeroes/Female/Female_Walk.fbx.meta": {
+   "sha": "60ca0c6e1a9fa59ada5575d0bdd6db4e1cd8ee37bc49a89cf73fb59d03001dca",
+   "mtime": 1791060853.843235
+  },
+  "Unity/Assets/Characters/MatchHeroes/Male/Male_RunForward.fbx": {
+   "sha": "712165a5908afd4803b00cceb6f466c60b61aaf99a0789866f45a58b2b075d35",
+   "mtime": 1791058761.7814724
+  },
+  "Unity/Assets/Characters/MatchHeroes/Male/Male_RunForward.fbx.meta": {
+   "sha": "b80f5f94b0ad6832ff3c1bd1dded427fae120e52c6c625fa17de071c1c3e1578",
+   "mtime": 1791060853.6906843
+  },
+  "Unity/Assets/Characters/MatchHeroes/Male/Male_RunLeft.fbx": {
+   "sha": "83ac839292b9755dd44410bce378562dc022af63b14a983f4cbed04140d1c30c",
+   "mtime": 1791058762.2213116
+  },
+  "Unity/Assets/Characters/MatchHeroes/Male/Male_RunLeft.fbx.meta": {
+   "sha": "055512f421742c928f4264ac88a7ec38244fdbc15466a37f1f7535603add81b0",
+   "mtime": 1791060853.7298532
+  },
+  "Unity/Assets/Characters/MatchHeroes/Male/Male_RunRight.fbx": {
+   "sha": "a612236850450cc0038c0bcee4ca902b98e6dc685da46ca23d92ffa3a7c97675",
+   "mtime": 1791058762.644409
+  },
+  "Unity/Assets/Characters/MatchHeroes/Male/Male_RunRight.fbx.meta": {
+   "sha": "09964471e9b3c1b8c6b06375837293b7cfa62e32b5b887c8114a8e9cbafd8f3a",
+   "mtime": 1791060853.7656248
+  },
+  "Unity/Assets/Characters/MatchHeroes/Male/Male_Serve.fbx": {
+   "sha": "49038bb44f54be5a6a75edfb873c5a927c359108a4c5bc48f9eef390cb38d7f2",
+   "mtime": 1791081767.0257685
+  },
+  "Unity/Assets/Characters/MatchHeroes/Male/Male_Serve.fbx.meta": {
+   "sha": "7bd669f74775e9519c4c6bbdf443a4d498247874c6c7400e998b0f052be37474",
+   "mtime": 1791060853.9337304
+  },
+  "Unity/Assets/Characters/MatchHeroes/Male/Male_Walk.fbx": {
+   "sha": "7ac87f3d994fd83ad45de5bb47078f85fbd149fd25ad0675bc050f9fe961b20a",
+   "mtime": 1791058761.2913396
+  },
+  "Unity/Assets/Characters/MatchHeroes/Male/Male_Walk.fbx.meta": {
+   "sha": "3845e0b39777151b0e0d7ceaab38b1af52301f6470ceda5ce82ba78e8bfa2ee7",
+   "mtime": 1791060853.8048627
+  },
+  "Unity/Assets/Editor/GolfArcade.Editor.asmdef": {
+   "sha": "482ebb845c51fe10338f6b677e90c1b10099aa54e5033af23366fa29910d5a7d",
+   "mtime": 1790117114.6450899
+  },
+  "Unity/Assets/Editor/GolfArcade.Editor.asmdef.meta": {
+   "sha": "ab33ee223a80c77eb74063dc56347db26e14bad8752a598339ad704522f60fda",
+   "mtime": 1789951522.5330343
+  },
+  "Unity/Assets/Editor/GolfFlyoverCapture.cs": {
+   "sha": "8d3177f9cffd35d716861adbfd7ae433de0fa63eb954f75ec0eb3607164f3f6c",
+   "mtime": 1791052596.8406672
+  },
+  "Unity/Assets/Editor/GolfFlyoverCapture.cs.meta": {
+   "sha": "ee2dcef022f4156d20f37a3b0e48a885399b476aad12aa38936b1ccfc8882192",
+   "mtime": 1791052602.0
+  },
+  "Unity/Assets/Editor/GolfLookSmoke.cs": {
+   "sha": "bad896453e57a3763540afc8616a63d581f25f83daf7f64f916babc15e6b5514",
+   "mtime": 1791125949.308005
+  },
+  "Unity/Assets/Editor/GolfLookSmoke.cs.meta": {
+   "sha": "1ef28ab37f1bc40cb4b911fb2ed20eb04ffecb1803a83e263d7e678dcd2d7134",
+   "mtime": 1791077640.0
+  },
+  "Unity/Assets/Editor/GolfLookTextureImporter.cs": {
+   "sha": "2d8ad983afaba00a9e744a8fec03d877e42984a11f3c8f93f02cf13d0bb4d7ed",
+   "mtime": 1791077550.4900513
+  },
+  "Unity/Assets/Editor/GolfLookTextureImporter.cs.meta": {
+   "sha": "5a2d61c8540aed2134b62787498d1305134648dc195f117640b3d1a408b57b6b",
+   "mtime": 1791077640.0
+  },
+  "Unity/Assets/Editor/GolferModelImporter.cs": {
+   "sha": "554d53b83a95424ef03293d1d5ff0a02c296dadf85abd92da0cfd4a6fe1ae98f",
+   "mtime": 1790383181.7195091
+  },
+  "Unity/Assets/Editor/GolferModelImporter.cs.meta": {
+   "sha": "a43552dbd7ad375ec5843ee9dea8c1eef45f2257e464d86a907c17f3d4a84535",
+   "mtime": 1789952139.3238149
+  },
+  "Unity/Assets/Editor/HeroLockerExport.cs": {
+   "sha": "52f0c1683c6dd9b4b062a169b95a0454ef57b750f5bb3068a4168bf17e479286",
+   "mtime": 1791045090.8671935
+  },
+  "Unity/Assets/Editor/HeroLockerExport.cs.meta": {
+   "sha": "20db42e5dac1268bc853c7bdebacee1fe44a4355116092c246cd4ecdd9f27c00",
+   "mtime": 1790525598.0
+  },
+  "Unity/Assets/Editor/MatchHeroLockerExport.cs": {
+   "sha": "ee264889f0f5490961336d51cea5d08268e5b6c21aa29b50240a243865929232",
+   "mtime": 1791126445.1292627
+  },
+  "Unity/Assets/Editor/MatchHeroLockerExport.cs.meta": {
+   "sha": "aa3b9bcbf622f4763e159a452b42239ae1cde8f73b8cde78f319a8b003043507",
+   "mtime": 1791047294.0
+  },
+  "Unity/Assets/Resources/Course/Look.meta": {
+   "sha": "41a20699151f8e472e53720c5325f67fd5691d7b9a37cd2aecf04874e9c2b6d9",
+   "mtime": 1791077958.4668982
+  },
+  "Unity/Assets/Resources/Course/Look/Basalt_C.png": {
+   "sha": "cc3799f4d58fd9c793c0fb622f4447d88e5427dbe2f1522afa46b30316560fff",
+   "mtime": 1791126749.3545504
+  },
+  "Unity/Assets/Resources/Course/Look/Basalt_C.png.meta": {
+   "sha": "2e7dbcad01146b666fc8cd219ecc5be29cc0cdd714a0210311f2651d7ec042ce",
+   "mtime": 1791077962.6003258
+  },
+  "Unity/Assets/Resources/Course/Look/Basalt_E.png": {
+   "sha": "839be2a99945ce9858a148c87494b97c9eaffc90711164e02d1fbf2635a3a56e",
+   "mtime": 1791126760.1571615
+  },
+  "Unity/Assets/Resources/Course/Look/Basalt_E.png.meta": {
+   "sha": "571037f9bda89023114cd9b38a1fa53008acceff10f0d81be87fe8cb5557adf2",
+   "mtime": 1791077961.5458066
+  },
+  "Unity/Assets/Resources/Course/Look/Basalt_N.png": {
+   "sha": "f845d12878016f1f39f554497a345f1afe633b8a94c6cdc27ab66b961dd2a6f7",
+   "mtime": 1791126759.7560809
+  },
+  "Unity/Assets/Resources/Course/Look/Basalt_N.png.meta": {
+   "sha": "6fa7348d6e92069f84920ddfd859c610560ddf848b8ef99ae16850bdda5ba240",
+   "mtime": 1791077962.4331374
+  },
+  "Unity/Assets/Resources/Course/Look/CliffDark_C.png": {
+   "sha": "3ab47c9bc748bab91b43bbeb8a2c37f17271d01074f51068c1f47c13616e2a0e",
+   "mtime": 1791124936.6774347
+  },
+  "Unity/Assets/Resources/Course/Look/CliffDark_C.png.meta": {
+   "sha": "73afc1bdf9257168213831074ea4c868a8705a18ca0fecc049ddc62484a5f270",
+   "mtime": 1791077961.783876
+  },
+  "Unity/Assets/Resources/Course/Look/CliffDark_N.png": {
+   "sha": "82e9c93d3870a279df7aa382efe145e1463de4df50539b4e888af2b6ee41db0b",
+   "mtime": 1791124938.7200127
+  },
+  "Unity/Assets/Resources/Course/Look/CliffDark_N.png.meta": {
+   "sha": "e0fc50539d9f095a039d80c6e7668fc3a73f9981680eab7aa77faa8a0ca75e15",
+   "mtime": 1791077962.4589627
+  },
+  "Unity/Assets/Resources/Course/Look/Cliff_C.png": {
+   "sha": "e3ee627d727d15b88b0ebd988de4048025b8f6dbe1cf624001e0d218a307b3fc",
+   "mtime": 1791124927.1391108
+  },
+  "Unity/Assets/Resources/Course/Look/Cliff_C.png.meta": {
+   "sha": "86a84beb03423ba8a36a3f64d968996cba072676f85736c2f380f7e75ab44e97",
+   "mtime": 1791077962.3387685
+  },
+  "Unity/Assets/Resources/Course/Look/Cliff_N.png": {
+   "sha": "d07a2c4a3fb86108bd128ca5554f7c1bfe8e37d5d36118151b5501f4e6c5260c",
+   "mtime": 1791124933.4602354
+  },
+  "Unity/Assets/Resources/Course/Look/Cliff_N.png.meta": {
+   "sha": "b561a17de86c2240b0f0f7aaa54c49034246e05b376fd2ae06c924f3f58536f2",
+   "mtime": 1791077960.912065
+  },
+  "Unity/Assets/Resources/Course/Look/Fairway_C.png": {
+   "sha": "bd2332cb421e70980b3c0a39cdd4ade2111c81bcdcdfba92911566368ede289a",
+   "mtime": 1791124887.9913056
+  },
+  "Unity/Assets/Resources/Course/Look/Fairway_C.png.meta": {
+   "sha": "22d8b62f30d077ebc077585fe5b3bedd7b706b5dc0d2f31c7155c707c7cbd3f5",
+   "mtime": 1791077961.5150027
+  },
+  "Unity/Assets/Resources/Course/Look/Fairway_N.png": {
+   "sha": "017e760ae473790c4fb8097e22cbf2260c7a5ccb93ae047fde0394c8fb77fa01",
+   "mtime": 1791124888.3793385
+  },
+  "Unity/Assets/Resources/Course/Look/Fairway_N.png.meta": {
+   "sha": "83780fb955cccaca11dc304163738878f38be18bf4bb937cfed5cf02dece0616",
+   "mtime": 1791077961.4644516
+  },
+  "Unity/Assets/Resources/Course/Look/Fall_C.png": {
+   "sha": "41e8e60449911bf6b2babe7c876f76ddba2f64d4959a85464136604b3451379a",
+   "mtime": 1791124991.626958
+  },
+  "Unity/Assets/Resources/Course/Look/Fall_C.png.meta": {
+   "sha": "7ec5f9df17c8efe88b8dda0a64c4cd3a8dfbc9bca33660ec31eb394d36407fb5",
+   "mtime": 1791077961.9475238
+  },
+  "Unity/Assets/Resources/Course/Look/Green_C.png": {
+   "sha": "c1eac89ff2c81227a70636ef4484922ab988bff65ad2b007ccc14cc283207504",
+   "mtime": 1791124896.382109
+  },
+  "Unity/Assets/Resources/Course/Look/Green_C.png.meta": {
+   "sha": "a7aa46bc7938637f00cf4b55a10fcde37844d4d1bfb663d5158f371c9bdd2521",
+   "mtime": 1791077961.4900634
+  },
+  "Unity/Assets/Resources/Course/Look/Green_N.png": {
+   "sha": "b6190a98ab51ce840d52fc46f24df88afdb98e69b59400dbb05c1bc25f8fcc00",
+   "mtime": 1791124896.6156886
+  },
+  "Unity/Assets/Resources/Course/Look/Green_N.png.meta": {
+   "sha": "b74105272c463716a3936d81d0efbc838cf01f6e8255ee32513d1818281467d4",
+   "mtime": 1791077961.2615142
+  },
+  "Unity/Assets/Resources/Course/Look/Lava_C.png": {
+   "sha": "d6d53bcd2a0aefaad1fab27f83cc616294ae03d97304a994e9a8e5a4bb79befd",
+   "mtime": 1791124983.5159564
+  },
+  "Unity/Assets/Resources/Course/Look/Lava_C.png.meta": {
+   "sha": "578410b3c2d46597ea6fb9c6eee55ff9cc6445254b7bf4fd10584dbe5da5a6c7",
+   "mtime": 1791077961.8974795
+  },
+  "Unity/Assets/Resources/Course/Look/Lava_E.png": {
+   "sha": "f14fa953328d9e7bfbe447157bfd95ff7951a8c3aa0b6e74cb6c0e1a7b2a401e",
+   "mtime": 1791124989.3777792
+  },
+  "Unity/Assets/Resources/Course/Look/Lava_E.png.meta": {
+   "sha": "3c99d797f952495d897c0cb8215e55e7d6817a80d76d186857bcc02a21b275e3",
+   "mtime": 1791077961.0655625
+  },
+  "Unity/Assets/Resources/Course/Look/Lava_N.png": {
+   "sha": "34ffc6876dfb6139ea901de457a690d89045ec7f94a0319de1a05f71e6b5bd24",
+   "mtime": 1791124986.877358
+  },
+  "Unity/Assets/Resources/Course/Look/Lava_N.png.meta": {
+   "sha": "477ded02de237f37e4629d4da5912ee0c046784550bd588bbff42a21c6d719c7",
+   "mtime": 1791077961.7716162
+  },
+  "Unity/Assets/Resources/Course/Look/Masonry_C.png": {
+   "sha": "b7b4d18d9ce430fd64c1b5116e6551434ff758d031873faa46b6879920034bec",
+   "mtime": 1791124947.5980167
+  },
+  "Unity/Assets/Resources/Course/Look/Masonry_C.png.meta": {
+   "sha": "95decd281c7ef4dd89345cb73319e5e2e1f8e4e722eb338be62f5e5d35bd82c1",
+   "mtime": 1791077962.352559
+  },
+  "Unity/Assets/Resources/Course/Look/Masonry_N.png": {
+   "sha": "2721f010c6bcd3a7a787d0df5ef2b3d2b741f4b24be1c10ee09ff1308bb5851f",
+   "mtime": 1791124948.8618124
+  },
+  "Unity/Assets/Resources/Course/Look/Masonry_N.png.meta": {
+   "sha": "8fab45d5f0f444ff06c9637f89dd7149989b2722a3ed441d6cd5a38653a988e8",
+   "mtime": 1791077961.6140282
+  },
+  "Unity/Assets/Resources/Course/Look/Path_C.png": {
+   "sha": "6986eafc9a4311ccc5b4cf02cfeb0de295381d9c4d39717a58ad77ae6a91884b",
+   "mtime": 1791124944.4988403
+  },
+  "Unity/Assets/Resources/Course/Look/Path_C.png.meta": {
+   "sha": "18abcf2ceaed1ba8bc182d451301aae5529a2c288db4822bddbfb3530ab6a6a7",
+   "mtime": 1791077960.660382
+  },
+  "Unity/Assets/Resources/Course/Look/Path_N.png": {
+   "sha": "71b35996ccacb7ac451306ac26b7ba4143d8beabfbf167e3a3cff02969357026",
+   "mtime": 1791124945.3645048
+  },
+  "Unity/Assets/Resources/Course/Look/Path_N.png.meta": {
+   "sha": "4a80d34fb8acc98a55155145416d305d374acf3023ef2d705afbfcb9d86473e3",
+   "mtime": 1791077960.7670715
+  },
+  "Unity/Assets/Resources/Course/Look/Plants_C.png": {
+   "sha": "5fc472d97e5eb2aa87060b1f0f07d9d8e342ae7d8280425a7448f7d461098843",
+   "mtime": 1791123370.5354342
+  },
+  "Unity/Assets/Resources/Course/Look/Plants_C.png.meta": {
+   "sha": "a36b5d0b7aff659508f8e7342ed3cc984a3b5055c80af2f6d4cfd6b9cac0cf09",
+   "mtime": 1791078363.069942
+  },
+  "Unity/Assets/Resources/Course/Look/Rock_C.png": {
+   "sha": "0cde8a24402de653852644ba17b6adfeaede0b28a46009d21775f9179e3588ac",
+   "mtime": 1791124941.7671378
+  },
+  "Unity/Assets/Resources/Course/Look/Rock_C.png.meta": {
+   "sha": "6dc156e9363407304f41e2a86dacbca05af10dbb79635a74463f4ea80ce4c0de",
+   "mtime": 1791077962.5566044
+  },
+  "Unity/Assets/Resources/Course/Look/Rock_N.png": {
+   "sha": "1d7baf487e450d773b2c74129dda732892a453e50554e59e215d881fc6de933f",
+   "mtime": 1791124942.7502208
+  },
+  "Unity/Assets/Resources/Course/Look/Rock_N.png.meta": {
+   "sha": "9d468bd051a3391fc7b6bb7027d7e1e3d84c565089a5b046c2020f2f6df97bf5",
+   "mtime": 1791077962.5384283
+  },
+  "Unity/Assets/Resources/Course/Look/Rough_C.png": {
+   "sha": "979f5c4ae3213fe82a7b576c04f737d70ad78321d381259f45a202f9531adb8c",
+   "mtime": 1791124903.5155797
+  },
+  "Unity/Assets/Resources/Course/Look/Rough_C.png.meta": {
+   "sha": "e199b178746fb7c5279ee01ad543ac0cf5c8f2f8b6a996b65cd9dd2a0bc865d0",
+   "mtime": 1791077960.699221
+  },
+  "Unity/Assets/Resources/Course/Look/Rough_N.png": {
+   "sha": "698d0fef292c996591bf5e4734a7ffc9481d9b2d77c31bbcb927e7a2810afc1e",
+   "mtime": 1791124904.1732767
+  },
+  "Unity/Assets/Resources/Course/Look/Rough_N.png.meta": {
+   "sha": "0f8914211ef967baa73a1c2f6ace332c86f23d8e3fac169bd540bb51f6a17276",
+   "mtime": 1791077962.3039358
+  },
+  "Unity/Assets/Resources/Course/Look/Sand_C.png": {
+   "sha": "3c14effb8288e0b35a7e8e6fac3b559915b8b9535899872ded179a9ac1dbc89d",
+   "mtime": 1791124915.2078269
+  },
+  "Unity/Assets/Resources/Course/Look/Sand_C.png.meta": {
+   "sha": "9804b1166dae157dcd9e6a06e7f4a0d82a4e6faed6e3bb7065acd07567fc0d99",
+   "mtime": 1791077961.9570312
+  },
+  "Unity/Assets/Resources/Course/Look/Sand_N.png": {
+   "sha": "e0b2a41c23d9860d327f7aa166de34f681dd2c0903743cbf051b92efb70f7114",
+   "mtime": 1791124915.4729352
+  },
+  "Unity/Assets/Resources/Course/Look/Sand_N.png.meta": {
+   "sha": "c17141286c992ed59f27e81cf4d686284b5a49a9b6af2a11e2b2738ff5bd7422",
+   "mtime": 1791077961.9961848
+  },
+  "Unity/Assets/Resources/Course/Look/Scrub_C.png": {
+   "sha": "add08874824a3f61ad21cf2d5509020e7bf78067259460e1d6f5ae5c4b6cc03f",
+   "mtime": 1791124912.0178468
+  },
+  "Unity/Assets/Resources/Course/Look/Scrub_C.png.meta": {
+   "sha": "911071213c2b92b3f41a4150fdad28280f012e070b4be8acb071b8e6f0d8370c",
+   "mtime": 1791077960.856565
+  },
+  "Unity/Assets/Resources/Course/Look/Scrub_N.png": {
+   "sha": "315166f46e0afc5f8e0333cf2900aff465c32158d281d40c46e2c9b9c856271e",
+   "mtime": 1791124913.0675101
+  },
+  "Unity/Assets/Resources/Course/Look/Scrub_N.png.meta": {
+   "sha": "eecfbe5144434eacf66f6138088bf63030d35298d8f36a20cad6df982ae63e29",
+   "mtime": 1791077960.626974
+  },
+  "Unity/Assets/Resources/Course/Look/Sky_Crater_C.png": {
+   "sha": "20c07b8f0366ae62a9f24dadd5d081e174a298ae67497de0122baeac3329940c",
+   "mtime": 1791125002.1072288
+  },
+  "Unity/Assets/Resources/Course/Look/Sky_Crater_C.png.meta": {
+   "sha": "d922f422807595ea9c6e911782a5aaeee4572d287296291f55290f7b1308994f",
+   "mtime": 1791077961.6672523
+  },
+  "Unity/Assets/Resources/Course/Look/Smoke_C.png": {
+   "sha": "0ad74581251974c5d1e710fa5830fb21a82948734adae9f78e5c4dc95898b353",
+   "mtime": 1791126595.4697754
+  },
+  "Unity/Assets/Resources/Course/Look/Smoke_C.png.meta": {
+   "sha": "bb5389d02bfe5c13ccc8c425e2f1e9f893e1ae36018a21581a4aee99e90c5c07",
+   "mtime": 1791077961.8000393
+  },
+  "Unity/Assets/Resources/Course/Look/Surf_C.png": {
+   "sha": "5a3d90a6cdb5abb54cf88e118a67e15ff3b2ae3f8a22e3732d3962346f16f954",
+   "mtime": 1791124990.8401122
+  },
+  "Unity/Assets/Resources/Course/Look/Surf_C.png.meta": {
+   "sha": "7ca5af1c3031a7c9bb9677c5341f0eb944ed2877b1bd7cae6e8e188a8b18f3f1",
+   "mtime": 1791077961.9246643
+  },
+  "Unity/Assets/Resources/Course/Shaders.meta": {
+   "sha": "ede04d5c50413ef7e10f520cbb55569c362cf3b6a15d29e3c25e3a096b9ce75a",
+   "mtime": 1791077646.034496
+  },
+  "Unity/Assets/Resources/Course/Shaders/GolfLava.shader": {
+   "sha": "7730e9b94313cdbe18814562ae05ab5dde3298acd818e4cff791aa0e93b4c1fc",
+   "mtime": 1791125162.7246468
+  },
+  "Unity/Assets/Resources/Course/Shaders/GolfLava.shader.meta": {
+   "sha": "5adb25a7b88e31f687f4fa92a2a3f8801ff60c357c06b67ce75e5267df1dc0b7",
+   "mtime": 1791123486.9795763
+  },
+  "Unity/Assets/Resources/Course/Shaders/GolfSurf.shader": {
+   "sha": "65c7b8302c2e0ad1cbcae02413515816a28d31df29fad34a3226d4e5dab34f05",
+   "mtime": 1791125162.72476
+  },
+  "Unity/Assets/Resources/Course/Shaders/GolfSurf.shader.meta": {
+   "sha": "610f81f0e96cdbc66358e08ac2adf31e318c49e73dc1e037492de88c643bf368",
+   "mtime": 1791077666.3021438
+  },
+  "Unity/Assets/Resources/Course/hole_07.fbx": {
+   "sha": "813850bff6d107c0424dd9ca22eeaedf1ba9d3fc7ef6e9f0eed54bc67856c6ed",
+   "mtime": 1789952139.326189
+  },
+  "Unity/Assets/Resources/Course/hole_07.fbx.meta": {
+   "sha": "18e346e0e2f4c02be07ea608bccca0d4391776165bab69b375819b67f8a0a216",
+   "mtime": 1789952139.326574
+  },
+  "Unity/Assets/Resources/Course/hole_08.fbx": {
+   "sha": "d19a46b6dd59cdf9e33ae4d583d6536a312e6ccb3303faf4f66a8b9d238a1ac6",
+   "mtime": 1791068210.5884748
+  },
+  "Unity/Assets/Resources/Course/hole_08.fbx.meta": {
+   "sha": "3f7371fed3b1eb0aa03a410ca0473197d7a6b6c4034550247e130050db4493b0",
+   "mtime": 1791065491.9502175
+  },
+  "Unity/Assets/Resources/Course/hole_09.fbx": {
+   "sha": "88005a32d046181dae84b4b778ca14585dabdf9099f5ba2163d602c737f2b01e",
+   "mtime": 1791065058.537339
+  },
+  "Unity/Assets/Resources/Course/hole_09.fbx.meta": {
+   "sha": "65b4dd392ac3cb1929d9f456d8973b2a1900d80dac0c59d192a7c60d7edeac6c",
+   "mtime": 1791063892.9675038
+  },
+  "Unity/Assets/Resources/Course/hole_10.fbx": {
+   "sha": "e99475de7175cce76bb0046c0c89989ff520c479f4f72a8d16af90433bc857f8",
+   "mtime": 1791064616.8510592
+  },
+  "Unity/Assets/Resources/Course/hole_10.fbx.meta": {
+   "sha": "bf25a2beedbd78c8a66d59df6b66e557cb8eaa59121def5e2413b6ace5045867",
+   "mtime": 1791064464.249903
+  },
+  "Unity/Assets/Resources/Tennis/Shaders/KitRecolor.shader": {
+   "sha": "723f978557384800890f2c8cf28ba72526c224dba3930a71fdac51b58e294e44",
+   "mtime": 1790399240.598352
+  },
+  "Unity/Assets/Resources/Tennis/Shaders/KitRecolor.shader.meta": {
+   "sha": "c75712697837c824c744a0d41c102bcc5b183c933fad4d573114f9c0ce694c73",
+   "mtime": 1790297874.778291
+  },
+  "Unity/Assets/Resources/Tennis/Shaders/TennisCharacter.shader": {
+   "sha": "e09a8d093571ccaad2b866e2e726db3ba9c0bf28fb21994d8f09aa3544b0ce92",
+   "mtime": 1791080999.637516
+  },
+  "Unity/Assets/Resources/Tennis/Shaders/TennisCharacter.shader.meta": {
+   "sha": "2146f3dee531e3a49c992e40e45129699cbbebcc1e6a54ee29de33d776f2b403",
+   "mtime": 1790100927.6148114
+  },
+  "Unity/Assets/Resources/Tennis/Shaders/TennisCloth.shader": {
+   "sha": "eb43a3d10c4904bf802616101dc4d0b5cffb7bbf95794934775153bb3700a179",
+   "mtime": 1791081045.5451014
+  },
+  "Unity/Assets/Resources/Tennis/Shaders/TennisCloth.shader.meta": {
+   "sha": "b382b91f16325711278d786727dc1d30a6057ef8127af1d2f8277a7113cc11e8",
+   "mtime": 1791064779.4728549
+  },
+  "Unity/Assets/Resources/Tennis/Shaders/TennisFace.shader": {
+   "sha": "ce58e38b93b1bfd30e9ae74cd1996142404b3b0dd6de04ec86f1ded1a08450b5",
+   "mtime": 1790117969.2145617
+  },
+  "Unity/Assets/Resources/Tennis/Shaders/TennisFace.shader.meta": {
+   "sha": "194da75240575228120a710396e772134b93720e1a800794b981ec6b554062f7",
+   "mtime": 1790117922.436491
+  },
+  "Unity/Assets/Resources/Tennis/Shaders/TennisFxAdditive.shader": {
+   "sha": "7e75d55d39c8787b5269fb0e68a8a233001a267a44077b380f4d820f77872b46",
+   "mtime": 1790634793.7202282
+  },
+  "Unity/Assets/Resources/Tennis/Shaders/TennisFxAdditive.shader.meta": {
+   "sha": "9d93ff05109064af5eeb65a04131dee28bd6406b383a898ad3125bdf61df89a8",
+   "mtime": 1790118515.7465646
+  },
+  "Unity/Assets/Resources/Tennis/Shaders/TennisFxAlpha.shader": {
+   "sha": "d8af64597ad66c7032d9b8e9dc1a4b275bd7222b02b9e859c7c52c246884d3ea",
+   "mtime": 1790634793.720043
+  },
+  "Unity/Assets/Resources/Tennis/Shaders/TennisFxAlpha.shader.meta": {
+   "sha": "085429770d505b365325161f97c6e3f6628d5e7963b5f50b5e8e6f8e61726359",
+   "mtime": 1790118515.7516737
+  },
+  "Unity/Assets/Resources/Tennis/Shaders/TennisShadowBlob.shader": {
+   "sha": "157abc7dd72de09c7d08869e8abfc1e5984fe46e5c3da091c024916d3a9791b1",
+   "mtime": 1790100380.4288917
+  },
+  "Unity/Assets/Resources/Tennis/Shaders/TennisShadowBlob.shader.meta": {
+   "sha": "4092f559084e558b37e9334419786e6ecae74603118d26be10bc3efb7949c91a",
+   "mtime": 1790100927.5356708
+  },
+  "Unity/Assets/Resources/Tennis/Shaders/TennisSky.shader": {
+   "sha": "f8e9ff0b98979e50df8d7c6b5a41c57239d73a351a645d0cb45947f077ef1641",
+   "mtime": 1790543926.3187394
+  },
+  "Unity/Assets/Resources/Tennis/Shaders/TennisSky.shader.meta": {
+   "sha": "95cb86069ea7883dbc31ef4ec2f846d71a916491827df68736600ed43cdc8ab0",
+   "mtime": 1790117514.327222
+  },
+  "Unity/Assets/Resources/Tennis/Shaders/TennisWater.shader": {
+   "sha": "d620c84b90fcf55da928f59be1be0340d2839a2222c3654eecc1e3b1a68e9880",
+   "mtime": 1790117431.3748713
+  },
+  "Unity/Assets/Resources/Tennis/Shaders/TennisWater.shader.meta": {
+   "sha": "5c8b06611e942cf07293da69ac5c3a18ee851d442bc9f674d42bbffa5fccffde",
+   "mtime": 1790117514.1760283
+  },
+  "Unity/Assets/Scripts/Course/CourseShot.cs": {
+   "sha": "c6ef11c8454dbda3c205144a57d13abe8a432364f51ca86d3495fee6cb7b1dc6",
+   "mtime": 1789951522.5455065
+  },
+  "Unity/Assets/Scripts/Course/CourseShot.cs.meta": {
+   "sha": "e694728c00dec86604044e5cb949a795e00adcc8b4e7d49bf72dbb9298c6fb29",
+   "mtime": 1789951522.5457234
+  },
+  "Unity/Assets/Scripts/Course/GolfAtmosphere.cs": {
+   "sha": "d420684c6ace7baccdade3ce22ae0139d02aea3905c191d7588473a980c05a8e",
+   "mtime": 1791121859.9611394
+  },
+  "Unity/Assets/Scripts/Course/GolfAtmosphere.cs.meta": {
+   "sha": "d0de1a8903623511d1c6b6663a3cf4ca32ad0ff7c6ab98e1fc954c8cae09faca",
+   "mtime": 1791077640.0
+  },
+  "Unity/Assets/Scripts/Course/GolfLook.cs": {
+   "sha": "cf456807400cc93eaacbb76de91dbc0c3166fadc939762c8a8466617c1d65938",
+   "mtime": 1791125633.9207058
+  },
+  "Unity/Assets/Scripts/Course/GolfLook.cs.meta": {
+   "sha": "b6a92e5a1a869bc8b9002cfaeb5b1acd54b4ced5308fa0ecb924656639aea4f7",
+   "mtime": 1791077640.0
+  },
+  "Unity/Assets/Scripts/Course/Hole.cs": {
+   "sha": "5a5eed8e833815eabddce3efa431b453423c36ff9984bb0a358ae1a45eb3566b",
+   "mtime": 1791063628.7486129
+  },
+  "Unity/Assets/Scripts/Course/Hole.cs.meta": {
+   "sha": "886b73032be654a6464dbf009f6caaf171bcd7f188f0785c2af836a1c53579e1",
+   "mtime": 1789951522.5460489
+  },
+  "Unity/Assets/Scripts/Course/HoleView.cs": {
+   "sha": "7133d3e849e65393003976f12f3c793d74a17ced99e3c534259ecc552f829b9b",
+   "mtime": 1791077433.635389
+  },
+  "Unity/Assets/Scripts/Course/HoleView.cs.meta": {
+   "sha": "9c1426d7555ea675ac23a059b5dc2a45929ae26475c8e3d4c03e6c146ff5c96e",
+   "mtime": 1789951522.546771
+  },
+  "Unity/Assets/Scripts/Course/Scorecard.cs": {
+   "sha": "8a6605b133f885b1bbd52c951e1527865eb5d9f0a5a688e2107bb16104e1ef3f",
+   "mtime": 1789951522.5469928
+  },
+  "Unity/Assets/Scripts/Course/Scorecard.cs.meta": {
+   "sha": "85602b373286b0694c14c540087ea05d11bc27759f1036bc78f1ce86025b0874",
+   "mtime": 1789951522.5492127
+  },
+  "Unity/Assets/Scripts/Course/Wind.cs": {
+   "sha": "6f673d8661849f7ce2cf80fe883593abfebd409a5d92c0242f8b664272ff61b9",
+   "mtime": 1789951522.5500531
+  },
+  "Unity/Assets/Scripts/Course/Wind.cs.meta": {
+   "sha": "f417e1a04dfaeb7e1dc6e483a0620bdd2837226a1a2be910639d5024a8735c50",
+   "mtime": 1789951522.5502644
+  },
+  "Unity/Assets/Scripts/Game/GolfGame.cs": {
+   "sha": "fe7430e1daebf64edde59fdf4356a696c1a6a85ac46fa73f3e264810abd113c0",
+   "mtime": 1791121086.4351587
+  },
+  "Unity/Assets/Scripts/Game/GolfGame.cs.meta": {
+   "sha": "3ace6cd541f78160dcba67998d5af052427d5eb3dcbd33ff62db3d18b0d82567",
+   "mtime": 1789951522.5521386
+  },
+  "Unity/Assets/Scripts/Game/GolfSounds.cs": {
+   "sha": "48f4513b8d864925d91fad58939b15b87f8f3a5d433467ec8bc41cf2bda9c016",
+   "mtime": 1789951522.5523531
+  },
+  "Unity/Assets/Scripts/Game/GolfSounds.cs.meta": {
+   "sha": "2d284148f4c12281b565a9003f17a43295ada560d6cedb38cdada705f5e164dc",
+   "mtime": 1789951522.5525064
+  },
+  "Unity/Assets/Scripts/Game/GolferStyle.cs": {
+   "sha": "3bcc400b2a756f41a6bdcb211a7be2119ac140447db2094c2036427cb3325171",
+   "mtime": 1790957508.0807564
+  },
+  "Unity/Assets/Scripts/Game/GolferStyle.cs.meta": {
+   "sha": "6ee9c1334d7fe5e8c77ed533b69d9054fb4311c186ab1c2cf95bd173ae12fd0c",
+   "mtime": 1789952139.3301778
+  },
+  "Unity/Assets/Scripts/Game/GolferView.cs": {
+   "sha": "5b64a983034a3ab4d4958301137aeb4b6edc2bd21b734335f7e332e3b23d00b7",
+   "mtime": 1790375671.7994108
+  },
+  "Unity/Assets/Scripts/Game/GolferView.cs.meta": {
+   "sha": "efb55b56ef9272b90ddc39fd53c6a5b28a77941dbd8ec3bca186733a6e20a346",
+   "mtime": 1789951522.5528862
+  },
+  "Unity/Assets/Scripts/Shot/BallFlight.cs": {
+   "sha": "f23269bbe30f2b343c78ca34970c62d5587924f6c1eea9348a04b80e2568784d",
+   "mtime": 1789951522.5567615
+  },
+  "Unity/Assets/Scripts/Shot/BallFlight.cs.meta": {
+   "sha": "f4dd814db0db647a93e61910cf71cb7f037626ed4b4eedcee1797e873a4f6c6d",
+   "mtime": 1789951522.5569403
+  },
+  "Unity/Assets/Scripts/Shot/GolfClub.cs": {
+   "sha": "434cbb73e0308e939a8ffd1a9a595e5af0b2dbf48683b38e628c57d2b56160d3",
+   "mtime": 1789951522.55715
+  },
+  "Unity/Assets/Scripts/Shot/GolfClub.cs.meta": {
+   "sha": "8516e7f2efb0ee9cc4afafcc3eb61919119fb70b1632bb3ed9f527c8a126d58c",
+   "mtime": 1789951522.55737
+  }
+ }
+}

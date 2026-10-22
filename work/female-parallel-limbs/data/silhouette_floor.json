@@ -1,0 +1,38 @@
+{
+ "legs": {
+  "floor_mean_pct": 8.11,
+  "per_view": {
+   "frontL": 2.95,
+   "frontR": 8.86,
+   "backL": 6.21,
+   "backR": 14.42
+  }
+ },
+ "feet": {
+  "floor_mean_pct": 17.67,
+  "per_view": {
+   "frontL": 11.2,
+   "frontR": 4.25,
+   "backL": 24.63,
+   "backR": 30.57
+  }
+ },
+ "arms": {
+  "floor_mean_pct": 14.07,
+  "per_view": {
+   "frontL": 4.01,
+   "frontR": 11.11,
+   "backL": 20.92,
+   "backR": 20.24
+  }
+ },
+ "hands": {
+  "floor_mean_pct": 11.77,
+  "per_view": {
+   "frontL": 10.02,
+   "frontR": 5.14,
+   "backL": 14.89,
+   "backR": 17.01
+  }
+ }
+}

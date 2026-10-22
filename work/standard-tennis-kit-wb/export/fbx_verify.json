@@ -1,0 +1,860 @@
+{
+ "StdKit_Male_White.fbx": {
+  "fbx_sha256": "1bee7972301ee2f248d061f252e8111ee32645a902800f17d88f392b27d5448d",
+  "size_mb": 2.04,
+  "objects": {
+   "Kit_Bottom_Shorts_M": {
+    "tris_src": 11893,
+    "tris_fbx": 11893,
+    "max_vertex_err_mm": 0.0002,
+    "bbox_err_mm": 0.0001,
+    "materials": [
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.5151,
+     0.3261,
+     0.3911
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.038,
+    "normal_dev_max_deg": 0.047,
+    "loop_pos_err_mm": 0.00017,
+    "loops": 35679
+   },
+   "Kit_Shoe_L": {
+    "tris_src": 10396,
+    "tris_fbx": 10396,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.1868,
+     0.3454,
+     0.1736
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.009,
+    "normal_dev_p99_deg": 0.037,
+    "normal_dev_max_deg": 0.048,
+    "loop_pos_err_mm": 4e-05,
+    "loops": 31188
+   },
+   "Kit_Shoe_R": {
+    "tris_src": 10348,
+    "tris_fbx": 10348,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.186,
+     0.3456,
+     0.1736
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.038,
+    "normal_dev_max_deg": 0.044,
+    "loop_pos_err_mm": 4e-05,
+    "loops": 31044
+   },
+   "Kit_Sock_L": {
+    "tris_src": 3488,
+    "tris_fbx": 3488,
+    "max_vertex_err_mm": 0.0001,
+    "bbox_err_mm": 0.0001,
+    "materials": [
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.1909,
+     0.3145,
+     0.3029
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.037,
+    "normal_dev_max_deg": 0.045,
+    "loop_pos_err_mm": 5e-05,
+    "loops": 10464
+   },
+   "Kit_Sock_R": {
+    "tris_src": 3488,
+    "tris_fbx": 3488,
+    "max_vertex_err_mm": 0.0001,
+    "bbox_err_mm": 0.0001,
+    "materials": [
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.1891,
+     0.3146,
+     0.3029
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.038,
+    "normal_dev_max_deg": 0.046,
+    "loop_pos_err_mm": 5e-05,
+    "loops": 10464
+   },
+   "Kit_Top_Polo_M": {
+    "tris_src": 12944,
+    "tris_fbx": 12944,
+    "max_vertex_err_mm": 0.0002,
+    "bbox_err_mm": 0.0002,
+    "materials": [
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.7269,
+     0.3253,
+     0.5566
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.038,
+    "normal_dev_max_deg": 0.048,
+    "loop_pos_err_mm": 0.00024,
+    "loops": 38832
+   }
+  },
+  "ok": true,
+  "total_tris": 52557
+ },
+ "StdKit_Male_Black.fbx": {
+  "fbx_sha256": "4bab5b5efadc859c88b460180900c1abc77e82f074c8a76d8c5e6bb90609243c",
+  "size_mb": 2.04,
+  "objects": {
+   "Kit_Bottom_Shorts_M": {
+    "tris_src": 11893,
+    "tris_fbx": 11893,
+    "max_vertex_err_mm": 0.0002,
+    "bbox_err_mm": 0.0001,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.5151,
+     0.3261,
+     0.3911
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.038,
+    "normal_dev_max_deg": 0.047,
+    "loop_pos_err_mm": 0.00017,
+    "loops": 35679
+   },
+   "Kit_Shoe_L": {
+    "tris_src": 10396,
+    "tris_fbx": 10396,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.1868,
+     0.3454,
+     0.1736
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.009,
+    "normal_dev_p99_deg": 0.037,
+    "normal_dev_max_deg": 0.048,
+    "loop_pos_err_mm": 4e-05,
+    "loops": 31188
+   },
+   "Kit_Shoe_R": {
+    "tris_src": 10348,
+    "tris_fbx": 10348,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.186,
+     0.3456,
+     0.1736
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.038,
+    "normal_dev_max_deg": 0.044,
+    "loop_pos_err_mm": 4e-05,
+    "loops": 31044
+   },
+   "Kit_Sock_L": {
+    "tris_src": 3488,
+    "tris_fbx": 3488,
+    "max_vertex_err_mm": 0.0001,
+    "bbox_err_mm": 0.0001,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.1909,
+     0.3145,
+     0.3029
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.037,
+    "normal_dev_max_deg": 0.045,
+    "loop_pos_err_mm": 5e-05,
+    "loops": 10464
+   },
+   "Kit_Sock_R": {
+    "tris_src": 3488,
+    "tris_fbx": 3488,
+    "max_vertex_err_mm": 0.0001,
+    "bbox_err_mm": 0.0001,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.1891,
+     0.3146,
+     0.3029
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.038,
+    "normal_dev_max_deg": 0.046,
+    "loop_pos_err_mm": 5e-05,
+    "loops": 10464
+   },
+   "Kit_Top_Polo_M": {
+    "tris_src": 12944,
+    "tris_fbx": 12944,
+    "max_vertex_err_mm": 0.0002,
+    "bbox_err_mm": 0.0002,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.7269,
+     0.3253,
+     0.5566
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.038,
+    "normal_dev_max_deg": 0.048,
+    "loop_pos_err_mm": 0.00024,
+    "loops": 38832
+   }
+  },
+  "ok": true,
+  "total_tris": 52557
+ },
+ "StdKit_Female_White.fbx": {
+  "fbx_sha256": "fefc848e09de78547470a7edfe4a3559cf6977244afc0bc22b2cbcfd2babd185",
+  "size_mb": 2.02,
+  "objects": {
+   "Kit_Bottom_Skort_F": {
+    "tris_src": 19814,
+    "tris_fbx": 19814,
+    "max_vertex_err_mm": 0.0002,
+    "bbox_err_mm": 0.0001,
+    "materials": [
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.3864,
+     0.3006,
+     0.3563
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.037,
+    "normal_dev_max_deg": 0.046,
+    "loop_pos_err_mm": 0.00016,
+    "loops": 59442
+   },
+   "Kit_Shoe_L": {
+    "tris_src": 7021,
+    "tris_fbx": 7021,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.1188,
+     0.2207,
+     0.1501
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.009,
+    "normal_dev_p99_deg": 0.038,
+    "normal_dev_max_deg": 0.044,
+    "loop_pos_err_mm": 2e-05,
+    "loops": 21063
+   },
+   "Kit_Shoe_R": {
+    "tris_src": 7042,
+    "tris_fbx": 7042,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.1182,
+     0.221,
+     0.1502
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.037,
+    "normal_dev_max_deg": 0.046,
+    "loop_pos_err_mm": 2e-05,
+    "loops": 21126
+   },
+   "Kit_Sock_L": {
+    "tris_src": 3445,
+    "tris_fbx": 3445,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.1202,
+     0.208,
+     0.2899
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.038,
+    "normal_dev_max_deg": 0.046,
+    "loop_pos_err_mm": 5e-05,
+    "loops": 10335
+   },
+   "Kit_Sock_R": {
+    "tris_src": 3457,
+    "tris_fbx": 3457,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.1198,
+     0.2079,
+     0.289
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.036,
+    "normal_dev_max_deg": 0.045,
+    "loop_pos_err_mm": 5e-05,
+    "loops": 10371
+   },
+   "Kit_Top_Polo_F": {
+    "tris_src": 11199,
+    "tris_fbx": 11199,
+    "max_vertex_err_mm": 0.0002,
+    "bbox_err_mm": 0.0002,
+    "materials": [
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.4451,
+     0.2447,
+     0.4508
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.038,
+    "normal_dev_max_deg": 0.05,
+    "loop_pos_err_mm": 0.00023,
+    "loops": 33597
+   }
+  },
+  "ok": true,
+  "total_tris": 51978
+ },
+ "StdKit_Female_Black.fbx": {
+  "fbx_sha256": "0fe0cad73031c571ca6567e68f908f61d9c162e2e0508370f6edcdb85349e53b",
+  "size_mb": 2.02,
+  "objects": {
+   "Kit_Bottom_Skort_F": {
+    "tris_src": 19814,
+    "tris_fbx": 19814,
+    "max_vertex_err_mm": 0.0002,
+    "bbox_err_mm": 0.0001,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.3864,
+     0.3006,
+     0.3563
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.037,
+    "normal_dev_max_deg": 0.046,
+    "loop_pos_err_mm": 0.00016,
+    "loops": 59442
+   },
+   "Kit_Shoe_L": {
+    "tris_src": 7021,
+    "tris_fbx": 7021,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.1188,
+     0.2207,
+     0.1501
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.009,
+    "normal_dev_p99_deg": 0.038,
+    "normal_dev_max_deg": 0.044,
+    "loop_pos_err_mm": 2e-05,
+    "loops": 21063
+   },
+   "Kit_Shoe_R": {
+    "tris_src": 7042,
+    "tris_fbx": 7042,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.1182,
+     0.221,
+     0.1502
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.037,
+    "normal_dev_max_deg": 0.046,
+    "loop_pos_err_mm": 2e-05,
+    "loops": 21126
+   },
+   "Kit_Sock_L": {
+    "tris_src": 3445,
+    "tris_fbx": 3445,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.1202,
+     0.208,
+     0.2899
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.038,
+    "normal_dev_max_deg": 0.046,
+    "loop_pos_err_mm": 5e-05,
+    "loops": 10335
+   },
+   "Kit_Sock_R": {
+    "tris_src": 3457,
+    "tris_fbx": 3457,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.1198,
+     0.2079,
+     0.289
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.036,
+    "normal_dev_max_deg": 0.045,
+    "loop_pos_err_mm": 5e-05,
+    "loops": 10371
+   },
+   "Kit_Top_Polo_F": {
+    "tris_src": 11199,
+    "tris_fbx": 11199,
+    "max_vertex_err_mm": 0.0002,
+    "bbox_err_mm": 0.0002,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.4451,
+     0.2447,
+     0.4508
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.038,
+    "normal_dev_max_deg": 0.05,
+    "loop_pos_err_mm": 0.00023,
+    "loops": 33597
+   }
+  },
+  "ok": true,
+  "total_tris": 51978
+ },
+ "StdKit_Female_White_ArmsCandFit.fbx": {
+  "fbx_sha256": "f05644c8f33a50e2f008bc670f8aae769551a663f2b4ea74c89cbb36f8ee721f",
+  "size_mb": 2.01,
+  "objects": {
+   "Kit_Bottom_Skort_F": {
+    "tris_src": 19814,
+    "tris_fbx": 19814,
+    "max_vertex_err_mm": 0.0002,
+    "bbox_err_mm": 0.0001,
+    "materials": [
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.3864,
+     0.3006,
+     0.3563
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.037,
+    "normal_dev_max_deg": 0.046,
+    "loop_pos_err_mm": 0.00016,
+    "loops": 59442
+   },
+   "Kit_Shoe_L_ArmsCandFit": {
+    "tris_src": 7762,
+    "tris_fbx": 7762,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.1388,
+     0.2785,
+     0.1515
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.037,
+    "normal_dev_max_deg": 0.043,
+    "loop_pos_err_mm": 3e-05,
+    "loops": 23286
+   },
+   "Kit_Shoe_R_ArmsCandFit": {
+    "tris_src": 7737,
+    "tris_fbx": 7737,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.1387,
+     0.2783,
+     0.1515
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.009,
+    "normal_dev_p99_deg": 0.037,
+    "normal_dev_max_deg": 0.051,
+    "loop_pos_err_mm": 3e-05,
+    "loops": 23211
+   },
+   "Kit_Sock_L_ArmsCandFit": {
+    "tris_src": 2830,
+    "tris_fbx": 2830,
+    "max_vertex_err_mm": 0.0001,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.1367,
+     0.2495,
+     0.2892
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.011,
+    "normal_dev_p99_deg": 0.039,
+    "normal_dev_max_deg": 0.046,
+    "loop_pos_err_mm": 5e-05,
+    "loops": 8490
+   },
+   "Kit_Sock_R_ArmsCandFit": {
+    "tris_src": 2855,
+    "tris_fbx": 2855,
+    "max_vertex_err_mm": 0.0001,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.1366,
+     0.2494,
+     0.2892
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.038,
+    "normal_dev_max_deg": 0.046,
+    "loop_pos_err_mm": 5e-05,
+    "loops": 8565
+   },
+   "Kit_Top_Polo_F": {
+    "tris_src": 11199,
+    "tris_fbx": 11199,
+    "max_vertex_err_mm": 0.0002,
+    "bbox_err_mm": 0.0002,
+    "materials": [
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.4451,
+     0.2447,
+     0.4508
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.038,
+    "normal_dev_max_deg": 0.05,
+    "loop_pos_err_mm": 0.00023,
+    "loops": 33597
+   }
+  },
+  "ok": true,
+  "total_tris": 52197
+ },
+ "StdKit_Female_Black_ArmsCandFit.fbx": {
+  "fbx_sha256": "1a2c57b89f84c016deadbbacf927281aeae89d9be55dbaa2416832593b0a14db",
+  "size_mb": 2.02,
+  "objects": {
+   "Kit_Bottom_Skort_F": {
+    "tris_src": 19814,
+    "tris_fbx": 19814,
+    "max_vertex_err_mm": 0.0002,
+    "bbox_err_mm": 0.0001,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.3864,
+     0.3006,
+     0.3563
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.037,
+    "normal_dev_max_deg": 0.046,
+    "loop_pos_err_mm": 0.00016,
+    "loops": 59442
+   },
+   "Kit_Shoe_L_ArmsCandFit": {
+    "tris_src": 7762,
+    "tris_fbx": 7762,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.1388,
+     0.2785,
+     0.1515
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.037,
+    "normal_dev_max_deg": 0.043,
+    "loop_pos_err_mm": 3e-05,
+    "loops": 23286
+   },
+   "Kit_Shoe_R_ArmsCandFit": {
+    "tris_src": 7737,
+    "tris_fbx": 7737,
+    "max_vertex_err_mm": 0.0,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.1387,
+     0.2783,
+     0.1515
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.009,
+    "normal_dev_p99_deg": 0.037,
+    "normal_dev_max_deg": 0.051,
+    "loop_pos_err_mm": 3e-05,
+    "loops": 23211
+   },
+   "Kit_Sock_L_ArmsCandFit": {
+    "tris_src": 2830,
+    "tris_fbx": 2830,
+    "max_vertex_err_mm": 0.0001,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.1367,
+     0.2495,
+     0.2892
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.011,
+    "normal_dev_p99_deg": 0.039,
+    "normal_dev_max_deg": 0.046,
+    "loop_pos_err_mm": 5e-05,
+    "loops": 8490
+   },
+   "Kit_Sock_R_ArmsCandFit": {
+    "tris_src": 2855,
+    "tris_fbx": 2855,
+    "max_vertex_err_mm": 0.0001,
+    "bbox_err_mm": 0.0,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.1366,
+     0.2494,
+     0.2892
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.038,
+    "normal_dev_max_deg": 0.046,
+    "loop_pos_err_mm": 5e-05,
+    "loops": 8565
+   },
+   "Kit_Top_Polo_F": {
+    "tris_src": 11199,
+    "tris_fbx": 11199,
+    "max_vertex_err_mm": 0.0002,
+    "bbox_err_mm": 0.0002,
+    "materials": [
+     "Std_Black_Lit",
+     "Std_White_Lit"
+    ],
+    "has_uv": true,
+    "size_m": [
+     0.4451,
+     0.2447,
+     0.4508
+    ],
+    "custom_normals_src": true,
+    "custom_normals_fbx": true,
+    "normal_dev_mean_deg": 0.01,
+    "normal_dev_p99_deg": 0.038,
+    "normal_dev_max_deg": 0.05,
+    "loop_pos_err_mm": 0.00023,
+    "loops": 33597
+   }
+  },
+  "ok": true,
+  "total_tris": 52197
+ }
+}

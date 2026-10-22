@@ -1,0 +1,24 @@
+{
+  "status": "work-only source and scope PASS; actual Unity capture pending",
+  "scope": "distant horizon only; preserve original island envelopes",
+  "resource": "Tennis/Premium/TennisHorizon2",
+  "shader": "Tennis/Shaders/TennisHorizon2",
+  "toggle": "TENNIS_HORIZON2=1",
+  "codeBaselineSHA256": "a9c77dd7b96ceafd139838916a881faa9e51304ac13f7797202f33a738e6474c",
+  "unchanged": [
+    "Island fallback method",
+    "Pergola/Column/Make",
+    "court/cameras/ball actors",
+    "global fog and lighting",
+    "coast and all physical meshes"
+  ],
+  "assetSHA256": "3f29f5bbe39e80fa9149682266a39073b92d80a4a316ef9aa15338cf6322d3e3",
+  "triangles": 7540,
+  "vertices": 3777,
+  "sourceMaterialCount": 1,
+  "maxCrestMetres": 61.844120025634766,
+  "minZMetres": 500.6493225097656,
+  "shaderChange": "Dedicated existing world-surface copy; only horizon fog-share property/CBUFFER/fog factor differs. No original shader edit.",
+  "fogShare": 0.4,
+  "style": "Authored irregular high crest, lower connected forest ridge, descending spurs, smoother beach skirt, blended forest/mineral vertex tints; recessed cooler side islands"
+}

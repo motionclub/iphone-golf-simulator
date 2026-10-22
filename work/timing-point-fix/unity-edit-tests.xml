@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="2" result="Passed" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-06 19:26:48Z" end-time="2026-10-06 19:26:48Z" duration="0.0159028">
+  <test-suite type="TestSuite" id="1000" name="Golf Arcade" fullname="Golf Arcade" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-06 19:26:48Z" end-time="2026-10-06 19:26:48Z" duration="0.015903" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1005" name="GolfArcade.Tests.dll" fullname="/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/golf-look/device/combined/Source/Unity/Library/ScriptAssemblies/GolfArcade.Tests.dll" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-06 19:26:48Z" end-time="2026-10-06 19:26:48Z" duration="0.012974" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="80148" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestFixture" id="1002" name="ScreenTimingCalibrationTests" fullname="ScreenTimingCalibrationTests" classname="ScreenTimingCalibrationTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-06 19:26:48Z" end-time="2026-10-06 19:26:48Z" duration="0.012414" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1004" name="CompensationDoesNotTruncateLongAirPlayDelayTo350ms" fullname="ScreenTimingCalibrationTests.CompensationDoesNotTruncateLongAirPlayDelayTo350ms" methodname="CompensationDoesNotTruncateLongAirPlayDelayTo350ms" classname="ScreenTimingCalibrationTests" runstate="Runnable" seed="702621215" result="Passed" start-time="2026-10-06 19:26:48Z" end-time="2026-10-06 19:26:48Z" duration="0.004333" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1003" name="LongDisplayDelayDoesNotAssignSwingsToTheNextBounce" fullname="ScreenTimingCalibrationTests.LongDisplayDelayDoesNotAssignSwingsToTheNextBounce" methodname="LongDisplayDelayDoesNotAssignSwingsToTheNextBounce" classname="ScreenTimingCalibrationTests" runstate="Runnable" seed="1720378057" result="Passed" start-time="2026-10-06 19:26:48Z" end-time="2026-10-06 19:26:48Z" duration="0.001018" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[DONE EditMode: 2 passed, 0 failed, 0 skipped
+<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /Users/adnanyonathan/Library/Application Support/aloniewski/Golf Arcade/TestResults.xml
+]]></output>
+        </test-case>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

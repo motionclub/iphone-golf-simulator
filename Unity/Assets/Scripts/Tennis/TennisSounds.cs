@@ -1,4 +1,5 @@
 using System;
+using GolfArcade.Game;
 using UnityEngine;
 
 namespace GolfArcade.Tennis
@@ -10,7 +11,7 @@ namespace GolfArcade.Tennis
     {
         const int Rate = 44100;
         AudioSource source, crowd;
-        AudioClip pop, popSweet, bounce, net, whoosh, applause, gasp, chimeGood, chimeBad, thump, perfectSting, smashCrack, whiffSwish, whiffSlide, rivalPop;
+        AudioClip mishit, pop, popSweet, bounce, net, whoosh, applause, gasp, chimeGood, chimeBad, thump, perfectSting, smashCrack, whiffSwish, whiffSlide, rivalPop;
         float crowdTarget;
 
         public static TennisSounds Create(Transform parent)
@@ -21,33 +22,54 @@ namespace GolfArcade.Tennis
             s.source = go.AddComponent<AudioSource>(); s.source.playOnAwake = false; s.source.spatialBlend = 0;
             s.crowd = go.AddComponent<AudioSource>(); s.crowd.playOnAwake = false; s.crowd.spatialBlend = 0; s.crowd.loop = true;
             s.Synthesize();
+            s.SwapV2();
             s.crowd.clip = s.applause;
             return s;
         }
 
+        /// Which hero the player is: picks male or female grunts (the rival is the other one).
+        public bool Female;
+        AudioClip[] gruntGround, gruntPower, gruntServe, gruntSmash, gruntOpp;
+        void LoadGrunts()
+        {
+            string me = Female ? "f" : "m", them = Female ? "m" : "f";
+            gruntGround = GameAudio.Load("sfx/grunt/" + me + "_ground"); gruntPower = GameAudio.Load("sfx/grunt/" + me + "_power");
+            gruntServe = GameAudio.Load("sfx/grunt/" + me + "_serve"); gruntSmash = GameAudio.Load("sfx/grunt/" + me + "_smash");
+            gruntOpp = GameAudio.Load("sfx/grunt/" + them + "_ground");
+        }
+        static AudioClip Pick(AudioClip[] a) => a == null || a.Length == 0 ? null : a[Random.Range(0, a.Length)];
+        void SwapV2()
+        {
+            GameAudio.Swap(ref pop, "sfx/tennis/hit_normal"); GameAudio.Swap(ref popSweet, "sfx/tennis/hit_sweet"); GameAudio.Swap(ref mishit, "sfx/tennis/mishit");
+            GameAudio.Swap(ref smashCrack, "sfx/tennis/smash");
+            GameAudio.Swap(ref rivalPop, "sfx/tennis/rival"); GameAudio.Swap(ref bounce, "sfx/tennis/bounce");
+            GameAudio.Swap(ref net, "sfx/tennis/net_cord"); GameAudio.Swap(ref whiffSwish, "sfx/tennis/whiff");
+            GameAudio.Swap(ref whoosh, "sfx/tennis/whiff"); GameAudio.Swap(ref gasp, "sfx/crowd/tennis_ooh");
+        }
         public void Hit(Timing grade, float power) => Hit(grade, power, false);
         /// Contact only (called when the ball leaves the strings). Every hit gets a body thump under
         /// the string pop so routine hits land solid; a perfect adds a bright sting, a smash a crack.
+        /// Shots so far in this rally (set by the game): hits and bounces climb in pitch as it goes on, up to about +20 %.
+        public int Rally;
+        float RallyPitch => 1;   // real contact sounds: no rally pitch climb
         public void Hit(Timing grade, float power, bool smash)
         {
-            float v = Mathf.Lerp(.5f, 1f, Mathf.Clamp01(power));
-            source.pitch = Mathf.Lerp(.94f, 1.08f, Mathf.Clamp01(power));
-            source.PlayOneShot(grade >= Timing.Great ? popSweet : pop, v);
-            source.pitch = 1;
-            source.PlayOneShot(thump, Mathf.Lerp(.35f, .7f, Mathf.Clamp01(power)));
-            if (smash) source.PlayOneShot(smashCrack, .95f);
-            else if (grade >= Timing.Perfect) source.PlayOneShot(perfectSting, .7f);
+            // One real contact sound per hit: mishit < normal < sweet spot, and the smash crack. Loudness comes from the files; no layers, no pitch tricks.
+            var main = smash ? smashCrack : grade <= Timing.Ok ? mishit : grade >= Timing.Great ? popSweet : pop;
+            source.Shot(main, Mathf.Lerp(.8f, 1f, Mathf.Clamp01(power)));
+            if (gruntGround == null) LoadGrunts();
+            if (grade > Timing.Missed) source.Shot(Pick(smash ? gruntSmash : power > .7f ? gruntPower : gruntGround), .55f);
         }
         /// The opponent's contact: the same honest pop and thump, a notch quieter and duller.
-        public void RivalHit(float power) { source.PlayOneShot(rivalPop, Mathf.Lerp(.45f, .75f, power)); source.PlayOneShot(thump, .3f); }
+        public void RivalHit(float power) { source.Shot(rivalPop, Mathf.Lerp(.55f, .85f, power)); if (gruntGround == null) LoadGrunts(); if (power > .5f) source.Shot(Pick(gruntOpp), .4f); }
         /// A confirmed whiff: louder and sillier than any routine hit — a big air swish and a
         /// falling slide whistle.
-        public void Whiff() { source.PlayOneShot(whiffSwish, .8f); source.PlayOneShot(whiffSlide, .6f); }
-        public void Bounce(float pace) => source.PlayOneShot(bounce, Mathf.Lerp(.25f, .7f, Mathf.Clamp01(pace)));
-        public void Net() => source.PlayOneShot(net, .8f);
-        public void Whoosh(float power) => source.PlayOneShot(whoosh, Mathf.Lerp(.15f, .5f, Mathf.Clamp01(power)));
-        public void Call(bool good) => source.PlayOneShot(good ? chimeGood : chimeBad, .55f);
-        public void Gasp() => source.PlayOneShot(gasp, .45f);
+        public void Whiff() { source.Shot(whiffSwish, .9f); }
+        public void Bounce(float pace) { source.pitch = RallyPitch; source.Shot(bounce, Mathf.Lerp(.4f, .85f, Mathf.Clamp01(pace))); source.pitch = 1; }
+        public void Net() => source.Shot(net, .8f);
+        public void Whoosh(float power) => source.Shot(whoosh, Mathf.Lerp(.15f, .5f, Mathf.Clamp01(power)));
+        public void Call(bool good) => source.Shot(good ? chimeGood : chimeBad, .55f);
+        public void Gasp() => source.Shot(gasp, .45f);
 
         /// Applause that swells and dies away; stronger for longer rallies.
         public void Applaud(float strength)

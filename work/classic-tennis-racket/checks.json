@@ -1,0 +1,1701 @@
+{
+ "generated": "2026-10-02 18:54:16",
+ "task": "Classic tennis racket (Racket_Classic) - staged, hero untouched",
+ "racket": {
+  "bbox_min": [
+   -0.1424063891172409,
+   -0.11100000143051147,
+   -0.019872400909662247
+  ],
+  "bbox_max": [
+   0.1424063891172409,
+   0.5769764184951782,
+   0.019806262105703354
+  ],
+  "length_m": 0.6879764199256897,
+  "width_m": 0.2848127782344818,
+  "depth_m": 0.0396786630153656,
+  "head_top_y": 0.5769764184951782,
+  "head_bottom_y": 0.22910088300704956,
+  "head_outer_height_m": 0.34787553548812866,
+  "head_outer_width_m": 0.2848127782344818,
+  "head_outer_width_y": 0.4122854471206665,
+  "frame_depth_max_m": 0.0396786630153656,
+  "grip_slices": 22,
+  "grip_diameter_mean_m": 0.03419614603847478,
+  "grip_diameter_min_m": 0.032799999676135345,
+  "grip_diameter_max_m": 0.03460000082850456,
+  "grip_y_min": -0.0989999994635582,
+  "grip_y_max": 0.0989999994635582,
+  "grip_usable_length_m": 0.1979999989271164,
+  "grip_center_y": 0.0,
+  "butt_cap_diameter_max_m": 0.03799999969527885,
+  "butt_end_y": -0.11100000143051147,
+  "tris": {
+   "Racket_Classic": 6000,
+   "StringBed": 1976,
+   "Grip": 2304,
+   "ButtCap": 480,
+   "Collider_Racket": 120
+  },
+  "tris_visual": 10760,
+  "tris_total_with_collider": 10880,
+  "verts": {
+   "Racket_Classic": 2998,
+   "StringBed": 1368,
+   "Grip": 1154,
+   "ButtCap": 242,
+   "Collider_Racket": 64
+  },
+  "materials": {
+   "Racket_Classic": [
+    "White_Frame"
+   ],
+   "StringBed": [
+    "White_Strings"
+   ],
+   "Grip": [
+    "Black_Grip"
+   ],
+   "ButtCap": [
+    "Black_Grip"
+   ],
+   "Collider_Racket": []
+  },
+  "text_objects": [],
+  "images": [],
+  "image_texture_nodes": 0,
+  "uv_layers": {
+   "Racket_Classic": 0,
+   "StringBed": 0,
+   "Grip": 0,
+   "ButtCap": 0,
+   "Collider_Racket": 0
+  },
+  "object_types": {
+   "ButtCap": "MESH",
+   "Collider_Racket": "MESH",
+   "Grip": "MESH",
+   "Hand_Racket": "EMPTY",
+   "Racket_Classic": "MESH",
+   "StringBed": "MESH"
+  },
+  "manifold": {
+   "Racket_Classic": {
+    "non_manifold_edges": 0,
+    "loose_verts": 0
+   },
+   "Grip": {
+    "non_manifold_edges": 0,
+    "loose_verts": 0
+   },
+   "ButtCap": {
+    "non_manifold_edges": 0,
+    "loose_verts": 0
+   }
+  },
+  "frame_mirror_x_surface_dist_max_mm": 1.3932554284110665,
+  "frame_topology": {
+   "verts": 2998,
+   "edges": 9000,
+   "faces": 6000,
+   "euler_characteristic": -2,
+   "genus": 2,
+   "non_manifold_edges": 0
+  },
+  "material_values": {
+   "Black_Grip": {
+    "base_color_srgb255": [
+     28,
+     28,
+     31
+    ],
+    "roughness": 0.7799999713897705,
+    "metallic": 0.0,
+    "alpha": 1.0,
+    "urp_lit_smoothness": 0.22
+   },
+   "White_Frame": {
+    "base_color_srgb255": [
+     238,
+     237,
+     234
+    ],
+    "roughness": 0.5,
+    "metallic": 0.0,
+    "alpha": 1.0,
+    "urp_lit_smoothness": 0.5
+   },
+   "White_Strings": {
+    "base_color_srgb255": [
+     232,
+     231,
+     227
+    ],
+    "roughness": 0.550000011920929,
+    "metallic": 0.0,
+    "alpha": 1.0,
+    "urp_lit_smoothness": 0.45
+   }
+  },
+  "socket_template": {
+   "empty": "Hand_Racket",
+   "racket_parent": "Hand_Racket",
+   "children_of_Racket_Classic": [
+    "ButtCap",
+    "Collider_Racket",
+    "Grip",
+    "StringBed"
+   ]
+  }
+ },
+ "export": {
+  "report": {
+   "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/classic-tennis-racket/export/Racket_Classic.blend",
+   "blend_sha256": "53e83714856a14c1533653b3fce3e164dfb17e9c58c995cbdb325d86eec7e8ba",
+   "fbx_visual": "export/Racket_Classic.fbx",
+   "fbx_visual_sha256": "81a2eee4eb1051cb7feefd816eb8f35628a1e941b1e1aa52285c1cc1a988e297",
+   "fbx_visual_bytes": 253468,
+   "fbx_collider": "export/Racket_Classic_Collider.fbx",
+   "fbx_collider_sha256": "34aea373349a094d8e509949596540aa9e4e81b0179cabcecd4c3283326563ea",
+   "source_tris": {
+    "Racket_Classic": 6000,
+    "StringBed": 1976,
+    "Grip": 2304,
+    "ButtCap": 480,
+    "Collider_Racket": 120
+   },
+   "materials": [
+    "Black_Grip",
+    "White_Frame",
+    "White_Strings"
+   ],
+   "export_flags": {
+    "use_selection": true,
+    "object_types": [
+     "MESH"
+    ],
+    "global_scale": 1,
+    "apply_unit_scale": true,
+    "apply_scale_options": "FBX_SCALE_ALL",
+    "axis_forward": "-Z",
+    "axis_up": "Y",
+    "use_mesh_modifiers": true,
+    "mesh_smooth_type": "OFF",
+    "add_leaf_bones": false,
+    "bake_anim": false,
+    "path_mode": "COPY"
+   },
+   "reimport_visual": {
+    "objects": [
+     "ButtCap",
+     "Grip",
+     "Racket_Classic",
+     "StringBed"
+    ],
+    "parents": {
+     "ButtCap": "Racket_Classic",
+     "Grip": "Racket_Classic",
+     "StringBed": "Racket_Classic",
+     "Racket_Classic": null
+    },
+    "per_object": {
+     "Racket_Classic": {
+      "verts": 2998,
+      "tris": 6000,
+      "max_err_mm": 9.406358003616333e-05,
+      "materials": [
+       "White_Frame"
+      ],
+      "dims_m": [
+       0.2848127782344818,
+       0.48943642509731244,
+       0.039678662279335704
+      ]
+     },
+     "StringBed": {
+      "verts": 1368,
+      "tris": 1976,
+      "max_err_mm": 9.057112038135529e-05,
+      "materials": [
+       "White_Strings"
+      ],
+      "dims_m": [
+       0.24340593814849854,
+       0.3063447926378282,
+       0.006556971415068962
+      ]
+     },
+     "Grip": {
+      "verts": 1154,
+      "tris": 2304,
+      "max_err_mm": 1.6763806343078613e-05,
+      "materials": [
+       "Black_Grip"
+      ],
+      "dims_m": [
+       0.03519999980926514,
+       0.19800000163159973,
+       0.035200000216566454
+      ]
+     },
+     "ButtCap": {
+      "verts": 242,
+      "tris": 480,
+      "max_err_mm": 1.816079020500183e-05,
+      "materials": [
+       "Black_Grip"
+      ],
+      "dims_m": [
+       0.03799999877810478,
+       0.013800007619898289,
+       0.03799999885956529
+      ]
+     }
+    },
+    "bbox_min": [
+     -0.1424063891172409,
+     -0.11100000354848043,
+     -0.019872420870257826
+    ],
+    "bbox_max": [
+     0.1424063891172409,
+     0.5769764187466124,
+     0.019806241409077878
+    ],
+    "extent_m": [
+     0.2848127782344818,
+     0.6879764222950928,
+     0.039678662279335704
+    ],
+    "scale_of_roots": {
+     "Racket_Classic": [
+      1.0,
+      1.0,
+      1.0
+     ]
+    }
+   },
+   "reimport_collider": {
+    "objects": [
+     "Collider_Racket"
+    ],
+    "parents": {
+     "Collider_Racket": null
+    },
+    "per_object": {
+     "Collider_Racket": {
+      "verts": 64,
+      "tris": 120,
+      "max_err_mm": 9.313225746154785e-05,
+      "materials": [],
+      "dims_m": [
+       0.2845052480697632,
+       0.6880000280897208,
+       0.038000039345356215
+      ]
+     }
+    },
+    "bbox_min": [
+     -0.1422526240348816,
+     -0.11100000338555971,
+     -0.019000023827156102
+    ],
+    "bbox_max": [
+     0.1422526240348816,
+     0.5770000247041611,
+     0.019000015518200113
+    ],
+    "extent_m": [
+     0.2845052480697632,
+     0.6880000280897208,
+     0.038000039345356215
+    ],
+    "scale_of_roots": {
+     "Collider_Racket": [
+      1.0,
+      1.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "fbx_object_counts": {
+   "Geometry": 4,
+   "Model": 4,
+   "Material": 3
+  },
+  "fbx_global_settings": {
+   "UpAxis": [
+    1
+   ],
+   "FrontAxis": [
+    2
+   ],
+   "UnitScaleFactor": [
+    100.0
+   ]
+  },
+  "Racket_Classic.fbx_sha256": "81a2eee4eb1051cb7feefd816eb8f35628a1e941b1e1aa52285c1cc1a988e297",
+  "Racket_Classic_Collider.fbx_sha256": "34aea373349a094d8e509949596540aa9e4e81b0179cabcecd4c3283326563ea",
+  "Racket_Classic.blend_sha256": "53e83714856a14c1533653b3fce3e164dfb17e9c58c995cbdb325d86eec7e8ba",
+  "unity_import_check": {
+   "Assets/Racket_Classic.fbx": {
+    "importer": {
+     "globalScale": 1,
+     "useFileScale": true,
+     "fileScale": 1,
+     "bakeAxisConversion": false
+    },
+    "root": "Racket_Classic",
+    "rootLocalPos": [
+     0,
+     0,
+     0
+    ],
+    "rootLocalEuler": [
+     270.0198,
+     0,
+     0
+    ],
+    "rootLocalScale": [
+     1,
+     1,
+     1
+    ],
+    "meshes": [
+     {
+      "name": "Racket_Classic",
+      "verts": 2998,
+      "tris": 6000,
+      "worldBoundsSize": [
+       0.2848128,
+       0.03967872,
+       0.4894364
+      ],
+      "worldBoundsCenter": [
+       0,
+       -3.310901e-05,
+       -0.3322582
+      ],
+      "localEuler": [
+       270.0198,
+       0,
+       0
+      ],
+      "materials": [
+       "White_Frame|Standard"
+      ]
+     },
+     {
+      "name": "ButtCap",
+      "verts": 314,
+      "tris": 480,
+      "worldBoundsSize": [
+       0.038,
+       0.038,
+       0.01380001
+      ],
+      "worldBoundsCenter": [
+       0,
+       1.240969e-08,
+       0.1041
+      ],
+      "localEuler": [
+       0,
+       0,
+       0
+      ],
+      "materials": [
+       "Black_Grip|Standard"
+      ]
+     },
+     {
+      "name": "Grip",
+      "verts": 1442,
+      "tris": 2304,
+      "worldBoundsSize": [
+       0.0352,
+       0.03520002,
+       0.198
+      ],
+      "worldBoundsCenter": [
+       0,
+       0,
+       0
+      ],
+      "localEuler": [
+       0,
+       0,
+       0
+      ],
+      "materials": [
+       "Black_Grip|Standard"
+      ]
+     },
+     {
+      "name": "StringBed",
+      "verts": 1368,
+      "tris": 1976,
+      "worldBoundsSize": [
+       0.2434059,
+       0.006556958,
+       0.3063448
+      ],
+      "worldBoundsCenter": [
+       0,
+       -4.804515e-08,
+       -0.4030319
+      ],
+      "localEuler": [
+       0,
+       0,
+       0
+      ],
+      "materials": [
+       "White_Strings|Standard"
+      ]
+     }
+    ],
+    "totalTris": 10760,
+    "worldBoundsSize": [
+     0.2848128,
+     0.03967872,
+     0.6879764
+    ],
+    "worldBoundsCenter": [
+     0,
+     -3.310852e-05,
+     -0.2329882
+    ],
+    "longestAxis": "z",
+    "longestExtent_m": 0.6879764
+   },
+   "Assets/Racket_Classic_Collider.fbx": {
+    "importer": {
+     "globalScale": 1,
+     "useFileScale": true,
+     "fileScale": 1,
+     "bakeAxisConversion": false
+    },
+    "root": "Racket_Classic_Collider",
+    "rootLocalPos": [
+     0,
+     0,
+     0
+    ],
+    "rootLocalEuler": [
+     270.0198,
+     0,
+     0
+    ],
+    "rootLocalScale": [
+     1,
+     1,
+     1
+    ],
+    "meshes": [
+     {
+      "name": "Racket_Classic_Collider",
+      "verts": 192,
+      "tris": 120,
+      "worldBoundsSize": [
+       0.2845052,
+       0.03800008,
+       0.688
+      ],
+      "worldBoundsCenter": [
+       0,
+       -2.777577e-08,
+       -0.233
+      ],
+      "localEuler": [
+       270.0198,
+       0,
+       0
+      ],
+      "materials": [
+       "Default-Material|Standard"
+      ]
+     }
+    ],
+    "totalTris": 120,
+    "worldBoundsSize": [
+     0.2845052,
+     0.03800008,
+     0.688
+    ],
+    "worldBoundsCenter": [
+     0,
+     -2.777577e-08,
+     -0.233
+    ],
+    "longestAxis": "z",
+    "longestExtent_m": 0.688
+   },
+   "done": true
+  },
+  "unity_socket_check": {
+   "male": {
+    "bodyVerts": 36643,
+    "racketVerts": 6122,
+    "minVertexDistance_mm": 1.763366,
+    "racketBoundsCenter": [
+     0.7084079,
+     0.734099,
+     0.2891082
+    ],
+    "racketBoundsSize": [
+     0.4099014,
+     0.3715525,
+     0.5290065
+    ],
+    "closestRacketVert": [
+     0.5666329,
+     0.8895975,
+     0.08652306
+    ],
+    "closestBodyVert": [
+     0.5665846,
+     0.8905036,
+     0.08803505
+    ],
+    "racketRootLocalEuler": [
+     270.0198,
+     0,
+     0
+    ],
+    "bodyChildren": "HeroBase_Male_Body,Body_M,Face_M"
+   },
+   "female": {
+    "bodyVerts": 26562,
+    "racketVerts": 6122,
+    "minVertexDistance_mm": 0.6753418,
+    "racketBoundsCenter": [
+     0.07537778,
+     0.5749929,
+     -0.02765176
+    ],
+    "racketBoundsSize": [
+     0.4775217,
+     0.562613,
+     0.2144093
+    ],
+    "closestRacketVert": [
+     -0.1316455,
+     0.4813131,
+     0.05305021
+    ],
+    "closestBodyVert": [
+     -0.1323048,
+     0.4811908,
+     0.05297023
+    ],
+    "racketRootLocalEuler": [
+     270.0198,
+     0,
+     0
+    ],
+    "bodyChildren": "HeroBase_Female_Body"
+   },
+   "done": true
+  },
+  "blender_vertex_distance_for_unity_comparison": {
+   "male": {
+    "min_vertex_distance_mm": 1.7635246040299535,
+    "racket_vert": [
+     -0.5666328731908691,
+     -0.0865230675768627,
+     0.8895975509548344
+    ],
+    "body_vert": [
+     -0.566584587097168,
+     -0.0880352035164833,
+     0.8905037045478821
+    ],
+    "body_verts": 33196,
+    "racket_verts": 5762,
+    "racket_vert_unity": [
+     0.5666328731908691,
+     0.8895975509548344,
+     0.0865230675768627
+    ],
+    "body_vert_unity": [
+     0.566584587097168,
+     0.8905037045478821,
+     0.0880352035164833
+    ]
+   },
+   "female": {
+    "min_vertex_distance_mm": 0.6752978661097586,
+    "racket_vert": [
+     0.13164550814725096,
+     -0.05305016067631607,
+     0.4813130326516575
+    ],
+    "body_vert": [
+     0.132304847240448,
+     -0.052970293909311295,
+     0.48119083046913147
+    ],
+    "body_verts": 22444,
+    "racket_verts": 5762,
+    "racket_vert_unity": [
+     -0.13164550814725096,
+     0.4813130326516575,
+     0.05305016067631607
+    ],
+    "body_vert_unity": [
+     -0.132304847240448,
+     0.48119083046913147,
+     0.052970293909311295
+    ]
+   }
+  }
+ },
+ "onhand": {
+  "male": {
+   "tag": "male",
+   "phi": 52.0,
+   "U_g": -0.02,
+   "V_g": 0.0,
+   "roll": 45.0,
+   "apose": {
+    "W_g": 0.028712298365380074,
+    "min_clearance_hand_mm": 0.4998489166609943,
+    "min_clearance_body_mm": 0.4998489166609943,
+    "tri_overlaps_hand": {
+     "Racket_Classic": 0,
+     "StringBed": 0,
+     "Grip": 0,
+     "ButtCap": 0
+    },
+    "tri_overlaps_body": {
+     "Racket_Classic": 0,
+     "StringBed": 0,
+     "Grip": 0,
+     "ButtCap": 0
+    },
+    "matrix_world": [
+     [
+      0.003283956956952716,
+      -0.5629446724463628,
+      0.8264880588314404,
+      -0.5785689753847711
+     ],
+     [
+      -0.4951624094604319,
+      -0.7189712053306476,
+      -0.4877443942914522,
+      -0.11439031508605682
+     ],
+     [
+      0.8687942241313791,
+      -0.40764408700440297,
+      -0.28111011089304877,
+      0.8598423731505056
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ]
+   },
+   "parent_tests": {
+    "hero_vertex_hash": "01fa3700d5b7bebb20caae9cbfd94d216ce512492cc1506c30aa2fb5c040e19a",
+    "hash_with_racket": "01fa3700d5b7bebb20caae9cbfd94d216ce512492cc1506c30aa2fb5c040e19a",
+    "hash_after_unparent": "01fa3700d5b7bebb20caae9cbfd94d216ce512492cc1506c30aa2fb5c040e19a",
+    "hash_after_delete": "01fa3700d5b7bebb20caae9cbfd94d216ce512492cc1506c30aa2fb5c040e19a",
+    "unparent_keeps_world_transform_err": 1.7881393432617188e-07,
+    "body_unchanged": true
+   },
+   "ready": {
+    "pose": {
+     "adduct": 16.0,
+     "flex": 95.0,
+     "twist": 0.0
+    },
+    "min_clearance_body_mm": 0.49981672782450914,
+    "min_clearance_hand_mm": -16.995511949062347,
+    "tri_overlaps_body": {
+     "Racket_Classic": 0,
+     "StringBed": 0,
+     "Grip": 0,
+     "ButtCap": 0
+    },
+    "tri_overlaps_hand": {
+     "Racket_Classic": 0,
+     "StringBed": 0,
+     "Grip": 0,
+     "ButtCap": 0
+    },
+    "hand_vs_grip_cylinder_min_mm": 0.38837082200023076,
+    "finger_vs_cylinder_min_mm": {
+     "pinky": 1.4621388312065844,
+     "ring": 0.38837082200023076,
+     "middle": 0.47819757152522613,
+     "index": 0.389330626015854
+    },
+    "matrix_world": [
+     [
+      -0.3183166561600171,
+      0.3080632556815894,
+      0.8965330651515121,
+      -0.17249243844955542
+     ],
+     [
+      0.644527874762181,
+      -0.6231816671356373,
+      0.4429767808820172,
+      -0.4093086100200095
+     ],
+     [
+      0.6951678394932065,
+      0.71884743878302,
+      -0.00018625101393221488,
+      1.2010810082518895
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "finger_paths_ok": {
+     "pinky": true,
+     "ring": true,
+     "middle": true,
+     "index": true
+    }
+   },
+   "socket": {
+    "note": "Hand_Racket origin = racket grip centre; racket local +Y = shaft towards the head, +Z = hitting-face normal, +X = Y x Z (Blender frame)",
+    "hand_frame_blender": {
+     "origin": [
+      -0.611378970712358,
+      -0.11731411977225722,
+      0.8716471031424743
+     ],
+     "u_fingers": [
+      -0.8048380807085148,
+      -0.13865996199198172,
+      -0.5770693881863915
+     ],
+     "v_thumb": [
+      0.11577204831021738,
+      -0.9903261591343826,
+      0.07649138097980786
+     ],
+     "p_palm_normal": [
+      0.5820932027360316,
+      0.0052453288289301655,
+      -0.8131051530115804
+     ]
+    },
+    "hand_frame_unity": {
+     "origin": [
+      0.611378970712358,
+      0.8716471031424743,
+      0.11731411977225722
+     ],
+     "u_fingers": [
+      0.8048380807085148,
+      -0.5770693881863915,
+      0.13865996199198172
+     ],
+     "v_thumb": [
+      -0.11577204831021738,
+      0.07649138097980786,
+      0.9903261591343826
+     ],
+     "p_palm_normal": [
+      -0.5820932027360316,
+      -0.8131051530115804,
+      -0.0052453288289301655
+     ]
+    },
+    "grip_in_hand_frame": {
+     "phi_deg": 52.0,
+     "U_g": -0.02,
+     "V_g": 0.0,
+     "W_g": 0.028712298365380074,
+     "roll_deg": 45.0,
+     "axis_UVW": [
+      0.788010753606722,
+      0.6156614753256583,
+      0.0
+     ],
+     "origin_UVW": [
+      -0.02,
+      0.0,
+      0.028712298365380074
+     ],
+     "meaning": "U along the fingers, V towards the thumb, W = palm normal; handle axis = (sin phi, cos phi, 0) in (U,V,W); grip centre = (U_g, V_g, W_g)"
+    },
+    "apose_world_blender": {
+     "position": [
+      -0.5785689753847711,
+      -0.11439031508605682,
+      0.8598423731505056
+     ],
+     "X": [
+      0.003283956956952716,
+      -0.4951624094604319,
+      0.8687942241313791
+     ],
+     "Y": [
+      -0.5629446724463628,
+      -0.7189712053306476,
+      -0.40764408700440297
+     ],
+     "Z": [
+      0.8264880588314404,
+      -0.4877443942914522,
+      -0.28111011089304877
+     ],
+     "euler_xyz_deg": [
+      55.40997794362014,
+      -119.68118376922637,
+      90.37998641857348
+     ]
+    },
+    "apose_world_unity": {
+     "position": [
+      0.5785689753847711,
+      0.8598423731505056,
+      0.11439031508605682
+     ],
+     "right": [
+      0.003283956956952716,
+      -0.8687942241313791,
+      -0.4951624094604319
+     ],
+     "up": [
+      -0.8264880588314404,
+      -0.28111011089304877,
+      0.4877443942914522
+     ],
+     "forward": [
+      -0.5629446724463628,
+      0.40764408700440297,
+      -0.7189712053306476
+     ],
+     "quaternion_xyzw_of_matrix": [
+      0.7077014446258545,
+      -0.598869264125824,
+      -0.37378302216529846,
+      0.028295915573835373
+     ],
+     "use": "transform.position = position; transform.rotation = Quaternion.LookRotation(forward, up)"
+    }
+   }
+  },
+  "female": {
+   "tag": "female",
+   "phi": 52.0,
+   "U_g": -0.02,
+   "V_g": 0.0,
+   "roll": 45.0,
+   "apose": {
+    "W_g": 0.04024045214196075,
+    "min_clearance_hand_mm": 2.2594863548874855,
+    "min_clearance_body_mm": -72.60488718748093,
+    "tri_overlaps_hand": {
+     "Racket_Classic": 0,
+     "StringBed": 0,
+     "Grip": 0,
+     "ButtCap": 0
+    },
+    "tri_overlaps_body": {
+     "Racket_Classic": 561,
+     "StringBed": 500,
+     "Grip": 62,
+     "ButtCap": 0
+    },
+    "matrix_world": [
+     [
+      0.5486586548217156,
+      0.6308306912147277,
+      0.5486586548217155,
+      -0.23267322959417924
+     ],
+     [
+      -0.6974865937380905,
+      -0.016457420696522507,
+      0.7164088252245736,
+      0.03442795265219268
+     ],
+     [
+      0.4609621807099379,
+      -0.7757459586266412,
+      0.43096644373961646,
+      0.7612836984106883
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ]
+   },
+   "parent_tests": {
+    "hero_vertex_hash": "951666aec3474d225adc5d14cba8e86388bc340e62c5551af6566dab233b0465",
+    "hash_with_racket": "951666aec3474d225adc5d14cba8e86388bc340e62c5551af6566dab233b0465",
+    "hash_after_unparent": "951666aec3474d225adc5d14cba8e86388bc340e62c5551af6566dab233b0465",
+    "hash_after_delete": "951666aec3474d225adc5d14cba8e86388bc340e62c5551af6566dab233b0465",
+    "unparent_keeps_world_transform_err": 2.3469328880310059e-07,
+    "body_unchanged": true
+   },
+   "ready": {
+    "pose": {
+     "adduct": 0.0,
+     "flex": 95.0,
+     "twist": 90.0
+    },
+    "min_clearance_body_mm": 0.20603793382178992,
+    "min_clearance_hand_mm": 0.6024594767950475,
+    "tri_overlaps_body": {
+     "Racket_Classic": 0,
+     "StringBed": 0,
+     "Grip": 0,
+     "ButtCap": 0
+    },
+    "tri_overlaps_hand": {
+     "Racket_Classic": 0,
+     "StringBed": 0,
+     "Grip": 0,
+     "ButtCap": 0
+    },
+    "hand_vs_grip_cylinder_min_mm": 0.37814719100213307,
+    "finger_vs_cylinder_min_mm": {
+     "finger0": 21.593525965229485,
+     "finger1": 0.5376395192226262,
+     "finger2": 0.41713283743584006,
+     "finger3": 0.37814719100213307
+    },
+    "matrix_world": [
+     [
+      -0.6566654631943204,
+      0.04615325035723086,
+      0.7527684550572319,
+      -0.17503520860748384
+     ],
+     [
+      0.5473292839143071,
+      -0.6575309412978332,
+      0.5177680138883024,
+      -0.3077506173587651
+     ],
+     [
+      0.5188652276050503,
+      0.7520125921269195,
+      0.40651683466359806,
+      1.0990100486946321
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "finger_paths_ok": {
+     "finger0": false,
+     "finger1": true,
+     "finger2": true,
+     "finger3": true
+    }
+   },
+   "socket": {
+    "note": "Hand_Racket origin = racket grip centre; racket local +Y = shaft towards the head, +Z = hitting-face normal, +X = Y x Z (Blender frame)",
+    "hand_frame_blender": {
+     "origin": [
+      -0.2322852895543584,
+      -0.00622757091367363,
+      0.7421454671784081
+     ],
+     "u_fingers": [
+      0.019397001991042436,
+      -0.021206198543168076,
+      -0.9995869414198582
+     ],
+     "v_thumb": [
+      0.9998118604586362,
+      0.0004114140786203346,
+      0.019392638415038247
+     ],
+     "p_palm_normal": [
+      5.421010862427522e-20,
+      0.9997750386370943,
+      -0.021210189018402235
+     ]
+    },
+    "hand_frame_unity": {
+     "origin": [
+      0.2322852895543584,
+      0.7421454671784081,
+      0.00622757091367363
+     ],
+     "u_fingers": [
+      -0.019397001991042436,
+      -0.9995869414198582,
+      0.021206198543168076
+     ],
+     "v_thumb": [
+      -0.9998118604586362,
+      0.019392638415038247,
+      -0.0004114140786203346
+     ],
+     "p_palm_normal": [
+      -5.421010862427522e-20,
+      -0.021210189018402235,
+      -0.9997750386370943
+     ]
+    },
+    "grip_in_hand_frame": {
+     "phi_deg": 52.0,
+     "U_g": -0.02,
+     "V_g": 0.0,
+     "W_g": 0.04024045214196075,
+     "roll_deg": 45.0,
+     "axis_UVW": [
+      0.788010753606722,
+      0.6156614753256583,
+      0.0
+     ],
+     "origin_UVW": [
+      -0.02,
+      0.0,
+      0.04024045214196075
+     ],
+     "meaning": "U along the fingers, V towards the thumb, W = palm normal; handle axis = (sin phi, cos phi, 0) in (U,V,W); grip centre = (U_g, V_g, W_g)"
+    },
+    "apose_world_blender": {
+     "position": [
+      -0.23267322959417924,
+      0.03442795265219268,
+      0.7612836984106883
+     ],
+     "X": [
+      0.5486586548217156,
+      -0.6974865937380905,
+      0.4609621807099379
+     ],
+     "Y": [
+      0.6308306912147277,
+      -0.016457420696522507,
+      -0.7757459586266412
+     ],
+     "Z": [
+      0.5486586548217155,
+      0.7164088252245736,
+      0.43096644373961646
+     ],
+     "euler_xyz_deg": [
+      -60.945593548916186,
+      -27.449213755318727,
+      -51.81061168499599
+     ]
+    },
+    "apose_world_unity": {
+     "position": [
+      0.23267322959417924,
+      0.7612836984106883,
+      -0.03442795265219268
+     ],
+     "right": [
+      0.5486586548217156,
+      -0.4609621807099379,
+      -0.6974865937380905
+     ],
+     "up": [
+      -0.5486586548217155,
+      0.43096644373961646,
+      -0.7164088252245736
+     ],
+     "forward": [
+      0.6308306912147277,
+      0.7757459586266412,
+      -0.016457420696522507
+     ],
+     "quaternion_xyzw_of_matrix": [
+      -0.5324823260307312,
+      0.4740161597728729,
+      0.03129487484693527,
+      0.7005653977394104
+     ],
+     "use": "transform.position = position; transform.rotation = Quaternion.LookRotation(forward, up)"
+    }
+   }
+  }
+ },
+ "scene_hierarchies": {
+  "RacketOnHero_Male_APose": {
+   "objects": {
+    "Body_M": {
+     "type": "MESH",
+     "parent": null
+    },
+    "ButtCap": {
+     "type": "MESH",
+     "parent": "Racket_Classic"
+    },
+    "Collider_Racket": {
+     "type": "MESH",
+     "parent": "Racket_Classic"
+    },
+    "Grip": {
+     "type": "MESH",
+     "parent": "Racket_Classic"
+    },
+    "Hand_Racket": {
+     "type": "EMPTY",
+     "parent": "Body_M"
+    },
+    "Racket_Classic": {
+     "type": "MESH",
+     "parent": "Hand_Racket"
+    },
+    "StringBed": {
+     "type": "MESH",
+     "parent": "Racket_Classic"
+    },
+    "Studio_Camera": {
+     "type": "CAMERA",
+     "parent": null
+    },
+    "Studio_Fill": {
+     "type": "LIGHT",
+     "parent": null
+    },
+    "Studio_Key": {
+     "type": "LIGHT",
+     "parent": null
+    },
+    "Studio_Rim": {
+     "type": "LIGHT",
+     "parent": null
+    },
+    "Studio_Top": {
+     "type": "LIGHT",
+     "parent": null
+    }
+   },
+   "socket_parent": "Body_M",
+   "socket_type": "EMPTY",
+   "racket_parent": "Hand_Racket",
+   "racket_local_in_socket_is_identity": true,
+   "socket_world": [
+    [
+     0.003283735131844878,
+     -0.5629448890686035,
+     0.8264878392219543,
+     -0.5785689949989319
+    ],
+    [
+     -0.4951622486114502,
+     -0.7189709544181824,
+     -0.4877447783946991,
+     -0.1143903136253357
+    ],
+    [
+     0.8687942624092102,
+     -0.40764397382736206,
+     -0.281110018491745,
+     0.8598423600196838
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "custom_props": {
+    "socket_note": "Hand_Racket: origin = racket grip centre (palm hold point); racket +Y = shaft towards head, +Z = hitting-face normal (palm normal rolled 45 deg about the shaft), +X = Y x Z. Parented to the COPY of the hero body in the locked A-pose; hero blend untouched.",
+    "hero_blend_sha256": "fd04bc286f688b03ea25fbb57e1242bf2f5976c2dc7bbcdfdb0f68b622ab2347"
+   }
+  },
+  "RacketOnHero_Female_APose": {
+   "objects": {
+    "Body_F": {
+     "type": "MESH",
+     "parent": null
+    },
+    "ButtCap": {
+     "type": "MESH",
+     "parent": "Racket_Classic"
+    },
+    "Collider_Racket": {
+     "type": "MESH",
+     "parent": "Racket_Classic"
+    },
+    "Grip": {
+     "type": "MESH",
+     "parent": "Racket_Classic"
+    },
+    "Hand_Racket": {
+     "type": "EMPTY",
+     "parent": "Body_F"
+    },
+    "Racket_Classic": {
+     "type": "MESH",
+     "parent": "Hand_Racket"
+    },
+    "StringBed": {
+     "type": "MESH",
+     "parent": "Racket_Classic"
+    },
+    "Studio_Camera": {
+     "type": "CAMERA",
+     "parent": null
+    },
+    "Studio_Fill": {
+     "type": "LIGHT",
+     "parent": null
+    },
+    "Studio_Key": {
+     "type": "LIGHT",
+     "parent": null
+    },
+    "Studio_Rim": {
+     "type": "LIGHT",
+     "parent": null
+    },
+    "Studio_Top": {
+     "type": "LIGHT",
+     "parent": null
+    }
+   },
+   "socket_parent": "Body_F",
+   "socket_type": "EMPTY",
+   "racket_parent": "Hand_Racket",
+   "racket_local_in_socket_is_identity": true,
+   "socket_world": [
+    [
+     0.5486586093902588,
+     0.6308306455612183,
+     0.5486587285995483,
+     -0.23267322778701782
+    ],
+    [
+     -0.6974865794181824,
+     -0.016457535326480865,
+     0.7164088487625122,
+     0.0344279520213604
+    ],
+    [
+     0.4609622359275818,
+     -0.7757459878921509,
+     0.4309663772583008,
+     0.7612836956977844
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "custom_props": {
+    "socket_note": "Hand_Racket: origin = racket grip centre (palm hold point); racket +Y = shaft towards head, +Z = hitting-face normal (palm normal rolled 45 deg about the shaft), +X = Y x Z. Parented to the COPY of the hero body in the locked A-pose; hero blend untouched.",
+    "hero_blend_sha256": "200dc3b93e65491a8a7c3a8220c76cde5ca02ec7d1279e339f154005b22685cd",
+    "warning": "Static A-pose bind: the female arm hangs flush to the thigh with a pronated (palm-back) placeholder hand, so the racket crosses the thigh here. Use the ReadyStance proof pose for fit."
+   }
+  },
+  "RacketOnHero_Male_ReadyStance_PROOFPOSE": {
+   "objects": {
+    "Body_M_PROOFPOSE": {
+     "type": "MESH",
+     "parent": null
+    },
+    "ButtCap": {
+     "type": "MESH",
+     "parent": "Racket_Classic"
+    },
+    "Collider_Racket": {
+     "type": "MESH",
+     "parent": "Racket_Classic"
+    },
+    "Grip": {
+     "type": "MESH",
+     "parent": "Racket_Classic"
+    },
+    "Hand_Racket": {
+     "type": "EMPTY",
+     "parent": "Body_M_PROOFPOSE"
+    },
+    "Racket_Classic": {
+     "type": "MESH",
+     "parent": "Hand_Racket"
+    },
+    "StringBed": {
+     "type": "MESH",
+     "parent": "Racket_Classic"
+    },
+    "Studio_Camera": {
+     "type": "CAMERA",
+     "parent": null
+    },
+    "Studio_Fill": {
+     "type": "LIGHT",
+     "parent": null
+    },
+    "Studio_Key": {
+     "type": "LIGHT",
+     "parent": null
+    },
+    "Studio_Rim": {
+     "type": "LIGHT",
+     "parent": null
+    },
+    "Studio_Top": {
+     "type": "LIGHT",
+     "parent": null
+    }
+   },
+   "socket_parent": "Body_M_PROOFPOSE",
+   "socket_type": "EMPTY",
+   "racket_parent": "Hand_Racket",
+   "racket_local_in_socket_is_identity": true,
+   "socket_world": [
+    [
+     -0.31831681728363037,
+     0.308063268661499,
+     0.8965330123901367,
+     -0.17249244451522827
+    ],
+    [
+     0.6445279121398926,
+     -0.6231814622879028,
+     0.4429769217967987,
+     -0.40930861234664917
+    ],
+    [
+     0.6951677203178406,
+     0.7188474535942078,
+     -0.00018624297808855772,
+     1.2010810375213623
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "custom_props": {
+    "socket_note": "PROOF-ONLY pose on a duplicate of the hero body (fingers wrapped, arm skinned). Racket follows the hand rigidly via the same Hand_Racket socket."
+   }
+  },
+  "RacketOnHero_Female_ReadyStance_PROOFPOSE": {
+   "objects": {
+    "Body_F_PROOFPOSE": {
+     "type": "MESH",
+     "parent": null
+    },
+    "ButtCap": {
+     "type": "MESH",
+     "parent": "Racket_Classic"
+    },
+    "Collider_Racket": {
+     "type": "MESH",
+     "parent": "Racket_Classic"
+    },
+    "Grip": {
+     "type": "MESH",
+     "parent": "Racket_Classic"
+    },
+    "Hand_Racket": {
+     "type": "EMPTY",
+     "parent": "Body_F_PROOFPOSE"
+    },
+    "Racket_Classic": {
+     "type": "MESH",
+     "parent": "Hand_Racket"
+    },
+    "StringBed": {
+     "type": "MESH",
+     "parent": "Racket_Classic"
+    },
+    "Studio_Camera": {
+     "type": "CAMERA",
+     "parent": null
+    },
+    "Studio_Fill": {
+     "type": "LIGHT",
+     "parent": null
+    },
+    "Studio_Key": {
+     "type": "LIGHT",
+     "parent": null
+    },
+    "Studio_Rim": {
+     "type": "LIGHT",
+     "parent": null
+    },
+    "Studio_Top": {
+     "type": "LIGHT",
+     "parent": null
+    }
+   },
+   "socket_parent": "Body_F_PROOFPOSE",
+   "socket_type": "EMPTY",
+   "racket_parent": "Hand_Racket",
+   "racket_local_in_socket_is_identity": true,
+   "socket_world": [
+    [
+     -0.6566653847694397,
+     0.04615313187241554,
+     0.7527685165405273,
+     -0.17503520846366882
+    ],
+    [
+     0.5473294258117676,
+     -0.6575309038162231,
+     0.5177679061889648,
+     -0.3077506124973297
+    ],
+    [
+     0.518865168094635,
+     0.7520126104354858,
+     0.40651682019233704,
+     1.0990099906921387
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "custom_props": {
+    "socket_note": "PROOF-ONLY pose on a duplicate of the hero body (fingers wrapped, arm skinned). Racket follows the hand rigidly via the same Hand_Racket socket."
+   }
+  }
+ },
+ "body_sha": {
+  "male": {
+   "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/ArtDir/hero/base_lock/blender/HeroBase_Male_Silhouette.blend",
+   "sha256": "fd04bc286f688b03ea25fbb57e1242bf2f5976c2dc7bbcdfdb0f68b622ab2347",
+   "mtime": "2026-10-02 14:52:48",
+   "sha_before": "fd04bc286f688b03ea25fbb57e1242bf2f5976c2dc7bbcdfdb0f68b622ab2347",
+   "identical": true,
+   "sha_matches_brief": true
+  },
+  "female": {
+   "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/ArtDir/hero/base_lock/blender/HeroBase_Female.blend",
+   "sha256": "200dc3b93e65491a8a7c3a8220c76cde5ca02ec7d1279e339f154005b22685cd",
+   "mtime": "2026-09-30 20:55:08",
+   "sha_before": "200dc3b93e65491a8a7c3a8220c76cde5ca02ec7d1279e339f154005b22685cd",
+   "identical": true,
+   "sha_matches_brief": true
+  },
+  "fbx": {
+   "HeroBase_Male_Body.fbx": {
+    "sha256": "a36b2010bdffbccb87de3e684a2ac3b611be95bedccedea59460e687d0f600a6",
+    "sha_before": "a36b2010bdffbccb87de3e684a2ac3b611be95bedccedea59460e687d0f600a6",
+    "identical": true
+   },
+   "HeroBase_Female_Body.fbx": {
+    "sha256": "47aa5cc8f1dbe96a4ca20717162427fe18134b2502aabba90e46c051fb3fb2e2",
+    "sha_before": "47aa5cc8f1dbe96a4ca20717162427fe18134b2502aabba90e46c051fb3fb2e2",
+    "identical": true
+   }
+  }
+ },
+ "hero_vertex_hash_unchanged_after_parent_unparent_delete": {
+  "male": {
+   "hero_vertex_hash": "01fa3700d5b7bebb20caae9cbfd94d216ce512492cc1506c30aa2fb5c040e19a",
+   "hash_with_racket": "01fa3700d5b7bebb20caae9cbfd94d216ce512492cc1506c30aa2fb5c040e19a",
+   "hash_after_unparent": "01fa3700d5b7bebb20caae9cbfd94d216ce512492cc1506c30aa2fb5c040e19a",
+   "hash_after_delete": "01fa3700d5b7bebb20caae9cbfd94d216ce512492cc1506c30aa2fb5c040e19a",
+   "unparent_keeps_world_transform_err": 1.7881393432617188e-07,
+   "body_unchanged": true
+  },
+  "female": {
+   "hero_vertex_hash": "951666aec3474d225adc5d14cba8e86388bc340e62c5551af6566dab233b0465",
+   "hash_with_racket": "951666aec3474d225adc5d14cba8e86388bc340e62c5551af6566dab233b0465",
+   "hash_after_unparent": "951666aec3474d225adc5d14cba8e86388bc340e62c5551af6566dab233b0465",
+   "hash_after_delete": "951666aec3474d225adc5d14cba8e86388bc340e62c5551af6566dab233b0465",
+   "unparent_keeps_world_transform_err": 2.3469328880310059e-07,
+   "body_unchanged": true
+  }
+ },
+ "proofs": {
+  "01_turnaround.png": {
+   "exists": true,
+   "bytes": 1286453
+  },
+  "02_look_vs_chosen_ref.png": {
+   "exists": true,
+   "bytes": 1452762
+  },
+  "03_male_apose.png": {
+   "exists": true,
+   "bytes": 1133269
+  },
+  "04_male_ready.png": {
+   "exists": true,
+   "bytes": 1073985
+  },
+  "05_female_ready.png": {
+   "exists": true,
+   "bytes": 1006915
+  },
+  "06_socket_diagram.png": {
+   "exists": true,
+   "bytes": 1810960
+  },
+  "07_scale_lineup.png": {
+   "exists": true,
+   "bytes": 1528551
+  }
+ },
+ "gates_detail": {
+  "LOOK_CLASSIC": {
+   "frame_white": true,
+   "strings_white": true,
+   "grip_black": true,
+   "head_oval_open_Y_throat_two_windows_genus2": true,
+   "string_grid_present": true,
+   "butt_cap_black_and_larger_than_grip": true,
+   "matte_opaque_materials": true,
+   "side_by_side_with_chosen_ref_rendered": true
+  },
+  "NO_LOGOS": {
+   "no_text_or_curve_objects": true,
+   "no_images_in_file": true,
+   "no_image_texture_nodes": true,
+   "no_uv_decal_layers": true,
+   "fbx_has_no_texture_or_video_objects": true,
+   "only_flat_colour_materials": true
+  },
+  "SCALE_HERO": {
+   "length_in_0_68_to_0_70": true,
+   "head_height_in_0_32_to_0_35": true,
+   "ratio_to_hero_height": 0.4042,
+   "ratio_in_real_world_band_0_38_to_0_42": true,
+   "fbx_reimport_extent_matches_blend": true,
+   "unity_world_bounds_length_matches": true
+  },
+  "GRIP_DIAMETER": {
+   "mean_in_0_030_to_0_036": true,
+   "min_slice_in_range": true,
+   "max_slice_in_range": true,
+   "usable_length_in_0_18_to_0_20": true,
+   "grip_centred_on_origin": true
+  },
+  "HAND_FIT": {
+   "male_apose_racket_vs_hand_overlapping_tris": 0,
+   "male_apose_racket_vs_body_overlapping_tris": 0,
+   "male_apose_min_clearance_mm": 0.4998489166609943,
+   "male_ready_racket_vs_body_overlapping_tris": 0,
+   "female_apose_racket_vs_hand_overlapping_tris": 0,
+   "female_apose_racket_vs_body_overlapping_tris_DISCLOSED": 1123,
+   "female_ready_racket_vs_body_overlapping_tris": 0,
+   "female_ready_min_clearance_mm": 0.20603793382178992,
+   "male_ready_finger_to_grip_gap_mm": {
+    "pinky": 1.4621388312065844,
+    "ring": 0.38837082200023076,
+    "middle": 0.47819757152522613,
+    "index": 0.389330626015854
+   },
+   "female_ready_finger_to_grip_gap_mm": {
+    "finger0": 21.593525965229485,
+    "finger1": 0.5376395192226262,
+    "finger2": 0.41713283743584006,
+    "finger3": 0.37814719100213307
+   },
+   "PASS_rule": "hero hand never intersects the racket (A-pose male+female) and the whole body never intersects it in the male A-pose and both ready stances; the static female A-pose arm hangs flush to the thigh (placeholder pronated hand), so only that pose crosses the thigh (disclosed)"
+  },
+  "SOCKET_HAND_RACKET": {
+   "RacketOnHero_Male_APose": {
+    "socket_is_EMPTY": true,
+    "socket_parent": "Body_M",
+    "racket_parent": "Hand_Racket",
+    "racket_local_identity_under_socket": true
+   },
+   "RacketOnHero_Female_APose": {
+    "socket_is_EMPTY": true,
+    "socket_parent": "Body_F",
+    "racket_parent": "Hand_Racket",
+    "racket_local_identity_under_socket": true
+   },
+   "RacketOnHero_Male_ReadyStance_PROOFPOSE": {
+    "socket_is_EMPTY": true,
+    "socket_parent": "Body_M_PROOFPOSE",
+    "racket_parent": "Hand_Racket",
+    "racket_local_identity_under_socket": true
+   },
+   "RacketOnHero_Female_ReadyStance_PROOFPOSE": {
+    "socket_is_EMPTY": true,
+    "socket_parent": "Body_F_PROOFPOSE",
+    "racket_parent": "Hand_Racket",
+    "racket_local_identity_under_socket": true
+   },
+   "body_unchanged_after_parent_unparent_delete": {
+    "male": true,
+    "female": true
+   },
+   "unity_socket_reproduces_blender_placement": true
+  },
+  "BODY_SHA_UNCHANGED": {
+   "male_identical": true,
+   "female_identical": true,
+   "male_matches_brief": true,
+   "female_matches_brief": true,
+   "hero_fbx_identical": {
+    "HeroBase_Male_Body.fbx": true,
+    "HeroBase_Female_Body.fbx": true
+   }
+  },
+  "EXPORT_FBX_BLEND": {
+   "blend_exists": true,
+   "fbx_exists": true,
+   "fbx_reimport_max_error_mm": 9.406358003616333e-05,
+   "fbx_unit_scale_factor": [
+    100.0
+   ],
+   "fbx_up_axis": [
+    1
+   ],
+   "fbx_front_axis": [
+    2
+   ],
+   "unity_file_scale": 1,
+   "unity_global_scale": 1,
+   "unity_tris_match": true,
+   "tris_visual": 10760,
+   "tris_collider": 120,
+   "tris_total": 10880
+  },
+  "PROOFS": {
+   "01_turnaround.png": true,
+   "02_look_vs_chosen_ref.png": true,
+   "03_male_apose.png": true,
+   "04_male_ready.png": true,
+   "05_female_ready.png": true,
+   "06_socket_diagram.png": true,
+   "07_scale_lineup.png": true,
+   "checks_json": true
+  }
+ },
+ "gates": {
+  "LOOK_CLASSIC": "PASS",
+  "NO_LOGOS": "PASS",
+  "SCALE_HERO": "PASS",
+  "GRIP_DIAMETER": "PASS",
+  "HAND_FIT": "PASS",
+  "SOCKET_HAND_RACKET": "PASS",
+  "BODY_SHA_UNCHANGED": "PASS",
+  "EXPORT_FBX_BLEND": "PASS",
+  "PROOFS": "PASS"
+ },
+ "failed_lines": {},
+ "overall": "PASS"
+}

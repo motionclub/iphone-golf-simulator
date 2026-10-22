@@ -1,0 +1,685 @@
+{
+    "status": "PASS",
+    "clips": [
+        {
+            "id": "NeutralIdle_Male_RH",
+            "samples": 289,
+            "driftM": 9.069226507563144e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "AddressDriver_Male_RH",
+            "samples": 289,
+            "driftM": 8.292599886772223e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "AddressIron_Male_RH",
+            "samples": 289,
+            "driftM": 9.069226507563144e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "AddressWedge_Male_RH",
+            "samples": 289,
+            "driftM": 8.329002412210684e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "AddressPutt_Male_RH",
+            "samples": 289,
+            "driftM": 9.74353952187812e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "Waggle_Male_RH",
+            "samples": 289,
+            "driftM": 7.01631506672129e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "AimLeft_Male_RH",
+            "samples": 145,
+            "driftM": 6.824097340540902e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "AimRight_Male_RH",
+            "samples": 145,
+            "driftM": 7.533933512604563e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "Drive_Male_RH",
+            "samples": 409,
+            "driftM": 0.000001208832259180781,
+            "contactM": 0.0006759685347788036,
+            "finite": true
+        },
+        {
+            "id": "IronSwing_Male_RH",
+            "samples": 373,
+            "driftM": 0.000001546278213027108,
+            "contactM": 0.0005774900782853365,
+            "finite": true
+        },
+        {
+            "id": "HalfSwing_Male_RH",
+            "samples": 301,
+            "driftM": 0.0000013275421224534512,
+            "contactM": 2.6765764005176609e-7,
+            "finite": true
+        },
+        {
+            "id": "Pitch_Male_RH",
+            "samples": 283,
+            "driftM": 9.070144528777746e-7,
+            "contactM": 2.702825838696299e-7,
+            "finite": true
+        },
+        {
+            "id": "Chip_Male_RH",
+            "samples": 235,
+            "driftM": 0.0000011828368542410317,
+            "contactM": 2.752684622464585e-7,
+            "finite": true
+        },
+        {
+            "id": "BunkerShot_Male_RH",
+            "samples": 319,
+            "driftM": 0.0000013918833019488375,
+            "contactM": 4.881445079263358e-7,
+            "finite": true
+        },
+        {
+            "id": "Putt_Male_RH",
+            "samples": 241,
+            "driftM": 0.0000010333501450077165,
+            "contactM": 3.365207419392391e-7,
+            "finite": true
+        },
+        {
+            "id": "SwingAbort_Male_RH",
+            "samples": 157,
+            "driftM": 0.0000010154678875551327,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "Recovery_Male_RH",
+            "samples": 157,
+            "driftM": 9.667397762314068e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "WalkStart_Male_RH",
+            "samples": 91,
+            "driftM": 0.0000012702967069344596,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "WalkLoop_Male_RH",
+            "samples": 145,
+            "driftM": 0.0000013556781368606608,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "WalkStop_Male_RH",
+            "samples": 91,
+            "driftM": 0.0000015267692106135656,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "BallPickup_Male_RH",
+            "samples": 265,
+            "driftM": 0.000006825349828432081,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "TeePlacement_Male_RH",
+            "samples": 265,
+            "driftM": 0.000006825349828432081,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "GoodShot_Male_RH",
+            "samples": 277,
+            "driftM": 0.0000011139054549857975,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "Disappointed_Male_RH",
+            "samples": 265,
+            "driftM": 8.371217177227663e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "NeutralIdle_Male_LH",
+            "samples": 289,
+            "driftM": 8.732449146009458e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "AddressDriver_Male_LH",
+            "samples": 289,
+            "driftM": 8.922050938053872e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "AddressIron_Male_LH",
+            "samples": 289,
+            "driftM": 8.732449146009458e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "AddressWedge_Male_LH",
+            "samples": 289,
+            "driftM": 9.85731844593829e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "AddressPutt_Male_LH",
+            "samples": 289,
+            "driftM": 7.97595021140296e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "Waggle_Male_LH",
+            "samples": 289,
+            "driftM": 7.487833499908447e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "AimLeft_Male_LH",
+            "samples": 145,
+            "driftM": 7.426700676660403e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "AimRight_Male_LH",
+            "samples": 145,
+            "driftM": 8.62853141825326e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "Drive_Male_LH",
+            "samples": 409,
+            "driftM": 0.0000011218505733268103,
+            "contactM": 0.0006759685347788036,
+            "finite": true
+        },
+        {
+            "id": "IronSwing_Male_LH",
+            "samples": 373,
+            "driftM": 0.0000016827099216243369,
+            "contactM": 0.000577339087612927,
+            "finite": true
+        },
+        {
+            "id": "HalfSwing_Male_LH",
+            "samples": 301,
+            "driftM": 0.0000011755873856600375,
+            "contactM": 2.61116014144136e-7,
+            "finite": true
+        },
+        {
+            "id": "Pitch_Male_LH",
+            "samples": 283,
+            "driftM": 9.749733180797194e-7,
+            "contactM": 2.466862270011916e-7,
+            "finite": true
+        },
+        {
+            "id": "Chip_Male_LH",
+            "samples": 235,
+            "driftM": 0.0000010992825991706923,
+            "contactM": 2.5136739623121687e-7,
+            "finite": true
+        },
+        {
+            "id": "BunkerShot_Male_LH",
+            "samples": 319,
+            "driftM": 0.0000010461634474268067,
+            "contactM": 5.416423505266721e-7,
+            "finite": true
+        },
+        {
+            "id": "Putt_Male_LH",
+            "samples": 241,
+            "driftM": 8.623383109807037e-7,
+            "contactM": 2.8253938921807278e-7,
+            "finite": true
+        },
+        {
+            "id": "SwingAbort_Male_LH",
+            "samples": 157,
+            "driftM": 9.834766387939454e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "Recovery_Male_LH",
+            "samples": 157,
+            "driftM": 0.0000012856515922976542,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "WalkStart_Male_LH",
+            "samples": 91,
+            "driftM": 0.0000016862196616784786,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "WalkLoop_Male_LH",
+            "samples": 145,
+            "driftM": 0.0000013712307236346533,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "WalkStop_Male_LH",
+            "samples": 91,
+            "driftM": 0.0000014581835330318427,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "BallPickup_Male_LH",
+            "samples": 265,
+            "driftM": 0.000007560779067716794,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "TeePlacement_Male_LH",
+            "samples": 265,
+            "driftM": 0.000007560779067716794,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "GoodShot_Male_LH",
+            "samples": 277,
+            "driftM": 0.0000010532496617088328,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "Disappointed_Male_LH",
+            "samples": 265,
+            "driftM": 7.800014145686873e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "NeutralIdle_Female_RH",
+            "samples": 289,
+            "driftM": 7.227063179016113e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "AddressDriver_Female_RH",
+            "samples": 289,
+            "driftM": 0.0000010537766002016725,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "AddressIron_Female_RH",
+            "samples": 289,
+            "driftM": 7.227063179016113e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "AddressWedge_Female_RH",
+            "samples": 289,
+            "driftM": 8.583702424402873e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "AddressPutt_Female_RH",
+            "samples": 289,
+            "driftM": 8.710490533303528e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "Waggle_Female_RH",
+            "samples": 289,
+            "driftM": 6.590290126951004e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "AimLeft_Female_RH",
+            "samples": 145,
+            "driftM": 8.801781632428174e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "AimRight_Female_RH",
+            "samples": 145,
+            "driftM": 0.0000011379648867659853,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "Drive_Female_RH",
+            "samples": 409,
+            "driftM": 0.0000013657139561473742,
+            "contactM": 0.0006759391399100423,
+            "finite": true
+        },
+        {
+            "id": "IronSwing_Female_RH",
+            "samples": 373,
+            "driftM": 0.0000014793483842368005,
+            "contactM": 0.0005774119053967297,
+            "finite": true
+        },
+        {
+            "id": "HalfSwing_Female_RH",
+            "samples": 301,
+            "driftM": 9.978216439776589e-7,
+            "contactM": 3.6432692240850886e-7,
+            "finite": true
+        },
+        {
+            "id": "Pitch_Female_RH",
+            "samples": 283,
+            "driftM": 9.233780247086543e-7,
+            "contactM": 3.16200129191202e-7,
+            "finite": true
+        },
+        {
+            "id": "Chip_Female_RH",
+            "samples": 235,
+            "driftM": 0.0000011175436611665646,
+            "contactM": 3.206023109214584e-7,
+            "finite": true
+        },
+        {
+            "id": "BunkerShot_Female_RH",
+            "samples": 319,
+            "driftM": 0.000001086967927221849,
+            "contactM": 5.116886541145504e-7,
+            "finite": true
+        },
+        {
+            "id": "Putt_Female_RH",
+            "samples": 241,
+            "driftM": 9.472498163631826e-7,
+            "contactM": 2.6117578499906815e-7,
+            "finite": true
+        },
+        {
+            "id": "SwingAbort_Female_RH",
+            "samples": 157,
+            "driftM": 0.000001239576022271649,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "Recovery_Female_RH",
+            "samples": 157,
+            "driftM": 9.565802656652523e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "WalkStart_Female_RH",
+            "samples": 91,
+            "driftM": 8.535387223673752e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "WalkLoop_Female_RH",
+            "samples": 145,
+            "driftM": 8.282217436317296e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "WalkStop_Female_RH",
+            "samples": 91,
+            "driftM": 0.0000010479659522388829,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "BallPickup_Female_RH",
+            "samples": 265,
+            "driftM": 0.000009676422450866085,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "TeePlacement_Female_RH",
+            "samples": 265,
+            "driftM": 0.000009676422450866085,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "GoodShot_Female_RH",
+            "samples": 277,
+            "driftM": 0.000001205521471092652,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "Disappointed_Female_RH",
+            "samples": 265,
+            "driftM": 6.638964578087325e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "NeutralIdle_Female_LH",
+            "samples": 289,
+            "driftM": 6.764864792785374e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "AddressDriver_Female_LH",
+            "samples": 289,
+            "driftM": 7.750036274956074e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "AddressIron_Female_LH",
+            "samples": 289,
+            "driftM": 6.764864792785374e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "AddressWedge_Female_LH",
+            "samples": 289,
+            "driftM": 7.914466664260544e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "AddressPutt_Female_LH",
+            "samples": 289,
+            "driftM": 7.9410745001951e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "Waggle_Female_LH",
+            "samples": 289,
+            "driftM": 7.183534194155072e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "AimLeft_Female_LH",
+            "samples": 145,
+            "driftM": 8.139908231896698e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "AimRight_Female_LH",
+            "samples": 145,
+            "driftM": 8.664483743814344e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "Drive_Female_LH",
+            "samples": 409,
+            "driftM": 0.000001307571551478759,
+            "contactM": 0.0006759391399100423,
+            "finite": true
+        },
+        {
+            "id": "IronSwing_Female_LH",
+            "samples": 373,
+            "driftM": 0.0000012331104244367453,
+            "contactM": 0.0005772770964540541,
+            "finite": true
+        },
+        {
+            "id": "HalfSwing_Female_LH",
+            "samples": 301,
+            "driftM": 8.765126153775782e-7,
+            "contactM": 2.9475734208972428e-7,
+            "finite": true
+        },
+        {
+            "id": "Pitch_Female_LH",
+            "samples": 283,
+            "driftM": 9.731496675158269e-7,
+            "contactM": 2.4366502771044909e-7,
+            "finite": true
+        },
+        {
+            "id": "Chip_Female_LH",
+            "samples": 235,
+            "driftM": 9.443151611776557e-7,
+            "contactM": 2.4851485136423437e-7,
+            "finite": true
+        },
+        {
+            "id": "BunkerShot_Female_LH",
+            "samples": 319,
+            "driftM": 0.0000012160662663518452,
+            "contactM": 5.470376436278457e-7,
+            "finite": true
+        },
+        {
+            "id": "Putt_Female_LH",
+            "samples": 241,
+            "driftM": 7.957834213812021e-7,
+            "contactM": 1.73225998878479e-7,
+            "finite": true
+        },
+        {
+            "id": "SwingAbort_Female_LH",
+            "samples": 157,
+            "driftM": 0.0000010596601214274415,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "Recovery_Female_LH",
+            "samples": 157,
+            "driftM": 0.0000010265591754432535,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "WalkStart_Female_LH",
+            "samples": 91,
+            "driftM": 9.207422522194975e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "WalkLoop_Female_LH",
+            "samples": 145,
+            "driftM": 7.797522698638204e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "WalkStop_Female_LH",
+            "samples": 91,
+            "driftM": 8.064543521868472e-7,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "BallPickup_Female_LH",
+            "samples": 265,
+            "driftM": 0.000009366588528791908,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "TeePlacement_Female_LH",
+            "samples": 265,
+            "driftM": 0.000009366588528791908,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "GoodShot_Female_LH",
+            "samples": 277,
+            "driftM": 0.000001069255631591659,
+            "contactM": 0.0,
+            "finite": true
+        },
+        {
+            "id": "Disappointed_Female_LH",
+            "samples": 265,
+            "driftM": 7.803216135471303e-7,
+            "contactM": 0.0,
+            "finite": true
+        }
+    ],
+    "clipsChecked": 96,
+    "transitionsChecked": 2304,
+    "transitionDriftM": 0.0004957930650562048,
+    "gameplayDriftM": 0.00032121906406246126,
+    "gameplayContactM": 3.926881220195355e-7,
+    "shotSelectionsChecked": 28,
+    "maleTriangles": 90200,
+    "femaleTriangles": 77365
+}

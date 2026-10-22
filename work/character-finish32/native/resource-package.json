@@ -1,0 +1,110 @@
+{
+  "status": "PASS",
+  "manifests": [
+    "MatchHero_Male",
+    "MatchHero_Male_Distance"
+  ],
+  "maps": [
+    {
+      "name": "MatchHero_Cloth_FabricAtlas",
+      "source_png_sha256": "128701f06966d396cc25c1b17775594f6a624e72999e4e57f9528f5439752ffd",
+      "format": "ASTC4x4",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "eb145e7cc92e16ccaa7f051c735d8ebb24846eed408e84e55ccfec646fdba054",
+      "ktx_sha256": "eb145e7cc92e16ccaa7f051c735d8ebb24846eed408e84e55ccfec646fdba054",
+      "ktx_bytes": 349944
+    },
+    {
+      "name": "MatchHero_Kit_Male_Bottom_M",
+      "source_png_sha256": "8a551c4c254b8f01fa01a272eca44628f760417e3a8a62ee306afbc5559fbb1c",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "d0aac58d481b2a535106ca61e9160c7a14d8637f31409ad6d626e0259db045c1",
+      "ktx_sha256": "d0aac58d481b2a535106ca61e9160c7a14d8637f31409ad6d626e0259db045c1",
+      "ktx_bytes": 349964
+    },
+    {
+      "name": "MatchHero_Kit_Male_Bottom_N",
+      "source_png_sha256": "4f4364f6fe4b83a083cc017fd09fe89a9fb32389386fc95ee0e8521095f0609f",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "371e349a6f23f20508927b2f2ebc10f5c9c2a39d841fe633c35816601da7b959",
+      "ktx_sha256": "371e349a6f23f20508927b2f2ebc10f5c9c2a39d841fe633c35816601da7b959",
+      "ktx_bytes": 349964
+    },
+    {
+      "name": "MatchHero_Kit_Male_ShoeL_M",
+      "source_png_sha256": "7a5316a8b4554c1c1f3f6972f63a4923fccbcd63b672fb16cfac0aba9d5112bf",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "3f28de8f1d3cf5048829f383ebde02ca88c3d2bb346c9b1d49a8473de7d8ede8",
+      "ktx_sha256": "3f28de8f1d3cf5048829f383ebde02ca88c3d2bb346c9b1d49a8473de7d8ede8",
+      "ktx_bytes": 349964
+    },
+    {
+      "name": "MatchHero_Kit_Male_ShoeL_N",
+      "source_png_sha256": "66b1ca2c966747a3af7eb1e7544a4929e01d25bacef0e73db6e7a73e71cca8ef",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "0052e9c2c0f1b5191eaf9dae779cac52a67f9890474ddce8037a589dc1b0cce8",
+      "ktx_sha256": "0052e9c2c0f1b5191eaf9dae779cac52a67f9890474ddce8037a589dc1b0cce8",
+      "ktx_bytes": 349964
+    },
+    {
+      "name": "MatchHero_Kit_Male_ShoeR_M",
+      "source_png_sha256": "f104a1750db12fd43b3c3cf2d7d52535938d1c7d517c2c027e2f2a2a9a863d61",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "de8dc79c992ddfe3b4f5f1252c46f12cf3b772f1cdf70c8bbf572ea47b23c262",
+      "ktx_sha256": "de8dc79c992ddfe3b4f5f1252c46f12cf3b772f1cdf70c8bbf572ea47b23c262",
+      "ktx_bytes": 349964
+    },
+    {
+      "name": "MatchHero_Kit_Male_ShoeR_N",
+      "source_png_sha256": "6302fe89585fb07249c2710652557f95606d15f3d6739d0b1d2e67bf2ee9426e",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "65aa8723ff90e0f5a68a08449688469fa2b5ee04b8a6959757ae04dde5a114be",
+      "ktx_sha256": "65aa8723ff90e0f5a68a08449688469fa2b5ee04b8a6959757ae04dde5a114be",
+      "ktx_bytes": 349964
+    },
+    {
+      "name": "MatchHero_Kit_Male_SockL_M",
+      "source_png_sha256": "1ea511869a6a016b2823b43079e33849aa0a65ebfc29addf7728a264b80f4731",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "514b0cd4cb9d1940fa469210b878ea9c985bf8c13803358bab7523afefbe5008",
+      "ktx_sha256": "514b0cd4cb9d1940fa469210b878ea9c985bf8c13803358bab7523afefbe5008",
+      "ktx_bytes": 87816
+    },
+    {
+      "name": "MatchHero_Kit_Male_SockL_N",
+      "source_png_sha256": "bc44c71fb60ca94d98f182e3c289cbae143714ca12c07c34838f905ad1e232e9",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "96e32648bc6e57853f60b8b4856e01ad73f91ca20ba03487af5651aa72d5fc12",
+      "ktx_sha256": "96e32648bc6e57853f60b8b4856e01ad73f91ca20ba03487af5651aa72d5fc12",
+      "ktx_bytes": 87816
+    },
+    {
+      "name": "MatchHero_Kit_Male_SockR_M",
+      "source_png_sha256": "a6dc8214f154950925800ed6c0b27d0c3d8ab1bf43b61fa52362af3266d0ad59",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "17ad87a369ec72aac6695e765b9feff82b869e563dd023ed99a884167e36986e",
+      "ktx_sha256": "17ad87a369ec72aac6695e765b9feff82b869e563dd023ed99a884167e36986e",
+      "ktx_bytes": 87816
+    },
+    {
+      "name": "MatchHero_Kit_Male_SockR_N",
+      "source_png_sha256": "f9682ea886228995cdda1dc6fb527c5f02fdd45ac6f446667d11b083f2274234",
+      "format": "ASTC8x8",
+      "method": "exact shipped KTX copy",
+      "shipped_ktx_sha256": "69c3bf33d8b17a8d2eba5f6f11ccbd2031d43e99f92e5ab8f0c9943e24510684",
+      "ktx_sha256": "69c3bf33d8b17a8d2eba5f6f11ccbd2031d43e99f92e5ab8f0c9943e24510684",
+      "ktx_bytes": 87816
+    }
+  ],
+  "linear_face_luts_preserved_uncompressed_png": true,
+  "no_material_bypass": true
+}

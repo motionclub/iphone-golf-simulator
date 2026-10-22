@@ -1,0 +1,11 @@
+{
+  "sourceToolChunk": "37a3e5",
+  "source": "Root read-only host ps -Ao pid,ppid,etime,%cpu,command, truncated to350 characters per line",
+  "scope": "Three simultaneous foreign Unity batch processes were observed while root's installed Blender verifier was running. This is another project-wide serialization FAIL. No root Unity/Xcode overlap is inferred and no process was stopped.",
+  "rootBlender": {"pid":96525,"ppid":96504,"elapsed":"08:55","cpuPercent":3.6},
+  "foreignUnity": [
+    {"pid":98104,"ppid":98097,"elapsed":"04:29","cpuPercent":0.6,"projectSuffix":"work/serve-walk-arm/AfterMatrixR2A","method":"GolfArcade.EditorTools.ServeWalkFilm.Run"},
+    {"pid":98105,"ppid":98100,"elapsed":"04:29","cpuPercent":92.5,"projectSuffix":"work/serve-walk-arm/CandidateR2Clone","method":"GolfArcade.EditorTools.ServeWalkFilm.Run"},
+    {"pid":98137,"ppid":98125,"elapsed":"04:26","cpuPercent":118.9,"projectSuffix":"work/serve-walk-arm/AfterMatrixR2B","method":"GolfArcade.EditorTools.ServeWalkFilm.Run"}
+  ]
+}

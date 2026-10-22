@@ -1,0 +1,145 @@
+{
+  "male": {
+    "sourceTriangles": 22267,
+    "physicalWeldedVertices": 11165,
+    "boundaryEdges": 45,
+    "nonmanifoldEdges": 0,
+    "boundaryComponents": [
+      {
+        "vertices": 13,
+        "min": [
+          0.17841076250734333,
+          0.9480846699296143,
+          0.03911140617241562
+        ],
+        "max": [
+          0.1818515300339699,
+          0.9537683318983834,
+          0.05028437474278168
+        ],
+        "center": [
+          0.1803531964973083,
+          0.9496264925221154,
+          0.044672104247884974
+        ],
+        "branchNodes": 1
+      },
+      {
+        "vertices": 13,
+        "min": [
+          -0.18262632791337968,
+          0.9482847622632405,
+          0.038242117593999286
+        ],
+        "max": [
+          -0.17934467498598095,
+          0.9538741896978393,
+          0.04959702479545092
+        ],
+        "center": [
+          -0.18101136871926965,
+          0.9496309397397121,
+          0.044097108875165075
+        ],
+        "branchNodes": 0
+      },
+      {
+        "vertices": 6,
+        "min": [
+          -0.18291141692934026,
+          0.9592892708424865,
+          0.04299894723321094
+        ],
+        "max": [
+          -0.1819820017033577,
+          0.962469480769616,
+          0.05512633098866013
+        ],
+        "center": [
+          -0.18240759376821514,
+          0.9608991844173751,
+          0.04905643651838418
+        ],
+        "branchNodes": 3
+      },
+      {
+        "vertices": 6,
+        "min": [
+          0.18063124414148343,
+          0.9591528933795012,
+          0.037265491158844914
+        ],
+        "max": [
+          0.18160040076437,
+          0.9623264871870758,
+          0.04937619734878879
+        ],
+        "center": [
+          0.18110445038340894,
+          0.9607619625504672,
+          0.04332784257101108
+        ],
+        "branchNodes": 3
+      }
+    ],
+    "posed": {
+      "Serve_0": {
+        "triangleCount": 22267,
+        "degenerateBelow1eMinus10": 0
+      },
+      "Serve_1": {
+        "triangleCount": 22267,
+        "degenerateBelow1eMinus10": 0
+      },
+      "Serve_2": {
+        "triangleCount": 22267,
+        "degenerateBelow1eMinus10": 0
+      },
+      "Forehand_0": {
+        "triangleCount": 22267,
+        "degenerateBelow1eMinus10": 0
+      },
+      "Forehand_1": {
+        "triangleCount": 22267,
+        "degenerateBelow1eMinus10": 0
+      },
+      "Forehand_2": {
+        "triangleCount": 22267,
+        "degenerateBelow1eMinus10": 0
+      }
+    }
+  },
+  "female": {
+    "sourceTriangles": 19408,
+    "physicalWeldedVertices": 9722,
+    "boundaryEdges": 0,
+    "nonmanifoldEdges": 0,
+    "boundaryComponents": [],
+    "posed": {
+      "Serve_0": {
+        "triangleCount": 19408,
+        "degenerateBelow1eMinus10": 0
+      },
+      "Serve_1": {
+        "triangleCount": 19408,
+        "degenerateBelow1eMinus10": 0
+      },
+      "Serve_2": {
+        "triangleCount": 19408,
+        "degenerateBelow1eMinus10": 0
+      },
+      "Forehand_0": {
+        "triangleCount": 19408,
+        "degenerateBelow1eMinus10": 0
+      },
+      "Forehand_1": {
+        "triangleCount": 19408,
+        "degenerateBelow1eMinus10": 0
+      },
+      "Forehand_2": {
+        "triangleCount": 19408,
+        "degenerateBelow1eMinus10": 0
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+[
+  {
+    "name": "character-pass-24-art3",
+    "exit": 2,
+    "seconds": 27.93,
+    "shaderErrors": [
+      "Shader error in 'GolfArcade/TennisCharacter': syntax error: unexpected token 'point' at Assets/Resources/Tennis/Shaders/TennisCharacter.shader(114) (on metal)",
+      "Shader error in 'GolfArcade/TennisCharacter': syntax error: unexpected token 'point' at Assets/Resources/Tennis/Shaders/TennisCharacter.shader(115) (on metal)",
+      "Shader error in 'GolfArcade/TennisCharacter': undeclared identifier 'radius' at Assets/Resources/Tennis/Shaders/TennisCharacter.shader(115) (on metal)"
+    ],
+    "compileErrors": []
+  }
+]

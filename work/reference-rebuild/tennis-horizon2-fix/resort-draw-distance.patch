@@ -1,0 +1,12 @@
+--- a/Unity/Assets/Scripts/Tennis/TennisVenue.cs
++++ b/Unity/Assets/Scripts/Tennis/TennisVenue.cs
+@@ -126,7 +126,8 @@
+         public static Color LineColor => Current == TennisVenueKind.Volcano ? new Color(.97f, .96f, .92f) : new Color(.95f, .96f, .93f);
+ 
+         /// How far the camera can see: the resort is a small island; the sky and the crater are not.
+-        public static float FarClip => Current switch { TennisVenueKind.Skyscraper => 6000, TennisVenueKind.Volcano => 3500, _ => 600 };
++        // Authored resort horizon extends to779m; retain the entire render-only ridge.
++        public static float FarClip => Current switch { TennisVenueKind.Skyscraper => 6000, TennisVenueKind.Volcano => 3500, _ => 1000 };
+ 
+         // ---- the drone shot
+         /// The opening flyover, 0 to 1: where the camera is, what it looks at and its field of view.

@@ -1,0 +1,26 @@
+{
+ "hero": "GolfKitHero_Female",
+ "tag": "Kit_Bottom",
+ "source": "dump:Kit_Bottom",
+ "seconds": 51.5,
+ "weights": {
+  "kept": true
+ },
+ "shapes": 16,
+ "log": [
+  "FIT GolfKitHero_Female Kit_Bottom from dump:Kit_Bottom: 10161 verts 19800 tris",
+  "  seams: 1120 coincident vertices welded into 490 groups",
+  "  weights 0.3 s",
+  "  skin deep under Kit_Bottom (hidden, no clearance needed): 3062 of 34443 body vertices",
+  "  obstacles: body",
+  "    pose 0/153  3 s",
+  "    pose 25/153  10 s",
+  "    pose 50/153  18 s",
+  "    pose 75/153  26 s",
+  "    pose 100/153  33 s",
+  "    pose 125/153  41 s",
+  "    pose 150/153  49 s",
+  "  correctives: 153/153 poses need a lift (max 25.0 mm, p90 25.0 mm) in 51 s",
+  "  16 shapes, RBF sigma 0.716, anchor fit err max 0.020, weight at rest 0.0036"
+ ]
+}

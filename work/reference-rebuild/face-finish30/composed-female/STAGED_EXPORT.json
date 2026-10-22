@@ -1,0 +1,32 @@
+{
+  "Male": {
+    "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/face-finish30/final/Male_OriginalFaceFinish30Final.blend",
+    "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/face-finish30/composed-female/Male_OriginalFaceFinish30Composed.blend",
+    "blendSha256": "82ddb87ca99240e6ede739bef53952accd781bdc75e145c7c44ecf1755d72475",
+    "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/face-finish30/composed-female/Male_OriginalFaceFinish30Composed.fbx",
+    "fbxSha256": "18db8931a1c4a927968b2dc3ae02882979b686514f8f2ee219d4a7805b5c7eca",
+    "bodyVertices": 43900,
+    "bodyTriangles": 87566,
+    "operation": {
+      "sex": "Male",
+      "eyelids": "accepted Smooth1/eye13 unchanged; male operation pending"
+    },
+    "femaleEyeOperationSha256": null
+  },
+  "Female": {
+    "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/face-finish30/final/Female_OriginalFaceFinish30Final.blend",
+    "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/face-finish30/composed-female/Female_OriginalFaceFinish30Composed.blend",
+    "blendSha256": "aa36a5ee3e40b7a95d546bcb41e5f04cb2a5d204c85949884b7c402d69f32435",
+    "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/face-finish30/composed-female/Female_OriginalFaceFinish30Composed.fbx",
+    "fbxSha256": "cf1633bcc128b1ecf3d876190c2a0671195e80fa76ffbea59887b6d76424ad43",
+    "bodyVertices": 34366,
+    "bodyTriangles": 68476,
+    "operation": {
+      "sex": "Female",
+      "originalPrefix": 22891,
+      "activeEyelidSourceConflictMetres": 0.0,
+      "changedBasisVertices": 2152
+    },
+    "femaleEyeOperationSha256": "c5f92baf39fdf3d4ba73bd53eed68f7588286b2ca889cede496da3f1d9199c3b"
+  }
+}

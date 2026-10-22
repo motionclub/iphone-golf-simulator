@@ -1,0 +1,1122 @@
+{
+  "sex": "Male",
+  "body_unchanged": true,
+  "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/golf-look/export/Golf_Male_SwingProof.blend",
+  "poses": [
+    {
+      "action": "ReadyIdle",
+      "handedness": "RH",
+      "state": "ReadyIdle",
+      "pieces": {
+        "Golf_Polo": {
+          "covered_body_samples": 41,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 3.6541261435534658,
+          "candidate_over_3mm": 1,
+          "lost_home_correspondences": 0,
+          "worst_body_vertex": 9100,
+          "candidate_status": "FAIL"
+        },
+        "Golf_Trousers": {
+          "covered_body_samples": 8037,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 0.0,
+          "candidate_over_3mm": 0,
+          "lost_home_correspondences": 0,
+          "worst_body_vertex": 19732,
+          "candidate_status": "INCOMPLETE: no candidate >3 mm; coverage not exhaustive"
+        },
+        "Golf_Glove_Left": {
+          "covered_body_samples": 1467,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 2.6723101952931283,
+          "candidate_over_3mm": 0,
+          "lost_home_correspondences": 0,
+          "worst_body_vertex": 24234,
+          "candidate_status": "INCOMPLETE: no candidate >3 mm; coverage not exhaustive",
+          "edge_ratio": {
+            "edges_over_2mm": 9285,
+            "min": 0.0708344479442603,
+            "p01": 0.5570160465184203,
+            "max": 3.9064068640138525,
+            "scope": "strain diagnostic; finger volume/collision and gripping still unverified"
+          }
+        },
+        "Golf_Shoe_L": {
+          "covered_body_samples": 972,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 0.0,
+          "candidate_over_3mm": 0,
+          "lost_home_correspondences": 0,
+          "worst_body_vertex": 20608,
+          "candidate_status": "INCOMPLETE: no candidate >3 mm; coverage not exhaustive"
+        },
+        "Golf_Shoe_R": {
+          "covered_body_samples": 960,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 0.0,
+          "candidate_over_3mm": 0,
+          "lost_home_correspondences": 0,
+          "worst_body_vertex": 4776,
+          "candidate_status": "INCOMPLETE: no candidate >3 mm; coverage not exhaustive"
+        }
+      },
+      "headwear": {
+        "Golf_BrimStitch_0": {
+          "vertices": 120,
+          "rigid_head_drift_max_mm": 0.00019458967531001996,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_BrimStitch_1": {
+          "vertices": 120,
+          "rigid_head_drift_max_mm": 0.0001629685428020551,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_BrimStitch_2": {
+          "vertices": 120,
+          "rigid_head_drift_max_mm": 0.00016828951874188532,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_BrimStitch_3": {
+          "vertices": 120,
+          "rigid_head_drift_max_mm": 0.00017572668869314298,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapCrown": {
+          "vertices": 1080,
+          "rigid_head_drift_max_mm": 0.0001872126024420502,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_0": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.00011575049422907227,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_1": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.00018990955968789012,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_2": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.000187464083660919,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_3": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.0001596381726549363,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_4": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.00017927627693817343,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_5": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.0001639299467052281,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CurvedBrim": {
+          "vertices": 200,
+          "rigid_head_drift_max_mm": 0.00019458787923822167,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        }
+      }
+    },
+    {
+      "action": "GolfProof_RH_Top",
+      "handedness": "RH",
+      "state": "Top",
+      "pieces": {
+        "Golf_Polo": {
+          "covered_body_samples": 41,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 11.59411272542167,
+          "candidate_over_3mm": 3,
+          "lost_home_correspondences": 0,
+          "worst_body_vertex": 17469,
+          "candidate_status": "FAIL"
+        },
+        "Golf_Trousers": {
+          "covered_body_samples": 8037,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 36.563510943857565,
+          "candidate_over_3mm": 466,
+          "lost_home_correspondences": 27,
+          "worst_body_vertex": 15710,
+          "candidate_status": "FAIL"
+        },
+        "Golf_Glove_Left": {
+          "covered_body_samples": 1467,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 2.6722792801697888,
+          "candidate_over_3mm": 0,
+          "lost_home_correspondences": 0,
+          "worst_body_vertex": 24234,
+          "candidate_status": "INCOMPLETE: no candidate >3 mm; coverage not exhaustive",
+          "edge_ratio": {
+            "edges_over_2mm": 9285,
+            "min": 0.07084652490671685,
+            "p01": 0.5540909768658213,
+            "max": 3.9063766077267115,
+            "scope": "strain diagnostic; finger volume/collision and gripping still unverified"
+          }
+        },
+        "Golf_Shoe_L": {
+          "covered_body_samples": 972,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 10.77284766610059,
+          "candidate_over_3mm": 29,
+          "lost_home_correspondences": 0,
+          "worst_body_vertex": 16752,
+          "candidate_status": "FAIL"
+        },
+        "Golf_Shoe_R": {
+          "covered_body_samples": 960,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 0.0,
+          "candidate_over_3mm": 0,
+          "lost_home_correspondences": 0,
+          "worst_body_vertex": 3590,
+          "candidate_status": "INCOMPLETE: no candidate >3 mm; coverage not exhaustive"
+        }
+      },
+      "headwear": {
+        "Golf_BrimStitch_0": {
+          "vertices": 120,
+          "rigid_head_drift_max_mm": 0.00021962738888448672,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_BrimStitch_1": {
+          "vertices": 120,
+          "rigid_head_drift_max_mm": 0.00021586286095617123,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_BrimStitch_2": {
+          "vertices": 120,
+          "rigid_head_drift_max_mm": 0.00021441019937569353,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_BrimStitch_3": {
+          "vertices": 120,
+          "rigid_head_drift_max_mm": 0.00021818370392788196,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapCrown": {
+          "vertices": 1080,
+          "rigid_head_drift_max_mm": 0.0002250726945528663,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_0": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.00021086339633173245,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_1": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.00020079841364459712,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_2": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.00020517032040195035,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_3": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.00019202451763408694,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_4": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.0002026903890067263,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_5": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.0001975696157852786,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CurvedBrim": {
+          "vertices": 200,
+          "rigid_head_drift_max_mm": 0.00022547431251919022,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        }
+      }
+    },
+    {
+      "action": "GolfProof_RH_Impact",
+      "handedness": "RH",
+      "state": "Impact",
+      "pieces": {
+        "Golf_Polo": {
+          "covered_body_samples": 41,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 0.0,
+          "candidate_over_3mm": 0,
+          "lost_home_correspondences": 0,
+          "worst_body_vertex": 2072,
+          "candidate_status": "INCOMPLETE: no candidate >3 mm; coverage not exhaustive"
+        },
+        "Golf_Trousers": {
+          "covered_body_samples": 8037,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 18.384227115335072,
+          "candidate_over_3mm": 79,
+          "lost_home_correspondences": 19,
+          "worst_body_vertex": 12921,
+          "candidate_status": "FAIL"
+        },
+        "Golf_Glove_Left": {
+          "covered_body_samples": 1467,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 2.6722628993567823,
+          "candidate_over_3mm": 0,
+          "lost_home_correspondences": 0,
+          "worst_body_vertex": 24234,
+          "candidate_status": "INCOMPLETE: no candidate >3 mm; coverage not exhaustive",
+          "edge_ratio": {
+            "edges_over_2mm": 9285,
+            "min": 0.07085221849132065,
+            "p01": 0.5525486346782649,
+            "max": 3.906395240538096,
+            "scope": "strain diagnostic; finger volume/collision and gripping still unverified"
+          }
+        },
+        "Golf_Shoe_L": {
+          "covered_body_samples": 972,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 10.474017202426621,
+          "candidate_over_3mm": 17,
+          "lost_home_correspondences": 0,
+          "worst_body_vertex": 16752,
+          "candidate_status": "FAIL"
+        },
+        "Golf_Shoe_R": {
+          "covered_body_samples": 960,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 0.0,
+          "candidate_over_3mm": 0,
+          "lost_home_correspondences": 0,
+          "worst_body_vertex": 4776,
+          "candidate_status": "INCOMPLETE: no candidate >3 mm; coverage not exhaustive"
+        }
+      },
+      "headwear": {
+        "Golf_BrimStitch_0": {
+          "vertices": 120,
+          "rigid_head_drift_max_mm": 0.00028319242909469807,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_BrimStitch_1": {
+          "vertices": 120,
+          "rigid_head_drift_max_mm": 0.0002827238735642589,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_BrimStitch_2": {
+          "vertices": 120,
+          "rigid_head_drift_max_mm": 0.00028267757224764023,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_BrimStitch_3": {
+          "vertices": 120,
+          "rigid_head_drift_max_mm": 0.00027731816318351025,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapCrown": {
+          "vertices": 1080,
+          "rigid_head_drift_max_mm": 0.0002823314392453499,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_0": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.0002608841454922616,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_1": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.00027415938561987447,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_2": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.00026825829231596495,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_3": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.00027579706391459165,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_4": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.00027624067339090735,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_5": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.0002824906757857271,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CurvedBrim": {
+          "vertices": 200,
+          "rigid_head_drift_max_mm": 0.00028495546271859183,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        }
+      }
+    },
+    {
+      "action": "GolfProof_RH_Finish",
+      "handedness": "RH",
+      "state": "Finish",
+      "pieces": {
+        "Golf_Polo": {
+          "covered_body_samples": 41,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 1.3643300157694314,
+          "candidate_over_3mm": 0,
+          "lost_home_correspondences": 0,
+          "worst_body_vertex": 2072,
+          "candidate_status": "INCOMPLETE: no candidate >3 mm; coverage not exhaustive"
+        },
+        "Golf_Trousers": {
+          "covered_body_samples": 8037,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 16.579906941235134,
+          "candidate_over_3mm": 30,
+          "lost_home_correspondences": 31,
+          "worst_body_vertex": 13297,
+          "candidate_status": "FAIL"
+        },
+        "Golf_Glove_Left": {
+          "covered_body_samples": 1467,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 2.6722393514032117,
+          "candidate_over_3mm": 0,
+          "lost_home_correspondences": 0,
+          "worst_body_vertex": 24234,
+          "candidate_status": "INCOMPLETE: no candidate >3 mm; coverage not exhaustive",
+          "edge_ratio": {
+            "edges_over_2mm": 9285,
+            "min": 0.070861808099347,
+            "p01": 0.5259437428125233,
+            "max": 4.474850924063505,
+            "scope": "strain diagnostic; finger volume/collision and gripping still unverified"
+          }
+        },
+        "Golf_Shoe_L": {
+          "covered_body_samples": 972,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 7.037347329705496,
+          "candidate_over_3mm": 1,
+          "lost_home_correspondences": 0,
+          "worst_body_vertex": 17401,
+          "candidate_status": "FAIL"
+        },
+        "Golf_Shoe_R": {
+          "covered_body_samples": 960,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 0.0,
+          "candidate_over_3mm": 0,
+          "lost_home_correspondences": 0,
+          "worst_body_vertex": 4776,
+          "candidate_status": "INCOMPLETE: no candidate >3 mm; coverage not exhaustive"
+        }
+      },
+      "headwear": {
+        "Golf_BrimStitch_0": {
+          "vertices": 120,
+          "rigid_head_drift_max_mm": 0.00012110667364345568,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_BrimStitch_1": {
+          "vertices": 120,
+          "rigid_head_drift_max_mm": 0.00012393540797614927,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_BrimStitch_2": {
+          "vertices": 120,
+          "rigid_head_drift_max_mm": 0.00010468790312419122,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_BrimStitch_3": {
+          "vertices": 120,
+          "rigid_head_drift_max_mm": 0.00012258451011878756,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapCrown": {
+          "vertices": 1080,
+          "rigid_head_drift_max_mm": 0.00012682036121669933,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_0": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 8.162421425589805e-05,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_1": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.00012053087691726851,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_2": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.000111973933235389,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_3": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.00010840733646233748,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_4": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.00012480213067209587,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_5": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.00011767842298866537,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CurvedBrim": {
+          "vertices": 200,
+          "rigid_head_drift_max_mm": 0.00012097815672666141,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        }
+      }
+    },
+    {
+      "action": "GolfProof_LH_ReadyIdle",
+      "handedness": "LH",
+      "state": "ReadyIdle",
+      "pieces": {
+        "Golf_Polo": {
+          "covered_body_samples": 41,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 3.6542496378272555,
+          "candidate_over_3mm": 1,
+          "lost_home_correspondences": 0,
+          "worst_body_vertex": 9100,
+          "candidate_status": "FAIL"
+        },
+        "Golf_Trousers": {
+          "covered_body_samples": 8037,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 0.0,
+          "candidate_over_3mm": 0,
+          "lost_home_correspondences": 0,
+          "worst_body_vertex": 19732,
+          "candidate_status": "INCOMPLETE: no candidate >3 mm; coverage not exhaustive"
+        },
+        "Golf_Glove_Right": {
+          "covered_body_samples": 1471,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 2.5451915304912376,
+          "candidate_over_3mm": 0,
+          "lost_home_correspondences": 0,
+          "worst_body_vertex": 31068,
+          "candidate_status": "INCOMPLETE: no candidate >3 mm; coverage not exhaustive",
+          "edge_ratio": {
+            "edges_over_2mm": 9297,
+            "min": 0.07083846993196084,
+            "p01": 0.5338152379266932,
+            "max": 3.9460205060819713,
+            "scope": "strain diagnostic; finger volume/collision and gripping still unverified"
+          }
+        },
+        "Golf_Shoe_L": {
+          "covered_body_samples": 972,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 0.0,
+          "candidate_over_3mm": 0,
+          "lost_home_correspondences": 0,
+          "worst_body_vertex": 20608,
+          "candidate_status": "INCOMPLETE: no candidate >3 mm; coverage not exhaustive"
+        },
+        "Golf_Shoe_R": {
+          "covered_body_samples": 960,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 0.0,
+          "candidate_over_3mm": 0,
+          "lost_home_correspondences": 0,
+          "worst_body_vertex": 4776,
+          "candidate_status": "INCOMPLETE: no candidate >3 mm; coverage not exhaustive"
+        }
+      },
+      "headwear": {
+        "Golf_BrimStitch_0": {
+          "vertices": 120,
+          "rigid_head_drift_max_mm": 0.00014098842341498898,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_BrimStitch_1": {
+          "vertices": 120,
+          "rigid_head_drift_max_mm": 0.00013537833050464963,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_BrimStitch_2": {
+          "vertices": 120,
+          "rigid_head_drift_max_mm": 0.00015260644622226303,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_BrimStitch_3": {
+          "vertices": 120,
+          "rigid_head_drift_max_mm": 0.0001587091135074381,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapCrown": {
+          "vertices": 1080,
+          "rigid_head_drift_max_mm": 0.0001601657403499316,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_0": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 8.15212552322925e-05,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_1": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.000138774530718535,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_2": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.00015297936304545242,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_3": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.00013191027169617785,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_4": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.00014531462074867684,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_5": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.0001551905571799931,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CurvedBrim": {
+          "vertices": 200,
+          "rigid_head_drift_max_mm": 0.00015505561737776146,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        }
+      }
+    },
+    {
+      "action": "GolfProof_LH_Top",
+      "handedness": "LH",
+      "state": "Top",
+      "pieces": {
+        "Golf_Polo": {
+          "covered_body_samples": 41,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 8.984779303061257,
+          "candidate_over_3mm": 3,
+          "lost_home_correspondences": 0,
+          "worst_body_vertex": 7209,
+          "candidate_status": "FAIL"
+        },
+        "Golf_Trousers": {
+          "covered_body_samples": 8037,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 33.05270370708032,
+          "candidate_over_3mm": 466,
+          "lost_home_correspondences": 32,
+          "worst_body_vertex": 10082,
+          "candidate_status": "FAIL"
+        },
+        "Golf_Glove_Right": {
+          "covered_body_samples": 1471,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 2.5451852062963427,
+          "candidate_over_3mm": 0,
+          "lost_home_correspondences": 0,
+          "worst_body_vertex": 31068,
+          "candidate_status": "INCOMPLETE: no candidate >3 mm; coverage not exhaustive",
+          "edge_ratio": {
+            "edges_over_2mm": 9297,
+            "min": 0.07086648527449509,
+            "p01": 0.5289586602749297,
+            "max": 3.946024221532713,
+            "scope": "strain diagnostic; finger volume/collision and gripping still unverified"
+          }
+        },
+        "Golf_Shoe_L": {
+          "covered_body_samples": 972,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 0.0,
+          "candidate_over_3mm": 0,
+          "lost_home_correspondences": 0,
+          "worst_body_vertex": 20732,
+          "candidate_status": "INCOMPLETE: no candidate >3 mm; coverage not exhaustive"
+        },
+        "Golf_Shoe_R": {
+          "covered_body_samples": 960,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 11.600243370522124,
+          "candidate_over_3mm": 23,
+          "lost_home_correspondences": 0,
+          "worst_body_vertex": 7614,
+          "candidate_status": "FAIL"
+        }
+      },
+      "headwear": {
+        "Golf_BrimStitch_0": {
+          "vertices": 120,
+          "rigid_head_drift_max_mm": 0.0001629018414098561,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_BrimStitch_1": {
+          "vertices": 120,
+          "rigid_head_drift_max_mm": 0.00017554222794369795,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_BrimStitch_2": {
+          "vertices": 120,
+          "rigid_head_drift_max_mm": 0.00018733133927658567,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_BrimStitch_3": {
+          "vertices": 120,
+          "rigid_head_drift_max_mm": 0.00017670159956456168,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapCrown": {
+          "vertices": 1080,
+          "rigid_head_drift_max_mm": 0.00018536775137195107,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_0": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.00016599551791053027,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_1": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.00017505500840626388,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_2": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.00017799335287033851,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_3": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.00018198035836774706,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_4": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.0001747185120583259,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_5": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.0001805649039067828,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CurvedBrim": {
+          "vertices": 200,
+          "rigid_head_drift_max_mm": 0.00018478672797335983,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        }
+      }
+    },
+    {
+      "action": "GolfProof_LH_Impact",
+      "handedness": "LH",
+      "state": "Impact",
+      "pieces": {
+        "Golf_Polo": {
+          "covered_body_samples": 41,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 7.910779080115914,
+          "candidate_over_3mm": 1,
+          "lost_home_correspondences": 0,
+          "worst_body_vertex": 9100,
+          "candidate_status": "FAIL"
+        },
+        "Golf_Trousers": {
+          "covered_body_samples": 8037,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 18.53421103334522,
+          "candidate_over_3mm": 84,
+          "lost_home_correspondences": 21,
+          "worst_body_vertex": 13998,
+          "candidate_status": "FAIL"
+        },
+        "Golf_Glove_Right": {
+          "covered_body_samples": 1471,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 2.5452619447935594,
+          "candidate_over_3mm": 0,
+          "lost_home_correspondences": 0,
+          "worst_body_vertex": 31068,
+          "candidate_status": "INCOMPLETE: no candidate >3 mm; coverage not exhaustive",
+          "edge_ratio": {
+            "edges_over_2mm": 9297,
+            "min": 0.07085301322665986,
+            "p01": 0.5337683410824456,
+            "max": 3.9460368727320754,
+            "scope": "strain diagnostic; finger volume/collision and gripping still unverified"
+          }
+        },
+        "Golf_Shoe_L": {
+          "covered_body_samples": 972,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 0.0,
+          "candidate_over_3mm": 0,
+          "lost_home_correspondences": 0,
+          "worst_body_vertex": 20732,
+          "candidate_status": "INCOMPLETE: no candidate >3 mm; coverage not exhaustive"
+        },
+        "Golf_Shoe_R": {
+          "covered_body_samples": 960,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 9.693164084990928,
+          "candidate_over_3mm": 15,
+          "lost_home_correspondences": 0,
+          "worst_body_vertex": 7147,
+          "candidate_status": "FAIL"
+        }
+      },
+      "headwear": {
+        "Golf_BrimStitch_0": {
+          "vertices": 120,
+          "rigid_head_drift_max_mm": 0.0001774004601616022,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_BrimStitch_1": {
+          "vertices": 120,
+          "rigid_head_drift_max_mm": 0.0001919021307265782,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_BrimStitch_2": {
+          "vertices": 120,
+          "rigid_head_drift_max_mm": 0.00019199448501503163,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_BrimStitch_3": {
+          "vertices": 120,
+          "rigid_head_drift_max_mm": 0.00017603117281543177,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapCrown": {
+          "vertices": 1080,
+          "rigid_head_drift_max_mm": 0.00019808203701977102,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_0": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.00018613814353911083,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_1": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.0001518197396589345,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_2": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.00018600878305471911,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_3": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.00018632076458783322,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_4": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.00017012459233312725,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_5": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.00014852983003824896,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CurvedBrim": {
+          "vertices": 200,
+          "rigid_head_drift_max_mm": 0.00018370659654026953,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        }
+      }
+    },
+    {
+      "action": "GolfProof_LH_Finish",
+      "handedness": "LH",
+      "state": "Finish",
+      "pieces": {
+        "Golf_Polo": {
+          "covered_body_samples": 41,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 0.0,
+          "candidate_over_3mm": 0,
+          "lost_home_correspondences": 0,
+          "worst_body_vertex": 2072,
+          "candidate_status": "INCOMPLETE: no candidate >3 mm; coverage not exhaustive"
+        },
+        "Golf_Trousers": {
+          "covered_body_samples": 8037,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 16.806627610310752,
+          "candidate_over_3mm": 30,
+          "lost_home_correspondences": 32,
+          "worst_body_vertex": 11134,
+          "candidate_status": "FAIL"
+        },
+        "Golf_Glove_Right": {
+          "covered_body_samples": 1471,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 2.545180656939451,
+          "candidate_over_3mm": 0,
+          "lost_home_correspondences": 0,
+          "worst_body_vertex": 31068,
+          "candidate_status": "INCOMPLETE: no candidate >3 mm; coverage not exhaustive",
+          "edge_ratio": {
+            "edges_over_2mm": 9297,
+            "min": 0.07086811690146555,
+            "p01": 0.47157283619107404,
+            "max": 4.407025057371943,
+            "scope": "strain diagnostic; finger volume/collision and gripping still unverified"
+          }
+        },
+        "Golf_Shoe_L": {
+          "covered_body_samples": 972,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 0.0,
+          "candidate_over_3mm": 0,
+          "lost_home_correspondences": 0,
+          "worst_body_vertex": 20608,
+          "candidate_status": "INCOMPLETE: no candidate >3 mm; coverage not exhaustive"
+        },
+        "Golf_Shoe_R": {
+          "covered_body_samples": 960,
+          "total_body_vertices": 33196,
+          "sample_scope": "bind rays within 35 mm with a two-wall shell pattern; not full surface coverage",
+          "candidate_poke_max_mm": 7.517554622539706,
+          "candidate_over_3mm": 1,
+          "lost_home_correspondences": 0,
+          "worst_body_vertex": 7168,
+          "candidate_status": "FAIL"
+        }
+      },
+      "headwear": {
+        "Golf_BrimStitch_0": {
+          "vertices": 120,
+          "rigid_head_drift_max_mm": 0.0001646054077640034,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_BrimStitch_1": {
+          "vertices": 120,
+          "rigid_head_drift_max_mm": 0.00017631048128111836,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_BrimStitch_2": {
+          "vertices": 120,
+          "rigid_head_drift_max_mm": 0.00017237728023678458,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_BrimStitch_3": {
+          "vertices": 120,
+          "rigid_head_drift_max_mm": 0.000179234376675065,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapCrown": {
+          "vertices": 1080,
+          "rigid_head_drift_max_mm": 0.0001812629129058527,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_0": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.00018066854909599663,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_1": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.00015274636251491554,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_2": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.00017245410969588708,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_3": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.00017967570534360697,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_4": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.00017476624682890687,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CapPanelSeam_5": {
+          "vertices": 42,
+          "rigid_head_drift_max_mm": 0.0001652651466909549,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        },
+        "Golf_CurvedBrim": {
+          "vertices": 200,
+          "rigid_head_drift_max_mm": 0.0001735904822827407,
+          "within_2mm": true,
+          "scope": "drift from initial rigid Head attachment; bind clearance/collision not certified"
+        }
+      }
+    }
+  ],
+  "G7": "FAIL: construction/coverage/finger grip/collision verification incomplete; any candidates must be investigated",
+  "thresholds_mm": {
+    "poke": 3,
+    "headwear_drift": 2
+  },
+  "limitations": [
+    "Bind-zone vertex samples do not verify all triangle interiors or garment edges.",
+    "The V4 rig has no finger bones; these fingers use ReadyIdle-derived poses.",
+    "Lost home correspondences are reported as failures, never converted to zero.",
+    "Headwear drift verifies attachment stability, not bind fit or hair collision."
+  ]
+}

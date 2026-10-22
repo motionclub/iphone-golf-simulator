@@ -1,0 +1,49 @@
+{
+  "status": "SOURCE CANDIDATE; actual camera grass gate pending",
+  "tileSizeMeters": 1,
+  "lods": {
+    "TURF_NEAR": {
+      "blades": 768,
+      "vertices": 5376,
+      "triangles": 4608
+    },
+    "TURF_MID": {
+      "blades": 128,
+      "vertices": 640,
+      "triangles": 384
+    },
+    "TURF_FAR": {
+      "blades": 64,
+      "vertices": 192,
+      "triangles": 64
+    }
+  },
+  "grassHeightMeters": [
+    0.024,
+    0.044
+  ],
+  "roughHeightScale": 2.1,
+  "tuftSpreadMeters": [
+    0.05,
+    0.09
+  ],
+  "atlasTileMeters": 1,
+  "textureResolution": 1024,
+  "atlasDescription": "periodic geometry bake of1024 overlapping12-blade directional tufts; curved lamina normals and nondirectional root AO",
+  "geometryCap": {
+    "nearCells": 48,
+    "midCells": 96,
+    "maximumCells": 640,
+    "maximumTriangles": 289792,
+    "castsShadows": false,
+    "expectedDrawSubmissions": 3
+  },
+  "files": {
+    "CoastalTurf.fbx": "859ea137735f2f35cb52002ed5ae3f8c3327e39fa2cd44f6c35ae245f81f71a6",
+    "CoastalTurf.blend": "2eb4b8be1cb2ee5bff3a3237a05f0066419c14244cade3dbf2616686532148e4",
+    "CoastalTurf_N.png": "2fa1078217a60a9371c650adb0f94333616287d28353882a71e0093bb3cb2f44",
+    "clustered-turf-camera-height.png": "6bb5fead6766153861086e2843b8f71315b96e17a44437af04430a25e0a76f1f",
+    "clustered-turf-source-detail.png": "1ddb8512ba9a605cd2c14752aa7a41cf5a7e067d7177d7bb7b5972bb3389fe97",
+    "CoastalTurf_C.png": "0e69b9177fa1430089efb19fdb628799c9b8d3e87361a212a7bad3783cb61457"
+  }
+}

@@ -1,0 +1,38 @@
+[
+  {
+    "name": "tennis-rooftop-5",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "skyscraper",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-rooftop-5"
+    }
+  },
+  {
+    "name": "tennis-volcano-5",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "HERO_VENUE": "volcano",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-volcano-5"
+    }
+  },
+  {
+    "name": "golf-pass-8",
+    "method": "GolfArcade.EditorTools.GolfCourseStandardCapture.Run",
+    "env": {
+      "GOLF_STANDARD_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-pass-8",
+      "GOLF_STANDARD_HOLES": "7,12,13,14,15,16,17,18,19,20,21,22,23,8,9,10,1,2,3",
+      "GOLF_STANDARD_TREES": "1",
+      "GOLF_STANDARD_CAMERA_SWEEP": "1"
+    }
+  },
+  {
+    "name": "golf-costs-2",
+    "method": "GolfArcade.EditorTools.VisualOverhaulFrameCosts.Run",
+    "batch": false,
+    "continue_on_failure": true,
+    "env": {
+      "GOLF_COST_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-costs-2",
+      "GOLF_COST_HOLES": "7,12,13,14,15,16,17,18,19,20,21,22,23,8,9,10,1,2,3"
+    }
+  }
+]

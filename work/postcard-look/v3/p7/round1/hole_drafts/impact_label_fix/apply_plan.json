@@ -1,0 +1,22 @@
+{
+  "root": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator",
+  "v3": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3",
+  "entries": [
+    {
+      "target": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/hole08_look.py",
+      "old_sha256": "492707bed1c34f3f61dd72cb1f86f4885b736bd3ac76c0826b4cb6a27a12462c",
+      "old_snapshot": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/hole_drafts/impact_label_fix/old_hole08_look.py",
+      "new_sha256": "5ea9f63469296508290bb8f02024c84c10d1bb880cd94724955342d179c2f134",
+      "draft": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/hole_drafts/impact_label_fix/hole08_look.py",
+      "mode": "0o644"
+    }
+  ],
+  "protected": [
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/postcard_look_verify.py",
+      "sha256": "a78560f62ee12cb38df6c8515e4530ce458dc19bc97634d0a56dd5d268b02ef4"
+    }
+  ],
+  "production_applied": false,
+  "reason": "The connected raised waterfall impact is physical fall mist, not a horizontal generic surf plane. LK_SURF and all native geometric pair/span predicates remain unchanged."
+}

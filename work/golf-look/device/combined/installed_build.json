@@ -1,0 +1,24 @@
+{
+  "sourceCommit": "154ee13f9eda23db4b48811d38a111a5749b6021",
+  "unityExport": "Succeeded errors=0",
+  "nativeBuild": "Succeeded",
+  "team": "9VP5B3Q5VQ",
+  "bundle": "com.aloniewski.GolfArcade",
+  "install": "Succeeded",
+  "launch": "Succeeded",
+  "pid": 75279,
+  "included": [
+    "Golf + Tennis scenes",
+    "UnityFramework + Data",
+    "merged courses",
+    "golf shaders + hero kits",
+    "native menus + tutorials",
+    "emotes + multiplayer bridge"
+  ],
+  "buildExcluded": [
+    "obsolete Unity tests",
+    "GolfFlyoverCapture",
+    "PostcardV3ProofMasks"
+  ],
+  "fullFinalValidation": "Skipped per user instruction"
+}

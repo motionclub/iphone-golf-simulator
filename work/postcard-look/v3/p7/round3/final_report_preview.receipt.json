@@ -1,0 +1,56 @@
+{
+  "generatedUtc": "2026-10-06T00:50:37.609707+00:00",
+  "scope": "DRAFT_ONLY",
+  "report": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round3/final_report_preview.md",
+  "reportSha256": "efe5fc516055e06381c20ff56ccece074ae629c16bc1c18923f76f46f3acffb5",
+  "wordCount": 1747,
+  "gateRows": 41,
+  "originalDifferenceRows": 30,
+  "overall": "FAIL",
+  "inputs": [
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/runtime/runs/p7_installed_round2/final_report_rows_3.json",
+      "sha256": "dee3b82b0d9a7aa7707c525a95c408f75f5e1c31ce20491e6bd22ddf835aee5c"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round3/report_facts_final.json",
+      "sha256": "c1ef6bcf0572cac708df2d06d5fb142bbbda937833fc39191d1f51f14ebda5f9"
+    }
+  ],
+  "verifiedDisplayDeliverables": [
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-10-05/ope/outputs/final_summary.json",
+      "sha256": "dee3b82b0d9a7aa7707c525a95c408f75f5e1c31ce20491e6bd22ddf835aee5c"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-10-05/ope/outputs/sheet_all_12.jpg",
+      "sha256": "bb4adb5eda711b304f9f3cc0cc6d819405ba61250e3504b86d3eb77f813e6429"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-10-05/ope/outputs/sheet_hole08.jpg",
+      "sha256": "1e2a0b94bfa1c7c59288b41337024564a0f98b3b048f6cae82004ccb3856376f"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-10-05/ope/outputs/hole08_vs_ref.jpg",
+      "sha256": "6c04ec7f11ce71e1d7efa394e98dae5cee5b802482b931e74cf7fcac36697082"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-10-05/ope/outputs/sheet_hole09.jpg",
+      "sha256": "f9dbce3e3f11529158d1c51c51997ebbf9da78a838e6f2ccb1fe8bccf50662dc"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-10-05/ope/outputs/hole09_vs_ref.jpg",
+      "sha256": "9d6683093b72d56b9db3c860bebd4f70a98344cb6020d60ea13682164ee4f66b"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-10-05/ope/outputs/sheet_hole10.jpg",
+      "sha256": "41d32b9d022ebfc95bfd0e7a99c9a31804a913ff1c3736c1b768e407cc564537"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-10-05/ope/outputs/hole10_vs_ref.jpg",
+      "sha256": "cc9eaac43865deb730e81c8fb96dff947c9e38e91ac964a7bf8480631f17cf93"
+    }
+  ],
+  "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/generate_final_report.py",
+  "sourceSha256": "0e90ce47b27a2b80736943bf9e734cb9cb0fe2aea5821902d55edfb0e2ac5f78"
+}

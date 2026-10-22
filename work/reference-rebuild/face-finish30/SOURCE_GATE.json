@@ -1,0 +1,87 @@
+{
+  "status": "SOURCE INVARIANTS PASS; ART PENDING",
+  "results": {
+    "Male": {
+      "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/face-finish29/smooth-mouth1/Male_OriginalFaceFinish29Smooth1.blend",
+      "candidate": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/face-finish30/Male_OriginalFaceFinish30.blend",
+      "originalVertices": 33472,
+      "candidateVertices": 43900,
+      "originalTriangles": 66710,
+      "candidateTriangles": 87566,
+      "insertedVertices": 10428,
+      "protectedVertices": 1216,
+      "blinkActiveVertices": 998,
+      "blinkActiveAndLipPositionsMaxDeltaMetres": 0.0,
+      "originalVertexWeightError": 0,
+      "shapeDeltaMaxErrorMetres": {
+        "Basis": 0.0,
+        "Hero_Blink_Half": 0.0,
+        "Hero_Blink": 0.0
+      },
+      "bonesRestAndFeaturesExact": true,
+      "sourceUvMaskPreservedAtOriginalCorners": true,
+      "lip3Palette": "unchanged root shader",
+      "maxOriginalDeltaMm": 4.3509707821937695,
+      "meanMovedDeltaMm": 0.5196312150198394,
+      "movedOriginalVertices": 3287,
+      "maxOriginalXZShiftMm": [
+        2.875838428735733,
+        3.218531608581543
+      ],
+      "refinement": "tangent MLS broad fairing; continuous head normals; long broad-surface edges split, scalp refined to4.5mm; exact protected eyelid/lip/nostril positions; recursive barycentric UV/colors/weights/shape interpolation",
+      "recipe": {
+        "broadTangentFitRadiusMm": 30,
+        "depthPasses": 5,
+        "maximumNormalShiftMm": 6,
+        "scalpNormalShiftCapMm": 3.5,
+        "refineBroadEdgesOverMm": 5,
+        "refineScalpEdgesOverMm": 4.5,
+        "midpointHermiteSagCapMm": 0.65,
+        "originalScalpPointsFixed": false,
+        "normalInterpolation": "derivative-consistent MLS normals over broad head; protected authored normals retained; Unity geometric field active"
+      },
+      "export": "not yet; source preview first"
+    },
+    "Female": {
+      "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/face-finish29/smooth-mouth1/Female_OriginalFaceFinish29Smooth1.blend",
+      "candidate": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/face-finish30/Female_OriginalFaceFinish30.blend",
+      "originalVertices": 22891,
+      "candidateVertices": 34366,
+      "originalTriangles": 45526,
+      "candidateTriangles": 68476,
+      "insertedVertices": 11475,
+      "protectedVertices": 2324,
+      "blinkActiveVertices": 2157,
+      "blinkActiveAndLipPositionsMaxDeltaMetres": 0.0,
+      "originalVertexWeightError": 0,
+      "shapeDeltaMaxErrorMetres": {
+        "Basis": 0.0,
+        "Hero_Blink_Half": 0.0,
+        "Hero_Blink": 0.0
+      },
+      "bonesRestAndFeaturesExact": true,
+      "sourceUvMaskPreservedAtOriginalCorners": true,
+      "lip3Palette": "unchanged root shader",
+      "maxOriginalDeltaMm": 3.2053840540624945,
+      "meanMovedDeltaMm": 0.20188337903814257,
+      "movedOriginalVertices": 2589,
+      "maxOriginalXZShiftMm": [
+        0.6632879376411438,
+        1.51824951171875
+      ],
+      "refinement": "tangent MLS broad fairing; continuous head normals; long broad-surface edges split, scalp refined to4.5mm; exact protected eyelid/lip/nostril positions; recursive barycentric UV/colors/weights/shape interpolation",
+      "recipe": {
+        "broadTangentFitRadiusMm": 26,
+        "depthPasses": 5,
+        "maximumNormalShiftMm": 6,
+        "scalpNormalShiftCapMm": 3.5,
+        "refineBroadEdgesOverMm": 5,
+        "refineScalpEdgesOverMm": 4.5,
+        "midpointHermiteSagCapMm": 0.65,
+        "originalScalpPointsFixed": false,
+        "normalInterpolation": "derivative-consistent MLS normals over broad head; protected authored normals retained; Unity geometric field active"
+      },
+      "export": "not yet; source preview first"
+    }
+  }
+}

@@ -1,0 +1,212 @@
+{
+ "eyeL": {
+  "kind": "closed",
+  "n": 128,
+  "unique": 128,
+  "consecutive_adjacent": true,
+  "closes": true,
+  "spacing_mm_mean": 1.3837279982752717,
+  "spacing_mm_max": 2.3406145291399145,
+  "ok": true
+ },
+ "eyeR": {
+  "kind": "closed",
+  "n": 128,
+  "unique": 128,
+  "consecutive_adjacent": true,
+  "closes": true,
+  "spacing_mm_mean": 1.3752569155224743,
+  "spacing_mm_max": 2.3989561296236146,
+  "ok": true
+ },
+ "nostril_L": {
+  "kind": "closed",
+  "n": 16,
+  "unique": 16,
+  "consecutive_adjacent": true,
+  "closes": true,
+  "spacing_mm_mean": 2.5285027485941893,
+  "spacing_mm_max": 4.330541239526058,
+  "ok": true
+ },
+ "nostril_R": {
+  "kind": "closed",
+  "n": 16,
+  "unique": 16,
+  "consecutive_adjacent": true,
+  "closes": true,
+  "spacing_mm_mean": 2.5285027485941893,
+  "spacing_mm_max": 4.330541239526058,
+  "ok": true
+ },
+ "seam": {
+  "kind": "open",
+  "n": 55,
+  "unique": 55,
+  "consecutive_adjacent": true,
+  "closes": false,
+  "spacing_mm_mean": 1.3978221580461434,
+  "spacing_mm_max": 1.4752023018349774,
+  "ok": true
+ },
+ "lip_up": {
+  "kind": "open",
+  "n": 35,
+  "unique": 35,
+  "consecutive_adjacent": true,
+  "closes": false,
+  "spacing_mm_mean": 2.2364930285147735,
+  "spacing_mm_max": 2.5177133998097587,
+  "ok": true
+ },
+ "lip_lo": {
+  "kind": "open",
+  "n": 25,
+  "unique": 25,
+  "consecutive_adjacent": true,
+  "closes": false,
+  "spacing_mm_mean": 2.586809656264702,
+  "spacing_mm_max": 2.7735504304258245,
+  "ok": true
+ },
+ "ear_attach_L": {
+  "kind": "closed",
+  "n": 212,
+  "unique": 212,
+  "consecutive_adjacent": true,
+  "closes": true,
+  "spacing_mm_mean": 1.4557025234527716,
+  "spacing_mm_max": 3.8623995171717738,
+  "ok": true
+ },
+ "helix_L": {
+  "kind": "closed",
+  "n": 169,
+  "unique": 169,
+  "consecutive_adjacent": true,
+  "closes": true,
+  "spacing_mm_mean": 1.4648478747296383,
+  "spacing_mm_max": 4.002326121534205,
+  "ok": true
+ },
+ "concha_L": {
+  "kind": "closed",
+  "n": 22,
+  "unique": 22,
+  "consecutive_adjacent": true,
+  "closes": true,
+  "spacing_mm_mean": 2.733743047093087,
+  "spacing_mm_max": 3.7820588257541883,
+  "ok": true
+ },
+ "ear_attach_R": {
+  "kind": "closed",
+  "n": 212,
+  "unique": 212,
+  "consecutive_adjacent": true,
+  "closes": true,
+  "spacing_mm_mean": 1.455253966087748,
+  "spacing_mm_max": 3.862399345667012,
+  "ok": true
+ },
+ "helix_R": {
+  "kind": "closed",
+  "n": 169,
+  "unique": 169,
+  "consecutive_adjacent": true,
+  "closes": true,
+  "spacing_mm_mean": 1.4648519236497721,
+  "spacing_mm_max": 4.00256734641935,
+  "ok": true
+ },
+ "concha_R": {
+  "kind": "closed",
+  "n": 22,
+  "unique": 22,
+  "consecutive_adjacent": true,
+  "closes": true,
+  "spacing_mm_mean": 2.733743036732752,
+  "spacing_mm_max": 3.7820588258316654,
+  "ok": true
+ },
+ "lid_up_L": {
+  "kind": "open",
+  "n": 52,
+  "unique": 52,
+  "consecutive_adjacent": true,
+  "closes": false,
+  "spacing_mm_mean": 1.4258769214362241,
+  "spacing_mm_max": 2.336834897377105,
+  "ok": true
+ },
+ "lid_low_L": {
+  "kind": "open",
+  "n": 76,
+  "unique": 76,
+  "consecutive_adjacent": true,
+  "closes": false,
+  "spacing_mm_mean": 1.3423437448982511,
+  "spacing_mm_max": 1.655956636846074,
+  "ok": true
+ },
+ "lid_up_R": {
+  "kind": "open",
+  "n": 53,
+  "unique": 53,
+  "consecutive_adjacent": true,
+  "closes": false,
+  "spacing_mm_mean": 1.435443654461856,
+  "spacing_mm_max": 2.3989561296236146,
+  "ok": true
+ },
+ "lid_low_R": {
+  "kind": "open",
+  "n": 75,
+  "unique": 75,
+  "consecutive_adjacent": true,
+  "closes": false,
+  "spacing_mm_mean": 1.3461737989846696,
+  "spacing_mm_max": 1.6526221240534975,
+  "ok": true
+ },
+ "jaw_ear_L": {
+  "kind": "open",
+  "n": 44,
+  "unique": 44,
+  "consecutive_adjacent": true,
+  "closes": false,
+  "spacing_mm_mean": 4.084554692843546,
+  "spacing_mm_max": 8.95932541070399,
+  "ok": true
+ },
+ "ala_L": {
+  "kind": "open",
+  "n": 10,
+  "unique": 10,
+  "consecutive_adjacent": true,
+  "closes": false,
+  "spacing_mm_mean": 4.140700331215317,
+  "spacing_mm_max": 5.6451964556465795,
+  "ok": true
+ },
+ "jaw_ear_R": {
+  "kind": "open",
+  "n": 46,
+  "unique": 46,
+  "consecutive_adjacent": true,
+  "closes": false,
+  "spacing_mm_mean": 4.089904196399009,
+  "spacing_mm_max": 8.98864299644381,
+  "ok": true
+ },
+ "ala_R": {
+  "kind": "open",
+  "n": 10,
+  "unique": 10,
+  "consecutive_adjacent": true,
+  "closes": false,
+  "spacing_mm_mean": 4.140700331215317,
+  "spacing_mm_max": 5.6451964556465795,
+  "ok": true
+ }
+}

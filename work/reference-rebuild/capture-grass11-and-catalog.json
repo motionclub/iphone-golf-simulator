@@ -1,0 +1,24 @@
+[
+  {
+    "name": "reference-coastal-grass11",
+    "method": "GolfArcade.EditorTools.GolfCourseStandardCapture.Run",
+    "env": {
+      "GOLF_STANDARD_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/coastal-grass11",
+      "GOLF_STANDARD_HOLES": "12",
+      "GOLF_STANDARD_SHOWCASE": "1",
+      "GOLF_STANDARD_CAMERA_SWEEP": "1"
+    }
+  },
+  {
+    "name": "reference-coastal-default-regression3",
+    "args": [
+      "-runTests",
+      "-testPlatform",
+      "PlayMode",
+      "-testFilter",
+      "GolfArcade.PlayTests.GolfCourseStandardPlayTests.UpgradePreservesGroundObstaclesAndHazardsAcrossTheCatalog",
+      "-testResults",
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/coastal-default-tests/course-playmode.xml"
+    ]
+  }
+]

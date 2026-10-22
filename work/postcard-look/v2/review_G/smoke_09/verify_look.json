@@ -1,0 +1,191 @@
+{
+ "design": "hole09_design",
+ "hole": 9,
+ "name": "Split",
+ "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v2/review_G/smoke_09/smoke_hole09.blend",
+ "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v2/review_G/smoke_09/look/hole_09.fbx",
+ "seconds": 2.5,
+ "result": "FAILURES",
+ "failures": [
+  "MATERIALS@blend",
+  "MATERIALS@fbx",
+  "FBX_BUDGET@fbx"
+ ],
+ "gates": [
+  {
+   "name": "LIE_MIRROR",
+   "ok": true,
+   "detail": "numpy scoring mirror vs postcard_check.Hole.lie_at at 3580 random and boundary-hugging points: 0 mismatches []"
+  },
+  {
+   "name": "MARKERS@blend",
+   "ok": true,
+   "detail": "tee XY error 0.00 mm (<=20), pin XY error 0.00 mm (<=50) vs design (-9.144, 449.885) m, UP-TEE off (0,0,50) by 0.000 mm (<=1), tee->pin 492.102 yd vs design 492.102 yd (<=0.1), types ['EMPTY']"
+  },
+  {
+   "name": "CONTRACT_OBJECTS@blend",
+   "ok": true,
+   "detail": "root HOLE_09_ROOT parents all 570 objects {'EMPTY': 4, 'MESH': 560, 'CAMERA': 4, 'LIGHT': 2}; gameplay placeholders and WATER_OCEAN present (4 ASSET_LIBRARY objects not counted)"
+  },
+  {
+   "name": "GROUND_MESHES@blend",
+   "ok": true,
+   "detail": "12 ground meshes, all on the allowed list: terrain ['TERRAIN_SPLIT'], FAIRWAY, GREEN, TEE_BOX, 3 sand + 3 lips for 3 design bunkers; no scenery under a ground name"
+  },
+  {
+   "name": "ONE_HEIGHT@blend",
+   "ok": true,
+   "detail": "1849 terrain top faces all at z 6.0000..6.0000 (play_z 6.0); other ground in play_z+0.00..+0.57 m; max tilt of flat play surfaces 0.000 deg; relief max-min of all play surfaces 0.570 m (FAIRWAY +0.14..+0.14; FAIRWAY_FIRSTCUT +0.08..+0.08; GREEN +0.26..+0.26; GREEN_APRON +0.18..+0.18; TEE_BOX +0.24..+0.24; BUNKER_01 +0.30..+0.30; BUNKER_01_LIP +0.22..+0.57; BUNKER_02 +0.30..+0.30; BUNKER_02_LIP +0.22..+0.57; BUNKER_03 +0.30..+0.30; BUNKER_03_LIP +0.22..+0.57)"
+  },
+  {
+   "name": "NO_UPFACE_OUTSIDE_LAND@blend",
+   "ok": true,
+   "detail": "5665 sample points in the water (inside 1 water ellipses and outside the shore, 1.0 yd rim band ignored): single-sided ray casts from z 1000 hit nothing; no up-facing ground triangle over water"
+  },
+  {
+   "name": "LIES_MATCH_MESH@blend",
+   "ok": true,
+   "detail": "12095 eligible points of 14698 drawn (all 24 neighbours within 1.5 yd share the lie), by lie {'Water': 5730, 'Bunker': 546, 'Green': 509, 'Tee': 137, 'Fairway': 995, 'Rough': 4178}: water -> no hit, green -> GREEN, bunker -> sand, fairway -> FAIRWAY, tee -> TEE_BOX, rough/OOB -> TERRAIN (overlays only inside lip 1.3x / tee pad 9.1 yd / first cut / apron); 0 mismatches"
+  },
+  {
+   "name": "SHORE_MATCH@blend",
+   "ok": true,
+   "detail": "415 top boundary edges (19527 samples) vs 19112 design boundary samples: Hausdorff mesh->design 0.000 yd, design->mesh 0.000 yd (<= 0.5); channel_gap: no arc inside the shore"
+  },
+  {
+   "name": "HAZARD_PLACEMENT@blend",
+   "ok": true,
+   "detail": "3 bunkers matched one-to-one to sand meshes: BUNKER_01~'pinch_left': centroid 0.000 yd, extent 0.960x the ellipse+0.5 yd, area 1.00x, lip ok | BUNKER_02~'pinch_right': centroid 0.000 yd, extent 0.960x the ellipse+0.5 yd, area 1.00x, lip ok | BUNKER_03~'front_of_green': centroid 0.000 yd, extent 0.941x the ellipse+0.5 yd, area 0.99x, lip ok"
+  },
+  {
+   "name": "PADS@blend",
+   "ok": true,
+   "detail": "TERRAIN top surface has 1 separate islands, areas [43366] yd2 = 1 dry components in postcard_check"
+  },
+  {
+   "name": "MATERIALS@blend",
+   "ok": false,
+   "detail": "materials outside the contract: ['LK_CLIFF', 'LK_CLIFF_DARK', 'LK_FAIRWAY', 'LK_GREEN', 'LK_ROCK', 'LK_ROUGH', 'LK_SAND', 'LK_SCRUB', 'LK_SURF', 'LK_WATER', 'LK_WATER_SHALLOW']; only 4 MAT_* names could be compared with hole 7 (reference palette has 27): need >= 8"
+  },
+  {
+   "name": "NO_ANIMATION@blend",
+   "ok": true,
+   "detail": "no animation data, actions, shape keys, armatures or drivers on 574 objects and 15 materials"
+  },
+  {
+   "name": "WATER_LEVEL@blend",
+   "ok": true,
+   "detail": "WATER_OCEAN at z 0 covering the shore + 20 m; 70 WATER* meshes within z 0..0.2, all facing up"
+  },
+  {
+   "name": "FBX_FILE@fbx",
+   "ok": true,
+   "detail": "hole_09.fbx 4582 KB; .meta guid 9e2658fa... fresh, isReadable 1, all other settings equal hole_07.fbx.meta"
+  },
+  {
+   "name": "FBX_GLOBALS@fbx",
+   "ok": true,
+   "detail": "GlobalSettings {UpAxis=1, UpAxisSign=1, FrontAxis=2, FrontAxisSign=1, CoordAxis=0, CoordAxisSign=1, UnitScaleFactor=100, OriginalUnitScaleFactor=100} == hole_07.fbx, FBX version 7400 equal; root HOLE_09_ROOT Lcl Rotation (-90.00000933466734, 0.0, 0.0) equals HOLE_07_ROOT; 13 equivalent objects have identical transform conventions"
+  },
+  {
+   "name": "MARKERS@fbx",
+   "ok": true,
+   "detail": "tee XY error 0.00 mm (<=20), pin XY error 0.00 mm (<=50) vs design (-9.144, 449.885) m, UP-TEE off (0,0,50) by 0.008 mm (<=1), tee->pin 492.102 yd vs design 492.102 yd (<=0.1), types ['EMPTY']"
+  },
+  {
+   "name": "CONTRACT_OBJECTS@fbx",
+   "ok": true,
+   "detail": "root HOLE_09_ROOT parents all 564 objects {'MESH': 560, 'EMPTY': 4}; gameplay placeholders and WATER_OCEAN present"
+  },
+  {
+   "name": "GROUND_MESHES@fbx",
+   "ok": true,
+   "detail": "12 ground meshes, all on the allowed list: terrain ['TERRAIN_SPLIT'], FAIRWAY, GREEN, TEE_BOX, 3 sand + 3 lips for 3 design bunkers; no scenery under a ground name"
+  },
+  {
+   "name": "ONE_HEIGHT@fbx",
+   "ok": true,
+   "detail": "1849 terrain top faces all at z 5.9999..6.0000 (play_z 6.0); other ground in play_z+0.00..+0.57 m; max tilt of flat play surfaces 0.000 deg; relief max-min of all play surfaces 0.570 m (BUNKER_01 +0.30..+0.30; BUNKER_01_LIP +0.22..+0.57; BUNKER_02 +0.30..+0.30; BUNKER_02_LIP +0.22..+0.57; BUNKER_03 +0.30..+0.30; BUNKER_03_LIP +0.22..+0.57; FAIRWAY +0.14..+0.14; FAIRWAY_FIRSTCUT +0.08..+0.08; GREEN +0.26..+0.26; GREEN_APRON +0.18..+0.18; TEE_BOX +0.24..+0.24)"
+  },
+  {
+   "name": "NO_UPFACE_OUTSIDE_LAND@fbx",
+   "ok": true,
+   "detail": "5617 sample points in the water (inside 1 water ellipses and outside the shore, 1.0 yd rim band ignored): single-sided ray casts from z 1000 hit nothing; no up-facing ground triangle over water"
+  },
+  {
+   "name": "LIES_MATCH_MESH@fbx",
+   "ok": true,
+   "detail": "12121 eligible points of 14698 drawn (all 24 neighbours within 1.5 yd share the lie), by lie {'Water': 5728, 'Bunker': 564, 'Green': 478, 'Tee': 145, 'Fairway': 1001, 'Rough': 4205}: water -> no hit, green -> GREEN, bunker -> sand, fairway -> FAIRWAY, tee -> TEE_BOX, rough/OOB -> TERRAIN (overlays only inside lip 1.3x / tee pad 9.1 yd / first cut / apron); 0 mismatches"
+  },
+  {
+   "name": "SHORE_MATCH@fbx",
+   "ok": true,
+   "detail": "415 top boundary edges (19527 samples) vs 19112 design boundary samples: Hausdorff mesh->design 0.000 yd, design->mesh 0.000 yd (<= 0.5); channel_gap: no arc inside the shore"
+  },
+  {
+   "name": "HAZARD_PLACEMENT@fbx",
+   "ok": true,
+   "detail": "3 bunkers matched one-to-one to sand meshes: BUNKER_01~'pinch_left': centroid 0.000 yd, extent 0.960x the ellipse+0.5 yd, area 1.00x, lip ok | BUNKER_02~'pinch_right': centroid 0.000 yd, extent 0.960x the ellipse+0.5 yd, area 1.00x, lip ok | BUNKER_03~'front_of_green': centroid 0.000 yd, extent 0.941x the ellipse+0.5 yd, area 0.99x, lip ok"
+  },
+  {
+   "name": "PADS@fbx",
+   "ok": true,
+   "detail": "TERRAIN top surface has 1 separate islands, areas [43366] yd2 = 1 dry components in postcard_check"
+  },
+  {
+   "name": "MATERIALS@fbx",
+   "ok": false,
+   "detail": "materials outside the contract: ['LK_CLIFF', 'LK_CLIFF_DARK', 'LK_FAIRWAY', 'LK_GREEN', 'LK_ROCK', 'LK_ROUGH', 'LK_SAND', 'LK_SCRUB', 'LK_SURF', 'LK_WATER', 'LK_WATER_SHALLOW']; only 4 MAT_* names could be compared with hole 7 (reference palette has 27): need >= 8"
+  },
+  {
+   "name": "NO_ANIMATION@fbx",
+   "ok": true,
+   "detail": "no animation data, actions, shape keys, armatures or drivers on 564 objects and 15 materials"
+  },
+  {
+   "name": "WATER_LEVEL@fbx",
+   "ok": true,
+   "detail": "WATER_OCEAN at z 0 covering the shore + 20 m; 70 WATER* meshes within z 0..0.2, all facing up"
+  },
+  {
+   "name": "FBX_BUDGET@fbx",
+   "ok": false,
+   "detail": "4.48 MB (<= 4) and 115622 triangles counting every object (<= 150000; 106702 in unique meshes, 560 mesh objects)"
+  },
+  {
+   "name": "HOLE07_UNTOUCHED",
+   "ok": true,
+   "detail": "hole_07.blend a7842f25ca64 (want a7842f25ca64), hole_07.fbx 813850bff6d1 (want 813850bff6d1), .meta 18e346e0e2f4; none of the three changed by this run: True"
+  }
+ ],
+ "gate_seconds": {
+  "LIE_MIRROR": 0.1,
+  "MARKERS@blend": 0.0,
+  "CONTRACT_OBJECTS@blend": 0.0,
+  "GROUND_MESHES@blend": 0.0,
+  "ONE_HEIGHT@blend": 0.01,
+  "NO_UPFACE_OUTSIDE_LAND@blend": 0.15,
+  "LIES_MATCH_MESH@blend": 0.51,
+  "SHORE_MATCH@blend": 0.12,
+  "HAZARD_PLACEMENT@blend": 0.0,
+  "PADS@blend": 0.21,
+  "MATERIALS@blend": 0.0,
+  "NO_ANIMATION@blend": 0.0,
+  "WATER_LEVEL@blend": 0.01,
+  "FBX_FILE@fbx": 0.0,
+  "FBX_GLOBALS@fbx": 0.0,
+  "MARKERS@fbx": 0.0,
+  "CONTRACT_OBJECTS@fbx": 0.0,
+  "GROUND_MESHES@fbx": 0.0,
+  "ONE_HEIGHT@fbx": 0.0,
+  "NO_UPFACE_OUTSIDE_LAND@fbx": 0.12,
+  "LIES_MATCH_MESH@fbx": 0.5,
+  "SHORE_MATCH@fbx": 0.11,
+  "HAZARD_PLACEMENT@fbx": 0.0,
+  "PADS@fbx": 0.2,
+  "MATERIALS@fbx": 0.0,
+  "NO_ANIMATION@fbx": 0.0,
+  "WATER_LEVEL@fbx": 0.01,
+  "FBX_BUDGET@fbx": 0.0
+ }
+}

@@ -1,0 +1,36 @@
+599c599
+<     contact: 0.9
+---
+>     contact: 1.7
+648a649,664
+>   - id: 16
+>     clip: {fileID: -623603649343465320, guid: d6a6d8b0e3d9d4dc1b2955caa02da8c1, type: 3}
+>     contact: 0
+>     leftRelease: 0
+>   - id: 7
+>     clip: {fileID: -623603649343465320, guid: 302f3618b95404c68ad5ab232cda575f, type: 3}
+>     contact: 0
+>     leftRelease: 0
+>   - id: 9
+>     clip: {fileID: -623603649343465320, guid: 9114018dbfc2a495bb713882fb92f81d, type: 3}
+>     contact: 0
+>     leftRelease: 0
+>   - id: 8
+>     clip: {fileID: -623603649343465320, guid: 56c34edf5581442a6b98325c11869198, type: 3}
+>     contact: 0
+>     leftRelease: 0
+655,657c671,673
+<   serveStanceTime: 0.167
+<   serveReleaseTime: 0.433
+<   serveTrophyTime: 0.567
+---
+>   serveStanceTime: 0.2
+>   serveReleaseTime: 0.7
+>   serveTrophyTime: 1.3333334
+659,660c675,677
+<   runClipSpeed: 5.8
+<   walkClipSpeed: 0.96
+---
+>   runClipSpeed: 3.250774
+>   walkClipSpeed: 1.25
+>   runReversePivot: 0.216667

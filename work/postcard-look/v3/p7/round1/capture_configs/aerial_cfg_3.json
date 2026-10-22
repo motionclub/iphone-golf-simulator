@@ -1,0 +1,52 @@
+{
+  "shots": [
+    {
+      "name": "hole08_4_aerial",
+      "hole": 8,
+      "kind": "landmark",
+      "pos": [
+        100,
+        135,
+        -55
+      ],
+      "look": [
+        2,
+        6,
+        185
+      ],
+      "fov": 57
+    },
+    {
+      "name": "hole09_4_aerial",
+      "hole": 9,
+      "kind": "landmark",
+      "pos": [
+        120,
+        185,
+        -65
+      ],
+      "look": [
+        -22,
+        6,
+        230
+      ],
+      "fov": 57
+    },
+    {
+      "name": "hole10_4_aerial",
+      "hole": 10,
+      "kind": "landmark",
+      "pos": [
+        -95,
+        175,
+        -105
+      ],
+      "look": [
+        145,
+        6,
+        125
+      ],
+      "fov": 58
+    }
+  ]
+}

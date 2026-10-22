@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "manifest": "work/postcard-look/v3/p7/round1/source_batch/merged_plan.json",
+  "manifest_sha256": "f067daea815506afb3e4e59c1b21c56ba6421c03b3f2b3a8752c7016901c7780",
+  "mode": "dry-run",
+  "source_plans": [
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/p7_round1_drafts/revision4/source_plan.json",
+      "sha256": "cd6a32ecbf27ce64e076359d669f7655b39b7ca8ba7c9efc2d636999dd4cecb5"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/runtime/proof_wind_fix/source_plan.json",
+      "sha256": "03668cf0d3877433b8571cbd0fc5cc06e7c76bdd5a7f57d7b740d9b6fda7a3c2"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/hole_drafts/apply_plan.json",
+      "sha256": "53884838578d77ca47ce42da2a064f44bad15fd4d446996ba55edc85355f89a5"
+    }
+  ],
+  "heavy_ancestor": null,
+  "archive": [],
+  "installed": [],
+  "excluded_planned_protected": [],
+  "verification": "UNVERIFIED; complete P7 original gates and installed proof required"
+}

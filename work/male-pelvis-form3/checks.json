@@ -1,0 +1,455 @@
+{
+ "task": "MALE_PELVIS_FORM3",
+ "tags": {
+  "chat9": "start",
+  "FORM2": "FINAL6",
+  "FORM3": "FORM3"
+ },
+ "files": {
+  "start_blend_chat9_sha256": "9bfd788a1a2a10bb6c982820e9b2c65889ef7280448f3d65ed39dcd8634d91ba",
+  "form2_candidate_blend_sha256_expected": "9f8c6de1e531bb0005a5c51ab80538a2d3cc1ed64b4afa327a2228ce28b6a7f7",
+  "form2_candidate_blend_sha256_found": "9f8c6de1e531bb0005a5c51ab80538a2d3cc1ed64b4afa327a2228ce28b6a7f7",
+  "candidate_blend": "export/candidate_FORM3.blend",
+  "candidate_blend_sha256": "8e341b741d8a78215cbf0926fc96760fc0c4b47bc4f27dc80cb5f91c41367e0d",
+  "candidate_fbx": "export/candidate_FORM3.fbx",
+  "candidate_fbx_sha256": "e7ac3ccf34d7e5d808c55ee02bca8784f0170995c9f2fc6b3580a8aeb6659fbb",
+  "delta": "export/f3_delta.npz",
+  "delta_sha256": "4aaceb8777d8391c3e4c0380eecd8cc1489a5cd2cc81ea58601f6c1b03095468",
+  "params": "data/P_F3B.json",
+  "params_sha256": "122d9bf60c6c342a124795c5ed05c9e2da6163073314e9f590a385321f61f169",
+  "positions": "data/V_FORM3.npy",
+  "positions_sha256": "c5338d294ad44a6d0fbc4c184cd9f564f095466be31b98a638df8e2c327218d2",
+  "staged_merge_blend": "export/merged_fd04bc28.blend",
+  "staged_merge_blend_sha256": "d6c4dcfb1150853a8802a8dc7501aa64066adb8b2734c14a4d6ed8e82dada781",
+  "staged_merge_fbx": "export/merged_fd04bc28.fbx",
+  "staged_merge_fbx_sha256": "6ecb41d35392c691c444b0aab7dd32ba00f64ea12ee02c1dcc33bd64f7168f4a",
+  "artdir_blend_sha256_now": "fd04bc286f688b03ea25fbb57e1242bf2f5976c2dc7bbcdfdb0f68b622ab2347",
+  "artdir_fbx_sha256_now": "a36b2010bdffbccb87de3e684a2ac3b611be95bedccedea59460e687d0f600a6",
+  "artdir_blend_expected_untouched": "fd04bc286f688b03ea25fbb57e1242bf2f5976c2dc7bbcdfdb0f68b622ab2347"
+ },
+ "audit": {
+  "vertices": 33196,
+  "faces": 33484,
+  "TOPOLOGY_IDENTICAL": true,
+  "NAN": 0,
+  "moved": 2655,
+  "max_move_mm": 25.97475989951573,
+  "mean_move_mm_moved": 4.749149590507848,
+  "max_dx_mm": 9.983772277832031,
+  "max_dy_mm": 14.219505310058594,
+  "max_dz_mm": 25.940656661987305,
+  "zones": {
+   "PELVIS": "z in [0.77,1.07], |x|<=0.22 (original positions)",
+   "LEG_TOP": "z in [0.705,0.77), |x|<=0.22 (original positions)"
+  },
+  "moved_in_PELVIS": 2150,
+  "moved_in_LEG_TOP": 505,
+  "max_move_PELVIS_mm": 25.97475989951573,
+  "max_move_LEG_TOP_mm": 25.017702473671413,
+  "ZONE_OUTSIDE": 0,
+  "max_move_below_z0p735_mm": 8.091891499003463,
+  "moved_below_z0p735": 175,
+  "moved_below_z0p77": 505,
+  "moved_loop_groups": 0,
+  "moved_head_z_ge_1p10": 0,
+  "moved_calves_feet_z_lt_0p70": 0,
+  "moved_arms_hands_absx_gt_0p215_z_gt_0p78": 0,
+  "moved_absx_gt_0p215": 0,
+  "face_m_identical": true,
+  "flipped_faces_vs_start": 0,
+  "min_face_normal_dot": 0.8465771942159552,
+  "faces_turned_gt_45deg": 0,
+  "faces_turned_gt_60deg": 0,
+  "degenerate_faces_after": 0,
+  "self_intersections_start": 6,
+  "self_intersections_after": 6,
+  "self_intersections_new": 0,
+  "new_self_intersection_centroids_mm": [],
+  "custom_normals": {
+   "has_custom": true,
+   "moved_corner_count": 10623,
+   "angle_deg_median": 0.0031162646866761345,
+   "angle_deg_p95": 0.019365142656596356,
+   "angle_deg_max": 0.028297615567193072
+  }
+ },
+ "zone_report": {
+  "zones": {
+   "PELVIS": "z in [0.77,1.07], |x|<=0.22",
+   "LEG_TOP": "z in [0.705,0.77), |x|<=0.22"
+  },
+  "moved_before_mask": 3101,
+  "moved_outside_zone_before_mask": 0,
+  "moved": 2655,
+  "moved_in_PELVIS": 2150,
+  "moved_in_LEG_TOP": 505,
+  "moved_outside_zones": 0,
+  "max_move_mm": 25.97475989951573,
+  "mean_move_mm": 4.749149590507848,
+  "max_move_PELVIS_mm": 25.97475989951573,
+  "max_move_LEG_TOP_mm": 25.017702473671413,
+  "moved_below_z0p735": 175,
+  "max_move_below_z0p735_mm": 8.091891499003463,
+  "max_dx_mm": 9.983772411942482,
+  "max_dy_mm": 14.219505712389946,
+  "max_dz_mm": 25.940656661987305,
+  "max_move_at_zone_edge_band_mm": 0.7554609061018779
+ },
+ "merge_verify": {
+  "verts_pre": 33196,
+  "verts_merged": 33196,
+  "verts_moved": 2655,
+  "moved_subset_of_delta_indices": true,
+  "delta_vertices": 2655,
+  "delta_at_new_positions": true,
+  "topology_identical": true,
+  "face_m_identical": true,
+  "vertex_groups_identical": true,
+  "materials_identical": true,
+  "objects_identical": true,
+  "cameras_empties_identical": true,
+  "custom_normals_flag": [
+   true,
+   true
+  ],
+  "PASS": true
+ },
+ "normals_staged": {
+  "blend": {
+   "has_custom_normals": true,
+   "zone_corner_count": 23681,
+   "angle_deg_median": 0.00807048235203128,
+   "angle_deg_p95": 6.733183488481834,
+   "angle_deg_p99": 10.871375498605943,
+   "angle_deg_max": 19.366647684622006
+  },
+  "fbx_reimport": {
+   "has_custom_normals": true,
+   "zone_corner_count": 23681,
+   "angle_deg_median": 0.008063489017487217,
+   "angle_deg_p95": 6.7304715280443395,
+   "angle_deg_p99": 10.868337441150324,
+   "angle_deg_max": 19.363813026923257
+  }
+ },
+ "evalv": {
+  "chat9": {
+   "dihedral": {
+    "p99": 30.9,
+    "max": 42.2,
+    "new_sharp": 0
+   },
+   "moved": 0,
+   "max_move_mm": 0.0,
+   "sil_front": 4.127,
+   "sil_back": 4.747,
+   "slot": {
+    "apex_front": 0.772,
+    "apex_back": 0.772,
+    "w_front": [
+     50.2,
+     51.6,
+     52.3
+    ],
+    "w_back": [
+     50.5,
+     52.0,
+     52.7
+    ]
+   },
+   "contour_mm": {
+    "mean_abs": 1.31,
+    "max_abs": 5.93,
+    "belly_signed": 0.2
+   },
+   "front_forward_mm": {
+    "worst": 0.0,
+    "at": null
+   },
+   "roof_mm": {
+    "-0.16": 778.6,
+    "-0.12": 776.2,
+    "-0.08": 775.1,
+    "-0.04": 771.9,
+    "+0.00": 775.5,
+    "+0.03": 776.2,
+    "+0.05": 776.8,
+    "+0.06": 776.8
+   },
+   "rear_lip_above_roof_min_mm": 4.9,
+   "front_lip_above_roof_min_mm": 6.7,
+   "torso_gate": {
+    "front_chest": 0.651,
+    "front_abdomen": 0.621,
+    "front_pelvis": 0.784,
+    "back_chest": 0.447,
+    "back_abdomen": 0.331,
+    "back_pelvis": 0.197,
+    "mean": 0.505
+   },
+   "glute_bp": {
+    "back_glute": -0.08,
+    "back_lumbar": 0.729,
+    "front_groin": 0.59,
+    "q3BL_glute": 0.488,
+    "q3BR_glute": 0.532,
+    "left_glute": 0.382,
+    "right_glute": 0.851
+   }
+  },
+  "FORM2": {
+   "dihedral": {
+    "p99": 26.4,
+    "max": 40.0,
+    "new_sharp": 0
+   },
+   "moved": 3007,
+   "max_move_mm": 31.2,
+   "sil_front": 4.294,
+   "sil_back": 4.971,
+   "slot": {
+    "apex_front": 0.747,
+    "apex_back": 0.747,
+    "w_front": [
+     40.9,
+     34.4,
+     22.9
+    ],
+    "w_back": [
+     41.1,
+     34.6,
+     22.4
+    ]
+   },
+   "contour_mm": {
+    "mean_abs": 1.51,
+    "max_abs": 3.7,
+    "belly_signed": 3.4
+   },
+   "front_forward_mm": {
+    "worst": -13.5,
+    "at": [
+     0.02,
+     0.79
+    ]
+   },
+   "roof_mm": {
+    "-0.16": 753.9,
+    "-0.12": 753.1,
+    "-0.08": 754.5,
+    "-0.04": 752.9,
+    "+0.00": 749.4,
+    "+0.03": 747.5,
+    "+0.05": 748.5,
+    "+0.06": 748.5
+   },
+   "rear_lip_above_roof_min_mm": 1.0,
+   "front_lip_above_roof_min_mm": 6.4,
+   "torso_gate": {
+    "front_chest": 0.651,
+    "front_abdomen": 0.624,
+    "front_pelvis": 0.872,
+    "back_chest": 0.447,
+    "back_abdomen": 0.376,
+    "back_pelvis": 0.24,
+    "mean": 0.535
+   },
+   "glute_bp": {
+    "back_glute": 0.187,
+    "back_lumbar": 0.741,
+    "front_groin": 0.521,
+    "q3BL_glute": 0.519,
+    "q3BR_glute": 0.614,
+    "left_glute": 0.35,
+    "right_glute": 0.814
+   }
+  },
+  "FORM3": {
+   "dihedral": {
+    "p99": 17.7,
+    "max": 33.9,
+    "new_sharp": 0
+   },
+   "moved": 2655,
+   "max_move_mm": 26.0,
+   "sil_front": 4.289,
+   "sil_back": 4.952,
+   "slot": {
+    "apex_front": 0.75,
+    "apex_back": 0.749,
+    "w_front": [
+     43.7,
+     37.3,
+     25.1
+    ],
+    "w_back": [
+     44.0,
+     36.8,
+     25.3
+    ]
+   },
+   "contour_mm": {
+    "mean_abs": 1.77,
+    "max_abs": 4.93,
+    "belly_signed": 3.9
+   },
+   "front_forward_mm": {
+    "worst": -8.4,
+    "at": [
+     0.03,
+     0.79
+    ]
+   },
+   "roof_mm": {
+    "-0.16": 767.5,
+    "-0.12": 757.4,
+    "-0.08": 752.5,
+    "-0.04": 749.1,
+    "+0.00": 749.3,
+    "+0.03": 750.9,
+    "+0.05": 755.0,
+    "+0.06": 758.4
+   },
+   "rear_lip_above_roof_min_mm": 9.3,
+   "front_lip_above_roof_min_mm": 18.4,
+   "torso_gate": {
+    "front_chest": 0.651,
+    "front_abdomen": 0.625,
+    "front_pelvis": 0.856,
+    "back_chest": 0.447,
+    "back_abdomen": 0.38,
+    "back_pelvis": 0.156,
+    "mean": 0.519
+   },
+   "glute_bp": {
+    "back_glute": 0.203,
+    "back_lumbar": 0.741,
+    "front_groin": 0.474,
+    "q3BL_glute": 0.522,
+    "q3BR_glute": 0.632,
+    "left_glute": 0.364,
+    "right_glute": 0.813
+   }
+  }
+ },
+ "gate_metrics": {
+  "chat9": {
+   "F1_front_reach_mm": 0.0,
+   "F2_front_bump_mm": 4.5,
+   "F3_front_dihedral_max": 40.1,
+   "F3_front_dihedral_p99": 35.9,
+   "B1_rear_dihedral_max": 41.3,
+   "B1_rear_dihedral_p99": 33.8,
+   "N1_rear_lip_above_roof_min_mm": 4.9,
+   "N1_front_lip_above_roof_min_mm": 6.7,
+   "N2_front_nub_excess_mm": 22.19,
+   "B2_lobe_max_turn_deg_per_4mm": 12.4,
+   "B2_concave_outside_cleft": 0.01,
+   "B3_slot_arch_radius_mm": 18.6,
+   "slot_apex": {
+    "front": 0.772,
+    "back": 0.772
+   },
+   "B4_V_ness": 0.15
+  },
+  "FORM2": {
+   "F1_front_reach_mm": -6.21,
+   "F2_front_bump_mm": 4.43,
+   "F3_front_dihedral_max": 40.0,
+   "F3_front_dihedral_p99": 33.7,
+   "B1_rear_dihedral_max": 39.9,
+   "B1_rear_dihedral_p99": 27.2,
+   "N1_rear_lip_above_roof_min_mm": 1.0,
+   "N1_front_lip_above_roof_min_mm": 6.4,
+   "N2_front_nub_excess_mm": 2.53,
+   "B2_lobe_max_turn_deg_per_4mm": 7.5,
+   "B2_concave_outside_cleft": 0.01,
+   "B3_slot_arch_radius_mm": 12.3,
+   "slot_apex": {
+    "front": 0.747,
+    "back": 0.747
+   },
+   "B4_V_ness": 0.59
+  },
+  "FORM3": {
+   "F1_front_reach_mm": -0.24,
+   "F2_front_bump_mm": 3.25,
+   "F3_front_dihedral_max": 21.0,
+   "F3_front_dihedral_p99": 19.0,
+   "B1_rear_dihedral_max": 30.4,
+   "B1_rear_dihedral_p99": 18.7,
+   "N1_rear_lip_above_roof_min_mm": 9.3,
+   "N1_front_lip_above_roof_min_mm": 18.4,
+   "N2_front_nub_excess_mm": 5.35,
+   "B2_lobe_max_turn_deg_per_4mm": 13.7,
+   "B2_concave_outside_cleft": 0.0,
+   "B3_slot_arch_radius_mm": 12.1,
+   "slot_apex": {
+    "front": 0.75,
+    "back": 0.749
+   },
+   "B4_V_ness": -0.13
+  }
+ },
+ "gate_verdicts": {
+  "chat9": {
+   "F1_front_reach_mm": "PASS",
+   "F3_front_dihedral_max": "FAIL",
+   "N1_front_lip_above_roof_min_mm": "PASS",
+   "B1_rear_dihedral_max": "FAIL",
+   "B2_lobe_max_turn_deg_per_4mm": "PASS",
+   "B2_concave_outside_cleft": "PASS",
+   "B3_slot_arch_radius_mm": "PASS",
+   "B4_V_ness": "PASS",
+   "N1_rear_lip_above_roof_min_mm": "PASS"
+  },
+  "FORM2": {
+   "F1_front_reach_mm": "FAIL",
+   "F3_front_dihedral_max": "FAIL",
+   "N1_front_lip_above_roof_min_mm": "PASS",
+   "B1_rear_dihedral_max": "FAIL",
+   "B2_lobe_max_turn_deg_per_4mm": "PASS",
+   "B2_concave_outside_cleft": "PASS",
+   "B3_slot_arch_radius_mm": "PASS",
+   "B4_V_ness": "FAIL",
+   "N1_rear_lip_above_roof_min_mm": "PASS"
+  },
+  "FORM3": {
+   "F1_front_reach_mm": "PASS",
+   "F3_front_dihedral_max": "PASS",
+   "N1_front_lip_above_roof_min_mm": "PASS",
+   "B1_rear_dihedral_max": "PASS",
+   "B2_lobe_max_turn_deg_per_4mm": "PASS",
+   "B2_concave_outside_cleft": "PASS",
+   "B3_slot_arch_radius_mm": "PASS",
+   "B4_V_ness": "PASS",
+   "N1_rear_lip_above_roof_min_mm": "PASS"
+  }
+ },
+ "gate_groups_numeric": {
+  "chat9": {
+   "FRONT_SMOOTH_MOUND": "FAIL",
+   "BUTT_ROUND_PEACH": "FAIL"
+  },
+  "FORM2": {
+   "FRONT_SMOOTH_MOUND": "FAIL",
+   "BUTT_ROUND_PEACH": "FAIL"
+  },
+  "FORM3": {
+   "FRONT_SMOOTH_MOUND": "PASS",
+   "BUTT_ROUND_PEACH": "PASS"
+  }
+ },
+ "hard_gates": {
+  "ZONE_OUTSIDE_eq_0": "PASS",
+  "TOPOLOGY_IDENTICAL": "PASS",
+  "SIL_front_back_le_5pct": "PASS",
+  "NO_SELF_INTERSECT_NO_NAN": "PASS",
+  "FRONT_SMOOTH_MOUND": "PASS",
+  "BUTT_ROUND_PEACH": "PASS"
+ },
+ "ALL_HARD_GATES_PASS": true,
+ "eye_lines": {
+  "note": "FRONT_SMOOTH_MOUND / BUTT_ROUND_PEACH numeric tests above are measured; the visual read (no point / bulge / wedge, round peach) is the author reading of proof/P01, P02, P03-P10, P16 -- Adnan sign-off pending."
+ }
+}

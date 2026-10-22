@@ -1,0 +1,62 @@
+{
+  "male_shirt": {
+    "pixels": 26938,
+    "mean_Lstar": 90.85558787590793,
+    "median_Lstar": 91.3414995737748,
+    "range_required": [
+      90,
+      95
+    ],
+    "pass": true
+  },
+  "male_bottom": {
+    "pixels": 14141,
+    "mean_Lstar": 90.08095938470743,
+    "median_Lstar": 90.4693303106324,
+    "range_required": [
+      88,
+      95
+    ],
+    "pass": true
+  },
+  "male_trim": {
+    "pixels": 1424,
+    "mean_Lstar": 19.80395072213731,
+    "median_Lstar": 13.256526461044981,
+    "range_required": [
+      8,
+      20
+    ],
+    "pass": true
+  },
+  "female_shirt": {
+    "pixels": 18549,
+    "mean_Lstar": 90.2144124853048,
+    "median_Lstar": 91.40638974936353,
+    "range_required": [
+      90,
+      95
+    ],
+    "pass": true
+  },
+  "female_bottom": {
+    "pixels": 16608,
+    "mean_Lstar": 90.30737719506035,
+    "median_Lstar": 90.11489985934836,
+    "range_required": [
+      88,
+      95
+    ],
+    "pass": true
+  },
+  "female_trim": {
+    "pixels": 1326,
+    "mean_Lstar": 18.283985080159514,
+    "median_Lstar": 11.821458126399728,
+    "range_required": [
+      8,
+      20
+    ],
+    "pass": true
+  }
+}

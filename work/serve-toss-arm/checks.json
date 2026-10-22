@@ -1,0 +1,218 @@
+{
+ "job": "SERVE_TOSS_ARM",
+ "date": "2026-10-03",
+ "game_after": {
+  "male": {
+   "label": "AFTER male",
+   "frame_windup_start": 253,
+   "frame_release": 292,
+   "frame_T_H": 284,
+   "t_H_after_windup_start": 0.5166666666666666,
+   "g1": {
+    "lwrist_minus_head_y": -0.016999999999999904,
+    "flexL_TH": 56.327277042172554,
+    "flexL_TH_minus_0p1": 91.34635612211855,
+    "rwrist_minus_rshoulder_y": -0.09800000000000009,
+    "flexL_TH_plus_0p15": 13.674959437538746,
+    "lwrist_minus_head_y_plus_0p15": 0.030999999999999917,
+    "parts": [
+     true,
+     true,
+     true,
+     true,
+     false
+    ]
+   },
+   "g2b": {
+    "frame": 289,
+    "elev": 67.77270909476057,
+    "hoop_minus_head_y": 0.242,
+    "hoop_head_horiz": 0.5646698150246744
+   },
+   "g2": {
+    "elev_TH": 56.405645878531644,
+    "longest_sideways_at_waist_run_frames": 0,
+    "parts": [
+     true,
+     true,
+     true
+    ]
+   },
+   "g3": {
+    "max_ball_to_left_wrist": 0.09030503861911596,
+    "at_frame": 38
+   },
+   "pass": {
+    "g1": false,
+    "g2": true,
+    "g3": true
+   }
+  },
+  "female": {
+   "label": "AFTER female",
+   "frame_windup_start": 253,
+   "frame_release": 292,
+   "frame_T_H": 283,
+   "t_H_after_windup_start": 0.5,
+   "g1": {
+    "lwrist_minus_head_y": -0.051000000000000156,
+    "flexL_TH": 65.12560730424957,
+    "flexL_TH_minus_0p1": 97.7222414615485,
+    "rwrist_minus_rshoulder_y": -0.08299999999999996,
+    "flexL_TH_plus_0p15": 7.323000768985594,
+    "lwrist_minus_head_y_plus_0p15": 0.010999999999999899,
+    "parts": [
+     true,
+     true,
+     true,
+     true,
+     false
+    ]
+   },
+   "g2b": {
+    "frame": 289,
+    "elev": 66.0960460652782,
+    "hoop_minus_head_y": 0.2410000000000001,
+    "hoop_head_horiz": 0.3981519810323691
+   },
+   "g2": {
+    "elev_TH": 53.75520378735072,
+    "longest_sideways_at_waist_run_frames": 0,
+    "parts": [
+     true,
+     true,
+     true
+    ]
+   },
+   "g3": {
+    "max_ball_to_left_wrist": 0.09350935782048776,
+    "at_frame": 38
+   },
+   "pass": {
+    "g1": false,
+    "g2": true,
+    "g3": true
+   }
+  }
+ },
+ "game_before": {
+  "male": {
+   "label": "BEFORE male",
+   "frame_windup_start": 253,
+   "frame_release": 292,
+   "frame_T_H": 284,
+   "t_H_after_windup_start": 0.5166666666666666,
+   "g1": {
+    "lwrist_minus_head_y": -0.03200000000000003,
+    "flexL_TH": 84.3779092393789,
+    "flexL_TH_minus_0p1": 102.14530923426541,
+    "rwrist_minus_rshoulder_y": -0.17300000000000004,
+    "flexL_TH_plus_0p15": 72.27854024349475,
+    "lwrist_minus_head_y_plus_0p15": 0.02400000000000002,
+    "parts": [
+     true,
+     false,
+     true,
+     true,
+     false
+    ]
+   },
+   "g2b": "no frame with the left arm straight and above the head",
+   "g2": {
+    "elev_TH": 24.613980605830267,
+    "longest_sideways_at_waist_run_frames": 4,
+    "parts": [
+     false,
+     false,
+     true
+    ]
+   },
+   "g3": {
+    "max_ball_to_left_wrist": 0.08906739021662197,
+    "at_frame": 37
+   },
+   "pass": {
+    "g1": false,
+    "g2": false,
+    "g3": true
+   }
+  },
+  "female": {
+   "label": "BEFORE female",
+   "frame_windup_start": 253,
+   "frame_release": 292,
+   "frame_T_H": 284,
+   "t_H_after_windup_start": 0.5166666666666666,
+   "g1": {
+    "lwrist_minus_head_y": -0.038000000000000034,
+    "flexL_TH": 80.94943637777827,
+    "flexL_TH_minus_0p1": 101.73268017030257,
+    "rwrist_minus_rshoulder_y": -0.15799999999999992,
+    "flexL_TH_plus_0p15": 65.47355666652427,
+    "lwrist_minus_head_y_plus_0p15": 0.010999999999999899,
+    "parts": [
+     true,
+     false,
+     true,
+     true,
+     false
+    ]
+   },
+   "g2b": "no frame with the left arm straight and above the head",
+   "g2": {
+    "elev_TH": 29.67319686039134,
+    "longest_sideways_at_waist_run_frames": 2,
+    "parts": [
+     false,
+     false,
+     true
+    ]
+   },
+   "g3": {
+    "max_ball_to_left_wrist": 0.08832893070789428,
+    "at_frame": 38
+   },
+   "pass": {
+    "g1": false,
+    "g2": false,
+    "g3": true
+   }
+  }
+ },
+ "blender": {
+  "male": {
+   "g4": true,
+   "nonarm_max_deg": 3.818191820832845e-06,
+   "hips_loc_max_m": 0.0,
+   "frames0_6_max_deg": 3.4150945850063755e-06,
+   "frames46_75_max_deg": 3.4150945850063755e-06,
+   "g5": true,
+   "tip_step_max_mm": 211.98589368214678,
+   "tip_step_at": 23,
+   "arm_step_max_deg": 33.94567000112019,
+   "g6": true,
+   "racket_inside": []
+  },
+  "female": {
+   "g4": true,
+   "nonarm_max_deg": 3.4150945850063755e-06,
+   "hips_loc_max_m": 0.0,
+   "frames0_6_max_deg": 2.9575586669421963e-06,
+   "frames46_75_max_deg": 3.4150945850063755e-06,
+   "g5": true,
+   "tip_step_max_mm": 156.23066970886177,
+   "tip_step_at": 41,
+   "arm_step_max_deg": 37.451128698301616,
+   "g6": true,
+   "racket_inside": []
+  }
+ },
+ "fbx": {
+  "Male_Serve.fbx": "eb4a7ff68752853dcf130c62a92bc9ef99de70aee01844ccff76e2c855fa2d12",
+  "Female_Serve.fbx": "c75f601ebfafb82d7669ef7d27ee10fec0506b5dc6063310ded6e9f6c6be92b3"
+ },
+ "before_fbx": {
+  "Male_Serve.fbx": "691f531a783f75266a70be707f55732d928854e4d0139a7e6b45c2a15384d255",
+  "Female_Serve.fbx": "afc1847bedef890438abb4a5613038f7a5b34f539fd6079363b96376c7054f04"
+ }
+}

@@ -1,0 +1,592 @@
+{
+ "hole": 10,
+ "name": "Crater",
+ "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v2/gates/fixtures/lib_smoke_now/hole_10.blend",
+ "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v2/gates/fixtures/lib_smoke_now/hole_10.fbx",
+ "look_dir": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v2/gates/fixtures/look_at_run",
+ "seconds": 2.4,
+ "result": "FAILURES",
+ "failures": [
+  "LK_REQUIRED@blend",
+  "LK_TEXTURED@blend",
+  "LOOK_FILES@blend",
+  "ROCK_NOT_ICOSAHEDRON@blend",
+  "ROCK_VARIETY@blend",
+  "PLANTS_SHARED_MATERIAL@blend",
+  "PLANTS_INSTANCED@blend",
+  "NO_ROCK_STRETCH_2X@blend",
+  "CRATER_COLUMNS@blend",
+  "CRATER_CONE_SMOKE@blend",
+  "CRATER_SHELF_PLANTS@blend",
+  "LK_REQUIRED@fbx",
+  "LOOK_FILES@fbx",
+  "ROCK_NOT_ICOSAHEDRON@fbx",
+  "ROCK_VARIETY@fbx",
+  "PLANTS_SHARED_MATERIAL@fbx",
+  "PLANTS_INSTANCED@fbx",
+  "NO_ROCK_STRETCH_2X@fbx",
+  "CRATER_COLUMNS@fbx",
+  "CRATER_CONE_SMOKE@fbx",
+  "CRATER_SHELF_PLANTS@fbx"
+ ],
+ "gates": [
+  {
+   "name": "BASELINE_SIGNATURE",
+   "ok": true,
+   "detail": "work/postcard-look/baseline_signature/hole_10.json built 2026-10-03 21:44:33 from work/postcard-look/baseline/blender/hole_10.blend (b0c478e6f2a7) + work/postcard-look/baseline/fbx/hole_10.fbx (e99475de7175); npz sha256 matches the json"
+  },
+  {
+   "name": "HOLE07_UNTOUCHED",
+   "ok": true,
+   "detail": "hole_07.blend, hole_07.fbx, hole_07.fbx.meta sha256 unchanged"
+  },
+  {
+   "name": "SHADERS_STATIC",
+   "ok": true,
+   "detail": "GolfSurf.shader, GolfLook.cs contain no _Time / Time.time / texture offset / Update"
+  },
+  {
+   "name": "PLAY_SURFACE_NAMES@blend",
+   "ok": true,
+   "detail": "10 collision-prefix objects equal the baseline set ['BUNKER_01', 'BUNKER_01_LIP', 'BUNKER_02', 'BUNKER_02_LIP', 'FAIRWAY', 'FAIRWAY_FIRSTCUT', 'GREEN', 'GREEN_APRON', 'TEE_BOX', 'TERRAIN_CRATER']"
+  },
+  {
+   "name": "PLAY_SURFACE_GRID@blend",
+   "ok": true,
+   "detail": "25432 rays on a 1.5 m grid over the shore bbox (3948 hit ground): hit/miss mismatches 0, height mismatches > 0.001 m 0 (max |dz| 0.00e+00 m), hit-object mismatches 0"
+  },
+  {
+   "name": "PLAY_SURFACE_TOPS@blend",
+   "ok": true,
+   "detail": "up-facing (nz > 0.5) vertex sets of 10 collision meshes equal the baseline (sorted, rounded 1e-4 m hash)"
+  },
+  {
+   "name": "PLAY_SURFACE_FACES@blend",
+   "ok": true,
+   "detail": "up-facing triangles of 10 collision meshes (2945 baseline triangles) equal the baseline (exact rounded-triangle sets)"
+  },
+  {
+   "name": "MARKERS_FROZEN@blend",
+   "ok": true,
+   "detail": "9 markers/placeholders ['BALL_START', 'FLAG', 'FLAG_POLE', 'HOLE_CUP', 'MARKER_PIN', 'MARKER_TEE', 'MARKER_UP', 'TEE_MARKER_1', 'TEE_MARKER_2'] at their baseline positions (max 0.0000 mm <= 0.1 mm), no duplicates"
+  },
+  {
+   "name": "RESERVED_NAMES@blend",
+   "ok": true,
+   "detail": "objects named FLAG*/HOLE_CUP*/BALL_START*/MARKER_* are exactly the baseline placeholders ['BALL_START', 'FLAG', 'FLAG_POLE', 'HOLE_CUP', 'MARKER_PIN', 'MARKER_TEE', 'MARKER_UP']"
+  },
+  {
+   "name": "NEW_OBJECT_PREFIXES@blend",
+   "ok": true,
+   "detail": "19 new objects, all prefixed ('ROCK_', 'PLANT_', 'DRESS_', 'WATER_', 'LAVA_') {'LAVA_': 4, 'ROCK_': 15}; no new collision prefix"
+  },
+  {
+   "name": "ONE_GREEN@blend",
+   "ok": true,
+   "detail": "exactly one GREEN, one MARKER_PIN, one FLAG/FLAG_POLE/HOLE_CUP; LK_GREEN/LK_FAIRWAY only on the play objects"
+  },
+  {
+   "name": "NO_MAT_FOAM@blend",
+   "ok": true,
+   "detail": "no MAT_FOAM material on any mesh and no *FOAM* object"
+  },
+  {
+   "name": "NO_LEGACY_MATERIALS@blend",
+   "ok": true,
+   "detail": "every mesh material is a contract LK_ name ['LK_BASALT', 'LK_FAIRWAY', 'LK_GREEN', 'LK_LAVA', 'LK_ROUGH', 'LK_SAND'] or a gameplay MAT_ (flag/pole/cup/ball)"
+  },
+  {
+   "name": "LK_REQUIRED@blend",
+   "ok": false,
+   "detail": "missing ['LK_PLANTS', 'LK_SMOKE']"
+  },
+  {
+   "name": "GROUND_MATERIALS@blend",
+   "ok": true,
+   "detail": "play surfaces + terrain use their contract materials: BUNKER_01:LK_SAND, BUNKER_01_LIP:LK_GREEN, BUNKER_02:LK_SAND, BUNKER_02_LIP:LK_GREEN, FAIRWAY:LK_FAIRWAY, FAIRWAY_FIRSTCUT:LK_FAIRWAY, GREEN:LK_GREEN, GREEN_APRON:LK_FAIRWAY, TEE_BOX:LK_GREEN, terrain walls 100% basalt of 8396 m2; terrain tops ['LK_BASALT', 'LK_ROUGH'], walls ['LK_BASALT'] (+ a 1.0 m grass lip band)"
+  },
+  {
+   "name": "ROCK_MATERIALS@blend",
+   "ok": true,
+   "detail": "20 unique rock meshes: only ['LK_BASALT', 'LK_CLIFF', 'LK_CLIFF_DARK', 'LK_MASONRY', 'LK_PLANTS', 'LK_ROCK', 'LK_ROCK_WET', 'LK_ROUGH', 'LK_SCRUB'], >= 60% of each mesh's area rock (ROCK_WALL_*: LK_BASALT)"
+  },
+  {
+   "name": "PROP_MATERIALS@blend",
+   "ok": true,
+   "detail": "1 PLANT_/DRESS_/WATER_/LAVA_ mesh variants use only their contract materials (PLANT_ = LK_PLANTS, DRESS_PATH = LK_PATH, DRESS_ARCH/RUIN = LK_MASONRY, WATER_OCEAN = LK_WATER, ...)"
+  },
+  {
+   "name": "LK_TEXTURED@blend",
+   "ok": false,
+   "detail": "LK_BASALT: Basalt_C.png resolves outside the Look folder (/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/Course/Look/Basalt_C.png), Basalt_N.png resolves outside the Look folder (/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/Course/Look/Basalt_N.png), Basalt_E.png resolves outside the Look folder (/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/Course/Look/Basalt_E.png); LK_FAIRWAY: Fairway_C.png resolves outside the Look folder (/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/Course/Look/Fairway_C.png), Fairway_N.png resolves outside the Look folder (/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/Course/Look/Fairway_N.png); LK_GREEN: Green_C.png resolves outside the Look folder (/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/Course/Look/Green_C.png), Green_N.png resolves outside the Look folder (/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/Course/Look/Green_N.png); LK_LAVA: Lava_C.png resolves outside the Look folder (/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/Course/Look/Lava_C.png), Lava_N.png resolves outside the Look folder (/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/Course/Look/Lava_N.png), Lava_E.png resolves outside the Look folder (/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/Course/Look/Lava_E.png); LK_PLANTS: not on any exported mesh; LK_ROUGH: Rough_C.png resolves outside the Look folder (/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/Course/Look/Rough_C.png), Rough_N.png resolves outside the Look folder (/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/Course/Look/Rough_N.png); LK_SAND: Sand_C.png resolves outside the Look folder (/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/Course/Look/Sand_C.png), Sand_N.png resolves outside the Look folder (/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/Course/Look/Sand_N.png); LK_SMOKE: not on any exported mesh"
+  },
+  {
+   "name": "LOOK_FILES@blend",
+   "ok": false,
+   "detail": "Fairway_C.png is flat: only 1% of its 256 windows of 64 px (1/16 of the tile) have luminance sd >= 0.03 (need 90%; window p10 0.0140) and 66% keep sd >= 0.0120 after block averaging (dither noise does not); Green_C.png is flat: only 0% of its 256 windows of 64 px (1/16 of the tile) have luminance sd >= 0.03 (need 90%; window p10 0.0101) and 36% keep sd >= 0.0120 after block averaging (dither noise does not)"
+  },
+  {
+   "name": "ALBEDO_DISTINCT@blend",
+   "ok": true,
+   "detail": "10 pairs among ['Fairway_C', 'Green_C', 'Rough_C', 'Sand_C', 'Basalt_C'] are independent textures (channel-field correlation < 0.85 at every rotation, mirror and shift, whatever the colour); closest Fairway_C vs Basalt_C correlation 0.41 (dE 79.8)"
+  },
+  {
+   "name": "GRASS_ALBEDO_HUE@blend",
+   "ok": true,
+   "detail": "grass albedos on the stills' hue: Fairway_C h 73.6 S 0.70 V 0.66 (est. lit hue 67), Green_C h 72.5 S 0.66 V 0.69 (est. lit hue 65), Rough_C h 68.1 S 0.70 V 0.45 (est. lit hue 61)"
+  },
+  {
+   "name": "LAVA_TEXTURE@blend",
+   "ok": true,
+   "detail": "flow, not cells: bright 84%, dark 12%, emission-alone bright 77%, value sd 0.26, peak (218,126,50), compact dark cells 0/bright 0, seam 1.22x"
+  },
+  {
+   "name": "BASALT_PRISMS@blend",
+   "ok": true,
+   "detail": "prisms: glow 1.5%, 0% of glow in non-vertical blobs, longest horizontal run 1.2%, cross-joint spacing 12.2 m, bevel planes +23%/-20%"
+  },
+  {
+   "name": "SMOKE_SOFT@blend",
+   "ok": true,
+   "detail": "soft wisp: border alpha 0.000, alpha max 0.52, elongation 2.02, max gradient 0.026/texel"
+  },
+  {
+   "name": "UV_DENSITY@blend",
+   "ok": true,
+   "detail": "every tiled LK_ surface has UV0 at its contract density (ratio range per material {'LK_BASALT': '0.91..1.00x', 'LK_FAIRWAY': '0.99..1.00x', 'LK_GREEN': '0.96..1.00x', 'LK_LAVA': '1.00..1.00x', 'LK_ROUGH': '1.00..1.00x', 'LK_SAND': '1.00..1.00x'}), no smear (UV anisotropy <= 4:1 on >= 85% of every material's area); atlas/sheet/card UVs valid"
+  },
+  {
+   "name": "SAND_NAMES@blend",
+   "ok": true,
+   "detail": "2 scoring bunker meshes ['BUNKER_01', 'BUNKER_02'] (design 2); every other LK_SAND mesh is DRESS_SAND_* (0)"
+  },
+  {
+   "name": "ROCK_NOT_ICOSAHEDRON@blend",
+   "ok": false,
+   "detail": "5 of 5 rock meshes are blobs/icosahedra/boxes: ROCK_WALL_FLAT.000 (mesh ROCK_WALL_FLAT): 12 welded verts / 20 faces: sphere-like (whitened radius cv 0.145 < 0.15); 1 of 1 components are regular solids (<= 2 distinct vertex valences, e.g. {5: 12} on 12 vertices): a bundle of icosahedra / octahedra / cubes; 12 welded vertices < 60 | ROCK_WALL_BLUNT.000 (mesh ROCK_WALL_BLUNT): 12 welded verts / 20 faces: sphere-like (whitened radius cv 0.103 < 0.15); 1 of 1 components are regular solids (<= 2 distinct vertex valences, e.g. {5: 12} on 12 vertices): a bundle of icosahedra / octahedra / cubes; 12 welded vertices < 60 | CLIFF_ROCK.000 (mesh CLIFF_ROCK): 12 welded verts / 20 faces: sphere-like (whitened radius cv 0.072 < 0.15); 1 of 1 components are regular solids (<= 2 distinct vertex valences, e.g. {5: 12} on 12 vertices): a bundle of icosahedra / octahedra / cubes; 12 welded vertices < 60 | ROCK_LARGE.000 (mesh ROCK_LARGE): 12 welded verts / 20 faces: regular tessellation of a round solid (edge cv 0.16, area cv 0.22, radius cv 0.17); 1 of 1 components are regular solids (<= 2 distinct vertex valences, e.g. {5: 12} on 12 vertices): a bundle of icosahedra / octahedra / cubes; 12 welded vertices < 60 | ROCK_MEDIUM.000 (mesh ROCK_MEDIUM): 12 welded verts / 20 faces: regular tessellation of a round solid (edge cv 0.19, area cv 0.26, radius cv 0.19); 1 of 1 components are regular solids (<= 2 distinct vertex valences, e.g. {5: 12} on 12 vertices): a bundle of icosahedra / octahedra / cubes; 12 welded vertices < 60"
+  },
+  {
+   "name": "ROCK_VARIETY@blend",
+   "ok": false,
+   "detail": "0 unique rock SHAPE FAMILIES among ROCK_* (0 distinct meshes; families merge equal topology hashes (welded verts/faces + vertex-valence histogram) and geometric near-duplicates (PCA extent ratios +-0.04, vertex counts +-10%, facet orientations +-2); 0 merged; independent of scale, rotation and mesh name; need >= 4), 0 families instanced >= 2 times on shared mesh data (need >= 3): ; not counted (fail the rock shape test): ['CLIFF_ROCK', 'ROCK_LARGE', 'ROCK_MEDIUM', 'ROCK_WALL_BLUNT', 'ROCK_WALL_FLAT']"
+  },
+  {
+   "name": "PROP_FACE_BUDGET@blend",
+   "ok": true,
+   "detail": "3 prop meshes within budget (plants/rocks <= 500 faces, tufts <= 120); largest {'rock': 20}"
+  },
+  {
+   "name": "PLANTS_SHARED_MATERIAL@blend",
+   "ok": false,
+   "detail": "no PLANT_* objects"
+  },
+  {
+   "name": "PLANTS_INSTANCED@blend",
+   "ok": false,
+   "detail": "no PLANT_* meshes"
+  },
+  {
+   "name": "PROPS_OFF_PLAY@blend",
+   "ok": true,
+   "detail": "242 scenery meshes (ROCK_/PLANT_/DRESS_/WATER_FALL, walls and cladding included): none above the 2382 play-surface grid points (+ 0 samples at 0.25 m under 0 small DRESS_-type objects), none within 3 m of the pin, plants / loose rocks outside 15.6 m of it (113 checked); overlays allowed: ('DRESS_PATH', 'DRESS_SAND')"
+  },
+  {
+   "name": "NO_PLANT_ON_WATER@blend",
+   "ok": true,
+   "detail": "no PLANT_ objects on this hole (their presence is LK_REQUIRED / PLANTS_*)"
+  },
+  {
+   "name": "NO_ROCK_STRETCH_2X@blend",
+   "ok": false,
+   "detail": "168 of 227 instances stretched past 2x: ROCK_WALL_FLAT.000: scale (1.94,2.39,3.18) outside 0.5..2.0 | ROCK_WALL_BLUNT.000: scale (2.55,2.58,3.04) outside 0.5..2.0 | ROCK_WALL_FLAT.001: scale (2.33,2.58,3.36) outside 0.5..2.0 | ROCK_WALL_FLAT.002: scale (2.12,2.79,3.57) outside 0.5..2.0 | ROCK_WALL_FLAT.003: scale (2.04,2.39,3.56) outside 0.5..2.0 (+163 more)"
+  },
+  {
+   "name": "PATH_UNDER_BALL@blend",
+   "ok": true,
+   "detail": "no DRESS_PATH_* / DRESS_SAND_* overlay on this hole (NEEDLE_PATH requires the path on hole 8)"
+  },
+  {
+   "name": "NO_ANIMATION@blend",
+   "ok": true,
+   "detail": "static: no action, driver, shape key or armature on 279 objects / 10 materials"
+  },
+  {
+   "name": "TRIANGLE_BUDGET@blend",
+   "ok": true,
+   "detail": "62731 triangles over 259 mesh objects (<= 250000; 58291 in unique meshes); by prefix [('ROCK', 43712), ('WATER', 13185), ('TERRAIN', 2477), ('FAIRWAY', 1630), ('CLIFF', 800), ('BUNKER', 398)]"
+  },
+  {
+   "name": "NO_FOAM_STRIP@blend",
+   "ok": true,
+   "detail": "no whitewater geometry; 1 merged offshore pieces, longest 8.1 m"
+  },
+  {
+   "name": "CRATER_COLUMNS@blend",
+   "ok": false,
+   "detail": "114 ROCK_WALL_* are not column clusters (>= 5 hex columns, side area >= 45%): ROCK_WALL_BLUNT.000 1 cols/51% side, ROCK_WALL_BLUNT.001 1 cols/59% side, ROCK_WALL_BLUNT.002 1 cols/60% side, ROCK_WALL_BLUNT.003 1 cols/59% side, ROCK_WALL_BLUNT.004 1 cols/51% side; column clusters cover 0% of the wall ring's 360 deg (need >= 80%)"
+  },
+  {
+   "name": "CRATER_WALL_COVERED@blend",
+   "ok": true,
+   "detail": "8 of 4946 camera rays (all 3238 wall faces) that hit the wall below PLAY_Z see exposed smooth terrain / vertical grass = 0.2% (need <= 1%); largest connected exposed patch 3 m2 of 4 (need <= 12 m2); by view {aerial 0/62, low 4/2290, oblique 4/2594}; exposed: {'TERRAIN_CRATER/LK_BASALT': 8}"
+  },
+  {
+   "name": "CRATER_LAVA@blend",
+   "ok": true,
+   "detail": "WATER_LAVA 13185 triangles, LK_LAVA only, z 0.00..0.00 m (<= 3.0), covers the lava ellipse"
+  },
+  {
+   "name": "CRATER_LAVA_LIGHTS@blend",
+   "ok": true,
+   "detail": "4 LAVA_LIGHT_nn empties above the lava (z 2.2, 2.2, 2.2, 2.2) inside the crater"
+  },
+  {
+   "name": "CRATER_PILLAR@blend",
+   "ok": true,
+   "detail": "pillar top = GREEN at the pin at play height; sides 648 m2 100% LK_BASALT reaching z -6.0 (lava top 0.00); underside 678 m2 basalt"
+  },
+  {
+   "name": "CRATER_CONE_SMOKE@blend",
+   "ok": false,
+   "detail": "no DRESS_CONE; 0 DRESS_SMOKE_nn (need >= 2)"
+  },
+  {
+   "name": "CRATER_SHELF_PLANTS@blend",
+   "ok": false,
+   "detail": "0 PLANT_* on the grass shelf (rough land at play height; need >= 10) of 0 plants"
+  },
+  {
+   "name": "CRATER_TEE_PAD@blend",
+   "ok": true,
+   "detail": "TEE_BOX 12.8 x 11.0 m, fill 0.99, aspect 1.17, ['LK_GREEN'] (UVs: UV_DENSITY)"
+  },
+  {
+   "name": "FBX_FILE@fbx",
+   "ok": true,
+   "detail": "work/postcard-look/v2/gates/fixtures/lib_smoke_now/hole_10.fbx 1.70 MB (<= 20.0); .meta isReadable 1, tangentImportMode 3"
+  },
+  {
+   "name": "FBX_REIMPORT@fbx",
+   "ok": true,
+   "detail": "re-imported 267 objects in 0.1 s; markers present: True []"
+  },
+  {
+   "name": "PLAY_SURFACE_NAMES@fbx",
+   "ok": true,
+   "detail": "10 collision-prefix objects equal the baseline set ['BUNKER_01', 'BUNKER_01_LIP', 'BUNKER_02', 'BUNKER_02_LIP', 'FAIRWAY', 'FAIRWAY_FIRSTCUT', 'GREEN', 'GREEN_APRON', 'TEE_BOX', 'TERRAIN_CRATER']"
+  },
+  {
+   "name": "PLAY_SURFACE_GRID@fbx",
+   "ok": true,
+   "detail": "25432 rays on a 1.5 m grid over the shore bbox (3948 hit ground): hit/miss mismatches 0, height mismatches > 0.001 m 0 (max |dz| 0.00e+00 m), hit-object mismatches 0"
+  },
+  {
+   "name": "PLAY_SURFACE_TOPS@fbx",
+   "ok": true,
+   "detail": "up-facing (nz > 0.5) vertex sets of 10 collision meshes equal the baseline (sorted, rounded 1e-4 m hash)"
+  },
+  {
+   "name": "PLAY_SURFACE_FACES@fbx",
+   "ok": true,
+   "detail": "up-facing triangles of 10 collision meshes (2945 baseline triangles) equal the baseline (exact rounded-triangle sets)"
+  },
+  {
+   "name": "MARKERS_FROZEN@fbx",
+   "ok": true,
+   "detail": "9 markers/placeholders ['BALL_START', 'FLAG', 'FLAG_POLE', 'HOLE_CUP', 'MARKER_PIN', 'MARKER_TEE', 'MARKER_UP', 'TEE_MARKER_1', 'TEE_MARKER_2'] at their baseline positions (max 0.0000 mm <= 0.1 mm), no duplicates"
+  },
+  {
+   "name": "RESERVED_NAMES@fbx",
+   "ok": true,
+   "detail": "objects named FLAG*/HOLE_CUP*/BALL_START*/MARKER_* are exactly the baseline placeholders ['BALL_START', 'FLAG', 'FLAG_POLE', 'HOLE_CUP', 'MARKER_PIN', 'MARKER_TEE', 'MARKER_UP']"
+  },
+  {
+   "name": "NEW_OBJECT_PREFIXES@fbx",
+   "ok": true,
+   "detail": "19 new objects, all prefixed ('ROCK_', 'PLANT_', 'DRESS_', 'WATER_', 'LAVA_') {'LAVA_': 4, 'ROCK_': 15}; no new collision prefix"
+  },
+  {
+   "name": "ONE_GREEN@fbx",
+   "ok": true,
+   "detail": "exactly one GREEN, one MARKER_PIN, one FLAG/FLAG_POLE/HOLE_CUP; LK_GREEN/LK_FAIRWAY only on the play objects"
+  },
+  {
+   "name": "NO_MAT_FOAM@fbx",
+   "ok": true,
+   "detail": "no MAT_FOAM material on any mesh and no *FOAM* object"
+  },
+  {
+   "name": "NO_LEGACY_MATERIALS@fbx",
+   "ok": true,
+   "detail": "every mesh material is a contract LK_ name ['LK_BASALT', 'LK_FAIRWAY', 'LK_GREEN', 'LK_LAVA', 'LK_ROUGH', 'LK_SAND'] or a gameplay MAT_ (flag/pole/cup/ball)"
+  },
+  {
+   "name": "LK_REQUIRED@fbx",
+   "ok": false,
+   "detail": "missing ['LK_PLANTS', 'LK_SMOKE']"
+  },
+  {
+   "name": "GROUND_MATERIALS@fbx",
+   "ok": true,
+   "detail": "play surfaces + terrain use their contract materials: BUNKER_01:LK_SAND, BUNKER_01_LIP:LK_GREEN, BUNKER_02:LK_SAND, BUNKER_02_LIP:LK_GREEN, FAIRWAY:LK_FAIRWAY, FAIRWAY_FIRSTCUT:LK_FAIRWAY, GREEN:LK_GREEN, GREEN_APRON:LK_FAIRWAY, TEE_BOX:LK_GREEN, terrain walls 100% basalt of 8396 m2; terrain tops ['LK_BASALT', 'LK_ROUGH'], walls ['LK_BASALT'] (+ a 1.0 m grass lip band)"
+  },
+  {
+   "name": "ROCK_MATERIALS@fbx",
+   "ok": true,
+   "detail": "20 unique rock meshes: only ['LK_BASALT', 'LK_CLIFF', 'LK_CLIFF_DARK', 'LK_MASONRY', 'LK_PLANTS', 'LK_ROCK', 'LK_ROCK_WET', 'LK_ROUGH', 'LK_SCRUB'], >= 60% of each mesh's area rock (ROCK_WALL_*: LK_BASALT)"
+  },
+  {
+   "name": "PROP_MATERIALS@fbx",
+   "ok": true,
+   "detail": "1 PLANT_/DRESS_/WATER_/LAVA_ mesh variants use only their contract materials (PLANT_ = LK_PLANTS, DRESS_PATH = LK_PATH, DRESS_ARCH/RUIN = LK_MASONRY, WATER_OCEAN = LK_WATER, ...)"
+  },
+  {
+   "name": "LOOK_FILES@fbx",
+   "ok": false,
+   "detail": "Fairway_C.png is flat: only 1% of its 256 windows of 64 px (1/16 of the tile) have luminance sd >= 0.03 (need 90%; window p10 0.0140) and 66% keep sd >= 0.0120 after block averaging (dither noise does not); Green_C.png is flat: only 0% of its 256 windows of 64 px (1/16 of the tile) have luminance sd >= 0.03 (need 90%; window p10 0.0101) and 36% keep sd >= 0.0120 after block averaging (dither noise does not)"
+  },
+  {
+   "name": "ALBEDO_DISTINCT@fbx",
+   "ok": true,
+   "detail": "10 pairs among ['Fairway_C', 'Green_C', 'Rough_C', 'Sand_C', 'Basalt_C'] are independent textures (channel-field correlation < 0.85 at every rotation, mirror and shift, whatever the colour); closest Fairway_C vs Basalt_C correlation 0.41 (dE 79.8)"
+  },
+  {
+   "name": "GRASS_ALBEDO_HUE@fbx",
+   "ok": true,
+   "detail": "grass albedos on the stills' hue: Fairway_C h 73.6 S 0.70 V 0.66 (est. lit hue 67), Green_C h 72.5 S 0.66 V 0.69 (est. lit hue 65), Rough_C h 68.1 S 0.70 V 0.45 (est. lit hue 61)"
+  },
+  {
+   "name": "LAVA_TEXTURE@fbx",
+   "ok": true,
+   "detail": "flow, not cells: bright 84%, dark 12%, emission-alone bright 77%, value sd 0.26, peak (218,126,50), compact dark cells 0/bright 0, seam 1.22x"
+  },
+  {
+   "name": "BASALT_PRISMS@fbx",
+   "ok": true,
+   "detail": "prisms: glow 1.5%, 0% of glow in non-vertical blobs, longest horizontal run 1.2%, cross-joint spacing 12.2 m, bevel planes +23%/-20%"
+  },
+  {
+   "name": "SMOKE_SOFT@fbx",
+   "ok": true,
+   "detail": "soft wisp: border alpha 0.000, alpha max 0.52, elongation 2.02, max gradient 0.026/texel"
+  },
+  {
+   "name": "UV_DENSITY@fbx",
+   "ok": true,
+   "detail": "every tiled LK_ surface has UV0 at its contract density (ratio range per material {'LK_BASALT': '0.91..1.00x', 'LK_FAIRWAY': '0.99..1.00x', 'LK_GREEN': '0.96..1.00x', 'LK_LAVA': '1.00..1.00x', 'LK_ROUGH': '1.00..1.00x', 'LK_SAND': '1.00..1.00x'}), no smear (UV anisotropy <= 4:1 on >= 85% of every material's area); atlas/sheet/card UVs valid"
+  },
+  {
+   "name": "SAND_NAMES@fbx",
+   "ok": true,
+   "detail": "2 scoring bunker meshes ['BUNKER_01', 'BUNKER_02'] (design 2); every other LK_SAND mesh is DRESS_SAND_* (0)"
+  },
+  {
+   "name": "ROCK_NOT_ICOSAHEDRON@fbx",
+   "ok": false,
+   "detail": "5 of 5 rock meshes are blobs/icosahedra/boxes: CLIFF_ROCK.000 (mesh CLIFF_ROCK): 12 welded verts / 20 faces: sphere-like (whitened radius cv 0.072 < 0.15); 1 of 1 components are regular solids (<= 2 distinct vertex valences, e.g. {5: 12} on 12 vertices): a bundle of icosahedra / octahedra / cubes; 12 welded vertices < 60 | ROCK_LARGE.000 (mesh ROCK_LARGE): 12 welded verts / 20 faces: regular tessellation of a round solid (edge cv 0.16, area cv 0.22, radius cv 0.17); 1 of 1 components are regular solids (<= 2 distinct vertex valences, e.g. {5: 12} on 12 vertices): a bundle of icosahedra / octahedra / cubes; 12 welded vertices < 60 | ROCK_MEDIUM.000 (mesh ROCK_MEDIUM): 12 welded verts / 20 faces: regular tessellation of a round solid (edge cv 0.19, area cv 0.26, radius cv 0.19); 1 of 1 components are regular solids (<= 2 distinct vertex valences, e.g. {5: 12} on 12 vertices): a bundle of icosahedra / octahedra / cubes; 12 welded vertices < 60 | ROCK_WALL_BLUNT.000 (mesh ROCK_WALL_BLUNT): 12 welded verts / 20 faces: sphere-like (whitened radius cv 0.103 < 0.15); 1 of 1 components are regular solids (<= 2 distinct vertex valences, e.g. {5: 12} on 12 vertices): a bundle of icosahedra / octahedra / cubes; 12 welded vertices < 60 | ROCK_WALL_FLAT.000 (mesh ROCK_WALL_FLAT): 12 welded verts / 20 faces: sphere-like (whitened radius cv 0.145 < 0.15); 1 of 1 components are regular solids (<= 2 distinct vertex valences, e.g. {5: 12} on 12 vertices): a bundle of icosahedra / octahedra / cubes; 12 welded vertices < 60"
+  },
+  {
+   "name": "ROCK_VARIETY@fbx",
+   "ok": false,
+   "detail": "0 unique rock SHAPE FAMILIES among ROCK_* (0 distinct meshes; families merge equal topology hashes (welded verts/faces + vertex-valence histogram) and geometric near-duplicates (PCA extent ratios +-0.04, vertex counts +-10%, facet orientations +-2); 0 merged; independent of scale, rotation and mesh name; need >= 4), 0 families instanced >= 2 times on shared mesh data (need >= 3): ; not counted (fail the rock shape test): ['CLIFF_ROCK', 'ROCK_LARGE', 'ROCK_MEDIUM', 'ROCK_WALL_BLUNT', 'ROCK_WALL_FLAT']"
+  },
+  {
+   "name": "PROP_FACE_BUDGET@fbx",
+   "ok": true,
+   "detail": "3 prop meshes within budget (plants/rocks <= 500 faces, tufts <= 120); largest {'rock': 20}"
+  },
+  {
+   "name": "PLANTS_SHARED_MATERIAL@fbx",
+   "ok": false,
+   "detail": "no PLANT_* objects"
+  },
+  {
+   "name": "PLANTS_INSTANCED@fbx",
+   "ok": false,
+   "detail": "no PLANT_* meshes"
+  },
+  {
+   "name": "PROPS_OFF_PLAY@fbx",
+   "ok": true,
+   "detail": "242 scenery meshes (ROCK_/PLANT_/DRESS_/WATER_FALL, walls and cladding included): none above the 2382 play-surface grid points (+ 0 samples at 0.25 m under 0 small DRESS_-type objects), none within 3 m of the pin, plants / loose rocks outside 15.6 m of it (113 checked); overlays allowed: ('DRESS_PATH', 'DRESS_SAND')"
+  },
+  {
+   "name": "NO_PLANT_ON_WATER@fbx",
+   "ok": true,
+   "detail": "no PLANT_ objects on this hole (their presence is LK_REQUIRED / PLANTS_*)"
+  },
+  {
+   "name": "NO_ROCK_STRETCH_2X@fbx",
+   "ok": false,
+   "detail": "168 of 227 instances stretched past 2x: CLIFF_ROCK.000: scale (1.98,2.03,2.67) outside 0.5..2.0 | CLIFF_ROCK.001: scale (1.95,2.88,2.88) outside 0.5..2.0 | CLIFF_ROCK.002: scale (2.28,2.70,2.96) outside 0.5..2.0 | CLIFF_ROCK.003: scale (2.32,2.73,2.79) outside 0.5..2.0 | CLIFF_ROCK.004: scale (2.62,2.65,2.89) outside 0.5..2.0 (+163 more)"
+  },
+  {
+   "name": "PATH_UNDER_BALL@fbx",
+   "ok": true,
+   "detail": "no DRESS_PATH_* / DRESS_SAND_* overlay on this hole (NEEDLE_PATH requires the path on hole 8)"
+  },
+  {
+   "name": "NO_ANIMATION@fbx",
+   "ok": true,
+   "detail": "static: no action, driver, shape key or armature on 267 objects / 10 materials"
+  },
+  {
+   "name": "TRIANGLE_BUDGET@fbx",
+   "ok": true,
+   "detail": "62731 triangles over 259 mesh objects (<= 250000; 58291 in unique meshes); by prefix [('ROCK', 43712), ('WATER', 13185), ('TERRAIN', 2477), ('FAIRWAY', 1630), ('CLIFF', 800), ('BUNKER', 398)]"
+  },
+  {
+   "name": "NO_FOAM_STRIP@fbx",
+   "ok": true,
+   "detail": "no whitewater geometry; 1 merged offshore pieces, longest 8.1 m"
+  },
+  {
+   "name": "CRATER_COLUMNS@fbx",
+   "ok": false,
+   "detail": "114 ROCK_WALL_* are not column clusters (>= 5 hex columns, side area >= 45%): ROCK_WALL_BLUNT.000 1 cols/51% side, ROCK_WALL_BLUNT.001 1 cols/59% side, ROCK_WALL_BLUNT.002 1 cols/60% side, ROCK_WALL_BLUNT.003 1 cols/59% side, ROCK_WALL_BLUNT.004 1 cols/51% side; column clusters cover 0% of the wall ring's 360 deg (need >= 80%)"
+  },
+  {
+   "name": "CRATER_WALL_COVERED@fbx",
+   "ok": true,
+   "detail": "8 of 4946 camera rays (all 3238 wall faces) that hit the wall below PLAY_Z see exposed smooth terrain / vertical grass = 0.2% (need <= 1%); largest connected exposed patch 3 m2 of 4 (need <= 12 m2); by view {aerial 0/62, low 4/2290, oblique 4/2594}; exposed: {'TERRAIN_CRATER/LK_BASALT': 8}"
+  },
+  {
+   "name": "CRATER_LAVA@fbx",
+   "ok": true,
+   "detail": "WATER_LAVA 13185 triangles, LK_LAVA only, z -0.00..0.00 m (<= 3.0), covers the lava ellipse"
+  },
+  {
+   "name": "CRATER_LAVA_LIGHTS@fbx",
+   "ok": true,
+   "detail": "4 LAVA_LIGHT_nn empties above the lava (z 2.2, 2.2, 2.2, 2.2) inside the crater"
+  },
+  {
+   "name": "CRATER_PILLAR@fbx",
+   "ok": true,
+   "detail": "pillar top = GREEN at the pin at play height; sides 648 m2 100% LK_BASALT reaching z -6.0 (lava top 0.00); underside 678 m2 basalt"
+  },
+  {
+   "name": "CRATER_CONE_SMOKE@fbx",
+   "ok": false,
+   "detail": "no DRESS_CONE; 0 DRESS_SMOKE_nn (need >= 2)"
+  },
+  {
+   "name": "CRATER_SHELF_PLANTS@fbx",
+   "ok": false,
+   "detail": "0 PLANT_* on the grass shelf (rough land at play height; need >= 10) of 0 plants"
+  },
+  {
+   "name": "CRATER_TEE_PAD@fbx",
+   "ok": true,
+   "detail": "TEE_BOX 12.8 x 11.0 m, fill 0.99, aspect 1.17, ['LK_GREEN'] (UVs: UV_DENSITY)"
+  }
+ ],
+ "info": [
+  {
+   "name": "SCOPE@blend",
+   "detail": "export set (COURSE/ENVIRONMENT/STRUCTURES/GAMEPLAY + root, as postcard_lib.export_fbx): 267 objects, 259 meshes"
+  },
+  {
+   "name": "PLAY_SURFACE_ALLVERTS@blend",
+   "detail": "every collision mesh's full vertex set equals the baseline (hash)"
+  },
+  {
+   "name": "SCOPE@fbx",
+   "detail": "every object of the re-imported FBX: 267 objects, 259 meshes"
+  },
+  {
+   "name": "PLAY_SURFACE_ALLVERTS@fbx",
+   "detail": "every collision mesh's full vertex set equals the baseline (hash)"
+  }
+ ],
+ "gate_seconds": {
+  "HOLE07_UNTOUCHED": 0.01,
+  "SHADERS_STATIC": 0.0,
+  "PLAY_SURFACE_NAMES@blend": 0.0,
+  "PLAY_SURFACE_GRID@blend": 0.01,
+  "PLAY_SURFACE_TOPS@blend": 0.0,
+  "PLAY_SURFACE_FACES@blend": 0.0,
+  "MARKERS_FROZEN@blend": 0.0,
+  "RESERVED_NAMES@blend": 0.0,
+  "NEW_OBJECT_PREFIXES@blend": 0.0,
+  "ONE_GREEN@blend": 0.02,
+  "NO_MAT_FOAM@blend": 0.0,
+  "NO_LEGACY_MATERIALS@blend": 0.0,
+  "LK_REQUIRED@blend": 0.0,
+  "GROUND_MATERIALS@blend": 0.0,
+  "ROCK_MATERIALS@blend": 0.0,
+  "PROP_MATERIALS@blend": 0.0,
+  "LK_TEXTURED@blend": 0.0,
+  "LOOK_FILES@blend": 0.28,
+  "ALBEDO_DISTINCT@blend": 0.11,
+  "GRASS_ALBEDO_HUE@blend": 0.04,
+  "LAVA_TEXTURE@blend": 0.24,
+  "BASALT_PRISMS@blend": 0.03,
+  "SMOKE_SOFT@blend": 0.0,
+  "UV_DENSITY@blend": 0.06,
+  "SAND_NAMES@blend": 0.0,
+  "ROCK_NOT_ICOSAHEDRON@blend": 0.01,
+  "ROCK_VARIETY@blend": 0.0,
+  "PROP_FACE_BUDGET@blend": 0.0,
+  "PLANTS_SHARED_MATERIAL@blend": 0.0,
+  "PLANTS_INSTANCED@blend": 0.0,
+  "PROPS_OFF_PLAY@blend": 0.04,
+  "NO_PLANT_ON_WATER@blend": 0.0,
+  "NO_ROCK_STRETCH_2X@blend": 0.0,
+  "PATH_UNDER_BALL@blend": 0.0,
+  "NO_ANIMATION@blend": 0.0,
+  "TRIANGLE_BUDGET@blend": 0.0,
+  "NO_FOAM_STRIP@blend": 0.23,
+  "CRATER_COLUMNS@blend": 0.01,
+  "CRATER_WALL_COVERED@blend": 0.05,
+  "CRATER_LAVA@blend": 0.0,
+  "CRATER_LAVA_LIGHTS@blend": 0.0,
+  "CRATER_PILLAR@blend": 0.0,
+  "CRATER_CONE_SMOKE@blend": 0.0,
+  "CRATER_SHELF_PLANTS@blend": 0.0,
+  "CRATER_TEE_PAD@blend": 0.0,
+  "FBX_FILE@fbx": 0.0,
+  "PLAY_SURFACE_NAMES@fbx": 0.0,
+  "PLAY_SURFACE_GRID@fbx": 0.01,
+  "PLAY_SURFACE_TOPS@fbx": 0.0,
+  "PLAY_SURFACE_FACES@fbx": 0.0,
+  "MARKERS_FROZEN@fbx": 0.0,
+  "RESERVED_NAMES@fbx": 0.0,
+  "NEW_OBJECT_PREFIXES@fbx": 0.0,
+  "ONE_GREEN@fbx": 0.03,
+  "NO_MAT_FOAM@fbx": 0.0,
+  "NO_LEGACY_MATERIALS@fbx": 0.0,
+  "LK_REQUIRED@fbx": 0.0,
+  "GROUND_MATERIALS@fbx": 0.0,
+  "ROCK_MATERIALS@fbx": 0.0,
+  "PROP_MATERIALS@fbx": 0.0,
+  "LOOK_FILES@fbx": 0.26,
+  "ALBEDO_DISTINCT@fbx": 0.02,
+  "GRASS_ALBEDO_HUE@fbx": 0.04,
+  "LAVA_TEXTURE@fbx": 0.24,
+  "BASALT_PRISMS@fbx": 0.03,
+  "SMOKE_SOFT@fbx": 0.0,
+  "UV_DENSITY@fbx": 0.06,
+  "SAND_NAMES@fbx": 0.0,
+  "ROCK_NOT_ICOSAHEDRON@fbx": 0.01,
+  "ROCK_VARIETY@fbx": 0.0,
+  "PROP_FACE_BUDGET@fbx": 0.0,
+  "PLANTS_SHARED_MATERIAL@fbx": 0.0,
+  "PLANTS_INSTANCED@fbx": 0.0,
+  "PROPS_OFF_PLAY@fbx": 0.03,
+  "NO_PLANT_ON_WATER@fbx": 0.0,
+  "NO_ROCK_STRETCH_2X@fbx": 0.0,
+  "PATH_UNDER_BALL@fbx": 0.0,
+  "NO_ANIMATION@fbx": 0.0,
+  "TRIANGLE_BUDGET@fbx": 0.0,
+  "NO_FOAM_STRIP@fbx": 0.22,
+  "CRATER_COLUMNS@fbx": 0.01,
+  "CRATER_WALL_COVERED@fbx": 0.05,
+  "CRATER_LAVA@fbx": 0.0,
+  "CRATER_LAVA_LIGHTS@fbx": 0.0,
+  "CRATER_PILLAR@fbx": 0.0,
+  "CRATER_CONE_SMOKE@fbx": 0.0,
+  "CRATER_SHELF_PLANTS@fbx": 0.0,
+  "CRATER_TEE_PAD@fbx": 0.0
+ }
+}

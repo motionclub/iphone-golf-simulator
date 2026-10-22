@@ -1,0 +1,49 @@
+{
+ "deleted_old_tris": 5998,
+ "boundary_loops_after_delete": [
+  [
+   24,
+   [
+    -0.1083,
+    0.0003,
+    0.1573
+   ]
+  ],
+  [
+   22,
+   [
+    0.1079,
+    0.0017,
+    0.1561
+   ]
+  ]
+ ],
+ "foot_1": {
+  "tris_after_cut": 322,
+  "new_loop": 320,
+  "old_ring": 20,
+  "bridge_faces": 358
+ },
+ "foot_-1": {
+  "tris_after_cut": 323,
+  "new_loop": 323,
+  "old_ring": 24,
+  "bridge_faces": 667
+ },
+ "hand_1": {
+  "tris_after_cut": 274,
+  "new_loop": 204,
+  "old_ring": 0
+ },
+ "hand_-1": {
+  "tris_after_cut": 279,
+  "new_loop": 209,
+  "old_ring": 0
+ },
+ "tris_total": 40720,
+ "verts_total": 20551,
+ "new_verts": 1109,
+ "baseline_verts_removed": 3002,
+ "removed_verts_zone_ok": true,
+ "removed_outside_zone": 0
+}

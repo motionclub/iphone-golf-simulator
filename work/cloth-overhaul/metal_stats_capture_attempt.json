@@ -1,0 +1,21 @@
+{
+  "basis": "Actual Unity CompileVariant MSL before/after captured and profiled by Xcode on Apple M5; probe supplies generic uniforms/textures and a fullscreen producer. Used for compiler inspection only, not game rendering/performance or iPhone ALU claims.",
+  "device": "Apple M5",
+  "os": "macOS26.6.2",
+  "trace": "capture_helper/unity_compiled_variants.gputrace",
+  "compiled_variant_hashes": {
+    "before_plain_<ShaderData>k__BackingField.msl": "1f73f2c9ed1edb0980ec5ed7a0d2d25cd9b6d0cd573b421922ca0fe5eed5ae3e",
+    "after_court_<ShaderData>k__BackingField.msl": "7455f09f6a71310e0db25f59080a76285e30a4990792d116aa239e0199f65fdb",
+    "after_plain_<ShaderData>k__BackingField.msl": "6524c4845f6730c1d8409f178df1528283f0b0e0bc6a02fa22d36062b4b7c27c",
+    "before_court_<ShaderData>k__BackingField.msl": "2e626b97efc90aef0c7b87c7e0e24451e90d97641941b955656f2b6dfab63932"
+  },
+  "registers_from_xcode_shader_table": {
+    "before_plain": 100,
+    "after_plain": 112,
+    "before_court": 140,
+    "after_court": 130
+  },
+  "spilled_bytes_all_variants": 0,
+  "native_ALU_count": null,
+  "limitation": "Xcode UI requests timed out before exact arithmetic instruction counts could be extracted. Do not replace strict ALU gate with register counts or source/IR estimates."
+}

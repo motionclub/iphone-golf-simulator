@@ -1,0 +1,19 @@
+{
+  "Unity/Assets/Scripts/Tennis/HeroSkinNormals.cs": {
+    "baseline_sha256": "1149a989dcc452d925b22bc7c849517f711b2d9201fa2fe366aee5cfedd76cb8",
+    "candidate_sha256": "a61b2dfa4d181bf691a99aa15176e7b91b78ba53b7d320c31b4f836e5914bbcc"
+  },
+  "Unity/Assets/Editor/VisualOverhaulCharacterCapture.cs": {
+    "baseline_sha256": "e086de7d4663ed533b3404e22c65f3403adf8e660225d745f700b538e82a837a",
+    "candidate_sha256": "993535486f04f51c3fcef2e4a88f3be4391098acb3312bb6eb6e958791e1f6e5"
+  },
+  "status": "SOURCE STAGED / UNITY PENDING",
+  "candidate_count": 1,
+  "assets_written": false,
+  "source_meshes_written": false,
+  "geometry_weights_rig_uv_blendshapes_unchanged_by_normal_candidate": true,
+  "skin_eyes_blink_shaders_unchanged": true,
+  "normal_radius_metres": 0.008,
+  "normal_angle_cap_degrees": 20,
+  "candidate_flag": "VISUAL_CHARACTER_NORMAL_AREA=1"
+}

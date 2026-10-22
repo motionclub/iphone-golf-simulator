@@ -1,0 +1,9 @@
+# Phase3 binary result: FAIL
+
+Final builder 16/16; required verifier 96/96, failures []; original holeQA 27/27; exact scoring PASS (noepsilon); independent ruin13/13 eachformat and unbroken cuboids 0/394 blend, 0/394 FBX.248868tri (<250000),1417 meshes. True masonry18→7 renderers,381 whole stones/5020polygons preserved; native tee drawCalls/SetPass counter publication failed (all three samples zero), so costs remain unverified/FAIL.
+
+TWO_INDEPENDENT_ISLANDS FAIL: frozen one connected415-pointC-shaped top loop cannot become two independent scoring islands. SPLIT_CLIFF_ISLANDS FAIL: topology fails and actual>=80% cliff+surf mask proof remains unmeasured. Fresh aerial/side-by-side PASSexists and was viewed. Actual ruin0px in both address views (<64px required), so gameplay landmark framing FAIL. Tee counter publication FAIL (rawzero samples do not count as0drawcalls). Actual outer cliff straight-run diagnostic FAIL: 14.844193m versus4m. AllP0 ranked differences have explicit evidence/remainingconstraints inranked_rescore.json.
+
+Next: root completes the queued actual outline masks and valid tee counter publication against these frozen binary hashes, then proceeds inphase order. The actual side-by-side was viewed and the recognition answer is NO; source geometry counts cannot substitute for performance. No missing image, skipped gate or source mesh count is aPASS.
+
+Later actual aerial outlineattempt:unity_outline/hole09_aerial_staged.split_outline.json. FAIL; globalwaterflowrepeatdrift914711px>0invalidatescontrolledmeasurement. Rawdiagnosticcliffadjacency70/3121(2.2429%)ridge and60/3240(1.8519%)fairway, notvalidatedpercentagesbecausecontrolfailed. Unclassifiedfrozenedges0. Strict2independentislandsFAILstillfrozenoneC. ActualPlay-modecontrolledproofdeferredtoP5with0pixelrepeatthresholdunchanged.

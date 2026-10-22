@@ -1,0 +1,171 @@
+{
+  "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/lib/p1_fixture.fbx",
+  "axes": "Blender xyz -> Unity xzy, FBX forward -Z/up Y; inspect imported bounds before captures",
+  "cameras_blender": [
+    {
+      "name": "basalt_az0",
+      "location": [
+        0.0,
+        -38.0,
+        12
+      ],
+      "target": [
+        0,
+        0,
+        8
+      ],
+      "lens_mm": 48,
+      "category": "basalt"
+    },
+    {
+      "name": "basalt_az35",
+      "location": [
+        21.795904581339748,
+        -31.127777682981687,
+        12
+      ],
+      "target": [
+        0,
+        0,
+        8
+      ],
+      "lens_mm": 48,
+      "category": "basalt"
+    },
+    {
+      "name": "basalt_az-35",
+      "location": [
+        -21.795904581339748,
+        -31.127777682981687,
+        12
+      ],
+      "target": [
+        0,
+        0,
+        8
+      ],
+      "lens_mm": 48,
+      "category": "basalt"
+    },
+    {
+      "name": "needle_az0",
+      "location": [
+        -34.0,
+        -43.0,
+        15
+      ],
+      "target": [
+        -34,
+        0,
+        8
+      ],
+      "lens_mm": 48,
+      "category": "needle"
+    },
+    {
+      "name": "needle_az120",
+      "location": [
+        3.239092362730865,
+        21.499999999999993,
+        15
+      ],
+      "target": [
+        -34,
+        0,
+        8
+      ],
+      "lens_mm": 48,
+      "category": "needle"
+    },
+    {
+      "name": "needle_az240",
+      "location": [
+        -71.23909236273084,
+        21.500000000000018,
+        15
+      ],
+      "target": [
+        -34,
+        0,
+        8
+      ],
+      "lens_mm": 48,
+      "category": "needle"
+    },
+    {
+      "name": "cliff_az0",
+      "location": [
+        34.0,
+        -47.015170669555665,
+        24.97770051956177
+      ],
+      "target": [
+        34,
+        0,
+        8
+      ],
+      "lens_mm": 48,
+      "category": "cliff"
+    },
+    {
+      "name": "cliff_az120",
+      "location": [
+        74.71633216309624,
+        23.507585334777826,
+        24.97770051956177
+      ],
+      "target": [
+        34,
+        0,
+        8
+      ],
+      "lens_mm": 48,
+      "category": "cliff"
+    },
+    {
+      "name": "cliff_az240",
+      "location": [
+        -6.716332163096233,
+        23.507585334777854,
+        24.97770051956177
+      ],
+      "target": [
+        34,
+        0,
+        8
+      ],
+      "lens_mm": 48,
+      "category": "cliff"
+    },
+    {
+      "name": "fairway_lawn",
+      "location": [
+        -18,
+        -42,
+        32
+      ],
+      "target": [
+        -18,
+        -30,
+        0
+      ],
+      "lens_mm": 48,
+      "category": "mow"
+    },
+    {
+      "name": "green_lawn",
+      "location": [
+        18,
+        -42,
+        32
+      ],
+      "target": [
+        18,
+        -30,
+        0
+      ],
+      "lens_mm": 48,
+      "category": "mow"
+    }
+  ]
+}

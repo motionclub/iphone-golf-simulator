@@ -1,0 +1,170 @@
+{
+ "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/classic-tennis-racket/export/Racket_Classic.blend",
+ "blend_sha256": "53e83714856a14c1533653b3fce3e164dfb17e9c58c995cbdb325d86eec7e8ba",
+ "fbx_visual": "export/Racket_Classic.fbx",
+ "fbx_visual_sha256": "81a2eee4eb1051cb7feefd816eb8f35628a1e941b1e1aa52285c1cc1a988e297",
+ "fbx_visual_bytes": 253468,
+ "fbx_collider": "export/Racket_Classic_Collider.fbx",
+ "fbx_collider_sha256": "34aea373349a094d8e509949596540aa9e4e81b0179cabcecd4c3283326563ea",
+ "source_tris": {
+  "Racket_Classic": 6000,
+  "StringBed": 1976,
+  "Grip": 2304,
+  "ButtCap": 480,
+  "Collider_Racket": 120
+ },
+ "materials": [
+  "Black_Grip",
+  "White_Frame",
+  "White_Strings"
+ ],
+ "export_flags": {
+  "use_selection": true,
+  "object_types": [
+   "MESH"
+  ],
+  "global_scale": 1,
+  "apply_unit_scale": true,
+  "apply_scale_options": "FBX_SCALE_ALL",
+  "axis_forward": "-Z",
+  "axis_up": "Y",
+  "use_mesh_modifiers": true,
+  "mesh_smooth_type": "OFF",
+  "add_leaf_bones": false,
+  "bake_anim": false,
+  "path_mode": "COPY"
+ },
+ "reimport_visual": {
+  "objects": [
+   "ButtCap",
+   "Grip",
+   "Racket_Classic",
+   "StringBed"
+  ],
+  "parents": {
+   "ButtCap": "Racket_Classic",
+   "Grip": "Racket_Classic",
+   "StringBed": "Racket_Classic",
+   "Racket_Classic": null
+  },
+  "per_object": {
+   "Racket_Classic": {
+    "verts": 2998,
+    "tris": 6000,
+    "max_err_mm": 9.406358003616333e-05,
+    "materials": [
+     "White_Frame"
+    ],
+    "dims_m": [
+     0.2848127782344818,
+     0.48943642509731244,
+     0.039678662279335704
+    ]
+   },
+   "StringBed": {
+    "verts": 1368,
+    "tris": 1976,
+    "max_err_mm": 9.057112038135529e-05,
+    "materials": [
+     "White_Strings"
+    ],
+    "dims_m": [
+     0.24340593814849854,
+     0.3063447926378282,
+     0.006556971415068962
+    ]
+   },
+   "Grip": {
+    "verts": 1154,
+    "tris": 2304,
+    "max_err_mm": 1.6763806343078613e-05,
+    "materials": [
+     "Black_Grip"
+    ],
+    "dims_m": [
+     0.03519999980926514,
+     0.19800000163159973,
+     0.035200000216566454
+    ]
+   },
+   "ButtCap": {
+    "verts": 242,
+    "tris": 480,
+    "max_err_mm": 1.816079020500183e-05,
+    "materials": [
+     "Black_Grip"
+    ],
+    "dims_m": [
+     0.03799999877810478,
+     0.013800007619898289,
+     0.03799999885956529
+    ]
+   }
+  },
+  "bbox_min": [
+   -0.1424063891172409,
+   -0.11100000354848043,
+   -0.019872420870257826
+  ],
+  "bbox_max": [
+   0.1424063891172409,
+   0.5769764187466124,
+   0.019806241409077878
+  ],
+  "extent_m": [
+   0.2848127782344818,
+   0.6879764222950928,
+   0.039678662279335704
+  ],
+  "scale_of_roots": {
+   "Racket_Classic": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  }
+ },
+ "reimport_collider": {
+  "objects": [
+   "Collider_Racket"
+  ],
+  "parents": {
+   "Collider_Racket": null
+  },
+  "per_object": {
+   "Collider_Racket": {
+    "verts": 64,
+    "tris": 120,
+    "max_err_mm": 9.313225746154785e-05,
+    "materials": [],
+    "dims_m": [
+     0.2845052480697632,
+     0.6880000280897208,
+     0.038000039345356215
+    ]
+   }
+  },
+  "bbox_min": [
+   -0.1422526240348816,
+   -0.11100000338555971,
+   -0.019000023827156102
+  ],
+  "bbox_max": [
+   0.1422526240348816,
+   0.5770000247041611,
+   0.019000015518200113
+  ],
+  "extent_m": [
+   0.2845052480697632,
+   0.6880000280897208,
+   0.038000039345356215
+  ],
+  "scale_of_roots": {
+   "Collider_Racket": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  }
+ }
+}

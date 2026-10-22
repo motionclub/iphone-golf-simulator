@@ -1,0 +1,14 @@
+{
+  "TennisCharacter.shader": {
+    "target": "Unity/Assets/Resources/Tennis/Shaders/TennisCharacter.shader",
+    "baseline_sha256": "fd0613a528743c3e66c4d1b7f3ca42932d4a41bd676667c6143bcf0027a11ebf",
+    "candidate_sha256": "a75b7e43e50f0aea6075bd9df5005504f88f4e817a89a7306cd1cbcc0a5f0ddb",
+    "production_matches_baseline": true
+  },
+  "HeroLighting.hlsl": {
+    "target": "Unity/Assets/Resources/Tennis/Shaders/HeroLighting.hlsl",
+    "baseline_sha256": "a1823f9f6b0234e26ee96f09b92e35dea66c79f50508c2e0a9dabe2547b759af",
+    "candidate_sha256": "64caf46b4fdc813f79b7935a5cae7a956a7e0616fc2601f48879222506585f5a",
+    "production_matches_baseline": true
+  }
+}

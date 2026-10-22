@@ -1,0 +1,21 @@
+--- a/Unity/Assets/Scripts/Tennis/TennisResortVista.cs
++++ b/Unity/Assets/Scripts/Tennis/TennisResortVista.cs
+@@ -34,7 +34,9 @@
+             if(!prefab||!shader)return false;
+             var horizon=Object.Instantiate(prefab,root);
+             horizon.name="Authored layered resort horizon";
+-            horizon.transform.SetPositionAndRotation(Vector3.zero,prefab.transform.rotation);
++            // The coast uses the same Blender -Z/Y export: Unity imports its
++            // forward direction reversed. Apply the same yaw to restore world +Z.
++            horizon.transform.SetPositionAndRotation(Vector3.zero,Quaternion.Euler(0,180,0)*prefab.transform.rotation);
+             var material=new Material(shader){name="Resort horizon forest and limestone",enableInstancing=true};
+             horizon.AddComponent<TennisHorizonMaterialOwner>().Material=material;
+             material.SetColor("_BaseColor",Color.white);
+@@ -46,6 +48,7 @@
+                 renderer.sharedMaterial=material;
+                 renderer.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
+                 renderer.receiveShadows=false;
++                Debug.Log($"[TennisHorizon2] renderer={renderer.name} active={renderer.gameObject.activeInHierarchy} enabled={renderer.enabled} layer={renderer.gameObject.layer} boundsMin={renderer.bounds.min:F2} boundsMax={renderer.bounds.max:F2} scale={renderer.transform.lossyScale:F3} shaderSupported={shader.isSupported}");
+             }
+             Debug.Log("[TennisHorizon2] Render-only layered horizon; original court, light/fog and physics retained");
+             return true;

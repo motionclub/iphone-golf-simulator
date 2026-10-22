@@ -1,0 +1,164 @@
+{
+  "Male": {
+    "baseOriginalSeam": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-refinement/Male_OriginalSeamPilot.blend",
+    "bodyVertices": 33472,
+    "shapeNames": [
+      "Hero_Blink_Half",
+      "Hero_Blink"
+    ],
+    "parameterWeights": {
+      "0": [
+        0,
+        0
+      ],
+      "50": [
+        100,
+        0
+      ],
+      "100": [
+        0,
+        100
+      ]
+    },
+    "runtimePiecewise": "half=max(0,1-abs(2*blink-1)); full=max(0,2*blink-1)",
+    "rings": [
+      {
+        "vertices": 46,
+        "centre": [
+          -0.037900518625974655,
+          -0.11748678982257843,
+          1.5841130018234253
+        ],
+        "leftCorner": [
+          -0.05445696413516998,
+          -0.11822831630706787,
+          1.5837531089782715
+        ],
+        "rightCorner": [
+          -0.020850226283073425,
+          -0.11910706758499146,
+          1.5822192430496216
+        ]
+      },
+      {
+        "vertices": 46,
+        "centre": [
+          0.03802912309765816,
+          -0.11831699311733246,
+          1.5839481353759766
+        ],
+        "leftCorner": [
+          0.020866291597485542,
+          -0.11882877349853516,
+          1.5822147130966187
+        ],
+        "rightCorner": [
+          0.055840395390987396,
+          -0.11211925745010376,
+          1.5834518671035767
+        ]
+      }
+    ],
+    "stages": [
+      {
+        "progress": 0.5,
+        "changedVertices": 998,
+        "maxDeltaMetres": 0.007175956598362952,
+        "maxEyeFrontAdvanceMetres": 0.006
+      },
+      {
+        "progress": 1,
+        "changedVertices": 998,
+        "maxDeltaMetres": 0.023993107814509203,
+        "maxEyeFrontAdvanceMetres": 0.006
+      }
+    ],
+    "openEyeFeatureCoordinatesChanged": 0,
+    "eyeRecessionMetres": {
+      "half": 0.0007,
+      "full": 0.006
+    },
+    "additionalClosureRenderer": false
+  },
+  "Female": {
+    "baseOriginalSeam": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/original-refinement/Female_OriginalSeamPilot.blend",
+    "bodyVertices": 22891,
+    "shapeNames": [
+      "Hero_Blink_Half",
+      "Hero_Blink"
+    ],
+    "parameterWeights": {
+      "0": [
+        0,
+        0
+      ],
+      "50": [
+        100,
+        0
+      ],
+      "100": [
+        0,
+        100
+      ]
+    },
+    "runtimePiecewise": "half=max(0,1-abs(2*blink-1)); full=max(0,2*blink-1)",
+    "rings": [
+      {
+        "vertices": 128,
+        "centre": [
+          -0.04908743500709534,
+          -0.11022268235683441,
+          1.5543726682662964
+        ],
+        "leftCorner": [
+          -0.08043254911899567,
+          -0.0851610079407692,
+          1.5606985092163086
+        ],
+        "rightCorner": [
+          -0.020244641229510307,
+          -0.11984395980834961,
+          1.5488697290420532
+        ]
+      },
+      {
+        "vertices": 128,
+        "centre": [
+          0.04908677935600281,
+          -0.11015935987234116,
+          1.554373025894165
+        ],
+        "leftCorner": [
+          0.020247867330908775,
+          -0.1198124885559082,
+          1.5484334230422974
+        ],
+        "rightCorner": [
+          0.08051398396492004,
+          -0.08489960432052612,
+          1.5600894689559937
+        ]
+      }
+    ],
+    "stages": [
+      {
+        "progress": 0.5,
+        "changedVertices": 2154,
+        "maxDeltaMetres": 0.009214282207790062,
+        "maxEyeFrontAdvanceMetres": 0.0015556578636169438
+      },
+      {
+        "progress": 1,
+        "changedVertices": 2157,
+        "maxDeltaMetres": 0.018430529412378806,
+        "maxEyeFrontAdvanceMetres": 0.0020913844108581547
+      }
+    ],
+    "openEyeFeatureCoordinatesChanged": 0,
+    "eyeRecessionMetres": {
+      "half": 0.0007,
+      "full": 0.006
+    },
+    "additionalClosureRenderer": false
+  }
+}

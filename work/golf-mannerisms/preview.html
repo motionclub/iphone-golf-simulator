@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Golf mannerisms preview</title>
+<style>
+:root{--bg:#fff;--fg:#1a1a18;--mut:#6b6a64;--line:#d9d7cf;--acc:#185FA5;--card:#f6f5f0}
+@media (prefers-color-scheme:dark){:root{--bg:#1c1c1a;--fg:#f1efe8;--mut:#a9a79e;--line:#3d3d3a;--acc:#85B7EB;--card:#262624}}
+body{margin:0;padding:16px;background:var(--bg);color:var(--fg);font:15px/1.5 -apple-system,system-ui,sans-serif}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
+button{background:transparent;color:var(--fg);border:.5px solid var(--mut);border-radius:8px;padding:6px 12px;font:inherit;cursor:pointer}
+button.on{background:var(--acc);color:var(--bg);border-color:var(--acc)}
+svg{width:100%;height:auto;background:var(--card);border-radius:12px;display:block}
+input[type=range]{flex:1;min-width:200px}
+#cap{font-size:16px;font-weight:500;min-height:24px;margin:6px 0}
+#beats{font-size:13px;color:var(--mut)}
+#beats span{display:inline-block;margin:2px 10px 2px 0;cursor:pointer}
+#beats span.cur{color:var(--acc);font-weight:500}
+</style></head><body>
+<div class="row" id="scenes"></div>
+<div class="row" id="variants"></div>
+<svg id="s" viewBox="0 0 680 250" role="img" aria-label="Stick figure preview of golf mannerisms"></svg>
+<div class="row"><button id="play">Pause</button><input id="sl" type="range" min="0" max="1000" value="0"><span id="tl" style="min-width:70px;font-size:13px;color:var(--mut)"></span></div>
+<div id="cap"></div><div id="beats"></div>
+<script>
+var G=205,L={th:38,sh:38,to:50,ua:34,fa:32};
+var R=Math.PI/180,S=function(a){return Math.sin(a*R)},C=function(a){return Math.cos(a*R)};
+var KEYS=['x','lean','head','w','la0','la1','ra0','ra1','ll0','ll1','rl0','rl1','club','gc','shake'];
+var IDLE={x:110,lean:0,head:0,w:0,la0:0,la1:0,ra0:0,ra1:0,ll0:3,ll1:0,rl0:-3,rl1:0,club:0,gc:0,shake:0};
+function build(rows){var out=[],prev=Object.assign({},IDLE);rows.forEach(function(r){var f=Object.assign({},prev,r);out.push(f);prev=f});return out}
+
+var A=build([
+{t:0,label:'Finish, club over the shoulder',x:110,lean:-8,head:-12,ll0:8,ll1:0,rl0:-14,rl1:14,la0:110,la1:130,ra0:112,ra1:128,club:-125},
+{t:1.1,label:'Hold the finish, eyes on the ball',head:-20},
+{t:1.8,label:'Arms relax, club drops low',lean:0,head:-16,la0:26,la1:18,ra0:30,ra1:22,club:14,gc:1},
+{t:2.4,label:'Step 1, small and slow',x:128,w:1,lean:3,la0:14,la1:10,ra0:18,ra1:12,club:8},
+{t:3.1,label:'Step 2',x:150,head:-14},
+{t:3.8,label:'Step 3, slowing down',x:166,head:-8},
+{t:4.4,label:'Stop. Tiny nod at the result',x:172,w:0,ll0:5,rl0:-5,lean:2,head:6},
+{t:5.4,label:'Settle',head:4}
+]);
+
+function B(good){
+ var base={x:190,lean:35,head:30,ll0:12,ll1:18,rl0:-6,rl1:12,la0:8,la1:4,ra0:10,ra1:4,club:8,gc:1};
+ var rows=[
+ {t:0,label:'Address',x:190,lean:35,head:30,ll0:12,ll1:18,rl0:-6,rl1:12,la0:8,la1:4,ra0:10,ra1:4,club:8,gc:1},
+ {t:.5,label:'Stroke',club:-12,la0:2,ra0:4},
+ {t:.8,club:22,la0:14,ra0:16},
+ {t:1.2,label:'Watch it roll',lean:30,head:18,club:14,la0:10,ra0:12},
+ {t:2.1,label:'Ball drops',lean:22,head:10}];
+ if(good){rows.push({t:2.4,label:'Small fist pump',lean:14,head:-4,ra0:58,ra1:148});
+  rows.push({t:2.6,ra0:22,ra1:142,lean:18});
+  rows.push({t:2.9,label:'Back to neutral',ra0:10,ra1:20,lean:10,head:6});}
+ else{rows.push({t:2.3,label:'Small head shake, shoulders drop',lean:20,head:20,ra0:6,ra1:6,shake:1});
+  rows.push({t:3.1,shake:1,lean:20});
+  rows.push({t:3.4,shake:0,label:'Back to neutral',lean:12,head:12});}
+ rows.push({t:3.8,label:'Walk to the cup',w:1,x:200,lean:8,head:12,ra0:6,ra1:6,la0:10,la1:6,club:10,ll0:3,ll1:0,rl0:-3,rl1:0});
+ rows.push({t:5.6,x:352,lean:12,head:20});
+ rows.push({t:6.2,label:'Bend, trail leg counterbalances',x:371,w:0,lean:78,head:22,ll0:55,ll1:80,rl0:-35,rl1:40,la0:-6,la1:4,ra0:2,ra1:3,club:-8});
+ rows.push({t:6.6,label:'Pick the ball out of the cup'});
+ rows.push({t:7.4,label:'Rise with the ball',x:362,lean:24,head:18,ll0:20,ll1:40,rl0:-6,rl1:10,ra0:40,ra1:85,club:6});
+ rows.push({t:8.2,label:'Stand, quick look at the ball',lean:4,head:20,ll0:4,ll1:2,rl0:-4,rl1:2,ra0:55,ra1:75});
+ rows.push({t:9.2,label:'Done',head:12});
+ return build(rows);
+}
+var SC={golf:{name:'After the swing: small walk',k:A,ch:'r',gap:8,hole:false},
+ putt:{name:'Hole-out: walk and pick up the ball',k:B(true),ch:'l',gap:0,hole:true}};
+var cur='golf',variant='good',T=0,playing=true,last=null;
+
+function ease(u){return u*u*(3-2*u)}
+function pose(k,t){
+ var i=0;while(i<k.length-2&&t>=k[i+1].t)i++;
+ var a=k[i],b=k[i+1],u=Math.max(0,Math.min(1,(t-a.t)/(b.t-a.t)));u=ease(u);
+ var p={};KEYS.forEach(function(n){p[n]=a[n]+(b[n]-a[n])*u});
+ p.label=a.label;return p}
+function legs(p){
+ var ph=p.x*.11,w=p.w;
+ function mix(kh,kk,ch,ck){return[kh+(ch-kh)*w,kk+(ck-kk)*w]}
+ var l=mix(p.ll0,p.ll1,24*Math.sin(ph),38*Math.max(0,Math.cos(ph)));
+ var r=mix(p.rl0,p.rl1,24*Math.sin(ph+Math.PI),38*Math.max(0,Math.cos(ph+Math.PI)));
+ return{l:l,r:r}}
+function fk(p){
+ var lg=legs(p),o={};
+ function ext(h,k){return L.th*C(h)+L.sh*C(h-k)}
+ var hy=Math.max(ext(lg.l[0],lg.l[1]),ext(lg.r[0],lg.r[1]));
+ o.hip=[p.x,G-hy];
+ function leg(h){var kn=[o.hip[0]+L.th*S(h[0]),o.hip[1]+L.th*C(h[0])];
+  var an=[kn[0]+L.sh*S(h[0]-h[1]),kn[1]+L.sh*C(h[0]-h[1])];return[o.hip,kn,an]}
+ o.L=leg(lg.l);o.R=leg(lg.r);
+ o.sh=[o.hip[0]+L.to*S(p.lean),o.hip[1]-L.to*C(p.lean)];
+ var ha=p.lean*.3+p.head;
+ o.hd=[o.sh[0]+16*S(ha)+p.shake*6*Math.sin(T*16),o.sh[1]-16*C(ha)];
+ function arm(a0,a1){var e=[o.sh[0]+L.ua*S(a0),o.sh[1]+L.ua*C(a0)];
+  var h=[e[0]+L.fa*S(a0+a1),e[1]+L.fa*C(a0+a1)];return[o.sh,e,h]}
+ o.la=arm(p.la0,p.la1);o.ra=arm(p.ra0,p.ra1);
+ return o}
+function ln(a,b,sw,c,op){return '<line x1="'+a[0].toFixed(1)+'" y1="'+a[1].toFixed(1)+'" x2="'+b[0].toFixed(1)+'" y2="'+b[1].toFixed(1)+'" stroke="'+c+'" stroke-width="'+sw+'" stroke-linecap="round" opacity="'+(op||1)+'"/>'}
+function limb(pts,sw,c,op){return ln(pts[0],pts[1],sw,c,op)+ln(pts[1],pts[2],sw,c,op)}
+function ballA(t){var s=Math.min(1,t/3.8),x,y;
+ if(t<3.8){x=150+470*s;y=G-4-170*Math.sin(Math.PI*s)}else{var r=Math.min(1,(t-3.8)/1.2);x=620+22*ease(r);y=G-4}
+ return[x,y]}
+function render(){
+ var sc=SC[cur],k=sc.k,p=pose(k,T),o=fk(p),F='var(--fg)',M='var(--mut)',s='';
+ s+='<line x1="0" y1="'+G+'" x2="680" y2="'+G+'" stroke="var(--line)" stroke-width="2"/>';
+ if(sc.hole){s+='<ellipse cx="420" cy="'+G+'" rx="10" ry="3" fill="var(--fg)"/>'}
+ if(cur==='golf'){
+  var pts=[];for(var i=0;i<=24;i++){var q=i/24;pts.push((150+470*q).toFixed(0)+','+(G-4-170*Math.sin(Math.PI*q)).toFixed(0))}
+  s+='<polyline points="'+pts.join(' ')+'" fill="none" stroke="var(--line)" stroke-dasharray="3 5" stroke-width="1.5"/>';
+  s+='<text x="560" y="'+(G+20)+'" font-size="12" fill="'+M+'">landing</text>';
+ }
+ var lh=o.la[2],rh=o.ra[2],ch=sc.ch==='l'?lh:rh,cl,c=p.club;
+ if(p.gc>0.01){var gl=(G-ch[1])/Math.max(.3,C(c))-sc.gap;cl=gl*p.gc+88*(1-p.gc)}else cl=88;
+ if(cur==='putt'&&p.gc<.5)cl=60;
+ var tip=[ch[0]+cl*S(c),ch[1]+cl*C(c)];
+ s+=limb(o.L,6,F,.6)+ln(o.L[2],[o.L[2][0]+9,o.L[2][1]],5,F,.6);
+ s+=limb(o.la,5,F,.55);
+ s+=ln(o.hip,o.sh,7,F)+ln(o.sh,o.hd,3,F);
+ s+='<circle cx="'+o.hd[0].toFixed(1)+'" cy="'+o.hd[1].toFixed(1)+'" r="11" fill="var(--card)" stroke="'+F+'" stroke-width="3"/>';
+ s+=limb(o.R,6,F)+ln(o.R[2],[o.R[2][0]+9,o.R[2][1]],5,F);
+ s+=ln(ch,tip,3,'var(--acc)');
+ s+=limb(o.ra,5,F);
+ s+='<circle cx="'+rh[0].toFixed(1)+'" cy="'+rh[1].toFixed(1)+'" r="3.8" fill="'+F+'"/>';
+ var b=null;
+ if(cur==='golf'){b=ballA(T)}
+ else{
+  if(T<.7)b=[250,G-4];
+  else if(T<2.1){var r=ease((T-.7)/1.4);b=[250+170*r,G-4]}
+  else if(T<2.3){b=[420,G-4+(T-2.1)/.2*14]}
+  if(T>=6.6&&T<9.4)b=[rh[0],rh[1]-1];
+  else if(T>=6.2&&T<6.6)b=[420,G-2];
+ }
+ if(b)s+='<circle cx="'+b[0].toFixed(1)+'" cy="'+b[1].toFixed(1)+'" r="4.5" fill="#fff" stroke="'+F+'" stroke-width="1.5"/>';
+ document.getElementById('s').innerHTML=s;
+ var dur=k[k.length-1].t;
+ document.getElementById('cap').textContent=p.label||'';
+ document.getElementById('tl').textContent=T.toFixed(1)+' / '+dur.toFixed(1)+' s';
+ var h='',seen={};k.forEach(function(f,i){if(f.label&&!seen[f.label]){seen[f.label]=1;var on=(f.label===p.label);h+='<span class="'+(on?'cur':'')+'" data-t="'+f.t+'">'+f.label+'</span>'}});
+ document.getElementById('beats').innerHTML=h;
+}
+function dur(){var k=SC[cur].k;return k[k.length-1].t}
+function ui(){
+ var h='';for(var n in SC)h+='<button data-s="'+n+'" class="'+(n===cur?'on':'')+'">'+SC[n].name+'</button>';
+ document.getElementById('scenes').innerHTML=h;
+ document.getElementById('variants').innerHTML=cur==='putt'?
+  '<span style="color:var(--mut);font-size:13px">Reaction on the way in:</span><button data-v="good" class="'+(variant==='good'?'on':'')+'">Par or better: fist pump</button><button data-v="bad" class="'+(variant==='bad'?'on':'')+'">Bogey or worse: head shake</button>':'';
+}
+document.addEventListener('click',function(e){var t=e.target;
+ if(t.dataset.s){cur=t.dataset.s;T=0;ui()}
+ else if(t.dataset.v){variant=t.dataset.v;SC.putt.k=B(variant==='good');T=0;ui()}
+ else if(t.dataset.t){T=parseFloat(t.dataset.t)+.01;playing=false;document.getElementById('play').textContent='Play'}
+ render()});
+document.getElementById('play').onclick=function(){playing=!playing;this.textContent=playing?'Pause':'Play';if(T>=dur()-.05)T=0};
+document.getElementById('sl').oninput=function(){T=this.value/1000*dur();playing=false;document.getElementById('play').textContent='Play';render()};
+function tick(ts){if(last===null)last=ts;var dt=(ts-last)/1000;last=ts;
+ if(playing){T+=dt;if(T>=dur()+.8)T=0;if(T>dur())T=dur();document.getElementById('sl').value=Math.round(T/dur()*1000)}
+ render();requestAnimationFrame(tick)}
+ui();requestAnimationFrame(tick);
+window.__setT=function(t,sc,v){if(sc)cur=sc;if(v){variant=v;SC.putt.k=B(v==='good')}playing=false;T=t;render()};
+</script></body></html>

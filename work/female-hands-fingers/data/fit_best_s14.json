@@ -1,0 +1,106 @@
+{
+ "params": {
+  "shear_L": 0.1039913428750684,
+  "shear_y": 0.03243763339094363,
+  "curl": 0.8811311042093516,
+  "B_gain": 0.9832956178832394,
+  "A_gain": 0.8843164852724614,
+  "NC_gain": 0.3497291415009912,
+  "span": 0.04,
+  "thumb_r_scale": 0.947957828572287,
+  "fing_scale": 0.9650856952037498,
+  "splay_scale": 0.9156436228244668,
+  "thumb_a_shift": -0.001740561732972039,
+  "thumb_n_shift": 0.0021818388205692794,
+  "thumb_len_scale": 1.0434478168497778,
+  "mid_tip": 0.15340596699284617,
+  "psi_deg": 0.0,
+  "out_deg": 3.8,
+  "lean_deg": 0.0
+ },
+ "cost": 1849.2081401818327,
+ "result": {
+  "total": 1773.5,
+  "thumb_front_over_mm": 0.0,
+  "lm_err_mm": 6.65,
+  "tip_y_mm": [
+   -61.6,
+   -2.9
+  ],
+  "band_back_front_mm": [
+   11.3,
+   -65.6
+  ],
+  "shelf_slope_palmar": 0.845,
+  "shelf_slope_dorsal": 0.351,
+  "web_dihedral_deg": 70.0,
+  "thumb_min_clear_mm": 11.65,
+  "cost": 1849.2081401818327
+ },
+ "per": {
+  "bald_front_p": {
+   "xor": 341,
+   "union": 1240,
+   "mesh_only": 21,
+   "plate_only": 320,
+   "plate": 1219,
+   "mesh": 920
+  },
+  "bald_front_m": {
+   "xor": 401,
+   "union": 1245,
+   "mesh_only": 77,
+   "plate_only": 324,
+   "plate": 1168,
+   "mesh": 921
+  },
+  "bald_back_p": {
+   "xor": 286,
+   "union": 1342,
+   "mesh_only": 20,
+   "plate_only": 266,
+   "plate": 1322,
+   "mesh": 1076
+  },
+  "bald_back_m": {
+   "xor": 476,
+   "union": 1096,
+   "mesh_only": 145,
+   "plate_only": 331,
+   "plate": 951,
+   "mesh": 765
+  },
+  "sheet_front_p": {
+   "xor": 151,
+   "union": 272,
+   "mesh_only": 21,
+   "plate_only": 130,
+   "plate": 251,
+   "mesh": 142
+  },
+  "sheet_front_m": {
+   "xor": 95,
+   "union": 212,
+   "mesh_only": 5,
+   "plate_only": 90,
+   "plate": 207,
+   "mesh": 122
+  },
+  "sheet_back_p": {
+   "xor": 119,
+   "union": 238,
+   "mesh_only": 1,
+   "plate_only": 118,
+   "plate": 237,
+   "mesh": 120
+  },
+  "sheet_back_m": {
+   "xor": 174,
+   "union": 306,
+   "mesh_only": 12,
+   "plate_only": 162,
+   "plate": 294,
+   "mesh": 144
+  }
+ }
+}

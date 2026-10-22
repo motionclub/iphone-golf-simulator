@@ -1,0 +1,101 @@
+{
+  "rows": [
+    {
+      "action": "ReadyIdle",
+      "piece": "Golf_Polo",
+      "sourceVertices": 14738,
+      "homeClearanceMm": 8.0
+    },
+    {
+      "action": "ReadyIdle",
+      "piece": "Golf_Trousers",
+      "sourceVertices": 19288,
+      "homeClearanceMm": 3.8
+    },
+    {
+      "action": "GolfProof_RH_Top",
+      "piece": "Golf_Polo",
+      "sourceVertices": 14738,
+      "homeClearanceMm": 8.0
+    },
+    {
+      "action": "GolfProof_RH_Top",
+      "piece": "Golf_Trousers",
+      "sourceVertices": 19288,
+      "homeClearanceMm": 3.8
+    },
+    {
+      "action": "GolfProof_RH_Impact",
+      "piece": "Golf_Polo",
+      "sourceVertices": 14738,
+      "homeClearanceMm": 8.0
+    },
+    {
+      "action": "GolfProof_RH_Impact",
+      "piece": "Golf_Trousers",
+      "sourceVertices": 19288,
+      "homeClearanceMm": 3.8
+    },
+    {
+      "action": "GolfProof_RH_Finish",
+      "piece": "Golf_Polo",
+      "sourceVertices": 14738,
+      "homeClearanceMm": 8.0
+    },
+    {
+      "action": "GolfProof_RH_Finish",
+      "piece": "Golf_Trousers",
+      "sourceVertices": 19288,
+      "homeClearanceMm": 3.8
+    },
+    {
+      "action": "GolfProof_LH_ReadyIdle",
+      "piece": "Golf_Polo",
+      "sourceVertices": 14738,
+      "homeClearanceMm": 8.0
+    },
+    {
+      "action": "GolfProof_LH_ReadyIdle",
+      "piece": "Golf_Trousers",
+      "sourceVertices": 19288,
+      "homeClearanceMm": 3.8
+    },
+    {
+      "action": "GolfProof_LH_Top",
+      "piece": "Golf_Polo",
+      "sourceVertices": 14738,
+      "homeClearanceMm": 8.0
+    },
+    {
+      "action": "GolfProof_LH_Top",
+      "piece": "Golf_Trousers",
+      "sourceVertices": 19288,
+      "homeClearanceMm": 3.8
+    },
+    {
+      "action": "GolfProof_LH_Impact",
+      "piece": "Golf_Polo",
+      "sourceVertices": 14738,
+      "homeClearanceMm": 8.0
+    },
+    {
+      "action": "GolfProof_LH_Impact",
+      "piece": "Golf_Trousers",
+      "sourceVertices": 19288,
+      "homeClearanceMm": 3.8
+    },
+    {
+      "action": "GolfProof_LH_Finish",
+      "piece": "Golf_Polo",
+      "sourceVertices": 14738,
+      "homeClearanceMm": 8.0
+    },
+    {
+      "action": "GolfProof_LH_Finish",
+      "piece": "Golf_Trousers",
+      "sourceVertices": 19288,
+      "homeClearanceMm": 3.8
+    }
+  ],
+  "status": "candidate; visual, complete coverage and cross-body collision checks pending"
+}

@@ -1,0 +1,3490 @@
+{
+ "hero": "MatchHero_Female",
+ "cand": "runs/K4r_FT",
+ "poses": 152,
+ "seconds": 11.6,
+ "total": {
+  "tear": 115714,
+  "layer": 1601,
+  "poses_with_tear": 146,
+  "poses_with_layer": 35,
+  "holes": 9453,
+  "poses_with_holes": 112,
+  "by": {
+   "body": 115714,
+   "Kit_Bottom": 1129,
+   "Kit_Top": 472
+  },
+  "pair": {
+   "body<Kit_Top": 112245,
+   "Kit_Bottom<Kit_Top": 1129,
+   "Kit_Top<Kit_Bottom": 472,
+   "body<Kit_Bottom": 3469
+  }
+ },
+ "worst": [
+  {
+   "i": 94,
+   "clip": "tennis__Female_Intro_Pushups",
+   "frame": 79,
+   "why": [
+    "hipflex_L",
+    "hipflex_R",
+    "knee_L",
+    "knee_R",
+    "kneel",
+    "seat"
+   ],
+   "tear": 3178,
+   "layer": 7,
+   "holes": 21,
+   "by": {
+    "body": 3178,
+    "Kit_Top": 7
+   },
+   "pair": {
+    "body<Kit_Top": 2897,
+    "body<Kit_Bottom": 281,
+    "Kit_Top<Kit_Bottom": 7
+   },
+   "view": 7
+  },
+  {
+   "i": 146,
+   "clip": "moves__Emote_Victory",
+   "frame": 77,
+   "why": [
+    "elbow_R"
+   ],
+   "tear": 2703,
+   "layer": 0,
+   "holes": 16,
+   "by": {
+    "body": 2703
+   },
+   "pair": {
+    "body<Kit_Top": 2703
+   },
+   "view": 5
+  },
+  {
+   "i": 113,
+   "clip": "tennis__Female_Emote_Victory",
+   "frame": 77,
+   "why": [
+    "elbow_R"
+   ],
+   "tear": 2685,
+   "layer": 0,
+   "holes": 24,
+   "by": {
+    "body": 2685
+   },
+   "pair": {
+    "body<Kit_Top": 2685
+   },
+   "view": 5
+  },
+  {
+   "i": 43,
+   "clip": "tennis__Female_SplitToBackhand",
+   "frame": 13,
+   "why": [
+    "hipabd_R",
+    "hipflex_L",
+    "hipflex_R",
+    "knee_L",
+    "knee_R",
+    "kneel",
+    "trunk_twist",
+    "waist"
+   ],
+   "tear": 2261,
+   "layer": 108,
+   "holes": 23,
+   "by": {
+    "body": 2261,
+    "Kit_Bottom": 108
+   },
+   "pair": {
+    "body<Kit_Top": 2261,
+    "Kit_Bottom<Kit_Top": 108
+   },
+   "view": 9
+  },
+  {
+   "i": 141,
+   "clip": "moves__Emote_Victory",
+   "frame": 33,
+   "why": [
+    "elbow_L"
+   ],
+   "tear": 2051,
+   "layer": 0,
+   "holes": 23,
+   "by": {
+    "body": 2051
+   },
+   "pair": {
+    "body<Kit_Top": 2051
+   },
+   "view": 13
+  },
+  {
+   "i": 125,
+   "clip": "moves__Emote_Defeat",
+   "frame": 49,
+   "why": [
+    "knee_L",
+    "knee_R",
+    "kneel",
+    "trunk_flex"
+   ],
+   "tear": 1937,
+   "layer": 0,
+   "holes": 573,
+   "by": {
+    "body": 1937
+   },
+   "pair": {
+    "body<Kit_Top": 1937
+   },
+   "view": 14
+  },
+  {
+   "i": 118,
+   "clip": "tennis__Female_Emote_Defeat",
+   "frame": 49,
+   "why": [
+    "knee_L",
+    "knee_R",
+    "kneel",
+    "trunk_flex"
+   ],
+   "tear": 1933,
+   "layer": 0,
+   "holes": 575,
+   "by": {
+    "body": 1933
+   },
+   "pair": {
+    "body<Kit_Top": 1933
+   },
+   "view": 14
+  },
+  {
+   "i": 119,
+   "clip": "tennis__Female_Emote_Defeat",
+   "frame": 57,
+   "why": [
+    "knee_L",
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 1908,
+   "layer": 0,
+   "holes": 556,
+   "by": {
+    "body": 1908
+   },
+   "pair": {
+    "body<Kit_Top": 1908
+   },
+   "view": 14
+  },
+  {
+   "i": 126,
+   "clip": "moves__Emote_Defeat",
+   "frame": 57,
+   "why": [
+    "knee_L",
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 1905,
+   "layer": 0,
+   "holes": 558,
+   "by": {
+    "body": 1905
+   },
+   "pair": {
+    "body<Kit_Top": 1905
+   },
+   "view": 14
+  },
+  {
+   "i": 137,
+   "clip": "moves__Emote_Stomp",
+   "frame": 10,
+   "why": [
+    "elbow_L",
+    "hipflex_R",
+    "knee_R",
+    "kneel",
+    "lunge"
+   ],
+   "tear": 1894,
+   "layer": 0,
+   "holes": 8,
+   "by": {
+    "body": 1894
+   },
+   "pair": {
+    "body<Kit_Top": 1894
+   },
+   "view": 5
+  },
+  {
+   "i": 100,
+   "clip": "tennis__Female_Emote_Stomp",
+   "frame": 10,
+   "why": [
+    "coverage",
+    "elbow_L",
+    "hipflex_R",
+    "knee_R",
+    "kneel",
+    "lunge"
+   ],
+   "tear": 1866,
+   "layer": 0,
+   "holes": 8,
+   "by": {
+    "body": 1866
+   },
+   "pair": {
+    "body<Kit_Top": 1866
+   },
+   "view": 5
+  },
+  {
+   "i": 68,
+   "clip": "tennis__Female_Emote_Scuba",
+   "frame": 131,
+   "why": [
+    "hipabd_R",
+    "hipflex_L",
+    "hipflex_R",
+    "kneel",
+    "trunk_side"
+   ],
+   "tear": 1864,
+   "layer": 0,
+   "holes": 0,
+   "by": {
+    "body": 1864
+   },
+   "pair": {
+    "body<Kit_Top": 1864
+   },
+   "view": 14
+  }
+ ],
+ "rows": [
+  {
+   "i": 0,
+   "clip": "tennis__Female_ForehandArmCorrected",
+   "frame": 6,
+   "why": [
+    "across_R",
+    "elbow_L",
+    "elbow_R",
+    "lunge",
+    "shoulder_blade",
+    "trunk_twist",
+    "waist"
+   ],
+   "tear": 532,
+   "layer": 0,
+   "holes": 15,
+   "by": {
+    "body": 532
+   },
+   "pair": {
+    "body<Kit_Top": 532
+   }
+  },
+  {
+   "i": 1,
+   "clip": "tennis__Female_ForehandArmCorrected",
+   "frame": 14,
+   "why": [
+    "elbow_L",
+    "lunge",
+    "trunk_twist",
+    "waist"
+   ],
+   "tear": 1045,
+   "layer": 0,
+   "holes": 10,
+   "by": {
+    "body": 1045
+   },
+   "pair": {
+    "body<Kit_Top": 1045
+   }
+  },
+  {
+   "i": 2,
+   "clip": "tennis__Female_ForehandArmCorrected",
+   "frame": 26,
+   "why": [
+    "across_L",
+    "coverage",
+    "elbow_R",
+    "hipabd_R",
+    "lunge",
+    "trunk_twist"
+   ],
+   "tear": 778,
+   "layer": 50,
+   "holes": 13,
+   "by": {
+    "body": 778,
+    "Kit_Bottom": 50
+   },
+   "pair": {
+    "body<Kit_Top": 778,
+    "Kit_Bottom<Kit_Top": 50
+   }
+  },
+  {
+   "i": 3,
+   "clip": "tennis__Female_BackhandArmCorrected",
+   "frame": 5,
+   "why": [
+    "across_R",
+    "trunk_twist"
+   ],
+   "tear": 637,
+   "layer": 5,
+   "holes": 10,
+   "by": {
+    "body": 637,
+    "Kit_Top": 5
+   },
+   "pair": {
+    "body<Kit_Top": 637,
+    "Kit_Top<Kit_Bottom": 5
+   }
+  },
+  {
+   "i": 4,
+   "clip": "tennis__Female_BackhandArmCorrected",
+   "frame": 16,
+   "why": [
+    "across_L",
+    "hipabd_R",
+    "trunk_twist",
+    "waist"
+   ],
+   "tear": 817,
+   "layer": 13,
+   "holes": 0,
+   "by": {
+    "body": 817,
+    "Kit_Top": 13
+   },
+   "pair": {
+    "body<Kit_Top": 817,
+    "Kit_Top<Kit_Bottom": 13
+   }
+  },
+  {
+   "i": 5,
+   "clip": "tennis__Female_BackhandArmCorrected",
+   "frame": 24,
+   "why": [
+    "across_L",
+    "across_R",
+    "coverage",
+    "shoulder_blade",
+    "trunk_twist"
+   ],
+   "tear": 94,
+   "layer": 0,
+   "holes": 0,
+   "by": {
+    "body": 94
+   },
+   "pair": {
+    "body<Kit_Top": 94
+   }
+  },
+  {
+   "i": 6,
+   "clip": "tennis__Female_Serve",
+   "frame": 10,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "hipflex_L",
+    "hipflex_R",
+    "knee_R",
+    "kneel",
+    "seat"
+   ],
+   "tear": 851,
+   "layer": 266,
+   "holes": 8,
+   "by": {
+    "body": 851,
+    "Kit_Bottom": 266
+   },
+   "pair": {
+    "body<Kit_Top": 851,
+    "Kit_Bottom<Kit_Top": 266
+   }
+  },
+  {
+   "i": 7,
+   "clip": "tennis__Female_Serve",
+   "frame": 23,
+   "why": [
+    "axilla_L",
+    "coverage",
+    "elbow_L",
+    "elbow_R",
+    "side_seam_L",
+    "trunk_side",
+    "trunk_twist"
+   ],
+   "tear": 400,
+   "layer": 0,
+   "holes": 0,
+   "by": {
+    "body": 400
+   },
+   "pair": {
+    "body<Kit_Top": 400
+   }
+  },
+  {
+   "i": 8,
+   "clip": "tennis__Female_Serve",
+   "frame": 32,
+   "why": [
+    "axilla_L",
+    "elbow_L",
+    "elbow_R",
+    "side_seam_L",
+    "trunk_side",
+    "trunk_twist"
+   ],
+   "tear": 494,
+   "layer": 0,
+   "holes": 5,
+   "by": {
+    "body": 494
+   },
+   "pair": {
+    "body<Kit_Top": 494
+   }
+  },
+  {
+   "i": 9,
+   "clip": "tennis__Female_Serve",
+   "frame": 40,
+   "why": [
+    "axilla_L",
+    "coverage",
+    "elbow_L",
+    "elbow_R",
+    "hipflex_R",
+    "knee_R",
+    "kneel",
+    "side_seam_L",
+    "trunk_side",
+    "trunk_twist",
+    "waist"
+   ],
+   "tear": 563,
+   "layer": 0,
+   "holes": 5,
+   "by": {
+    "body": 563
+   },
+   "pair": {
+    "body<Kit_Top": 563
+   }
+  },
+  {
+   "i": 10,
+   "clip": "tennis__Female_Serve",
+   "frame": 51,
+   "why": [
+    "coverage",
+    "elbow_L",
+    "hipflex_L",
+    "hipflex_R",
+    "knee_R",
+    "kneel",
+    "lunge",
+    "side_seam_R",
+    "trunk_side",
+    "trunk_twist",
+    "waist"
+   ],
+   "tear": 568,
+   "layer": 0,
+   "holes": 55,
+   "by": {
+    "body": 568
+   },
+   "pair": {
+    "body<Kit_Top": 568
+   }
+  },
+  {
+   "i": 11,
+   "clip": "tennis__Female_Serve",
+   "frame": 61,
+   "why": [
+    "coverage",
+    "elbow_L",
+    "elbow_R",
+    "hipflex_L",
+    "hipflex_R",
+    "knee_R",
+    "kneel",
+    "lunge"
+   ],
+   "tear": 464,
+   "layer": 103,
+   "holes": 252,
+   "by": {
+    "Kit_Bottom": 103,
+    "body": 464
+   },
+   "pair": {
+    "Kit_Bottom<Kit_Top": 103,
+    "body<Kit_Top": 464
+   }
+  },
+  {
+   "i": 12,
+   "clip": "tennis__Female_Serve",
+   "frame": 70,
+   "why": [
+    "elbow_L",
+    "elbow_R"
+   ],
+   "tear": 283,
+   "layer": 0,
+   "holes": 0,
+   "by": {
+    "body": 283
+   },
+   "pair": {
+    "body<Kit_Top": 283
+   }
+  },
+  {
+   "i": 13,
+   "clip": "tennis__Female_VolleyForehand",
+   "frame": 3,
+   "why": [
+    "across_L",
+    "across_R",
+    "coverage",
+    "elbow_R",
+    "hipflex_R",
+    "knee_R",
+    "kneel",
+    "seat",
+    "trunk_side",
+    "trunk_twist",
+    "waist"
+   ],
+   "tear": 0,
+   "layer": 0,
+   "holes": 24,
+   "by": {},
+   "pair": {}
+  },
+  {
+   "i": 14,
+   "clip": "tennis__Female_VolleyForehand",
+   "frame": 13,
+   "why": [
+    "hipabd_R",
+    "kneel",
+    "trunk_twist"
+   ],
+   "tear": 92,
+   "layer": 0,
+   "holes": 5,
+   "by": {
+    "body": 92
+   },
+   "pair": {
+    "body<Kit_Top": 92
+   }
+  },
+  {
+   "i": 15,
+   "clip": "tennis__Female_Overhead",
+   "frame": 4,
+   "why": [
+    "across_L",
+    "elbow_R"
+   ],
+   "tear": 0,
+   "layer": 0,
+   "holes": 22,
+   "by": {},
+   "pair": {}
+  },
+  {
+   "i": 16,
+   "clip": "tennis__Female_Overhead",
+   "frame": 12,
+   "why": [
+    "across_L",
+    "armback_R",
+    "axilla_L",
+    "coverage",
+    "elbow_L",
+    "elbow_R",
+    "hipabd_L",
+    "knee_R",
+    "kneel",
+    "side_seam_L",
+    "trunk_twist",
+    "waist"
+   ],
+   "tear": 517,
+   "layer": 0,
+   "holes": 0,
+   "by": {
+    "body": 517
+   },
+   "pair": {
+    "body<Kit_Top": 517
+   }
+  },
+  {
+   "i": 17,
+   "clip": "tennis__Female_Overhead",
+   "frame": 21,
+   "why": [
+    "armback_R",
+    "coverage",
+    "elbow_L",
+    "elbow_R",
+    "kneel",
+    "side_seam_R",
+    "trunk_side",
+    "trunk_twist",
+    "waist"
+   ],
+   "tear": 230,
+   "layer": 0,
+   "holes": 78,
+   "by": {
+    "body": 230
+   },
+   "pair": {
+    "body<Kit_Top": 230
+   }
+  },
+  {
+   "i": 18,
+   "clip": "tennis__Female_Overhead",
+   "frame": 30,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "kneel"
+   ],
+   "tear": 47,
+   "layer": 0,
+   "holes": 0,
+   "by": {
+    "body": 47
+   },
+   "pair": {
+    "body<Kit_Top": 47
+   }
+  },
+  {
+   "i": 19,
+   "clip": "tennis__Female_ForehandWide",
+   "frame": 9,
+   "why": [
+    "hipflex_R",
+    "kneel"
+   ],
+   "tear": 230,
+   "layer": 0,
+   "holes": 5,
+   "by": {
+    "body": 230
+   },
+   "pair": {
+    "body<Kit_Top": 230
+   }
+  },
+  {
+   "i": 20,
+   "clip": "tennis__Female_ForehandWide",
+   "frame": 17,
+   "why": [
+    "coverage",
+    "elbow_R",
+    "hipflex_R",
+    "knee_L",
+    "knee_R",
+    "kneel",
+    "lunge",
+    "seat",
+    "trunk_twist",
+    "waist"
+   ],
+   "tear": 1024,
+   "layer": 24,
+   "holes": 60,
+   "by": {
+    "body": 1024,
+    "Kit_Top": 24
+   },
+   "pair": {
+    "body<Kit_Top": 1024,
+    "Kit_Top<Kit_Bottom": 24
+   }
+  },
+  {
+   "i": 21,
+   "clip": "tennis__Female_ForehandWide",
+   "frame": 28,
+   "why": [
+    "across_R",
+    "axilla_R",
+    "coverage",
+    "elbow_L",
+    "hipabd_R",
+    "hipflex_R",
+    "kneel",
+    "lunge",
+    "side_seam_R",
+    "trunk_twist",
+    "waist"
+   ],
+   "tear": 850,
+   "layer": 202,
+   "holes": 47,
+   "by": {
+    "body": 850,
+    "Kit_Bottom": 202
+   },
+   "pair": {
+    "body<Kit_Top": 850,
+    "Kit_Bottom<Kit_Top": 202
+   }
+  },
+  {
+   "i": 22,
+   "clip": "tennis__Female_ForehandWide",
+   "frame": 36,
+   "why": [
+    "hipabd_R"
+   ],
+   "tear": 217,
+   "layer": 5,
+   "holes": 13,
+   "by": {
+    "Kit_Top": 5,
+    "body": 217
+   },
+   "pair": {
+    "Kit_Top<Kit_Bottom": 5,
+    "body<Kit_Top": 217
+   }
+  },
+  {
+   "i": 23,
+   "clip": "tennis__Female_ForehandShort",
+   "frame": 3,
+   "why": [
+    "elbow_L",
+    "hipflex_R",
+    "knee_L",
+    "kneel"
+   ],
+   "tear": 1395,
+   "layer": 0,
+   "holes": 15,
+   "by": {
+    "body": 1395
+   },
+   "pair": {
+    "body<Kit_Top": 1395
+   }
+  },
+  {
+   "i": 24,
+   "clip": "tennis__Female_ForehandShort",
+   "frame": 11,
+   "why": [
+    "across_R",
+    "armback_R",
+    "coverage",
+    "elbow_L",
+    "elbow_R",
+    "hipflex_L",
+    "hipflex_R",
+    "knee_L",
+    "knee_R",
+    "kneel",
+    "lunge",
+    "seat",
+    "trunk_side",
+    "trunk_twist"
+   ],
+   "tear": 950,
+   "layer": 0,
+   "holes": 0,
+   "by": {
+    "body": 950
+   },
+   "pair": {
+    "body<Kit_Top": 950
+   }
+  },
+  {
+   "i": 25,
+   "clip": "tennis__Female_ForehandShort",
+   "frame": 22,
+   "why": [
+    "across_L",
+    "coverage",
+    "hipabd_R",
+    "hipflex_R",
+    "knee_L",
+    "knee_R",
+    "kneel",
+    "lunge",
+    "seat",
+    "trunk_side"
+   ],
+   "tear": 0,
+   "layer": 0,
+   "holes": 19,
+   "by": {},
+   "pair": {}
+  },
+  {
+   "i": 26,
+   "clip": "tennis__Female_BackhandWide",
+   "frame": 6,
+   "why": [
+    "hipflex_L",
+    "knee_L",
+    "kneel",
+    "trunk_twist"
+   ],
+   "tear": 1252,
+   "layer": 18,
+   "holes": 11,
+   "by": {
+    "body": 1252,
+    "Kit_Top": 18
+   },
+   "pair": {
+    "body<Kit_Top": 1252,
+    "Kit_Top<Kit_Bottom": 18
+   }
+  },
+  {
+   "i": 27,
+   "clip": "tennis__Female_BackhandWide",
+   "frame": 14,
+   "why": [
+    "hipflex_L",
+    "knee_L",
+    "kneel",
+    "lunge",
+    "seat",
+    "trunk_twist",
+    "waist"
+   ],
+   "tear": 1589,
+   "layer": 15,
+   "holes": 16,
+   "by": {
+    "body": 1589,
+    "Kit_Bottom": 15
+   },
+   "pair": {
+    "body<Kit_Top": 1589,
+    "Kit_Bottom<Kit_Top": 15
+   }
+  },
+  {
+   "i": 28,
+   "clip": "tennis__Female_BackhandWide",
+   "frame": 27,
+   "why": [
+    "across_L",
+    "across_R",
+    "coverage",
+    "hipabd_R",
+    "hipflex_L",
+    "knee_L",
+    "kneel",
+    "lunge",
+    "seat",
+    "shoulder_blade",
+    "trunk_twist",
+    "waist"
+   ],
+   "tear": 8,
+   "layer": 0,
+   "holes": 13,
+   "by": {
+    "body": 8
+   },
+   "pair": {
+    "body<Kit_Top": 8
+   }
+  },
+  {
+   "i": 29,
+   "clip": "tennis__Female_BackhandWide",
+   "frame": 37,
+   "why": [
+    "elbow_L"
+   ],
+   "tear": 229,
+   "layer": 0,
+   "holes": 16,
+   "by": {
+    "body": 229
+   },
+   "pair": {
+    "body<Kit_Top": 229
+   }
+  },
+  {
+   "i": 30,
+   "clip": "tennis__Female_SliceApproach",
+   "frame": 5,
+   "why": [
+    "hipflex_L",
+    "knee_L",
+    "kneel"
+   ],
+   "tear": 637,
+   "layer": 0,
+   "holes": 5,
+   "by": {
+    "body": 637
+   },
+   "pair": {
+    "body<Kit_Top": 637
+   }
+  },
+  {
+   "i": 31,
+   "clip": "tennis__Female_SliceApproach",
+   "frame": 13,
+   "why": [
+    "across_R",
+    "coverage",
+    "hipflex_L",
+    "knee_L",
+    "kneel",
+    "shoulder_blade",
+    "trunk_twist",
+    "waist"
+   ],
+   "tear": 1646,
+   "layer": 8,
+   "holes": 16,
+   "by": {
+    "body": 1646,
+    "Kit_Top": 8
+   },
+   "pair": {
+    "body<Kit_Top": 1646,
+    "Kit_Top<Kit_Bottom": 8
+   }
+  },
+  {
+   "i": 32,
+   "clip": "tennis__Female_SliceApproach",
+   "frame": 23,
+   "why": [
+    "hipflex_R",
+    "knee_R",
+    "kneel",
+    "seat"
+   ],
+   "tear": 1334,
+   "layer": 5,
+   "holes": 11,
+   "by": {
+    "body": 1334,
+    "Kit_Top": 5
+   },
+   "pair": {
+    "body<Kit_Top": 1334,
+    "Kit_Top<Kit_Bottom": 5
+   }
+  },
+  {
+   "i": 33,
+   "clip": "tennis__Female_SliceApproach",
+   "frame": 31,
+   "why": [
+    "across_R",
+    "coverage",
+    "elbow_L",
+    "hipflex_L",
+    "hipflex_R",
+    "knee_L",
+    "knee_R",
+    "kneel",
+    "seat"
+   ],
+   "tear": 847,
+   "layer": 0,
+   "holes": 8,
+   "by": {
+    "body": 847
+   },
+   "pair": {
+    "body<Kit_Top": 847
+   }
+  },
+  {
+   "i": 34,
+   "clip": "tennis__Female_Return",
+   "frame": 7,
+   "why": [
+    "hipabd_R",
+    "hipflex_L",
+    "knee_L",
+    "kneel",
+    "trunk_twist"
+   ],
+   "tear": 1248,
+   "layer": 123,
+   "holes": 5,
+   "by": {
+    "body": 1248,
+    "Kit_Bottom": 123
+   },
+   "pair": {
+    "body<Kit_Top": 1248,
+    "Kit_Bottom<Kit_Top": 123
+   }
+  },
+  {
+   "i": 35,
+   "clip": "tennis__Female_Return",
+   "frame": 15,
+   "why": [
+    "across_L",
+    "coverage",
+    "hipabd_L",
+    "hipabd_R",
+    "hipflex_L",
+    "knee_L",
+    "kneel",
+    "seat",
+    "trunk_twist"
+   ],
+   "tear": 0,
+   "layer": 0,
+   "holes": 5,
+   "by": {},
+   "pair": {}
+  },
+  {
+   "i": 36,
+   "clip": "tennis__Female_VolleyBackhand",
+   "frame": 9,
+   "why": [
+    "across_L",
+    "across_R",
+    "axilla_R",
+    "elbow_L",
+    "elbow_R",
+    "hipabd_R",
+    "hipflex_L",
+    "hipflex_R",
+    "knee_L",
+    "kneel",
+    "shoulder_blade",
+    "side_seam_R"
+   ],
+   "tear": 8,
+   "layer": 10,
+   "holes": 43,
+   "by": {
+    "body": 8,
+    "Kit_Top": 10
+   },
+   "pair": {
+    "body<Kit_Top": 8,
+    "Kit_Top<Kit_Bottom": 10
+   }
+  },
+  {
+   "i": 37,
+   "clip": "tennis__Female_VolleyBackhand",
+   "frame": 17,
+   "why": [
+    "across_R"
+   ],
+   "tear": 562,
+   "layer": 0,
+   "holes": 24,
+   "by": {
+    "body": 562
+   },
+   "pair": {
+    "body<Kit_Top": 562
+   }
+  },
+  {
+   "i": 38,
+   "clip": "tennis__Female_ForehandOpen",
+   "frame": 5,
+   "why": [
+    "elbow_R",
+    "lunge",
+    "trunk_twist"
+   ],
+   "tear": 108,
+   "layer": 0,
+   "holes": 20,
+   "by": {
+    "body": 108
+   },
+   "pair": {
+    "body<Kit_Top": 108
+   }
+  },
+  {
+   "i": 39,
+   "clip": "tennis__Female_ForehandOpen",
+   "frame": 13,
+   "why": [
+    "across_L",
+    "coverage",
+    "elbow_R",
+    "hipabd_L",
+    "hipflex_L",
+    "knee_L",
+    "kneel",
+    "lunge",
+    "shoulder_blade",
+    "trunk_twist",
+    "waist"
+   ],
+   "tear": 85,
+   "layer": 0,
+   "holes": 58,
+   "by": {
+    "body": 85
+   },
+   "pair": {
+    "body<Kit_Top": 85
+   }
+  },
+  {
+   "i": 40,
+   "clip": "tennis__Female_ForehandOpen",
+   "frame": 23,
+   "why": [
+    "across_L",
+    "across_R",
+    "coverage",
+    "elbow_R",
+    "hipflex_L",
+    "knee_L",
+    "kneel",
+    "lunge",
+    "shoulder_blade",
+    "trunk_twist"
+   ],
+   "tear": 27,
+   "layer": 122,
+   "holes": 32,
+   "by": {
+    "Kit_Bottom": 122,
+    "body": 27
+   },
+   "pair": {
+    "Kit_Bottom<Kit_Top": 122,
+    "body<Kit_Top": 27
+   }
+  },
+  {
+   "i": 41,
+   "clip": "tennis__Female_SplitToForehand",
+   "frame": 5,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "hipabd_L",
+    "hipflex_R",
+    "knee_R",
+    "kneel",
+    "trunk_twist"
+   ],
+   "tear": 1030,
+   "layer": 0,
+   "holes": 14,
+   "by": {
+    "body": 1030
+   },
+   "pair": {
+    "body<Kit_Top": 1030
+   }
+  },
+  {
+   "i": 42,
+   "clip": "tennis__Female_SplitToBackhand",
+   "frame": 5,
+   "why": [
+    "hipabd_R",
+    "trunk_twist",
+    "waist"
+   ],
+   "tear": 1411,
+   "layer": 0,
+   "holes": 51,
+   "by": {
+    "body": 1411
+   },
+   "pair": {
+    "body<Kit_Top": 1411
+   }
+  },
+  {
+   "i": 43,
+   "clip": "tennis__Female_SplitToBackhand",
+   "frame": 13,
+   "why": [
+    "hipabd_R",
+    "hipflex_L",
+    "hipflex_R",
+    "knee_L",
+    "knee_R",
+    "kneel",
+    "trunk_twist",
+    "waist"
+   ],
+   "tear": 2261,
+   "layer": 108,
+   "holes": 23,
+   "by": {
+    "body": 2261,
+    "Kit_Bottom": 108
+   },
+   "pair": {
+    "body<Kit_Top": 2261,
+    "Kit_Bottom<Kit_Top": 108
+   },
+   "view": 9
+  },
+  {
+   "i": 44,
+   "clip": "tennis__Female_RecoverCenter",
+   "frame": 4,
+   "why": [
+    "elbow_R",
+    "hipflex_R"
+   ],
+   "tear": 118,
+   "layer": 0,
+   "holes": 8,
+   "by": {
+    "body": 118
+   },
+   "pair": {
+    "body<Kit_Top": 118
+   }
+  },
+  {
+   "i": 45,
+   "clip": "tennis__Female_RecoverCenter",
+   "frame": 12,
+   "why": [
+    "armback_R",
+    "elbow_R",
+    "hipflex_L",
+    "hipflex_R",
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 308,
+   "layer": 0,
+   "holes": 0,
+   "by": {
+    "body": 308
+   },
+   "pair": {
+    "body<Kit_Top": 308
+   }
+  },
+  {
+   "i": 46,
+   "clip": "tennis__Female_RecoverCenter",
+   "frame": 20,
+   "why": [
+    "armback_R",
+    "elbow_L",
+    "elbow_R",
+    "hipflex_L",
+    "knee_L",
+    "kneel"
+   ],
+   "tear": 487,
+   "layer": 0,
+   "holes": 19,
+   "by": {
+    "body": 487
+   },
+   "pair": {
+    "body<Kit_Top": 487
+   }
+  },
+  {
+   "i": 47,
+   "clip": "tennis__Female_Walk",
+   "frame": 4,
+   "why": [
+    "elbow_R",
+    "lunge"
+   ],
+   "tear": 337,
+   "layer": 0,
+   "holes": 10,
+   "by": {
+    "body": 337
+   },
+   "pair": {
+    "body<Kit_Top": 337
+   }
+  },
+  {
+   "i": 48,
+   "clip": "tennis__Female_Walk",
+   "frame": 13,
+   "why": [
+    "elbow_R",
+    "lunge"
+   ],
+   "tear": 270,
+   "layer": 0,
+   "holes": 0,
+   "by": {
+    "body": 270
+   },
+   "pair": {
+    "body<Kit_Top": 270
+   }
+  },
+  {
+   "i": 49,
+   "clip": "tennis__Female_Walk",
+   "frame": 21,
+   "why": [
+    "elbow_R",
+    "lunge"
+   ],
+   "tear": 682,
+   "layer": 44,
+   "holes": 15,
+   "by": {
+    "body": 682,
+    "Kit_Bottom": 44
+   },
+   "pair": {
+    "body<Kit_Top": 682,
+    "Kit_Bottom<Kit_Top": 44
+   }
+  },
+  {
+   "i": 50,
+   "clip": "tennis__Female_Walk",
+   "frame": 33,
+   "why": [
+    "elbow_R"
+   ],
+   "tear": 306,
+   "layer": 0,
+   "holes": 0,
+   "by": {
+    "body": 306
+   },
+   "pair": {
+    "body<Kit_Top": 306
+   }
+  },
+  {
+   "i": 51,
+   "clip": "tennis__Female_RunForward",
+   "frame": 3,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "knee_L",
+    "kneel"
+   ],
+   "tear": 589,
+   "layer": 5,
+   "holes": 0,
+   "by": {
+    "body": 589,
+    "Kit_Top": 5
+   },
+   "pair": {
+    "body<Kit_Top": 589,
+    "Kit_Top<Kit_Bottom": 5
+   }
+  },
+  {
+   "i": 52,
+   "clip": "tennis__Female_RunForward",
+   "frame": 11,
+   "why": [
+    "armback_L",
+    "elbow_L",
+    "elbow_R",
+    "knee_L",
+    "knee_R",
+    "kneel",
+    "lunge"
+   ],
+   "tear": 1055,
+   "layer": 5,
+   "holes": 72,
+   "by": {
+    "body": 1055,
+    "Kit_Top": 5
+   },
+   "pair": {
+    "body<Kit_Top": 1055,
+    "Kit_Top<Kit_Bottom": 5
+   }
+  },
+  {
+   "i": 53,
+   "clip": "tennis__Female_RunLeft",
+   "frame": 0,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "knee_L",
+    "kneel",
+    "trunk_twist"
+   ],
+   "tear": 231,
+   "layer": 0,
+   "holes": 142,
+   "by": {
+    "body": 231
+   },
+   "pair": {
+    "body<Kit_Top": 231
+   }
+  },
+  {
+   "i": 54,
+   "clip": "tennis__Female_RunLeft",
+   "frame": 11,
+   "why": [
+    "armback_L",
+    "elbow_L",
+    "elbow_R",
+    "hipflex_R",
+    "knee_L",
+    "knee_R",
+    "kneel",
+    "lunge",
+    "trunk_twist"
+   ],
+   "tear": 1208,
+   "layer": 0,
+   "holes": 81,
+   "by": {
+    "body": 1208
+   },
+   "pair": {
+    "body<Kit_Top": 1208
+   }
+  },
+  {
+   "i": 55,
+   "clip": "tennis__Female_RunRight",
+   "frame": 3,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "knee_L",
+    "kneel"
+   ],
+   "tear": 365,
+   "layer": 0,
+   "holes": 0,
+   "by": {
+    "body": 365
+   },
+   "pair": {
+    "body<Kit_Top": 365
+   }
+  },
+  {
+   "i": 56,
+   "clip": "tennis__Female_RunRight",
+   "frame": 11,
+   "why": [
+    "armback_L",
+    "coverage",
+    "elbow_L",
+    "elbow_R",
+    "knee_L",
+    "knee_R",
+    "kneel",
+    "lunge",
+    "trunk_twist"
+   ],
+   "tear": 940,
+   "layer": 10,
+   "holes": 86,
+   "by": {
+    "body": 940,
+    "Kit_Top": 10
+   },
+   "pair": {
+    "body<Kit_Top": 940,
+    "Kit_Top<Kit_Bottom": 10
+   }
+  },
+  {
+   "i": 57,
+   "clip": "tennis__Female_Emote_Scuba",
+   "frame": 22,
+   "why": [
+    "elbow_R",
+    "hipabd_L",
+    "hipabd_R"
+   ],
+   "tear": 33,
+   "layer": 0,
+   "holes": 0,
+   "by": {
+    "body": 33
+   },
+   "pair": {
+    "body<Kit_Top": 33
+   }
+  },
+  {
+   "i": 58,
+   "clip": "tennis__Female_Emote_Scuba",
+   "frame": 33,
+   "why": [
+    "across_R",
+    "elbow_R",
+    "hipabd_R"
+   ],
+   "tear": 5,
+   "layer": 0,
+   "holes": 0,
+   "by": {
+    "body": 5
+   },
+   "pair": {
+    "body<Kit_Top": 5
+   }
+  },
+  {
+   "i": 59,
+   "clip": "tennis__Female_Emote_Scuba",
+   "frame": 44,
+   "why": [
+    "elbow_R",
+    "hipabd_L",
+    "hipabd_R"
+   ],
+   "tear": 56,
+   "layer": 0,
+   "holes": 0,
+   "by": {
+    "body": 56
+   },
+   "pair": {
+    "body<Kit_Top": 56
+   }
+  },
+  {
+   "i": 60,
+   "clip": "tennis__Female_Emote_Scuba",
+   "frame": 55,
+   "why": [
+    "across_R",
+    "elbow_R",
+    "hipabd_R"
+   ],
+   "tear": 26,
+   "layer": 0,
+   "holes": 0,
+   "by": {
+    "body": 26
+   },
+   "pair": {
+    "body<Kit_Top": 26
+   }
+  },
+  {
+   "i": 61,
+   "clip": "tennis__Female_Emote_Scuba",
+   "frame": 66,
+   "why": [
+    "elbow_R",
+    "hipabd_L",
+    "hipabd_R"
+   ],
+   "tear": 59,
+   "layer": 0,
+   "holes": 0,
+   "by": {
+    "body": 59
+   },
+   "pair": {
+    "body<Kit_Top": 59
+   }
+  },
+  {
+   "i": 62,
+   "clip": "tennis__Female_Emote_Scuba",
+   "frame": 74,
+   "why": [
+    "elbow_R",
+    "hipabd_R"
+   ],
+   "tear": 0,
+   "layer": 0,
+   "holes": 0,
+   "by": {},
+   "pair": {}
+  },
+  {
+   "i": 63,
+   "clip": "tennis__Female_Emote_Scuba",
+   "frame": 88,
+   "why": [
+    "elbow_R",
+    "hipabd_L",
+    "hipabd_R"
+   ],
+   "tear": 143,
+   "layer": 0,
+   "holes": 0,
+   "by": {
+    "body": 143
+   },
+   "pair": {
+    "body<Kit_Top": 143
+   }
+  },
+  {
+   "i": 64,
+   "clip": "tennis__Female_Emote_Scuba",
+   "frame": 96,
+   "why": [
+    "hipabd_R"
+   ],
+   "tear": 0,
+   "layer": 0,
+   "holes": 0,
+   "by": {},
+   "pair": {}
+  },
+  {
+   "i": 65,
+   "clip": "tennis__Female_Emote_Scuba",
+   "frame": 104,
+   "why": [
+    "elbow_R",
+    "hipabd_R"
+   ],
+   "tear": 393,
+   "layer": 0,
+   "holes": 0,
+   "by": {
+    "body": 393
+   },
+   "pair": {
+    "body<Kit_Top": 393
+   }
+  },
+  {
+   "i": 66,
+   "clip": "tennis__Female_Emote_Scuba",
+   "frame": 115,
+   "why": [
+    "coverage",
+    "hipabd_L",
+    "hipabd_R",
+    "hipflex_L",
+    "hipflex_R",
+    "knee_R",
+    "kneel",
+    "seat",
+    "trunk_side"
+   ],
+   "tear": 498,
+   "layer": 0,
+   "holes": 8,
+   "by": {
+    "body": 498
+   },
+   "pair": {
+    "body<Kit_Top": 498
+   }
+  },
+  {
+   "i": 67,
+   "clip": "tennis__Female_Emote_Scuba",
+   "frame": 123,
+   "why": [
+    "hipabd_L",
+    "hipabd_R",
+    "hipflex_L",
+    "hipflex_R",
+    "kneel",
+    "seat",
+    "side_seam_R",
+    "trunk_flex",
+    "trunk_side",
+    "waist"
+   ],
+   "tear": 1821,
+   "layer": 40,
+   "holes": 0,
+   "by": {
+    "body": 1821,
+    "Kit_Bottom": 40
+   },
+   "pair": {
+    "body<Kit_Top": 1370,
+    "body<Kit_Bottom": 451,
+    "Kit_Bottom<Kit_Top": 40
+   }
+  },
+  {
+   "i": 68,
+   "clip": "tennis__Female_Emote_Scuba",
+   "frame": 131,
+   "why": [
+    "hipabd_R",
+    "hipflex_L",
+    "hipflex_R",
+    "kneel",
+    "trunk_side"
+   ],
+   "tear": 1864,
+   "layer": 0,
+   "holes": 0,
+   "by": {
+    "body": 1864
+   },
+   "pair": {
+    "body<Kit_Top": 1864
+   },
+   "view": 14
+  },
+  {
+   "i": 69,
+   "clip": "tennis__Female_Emote_Thrust",
+   "frame": 15,
+   "why": [
+    "coverage",
+    "elbow_L",
+    "hipabd_R"
+   ],
+   "tear": 245,
+   "layer": 0,
+   "holes": 0,
+   "by": {
+    "body": 245
+   },
+   "pair": {
+    "body<Kit_Top": 245
+   }
+  },
+  {
+   "i": 70,
+   "clip": "tennis__Female_Emote_Thrust",
+   "frame": 23,
+   "why": [
+    "hipabd_R"
+   ],
+   "tear": 303,
+   "layer": 0,
+   "holes": 0,
+   "by": {
+    "body": 303
+   },
+   "pair": {
+    "body<Kit_Top": 303
+   }
+  },
+  {
+   "i": 71,
+   "clip": "tennis__Female_Emote_Thrust",
+   "frame": 31,
+   "why": [
+    "hipabd_L",
+    "hipabd_R"
+   ],
+   "tear": 1661,
+   "layer": 0,
+   "holes": 0,
+   "by": {
+    "body": 1661
+   },
+   "pair": {
+    "body<Kit_Top": 1661
+   }
+  },
+  {
+   "i": 72,
+   "clip": "tennis__Female_Emote_Thrust",
+   "frame": 47,
+   "why": [
+    "hipabd_L",
+    "hipabd_R"
+   ],
+   "tear": 1712,
+   "layer": 0,
+   "holes": 0,
+   "by": {
+    "body": 1712
+   },
+   "pair": {
+    "body<Kit_Top": 1712
+   }
+  },
+  {
+   "i": 73,
+   "clip": "tennis__Female_Emote_Thrust",
+   "frame": 68,
+   "why": [
+    "elbow_L"
+   ],
+   "tear": 1000,
+   "layer": 0,
+   "holes": 0,
+   "by": {
+    "body": 1000
+   },
+   "pair": {
+    "body<Kit_Top": 1000
+   }
+  },
+  {
+   "i": 74,
+   "clip": "tennis__Female_Emote_Thrust",
+   "frame": 76,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "hipabd_L",
+    "hipabd_R",
+    "hipflex_R"
+   ],
+   "tear": 393,
+   "layer": 10,
+   "holes": 0,
+   "by": {
+    "body": 393,
+    "Kit_Top": 10
+   },
+   "pair": {
+    "body<Kit_Top": 393,
+    "Kit_Top<Kit_Bottom": 10
+   }
+  },
+  {
+   "i": 75,
+   "clip": "tennis__Female_Emote_Thrust",
+   "frame": 84,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "hipabd_L",
+    "hipabd_R",
+    "hipflex_L",
+    "hipflex_R"
+   ],
+   "tear": 1328,
+   "layer": 10,
+   "holes": 0,
+   "by": {
+    "body": 1328,
+    "Kit_Top": 10
+   },
+   "pair": {
+    "body<Kit_Top": 1328,
+    "Kit_Top<Kit_Bottom": 10
+   }
+  },
+  {
+   "i": 76,
+   "clip": "tennis__Female_Emote_Thrust",
+   "frame": 93,
+   "why": [
+    "elbow_L",
+    "hipabd_L",
+    "hipabd_R",
+    "hipflex_L",
+    "hipflex_R"
+   ],
+   "tear": 1453,
+   "layer": 21,
+   "holes": 0,
+   "by": {
+    "body": 1453,
+    "Kit_Top": 21
+   },
+   "pair": {
+    "body<Kit_Top": 1453,
+    "Kit_Top<Kit_Bottom": 21
+   }
+  },
+  {
+   "i": 77,
+   "clip": "tennis__Female_Emote_Spike",
+   "frame": 16,
+   "why": [
+    "armback_R",
+    "axilla_R",
+    "coverage",
+    "elbow_R",
+    "side_seam_R",
+    "trunk_side"
+   ],
+   "tear": 254,
+   "layer": 0,
+   "holes": 22,
+   "by": {
+    "body": 254
+   },
+   "pair": {
+    "body<Kit_Top": 254
+   }
+  },
+  {
+   "i": 78,
+   "clip": "tennis__Female_Emote_Spike",
+   "frame": 24,
+   "why": [
+    "armback_R",
+    "elbow_R",
+    "trunk_side"
+   ],
+   "tear": 979,
+   "layer": 0,
+   "holes": 19,
+   "by": {
+    "body": 979
+   },
+   "pair": {
+    "body<Kit_Top": 979
+   }
+  },
+  {
+   "i": 79,
+   "clip": "tennis__Female_Emote_Spike",
+   "frame": 39,
+   "why": [
+    "coverage",
+    "elbow_R",
+    "hipflex_L",
+    "hipflex_R",
+    "kneel",
+    "seat",
+    "trunk_flex",
+    "trunk_side",
+    "waist"
+   ],
+   "tear": 1039,
+   "layer": 35,
+   "holes": 19,
+   "by": {
+    "body": 1039,
+    "Kit_Top": 35
+   },
+   "pair": {
+    "body<Kit_Top": 1039,
+    "Kit_Top<Kit_Bottom": 35
+   }
+  },
+  {
+   "i": 80,
+   "clip": "tennis__Female_Emote_Spike",
+   "frame": 47,
+   "why": [
+    "hipflex_L",
+    "hipflex_R",
+    "kneel",
+    "seat",
+    "trunk_flex",
+    "trunk_side"
+   ],
+   "tear": 761,
+   "layer": 38,
+   "holes": 24,
+   "by": {
+    "body": 761,
+    "Kit_Top": 38
+   },
+   "pair": {
+    "body<Kit_Top": 761,
+    "Kit_Top<Kit_Bottom": 38
+   }
+  },
+  {
+   "i": 81,
+   "clip": "tennis__Female_Emote_Spike",
+   "frame": 58,
+   "why": [
+    "hipflex_L",
+    "hipflex_R",
+    "kneel",
+    "seat"
+   ],
+   "tear": 1697,
+   "layer": 48,
+   "holes": 20,
+   "by": {
+    "body": 1697,
+    "Kit_Bottom": 18,
+    "Kit_Top": 30
+   },
+   "pair": {
+    "body<Kit_Bottom": 738,
+    "body<Kit_Top": 959,
+    "Kit_Bottom<Kit_Top": 18,
+    "Kit_Top<Kit_Bottom": 30
+   }
+  },
+  {
+   "i": 82,
+   "clip": "tennis__Female_Emote_Spike",
+   "frame": 66,
+   "why": [
+    "hipflex_L",
+    "hipflex_R",
+    "kneel",
+    "seat",
+    "trunk_flex",
+    "trunk_side"
+   ],
+   "tear": 837,
+   "layer": 29,
+   "holes": 16,
+   "by": {
+    "body": 837,
+    "Kit_Top": 29
+   },
+   "pair": {
+    "body<Kit_Top": 837,
+    "Kit_Top<Kit_Bottom": 29
+   }
+  },
+  {
+   "i": 83,
+   "clip": "tennis__Female_Emote_Spike",
+   "frame": 74,
+   "why": [
+    "hipflex_L",
+    "hipflex_R"
+   ],
+   "tear": 412,
+   "layer": 0,
+   "holes": 16,
+   "by": {
+    "body": 412
+   },
+   "pair": {
+    "body<Kit_Top": 412
+   }
+  },
+  {
+   "i": 84,
+   "clip": "tennis__Female_Intro_Wave",
+   "frame": 5,
+   "why": [
+    "elbow_R"
+   ],
+   "tear": 630,
+   "layer": 0,
+   "holes": 16,
+   "by": {
+    "body": 630
+   },
+   "pair": {
+    "body<Kit_Top": 630
+   }
+  },
+  {
+   "i": 85,
+   "clip": "tennis__Female_Intro_Wave",
+   "frame": 26,
+   "why": [
+    "elbow_R"
+   ],
+   "tear": 1656,
+   "layer": 0,
+   "holes": 16,
+   "by": {
+    "body": 1656
+   },
+   "pair": {
+    "body<Kit_Top": 1656
+   }
+  },
+  {
+   "i": 86,
+   "clip": "tennis__Female_Intro_Wave",
+   "frame": 39,
+   "why": [
+    "elbow_R",
+    "trunk_side"
+   ],
+   "tear": 1658,
+   "layer": 0,
+   "holes": 16,
+   "by": {
+    "body": 1658
+   },
+   "pair": {
+    "body<Kit_Top": 1658
+   }
+  },
+  {
+   "i": 87,
+   "clip": "tennis__Female_Intro_Wave",
+   "frame": 50,
+   "why": [
+    "elbow_R"
+   ],
+   "tear": 988,
+   "layer": 0,
+   "holes": 19,
+   "by": {
+    "body": 988
+   },
+   "pair": {
+    "body<Kit_Top": 988
+   }
+  },
+  {
+   "i": 88,
+   "clip": "tennis__Female_Intro_BringIt",
+   "frame": 55,
+   "why": [
+    "trunk_side"
+   ],
+   "tear": 392,
+   "layer": 0,
+   "holes": 11,
+   "by": {
+    "body": 392
+   },
+   "pair": {
+    "body<Kit_Top": 392
+   }
+  },
+  {
+   "i": 89,
+   "clip": "tennis__Female_Intro_Pushups",
+   "frame": 10,
+   "why": [
+    "coverage",
+    "hipflex_L",
+    "hipflex_R",
+    "knee_L",
+    "knee_R",
+    "kneel",
+    "seat",
+    "side_seam_R",
+    "trunk_side"
+   ],
+   "tear": 767,
+   "layer": 61,
+   "holes": 13,
+   "by": {
+    "body": 767,
+    "Kit_Bottom": 32,
+    "Kit_Top": 29
+   },
+   "pair": {
+    "body<Kit_Top": 541,
+    "body<Kit_Bottom": 226,
+    "Kit_Bottom<Kit_Top": 32,
+    "Kit_Top<Kit_Bottom": 29
+   }
+  },
+  {
+   "i": 90,
+   "clip": "tennis__Female_Intro_Pushups",
+   "frame": 18,
+   "why": [
+    "hipflex_L",
+    "hipflex_R",
+    "kneel",
+    "seat"
+   ],
+   "tear": 614,
+   "layer": 79,
+   "holes": 18,
+   "by": {
+    "body": 614,
+    "Kit_Top": 79
+   },
+   "pair": {
+    "body<Kit_Bottom": 540,
+    "body<Kit_Top": 74,
+    "Kit_Top<Kit_Bottom": 79
+   }
+  },
+  {
+   "i": 91,
+   "clip": "tennis__Female_Intro_Pushups",
+   "frame": 29,
+   "why": [
+    "coverage"
+   ],
+   "tear": 263,
+   "layer": 0,
+   "holes": 45,
+   "by": {
+    "body": 263
+   },
+   "pair": {
+    "body<Kit_Top": 263
+   }
+  },
+  {
+   "i": 92,
+   "clip": "tennis__Female_Intro_Pushups",
+   "frame": 63,
+   "why": [
+    "hipflex_L",
+    "hipflex_R",
+    "kneel",
+    "seat"
+   ],
+   "tear": 883,
+   "layer": 66,
+   "holes": 0,
+   "by": {
+    "body": 883,
+    "Kit_Top": 66
+   },
+   "pair": {
+    "body<Kit_Bottom": 635,
+    "body<Kit_Top": 248,
+    "Kit_Top<Kit_Bottom": 66
+   }
+  },
+  {
+   "i": 93,
+   "clip": "tennis__Female_Intro_Pushups",
+   "frame": 71,
+   "why": [
+    "hipflex_L",
+    "hipflex_R",
+    "knee_L",
+    "knee_R",
+    "kneel",
+    "lunge",
+    "seat",
+    "side_seam_R",
+    "trunk_side"
+   ],
+   "tear": 658,
+   "layer": 6,
+   "holes": 8,
+   "by": {
+    "body": 658,
+    "Kit_Bottom": 6
+   },
+   "pair": {
+    "body<Kit_Bottom": 598,
+    "body<Kit_Top": 60,
+    "Kit_Bottom<Kit_Top": 6
+   }
+  },
+  {
+   "i": 94,
+   "clip": "tennis__Female_Intro_Pushups",
+   "frame": 79,
+   "why": [
+    "hipflex_L",
+    "hipflex_R",
+    "knee_L",
+    "knee_R",
+    "kneel",
+    "seat"
+   ],
+   "tear": 3178,
+   "layer": 7,
+   "holes": 21,
+   "by": {
+    "body": 3178,
+    "Kit_Top": 7
+   },
+   "pair": {
+    "body<Kit_Top": 2897,
+    "body<Kit_Bottom": 281,
+    "Kit_Top<Kit_Bottom": 7
+   },
+   "view": 7
+  },
+  {
+   "i": 95,
+   "clip": "tennis__Female_Emote_JumpJoy",
+   "frame": 10,
+   "why": [
+    "armback_L",
+    "elbow_L",
+    "hipflex_R",
+    "kneel"
+   ],
+   "tear": 587,
+   "layer": 0,
+   "holes": 16,
+   "by": {
+    "body": 587
+   },
+   "pair": {
+    "body<Kit_Top": 587
+   }
+  },
+  {
+   "i": 96,
+   "clip": "tennis__Female_Emote_JumpJoy",
+   "frame": 20,
+   "why": [
+    "coverage",
+    "elbow_L",
+    "elbow_R",
+    "overhead",
+    "side_seam_L",
+    "side_seam_R"
+   ],
+   "tear": 424,
+   "layer": 0,
+   "holes": 0,
+   "by": {
+    "body": 424
+   },
+   "pair": {
+    "body<Kit_Top": 424
+   }
+  },
+  {
+   "i": 97,
+   "clip": "tennis__Female_Emote_JumpJoy",
+   "frame": 28,
+   "why": [
+    "coverage",
+    "elbow_L",
+    "elbow_R",
+    "hipflex_R",
+    "kneel",
+    "overhead",
+    "side_seam_L",
+    "side_seam_R",
+    "trunk_flex"
+   ],
+   "tear": 620,
+   "layer": 0,
+   "holes": 0,
+   "by": {
+    "body": 620
+   },
+   "pair": {
+    "body<Kit_Top": 620
+   }
+  },
+  {
+   "i": 98,
+   "clip": "tennis__Female_Emote_JumpJoy",
+   "frame": 36,
+   "why": [
+    "elbow_L",
+    "trunk_flex"
+   ],
+   "tear": 1620,
+   "layer": 0,
+   "holes": 10,
+   "by": {
+    "body": 1620
+   },
+   "pair": {
+    "body<Kit_Top": 1620
+   }
+  },
+  {
+   "i": 99,
+   "clip": "tennis__Female_Emote_FistPump",
+   "frame": 11,
+   "why": [
+    "coverage",
+    "elbow_L",
+    "hipflex_L",
+    "knee_L",
+    "kneel",
+    "seat",
+    "trunk_side"
+   ],
+   "tear": 1173,
+   "layer": 0,
+   "holes": 8,
+   "by": {
+    "body": 1173
+   },
+   "pair": {
+    "body<Kit_Top": 1173
+   }
+  },
+  {
+   "i": 100,
+   "clip": "tennis__Female_Emote_Stomp",
+   "frame": 10,
+   "why": [
+    "coverage",
+    "elbow_L",
+    "hipflex_R",
+    "knee_R",
+    "kneel",
+    "lunge"
+   ],
+   "tear": 1866,
+   "layer": 0,
+   "holes": 8,
+   "by": {
+    "body": 1866
+   },
+   "pair": {
+    "body<Kit_Top": 1866
+   },
+   "view": 5
+  },
+  {
+   "i": 101,
+   "clip": "tennis__Female_Emote_Stomp",
+   "frame": 23,
+   "why": [
+    "hipflex_L",
+    "kneel"
+   ],
+   "tear": 1209,
+   "layer": 0,
+   "holes": 16,
+   "by": {
+    "body": 1209
+   },
+   "pair": {
+    "body<Kit_Top": 1209
+   }
+  },
+  {
+   "i": 102,
+   "clip": "tennis__Female_Emote_Slump",
+   "frame": 54,
+   "why": [
+    "coverage"
+   ],
+   "tear": 746,
+   "layer": 0,
+   "holes": 81,
+   "by": {
+    "body": 746
+   },
+   "pair": {
+    "body<Kit_Top": 746
+   }
+  },
+  {
+   "i": 103,
+   "clip": "tennis__Female_Emote_Shock",
+   "frame": 9,
+   "why": [
+    "coverage",
+    "elbow_L",
+    "elbow_R"
+   ],
+   "tear": 739,
+   "layer": 0,
+   "holes": 19,
+   "by": {
+    "body": 739
+   },
+   "pair": {
+    "body<Kit_Top": 739
+   }
+  },
+  {
+   "i": 104,
+   "clip": "tennis__Female_Emote_Shock",
+   "frame": 17,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "overhead"
+   ],
+   "tear": 596,
+   "layer": 0,
+   "holes": 16,
+   "by": {
+    "body": 596
+   },
+   "pair": {
+    "body<Kit_Top": 596
+   }
+  },
+  {
+   "i": 105,
+   "clip": "tennis__Female_Emote_Shock",
+   "frame": 31,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "overhead"
+   ],
+   "tear": 658,
+   "layer": 0,
+   "holes": 19,
+   "by": {
+    "body": 658
+   },
+   "pair": {
+    "body<Kit_Top": 658
+   }
+  },
+  {
+   "i": 106,
+   "clip": "tennis__Female_Emote_Shock",
+   "frame": 40,
+   "why": [
+    "coverage",
+    "elbow_L",
+    "elbow_R",
+    "overhead"
+   ],
+   "tear": 839,
+   "layer": 0,
+   "holes": 16,
+   "by": {
+    "body": 839
+   },
+   "pair": {
+    "body<Kit_Top": 839
+   }
+  },
+  {
+   "i": 107,
+   "clip": "tennis__Female_Emote_Victory",
+   "frame": 11,
+   "why": [
+    "armback_R",
+    "elbow_L",
+    "elbow_R",
+    "hipflex_R",
+    "kneel"
+   ],
+   "tear": 349,
+   "layer": 0,
+   "holes": 25,
+   "by": {
+    "body": 349
+   },
+   "pair": {
+    "body<Kit_Top": 349
+   }
+  },
+  {
+   "i": 108,
+   "clip": "tennis__Female_Emote_Victory",
+   "frame": 22,
+   "why": [
+    "elbow_L",
+    "kneel"
+   ],
+   "tear": 52,
+   "layer": 0,
+   "holes": 0,
+   "by": {
+    "body": 52
+   },
+   "pair": {
+    "body<Kit_Top": 52
+   }
+  },
+  {
+   "i": 109,
+   "clip": "tennis__Female_Emote_Victory",
+   "frame": 39,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "overhead",
+    "side_seam_L",
+    "side_seam_R"
+   ],
+   "tear": 374,
+   "layer": 0,
+   "holes": 16,
+   "by": {
+    "body": 374
+   },
+   "pair": {
+    "body<Kit_Top": 374
+   }
+  },
+  {
+   "i": 110,
+   "clip": "tennis__Female_Emote_Victory",
+   "frame": 47,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "overhead",
+    "side_seam_L",
+    "side_seam_R"
+   ],
+   "tear": 345,
+   "layer": 0,
+   "holes": 22,
+   "by": {
+    "body": 345
+   },
+   "pair": {
+    "body<Kit_Top": 345
+   }
+  },
+  {
+   "i": 111,
+   "clip": "tennis__Female_Emote_Victory",
+   "frame": 60,
+   "why": [
+    "axilla_R",
+    "coverage",
+    "elbow_L",
+    "elbow_R",
+    "overhead",
+    "side_seam_L",
+    "side_seam_R"
+   ],
+   "tear": 517,
+   "layer": 0,
+   "holes": 22,
+   "by": {
+    "body": 517
+   },
+   "pair": {
+    "body<Kit_Top": 517
+   }
+  },
+  {
+   "i": 112,
+   "clip": "tennis__Female_Emote_Victory",
+   "frame": 69,
+   "why": [
+    "axilla_L",
+    "axilla_R",
+    "elbow_L",
+    "elbow_R",
+    "overhead",
+    "side_seam_L",
+    "side_seam_R"
+   ],
+   "tear": 138,
+   "layer": 0,
+   "holes": 19,
+   "by": {
+    "body": 138
+   },
+   "pair": {
+    "body<Kit_Top": 138
+   }
+  },
+  {
+   "i": 113,
+   "clip": "tennis__Female_Emote_Victory",
+   "frame": 77,
+   "why": [
+    "elbow_R"
+   ],
+   "tear": 2685,
+   "layer": 0,
+   "holes": 24,
+   "by": {
+    "body": 2685
+   },
+   "pair": {
+    "body<Kit_Top": 2685
+   },
+   "view": 5
+  },
+  {
+   "i": 114,
+   "clip": "tennis__Female_Emote_Defeat",
+   "frame": 14,
+   "why": [
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 881,
+   "layer": 0,
+   "holes": 362,
+   "by": {
+    "body": 881
+   },
+   "pair": {
+    "body<Kit_Top": 881
+   }
+  },
+  {
+   "i": 115,
+   "clip": "tennis__Female_Emote_Defeat",
+   "frame": 24,
+   "why": [
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 1804,
+   "layer": 0,
+   "holes": 550,
+   "by": {
+    "body": 1804
+   },
+   "pair": {
+    "body<Kit_Top": 1804
+   }
+  },
+  {
+   "i": 116,
+   "clip": "tennis__Female_Emote_Defeat",
+   "frame": 32,
+   "why": [
+    "kneel"
+   ],
+   "tear": 488,
+   "layer": 0,
+   "holes": 560,
+   "by": {
+    "body": 488
+   },
+   "pair": {
+    "body<Kit_Top": 488
+   }
+  },
+  {
+   "i": 117,
+   "clip": "tennis__Female_Emote_Defeat",
+   "frame": 41,
+   "why": [
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 868,
+   "layer": 0,
+   "holes": 555,
+   "by": {
+    "body": 868
+   },
+   "pair": {
+    "body<Kit_Top": 868
+   }
+  },
+  {
+   "i": 118,
+   "clip": "tennis__Female_Emote_Defeat",
+   "frame": 49,
+   "why": [
+    "knee_L",
+    "knee_R",
+    "kneel",
+    "trunk_flex"
+   ],
+   "tear": 1933,
+   "layer": 0,
+   "holes": 575,
+   "by": {
+    "body": 1933
+   },
+   "pair": {
+    "body<Kit_Top": 1933
+   },
+   "view": 14
+  },
+  {
+   "i": 119,
+   "clip": "tennis__Female_Emote_Defeat",
+   "frame": 57,
+   "why": [
+    "knee_L",
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 1908,
+   "layer": 0,
+   "holes": 556,
+   "by": {
+    "body": 1908
+   },
+   "pair": {
+    "body<Kit_Top": 1908
+   },
+   "view": 14
+  },
+  {
+   "i": 120,
+   "clip": "tennis__Female_Emote_Defeat",
+   "frame": 71,
+   "why": [
+    "knee_L",
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 1013,
+   "layer": 0,
+   "holes": 312,
+   "by": {
+    "body": 1013
+   },
+   "pair": {
+    "body<Kit_Top": 1013
+   }
+  },
+  {
+   "i": 121,
+   "clip": "moves__Emote_Defeat",
+   "frame": 14,
+   "why": [
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 879,
+   "layer": 0,
+   "holes": 365,
+   "by": {
+    "body": 879
+   },
+   "pair": {
+    "body<Kit_Top": 879
+   }
+  },
+  {
+   "i": 122,
+   "clip": "moves__Emote_Defeat",
+   "frame": 24,
+   "why": [
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 1803,
+   "layer": 0,
+   "holes": 555,
+   "by": {
+    "body": 1803
+   },
+   "pair": {
+    "body<Kit_Top": 1803
+   }
+  },
+  {
+   "i": 123,
+   "clip": "moves__Emote_Defeat",
+   "frame": 32,
+   "why": [
+    "kneel"
+   ],
+   "tear": 490,
+   "layer": 0,
+   "holes": 568,
+   "by": {
+    "body": 490
+   },
+   "pair": {
+    "body<Kit_Top": 490
+   }
+  },
+  {
+   "i": 124,
+   "clip": "moves__Emote_Defeat",
+   "frame": 41,
+   "why": [
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 859,
+   "layer": 0,
+   "holes": 557,
+   "by": {
+    "body": 859
+   },
+   "pair": {
+    "body<Kit_Top": 859
+   }
+  },
+  {
+   "i": 125,
+   "clip": "moves__Emote_Defeat",
+   "frame": 49,
+   "why": [
+    "knee_L",
+    "knee_R",
+    "kneel",
+    "trunk_flex"
+   ],
+   "tear": 1937,
+   "layer": 0,
+   "holes": 573,
+   "by": {
+    "body": 1937
+   },
+   "pair": {
+    "body<Kit_Top": 1937
+   },
+   "view": 14
+  },
+  {
+   "i": 126,
+   "clip": "moves__Emote_Defeat",
+   "frame": 57,
+   "why": [
+    "knee_L",
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 1905,
+   "layer": 0,
+   "holes": 558,
+   "by": {
+    "body": 1905
+   },
+   "pair": {
+    "body<Kit_Top": 1905
+   },
+   "view": 14
+  },
+  {
+   "i": 127,
+   "clip": "moves__Emote_Defeat",
+   "frame": 71,
+   "why": [
+    "knee_L",
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 1007,
+   "layer": 0,
+   "holes": 312,
+   "by": {
+    "body": 1007
+   },
+   "pair": {
+    "body<Kit_Top": 1007
+   }
+  },
+  {
+   "i": 128,
+   "clip": "moves__Emote_FistPump",
+   "frame": 11,
+   "why": [
+    "elbow_L",
+    "hipflex_L",
+    "knee_L",
+    "kneel",
+    "seat",
+    "trunk_side"
+   ],
+   "tear": 1188,
+   "layer": 0,
+   "holes": 8,
+   "by": {
+    "body": 1188
+   },
+   "pair": {
+    "body<Kit_Top": 1188
+   }
+  },
+  {
+   "i": 129,
+   "clip": "moves__Emote_JumpJoy",
+   "frame": 10,
+   "why": [
+    "armback_L",
+    "elbow_L",
+    "hipflex_R",
+    "kneel"
+   ],
+   "tear": 602,
+   "layer": 0,
+   "holes": 16,
+   "by": {
+    "body": 602
+   },
+   "pair": {
+    "body<Kit_Top": 602
+   }
+  },
+  {
+   "i": 130,
+   "clip": "moves__Emote_JumpJoy",
+   "frame": 19,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "overhead",
+    "side_seam_R"
+   ],
+   "tear": 834,
+   "layer": 0,
+   "holes": 0,
+   "by": {
+    "body": 834
+   },
+   "pair": {
+    "body<Kit_Top": 834
+   }
+  },
+  {
+   "i": 131,
+   "clip": "moves__Emote_JumpJoy",
+   "frame": 28,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "hipflex_R",
+    "kneel",
+    "overhead",
+    "side_seam_L",
+    "side_seam_R",
+    "trunk_flex"
+   ],
+   "tear": 595,
+   "layer": 0,
+   "holes": 0,
+   "by": {
+    "body": 595
+   },
+   "pair": {
+    "body<Kit_Top": 595
+   }
+  },
+  {
+   "i": 132,
+   "clip": "moves__Emote_JumpJoy",
+   "frame": 36,
+   "why": [
+    "elbow_L",
+    "trunk_flex"
+   ],
+   "tear": 1544,
+   "layer": 0,
+   "holes": 10,
+   "by": {
+    "body": 1544
+   },
+   "pair": {
+    "body<Kit_Top": 1544
+   }
+  },
+  {
+   "i": 133,
+   "clip": "moves__Emote_Shock",
+   "frame": 9,
+   "why": [
+    "elbow_L",
+    "elbow_R"
+   ],
+   "tear": 735,
+   "layer": 0,
+   "holes": 19,
+   "by": {
+    "body": 735
+   },
+   "pair": {
+    "body<Kit_Top": 735
+   }
+  },
+  {
+   "i": 134,
+   "clip": "moves__Emote_Shock",
+   "frame": 17,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "overhead"
+   ],
+   "tear": 606,
+   "layer": 0,
+   "holes": 16,
+   "by": {
+    "body": 606
+   },
+   "pair": {
+    "body<Kit_Top": 606
+   }
+  },
+  {
+   "i": 135,
+   "clip": "moves__Emote_Shock",
+   "frame": 31,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "overhead"
+   ],
+   "tear": 652,
+   "layer": 0,
+   "holes": 19,
+   "by": {
+    "body": 652
+   },
+   "pair": {
+    "body<Kit_Top": 652
+   }
+  },
+  {
+   "i": 136,
+   "clip": "moves__Emote_Shock",
+   "frame": 40,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "overhead"
+   ],
+   "tear": 834,
+   "layer": 0,
+   "holes": 16,
+   "by": {
+    "body": 834
+   },
+   "pair": {
+    "body<Kit_Top": 834
+   }
+  },
+  {
+   "i": 137,
+   "clip": "moves__Emote_Stomp",
+   "frame": 10,
+   "why": [
+    "elbow_L",
+    "hipflex_R",
+    "knee_R",
+    "kneel",
+    "lunge"
+   ],
+   "tear": 1894,
+   "layer": 0,
+   "holes": 8,
+   "by": {
+    "body": 1894
+   },
+   "pair": {
+    "body<Kit_Top": 1894
+   },
+   "view": 5
+  },
+  {
+   "i": 138,
+   "clip": "moves__Emote_Stomp",
+   "frame": 23,
+   "why": [
+    "kneel"
+   ],
+   "tear": 1190,
+   "layer": 0,
+   "holes": 19,
+   "by": {
+    "body": 1190
+   },
+   "pair": {
+    "body<Kit_Top": 1190
+   }
+  },
+  {
+   "i": 139,
+   "clip": "moves__Emote_Victory",
+   "frame": 11,
+   "why": [
+    "armback_R",
+    "elbow_L",
+    "elbow_R",
+    "hipflex_R",
+    "kneel"
+   ],
+   "tear": 336,
+   "layer": 0,
+   "holes": 25,
+   "by": {
+    "body": 336
+   },
+   "pair": {
+    "body<Kit_Top": 336
+   }
+  },
+  {
+   "i": 140,
+   "clip": "moves__Emote_Victory",
+   "frame": 22,
+   "why": [
+    "elbow_L",
+    "kneel"
+   ],
+   "tear": 57,
+   "layer": 0,
+   "holes": 0,
+   "by": {
+    "body": 57
+   },
+   "pair": {
+    "body<Kit_Top": 57
+   }
+  },
+  {
+   "i": 141,
+   "clip": "moves__Emote_Victory",
+   "frame": 33,
+   "why": [
+    "elbow_L"
+   ],
+   "tear": 2051,
+   "layer": 0,
+   "holes": 23,
+   "by": {
+    "body": 2051
+   },
+   "pair": {
+    "body<Kit_Top": 2051
+   },
+   "view": 13
+  },
+  {
+   "i": 142,
+   "clip": "moves__Emote_Victory",
+   "frame": 41,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "overhead",
+    "side_seam_L",
+    "side_seam_R"
+   ],
+   "tear": 356,
+   "layer": 0,
+   "holes": 19,
+   "by": {
+    "body": 356
+   },
+   "pair": {
+    "body<Kit_Top": 356
+   }
+  },
+  {
+   "i": 143,
+   "clip": "moves__Emote_Victory",
+   "frame": 52,
+   "why": [
+    "axilla_R",
+    "elbow_L",
+    "elbow_R",
+    "overhead",
+    "side_seam_L",
+    "side_seam_R"
+   ],
+   "tear": 349,
+   "layer": 0,
+   "holes": 16,
+   "by": {
+    "body": 349
+   },
+   "pair": {
+    "body<Kit_Top": 349
+   }
+  },
+  {
+   "i": 144,
+   "clip": "moves__Emote_Victory",
+   "frame": 60,
+   "why": [
+    "axilla_R",
+    "elbow_L",
+    "elbow_R",
+    "overhead",
+    "side_seam_L",
+    "side_seam_R"
+   ],
+   "tear": 536,
+   "layer": 0,
+   "holes": 16,
+   "by": {
+    "body": 536
+   },
+   "pair": {
+    "body<Kit_Top": 536
+   }
+  },
+  {
+   "i": 145,
+   "clip": "moves__Emote_Victory",
+   "frame": 69,
+   "why": [
+    "axilla_L",
+    "axilla_R",
+    "elbow_L",
+    "elbow_R",
+    "overhead",
+    "side_seam_L",
+    "side_seam_R"
+   ],
+   "tear": 143,
+   "layer": 0,
+   "holes": 16,
+   "by": {
+    "body": 143
+   },
+   "pair": {
+    "body<Kit_Top": 143
+   }
+  },
+  {
+   "i": 146,
+   "clip": "moves__Emote_Victory",
+   "frame": 77,
+   "why": [
+    "elbow_R"
+   ],
+   "tear": 2703,
+   "layer": 0,
+   "holes": 16,
+   "by": {
+    "body": 2703
+   },
+   "pair": {
+    "body<Kit_Top": 2703
+   },
+   "view": 5
+  },
+  {
+   "i": 147,
+   "clip": "moves__Run",
+   "frame": 1,
+   "why": [
+    "armback_R",
+    "elbow_R",
+    "knee_L",
+    "kneel"
+   ],
+   "tear": 68,
+   "layer": 0,
+   "holes": 32,
+   "by": {
+    "body": 68
+   },
+   "pair": {
+    "body<Kit_Top": 68
+   }
+  },
+  {
+   "i": 148,
+   "clip": "moves__Run",
+   "frame": 11,
+   "why": [
+    "armback_L",
+    "coverage",
+    "elbow_L",
+    "elbow_R",
+    "hipflex_L",
+    "hipflex_R",
+    "knee_L",
+    "knee_R",
+    "kneel",
+    "lunge",
+    "seat"
+   ],
+   "tear": 119,
+   "layer": 0,
+   "holes": 35,
+   "by": {
+    "body": 119
+   },
+   "pair": {
+    "body<Kit_Top": 119
+   }
+  },
+  {
+   "i": 149,
+   "clip": "moves__Run",
+   "frame": 19,
+   "why": [
+    "elbow_R",
+    "lunge"
+   ],
+   "tear": 70,
+   "layer": 5,
+   "holes": 37,
+   "by": {
+    "body": 70,
+    "Kit_Top": 5
+   },
+   "pair": {
+    "body<Kit_Top": 70,
+    "Kit_Top<Kit_Bottom": 5
+   }
+  },
+  {
+   "i": 150,
+   "clip": "moves__Walk",
+   "frame": 3,
+   "why": [
+    "lunge"
+   ],
+   "tear": 15,
+   "layer": 0,
+   "holes": 0,
+   "by": {
+    "body": 15
+   },
+   "pair": {
+    "body<Kit_Top": 15
+   }
+  },
+  {
+   "i": 151,
+   "clip": "moves__Walk",
+   "frame": 19,
+   "why": [
+    "lunge"
+   ],
+   "tear": 10,
+   "layer": 5,
+   "holes": 0,
+   "by": {
+    "body": 10,
+    "Kit_Top": 5
+   },
+   "pair": {
+    "body<Kit_Top": 10,
+    "Kit_Top<Kit_Bottom": 5
+   }
+  }
+ ]
+}

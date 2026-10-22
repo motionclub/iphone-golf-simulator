@@ -1,0 +1,24 @@
+{
+  "observed_at_utc": "2026-10-05T20:48:30.916231+00:00",
+  "previous_goal_turn_classification": "progress: constructed and verified revised isolated garments and sixteen both-handed proof frames",
+  "current_classification": "verified wait: specific cloth chat remains active/inProgress at revision 9",
+  "blocking_condition": "G0 requires course-only postcard P8 commit and completed cloth release report before integration; both remain unavailable",
+  "consecutive_condition_occurrences": 4,
+  "head": "23cbedabb4074effa797c67c0dab987761d7aef8",
+  "postcard_phase_text": "# Ordered phase status\n- P0 PASS: full audit389lines,3 aerial side-by-sides,30 ranked differences,guards7/7,compile0errorCS,exact scoring12/12delta0.\n- P1 FAIL (executed): final smokes26/26+115/115, Unitysway15/15 and bandcontrast4.68%/3.78%PASS; cliff5.57m>4m and one basalt rung21.1%>20%FAIL; native3views saved.\n- P2 executed: formal GATE P2 PASS after fresh native retry (required verifier100/100; exact scoring0.000m; aerial+vsref+all10re-scored). Phase2 requirement2.2 FAIL: waterfall shader UV scroll remains unimplemented under retained static-shader gate; recognitionNO. Initial externalcompile FAILs and invalid edit-mode mow controls remain in history.\n- P3 FAIL (executed): builder16/16; requiredverifier96/96; oldQA27/27; ruin13/13bothformats; cuboids0/394both; scoringexact0.000m; native3views+vsrefthisrun. Outercliffstraight14.844193m>4m; frozenoneCboundaryfailsliteral2islands; ruin0pxtee/approach; recognitionNO. Split outlineextraqueued; edit-modeflow repeat measurementsFAIL/unmeasured, retained.\n- P4 FAIL (executed): triangle248314; exactscoring0.000m; realcolumngeometryPASS; native3frames+vsrefdatedthisrun; BASALT_JOINTS approachS.347>.25FAIL; tee smoke.82%<1.5%FAIL; initial requiredverifier97/103; textureFAILs retained. Ranked10rescored; eyeNO. NativeLava/Smoke full categoryproof deferredFAILunmeasured.\n- P5 FAIL (executed):12/12actualPlaystagedframes;0RGBdriftall; all6framingFAIL water.2261..12.4001%<15%; allcliffpresencePASS; Needle9/4stacksPASS; Splitchannel0/24pxFAIL64; Cratervolcano197/0px, pillar alternativependingaudit. Actual supportedfairwaycontrastsPASS<=9.857%; greenFAILunmeasured.\n- P6 IN PROGRESS: actualinstaller V3routing/pre/install then every requiredremainingstep+costs+ios; failuresretained, no protectedbaseline reset.\n- P7 NOT RUN: awaits P6.\n- P8 NOT RUN: awaits P7.\nNo unmeasured result is a PASS.\n",
+  "cloth_thread_id": "01a10d4b-7d91-7183-ae74-92c78736a28b",
+  "cloth_live_status": "active/inProgress; cursor 9e7475cf-bc07-4ae6-8011-5683266a8973:9",
+  "cloth_release_reports_found": [],
+  "stop_instruction": "Then stop at GATE PRECONDITIONS: WAITING, list what is ready, and say what is blocked.",
+  "ready": [
+    "P0 protected-input/course/material audit and uninstalled proof-tool source",
+    "P1 references and golf design",
+    "P4 isolated male/female construction drafts and both-handed swing proofs, G6/G7 FAIL",
+    "P5 fabric normal/relief prototypes, not final garment bakes",
+    "Report, rollback manifests and explicit stage list"
+  ],
+  "remaining": "G1\u2013G12 incomplete; shared shader/profile, course shaders, runtime/locker and actual Unity/phone/Metal proofs cannot proceed before G0 release",
+  "impasse": "The supplied section 0 explicitly requires stopping at the completed preparation checkpoint while the ownership locks remain. No integration or runtime verification is authorized before external releases.",
+  "blocked_audit_passes": true,
+  "complete": false
+}

@@ -1,0 +1,41 @@
+{
+ "base_sha256": "1149e620985248e546e2fab93eb19f447f1a5ae673d50a2525fcae5769529ff4",
+ "f3_sha256": "7d78b3a3f1224fe68d1f92665f5b3554eb25264bec803b9befdcaf5489e59e02",
+ "form5_delta_sha256": "f8dd0a57bbddd3c4a6ae1e0ceba41f990712a0bc8992249fb7b9f2db15e2618e",
+ "retire_c7_verts": 3317,
+ "torso_verts_applied": 4540,
+ "torso_conflicts": 0,
+ "custom_normal_corners_rescaled": 13131,
+ "orphan_F3_vertices_not_carried": 460,
+ "removed_vertices": 10023,
+ "removed_faces": 10417,
+ "retained_vertices": 13224,
+ "head_vertices_added": 8899,
+ "head_faces_added": 8578,
+ "final_vertices": 22123,
+ "final_faces": 23531,
+ "final_loops": 91052,
+ "final_tris": 43990,
+ "vertex_groups": 21,
+ "Face_F": {
+  "verts": 3986,
+  "tris": 6052,
+  "materials": [
+   "Face_Brow",
+   "Face_BrowSoft",
+   "Face_Sclera",
+   "Face_IrisIn",
+   "Face_Iris",
+   "Face_Limbal",
+   "Face_Pupil",
+   "Face_Catch",
+   "Face_LidLine",
+   "Face_LidLower",
+   "Face_Lip",
+   "Face_LipUp",
+   "Face_Seam",
+   "Face_Nostril"
+  ]
+ },
+ "saved": "export/HeroBase_Female_FULL_STAGED.blend"
+}

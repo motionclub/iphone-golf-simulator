@@ -1,0 +1,167 @@
+{
+  "Full": {
+    "components": [
+      {
+        "component": 0,
+        "triangles": 2011,
+        "boundaryAliases": 101,
+        "interiorAliases": 956,
+        "positiveCoordinateMinimum": 0.0,
+        "restDetailMagnitudeMetres": 0.01824984954024635
+      },
+      {
+        "component": 1,
+        "triangles": 5,
+        "boundaryAliases": 5,
+        "interiorAliases": 1,
+        "positiveCoordinateMinimum": 0.15309994810461924,
+        "restDetailMagnitudeMetres": 0.0005892235327649415
+      },
+      {
+        "component": 2,
+        "triangles": 1806,
+        "boundaryAliases": 112,
+        "interiorAliases": 848,
+        "positiveCoordinateMinimum": 0.0,
+        "restDetailMagnitudeMetres": 0.010356761835765406
+      },
+      {
+        "component": 3,
+        "triangles": 783,
+        "boundaryAliases": 17,
+        "interiorAliases": 384,
+        "positiveCoordinateMinimum": 0.00015757869831415202,
+        "restDetailMagnitudeMetres": 0.05872358830777759
+      },
+      {
+        "component": 4,
+        "triangles": 4,
+        "boundaryAliases": 4,
+        "interiorAliases": 1,
+        "positiveCoordinateMinimum": 0.20844546296925506,
+        "restDetailMagnitudeMetres": 0.0009239571143785344
+      },
+      {
+        "component": 5,
+        "triangles": 5,
+        "boundaryAliases": 5,
+        "interiorAliases": 1,
+        "positiveCoordinateMinimum": 0.10818437712285445,
+        "restDetailMagnitudeMetres": 0.0008262676740197443
+      },
+      {
+        "component": 6,
+        "triangles": 4,
+        "boundaryAliases": 4,
+        "interiorAliases": 1,
+        "positiveCoordinateMinimum": 0.16401267896102392,
+        "restDetailMagnitudeMetres": 0.0008654573457504579
+      },
+      {
+        "component": 7,
+        "triangles": 1643,
+        "boundaryAliases": 107,
+        "interiorAliases": 769,
+        "positiveCoordinateMinimum": 0.0,
+        "restDetailMagnitudeMetres": 0.009133153788409983
+      },
+      {
+        "component": 8,
+        "triangles": 1613,
+        "boundaryAliases": 103,
+        "interiorAliases": 756,
+        "positiveCoordinateMinimum": 0.0,
+        "restDetailMagnitudeMetres": 0.010741462802886148
+      }
+    ],
+    "freeVertices": 4172,
+    "boundarySamples": 458,
+    "storedCoordinates": 396486,
+    "restOrientationReversals": 0,
+    "minOldNewNormalCosine": 0.9999999999999996,
+    "exactRestShapeRetained": true
+  },
+  "LOD": {
+    "components": [
+      {
+        "component": 0,
+        "triangles": 2000,
+        "boundaryAliases": 100,
+        "interiorAliases": 951,
+        "positiveCoordinateMinimum": 0.0,
+        "restDetailMagnitudeMetres": 0.018711271514008396
+      },
+      {
+        "component": 1,
+        "triangles": 5,
+        "boundaryAliases": 5,
+        "interiorAliases": 1,
+        "positiveCoordinateMinimum": 0.15310011625682815,
+        "restDetailMagnitudeMetres": 0.0005892276834230832
+      },
+      {
+        "component": 2,
+        "triangles": 1791,
+        "boundaryAliases": 113,
+        "interiorAliases": 840,
+        "positiveCoordinateMinimum": 0.0,
+        "restDetailMagnitudeMetres": 0.009734989912846858
+      },
+      {
+        "component": 3,
+        "triangles": 775,
+        "boundaryAliases": 17,
+        "interiorAliases": 380,
+        "positiveCoordinateMinimum": 0.0001621113007388308,
+        "restDetailMagnitudeMetres": 0.05869466260179379
+      },
+      {
+        "component": 4,
+        "triangles": 4,
+        "boundaryAliases": 4,
+        "interiorAliases": 1,
+        "positiveCoordinateMinimum": 0.20844511490780276,
+        "restDetailMagnitudeMetres": 0.0009239533158048894
+      },
+      {
+        "component": 5,
+        "triangles": 5,
+        "boundaryAliases": 5,
+        "interiorAliases": 1,
+        "positiveCoordinateMinimum": 0.10818491729161123,
+        "restDetailMagnitudeMetres": 0.0008262696150724832
+      },
+      {
+        "component": 6,
+        "triangles": 4,
+        "boundaryAliases": 4,
+        "interiorAliases": 1,
+        "positiveCoordinateMinimum": 0.16401190907134444,
+        "restDetailMagnitudeMetres": 0.0008654581042568738
+      },
+      {
+        "component": 7,
+        "triangles": 1645,
+        "boundaryAliases": 107,
+        "interiorAliases": 770,
+        "positiveCoordinateMinimum": 0.0,
+        "restDetailMagnitudeMetres": 0.009130910715647771
+      },
+      {
+        "component": 8,
+        "triangles": 1616,
+        "boundaryAliases": 104,
+        "interiorAliases": 757,
+        "positiveCoordinateMinimum": 0.0,
+        "restDetailMagnitudeMetres": 0.010741496122022203
+      }
+    ],
+    "freeVertices": 4161,
+    "boundarySamples": 459,
+    "storedCoordinates": 396367,
+    "restOrientationReversals": 0,
+    "minOldNewNormalCosine": 0.9999999999999998,
+    "exactRestShapeRetained": true
+  },
+  "status": "REST_CONTRACT_ONLY; actual motion art acceptance pending."
+}

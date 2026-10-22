@@ -1,0 +1,55 @@
+{
+ "blend_sha256": "54ddba0b49c971d6fe59aa59e30a1cdc8b924ad3dc06b846d7e2e98b2e132c9e",
+ "fbx_sha256": "ecfb3e27da6ea6219360ba04c7f655d1ccb544d960125eca753b069019b67cc4",
+ "body_tris": 66158,
+ "face_tris": 5416,
+ "face_slots": [
+  "Face_Brow",
+  "Face_Sclera",
+  "Face_Iris",
+  "Face_Pupil",
+  "Face_Limbal",
+  "Face_Catch",
+  "Face_LidLine",
+  "Face_Lip",
+  "Face_LipUp",
+  "Face_Seam",
+  "Face_Nostril",
+  "Face_BrowSoft",
+  "Face_LidCrease"
+ ],
+ "imported_objects": [
+  "Body_M",
+  "Face_M"
+ ],
+ "Body_M": {
+  "verts": 33196,
+  "tris": 66158,
+  "max_reimport_mm": 0.00027939677238464355,
+  "materials": [
+   "Blockout_Grey"
+  ],
+  "height_m": 1.7021871663164347
+ },
+ "Face_M": {
+  "verts": 3322,
+  "tris": 5416,
+  "max_reimport_mm": 0.0002682209014892578,
+  "materials": [
+   "Face_Brow",
+   "Face_Sclera",
+   "Face_Iris",
+   "Face_Pupil",
+   "Face_Limbal",
+   "Face_Catch",
+   "Face_LidLine",
+   "Face_Lip",
+   "Face_LipUp",
+   "Face_Seam",
+   "Face_Nostril",
+   "Face_BrowSoft",
+   "Face_LidCrease"
+  ],
+  "height_m": null
+ }
+}

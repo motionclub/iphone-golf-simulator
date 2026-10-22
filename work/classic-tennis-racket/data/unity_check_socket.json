@@ -1,0 +1,65 @@
+{
+ "male": {
+  "bodyVerts": 36643,
+  "racketVerts": 6122,
+  "minVertexDistance_mm": 1.763366,
+  "racketBoundsCenter": [
+   0.7084079,
+   0.734099,
+   0.2891082
+  ],
+  "racketBoundsSize": [
+   0.4099014,
+   0.3715525,
+   0.5290065
+  ],
+  "closestRacketVert": [
+   0.5666329,
+   0.8895975,
+   0.08652306
+  ],
+  "closestBodyVert": [
+   0.5665846,
+   0.8905036,
+   0.08803505
+  ],
+  "racketRootLocalEuler": [
+   270.0198,
+   0,
+   0
+  ],
+  "bodyChildren": "HeroBase_Male_Body,Body_M,Face_M"
+ },
+ "female": {
+  "bodyVerts": 26562,
+  "racketVerts": 6122,
+  "minVertexDistance_mm": 0.6753418,
+  "racketBoundsCenter": [
+   0.07537778,
+   0.5749929,
+   -0.02765176
+  ],
+  "racketBoundsSize": [
+   0.4775217,
+   0.562613,
+   0.2144093
+  ],
+  "closestRacketVert": [
+   -0.1316455,
+   0.4813131,
+   0.05305021
+  ],
+  "closestBodyVert": [
+   -0.1323048,
+   0.4811908,
+   0.05297023
+  ],
+  "racketRootLocalEuler": [
+   270.0198,
+   0,
+   0
+  ],
+  "bodyChildren": "HeroBase_Female_Body"
+ },
+ "done": true
+}

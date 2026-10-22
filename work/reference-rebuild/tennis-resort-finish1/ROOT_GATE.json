@@ -1,0 +1,20 @@
+{
+  "status": "ACCEPTED_BOUNDED",
+  "defaultScope": "resort palms only",
+  "actualViews": [
+    "resort_1_gameplay",
+    "resort_14_reference_camera",
+    "resort_17_clubhouse_close"
+  ],
+  "renderSecondsControl": 25.63,
+  "renderSecondsCandidate": 25.47,
+  "appearance": "Fuller rounded and arched crowns, slender curved tips; clearer than sparse prior crowns. Overall resort reference fidelity remains unfinished.",
+  "staticPlacement": "Add/Append/build/LOD/placement untouched; resource prototype selection only",
+  "meshTrianglesNear": 20252,
+  "meshTrianglesFar": 15108,
+  "phonePerformance": "deferred by user; no FPS claim",
+  "remaining": [
+    "actual moving-camera LOD transition",
+    "broader layered planting/island backdrop/material art"
+  ]
+}

@@ -1,0 +1,326 @@
+{
+ "verts_total": 31936,
+ "verts_appended": 308,
+ "moved_total": 3078,
+ "moved_outside_zone": 0,
+ "bit_identical": {
+  "head_neck(z>=1.40)": true,
+  "torso+pelvis(|x|<0.215,z>=0.78)": true,
+  "legs_feet(z<0.78,|x|<0.40)": true
+ },
+ "manifold": {
+  "edges": 64025,
+  "boundary": 92,
+  "nonmanifold": 2,
+  "bad_orient": 46
+ },
+ "manifold_baseline": {
+  "edges": 63409,
+  "boundary": 92,
+  "nonmanifold": 2,
+  "bad_orient": 46
+ },
+ "degenerate_polys": 0,
+ "topology_same_outside_hands": true,
+ "polys": 32162,
+ "tris": 63638,
+ "tris_baseline": 63022,
+ "fingers": {
+  "R": [
+   {
+    "finger": 0,
+    "width_base_mm": 25.285660691761073,
+    "width_mid_mm": 21.72783941351077,
+    "width_tip_shaft_mm": 16.38007847781265,
+    "taper_tip_over_base": 0.6478010868487939,
+    "taper_mid_over_base": 0.8592949054556617,
+    "width_monotone": true,
+    "depth_base_mm": 28.765846701721884,
+    "depth_over_width_base": 1.1376347666918891,
+    "depth_tip_mm": 21.129608573312765,
+    "pip_bump_mm": 1.4781812540378414,
+    "dip_bump_mm": 1.0460574418637187,
+    "rows": 20,
+    "cap_rows": 9,
+    "length_mm": 77.67719845050382
+   },
+   {
+    "finger": 1,
+    "width_base_mm": 25.381434713824873,
+    "width_mid_mm": 20.580598376362904,
+    "width_tip_shaft_mm": 16.00399980736709,
+    "taper_tip_over_base": 0.6305396045500123,
+    "taper_mid_over_base": 0.8108524442533965,
+    "width_monotone": true,
+    "depth_base_mm": 28.47853439447047,
+    "depth_over_width_base": 1.122022246400384,
+    "depth_tip_mm": 20.751669109331583,
+    "pip_bump_mm": 1.8381928232177498,
+    "dip_bump_mm": 1.0796183389771286,
+    "rows": 21,
+    "cap_rows": 9,
+    "length_mm": 93.54527346650447
+   },
+   {
+    "finger": 2,
+    "width_base_mm": 25.40393819636048,
+    "width_mid_mm": 20.5805983763629,
+    "width_tip_shaft_mm": 16.193143988433512,
+    "taper_tip_over_base": 0.6374265227410072,
+    "taper_mid_over_base": 0.8101341696426975,
+    "width_monotone": true,
+    "depth_base_mm": 28.47770241731362,
+    "depth_over_width_base": 1.1209955793938087,
+    "depth_tip_mm": 20.97241359504142,
+    "pip_bump_mm": 1.9207750517620317,
+    "dip_bump_mm": 1.130189647184046,
+    "rows": 21,
+    "cap_rows": 9,
+    "length_mm": 82.44159281242449
+   },
+   {
+    "finger": 3,
+    "width_base_mm": 25.215814622117062,
+    "width_mid_mm": 21.72783941351078,
+    "width_tip_shaft_mm": 16.701268061087767,
+    "taper_tip_over_base": 0.6623330759434956,
+    "taper_mid_over_base": 0.8616750931557475,
+    "width_monotone": true,
+    "depth_base_mm": 28.63187659497538,
+    "depth_over_width_base": 1.1354729967701322,
+    "depth_tip_mm": 21.244674171448004,
+    "pip_bump_mm": 1.8266803980611541,
+    "dip_bump_mm": 0.7595538186150885,
+    "rows": 20,
+    "cap_rows": 9,
+    "length_mm": 63.44672396161923
+   }
+  ],
+  "L": [
+   {
+    "finger": 0,
+    "width_base_mm": 25.285660691446026,
+    "width_mid_mm": 21.72783941351077,
+    "width_tip_shaft_mm": 16.38007847781265,
+    "taper_tip_over_base": 0.6478010868568652,
+    "taper_mid_over_base": 0.8592949054663681,
+    "width_monotone": true,
+    "depth_base_mm": 28.765846701032814,
+    "depth_over_width_base": 1.1376347666788122,
+    "depth_tip_mm": 21.129608573312765,
+    "pip_bump_mm": 1.4781812540379593,
+    "dip_bump_mm": 1.0460574418637187,
+    "rows": 20,
+    "cap_rows": 9,
+    "length_mm": 77.67719845050382
+   },
+   {
+    "finger": 1,
+    "width_base_mm": 25.38143471348598,
+    "width_mid_mm": 20.580598376362904,
+    "width_tip_shaft_mm": 16.00399980736709,
+    "taper_tip_over_base": 0.6305396045584313,
+    "taper_mid_over_base": 0.810852444264223,
+    "width_monotone": true,
+    "depth_base_mm": 28.478534394001475,
+    "depth_over_width_base": 1.1220222463968872,
+    "depth_tip_mm": 20.751669109331583,
+    "pip_bump_mm": 1.8381928232177498,
+    "dip_bump_mm": 1.0796183389771286,
+    "rows": 21,
+    "cap_rows": 9,
+    "length_mm": 93.54527346650447
+   },
+   {
+    "finger": 2,
+    "width_base_mm": 25.403938196368284,
+    "width_mid_mm": 20.5805983763629,
+    "width_tip_shaft_mm": 16.193143988433512,
+    "taper_tip_over_base": 0.6374265227408112,
+    "taper_mid_over_base": 0.8101341696424486,
+    "width_monotone": true,
+    "depth_base_mm": 28.47770241731345,
+    "depth_over_width_base": 1.1209955793934574,
+    "depth_tip_mm": 20.97241359504142,
+    "pip_bump_mm": 1.9207750517620317,
+    "dip_bump_mm": 1.130189647184046,
+    "rows": 21,
+    "cap_rows": 9,
+    "length_mm": 82.44159281242449
+   },
+   {
+    "finger": 3,
+    "width_base_mm": 25.21581462211707,
+    "width_mid_mm": 21.72783941351078,
+    "width_tip_shaft_mm": 16.701268061087767,
+    "taper_tip_over_base": 0.6623330759434953,
+    "taper_mid_over_base": 0.8616750931557473,
+    "width_monotone": true,
+    "depth_base_mm": 28.631876594975342,
+    "depth_over_width_base": 1.1354729967701302,
+    "depth_tip_mm": 21.244674171448004,
+    "pip_bump_mm": 1.8266803980611541,
+    "dip_bump_mm": 0.7595538186150885,
+    "rows": 20,
+    "cap_rows": 9,
+    "length_mm": 63.44672396161923
+   }
+  ]
+ },
+ "thumb": {
+  "R": {
+   "radius_root_mm": 18.801684570312773,
+   "radius_max_shaft_mm": 18.801684570312773,
+   "radius_at_max_row": 2,
+   "radius_last_shaft_mm": 11.49621232796831,
+   "taper_last_over_max": 0.6114458672559822,
+   "radii_mm": [
+    18.8,
+    17.31,
+    16.27,
+    15.88,
+    15.41,
+    14.47,
+    13.72,
+    13.86,
+    14.25,
+    12.77,
+    11.5,
+    11.36,
+    10.93,
+    10.24,
+    9.29,
+    8.12,
+    6.75,
+    5.21,
+    3.55,
+    1.8
+   ],
+   "ip_axis_bend_deg": 15.520180347973639,
+   "length_mm": 83.01432885984379,
+   "rows": 20,
+   "cap_rows": 9,
+   "max_ring_to_ring_bend_deg": 10.113652229906865
+  },
+  "L": {
+   "radius_root_mm": 18.80149753832689,
+   "radius_max_shaft_mm": 18.80149753832689,
+   "radius_at_max_row": 2,
+   "radius_last_shaft_mm": 11.496212327968328,
+   "taper_last_over_max": 0.6114519497467304,
+   "radii_mm": [
+    18.8,
+    17.31,
+    16.27,
+    15.88,
+    15.41,
+    14.47,
+    13.72,
+    13.86,
+    14.25,
+    12.77,
+    11.5,
+    11.36,
+    10.93,
+    10.24,
+    9.29,
+    8.12,
+    6.75,
+    5.21,
+    3.55,
+    1.8
+   ],
+   "ip_axis_bend_deg": 15.520180347973639,
+   "length_mm": 83.01432885984379,
+   "rows": 20,
+   "cap_rows": 9,
+   "max_ring_to_ring_bend_deg": 10.113659599931633
+  }
+ },
+ "gaps_mm": {
+  "R": [
+   -9.420937357931098,
+   -13.870037169420431,
+   -9.963575574544738,
+   -14.732624910319707,
+   -9.37996521353042,
+   -13.771739349633563
+  ],
+  "L": [
+   -9.420937357931098,
+   -13.870037169420431,
+   -9.963575574544738,
+   -14.732624910319707,
+   -9.37996521353042,
+   -13.771739349633563
+  ]
+ },
+ "mirror_err_mm_distal_hand": {
+  "mean": 5.567497409724669e-05,
+  "p95": 5.0247322247247944e-05,
+  "max": 0.010412935811863122
+ },
+ "dihedral_new_faces": {
+  "edges": 6832,
+  "gt30": 1336,
+  "gt45": 146,
+  "gt60": 22,
+  "gt90": 0,
+  "max": 71.01615480858807
+ },
+ "roi_xor_total": 2325,
+ "roi_xor": {
+  "bald_front_L": 225,
+  "bald_front_R": 385,
+  "bald_back_L": 474,
+  "bald_back_R": 450,
+  "sheet_front_L": 170,
+  "sheet_front_R": 145,
+  "sheet_back_L": 359,
+  "sheet_back_R": 117
+ },
+ "full_sil_numpy": {
+  "bald_front": {
+   "xor": 3298,
+   "union": 75437,
+   "pct": 4.372,
+   "plate_only": 1291,
+   "mesh_only": 2007
+  },
+  "bald_back": {
+   "xor": 3423,
+   "union": 74746,
+   "pct": 4.58,
+   "plate_only": 1593,
+   "mesh_only": 1830
+  },
+  "left": {
+   "xor": 1018,
+   "union": 11381,
+   "pct": 8.945,
+   "plate_only": 588,
+   "mesh_only": 430
+  },
+  "right": {
+   "xor": 1056,
+   "union": 11549,
+   "pct": 9.144,
+   "plate_only": 758,
+   "mesh_only": 298
+  },
+  "sheet_front": {
+   "xor": 1344,
+   "union": 18885,
+   "pct": 7.117,
+   "plate_only": 638,
+   "mesh_only": 706
+  },
+  "sheet_back": {
+   "xor": 1565,
+   "union": 18861,
+   "pct": 8.298,
+   "plate_only": 607,
+   "mesh_only": 958
+  }
+ }
+}

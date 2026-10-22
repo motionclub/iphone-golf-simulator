@@ -1,0 +1,53 @@
+{
+  "geometry": {
+    "nv": 426,
+    "nf": 281,
+    "ok": false,
+    "why": [
+      "sphere-like (whitened radius cv 0.102 < 0.15)"
+    ],
+    "hash": [
+      426,
+      281,
+      [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      [
+        39,
+        111,
+        119,
+        114,
+        36,
+        7
+      ]
+    ],
+    "nfac": 14,
+    "rcv": 0.1015975670993737,
+    "open": 0.0,
+    "ecv": 1.0725357830339683,
+    "acv": 0.8667345738103733,
+    "box": 0.28974864584814936,
+    "r2": 0.8783440531836159,
+    "r3": 0.8575145233920968,
+    "ncomp": 34,
+    "top": [
+      0.08813630224285485,
+      0.0837822974581896,
+      0.08377937960654697
+    ]
+  },
+  "columns": 34,
+  "polygons": 281,
+  "triangles": 716,
+  "top_z": 6.251499771118164,
+  "top_inside_m": 0.14733117459968859,
+  "marker_clearance_m": 1.6694432905143732,
+  "horizontal_span_m": 18.429021742250562,
+  "notes": "Real closed stone bodies reach below lava; cap lies11.5mm over frozen tee. Original texture-window checks remain unresolved.",
+  "cap_placement_pass": true
+}

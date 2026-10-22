@@ -1,0 +1,79 @@
+using System;
+using System.IO;
+using System.Linq;
+using System.Text;
+using UnityEditor;
+using UnityEngine;
+
+// Import check for the worn-kit FBXs: scale 1 (metres), hierarchy under the socket empties, UV + normals, and world bounds vs the Blender source
+// (Blender -> Unity axis map used by this project's FBX flags: (x,y,z)_blender -> (-x, z, -y)_unity).
+public static class KitImportCheck
+{
+    [Serializable] class Exp { public string fbx; public string mesh; public float[] bmin; public float[] bmax; public string parent; }
+    [Serializable] class ExpList { public Exp[] items; }
+
+    public static void Run()
+    {
+        var sb = new StringBuilder();
+        bool allOk = true;
+        AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
+        var exp = JsonUtility.FromJson<ExpList>(File.ReadAllText("expected_bounds.json")).items;
+        var fbxs = Directory.GetFiles("Assets/Kit", "*.fbx").OrderBy(s => s).ToArray();
+        sb.AppendLine("{\"fbx\": [");
+        for (int i = 0; i < fbxs.Length; i++)
+        {
+            var path = fbxs[i].Replace('\\', '/');
+            var fn = Path.GetFileName(path);
+            var go = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+            var imp = AssetImporter.GetAtPath(path) as ModelImporter;
+            sb.Append("  {\"file\": \"" + fn + "\", \"loaded\": " + (go != null ? "true" : "false"));
+            if (go == null) { allOk = false; sb.AppendLine("}" + (i < fbxs.Length - 1 ? "," : "")); continue; }
+            sb.Append(", \"globalScale\": " + imp.globalScale.ToString("R") + ", \"useFileScale\": " + (imp.useFileScale ? "true" : "false") + ", \"fileScale\": " + imp.fileScale.ToString("R"));
+            // hierarchy
+            var inst = UnityEngine.Object.Instantiate(go);        // instantiate so renderer bounds are real world bounds
+            inst.transform.position = Vector3.zero; inst.transform.rotation = Quaternion.identity; inst.transform.localScale = Vector3.one;
+            var roots = inst.transform.Cast<Transform>().Select(t => t.name.Replace("(Clone)", "")).OrderBy(n => n).ToArray();
+            sb.Append(", \"rootChildren\": [" + string.Join(",", roots.Select(n => "\"" + n + "\"")) + "]");
+            var mfs = inst.GetComponentsInChildren<MeshFilter>(true);
+            sb.AppendLine(", \"meshes\": [");
+            double maxScaleDev = 0;
+            foreach (var t in inst.GetComponentsInChildren<Transform>(true)) { var ls = t.lossyScale; maxScaleDev = Math.Max(maxScaleDev, Math.Max(Math.Abs(ls.x - 1), Math.Max(Math.Abs(ls.y - 1), Math.Abs(ls.z - 1)))); }
+            for (int k = 0; k < mfs.Length; k++)
+            {
+                var mf = mfs[k];
+                var mesh = mf.sharedMesh;
+                var mr = mf.GetComponent<MeshRenderer>();
+                var wb = mr.bounds;                       // world bounds of the renderer in the instantiated-asset space (identity root)
+                int tris = 0;
+                for (int s = 0; s < mesh.subMeshCount; s++) tris += (int)(mesh.GetIndexCount(s) / 3);
+                bool uv = mesh.uv != null && mesh.uv.Length == mesh.vertexCount;
+                bool nrm = mesh.normals != null && mesh.normals.Length == mesh.vertexCount;
+                var e = exp.FirstOrDefault(x => x.fbx == fn && x.mesh == mf.name);
+                double err = -1;
+                string parentName = mf.transform.parent != null ? mf.transform.parent.name : "";
+                bool parentOk = true;
+                if (e != null)
+                {
+                    // expected world bounds in Unity axes
+                    float[] mn = { -e.bmax[0], e.bmin[2], -e.bmax[1] };
+                    float[] mx = { -e.bmin[0], e.bmax[2], -e.bmin[1] };
+                    err = new[] { Math.Abs(wb.min.x - mn[0]), Math.Abs(wb.min.y - mn[1]), Math.Abs(wb.min.z - mn[2]), Math.Abs(wb.max.x - mx[0]), Math.Abs(wb.max.y - mx[1]), Math.Abs(wb.max.z - mx[2]) }.Max() * 1000.0;
+                    parentOk = parentName == e.parent;
+                }
+                bool ok = uv && nrm && tris > 0 && err >= 0 && err < 1.0 && parentOk;
+                if (!ok) allOk = false;
+                sb.AppendLine("    {\"name\": \"" + mf.name + "\", \"parent\": \"" + parentName + "\", \"parentOk\": " + (parentOk ? "true" : "false") + ", \"verts\": " + mesh.vertexCount + ", \"tris\": " + tris + ", \"submeshes\": " + mesh.subMeshCount +
+                    ", \"materials\": \"" + string.Join("|", mr.sharedMaterials.Select(m => m != null ? m.name : "null")) + "\", \"uv\": " + (uv ? "true" : "false") + ", \"normals\": " + (nrm ? "true" : "false") +
+                    ", \"worldBoundsMin\": [" + wb.min.x.ToString("F4") + "," + wb.min.y.ToString("F4") + "," + wb.min.z.ToString("F4") + "], \"worldBoundsMax\": [" + wb.max.x.ToString("F4") + "," + wb.max.y.ToString("F4") + "," + wb.max.z.ToString("F4") + "]" +
+                    ", \"boundsErrVsBlender_mm\": " + err.ToString("F3") + ", \"ok\": " + (ok ? "true" : "false") + "}" + (k < mfs.Length - 1 ? "," : ""));
+            }
+            UnityEngine.Object.DestroyImmediate(inst);
+            if (Math.Abs(imp.globalScale - 1) > 1e-6 || maxScaleDev > 1e-4) allOk = false;
+            sb.AppendLine("  ], \"maxLossyScaleDev\": " + maxScaleDev.ToString("E2") + "}" + (i < fbxs.Length - 1 ? "," : ""));
+        }
+        sb.AppendLine("], \"STDKIT_WORN_UNITY_IMPORT\": \"" + (allOk ? "PASS" : "FAIL") + "\"}");
+        File.WriteAllText("unity_import_report.json", sb.ToString());
+        Debug.Log("STDKIT_WORN_UNITY_IMPORT=" + (allOk ? "PASS" : "FAIL"));
+        EditorApplication.Exit(allOk ? 0 : 2);
+    }
+}

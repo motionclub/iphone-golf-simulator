@@ -1,0 +1,27 @@
+{
+ "frames": 7686,
+ "clips": 52,
+ "bodyFailFramesBefore": 1659,
+ "bodyFailFramesAfter": 321,
+ "clothFailFramesBefore": 2872,
+ "clothFailFramesAfter": 500,
+ "lockedFrames": 1768,
+ "failFramesWhileLocked": 514,
+ "bodyFailFramesAfterFree": 8,
+ "clothFailFramesAfterFree": 22,
+ "clipsWithBodyFailAfter": 18,
+ "clipsWithClothFailAfter": 24,
+ "maxContactDriftMm": 0,
+ "contactClips": 10,
+ "popFrames": 104,
+ "clipsWithPops": 7,
+ "clipsWithPopsStaticClip": 0,
+ "flips": 0,
+ "solverMs": {
+  "solverMsMean": 0.0274,
+  "solverMsP50": 0.0161,
+  "solverMsP95": 0.1175,
+  "solverMsP99": 0.2285,
+  "solverMsMax": 4.6233
+ }
+}

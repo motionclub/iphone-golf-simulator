@@ -1,0 +1,118 @@
+{
+  "Male": [
+    {
+      "boundaryVertices": 46,
+      "closureXRange": [
+        -0.05445696413516998,
+        -0.020850226283073425
+      ],
+      "closureZRange": [
+        1.5812192430496217,
+        1.5847531089782714
+      ],
+      "visibleEyeRayCount": 0,
+      "testRays": 18271,
+      "visibleEyeXRange": [
+        0,
+        0
+      ],
+      "visibleEyeZRange": [
+        0,
+        0
+      ],
+      "leakSamples": [],
+      "headWeights": [
+        0.8695785403251648,
+        0.9255036115646362
+      ],
+      "upperVertices": 25,
+      "lowerVertices": 21
+    },
+    {
+      "boundaryVertices": 46,
+      "closureXRange": [
+        0.020866291597485542,
+        0.055840395390987396
+      ],
+      "closureZRange": [
+        1.5812147130966188,
+        1.5844518671035766
+      ],
+      "visibleEyeRayCount": 0,
+      "testRays": 18271,
+      "visibleEyeXRange": [
+        0,
+        0
+      ],
+      "visibleEyeZRange": [
+        0,
+        0
+      ],
+      "leakSamples": [],
+      "headWeights": [
+        0.8640484809875488,
+        0.9294769763946533
+      ],
+      "upperVertices": 25,
+      "lowerVertices": 21
+    }
+  ],
+  "Female": [
+    {
+      "boundaryVertices": 128,
+      "closureXRange": [
+        -0.08043254911899567,
+        -0.020244641229510307
+      ],
+      "closureZRange": [
+        1.5478697290420533,
+        1.5616985092163085
+      ],
+      "visibleEyeRayCount": 0,
+      "testRays": 18271,
+      "visibleEyeXRange": [
+        0,
+        0
+      ],
+      "visibleEyeZRange": [
+        0,
+        0
+      ],
+      "leakSamples": [],
+      "headWeights": [
+        0.8364407420158386,
+        0.9741213321685791
+      ],
+      "upperVertices": 65,
+      "lowerVertices": 63
+    },
+    {
+      "boundaryVertices": 128,
+      "closureXRange": [
+        0.020247867330908775,
+        0.08051398396492004
+      ],
+      "closureZRange": [
+        1.5474334230422975,
+        1.5610894689559935
+      ],
+      "visibleEyeRayCount": 0,
+      "testRays": 18271,
+      "visibleEyeXRange": [
+        0,
+        0
+      ],
+      "visibleEyeZRange": [
+        0,
+        0
+      ],
+      "leakSamples": [],
+      "headWeights": [
+        0.8368362784385681,
+        0.9740449786186218
+      ],
+      "upperVertices": 66,
+      "lowerVertices": 62
+    }
+  ]
+}

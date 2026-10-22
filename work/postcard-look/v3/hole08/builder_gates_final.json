@@ -1,0 +1,241 @@
+{
+  "result": "ALL PASS",
+  "gates": [
+    {
+      "name": "NEEDLES",
+      "ok": true,
+      "detail": "9 needles (clusters of spires + skirt boulders): highest point 17.60 m (cap 18.0), nearest vertex 28.9 yd from the centerline (>= 25), 0 vertices in a water ellipse, 0 on land"
+    },
+    {
+      "name": "ARCH",
+      "ok": true,
+      "detail": "masonry arch 12.2 m tall, top 17.37 m (cap 18.0); its 12 foot vertices stand on the outcrop top: 0 with no outcrop under them, height above the top 0.00..0.04 m (limits -0.35..0.35)"
+    },
+    {
+      "name": "ARCH_FALLEN_BLOCKS_REST",
+      "ok": true,
+      "detail": "4 fallen blocks lie on the outcrop top (lowest vertex within 0.25 m above / 0.5 m into it, outcrop under the whole foot); bad []"
+    },
+    {
+      "name": "ROCKS_OFF_PLAY_SURFACES",
+      "ok": true,
+      "detail": "53 rock / masonry pieces, 5717 vertices: 0 at or above the play height over a play surface, 0 inside a water ellipse above z -0.5, 0 within 3 m of the pin"
+    },
+    {
+      "name": "ROCKS_STAND_IN_THE_SEA",
+      "ok": true,
+      "detail": "34 stack parts / outcrop / foot boulders: lowest vertex of each at or below the sea (+0.15 m): highest of those -0.35 m"
+    },
+    {
+      "name": "ROCKS_CONTACT_CHAIN",
+      "ok": true,
+      "detail": "53 pieces: 34 stand in the sea, 14 stand on / sunk into the ground, the rest are chained to those by surfaces within 0.05 m; floating: []"
+    },
+    {
+      "name": "ROCKS_REST",
+      "ok": true,
+      "detail": "14 land rocks rest on the ground (lowest point within -0.45..+0.15 m of it; at most 25 percent of the lower part over open air); hovering [], overhanging []; the arch and fallen blocks rest on the outcrop (ARCH, ARCH_FALLEN_BLOCKS_REST)"
+    },
+    {
+      "name": "LINES_OF_PLAY_VISIBLE",
+      "ok": true,
+      "detail": "30 camera-to-target rays (tee, middle pad, its far end -> landing pad and green, 9 green points) past every rock / masonry / vine piece: 0 stopped []"
+    },
+    {
+      "name": "ARCH_OPENING_CLEAR",
+      "ok": true,
+      "detail": "share of the arch opening (379 free points in its plane) covered by a needle / loose rock, per camera: [('tee', 0.0, 379), ('middle pad', 0.0, 379), ('middle pad far end', 0.0, 379)] (<= 0.10)"
+    },
+    {
+      "name": "ARCH_NOT_HIDDEN_BY_NEEDLES",
+      "ok": true,
+      "detail": "share of the masonry hidden by a needle / loose rock, per camera (name, share, degrees off the aim): [('tee', 0.0, -11.3), ('middle pad', 0.0, -10.2), ('middle pad far end', 0.0, -12.3)] (<= 0.08)"
+    },
+    {
+      "name": "NEEDLES_NOT_BEHIND_TARGETS",
+      "ok": true,
+      "detail": "flag top and arch opening seen from the 3 cameras: needles within 1.2 degrees behind them: []"
+    },
+    {
+      "name": "PATH_CLEAR_OF_BALL",
+      "ok": true,
+      "detail": "2 DRESS_PATH meshes: nearest path vertex to the tee ball 0.71 m, to the approach ball 0.61 m (need >= 0.5 m)"
+    },
+    {
+      "name": "MOW_PATTERN",
+      "ok": true,
+      "detail": "LK_FAIRWAY u shifted by 0.2 on faces {'FAIRWAY': 415, 'FAIRWAY_FIRSTCUT': 298, 'GREEN_APRON': 116} (live check: U - lateral / 10 on FAIRWAY has median 0.200, 100% within 0.01; need 0.2); TEE_BOX ['LK_GREEN'] -> ['LK_FAIRWAY'] (continuing the fairway UVs), 32 faces; UV density / contract (1.00 = 1 / 10 m, recomputed from the scene): {'FAIRWAY': 0.999, 'FAIRWAY_FIRSTCUT': 0.999, 'GREEN_APRON': 1.0, 'TEE_BOX': 1.044} (0.9..1.1)"
+    },
+    {
+      "name": "TEE_SEAM_SEEN",
+      "ok": true,
+      "detail": "tee frame (900 x 1600), 52 grass pixel columns (plate above / fairway beyond the edge, edge row mean 671): texture jump across the plate's front edge, max |dU| 0.0001, max |dV| 0.0002 tile units of the 10 m tile (<= 0.004 = 4 cm; round 5 build, same rays: dU 0.0109, dV 0.0335 = 33 cm); for the record the plan-view UV step TEE_BOX outline vs FAIRWAY under it is dU 0.0200, dV 0.0339 (28 outline vertices) = the compensation of the hidden band (k = 1.0445)"
+    },
+    {
+      "name": "PATH_STEP_CONTINUOUS",
+      "ok": true,
+      "detail": "tee frame, 21 pixel columns on the stone path across the plate's front edge: 0 rows without stones between 24 rows above and 24 below the edge (a grass strip across the path; round 5 build, same rays with 30..40 rows margin: 43 columns, 7 to 14 rows without stones in every one, 444 in all), stone texture jump max |dU| 0.0003, |dV| 0.0023 tile units of the 5 m tile (<= 0.008 = 4 cm)"
+    },
+    {
+      "name": "PATH_SEAM_JUMP",
+      "ok": true,
+      "detail": "tee frame (900 x 1600), ray casts: the path's right edge at the tee box's front edge (screen row 671): raw step between the edge's last row below and first row above the seam 5.3 px (<= 10.0), jump of the two fitted lines at the seam 3.4 px (<= 8.0), slope change -0.17 px per row (<= 0.8); slopes 0.0 / -0.17; round 4 (path bent right at the seam): 29 px / 10 px / -0.9"
+    },
+    {
+      "name": "LEDGES_ARE_TURF",
+      "ok": true,
+      "detail": "1558 up-facing ROCK_SKIN faces within 1.2 m under the grass lip (the capping ledge and the first strata ledge): 1558 wear LK_ROUGH turf, 0 are still dark LK_CLIFF slabs (need 0); 1558 re-materialled at build time (868.9 m2); round 4: all of them were LK_CLIFF"
+    },
+    {
+      "name": "BUNKER_LIP_NOT_GREEN",
+      "ok": true,
+      "detail": "BUNKER_01_LIP materials ['LK_ROUGH'] (round 4: ['LK_GREEN'], the brightest, directional grass; the contract allows LK_GREEN / LK_FAIRWAY / LK_ROUGH / LK_SAND); vertices frozen (H_PLAY_UNCHANGED)"
+    },
+    {
+      "name": "OUTCROP_VINES",
+      "ok": true,
+      "detail": "10 PLANT_VINE_* hang from the outcrop's grass rim over its flank (need >= 8); 0 have a leaf more than 1.4 m from the rock (need 0); lowest leaf z 3.03 m (>= 2.9: the plant gate wants every piece >= 3 m up)"
+    },
+    {
+      "name": "ARCH_SLAB_COVERED",
+      "ok": true,
+      "detail": "arch landmark camera (Blender m (-10.0, 277.0, 12.08) -> (-26.243, 289.865, 10.8), fov 60), 3600 rays through the 900 x 1600 frame: the OUTCROP's bare rock (LK_ROCK / LK_CLIFF) is 0.0% of the lower 40 % (<= 2%; round 5 build, same rays: 22.7 % = the 'flat grey slab' of 500 x 210 px; 9.1 % of the whole frame) and 0.0% of the whole frame (<= 4 %); the pad's strata skin in the lower 40 %: 0.0% (reported); outcrop dressing: 163 -> 282 faces, 87 cut vertices (87 displaced), 70 turf + 18 patchy-turf faces"
+    },
+    {
+      "name": "ARCH_FOLD_SOFT",
+      "ok": true,
+      "detail": "arch landmark frame, region x 150-750 y 1280-1600 (the reviewer's fold), 6520 vertically adjacent ray pairs (4 px apart) on the outcrop: largest change of the SHADING normal 8.1 deg at (150, 1384) (<= 30; round 7 build, same rays: 66.9 deg, 97 pairs over 20 deg = the hard fold), 99th percentile 7.1 deg, 0 pairs over 20 deg, largest |N.sun| step 0.130 (<= 0.4; round 7: 1.08); shoulder 32 bevel faces (0.5 m, 4 segments), 405 turf loops on smooth custom normals"
+    },
+    {
+      "name": "GRASS_OUTCROP_FRINGE",
+      "ok": true,
+      "detail": "89 tufts (PLANT_TUFT_D / E / S, the sway-carrying library meshes, 6156 triangles) in 20 clumps on the arch island's grass top: every base on the top (ray onto the outcrop, within 3 cm of the placement, normal up), nearest to the rim 0.45 m (>= 0.40), none inside a pier / fallen-block disc, tallest 0.88 m (<= 1.25); bad none"
+    },
+    {
+      "name": "CROWN_TUFTS",
+      "ok": true,
+      "detail": "70 tufts (5859 triangles) on the top 1 m of 9 sea-stack / spire meshes (164 candidates, 94 pruned by the verifier's support rule): base to the nearest stack surface max 0.039 m (<= 0.12); bad none"
+    },
+    {
+      "name": "VINE_ROOT_GAP",
+      "ok": true,
+      "detail": "135 PLANT_VINE_* (cliff skin, outcrop flank, masonry): root to the nearest ROCK_ / DRESS_ARCH / BLOCK / TERRAIN surface max 5.0 cm (<= 5; before attach_vines: 0.58 m); attach_vines: 36 already touching, 99 moved onto the surface, 0 deleted (beyond 1 m); outcrop vines now follow the wall's slope (tilt about the root, root offset = the surface at its height)"
+    },
+    {
+      "name": "ARCH_LEFT_STRIP_COVERED",
+      "ok": true,
+      "detail": "arch frame, the reviewer's left strip x 0-110, y 1300-1500 ('a grey slab and vines'), 646 rays: bare outcrop rock 0.0% (<= 10%; round 7 build, same rays: 31.1 %), turf 93.3%"
+    },
+    {
+      "name": "GRASS_NOT_ON_PLAY_SURFACES",
+      "ok": true,
+      "detail": "706 fringe tufts, every vertex (2 of 3 sampled) ray-cast down onto 9 play meshes (BUNKER, BUNKER_01_LIP, DRESS_PATH, FAIRWAY, FAIRWAY_FIRSTCUT, GREEN, GREEN_APRON, TEE_BOX): 0 over a play surface []"
+    },
+    {
+      "name": "GRASS_NOT_ON_WATER",
+      "ok": true,
+      "detail": "706 fringe tufts / 44970 vertices: vertices over water 0; nearest origin to a shore / lip edge 0.90 m (>= 0.8); origin vs the ray-cast ground max |dz| 0.020 m (<= 0.05); lowest origin z 5.98 (>= 5.0)"
+    },
+    {
+      "name": "GRASS_BALL_CLEAR",
+      "ok": true,
+      "detail": "4 shot-ball zones [(-4.0, 322.0, 4.0), (-1.0, 11.0, 4.0), (0.0, 0.0, 1.5), (19.0, 178.0, 4.0)] (course yd, r m): nearest tuft vertex vs the balls (worst margin +4.84 m), margin to the 6 m pin disc +9.86 m, to the 1.5 m markers +5.92 m; tops in the ball corridor (<= 16.3 m off the centerline or <= 12 m from a ball): max 0.498 m (<= 0.503 = 0.55 yd), over none; whole hole max 0.50 m"
+    },
+    {
+      "name": "GRASS_FRINGE_PRESENT",
+      "ok": true,
+      "detail": "706 fringe tufts (298 tall D/E + 408 filler S, by kind {'PLANT_TUFT_S': 408, 'PLANT_TUFT_D': 239, 'PLANT_TUFT_E': 59}) in 158 clumps of 3-7 (largest 7), 33 pairs, 28 singles; 87% of the tufts stand in a clump of >= 3; nearest-neighbour distance mean 0.52 m, CV 0.46 (>= 0.35), 21% of the distances within 10 % of the median (<= 45 %): not a grid; lean max 12.0 deg (<= 12), median 8.3; scale factor 0.60..1.53 median 0.86; tuft height 0.22 / 0.43 / 0.57 m (min / median / max; 256 scaled down to the 0.55 yd cap near the ball corridor); coverage of the rough edge 100% (157 of 157 sample points {'play': (106, 106), 'path': (0, 0), 'lip': (51, 51)} (play / path / lip: (points, covered)) have a tuft within 2.2 m; >= 20 %), 100% of the 157 points within 45 m of a still camera's ball (>= 50 %); the stone paths run on the fairway, so the 'path' edge has no rough to stand on"
+    },
+    {
+      "name": "GRASS_TRI_BUDGET",
+      "ok": true,
+      "detail": "export set 241625 triangles (<= 250000); fringe 48465 triangles = 69 per tuft (<= 90; 408 of 706 are 36-triangle fillers); paid for by cheapen_tufts (A / B tufts farther than 14 m from a shot ball -> S / T): 318 swapped, 227 kept, 25758 triangles saved; the scene had 151539 triangles right before the fringe (round 7 staged build: 195,500)"
+    },
+    {
+      "name": "LOOK_TOP_SURFACES_UNCHANGED",
+      "ok": true,
+      "detail": "8 ground meshes, 2492 vertices, max |delta| 0.00e+00 m (tol 1e-05)"
+    },
+    {
+      "name": "LOOK_NO_COLLISION_PREFIX",
+      "ok": true,
+      "detail": "72 objects made by postcard_look_lib, none with a ground prefix; ground meshes 8 all on the postcard_verify allow-list"
+    },
+    {
+      "name": "LOOK_NO_MAT_FOAM",
+      "ok": true,
+      "detail": "exported meshes using MAT_FOAM [], WATER_FOAM* objects [], MAT_FOAM datablock users 0 (0-user data is neither saved nor exported)"
+    },
+    {
+      "name": "LOOK_GROUND_WATER_ARE_LK",
+      "ok": true,
+      "detail": "non-LK materials on ground/water meshes: []"
+    },
+    {
+      "name": "LOOK_UV_SANE",
+      "ok": true,
+      "detail": "10 ground/water meshes: one UV layer, finite, max |uv| 250.6, UV*tile/world edge ratio on every top/flat face 0.55..1.40 (limits 0.45..2.2); TERRAIN wall faces (hidden by the skin; arc-of-the-top-loop u) max ratio 1.45 (<= 8: no seam jump)"
+    },
+    {
+      "name": "LOOK_SKIN_BELOW_PLAY",
+      "ok": true,
+      "detail": "20 ROCK_SKIN pieces, 37890 tris, highest vertex 5.779 m (play 6.0 - 0.05)"
+    },
+    {
+      "name": "LOOK_WATER_STACK",
+      "ok": true,
+      "detail": "45 WATER_* meshes except the vertical WATER_FALL_nn sheet inside z 0..0.2 (library audit LOOK_WATER_STACK counts the sheet: LIB_BUGS.md)"
+    },
+    {
+      "name": "LOOK_SURF_BROKEN",
+      "ok": true,
+      "detail": "43 WATER_SURF objects, 43 separate pieces (>= 8; was >= 12 on the old near-continuous band), longest piece 11.8 m (<= 14 bbox diagonal of one patch; was <= 140; the run along the shore is capped at 10 m by NO_FOAM_STRIP), vertex colour 'Col' on all: True"
+    },
+    {
+      "name": "SHELF_THIN",
+      "ok": true,
+      "detail": "588 shore samples (every 1 m, 3 loops): visible shelf width beyond the skin at the waterline median 1.30 m (<= 2.5), p95 2.90 m (<= 4), max 3.80 m outside pockets (<= 4.5), 4.50 m in 9 pocket samples (<= 6); breaks (no shelf) 8% of samples; where present median 1.40 m, CV 0.52 (>= 0.3); top-down footprint width median 0.40 m, p95 1.86 m; WATER_SHELF area 2739 m2"
+    },
+    {
+      "name": "NO_FOAM_STRIP",
+      "ok": true,
+      "detail": "1812 export meshes: foam objects/materials []; 43 WATER_SURF objects, 43 components; coverage 16.1% of 522 m shoreline (<= 25), 16 runs along the shore, longest 8.0 m (<= 10), shortest gap between runs 16.5 m (>= 8), strips (aspect >= 4 and width CV <= 0.35) 0, components with alpha > 0.1 at an end 0; component aspect max 1.51, alpha max 1.00"
+    },
+    {
+      "name": "PATH_UNDER_BALL",
+      "ok": true,
+      "detail": "14511 path vertices: max top above the collider right below 1.15 cm (<= 1.2), lowest skirt foot -14.0 cm (<= -3); dense lattice 348681 samples (264 m2 at 2.75 cm): max 1.15 cm above the ground (<= 1.5), median 1.15 cm, 3% of the path buried under the ground; border step max 1.15 cm; ball test 87182 resting positions: max hidden 3.6% (<= 10), > 5% at 0, > 10% at 0"
+    },
+    {
+      "name": "CRATER_WALL_COVERED",
+      "ok": true,
+      "detail": "7248 rays (aerial/low/oblique) at wall points z 0.3 .. 5.88 m: smooth TERRAIN wall seen first 1450 = 20.01% (<= 1), at z >= 5 m: 1449 (must be 0), first hit on a vertical LK_ROUGH wall face 1449 (19.99%, <= 1); by view {'aerial': '483/2416', 'low': '482/2416', 'oblique': '485/2416'}; by wall height {'>=5': 1449, '3-5': 1}; tolerated sliver PLAY_Z - 0.10 .. PLAY_Z: 906/906 rays reach bare wall (LK_BASALT there on Crater); up-facing skin faces above PLAY_Z - 0.05: 0 (report only: strata holes keep a grass fringe above the cap ledge)"
+    },
+    {
+      "name": "SKIN_NOT_OVER_WATER",
+      "ok": true,
+      "detail": "2 water ellipses, 22702 grid cells (0.5 m) deeper than 0.15 m inside them: 0 are covered by an up-facing skin surface (0.0 m2, worst depth 0.00 m, top z 0.00); up-facing (nz > 0.3) skin faces deeper than 0.15 m: 0 by centre, 0 by any vertex"
+    },
+    {
+      "name": "SKIN_FACES_OUTWARD",
+      "ok": true,
+      "detail": "861 rays from 20 m out at z 1, 3, 5 toward the shore: first hit on a ROCK_SKIN face is FRONT-facing 861 times, back-facing 0 (100.0% front, need >= 99%; the materials are single-sided in Unity)"
+    },
+    {
+      "name": "STRATA_JOINTS_STAGGERED",
+      "ok": true,
+      "detail": "94 fissure blocks (mean 5.6 m, CV 0.58, need >= 0.40), 91 fissures: 4 % are a >= 6 cm step in every band (need <= 25 %), 50 % of the (fissure, band) cells are open; control skipped"
+    },
+    {
+      "name": "MESH_QUALITY",
+      "ok": true,
+      "detail": "min triangle angle / min area over every ground mesh (the flat water bands are gone): TERRAIN_NEEDLE 9.5 deg 0.30 m2, FAIRWAY 5.6 deg 0.20 m2, FAIRWAY_FIRSTCUT 6.4 deg 0.08 m2, GREEN 10.0 deg 1.16 m2, GREEN_APRON 5.1 deg 0.13 m2, TEE_BOX 7.5 deg 0.04 m2, BUNKER_01 12.3 deg 0.14 m2, BUNKER_01_LIP 9.9 deg 0.29 m2 (limits 5 deg, 0.02 m2)"
+    },
+    {
+      "name": "TERRAIN_WELD",
+      "ok": true,
+      "detail": "largest boundary vertex move 0.254 m = 0.28 yd (<= 0.5 yd, SHORE_MATCH measures the result); loops [51, 72, 48], shortest loop edge 0.81 m"
+    }
+  ],
+  "count": 47
+}

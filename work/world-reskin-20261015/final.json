@@ -1,0 +1,50 @@
+[
+  {
+    "name": "reskin-before-final-golf",
+    "method": "GolfArcade.EditorTools.GolfCourseStandardCapture.Run",
+    "env": {
+      "LUMINOUS_COAST": "0",
+      "GOLF_STANDARD_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/proof/before-final/golf",
+      "GOLF_STANDARD_HOLES": "12,7",
+      "GOLF_STANDARD_SHOWCASE": "1",
+      "GOLF_STANDARD_CAMERA_SWEEP": "0",
+      "GOLF_STANDARD_WIND": "8,45",
+      "LUMINOUS_AUDIT_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/proof/before-final/golf/exit-to-hole7-audit.json"
+    }
+  },
+  {
+    "name": "reskin-before-final-tennis",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "LUMINOUS_COAST": "0",
+      "HERO_VENUE": "resort",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/proof/before-final/tennis",
+      "HERO_VENUE_ONLY": "1_gameplay,2_postcard,3_drone0,3_drone3,7_rear",
+      "LUMINOUS_AUDIT_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/proof/before-final/tennis/audit.json"
+    }
+  },
+  {
+    "name": "reskin-after-golf",
+    "method": "GolfArcade.EditorTools.GolfCourseStandardCapture.Run",
+    "env": {
+      "LUMINOUS_COAST": "1",
+      "GOLF_STANDARD_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/proof/after/golf",
+      "GOLF_STANDARD_HOLES": "12,7",
+      "GOLF_STANDARD_SHOWCASE": "1",
+      "GOLF_STANDARD_CAMERA_SWEEP": "0",
+      "GOLF_STANDARD_WIND": "8,45",
+      "LUMINOUS_AUDIT_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/proof/after/golf/exit-to-hole7-audit.json"
+    }
+  },
+  {
+    "name": "reskin-after-tennis",
+    "method": "GolfArcade.EditorTools.TennisVenueCapture.Run",
+    "env": {
+      "LUMINOUS_COAST": "1",
+      "HERO_VENUE": "resort",
+      "HERO_VENUE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/proof/after/tennis",
+      "HERO_VENUE_ONLY": "1_gameplay,2_postcard,3_drone0,3_drone3,7_rear",
+      "LUMINOUS_AUDIT_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/world-reskin-20261015/proof/after/tennis/audit.json"
+    }
+  }
+]

@@ -1,0 +1,147 @@
+{
+ "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v2/hole09/r8/g1/hole_09.blend",
+ "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v2/hole09/r8/g1/hole_09.fbx",
+ "gates": [
+  {
+   "id": "H_PLAY_UNCHANGED",
+   "ok": true,
+   "detail": "12 ground meshes (TERRAIN/FAIRWAY/GREEN/TEE_BOX/BUNKER) vs the baseline blend work/postcard-look/baseline/blender/hole_09.blend: 5628 vertices, max |delta| 0.00e+00 m (tol 1e-5), identical polygon index lists, identity transforms; name set differences none; problems none"
+  },
+  {
+   "id": "H_RIBBON_FAIRWAY_SAND_GREEN",
+   "ok": true,
+   "detail": "ribbon: FAIRWAY ['LK_FAIRWAY'] (LK_FAIRWAY = mow-striped albedo + normal, the old MAT_FAIRWAY / MAT_FAIRWAY_STRIPE flat colours are gone), TEE_BOX ['LK_FAIRWAY'] (stripes run on under the ball), FAIRWAY_FIRSTCUT ['LK_ROUGH'] (the rough-lie collar), 3 bunkers on ['LK_SAND'] (LK_SAND albedo + normal, lips ['LK_GREEN']), ONE GREEN on ['LK_GREEN']; flat MAT_ ground meshes none; missing texture files none; mismatches none"
+  },
+  {
+   "id": "H_RIDGE_SCRUB",
+   "ok": true,
+   "detail": "786 TERRAIN top faces on LK_SCRUB (olive dry scrub, Scrub_C hue ~50), 99.7% of their area on the ridge side (need >= 95 %), 2 faces on the ribbon side; scrub faces whose scoring lie is not Rough / OutOfBounds: 0 (the lie is Hole.cs: untouched)"
+  },
+  {
+   "id": "H_RIDGE_PLANTS_ROCKS",
+   "ok": true,
+   "detail": "ridge side (closer to the ridge spine than to the ribbon centerline): 517 PLANT_* and 166 loose ROCK_* (need >= 30 / >= 8); whole hole: 915 plants = 120 shrubs, 769 tufts, 20 flowers (sparse), 6 agave; plant kinds ['PLANT_AGAVE_A', 'PLANT_FLOWER_PURPLE', 'PLANT_FLOWER_WHITE', 'PLANT_FLOWER_YELLOW', 'PLANT_SHRUB_A', 'PLANT_SHRUB_B', 'PLANT_SHRUB_C', 'PLANT_TUFT_A', 'PLANT_TUFT_B', 'PLANT_TUFT_D', 'PLANT_TUFT_E', 'PLANT_TUFT_F', 'PLANT_TUFT_S', 'PLANT_TUFT_T']"
+  },
+  {
+   "id": "H_RUIN_MASONRY",
+   "ok": true,
+   "detail": "13 DRESS_RUIN_* + 4 DRESS_ARCH_* meshes, materials ['LK_MASONRY', 'LK_ROCK'] (lowest LK_MASONRY area share of a mesh 66% >= 50 %, highest LK_ROCK share 34% < 50 %), 389 separate masonry pieces (need >= 12), top 6.1 m above the ridge (need >= 2), a through-doorway 2.3 m wide x 2.4 m clear with a lintel above it (True) in the tall wall (need >= 1.5 m), broken arch 4.5 m tall, 13 fallen DRESS_BLOCK + rubble stones, no 12-vertex rock stands in for masonry"
+  },
+  {
+   "id": "H_SEA_STACKS_SPIRES",
+   "ok": true,
+   "detail": "9 spire pieces on 3 meshes (tapering, grassy crowns; the 8 design stacks are clusters of a main spire + satellites + skirt boulders); legacy ROCK_STACK_nn: none; seastack_report ok for all: True (worst taper 0.28 <= 0.45, flat cap 8%, fill 0.59); summits 8.0..19.1 m above the water (design heights 8..19 m)"
+  },
+  {
+   "id": "H_NO_12_VERTEX_ROCK",
+   "ok": true,
+   "detail": "[blend] 286 rock objects on 33 mesh datablocks: min welded vertices 61 (need >= 60), meshes under 60: none, 12-vertex / 20-face icosahedra: none, legacy mesh names (ROCK_SMALL/MEDIUM/LARGE, CLIFF_ROCK, ROCK_WALL_FLAT/BLUNT, ROCK_STACK_nn): none; 13 fallen DRESS_BLOCK instances on 8 meshes {'DRESS_BLOCK_A_CHIP0': 98, 'DRESS_BLOCK_A_CHIP1': 98, 'DRESS_BLOCK_A_CHIP2': 98, 'DRESS_BLOCK_A_CHIP3': 98, 'DRESS_BLOCK_B_CHIP0': 98, 'DRESS_BLOCK_B_CHIP1': 98, 'DRESS_BLOCK_B_CHIP2': 98, 'DRESS_BLOCK_B_CHIP3': 98} (need >= 60 welded vertices each; round 1 had 24: they were chipped), blocks under 60: none"
+  },
+  {
+   "id": "H_NO_STRETCH_2X",
+   "ok": true,
+   "detail": "335 ROCK_/DRESS_ instances: singular values of matrix_world in [0.60, 2.00] (limits 0.5..2.0), worst max/min 1.35 (limit 2.0); PL.stretch_report on the library instances: n 272, scale 0.60..2.00, max/min 1.35, violations 0; offenders none"
+  },
+  {
+   "id": "H_NO_PLANT_ON_WATER",
+   "ok": false,
+   "detail": "[blend] 915 PLANT_* objects: base on water 27, base below z 5 m 0, on a play surface lie (fairway/green/tee/bunker) 0, within 1.0 m of the shore 5 (nearest 0.91 m), no ground under the base 27, worst |origin z - ground| 0.850 m (PLANT_TUFT_T.220; the lib sinks a plant 0.02-0.045 m: need <= 0.06), worst lowest-vertex offset 0.803 m (PLANT_TUFT_T.220; tilt + sink, need <= 0.30)"
+  },
+  {
+   "id": "H_NO_FOAM_STRIP",
+   "ok": true,
+   "detail": "MAT_FOAM / *FOAM* objects none, materials none, mesh users none; lib NO_FOAM_STRIP: 1345 export meshes: foam objects/materials []; 61 WATER_SURF objects, 61 components; coverage 12.8% of 1895 m shoreline (<= 25), 55 runs along the shore, longest 7.0 m (<= 10), shortest gap between runs 15.0 m (>= 8), strips (aspect >= 4 and width CV <= 0.35) 0, components with alpha > 0.1 at an end 0; component aspect max 1.85, alpha max 1.00"
+  },
+  {
+   "id": "H_SHELF_THIN",
+   "ok": true,
+   "detail": "2075 shore samples (every 1 m, 1 loops): visible shelf width beyond the skin at the waterline median 1.40 m (<= 2.5), p95 2.80 m (<= 4), max 3.90 m outside pockets (<= 4.5), 3.20 m in 118 pocket samples (<= 6); breaks (no shelf) 6% of samples; where present median 1.50 m, CV 0.49 (>= 0.3); top-down footprint width median 0.50 m, p95 1.80 m; WATER_SHELF area 12141 m2"
+  },
+  {
+   "id": "H_SKIN_NOT_OVER_WATER",
+   "ok": true,
+   "detail": "1 water ellipses, 22351 grid cells (0.5 m) deeper than 0.15 m inside them: 0 are covered by an up-facing skin surface (0.0 m2, worst depth 0.00 m, top z 0.00); up-facing (nz > 0.3) skin faces deeper than 0.15 m: 0 by centre, 0 by any vertex"
+  },
+  {
+   "id": "H_SKIN_FACES_OUTWARD",
+   "ok": true,
+   "detail": "2490 rays from 20 m out at z 1, 3, 5 toward the shore: first hit on a ROCK_SKIN face is FRONT-facing 2490 times, back-facing 0 (100.0% front, need >= 99%; the materials are single-sided in Unity)"
+  },
+  {
+   "id": "H_BUDGET",
+   "ok": true,
+   "detail": "245523 triangles over 1345 mesh objects (limit 250000; instances counted), FBX 5.25 MB (limit 20); by group {'other': 109, 'ground': 9911, 'masonry': 14408, 'block': 2496, 'knoll': 5280, 'sand': 736, 'plant': 98420, 'rock': 33378, 'stack': 3818, 'skin': 60720, 'water': 16247}; prop meshes over 500 faces: none"
+  },
+  {
+   "id": "H_SCRUB_BOUNDARY_COVERED",
+   "ok": true,
+   "detail": "23 terrain edges between LK_SCRUB and rough faces (165 m): SHRUBS/ROCKS within 3 m: >= 1 along 93% of the 1 m samples (need 90 %) / 91% of the edge midpoints, >= 2 along 83% / 87% (need 75 %); longest bare run 6.5 m (need <= 10: it is the route crossing), bare samples farther than 2.2 m from the route axis: 0 (need 0); the round-1 rule (ANY 2 plants/rocks incl. tufts within 3 m at the midpoints, need 85 %): 91%; 251 shrub/agave/rock pieces counted, 61 of them the boundary chain"
+  },
+  {
+   "id": "H_BUNKER_SAND_OVERLAY",
+   "ok": true,
+   "detail": "3 DRESS_SAND meshes (DRESS_SAND_01 268 up-facing tris, DRESS_SAND_02 242 up-facing tris, DRESS_SAND_03 226 up-facing tris), LK_SAND only True; over the collider: top at most 0.90 cm at 5152 samples (need <= 1.5), vertices 0.90 cm (<= 1.2), 100% of samples >= 3 mm up (>= 60 %); outline past the scoring ellipse per bunker: 01: reach 2.30 m (need >= 0.9), lobes on 56% of the 36 sectors (25-85 %), 5 lobes (>= 2), sd 0.62 m; 02: reach 1.81 m (need >= 0.9), lobes on 56% of the 36 sectors (25-85 %), 4 lobes (>= 2), sd 0.59 m; 03: reach 1.31 m (need >= 0.9), lobes on 53% of the 36 sectors (25-85 %), 3 lobes (>= 2), sd 0.48 m"
+  },
+  {
+   "id": "H_RIDGE_RELIEF",
+   "ok": true,
+   "detail": "30 DRESS_KNOLL hummocks (R 2.8..4.1 m, summits 1.1..2.1 m over the ridge, faceted LK_ROCK outcrop caps = 10%..30% of the hummock area (need 3-45 %), LK_SCRUB flanks; need >= 10 and >= 0.7 m) + 12 ROCK_CRAG pieces; flat grass-coloured area per hummock at most 0.5 m2 (< 10), all 0.7 m2 (< 20): the ONE_GREEN lawn rule; 90% of the 80 spine stations (every 5 yd) have a knoll or crag within 14 m (need >= 70 %)"
+  },
+  {
+   "id": "H_RIDGE_THICKETS",
+   "ok": false,
+   "detail": "76 ridge-side shrubs (boundary chain excluded) form 41 single-link clusters (4.5 m): 9 thickets of >= 3 shrubs (need >= 10) hold 46% of them (need >= 60 %), largest 6, isolated single shrubs 23"
+  },
+  {
+   "id": "H_LEGACY_ROUTE_CLEAR",
+   "ok": true,
+   "detail": "nearest vertex to the dry safe ridge route: land rocks / shrubs / agave 8.04 m (190 pieces; [(8.0, 'ROCK_CRAG_A.003'), (8.0, 'PLANT_SHRUB_C.041'), (8.1, 'PLANT_SHRUB_C.045')]; need >= 8 yd = 7.32), DRESS_KNOLL hummocks 5.11 m (need >= 5 yd = 4.57: the design's 4 yd + 1; low soft hummocks, their own class), ruin masonry 5.60 m (need >= 6 yd = 5.49: the design's own ruin clearance), tufts / flowers 2.81 m (need >= 2.0); the 61 shrubs / rocks of the scrub-boundary chain 4.10 m (need >= 4 yd = 3.66 m: the design's own 'keep rocks >= 4 yd off the route' rule, the one class split from the 8 yd margin, see the comment)"
+  },
+  {
+   "id": "H_LEGACY_RIM_ROCKS_OFF_CHANNEL_LIP",
+   "ok": true,
+   "detail": "125 land rocks: nearest vertex to the channel_wall_ridge lip 7.19 m (closest [(7.2, 'ROCK_STONE_A.040'), (7.2, 'ROCK_BOULDER_B.012'), (7.3, 'ROCK_CRAG_A.005')]) (the legacy rule kept rim rocks off the lip that faces the channel; need >= 5.9)"
+  },
+  {
+   "id": "H_LEGACY_RUIN_LANDING_BAND_AND_CLIFF",
+   "ok": true,
+   "detail": "ruin + arch vertices in the drive landing band x -75..-35 / D 225-275 yd: 0; nearest distance to the shore 6.9 m = 7.6 yd (need >= 7; fallen blocks / rubble: 10.2 yd); ruin spans D 90..126 yd (design 93-121 + arch), x -70..-57"
+  },
+  {
+   "id": "H_LEGACY_SIGHT_LINES",
+   "ok": true,
+   "detail": "38 tall pieces (sea stacks, ruin, arch, crags): nearest vertex to the centerline tee -> stations -> pin 22.6 m (need >= 12); the mouth stack (34, 372) pieces: nearest 22.6 m (24.7 yd; the design moved it to 24 yd off the carry line)"
+  },
+  {
+   "id": "H_LEGACY_PIN_TEE_CLEAR",
+   "ok": true,
+   "detail": "1217 props: nearest vertex to a tee / pin / cup marker 10.4 m (need >= 1.5), nearest to the pin 18.7 m (need >= 6)"
+  },
+  {
+   "id": "H_GEOMETRY_HASH",
+   "ok": true,
+   "detail": "sha256 a4836b8dd3d48997f766f5e8835e2d82755d91d805ffd8f162d26ef4b53f74ee over 1345 mesh objects, 157981 vertices, 181683 faces (names, world matrices, vertex positions rounded 1e-5, loop indices, material names)"
+  },
+  {
+   "id": "H_NO_12_VERTEX_ROCK@fbx",
+   "ok": true,
+   "detail": "[fbx] 286 rock objects on 33 mesh datablocks: min welded vertices 61 (need >= 60), meshes under 60: none, 12-vertex / 20-face icosahedra: none, legacy mesh names (ROCK_SMALL/MEDIUM/LARGE, CLIFF_ROCK, ROCK_WALL_FLAT/BLUNT, ROCK_STACK_nn): none; 13 fallen DRESS_BLOCK instances on 8 meshes {'DRESS_BLOCK_A_CHIP0': 98, 'DRESS_BLOCK_A_CHIP1': 98, 'DRESS_BLOCK_A_CHIP2': 98, 'DRESS_BLOCK_A_CHIP3': 98, 'DRESS_BLOCK_B_CHIP0': 98, 'DRESS_BLOCK_B_CHIP1': 98, 'DRESS_BLOCK_B_CHIP2': 98, 'DRESS_BLOCK_B_CHIP3': 98} (need >= 60 welded vertices each; round 1 had 24: they were chipped), blocks under 60: none"
+  },
+  {
+   "id": "H_NO_PLANT_ON_WATER@fbx",
+   "ok": false,
+   "detail": "[fbx] 915 PLANT_* objects: base on water 27, base below z 5 m 0, on a play surface lie (fairway/green/tee/bunker) 0, within 1.0 m of the shore 5 (nearest 0.91 m), no ground under the base 27, worst |origin z - ground| 0.850 m (PLANT_TUFT_T.220; the lib sinks a plant 0.02-0.045 m: need <= 0.06), worst lowest-vertex offset 0.803 m (PLANT_TUFT_T.220; tilt + sink, need <= 0.30)"
+  },
+  {
+   "id": "H_NO_FOAM_STRIP@fbx",
+   "ok": true,
+   "detail": "FBX re-import: 1345 meshes, *FOAM* objects none, materials ['LK_CLIFF', 'LK_CLIFF_DARK', 'LK_FAIRWAY', 'LK_GREEN', 'LK_MASONRY', 'LK_PLANTS', 'LK_ROCK', 'LK_ROCK_WET', 'LK_ROUGH', 'LK_SAND', 'LK_SCRUB', 'LK_SURF', 'LK_WATER', 'LK_WATER_SHALLOW', 'MAT_BALL.001', 'MAT_CUP.001', 'MAT_FLAG.001', 'MAT_POLE.001']"
+  }
+ ],
+ "fails": [
+  "H_NO_PLANT_ON_WATER",
+  "H_RIDGE_THICKETS",
+  "H_NO_PLANT_ON_WATER@fbx"
+ ],
+ "geom_hash": "a4836b8dd3d48997f766f5e8835e2d82755d91d805ffd8f162d26ef4b53f74ee"
+}

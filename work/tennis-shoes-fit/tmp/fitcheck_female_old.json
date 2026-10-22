@@ -1,0 +1,96 @@
+{
+ "gender": "female",
+ "old_kit": true,
+ "R": {
+  "rim_z_min": 0.0717,
+  "rim_z_max": 0.122,
+  "rim_z_mean": 0.0895,
+  "roll_top": 0.1252986490726471,
+  "foot_verts_below_collar": 631,
+  "foot_verts_inside_wall": 62,
+  "foot_verts_not_enclosed": 188,
+  "foot_to_shoe_min_mm": 0.0,
+  "sock_verts_below_collar": 847,
+  "sock_verts_inside_wall": 0,
+  "sock_verts_not_enclosed": 0,
+  "toe_overhang_inner_mm": -3.9,
+  "toe_overhang_outer_mm": 8.2,
+  "heel_overhang_inner_mm": -35.2,
+  "heel_overhang_outer_mm": -31.2,
+  "sole_min_z": -0.0235,
+  "shoe_min_z": -0.0255,
+  "outside_examples": [
+   [
+    0.1801,
+    -0.0857,
+    0.005
+   ],
+   [
+    0.1827,
+    -0.1114,
+    0.0087
+   ],
+   [
+    0.1829,
+    -0.1124,
+    0.0058
+   ],
+   [
+    0.1785,
+    -0.0728,
+    0.0104
+   ],
+   [
+    0.1808,
+    -0.1126,
+    0.0118
+   ]
+  ]
+ },
+ "L": {
+  "rim_z_min": 0.0716,
+  "rim_z_max": 0.122,
+  "rim_z_mean": 0.0893,
+  "roll_top": 0.1250019669532776,
+  "foot_verts_below_collar": 631,
+  "foot_verts_inside_wall": 67,
+  "foot_verts_not_enclosed": 191,
+  "foot_to_shoe_min_mm": 0.01,
+  "sock_verts_below_collar": 848,
+  "sock_verts_inside_wall": 0,
+  "sock_verts_not_enclosed": 0,
+  "toe_overhang_inner_mm": -4.6,
+  "toe_overhang_outer_mm": 8.1,
+  "heel_overhang_inner_mm": -35.0,
+  "heel_overhang_outer_mm": -31.1,
+  "sole_min_z": -0.0235,
+  "shoe_min_z": -0.0255,
+  "outside_examples": [
+   [
+    -0.1801,
+    -0.0857,
+    0.005
+   ],
+   [
+    -0.1827,
+    -0.1114,
+    0.0087
+   ],
+   [
+    -0.1829,
+    -0.1124,
+    0.0058
+   ],
+   [
+    -0.1785,
+    -0.0728,
+    0.0104
+   ],
+   [
+    -0.1808,
+    -0.1126,
+    0.0118
+   ]
+  ]
+ }
+}

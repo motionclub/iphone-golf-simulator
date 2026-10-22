@@ -1,0 +1,37 @@
+{
+  "info" : {
+    "arguments" : [
+      "devicectl",
+      "device",
+      "install",
+      "app",
+      "--device",
+      "00008150-00041CD92287801C",
+      "work/world-reskin-20261015/device/DerivedData/Build/Products/Release-iphoneos/GolfArcade.app",
+      "--json-output",
+      "work/world-reskin-20261015/device/install-final.json"
+    ],
+    "commandType" : "devicectl.device.install.app",
+    "environment" : {
+      "TERM" : "dumb"
+    },
+    "jsonVersion" : 5,
+    "outcome" : "success",
+    "version" : "642.16"
+  },
+  "result" : {
+    "deviceIdentifier" : "5724AA4B-8FB9-5224-8EBC-EBF2A5071B3B",
+    "installedApplications" : [
+      {
+        "bundleID" : "com.aloniewski.GolfArcade.CoastReview",
+        "databaseSequenceNumber" : 6944,
+        "databaseUUID" : "67E12DBE-F28F-414C-9ED9-164F3798AAA1",
+        "installationURL" : "file:///private/var/containers/Bundle/Application/44579F09-B9C8-44B9-BAFE-DBBC1743C380/GolfArcade.app/",
+        "launchServicesIdentifier" : "unknown",
+        "options" : {
+
+        }
+      }
+    ]
+  }
+}

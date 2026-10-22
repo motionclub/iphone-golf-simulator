@@ -1,0 +1,434 @@
+SELFTEST: hole 8 synthetic positive (blend + FBX): 92 gates, expected ALL PASS, failed [] PASS
+SELFTEST: hole 8 mutation green_up_2mm: must FAIL ['PLAY_SURFACE_GRID', 'PLAY_SURFACE_TOPS', 'PLAY_SURFACE_FACES'], failed ['PLAY_SURFACE_GRID', 'PLAY_SURFACE_TOPS', 'PLAY_SURFACE_FACES'] / FBX ['PLAY_SURFACE_GRID', 'PLAY_SURFACE_TOPS', 'PLAY_SURFACE_FACES'] PASS
+SELFTEST: hole 8 mutation pin_moved_1cm: must FAIL ['MARKERS_FROZEN'], failed ['MARKERS_FROZEN'] / FBX ['MARKERS_FROZEN'] PASS
+SELFTEST: hole 8 mutation plant_renamed_BUNKER: must FAIL ['PLAY_SURFACE_NAMES', 'NEW_OBJECT_PREFIXES'], failed ['PLAY_SURFACE_NAMES', 'NEW_OBJECT_PREFIXES'] / FBX ['PLAY_SURFACE_NAMES', 'NEW_OBJECT_PREFIXES'] PASS
+SELFTEST: hole 8 mutation new_object_ARCH_prefix: must FAIL ['NEW_OBJECT_PREFIXES'], failed ['NEW_OBJECT_PREFIXES'] / FBX ['NEW_OBJECT_PREFIXES'] PASS
+SELFTEST: hole 8 mutation new_object_MARKER_prefix: must FAIL ['RESERVED_NAMES'], failed ['RESERVED_NAMES'] / FBX ['RESERVED_NAMES'] (also failed: ['NEW_OBJECT_PREFIXES']) PASS
+SELFTEST: hole 8 mutation mat_foam_strip: must FAIL ['NO_MAT_FOAM', 'NO_LEGACY_MATERIALS', 'NO_FOAM_STRIP'], failed ['NO_MAT_FOAM', 'NO_LEGACY_MATERIALS', 'NO_FOAM_STRIP'] / FBX ['NO_MAT_FOAM', 'NO_LEGACY_MATERIALS', 'NO_FOAM_STRIP'] (also failed: ['OCEAN_WATER', 'PROP_MATERIALS']) PASS
+SELFTEST: hole 8 mutation fairway_flat_MAT: must FAIL ['GROUND_MATERIALS', 'NO_LEGACY_MATERIALS'], failed ['GROUND_MATERIALS', 'NO_LEGACY_MATERIALS'] / FBX ['GROUND_MATERIALS', 'NO_LEGACY_MATERIALS'] PASS
+SELFTEST: hole 8 mutation rock_icosahedron_12v: must FAIL ['ROCK_NOT_ICOSAHEDRON'], failed ['ROCK_NOT_ICOSAHEDRON'] / FBX ['ROCK_NOT_ICOSAHEDRON'] PASS
+SELFTEST: hole 8 mutation rocks_one_mesh: must FAIL ['ROCK_VARIETY'], failed ['ROCK_VARIETY'] / FBX ['ROCK_VARIETY'] PASS
+SELFTEST: hole 8 mutation rocks_all_icosahedra_split_60v: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] (also failed: ['NEEDLE_SEA_STACKS', 'SEASTACK_TAPERED']) PASS
+SELFTEST: hole 8 mutation rocks_all_icosahedra_plus_junk_verts: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] (also failed: ['NEEDLE_SEA_STACKS', 'SEASTACK_TAPERED']) PASS
+SELFTEST: hole 8 mutation rocks_all_icospheres_subdiv3: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] (also failed: ['NEEDLE_SEA_STACKS', 'SEASTACK_TAPERED']) PASS
+SELFTEST: hole 8 mutation rocks_all_uv_spheres: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] (also failed: ['NEEDLE_SEA_STACKS', 'SEASTACK_TAPERED']) PASS
+SELFTEST: hole 8 mutation rocks_all_subdivided_cubes: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] (also failed: ['NEEDLE_SEA_STACKS', 'SEASTACK_TAPERED']) PASS
+SELFTEST: hole 8 mutation rocks_same_shape_in_unique_meshes: must FAIL ['ROCK_VARIETY'], failed ['ROCK_VARIETY'] / FBX ['ROCK_VARIETY'] (also failed: ['NEEDLE_SEA_STACKS', 'SEASTACK_TAPERED']) PASS
+SELFTEST: hole 8 mutation rocks_bundles_of_5to8_jittered_icosahedra: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] (also failed: ['NEEDLE_SEA_STACKS', 'SEASTACK_TAPERED']) PASS
+SELFTEST: hole 8 mutation rocks_one_shape_as_edge_split_variants: must FAIL ['ROCK_VARIETY'], failed ['ROCK_VARIETY'] / FBX ['ROCK_VARIETY'] (also failed: ['NEEDLE_SEA_STACKS', 'SEASTACK_TAPERED']) PASS
+SELFTEST: hole 8 mutation rocks_bundles_loose_only_stacks_kept: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] PASS
+SELFTEST: hole 8 mutation rocks_bundles_of_42v_icospheres: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] (also failed: ['NEEDLE_SEA_STACKS', 'SEASTACK_TAPERED']) PASS
+SELFTEST: hole 8 mutation rocks_icospheres_subdiv3_noise40: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] (also failed: ['NEEDLE_SEA_STACKS', 'SEASTACK_TAPERED']) PASS
+SELFTEST: hole 8 mutation rocks_bundles_of_icosahedra_every_face_split_2mm: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] (also failed: ['NEEDLE_SEA_STACKS', 'SEASTACK_TAPERED']) PASS
+SELFTEST: hole 8 mutation rocks_bundles_of_icosahedra_every_face_split_2mm_loose_only: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] PASS
+SELFTEST: hole 8 mutation rocks_welded_clusters_of_12v_icosahedra_varied: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] (also failed: ['NEEDLE_SEA_STACKS', 'SEASTACK_TAPERED']) PASS
+SELFTEST: hole 8 mutation rocks_welded_clusters_of_12v_icosahedra_jitter12_after_weld: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] (also failed: ['NEEDLE_SEA_STACKS', 'SEASTACK_TAPERED']) PASS
+SELFTEST: hole 8 mutation rocks_welded_clusters_of_42v_icospheres: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] (also failed: ['NEEDLE_SEA_STACKS', 'SEASTACK_TAPERED']) PASS
+SELFTEST: hole 8 mutation rocks_welded_clusters_of_octahedra: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] (also failed: ['NEEDLE_SEA_STACKS', 'SEASTACK_TAPERED']) PASS
+SELFTEST: hole 8 mutation rocks_welded_clusters_loose_only_stacks_kept: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] PASS
+SELFTEST: hole 8 mutation rock_library_mesh_baked_4to0p6_one_face_removed: must FAIL ['NO_ROCK_STRETCH_2X'], failed ['NO_ROCK_STRETCH_2X'] / FBX ['NO_ROCK_STRETCH_2X'] (also failed: ['PROPS_OFF_PLAY']) PASS
+SELFTEST: hole 8 mutation rock_library_mesh_turned_90_baked_3to1: must FAIL ['NO_ROCK_STRETCH_2X'], failed ['NO_ROCK_STRETCH_2X'] / FBX ['NO_ROCK_STRETCH_2X'] PASS
+SELFTEST: hole 8 mutation rock_handmade_hull_baked_4to0p5: must FAIL ['NO_ROCK_STRETCH_2X'], failed ['NO_ROCK_STRETCH_2X'] / FBX ['NO_ROCK_STRETCH_2X'] PASS
+SELFTEST: hole 8 mutation rock_handmade_hull_baked_5to0p4: must FAIL ['NO_ROCK_STRETCH_2X'], failed ['NO_ROCK_STRETCH_2X'] / FBX ['NO_ROCK_STRETCH_2X'] PASS
+SELFTEST: hole 8 mutation terrain_wall_polygon_deleted: must FAIL ['PLAY_SURFACE_WALLS'], failed ['PLAY_SURFACE_WALLS'] / FBX ['PLAY_SURFACE_WALLS'] PASS
+SELFTEST: hole 8 mutation terrain_wall_polygon_flipped: must FAIL ['PLAY_SURFACE_WALLS'], failed ['PLAY_SURFACE_WALLS'] / FBX ['PLAY_SURFACE_WALLS'] PASS
+SELFTEST: hole 8 mutation terrain_wall_vertex_moved_5cm: must FAIL ['PLAY_SURFACE_WALLS'], failed ['PLAY_SURFACE_WALLS'] / FBX ['PLAY_SURFACE_WALLS'] PASS
+SELFTEST: hole 8 mutation rock_stretched_x3: must FAIL ['NO_ROCK_STRETCH_2X'], failed ['NO_ROCK_STRETCH_2X'] / FBX ['NO_ROCK_STRETCH_2X'] PASS
+SELFTEST: hole 8 mutation rock_uniform_2p6: must FAIL ['NO_ROCK_STRETCH_2X'], failed ['NO_ROCK_STRETCH_2X'] / FBX ['NO_ROCK_STRETCH_2X'] PASS
+SELFTEST: hole 8 mutation rock_anisotropy_2p5: must FAIL ['NO_ROCK_STRETCH_2X'], failed ['NO_ROCK_STRETCH_2X'] / FBX ['NO_ROCK_STRETCH_2X'] PASS
+SELFTEST: hole 8 mutation rock_sheared_parent_3p17: must FAIL ['NO_ROCK_STRETCH_2X'], failed ['NO_ROCK_STRETCH_2X'] / FBX [] PASS
+SELFTEST: hole 8 mutation rock_baked_stretch_library_mesh_renamed: must FAIL ['NO_ROCK_STRETCH_2X'], failed ['NO_ROCK_STRETCH_2X'] / FBX ['NO_ROCK_STRETCH_2X'] (also failed: ['PROPS_OFF_PLAY']) PASS
+SELFTEST: hole 8 mutation dress_small_boulder_between_grid_points: must FAIL ['PROPS_OFF_PLAY'], failed ['PROPS_OFF_PLAY'] / FBX ['PROPS_OFF_PLAY'] PASS
+SELFTEST: hole 8 mutation plant_merged_with_far_copy_over_sea: must FAIL ['NO_PLANT_ON_WATER'], failed ['NO_PLANT_ON_WATER'] / FBX ['NO_PLANT_ON_WATER'] PASS
+SELFTEST: hole 8 mutation plant_on_floating_rock_slab_z5p2: must FAIL ['NO_PLANT_ON_WATER'], failed ['NO_PLANT_ON_WATER'] / FBX ['NO_PLANT_ON_WATER'] PASS
+SELFTEST: hole 8 mutation dress_boulder_on_pin: must FAIL ['PROPS_OFF_PLAY'], failed ['PROPS_OFF_PLAY'] / FBX ['PROPS_OFF_PLAY'] PASS
+SELFTEST: hole 8 mutation rock_wall_pile_on_pin: must FAIL ['PROPS_OFF_PLAY'], failed ['PROPS_OFF_PLAY'] / FBX ['PROPS_OFF_PLAY'] PASS
+SELFTEST: hole 8 mutation dress_slab_over_fairway: must FAIL ['PROPS_OFF_PLAY'], failed ['PROPS_OFF_PLAY'] / FBX ['PROPS_OFF_PLAY'] PASS
+SELFTEST: hole 8 mutation plant_on_sea_level_water: must FAIL ['NO_PLANT_ON_WATER'], failed ['NO_PLANT_ON_WATER'] / FBX ['NO_PLANT_ON_WATER'] PASS
+SELFTEST: hole 8 mutation plant_floating_over_water_z6: must FAIL ['NO_PLANT_ON_WATER'], failed ['NO_PLANT_ON_WATER'] / FBX ['NO_PLANT_ON_WATER'] PASS
+SELFTEST: hole 8 mutation plant_on_fairway: must FAIL ['NO_PLANT_ON_WATER'], failed ['NO_PLANT_ON_WATER'] / FBX ['NO_PLANT_ON_WATER'] (also failed: ['PROPS_OFF_PLAY']) PASS
+SELFTEST: hole 8 mutation vine_attached_to_nothing: must FAIL ['NO_PLANT_ON_WATER'], failed ['NO_PLANT_ON_WATER'] / FBX ['NO_PLANT_ON_WATER'] PASS
+SELFTEST: hole 8 mutation plant_on_green: must FAIL ['PROPS_OFF_PLAY', 'NO_PLANT_ON_WATER'], failed ['PROPS_OFF_PLAY', 'NO_PLANT_ON_WATER'] / FBX ['PROPS_OFF_PLAY', 'NO_PLANT_ON_WATER'] PASS
+SELFTEST: hole 8 mutation lawn_and_flagstick_as_dress: must FAIL ['ONE_GREEN'], failed ['ONE_GREEN'] / FBX ['ONE_GREEN'] PASS
+SELFTEST: hole 8 mutation face_deleted: must FAIL ['PLAY_SURFACE_FACES'], failed ['PLAY_SURFACE_FACES'] / FBX ['PLAY_SURFACE_FACES'] PASS
+SELFTEST: hole 8 mutation face_flipped: must FAIL ['PLAY_SURFACE_FACES'], failed ['PLAY_SURFACE_FACES'] / FBX ['PLAY_SURFACE_FACES'] (also failed: ['PLAY_SURFACE_WALLS']) PASS
+SELFTEST: hole 8 mutation face_added: must FAIL ['PLAY_SURFACE_FACES'], failed ['PLAY_SURFACE_FACES'] / FBX ['PLAY_SURFACE_FACES'] (also failed: ['PLAY_SURFACE_GRID', 'PLAY_SURFACE_TOPS']) PASS
+SELFTEST: hole 8 mutation fairway_normal_unlinked: must FAIL ['LK_TEXTURED'], failed ['LK_TEXTURED'] / FBX [] PASS
+SELFTEST: hole 8 mutation fairway_no_uv: must FAIL ['UV_DENSITY'], failed ['UV_DENSITY'] / FBX ['UV_DENSITY'] PASS
+SELFTEST: hole 8 mutation fairway_uv_0to1: must FAIL ['UV_DENSITY'], failed ['UV_DENSITY'] / FBX ['UV_DENSITY'] PASS
+SELFTEST: hole 8 mutation wall_uv_smear_16to1: must FAIL ['UV_DENSITY'], failed ['UV_DENSITY'] / FBX ['UV_DENSITY'] PASS
+SELFTEST: hole 8 mutation plant_600_faces: must FAIL ['PROP_FACE_BUDGET'], failed ['PROP_FACE_BUDGET'] / FBX ['PROP_FACE_BUDGET'] PASS
+SELFTEST: hole 8 mutation plant_second_material: must FAIL ['PLANTS_SHARED_MATERIAL'], failed ['PLANTS_SHARED_MATERIAL'] / FBX ['PLANTS_SHARED_MATERIAL'] (also failed: ['PROP_MATERIALS']) PASS
+SELFTEST: hole 8 mutation plants_not_instanced: must FAIL ['PLANTS_INSTANCED'], failed ['PLANTS_INSTANCED'] / FBX ['PLANTS_INSTANCED'] PASS
+SELFTEST: hole 8 mutation second_green_dress: must FAIL ['ONE_GREEN'], failed ['ONE_GREEN'] / FBX ['ONE_GREEN'] (also failed: ['PROP_MATERIALS']) PASS
+SELFTEST: hole 8 mutation sand_patch_named_BUNKER: must FAIL ['SAND_NAMES', 'PLAY_SURFACE_NAMES'], failed ['SAND_NAMES', 'PLAY_SURFACE_NAMES'] / FBX ['SAND_NAMES', 'PLAY_SURFACE_NAMES'] (also failed: ['NEW_OBJECT_PREFIXES', 'UV_DENSITY']) PASS
+SELFTEST: hole 8 mutation animated_rock: must FAIL ['NO_ANIMATION'], failed ['NO_ANIMATION'] / FBX [] PASS
+SELFTEST: hole 8 mutation 300k_triangles: must FAIL ['TRIANGLE_BUDGET'], failed ['TRIANGLE_BUDGET'] / FBX ['TRIANGLE_BUDGET'] PASS
+SELFTEST: hole 8 mutation ocean_flat_MAT_WATER: must FAIL ['OCEAN_WATER'], failed ['OCEAN_WATER'] / FBX ['OCEAN_WATER'] (also failed: ['LK_REQUIRED', 'LK_TEXTURED', 'NO_FOAM_STRIP', 'NO_LEGACY_MATERIALS', 'PROP_MATERIALS']) PASS
+SELFTEST: hole 8 mutation surf_removed: must FAIL ['SURF_SHORE'], failed ['SURF_SHORE'] / FBX ['SURF_SHORE'] (also failed: ['LK_REQUIRED', 'LK_TEXTURED', 'NEEDLE_WATERFALL']) PASS
+SELFTEST: hole 8 mutation surf_no_vertex_colour: must FAIL ['SURF_SHORE'], failed ['SURF_SHORE'] / FBX ['SURF_SHORE'] PASS
+SELFTEST: hole 8 mutation white_band_as_DRESS_LK_SURF: must FAIL ['NO_FOAM_STRIP', 'PROP_MATERIALS'], failed ['NO_FOAM_STRIP', 'PROP_MATERIALS'] / FBX ['NO_FOAM_STRIP', 'PROP_MATERIALS'] PASS
+SELFTEST: hole 8 mutation surf_strip_alpha1_whole_shore: must FAIL ['NO_FOAM_STRIP'], failed ['NO_FOAM_STRIP'] / FBX ['NO_FOAM_STRIP'] PASS
+SELFTEST: hole 8 mutation surf_unbroken_14m_patch: must FAIL ['NO_FOAM_STRIP'], failed ['NO_FOAM_STRIP'] / FBX ['NO_FOAM_STRIP'] PASS
+SELFTEST: hole 8 mutation surf_patches_every_20m_over_25pct: must FAIL ['NO_FOAM_STRIP'], failed ['NO_FOAM_STRIP'] / FBX ['NO_FOAM_STRIP'] PASS
+SELFTEST: hole 8 mutation surf_two_patches_4m_apart: must FAIL ['NO_FOAM_STRIP'], failed ['NO_FOAM_STRIP'] / FBX ['NO_FOAM_STRIP'] PASS
+SELFTEST: hole 8 mutation surf_ribbon_8m_offshore_constant_width: must FAIL ['NO_FOAM_STRIP'], failed ['NO_FOAM_STRIP'] / FBX ['NO_FOAM_STRIP'] PASS
+SELFTEST: hole 8 mutation flat_LK_FALL_ribbon_8m_offshore: must FAIL ['NO_FOAM_STRIP'], failed ['NO_FOAM_STRIP'] / FBX ['NO_FOAM_STRIP'] PASS
+SELFTEST: hole 8 mutation white_textured_DRESS_mist_along_shore: must FAIL ['NO_FOAM_STRIP'], failed ['NO_FOAM_STRIP'] / FBX ['NO_FOAM_STRIP'] PASS
+SELFTEST: hole 8 mutation shelf_halo_16m_closed_ring: must FAIL ['SHELF_THIN'], failed ['SHELF_THIN'] / FBX ['SHELF_THIN'] PASS
+SELFTEST: hole 8 mutation shelf_thin_closed_uniform_ring_1p5m: must FAIL ['SHELF_THIN'], failed ['SHELF_THIN'] / FBX ['SHELF_THIN'] (also failed: ['NEEDLE_CLIFF_SKIN']) PASS
+SELFTEST: hole 8 mutation shelf_halo_hidden_in_a_second_mesh: must FAIL ['SHELF_THIN'], failed ['SHELF_THIN'] / FBX ['SHELF_THIN'] PASS
+SELFTEST: hole 8 mutation shelf_12m_wide_patches: must FAIL ['SHELF_THIN'], failed ['SHELF_THIN'] / FBX ['SHELF_THIN'] PASS
+SELFTEST: hole 8 mutation stacks_stacked_boxes: must FAIL ['SEASTACK_TAPERED'], failed ['SEASTACK_TAPERED'] / FBX ['SEASTACK_TAPERED'] (also failed: ['NEEDLE_SEA_STACKS', 'ROCK_NOT_ICOSAHEDRON']) PASS
+SELFTEST: hole 8 mutation stacks_cylinders: must FAIL ['SEASTACK_TAPERED'], failed ['SEASTACK_TAPERED'] / FBX ['SEASTACK_TAPERED'] (also failed: ['NEEDLE_SEA_STACKS', 'ROCK_NOT_ICOSAHEDRON']) PASS
+SELFTEST: hole 8 mutation stacks_flat_lid: must FAIL ['SEASTACK_TAPERED'], failed ['SEASTACK_TAPERED'] / FBX ['SEASTACK_TAPERED'] (also failed: ['NEEDLE_SEA_STACKS']) PASS
+SELFTEST: hole 8 mutation stack_tower_named_ROCK_PEDESTAL: must FAIL ['SEASTACK_TAPERED'], failed ['SEASTACK_TAPERED'] / FBX ['SEASTACK_TAPERED'] (also failed: ['ROCK_NOT_ICOSAHEDRON']) PASS
+SELFTEST: hole 8 mutation stack_flat_island_without_grass_cap: must FAIL ['SEASTACK_TAPERED'], failed ['SEASTACK_TAPERED'] / FBX ['SEASTACK_TAPERED'] (also failed: ['ROCK_NOT_ICOSAHEDRON']) PASS
+SELFTEST: hole 8 mutation foam_squares_touching_2to6m_offshore: must FAIL ['NO_FOAM_STRIP'], failed ['NO_FOAM_STRIP'] / FBX ['NO_FOAM_STRIP'] PASS
+SELFTEST: hole 8 mutation foam_ragged_continuous_band_2p5m_offshore: must FAIL ['NO_FOAM_STRIP'], failed ['NO_FOAM_STRIP'] / FBX ['NO_FOAM_STRIP'] PASS
+SELFTEST: hole 8 mutation foam_offshore_dashes_gap7m_14to17m: must FAIL ['NO_FOAM_STRIP'], failed ['NO_FOAM_STRIP'] / FBX ['NO_FOAM_STRIP'] PASS
+SELFTEST: hole 8 mutation foam_continuous_band_at_vertex_alpha_0p29: must FAIL ['NO_FOAM_STRIP'], failed ['NO_FOAM_STRIP'] / FBX ['NO_FOAM_STRIP'] (also failed: ['SURF_SHORE']) PASS
+SELFTEST: hole 8 mutation foam_white_material_strip_not_LK_SURF: must FAIL ['NO_FOAM_STRIP'], failed ['NO_FOAM_STRIP'] / FBX ['NO_FOAM_STRIP'] (also failed: ['NO_LEGACY_MATERIALS', 'PROP_MATERIALS']) PASS
+SELFTEST: hole 8 mutation foam_continuous_sloped_skirt_nz0p45_LK_SURF: must FAIL ['NO_FOAM_STRIP'], failed ['NO_FOAM_STRIP'] / FBX ['NO_FOAM_STRIP'] PASS
+SELFTEST: hole 8 mutation foam_continuous_vertical_wall_LK_SURF: must FAIL ['NO_FOAM_STRIP'], failed ['NO_FOAM_STRIP'] / FBX ['NO_FOAM_STRIP'] (also failed: ['UV_DENSITY']) PASS
+SELFTEST: hole 8 mutation foam_continuous_steep_ramp_nz0p1_LK_FALL_named_WATER_FALL: must FAIL ['NO_FOAM_STRIP'], failed ['NO_FOAM_STRIP'] / FBX ['NO_FOAM_STRIP'] (also failed: ['NEEDLE_WATERFALL']) PASS
+SELFTEST: hole 8 mutation foam_continuous_sloped_skirt_nz0p3_white_material: must FAIL ['NO_FOAM_STRIP'], failed ['NO_FOAM_STRIP'] / FBX ['NO_FOAM_STRIP'] (also failed: ['NO_LEGACY_MATERIALS', 'PROP_MATERIALS']) PASS
+SELFTEST: hole 8 mutation path_removed: must FAIL ['NEEDLE_PATH'], failed ['NEEDLE_PATH'] / FBX ['NEEDLE_PATH'] (also failed: ['LK_REQUIRED', 'LK_TEXTURED']) PASS
+SELFTEST: hole 8 mutation path_floating_2m: must FAIL ['NEEDLE_PATH'], failed ['NEEDLE_PATH'] / FBX ['NEEDLE_PATH'] (also failed: ['PATH_UNDER_BALL']) PASS
+SELFTEST: hole 8 mutation path_3p5cm_over_ground: must FAIL ['PATH_UNDER_BALL'], failed ['PATH_UNDER_BALL'] / FBX ['PATH_UNDER_BALL'] PASS
+SELFTEST: hole 8 mutation path_11cm_over_ground: must FAIL ['PATH_UNDER_BALL'], failed ['PATH_UNDER_BALL'] / FBX ['PATH_UNDER_BALL'] PASS
+SELFTEST: hole 8 mutation path_buried_2cm: must FAIL ['PATH_UNDER_BALL'], failed ['PATH_UNDER_BALL'] / FBX ['PATH_UNDER_BALL'] PASS
+SELFTEST: hole 8 mutation plant_on_stone_path: must FAIL ['NO_PLANT_ON_WATER'], failed ['NO_PLANT_ON_WATER'] / FBX ['NO_PLANT_ON_WATER'] (also failed: ['PROPS_OFF_PLAY']) PASS
+SELFTEST: hole 8 mutation flowers_not_purple: must FAIL ['NEEDLE_FLOWERS_SHRUBS_TUFTS'], failed ['NEEDLE_FLOWERS_SHRUBS_TUFTS'] / FBX ['NEEDLE_FLOWERS_SHRUBS_TUFTS'] PASS
+SELFTEST: hole 8 mutation flowers_only_10: must FAIL ['NEEDLE_FLOWERS_SHRUBS_TUFTS'], failed ['NEEDLE_FLOWERS_SHRUBS_TUFTS'] / FBX ['NEEDLE_FLOWERS_SHRUBS_TUFTS'] PASS
+SELFTEST: hole 8 mutation arch_icosahedra: must FAIL ['NEEDLE_ARCH'], failed ['NEEDLE_ARCH'] / FBX ['NEEDLE_ARCH'] (also failed: ['NO_PLANT_ON_WATER']) PASS
+SELFTEST: hole 8 mutation arch_without_vines: must FAIL ['NEEDLE_ARCH'], failed ['NEEDLE_ARCH'] / FBX ['NEEDLE_ARCH'] PASS
+SELFTEST: hole 8 mutation arch_without_rock: must FAIL ['NEEDLE_ARCH'], failed ['NEEDLE_ARCH'] / FBX ['NEEDLE_ARCH'] PASS
+SELFTEST: hole 8 mutation arch_solid_wall_no_opening: must FAIL ['NEEDLE_ARCH'], failed ['NEEDLE_ARCH'] / FBX ['NEEDLE_ARCH'] PASS
+SELFTEST: hole 8 mutation vines_removed: must FAIL ['NEEDLE_WALL_VINES', 'NEEDLE_ARCH'], failed ['NEEDLE_WALL_VINES', 'NEEDLE_ARCH'] / FBX ['NEEDLE_WALL_VINES', 'NEEDLE_ARCH'] PASS
+SELFTEST: hole 8 mutation waterfall_as_platform: must FAIL ['NEEDLE_WATERFALL'], failed ['NEEDLE_WATERFALL'] / FBX ['NEEDLE_WATERFALL'] PASS
+SELFTEST: hole 8 mutation waterfall_uv_upward: must FAIL ['NEEDLE_WATERFALL'], failed ['NEEDLE_WATERFALL'] / FBX ['NEEDLE_WATERFALL'] PASS
+SELFTEST: hole 8 mutation waterfall_no_surf: must FAIL ['NEEDLE_WATERFALL'], failed ['NEEDLE_WATERFALL'] / FBX ['NEEDLE_WATERFALL'] (also failed: ['LK_REQUIRED', 'LK_TEXTURED', 'SURF_SHORE']) PASS
+SELFTEST: hole 8 mutation sea_stacks_removed: must FAIL ['NEEDLE_SEA_STACKS'], failed ['NEEDLE_SEA_STACKS'] / FBX ['NEEDLE_SEA_STACKS'] (also failed: ['SEASTACK_TAPERED']) PASS
+SELFTEST: hole 8 mutation stacks_stacked_boxes_not_counted: must FAIL ['NEEDLE_SEA_STACKS'], failed ['NEEDLE_SEA_STACKS'] / FBX ['NEEDLE_SEA_STACKS'] (also failed: ['ROCK_NOT_ICOSAHEDRON', 'SEASTACK_TAPERED']) PASS
+SELFTEST: hole 8 mutation rock_skin_removed: must FAIL ['NEEDLE_CLIFF_SKIN'], failed ['NEEDLE_CLIFF_SKIN'] / FBX ['NEEDLE_CLIFF_SKIN'] PASS
+SELFTEST: hole 8 mutation rock_skin_smooth_curtain: must FAIL ['NEEDLE_CLIFF_SKIN'], failed ['NEEDLE_CLIFF_SKIN'] / FBX ['NEEDLE_CLIFF_SKIN'] PASS
+SELFTEST: hole 8 control ctl_rock_welded_natural_hull_stones: must still PASS ['ROCK_NOT_ICOSAHEDRON'], failed now ['NEEDLE_SEA_STACKS', 'SEASTACK_TAPERED'] PASS
+SELFTEST: hole 8 control ctl_handmade_hull_baked_1p5: must still PASS ['NO_ROCK_STRETCH_2X'], failed now [] PASS
+SELFTEST: hole 8 control ctl_library_mesh_one_face_removed_unstretched: must still PASS ['NO_ROCK_STRETCH_2X'], failed now [] PASS
+SELFTEST: hole 8 control ctl_terrain_wall_polygon_poked_same_surface: must still PASS ['PLAY_SURFACE_WALLS'], failed now [] PASS
+SELFTEST: hole 8 control ctl_rock_scale_1p8_1p5_1p2: must still PASS ['NO_ROCK_STRETCH_2X'], failed now [] PASS
+SELFTEST: hole 8 control ctl_library_mesh_scaled_within_2x: must still PASS ['NO_ROCK_STRETCH_2X'], failed now [] PASS
+SELFTEST: hole 8 control ctl_plant_on_a_rock_on_the_ground: must still PASS ['NO_PLANT_ON_WATER'], failed now [] PASS
+SELFTEST: hole 8 control ctl_dress_sand_overlay_on_rough: must still PASS ['PROPS_OFF_PLAY', 'SAND_NAMES', 'PATH_UNDER_BALL'], failed now [] PASS
+SELFTEST: hole 8 control ctl_face_retriangulated: must still PASS ['PLAY_SURFACE_FACES', 'PLAY_SURFACE_TOPS'], failed now [] PASS
+SELFTEST: hole 8 control ctl_path_1cm_over_ground: must still PASS ['PATH_UNDER_BALL', 'NEEDLE_PATH'], failed now [] PASS
+SELFTEST: hole 8 control ctl_flat_island_with_grass_cap: must still PASS ['SEASTACK_TAPERED'], failed now ['ROCK_NOT_ICOSAHEDRON'] PASS
+SELFTEST: hole 8 mutation tex_fairway_flat_rgb_noisy_alpha: must FAIL ['LOOK_FILES'], failed ['LOOK_FILES'] / FBX ['LOOK_FILES'] (also failed: ['GRASS_ALBEDO_HUE']) PASS
+SELFTEST: hole 8 mutation tex_fairway_near_flat_dither: must FAIL ['LOOK_FILES'], failed ['LOOK_FILES'] / FBX ['LOOK_FILES'] (also failed: ['GRASS_ALBEDO_HUE']) PASS
+SELFTEST: hole 8 mutation tex_fairway_flat_fill: must FAIL ['LOOK_FILES'], failed ['LOOK_FILES'] / FBX ['LOOK_FILES'] (also failed: ['ALBEDO_DISTINCT', 'GRASS_ALBEDO_HUE']) PASS
+SELFTEST: hole 8 mutation tex_fairway_artwork_downsampled_to_128px: must FAIL ['LOOK_FILES'], failed ['LOOK_FILES'] / FBX ['LOOK_FILES'] PASS
+SELFTEST: hole 8 mutation tex_fairway_8px_checkerboard: must FAIL ['LOOK_FILES'], failed ['LOOK_FILES'] / FBX ['LOOK_FILES'] (also failed: ['GRASS_ALBEDO_HUE']) PASS
+SELFTEST: hole 8 mutation tex_fairway_random_16px_cell_tiled: must FAIL ['LOOK_FILES'], failed ['LOOK_FILES'] / FBX ['LOOK_FILES'] (also failed: ['GRASS_ALBEDO_HUE']) PASS
+SELFTEST: hole 8 mutation tex_fairway_normal_flat_dither: must FAIL ['LOOK_FILES'], failed ['LOOK_FILES'] / FBX ['LOOK_FILES'] PASS
+SELFTEST: hole 8 mutation tex_green_is_copy_of_fairway: must FAIL ['ALBEDO_DISTINCT'], failed ['ALBEDO_DISTINCT'] / FBX ['ALBEDO_DISTINCT'] PASS
+SELFTEST: hole 8 mutation tex_green_is_tint_of_fairway: must FAIL ['ALBEDO_DISTINCT'], failed ['ALBEDO_DISTINCT'] / FBX ['ALBEDO_DISTINCT'] PASS
+SELFTEST: hole 8 mutation tex_green_is_rotated_copy_of_fairway: must FAIL ['ALBEDO_DISTINCT'], failed ['ALBEDO_DISTINCT'] / FBX ['ALBEDO_DISTINCT'] PASS
+SELFTEST: hole 8 mutation tex_green_is_shifted_copy_of_fairway: must FAIL ['ALBEDO_DISTINCT'], failed ['ALBEDO_DISTINCT'] / FBX ['ALBEDO_DISTINCT'] PASS
+SELFTEST: hole 8 mutation tex_fairway_hue_97_blue_green: must FAIL ['GRASS_ALBEDO_HUE'], failed ['GRASS_ALBEDO_HUE'] / FBX ['GRASS_ALBEDO_HUE'] PASS
+SELFTEST: hole 8 mutation tex_rough_hue_95_blue_green: must FAIL ['GRASS_ALBEDO_HUE'], failed ['GRASS_ALBEDO_HUE'] / FBX ['GRASS_ALBEDO_HUE'] PASS
+SELFTEST: hole 8 mutation tex_fairway_desaturated: must FAIL ['GRASS_ALBEDO_HUE'], failed ['GRASS_ALBEDO_HUE'] / FBX ['GRASS_ALBEDO_HUE'] PASS
+SELFTEST: hole 8 mutation tex_green_is_hue_shifted_fairway_pattern: must FAIL ['ALBEDO_DISTINCT'], failed ['ALBEDO_DISTINCT'] / FBX ['ALBEDO_DISTINCT'] (also failed: ['GRASS_ALBEDO_HUE']) PASS
+SELFTEST: hole 8 mutation meta_isReadable_0: must FAIL ['FBX_FILE'], failed FBX_FILE PASS
+SELFTEST: hole 8 mutation corrupt_fbx: must FAIL ['FBX_REIMPORT'], failed FBX_REIMPORT PASS
+SELFTEST: hole 8 mutation hole07_meta_copy_changed: must FAIL ['HOLE07_UNTOUCHED'], failed HOLE07_UNTOUCHED PASS
+SELFTEST: hole 8 mutation signature_missing: must FAIL ['BASELINE_SIGNATURE'], failed BASELINE_SIGNATURE PASS
+SELFTEST: hole 9 synthetic positive (blend + FBX): 88 gates, expected ALL PASS, failed [] PASS
+SELFTEST: hole 9 mutation green_up_2mm: must FAIL ['PLAY_SURFACE_GRID', 'PLAY_SURFACE_TOPS', 'PLAY_SURFACE_FACES'], failed ['PLAY_SURFACE_GRID', 'PLAY_SURFACE_TOPS', 'PLAY_SURFACE_FACES'] / FBX ['PLAY_SURFACE_GRID', 'PLAY_SURFACE_TOPS', 'PLAY_SURFACE_FACES'] PASS
+SELFTEST: hole 9 mutation pin_moved_1cm: must FAIL ['MARKERS_FROZEN'], failed ['MARKERS_FROZEN'] / FBX ['MARKERS_FROZEN'] PASS
+SELFTEST: hole 9 mutation plant_renamed_BUNKER: must FAIL ['PLAY_SURFACE_NAMES', 'NEW_OBJECT_PREFIXES'], failed ['PLAY_SURFACE_NAMES', 'NEW_OBJECT_PREFIXES'] / FBX ['PLAY_SURFACE_NAMES', 'NEW_OBJECT_PREFIXES'] (also failed: ['PLAY_SURFACE_GRID']) PASS
+SELFTEST: hole 9 mutation new_object_ARCH_prefix: must FAIL ['NEW_OBJECT_PREFIXES'], failed ['NEW_OBJECT_PREFIXES'] / FBX ['NEW_OBJECT_PREFIXES'] PASS
+SELFTEST: hole 9 mutation new_object_MARKER_prefix: must FAIL ['RESERVED_NAMES'], failed ['RESERVED_NAMES'] / FBX ['RESERVED_NAMES'] (also failed: ['NEW_OBJECT_PREFIXES']) PASS
+SELFTEST: hole 9 mutation mat_foam_strip: must FAIL ['NO_MAT_FOAM', 'NO_LEGACY_MATERIALS', 'NO_FOAM_STRIP'], failed ['NO_MAT_FOAM', 'NO_LEGACY_MATERIALS', 'NO_FOAM_STRIP'] / FBX ['NO_MAT_FOAM', 'NO_LEGACY_MATERIALS', 'NO_FOAM_STRIP'] (also failed: ['OCEAN_WATER', 'PROP_MATERIALS']) PASS
+SELFTEST: hole 9 mutation fairway_flat_MAT: must FAIL ['GROUND_MATERIALS', 'NO_LEGACY_MATERIALS'], failed ['GROUND_MATERIALS', 'NO_LEGACY_MATERIALS'] / FBX ['GROUND_MATERIALS', 'NO_LEGACY_MATERIALS'] PASS
+SELFTEST: hole 9 mutation rock_icosahedron_12v: must FAIL ['ROCK_NOT_ICOSAHEDRON'], failed ['ROCK_NOT_ICOSAHEDRON'] / FBX ['ROCK_NOT_ICOSAHEDRON'] PASS
+SELFTEST: hole 9 mutation rocks_one_mesh: must FAIL ['ROCK_VARIETY'], failed ['ROCK_VARIETY'] / FBX ['ROCK_VARIETY'] PASS
+SELFTEST: hole 9 mutation rocks_all_icosahedra_split_60v: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] (also failed: ['SEASTACK_TAPERED']) PASS
+SELFTEST: hole 9 mutation rocks_all_icosahedra_plus_junk_verts: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] (also failed: ['SEASTACK_TAPERED']) PASS
+SELFTEST: hole 9 mutation rocks_all_icospheres_subdiv3: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] (also failed: ['SEASTACK_TAPERED']) PASS
+SELFTEST: hole 9 mutation rocks_all_uv_spheres: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] (also failed: ['SEASTACK_TAPERED']) PASS
+SELFTEST: hole 9 mutation rocks_all_subdivided_cubes: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] (also failed: ['SEASTACK_TAPERED']) PASS
+SELFTEST: hole 9 mutation rocks_same_shape_in_unique_meshes: must FAIL ['ROCK_VARIETY'], failed ['ROCK_VARIETY'] / FBX ['ROCK_VARIETY'] PASS
+SELFTEST: hole 9 mutation rocks_bundles_of_5to8_jittered_icosahedra: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] (also failed: ['SEASTACK_TAPERED']) PASS
+SELFTEST: hole 9 mutation rocks_one_shape_as_edge_split_variants: must FAIL ['ROCK_VARIETY'], failed ['ROCK_VARIETY'] / FBX ['ROCK_VARIETY'] PASS
+SELFTEST: hole 9 mutation rocks_bundles_loose_only_stacks_kept: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] (also failed: ['SEASTACK_TAPERED']) PASS
+SELFTEST: hole 9 mutation rocks_bundles_of_42v_icospheres: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] (also failed: ['SEASTACK_TAPERED']) PASS
+SELFTEST: hole 9 mutation rocks_icospheres_subdiv3_noise40: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] (also failed: ['SEASTACK_TAPERED']) PASS
+SELFTEST: hole 9 mutation rocks_bundles_of_icosahedra_every_face_split_2mm: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] (also failed: ['SEASTACK_TAPERED']) PASS
+SELFTEST: hole 9 mutation rocks_bundles_of_icosahedra_every_face_split_2mm_loose_only: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] (also failed: ['SEASTACK_TAPERED']) PASS
+SELFTEST: hole 9 mutation rocks_welded_clusters_of_12v_icosahedra_varied: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] (also failed: ['SEASTACK_TAPERED']) PASS
+SELFTEST: hole 9 mutation rocks_welded_clusters_of_12v_icosahedra_jitter12_after_weld: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] (also failed: ['SEASTACK_TAPERED']) PASS
+SELFTEST: hole 9 mutation rocks_welded_clusters_of_42v_icospheres: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] (also failed: ['SEASTACK_TAPERED']) PASS
+SELFTEST: hole 9 mutation rocks_welded_clusters_of_octahedra: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] (also failed: ['SEASTACK_TAPERED']) PASS
+SELFTEST: hole 9 mutation rocks_welded_clusters_loose_only_stacks_kept: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] (also failed: ['SEASTACK_TAPERED']) PASS
+SELFTEST: hole 9 mutation rock_library_mesh_baked_4to0p6_one_face_removed: must FAIL ['NO_ROCK_STRETCH_2X'], failed ['NO_ROCK_STRETCH_2X'] / FBX ['NO_ROCK_STRETCH_2X'] (also failed: ['PROPS_OFF_PLAY']) PASS
+SELFTEST: hole 9 mutation rock_library_mesh_turned_90_baked_3to1: must FAIL ['NO_ROCK_STRETCH_2X'], failed ['NO_ROCK_STRETCH_2X'] / FBX ['NO_ROCK_STRETCH_2X'] PASS
+SELFTEST: hole 9 mutation rock_handmade_hull_baked_4to0p5: must FAIL ['NO_ROCK_STRETCH_2X'], failed ['NO_ROCK_STRETCH_2X'] / FBX ['NO_ROCK_STRETCH_2X'] PASS
+SELFTEST: hole 9 mutation rock_handmade_hull_baked_5to0p4: must FAIL ['NO_ROCK_STRETCH_2X'], failed ['NO_ROCK_STRETCH_2X'] / FBX ['NO_ROCK_STRETCH_2X'] PASS
+SELFTEST: hole 9 mutation terrain_wall_polygon_deleted: must FAIL ['PLAY_SURFACE_WALLS'], failed ['PLAY_SURFACE_WALLS'] / FBX ['PLAY_SURFACE_WALLS'] PASS
+SELFTEST: hole 9 mutation terrain_wall_polygon_flipped: must FAIL ['PLAY_SURFACE_WALLS'], failed ['PLAY_SURFACE_WALLS'] / FBX ['PLAY_SURFACE_WALLS'] PASS
+SELFTEST: hole 9 mutation terrain_wall_vertex_moved_5cm: must FAIL ['PLAY_SURFACE_WALLS'], failed ['PLAY_SURFACE_WALLS'] / FBX ['PLAY_SURFACE_WALLS'] PASS
+SELFTEST: hole 9 mutation rock_stretched_x3: must FAIL ['NO_ROCK_STRETCH_2X'], failed ['NO_ROCK_STRETCH_2X'] / FBX ['NO_ROCK_STRETCH_2X'] PASS
+SELFTEST: hole 9 mutation rock_uniform_2p6: must FAIL ['NO_ROCK_STRETCH_2X'], failed ['NO_ROCK_STRETCH_2X'] / FBX ['NO_ROCK_STRETCH_2X'] PASS
+SELFTEST: hole 9 mutation rock_anisotropy_2p5: must FAIL ['NO_ROCK_STRETCH_2X'], failed ['NO_ROCK_STRETCH_2X'] / FBX ['NO_ROCK_STRETCH_2X'] PASS
+SELFTEST: hole 9 mutation rock_sheared_parent_3p17: must FAIL ['NO_ROCK_STRETCH_2X'], failed ['NO_ROCK_STRETCH_2X'] / FBX [] PASS
+SELFTEST: hole 9 mutation rock_baked_stretch_library_mesh_renamed: must FAIL ['NO_ROCK_STRETCH_2X'], failed ['NO_ROCK_STRETCH_2X'] / FBX ['NO_ROCK_STRETCH_2X'] PASS
+SELFTEST: hole 9 mutation dress_small_boulder_between_grid_points: must FAIL ['PROPS_OFF_PLAY'], failed ['PROPS_OFF_PLAY'] / FBX ['PROPS_OFF_PLAY'] PASS
+SELFTEST: hole 9 mutation plant_merged_with_far_copy_over_sea: must FAIL ['NO_PLANT_ON_WATER'], failed ['NO_PLANT_ON_WATER'] / FBX ['NO_PLANT_ON_WATER'] PASS
+SELFTEST: hole 9 mutation plant_on_floating_rock_slab_z5p2: must FAIL ['NO_PLANT_ON_WATER'], failed ['NO_PLANT_ON_WATER'] / FBX ['NO_PLANT_ON_WATER'] PASS
+SELFTEST: hole 9 mutation dress_boulder_on_pin: must FAIL ['PROPS_OFF_PLAY'], failed ['PROPS_OFF_PLAY'] / FBX ['PROPS_OFF_PLAY'] PASS
+SELFTEST: hole 9 mutation rock_wall_pile_on_pin: must FAIL ['PROPS_OFF_PLAY'], failed ['PROPS_OFF_PLAY'] / FBX ['PROPS_OFF_PLAY'] PASS
+SELFTEST: hole 9 mutation dress_slab_over_fairway: must FAIL ['PROPS_OFF_PLAY'], failed ['PROPS_OFF_PLAY'] / FBX ['PROPS_OFF_PLAY'] PASS
+SELFTEST: hole 9 mutation plant_on_sea_level_water: must FAIL ['NO_PLANT_ON_WATER'], failed ['NO_PLANT_ON_WATER'] / FBX ['NO_PLANT_ON_WATER'] PASS
+SELFTEST: hole 9 mutation plant_floating_over_water_z6: must FAIL ['NO_PLANT_ON_WATER'], failed ['NO_PLANT_ON_WATER'] / FBX ['NO_PLANT_ON_WATER'] PASS
+SELFTEST: hole 9 mutation plant_on_fairway: must FAIL ['NO_PLANT_ON_WATER'], failed ['NO_PLANT_ON_WATER'] / FBX ['NO_PLANT_ON_WATER'] (also failed: ['PROPS_OFF_PLAY']) PASS
+SELFTEST: hole 9 mutation vine_attached_to_nothing: must FAIL ['NO_PLANT_ON_WATER'], failed ['NO_PLANT_ON_WATER'] / FBX ['NO_PLANT_ON_WATER'] PASS
+SELFTEST: hole 9 mutation plant_on_green: must FAIL ['PROPS_OFF_PLAY', 'NO_PLANT_ON_WATER'], failed ['PROPS_OFF_PLAY', 'NO_PLANT_ON_WATER'] / FBX ['PROPS_OFF_PLAY', 'NO_PLANT_ON_WATER'] PASS
+SELFTEST: hole 9 mutation lawn_and_flagstick_as_dress: must FAIL ['ONE_GREEN'], failed ['ONE_GREEN'] / FBX ['ONE_GREEN'] PASS
+SELFTEST: hole 9 mutation face_deleted: must FAIL ['PLAY_SURFACE_FACES'], failed ['PLAY_SURFACE_FACES'] / FBX ['PLAY_SURFACE_FACES'] PASS
+SELFTEST: hole 9 mutation face_flipped: must FAIL ['PLAY_SURFACE_FACES'], failed ['PLAY_SURFACE_FACES'] / FBX ['PLAY_SURFACE_FACES'] (also failed: ['PLAY_SURFACE_WALLS']) PASS
+SELFTEST: hole 9 mutation face_added: must FAIL ['PLAY_SURFACE_FACES'], failed ['PLAY_SURFACE_FACES'] / FBX ['PLAY_SURFACE_FACES'] (also failed: ['PLAY_SURFACE_GRID', 'PLAY_SURFACE_TOPS']) PASS
+SELFTEST: hole 9 mutation fairway_normal_unlinked: must FAIL ['LK_TEXTURED'], failed ['LK_TEXTURED'] / FBX [] PASS
+SELFTEST: hole 9 mutation fairway_no_uv: must FAIL ['UV_DENSITY'], failed ['UV_DENSITY'] / FBX ['UV_DENSITY'] PASS
+SELFTEST: hole 9 mutation fairway_uv_0to1: must FAIL ['UV_DENSITY'], failed ['UV_DENSITY'] / FBX ['UV_DENSITY'] PASS
+SELFTEST: hole 9 mutation wall_uv_smear_16to1: must FAIL ['UV_DENSITY'], failed ['UV_DENSITY'] / FBX ['UV_DENSITY'] PASS
+SELFTEST: hole 9 mutation plant_600_faces: must FAIL ['PROP_FACE_BUDGET'], failed ['PROP_FACE_BUDGET'] / FBX ['PROP_FACE_BUDGET'] PASS
+SELFTEST: hole 9 mutation plant_second_material: must FAIL ['PLANTS_SHARED_MATERIAL'], failed ['PLANTS_SHARED_MATERIAL'] / FBX ['PLANTS_SHARED_MATERIAL'] (also failed: ['PROP_MATERIALS']) PASS
+SELFTEST: hole 9 mutation plants_not_instanced: must FAIL ['PLANTS_INSTANCED'], failed ['PLANTS_INSTANCED'] / FBX ['PLANTS_INSTANCED'] PASS
+SELFTEST: hole 9 mutation second_green_dress: must FAIL ['ONE_GREEN'], failed ['ONE_GREEN'] / FBX ['ONE_GREEN'] (also failed: ['PROP_MATERIALS']) PASS
+SELFTEST: hole 9 mutation sand_patch_named_BUNKER: must FAIL ['SAND_NAMES', 'PLAY_SURFACE_NAMES'], failed ['SAND_NAMES', 'PLAY_SURFACE_NAMES'] / FBX ['SAND_NAMES', 'PLAY_SURFACE_NAMES'] (also failed: ['NEW_OBJECT_PREFIXES', 'PLAY_SURFACE_GRID', 'UV_DENSITY']) PASS
+SELFTEST: hole 9 mutation animated_rock: must FAIL ['NO_ANIMATION'], failed ['NO_ANIMATION'] / FBX [] PASS
+SELFTEST: hole 9 mutation 300k_triangles: must FAIL ['TRIANGLE_BUDGET'], failed ['TRIANGLE_BUDGET'] / FBX ['TRIANGLE_BUDGET'] PASS
+SELFTEST: hole 9 mutation ocean_flat_MAT_WATER: must FAIL ['OCEAN_WATER'], failed ['OCEAN_WATER'] / FBX ['OCEAN_WATER'] (also failed: ['LK_REQUIRED', 'LK_TEXTURED', 'NO_FOAM_STRIP', 'NO_LEGACY_MATERIALS', 'PROP_MATERIALS']) PASS
+SELFTEST: hole 9 mutation surf_removed: must FAIL ['SURF_SHORE'], failed ['SURF_SHORE'] / FBX ['SURF_SHORE'] (also failed: ['LK_REQUIRED', 'LK_TEXTURED']) PASS
+SELFTEST: hole 9 mutation surf_no_vertex_colour: must FAIL ['SURF_SHORE'], failed ['SURF_SHORE'] / FBX ['SURF_SHORE'] PASS
+SELFTEST: hole 9 mutation white_band_as_DRESS_LK_SURF: must FAIL ['NO_FOAM_STRIP', 'PROP_MATERIALS'], failed ['NO_FOAM_STRIP', 'PROP_MATERIALS'] / FBX ['NO_FOAM_STRIP', 'PROP_MATERIALS'] PASS
+SELFTEST: hole 9 mutation surf_strip_alpha1_whole_shore: must FAIL ['NO_FOAM_STRIP'], failed ['NO_FOAM_STRIP'] / FBX ['NO_FOAM_STRIP'] PASS
+SELFTEST: hole 9 mutation surf_unbroken_14m_patch: must FAIL ['NO_FOAM_STRIP'], failed ['NO_FOAM_STRIP'] / FBX ['NO_FOAM_STRIP'] PASS
+SELFTEST: hole 9 mutation surf_patches_every_20m_over_25pct: must FAIL ['NO_FOAM_STRIP'], failed ['NO_FOAM_STRIP'] / FBX ['NO_FOAM_STRIP'] PASS
+SELFTEST: hole 9 mutation surf_two_patches_4m_apart: must FAIL ['NO_FOAM_STRIP'], failed ['NO_FOAM_STRIP'] / FBX ['NO_FOAM_STRIP'] PASS
+SELFTEST: hole 9 mutation surf_ribbon_8m_offshore_constant_width: must FAIL ['NO_FOAM_STRIP'], failed ['NO_FOAM_STRIP'] / FBX ['NO_FOAM_STRIP'] PASS
+SELFTEST: hole 9 mutation flat_LK_FALL_ribbon_8m_offshore: must FAIL ['NO_FOAM_STRIP'], failed ['NO_FOAM_STRIP'] / FBX ['NO_FOAM_STRIP'] PASS
+SELFTEST: hole 9 mutation white_textured_DRESS_mist_along_shore: must FAIL ['NO_FOAM_STRIP'], failed ['NO_FOAM_STRIP'] / FBX ['NO_FOAM_STRIP'] PASS
+SELFTEST: hole 9 mutation shelf_halo_16m_closed_ring: must FAIL ['SHELF_THIN'], failed ['SHELF_THIN'] / FBX ['SHELF_THIN'] PASS
+SELFTEST: hole 9 mutation shelf_thin_closed_uniform_ring_1p5m: must FAIL ['SHELF_THIN'], failed ['SHELF_THIN'] / FBX ['SHELF_THIN'] (also failed: ['SPLIT_SHORE_SKIN']) PASS
+SELFTEST: hole 9 mutation shelf_halo_hidden_in_a_second_mesh: must FAIL ['SHELF_THIN'], failed ['SHELF_THIN'] / FBX ['SHELF_THIN'] PASS
+SELFTEST: hole 9 mutation shelf_12m_wide_patches: must FAIL ['SHELF_THIN'], failed ['SHELF_THIN'] / FBX ['SHELF_THIN'] PASS
+SELFTEST: hole 9 mutation stacks_stacked_boxes: must FAIL ['SEASTACK_TAPERED'], failed ['SEASTACK_TAPERED'] / FBX ['SEASTACK_TAPERED'] (also failed: ['ROCK_NOT_ICOSAHEDRON']) PASS
+SELFTEST: hole 9 mutation stacks_cylinders: must FAIL ['SEASTACK_TAPERED'], failed ['SEASTACK_TAPERED'] / FBX ['SEASTACK_TAPERED'] (also failed: ['ROCK_NOT_ICOSAHEDRON']) PASS
+SELFTEST: hole 9 mutation stacks_flat_lid: must FAIL ['SEASTACK_TAPERED'], failed ['SEASTACK_TAPERED'] / FBX ['SEASTACK_TAPERED'] PASS
+SELFTEST: hole 9 mutation stack_tower_named_ROCK_PEDESTAL: must FAIL ['SEASTACK_TAPERED'], failed ['SEASTACK_TAPERED'] / FBX ['SEASTACK_TAPERED'] (also failed: ['ROCK_NOT_ICOSAHEDRON']) PASS
+SELFTEST: hole 9 mutation stack_flat_island_without_grass_cap: must FAIL ['SEASTACK_TAPERED'], failed ['SEASTACK_TAPERED'] / FBX ['SEASTACK_TAPERED'] (also failed: ['ROCK_NOT_ICOSAHEDRON']) PASS
+SELFTEST: hole 9 mutation foam_squares_touching_2to6m_offshore: must FAIL ['NO_FOAM_STRIP'], failed ['NO_FOAM_STRIP'] / FBX ['NO_FOAM_STRIP'] PASS
+SELFTEST: hole 9 mutation foam_ragged_continuous_band_2p5m_offshore: must FAIL ['NO_FOAM_STRIP'], failed ['NO_FOAM_STRIP'] / FBX ['NO_FOAM_STRIP'] PASS
+SELFTEST: hole 9 mutation foam_offshore_dashes_gap7m_14to17m: must FAIL ['NO_FOAM_STRIP'], failed ['NO_FOAM_STRIP'] / FBX ['NO_FOAM_STRIP'] PASS
+SELFTEST: hole 9 mutation foam_continuous_band_at_vertex_alpha_0p29: must FAIL ['NO_FOAM_STRIP'], failed ['NO_FOAM_STRIP'] / FBX ['NO_FOAM_STRIP'] (also failed: ['SURF_SHORE']) PASS
+SELFTEST: hole 9 mutation foam_white_material_strip_not_LK_SURF: must FAIL ['NO_FOAM_STRIP'], failed ['NO_FOAM_STRIP'] / FBX ['NO_FOAM_STRIP'] (also failed: ['NO_LEGACY_MATERIALS', 'PROP_MATERIALS']) PASS
+SELFTEST: hole 9 mutation foam_continuous_sloped_skirt_nz0p45_LK_SURF: must FAIL ['NO_FOAM_STRIP'], failed ['NO_FOAM_STRIP'] / FBX ['NO_FOAM_STRIP'] PASS
+SELFTEST: hole 9 mutation foam_continuous_vertical_wall_LK_SURF: must FAIL ['NO_FOAM_STRIP'], failed ['NO_FOAM_STRIP'] / FBX ['NO_FOAM_STRIP'] (also failed: ['UV_DENSITY']) PASS
+SELFTEST: hole 9 mutation foam_continuous_steep_ramp_nz0p1_LK_FALL_named_WATER_FALL: must FAIL ['NO_FOAM_STRIP'], failed ['NO_FOAM_STRIP'] / FBX ['NO_FOAM_STRIP'] PASS
+SELFTEST: hole 9 mutation foam_continuous_sloped_skirt_nz0p3_white_material: must FAIL ['NO_FOAM_STRIP'], failed ['NO_FOAM_STRIP'] / FBX ['NO_FOAM_STRIP'] (also failed: ['NO_LEGACY_MATERIALS', 'PROP_MATERIALS']) PASS
+SELFTEST: hole 9 mutation scrub_on_ribbon: must FAIL ['SPLIT_NO_SCRUB_RIBBON'], failed ['SPLIT_NO_SCRUB_RIBBON'] / FBX ['SPLIT_NO_SCRUB_RIBBON'] (also failed: ['SPLIT_SCRUB_RIDGE']) PASS
+SELFTEST: hole 9 mutation ridge_rough_green: must FAIL ['SPLIT_SCRUB_RIDGE'], failed ['SPLIT_SCRUB_RIDGE'] / FBX ['SPLIT_SCRUB_RIDGE'] (also failed: ['LK_REQUIRED', 'LK_TEXTURED']) PASS
+SELFTEST: hole 9 mutation ridge_without_plants: must FAIL ['SPLIT_RIDGE_SCATTER'], failed ['SPLIT_RIDGE_SCATTER'] / FBX ['SPLIT_RIDGE_SCATTER'] (also failed: ['LK_REQUIRED', 'LK_TEXTURED', 'PLANTS_INSTANCED', 'PLANTS_SHARED_MATERIAL']) PASS
+SELFTEST: hole 9 mutation ruin_removed: must FAIL ['SPLIT_RUIN'], failed ['SPLIT_RUIN'] / FBX ['SPLIT_RUIN'] (also failed: ['LK_REQUIRED', 'LK_TEXTURED']) PASS
+SELFTEST: hole 9 mutation rock_skin_one_piece: must FAIL ['SPLIT_SHORE_SKIN'], failed ['SPLIT_SHORE_SKIN'] / FBX ['SPLIT_SHORE_SKIN'] PASS
+SELFTEST: hole 9 mutation rock_skin_smooth_curtain: must FAIL ['SPLIT_SHORE_SKIN'], failed ['SPLIT_SHORE_SKIN'] / FBX ['SPLIT_SHORE_SKIN'] PASS
+SELFTEST: hole 9 control ctl_rock_welded_natural_hull_stones: must still PASS ['ROCK_NOT_ICOSAHEDRON'], failed now ['SEASTACK_TAPERED'] PASS
+SELFTEST: hole 9 control ctl_handmade_hull_baked_1p5: must still PASS ['NO_ROCK_STRETCH_2X'], failed now [] PASS
+SELFTEST: hole 9 control ctl_library_mesh_one_face_removed_unstretched: must still PASS ['NO_ROCK_STRETCH_2X'], failed now [] PASS
+SELFTEST: hole 9 control ctl_terrain_wall_polygon_poked_same_surface: must still PASS ['PLAY_SURFACE_WALLS'], failed now [] PASS
+SELFTEST: hole 9 control ctl_rock_scale_1p8_1p5_1p2: must still PASS ['NO_ROCK_STRETCH_2X'], failed now [] PASS
+SELFTEST: hole 9 control ctl_library_mesh_scaled_within_2x: must still PASS ['NO_ROCK_STRETCH_2X'], failed now [] PASS
+SELFTEST: hole 9 control ctl_plant_on_a_rock_on_the_ground: must still PASS ['NO_PLANT_ON_WATER'], failed now [] PASS
+SELFTEST: hole 9 control ctl_dress_sand_overlay_on_rough: must still PASS ['PROPS_OFF_PLAY', 'SAND_NAMES', 'PATH_UNDER_BALL'], failed now [] PASS
+SELFTEST: hole 9 control ctl_face_retriangulated: must still PASS ['PLAY_SURFACE_FACES', 'PLAY_SURFACE_TOPS'], failed now [] PASS
+SELFTEST: hole 9 control ctl_flat_island_with_grass_cap: must still PASS ['SEASTACK_TAPERED'], failed now ['ROCK_NOT_ICOSAHEDRON'] PASS
+SELFTEST: hole 9 mutation tex_fairway_flat_rgb_noisy_alpha: must FAIL ['LOOK_FILES'], failed ['LOOK_FILES'] / FBX ['LOOK_FILES'] (also failed: ['GRASS_ALBEDO_HUE', 'SPLIT_SCRUB_RIDGE']) PASS
+SELFTEST: hole 9 mutation tex_fairway_near_flat_dither: must FAIL ['LOOK_FILES'], failed ['LOOK_FILES'] / FBX ['LOOK_FILES'] (also failed: ['GRASS_ALBEDO_HUE']) PASS
+SELFTEST: hole 9 mutation tex_fairway_flat_fill: must FAIL ['LOOK_FILES'], failed ['LOOK_FILES'] / FBX ['LOOK_FILES'] (also failed: ['ALBEDO_DISTINCT', 'GRASS_ALBEDO_HUE', 'SPLIT_SCRUB_RIDGE']) PASS
+SELFTEST: hole 9 mutation tex_fairway_artwork_downsampled_to_128px: must FAIL ['LOOK_FILES'], failed ['LOOK_FILES'] / FBX ['LOOK_FILES'] PASS
+SELFTEST: hole 9 mutation tex_fairway_8px_checkerboard: must FAIL ['LOOK_FILES'], failed ['LOOK_FILES'] / FBX ['LOOK_FILES'] (also failed: ['GRASS_ALBEDO_HUE', 'SPLIT_SCRUB_RIDGE']) PASS
+SELFTEST: hole 9 mutation tex_fairway_random_16px_cell_tiled: must FAIL ['LOOK_FILES'], failed ['LOOK_FILES'] / FBX ['LOOK_FILES'] (also failed: ['GRASS_ALBEDO_HUE']) PASS
+SELFTEST: hole 9 mutation tex_fairway_normal_flat_dither: must FAIL ['LOOK_FILES'], failed ['LOOK_FILES'] / FBX ['LOOK_FILES'] PASS
+SELFTEST: hole 9 mutation tex_green_is_copy_of_fairway: must FAIL ['ALBEDO_DISTINCT'], failed ['ALBEDO_DISTINCT'] / FBX ['ALBEDO_DISTINCT'] PASS
+SELFTEST: hole 9 mutation tex_green_is_tint_of_fairway: must FAIL ['ALBEDO_DISTINCT'], failed ['ALBEDO_DISTINCT'] / FBX ['ALBEDO_DISTINCT'] PASS
+SELFTEST: hole 9 mutation tex_green_is_rotated_copy_of_fairway: must FAIL ['ALBEDO_DISTINCT'], failed ['ALBEDO_DISTINCT'] / FBX ['ALBEDO_DISTINCT'] PASS
+SELFTEST: hole 9 mutation tex_green_is_shifted_copy_of_fairway: must FAIL ['ALBEDO_DISTINCT'], failed ['ALBEDO_DISTINCT'] / FBX ['ALBEDO_DISTINCT'] PASS
+SELFTEST: hole 9 mutation tex_fairway_hue_97_blue_green: must FAIL ['GRASS_ALBEDO_HUE'], failed ['GRASS_ALBEDO_HUE'] / FBX ['GRASS_ALBEDO_HUE'] PASS
+SELFTEST: hole 9 mutation tex_rough_hue_95_blue_green: must FAIL ['GRASS_ALBEDO_HUE'], failed ['GRASS_ALBEDO_HUE'] / FBX ['GRASS_ALBEDO_HUE'] PASS
+SELFTEST: hole 9 mutation tex_fairway_desaturated: must FAIL ['GRASS_ALBEDO_HUE'], failed ['GRASS_ALBEDO_HUE'] / FBX ['GRASS_ALBEDO_HUE'] PASS
+SELFTEST: hole 9 mutation tex_scrub_is_copy_of_fairway: must FAIL ['SPLIT_SCRUB_RIDGE', 'ALBEDO_DISTINCT'], failed ['SPLIT_SCRUB_RIDGE', 'ALBEDO_DISTINCT'] / FBX ['SPLIT_SCRUB_RIDGE', 'ALBEDO_DISTINCT'] PASS
+SELFTEST: hole 9 mutation tex_scrub_is_fairway_green_other_noise: must FAIL ['SPLIT_SCRUB_RIDGE'], failed ['SPLIT_SCRUB_RIDGE'] / FBX ['SPLIT_SCRUB_RIDGE'] PASS
+SELFTEST: hole 9 mutation tex_scrub_is_hue_shifted_fairway_pattern: must FAIL ['SPLIT_SCRUB_RIDGE', 'ALBEDO_DISTINCT'], failed ['SPLIT_SCRUB_RIDGE', 'ALBEDO_DISTINCT'] / FBX ['SPLIT_SCRUB_RIDGE', 'ALBEDO_DISTINCT'] PASS
+SELFTEST: hole 9 mutation tex_scrub_is_channel_tinted_fairway_pattern: must FAIL ['SPLIT_SCRUB_RIDGE', 'ALBEDO_DISTINCT'], failed ['SPLIT_SCRUB_RIDGE', 'ALBEDO_DISTINCT'] / FBX ['SPLIT_SCRUB_RIDGE', 'ALBEDO_DISTINCT'] PASS
+SELFTEST: hole 9 mutation tex_green_is_hue_shifted_fairway_pattern: must FAIL ['ALBEDO_DISTINCT'], failed ['ALBEDO_DISTINCT'] / FBX ['ALBEDO_DISTINCT'] (also failed: ['GRASS_ALBEDO_HUE']) PASS
+SELFTEST: hole 9 mutation meta_isReadable_0: must FAIL ['FBX_FILE'], failed FBX_FILE PASS
+SELFTEST: hole 9 mutation corrupt_fbx: must FAIL ['FBX_REIMPORT'], failed FBX_REIMPORT PASS
+SELFTEST: hole 9 mutation hole07_meta_copy_changed: must FAIL ['HOLE07_UNTOUCHED'], failed HOLE07_UNTOUCHED PASS
+SELFTEST: hole 9 mutation signature_missing: must FAIL ['BASELINE_SIGNATURE'], failed BASELINE_SIGNATURE PASS
+SELFTEST: hole 10 synthetic positive (blend + FBX): 92 gates, expected ALL PASS, failed [] PASS
+SELFTEST: hole 10 mutation green_up_2mm: must FAIL ['PLAY_SURFACE_GRID', 'PLAY_SURFACE_TOPS', 'PLAY_SURFACE_FACES'], failed ['PLAY_SURFACE_GRID', 'PLAY_SURFACE_TOPS', 'PLAY_SURFACE_FACES'] / FBX ['PLAY_SURFACE_GRID', 'PLAY_SURFACE_TOPS', 'PLAY_SURFACE_FACES'] PASS
+SELFTEST: hole 10 mutation pin_moved_1cm: must FAIL ['MARKERS_FROZEN'], failed ['MARKERS_FROZEN'] / FBX ['MARKERS_FROZEN'] PASS
+SELFTEST: hole 10 mutation plant_renamed_BUNKER: must FAIL ['PLAY_SURFACE_NAMES', 'NEW_OBJECT_PREFIXES'], failed ['PLAY_SURFACE_NAMES', 'NEW_OBJECT_PREFIXES'] / FBX ['PLAY_SURFACE_NAMES', 'NEW_OBJECT_PREFIXES'] PASS
+SELFTEST: hole 10 mutation new_object_ARCH_prefix: must FAIL ['NEW_OBJECT_PREFIXES'], failed ['NEW_OBJECT_PREFIXES'] / FBX ['NEW_OBJECT_PREFIXES'] PASS
+SELFTEST: hole 10 mutation new_object_MARKER_prefix: must FAIL ['RESERVED_NAMES'], failed ['RESERVED_NAMES'] / FBX ['RESERVED_NAMES'] (also failed: ['NEW_OBJECT_PREFIXES']) PASS
+SELFTEST: hole 10 mutation mat_foam_strip: must FAIL ['NO_MAT_FOAM', 'NO_LEGACY_MATERIALS', 'NO_FOAM_STRIP'], failed ['NO_MAT_FOAM', 'NO_LEGACY_MATERIALS', 'NO_FOAM_STRIP'] / FBX ['NO_MAT_FOAM', 'NO_LEGACY_MATERIALS', 'NO_FOAM_STRIP'] (also failed: ['PROP_MATERIALS']) PASS
+SELFTEST: hole 10 mutation fairway_flat_MAT: must FAIL ['GROUND_MATERIALS', 'NO_LEGACY_MATERIALS'], failed ['GROUND_MATERIALS', 'NO_LEGACY_MATERIALS'] / FBX ['GROUND_MATERIALS', 'NO_LEGACY_MATERIALS'] PASS
+SELFTEST: hole 10 mutation rock_icosahedron_12v: must FAIL ['ROCK_NOT_ICOSAHEDRON'], failed ['ROCK_NOT_ICOSAHEDRON'] / FBX ['ROCK_NOT_ICOSAHEDRON'] PASS
+SELFTEST: hole 10 mutation rocks_one_mesh: must FAIL ['ROCK_VARIETY'], failed ['ROCK_VARIETY'] / FBX ['ROCK_VARIETY'] PASS
+SELFTEST: hole 10 mutation rocks_all_icosahedra_split_60v: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] PASS
+SELFTEST: hole 10 mutation rocks_all_icosahedra_plus_junk_verts: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] PASS
+SELFTEST: hole 10 mutation rocks_all_icospheres_subdiv3: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] PASS
+SELFTEST: hole 10 mutation rocks_all_uv_spheres: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] PASS
+SELFTEST: hole 10 mutation rocks_all_subdivided_cubes: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] PASS
+SELFTEST: hole 10 mutation rocks_same_shape_in_unique_meshes: must FAIL ['ROCK_VARIETY'], failed ['ROCK_VARIETY'] / FBX ['ROCK_VARIETY'] PASS
+SELFTEST: hole 10 mutation rocks_bundles_of_5to8_jittered_icosahedra: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] PASS
+SELFTEST: hole 10 mutation rocks_one_shape_as_edge_split_variants: must FAIL ['ROCK_VARIETY'], failed ['ROCK_VARIETY'] / FBX ['ROCK_VARIETY'] PASS
+SELFTEST: hole 10 mutation rocks_bundles_loose_only_stacks_kept: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] PASS
+SELFTEST: hole 10 mutation rocks_bundles_of_42v_icospheres: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] PASS
+SELFTEST: hole 10 mutation rocks_icospheres_subdiv3_noise40: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] PASS
+SELFTEST: hole 10 mutation rocks_bundles_of_icosahedra_every_face_split_2mm: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] PASS
+SELFTEST: hole 10 mutation rocks_bundles_of_icosahedra_every_face_split_2mm_loose_only: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] PASS
+SELFTEST: hole 10 mutation rocks_welded_clusters_of_12v_icosahedra_varied: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] PASS
+SELFTEST: hole 10 mutation rocks_welded_clusters_of_12v_icosahedra_jitter12_after_weld: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] PASS
+SELFTEST: hole 10 mutation rocks_welded_clusters_of_42v_icospheres: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] PASS
+SELFTEST: hole 10 mutation rocks_welded_clusters_of_octahedra: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] PASS
+SELFTEST: hole 10 mutation rocks_welded_clusters_loose_only_stacks_kept: must FAIL ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'], failed ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] / FBX ['ROCK_NOT_ICOSAHEDRON', 'ROCK_VARIETY'] PASS
+SELFTEST: hole 10 mutation rock_library_mesh_baked_4to0p6_one_face_removed: must FAIL ['NO_ROCK_STRETCH_2X'], failed ['NO_ROCK_STRETCH_2X'] / FBX ['NO_ROCK_STRETCH_2X'] PASS
+SELFTEST: hole 10 mutation rock_library_mesh_turned_90_baked_3to1: must FAIL ['NO_ROCK_STRETCH_2X'], failed ['NO_ROCK_STRETCH_2X'] / FBX ['NO_ROCK_STRETCH_2X'] PASS
+SELFTEST: hole 10 mutation rock_handmade_hull_baked_4to0p5: must FAIL ['NO_ROCK_STRETCH_2X'], failed ['NO_ROCK_STRETCH_2X'] / FBX ['NO_ROCK_STRETCH_2X'] (also failed: ['CRATER_COLUMNS']) PASS
+SELFTEST: hole 10 mutation rock_handmade_hull_baked_5to0p4: must FAIL ['NO_ROCK_STRETCH_2X'], failed ['NO_ROCK_STRETCH_2X'] / FBX ['NO_ROCK_STRETCH_2X'] PASS
+SELFTEST: hole 10 mutation terrain_wall_polygon_deleted: must FAIL ['PLAY_SURFACE_WALLS'], failed ['PLAY_SURFACE_WALLS'] / FBX ['PLAY_SURFACE_WALLS'] PASS
+SELFTEST: hole 10 mutation terrain_wall_polygon_flipped: must FAIL ['PLAY_SURFACE_WALLS'], failed ['PLAY_SURFACE_WALLS'] / FBX ['PLAY_SURFACE_WALLS'] PASS
+SELFTEST: hole 10 mutation terrain_wall_vertex_moved_5cm: must FAIL ['PLAY_SURFACE_WALLS'], failed ['PLAY_SURFACE_WALLS'] / FBX ['PLAY_SURFACE_WALLS'] PASS
+SELFTEST: hole 10 mutation rock_stretched_x3: must FAIL ['NO_ROCK_STRETCH_2X'], failed ['NO_ROCK_STRETCH_2X'] / FBX ['NO_ROCK_STRETCH_2X'] PASS
+SELFTEST: hole 10 mutation rock_uniform_2p6: must FAIL ['NO_ROCK_STRETCH_2X'], failed ['NO_ROCK_STRETCH_2X'] / FBX ['NO_ROCK_STRETCH_2X'] PASS
+SELFTEST: hole 10 mutation rock_anisotropy_2p5: must FAIL ['NO_ROCK_STRETCH_2X'], failed ['NO_ROCK_STRETCH_2X'] / FBX ['NO_ROCK_STRETCH_2X'] PASS
+SELFTEST: hole 10 mutation rock_sheared_parent_3p17: must FAIL ['NO_ROCK_STRETCH_2X'], failed ['NO_ROCK_STRETCH_2X'] / FBX [] PASS
+SELFTEST: hole 10 mutation rock_baked_stretch_library_mesh_renamed: must FAIL ['NO_ROCK_STRETCH_2X'], failed ['NO_ROCK_STRETCH_2X'] / FBX ['NO_ROCK_STRETCH_2X'] PASS
+SELFTEST: hole 10 mutation dress_small_boulder_between_grid_points: must FAIL ['PROPS_OFF_PLAY'], failed ['PROPS_OFF_PLAY'] / FBX ['PROPS_OFF_PLAY'] PASS
+SELFTEST: hole 10 mutation plant_merged_with_far_copy_over_sea: must FAIL ['NO_PLANT_ON_WATER'], failed ['NO_PLANT_ON_WATER'] / FBX ['NO_PLANT_ON_WATER'] PASS
+SELFTEST: hole 10 mutation plant_on_floating_rock_slab_z5p2: must FAIL ['NO_PLANT_ON_WATER'], failed ['NO_PLANT_ON_WATER'] / FBX ['NO_PLANT_ON_WATER'] PASS
+SELFTEST: hole 10 mutation dress_boulder_on_pin: must FAIL ['PROPS_OFF_PLAY'], failed ['PROPS_OFF_PLAY'] / FBX ['PROPS_OFF_PLAY'] PASS
+SELFTEST: hole 10 mutation rock_wall_pile_on_pin: must FAIL ['PROPS_OFF_PLAY'], failed ['PROPS_OFF_PLAY'] / FBX ['PROPS_OFF_PLAY'] (also failed: ['CRATER_COLUMNS']) PASS
+SELFTEST: hole 10 mutation dress_slab_over_fairway: must FAIL ['PROPS_OFF_PLAY'], failed ['PROPS_OFF_PLAY'] / FBX ['PROPS_OFF_PLAY'] PASS
+SELFTEST: hole 10 mutation plant_on_sea_level_water: must FAIL ['NO_PLANT_ON_WATER'], failed ['NO_PLANT_ON_WATER'] / FBX ['NO_PLANT_ON_WATER'] PASS
+SELFTEST: hole 10 mutation plant_floating_over_water_z6: must FAIL ['NO_PLANT_ON_WATER'], failed ['NO_PLANT_ON_WATER'] / FBX ['NO_PLANT_ON_WATER'] PASS
+SELFTEST: hole 10 mutation plant_on_fairway: must FAIL ['NO_PLANT_ON_WATER'], failed ['NO_PLANT_ON_WATER'] / FBX ['NO_PLANT_ON_WATER'] PASS
+SELFTEST: hole 10 mutation vine_attached_to_nothing: must FAIL ['NO_PLANT_ON_WATER'], failed ['NO_PLANT_ON_WATER'] / FBX ['NO_PLANT_ON_WATER'] PASS
+SELFTEST: hole 10 mutation plant_on_green: must FAIL ['PROPS_OFF_PLAY', 'NO_PLANT_ON_WATER'], failed ['PROPS_OFF_PLAY', 'NO_PLANT_ON_WATER'] / FBX ['PROPS_OFF_PLAY', 'NO_PLANT_ON_WATER'] PASS
+SELFTEST: hole 10 mutation lawn_and_flagstick_as_dress: must FAIL ['ONE_GREEN'], failed ['ONE_GREEN'] / FBX ['ONE_GREEN'] PASS
+SELFTEST: hole 10 mutation face_deleted: must FAIL ['PLAY_SURFACE_FACES'], failed ['PLAY_SURFACE_FACES'] / FBX ['PLAY_SURFACE_FACES'] PASS
+SELFTEST: hole 10 mutation face_flipped: must FAIL ['PLAY_SURFACE_FACES'], failed ['PLAY_SURFACE_FACES'] / FBX ['PLAY_SURFACE_FACES'] (also failed: ['PLAY_SURFACE_WALLS']) PASS
+SELFTEST: hole 10 mutation face_added: must FAIL ['PLAY_SURFACE_FACES'], failed ['PLAY_SURFACE_FACES'] / FBX ['PLAY_SURFACE_FACES'] (also failed: ['PLAY_SURFACE_GRID', 'PLAY_SURFACE_TOPS']) PASS
+SELFTEST: hole 10 mutation fairway_normal_unlinked: must FAIL ['LK_TEXTURED'], failed ['LK_TEXTURED'] / FBX [] PASS
+SELFTEST: hole 10 mutation fairway_no_uv: must FAIL ['UV_DENSITY'], failed ['UV_DENSITY'] / FBX ['UV_DENSITY'] PASS
+SELFTEST: hole 10 mutation fairway_uv_0to1: must FAIL ['UV_DENSITY'], failed ['UV_DENSITY'] / FBX ['UV_DENSITY'] PASS
+SELFTEST: hole 10 mutation wall_uv_smear_16to1: must FAIL ['UV_DENSITY'], failed ['UV_DENSITY'] / FBX ['UV_DENSITY'] PASS
+SELFTEST: hole 10 mutation plant_600_faces: must FAIL ['PROP_FACE_BUDGET'], failed ['PROP_FACE_BUDGET'] / FBX ['PROP_FACE_BUDGET'] PASS
+SELFTEST: hole 10 mutation plant_second_material: must FAIL ['PLANTS_SHARED_MATERIAL'], failed ['PLANTS_SHARED_MATERIAL'] / FBX ['PLANTS_SHARED_MATERIAL'] (also failed: ['PROP_MATERIALS']) PASS
+SELFTEST: hole 10 mutation plants_not_instanced: must FAIL ['PLANTS_INSTANCED'], failed ['PLANTS_INSTANCED'] / FBX ['PLANTS_INSTANCED'] PASS
+SELFTEST: hole 10 mutation second_green_dress: must FAIL ['ONE_GREEN'], failed ['ONE_GREEN'] / FBX ['ONE_GREEN'] (also failed: ['PROP_MATERIALS']) PASS
+SELFTEST: hole 10 mutation sand_patch_named_BUNKER: must FAIL ['SAND_NAMES', 'PLAY_SURFACE_NAMES'], failed ['SAND_NAMES', 'PLAY_SURFACE_NAMES'] / FBX ['SAND_NAMES', 'PLAY_SURFACE_NAMES'] (also failed: ['NEW_OBJECT_PREFIXES', 'UV_DENSITY']) PASS
+SELFTEST: hole 10 mutation animated_rock: must FAIL ['NO_ANIMATION'], failed ['NO_ANIMATION'] / FBX [] PASS
+SELFTEST: hole 10 mutation 300k_triangles: must FAIL ['TRIANGLE_BUDGET'], failed ['TRIANGLE_BUDGET'] / FBX ['TRIANGLE_BUDGET'] PASS
+SELFTEST: hole 10 mutation walls_smooth_blobs: must FAIL ['CRATER_COLUMNS'], failed ['CRATER_COLUMNS'] / FBX ['CRATER_COLUMNS'] (also failed: ['ROCK_NOT_ICOSAHEDRON']) PASS
+SELFTEST: hole 10 mutation lava_one_polygon: must FAIL ['CRATER_LAVA'], failed ['CRATER_LAVA'] / FBX ['CRATER_LAVA'] (also failed: ['UV_DENSITY']) PASS
+SELFTEST: hole 10 mutation lava_raised_to_play: must FAIL ['CRATER_LAVA'], failed ['CRATER_LAVA'] / FBX ['CRATER_LAVA'] (also failed: ['CRATER_LAVA_LIGHTS']) PASS
+SELFTEST: hole 10 mutation lava_lights_removed: must FAIL ['CRATER_LAVA_LIGHTS'], failed ['CRATER_LAVA_LIGHTS'] / FBX ['CRATER_LAVA_LIGHTS'] PASS
+SELFTEST: hole 10 mutation lava_lights_9: must FAIL ['CRATER_LAVA_LIGHTS'], failed ['CRATER_LAVA_LIGHTS'] / FBX ['CRATER_LAVA_LIGHTS'] PASS
+SELFTEST: hole 10 mutation pillar_sides_LK_ROCK: must FAIL ['CRATER_PILLAR'], failed ['CRATER_PILLAR'] / FBX ['CRATER_PILLAR'] (also failed: ['GROUND_MATERIALS']) PASS
+SELFTEST: hole 10 mutation cone_below_walls: must FAIL ['CRATER_CONE_SMOKE'], failed ['CRATER_CONE_SMOKE'] / FBX ['CRATER_CONE_SMOKE'] PASS
+SELFTEST: hole 10 mutation smoke_removed: must FAIL ['CRATER_CONE_SMOKE'], failed ['CRATER_CONE_SMOKE'] / FBX ['CRATER_CONE_SMOKE'] (also failed: ['LK_REQUIRED', 'LK_TEXTURED']) PASS
+SELFTEST: hole 10 mutation shelf_without_plants: must FAIL ['CRATER_SHELF_PLANTS'], failed ['CRATER_SHELF_PLANTS'] / FBX ['CRATER_SHELF_PLANTS'] (also failed: ['LK_REQUIRED', 'LK_TEXTURED', 'PLANTS_INSTANCED', 'PLANTS_SHARED_MATERIAL']) PASS
+SELFTEST: hole 10 mutation tee_flat_MAT_GREEN: must FAIL ['CRATER_TEE_PAD'], failed ['CRATER_TEE_PAD'] / FBX ['CRATER_TEE_PAD'] (also failed: ['GROUND_MATERIALS', 'NO_LEGACY_MATERIALS']) PASS
+SELFTEST: hole 10 mutation crater_wall_not_covered: must FAIL ['CRATER_WALL_COVERED'], failed ['CRATER_WALL_COVERED'] / FBX ['CRATER_WALL_COVERED'] PASS
+SELFTEST: hole 10 mutation crater_lip_grass_band_exposed: must FAIL ['CRATER_WALL_COVERED'], failed ['CRATER_WALL_COVERED'] / FBX ['CRATER_WALL_COVERED'] PASS
+SELFTEST: hole 10 mutation crater_wall_cladding_12m_hole: must FAIL ['CRATER_WALL_COVERED'], failed ['CRATER_WALL_COVERED'] / FBX ['CRATER_WALL_COVERED'] PASS
+SELFTEST: hole 10 control ctl_rock_welded_natural_hull_stones: must still PASS ['ROCK_NOT_ICOSAHEDRON'], failed now [] PASS
+SELFTEST: hole 10 control ctl_handmade_hull_baked_1p5: must still PASS ['NO_ROCK_STRETCH_2X'], failed now [] PASS
+SELFTEST: hole 10 control ctl_library_mesh_one_face_removed_unstretched: must still PASS ['NO_ROCK_STRETCH_2X'], failed now [] PASS
+SELFTEST: hole 10 control ctl_terrain_wall_polygon_poked_same_surface: must still PASS ['PLAY_SURFACE_WALLS'], failed now [] PASS
+SELFTEST: hole 10 control ctl_rock_scale_1p8_1p5_1p2: must still PASS ['NO_ROCK_STRETCH_2X'], failed now [] PASS
+SELFTEST: hole 10 control ctl_library_mesh_scaled_within_2x: must still PASS ['NO_ROCK_STRETCH_2X'], failed now [] PASS
+SELFTEST: hole 10 control ctl_plant_on_a_rock_on_the_ground: must still PASS ['NO_PLANT_ON_WATER'], failed now [] PASS
+SELFTEST: hole 10 control ctl_dress_sand_overlay_on_rough: must still PASS ['PROPS_OFF_PLAY', 'SAND_NAMES', 'PATH_UNDER_BALL'], failed now [] PASS
+SELFTEST: hole 10 control ctl_face_retriangulated: must still PASS ['PLAY_SURFACE_FACES', 'PLAY_SURFACE_TOPS'], failed now [] PASS
+SELFTEST: hole 10 mutation tex_fairway_flat_rgb_noisy_alpha: must FAIL ['LOOK_FILES'], failed ['LOOK_FILES'] / FBX ['LOOK_FILES'] (also failed: ['GRASS_ALBEDO_HUE']) PASS
+SELFTEST: hole 10 mutation tex_fairway_near_flat_dither: must FAIL ['LOOK_FILES'], failed ['LOOK_FILES'] / FBX ['LOOK_FILES'] (also failed: ['GRASS_ALBEDO_HUE']) PASS
+SELFTEST: hole 10 mutation tex_fairway_flat_fill: must FAIL ['LOOK_FILES'], failed ['LOOK_FILES'] / FBX ['LOOK_FILES'] (also failed: ['ALBEDO_DISTINCT', 'GRASS_ALBEDO_HUE']) PASS
+SELFTEST: hole 10 mutation tex_fairway_artwork_downsampled_to_128px: must FAIL ['LOOK_FILES'], failed ['LOOK_FILES'] / FBX ['LOOK_FILES'] PASS
+SELFTEST: hole 10 mutation tex_fairway_8px_checkerboard: must FAIL ['LOOK_FILES'], failed ['LOOK_FILES'] / FBX ['LOOK_FILES'] (also failed: ['GRASS_ALBEDO_HUE']) PASS
+SELFTEST: hole 10 mutation tex_fairway_random_16px_cell_tiled: must FAIL ['LOOK_FILES'], failed ['LOOK_FILES'] / FBX ['LOOK_FILES'] (also failed: ['GRASS_ALBEDO_HUE']) PASS
+SELFTEST: hole 10 mutation tex_fairway_normal_flat_dither: must FAIL ['LOOK_FILES'], failed ['LOOK_FILES'] / FBX ['LOOK_FILES'] PASS
+SELFTEST: hole 10 mutation tex_green_is_copy_of_fairway: must FAIL ['ALBEDO_DISTINCT'], failed ['ALBEDO_DISTINCT'] / FBX ['ALBEDO_DISTINCT'] PASS
+SELFTEST: hole 10 mutation tex_green_is_tint_of_fairway: must FAIL ['ALBEDO_DISTINCT'], failed ['ALBEDO_DISTINCT'] / FBX ['ALBEDO_DISTINCT'] PASS
+SELFTEST: hole 10 mutation tex_green_is_rotated_copy_of_fairway: must FAIL ['ALBEDO_DISTINCT'], failed ['ALBEDO_DISTINCT'] / FBX ['ALBEDO_DISTINCT'] PASS
+SELFTEST: hole 10 mutation tex_green_is_shifted_copy_of_fairway: must FAIL ['ALBEDO_DISTINCT'], failed ['ALBEDO_DISTINCT'] / FBX ['ALBEDO_DISTINCT'] PASS
+SELFTEST: hole 10 mutation tex_fairway_hue_97_blue_green: must FAIL ['GRASS_ALBEDO_HUE'], failed ['GRASS_ALBEDO_HUE'] / FBX ['GRASS_ALBEDO_HUE'] PASS
+SELFTEST: hole 10 mutation tex_rough_hue_95_blue_green: must FAIL ['GRASS_ALBEDO_HUE'], failed ['GRASS_ALBEDO_HUE'] / FBX ['GRASS_ALBEDO_HUE'] PASS
+SELFTEST: hole 10 mutation tex_fairway_desaturated: must FAIL ['GRASS_ALBEDO_HUE'], failed ['GRASS_ALBEDO_HUE'] / FBX ['GRASS_ALBEDO_HUE'] PASS
+SELFTEST: hole 10 mutation tex_green_is_hue_shifted_fairway_pattern: must FAIL ['ALBEDO_DISTINCT'], failed ['ALBEDO_DISTINCT'] / FBX ['ALBEDO_DISTINCT'] (also failed: ['GRASS_ALBEDO_HUE']) PASS
+SELFTEST: hole 10 mutation tex_lava_old_voronoi_crust: must FAIL ['LAVA_TEXTURE'], failed ['LAVA_TEXTURE'] / FBX ['LAVA_TEXTURE'] PASS
+SELFTEST: hole 10 mutation tex_lava_voronoi_dark_plates: must FAIL ['LAVA_TEXTURE'], failed ['LAVA_TEXTURE'] / FBX ['LAVA_TEXTURE'] (also failed: ['LOOK_FILES']) PASS
+SELFTEST: hole 10 mutation tex_lava_voronoi_bright_cells: must FAIL ['LAVA_TEXTURE'], failed ['LAVA_TEXTURE'] / FBX ['LAVA_TEXTURE'] (also failed: ['LOOK_FILES']) PASS
+SELFTEST: hole 10 mutation tex_lava_flat_orange: must FAIL ['LAVA_TEXTURE', 'LOOK_FILES'], failed ['LAVA_TEXTURE', 'LOOK_FILES'] / FBX ['LAVA_TEXTURE', 'LOOK_FILES'] PASS
+SELFTEST: hole 10 mutation tex_lava_flat_orange_emission_structured_albedo: must FAIL ['LAVA_TEXTURE'], failed ['LAVA_TEXTURE'] / FBX ['LAVA_TEXTURE'] (also failed: ['LOOK_FILES']) PASS
+SELFTEST: hole 10 mutation tex_lava_emission_yellow_peak: must FAIL ['LAVA_TEXTURE'], failed ['LAVA_TEXTURE'] / FBX ['LAVA_TEXTURE'] (also failed: ['LOOK_FILES']) PASS
+SELFTEST: hole 10 mutation tex_lava_tile_seam: must FAIL ['LAVA_TEXTURE'], failed ['LAVA_TEXTURE'] / FBX ['LAVA_TEXTURE'] PASS
+SELFTEST: hole 10 mutation tex_lava_dark_crust_40pct: must FAIL ['LAVA_TEXTURE'], failed ['LAVA_TEXTURE'] / FBX ['LAVA_TEXTURE'] PASS
+SELFTEST: hole 10 mutation tex_basalt_old_bricks_and_ladders: must FAIL ['BASALT_PRISMS'], failed ['BASALT_PRISMS'] / FBX ['BASALT_PRISMS'] PASS
+SELFTEST: hole 10 mutation tex_basalt_glow_ladders: must FAIL ['BASALT_PRISMS'], failed ['BASALT_PRISMS'] / FBX ['BASALT_PRISMS'] (also failed: ['LOOK_FILES']) PASS
+SELFTEST: hole 10 mutation tex_basalt_cross_joint_bricks: must FAIL ['BASALT_PRISMS'], failed ['BASALT_PRISMS'] / FBX ['BASALT_PRISMS'] (also failed: ['LOOK_FILES']) PASS
+SELFTEST: hole 10 mutation tex_basalt_flat_bevels: must FAIL ['BASALT_PRISMS'], failed ['BASALT_PRISMS'] / FBX ['BASALT_PRISMS'] (also failed: ['LOOK_FILES']) PASS
+SELFTEST: hole 10 mutation tex_smoke_old_hard_ball: must FAIL ['SMOKE_SOFT'], failed ['SMOKE_SOFT'] / FBX ['SMOKE_SOFT'] PASS
+SELFTEST: hole 10 mutation tex_smoke_hard_edge: must FAIL ['SMOKE_SOFT'], failed ['SMOKE_SOFT'] / FBX ['SMOKE_SOFT'] PASS
+SELFTEST: hole 10 mutation tex_smoke_visible_card_border: must FAIL ['SMOKE_SOFT'], failed ['SMOKE_SOFT'] / FBX ['SMOKE_SOFT'] PASS
+SELFTEST: hole 10 mutation tex_smoke_opaque_core: must FAIL ['SMOKE_SOFT'], failed ['SMOKE_SOFT'] / FBX ['SMOKE_SOFT'] PASS
+SELFTEST: hole 10 mutation tex_smoke_round_ball: must FAIL ['SMOKE_SOFT'], failed ['SMOKE_SOFT'] / FBX ['SMOKE_SOFT'] PASS
+SELFTEST: hole 10 mutation meta_isReadable_0: must FAIL ['FBX_FILE'], failed FBX_FILE PASS
+SELFTEST: hole 10 mutation corrupt_fbx: must FAIL ['FBX_REIMPORT'], failed FBX_REIMPORT PASS
+SELFTEST: hole 10 mutation hole07_meta_copy_changed: must FAIL ['HOLE07_UNTOUCHED'], failed HOLE07_UNTOUCHED PASS
+SELFTEST: hole 10 mutation signature_missing: must FAIL ['BASELINE_SIGNATURE'], failed BASELINE_SIGNATURE PASS
+SELFTEST: mutation shader_with__Time_and_texture_scroll: must FAIL ['SHADERS_STATIC'] PASS
+SELFTEST: control real GolfSurf.shader + GolfLook.cs: must PASS ['SHADERS_STATIC'] PASS
+SELFTEST_GATE PLAY_SURFACE_WALLS MUT_FAILS_ON_BAD 9/9 PASS; MUT_PASSES_ON_GOOD 9/9 PASS
+SELFTEST_GATE PROP_MATERIALS MUT_FAILS_ON_BAD 2/2 PASS; MUT_PASSES_ON_GOOD 6/6 PASS
+SELFTEST_GATE ROCK_NOT_ICOSAHEDRON MUT_FAILS_ON_BAD 51/51 PASS; MUT_PASSES_ON_GOOD 9/9 PASS
+SELFTEST_GATE ROCK_VARIETY MUT_FAILS_ON_BAD 57/57 PASS; MUT_PASSES_ON_GOOD 6/6 PASS
+SELFTEST_GATE LOOK_FILES MUT_FAILS_ON_BAD 22/22 PASS; MUT_PASSES_ON_GOOD 6/6 PASS
+SELFTEST_GATE NO_FOAM_STRIP MUT_FAILS_ON_BAD 37/37 PASS; MUT_PASSES_ON_GOOD 6/6 PASS
+SELFTEST_GATE SURF_SHORE MUT_FAILS_ON_BAD 4/4 PASS; MUT_PASSES_ON_GOOD 4/4 PASS
+SELFTEST_GATE SPLIT_SCRUB_RIDGE MUT_FAILS_ON_BAD 5/5 PASS; MUT_PASSES_ON_GOOD 2/2 PASS
+SELFTEST_GATE PROPS_OFF_PLAY MUT_FAILS_ON_BAD 15/15 PASS; MUT_PASSES_ON_GOOD 9/9 PASS
+SELFTEST_GATE PLAY_SURFACE_FACES MUT_FAILS_ON_BAD 12/12 PASS; MUT_PASSES_ON_GOOD 9/9 PASS
+SELFTEST_GATE GRASS_ALBEDO_HUE MUT_FAILS_ON_BAD 9/9 PASS; MUT_PASSES_ON_GOOD 6/6 PASS
+SELFTEST_GATE ALBEDO_DISTINCT MUT_FAILS_ON_BAD 18/18 PASS; MUT_PASSES_ON_GOOD 6/6 PASS
+SELFTEST_GATE SHELF_THIN MUT_FAILS_ON_BAD 8/8 PASS; MUT_PASSES_ON_GOOD 4/4 PASS
+SELFTEST_GATE LAVA_TEXTURE MUT_FAILS_ON_BAD 8/8 PASS; MUT_PASSES_ON_GOOD 2/2 PASS
+SELFTEST_GATE BASALT_PRISMS MUT_FAILS_ON_BAD 4/4 PASS; MUT_PASSES_ON_GOOD 2/2 PASS
+SELFTEST_GATE SMOKE_SOFT MUT_FAILS_ON_BAD 5/5 PASS; MUT_PASSES_ON_GOOD 2/2 PASS
+SELFTEST_GATE NO_PLANT_ON_WATER MUT_FAILS_ON_BAD 22/22 PASS; MUT_PASSES_ON_GOOD 9/9 PASS
+SELFTEST_GATE NO_ROCK_STRETCH_2X MUT_FAILS_ON_BAD 27/27 PASS; MUT_PASSES_ON_GOOD 18/18 PASS
+SELFTEST_GATE PATH_UNDER_BALL MUT_FAILS_ON_BAD 3/3 PASS; MUT_PASSES_ON_GOOD 10/10 PASS
+SELFTEST_GATE CRATER_WALL_COVERED MUT_FAILS_ON_BAD 3/3 PASS; MUT_PASSES_ON_GOOD 2/2 PASS
+SELFTEST_GATE SEASTACK_TAPERED MUT_FAILS_ON_BAD 10/10 PASS; MUT_PASSES_ON_GOOD 6/6 PASS
+SELFTEST_GATE UV_DENSITY MUT_FAILS_ON_BAD 9/9 PASS; MUT_PASSES_ON_GOOD 6/6 PASS
+SELFTEST_GATE NEEDLE_ARCH MUT_FAILS_ON_BAD 5/5 PASS; MUT_PASSES_ON_GOOD 2/2 PASS
+SELFTEST_GATE ONE_GREEN MUT_FAILS_ON_BAD 6/6 PASS; MUT_PASSES_ON_GOOD 6/6 PASS
+SELFTEST_GATE NEEDLE_SEA_STACKS MUT_FAILS_ON_BAD 2/2 PASS; MUT_PASSES_ON_GOOD 2/2 PASS
+SELFTEST_GATE NEEDLE_CLIFF_SKIN MUT_FAILS_ON_BAD 2/2 PASS; MUT_PASSES_ON_GOOD 2/2 PASS
+SELFTEST_GATE SPLIT_SHORE_SKIN MUT_FAILS_ON_BAD 2/2 PASS; MUT_PASSES_ON_GOOD 2/2 PASS
+SELFTEST_GATE SHADERS_STATIC MUT_FAILS_ON_BAD 1/1 PASS; MUT_PASSES_ON_GOOD 3/3 PASS
+SELFTEST_GATE HOLE07_UNTOUCHED MUT_FAILS_ON_BAD 3/3 PASS; MUT_PASSES_ON_GOOD 3/3 PASS

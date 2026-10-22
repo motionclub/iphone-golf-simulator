@@ -1,0 +1,30 @@
+{
+  "old_gate": [
+    false,
+    "smoke is not readable in 1 of 3 proof frames (need >= 1.5 % of the frame covered by an unoccluded plume at effective alpha >= 0.2): hole10_1_tee 0.82 %, hole10_2_approach 1.66 %, hole10_3_lavarim 2.84 %; the cards stand behind the wall / above the frame or are too small: place them inside the frames (above the cone, in the wall window, behind the pillar) and size them up"
+  ],
+  "candidate_gate": [
+    true,
+    "a readable plume in every proof frame (>= 1.5 % of the frame at effective alpha >= 0.2): hole10_1_tee 1.81 %, hole10_2_approach 1.66 %, hole10_3_lavarim 2.84 %"
+  ],
+  "candidate_shares": [
+    {
+      "hole10_1_tee": 0.018120659722222224,
+      "hole10_2_approach": 0.0166015625,
+      "hole10_3_lavarim": 0.028428819444444444
+    },
+    ""
+  ],
+  "vents": [
+    [
+      87.26850660117394,
+      357.26850660117395,
+      0.308282470703125
+    ]
+  ],
+  "stage_sha_before": "37484886feb1bb779e656ba90b597735385e543122299ca9c804e481afa9602d",
+  "stage_sha_after": "37484886feb1bb779e656ba90b597735385e543122299ca9c804e481afa9602d",
+  "saved_or_exported": false,
+  "geometry_candidate_count": 2,
+  "production_applied": false
+}

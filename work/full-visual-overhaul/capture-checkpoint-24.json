@@ -1,0 +1,47 @@
+[
+  {
+    "name": "golf-gallery-proof2",
+    "method": "GolfArcade.EditorTools.GolfGalleryProof.Run",
+    "env": {
+      "GGP_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-gallery-proof-2"
+    }
+  },
+  {
+    "name": "tennis-sole-probe2",
+    "method": "GolfArcade.EditorTools.TennisSoleProbe.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "TSOLE_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-sole-probe-2"
+    }
+  },
+  {
+    "name": "tennis-breakdown2-resort",
+    "method": "GolfArcade.EditorTools.TennisRenderBreakdown.Run",
+    "env": {
+      "HERO_VENUE": "resort",
+      "TCB_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-breakdown-2",
+      "TCB_ONLY": "one_shadow_cascade,face_string_shadows_off"
+    },
+    "batch": false
+  },
+  {
+    "name": "tennis-breakdown2-skyscraper",
+    "method": "GolfArcade.EditorTools.TennisRenderBreakdown.Run",
+    "env": {
+      "HERO_VENUE": "skyscraper",
+      "TCB_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-breakdown-2",
+      "TCB_ONLY": "one_shadow_cascade,face_string_shadows_off"
+    },
+    "batch": false
+  },
+  {
+    "name": "tennis-breakdown2-volcano",
+    "method": "GolfArcade.EditorTools.TennisRenderBreakdown.Run",
+    "env": {
+      "HERO_VENUE": "volcano",
+      "TCB_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/tennis-breakdown-2",
+      "TCB_ONLY": "one_shadow_cascade,face_string_shadows_off"
+    },
+    "batch": false
+  }
+]

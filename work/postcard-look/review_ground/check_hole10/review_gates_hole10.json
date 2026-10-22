@@ -1,0 +1,70 @@
+{
+ "hole": "10",
+ "gates": [
+  {
+   "name": "TOP_VERTS_VS_FROZEN_BASELINE",
+   "ok": true,
+   "detail": "frozen postcard-look/baseline/blender/hole_10.blend: ground meshes frozen 10 / look 10 (same set True), 2956 vertices, max |delta| 0.00e+00 m, topology equal; problems []"
+  },
+  {
+   "name": "GROUND_HEIGHT_GRID_IDENTICAL",
+   "ok": true,
+   "detail": "146405 points at 0.75 m over the shore box +30 m, ground-only ray casts from z 60: hit masks equal True, max |dz| 0.00e+00 m, land hits 15770 (0.1s)"
+  },
+  {
+   "name": "NO_LIB_GEOMETRY_ABOVE_PLAY_SURFACE",
+   "ok": true,
+   "detail": "grid points where a lib mesh is the top hit above the ground collider (DRESS_PATH excluded, it is meant to sit 3.5 cm on top): {}; DRESS_PATH 0 pts, max +0.000 m"
+  },
+  {
+   "name": "SKIN_UPFACE_IN_WATER_ELLIPSES",
+   "ok": false,
+   "detail": "grid points (0.75 m cells = 0.56 m2 each) inside a scoring water ellipse where ROCK_SKIN is hit from above above z 0.2: 59 (= 33 m2), highest 5.86 m, reaching 0.94 m past the scoring shore; outside the shore: 605 pts (= 340 m2) up to z 5.88 m, 1.07 m out"
+  },
+  {
+   "name": "NO_NEW_COLLISION_PREFIX",
+   "ok": true,
+   "detail": "11 objects new vs frozen; with a ground prefix: []"
+  },
+  {
+   "name": "NO_MAT_FOAM",
+   "ok": true,
+   "detail": "MAT_FOAM users {}, meshes using it [], WATER_FOAM* objects [] (frozen had [])"
+  },
+  {
+   "name": "LAVA_SUBDIVIDED_LK",
+   "ok": true,
+   "detail": "WATER_LAVA 6686 verts, 13185 tris, mats ['LK_LAVA'], z max |0.0000|; frozen WATER_LAVA 1 polys mats ['MAT_LAVA']"
+  },
+  {
+   "name": "LK_FACES_HAVE_TILE_UVS",
+   "ok": true,
+   "detail": "meshes with LK_ but no / extra UV layer []; NaN []; zero-area UV faces {}; sqrt(UV area * tile^2 / world area) p1/median/p99/n per material {'LK_BASALT': (0.27, 1.0, 1.08, 18021), 'LK_BASALT(wall)': (0.73, 0.99, 1.56, 343), 'LK_FAIRWAY': (0.89, 1.0, 1.06, 1807), 'LK_GREEN': (0.93, 1.0, 1.0, 370), 'LK_LAVA': (0.84, 0.99, 1.16, 13185), 'LK_ROUGH': (0.86, 1.0, 1.14, 499), 'LK_ROUGH(wall)': (0.94, 0.97, 1.07, 163), 'LK_SAND': (1.0, 1.0, 1.0, 142)}"
+  },
+  {
+   "name": "FAIRWAY_UV_FOLLOWS_CENTRELINE",
+   "ok": false,
+   "detail": "20 random FAIRWAY points: u*10 - lateral(raw centreline) median -0.44 m, max |err| 5.63 m; v*10 - arc(raw) median offset -110.26 m (integer-tile shift), spread max |dev| 3.77 m; stripe direction (grad v) vs raw centreline tangent: median 4.4 deg, max 15.7 deg (raw = unsmoothed design polyline; differences come from the lib's Chaikin smoothing)"
+  },
+  {
+   "name": "WALL_UV_CONTINUOUS",
+   "ok": false,
+   "detail": "TERRAIN wall: 48/637 shared edges with a UV jump (max 58.93); ROCK_SKIN per-piece jumps 12999/22284 edges (max 61.48); across piece boundaries 12999 shared positions, u mismatch modulo 1 tile: max 0.500, >0.01 at 12830"
+  },
+  {
+   "name": "SKIN_IS_JAGGED",
+   "ok": true,
+   "detail": "basalt: 1857 hex cap faces (column segments), top z mean 3.68 std 2.04 m, range -0.79..5.88"
+  },
+  {
+   "name": "WALL_HIDDEN_FROM_VIEWPOINTS",
+   "ok": false,
+   "detail": "319 shore samples x 5 wall heights x 3 viewpoints (aerial 40 m out +15 m, low 40 m out +2 m, oblique 25 m out 20 m along +8 m): smooth TERRAIN wall seen first 232/1767 rays (13.1%); per view {'aerial': '83/589', 'low': '82/589', 'oblique': '67/589'}; exposed by wall height {'>=5': 226, 'z<1': 2, '1-3': 2, '3-5': 2}"
+  },
+  {
+   "name": "FBX_REIMPORT_MATERIALS_UVS",
+   "ok": true,
+   "detail": "10 materials ['LK_BASALT', 'LK_FAIRWAY', 'LK_GREEN', 'LK_LAVA', 'LK_ROUGH', 'LK_SAND', 'MAT_BALL', 'MAT_CUP', 'MAT_FLAG', 'MAT_POLE']; '.001'-style names []; LK_ meshes without exactly 1 UV layer []; images []; raw bytes 'Texture::' 0, '.png' 0; per-object material sets equal to the blend: 255/255 (diff [], missing [])"
+  }
+ ]
+}

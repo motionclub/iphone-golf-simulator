@@ -1,0 +1,56 @@
+--- work/reference-rebuild/original-native-adoption29/NativeParity.swift
++++ work/reference-rebuild/original-native-adoption29/NativeParity.swift
+@@ -33,14 +33,18 @@
+         try FileManager.default.createDirectory(at:out,withIntermediateDirectories:true)
+         MatchHeroData.locate={name,ext in let u=assets.appendingPathComponent(name+"."+ext); return FileManager.default.fileExists(atPath:u.path) ? u:nil }
+         var report:[[String:Any]]=[]
+-        let variants: [(Bool,Bool)] = ProcessInfo.processInfo.environment["NATIVE_PROOF_TENNIS_ONLY"] == "1" ? [(false,false),(false,true)] : [(false,false),(false,true),(true,false)]
++        let variants: [(Bool,Bool)] = ProcessInfo.processInfo.environment["NATIVE_PROOF_PRIMARY_ONLY"] == "1" ? [(false,false)] : ProcessInfo.processInfo.environment["NATIVE_PROOF_TENNIS_ONLY"] == "1" ? [(false,false),(false,true)] : [(false,false),(false,true),(true,false)]
+         for (golf,distance) in variants { for female in [false,true] {
+             let sex=female ? "Female":"Male"
+             let name=(golf ? "GolfKitHero_":"MatchHero_")+sex+(distance ? "_Distance":"")
+             guard let asset=MatchHeroData.asset(female:female,golf:golf,distance:distance),let data=asset.rig() else { fatalError("Missing staged asset/rig "+sex) }
+             precondition(data.info.bones.count==(golf ? 54:53),"53 character bones + existing golf Club")
+             if golf { precondition(data.info.bones.last=="Club") }
+-            let tone:SIMD3<Float>=female ? SIMD3(0.9608,0.6706,0.4980):SIMD3(0.8980,0.5529,0.3922)
++            let tone:SIMD3<Float>
++            if let hex=ProcessInfo.processInfo.environment[female ? "NATIVE_PROOF_SKIN_FEMALE":"NATIVE_PROOF_SKIN_MALE"] {
++                guard hex.count==6,let colour=UInt32(hex,radix:16) else {fatalError("Proof skin must be six hex digits")}
++                tone=SIMD3(Float((colour>>16)&255),Float((colour>>8)&255),Float(colour&255))/255
++            }else{tone=female ? SIMD3(0.9608,0.6706,0.4980):SIMD3(0.8980,0.5529,0.3922)}
+             let root=MatchHeroData.buildHero(asset,picks:.init(colour:{ $0=="Skin" ? tone:nil }))
+             root.eulerAngles=SCNVector3Zero;root.scale=SCNVector3(1,1,1)
+             let rig=HeroRig(root:root,asset:asset)!;rig.attach()
+@@ -53,6 +57,7 @@
+             let proof=try JSONDecoder().decode(Proof.self,from:Data(contentsOf:golden.appendingPathComponent(name+"_blink_parity.json")))
+             var worst:Float=0,checked=0
+             for sample in proof.samples {
++                if ProcessInfo.processInfo.environment["NATIVE_PROOF_MATERIAL_ONLY"] == "1" && !(sample.part=="Face" && sample.clip=="ready" && sample.blink==0) { continue }
+                 let clip=data.clips[sample.clip]!,pose=clip.pose(at:Double(sample.time),loop:false)
+                 rig.apply(pose);data.applyMorphWeights(clip.morphWeights(at:Double(sample.time),loop:false),to:root,includeFaceBlink:false)
+                 MatchHeroSurfaces.performFace(on:root,blink:sample.blink)
+@@ -81,7 +86,23 @@
+         let camera=SCNNode();camera.camera=SCNCamera();camera.camera!.usesOrthographicProjection=true;camera.camera!.orthographicScale=0.23;camera.camera!.zNear=0.01;camera.camera!.zFar=10
+         camera.simdPosition=target+f*0.90+u*0.01+r*0.18;camera.look(at:SCNVector3(target),up:SCNVector3(u),localFront:SCNVector3(0,0,-1));scene.rootNode.addChildNode(camera)
+         func light(_ intensity:CGFloat,_ position:SIMD3<Float>,_ ambient:Bool=false) {let n=SCNNode();let l=SCNLight();l.type=ambient ? .ambient:.directional;l.intensity=intensity;l.color=NSColor.white;n.light=l;n.simdPosition=position;n.look(at:SCNVector3(target));scene.rootNode.addChildNode(n)}
+-        light(1100,target-r*2+u*3+f*3);light(350,target+r*3+u*1+f*2);light(300,.zero,true)
++        if ProcessInfo.processInfo.environment["NATIVE_PROOF_LOBBY_LIGHT"] == "1" {
++            // Exact CharacterModelPreview.Coordinator light recipe, not a new lobby look.
++            func stageLight(_ intensity:CGFloat,_ colour:NSColor,_ elevation:Float,_ azimuth:Float,_ shadow:Bool=false) {
++                let node=SCNNode(),l=SCNLight();l.type = .directional;l.intensity=intensity;l.color=colour
++                if shadow {l.castsShadow=true;l.shadowRadius=6;l.shadowSampleCount=8;l.shadowMode = .deferred;l.shadowColor=NSColor(red:0.12,green:0.14,blue:0.24,alpha:0.35);l.orthographicScale=2.2}
++                node.light=l;let e=elevation*Float.pi/180,a=azimuth*Float.pi/180
++                node.position=SCNVector3(-sin(a)*cos(e)*6,sin(e)*6,cos(a)*cos(e)*6)
++                node.look(at:SCNVector3(0,0.8,0));scene.rootNode.addChildNode(node)
++            }
++            stageLight(1050,NSColor(red:1,green:0.92,blue:0.82,alpha:1),40,38,true)
++            stageLight(370,NSColor(red:0.84,green:0.9,blue:1,alpha:1),18,-55)
++            stageLight(520,NSColor(red:1,green:0.96,blue:0.9,alpha:1),35,160)
++            let amb=SCNNode();amb.light=SCNLight();amb.light!.type = .ambient;amb.light!.intensity=210
++            amb.light!.color=NSColor(red:0.86,green:0.88,blue:0.96,alpha:1);scene.rootNode.addChildNode(amb)
++        } else {
++            light(1100,target-r*2+u*3+f*3);light(350,target+r*3+u*1+f*2);light(300,.zero,true)
++        }
+         let renderer=SCNRenderer(device:MTLCreateSystemDefaultDevice(),options:nil);renderer.scene=scene;renderer.pointOfView=camera
+         let image=renderer.snapshot(atTime:0,with:CGSize(width:640,height:640),antialiasingMode:.multisampling4X)
+         guard let tiff=image.tiffRepresentation,let bitmap=NSBitmapImageRep(data:tiff),let png=bitmap.representation(using:.png,properties:[:]) else {fatalError("snapshot PNG")}

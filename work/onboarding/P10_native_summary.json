@@ -1,0 +1,328 @@
+{
+  "devicesAndConfigurations" : [
+    {
+      "device" : {
+        "architecture" : "arm64",
+        "deviceId" : "03AEFA81-ACF7-4EDD-AE9C-842E8E90B902",
+        "deviceName" : "Onboarding iPhone 17 Pro",
+        "modelName" : "iPhone 17 Pro",
+        "osBuildNumber" : "23F77",
+        "osVersion" : "26.5",
+        "platform" : "iOS Simulator"
+      },
+      "expectedFailures" : 0,
+      "failedTests" : 9,
+      "passedTests" : 422,
+      "skippedTests" : 3,
+      "testPlanConfiguration" : {
+        "configurationId" : "1",
+        "configurationName" : "Test Scheme Action"
+      }
+    }
+  ],
+  "environmentDescription" : "GolfArcade · Built with macOS 26.6.2",
+  "expectedFailures" : 0,
+  "failedTests" : 9,
+  "finishTime" : 1791301272.535,
+  "passedTests" : 422,
+  "result" : "Failed",
+  "runtimeWarnings" : [
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+      "sourceURL" : "file:///Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/GolfArcadeTests/ClubEnvironmentTests.swift"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+      "sourceURL" : "file:///Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/GolfArcadeTests/ClubEnvironmentTests.swift"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+      "sourceURL" : "file:///Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/GolfArcadeTests/LockerMirrorProofTests.swift"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+      "sourceURL" : "file:///Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/GolfArcadeTests/LockerMirrorProofTests.swift"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+      "sourceURL" : "file:///Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/GolfArcadeTests/LockerMirrorProofTests.swift"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+      "sourceURL" : "file:///Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/GolfArcadeTests/LockerMirrorTests.swift"
+    },
+    {
+      "issueType" : "Runtime Warning",
+      "message" : "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+      "sourceURL" : "file:///Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/GolfArcadeTests/NewMenuSnapshotTests.swift"
+    }
+  ],
+  "skippedTests" : 3,
+  "startTime" : 1791300415.786,
+  "statistics" : [
+
+  ],
+  "testFailures" : [
+    {
+      "failureText" : "XCTAssertEqualWithAccuracy failed: (\"237.15000182390213\") is not equal to (\"168.3\") +/- (\"1.0\") - default Kit_Sole: [237.15000182390213, 237.15000182390213, 237.15000182390213] vs [168.3, 165.75, 160.65]",
+      "targetName" : "GolfArcadeTests",
+      "testIdentifier" : 157,
+      "testIdentifierString" : "DressedHeroSnapshotTests/testDefaultKitIsTheAuthoredWhiteKit()",
+      "testIdentifierURL" : "test://com.apple.xcode/GolfArcade/GolfArcadeTests/DressedHeroSnapshotTests/testDefaultKitIsTheAuthoredWhiteKit",
+      "testName" : "testDefaultKitIsTheAuthoredWhiteKit()"
+    },
+    {
+      "failureText" : "XCTAssertTrue failed - Kit_Shirt runs the cloth surface shader",
+      "targetName" : "GolfArcadeTests",
+      "testIdentifier" : 179,
+      "testIdentifierString" : "LockerMirrorTests/testKitMaterialsSampleTheWeaveTheThreadMapAndTheSeamMap()",
+      "testIdentifierURL" : "test://com.apple.xcode/GolfArcade/GolfArcadeTests/LockerMirrorTests/testKitMaterialsSampleTheWeaveTheThreadMapAndTheSeamMap",
+      "testName" : "testKitMaterialsSampleTheWeaveTheThreadMapAndTheSeamMap()"
+    },
+    {
+      "failureText" : "XCTAssertFalse failed - the Standard skin has no colour row: colours live in Customize",
+      "targetName" : "GolfArcadeTests",
+      "testIdentifier" : 204,
+      "testIdentifierString" : "LockerTests/testLockerOpensOnTheShelfAndTheGridFollowsTheTab()",
+      "testIdentifierURL" : "test://com.apple.xcode/GolfArcade/GolfArcadeTests/LockerTests/testLockerOpensOnTheShelfAndTheGridFollowsTheTab",
+      "testName" : "testLockerOpensOnTheShelfAndTheGridFollowsTheTab()"
+    },
+    {
+      "failureText" : "XCTAssertGreaterThan failed: (\"-0.0019456744\") is not greater than (\"0.004\") - Male Kit_Top: the hem and collar are darker than the rest (by -0.0019456744)",
+      "targetName" : "GolfArcadeTests",
+      "testIdentifier" : 188,
+      "testIdentifierString" : "LockerMirrorTests/testSeamMapOrientationPutsTheDarkeningOnTheHemsAndCollar()",
+      "testIdentifierURL" : "test://com.apple.xcode/GolfArcade/GolfArcadeTests/LockerMirrorTests/testSeamMapOrientationPutsTheDarkeningOnTheHemsAndCollar",
+      "testName" : "testSeamMapOrientationPutsTheDarkeningOnTheHemsAndCollar()"
+    },
+    {
+      "failureText" : "failed - Male ready frame 0 Kit_Bottom v0: 214.69359 mm off Unity's pose",
+      "targetName" : "GolfArcadeTests",
+      "testIdentifier" : 189,
+      "testIdentifierString" : "LockerMirrorTests/testShippedRigReproducesUnitysPoses()",
+      "testIdentifierURL" : "test://com.apple.xcode/GolfArcade/GolfArcadeTests/LockerMirrorTests/testShippedRigReproducesUnitysPoses",
+      "testName" : "testShippedRigReproducesUnitysPoses()"
+    },
+    {
+      "failureText" : "XCTAssertGreaterThan failed: (\"0.0\") is not greater than (\"0.01\") - male: the weave normal changes the shirt",
+      "targetName" : "GolfArcadeTests",
+      "testIdentifier" : 190,
+      "testIdentifierString" : "LockerMirrorTests/testShirtIsNotOneFlatWhite()",
+      "testIdentifierURL" : "test://com.apple.xcode/GolfArcade/GolfArcadeTests/LockerMirrorTests/testShirtIsNotOneFlatWhite",
+      "testName" : "testShirtIsNotOneFlatWhite()"
+    },
+    {
+      "failureText" : "XCTAssertLessThan failed: (\"0.93\") is not less than (\"0.78\") - the sole is darker than the upper",
+      "targetName" : "GolfArcadeTests",
+      "testIdentifier" : 193,
+      "testIdentifierString" : "LockerMirrorTests/testSoleIsDarkerAndRougherThanTheUpperAndIsNotRecoloured()",
+      "testIdentifierURL" : "test://com.apple.xcode/GolfArcade/GolfArcadeTests/LockerMirrorTests/testSoleIsDarkerAndRougherThanTheUpperAndIsNotRecoloured",
+      "testName" : "testSoleIsDarkerAndRougherThanTheUpperAndIsNotRecoloured()"
+    },
+    {
+      "failureText" : "XCTAssertEqualWithAccuracy failed: (\"0.0\") is not equal to (\"41.0\") +/- (\"0.01\")",
+      "targetName" : "GolfArcadeTests",
+      "testIdentifier" : 194,
+      "testIdentifierString" : "LockerMirrorTests/testWeaveTileIsMetresPerUvOverTheRolesTileSize()",
+      "testIdentifierURL" : "test://com.apple.xcode/GolfArcade/GolfArcadeTests/LockerMirrorTests/testWeaveTileIsMetresPerUvOverTheRolesTileSize",
+      "testName" : "testWeaveTileIsMetresPerUvOverTheRolesTileSize()"
+    },
+    {
+      "failureText" : "XCTAssertTrue failed",
+      "targetName" : "GolfArcadeUITests",
+      "testIdentifier" : 432,
+      "testIdentifierString" : "SportsNavigationTests/testNativeMenuHasNoScanGateAndExplainsMissingUnity()",
+      "testIdentifierURL" : "test://com.apple.xcode/GolfArcade/GolfArcadeUITests/SportsNavigationTests/testNativeMenuHasNoScanGateAndExplainsMissingUnity",
+      "testName" : "testNativeMenuHasNoScanGateAndExplainsMissingUnity()"
+    }
+  ],
+  "title" : "Test - GolfArcade",
+  "topInsights" : [
+    {
+      "category" : "Common Failures",
+      "impact" : "11% of failures",
+      "text" : "2 runs of 1 test failed with XCTAssertLessThan failed: (\"0.93\") is not less than (\"0.78\") - the sole is darker than the upper"
+    },
+    {
+      "category" : "Common Failures",
+      "impact" : "11% of failures",
+      "text" : "2 runs of 1 test failed with XCTAssertEqualWithAccuracy failed: (\"237.15000182390213\") is not equal to (\"168.3\") +/- (\"1.0\") - default Kit_Sole: [237.15000182390213, 237.15000182390213, 237.15000182390213] vs [168.3, 165.75, 160.65]"
+    },
+    {
+      "category" : "Common Failures",
+      "impact" : "11% of failures",
+      "text" : "2 runs of 1 test failed with XCTAssertEqualWithAccuracy failed: (\"237.15000182390213\") is not equal to (\"165.75\") +/- (\"1.0\") - default Kit_Sole: [237.15000182390213, 237.15000182390213, 237.15000182390213] vs [168.3, 165.75, 160.65]"
+    }
+  ],
+  "totalTestCount" : 434
+}

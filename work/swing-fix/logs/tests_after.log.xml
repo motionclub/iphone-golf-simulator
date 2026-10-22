@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="9" result="Failed(Child)" total="9" passed="8" failed="1" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-13 00:40:56Z" end-time="2026-10-13 00:42:15Z" duration="79.2001675">
+  <test-suite type="TestSuite" id="1291" name="Golf Arcade" fullname="Golf Arcade" runstate="Runnable" testcasecount="215" result="Failed" site="Child" start-time="2026-10-13 00:40:56Z" end-time="2026-10-13 00:42:15Z" duration="79.200168" total="9" passed="8" failed="1" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="1285" name="GolfArcade.PlayTests.dll" fullname="/private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/7dab0438-556f-4f2a-93fa-076d9203f1a0/scratchpad/UnityClone/Library/ScriptAssemblies/GolfArcade.PlayTests.dll" runstate="Runnable" testcasecount="215" result="Failed" site="Child" start-time="2026-10-13 00:40:56Z" end-time="2026-10-13 00:42:15Z" duration="79.196019" total="9" passed="8" failed="1" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="39068" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestSuite" id="1286" name="GolfArcade" fullname="GolfArcade" runstate="Runnable" testcasecount="215" result="Failed" site="Child" start-time="2026-10-13 00:40:56Z" end-time="2026-10-13 00:42:15Z" duration="79.195044" total="9" passed="8" failed="1" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-suite type="TestSuite" id="1288" name="PlayTests" fullname="GolfArcade.PlayTests" runstate="Runnable" testcasecount="179" result="Failed" site="Child" start-time="2026-10-13 00:40:56Z" end-time="2026-10-13 00:42:15Z" duration="79.192961" total="9" passed="8" failed="1" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <failure>
+            <message><![CDATA[One or more child tests had errors]]></message>
+          </failure>
+          <test-suite type="TestFixture" id="1093" name="GolferClipTests" fullname="GolfArcade.PlayTests.GolferClipTests" classname="GolfArcade.PlayTests.GolferClipTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-13 00:40:56Z" end-time="2026-10-13 00:40:56Z" duration="0.116205" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1094" name="TheClubComesBackToTheBallInEveryClip" fullname="GolfArcade.PlayTests.GolferClipTests.TheClubComesBackToTheBallInEveryClip" methodname="TheClubComesBackToTheBallInEveryClip" classname="GolfArcade.PlayTests.GolferClipTests" runstate="Runnable" seed="2127494978" result="Passed" start-time="2026-10-13 00:40:56Z" end-time="2026-10-13 00:40:56Z" duration="0.109666" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="Timeout" value="120000" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[CLIP m Drive (3.47s, top 1.87, impact 2.30): t=0.00 head=(0.82,0.01,-0.06) t=1.87 head=(-0.42,1.65,0.69) t=2.08 head=(-0.96,1.99,-0.23) t=2.30 head=(0.82,0.01,-0.06) t=3.47 head=(0.27,1.14,0.41) 
+CLIP m IronSwing (3.33s, top 1.80, impact 2.20): t=0.00 head=(0.79,0.00,-0.01) t=1.80 head=(-0.07,1.61,0.52) t=2.00 head=(-0.47,1.89,-0.28) t=2.20 head=(0.79,0.00,-0.01) t=3.33 head=(0.40,1.25,0.36) 
+CLIP m HalfSwing (2.87s, top 1.47, impact 1.80): t=0.00 head=(0.79,0.00,-0.01) t=1.47 head=(-0.38,2.06,-0.43) t=1.63 head=(-0.14,1.48,-1.21) t=1.80 head=(0.79,0.00,-0.01) t=2.87 head=(-0.58,2.16,0.50) 
+CLIP m Chip (2.53s, top 1.00, impact 1.40): t=0.00 head=(0.79,0.00,-0.02) t=1.00 head=(0.72,-0.01,-0.41) t=1.20 head=(0.75,-0.01,-0.32) t=1.40 head=(0.79,0.01,-0.03) t=2.53 head=(0.52,0.07,0.51) 
+CLIP m Putt (2.40s, top 1.00, impact 1.40): t=0.00 head=(0.81,0.00,-0.06) t=1.00 head=(0.80,0.00,-0.20) t=1.20 head=(0.81,0.00,-0.16) t=1.40 head=(0.81,0.01,-0.06) t=2.40 head=(0.79,0.01,0.10) 
+CLIP f Drive (3.47s, top 1.87, impact 2.30): t=0.00 head=(0.82,0.01,-0.06) t=1.87 head=(-0.36,1.65,0.73) t=2.08 head=(-0.92,2.01,-0.17) t=2.30 head=(0.82,0.01,-0.06) t=3.47 head=(0.35,1.13,0.45) 
+CLIP f IronSwing (3.33s, top 1.80, impact 2.20): t=0.00 head=(0.79,0.00,-0.01) t=1.80 head=(-0.04,1.58,0.53) t=2.00 head=(-0.45,1.87,-0.26) t=2.20 head=(0.79,0.00,-0.01) t=3.33 head=(0.45,1.20,0.37) 
+CLIP f HalfSwing (2.87s, top 1.47, impact 1.80): t=0.00 head=(0.79,0.00,-0.01) t=1.47 head=(-0.35,2.04,-0.42) t=1.63 head=(-0.13,1.47,-1.21) t=1.80 head=(0.79,0.00,-0.01) t=2.87 head=(-0.54,2.13,0.48) 
+CLIP f Chip (2.53s, top 1.00, impact 1.40): t=0.00 head=(0.79,0.00,-0.02) t=1.00 head=(0.72,0.00,-0.39) t=1.20 head=(0.75,0.00,-0.31) t=1.40 head=(0.79,0.01,-0.03) t=2.53 head=(0.52,0.07,0.51) 
+CLIP f Putt (2.40s, top 1.00, impact 1.40): t=0.00 head=(0.81,0.00,-0.06) t=1.00 head=(0.80,0.00,-0.19) t=1.20 head=(0.80,0.00,-0.16) t=1.40 head=(0.81,0.01,-0.06) t=2.40 head=(0.79,0.01,0.09) 
+]]></output>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1080" name="GolfMotionReadyTests" fullname="GolfArcade.PlayTests.GolfMotionReadyTests" classname="GolfArcade.PlayTests.GolfMotionReadyTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-13 00:40:56Z" end-time="2026-10-13 00:41:09Z" duration="12.968484" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1082" name="ChangingClubOrAimEndsAStartedSwing" fullname="GolfArcade.PlayTests.GolfMotionReadyTests.ChangingClubOrAimEndsAStartedSwing" methodname="ChangingClubOrAimEndsAStartedSwing" classname="GolfArcade.PlayTests.GolfMotionReadyTests" runstate="Runnable" seed="1482051307" result="Passed" start-time="2026-10-13 00:40:56Z" end-time="2026-10-13 00:41:01Z" duration="5.078514" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="Timeout" value="120000" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[HeroEquipment] exact bind PASS CLUB_DRIVER error=5.066395E-07 vertices=1716
+[HeroEquipment] exact bind PASS CLUB_IRON error=5.066395E-07 vertices=1232
+[HeroEquipment] exact bind PASS CLUB_PUTTER error=5.066395E-07 vertices=1248
+[HeroEquipment] exact bind PASS CLUB_WEDGE error=5.066395E-07 vertices=1280
+[HeroFaceReferenceFit] male Body: moved=18582; belowHeadChanges=0; minJacobian=0.219590679; topologySame=True; weightsSame=True; bindsSame=True
+[HeroFaceReferenceFit] male ReferenceFeatures: moved=3824; belowHeadChanges=0; minJacobian=0.280234665; topologySame=True; weightsSame=True; bindsSame=True
+[HeroOriginalSeam] blink normal isolation body: cleared=86168; base geometry/normals unchanged
+[HeroOriginalSeam] blink normal isolation features: cleared=7648; base geometry/normals unchanged
+[HeroOriginalSeam] installed Male body=44168 features=3824; original rig and eye proportions retained; legacy face layers bypassed
+[HeroHandWeights] Male Left thumb-root vertices=50 radius=0.012
+[HeroHandWeights] Male Right thumb-root vertices=53 radius=0.012
+[HeroHandWeights] exact geometry/rest retained; changed=103 maxWeightL1=1.8
+[HeroGarmentAxillaWeights] Male Body: modified=1765 maxArmMassTransfer=0.460046768 normalizedError=1.1920929E-07; rest vertices/UVs/indices/palette and outside weights exact
+[HeroSkinNormals] field=area-continuous source=Body (reference face fit) (local blink normals) (thumb root weights) (axilla weight field) selected=17954 changed=12158 radiusMetres=0.012 capDegrees=45 maxNormalDegrees=45 maxVertexDeltaSquared=0; source topology/weights/UVs/morphs cloned unchanged
+[HeroBlinkNormalField] rebuilt=1772; source vertices/shape positions unchanged; accepted base normals retained
+[HeroHeadSurface] Male origin=(0.000000, -0.027810, 1.510000) eye=(-0.000002, -0.080255, 0.065851) frame=(0.999993, 0.003879, 0.000100)/(0.000000, -0.025677, 0.999670)/(0.003880, -0.999663, -0.025677) cheekMaskMax=0.6915238 noseMaskMax=0.6737289 shader=GolfArcade/HeroFaceSkin hasHeadUniform=True
+[HeroGarmentAxillaWeights] Male Kit_Top: modified=2358 maxArmMassTransfer=0.426895022 normalizedError=1.04308128E-07; rest vertices/UVs/indices/palette and outside weights exact
+[HeroGarmentTailoring] Kit_Top Male geometry vertices=3509 maxDelta=0.0186078344m; UV/triangles/weights/palette exact
+[HeroGarmentTailoring] Kit_Shoe_L Male geometry vertices=3666 maxDelta=0.0219420642m; UV/triangles/weights/palette exact
+[HeroGarmentTailoring] Kit_Shoe_R Male geometry vertices=3632 maxDelta=0.0219415277m; UV/triangles/weights/palette exact
+[HeroGarmentHemWeights] Male garment-only vertices=1690 maxWeightL1=1.293165 hemRootY=0.1147784 geometry/UV/material/rig unchanged; actual motion proof required
+[HeroGarmentCoverage] Tennis/GarmentCoverage/Golf_Male: 1043/1043 physical faces matched; 1043 rendered faces omitted; source vertices/weights/normals/UVs/morphs/bounds exact
+Detected one or more triangles where the distance between any 2 vertices is greater than 500 units. The resulting Triangle Mesh can impact simulation and query stability. It is recommended to tessellate meshes that have large triangles. Source mesh name: TERRAIN_ISLAND
+[GolfResortDress] hole 7: 95 sparse irregular limestone/basalt outcrops
+[GolfCliffSculpt] hole 7: 1 continuous erosion shells, 38475 added triangles, 9678 displaced vertices, max 1.53 yd; collision meshes unchanged
+[GolfResortDress] hole 7: 426 botanical assets, 1117579 triangles in 61 bounded batches; original physics retained
+[GolfStoneFinish] 41 separate boulder render clones, 2460 added triangles, maximum 0.342 yd; original MeshFilters/colliders retained
+[GolfCourseFringe] hole 7: 320 shared Postcard tufts, 15408 triangles
+[GolfCoastalTurf] 401 1m clustered cells within12m patch; moving=True (401 cut / 0 rough); near/mid caps 48/96, max 512128 triangles, 3 instanced submissions, no grass shadows/colliders; hole 7, 1600 visual path-mask triangles
+[GolfSurfaceEdges] original top-boundary segments 160/568/216/4; 256x256, 262144 bytes, geometry unchanged
+[GolfSurfaceBatching] 117 original visual renderers into 38 bounded groups; meshes/colliders/scoring unchanged
+[GolfPlantInstances] 320 original plant renderers into 14 pivot-preserving visual batches
+[GolfResortDress] hole 7: 95 sparse irregular limestone/basalt outcrops
+[GolfCliffSculpt] hole 7: 1 continuous erosion shells, 38475 added triangles, 9678 displaced vertices, max 1.53 yd; collision meshes unchanged
+[GolfResortDress] hole 7: 426 botanical assets, 1117579 triangles in 61 bounded batches; original physics retained
+[GolfStoneFinish] 41 separate boulder render clones, 2460 added triangles, maximum 0.342 yd; original MeshFilters/colliders retained
+[GolfCourseFringe] hole 7: 320 shared Postcard tufts, 15408 triangles
+[GolfCoastalTurf] 401 1m clustered cells within12m patch; moving=True (401 cut / 0 rough); near/mid caps 48/96, max 512128 triangles, 3 instanced submissions, no grass shadows/colliders; hole 7, 1600 visual path-mask triangles
+[GolfSurfaceEdges] original top-boundary segments 160/568/216/4; 256x256, 262144 bytes, geometry unchanged
+[GolfSurfaceBatching] 117 original visual renderers into 38 bounded groups; meshes/colliders/scoring unchanged
+[GolfPlantInstances] 320 original plant renderers into 14 pivot-preserving visual batches
+[GolfGallery] source palette decodeSRGB=True
+[Presentation] 1|1|Venue|begin|7.314|Short
+[SportsMotion] golf impact speed=9.20 power=0.69
+]]></output>
+            </test-case>
+            <test-case id="1081" name="EveryShotNeedsStartSwingAndImpactHasNoExtraDownswingDelay" fullname="GolfArcade.PlayTests.GolfMotionReadyTests.EveryShotNeedsStartSwingAndImpactHasNoExtraDownswingDelay" methodname="EveryShotNeedsStartSwingAndImpactHasNoExtraDownswingDelay" classname="GolfArcade.PlayTests.GolfMotionReadyTests" runstate="Runnable" seed="862604085" result="Passed" start-time="2026-10-13 00:41:01Z" end-time="2026-10-13 00:41:05Z" duration="4.083071" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="Timeout" value="120000" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[HeroEquipment] exact bind PASS CLUB_DRIVER error=5.066395E-07 vertices=1716
+[HeroEquipment] exact bind PASS CLUB_IRON error=5.066395E-07 vertices=1232
+[HeroEquipment] exact bind PASS CLUB_PUTTER error=5.066395E-07 vertices=1248
+[HeroEquipment] exact bind PASS CLUB_WEDGE error=5.066395E-07 vertices=1280
+[HeroOriginalSeam] installed Male body=44168 features=3824; original rig and eye proportions retained; legacy face layers bypassed
+[HeroHeadSurface] Male origin=(0.000000, -0.027810, 1.510000) eye=(-0.000002, -0.080255, 0.065851) frame=(0.999993, 0.003879, 0.000100)/(0.000000, -0.025677, 0.999670)/(0.003880, -0.999663, -0.025677) cheekMaskMax=0.6915238 noseMaskMax=0.6737289 shader=GolfArcade/HeroFaceSkin hasHeadUniform=True
+[GolfResortDress] hole 7: 95 sparse irregular limestone/basalt outcrops
+[GolfCliffSculpt] hole 7: 1 continuous erosion shells, 38475 added triangles, 9678 displaced vertices, max 1.53 yd; collision meshes unchanged
+[GolfResortDress] hole 7: 426 botanical assets, 1117579 triangles in 61 bounded batches; original physics retained
+[GolfStoneFinish] 41 separate boulder render clones, 2460 added triangles, maximum 0.342 yd; original MeshFilters/colliders retained
+[GolfCourseFringe] hole 7: 320 shared Postcard tufts, 15408 triangles
+[GolfCoastalTurf] 401 1m clustered cells within12m patch; moving=True (401 cut / 0 rough); near/mid caps 48/96, max 512128 triangles, 3 instanced submissions, no grass shadows/colliders; hole 7, 1600 visual path-mask triangles
+[GolfSurfaceEdges] original top-boundary segments 160/568/216/4; 256x256, 262144 bytes, geometry unchanged
+[GolfSurfaceBatching] 117 original visual renderers into 38 bounded groups; meshes/colliders/scoring unchanged
+[GolfPlantInstances] 320 original plant renderers into 14 pivot-preserving visual batches
+[GolfResortDress] hole 7: 95 sparse irregular limestone/basalt outcrops
+[GolfCliffSculpt] hole 7: 1 continuous erosion shells, 38475 added triangles, 9678 displaced vertices, max 1.53 yd; collision meshes unchanged
+[GolfResortDress] hole 7: 426 botanical assets, 1117579 triangles in 61 bounded batches; original physics retained
+[GolfStoneFinish] 41 separate boulder render clones, 2460 added triangles, maximum 0.342 yd; original MeshFilters/colliders retained
+[GolfCourseFringe] hole 7: 320 shared Postcard tufts, 15408 triangles
+[GolfCoastalTurf] 401 1m clustered cells within12m patch; moving=True (401 cut / 0 rough); near/mid caps 48/96, max 512128 triangles, 3 instanced submissions, no grass shadows/colliders; hole 7, 1600 visual path-mask triangles
+[GolfSurfaceEdges] original top-boundary segments 160/568/216/4; 256x256, 262144 bytes, geometry unchanged
+[GolfSurfaceBatching] 117 original visual renderers into 38 bounded groups; meshes/colliders/scoring unchanged
+[GolfPlantInstances] 320 original plant renderers into 14 pivot-preserving visual batches
+[Presentation] 1|1|Venue|begin|11.471|Short
+[SportsMotion] golf impact speed=9.20 power=0.69
+[SportsMotion] golf impact speed=9.20 power=0.69
+]]></output>
+            </test-case>
+            <test-case id="1083" name="StartSwingTakesTheGripOnlyOnceThePhoneIsHeldStill" fullname="GolfArcade.PlayTests.GolfMotionReadyTests.StartSwingTakesTheGripOnlyOnceThePhoneIsHeldStill" methodname="StartSwingTakesTheGripOnlyOnceThePhoneIsHeldStill" classname="GolfArcade.PlayTests.GolfMotionReadyTests" runstate="Runnable" seed="567092716" result="Passed" start-time="2026-10-13 00:41:05Z" end-time="2026-10-13 00:41:09Z" duration="3.795202" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="Timeout" value="120000" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[HeroEquipment] exact bind PASS CLUB_DRIVER error=5.066395E-07 vertices=1716
+[HeroEquipment] exact bind PASS CLUB_IRON error=5.066395E-07 vertices=1232
+[HeroEquipment] exact bind PASS CLUB_PUTTER error=5.066395E-07 vertices=1248
+[HeroEquipment] exact bind PASS CLUB_WEDGE error=5.066395E-07 vertices=1280
+[HeroOriginalSeam] installed Male body=44168 features=3824; original rig and eye proportions retained; legacy face layers bypassed
+[HeroHeadSurface] Male origin=(0.000000, -0.027810, 1.510000) eye=(-0.000002, -0.080255, 0.065851) frame=(0.999993, 0.003879, 0.000100)/(0.000000, -0.025677, 0.999670)/(0.003880, -0.999663, -0.025677) cheekMaskMax=0.6915238 noseMaskMax=0.6737289 shader=GolfArcade/HeroFaceSkin hasHeadUniform=True
+[GolfResortDress] hole 7: 95 sparse irregular limestone/basalt outcrops
+[GolfCliffSculpt] hole 7: 1 continuous erosion shells, 38475 added triangles, 9678 displaced vertices, max 1.53 yd; collision meshes unchanged
+[GolfResortDress] hole 7: 426 botanical assets, 1117579 triangles in 61 bounded batches; original physics retained
+[GolfStoneFinish] 41 separate boulder render clones, 2460 added triangles, maximum 0.342 yd; original MeshFilters/colliders retained
+[GolfCourseFringe] hole 7: 320 shared Postcard tufts, 15408 triangles
+[GolfCoastalTurf] 401 1m clustered cells within12m patch; moving=True (401 cut / 0 rough); near/mid caps 48/96, max 512128 triangles, 3 instanced submissions, no grass shadows/colliders; hole 7, 1600 visual path-mask triangles
+[GolfSurfaceEdges] original top-boundary segments 160/568/216/4; 256x256, 262144 bytes, geometry unchanged
+[GolfSurfaceBatching] 117 original visual renderers into 38 bounded groups; meshes/colliders/scoring unchanged
+[GolfPlantInstances] 320 original plant renderers into 14 pivot-preserving visual batches
+[GolfResortDress] hole 7: 95 sparse irregular limestone/basalt outcrops
+[GolfCliffSculpt] hole 7: 1 continuous erosion shells, 38475 added triangles, 9678 displaced vertices, max 1.53 yd; collision meshes unchanged
+[GolfResortDress] hole 7: 426 botanical assets, 1117579 triangles in 61 bounded batches; original physics retained
+[GolfStoneFinish] 41 separate boulder render clones, 2460 added triangles, maximum 0.342 yd; original MeshFilters/colliders retained
+[GolfCourseFringe] hole 7: 320 shared Postcard tufts, 15408 triangles
+[GolfCoastalTurf] 401 1m clustered cells within12m patch; moving=True (401 cut / 0 rough); near/mid caps 48/96, max 512128 triangles, 3 instanced submissions, no grass shadows/colliders; hole 7, 1600 visual path-mask triangles
+[GolfSurfaceEdges] original top-boundary segments 160/568/216/4; 256x256, 262144 bytes, geometry unchanged
+[GolfSurfaceBatching] 117 original visual renderers into 38 bounded groups; meshes/colliders/scoring unchanged
+[GolfPlantInstances] 320 original plant renderers into 14 pivot-preserving visual batches
+[Presentation] 1|1|Venue|begin|15.275|Short
+[SportsMotion] Ready pose captured
+]]></output>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1099" name="HeroGolferTests" fullname="GolfArcade.PlayTests.HeroGolferTests" classname="GolfArcade.PlayTests.HeroGolferTests" runstate="Runnable" testcasecount="9" result="Passed" start-time="2026-10-13 00:41:09Z" end-time="2026-10-13 00:42:03Z" duration="53.809660" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1103" name="EveryClubSwings" fullname="GolfArcade.PlayTests.HeroGolferTests.EveryClubSwings" methodname="EveryClubSwings" classname="GolfArcade.PlayTests.HeroGolferTests" runstate="Runnable" seed="1719033956" result="Passed" start-time="2026-10-13 00:41:09Z" end-time="2026-10-13 00:41:44Z" duration="35.398609" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="Timeout" value="480000" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[HeroEquipment] exact bind PASS CLUB_DRIVER error=5.066395E-07 vertices=1716
+[HeroEquipment] exact bind PASS CLUB_IRON error=5.066395E-07 vertices=1232
+[HeroEquipment] exact bind PASS CLUB_PUTTER error=5.066395E-07 vertices=1248
+[HeroEquipment] exact bind PASS CLUB_WEDGE error=5.066395E-07 vertices=1280
+[HeroOriginalSeam] installed Male body=44168 features=3824; original rig and eye proportions retained; legacy face layers bypassed
+[HeroHeadSurface] Male origin=(0.000000, -0.027810, 1.510000) eye=(-0.000002, -0.080255, 0.065851) frame=(0.999993, 0.003879, 0.000100)/(0.000000, -0.025677, 0.999670)/(0.003880, -0.999663, -0.025677) cheekMaskMax=0.6915238 noseMaskMax=0.6737289 shader=GolfArcade/HeroFaceSkin hasHeadUniform=True
+[GolfResortDress] hole 7: 95 sparse irregular limestone/basalt outcrops
+[GolfCliffSculpt] hole 7: 1 continuous erosion shells, 38475 added triangles, 9678 displaced vertices, max 1.53 yd; collision meshes unchanged
+[GolfResortDress] hole 7: 426 botanical assets, 1117579 triangles in 61 bounded batches; original physics retained
+[GolfStoneFinish] 41 separate boulder render clones, 2460 added triangles, maximum 0.342 yd; original MeshFilters/colliders retained
+[GolfCourseFringe] hole 7: 320 shared Postcard tufts, 15408 triangles
+[GolfCoastalTurf] 401 1m clustered cells within12m patch; moving=True (401 cut / 0 rough); near/mid caps 48/96, max 512128 triangles, 3 instanced submissions, no grass shadows/colliders; hole 7, 1600 visual path-mask triangles
+[GolfSurfaceEdges] original top-boundary segments 160/568/216/4; 256x256, 262144 bytes, geometry unchanged
+[GolfSurfaceBatching] 117 original visual renderers into 38 bounded groups; meshes/colliders/scoring unchanged
+[GolfPlantInstances] 320 original plant renderers into 14 pivot-preserving visual batches
+[GolfResortDress] hole 7: 95 sparse irregular limestone/basalt outcrops
+[GolfCliffSculpt] hole 7: 1 continuous erosion shells, 38475 added triangles, 9678 displaced vertices, max 1.53 yd; collision meshes unchanged
+[GolfResortDress] hole 7: 426 botanical assets, 1117579 triangles in 61 bounded batches; original physics retained
+[GolfStoneFinish] 41 separate boulder render clones, 2460 added triangles, maximum 0.342 yd; original MeshFilters/colliders retained
+[GolfCourseFringe] hole 7: 320 shared Postcard tufts, 15408 triangles
+[GolfCoastalTurf] 401 1m clustered cells within12m patch; moving=True (401 cut / 0 rough); near/mid caps 48/96, max 512128 triangles, 3 instanced submissions, no grass shadows/colliders; hole 7, 1600 visual path-mask triangles
+[GolfSurfaceEdges] original top-boundary segments 160/568/216/4; 256x256, 262144 bytes, geometry unchanged
+[GolfSurfaceBatching] 117 original visual renderers into 38 bounded groups; meshes/colliders/scoring unchanged
+[GolfPlantInstances] 320 original plant renderers into 14 pivot-preserving visual batches
+[GolfResortDress] hole 7: 95 sparse irregular limestone/basalt outcrops
+[GolfCliffSculpt] hole 7: 1 continuous erosion shells, 38475 added triangles, 9678 displaced vertices, max 1.53 yd; collision meshes unchanged
+[GolfResortDress] hole 7: 426 botanical assets, 1117579 triangles in 61 bounded batches; original physics retained
+[GolfStoneFinish] 41 separate boulder render clones, 2460 added triangles, maximum 0.342 yd; original MeshFilters/colliders retained
+[GolfCourseFringe] hole 7: 320 shared Postcard tufts, 15408 triangles
+[GolfCoastalTurf] 401 1m clustered cells within12m patch; moving=True (401 cut / 0 rough); near/mid caps 48/96, max 512128 triangles, 3 instanced submissions, no grass shadows/colliders; hole 7, 1600 visual path-mask triangles
+[GolfSurfaceEdges] original top-boundary segments 160/568/216/4; 256x256, 262144 bytes, geometry unchanged
+[GolfSurfaceBatching] 117 original visual renderers into 38 bounded groups; meshes/colliders/scoring unchanged
+[GolfPlantInstances] 320 original plant renderers into 14 pivot-preserving visual batches
+[Presentation] 1|1|Venue|begin|20.321|Short
+[GolfResortDress] hole 7: 95 sparse irregular limestone/basalt outcrops
+[GolfCliffSculpt] hole 7: 1 continuous erosion shells, 38475 added triangles, 9678 displaced vertices, max 1.53 yd; collision meshes unchanged
+[GolfResortDress] hole 7: 426 botanical assets, 1117579 triangles in 61 bounded batches; original physics retained
+[GolfStoneFinish] 41 separate boulder render clones, 2460 added triangles, maximum 0.342 yd; original MeshFilters/colliders retained
+[GolfCourseFringe] hole 7: 320 shared Postcard tufts, 15408 triangles
+[GolfCoastalTurf] 401 1m clustered cells within12m patch; moving=True (401 cut / 0 rough); near/mid caps 48/96, max 512128 triangles, 3 instanced submissions, no grass shadows/colliders; hole 7, 1600 visual path-mask triangles
+[GolfSurfaceEdges] original top-boundary segments 160/568/216/4; 256x256, 262144 bytes, geometry unchanged
+[GolfSurfaceBatching] 117 original visual renderers into 38 bounded groups; meshes/colliders/scoring unchanged
+[GolfPlantInstances] 320 original plant renderers into 14 pivot-preserving visual batches
+[Presentation] 1|2|Venue|begin|21.784|Short
+[Presentation] 1|2|Venue|complete|27.498|
+[Presentation] 1|3|WalkOn|begin|27.501|Short
+[Presentation] 1|3|WalkOn|complete|30.714|
+[Presentation] 1|4|Start|begin|30.714|Short
+[Presentation] 1|4|Start|complete|31.314|
+]]></output>
+            </test-case>
+            <test-case id="1101" name="TheHeroSwingsAndMeetsTheBall" fullname="GolfArcade.PlayTests.HeroGolferTests.TheHeroSwingsAndMeetsTheBall" methodname="TheHeroSwingsAndMeetsTheBall" classname="GolfArcade.PlayTests.HeroGolferTests" runstate="Runnable" seed="1409126466" result="Passed" start-time="2026-10-13 00:41:44Z" end-time="2026-10-13 00:42:03Z" duration="18.373623" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="Timeout" value="240000" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[HeroEquipment] exact bind PASS CLUB_DRIVER error=5.066395E-07 vertices=1716
+[HeroEquipment] exact bind PASS CLUB_IRON error=5.066395E-07 vertices=1232
+[HeroEquipment] exact bind PASS CLUB_PUTTER error=5.066395E-07 vertices=1248
+[HeroEquipment] exact bind PASS CLUB_WEDGE error=5.066395E-07 vertices=1280
+[HeroOriginalSeam] installed Male body=44168 features=3824; original rig and eye proportions retained; legacy face layers bypassed
+[HeroHeadSurface] Male origin=(0.000000, -0.027810, 1.510000) eye=(-0.000002, -0.080255, 0.065851) frame=(0.999993, 0.003879, 0.000100)/(0.000000, -0.025677, 0.999670)/(0.003880, -0.999663, -0.025677) cheekMaskMax=0.6915238 noseMaskMax=0.6737289 shader=GolfArcade/HeroFaceSkin hasHeadUniform=True
+[GolfResortDress] hole 7: 95 sparse irregular limestone/basalt outcrops
+[GolfCliffSculpt] hole 7: 1 continuous erosion shells, 38475 added triangles, 9678 displaced vertices, max 1.53 yd; collision meshes unchanged
+[GolfResortDress] hole 7: 426 botanical assets, 1117579 triangles in 61 bounded batches; original physics retained
+[GolfStoneFinish] 41 separate boulder render clones, 2460 added triangles, maximum 0.342 yd; original MeshFilters/colliders retained
+[GolfCourseFringe] hole 7: 320 shared Postcard tufts, 15408 triangles
+[GolfCoastalTurf] 401 1m clustered cells within12m patch; moving=True (401 cut / 0 rough); near/mid caps 48/96, max 512128 triangles, 3 instanced submissions, no grass shadows/colliders; hole 7, 1600 visual path-mask triangles
+[GolfSurfaceEdges] original top-boundary segments 160/568/216/4; 256x256, 262144 bytes, geometry unchanged
+[GolfSurfaceBatching] 117 original visual renderers into 38 bounded groups; meshes/colliders/scoring unchanged
+[GolfPlantInstances] 320 original plant renderers into 14 pivot-preserving visual batches
+[GolfResortDress] hole 7: 95 sparse irregular limestone/basalt outcrops
+[GolfCliffSculpt] hole 7: 1 continuous erosion shells, 38475 added triangles, 9678 displaced vertices, max 1.53 yd; collision meshes unchanged
+[GolfResortDress] hole 7: 426 botanical assets, 1117579 triangles in 61 bounded batches; original physics retained
+[GolfStoneFinish] 41 separate boulder render clones, 2460 added triangles, maximum 0.342 yd; original MeshFilters/colliders retained
+[GolfCourseFringe] hole 7: 320 shared Postcard tufts, 15408 triangles
+[GolfCoastalTurf] 401 1m clustered cells within12m patch; moving=True (401 cut / 0 rough); near/mid caps 48/96, max 512128 triangles, 3 instanced submissions, no grass shadows/colliders; hole 7, 1600 visual path-mask triangles
+[GolfSurfaceEdges] original top-boundary segments 160/568/216/4; 256x256, 262144 bytes, geometry unchanged
+[GolfSurfaceBatching] 117 original visual renderers into 38 bounded groups; meshes/colliders/scoring unchanged
+[GolfPlantInstances] 320 original plant renderers into 14 pivot-preserving visual batches
+[GolfResortDress] hole 7: 95 sparse irregular limestone/basalt outcrops
+[GolfCliffSculpt] hole 7: 1 continuous erosion shells, 38475 added triangles, 9678 displaced vertices, max 1.53 yd; collision meshes unchanged
+[GolfResortDress] hole 7: 426 botanical assets, 1117579 triangles in 61 bounded batches; original physics retained
+[GolfStoneFinish] 41 separate boulder render clones, 2460 added triangles, maximum 0.342 yd; original MeshFilters/colliders retained
+[GolfCourseFringe] hole 7: 320 shared Postcard tufts, 15408 triangles
+[GolfCoastalTurf] 401 1m clustered cells within12m patch; moving=True (401 cut / 0 rough); near/mid caps 48/96, max 512128 triangles, 3 instanced submissions, no grass shadows/colliders; hole 7, 1600 visual path-mask triangles
+[GolfSurfaceEdges] original top-boundary segments 160/568/216/4; 256x256, 262144 bytes, geometry unchanged
+[GolfSurfaceBatching] 117 original visual renderers into 38 bounded groups; meshes/colliders/scoring unchanged
+[GolfPlantInstances] 320 original plant renderers into 14 pivot-preserving visual batches
+[Presentation] 1|1|Venue|begin|55.456|Short
+[GolfResortDress] hole 7: 95 sparse irregular limestone/basalt outcrops
+[GolfCliffSculpt] hole 7: 1 continuous erosion shells, 38475 added triangles, 9678 displaced vertices, max 1.53 yd; collision meshes unchanged
+[GolfResortDress] hole 7: 426 botanical assets, 1117579 triangles in 61 bounded batches; original physics retained
+[GolfStoneFinish] 41 separate boulder render clones, 2460 added triangles, maximum 0.342 yd; original MeshFilters/colliders retained
+[GolfCourseFringe] hole 7: 320 shared Postcard tufts, 15408 triangles
+[GolfCoastalTurf] 401 1m clustered cells within12m patch; moving=True (401 cut / 0 rough); near/mid caps 48/96, max 512128 triangles, 3 instanced submissions, no grass shadows/colliders; hole 7, 1600 visual path-mask triangles
+[GolfSurfaceEdges] original top-boundary segments 160/568/216/4; 256x256, 262144 bytes, geometry unchanged
+[GolfSurfaceBatching] 117 original visual renderers into 38 bounded groups; meshes/colliders/scoring unchanged
+[GolfPlantInstances] 320 original plant renderers into 14 pivot-preserving visual batches
+[Presentation] 1|2|Venue|begin|56.579|Short
+[Presentation] 1|2|Venue|complete|62.278|
+[Presentation] 1|3|WalkOn|begin|62.281|Short
+[Presentation] 1|3|WalkOn|complete|65.489|
+[Presentation] 1|4|Start|begin|65.489|Short
+[Presentation] 1|4|Start|complete|66.089|
+HERO address: ball (0.00, 31.50, 0.00), clubhead (0.23, 31.51, -0.06), distance 0.237 yd
+HERO impact: closest approach 0.203 yd at (0.15, 31.49, 0.13)
+HERO path: [0.00s Aim d=3.38] [0.02s Aim d=3.38] [0.04s Aim d=3.38] [0.05s Aim d=3.38] [0.07s Aim d=3.38] [0.08s Aim d=3.38] [0.10s Aim d=3.38] [0.12s Aim d=3.38] [0.13s Aim d=3.38] [0.16s Flight d=3.34] [0.17s Flight d=3.29] [0.19s Flight d=3.26] [0.20s Flight d=3.21] [0.22s Flight d=3.14] [0.24s Flight d=2.98] [0.25s Flight d=2.78] [0.27s Flight d=2.56] [0.29s Flight d=2.19] [0.30s Flight d=2.02] [0.32s Flight d=1.73] [0.34s Flight d=1.06] [0.35s Flight d=0.53] [0.37s Flight d=0.20] [0.38s Flight d=0.80] [0.40s Flight d=1.42] [0.42s Flight d=1.78] [0.43s Flight d=2.12] [0.45s Flight d=2.53] [0.47s Flight d=2.74] [0.48s Flight d=2.93] [0.50s Flight d=3.13] [0.53s Flight d=3.25] [0.54s Flight d=3.43] [0.55s Flight d=3.45] [0.57s Flight d=3.44] [0.58s Flight d=3.40] [0.60s Flight d=3.32] [0.62s Flight d=3.23] [0.63s Flight d=3.15] [0.65s Flight d=2.99] [0.67s Flight d=2.87] [0.69s Flight d=2.69] [0.70s Flight d=2.57] [0.72s Flight d=2.39] [0.73s Flight d=2.28] [0.75s Flight d=2.10] [0.77s Flight d=1.99] [0.78s Flight d=1.90] [0.80s Flight d=1.76] [0.82s Flight d=1.69] [0.84s Flight d=1.61] [0.85s Flight d=1.56] [0.87s Flight d=1.52] [0.88s Flight d=1.50] [0.90s Flight d=1.48] [0.92s Flight d=1.48] [0.94s Flight d=1.48] [0.95s Flight d=1.47] [0.97s Flight d=1.47] [0.98s Flight d=1.47] [1.00s Flight d=1.47] [1.02s Flight d=1.47] [1.04s Flight d=1.47] [1.05s Flight d=1.47] [1.07s Flight d=1.47] [1.08s Flight d=1.47] [1.10s Flight d=1.47] [1.12s Flight d=1.47] [1.13s Flight d=1.47] [1.15s Flight d=1.47] [1.18s Flight d=1.47] [1.18s Flight d=1.47] [1.20s Flight d=1.47] 
+]]></output>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1192" name="SwingSmoothnessTests" fullname="GolfArcade.PlayTests.SwingSmoothnessTests" classname="GolfArcade.PlayTests.SwingSmoothnessTests" runstate="Runnable" testcasecount="3" result="Failed" site="Child" start-time="2026-10-13 00:42:03Z" end-time="2026-10-13 00:42:15Z" duration="12.285731" total="3" passed="2" failed="1" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <failure>
+              <message><![CDATA[One or more child tests had errors]]></message>
+            </failure>
+            <test-case id="1193" name="AFullDriveIsFluid" fullname="GolfArcade.PlayTests.SwingSmoothnessTests.AFullDriveIsFluid" methodname="AFullDriveIsFluid" classname="GolfArcade.PlayTests.SwingSmoothnessTests" runstate="Runnable" seed="521500524" result="Failed" start-time="2026-10-13 00:42:03Z" end-time="2026-10-13 00:42:07Z" duration="4.220820" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <failure>
+                <message><![CDATA[  full drive: the club head jumps 1.201 m on frame 204 (neighbours 0.000, 0.096)
+  Expected: less than or equal to 0.26883769f
+  But was:  1.20092368f
+]]></message>
+                <stack-trace><![CDATA[at GolfArcade.PlayTests.SwingSmoothnessTests.AssertNoPops (System.Collections.Generic.List`1[T] path, System.String what) [0x0005a] in /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/7dab0438-556f-4f2a-93fa-076d9203f1a0/scratchpad/UnityClone/Assets/Tests/PlayMode/SwingSmoothnessTests.cs:53
+at GolfArcade.PlayTests.SwingSmoothnessTests+<Swing>d__4.MoveNext () [0x0028a] in /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/7dab0438-556f-4f2a-93fa-076d9203f1a0/scratchpad/UnityClone/Assets/Tests/PlayMode/SwingSmoothnessTests.cs:77
+at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in ./Library/PackageCache/com.unity.test-framework@bd7f943e9647/UnityEngine.TestRunner/NUnitExtensions/Attributes/TestEnumerator.cs:44
+]]></stack-trace>
+              </failure>
+              <output><![CDATA[[HeroEquipment] exact bind PASS CLUB_DRIVER error=5.066395E-07 vertices=1716
+[HeroEquipment] exact bind PASS CLUB_IRON error=5.066395E-07 vertices=1232
+[HeroEquipment] exact bind PASS CLUB_PUTTER error=5.066395E-07 vertices=1248
+[HeroEquipment] exact bind PASS CLUB_WEDGE error=5.066395E-07 vertices=1280
+[HeroOriginalSeam] installed Male body=44168 features=3824; original rig and eye proportions retained; legacy face layers bypassed
+[HeroHeadSurface] Male origin=(0.000000, -0.027810, 1.510000) eye=(-0.000002, -0.080255, 0.065851) frame=(0.999993, 0.003879, 0.000100)/(0.000000, -0.025677, 0.999670)/(0.003880, -0.999663, -0.025677) cheekMaskMax=0.6915238 noseMaskMax=0.6737289 shader=GolfArcade/HeroFaceSkin hasHeadUniform=True
+]]></output>
+            </test-case>
+            <test-case id="1194" name="AHalfSwingIsFluid" fullname="GolfArcade.PlayTests.SwingSmoothnessTests.AHalfSwingIsFluid" methodname="AHalfSwingIsFluid" classname="GolfArcade.PlayTests.SwingSmoothnessTests" runstate="Runnable" seed="2039094741" result="Passed" start-time="2026-10-13 00:42:07Z" end-time="2026-10-13 00:42:11Z" duration="4.031960" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[HeroEquipment] exact bind PASS CLUB_DRIVER error=5.066395E-07 vertices=1716
+[HeroEquipment] exact bind PASS CLUB_IRON error=5.066395E-07 vertices=1232
+[HeroEquipment] exact bind PASS CLUB_PUTTER error=5.066395E-07 vertices=1248
+[HeroEquipment] exact bind PASS CLUB_WEDGE error=5.066395E-07 vertices=1280
+[HeroOriginalSeam] installed Male body=44168 features=3824; original rig and eye proportions retained; legacy face layers bypassed
+[HeroHeadSurface] Male origin=(0.000000, -0.027810, 1.510000) eye=(-0.000002, -0.080255, 0.065851) frame=(0.999993, 0.003879, 0.000100)/(0.000000, -0.025677, 0.999670)/(0.003880, -0.999663, -0.025677) cheekMaskMax=0.6915238 noseMaskMax=0.6737289 shader=GolfArcade/HeroFaceSkin hasHeadUniform=True
+half iron: 235 frames, downswing 0.21 s, top speed 24.9 m/s
+]]></output>
+            </test-case>
+            <test-case id="1195" name="APuttIsFluid" fullname="GolfArcade.PlayTests.SwingSmoothnessTests.APuttIsFluid" methodname="APuttIsFluid" classname="GolfArcade.PlayTests.SwingSmoothnessTests" runstate="Runnable" seed="818135377" result="Passed" start-time="2026-10-13 00:42:11Z" end-time="2026-10-13 00:42:15Z" duration="4.026124" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[HeroEquipment] exact bind PASS CLUB_DRIVER error=5.066395E-07 vertices=1716
+[HeroEquipment] exact bind PASS CLUB_IRON error=5.066395E-07 vertices=1232
+[HeroEquipment] exact bind PASS CLUB_PUTTER error=5.066395E-07 vertices=1248
+[HeroEquipment] exact bind PASS CLUB_WEDGE error=5.066395E-07 vertices=1280
+[HeroOriginalSeam] installed Male body=44168 features=3824; original rig and eye proportions retained; legacy face layers bypassed
+[HeroHeadSurface] Male origin=(0.000000, -0.027810, 1.510000) eye=(-0.000002, -0.080255, 0.065851) frame=(0.999993, 0.003879, 0.000100)/(0.000000, -0.025677, 0.999670)/(0.003880, -0.999663, -0.025677) cheekMaskMax=0.6915238 noseMaskMax=0.6737289 shader=GolfArcade/HeroFaceSkin hasHeadUniform=True
+putt: 235 frames, downswing 0.38 s, top speed 1.6 m/s
+DONE PlayMode: 8 passed, 1 failed, 0 skipped
+<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /Users/adnanyonathan/Library/Application Support/aloniewski/Golf Arcade/TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

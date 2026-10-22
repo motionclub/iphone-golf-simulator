@@ -1,0 +1,77 @@
+{
+  "introShapeFitMaxErrorMetres": 3.3203647543582447e-07,
+  "rows": [
+    {
+      "sample": "female_intro",
+      "maximumDQMoveMetres": 0.047231991989403956,
+      "views": [
+        {
+          "view": "front",
+          "newSkinPixels": 2,
+          "coveredSkinPixels": 0,
+          "newBackgroundPixels": 0
+        },
+        {
+          "view": "rear",
+          "newSkinPixels": 7,
+          "coveredSkinPixels": 27,
+          "newBackgroundPixels": 0
+        }
+      ]
+    },
+    {
+      "sample": "female_Forehand_1",
+      "maximumDQMoveMetres": 0.10725171282514535,
+      "views": [
+        {
+          "view": "front",
+          "newSkinPixels": 0,
+          "coveredSkinPixels": 79,
+          "newBackgroundPixels": 0
+        },
+        {
+          "view": "rear",
+          "newSkinPixels": 0,
+          "coveredSkinPixels": 399,
+          "newBackgroundPixels": 0
+        }
+      ]
+    },
+    {
+      "sample": "female_Forehand_2",
+      "maximumDQMoveMetres": 0.22120372932709573,
+      "views": [
+        {
+          "view": "front",
+          "newSkinPixels": 0,
+          "coveredSkinPixels": 833,
+          "newBackgroundPixels": 0
+        },
+        {
+          "view": "rear",
+          "newSkinPixels": 1,
+          "coveredSkinPixels": 35,
+          "newBackgroundPixels": 0
+        }
+      ]
+    },
+    {
+      "sample": "female_EmoteSpike_1",
+      "maximumDQMoveMetres": 0.1388296484769848,
+      "views": [
+        {
+          "view": "front",
+          "newSkinPixels": 0,
+          "coveredSkinPixels": 430,
+          "newBackgroundPixels": 0
+        },
+        {
+          "view": "rear",
+          "newSkinPixels": 31,
+          "coveredSkinPixels": 0,
+          "newBackgroundPixels": 0
+        }
+      ]
+    }
+  ]
+}

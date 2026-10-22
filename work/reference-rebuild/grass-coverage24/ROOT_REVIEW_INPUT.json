@@ -1,0 +1,519 @@
+{
+  "scope": "Completed grass-coverage24 pilot/control proofs for seven new opt-in authored routes; no Unity run or Assets edits.",
+  "portablePhysicsMethod": "Remove only collider componentId and meshId, sort colliders by path/type, compare every remaining field exactly, including windmillHash.",
+  "proofs": {
+    "pilot": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/moving-turf-proof.json",
+    "control": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-control/moving-turf-proof.json"
+  },
+  "proofSha256": {
+    "pilot": "ab1d50d7e3c25a3053f09699ab0c954eab9b741fd9c75c0e180b103d38770631",
+    "control": "864136234bb3a4d9d91bb5c5317c752062f6a2ad20e432024a06694944227512"
+  },
+  "environment": {
+    "unity": "6000.3.24f1",
+    "graphics": "Metal / Apple M5",
+    "timingScope": "Stopwatch timestamps inside production RefreshForAddress only; excludes capture/audit overhead. Desktop latency, no phone-FPS claim."
+  },
+  "summary": {
+    "portablePairs": 84,
+    "portablePairsFullyExact": 84,
+    "fullAddressAuditsExact": 98,
+    "fullDressingAuditsExact": 14,
+    "fullFlightAuditsExact": 14,
+    "pilotAddressRecords": 49,
+    "controlAddressRecords": 49,
+    "pilotPositiveAddresses": 49,
+    "pilotCellsMin": 128,
+    "pilotCellsMax": 493,
+    "pilotNearMax": 48,
+    "pilotMidMax": 82,
+    "pilotFarMax": 2,
+    "pilotRebuildMillisecondsMax": 17.85,
+    "maximumLatencyAddress": {
+      "hole": 22,
+      "label": "approach_fairway",
+      "selectedCollider": "GREEN_APRON_1"
+    },
+    "pilotRebuildGroundQueriesMax": 3301,
+    "pilotRebuildColliderRaycastsMax": 12162,
+    "pilotFlightFrames": 3470,
+    "pilotFlightCoarseStations": 333,
+    "controlFlightFrames": 3563,
+    "controlFlightCoarseStations": 344,
+    "flightRebuilds": 0,
+    "positiveRegenerationRoutes": 7,
+    "sameStationGroundQueryDelta": 0,
+    "existingMovingRoutes": [
+      7,
+      8,
+      9,
+      12,
+      13,
+      14,
+      15,
+      19,
+      20
+    ],
+    "existingRoutesRetested": false
+  },
+  "numericalGate": "PASS",
+  "failures": [],
+  "visualReview": {
+    "gate": "FAIL",
+    "promotableRoutes": [
+      16,
+      17,
+      18,
+      21,
+      22,
+      23
+    ],
+    "holdRoutes": [
+      10
+    ],
+    "reason": "Hole10 tee stepping-stone grass intrusion visible in both candidate moving and candidate static control. Numerical physics/pool gates do not cover triangle interiors of render-only basalt stones.",
+    "images": [
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole10_tee.png",
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole10_fairway.png",
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole16_tee.png",
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole16_fairway.png",
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole17_tee.png",
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole17_fairway.png",
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole17_approach_fairway.png",
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole18_tee.png",
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole18_fairway.png",
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole18_approach_fairway.png",
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole21_tee.png",
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole21_fairway.png",
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole21_approach_fairway.png",
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole22_tee.png",
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole22_fairway.png",
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole22_approach_fairway.png",
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole23_tee.png",
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole23_fairway.png",
+      "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-pilot/hole23_approach_fairway.png"
+    ],
+    "controlComparisonImage": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/reference-rebuild/grass-coverage24-control/hole10_tee.png",
+    "perCourse": [
+      {
+        "hole": 10,
+        "gate": "FAIL",
+        "notes": "Tee and moved fairway are dry with readable ball/club; molten/crater surfaces remain bare. FAIL: yellow grass blades visibly cover dark tee stepping-stone interiors in both pilot and static control."
+      },
+      {
+        "hole": 16,
+        "gate": "PASS",
+        "notes": "Tee and moved fairway have dense short grass; native ash stays bare. Temple stair tops/risers remain clear in moved address. Putting apron not separately reviewed."
+      },
+      {
+        "hole": 17,
+        "gate": "PASS",
+        "notes": "Tee and fairway blades stay inside authored green turf islands beside white native snow. Approach apron ends at smooth putting green; icy/snow native foreground stays bare."
+      },
+      {
+        "hole": 18,
+        "gate": "PASS",
+        "notes": "Tee island ends against bare desert. Generic fairway and approach images are actual GREEN_APRON_1 source Fairway around a smooth putting green; approach analytical lie is Rough. Small blade tips overhang the near native boundary without a broad grass population on desert."
+      },
+      {
+        "hole": 21,
+        "gate": "PASS",
+        "notes": "Tee and fairway are dry; ash and lava rock surfaces stay bare. Approach grass ends outside smooth putting green."
+      },
+      {
+        "hole": 22,
+        "gate": "PASS",
+        "notes": "Tee, fairway and approach are dry with bare surrounding ash and molten sheet. Bunker sand interior is bare and green remains smooth. Driver occludes much of the tee ball, while fairway and approach ball/club are readable."
+      },
+      {
+        "hole": 23,
+        "gate": "PASS",
+        "notes": "Tee, fairway and approach remain on authored turf; ash banks, cliff face and orange molten sheet are bare. Apron ends outside smooth putting green."
+      }
+    ],
+    "limits": "Human image inspection covers seven tees, seven moved middle addresses, and five approaches. This is not an exhaustive every-path/hazard-edge sweep; root independent review is still required."
+  },
+  "gate": "FAIL",
+  "limitations": [
+    "Stopwatch desktop rebuild latency excludes capture/audit overhead; no phone FPS or device thermal claim.",
+    "Seven actual settled addresses per route and one flight; not an exhaustive every-coordinate terrain sweep.",
+    "Rendered water/lava sheets participate in address exclusion, but this run includes no deliberate negative water/lava address probe.",
+    "Hole 18 middle and approach labels are generic harness station labels: both actual GREEN_APRON_1 / source Fairway; approach CourseLie is Rough. No authored true fairway exists on 18.",
+    "Review covers turf only. Trees, clothing and background appearance are outside this lane.",
+    "Existing accepted nine moving routes were not rerun; candidate route flags remain bounded to the seven new routes."
+  ],
+  "details": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/grass-coverage24/ROOT_REVIEW_DETAILS.json",
+  "holes": [
+    {
+      "hole": 10,
+      "portablePairsExact": 12,
+      "staticAudit": {
+        "colliders": 10,
+        "obstacles": 8291,
+        "groundSamples": 306,
+        "obstacleHash": "3ddc97d9872032449c2d4496ce9085de8a1368dcb842796e5d17ca25e8423aec",
+        "surfaceHash": "c1a3766e0f6385e0bad8b82476f4a5c25e0e11531e486cf89ad7b8b6bf15a628",
+        "groundSampleHash": "4de5faabfda96cd12212ae7f423df6e79439a5b79e174c39b5851b1760506c27",
+        "windmillHash": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+      },
+      "pilotCellsInPoseOrder": [
+        493,
+        493,
+        476,
+        419,
+        357,
+        419,
+        493
+      ],
+      "coarseCrossRetainedCells": 380,
+      "returnRegeneratedCells": 419,
+      "maximumRebuildMilliseconds": 10.0987,
+      "pilotOwnedMaterials": [
+        5
+      ],
+      "controlOwnedMaterials": [
+        5
+      ],
+      "middle": {
+        "label": "fairway",
+        "selectedCollider": "FAIRWAY",
+        "selectedSurface": "Fairway",
+        "courseLie": "Fairway",
+        "ball": {
+          "x": 71.15019226074219,
+          "y": 6.774782657623291,
+          "z": 137.5485076904297
+        }
+      },
+      "approach": {
+        "label": "approach_fairway",
+        "selectedCollider": "FAIRWAY",
+        "selectedSurface": "Fairway",
+        "courseLie": "Fairway",
+        "ball": {
+          "x": 241.7538604736328,
+          "y": 6.7747979164123535,
+          "z": 163.7952423095703
+        }
+      }
+    },
+    {
+      "hole": 16,
+      "portablePairsExact": 12,
+      "staticAudit": {
+        "colliders": 16,
+        "obstacles": 178,
+        "groundSamples": 324,
+        "obstacleHash": "3a1e7f0c0d5593be9286860214c9fdb760dd2832b21ea92cd297ede0581bef1d",
+        "surfaceHash": "c4642cac385bb8f6435d6b1847668d2b17f3748ffe3a4619110d72430a8c6b9c",
+        "groundSampleHash": "6be469098189314ee17b1b4824eb518dea6340332fa9abc7a18e18bfe6f163ad",
+        "windmillHash": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+      },
+      "pilotCellsInPoseOrder": [
+        344,
+        344,
+        298,
+        427,
+        168,
+        427,
+        344
+      ],
+      "coarseCrossRetainedCells": 279,
+      "returnRegeneratedCells": 427,
+      "maximumRebuildMilliseconds": 8.5942,
+      "pilotOwnedMaterials": [
+        4
+      ],
+      "controlOwnedMaterials": [
+        2
+      ],
+      "middle": {
+        "label": "fairway",
+        "selectedCollider": "FAIRWAY",
+        "selectedSurface": "Fairway",
+        "courseLie": "Fairway",
+        "ball": {
+          "x": -3.9666194915771484,
+          "y": 17.68954849243164,
+          "z": 188.04637145996094
+        }
+      },
+      "approach": {
+        "label": "approach_fairway",
+        "selectedCollider": "GREEN_APRON_1",
+        "selectedSurface": "Fairway",
+        "courseLie": "Fairway",
+        "ball": {
+          "x": 27.371557235717773,
+          "y": 26.365999221801758,
+          "z": 387.5494689941406
+        }
+      }
+    },
+    {
+      "hole": 17,
+      "portablePairsExact": 12,
+      "staticAudit": {
+        "colliders": 19,
+        "obstacles": 186,
+        "groundSamples": 324,
+        "obstacleHash": "10bcf4590e219b9432c0002c2b3833cabd6802ac89bf7af764423c174ba0773e",
+        "surfaceHash": "f201a8930228466641f83f431029941d5d46f554d7b97a26fd2188362b8f80a4",
+        "groundSampleHash": "964807122b60bd3be90a1ca65ee223c8f456ad6c9fd4078090cd5f3493457f03",
+        "windmillHash": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+      },
+      "pilotCellsInPoseOrder": [
+        343,
+        343,
+        295,
+        401,
+        251,
+        401,
+        343
+      ],
+      "coarseCrossRetainedCells": 277,
+      "returnRegeneratedCells": 401,
+      "maximumRebuildMilliseconds": 7.4862,
+      "pilotOwnedMaterials": [
+        4
+      ],
+      "controlOwnedMaterials": [
+        2
+      ],
+      "middle": {
+        "label": "fairway",
+        "selectedCollider": "FAIRWAY",
+        "selectedSurface": "Fairway",
+        "courseLie": "Fairway",
+        "ball": {
+          "x": -16.80226707458496,
+          "y": 18.220060348510742,
+          "z": 246.89404296875
+        }
+      },
+      "approach": {
+        "label": "approach_fairway",
+        "selectedCollider": "GREEN_APRON_1",
+        "selectedSurface": "Fairway",
+        "courseLie": "Fairway",
+        "ball": {
+          "x": 113.00695037841797,
+          "y": 20.462617874145508,
+          "z": 480.983154296875
+        }
+      }
+    },
+    {
+      "hole": 18,
+      "portablePairsExact": 12,
+      "staticAudit": {
+        "colliders": 9,
+        "obstacles": 84,
+        "groundSamples": 297,
+        "obstacleHash": "5e3dcea82a010ab80b1532e379ce2822858b532f6f5f5f2caa0130b5e16b1df2",
+        "surfaceHash": "15cc81d3afd84e0cadebc8a92a13bd1555c747b3fec7183798b9b6b6ee1d0185",
+        "groundSampleHash": "d171967f9a69d5b3aff1024f1b55321dbc480e0018760159c594538b867298a9",
+        "windmillHash": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+      },
+      "pilotCellsInPoseOrder": [
+        228,
+        228,
+        208,
+        137,
+        143,
+        137,
+        228
+      ],
+      "coarseCrossRetainedCells": 197,
+      "returnRegeneratedCells": 137,
+      "maximumRebuildMilliseconds": 4.078,
+      "pilotOwnedMaterials": [
+        4
+      ],
+      "controlOwnedMaterials": [
+        2
+      ],
+      "middle": {
+        "label": "fairway",
+        "selectedCollider": "GREEN_APRON_1",
+        "selectedSurface": "Fairway",
+        "courseLie": "Fairway",
+        "ball": {
+          "x": 13.14085865020752,
+          "y": 39.807552337646484,
+          "z": 139.89862060546875
+        }
+      },
+      "approach": {
+        "label": "approach_fairway",
+        "selectedCollider": "GREEN_APRON_1",
+        "selectedSurface": "Fairway",
+        "courseLie": "Rough",
+        "ball": {
+          "x": -9.729048728942871,
+          "y": 39.613529205322266,
+          "z": 164.90673828125
+        }
+      }
+    },
+    {
+      "hole": 21,
+      "portablePairsExact": 12,
+      "staticAudit": {
+        "colliders": 15,
+        "obstacles": 66,
+        "groundSamples": 306,
+        "obstacleHash": "91d039762d2cdf35d6231b00bd79995a07f76293e7c4b9723966b82da0d6528a",
+        "surfaceHash": "eb44edfd75d219850ca034dd39a28a16d751ca0f6f883341126c09f2ff87a603",
+        "groundSampleHash": "5a0a00aef00d198292f349512ab67a702f5815faeb959b577cec1e17f53d755a",
+        "windmillHash": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+      },
+      "pilotCellsInPoseOrder": [
+        336,
+        336,
+        302,
+        300,
+        128,
+        300,
+        336
+      ],
+      "coarseCrossRetainedCells": 289,
+      "returnRegeneratedCells": 300,
+      "maximumRebuildMilliseconds": 9.2102,
+      "pilotOwnedMaterials": [
+        4
+      ],
+      "controlOwnedMaterials": [
+        2
+      ],
+      "middle": {
+        "label": "fairway",
+        "selectedCollider": "FAIRWAY",
+        "selectedSurface": "Fairway",
+        "courseLie": "Fairway",
+        "ball": {
+          "x": 8.99520206451416,
+          "y": 24.122385025024414,
+          "z": 119.17050170898438
+        }
+      },
+      "approach": {
+        "label": "approach_fairway",
+        "selectedCollider": "GREEN_APRON_1",
+        "selectedSurface": "Fairway",
+        "courseLie": "Rough",
+        "ball": {
+          "x": 28.7420654296875,
+          "y": 26.57158088684082,
+          "z": 146.7366943359375
+        }
+      }
+    },
+    {
+      "hole": 22,
+      "portablePairsExact": 12,
+      "staticAudit": {
+        "colliders": 20,
+        "obstacles": 75,
+        "groundSamples": 321,
+        "obstacleHash": "0fa5b07e9acc9f392e0895aa288e3d2c135056e43e9181c8d326e09db6fba9e6",
+        "surfaceHash": "39755f5d719aa05b1fe84dbb2a323b287929c95a128b07b5ffe0f78dc5034d06",
+        "groundSampleHash": "cbc258c1265986d9c2c55cf6af6f5589dbc1dac8d423a2ccd8515040b58fc5b6",
+        "windmillHash": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+      },
+      "pilotCellsInPoseOrder": [
+        316,
+        316,
+        280,
+        450,
+        393,
+        450,
+        316
+      ],
+      "coarseCrossRetainedCells": 265,
+      "returnRegeneratedCells": 450,
+      "maximumRebuildMilliseconds": 17.85,
+      "pilotOwnedMaterials": [
+        4
+      ],
+      "controlOwnedMaterials": [
+        2
+      ],
+      "middle": {
+        "label": "fairway",
+        "selectedCollider": "FAIRWAY",
+        "selectedSurface": "Fairway",
+        "courseLie": "Fairway",
+        "ball": {
+          "x": 48.782623291015625,
+          "y": 17.296403884887695,
+          "z": 167.1054229736328
+        }
+      },
+      "approach": {
+        "label": "approach_fairway",
+        "selectedCollider": "GREEN_APRON_1",
+        "selectedSurface": "Fairway",
+        "courseLie": "Fairway",
+        "ball": {
+          "x": 5.084207534790039,
+          "y": 25.273744583129883,
+          "z": 340.6968688964844
+        }
+      }
+    },
+    {
+      "hole": 23,
+      "portablePairsExact": 12,
+      "staticAudit": {
+        "colliders": 20,
+        "obstacles": 84,
+        "groundSamples": 324,
+        "obstacleHash": "0c167973a62f34b14d47bb2a6d01494239ed5b12ddcd15d94db3549ead49197a",
+        "surfaceHash": "420b513523d5fbeb38c8ed9cec99da67607dfb88e6fd4320513d25820c99fdc9",
+        "groundSampleHash": "5149183d68295d1f6ed60a3fe37e1506b4260d5a852bd394b4881e9cfd6b811c",
+        "windmillHash": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+      },
+      "pilotCellsInPoseOrder": [
+        337,
+        337,
+        252,
+        475,
+        162,
+        475,
+        337
+      ],
+      "coarseCrossRetainedCells": 249,
+      "returnRegeneratedCells": 475,
+      "maximumRebuildMilliseconds": 10.3744,
+      "pilotOwnedMaterials": [
+        4
+      ],
+      "controlOwnedMaterials": [
+        2
+      ],
+      "middle": {
+        "label": "fairway",
+        "selectedCollider": "FAIRWAY",
+        "selectedSurface": "Fairway",
+        "courseLie": "Fairway",
+        "ball": {
+          "x": 36.48366928100586,
+          "y": 16.53727912902832,
+          "z": 198.3350830078125
+        }
+      },
+      "approach": {
+        "label": "approach_fairway",
+        "selectedCollider": "GREEN_APRON_1",
+        "selectedSurface": "Fairway",
+        "courseLie": "Rough",
+        "ball": {
+          "x": 162.71730041503906,
+          "y": 24.34474754333496,
+          "z": -10.13858413696289
+        }
+      }
+    }
+  ]
+}

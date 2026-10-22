@@ -1,0 +1,8 @@
+Unity/Assets/Scripts/Game/GolferView.cs              (owned) mannerism layers: WatchShot (post-shot watch + club drop), address waggle/look/regrip,
+                                                     TurnFromCamera, FitMoveToClothes (hole-out reactions fitted to the clothes), MannerismsOff switch
+Unity/Assets/Scripts/Game/GolfGame.Mannerisms.cs     (new, + .meta) hooks chat A's PostShotWatch / HoleOutReactionBegan: watch, bag off, 3/4 turn
+Unity/Assets/Scripts/Game/GolfGame.cs                (shared with A/C/D) ONE line: HookMannerisms() at the top of Awake
+work/golf-mannerisms/                                REFERENCES.md, refs/ (4 contact sheets), GATE_RESULTS.md, proof/ (comparison sheets + zoomed frames
+                                                     z_*.jpg + trace.csv for before/before_f/final/final_f), tools/ (film.sh, GolfMannerismFilm.cs, sheet.py, zsheet.py), logs/
+Not changed: GolfGame.HoleOut.cs HoleOutReaction clip choice, GolferFootwork.cs, clips/FBX, HeroClearance tracks.
+Clone: ~/unity-clones/golf-mannerisms (its Scripts = chat A's last compiling snapshot + this chat's files, because C/E/G's mid-edits did not compile).

@@ -1,0 +1,528 @@
+ M AGENTS.md
+ M ArtDir/review/post-match/phone-finish-actions.png
+ M GolfArcade.xcodeproj/project.pbxproj
+ M GolfArcade/Unity/CharacterAssets/GolfKitHero_Female.json
+ M GolfArcade/Unity/CharacterAssets/GolfKitHero_Female.lzfse
+ M GolfArcade/Unity/CharacterAssets/GolfKitHero_Male.json
+ M GolfArcade/Unity/CharacterAssets/GolfKitHero_Male.lzfse
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Female.json
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Female.lzfse
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Female_Rig.lzfse
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_00.lzfse
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_01.lzfse
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_02.lzfse
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_03.lzfse
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_04.lzfse
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_05.lzfse
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_06.lzfse
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_07.lzfse
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_08.lzfse
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_09.lzfse
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_10.lzfse
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_11.lzfse
+ M GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_ShoeL_M.ktx
+ M GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_ShoeR_M.ktx
+ M GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_ShoeL_M.ktx
+ M GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_ShoeR_M.ktx
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_ShoeL_M.ktx
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_ShoeR_M.ktx
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_ShoeL_M.ktx
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_ShoeR_M.ktx
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Male.json
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Male.lzfse
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Male_Rig.lzfse
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_00.lzfse
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_01.lzfse
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_02.lzfse
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_03.lzfse
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_04.lzfse
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_05.lzfse
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_06.lzfse
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_07.lzfse
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_08.lzfse
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_09.lzfse
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_10.lzfse
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_11.lzfse
+ M GolfArcade/Unity/CharacterModelPreview.swift
+ M GolfArcade/Unity/ClubDesign.swift
+ M GolfArcade/Unity/ClubScreens.swift
+ M GolfArcade/Unity/IslandKit.swift
+ M GolfArcade/Unity/IslandScreens.swift
+ M GolfArcade/Unity/LockerStudio.swift
+ M GolfArcade/Unity/MatchHeroData.swift
+ M GolfArcade/Unity/MatchHeroMotion.swift
+ M GolfArcade/Unity/MatchHeroSurfaces.swift
+ M GolfArcade/Unity/MenuArt/map-resort.jpg
+ M GolfArcade/Unity/MenuArt/map-skyscraper.jpg
+ M GolfArcade/Unity/MenuArt/map-volcano.jpg
+ M GolfArcade/Unity/MotionClubMenus.swift
+ M GolfArcade/Unity/SportsDisplays.swift
+ M GolfArcade/Unity/SportsHome.swift
+ M GolfArcade/Unity/SportsRuntime.mm
+ M GolfArcade/Unity/SportsSession.swift
+ M GolfArcade/Unity/TennisMapScreen.swift
+ M GolfArcadeTests/LockerMirrorProofTests.swift
+ M GolfArcadeTests/LockerMirrorTests.swift
+ M GolfArcadeTests/LockerTests.swift
+ M GolfArcadeTests/MatchHeroLockerTests.swift
+ M GolfArcadeTests/MotionClubReviewTests.swift
+ M GolfArcadeTests/NewMenuSnapshotTests.swift
+ M GolfArcadeUnity.xcodeproj/project.pbxproj
+ M Unity/Assets/Editor/EmoteFilm.cs
+ M Unity/Assets/Editor/GolfCourseStandardCapture.cs
+ M Unity/Assets/Editor/GolfGarmentRepair.cs
+ M Unity/Assets/Editor/MatchHeroKit.cs
+ M Unity/Assets/Editor/MatchHeroLockerExport.cs
+ M Unity/Assets/Editor/MatchHeroProof.cs
+ M Unity/Assets/Editor/ProjectSetup.cs
+ M Unity/Assets/Editor/ServeAndFeetProof.cs
+ M Unity/Assets/Editor/TennisCharacterTextureImporter.cs
+ M Unity/Assets/Editor/TennisVenueCapture.cs
+ M Unity/Assets/Resources/Course/Shaders/GolfGround.shader
+ M Unity/Assets/Resources/Course/Shaders/GolfLava.shader
+ M Unity/Assets/Resources/Course/Shaders/GolfRock.shader
+ M Unity/Assets/Resources/Course/Shaders/GolfSurface.hlsl
+ M Unity/Assets/Resources/Course/hole_08.fbx.meta
+ M Unity/Assets/Resources/Course/hole_09.fbx.meta
+ M Unity/Assets/Resources/Course/hole_10.fbx.meta
+ M Unity/Assets/Resources/Golf/HeroDetail/Golf_Female_ShoeL_M.png
+ M Unity/Assets/Resources/Golf/HeroDetail/Golf_Female_ShoeR_M.png
+ M Unity/Assets/Resources/Golf/HeroDetail/Golf_Male_ShoeL_M.png
+ M Unity/Assets/Resources/Golf/HeroDetail/Golf_Male_ShoeR_M.png
+ M Unity/Assets/Resources/Tennis/Customization/PlayerFemaleGolfKit.prefab
+ M Unity/Assets/Resources/Tennis/HeroDetail/Kit_Female_ShoeL_M.png
+ M Unity/Assets/Resources/Tennis/HeroDetail/Kit_Female_ShoeR_M.png
+ M Unity/Assets/Resources/Tennis/HeroDetail/Kit_Male_ShoeL_M.png
+ M Unity/Assets/Resources/Tennis/HeroDetail/Kit_Male_ShoeR_M.png
+ M Unity/Assets/Resources/Tennis/KitsV3/Materials/KitV3_016.mat
+ M Unity/Assets/Resources/Tennis/Rendering/TennisURP.asset
+ M Unity/Assets/Resources/Tennis/Shaders/HeroLighting.hlsl
+ M Unity/Assets/Resources/Tennis/Shaders/TennisCharacter.shader
+ M Unity/Assets/Resources/Tennis/Shaders/TennisCloth.shader
+ M Unity/Assets/Resources/Tennis/Shaders/TennisShadowBlob.shader
+ M Unity/Assets/Resources/Tennis/Shaders/TennisSky.shader
+ M Unity/Assets/Resources/Tennis/Shaders/TennisWater.shader
+ M Unity/Assets/Resources/Tennis/TropicalV3/Materials/TropicalV3_002.mat
+ M Unity/Assets/Resources/Tennis/TropicalV3/Materials/TropicalV3_009.mat
+ M Unity/Assets/Resources/Tennis/TropicalV3/Materials/TropicalV3_010.mat
+ M Unity/Assets/Resources/Tennis/TropicalV3/Materials/TropicalV3_011.mat
+ M Unity/Assets/Scripts/Course/Backdrop.cs
+ M Unity/Assets/Scripts/Course/GolfAtmosphere.cs
+ M Unity/Assets/Scripts/Course/GolfCourseAtmosphere.cs
+ M Unity/Assets/Scripts/Course/GolfCourseFringe.cs
+ M Unity/Assets/Scripts/Course/GolfCourseLook.cs
+ M Unity/Assets/Scripts/Course/GolfLook.cs
+ M Unity/Assets/Scripts/Course/GolfPlantInstances.cs
+ M Unity/Assets/Scripts/Course/GolfSurfaceBatching.cs
+ M Unity/Assets/Scripts/Course/HoleView.cs
+ M Unity/Assets/Scripts/Course/LavaWorld.cs
+ M Unity/Assets/Scripts/Game/AimDots.cs
+ M Unity/Assets/Scripts/Game/CameraRig.cs
+ M Unity/Assets/Scripts/Game/Gallery.cs
+ M Unity/Assets/Scripts/Game/GameCapture.cs
+ M Unity/Assets/Scripts/Game/GolfGame.cs
+ M Unity/Assets/Scripts/Game/GolferView.cs
+ M Unity/Assets/Scripts/Game/HeroGolfer.cs
+ M Unity/Assets/Scripts/Game/NativeSportsSession.cs
+ M Unity/Assets/Scripts/Tennis/HeroLightingProfile.cs
+ M Unity/Assets/Scripts/Tennis/HeroTennisDriver.cs
+ M Unity/Assets/Scripts/Tennis/MatchHeroLook.cs
+ M Unity/Assets/Scripts/Tennis/TennisEnvironmentV4.cs
+ M Unity/Assets/Scripts/Tennis/TennisFx.cs
+ M Unity/Assets/Scripts/Tennis/TennisGame.cs
+ M Unity/Assets/Scripts/Tennis/TennisHud.cs
+ M Unity/Assets/Scripts/Tennis/TennisLook.cs
+ M Unity/Assets/Scripts/Tennis/TennisPresentation.cs
+ M Unity/Assets/Scripts/Tennis/TennisQuality.cs
+ M Unity/Assets/Scripts/Tennis/TennisResortCrowd.cs
+ M Unity/Assets/Scripts/Tennis/TennisStandsCrowd.cs
+ M Unity/Assets/Scripts/Tennis/TennisVenue.cs
+ M Unity/Assets/Scripts/Tennis/TennisVenueBuilder.Skyscraper.cs
+ M Unity/Assets/Scripts/Tennis/TennisVenueBuilder.Volcano.cs
+ M Unity/Assets/Scripts/Tennis/TennisVenueBuilder.cs
+ M Unity/Assets/Scripts/Tennis/TennisVenueFx.cs
+ M Unity/Assets/Scripts/UI/GolfShotHud.cs
+ M Unity/Assets/Scripts/UI/Hud.cs
+ M Unity/Assets/Scripts/UI/PinHud.cs
+ M Unity/Assets/Scripts/UI/UiKit.cs
+ M Unity/Assets/Shaders/GolfLegacyURP.hlsl
+ M Unity/Assets/Shaders/GolferClay.shader
+ M Unity/Assets/Shaders/HeroKit.shader
+ M Unity/Assets/Tests/EditMode/GolfCourseStandardTests.cs
+ M Unity/Assets/Tests/EditMode/PostcardHoleTests.cs
+ M Unity/Assets/Tests/PlayMode/GolfCourseStandardPlayTests.cs
+ M Unity/Assets/Tests/PlayMode/NativeSessionTests.cs
+ M Unity/Assets/Tests/PlayMode/PlayerBaseTests.cs
+ M Unity/Assets/Tests/PlayMode/StandardCharacterGameplayTests.cs
+ M Unity/ProjectSettings/GraphicsSettings.asset
+ M Unity/ProjectSettings/QualitySettings.asset
+ M blender/scripts/golf_clubs.py
+?? ArtDir/golf/
+?? ArtDir/hero/kit/premium/
+?? ArtDir/hero/source/
+?? ArtDir/tennis/
+?? ArtDir/ui/33_OPEN_WORLD_LOBBY_SOL_GOAL.txt
+?? GolfArcade/Unity/CharacterAssets/GolfKitHero_Female_Rig.lzfse
+?? GolfArcade/Unity/CharacterAssets/GolfKitHero_Male_Rig.lzfse
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Cloth_FabricAtlas.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Female_Distance.json
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Female_Distance.lzfse
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Female_Distance_Rig.lzfse
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Female_Distance_Swing_00.lzfse
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Female_Distance_Swing_01.lzfse
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Female_Distance_Swing_02.lzfse
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Female_Distance_Swing_03.lzfse
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Female_Distance_Swing_04.lzfse
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Female_Distance_Swing_05.lzfse
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Female_Distance_Swing_06.lzfse
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Female_Distance_Swing_07.lzfse
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Female_Distance_Swing_08.lzfse
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Female_Distance_Swing_09.lzfse
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Female_Distance_Swing_10.lzfse
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Female_Distance_Swing_11.lzfse
+?? GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_FabricAtlas.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_Bottom_M.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_Bottom_N.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_GloveL_M.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_GloveL_N.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_GloveR_M.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_GloveR_N.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_ShoeL_M.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_ShoeL_N.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_ShoeR_M.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_ShoeR_N.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_Top_M.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Female_Top_N.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_Bottom_M.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_Bottom_N.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_GloveL_M.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_GloveL_N.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_GloveR_M.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_GloveR_N.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_ShoeL_M.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_ShoeL_N.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_ShoeR_M.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_ShoeR_N.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_Top_M.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_GolfKit_Male_Top_N.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_Bottom_M.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_Bottom_N.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_ShoeL_M.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_ShoeL_N.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_ShoeR_M.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_ShoeR_N.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_SockL_M.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_SockL_N.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_SockR_M.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_SockR_N.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_Top_M.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_Top_N.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_Bottom_M.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_Bottom_N.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_ShoeL_M.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_ShoeL_N.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_ShoeR_M.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_ShoeR_N.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_SockL_M.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_SockL_N.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_SockR_M.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_SockR_N.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_Top_M.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_Top_N.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Male_Distance.json
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Male_Distance.lzfse
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Male_Distance_Rig.lzfse
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Male_Distance_Swing_00.lzfse
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Male_Distance_Swing_01.lzfse
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Male_Distance_Swing_02.lzfse
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Male_Distance_Swing_03.lzfse
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Male_Distance_Swing_04.lzfse
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Male_Distance_Swing_05.lzfse
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Male_Distance_Swing_06.lzfse
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Male_Distance_Swing_07.lzfse
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Male_Distance_Swing_08.lzfse
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Male_Distance_Swing_09.lzfse
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Male_Distance_Swing_10.lzfse
+?? GolfArcade/Unity/CharacterAssets/MatchHero_Male_Distance_Swing_11.lzfse
+?? GolfArcade/Unity/CharacterAssets/MatchHero_OriginalEye_RelativeIris.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_OriginalEye_RelativeSclera.png
+?? GolfArcade/Unity/CharacterAssets/MatchHero_OriginalSeam_RelativeSkinPigment.png
+?? GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_Driver.json
+?? GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_Iron.json
+?? GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_Putter.json
+?? GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_Wedge.json
+?? GolfArcade/Unity/MenuArt/map-golf-cliffside.jpg
+?? GolfArcade/Unity/MenuArt/map-golf-magma.jpg
+?? GolfArcade/Unity/MenuArt/map-golf-postcards.jpg
+?? GolfArcade/Unity/MenuArt/map-golf-wildisles.jpg
+?? GolfArcade/Unity/NativeGolfEquipment.swift
+?? GolfArcadeTests/VisualGolden/
+?? GolfArcadeTests/VisualOverhaulNativeTests.swift
+?? Unity/Assets/Editor/CurrentGolfSwingFilm.cs
+?? Unity/Assets/Editor/CurrentGolfSwingFilm.cs.meta
+?? Unity/Assets/Editor/CurrentTennisPointFilm.cs
+?? Unity/Assets/Editor/CurrentTennisPointFilm.cs.meta
+?? Unity/Assets/Editor/DiagnosticHandSurface.shader
+?? Unity/Assets/Editor/DiagnosticHandSurface.shader.meta
+?? Unity/Assets/Editor/GolfGalleryProof.cs
+?? Unity/Assets/Editor/GolfGalleryProof.cs.meta
+?? Unity/Assets/Editor/GolfMotionFilm.cs
+?? Unity/Assets/Editor/GolfMotionFilm.cs.meta
+?? Unity/Assets/Editor/GolfResortKitImporter.cs
+?? Unity/Assets/Editor/GolfResortKitImporter.cs.meta
+?? Unity/Assets/Editor/HeroBodyCoverageRepair.cs
+?? Unity/Assets/Editor/HeroBodyCoverageRepair.cs.meta
+?? Unity/Assets/Editor/HeroFeaturePoseAudit.cs
+?? Unity/Assets/Editor/HeroFeaturePoseAudit.cs.meta
+?? Unity/Assets/Editor/HeroFingerProbe.cs
+?? Unity/Assets/Editor/HeroFingerProbe.cs.meta
+?? Unity/Assets/Editor/HeroGarmentGussetRuntimeGate.cs
+?? Unity/Assets/Editor/HeroGarmentGussetRuntimeGate.cs.meta
+?? Unity/Assets/Editor/HeroGarmentPoseSnapshot.cs
+?? Unity/Assets/Editor/HeroGarmentPoseSnapshot.cs.meta
+?? Unity/Assets/Editor/HeroLidProbe.cs
+?? Unity/Assets/Editor/HeroLidProbe.cs.meta
+?? Unity/Assets/Editor/HeroReferenceImportAudit.cs
+?? Unity/Assets/Editor/HeroReferenceImportAudit.cs.meta
+?? Unity/Assets/Editor/HeroStarterPaletteProbe.cs
+?? Unity/Assets/Editor/HeroStarterPaletteProbe.cs.meta
+?? Unity/Assets/Editor/HeroThumbRigProbe.cs
+?? Unity/Assets/Editor/HeroThumbRigProbe.cs.meta
+?? Unity/Assets/Editor/PostcardV3Scratch
+?? Unity/Assets/Editor/PostcardV3Scratch.meta
+?? Unity/Assets/Editor/PremiumCharacterBuild.cs
+?? Unity/Assets/Editor/PremiumCharacterBuild.cs.meta
+?? Unity/Assets/Editor/TailoredPoloPoseProbe.cs
+?? Unity/Assets/Editor/TailoredPoloPoseProbe.cs.meta
+?? Unity/Assets/Editor/TennisActionFilm.cs
+?? Unity/Assets/Editor/TennisActionFilm.cs.meta
+?? Unity/Assets/Editor/TennisAudienceProof.cs
+?? Unity/Assets/Editor/TennisAudienceProof.cs.meta
+?? Unity/Assets/Editor/TennisCrowdProof.cs
+?? Unity/Assets/Editor/TennisCrowdProof.cs.meta
+?? Unity/Assets/Editor/TennisDiveFilm.cs
+?? Unity/Assets/Editor/TennisDiveFilm.cs.meta
+?? Unity/Assets/Editor/TennisFistProbe.cs
+?? Unity/Assets/Editor/TennisFistProbe.cs.meta
+?? Unity/Assets/Editor/TennisFrameCosts.cs
+?? Unity/Assets/Editor/TennisFrameCosts.cs.meta
+?? Unity/Assets/Editor/TennisLocomotionFilm.cs
+?? Unity/Assets/Editor/TennisLocomotionFilm.cs.meta
+?? Unity/Assets/Editor/TennisNpcInventory.cs
+?? Unity/Assets/Editor/TennisNpcInventory.cs.meta
+?? Unity/Assets/Editor/TennisPerformanceBuild.cs
+?? Unity/Assets/Editor/TennisPerformanceBuild.cs.meta
+?? Unity/Assets/Editor/TennisPerformanceFilm.cs
+?? Unity/Assets/Editor/TennisPerformanceFilm.cs.meta
+?? Unity/Assets/Editor/TennisPromenadeFilm.cs
+?? Unity/Assets/Editor/TennisPromenadeFilm.cs.meta
+?? Unity/Assets/Editor/TennisRenderBreakdown.cs
+?? Unity/Assets/Editor/TennisRenderBreakdown.cs.meta
+?? Unity/Assets/Editor/TennisSoleProbe.cs
+?? Unity/Assets/Editor/TennisSoleProbe.cs.meta
+?? Unity/Assets/Editor/TennisStrokeBuild.cs
+?? Unity/Assets/Editor/TennisStrokeBuild.cs.meta
+?? Unity/Assets/Editor/VisualOverhaulCharacterCapture.cs
+?? Unity/Assets/Editor/VisualOverhaulCharacterCapture.cs.meta
+?? Unity/Assets/Editor/VisualOverhaulCostDriver.cs
+?? Unity/Assets/Editor/VisualOverhaulCostDriver.cs.meta
+?? Unity/Assets/Editor/VisualOverhaulFrameCosts.cs
+?? Unity/Assets/Editor/VisualOverhaulFrameCosts.cs.meta
+?? Unity/Assets/Editor/VisualOverhaulGolfCharacterCapture.cs
+?? Unity/Assets/Editor/VisualOverhaulGolfCharacterCapture.cs.meta
+?? Unity/Assets/Resources/Course/Resort.meta
+?? Unity/Assets/Resources/Course/Resort/
+?? Unity/Assets/Resources/Course/Shaders/GolfBotanical.shader
+?? Unity/Assets/Resources/Course/Shaders/GolfBotanical.shader.meta
+?? Unity/Assets/Resources/Course/Shaders/GolfCoastalFoliage.shader
+?? Unity/Assets/Resources/Course/Shaders/GolfCoastalFoliage.shader.meta
+?? Unity/Assets/Resources/Course/Shaders/GolfCoastalTurf.shader
+?? Unity/Assets/Resources/Course/Shaders/GolfCoastalTurf.shader.meta
+?? Unity/Assets/Resources/Course/Shaders/GolfDistantLand.shader
+?? Unity/Assets/Resources/Course/Shaders/GolfDistantLand.shader.meta
+?? Unity/Assets/Resources/Course/Shaders/GolfIce.shader
+?? Unity/Assets/Resources/Course/Shaders/GolfIce.shader.meta
+?? Unity/Assets/Resources/Course/Shaders/GolfOcean.shader
+?? Unity/Assets/Resources/Course/Shaders/GolfOcean.shader.meta
+?? Unity/Assets/Resources/Course/Shaders/GolfResortSky.shader
+?? Unity/Assets/Resources/Course/Shaders/GolfResortSky.shader.meta
+?? Unity/Assets/Resources/Course/Shaders/GolfTurfField.hlsl
+?? Unity/Assets/Resources/Course/Shaders/GolfTurfField.hlsl.meta
+?? Unity/Assets/Resources/Golf/Covered_Female_Body.asset
+?? Unity/Assets/Resources/Golf/Covered_Female_Body.asset.meta
+?? Unity/Assets/Resources/Golf/Equipment.meta
+?? Unity/Assets/Resources/Golf/Equipment/
+?? Unity/Assets/Resources/Tennis/Characters/HiggsFemale_Mask.json
+?? Unity/Assets/Resources/Tennis/Characters/HiggsFemale_Mask.json.meta
+?? Unity/Assets/Resources/Tennis/Characters/HiggsFemale_Mask.png
+?? Unity/Assets/Resources/Tennis/Characters/HiggsFemale_Mask.png.meta
+?? Unity/Assets/Resources/Tennis/Characters/HiggsMale_Mask.json
+?? Unity/Assets/Resources/Tennis/Characters/HiggsMale_Mask.json.meta
+?? Unity/Assets/Resources/Tennis/Characters/HiggsMale_Mask.png
+?? Unity/Assets/Resources/Tennis/Characters/HiggsMale_Mask.png.meta
+?? Unity/Assets/Resources/Tennis/Correctives.meta
+?? Unity/Assets/Resources/Tennis/Correctives/
+?? Unity/Assets/Resources/Tennis/GarmentCoverage.meta
+?? Unity/Assets/Resources/Tennis/GarmentCoverage/
+?? Unity/Assets/Resources/Tennis/HeroDetail/FaceLids_Female.json
+?? Unity/Assets/Resources/Tennis/HeroDetail/FaceLids_Female.json.meta
+?? Unity/Assets/Resources/Tennis/HeroDetail/FaceLids_Male.json
+?? Unity/Assets/Resources/Tennis/HeroDetail/FaceLids_Male.json.meta
+?? Unity/Assets/Resources/Tennis/HeroReference.meta
+?? Unity/Assets/Resources/Tennis/HeroReference/
+?? Unity/Assets/Resources/Tennis/KitsFitted.meta
+?? Unity/Assets/Resources/Tennis/KitsFitted/
+?? Unity/Assets/Resources/Tennis/KitsLOD.meta
+?? Unity/Assets/Resources/Tennis/KitsLOD/
+?? Unity/Assets/Resources/Tennis/KitsTailored.meta
+?? Unity/Assets/Resources/Tennis/KitsTailored/
+?? Unity/Assets/Resources/Tennis/OriginalSeam.meta
+?? Unity/Assets/Resources/Tennis/OriginalSeam/
+?? Unity/Assets/Resources/Tennis/OriginalSeamBlinkFinish.meta
+?? Unity/Assets/Resources/Tennis/OriginalSeamBlinkFinish/
+?? Unity/Assets/Resources/Tennis/OriginalSeamEyeMaterial.meta
+?? Unity/Assets/Resources/Tennis/OriginalSeamEyeMaterial/
+?? Unity/Assets/Resources/Tennis/Performance.meta
+?? Unity/Assets/Resources/Tennis/Performance/
+?? Unity/Assets/Resources/Tennis/Premium.meta
+?? Unity/Assets/Resources/Tennis/Premium/
+?? Unity/Assets/Resources/Tennis/Shaders/HeroFaceDepth.hlsl
+?? Unity/Assets/Resources/Tennis/Shaders/HeroFaceDepth.hlsl.meta
+?? Unity/Assets/Resources/Tennis/Shaders/TennisBotanical.shader
+?? Unity/Assets/Resources/Tennis/Shaders/TennisBotanical.shader.meta
+?? Unity/Assets/Resources/Tennis/Shaders/TennisCloudAtmosphere.shader
+?? Unity/Assets/Resources/Tennis/Shaders/TennisCloudAtmosphere.shader.meta
+?? Unity/Assets/Resources/Tennis/Shaders/TennisCoastalSky.shader
+?? Unity/Assets/Resources/Tennis/Shaders/TennisCoastalSky.shader.meta
+?? Unity/Assets/Resources/Tennis/Shaders/TennisHorizon2.shader
+?? Unity/Assets/Resources/Tennis/Shaders/TennisHorizon2.shader.meta
+?? Unity/Assets/Resources/Tennis/Shaders/TennisLava.shader
+?? Unity/Assets/Resources/Tennis/Shaders/TennisLava.shader.meta
+?? Unity/Assets/Resources/Tennis/Shaders/TennisRooftopSky.shader
+?? Unity/Assets/Resources/Tennis/Shaders/TennisRooftopSky.shader.meta
+?? Unity/Assets/Resources/Tennis/Shaders/TennisSpectator.shader
+?? Unity/Assets/Resources/Tennis/Shaders/TennisSpectator.shader.meta
+?? Unity/Assets/Resources/Tennis/Shaders/TennisTowerAtmosphere.shader
+?? Unity/Assets/Resources/Tennis/Shaders/TennisTowerAtmosphere.shader.meta
+?? Unity/Assets/Resources/Tennis/Shaders/TennisVolcanicSky.shader
+?? Unity/Assets/Resources/Tennis/Shaders/TennisVolcanicSky.shader.meta
+?? Unity/Assets/Resources/Tennis/Shaders/TennisWorldSurface.shader
+?? Unity/Assets/Resources/Tennis/Shaders/TennisWorldSurface.shader.meta
+?? Unity/Assets/Resources/build_id.txt.meta
+?? Unity/Assets/Scripts/Course/GolfCliffSculpt.cs
+?? Unity/Assets/Scripts/Course/GolfCliffSculpt.cs.meta
+?? Unity/Assets/Scripts/Course/GolfCoastalBotany.cs
+?? Unity/Assets/Scripts/Course/GolfCoastalBotany.cs.meta
+?? Unity/Assets/Scripts/Course/GolfCoastalCliff12.cs
+?? Unity/Assets/Scripts/Course/GolfCoastalCliff12.cs.meta
+?? Unity/Assets/Scripts/Course/GolfCoastalComposition.cs
+?? Unity/Assets/Scripts/Course/GolfCoastalComposition.cs.meta
+?? Unity/Assets/Scripts/Course/GolfCoastalTurf.cs
+?? Unity/Assets/Scripts/Course/GolfCoastalTurf.cs.meta
+?? Unity/Assets/Scripts/Course/GolfLandmarkFinish.cs
+?? Unity/Assets/Scripts/Course/GolfLandmarkFinish.cs.meta
+?? Unity/Assets/Scripts/Course/GolfMaterialIdentity.cs
+?? Unity/Assets/Scripts/Course/GolfMaterialIdentity.cs.meta
+?? Unity/Assets/Scripts/Course/GolfMeadowWorld.cs
+?? Unity/Assets/Scripts/Course/GolfMeadowWorld.cs.meta
+?? Unity/Assets/Scripts/Course/GolfMovingTurfProofRunner.cs
+?? Unity/Assets/Scripts/Course/GolfMovingTurfProofRunner.cs.meta
+?? Unity/Assets/Scripts/Course/GolfResortDress.cs
+?? Unity/Assets/Scripts/Course/GolfResortDress.cs.meta
+?? Unity/Assets/Scripts/Course/GolfStoneFinish.cs
+?? Unity/Assets/Scripts/Course/GolfStoneFinish.cs.meta
+?? Unity/Assets/Scripts/Course/GolfTurfPalette.cs
+?? Unity/Assets/Scripts/Course/GolfTurfPalette.cs.meta
+?? Unity/Assets/Scripts/Course/GolfVisualPhysicsGate.cs
+?? Unity/Assets/Scripts/Course/GolfVisualPhysicsGate.cs.meta
+?? Unity/Assets/Scripts/Game/GolfGalleryPresentation.cs
+?? Unity/Assets/Scripts/Game/GolfGalleryPresentation.cs.meta
+?? Unity/Assets/Scripts/Game/GolfVisualBenchmark.cs
+?? Unity/Assets/Scripts/Game/GolfVisualBenchmark.cs.meta
+?? Unity/Assets/Scripts/Tennis/HeroActualLidFit.cs
+?? Unity/Assets/Scripts/Tennis/HeroActualLidFit.cs.meta
+?? Unity/Assets/Scripts/Tennis/HeroAuthoredHandPose.cs
+?? Unity/Assets/Scripts/Tennis/HeroAuthoredHandPose.cs.meta
+?? Unity/Assets/Scripts/Tennis/HeroBlinkNormalField.cs
+?? Unity/Assets/Scripts/Tennis/HeroBlinkNormalField.cs.meta
+?? Unity/Assets/Scripts/Tennis/HeroContinuousHandMesh.cs
+?? Unity/Assets/Scripts/Tennis/HeroContinuousHandMesh.cs.meta
+?? Unity/Assets/Scripts/Tennis/HeroEyeApertureForm.cs
+?? Unity/Assets/Scripts/Tennis/HeroEyeApertureForm.cs.meta
+?? Unity/Assets/Scripts/Tennis/HeroEyeRim.cs
+?? Unity/Assets/Scripts/Tennis/HeroEyeRim.cs.meta
+?? Unity/Assets/Scripts/Tennis/HeroFaceBasis.cs
+?? Unity/Assets/Scripts/Tennis/HeroFaceBasis.cs.meta
+?? Unity/Assets/Scripts/Tennis/HeroFaceCraft.cs
+?? Unity/Assets/Scripts/Tennis/HeroFaceCraft.cs.meta
+?? Unity/Assets/Scripts/Tennis/HeroFaceProjection.cs
+?? Unity/Assets/Scripts/Tennis/HeroFaceProjection.cs.meta
+?? Unity/Assets/Scripts/Tennis/HeroGarmentAxillaWeights.cs
+?? Unity/Assets/Scripts/Tennis/HeroGarmentAxillaWeights.cs.meta
+?? Unity/Assets/Scripts/Tennis/HeroGarmentCoverage.cs
+?? Unity/Assets/Scripts/Tennis/HeroGarmentCoverage.cs.meta
+?? Unity/Assets/Scripts/Tennis/HeroGarmentGusset.cs
+?? Unity/Assets/Scripts/Tennis/HeroGarmentGusset.cs.meta
+?? Unity/Assets/Scripts/Tennis/HeroGarmentGussetLifetime.cs
+?? Unity/Assets/Scripts/Tennis/HeroGarmentGussetLifetime.cs.meta
+?? Unity/Assets/Scripts/Tennis/HeroGarmentHemWeights.cs
+?? Unity/Assets/Scripts/Tennis/HeroGarmentHemWeights.cs.meta
+?? Unity/Assets/Scripts/Tennis/HeroGarmentLOD.cs
+?? Unity/Assets/Scripts/Tennis/HeroGarmentLOD.cs.meta
+?? Unity/Assets/Scripts/Tennis/HeroGarmentLocalFit.cs
+?? Unity/Assets/Scripts/Tennis/HeroGarmentLocalFit.cs.meta
+?? Unity/Assets/Scripts/Tennis/HeroGarmentPoseCorrectives.cs
+?? Unity/Assets/Scripts/Tennis/HeroGarmentPoseCorrectives.cs.meta
+?? Unity/Assets/Scripts/Tennis/HeroGarmentSleeveGeometry.cs
+?? Unity/Assets/Scripts/Tennis/HeroGarmentSleeveGeometry.cs.meta
+?? Unity/Assets/Scripts/Tennis/HeroGarmentTailoring.cs
+?? Unity/Assets/Scripts/Tennis/HeroGarmentTailoring.cs.meta
+?? Unity/Assets/Scripts/Tennis/HeroGripPolish.cs
+?? Unity/Assets/Scripts/Tennis/HeroGripPolish.cs.meta
+?? Unity/Assets/Scripts/Tennis/HeroHandNormalFields.cs
+?? Unity/Assets/Scripts/Tennis/HeroHandNormalFields.cs.meta
+?? Unity/Assets/Scripts/Tennis/HeroHandWeights.cs
+?? Unity/Assets/Scripts/Tennis/HeroHandWeights.cs.meta
+?? Unity/Assets/Scripts/Tennis/HeroHeadSurface.cs
+?? Unity/Assets/Scripts/Tennis/HeroHeadSurface.cs.meta
+?? Unity/Assets/Scripts/Tennis/HeroHeadVolume.cs
+?? Unity/Assets/Scripts/Tennis/HeroHeadVolume.cs.meta
+?? Unity/Assets/Scripts/Tennis/HeroLidGeometry.cs
+?? Unity/Assets/Scripts/Tennis/HeroLidGeometry.cs.meta
+?? Unity/Assets/Scripts/Tennis/HeroOriginalMaterial.cs
+?? Unity/Assets/Scripts/Tennis/HeroOriginalMaterial.cs.meta
+?? Unity/Assets/Scripts/Tennis/HeroOriginalSeamAnatomy.cs
+?? Unity/Assets/Scripts/Tennis/HeroOriginalSeamAnatomy.cs.meta
+?? Unity/Assets/Scripts/Tennis/HeroReferenceAnatomy.cs
+?? Unity/Assets/Scripts/Tennis/HeroReferenceAnatomy.cs.meta
+?? Unity/Assets/Scripts/Tennis/HeroShortsTailoring.cs
+?? Unity/Assets/Scripts/Tennis/HeroShortsTailoring.cs.meta
+?? Unity/Assets/Scripts/Tennis/HeroSkinNormals.cs
+?? Unity/Assets/Scripts/Tennis/HeroSkinNormals.cs.meta
+?? Unity/Assets/Scripts/Tennis/HeroTennisPerformance.cs
+?? Unity/Assets/Scripts/Tennis/HeroTennisPerformance.cs.meta
+?? Unity/Assets/Scripts/Tennis/HeroThumbRigMigration.cs
+?? Unity/Assets/Scripts/Tennis/HeroThumbRigMigration.cs.meta
+?? Unity/Assets/Scripts/Tennis/MatchHeroFacePerformance.cs
+?? Unity/Assets/Scripts/Tennis/MatchHeroFacePerformance.cs.meta
+?? Unity/Assets/Scripts/Tennis/SportsVisualTelemetry.cs
+?? Unity/Assets/Scripts/Tennis/SportsVisualTelemetry.cs.meta
+?? Unity/Assets/Scripts/Tennis/TennisHorizonMaterialOwner.cs
+?? Unity/Assets/Scripts/Tennis/TennisHorizonMaterialOwner.cs.meta
+?? Unity/Assets/Scripts/Tennis/TennisResortFixtures.cs
+?? Unity/Assets/Scripts/Tennis/TennisResortFixtures.cs.meta
+?? Unity/Assets/Scripts/Tennis/TennisResortMaterials.cs
+?? Unity/Assets/Scripts/Tennis/TennisResortMaterials.cs.meta
+?? Unity/Assets/Scripts/Tennis/TennisResortVista.cs
+?? Unity/Assets/Scripts/Tennis/TennisResortVista.cs.meta
+?? Unity/Assets/Scripts/Tennis/TennisShoeOcclusion.cs
+?? Unity/Assets/Scripts/Tennis/TennisShoeOcclusion.cs.meta
+?? Unity/Assets/Scripts/Tennis/TennisVenueArt.cs
+?? Unity/Assets/Scripts/Tennis/TennisVenueArt.cs.meta
+?? Unity/Assets/Tests/PlayMode/HeroGarmentRuntimeOrderTests.cs
+?? Unity/Assets/Tests/PlayMode/HeroGarmentRuntimeOrderTests.cs.meta
+?? Unity/work/
+?? VISUAL_OVERHAUL_ART_BIBLE.md
+?? VISUAL_OVERHAUL_LEDGER.md
+?? proof/
+?? work/

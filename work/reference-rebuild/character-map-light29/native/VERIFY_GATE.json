@@ -1,0 +1,12 @@
+{
+  "swiftParsePass": true,
+  "patchApplyCheckPass": true,
+  "sceneKitSDKContract": "SCNShadable.h: all surface geometric fields are view space; scn_frame.viewTransform is supported Metal uniform; surface emission writable",
+  "existingPerLightAndShoulderStringsExact": true,
+  "fillUsesSceneLightReferences": false,
+  "oncePerSurfaceInvocation": true,
+  "generatedSceneKitPipeline": "PENDING, requires root actual native render; standalone Metal syntax is not a GPU claim",
+  "standaloneMetalSyntaxPass": false,
+  "metalCompilerDiagnostic": "error: error: cannot execute tool 'metal' due to missing Metal Toolchain; use: xcodebuild -downloadComponent MetalToolchain\n",
+  "metalCompileGate": "PENDING: local Metal Toolchain missing"
+}

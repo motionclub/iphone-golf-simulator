@@ -16,6 +16,11 @@ namespace GolfArcade.Tennis
         static readonly Color PearlTop = Color.white, PearlBottom = new(.82f, .88f, 1f);
         static readonly Color CaptionTop = new(.16f, .24f, .55f);
 
+        /// The clear style (GolfArcade.UI.GlassKit.ClearStyle), in the tennis colours: no panels, the club card's lettering
+        /// (Rubik ExtraBold, a blue outline and a drop) straight on the picture, the points in soft gold.
+        static bool Clear => GolfArcade.UI.GlassKit.ClearStyle;
+        static Color Ink(Color c) => !Clear ? c : c == RallyNavy ? Color.white : c == RallyLime ? GolfArcade.UI.ThemeService.Current.accent : c == RallyCream ? Color.white : c;
+        static void Hide(Image img) { if (Clear && img) { img.color = new Color(1, 1, 1, 0); } }
         bool scoreOnly = true;
         Font font;
         Sprite rounded, disc, star, ball, rallyRounded;
@@ -185,7 +190,7 @@ namespace GolfArcade.Tennis
 
         public void Build(Canvas canvas)
         {
-            font = Resources.Load<Font>("Tennis/UI/Fonts/Rubik-Bold") ?? Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            font = Clear ? GolfArcade.UI.UiKit.Display : Resources.Load<Font>("Tennis/UI/Fonts/Rubik-Bold") ?? Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
             rounded = RoundedSprite(20); disc = DiscSprite(); star = StarSprite(); ball = BallSprite();
             root = (RectTransform)canvas.transform;
             var group = new GameObject("Match HUD").AddComponent<RectTransform>();
@@ -201,6 +206,7 @@ namespace GolfArcade.Tennis
             RallyLabel(plaque, "PTS", 10, new Vector2(130,48), new Vector2(62,20), RallyCream, TextAnchor.MiddleCenter);
             rows[0] = BuildRow(plaque, 17, RallyCream, RallyCream);
             rows[1] = BuildRow(plaque, -23, RallyCream, RallyCream);
+            // (the clear style's header words are the lettering: the game and points columns line up over their numbers)
             ballIcon = Box("Server ball", plaque, new Vector2(0,.5f), new Vector2(17,17), new Vector2(27,17), Color.white, ball, false).rectTransform;
             BuildServeMeter(group);
             BuildSwingCue(group);
@@ -216,15 +222,25 @@ namespace GolfArcade.Tennis
             var feedback = RallyPanel("Shot feedback", group, Vector2.zero, new Vector2(226,94), new Vector2(137,88), RallyNavy);
             feedbackPanel = feedback.rectTransform;
             var quality = Box("Quality", feedbackPanel, new Vector2(.5f,.5f), new Vector2(202,26), new Vector2(0,25), RallyLime, rallyRounded);
+            Hide(quality);
             gradeText = RallyLabel(quality.rectTransform, "PERFECT", 17, Vector2.zero, new Vector2(192,26), RallyNavy, TextAnchor.MiddleLeft);
             badgeCaption = RallyLabel(feedbackPanel, "", 16, new Vector2(0,-9), new Vector2(202,40), RallyCream, TextAnchor.MiddleLeft);
             feedbackPanel.gameObject.SetActive(false);
 
             var call = RallyPanel("Point call", group, new Vector2(.5f,1), new Vector2(320,90), new Vector2(0,-118), RallyNavy);
             callPanel = call.rectTransform;
-            Box("Lime accent", callPanel, new Vector2(0,.5f), new Vector2(4,62), new Vector2(8,0), RallyLime, rallyRounded);
+            if (!Clear) Box("Lime accent", callPanel, new Vector2(0,.5f), new Vector2(4,62), new Vector2(8,0), RallyLime, rallyRounded);
             callFallback = RallyLabel(callPanel, "", 30, new Vector2(0,13), new Vector2(284,38), RallyLime, TextAnchor.MiddleCenter);
             callSub = RallyLabel(callPanel, "", 13, new Vector2(0,-22), new Vector2(284,26), RallyCream, TextAnchor.MiddleCenter);
+            if (Clear)
+            {
+                // the callout is just big words with a smaller line under them: wide boxes, no pill
+                callPanel.sizeDelta = new Vector2(640, 130);
+                callFallback.rectTransform.sizeDelta = new Vector2(1240, 130); callFallback.rectTransform.anchoredPosition = new Vector2(0, 8);
+                callFallback.color = Color.white;
+                callSub.rectTransform.sizeDelta = new Vector2(1240, 50); callSub.rectTransform.anchoredPosition = new Vector2(0, -50);
+                callSub.resizeTextMinSize = 40; callSub.resizeTextMaxSize = 70;
+            }
             callPanel.gameObject.SetActive(false);
 
             // Supercharge pips beside the contact racket.
@@ -246,6 +262,7 @@ namespace GolfArcade.Tennis
         Image RallyPanel(string name, RectTransform parent, Vector2 anchor, Vector2 size, Vector2 pos, Color color)
         {
             var panel = Box(name, parent, anchor, size, pos, color, rallyRounded);
+            if (Clear) { Hide(panel); return panel; }   // (a place for the lettering, nothing drawn)
             var shadow = panel.gameObject.AddComponent<Shadow>(); shadow.effectColor = new Color(.015f,.03f,.06f,.35f); shadow.effectDistance = new Vector2(0,-4);
             Box("Top highlight", panel.rectTransform, new Vector2(.5f,1), new Vector2(size.x-16,1), new Vector2(0,-1), new Color(1,1,1,.14f), null);
             return panel;
@@ -253,7 +270,8 @@ namespace GolfArcade.Tennis
 
         Text RallyLabel(RectTransform parent, string text, int size, Vector2 pos, Vector2 box, Color color, TextAnchor align)
         {
-            var label = Label(parent,text,size * 2,pos,box * 2,color,align,0);
+            var label = Label(parent,text,size * 2,pos,box * 2,Ink(color),align,0);
+            if (Clear) { GolfArcade.UI.GlassKit.Outline(label); }
             label.horizontalOverflow = HorizontalWrapMode.Wrap;
             label.verticalOverflow = VerticalWrapMode.Truncate;
             label.resizeTextForBestFit = true; label.resizeTextMinSize = Mathf.Max(10,size-5) * 2; label.resizeTextMaxSize = size * 2;
@@ -266,13 +284,18 @@ namespace GolfArcade.Tennis
         {
             var row = new Row();
             row.tag = Box("Player name", body, new Vector2(0,.5f), new Vector2(212,36), new Vector2(116,y), RallyCream, rallyRounded).rectTransform;
+            Hide(row.tag.GetComponent<Image>());
             row.name = RallyLabel(row.tag,"",19,new Vector2(12,0),new Vector2(160,34),RallyNavy,TextAnchor.MiddleLeft);
             row.coin = Box("Games",body,new Vector2(0,.5f),new Vector2(44,36),new Vector2(246,y),RallyCream,rallyRounded).rectTransform;
+            Hide(row.coin.GetComponent<Image>());
             row.games = RallyLabel(row.coin,"0",22,Vector2.zero,new Vector2(42,34),RallyNavy,TextAnchor.MiddleCenter);
             row.cell = Box("Points",body,new Vector2(0,.5f),new Vector2(68,36),new Vector2(306,y),RallyLime,rallyRounded).rectTransform;
+            Hide(row.cell.GetComponent<Image>());
             row.points = RallyLabel(row.cell,"0",28,Vector2.zero,new Vector2(64,34),RallyNavy,TextAnchor.MiddleCenter);
+            if (Clear) row.points.color = GolfArcade.UI.ThemeService.Current.accent;
             row.flash = Box("Score flash",row.cell,new Vector2(.5f,.5f),new Vector2(68,36),Vector2.zero,Color.white,rallyRounded);
             row.flash.canvasRenderer.SetAlpha(0);
+            if (Clear) row.flash.enabled = false;
             return row;
         }
 
@@ -393,7 +416,7 @@ namespace GolfArcade.Tennis
         public void ShowPointResult(string winnerName, string detail, bool good) {
             calls.Clear();
             callFallback.text = winnerName.ToUpperInvariant() + " SCORED";
-            callFallback.resizeTextForBestFit = true; callFallback.resizeTextMinSize = 28; callFallback.resizeTextMaxSize = 60;
+            callFallback.resizeTextForBestFit = true; callFallback.resizeTextMinSize = Clear ? 60 : 28; callFallback.resizeTextMaxSize = Clear ? 124 : 60;
             callSub.text = detail;
             callPanel.gameObject.SetActive(true);
             callAt = HudClock.Now; callDuration = 3f;
@@ -402,7 +425,7 @@ namespace GolfArcade.Tennis
         public void ShowNotice(string title, string detail) {
             calls.Clear();
             callFallback.text = title.ToUpperInvariant();
-            callFallback.resizeTextForBestFit = true; callFallback.resizeTextMinSize = 28; callFallback.resizeTextMaxSize = 60;
+            callFallback.resizeTextForBestFit = true; callFallback.resizeTextMinSize = Clear ? 60 : 28; callFallback.resizeTextMaxSize = Clear ? 124 : 60;
             callSub.text = detail ?? "";
             callPanel.gameObject.SetActive(true);
             callAt = HudClock.Now; callDuration = 3f;
@@ -616,22 +639,44 @@ namespace GolfArcade.Tennis
         // full at the top, where a small gold band marks the perfect window. It locks where
         // the player swung. The toss meter itself lives on the phone (no display lag there);
         // its grade shows above the bar.
-        const float MeterHeight = 300;
+        // (the clear style's serve bar is a big one: it is what you are looking at while you toss)
+        static float MeterHeight => Clear ? 420 : 300;
+        static float MeterWidth => Clear ? 76 : 48;
+        static float MeterInner => Clear ? 56 : 36;
+        RectTransform pearl; Image pearlCore;
         RectTransform meter, meterFill; Image meterFillImage; Text meterLabel, tossLabel;
         float meterValue, meterLockedAt = -10, tossAt = -10; bool meterLocked, meterPerfect;
 
         void BuildServeMeter(RectTransform group)
         {
-            var body = Chunky("Serve power", group, new Vector2(1, .5f), new Vector2(48, MeterHeight), new Vector2(-96, 10), new Color(.10f, .16f, .40f), NavyDeep, 4);
+            var body = Chunky("Serve power", group, new Vector2(1, .5f), new Vector2(MeterWidth, MeterHeight), new Vector2(Clear ? -78 : -96, 10), new Color(.10f, .16f, .40f), NavyDeep, Clear ? 7 : 4);
             meter = (RectTransform)body.transform.parent;
+            if (Clear)
+            {
+                // a white-rimmed blue track with a gold fill, like the golf power bar
+                meter.GetComponent<Image>().color = Color.white;
+                var grad = body.GetComponent<UiGradient>(); if (grad) Destroy(grad);
+                body.color = GolfArcade.UI.UiKit.Hex("1F62D6");
+                foreach (var gloss in body.GetComponentsInChildren<Image>()) if (gloss != body && gloss.name == "Gloss") gloss.enabled = false;
+            }
             float band = MeterHeight * (1 - TennisRules.ServePowerAt(TennisRules.ServePerfectWindow));
-            var perfect = Box("Perfect window", body.rectTransform, new Vector2(.5f, 1), new Vector2(48, Mathf.Max(4, band)), new Vector2(0, -Mathf.Max(4, band) / 2), Color.white, rounded);
+            var perfect = Box("Perfect window", body.rectTransform, new Vector2(.5f, 1), new Vector2(MeterWidth, Mathf.Max(Clear ? 22 : 4, band)), new Vector2(0, -Mathf.Max(Clear ? 22 : 4, band) / 2), Color.white, rounded);
             UiGradient.On(perfect, GoldTop, GoldBottom);
-            meterFillImage = Box("Fill", body.rectTransform, new Vector2(.5f, 0), new Vector2(36, 0), Vector2.zero, Color.white, rounded);
-            UiGradient.On(meterFillImage, SunTop, SunBottom);
+            meterFillImage = Box("Fill", body.rectTransform, new Vector2(.5f, 0), new Vector2(MeterInner, 0), Vector2.zero, Color.white, rounded);
+            if (Clear) { var gold = GolfArcade.UI.ThemeService.Current.accent; UiGradient.On(meterFillImage, gold, Color.Lerp(gold, Color.white, .0f) * .92f); }
+            else UiGradient.On(meterFillImage, SunTop, SunBottom);
             meterFill = meterFillImage.rectTransform; meterFill.pivot = new Vector2(.5f, 0); meterFill.anchoredPosition = new Vector2(0, 6);
-            meterLabel = Label(meter, "POWER", 20, new Vector2(0, -MeterHeight / 2 - 26), new Vector2(160, 30), Color.white, TextAnchor.MiddleCenter, 2f);
-            tossLabel = Label(meter, "", 22, new Vector2(-10, MeterHeight / 2 + 30), new Vector2(260, 30), GoldTop, TextAnchor.MiddleCenter, 2.2f);
+            meterLabel = Label(meter, "POWER", Clear ? 36 : 20, new Vector2(0, -MeterHeight / 2 - (Clear ? 34 : 26)), new Vector2(260, 46), Color.white, TextAnchor.MiddleCenter, Clear ? 3f : 2f);
+            if (Clear)
+            {
+                // a drop under the bar, and the pearl riding the tip of the fill (a white ring round a gold core, like the golf bar's)
+                var drop = meter.gameObject.AddComponent<Shadow>(); drop.effectColor = new Color(0, .03f, .12f, .38f); drop.effectDistance = new Vector2(0, -10);
+                var ring = Box("Pearl ring", body.rectTransform, new Vector2(.5f, 0), new Vector2(MeterWidth - 2, MeterWidth - 2), Vector2.zero, Color.white, disc, false);
+                pearl = ring.rectTransform;
+                pearlCore = Box("Pearl", ring.rectTransform, new Vector2(.5f, .5f), new Vector2(MeterWidth - 18, MeterWidth - 18), Vector2.zero, GolfArcade.UI.ThemeService.Current.accent, disc, false);
+                ring.enabled = pearlCore.enabled = false;
+            }
+            tossLabel = Label(meter, "", Clear ? 30 : 22, new Vector2(-10, MeterHeight / 2 + (Clear ? 36 : 30)), new Vector2(320, 40), GoldTop, TextAnchor.MiddleCenter, 2.2f);
             meter.gameObject.SetActive(false);
         }
 
@@ -668,7 +713,15 @@ namespace GolfArcade.Tennis
         {
             if (!meter || !meter.gameObject.activeSelf) return;
             float h = (MeterHeight - 12) * Mathf.Clamp01(meterValue);
-            meterFill.sizeDelta = new Vector2(36, Mathf.Lerp(meterFill.sizeDelta.y, h, meterLocked ? 1 : .6f));
+            meterFill.sizeDelta = new Vector2(MeterInner, Mathf.Lerp(meterFill.sizeDelta.y, h, meterLocked ? 1 : .6f));
+            if (pearl)
+            {
+                // the pearl at the top of the fill, and the live power under the bar until it locks
+                bool on = meterValue > .01f; pearl.GetComponent<Image>().enabled = pearlCore.enabled = on;
+                pearl.anchoredPosition = new Vector2(0, 6 + meterFill.sizeDelta.y);
+                if (!meterLocked) meterLabel.text = $"{Mathf.RoundToInt(meterValue * 100)}%";
+                if (meterLocked && meterPerfect) pearlCore.color = Color.Lerp(GolfArcade.UI.ThemeService.Current.accent, Color.white, Mathf.PingPong(now * 6, 1));
+            }
             float since = Age(now, meterLockedAt);
             meter.localScale = Vector3.one * (meterLocked && since < .4f ? 1 + .18f * Mathf.Exp(-since * 8) * Mathf.Cos(since * 20) : 1);
             meterFillImage.color = meterLocked && meterPerfect ? Color.Lerp(Color.white, new Color(1, .95f, .6f), Mathf.PingPong(now * 6, 1)) : Color.white;

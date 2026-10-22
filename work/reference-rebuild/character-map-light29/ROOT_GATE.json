@@ -1,0 +1,19 @@
+{
+  "status": "ACCEPTED: Unity default presentation fill",
+  "scope": [
+    "golf12_coastal",
+    "golf17_snow",
+    "golf21_lava",
+    "tennis_resort",
+    "tennis_skyscraper",
+    "tennis_volcano"
+  ],
+  "strength": 0.65,
+  "review": "Root viewed matching resort intro, golf face12/21 and gameplay17, tennis rooftop/volcano face controls+candidate. Candidate lifts face midtones and cloth colour while keeping directional modelling and scene look. Remaining facial forms and cloth deformation remain separate defects.",
+  "technical": "All 8 paired environment jobs exit0, no shader or C# errors. Desktop Metal only.",
+  "limitations": [
+    "No physical phone tests per user request",
+    "Native presentation equivalent pending",
+    "Close golf view currently three-quarter profile due address pose"
+  ]
+}

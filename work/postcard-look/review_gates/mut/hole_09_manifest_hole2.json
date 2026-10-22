@@ -1,0 +1,26 @@
+[
+ {
+  "name": "rt_top_face_delete",
+  "expect": [
+   "PLAY_SURFACE_TOPS",
+   "PLAY_SURFACE_GRID"
+  ],
+  "kind": "redteam",
+  "note": "BUNKER_01_LIP polygon 24 (1.02 m2 at -5.0,178.0; under it: TERRAIN_SPLIT 445 mm lower) deleted; vertices kept -> GroundHeight misses there",
+  "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_09_rt_top_face_delete.blend",
+  "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_09_rt_top_face_delete.fbx",
+  "look": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/st/Look"
+ },
+ {
+  "name": "rt_top_face_flip",
+  "expect": [
+   "PLAY_SURFACE_TOPS",
+   "PLAY_SURFACE_GRID"
+  ],
+  "kind": "redteam",
+  "note": "BUNKER_01_LIP polygon 24 (1.02 m2 at -5.0,178.0; under it: TERRAIN_SPLIT 445 mm lower) flipped (single-sided collider); vertices kept -> GroundHeight misses there",
+  "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_09_rt_top_face_flip.blend",
+  "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/mut/hole_09_rt_top_face_flip.fbx",
+  "look": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/review_gates/st/Look"
+ }
+]

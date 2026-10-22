@@ -1,0 +1,16 @@
+{
+  "status": "REJECTED actual14 sparse upright stubble; restored prior12 runtime/resource",
+  "ballClubReadability": "PASS",
+  "compileRender": "PASS22.75s",
+  "restored": [
+    {
+      "path": "Unity/Assets/Resources/Course/Resort/CoastalTurf.fbx",
+      "restoredSha256": "859ea137735f2f35cb52002ed5ae3f8c3327e39fa2cd44f6c35ae245f81f71a6"
+    },
+    {
+      "path": "Unity/Assets/Scripts/Course/GolfCoastalTurf.cs",
+      "restoredSha256": "88f3ffdd7c865a9ac3da8c57c2728b76070816b673262a7ebe2b06db62d1f308"
+    }
+  ],
+  "sourceCandidateNext": "Off-Assets dense overlapping fans; no shading/palette changes"
+}

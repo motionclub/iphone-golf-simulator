@@ -1,0 +1,237 @@
+{
+  "representations": [
+    {
+      "label": "control",
+      "role": "far",
+      "triangles": 4104,
+      "vertices": 3496,
+      "pivotSchema": [
+        -1.0,
+        0.9
+      ],
+      "roles": [
+        "RESORT_BARK",
+        "RESORT_LEAF_DARK",
+        "RESORT_LEAF_MID",
+        "RESORT_LEAF_LIGHT"
+      ],
+      "golfBounds": {
+        "min": [
+          -8.809656143188477,
+          -10.238500595092773,
+          -0.06910685449838638
+        ],
+        "max": [
+          10.391458511352539,
+          9.740478515625,
+          19.506677627563477
+        ]
+      }
+    },
+    {
+      "label": "control",
+      "role": "near",
+      "triangles": 12380,
+      "vertices": 10418,
+      "pivotSchema": [
+        -1.0,
+        0.9
+      ],
+      "roles": [
+        "RESORT_BARK",
+        "RESORT_LEAF_DARK",
+        "RESORT_LEAF_MID",
+        "RESORT_LEAF_LIGHT"
+      ],
+      "golfBounds": {
+        "min": [
+          -8.530850410461426,
+          -9.552098274230957,
+          -0.06910685449838638
+        ],
+        "max": [
+          10.474133491516113,
+          9.098642349243164,
+          19.477523803710938
+        ]
+      }
+    },
+    {
+      "label": "canopy20",
+      "role": "far",
+      "triangles": 2316,
+      "vertices": 2444,
+      "pivotSchema": [
+        -1.0,
+        0.9
+      ],
+      "roles": [
+        "RESORT_BARK.001",
+        "RESORT_LEAF_DARK.001",
+        "RESORT_LEAF_MID.001",
+        "RESORT_LEAF_LIGHT.001",
+        "RESORT_CORAL",
+        "RESORT_GOLD",
+        "RESORT_STONE"
+      ],
+      "golfBounds": {
+        "min": [
+          -7.713561534881592,
+          -9.00207805633545,
+          0.0
+        ],
+        "max": [
+          9.714836120605469,
+          8.499144554138184,
+          20.051427841186523
+        ]
+      }
+    },
+    {
+      "label": "canopy20",
+      "role": "near",
+      "triangles": 11396,
+      "vertices": 10398,
+      "pivotSchema": [
+        -1.0,
+        0.9
+      ],
+      "roles": [
+        "RESORT_BARK.001",
+        "RESORT_LEAF_DARK.001",
+        "RESORT_LEAF_MID.001",
+        "RESORT_LEAF_LIGHT.001",
+        "RESORT_CORAL",
+        "RESORT_GOLD",
+        "RESORT_STONE"
+      ],
+      "golfBounds": {
+        "min": [
+          -7.588351249694824,
+          -9.416013717651367,
+          0.0
+        ],
+        "max": [
+          10.301785469055176,
+          8.779762268066406,
+          20.083295822143555
+        ]
+      }
+    },
+    {
+      "label": "candidate",
+      "role": "far",
+      "triangles": 15108,
+      "vertices": 13496,
+      "pivotSchema": [
+        -1.0,
+        0.9
+      ],
+      "roles": [
+        "RESORT_BARK.002",
+        "RESORT_LEAF_DARK.002",
+        "RESORT_LEAF_MID.002",
+        "RESORT_LEAF_LIGHT.002",
+        "RESORT_CORAL.001",
+        "RESORT_GOLD.001",
+        "RESORT_STONE.001"
+      ],
+      "golfBounds": {
+        "min": [
+          -7.662945747375488,
+          -9.475557327270508,
+          0.0
+        ],
+        "max": [
+          10.335887908935547,
+          8.817601203918457,
+          20.256820678710938
+        ]
+      }
+    },
+    {
+      "label": "candidate",
+      "role": "near",
+      "triangles": 20252,
+      "vertices": 17472,
+      "pivotSchema": [
+        -1.0,
+        0.9
+      ],
+      "roles": [
+        "RESORT_BARK.002",
+        "RESORT_LEAF_DARK.002",
+        "RESORT_LEAF_MID.002",
+        "RESORT_LEAF_LIGHT.002",
+        "RESORT_CORAL.001",
+        "RESORT_GOLD.001",
+        "RESORT_STONE.001"
+      ],
+      "golfBounds": {
+        "min": [
+          -7.635300636291504,
+          -9.455384254455566,
+          0.0
+        ],
+        "max": [
+          10.318182945251465,
+          8.795181274414062,
+          20.249534606933594
+        ]
+      }
+    }
+  ],
+  "courses": [
+    {
+      "hole": 16,
+      "treeMarkers": 48,
+      "originalAllNear": 594240,
+      "originalAllFar": 196992,
+      "canopy20AllNear": 547008,
+      "canopy20AllFar": 111168,
+      "candidateAllNear": 972096,
+      "candidateAllFar": 725184
+    },
+    {
+      "hole": 19,
+      "treeMarkers": 46,
+      "originalAllNear": 569480,
+      "originalAllFar": 188784,
+      "canopy20AllNear": 524216,
+      "canopy20AllFar": 106536,
+      "candidateAllNear": 931592,
+      "candidateAllFar": 694968
+    },
+    {
+      "hole": 21,
+      "treeMarkers": 12,
+      "originalAllNear": 148560,
+      "originalAllFar": 49248,
+      "canopy20AllNear": 136752,
+      "canopy20AllFar": 27792,
+      "candidateAllNear": 243024,
+      "candidateAllFar": 181296
+    },
+    {
+      "hole": 22,
+      "treeMarkers": 12,
+      "originalAllNear": 148560,
+      "originalAllFar": 49248,
+      "canopy20AllNear": 136752,
+      "canopy20AllFar": 27792,
+      "candidateAllNear": 243024,
+      "candidateAllFar": 181296
+    },
+    {
+      "hole": 23,
+      "treeMarkers": 19,
+      "originalAllNear": 235220,
+      "originalAllFar": 77976,
+      "canopy20AllNear": 216524,
+      "canopy20AllFar": 44004,
+      "candidateAllNear": 384788,
+      "candidateAllFar": 287052
+    }
+  ],
+  "note": "Triangle envelopes for original palm markers, not measured GPU cost or proof of phone performance. Candidate deliberately retains curved rich far leaves; far mesh is6.52x canopy20 and3.68x original Golf far. Actual LOD selection and pass count determine submission."
+}

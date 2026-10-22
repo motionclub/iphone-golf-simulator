@@ -1,0 +1,25 @@
+{
+  "tool": "PostcardLookStills",
+  "unity": "6000.3.24f1",
+  "pipeline": "HeroBaseStudioURP",
+  "qualityLevel": 2,
+  "board": false,
+  "size": [900, 1600],
+  "shots": [
+    { "name": "r_hole08_tee", "hole": 8, "file": "r_hole08_tee.png",
+      "camera": { "pos": [-0.4776, 9.2842, -4.4746], "look": [-0.3791, 8.9128, -3.5513], "fov": 60 },
+      "mean_rgb": [194.0652, 239.7297, 106.3219], "luminance": 220.3894,
+      "central_lower_third": { "region": [300, 0, 600, 533], "mean_rgb": [203.1165, 255, 92.6643], "mean_hsv": [79.1764, 0.6366, 1], "luminance": 232.2489 },
+      "hue_bands": { "red_0_30": 0.0418, "orange_30_60": 0.1004, "yellow_60_90": 0.5802, "lime_90_120": 0.2182, "green_120_150": 0.0007, "spring_150_180": 0.0001, "cyan_180_210": 0.0123, "azure_210_240": 0.014, "blue_240_270": 0, "violet_270_300": 0, "magenta_300_330": 0, "rose_330_360": 0, "grey": 0.0324, "dark": 0 } },
+    { "name": "r_hole09_tee", "hole": 9, "file": "r_hole09_tee.png",
+      "camera": { "pos": [-0.2247, 9.2841, -4.4944], "look": [-0.1784, 8.9128, -3.5671], "fov": 60 },
+      "mean_rgb": [204.8046, 247.1709, 130.1166], "luminance": 229.7125,
+      "central_lower_third": { "region": [300, 0, 600, 533], "mean_rgb": [218, 255, 112.1784], "mean_hsv": [75.5439, 0.5601, 1], "luminance": 236.8221 },
+      "hue_bands": { "red_0_30": 0, "orange_30_60": 0, "yellow_60_90": 0.652, "lime_90_120": 0.1755, "green_120_150": 0.0014, "spring_150_180": 0.0003, "cyan_180_210": 0.005, "azure_210_240": 0.0606, "blue_240_270": 0, "violet_270_300": 0, "magenta_300_330": 0, "rose_330_360": 0, "grey": 0.1051, "dark": 0 } },
+    { "name": "r_hole10_lava", "hole": 10, "file": "r_hole10_lava.png",
+      "camera": { "pos": [100, 11, 150], "look": [100.9811, 10.8895, 150.1589], "fov": 50 },
+      "mean_rgb": [149.8392, 115.0099, 54.6884], "luminance": 118.0594,
+      "central_lower_third": { "region": [300, 0, 600, 533], "mean_rgb": [152.0374, 195.6674, 63.2401], "mean_hsv": [79.7678, 0.6768, 0.7673], "luminance": 176.8304 },
+      "hue_bands": { "red_0_30": 0.4744, "orange_30_60": 0.0005, "yellow_60_90": 0.3624, "lime_90_120": 0.0006, "green_120_150": 0, "spring_150_180": 0, "cyan_180_210": 0, "azure_210_240": 0, "blue_240_270": 0, "violet_270_300": 0, "magenta_300_330": 0.0015, "rose_330_360": 0.1607, "grey": 0, "dark": 0 } }
+  ]
+}

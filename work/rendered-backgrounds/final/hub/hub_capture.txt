@@ -1,0 +1,15 @@
+sun dir_to_light=(0.0632, 0.4226, -0.9041) azimuth_deg=176.00 elevation_deg=25.00
+rendered_sky_disc dir=(0.0632, 0.4226, -0.9041)
+rendered_sky_scatter dir=(0.0687, 0.1728, -0.9826) azimuth_deg=176.00
+old painted sun disc present=False
+landmark crane Cloud4 dist_m=5490 radius_m=0 a_px=(709.37,214.86) b_px=(694.76,214.86) predicted_dx=-14.608
+landmark crane Cloud5 dist_m=3969 radius_m=0 a_px=(1712.60,235.76) b_px=(1689.79,235.76) predicted_dx=-22.813
+landmark crane Cloud7 dist_m=7255 radius_m=0 a_px=(129.14,269.51) b_px=(116.38,269.51) predicted_dx=-12.764
+landmark crane Cloud9 dist_m=10738 radius_m=0 a_px=(1563.24,399.60) b_px=(1555.34,399.60) predicted_dx=-7.906
+landmark crane Cloud12 dist_m=8621 radius_m=0 a_px=(235.00,362.46) b_px=(224.74,362.46) predicted_dx=-10.266
+landmark crane Cloud17 dist_m=3085 radius_m=0 a_px=(442.43,181.85) b_px=(414.82,181.85) predicted_dx=-27.603
+landmark crane Cloud18 dist_m=6411 radius_m=0 a_px=(1409.67,340.82) b_px=(1396.91,340.82) predicted_dx=-12.766
+perfAB spawn 1920x1080 painted_median_ms=7.822 rendered_median_ms=7.955 delta_median_ms=0.133 n=200/200
+perfAB overview 1920x1080 painted_median_ms=7.077 rendered_median_ms=7.871 delta_median_ms=0.794 n=200/200
+room 07_tennis_court: sun=Golden-hour sun (0.063, 0.423, -0.904) params=(16.00, 0.00, 0.00, 15.24) sunDir=(0.06, 0.42, -0.90, 0.01) cam=(200.0, -996.6, -11.0) far=60 clear=SolidColor skybox=none domes=(200, -1000, 0) r42 vis=True en=True | (400, -1000, 0) r42 vis=False en=True | (0, 0, 0) r760 vis=False en=True | (0, -1000, 10) r34 vis=False en=True
+room 08_golf_range: sun=Golden-hour sun (0.063, 0.423, -0.904) params=(16.00, 0.00, 0.00, 17.86) sunDir=(0.06, 0.42, -0.90, 0.01) cam=(400.0, -996.6, -11.0) far=60 clear=SolidColor skybox=none domes=(200, -1000, 0) r42 vis=False en=True | (400, -1000, 0) r42 vis=True en=True | (0, 0, 0) r760 vis=False en=True | (0, -1000, 10) r34 vis=False en=True

@@ -1,0 +1,66 @@
+{
+ "start": {
+  "bald_front": {
+   "xor": 3224,
+   "union": 74990,
+   "pct": 4.299
+  },
+  "bald_back": {
+   "xor": 3402,
+   "union": 74310,
+   "pct": 4.578
+  },
+  "left": {
+   "xor": 1055,
+   "union": 11262,
+   "pct": 9.368
+  },
+  "right": {
+   "xor": 1140,
+   "union": 11446,
+   "pct": 9.96
+  },
+  "sheet_front": {
+   "xor": 1335,
+   "union": 18650,
+   "pct": 7.158
+  },
+  "sheet_back": {
+   "xor": 1491,
+   "union": 18587,
+   "pct": 8.022
+  }
+ },
+ "final": {
+  "bald_front": {
+   "xor": 3248,
+   "union": 74925,
+   "pct": 4.335
+  },
+  "bald_back": {
+   "xor": 3232,
+   "union": 74146,
+   "pct": 4.359
+  },
+  "left": {
+   "xor": 1058,
+   "union": 11260,
+   "pct": 9.396
+  },
+  "right": {
+   "xor": 1137,
+   "union": 11443,
+   "pct": 9.936
+  },
+  "sheet_front": {
+   "xor": 1346,
+   "union": 18637,
+   "pct": 7.222
+  },
+  "sheet_back": {
+   "xor": 1458,
+   "union": 18553,
+   "pct": 7.859
+  }
+ }
+}

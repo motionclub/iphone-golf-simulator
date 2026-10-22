@@ -1,0 +1,6 @@
+INFO: active pipeline asset 'TennisURP', quality level 2 'Medium', Unity 6000.3.24f1, Metal
+INFO: GRASS hole 10 lit (TennisURP): fairway (164,185,42) h69 S0.78 V0.73 clipped 0.7 % (>=250) / 0.4 % (255); green (165,182,44) h68 S0.76 V0.71 clipped 0.0 % (>=250) / 0.0 % (255); rough (113,113,35) h60 S0.69 V0.44 clipped 0.0 % (>=250) / 0.0 % (255)
+GATE: GRASS_HUE_GAMEVIEW hole10 PASS - fairway (164,185,42) h69 S0.78 V0.73 (hue 64..73, S 0.72..0.88 V 0.55..0.75), green (165,182,44) h68 S0.76 V0.71 (hue 64..73, S 0.72..0.88 V 0.55..0.75), rough (113,113,35) h60 S0.69 V0.44 (hue 58..72, S 0.65..0.88 V 0.40..0.75); hue True, S/V True; the old build measured hue 86..89
+GATE: GRASS_NO_CLIP hole10 PASS - pixels with a channel >= 250 over the lower 60 % of the phone frame (<= 3 %): fairway clipped 0.7 % (>=250) / 0.4 % (255), green clipped 0.0 % (>=250) / 0.0 % (255), rough clipped 0.0 % (>=250) / 0.0 % (255); the stills are light, saturated and not clipped
+GATE: SURFACES_NO_CLIP hole10 PASS - sand / rock / path / masonry as flat up-facing quads under the key (pixels with a channel >= 250 <= 3 %): sand (200,146,100) h28 S0.50 V0.78 clipped 0.0 % (>=250) / 0.0 % (255); rock (116,92,70) h28 S0.40 V0.46 clipped 0.0 % (>=250) / 0.0 % (255)
+SUMMARY: 3/3 gates PASS

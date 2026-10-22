@@ -1,0 +1,110 @@
+GolfGround_plain <Success>k__BackingField=True
+GolfGround_plain <Messages>k__BackingField=UnityEditor.ShaderMessage[]
+GolfGround_plain <Attributes>k__BackingField=UnityEngine.Rendering.VertexAttribute[]
+GolfGround_plain <ConstantBuffers>k__BackingField=UnityEditor.ShaderData+ConstantBufferInfo[]
+GolfGround_plain <TextureBindings>k__BackingField=UnityEditor.ShaderData+TextureBindingInfo[]
+GolfGround_plain <ResourceBindings>k__BackingField=UnityEditor.ShaderData+ResourceBindingInfo[]
+GolfGround_plain SUCCESS=True keywords=
+GolfGround_golf <Success>k__BackingField=True
+GolfGround_golf <Messages>k__BackingField=UnityEditor.ShaderMessage[]
+GolfGround_golf <Attributes>k__BackingField=UnityEngine.Rendering.VertexAttribute[]
+GolfGround_golf <ConstantBuffers>k__BackingField=UnityEditor.ShaderData+ConstantBufferInfo[]
+GolfGround_golf <TextureBindings>k__BackingField=UnityEditor.ShaderData+TextureBindingInfo[]
+GolfGround_golf <ResourceBindings>k__BackingField=UnityEditor.ShaderData+ResourceBindingInfo[]
+GolfGround_golf SUCCESS=True keywords=_MAIN_LIGHT_SHADOWS,_ADDITIONAL_LIGHTS,FOG_LINEAR,_SHADOWS_SOFT
+GolfGround_sand_plain <Success>k__BackingField=True
+GolfGround_sand_plain <Messages>k__BackingField=UnityEditor.ShaderMessage[]
+GolfGround_sand_plain <Attributes>k__BackingField=UnityEngine.Rendering.VertexAttribute[]
+GolfGround_sand_plain <ConstantBuffers>k__BackingField=UnityEditor.ShaderData+ConstantBufferInfo[]
+GolfGround_sand_plain <TextureBindings>k__BackingField=UnityEditor.ShaderData+TextureBindingInfo[]
+GolfGround_sand_plain <ResourceBindings>k__BackingField=UnityEditor.ShaderData+ResourceBindingInfo[]
+GolfGround_sand_plain SUCCESS=True keywords=_GOLF_SAND
+GolfGround_sand_golf <Success>k__BackingField=True
+GolfGround_sand_golf <Messages>k__BackingField=UnityEditor.ShaderMessage[]
+GolfGround_sand_golf <Attributes>k__BackingField=UnityEngine.Rendering.VertexAttribute[]
+GolfGround_sand_golf <ConstantBuffers>k__BackingField=UnityEditor.ShaderData+ConstantBufferInfo[]
+GolfGround_sand_golf <TextureBindings>k__BackingField=UnityEditor.ShaderData+TextureBindingInfo[]
+GolfGround_sand_golf <ResourceBindings>k__BackingField=UnityEditor.ShaderData+ResourceBindingInfo[]
+GolfGround_sand_golf SUCCESS=True keywords=_MAIN_LIGHT_SHADOWS,_ADDITIONAL_LIGHTS,FOG_LINEAR,_GOLF_SAND,_SHADOWS_SOFT
+GolfArcade/GolfGround SRP_CODE=1
+GolfArcade/GolfGround SRP_REASON=Not initialized ()
+GolfRock_plain <Success>k__BackingField=True
+GolfRock_plain <Messages>k__BackingField=UnityEditor.ShaderMessage[]
+GolfRock_plain <Attributes>k__BackingField=UnityEngine.Rendering.VertexAttribute[]
+GolfRock_plain <ConstantBuffers>k__BackingField=UnityEditor.ShaderData+ConstantBufferInfo[]
+GolfRock_plain <TextureBindings>k__BackingField=UnityEditor.ShaderData+TextureBindingInfo[]
+GolfRock_plain <ResourceBindings>k__BackingField=UnityEditor.ShaderData+ResourceBindingInfo[]
+GolfRock_plain SUCCESS=True keywords=
+GolfRock_golf <Success>k__BackingField=True
+GolfRock_golf <Messages>k__BackingField=UnityEditor.ShaderMessage[]
+GolfRock_golf <Attributes>k__BackingField=UnityEngine.Rendering.VertexAttribute[]
+GolfRock_golf <ConstantBuffers>k__BackingField=UnityEditor.ShaderData+ConstantBufferInfo[]
+GolfRock_golf <TextureBindings>k__BackingField=UnityEditor.ShaderData+TextureBindingInfo[]
+GolfRock_golf <ResourceBindings>k__BackingField=UnityEditor.ShaderData+ResourceBindingInfo[]
+GolfRock_golf SUCCESS=True keywords=_MAIN_LIGHT_SHADOWS,_ADDITIONAL_LIGHTS,FOG_LINEAR,_SHADOWS_SOFT
+GolfArcade/GolfRock SRP_CODE=1
+GolfArcade/GolfRock SRP_REASON=Not initialized ()
+TennisCharacter_plain <Success>k__BackingField=True
+TennisCharacter_plain <Messages>k__BackingField=UnityEditor.ShaderMessage[]
+TennisCharacter_plain <Attributes>k__BackingField=UnityEngine.Rendering.VertexAttribute[]
+TennisCharacter_plain <ConstantBuffers>k__BackingField=UnityEditor.ShaderData+ConstantBufferInfo[]
+TennisCharacter_plain <TextureBindings>k__BackingField=UnityEditor.ShaderData+TextureBindingInfo[]
+TennisCharacter_plain <ResourceBindings>k__BackingField=UnityEditor.ShaderData+ResourceBindingInfo[]
+TennisCharacter_plain SUCCESS=True keywords=
+TennisCharacter_golf <Success>k__BackingField=True
+TennisCharacter_golf <Messages>k__BackingField=UnityEditor.ShaderMessage[]
+TennisCharacter_golf <Attributes>k__BackingField=UnityEngine.Rendering.VertexAttribute[]
+TennisCharacter_golf <ConstantBuffers>k__BackingField=UnityEditor.ShaderData+ConstantBufferInfo[]
+TennisCharacter_golf <TextureBindings>k__BackingField=UnityEditor.ShaderData+TextureBindingInfo[]
+TennisCharacter_golf <ResourceBindings>k__BackingField=UnityEditor.ShaderData+ResourceBindingInfo[]
+TennisCharacter_golf SUCCESS=True keywords=_MAIN_LIGHT_SHADOWS,_ADDITIONAL_LIGHTS,FOG_LINEAR,_SHADOWS_SOFT_LOW
+GolfArcade/TennisCharacter SRP_CODE=1
+GolfArcade/TennisCharacter SRP_REASON=Not initialized ()
+TennisFace_plain <Success>k__BackingField=True
+TennisFace_plain <Messages>k__BackingField=UnityEditor.ShaderMessage[]
+TennisFace_plain <Attributes>k__BackingField=UnityEngine.Rendering.VertexAttribute[]
+TennisFace_plain <ConstantBuffers>k__BackingField=UnityEditor.ShaderData+ConstantBufferInfo[]
+TennisFace_plain <TextureBindings>k__BackingField=UnityEditor.ShaderData+TextureBindingInfo[]
+TennisFace_plain <ResourceBindings>k__BackingField=UnityEditor.ShaderData+ResourceBindingInfo[]
+TennisFace_plain SUCCESS=True keywords=
+TennisFace_golf <Success>k__BackingField=True
+TennisFace_golf <Messages>k__BackingField=UnityEditor.ShaderMessage[]
+TennisFace_golf <Attributes>k__BackingField=UnityEngine.Rendering.VertexAttribute[]
+TennisFace_golf <ConstantBuffers>k__BackingField=UnityEditor.ShaderData+ConstantBufferInfo[]
+TennisFace_golf <TextureBindings>k__BackingField=UnityEditor.ShaderData+TextureBindingInfo[]
+TennisFace_golf <ResourceBindings>k__BackingField=UnityEditor.ShaderData+ResourceBindingInfo[]
+TennisFace_golf SUCCESS=True keywords=_MAIN_LIGHT_SHADOWS,_ADDITIONAL_LIGHTS,FOG_LINEAR,_SHADOWS_SOFT_LOW
+GolfArcade/TennisFace SRP_CODE=1
+GolfArcade/TennisFace SRP_REASON=Not initialized ()
+TennisCloth_plain <Success>k__BackingField=True
+TennisCloth_plain <Messages>k__BackingField=UnityEditor.ShaderMessage[]
+TennisCloth_plain <Attributes>k__BackingField=UnityEngine.Rendering.VertexAttribute[]
+TennisCloth_plain <ConstantBuffers>k__BackingField=UnityEditor.ShaderData+ConstantBufferInfo[]
+TennisCloth_plain <TextureBindings>k__BackingField=UnityEditor.ShaderData+TextureBindingInfo[]
+TennisCloth_plain <ResourceBindings>k__BackingField=UnityEditor.ShaderData+ResourceBindingInfo[]
+TennisCloth_plain SUCCESS=True keywords=
+TennisCloth_golf <Success>k__BackingField=True
+TennisCloth_golf <Messages>k__BackingField=UnityEditor.ShaderMessage[]
+TennisCloth_golf <Attributes>k__BackingField=UnityEngine.Rendering.VertexAttribute[]
+TennisCloth_golf <ConstantBuffers>k__BackingField=UnityEditor.ShaderData+ConstantBufferInfo[]
+TennisCloth_golf <TextureBindings>k__BackingField=UnityEditor.ShaderData+TextureBindingInfo[]
+TennisCloth_golf <ResourceBindings>k__BackingField=UnityEditor.ShaderData+ResourceBindingInfo[]
+TennisCloth_golf SUCCESS=True keywords=_MAIN_LIGHT_SHADOWS,_ADDITIONAL_LIGHTS,FOG_LINEAR,_SHADOWS_SOFT_LOW
+GolfArcade/TennisCloth SRP_CODE=1
+GolfArcade/TennisCloth SRP_REASON=Not initialized ()
+Lit_plain <Success>k__BackingField=True
+Lit_plain <Messages>k__BackingField=UnityEditor.ShaderMessage[]
+Lit_plain <Attributes>k__BackingField=UnityEngine.Rendering.VertexAttribute[]
+Lit_plain <ConstantBuffers>k__BackingField=UnityEditor.ShaderData+ConstantBufferInfo[]
+Lit_plain <TextureBindings>k__BackingField=UnityEditor.ShaderData+TextureBindingInfo[]
+Lit_plain <ResourceBindings>k__BackingField=UnityEditor.ShaderData+ResourceBindingInfo[]
+Lit_plain SUCCESS=True keywords=_NORMALMAP,_SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+Lit_golf <Success>k__BackingField=True
+Lit_golf <Messages>k__BackingField=UnityEditor.ShaderMessage[]
+Lit_golf <Attributes>k__BackingField=UnityEngine.Rendering.VertexAttribute[]
+Lit_golf <ConstantBuffers>k__BackingField=UnityEditor.ShaderData+ConstantBufferInfo[]
+Lit_golf <TextureBindings>k__BackingField=UnityEditor.ShaderData+TextureBindingInfo[]
+Lit_golf <ResourceBindings>k__BackingField=UnityEditor.ShaderData+ResourceBindingInfo[]
+Lit_golf SUCCESS=True keywords=_MAIN_LIGHT_SHADOWS,_ADDITIONAL_LIGHTS,FOG_LINEAR,_SHADOWS_SOFT_LOW,_NORMALMAP,_SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+Universal Render Pipeline/Lit SRP_CODE=1
+Universal Render Pipeline/Lit SRP_REASON=Not initialized ()

@@ -1,0 +1,110 @@
+{
+  "male_Serve_0": {
+    "label": "male_Serve_0",
+    "beforeInsideSamples": 18,
+    "afterInsideSamples": 0,
+    "beforeMinMm": -7.040109019726515,
+    "afterMinMm": 1.9739433628274128,
+    "outsidePoseErrorMm": 1.7115369497008158e-07,
+    "newDegenerateTriangles": 0
+  },
+  "male_Serve_1": {
+    "label": "male_Serve_1",
+    "beforeInsideSamples": 522,
+    "afterInsideSamples": 1,
+    "beforeMinMm": -25.924909132299945,
+    "afterMinMm": -7.502904598368332,
+    "outsidePoseErrorMm": 3.1037047968072996e-08,
+    "newDegenerateTriangles": 0
+  },
+  "male_Serve_2": {
+    "label": "male_Serve_2",
+    "beforeInsideSamples": 37,
+    "afterInsideSamples": 0,
+    "beforeMinMm": -14.597444712990182,
+    "afterMinMm": -1.80976495903451,
+    "outsidePoseErrorMm": 7.881648575215848e-08,
+    "newDegenerateTriangles": 0
+  },
+  "male_Forehand_0": {
+    "label": "male_Forehand_0",
+    "beforeInsideSamples": 209,
+    "afterInsideSamples": 197,
+    "beforeMinMm": -14.016621862538159,
+    "afterMinMm": -13.212231016950682,
+    "outsidePoseErrorMm": 5.6101720400122454e-08,
+    "newDegenerateTriangles": 0
+  },
+  "male_Forehand_1": {
+    "label": "male_Forehand_1",
+    "beforeInsideSamples": 518,
+    "afterInsideSamples": 132,
+    "beforeMinMm": -19.930785114411265,
+    "afterMinMm": -14.434330456424505,
+    "outsidePoseErrorMm": 5.4960548885784235e-08,
+    "newDegenerateTriangles": 0
+  },
+  "male_Forehand_2": {
+    "label": "male_Forehand_2",
+    "beforeInsideSamples": 715,
+    "afterInsideSamples": 548,
+    "beforeMinMm": -14.051597085199319,
+    "afterMinMm": -12.623115326277912,
+    "outsidePoseErrorMm": 7.551052530144773e-08,
+    "newDegenerateTriangles": 0
+  },
+  "female_Serve_0": {
+    "label": "female_Serve_0",
+    "beforeInsideSamples": 94,
+    "afterInsideSamples": 0,
+    "beforeMinMm": -12.678943807259202,
+    "afterMinMm": 1.7364267987431958,
+    "outsidePoseErrorMm": 4.790847634165974e-08,
+    "newDegenerateTriangles": 17
+  },
+  "female_Serve_1": {
+    "label": "female_Serve_1",
+    "beforeInsideSamples": 272,
+    "afterInsideSamples": 0,
+    "beforeMinMm": -20.81496804021299,
+    "afterMinMm": -1.8994605052284896,
+    "outsidePoseErrorMm": 1.1422149281264663e-08,
+    "newDegenerateTriangles": 19
+  },
+  "female_Serve_2": {
+    "label": "female_Serve_2",
+    "beforeInsideSamples": 161,
+    "afterInsideSamples": 0,
+    "beforeMinMm": -14.410345887881704,
+    "afterMinMm": -0.5181338055990636,
+    "outsidePoseErrorMm": 4.861497075413499e-08,
+    "newDegenerateTriangles": 20
+  },
+  "female_Forehand_0": {
+    "label": "female_Forehand_0",
+    "beforeInsideSamples": 145,
+    "afterInsideSamples": 169,
+    "beforeMinMm": -12.884030405984959,
+    "afterMinMm": -7.7984106610529125,
+    "outsidePoseErrorMm": 5.814433248038108e-08,
+    "newDegenerateTriangles": 17
+  },
+  "female_Forehand_1": {
+    "label": "female_Forehand_1",
+    "beforeInsideSamples": 197,
+    "afterInsideSamples": 165,
+    "beforeMinMm": -16.880307921383064,
+    "afterMinMm": -12.519506562966853,
+    "outsidePoseErrorMm": 2.289067063731282e-08,
+    "newDegenerateTriangles": 18
+  },
+  "female_Forehand_2": {
+    "label": "female_Forehand_2",
+    "beforeInsideSamples": 234,
+    "afterInsideSamples": 103,
+    "beforeMinMm": -25.582836417015642,
+    "afterMinMm": -11.691530631651403,
+    "outsidePoseErrorMm": 3.490861733137762e-08,
+    "newDegenerateTriangles": 20
+  }
+}

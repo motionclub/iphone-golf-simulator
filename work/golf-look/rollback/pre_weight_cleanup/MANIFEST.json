@@ -1,0 +1,134 @@
+[
+  {
+    "path": "scripts/build_golf_draft.py",
+    "sha256": "2dc5c94d235cfa05862a367f7deb0e175782c297d95b3a55cd6b112eb5791563"
+  },
+  {
+    "path": "scripts/write_checkpoint.py",
+    "sha256": "ec4390e0dc7749956109d8925f1d7722b8d98f7dfd640877047273706e8bc9d3"
+  },
+  {
+    "path": "REPORT.md",
+    "sha256": "6d01b607ad72aa25fa8bae7be6bb541e372c3b4506de5e5afe47dc7f2002cbe8"
+  },
+  {
+    "path": "RESUME.md",
+    "sha256": "b516fe9f94d8eb47578df96b9097f283cf4e9d4c659d159353de307e7aa435c8"
+  },
+  {
+    "path": "NEXT_SWING.md",
+    "sha256": "9040b475d163200c8a0a342942ab21ccae22c0a5b0fea4ca0dc4cd6fb5270865"
+  },
+  {
+    "path": "export/Golf_Male_Draft.blend",
+    "sha256": "ee4fa22afb36aea303a3e08272873be3bb47ec476711e0fde257c6f2b0e8d905"
+  },
+  {
+    "path": "export/Golf_Male_SwingProof.blend",
+    "sha256": "a832c64f8d6c85bfdcc6bfe8be47a9e80a89ee814a954fefe441b6dbf6a48271"
+  },
+  {
+    "path": "data/build_Male.json",
+    "sha256": "d23eb59a3a3e9635f14b98b8fd6f1ae287104911ed7b42f5c5333194e3d02efb"
+  },
+  {
+    "path": "data/retarget_Male.json",
+    "sha256": "69f074ae8d738848bdb332ed999839021c25ae635ea6e3dcf72764f5cfba4538"
+  },
+  {
+    "path": "data/deform_draft_Male.json",
+    "sha256": "b43af9606d5907c68d179d90995304c32b32eb4f0d5cff4471a9a9239c839262"
+  },
+  {
+    "path": "proof/Male_SWING_DRAFT_SHEET.png",
+    "sha256": "fbcf421b512b925508154f7ede293a8b8fab9fe43d49f42b090b4ca7b44bb87d"
+  },
+  {
+    "path": "proof/Male_RH_ReadyIdle.png",
+    "sha256": "89488ad397f70ef884c134ec0aac8721320deb5a74a1aa069ee0daf671ea9e57"
+  },
+  {
+    "path": "proof/Male_RH_Top.png",
+    "sha256": "330e9eaf69bc3d208562ae2f72b20e1dbc149209a3eae73b0222cb57996a36e8"
+  },
+  {
+    "path": "proof/Male_RH_Impact.png",
+    "sha256": "4cb11ef44ebf96467e5251128ca45f0e2519d5a3e0d5388c7ebc0e782b571721"
+  },
+  {
+    "path": "proof/Male_RH_Finish.png",
+    "sha256": "c3750e46651078af6486da77c1d1dd24c00c558bc8f498adbbba9de85b167d0a"
+  },
+  {
+    "path": "proof/Male_LH_ReadyIdle.png",
+    "sha256": "be6d80447ef12b13a2cb82e646aa8959cdf0dd9432203394930e250dc905ead5"
+  },
+  {
+    "path": "proof/Male_LH_Top.png",
+    "sha256": "6c56b52e10cc5bf808a29c41cac9b789f4a5f8316514d6edd68cb0dffe9e119d"
+  },
+  {
+    "path": "proof/Male_LH_Impact.png",
+    "sha256": "871ed25d557fdece3217a026f5f72cb8f80aa980bf9db13e4c8114bd5cd245bc"
+  },
+  {
+    "path": "proof/Male_LH_Finish.png",
+    "sha256": "ec40be6d8d820c125ff3e02d2e9319d5d73b81eb4c2a1949c48998e4de5d5e03"
+  },
+  {
+    "path": "export/Golf_Female_Draft.blend",
+    "sha256": "311903bcaf1703db5762837a62b50e44d337a19da0ef8dd3caa1003022a30909"
+  },
+  {
+    "path": "export/Golf_Female_SwingProof.blend",
+    "sha256": "643bc57b76570539e796ad1ab364d3ea659fea0aed38175313471e6a8e2f0d7f"
+  },
+  {
+    "path": "data/build_Female.json",
+    "sha256": "cc047175ee2df69d525abc02c30e527fa3ad1facff58cfaa6de58706ff9db06e"
+  },
+  {
+    "path": "data/retarget_Female.json",
+    "sha256": "6cfde852c3f0474282d30397b7b83f5f3800a63bfbd32aed4ac4c3c817908a78"
+  },
+  {
+    "path": "data/deform_draft_Female.json",
+    "sha256": "9a2c76981f5529b05fe4e3fe166f415d39fbe3c2f21df61ab9782c32f2bc7c9f"
+  },
+  {
+    "path": "proof/Female_SWING_DRAFT_SHEET.png",
+    "sha256": "f637df7549adfc471742e8d0ac275796ea23f905a892124f22a2fcbb9f4901f3"
+  },
+  {
+    "path": "proof/Female_RH_ReadyIdle.png",
+    "sha256": "78b817cb5ab3fe01c5bce22d89679e9926113dc6d18e91a9797d0624d4c3b2c6"
+  },
+  {
+    "path": "proof/Female_RH_Top.png",
+    "sha256": "b6fd379d946bd722641ffeebc8bbc5f977f919a862b8bee0814073225c66940c"
+  },
+  {
+    "path": "proof/Female_RH_Impact.png",
+    "sha256": "11c268d03bcfefabb79c418661e156137ed8b5399016c5b5cf0dbc1a7e59a9db"
+  },
+  {
+    "path": "proof/Female_RH_Finish.png",
+    "sha256": "5b2ed3d5bf50729d784c10d4264522ce952db8aeecdae94f43159eff4f78898c"
+  },
+  {
+    "path": "proof/Female_LH_ReadyIdle.png",
+    "sha256": "83fd5f45d81ff4ec5747e08dcb6de9c89927a4845310fdd74bc90f2164555779"
+  },
+  {
+    "path": "proof/Female_LH_Top.png",
+    "sha256": "013fb0c8c6aaa20d4d28fce73bf0e73494ae6894bd7c286b293131814a7016ad"
+  },
+  {
+    "path": "proof/Female_LH_Impact.png",
+    "sha256": "5e5da05943ad9286421874fa1c6d8b5bf6ca4635bd1ac165941cb4aaa5ad4ed8"
+  },
+  {
+    "path": "proof/Female_LH_Finish.png",
+    "sha256": "d6746395029aa7b7cafc5365cdb08f0db436f89812d578b37b50fc26c95a86d4"
+  }
+]

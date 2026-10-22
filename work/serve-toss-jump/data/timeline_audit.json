@@ -1,0 +1,34 @@
+{
+  "male": {
+    "initial_stance_bone_position_max_delta_from_installed_mm": 204.191950915049,
+    "toss_knee_max_LR_deg": [
+      23.928063498108287,
+      38.27998083159281
+    ],
+    "requested_toss_knee_range_deg": [
+      10,
+      25
+    ],
+    "release_left_elbow_deg": 154.93907148078404,
+    "ready_stance_match_pass": false,
+    "soft_toss_knees_pass": false,
+    "stance_0_to_0p20_max_bone_delta_from_actual_READY_mm": 366.0482406626335,
+    "contact_front_knee_flex_deg": 78.12376360889489
+  },
+  "female": {
+    "initial_stance_bone_position_max_delta_from_installed_mm": 204.19168736534272,
+    "toss_knee_max_LR_deg": [
+      27.46162216350342,
+      38.897000116712235
+    ],
+    "requested_toss_knee_range_deg": [
+      10,
+      25
+    ],
+    "release_left_elbow_deg": 173.69242193797018,
+    "ready_stance_match_pass": false,
+    "soft_toss_knees_pass": false,
+    "stance_0_to_0p20_max_bone_delta_from_actual_READY_mm": 345.1817226563587,
+    "contact_front_knee_flex_deg": 73.70534420960851
+  }
+}

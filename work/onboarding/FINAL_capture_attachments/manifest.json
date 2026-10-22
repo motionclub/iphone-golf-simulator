@@ -1,0 +1,26 @@
+[
+  {
+    "attachments" : [
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "03AEFA81-ACF7-4EDD-AE9C-842E8E90B902",
+        "deviceName" : "Onboarding iPhone 17 Pro",
+        "exportedFileName" : "D853E4EB-0B2B-4D4E-80D0-0028C048F945.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "Actual missing Unity runtime_0_6AFF4898-75F5-4DC2-80EE-54892F427417.png",
+        "timestamp" : 1791304152.347
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "03AEFA81-ACF7-4EDD-AE9C-842E8E90B902",
+        "deviceName" : "Onboarding iPhone 17 Pro",
+        "exportedFileName" : "7A10CA2F-E310-4CD3-A35A-42AB066D1F3D.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "Final Island game picker_0_E1A16C28-CCC1-4F4E-847C-F8A42D050886.png",
+        "timestamp" : 1791304148.57
+      }
+    ],
+    "testIdentifier" : "OnboardingUITests/testPartialPhoneWalkthroughStopsAtRealRuntimeFailure()",
+    "testIdentifierURL" : "test://com.apple.xcode/GolfArcade/GolfArcadeUITests/OnboardingUITests/testPartialPhoneWalkthroughStopsAtRealRuntimeFailure"
+  }
+]

@@ -1,0 +1,64 @@
+[
+  {
+    "sex": "Male",
+    "kind": "Draft",
+    "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/golf-look/export/Golf_Male_Draft.blend",
+    "sha256": "0cac87efa182872a3e432577e939fa6bbc49d6427dd313d48e0f53d1b6bd1a07",
+    "identity": {
+      "meshes": {
+        "Body_M": "e7eef92b1f6cb2b3a0a4be8e1a90a2258ccd4f5b71e9ddc4caa9a583cf9a7046",
+        "Face_M": "5a51f7724c576b33aac158124c713f58a2be7961e4db0b30c61f956f49ad7947"
+      },
+      "rest_rig": "15d5d9c5f085f47483e39158ed4a4b9532625cc0d604e8646e8218a7e86693f8",
+      "bone_count": 53
+    },
+    "unchanged": true
+  },
+  {
+    "sex": "Male",
+    "kind": "SwingProof",
+    "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/golf-look/export/Golf_Male_SwingProof.blend",
+    "sha256": "60ecdd06cc3529d3f8048b69bb2f2180532b0b9667f1946e0ece0aea2f4fabe5",
+    "identity": {
+      "meshes": {
+        "Body_M": "e7eef92b1f6cb2b3a0a4be8e1a90a2258ccd4f5b71e9ddc4caa9a583cf9a7046",
+        "Face_M": "5a51f7724c576b33aac158124c713f58a2be7961e4db0b30c61f956f49ad7947"
+      },
+      "rest_rig": "15d5d9c5f085f47483e39158ed4a4b9532625cc0d604e8646e8218a7e86693f8",
+      "bone_count": 53
+    },
+    "unchanged": true
+  },
+  {
+    "sex": "Female",
+    "kind": "Draft",
+    "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/golf-look/export/Golf_Female_Draft.blend",
+    "sha256": "4f9c9f552dcc21dc53db2bab569d082144c62b9fee3491f92bd341e868d9aaf0",
+    "identity": {
+      "meshes": {
+        "Body_F": "da701138312219d6bbb0489a0de249cd9c58175c1543776b1b1e1f3eaad17948",
+        "Face_F": "9dfddb692d304ef25e76a6439fbffc4fd9b2278ca5b156d723c082d30aa809ae",
+        "Hair_F": "15ee43c8faa37afeb9d0c19b4323c11b5deb8e00a3289116ff1865a6318801d9"
+      },
+      "rest_rig": "c7e87818b96da44333fe3b508bb8089e6f537b8f75e36587a612895deb175332",
+      "bone_count": 53
+    },
+    "unchanged": true
+  },
+  {
+    "sex": "Female",
+    "kind": "SwingProof",
+    "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/golf-look/export/Golf_Female_SwingProof.blend",
+    "sha256": "60e28f8effffdef6c57cc8d13391ba824fef0a0ad6ab834c285c44328ed8dc1d",
+    "identity": {
+      "meshes": {
+        "Body_F": "da701138312219d6bbb0489a0de249cd9c58175c1543776b1b1e1f3eaad17948",
+        "Face_F": "9dfddb692d304ef25e76a6439fbffc4fd9b2278ca5b156d723c082d30aa809ae",
+        "Hair_F": "15ee43c8faa37afeb9d0c19b4323c11b5deb8e00a3289116ff1865a6318801d9"
+      },
+      "rest_rig": "c7e87818b96da44333fe3b508bb8089e6f537b8f75e36587a612895deb175332",
+      "bone_count": 53
+    },
+    "unchanged": true
+  }
+]

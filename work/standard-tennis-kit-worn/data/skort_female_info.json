@@ -1,0 +1,40 @@
+{
+ "tris": 25646,
+ "liner_tris": 2763,
+ "skirt_tris": 3918,
+ "skirt_loops": 2,
+ "z_wb": 0.955,
+ "z_wt": 0.995,
+ "skirt_hem_min": 0.63,
+ "liner_hem_min": 0.7298857887148857,
+ "liner_hem_loops": [
+  0.9486,
+  0.7299
+ ],
+ "band_center": [
+  -7.722740567178699e-06,
+  -1.5625641557187597e-06
+ ],
+ "band_in": 0.0065,
+ "band_out": 0.011,
+ "tv_liner": 0.002,
+ "tv_skirt": 0.0025,
+ "topo": {
+  "boundary_edges": 0,
+  "nonmanifold_edges": 0,
+  "same_direction_edges": 0,
+  "islands": 7,
+  "island_sizes": [
+   4836,
+   3678,
+   1892,
+   1440,
+   480,
+   351,
+   150
+  ],
+  "small_holes_filled": 0
+ },
+ "flap_tris": 1281,
+ "flap_verts": 743
+}

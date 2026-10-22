@@ -1,0 +1,46 @@
+using System.Collections;
+using System.IO;
+using GolfArcade.Game;
+using GolfArcade.Tennis;
+using NUnit.Framework;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.TestTools;
+
+namespace GolfArcade.PlayTests
+{
+    /// Capture only (not part of the project): current gameplay camera + 3 candidate depths.
+    public class CameraDepthCaptureTests
+    {
+        static string Out => System.Environment.GetEnvironmentVariable("AUDIT_OUT") ?? "Library/Captures/depths";
+        [UnityTest, Timeout(600000)] public IEnumerator Depths()
+        {
+            Directory.CreateDirectory(Out);
+            yield return SceneManager.LoadSceneAsync("Tennis", LoadSceneMode.Single); yield return null;
+            var game = Object.FindFirstObjectByType<TennisGame>(); game.ManualSimulation = true; game.NativeControlled = true;
+            game.ConfigureMatch(TennisGame.Mode.Training, null, null, null);
+            for (int i = 0; i < 360; i++) game.Step(1f / 120);
+            for (int i = 0; i < 30; i++) yield return null;
+            game.Player.transform.position = new Vector3(0, .035f, TennisRules.BaselineZ); if (game.Opponent) game.Opponent.transform.position = new Vector3(0, .035f, -TennisRules.BaselineZ);
+            yield return null;
+            var cam = game.GameplayCamera ? game.GameplayCamera : Camera.main;
+            var p = game.Player.transform.position; var o = game.Opponent ? game.Opponent.transform.position : Vector3.zero;
+            var log = new System.Text.StringBuilder();
+            log.AppendLine($"player {p} opponent {o} flow {game.Flow}");
+            void Note(string n) { var e = cam.transform.eulerAngles; log.AppendLine(System.FormattableString.Invariant($"{n}: pos {cam.transform.position} pitch {e.x:F1} yaw {e.y:F1} fov {cam.fieldOfView:F1} aspect {cam.aspect:F3}")); }
+            Note("current_raw");
+            TennisShoulderCamera.Frame(p, false, game.BallPosition, false, 16f/9f, out var tp, out var tl, out var tf);
+            cam.transform.position = tp; cam.transform.LookAt(tl); cam.fieldOfView = tf; Note("current");
+            GameCapture.Save(Out + "/0_current.png", 1920, 1080);
+            float fov = tf; float bz = -TennisRules.CourtHalfLength;
+            // A close: 3.5m behind player, 2.5m high, aim at far-court opponent area
+            cam.transform.position = new Vector3(p.x, 2.5f, p.z - 3.5f); cam.transform.LookAt(new Vector3(0, 1.0f, 3f)); cam.fieldOfView = fov; Note("A_close");
+            GameCapture.Save(Out + "/A_close.png", 1920, 1080);
+            cam.transform.position = new Vector3(0, 5f, bz - 7f); cam.transform.rotation = Quaternion.Euler(25, 0, 0); cam.fieldOfView = fov; Note("B_medium");
+            GameCapture.Save(Out + "/B_medium.png", 1920, 1080);
+            cam.transform.position = new Vector3(0, 8f, bz - 11f); cam.transform.rotation = Quaternion.Euler(32, 0, 0); cam.fieldOfView = fov; Note("C_far");
+            GameCapture.Save(Out + "/C_far.png", 1920, 1080);
+            File.WriteAllText(Out + "/camera_values.txt", log.ToString());
+        }
+    }
+}

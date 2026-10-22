@@ -1,0 +1,15 @@
+{
+  "sex": "Male",
+  "method": "nearest body triangle barycentric transfer; four weights; excluded hand/finger/foot triangles",
+  "body_and_rest_rig_unchanged": true,
+  "rows": [
+    {
+      "object": "Golf_Polo",
+      "vertices": 11099,
+      "moved_vertices": 0,
+      "max_clearance_move_mm": 0,
+      "max_influences": 4
+    }
+  ],
+  "G7": "not certified; rerun all pose diagnostics"
+}

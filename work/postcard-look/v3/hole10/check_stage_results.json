@@ -1,0 +1,26 @@
+[
+  {
+    "name": "geometry_metrics",
+    "exit_code": 0,
+    "seconds": 3.2833499908447266,
+    "error": null
+  },
+  {
+    "name": "verifier_required",
+    "exit_code": 1,
+    "seconds": 51.487393856048584,
+    "error": null
+  },
+  {
+    "name": "stage_gates",
+    "exit_code": 1,
+    "seconds": 11.938969135284424,
+    "error": null
+  },
+  {
+    "name": "scoring_exact",
+    "exit_code": 0,
+    "seconds": 3.968029022216797,
+    "error": null
+  }
+]

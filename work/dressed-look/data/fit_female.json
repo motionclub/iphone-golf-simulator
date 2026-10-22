@@ -1,0 +1,214 @@
+{
+ "tag": "female",
+ "dressed": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/dressed-look/export/HeroBase_Female_Dressed.blend",
+ "color_measured": "White",
+ "pieces": {
+  "Kit_Top_Polo_F_White": {
+   "n_verts": 9722,
+   "inner": 4897,
+   "outer": 4825,
+   "skin_through": 0,
+   "skin_through_max_mm": 0.0,
+   "squeezed": 0,
+   "squeezed_max_mm": 0.0,
+   "float_verts": 1198,
+   "float_max_mm": 25.042356923222542,
+   "inner_clearance_mm": {
+    "median": 10.91089379042387,
+    "p95": 25.530774891376492
+   },
+   "clip_region": null,
+   "squeeze_region": null,
+   "float_region": "centre chest (back), z 0.98-1.28 m"
+  },
+  "Kit_Bottom_Skort_F_White": {
+   "n_verts": 12827,
+   "inner": 6592,
+   "outer": 6213,
+   "skin_through": 0,
+   "skin_through_max_mm": 0.0,
+   "squeezed": 0,
+   "squeezed_max_mm": 0.0,
+   "float_verts": 737,
+   "float_max_mm": 16.02676883339882,
+   "inner_clearance_mm": {
+    "median": 13.740471564233303,
+    "p95": 76.31483264267445
+   },
+   "clip_region": null,
+   "squeeze_region": null,
+   "float_region": "centre upper thigh / hip (back), z 0.67-0.99 m"
+  },
+  "Kit_Sock_L_White": {
+   "n_verts": 2908,
+   "inner": 1383,
+   "outer": 1509,
+   "skin_through": 496,
+   "skin_through_max_mm": 29.650678858160973,
+   "squeezed": 470,
+   "squeezed_max_mm": 29.299845919013023,
+   "float_verts": 789,
+   "float_max_mm": 62.502834014594555,
+   "inner_clearance_mm": {
+    "median": 14.151239767670631,
+    "p95": 60.749209299683564
+   },
+   "clip_region": "right lower leg (back), z 0.00-0.29 m",
+   "squeeze_region": "right lower leg (back), z 0.00-0.29 m",
+   "float_region": "right lower leg (front), z 0.01-0.29 m"
+  },
+  "Kit_Shoe_L_White": {
+   "n_verts": 5238,
+   "inner": 2211,
+   "outer": 2951,
+   "skin_through": 382,
+   "skin_through_max_mm": 29.411988332867622,
+   "squeezed": 331,
+   "squeezed_max_mm": 29.04757298529148,
+   "float_verts": 822,
+   "float_max_mm": 49.39852748066187,
+   "inner_clearance_mm": {
+    "median": 14.604020863771439,
+    "p95": 50.938377156853676
+   },
+   "clip_region": "right foot / ankle (back), z 0.00-0.10 m",
+   "squeeze_region": "right foot / ankle (back), z 0.00-0.10 m",
+   "float_region": "right foot / ankle (front), z 0.03-0.13 m"
+  },
+  "Kit_Sock_R_White": {
+   "n_verts": 2902,
+   "inner": 1381,
+   "outer": 1505,
+   "skin_through": 506,
+   "skin_through_max_mm": 29.477067291736603,
+   "squeezed": 473,
+   "squeezed_max_mm": 28.558140620589256,
+   "float_verts": 780,
+   "float_max_mm": 62.37244326621294,
+   "inner_clearance_mm": {
+    "median": 14.026302844285965,
+    "p95": 60.78067794442177
+   },
+   "clip_region": "left lower leg (back), z 0.00-0.29 m",
+   "squeeze_region": "left lower leg (back), z 0.00-0.29 m",
+   "float_region": "left lower leg (front), z 0.02-0.29 m"
+  },
+  "Kit_Shoe_R_White": {
+   "n_verts": 5267,
+   "inner": 2230,
+   "outer": 2963,
+   "skin_through": 380,
+   "skin_through_max_mm": 29.48521450161934,
+   "squeezed": 357,
+   "squeezed_max_mm": 29.812850058078766,
+   "float_verts": 822,
+   "float_max_mm": 49.30186551064253,
+   "inner_clearance_mm": {
+    "median": 14.29703552275896,
+    "p95": 50.302672013640354
+   },
+   "clip_region": "left foot / ankle (back), z 0.00-0.10 m",
+   "squeeze_region": "left foot / ankle (back), z 0.00-0.10 m",
+   "float_region": "left foot / ankle (front), z 0.03-0.13 m"
+  }
+ },
+ "findings": [
+  {
+   "kind": "FLOAT",
+   "piece": "Kit_Top_Polo_F_White",
+   "text": "Top_Polo_F: stands off the new body at the centre chest (back), z 0.98-1.28 m (1198 verts, up to 25.0 mm more than on the body it was fitted to)"
+  },
+  {
+   "kind": "FLOAT",
+   "piece": "Kit_Bottom_Skort_F_White",
+   "text": "Bottom_Skort_F: stands off the new body at the centre upper thigh / hip (back), z 0.67-0.99 m (737 verts, up to 16.0 mm more than on the body it was fitted to)"
+  },
+  {
+   "kind": "CLIP",
+   "piece": "Kit_Sock_L_White",
+   "text": "Sock_L: body surface pokes through the cloth at the right lower leg (back), z 0.00-0.29 m (496 verts, up to 29.7 mm)"
+  },
+  {
+   "kind": "SQUEEZE",
+   "piece": "Kit_Sock_L_White",
+   "text": "Sock_L: cloth squeezed into the body at the right lower leg (back), z 0.00-0.29 m (470 verts, up to 29.3 mm)"
+  },
+  {
+   "kind": "FLOAT",
+   "piece": "Kit_Sock_L_White",
+   "text": "Sock_L: stands off the new body at the right lower leg (front), z 0.01-0.29 m (789 verts, up to 62.5 mm more than on the body it was fitted to)"
+  },
+  {
+   "kind": "CLIP",
+   "piece": "Kit_Shoe_L_White",
+   "text": "Shoe_L: body surface pokes through the cloth at the right foot / ankle (back), z 0.00-0.10 m (382 verts, up to 29.4 mm)"
+  },
+  {
+   "kind": "SQUEEZE",
+   "piece": "Kit_Shoe_L_White",
+   "text": "Shoe_L: cloth squeezed into the body at the right foot / ankle (back), z 0.00-0.10 m (331 verts, up to 29.0 mm)"
+  },
+  {
+   "kind": "FLOAT",
+   "piece": "Kit_Shoe_L_White",
+   "text": "Shoe_L: stands off the new body at the right foot / ankle (front), z 0.03-0.13 m (822 verts, up to 49.4 mm more than on the body it was fitted to)"
+  },
+  {
+   "kind": "CLIP",
+   "piece": "Kit_Sock_R_White",
+   "text": "Sock_R: body surface pokes through the cloth at the left lower leg (back), z 0.00-0.29 m (506 verts, up to 29.5 mm)"
+  },
+  {
+   "kind": "SQUEEZE",
+   "piece": "Kit_Sock_R_White",
+   "text": "Sock_R: cloth squeezed into the body at the left lower leg (back), z 0.00-0.29 m (473 verts, up to 28.6 mm)"
+  },
+  {
+   "kind": "FLOAT",
+   "piece": "Kit_Sock_R_White",
+   "text": "Sock_R: stands off the new body at the left lower leg (front), z 0.02-0.29 m (780 verts, up to 62.4 mm more than on the body it was fitted to)"
+  },
+  {
+   "kind": "CLIP",
+   "piece": "Kit_Shoe_R_White",
+   "text": "Shoe_R: body surface pokes through the cloth at the left foot / ankle (back), z 0.00-0.10 m (380 verts, up to 29.5 mm)"
+  },
+  {
+   "kind": "SQUEEZE",
+   "piece": "Kit_Shoe_R_White",
+   "text": "Shoe_R: cloth squeezed into the body at the left foot / ankle (back), z 0.00-0.10 m (357 verts, up to 29.8 mm)"
+  },
+  {
+   "kind": "FLOAT",
+   "piece": "Kit_Shoe_R_White",
+   "text": "Shoe_R: stands off the new body at the left foot / ankle (front), z 0.03-0.13 m (822 verts, up to 49.3 mm more than on the body it was fitted to)"
+  }
+ ],
+ "hand": {
+  "posed_hand_vs_body_not_hand_tri_pairs": 0,
+  "posed_hand_vs_kit_tri_pairs": {
+   "Kit_Top_Polo_F_White": 0,
+   "Kit_Bottom_Skort_F_White": 0,
+   "Kit_Sock_L_White": 0,
+   "Kit_Shoe_L_White": 0,
+   "Kit_Sock_R_White": 0,
+   "Kit_Shoe_R_White": 0
+  }
+ },
+ "racket": {
+  "overlap_tri_pairs_vs_body_not_hand": 0,
+  "overlap_tri_pairs_vs_hand": 0,
+  "overlap_vs_kit": {
+   "Kit_Top_Polo_F_White": 0,
+   "Kit_Bottom_Skort_F_White": 0,
+   "Kit_Sock_L_White": 0,
+   "Kit_Shoe_L_White": 0,
+   "Kit_Sock_R_White": 0,
+   "Kit_Shoe_R_White": 0
+  },
+  "body_region": null,
+  "racket_samples_inside_body": 0,
+  "max_depth_inside_body_mm": 0.0,
+  "grip_to_hand_min_mm": 0.048679139581508934
+ }
+}

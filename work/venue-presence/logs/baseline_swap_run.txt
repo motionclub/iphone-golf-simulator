@@ -1,0 +1,87 @@
+== compile pass
+compile pass rc=0
+== capture skyscraper -> /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/venue-presence/proof/baseline_dump
+capture skyscraper rc=0
+GolfArcade.EditorTools.TennisVenueCapture.Run
+[VenueDump] kit material TropicalV3_012: 1 renderers, 24228 tris
+GolfArcade.EditorTools.TennisVenueCapture:Dump (string,UnityEngine.GameObject) (at Assets/Editor/TennisVenueCapture.cs:127)
+GolfArcade.EditorTools.TennisVenueCapture:Capture (GolfArcade.Tennis.TennisGame) (at Assets/Editor/TennisVenueCapture.cs:63)
+GolfArcade.EditorTools.TennisVenueCapture:Tick () (at Assets/Editor/TennisVenueCapture.cs:45)
+(Filename: Assets/Editor/TennisVenueCapture.cs Line: 127)
+[VenueDump] kit material TropicalV3_008: 2 renderers, 72 tris
+GolfArcade.EditorTools.TennisVenueCapture:Dump (string,UnityEngine.GameObject) (at Assets/Editor/TennisVenueCapture.cs:127)
+GolfArcade.EditorTools.TennisVenueCapture:Capture (GolfArcade.Tennis.TennisGame) (at Assets/Editor/TennisVenueCapture.cs:63)
+GolfArcade.EditorTools.TennisVenueCapture:Tick () (at Assets/Editor/TennisVenueCapture.cs:45)
+(Filename: Assets/Editor/TennisVenueCapture.cs Line: 127)
+[VenueDump] kit material TropicalV3_017: 4 renderers, 25784 tris
+GolfArcade.EditorTools.TennisVenueCapture:Dump (string,UnityEngine.GameObject) (at Assets/Editor/TennisVenueCapture.cs:127)
+GolfArcade.EditorTools.TennisVenueCapture:Capture (GolfArcade.Tennis.TennisGame) (at Assets/Editor/TennisVenueCapture.cs:63)
+GolfArcade.EditorTools.TennisVenueCapture:Tick () (at Assets/Editor/TennisVenueCapture.cs:45)
+(Filename: Assets/Editor/TennisVenueCapture.cs Line: 127)
+[VenueDump] kit material TropicalV3_033: 8 renderers, 49720 tris
+GolfArcade.EditorTools.TennisVenueCapture:Dump (string,UnityEngine.GameObject) (at Assets/Editor/TennisVenueCapture.cs:127)
+GolfArcade.EditorTools.TennisVenueCapture:Capture (GolfArcade.Tennis.TennisGame) (at Assets/Editor/TennisVenueCapture.cs:63)
+GolfArcade.EditorTools.TennisVenueCapture:Tick () (at Assets/Editor/TennisVenueCapture.cs:45)
+(Filename: Assets/Editor/TennisVenueCapture.cs Line: 127)
+[VenueDump] kit material TropicalV3_003: 12 renderers, 144 tris
+GolfArcade.EditorTools.TennisVenueCapture:Dump (string,UnityEngine.GameObject) (at Assets/Editor/TennisVenueCapture.cs:127)
+GolfArcade.EditorTools.TennisVenueCapture:Capture (GolfArcade.Tennis.TennisGame) (at Assets/Editor/TennisVenueCapture.cs:63)
+GolfArcade.EditorTools.TennisVenueCapture:Tick () (at Assets/Editor/TennisVenueCapture.cs:45)
+(Filename: Assets/Editor/TennisVenueCapture.cs Line: 127)
+[VenueDump] kit material TropicalV3_020: 6 renderers, 32724 tris
+GolfArcade.EditorTools.TennisVenueCapture:Dump (string,UnityEngine.GameObject) (at Assets/Editor/TennisVenueCapture.cs:127)
+GolfArcade.EditorTools.TennisVenueCapture:Capture (GolfArcade.Tennis.TennisGame) (at Assets/Editor/TennisVenueCapture.cs:63)
+GolfArcade.EditorTools.TennisVenueCapture:Tick () (at Assets/Editor/TennisVenueCapture.cs:45)
+(Filename: Assets/Editor/TennisVenueCapture.cs Line: 127)
+[VenueDump] kit material TropicalV3_002: 1 renderers, 12 tris
+GolfArcade.EditorTools.TennisVenueCapture:Dump (string,UnityEngine.GameObject) (at Assets/Editor/TennisVenueCapture.cs:127)
+GolfArcade.EditorTools.TennisVenueCapture:Capture (GolfArcade.Tennis.TennisGame) (at Assets/Editor/TennisVenueCapture.cs:63)
+GolfArcade.EditorTools.TennisVenueCapture:Tick () (at Assets/Editor/TennisVenueCapture.cs:45)
+(Filename: Assets/Editor/TennisVenueCapture.cs Line: 127)
+[VenueDump] kit material TropicalV3_011: 1 renderers, 108 tris
+GolfArcade.EditorTools.TennisVenueCapture:Dump (string,UnityEngine.GameObject) (at Assets/Editor/TennisVenueCapture.cs:127)
+GolfArcade.EditorTools.TennisVenueCapture:Capture (GolfArcade.Tennis.TennisGame) (at Assets/Editor/TennisVenueCapture.cs:63)
+GolfArcade.EditorTools.TennisVenueCapture:Tick () (at Assets/Editor/TennisVenueCapture.cs:45)
+== capture volcano -> /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/venue-presence/proof/baseline_dump
+capture volcano rc=0
+GolfArcade.EditorTools.TennisVenueCapture.Run
+[VenueCapture] Seam N: enabled=True verts=24 bounds=(0.00, -0.03, 21.43)/(25.20, 0.06, 0.34) mat=Universal Render Pipeline/Lit Universal Render Pipeline/Lit
+GolfArcade.EditorTools.TennisVenueCapture:Capture (GolfArcade.Tennis.TennisGame) (at Assets/Editor/TennisVenueCapture.cs:56)
+GolfArcade.EditorTools.TennisVenueCapture:Tick () (at Assets/Editor/TennisVenueCapture.cs:45)
+(Filename: Assets/Editor/TennisVenueCapture.cs Line: 56)
+[VenueCapture] Seam S: enabled=True verts=24 bounds=(0.00, -0.03, -21.43)/(25.20, 0.06, 0.34) mat=Universal Render Pipeline/Lit Universal Render Pipeline/Lit
+GolfArcade.EditorTools.TennisVenueCapture:Capture (GolfArcade.Tennis.TennisGame) (at Assets/Editor/TennisVenueCapture.cs:56)
+GolfArcade.EditorTools.TennisVenueCapture:Tick () (at Assets/Editor/TennisVenueCapture.cs:45)
+(Filename: Assets/Editor/TennisVenueCapture.cs Line: 56)
+[VenueCapture] Seam E: enabled=True verts=24 bounds=(12.43, -0.03, 0.00)/(0.34, 0.06, 42.52) mat=Universal Render Pipeline/Lit Universal Render Pipeline/Lit
+GolfArcade.EditorTools.TennisVenueCapture:Capture (GolfArcade.Tennis.TennisGame) (at Assets/Editor/TennisVenueCapture.cs:56)
+GolfArcade.EditorTools.TennisVenueCapture:Tick () (at Assets/Editor/TennisVenueCapture.cs:45)
+(Filename: Assets/Editor/TennisVenueCapture.cs Line: 56)
+[VenueCapture] Seam W: enabled=True verts=24 bounds=(-12.43, -0.03, 0.00)/(0.34, 0.06, 42.52) mat=Universal Render Pipeline/Lit Universal Render Pipeline/Lit
+GolfArcade.EditorTools.TennisVenueCapture:Capture (GolfArcade.Tennis.TennisGame) (at Assets/Editor/TennisVenueCapture.cs:56)
+GolfArcade.EditorTools.TennisVenueCapture:Tick () (at Assets/Editor/TennisVenueCapture.cs:45)
+(Filename: Assets/Editor/TennisVenueCapture.cs Line: 56)
+[VenueCapture] Volcano: enabled=True verts=25143 bounds=(0.00, 11.15, 0.00)/(1080.00, 143.75, 1080.00) mat=Universal Render Pipeline/Lit Universal Render Pipeline/Lit
+GolfArcade.EditorTools.TennisVenueCapture:Capture (GolfArcade.Tennis.TennisGame) (at Assets/Editor/TennisVenueCapture.cs:56)
+GolfArcade.EditorTools.TennisVenueCapture:Tick () (at Assets/Editor/TennisVenueCapture.cs:45)
+(Filename: Assets/Editor/TennisVenueCapture.cs Line: 56)
+[VenueCapture] Rocky ground: enabled=True verts=5226 bounds=(0.00, -54.22, 0.00)/(1600.00, 17.86, 1600.00) mat=Universal Render Pipeline/Lit Universal Render Pipeline/Lit
+GolfArcade.EditorTools.TennisVenueCapture:Capture (GolfArcade.Tennis.TennisGame) (at Assets/Editor/TennisVenueCapture.cs:56)
+GolfArcade.EditorTools.TennisVenueCapture:Tick () (at Assets/Editor/TennisVenueCapture.cs:45)
+(Filename: Assets/Editor/TennisVenueCapture.cs Line: 56)
+[VenueCapture] Grassland: enabled=True verts=8442 bounds=(0.00, -67.06, 0.00)/(4200.00, 45.37, 4200.00) mat=Universal Render Pipeline/Lit Universal Render Pipeline/Lit
+GolfArcade.EditorTools.TennisVenueCapture:Capture (GolfArcade.Tennis.TennisGame) (at Assets/Editor/TennisVenueCapture.cs:56)
+GolfArcade.EditorTools.TennisVenueCapture:Tick () (at Assets/Editor/TennisVenueCapture.cs:45)
+(Filename: Assets/Editor/TennisVenueCapture.cs Line: 56)
+[VenueCapture] Sea round the island: enabled=True verts=4 bounds=(0.00, -68.00, 0.00)/(20000.00, 0.00, 20000.00) mat=Universal Render Pipeline/Lit Universal Render Pipeline/Lit
+GolfArcade.EditorTools.TennisVenueCapture:Capture (GolfArcade.Tennis.TennisGame) (at Assets/Editor/TennisVenueCapture.cs:56)
+GolfArcade.EditorTools.TennisVenueCapture:Tick () (at Assets/Editor/TennisVenueCapture.cs:45)
+(Filename: Assets/Editor/TennisVenueCapture.cs Line: 56)
+[VenueDump] particles 'Lava fountain' alive=10 playing=True max=160 at=(-30, -45, 95) bounds=(14, 15, 11)
+GolfArcade.EditorTools.TennisVenueCapture:Dump (string,UnityEngine.GameObject) (at Assets/Editor/TennisVenueCapture.cs:125)
+GolfArcade.EditorTools.TennisVenueCapture:Capture (GolfArcade.Tennis.TennisGame) (at Assets/Editor/TennisVenueCapture.cs:63)
+GolfArcade.EditorTools.TennisVenueCapture:Tick () (at Assets/Editor/TennisVenueCapture.cs:45)
+(Filename: Assets/Editor/TennisVenueCapture.cs Line: 125)
+[VenueDump] particles 'Steam vent' alive=1 playing=True max=60 at=(140, 5, -117) bounds=(46, 46, 46)
+GolfArcade.EditorTools.TennisVenueCapture:Dump (string,UnityEngine.GameObject) (at Assets/Editor/TennisVenueCapture.cs:125)
+== done

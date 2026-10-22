@@ -1,0 +1,11 @@
+{"shots":[
+{"name":"t_tee","kind":"address","ball":[0,0],"aim":[3,60]},
+{"name":"t_appr","kind":"address","ball":[13.5,269],"aim":[6,416]},
+{"name":"t_ruin","kind":"landmark","pos":[-64.06,26,149.86],"look":[-64.06,10.1,119.86],"fov":50},
+{"name":"t_aerial","kind":"landmark","pos":[60,150,400],"look":[-40,5,260],"fov":45,"preview_res":[1600,900]},
+{"name":"t_aerial2","kind":"landmark","pos":[-200,110,200],"look":[-30,5,260],"fov":45,"preview_res":[1600,900]},
+{"name":"t_bunker","kind":"landmark","pos":[10,14,170],"look":[0,6.5,195],"fov":55,"preview_res":[1120,630]},
+{"name":"t_green","kind":"landmark","pos":[-10,18,430],"look":[-10,6.5,480],"fov":55,"preview_res":[1120,630]},
+{"name":"t_ridgeN","kind":"landmark","pos":[-20,22,480],"look":[-60,6.5,420],"fov":55,"preview_res":[1120,630]},
+{"name":"t_cliff","kind":"landmark","pos":[-10,14,300],"look":[-60,5,260],"fov":50,"preview_res":[1120,630]}
+]}

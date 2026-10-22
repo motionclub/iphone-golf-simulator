@@ -1,0 +1,14 @@
+{"shots":[
+{"name":"a_tee","kind":"address","ball":[0,0],"aim":[3,60]},
+{"name":"a_appr","kind":"address","ball":[13.5,269],"aim":[6,416]},
+{"name":"b_bunker1","kind":"landmark","pos":[14,12,162],"look":[-2.5,0.4,184],"fov":50},
+{"name":"b_bunker2","kind":"landmark","pos":[40,12,180],"look":[21.8,0.4,200],"fov":50},
+{"name":"b_bunker3","kind":"landmark","pos":[28,14,440],"look":[9,0.4,466],"fov":50},
+{"name":"c_ruin","kind":"landmark","pos":[-64.06,26,149.86],"look":[-64.06,10.1,119.86],"fov":50},
+{"name":"c_ridge_fair","kind":"landmark","pos":[40,28,150],"look":[-64,6.6,115],"fov":55},
+{"name":"c_ridge_n","kind":"landmark","pos":[-30,22,40],"look":[-66,6,100],"fov":55,"preview_res":[1400,800]},
+{"name":"c_ridge_s","kind":"landmark","pos":[-30,22,520],"look":[-70,6,440],"fov":55,"preview_res":[1400,800]},
+{"name":"d_aerial","kind":"landmark","pos":[60,150,400],"look":[-40,5,260],"fov":45,"preview_res":[1600,900]},
+{"name":"d_aerial_side","kind":"landmark","pos":[-200,110,200],"look":[-30,5,260],"fov":45,"preview_res":[1600,900]},
+{"name":"e_cliff","kind":"landmark","pos":[-30,10,300],"look":[-60,3,300],"fov":55,"preview_res":[1400,800]}
+]}

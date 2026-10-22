@@ -317,7 +317,7 @@ namespace GolfArcade.UI
             const float S = 250;
             var start = Pill("Start swing", Yellow, Width / 2 - 20 - S / 2 - 10, padY, new Vector2(S, S), out startFill, 9);
             foreach (var layer in start.GetComponentsInChildren<Image>()) layer.type = Image.Type.Simple;   // round, not a capsule
-            startLabel = Chunky(startFill.transform, "Label", "HOLD TO\nSWING", 52, 4f, Color.white, UiKit.Hex("C77800"));
+            startLabel = Chunky(startFill.transform, "Label", "TAP TO\nSWING", 52, 4f, Color.white, UiKit.Hex("C77800"));
             startLabel.lineSpacing = 0.85f;
             startHit = start.gameObject.AddComponent<Image>(); startHit.color = Color.clear;
             StartSwing = start.gameObject.AddComponent<HoldButton>();
@@ -471,9 +471,8 @@ namespace GolfArcade.UI
             aimText.text = Mathf.Abs(d) < 0.5f ? "STRAIGHT" : $"{Mathf.Abs(d):F0}° {(d > 0 ? "RIGHT" : "LEFT")}";
         }
 
-        /// The swing button, while a motion shot is lined up. `state`: 0 hold to swing, 1 held: hold the
-        /// phone still in your stance while the grip is set, 2 held: swing now. It stays live while
-        /// held, so lifting the thumb (a reset) reaches it; touching the aim pad or club resets too.
+        /// The swing button, while a motion shot is lined up. `state`: 0 tap to swing, 2 swinging (tap
+        /// again to cancel). Touching the aim pad or club resets the swing too.
         public void SetSwingButton(bool shown, int state)
         {
             if (!StartSwing) return;
@@ -482,13 +481,12 @@ namespace GolfArcade.UI
             startState = state;
             var (text, fill, outline) = state switch
             {
-                1 => ("HOLD\nSTILL", Amber, "8A5A00"),
-                2 => ("SWING!", Green, "1E7A30"),
-                _ => ("HOLD TO\nSWING", Yellow, "C77800"),
+                1 or 2 => ("SWING!\ntap: cancel", Green, "1E7A30"),
+                _ => ("TAP TO\nSWING", Yellow, "C77800"),
             };
             startLabel.text = text;
             foreach (var o in startLabel.GetComponents<Outline>()) o.effectColor = UiKit.Hex(outline);
-            startFill.color = fill; StartSwing.RestColor = fill; StartSwing.PressedColor = state == 0 ? Amber : fill;
+            startFill.color = fill; StartSwing.RestColor = fill; StartSwing.PressedColor = state == 0 ? Amber : Yellow;
         }
 
         /// The backswing: the ring round the pad fills.

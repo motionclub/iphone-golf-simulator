@@ -1,0 +1,12 @@
+run f4 swap PASS: 3
+probe_v5f4/hole08_tee_probe.jpg            lower60 sd 0.0564 (14.4/255) | central-lower-third sd 0.0538 | w20 med 0.0277 ge.03 39% flat 0.0% | mean rgb [173, 186, 73] h67 S0.61 V0.73
+probe_v5f4/hole09_tee_probe.jpg            lower60 sd 0.0517 (13.2/255) | central-lower-third sd 0.0511 | w20 med 0.0243 ge.03 24% flat 0.0% | mean rgb [156, 173, 75] h71 S0.57 V0.68
+probe_v5f4/hole10_tee_probe.jpg            lower60 sd 0.0624 (15.9/255) | central-lower-third sd 0.0595 | w20 med 0.0387 ge.03 88% flat 0.0% | mean rgb [161, 184, 41] h70 S0.78 V0.72
+run f5 swap PASS: 3
+probe_v5f5/hole08_tee_probe.jpg            lower60 sd 0.0564 (14.4/255) | central-lower-third sd 0.0538 | w20 med 0.0277 ge.03 39% flat 0.0% | mean rgb [173, 186, 73] h67 S0.61 V0.73
+probe_v5f5/hole09_tee_probe.jpg            lower60 sd 0.0517 (13.2/255) | central-lower-third sd 0.0511 | w20 med 0.0243 ge.03 24% flat 0.0% | mean rgb [156, 173, 75] h71 S0.57 V0.68
+probe_v5f5/hole10_tee_probe.jpg            lower60 sd 0.0624 (15.9/255) | central-lower-third sd 0.0595 | w20 med 0.0387 ge.03 88% flat 0.0% | mean rgb [161, 184, 41] h70 S0.78 V0.72
+run f6 swap PASS: 3
+probe_v5f6/hole08_tee_probe.jpg            lower60 sd 0.0564 (14.4/255) | central-lower-third sd 0.0538 | w20 med 0.0277 ge.03 39% flat 0.0% | mean rgb [173, 186, 73] h67 S0.61 V0.73
+probe_v5f6/hole09_tee_probe.jpg            lower60 sd 0.0517 (13.2/255) | central-lower-third sd 0.0511 | w20 med 0.0243 ge.03 24% flat 0.0% | mean rgb [156, 173, 75] h71 S0.57 V0.68
+probe_v5f6/hole10_tee_probe.jpg            lower60 sd 0.0624 (15.9/255) | central-lower-third sd 0.0595 | w20 med 0.0387 ge.03 88% flat 0.0% | mean rgb [161, 184, 41] h70 S0.78 V0.72

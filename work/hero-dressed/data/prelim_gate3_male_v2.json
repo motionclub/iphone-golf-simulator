@@ -1,0 +1,772 @@
+{
+ "tag": "male",
+ "mode": "gate",
+ "outer_inner": {
+  "Top": {
+   "orient": 1.0,
+   "d_outer_mean_mm": 13.837984831882464,
+   "d_inner_mean_mm": 11.504090808396152,
+   "n_outer": 11967,
+   "n_inner": 10331
+  },
+  "Bottom": {
+   "orient": 1.0,
+   "d_outer_mean_mm": 24.65828071191091,
+   "d_inner_mean_mm": 20.735774185774186,
+   "n_outer": 10937,
+   "n_inner": 10095
+  },
+  "Sock_L": {
+   "orient": 1.0,
+   "d_outer_mean_mm": 6.712890758257955,
+   "d_inner_mean_mm": 4.70347680225545,
+   "n_outer": 3190,
+   "n_inner": 3080
+  },
+  "Sock_R": {
+   "orient": 1.0,
+   "d_outer_mean_mm": 6.699855636940211,
+   "d_inner_mean_mm": 4.693282561708515,
+   "n_outer": 3203,
+   "n_inner": 3067
+  },
+  "Shoe_L": {
+   "orient": 1.0,
+   "d_outer_mean_mm": 19.76624998090641,
+   "d_inner_mean_mm": 13.279140847191455,
+   "n_outer": 10346,
+   "n_inner": 7332
+  },
+  "Shoe_R": {
+   "orient": 1.0,
+   "d_outer_mean_mm": 19.68784315941176,
+   "d_inner_mean_mm": 13.178371581166578,
+   "n_outer": 10328,
+   "n_inner": 7350
+  }
+ },
+ "zone_n": {
+  "Top": 7399,
+  "Bottom": 4324,
+  "Sock_L": 2585,
+  "Sock_R": 2584,
+  "Shoe_L": 1840,
+  "Shoe_R": 1839
+ },
+ "poses": [
+  {
+   "clip": "ReadyIdle",
+   "frame": 0,
+   "label": "ReadyIdle frame 0",
+   "pieces": {
+    "Top": {
+     "poke_max_mm": 48.6832913463342,
+     "poke_p99_mm": 18.279241014261817,
+     "poke_n_over_5mm": 297,
+     "zone_n": 7399,
+     "float_max_mm": 21.548730321228504,
+     "float_p99_mm": 16.381761990487593,
+     "float_n": 6066,
+     "worst_body_vertex": 8226
+    },
+    "Bottom": {
+     "poke_max_mm": 4.331994603366751,
+     "poke_p99_mm": 0.0,
+     "poke_n_over_5mm": 0,
+     "zone_n": 4324,
+     "float_max_mm": 31.141672283411026,
+     "float_p99_mm": 7.595434039831058,
+     "float_n": 4911,
+     "worst_body_vertex": 10958
+    },
+    "Sock_L": {
+     "poke_max_mm": 0.0,
+     "poke_p99_mm": 0.0,
+     "poke_n_over_5mm": 0,
+     "zone_n": 2585,
+     "float_max_mm": 0.12812577188014984,
+     "float_p99_mm": 0.062110554426908327,
+     "float_n": 1691,
+     "worst_body_vertex": 15602,
+     "edge_strain_max": 0.16267962056342367,
+     "edge_strain_p99": 0.0934649355079894
+    },
+    "Sock_R": {
+     "poke_max_mm": 0.0,
+     "poke_p99_mm": 0.0,
+     "poke_n_over_5mm": 0,
+     "zone_n": 2584,
+     "float_max_mm": 0.12501049786806107,
+     "float_p99_mm": 0.06922396831214428,
+     "float_n": 1678,
+     "worst_body_vertex": 2573,
+     "edge_strain_max": 0.16551370066121407,
+     "edge_strain_p99": 0.09592668405884042
+    },
+    "Shoe_L": {
+     "poke_max_mm": 67.86995665972961,
+     "poke_p99_mm": 0.0,
+     "poke_n_over_5mm": 5,
+     "zone_n": 1840,
+     "float_max_mm": 0.04817545413970947,
+     "float_p99_mm": 0.005387552082538603,
+     "float_n": 4597,
+     "worst_body_vertex": 16874,
+     "edge_strain_max": 0.3301324039152219,
+     "edge_strain_p99": 0.12597973496198633
+    },
+    "Shoe_R": {
+     "poke_max_mm": 67.98288317296775,
+     "poke_p99_mm": 0.0,
+     "poke_n_over_5mm": 4,
+     "zone_n": 1839,
+     "float_max_mm": 0.036619603633880615,
+     "float_p99_mm": 0.010102242231369057,
+     "float_n": 4617,
+     "worst_body_vertex": 7738,
+     "edge_strain_max": 0.790824740863085,
+     "edge_strain_p99": 0.12681504694673007
+    }
+   }
+  },
+  {
+   "clip": "Forehand",
+   "frame": 20,
+   "label": "Forehand contact",
+   "pieces": {
+    "Top": {
+     "poke_max_mm": 59.332947421721016,
+     "poke_p99_mm": 21.059002416641707,
+     "poke_n_over_5mm": 312,
+     "zone_n": 7399,
+     "float_max_mm": 43.304597958922386,
+     "float_p99_mm": 32.8249964863062,
+     "float_n": 6066,
+     "worst_body_vertex": 6656
+    },
+    "Bottom": {
+     "poke_max_mm": 7.892528788408182,
+     "poke_p99_mm": 0.0,
+     "poke_n_over_5mm": 6,
+     "zone_n": 4324,
+     "float_max_mm": 36.77779249846935,
+     "float_p99_mm": 6.67970255017261,
+     "float_n": 4911,
+     "worst_body_vertex": 8077
+    },
+    "Sock_L": {
+     "poke_max_mm": 0.0,
+     "poke_p99_mm": 0.0,
+     "poke_n_over_5mm": 0,
+     "zone_n": 2585,
+     "float_max_mm": 0.16047246754169464,
+     "float_p99_mm": 0.0765055883675813,
+     "float_n": 1691,
+     "worst_body_vertex": 15602,
+     "edge_strain_max": 0.16338858270695422,
+     "edge_strain_p99": 0.08988728186004313
+    },
+    "Sock_R": {
+     "poke_max_mm": 0.0,
+     "poke_p99_mm": 0.0,
+     "poke_n_over_5mm": 0,
+     "zone_n": 2584,
+     "float_max_mm": 0.825363676995039,
+     "float_p99_mm": 0.2463634451851249,
+     "float_n": 1678,
+     "worst_body_vertex": 2573,
+     "edge_strain_max": 0.33188498920078136,
+     "edge_strain_p99": 0.1428305853186509
+    },
+    "Shoe_L": {
+     "poke_max_mm": 69.41440788054365,
+     "poke_p99_mm": 0.0,
+     "poke_n_over_5mm": 4,
+     "zone_n": 1840,
+     "float_max_mm": 0.04501082003116608,
+     "float_p99_mm": 0.0031564757227897644,
+     "float_n": 4597,
+     "worst_body_vertex": 16874,
+     "edge_strain_max": 0.3236523018576589,
+     "edge_strain_p99": 0.11478909323967512
+    },
+    "Shoe_R": {
+     "poke_max_mm": 74.16191241477499,
+     "poke_p99_mm": 0.0,
+     "poke_n_over_5mm": 3,
+     "zone_n": 1839,
+     "float_max_mm": 0.049173831939697266,
+     "float_p99_mm": 0.003466866910457615,
+     "float_n": 4617,
+     "worst_body_vertex": 7685,
+     "edge_strain_max": 1.63682161601507,
+     "edge_strain_p99": 0.29182654543031994
+    }
+   }
+  },
+  {
+   "clip": "Backhand",
+   "frame": 19,
+   "label": "Backhand contact",
+   "pieces": {
+    "Top": {
+     "poke_max_mm": 101.26959291179682,
+     "poke_p99_mm": 18.50243471992943,
+     "poke_n_over_5mm": 319,
+     "zone_n": 7399,
+     "float_max_mm": 45.48957012593746,
+     "float_p99_mm": 34.450368396937904,
+     "float_n": 6066,
+     "worst_body_vertex": 17538
+    },
+    "Bottom": {
+     "poke_max_mm": 14.244133552157923,
+     "poke_p99_mm": 0.1474823562586577,
+     "poke_n_over_5mm": 23,
+     "zone_n": 4324,
+     "float_max_mm": 40.41615687310696,
+     "float_p99_mm": 9.871392790228034,
+     "float_n": 4911,
+     "worst_body_vertex": 12379
+    },
+    "Sock_L": {
+     "poke_max_mm": 0.0,
+     "poke_p99_mm": 0.0,
+     "poke_n_over_5mm": 0,
+     "zone_n": 2585,
+     "float_max_mm": 0.9820181876420975,
+     "float_p99_mm": 0.325142452493307,
+     "float_n": 1691,
+     "worst_body_vertex": 15602,
+     "edge_strain_max": 0.5604286763156137,
+     "edge_strain_p99": 0.2055631562051372
+    },
+    "Sock_R": {
+     "poke_max_mm": 0.0,
+     "poke_p99_mm": 0.0,
+     "poke_n_over_5mm": 0,
+     "zone_n": 2584,
+     "float_max_mm": 0.7937438786029816,
+     "float_p99_mm": 0.24236892350018027,
+     "float_n": 1678,
+     "worst_body_vertex": 2573,
+     "edge_strain_max": 0.31972237668209225,
+     "edge_strain_p99": 0.1656115328308494
+    },
+    "Shoe_L": {
+     "poke_max_mm": 23.851106773545183,
+     "poke_p99_mm": 11.187393832260488,
+     "poke_n_over_5mm": 27,
+     "zone_n": 1840,
+     "float_max_mm": 0.056461431086063385,
+     "float_p99_mm": 2.0563602447509698e-05,
+     "float_n": 4597,
+     "worst_body_vertex": 17991,
+     "edge_strain_max": 2.510621413403583,
+     "edge_strain_p99": 0.43671115493104495
+    },
+    "Shoe_R": {
+     "poke_max_mm": 71.07136260153021,
+     "poke_p99_mm": 0.0,
+     "poke_n_over_5mm": 4,
+     "zone_n": 1839,
+     "float_max_mm": 0.03778189420700073,
+     "float_p99_mm": 0.0009779259562492514,
+     "float_n": 4617,
+     "worst_body_vertex": 7738,
+     "edge_strain_max": 1.576034852011119,
+     "edge_strain_p99": 0.2960173640000663
+    }
+   }
+  },
+  {
+   "clip": "Serve",
+   "frame": 27,
+   "label": "Serve contact",
+   "pieces": {
+    "Top": {
+     "poke_max_mm": 70.32105813088118,
+     "poke_p99_mm": 10.664619760334272,
+     "poke_n_over_5mm": 131,
+     "zone_n": 7399,
+     "float_max_mm": 35.78922525048256,
+     "float_p99_mm": 27.65610832721001,
+     "float_n": 6066,
+     "worst_body_vertex": 8226
+    },
+    "Bottom": {
+     "poke_max_mm": 6.543314711310089,
+     "poke_p99_mm": 0.0,
+     "poke_n_over_5mm": 2,
+     "zone_n": 4324,
+     "float_max_mm": 20.828314125537872,
+     "float_p99_mm": 5.176467634737436,
+     "float_n": 4911,
+     "worst_body_vertex": 10958
+    },
+    "Sock_L": {
+     "poke_max_mm": 3.7560092011169335,
+     "poke_p99_mm": 0.6521336924283738,
+     "poke_n_over_5mm": 0,
+     "zone_n": 2585,
+     "float_max_mm": 1.9434965215623379,
+     "float_p99_mm": 0.42418413795530663,
+     "float_n": 1691,
+     "worst_body_vertex": 32158,
+     "edge_strain_max": 1.1802879015254137,
+     "edge_strain_p99": 0.5959414080064807
+    },
+    "Sock_R": {
+     "poke_max_mm": 11.586045987940885,
+     "poke_p99_mm": 2.0288441096597896,
+     "poke_n_over_5mm": 7,
+     "zone_n": 2584,
+     "float_max_mm": 2.9723127372562885,
+     "float_p99_mm": 0.44551528990268746,
+     "float_n": 1678,
+     "worst_body_vertex": 33025,
+     "edge_strain_max": 1.0685412276622381,
+     "edge_strain_p99": 0.479640957492824
+    },
+    "Shoe_L": {
+     "poke_max_mm": 28.078529778538197,
+     "poke_p99_mm": 16.050237550554193,
+     "poke_n_over_5mm": 161,
+     "zone_n": 1840,
+     "float_max_mm": 0.07378868758678436,
+     "float_p99_mm": 3.725290298458526e-08,
+     "float_n": 4597,
+     "worst_body_vertex": 17991,
+     "edge_strain_max": 5.133488264773358,
+     "edge_strain_p99": 1.183440370097299
+    },
+    "Shoe_R": {
+     "poke_max_mm": 78.0912716719775,
+     "poke_p99_mm": 14.497895888016496,
+     "poke_n_over_5mm": 148,
+     "zone_n": 1839,
+     "float_max_mm": 0.0180928036570549,
+     "float_p99_mm": 9.164214134216444e-06,
+     "float_n": 4617,
+     "worst_body_vertex": 7685,
+     "edge_strain_max": 5.0836025470335775,
+     "edge_strain_p99": 0.9425001090424152
+    }
+   }
+  },
+  {
+   "clip": "Overhead",
+   "frame": 22,
+   "label": "Overhead contact",
+   "pieces": {
+    "Top": {
+     "poke_max_mm": 84.27899669992294,
+     "poke_p99_mm": 9.56544375406997,
+     "poke_n_over_5mm": 154,
+     "zone_n": 7399,
+     "float_max_mm": 38.641151040792465,
+     "float_p99_mm": 31.919128913432363,
+     "float_n": 6066,
+     "worst_body_vertex": 17538
+    },
+    "Bottom": {
+     "poke_max_mm": 11.825537102765182,
+     "poke_p99_mm": 0.0,
+     "poke_n_over_5mm": 4,
+     "zone_n": 4324,
+     "float_max_mm": 41.21396504342556,
+     "float_p99_mm": 7.928446494042833,
+     "float_n": 4911,
+     "worst_body_vertex": 6082
+    },
+    "Sock_L": {
+     "poke_max_mm": 21.112331252941097,
+     "poke_p99_mm": 5.879334197093805,
+     "poke_n_over_5mm": 36,
+     "zone_n": 2585,
+     "float_max_mm": 2.253578510135412,
+     "float_p99_mm": 0.3758817911148059,
+     "float_n": 1691,
+     "worst_body_vertex": 32407,
+     "edge_strain_max": 1.3809073485619408,
+     "edge_strain_p99": 0.7653341372438148
+    },
+    "Sock_R": {
+     "poke_max_mm": 20.66452501949906,
+     "poke_p99_mm": 7.753334231066559,
+     "poke_n_over_5mm": 48,
+     "zone_n": 2584,
+     "float_max_mm": 3.5796561278402805,
+     "float_p99_mm": 0.4770121863111856,
+     "float_n": 1678,
+     "worst_body_vertex": 33037,
+     "edge_strain_max": 1.2547042591299045,
+     "edge_strain_p99": 0.583611503144956
+    },
+    "Shoe_L": {
+     "poke_max_mm": 74.67508192307592,
+     "poke_p99_mm": 15.283393346399409,
+     "poke_n_over_5mm": 188,
+     "zone_n": 1840,
+     "float_max_mm": 0.06190594285726547,
+     "float_p99_mm": 0.0,
+     "float_n": 4597,
+     "worst_body_vertex": 16822,
+     "edge_strain_max": 6.003020149419597,
+     "edge_strain_p99": 1.4940685487299783
+    },
+    "Shoe_R": {
+     "poke_max_mm": 79.56996896058666,
+     "poke_p99_mm": 17.552139986210243,
+     "poke_n_over_5mm": 208,
+     "zone_n": 1839,
+     "float_max_mm": 0.01432560384273529,
+     "float_p99_mm": 0.0,
+     "float_n": 4617,
+     "worst_body_vertex": 7685,
+     "edge_strain_max": 6.054469225743001,
+     "edge_strain_p99": 1.219247588734988
+    }
+   }
+  },
+  {
+   "clip": "ForehandWide",
+   "frame": 26,
+   "label": "ForehandWide contact",
+   "pieces": {
+    "Top": {
+     "poke_max_mm": 70.77586235641232,
+     "poke_p99_mm": 16.11964527008875,
+     "poke_n_over_5mm": 282,
+     "zone_n": 7399,
+     "float_max_mm": 49.693831242620945,
+     "float_p99_mm": 38.87059064581991,
+     "float_n": 6066,
+     "worst_body_vertex": 17538
+    },
+    "Bottom": {
+     "poke_max_mm": 13.905135383437628,
+     "poke_p99_mm": 0.0,
+     "poke_n_over_5mm": 4,
+     "zone_n": 4324,
+     "float_max_mm": 49.631765112280846,
+     "float_p99_mm": 8.764330018311316,
+     "float_n": 4911,
+     "worst_body_vertex": 16325
+    },
+    "Sock_L": {
+     "poke_max_mm": 6.56462550773429,
+     "poke_p99_mm": 0.0,
+     "poke_n_over_5mm": 1,
+     "zone_n": 2585,
+     "float_max_mm": 1.7658290453255177,
+     "float_p99_mm": 0.34550959244370305,
+     "float_n": 1691,
+     "worst_body_vertex": 32103,
+     "edge_strain_max": 1.0668352318926653,
+     "edge_strain_p99": 0.3226849354167577
+    },
+    "Sock_R": {
+     "poke_max_mm": 0.0,
+     "poke_p99_mm": 0.0,
+     "poke_n_over_5mm": 0,
+     "zone_n": 2584,
+     "float_max_mm": 0.10570511221885681,
+     "float_p99_mm": 0.049922624602913857,
+     "float_n": 1678,
+     "worst_body_vertex": 2573,
+     "edge_strain_max": 0.11375555907403445,
+     "edge_strain_p99": 0.06088026514664713
+    },
+    "Shoe_L": {
+     "poke_max_mm": 25.453815703162963,
+     "poke_p99_mm": 14.253727456663684,
+     "poke_n_over_5mm": 118,
+     "zone_n": 1840,
+     "float_max_mm": 0.06718374788761139,
+     "float_p99_mm": 1.9371509552001275e-06,
+     "float_n": 4597,
+     "worst_body_vertex": 32056,
+     "edge_strain_max": 4.659676742230226,
+     "edge_strain_p99": 0.6826299609235773
+    },
+    "Shoe_R": {
+     "poke_max_mm": 55.08562783635293,
+     "poke_p99_mm": 0.0,
+     "poke_n_over_5mm": 2,
+     "zone_n": 1839,
+     "float_max_mm": 0.06116461008787155,
+     "float_p99_mm": 0.010691583156585721,
+     "float_n": 4617,
+     "worst_body_vertex": 7724,
+     "edge_strain_max": 0.3167063074596628,
+     "edge_strain_p99": 0.09497813778071307
+    }
+   }
+  },
+  {
+   "clip": "VolleyForehand",
+   "frame": 9,
+   "label": "VolleyForehand contact",
+   "pieces": {
+    "Top": {
+     "poke_max_mm": 116.15410278200721,
+     "poke_p99_mm": 29.654324333292926,
+     "poke_n_over_5mm": 455,
+     "zone_n": 7399,
+     "float_max_mm": 37.61131688952446,
+     "float_p99_mm": 32.27341035380964,
+     "float_n": 6066,
+     "worst_body_vertex": 8226
+    },
+    "Bottom": {
+     "poke_max_mm": 19.186419032539703,
+     "poke_p99_mm": 5.220551021541674,
+     "poke_n_over_5mm": 45,
+     "zone_n": 4324,
+     "float_max_mm": 34.58861634135246,
+     "float_p99_mm": 4.881313536316026,
+     "float_n": 4911,
+     "worst_body_vertex": 11548
+    },
+    "Sock_L": {
+     "poke_max_mm": 0.0,
+     "poke_p99_mm": 0.0,
+     "poke_n_over_5mm": 0,
+     "zone_n": 2585,
+     "float_max_mm": 1.0550105944275856,
+     "float_p99_mm": 0.34754318185150584,
+     "float_n": 1691,
+     "worst_body_vertex": 15602,
+     "edge_strain_max": 0.6078014439767843,
+     "edge_strain_p99": 0.3128623077549335
+    },
+    "Sock_R": {
+     "poke_max_mm": 0.0,
+     "poke_p99_mm": 0.0,
+     "poke_n_over_5mm": 0,
+     "zone_n": 2584,
+     "float_max_mm": 0.17996923997998238,
+     "float_p99_mm": 0.11359446216374636,
+     "float_n": 1678,
+     "worst_body_vertex": 2573,
+     "edge_strain_max": 0.5311583768469428,
+     "edge_strain_p99": 0.20860090225209715
+    },
+    "Shoe_L": {
+     "poke_max_mm": 65.16988107281895,
+     "poke_p99_mm": 14.243701803715558,
+     "poke_n_over_5mm": 44,
+     "zone_n": 1840,
+     "float_max_mm": 0.05893595516681671,
+     "float_p99_mm": 0.001142248511314384,
+     "float_n": 4597,
+     "worst_body_vertex": 16874,
+     "edge_strain_max": 2.7164636295091062,
+     "edge_strain_p99": 0.5254083142037296
+    },
+    "Shoe_R": {
+     "poke_max_mm": 72.22674546324149,
+     "poke_p99_mm": 0.0,
+     "poke_n_over_5mm": 14,
+     "zone_n": 1839,
+     "float_max_mm": 0.056209973990917206,
+     "float_p99_mm": 0.005988217890262624,
+     "float_n": 4617,
+     "worst_body_vertex": 7685,
+     "edge_strain_max": 0.9290931442181776,
+     "edge_strain_p99": 0.3575703458051075
+    }
+   }
+  },
+  {
+   "clip": "Return",
+   "frame": 13,
+   "label": "Return contact",
+   "pieces": {
+    "Top": {
+     "poke_max_mm": 56.76713955391976,
+     "poke_p99_mm": 14.036858599192065,
+     "poke_n_over_5mm": 263,
+     "zone_n": 7399,
+     "float_max_mm": 45.26510555297136,
+     "float_p99_mm": 36.03674434125427,
+     "float_n": 6066,
+     "worst_body_vertex": 8226
+    },
+    "Bottom": {
+     "poke_max_mm": 12.171639543141655,
+     "poke_p99_mm": 0.0,
+     "poke_n_over_5mm": 5,
+     "zone_n": 4324,
+     "float_max_mm": 49.88043196499348,
+     "float_p99_mm": 12.242948263883248,
+     "float_n": 4911,
+     "worst_body_vertex": 6082
+    },
+    "Sock_L": {
+     "poke_max_mm": 0.0,
+     "poke_p99_mm": 0.0,
+     "poke_n_over_5mm": 0,
+     "zone_n": 2585,
+     "float_max_mm": 0.22364407777786255,
+     "float_p99_mm": 0.08862852118909337,
+     "float_n": 1691,
+     "worst_body_vertex": 15602,
+     "edge_strain_max": 0.2451357436796303,
+     "edge_strain_p99": 0.15260353725097908
+    },
+    "Sock_R": {
+     "poke_max_mm": 0.0,
+     "poke_p99_mm": 0.0,
+     "poke_n_over_5mm": 0,
+     "zone_n": 2584,
+     "float_max_mm": 1.9421330653131008,
+     "float_p99_mm": 0.3611565614119184,
+     "float_n": 1678,
+     "worst_body_vertex": 2573,
+     "edge_strain_max": 0.7338068762141055,
+     "edge_strain_p99": 0.3132530498153495
+    },
+    "Shoe_L": {
+     "poke_max_mm": 68.4396175855545,
+     "poke_p99_mm": 0.0,
+     "poke_n_over_5mm": 8,
+     "zone_n": 1840,
+     "float_max_mm": 0.06506592035293579,
+     "float_p99_mm": 0.00551745295524597,
+     "float_n": 4597,
+     "worst_body_vertex": 16874,
+     "edge_strain_max": 0.5669834058537223,
+     "edge_strain_p99": 0.20293552164413897
+    },
+    "Shoe_R": {
+     "poke_max_mm": 70.86038679766449,
+     "poke_p99_mm": 15.297360820343036,
+     "poke_n_over_5mm": 80,
+     "zone_n": 1839,
+     "float_max_mm": 0.02435501664876938,
+     "float_p99_mm": 0.0,
+     "float_n": 4617,
+     "worst_body_vertex": 7738,
+     "edge_strain_max": 3.5534574489378628,
+     "edge_strain_p99": 0.5930548726286908
+    }
+   }
+  }
+ ],
+ "summary": {
+  "Top": {
+   "poke_max_mm": 116.15410278200721,
+   "poke_p99_worst_mm": 29.654324333292926,
+   "float_max_mm": 49.693831242620945,
+   "float_p99_worst_mm": 38.87059064581991,
+   "cls": "cloth",
+   "worst_poke_pose": "VolleyForehand contact",
+   "worst_poke_clip": "VolleyForehand",
+   "worst_poke_frame": 9,
+   "worst_float_pose": "ForehandWide contact",
+   "pass_": false,
+   "thresholds": {
+    "poke_max": 15.0,
+    "poke_p99": 5.0,
+    "float_max": 40.0,
+    "float_p99": 15.0
+   }
+  },
+  "Bottom": {
+   "poke_max_mm": 19.186419032539703,
+   "poke_p99_worst_mm": 5.220551021541674,
+   "float_max_mm": 49.88043196499348,
+   "float_p99_worst_mm": 12.242948263883248,
+   "cls": "cloth",
+   "worst_poke_pose": "VolleyForehand contact",
+   "worst_poke_clip": "VolleyForehand",
+   "worst_poke_frame": 9,
+   "worst_float_pose": "Return contact",
+   "pass_": false,
+   "thresholds": {
+    "poke_max": 15.0,
+    "poke_p99": 5.0,
+    "float_max": 40.0,
+    "float_p99": 15.0
+   }
+  },
+  "Sock_L": {
+   "poke_max_mm": 21.112331252941097,
+   "poke_p99_worst_mm": 5.879334197093805,
+   "float_max_mm": 2.253578510135412,
+   "float_p99_worst_mm": 0.42418413795530663,
+   "cls": "rigid",
+   "worst_poke_pose": "Overhead contact",
+   "worst_poke_clip": "Overhead",
+   "worst_poke_frame": 22,
+   "worst_float_pose": "Overhead contact",
+   "pass_": false,
+   "thresholds": {
+    "poke_max": 15.0,
+    "poke_p99": 5.0,
+    "float_max": 12.0,
+    "float_p99": 6.0
+   },
+   "edge_strain_max": 1.3809073485619408
+  },
+  "Sock_R": {
+   "poke_max_mm": 20.66452501949906,
+   "poke_p99_worst_mm": 7.753334231066559,
+   "float_max_mm": 3.5796561278402805,
+   "float_p99_worst_mm": 0.4770121863111856,
+   "cls": "rigid",
+   "worst_poke_pose": "Overhead contact",
+   "worst_poke_clip": "Overhead",
+   "worst_poke_frame": 22,
+   "worst_float_pose": "Overhead contact",
+   "pass_": false,
+   "thresholds": {
+    "poke_max": 15.0,
+    "poke_p99": 5.0,
+    "float_max": 12.0,
+    "float_p99": 6.0
+   },
+   "edge_strain_max": 1.2547042591299045
+  },
+  "Shoe_L": {
+   "poke_max_mm": 74.67508192307592,
+   "poke_p99_worst_mm": 16.050237550554193,
+   "float_max_mm": 0.07378868758678436,
+   "float_p99_worst_mm": 0.00551745295524597,
+   "cls": "rigid",
+   "worst_poke_pose": "Overhead contact",
+   "worst_poke_clip": "Overhead",
+   "worst_poke_frame": 22,
+   "worst_float_pose": "Serve contact",
+   "pass_": false,
+   "thresholds": {
+    "poke_max": 15.0,
+    "poke_p99": 5.0,
+    "float_max": 12.0,
+    "float_p99": 6.0
+   },
+   "edge_strain_max": 6.003020149419597
+  },
+  "Shoe_R": {
+   "poke_max_mm": 79.56996896058666,
+   "poke_p99_worst_mm": 17.552139986210243,
+   "float_max_mm": 0.06116461008787155,
+   "float_p99_worst_mm": 0.010691583156585721,
+   "cls": "rigid",
+   "worst_poke_pose": "Overhead contact",
+   "worst_poke_clip": "Overhead",
+   "worst_poke_frame": 22,
+   "worst_float_pose": "ForehandWide contact",
+   "pass_": false,
+   "thresholds": {
+    "poke_max": 15.0,
+    "poke_p99": 5.0,
+    "float_max": 12.0,
+    "float_p99": 6.0
+   },
+   "edge_strain_max": 6.054469225743001
+  }
+ }
+}

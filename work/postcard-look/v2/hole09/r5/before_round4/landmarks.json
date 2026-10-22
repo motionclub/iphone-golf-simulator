@@ -1,0 +1,118 @@
+{
+ "hole": 9,
+ "name": "Split",
+ "units": "Unity world yards (x = course x, y = height, play surface 6.56, z = course d); address shots use course yards [x, d]; tee marker = world origin",
+ "shots": [
+  {
+   "name": "hole09_tee",
+   "hole": 9,
+   "kind": "address",
+   "ball": [
+    0.0,
+    0.0
+   ],
+   "aim": [
+    3.0,
+    60.0
+   ],
+   "putting": false,
+   "label": "tee shot: 4.5 yd behind the ball, 2.4 yd up, 60 deg"
+  },
+  {
+   "name": "hole09_approach",
+   "hole": 9,
+   "kind": "address",
+   "ball": [
+    13.5,
+    269.0
+   ],
+   "aim": [
+    6.0,
+    416.0
+   ],
+   "putting": false,
+   "label": "second shot over the channel gap from where a default drive rests (13.5, 269)"
+  },
+  {
+   "name": "hole09_ruin",
+   "hole": 9,
+   "kind": "landmark",
+   "pos": [
+    -64.06,
+    26,
+    149.86
+   ],
+   "look": [
+    -64.06,
+    10.1,
+    119.86
+   ],
+   "fov": 50,
+   "label": "LANDMARK: the ruin ridge (coursed masonry walls with a doorway, broken arch, fallen blocks) seen from 34 yd south of it and 19 yd above the ridge, looking north along the ridge (the whole ruin only fits the 900x1600 portrait frame from here)"
+  }
+ ],
+ "extra_previews": [
+  {
+   "name": "hole09_aerial",
+   "kind": "landmark",
+   "pos": [
+    70,
+    130,
+    430
+   ],
+   "look": [
+    -35,
+    5,
+    255
+   ],
+   "fov": 45,
+   "preview_res": [
+    1600,
+    900
+   ],
+   "label": "oblique aerial like split.jpg (preview only, not a Game-view shot)"
+  }
+ ],
+ "verification": {
+  "visible_fraction": 1.0,
+  "core_in_frame_fraction": 1.0,
+  "all_masonry_points_in_frame": 1.0,
+  "camera_clearance_m": 99.0,
+  "distance_yd": 34.0,
+  "blockers": {},
+  "approach_ball_lie": "Fairway",
+  "tee_ball_lie": "Tee",
+  "address": {
+   "tee": {
+    "camera": [
+     -0.22,
+     9.28,
+     -4.49
+    ],
+    "look": [
+     0.07,
+     6.88,
+     1.5
+    ],
+    "ball_blocked_by": null,
+    "props_within_1_5m": [],
+    "clearance_m": 2.6
+   },
+   "approach": {
+    "camera": [
+     13.73,
+     9.17,
+     264.51
+    ],
+    "look": [
+     13.42,
+     6.77,
+     270.5
+    ],
+    "ball_blocked_by": null,
+    "props_within_1_5m": [],
+    "clearance_m": 2.6
+   }
+  }
+ }
+}

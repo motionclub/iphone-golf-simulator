@@ -1,0 +1,135 @@
+{
+  "results": [
+    {
+      "label": "basalt_generate",
+      "exit": 0,
+      "log": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/shared_checks/basalt_generate.log",
+      "argv": [
+        "/Library/Frameworks/Python.framework/Versions/3.14/bin/python3",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/golf_look_textures.py",
+        "--out",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/Course/Look",
+        "--only",
+        "Basalt",
+        "--periodicity"
+      ]
+    },
+    {
+      "label": "all_original_texture_gates",
+      "exit": 0,
+      "log": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/shared_checks/all_original_texture_gates.log",
+      "argv": [
+        "/Library/Frameworks/Python.framework/Versions/3.14/bin/python3",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/golf_look_textures.py",
+        "--out",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/Course/Look",
+        "--gates-only"
+      ]
+    },
+    {
+      "label": "postcard_look_smoke",
+      "exit": 0,
+      "log": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/shared_checks/postcard_look_smoke.log",
+      "argv": [
+        "/Applications/Blender.app/Contents/MacOS/Blender",
+        "-b",
+        "--factory-startup",
+        "--python",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/postcard_look_smoke.py",
+        "--",
+        "--out",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/shared_checks/ground",
+        "--no-render"
+      ]
+    },
+    {
+      "label": "postcard_props_smoke",
+      "exit": 0,
+      "log": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/shared_checks/postcard_props_smoke.log",
+      "argv": [
+        "/Applications/Blender.app/Contents/MacOS/Blender",
+        "-b",
+        "--factory-startup",
+        "--python",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/postcard_props_smoke.py",
+        "--",
+        "--out-root",
+        "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/shared_checks/props",
+        "--no-render",
+        "--no-holes"
+      ]
+    }
+  ],
+  "png_before": {
+    "Basalt_C.png": "8d4c38701257a7feda16c1f7d14c0c5285be9666cc68109d120f290fac2215b2",
+    "Basalt_E.png": "b15a7e7ecc4bd3c3157d1d5bf9029ed09130a9e1f92f01b45da0aae1c460217e",
+    "Basalt_N.png": "9b33bd63d4d5e43efac83af4e2c452383c09edfc884d6751e0f0b3a378caafc8",
+    "CliffDark_C.png": "3ab47c9bc748bab91b43bbeb8a2c37f17271d01074f51068c1f47c13616e2a0e",
+    "CliffDark_N.png": "82e9c93d3870a279df7aa382efe145e1463de4df50539b4e888af2b6ee41db0b",
+    "Cliff_C.png": "e3ee627d727d15b88b0ebd988de4048025b8f6dbe1cf624001e0d218a307b3fc",
+    "Cliff_N.png": "d07a2c4a3fb86108bd128ca5554f7c1bfe8e37d5d36118151b5501f4e6c5260c",
+    "Fairway_C.png": "4859549b33ae77f25e0517986340796192b50c3af6d1cd167c6cb830ebaa0841",
+    "Fairway_N.png": "e426f911f893ab32982a1fe4a2b7b66063326b0c2e07aff892750c3a0339eb1e",
+    "Fall_C.png": "41e8e60449911bf6b2babe7c876f76ddba2f64d4959a85464136604b3451379a",
+    "Green_C.png": "98eb19c9e6c1932361dda1cb858b876ed0a61160a28a6ad7deb9a8e8748bbf69",
+    "Green_N.png": "db6b4b3a562ccd4aaa5b581b536e416f016f0ee4e90d8ddeef74d7e378195051",
+    "Lava_C.png": "0f3cbda2fda2b69d01ff42f53fa1fcefb61b8a9a9483db02f7e9220d7ba668c7",
+    "Lava_E.png": "eec50c7115987378d2749c229295e664e554093f3df28d521c81167da70b1d09",
+    "Lava_N.png": "3cea83f5fe5a2be8b11d2281baa143f221f1d28214c9a20101654910ca5a867f",
+    "Masonry_C.png": "b7b4d18d9ce430fd64c1b5116e6551434ff758d031873faa46b6879920034bec",
+    "Masonry_N.png": "2721f010c6bcd3a7a787d0df5ef2b3d2b741f4b24be1c10ee09ff1308bb5851f",
+    "Path_C.png": "6986eafc9a4311ccc5b4cf02cfeb0de295381d9c4d39717a58ad77ae6a91884b",
+    "Path_N.png": "71b35996ccacb7ac451306ac26b7ba4143d8beabfbf167e3a3cff02969357026",
+    "Plants_C.png": "5fc472d97e5eb2aa87060b1f0f07d9d8e342ae7d8280425a7448f7d461098843",
+    "Rock_C.png": "0cde8a24402de653852644ba17b6adfeaede0b28a46009d21775f9179e3588ac",
+    "Rock_N.png": "1d7baf487e450d773b2c74129dda732892a453e50554e59e215d881fc6de933f",
+    "Rough_C.png": "94822d7d8026b78ff726bdbf88449c58c08a92b00b41d3dfb421b266faf385cd",
+    "Rough_N.png": "a93db1513303652bddfab05c682227c7a96d86038dc142339baa37ab6757c2fd",
+    "Sand_C.png": "3c14effb8288e0b35a7e8e6fac3b559915b8b9535899872ded179a9ac1dbc89d",
+    "Sand_N.png": "e0b2a41c23d9860d327f7aa166de34f681dd2c0903743cbf051b92efb70f7114",
+    "Scrub_C.png": "6271b5e365940c0e474137705ddfc2de5ce8520731111411d71b2fdd80bf9710",
+    "Scrub_N.png": "83d9d5b2dd9b3d1ad4ef46dd892d861d6339db49794a1ac103c6e9cfb0de15cb",
+    "Sky_Crater_C.png": "20c07b8f0366ae62a9f24dadd5d081e174a298ae67497de0122baeac3329940c",
+    "Smoke_C.png": "d2a7d68a826e0d283a8f7c8bec2afe2608c8e3bce2d5f95fcec11fc13a68fea3",
+    "Surf_C.png": "5a3d90a6cdb5abb54cf88e118a67e15ff3b2ae3f8a22e3732d3962346f16f954"
+  },
+  "png_after": {
+    "Basalt_C.png": "c2669066677500fc5505bcf9b7f609f0f81a8cd2d30f185ecf099e285a9220a8",
+    "Basalt_E.png": "7d46c1565ebae9e85d0c3dd23d7d42f79ed37f45e677ee44972f857cee7e75e3",
+    "Basalt_N.png": "29d76e76250e7650a6302884231dea2e233c8ee4b142edf1ea5f1dfb0f52d489",
+    "CliffDark_C.png": "3ab47c9bc748bab91b43bbeb8a2c37f17271d01074f51068c1f47c13616e2a0e",
+    "CliffDark_N.png": "82e9c93d3870a279df7aa382efe145e1463de4df50539b4e888af2b6ee41db0b",
+    "Cliff_C.png": "e3ee627d727d15b88b0ebd988de4048025b8f6dbe1cf624001e0d218a307b3fc",
+    "Cliff_N.png": "d07a2c4a3fb86108bd128ca5554f7c1bfe8e37d5d36118151b5501f4e6c5260c",
+    "Fairway_C.png": "4859549b33ae77f25e0517986340796192b50c3af6d1cd167c6cb830ebaa0841",
+    "Fairway_N.png": "e426f911f893ab32982a1fe4a2b7b66063326b0c2e07aff892750c3a0339eb1e",
+    "Fall_C.png": "41e8e60449911bf6b2babe7c876f76ddba2f64d4959a85464136604b3451379a",
+    "Green_C.png": "98eb19c9e6c1932361dda1cb858b876ed0a61160a28a6ad7deb9a8e8748bbf69",
+    "Green_N.png": "db6b4b3a562ccd4aaa5b581b536e416f016f0ee4e90d8ddeef74d7e378195051",
+    "Lava_C.png": "0f3cbda2fda2b69d01ff42f53fa1fcefb61b8a9a9483db02f7e9220d7ba668c7",
+    "Lava_E.png": "eec50c7115987378d2749c229295e664e554093f3df28d521c81167da70b1d09",
+    "Lava_N.png": "3cea83f5fe5a2be8b11d2281baa143f221f1d28214c9a20101654910ca5a867f",
+    "Masonry_C.png": "b7b4d18d9ce430fd64c1b5116e6551434ff758d031873faa46b6879920034bec",
+    "Masonry_N.png": "2721f010c6bcd3a7a787d0df5ef2b3d2b741f4b24be1c10ee09ff1308bb5851f",
+    "Path_C.png": "6986eafc9a4311ccc5b4cf02cfeb0de295381d9c4d39717a58ad77ae6a91884b",
+    "Path_N.png": "71b35996ccacb7ac451306ac26b7ba4143d8beabfbf167e3a3cff02969357026",
+    "Plants_C.png": "5fc472d97e5eb2aa87060b1f0f07d9d8e342ae7d8280425a7448f7d461098843",
+    "Rock_C.png": "0cde8a24402de653852644ba17b6adfeaede0b28a46009d21775f9179e3588ac",
+    "Rock_N.png": "1d7baf487e450d773b2c74129dda732892a453e50554e59e215d881fc6de933f",
+    "Rough_C.png": "94822d7d8026b78ff726bdbf88449c58c08a92b00b41d3dfb421b266faf385cd",
+    "Rough_N.png": "a93db1513303652bddfab05c682227c7a96d86038dc142339baa37ab6757c2fd",
+    "Sand_C.png": "3c14effb8288e0b35a7e8e6fac3b559915b8b9535899872ded179a9ac1dbc89d",
+    "Sand_N.png": "e0b2a41c23d9860d327f7aa166de34f681dd2c0903743cbf051b92efb70f7114",
+    "Scrub_C.png": "6271b5e365940c0e474137705ddfc2de5ce8520731111411d71b2fdd80bf9710",
+    "Scrub_N.png": "83d9d5b2dd9b3d1ad4ef46dd892d861d6339db49794a1ac103c6e9cfb0de15cb",
+    "Sky_Crater_C.png": "20c07b8f0366ae62a9f24dadd5d081e174a298ae67497de0122baeac3329940c",
+    "Smoke_C.png": "d2a7d68a826e0d283a8f7c8bec2afe2608c8e3bce2d5f95fcec11fc13a68fea3",
+    "Surf_C.png": "5a3d90a6cdb5abb54cf88e118a67e15ff3b2ae3f8a22e3732d3962346f16f954"
+  },
+  "changed_png": [
+    "Basalt_C.png",
+    "Basalt_E.png",
+    "Basalt_N.png"
+  ],
+  "other28_identical": true
+}

@@ -1,0 +1,34 @@
+Male: avatar=Male_ReadyIdleAvatar valid=True human=True
+  ReadyIdle: clips=Male_ReadyIdle len=2.200 human=True fr=30 avatarSetup=CreateFromThisModel animType=Human
+  SplitToForehand: clips=Male_SplitToForehand len=0.600 human=True fr=30 avatarSetup=CopyFromOther animType=Human
+  SplitToBackhand: clips=Male_SplitToBackhand len=0.600 human=True fr=30 avatarSetup=CopyFromOther animType=Human
+  RecoverCenter: clips=Male_RecoverCenter len=0.800 human=True fr=30 avatarSetup=CopyFromOther animType=Human
+  Forehand: clips=Male_Forehand len=1.200 human=True fr=30 avatarSetup=CopyFromOther animType=Human
+  ForehandOpen: clips=Male_ForehandOpen len=1.000 human=True fr=30 avatarSetup=CopyFromOther animType=Human
+  ForehandWide: clips=Male_ForehandWide len=1.300 human=True fr=30 avatarSetup=CopyFromOther animType=Human
+  ForehandShort: clips=Male_ForehandShort len=1.000 human=True fr=30 avatarSetup=CopyFromOther animType=Human
+  Backhand: clips=Male_Backhand len=1.200 human=True fr=30 avatarSetup=CopyFromOther animType=Human
+  BackhandWide: clips=Male_BackhandWide len=1.300 human=True fr=30 avatarSetup=CopyFromOther animType=Human
+  SliceApproach: clips=Male_SliceApproach len=1.200 human=True fr=30 avatarSetup=CopyFromOther animType=Human
+  Serve: clips=Male_Serve len=1.600 human=True fr=30 avatarSetup=CopyFromOther animType=Human
+  Return: clips=Male_Return len=0.900 human=True fr=30 avatarSetup=CopyFromOther animType=Human
+  VolleyForehand: clips=Male_VolleyForehand len=0.700 human=True fr=30 avatarSetup=CopyFromOther animType=Human
+  VolleyBackhand: clips=Male_VolleyBackhand len=0.700 human=True fr=30 avatarSetup=CopyFromOther animType=Human
+  Overhead: clips=Male_Overhead len=1.200 human=True fr=30 avatarSetup=CopyFromOther animType=Human
+Female: avatar=Female_ReadyIdleAvatar valid=True human=True
+  ReadyIdle: clips=Female_ReadyIdle len=2.200 human=True fr=30 avatarSetup=CreateFromThisModel animType=Human
+  SplitToForehand: clips=Female_SplitToForehand len=0.600 human=True fr=30 avatarSetup=CopyFromOther animType=Human
+  SplitToBackhand: clips=Female_SplitToBackhand len=0.600 human=True fr=30 avatarSetup=CopyFromOther animType=Human
+  RecoverCenter: clips=Female_RecoverCenter len=0.800 human=True fr=30 avatarSetup=CopyFromOther animType=Human
+  Forehand: clips=Female_Forehand len=1.200 human=True fr=30 avatarSetup=CopyFromOther animType=Human
+  ForehandOpen: clips=Female_ForehandOpen len=1.000 human=True fr=30 avatarSetup=CopyFromOther animType=Human
+  ForehandWide: clips=Female_ForehandWide len=1.300 human=True fr=30 avatarSetup=CopyFromOther animType=Human
+  ForehandShort: clips=Female_ForehandShort len=1.000 human=True fr=30 avatarSetup=CopyFromOther animType=Human
+  Backhand: clips=Female_Backhand len=1.200 human=True fr=30 avatarSetup=CopyFromOther animType=Human
+  BackhandWide: clips=Female_BackhandWide len=1.300 human=True fr=30 avatarSetup=CopyFromOther animType=Human
+  SliceApproach: clips=Female_SliceApproach len=1.200 human=True fr=30 avatarSetup=CopyFromOther animType=Human
+  Serve: clips=Female_Serve len=1.600 human=True fr=30 avatarSetup=CopyFromOther animType=Human
+  Return: clips=Female_Return len=0.900 human=True fr=30 avatarSetup=CopyFromOther animType=Human
+  VolleyForehand: clips=Female_VolleyForehand len=0.700 human=True fr=30 avatarSetup=CopyFromOther animType=Human
+  VolleyBackhand: clips=Female_VolleyBackhand len=0.700 human=True fr=30 avatarSetup=CopyFromOther animType=Human
+  Overhead: clips=Female_Overhead len=1.200 human=True fr=30 avatarSetup=CopyFromOther animType=Human

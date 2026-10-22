@@ -1,0 +1,77 @@
+[
+  {
+    "name": "current-film-golf-cliffside",
+    "method": "GolfArcade.EditorTools.CurrentGolfSwingFilm.Run",
+    "env": {
+      "VISUAL_CHARACTER_SKIN_POLISH": "1",
+      "VISUAL_BLINK_NORMAL_FIELD": "1",
+      "VISUAL_CHARACTER_NORMALS": "continuous",
+      "VISUAL_UNDERARM_GUSSET": "0",
+      "VISUAL_GOLF_WRIST_ROLL": "0",
+      "FILM_AUDIO": "1",
+      "FILM_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/gameplay-films31/frames/golf-cliffside",
+      "FILM_COURSE": "cliffside",
+      "FILM_HOLE": "12"
+    }
+  },
+  {
+    "name": "current-film-golf-postcards",
+    "method": "GolfArcade.EditorTools.CurrentGolfSwingFilm.Run",
+    "env": {
+      "VISUAL_CHARACTER_SKIN_POLISH": "1",
+      "VISUAL_BLINK_NORMAL_FIELD": "1",
+      "VISUAL_CHARACTER_NORMALS": "continuous",
+      "VISUAL_UNDERARM_GUSSET": "0",
+      "VISUAL_GOLF_WRIST_ROLL": "0",
+      "FILM_AUDIO": "1",
+      "FILM_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/gameplay-films31/frames/golf-postcards",
+      "FILM_COURSE": "postcards",
+      "FILM_HOLE": "8"
+    }
+  },
+  {
+    "name": "current-film-golf-wildisles",
+    "method": "GolfArcade.EditorTools.CurrentGolfSwingFilm.Run",
+    "env": {
+      "VISUAL_CHARACTER_SKIN_POLISH": "1",
+      "VISUAL_BLINK_NORMAL_FIELD": "1",
+      "VISUAL_CHARACTER_NORMALS": "continuous",
+      "VISUAL_UNDERARM_GUSSET": "0",
+      "VISUAL_GOLF_WRIST_ROLL": "0",
+      "FILM_AUDIO": "1",
+      "FILM_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/gameplay-films31/frames/golf-wildisles",
+      "FILM_COURSE": "wildisles",
+      "FILM_HOLE": "17"
+    }
+  },
+  {
+    "name": "current-film-golf-magma",
+    "method": "GolfArcade.EditorTools.CurrentGolfSwingFilm.Run",
+    "env": {
+      "VISUAL_CHARACTER_SKIN_POLISH": "1",
+      "VISUAL_BLINK_NORMAL_FIELD": "1",
+      "VISUAL_CHARACTER_NORMALS": "continuous",
+      "VISUAL_UNDERARM_GUSSET": "0",
+      "VISUAL_GOLF_WRIST_ROLL": "0",
+      "FILM_AUDIO": "1",
+      "FILM_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/gameplay-films31/frames/golf-magma",
+      "FILM_COURSE": "magma",
+      "FILM_HOLE": "21"
+    }
+  },
+  {
+    "name": "current-film-golf-meadow",
+    "method": "GolfArcade.EditorTools.CurrentGolfSwingFilm.Run",
+    "env": {
+      "VISUAL_CHARACTER_SKIN_POLISH": "1",
+      "VISUAL_BLINK_NORMAL_FIELD": "1",
+      "VISUAL_CHARACTER_NORMALS": "continuous",
+      "VISUAL_UNDERARM_GUSSET": "0",
+      "VISUAL_GOLF_WRIST_ROLL": "0",
+      "FILM_AUDIO": "1",
+      "FILM_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/reference-rebuild/gameplay-films31/frames/golf-meadow",
+      "FILM_COURSE": "meadow",
+      "FILM_HOLE": "1"
+    }
+  }
+]

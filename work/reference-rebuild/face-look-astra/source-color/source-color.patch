@@ -1,0 +1,20 @@
+--- Unity/Assets/Scripts/Tennis/MatchHeroLook.cs
++++ Unity/Assets/Scripts/Tennis/MatchHeroLook.cs
+@@ -357,12 +357,17 @@
+                 if (bump) body.sharedMesh = bound;
+                 var shared = body.sharedMaterials; skinMaterials = new Material[shared.Length];
+                 authoredSkin = shared.Length > 0 && shared[0] ? (shared[0].HasProperty("_BaseColor") ? shared[0].GetColor("_BaseColor") : shared[0].color) : skinTone;
++                // OriginalSeam FBX retains Blender's linear Base Color values.
++                // Unity Color properties and locker picks use sRGB authoring values.
++                // Convert this imported default once; later SetSkin picks stay exact.
++                if (originalSeam) { authoredSkin = authoredSkin.gamma; skinTone = authoredSkin; }
+                 for (int i = 0; i < shared.Length; i++)
+                 {
+                     skinMaterials[i] = shared[i] ? SkinSurface(OnShader(shared[i], CharacterShader, shared[i].name + " (hero)"), bump) : null;
+                     if (skinMaterials[i]) {
+                         if(!referenceAnatomy || originalSeam)HeroHeadSurface.Configure(this,skinMaterials[i]);
+                         if(originalSeam){
++                            skinMaterials[i].SetColor("_BaseColor", skinMaterials[i].GetColor("_BaseColor").gamma);
+                             HeroOriginalSeamAnatomy.ConfigurePigment(skinMaterials[i]);
+                             skinMaterials[i].SetFloat("_SkinPigmentUV",System.Environment.GetEnvironmentVariable("VISUAL_CHARACTER_LIP_FINISH")=="0"?1:2);
+                         }

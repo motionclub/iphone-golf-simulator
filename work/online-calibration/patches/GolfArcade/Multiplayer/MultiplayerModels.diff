@@ -1,0 +1,45 @@
+--- before/GolfArcade/Multiplayer/MultiplayerModels.swift
++++ GolfArcade/Multiplayer/MultiplayerModels.swift
+@@ -26,6 +26,8 @@
+     var loaded = false
+     /// Tennis: this player's phone has its court direction and centre set (touch players and spectators need nothing).
+     var calibrated = false
++    /// UI progress only; `calibrated` remains the authority for starting a match.
++    var setupStep: String? = nil
+     /// Tennis setup: the owner has measured this phone's connection and found it steady enough to start (Fair or better for 1.5 s).
+     var linkOK = false
+     /// This phone has a TV or Mac connected (AirPlay or wired).
+@@ -105,6 +107,8 @@
+     var queue: [String] = []
+     var matchID = ""
+     var publicAdmission = false
++    /// Explicit same-room play (Nearby or the host's sharing-TV choice). Remote play needs a screen each.
++    var sharedScreen: Bool? = nil
+     var competitors: [MultiplayerParticipant] { participants.filter { $0.seat >= 0 && $0.connected }.sorted { $0.seat < $1.seat } }
+     var capacity: Int { sport == .tennis ? 2 : 4 }
+     var canStart: Bool {
+@@ -113,8 +117,9 @@
+         && competitors.allSatisfy(\.ready)
+         && hasScreenForSport
+     }
+-    /// Tennis needs a TV on at least one of the two players' phones. Golf's guests always watch the host's TV, so it asks nothing.
+-    var hasScreenForSport: Bool { sport != .tennis || competitors.contains(where: \.hasScreen) }
++    var hasScreenForSport: Bool {
++        sport != .tennis || (sharedScreen == true ? competitors.contains(where: \.hasScreen) : competitors.allSatisfy(\.hasScreen))
++    }
+     mutating func configure(sport: MultiplayerSport, venue: String) {
+         self.sport = sport; self.venue = venue
+         for i in participants.indices { participants[i].seat = i < capacity ? i : -1; participants[i].ready = false; participants[i].loaded = false; participants[i].calibrated = false }
+@@ -167,7 +172,11 @@
+         if phase != .lobby { return "Return to the lobby first" }
+         if let p = participants.first(where: { $0.seat >= 0 && !$0.connected }) { return "Waiting for \(p.name) to reconnect" }
+         if competitors.count < 2 { return "Invite another player to play" }
+-        if !hasScreenForSport { return "Connect one phone to a TV (AirPlay) to play" }
++        if !hasScreenForSport {
++            if sharedScreen == true { return "Connect one phone to a TV (AirPlay) to play" }
++            let names = competitors.filter { !$0.hasScreen }.map(\.name).joined(separator: " and ")
++            return "\(names) must connect a TV (AirPlay), or choose Sharing a TV if you're together"
++        }
+         if let p = competitors.first(where: { !$0.ready }) { return "Waiting for \(p.name) to be ready" }
+         return "Everyone is ready"
+     }

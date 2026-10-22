@@ -1,0 +1,57 @@
+{
+  "sex": "Male",
+  "method": "nearest body triangle barycentric transfer; four weights; excluded hand/finger/foot triangles",
+  "body_and_rest_rig_unchanged": true,
+  "rows": [
+    {
+      "object": "Golf_Button_1",
+      "vertices": 62,
+      "moved_vertices": 0,
+      "max_clearance_move_mm": 0,
+      "max_influences": 4
+    },
+    {
+      "object": "Golf_Button_2",
+      "vertices": 62,
+      "moved_vertices": 0,
+      "max_clearance_move_mm": 0,
+      "max_influences": 3
+    },
+    {
+      "object": "Golf_Button_3",
+      "vertices": 62,
+      "moved_vertices": 0,
+      "max_clearance_move_mm": 0,
+      "max_influences": 4
+    },
+    {
+      "object": "Golf_Placket_1",
+      "vertices": 56,
+      "moved_vertices": 0,
+      "max_clearance_move_mm": 0,
+      "max_influences": 4
+    },
+    {
+      "object": "Golf_Placket_2",
+      "vertices": 56,
+      "moved_vertices": 0,
+      "max_clearance_move_mm": 0,
+      "max_influences": 4
+    },
+    {
+      "object": "Golf_Placket_3",
+      "vertices": 56,
+      "moved_vertices": 0,
+      "max_clearance_move_mm": 0,
+      "max_influences": 4
+    },
+    {
+      "object": "Golf_Polo",
+      "vertices": 6133,
+      "moved_vertices": 7,
+      "max_clearance_move_mm": 0.7938940896128778,
+      "max_influences": 4
+    }
+  ],
+  "G7": "not certified; rerun all pose diagnostics"
+}

@@ -1,0 +1,33 @@
+--- a/Unity/Assets/Editor/HeroGarmentGussetRuntimeGate.cs
++++ b/Unity/Assets/Editor/HeroGarmentGussetRuntimeGate.cs
+@@ -129,8 +129,8 @@
+                 int fullSourceSubmeshes = ta.sharedMesh.subMeshCount;
+                 da.Sample(HeroTennisDriver.Clip.Forehand, time);
+                 aFull = ta.sharedMesh; report.fullVertices = aFull.vertexCount; report.fullSubmeshes = aFull.subMeshCount;
+-                Require(aFull.subMeshCount == fullSourceSubmeshes && aFull.triangles.Length / 3 == 27470, "full subdivision lost material submeshes or triangles");
+-                Require(report.fullVertices == 18401, "full gusset topology was not installed");
++                Require(aFull.subMeshCount == fullSourceSubmeshes && aFull.triangles.Length / 3 == 21858, "full band lost material submeshes or triangles");
++                Require(report.fullVertices == 16748, "full gusset topology was not installed");
+                 var fullPositions = aFull.vertices;
+                 report.beforeUnchanged = HeroGarmentGussetLifetime.GetCaptureStats();
+                 ca.Apply(); ca.Apply();
+@@ -142,8 +142,8 @@
+ 
+                 Detail(la, game.GameplayCamera, true); int matchSourceSubmeshes = ta.sharedMesh.subMeshCount; ca.Apply();
+                 aMatch = ta.sharedMesh; report.matchVertices = aMatch.vertexCount; report.matchSubmeshes = aMatch.subMeshCount;
+-                Require(aMatch.subMeshCount == matchSourceSubmeshes && aMatch.triangles.Length / 3 == 23946, "match subdivision lost material submeshes or triangles");
+-                Require(report.matchVertices == 15989 && aMatch != aFull, "match gusset topology was not independently installed");
++                Require(aMatch.subMeshCount == matchSourceSubmeshes && aMatch.triangles.Length / 3 == 18564, "match band lost material submeshes or triangles");
++                Require(report.matchVertices == 14268 && aMatch != aFull, "match gusset topology was not independently installed");
+                 report.beforeReturn = HeroGarmentGussetLifetime.GetCaptureStats();
+                 Detail(la, game.GameplayCamera, false); ca.Apply();
+                 report.afterReturn = HeroGarmentGussetLifetime.GetCaptureStats();
+@@ -159,7 +159,7 @@
+                 db.Sample(HeroTennisDriver.Clip.EmoteSpike, db.LengthOf(HeroTennisDriver.Clip.EmoteSpike) * .5f);
+                 Require(HeroGarmentGussetLifetime.GetCaptureStats().managedApplyBytes == beforeChangedPose.managedApplyBytes, "changed-pose Apply allocated managed bytes");
+                 bFull = tb.sharedMesh;
+-                report.independentRenderers = bFull != aFull && bFull.vertexCount == 18401 && Exact(beforeB, aFull.vertices);
++                report.independentRenderers = bFull != aFull && bFull.vertexCount == 16748 && Exact(beforeB, aFull.vertices);
+                 Require(report.independentRenderers, "second female shared or modified first female's corrected mesh");
+                 var installed = HeroGarmentGussetLifetime.GetCaptureStats();
+                 Require(installed.retainedRendererCaches == report.baseline.retainedRendererCaches + 2 && installed.retainedMeshes == report.baseline.retainedMeshes + 3,

@@ -1,0 +1,33 @@
+{
+ "tee": {
+  "rays": 25560,
+  "ground_hits": 25560,
+  "prop_hits": 0,
+  "materials": {
+   "LK_PATH": 510,
+   "LK_FAIRWAY": 25050
+  },
+  "lum_sd": 13.284554784826959,
+  "lum_p10": 139.40894775390626,
+  "lum_p90": 173.3127426147461,
+  "lum_mean": 155.65134952586953,
+  "left_third_mean": 157.48657180177213,
+  "right_third_mean": 153.12410194414883,
+  "band_contrast": 4.362469857623296
+ },
+ "approach": {
+  "rays": 25560,
+  "ground_hits": 25560,
+  "prop_hits": 0,
+  "materials": {
+   "LK_FAIRWAY": 25560
+  },
+  "lum_sd": 12.717746889777583,
+  "lum_p10": 141.0330047607422,
+  "lum_p90": 174.6427795410156,
+  "lum_mean": 155.75540233815033,
+  "left_third_mean": 145.91642669444911,
+  "right_third_mean": 170.60999287170984,
+  "band_contrast": 24.69356617726072
+ }
+}

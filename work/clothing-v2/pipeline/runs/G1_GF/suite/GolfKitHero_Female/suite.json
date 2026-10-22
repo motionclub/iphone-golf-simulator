@@ -1,0 +1,3899 @@
+{
+ "hero": "GolfKitHero_Female",
+ "cand": "runs/G1_GF",
+ "poses": 153,
+ "seconds": 34.0,
+ "total": {
+  "tear": 543920,
+  "layer": 12910,
+  "poses_with_tear": 153,
+  "poses_with_layer": 134,
+  "holes": 136159,
+  "poses_with_holes": 153,
+  "by": {
+   "body": 543920,
+   "Acc_GloveL": 12698,
+   "Kit_Bottom": 212
+  },
+  "pair": {
+   "body<Kit_Top": 537757,
+   "Acc_GloveL<Kit_Top": 10022,
+   "Kit_Bottom<Kit_Top": 146,
+   "body<Kit_Bottom": 1654,
+   "body<Kit_Shoe_L": 1982,
+   "body<Kit_Shoe_R": 2527,
+   "Acc_GloveL<Kit_Bottom": 2676,
+   "Kit_Bottom<Acc_GloveL": 66
+  }
+ },
+ "worst": [
+  {
+   "i": 125,
+   "clip": "moves__Emote_Shock",
+   "frame": 25,
+   "why": [
+    "elbow_L",
+    "elbow_R"
+   ],
+   "tear": 12414,
+   "layer": 443,
+   "holes": 1751,
+   "by": {
+    "body": 12414,
+    "Acc_GloveL": 443
+   },
+   "pair": {
+    "body<Kit_Top": 12414,
+    "Acc_GloveL<Kit_Top": 443
+   },
+   "view": 23
+  },
+  {
+   "i": 126,
+   "clip": "moves__Emote_Shock",
+   "frame": 36,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "lunge"
+   ],
+   "tear": 12406,
+   "layer": 220,
+   "holes": 1809,
+   "by": {
+    "body": 12406,
+    "Acc_GloveL": 220
+   },
+   "pair": {
+    "body<Kit_Top": 12406,
+    "Acc_GloveL<Kit_Top": 220
+   },
+   "view": 23
+  },
+  {
+   "i": 124,
+   "clip": "moves__Emote_Shock",
+   "frame": 15,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "lunge"
+   ],
+   "tear": 12357,
+   "layer": 193,
+   "holes": 1891,
+   "by": {
+    "body": 12357,
+    "Acc_GloveL": 193
+   },
+   "pair": {
+    "body<Kit_Top": 12357,
+    "Acc_GloveL<Kit_Top": 193
+   },
+   "view": 23
+  },
+  {
+   "i": 32,
+   "clip": "golf__Emote_Spike",
+   "frame": 9,
+   "why": [
+    "across_R",
+    "coverage",
+    "elbow_L",
+    "elbow_R",
+    "hipabd_L",
+    "hipabd_R",
+    "hipflex_L",
+    "hipflex_R",
+    "knee_L",
+    "knee_R",
+    "kneel",
+    "lunge",
+    "seat",
+    "trunk_flex"
+   ],
+   "tear": 8466,
+   "layer": 33,
+   "holes": 507,
+   "by": {
+    "body": 8466,
+    "Acc_GloveL": 33
+   },
+   "pair": {
+    "body<Kit_Top": 8431,
+    "Acc_GloveL<Kit_Top": 33,
+    "body<Kit_Shoe_R": 35
+   },
+   "view": 2
+  },
+  {
+   "i": 123,
+   "clip": "moves__Emote_Shock",
+   "frame": 4,
+   "why": [
+    "coverage",
+    "elbow_R"
+   ],
+   "tear": 8306,
+   "layer": 182,
+   "holes": 396,
+   "by": {
+    "body": 8306,
+    "Acc_GloveL": 182
+   },
+   "pair": {
+    "body<Kit_Top": 8306,
+    "Acc_GloveL<Kit_Top": 182
+   },
+   "view": 11
+  },
+  {
+   "i": 143,
+   "clip": "moves__Emote_Victory",
+   "frame": 61,
+   "why": [
+    "coverage",
+    "elbow_L",
+    "elbow_R",
+    "knee_R",
+    "kneel",
+    "overhead"
+   ],
+   "tear": 7308,
+   "layer": 0,
+   "holes": 1515,
+   "by": {
+    "body": 7308
+   },
+   "pair": {
+    "body<Kit_Top": 7308
+   },
+   "view": 15
+  },
+  {
+   "i": 141,
+   "clip": "moves__Emote_Victory",
+   "frame": 41,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "knee_R",
+    "kneel",
+    "overhead"
+   ],
+   "tear": 7229,
+   "layer": 0,
+   "holes": 1469,
+   "by": {
+    "body": 7229
+   },
+   "pair": {
+    "body<Kit_Top": 7229
+   },
+   "view": 23
+  },
+  {
+   "i": 144,
+   "clip": "moves__Emote_Victory",
+   "frame": 69,
+   "why": [
+    "coverage",
+    "elbow_L",
+    "elbow_R",
+    "knee_R",
+    "kneel",
+    "overhead"
+   ],
+   "tear": 7205,
+   "layer": 5,
+   "holes": 1517,
+   "by": {
+    "body": 7205,
+    "Kit_Bottom": 5
+   },
+   "pair": {
+    "body<Kit_Top": 7205,
+    "Kit_Bottom<Kit_Top": 5
+   },
+   "view": 15
+  },
+  {
+   "i": 35,
+   "clip": "golf__Emote_Spike",
+   "frame": 46,
+   "why": [
+    "elbow_L"
+   ],
+   "tear": 7144,
+   "layer": 43,
+   "holes": 507,
+   "by": {
+    "body": 7144,
+    "Acc_GloveL": 43
+   },
+   "pair": {
+    "body<Kit_Top": 7144,
+    "Acc_GloveL<Kit_Bottom": 43
+   },
+   "view": 11
+  },
+  {
+   "i": 142,
+   "clip": "moves__Emote_Victory",
+   "frame": 53,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "knee_R",
+    "kneel",
+    "overhead"
+   ],
+   "tear": 7149,
+   "layer": 0,
+   "holes": 1494,
+   "by": {
+    "body": 7149
+   },
+   "pair": {
+    "body<Kit_Top": 7144,
+    "body<Kit_Shoe_R": 5
+   },
+   "view": 23
+  },
+  {
+   "i": 119,
+   "clip": "moves__Emote_JumpJoy",
+   "frame": 18,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 6340,
+   "layer": 776,
+   "holes": 1257,
+   "by": {
+    "body": 6340,
+    "Acc_GloveL": 776
+   },
+   "pair": {
+    "body<Kit_Top": 6340,
+    "Acc_GloveL<Kit_Top": 35,
+    "Acc_GloveL<Kit_Bottom": 741
+   },
+   "view": 23
+  },
+  {
+   "i": 46,
+   "clip": "golf__FistPump",
+   "frame": 49,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "lunge",
+    "overhead",
+    "side_seam_L",
+    "side_seam_R"
+   ],
+   "tear": 6755,
+   "layer": 190,
+   "holes": 6965,
+   "by": {
+    "body": 6755,
+    "Acc_GloveL": 190
+   },
+   "pair": {
+    "body<Kit_Top": 6755,
+    "Acc_GloveL<Kit_Top": 190
+   },
+   "view": 8
+  }
+ ],
+ "rows": [
+  {
+   "i": 0,
+   "clip": "golf__Cheer",
+   "frame": 5,
+   "why": [
+    "axilla_L",
+    "axilla_R",
+    "elbow_L",
+    "elbow_R",
+    "overhead",
+    "side_seam_L",
+    "side_seam_R"
+   ],
+   "tear": 3813,
+   "layer": 290,
+   "holes": 1404,
+   "by": {
+    "body": 3813,
+    "Acc_GloveL": 290
+   },
+   "pair": {
+    "body<Kit_Top": 3813,
+    "Acc_GloveL<Kit_Top": 290
+   }
+  },
+  {
+   "i": 1,
+   "clip": "golf__Cheer",
+   "frame": 15,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "overhead",
+    "side_seam_R"
+   ],
+   "tear": 3290,
+   "layer": 262,
+   "holes": 1347,
+   "by": {
+    "body": 3290,
+    "Acc_GloveL": 262
+   },
+   "pair": {
+    "body<Kit_Top": 3290,
+    "Acc_GloveL<Kit_Top": 262
+   }
+  },
+  {
+   "i": 2,
+   "clip": "golf__Cheer",
+   "frame": 25,
+   "why": [
+    "axilla_L",
+    "axilla_R",
+    "elbow_L",
+    "elbow_R",
+    "overhead",
+    "side_seam_L",
+    "side_seam_R"
+   ],
+   "tear": 3853,
+   "layer": 307,
+   "holes": 1388,
+   "by": {
+    "body": 3853,
+    "Acc_GloveL": 307
+   },
+   "pair": {
+    "body<Kit_Top": 3853,
+    "Acc_GloveL<Kit_Top": 307
+   }
+  },
+  {
+   "i": 3,
+   "clip": "golf__Cheer",
+   "frame": 33,
+   "why": [
+    "axilla_L",
+    "axilla_R",
+    "elbow_L",
+    "elbow_R",
+    "overhead",
+    "side_seam_L",
+    "side_seam_R"
+   ],
+   "tear": 3729,
+   "layer": 203,
+   "holes": 1282,
+   "by": {
+    "body": 3729,
+    "Acc_GloveL": 203
+   },
+   "pair": {
+    "body<Kit_Top": 3729,
+    "Acc_GloveL<Kit_Top": 203
+   }
+  },
+  {
+   "i": 4,
+   "clip": "golf__Cheer",
+   "frame": 41,
+   "why": [
+    "axilla_L",
+    "elbow_L",
+    "overhead",
+    "side_seam_L",
+    "side_seam_R"
+   ],
+   "tear": 3675,
+   "layer": 175,
+   "holes": 1339,
+   "by": {
+    "body": 3675,
+    "Acc_GloveL": 175
+   },
+   "pair": {
+    "body<Kit_Top": 3675,
+    "Acc_GloveL<Kit_Top": 175
+   }
+  },
+  {
+   "i": 5,
+   "clip": "golf__Cheer",
+   "frame": 50,
+   "why": [
+    "axilla_L",
+    "axilla_R",
+    "elbow_L",
+    "overhead",
+    "side_seam_L",
+    "side_seam_R"
+   ],
+   "tear": 3676,
+   "layer": 180,
+   "holes": 1337,
+   "by": {
+    "body": 3676,
+    "Acc_GloveL": 180
+   },
+   "pair": {
+    "body<Kit_Top": 3676,
+    "Acc_GloveL<Kit_Top": 180
+   }
+  },
+  {
+   "i": 6,
+   "clip": "golf__Cheer",
+   "frame": 58,
+   "why": [
+    "axilla_L",
+    "axilla_R",
+    "elbow_L",
+    "elbow_R",
+    "overhead",
+    "side_seam_L",
+    "side_seam_R"
+   ],
+   "tear": 3715,
+   "layer": 201,
+   "holes": 1304,
+   "by": {
+    "body": 3715,
+    "Acc_GloveL": 201
+   },
+   "pair": {
+    "body<Kit_Top": 3715,
+    "Acc_GloveL<Kit_Top": 201
+   }
+  },
+  {
+   "i": 7,
+   "clip": "golf__Chip",
+   "frame": 0,
+   "why": [
+    "elbow_L",
+    "hipflex_R",
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 2149,
+   "layer": 14,
+   "holes": 311,
+   "by": {
+    "body": 2149,
+    "Acc_GloveL": 14
+   },
+   "pair": {
+    "body<Kit_Top": 2149,
+    "Acc_GloveL<Kit_Top": 14
+   }
+  },
+  {
+   "i": 8,
+   "clip": "golf__Chip",
+   "frame": 8,
+   "why": [
+    "elbow_L",
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 2964,
+   "layer": 58,
+   "holes": 412,
+   "by": {
+    "body": 2964,
+    "Acc_GloveL": 57,
+    "Kit_Bottom": 1
+   },
+   "pair": {
+    "body<Kit_Top": 2964,
+    "Acc_GloveL<Kit_Top": 57,
+    "Kit_Bottom<Kit_Top": 1
+   }
+  },
+  {
+   "i": 9,
+   "clip": "golf__Chip",
+   "frame": 20,
+   "why": [
+    "elbow_L",
+    "hipflex_R",
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 3425,
+   "layer": 61,
+   "holes": 356,
+   "by": {
+    "body": 3425,
+    "Acc_GloveL": 61
+   },
+   "pair": {
+    "body<Kit_Top": 3425,
+    "Acc_GloveL<Kit_Top": 61
+   }
+  },
+  {
+   "i": 10,
+   "clip": "golf__Chip",
+   "frame": 28,
+   "why": [
+    "elbow_L",
+    "hipflex_R",
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 3487,
+   "layer": 69,
+   "holes": 371,
+   "by": {
+    "body": 3487,
+    "Kit_Bottom": 1,
+    "Acc_GloveL": 68
+   },
+   "pair": {
+    "body<Kit_Top": 3487,
+    "Kit_Bottom<Kit_Top": 1,
+    "Acc_GloveL<Kit_Top": 68
+   }
+  },
+  {
+   "i": 11,
+   "clip": "golf__Chip",
+   "frame": 36,
+   "why": [
+    "elbow_L",
+    "hipflex_R",
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 3529,
+   "layer": 95,
+   "holes": 483,
+   "by": {
+    "body": 3529,
+    "Kit_Bottom": 4,
+    "Acc_GloveL": 91
+   },
+   "pair": {
+    "body<Kit_Top": 3528,
+    "body<Kit_Bottom": 1,
+    "Kit_Bottom<Kit_Top": 4,
+    "Acc_GloveL<Kit_Top": 91
+   }
+  },
+  {
+   "i": 12,
+   "clip": "golf__Chip",
+   "frame": 44,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "hipabd_R",
+    "hipflex_R",
+    "knee_R",
+    "kneel",
+    "lunge"
+   ],
+   "tear": 3205,
+   "layer": 0,
+   "holes": 347,
+   "by": {
+    "body": 3205
+   },
+   "pair": {
+    "body<Kit_Top": 3205
+   }
+  },
+  {
+   "i": 13,
+   "clip": "golf__Chip",
+   "frame": 52,
+   "why": [
+    "elbow_R",
+    "hipabd_R",
+    "hipflex_R",
+    "knee_R",
+    "kneel",
+    "lunge",
+    "trunk_side"
+   ],
+   "tear": 3237,
+   "layer": 0,
+   "holes": 214,
+   "by": {
+    "body": 3237
+   },
+   "pair": {
+    "body<Kit_Top": 3237
+   }
+  },
+  {
+   "i": 14,
+   "clip": "golf__Chip",
+   "frame": 60,
+   "why": [
+    "elbow_R",
+    "hipabd_R",
+    "hipflex_R",
+    "knee_R",
+    "kneel",
+    "lunge",
+    "trunk_side"
+   ],
+   "tear": 3017,
+   "layer": 2,
+   "holes": 191,
+   "by": {
+    "body": 3017,
+    "Kit_Bottom": 2
+   },
+   "pair": {
+    "body<Kit_Top": 3017,
+    "Kit_Bottom<Kit_Top": 2
+   }
+  },
+  {
+   "i": 15,
+   "clip": "golf__Chip",
+   "frame": 68,
+   "why": [
+    "elbow_R",
+    "hipabd_R",
+    "hipflex_R",
+    "knee_R",
+    "kneel",
+    "lunge",
+    "trunk_side"
+   ],
+   "tear": 3029,
+   "layer": 1,
+   "holes": 184,
+   "by": {
+    "body": 3029,
+    "Kit_Bottom": 1
+   },
+   "pair": {
+    "body<Kit_Top": 3029,
+    "Kit_Bottom<Kit_Top": 1
+   }
+  },
+  {
+   "i": 16,
+   "clip": "golf__Chip",
+   "frame": 76,
+   "why": [
+    "elbow_R",
+    "hipabd_R",
+    "hipflex_R",
+    "knee_R",
+    "kneel",
+    "lunge",
+    "trunk_side"
+   ],
+   "tear": 2987,
+   "layer": 2,
+   "holes": 196,
+   "by": {
+    "body": 2987,
+    "Kit_Bottom": 2
+   },
+   "pair": {
+    "body<Kit_Top": 2987,
+    "Kit_Bottom<Kit_Top": 2
+   }
+  },
+  {
+   "i": 17,
+   "clip": "golf__Drive",
+   "frame": 0,
+   "why": [
+    "elbow_L"
+   ],
+   "tear": 3159,
+   "layer": 5,
+   "holes": 343,
+   "by": {
+    "body": 3159,
+    "Kit_Bottom": 5
+   },
+   "pair": {
+    "body<Kit_Top": 3159,
+    "Kit_Bottom<Kit_Top": 5
+   }
+  },
+  {
+   "i": 18,
+   "clip": "golf__Drive",
+   "frame": 8,
+   "why": [
+    "across_R",
+    "coverage",
+    "elbow_L",
+    "elbow_R",
+    "shoulder_blade"
+   ],
+   "tear": 5624,
+   "layer": 10,
+   "holes": 192,
+   "by": {
+    "body": 5624,
+    "Kit_Bottom": 10
+   },
+   "pair": {
+    "body<Kit_Top": 5624,
+    "Kit_Bottom<Kit_Top": 10
+   }
+  },
+  {
+   "i": 19,
+   "clip": "golf__Drive",
+   "frame": 27,
+   "why": [
+    "hipabd_L",
+    "trunk_twist"
+   ],
+   "tear": 2297,
+   "layer": 0,
+   "holes": 426,
+   "by": {
+    "body": 2297
+   },
+   "pair": {
+    "body<Kit_Top": 2297
+   }
+  },
+  {
+   "i": 20,
+   "clip": "golf__Drive",
+   "frame": 35,
+   "why": [
+    "across_L",
+    "hipabd_L",
+    "trunk_twist"
+   ],
+   "tear": 2800,
+   "layer": 0,
+   "holes": 428,
+   "by": {
+    "body": 2800
+   },
+   "pair": {
+    "body<Kit_Top": 2800
+   }
+  },
+  {
+   "i": 21,
+   "clip": "golf__Drive",
+   "frame": 43,
+   "why": [
+    "hipabd_L",
+    "trunk_twist"
+   ],
+   "tear": 4609,
+   "layer": 2,
+   "holes": 464,
+   "by": {
+    "body": 4609,
+    "Kit_Bottom": 2
+   },
+   "pair": {
+    "body<Kit_Top": 4609,
+    "Kit_Bottom<Kit_Top": 2
+   }
+  },
+  {
+   "i": 22,
+   "clip": "golf__Drive",
+   "frame": 51,
+   "why": [
+    "elbow_L",
+    "hipabd_L",
+    "kneel",
+    "trunk_twist",
+    "waist"
+   ],
+   "tear": 4801,
+   "layer": 74,
+   "holes": 311,
+   "by": {
+    "body": 4801,
+    "Acc_GloveL": 74
+   },
+   "pair": {
+    "body<Kit_Top": 4801,
+    "Acc_GloveL<Kit_Top": 74
+   }
+  },
+  {
+   "i": 23,
+   "clip": "golf__Drive",
+   "frame": 59,
+   "why": [
+    "elbow_L",
+    "hipabd_L",
+    "kneel",
+    "shoulder_blade",
+    "trunk_twist",
+    "waist"
+   ],
+   "tear": 4982,
+   "layer": 52,
+   "holes": 310,
+   "by": {
+    "body": 4982,
+    "Acc_GloveL": 52
+   },
+   "pair": {
+    "body<Kit_Top": 4982,
+    "Acc_GloveL<Kit_Top": 52
+   }
+  },
+  {
+   "i": 24,
+   "clip": "golf__Drive",
+   "frame": 72,
+   "why": [
+    "across_L",
+    "across_R",
+    "coverage",
+    "elbow_L",
+    "elbow_R",
+    "hipabd_L",
+    "hipabd_R",
+    "hipflex_R",
+    "kneel",
+    "lunge",
+    "shoulder_blade",
+    "trunk_side",
+    "trunk_twist",
+    "waist"
+   ],
+   "tear": 5444,
+   "layer": 1,
+   "holes": 241,
+   "by": {
+    "body": 5444,
+    "Kit_Bottom": 1
+   },
+   "pair": {
+    "body<Kit_Top": 5444,
+    "Kit_Bottom<Kit_Top": 1
+   }
+  },
+  {
+   "i": 25,
+   "clip": "golf__Drive",
+   "frame": 82,
+   "why": [
+    "across_R",
+    "elbow_R",
+    "hipabd_L",
+    "hipabd_R",
+    "lunge"
+   ],
+   "tear": 5102,
+   "layer": 0,
+   "holes": 617,
+   "by": {
+    "body": 5102
+   },
+   "pair": {
+    "body<Kit_Top": 5102
+   }
+  },
+  {
+   "i": 26,
+   "clip": "golf__Drive",
+   "frame": 91,
+   "why": [
+    "elbow_R",
+    "hipabd_L",
+    "hipabd_R",
+    "lunge",
+    "trunk_twist"
+   ],
+   "tear": 5116,
+   "layer": 0,
+   "holes": 958,
+   "by": {
+    "body": 5116
+   },
+   "pair": {
+    "body<Kit_Top": 5116
+   }
+  },
+  {
+   "i": 27,
+   "clip": "golf__Drive",
+   "frame": 104,
+   "why": [
+    "elbow_R",
+    "hipabd_L",
+    "hipabd_R",
+    "lunge",
+    "trunk_twist"
+   ],
+   "tear": 5157,
+   "layer": 0,
+   "holes": 974,
+   "by": {
+    "body": 5157
+   },
+   "pair": {
+    "body<Kit_Top": 5157
+   }
+  },
+  {
+   "i": 28,
+   "clip": "golf__Emote_Scuba",
+   "frame": 6,
+   "why": [
+    "coverage"
+   ],
+   "tear": 477,
+   "layer": 23,
+   "holes": 279,
+   "by": {
+    "body": 477,
+    "Acc_GloveL": 23
+   },
+   "pair": {
+    "body<Kit_Top": 477,
+    "Acc_GloveL<Kit_Top": 23
+   }
+  },
+  {
+   "i": 29,
+   "clip": "golf__Emote_Scuba",
+   "frame": 18,
+   "why": [
+    "hipabd_L",
+    "hipabd_R",
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 1495,
+   "layer": 81,
+   "holes": 300,
+   "by": {
+    "body": 1495,
+    "Acc_GloveL": 80,
+    "Kit_Bottom": 1
+   },
+   "pair": {
+    "body<Kit_Top": 1213,
+    "body<Kit_Shoe_L": 133,
+    "body<Kit_Shoe_R": 149,
+    "Acc_GloveL<Kit_Top": 80,
+    "Kit_Bottom<Kit_Top": 1
+   }
+  },
+  {
+   "i": 30,
+   "clip": "golf__Emote_Scuba",
+   "frame": 36,
+   "why": [
+    "hipabd_L",
+    "hipabd_R",
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 2347,
+   "layer": 50,
+   "holes": 300,
+   "by": {
+    "body": 2347,
+    "Kit_Bottom": 5,
+    "Acc_GloveL": 45
+   },
+   "pair": {
+    "body<Kit_Top": 2073,
+    "Kit_Bottom<Kit_Top": 5,
+    "body<Kit_Shoe_L": 124,
+    "body<Kit_Shoe_R": 150,
+    "Acc_GloveL<Kit_Top": 45
+   }
+  },
+  {
+   "i": 31,
+   "clip": "golf__Emote_Spike",
+   "frame": 1,
+   "why": [
+    "elbow_R"
+   ],
+   "tear": 3291,
+   "layer": 40,
+   "holes": 224,
+   "by": {
+    "body": 3291,
+    "Acc_GloveL": 40
+   },
+   "pair": {
+    "body<Kit_Top": 3291,
+    "Acc_GloveL<Kit_Top": 40
+   }
+  },
+  {
+   "i": 32,
+   "clip": "golf__Emote_Spike",
+   "frame": 9,
+   "why": [
+    "across_R",
+    "coverage",
+    "elbow_L",
+    "elbow_R",
+    "hipabd_L",
+    "hipabd_R",
+    "hipflex_L",
+    "hipflex_R",
+    "knee_L",
+    "knee_R",
+    "kneel",
+    "lunge",
+    "seat",
+    "trunk_flex"
+   ],
+   "tear": 8466,
+   "layer": 33,
+   "holes": 507,
+   "by": {
+    "body": 8466,
+    "Acc_GloveL": 33
+   },
+   "pair": {
+    "body<Kit_Top": 8431,
+    "Acc_GloveL<Kit_Top": 33,
+    "body<Kit_Shoe_R": 35
+   },
+   "view": 2
+  },
+  {
+   "i": 33,
+   "clip": "golf__Emote_Spike",
+   "frame": 24,
+   "why": [
+    "armback_L",
+    "coverage",
+    "elbow_L",
+    "elbow_R",
+    "hipabd_L",
+    "hipabd_R",
+    "hipflex_L",
+    "hipflex_R",
+    "knee_L",
+    "knee_R",
+    "kneel",
+    "seat",
+    "trunk_flex"
+   ],
+   "tear": 1450,
+   "layer": 0,
+   "holes": 539,
+   "by": {
+    "body": 1450
+   },
+   "pair": {
+    "body<Kit_Top": 760,
+    "body<Kit_Shoe_L": 319,
+    "body<Kit_Shoe_R": 371
+   }
+  },
+  {
+   "i": 34,
+   "clip": "golf__Emote_Spike",
+   "frame": 32,
+   "why": [
+    "elbow_L",
+    "hipabd_R",
+    "kneel"
+   ],
+   "tear": 4015,
+   "layer": 10,
+   "holes": 539,
+   "by": {
+    "body": 4015,
+    "Acc_GloveL": 10
+   },
+   "pair": {
+    "body<Kit_Top": 3981,
+    "body<Kit_Shoe_R": 26,
+    "body<Kit_Shoe_L": 8,
+    "Acc_GloveL<Kit_Top": 5,
+    "Acc_GloveL<Kit_Bottom": 5
+   }
+  },
+  {
+   "i": 35,
+   "clip": "golf__Emote_Spike",
+   "frame": 46,
+   "why": [
+    "elbow_L"
+   ],
+   "tear": 7144,
+   "layer": 43,
+   "holes": 507,
+   "by": {
+    "body": 7144,
+    "Acc_GloveL": 43
+   },
+   "pair": {
+    "body<Kit_Top": 7144,
+    "Acc_GloveL<Kit_Bottom": 43
+   },
+   "view": 11
+  },
+  {
+   "i": 36,
+   "clip": "golf__Emote_Spike",
+   "frame": 54,
+   "why": [
+    "elbow_L"
+   ],
+   "tear": 6648,
+   "layer": 5,
+   "holes": 392,
+   "by": {
+    "body": 6648,
+    "Acc_GloveL": 5
+   },
+   "pair": {
+    "body<Kit_Top": 6648,
+    "Acc_GloveL<Kit_Top": 5
+   }
+  },
+  {
+   "i": 37,
+   "clip": "golf__Emote_Thrust",
+   "frame": 8,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "hipabd_L",
+    "hipabd_R",
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 419,
+   "layer": 107,
+   "holes": 209,
+   "by": {
+    "body": 419,
+    "Acc_GloveL": 107
+   },
+   "pair": {
+    "body<Kit_Top": 291,
+    "body<Kit_Shoe_L": 58,
+    "body<Kit_Shoe_R": 70,
+    "Acc_GloveL<Kit_Top": 107
+   }
+  },
+  {
+   "i": 38,
+   "clip": "golf__Emote_Thrust",
+   "frame": 22,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "hipabd_L",
+    "hipabd_R",
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 419,
+   "layer": 107,
+   "holes": 209,
+   "by": {
+    "body": 419,
+    "Acc_GloveL": 107
+   },
+   "pair": {
+    "body<Kit_Top": 291,
+    "body<Kit_Shoe_L": 58,
+    "body<Kit_Shoe_R": 70,
+    "Acc_GloveL<Kit_Top": 107
+   }
+  },
+  {
+   "i": 39,
+   "clip": "golf__Emote_Thrust",
+   "frame": 30,
+   "why": [
+    "elbow_R"
+   ],
+   "tear": 1797,
+   "layer": 13,
+   "holes": 214,
+   "by": {
+    "body": 1797,
+    "Acc_GloveL": 13
+   },
+   "pair": {
+    "body<Kit_Top": 1782,
+    "Acc_GloveL<Kit_Top": 13,
+    "body<Kit_Shoe_L": 5,
+    "body<Kit_Shoe_R": 10
+   }
+  },
+  {
+   "i": 40,
+   "clip": "golf__Emote_Thrust",
+   "frame": 38,
+   "why": [
+    "elbow_R"
+   ],
+   "tear": 1797,
+   "layer": 13,
+   "holes": 214,
+   "by": {
+    "body": 1797,
+    "Acc_GloveL": 13
+   },
+   "pair": {
+    "body<Kit_Top": 1782,
+    "Acc_GloveL<Kit_Top": 13,
+    "body<Kit_Shoe_L": 5,
+    "body<Kit_Shoe_R": 10
+   }
+  },
+  {
+   "i": 41,
+   "clip": "golf__Emote_Thrust",
+   "frame": 48,
+   "why": [
+    "elbow_R",
+    "hipabd_R",
+    "kneel"
+   ],
+   "tear": 240,
+   "layer": 85,
+   "holes": 227,
+   "by": {
+    "body": 240,
+    "Acc_GloveL": 85
+   },
+   "pair": {
+    "body<Kit_Top": 179,
+    "Acc_GloveL<Kit_Top": 85,
+    "body<Kit_Shoe_L": 25,
+    "body<Kit_Shoe_R": 36
+   }
+  },
+  {
+   "i": 42,
+   "clip": "golf__FistPump",
+   "frame": 5,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "lunge",
+    "overhead",
+    "side_seam_L",
+    "side_seam_R"
+   ],
+   "tear": 6062,
+   "layer": 263,
+   "holes": 7006,
+   "by": {
+    "body": 6062,
+    "Acc_GloveL": 263
+   },
+   "pair": {
+    "body<Kit_Top": 6057,
+    "body<Kit_Bottom": 5,
+    "Acc_GloveL<Kit_Top": 263
+   }
+  },
+  {
+   "i": 43,
+   "clip": "golf__FistPump",
+   "frame": 20,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "lunge",
+    "overhead",
+    "side_seam_R"
+   ],
+   "tear": 5831,
+   "layer": 5,
+   "holes": 7038,
+   "by": {
+    "body": 5831,
+    "Acc_GloveL": 5
+   },
+   "pair": {
+    "body<Kit_Top": 5831,
+    "Acc_GloveL<Kit_Top": 5
+   }
+  },
+  {
+   "i": 44,
+   "clip": "golf__FistPump",
+   "frame": 28,
+   "why": [
+    "armback_L",
+    "elbow_L",
+    "elbow_R",
+    "lunge",
+    "overhead",
+    "side_seam_L",
+    "side_seam_R"
+   ],
+   "tear": 4726,
+   "layer": 5,
+   "holes": 7095,
+   "by": {
+    "body": 4726,
+    "Acc_GloveL": 5
+   },
+   "pair": {
+    "body<Kit_Top": 4726,
+    "Acc_GloveL<Kit_Top": 5
+   }
+  },
+  {
+   "i": 45,
+   "clip": "golf__FistPump",
+   "frame": 41,
+   "why": [
+    "armback_L",
+    "elbow_L",
+    "elbow_R",
+    "lunge",
+    "overhead",
+    "side_seam_L",
+    "side_seam_R"
+   ],
+   "tear": 5205,
+   "layer": 129,
+   "holes": 7102,
+   "by": {
+    "body": 5205,
+    "Acc_GloveL": 129
+   },
+   "pair": {
+    "body<Kit_Top": 5205,
+    "Acc_GloveL<Kit_Top": 129
+   }
+  },
+  {
+   "i": 46,
+   "clip": "golf__FistPump",
+   "frame": 49,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "lunge",
+    "overhead",
+    "side_seam_L",
+    "side_seam_R"
+   ],
+   "tear": 6755,
+   "layer": 190,
+   "holes": 6965,
+   "by": {
+    "body": 6755,
+    "Acc_GloveL": 190
+   },
+   "pair": {
+    "body<Kit_Top": 6755,
+    "Acc_GloveL<Kit_Top": 190
+   },
+   "view": 8
+  },
+  {
+   "i": 47,
+   "clip": "golf__FistPump",
+   "frame": 60,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "lunge",
+    "overhead",
+    "side_seam_L",
+    "side_seam_R",
+    "trunk_twist"
+   ],
+   "tear": 6053,
+   "layer": 72,
+   "holes": 7006,
+   "by": {
+    "body": 6053,
+    "Acc_GloveL": 72
+   },
+   "pair": {
+    "body<Kit_Top": 6053,
+    "Acc_GloveL<Kit_Top": 72
+   }
+  },
+  {
+   "i": 48,
+   "clip": "golf__FistPump",
+   "frame": 73,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "lunge",
+    "overhead",
+    "trunk_twist"
+   ],
+   "tear": 2901,
+   "layer": 69,
+   "holes": 6449,
+   "by": {
+    "body": 2901,
+    "Acc_GloveL": 69
+   },
+   "pair": {
+    "body<Kit_Top": 2901,
+    "Acc_GloveL<Kit_Top": 69
+   }
+  },
+  {
+   "i": 49,
+   "clip": "golf__FistPump",
+   "frame": 81,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "lunge",
+    "overhead",
+    "side_seam_L",
+    "trunk_twist"
+   ],
+   "tear": 4358,
+   "layer": 113,
+   "holes": 7061,
+   "by": {
+    "body": 4358,
+    "Acc_GloveL": 113
+   },
+   "pair": {
+    "body<Kit_Top": 4358,
+    "Acc_GloveL<Kit_Top": 113
+   }
+  },
+  {
+   "i": 50,
+   "clip": "golf__FistPump",
+   "frame": 90,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "lunge",
+    "overhead",
+    "side_seam_R"
+   ],
+   "tear": 6128,
+   "layer": 269,
+   "holes": 6990,
+   "by": {
+    "body": 6128,
+    "Acc_GloveL": 269
+   },
+   "pair": {
+    "body<Kit_Top": 6128,
+    "Acc_GloveL<Kit_Top": 269
+   }
+  },
+  {
+   "i": 51,
+   "clip": "golf__HalfSwing",
+   "frame": 0,
+   "why": [
+    "kneel",
+    "trunk_side"
+   ],
+   "tear": 2110,
+   "layer": 0,
+   "holes": 310,
+   "by": {
+    "body": 2110
+   },
+   "pair": {
+    "body<Kit_Top": 2110
+   }
+  },
+  {
+   "i": 52,
+   "clip": "golf__HalfSwing",
+   "frame": 9,
+   "why": [
+    "across_L",
+    "across_R",
+    "coverage",
+    "elbow_L",
+    "elbow_R",
+    "kneel",
+    "shoulder_blade"
+   ],
+   "tear": 5730,
+   "layer": 9,
+   "holes": 339,
+   "by": {
+    "body": 5730,
+    "Kit_Bottom": 9
+   },
+   "pair": {
+    "body<Kit_Top": 5730,
+    "Kit_Bottom<Kit_Top": 9
+   }
+  },
+  {
+   "i": 53,
+   "clip": "golf__HalfSwing",
+   "frame": 17,
+   "why": [
+    "across_L",
+    "elbow_R",
+    "kneel"
+   ],
+   "tear": 4598,
+   "layer": 0,
+   "holes": 345,
+   "by": {
+    "body": 4598
+   },
+   "pair": {
+    "body<Kit_Top": 4598
+   }
+  },
+  {
+   "i": 54,
+   "clip": "golf__HalfSwing",
+   "frame": 25,
+   "why": [
+    "across_L",
+    "kneel"
+   ],
+   "tear": 5966,
+   "layer": 6,
+   "holes": 349,
+   "by": {
+    "body": 5966,
+    "Kit_Bottom": 6
+   },
+   "pair": {
+    "body<Kit_Top": 5966,
+    "Kit_Bottom<Kit_Top": 6
+   }
+  },
+  {
+   "i": 55,
+   "clip": "golf__HalfSwing",
+   "frame": 42,
+   "why": [
+    "elbow_L"
+   ],
+   "tear": 5568,
+   "layer": 5,
+   "holes": 284,
+   "by": {
+    "body": 5568,
+    "Kit_Bottom": 5
+   },
+   "pair": {
+    "body<Kit_Top": 5568,
+    "Kit_Bottom<Kit_Top": 5
+   }
+  },
+  {
+   "i": 56,
+   "clip": "golf__HalfSwing",
+   "frame": 50,
+   "why": [
+    "across_L",
+    "across_R",
+    "elbow_L",
+    "elbow_R",
+    "hipabd_L",
+    "hipabd_R",
+    "hipflex_R",
+    "knee_R",
+    "kneel",
+    "lunge",
+    "trunk_side"
+   ],
+   "tear": 3812,
+   "layer": 5,
+   "holes": 379,
+   "by": {
+    "body": 3812,
+    "Acc_GloveL": 5
+   },
+   "pair": {
+    "body<Kit_Top": 3812,
+    "Acc_GloveL<Kit_Top": 5
+   }
+  },
+  {
+   "i": 57,
+   "clip": "golf__HalfSwing",
+   "frame": 58,
+   "why": [
+    "elbow_L",
+    "hipabd_L",
+    "hipabd_R",
+    "hipflex_R",
+    "knee_R",
+    "kneel",
+    "lunge",
+    "trunk_side"
+   ],
+   "tear": 5201,
+   "layer": 10,
+   "holes": 178,
+   "by": {
+    "body": 5201,
+    "Kit_Bottom": 2,
+    "Acc_GloveL": 8
+   },
+   "pair": {
+    "body<Kit_Top": 5201,
+    "Kit_Bottom<Kit_Top": 2,
+    "Acc_GloveL<Kit_Top": 8
+   }
+  },
+  {
+   "i": 58,
+   "clip": "golf__HalfSwing",
+   "frame": 70,
+   "why": [
+    "elbow_L",
+    "hipabd_L",
+    "hipabd_R",
+    "hipflex_R",
+    "kneel",
+    "lunge",
+    "trunk_twist"
+   ],
+   "tear": 6599,
+   "layer": 4,
+   "holes": 258,
+   "by": {
+    "body": 6599,
+    "Kit_Bottom": 4
+   },
+   "pair": {
+    "body<Kit_Top": 6599,
+    "Kit_Bottom<Kit_Top": 4
+   }
+  },
+  {
+   "i": 59,
+   "clip": "golf__HalfSwing",
+   "frame": 78,
+   "why": [
+    "across_R",
+    "elbow_L",
+    "hipabd_L",
+    "hipabd_R",
+    "lunge",
+    "trunk_twist"
+   ],
+   "tear": 6632,
+   "layer": 3,
+   "holes": 270,
+   "by": {
+    "body": 6632,
+    "Kit_Bottom": 3
+   },
+   "pair": {
+    "body<Kit_Top": 6632,
+    "Kit_Bottom<Kit_Top": 3
+   }
+  },
+  {
+   "i": 60,
+   "clip": "golf__HalfSwing",
+   "frame": 86,
+   "why": [
+    "across_R",
+    "elbow_L",
+    "hipabd_L",
+    "hipabd_R",
+    "lunge",
+    "shoulder_blade",
+    "trunk_twist"
+   ],
+   "tear": 6587,
+   "layer": 1,
+   "holes": 292,
+   "by": {
+    "body": 6587,
+    "Kit_Bottom": 1
+   },
+   "pair": {
+    "body<Kit_Top": 6587,
+    "Kit_Bottom<Kit_Top": 1
+   }
+  },
+  {
+   "i": 61,
+   "clip": "golf__Idle",
+   "frame": 15,
+   "why": [
+    "coverage"
+   ],
+   "tear": 1494,
+   "layer": 121,
+   "holes": 364,
+   "by": {
+    "body": 1494,
+    "Acc_GloveL": 119,
+    "Kit_Bottom": 2
+   },
+   "pair": {
+    "body<Kit_Top": 1494,
+    "Acc_GloveL<Kit_Bottom": 119,
+    "Kit_Bottom<Kit_Top": 2
+   }
+  },
+  {
+   "i": 62,
+   "clip": "golf__Intro_BringIt",
+   "frame": 11,
+   "why": [
+    "coverage",
+    "elbow_R"
+   ],
+   "tear": 781,
+   "layer": 59,
+   "holes": 237,
+   "by": {
+    "body": 781,
+    "Kit_Bottom": 6,
+    "Acc_GloveL": 53
+   },
+   "pair": {
+    "body<Kit_Top": 781,
+    "Kit_Bottom<Kit_Top": 6,
+    "Acc_GloveL<Kit_Top": 53
+   }
+  },
+  {
+   "i": 63,
+   "clip": "golf__Intro_BringIt",
+   "frame": 33,
+   "why": [
+    "hipabd_L",
+    "kneel",
+    "lunge"
+   ],
+   "tear": 2167,
+   "layer": 134,
+   "holes": 338,
+   "by": {
+    "body": 2167,
+    "Kit_Bottom": 3,
+    "Acc_GloveL": 131
+   },
+   "pair": {
+    "body<Kit_Top": 2167,
+    "Kit_Bottom<Kit_Top": 3,
+    "Acc_GloveL<Kit_Top": 131
+   }
+  },
+  {
+   "i": 64,
+   "clip": "golf__Intro_BringIt",
+   "frame": 55,
+   "why": [
+    "hipabd_R",
+    "knee_R",
+    "kneel",
+    "lunge"
+   ],
+   "tear": 3785,
+   "layer": 25,
+   "holes": 335,
+   "by": {
+    "body": 3785,
+    "Acc_GloveL": 25
+   },
+   "pair": {
+    "body<Kit_Top": 3785,
+    "Acc_GloveL<Kit_Top": 25
+   }
+  },
+  {
+   "i": 65,
+   "clip": "golf__Intro_BringIt",
+   "frame": 79,
+   "why": [
+    "coverage",
+    "elbow_R"
+   ],
+   "tear": 1127,
+   "layer": 78,
+   "holes": 267,
+   "by": {
+    "body": 1127,
+    "Kit_Bottom": 9,
+    "Acc_GloveL": 69
+   },
+   "pair": {
+    "body<Kit_Top": 1127,
+    "Kit_Bottom<Kit_Top": 9,
+    "Acc_GloveL<Kit_Top": 69
+   }
+  },
+  {
+   "i": 66,
+   "clip": "golf__Intro_Pushups",
+   "frame": 2,
+   "why": [
+    "hipflex_L",
+    "hipflex_R",
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 1288,
+   "layer": 6,
+   "holes": 248,
+   "by": {
+    "body": 1288,
+    "Acc_GloveL": 5,
+    "Kit_Bottom": 1
+   },
+   "pair": {
+    "body<Kit_Top": 1251,
+    "Acc_GloveL<Kit_Top": 5,
+    "body<Kit_Shoe_R": 37,
+    "Kit_Bottom<Kit_Top": 1
+   }
+  },
+  {
+   "i": 67,
+   "clip": "golf__Intro_Pushups",
+   "frame": 10,
+   "why": [
+    "coverage",
+    "elbow_R",
+    "hipabd_L",
+    "hipabd_R",
+    "hipflex_L",
+    "hipflex_R",
+    "knee_L",
+    "knee_R",
+    "kneel",
+    "seat",
+    "side_seam_R",
+    "trunk_side"
+   ],
+   "tear": 2474,
+   "layer": 6,
+   "holes": 234,
+   "by": {
+    "body": 2474,
+    "Kit_Bottom": 1,
+    "Acc_GloveL": 5
+   },
+   "pair": {
+    "body<Kit_Top": 1160,
+    "body<Kit_Shoe_L": 240,
+    "body<Kit_Bottom": 826,
+    "body<Kit_Shoe_R": 248,
+    "Kit_Bottom<Kit_Top": 1,
+    "Acc_GloveL<Kit_Top": 5
+   }
+  },
+  {
+   "i": 68,
+   "clip": "golf__Intro_Pushups",
+   "frame": 18,
+   "why": [
+    "coverage",
+    "hipflex_L",
+    "hipflex_R",
+    "knee_R",
+    "kneel",
+    "seat"
+   ],
+   "tear": 3785,
+   "layer": 65,
+   "holes": 458,
+   "by": {
+    "body": 3785,
+    "Acc_GloveL": 65
+   },
+   "pair": {
+    "body<Kit_Top": 3658,
+    "Acc_GloveL<Kit_Bottom": 65,
+    "body<Kit_Shoe_L": 47,
+    "body<Kit_Shoe_R": 80
+   }
+  },
+  {
+   "i": 69,
+   "clip": "golf__Intro_Pushups",
+   "frame": 35,
+   "why": [
+    "coverage",
+    "hipabd_R"
+   ],
+   "tear": 1243,
+   "layer": 13,
+   "holes": 239,
+   "by": {
+    "body": 1243,
+    "Acc_GloveL": 13
+   },
+   "pair": {
+    "body<Kit_Top": 1243,
+    "Acc_GloveL<Kit_Bottom": 13
+   }
+  },
+  {
+   "i": 70,
+   "clip": "golf__Intro_Pushups",
+   "frame": 49,
+   "why": [
+    "hipabd_R"
+   ],
+   "tear": 1251,
+   "layer": 13,
+   "holes": 245,
+   "by": {
+    "body": 1251,
+    "Acc_GloveL": 13
+   },
+   "pair": {
+    "body<Kit_Top": 1251,
+    "Acc_GloveL<Kit_Bottom": 13
+   }
+  },
+  {
+   "i": 71,
+   "clip": "golf__Intro_Pushups",
+   "frame": 62,
+   "why": [
+    "coverage",
+    "hipflex_L",
+    "hipflex_R",
+    "knee_R",
+    "kneel",
+    "seat"
+   ],
+   "tear": 2879,
+   "layer": 49,
+   "holes": 505,
+   "by": {
+    "body": 2879,
+    "Acc_GloveL": 49
+   },
+   "pair": {
+    "body<Kit_Top": 2846,
+    "Acc_GloveL<Kit_Bottom": 49,
+    "body<Kit_Shoe_L": 16,
+    "body<Kit_Shoe_R": 17
+   }
+  },
+  {
+   "i": 72,
+   "clip": "golf__Intro_Pushups",
+   "frame": 70,
+   "why": [
+    "coverage",
+    "elbow_R",
+    "hipabd_L",
+    "hipabd_R",
+    "hipflex_L",
+    "hipflex_R",
+    "knee_L",
+    "knee_R",
+    "kneel",
+    "seat",
+    "side_seam_R",
+    "trunk_side"
+   ],
+   "tear": 2007,
+   "layer": 1,
+   "holes": 172,
+   "by": {
+    "body": 2007,
+    "Kit_Bottom": 1
+   },
+   "pair": {
+    "body<Kit_Top": 723,
+    "body<Kit_Shoe_L": 227,
+    "body<Kit_Bottom": 813,
+    "body<Kit_Shoe_R": 244,
+    "Kit_Bottom<Kit_Top": 1
+   }
+  },
+  {
+   "i": 73,
+   "clip": "golf__Intro_Pushups",
+   "frame": 78,
+   "why": [
+    "coverage",
+    "elbow_R",
+    "hipabd_L",
+    "hipabd_R",
+    "hipflex_L",
+    "hipflex_R",
+    "knee_L",
+    "knee_R",
+    "kneel",
+    "seat"
+   ],
+   "tear": 1691,
+   "layer": 5,
+   "holes": 330,
+   "by": {
+    "body": 1691,
+    "Acc_GloveL": 5
+   },
+   "pair": {
+    "body<Kit_Top": 1126,
+    "body<Kit_Shoe_L": 244,
+    "body<Kit_Shoe_R": 321,
+    "Acc_GloveL<Kit_Top": 5
+   }
+  },
+  {
+   "i": 74,
+   "clip": "golf__Intro_Wave",
+   "frame": 21,
+   "why": [
+    "coverage"
+   ],
+   "tear": 2567,
+   "layer": 381,
+   "holes": 308,
+   "by": {
+    "body": 2567,
+    "Kit_Bottom": 1,
+    "Acc_GloveL": 380
+   },
+   "pair": {
+    "body<Kit_Top": 2567,
+    "Kit_Bottom<Kit_Top": 1,
+    "Acc_GloveL<Kit_Top": 380
+   }
+  },
+  {
+   "i": 75,
+   "clip": "golf__IronSwing",
+   "frame": 6,
+   "why": [
+    "across_R",
+    "elbow_L",
+    "elbow_R",
+    "kneel",
+    "trunk_side"
+   ],
+   "tear": 5362,
+   "layer": 4,
+   "holes": 318,
+   "by": {
+    "body": 5362,
+    "Kit_Bottom": 4
+   },
+   "pair": {
+    "body<Kit_Top": 5362,
+    "Kit_Bottom<Kit_Top": 4
+   }
+  },
+  {
+   "i": 76,
+   "clip": "golf__IronSwing",
+   "frame": 16,
+   "why": [
+    "across_L",
+    "coverage",
+    "elbow_L",
+    "elbow_R",
+    "kneel",
+    "trunk_side"
+   ],
+   "tear": 2605,
+   "layer": 0,
+   "holes": 384,
+   "by": {
+    "body": 2605
+   },
+   "pair": {
+    "body<Kit_Top": 2605
+   }
+  },
+  {
+   "i": 77,
+   "clip": "golf__IronSwing",
+   "frame": 24,
+   "why": [
+    "across_L",
+    "hipabd_L",
+    "kneel"
+   ],
+   "tear": 3144,
+   "layer": 0,
+   "holes": 341,
+   "by": {
+    "body": 3144
+   },
+   "pair": {
+    "body<Kit_Top": 3144
+   }
+  },
+  {
+   "i": 78,
+   "clip": "golf__IronSwing",
+   "frame": 33,
+   "why": [
+    "hipabd_L",
+    "kneel"
+   ],
+   "tear": 4961,
+   "layer": 4,
+   "holes": 393,
+   "by": {
+    "body": 4961,
+    "Kit_Bottom": 4
+   },
+   "pair": {
+    "body<Kit_Top": 4958,
+    "Kit_Bottom<Kit_Top": 4,
+    "body<Kit_Bottom": 3
+   }
+  },
+  {
+   "i": 79,
+   "clip": "golf__IronSwing",
+   "frame": 41,
+   "why": [
+    "elbow_L",
+    "hipabd_L",
+    "kneel",
+    "trunk_twist"
+   ],
+   "tear": 4974,
+   "layer": 4,
+   "holes": 464,
+   "by": {
+    "body": 4974,
+    "Kit_Bottom": 4
+   },
+   "pair": {
+    "body<Kit_Top": 4973,
+    "Kit_Bottom<Kit_Top": 4,
+    "body<Kit_Bottom": 1
+   }
+  },
+  {
+   "i": 80,
+   "clip": "golf__IronSwing",
+   "frame": 49,
+   "why": [
+    "elbow_L",
+    "hipabd_L",
+    "kneel",
+    "trunk_twist",
+    "waist"
+   ],
+   "tear": 5273,
+   "layer": 263,
+   "holes": 395,
+   "by": {
+    "body": 5273,
+    "Acc_GloveL": 261,
+    "Kit_Bottom": 2
+   },
+   "pair": {
+    "body<Kit_Top": 5273,
+    "Acc_GloveL<Kit_Top": 261,
+    "Kit_Bottom<Kit_Top": 2
+   }
+  },
+  {
+   "i": 81,
+   "clip": "golf__IronSwing",
+   "frame": 57,
+   "why": [
+    "elbow_L",
+    "hipabd_L",
+    "kneel",
+    "trunk_twist",
+    "waist"
+   ],
+   "tear": 5402,
+   "layer": 333,
+   "holes": 357,
+   "by": {
+    "body": 5402,
+    "Acc_GloveL": 333
+   },
+   "pair": {
+    "body<Kit_Top": 5402,
+    "Acc_GloveL<Kit_Top": 333
+   }
+  },
+  {
+   "i": 82,
+   "clip": "golf__IronSwing",
+   "frame": 65,
+   "why": [
+    "across_L",
+    "coverage",
+    "elbow_L",
+    "elbow_R",
+    "hipabd_L",
+    "hipabd_R",
+    "hipflex_R",
+    "knee_R",
+    "kneel",
+    "lunge",
+    "shoulder_blade",
+    "trunk_side",
+    "trunk_twist",
+    "waist"
+   ],
+   "tear": 4016,
+   "layer": 49,
+   "holes": 320,
+   "by": {
+    "body": 4016,
+    "Acc_GloveL": 49
+   },
+   "pair": {
+    "body<Kit_Top": 4016,
+    "Acc_GloveL<Kit_Top": 49
+   }
+  },
+  {
+   "i": 83,
+   "clip": "golf__IronSwing",
+   "frame": 79,
+   "why": [
+    "across_R",
+    "elbow_L",
+    "elbow_R",
+    "hipabd_L",
+    "hipabd_R",
+    "lunge",
+    "trunk_twist",
+    "waist"
+   ],
+   "tear": 3457,
+   "layer": 0,
+   "holes": 581,
+   "by": {
+    "body": 3457
+   },
+   "pair": {
+    "body<Kit_Top": 3457
+   }
+  },
+  {
+   "i": 84,
+   "clip": "golf__IronSwing",
+   "frame": 87,
+   "why": [
+    "elbow_R",
+    "hipabd_L",
+    "hipabd_R",
+    "lunge",
+    "trunk_twist",
+    "waist"
+   ],
+   "tear": 3964,
+   "layer": 8,
+   "holes": 767,
+   "by": {
+    "body": 3964,
+    "Acc_GloveL": 5,
+    "Kit_Bottom": 3
+   },
+   "pair": {
+    "body<Kit_Top": 3962,
+    "Acc_GloveL<Kit_Top": 5,
+    "body<Kit_Bottom": 2,
+    "Kit_Bottom<Kit_Top": 3
+   }
+  },
+  {
+   "i": 85,
+   "clip": "golf__IronSwing",
+   "frame": 98,
+   "why": [
+    "elbow_R",
+    "hipabd_L",
+    "hipabd_R",
+    "lunge",
+    "trunk_twist",
+    "waist"
+   ],
+   "tear": 3932,
+   "layer": 1,
+   "holes": 771,
+   "by": {
+    "body": 3932,
+    "Kit_Bottom": 1
+   },
+   "pair": {
+    "body<Kit_Top": 3929,
+    "body<Kit_Bottom": 3,
+    "Kit_Bottom<Kit_Top": 1
+   }
+  },
+  {
+   "i": 86,
+   "clip": "golf__Putt",
+   "frame": 7,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "hipflex_L",
+    "hipflex_R",
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 4878,
+   "layer": 148,
+   "holes": 289,
+   "by": {
+    "body": 4878,
+    "Acc_GloveL": 148
+   },
+   "pair": {
+    "body<Kit_Top": 4878,
+    "Acc_GloveL<Kit_Top": 148
+   }
+  },
+  {
+   "i": 87,
+   "clip": "golf__Putt",
+   "frame": 15,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "hipflex_L",
+    "hipflex_R",
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 4406,
+   "layer": 205,
+   "holes": 295,
+   "by": {
+    "body": 4406,
+    "Acc_GloveL": 205
+   },
+   "pair": {
+    "body<Kit_Top": 4406,
+    "Acc_GloveL<Kit_Top": 205
+   }
+  },
+  {
+   "i": 88,
+   "clip": "golf__Putt",
+   "frame": 23,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "hipflex_L",
+    "hipflex_R",
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 4606,
+   "layer": 68,
+   "holes": 330,
+   "by": {
+    "body": 4606,
+    "Acc_GloveL": 68
+   },
+   "pair": {
+    "body<Kit_Top": 4606,
+    "Acc_GloveL<Kit_Top": 68
+   }
+  },
+  {
+   "i": 89,
+   "clip": "golf__Putt",
+   "frame": 31,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "hipflex_L",
+    "hipflex_R",
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 4268,
+   "layer": 185,
+   "holes": 321,
+   "by": {
+    "body": 4268,
+    "Kit_Bottom": 1,
+    "Acc_GloveL": 184
+   },
+   "pair": {
+    "body<Kit_Top": 4268,
+    "Kit_Bottom<Kit_Top": 1,
+    "Acc_GloveL<Kit_Top": 184
+   }
+  },
+  {
+   "i": 90,
+   "clip": "golf__Putt",
+   "frame": 40,
+   "why": [
+    "across_R",
+    "elbow_L",
+    "elbow_R",
+    "hipflex_L",
+    "hipflex_R",
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 5341,
+   "layer": 157,
+   "holes": 428,
+   "by": {
+    "body": 5341,
+    "Kit_Bottom": 1,
+    "Acc_GloveL": 156
+   },
+   "pair": {
+    "body<Kit_Top": 5341,
+    "Kit_Bottom<Kit_Top": 1,
+    "Acc_GloveL<Kit_Top": 156
+   }
+  },
+  {
+   "i": 91,
+   "clip": "golf__Putt",
+   "frame": 53,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "hipflex_L",
+    "hipflex_R",
+    "knee_R",
+    "kneel",
+    "seat"
+   ],
+   "tear": 3885,
+   "layer": 152,
+   "holes": 302,
+   "by": {
+    "body": 3885,
+    "Acc_GloveL": 152
+   },
+   "pair": {
+    "body<Kit_Top": 3885,
+    "Acc_GloveL<Kit_Top": 152
+   }
+  },
+  {
+   "i": 92,
+   "clip": "golf__Putt",
+   "frame": 64,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "hipflex_L",
+    "hipflex_R",
+    "knee_R",
+    "kneel",
+    "seat"
+   ],
+   "tear": 3805,
+   "layer": 155,
+   "holes": 273,
+   "by": {
+    "body": 3805,
+    "Acc_GloveL": 155
+   },
+   "pair": {
+    "body<Kit_Top": 3805,
+    "Acc_GloveL<Kit_Top": 155
+   }
+  },
+  {
+   "i": 93,
+   "clip": "golf__Putt",
+   "frame": 72,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "hipflex_L",
+    "hipflex_R",
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 3805,
+   "layer": 155,
+   "holes": 273,
+   "by": {
+    "body": 3805,
+    "Acc_GloveL": 155
+   },
+   "pair": {
+    "body<Kit_Top": 3805,
+    "Acc_GloveL<Kit_Top": 155
+   }
+  },
+  {
+   "i": 94,
+   "clip": "golf__RunForward",
+   "frame": 7,
+   "why": [
+    "armback_L",
+    "armback_R",
+    "coverage",
+    "elbow_L",
+    "elbow_R",
+    "knee_L",
+    "knee_R",
+    "kneel",
+    "lunge"
+   ],
+   "tear": 2060,
+   "layer": 0,
+   "holes": 273,
+   "by": {
+    "body": 2060
+   },
+   "pair": {
+    "body<Kit_Top": 2060
+   }
+  },
+  {
+   "i": 95,
+   "clip": "golf__RunForward",
+   "frame": 18,
+   "why": [
+    "armback_R",
+    "coverage",
+    "elbow_L",
+    "elbow_R",
+    "knee_R",
+    "kneel",
+    "lunge"
+   ],
+   "tear": 414,
+   "layer": 113,
+   "holes": 365,
+   "by": {
+    "Acc_GloveL": 113,
+    "body": 414
+   },
+   "pair": {
+    "Acc_GloveL<Kit_Top": 113,
+    "body<Kit_Top": 414
+   }
+  },
+  {
+   "i": 96,
+   "clip": "golf__Walk",
+   "frame": 0,
+   "why": [
+    "armback_R",
+    "elbow_R",
+    "lunge"
+   ],
+   "tear": 171,
+   "layer": 107,
+   "holes": 325,
+   "by": {
+    "body": 171,
+    "Acc_GloveL": 107
+   },
+   "pair": {
+    "body<Kit_Top": 146,
+    "Acc_GloveL<Kit_Bottom": 8,
+    "Acc_GloveL<Kit_Top": 99,
+    "body<Kit_Shoe_L": 25
+   }
+  },
+  {
+   "i": 97,
+   "clip": "golf__Walk",
+   "frame": 11,
+   "why": [
+    "elbow_R",
+    "kneel",
+    "lunge"
+   ],
+   "tear": 778,
+   "layer": 67,
+   "holes": 332,
+   "by": {
+    "body": 778,
+    "Acc_GloveL": 67
+   },
+   "pair": {
+    "body<Kit_Top": 736,
+    "body<Kit_Shoe_L": 37,
+    "Acc_GloveL<Kit_Top": 28,
+    "Acc_GloveL<Kit_Bottom": 39,
+    "body<Kit_Shoe_R": 5
+   }
+  },
+  {
+   "i": 98,
+   "clip": "golf__Walk",
+   "frame": 20,
+   "why": [
+    "armback_L",
+    "coverage",
+    "elbow_R",
+    "knee_R",
+    "kneel",
+    "lunge"
+   ],
+   "tear": 2735,
+   "layer": 0,
+   "holes": 373,
+   "by": {
+    "body": 2735
+   },
+   "pair": {
+    "body<Kit_Top": 2735
+   }
+  },
+  {
+   "i": 99,
+   "clip": "golf__Walk",
+   "frame": 33,
+   "why": [
+    "armback_R",
+    "elbow_R",
+    "knee_R",
+    "kneel",
+    "lunge"
+   ],
+   "tear": 171,
+   "layer": 107,
+   "holes": 325,
+   "by": {
+    "body": 171,
+    "Acc_GloveL": 107
+   },
+   "pair": {
+    "body<Kit_Top": 146,
+    "Acc_GloveL<Kit_Bottom": 8,
+    "Acc_GloveL<Kit_Top": 99,
+    "body<Kit_Shoe_L": 25
+   }
+  },
+  {
+   "i": 100,
+   "clip": "golf__Wave",
+   "frame": 5,
+   "why": [
+    "axilla_R",
+    "elbow_R",
+    "side_seam_R"
+   ],
+   "tear": 2209,
+   "layer": 132,
+   "holes": 444,
+   "by": {
+    "body": 2209,
+    "Acc_GloveL": 132
+   },
+   "pair": {
+    "body<Kit_Top": 2209,
+    "Acc_GloveL<Kit_Bottom": 132
+   }
+  },
+  {
+   "i": 101,
+   "clip": "golf__Wave",
+   "frame": 15,
+   "why": [
+    "elbow_R",
+    "side_seam_R"
+   ],
+   "tear": 1921,
+   "layer": 123,
+   "holes": 447,
+   "by": {
+    "body": 1921,
+    "Acc_GloveL": 123
+   },
+   "pair": {
+    "body<Kit_Top": 1921,
+    "Acc_GloveL<Kit_Bottom": 123
+   }
+  },
+  {
+   "i": 102,
+   "clip": "golf__Wave",
+   "frame": 25,
+   "why": [
+    "axilla_R",
+    "elbow_R",
+    "side_seam_R"
+   ],
+   "tear": 2204,
+   "layer": 122,
+   "holes": 441,
+   "by": {
+    "body": 2204,
+    "Acc_GloveL": 122
+   },
+   "pair": {
+    "body<Kit_Top": 2204,
+    "Acc_GloveL<Kit_Bottom": 122
+   }
+  },
+  {
+   "i": 103,
+   "clip": "golf__Wave",
+   "frame": 33,
+   "why": [
+    "axilla_R",
+    "elbow_R",
+    "side_seam_R"
+   ],
+   "tear": 2188,
+   "layer": 128,
+   "holes": 436,
+   "by": {
+    "body": 2188,
+    "Acc_GloveL": 128
+   },
+   "pair": {
+    "body<Kit_Top": 2188,
+    "Acc_GloveL<Kit_Bottom": 128
+   }
+  },
+  {
+   "i": 104,
+   "clip": "golf__Wave",
+   "frame": 41,
+   "why": [
+    "axilla_R",
+    "side_seam_R"
+   ],
+   "tear": 2147,
+   "layer": 129,
+   "holes": 424,
+   "by": {
+    "body": 2147,
+    "Acc_GloveL": 129
+   },
+   "pair": {
+    "body<Kit_Top": 2147,
+    "Acc_GloveL<Kit_Bottom": 129
+   }
+  },
+  {
+   "i": 105,
+   "clip": "golf__Wave",
+   "frame": 50,
+   "why": [
+    "axilla_R",
+    "side_seam_R"
+   ],
+   "tear": 2148,
+   "layer": 129,
+   "holes": 423,
+   "by": {
+    "body": 2148,
+    "Acc_GloveL": 129
+   },
+   "pair": {
+    "body<Kit_Top": 2148,
+    "Acc_GloveL<Kit_Bottom": 129
+   }
+  },
+  {
+   "i": 106,
+   "clip": "golf__Wave",
+   "frame": 58,
+   "why": [
+    "axilla_R",
+    "elbow_R",
+    "side_seam_R"
+   ],
+   "tear": 2191,
+   "layer": 143,
+   "holes": 472,
+   "by": {
+    "body": 2191,
+    "Acc_GloveL": 143
+   },
+   "pair": {
+    "body<Kit_Top": 2191,
+    "Acc_GloveL<Kit_Bottom": 143
+   }
+  },
+  {
+   "i": 107,
+   "clip": "moves__Emote_Defeat",
+   "frame": 11,
+   "why": [
+    "knee_L",
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 1667,
+   "layer": 18,
+   "holes": 320,
+   "by": {
+    "body": 1667,
+    "Acc_GloveL": 18
+   },
+   "pair": {
+    "body<Kit_Top": 1667,
+    "Acc_GloveL<Kit_Top": 18
+   }
+  },
+  {
+   "i": 108,
+   "clip": "moves__Emote_Defeat",
+   "frame": 19,
+   "why": [
+    "hipabd_R",
+    "knee_L",
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 2587,
+   "layer": 30,
+   "holes": 1032,
+   "by": {
+    "body": 2587,
+    "Acc_GloveL": 28,
+    "Kit_Bottom": 2
+   },
+   "pair": {
+    "body<Kit_Top": 2495,
+    "Acc_GloveL<Kit_Top": 28,
+    "Kit_Bottom<Kit_Top": 2,
+    "body<Kit_Shoe_L": 34,
+    "body<Kit_Shoe_R": 58
+   }
+  },
+  {
+   "i": 109,
+   "clip": "moves__Emote_Defeat",
+   "frame": 27,
+   "why": [
+    "knee_L",
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 1983,
+   "layer": 66,
+   "holes": 809,
+   "by": {
+    "body": 1983,
+    "Kit_Bottom": 1,
+    "Acc_GloveL": 65
+   },
+   "pair": {
+    "body<Kit_Top": 1915,
+    "Kit_Bottom<Kit_Top": 1,
+    "Acc_GloveL<Kit_Top": 19,
+    "Acc_GloveL<Kit_Bottom": 46,
+    "body<Kit_Shoe_L": 32,
+    "body<Kit_Shoe_R": 36
+   }
+  },
+  {
+   "i": 110,
+   "clip": "moves__Emote_Defeat",
+   "frame": 41,
+   "why": [
+    "knee_L",
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 1826,
+   "layer": 72,
+   "holes": 804,
+   "by": {
+    "body": 1826,
+    "Kit_Bottom": 16,
+    "Acc_GloveL": 56
+   },
+   "pair": {
+    "body<Kit_Top": 1773,
+    "Kit_Bottom<Kit_Top": 1,
+    "Acc_GloveL<Kit_Top": 45,
+    "Acc_GloveL<Kit_Bottom": 11,
+    "body<Kit_Shoe_L": 21,
+    "body<Kit_Shoe_R": 32,
+    "Kit_Bottom<Acc_GloveL": 15
+   }
+  },
+  {
+   "i": 111,
+   "clip": "moves__Emote_Defeat",
+   "frame": 49,
+   "why": [
+    "knee_L",
+    "knee_R",
+    "kneel",
+    "trunk_flex"
+   ],
+   "tear": 2359,
+   "layer": 26,
+   "holes": 828,
+   "by": {
+    "body": 2359,
+    "Kit_Bottom": 5,
+    "Acc_GloveL": 21
+   },
+   "pair": {
+    "body<Kit_Top": 2284,
+    "Kit_Bottom<Kit_Top": 5,
+    "Acc_GloveL<Kit_Bottom": 21,
+    "body<Kit_Shoe_L": 26,
+    "body<Kit_Shoe_R": 49
+   }
+  },
+  {
+   "i": 112,
+   "clip": "moves__Emote_Defeat",
+   "frame": 57,
+   "why": [
+    "knee_L",
+    "knee_R",
+    "kneel",
+    "trunk_flex"
+   ],
+   "tear": 2302,
+   "layer": 35,
+   "holes": 837,
+   "by": {
+    "body": 2302,
+    "Kit_Bottom": 3,
+    "Acc_GloveL": 32
+   },
+   "pair": {
+    "body<Kit_Top": 2219,
+    "Kit_Bottom<Kit_Top": 3,
+    "Acc_GloveL<Kit_Bottom": 32,
+    "body<Kit_Shoe_L": 36,
+    "body<Kit_Shoe_R": 47
+   }
+  },
+  {
+   "i": 113,
+   "clip": "moves__Emote_Defeat",
+   "frame": 65,
+   "why": [
+    "knee_L",
+    "knee_R",
+    "kneel",
+    "trunk_flex"
+   ],
+   "tear": 2089,
+   "layer": 35,
+   "holes": 801,
+   "by": {
+    "body": 2089,
+    "Kit_Bottom": 1,
+    "Acc_GloveL": 34
+   },
+   "pair": {
+    "body<Kit_Top": 2055,
+    "Kit_Bottom<Kit_Top": 1,
+    "Acc_GloveL<Kit_Bottom": 34,
+    "body<Kit_Shoe_L": 18,
+    "body<Kit_Shoe_R": 16
+   }
+  },
+  {
+   "i": 114,
+   "clip": "moves__Emote_Defeat",
+   "frame": 73,
+   "why": [
+    "knee_L",
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 1241,
+   "layer": 22,
+   "holes": 415,
+   "by": {
+    "body": 1241,
+    "Kit_Bottom": 1,
+    "Acc_GloveL": 21
+   },
+   "pair": {
+    "body<Kit_Top": 1241,
+    "Kit_Bottom<Kit_Top": 1,
+    "Acc_GloveL<Kit_Bottom": 21
+   }
+  },
+  {
+   "i": 115,
+   "clip": "moves__Emote_FistPump",
+   "frame": 10,
+   "why": [
+    "coverage",
+    "elbow_L",
+    "hipabd_L",
+    "hipflex_L",
+    "knee_L",
+    "knee_R",
+    "kneel",
+    "lunge",
+    "seat"
+   ],
+   "tear": 1729,
+   "layer": 119,
+   "holes": 363,
+   "by": {
+    "body": 1729,
+    "Acc_GloveL": 119
+   },
+   "pair": {
+    "body<Kit_Top": 1729,
+    "Acc_GloveL<Kit_Top": 119
+   }
+  },
+  {
+   "i": 116,
+   "clip": "moves__Emote_FistPump",
+   "frame": 18,
+   "why": [
+    "kneel"
+   ],
+   "tear": 1289,
+   "layer": 71,
+   "holes": 354,
+   "by": {
+    "body": 1289,
+    "Acc_GloveL": 71
+   },
+   "pair": {
+    "body<Kit_Top": 1289,
+    "Acc_GloveL<Kit_Top": 71
+   }
+  },
+  {
+   "i": 117,
+   "clip": "moves__Emote_FistPump",
+   "frame": 26,
+   "why": [
+    "kneel"
+   ],
+   "tear": 1075,
+   "layer": 67,
+   "holes": 486,
+   "by": {
+    "body": 1075,
+    "Acc_GloveL": 67
+   },
+   "pair": {
+    "body<Kit_Top": 1075,
+    "Acc_GloveL<Kit_Top": 67
+   }
+  },
+  {
+   "i": 118,
+   "clip": "moves__Emote_JumpJoy",
+   "frame": 10,
+   "why": [
+    "armback_L",
+    "coverage",
+    "elbow_L",
+    "knee_R",
+    "kneel",
+    "trunk_flex"
+   ],
+   "tear": 562,
+   "layer": 0,
+   "holes": 391,
+   "by": {
+    "body": 562
+   },
+   "pair": {
+    "body<Kit_Top": 536,
+    "body<Kit_Shoe_R": 26
+   }
+  },
+  {
+   "i": 119,
+   "clip": "moves__Emote_JumpJoy",
+   "frame": 18,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 6340,
+   "layer": 776,
+   "holes": 1257,
+   "by": {
+    "body": 6340,
+    "Acc_GloveL": 776
+   },
+   "pair": {
+    "body<Kit_Top": 6340,
+    "Acc_GloveL<Kit_Top": 35,
+    "Acc_GloveL<Kit_Bottom": 741
+   },
+   "view": 23
+  },
+  {
+   "i": 120,
+   "clip": "moves__Emote_JumpJoy",
+   "frame": 28,
+   "why": [
+    "coverage",
+    "elbow_L",
+    "elbow_R",
+    "knee_L",
+    "knee_R",
+    "kneel",
+    "overhead",
+    "trunk_flex"
+   ],
+   "tear": 6053,
+   "layer": 323,
+   "holes": 1449,
+   "by": {
+    "body": 6053,
+    "Acc_GloveL": 323
+   },
+   "pair": {
+    "body<Kit_Top": 6053,
+    "Acc_GloveL<Kit_Top": 161,
+    "Acc_GloveL<Kit_Bottom": 162
+   }
+  },
+  {
+   "i": 121,
+   "clip": "moves__Emote_JumpJoy",
+   "frame": 36,
+   "why": [
+    "elbow_L",
+    "knee_R",
+    "kneel",
+    "trunk_flex",
+    "waist"
+   ],
+   "tear": 4896,
+   "layer": 167,
+   "holes": 496,
+   "by": {
+    "body": 4896,
+    "Acc_GloveL": 167
+   },
+   "pair": {
+    "body<Kit_Top": 4896,
+    "Acc_GloveL<Kit_Top": 167
+   }
+  },
+  {
+   "i": 122,
+   "clip": "moves__Emote_JumpJoy",
+   "frame": 44,
+   "why": [
+    "elbow_L"
+   ],
+   "tear": 2698,
+   "layer": 149,
+   "holes": 445,
+   "by": {
+    "body": 2698,
+    "Acc_GloveL": 149
+   },
+   "pair": {
+    "body<Kit_Top": 2698,
+    "Acc_GloveL<Kit_Top": 149
+   }
+  },
+  {
+   "i": 123,
+   "clip": "moves__Emote_Shock",
+   "frame": 4,
+   "why": [
+    "coverage",
+    "elbow_R"
+   ],
+   "tear": 8306,
+   "layer": 182,
+   "holes": 396,
+   "by": {
+    "body": 8306,
+    "Acc_GloveL": 182
+   },
+   "pair": {
+    "body<Kit_Top": 8306,
+    "Acc_GloveL<Kit_Top": 182
+   },
+   "view": 11
+  },
+  {
+   "i": 124,
+   "clip": "moves__Emote_Shock",
+   "frame": 15,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "lunge"
+   ],
+   "tear": 12357,
+   "layer": 193,
+   "holes": 1891,
+   "by": {
+    "body": 12357,
+    "Acc_GloveL": 193
+   },
+   "pair": {
+    "body<Kit_Top": 12357,
+    "Acc_GloveL<Kit_Top": 193
+   },
+   "view": 23
+  },
+  {
+   "i": 125,
+   "clip": "moves__Emote_Shock",
+   "frame": 25,
+   "why": [
+    "elbow_L",
+    "elbow_R"
+   ],
+   "tear": 12414,
+   "layer": 443,
+   "holes": 1751,
+   "by": {
+    "body": 12414,
+    "Acc_GloveL": 443
+   },
+   "pair": {
+    "body<Kit_Top": 12414,
+    "Acc_GloveL<Kit_Top": 443
+   },
+   "view": 23
+  },
+  {
+   "i": 126,
+   "clip": "moves__Emote_Shock",
+   "frame": 36,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "lunge"
+   ],
+   "tear": 12406,
+   "layer": 220,
+   "holes": 1809,
+   "by": {
+    "body": 12406,
+    "Acc_GloveL": 220
+   },
+   "pair": {
+    "body<Kit_Top": 12406,
+    "Acc_GloveL<Kit_Top": 220
+   },
+   "view": 23
+  },
+  {
+   "i": 127,
+   "clip": "moves__Emote_Shock",
+   "frame": 50,
+   "why": [
+    "coverage",
+    "elbow_L",
+    "knee_R",
+    "kneel",
+    "lunge"
+   ],
+   "tear": 511,
+   "layer": 37,
+   "holes": 365,
+   "by": {
+    "body": 511,
+    "Acc_GloveL": 37
+   },
+   "pair": {
+    "body<Kit_Top": 511,
+    "Acc_GloveL<Kit_Top": 37
+   }
+  },
+  {
+   "i": 128,
+   "clip": "moves__Emote_Slump",
+   "frame": 8,
+   "why": [
+    "lunge"
+   ],
+   "tear": 4354,
+   "layer": 56,
+   "holes": 358,
+   "by": {
+    "body": 4354,
+    "Acc_GloveL": 56
+   },
+   "pair": {
+    "body<Kit_Top": 4354,
+    "Acc_GloveL<Kit_Top": 56
+   }
+  },
+  {
+   "i": 129,
+   "clip": "moves__Emote_Slump",
+   "frame": 16,
+   "why": [
+    "lunge"
+   ],
+   "tear": 4345,
+   "layer": 58,
+   "holes": 247,
+   "by": {
+    "body": 4345,
+    "Acc_GloveL": 58
+   },
+   "pair": {
+    "body<Kit_Top": 4345,
+    "Acc_GloveL<Kit_Top": 53,
+    "Acc_GloveL<Kit_Bottom": 5
+   }
+  },
+  {
+   "i": 130,
+   "clip": "moves__Emote_Slump",
+   "frame": 29,
+   "why": [
+    "lunge"
+   ],
+   "tear": 3987,
+   "layer": 52,
+   "holes": 262,
+   "by": {
+    "body": 3987,
+    "Acc_GloveL": 52
+   },
+   "pair": {
+    "body<Kit_Top": 3987,
+    "Acc_GloveL<Kit_Top": 47,
+    "Acc_GloveL<Kit_Bottom": 5
+   }
+  },
+  {
+   "i": 131,
+   "clip": "moves__Emote_Slump",
+   "frame": 41,
+   "why": [
+    "lunge",
+    "trunk_flex"
+   ],
+   "tear": 4543,
+   "layer": 117,
+   "holes": 212,
+   "by": {
+    "body": 4543,
+    "Acc_GloveL": 117
+   },
+   "pair": {
+    "body<Kit_Top": 4543,
+    "Acc_GloveL<Kit_Bottom": 46,
+    "Acc_GloveL<Kit_Top": 71
+   }
+  },
+  {
+   "i": 132,
+   "clip": "moves__Emote_Slump",
+   "frame": 49,
+   "why": [
+    "lunge",
+    "trunk_flex"
+   ],
+   "tear": 4555,
+   "layer": 114,
+   "holes": 204,
+   "by": {
+    "body": 4555,
+    "Acc_GloveL": 114
+   },
+   "pair": {
+    "body<Kit_Top": 4555,
+    "Acc_GloveL<Kit_Top": 71,
+    "Acc_GloveL<Kit_Bottom": 43
+   }
+  },
+  {
+   "i": 133,
+   "clip": "moves__Emote_Slump",
+   "frame": 59,
+   "why": [
+    "lunge",
+    "trunk_flex"
+   ],
+   "tear": 4481,
+   "layer": 68,
+   "holes": 209,
+   "by": {
+    "body": 4481,
+    "Acc_GloveL": 68
+   },
+   "pair": {
+    "body<Kit_Top": 4481,
+    "Acc_GloveL<Kit_Top": 53,
+    "Acc_GloveL<Kit_Bottom": 15
+   }
+  },
+  {
+   "i": 134,
+   "clip": "moves__Emote_Stomp",
+   "frame": 10,
+   "why": [
+    "elbow_L",
+    "hipabd_R",
+    "hipflex_R",
+    "knee_R",
+    "kneel",
+    "lunge"
+   ],
+   "tear": 1291,
+   "layer": 51,
+   "holes": 423,
+   "by": {
+    "body": 1291,
+    "Acc_GloveL": 51
+   },
+   "pair": {
+    "body<Kit_Top": 1112,
+    "body<Kit_Shoe_R": 179,
+    "Acc_GloveL<Kit_Top": 51
+   }
+  },
+  {
+   "i": 135,
+   "clip": "moves__Emote_Stomp",
+   "frame": 23,
+   "why": [
+    "knee_L",
+    "knee_R",
+    "kneel",
+    "lunge"
+   ],
+   "tear": 1527,
+   "layer": 61,
+   "holes": 347,
+   "by": {
+    "body": 1527,
+    "Acc_GloveL": 10,
+    "Kit_Bottom": 51
+   },
+   "pair": {
+    "body<Kit_Top": 1494,
+    "body<Kit_Shoe_L": 33,
+    "Acc_GloveL<Kit_Top": 10,
+    "Kit_Bottom<Acc_GloveL": 51
+   }
+  },
+  {
+   "i": 136,
+   "clip": "moves__Emote_Stomp",
+   "frame": 31,
+   "why": [
+    "kneel"
+   ],
+   "tear": 1545,
+   "layer": 23,
+   "holes": 238,
+   "by": {
+    "body": 1545,
+    "Acc_GloveL": 23
+   },
+   "pair": {
+    "body<Kit_Top": 1545,
+    "Acc_GloveL<Kit_Bottom": 14,
+    "Acc_GloveL<Kit_Top": 9
+   }
+  },
+  {
+   "i": 137,
+   "clip": "moves__Emote_Stomp",
+   "frame": 39,
+   "why": [
+    "kneel"
+   ],
+   "tear": 1400,
+   "layer": 25,
+   "holes": 236,
+   "by": {
+    "body": 1400,
+    "Acc_GloveL": 25
+   },
+   "pair": {
+    "body<Kit_Top": 1400,
+    "Acc_GloveL<Kit_Bottom": 21,
+    "Acc_GloveL<Kit_Top": 4
+   }
+  },
+  {
+   "i": 138,
+   "clip": "moves__Emote_Victory",
+   "frame": 11,
+   "why": [
+    "armback_R",
+    "coverage",
+    "elbow_L",
+    "elbow_R",
+    "hipabd_L",
+    "hipflex_R",
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 1808,
+   "layer": 149,
+   "holes": 438,
+   "by": {
+    "body": 1808,
+    "Acc_GloveL": 149
+   },
+   "pair": {
+    "body<Kit_Top": 1808,
+    "Acc_GloveL<Kit_Top": 149
+   }
+  },
+  {
+   "i": 139,
+   "clip": "moves__Emote_Victory",
+   "frame": 22,
+   "why": [
+    "elbow_L",
+    "knee_L",
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 360,
+   "layer": 67,
+   "holes": 368,
+   "by": {
+    "body": 360,
+    "Acc_GloveL": 67
+   },
+   "pair": {
+    "body<Kit_Top": 360,
+    "Acc_GloveL<Kit_Bottom": 67
+   }
+  },
+  {
+   "i": 140,
+   "clip": "moves__Emote_Victory",
+   "frame": 33,
+   "why": [
+    "elbow_L",
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 4968,
+   "layer": 374,
+   "holes": 974,
+   "by": {
+    "body": 4968,
+    "Acc_GloveL": 374
+   },
+   "pair": {
+    "body<Kit_Top": 4945,
+    "body<Kit_Shoe_R": 18,
+    "Acc_GloveL<Kit_Top": 374,
+    "body<Kit_Shoe_L": 5
+   }
+  },
+  {
+   "i": 141,
+   "clip": "moves__Emote_Victory",
+   "frame": 41,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "knee_R",
+    "kneel",
+    "overhead"
+   ],
+   "tear": 7229,
+   "layer": 0,
+   "holes": 1469,
+   "by": {
+    "body": 7229
+   },
+   "pair": {
+    "body<Kit_Top": 7229
+   },
+   "view": 23
+  },
+  {
+   "i": 142,
+   "clip": "moves__Emote_Victory",
+   "frame": 53,
+   "why": [
+    "elbow_L",
+    "elbow_R",
+    "knee_R",
+    "kneel",
+    "overhead"
+   ],
+   "tear": 7149,
+   "layer": 0,
+   "holes": 1494,
+   "by": {
+    "body": 7149
+   },
+   "pair": {
+    "body<Kit_Top": 7144,
+    "body<Kit_Shoe_R": 5
+   },
+   "view": 23
+  },
+  {
+   "i": 143,
+   "clip": "moves__Emote_Victory",
+   "frame": 61,
+   "why": [
+    "coverage",
+    "elbow_L",
+    "elbow_R",
+    "knee_R",
+    "kneel",
+    "overhead"
+   ],
+   "tear": 7308,
+   "layer": 0,
+   "holes": 1515,
+   "by": {
+    "body": 7308
+   },
+   "pair": {
+    "body<Kit_Top": 7308
+   },
+   "view": 15
+  },
+  {
+   "i": 144,
+   "clip": "moves__Emote_Victory",
+   "frame": 69,
+   "why": [
+    "coverage",
+    "elbow_L",
+    "elbow_R",
+    "knee_R",
+    "kneel",
+    "overhead"
+   ],
+   "tear": 7205,
+   "layer": 5,
+   "holes": 1517,
+   "by": {
+    "body": 7205,
+    "Kit_Bottom": 5
+   },
+   "pair": {
+    "body<Kit_Top": 7205,
+    "Kit_Bottom<Kit_Top": 5
+   },
+   "view": 15
+  },
+  {
+   "i": 145,
+   "clip": "moves__Emote_Victory",
+   "frame": 77,
+   "why": [
+    "coverage",
+    "knee_R",
+    "kneel"
+   ],
+   "tear": 4581,
+   "layer": 303,
+   "holes": 955,
+   "by": {
+    "Acc_GloveL": 303,
+    "body": 4581
+   },
+   "pair": {
+    "Acc_GloveL<Kit_Top": 303,
+    "body<Kit_Top": 4581
+   }
+  },
+  {
+   "i": 146,
+   "clip": "moves__Run",
+   "frame": 1,
+   "why": [
+    "armback_R",
+    "elbow_R",
+    "knee_L",
+    "knee_R",
+    "kneel",
+    "lunge"
+   ],
+   "tear": 1630,
+   "layer": 61,
+   "holes": 275,
+   "by": {
+    "body": 1630,
+    "Kit_Bottom": 10,
+    "Acc_GloveL": 51
+   },
+   "pair": {
+    "body<Kit_Top": 1630,
+    "Kit_Bottom<Kit_Top": 10,
+    "Acc_GloveL<Kit_Top": 51
+   }
+  },
+  {
+   "i": 147,
+   "clip": "moves__Run",
+   "frame": 11,
+   "why": [
+    "armback_L",
+    "coverage",
+    "elbow_L",
+    "elbow_R",
+    "hipflex_L",
+    "hipflex_R",
+    "knee_L",
+    "knee_R",
+    "kneel",
+    "lunge"
+   ],
+   "tear": 837,
+   "layer": 5,
+   "holes": 442,
+   "by": {
+    "body": 837,
+    "Kit_Bottom": 5
+   },
+   "pair": {
+    "body<Kit_Top": 837,
+    "Kit_Bottom<Kit_Top": 5
+   }
+  },
+  {
+   "i": 148,
+   "clip": "moves__Run",
+   "frame": 20,
+   "why": [
+    "armback_R",
+    "elbow_R",
+    "knee_R",
+    "kneel",
+    "lunge"
+   ],
+   "tear": 1607,
+   "layer": 38,
+   "holes": 268,
+   "by": {
+    "body": 1607,
+    "Kit_Bottom": 3,
+    "Acc_GloveL": 35
+   },
+   "pair": {
+    "body<Kit_Top": 1578,
+    "Kit_Bottom<Kit_Top": 3,
+    "body<Kit_Shoe_L": 29,
+    "Acc_GloveL<Kit_Top": 35
+   }
+  },
+  {
+   "i": 149,
+   "clip": "moves__Walk",
+   "frame": 2,
+   "why": [
+    "lunge"
+   ],
+   "tear": 123,
+   "layer": 54,
+   "holes": 293,
+   "by": {
+    "body": 123,
+    "Acc_GloveL": 54
+   },
+   "pair": {
+    "body<Kit_Top": 110,
+    "Acc_GloveL<Kit_Top": 54,
+    "body<Kit_Shoe_L": 13
+   }
+  },
+  {
+   "i": 150,
+   "clip": "moves__Walk",
+   "frame": 10,
+   "why": [
+    "kneel",
+    "lunge"
+   ],
+   "tear": 514,
+   "layer": 109,
+   "holes": 333,
+   "by": {
+    "body": 514,
+    "Acc_GloveL": 109
+   },
+   "pair": {
+    "body<Kit_Top": 375,
+    "Acc_GloveL<Kit_Bottom": 109,
+    "body<Kit_Shoe_L": 139
+   }
+  },
+  {
+   "i": 151,
+   "clip": "moves__Walk",
+   "frame": 18,
+   "why": [
+    "armback_L",
+    "knee_R",
+    "kneel",
+    "lunge"
+   ],
+   "tear": 787,
+   "layer": 15,
+   "holes": 398,
+   "by": {
+    "body": 787,
+    "Acc_GloveL": 15
+   },
+   "pair": {
+    "body<Kit_Top": 761,
+    "Acc_GloveL<Kit_Bottom": 10,
+    "Acc_GloveL<Kit_Top": 5,
+    "body<Kit_Shoe_R": 26
+   }
+  },
+  {
+   "i": 152,
+   "clip": "moves__Walk",
+   "frame": 26,
+   "why": [
+    "knee_R",
+    "kneel",
+    "lunge"
+   ],
+   "tear": 438,
+   "layer": 75,
+   "holes": 317,
+   "by": {
+    "body": 438,
+    "Acc_GloveL": 75
+   },
+   "pair": {
+    "body<Kit_Top": 282,
+    "Acc_GloveL<Kit_Bottom": 5,
+    "body<Kit_Shoe_R": 156,
+    "Acc_GloveL<Kit_Top": 70
+   }
+  }
+ ]
+}

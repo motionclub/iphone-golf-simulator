@@ -114,6 +114,11 @@ namespace GolfArcade.Game
             streakDraw.renderMode = ParticleSystemRenderMode.Stretch; streakDraw.velocityScale = 0.1f; streakDraw.lengthScale = 1f;
             streakDraw.sharedMaterial = new Material(ParticleMaterial()) { mainTexture = Band(), name = "Launch streak" };
             fx.crown = fx.Burst("Splash crown", "splash", false);
+            // droplets and molten globs: stretched along their flight, shrinking as they fall; ripples spreading flat on the surface
+            fx.drops = fx.BuildDroplets("Droplets", -10.5f, 0.05f, 1.9f);
+            fx.globs = fx.BuildDroplets("Molten globs", -7.5f, 0.02f, 1.25f);
+            fx.ripples = new Flare[4];
+            for (int i = 0; i < fx.ripples.Length; i++) fx.ripples[i] = fx.Burst("Ripple " + i, "ring", true);
             return fx;
         }
 
@@ -170,6 +175,11 @@ namespace GolfArcade.Game
             public float age = -1, seconds, from, to; public Color tint;
         }
         Flare flash, flare, ring, shock, crown;
+        Flare[] ripples;
+        ParticleSystem drops, globs;
+        /// Parts of an effect that come a moment after the first (the jet after the crown).
+        readonly System.Collections.Generic.List<(float at, System.Action act)> later = new();
+        void After(float seconds, System.Action act) => later.Add((Time.time + seconds, act));
         ParticleSystem clippings, streaks;
         float streakLeft, streakTier; Vector3 streakFrom; bool streakStarted;
 
@@ -217,7 +227,32 @@ namespace GolfArcade.Game
         {
             float dt = Time.deltaTime;
             Step(flash, dt); Step(flare, dt); Step(ring, dt); Step(shock, dt); Step(crown, dt);
+            if (ripples != null) foreach (var r in ripples) Step(r, dt);
+            for (int i = later.Count - 1; i >= 0; i--)
+                if (Time.time >= later[i].at) { var act = later[i].act; later.RemoveAt(i); act(); }
         }
+
+        ParticleSystem BuildDroplets(string name, float gravity, float velocityScale, float lengthScale)
+        {
+            var ps = BuildParticles(name, 1f, 1f, 0.5f, 1f, gravity);
+            var main = ps.main; main.maxParticles = 500;
+            var draw = ps.GetComponent<ParticleSystemRenderer>();
+            draw.renderMode = ParticleSystemRenderMode.Stretch; draw.velocityScale = velocityScale; draw.lengthScale = lengthScale;
+            var size = ps.sizeOverLifetime; size.size = new ParticleSystem.MinMaxCurve(1f, AnimationCurve.Linear(0, 1, 1, 0.55f));
+            var col = ps.colorOverLifetime;
+            var g = new Gradient();
+            g.SetKeys(new[] { new GradientColorKey(Color.white, 0), new GradientColorKey(Color.white, 1) },
+                      new[] { new GradientAlphaKey(1f, 0), new GradientAlphaKey(0.9f, 0.7f), new GradientAlphaKey(0, 1) });
+            col.color = g;
+            return ps;
+        }
+
+        void Drop(ParticleSystem system, Vector3 at, Vector3 velocity, Color color, float size, float life, int i) =>
+            system.Emit(new ParticleSystem.EmitParams { position = at, velocity = velocity, startColor = color, startSize = size, startLifetime = life },
+                        GolfArcade.EnvironmentArt.EnvironmentFx.ParticleAt(i));
+
+        void Ripple(int k, Vector3 at, float seconds, float to, Color tint) =>
+            Fire(ripples != null && k < ripples.Length ? ripples[k] : null, at + Vector3.up * 0.02f, seconds, 0.25f, to, tint);
 
         /// How big the contact reads, 0–1, by the strike's grade (the same hook the strike's sound and haptics use):
         /// a thin one is a dull tick, a perfect one the full bundle. Without a grade, the tracer's rating stands in.
@@ -541,21 +576,30 @@ namespace GolfArcade.Game
             }
         }
 
-        /// The ball into lava: a flash, sparks thrown up and falling back, and a puff of smoke.
+        /// The ball into lava: a molten heave, not water — a flash, thick globs lobbed up and falling back to a glowing surface,
+        /// embers streaking higher, orange rings spreading, and smoke.
         public void LavaBurst(Vector3 at)
         {
             Fire(flash, at + Vector3.up * 0.4f, 0.4f, 0.5f, 3.2f, new Color(1f, 0.6f, 0.2f));
-            for (int i = 0; i < 70; i++)
+            // the glowing surface heaving: rings of molten orange spreading and cooling
+            Ripple(0, at, 1.0f, 3.4f, new Color(1f, 0.55f, 0.1f, 0.9f));
+            Ripple(1, at, 1.4f, 5.2f, new Color(1f, 0.3f, 0.05f, 0.7f));
+            After(0.22f, () => Ripple(2, at, 1.4f, 4.6f, new Color(1f, 0.75f, 0.2f, 0.6f)));
+            // thick globs, lobbed up in a dome and falling heavily
+            for (int i = 0; i < 26; i++)
+            {
+                float a = Random.value * Mathf.PI * 2, outward = Random.Range(0.4f, 2.4f);
+                Drop(globs, at + new Vector3(Mathf.Cos(a) * 0.2f, 0.05f, Mathf.Sin(a) * 0.2f),
+                     new Vector3(Mathf.Cos(a) * outward, Random.Range(3.2f, 7.5f), Mathf.Sin(a) * outward),
+                     Color.Lerp(new Color(1f, 0.85f, 0.25f), new Color(0.95f, 0.22f, 0.04f), Random.value), Random.Range(0.28f, 0.6f), Random.Range(0.8f, 1.5f), i);
+            }
+            // embers: small, bright and fast
+            for (int i = 0; i < 60; i++)
             {
                 var dir = Random.insideUnitCircle;
-                splash.Emit(new ParticleSystem.EmitParams
-                {
-                    position = at + new Vector3(dir.x * 0.3f, 0.05f, dir.y * 0.3f),
-                    velocity = new Vector3(dir.x * Random.Range(1f, 3.5f), Random.Range(3.5f, 9.5f), dir.y * Random.Range(1f, 3.5f)),
-                    startColor = Color.Lerp(new Color(1f, 0.92f, 0.35f), new Color(1f, 0.32f, 0.05f), Random.value),
-                    startSize = Random.Range(0.18f, 0.45f),
-                    startLifetime = Random.Range(0.6f, 1.3f),
-                }, GolfArcade.EnvironmentArt.EnvironmentFx.ParticleAt(i));
+                Drop(drops, at + new Vector3(dir.x * 0.3f, 0.05f, dir.y * 0.3f),
+                     new Vector3(dir.x * Random.Range(1f, 3.5f), Random.Range(5f, 11f), dir.y * Random.Range(1f, 3.5f)),
+                     Color.Lerp(new Color(1f, 0.95f, 0.5f), new Color(1f, 0.4f, 0.08f), Random.value), Random.Range(0.07f, 0.16f), Random.Range(0.7f, 1.4f), i);
             }
             for (int i = 0; i < 16; i++)
             {
@@ -592,37 +636,59 @@ namespace GolfArcade.Game
             }
         }
 
+        /// The ball into water: an impact crown and a flash of spray, droplets thrown out in a ring and a jet shooting up behind
+        /// them, the falling drops, a little mist, and ripples spreading across the surface.
         public void Splash(Vector3 at)
         {
             at.y = 0.02f;
-            Fire(crown, at + Vector3.up * 0.6f, 0.7f, 0.6f, 2.6f, Color.white);
-            for (int i = 0; i < 46; i++)
+            var water = new Color(0.82f, 0.94f, 1f);
+            var deep = new Color(0.5f, 0.78f, 1f);
+            Fire(crown, at + Vector3.up * 0.55f, 0.6f, 0.5f, 2.4f, new Color(1f, 1f, 1f, 0.8f));
+            // the crown: a ring of drops thrown out and up
+            const int count = 36;
+            for (int i = 0; i < count; i++)
             {
-                var dir = Random.insideUnitCircle;
-                float up = Random.Range(2.5f, 6.5f);
-                var p = new ParticleSystem.EmitParams
-                {
-                    position = at + new Vector3(dir.x * 0.25f, 0, dir.y * 0.25f),
-                    velocity = new Vector3(dir.x * Random.Range(0.6f, 2.2f), up, dir.y * Random.Range(0.6f, 2.2f)),
-                    startColor = Color.Lerp(new Color(0.85f, 0.95f, 1f), new Color(0.55f, 0.8f, 1f), Random.value),
-                    startSize = Random.Range(0.3f, 0.8f),
-                    startLifetime = Random.Range(0.5f, 1.0f),
-                };
-                splash.Emit(p, GolfArcade.EnvironmentArt.EnvironmentFx.ParticleAt(i));
+                float a = (i + Random.value * 0.6f) / count * Mathf.PI * 2, outward = Random.Range(1.6f, 3.2f);
+                Drop(drops, at + new Vector3(Mathf.Cos(a) * 0.25f, 0.03f, Mathf.Sin(a) * 0.25f),
+                     new Vector3(Mathf.Cos(a) * outward, Random.Range(3.4f, 5.6f), Mathf.Sin(a) * outward),
+                     Color.Lerp(water, deep, Random.value), Random.Range(0.12f, 0.26f), Random.Range(0.6f, 1.0f), i);
             }
-            // the ring on the water
-            for (int i = 0; i < 24; i++)
+            // the jet: straight up from the middle a moment later, higher and narrower
+            After(0.07f, () =>
             {
-                float a = i * Mathf.PI * 2 / 24;
-                var p = new ParticleSystem.EmitParams
+                for (int i = 0; i < 26; i++)
                 {
-                    position = at + new Vector3(Mathf.Cos(a) * 0.4f, 0.01f, Mathf.Sin(a) * 0.4f),
-                    velocity = new Vector3(Mathf.Cos(a), 0, Mathf.Sin(a)) * 2.4f,
-                    startColor = new Color(0.9f, 0.97f, 1f, 0.8f),
-                    startSize = 0.45f, startLifetime = 0.9f,
-                };
-                puffs.Emit(p, GolfArcade.EnvironmentArt.EnvironmentFx.ParticleAt(i));
-            }
+                    var j = Random.insideUnitCircle * 0.5f;
+                    Drop(drops, at + new Vector3(j.x * 0.2f, 0.1f, j.y * 0.2f),
+                         new Vector3(j.x, Random.Range(6f, 10.5f), j.y),
+                         Color.Lerp(Color.white, water, Random.value), Random.Range(0.14f, 0.32f), Random.Range(0.8f, 1.3f), i);
+                }
+                // mist hanging where it broke
+                for (int i = 0; i < 10; i++)
+                {
+                    var d = Random.insideUnitCircle;
+                    puffs.Emit(new ParticleSystem.EmitParams
+                    {
+                        position = at + new Vector3(d.x * 0.5f, 0.4f, d.y * 0.5f),
+                        velocity = new Vector3(d.x * 0.5f, Random.Range(0.6f, 1.6f), d.y * 0.5f),
+                        startColor = new Color(0.9f, 0.97f, 1f, 0.55f), startSize = Random.Range(0.8f, 1.5f), startLifetime = Random.Range(0.7f, 1.2f),
+                    }, GolfArcade.EnvironmentArt.EnvironmentFx.ParticleAt(i));
+                }
+            });
+            // the jet falls back as rain
+            After(0.4f, () =>
+            {
+                for (int i = 0; i < 18; i++)
+                {
+                    var d = Random.insideUnitCircle * 0.9f;
+                    Drop(drops, at + new Vector3(d.x, Random.Range(1.4f, 2.6f), d.y), new Vector3(d.x * 0.3f, Random.Range(-1f, 0f), d.y * 0.3f),
+                         Color.Lerp(water, deep, Random.value), Random.Range(0.08f, 0.18f), Random.Range(0.4f, 0.7f), i);
+                }
+            });
+            // ripples spreading across the surface
+            Ripple(0, at, 1.0f, 3.0f, new Color(0.9f, 0.97f, 1f, 0.85f));
+            After(0.18f, () => Ripple(1, at, 1.2f, 4.6f, new Color(0.85f, 0.95f, 1f, 0.6f)));
+            After(0.38f, () => Ripple(2, at, 1.3f, 6.2f, new Color(0.8f, 0.92f, 1f, 0.4f)));
         }
     }
 }

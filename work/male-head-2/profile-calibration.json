@@ -1,0 +1,13 @@
+{
+  "use": "Head-detail side-form diagnostic only; no new numeric gate and no change to primary reference masks/cameras.",
+  "reference": "male_head_detail.jpg, LEFT PROFILE",
+  "top_reference_pixel_y": 76,
+  "chin_reference_pixel_y": 272,
+  "target_chin_height_metres": 1.449,
+  "top_height_metres": 1.7046599388122559,
+  "metres_per_reference_pixel": 0.0013043874429196725,
+  "posterior_anchor_reference_pixel_x": 712,
+  "posterior_anchor_y_metres": 0.065,
+  "skin_threshold": "R-G>12, G-B>7, R>65; ignore stubble as a color cue; use outer contour only.",
+  "reference_row_smoothing_sigma_pixels": 1.5
+}

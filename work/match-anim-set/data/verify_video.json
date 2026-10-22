@@ -1,0 +1,102 @@
+{
+ "male": {
+  "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/match-anim-set/proof/Review_Male.mp4",
+  "exists": true,
+  "bytes": 1434339,
+  "expected_frames": 541,
+  "ftyp_header": true,
+  "size": [
+   540,
+   674
+  ],
+  "fps": 30.0,
+  "frame_duration": 541,
+  "duration_s": 18.033333333333335,
+  "decoded_frames": [
+   {
+    "frame": 1,
+    "mean": 0.4045194387435913,
+    "std": 0.2599918842315674
+   },
+   {
+    "frame": 135,
+    "mean": 0.3968856632709503,
+    "std": 0.2586822509765625
+   },
+   {
+    "frame": 270,
+    "mean": 0.40454554557800293,
+    "std": 0.25997859239578247
+   },
+   {
+    "frame": 405,
+    "mean": 0.3989068567752838,
+    "std": 0.26076793670654297
+   },
+   {
+    "frame": 541,
+    "mean": 0.4045978784561157,
+    "std": 0.2599062919616699
+   }
+  ],
+  "mean_abs_diff_vs_first": [
+   0.05550643429160118,
+   0.002000431763008237,
+   0.05268554016947746,
+   0.0021837849635630846
+  ],
+  "frames_equal": true,
+  "fps_ok": true,
+  "decode_ok": true
+ },
+ "female": {
+  "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/match-anim-set/proof/Review_Female.mp4",
+  "exists": true,
+  "bytes": 1449936,
+  "expected_frames": 541,
+  "ftyp_header": true,
+  "size": [
+   540,
+   674
+  ],
+  "fps": 30.0,
+  "frame_duration": 541,
+  "duration_s": 18.033333333333335,
+  "decoded_frames": [
+   {
+    "frame": 1,
+    "mean": 0.3942006826400757,
+    "std": 0.25545644760131836
+   },
+   {
+    "frame": 135,
+    "mean": 0.3931291997432709,
+    "std": 0.2536182999610901
+   },
+   {
+    "frame": 270,
+    "mean": 0.3942633271217346,
+    "std": 0.25541722774505615
+   },
+   {
+    "frame": 405,
+    "mean": 0.38619041442871094,
+    "std": 0.25674372911453247
+   },
+   {
+    "frame": 541,
+    "mean": 0.3942843973636627,
+    "std": 0.2554401755332947
+   }
+  ],
+  "mean_abs_diff_vs_first": [
+   0.05882062390446663,
+   0.0021718682255595922,
+   0.05096746236085892,
+   0.002186636906117201
+  ],
+  "frames_equal": true,
+  "fps_ok": true,
+  "decode_ok": true
+ }
+}

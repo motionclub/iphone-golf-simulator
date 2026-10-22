@@ -74,7 +74,7 @@ namespace GolfArcade.Multiplayer {
         public void SetAway(IEnumerable<int> seats) { away.Clear(); foreach(var s in seats) away.Add(s); }
         public bool IsAway(int seat)=>away.Contains(seat);
         /// Everyone has holed out: the hole's card (a row each, as single player's card with others) before the next hole loads.
-        public const double HoleCardSeconds=7;
+        public const double HoleCardSeconds=4;
         /// Every full swing is replayed from the tee box before its result (GolfGame), and the replay is given its time: the
         /// beat to see where the ball finished, the slow-motion strike, the flight and the landing (a holed ball to the cup).
         public static bool ReplaysShot(GolfClub club)=>club!=GolfClub.Putter;

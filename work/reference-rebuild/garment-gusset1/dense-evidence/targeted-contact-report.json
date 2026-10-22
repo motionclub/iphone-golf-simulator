@@ -1,0 +1,201 @@
+{
+  "poses": 5,
+  "views": 10,
+  "regionBefore": 2643,
+  "regionAfter": 445,
+  "newHoleViews": 0,
+  "maxNewHolePixels": 0,
+  "maxNewBackgroundPixels": 136,
+  "rows": [
+    {
+      "sample": "female_Forehand_1",
+      "maxClearanceMoveMm": 40.00000000000001,
+      "capVertices": 132,
+      "penetratingBefore": 6398,
+      "triangleContacts": [
+        3220,
+        2927,
+        2947,
+        3001,
+        3030,
+        3098
+      ],
+      "proxyFaces": 135,
+      "proxyVertices": 104,
+      "views": [
+        {
+          "view": "front",
+          "regionBefore": 452,
+          "regionAfter": 2,
+          "targetBefore": 411,
+          "targetAfter": 2,
+          "newBackgroundPixels": 0,
+          "newHolePixels": 0,
+          "newSkinPixels": 0
+        },
+        {
+          "view": "rear",
+          "regionBefore": 501,
+          "regionAfter": 1,
+          "targetBefore": 0,
+          "targetAfter": 0,
+          "newBackgroundPixels": 0,
+          "newHolePixels": 0,
+          "newSkinPixels": 0
+        }
+      ]
+    },
+    {
+      "sample": "female_EmoteSpike_1",
+      "maxClearanceMoveMm": 40.00000000000001,
+      "capVertices": 104,
+      "penetratingBefore": 5759,
+      "triangleContacts": [
+        2766,
+        2005,
+        2072,
+        2202,
+        2315,
+        2445
+      ],
+      "proxyFaces": 135,
+      "proxyVertices": 104,
+      "views": [
+        {
+          "view": "front",
+          "regionBefore": 324,
+          "regionAfter": 11,
+          "targetBefore": 0,
+          "targetAfter": 0,
+          "newBackgroundPixels": 1,
+          "newHolePixels": 0,
+          "newSkinPixels": 0
+        },
+        {
+          "view": "rear",
+          "regionBefore": 356,
+          "regionAfter": 228,
+          "targetBefore": 179,
+          "targetAfter": 75,
+          "newBackgroundPixels": 0,
+          "newHolePixels": 0,
+          "newSkinPixels": 0
+        }
+      ]
+    },
+    {
+      "sample": "female_Serve_4",
+      "maxClearanceMoveMm": 40.00000000000001,
+      "capVertices": 160,
+      "penetratingBefore": 7444,
+      "triangleContacts": [
+        3595,
+        2444,
+        2463,
+        2425,
+        2503,
+        2534
+      ],
+      "proxyFaces": 135,
+      "proxyVertices": 104,
+      "views": [
+        {
+          "view": "front",
+          "regionBefore": 461,
+          "regionAfter": 118,
+          "targetBefore": 0,
+          "targetAfter": 0,
+          "newBackgroundPixels": 0,
+          "newHolePixels": 0,
+          "newSkinPixels": 0
+        },
+        {
+          "view": "rear",
+          "regionBefore": 204,
+          "regionAfter": 31,
+          "targetBefore": 198,
+          "targetAfter": 10,
+          "newBackgroundPixels": 0,
+          "newHolePixels": 0,
+          "newSkinPixels": 0
+        }
+      ]
+    },
+    {
+      "sample": "female_CelebratePoint_1",
+      "maxClearanceMoveMm": 40.00000000000001,
+      "capVertices": 332,
+      "penetratingBefore": 5430,
+      "triangleContacts": [
+        2814,
+        1853,
+        1707,
+        1695,
+        1759,
+        1700
+      ],
+      "proxyFaces": 135,
+      "proxyVertices": 104,
+      "views": [
+        {
+          "view": "front",
+          "regionBefore": 75,
+          "regionAfter": 14,
+          "targetBefore": 0,
+          "targetAfter": 0,
+          "newBackgroundPixels": 121,
+          "newHolePixels": 0,
+          "newSkinPixels": 0
+        },
+        {
+          "view": "rear",
+          "regionBefore": 248,
+          "regionAfter": 28,
+          "targetBefore": 144,
+          "targetAfter": 2,
+          "newBackgroundPixels": 136,
+          "newHolePixels": 0,
+          "newSkinPixels": 0
+        }
+      ]
+    },
+    {
+      "sample": "female_Ready_0",
+      "maxClearanceMoveMm": 40.00000000000001,
+      "capVertices": 63,
+      "penetratingBefore": 611,
+      "triangleContacts": [
+        785,
+        830,
+        842,
+        918,
+        980,
+        1057
+      ],
+      "proxyFaces": 135,
+      "proxyVertices": 104,
+      "views": [
+        {
+          "view": "front",
+          "regionBefore": 11,
+          "regionAfter": 11,
+          "targetBefore": 0,
+          "targetAfter": 0,
+          "newBackgroundPixels": 0,
+          "newHolePixels": 0,
+          "newSkinPixels": 0
+        },
+        {
+          "view": "rear",
+          "regionBefore": 11,
+          "regionAfter": 1,
+          "targetBefore": 10,
+          "targetAfter": 0,
+          "newBackgroundPixels": 0,
+          "newHolePixels": 0,
+          "newSkinPixels": 6
+        }
+      ]
+    }
+  ]
+}

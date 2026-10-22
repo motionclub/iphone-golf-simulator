@@ -1,0 +1,410 @@
+{
+ "blend": {
+  "rocks": {
+   "objects": 79,
+   "unique_meshes": 13,
+   "min_welded_verts": 61,
+   "min_faces": 102,
+   "verts_by_mesh": {
+    "ROCK_BLOCK_A": 64,
+    "ROCK_BLOCK_A_WET": 64,
+    "ROCK_BOULDER_A_WET": 61,
+    "ROCK_BOULDER_B": 62,
+    "ROCK_BOULDER_B_WET": 62,
+    "ROCK_CAIRN_A": 93,
+    "ROCK_CAIRN_A_WET": 93,
+    "ROCK_OUTCROP_A": 220,
+    "ROCK_SEASTACK_A": 207,
+    "ROCK_SEASTACK_D": 237,
+    "ROCK_SLAB_A_WET": 67,
+    "ROCK_SPIRE_A": 219,
+    "ROCK_STONE_B": 63
+   },
+   "twelve_vertex_rocks": []
+  },
+  "stretch": {
+   "instances": 83,
+   "min": 0.5465147495269775,
+   "max": 1.9989999532699585,
+   "max_ratio": 1.8753798007965088,
+   "violations": []
+  },
+  "plants": {
+   "objects": 1700,
+   "non_vine": 1572,
+   "vines": 128,
+   "on_water_by_lie": [],
+   "crown_water_lie": {
+    "count": 103,
+    "support_top_z_min": 6.843,
+    "lowest_base_z": 6.749
+   },
+   "outcrop_water_lie": {
+    "count": 168,
+    "kinds": {
+     "PLANT_FLOWER": 20,
+     "PLANT_SHRUB": 6,
+     "PLANT_TUFT": 142
+    },
+    "support_top_z": [
+     5.183,
+     5.184,
+     5.191,
+     5.2
+    ],
+    "lowest_base_z": 5.08
+   },
+   "lowest_base_below_5m": [],
+   "lowest_plant_base_z": 5.07963216596023,
+   "lowest_vine_vertex_z": 2.911056250333786,
+   "materials": [
+    "LK_PLANTS"
+   ],
+   "unique_meshes": 16,
+   "max_faces": 448
+  },
+  "foam": {
+   "foam_objects": [],
+   "mat_foam": [],
+   "surf_objects": 17
+  },
+  "names": {
+   "ground": [
+    "BUNKER_01",
+    "BUNKER_01_LIP",
+    "FAIRWAY",
+    "FAIRWAY_FIRSTCUT",
+    "GREEN",
+    "GREEN_APRON",
+    "TEE_BOX",
+    "TERRAIN_NEEDLE"
+   ],
+   "collider_named_scenery": [],
+   "cart_path": []
+  },
+  "marker_clearance_m": {
+   "BALL_START": [
+    10.46,
+    "PLANT_FLOWER_PURPLE.022"
+   ],
+   "FLAG": [
+    13.09,
+    "ROCK_SKIN_04"
+   ],
+   "FLAG_POLE": [
+    13.09,
+    "ROCK_SKIN_04"
+   ],
+   "HOLE_CUP": [
+    13.09,
+    "ROCK_SKIN_04"
+   ],
+   "MARKER_PIN": [
+    13.09,
+    "ROCK_SKIN_04"
+   ],
+   "MARKER_TEE": [
+    10.46,
+    "PLANT_FLOWER_PURPLE.022"
+   ],
+   "TEE_MARKER_1": [
+    7.12,
+    "PLANT_TUFT_A.304"
+   ],
+   "TEE_MARKER_2": [
+    7.16,
+    "PLANT_TUFT_B.180"
+   ]
+  },
+  "budget": {
+   "tris_every_object": 231432,
+   "mesh_objects": 1824,
+   "unique_mesh_datablocks": 72,
+   "materials": [
+    "LK_CLIFF",
+    "LK_CLIFF_DARK",
+    "LK_FAIRWAY",
+    "LK_FALL",
+    "LK_GREEN",
+    "LK_MASONRY",
+    "LK_PATH",
+    "LK_PLANTS",
+    "LK_ROCK",
+    "LK_ROCK_WET",
+    "LK_ROUGH",
+    "LK_SAND",
+    "LK_SURF",
+    "LK_WATER",
+    "LK_WATER_SHALLOW",
+    "MAT_BALL",
+    "MAT_CUP",
+    "MAT_FLAG",
+    "MAT_POLE"
+   ]
+  },
+  "materials_non_lk": [
+   "MAT_BALL",
+   "MAT_CUP",
+   "MAT_FLAG",
+   "MAT_POLE"
+  ],
+  "features": {
+   "arch_objects": [
+    "DRESS_ARCH_00"
+   ],
+   "waterfall": [
+    "WATER_FALL_00"
+   ],
+   "paths": [
+    "DRESS_PATH_01",
+    "DRESS_PATH_02"
+   ],
+   "fallen_blocks": 4,
+   "stacks": 13,
+   "skins": 4,
+   "shelf": [
+    "WATER_SHELF"
+   ],
+   "ocean": [
+    "WATER_OCEAN"
+   ],
+   "sand_materials": [
+    "LK_ROUGH",
+    "LK_SAND"
+   ]
+  }
+ },
+ "fbx": {
+  "rocks": {
+   "objects": 79,
+   "unique_meshes": 13,
+   "min_welded_verts": 61,
+   "min_faces": 102,
+   "verts_by_mesh": {
+    "ROCK_BLOCK_A": 64,
+    "ROCK_BLOCK_A_WET": 64,
+    "ROCK_BOULDER_A_WET": 61,
+    "ROCK_BOULDER_B": 62,
+    "ROCK_BOULDER_B_WET": 62,
+    "ROCK_CAIRN_A": 93,
+    "ROCK_CAIRN_A_WET": 93,
+    "ROCK_OUTCROP_A": 220,
+    "ROCK_SEASTACK_A": 207,
+    "ROCK_SEASTACK_D": 237,
+    "ROCK_SLAB_A_WET": 67,
+    "ROCK_SPIRE_A": 219,
+    "ROCK_STONE_B": 63
+   },
+   "twelve_vertex_rocks": []
+  },
+  "stretch": {
+   "instances": 83,
+   "min": 0.5465147495269775,
+   "max": 1.999000072479248,
+   "max_ratio": 1.8753798007965088,
+   "violations": []
+  },
+  "plants": {
+   "objects": 1700,
+   "non_vine": 1572,
+   "vines": 128,
+   "on_water_by_lie": [],
+   "crown_water_lie": {
+    "count": 103,
+    "support_top_z_min": 6.843,
+    "lowest_base_z": 6.749
+   },
+   "outcrop_water_lie": {
+    "count": 168,
+    "kinds": {
+     "PLANT_FLOWER": 20,
+     "PLANT_SHRUB": 6,
+     "PLANT_TUFT": 142
+    },
+    "support_top_z": [
+     5.183,
+     5.184,
+     5.191,
+     5.2
+    ],
+    "lowest_base_z": 5.08
+   },
+   "lowest_base_below_5m": [],
+   "lowest_plant_base_z": 5.079584085913352,
+   "lowest_vine_vertex_z": 2.9110357396245927,
+   "materials": [
+    "LK_PLANTS"
+   ],
+   "unique_meshes": 16,
+   "max_faces": 448
+  },
+  "foam": {
+   "foam_objects": [],
+   "mat_foam": [],
+   "surf_objects": 17
+  },
+  "names": {
+   "ground": [
+    "BUNKER_01",
+    "BUNKER_01_LIP",
+    "FAIRWAY",
+    "FAIRWAY_FIRSTCUT",
+    "GREEN",
+    "GREEN_APRON",
+    "TEE_BOX",
+    "TERRAIN_NEEDLE"
+   ],
+   "collider_named_scenery": [],
+   "cart_path": []
+  },
+  "marker_clearance_m": {
+   "BALL_START": [
+    10.46,
+    "PLANT_FLOWER_PURPLE.022"
+   ],
+   "FLAG": [
+    13.09,
+    "ROCK_SKIN_04"
+   ],
+   "FLAG_POLE": [
+    13.09,
+    "ROCK_SKIN_04"
+   ],
+   "HOLE_CUP": [
+    13.09,
+    "ROCK_SKIN_04"
+   ],
+   "MARKER_PIN": [
+    13.09,
+    "ROCK_SKIN_04"
+   ],
+   "MARKER_TEE": [
+    10.46,
+    "PLANT_FLOWER_PURPLE.022"
+   ],
+   "TEE_MARKER_1": [
+    7.12,
+    "PLANT_TUFT_A.304"
+   ],
+   "TEE_MARKER_2": [
+    7.16,
+    "PLANT_TUFT_B.180"
+   ]
+  },
+  "budget": {
+   "tris_every_object": 231432,
+   "mesh_objects": 1824,
+   "unique_mesh_datablocks": 72,
+   "materials": [
+    "LK_CLIFF",
+    "LK_CLIFF_DARK",
+    "LK_FAIRWAY",
+    "LK_FALL",
+    "LK_GREEN",
+    "LK_MASONRY",
+    "LK_PATH",
+    "LK_PLANTS",
+    "LK_ROCK",
+    "LK_ROCK_WET",
+    "LK_ROUGH",
+    "LK_SAND",
+    "LK_SURF",
+    "LK_WATER",
+    "LK_WATER_SHALLOW",
+    "MAT_BALL",
+    "MAT_CUP",
+    "MAT_FLAG",
+    "MAT_POLE"
+   ]
+  },
+  "materials_non_lk": [
+   "MAT_BALL",
+   "MAT_CUP",
+   "MAT_FLAG",
+   "MAT_POLE"
+  ],
+  "features": {
+   "arch_objects": [
+    "DRESS_ARCH_00"
+   ],
+   "waterfall": [
+    "WATER_FALL_00"
+   ],
+   "paths": [
+    "DRESS_PATH_01",
+    "DRESS_PATH_02"
+   ],
+   "fallen_blocks": 4,
+   "stacks": 13,
+   "skins": 4,
+   "shelf": [
+    "WATER_SHELF"
+   ],
+   "ocean": [
+    "WATER_OCEAN"
+   ],
+   "sand_materials": [
+    "LK_ROUGH",
+    "LK_SAND"
+   ]
+  }
+ },
+ "fbx_bytes": 3562620,
+ "tee_path": {
+  "samples": 400,
+  "in_frame": 295,
+  "visible": 291
+ },
+ "pathball_yd": [
+  -1.0,
+  11.0
+ ],
+ "lies": {
+  "tee": "Tee",
+  "M": "Fairway",
+  "pathball": "Fairway",
+  "pin": "Green"
+ },
+ "tufts": {
+  "count": 1442,
+  "median_m": 0.3645843196972054,
+  "p95_m": 0.5815814104535063,
+  "max_m": 0.9501293555671646
+ },
+ "fringe_top_above_ground": {
+  "count": 706,
+  "max_m": 0.49792766025522184,
+  "p95_m": 0.49792381359756654,
+  "median_m": 0.4021447699255618
+ },
+ "tuft_groups": {
+  "carpet": {
+   "count": 545,
+   "median_m": 0.28808941569657165,
+   "p95_m": 0.362320297445178,
+   "max_m": 0.4103923429456744
+  },
+  "fringe": {
+   "count": 706,
+   "median_m": 0.4661574719502255,
+   "p95_m": 0.5730951974140699,
+   "max_m": 0.5871220653452864
+  },
+  "outcrop_fringe": {
+   "count": 88,
+   "median_m": 0.5305609922180121,
+   "p95_m": 0.8238228619433827,
+   "max_m": 0.9501293555671646
+  },
+  "crown": {
+   "count": 103,
+   "median_m": 0.49881866085526383,
+   "p95_m": 0.8796101382187161,
+   "max_m": 0.920319518264904
+  }
+ },
+ "ball_to_path_m": {
+  "tee": 0.7123046902298753,
+  "M": 0.6052788245268155
+ }
+}

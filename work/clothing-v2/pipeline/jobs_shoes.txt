@@ -1,0 +1,3 @@
+until grep -q "Kit_Shoe_R {" ../logs/run_shoe3_male_tennis.log; do sleep 15; done
+python3 gp/fit.py MatchHero_Male npz:../out_gp/MatchHero_Male/unity/Kit_Shoe_L_final.npz runs/shoes --tag Kit_Shoe_L > logs/shoes_fit_L.log 2>&1
+python3 gp/fit.py MatchHero_Male npz:../out_gp/MatchHero_Male/unity/Kit_Shoe_R_final.npz runs/shoes --tag Kit_Shoe_R > logs/shoes_fit_R.log 2>&1

@@ -1,0 +1,71 @@
+{
+  "status": "ACCEPTED bounded material improvement; default within reference-composition candidate",
+  "candidate": "FISSURES7 HIGHLIGHT RESTRAINT",
+  "flag": "Default enabled inside reference composition; VISUAL_COASTAL_FISSURES=0 is old-material control",
+  "scope": "Material-local exposed-albedo shoulder above measured scan median; dark fissures, midpoint, hues, textures, geometry and scene grading held",
+  "default": "Shoulder1 bypass retains previous default material behavior",
+  "upperBlendAsymptote": 0.78,
+  "shoulderSpan": 0.28,
+  "samples": [
+    {
+      "sample": "p10",
+      "scanLinearLuma": 0.027,
+      "fissures6Blend": 0.2764,
+      "fissures7Blend": 0.2764
+    },
+    {
+      "sample": "median",
+      "scanLinearLuma": 0.07,
+      "fissures6Blend": 0.5,
+      "fissures7Blend": 0.5
+    },
+    {
+      "sample": "p90",
+      "scanLinearLuma": 0.147,
+      "fissures6Blend": 0.9003999999999999,
+      "fissures7Blend": 0.6647736625514403
+    },
+    {
+      "sample": "p99Example",
+      "scanLinearLuma": 0.3,
+      "fissures6Blend": 1,
+      "fissures7Blend": 0.7268834688346884
+    },
+    {
+      "sample": "white",
+      "scanLinearLuma": 1.0,
+      "fissures6Blend": 1,
+      "fissures7Blend": 0.7646755277560594
+    }
+  ],
+  "files": [
+    {
+      "path": "Unity/Assets/Resources/Course/Shaders/GolfRock.shader",
+      "sourceSha256": "e0c887a879e4fe2b2279df1213b3f10b67b68d3fdd39869786ccf4d40e727563",
+      "staged": "work/reference-rebuild/coastal-fissures7/GolfRock.shader",
+      "stagedSha256": "16488d37f70ebd97b5b99be766b552efa32cbdb9345ebcedc4b3ccb31767b04b",
+      "installedSha256": "16488d37f70ebd97b5b99be766b552efa32cbdb9345ebcedc4b3ccb31767b04b"
+    },
+    {
+      "path": "Unity/Assets/Resources/Course/Shaders/GolfSurface.hlsl",
+      "sourceSha256": "e4f0b2d1c78d202ed5017b580e92c2bbf66f5451e7ddb2897094d78b9df56206",
+      "staged": "work/reference-rebuild/coastal-fissures7/GolfSurface.hlsl",
+      "stagedSha256": "ac39be323d3f70d0d8b2832ae9813ad452a36a312269df193a0c7b38a1b10ef3",
+      "installedSha256": "ac39be323d3f70d0d8b2832ae9813ad452a36a312269df193a0c7b38a1b10ef3"
+    },
+    {
+      "path": "Unity/Assets/Scripts/Course/GolfCoastalCliff12.cs",
+      "sourceSha256": "9543a25ecad0df2a682f93d27b9d1aef750368c6d37d604e733f698aac2815f8",
+      "staged": "work/reference-rebuild/coastal-fissures7/GolfCoastalCliff12.cs",
+      "stagedSha256": "e7fdaba3ba8995fee02c51658ace03b76231a936f30064751736bacf38057c38",
+      "installedSha256": "e7fdaba3ba8995fee02c51658ace03b76231a936f30064751736bacf38057c38"
+    }
+  ],
+  "actual6Reason": "Same wall ROI median 203 vs 180 baseline; 30.6% above 220 vs 0.5% baseline. Bright scan planes became too busy and cream-glared.",
+  "sourceMedianReflectanceExact": [
+    0.5635,
+    0.5674,
+    0.5167
+  ],
+  "canonicalManifest": "ArtDir/golf/reference-cliffs-material-manifest.json"
+}

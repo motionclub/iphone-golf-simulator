@@ -1,0 +1,33 @@
+--- a/Unity/Assets/Scripts/Tennis/TennisVenueArt.cs
++++ b/Unity/Assets/Scripts/Tennis/TennisVenueArt.cs
+@@ -136,7 +136,7 @@
+             root.SetParent(arena.transform, true);
+             root.gameObject.AddComponent<TennisVenueBreeze>();
+             var stone = new TennisVenueBuilder.MB(); var timber = new TennisVenueBuilder.MB();
+-            var trim = new TennisVenueBuilder.MB(); var botany = new BotanicalBatch();
++            var trim = new TennisVenueBuilder.MB(); var botany = new BotanicalBatch(venue == TennisVenueKind.Resort);
+             if (venue == TennisVenueKind.Resort)
+             { TennisResortFixtures.Build(root,arena); TennisResortVista.Build(root); }
+             foreach (var p in plants) botany.Add(p.asset, p.position, p.radius, p.height, p.yaw);
+@@ -282,7 +282,7 @@
+             }
+             readonly Dictionary<Vector2Int,Cell> cells=new(), treesNear=new(), treesFar=new(), foliageNear=new(), foliageFar=new();
+             readonly Dictionary<string,(MeshFilter filter,Matrix4x4 matrix)> prototypes=new();
+-            public BotanicalBatch()
++            public BotanicalBatch(bool resort)
+             {
+                 void Load(string path)
+                 {
+@@ -295,6 +295,12 @@
+                 // are their own authored species, not the shared first-pass blob.
+                 Load("Tennis/Premium/TennisCanopy");Load("Tennis/Premium/TennisUnderstoryFar");
+                 Load("Tennis/Premium/TennisCoconutPalm"); // fuller arched crown with the same shared pivot/role schema
++                // Bounded resort pilot: retain original palm roots / radii / heights,
++                // but use the approved fuller coconut source with broad folded blades.
++                // Last-loaded prototypes override only PALM / PALM_FAR. Other venues
++                // and all broadleaf / understory species retain their existing source.
++                if (resort && System.Environment.GetEnvironmentVariable("TENNIS_RESORT_PALM_FINISH1") == "1")
++                    Load("Tennis/Premium/TennisResortPalmFinish1");
+             }
+             static int Role(string name)
+             {

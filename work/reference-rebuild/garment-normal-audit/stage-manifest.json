@@ -1,0 +1,28 @@
+{
+  "Male": {
+    "sourceSHA256": "92fed8d14acef582c53726aef9e10e05f552b9d9b48205664844e73f9c903802",
+    "stagedSHA256": "1a3e7e648d75036de1046e4acb4ac0a746a687c7c4d5a37b97b3248be046b684",
+    "changedAnchorOnly": "male_intro",
+    "allOtherAnchorsExact": true,
+    "featureExact": true,
+    "basePositionsAndNormalsExact": true,
+    "outsideFieldPositionAndNormalDeltasExact": true,
+    "triangleReversals": 0,
+    "newBodyIntersections": 0,
+    "minimumPositiveClearanceMm": 0.07116951474017696,
+    "status": "SOURCE CONSTRAINTS PASS; actual Unity Wave/Serve/Forehand visual gate pending; existing Serve/Forehand coverage FAIL remains"
+  },
+  "Female": {
+    "sourceSHA256": "6198d96380310a058532ad28d7c2a273b423984504f4fcafbe28f5a81df09239",
+    "stagedSHA256": "c51502bd7bb50e6d18616cab3919730640e6979b7c03cf3f8648943281216345",
+    "changedAnchorOnly": "female_intro",
+    "allOtherAnchorsExact": true,
+    "featureExact": true,
+    "basePositionsAndNormalsExact": true,
+    "outsideFieldPositionAndNormalDeltasExact": true,
+    "triangleReversals": 0,
+    "newBodyIntersections": 0,
+    "minimumPositiveClearanceMm": 0.30501892615575343,
+    "status": "SOURCE CONSTRAINTS PASS; actual Unity Wave/Serve/Forehand visual gate pending; existing Serve/Forehand coverage FAIL remains"
+  }
+}

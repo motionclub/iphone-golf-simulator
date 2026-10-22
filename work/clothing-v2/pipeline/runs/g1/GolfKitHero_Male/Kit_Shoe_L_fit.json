@@ -1,0 +1,27 @@
+{
+ "hero": "GolfKitHero_Male",
+ "tag": "Kit_Shoe_L",
+ "source": "npz:../out_gp2/GolfKitHero_Male/unity/Kit_Shoe_L_final.npz",
+ "seconds": 109.5,
+ "weights": {
+  "footwear": "Left",
+  "foot_mass": 0.7743010373055744
+ },
+ "shapes": 16,
+ "log": [
+  "FIT GolfKitHero_Male Kit_Shoe_L from npz:../out_gp2/GolfKitHero_Male/unity/Kit_Shoe_L_final.npz: 24320 verts 39332 tris",
+  "  weights: footwear on the Left foot (77% of the piece on foot skin): rigid foot + toe flex + collar on the shin",
+  "  weights 0.7 s",
+  "  (coverage failed: Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:49:19)\n\nBlender quit\nr/work/clothing-v2/pipeline/gp/cov_cli.py\", line 11, in <module>\n    d = os.path.dirname(extra); one = CA.load_dir(d, h); t = str(np.load(extra)['tag']); cand[t] = one[t]\n                                                                                                   ~~~^^^\nKeyError: 'Kit_Shoe_L'\n)",
+  "  obstacles: body",
+  "    pose 0/153  2 s",
+  "    pose 25/153  18 s",
+  "    pose 50/153  35 s",
+  "    pose 75/153  53 s",
+  "    pose 100/153  70 s",
+  "    pose 125/153  88 s",
+  "    pose 150/153  106 s",
+  "  correctives: 153/153 poses need a lift (max 58.3 mm, p90 25.7 mm) in 108 s",
+  "  16 shapes, RBF sigma 0.552, anchor fit err max 0.014, weight at rest 0.0006"
+ ]
+}

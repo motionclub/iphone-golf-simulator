@@ -4,7 +4,7 @@ namespace GolfArcade.Tennis
 {
     public static class TennisShoulderCamera
     {
-        public const float ChaseDistance = 3.5f, ChaseHeight = 2.5f, ShoulderOffset = .6f;
+        public const float ChaseDistance = 5.6f, ChaseHeight = 3.3f, ShoulderOffset = .9f;
 
         public static void Frame(Vector3 player, bool leftHanded, Vector3 ball, bool overhead, float aspect,
             out Vector3 position, out Vector3 look, out float fov, bool elevated = false, Vector3? landing = null)
@@ -20,7 +20,7 @@ namespace GolfArcade.Tennis
                 return;
             }
 
-            fov = 46;
+            fov = 48;
             // One steady shoulder keeps the player left of centre without a side swap at contact.
             // Handedness changes the stroke, not the camera; both hands retain the same sightline.
             bool liveBall = ball.y >= 0;

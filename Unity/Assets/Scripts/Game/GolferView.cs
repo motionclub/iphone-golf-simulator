@@ -336,6 +336,7 @@ namespace GolfArcade.Game
             heroFigure?.Dispose(); heroFigure = null; footwork = null;
             swingClearance = null; poseSafety = null; poseTransition = null; leadToeAnchored = false;
             heroLook = null; headFaceKnown = false; EndWatch(true); waggleClock = 0; waggleWeight = 0;
+            baseRot = Quaternion.identity;   // (the Hero sets its own; a rebuilt V4 figure must not keep the last Hero's quarter turn)
             if (modelGo) Destroy(modelGo);
             faceMaterial = null;
             if (body) Destroy(body.gameObject);
@@ -867,6 +868,7 @@ namespace GolfArcade.Game
             return true;
         }
 
+
         /// True when the figure is Adnan's Hero (else the older V4 golfer or the primitive stand-in).
         public bool IsHero => heroFigure != null;
         /// The Hero's parts (for the tests), or null.
@@ -921,7 +923,7 @@ namespace GolfArcade.Game
                 _ => "Putt",
             };
             if (!clips.ContainsKey(wanted)) wanted = clips.ContainsKey("Drive") ? "Drive" : new List<string>(clips.Keys)[0];
-            if (wanted == clipName) return;
+            if (wanted == clipName) { SquareTheModel(); return; }
             clipName = wanted; SetMood(wanted);
             var c = clips[wanted];
             if (landmarks.TryGetValue(wanted, out var info) && info.fps > 0)
@@ -1101,6 +1103,7 @@ namespace GolfArcade.Game
         public void ShowLoad(float load)
         {
             shownLoad = load;
+            if (phase == 4 && hasModel && load > .001f) Settle();   // (a backswing never starts out of a move: Idle, an emote, a reaction)
             if (phase == 0) pace = -1;
             if (phase == 3 && hasModel) { EndWatch(); Crossfade(0.3f); phase = 0; loadVelocity = 0; Show(0); }
             if (phase == 3) phase = 0;
@@ -1113,6 +1116,7 @@ namespace GolfArcade.Game
         {
             swingThrough = 0;
             if (!hasModel) return atImpact ? 0 : 0.12f;
+            if (phase == 4) Settle();   // (nor a downswing: it is the swing clip, square to the stance, or nothing)
             // How far back it got. A full swing comes down from the top; a shorter one joins the
             // downswing where the club is about as far back, a little slower (a shorter swing
             // is a gentler one), and its follow-through stops short of the full finish.
@@ -1183,10 +1187,19 @@ namespace GolfArcade.Game
             Show(t);
         }
 
+        /// The model back square to the stance. The studio's idle and emote moves turn it a quarter (ClipYaw: they face the camera),
+        /// and a golfer left in that turn at address stood facing the TV; whatever got them to address, the swing clips are square.
+        void SquareTheModel()
+        {
+            if (!hasModel || !modelGo || phase == 4 || Quaternion.Angle(modelGo.transform.localRotation, baseRot) <= .1f) return;
+            modelGo.transform.localRotation = baseRot;
+        }
+
         public void Settle()
         {
             pace = -1; EndWatch();
             if (phase == 4) { clipName = null; SetClub(shownClub, shownShort); }
+            SquareTheModel();
             swingThrough = -1; shownLoad = 0;
             // back to address from wherever it is (the finish, a half-made backswing) without a pop
             if (hasModel && phase != 4 && time > 0.001f) Crossfade(0.3f);
@@ -1203,6 +1216,7 @@ namespace GolfArcade.Game
         void LateUpdate()
         {
             if (turnFrames > 0) ApplyTurnFromCamera();
+            SquareTheModel();   // (whatever turned the model, a swing is never played with it facing the TV)
             if (hasModel && phase == 2 && pace >= 0) ShowPaced();   // (the phone's downswing, with this frame's samples in)
             if (footwork != null && hasModel) footwork.Tick(phase == 0 && time <= Mathf.Max(.02f, TopTime * .04f), Time.deltaTime);
         }

@@ -1,0 +1,68 @@
+--- GolfArcade/Unity/MatchHeroSurfaces.swift
++++ GolfArcade/Unity/MatchHeroSurfaces.swift
+@@ -100,9 +100,11 @@
+         m.diffuse.contents = flatColour(SIMD3<Float>(repeating:lum)+(tint-SIMD3<Float>(repeating:lum))*look.saturation)
+         // Exported relative LUTs multiply the selected tint; never bake a skin preset.
+         m.setValue(SCNVector4(srgbToLinear(tint.x),srgbToLinear(tint.y),srgbToLinear(tint.z),1),forKey:"heroTint")
+-        if !look.baseMap.isEmpty, let map=image(look.baseMap,linear:look.baseMapLinear ?? false) {
++        let hasRelativeMap = !look.baseMap.isEmpty && image(look.baseMap,linear:look.baseMapLinear ?? false) != nil
++        if hasRelativeMap, let map=image(look.baseMap,linear:look.baseMapLinear ?? false) {
+             m.diffuse.contents=map; m.diffuse.wrapS = .clamp; m.diffuse.wrapT = .clamp
+-            m.multiply.contents=flatColour(tint)
++            // Tint the sampled albedo before lighting. SCNMaterial.multiply
++            // acts after lighting and would tint specular / skin twice.
+         }
+         m.setValue(look.skinFinish ?? 0,forKey:"skinFinish")
+         m.setValue(look.skinPigmentUV ?? 0,forKey:"skinPigmentUV")
+@@ -114,22 +116,32 @@
+         m.setValue(SCNVector4(srgbToLinear(warm.x), srgbToLinear(warm.y), srgbToLinear(warm.z), 0), forKey: "athleteWarmth")
+         m.setValue(SCNVector4(look.rimStrength, look.rimPower, look.environmentStrength ?? 0.12, 0), forKey: "athleteRim")
+         m.specular.contents = HeroColor(white: 1, alpha: 1)
+-        m.shaderModifiers = [.lightingModel: athleteLighting]
++        m.shaderModifiers = hasRelativeMap ? [.surface:relativeCharacterSurface,.lightingModel:athleteLighting] : [.lightingModel:athleteLighting]
+         let regional=(look.headOrigin?.count ?? 0)>=4 && (look.headOrigin?[3] ?? 0)>0.5
+         func vector(_ values:[Float]?,flipZ:Bool)->SCNVector4{guard let a=values,a.count>=3 else{return SCNVector4(0,0,0,0)};return SCNVector4(a[0],a[1],flipZ ? -a[2]:a[2],a.count>3 ? a[3]:0)}
+         m.setValue(vector(look.headOrigin,flipZ:true),forKey:"headOrigin")
+         if regional {
+             m.setValue(vector(look.headRight,flipZ:true),forKey:"headRight");m.setValue(vector(look.headUp,flipZ:true),forKey:"headUp");m.setValue(vector(look.headForward,flipZ:true),forKey:"headForward");m.setValue(vector(look.headEye,flipZ:false),forKey:"headEye")
+-            m.shaderModifiers=[.geometry:skinGeometry,.surface:headSurface,.lightingModel:athleteLighting]
++            m.shaderModifiers=[.geometry:skinGeometry,.surface:hasRelativeMap ? headSurface.replacingOccurrences(of:"#pragma body",with:"#pragma body\n"+relativeTintBody):headSurface,.lightingModel:athleteLighting]
+         }
+         guard look.bumpTriplanar > 0.5, !look.bumpMap.isEmpty, let map = image(look.bumpMap, linear: true) else { return m }
+         let prop = SCNMaterialProperty(contents: map)
+         prop.wrapS = .repeat; prop.wrapT = .repeat; prop.mipFilter = .linear; prop.minificationFilter = .linear; prop.magnificationFilter = .linear
+         m.setValue(prop, forKey: "skinBumpMap")
+         m.setValue(SCNVector4(look.bumpScale, look.bumpTile, 0, 0), forKey: "skinBump")
+-        m.shaderModifiers = [.geometry: skinGeometry, .surface: regional ? skinSurface.replacingOccurrences(of:"#pragma body",with:headSurfaceArguments+"\n#pragma body")+headSurfaceBody:skinSurface, .lightingModel: athleteLighting]
++        m.shaderModifiers = [.geometry: skinGeometry, .surface: regional ? skinSurface.replacingOccurrences(of:"#pragma body",with:headSurfaceArguments+"\n#pragma body"+(hasRelativeMap ? "\n"+relativeTintBody:""))+headSurfaceBody:skinSurface, .lightingModel: athleteLighting]
+         return m
+     }
++
++    static let relativeTintBody = "_surface.diffuse.rgb*=heroTint.rgb;\n"
++    static let relativeCharacterSurface = """
++    #pragma arguments
++    float4 heroTint;
++    #pragma body
++    _surface.diffuse.rgb*=heroTint.rgb;
++    float relativeLuminance=dot(_surface.diffuse.rgb,float3(0.2126,0.7152,0.0722));
++    _surface.diffuse.rgb=mix(float3(relativeLuminance),_surface.diffuse.rgb,athleteSurface.w);
++    """
+ 
+     static let athleteLighting = """
+     #pragma arguments
+@@ -375,10 +387,12 @@
+     out.bindPos = skinBindChannel>0.5 ? float3(_geometry.texcoords[1].x, _geometry.texcoords[1].y, _geometry.texcoords[2].x) : float3(_geometry.texcoords[0].x, _geometry.texcoords[0].y, _geometry.texcoords[1].x);
+     """
+     static let headSurfaceArguments = """
+-    float4 headOrigin,headRight,headUp,headForward,headEye;
+-    float4 athleteSurface;
++    float4 headRight;
++    float4 headUp;
++    float4 headForward;
++    float4 headEye;
+     float4 heroTint;
+-    float skinFinish,skinPigmentUV;
++    float skinPigmentUV;
+     """
+     static let headSurfaceBody = """
+     float3 hd=in.bindPos-headOrigin.xyz;

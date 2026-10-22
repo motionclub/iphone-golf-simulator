@@ -1,0 +1,6 @@
+{
+  "status": "FAIL",
+  "reason": "Integrated load session not captured",
+  "actualDeviceSessions": [],
+  "supportingEvidence": "Native fake-clock readiness/read-minimum tests; these are not first-screen-frame measurements."
+}

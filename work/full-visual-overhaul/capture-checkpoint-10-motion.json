@@ -1,0 +1,26 @@
+[
+  {
+    "name": "matchhero-proof-3",
+    "method": "GolfArcade.EditorTools.MatchHeroProof.Run",
+    "env": {
+      "MH_PROOF_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/matchhero-proof-3"
+    }
+  },
+  {
+    "name": "golf-meadow-costs-4",
+    "method": "GolfArcade.EditorTools.VisualOverhaulFrameCosts.Run",
+    "batch": false,
+    "env": {
+      "GOLF_COST_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-meadow-costs-4",
+      "GOLF_COST_HOLES": "1,2,3"
+    }
+  },
+  {
+    "name": "character-pass-12",
+    "method": "GolfArcade.EditorTools.VisualOverhaulCharacterCapture.Run",
+    "env": {
+      "VISUAL_CHARACTER_OUT": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/character-pass-12",
+      "VISUAL_CHARACTER_CLIPS": "Ready"
+    }
+  }
+]

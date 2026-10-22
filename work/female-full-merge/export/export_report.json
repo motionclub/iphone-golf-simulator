@@ -1,0 +1,78 @@
+{
+ "blend_sha256": "a1d73a334f4dc18052db0582df6b4b54b1df166d9a3531ab700ee114e86d2ac1",
+ "fbx_sha256": "f49c1758a1be87a572389e292508126cabbccdcff47e12810e08d014e3db0a07",
+ "body_tris": 43990,
+ "face_tris": 6052,
+ "face_slots": [
+  "Face_Brow",
+  "Face_BrowSoft",
+  "Face_Sclera",
+  "Face_IrisIn",
+  "Face_Iris",
+  "Face_Limbal",
+  "Face_Pupil",
+  "Face_Catch",
+  "Face_LidLine",
+  "Face_LidLower",
+  "Face_Lip",
+  "Face_LipUp",
+  "Face_Seam",
+  "Face_Nostril"
+ ],
+ "body_slots": [
+  "Base_Grey_F",
+  "Skin_F"
+ ],
+ "imported_objects": [
+  "Body_F",
+  "Face_F"
+ ],
+ "Body_F_normals": {
+  "loops_checked": 91052,
+  "ambiguous_coincident_loops_skipped": 0,
+  "max_deg": 0.0292564230806048,
+  "mean_deg": 0.00028975269060248286,
+  "p99_deg": 0.005805712525402718,
+  "over_1deg": 0
+ },
+ "Body_F": {
+  "verts": 22123,
+  "tris": 43990,
+  "max_reimport_mm": 0.00027939677238464355,
+  "materials": [
+   "Base_Grey_F",
+   "Skin_F"
+  ],
+  "height_m": 1.7044478660318418
+ },
+ "Face_F_normals": {
+  "loops_checked": 12119,
+  "ambiguous_coincident_loops_skipped": 133,
+  "max_deg": 0.05646673420196117,
+  "mean_deg": 0.0004851725731656551,
+  "p99_deg": 0.0028683694338077245,
+  "over_1deg": 0
+ },
+ "Face_F": {
+  "verts": 3986,
+  "tris": 6052,
+  "max_reimport_mm": 0.000260770320892334,
+  "materials": [
+   "Face_Brow",
+   "Face_BrowSoft",
+   "Face_Sclera",
+   "Face_IrisIn",
+   "Face_Iris",
+   "Face_Limbal",
+   "Face_Pupil",
+   "Face_Catch",
+   "Face_LidLine",
+   "Face_LidLower",
+   "Face_Lip",
+   "Face_LipUp",
+   "Face_Seam",
+   "Face_Nostril"
+  ],
+  "height_m": null
+ }
+}

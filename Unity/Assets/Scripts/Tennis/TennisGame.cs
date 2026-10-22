@@ -302,7 +302,7 @@ namespace GolfArcade.Tennis
             if (SliceInit) { InitProgress = .8f; yield return null; }
             juice = gameObject.AddComponent<TennisJuice>();
             HookActorFx(Player); HookActorFx(Opponent);
-            sounds = TennisSounds.Create(transform);
+            sounds = TennisSounds.Create(transform); sounds.Female = FemalePlayer;
             audio = TennisAudioDirector.Create(this);
             replay = gameObject.AddComponent<TennisReplay>();
             replay.Build(new[] { Player.transform, Opponent.transform }, ball, camera, OnReplayPose);
@@ -1227,7 +1227,7 @@ namespace GolfArcade.Tennis
             if (DiveActive) { MoveDive(dt); return; }
             Vector2 me = new Vector2(playerPosition.x, playerPosition.z);
             bool live = incoming && Flow == Phase.Rally && resetTimer <= 0 && BallVelocity.z < 0;
-            TrackingOverhead = false;
+            TrackingOverhead = false; if (!live) queuedOverheadPower = -1;
             bool atNet = me.y > TennisRules.NetRushLine;
             float top = TennisRules.RunSpeed;
             Vector2 goal;
@@ -1245,6 +1245,7 @@ namespace GolfArcade.Tennis
                     overheadOffset, TennisRules.RunSpeed * TennisRules.StaminaSpeedFactor(Stamina), Mathf.Min(.08f,Mathf.Max(0,reactionLeft)),moveVelocity.magnitude) : default;
                 TrackingOverhead = overheadPlan.Found && !overheadAttempted;
                 if (TrackingOverhead) { plan = overheadPlan; reactionLeft = Mathf.Min(reactionLeft, .08f); }
+                FireQueuedOverhead();
                 // Stand beside the ball, on the side it is already on, not in its path.
                 float side = plan.Found && plan.Point.x < me.x ? -1 : 1;
                 goal = plan.Found ? new Vector2(plan.Point.x - side * .65f, plan.Point.z - .65f) : me;
@@ -1704,7 +1705,7 @@ namespace GolfArcade.Tennis
                     if (ballTrail) { ballTrail.startWidth = .12f; ballTrail.startColor = Color.white; }
                 }
                 flightGrade = Timing.Great; flightSuper = ultimateBall;
-                QueueContactPresentation(Opponent, Timing.Great, ultimateBall); sounds.RivalHit(ultimateBall ? .9f : .6f); contactHitter = Opponent; OpponentStruck?.Invoke();
+                QueueContactPresentation(Opponent, Timing.Great, ultimateBall); sounds.Rally = RallyShots; sounds.RivalHit(ultimateBall ? .9f : .6f); contactHitter = Opponent; OpponentStruck?.Invoke();
                 sinceStrike = 0;
                 Player.SplitStep();
                 RallyShots++;
@@ -2027,7 +2028,7 @@ namespace GolfArcade.Tennis
             sinceStrike = 0; opponentMissReason = null;
             serveInFlight = false; bounceRestitution=.75f;
             RallyShots++;
-            overheadAttempted = false; TrackingOverhead = false;
+            overheadAttempted = false; TrackingOverhead = false; queuedOverheadPower = -1;
             // Timing aims human rally shots: early left, on time straight, late right.
             // Self-play and explicit aim practice retain their chosen target.
             float rollX = (float)random.NextDouble() * 2 - 1, rollZ = (float)random.NextDouble() * 2 - 1;
@@ -2059,7 +2060,7 @@ namespace GolfArcade.Tennis
             // Score80 C: the FOV pulse is for Perfect-class contact only (<= 2 deg), via Trigger / UltimateHit.
             if (LastWasSupercharged) Player.SetExpression(TennisActor.Expression.Surprised, .7f);
             else if (LastGrade >= Timing.Excellent) Player.SetExpression(TennisActor.Expression.Happy, .8f);
-            sounds.Hit(LastGrade, Player.Power, smash);
+            sounds.Rally = RallyShots; sounds.Hit(LastGrade, Player.Power, smash);
             if (NativeControlled) Haptics.Hit(TennisHitFeel.Rally(LastGrade, faceOffset, hitLateness, Player.Kind, Player.Power, Streak, LastWasSupercharged, RallyShots));
             ExperienceTrace.Mark("tennis", "contact-channels-requested");
             Opponent.SplitStep(); shotAimLocked = false;

@@ -1,0 +1,45 @@
+{
+  "status": "PASS",
+  "manifest": "work/postcard-look/v3/p7/round1/source_batch/repair2_plan.json",
+  "manifest_sha256": "9cdb847fb90ce697b3cd1af17df319f524047413b03a5c39b45cce20cb4085be",
+  "mode": "apply",
+  "source_plans": [
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/proof/runtime/proof_split_wind_fix/source_plan.json",
+      "sha256": "bfc9281b5d3f4154383afd218867f93d1811f11d324316fc99ebfdca2b073875"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/hole_drafts/import_fix/apply_plan.json",
+      "sha256": "0b4bd760721e0387abc8846f31357ee6281be06acb02dd5793de78763381d7c8"
+    }
+  ],
+  "heavy_ancestor": {
+    "pid": 59285,
+    "command": "bash /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/heavy.sh p7-round1-source-repair2 python3 work/postcard-look/v3/p7/round1/source_batch/p7_batch.py run --manifest work/postcard-look/v3/p7/round1/source_batch/repair2_plan.json --manifest-sha 9cdb847fb90ce697b3cd1af17df319f524047413b03a5c39b45cce20cb4085be --result-dir work/postcard-look/v3/p7/round1/source_batch/repair2_applied --apply",
+    "lock_owner": "p7-round1-source-repair2 | Mon Oct  5 17:52:10 EDT 2026\n"
+  },
+  "archive": [
+    {
+      "target": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Editor/PostcardV3SplitOutline.cs",
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/source_batch/repair2_applied/old/Unity/Assets/Editor/PostcardV3SplitOutline.cs",
+      "sha256": "26803cbdd45d41c3c63beda5cb63c5159526903af05778ad0ca2ee1ffb0a4d4a"
+    },
+    {
+      "target": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/hole10_look.py",
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/source_batch/repair2_applied/old/blender/scripts/hole10_look.py",
+      "sha256": "38913e9ce458a7de3649a776f4638ba37fc9bb3a8ef3ce5367082332282b6fde"
+    }
+  ],
+  "installed": [
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Editor/PostcardV3SplitOutline.cs",
+      "sha256": "7a8580118bbb0f52aa4a2064ff420fe613c53b0788181374403f07966d8f184c"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/hole10_look.py",
+      "sha256": "c72c684f79400096978a4f37759366e09e0e82ae752e0ee620dd36584d142e9d"
+    }
+  ],
+  "excluded_planned_protected": [],
+  "verification": "UNVERIFIED; complete P7 original gates and installed proof required"
+}

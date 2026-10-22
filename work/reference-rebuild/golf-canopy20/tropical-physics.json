@@ -1,0 +1,41 @@
+[
+  {
+    "hole": 16,
+    "exactPhysics": true,
+    "differences": [
+      "triangles",
+      "cameraMeshTriangles",
+      "cameraMaterialPasses",
+      "materials"
+    ]
+  },
+  {
+    "hole": 21,
+    "exactPhysics": true,
+    "differences": [
+      "drawCalls",
+      "triangles",
+      "cameraMeshTriangles",
+      "materials"
+    ]
+  },
+  {
+    "hole": 22,
+    "exactPhysics": true,
+    "differences": [
+      "triangles",
+      "cameraMeshTriangles",
+      "materials"
+    ]
+  },
+  {
+    "hole": 23,
+    "exactPhysics": true,
+    "differences": [
+      "triangles",
+      "cameraMeshTriangles",
+      "cameraMaterialPasses",
+      "materials"
+    ]
+  }
+]

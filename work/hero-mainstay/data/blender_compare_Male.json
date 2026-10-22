@@ -1,0 +1,58 @@
+{
+ "Male_ReadyIdle": {
+  "frames": 67,
+  "bones": 52,
+  "max_mm": 0.0087,
+  "mean_mm": 0.0049,
+  "worst_bone": "LeftThumbDistal",
+  "worst_frame": 35
+ },
+ "Male_Forehand": {
+  "frames": 37,
+  "bones": 52,
+  "max_mm": 0.0096,
+  "mean_mm": 0.0049,
+  "worst_bone": "LeftThumbIntermediate",
+  "worst_frame": 15
+ },
+ "Male_Backhand": {
+  "frames": 37,
+  "bones": 52,
+  "max_mm": 0.0084,
+  "mean_mm": 0.0048,
+  "worst_bone": "LeftMiddleProximal",
+  "worst_frame": 11
+ },
+ "Male_Serve": {
+  "frames": 49,
+  "bones": 52,
+  "max_mm": 0.0084,
+  "mean_mm": 0.0048,
+  "worst_bone": "LeftRingIntermediate",
+  "worst_frame": 19
+ },
+ "Male_Overhead": {
+  "frames": 37,
+  "bones": 52,
+  "max_mm": 0.0084,
+  "mean_mm": 0.0048,
+  "worst_bone": "RightRingDistal",
+  "worst_frame": 24
+ },
+ "Male_VolleyForehand": {
+  "frames": 22,
+  "bones": 52,
+  "max_mm": 0.0095,
+  "mean_mm": 0.0048,
+  "worst_bone": "LeftIndexProximal",
+  "worst_frame": 9
+ },
+ "Male_Return": {
+  "frames": 28,
+  "bones": 52,
+  "max_mm": 0.0084,
+  "mean_mm": 0.0049,
+  "worst_bone": "LeftMiddleDistal",
+  "worst_frame": 24
+ }
+}

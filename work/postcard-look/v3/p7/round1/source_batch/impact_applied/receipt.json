@@ -1,0 +1,36 @@
+{
+  "status": "PASS",
+  "manifest": "work/postcard-look/v3/p7/round1/source_batch/impact_plan.json",
+  "manifest_sha256": "7e2defd3cbbe3b3eef907b8d3343f0b5a83139f45919b07f7fc44d8e2b1cef34",
+  "mode": "apply",
+  "source_plans": [
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/hole_drafts/impact_label_fix/apply_plan.json",
+      "sha256": "34901037fcf70dafe24a48b73d10f95451747278cca7d67cfaeebf988ef0cd25"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/source_batch/impact_guard_plan.json",
+      "sha256": "6d013c5f33c8a98f8965836de0780817097634ccad62c62448d5309de3001fc9"
+    }
+  ],
+  "heavy_ancestor": {
+    "pid": 61143,
+    "command": "bash /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/heavy.sh p7-round1-impact-label python3 work/postcard-look/v3/p7/round1/source_batch/p7_batch.py run --manifest work/postcard-look/v3/p7/round1/source_batch/impact_plan.json --manifest-sha 7e2defd3cbbe3b3eef907b8d3343f0b5a83139f45919b07f7fc44d8e2b1cef34 --result-dir work/postcard-look/v3/p7/round1/source_batch/impact_applied --apply",
+    "lock_owner": "p7-round1-impact-label | Mon Oct  5 17:56:11 EDT 2026\n"
+  },
+  "archive": [
+    {
+      "target": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/hole08_look.py",
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/source_batch/impact_applied/old/blender/scripts/hole08_look.py",
+      "sha256": "492707bed1c34f3f61dd72cb1f86f4885b736bd3ac76c0826b4cb6a27a12462c"
+    }
+  ],
+  "installed": [
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/hole08_look.py",
+      "sha256": "5ea9f63469296508290bb8f02024c84c10d1bb880cd94724955342d179c2f134"
+    }
+  ],
+  "excluded_planned_protected": [],
+  "verification": "UNVERIFIED; complete P7 original gates and installed proof required"
+}

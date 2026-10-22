@@ -1,0 +1,36 @@
+[
+  {
+    "image": "female_Forehand_2.png",
+    "manualRegionPixels": [
+      477,
+      409,
+      532,
+      477
+    ],
+    "fleshLikePixels": 728,
+    "fleshBBox": [
+      481,
+      411,
+      521,
+      465
+    ],
+    "colorPredicate": "R-G>12 and G-B>8 within manually confirmed clothed-region only; approximate flesh-pixel evidence, not Body triangle identification"
+  },
+  {
+    "image": "female_EmoteScuba_1_rear.png",
+    "manualRegionPixels": [
+      355,
+      469,
+      416,
+      522
+    ],
+    "fleshLikePixels": 436,
+    "fleshBBox": [
+      362,
+      479,
+      407,
+      516
+    ],
+    "colorPredicate": "R-G>12 and G-B>8 within manually confirmed clothed-region only; approximate flesh-pixel evidence, not Body triangle identification"
+  }
+]

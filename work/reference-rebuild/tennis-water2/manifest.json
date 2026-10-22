@@ -1,0 +1,117 @@
+{
+  "baseline": {
+    "Unity/Assets/Resources/Tennis/Shaders/TennisWater.shader": "846f2f3e6d8a3a8fd3476f4c7baa70342c1c73154688f79c090de5d33de66cae",
+    "Unity/Assets/Scripts/Tennis/TennisResortMaterials.cs": "f6817b1f7a55f7a2b2458afc1e2b66fcb58852e00e3eb67d459750cb4306522b"
+  },
+  "sourceGeometry": "original Ocean water.001:8 vertices/6faces,2400x1500m",
+  "diagnosis": "per-vertex clamped corner fog washes broad visible water; use URP fragment view-depth fog",
+  "changes": [
+    "fragment fog",
+    "existing sky broad reflection18%",
+    "bounded rough dielectric sun sheen"
+  ],
+  "unchanged": [
+    "all court/material1 settings",
+    "all geometry/collision",
+    "HeroLighting/renderer/post"
+  ],
+  "actualGate": "Fragment fog blue-color restoration PASS; procedural wave alias visual FAIL; full target sparkle/ref appearance PARTIAL",
+  "installed": {
+    "Unity/Assets/Resources/Tennis/Shaders/TennisWater.shader": "6b5735100620d6dfba2887a925a6848be45177507b3aec39d71d6c0b0b4609d4",
+    "Unity/Assets/Scripts/Tennis/TennisResortMaterials.cs": "66a219d263ca0e240cd0a7526d569572bed325747cfa66b2cb2547f5a0fc4018"
+  },
+  "status": "actual paired root capture reviewed; wave antialias followup installed as water3",
+  "staticFogAssay": {
+    "matchingGameplayPixel": [
+      1000,
+      388
+    ],
+    "predictedOceanWorldPoint": [
+      7.494339971179863,
+      -3.950000000000001,
+      176.6548891281023
+    ],
+    "actualFragmentViewDepth": 190.27984757536086,
+    "cornerInterpolatedVisibility": 0.6622300739145985,
+    "fragmentVisibility": 0.9857224339231099,
+    "oldFogContribution": 0.33776992608540146,
+    "actualViewDepthFogContribution": 0.014277566076890125,
+    "note": "Static perspective calculation from exact camera and source ocean extents; evaluated render is still required."
+  },
+  "actualEvidence": [
+    "proof/reference-rebuild/tennis-water2-tone/resort_16_reference_a.png",
+    "proof/reference-rebuild/tennis-water2-vertex-control/resort_16_reference_a.png"
+  ],
+  "actualComparison": {
+    "clearSeaCentre": {
+      "boundsXYXY": [
+        740,
+        302,
+        890,
+        326
+      ],
+      "fragmentRGB": [
+        68.028,
+        123.407,
+        169.855
+      ],
+      "vertexRGB": [
+        94.644,
+        142.436,
+        180.704
+      ],
+      "meanAbsoluteRGBDifference": [
+        26.616,
+        19.029,
+        10.85
+      ]
+    },
+    "clearSeaRight": {
+      "boundsXYXY": [
+        1170,
+        302,
+        1390,
+        326
+      ],
+      "fragmentRGB": [
+        59.527,
+        119.712,
+        168.188
+      ],
+      "vertexRGB": [
+        91.416,
+        140.908,
+        180.006
+      ],
+      "meanAbsoluteRGBDifference": [
+        31.889,
+        21.196,
+        11.818
+      ]
+    },
+    "courtControl": {
+      "boundsXYXY": [
+        1100,
+        680,
+        1230,
+        800
+      ],
+      "fragmentRGB": [
+        84.305,
+        161.649,
+        164.763
+      ],
+      "vertexRGB": [
+        84.305,
+        161.649,
+        164.763
+      ],
+      "meanAbsoluteRGBDifference": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "rootCompileResult": "work/reference-rebuild/capture-color-surface6.json.results.json, both jobs exit0/no shader/compile errors"
+}

@@ -1,0 +1,386 @@
+[
+  {
+    "n": "Model",
+    "p": [
+      249868414,
+      "RightLittleProximal\u0000\u0001Model",
+      "LimbNode"
+    ],
+    "c": [
+      {
+        "n": "Version",
+        "p": [
+          232
+        ],
+        "c": []
+      },
+      {
+        "n": "Properties70",
+        "p": [],
+        "c": [
+          {
+            "n": "P",
+            "p": [
+              "Lcl Translation",
+              "Lcl Translation",
+              "",
+              "A+",
+              -0.03666870668530464,
+              0.08996257930994034,
+              0.006404183339327574
+            ],
+            "c": []
+          },
+          {
+            "n": "P",
+            "p": [
+              "Lcl Rotation",
+              "Lcl Rotation",
+              "",
+              "A+",
+              101.72133112027207,
+              -19.893614099221015,
+              33.37301803945057
+            ],
+            "c": []
+          },
+          {
+            "n": "P",
+            "p": [
+              "Lcl Scaling",
+              "Lcl Scaling",
+              "",
+              "A+",
+              1.0,
+              1.0000001192092896,
+              1.0
+            ],
+            "c": []
+          },
+          {
+            "n": "P",
+            "p": [
+              "DefaultAttributeIndex",
+              "int",
+              "Integer",
+              "",
+              0
+            ],
+            "c": []
+          },
+          {
+            "n": "P",
+            "p": [
+              "InheritType",
+              "enum",
+              "",
+              "",
+              1
+            ],
+            "c": []
+          }
+        ]
+      },
+      {
+        "n": "MultiLayer",
+        "p": [
+          0
+        ],
+        "c": []
+      },
+      {
+        "n": "MultiTake",
+        "p": [
+          0
+        ],
+        "c": []
+      },
+      {
+        "n": "Shading",
+        "p": [
+          true
+        ],
+        "c": []
+      },
+      {
+        "n": "Culling",
+        "p": [
+          "CullingOff"
+        ],
+        "c": []
+      }
+    ]
+  },
+  {
+    "type": "AnimationStack",
+    "p": [
+      236628385,
+      "Drive\u0000\u0001AnimStack",
+      ""
+    ]
+  },
+  {
+    "type": "AnimationLayer",
+    "p": [
+      974083987,
+      "Drive\u0000\u0001AnimLayer",
+      ""
+    ]
+  },
+  {
+    "type": "AnimationStack",
+    "p": [
+      403396865,
+      "IronSwing\u0000\u0001AnimStack",
+      ""
+    ]
+  },
+  {
+    "type": "AnimationLayer",
+    "p": [
+      922155329,
+      "IronSwing\u0000\u0001AnimLayer",
+      ""
+    ]
+  },
+  {
+    "type": "AnimationStack",
+    "p": [
+      944371034,
+      "HalfSwing\u0000\u0001AnimStack",
+      ""
+    ]
+  },
+  {
+    "type": "AnimationLayer",
+    "p": [
+      457769239,
+      "HalfSwing\u0000\u0001AnimLayer",
+      ""
+    ]
+  },
+  {
+    "type": "AnimationStack",
+    "p": [
+      171891472,
+      "Chip\u0000\u0001AnimStack",
+      ""
+    ]
+  },
+  {
+    "type": "AnimationLayer",
+    "p": [
+      229852355,
+      "Chip\u0000\u0001AnimLayer",
+      ""
+    ]
+  },
+  {
+    "type": "AnimationStack",
+    "p": [
+      85269518,
+      "Putt\u0000\u0001AnimStack",
+      ""
+    ]
+  },
+  {
+    "type": "AnimationLayer",
+    "p": [
+      634456859,
+      "Putt\u0000\u0001AnimLayer",
+      ""
+    ]
+  },
+  {
+    "type": "AnimationStack",
+    "p": [
+      187489202,
+      "Idle\u0000\u0001AnimStack",
+      ""
+    ]
+  },
+  {
+    "type": "AnimationLayer",
+    "p": [
+      556197954,
+      "Idle\u0000\u0001AnimLayer",
+      ""
+    ]
+  },
+  {
+    "type": "AnimationStack",
+    "p": [
+      884505148,
+      "Wave\u0000\u0001AnimStack",
+      ""
+    ]
+  },
+  {
+    "type": "AnimationLayer",
+    "p": [
+      285862631,
+      "Wave\u0000\u0001AnimLayer",
+      ""
+    ]
+  },
+  {
+    "type": "AnimationStack",
+    "p": [
+      180999071,
+      "Cheer\u0000\u0001AnimStack",
+      ""
+    ]
+  },
+  {
+    "type": "AnimationLayer",
+    "p": [
+      702093999,
+      "Cheer\u0000\u0001AnimLayer",
+      ""
+    ]
+  },
+  {
+    "type": "AnimationStack",
+    "p": [
+      305657618,
+      "FistPump\u0000\u0001AnimStack",
+      ""
+    ]
+  },
+  {
+    "type": "AnimationLayer",
+    "p": [
+      211561773,
+      "FistPump\u0000\u0001AnimLayer",
+      ""
+    ]
+  },
+  {
+    "type": "AnimationStack",
+    "p": [
+      943746277,
+      "Walk\u0000\u0001AnimStack",
+      ""
+    ]
+  },
+  {
+    "type": "AnimationLayer",
+    "p": [
+      591971554,
+      "Walk\u0000\u0001AnimLayer",
+      ""
+    ]
+  },
+  {
+    "type": "AnimationStack",
+    "p": [
+      695100697,
+      "RunForward\u0000\u0001AnimStack",
+      ""
+    ]
+  },
+  {
+    "type": "AnimationLayer",
+    "p": [
+      582315706,
+      "RunForward\u0000\u0001AnimLayer",
+      ""
+    ]
+  },
+  {
+    "type": "AnimationStack",
+    "p": [
+      305844006,
+      "Emote_Scuba\u0000\u0001AnimStack",
+      ""
+    ]
+  },
+  {
+    "type": "AnimationLayer",
+    "p": [
+      10278895,
+      "Emote_Scuba\u0000\u0001AnimLayer",
+      ""
+    ]
+  },
+  {
+    "type": "AnimationStack",
+    "p": [
+      194437040,
+      "Emote_Spike\u0000\u0001AnimStack",
+      ""
+    ]
+  },
+  {
+    "type": "AnimationLayer",
+    "p": [
+      261843829,
+      "Emote_Spike\u0000\u0001AnimLayer",
+      ""
+    ]
+  },
+  {
+    "type": "AnimationStack",
+    "p": [
+      465154075,
+      "Emote_Thrust\u0000\u0001AnimStack",
+      ""
+    ]
+  },
+  {
+    "type": "AnimationLayer",
+    "p": [
+      766503981,
+      "Emote_Thrust\u0000\u0001AnimLayer",
+      ""
+    ]
+  },
+  {
+    "type": "AnimationStack",
+    "p": [
+      452462226,
+      "Intro_BringIt\u0000\u0001AnimStack",
+      ""
+    ]
+  },
+  {
+    "type": "AnimationLayer",
+    "p": [
+      931479164,
+      "Intro_BringIt\u0000\u0001AnimLayer",
+      ""
+    ]
+  },
+  {
+    "type": "AnimationStack",
+    "p": [
+      404971214,
+      "Intro_Pushups\u0000\u0001AnimStack",
+      ""
+    ]
+  },
+  {
+    "type": "AnimationLayer",
+    "p": [
+      49323958,
+      "Intro_Pushups\u0000\u0001AnimLayer",
+      ""
+    ]
+  },
+  {
+    "type": "AnimationStack",
+    "p": [
+      194238634,
+      "Intro_Wave\u0000\u0001AnimStack",
+      ""
+    ]
+  },
+  {
+    "type": "AnimationLayer",
+    "p": [
+      950110473,
+      "Intro_Wave\u0000\u0001AnimLayer",
+      ""
+    ]
+  }
+]

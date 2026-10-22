@@ -15,7 +15,8 @@ namespace GolfArcade.Game
 
         // (the strike has a source of its own, so a cheer or a whoosh already playing never steals its voice)
         AudioSource source, tensionSource, strikeSource;
-        AudioClip driver, iron, wedge, putter, whoosh, cup, splash, thud, tension, ready, fanfare, tick, applause, gasp, groan, leaves, knockWood, knockStone, ovation, whistles, lavaHiss, iceSkid;
+        AudioSource flightSource;
+        AudioClip mishit, landGreen, landFairway, landRough, landSand, perfect, driver, iron, wedge, putter, whoosh, cup, splash, thud, tension, ready, fanfare, tick, applause, gasp, groan, leaves, knockWood, knockStone, ovation, whistles, lavaHiss, iceSkid, flight;
         float tensionTarget;
 
         public static GolfSounds Create(Transform parent)
@@ -35,55 +36,78 @@ namespace GolfArcade.Game
             s.tensionSource.spatialBlend = 0;
             s.tensionSource.loop = true;
             s.Synthesize();
+            s.SwapV2();
             s.tensionSource.clip = s.tension;
             return s;
         }
 
         /// The strike, the loudest thing on the course: even a half swing cracks (a putt is a
         /// gentler tock, and follows the stroke more).
-        public void PlayStrike(GolfClub club, double power)
+        public void PlayStrike(GolfClub club, double power) => PlayStrike(club, power, 0);
+        /// With `flightSeconds` > 0 a rising whoosh follows the ball through the air, stretched to its flight time.
+        public void PlayStrike(GolfClub club, double power, float flightSeconds)
         {
+            if (flight && flightSeconds > .4f && club != GolfClub.Putter)
+            {
+                if (!flightSource) { flightSource = gameObject.AddComponent<AudioSource>(); flightSource.playOnAwake = false; flightSource.spatialBlend = 0; }
+                flightSource.Stop(); flightSource.clip = flight;
+                flightSource.pitch = Mathf.Clamp(flight.length / flightSeconds, .6f, 1.6f);
+                flightSource.volume = Mathf.Lerp(.35f, .8f, Mathf.Clamp01((float)power)) * GameAudio.SfxVolume; flightSource.Play();
+            }
             var clip = club.Family() switch { ClubFamily.Wood => driver, ClubFamily.Iron => iron, ClubFamily.Wedge => wedge, _ => putter };
             float p = Mathf.Clamp01((float)power);
-            strikeSource.PlayOneShot(clip, club == GolfClub.Putter ? Mathf.Lerp(0.5f, 1f, p) : Mathf.Lerp(0.75f, 1f, p));
+            if (club != GolfClub.Putter) { if (power >= .96) GameVoice.Say(club.Family() == ClubFamily.Wood ? "long_drive" : "great_shot", .3f); else if (power < .3) GameVoice.Say("shank", .5f); }
+            if (mishit && power < .3 && club != GolfClub.Putter) clip = mishit;
+            strikeSource.Shot(clip, club == GolfClub.Putter ? Mathf.Lerp(0.5f, 1f, p) : Mathf.Lerp(0.75f, 1f, p));
         }
 
-        public void PlayWhoosh(double load) => source.PlayOneShot(whoosh, Mathf.Lerp(0.35f, 0.95f, Mathf.Clamp01((float)load)));
-        public void PlayCup() => source.PlayOneShot(cup, 1f);
-        public void PlaySplash() => source.PlayOneShot(splash, 1f);
+        public void PlayWhoosh(double load) => source.Shot(whoosh, Mathf.Lerp(0.35f, 0.95f, Mathf.Clamp01((float)load)));
+        public void PlayCup() => source.Shot(cup, 1f);
+        public void PlaySplash() { source.Shot(splash, 1f); GameVoice.Say("water", .7f); }
         /// Into the lava: a low whump, then it crackles and sizzles away.
-        public void PlayLavaHiss() => source.PlayOneShot(lavaHiss, 0.6f);
+        public void PlayLavaHiss() { source.Shot(lavaHiss, 0.6f); GameVoice.Say("lava", .8f); }
         /// Skidding onto the ice: a glassy tink and a scrape.
-        public void PlayIceSkid(float strength) => source.PlayOneShot(iceSkid, Mathf.Lerp(0.35f, 0.75f, Mathf.Clamp01(strength)));
-        public void PlayThud(float strength) => source.PlayOneShot(thud, Mathf.Lerp(0.5f, 1f, Mathf.Clamp01(strength)));
+        public void PlayIceSkid(float strength) => source.Shot(iceSkid, Mathf.Lerp(0.35f, 0.75f, Mathf.Clamp01(strength)));
+        /// The ball landing: soft on the green, a poof in the sand, a dull thud elsewhere.
+        public void PlayLanding(CourseLie lie, float strength)
+        {
+            var c = lie == CourseLie.Green || lie == CourseLie.Fringe ? landGreen : lie == CourseLie.Bunker ? landSand
+                  : lie == CourseLie.Rough ? landRough : lie == CourseLie.Fairway || lie == CourseLie.Tee ? landFairway : null;
+            if (c) source.Shot(c, Mathf.Lerp(.6f, 1f, Mathf.Clamp01(strength)));
+        }
+        public void PlayThud(float strength) => source.Shot(thud, Mathf.Lerp(0.5f, 1f, Mathf.Clamp01(strength)));
         /// The ball into a tree's branches or a bush: a rustle and a snap of twigs.
-        public void PlayLeaves() => source.PlayOneShot(leaves, 0.9f);
+        public void PlayLeaves() => source.Shot(leaves, 0.9f);
         /// Off a trunk (a hollow knock) or a rock or a wall (a hard clack).
-        public void PlayKnock(bool stone) => source.PlayOneShot(stone ? knockStone : knockWood, 1f);
-        public void PlayReady() => source.PlayOneShot(ready, 0.5f);
-        public void PlayFanfare() => source.PlayOneShot(fanfare, 0.7f);
-        public void PlayTick() => source.PlayOneShot(tick, 0.5f);
+        public void PlayKnock(bool stone) => source.Shot(stone ? knockStone : knockWood, 1f);
+        public void PlayReady() => source.Shot(ready, 0.5f);
+        public void PlayFanfare() => source.Shot(fanfare, 0.7f);
+        public void PlayTick() => source.Shot(tick, 0.5f);
+        public void PlayConfirm() => GameAudioHost.Instance.PlayUI("sfx/ui/confirm", .8f);
+        public void PlayBack() => GameAudioHost.Instance.PlayUI("sfx/ui/cancel", .8f);
         /// The gallery's applause, for the introductions on the tee and a good shot.
-        public void PlayApplause(float volume = 0.35f) => source.PlayOneShot(applause, volume);
+        public void PlayApplause(float volume = 0.35f) => source.Shot(applause, volume);
 
         /// The gallery's reactions, sized to the shot: an "ooh" as one flies at the flag or
         /// finds the water, an "aww" for a lip-out or a ball in the sand.
-        public void PlayGasp(float volume = 0.6f) => source.PlayOneShot(gasp, volume);
-        public void PlayGroan(float volume = 0.55f) => source.PlayOneShot(groan, volume);
+        public void PlayGasp(float volume = 0.6f) => source.Shot(gasp, volume);
+        public void PlayGroan(float volume = 0.55f) => source.Shot(groan, volume);
 
         /// The ball in the hole, the gallery's answer sized to the score: for a birdie or better
         /// a long round of applause with whistles in it; a par, a warm round; over par, polite.
         public void PlayHoleOut(int strokes, int par)
         {
+            int d = strokes - par;
+            GameVoice.Say(strokes == 1 ? "ace_golf" : d <= -2 ? "eagle" : d == -1 ? "birdie" : d == 0 ? "par" : d == 1 ? "bogey" : "double", 1, strokes == 1 || d <= -2);
             int toPar = strokes - par;
             if (strokes == 1 || toPar < 0)
             {
                 float big = strokes == 1 || toPar <= -2 ? 1f : 0.85f;
-                source.PlayOneShot(ovation, 0.5f * big);
-                source.PlayOneShot(whistles, 0.15f * big);   // (pure tones: they carry)
+                source.Shot(ovation, 0.5f * big);
+                source.Shot(whistles, 0.15f * big);   // (pure tones: they carry)
             }
-            else if (toPar == 0) source.PlayOneShot(ovation, 0.42f);
-            else source.PlayOneShot(ovation, 0.3f);
+            else if (toPar == 0) source.Shot(ovation, 0.42f);
+            else source.Shot(ovation, 0.3f);
         }
 
         /// Backswing tension, 0–1 with the meter: the wind-up loop fades in and climbs a fifth
@@ -106,6 +130,19 @@ namespace GolfArcade.Game
             if (tensionTarget <= 0 && v <= 0.005f) tensionSource.Stop();
         }
 
+        void SwapV2()
+        {
+            GameAudio.Swap(ref driver, "sfx/golf/driver"); GameAudio.Swap(ref iron, "sfx/golf/iron");
+            GameAudio.Swap(ref wedge, "sfx/golf/wedge"); GameAudio.Swap(ref putter, "sfx/golf/putter");
+            GameAudio.Swap(ref whoosh, "sfx/golf/swing"); GameAudio.Swap(ref cup, "sfx/golf/cup");
+            GameAudio.Swap(ref splash, "sfx/golf/land_water"); GameAudio.Swap(ref thud, "sfx/golf/land_fairway");
+            GameAudio.Swap(ref leaves, "sfx/golf/leaves"); GameAudio.Swap(ref knockWood, "sfx/golf/knock_wood");
+            GameAudio.Swap(ref knockStone, "sfx/golf/knock_stone"); GameAudio.Swap(ref lavaHiss, "sfx/golf/lava");
+            GameAudio.Swap(ref ready, "sfx/ui/ready"); GameAudio.Swap(ref fanfare, "sfx/ui/fanfare");
+            GameAudio.Swap(ref tick, "sfx/ui/tick"); GameAudio.Swap(ref applause, "sfx/crowd/golf_erupt");
+            GameAudio.Swap(ref gasp, "sfx/crowd/golf_ooh"); GameAudio.Swap(ref groan, "sfx/crowd/golf_groan");
+            GameAudio.Swap(ref ovation, "sfx/crowd/golf_roar"); GameAudio.Swap(ref mishit, "sfx/golf/mishit"); GameAudio.Swap(ref landGreen, "sfx/golf/land_green"); GameAudio.Swap(ref landSand, "sfx/golf/land_sand"); GameAudio.Swap(ref landFairway, "sfx/golf/land_fairway"); GameAudio.Swap(ref landRough, "sfx/golf/land_rough");
+        }
         void Synthesize()
         {
             applause = Applause(3.4f, 16);

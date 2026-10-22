@@ -1,0 +1,53 @@
+--- a/Unity/Assets/Scripts/Course/GolfCoastalTurf.cs
++++ b/Unity/Assets/Scripts/Course/GolfCoastalTurf.cs
+@@ -17,11 +17,16 @@
+         {
+             public readonly Vector2 a,b,c,lo,hi;
+             public readonly float bottom,top;
+-            public PathTriangle(Vector3 x,Vector3 y,Vector3 z)
++            public readonly bool exposedSolid;
++            public readonly Vector3 heightPlane;
++            public PathTriangle(Vector3 x,Vector3 y,Vector3 z,bool solid=false)
+             {
+                 a=new(x.x,x.z);b=new(y.x,y.z);c=new(z.x,z.z);
+                 lo=Vector2.Min(a,Vector2.Min(b,c));hi=Vector2.Max(a,Vector2.Max(b,c));
+                 bottom=Mathf.Min(x.y,Mathf.Min(y.y,z.y));top=Mathf.Max(x.y,Mathf.Max(y.y,z.y));
++                exposedSolid=solid;
++                var n=Vector3.Cross(y-x,z-x);
++                heightPlane=solid?new Vector3(-n.x/n.y,-n.z/n.y,Vector3.Dot(n,x)/n.y):default;
+             }
+         }
+         sealed class Block { public readonly List<Cell> cells=new(4); }
+@@ -265,7 +270,12 @@
+                 for(int sub=0;sub<Mathf.Min(mesh.subMeshCount,materials.Length);sub++)
+                 {
+                     var material=materials[sub];if(!material)continue;
+-                    if(!(material.name.StartsWith("LK_PATH")||material.name.Contains(" Path")))continue;
++                    // Hole10's authored render-only basalt tee border sits 1.15cm
++                    // above the unchanged tee collider. Its interior support piers
++                    // are hidden below turf and must not punch holes in that turf.
++                    bool exposedBasalt=hole.Number==10&&filter.name=="DRESS_PADRIM_V3"
++                        &&(material.name.StartsWith("LK_BASALT")||material.name.Contains(" Basalt"));
++                    if(!(material.name.StartsWith("LK_PATH")||material.name.Contains(" Path")||exposedBasalt))continue;
+                     var triangles=mesh.GetTriangles(sub);
+                     for(int i=0;i+2<triangles.Length;i+=3)
+                     {
+@@ -273,7 +283,7 @@
+                         var b=filter.transform.TransformPoint(vertices[triangles[i+1]]);
+                         var c=filter.transform.TransformPoint(vertices[triangles[i+2]]);
+                         if(Mathf.Abs(Vector3.Cross(b-a,c-a).y)<.00001f)continue;
+-                        paths.Add(new PathTriangle(a,b,c));
++                        paths.Add(new PathTriangle(a,b,c,exposedBasalt));
+                     }
+                 }
+             }
+@@ -291,6 +301,9 @@
+             foreach(var path in paths)
+             {
+                 if(point.y<path.bottom-.35f||point.y>path.top+.35f||p.x<path.lo.x-margin||p.x>path.hi.x+margin||p.y<path.lo.y-margin||p.y>path.hi.y+margin)continue;
++                // Test the actual triangle plane at the queried root, not its
++                // maximum height: buried pier caps remain covered by tee turf.
++                if(path.exposedSolid&&point.y>path.heightPlane.x*p.x+path.heightPlane.y*p.y+path.heightPlane.z+.005f*YardsPerMeter)continue;
+                 float a=Cross(path.b-path.a,p-path.a),b=Cross(path.c-path.b,p-path.b),c=Cross(path.a-path.c,p-path.c);
+                 if((a>=0&&b>=0&&c>=0)||(a<=0&&b<=0&&c<=0))return true;
+                 // The tile's authored fan tips overhang its root square. Retain

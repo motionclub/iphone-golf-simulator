@@ -81,7 +81,24 @@ final class RecordingService {
     static let shared = RecordingService()
 
     enum State: Equatable { case idle, starting, recording, saving, saved, failed }
-    private(set) var state: State = .idle
+    private(set) var state: State = .idle {
+        didSet {
+            guard state != oldValue else { return }
+            // a finished take's result stays on screen for a while, whatever happened to the TV: the dock (and its note) used to vanish with it
+            outcomeTask?.cancel()
+            let done = state == .saving || state == .saved || state == .failed
+            showsOutcome = done
+            if state == .saved || state == .failed {
+                outcomeTask = Task { @MainActor [weak self] in
+                    try? await Task.sleep(for: .seconds(14))
+                    if !Task.isCancelled { self?.showsOutcome = false }
+                }
+            }
+        }
+    }
+    /// The dock stays up while a take saves, and for a while after it saved or failed, so its note can be read and tapped.
+    private(set) var showsOutcome = false
+    @ObservationIgnored private var outcomeTask: Task<Void, Never>?
     private(set) var message = ""
     private(set) var elapsed: TimeInterval = 0
     /// The last recording that could not go to Photos (access off): kept in the app so it can be shared or deleted.
@@ -236,7 +253,7 @@ final class RecordingService {
         case "background": why = "Recording stopped because Motion Club left the screen. "
         case "storage": why = "Recording stopped: the phone is almost out of storage. "
         case "thermal": why = "Recording stopped: the phone is too warm. "
-        case "display": why = "Recording stopped: the TV disconnected. "
+        case "display": why = "Recording stopped: the TV picture went away. "
         case "limit": why = "Recording stopped at the 90 minute limit. "
         // the recorder hit a problem: its own words (it says what was kept)
         case "error": why = nativeMessage.isEmpty ? "Recording stopped because of a problem. " : nativeMessage.replacingOccurrences(of: " Your video was saved.", with: "") + " "

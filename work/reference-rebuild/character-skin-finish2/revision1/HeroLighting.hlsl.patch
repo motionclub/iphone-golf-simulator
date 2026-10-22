@@ -1,0 +1,17 @@
+--- Unity/Assets/Resources/Tennis/Shaders/HeroLighting.hlsl
++++ Unity/Assets/Resources/Tennis/Shaders/HeroLighting.hlsl
+@@ -81,12 +81,11 @@
+     half edge = saturate(wrapped - saturate(ndl));
+     half3 h = SafeNormalize(light.direction + v);
+     half nh = saturate(dot(n, h));
+-    half broad = pow(nh, 18 + smoothness * 18) * .105h;
+-    half fine = pow(nh, 64) * .012h;
++    half broad = pow(nh, 18 + smoothness * 18) * .075h;
+     half visibility = smoothstep(-.06h, .24h, ndl);
+     half shadow = lerp(light.shadowAttenuation, 1, .12h);
+     half atten = light.distanceAttenuation * shadow;
+-    reflection = (broad + fine) * specularStrength * visibility * light.color * atten;
++    reflection = broad * specularStrength * visibility * light.color * atten;
+     return albedo * (wrapped * .84h + subsurface * edge) * light.color * atten + reflection;
+ }
+ #endif

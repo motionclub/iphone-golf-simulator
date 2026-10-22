@@ -1,0 +1,38 @@
+{
+  "Male": {
+    "initial": "e65b950c373c2c8b5826b29be6dc1f3baf1106930f08c1703f83b801b23e764c",
+    "currentProduction": "da4aa3dbd03297bcac610e7cb58887cb5166a5b2ca93c59d1d0bd9a34e49cb72",
+    "changedOutsideThisTask": true,
+    "times": {
+      "serveStanceTime": [
+        "  serveStanceTime: 0.2"
+      ],
+      "serveReleaseTime": [
+        "  serveReleaseTime: 0.7"
+      ],
+      "serveTrophyTime": [
+        "  serveTrophyTime: 1.3333334"
+      ],
+      "serveContactTime": [],
+      "serveLength": []
+    }
+  },
+  "Female": {
+    "initial": "8bbcb8c5ee17e30f196a699f5ec65881f58a08253a6d825db7fa4234e70ec03a",
+    "currentProduction": "dd862e375449c4091c1f36ac68e6d5cbc610f48c2224a773742b91f6be347da1",
+    "changedOutsideThisTask": true,
+    "times": {
+      "serveStanceTime": [
+        "  serveStanceTime: 0.2"
+      ],
+      "serveReleaseTime": [
+        "  serveReleaseTime: 0.7"
+      ],
+      "serveTrophyTime": [
+        "  serveTrophyTime: 1.3333334"
+      ],
+      "serveContactTime": [],
+      "serveLength": []
+    }
+  }
+}

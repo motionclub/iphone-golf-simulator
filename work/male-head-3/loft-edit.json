@@ -1,0 +1,10 @@
+{
+  "method": "Rounded local jaw depth guided by fixed central chin/throat profile calipers; existing vertex coordinates only with continuous falloffs. Central profile and X/Z preserved. No remesh.",
+  "baseline_sha256": "8da71e595209e5aaae165e509525406c6fac76d2df9b69148ac991bb7c2dcf3b",
+  "accepted_step_fraction": 0.5,
+  "changed_vertices": 385,
+  "maximum_displacement_metres": 0.014180441267211491,
+  "body_below_1_425m_unchanged": true,
+  "X_Z_coordinates_unchanged": true,
+  "head_triangle_normal_reversals": 0
+}

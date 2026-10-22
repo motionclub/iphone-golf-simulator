@@ -1,0 +1,45 @@
+--- Unity/Assets/Editor/VisualOverhaulCharacterCapture.cs
++++ Unity/Assets/Editor/VisualOverhaulCharacterCapture.cs
+@@ -263,6 +263,42 @@
+                                 hero.SetFacePerformance(0,Vector2.zero);facePerformance.enabled=performanceEnabled;
+                             }
+                         }
++                        string blinkPoseNames=Environment.GetEnvironmentVariable("VISUAL_CHARACTER_BLINK_POSES");
++                        if(!string.IsNullOrWhiteSpace(blinkPoseNames)){
++                            if(!facePerformance)throw new InvalidOperationException("Pose blink review requires MatchHeroFacePerformance");
++                            var clips=blinkPoseNames.Split(',').Select(name=>Enum.Parse<HeroTennisDriver.Clip>(name.Trim())).Distinct().ToArray();
++                            foreach(var clip in clips){
++                                float length=driver.LengthOf(clip),contact=driver.ContactOf(clip);
++                                if(length<=0)throw new InvalidOperationException(sex+" missing blink pose "+clip);
++                                var samples=new System.Collections.Generic.List<(string name,float time)>{("mid",length*.5f)};
++                                if(contact>0&&Mathf.Abs(contact-length*.5f)>.0001f)samples.Add(("contact",contact));
++                                foreach(var sample in samples){
++                                    driver.Sample(clip,sample.time);facePerformance.ForcedBlink=0;yield return Frames(2);
++                                    foreach(float blink in new[]{0f,1f}){
++                                        facePerformance.ForcedBlink=blink;yield return Frames(2);
++                                        // Register the actual animated head, rather than a fixed
++                                        // Ready camera. Source frame is authored in Body bind space.
++                                        var headBone=hero.Bone(HumanBodyBones.Head);
++                                        int headIndex=Array.IndexOf(hero.body.bones,headBone);
++                                        var frameMaterial=hero.body.sharedMaterials.FirstOrDefault(m=>m&&m.HasProperty("_HeadOrigin")&&m.GetVector("_HeadOrigin").w>.5f);
++                                        if(!headBone||headIndex<0||!frameMaterial)throw new InvalidOperationException("Missing registered frame for pose blink review");
++                                        var bindToWorld=headBone.localToWorldMatrix*hero.body.sharedMesh.bindposes[headIndex];
++                                        Vector3 sourceRight=frameMaterial.GetVector("_HeadRight"),sourceUp=frameMaterial.GetVector("_HeadUp"),sourceForward=frameMaterial.GetVector("_HeadForward"),sourceEye=frameMaterial.GetVector("_HeadEye");
++                                        Vector3 eyeBind=(Vector3)frameMaterial.GetVector("_HeadOrigin")+sourceRight*sourceEye.x+sourceUp*sourceEye.y+sourceForward*sourceEye.z;
++                                        var poseUp=bindToWorld.MultiplyVector(sourceUp).normalized;
++                                        var poseForward=bindToWorld.MultiplyVector(sourceForward).normalized;
++                                        var poseRight=bindToWorld.MultiplyVector(sourceRight).normalized;
++                                        var poseTarget=bindToWorld.MultiplyPoint3x4(eyeBind)-poseUp*.02f;
++                                        var poseFront=poseTarget+poseForward*.90f+poseUp*.01f;
++                                        string label=sex+"_"+clip+"_"+sample.name+"_blink_"+Mathf.RoundToInt(blink*100);
++                                        Shot(label+"_front",poseFront,poseTarget,24,900,900,poseUp);
++                                        Shot(label+"_threequarter",poseFront+poseRight*.30f,poseTarget,24,900,900,poseUp);
++                                        audit.Add($"Pose blink {label}: time={sample.time:F5}s, length={length:F5}s, contact={contact:F5}s; target={poseTarget}; head={headBone.position}; "+string.Join(";",new[]{hero.body,hero.face}.OfType<SkinnedMeshRenderer>().Select(r=>r.name+":"+string.Join(",",Enumerable.Range(0,r.sharedMesh.blendShapeCount).Select(i=>r.sharedMesh.GetBlendShapeName(i)+"="+r.GetBlendShapeWeight(i))))));
++                                    }
++                                }
++                            }
++                            facePerformance.ForcedBlink=0;driver.Sample(HeroTennisDriver.Clip.Ready,.5f);yield return Frames(2);
++                        }
+                         audit.Add($"Skin swatch {sex}/{variant.name}: tone={variant.tone}, exposure={variant.exposure}, colour={(female?variant.woman:variant.male)}, regionalResponse={variant.response}");
+                     }
+                     continue;

@@ -1,0 +1,72 @@
+{
+  "info" : {
+    "arguments" : [
+      "devicectl",
+      "device",
+      "info",
+      "apps",
+      "--device",
+      "00008150-00041CD92287801C",
+      "--json-output",
+      "work/golf-look/device_apps_current.json"
+    ],
+    "commandType" : "devicectl.device.info.apps",
+    "environment" : {
+      "TERM" : "dumb"
+    },
+    "jsonVersion" : 5,
+    "outcome" : "success",
+    "version" : "642.16"
+  },
+  "result" : {
+    "apps" : [
+      {
+        "appClip" : false,
+        "builtByDeveloper" : true,
+        "bundleIdentifier" : "com.aloniewski.GolfArcade.ClothProof",
+        "bundleVersion" : "0",
+        "containerAccessible" : true,
+        "defaultApp" : false,
+        "hidden" : false,
+        "internalApp" : false,
+        "name" : "Cloth Proof",
+        "removable" : true,
+        "url" : "file:///private/var/containers/Bundle/Application/6C58740A-9431-41E3-B99D-4D3E0DB0BBD6/ClothProof.app/",
+        "version" : "29.2.0"
+      },
+      {
+        "appClip" : false,
+        "builtByDeveloper" : true,
+        "bundleIdentifier" : "com.aloniewski.GolfArcadeUITests.xctrunner",
+        "bundleVersion" : "1",
+        "containerAccessible" : true,
+        "defaultApp" : false,
+        "hidden" : false,
+        "internalApp" : false,
+        "name" : "GolfArcadeUITests-Runner",
+        "removable" : true,
+        "url" : "file:///private/var/containers/Bundle/Application/F14884ED-A9A3-43A6-BCC5-269E4F9AF564/GolfArcadeUITests-Runner.app/",
+        "version" : "1.0"
+      },
+      {
+        "appClip" : false,
+        "builtByDeveloper" : true,
+        "bundleIdentifier" : "com.aloniewski.GolfArcade",
+        "bundleVersion" : "1",
+        "containerAccessible" : true,
+        "defaultApp" : false,
+        "hidden" : false,
+        "internalApp" : false,
+        "name" : "Motion Club",
+        "removable" : true,
+        "url" : "file:///private/var/containers/Bundle/Application/28115424-DEDB-49DF-9525-88DC8874A2A7/GolfArcade.app/",
+        "version" : "0.1.0"
+      }
+    ],
+    "defaultAppsIncluded" : false,
+    "deviceIdentifier" : "5724AA4B-8FB9-5224-8EBC-EBF2A5071B3B",
+    "hiddenAppsIncluded" : false,
+    "internalAppsIncluded" : false,
+    "removableAppsIncluded" : true
+  }
+}

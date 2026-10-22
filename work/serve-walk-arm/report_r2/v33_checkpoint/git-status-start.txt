@@ -1,0 +1,529 @@
+A  ArtDir/hero/kit/golf/GOLF_KIT_DESIGN.md
+ M GolfArcade.xcodeproj/project.pbxproj
+ M GolfArcade/App/GolfArcadeApp.swift
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Female.json
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Female_Rig.lzfse
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Male.json
+ M GolfArcade/Unity/CharacterAssets/MatchHero_Male_Rig.lzfse
+ M GolfArcade/Unity/CharacterModelPreview.swift
+ M GolfArcade/Unity/IslandKit.swift
+ M GolfArcade/Unity/IslandScreens.swift
+ M GolfArcade/Unity/LockerCatalog.swift
+ M GolfArcade/Unity/LockerColors.swift
+ M GolfArcade/Unity/LockerStudio.swift
+ M GolfArcade/Unity/MatchHeroData.swift
+ M GolfArcade/Unity/MatchHeroMotion.swift
+ M GolfArcade/Unity/SportsDisplays.swift
+ M GolfArcade/Unity/SportsHome.swift
+ M GolfArcade/Unity/SportsInfo.plist
+ M GolfArcade/Unity/SportsRuntime.h
+ M GolfArcade/Unity/SportsRuntime.mm
+ M GolfArcade/Unity/SportsSession.swift
+ M GolfArcade/Unity/TennisMenu.swift
+ M GolfArcade/Unity/TennisMenuViews.swift
+ M GolfArcade/Unity/TennisPlayViews.swift
+ M GolfArcadeTests/LockerMirrorProofTests.swift
+ M GolfArcadeTests/LockerMirrorTests.swift
+ M GolfArcadeTests/NewMenuSnapshotTests.swift
+ M GolfArcadeUnity.xcodeproj/project.pbxproj
+ M SportsLibrary/TENNIS-GAMEPLAY.md
+ M Unity/Assets/Characters/MatchHeroes/Female/Female_Emote_Scuba.fbx
+ M Unity/Assets/Characters/MatchHeroes/Female/Female_Emote_Scuba.fbx.meta
+ M Unity/Assets/Characters/MatchHeroes/Female/Female_Emote_Spike.fbx
+ M Unity/Assets/Characters/MatchHeroes/Female/Female_Emote_Spike.fbx.meta
+ M Unity/Assets/Characters/MatchHeroes/Female/Female_Emote_Thrust.fbx
+ M Unity/Assets/Characters/MatchHeroes/Female/Female_Emote_Thrust.fbx.meta
+ M Unity/Assets/Characters/MatchHeroes/Male/Male_Emote_Scuba.fbx
+ M Unity/Assets/Characters/MatchHeroes/Male/Male_Emote_Scuba.fbx.meta
+ M Unity/Assets/Characters/MatchHeroes/Male/Male_Emote_Spike.fbx
+ M Unity/Assets/Characters/MatchHeroes/Male/Male_Emote_Spike.fbx.meta
+ M Unity/Assets/Characters/MatchHeroes/Male/Male_Emote_Thrust.fbx
+ M Unity/Assets/Characters/MatchHeroes/Male/Male_Emote_Thrust.fbx.meta
+ M Unity/Assets/Editor/HeroDetailTextures.cs
+ M Unity/Assets/Editor/MatchHeroKit.cs
+ M Unity/Assets/Editor/MatchHeroLockerExport.cs
+A  Unity/Assets/Editor/ServeWalkFilm.cs
+A  Unity/Assets/Editor/ServeWalkFilm.cs.meta
+ M Unity/Assets/Plugins/iOS/SportsBridge.mm
+ M Unity/Assets/Resources/Tennis/KitsV3/Materials/KitV3_016.mat
+ M Unity/Assets/Resources/Tennis/Shaders/TennisCloth.shader
+ M Unity/Assets/Scripts/Course/Hole.cs
+ M Unity/Assets/Scripts/Course/HoleView.cs
+ M Unity/Assets/Scripts/Game/GolfGame.cs
+ M Unity/Assets/Scripts/Game/NativeSportsSession.cs
+ M Unity/Assets/Scripts/Tennis/HeroTennisDriver.cs
+ M Unity/Assets/Scripts/Tennis/MatchHeroLook.cs
+ M Unity/Assets/Scripts/Tennis/TennisGame.cs
+ M Unity/Assets/Scripts/Tennis/TennisRules.cs
+ M Unity/Assets/Scripts/Tennis/TennisTossMeter.cs
+ M Unity/Assets/Tests/EditMode/TennisGameplayImprovementTests.cs
+ M Unity/Assets/Tests/EditMode/TennisTutorialTests.cs
+ M Unity/Assets/Tests/PlayMode/TennisGameplayTests.cs
+ M project.yml
+A  work/golf-look/AUDIT.md
+A  work/golf-look/NEXT_SWING.md
+A  work/golf-look/PRECONDITIONS.json
+A  work/golf-look/REPORT.md
+A  work/golf-look/RESUME.md
+A  work/golf-look/data/baseline_files.json
+AM work/golf-look/data/build_Female.json
+AM work/golf-look/data/build_Male.json
+A  work/golf-look/data/course_material_table.txt
+A  work/golf-look/data/course_mesh_audit.json
+A  work/golf-look/data/course_texture_inventory.json
+A  work/golf-look/data/deform_draft_Female.json
+A  work/golf-look/data/deform_draft_Male.json
+A  work/golf-look/data/dependency_swing_checkpoint.json
+A  work/golf-look/data/fabric_prototypes.json
+A  work/golf-look/data/garment_spec_observed.json
+A  work/golf-look/data/gates_checkpoint.json
+A  work/golf-look/data/git_log_before.txt
+A  work/golf-look/data/git_status_before.txt
+A  work/golf-look/data/identity_swing_checkpoint.json
+A  work/golf-look/data/inspect_Female.json
+A  work/golf-look/data/inspect_Male.json
+A  work/golf-look/data/proof_manifest.json
+A  work/golf-look/data/protected_recheck.json
+A  work/golf-look/data/protected_swing_checkpoint.json
+A  work/golf-look/data/retarget_Female.json
+A  work/golf-look/data/retarget_Male.json
+A  work/golf-look/data/shader_inventory.json
+A  work/golf-look/data/source_shell_topology.json
+A  work/golf-look/data/staged_paths.txt
+A  work/golf-look/data/v4_swing_inventory.json
+A  work/golf-look/data/validation_swing_checkpoint.json
+A  work/golf-look/design/GOLF_KIT_DESIGN.md
+AM work/golf-look/export/Golf_Female_Draft.blend
+AM work/golf-look/export/Golf_Female_SwingProof.blend
+AM work/golf-look/export/Golf_Male_Draft.blend
+AM work/golf-look/export/Golf_Male_SwingProof.blend
+A  work/golf-look/inputs/GARMENT_SPEC_in_progress.md
+A  work/golf-look/inputs/SOURCE_MANIFEST.json
+A  work/golf-look/logs/audit_courses.log
+A  work/golf-look/logs/audit_shell_topology.log
+A  work/golf-look/logs/build_Female.log
+A  work/golf-look/logs/build_Male.log
+A  work/golf-look/logs/guards_after.txt
+A  work/golf-look/logs/guards_before.txt
+A  work/golf-look/logs/guards_swing_checkpoint.txt
+A  work/golf-look/logs/identity_swing_checkpoint.log
+A  work/golf-look/logs/inspect_female.log
+A  work/golf-look/logs/inspect_male.log
+A  work/golf-look/logs/inspect_v4.log
+A  work/golf-look/logs/measure_final_Female.log
+A  work/golf-look/logs/measure_final_Male.log
+A  work/golf-look/logs/measure_swing_Female.log
+A  work/golf-look/logs/measure_swing_Male.log
+A  work/golf-look/logs/render_Female.log
+A  work/golf-look/logs/render_Male.log
+A  work/golf-look/logs/render_debug_Female.log
+A  work/golf-look/logs/render_debug_Male.log
+A  work/golf-look/logs/render_debug_final_Female.log
+A  work/golf-look/logs/render_debug_final_Male.log
+A  work/golf-look/logs/render_final_Female.log
+A  work/golf-look/logs/render_final_Male.log
+A  work/golf-look/logs/render_review_Female.log
+A  work/golf-look/logs/render_review_Male.log
+A  work/golf-look/logs/render_swing_Female.log
+A  work/golf-look/logs/render_swing_Male.log
+A  work/golf-look/logs/retarget_Female.log
+A  work/golf-look/logs/retarget_Male.log
+A  work/golf-look/logs/retarget_final_Female.log
+A  work/golf-look/logs/retarget_final_Male.log
+A  work/golf-look/maps/fabric_prototypes/cap_twill_N_DRAFT.png
+A  work/golf-look/maps/fabric_prototypes/cap_twill_RELIEF_DRAFT.png
+A  work/golf-look/maps/fabric_prototypes/leather_N_DRAFT.png
+A  work/golf-look/maps/fabric_prototypes/leather_RELIEF_DRAFT.png
+A  work/golf-look/maps/fabric_prototypes/performance_knit_N_DRAFT.png
+A  work/golf-look/maps/fabric_prototypes/performance_knit_RELIEF_DRAFT.png
+A  work/golf-look/maps/fabric_prototypes/pleated_twill_N_DRAFT.png
+A  work/golf-look/maps/fabric_prototypes/pleated_twill_RELIEF_DRAFT.png
+A  work/golf-look/maps/fabric_prototypes/rubber_N_DRAFT.png
+A  work/golf-look/maps/fabric_prototypes/rubber_RELIEF_DRAFT.png
+A  work/golf-look/maps/fabric_prototypes/synthetic_leather_N_DRAFT.png
+A  work/golf-look/maps/fabric_prototypes/synthetic_leather_RELIEF_DRAFT.png
+A  work/golf-look/maps/fabric_prototypes/twill_N_DRAFT.png
+A  work/golf-look/maps/fabric_prototypes/twill_RELIEF_DRAFT.png
+A  work/golf-look/proof-tools/GolfLookProofRig.cs
+A  work/golf-look/proof/FABRIC_PROTOTYPES.png
+A  work/golf-look/proof/Female_DRAFT_SHEET.png
+AM work/golf-look/proof/Female_LH_Finish.png
+AM work/golf-look/proof/Female_LH_Impact.png
+AM work/golf-look/proof/Female_LH_ReadyIdle.png
+A  work/golf-look/proof/Female_LH_ReadyIdle_body_debug.png
+AM work/golf-look/proof/Female_LH_Top.png
+A  work/golf-look/proof/Female_LH_Top_body_debug.png
+A  work/golf-look/proof/Female_LH_glove_top.png
+AM work/golf-look/proof/Female_RH_Finish.png
+AM work/golf-look/proof/Female_RH_Impact.png
+AM work/golf-look/proof/Female_RH_ReadyIdle.png
+A  work/golf-look/proof/Female_RH_ReadyIdle_body_debug.png
+AM work/golf-look/proof/Female_RH_Top.png
+A  work/golf-look/proof/Female_RH_Top_body_debug.png
+A  work/golf-look/proof/Female_RH_glove_top.png
+A  work/golf-look/proof/Female_SWING_DRAFT_SHEET.png
+AM work/golf-look/proof/Female_back.png
+AM work/golf-look/proof/Female_front.png
+AM work/golf-look/proof/Female_glove.png
+AM work/golf-look/proof/Female_headwear.png
+AM work/golf-look/proof/Female_polo.png
+AM work/golf-look/proof/Female_quarter.png
+AM work/golf-look/proof/Female_shoes.png
+AM work/golf-look/proof/Female_side.png
+A  work/golf-look/proof/Male_DRAFT_SHEET.png
+AM work/golf-look/proof/Male_LH_Finish.png
+AM work/golf-look/proof/Male_LH_Impact.png
+AM work/golf-look/proof/Male_LH_ReadyIdle.png
+A  work/golf-look/proof/Male_LH_ReadyIdle_body_debug.png
+AM work/golf-look/proof/Male_LH_Top.png
+A  work/golf-look/proof/Male_LH_Top_body_debug.png
+A  work/golf-look/proof/Male_LH_glove_top.png
+AM work/golf-look/proof/Male_RH_Finish.png
+AM work/golf-look/proof/Male_RH_Impact.png
+AM work/golf-look/proof/Male_RH_ReadyIdle.png
+A  work/golf-look/proof/Male_RH_ReadyIdle_body_debug.png
+AM work/golf-look/proof/Male_RH_Top.png
+A  work/golf-look/proof/Male_RH_Top_body_debug.png
+A  work/golf-look/proof/Male_RH_glove_top.png
+A  work/golf-look/proof/Male_SWING_DRAFT_SHEET.png
+AM work/golf-look/proof/Male_back.png
+AM work/golf-look/proof/Male_front.png
+AM work/golf-look/proof/Male_glove.png
+AM work/golf-look/proof/Male_headwear.png
+AM work/golf-look/proof/Male_polo.png
+AM work/golf-look/proof/Male_quarter.png
+AM work/golf-look/proof/Male_shoes.png
+AM work/golf-look/proof/Male_side.png
+A  work/golf-look/proof/spec_Female.json
+A  work/golf-look/proof/spec_Male.json
+A  work/golf-look/proof/spec_debug_Female.json
+A  work/golf-look/proof/spec_debug_Male.json
+A  work/golf-look/proof/spec_review_Female.json
+A  work/golf-look/proof/spec_review_Male.json
+A  work/golf-look/proof/spec_swing_Female.json
+A  work/golf-look/proof/spec_swing_Male.json
+A  work/golf-look/rollback/AUDIT_before_swing_checkpoint.md
+A  work/golf-look/rollback/README.md
+A  work/golf-look/rollback/REPORT_before_identity_note.md
+A  work/golf-look/rollback/build_golf_draft_before_fit.py
+A  work/golf-look/rollback/index_checkpoint/rollback/README.md
+A  work/golf-look/rollback/pre_final_proof_refresh/rollback/README.md
+A  work/golf-look/rollback/pre_saddle_geometry/scripts/build_golf_draft.py
+A  work/golf-look/rollback/pre_shell_cleanup/scripts/build_golf_draft.py
+A  work/golf-look/rollback/pre_weight_cleanup/MANIFEST.json
+A  work/golf-look/rollback/pre_weight_cleanup/scripts/build_golf_draft.py
+A  work/golf-look/rollback/pre_weight_cleanup/scripts/write_checkpoint.py
+A  work/golf-look/rollback/render_draft_pre_handedness.py
+A  work/golf-look/rollback/retarget_proof_pre_ready_mirror.py
+A  work/golf-look/rollback/write_checkpoint_before_identity_note.py
+A  work/golf-look/rollback/write_checkpoint_pre_swing_proofs.py
+A  work/golf-look/scripts/audit_courses.py
+A  work/golf-look/scripts/audit_shell_topology.py
+AM work/golf-look/scripts/build_golf_draft.py
+A  work/golf-look/scripts/dcommon.py
+A  work/golf-look/scripts/fabric_prototypes.py
+A  work/golf-look/scripts/follow_lib.py
+A  work/golf-look/scripts/inspect_blend.py
+A  work/golf-look/scripts/inspect_v4.py
+AM work/golf-look/scripts/measure_swing_draft.py
+A  work/golf-look/scripts/render_draft.py
+A  work/golf-look/scripts/retarget_proof.py
+A  work/golf-look/scripts/verify_identity.py
+A  work/golf-look/scripts/write_checkpoint.py
+A  work/serve-walk-arm/GATE_RESULTS.md
+A  work/serve-walk-arm/REPRO.md
+A  work/serve-walk-arm/report/CANDIDATE_GATES_FAIL.patch
+A  work/serve-walk-arm/report/GATE_RESULTS.md
+A  work/serve-walk-arm/report/clone-assets-diff.txt
+A  work/serve-walk-arm/report/keyboard-audit.json
+A  work/serve-walk-arm/report/matrix.json
+A  work/serve-walk-arm/report/source-audit.json
+A  work/serve-walk-arm/report/unity-runs.json
+A  work/serve-walk-arm/rollback/README.md
+A  work/serve-walk-arm/rollback/Unity/Assets/Editor/ServeWalkFilm.cs.ABSENT
+A  work/serve-walk-arm/rollback/Unity/Assets/Editor/ServeWalkFilm.cs.meta.ABSENT
+A  work/serve-walk-arm/rollback/Unity/Assets/Scripts/Tennis/HeroTennisDriver.cs
+A  work/serve-walk-arm/rollback/Unity/Assets/Scripts/Tennis/TennisActor.cs
+A  work/serve-walk-arm/rollback/Unity/Assets/Scripts/Tennis/TennisServeRoutine.cs
+A  work/serve-walk-arm/scripts/apply_carry.py
+A  work/serve-walk-arm/scripts/comparison_films.py
+A  work/serve-walk-arm/scripts/gates.py
+A  work/serve-walk-arm/scripts/proof.py
+A  work/serve-walk-arm/scripts/report.py
+A  work/serve-walk-arm/scripts/run_after_matrix.sh
+A  work/serve-walk-arm/scripts/run_matrix.sh
+A  work/serve-walk-arm/scripts/run_opponents.sh
+?? .agents/
+?? .claude/
+?? ArtDir/environments/
+?? ArtDir/hero/base_lock/parallel_prompts/25_EMOTE_SCUBA_THRUST_FIX.txt
+?? ArtDir/hero/base_lock/parallel_prompts/26_SERVE_TOSS_THEN_JUMP.txt
+?? ArtDir/hero/base_lock/parallel_prompts/26b_SERVE_TOSS_JUMP_FINISH.txt
+?? ArtDir/hero/base_lock/parallel_prompts/27_ONLINE_LOBBY_UI.txt
+?? ArtDir/hero/base_lock/parallel_prompts/28_SERVE_WALK_BALL_ARM.txt
+?? ArtDir/hero/base_lock/parallel_prompts/28b_SERVE_WALK_BALL_ARM_FINISH.txt
+?? ArtDir/hero/base_lock/parallel_prompts/29_CLOTH_QUALITY_OVERHAUL_SOL_GOAL.txt
+?? ArtDir/hero/base_lock/parallel_prompts/30_GOLF_SHADERS_AND_KIT_SOL_GOAL.txt
+?? ArtDir/hero/kit/GARMENT_SPEC.md
+?? ArtDir/hero/kit/refs/
+?? ArtDir/screenshots/cloth_overhaul/
+?? ArtDir/screenshots/golf_flyover/
+?? ArtDir/screenshots/golf_postcards/
+?? ArtDir/screenshots/online_lobby/
+?? GolfArcade/Multiplayer/
+?? GolfArcadeTests/MultiplayerTests.swift
+?? SportsLibrary/MULTIPLAYER.md
+?? Tools/PostcardCheck/
+?? Unity/Assets/Editor/ClothCompileProbe.cs
+?? Unity/Assets/Editor/ClothCompileProbe.cs.meta
+?? Unity/Assets/Editor/ClothProofMask.shader
+?? Unity/Assets/Editor/ClothProofMask.shader.meta
+?? Unity/Assets/Editor/ClothProofRig.cs
+?? Unity/Assets/Editor/ClothProofRig.cs.meta
+?? Unity/Assets/Editor/EmoteHoldCheck.cs
+?? Unity/Assets/Editor/EmoteHoldCheck.cs.meta
+?? Unity/Assets/Editor/GolfFlyoverCapture.cs
+?? Unity/Assets/Editor/GolfFlyoverCapture.cs.meta
+?? Unity/Assets/Editor/GolfLookGrassCheck.cs
+?? Unity/Assets/Editor/GolfLookGrassCheck.cs.meta
+?? Unity/Assets/Editor/GolfLookSmoke.cs
+?? Unity/Assets/Editor/GolfLookSmoke.cs.meta
+?? Unity/Assets/Editor/GolfLookTextureImporter.cs
+?? Unity/Assets/Editor/GolfLookTextureImporter.cs.meta
+?? Unity/Assets/Editor/GolfPlantSwayCheck.cs
+?? Unity/Assets/Editor/GolfPlantSwayCheck.cs.meta
+?? Unity/Assets/Editor/GolfPlantSwayFixture.meta
+?? Unity/Assets/Editor/GolfPlantSwayFixture/
+?? Unity/Assets/Editor/PostcardCameraStills.cs
+?? Unity/Assets/Editor/PostcardCameraStills.cs.meta
+?? Unity/Assets/Editor/PostcardImportCheck.cs
+?? Unity/Assets/Editor/PostcardImportCheck.cs.meta
+?? Unity/Assets/Editor/PostcardLookStills.cs
+?? Unity/Assets/Editor/PostcardLookStills.cs.meta
+?? Unity/Assets/Editor/PostcardPlayVideo.cs
+?? Unity/Assets/Editor/PostcardPlayVideo.cs.meta
+?? Unity/Assets/Editor/PostcardProofMasks.cs
+?? Unity/Assets/Editor/PostcardProofMasks.cs.meta
+?? Unity/Assets/Editor/PostcardV3Scratch
+?? Unity/Assets/Editor/PostcardV3Scratch.meta
+?? Unity/Assets/Editor/ServeJumpProof.cs
+?? Unity/Assets/Editor/ServeJumpProof.cs.meta
+?? Unity/Assets/Resources/Course/GolfLookVariants.mat
+?? Unity/Assets/Resources/Course/GolfLookVariants.mat.meta
+?? Unity/Assets/Resources/Course/Look.meta
+?? Unity/Assets/Resources/Course/Look/
+?? Unity/Assets/Resources/Course/Shaders.meta
+?? Unity/Assets/Resources/Course/Shaders/
+?? Unity/Assets/Resources/Course/hole_08.fbx
+?? Unity/Assets/Resources/Course/hole_08.fbx.meta
+?? Unity/Assets/Resources/Course/hole_09.fbx
+?? Unity/Assets/Resources/Course/hole_09.fbx.meta
+?? Unity/Assets/Resources/Course/hole_10.fbx
+?? Unity/Assets/Resources/Course/hole_10.fbx.meta
+?? Unity/Assets/Scripts/Course/GolfAtmosphere.cs
+?? Unity/Assets/Scripts/Course/GolfAtmosphere.cs.meta
+?? Unity/Assets/Scripts/Course/GolfFigureExposure.cs
+?? Unity/Assets/Scripts/Course/GolfFigureExposure.cs.meta
+?? Unity/Assets/Scripts/Course/GolfLook.cs
+?? Unity/Assets/Scripts/Course/GolfLook.cs.meta
+?? Unity/Assets/Scripts/Course/GolfWindSway.cs
+?? Unity/Assets/Scripts/Course/GolfWindSway.cs.meta
+?? Unity/Assets/Scripts/Game/GolfGame.Network.cs
+?? Unity/Assets/Scripts/Game/GolfGame.Network.cs.meta
+?? Unity/Assets/Scripts/Multiplayer.meta
+?? Unity/Assets/Scripts/Multiplayer/
+?? Unity/Assets/Scripts/Tennis/TennisGame.Network.cs
+?? Unity/Assets/Scripts/Tennis/TennisGame.Network.cs.meta
+?? Unity/Assets/Tests/EditMode/GolfWindSwayTests.cs
+?? Unity/Assets/Tests/EditMode/GolfWindSwayTests.cs.meta
+?? Unity/Assets/Tests/EditMode/MultiplayerRulesTests.cs
+?? Unity/Assets/Tests/EditMode/MultiplayerRulesTests.cs.meta
+?? Unity/Assets/Tests/EditMode/PostcardHoleTests.cs
+?? Unity/Assets/Tests/EditMode/PostcardHoleTests.cs.meta
+?? Unity/Assets/Tests/PlayMode/MultiplayerRuntimeTests.cs
+?? Unity/Assets/Tests/PlayMode/MultiplayerRuntimeTests.cs.meta
+?? Unity/work/
+?? blender/hole_08.blend
+?? blender/hole_09.blend
+?? blender/hole_10.blend
+?? blender/scripts/POSTCARDS_README.md
+?? blender/scripts/golf_look_textures.py
+?? blender/scripts/hole08_build.py
+?? blender/scripts/hole08_design.py
+?? blender/scripts/hole08_look.py
+?? blender/scripts/hole09_build.py
+?? blender/scripts/hole09_design.py
+?? blender/scripts/hole09_look.py
+?? blender/scripts/hole09_masonry.py
+?? blender/scripts/hole09_qa.py
+?? blender/scripts/hole09_stone.py
+?? blender/scripts/hole10_build.py
+?? blender/scripts/hole10_design.py
+?? blender/scripts/hole10_look.py
+?? blender/scripts/postcard_check.py
+?? blender/scripts/postcard_emit_cs.py
+?? blender/scripts/postcard_lib.py
+?? blender/scripts/postcard_lib_smoke.py
+?? blender/scripts/postcard_look_lib.py
+?? blender/scripts/postcard_look_smoke.py
+?? blender/scripts/postcard_look_verify.py
+?? blender/scripts/postcard_plan_png.py
+?? blender/scripts/postcard_props_lib.py
+?? blender/scripts/postcard_props_smoke.py
+?? blender/scripts/postcard_smoke_design.py
+?? blender/scripts/postcard_verify.py
+?? skills-lock.json
+?? work/character-shader/
+?? work/classic-tennis-racket/
+?? work/cloth-overhaul/
+?? work/dressed-look/
+?? work/emote-overhaul/
+?? work/emote_contact_sheets_r2.py
+?? work/emote_edit_r2.py
+?? work/emote_gate_edit_r2.py
+?? work/emote_make_films_r2.py
+?? work/emote_nominal_r2.py
+?? work/emote_nominal_r2.txt
+?? work/emote_nominal_r2b.txt
+?? work/emote_preservation_r2.py
+?? work/emote_probe.py
+?? work/emote_probe.txt
+?? work/emote_probe_r2.txt
+?? work/emote_report_r2.py
+?? work/emotes-intro/
+?? work/emotes/
+?? work/female-arms-form2/
+?? work/female-full-merge/
+?? work/female-hands-fingers/
+?? work/female-micro-f1-head/
+?? work/female-micro-f2-head/
+?? work/female-micro-f3-head/
+?? work/female-parallel-limbs/
+?? work/female-parallel-torso/
+?? work/female-torso-form2/
+?? work/female-torso-form3/
+?? work/female-torso-form4/
+?? work/female-torso-form5/
+?? work/gameplay-capture/
+?? work/golf-look/data/skirt_envelope_Female.json
+?? work/golf-look/data/top_transfer_Female.json
+?? work/golf-look/data/top_transfer_Male.json
+?? work/golf-look/inputs/HeroBase_Female_Dressed.blend
+?? work/golf-look/inputs/HeroBase_Male_Dressed.blend
+?? work/golf-look/logs/build_construction3_Female.log
+?? work/golf-look/logs/build_construction3_Male.log
+?? work/golf-look/logs/build_construction3b_Female.log
+?? work/golf-look/logs/build_construction3b_Male.log
+?? work/golf-look/logs/render_construction3_Female.log
+?? work/golf-look/logs/render_construction3_Male.log
+?? work/golf-look/logs/retarget_construction3_Female.log
+?? work/golf-look/logs/retarget_construction3_Male.log
+?? work/golf-look/logs/top_transfer3_Female.log
+?? work/golf-look/logs/top_transfer3_Male.log
+?? work/golf-look/rollback/AUDIT_before_dependency_recheck.md
+?? work/golf-look/rollback/GOLF_KIT_DESIGN_before_dependency_recheck.md
+?? work/golf-look/rollback/GOLF_KIT_DESIGN_first_canonical.md
+?? work/golf-look/rollback/Golf_Male_Draft_previous_iteration.blend
+?? work/golf-look/rollback/Golf_Male_SwingProof_pre_ground_fix.blend
+?? work/golf-look/rollback/build_golf_draft_before_pockets_cuffs.py
+?? work/golf-look/rollback/build_golf_draft_before_skirt_skin.py
+?? work/golf-look/rollback/construction3_before_top_weights/
+?? work/golf-look/rollback/construction3_initial/
+?? work/golf-look/rollback/garment_fit_rigid_envelope.py
+?? work/golf-look/rollback/index_checkpoint/PRECONDITIONS.json
+?? work/golf-look/rollback/pre_construction_pass_3/
+?? work/golf-look/rollback/pre_final_proof_refresh/REPORT.md
+?? work/golf-look/rollback/pre_final_proof_refresh/data/
+?? work/golf-look/rollback/pre_final_proof_refresh/proof/
+?? work/golf-look/rollback/pre_saddle_geometry/data/
+?? work/golf-look/rollback/pre_saddle_geometry/export/
+?? work/golf-look/rollback/pre_shell_cleanup/data/
+?? work/golf-look/rollback/pre_shell_cleanup/export/
+?? work/golf-look/rollback/pre_weight_cleanup/NEXT_SWING.md
+?? work/golf-look/rollback/pre_weight_cleanup/REPORT.md
+?? work/golf-look/rollback/pre_weight_cleanup/RESUME.md
+?? work/golf-look/rollback/pre_weight_cleanup/data/
+?? work/golf-look/rollback/pre_weight_cleanup/export/
+?? work/golf-look/rollback/pre_weight_cleanup/proof/
+?? work/golf-look/rollback/user_outputs_before_refresh/
+?? work/golf-look/scripts/fit_top_weights.py
+?? work/golf-look/scripts/garment_fit.py
+?? work/hero-base/
+?? work/hero-dressed/
+?? work/hero-mainstay/
+?? work/locker-mirror/
+?? work/male-arms-hands-form2/
+?? work/male-form-d/
+?? work/male-form/
+?? work/male-hands-form3/
+?? work/male-head-1/
+?? work/male-head-2/
+?? work/male-head-3/
+?? work/male-jaw-5/
+?? work/male-legs-feet-form2/
+?? work/male-micro1e/
+?? work/male-micro1f/
+?? work/male-micro1g/
+?? work/male-micro1h/
+?? work/male-micro1i/
+?? work/male-micro1j-head/
+?? work/male-micro1k-head/
+?? work/male-micro1l-head/
+?? work/male-nape-pelvis-skin/
+?? work/male-outfit-preview/
+?? work/male-parallel-arms/
+?? work/male-parallel-legs/
+?? work/male-parallel-torso/
+?? work/male-parallel-torso2/
+?? work/male-parallel-torso3/
+?? work/male-pelvis-form2/
+?? work/male-pelvis-form3/
+?? work/male-sil-fit-4/
+?? work/male-silhouette/
+?? work/match-anim-set/
+?? work/multiplayer-baseline-check.log
+?? work/multiplayer/
+?? work/new-menus/
+?? work/online-lobby/
+?? work/postcard-look/
+?? work/serve-and-feet/
+?? work/serve-dip-jump/
+?? work/serve-toss-arm/
+?? work/serve-toss-jump/
+?? work/serve-walk-arm/CandidateClone/
+?? work/serve-walk-arm/UnityClone/
+?? work/serve-walk-arm/after/
+?? work/serve-walk-arm/before/
+?? work/serve-walk-arm/candidate-v2/
+?? work/serve-walk-arm/candidate-v3/
+?? work/serve-walk-arm/candidate-v4-full/
+?? work/serve-walk-arm/candidate-v4/
+?? work/serve-walk-arm/candidate-v5/
+?? work/serve-walk-arm/candidate/
+?? work/serve-walk-arm/film/
+?? work/serve-walk-arm/keyboard/
+?? work/serve-walk-arm/logs/
+?? work/serve-walk-arm/report_r2/
+?? work/serve-walk-arm/rollback/CANDIDATE_GATES_FAIL.original.patch
+?? work/serve-walk-arm/rollback/GATE_RESULTS.first.md
+?? work/serve-walk-arm/rollback/REPRO.initial.md
+?? work/serve-walk-arm/rollback/Unity/Assets/Editor/ServeWalkFilm.first.cs
+?? work/serve-walk-arm/rollback/gates.before_fixture_filter.py
+?? work/serve-walk-arm/rollback/gates.before_length_comparison.py
+?? work/serve-walk-arm/rollback/gates.before_opponent_placement_exclusion.py
+?? work/serve-walk-arm/rollback/gates.previous.py
+?? work/serve-walk-arm/rollback/proof.previous.py
+?? work/serve-walk-arm/rollback/r2/
+?? work/serve-walk-arm/rollback/report.before_arm_max.py
+?? work/serve-walk-arm/rollback/report.before_exact_female_share.py
+?? work/serve-walk-arm/rollback/report.before_placement_note.py
+?? work/serve-walk-arm/rollback/report.before_validation_log.py
+?? work/serve-walk-arm/rollback/report.first.py
+?? work/serve-walk-arm/scripts/apply_carry_v2.py
+?? work/serve-walk-arm/scripts/apply_carry_v3.py
+?? work/serve-walk-arm/scripts/apply_carry_v5.py
+?? work/standard-tennis-kit-wb/
+?? work/standard-tennis-kit-worn/
+?? work/swift-module-cache/
+?? work/tennis-shoes-fit/
+?? work/venue-presence/

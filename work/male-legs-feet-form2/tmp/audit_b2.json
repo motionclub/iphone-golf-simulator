@@ -1,0 +1,96 @@
+{
+ "base": "baseline/start_1fe4d53b.blend",
+ "base_sha256": "1fe4d53b3bcb9cfaef885d64350150e323a1d726cc4d54cc305ea71e323119bb",
+ "new": "tmp/b2.blend",
+ "new_sha256": "3116b172cad696e14cc9751ea0f3a26102464d8b7a6ef8c9c0c2cf20142cc240",
+ "verts": {
+  "base": 30296,
+  "new": 31574,
+  "appended": 1278
+ },
+ "faces": {
+  "base": 30518,
+  "new": 31812
+ },
+ "tris": {
+  "base": 60358,
+  "new": 62914,
+  "delta": 2556
+ },
+ "topology_identical": false,
+ "zone_def": {
+  "start_z_lt": 0.765,
+  "absx_lt": 0.27,
+  "zone_verts": 8745
+ },
+ "moved_inside_zone": 8488,
+ "moved_outside_zone": 72,
+ "outside_zone_bit_identical": false,
+ "appended_vertices_inside_zone_region": false,
+ "appended_vertices_z_range": [
+  0.002472999971359968,
+  0.06605933606624603
+ ],
+ "faces_kept_from_base": 29638,
+ "faces_removed_from_base": 880,
+ "faces_added": 2174,
+ "removed_faces_all_in_zone": false,
+ "face_m_unchanged": true,
+ "vertex_groups_equal": true,
+ "materials_equal": true,
+ "all_faces_smooth": true,
+ "has_custom_normals": true,
+ "custom_normal_corners": {
+  "unchanged_equal": 117874,
+  "unchanged_but_different": 0,
+  "new_corners": 8664
+ },
+ "custom_normal_new_corners_all_zero": true,
+ "boundary_nonmanifold": {
+  "base": [
+   92,
+   2
+  ],
+  "new": [
+   92,
+   2
+  ]
+ },
+ "manifold_same_direction_pairs": {
+  "base": 46,
+  "new": 46
+ },
+ "nan_or_inf": false,
+ "flipped_faces_vs_neighbours": 16,
+ "new_region_quad_angle_min_max_bad": [
+  1.3843451243153637,
+  179.14104954517992,
+  6
+ ],
+ "new_region_edge_mm": {
+  "mean": 7.3869911419320555,
+  "p01": 0.6376498061102804,
+  "p99": 15.317517017341093,
+  "min": 0.4031657397595233,
+  "max": 26.387154088375034
+ },
+ "new_region_faces": 2174,
+ "new_region_tris": 4316,
+ "new_region_tri_count_faces": 32,
+ "self_intersecting_triangle_pairs": {
+  "total_nonadjacent": 3,
+  "in_legs_zone": 0
+ },
+ "self_intersecting_triangle_pairs_base": {
+  "total_nonadjacent": 3,
+  "in_legs_zone": 0
+ },
+ "ground": {
+  "min_z_base": 0.002472762716934085,
+  "min_z_new": 0.002472999971359968,
+  "min_z_equal": false,
+  "height_base": 1.702187180519104,
+  "height_new": 1.702186942100525,
+  "sole_vertices_on_plane": 266
+ }
+}

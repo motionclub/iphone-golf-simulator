@@ -1,0 +1,26 @@
+# still_floor.txt - the stills' own window statistics and the floors derived from them (area U, 2026-10-04). Tool: ../tools/still_floor.py (Pillow). Chosen values: still_floor.json
+# Statistic: luminance (Rec.709, stored sRGB 0..1) sd of non-overlapping w x w windows of a crop; crop boxes in postcard_look_verify.STILL_CROPS / tools/still_floor.py; boxes drawn in ../u/crops_*.png
+
+needle.jpg size 1280x720
+  mid_green      160x45 mean [159, 172, 58] h67 S0.66 V0.67 global sd 0.0838 | w8: n 100 med 0.0386 p10 0.0266 p90 0.1007 ge.03 78% | w12: n 39 med 0.0423 p10 0.0334 p90 0.1078 ge.03 97% | w16: n 20 med 0.0517 p10 0.0367 p90 0.0806 ge.03 100% | w24: n 6 med 0.0658 p10 0.0389 p90 0.0912 ge.03 100% | w32: n 5 med 0.0674 p10 0.0574 p90 0.0900 ge.03 100%
+  top_green      170x33 mean [154, 171, 62] h69 S0.64 V0.67 global sd 0.0988 | w8: n 84 med 0.0380 p10 0.0239 p90 0.0962 ge.03 70% | w12: n 28 med 0.0340 p10 0.0243 p90 0.0896 ge.03 71% | w16: n 20 med 0.0717 p10 0.0315 p90 0.1155 ge.03 90% | w24: n 7 med 0.0613 p10 0.0296 p90 0.0932 ge.03 71% | w32: n 5 med 0.0768 p10 0.0602 p90 0.1104 ge.03 100%
+split.jpg size 1280x720
+  upper_green    135x38 mean [150, 169, 71] h72 S0.58 V0.66 global sd 0.0574 | w8: n 64 med 0.0180 p10 0.0121 p90 0.0408 ge.03 19% | w12: n 33 med 0.0206 p10 0.0153 p90 0.0585 ge.03 27% | w16: n 16 med 0.0232 p10 0.0159 p90 0.0475 ge.03 31% | w24: n 5 med 0.0341 p10 0.0214 p90 0.0380 ge.03 60% | w32: n 4 med 0.0300 p10 0.0222 p90 0.0455 ge.03 50%
+  lower_green    100x65 mean [123, 143, 57] h73 S0.6 V0.56 global sd 0.0417 | w8: n 96 med 0.0230 p10 0.0165 p90 0.0505 ge.03 29% | w12: n 40 med 0.0260 p10 0.0183 p90 0.0401 ge.03 35% | w16: n 24 med 0.0326 p10 0.0204 p90 0.0469 ge.03 58% | w24: n 8 med 0.0326 p10 0.0262 p90 0.0374 ge.03 62% | w32: n 6 med 0.0370 p10 0.0349 p90 0.0445 ge.03 100%
+  fairway_strip  36x93 mean [123, 144, 50] h73 S0.65 V0.57 global sd 0.0625 | w8: n 44 med 0.0294 p10 0.0203 p90 0.0528 ge.03 50% | w12: n 21 med 0.0316 p10 0.0227 p90 0.0571 ge.03 57% | w16: n 10 med 0.0352 p10 0.0279 p90 0.0527 ge.03 70%
+  fairway_long   36x63 mean [121, 136, 58] h72 S0.57 V0.53 global sd 0.1472 | w8: n 28 med 0.0420 p10 0.0240 p90 0.1159 ge.03 71% | w12: n 15 med 0.0423 p10 0.0280 p90 0.1223 ge.03 87% | w16: n 6 med 0.0705 p10 0.0402 p90 0.1316 ge.03 100%
+  lower_fairway  80x60 mean [110, 125, 50] h72 S0.6 V0.49 global sd 0.1563 | w8: n 70 med 0.0403 p10 0.0232 p90 0.1087 ge.03 67% | w12: n 30 med 0.0474 p10 0.0221 p90 0.1077 ge.03 80% | w16: n 15 med 0.0573 p10 0.0319 p90 0.1148 ge.03 93% | w24: n 6 med 0.0759 p10 0.0401 p90 0.1141 ge.03 100%
+crater.jpg size 1280x720
+  pillar_green   190x66 mean [154, 171, 23] h67 S0.86 V0.67 global sd 0.0592 | w8: n 184 med 0.0257 p10 0.0200 p90 0.0421 ge.03 27% | w12: n 75 med 0.0274 p10 0.0222 p90 0.0549 ge.03 29% | w16: n 44 med 0.0295 p10 0.0241 p90 0.0684 ge.03 41% | w24: n 14 med 0.0315 p10 0.0263 p90 0.0675 ge.03 64% | w32: n 10 med 0.0333 p10 0.0262 p90 0.0641 ge.03 80%
+  tee_box_a      60x50 mean [97, 119, 20] h74 S0.83 V0.47 global sd 0.1141 | w8: n 42 med 0.0411 p10 0.0310 p90 0.0851 ge.03 93% | w12: n 20 med 0.0477 p10 0.0351 p90 0.0890 ge.03 100% | w16: n 9 med 0.0494 p10 0.0422 p90 0.1305 ge.03 100% | w24: n 4 med 0.0672 p10 0.0609 p90 0.1130 ge.03 100%
+  tee_box_b      51x50 mean [106, 131, 15] h73 S0.89 V0.52 global sd 0.0918 | w8: n 36 med 0.0320 p10 0.0260 p90 0.0630 ge.03 61% | w12: n 16 med 0.0350 p10 0.0279 p90 0.0845 ge.03 81% | w16: n 9 med 0.0362 p10 0.0312 p90 0.0851 ge.03 100% | w24: n 4 med 0.0482 p10 0.0338 p90 0.0851 ge.03 100%
+  fairway_mid    70x37 mean [134, 158, 28] h71 S0.82 V0.62 global sd 0.0775 | w8: n 32 med 0.0342 p10 0.0260 p90 0.0787 ge.03 72% | w12: n 15 med 0.0348 p10 0.0313 p90 0.0802 ge.03 100% | w16: n 8 med 0.0381 p10 0.0336 p90 0.0916 ge.03 88%
+
+WINDOW  8px: 11 grass crops with windows; lowest p10 0.0121, lowest median 0.0180
+WINDOW 12px: 11 grass crops with windows; lowest p10 0.0153, lowest median 0.0206
+WINDOW 16px: 11 grass crops with windows; lowest p10 0.0159, lowest median 0.0232
+WINDOW 24px: 8 grass crops with windows; lowest p10 0.0214, lowest median 0.0315
+WINDOW 32px: 5 grass crops with windows; lowest p10 0.0222, lowest median 0.0300
+
+CHOSEN: grass albedo window floor sd >= 0.012 in >= 90 % of the 1.2 m ground windows (lowest crop p10 at 8 px = 0.0121); Game-view flat window = sd < 0.006 (half) or 4x4 block-mean sd < 0.003; <= 15 % flat windows in the lower 60 % of a tee / approach still.
+sand crops (split x3, crater x2) lowest p10 at 8 px 0.0166; stone / basalt crops (needle x2, split x1, crater x3) lowest p10 0.0182 (verified by g_still_floor_selfcheck, 22 crops).

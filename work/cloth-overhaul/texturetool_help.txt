@@ -1,0 +1,2 @@
+xcrun: error: sh -c '/Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -find texturetool 2> /dev/null' failed with exit code 17664: (null) (errno=Invalid argument)
+xcrun: error: unable to find utility "texturetool", not a developer tool or in PATH

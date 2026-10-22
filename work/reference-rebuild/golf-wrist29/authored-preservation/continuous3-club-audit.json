@@ -1,0 +1,73 @@
+{
+  "gate": "CLUB_SOURCE_MATCH_PASS",
+  "poses": 12,
+  "rows": [
+    {
+      "label": "male_Driver_address",
+      "sourcePositionErrorMm": 0.00012278010233120223,
+      "sourceRotationErrorDegrees": 7.824964720612764e-06,
+      "matchingTinyControlMaxSerializedDelta": 1.0000000005838672e-07
+    },
+    {
+      "label": "male_Driver_top",
+      "sourcePositionErrorMm": 0.0007962359056202513,
+      "sourceRotationErrorDegrees": 9.430238149809192e-06,
+      "matchingTinyControlMaxSerializedDelta": 5.00000000069889e-07
+    },
+    {
+      "label": "male_Driver_contact",
+      "sourcePositionErrorMm": 0.00020672383638443287,
+      "sourceRotationErrorDegrees": 5.197511424767849e-05
+    },
+    {
+      "label": "male_Putter_address",
+      "sourcePositionErrorMm": 0.0005981923466581857,
+      "sourceRotationErrorDegrees": 7.636383641665695e-06
+    },
+    {
+      "label": "male_Putter_top",
+      "sourcePositionErrorMm": 0.0006084348698382931,
+      "sourceRotationErrorDegrees": 7.917571076845593e-06
+    },
+    {
+      "label": "male_Putter_contact",
+      "sourcePositionErrorMm": 0.0006498030149151312,
+      "sourceRotationErrorDegrees": 1.1262047877356564e-05
+    },
+    {
+      "label": "female_Driver_address",
+      "sourcePositionErrorMm": 0.00012278010233120223,
+      "sourceRotationErrorDegrees": 7.824964720612764e-06,
+      "matchingTinyControlMaxSerializedDelta": 1.0000000005838672e-07
+    },
+    {
+      "label": "female_Driver_top",
+      "sourcePositionErrorMm": 0.0008094853572818263,
+      "sourceRotationErrorDegrees": 9.430238149809192e-06,
+      "matchingTinyControlMaxSerializedDelta": 4.999999999588667e-07
+    },
+    {
+      "label": "female_Driver_contact",
+      "sourcePositionErrorMm": 0.00024415555050636106,
+      "sourceRotationErrorDegrees": 5.819455450255681e-05
+    },
+    {
+      "label": "female_Putter_address",
+      "sourcePositionErrorMm": 0.0005981923466581857,
+      "sourceRotationErrorDegrees": 7.636383641665695e-06
+    },
+    {
+      "label": "female_Putter_top",
+      "sourcePositionErrorMm": 0.0007160892970183492,
+      "sourceRotationErrorDegrees": 7.917571076845593e-06
+    },
+    {
+      "label": "female_Putter_contact",
+      "sourcePositionErrorMm": 0.0005824938660630791,
+      "sourceRotationErrorDegrees": 1.1262047877356564e-05
+    }
+  ],
+  "maximumPositionErrorMm": 0.0008094853572818263,
+  "maximumRotationErrorDegrees": 5.819455450255681e-05,
+  "note": "Direct active FBX Club AnimationCurves composed with Rig FBX root local rotation, importer X reflection and production Stand/root yaw cancellation +world position(-.75,0,0), float32 scale1.0936. Matching tiny controls additionally compare serialized exact Club world p/q."
+}

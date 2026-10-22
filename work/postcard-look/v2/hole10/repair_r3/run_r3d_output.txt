@@ -1,0 +1,92 @@
+== guards (hole 7, Hole.cs, GolfGame)
+   GATE: blender/hole_07.blend unchanged PASS
+   GATE: Unity/Assets/Resources/Course/hole_07.fbx unchanged PASS
+   GATE: Unity/Assets/Resources/Course/hole_07.fbx.meta unchanged PASS
+   GATE: Unity/Assets/Scripts/Course/Hole.cs unchanged PASS
+   GATE: Hole.cs Postcards() == design data (no drift) PASS
+   GATE: GolfGame starts Course.Postcards() PASS
+   GATE: Cliffside() still in Hole.cs PASS
+== staged build
+   exit 0
+[hole10_build] rim plants {'rows': 226, 'total_m': 45.10419078269895, 'slabs': 53, 'faces': 678, 'w_min': 0.18, 'w_max': 0.5460091882673281, 'w_mean': 0.36680207279741667, 'win_lum_mean': 0.0, 'win_lum_max': 0.0, 'zones': ['G_DARK', 'G_DEEP'], 'du': 0.0775, 'z
+GATE: H_LOOK_TOP_SURFACES_UNCHANGED PASS - 10 ground meshes, 2956 vertices, max |delta| 0.00e+00 m (tol 1e-05)
+GATE: LIB_LOOK_NO_COLLISION_PREFIX PASS - 139 objects made by postcard_look_lib, none with a ground prefix; ground meshes 10 all on the postcard_verify allow-list
+GATE: LIB_LOOK_NO_MAT_FOAM PASS - exported meshes using MAT_FOAM [], WATER_FOAM* objects [], MAT_FOAM datablock users 0 (0-user data is neither saved nor exported)
+GATE: LIB_LOOK_GROUND_WATER_ARE_LK PASS - non-LK materials on ground/water meshes: []
+GATE: LIB_LOOK_UV_SANE PASS - 11 ground/water meshes: one UV layer, finite, max |uv| 35.9, UV*tile/world edge ratio on every top/flat face 0.53..1.47 (limits 0.45..2.2); TERRAIN wall faces (hidden by the skin; arc-of-the-top-loop u) max ratio 3.36 (<= 8: no se
+GATE: LIB_LOOK_SKIN_BELOW_PLAY PASS - 128 ROCK_SKIN pieces, 26644 tris, highest vertex 5.950 m (play 6.0 - 0.05)
+GATE: LIB_LOOK_WATER_STACK PASS - 1 WATER_* meshes inside z 0..0.2 (WATER_FALL sheets excluded: vertical by design)
+GATE: LIB_LOOK_LAVA_MESH PASS - WATER_LAVA 13185 tris (>= 3000), materials ['LK_LAVA'], 5 LAVA_LIGHT empties (3..5)
+GATE: LIB_SHELF_THIN PASS - no sea shelf on this hole (lava hole)
+GATE: LIB_NO_FOAM_STRIP PASS - 703 export meshes: foam objects/materials []; 0 WATER_SURF objects, 0 components; coverage 0.0% of 0 m shoreline (<= 25), 0 runs along the shore, longest 0.0 m (<= 10), shortest gap between runs 99.0 m (>= 8), strips (aspect >= 4
+GATE: LIB_PATH_UNDER_BALL PASS - no DRESS_PATH on this hole (nothing to measure)
+GATE: LIB_CRATER_WALL_COVERED PASS - 10488 rays (aerial/low/oblique) at wall points z 0.3 .. 5.88 m: smooth TERRAIN wall seen first 0 = 0.00% (<= 1), at z >= 5 m: 0 (must be 0), first hit on a vertical LK_ROUGH wall face 0 (0.00%, <= 1); by view {'aerial': '0/
+GATE: LIB_SKIN_NOT_OVER_WATER PASS - 1 water ellipses, 22199 grid cells (0.5 m) deeper than 0.15 m inside them: 0 are covered by an up-facing skin surface (0.0 m2, worst depth 0.00 m, top z 0.00); up-facing (nz > 0.3) skin faces deeper than 0.15 m: 0 by centre
+GATE: LIB_SKIN_FACES_OUTWARD PASS - 888 rays from 20 m out at z 1, 3, 5 toward the shore: first hit on a ROCK_SKIN face is FRONT-facing 888 times, back-facing 0 (100.0% front, need >= 99%; the materials are single-sided in Unity)
+GATE: H_NO_PLANT_ON_WATER PASS - 210 PLANT_ objects: on water (lie mirror) 0, nearest to a shore / lava edge 1.00 m (>= 1.0), base vs the ray-cast collider top max |dz| 0.040 m (<= 0.05), lowest base z 5.96 m (play 6.0)
+GATE: H_PLANTS_CLEAR_OF_PIN_AND_TEE PASS - nearest plant to the pin 17.8 m (>= 6; brief >= 1.5), nearest to any of 7 tee / pin / cup / ball markers 12.25 m (>= 1.5)
+GATE: H_SIGHTLINES_CLEAR PASS - legacy clear_sightlines gate re-expressed for the library stacks: 1149 sight lines (ball eye 1.8 m / camera 4.5 m on the tee, A, B, C and the tee camera to every later pad and the green) cut by 0; rounds used 6
+GATE: H_SHELF_PLANTS PASS - 210 plants on the grass shelf: 26 agave, 14 shrubs, 170 tufts (all land-masked PL.scatter, one shared LK_PLANTS material, instanced)
+GATE: H_NEAR_WALL PASS - 104 near-wall library segments (ROCK_WALL_BASALT_N*/F*), nearest vertex 40.2 yd from any play surface / shore (>= 14), 205..289 yd from the crater centre, tops 13.6..58.0 m above the lava (12..60)
+GATE: H_CRUST PASS - 42 crust chunks (ROCK_CRUST_nn, 1269 of 1369 planned hex plates 4.3 m, 11494 faces): nearest vertex 25.1 yd from any play surface (>= 24), 42.7 yd from the line of play (>= 38), 26.1 yd from the tee -> C chord (>= 25), 36.4 yd from the nea
+GATE: H_UV_WINDOWS PASS - 218 UV-window meshes (wall / stack variants, crust chunks, skin pieces): 27326 side faces, 8531 of them (31%) carry a Basalt_E glow line on their edge (target 15-45 %), 4247 top faces all take glow-free slices (4247); window constants
+GATE: H_GROUND_UV_SLIVERS PASS - 10 play-surface meshes: UV Jacobian ratio above 4:1 covers 0.00 m2 on the hole-authored ones (FAIRWAY_FIRSTCUT before the repair: 103 m2, worst 26:1 / collapsed; limit 0.5), TERRAIN wall UV (library) 5.2 m2 (verifier limit 15 /
+GATE: H_TEE_RIM PASS - 4 DRESS_PADEDGE piece(s) (LK_PLANTS, 678 faces, 53 slabs) hug the pad lip (plants mode): every top vertex inside the TEE_BOX outline by >= 0.030 m (it never climbs the 10 cm riser), >= 2.44 m from the tee markers / ball (limit 1.5), top 
+[hole10_build] near wall 104 segments, far ring 126 segments (tops 18.8..73.9 m above the lava), 42 crust chunks; 11 stacks (8.8, 6.5, 6.7, 7.4, 9.7, 12.0, 9.3, 10.6, 7.9, 6.7, 8.8 m measured, sightline rounds 6, lines still cut 0); foot rubble 30; plants 26 a
+[hole10_build] HASH 7120274dc3a44aadf6b182d658f96a1d6db81abc7a8d2d25882a5cd60d895980 objects 703 verts 155067 faces 113029
+[hole10_build] done: 23 build gates, 0 failed []
+== reproducibility build (second --out dir, no render)
+   exit 0
+== postcard_look_verify (blend + FBX re-import)
+   exit 0
+RESULT: ALL PASS
+== postcard_verify (blend + FBX)
+   exit 1
+RESULT: FAILURES ['MATERIALS@blend', 'MATERIALS@fbx', 'FBX_BUDGET@fbx']
+== postcard_check (design, pure python)
+   exit 0
+GATE: PADS_SEPARATED PASS - 2 separate dry pads (want 2), areas [8561, 2051] yd2 (min 500.0), tee->pin dry route exists: False
+GATE: NO_OUT_OF_BOUNDS_LAND PASS - 0.00% of the dry area is out-of-bounds grass (max 1.0%): the shore must sit inside fairway/2 + rough or RoughWidth is too small
+RESULT: ALL PASS
+== postcard_emit_cs --check
+   exit 0
+HOLE_CS_MATCHES_DESIGN PASS
+   design --verify exit 0
+hole10_design.py baked data matches the generator
+== stage gates (blend + FBX)
+   exit 0
+RESULT: ALL PASS (40 gates)
+== H_PLAY_UNCHANGED
+   exit 0
+GATE: H_PLAY_UNCHANGED PASS - 10 ground meshes ['BUNKER_01', 'BUNKER_01_LIP', 'BUNKER_02', 'BUNKER_02_LIP', 'FAIRWAY', 'FAIRWAY_FIRSTCUT', 'GREEN', 'GREEN_APRON', 'TEE_BOX', 'TERRAIN_CRATER']: 2956 ve
+== landmark rays
+   exit 0
+RESULT: ALL PASS (3 gates)
+== previews (Blender EEVEE with the Unity-like material / sky / fog / lava-light patch of tools/render_views.py, NOT Game view)
+== H_OPEN_LAVA (mask renders of the 4 aerial cameras, stage vs round 1)
+GATE: H_OPEN_LAVA PASS - aerial: lava 31.6% of non-sky (round 1 59.4%, round 2 42.7%, -11.1 pts vs round 2), rock 52.7%; aerial2: lava 28.3% of non-sky (round 1 69.2%, round 2 47.3%, -19.0 pts vs round 2), rock 68.2%; aerial3: lava 38.8% of non-sky (round 1 71.0%, round 2 44.7%, -6.0 pts vs round 2)
+== H_TEE_EDGE_VISIBLE (ray casts through the 900 x 1600 tee camera: the DRESS_PADEDGE dark border must be a band across the frame; controls = the stage before round 2 (no edge at all) and the round-2 build (tan DRESS_PATH kerb), both must FAIL)
+GATE: H_TEE_EDGE_VISIBLE PASS - tee camera 900 x 1600: pad edge ribbon pixels 0.8% of the frame (>= 0.5 %), rim in 100% of the 90 sampled columns (>= 95 %), thickness median 12 px (>= 10), thinnest 5 % of the columns 8 px (>= 4), max 16 px; rows (592, 607) (the old tan kerb was 44 rows of 100 % widt
+CONTROL H_TEE_EDGE_VISIBLE FAIL (detected, as it must for the build without a rim) - tee camera 900 x 1600: pad edge ribbon pixels 0.0% of the frame (>= 0.5 %), rim in 0% of the 90 sampled columns (>= 95 %), thickness median 0 px (>= 10), thinnest 5 % of the columns 0 px (>= 4), max 0 px; rows None 
+CONTROL H_TEE_EDGE_VISIBLE FAIL (detected, as it must for the build without a rim) - tee camera 900 x 1600: pad edge ribbon pixels 0.0% of the frame (>= 0.5 %), rim in 0% of the 90 sampled columns (>= 95 %), thickness median 0 px (>= 10), thinnest 5 % of the columns 0 px (>= 4), max 0 px; rows None 
+== H_TEE_EDGE_CONTRAST (the ribbon's luminance on the Blender tee preview against the grass beside it; Game-view number needs Unity)
+GATE: H_TEE_EDGE_CONTRAST PASS - hole10_tee.png (Blender preview, not the Game view): 90 columns, ribbon luminance 97 vs the grass beside it 177 (ratio median 0.58 <= 0.7, 90th percentile 0.69 <= 0.85, least-contrast column 0.72)
+== ground UV sliver control (the stage before the repair must FAIL the same measure; this stage must pass)
+UV FAIRWAY_FIRSTCUT: 3 triangles > 4:1 cover 103.1 m2 (largest 72.8 m2), worst 1000.0:1
+CONTROL stage_before_repair_r2: ground UV sliver gate FAIL (expected FAIL, detected)
+== H_TEE_SEAM_PREVIEW (row-step seam metric on the Blender tee preview, the deliberate rim band rows left out; the Game-view number needs Unity)
+GATE: H_TEE_SEAM_PREVIEW PASS - hole10_tee.png: worst ground row 309 steps 1.38 x the median of its +-40 rows (limit 1.6; the review's Game-view still hole10_1_tee.png measures 3.1 at row 590, the round-4 build's preview 1.9); the deliberate rim band rows 588..611 (DRESS_PADEDGE, H_TEE_EDGE_VISIBLE) are not searched, the 1076 other rows between 300 and 1400 
+   sheets exit 0
+== libs unchanged during the run: yes
+== guards after: 7 PASS of        7
+   total 18408
+   -rw-r--r--@ 1 adnanyonathan  staff  2137934 Oct  5 03:52 hole_10.blend
+   -rw-r--r--@ 1 adnanyonathan  staff  3840348 Oct  5 03:52 hole_10.fbx
+   -rw-r--r--@ 1 adnanyonathan  staff     2891 Oct  5 03:52 hole_10.fbx.meta
+   -rw-r--r--@ 1 adnanyonathan  staff  3436887 Oct  5 03:52 hole_10_overview.png
+232aa18a8865928ae09c02ea7a53ddb11ea1922ac794c17e9d4847bdaf82decf  /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v2/hole10/stage/hole_10.blend
+9efd3ad5df2ff8594af2ce9c2d6de7664bb8528d55d24b2ff07d3a652914802c  /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v2/hole10/stage/hole_10.fbx
+GATE: U_BASALT_AND_SMOKE FAIL - UNMEASURED - basalt dark with joints only on the real wall and crust (BASALT_RENDERS_DARK, BASALT_JOINT_ORANGE) and soft smoke (SMOKE_SOFT_GAMEVIEW): needs Unity; the weighted dark UV slices change the lit mean the calibration measured
+GATE: U_IMPORTCHECK_INSTALLED FAIL - UNMEASURED - PostcardImportCheck on the installed hole 10 (LAVA_LIGHTS_PLACED, ROCK_NEAR_LAVA_CHUNKED, LK_ materials, DRESS_CONE carrying LK_LAVA faces): needs the install + a Unity run
+FAILED: ['PROTECTED_FILES', 'U_GAMEVIEW_PROOF_SHOTS', 'U_ALBEDO_AND_NORMAL_IN_GAMEVIEW', 'U_GRASS_HUE_64_73', 'U_LAVA_ORANGE_NO_BLOOM', 'U_BASALT_AND_SMOKE', 'U_IMPORTCHECK_INSTALLED']
+bash work/postcard-look/v2/hole10/run_all.sh  40.34s user 5.18s system 55% cpu 1:22.28 total

@@ -1,0 +1,182 @@
+{
+  "camera": "actual16_reference_a",
+  "surfaceY": -3.95,
+  "phaseTime": 0,
+  "note": "Static source/camera geometry, not evaluated render. Footprint reflects the full bent procedural phase.",
+  "samples": [
+    {
+      "pixel": [
+        90,
+        300
+      ],
+      "worldMetres": [
+        -317.9113,
+        -3.95,
+        403.8705
+      ],
+      "waves": [
+        {
+          "phaseFootprintRadiansPerPixel": 2.6124,
+          "resolvedAmplitude": 0.182138
+        },
+        {
+          "phaseFootprintRadiansPerPixel": 13.0094,
+          "resolvedAmplitude": 0.0
+        },
+        {
+          "phaseFootprintRadiansPerPixel": 22.9881,
+          "resolvedAmplitude": 0.0
+        },
+        {
+          "phaseFootprintRadiansPerPixel": 17.0585,
+          "resolvedAmplitude": 0.0
+        }
+      ]
+    },
+    {
+      "pixel": [
+        1000,
+        307
+      ],
+      "worldMetres": [
+        -32.4418,
+        -3.95,
+        330.6337
+      ],
+      "waves": [
+        {
+          "phaseFootprintRadiansPerPixel": 0.0897,
+          "resolvedAmplitude": 0.997996
+        },
+        {
+          "phaseFootprintRadiansPerPixel": 5.7659,
+          "resolvedAmplitude": 0.00025
+        },
+        {
+          "phaseFootprintRadiansPerPixel": 10.3763,
+          "resolvedAmplitude": 0.0
+        },
+        {
+          "phaseFootprintRadiansPerPixel": 2.6192,
+          "resolvedAmplitude": 0.180533
+        }
+      ]
+    },
+    {
+      "pixel": [
+        1100,
+        317
+      ],
+      "worldMetres": [
+        -6.4382,
+        -3.95,
+        244.7547
+      ],
+      "waves": [
+        {
+          "phaseFootprintRadiansPerPixel": 0.8115,
+          "resolvedAmplitude": 0.848461
+        },
+        {
+          "phaseFootprintRadiansPerPixel": 3.7902,
+          "resolvedAmplitude": 0.027746
+        },
+        {
+          "phaseFootprintRadiansPerPixel": 4.9824,
+          "resolvedAmplitude": 0.002041
+        },
+        {
+          "phaseFootprintRadiansPerPixel": 1.5938,
+          "resolvedAmplitude": 0.530524
+        }
+      ]
+    },
+    {
+      "pixel": [
+        1200,
+        330
+      ],
+      "worldMetres": [
+        8.6816,
+        -3.95,
+        181.5014
+      ],
+      "waves": [
+        {
+          "phaseFootprintRadiansPerPixel": 0.3302,
+          "resolvedAmplitude": 0.973153
+        },
+        {
+          "phaseFootprintRadiansPerPixel": 1.9038,
+          "resolvedAmplitude": 0.404768
+        },
+        {
+          "phaseFootprintRadiansPerPixel": 2.9174,
+          "resolvedAmplitude": 0.119572
+        },
+        {
+          "phaseFootprintRadiansPerPixel": 1.5431,
+          "resolvedAmplitude": 0.552026
+        }
+      ]
+    },
+    {
+      "pixel": [
+        800,
+        350
+      ],
+      "worldMetres": [
+        -30.565,
+        -3.95,
+        121.8622
+      ],
+      "waves": [
+        {
+          "phaseFootprintRadiansPerPixel": 0.1785,
+          "resolvedAmplitude": 0.992082
+        },
+        {
+          "phaseFootprintRadiansPerPixel": 1.2687,
+          "resolvedAmplitude": 0.669206
+        },
+        {
+          "phaseFootprintRadiansPerPixel": 1.6466,
+          "resolvedAmplitude": 0.508362
+        },
+        {
+          "phaseFootprintRadiansPerPixel": 0.2513,
+          "resolvedAmplitude": 0.984366
+        }
+      ]
+    },
+    {
+      "pixel": [
+        1400,
+        390
+      ],
+      "worldMetres": [
+        17.3911,
+        -3.95,
+        76.9406
+      ],
+      "waves": [
+        {
+          "phaseFootprintRadiansPerPixel": 0.0753,
+          "resolvedAmplitude": 0.998585
+        },
+        {
+          "phaseFootprintRadiansPerPixel": 0.3673,
+          "resolvedAmplitude": 0.966899
+        },
+        {
+          "phaseFootprintRadiansPerPixel": 0.6159,
+          "resolvedAmplitude": 0.909676
+        },
+        {
+          "phaseFootprintRadiansPerPixel": 0.5583,
+          "resolvedAmplitude": 0.925159
+        }
+      ]
+    }
+  ]
+}

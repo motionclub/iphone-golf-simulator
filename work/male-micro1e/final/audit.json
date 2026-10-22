@@ -1,0 +1,58 @@
+{
+  "final_blend_sha256": "35766aea1c493bab0ce1bddd6bc7639c4b304630c500c1d654b4336c2e113d90",
+  "verts": 24652,
+  "polys": 24670,
+  "tris": 49304,
+  "quads": 24634,
+  "trianglesFaces": 36,
+  "changed_vertices_of_original_indices": 2393,
+  "changed_in_head_zone": 721,
+  "changed_in_hand_zone": 1672,
+  "changed_elsewhere": 0,
+  "head_zone_max_disp_mm": 18.194730758666992,
+  "head_changed_below_z_1_35": 0,
+  "regression_regions": {
+    "SHOULDERS": {
+      "verts": 4806,
+      "changed": 0,
+      "max_disp_mm": 0.0
+    },
+    "WAIST": {
+      "verts": 1832,
+      "changed": 0,
+      "max_disp_mm": 0.0
+    },
+    "ARMS_SIDE(upper+fore, above wrist)": {
+      "verts": 3366,
+      "changed": 0,
+      "max_disp_mm": 0.0
+    },
+    "FEET_SIDE": {
+      "verts": 3482,
+      "changed": 0,
+      "max_disp_mm": 0.0
+    }
+  },
+  "height_m": 1.702187418937683,
+  "bounds_min": [
+    -0.6769872903823853,
+    -0.20880822837352753,
+    0.0024724886752665043
+  ],
+  "bounds_max": [
+    0.6769872903823853,
+    0.09912016987800598,
+    1.7046599388122559
+  ],
+  "feet_verts_below_4mm": 318,
+  "lowest_z_m": 0.0024724886752665043,
+  "boundary_edges": 0,
+  "nonmanifold_edges": 2,
+  "signed_volume_m3": 0.09144048653719383,
+  "nan_or_inf": false,
+  "zero_area_faces": 0,
+  "loose_vertices": 0,
+  "materials": [
+    "Blockout_Grey"
+  ]
+}

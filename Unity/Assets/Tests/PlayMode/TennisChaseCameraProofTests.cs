@@ -79,7 +79,7 @@ namespace GolfArcade.PlayTests
                 foreach (TennisGame.Phase phase in System.Enum.GetValues(typeof(TennisGame.Phase))) {
                     flow.SetValue(game, phase);
                     typeof(TennisGame).GetMethod("UpdateCamera", Flags).Invoke(game, new object[]{true});
-                    Assert.AreEqual(46, game.GameplayCamera.fieldOfView, phase.ToString());
+                    Assert.AreEqual(48, game.GameplayCamera.fieldOfView, phase.ToString());
                     Assert.Less(game.GameplayCamera.transform.position.z, game.Player.transform.position.z-3.4f);
                 }
                 // Settings fallback restores the former court height and distance in the actual game.
@@ -102,15 +102,15 @@ namespace GolfArcade.PlayTests
             game.InjectBall(new Vector3(1,1.3f,0), new Vector3(0,0,-10));
             typeof(TennisGame).GetMethod("BuildSplit", Flags).Invoke(game,new object[]{"A","B"});
             typeof(TennisGame).GetMethod("UpdateSplit", Flags).Invoke(game,null);
-            Assert.AreEqual(46,game.SplitCamera.fieldOfView);
-            Assert.Greater(game.SplitCamera.transform.position.z,game.Opponent.transform.position.z+3.4f);
-            Assert.Less(game.SplitCamera.transform.position.y,3f);
+            Assert.AreEqual(48,game.SplitCamera.fieldOfView);
+            Assert.Greater(game.SplitCamera.transform.position.z,game.Opponent.transform.position.z+5.5f);
+            Assert.Less(game.SplitCamera.transform.position.y,4f);
             game.SplitCamera.enabled=false;
             typeof(TennisGame).GetMethod("BuildVersusSplit", Flags).Invoke(game,new object[]{"B"});
             game.RightCamera.enabled=true;
             typeof(TennisGame).GetMethod("UpdateVersusSplit", Flags).Invoke(game,null);
-            Assert.AreEqual(46,game.RightCamera.fieldOfView);
-            Assert.Greater(game.RightCamera.transform.position.z,game.Opponent.transform.position.z+3.4f);
+            Assert.AreEqual(48,game.RightCamera.fieldOfView);
+            Assert.Greater(game.RightCamera.transform.position.z,game.Opponent.transform.position.z+5.5f);
             game.ElevatedCamera=true;
             // Snap the other player's selectable elevated view for the assertion.
             typeof(TennisGame).GetField("rightFramed",Flags).SetValue(game,false);

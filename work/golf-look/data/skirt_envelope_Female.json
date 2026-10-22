@@ -1,0 +1,75 @@
+{
+  "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/golf-look/export/Golf_Female_SwingProof.blend",
+  "source_sha256": "c7730e167fb86c522cc2d8f305066cb32991cbccbee4ac57aa66195573efa5ea",
+  "poses": [
+    "ReadyIdle",
+    "GolfProof_RH_Top",
+    "GolfProof_RH_Impact",
+    "GolfProof_RH_Finish",
+    "GolfProof_LH_Top",
+    "GolfProof_LH_ReadyIdle",
+    "GolfProof_LH_Impact",
+    "GolfProof_LH_Finish"
+  ],
+  "body_vertices_per_pose": 3225,
+  "space": "body pose points recovered through inverse skirt skinning",
+  "weights": "smooth existing Hips/UpperLeg blend",
+  "envelope_displacement_max_mm": 279.9629600698797,
+  "rings": [
+    {
+      "z": 0.995,
+      "width": 0.3196825225990605,
+      "depth": 0.24173043815263962,
+      "samples": 3934
+    },
+    {
+      "z": 0.97,
+      "width": 0.3989168358693447,
+      "depth": 0.25905139496897645,
+      "samples": 5369
+    },
+    {
+      "z": 0.945,
+      "width": 0.43331462465695103,
+      "depth": 0.26966358841922566,
+      "samples": 6137
+    },
+    {
+      "z": 0.92,
+      "width": 0.46148174424416855,
+      "depth": 0.27014492546027064,
+      "samples": 6505
+    },
+    {
+      "z": 0.895,
+      "width": 0.4934198419245297,
+      "depth": 0.3022150840167327,
+      "samples": 6880
+    },
+    {
+      "z": 0.87,
+      "width": 0.5258385099918093,
+      "depth": 0.3302984158055317,
+      "samples": 7354
+    },
+    {
+      "z": 0.845,
+      "width": 0.5588870963094514,
+      "depth": 0.35565027946445904,
+      "samples": 7851
+    },
+    {
+      "z": 0.82,
+      "width": 0.590285215085727,
+      "depth": 0.39098087874036724,
+      "samples": 8329
+    },
+    {
+      "z": 0.795,
+      "width": 0.6195503804851739,
+      "depth": 0.42606648348179915,
+      "samples": 8598
+    }
+  ],
+  "status": "candidate short Hips shell; eight-pose collision and eye checks required"
+}

@@ -1,0 +1,84 @@
+--- GolfArcade.xcodeproj/project.pbxproj
++++ GolfArcade.xcodeproj/project.pbxproj
+@@ -481,6 +481,9 @@
+ 		FEBF73FE69A582542721C4F1 /* CourseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4147C03A0122123852F5094 /* CourseTests.swift */; };
+ 		FF610AAED2BC5C17F3280CAE /* GolfHero_Female_Swing_01.lzfse in Resources */ = {isa = PBXBuildFile; fileRef = 194946D0661AAF717760F9F5 /* GolfHero_Female_Swing_01.lzfse */; };
+ 		FFFAC7B0993BE08E6207445B /* MatchHero_Golf_Male_GloveR_N.ktx in Resources */ = {isa = PBXBuildFile; fileRef = 573A326081430ADDD7795D1F /* MatchHero_Golf_Male_GloveR_N.ktx */; };
++		375EE7915492D49496DB9DD7 /* MatchHero_OriginalEye_RelativeIris.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EC910AABECA65F8F9BBD7B2 /* MatchHero_OriginalEye_RelativeIris.png */; };
++		D51F407905E0D8A52B3407AF /* MatchHero_OriginalEye_RelativeSclera.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E6265639235D1D1440C4FEC /* MatchHero_OriginalEye_RelativeSclera.png */; };
++		7C3F84D6F876A7BEFF9B97E0 /* MatchHero_OriginalSeam_RelativeSkinPigment.png in Resources */ = {isa = PBXBuildFile; fileRef = 77A5464FE9A06F764641042E /* MatchHero_OriginalSeam_RelativeSkinPigment.png */; };
+ /* End PBXBuildFile section */
+ 
+ /* Begin PBXContainerItemProxy section */
+@@ -981,6 +984,9 @@
+ 		FEA9F688563659DA5A118301 /* MatchHero_GolfKit_Female_ShoeL_N.ktx */ = {isa = PBXFileReference; path = MatchHero_GolfKit_Female_ShoeL_N.ktx; sourceTree = "<group>"; };
+ 		FEBD4CB653AB5A4CBF9C24E4 /* MatchHero_Kit_Male_ShoeL.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MatchHero_Kit_Male_ShoeL.png; sourceTree = "<group>"; };
+ 		FFF9B83611636F6BE5E18334 /* MatchHero_GolfKit_Male_Bottom_M.ktx */ = {isa = PBXFileReference; path = MatchHero_GolfKit_Male_Bottom_M.ktx; sourceTree = "<group>"; };
++		7EC910AABECA65F8F9BBD7B2 /* MatchHero_OriginalEye_RelativeIris.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MatchHero_OriginalEye_RelativeIris.png; sourceTree = "<group>"; };
++		3E6265639235D1D1440C4FEC /* MatchHero_OriginalEye_RelativeSclera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MatchHero_OriginalEye_RelativeSclera.png; sourceTree = "<group>"; };
++		77A5464FE9A06F764641042E /* MatchHero_OriginalSeam_RelativeSkinPigment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MatchHero_OriginalSeam_RelativeSkinPigment.png; sourceTree = "<group>"; };
+ /* End PBXFileReference section */
+ 
+ /* Begin PBXGroup section */
+@@ -1274,6 +1280,9 @@
+ 		CFBEB2E659D13EC358060998 /* CharacterAssets */ = {
+ 			isa = PBXGroup;
+ 			children = (
++				7EC910AABECA65F8F9BBD7B2 /* MatchHero_OriginalEye_RelativeIris.png */,
++				3E6265639235D1D1440C4FEC /* MatchHero_OriginalEye_RelativeSclera.png */,
++				77A5464FE9A06F764641042E /* MatchHero_OriginalSeam_RelativeSkinPigment.png */,
+ 				E3548CB81DF380F39CEB4E16 /* GolfHero_Female_Rig.lzfse */,
+ 				462167F41A40E542EEA6FC56 /* GolfHero_Female_Swing_00.lzfse */,
+ 				194946D0661AAF717760F9F5 /* GolfHero_Female_Swing_01.lzfse */,
+@@ -1815,6 +1824,9 @@
+ 			isa = PBXResourcesBuildPhase;
+ 			buildActionMask = 2147483647;
+ 			files = (
++				375EE7915492D49496DB9DD7 /* MatchHero_OriginalEye_RelativeIris.png in Resources */,
++				D51F407905E0D8A52B3407AF /* MatchHero_OriginalEye_RelativeSclera.png in Resources */,
++				7C3F84D6F876A7BEFF9B97E0 /* MatchHero_OriginalSeam_RelativeSkinPigment.png in Resources */,
+ 				4EFC83E07C20AC47F8CDF327 /* Bricolage.ttf in Resources */,
+ 				002355AF78BD12E375FEF626 /* Club_entrance.json in Resources */,
+ 				BE37CC88D9AAB365DC18E289 /* Club_entrance_Albedo.png in Resources */,
+--- GolfArcadeUnity.xcodeproj/project.pbxproj
++++ GolfArcadeUnity.xcodeproj/project.pbxproj
+@@ -484,6 +484,9 @@
+ 		FC941C69594F22699BBE9F9B /* MatchHero_Kit_Male_SockL_M.ktx in Resources */ = {isa = PBXBuildFile; fileRef = 3E95E05448ECCAB59F098105 /* MatchHero_Kit_Male_SockL_M.ktx */; };
+ 		FDDF645BDBE8177B1857D4B1 /* DisplayLatencyMeasurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92067E75656ECEDCE9CF56D7 /* DisplayLatencyMeasurement.swift */; };
+ 		FE924C42EB574F1E91810076 /* MatchHero_GolfKit_Female_ShoeR_N.ktx in Resources */ = {isa = PBXBuildFile; fileRef = 37D1A6783711E60B7CB9BEF6 /* MatchHero_GolfKit_Female_ShoeR_N.ktx */; };
++		8ACA1E71206C1FE57601E9FE /* MatchHero_OriginalEye_RelativeIris.png in Resources */ = {isa = PBXBuildFile; fileRef = 3041F7F15AE2E863CCA6806E /* MatchHero_OriginalEye_RelativeIris.png */; };
++		B068DC0F432E3E5F93363352 /* MatchHero_OriginalEye_RelativeSclera.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E23061228B2FC7B814B0CC1 /* MatchHero_OriginalEye_RelativeSclera.png */; };
++		628BA26D271AAB635A6F004B /* MatchHero_OriginalSeam_RelativeSkinPigment.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ACEEFCD7861ED5492BA7863 /* MatchHero_OriginalSeam_RelativeSkinPigment.png */; };
+ /* End PBXBuildFile section */
+ 
+ /* Begin PBXContainerItemProxy section */
+@@ -1014,6 +1017,9 @@
+ 		FFBD23805DB5A26DE2D20DEA /* CameraPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreview.swift; sourceTree = "<group>"; };
+ 		FFD0F1482F0E8423BA602B19 /* TennisCampaign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TennisCampaign.swift; sourceTree = "<group>"; };
+ 		FFE1317191CBE7FE7F1B58D9 /* MatchHero_Golf_Male_Head_N.ktx */ = {isa = PBXFileReference; path = MatchHero_Golf_Male_Head_N.ktx; sourceTree = "<group>"; };
++		3041F7F15AE2E863CCA6806E /* MatchHero_OriginalEye_RelativeIris.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MatchHero_OriginalEye_RelativeIris.png; sourceTree = "<group>"; };
++		6E23061228B2FC7B814B0CC1 /* MatchHero_OriginalEye_RelativeSclera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MatchHero_OriginalEye_RelativeSclera.png; sourceTree = "<group>"; };
++		3ACEEFCD7861ED5492BA7863 /* MatchHero_OriginalSeam_RelativeSkinPigment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MatchHero_OriginalSeam_RelativeSkinPigment.png; sourceTree = "<group>"; };
+ /* End PBXFileReference section */
+ 
+ /* Begin PBXFrameworksBuildPhase section */
+@@ -1170,6 +1176,9 @@
+ 		2DBB18801A908AA443B24482 /* CharacterAssets */ = {
+ 			isa = PBXGroup;
+ 			children = (
++				3041F7F15AE2E863CCA6806E /* MatchHero_OriginalEye_RelativeIris.png */,
++				6E23061228B2FC7B814B0CC1 /* MatchHero_OriginalEye_RelativeSclera.png */,
++				3ACEEFCD7861ED5492BA7863 /* MatchHero_OriginalSeam_RelativeSkinPigment.png */,
+ 				DA35E4668C2ABAFF93FA38F8 /* GolfHero_Female_Rig.lzfse */,
+ 				553524098A4E9332C225D3AA /* GolfHero_Female_Swing_00.lzfse */,
+ 				60AF01513169E6C9A84D70A2 /* GolfHero_Female_Swing_01.lzfse */,
+@@ -1910,6 +1919,9 @@
+ 			isa = PBXResourcesBuildPhase;
+ 			buildActionMask = 2147483647;
+ 			files = (
++				8ACA1E71206C1FE57601E9FE /* MatchHero_OriginalEye_RelativeIris.png in Resources */,
++				B068DC0F432E3E5F93363352 /* MatchHero_OriginalEye_RelativeSclera.png in Resources */,
++				628BA26D271AAB635A6F004B /* MatchHero_OriginalSeam_RelativeSkinPigment.png in Resources */,
+ 				DC9F0D606E4A7FBA24B8DDDC /* Bricolage.ttf in Resources */,
+ 				F59544F8B08C54978C4F8DB0 /* Club_entrance.json in Resources */,
+ 				5A033530EEE94255E08FB13E /* Club_entrance_Albedo.png in Resources */,

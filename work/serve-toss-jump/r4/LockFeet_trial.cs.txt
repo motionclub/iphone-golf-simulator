@@ -1,0 +1,135 @@
+        void LockFeet(float dt)
+        {
+            var a = Anim;
+            bool authoredServe = Match && actionActive && action == Clip.Serve;
+            // A platform serve has a front left foot and a rear right foot.
+            // Keep the pelvis side-on through the ritual, then release the turn
+            // into the authored drive. Each leg has its own plant and knee plane.
+            float stanceAlign = authoredServe ? 1 - Mathf.SmoothStep(0, 1, Mathf.InverseLerp(ServeTrophyT, 1.57f, (float)actionTime)) : 0;
+            if (stanceAlign > 0)
+            {
+                var right = Vector3.ProjectOnPlane(Bone(HumanBodyBones.RightUpperLeg).position - Bone(HumanBodyBones.LeftUpperLeg).position, actor.transform.up);
+                float turn = Vector3.SignedAngle(right, -actor.transform.forward, actor.transform.up);
+                hips.rotation = Quaternion.AngleAxis(turn * stanceAlign, actor.transform.up) * hips.rotation;
+            }
+            void SolvePlant(Transform up, Transform lo, Transform end, Vector3 target, Vector3 forward)
+            {
+                float l1 = Vector3.Distance(up.position, lo.position), l2 = Vector3.Distance(lo.position, end.position);
+                Vector3 dir = (target - up.position).normalized;
+                float d = Mathf.Clamp(Vector3.Distance(target, up.position), Mathf.Abs(l1 - l2) + .001f, l1 + l2 - .001f);
+                var pole = Vector3.ProjectOnPlane(forward, dir).normalized;
+                if (pole.sqrMagnitude < .0001f) return;
+                float along = (l1*l1 - l2*l2 + d*d)/(2*d), height = Mathf.Sqrt(Mathf.Max(0, l1*l1 - along*along));
+                Vector3 knee = up.position + dir*along + pole*height;
+                up.rotation = Quaternion.FromToRotation(lo.position-up.position, knee-up.position)*up.rotation;
+                lo.rotation = Quaternion.FromToRotation(end.position-lo.position, up.position+dir*d-lo.position)*lo.rotation;
+            }
+            // The authored Serve owns the body's jump and landing; the plant
+            // cancels the procedural reach translation instead of carrying it
+            // through the ankles. Arm contact assistance remains as evaluated.
+            if (authoredServe)
+            {
+                // Release the shared plant correction at the hit, then reacquire
+                // it smoothly; the evaluated strings retain the contact reach.
+                float plantReach = actor.Swinging ? Mathf.SmoothStep(0, 1, Mathf.InverseLerp(.005f, .05f, Mathf.Abs(actor.SignedTimeToContact))) : 1;
+                hips.position -= actor.transform.TransformVector(lungeOffset) * plantReach;
+            }
+            if (authoredServe)
+                for (int f = 0; f < 2; f++)
+                    if (stepT[f] >= 0)
+                    {
+                        // Rebase the walk-in plant to the authored stance once;
+                        // a gait anchor can put the two Serve legs out of reach.
+                        var foot = feet[f * 2]; var toe = feet[f * 2 + 1];
+                        float h = Mathf.Min(transform.InverseTransformPoint(foot.position).y - heelRest, transform.InverseTransformPoint(toe.position).y - toeRest);
+                        stepping[f] = false;
+                        locked[f] = h <= .01f; lockW[f] = locked[f] ? 1 : 0;
+                        var anchor = actor.transform.TransformPoint(new Vector3(f == 0 ? .14f : -.14f, 0, f == 0 ? .25f : -.25f));
+                        lockPos[f] = new Vector3(anchor.x, foot.position.y, anchor.z);
+                        float toeYaw = (f == 0 ? 45 : 80) * Mathf.Deg2Rad;
+                        var toeForward = actor.transform.TransformDirection(new Vector3(Mathf.Sin(toeYaw), 0, Mathf.Cos(toeYaw)));
+                        stepFrom[f] = lockPos[f] + toeForward * Vector3.Distance(foot.position, toe.position);
+                        stepT[f] = locked[f] ? -1 : -2;
+                    }
+            // Keep the shared hips inside both planted legs' reach. The walk-in
+            // can rotate the torso over fixed feet; a horizontal-only correction
+            // cannot satisfy both legs during that turn.
+            if (authoredServe)
+                for (int pass = 0; pass < 8; pass++)
+                    for (int f = 0; f < 2; f++)
+                    {
+                        var up = Bone(f == 0 ? HumanBodyBones.LeftUpperLeg : HumanBodyBones.RightUpperLeg);
+                        var lo = Bone(f == 0 ? HumanBodyBones.LeftLowerLeg : HumanBodyBones.RightLowerLeg);
+                        var foot = feet[f * 2]; var toe = feet[f * 2 + 1];
+                        float h = Mathf.Min(transform.InverseTransformPoint(foot.position).y - heelRest, transform.InverseTransformPoint(toe.position).y - toeRest);
+                        if (!locked[f] || h > .01f) continue;
+                        float len = (Vector3.Distance(up.position, lo.position) + Vector3.Distance(lo.position, foot.position)) * .98f;
+                        var target = new Vector3(lockPos[f].x, foot.position.y - h, lockPos[f].z);
+                        var offset = up.position - target;
+                        if (offset.magnitude > len)
+                            hips.position += Vector3.ClampMagnitude(offset, len) - offset;
+                    }
+            for (int f = 0; f < 2; f++)
+            {
+                var upper = Bone(f == 0 ? HumanBodyBones.LeftUpperLeg : HumanBodyBones.RightUpperLeg);
+                var lower = Bone(f == 0 ? HumanBodyBones.LeftLowerLeg : HumanBodyBones.RightLowerLeg);
+                var foot = feet[f * 2]; var toe = feet[f * 2 + 1]; if (!upper || !lower || !foot || !toe) continue;
+                float h = Mathf.Min(transform.InverseTransformPoint(foot.position).y - heelRest, transform.InverseTransformPoint(toe.position).y - toeRest);
+                float legLen = Vector3.Distance(upper.position, lower.position) + Vector3.Distance(lower.position, foot.position);
+                // Score80 A: the serve's grounded frames plant too (the stance unwinds on the feet instead of sliding
+                // them round the root); the jump itself still lifts them off (h > 4.5 cm releases).
+                bool plantedNow = h < (authoredServe ? .01f : .02f) && (!FluidOff || !(actor.Swinging && actor.Kind == TennisActor.Stroke.Serve));
+                // Score80 A: a planted foot the body has moved away from is picked up and re-planted (a quick
+                // arced step), never dragged back along the court -- run -> plant -> pivot instead of skate.
+                if (authoredServe)
+                {
+                    stepping[f] = false;
+                    // The replant arrays are unused during Serve. Keep the grounded
+                    // toe anchor here without adding shared driver state.
+                    if (stepT[f] >= 0 || (stepT[f] == -2 && h <= .01f))
+                    {
+                        stepFrom[f] = locked[f] ? lastToe[f] : toe.position;
+                        stepT[f] = -1;
+                    }
+                    if (h > .01f) stepT[f] = -2;
+                }
+                else if (stepT[f] < 0) stepT[f] = 0;
+                if (stepping[f] && !FluidOff)
+                {
+                    stepT[f] += dt / StepTime;
+                    float u = Mathf.SmoothStep(0, 1, Mathf.Clamp01(stepT[f]));
+                    var goal = Vector3.Lerp(stepFrom[f], new Vector3(foot.position.x, stepFrom[f].y, foot.position.z), u);
+                    goal.y = foot.position.y + Mathf.Sin(Mathf.PI * Mathf.Clamp01(stepT[f])) * .065f;
+                    var fr = foot.rotation; TwoBone(upper, lower, foot, goal); foot.rotation = fr;
+                    if (stepT[f] >= 1) { stepping[f] = false; locked[f] = plantedNow; lockPos[f] = foot.position; lockW[f] = plantedNow ? 1 : 0; StepsTaken++; }
+                    continue;
+                }
+                if (!locked[f] && plantedNow) { locked[f] = true; lockPos[f] = foot.position; if (authoredServe) { lockW[f] = 1; stepFrom[f] = toe.position; } }
+                float slip = !FluidOff && actionActive && IsStroke(action) ? .6f : .35f;   // Plan 3A: plant through the stroke (stop-into-swing)
+                float drift = Vector3.Distance(Flat(foot.position), Flat(lockPos[f]));
+                if (!authoredServe && !FluidOff && locked[f] && plantedNow && lockW[f] > .9f && drift > StepDrift && !stepping[1 - f] && dt > 0
+                    && Vector3.Distance(upper.position, foot.position) < legLen * .985f)
+                {
+                    stepping[f] = true; stepT[f] = 0; stepFrom[f] = lockPos[f]; locked[f] = false; lockW[f] = 0;
+                    var fr = foot.rotation; TwoBone(upper, lower, foot, lockPos[f]); foot.rotation = fr;   // this frame still on the old spot
+                    continue;
+                }
+                if (locked[f] && (authoredServe ? h > .01f : (h > .045f || Vector3.Distance(upper.position, lockPos[f]) > legLen * .985f || drift > slip))) locked[f] = false;
+                if (authoredServe && !locked[f]) lockW[f] = 0;
+                lockW[f] = Mathf.MoveTowards(lockW[f], locked[f] ? 1 : 0, dt / (locked[f] ? .05f : .1f));
+                if (lockW[f] <= 0) continue;
+                var target = Vector3.Lerp(foot.position, new Vector3(lockPos[f].x, foot.position.y, lockPos[f].z), lockW[f]);
+                if (authoredServe && locked[f]) target.y = foot.position.y - h;
+                var footRot = foot.rotation;
+                if (authoredServe && locked[f]) SolvePlant(upper, lower, foot, target, Flat(stepFrom[f] - lockPos[f]));
+                else TwoBone(upper, lower, foot, target);
+                foot.rotation = footRot;
+                if (authoredServe && locked[f])
+                {
+                    var from = Flat(toe.position - foot.position);
+                    var to = Flat(stepFrom[f] - lockPos[f]);
+                    if (from.sqrMagnitude > 1e-8f && to.sqrMagnitude > 1e-8f)
+                        foot.rotation = Quaternion.FromToRotation(from, to) * foot.rotation;
+                }
+            }
+        }

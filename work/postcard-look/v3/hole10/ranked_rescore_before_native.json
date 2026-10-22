@@ -1,0 +1,82 @@
+[
+  {
+    "rank": 1,
+    "difference": "Wall columns read as black full-height fence planks.",
+    "phase": "P1/P4",
+    "result": "FAIL",
+    "reason": "Replaced scaled giant wall segments with403 complete compact5/6-sided tiles, actual widths<=1.779925m and every shape/PCA passes. Fresh native no-plank/reference judgement remains unmeasured.",
+    "basis": "Initial frozen-source geometry plus original gates; required fresh native re-score pending"
+  },
+  {
+    "rank": 2,
+    "difference": "Orange joints are mainly thin isolated vertical streaks.",
+    "phase": "P1/P4",
+    "result": "FAIL",
+    "reason": "Current Basalt_E malformed component area46.670589%>10%; H_GLOW_JOINTS cap2.70%>.5%,side3.94%>2.94%,lit-side93%>50%. Shared topology repair waitsPhase7.",
+    "basis": "Initial frozen-source geometry plus original gates; required fresh native re-score pending"
+  },
+  {
+    "rank": 3,
+    "difference": "Grass is strongly striped rather than a clean pale centre band.",
+    "phase": "P1/P4",
+    "result": "FAIL",
+    "reason": "P1library mowing fixture passed but does not certify fullCrater. FIRSTCUT darkerLK_ROUGH; actualCrater frame bands unmeasured.",
+    "basis": "Initial frozen-source geometry plus original gates; required fresh native re-score pending"
+  },
+  {
+    "rank": 4,
+    "difference": "Green bulb reads as a low grass slab rather than a deep column pillar.",
+    "phase": "P4; top height frozen",
+    "result": "FAIL",
+    "reason": "Original pillar top staysfrozen; new narrow open column cladding preserves realbottom/support. CRATER_PILLAR PASS; apparentdepth at frozenframe unmeasured.",
+    "basis": "Initial frozen-source geometry plus original gates; required fresh native re-score pending"
+  },
+  {
+    "rank": 5,
+    "difference": "Rim is a repetitive horizontal tessellation rather than broken stacked columns.",
+    "phase": "P1/P4",
+    "result": "FAIL",
+    "reason": "Near/far real height/ridge/shaft width architecture passes all oldgates; cutcorner silhouette+naturalbroken-rim recognition await native.",
+    "basis": "Initial frozen-source geometry plus original gates; required fresh native re-score pending"
+  },
+  {
+    "rank": 6,
+    "difference": "Volcano is a huge clipped textured flank, not a readable peak in this aerial.",
+    "phase": "P4/P5",
+    "result": "FAIL",
+    "reason": "Kept real135mvolcano/5flows and genuine lowproofwindow; no cameraedit. Peakframing/referenceaerial unmeasured.",
+    "basis": "Initial frozen-source geometry plus original gates; required fresh native re-score pending"
+  },
+  {
+    "rank": 7,
+    "difference": "Tee square and dark stone platform do not read independently of the fairway.",
+    "phase": "P4",
+    "result": "FAIL",
+    "reason": "Real46columnstonebody geometry passes; capglowFAIL and bodymostlyburiedbyfrozengrass/terrain. Raisedstonevisibility unmeasured, no visualPASS inferred.",
+    "basis": "Initial frozen-source geometry plus original gates; required fresh native re-score pending"
+  },
+  {
+    "rank": 8,
+    "difference": "Lava swirl texture has dense repeated wormlike patterns at this angle.",
+    "phase": "P1/P4; preserve orange gate",
+    "result": "FAIL",
+    "reason": "Staticlava/5lights/sourcecolor unchanged; texture patterns/nativeLAVA_ORANGE mustbe measured.",
+    "basis": "Initial frozen-source geometry plus original gates; required fresh native re-score pending"
+  },
+  {
+    "rank": 9,
+    "difference": "Smoke plumes have separate star-shaped card silhouettes from above.",
+    "phase": "P4; preserve soft-edge gate",
+    "result": "FAIL",
+    "reason": "Three groups/9softcards; decodedSMOKE_SOFT PASS but geometrictee .82%<1.5%. Actualaerialsilhouettes/readability unmeasured.",
+    "basis": "Initial frozen-source geometry plus original gates; required fresh native re-score pending"
+  },
+  {
+    "rank": 10,
+    "difference": "Bunkers are simple flat ellipses without the reference soft rocky margins.",
+    "phase": "P4; scoring ellipses frozen",
+    "result": "FAIL",
+    "reason": "Frozen scoringbunkerellipse unchanged. Existingsoft lips retained; new marginstyle/referencefit unmeasured, no falsehazard patches.",
+    "basis": "Initial frozen-source geometry plus original gates; required fresh native re-score pending"
+  }
+]

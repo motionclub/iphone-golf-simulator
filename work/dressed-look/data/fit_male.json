@@ -1,0 +1,143 @@
+{
+ "tag": "male",
+ "dressed": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/dressed-look/export/HeroBase_Male_Dressed.blend",
+ "color_measured": "White",
+ "pieces": {
+  "Kit_Top_Polo_M_White": {
+   "n_verts": 11167,
+   "inner": 5669,
+   "outer": 5498,
+   "skin_through": 0,
+   "skin_through_max_mm": 0.0,
+   "squeezed": 0,
+   "squeezed_max_mm": 0.0,
+   "float_verts": 0,
+   "float_max_mm": 0.0,
+   "inner_clearance_mm": {
+    "median": 11.219862848520279,
+    "p95": 16.482559964060783
+   },
+   "clip_region": null,
+   "squeeze_region": null,
+   "float_region": null
+  },
+  "Kit_Bottom_Shorts_M_White": {
+   "n_verts": 10522,
+   "inner": 5397,
+   "outer": 5097,
+   "skin_through": 0,
+   "skin_through_max_mm": 0.0,
+   "squeezed": 0,
+   "squeezed_max_mm": 0.0,
+   "float_verts": 0,
+   "float_max_mm": 0.0,
+   "inner_clearance_mm": {
+    "median": 17.53603108227253,
+    "p95": 44.74984183907509
+   },
+   "clip_region": null,
+   "squeeze_region": null,
+   "float_region": null
+  },
+  "Kit_Sock_L_White": {
+   "n_verts": 3135,
+   "inner": 1536,
+   "outer": 1599,
+   "skin_through": 0,
+   "skin_through_max_mm": 0.0,
+   "squeezed": 0,
+   "squeezed_max_mm": 0.0,
+   "float_verts": 0,
+   "float_max_mm": 0.0,
+   "inner_clearance_mm": {
+    "median": 4.448356339707971,
+    "p95": 7.846114924177527
+   },
+   "clip_region": null,
+   "squeeze_region": null,
+   "float_region": null
+  },
+  "Kit_Shoe_L_White": {
+   "n_verts": 8014,
+   "inner": 3589,
+   "outer": 4411,
+   "skin_through": 0,
+   "skin_through_max_mm": 0.0,
+   "squeezed": 0,
+   "squeezed_max_mm": 0.0,
+   "float_verts": 0,
+   "float_max_mm": 0.0,
+   "inner_clearance_mm": {
+    "median": 11.24771498143673,
+    "p95": 32.14147165417671
+   },
+   "clip_region": null,
+   "squeeze_region": null,
+   "float_region": null
+  },
+  "Kit_Sock_R_White": {
+   "n_verts": 3137,
+   "inner": 1537,
+   "outer": 1600,
+   "skin_through": 0,
+   "skin_through_max_mm": 0.0,
+   "squeezed": 0,
+   "squeezed_max_mm": 0.0,
+   "float_verts": 0,
+   "float_max_mm": 0.0,
+   "inner_clearance_mm": {
+    "median": 4.441096447408199,
+    "p95": 7.832816801965235
+   },
+   "clip_region": null,
+   "squeeze_region": null,
+   "float_region": null
+  },
+  "Kit_Shoe_R_White": {
+   "n_verts": 7976,
+   "inner": 3577,
+   "outer": 4380,
+   "skin_through": 0,
+   "skin_through_max_mm": 0.0,
+   "squeezed": 0,
+   "squeezed_max_mm": 0.0,
+   "float_verts": 0,
+   "float_max_mm": 0.0,
+   "inner_clearance_mm": {
+    "median": 11.128480546176434,
+    "p95": 32.07031041383743
+   },
+   "clip_region": null,
+   "squeeze_region": null,
+   "float_region": null
+  }
+ },
+ "findings": [],
+ "hand": {
+  "posed_hand_vs_body_not_hand_tri_pairs": 0,
+  "posed_hand_vs_kit_tri_pairs": {
+   "Kit_Top_Polo_M_White": 0,
+   "Kit_Bottom_Shorts_M_White": 0,
+   "Kit_Sock_L_White": 0,
+   "Kit_Shoe_L_White": 0,
+   "Kit_Sock_R_White": 0,
+   "Kit_Shoe_R_White": 0
+  }
+ },
+ "racket": {
+  "overlap_tri_pairs_vs_body_not_hand": 0,
+  "overlap_tri_pairs_vs_hand": 0,
+  "overlap_vs_kit": {
+   "Kit_Top_Polo_M_White": 0,
+   "Kit_Bottom_Shorts_M_White": 0,
+   "Kit_Sock_L_White": 0,
+   "Kit_Shoe_L_White": 0,
+   "Kit_Sock_R_White": 0,
+   "Kit_Shoe_R_White": 0
+  },
+  "body_region": null,
+  "racket_samples_inside_body": 0,
+  "max_depth_inside_body_mm": 0.0,
+  "grip_to_hand_min_mm": 0.9041524026542902
+ }
+}

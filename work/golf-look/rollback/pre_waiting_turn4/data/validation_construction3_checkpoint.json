@@ -1,0 +1,14 @@
+{
+  "identity": "PASS: four current output blends match frozen body/face/hair/weights/rest-rig inputs",
+  "guards": "PASS: 7/7",
+  "proof_manifest": "PASS: all current image hashes match",
+  "user_outputs": "PASS: 13 exact checkpoint copies",
+  "G0": "WAITING",
+  "G1_to_G12": "FAIL: incomplete required evidence/construction",
+  "installed_shaders": [],
+  "installed_runtime_kit": false,
+  "commit_by_this_task": false,
+  "own_stage_path_count": 254,
+  "other_index_entries_preserved_count": 24648,
+  "other_staged_path_count": 25
+}

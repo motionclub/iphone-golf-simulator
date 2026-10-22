@@ -1,0 +1,97 @@
+{
+  "male": {
+    "film_trace_rows": 491,
+    "Serve_rows": 295,
+    "Serve_clip_max_s": 1.9783,
+    "runtime_foot_rows": 295,
+    "air_clearance_threshold_mm": 0,
+    "foot_trace_rounding_mm": 0.1,
+    "before_1p55_both_positive_foot_frames": 11,
+    "before_1p55_both_over_3mm_frames": 1,
+    "first_both_positive_foot_clip_time": 0.2479,
+    "first_both_positive_foot_heights_mm": [
+      2.2,
+      0.1
+    ],
+    "toss_lowest_foot_max_LR_mm": [
+      5.3,
+      63.8
+    ],
+    "first_positive_segment_after_1p55_clip_s": 1.5575,
+    "first_positive_segment_after_1p55_airtime_real_s": 0.38400000000000034,
+    "landing_lead_frames_at_60fps": 27,
+    "left_touch_clip": "Male_ReadyIdle",
+    "right_touch_clip": "Male_ReadyIdle",
+    "runtime_palm_fields": 0,
+    "runtime_toe_fields": 0,
+    "runtime_heel_fields": 0,
+    "runtime_pelvis_fields": 0,
+    "runtime_knee_fields": 0,
+    "runtime_wrist_rotation_fields": 0,
+    "runtime_planted_foot_position_fields": 0,
+    "elbow_at_1p70_interpolated_deg": 170.09141207036623,
+    "elbow_interpolation_bracket_s": [
+      1.6621,
+      1.7033
+    ],
+    "contact_log_rows": 15,
+    "contact_log_max_abs_clip_delta_s": 0.0137,
+    "contact_log_closest_strings_ball_min_mm": 4.0,
+    "contact_log_closest_strings_ball_max_mm": 12.4,
+    "prefab_bytes_identical": true,
+    "FBX_meta_bytes_identical": true,
+    "Rally_trace_rows": 103,
+    "Unity_front_films": 0,
+    "Serve_rows_at_or_after_authored_left_touch": 0
+  },
+  "female": {
+    "film_trace_rows": 489,
+    "Serve_rows": 295,
+    "Serve_clip_max_s": 1.9783,
+    "runtime_foot_rows": 294,
+    "air_clearance_threshold_mm": 0,
+    "foot_trace_rounding_mm": 0.1,
+    "before_1p55_both_positive_foot_frames": 39,
+    "before_1p55_both_over_3mm_frames": 0,
+    "first_both_positive_foot_clip_time": 0.1517,
+    "first_both_positive_foot_heights_mm": [
+      0.6,
+      0.4
+    ],
+    "toss_lowest_foot_max_LR_mm": [
+      0.3,
+      0.3
+    ],
+    "first_positive_segment_after_1p55_clip_s": 1.5575,
+    "first_positive_segment_after_1p55_airtime_real_s": 0.016999999999995907,
+    "landing_lead_frames_at_60fps": 32,
+    "left_touch_clip": "Female_Serve",
+    "right_touch_clip": "Female_ReadyIdle",
+    "runtime_palm_fields": 0,
+    "runtime_toe_fields": 0,
+    "runtime_heel_fields": 0,
+    "runtime_pelvis_fields": 0,
+    "runtime_knee_fields": 0,
+    "runtime_wrist_rotation_fields": 0,
+    "runtime_planted_foot_position_fields": 0,
+    "elbow_at_1p70_interpolated_deg": 170.02938586773732,
+    "elbow_interpolation_bracket_s": [
+      1.6621,
+      1.7033
+    ],
+    "contact_log_rows": 15,
+    "contact_log_max_abs_clip_delta_s": 0.0137,
+    "contact_log_closest_strings_ball_min_mm": 1.4,
+    "contact_log_closest_strings_ball_max_mm": 11.5,
+    "prefab_bytes_identical": true,
+    "FBX_meta_bytes_identical": true,
+    "Rally_trace_rows": 101,
+    "Unity_front_films": 0,
+    "Serve_rows_at_or_after_authored_left_touch": 0
+  },
+  "candidate_hashes": {
+    "Male_Serve.fbx": "79bb3ccfbaa018b244e33723363b47c4c2cbf8fc034fa30af5f609cd2f29f92d",
+    "Female_Serve.fbx": "37be8adc4d62ce80dfb9407780024fb296df206ed70b07b860433014ff081066"
+  },
+  "game_times_pass": true
+}

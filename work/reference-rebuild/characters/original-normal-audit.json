@@ -1,0 +1,32 @@
+{
+  "Male": {
+    "cornerVsGeometricMean": 6.607653498405546,
+    "cornerVsGeometricMax": 97.86252695621415,
+    "hasCustomNormals": true,
+    "allSmoothFaces": true,
+    "frontVertices": 5070,
+    "frontRejectedBy75HeadMask": 1642,
+    "jawVertices": 1969,
+    "jawRejectedBy75HeadMask": 1642,
+    "headMaskBoundaryEdgesInFace": 153,
+    "sourceVsWeldedNormalAngleMean": 6.708982612093051,
+    "sourceVsWeldedNormalAngleMax": 97.86253378640332,
+    "coincidentVertexNormalPairs": 0,
+    "coincidentNormalAngleMax": 0
+  },
+  "Female": {
+    "cornerVsGeometricMean": 2.1066466035488784,
+    "cornerVsGeometricMax": 160.32369167063197,
+    "hasCustomNormals": true,
+    "allSmoothFaces": true,
+    "frontVertices": 4296,
+    "frontRejectedBy75HeadMask": 1435,
+    "jawVertices": 1813,
+    "jawRejectedBy75HeadMask": 1435,
+    "headMaskBoundaryEdgesInFace": 127,
+    "sourceVsWeldedNormalAngleMean": 2.0958149800629937,
+    "sourceVsWeldedNormalAngleMax": 160.32369167063197,
+    "coincidentVertexNormalPairs": 0,
+    "coincidentNormalAngleMax": 0
+  }
+}

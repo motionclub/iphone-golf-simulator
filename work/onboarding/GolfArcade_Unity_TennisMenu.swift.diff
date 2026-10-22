@@ -1,0 +1,72 @@
+diff --git a/GolfArcade/Unity/TennisMenu.swift b/GolfArcade/Unity/TennisMenu.swift
+index 6d4f85c4..db84b468 100644
+--- a/GolfArcade/Unity/TennisMenu.swift
++++ b/GolfArcade/Unity/TennisMenu.swift
+@@ -97,8 +97,9 @@ final class TennisMenu {
+     var classic = false
+     private(set) var settingsTab: SettingsTab = .gameplay
+     /// The locker: Gear (equip per sport and slot) or Customize (colours). See `lockerRows()` and the extension at the bottom.
+-    enum LockerTab: String { case gear, customize }
++    enum LockerTab: String { case gear, customize, emotes }
+     private(set) var lockerTab: LockerTab = .gear
++    private(set) var lockerEmoteSlot = 0
+     private(set) var lockerSport: Sport = .tennis
+     private(set) var lockerSlot: LockerSlot = .skin
+     /// The colour whose full gradient panel is open (skin / shirt / shorts / accent / racket); nil = closed.
+@@ -770,7 +771,7 @@ extension TennisMenu {
+         var actions = ["lk-shuffle"]
+         if lockerDirty { actions.append("lk-revert") }
+         actions.append("lk-done")
+-        let tabs = ["lk-tab-gear", "lk-tab-customize"]
++        let tabs = ["lk-tab-gear", "lk-tab-customize", "lk-tab-emotes"]
+         switch lockerTab {
+         case .gear:
+             var rows = [LockerCatalog.sports.map { "lk-sport-\($0.rawValue)" }, tabs,
+@@ -781,12 +782,16 @@ extension TennisMenu {
+             return rows
+         case .customize:
+             return [tabs, ["lk-body"], ["lk-hand"], ["lk-skin"], ["lk-shirt"], ["lk-shorts"], actions]
++        case .emotes:
++            return [tabs, (0..<3).map { "lk-emote-slot-\($0)" },
++                    Array(EmoteCatalog.ids.prefix(3)).map { "lk-emote-\($0)" },
++                    Array(EmoteCatalog.ids.suffix(3)).map { "lk-emote-\($0)" }, actions]
+         }
+     }
+ 
+     /// Opening the locker: Gear, on the shelf, on the item you wear.
+     fileprivate func lockerOpen() {
+-        lockerOpening = player; lockerTab = .gear; lockerRange = nil; lockerRangeFrom = nil
++        lockerOpening = player; lockerTab = .gear; lockerEmoteSlot = 0; lockerRange = nil; lockerRangeFrom = nil
+         if !LockerCatalog.sports.contains(lockerSport) { lockerSport = .tennis }
+         if !LockerCatalog.slots(for: lockerSport).contains(lockerSlot) { lockerSlot = LockerCatalog.slots(for: lockerSport)[0] }
+         row = 3
+@@ -810,6 +815,12 @@ extension TennisMenu {
+         switch id {
+         case "lk-tab-gear": lockerTab = .gear; _ = focus(id)
+         case "lk-tab-customize": lockerTab = .customize; _ = focus(id)
++        case "lk-tab-emotes": lockerTab = .emotes; _ = focus(id)
++        case let s where s.hasPrefix("lk-emote-slot-"):
++            if let slot = Int(s.dropFirst(14)), (0..<3).contains(slot) { lockerEmoteSlot = slot }
++        case let s where s.hasPrefix("lk-emote-"):
++            let emote = String(s.dropFirst(9))
++            lockerEdit { $0.equipEmote(emote, slot: lockerEmoteSlot) }
+         case "lk-sport-tennis", "lk-sport-golf":
+             lockerSport = id == "lk-sport-golf" ? .golf : .tennis
+             if !LockerCatalog.slots(for: lockerSport).contains(lockerSlot) { lockerSlot = lockerSlot == .racket ? .club : lockerSlot == .club ? .racket : .skin }
+@@ -926,6 +937,7 @@ extension TennisMenu {
+         switch id {
+         case "lk-tab-gear": return "Locker · Gear"
+         case "lk-tab-customize": return "Locker · Customize"
++        case "lk-tab-emotes": return "Locker · Emotes"
+         case "lk-sport-tennis": return "Gear for Tennis"
+         case "lk-sport-golf": return "Gear for Golf"
+         case "lk-colour": return "Colour"
+@@ -942,6 +954,8 @@ extension TennisMenu {
+         case "lk-range-skin": return "Skin tone range"
+         case "lk-range-close": return "Close range"
+         default:
++            if id.hasPrefix("lk-emote-slot-"), let slot = Int(id.dropFirst(14)) { return "Emote slot \(slot + 1)" }
++            if id.hasPrefix("lk-emote-") { return "Equip · \(EmoteCatalog.name(String(id.dropFirst(9))))" }
+             if id.hasPrefix("lk-slot-"), let slot = LockerSlot(rawValue: String(id.dropFirst(8))) { return "Slot · \(slot.title(for: .tennis))" }
+             if id.hasPrefix("lk-item-") { return "Equip · \(id.dropFirst(8).prefix(1).uppercased() + id.dropFirst(9))" }
+             return id

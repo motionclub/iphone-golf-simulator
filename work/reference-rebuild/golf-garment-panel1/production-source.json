@@ -1,0 +1,78 @@
+{
+  "Male": {
+    "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/Golf/Fitted_Male_Top.asset",
+    "sha256": "9c785c00a4a9a2e144727c4818c1d008e52d13819e8c7df113df00b2da9ec7f5",
+    "vertexCount": 12920,
+    "triangleCount": 18683,
+    "boneCount": 53,
+    "shapeNames": [
+      "GolfFit_RH_Top",
+      "GolfFit_RH_Impact",
+      "GolfFit_RH_Finish",
+      "GolfFit_LH_ReadyIdle",
+      "GolfFit_LH_Top",
+      "GolfFit_LH_Impact",
+      "GolfFit_LH_Finish"
+    ],
+    "weightSumError": 1.7881393432617188e-07,
+    "bounds": [
+      [
+        -0.3558168113231659,
+        -0.19575703144073486,
+        0.9305304288864136
+      ],
+      [
+        0.35635843873023987,
+        0.11972320824861526,
+        1.471531629562378
+      ]
+    ],
+    "maxDeltaMm": {
+      "GolfFit_RH_Top": 7.033013364901895,
+      "GolfFit_RH_Impact": 3.2402341979843894,
+      "GolfFit_RH_Finish": 3.1418724043182737,
+      "GolfFit_LH_ReadyIdle": 2.9666417971202876,
+      "GolfFit_LH_Top": 8.413245462034768,
+      "GolfFit_LH_Impact": 4.7007621072173205,
+      "GolfFit_LH_Finish": 3.315278942431585
+    }
+  },
+  "Female": {
+    "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/Golf/Fitted_Female_Top.asset",
+    "sha256": "8345680821643ad799960f73dfd67ab89c8a6d0569d85024cf1a09fe0d88a6c7",
+    "vertexCount": 6935,
+    "triangleCount": 10115,
+    "boneCount": 53,
+    "shapeNames": [
+      "GolfFit_RH_Top",
+      "GolfFit_RH_Impact",
+      "GolfFit_RH_Finish",
+      "GolfFit_LH_ReadyIdle",
+      "GolfFit_LH_Top",
+      "GolfFit_LH_Impact",
+      "GolfFit_LH_Finish"
+    ],
+    "weightSumError": 1.7881393432617188e-07,
+    "bounds": [
+      [
+        -0.22031275928020477,
+        -0.14314478635787964,
+        0.9300135374069214
+      ],
+      [
+        0.22020506858825684,
+        0.11242899298667908,
+        1.4157625436782837
+      ]
+    ],
+    "maxDeltaMm": {
+      "GolfFit_RH_Top": 3.6319096606072265,
+      "GolfFit_RH_Impact": 3.416561919753506,
+      "GolfFit_RH_Finish": 2.8383774792288796,
+      "GolfFit_LH_ReadyIdle": 1.5403434451639024,
+      "GolfFit_LH_Top": 3.6681544563484456,
+      "GolfFit_LH_Impact": 3.738530896204434,
+      "GolfFit_LH_Finish": 2.6968125956531575
+    }
+  }
+}

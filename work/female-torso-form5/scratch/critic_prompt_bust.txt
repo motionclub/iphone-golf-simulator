@@ -1,0 +1,13 @@
+You are an independent visual critic for a 3D character job (Blender, grey mannequin body, soft-plastic party-game style). Be honest and specific; do NOT edit any project files (write crops only into your scratchpad).
+
+TASK: judge the BUST of the FORM5 candidate against the authority plate. The brief (summary): replace circular/disk/target/bullseye/bolted-on hemisphere/rim-shadow rings (FORM4's failure) with conventional soft-plastic breasts: soft continuous mounds integrated into the chest wall, readable soft cleavage (contact, not a knife crease), a soft underbust crescent that blends, side fill toward the armpit, a gentle upper slope into the clavicle. Hard-fail shapes: circular/disk/target blobs, bolted-on hemispheres, rim shadow rings, flat pancake, pointy/shelf/ellipsoid-cap.
+
+FILES (all under /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/female-torso-form5/proof/): 05_bust_closeups_soft.png and 05_bust_closeups_clay.png (rows = plate / FORM4 / FORM5; columns front, 3/4 L, 3/4 R, side), 05z_bust_zoom_soft.png and 05z_bust_zoom_clay.png (tight crops, columns plate | FORM4 | FORM5), 04_plate_vs_form4_vs_form5_3q.png, 13_full_torso_soft.png, 07_mirror_stripe_test.png. Authority plate: ArtDir/hero/base_lock/female_body_bald.jpg (+ female_multiangle_body.jpg) under /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/.
+'soft' = plate-fitted matcap (closest to the plate look); 'clay' = harsh stress-test matcap only.
+
+KNOWN ROUND-4 FINDINGS (check whether they are now fixed, do not just repeat them): (1) a dark curved band across the upper chest at clavicle level, new vs FORM4 - round 5 relaxed the neck-base landing to remove it; (2) weak side fill / no distinct lateral breast contour (arm-seam capped, expected to remain); (3) clay shoulder-to-apex ridge ending in a pointed teardrop; (4) near-vertical step in the side contour above the breast.
+
+
+CONTEXT FOR ROUND 5: the FORM5 renders in proof/ were produced from the final round-5 candidate (SHA 7aa351d5...). Round 5 changed: (a) the chest neck-base landing was relaxed (dark band removal); (b) the under-butt ramp was re-searched in the render domain and the authored custom-normal OFFSET was rescaled on the moved vertices (so the fold shading follows the new geometry). Judge only what you SEE in the proof images.
+
+BUDGET: at most 25 tool calls and about 10 minutes. Then reply (max ~300 words): (a) PASS/FAIL per hard-fail shape; (b) PASS/FAIL per required item; (c) are round-4 findings 1-4 fixed, partly, or not; (d) one sentence: would an eye comparing plate | FORM4 | FORM5 call FORM5 acceptable soft-plastic breasts, and the worst two remaining defects with the panel where you see them.

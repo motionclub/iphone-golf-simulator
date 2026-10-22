@@ -1,0 +1,46 @@
+{
+ "clip_fbx_work": {
+  "count": 32,
+  "equal": true,
+  "differing": []
+ },
+ "clip_fbx_unity": {
+  "count": 32,
+  "equal": true,
+  "differing": []
+ },
+ "blends": {
+  "work/match-anim-set/export/HeroBase_Female_MatchAnims.blend": true,
+  "work/match-anim-set/export/HeroBase_Male_MatchAnims.blend": true,
+  "work/tennis-shoes-fit/export/StandardKit_Female.blend": true,
+  "work/tennis-shoes-fit/export/StandardKit_Male.blend": true,
+  "work/hero-mainstay/data/clip_table.json": true
+ },
+ "blends_equal": true,
+ "artdir": {
+  "added": [
+   "?? ArtDir/screenshots/golf_flyover/",
+   "M ArtDir/ui/toybox-simple-v6/runtime/campaign.png",
+   "M ArtDir/ui/toybox-simple-v6/runtime/connect.png",
+   "M ArtDir/ui/toybox-simple-v6/runtime/courts.png",
+   "M ArtDir/ui/toybox-simple-v6/runtime/guide.png",
+   "M ArtDir/ui/toybox-simple-v6/runtime/home.png",
+   "M ArtDir/ui/toybox-simple-v6/runtime/intro.png",
+   "M ArtDir/ui/toybox-simple-v6/runtime/loading-repeat.png",
+   "M ArtDir/ui/toybox-simple-v6/runtime/loading-swing.png",
+   "M ArtDir/ui/toybox-simple-v6/runtime/loading.png",
+   "M ArtDir/ui/toybox-simple-v6/runtime/locker.png",
+   "M ArtDir/ui/toybox-simple-v6/runtime/pause.png",
+   "M ArtDir/ui/toybox-simple-v6/runtime/quick-match.png",
+   "M ArtDir/ui/toybox-simple-v6/runtime/results.png",
+   "M ArtDir/ui/toybox-simple-v6/runtime/settings.png",
+   "M ArtDir/ui/toybox-simple-v6/runtime/sports.png",
+   "M ArtDir/ui/toybox-simple-v6/runtime/tennis.png",
+   "M ArtDir/ui/toybox-simple-v6/runtime/training.png"
+  ],
+  "removed": [],
+  "my_scripts_mentioning_ArtDir": [],
+  "pass": true
+ },
+ "pass": true
+}

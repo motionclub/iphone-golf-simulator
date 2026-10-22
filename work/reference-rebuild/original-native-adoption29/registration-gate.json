@@ -1,0 +1,47 @@
+{
+  "gate": "PBX REGISTRATION PASS; FRESH ASSET/FIXTURE BYTES PENDING",
+  "runtimeResourceCount": 119,
+  "goldenFixtureCount": 6,
+  "projects": {
+    "GolfArcade": {
+      "gate": "PASS ALREADY REGISTERED, NO PBX PATCH REQUIRED",
+      "projectSha256": "c9d7fe1fcccb45fb3346ad474ee6391b8f2689a6ac6e0bc722a43fc4471daa02",
+      "phases": {
+        "GolfArcade": {
+          "requiredRegisteredExactlyOnce": 119,
+          "totalResourceEntries": 319
+        },
+        "GolfArcadeTests": {
+          "requiredRegisteredExactlyOnce": 6,
+          "totalResourceEntries": 7
+        }
+      }
+    },
+    "GolfArcadeUnity": {
+      "gate": "PASS ALREADY REGISTERED, NO PBX PATCH REQUIRED",
+      "projectSha256": "f711e4c5fbfa2a4a17585fc3c0ae42a9ff302d3ef3f1dc26041354fda135840f",
+      "phases": {
+        "GolfArcade": {
+          "requiredRegisteredExactlyOnce": 119,
+          "totalResourceEntries": 320
+        },
+        "GolfArcadeTests": {
+          "requiredRegisteredExactlyOnce": 6,
+          "totalResourceEntries": 7
+        }
+      }
+    }
+  },
+  "registrationsNeedMutation": false,
+  "legacyRegistrationGenerator": "Do not run original-native-adoption1/stage-registration.py; it deliberately rejects Already registered",
+  "currentFixtureProvenance": {
+    "sources": [
+      "native-golden-provisional-2"
+    ],
+    "isSmooth1FreshFixtureEvidence": false,
+    "contract": "Fresh six exports + fixtures required. VISUAL_GOLDEN_DIR points at new work/golden raw fixtures for all tests; shipping requires refreshed6 packed goldens in already-registered VisualGolden files."
+  },
+  "skinPigmentUVTestContract": "stage exact mode2 update; oldmode1 must fail new adopted assets",
+  "oldPackagePath": "Names only reused from original-native-adoption1/package-audit.json, no old bytes accepted",
+  "productionWrites": false
+}

@@ -1,0 +1,36 @@
+{
+  "status": "PASS",
+  "manifest": "work/postcard-look/v3/p7/round1/source_batch/impact_rethink_plan.json",
+  "manifest_sha256": "5e54c4e924d2b643445620ddf29ba98ffd850f4a0574f7847ae62e1f1f5ade1d",
+  "mode": "apply",
+  "source_plans": [
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/hole_drafts/impact_rethink/apply_plan.json",
+      "sha256": "88b4243b7641230cbeff47fb111f3cb8662f85d8f44dc031aee462cee8421ba1"
+    },
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/source_batch/impact_guard_plan.json",
+      "sha256": "6d013c5f33c8a98f8965836de0780817097634ccad62c62448d5309de3001fc9"
+    }
+  ],
+  "heavy_ancestor": {
+    "pid": 67384,
+    "command": "bash /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/heavy.sh p7-round1-foam-vapour-rethink python3 work/postcard-look/v3/p7/round1/source_batch/p7_batch.py run --manifest work/postcard-look/v3/p7/round1/source_batch/impact_rethink_plan.json --manifest-sha 5e54c4e924d2b643445620ddf29ba98ffd850f4a0574f7847ae62e1f1f5ade1d --result-dir work/postcard-look/v3/p7/round1/source_batch/impact_rethink_applied --apply",
+    "lock_owner": "p7-round1-foam-vapour-rethink | Mon Oct  5 18:10:39 EDT 2026\n"
+  },
+  "archive": [
+    {
+      "target": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/hole08_look.py",
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/p7/round1/source_batch/impact_rethink_applied/old/blender/scripts/hole08_look.py",
+      "sha256": "5ea9f63469296508290bb8f02024c84c10d1bb880cd94724955342d179c2f134"
+    }
+  ],
+  "installed": [
+    {
+      "path": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/scripts/hole08_look.py",
+      "sha256": "f74c35922552c96b945af7f2906abca8028471c0e0f38b8701e850713f35a3bf"
+    }
+  ],
+  "excluded_planned_protected": [],
+  "verification": "UNVERIFIED; complete P7 original gates and installed proof required"
+}

@@ -1,0 +1,6 @@
+bald_front   xor   3248 union  74925 4.335%  ref-only 1753 mdl-only 1495
+bald_back    xor   3232 union  74146 4.359%  ref-only 2002 mdl-only 1230
+left         xor   1058 union  11260 9.396%  ref-only 749 mdl-only 309
+right        xor   1137 union  11443 9.936%  ref-only 945 mdl-only 192
+sheet_front  xor   1346 union  18637 7.222%  ref-only 888 mdl-only 458
+sheet_back   xor   1458 union  18553 7.859%  ref-only 808 mdl-only 650

@@ -1,0 +1,30 @@
+--- Unity/Assets/Resources/Tennis/Shaders/HeroLighting.hlsl
++++ Unity/Assets/Resources/Tennis/Shaders/HeroLighting.hlsl
+@@ -99,8 +99,11 @@
+     if (_HeroSkinPolish > .5h) {
+         // Satin skin: a wide soft reflection with a restrained central sheen.
+         // Diffuse/pigment and geometric normals remain the accepted source.
+-        broad = pow(nh, 12 + smoothness * 12) * .13h;
+-        broad += pow(nh, 48 + smoothness * 60) * .018h;
++        // The reference's broad source reflection needs a wider lobe than a
++        // point-light varnish. Keep rougher lips/neck below the forehead/nose.
++        half glossWeight = .5h + .5h * saturate((smoothness - .32h) / .08h);
++        broad = (pow(nh, 5 + smoothness * 6) * .22h
++               + pow(nh, 48 + smoothness * 60) * .018h) * glossWeight;
+     }
+     half visibility = smoothstep(-.06h, .24h, ndl);
+     half shadow = lerp(light.shadowAttenuation, 1, .12h);
+--- GolfArcade/Unity/MatchHeroSurfaces.swift
++++ GolfArcade/Unity/MatchHeroSurfaces.swift
+@@ -172,7 +172,10 @@
+         wrapped=saturate((nl+0.28)/1.28);
+         edge=saturate(wrapped-saturate(nl));
+         float skinLobe=pow(nh,18.0+smoothness*18.0)*0.075;
+-        if(skinPolish>0.5) skinLobe=pow(nh,12.0+smoothness*12.0)*0.13+pow(nh,48.0+smoothness*60.0)*0.018;
++        if(skinPolish>0.5) {
++            float glossWeight=0.5+0.5*saturate((smoothness-0.32)/0.08);
++            skinLobe=(pow(nh,5.0+smoothness*6.0)*0.22+pow(nh,48.0+smoothness*60.0)*0.018)*glossWeight;
++        }
+         spec=skinLobe*0.95*smoothstep(-0.06,0.24,nl);
+         _lightingContribution.diffuse += _light.intensity.rgb*(float3(wrapped*0.84)+athleteWarmth.rgb*edge);
+         _lightingContribution.specular += _light.intensity.rgb*(float3(spec)+rim*0.45*(float3(0.35)+0.65*_surface.diffuse.rgb));

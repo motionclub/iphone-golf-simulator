@@ -1,0 +1,37 @@
+diff --git a/work/onboarding/baseline-owned-files/Unity/Assets/Scripts/Game/NativeSportsSession.cs b/Unity/Assets/Scripts/Game/NativeSportsSession.cs
+index 0b7f0c33..e8bc62ce 100644
+--- a/work/onboarding/baseline-owned-files/Unity/Assets/Scripts/Game/NativeSportsSession.cs
++++ b/Unity/Assets/Scripts/Game/NativeSportsSession.cs
+@@ -21,6 +21,7 @@ namespace GolfArcade.Game
+             public string mode,opponent,opponentName,round; public int ultimate;
+             // The match format (sets to win, games per set) and the coach's changeover lines, "|"-separated.
+             public int sets=1,games=3; public string coach;
++            public int tutorialStart;
+             // The player's kit colours (hex, "" = the kit's own), coaching tips, TV edge margin.
+             public int hairStyle=1,hairColor=1,faceShape,heightChoice=2,buildChoice=2,haircut=-1;
+             public float bodySize=-1;
+@@ -113,6 +114,10 @@ namespace GolfArcade.Game
+             TennisTutorial.Finished+=()=>Emit("tutorialDone","");
+             TennisGame.RallyEnded+=shots=>Emit("rally",shots.ToString());
+             GolfGame.ShotStruck+=()=>Emit("shot","");
++            GolfTutorial.StepChanged+=(i,n,text)=>Emit("tutorialStep",$"{i}|{n}|{text}");
++            GolfTutorial.StepResolved+=(i,misses,skip)=>Emit(skip ? "tutorialSkip" : "tutorialSuccess",$"{i}|{misses}");
++            GolfTutorial.HoleDone+=(strokes,capped)=>Emit("golfHoleDone",$"{strokes}|{(capped ? "true" : "false")}");
++            GolfTutorial.Finished+=()=>Emit("tutorialDone","");
+             TennisGame.Landed += AimLanding;
+             TennisGame.DrillPoint += AimMiss;
+         }
+@@ -233,11 +238,13 @@ namespace GolfArcade.Game
+                   tennis.SetPlayerLook(look); }   // kept and re-applied on every rebuild
+                 var mode=m.mode=="campaign" ? TennisGame.Mode.Campaign : m.mode=="training" ? TennisGame.Mode.Training
+                     : m.mode=="tutorial" ? TennisGame.Mode.Tutorial : TennisGame.Mode.Exhibition;
++                TennisTutorial.StartIndex = mode == TennisGame.Mode.Tutorial ? m.tutorialStart : 0;
+                 tennis.ConfigureMatch(mode,m.opponent,m.opponentName,m.round,m.sets,m.games,
+                     string.IsNullOrEmpty(m.coach) ? null : m.coach.Split('|')); }
+             if(tennis) tennis.EquipEmotes(m.emotes);
+             if(m.bench && !GetComponent<FrameProbe>()) gameObject.AddComponent<FrameProbe>().Report=r=>Emit("perf",r);
+             if(golf) golf.PrepareNativeAddress();
++            if(golf && m.mode == "tutorial") golf.gameObject.AddComponent<GolfTutorial>().Begin(golf);
+             if(!string.IsNullOrEmpty(m.network)) SportsMultiplayer.Configure(m.network);
+             gameplayCamera=tennis ? tennis.GameplayCamera : golf.GameplayCamera;
+             if(golf && m.touch) golf.Swing.Armed=false;

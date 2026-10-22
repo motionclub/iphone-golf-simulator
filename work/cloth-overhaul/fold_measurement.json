@@ -1,0 +1,77 @@
+{
+  "male_armpit": {
+    "crop_xyxy": [
+      320,
+      420,
+      630,
+      640
+    ],
+    "AO_threshold": 0.85,
+    "crease_pixels": 8750,
+    "luma_noAO": 0.34189867846016403,
+    "luma_AO": 0.28267676408713444,
+    "darkening_percent": 17.32148092521211,
+    "max_visible_lit_main_percent": 23.85041044073791,
+    "pass": true
+  },
+  "female_armpit": {
+    "crop_xyxy": [
+      300,
+      560,
+      710,
+      740
+    ],
+    "AO_threshold": 0.85,
+    "crease_pixels": 22015,
+    "luma_noAO": 0.5085423649454496,
+    "luma_AO": 0.4382703794778114,
+    "darkening_percent": 13.818314915646434,
+    "max_visible_lit_main_percent": 22.99716407644794,
+    "pass": true
+  },
+  "male_waist": {
+    "crop_xyxy": [
+      160,
+      380,
+      890,
+      570
+    ],
+    "AO_threshold": 0.85,
+    "crease_pixels": 28857,
+    "luma_noAO": 0.7013615655718022,
+    "luma_AO": 0.6057516560914282,
+    "darkening_percent": 13.632042896793987,
+    "max_visible_lit_main_percent": 23.27929161857457,
+    "pass": true
+  },
+  "female_waist": {
+    "crop_xyxy": [
+      250,
+      350,
+      820,
+      520
+    ],
+    "AO_threshold": 0.85,
+    "crease_pixels": 20473,
+    "luma_noAO": 0.7341553010442031,
+    "luma_AO": 0.6402195921757625,
+    "darkening_percent": 12.79507329509629,
+    "max_visible_lit_main_percent": 23.71072220919164,
+    "pass": true
+  },
+  "male_crotch": {
+    "crop_xyxy": [
+      420,
+      390,
+      800,
+      570
+    ],
+    "AO_threshold": 0.85,
+    "crease_pixels": 10743,
+    "luma_noAO": 0.7829584362455817,
+    "luma_AO": 0.7200851986729023,
+    "darkening_percent": 8.030213950330134,
+    "max_visible_lit_main_percent": 21.133909013931788,
+    "pass": true
+  }
+}

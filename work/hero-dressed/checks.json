@@ -1,0 +1,1081 @@
+{
+ "overall": "FAIL",
+ "gates": {
+  "1 KIT_SKINNED": {
+   "pass_": true,
+   "detail": {
+    "male": {
+     "blender_pass": true,
+     "fbx_roundtrip_pass": true,
+     "unity_max_influences": 4,
+     "unity_weight_sum_err": 1.7881393432617188e-07,
+     "blender_max_influences": 4,
+     "blender_sum_err": 4.842877388000488e-08
+    },
+    "female": {
+     "blender_pass": true,
+     "fbx_roundtrip_pass": true,
+     "unity_max_influences": 4,
+     "unity_weight_sum_err": 2.384185791015625e-07,
+     "blender_max_influences": 4,
+     "blender_sum_err": 4.842877388000488e-08
+    }
+   },
+   "failed": []
+  },
+  "2 BODY_UNCHANGED": {
+   "pass_": true,
+   "detail": {
+    "repo": {
+     "clip_fbx_work": {
+      "count": 32,
+      "equal": true,
+      "differing": []
+     },
+     "clip_fbx_unity": {
+      "count": 32,
+      "equal": true,
+      "differing": []
+     },
+     "blends_equal": true
+    },
+    "prefab": {
+     "heroes": {
+      "Male": {
+       "nodes": {
+        "before": 62,
+        "after": 68,
+        "missing": [],
+        "added": [
+         "Kit_Top",
+         "Kit_Bottom",
+         "Kit_Sock_L",
+         "Kit_Sock_R",
+         "Kit_Shoe_L",
+         "Kit_Shoe_R"
+        ],
+        "changed": [],
+        "root_components_equal": true
+       },
+       "added_only_kit": true,
+       "meshes": {
+        "before": 6,
+        "after": 12,
+        "differing": [],
+        "added": [
+         "Kit_Top",
+         "Kit_Bottom",
+         "Kit_Sock_L",
+         "Kit_Sock_R",
+         "Kit_Shoe_L",
+         "Kit_Shoe_R"
+        ]
+       },
+       "clips": {
+        "count": 16,
+        "differing": []
+       },
+       "animator_avatar_equal": true,
+       "pass": true
+      },
+      "Female": {
+       "nodes": {
+        "before": 62,
+        "after": 68,
+        "missing": [],
+        "added": [
+         "Kit_Top",
+         "Kit_Bottom",
+         "Kit_Sock_L",
+         "Kit_Sock_R",
+         "Kit_Shoe_L",
+         "Kit_Shoe_R"
+        ],
+        "changed": [],
+        "root_components_equal": true
+       },
+       "added_only_kit": true,
+       "meshes": {
+        "before": 6,
+        "after": 12,
+        "differing": [],
+        "added": [
+         "Kit_Top",
+         "Kit_Bottom",
+         "Kit_Sock_L",
+         "Kit_Sock_R",
+         "Kit_Shoe_L",
+         "Kit_Shoe_R"
+        ]
+       },
+       "clips": {
+        "count": 16,
+        "differing": []
+       },
+       "animator_avatar_equal": true,
+       "pass": true
+      }
+     },
+     "pass": true
+    }
+   },
+   "failed": []
+  },
+  "3 FOLLOWS_BODY": {
+   "pass_": false,
+   "detail": {
+    "male": {
+     "summary": {
+      "Top": {
+       "poke_ring_max_mm": 25.673104698583742,
+       "poke_ring_p99_worst_mm": 8.760301810964279,
+       "triangle_flips_max": 4,
+       "poke_max_mm": 24.86355343027887,
+       "poke_p99_worst_mm": 9.262904473214293,
+       "float_max_mm": 21.793927997350693,
+       "float_p99_worst_mm": 2.4542939476668835,
+       "cls": "cloth",
+       "worst_poke_pose": "Forehand contact",
+       "worst_poke_clip": "Forehand",
+       "worst_poke_frame": 20,
+       "worst_float_pose": "Return contact",
+       "pass_": false,
+       "thresholds": {
+        "poke_max": 15.0,
+        "poke_p99": 5.0,
+        "float_max": 40.0,
+        "float_p99": 15.0
+       }
+      },
+      "Bottom": {
+       "poke_ring_max_mm": 17.264711154324218,
+       "poke_ring_p99_worst_mm": 1.8758197212403431,
+       "triangle_flips_max": 2,
+       "poke_max_mm": 18.08597558596541,
+       "poke_p99_worst_mm": 2.538579723196252,
+       "float_max_mm": 50.329335033893585,
+       "float_p99_worst_mm": 13.67990702390663,
+       "cls": "cloth",
+       "worst_poke_pose": "VolleyForehand contact",
+       "worst_poke_clip": "VolleyForehand",
+       "worst_poke_frame": 9,
+       "worst_float_pose": "ForehandWide contact",
+       "pass_": false,
+       "thresholds": {
+        "poke_max": 15.0,
+        "poke_p99": 5.0,
+        "float_max": 40.0,
+        "float_p99": 15.0
+       }
+      },
+      "Sock_L": {
+       "poke_ring_max_mm": 8.673118557734828,
+       "poke_ring_p99_worst_mm": 1.9950844401129268,
+       "triangle_flips_max": 2,
+       "poke_max_mm": 8.483531398952753,
+       "poke_p99_worst_mm": 1.9246288055368246,
+       "float_max_mm": 2.253578510135412,
+       "float_p99_worst_mm": 0.41631003841757636,
+       "cls": "rigid",
+       "worst_poke_pose": "Overhead contact",
+       "worst_poke_clip": "Overhead",
+       "worst_poke_frame": 22,
+       "worst_float_pose": "Overhead contact",
+       "pass_": true,
+       "thresholds": {
+        "poke_max": 15.0,
+        "poke_p99": 5.0,
+        "float_max": 12.0,
+        "float_p99": 6.0
+       },
+       "edge_strain_max": 1.3809073485619408
+      },
+      "Sock_R": {
+       "poke_ring_max_mm": 8.595231201667273,
+       "poke_ring_p99_worst_mm": 1.5452697262395487,
+       "triangle_flips_max": 1,
+       "poke_max_mm": 7.9539144380146,
+       "poke_p99_worst_mm": 2.728241626837743,
+       "float_max_mm": 3.5796561278402805,
+       "float_p99_worst_mm": 0.47194610349833865,
+       "cls": "rigid",
+       "worst_poke_pose": "Overhead contact",
+       "worst_poke_clip": "Overhead",
+       "worst_poke_frame": 22,
+       "worst_float_pose": "Overhead contact",
+       "pass_": true,
+       "thresholds": {
+        "poke_max": 15.0,
+        "poke_p99": 5.0,
+        "float_max": 12.0,
+        "float_p99": 6.0
+       },
+       "edge_strain_max": 1.2547042591299045
+      },
+      "Shoe_L": {
+       "poke_ring_max_mm": 15.53005044961935,
+       "poke_ring_p99_worst_mm": 7.61558396249002,
+       "triangle_flips_max": 0,
+       "poke_max_mm": 15.124145939500991,
+       "poke_p99_worst_mm": 7.739737464598017,
+       "float_max_mm": 11.274054646492004,
+       "float_p99_worst_mm": 5.76508632861081,
+       "cls": "rigid",
+       "worst_poke_pose": "Serve contact",
+       "worst_poke_clip": "Serve",
+       "worst_poke_frame": 27,
+       "worst_float_pose": "Overhead contact",
+       "pass_": false,
+       "thresholds": {
+        "poke_max": 15.0,
+        "poke_p99": 5.0,
+        "float_max": 12.0,
+        "float_p99": 6.0
+       },
+       "edge_strain_max": 3.874213115745171
+      },
+      "Shoe_R": {
+       "poke_ring_max_mm": 15.360174487609028,
+       "poke_ring_p99_worst_mm": 7.508656630636785,
+       "triangle_flips_max": 0,
+       "poke_max_mm": 13.041816178351706,
+       "poke_p99_worst_mm": 7.982955312755382,
+       "float_max_mm": 11.158687993884087,
+       "float_p99_worst_mm": 5.760305952280709,
+       "cls": "rigid",
+       "worst_poke_pose": "Serve contact",
+       "worst_poke_clip": "Serve",
+       "worst_poke_frame": 27,
+       "worst_float_pose": "Overhead contact",
+       "pass_": false,
+       "thresholds": {
+        "poke_max": 15.0,
+        "poke_p99": 5.0,
+        "float_max": 12.0,
+        "float_p99": 6.0
+       },
+       "edge_strain_max": 1.7676350489028971
+      }
+     },
+     "sweep": {
+      "Top": {
+       "poke_ring_max_mm": 41.349019518545646,
+       "poke_ring_p99_worst_mm": 10.106404761416426,
+       "triangle_flips_max": 10,
+       "poke_max_mm": 26.72054343273098,
+       "poke_p99_worst_mm": 10.86684069283903,
+       "float_max_mm": 20.367372781038284,
+       "float_p99_worst_mm": 1.8958894349634705,
+       "cls": "cloth",
+       "worst_poke_pose": "VolleyForehand f18",
+       "worst_poke_clip": "VolleyForehand",
+       "worst_poke_frame": 18,
+       "worst_float_pose": "Overhead f24",
+       "pass_": false,
+       "thresholds": {
+        "poke_max": 15.0,
+        "poke_p99": 5.0,
+        "float_max": 40.0,
+        "float_p99": 15.0
+       }
+      },
+      "Bottom": {
+       "poke_ring_max_mm": 27.206092639633706,
+       "poke_ring_p99_worst_mm": 15.369054210365219,
+       "triangle_flips_max": 10,
+       "poke_max_mm": 24.856651734995317,
+       "poke_p99_worst_mm": 14.455785979271438,
+       "float_max_mm": 59.82892028987408,
+       "float_p99_worst_mm": 13.666311427950834,
+       "cls": "cloth",
+       "worst_poke_pose": "ForehandOpen f24",
+       "worst_poke_clip": "ForehandOpen",
+       "worst_poke_frame": 24,
+       "worst_float_pose": "Return f18",
+       "pass_": false,
+       "thresholds": {
+        "poke_max": 15.0,
+        "poke_p99": 5.0,
+        "float_max": 40.0,
+        "float_p99": 15.0
+       }
+      },
+      "Sock_L": {
+       "poke_ring_max_mm": 6.4920681943674055,
+       "poke_ring_p99_worst_mm": 0.024414407319873432,
+       "triangle_flips_max": 0,
+       "poke_max_mm": 6.587677460220719,
+       "poke_p99_worst_mm": 0.0,
+       "float_max_mm": 1.8342696130275726,
+       "float_p99_worst_mm": 0.4187087155878534,
+       "cls": "rigid",
+       "worst_poke_pose": "ForehandShort f18",
+       "worst_poke_clip": "ForehandShort",
+       "worst_poke_frame": 18,
+       "worst_float_pose": "ForehandShort f12",
+       "pass_": true,
+       "thresholds": {
+        "poke_max": 15.0,
+        "poke_p99": 5.0,
+        "float_max": 12.0,
+        "float_p99": 6.0
+       },
+       "edge_strain_max": 1.110541869795047
+      },
+      "Sock_R": {
+       "poke_ring_max_mm": 6.2422995240865635,
+       "poke_ring_p99_worst_mm": 4.957559255294066,
+       "triangle_flips_max": 1,
+       "poke_max_mm": 6.158123463603235,
+       "poke_p99_worst_mm": 5.019808161748941,
+       "float_max_mm": 2.489201258867979,
+       "float_p99_worst_mm": 0.4284399002790413,
+       "cls": "rigid",
+       "worst_poke_pose": "Serve f30",
+       "worst_poke_clip": "Serve",
+       "worst_poke_frame": 30,
+       "worst_float_pose": "SplitToBackhand f6",
+       "pass_": false,
+       "thresholds": {
+        "poke_max": 15.0,
+        "poke_p99": 5.0,
+        "float_max": 12.0,
+        "float_p99": 6.0
+       },
+       "edge_strain_max": 0.9149753782388861
+      },
+      "Shoe_L": {
+       "poke_ring_max_mm": 16.07686128412652,
+       "poke_ring_p99_worst_mm": 4.841686149969554,
+       "triangle_flips_max": 2,
+       "poke_max_mm": 14.707003002628202,
+       "poke_p99_worst_mm": 4.318639445183842,
+       "float_max_mm": 8.254259824752808,
+       "float_p99_worst_mm": 4.503913754597319,
+       "cls": "rigid",
+       "worst_poke_pose": "ForehandShort f12",
+       "worst_poke_clip": "ForehandShort",
+       "worst_poke_frame": 12,
+       "worst_float_pose": "ForehandShort f12",
+       "pass_": true,
+       "thresholds": {
+        "poke_max": 15.0,
+        "poke_p99": 5.0,
+        "float_max": 12.0,
+        "float_p99": 6.0
+       },
+       "edge_strain_max": 2.7772008562374935
+      },
+      "Shoe_R": {
+       "poke_ring_max_mm": 15.548973502078328,
+       "poke_ring_p99_worst_mm": 9.123729796352166,
+       "triangle_flips_max": 0,
+       "poke_max_mm": 15.511684838127955,
+       "poke_p99_worst_mm": 9.568303358992328,
+       "float_max_mm": 7.188818417489529,
+       "float_p99_worst_mm": 3.713218886405226,
+       "cls": "rigid",
+       "worst_poke_pose": "Serve f30",
+       "worst_poke_clip": "Serve",
+       "worst_poke_frame": 30,
+       "worst_float_pose": "SplitToBackhand f6",
+       "pass_": false,
+       "thresholds": {
+        "poke_max": 15.0,
+        "poke_p99": 5.0,
+        "float_max": 12.0,
+        "float_p99": 6.0
+       },
+       "edge_strain_max": 1.3605634118652814
+      }
+     },
+     "zone_n": {
+      "Top": 5884,
+      "Bottom": 3393,
+      "Sock_L": 2390,
+      "Sock_R": 2395,
+      "Shoe_L": 969,
+      "Shoe_R": 961
+     }
+    },
+    "female": {
+     "summary": {
+      "Top": {
+       "poke_ring_max_mm": 15.74346798661281,
+       "poke_ring_p99_worst_mm": 6.470695501454084,
+       "triangle_flips_max": 1,
+       "poke_max_mm": 16.110587077042076,
+       "poke_p99_worst_mm": 6.70750040344722,
+       "float_max_mm": 57.7327236533165,
+       "float_p99_worst_mm": 11.401397101581077,
+       "cls": "cloth",
+       "worst_poke_pose": "ForehandWide contact",
+       "worst_poke_clip": "ForehandWide",
+       "worst_poke_frame": 26,
+       "worst_float_pose": "Serve contact",
+       "pass_": false,
+       "thresholds": {
+        "poke_max": 15.0,
+        "poke_p99": 5.0,
+        "float_max": 40.0,
+        "float_p99": 15.0
+       }
+      },
+      "Bottom": {
+       "poke_ring_max_mm": 9.8809919537766,
+       "poke_ring_p99_worst_mm": 0.0,
+       "triangle_flips_max": 0,
+       "poke_max_mm": 7.205477675202771,
+       "poke_p99_worst_mm": 2.2901608004795793,
+       "float_max_mm": 40.898445062339306,
+       "float_p99_worst_mm": 9.61146331392224,
+       "cls": "cloth",
+       "worst_poke_pose": "VolleyForehand contact",
+       "worst_poke_clip": "VolleyForehand",
+       "worst_poke_frame": 9,
+       "worst_float_pose": "Backhand contact",
+       "pass_": false,
+       "thresholds": {
+        "poke_max": 15.0,
+        "poke_p99": 5.0,
+        "float_max": 40.0,
+        "float_p99": 15.0
+       }
+      },
+      "Sock_L": {
+       "poke_ring_max_mm": 3.2086792741938446,
+       "poke_ring_p99_worst_mm": 0.0,
+       "triangle_flips_max": 0,
+       "poke_max_mm": 3.0171170422933766,
+       "poke_p99_worst_mm": 0.0,
+       "float_max_mm": 4.22870647162199,
+       "float_p99_worst_mm": 1.439513182267546,
+       "cls": "rigid",
+       "worst_poke_pose": "Overhead contact",
+       "worst_poke_clip": "Overhead",
+       "worst_poke_frame": 22,
+       "worst_float_pose": "Overhead contact",
+       "pass_": true,
+       "thresholds": {
+        "poke_max": 15.0,
+        "poke_p99": 5.0,
+        "float_max": 12.0,
+        "float_p99": 6.0
+       },
+       "edge_strain_max": 1.374997706629387
+      },
+      "Sock_R": {
+       "poke_ring_max_mm": 3.0343463897917364,
+       "poke_ring_p99_worst_mm": 0.0,
+       "triangle_flips_max": 0,
+       "poke_max_mm": 2.844038989599345,
+       "poke_p99_worst_mm": 0.0,
+       "float_max_mm": 4.414886701852083,
+       "float_p99_worst_mm": 1.6987166833132497,
+       "cls": "rigid",
+       "worst_poke_pose": "Overhead contact",
+       "worst_poke_clip": "Overhead",
+       "worst_poke_frame": 22,
+       "worst_float_pose": "Overhead contact",
+       "pass_": true,
+       "thresholds": {
+        "poke_max": 15.0,
+        "poke_p99": 5.0,
+        "float_max": 12.0,
+        "float_p99": 6.0
+       },
+       "edge_strain_max": 1.0615318970311076
+      },
+      "Shoe_L": {
+       "poke_ring_max_mm": 14.114210933345994,
+       "poke_ring_p99_worst_mm": 6.220918727627785,
+       "triangle_flips_max": 0,
+       "poke_max_mm": 29.29053494460749,
+       "poke_p99_worst_mm": 10.802536054712332,
+       "float_max_mm": 9.723738767206669,
+       "float_p99_worst_mm": 4.89448435604573,
+       "cls": "rigid",
+       "worst_poke_pose": "Overhead contact",
+       "worst_poke_clip": "Overhead",
+       "worst_poke_frame": 22,
+       "worst_float_pose": "Overhead contact",
+       "pass_": false,
+       "thresholds": {
+        "poke_max": 15.0,
+        "poke_p99": 5.0,
+        "float_max": 12.0,
+        "float_p99": 6.0
+       },
+       "edge_strain_max": 6.6516426294269495
+      },
+      "Shoe_R": {
+       "poke_ring_max_mm": 13.022014465104943,
+       "poke_ring_p99_worst_mm": 0.0,
+       "triangle_flips_max": 0,
+       "poke_max_mm": 14.60863583621866,
+       "poke_p99_worst_mm": 10.089896974768756,
+       "float_max_mm": 9.80391912162304,
+       "float_p99_worst_mm": 4.810272501781584,
+       "cls": "rigid",
+       "worst_poke_pose": "Overhead contact",
+       "worst_poke_clip": "Overhead",
+       "worst_poke_frame": 22,
+       "worst_float_pose": "Overhead contact",
+       "pass_": false,
+       "thresholds": {
+        "poke_max": 15.0,
+        "poke_p99": 5.0,
+        "float_max": 12.0,
+        "float_p99": 6.0
+       },
+       "edge_strain_max": 5.049540410812036
+      }
+     },
+     "sweep": {
+      "Top": {
+       "poke_ring_max_mm": 16.391087394865973,
+       "poke_ring_p99_worst_mm": 10.454477248716081,
+       "triangle_flips_max": 3,
+       "poke_max_mm": 17.478073348198496,
+       "poke_p99_worst_mm": 10.241406253905321,
+       "float_max_mm": 65.71453809738159,
+       "float_p99_worst_mm": 11.65048131253567,
+       "cls": "cloth",
+       "worst_poke_pose": "ForehandOpen f12",
+       "worst_poke_clip": "ForehandOpen",
+       "worst_poke_frame": 12,
+       "worst_float_pose": "SliceApproach f24",
+       "pass_": false,
+       "thresholds": {
+        "poke_max": 15.0,
+        "poke_p99": 5.0,
+        "float_max": 40.0,
+        "float_p99": 15.0
+       }
+      },
+      "Bottom": {
+       "poke_ring_max_mm": 9.832796979513214,
+       "poke_ring_p99_worst_mm": 3.704502618455434,
+       "triangle_flips_max": 0,
+       "poke_max_mm": 7.819613526508503,
+       "poke_p99_worst_mm": 3.8336425509040204,
+       "float_max_mm": 48.42641483992338,
+       "float_p99_worst_mm": 9.647394344210621,
+       "cls": "cloth",
+       "worst_poke_pose": "Overhead f18",
+       "worst_poke_clip": "Overhead",
+       "worst_poke_frame": 18,
+       "worst_float_pose": "ForehandWide f24",
+       "pass_": false,
+       "thresholds": {
+        "poke_max": 15.0,
+        "poke_p99": 5.0,
+        "float_max": 40.0,
+        "float_p99": 15.0
+       }
+      },
+      "Sock_L": {
+       "poke_ring_max_mm": 10.123161053659166,
+       "poke_ring_p99_worst_mm": 3.7791705694676745,
+       "triangle_flips_max": 1,
+       "poke_max_mm": 8.10065027738351,
+       "poke_p99_worst_mm": 2.4511955942037416,
+       "float_max_mm": 3.9867162704467773,
+       "float_p99_worst_mm": 1.5209660306572845,
+       "cls": "rigid",
+       "worst_poke_pose": "ForehandShort f18",
+       "worst_poke_clip": "ForehandShort",
+       "worst_poke_frame": 18,
+       "worst_float_pose": "ForehandShort f12",
+       "pass_": true,
+       "thresholds": {
+        "poke_max": 15.0,
+        "poke_p99": 5.0,
+        "float_max": 12.0,
+        "float_p99": 6.0
+       },
+       "edge_strain_max": 0.8963435725732833
+      },
+      "Sock_R": {
+       "poke_ring_max_mm": 8.103022368346283,
+       "poke_ring_p99_worst_mm": 6.033997307575868,
+       "triangle_flips_max": 1,
+       "poke_max_mm": 7.979914189454509,
+       "poke_p99_worst_mm": 5.39035097727686,
+       "float_max_mm": 3.8609025068581104,
+       "float_p99_worst_mm": 1.5235219802707365,
+       "cls": "rigid",
+       "worst_poke_pose": "Serve f30",
+       "worst_poke_clip": "Serve",
+       "worst_poke_frame": 30,
+       "worst_float_pose": "SplitToBackhand f6",
+       "pass_": false,
+       "thresholds": {
+        "poke_max": 15.0,
+        "poke_p99": 5.0,
+        "float_max": 12.0,
+        "float_p99": 6.0
+       },
+       "edge_strain_max": 0.8532272335809912
+      },
+      "Shoe_L": {
+       "poke_ring_max_mm": 14.20484865997318,
+       "poke_ring_p99_worst_mm": 9.2313668170758,
+       "triangle_flips_max": 1,
+       "poke_max_mm": 13.576575934668313,
+       "poke_p99_worst_mm": 11.189079638230291,
+       "float_max_mm": 7.965243421494961,
+       "float_p99_worst_mm": 3.807684918865562,
+       "cls": "rigid",
+       "worst_poke_pose": "ForehandShort f18",
+       "worst_poke_clip": "ForehandShort",
+       "worst_poke_frame": 18,
+       "worst_float_pose": "ForehandShort f12",
+       "pass_": false,
+       "thresholds": {
+        "poke_max": 15.0,
+        "poke_p99": 5.0,
+        "float_max": 12.0,
+        "float_p99": 6.0
+       },
+       "edge_strain_max": 3.9861983811946198
+      },
+      "Shoe_R": {
+       "poke_ring_max_mm": 14.301124981820363,
+       "poke_ring_p99_worst_mm": 8.134461790612827,
+       "triangle_flips_max": 1,
+       "poke_max_mm": 12.31409676062396,
+       "poke_p99_worst_mm": 10.706293029796205,
+       "float_max_mm": 7.565675303339958,
+       "float_p99_worst_mm": 3.3663802128285214,
+       "cls": "rigid",
+       "worst_poke_pose": "ForehandShort f6",
+       "worst_poke_clip": "ForehandShort",
+       "worst_poke_frame": 6,
+       "worst_float_pose": "SplitToBackhand f6",
+       "pass_": false,
+       "thresholds": {
+        "poke_max": 15.0,
+        "poke_p99": 5.0,
+        "float_max": 12.0,
+        "float_p99": 6.0
+       },
+       "edge_strain_max": 6.992648190591009
+      }
+     },
+     "zone_n": {
+      "Top": 2364,
+      "Bottom": 419,
+      "Sock_L": 1094,
+      "Sock_R": 1099,
+      "Shoe_L": 424,
+      "Shoe_R": 426
+     }
+    }
+   },
+   "failed": [
+    "3 FOLLOWS_BODY male Top: poke max 24.9 > 15 mm; poke p99 9.3 > 5 mm (worst poke at Forehand contact)",
+    "3 FOLLOWS_BODY male Bottom: poke max 18.1 > 15 mm; float max 50.3 > 40 mm (worst poke at VolleyForehand contact)",
+    "3 FOLLOWS_BODY male Shoe_L: poke max 15.1 > 15 mm; poke p99 7.7 > 5 mm (worst poke at Serve contact)",
+    "3 FOLLOWS_BODY male Shoe_R: poke p99 8.0 > 5 mm (worst poke at Serve contact)",
+    "3 FOLLOWS_BODY female Top: poke max 16.1 > 15 mm; poke p99 6.7 > 5 mm; float max 57.7 > 40 mm (worst poke at ForehandWide contact)",
+    "3 FOLLOWS_BODY female Bottom: float max 40.9 > 40 mm (worst poke at VolleyForehand contact)",
+    "3 FOLLOWS_BODY female Shoe_L: poke max 29.3 > 15 mm; poke p99 10.8 > 5 mm (worst poke at Overhead contact)",
+    "3 FOLLOWS_BODY female Shoe_R: poke p99 10.1 > 5 mm (worst poke at Overhead contact)"
+   ]
+  },
+  "4 UNITY_BIND": {
+   "pass_": true,
+   "detail": {
+    "Male": {
+     "failures": [],
+     "rolesFound": 7,
+     "materialsOk": true,
+     "max_pose_dev_mm": 0.0009900094009935856,
+     "max_bind_dev_mm": 0.00029950961470603943,
+     "centroid_delta_mm": [
+      0.0006447658524848521,
+      0.0005148992640897632,
+      0.0007275674142874777
+     ],
+     "unmatched": 0
+    },
+    "Female": {
+     "failures": [],
+     "rolesFound": 7,
+     "materialsOk": true,
+     "max_pose_dev_mm": 0.0012059102300554514,
+     "max_bind_dev_mm": 0.0003945291682612151,
+     "centroid_delta_mm": [
+      0.0005978845874778926,
+      0.0007166513823904097,
+      0.00047706993063911796
+     ],
+     "unmatched": 0
+    }
+   },
+   "failed": []
+  },
+  "5 ROLES_TINT": {
+   "pass_": true,
+   "detail": {
+    "Male": {
+     "roles_found": 7,
+     "default_is_authored": true,
+     "tint_ok": true
+    },
+    "Female": {
+     "roles_found": 7,
+     "default_is_authored": true,
+     "tint_ok": true
+    },
+    "pixel_test_unity": [
+     {
+      "file": "pixeltest_male_default.png",
+      "kitPixels": 122734,
+      "changed": 97029,
+      "outsideMask": 0
+     },
+     {
+      "file": "pixeltest_female_default.png",
+      "kitPixels": 93245,
+      "changed": 69892,
+      "outsideMask": 0
+     }
+    ]
+   },
+   "failed": []
+  },
+  "6 SWIFT_MIRROR": {
+   "pass_": true,
+   "detail": {
+    "Male": {
+     "kit_parts": [
+      "Kit_Bottom",
+      "Kit_Shoe_L",
+      "Kit_Shoe_R",
+      "Kit_Sock_L",
+      "Kit_Sock_R",
+      "Kit_Top"
+     ],
+     "roles": [
+      "Kit_Shirt",
+      "Kit_ShirtTrim",
+      "Kit_Shoe",
+      "Kit_Shorts",
+      "Kit_ShortsBand",
+      "Kit_Sock",
+      "Kit_Sole"
+     ],
+     "swing_frames": 12
+    },
+    "Female": {
+     "kit_parts": [
+      "Kit_Bottom",
+      "Kit_Shoe_L",
+      "Kit_Shoe_R",
+      "Kit_Sock_L",
+      "Kit_Sock_R",
+      "Kit_Top"
+     ],
+     "roles": [
+      "Kit_Shirt",
+      "Kit_ShirtTrim",
+      "Kit_Shoe",
+      "Kit_Shorts",
+      "Kit_ShortsBand",
+      "Kit_Sock",
+      "Kit_Sole"
+     ],
+     "swing_frames": 12
+    },
+    "cpu_skin_vs_bakemesh": [
+     [
+      "Kit_Bottom",
+      "0.000"
+     ],
+     [
+      "Kit_Shoe_L",
+      "0.000"
+     ],
+     [
+      "Kit_Shoe_R",
+      "0.000"
+     ],
+     [
+      "Kit_Sock_L",
+      "0.000"
+     ],
+     [
+      "Kit_Sock_R",
+      "0.000"
+     ],
+     [
+      "Kit_Top",
+      "0.001"
+     ],
+     [
+      "Kit_Bottom",
+      "0.000"
+     ],
+     [
+      "Kit_Shoe_L",
+      "0.000"
+     ],
+     [
+      "Kit_Shoe_R",
+      "0.000"
+     ],
+     [
+      "Kit_Sock_L",
+      "0.000"
+     ],
+     [
+      "Kit_Sock_R",
+      "0.000"
+     ],
+     [
+      "Kit_Top",
+      "0.001"
+     ]
+    ],
+    "swift_tests": {
+     "DressedHeroSnapshotTests.testBothHeroesAreDressedInTheMirror": "passed",
+     "DressedHeroSnapshotTests.testDefaultKitIsTheAuthoredWhiteKit": "passed",
+     "DressedHeroSnapshotTests.testPicksRecolourOnlyTheirRoles": "passed",
+     "DressedHeroSnapshotTests.testRecordDressedSnapshots": "passed",
+     "DressedHeroSnapshotTests.testRecordHostedDressedView": "passed",
+     "DressedHeroSnapshotTests.testTintMathsMatchesTheUnitySide": "passed",
+     "MatchHeroLockerTests.testBothMatchHeroesShipAndTheOldHeroDoesNot": "passed",
+     "MatchHeroLockerTests.testHairHeadwearAndBuildPicksDoNotChangeTheMesh": "passed",
+     "MatchHeroLockerTests.testLeftHandedLockerMirrorsTheHero": "passed",
+     "MatchHeroLockerTests.testLoadingPracticeAndClubActivitiesUseTheMatchHero": "passed",
+     "MatchHeroLockerTests.testLockerMirrorShowsTheMatchHeroForTheLockersSex": "passed",
+     "MatchHeroLockerTests.testPracticeSwingPlaysTheMatchForehand": "passed",
+     "MatchHeroLockerTests.testRacketHidesInCloseUpsAndForGolf": "passed",
+     "MatchHeroLockerTests.testRecordHostedLockerView": "passed",
+     "MatchHeroLockerTests.testRecordLockerMirrorProof": "passed"
+    },
+    "swift_pixel_test": [
+     [
+      "male",
+      "ready",
+      "75028",
+      "66143",
+      "0"
+     ],
+     [
+      "male",
+      "contact",
+      "71511",
+      "62263",
+      "0"
+     ],
+     [
+      "female",
+      "ready",
+      "54846",
+      "48376",
+      "0"
+     ],
+     [
+      "female",
+      "contact",
+      "50692",
+      "44134",
+      "0"
+     ]
+    ],
+    "swift_proofs": [
+     "female_contact_coral_navy_lime.png",
+     "female_contact_default.png",
+     "female_ready_coral_navy_lime.png",
+     "female_ready_default.png",
+     "hosted_female_coral_navy_lime.png",
+     "hosted_female_default.png",
+     "hosted_male_coral_navy_lime.png",
+     "hosted_male_default.png",
+     "male_contact_coral_navy_lime.png",
+     "male_contact_default.png",
+     "male_ready_coral_navy_lime.png",
+     "male_ready_default.png"
+    ]
+   },
+   "failed": []
+  },
+  "7 BUDGET": {
+   "pass_": false,
+   "detail": {
+    "per_hero": {
+     "Male": {
+      "vertices": 105668,
+      "kit_vertices": 62772,
+      "triangles": 174032,
+      "kit_triangles": 91226,
+      "swing_frame_mb": 2.42,
+      "base_file_mb": 4.41,
+      "resident_morph_mb": 29.0
+     },
+     "Female": {
+      "vertices": 90850,
+      "kit_vertices": 57059,
+      "triangles": 141840,
+      "kit_triangles": 81038,
+      "swing_frame_mb": 2.08,
+      "base_file_mb": 3.7,
+      "resident_morph_mb": 25.0
+     }
+    },
+    "matchhero_assets_bytes": 51494415,
+    "matchhero_assets_mb": 49.1,
+    "matchhero_assets_mb_before": 22.0,
+    "kit_fbx_bytes": {
+     "Male": 4340572,
+     "Female": 3923532
+    },
+    "xcodebuild_build": "not run",
+    "touched_tests": {
+     "MatchHeroLockerTests.testBothMatchHeroesShipAndTheOldHeroDoesNot": "passed",
+     "MatchHeroLockerTests.testHairHeadwearAndBuildPicksDoNotChangeTheMesh": "passed",
+     "MatchHeroLockerTests.testLeftHandedLockerMirrorsTheHero": "passed",
+     "MatchHeroLockerTests.testLoadingPracticeAndClubActivitiesUseTheMatchHero": "passed",
+     "MatchHeroLockerTests.testLockerMirrorShowsTheMatchHeroForTheLockersSex": "passed",
+     "MatchHeroLockerTests.testPracticeSwingPlaysTheMatchForehand": "passed",
+     "MatchHeroLockerTests.testRacketHidesInCloseUpsAndForGolf": "passed",
+     "MatchHeroLockerTests.testRecordHostedLockerView": "passed",
+     "MatchHeroLockerTests.testRecordLockerMirrorProof": "passed"
+    }
+   },
+   "failed": [
+    "7 BUDGET: xcodebuild build of scheme GolfArcade did not succeed: not run"
+   ]
+  },
+  "8 RACKET_AND_FEET": {
+   "pass_": false,
+   "detail": {
+    "male": {
+     "bind_offset_mm": {
+      "Left": -32.97276119701564,
+      "Right": -32.97275165095925
+     },
+     "worst_planted_err_mm": 13.12974444590509,
+     "p99_planted_err_mm": 12.649981956928968,
+     "tolerance_mm": 6.0,
+     "ready0": {
+      "Left": {
+       "foot_min": 0.002448223065584898,
+       "shoe_min": -0.03075469471514225
+      },
+      "Right": {
+       "foot_min": 0.0024553134571760893,
+       "shoe_min": -0.030749479308724403
+      }
+     },
+     "by_clip_planted_worst": {
+      "ReadyIdle": 0.2370981965214014,
+      "SplitToForehand": 12.145110638812184,
+      "SplitToBackhand": 9.157454129308462,
+      "RecoverCenter": 4.188898019492626,
+      "Forehand": 10.283096227794886,
+      "ForehandOpen": 7.88946682587266,
+      "ForehandWide": 12.649990385398269,
+      "ForehandShort": 13.12974444590509,
+      "Backhand": 8.966869674623013,
+      "BackhandWide": 1.6415717545896769,
+      "SliceApproach": 9.157456923276186,
+      "Serve": 0.7554800249636173,
+      "Return": 10.290119331330061,
+      "VolleyForehand": 8.105156244710088,
+      "VolleyBackhand": 10.272077284753323,
+      "Overhead": 0.23466255515813828
+     }
+    },
+    "female": {
+     "bind_offset_mm": {
+      "Left": -25.441125148063293,
+      "Right": -25.44113686599303
+     },
+     "worst_planted_err_mm": 11.599467947235098,
+     "p99_planted_err_mm": 11.267033024778357,
+     "tolerance_mm": 6.0,
+     "ready0": {
+      "Left": {
+       "foot_min": 0.0010702708968892694,
+       "shoe_min": -0.02551792375743389
+      },
+      "Right": {
+       "foot_min": 0.0010702552972361445,
+       "shoe_min": -0.025514880195260048
+      }
+     },
+     "by_clip_planted_worst": {
+      "ReadyIdle": 1.2067639072483871,
+      "SplitToForehand": 10.917412695562234,
+      "SplitToBackhand": 8.94429134496022,
+      "RecoverCenter": 4.92279622994829,
+      "Forehand": 9.794377445359714,
+      "ForehandOpen": 7.945420409669168,
+      "ForehandWide": 11.267056801443687,
+      "ForehandShort": 11.599467947235098,
+      "Backhand": 8.79716379859019,
+      "BackhandWide": 2.5378650716447737,
+      "SliceApproach": 8.944318818976171,
+      "Serve": 1.420715983840637,
+      "Return": 9.799586798180826,
+      "VolleyForehand": 7.920010128145805,
+      "VolleyBackhand": 9.786236754735,
+      "Overhead": 1.3737116278207395
+     }
+    },
+    "racket_and_hands_unchanged": true,
+    "unity_shoe_lowest_y_at_ready_mm": {
+     "Male": -30.75473976135254,
+     "Female": -25.517871856689453
+    },
+    "unity_body_lowest_y_at_ready_mm": {
+     "Male": 2.448228120803833,
+     "Female": 1.0701862573623657
+    }
+   },
+   "failed": [
+    "8 RACKET_AND_FEET male SOLE_TRACK: worst planted-frame sole error 13.1 mm > 6 mm (p99 12.6)",
+    "8 RACKET_AND_FEET female SOLE_TRACK: worst planted-frame sole error 11.6 mm > 6 mm (p99 11.3)"
+   ]
+  },
+  "9 PROOFS": {
+   "pass_": true,
+   "detail": {
+    "sheets": {
+     "Sheet_Male_Dressed.png": true,
+     "Sheet_Female_Dressed.png": true,
+     "BEFORE_AFTER_Male.png": true,
+     "BEFORE_AFTER_Female.png": true,
+     "BEFORE_AFTER_all.png": true,
+     "WORST_POKE_Male.png": true,
+     "WORST_POKE_Female.png": true
+    },
+    "unity_frames": 38,
+    "swift_frames": 12,
+    "docs": {
+     "NOTE_DRESS_MATCH_HEROES.md": true,
+     "run_all.sh": true,
+     "README.md": true
+    }
+   },
+   "failed": []
+  }
+ },
+ "failed_lines": [
+  "3 FOLLOWS_BODY male Top: poke max 24.9 > 15 mm; poke p99 9.3 > 5 mm (worst poke at Forehand contact)",
+  "3 FOLLOWS_BODY male Bottom: poke max 18.1 > 15 mm; float max 50.3 > 40 mm (worst poke at VolleyForehand contact)",
+  "3 FOLLOWS_BODY male Shoe_L: poke max 15.1 > 15 mm; poke p99 7.7 > 5 mm (worst poke at Serve contact)",
+  "3 FOLLOWS_BODY male Shoe_R: poke p99 8.0 > 5 mm (worst poke at Serve contact)",
+  "3 FOLLOWS_BODY female Top: poke max 16.1 > 15 mm; poke p99 6.7 > 5 mm; float max 57.7 > 40 mm (worst poke at ForehandWide contact)",
+  "3 FOLLOWS_BODY female Bottom: float max 40.9 > 40 mm (worst poke at VolleyForehand contact)",
+  "3 FOLLOWS_BODY female Shoe_L: poke max 29.3 > 15 mm; poke p99 10.8 > 5 mm (worst poke at Overhead contact)",
+  "3 FOLLOWS_BODY female Shoe_R: poke p99 10.1 > 5 mm (worst poke at Overhead contact)",
+  "7 BUDGET: xcodebuild build of scheme GolfArcade did not succeed: not run",
+  "8 RACKET_AND_FEET male SOLE_TRACK: worst planted-frame sole error 13.1 mm > 6 mm (p99 12.6)",
+  "8 RACKET_AND_FEET female SOLE_TRACK: worst planted-frame sole error 11.6 mm > 6 mm (p99 11.3)"
+ ]
+}

@@ -1,0 +1,77 @@
+{
+  "source": "https://polyhaven.com/a/fir_tree_01",
+  "license": "CC0",
+  "artists": [
+    "Rico Cilliers",
+    "Rob Tuytel"
+  ],
+  "adaptation": "Artist LOD2 with per-material bounded reduction; original needle UV/scale retained",
+  "meshes": [
+    {
+      "name": "CONIFER_A",
+      "triangles": 14515,
+      "bounds": [
+        [
+          -3.226658344268799,
+          -2.9074466228485107,
+          0.0
+        ],
+        [
+          3.331355571746826,
+          3.5489304065704346,
+          18.977188110351562
+        ]
+      ],
+      "materials": [
+        "fir_tree_01_bark",
+        "fir_tree_01_trunk_a",
+        "fir_tree_01_twig",
+        "fir_tree_01_dead_branches"
+      ]
+    },
+    {
+      "name": "CONIFER_B",
+      "triangles": 14515,
+      "bounds": [
+        [
+          -2.5820209980010986,
+          -2.944706678390503,
+          0.0
+        ],
+        [
+          3.044191360473633,
+          3.1682722568511963,
+          14.090543746948242
+        ]
+      ],
+      "materials": [
+        "fir_tree_01_bark",
+        "fir_tree_01_trunk_b",
+        "fir_tree_01_twig",
+        "fir_tree_01_dead_branches"
+      ]
+    },
+    {
+      "name": "CONIFER_C",
+      "triangles": 7032,
+      "bounds": [
+        [
+          -2.761598587036133,
+          -2.982006311416626,
+          0.0
+        ],
+        [
+          3.5883054733276367,
+          3.023411273956299,
+          14.552513122558594
+        ]
+      ],
+      "materials": [
+        "fir_tree_01_bark",
+        "fir_tree_01_twig",
+        "fir_tree_01_dead_branches",
+        "fir_tree_01_trunk_c"
+      ]
+    }
+  ]
+}

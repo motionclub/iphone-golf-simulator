@@ -1,0 +1,84 @@
+{
+  "gate": "PASS",
+  "toleranceTexelsAt128": 0.002,
+  "sourceEye13UvMaxDifference": 1.0981862625209874e-05,
+  "regions": {
+    "Male": {
+      "Iris_-1": {
+        "vertices": 128,
+        "halfExtent": [
+          0.010837859084560364,
+          0.010837859084560364
+        ],
+        "maxUvDifference": 1.3738191809196602e-07,
+        "meanUvDifference": 7.590243193629376e-08
+      },
+      "Iris_1": {
+        "vertices": 128,
+        "halfExtent": [
+          0.010837859550221672,
+          0.010837859550221672
+        ],
+        "maxUvDifference": 1.341104507446289e-07,
+        "meanUvDifference": 5.689216275408952e-08
+      },
+      "Sclera_-1": {
+        "vertices": 321,
+        "halfExtent": [
+          0.020213930634781718,
+          0.014648130534624215
+        ],
+        "maxUvDifference": 1.0981862625209874e-05,
+        "meanUvDifference": 4.168669122401387e-06
+      },
+      "Sclera_1": {
+        "vertices": 321,
+        "halfExtent": [
+          0.02021392854113424,
+          0.014648127333202865
+        ],
+        "maxUvDifference": 5.699104897263594e-06,
+        "meanUvDifference": 2.3716956796386215e-06
+      }
+    },
+    "Female": {
+      "Iris_-1": {
+        "vertices": 160,
+        "halfExtent": [
+          0.015572754433378577,
+          0.015572754433378577
+        ],
+        "maxUvDifference": 1.1920928955078125e-07,
+        "meanUvDifference": 2.4598557502031328e-08
+      },
+      "Iris_1": {
+        "vertices": 160,
+        "halfExtent": [
+          0.015572752570733428,
+          0.015572752570733428
+        ],
+        "maxUvDifference": 1.1920928955078125e-07,
+        "meanUvDifference": 3.202264319233049e-08
+      },
+      "Sclera_-1": {
+        "vertices": 240,
+        "halfExtent": [
+          0.04782941751182079,
+          0.01963620172409719
+        ],
+        "maxUvDifference": 1.6049041769309353e-07,
+        "meanUvDifference": 4.29183155469405e-08
+      },
+      "Sclera_1": {
+        "vertices": 240,
+        "halfExtent": [
+          0.047829171647237434,
+          0.019636205865026568
+        ],
+        "maxUvDifference": 8.429369702178807e-08,
+        "meanUvDifference": 2.0702229298078494e-08
+      }
+    }
+  },
+  "limits": "Read-only source equivalence only; Unity FBX import transforms/vertex splits require actual capture."
+}

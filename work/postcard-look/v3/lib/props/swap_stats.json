@@ -1,0 +1,137 @@
+{
+ "08": {
+  "blend": "work/postcard-look/baseline/blender/hole_08.blend",
+  "sha12": "38c2517837b8",
+  "legacy": 87,
+  "instances": 93,
+  "tris": 18998,
+  "kinds": {
+   "ROCK_CRAG_A_WET": 17,
+   "ROCK_SPIRE_A": 2,
+   "ROCK_BOULDER_B_WET": 11,
+   "ROCK_SLAB_A_WET": 7,
+   "ROCK_SEASTACK_A": 9,
+   "ROCK_BOULDER_A_WET": 13,
+   "ROCK_CRAG_A": 2,
+   "ROCK_CRAG_B_WET": 5,
+   "ROCK_CRAG_B": 7,
+   "ROCK_SPIRE_A_WET": 6,
+   "ROCK_SEASTACK_D": 1,
+   "ROCK_BOULDER_B": 2,
+   "ROCK_BLOCK_A": 1,
+   "ROCK_BOULDER_A": 2,
+   "ROCK_CAIRN_A": 4,
+   "ROCK_BLOCK_A_WET": 3,
+   "ROCK_STONE_A": 1
+  },
+  "scale_min": [
+   0.5009999871253967,
+   0.500999927520752,
+   0.550000011920929
+  ],
+  "scale_max": [
+   1.8989530801773071,
+   1.965009093284607,
+   1.9989999532699585
+  ],
+  "max_ratio": 1.6872846117666604,
+  "violations": 0,
+  "box_err_mean": 0.02988405797101449,
+  "box_err_max": 0.386,
+  "multi_instance_plans": 12,
+  "seconds": 0.18,
+  "stack_class": 12,
+  "vertical_stacks": 0,
+  "identical_clones": 0,
+  "bottom_delta_min": -9.5367431640625e-07,
+  "top_delta_min": -0.4971456527709961,
+  "top_delta_max": 0.024507522583007812
+ },
+ "09": {
+  "blend": "work/postcard-look/baseline/blender/hole_09.blend",
+  "sha12": "8846a99f7b53",
+  "legacy": 458,
+  "instances": 483,
+  "tris": 76088,
+  "kinds": {
+   "ROCK_CRAG_B_WET": 71,
+   "ROCK_CRAG_A_WET": 47,
+   "ROCK_CRAG_A": 11,
+   "ROCK_CRAG_B": 29,
+   "ROCK_BOULDER_B": 60,
+   "ROCK_BOULDER_A": 59,
+   "ROCK_BLOCK_A": 43,
+   "ROCK_CAIRN_A_WET": 23,
+   "ROCK_BOULDER_B_WET": 28,
+   "ROCK_BOULDER_A_WET": 24,
+   "ROCK_BLOCK_A_WET": 12,
+   "ROCK_CAIRN_A": 27,
+   "ROCK_SLAB_A": 4,
+   "ROCK_STONE_B": 13,
+   "ROCK_STONE_A": 8,
+   "ROCK_SEASTACK_D": 3,
+   "ROCK_SPIRE_A": 7,
+   "ROCK_SLAB_A_WET": 7,
+   "ROCK_SEASTACK_A": 7
+  },
+  "scale_min": [
+   0.5009999871253967,
+   0.5009999871253967,
+   0.5009998679161072
+  ],
+  "scale_max": [
+   1.9990001916885376,
+   1.9990001916885376,
+   1.9989999532699585
+  ],
+  "max_ratio": 1.9044724331308098,
+  "violations": 0,
+  "box_err_mean": 0.004851528384279476,
+  "box_err_max": 0.271,
+  "multi_instance_plans": 8,
+  "seconds": 0.52,
+  "stack_class": 8,
+  "vertical_stacks": 0,
+  "identical_clones": 0,
+  "bottom_delta_min": -0.13714098930358887,
+  "top_delta_min": -0.4250525236129761,
+  "top_delta_max": 0.15512943267822266
+ },
+ "10": {
+  "blend": "work/postcard-look/baseline/blender/hole_10.blend",
+  "sha12": "b0c478e6f2a7",
+  "legacy": 227,
+  "instances": 227,
+  "tris": 92680,
+  "kinds": {
+   "ROCK_WALL_BASALT_M": 31,
+   "ROCK_WALL_BASALT_L": 123,
+   "ROCK_BASALT_D": 21,
+   "ROCK_BASALT_A": 38,
+   "ROCK_BASALT_F": 6,
+   "ROCK_BASALT_B": 8
+  },
+  "scale_min": [
+   0.5009999871253967,
+   0.5009999871253967,
+   0.5009999871253967
+  ],
+  "scale_max": [
+   1.92119300365448,
+   1.9498729705810547,
+   1.9989999532699585
+  ],
+  "max_ratio": 1.9918030370042754,
+  "violations": 0,
+  "box_err_mean": 0.006506607929515419,
+  "box_err_max": 0.35,
+  "multi_instance_plans": 0,
+  "seconds": 0.19,
+  "stack_class": 0,
+  "vertical_stacks": 0,
+  "identical_clones": 0,
+  "bottom_delta_min": -1.9073486328125e-06,
+  "top_delta_min": -0.015501737594604492,
+  "top_delta_max": 0.14002227783203125
+ }
+}

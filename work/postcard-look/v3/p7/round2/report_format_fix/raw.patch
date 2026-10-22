@@ -1,0 +1,26 @@
+--- summarize_p6.py before
++++ summarize_p6.py compact display only
+@@ -399,6 +399,11 @@
+     if name.startswith('GRASS_HUE_H') and metrics:
+         h=int(name[-2:]);samples=metrics['samples']
+         return '; '.join(f"{'tee' if '_1_' in shot else 'approach'} fairway hue{samples[shot]['fairway']['hue_of_mean']}, clipped{samples[shot]['fairway']['clip_any_ch_250']*100:.3f}%, support{samples[shot]['fairway']['pixels']}px" for shot in (f'hole{h:02d}_1_tee',f'hole{h:02d}_2_approach')) + '; original hue60..76, clip<=5%'
++    if name == 'SMOKE_SOFT' and not metrics and values:
++        shots = values[0].get('shots', {})
++        source = [(shot, shots.get(shot, {}).get('smoke', {})) for shot in ('hole10_1_tee', 'hole10_2_approach', 'hole10_3_lavarim')]
++        if all(data.get('changed_px_gt1p5') is not None and data.get('edge_band_px_on_smooth_backdrop') is not None and data.get('edge_step_p99_levels_per_px') is not None for _, data in source):
++            return '; '.join(f"{shot}: changed{data['changed_px_gt1p5']}px, dYp95{data['delta_lum_p95']}, max{data['delta_lum_max']}, edgep99{data['edge_step_p99_levels_per_px']}/px on{data['edge_band_px_on_smooth_backdrop']}px" for shot, data in source) + '; original caps p95>=8/max<=110/edge<=6; original FAIL retained'
+     if name in ('SHELF','LAVA_ORANGE','SMOKE_SOFT') and metrics:
+         shots=metrics['shots']
+         if name=='SHELF':
+@@ -415,8 +420,9 @@
+     if name == 'NO_FOAM_STRIP':
+         native=next((x['nativeFoamGate'] for x in observed if 'nativeFoamGate' in x),[])
+         if native:
+-            match=re.match(r'(\d+) foam renderer',native[0]['detail'])
+-            return f"Native spacing gate{native[0]['status']}: {match[1] if match else 'unmeasured'} close/overlapping relations; minimum0.0yd vs cap>=7yd; offline visual/mesh metric PASS retained"
++            if all(item['status'] == 'PASS' for item in native):
++                return 'Native gate PASS: all LK_SURF patches <=12yd long and >=7yd apart; numerical minimum spacing not emitted; original visual/mesh metric PASS retained'
++            return '; '.join(f"Native gate {item['status']}: {item['detail']}" for item in native) + '; original visual/mesh metric status retained'
+     if name in ('GOLF_LOOK_SMOKE_BOTH_URP','POSTCARD_IMPORT_CHECK'):
+         if metrics:return '; '.join(metrics.get('reportedSummary',[])) + f"; {metrics['passed']} raw gate lines PASS; both URP suites" if name.startswith('GOLF') else f"{metrics['passed']} native gate lines/0failed"
+         gates=[]

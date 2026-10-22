@@ -1,0 +1,28 @@
+{
+ "topology_identical": true,
+ "verts": [
+  33196,
+  33196
+ ],
+ "body_verts_changed_vs_start": 3060,
+ "changed_z_range_m": [
+  1.4328809976577759,
+  1.5976020097732544
+ ],
+ "changed_inside_my_delta_indices": 0,
+ "delta_vertices": 3002,
+ "delta_at_start_pos": 3002,
+ "delta_at_new_pos": 0,
+ "changed_outside_delta_z_hist": {
+  "0.0-0.2": 0,
+  "0.2-0.4": 0,
+  "0.4-0.6": 0,
+  "0.6-0.8": 0,
+  "0.8-1.0": 0,
+  "1.0-1.2": 0,
+  "1.2-1.4": 0,
+  "1.4-1.6": 3060,
+  "1.6-1.8": 0
+ },
+ "face_m_identical_to_start": false
+}

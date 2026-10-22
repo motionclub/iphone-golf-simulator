@@ -1,0 +1,26 @@
+{
+  "status": "prepared; awaiting unlocked phone",
+  "candidate_helper_installed": true,
+  "capture_launch_last": "Locked",
+  "matching_baseline_build_session": null,
+  "candidate_launch_command": "xcrun devicectl device process launch --device 00008150-00041CD92287801C --terminate-existing --console --environment-variables {\"CLOTH_GPU_CAPTURE\":\"1\"} com.aloniewski.GolfArcade.ClothProof",
+  "capture_timer_seconds": 20,
+  "capture_duration_ms": 120,
+  "capture_file": "Documents/cloth_final.gputrace",
+  "status_file": "Documents/cloth_capture_status.txt",
+  "performance_profiles_saved": true,
+  "source_art_changed": false,
+  "matching_baseline_build": "BUILD SUCCEEDED",
+  "export_sources_restored": true,
+  "local_trace": "work/cloth-overhaul/capture_helper/unity_compiled_variants.gputrace",
+  "local_trace_device": "Apple M5 / macOS26.6.2",
+  "local_trace_profiled": true,
+  "compiled_registers": {
+    "before_plain": 100,
+    "after_plain": 112,
+    "before_court": 140,
+    "after_court": 130
+  },
+  "spilled_bytes_all_variants": 0,
+  "remaining": "Exact ALU instruction statistic not collected: Xcode CUA AX/screenshot requests timed out three times. Phone Ready question pending for alternative full Unity capture."
+}

@@ -1,0 +1,41 @@
+--- GolfArcade/Unity/MatchHeroSurfaces.swift
++++ GolfArcade/Unity/MatchHeroSurfaces.swift
+@@ -87,6 +87,11 @@
+             mat = SCNMaterial(); mat.lightingModel = .blinn; mat.diffuse.contents = flatColour(tint)
+         }
+         if sub.look?.anatomicalFace != true { configurePaint(mat, role: sub.material, crafted: sub.look?.craftedPaint ?? 0) }
++        if ProcessInfo.processInfo.environment["VISUAL_CHARACTER_SKIN_POLISH"] == "1", let look=sub.look, look.anatomicalFace == true,
++           sub.material.contains("Iris") || sub.material.contains("Sclera") {
++            let spec:Float=sub.material.contains("Iris") ? 0.85:0.52
++            mat.setValue(SCNVector4(look.wrap,look.smoothness,spec,look.saturation),forKey:"athleteSurface")
++        }
+         mat.name = sub.material   // the Unity material name (Skin, White_Frame, Kit_Shirt ...): the role a tint is applied to
+         mat.isDoubleSided = true   // a mirrored (left-handed) hero flips the winding
+         registry.setObject(Made(sub.look, sub.material, tint), forKey: mat)
+@@ -107,6 +112,7 @@
+             // acts after lighting and would tint specular / skin twice.
+         }
+         m.setValue(look.skinFinish ?? 0,forKey:"skinFinish")
++        m.setValue(ProcessInfo.processInfo.environment["VISUAL_CHARACTER_SKIN_POLISH"] == "1" ? Float(1):Float(0),forKey:"skinPolish")
+         m.setValue(look.skinPigmentUV ?? 0,forKey:"skinPigmentUV")
+         m.setValue((look.skinPigmentUV ?? 0)>0.5 ? Float(1):Float(0),forKey:"skinBindChannel")
+         // Same broad skin / varnished eye-frame lobes as HeroCharacterShade, replacing
+@@ -150,6 +156,7 @@
+     float4 athleteRim;
+     float4 headOrigin;
+     float skinFinish;
++    float skinPolish;
+     #pragma body
+     float3 n = normalize(_surface.normal), v = normalize(_surface.view), l = normalize(_light.direction);
+     float nl = dot(n,l), wrapped = saturate((nl + athleteSurface.x) / (1.0 + athleteSurface.x));
+@@ -164,7 +171,9 @@
+     if(skinFinish>0.5){
+         wrapped=saturate((nl+0.28)/1.28);
+         edge=saturate(wrapped-saturate(nl));
+-        spec=pow(nh,18.0+smoothness*18.0)*0.075*0.95*smoothstep(-0.06,0.24,nl);
++        float skinLobe=pow(nh,18.0+smoothness*18.0)*0.075;
++        if(skinPolish>0.5) skinLobe=pow(nh,12.0+smoothness*12.0)*0.13+pow(nh,48.0+smoothness*60.0)*0.018;
++        spec=skinLobe*0.95*smoothstep(-0.06,0.24,nl);
+         _lightingContribution.diffuse += _light.intensity.rgb*(float3(wrapped*0.84)+athleteWarmth.rgb*edge);
+         _lightingContribution.specular += _light.intensity.rgb*(float3(spec)+rim*0.45*(float3(0.35)+0.65*_surface.diffuse.rgb));
+     }else{

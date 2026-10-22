@@ -1,0 +1,74 @@
+{
+ "moved_vertices": 2130,
+ "face_reprojected": 386,
+ "face_max_shift_mm": 0.03649371794233778,
+ "normals_loops_changed": 5052,
+ "normals_max_change_deg": 14.464371086623373,
+ "lips": {
+  "old_faces": 792,
+  "kept_faces": 1964,
+  "new_faces": 1136,
+  "new_verts": 1394,
+  "tagged": 1136
+ },
+ "lip_params": {
+  "seam_zc": 1.4756555,
+  "seam_zk": 1.4822646,
+  "seam_hw": 0.0355,
+  "seam_pow": 1.6,
+  "top_c": 1.4826,
+  "top_drop": 0.002,
+  "top_hw": 0.03,
+  "top_pow": 4.0,
+  "up_end": 0.0336,
+  "lo_t": 0.013,
+  "lo_hw": 0.0252,
+  "lo_pow": 2.5,
+  "lo_q": 0.8,
+  "bow_amp": 0.0007,
+  "bow_x": 0.0062,
+  "bow_w": 0.0036,
+  "bow_dip": 0.0004,
+  "dip_w": 0.003,
+  "seam_w0": 0.0014,
+  "seam_w1": 0.00035,
+  "seam_wpow": 3.0,
+  "lift": 0.00055,
+  "lift_seam": 0.00085,
+  "up_rows": 6,
+  "lo_rows": 8,
+  "n_up": 85,
+  "n_lo": 69,
+  "n_seam": 89,
+  "nsig_x": 0.0035,
+  "nsig_t": 0.7,
+  "lo_tilt": [
+   [
+    0.0,
+    16.0
+   ],
+   [
+    0.45,
+    0.0
+   ],
+   [
+    1.0,
+    -26.0
+   ]
+  ],
+  "up_tilt": [
+   [
+    0.0,
+    -18.0
+   ],
+   [
+    0.55,
+    0.0
+   ],
+   [
+    1.0,
+    9.0
+   ]
+  ]
+ }
+}

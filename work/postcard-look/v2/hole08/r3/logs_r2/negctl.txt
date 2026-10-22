@@ -1,0 +1,14 @@
+BASE all pass: True []
+NEGCTL needle 10 yd from the centerline: expected FAIL ['NEEDLES'] -> failed ['LINES_OF_PLAY_VISIBLE', 'NEEDLES', 'ROCKS_OFF_PLAY_SURFACES'] => OK
+NEGCTL needle summit above 18 m: expected FAIL ['NEEDLES'] -> failed ['NEEDLES', 'ROCKS_CONTACT_CHAIN', 'ROCKS_STAND_IN_THE_SEA'] => OK
+NEGCTL needle 3 back at its design position (in front of the arch opening): expected FAIL ['ARCH_OPENING_CLEAR'] -> failed ['ARCH_OPENING_CLEAR'] => OK
+NEGCTL a land rock hovering 2 m up: expected FAIL ['ROCKS_CONTACT_CHAIN', 'ROCKS_REST'] -> failed ['ROCKS_CONTACT_CHAIN', 'ROCKS_REST'] => OK
+NEGCTL a rock stands on the landing fairway: expected FAIL ['ROCKS_OFF_PLAY_SURFACES'] -> failed ['ROCKS_OFF_PLAY_SURFACES'] => OK
+NEGCTL a boulder on the line of play 60 yd from the tee, 6 m tall: expected FAIL ['LINES_OF_PLAY_VISIBLE'] -> failed ['LINES_OF_PLAY_VISIBLE', 'ROCKS_CONTACT_CHAIN', 'ROCKS_OFF_PLAY_SURFACES', 'ROCKS_REST'] => OK
+NEGCTL a fallen block hovering 1 m over the outcrop: expected FAIL ['ARCH_FALLEN_BLOCKS_REST'] -> failed ['ARCH_FALLEN_BLOCKS_REST', 'ROCKS_CONTACT_CHAIN'] => OK
+NEGCTL the arch shifted 4 m off the outcrop: expected FAIL ['ARCH'] -> failed ['ARCH'] => OK
+NEGCTL a needle straight behind the flag seen from the middle pad: expected FAIL ['NEEDLES_NOT_BEHIND_TARGETS'] -> failed ['NEEDLES_NOT_BEHIND_TARGETS'] => OK
+NEGCTL the tee box back on LK_GREEN: expected FAIL ['MOW_PATTERN'] -> failed ['MOW_PATTERN'] => OK
+NEGCTL the tee box UV scaled x3: expected FAIL ['MOW_PATTERN'] -> failed ['MOW_PATTERN'] => OK
+NEGCTL the fairway stripe shift removed: expected FAIL ['MOW_PATTERN'] -> failed ['MOW_PATTERN'] => OK
+NEGCTL SUMMARY 12/12 mutations caught; base scene passes every gate: True

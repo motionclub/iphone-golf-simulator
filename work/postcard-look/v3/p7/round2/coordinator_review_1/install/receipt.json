@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "scope": "Required pre/install and byte/meta guards completed; overall goal remains FAIL; native unmeasured",
+  "protected_gate_before": {
+    "gate": "PROTECTED_FILES",
+    "status": "FAIL",
+    "raw_exit": 1,
+    "changed": 61,
+    "continuation": "Exact foreign observation reviewed; gate not exempted or passed"
+  },
+  "protected_gate_after": {
+    "gate": "PROTECTED_FILES",
+    "status": "FAIL",
+    "raw_exit": 1,
+    "changed": 61,
+    "continuation": "Exact foreign observation reviewed; gate not exempted or passed"
+  },
+  "installed": {
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/hole_07.blend": "a7842f25ca64a1a91be9d881611ff84de63eb1f2e1ad8111330b9834edc4c4af",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/hole_08.blend": "d52aeb9fda222d0a4a216775f5646c270f5d2eb4caf13d72a8f5168b26fc7768",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/hole_09.blend": "f263a588584d973d7c8254dcf6841236714313367856b34b26ffbb343c2b47e3",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/hole_10.blend": "18ca8535f49ef97f9d9e6fadb1750208193a3c45db2ae4d78d14e3de803c44fb",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/Course/hole_07.fbx": "813850bff6d107c0424dd9ca22eeaedf1ba9d3fc7ef6e9f0eed54bc67856c6ed",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/Course/hole_07.fbx.meta": "18e346e0e2f4c02be07ea608bccca0d4391776165bab69b375819b67f8a0a216",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/Course/hole_08.fbx": "764f992aaf2c186817e05656b6da2507e998283c15259131791d3f0c9d9a0ffe",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/Course/hole_08.fbx.meta": "3f7371fed3b1eb0aa03a410ca0473197d7a6b6c4034550247e130050db4493b0",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/Course/hole_09.fbx": "d6c19bed48952a52b9ce6cb436a6d5493ceaa6a424a085dfeca3b3ccfd96b94e",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/Course/hole_09.fbx.meta": "65b4dd392ac3cb1929d9f456d8973b2a1900d80dac0c59d192a7c60d7edeac6c",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/Course/hole_10.fbx": "758d38de2019655b2c738cbcd16870becfeceac0449d787615020e886e048575",
+    "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/Course/hole_10.fbx.meta": "bf25a2beedbd78c8a66d59df6b66e557cb8eaa59121def5e2413b6ace5045867"
+  }
+}

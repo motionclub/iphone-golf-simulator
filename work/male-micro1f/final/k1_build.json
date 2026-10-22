@@ -1,0 +1,88 @@
+{
+ "params": {
+  "curl": 0.004,
+  "curl2": 0.012,
+  "r_a": 0.0128,
+  "r_n": 0.0178,
+  "gap": 0.003,
+  "taper": 0.1,
+  "taper2": 0.07,
+  "tip_bulb": 0.1,
+  "f_tip": [
+   0.158,
+   0.171,
+   0.162,
+   0.14
+  ],
+  "splay_deg": [
+   6.0,
+   2.0,
+   -2.0,
+   -6.0
+  ],
+  "pad_mcp": 0.16,
+  "pad_pip": 0.16,
+  "pad_dip": 0.11,
+  "ridge": 0.003,
+  "palm_thick": 0.002,
+  "thenar": 0.006,
+  "hypo": 0.003,
+  "thumb_pts": [
+   [
+    0.04,
+    -0.004,
+    0.036
+   ],
+   [
+    0.054,
+    0.012,
+    0.047
+   ],
+   [
+    0.061,
+    0.027,
+    0.072
+   ],
+   [
+    0.06,
+    0.04,
+    0.098
+   ]
+  ],
+  "thumb_r": [
+   0.0215,
+   0.0205,
+   0.018,
+   0.0152
+  ],
+  "thumb_flat": 0.9
+ },
+ "report": {
+  "same_faces": true,
+  "n_verts": 24652,
+  "moved": 1746,
+  "moved_outside_hand_zone": 0,
+  "max_disp_mm": 20.04717020023321,
+  "max_disp_outside_hand_mm": 0.0
+ },
+ "info": [
+  {
+   "side": 1,
+   "new_verts": 873,
+   "freed": 836,
+   "appended": 37,
+   "leftover": 0,
+   "new_faces": 902,
+   "tris": 18
+  },
+  {
+   "side": -1,
+   "new_verts": 873,
+   "freed": 836,
+   "appended": 37,
+   "leftover": 0,
+   "new_faces": 902,
+   "tris": 18
+  }
+ ]
+}

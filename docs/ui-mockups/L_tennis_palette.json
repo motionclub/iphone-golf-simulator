@@ -1,0 +1,60 @@
+{
+ "tennis": {
+  "id": "royal_blue",
+  "n": "Royal Blue & Gold",
+  "vibe": "classic true-blue glass, white type, soft-gold points",
+  "g": [
+   [
+    "#3478EC",
+    0.95
+   ],
+   [
+    "#1F62D6",
+    0.95
+   ],
+   [
+    "#1950BC",
+    0.96
+   ]
+  ],
+  "ink": "#FFFFFF",
+  "inkFill": "#FFD166",
+  "acc": "#FFD166",
+  "div": "#86AEF5",
+  "on": "#0D2C66",
+  "st": "#7DA6F6",
+  "sh": "#071E4D",
+  "light": "#FFFFFF",
+  "shm": 2.0,
+  "tmin": 0.86
+ },
+ "golf": {
+  "id": "4_emerald_gold",
+  "n": "Emerald & Gold",
+  "vibe": "saturated emerald-teal panels, gold buttons, trophy feel",
+  "g": [
+   [
+    "#10936B",
+    0.95
+   ],
+   [
+    "#0B7556",
+    0.95
+   ],
+   [
+    "#075B44",
+    0.96
+   ]
+  ],
+  "ink": "#FFFFFF",
+  "inkFill": "#F5C542",
+  "acc": "#F5C542",
+  "div": "#5FC7A3",
+  "on": "#063D2D",
+  "st": "#3FBF94",
+  "sh": "#02261B",
+  "light": "#FFFFFF",
+  "shm": 2.0,
+  "tmin": 0.85
+ }
+}

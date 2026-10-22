@@ -1,0 +1,226 @@
+{
+ "09": [
+  {
+   "severity": "medium",
+   "hole": "09",
+   "area": "hole_script",
+   "user_line": "The ruin is still a pile of straight-cut boxes, not broken masonry like the split.jpg ruin. The arch crown still reads as two floating blocks.",
+   "where": "hole09_3_ruin.png x100-700 y860-1300 (arch and piers) and x190-760 y420-880 (far walls)",
+   "evidence": "2x crops show 7-8 rectangular courses with straight horizontal joints in the piers. The lintel on the middle wall is a flat straight slab. The far wall tops are plain steps, and the cap blocks are flat-colour slabs. The two arch crown halves sit above a visible gap and at different angles, so they read as floating. Triangle-split shading is still present on several voussoir faces (arch crop x330-540 y100-300). This is the same finding as the last two rounds, and the repair did not change the character.",
+   "fix_hint": "Per block: noise-chip and bevel by 1-3 cm and give each block its own UV scale and rotation. Use box UVs instead of per-face UVs to remove the triangle shear. Add ragged, uneven tops. Seat the crown halves on the piers and fill the gap with rubble. Do not touch the scoring meshes."
+  },
+  {
+   "severity": "low",
+   "hole": "09",
+   "area": "lib_ground",
+   "user_line": "There is still a ruler-straight step between the green rough and the tan scrub on the island rim, and the scrub field is one flat tan.",
+   "where": "hole09_3_ruin.png horizontal edge y~213 x0-425 and vertical edge x~425 y150-215; scrub field x200-900 y230-900",
+   "evidence": "Rough (122,132,75) h70 against scrub (125,117,81) h49, with a sharp edge over about 430 px that follows no noise. The scrub is a single tan at S.35 V.49 with fine grain only and no gullies or darker olive patches, unlike the ref ridge.",
+   "fix_hint": "Feather the rough-to-scrub boundary with a world-space noise mask and add large-scale darker olive gully or shadow variation to the scrub. Keep the outlines and heights unchanged."
+  },
+  {
+   "severity": "low",
+   "hole": "09",
+   "area": "lib_props",
+   "user_line": "The sea stacks still look like tapering obelisks with a cap, and the bushes are still smooth stacked balls.",
+   "where": "hole09_1_tee.png x655-695 y190-280; hole09_2_approach.png x775-870 y205-345; hole09_3_ruin.png bushes x60-400 y90-840",
+   "evidence": "The stacks are symmetric tapering shafts with banded tiers and a round green cap. The bushes are stacked smooth ellipsoids. Their hue is now olive (h58 S.45) but they are still clearly blobs.",
+   "fix_hint": "Make the stack silhouettes asymmetric with ragged broken tops and ledges, and break the bushes into tufty irregular clumps."
+  },
+  {
+   "severity": "low",
+   "hole": "09",
+   "area": "lib_ground",
+   "user_line": "The channel is flat blue behind a thick stone curb, with almost no whitewater, where split.jpg has sparse broken surf on a rugged shore.",
+   "where": "hole09_3_ruin.png x0-190 y230-490; hole09_2_approach.png the cliff base y330-350",
+   "evidence": "Channel colour is flat with a clear curb-like strata ring. There are about 3 tiny foam patches (surf 0.01-0.2% of the frame). The cliff base meets the sea with no foam or depth gradient. The no-strip rule is met, but the shore does not read as whitewater on rocks.",
+   "fix_hint": "Add a few short broken foam clusters at the cliff foot (not a strip), a subtle depth gradient, and a rougher rim silhouette."
+  },
+  {
+   "severity": "low",
+   "hole": "09",
+   "area": "texture",
+   "user_line": "The grass right at the ball is still a bit soft and smeared.",
+   "where": "hole09_2_approach.png y1200-1600 (and hole09_1_tee.png y1200-1600)",
+   "evidence": "Laplacian sd is 2.98 on the approach (below the 3.0 floor) and 3.43 on the tee. The 2x crop shows blurred streaks with no crisp blades. It reads as grass, not as a flat plane.",
+   "fix_hint": "Add a near-field detail layer at a second tiling scale that fades in within about 3 m, or raise anisoLevel on the Fairway texture."
+  }
+ ],
+ "08": [
+  {
+   "severity": "low",
+   "hole": "08",
+   "area": "lib_props",
+   "user_line": "The thin brown curved strand across the right pillar is much fainter than before but still there, and a 1 px pale hairline still hangs under a vine tip.",
+   "where": "hole08_3_arch.png: strand from about (715,545) to (760,700) across the right pillar blocks. Pale thread at x 585-587, y 340-480 above the arch crown, and a second under the vine tip at about x 585, y 560-640.",
+   "evidence": "The strand is 1 px wide and only 5-10 grey levels darker than the stone (row 545 neighbours 105 against a dip to 93; row 640 dips 122 to 74-81 at the block joint). It is visible only in a 2x crop. On the phone it reads as a crack, not a rope, so it is no longer the severity-medium rope. The hairlines are 3-4 sum-levels from the sky (688 to 685) and are barely visible. Earlier finding: mostly fixed, not fully gone.",
+   "fix_hint": "Drop the extrados trim or vine strand thinner than 2 px at tee-view distance. Widen the vine tip or cull it."
+  },
+  {
+   "severity": "low",
+   "hole": "08",
+   "area": "lib_props",
+   "user_line": "The arch silhouette is still a Minecraft-style staircase: square stepped courses on the right pillar top and left shoulder.",
+   "where": "hole08_3_arch.png: right pillar top x 690-850, y 410-700. Left shoulder x 165-300, y 520-700.",
+   "evidence": "Each course steps in by one block with flat tops and 90-degree corners. The ring itself is smooth, but the extrados is stepped. The reference arch is a round broken arch. Unchanged from the earlier round. It is not a user gate line.",
+   "fix_hint": "Run the courses along the arch radius and chip the top courses with 5-15 cm random offsets."
+  },
+  {
+   "severity": "low",
+   "hole": "08",
+   "area": "lib_props",
+   "user_line": "Sea-stack caps are still faceted saturated green hats. The cap seen through the arch is a hard dark-green wedge hanging over the stack edge.",
+   "where": "hole08_1_tee.png x 625-690, y 195-215 and x 805-850, y 175-205. hole08_3_arch.png cap x 600-650, y 600-635.",
+   "evidence": "3x crop shows visible low-poly facets on both tee-view caps, a flat dark-green top and an overhang past the stack edge on the arch-shot stack. The stack bodies now have strata and moss streaks, which is improved. They are still symmetric tapered columns.",
+   "fix_hint": "Subdivide and lump the cap mesh, give it the LK_ROUGH moss albedo, tuck its rim inside the stack top, and add base bulge and lean to the stack profile."
+  },
+  {
+   "severity": "medium",
+   "hole": "08",
+   "area": "hole_script",
+   "user_line": "On the arch island the lower third still shows a hard polygonal fold. It reads as folded paper, darker and sharper than before.",
+   "where": "hole08_3_arch.png: x 190-700, y 1380-1600. Straight edge at about y 1390, diagonal to about (680,1420). Left strip x 0-110, y 1300-1500 with a grey slab and vines.",
+   "evidence": "Row means at x 430-470 for y 1360 to 1450 step 10: 59, 75, 88, 101, 103, 87, 85, 70, 77, 87. The drop from about 103 to 70 across the edge is a 30-35% step with no AO feather. It is a lit-facet seam on a slope break, not a texture. One vine hangs at x about 355, y 1450-1550 on the darker facet. This is the phone's most obvious non-photoreal area in the arch shot, but it is outside the ground-play area.",
+   "fix_hint": "Smooth vertex normals across the slope break or add a moss vertex-colour feather along it. Scoring tops keep their outlines."
+  },
+  {
+   "severity": "low",
+   "hole": "08",
+   "area": "lib_props",
+   "user_line": "Eight hanging vines are still not attached to a surface (root gap up to 0.86 m). No gate fails on it.",
+   "where": "work/postcard-look/v2/proof/metrics.json mesh.hole8.vines: PLANT_VINE_L.026/.041/.042 and M.053/.054/.055/.060/.061.",
+   "evidence": "123 of 131 vines attached, 8 off by 0.6-0.86 m. Unchanged since the last review. The visible tail beside the arch is part of it.",
+   "fix_hint": "Reroot the 8 vines onto the nearest masonry or cliff face (gap at most 5 cm) or delete them. Add a root-gap gate."
+  },
+  {
+   "severity": "low",
+   "hole": "08",
+   "area": "texture",
+   "user_line": "The cart path is a wide, clean Voronoi paving strip, not the reference's thin worn cobble path through grass. Near grass has no mow stripes or blade detail.",
+   "where": "hole08_1_tee.png and hole08_2_approach.png: path covers x 0-640 and 15.7% / 14.8% of the frame. Grass y 1200-1600.",
+   "evidence": "The cobbles are uniform in tone with an even dark joint grid. Grass lower-60% luminance sd is 25.3 / 26.0, flat-window share 1.8% / 1.3% (limit 15%), hue 69.0 / 68.5, 99.4% / 99.6% of pixels inside h60-76, clipping 0.1% / 0.4%. So the hole is clearly not one flat colour and the hue is on target (64-73). Path height is at most 1.15 cm and the ball ratio is 1.37 / 1.33, so the ball is not hidden.",
+   "fix_hint": "Optional polish: vary stone tone per cobble, narrow the path, break its edge with grass overgrowth. Add a fine grass detail layer below 15 m."
+  },
+  {
+   "severity": "low",
+   "hole": "08",
+   "area": "hole_script",
+   "user_line": "The tee and approach foreground island is bare grass and path with no shrubs, flowers or ruins. The reference has plants and masonry across its islands.",
+   "where": "hole08_1_tee.png and hole08_2_approach.png, whole lower two thirds. Plants and ruins appear only on the arch island.",
+   "evidence": "The plants gate counts 809 plants, 0 on sea and 0 floating, but none sit near the ball line. The distance islands, stacks, waterfall and cliffs do read like the reference. Not a user FAIL condition.",
+   "fix_hint": "Optional: scatter shrubs and purple flowers along the path edge and cliff lip, kept off the fairway and lie area."
+  },
+  {
+   "severity": "low",
+   "hole": "08",
+   "area": "gate_tool",
+   "user_line": "The arch still's mask frame still differs from the proof frame, so its mask statistics are measured on a slightly different frame.",
+   "where": "work/postcard-look/v2/proof/metrics.json shots.hole08_3_arch.consistency_full_vs_proof_still",
+   "evidence": "max_abs_channel_diff 244 and 8.2% of pixels differ by more than 8 (tee and approach are near 0). The cause is animated water, 11.4% of the frame. The arch rough hue is measured at 63.9 with 69% inside 60-76. My own measure on the still gives hue 64, about the same.",
+   "fix_hint": "Freeze the water time for stills or exclude ocean pixels from the consistency check."
+  }
+ ],
+ "10": [
+  {
+   "severity": "medium",
+   "hole": "10",
+   "area": "texture",
+   "user_line": "Basalt: black prisms with glow only in the joints, matching crater.jpg",
+   "where": "hole10_1_tee.png wall x0-900 y150-300 and cone x400-900 y0-190; hole10_2_approach.png wall y0-260; hole10_3_lavarim.png wall y320-650",
+   "evidence": "Colour half FIXED (wall S .13-.19, no maroon cast), but the joint half is not: BASALT_JOINTS is still FAIL in the delivered GATE_LINES: glow 92/93/97% parallel vertical 2 px streaks (limit 80%), 1.27 junctions per 100 skeleton px (limit 3.0, crater.jpg 8.3-8.8), tee/approach glow mean (134,58,38)/(153,64,28). Far wall reads as a uniform picket fence / organ pipes of near-identical width with vertical hairline glow; the cone reads as stacked charred planks with terraced hard steps and short vertical orange dashes, not cracked polygonal prisms with branching glowing joints. No hex/pentagon prism tops or horizontal joints are visible.",
+   "fix_hint": "Re-bake Basalt_C/N so the glow lives in a branching Voronoi/hex joint network (horizontal ledges and diagonal cracks as well as vertical), vary column width and ledge height on the wall and cone UVs, and cut the glow streak length. Re-run BASALT_JOINTS until PASS; do not ship the proof with a FAIL line."
+  },
+  {
+   "severity": "medium",
+   "hole": "10",
+   "area": "lib_props",
+   "user_line": "Landmark: the pin pillar reads as the target; nothing hides the flag",
+   "where": "hole10_2_approach.png x235-665 y255-365, pin x452 y235-266",
+   "evidence": "Pin is a 1-2 px grey line (45,42,43) against the wall (28,25,27) and no flag cloth is visible, so the target cannot be read from the approach at phone size. The pillar is still a flat-top rectangular slab with flared side wings; no rounded bowl underside or lava-lit rim like the hanging disc in crater.jpg (pillar side mean (84,47,26) is only lit by emission streaks).",
+   "fix_hint": "Make the flag a saturated colour (white or red) at least 6x10 px at approach range and keep it clear of the dark wall (raise it or add a light backing); taper/round the pillar underside below the frozen top outline (scoring-neutral) and add a lava-tinted rim light near the waterline."
+  },
+  {
+   "severity": "low",
+   "hole": "10",
+   "area": "texture",
+   "user_line": "Lava: swirling molten flow, mostly bright, orange from emission alone",
+   "where": "hole10_3_lavarim.png lava x250-900 y1000-1600; hole10_2_approach.png y330-530",
+   "evidence": "Dark-cell and seam problems FIXED (dark V<.40 1.2-2.5%, in-band 92-95%). Remaining gap to crater.jpg: hot-core share (R>240,G>170) = 0.0, no bright yellow-orange veins; near-camera swirls in lavarim are large and soft (magnified look); approach has 8% dark-ink streaks (V<.35) in y330-530 that read as dirty marbling.",
+   "fix_hint": "Add a hot yellow-orange vein layer (emission only), raise tiling frequency for the near field, and recolour the black ink to dark-red crust (V>=.25)."
+  },
+  {
+   "severity": "low",
+   "hole": "10",
+   "area": "hole_script",
+   "user_line": "Tee reads as the square tee pad; no hard artefact across the frame",
+   "where": "hole10_1_tee.png y590-620, full width",
+   "evidence": "The tan paving kerb is gone but the replacement is a full-width dark olive band (mean (103,113,44), lum sd 37.3) with a black wavy outline and 3 flat-shaded facets (a darker quad at x160-340, a lighter one x340-680). It reads as a trench or step line across the middle of the frame, the hardest edge in the lower two thirds; ball is not covered (330 px below).",
+   "fix_hint": "Give the pad lip the LK_BASALT black column skin with texture (or grass-textured top-lip) and smooth its normals so no flat facets show; keep it a thin 20-30 cm rim."
+  },
+  {
+   "severity": "low",
+   "hole": "10",
+   "area": "unity_runtime",
+   "user_line": "Ground texture clean at 2-20 yd",
+   "where": "hole10_1_tee.png y1100-1600; hole10_2_approach.png y1250-1600",
+   "evidence": "Near grass still smears horizontally: tee vertical/horizontal gradient ratio 1.04 at y1000, 0.76 at y1250, 0.62 at y1450 (1.36 at y700); approach 0.87 at y1450. Milder than the earlier 0.47 but not isotropic. Mow stripes are visible only beyond y~600; the near field is a blurred noise carpet.",
+   "fix_hint": "Confirm anisotropicTextures ForceEnable at the Game-view quality level and importer aniso 16 on Fairway_C/N, check near-field UV density, and add a detail normal at short range."
+  },
+  {
+   "severity": "low",
+   "hole": "10",
+   "area": "lib_props",
+   "user_line": "Rock character: no stacked boxes (cliff skin)",
+   "where": "hole10_3_lavarim.png x100-340 y1000-1600",
+   "evidence": "Cliff skin is now dark (lum p50 38) but the lower half still shows overlapping flat angular plates like folded paper, with only a few orange slits; it does not match the prismatic wall behind it.",
+   "fix_hint": "Use the same vertical prism geometry and joint glow on the lower cliff skin as the wall."
+  }
+ ],
+ "gates": [
+  {
+   "severity": "low",
+   "hole": "10",
+   "area": "texture",
+   "user_line": "GATE: BASALT_JOINTS FAIL (the integrator's own Game-view gate; thresholds not relaxed) - columns read as prisms, glow only in the joints",
+   "where": "LK_BASALT / Basalt_E and the hole 10 builder's per-face glow windows; work/postcard-look/v2/proof/GATE_LINES.txt line BASALT_JOINTS; ArtDir/screenshots/golf_postcards/look/hole10_1_tee.png, hole10_2_approach.png, hole10_3_lavarim.png",
+   "evidence": "The integrator's gate is stricter than the user's brief. Its failing parts: glow in vertical lines 92 / 93 / 97 % (limit <= 80) and 1.27 skeleton junctions per 100 px (limit >= 3.0; crater.jpg wall crops 8.3-8.8). Its passing parts: glow 1.5-2.1 % of the basalt, rungs 0-1 %, non-glow median lum 23.5-35.5, non-glow mean S .118-.170. My own checks: postcard_look_verify BASALT_PRISMS@blend and @fbx PASS (glow 2.7 %, 5 % non-vertical blobs, longest horizontal run 4.3 %). I zoomed crops of hole10_3_lavarim.png. The wall reads as vertical prisms with thin orange hairlines in the seams between them. There are no ladders and no brick. The earlier maroon cast is gone and the non-glow wall is neutral charcoal. The wall is sparse next to crater.jpg's cracked fissure network. The user's line is met; the stricter structure gate is not.",
+   "fix_hint": "Optional polish: re-bake the Basalt_E glow windows (GLOW_U, ZONES, PROFILE128 in the hole 10 builder) so the seams branch, then re-run measure.py BASALT_JOINTS. Tell the user the wall glow is parallel hairlines, not a network."
+  },
+  {
+   "severity": "low",
+   "hole": "09",
+   "area": "lib_ground",
+   "user_line": "GATE: SHELF_THIN (water shelf is a thin edge, not a halo)",
+   "where": "hole_09 installed blend and FBX, one pocket",
+   "evidence": "SHELF_THIN@blend and @fbx PASS: median 0.0 m, p95 0.9 m, max 33.1 m, width cv 2.95. That max is one excluded sea pocket; hole 8 max is 4.6 m. Game-view aerial measurement from the integrator's SHELF_NOT_LOUDEST: shelf 0.23 % / 0.56 % of the frame, 0.0 % of the brightest 2 % of pixels, luminance 0.93x / 1.04x the open sea. In the 9 stills the shelf is a thin edge.",
+   "fix_hint": "Note only."
+  },
+  {
+   "severity": "low",
+   "hole": "all",
+   "area": "lib_ground",
+   "user_line": "GATE: NO_FOAM_STRIP - discrete LK_SURF patches kept (interpretation of 'delete the white foam strips')",
+   "where": "hole_08 17 WATER_SURF runs, hole_09 61 LK_SURF patches",
+   "evidence": "No foam object or material in any blend or FBX (NO_MAT_FOAM, NO_FOAM_STRIP, ImportCheck NO_FOAM_STRIP_8_10 PASS). Hole 8: 17 runs, longest 7 m, min gap 15 m, 16 % of 522 m of shore. Hole 9: 61 runs, longest 7 m, min gap 9 m, 17 % of 1895 m. In the stills they are small flecks at cliff bases and no continuous band. The brief said delete the strips, so the user may still dislike the flecks.",
+   "fix_hint": "None required by the gate. Mention to the user."
+  },
+  {
+   "severity": "low",
+   "hole": "all",
+   "area": "gate_tool",
+   "user_line": "Proof pipeline note: stills rendered under TennisURP only",
+   "where": "ArtDir/screenshots/golf_postcards/look/stills_stats.json; Unity/ProjectSettings/QualitySettings.asset",
+   "evidence": "QualitySettings.asset hash ba25e74e equals git HEAD (commit 2225264c 'Restore TennisURP', another chat), so every quality level is TennisURP. My GolfLookSmoke run passed 88/88 and URP_BOTH_ASSETS PASS (33/33 under TennisURP and 33/33 under HeroBaseStudioURP). The asset's mtime 04:28 comes from my own Unity batch exit, content unchanged. HeroBaseStudioURP.asset mtime is Oct 3 22:55, unchanged.",
+   "fix_hint": "None for this gate."
+  },
+  {
+   "severity": "low",
+   "hole": "all",
+   "area": "other",
+   "user_line": "GATE: PROTECTED_FILES (tennis / QualitySettings / shaders / Serve untouched)",
+   "where": "Unity/Assets/Scripts/Tennis, Unity/Assets/Resources/Tennis, Unity/Assets/Characters, Unity/ProjectSettings",
+   "evidence": "protected_check.sh found 32 files differing from protected_hashes_start.txt. All are other chats' work: 17 changed and 15 added, mtimes 10-04 15:12 to 10-05 03:16. They are Tennis*.cs including TennisGame.Network.cs, HeroTennisDriver.cs, TennisGame.cs, TennisRules.cs and TennisTossMeter.cs; the Player*.prefab files; KitV3_016.mat; and the Emote and Intro FBXs under MatchHeroes. QualitySettings.asset differs from the start list only because commit 2225264c changed it. None has an mtime in this job's write windows. Files newer than .start_marker outside the allowed set are other chats' Swift, multiplayer, emote, locker, tennis, Builds and work/ files. The ProjectSettings and URP-GlobalSettings files with a 10-04 19:23 mtime have unchanged content. guards.sh prints 7 PASS. No tennis scene or shader is in this job's changed set. This is a note, not our fail.",
+   "fix_hint": "None for this job."
+  }
+ ]
+}

@@ -1,0 +1,78 @@
+{
+  "all": {
+    "frames": 1200,
+    "deepest_mm": 81.82863,
+    "worst_frame": 786,
+    "worst_bone": "LeftLowerArm",
+    "inside_pct_at_worst": 27.74725,
+    "inside_pct_max": 27.74725,
+    "game_visibility_pct": 68.16666666666667,
+    "front_visibility_pct": 99.08333333333333,
+    "ball_palm_max_cm": 2239.646,
+    "elbow_range_deg": [
+      7.556595,
+      140.8577
+    ],
+    "length_delta_mm": 0.001103,
+    "hand_step_max_cm": 28.3735,
+    "hand_speed_change_max": 12.13711,
+    "hip_lateral_min_cm": 0.0634
+  },
+  "walk": {
+    "frames": 354,
+    "deepest_mm": 0.0,
+    "worst_frame": 34,
+    "worst_bone": "none",
+    "inside_pct_at_worst": 0.0,
+    "inside_pct_max": 0.0,
+    "game_visibility_pct": 94.63276836158192,
+    "front_visibility_pct": 97.45762711864407,
+    "ball_palm_max_cm": 4.2075000000000005,
+    "elbow_range_deg": [
+      22.75992,
+      60.83068
+    ],
+    "length_delta_mm": 0.000954,
+    "hand_step_max_cm": 9.223099999999999,
+    "hand_speed_change_max": 2.697495,
+    "hip_lateral_min_cm": 0.7346
+  },
+  "left": {
+    "frames": 164,
+    "deepest_mm": 0.0,
+    "worst_frame": 34,
+    "worst_bone": "none",
+    "inside_pct_at_worst": 0.0,
+    "inside_pct_max": 0.0,
+    "game_visibility_pct": 98.17073170731707,
+    "front_visibility_pct": 94.51219512195122,
+    "ball_palm_max_cm": 4.1994,
+    "elbow_range_deg": [
+      25.29179,
+      60.83068
+    ],
+    "length_delta_mm": 0.000954,
+    "hand_step_max_cm": 9.223099999999999,
+    "hand_speed_change_max": 2.339361,
+    "hip_lateral_min_cm": 1.0957
+  },
+  "walk_turn_plant": {
+    "frames": 522,
+    "deepest_mm": 5.300131,
+    "worst_frame": 547,
+    "worst_bone": "LeftUpperArm",
+    "inside_pct_at_worst": 1.053114,
+    "inside_pct_max": 1.053114,
+    "game_visibility_pct": 76.62835249042146,
+    "front_visibility_pct": 97.89272030651341,
+    "ball_palm_max_cm": 74.6725,
+    "elbow_range_deg": [
+      7.556732,
+      88.15372
+    ],
+    "length_delta_mm": 0.000954,
+    "hand_step_max_cm": 9.223099999999999,
+    "hand_speed_change_max": 2.697495,
+    "hip_lateral_min_cm": 0.6566
+  }
+}

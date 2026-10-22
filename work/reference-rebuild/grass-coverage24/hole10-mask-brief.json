@@ -1,0 +1,56 @@
+{
+  "status": "COMPILED_CANDIDATE_PENDING_ACTUAL_HOLE10_PROOF",
+  "repairScope": "Hole 10 only: render-only DRESS_PADRIM_V3 / LK_BASALT tee-border exclusion. Existing physical colliders are unchanged.",
+  "sourceEvidence": {
+    "actualFbx": "Unity/Assets/Resources/Course/hole_10.fbx",
+    "actualFbxContains": [
+      "DRESS_PADRIM_V3",
+      "LK_BASALT"
+    ],
+    "actualPhysicsColliderCount": 10,
+    "actualPhysicsContainsBasaltBorderCollider": false,
+    "authoringFile": "blender/scripts/hole10_look.py",
+    "authoringFunction": "build_tee_platform",
+    "exposedRimCapHeightAboveTeeMeters": 0.0115,
+    "interiorPierCapHeightBelowExposedRimMeters": 0.07
+  },
+  "method": "Reuse cached actual render triangles in BuildPathMask. Accept basalt triangles only for exact hole10 DRESS_PADRIM_V3 mesh name and basalt material. Compare root height to local projected triangle-plane height plus 5mm; exclude only exposed stone. Existing path margin remains 16cm, existing source support and role checks remain exact.",
+  "costBounds": "One additional readable mesh is inspected during Build only. No new Ground queries, raycasts, colliders, mesh/material allocations or per-frame geometry scans. Extra cached-triangle comparisons run during settled-address rebuilds. Rebuild cost must be measured by root actual proof; prior hole22 maximum17.85ms is not a performance guarantee for repaired hole10.",
+  "preserved": [
+    "48 near / 96 mid / 640 total cells",
+    "3 instanced draws",
+    "zero grass shadows/colliders",
+    "accepted material/palette/shader/edge fade",
+    "no flight rebuild",
+    "existing nine route behavior",
+    "other six new route surface policies"
+  ],
+  "compiled": true,
+  "compiler": "Bundled Roslyn against current runtime source; no Unity launch",
+  "compileLog": "compile-hole10-mask.log",
+  "sha256": {
+    "GolfCoastalTurf.hole10-mask.installed-before.cs": "f8af3028f3126201b0635496c5f08b488e0815194f7657282d3a1cc8e01f165b",
+    "GolfCoastalTurf.hole10-mask.cs": "8fd62186f777fb4076fe19d3a2188cffdd76791489f5d1fab7ae1ca7b404ef73",
+    "hole10-stepping-stone-mask.patch": "fda49a5c9b46824a8ef6efdaaa71b1ecef86efa7a38c981d87d829a6c3f7fb15"
+  },
+  "requiredRootChecks": [
+    "Run only hole10 pilot/control configs; do not rerun six accepted routes.",
+    "Tee render: exposed black basalt caps are clear, turf above hidden support piers has no holes.",
+    "Moved middle/approach positive grass and return regeneration remain strict.",
+    "Same station no queries/rebuild, actual flight zero rebuilds, exact physical audit incl source references.",
+    "Record actual rebuild latency; inspect at least tee and moved addresses."
+  ],
+  "currentProofReview": {
+    "numericalGate": "PASS",
+    "visualGate": "FAIL",
+    "sixSeparatelyPromotable": [
+      16,
+      17,
+      18,
+      21,
+      22,
+      23
+    ],
+    "hole10Pending": true
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "recordedUtc": "2026-10-05T23:16:43.727054+00:00",
+  "source": "Root tool exec_command read-only ps -Ao pid,ppid,etime,%cpu,command; output chunk2d6168 immediately before the later no-longer-running recheck. Full argument lines were truncated to240characters; no full command identity inferred.",
+  "simultaneousObservedRows": [
+    {
+      "pid": 94048,
+      "ppid": 94034,
+      "elapsed": "01:53",
+      "cpuPercent": 96.1,
+      "commandPrefix": "/Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/MacOS/Unity -batchmode -projectPath /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/serve-walk-arm/AfterMatrix"
+    },
+    {
+      "pid": 94116,
+      "ppid": 94082,
+      "elapsed": "01:44",
+      "cpuPercent": 106.8,
+      "commandPrefix": "/Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/MacOS/Unity -batchmode -projectPath /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/serve-walk-arm/AfterMatrix"
+    }
+  ],
+  "concurrentForeignBatchObserved": true,
+  "rootPromotionAtSameObservation": {
+    "pid": 93866,
+    "elapsed": "02:11",
+    "command": "bash actual heavy.sh p7-round2-promote; waiting before source coordinator admission"
+  },
+  "scope": "Foreign two-batch overlap retained; root used required actual heavy.sh and did not kill or contact other tasks. Separate later recheck found both PIDs already ended."
+}

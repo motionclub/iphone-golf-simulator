@@ -1,0 +1,602 @@
+{
+  "gate": "SOURCE_AUDIT_PASS",
+  "requestedNumberSlots": 24,
+  "definedHoles": 19,
+  "authoredHoles": 16,
+  "proceduralHoles": [
+    1,
+    2,
+    3
+  ],
+  "nonexistentSlots": [
+    4,
+    5,
+    6,
+    11,
+    24
+  ],
+  "acceptedMovingHoles": [
+    7,
+    8,
+    9,
+    12,
+    13,
+    14,
+    15,
+    19,
+    20
+  ],
+  "compatibleCandidateHoles": [
+    10,
+    16,
+    17,
+    18,
+    21,
+    22,
+    23
+  ],
+  "actualCandidateGate": "PENDING_ROOT_UNITY_CAPTURE",
+  "notes": "These are hole number slots across four Course.All() entries plus Meadow(), not 24 defined golf courses. Historical physics evidence is inventory only, not a new candidate gate.",
+  "rows": [
+    {
+      "number": 1,
+      "name": "Meadow Run hole 1",
+      "status": "PROCEDURAL_ADAPTER_REQUIRED",
+      "spec": "Unity/Assets/Scripts/Course/Hole.cs",
+      "system": "procedural flat ribbons and discs",
+      "authoritativeMesh": "none; analytic flat Hole.Surface",
+      "historicalActualPhysics": {
+        "file": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-physics-final/hole01_dressing_physics.json",
+        "gate": "PASS",
+        "colliders": 114,
+        "obstacles": 0,
+        "groundSamples": 303
+      },
+      "actualGroundMaterialRoles": [
+        "Course 1 Fairway",
+        "Course 1 Fringe",
+        "Course 1 Green",
+        "Course 1 Rough",
+        "Course 1 Tee"
+      ],
+      "grass": "Managed atlas materials, no physical address blades; actual tee images remain flat.",
+      "blocker": "BuildGeometry creates no persistent ground MeshColliders and DressProcedural never calls GolfCoastalTurf.Apply. Existing collider/name adapter cannot admit these ribbons. Meadow is also absent from Course.All(), so capture uses an explicit Meadow course override. An analytic Hole.LieAt/flat rendered-height adapter and separate proof are required; adding physics colliders is not an acceptable shortcut."
+    },
+    {
+      "number": 2,
+      "name": "Meadow Run hole 2",
+      "status": "PROCEDURAL_ADAPTER_REQUIRED",
+      "spec": "Unity/Assets/Scripts/Course/Hole.cs",
+      "system": "procedural flat ribbons and discs",
+      "authoritativeMesh": "none; analytic flat Hole.Surface",
+      "historicalActualPhysics": {
+        "file": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-physics-final/hole02_dressing_physics.json",
+        "gate": "PASS",
+        "colliders": 86,
+        "obstacles": 0,
+        "groundSamples": 300
+      },
+      "actualGroundMaterialRoles": [
+        "Course 2 Fairway",
+        "Course 2 Fringe",
+        "Course 2 Green",
+        "Course 2 Rough",
+        "Course 2 Tee"
+      ],
+      "grass": "Managed atlas materials, no physical address blades; actual tee images remain flat.",
+      "blocker": "BuildGeometry creates no persistent ground MeshColliders and DressProcedural never calls GolfCoastalTurf.Apply. Existing collider/name adapter cannot admit these ribbons. Meadow is also absent from Course.All(), so capture uses an explicit Meadow course override. An analytic Hole.LieAt/flat rendered-height adapter and separate proof are required; adding physics colliders is not an acceptable shortcut."
+    },
+    {
+      "number": 3,
+      "name": "Meadow Run hole 3",
+      "status": "PROCEDURAL_ADAPTER_REQUIRED",
+      "spec": "Unity/Assets/Scripts/Course/Hole.cs",
+      "system": "procedural flat ribbons and discs",
+      "authoritativeMesh": "none; analytic flat Hole.Surface",
+      "historicalActualPhysics": {
+        "file": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-physics-final/hole03_dressing_physics.json",
+        "gate": "PASS",
+        "colliders": 38,
+        "obstacles": 0,
+        "groundSamples": 297
+      },
+      "actualGroundMaterialRoles": [
+        "Course 3 Fairway",
+        "Course 3 Fringe",
+        "Course 3 Green",
+        "Course 3 Rough",
+        "Course 3 Tee"
+      ],
+      "grass": "Managed atlas materials, no physical address blades; actual tee images remain flat.",
+      "blocker": "BuildGeometry creates no persistent ground MeshColliders and DressProcedural never calls GolfCoastalTurf.Apply. Existing collider/name adapter cannot admit these ribbons. Meadow is also absent from Course.All(), so capture uses an explicit Meadow course override. An analytic Hole.LieAt/flat rendered-height adapter and separate proof are required; adding physics colliders is not an acceptable shortcut."
+    },
+    {
+      "number": 4,
+      "name": null,
+      "status": "NO_SOURCE_SLOT",
+      "blocker": "No Hole definition, course entry or hole_XX FBX in current source; no terrain to extend."
+    },
+    {
+      "number": 5,
+      "name": null,
+      "status": "NO_SOURCE_SLOT",
+      "blocker": "No Hole definition, course entry or hole_XX FBX in current source; no terrain to extend."
+    },
+    {
+      "number": 6,
+      "name": null,
+      "status": "NO_SOURCE_SLOT",
+      "blocker": "No Hole definition, course entry or hole_XX FBX in current source; no terrain to extend."
+    },
+    {
+      "number": 7,
+      "name": "Cliffside",
+      "status": "ACCEPTED_MOVING",
+      "spec": "Unity/Assets/Scripts/Course/Hole.cs",
+      "system": "authored FBX + named MeshCollider ground",
+      "authoritativeMesh": "Unity/Assets/Resources/Course/hole_07.fbx",
+      "historicalActualPhysics": {
+        "file": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-physics-final/hole07_dressing_physics.json",
+        "gate": "PASS",
+        "colliders": 21,
+        "obstacles": 119,
+        "groundSamples": 303
+      },
+      "actualGroundMaterialRoles": [
+        "Course 7 Cliff",
+        "Course 7 Fairway",
+        "Course 7 Fringe",
+        "Course 7 Green",
+        "Course 7 Rough",
+        "Course 7 Tee",
+        "Universal Render Pipeline/Lit"
+      ],
+      "grass": "Accepted Dense15 geometry in a bounded moving address pool; unchanged by candidate."
+    },
+    {
+      "number": 8,
+      "name": "Needle",
+      "status": "ACCEPTED_MOVING",
+      "spec": "Unity/Assets/Scripts/Course/Hole.cs",
+      "system": "authored FBX + named MeshCollider ground",
+      "authoritativeMesh": "Unity/Assets/Resources/Course/hole_08.fbx",
+      "historicalActualPhysics": {
+        "file": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-physics-final/hole08_dressing_physics.json",
+        "gate": "PASS",
+        "colliders": 8,
+        "obstacles": 133,
+        "groundSamples": 300
+      },
+      "actualGroundMaterialRoles": [
+        "LK_CLIFF",
+        "LK_CLIFF_DARK",
+        "LK_FAIRWAY@8",
+        "LK_GREEN@8",
+        "LK_ROUGH",
+        "Universal Render Pipeline/Lit"
+      ],
+      "grass": "Accepted Dense15 geometry in a bounded moving address pool; unchanged by candidate."
+    },
+    {
+      "number": 9,
+      "name": "Split",
+      "status": "ACCEPTED_MOVING",
+      "spec": "Unity/Assets/Scripts/Course/Hole.cs",
+      "system": "authored FBX + named MeshCollider ground",
+      "authoritativeMesh": "Unity/Assets/Resources/Course/hole_09.fbx",
+      "historicalActualPhysics": {
+        "file": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-physics-final/hole09_dressing_physics.json",
+        "gate": "PASS",
+        "colliders": 12,
+        "obstacles": 762,
+        "groundSamples": 315
+      },
+      "actualGroundMaterialRoles": [
+        "LK_CLIFF",
+        "LK_CLIFF_DARK",
+        "LK_FAIRWAY@9",
+        "LK_GREEN@9",
+        "LK_ROUGH@9",
+        "LK_SCRUB@9",
+        "Universal Render Pipeline/Lit"
+      ],
+      "grass": "Accepted Dense15 geometry in a bounded moving address pool; unchanged by candidate."
+    },
+    {
+      "number": 10,
+      "name": "Crater",
+      "status": "COMPATIBLE_CANDIDATE",
+      "spec": "Unity/Assets/Scripts/Course/Hole.cs",
+      "system": "authored FBX + named MeshCollider ground",
+      "authoritativeMesh": "Unity/Assets/Resources/Course/hole_10.fbx",
+      "historicalActualPhysics": {
+        "file": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-physics-final/hole10_dressing_physics.json",
+        "gate": "PASS",
+        "colliders": 10,
+        "obstacles": 8291,
+        "groundSamples": 306
+      },
+      "actualGroundMaterialRoles": [
+        "LK_BASALT",
+        "LK_FAIRWAY@10",
+        "LK_GREEN@10",
+        "LK_ROUGH@10",
+        "Universal Render Pipeline/Lit"
+      ],
+      "grass": "Flat cut turf in reviewed actual screenshots; compatible authored grass receives the existing bounded pool under trial flag.",
+      "paletteSetting": "coastal",
+      "cutHeightScale": 1,
+      "maximumNearBladeMeters": 0.08488665521144867,
+      "eligible": "Named TEE_BOX, FAIRWAY*, and explicit GREEN_APRON* with actual role1/3/4; TERRAIN only a true Rough material.",
+      "excludedNativeRoles": [
+        "Basalt",
+        "Lava",
+        "Sand",
+        "Path"
+      ]
+    },
+    {
+      "number": 11,
+      "name": null,
+      "status": "NO_SOURCE_SLOT",
+      "blocker": "No Hole definition, course entry or hole_XX FBX in current source; no terrain to extend."
+    },
+    {
+      "number": 12,
+      "name": "Island Carry",
+      "status": "ACCEPTED_MOVING",
+      "spec": "Unity/Assets/Scripts/Course/Hole.cs",
+      "system": "authored FBX + named MeshCollider ground",
+      "authoritativeMesh": "Unity/Assets/Resources/Course/hole_12.fbx",
+      "historicalActualPhysics": {
+        "file": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-physics-final/hole12_dressing_physics.json",
+        "gate": "PASS",
+        "colliders": 14,
+        "obstacles": 161,
+        "groundSamples": 297
+      },
+      "actualGroundMaterialRoles": [
+        "Course 12 Basalt",
+        "Course 12 Fairway",
+        "Course 12 Fringe",
+        "Course 12 Green",
+        "Course 12 Rough",
+        "Course 12 Wood:704A2EFF",
+        "Course 12 Wood:C7975EFF",
+        "Universal Render Pipeline/Lit"
+      ],
+      "grass": "Accepted Dense15 geometry in a bounded moving address pool; unchanged by candidate."
+    },
+    {
+      "number": 13,
+      "name": "The Spiral",
+      "status": "ACCEPTED_MOVING",
+      "spec": "Unity/Assets/Scripts/Course/Hole.cs",
+      "system": "authored FBX + named MeshCollider ground",
+      "authoritativeMesh": "Unity/Assets/Resources/Course/hole_13.fbx",
+      "historicalActualPhysics": {
+        "file": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-physics-final/hole13_dressing_physics.json",
+        "gate": "PASS",
+        "colliders": 16,
+        "obstacles": 138,
+        "groundSamples": 348
+      },
+      "actualGroundMaterialRoles": [
+        "Course 13 Cliff",
+        "Course 13 Fairway",
+        "Course 13 Fringe",
+        "Course 13 Green",
+        "Course 13 Rough",
+        "Course 13 Tee"
+      ],
+      "grass": "Accepted Dense15 geometry in a bounded moving address pool; unchanged by candidate."
+    },
+    {
+      "number": 14,
+      "name": "The Witch's Lair",
+      "status": "ACCEPTED_MOVING",
+      "spec": "Unity/Assets/Scripts/Course/Hole.cs",
+      "system": "authored FBX + named MeshCollider ground",
+      "authoritativeMesh": "Unity/Assets/Resources/Course/hole_14.fbx",
+      "historicalActualPhysics": {
+        "file": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-physics-final/hole14_dressing_physics.json",
+        "gate": "PASS",
+        "colliders": 14,
+        "obstacles": 247,
+        "groundSamples": 321
+      },
+      "actualGroundMaterialRoles": [
+        "Course 14 Cliff",
+        "Course 14 Fairway",
+        "Course 14 Fringe",
+        "Course 14 Green",
+        "Course 14 Rough",
+        "Course 14 Tee"
+      ],
+      "grass": "Accepted Dense15 geometry in a bounded moving address pool; unchanged by candidate."
+    },
+    {
+      "number": 15,
+      "name": "The Steps",
+      "status": "ACCEPTED_MOVING",
+      "spec": "Unity/Assets/Scripts/Course/Hole.cs",
+      "system": "authored FBX + named MeshCollider ground",
+      "authoritativeMesh": "Unity/Assets/Resources/Course/hole_15.fbx",
+      "historicalActualPhysics": {
+        "file": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-physics-final/hole15_dressing_physics.json",
+        "gate": "PASS",
+        "colliders": 11,
+        "obstacles": 97,
+        "groundSamples": 297
+      },
+      "actualGroundMaterialRoles": [
+        "Course 15 Cliff",
+        "Course 15 Fairway",
+        "Course 15 Fringe",
+        "Course 15 Green",
+        "Course 15 Rough",
+        "Course 15 Tee"
+      ],
+      "grass": "Accepted Dense15 geometry in a bounded moving address pool; unchanged by candidate."
+    },
+    {
+      "number": 16,
+      "name": "Volcano Rim",
+      "status": "COMPATIBLE_CANDIDATE",
+      "spec": "Unity/Assets/Scripts/Course/Hole.cs",
+      "system": "authored FBX + named MeshCollider ground",
+      "authoritativeMesh": "Unity/Assets/Resources/Course/hole_16.fbx",
+      "historicalActualPhysics": {
+        "file": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-physics-final/hole16_dressing_physics.json",
+        "gate": "PASS",
+        "colliders": 16,
+        "obstacles": 178,
+        "groundSamples": 324
+      },
+      "actualGroundMaterialRoles": [
+        "Course 16 Ash",
+        "Course 16 Basalt",
+        "Course 16 Fairway",
+        "Course 16 Fringe",
+        "Course 16 Green",
+        "Course 16 Tee"
+      ],
+      "grass": "Flat cut turf in reviewed actual screenshots; compatible authored grass receives the existing bounded pool under trial flag.",
+      "paletteSetting": "volcanic",
+      "cutHeightScale": 0.75,
+      "maximumNearBladeMeters": 0.0636649914085865,
+      "eligible": "Named TEE_BOX, FAIRWAY*, and explicit GREEN_APRON* with actual role1/3/4; TERRAIN only a true Rough material.",
+      "excludedNativeRoles": [
+        "Ash",
+        "Basalt",
+        "Lava",
+        "Sand"
+      ]
+    },
+    {
+      "number": 17,
+      "name": "Frostbite Fjord",
+      "status": "COMPATIBLE_CANDIDATE",
+      "spec": "Unity/Assets/Scripts/Course/Hole.cs",
+      "system": "authored FBX + named MeshCollider ground",
+      "authoritativeMesh": "Unity/Assets/Resources/Course/hole_17.fbx",
+      "historicalActualPhysics": {
+        "file": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-physics-final/hole17_dressing_physics.json",
+        "gate": "PASS",
+        "colliders": 19,
+        "obstacles": 186,
+        "groundSamples": 324
+      },
+      "actualGroundMaterialRoles": [
+        "Course 17 Cliff",
+        "Course 17 Fairway",
+        "Course 17 Fringe",
+        "Course 17 Green",
+        "Course 17 Snow",
+        "Course 17 Tee",
+        "Course 17 clear glacier ice"
+      ],
+      "grass": "Flat cut turf in reviewed actual screenshots; compatible authored grass receives the existing bounded pool under trial flag.",
+      "paletteSetting": "cold",
+      "cutHeightScale": 0.65,
+      "maximumNearBladeMeters": 0.05517632588744164,
+      "eligible": "Named TEE_BOX, FAIRWAY*, and explicit GREEN_APRON* with actual role1/3/4; TERRAIN only a true Rough material.",
+      "excludedNativeRoles": [
+        "Snow",
+        "Ice",
+        "Cliff"
+      ]
+    },
+    {
+      "number": 18,
+      "name": "Mesa Canyon",
+      "status": "COMPATIBLE_CANDIDATE",
+      "spec": "Unity/Assets/Scripts/Course/Hole.cs",
+      "system": "authored FBX + named MeshCollider ground",
+      "authoritativeMesh": "Unity/Assets/Resources/Course/hole_18.fbx",
+      "historicalActualPhysics": {
+        "file": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-physics-final/hole18_dressing_physics.json",
+        "gate": "PASS",
+        "colliders": 9,
+        "obstacles": 84,
+        "groundSamples": 297
+      },
+      "actualGroundMaterialRoles": [
+        "Course 18 Desert",
+        "Course 18 Fairway",
+        "Course 18 Green",
+        "Course 18 Sandstone:A04630FF",
+        "Course 18 Sandstone:C65A3CFF",
+        "Course 18 Sandstone:E48248FF",
+        "Course 18 Sandstone:F0D0A2FF",
+        "Course 18 Tee"
+      ],
+      "grass": "Flat cut turf in reviewed actual screenshots; compatible authored grass receives the existing bounded pool under trial flag.",
+      "paletteSetting": "dry",
+      "cutHeightScale": 0.55,
+      "maximumNearBladeMeters": 0.04668766036629677,
+      "eligible": "Named TEE_BOX, FAIRWAY*, and explicit GREEN_APRON* with actual role1/3/4; TERRAIN only a true Rough material.",
+      "excludedNativeRoles": [
+        "Desert",
+        "Sandstone"
+      ],
+      "routeConstraint": "No FAIRWAY_CL or FAIRWAY mesh. Middle/approach must be labelled actual apron/collar surface; never put grass on native desert. Retain positive regenerated-cell gate and 2m clearance; fail with exact source blocker if separate valid apron stations cannot be found."
+    },
+    {
+      "number": 19,
+      "name": "Temple Falls",
+      "status": "ACCEPTED_MOVING",
+      "spec": "Unity/Assets/Scripts/Course/Hole.cs",
+      "system": "authored FBX + named MeshCollider ground",
+      "authoritativeMesh": "Unity/Assets/Resources/Course/hole_19.fbx",
+      "historicalActualPhysics": {
+        "file": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-physics-final/hole19_dressing_physics.json",
+        "gate": "PASS",
+        "colliders": 14,
+        "obstacles": 171,
+        "groundSamples": 330
+      },
+      "actualGroundMaterialRoles": [
+        "Course 19 Cliff",
+        "Course 19 Fairway",
+        "Course 19 Fringe",
+        "Course 19 Green",
+        "Course 19 Rough",
+        "Course 19 Tee"
+      ],
+      "grass": "Accepted Dense15 geometry in a bounded moving address pool; unchanged by candidate."
+    },
+    {
+      "number": 20,
+      "name": "Windmill Links",
+      "status": "ACCEPTED_MOVING",
+      "spec": "Unity/Assets/Scripts/Course/Hole.cs",
+      "system": "authored FBX + named MeshCollider ground",
+      "authoritativeMesh": "Unity/Assets/Resources/Course/hole_20.fbx",
+      "historicalActualPhysics": {
+        "file": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-physics-final/hole20_dressing_physics.json",
+        "gate": "PASS",
+        "colliders": 14,
+        "obstacles": 125,
+        "groundSamples": 318
+      },
+      "actualGroundMaterialRoles": [
+        "Course 20 Cliff",
+        "Course 20 Fairway",
+        "Course 20 Fringe",
+        "Course 20 Green",
+        "Course 20 Rough",
+        "Course 20 Tee"
+      ],
+      "grass": "Accepted Dense15 geometry in a bounded moving address pool; unchanged by candidate."
+    },
+    {
+      "number": 21,
+      "name": "Obsidian Slab",
+      "status": "COMPATIBLE_CANDIDATE",
+      "spec": "Unity/Assets/Scripts/Course/Hole.cs",
+      "system": "authored FBX + named MeshCollider ground",
+      "authoritativeMesh": "Unity/Assets/Resources/Course/hole_21.fbx",
+      "historicalActualPhysics": {
+        "file": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-physics-final/hole21_dressing_physics.json",
+        "gate": "PASS",
+        "colliders": 15,
+        "obstacles": 66,
+        "groundSamples": 306
+      },
+      "actualGroundMaterialRoles": [
+        "Course 21 Ash",
+        "Course 21 Basalt",
+        "Course 21 Fairway",
+        "Course 21 Fringe",
+        "Course 21 Green",
+        "Course 21 Tee"
+      ],
+      "grass": "Flat cut turf in reviewed actual screenshots; compatible authored grass receives the existing bounded pool under trial flag.",
+      "paletteSetting": "volcanic",
+      "cutHeightScale": 0.75,
+      "maximumNearBladeMeters": 0.0636649914085865,
+      "eligible": "Named TEE_BOX, FAIRWAY*, and explicit GREEN_APRON* with actual role1/3/4; TERRAIN only a true Rough material.",
+      "excludedNativeRoles": [
+        "Ash",
+        "Basalt",
+        "Lava",
+        "Sand"
+      ]
+    },
+    {
+      "number": 22,
+      "name": "Ember Causeway",
+      "status": "COMPATIBLE_CANDIDATE",
+      "spec": "Unity/Assets/Scripts/Course/Hole.cs",
+      "system": "authored FBX + named MeshCollider ground",
+      "authoritativeMesh": "Unity/Assets/Resources/Course/hole_22.fbx",
+      "historicalActualPhysics": {
+        "file": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-physics-final/hole22_dressing_physics.json",
+        "gate": "PASS",
+        "colliders": 20,
+        "obstacles": 75,
+        "groundSamples": 321
+      },
+      "actualGroundMaterialRoles": [
+        "Course 22 Ash",
+        "Course 22 Basalt",
+        "Course 22 Fairway",
+        "Course 22 Fringe",
+        "Course 22 Green",
+        "Course 22 Tee"
+      ],
+      "grass": "Flat cut turf in reviewed actual screenshots; compatible authored grass receives the existing bounded pool under trial flag.",
+      "paletteSetting": "volcanic",
+      "cutHeightScale": 0.75,
+      "maximumNearBladeMeters": 0.0636649914085865,
+      "eligible": "Named TEE_BOX, FAIRWAY*, and explicit GREEN_APRON* with actual role1/3/4; TERRAIN only a true Rough material.",
+      "excludedNativeRoles": [
+        "Ash",
+        "Basalt",
+        "Lava",
+        "Sand"
+      ]
+    },
+    {
+      "number": 23,
+      "name": "Caldera Crown",
+      "status": "COMPATIBLE_CANDIDATE",
+      "spec": "Unity/Assets/Scripts/Course/Hole.cs",
+      "system": "authored FBX + named MeshCollider ground",
+      "authoritativeMesh": "Unity/Assets/Resources/Course/hole_23.fbx",
+      "historicalActualPhysics": {
+        "file": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/proof/full-visual-overhaul/golf-physics-final/hole23_dressing_physics.json",
+        "gate": "PASS",
+        "colliders": 20,
+        "obstacles": 84,
+        "groundSamples": 324
+      },
+      "actualGroundMaterialRoles": [
+        "Course 23 Ash",
+        "Course 23 Basalt",
+        "Course 23 Fairway",
+        "Course 23 Fringe",
+        "Course 23 Green",
+        "Course 23 Tee"
+      ],
+      "grass": "Flat cut turf in reviewed actual screenshots; compatible authored grass receives the existing bounded pool under trial flag.",
+      "paletteSetting": "volcanic",
+      "cutHeightScale": 0.75,
+      "maximumNearBladeMeters": 0.0636649914085865,
+      "eligible": "Named TEE_BOX, FAIRWAY*, and explicit GREEN_APRON* with actual role1/3/4; TERRAIN only a true Rough material.",
+      "excludedNativeRoles": [
+        "Ash",
+        "Basalt",
+        "Lava",
+        "Sand"
+      ]
+    },
+    {
+      "number": 24,
+      "name": null,
+      "status": "NO_SOURCE_SLOT",
+      "blocker": "No Hole definition, course entry or hole_XX FBX in current source; no terrain to extend."
+    }
+  ]
+}

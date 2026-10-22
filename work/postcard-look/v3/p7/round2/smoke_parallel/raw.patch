@@ -1,0 +1,16 @@
+--- blender/scripts/hole10_build.py
++++ blender/scripts/hole10_build.py
+@@ -465,9 +465,10 @@
+ if not _vent_probes:raise RuntimeError('no exposed actual cone/lava flank vent')
+ _tee_vent=min(_vent_probes,key=lambda p:p[2])
+ smoke += HL.smoke_group(D,TEE_CAM,_tee_vent,(150.0,80.0),3,seed=1,spread=.035,parallel=True)
+-# The already-passing approach and rim geometry is retained exactly.
+-smoke += HL.smoke_group(D,APP_CAM,(305.0,118.0,0.0),(90.0,90.0),3,seed=2)
+-smoke += HL.smoke_group(D,RIM_CAM,(300.0,330.0,30.0),(130.0,110.0),3,seed=3)
++# Keep the existing approach/rim vents, dimensions and separated RNG offsets.
++# A common heading makes each group's three curved wisps parallel.
++smoke += HL.smoke_group(D,APP_CAM,(305.0,118.0,0.0),(90.0,90.0),3,seed=2,parallel=True)
++smoke += HL.smoke_group(D,RIM_CAM,(300.0,330.0,30.0),(130.0,110.0),3,seed=3,parallel=True)
+ 
+ 
+ # ---- 6. cameras, light, previews

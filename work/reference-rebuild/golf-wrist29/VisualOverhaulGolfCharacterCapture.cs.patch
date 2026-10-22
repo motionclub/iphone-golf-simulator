@@ -1,0 +1,39 @@
+--- Unity/Assets/Editor/VisualOverhaulGolfCharacterCapture.cs
++++ Unity/Assets/Editor/VisualOverhaulGolfCharacterCapture.cs
+@@ -38,6 +38,13 @@
+         }
+         static void Finish(int result){File.WriteAllLines(Path.Combine(output,"audit.txt"),audit);SessionState.SetBool(Key,false);Time.captureFramerate=0;EditorApplication.Exit(result);}
+         static IEnumerator Frames(int n){for(int i=0;i<n;i++)yield return null;}
++        static string WristStamp(HeroGolfer hero) {
++            var text = new System.Text.StringBuilder();
++            foreach (string name in new[]{"LeftUpperArm","LeftLowerArm","LeftHand","LeftMiddleProximal","RightUpperArm","RightLowerArm","RightHand","RightMiddleProximal","Club"}) {
++                var b=hero.Bones[name];text.Append(name+" p="+b.position.ToString("F9")+" q="+b.rotation.ToString("F9")+"; ");
++            }
++            return text.ToString();
++        }
+         static IEnumerator Capture(){
+             Time.captureFramerate=30;QualitySettings.skinWeights=SkinWeights.FourBones;
+             var game=Object.FindFirstObjectByType<GolfGame>();if(game)game.enabled=false;
+@@ -71,6 +78,8 @@
+                 audit.Add($"{sex}: root active={hero.Root.activeInHierarchy}, camera mask={cam.cullingMask}, camera active={cam.gameObject.activeInHierarchy}");
+                 foreach(var renderer in hero.Root.GetComponentsInChildren<Renderer>())audit.Add($"{renderer.name}: enabled={renderer.enabled} active={renderer.gameObject.activeInHierarchy} layer={renderer.gameObject.layer} bounds={renderer.bounds}");
+                 foreach(var club in new[]{GolfClub.Driver,GolfClub.Iron,GolfClub.PitchingWedge,GolfClub.Wedge,GolfClub.Putter}){
++                    var clubs=Environment.GetEnvironmentVariable("VISUAL_GOLF_CHARACTER_CLUBS");
++                    if(!string.IsNullOrEmpty(clubs)&&Array.IndexOf(clubs.Split(','),club.ToString())<0)continue;
+                     bool shortShot=club==GolfClub.Wedge;golfer.SetClub(club,shortShot);
+                     // Review the settled clip; disabling Update also freezes crossfade.
+                     typeof(GolferView).GetField("fade",Private).SetValue(golfer,0f);
+@@ -79,7 +88,12 @@
+                     float top=Read("TopTime"),contact=Read("ImpactTime"),end=Read("EndTime");
+                     var times=new[]{0,top,contact,end*.92f};var labels=new[]{"address","top","contact","follow"};
+                     for(int i=0;i<times.Length;i++){
+-                        typeof(GolferView).GetMethod("Show",Private).Invoke(golfer,new object[]{times[i]});yield return Frames(3);
++                        var stages=Environment.GetEnvironmentVariable("VISUAL_GOLF_CHARACTER_STAGES");
++                        if(!string.IsNullOrEmpty(stages)&&Array.IndexOf(stages.Split(','),labels[i])<0)continue;
++                        typeof(GolferView).GetMethod("Show",Private).Invoke(golfer,new object[]{times[i]});
++                        if(Environment.GetEnvironmentVariable("VISUAL_GOLF_WRIST_AUDIT")=="1")audit.Add(sex+"_"+club+"_"+labels[i]+" before: "+WristStamp(hero));
++                        yield return Frames(3);
++                        if(Environment.GetEnvironmentVariable("VISUAL_GOLF_WRIST_AUDIT")=="1")audit.Add(sex+"_"+club+"_"+labels[i]+" after: "+WristStamp(hero));
+                         foreach(var skin in hero.Root.GetComponentsInChildren<SkinnedMeshRenderer>())if(skin.bounds.size.magnitude>8||float.IsNaN(skin.bounds.center.x))throw new InvalidOperationException("Bad bounds "+skin.name);
+                         string stem=sex+"_"+club+"_"+labels[i];
+                         if(Environment.GetEnvironmentVariable("VISUAL_GOLF_CHARACTER_POSE_DUMPS")=="1")

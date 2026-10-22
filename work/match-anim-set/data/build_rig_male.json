@@ -1,0 +1,109 @@
+{
+ "tag": "male",
+ "copy_sha256_before_edit": "d6c4dcfb1150853a8802a8dc7501aa64066adb8b2734c14a4d6ed8e82dada781",
+ "source_mesh_geometry_hash": {
+  "Body_M": "e0341c9834e8e2e58c3e7867e300f75975b97e1532c97386333285bb2e3d980b",
+  "Face_M": "cb9dff284bd36f8e114a58dbdf374eaa1a958f8db816692ebaee9309dd44808d"
+ },
+ "source_vgroups": [
+  "LOOP_mouth_seam",
+  "LOOP_mouth_lip_upper",
+  "LOOP_mouth_lip_lower",
+  "LOOP_nostril_L",
+  "LOOP_nostril_R",
+  "LOOP_ala_L",
+  "LOOP_ala_R",
+  "LOOP_ear_attach_L",
+  "LOOP_helix_L",
+  "LOOP_concha_L",
+  "LOOP_ear_attach_R",
+  "LOOP_helix_R",
+  "LOOP_concha_R",
+  "LOOP_jaw_ear_L",
+  "LOOP_jaw_ear_R",
+  "LOOP_lid_margin_L",
+  "LOOP_lid_margin_R"
+ ],
+ "source_vgroups_hash": "6cdd707c2a818782bbf6704b3136cebf0fb1da35a1f405ef487081ba9c20c295",
+ "source_nverts": {
+  "Body_M": 33196,
+  "Face_M": 3578
+ },
+ "unit": [
+  "METRIC",
+  1.0
+ ],
+ "hands": {
+  "L": {
+   "n_hand_vertices": 1686,
+   "n_wrist_blend": 55,
+   "wrist": [
+    0.5336209097403869,
+    -0.09238054994505825,
+    0.9513054978547808
+   ]
+  },
+  "R": {
+   "n_hand_vertices": 1687,
+   "n_wrist_blend": 56,
+   "wrist": [
+    -0.5336209097403869,
+    -0.09238054994505825,
+    0.9513054978547808
+   ]
+  }
+ },
+ "weights": {
+  "min_sum": 0.9999998416751623,
+  "max_sum": 1.0000001545995474,
+  "unweighted": 0,
+  "max_influences": 4
+ },
+ "hand_racket_world_err": 8.940696716308594e-08,
+ "racket_geometry_hash": {
+  "Racket_Classic": "c29eee1ea754255eabafd7ea7b0f4bfaad908dbf3ab218b963941de6beb67f30",
+  "StringBed": "da8f6587338626ceb20f3e5d6a4471c12e96db01efc2318e85ef2fe21cf4a335",
+  "Grip": "322ff0c7be79a2ac4c77ab6129b1494db40c5c69bd741133a0bda881c42b52df",
+  "ButtCap": "1de0466f392b6462a970c69b8d412b56bdd3f8484c1815e3c713e2c62eba37f4",
+  "Collider_Racket": "f544d2d498ace9731edbf8f347aab5455cfd42c46a09af90324df9dbc42b921d"
+ },
+ "right_grip_angles_deg": {
+  "RightIndexProximal": 8.2783203125,
+  "RightIndexIntermediate": 10.6435546875,
+  "RightIndexDistal": 6.50439453125,
+  "RightMiddleProximal": 27.054361979166675,
+  "RightMiddleIntermediate": 34.78417968750001,
+  "RightMiddleDistal": 31.50439453125,
+  "RightRingProximal": 39.37158203125,
+  "RightRingIntermediate": 50.62060546875001,
+  "RightRingDistal": 30.934814453125004,
+  "RightLittleProximal": 47.6806640625,
+  "RightLittleIntermediate": 61.3037109375,
+  "RightLittleDistal": 37.46337890625,
+  "RightThumbProximal": 0.0,
+  "RightThumbIntermediate": 0.0,
+  "RightThumbDistal": 0.0
+ },
+ "right_grip_source": "work/dressed-look/data/build_male.json rig.angles (same digit model, same bone rest geometry)",
+ "saved": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/match-anim-set/export/_stage/Male_rig.blend",
+ "mesh_geometry_hash_after": {
+  "Body_M": "e0341c9834e8e2e58c3e7867e300f75975b97e1532c97386333285bb2e3d980b",
+  "Face_M": "cb9dff284bd36f8e114a58dbdf374eaa1a958f8db816692ebaee9309dd44808d"
+ },
+ "mesh_hash_equal": {
+  "Body_M": true,
+  "Face_M": true
+ },
+ "measures": {
+  "shoulder_joint_width": 0.3960138504419809,
+  "upper_arm": 0.2382865896024943,
+  "forearm": 0.2698451924646588,
+  "arm_length_shoulder_to_wrist": 0.5048781944365605,
+  "thigh": 0.3847109946701503,
+  "shank": 0.4232297895783747,
+  "leg_length_hip_to_ankle": 0.80791314898585,
+  "hip_joint_width": 0.1903678204264948,
+  "foot_ankle_to_ball": 0.14957984518226133,
+  "pelvis_height": 0.8864231681823731
+ }
+}

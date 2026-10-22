@@ -1,0 +1,176 @@
+{
+ "foot_R": {
+  "ring_verts": 24,
+  "peaks_persistence_ge_6mm": [
+   {
+    "z": 0.0043,
+    "y": -0.1369,
+    "x": 0.0995,
+    "dist_from_seam_mm": 248.7,
+    "persistence_mm": 248.7
+   },
+   {
+    "z": 0.0033,
+    "y": -0.1243,
+    "x": 0.143,
+    "dist_from_seam_mm": 248.5,
+    "persistence_mm": 38.1
+   },
+   {
+    "z": 0.0019,
+    "y": -0.1134,
+    "x": 0.1793,
+    "dist_from_seam_mm": 244.7,
+    "persistence_mm": 33.3
+   },
+   {
+    "z": 0.0026,
+    "y": -0.1279,
+    "x": 0.1245,
+    "dist_from_seam_mm": 243.9,
+    "persistence_mm": 29.5
+   },
+   {
+    "z": 0.0081,
+    "y": -0.1213,
+    "x": 0.1602,
+    "dist_from_seam_mm": 245.5,
+    "persistence_mm": 22.3
+   },
+   {
+    "z": 0.0012,
+    "y": -0.0601,
+    "x": 0.1331,
+    "dist_from_seam_mm": 231.8,
+    "persistence_mm": 7.6
+   }
+  ]
+ },
+ "foot_L": {
+  "ring_verts": 24,
+  "peaks_persistence_ge_6mm": [
+   {
+    "z": 0.0024,
+    "y": -0.1321,
+    "x": -0.0956,
+    "dist_from_seam_mm": 249.9,
+    "persistence_mm": 249.9
+   },
+   {
+    "z": 0.0033,
+    "y": -0.1243,
+    "x": -0.143,
+    "dist_from_seam_mm": 248.9,
+    "persistence_mm": 39.1
+   },
+   {
+    "z": 0.0022,
+    "y": -0.1136,
+    "x": -0.1798,
+    "dist_from_seam_mm": 241.3,
+    "persistence_mm": 32.4
+   },
+   {
+    "z": 0.0026,
+    "y": -0.1279,
+    "x": -0.1245,
+    "dist_from_seam_mm": 244.0,
+    "persistence_mm": 29.9
+   },
+   {
+    "z": 0.0034,
+    "y": -0.1201,
+    "x": -0.1601,
+    "dist_from_seam_mm": 245.3,
+    "persistence_mm": 23.6
+   },
+   {
+    "z": 0.0012,
+    "y": -0.0601,
+    "x": -0.1331,
+    "dist_from_seam_mm": 231.3,
+    "persistence_mm": 8.4
+   }
+  ]
+ },
+ "hand_R": {
+  "ring_verts": 18,
+  "peaks_persistence_ge_6mm": [
+   {
+    "z": 0.6935,
+    "y": 0.019,
+    "x": 0.2114,
+    "dist_from_seam_mm": 168.4,
+    "persistence_mm": 168.4
+   },
+   {
+    "z": 0.7342,
+    "y": -0.0227,
+    "x": 0.1856,
+    "dist_from_seam_mm": 119.9,
+    "persistence_mm": 47.1
+   },
+   {
+    "z": 0.6991,
+    "y": 0.0265,
+    "x": 0.2253,
+    "dist_from_seam_mm": 161.4,
+    "persistence_mm": 20.2
+   },
+   {
+    "z": 0.6987,
+    "y": 0.0015,
+    "x": 0.1965,
+    "dist_from_seam_mm": 161.4,
+    "persistence_mm": 19.9
+   },
+   {
+    "z": 0.71,
+    "y": 0.0284,
+    "x": 0.2431,
+    "dist_from_seam_mm": 146.7,
+    "persistence_mm": 9.9
+   }
+  ]
+ },
+ "hand_L": {
+  "ring_verts": 18,
+  "peaks_persistence_ge_6mm": [
+   {
+    "z": 0.6935,
+    "y": 0.019,
+    "x": -0.2114,
+    "dist_from_seam_mm": 197.0,
+    "persistence_mm": 197.0
+   },
+   {
+    "z": 0.7334,
+    "y": -0.0239,
+    "x": -0.1906,
+    "dist_from_seam_mm": 148.8,
+    "persistence_mm": 48.4
+   },
+   {
+    "z": 0.697,
+    "y": 0.0227,
+    "x": -0.2275,
+    "dist_from_seam_mm": 191.0,
+    "persistence_mm": 23.8
+   },
+   {
+    "z": 0.6987,
+    "y": 0.0015,
+    "x": -0.1965,
+    "dist_from_seam_mm": 190.4,
+    "persistence_mm": 20.4
+   },
+   {
+    "z": 0.71,
+    "y": 0.0284,
+    "x": -0.2431,
+    "dist_from_seam_mm": 173.6,
+    "persistence_mm": 10.2
+   }
+  ]
+ }
+}

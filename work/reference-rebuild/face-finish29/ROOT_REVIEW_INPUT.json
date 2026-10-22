@@ -1,0 +1,268 @@
+{
+  "gate": "HOLD: ACTUAL FACE29 HAS POINTED MOUTH SLITS/SERRATION; SEE FROZEN smooth-mouth1 CORRECTION",
+  "runtimeChanges": null,
+  "acceptedSource": "work/reference-rebuild/original-blink-finish/{Male,Female}_OriginalSeamBlinkFinish1.blend",
+  "outputs": {
+    "Male": {
+      "blend": {
+        "path": "work/reference-rebuild/face-finish29/Male_OriginalFaceFinish29.blend",
+        "sha256": "bf2e4d4674cb322a40e077d15935ba8f015121972f383eadedc02b18e82b53c7",
+        "bytes": 20238895
+      },
+      "fbx": {
+        "path": "work/reference-rebuild/face-finish29/Male_OriginalFaceFinish29.fbx",
+        "sha256": "54a1f23e94ef2d95f4c673b2742af6ad8eb93f23f24631b2afba909a005270c0",
+        "bytes": 2987004
+      }
+    },
+    "Female": {
+      "blend": {
+        "path": "work/reference-rebuild/face-finish29/Female_OriginalFaceFinish29.blend",
+        "sha256": "e20f786758d0a85181450cd35e9a2654931851410759f2daddd538831dc45ee1",
+        "bytes": 3308280
+      },
+      "fbx": {
+        "path": "work/reference-rebuild/face-finish29/Female_OriginalFaceFinish29.fbx",
+        "sha256": "5daee1527e080efc7b57c8a5cbf6d19c378ccd8061b4c35e30ffd67ea02f0445",
+        "bytes": 2173420
+      }
+    }
+  },
+  "exactInvariants": [
+    "53 bones, rest matrices and hierarchy",
+    "Body topology, weights, vertex groups, UV and color attributes",
+    "ReferenceFeatures Eye13 geometry/material assignment/blink targets",
+    "Every Body X/Z coordinate",
+    "Every blink-active Body vertex",
+    "Body half/full blink deltas"
+  ],
+  "sourceChanges": {
+    "Male": {
+      "bodyVertices": 33472,
+      "movedVertices": 1546,
+      "maxDepthDeltaMm": 3.6991238594055176,
+      "meanMovedDeltaMm": 0.7818971566595667,
+      "mouthMovedDeltaMaxMm": 3.6991238594055176,
+      "blinkActiveVertices": 998,
+      "blinkActiveDeltaMetres": 0.0,
+      "blinkDeltaErrorsMetres": {
+        "Basis": 0.0,
+        "Hero_Blink_Half": 0.0,
+        "Hero_Blink": 0.0
+      },
+      "changedBounds": [
+        [
+          -0.06894023716449738,
+          0.06893754005432129
+        ],
+        [
+          -0.17165356874465942,
+          -0.0901276096701622
+        ],
+        [
+          1.484188437461853,
+          1.572884440422058
+        ]
+      ],
+      "regionParameters": {
+        "mouthSeamDerivedFromExistingLoop": true,
+        "lipLobesDerivedFromExistingUpperLowerLoops": true,
+        "upperLobeMm": 2.6,
+        "lowerLobeMm": 3.7,
+        "seamRecessMm": 1.0,
+        "maximumFieldDepthMm": 4.5,
+        "blinkFixedRadiusMm": 6,
+        "blinkFadeEndMm": 12
+      }
+    },
+    "Female": {
+      "bodyVertices": 22891,
+      "movedVertices": 721,
+      "maxDepthDeltaMm": 4.000052809715271,
+      "meanMovedDeltaMm": 0.7049298526179278,
+      "mouthMovedDeltaMaxMm": 4.000052809715271,
+      "blinkActiveVertices": 2157,
+      "blinkActiveDeltaMetres": 0.0,
+      "blinkDeltaErrorsMetres": {
+        "Basis": 0.0,
+        "Hero_Blink_Half": 0.0,
+        "Hero_Blink": 0.0
+      },
+      "changedBounds": [
+        [
+          -0.0688755139708519,
+          0.06881385296583176
+        ],
+        [
+          -0.1489928513765335,
+          -0.09315354377031326
+        ],
+        [
+          1.4575165510177612,
+          1.5383790731430054
+        ]
+      ],
+      "regionParameters": {
+        "mouthSeamDerivedFromExistingLoop": true,
+        "lipLobesDerivedFromExistingUpperLowerLoops": true,
+        "upperLobeMm": 2.8,
+        "lowerLobeMm": 4.0,
+        "seamRecessMm": 1.0,
+        "maximumFieldDepthMm": 4.5,
+        "blinkFixedRadiusMm": 6,
+        "blinkFadeEndMm": 12
+      }
+    }
+  },
+  "blinkRegression": {
+    "gate": "FULL CLOSURE PASS; POSED OCCLUSION CHANGES REQUIRE ACTUAL REVIEW",
+    "control": "accepted OriginalSeamBlinkFinish1",
+    "posedApertureStagesExact": {
+      "Male": false,
+      "Female": true
+    },
+    "differences": [
+      {
+        "sex": "Male",
+        "clip": "Serve",
+        "blink": 0,
+        "controlVisibleEyeRays": [
+          1880,
+          166
+        ],
+        "candidateVisibleEyeRays": [
+          1880,
+          135
+        ],
+        "delta": [
+          0,
+          -31
+        ]
+      },
+      {
+        "sex": "Male",
+        "clip": "Serve",
+        "blink": 0.25,
+        "controlVisibleEyeRays": [
+          1369,
+          107
+        ],
+        "candidateVisibleEyeRays": [
+          1369,
+          78
+        ],
+        "delta": [
+          0,
+          -29
+        ]
+      },
+      {
+        "sex": "Male",
+        "clip": "Serve",
+        "blink": 0.5,
+        "controlVisibleEyeRays": [
+          836,
+          60
+        ],
+        "candidateVisibleEyeRays": [
+          836,
+          37
+        ],
+        "delta": [
+          0,
+          -23
+        ]
+      }
+    ],
+    "clips": [
+      "Ready",
+      "Serve",
+      "Forehand",
+      "IntroWave"
+    ],
+    "stages": [
+      0,
+      0.25,
+      0.5,
+      0.75,
+      1
+    ],
+    "raysPerAperturePerStage": 12221,
+    "fullBlinkVisibleEyeRays": 0,
+    "fullClosureAllEightClips": true,
+    "actualUnityArtGate": "PENDING"
+  },
+  "sourceArtReview": {
+    "Male": "Clearer upper and lower lip volumes with continuous separation; original mature angular head retained. Nose/cheek relief restrained.",
+    "Female": "Upper and lower lips now read separately with soft natural pigment; no extra painted border. Original eyes/head retained.",
+    "limitation": "Matched 600x700 CPU Blender source portraits are not the default Unity shader/lighting or a gameplay-scale acceptance."
+  },
+  "rootIntegration": "Import the two FBXs as the focused candidate using existing original-seam importer and accepted pigment revision1. Preserve .meta/rig contracts. Capture exactly the same front/threequarter and blink/pose setup as face-default26. No shirt or environment edits included.",
+  "actualRequired": [
+    "Mouth/lips readable at actual portrait scale on male and female",
+    "Natural lips without revision2 outline or excessive gloss",
+    "Front and threequarter rest identities retained",
+    "Full blink seal and Eye13 preserved",
+    "Review male Serve sample2 right-eye nose/cheek occlusion delta"
+  ],
+  "fbxRoundtrip": {
+    "gate": "PASS",
+    "results": {
+      "Male": {
+        "gate": "PASS",
+        "bonesCount": 53,
+        "bonesRestHierarchyExact": true,
+        "objects": {
+          "Body": {
+            "vertices": 33472,
+            "weightsTopologyUvColorExact": true,
+            "maxPositionDeltaMetres": 0.0036991238594055176,
+            "maxShapeDeltaErrorsMetres": {
+              "Basis": 0.0,
+              "Hero_Blink_Half": 0.0,
+              "Hero_Blink": 0.0
+            }
+          },
+          "ReferenceFeatures": {
+            "vertices": 1812,
+            "weightsTopologyUvColorExact": true,
+            "maxPositionDeltaMetres": 0.0,
+            "maxShapeDeltaErrorsMetres": {
+              "Basis": 0.0,
+              "Hero_Blink_Half": 0.0,
+              "Hero_Blink": 0.0
+            }
+          }
+        }
+      },
+      "Female": {
+        "gate": "PASS",
+        "bonesCount": 53,
+        "bonesRestHierarchyExact": true,
+        "objects": {
+          "Body": {
+            "vertices": 22891,
+            "weightsTopologyUvColorExact": true,
+            "maxPositionDeltaMetres": 0.004000052809715271,
+            "maxShapeDeltaErrorsMetres": {
+              "Basis": 0.0,
+              "Hero_Blink_Half": 0.0,
+              "Hero_Blink": 0.0
+            }
+          },
+          "ReferenceFeatures": {
+            "vertices": 1616,
+            "weightsTopologyUvColorExact": true,
+            "maxPositionDeltaMetres": 0.0,
+            "maxShapeDeltaErrorsMetres": {
+              "Basis": 0.0,
+              "Hero_Blink_Half": 0.0,
+              "Hero_Blink": 0.0
+            }
+          }
+        }
+      }
+    }
+  },
+  "supersededBy": "work/reference-rebuild/face-finish29/smooth-mouth1/ROOT_REVIEW_INPUT.json"
+}

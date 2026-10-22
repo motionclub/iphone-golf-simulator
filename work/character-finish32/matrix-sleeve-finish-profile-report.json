@@ -1,0 +1,41 @@
+{
+  "sourceVertices": 22883,
+  "samples": 624,
+  "controls": 156,
+  "rank": 88,
+  "validation": [
+    {
+      "shapes": 48,
+      "maxPositionMm": 13.597296550869942,
+      "maxNormalVectorError": 0.288399875164032
+    },
+    {
+      "shapes": 60,
+      "maxPositionMm": 5.315959919244051,
+      "maxNormalVectorError": 0.1503005176782608
+    },
+    {
+      "shapes": 72,
+      "maxPositionMm": 1.6694765072315931,
+      "maxNormalVectorError": 0.061251264065504074
+    },
+    {
+      "shapes": 80,
+      "maxPositionMm": 0.909284281078726,
+      "maxNormalVectorError": 0.03173699229955673
+    },
+    {
+      "shapes": 84,
+      "maxPositionMm": 0.7852948037907481,
+      "maxNormalVectorError": 0.02150925062596798
+    },
+    {
+      "shapes": 88,
+      "maxPositionMm": 0.4602398839779198,
+      "maxNormalVectorError": 0.01976359449326992
+    }
+  ],
+  "bytes": 138309162,
+  "normalScale": 0.02,
+  "method": "Current bone affine coefficients, fixed Chest-bound garment morph basis; no nearest-pose interpolation."
+}

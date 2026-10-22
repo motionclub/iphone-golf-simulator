@@ -1,0 +1,15 @@
+[postcard_lib    0.0s] start: hole 8 Needle, play_z 6.0, 28 materials
+[postcard_lib    0.0s] terrain TERRAIN_NEEDLE: 251 top verts, 321 top tris, 3 loops (3 outer, 0 hole), 1371 faces total
+[postcard_lib    0.3s] play surfaces: FAIRWAY 505f, FAIRWAY_FIRSTCUT 424f, GREEN 154f, GREEN_APRON 123f, TEE_BOX 32f, BUNKER_01 54f, BUNKER_01_LIP 64f
+[postcard_lib    0.3s] gameplay: tee marker (0, 0, 6.24), pin (-5.49, 310.90, 6.26)
+HOLE 08 markers [('BALL_START', 0.0, 0.0), ('FLAG', -5.486400127410889, 310.89599609375), ('FLAG_POLE', -5.486400127410889, 310.89599609375), ('HOLE_CUP', -5.486400127410889, 310.89599609375)]
+plant kinds ['PLANT_TUFT_A', 'PLANT_TUFT_B', 'PLANT_TUFT_C', 'PLANT_SHRUB_A', 'PLANT_SHRUB_B', 'PLANT_SHRUB_C', 'PLANT_FLOWER_PURPLE', 'PLANT_FLOWER_WHITE', 'PLANT_FLOWER_YELLOW', 'PLANT_VINE_S', 'PLANT_VINE_M', 'PLANT_VINE_L', 'PLANT_AGAVE_A', 'PLANT_AGAVE_B', 'PLANT_PINE_A', 'PLANT_TREE_A']
+TOTAL placed 4492 bad 0
+[postcard_look_lib] build_path: 1 pieces, 5720 faces, top 1.15 cm over the lowest ground of each cell
+path objs 1
+  [mixed] n=1501 onWater/noGround=0 onPlay=0 dzmax=0.020 nearPin=15.9 nearMarker=7.3
+plants under path footprint 0
+D=None exc scatter(D=None, PLANT_TUFT_A): plants and dressing need D for the land mask (nothing else knows where the water is); pass the postcard_lib handle, use surface='any' / 'sea' with ROCK_ kinds, or allow_low=True in a test scene on a reference ground
+Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:49:19)
+
+Blender quit

@@ -1,0 +1,178 @@
+{
+  "conclusion": "Broad chest/side dents are substantially real posed geometry, not a global calculated-blendshape-normal regression. Plain material source AFTER plates retain those dents.",
+  "evidence": [
+    "proof/reference-rebuild/character-eyes13/male_current_intro.png",
+    "proof/reference-rebuild/character-eyes13/female_current_intro.png",
+    "work/full-visual-overhaul/garment-coverage/sleeve-geometry-9/male_intro-comparison.png",
+    "work/full-visual-overhaul/garment-coverage/sleeve-geometry-9/female_intro-comparison.png"
+  ],
+  "normalPipeline": "Tennis runtime anchors use authored JSON normalDeltas, explicit p.normals basis, evaluated target normals mapped through inverse weighted skin matrices. No FBX calculated morph normals involved in these anchors.",
+  "smoothingBypass": "HeroGarmentTailoring9mm smoothing is replaced by HeroGarmentPoseCorrectives p.normals. Anchor normals only weld coincident UV splits; no9mm pose-space field.",
+  "profiles": {
+    "Male": [
+      {
+        "anchor": "male_IntroPushups_0",
+        "vertices": 15401,
+        "staticPositionThresholdMetres": 2e-05,
+        "normalChangedWhilePositionStatic": 8,
+        "maximumBindPositionDeltaMetres": 0.04378739823156886,
+        "measuredMaximumPosedGeometryChangeMetres": 0.04329083556941772
+      },
+      {
+        "anchor": "male_IntroPushups_1",
+        "vertices": 15401,
+        "staticPositionThresholdMetres": 2e-05,
+        "normalChangedWhilePositionStatic": 9,
+        "maximumBindPositionDeltaMetres": 0.03840924627807736,
+        "measuredMaximumPosedGeometryChangeMetres": 0.0380371692027502
+      },
+      {
+        "anchor": "male_IntroPushups_2",
+        "vertices": 15401,
+        "staticPositionThresholdMetres": 2e-05,
+        "normalChangedWhilePositionStatic": 0,
+        "maximumBindPositionDeltaMetres": 0.06023239379179612,
+        "measuredMaximumPosedGeometryChangeMetres": 0.059255681860090816
+      },
+      {
+        "anchor": "male_IntroWave_0",
+        "vertices": 15401,
+        "staticPositionThresholdMetres": 2e-05,
+        "normalChangedWhilePositionStatic": 11,
+        "maximumBindPositionDeltaMetres": 0.051672021823033015,
+        "measuredMaximumPosedGeometryChangeMetres": 0.05030505266895923
+      },
+      {
+        "anchor": "male_IntroWave_1",
+        "vertices": 15401,
+        "staticPositionThresholdMetres": 2e-05,
+        "normalChangedWhilePositionStatic": 11,
+        "maximumBindPositionDeltaMetres": 0.05182375974039321,
+        "measuredMaximumPosedGeometryChangeMetres": 0.05045394783137238
+      },
+      {
+        "anchor": "male_IntroWave_2",
+        "vertices": 15401,
+        "staticPositionThresholdMetres": 2e-05,
+        "normalChangedWhilePositionStatic": 8,
+        "maximumBindPositionDeltaMetres": 0.035411052191512186,
+        "measuredMaximumPosedGeometryChangeMetres": 0.035305190481624865
+      },
+      {
+        "anchor": "male_Ready_0",
+        "vertices": 15401,
+        "staticPositionThresholdMetres": 2e-05,
+        "normalChangedWhilePositionStatic": 8,
+        "maximumBindPositionDeltaMetres": 0.04917993719200951,
+        "measuredMaximumPosedGeometryChangeMetres": 0.04769127065911883
+      },
+      {
+        "anchor": "male_Ready_1",
+        "vertices": 15401,
+        "staticPositionThresholdMetres": 2e-05,
+        "normalChangedWhilePositionStatic": 8,
+        "maximumBindPositionDeltaMetres": 0.04906316545291386,
+        "measuredMaximumPosedGeometryChangeMetres": 0.04758930928181804
+      },
+      {
+        "anchor": "male_Ready_2",
+        "vertices": 15401,
+        "staticPositionThresholdMetres": 2e-05,
+        "normalChangedWhilePositionStatic": 8,
+        "maximumBindPositionDeltaMetres": 0.04861067872978118,
+        "measuredMaximumPosedGeometryChangeMetres": 0.04717310551743065
+      },
+      {
+        "anchor": "male_intro",
+        "vertices": 15401,
+        "staticPositionThresholdMetres": 2e-05,
+        "normalChangedWhilePositionStatic": 11,
+        "maximumBindPositionDeltaMetres": 0.05178889925399072,
+        "measuredMaximumPosedGeometryChangeMetres": 0.050417897528507394
+      }
+    ],
+    "Female": [
+      {
+        "anchor": "female_IntroPushups_0",
+        "vertices": 13932,
+        "staticPositionThresholdMetres": 2e-05,
+        "normalChangedWhilePositionStatic": 16,
+        "maximumBindPositionDeltaMetres": 0.11463634331406425,
+        "measuredMaximumPosedGeometryChangeMetres": 0.10808135072303933
+      },
+      {
+        "anchor": "female_IntroPushups_1",
+        "vertices": 13932,
+        "staticPositionThresholdMetres": 2e-05,
+        "normalChangedWhilePositionStatic": 7,
+        "maximumBindPositionDeltaMetres": 0.07459955982879524,
+        "measuredMaximumPosedGeometryChangeMetres": 0.07167640854601445
+      },
+      {
+        "anchor": "female_IntroPushups_2",
+        "vertices": 13932,
+        "staticPositionThresholdMetres": 2e-05,
+        "normalChangedWhilePositionStatic": 11,
+        "maximumBindPositionDeltaMetres": 0.08103292521864183,
+        "measuredMaximumPosedGeometryChangeMetres": 0.07646710297398872
+      },
+      {
+        "anchor": "female_IntroWave_0",
+        "vertices": 13932,
+        "staticPositionThresholdMetres": 2e-05,
+        "normalChangedWhilePositionStatic": 13,
+        "maximumBindPositionDeltaMetres": 0.11841836840524363,
+        "measuredMaximumPosedGeometryChangeMetres": 0.11265530075386286
+      },
+      {
+        "anchor": "female_IntroWave_1",
+        "vertices": 13932,
+        "staticPositionThresholdMetres": 2e-05,
+        "normalChangedWhilePositionStatic": 15,
+        "maximumBindPositionDeltaMetres": 0.1167446781655164,
+        "measuredMaximumPosedGeometryChangeMetres": 0.1113922368139185
+      },
+      {
+        "anchor": "female_IntroWave_2",
+        "vertices": 13932,
+        "staticPositionThresholdMetres": 2e-05,
+        "normalChangedWhilePositionStatic": 23,
+        "maximumBindPositionDeltaMetres": 0.05034244352760402,
+        "measuredMaximumPosedGeometryChangeMetres": 0.048863826987119094
+      },
+      {
+        "anchor": "female_Ready_0",
+        "vertices": 13932,
+        "staticPositionThresholdMetres": 2e-05,
+        "normalChangedWhilePositionStatic": 21,
+        "maximumBindPositionDeltaMetres": 0.05839769805334796,
+        "measuredMaximumPosedGeometryChangeMetres": 0.05702781961517678
+      },
+      {
+        "anchor": "female_Ready_1",
+        "vertices": 13932,
+        "staticPositionThresholdMetres": 2e-05,
+        "normalChangedWhilePositionStatic": 19,
+        "maximumBindPositionDeltaMetres": 0.05834725755757506,
+        "measuredMaximumPosedGeometryChangeMetres": 0.056967373849652024
+      },
+      {
+        "anchor": "female_Ready_2",
+        "vertices": 13932,
+        "staticPositionThresholdMetres": 2e-05,
+        "normalChangedWhilePositionStatic": 19,
+        "maximumBindPositionDeltaMetres": 0.05819153886923768,
+        "measuredMaximumPosedGeometryChangeMetres": 0.056798448486908196
+      },
+      {
+        "anchor": "female_intro",
+        "vertices": 13932,
+        "staticPositionThresholdMetres": 2e-05,
+        "normalChangedWhilePositionStatic": 13,
+        "maximumBindPositionDeltaMetres": 0.11720334841978705,
+        "measuredMaximumPosedGeometryChangeMetres": 0.11194544726161157
+      }
+    ]
+  },
+  "assetsChanged": false
+}

@@ -1,0 +1,16 @@
+--- a/Unity/Assets/Scripts/Tennis/MatchHeroLook.cs
++++ b/Unity/Assets/Scripts/Tennis/MatchHeroLook.cs
+@@ -238,6 +238,13 @@
+                 if (atlas) m.SetTexture("_WeaveMap", atlas);
+                 if (golfKit) m.SetFloat("_FabricVersion", 2);
+                 m.SetFloat("_UseGarmentMaps", 1); m.SetFloat("_NormalStrength", 1);
++#if UNITY_EDITOR
++                // Capture-only isolation of garment normal-map bake artifacts.
++                string topNormalReview = System.Environment.GetEnvironmentVariable("VISUAL_TOP_NORMAL_STRENGTH");
++                if (tag == "Top" && float.TryParse(topNormalReview, System.Globalization.NumberStyles.Float,
++                    System.Globalization.CultureInfo.InvariantCulture, out float topNormalStrength))
++                    m.SetFloat("_NormalStrength", Mathf.Clamp(topNormalStrength, 0, 2));
++#endif
+                 m.SetColor("_TrimColor", new Color(KitBlackR, KitBlackR, KitBlackB, 1));
+                 m.SetFloat("_WeaveNormal", look.weaveNormal * .8f); m.SetFloat("_WeaveThread", look.thread * .85f);
+                 // New construction UVs use the fabric atlas at their authored orientation.

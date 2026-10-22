@@ -1,0 +1,26 @@
+--- Unity/Assets/Resources/Course/Shaders/GolfRock.shader
++++ work/reference-rebuild/coastal-erosion5-ao/GolfRock.shader
+@@ -56,6 +56,7 @@
+ #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
+ #pragma multi_compile _ _ADDITIONAL_LIGHTS
+ #pragma multi_compile_fragment _ _SHADOWS_SOFT
++#pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
+ #pragma multi_compile_fog
+ #define GOLF_ROCK 1
+ 
+@@ -200,6 +201,15 @@
+  main.shadowAttenuation=GolfShadowAttenuation(i.w);
+  half3 colour=albedo*(i.illumination-i.key+HeroWrapped(n,main.direction,_Wrap)*main.color*main.shadowAttenuation);
+  colour+=albedo*(HeroAmbient(n)-HeroAmbient(normalize(i.n)));
++ #if defined(_SCREEN_SPACE_OCCLUSION)
++ if(_AuthoredUV>.5h) {
++  // The renderer publishes pre-opaque AO. Consume only its indirect visibility
++  // on authored scans: sunlight, specular and legacy rocks remain unchanged.
++  AmbientOcclusionFactor screenAO=GetScreenSpaceAmbientOcclusion(GetNormalizedScreenSpaceUV(i.p));
++  half indirectVisibility=lerp(1.0h,screenAO.indirectAmbientOcclusion,.65h);
++  colour+=albedo*HeroAmbient(n)*(indirectVisibility-1.0h);
++ }
++ #endif
+  if(_Foliage>.5h) {
+   // A little transmitted light keeps the underside of a frond readable.
+   colour+=albedo*main.color*saturate(-dot(n,main.direction))*.12h*main.shadowAttenuation;

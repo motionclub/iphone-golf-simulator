@@ -1,0 +1,188 @@
+{
+  "gate": "FROZEN SOURCE/EXPORT INVARIANTS PASS; ACTUAL SHAPE PASS; LIP DEFINITION HOLD FOR ROOT PALETTE TEST",
+  "previousCandidate": "Face29 held: pointed mouth seam/slits in actual studio portraits",
+  "candidate": "OriginalFaceFinish29Smooth1",
+  "exactPreserved": [
+    "53 bone rest matrices/hierarchy",
+    "Body topology/weights/groups",
+    "Body X/Z",
+    "Eye13 ReferenceFeatures positions/material topology/shapes",
+    "All active Body blink vertex positions",
+    "All Body blink deltas"
+  ],
+  "changes": "Original mouth depth faired with 11 mm quadratic local fits, mouth normals fitted smoothly; broad upper/lower relief1.8/2.4 mm; physical seam recess removed. Existing UV/color masks re-registered to continuous lip/seam loop fits. Same accepted LUT hue; seam amount .35 vs old .46, sigma1.3 mm vs old .6. Nose/cheek field unchanged from Face29.",
+  "results": {
+    "Male": {
+      "bodyVertices": 33472,
+      "movedVertices": 1564,
+      "maxDepthDeltaMm": 3.2457709312438965,
+      "meanMovedDeltaMm": 0.7186237951297589,
+      "blinkActiveVertices": 998,
+      "blinkDeltaErrorsMetres": {
+        "Basis": 0.0,
+        "Hero_Blink_Half": 0.0,
+        "Hero_Blink": 0.0
+      },
+      "rigBoneCount": 53,
+      "fbxSha256": "106171a7dafb39bcdd224c149ee5e8a29c9a1caa86691b85e760acc18373081c",
+      "blendSha256": "65dbabd1ddbdcd00b814fee709986acfb9709a6d5f8af465a0c34e3d31d62f1c"
+    },
+    "Female": {
+      "bodyVertices": 22891,
+      "movedVertices": 733,
+      "maxDepthDeltaMm": 2.5242865085601807,
+      "meanMovedDeltaMm": 0.6439440653724202,
+      "blinkActiveVertices": 2157,
+      "blinkDeltaErrorsMetres": {
+        "Basis": 0.0,
+        "Hero_Blink_Half": 0.0,
+        "Hero_Blink": 0.0
+      },
+      "rigBoneCount": 53,
+      "fbxSha256": "02ac48c1fe531dc6a15d3ed1ad7cedfffc5344d0d41223a536936ebbf9225366",
+      "blendSha256": "e846b69013dcf5752d829b9375082f83d6374893bbd22774cb82b852b307e98f"
+    }
+  },
+  "mouthBounds": {
+    "gate": "PASS",
+    "results": {
+      "Male": {
+        "gate": "PASS",
+        "uvChangedLoops": 1184,
+        "colorChangedVertices": 275,
+        "uvColorOutsideMouthExact": true,
+        "blinkActivePositionsExact": true,
+        "maxBlinkActiveCornerNormalDelta": 0.008641374840108086,
+        "mouthRegionRestBounds": {
+          "absXMax": 0.041,
+          "absZFromCentreMax": 0.036,
+          "frontYMax": -0.08
+        },
+        "maxCornerNormalDelta": 0.32747324122494115,
+        "blinkActiveCornerNormalsExact": false,
+        "maxBlinkActiveCornerNormalAngleDegrees": 0.4951158480353587,
+        "normalNote": "Original encoded custom normals outside mouth preserved; evaluated normals depend on changed surrounding facial surface. Small angle change is recorded, not labelled exact."
+      },
+      "Female": {
+        "gate": "PASS",
+        "uvChangedLoops": 846,
+        "colorChangedVertices": 223,
+        "uvColorOutsideMouthExact": true,
+        "blinkActivePositionsExact": true,
+        "maxBlinkActiveCornerNormalDelta": 0.021918264763343707,
+        "mouthRegionRestBounds": {
+          "absXMax": 0.041,
+          "absZFromCentreMax": 0.036,
+          "frontYMax": -0.08
+        },
+        "maxCornerNormalDelta": 0.1660219216688167,
+        "blinkActiveCornerNormalsExact": false,
+        "maxBlinkActiveCornerNormalAngleDegrees": 1.2558492045008545,
+        "normalNote": "Original encoded custom normals outside mouth preserved; evaluated normals depend on changed surrounding facial surface. Small angle change is recorded, not labelled exact."
+      }
+    }
+  },
+  "blinkRegression": {
+    "gate": "FULL CLOSURE PASS; POSED OCCLUSION CHANGES REQUIRE ACTUAL REVIEW",
+    "control": "accepted OriginalSeamBlinkFinish1",
+    "posedApertureStagesExact": {
+      "Male": false,
+      "Female": true
+    },
+    "differences": [
+      {
+        "sex": "Male",
+        "clip": "Serve",
+        "blink": 0,
+        "controlVisibleEyeRays": [
+          1880,
+          166
+        ],
+        "candidateVisibleEyeRays": [
+          1880,
+          135
+        ],
+        "delta": [
+          0,
+          -31
+        ]
+      },
+      {
+        "sex": "Male",
+        "clip": "Serve",
+        "blink": 0.25,
+        "controlVisibleEyeRays": [
+          1369,
+          107
+        ],
+        "candidateVisibleEyeRays": [
+          1369,
+          78
+        ],
+        "delta": [
+          0,
+          -29
+        ]
+      },
+      {
+        "sex": "Male",
+        "clip": "Serve",
+        "blink": 0.5,
+        "controlVisibleEyeRays": [
+          836,
+          60
+        ],
+        "candidateVisibleEyeRays": [
+          836,
+          37
+        ],
+        "delta": [
+          0,
+          -23
+        ]
+      }
+    ],
+    "clips": [
+      "Ready",
+      "Serve",
+      "Forehand",
+      "IntroWave"
+    ],
+    "stages": [
+      0,
+      0.25,
+      0.5,
+      0.75,
+      1
+    ],
+    "raysPerAperturePerStage": 12221,
+    "fullBlinkVisibleEyeRays": 0,
+    "fullClosureAllEightClips": true,
+    "actualUnityArtGate": "PENDING"
+  },
+  "actualRootPaths": [
+    "proof/reference-rebuild/face-finish29-smooth1",
+    "proof/reference-rebuild/face-finish29-smooth1-resort"
+  ],
+  "sourceArtReview": "Matched source front and threequarter portraits have continuous natural mouth shading; triangular bright slit features from Face29 are absent. Source lip relief is softer; actual default gameplay portrait must confirm readability.",
+  "normalLimitation": "Evaluated Body eyelid normals differ ~.50 degrees male/1.26 degrees female despite encoded normals restored outside mouth. Eye features, blink positions/deltas exact. Actual blink/lighting review required.",
+  "noFurtherMutation": true,
+  "runtimeChanges": null,
+  "actualReview": {
+    "reviewedImages": [
+      "female_blink_0_front",
+      "male_blink_0_front",
+      "female_blink_0_threequarter",
+      "male_blink_0_threequarter",
+      "female_blink_100_front",
+      "male_blink_100_front",
+      "resort_15_face"
+    ],
+    "mouthSerrationOrPointedSlits": "Absent in reviewed actuals",
+    "continuousMouthForms": "PASS, corners/lip volumes intact",
+    "fullBlinkEyeExposure": "None visible in reviewed full-blink fronts",
+    "lipDefinition": "HOLD: upper/lower distinction faint, especially female and resort portrait",
+    "recommendation": "No further source change before root tests bounded SkinPigmentUV2 palette with continuous masks",
+    "shaderFinding": "TennisCharacter.shader SkinPigmentUV branch overrides source LUT with lip(.99,.83,.80) male/(.99,.76,.74) female and dark(.80,.67,.64); native uses same. Earlier active-native-mismatch inference retracted."
+  }
+}

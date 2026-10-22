@@ -1,0 +1,194 @@
+--- a/Unity/Assets/Scripts/Course/GolfMovingTurfProofRunner.cs
++++ b/Unity/Assets/Scripts/Course/GolfMovingTurfProofRunner.cs
+@@ -59,7 +59,8 @@
+         const BindingFlags Private=BindingFlags.Instance|BindingFlags.NonPublic;
+         [Serializable] public sealed class PoseReport
+         {
+-            public string label,image,physicsGate,physicsHash,poolHash;
++            public string label,image,physicsGate,physicsHash,poolHash,selectedCollider,selectedSurface;
++            public Vector3 requestedPoint;public float selectionDistanceMeters,clearanceMeters;
+             public int hole,placedFrame,renderedFrame,lateUpdateFrame,rebuildBefore,rebuildAfter;
+             public int cells,near,mid,far,retainedBlocks,retainedCells,regeneratedComparedCells;
+             public int groundQueries,colliderRaycasts,ownedMaterialCount;
+@@ -81,7 +82,10 @@
+             public List<HoleReport> holes=new();
+         }
+         sealed class BlockSnapshot {public object block;public object[] cells;public string[] hashes;}
+-        sealed class Pose {public string label;public CoursePoint point;public bool sameStation;}
++        sealed class Pose {public string label;public CoursePoint point,requested;public bool sameStation,recordForReturn,returnStation;public float clearance;}
++        sealed class SelectionGround {public MeshCollider collider;public Bounds bounds;public Material[] materials;public int[] triangleEnds;}
++        readonly List<SelectionGround> selectionGround=new();
++        static readonly Vector2[] ClearanceDirections={new(1,0),new(-1,0),new(0,1),new(0,-1),new(.7071068f,.7071068f),new(-.7071068f,.7071068f),new(.7071068f,-.7071068f),new(-.7071068f,-.7071068f)};
+         GolfMovingTurfProof.Config config;
+         GolfGame game;CameraRig rig;Camera cam;RenderTexture target;
+         GolfCoastalTurf turf;HoleView view;Hole hole;HoleReport holeReport;
+@@ -155,6 +159,7 @@
+                 game.enabled=false;rig.enabled=false;
+                 foreach(var canvas in Object.FindObjectsByType<Canvas>(FindObjectsSortMode.None))canvas.enabled=false;
+                 HideAim();golfer.SetVisible(true);
++                CacheSelectionGround();
+                 var earlier=new Dictionary<Vector2Int,BlockSnapshot>();
+                 foreach(var pose in Poses(hole)){
+                     // Next-frame placement prevents multiple addresses sharing a
+@@ -169,9 +174,14 @@
+                     pendingPlacedFrame=Time.frameCount;pendingImage=Path.Combine(config.output,$"hole{number:00}_{pose.label}.png");pending=true;
+                     while(pending){CheckDeadline();yield return null;}
+                     Check(lastLateUpdateFrame==lastReadFrame,"ReadPixels did not follow the actual production LateUpdate frame");
+-                    var after=Snapshot();var p=new PoseReport{hole=number,label=pose.label,image=pendingImage,placedFrame=pendingPlacedFrame,
++                    var after=Snapshot();
++                    GrassAt(pose.point,out var selectedPoint,out var selectedCollider,out var selectedSurface);
++                    var p=new PoseReport{hole=number,label=pose.label,image=pendingImage,placedFrame=pendingPlacedFrame,
+                         renderedFrame=lastReadFrame,lateUpdateFrame=lastLateUpdateFrame,rebuildBefore=rebuildBefore,rebuildAfter=lastLateRebuild,
+                         cells=turf.CellCount,near=turf.LastNearCells,mid=turf.LastMidCells,far=turf.LastFarCells,
++                        selectedCollider=selectedCollider,selectedSurface=SurfaceName(selectedSurface),
++                        requestedPoint=new Vector3((float)pose.requested.X,0,(float)pose.requested.D),
++                        selectionDistanceMeters=(float)pose.point.DistanceTo(pose.requested)*.9144f,clearanceMeters=pose.clearance,
+                         groundQueries=turf.GroundQueriesThisRebuild,colliderRaycasts=turf.ColliderRaycastsThisRebuild,
+                         rebuildOccurred=lastLateRebuild!=rebuildBefore,rebuildMilliseconds=lastLateRebuild!=rebuildBefore?turf.RebuildMilliseconds:0,
+                         lastRebuildMilliseconds=turf.RebuildMilliseconds,ball=ball.position,patchCenter=turf.PatchCenter,
+@@ -189,14 +199,15 @@
+                         Check((game.BallPosition-ball.position).sqrMagnitude<.000001f,"Production BallPosition differs from displayed addressed ball");
+                         if(pose.sameStation)Check(p.groundQueries==queriesBefore,"Same station changed ground-query diagnostics");
+                         if(pose.label=="tee_coarse_cross")Check(p.rebuildAfter==rebuildBefore+1,"One coarse crossing did not produce exactly one rebuild");
+-                        CompareRevisited(earlier,after,p);
++                        Check(p.cells>0&&p.near+p.mid+p.far>0,"Actual grassy address produced no resident or submitted turf cells: "+pose.label);
++                        CompareRevisited(earlier,after,p,pose.returnStation);
+                     }
+                     VerifyRetained(before,after,p);
+                     p.poolHash=PoolHash(after);p.physicsHash=TextHash(PhysicsState());p.physicsExact=p.physicsHash==holeReport.baselinePhysicsHash;
+                     p.physicsGate=p.physicsExact?"PASS":"FAIL";Check(p.physicsExact,"Original physics changed after address movement");
+                     File.WriteAllText(Path.Combine(config.output,$"hole{number:00}_{pose.label}_physics.json"),PhysicsState());
+                     holeReport.poses.Add(p);
+-                    if(pose.label=="fairway")earlier=after;
++                    if(pose.recordForReturn)earlier=after;
+                     Flush();
+                 }
+                 if(config.exerciseFlight){
+@@ -222,13 +233,93 @@
+         }
+         List<Pose> Poses(Hole h)
+         {
+-            var fairway=PointAlong(h,.45);var approach=PointAlong(h,Math.Max(.65,1-18/Math.Max(h.Length,1)));
+-            return new List<Pose>{new(){label="tee",point=h.Tee},
+-                new(){label="tee_same_station",point=new CoursePoint(h.Tee.X+.5/.9144,h.Tee.D),sameStation=true},
+-                new(){label="tee_coarse_cross",point=new CoursePoint(h.Tee.X+4.1/.9144,h.Tee.D)},
+-                new(){label="fairway",point=fairway},new(){label="approach",point=approach},
+-                new(){label="return_fairway",point=fairway},new(){label="return_tee",point=h.Tee}};
+-        }
++            var middleWanted=PointAlong(h,.45);var approachWanted=PointAlong(h,Math.Max(.65,1-18/Math.Max(h.Length,1)));
++            // A centerline fraction can cross open water on the authored par3.
++            // Choose real supported grass, with an actual nearest-face clearance
++            // test, and enough separation to retire/regenerate the return pool.
++            var middle=ChooseGrass(middleWanted,h.Tee,30);
++            var approach=ChooseGrass(approachWanted,middle,30);
++            GrassAt(middle,out var unusedMiddle,out var unusedCollider,out var middleSurface);
++            GrassAt(approach,out var unusedApproach,out var unusedApproachCollider,out var approachSurface);
++            string middleLabel=middleSurface==1?"fairway":"mid_"+SurfaceName(middleSurface).ToLowerInvariant();
++            string approachLabel="approach_"+SurfaceName(approachSurface).ToLowerInvariant();
++            return new List<Pose>{new(){label="tee",point=h.Tee,requested=h.Tee},
++                new(){label="tee_same_station",point=new CoursePoint(h.Tee.X+.5/.9144,h.Tee.D),requested=h.Tee,sameStation=true},
++                new(){label="tee_coarse_cross",point=new CoursePoint(h.Tee.X+4.1/.9144,h.Tee.D),requested=h.Tee},
++                new(){label=middleLabel,point=middle,requested=middleWanted,clearance=2,recordForReturn=true},
++                new(){label=approachLabel,point=approach,requested=approachWanted,clearance=2},
++                new(){label="return_"+middleLabel,point=middle,requested=middleWanted,clearance=2,returnStation=true},
++                new(){label="return_tee",point=h.Tee,requested=h.Tee}};
++        }
++        void CacheSelectionGround()
++        {
++            selectionGround.Clear();
++            foreach(var collider in turf.gameObject.GetComponentsInChildren<MeshCollider>()){
++                if(!collider.sharedMesh)continue;
++                var ends=new int[collider.sharedMesh.subMeshCount];int total=0;
++                for(int i=0;i<ends.Length;i++){total+=(int)collider.sharedMesh.GetIndexCount(i)/3;ends[i]=total;}
++                selectionGround.Add(new SelectionGround{collider=collider,bounds=collider.bounds,materials=collider.GetComponent<Renderer>()?.sharedMaterials,triangleEnds=ends});
++            }
++        }
++        bool GrassAt(CoursePoint at,out Vector3 point,out string colliderName,out float surface)
++        {
++            point=default;colliderName="none";surface=-1;SelectionGround land=null;RaycastHit best=default;float nearest=float.MaxValue;
++            var ray=new Ray(new Vector3((float)at.X,1000,(float)at.D),Vector3.down);
++            foreach(var source in selectionGround){
++                if(!source.collider||!source.collider.enabled||!source.collider.gameObject.activeInHierarchy
++                    ||at.X<source.bounds.min.x||at.X>source.bounds.max.x||at.D<source.bounds.min.z||at.D>source.bounds.max.z)continue;
++                if(source.collider.Raycast(ray,out var hit,2000)&&hit.distance<nearest){land=source;best=hit;nearest=hit.distance;}
++            }
++            if(land==null||best.normal.y<.92f)return false;
++            colliderName=land.collider.name;
++            if(!(colliderName.StartsWith("TERRAIN")||colliderName.StartsWith("TEE_BOX")||colliderName.StartsWith("FAIRWAY")))return false;
++            int sub=0;while(sub<land.triangleEnds.Length&&best.triangleIndex>=land.triangleEnds[sub])sub++;
++            var mats=land.materials;if(mats==null||sub>=mats.Length||!mats[sub])return false;
++            if(colliderName.StartsWith("TERRAIN")){if(!mats[sub].name.Contains(" Rough"))return false;surface=0;}
++            else surface=mats[sub].HasProperty("_Surface")?mats[sub].GetFloat("_Surface"):colliderName.StartsWith("TEE")?3:1;
++            if(surface!=0&&surface!=1&&surface!=3&&surface!=4)return false;
++            // Reuse the actual cached visual-path mask without invoking Ground,
++            // changing runtime query counters or moving/submitting the turf pool.
++            var onPath=typeof(GolfCoastalTurf).GetMethod("OnVisualPath",Private);
++            Check(onPath!=null,"Accepted visual-path predicate missing");
++            if((bool)onPath.Invoke(turf,new object[]{best.point}))return false;
++            point=best.point;return true;
++        }
++        CoursePoint ChooseGrass(CoursePoint desired,CoursePoint awayFrom,float separationMeters)
++        {
++            var candidates=new List<Vector3>();
++            foreach(var source in selectionGround){
++                var mesh=source.collider.sharedMesh;var mats=source.materials;string name=source.collider.name;
++                if(!mesh.isReadable||mats==null||!(name.StartsWith("TERRAIN")||name.StartsWith("TEE_BOX")||name.StartsWith("FAIRWAY")))continue;
++                var vertices=mesh.vertices;
++                for(int sub=0;sub<Math.Min(mesh.subMeshCount,mats.Length);sub++){
++                    var material=mats[sub];if(!material)continue;
++                    float role=material.HasProperty("_Surface")?material.GetFloat("_Surface"):-1;
++                    if(name.StartsWith("TERRAIN")?!material.name.Contains(" Rough"):(role!=0&&role!=1&&role!=3&&role!=4))continue;
++                    var indices=mesh.GetTriangles(sub);
++                    for(int i=0;i+2<indices.Length;i+=3){
++                        var a=source.collider.transform.TransformPoint(vertices[indices[i]]);var b=source.collider.transform.TransformPoint(vertices[indices[i+1]]);var c=source.collider.transform.TransformPoint(vertices[indices[i+2]]);
++                        if(Vector3.Cross(b-a,c-a).normalized.y<.92f)continue;
++                        var candidate=(a+b+c)/3;
++                        if(new CoursePoint(candidate.x,candidate.z).DistanceTo(awayFrom)*.9144>=separationMeters)candidates.Add(candidate);
++                    }
++                }
++            }
++            float Distance(Vector3 p)=>((float)desired.X-p.x)*((float)desired.X-p.x)+((float)desired.D-p.z)*((float)desired.D-p.z);
++            candidates.Sort((a,b)=>{int order=Distance(a).CompareTo(Distance(b));if(order!=0)return order;order=a.z.CompareTo(b.z);return order!=0?order:a.x.CompareTo(b.x);});
++            foreach(var candidate in candidates){
++                var at=new CoursePoint(candidate.x,candidate.z);
++                if(!GrassAt(at,out var root,out var unused,out var role))continue;
++                bool clear=true;
++                foreach(var direction in ClearanceDirections){
++                    var edge=new CoursePoint(at.X+direction.x*2/.9144,at.D+direction.y*2/.9144);
++                    if(!GrassAt(edge,out var edgeRoot,out var unusedCollider,out var unusedSurface)||Mathf.Abs(edgeRoot.y-root.y)>1f){clear=false;break;}
++                }
++                if(clear)return at;
++            }
++            throw new InvalidOperationException($"No actual supported grass with 2 m clearance and {separationMeters} m separation near ({desired.X:R},{desired.D:R}) on hole {hole.Number}");
++        }
++        static string SurfaceName(float surface)=>surface==0?"Rough":surface==1?"Fairway":surface==3?"Tee":surface==4?"Fringe":"Excluded";
+         static CoursePoint PointAlong(Hole h,double fraction)
+         {
+             double wanted=h.Length*fraction;
+@@ -245,6 +336,7 @@
+             var marker=(Transform)Field(game,"landingMarker");if(marker)marker.gameObject.SetActive(false);
+             var dots=(AimDots)Field(game,"aimDots");if(dots)dots.Hide();
+             var landing=(LandingZone)Field(game,"landingZone");if(landing)landing.gameObject.SetActive(false);
++            var grid=(GreenRead)Field(game,"greenRead");if(grid)grid.Hide();
+         }
+         void LateUpdate()
+         {
+@@ -311,15 +403,16 @@
+                 pose.matricesExact&=exact;Check(exact,"Retained block/cell/matrix changed at "+entry.Key);
+             }
+         }
+-        static void CompareRevisited(Dictionary<Vector2Int,BlockSnapshot> earlier,Dictionary<Vector2Int,BlockSnapshot> after,PoseReport pose)
++        static void CompareRevisited(Dictionary<Vector2Int,BlockSnapshot> earlier,Dictionary<Vector2Int,BlockSnapshot> after,PoseReport pose,bool requirePositiveComparison)
+         {
+             if(!pose.label.StartsWith("return_"))return;
+             foreach(var entry in earlier){
+                 if(!after.TryGetValue(entry.Key,out var current))continue;
++                if(requirePositiveComparison)Check(!ReferenceEquals(entry.Value.block,current.block),"Return comparison did not regenerate retired block: "+entry.Key);
+                 pose.regeneratedComparedCells+=current.hashes.Length;
+                 Check(entry.Value.hashes.SequenceEqual(current.hashes),"Revisited tile changed authored roots/rotations or admission count: "+entry.Key);
+             }
+-            if(pose.label=="return_fairway")Check(pose.regeneratedComparedCells>0,"Return station had no comparable regenerated cells");
++            if(requirePositiveComparison)Check(pose.regeneratedComparedCells>0,"Return station had no comparable regenerated cells");
+         }
+         void Flush(){File.WriteAllText(Path.Combine(config.output,"moving-turf-proof.json"),JsonUtility.ToJson(report,true));}
+         void Fail(Exception error){report.gate="FAIL";report.error=error.ToString();Flush();Debug.LogException(error);Cleanup();GolfMovingTurfProof.Finish(1);}

@@ -1,0 +1,42 @@
+{
+ "gender": "male",
+ "old_kit": true,
+ "R": {
+  "rim_z_min": 0.0813,
+  "rim_z_max": 0.1399,
+  "rim_z_mean": 0.1044,
+  "roll_top": 0.14410275220870972,
+  "foot_verts_below_collar": 1437,
+  "foot_verts_inside_wall": 0,
+  "foot_verts_not_enclosed": 0,
+  "foot_to_shoe_min_mm": 4.76,
+  "sock_verts_below_collar": 1191,
+  "sock_verts_inside_wall": 0,
+  "sock_verts_not_enclosed": 0,
+  "toe_overhang_inner_mm": 9.5,
+  "toe_overhang_outer_mm": 19.4,
+  "heel_overhang_inner_mm": 8.7,
+  "heel_overhang_outer_mm": 18.3,
+  "sole_min_z": -0.0285,
+  "shoe_min_z": -0.0305
+ },
+ "L": {
+  "rim_z_min": 0.0814,
+  "rim_z_max": 0.1399,
+  "rim_z_mean": 0.1048,
+  "roll_top": 0.14392933249473572,
+  "foot_verts_below_collar": 1438,
+  "foot_verts_inside_wall": 0,
+  "foot_verts_not_enclosed": 0,
+  "foot_to_shoe_min_mm": 4.84,
+  "sock_verts_below_collar": 1204,
+  "sock_verts_inside_wall": 0,
+  "sock_verts_not_enclosed": 0,
+  "toe_overhang_inner_mm": 9.6,
+  "toe_overhang_outer_mm": 19.4,
+  "heel_overhang_inner_mm": 8.7,
+  "heel_overhang_outer_mm": 18.4,
+  "sole_min_z": -0.0285,
+  "shoe_min_z": -0.0305
+ }
+}

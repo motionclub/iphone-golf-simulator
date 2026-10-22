@@ -1,0 +1,124 @@
+{
+ "shots": [
+  {
+   "name": "hole09_tee",
+   "hole": 9,
+   "kind": "address",
+   "ball": [
+    0,
+    0
+   ],
+   "aim": [
+    3,
+    60
+   ]
+  },
+  {
+   "name": "hole09_approach",
+   "hole": 9,
+   "kind": "address",
+   "ball": [
+    13.5,
+    269
+   ],
+   "aim": [
+    6,
+    416
+   ]
+  },
+  {
+   "name": "hole09_ruin",
+   "hole": 9,
+   "kind": "landmark",
+   "pos": [
+    -22,
+    20,
+    128
+   ],
+   "look": [
+    -62,
+    8.5,
+    103
+   ],
+   "fov": 50
+  }
+ ],
+ "extra_previews": [
+  {
+   "name": "hole09_aerial",
+   "kind": "landmark",
+   "pos": [
+    60,
+    120,
+    420
+   ],
+   "look": [
+    -40,
+    5,
+    250
+   ],
+   "fov": 45,
+   "preview_res": [
+    1600,
+    900
+   ]
+  },
+  {
+   "name": "hole09_north_end",
+   "kind": "landmark",
+   "pos": [
+    -30,
+    60,
+    -30
+   ],
+   "look": [
+    -75,
+    6,
+    45
+   ],
+   "fov": 50,
+   "preview_res": [
+    1400,
+    800
+   ]
+  },
+  {
+   "name": "hole09_south_end",
+   "kind": "landmark",
+   "pos": [
+    -10,
+    60,
+    420
+   ],
+   "look": [
+    -70,
+    6,
+    490
+   ],
+   "fov": 50,
+   "preview_res": [
+    1400,
+    800
+   ]
+  },
+  {
+   "name": "hole09_still_view",
+   "kind": "landmark",
+   "pos": [
+    -150,
+    90,
+    250
+   ],
+   "look": [
+    -30,
+    5,
+    320
+   ],
+   "fov": 50,
+   "preview_res": [
+    1600,
+    900
+   ]
+  }
+ ]
+}

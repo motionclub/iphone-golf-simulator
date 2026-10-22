@@ -1,0 +1,72 @@
+--- work/reference-rebuild/coastal-rough12/GolfCoastalTurf.before.cs	2026-10-07 17:44:12
++++ Unity/Assets/Scripts/Course/GolfCoastalTurf.cs	2026-10-07 17:44:12
+@@ -9,7 +9,7 @@
+     /// three grass draw submissions are made, with fixed near/mid allocations.
+     public sealed class GolfCoastalTurf : MonoBehaviour
+     {
+-        const float YardsPerMeter=1f/.9144f, RadiusMeters=12f, TileMeters=1f;
++        const float YardsPerMeter=1f/.9144f, RadiusMeters=12f, TileMeters=1f, RoughHeightScale=3.2f;
+         const int NearLimit=48, MidLimit=96, CellLimit=640;
+         sealed class Cell { public Matrix4x4 matrix; public Vector3 center; public Bounds bounds; public float distance; public bool rough; }
+         readonly List<Cell> cells=new();
+@@ -17,7 +17,7 @@
+         readonly List<float> nearTypes=new(),midTypes=new(),farTypes=new();
+         MaterialPropertyBlock nearProperties,midProperties,farProperties;
+         readonly List<Material> groundMaterials=new();
+-        Mesh nearMesh,midMesh,farMesh;Matrix4x4 nearBasis,midBasis,farBasis;Material grass;
++        Mesh nearMesh,midMesh,farMesh;Matrix4x4 nearBasis,midBasis,farBasis;Material grass;Bounds tileBounds;
+         Plane[] planes=new Plane[6];
+         public int CellCount=>cells.Count;
+         public int LastNearCells {get;private set;}
+@@ -51,6 +51,9 @@
+             nearBasis=prefab.transform.worldToLocalMatrix*n.transform.localToWorldMatrix;
+             midBasis=prefab.transform.worldToLocalMatrix*m.transform.localToWorldMatrix;
+             farBasis=prefab.transform.worldToLocalMatrix*f.transform.localToWorldMatrix;
++            tileBounds=TransformBounds(nearMesh.bounds,nearBasis);
++            tileBounds.Encapsulate(TransformBounds(midMesh.bounds,midBasis));
++            tileBounds.Encapsulate(TransformBounds(farMesh.bounds,farBasis));
+             grass=new Material(shader){name="Coastal 12 short cut grass",enableInstancing=true};
+             grass.SetColor("_RootColor",new Color(.19f,.36f,.16f));grass.SetColor("_TipColor",new Color(.39f,.56f,.245f));grass.SetFloat("_Smoothness",.08f);
+             var mowing=new Vector3((float)(hole.Pin.X-hole.Tee.X),0,(float)(hole.Pin.D-hole.Tee.D)).normalized;
+@@ -66,14 +69,15 @@
+             }
+             MaximumTriangles=Mathf.Min(NearLimit,cells.Count)*(int)nearMesh.GetIndexCount(0)/3+Mathf.Min(MidLimit,Mathf.Max(0,cells.Count-NearLimit))*(int)midMesh.GetIndexCount(0)/3+Mathf.Max(0,cells.Count-NearLimit-MidLimit)*(int)farMesh.GetIndexCount(0)/3;
+             FineGround(model,hole,tee);
+-            Debug.Log($"[GolfCoastalTurf] {cells.Count} 1m clustered cells within12m tee; near/mid caps {NearLimit}/{MidLimit}, max {MaximumTriangles} triangles, 3 instanced submissions, no grass shadows/colliders");
++            int roughCells=0;foreach(var cell in cells)if(cell.rough)roughCells++;
++            Debug.Log($"[GolfCoastalTurf] {cells.Count} 1m clustered cells within12m tee ({cells.Count-roughCells} cut / {roughCells} rough); near/mid caps {NearLimit}/{MidLimit}, max {MaximumTriangles} triangles, 3 instanced submissions, no grass shadows/colliders");
+         }
+         void AddCell(MeshCollider[] colliders,Vector3 p,float span,System.Random rng,bool subdivide)
+         {
+             if(cells.Count>=CellLimit||!Ground(colliders,p,out var point,out var normal,out var rough))return;
+             bool continuous=true;
+             foreach(var d in new[]{new Vector3(-.44f,0,-.44f),new Vector3(.44f,0,-.44f),new Vector3(-.44f,0,.44f),new Vector3(.44f,0,.44f)})
+-                if(!Ground(colliders,p+d*span*YardsPerMeter,out var corner,out var unused,out var cornerRough)||cornerRough!=rough||Mathf.Abs(corner.y-point.y)>.025f){continuous=false;break;}
++                if(!Ground(colliders,p+d*span*YardsPerMeter,out var corner,out var unused,out var cornerRough)||cornerRough!=rough||Mathf.Abs(Vector3.Dot(corner-point,normal))>.025f){continuous=false;break;}
+             if(!continuous){
+                 // A smaller real ground query fills the existing cut/rough edge;
+                 // no invented rough strip or blade roots over bunker/cliff gaps.
+@@ -81,9 +85,21 @@
+                 return;
+             }
+             var rotation=Quaternion.FromToRotation(Vector3.up,normal)*Quaternion.AngleAxis(rng.Next(4)*90,Vector3.up);
+-            float size=TileMeters*span*YardsPerMeter;
+-            cells.Add(new Cell{center=point,rough=rough,matrix=Matrix4x4.TRS(point-Vector3.up*.0015f,rotation,new Vector3(span,rough?2.1f:1,span)*YardsPerMeter),bounds=new Bounds(point+Vector3.up*.05f,new Vector3(size+.12f,.22f,size+.12f))});
++            var matrix=Matrix4x4.TRS(point-Vector3.up*.0015f,rotation,new Vector3(span,rough?RoughHeightScale:1,span)*YardsPerMeter);
++            // Enclose every LOD after its ground tilt and rough-height scale,
++            // with a conservative margin for the small shader wind displacement.
++            var bounds=TransformBounds(tileBounds,matrix);bounds.Expand(.12f);
++            cells.Add(new Cell{center=point,rough=rough,matrix=matrix,bounds=bounds});
+         }
++        static Bounds TransformBounds(Bounds bounds,Matrix4x4 matrix)
++        {
++            var e=bounds.extents;
++            var x=matrix.MultiplyVector(new Vector3(e.x,0,0));
++            var y=matrix.MultiplyVector(new Vector3(0,e.y,0));
++            var z=matrix.MultiplyVector(new Vector3(0,0,e.z));
++            var extents=new Vector3(Mathf.Abs(x.x)+Mathf.Abs(y.x)+Mathf.Abs(z.x),Mathf.Abs(x.y)+Mathf.Abs(y.y)+Mathf.Abs(z.y),Mathf.Abs(x.z)+Mathf.Abs(y.z)+Mathf.Abs(z.z));
++            return new Bounds(matrix.MultiplyPoint3x4(bounds.center),extents*2);
++        }
+         static bool Ground(MeshCollider[] colliders,Vector3 p,out Vector3 point,out Vector3 normal,out bool rough)
+         {
+             point=normal=default;rough=false;float closest=float.MaxValue;MeshCollider land=null;RaycastHit best=default;

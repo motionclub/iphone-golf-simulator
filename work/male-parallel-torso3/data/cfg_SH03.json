@@ -1,0 +1,92 @@
+{
+ "order": "rbf_first",
+ "rbf": {
+  "gF": [
+   3.5,
+   2.6,
+   2.2
+  ],
+  "gB": [
+   2.2,
+   2.0,
+   3.5
+  ],
+  "lamF": [
+   0.25,
+   0.5,
+   1.0
+  ],
+  "lamB": [
+   0.2,
+   0.5,
+   0.5
+  ],
+  "lam": 0.1,
+  "hmax": 14.0,
+  "iters": 12,
+  "tol": 0.4,
+  "zfloor": [
+   0.782,
+   0.03
+  ],
+  "sp": 0.012,
+  "sg": 0.009,
+  "hp": 3,
+  "skip": false,
+  "coef_file": "data/RBF_FORM3_asset.npz"
+ },
+ "struct": {
+  "pec_lift": {
+   "A": 8.0
+  },
+  "sternum": {
+   "A": 3.0
+  },
+  "cleft2": {
+   "a0": 8.0,
+   "a1": 10.0,
+   "a2": 7.0,
+   "a3": 4.0,
+   "a4": 2.0,
+   "a5": 0.8,
+   "a6": 0,
+   "a7": 0
+  },
+  "lobes": {
+   "A": 12,
+   "x0": 0.05,
+   "sx": 0.055,
+   "z0": 0.85,
+   "sz": 0.032
+  },
+  "shelf": {
+   "A": 1.5,
+   "zc0": 1.18,
+   "zc_curve": 0.0,
+   "sz": 0.01,
+   "xc": 0.3,
+   "x_in": 0.0,
+   "x_out": 0.19
+  }
+ },
+ "only_struct": [
+  "pec_lift",
+  "sternum",
+  "cleft2",
+  "lobes",
+  "shelf"
+ ],
+ "clamp_tol": 0.4,
+ "allow_back": {
+  "A": 8.0,
+  "z": [
+   0.78,
+   0.805,
+   0.855,
+   0.9
+  ]
+ },
+ "guard_sigma": 0.008,
+ "guard_n": 3,
+ "guard_zhi": 1.318
+}

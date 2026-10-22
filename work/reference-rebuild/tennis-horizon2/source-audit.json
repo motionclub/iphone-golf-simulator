@@ -1,0 +1,79 @@
+{
+  "status": "work-only source; actual Unity capture pending",
+  "styleSource": "Existing TennisCoast constrained Delaunay / sealed island / blended vertex-colour workflow",
+  "schema": "One HORIZON_FOREST_LIMESTONE mesh; one material; imported smooth normals; linear HorizonAlbedo vertex colours",
+  "triangles": 7540,
+  "vertices": 3777,
+  "islands": [
+    {
+      "name": "Central forest ridge island",
+      "centreUnityXZ": [
+        -15,
+        600
+      ],
+      "originalExtentXZ": [
+        228,
+        95
+      ],
+      "triangles": 4584,
+      "vertices": 2294,
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0,
+      "minHeight": -5.099999904632568,
+      "maxHeight": 61.844120025634766
+    },
+    {
+      "name": "Recessed east island",
+      "centreUnityXZ": [
+        285,
+        690
+      ],
+      "originalExtentXZ": [
+        130,
+        72
+      ],
+      "triangles": 1476,
+      "vertices": 741,
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0,
+      "minHeight": -5.099999904632568,
+      "maxHeight": 32.26124572753906
+    },
+    {
+      "name": "Recessed west island",
+      "centreUnityXZ": [
+        -340,
+        720
+      ],
+      "originalExtentXZ": [
+        144,
+        64
+      ],
+      "triangles": 1480,
+      "vertices": 742,
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0,
+      "minHeight": -5.099999904632568,
+      "maxHeight": 26.409868240356445
+    }
+  ],
+  "boundsUnity": {
+    "min": [
+      -488.05267333984375,
+      -5.099999904632568,
+      500.6493225097656
+    ],
+    "max": [
+      422.62432861328125,
+      61.844120025634766,
+      778.9583740234375
+    ]
+  },
+  "sha256": "3f29f5bbe39e80fa9149682266a39073b92d80a4a316ef9aa15338cf6322d3e3",
+  "notes": [
+    "Original distant island centre/outline extents retained",
+    "authored jagged main crest and descending forest spurs",
+    "no trees/textures/alpha/details in play corridor",
+    "submerged skirts/bottoms sealed; no colliders"
+  ]
+}

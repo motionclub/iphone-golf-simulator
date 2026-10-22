@@ -1,0 +1,119 @@
+{
+  "shots": {
+    "basalt_az0": {
+      "ok": true,
+      "metrics": {
+        "pixels": 900017,
+        "share_of_frame": 0.625,
+        "glow_px": 53048,
+        "glow_coverage": 0.0589,
+        "base_mean_rgb": [
+          22.5,
+          18.5,
+          20.4
+        ],
+        "base_hue": 332.0,
+        "base_s": 0.178,
+        "base_v": 0.088,
+        "base_lum_median": 16.1,
+        "base_lum_p90": 32.5,
+        "base_lum_mean": 19.5,
+        "base_s_median": 0.154,
+        "glow_mean_rgb": [
+          156.0,
+          50.7,
+          20.7
+        ],
+        "glow_mean_hue": 13.3,
+        "glow_cream_share": 0.0,
+        "glow_skeleton_px": 26995,
+        "glow_junction_clusters": 2063,
+        "glow_components": 684,
+        "glow_vertical_line_share": 0.122,
+        "glow_horizontal_rung_share": 0.196,
+        "glow_blob_share": 0.462,
+        "glow_component_height_median_px": 9,
+        "glow_component_width_median_px": 9,
+        "glow_component_height_p90_px": 33
+      }
+    },
+    "basalt_az35": {
+      "ok": false,
+      "metrics": {
+        "pixels": 893701,
+        "share_of_frame": 0.6206,
+        "glow_px": 49030,
+        "glow_coverage": 0.0549,
+        "base_mean_rgb": [
+          21.1,
+          17.3,
+          19.5
+        ],
+        "base_hue": 325.1,
+        "base_s": 0.181,
+        "base_v": 0.083,
+        "base_lum_median": 14.4,
+        "base_lum_p90": 32.3,
+        "base_lum_mean": 18.3,
+        "base_s_median": 0.188,
+        "glow_mean_rgb": [
+          154.8,
+          50.2,
+          20.4
+        ],
+        "glow_mean_hue": 13.3,
+        "glow_cream_share": 0.0,
+        "glow_skeleton_px": 26240,
+        "glow_junction_clusters": 1958,
+        "glow_components": 804,
+        "glow_vertical_line_share": 0.214,
+        "glow_horizontal_rung_share": 0.211,
+        "glow_blob_share": 0.373,
+        "glow_component_height_median_px": 9,
+        "glow_component_width_median_px": 8,
+        "glow_component_height_p90_px": 32
+      }
+    },
+    "basalt_az-35": {
+      "ok": true,
+      "metrics": {
+        "pixels": 917583,
+        "share_of_frame": 0.6372,
+        "glow_px": 54900,
+        "glow_coverage": 0.0598,
+        "base_mean_rgb": [
+          24.4,
+          20.4,
+          22.0
+        ],
+        "base_hue": 336.1,
+        "base_s": 0.164,
+        "base_v": 0.096,
+        "base_lum_median": 18.5,
+        "base_lum_p90": 33.7,
+        "base_lum_mean": 21.4,
+        "base_s_median": 0.121,
+        "glow_mean_rgb": [
+          157.4,
+          52.2,
+          22.1
+        ],
+        "glow_mean_hue": 13.3,
+        "glow_cream_share": 0.0,
+        "glow_skeleton_px": 28790,
+        "glow_junction_clusters": 2206,
+        "glow_components": 868,
+        "glow_vertical_line_share": 0.151,
+        "glow_horizontal_rung_share": 0.17,
+        "glow_blob_share": 0.517,
+        "glow_component_height_median_px": 8,
+        "glow_component_width_median_px": 8,
+        "glow_component_height_p90_px": 30
+      }
+    }
+  },
+  "skeleton_pixels": 82025,
+  "junction_clusters": 6227,
+  "junctions_per100": 7.591587930508991,
+  "ok": false
+}

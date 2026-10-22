@@ -1,0 +1,13 @@
+{
+  "gate": "PASS",
+  "checks": [
+    "Add/Append/Build and all LODs byte-unchanged",
+    "constructor resource override only",
+    "resort and environment flag both required",
+    "leaf pivot and semantic material role schemas compatible",
+    "near/far use18 matching frond axes",
+    "matched source crown coverage grows >10% near and >15% far; curved blade samples7/6"
+  ],
+  "liveAssetsEditedByThisAgent": false,
+  "UnityRunsByThisAgent": 0
+}

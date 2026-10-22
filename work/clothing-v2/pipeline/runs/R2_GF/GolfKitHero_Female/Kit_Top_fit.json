@@ -1,0 +1,36 @@
+{
+ "hero": "GolfKitHero_Female",
+ "tag": "Kit_Top",
+ "source": "npz:/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/clothing-v2/out_gp/R2_GF/GolfKitHero_Female/unity/Kit_Top_final.npz",
+ "seconds": 1035.5,
+ "weights": {
+  "panels": 10,
+  "matched": 0.3827771081833673,
+  "inner": 0.4151947134366818,
+  "smooth_iters": 17,
+  "edge_mm": 6.87785294539496,
+  "allowed": "{0: ('T',), 1: ('T',), 2: ('T',), 3: ('T',), 4: ('T',), 5: ('T',), 6: ('T',), 7: ('T', 'AR'), 8: ('T', 'AL'), 9: ('AL',)}",
+  "side_mm_p5": 4.7281504816803555
+ },
+ "shapes": 16,
+ "log": [
+  "FIT GolfKitHero_Female Kit_Top from npz:/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/clothing-v2/out_gp/R2_GF/GolfKitHero_Female/unity/Kit_Top_final.npz: 24061 verts 46802 tris",
+  "  tightness: median gap 14.6 mm -> weight smoothing 4 cm",
+  "  weights: covered body groups T 55% P 5% AL 16% AR 13% LL 5% LR 6%",
+  "  weights: 10 panels, matched 38%, inner 42%, smooth 17 it (edge 6.9 mm)",
+  "  hem riding on Kit_Bottom: 1805 vertices follow it (t > .5)",
+  "  seams: 11324 coincident vertices welded into 2728 groups",
+  "  weights 73.8 s",
+  "  skin deep under Kit_Top (hidden, no clearance needed): 2481 of 34443 body vertices",
+  "  obstacles: body + Kit_Bottom",
+  "    pose 0/153  24 s",
+  "    pose 25/153  168 s",
+  "    pose 50/153  358 s",
+  "    pose 75/153  588 s",
+  "    pose 100/153  755 s",
+  "    pose 125/153  846 s",
+  "    pose 150/153  949 s",
+  "  correctives: 153/153 poses need a lift (max 25.0 mm, p90 25.0 mm) in 961 s",
+  "  16 shapes, RBF sigma 0.716, anchor fit err max 0.007, weight at rest 0.0038"
+ ]
+}

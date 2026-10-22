@@ -1,0 +1,49 @@
+{
+ "hole": 8,
+ "name": "Needle",
+ "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/blender/hole_08.blend",
+ "fbx": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/Course/hole_08.fbx",
+ "look_dir": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/Course/Look",
+ "seconds": 0.2,
+ "result": "ALL PASS",
+ "failures": [],
+ "gates": [
+  {
+   "name": "BASELINE_SIGNATURE",
+   "ok": true,
+   "detail": "work/postcard-look/baseline_signature/hole_08.json built 2026-10-03 21:44:32 from work/postcard-look/baseline/blender/hole_08.blend (38c2517837b8) + work/postcard-look/baseline/fbx/hole_08.fbx (d19a46b6dd59); npz sha256 matches the json"
+  },
+  {
+   "name": "HOLE07_UNTOUCHED",
+   "ok": true,
+   "detail": "hole_07.blend, hole_07.fbx, hole_07.fbx.meta sha256 unchanged"
+  },
+  {
+   "name": "SHADERS_STATIC",
+   "ok": true,
+   "detail": "GolfSurf.shader, GolfLook.cs contain no _Time / Time.time / texture offset / Update"
+  },
+  {
+   "name": "STILL_FLOOR_SELFCHECK",
+   "ok": true,
+   "detail": "the target stills pass the verifier's own floors: 22 clean crops at the stills' finest window (8 px): grass: worst crop 91% of windows >= floor, lowest p10 0.0121, flat share 5%; sand: worst crop 100% of windows >= floor, lowest p10 0.0166, flat share 4%; stone: worst crop 99% of windows >= floor, lowest p10 0.0182, flat share 3% (grass floor 0.012, 90 % of windows; Game-view flat window = sd < 0.006 or 4x4 block-mean sd < 0.003, <= 15%)"
+  },
+  {
+   "name": "LOOK_STILLS_TEXTURED",
+   "ok": true,
+   "detail": "SKIPPED (no Game-view tee / approach still of hole 8 in ArtDir/screenshots/golf_postcards/look yet; --require-stills makes this a FAIL)"
+  }
+ ],
+ "info": [
+  {
+   "name": "LOOK_STILLS_TEXTURED",
+   "detail": "SKIPPED: no Game-view tee / approach still of hole 8 in ArtDir/screenshots/golf_postcards/look yet"
+  }
+ ],
+ "gate_seconds": {
+  "HOLE07_UNTOUCHED": 0.01,
+  "SHADERS_STATIC": 0.0,
+  "STILL_FLOOR_SELFCHECK": 0.04,
+  "LOOK_STILLS_TEXTURED": 0.0
+ }
+}

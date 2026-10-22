@@ -1,0 +1,48 @@
+{
+  "Male": {
+    "sex": "Male",
+    "originalVertices": 43900,
+    "vertices": 46780,
+    "triangles": 90026,
+    "removedTriangles": 3608,
+    "eyes": [
+      {
+        "side": -1,
+        "removedTriangles": 1818,
+        "inner": 46,
+        "outer": 120,
+        "addedVertices": 1440
+      },
+      {
+        "side": 1,
+        "removedTriangles": 1790,
+        "inner": 46,
+        "outer": 110,
+        "addedVertices": 1440
+      }
+    ]
+  },
+  "Female": {
+    "sex": "Female",
+    "originalVertices": 34366,
+    "vertices": 37246,
+    "triangles": 69086,
+    "removedTriangles": 5630,
+    "eyes": [
+      {
+        "side": -1,
+        "removedTriangles": 2805,
+        "inner": 128,
+        "outer": 113,
+        "addedVertices": 1440
+      },
+      {
+        "side": 1,
+        "removedTriangles": 2825,
+        "inner": 128,
+        "outer": 121,
+        "addedVertices": 1440
+      }
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "male": {
+    "wholeImageMeanAbsoluteRgbDifference": 0.4356979423868313,
+    "pixelsRgbDifferent": 180231,
+    "pixelsDifferentOver5": 17647,
+    "maxChannelDifference": 95,
+    "eyeMeanAbsoluteRgbDifference": 3.0507472384665366,
+    "skinMeanAbsoluteRgbDifference": 1.5447908232118759
+  },
+  "female": {
+    "wholeImageMeanAbsoluteRgbDifference": 0.56959670781893,
+    "pixelsRgbDifferent": 203517,
+    "pixelsDifferentOver5": 20261,
+    "maxChannelDifference": 94,
+    "eyeMeanAbsoluteRgbDifference": 4.645588044184535,
+    "skinMeanAbsoluteRgbDifference": 1.7405195681511472
+  }
+}

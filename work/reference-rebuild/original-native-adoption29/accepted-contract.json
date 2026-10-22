@@ -1,0 +1,85 @@
+{
+  "bones": [
+    "Root",
+    "Hips",
+    "Spine",
+    "Chest",
+    "UpperChest",
+    "Neck",
+    "Head",
+    "LeftShoulder",
+    "LeftUpperArm",
+    "LeftLowerArm",
+    "LeftHand",
+    "LeftThumbProximal",
+    "LeftThumbIntermediate",
+    "LeftThumbDistal",
+    "LeftIndexProximal",
+    "LeftIndexIntermediate",
+    "LeftIndexDistal",
+    "LeftMiddleProximal",
+    "LeftMiddleIntermediate",
+    "LeftMiddleDistal",
+    "LeftRingProximal",
+    "LeftRingIntermediate",
+    "LeftRingDistal",
+    "LeftLittleProximal",
+    "LeftLittleIntermediate",
+    "LeftLittleDistal",
+    "RightShoulder",
+    "RightUpperArm",
+    "RightLowerArm",
+    "RightHand",
+    "RightThumbProximal",
+    "RightThumbIntermediate",
+    "RightThumbDistal",
+    "RightIndexProximal",
+    "RightIndexIntermediate",
+    "RightIndexDistal",
+    "RightMiddleProximal",
+    "RightMiddleIntermediate",
+    "RightMiddleDistal",
+    "RightRingProximal",
+    "RightRingIntermediate",
+    "RightRingDistal",
+    "RightLittleProximal",
+    "RightLittleIntermediate",
+    "RightLittleDistal",
+    "LeftUpperLeg",
+    "LeftLowerLeg",
+    "LeftFoot",
+    "LeftToes",
+    "RightUpperLeg",
+    "RightLowerLeg",
+    "RightFoot",
+    "RightToes"
+  ],
+  "golf_extra_bone": "Club",
+  "counts": {
+    "Male": {
+      "Body": 33694,
+      "Face": 3824
+    },
+    "Female": {
+      "Body": 23230,
+      "Face": 3004
+    }
+  },
+  "morph_names": [
+    "Hero_Blink_Half",
+    "Hero_Blink"
+  ],
+  "luts": {
+    "MatchHero_OriginalEye_RelativeIris.png": "be7cdfe03eb32bc95e0946acd22e3dcaaf4e3638023030fc67c85ca3ff2eafd1",
+    "MatchHero_OriginalEye_RelativeSclera.png": "6402a262d627348b104eee69b02b9c6c7b43eee60b5f62dd9ab37358240ba780",
+    "MatchHero_OriginalSeam_RelativeSkinPigment.png": "b4fb2bbb574bf77149f6dfd6a86dd4c669a8aa46911e9604a5a5f8ca58ee339a"
+  },
+  "source_files": {
+    "Unity/Assets/Resources/Tennis/OriginalSeamBlinkFinish/Male.fbx": "106171a7dafb39bcdd224c149ee5e8a29c9a1caa86691b85e760acc18373081c",
+    "Unity/Assets/Resources/Tennis/OriginalSeamBlinkFinish/Female.fbx": "02ac48c1fe531dc6a15d3ed1ad7cedfffc5344d0d41223a536936ebbf9225366"
+  },
+  "skinPigmentUV": 2,
+  "frozen_face_source": "OriginalFaceFinish29Smooth1",
+  "unity_palette_shader_sha256": "b9bf9c194534a020b5c4f0382aa5b5edacadb1faa46b4d84d6bd0c6339511491",
+  "count_proof": "export-split-proof.json"
+}

@@ -1,0 +1,78 @@
+{
+  "all": {
+    "frames": 900,
+    "deepest_mm": 92.90091,
+    "worst_frame": 340,
+    "worst_bone": "LeftLowerArm",
+    "inside_pct_at_worst": 22.52747,
+    "inside_pct_max": 35.98901,
+    "game_visibility_pct": 96.33333333333333,
+    "front_visibility_pct": 100.0,
+    "ball_palm_max_cm": 3141.869,
+    "elbow_range_deg": [
+      7.55632,
+      148.0573
+    ],
+    "length_delta_mm": 0.001088,
+    "hand_step_max_cm": 498.4197,
+    "hand_speed_change_max": 299.0305,
+    "hip_lateral_min_cm": 0.0327
+  },
+  "walk": {
+    "frames": 78,
+    "deepest_mm": 92.80562,
+    "worst_frame": 325,
+    "worst_bone": "LeftLowerArm",
+    "inside_pct_at_worst": 25.68681,
+    "inside_pct_max": 35.98901,
+    "game_visibility_pct": 100.0,
+    "front_visibility_pct": 100.0,
+    "ball_palm_max_cm": 47.1402,
+    "elbow_range_deg": [
+      7.556595,
+      92.14934
+    ],
+    "length_delta_mm": 0.000954,
+    "hand_step_max_cm": 37.1819,
+    "hand_speed_change_max": 293.471,
+    "hip_lateral_min_cm": 3.6096999999999997
+  },
+  "left": {
+    "frames": 39,
+    "deepest_mm": 92.80562,
+    "worst_frame": 325,
+    "worst_bone": "LeftLowerArm",
+    "inside_pct_at_worst": 25.68681,
+    "inside_pct_max": 35.98901,
+    "game_visibility_pct": 100.0,
+    "front_visibility_pct": 100.0,
+    "ball_palm_max_cm": 47.1402,
+    "elbow_range_deg": [
+      7.556595,
+      68.78961
+    ],
+    "length_delta_mm": 0.000954,
+    "hand_step_max_cm": 13.827,
+    "hand_speed_change_max": 293.471,
+    "hip_lateral_min_cm": 3.6096999999999997
+  },
+  "walk_turn_plant": {
+    "frames": 352,
+    "deepest_mm": 92.90091,
+    "worst_frame": 340,
+    "worst_bone": "LeftLowerArm",
+    "inside_pct_at_worst": 22.52747,
+    "inside_pct_max": 35.98901,
+    "game_visibility_pct": 100.0,
+    "front_visibility_pct": 100.0,
+    "ball_palm_max_cm": 461.034,
+    "elbow_range_deg": [
+      7.556595,
+      148.0573
+    ],
+    "length_delta_mm": 0.000954,
+    "hand_step_max_cm": 498.4197,
+    "hand_speed_change_max": 299.0305,
+    "hip_lateral_min_cm": 0.5091
+  }
+}

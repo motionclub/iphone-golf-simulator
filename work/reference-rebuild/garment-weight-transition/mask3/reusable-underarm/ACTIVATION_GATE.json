@@ -1,0 +1,1183 @@
+{
+  "testedProfiles": "Proven left field plus mirrored right field, full strength diagnostic only. No runtime candidate recommended from this audit.",
+  "conclusion": "Scalar side-specific upper-arm activation with a forearm guard cannot close all affected slots safely: closest alternative arm poses worsen even at full strength. Narrow safe gates still isolate Forehand1. Change deformation model or preserve current isolated candidate.",
+  "leftFeatureIndices": [
+    2,
+    8,
+    13
+  ],
+  "leftGuardFeatureIndices": [
+    3,
+    9,
+    14,
+    18
+  ],
+  "rightFeatureIndices": [
+    5,
+    11,
+    25
+  ],
+  "rightGuardFeatureIndices": [
+    6,
+    12,
+    26,
+    27
+  ],
+  "rows": [
+    {
+      "sample": "female_Forehand_1",
+      "upperArmMSE": 0.0,
+      "forearmGuardMSE": 0.0,
+      "leftSkinBefore": 452,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_Volley_1",
+      "upperArmMSE": 0.016514573096268362,
+      "forearmGuardMSE": 0.10095752476141806,
+      "leftSkinBefore": 203,
+      "leftSkinAfter": 215
+    },
+    {
+      "sample": "female_ForehandShort_4",
+      "upperArmMSE": 0.01797800841177825,
+      "forearmGuardMSE": 0.1648011670317017,
+      "leftSkinBefore": 253,
+      "leftSkinAfter": 407
+    },
+    {
+      "sample": "female_ForehandShort_1",
+      "upperArmMSE": 0.01808156319317561,
+      "forearmGuardMSE": 0.16935021112414578,
+      "leftSkinBefore": 201,
+      "leftSkinAfter": 263
+    },
+    {
+      "sample": "female_Volley_4",
+      "upperArmMSE": 0.018784067912137995,
+      "forearmGuardMSE": 0.09973990961042291,
+      "leftSkinBefore": 71,
+      "leftSkinAfter": 56
+    },
+    {
+      "sample": "female_IntroPushups_2",
+      "upperArmMSE": 0.02239465228816928,
+      "forearmGuardMSE": 0.07222618008130575,
+      "leftSkinBefore": 115,
+      "leftSkinAfter": 83
+    },
+    {
+      "sample": "female_SplitToForehand_1",
+      "upperArmMSE": 0.0256508121651428,
+      "forearmGuardMSE": 0.050389550562106325,
+      "leftSkinBefore": 301,
+      "leftSkinAfter": 208
+    },
+    {
+      "sample": "female_RunLeft_2",
+      "upperArmMSE": 0.0392611843098398,
+      "forearmGuardMSE": 0.8457838294819913,
+      "leftSkinBefore": 357,
+      "leftSkinAfter": 39
+    },
+    {
+      "sample": "female_RunLeft_1",
+      "upperArmMSE": 0.03926141185194497,
+      "forearmGuardMSE": 0.8457835354453864,
+      "leftSkinBefore": 318,
+      "leftSkinAfter": 39
+    },
+    {
+      "sample": "female_RunForward_1",
+      "upperArmMSE": 0.04110069429464929,
+      "forearmGuardMSE": 0.8455465665871383,
+      "leftSkinBefore": 0,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_RunForward_2",
+      "upperArmMSE": 0.041100760126596775,
+      "forearmGuardMSE": 0.8455465491648285,
+      "leftSkinBefore": 0,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_RunRight_2",
+      "upperArmMSE": 0.042597432539747355,
+      "forearmGuardMSE": 0.8460700715425586,
+      "leftSkinBefore": 450,
+      "leftSkinAfter": 490
+    },
+    {
+      "sample": "female_RunRight_1",
+      "upperArmMSE": 0.04259766551873601,
+      "forearmGuardMSE": 0.8460695976604042,
+      "leftSkinBefore": 448,
+      "leftSkinAfter": 489
+    },
+    {
+      "sample": "female_MatchLose_2",
+      "upperArmMSE": 0.056158504406033545,
+      "forearmGuardMSE": 0.9036270866663385,
+      "leftSkinBefore": 226,
+      "leftSkinAfter": 908
+    },
+    {
+      "sample": "female_MatchLose_1",
+      "upperArmMSE": 0.05620774779630499,
+      "forearmGuardMSE": 0.9014975933237988,
+      "leftSkinBefore": 228,
+      "leftSkinAfter": 911
+    },
+    {
+      "sample": "female_HitPerfect_2",
+      "upperArmMSE": 0.05637800730445145,
+      "forearmGuardMSE": 0.025965729187490773,
+      "leftSkinBefore": 169,
+      "leftSkinAfter": 301
+    },
+    {
+      "sample": "female_HitPerfect_1",
+      "upperArmMSE": 0.05648765016238192,
+      "forearmGuardMSE": 0.025115673867705766,
+      "leftSkinBefore": 165,
+      "leftSkinAfter": 299
+    },
+    {
+      "sample": "female_IntroWave_1",
+      "upperArmMSE": 0.06525252704939562,
+      "forearmGuardMSE": 0.8881389533326055,
+      "leftSkinBefore": 56,
+      "leftSkinAfter": 138
+    },
+    {
+      "sample": "female_EmoteSpike_2",
+      "upperArmMSE": 0.07623986195152758,
+      "forearmGuardMSE": 0.2642394065904229,
+      "leftSkinBefore": 209,
+      "leftSkinAfter": 66
+    },
+    {
+      "sample": "female_IntroWave_2",
+      "upperArmMSE": 0.08370551931480662,
+      "forearmGuardMSE": 1.2036505982716914,
+      "leftSkinBefore": 30,
+      "leftSkinAfter": 83
+    },
+    {
+      "sample": "female_IntroPushups_1",
+      "upperArmMSE": 0.10123375010606685,
+      "forearmGuardMSE": 0.19536006707560746,
+      "leftSkinBefore": 131,
+      "leftSkinAfter": 61
+    },
+    {
+      "sample": "female_SliceApproach_2",
+      "upperArmMSE": 0.10640274155412904,
+      "forearmGuardMSE": 0.046841187857216325,
+      "leftSkinBefore": 337,
+      "leftSkinAfter": 630
+    },
+    {
+      "sample": "female_Forehand_2",
+      "upperArmMSE": 0.11623771506464131,
+      "forearmGuardMSE": 0.7664842182990105,
+      "leftSkinBefore": 85,
+      "leftSkinAfter": 6
+    },
+    {
+      "sample": "female_SadPointLost_2",
+      "upperArmMSE": 0.15282061275077474,
+      "forearmGuardMSE": 0.8405711466259578,
+      "leftSkinBefore": 438,
+      "leftSkinAfter": 774
+    },
+    {
+      "sample": "female_SadPointLost_1",
+      "upperArmMSE": 0.15344385709761274,
+      "forearmGuardMSE": 0.839866701212693,
+      "leftSkinBefore": 437,
+      "leftSkinAfter": 773
+    },
+    {
+      "sample": "female_IntroBringIt_2",
+      "upperArmMSE": 0.15840141886542794,
+      "forearmGuardMSE": 0.5541818257316886,
+      "leftSkinBefore": 244,
+      "leftSkinAfter": 91
+    },
+    {
+      "sample": "female_SliceApproach_4",
+      "upperArmMSE": 0.16191132603861982,
+      "forearmGuardMSE": 0.3218789573731301,
+      "leftSkinBefore": 216,
+      "leftSkinAfter": 679
+    },
+    {
+      "sample": "female_IntroBringIt_1",
+      "upperArmMSE": 0.16868091899770268,
+      "forearmGuardMSE": 0.5879540971057431,
+      "leftSkinBefore": 231,
+      "leftSkinAfter": 105
+    },
+    {
+      "sample": "female_EmoteThrust_1",
+      "upperArmMSE": 0.16903994671095812,
+      "forearmGuardMSE": 0.6673851967615297,
+      "leftSkinBefore": 118,
+      "leftSkinAfter": 200
+    },
+    {
+      "sample": "female_Return_4",
+      "upperArmMSE": 0.17975200634503122,
+      "forearmGuardMSE": 0.3702695097602886,
+      "leftSkinBefore": 396,
+      "leftSkinAfter": 143
+    },
+    {
+      "sample": "female_EmoteSpike_1",
+      "upperArmMSE": 0.1926459603791131,
+      "forearmGuardMSE": 0.7603730378384115,
+      "leftSkinBefore": 356,
+      "leftSkinAfter": 402
+    },
+    {
+      "sample": "female_SplitToBackhand_2",
+      "upperArmMSE": 0.19925307243878917,
+      "forearmGuardMSE": 0.8319221081004105,
+      "leftSkinBefore": 261,
+      "leftSkinAfter": 206
+    },
+    {
+      "sample": "female_Serve_2",
+      "upperArmMSE": 0.20266821271690325,
+      "forearmGuardMSE": 0.5726990703355883,
+      "leftSkinBefore": 294,
+      "leftSkinAfter": 228
+    },
+    {
+      "sample": "female_ForehandWide_4",
+      "upperArmMSE": 0.2109503319580708,
+      "forearmGuardMSE": 0.5989251775941805,
+      "leftSkinBefore": 129,
+      "leftSkinAfter": 335
+    },
+    {
+      "sample": "female_ForehandWide_2",
+      "upperArmMSE": 0.21095896157871974,
+      "forearmGuardMSE": 0.5989107358521452,
+      "leftSkinBefore": 129,
+      "leftSkinAfter": 335
+    },
+    {
+      "sample": "female_SplitToBackhand_1",
+      "upperArmMSE": 0.21998753662797185,
+      "forearmGuardMSE": 0.816662918063587,
+      "leftSkinBefore": 267,
+      "leftSkinAfter": 246
+    },
+    {
+      "sample": "female_Serve_4",
+      "upperArmMSE": 0.22733250241420022,
+      "forearmGuardMSE": 0.5760655761812558,
+      "leftSkinBefore": 214,
+      "leftSkinAfter": 332
+    },
+    {
+      "sample": "female_Forehand_4",
+      "upperArmMSE": 0.23704040524007772,
+      "forearmGuardMSE": 0.6003924184260558,
+      "leftSkinBefore": 171,
+      "leftSkinAfter": 322
+    },
+    {
+      "sample": "female_CelebratePoint_2",
+      "upperArmMSE": 0.23948982471828809,
+      "forearmGuardMSE": 0.07475436785043743,
+      "leftSkinBefore": 169,
+      "leftSkinAfter": 632
+    },
+    {
+      "sample": "female_MissWhiff_1",
+      "upperArmMSE": 0.24353011211770073,
+      "forearmGuardMSE": 0.6462039852523831,
+      "leftSkinBefore": 439,
+      "leftSkinAfter": 980
+    },
+    {
+      "sample": "female_MissWhiff_2",
+      "upperArmMSE": 0.24391412788305342,
+      "forearmGuardMSE": 0.6496705752700304,
+      "leftSkinBefore": 438,
+      "leftSkinAfter": 980
+    },
+    {
+      "sample": "female_CelebratePoint_1",
+      "upperArmMSE": 0.2487543637422691,
+      "forearmGuardMSE": 0.07149963889265336,
+      "leftSkinBefore": 185,
+      "leftSkinAfter": 663
+    },
+    {
+      "sample": "female_Walk_2",
+      "upperArmMSE": 0.2575067949767279,
+      "forearmGuardMSE": 0.7927619023961178,
+      "leftSkinBefore": 53,
+      "leftSkinAfter": 47
+    },
+    {
+      "sample": "female_Walk_1",
+      "upperArmMSE": 0.257506935309228,
+      "forearmGuardMSE": 0.7927617949955893,
+      "leftSkinBefore": 57,
+      "leftSkinAfter": 51
+    },
+    {
+      "sample": "female_Volley_2",
+      "upperArmMSE": 0.26644443408283036,
+      "forearmGuardMSE": 0.4061381560995082,
+      "leftSkinBefore": 60,
+      "leftSkinAfter": 4
+    },
+    {
+      "sample": "female_RunLeft_0",
+      "upperArmMSE": 0.2714470804677292,
+      "forearmGuardMSE": 0.4052854809000871,
+      "leftSkinBefore": 12,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_RunLeft_3",
+      "upperArmMSE": 0.2714470804677292,
+      "forearmGuardMSE": 0.4052854809000871,
+      "leftSkinBefore": 12,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_RunLeft_4",
+      "upperArmMSE": 0.2714470804677292,
+      "forearmGuardMSE": 0.4052854809000871,
+      "leftSkinBefore": 12,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_RunForward_0",
+      "upperArmMSE": 0.2751538940460942,
+      "forearmGuardMSE": 0.40303940294963125,
+      "leftSkinBefore": 33,
+      "leftSkinAfter": 21
+    },
+    {
+      "sample": "female_RunForward_3",
+      "upperArmMSE": 0.2751538940460942,
+      "forearmGuardMSE": 0.40303940294963125,
+      "leftSkinBefore": 33,
+      "leftSkinAfter": 21
+    },
+    {
+      "sample": "female_RunForward_4",
+      "upperArmMSE": 0.2751538940460942,
+      "forearmGuardMSE": 0.40303940294963125,
+      "leftSkinBefore": 33,
+      "leftSkinAfter": 21
+    },
+    {
+      "sample": "female_RunRight_0",
+      "upperArmMSE": 0.27895338334623265,
+      "forearmGuardMSE": 0.40091548564824486,
+      "leftSkinBefore": 17,
+      "leftSkinAfter": 10
+    },
+    {
+      "sample": "female_RunRight_3",
+      "upperArmMSE": 0.27895338334623265,
+      "forearmGuardMSE": 0.40091548564824486,
+      "leftSkinBefore": 17,
+      "leftSkinAfter": 10
+    },
+    {
+      "sample": "female_RunRight_4",
+      "upperArmMSE": 0.27895338334623265,
+      "forearmGuardMSE": 0.40091548564824486,
+      "leftSkinBefore": 17,
+      "leftSkinAfter": 10
+    },
+    {
+      "sample": "female_BackhandWide_1",
+      "upperArmMSE": 0.28870712191725073,
+      "forearmGuardMSE": 0.7061733371534942,
+      "leftSkinBefore": 87,
+      "leftSkinAfter": 165
+    },
+    {
+      "sample": "female_Backhand_1",
+      "upperArmMSE": 0.30122577328432637,
+      "forearmGuardMSE": 0.6714269615595208,
+      "leftSkinBefore": 3,
+      "leftSkinAfter": 27
+    },
+    {
+      "sample": "female_Backhand_4",
+      "upperArmMSE": 0.31635668212151574,
+      "forearmGuardMSE": 0.1823101913120559,
+      "leftSkinBefore": 448,
+      "leftSkinAfter": 218
+    },
+    {
+      "sample": "female_EmoteThrust_2",
+      "upperArmMSE": 0.32047196363951425,
+      "forearmGuardMSE": 0.331109814249296,
+      "leftSkinBefore": 373,
+      "leftSkinAfter": 503
+    },
+    {
+      "sample": "female_Walk_0",
+      "upperArmMSE": 0.32547702850238186,
+      "forearmGuardMSE": 0.569766099375288,
+      "leftSkinBefore": 79,
+      "leftSkinAfter": 148
+    },
+    {
+      "sample": "female_Walk_3",
+      "upperArmMSE": 0.32547702850238186,
+      "forearmGuardMSE": 0.569766099375288,
+      "leftSkinBefore": 79,
+      "leftSkinAfter": 148
+    },
+    {
+      "sample": "female_Walk_4",
+      "upperArmMSE": 0.32547702850238186,
+      "forearmGuardMSE": 0.569766099375288,
+      "leftSkinBefore": 79,
+      "leftSkinAfter": 148
+    },
+    {
+      "sample": "female_VolleyBackhand_2",
+      "upperArmMSE": 0.3314968273293693,
+      "forearmGuardMSE": 0.5453398373182664,
+      "leftSkinBefore": 53,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_ForehandWide_1",
+      "upperArmMSE": 0.34796606989459994,
+      "forearmGuardMSE": 0.532467401661507,
+      "leftSkinBefore": 0,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_Volley_3",
+      "upperArmMSE": 0.3642002661525697,
+      "forearmGuardMSE": 0.38970097536071374,
+      "leftSkinBefore": 21,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_RecoverCenter_3",
+      "upperArmMSE": 0.3648400412101394,
+      "forearmGuardMSE": 0.3889453617886685,
+      "leftSkinBefore": 24,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_RecoverCenter_4",
+      "upperArmMSE": 0.3648400412101394,
+      "forearmGuardMSE": 0.3889453617886685,
+      "leftSkinBefore": 24,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_Smash_2",
+      "upperArmMSE": 0.3656949889229983,
+      "forearmGuardMSE": 0.8730372353526554,
+      "leftSkinBefore": 49,
+      "leftSkinAfter": 41
+    },
+    {
+      "sample": "female_Smash_3",
+      "upperArmMSE": 0.3667804294973314,
+      "forearmGuardMSE": 0.3866486736386839,
+      "leftSkinBefore": 29,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_SplitToForehand_2",
+      "upperArmMSE": 0.3679869323166012,
+      "forearmGuardMSE": 0.33179555050383797,
+      "leftSkinBefore": 30,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_ForehandOpen_3",
+      "upperArmMSE": 0.36890016059118125,
+      "forearmGuardMSE": 0.38412993953401275,
+      "leftSkinBefore": 24,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_ForehandShort_3",
+      "upperArmMSE": 0.36944286123129916,
+      "forearmGuardMSE": 0.38348311803409263,
+      "leftSkinBefore": 23,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_Ready_2",
+      "upperArmMSE": 0.3700958203400629,
+      "forearmGuardMSE": 0.3832748388186255,
+      "leftSkinBefore": 13,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_BackhandWide_0",
+      "upperArmMSE": 0.3725290346064134,
+      "forearmGuardMSE": 0.37979427728630377,
+      "leftSkinBefore": 23,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_Backhand_0",
+      "upperArmMSE": 0.3725290346064134,
+      "forearmGuardMSE": 0.37979427728630377,
+      "leftSkinBefore": 23,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_ForehandOpen_0",
+      "upperArmMSE": 0.3725290346064134,
+      "forearmGuardMSE": 0.37979427728630377,
+      "leftSkinBefore": 23,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_ForehandShort_0",
+      "upperArmMSE": 0.3725290346064134,
+      "forearmGuardMSE": 0.37979427728630377,
+      "leftSkinBefore": 23,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_ForehandWide_0",
+      "upperArmMSE": 0.3725290346064134,
+      "forearmGuardMSE": 0.37979427728630377,
+      "leftSkinBefore": 23,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_Forehand_0",
+      "upperArmMSE": 0.3725290346064134,
+      "forearmGuardMSE": 0.37979427728630377,
+      "leftSkinBefore": 23,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_Ready_0",
+      "upperArmMSE": 0.3725290346064134,
+      "forearmGuardMSE": 0.37979427728630377,
+      "leftSkinBefore": 23,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_Ready_3",
+      "upperArmMSE": 0.3725290346064134,
+      "forearmGuardMSE": 0.37979427728630377,
+      "leftSkinBefore": 23,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_Ready_4",
+      "upperArmMSE": 0.3725290346064134,
+      "forearmGuardMSE": 0.37979427728630377,
+      "leftSkinBefore": 23,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_RecoverCenter_0",
+      "upperArmMSE": 0.3725290346064134,
+      "forearmGuardMSE": 0.37979427728630377,
+      "leftSkinBefore": 23,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_Return_0",
+      "upperArmMSE": 0.3725290346064134,
+      "forearmGuardMSE": 0.37979427728630377,
+      "leftSkinBefore": 23,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_SliceApproach_0",
+      "upperArmMSE": 0.3725290346064134,
+      "forearmGuardMSE": 0.37979427728630377,
+      "leftSkinBefore": 23,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_Smash_0",
+      "upperArmMSE": 0.3725290346064134,
+      "forearmGuardMSE": 0.37979427728630377,
+      "leftSkinBefore": 23,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_SplitToBackhand_0",
+      "upperArmMSE": 0.3725290346064134,
+      "forearmGuardMSE": 0.37979427728630377,
+      "leftSkinBefore": 23,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_SplitToForehand_0",
+      "upperArmMSE": 0.3725290346064134,
+      "forearmGuardMSE": 0.37979427728630377,
+      "leftSkinBefore": 23,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_VolleyBackhand_0",
+      "upperArmMSE": 0.3725290346064134,
+      "forearmGuardMSE": 0.37979427728630377,
+      "leftSkinBefore": 23,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_Volley_0",
+      "upperArmMSE": 0.3725290346064134,
+      "forearmGuardMSE": 0.37979427728630377,
+      "leftSkinBefore": 23,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_Idle_2",
+      "upperArmMSE": 0.3729622394530447,
+      "forearmGuardMSE": 0.38304329428975614,
+      "leftSkinBefore": 6,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_Smash_4",
+      "upperArmMSE": 0.37395912207668797,
+      "forearmGuardMSE": 0.8177185012438398,
+      "leftSkinBefore": 98,
+      "leftSkinAfter": 9
+    },
+    {
+      "sample": "female_Ready_1",
+      "upperArmMSE": 0.37438144591190253,
+      "forearmGuardMSE": 0.38352179756780697,
+      "leftSkinBefore": 8,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_CelebratePoint_0",
+      "upperArmMSE": 0.3751842093199807,
+      "forearmGuardMSE": 0.38415308713284535,
+      "leftSkinBefore": 8,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_CelebratePoint_3",
+      "upperArmMSE": 0.3751842093199807,
+      "forearmGuardMSE": 0.38415308713284535,
+      "leftSkinBefore": 8,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_CelebratePoint_4",
+      "upperArmMSE": 0.3751842093199807,
+      "forearmGuardMSE": 0.38415308713284535,
+      "leftSkinBefore": 8,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_HitPerfect_0",
+      "upperArmMSE": 0.3751842093199807,
+      "forearmGuardMSE": 0.38415308713284535,
+      "leftSkinBefore": 8,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_HitPerfect_3",
+      "upperArmMSE": 0.3751842093199807,
+      "forearmGuardMSE": 0.38415308713284535,
+      "leftSkinBefore": 8,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_HitPerfect_4",
+      "upperArmMSE": 0.3751842093199807,
+      "forearmGuardMSE": 0.38415308713284535,
+      "leftSkinBefore": 8,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_MatchLose_0",
+      "upperArmMSE": 0.3751842093199807,
+      "forearmGuardMSE": 0.38415308713284535,
+      "leftSkinBefore": 8,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_MatchLose_3",
+      "upperArmMSE": 0.3751842093199807,
+      "forearmGuardMSE": 0.38415308713284535,
+      "leftSkinBefore": 8,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_MatchLose_4",
+      "upperArmMSE": 0.3751842093199807,
+      "forearmGuardMSE": 0.38415308713284535,
+      "leftSkinBefore": 8,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_MatchWin_0",
+      "upperArmMSE": 0.3751842093199807,
+      "forearmGuardMSE": 0.38415308713284535,
+      "leftSkinBefore": 8,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_MatchWin_3",
+      "upperArmMSE": 0.3751842093199807,
+      "forearmGuardMSE": 0.38415308713284535,
+      "leftSkinBefore": 8,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_MatchWin_4",
+      "upperArmMSE": 0.3751842093199807,
+      "forearmGuardMSE": 0.38415308713284535,
+      "leftSkinBefore": 8,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_MissWhiff_0",
+      "upperArmMSE": 0.3751842093199807,
+      "forearmGuardMSE": 0.38415308713284535,
+      "leftSkinBefore": 8,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_MissWhiff_3",
+      "upperArmMSE": 0.3751842093199807,
+      "forearmGuardMSE": 0.38415308713284535,
+      "leftSkinBefore": 8,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_MissWhiff_4",
+      "upperArmMSE": 0.3751842093199807,
+      "forearmGuardMSE": 0.38415308713284535,
+      "leftSkinBefore": 8,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_SadPointLost_0",
+      "upperArmMSE": 0.3751842093199807,
+      "forearmGuardMSE": 0.38415308713284535,
+      "leftSkinBefore": 8,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_SadPointLost_3",
+      "upperArmMSE": 0.3751842093199807,
+      "forearmGuardMSE": 0.38415308713284535,
+      "leftSkinBefore": 8,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_SadPointLost_4",
+      "upperArmMSE": 0.3751842093199807,
+      "forearmGuardMSE": 0.38415308713284535,
+      "leftSkinBefore": 8,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_Idle_0",
+      "upperArmMSE": 0.37518428690170286,
+      "forearmGuardMSE": 0.3841530089761232,
+      "leftSkinBefore": 8,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_Idle_3",
+      "upperArmMSE": 0.37518428690170286,
+      "forearmGuardMSE": 0.3841530089761232,
+      "leftSkinBefore": 8,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_Idle_4",
+      "upperArmMSE": 0.37518428690170286,
+      "forearmGuardMSE": 0.3841530089761232,
+      "leftSkinBefore": 8,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_SplitToBackhand_3",
+      "upperArmMSE": 0.3754787141208206,
+      "forearmGuardMSE": 0.37624717787677353,
+      "leftSkinBefore": 17,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_SplitToBackhand_4",
+      "upperArmMSE": 0.3754787141208206,
+      "forearmGuardMSE": 0.37624717787677353,
+      "leftSkinBefore": 17,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_IntroPushups_3",
+      "upperArmMSE": 0.3759536008871283,
+      "forearmGuardMSE": 0.37932654616069367,
+      "leftSkinBefore": 18,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_IntroPushups_4",
+      "upperArmMSE": 0.3759536008871283,
+      "forearmGuardMSE": 0.37932654616069367,
+      "leftSkinBefore": 18,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_IntroPushups_0",
+      "upperArmMSE": 0.3759538473688429,
+      "forearmGuardMSE": 0.3793266426025512,
+      "leftSkinBefore": 18,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_EmoteSpike_3",
+      "upperArmMSE": 0.3759540620361719,
+      "forearmGuardMSE": 0.3793260245702236,
+      "leftSkinBefore": 18,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_EmoteSpike_4",
+      "upperArmMSE": 0.3759540620361719,
+      "forearmGuardMSE": 0.3793260245702236,
+      "leftSkinBefore": 18,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_EmoteThrust_3",
+      "upperArmMSE": 0.37595409719659684,
+      "forearmGuardMSE": 0.3793261037136623,
+      "leftSkinBefore": 18,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_EmoteThrust_4",
+      "upperArmMSE": 0.37595409719659684,
+      "forearmGuardMSE": 0.3793261037136623,
+      "leftSkinBefore": 18,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_EmoteScuba_0",
+      "upperArmMSE": 0.37595410146261027,
+      "forearmGuardMSE": 0.3793260681814145,
+      "leftSkinBefore": 18,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_EmoteScuba_3",
+      "upperArmMSE": 0.37595410146261027,
+      "forearmGuardMSE": 0.3793260681814145,
+      "leftSkinBefore": 9,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_EmoteScuba_4",
+      "upperArmMSE": 0.37595410146261027,
+      "forearmGuardMSE": 0.3793260681814145,
+      "leftSkinBefore": 9,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_EmoteSpike_0",
+      "upperArmMSE": 0.37595410146261027,
+      "forearmGuardMSE": 0.3793260681814145,
+      "leftSkinBefore": 18,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_EmoteThrust_0",
+      "upperArmMSE": 0.37595410146261027,
+      "forearmGuardMSE": 0.3793260681814145,
+      "leftSkinBefore": 18,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_IntroBringIt_0",
+      "upperArmMSE": 0.37595410146261027,
+      "forearmGuardMSE": 0.3793260681814145,
+      "leftSkinBefore": 18,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_IntroBringIt_3",
+      "upperArmMSE": 0.37595410146261027,
+      "forearmGuardMSE": 0.3793260681814145,
+      "leftSkinBefore": 18,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_IntroBringIt_4",
+      "upperArmMSE": 0.37595410146261027,
+      "forearmGuardMSE": 0.3793260681814145,
+      "leftSkinBefore": 18,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_IntroWave_0",
+      "upperArmMSE": 0.37595410146261027,
+      "forearmGuardMSE": 0.3793260681814145,
+      "leftSkinBefore": 18,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_IntroWave_3",
+      "upperArmMSE": 0.37595410146261027,
+      "forearmGuardMSE": 0.3793260681814145,
+      "leftSkinBefore": 18,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_IntroWave_4",
+      "upperArmMSE": 0.37595410146261027,
+      "forearmGuardMSE": 0.3793260681814145,
+      "leftSkinBefore": 18,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_ForehandWide_3",
+      "upperArmMSE": 0.3768594645177242,
+      "forearmGuardMSE": 0.3745808088488443,
+      "leftSkinBefore": 16,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_Return_3",
+      "upperArmMSE": 0.37722482288161413,
+      "forearmGuardMSE": 0.40675920068129084,
+      "leftSkinBefore": 8,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_Idle_1",
+      "upperArmMSE": 0.3773796441525168,
+      "forearmGuardMSE": 0.3853034952198105,
+      "leftSkinBefore": 8,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_BackhandWide_3",
+      "upperArmMSE": 0.37767126774035936,
+      "forearmGuardMSE": 0.4062438534414547,
+      "leftSkinBefore": 8,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_VolleyBackhand_3",
+      "upperArmMSE": 0.37846879030640257,
+      "forearmGuardMSE": 0.37263228286988836,
+      "leftSkinBefore": 12,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_RecoverCenter_2",
+      "upperArmMSE": 0.37848098008504855,
+      "forearmGuardMSE": 0.4783695849660169,
+      "leftSkinBefore": 24,
+      "leftSkinAfter": 2
+    },
+    {
+      "sample": "female_SliceApproach_3",
+      "upperArmMSE": 0.38126546896040264,
+      "forearmGuardMSE": 0.40207516697596607,
+      "leftSkinBefore": 2,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_Forehand_3",
+      "upperArmMSE": 0.382301977395173,
+      "forearmGuardMSE": 0.3679675902392431,
+      "leftSkinBefore": 13,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_SplitToForehand_3",
+      "upperArmMSE": 0.3824945078476049,
+      "forearmGuardMSE": 0.36773254880451317,
+      "leftSkinBefore": 13,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_SplitToForehand_4",
+      "upperArmMSE": 0.3824945078476049,
+      "forearmGuardMSE": 0.36773254880451317,
+      "leftSkinBefore": 13,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_SliceApproach_1",
+      "upperArmMSE": 0.3830509847021506,
+      "forearmGuardMSE": 0.786749346846016,
+      "leftSkinBefore": 232,
+      "leftSkinAfter": 247
+    },
+    {
+      "sample": "female_Serve_3",
+      "upperArmMSE": 0.3869744104686392,
+      "forearmGuardMSE": 0.39538620091738563,
+      "leftSkinBefore": 1,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_Backhand_3",
+      "upperArmMSE": 0.3870346254855977,
+      "forearmGuardMSE": 0.3953151283642449,
+      "leftSkinBefore": 3,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_RecoverCenter_1",
+      "upperArmMSE": 0.3904890076040916,
+      "forearmGuardMSE": 0.4299321388374675,
+      "leftSkinBefore": 83,
+      "leftSkinAfter": 4
+    },
+    {
+      "sample": "female_Return_1",
+      "upperArmMSE": 0.41675083338897284,
+      "forearmGuardMSE": 0.7644167237013042,
+      "leftSkinBefore": 76,
+      "leftSkinAfter": 7
+    },
+    {
+      "sample": "female_BackhandWide_4",
+      "upperArmMSE": 0.4185673058765755,
+      "forearmGuardMSE": 0.2926255300578342,
+      "leftSkinBefore": 209,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_Serve_0",
+      "upperArmMSE": 0.42598190378827133,
+      "forearmGuardMSE": 0.43892783333967694,
+      "leftSkinBefore": 8,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_VolleyBackhand_1",
+      "upperArmMSE": 0.4319899541968992,
+      "forearmGuardMSE": 0.4927628353884437,
+      "leftSkinBefore": 5,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_ForehandShort_2",
+      "upperArmMSE": 0.43217837607915666,
+      "forearmGuardMSE": 0.8483804013298095,
+      "leftSkinBefore": 473,
+      "leftSkinAfter": 158
+    },
+    {
+      "sample": "female_BackhandWide_2",
+      "upperArmMSE": 0.4358950641767832,
+      "forearmGuardMSE": 0.39678537812948184,
+      "leftSkinBefore": 1,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_EmoteScuba_1",
+      "upperArmMSE": 0.5162985734522124,
+      "forearmGuardMSE": 1.3772352212440144,
+      "leftSkinBefore": 421,
+      "leftSkinAfter": 522
+    },
+    {
+      "sample": "female_ForehandOpen_2",
+      "upperArmMSE": 0.5214947456923724,
+      "forearmGuardMSE": 0.5257316152781721,
+      "leftSkinBefore": 599,
+      "leftSkinAfter": 20
+    },
+    {
+      "sample": "female_EmoteScuba_2",
+      "upperArmMSE": 0.537837540335837,
+      "forearmGuardMSE": 1.3834133355311626,
+      "leftSkinBefore": 442,
+      "leftSkinAfter": 608
+    },
+    {
+      "sample": "female_ForehandOpen_4",
+      "upperArmMSE": 0.541252684029213,
+      "forearmGuardMSE": 0.5141140868844527,
+      "leftSkinBefore": 134,
+      "leftSkinAfter": 2
+    },
+    {
+      "sample": "female_Backhand_2",
+      "upperArmMSE": 0.5993302062181995,
+      "forearmGuardMSE": 0.377346280695402,
+      "leftSkinBefore": 55,
+      "leftSkinAfter": 2
+    },
+    {
+      "sample": "female_VolleyBackhand_4",
+      "upperArmMSE": 0.6036166327594402,
+      "forearmGuardMSE": 0.5341018177975961,
+      "leftSkinBefore": 48,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_ForehandOpen_1",
+      "upperArmMSE": 0.6835056308632314,
+      "forearmGuardMSE": 0.4326221609396381,
+      "leftSkinBefore": 284,
+      "leftSkinAfter": 5
+    },
+    {
+      "sample": "female_Return_2",
+      "upperArmMSE": 0.6853659069371433,
+      "forearmGuardMSE": 0.34558072493684755,
+      "leftSkinBefore": 38,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_MatchWin_2",
+      "upperArmMSE": 0.8389721326777698,
+      "forearmGuardMSE": 0.23434801239545622,
+      "leftSkinBefore": 13,
+      "leftSkinAfter": 11
+    },
+    {
+      "sample": "female_MatchWin_1",
+      "upperArmMSE": 0.8398577170575544,
+      "forearmGuardMSE": 0.23451823343890277,
+      "leftSkinBefore": 12,
+      "leftSkinAfter": 12
+    },
+    {
+      "sample": "female_Smash_1",
+      "upperArmMSE": 0.8998532676978924,
+      "forearmGuardMSE": 0.3016773870184535,
+      "leftSkinBefore": 17,
+      "leftSkinAfter": 0
+    },
+    {
+      "sample": "female_Serve_1",
+      "upperArmMSE": 0.995098458127166,
+      "forearmGuardMSE": 0.3479596836438436,
+      "leftSkinBefore": 0,
+      "leftSkinAfter": 0
+    }
+  ]
+}

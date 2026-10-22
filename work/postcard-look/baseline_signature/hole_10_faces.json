@@ -1,0 +1,32 @@
+{
+ "hole": 10,
+ "built": "2026-10-04 10:03:53",
+ "tool": "postcard_look_verify.py --build-face-baseline",
+ "baseline_blend": "work/postcard-look/baseline/blender/hole_10.blend",
+ "baseline_blend_sha256": "b0c478e6f2a747b2fa5a46179a156394c180c8c450b02ad99d3dd96c1d32cf67",
+ "baseline_fbx": "work/postcard-look/baseline/fbx/hole_10.fbx",
+ "baseline_fbx_sha256": "e99475de7175cce76bb0046c0c89989ff520c479f4f72a8d16af90433bc857f8",
+ "npz_sha256": "9675fde757ca90f1a1afe609daf8a6c59da3211f66df1523d32df815ab8f708d",
+ "up_triangles": {
+  "blend::faces::BUNKER_01": 66,
+  "blend::faces::BUNKER_01_LIP": 128,
+  "blend::faces::BUNKER_02": 76,
+  "blend::faces::BUNKER_02_LIP": 128,
+  "blend::faces::FAIRWAY": 988,
+  "blend::faces::FAIRWAY_FIRSTCUT": 642,
+  "blend::faces::GREEN": 188,
+  "blend::faces::GREEN_APRON": 178,
+  "blend::faces::TEE_BOX": 54,
+  "blend::faces::TERRAIN_CRATER": 497,
+  "fbx::faces::BUNKER_01": 66,
+  "fbx::faces::BUNKER_01_LIP": 128,
+  "fbx::faces::BUNKER_02": 76,
+  "fbx::faces::BUNKER_02_LIP": 128,
+  "fbx::faces::FAIRWAY": 988,
+  "fbx::faces::FAIRWAY_FIRSTCUT": 642,
+  "fbx::faces::GREEN": 188,
+  "fbx::faces::GREEN_APRON": 178,
+  "fbx::faces::TEE_BOX": 54,
+  "fbx::faces::TERRAIN_CRATER": 497
+ }
+}

@@ -1,0 +1,62 @@
+{
+  "samples": {
+    "erosion5": {
+      "roi": [
+        140,
+        550,
+        700,
+        710
+      ],
+      "meanRgb": [
+        179.73120535714287,
+        175.3557142857143,
+        151.48279017857143
+      ],
+      "lumaP10MedianP90": [
+        141.20139999999998,
+        180.1136,
+        202.46659999999997
+      ],
+      "brightFractionAbove220": 0.0053125
+    },
+    "fissures6": {
+      "roi": [
+        140,
+        550,
+        700,
+        710
+      ],
+      "meanRgb": [
+        208.14381696428572,
+        198.79337053571427,
+        164.66027901785714
+      ],
+      "lumaP10MedianP90": [
+        150.5468,
+        202.8116,
+        242.94519999999997
+      ],
+      "brightFractionAbove220": 0.306328125
+    },
+    "reference": {
+      "roi": [
+        180,
+        535,
+        550,
+        625
+      ],
+      "meanRgb": [
+        147.19588588588587,
+        140.1861261261261,
+        132.57756756756757
+      ],
+      "lumaP10MedianP90": [
+        100.24765999999998,
+        131.7292,
+        203.79348000000002
+      ],
+      "brightFractionAbove220": 0.03942942942942943
+    }
+  },
+  "limitations": "Reference and actual crops sample exposed cliff but have different natural geometry; range is illustrative, not an exact-match oracle."
+}

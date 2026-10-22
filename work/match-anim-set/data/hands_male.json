@@ -1,0 +1,274 @@
+{
+ "tag": "male",
+ "open_L": {
+  "LeftIndexProximal": 0.0,
+  "LeftIndexIntermediate": 0.0,
+  "LeftIndexDistal": 0.0,
+  "LeftMiddleProximal": 0.0,
+  "LeftMiddleIntermediate": 0.0,
+  "LeftMiddleDistal": 0.0,
+  "LeftRingProximal": 0.0,
+  "LeftRingIntermediate": 0.0,
+  "LeftRingDistal": 0.0,
+  "LeftLittleProximal": 0.0,
+  "LeftLittleIntermediate": 0.0,
+  "LeftLittleDistal": 0.0,
+  "LeftThumbProximal": 0.0,
+  "LeftThumbIntermediate": 0.0,
+  "LeftThumbDistal": 0.0
+ },
+ "open_R": {
+  "RightIndexProximal": 0.0,
+  "RightIndexIntermediate": 0.0,
+  "RightIndexDistal": 0.0,
+  "RightMiddleProximal": 0.0,
+  "RightMiddleIntermediate": 0.0,
+  "RightMiddleDistal": 0.0,
+  "RightRingProximal": 0.0,
+  "RightRingIntermediate": 0.0,
+  "RightRingDistal": 0.0,
+  "RightLittleProximal": 0.0,
+  "RightLittleIntermediate": 0.0,
+  "RightLittleDistal": 0.0,
+  "RightThumbProximal": 0.0,
+  "RightThumbIntermediate": 0.0,
+  "RightThumbDistal": 0.0
+ },
+ "right_grip": {
+  "RightIndexProximal": 8.2783203125,
+  "RightIndexIntermediate": 10.6435546875,
+  "RightIndexDistal": 6.50439453125,
+  "RightMiddleProximal": 27.054361979166675,
+  "RightMiddleIntermediate": 34.78417968750001,
+  "RightMiddleDistal": 31.50439453125,
+  "RightRingProximal": 39.37158203125,
+  "RightRingIntermediate": 50.62060546875001,
+  "RightRingDistal": 30.934814453125004,
+  "RightLittleProximal": 47.6806640625,
+  "RightLittleIntermediate": 61.3037109375,
+  "RightLittleDistal": 37.46337890625,
+  "RightThumbProximal": 0.0,
+  "RightThumbIntermediate": 0.0,
+  "RightThumbDistal": 0.0
+ },
+ "left_handle": {
+  "score": 3.536562315531178,
+  "delta": 0.08,
+  "roll_deg": -15.0,
+  "lift": 8.054394231294282e-05,
+  "angles": {
+   "LeftIndexProximal": 11.434244791666666,
+   "LeftIndexIntermediate": 14.701171874999998,
+   "LeftIndexDistal": 8.984049479166666,
+   "LeftMiddleProximal": 28.3623046875,
+   "LeftMiddleIntermediate": 36.4658203125,
+   "LeftMiddleDistal": 28.48268985748291,
+   "LeftRingProximal": 39.35563151041667,
+   "LeftRingIntermediate": 50.60009765625,
+   "LeftRingDistal": 30.922281901041668,
+   "LeftLittleProximal": 45.25732421875,
+   "LeftLittleIntermediate": 58.18798828124999,
+   "LeftLittleDistal": 35.559326171875,
+   "LeftThumbProximal": 0.0,
+   "LeftThumbIntermediate": 0.0,
+   "LeftThumbDistal": 0.0
+  },
+  "finger_gap_mm": {
+   "index": 0.3004776184094282,
+   "middle": 0.3000000653032332,
+   "ring": 0.3004306802934162,
+   "pinky": 0.301099075074876
+  },
+  "hand_to_racket_mm": 0.3000000653032332,
+  "hand_to_right_hand_mm": 1.2421858797215126,
+  "T_hand_in_racket": [
+   [
+    0.7118225784894603,
+    0.5570233279504342,
+    0.42782409919728964,
+    -0.07652997741733705
+   ],
+   [
+    -0.6336269413066787,
+    0.7720857625848221,
+    0.04899214752013228,
+    -0.0004269817090117142
+   ],
+   [
+    -0.30302709710170705,
+    -0.30595463739861267,
+    0.9025330796750217,
+    -0.016451785688379295
+   ],
+   [
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ]
+  ],
+  "top5": [
+   {
+    "score": 3.536562315531178,
+    "delta": 0.08,
+    "roll": -15.0
+   },
+   {
+    "score": 3.2962063103650237,
+    "delta": 0.08,
+    "roll": 0.0
+   },
+   {
+    "score": 3.2206936094576055,
+    "delta": 0.08,
+    "roll": -45.0
+   },
+   {
+    "score": 3.1654867308903962,
+    "delta": 0.05,
+    "roll": -45.0
+   },
+   {
+    "score": 3.134350144909879,
+    "delta": 0.06,
+    "roll": -15.0
+   }
+  ]
+ },
+ "left_throat": {
+  "score": 5.79796345784929,
+  "delta": 0.175,
+  "roll_deg": 0.0,
+  "lift": -0.005248201362410328,
+  "angles": {
+   "LeftIndexProximal": 39.53906250000001,
+   "LeftIndexIntermediate": 50.83593750000001,
+   "LeftIndexDistal": 31.066406250000004,
+   "LeftMiddleProximal": 35.4306640625,
+   "LeftMiddleIntermediate": 45.55371093749999,
+   "LeftMiddleDistal": 47.80464607874552,
+   "LeftRingProximal": 45.30745442708333,
+   "LeftRingIntermediate": 58.25244140625,
+   "LeftRingDistal": 35.59871419270833,
+   "LeftLittleProximal": 50.904947916666664,
+   "LeftLittleIntermediate": 65.44921875,
+   "LeftLittleDistal": 39.996744791666664,
+   "LeftThumbProximal": 0.0,
+   "LeftThumbIntermediate": 0.0,
+   "LeftThumbDistal": 0.0
+  },
+  "finger_gap_mm": {
+   "index": 0.30040830671357494,
+   "middle": 0.30007941560409973,
+   "ring": 0.30005783658851837,
+   "pinky": 0.3000432770915457
+  },
+  "hand_to_racket_mm": 0.3000432770915457,
+  "hand_to_right_hand_mm": 12.053130345397921,
+  "T_hand_in_racket": [
+   [
+    0.6091386283865945,
+    0.4588563312166129,
+    0.6468390963784447,
+    -0.07473347633708459
+   ],
+   [
+    -0.6336269413066787,
+    0.7720857625848221,
+    0.04899214752013228,
+    0.09483408496705449
+   ],
+   [
+    -0.47693493920300034,
+    -0.4396977317761868,
+    0.7610509859122242,
+    0.007971657859728995
+   ],
+   [
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ]
+  ],
+  "top5": [
+   {
+    "score": 5.79796345784929,
+    "delta": 0.175,
+    "roll": 0.0
+   },
+   {
+    "score": 5.79796345784929,
+    "delta": 0.175,
+    "roll": -15.0
+   },
+   {
+    "score": 5.79796345784929,
+    "delta": 0.175,
+    "roll": 15.0
+   },
+   {
+    "score": 5.79796345784929,
+    "delta": 0.175,
+    "roll": -30.0
+   },
+   {
+    "score": 5.79796345784929,
+    "delta": 0.175,
+    "roll": 30.0
+   }
+  ]
+ },
+ "T_hand_R_in_racket": [
+  [
+   0.6091386283865945,
+   -0.4588563312166129,
+   -0.6468390963784447,
+   0.07812821816395821
+  ],
+  [
+   0.6336269413066787,
+   0.7720857625848221,
+   0.04899214752013228,
+   -0.08042303568830807
+  ],
+  [
+   0.47693493920300034,
+   -0.4396977317761868,
+   0.7610509859122242,
+   0.003977509038600736
+  ],
+  [
+   0.0,
+   0.0,
+   0.0,
+   1.0
+  ]
+ ],
+ "T_hand_L_mirror_base": [
+  [
+   0.6091386283865945,
+   0.4588563312166129,
+   0.6468390963784447,
+   -0.07812821816395821
+  ],
+  [
+   -0.6336269413066787,
+   0.7720857625848221,
+   0.04899214752013228,
+   -0.08042303568830807
+  ],
+  [
+   -0.47693493920300034,
+   -0.4396977317761868,
+   0.7610509859122242,
+   0.003977509038600736
+  ],
+  [
+   0.0,
+   0.0,
+   0.0,
+   1.0
+  ]
+ ]
+}

@@ -1,0 +1,266 @@
+{
+ "gender": "female",
+ "objects": [
+  {
+   "name": "Kit_Sock_L",
+   "category": "Sock",
+   "socket": "Foot_L_Shoe",
+   "tris": 5082,
+   "verts": 2543,
+   "has_uv": true,
+   "custom_normals": true,
+   "topology": {
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "same_direction_edges": 0,
+    "islands": 2,
+    "island_sizes": [
+     2308,
+     235
+    ]
+   },
+   "bbox_min": [
+    -0.1871,
+    -0.1458,
+    -0.0068
+   ],
+   "bbox_max": [
+    -0.0477,
+    0.1091,
+    0.2867
+   ]
+  },
+  {
+   "name": "Kit_Sock_R",
+   "category": "Sock",
+   "socket": "Foot_R_Shoe",
+   "tris": 5082,
+   "verts": 2543,
+   "has_uv": true,
+   "custom_normals": true,
+   "topology": {
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "same_direction_edges": 0,
+    "islands": 2,
+    "island_sizes": [
+     2308,
+     235
+    ]
+   },
+   "bbox_min": [
+    0.0477,
+    -0.1458,
+    -0.0068
+   ],
+   "bbox_max": [
+    0.1879,
+    0.1091,
+    0.2867
+   ]
+  },
+  {
+   "name": "Kit_Shoe_L",
+   "category": "Shoe",
+   "socket": "Foot_L_Shoe",
+   "tris": 12910,
+   "verts": 6529,
+   "has_uv": true,
+   "custom_normals": true,
+   "topology": {
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "same_direction_edges": 0,
+    "islands": 41,
+    "island_sizes": [
+     3328,
+     834,
+     670,
+     282,
+     234,
+     114,
+     114,
+     111,
+     60,
+     60,
+     57,
+     40,
+     40,
+     40,
+     40,
+     35,
+     35,
+     30,
+     30,
+     30,
+     30,
+     25,
+     18,
+     18,
+     18,
+     18,
+     18,
+     15,
+     15,
+     15,
+     15,
+     14,
+     14,
+     14,
+     14,
+     14,
+     14,
+     14,
+     14,
+     14,
+     14
+    ]
+   },
+   "bbox_min": [
+    -0.2005,
+    -0.157,
+    -0.0255
+   ],
+   "bbox_max": [
+    -0.0629,
+    0.1202,
+    0.138
+   ]
+  },
+  {
+   "name": "Kit_Shoe_R",
+   "category": "Shoe",
+   "socket": "Foot_R_Shoe",
+   "tris": 12910,
+   "verts": 6529,
+   "has_uv": true,
+   "custom_normals": true,
+   "topology": {
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "same_direction_edges": 0,
+    "islands": 41,
+    "island_sizes": [
+     3328,
+     834,
+     670,
+     282,
+     234,
+     114,
+     114,
+     111,
+     60,
+     60,
+     57,
+     40,
+     40,
+     40,
+     40,
+     35,
+     35,
+     30,
+     30,
+     30,
+     30,
+     25,
+     18,
+     18,
+     18,
+     18,
+     18,
+     15,
+     15,
+     15,
+     15,
+     14,
+     14,
+     14,
+     14,
+     14,
+     14,
+     14,
+     14,
+     14,
+     14
+    ]
+   },
+   "bbox_min": [
+    0.0629,
+    -0.157,
+    -0.0255
+   ],
+   "bbox_max": [
+    0.2005,
+    0.1202,
+    0.138
+   ]
+  }
+ ],
+ "blend": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/tennis-shoes-fit/export/StandardKit_Female.blend",
+ "blend_sha256": "87514133967ca9cc85dd1450f5961f41cb37750db87118eeeccd58dce8a2677d",
+ "body_sha256_before": "a1d73a334f4dc18052db0582df6b4b54b1df166d9a3531ab700ee114e86d2ac1",
+ "body_sha256_after": "a1d73a334f4dc18052db0582df6b4b54b1df166d9a3531ab700ee114e86d2ac1",
+ "log": {
+  "gender": "female",
+  "removed_objects": [
+   "FitRef_Body_F_ArmsCandidate",
+   "Kit_Shoe_L_ArmsCandFit_Black",
+   "Kit_Shoe_L_ArmsCandFit_White",
+   "Kit_Shoe_R_ArmsCandFit_Black",
+   "Kit_Shoe_R_ArmsCandFit_White",
+   "Kit_Sock_L_ArmsCandFit_Black",
+   "Kit_Sock_L_ArmsCandFit_White",
+   "Kit_Sock_R_ArmsCandFit_Black",
+   "Kit_Sock_R_ArmsCandFit_White",
+   "FitRef_Body_F"
+  ],
+  "removed_meshes": [
+   "Body_F.001",
+   "Kit_Shoe_L_ArmsCandFit_black",
+   "Kit_Shoe_L_ArmsCandFit_White",
+   "Kit_Shoe_R_ArmsCandFit_black",
+   "Kit_Shoe_R_ArmsCandFit_White",
+   "Kit_Sock_L_ArmsCandFit_black",
+   "Kit_Sock_L_ArmsCandFit_White",
+   "Kit_Sock_R_ArmsCandFit_black",
+   "Kit_Sock_R_ArmsCandFit_White",
+   "Body_F"
+  ],
+  "removed_collections": [
+   "Kit_Black_FitArmsCand",
+   "Kit_White_FitArmsCand"
+  ],
+  "replaced": [
+   "Kit_Sock_L_White",
+   "Kit_Sock_L_Black",
+   "Kit_Sock_R_White",
+   "Kit_Sock_R_Black",
+   "Kit_Shoe_L_White",
+   "Kit_Shoe_L_Black",
+   "Kit_Shoe_R_White",
+   "Kit_Shoe_R_Black"
+  ],
+  "sockets_before": {
+   "Foot_L_Shoe_White": [
+    -0.125,
+    0.0,
+    0.08
+   ],
+   "Foot_R_Shoe_White": [
+    0.125,
+    0.0,
+    0.08
+   ],
+   "Foot_L_Shoe_Black": [
+    -0.125,
+    0.0,
+    0.08
+   ],
+   "Foot_R_Shoe_Black": [
+    0.125,
+    0.0,
+    0.08
+   ]
+  }
+ }
+}

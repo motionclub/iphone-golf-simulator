@@ -1,0 +1,415 @@
+[
+  {
+    "name": "GREEN",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      50.01476287841797,
+      42.22242736816406,
+      0.39798927307128906
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_GREEN"
+    ]
+  },
+  {
+    "name": "GREEN_FRINGE",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      55.88536834716797,
+      48.25419616699219,
+      0.39491844177246094
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_FIRSTCUT"
+    ]
+  },
+  {
+    "name": "LIGHTHOUSE",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      9.0,
+      9.0,
+      23.200000762939453
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_SLATE",
+      "MAT_GLASS",
+      "MAT_CHALK",
+      "MAT_BASALT_2",
+      "MAT_FLAG"
+    ]
+  },
+  {
+    "name": "SHRUBS",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      76.41193389892578,
+      241.91969299316406,
+      8.400001525878906
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_TREE_DARK",
+      "MAT_TREE_MID",
+      "MAT_TREE_LIGHT"
+    ]
+  },
+  {
+    "name": "TEE_BLUE",
+    "type": "EMPTY",
+    "position": [
+      0.0,
+      -10.99999713897705,
+      15.20000171661377
+    ],
+    "dimensions": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": []
+  },
+  {
+    "name": "TEE_BOX",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      21.0,
+      28.0,
+      0.0
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_FAIRWAY"
+    ]
+  },
+  {
+    "name": "TEE_BOX_FRINGE",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      24.0,
+      32.0,
+      0.0
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_FIRSTCUT"
+    ]
+  },
+  {
+    "name": "TEE_BOX_RED",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      8.0,
+      10.0,
+      0.0
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_FAIRWAY"
+    ]
+  },
+  {
+    "name": "TEE_BOX_YELLOW",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      8.0,
+      10.0,
+      0.0
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_FAIRWAY"
+    ]
+  },
+  {
+    "name": "TEE_FENCE",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      34.599998474121094,
+      16.599998474121094,
+      3.0
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_WOOD",
+      "MAT_WOOD_LIGHT"
+    ]
+  },
+  {
+    "name": "TEE_MARKERS",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      13.100000381469727,
+      1.100000023841858,
+      0.9000005722045898
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_POLE"
+    ]
+  },
+  {
+    "name": "TEE_RED",
+    "type": "EMPTY",
+    "position": [
+      19.0,
+      23.000001907348633,
+      15.299996376037598
+    ],
+    "dimensions": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": []
+  },
+  {
+    "name": "TEE_WHITE",
+    "type": "EMPTY",
+    "position": [
+      0.0,
+      2.4763944566075224e-06,
+      15.199999809265137
+    ],
+    "dimensions": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": []
+  },
+  {
+    "name": "TEE_YELLOW",
+    "type": "EMPTY",
+    "position": [
+      -5.0,
+      17.000001907348633,
+      15.299997329711914
+    ],
+    "dimensions": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": []
+  },
+  {
+    "name": "TERRAIN_GREEN_ISLAND",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      89.72796630859375,
+      119.92359161376953,
+      23.217302322387695
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_BASALT_0",
+      "MAT_BASALT_1",
+      "MAT_BASALT_2",
+      "MAT_BASALT_3",
+      "MAT_BASALT_4",
+      "MAT_ROUGH"
+    ]
+  },
+  {
+    "name": "TERRAIN_PROMONTORY",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      33.26032257080078,
+      105.63040161132812,
+      19.556427001953125
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_BASALT_0",
+      "MAT_BASALT_1",
+      "MAT_BASALT_2",
+      "MAT_BASALT_3",
+      "MAT_BASALT_4",
+      "MAT_ROUGH"
+    ]
+  },
+  {
+    "name": "TERRAIN_TEE_APPROACH",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      99.88739013671875,
+      94.90176391601562,
+      17.0
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_BASALT_0",
+      "MAT_BASALT_1",
+      "MAT_BASALT_2",
+      "MAT_BASALT_3",
+      "MAT_BASALT_4",
+      "MAT_ROUGH"
+    ]
+  },
+  {
+    "name": "TREES",
+    "type": "MESH",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dimensions": [
+      108.00750732421875,
+      243.50758361816406,
+      19.57178497314453
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "materials": [
+      "MAT_BARK",
+      "MAT_TREE_MID",
+      "MAT_TREE_DARK",
+      "MAT_TREE_LIGHT"
+    ]
+  }
+]

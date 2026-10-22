@@ -1,0 +1,547 @@
+Unity Editor version:    6000.3.24f1 (4e7b9b5b6244)
+Branch:                  6000.3/staging
+Build type:              Release
+Batch mode:              YES
+macOS version:           Version 26.6.2 (Build 25G83)
+Darwin version:          25.6.0
+Architecture:            arm64
+Running under Rosetta:   NO
+Available memory:        16384 MB
+Date:                    2026-10-05T17:50:47Z
+[Licensing::Module] Trying to connect to existing licensing client channel...
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-adnanyonathan" at "2026-10-05T17:50:47.303688Z"
+Launching external process: /Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/Resources/PackageManager/Server/UnityPackageManager
+
+COMMAND LINE ARGUMENTS:
+/Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/MacOS/Unity
+-batchmode
+-projectPath
+/private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone
+-executeMethod
+GolfArcade.EditorTools.EmoteWire.Run
+-logFile
+/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/emote-overhaul/logs/wire_r2.txt
+Successfully changed project path to: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone
+/private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-remapper-allocator-initial-capacity=32768"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gfx=262144"
+Player connection [8471536000]  Target information:
+
+Player connection [8471536000]  * "[IP] 172.31.249.188 [Port] 55504 [Flags] 2 [Guid] 3687985888 [EditorId] 3687985888 [Version] 1048832 [Id] OSXEditor(0,Adnans-MacBook-Air.local) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" 
+
+Player connection [8471536000] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [8471536000] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.18.3+d7ffd15
+  Session Id:              51e3110bed4c4f8d8bc1af154431d2c8
+  Correlation Id:          04038a8f9e6fdd7d7004b1842956964d
+  External correlation Id: 5931280866756780589
+  Machine Id:              TX4XIvHnvxbItvrLF5vWHS2MyBM=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-adnanyonathan" (connect: 0.00s, validation: 0.00s, handshake: 0.27s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-adnanyonathan-notifications" at "2026-10-05T17:50:47.577617Z"
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: 2476051264668-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+[Licensing::Client] Successfully updated license, isAsync: True, time: 0.00
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] Licensing Background thread has ended after 0.28s
+[Package Manager] Connected to IPC stream "Upm-33239" after 0.2 seconds.
+[Licensing::Client] Successfully resolved entitlement details
+Library Redirect Path: Library/
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+[Licensing::Client] Successfully resolved entitlement details
+Refreshing native plugins compatible for Editor in 2.36 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 6000.3.24f1 (4e7b9b5b6244)
+[Subsystems] Discovering subsystems at path /Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Assets
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+ preferred device: Apple M5 (high power)
+Metal devices available: 1
+0: Apple M5 (high power)
+Using device Apple M5 (high power)
+Initializing Metal device caps: Apple M5
+Mac GPU Family: 2
+Apple GPU Family: 9
+MSL Version: 3.0
+Has Float MSAA: 1
+Has Float Filtering: 1
+ReadWrite Texture Tier: 2
+Initialize mono
+Mono path[0] = '/Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/Resources/Scripting/Managed'
+Mono path[1] = '/Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/Resources/Scripting/MonoBleedingEdge/lib/mono/unityjit-macos'
+Mono config path = '/Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/Resources/Scripting/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56239
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: /Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll
+Register platform support module: /Applications/Unity/Hub/Editor/6000.3.24f1/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.dll
+Registered in 0.001349 seconds.
+- Loaded All Assemblies, in  0.269 seconds
+[usbmuxd] Start listen thread
+[usbmuxd] Listen thread started
+[usbmuxd] Send listen message
+Native extension for iOS target not found
+Native extension for OSXStandalone target not found
+Package Manager log level set to [2]
+ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.259 seconds
+Domain Reload Profiling: 529ms
+	BeginReloadAssembly (116ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (0ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (20ms)
+	RebuildCommonClasses (23ms)
+	RebuildNativeTypeToScriptingClass (6ms)
+	initialDomainReloadingComplete (27ms)
+	LoadAllAssembliesAndSetupDomain (96ms)
+		LoadAssemblies (96ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (92ms)
+			TypeCache.Refresh (91ms)
+				TypeCache.ScanAssembly (81ms)
+			BuildScriptInfoCaches (0ms)
+			ResolveRequiredComponents (0ms)
+	FinalizeReload (260ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (241ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (74ms)
+			SetLoadedEditorAssemblies (2ms)
+			BeforeProcessingInitializeOnLoad (34ms)
+			ProcessInitializeOnLoadAttributes (58ms)
+			ProcessInitializeOnLoadMethodAttributes (72ms)
+			AfterProcessingInitializeOnLoad (0ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (0ms)
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Client] Successfully resolved entitlement details
+Application.AssetDatabase Initial Refresh Start
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 63 packages:
+  Packages from [https://packages.unity.com]:
+    com.unity.ai.navigation@2.0.14 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.ai.navigation@134dd6a3b97b)
+    com.unity.analytics@3.8.2 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.analytics@c9d14a6bdec6)
+    com.unity.collab-proxy@2.13.6 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.collab-proxy@4628d2ba6ea4)
+    com.unity.ide.rider@3.0.40 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.ide.rider@e4950c6d131b)
+    com.unity.ide.visualstudio@2.0.26 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.ide.visualstudio@a99d56dec63f)
+    com.unity.timeline@1.8.13 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.timeline@3a22918286f5)
+    com.unity.xr.legacyinputhelpers@2.1.13 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.xr.legacyinputhelpers@9535ff2c27ac)
+    com.unity.services.analytics@6.3.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.services.analytics@cde4e6cf92f9)
+    com.unity.nuget.newtonsoft-json@3.2.2 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.nuget.newtonsoft-json@4dfd81071c64)
+    com.unity.searcher@4.9.5 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.searcher@a463122f2c00)
+    com.unity.burst@1.8.30 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.burst@2f3d916873ea)
+    com.unity.mathematics@1.3.3 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.mathematics@19a9377c4ffa)
+    com.unity.collections@2.6.8 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.collections@84e8eb3fc12e)
+    com.unity.services.core@1.18.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.services.core@3464cb68d709)
+    com.unity.nuget.mono-cecil@1.11.6 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.nuget.mono-cecil@ecb9724e46ff)
+    com.unity.test-framework.performance@3.5.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.test-framework.performance@8b56083ec0f0)
+  Built-in packages:
+    com.unity.2d.sprite@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.2d.sprite@5b922524bd83)
+    com.unity.2d.tilemap@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.2d.tilemap@f666889fd587)
+    com.unity.multiplayer.center@1.0.1 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.multiplayer.center@f01f4ba8d00a)
+    com.unity.test-framework@1.6.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.test-framework@bd7f943e9647)
+    com.unity.ugui@2.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.ugui@b996e7548785)
+    com.unity.modules.accessibility@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.accessibility)
+    com.unity.modules.adaptiveperformance@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.adaptiveperformance)
+    com.unity.modules.ai@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.ai)
+    com.unity.modules.androidjni@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.androidjni)
+    com.unity.modules.animation@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.animation)
+    com.unity.modules.assetbundle@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.assetbundle)
+    com.unity.modules.audio@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.audio)
+    com.unity.modules.cloth@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.cloth)
+    com.unity.modules.director@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.director)
+    com.unity.modules.imageconversion@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.imageconversion)
+    com.unity.modules.imgui@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.imgui)
+    com.unity.modules.jsonserialize@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.jsonserialize)
+    com.unity.modules.particlesystem@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.particlesystem)
+    com.unity.modules.physics@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.physics)
+    com.unity.modules.physics2d@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.physics2d)
+    com.unity.modules.screencapture@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.screencapture)
+    com.unity.modules.terrain@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.terrain)
+    com.unity.modules.terrainphysics@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.terrainphysics)
+    com.unity.modules.tilemap@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.tilemap)
+    com.unity.modules.ui@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.ui)
+    com.unity.modules.uielements@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.uielements)
+    com.unity.modules.umbra@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.umbra)
+    com.unity.modules.unityanalytics@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.unityanalytics)
+    com.unity.modules.unitywebrequest@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.unitywebrequest)
+    com.unity.modules.unitywebrequestassetbundle@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.unitywebrequestassetbundle)
+    com.unity.modules.unitywebrequestaudio@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.unitywebrequestaudio)
+    com.unity.modules.unitywebrequesttexture@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.unitywebrequesttexture)
+    com.unity.modules.unitywebrequestwww@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.unitywebrequestwww)
+    com.unity.modules.vectorgraphics@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.vectorgraphics)
+    com.unity.modules.vehicles@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.vehicles)
+    com.unity.modules.video@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.video)
+    com.unity.modules.vr@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.vr)
+    com.unity.modules.wind@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.wind)
+    com.unity.modules.xr@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.xr)
+    com.unity.render-pipelines.universal@17.3.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.render-pipelines.universal@a8b4b2fc3560)
+    com.unity.render-pipelines.core@17.3.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.render-pipelines.core@0bb36005e9ba)
+    com.unity.shadergraph@17.3.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.shadergraph@30c2e3926b79)
+    com.unity.render-pipelines.universal-config@17.0.3 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.render-pipelines.universal-config@8dc1aab4af1d)
+    com.unity.modules.subsystems@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.subsystems)
+    com.unity.modules.hierarchycore@1.0.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.modules.hierarchycore)
+    com.unity.ext.nunit@2.0.5 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.unity.ext.nunit@d8c07649098d)
+  Git packages:
+    com.coplaydev.unity-mcp@https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity#v10.2.0 (location: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/Library/PackageCache/com.coplaydev.unity-mcp@045e809812a8)
+[Subsystems] No new subsystems found in resolved package list.
+[Package Manager] Done registering packages in 0.00 seconds
+[40m[32minfo[39m[22m[49m: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://unix:/tmp/ilpp.sock-832612c99000d815079d9719849ec409
+[40m[32minfo[39m[22m[49m: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+[40m[32minfo[39m[22m[49m: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Production
+[40m[32minfo[39m[22m[49m: Microsoft.Hosting.Lifetime[0]
+      Content root path: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone/
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping application/grpc -
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping application/grpc - - 200 - application/grpc 43.1504ms
+Starting: /Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/Resources/BuildPipeline/bee_backend --ipc --defer-dag-verification --dagfile="Library/Bee/900b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/eea79e4e-5588-4d3e-bf82-e62668519187/scratchpad/UnityClone
+DisplayProgressbar: Compiling Scripts
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/ConfigurePostProcessors application/grpc -
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /UnityILPP.PostProcessing/ConfigurePostProcessors'
+[40m[1m[33mwarn[39m[22m[49m: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Assembly unityeditor.ios.extensions.xcode has duplicate hint path. Ignoring "/Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.iOS.Extensions.Xcode.dll" in favor of "/Applications/Unity/Hub/Editor/6000.3.24f1/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll"
+[40m[1m[33mwarn[39m[22m[49m: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Assembly system.runtime.interopservices.windowsruntime has duplicate hint path. Ignoring "/Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/Resources/Scripting/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.InteropServices.WindowsRuntime.dll" in favor of "/Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/Resources/Scripting/NetStandard/Extensions/2.0.0/System.Runtime.InteropServices.WindowsRuntime.dll"
+[40m[1m[33mwarn[39m[22m[49m: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Assembly system.componentmodel.composition has duplicate hint path. Ignoring "/Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/Resources/Scripting/UnityReferenceAssemblies/unity-4.8-api/System.ComponentModel.Composition.dll" in favor of "/Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/Resources/Scripting/NetStandard/compat/2.1.0/shims/netfx/System.ComponentModel.Composition.dll"
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Resolved Unity.Burst.Cecil, Version=0.11.6.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e with Library/PackageCache/com.unity.burst@2f3d916873ea/Unity.Burst.CodeGen/Unity.Burst.Cecil.dll
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Resolved Mono.Cecil, Version=0.11.5.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e with Library/PackageCache/com.unity.nuget.mono-cecil@ecb9724e46ff/Mono.Cecil.dll
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'gRPC - /UnityILPP.PostProcessing/ConfigurePostProcessors'
+[40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/ConfigurePostProcessors application/grpc - - 200 - application/grpc 30.5722ms
+ExitCode: 0 Duration: 0s491ms
+[722/957    0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+*** Tundra build success (0.47 seconds), 1 items updated, 957 evaluated
+AssetDatabase: script compilation time: 1.027364s
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory is not a mono symbol file
+- Loaded All Assemblies, in  0.560 seconds
+Refreshing native plugins compatible for Editor in 7.79 ms, found 2 plugins.
+Native extension for iOS target not found
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 1.13 ms, found 2 plugins.
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  1.606 seconds
+Domain Reload Profiling: 2166ms
+	BeginReloadAssembly (238ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (14ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (139ms)
+	RebuildCommonClasses (17ms)
+	RebuildNativeTypeToScriptingClass (6ms)
+	initialDomainReloadingComplete (11ms)
+	LoadAllAssembliesAndSetupDomain (287ms)
+		LoadAssemblies (240ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (116ms)
+			TypeCache.Refresh (81ms)
+				TypeCache.ScanAssembly (73ms)
+			BuildScriptInfoCaches (30ms)
+			ResolveRequiredComponents (4ms)
+	FinalizeReload (1607ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (1508ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (15ms)
+			SetLoadedEditorAssemblies (2ms)
+			BeforeProcessingInitializeOnLoad (60ms)
+			ProcessInitializeOnLoadAttributes (1286ms)
+			ProcessInitializeOnLoadMethodAttributes (145ms)
+			AfterProcessingInitializeOnLoad (1ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (10ms)
+Asset Pipeline Refresh (id=c241697d8a33d44bca4b1822c1d29427): Total: 4.129 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=2409 ms
+		Asset DB Callback time: managed=105 ms, native=6 ms
+		Scripting: domain reloads=1, domain reload time=560 ms, compile time=1028 ms, other=19 ms
+		Project Asset Count: scripts=1373, non-scripts=3111
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 1
+	InvokeCustomDependenciesCallbacks: 0.001ms
+	InvokePackagesCallback: 7.538ms
+	ApplyChangesToAssetFolders: 0.760ms
+	Scan: 562.116ms
+	OnSourceAssetsModified: 0.001ms
+	CategorizeAssetsWithTransientArtifact: 44.845ms
+	ProcessAssetsWithTransientArtifactChanges: 28.850ms
+	CategorizeAssets: 50.785ms
+	ImportOutOfDateAssets: 1618.883ms (589.426ms without children)
+		CompileScripts: 1028.122ms
+		ReloadNativeAssets: 0.025ms
+		UnloadImportedAssets: 0.452ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.369ms
+		InitializingProgressBar: 0.000ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.000ms
+		OnDemandSchedulerStart: 0.489ms
+	PostProcessAllAssets: 105.697ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.000ms
+	UnloadStreamsBegin: 3.011ms
+	PersistCurrentRevisions: 0.088ms
+	UnloadStreamsEnd: 0.001ms
+	GenerateScriptTypeHashes: 1.730ms
+	Untracked: 1706.796ms
+
+Application.AssetDatabase Initial Refresh End
+Launching external process: /Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/Helpers/UnityShaderCompiler
+Launched and connected shader compiler UnityShaderCompiler after 0.08 seconds
+Scanning for USB devices : 0.103ms
+Initializing Unity extensions:
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-Golf Arcade
+2026-10-05 13:50:53.363 Unity[33239:12410969] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0xa512eae40 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+Unloading 20 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 5831 unused Assets / (4.8 MB). Loaded Objects now: 6674.
+Memory consumption went from 215.3 MB to 210.5 MB.
+Total: 6.369041 ms (FindLiveObjects: 0.232917 ms CreateObjectMapping: 0.152083 ms MarkObjects: 4.696583 ms  DeleteObjects: 1.287208 ms)
+
+Start importing Assets/Characters/MatchHeroes/Female/Female_Emote_Spike.fbx using Guid(a277e761f90754719995aed22a66c26b) (FBXImporter) -> (artifact id: 'e41eaacb47208323e0bc9ed87f92105e') in 0.128460417 seconds
+Start importing Assets/Characters/MatchHeroes/Female/Female_Emote_Scuba.fbx using Guid(8764fbb0363a347ac8ec92cbd76e5bbf) (FBXImporter) -> (artifact id: '77ceb53aa9c0788272be55271f63e780') in 0.058660375 seconds
+Start importing Assets/Characters/MatchHeroes/Male/Male_Emote_Thrust.fbx using Guid(0ad5f792509284b41b9ae2540a2a9608) (FBXImporter) -> (artifact id: '444fb7d8d70110220383605d01c5ab6b') in 0.052086333 seconds
+Start importing Assets/Characters/MatchHeroes/Female/Female_Emote_Thrust.fbx using Guid(2bda896ed87514a02b98494e29cb4a5c) (FBXImporter) -> (artifact id: 'ea3400ce07bf6e237ed686f68c518cd7') in 0.049271833 seconds
+Start importing Assets/Characters/MatchHeroes/Male/Male_Emote_Spike.fbx using Guid(1d317c968ea994665948381bb73fe1bd) (FBXImporter) -> (artifact id: 'ea64055df14110c36cff3343cf717ccf') in 0.0533735 seconds
+Start importing Assets/Characters/MatchHeroes/Male/Male_Emote_Scuba.fbx using Guid(cf9ad60585b0a41a8b410b74a7aac74c) (FBXImporter) -> (artifact id: 'c205e0cdd80196011c2883c28e7c905e') in 0.052518875 seconds
+Refreshing native plugins compatible for Editor in 1.04 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=90b78bdbb247d4cb7881abf346fc4094): Total: 0.724 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+	Summary:
+		Imports: total=6 (actual=6, local cache=0, cache server=0)
+		Asset DB Process Time: managed=21 ms, native=622 ms
+		Asset DB Callback time: managed=70 ms, native=9 ms
+		Scripting: domain reloads=0, domain reload time=0 ms, compile time=0 ms, other=0 ms
+		Project Asset Count: scripts=1373, non-scripts=3111
+		Asset File Changes: new=0, changed=6, moved=0, deleted=0
+		Scan Filter Count: 1
+	InvokeCustomDependenciesCallbacks: 0.000ms
+	InvokePackagesCallback: 0.000ms
+	ApplyChangesToAssetFolders: 0.311ms
+	Scan: 186.624ms
+	OnSourceAssetsModified: 2.561ms
+	CategorizeAssetsWithTransientArtifact: 0.011ms
+	ProcessAssetsWithTransientArtifactChanges: 0.448ms
+	CategorizeAssets: 29.408ms
+	ImportOutOfDateAssets: 417.660ms (0.134ms without children)
+		ImportManagerImport: 416.947ms (3.131ms without children)
+			ImportInProcess: 413.774ms
+			UpdateCategorizedAssets: 0.042ms
+		ReloadNativeAssets: 0.023ms
+		UnloadImportedAssets: 0.108ms
+		ReloadImportedAssets: 0.000ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.262ms
+		InitializingProgressBar: 0.003ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.000ms
+		OnDemandSchedulerStart: 0.182ms
+	PostProcessAllAssets: 75.321ms
+	Hotreload: 2.375ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.107ms
+	UnloadStreamsBegin: 0.084ms
+	PersistCurrentRevisions: 0.140ms
+	UnloadStreamsEnd: 0.000ms
+	Untracked: 8.591ms
+
+Start importing Assets/Characters/MatchHeroes/Male/Male_Emote_Scuba.fbx using Guid(cf9ad60585b0a41a8b410b74a7aac74c) (FBXImporter) -> (artifact id: 'c205e0cdd80196011c2883c28e7c905e') in 0.052721875 seconds
+Refreshing native plugins compatible for Editor in 1.27 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=5767d6efa7ab94f7d84bdd330b666aa7): Total: 0.064 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Characters/MatchHeroes/Male/Male_Emote_Thrust.fbx using Guid(0ad5f792509284b41b9ae2540a2a9608) (FBXImporter) -> (artifact id: '444fb7d8d70110220383605d01c5ab6b') in 0.045850917 seconds
+Refreshing native plugins compatible for Editor in 0.79 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=24b4fc64ccd7f4763bdeb2e8d006e7c0): Total: 0.053 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Characters/MatchHeroes/Male/Male_Emote_Spike.fbx using Guid(1d317c968ea994665948381bb73fe1bd) (FBXImporter) -> (artifact id: 'ea64055df14110c36cff3343cf717ccf') in 0.04723925 seconds
+Refreshing native plugins compatible for Editor in 0.78 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=e5a9de9779a63429ba48d01c0dd04279): Total: 0.054 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Characters/MatchHeroes/Male/Male_Intro_Wave.fbx using Guid(b6b400101574a4f229ff81feaad4cd0b) (FBXImporter) -> (artifact id: '7d39bd0c1ff850a6d368b5244c9979f4') in 0.042105875 seconds
+Refreshing native plugins compatible for Editor in 0.94 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=e58c670325b5c4994913bafeaf39b55d): Total: 0.051 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Characters/MatchHeroes/Male/Male_Intro_BringIt.fbx using Guid(4b072a2da73404546925987ea0c5a9f1) (FBXImporter) -> (artifact id: '502a457612b3f0d925896b17e5414ad3') in 0.046992834 seconds
+Refreshing native plugins compatible for Editor in 0.79 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=7ab55440b991049a8bd30d23d2c91635): Total: 0.059 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Characters/MatchHeroes/Male/Male_Intro_Pushups.fbx using Guid(bfccdf4039561456b9f6a351620ea4d7) (FBXImporter) -> (artifact id: 'fc8d30c249575f261a32881e7cf46e00') in 0.047762791 seconds
+Refreshing native plugins compatible for Editor in 0.81 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=f36afa70b05ae410a890e66a3735b410): Total: 0.060 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Characters/MatchHeroes/Female/Female_Emote_Scuba.fbx using Guid(8764fbb0363a347ac8ec92cbd76e5bbf) (FBXImporter) -> (artifact id: '77ceb53aa9c0788272be55271f63e780') in 0.050832125 seconds
+Refreshing native plugins compatible for Editor in 0.81 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=3231eb51290db4bc9b17c6afd43349b8): Total: 0.058 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Characters/MatchHeroes/Female/Female_Emote_Thrust.fbx using Guid(2bda896ed87514a02b98494e29cb4a5c) (FBXImporter) -> (artifact id: 'ea3400ce07bf6e237ed686f68c518cd7') in 0.048805667 seconds
+Refreshing native plugins compatible for Editor in 2.90 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=93e85349a1fff4d61adc8900e9748fd4): Total: 0.061 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Characters/MatchHeroes/Female/Female_Emote_Spike.fbx using Guid(a277e761f90754719995aed22a66c26b) (FBXImporter) -> (artifact id: 'e41eaacb47208323e0bc9ed87f92105e') in 0.0541345 seconds
+Refreshing native plugins compatible for Editor in 1.08 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=009f14ecb739142de923a9b8a83c9884): Total: 0.062 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Characters/MatchHeroes/Female/Female_Intro_Wave.fbx using Guid(94ed4903f470746abbd9ed2e325bb96f) (FBXImporter) -> (artifact id: '466f39e6502d90096b2a5ec8bf7fcd16') in 0.048028083 seconds
+Refreshing native plugins compatible for Editor in 0.87 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=7d6a0b7565afa411a8df3f16b95dcbc8): Total: 0.058 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Characters/MatchHeroes/Female/Female_Intro_BringIt.fbx using Guid(a5ccf0edafd4b4a968bc7d8a673e9f67) (FBXImporter) -> (artifact id: '7886e9464cb53996f363b0e670f17b9c') in 0.049289709 seconds
+Refreshing native plugins compatible for Editor in 0.87 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=430febdfdb2db4901aa2c16488dd3d7b): Total: 0.059 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Characters/MatchHeroes/Female/Female_Intro_Pushups.fbx using Guid(c5197ad7953a344dd997fd70dde373ff) (FBXImporter) -> (artifact id: 'e200e6f8ceb9ecf841c16e974012bd4c') in 0.049551542 seconds
+Refreshing native plugins compatible for Editor in 0.86 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=e295d72840da14c1e8517016c7f6ddbd): Total: 0.062 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Loaded scene 'Library/Unused/b2b1f6f9042124a32ab76047bb34f51f'
+	Deserialize:            39.343 ms
+	Integration:            6.079 ms
+	Integration of assets:  19.586 ms
+	Thread Wait Time:       0.049 ms
+	Total Operation Time:   65.057 ms
+Asset Pipeline Refresh (id=89e4e6237a0af4871886bc8745be463d): Total: 0.003 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Loaded scene 'Library/Unused/24f4440f6c83a439b8cf39863e12d8f5'
+	Deserialize:            39.888 ms
+	Integration:            12.545 ms
+	Integration of assets:  20.657 ms
+	Thread Wait Time:       0.030 ms
+	Total Operation Time:   73.119 ms
+Asset Pipeline Refresh (id=af82c424b9a8649619294a7f2480aa44): Total: 0.003 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh (id=0d4887a12921c4ddaa8aca6a695790da): Total: 0.078 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+[EmoteWire]
+== Male Assets/Resources/Tennis/Customization/PlayerMale.prefab
+  slot EmoteScuba     <- Male_Emote_Scuba           len=4.700 (replaced) asset=Assets/Characters/MatchHeroes/Male/Male_Emote_Scuba.fbx
+  slot EmoteThrust    <- Male_Emote_Thrust          len=3.500 (replaced) asset=Assets/Characters/MatchHeroes/Male/Male_Emote_Thrust.fbx
+  slot EmoteSpike     <- Male_Emote_Spike           len=3.200 (replaced) asset=Assets/Characters/MatchHeroes/Male/Male_Emote_Spike.fbx
+  slot IntroWave      <- Male_Intro_Wave            len=2.000 (replaced) asset=Assets/Characters/MatchHeroes/Male/Male_Intro_Wave.fbx
+  slot IntroBringIt   <- Male_Intro_BringIt         len=3.000 (replaced) asset=Assets/Characters/MatchHeroes/Male/Male_Intro_BringIt.fbx
+  slot IntroPushups   <- Male_Intro_Pushups         len=3.000 (replaced) asset=Assets/Characters/MatchHeroes/Male/Male_Intro_Pushups.fbx
+
+== Female Assets/Resources/Tennis/Customization/PlayerFemale.prefab
+  slot EmoteScuba     <- Female_Emote_Scuba         len=4.700 (replaced) asset=Assets/Characters/MatchHeroes/Female/Female_Emote_Scuba.fbx
+  slot EmoteThrust    <- Female_Emote_Thrust        len=3.500 (replaced) asset=Assets/Characters/MatchHeroes/Female/Female_Emote_Thrust.fbx
+  slot EmoteSpike     <- Female_Emote_Spike         len=3.200 (replaced) asset=Assets/Characters/MatchHeroes/Female/Female_Emote_Spike.fbx
+  slot IntroWave      <- Female_Intro_Wave          len=2.000 (replaced) asset=Assets/Characters/MatchHeroes/Female/Female_Intro_Wave.fbx
+  slot IntroBringIt   <- Female_Intro_BringIt       len=3.000 (replaced) asset=Assets/Characters/MatchHeroes/Female/Female_Intro_BringIt.fbx
+  slot IntroPushups   <- Female_Intro_Pushups       len=3.000 (replaced) asset=Assets/Characters/MatchHeroes/Female/Female_Intro_Pushups.fbx
+
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+GolfArcade.EditorTools.EmoteWire:Run () (at Assets/Editor/EmoteWire.cs:55)
+
+(Filename: Assets/Editor/EmoteWire.cs Line: 55)
+
+Thread 0x334507000 may have been prematurely finalized
+The command could not be loaded, possibly because:
+  * You intended to execute a .NET application:
+      The application 'build-server' does not exist.
+  * You intended to execute a .NET SDK command:
+      No .NET SDKs were found.
+
+Download a .NET SDK:
+https://aka.ms/dotnet-download
+
+Learn about SDK resolution:
+https://aka.ms/dotnet/sdk-not-found
+Input System module state changed to: ShutdownInProgress.
+Input System polling thread exited.
+Input System module state changed to: Shutdown.
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+[Licensing::IpcConnector] LicenseClient-adnanyonathan-notifications channel disconnected successfully.
+[Licensing::IpcConnector] LicenseClient-adnanyonathan channel disconnected successfully.
+Thread 0x16c40b000 may have been prematurely finalized
+Thread 0x16c497000 may have been prematurely finalized
+Thread 0x16c523000 may have been prematurely finalized
+Thread 0x16c5af000 may have been prematurely finalized
+Thread 0x16c6c7000 may have been prematurely finalized
+Thread 0x16c63b000 may have been prematurely finalized
+Thread 0x16c86b000 may have been prematurely finalized
+Thread 0x16c7df000 may have been prematurely finalized
+Thread 0x16c753000 may have been prematurely finalized
+AcceleratorClientConnectionCallback - disconnected - :0
+Cleanup mono
+[40m[32minfo[39m[22m[49m: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+[40m[32minfo[39m[22m[49m: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      ALC ILPP context 1 is unloading
+debugger-agent: Unable to listen on 43
+[usbmuxd] Stop listen thread
+[usbmuxd] Error: 
+[usbmuxd] Listen thread exiting

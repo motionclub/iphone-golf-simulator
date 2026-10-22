@@ -1,0 +1,35 @@
+{
+  "ball_exclusion": [
+    {
+      "first": 0,
+      "last": 15,
+      "reason": "intentional_bounce_flight"
+    },
+    {
+      "first": 362,
+      "last": 371,
+      "reason": "intentional_bounce_flight"
+    },
+    {
+      "first": 447,
+      "last": 483,
+      "reason": "intentional_bounce_flight"
+    },
+    {
+      "first": 504,
+      "last": 543,
+      "reason": "intentional_bounce_flight"
+    },
+    {
+      "first": 592,
+      "last": 592,
+      "reason": "intentional_bounce_flight"
+    },
+    {
+      "first": 593,
+      "last": 719,
+      "reason": "released_or_unbound"
+    }
+  ],
+  "reset_reason": []
+}

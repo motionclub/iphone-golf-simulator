@@ -109,14 +109,26 @@ namespace GolfArcade.Game {
             golfer.Stand(ball.position,TeeAim());
             FrameAim(); rig.SnapNext();
         }
+        const float FlyoverHeightEase=.3f;
+        int flyShot=-1; float flyY,flyLookY,flyYV,flyLookYV,flyAtTime=-10;
         /// The flyover `s` seconds in: HoleIntro's lens and the hole's plate over the opening. (Its highlights carry no tags any
         /// more: Adnan, 2026-10-19.)
         void FrameFlyover(float s) {
             bool full=golfVenueCut==PresentationCut.Full||overviewReturn;
             holeIntro.Pose(full,s,rig.Camera.aspect,out var at,out var look,out var fov);
+            int shot=holeIntro.ShotAt(full,s,out var local,out var len);
+            // The lens' heights come off raycasts that hit everything (a tree's crown, a rock, the bridge): over a wooded or
+            // built-up hole they leapt metres from one frame to the next and the picture jerked. A shot keeps its path but
+            // its heights are eased (the horizontal travel is untouched); a new shot is a clean cut.
+            if(shot!=flyShot || s<=0.001f || Mathf.Abs(Time.unscaledTime-flyAtTime)>.25f) { flyShot=shot; flyY=at.y; flyLookY=look.y; flyYV=flyLookYV=0; }
+            else {
+                flyY=Mathf.SmoothDamp(flyY,at.y,ref flyYV,FlyoverHeightEase,Mathf.Infinity,Time.unscaledDeltaTime);
+                flyLookY=Mathf.SmoothDamp(flyLookY,look.y,ref flyLookYV,FlyoverHeightEase,Mathf.Infinity,Time.unscaledDeltaTime);
+            }
+            flyAtTime=Time.unscaledTime;
+            at.y=flyY; look.y=flyLookY;
             rig.Cue(at,look); rig.SetVerticalFov(fov);
             if(introGraphics==null) return;
-            int shot=holeIntro.ShotAt(full,s,out var local,out var len);
             if(shot!=introShot) {
                 introShot=shot; introGraphics.HideTag(introTag,introClock); introTag=null;
                 if(shot==0) {

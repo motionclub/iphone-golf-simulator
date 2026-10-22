@@ -1,0 +1,208 @@
+{
+ "moved_vs_form3_start": 3080,
+ "moved_outside_zone_vs_form3_start": 0,
+ "moved_vs_artdir_200dc3b9": 3082,
+ "moved_outside_zone_vs_artdir_200dc3b9": 0,
+ "border_vertices": 238,
+ "border_vertices_moved_vs_artdir": 0,
+ "border_vertices_moved_vs_form3_start": 0,
+ "zone_vertices": 3320,
+ "nan_or_inf": 0,
+ "topology": {
+  "poly_start": true,
+  "poly_total": true,
+  "loop_vert": true,
+  "edges": true,
+  "mat_index": true,
+  "smooth": true,
+  "custom_normal_raw": true,
+  "poly_start_vs_artdir": true,
+  "poly_total_vs_artdir": true,
+  "loop_vert_vs_artdir": true,
+  "edges_vs_artdir": true,
+  "mat_index_vs_artdir": true,
+  "smooth_vs_artdir": true,
+  "custom_normal_raw_vs_artdir": true,
+  "uv": true,
+  "hair_identical": true,
+  "tris_form3_start_vs_new": [
+   44708,
+   44708
+  ],
+  "other_objects_identical": true
+ },
+ "topology_detail_other": {
+  "Body_F_matrix_identical": true,
+  "Body_F_materials_identical": true,
+  "Hair_F_matrix_identical": true,
+  "Hair_F_materials_identical": true,
+  "LOCKED_PLATE_back_matrix_identical": true,
+  "LOCKED_PLATE_back_materials_identical": true,
+  "LOCKED_PLATE_front_matrix_identical": true,
+  "LOCKED_PLATE_front_materials_identical": true,
+  "Neutral_Back_matrix_identical": true,
+  "Neutral_Back_materials_identical": true,
+  "Neutral_Fill_matrix_identical": true,
+  "Neutral_Fill_materials_identical": true,
+  "Neutral_Key_matrix_identical": true,
+  "Neutral_Key_materials_identical": true,
+  "ProofCamera_matrix_identical": true,
+  "ProofCamera_materials_identical": true
+ },
+ "delta_moved_vertices": 3082,
+ "flipped_zone_tris_vs_original": 0,
+ "zone_tris_turned_gt60deg": 0,
+ "max_vertex_move_mm_vs_original": 40.65721423210344,
+ "dihedral": {
+  "original": {
+   "edges": 9702,
+   "mean_deg": 4.494561231317744,
+   "p95_deg": 13.17865732619757,
+   "p99_deg": 24.93594393303596,
+   "max_deg": 79.98227795076419,
+   "n_gt30": 74,
+   "n_gt40": 36
+  },
+  "chat7": {
+   "edges": 9702,
+   "mean_deg": 4.655534873575449,
+   "p95_deg": 12.950740447651354,
+   "p99_deg": 25.435898915211506,
+   "max_deg": 90.659033824951,
+   "n_gt30": 55,
+   "n_gt40": 35
+  },
+  "form2": {
+   "edges": 9702,
+   "mean_deg": 5.043217258187547,
+   "p95_deg": 14.83584227079703,
+   "p99_deg": 25.555711241431037,
+   "max_deg": 79.98227795076419,
+   "n_gt30": 64,
+   "n_gt40": 36
+  },
+  "form3": {
+   "edges": 9702,
+   "mean_deg": 4.753517493016848,
+   "p95_deg": 13.211094113998257,
+   "p99_deg": 24.164009015387858,
+   "max_deg": 79.98227795076419,
+   "n_gt30": 60,
+   "n_gt40": 36
+  },
+  "form4": {
+   "edges": 9702,
+   "mean_deg": 4.7849559191578805,
+   "p95_deg": 13.082422275790124,
+   "p99_deg": 24.635629804824177,
+   "max_deg": 79.98227795076419,
+   "n_gt30": 59,
+   "n_gt40": 36
+  }
+ },
+ "border_steps_mm": {
+  "form4": {
+   "legs": {
+    "max_mm": 7.59555956198857,
+    "p95_mm": 6.787553527063052
+   },
+   "arm": {
+    "max_mm": 7.03549865875607,
+    "p95_mm": 6.090783264398613
+   },
+   "top": {
+    "max_mm": 0.5046219692652013,
+    "p95_mm": 0.3988566235698482
+   }
+  },
+  "form3": {
+   "legs": {
+    "max_mm": 7.522853132279922,
+    "p95_mm": 6.734108603251371
+   },
+   "arm": {
+    "max_mm": 9.336383391756486,
+    "p95_mm": 7.070221609810226
+   },
+   "top": {
+    "max_mm": 0.09134442430582886,
+    "p95_mm": 0.056389862074852706
+   }
+  },
+  "form2": {
+   "legs": {
+    "max_mm": 7.540491537866571,
+    "p95_mm": 6.049190336489824
+   },
+   "arm": {
+    "max_mm": 9.439211359288725,
+    "p95_mm": 6.669275515963857
+   },
+   "top": {
+    "max_mm": 0.7329063202803627,
+    "p95_mm": 0.24163639019950922
+   }
+  }
+ },
+ "bi_laplacian_roughness_mm_zone_interior": {
+  "original": {
+   "mean": 1.0132692515400787,
+   "p95": 2.1057904060151924,
+   "max": 3.748855168987564
+  },
+  "chat7": {
+   "mean": 0.24022616089749493,
+   "p95": 1.4382181802434713,
+   "max": 3.019952243399404
+  },
+  "form2": {
+   "mean": 0.23216668763215745,
+   "p95": 1.2651423061726306,
+   "max": 3.0210606102838313
+  },
+  "form3": {
+   "mean": 0.21906511731074987,
+   "p95": 1.2582021391102043,
+   "max": 3.020571665685264
+  },
+  "form4": {
+   "mean": 0.16669824316164505,
+   "p95": 0.7517501348156317,
+   "max": 2.8106354799199793
+  }
+ },
+ "self_intersection_pairs": {
+  "original": {
+   "whole_mesh": 4444,
+   "touching_torso_zone": 0
+  },
+  "form3": {
+   "whole_mesh": 4444,
+   "touching_torso_zone": 0
+  },
+  "form4": {
+   "whole_mesh": 4444,
+   "touching_torso_zone": 0
+  }
+ },
+ "custom_normals_vs_geometry_deg_zone": {
+  "original": {
+   "corners": 13267,
+   "median_deg": 0.6148947908784433,
+   "p95_deg": 3.516457487352431,
+   "max_deg": 43.3347754744574
+  },
+  "form3": {
+   "corners": 13267,
+   "median_deg": 0.6156107082888267,
+   "p95_deg": 3.521619067701819,
+   "max_deg": 43.3347754744574
+  },
+  "form4": {
+   "corners": 13267,
+   "median_deg": 0.6153103938299886,
+   "p95_deg": 3.548367490706788,
+   "max_deg": 43.3347754744574
+  }
+ }
+}

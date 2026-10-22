@@ -1,0 +1,104 @@
+--- Unity/Assets/Resources/Tennis/Shaders/TennisCharacter.shader
++++ Unity/Assets/Resources/Tennis/Shaders/TennisCharacter.shader
+@@ -46,6 +46,8 @@
+         _EnvironmentStrength ("Scene reflection strength", Range(0,1)) = 0.12
+         _OcclusionStrength ("Character ambient occlusion strength", Range(0,1)) = 0.25
+         [HideInInspector] _SkinResponse ("Regional skin response pilot", Float) = 0
++        [HideInInspector] _SkinFinish ("Skin finish pilot: 1 male, 2 female", Float) = 0
++        [HideInInspector] _SkinPigmentUV ("Original skin pigment mask coordinates", Float) = 0
+         _Wrap ("Wrap", Range(0,1)) = 0.35
+         _Subsurface ("Subsurface warmth", Color) = (0,0,0,0)
+         _RimColor ("Rim colour", Color) = (1,0.96,0.88,1)
+@@ -80,7 +82,7 @@
+                 float4 _HeadOrigin, _HeadRight, _HeadUp, _HeadForward, _HeadEye;
+                 float4 _EyeMapL, _EyeMapR, _EyeMapUpL, _EyeMapUpR, _EyeMapRightL, _EyeMapRightR; half _EyeMapEnabled;
+                 float4 _EyeL, _EyeR, _FaceUp, _FaceRight, _Gaze, _FaceSkin, _EyeNL, _EyeNR; half _PaintLift, _FaceRole, _Blink, _BrowLift, _CraftedPaint;
+-                float4 _BumpMap_ST; half _Smoothness, _Wrap, _RimPower, _RimStrength, _BumpScale, _Saturation, _BumpTriplanar, _SpecularStrength, _EnvironmentStrength, _OcclusionStrength; float _BumpTile; half _SkinResponse;
++                float4 _BumpMap_ST; half _Smoothness, _Wrap, _RimPower, _RimStrength, _BumpScale, _Saturation, _BumpTriplanar, _SpecularStrength, _EnvironmentStrength, _OcclusionStrength; float _BumpTile; half _SkinResponse, _SkinFinish, _SkinPigmentUV;
+             CBUFFER_END
+             TEXTURE2D(_BaseMap); SAMPLER(sampler_BaseMap);
+             TEXTURE2D(_BumpMap); SAMPLER(sampler_BumpMap);
+@@ -160,6 +162,17 @@
+                 #endif
+                 half3 v = normalize(GetWorldSpaceViewDir(i.positionWS));
+                 half4 c = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, i.uv) * _BaseColor;
++                if (_SkinFinish > .5h && _SkinPigmentUV > .5h) {
++                    // Decode the existing relative pigment masks, not a new UV
++                    // layout. A quiet edge transfer removes diluted lip halos.
++                    half2 masks = saturate((i.uv * 64 - .5h) / 63);
++                    half lipPigment = smoothstep(.08h, .66h, masks.x);
++                    half linePigment = smoothstep(.09h, .44h, masks.y);
++                    half3 lipColour = _SkinFinish < 1.5h ? half3(.97h,.74h,.70h) : half3(.98h,.68h,.65h);
++                    half3 pigment = lerp(half3(1,1,1), lipColour, lipPigment);
++                    pigment *= lerp(half3(1,1,1), half3(.74h,.59h,.55h), linePigment);
++                    c.rgb = _BaseColor.rgb * pigment;
++                }
+                 half lid = 0;
+                 if(_FaceRole>8.5h){clip(.90h-_Blink);c.rgb=_FaceSkin.rgb;}
+                 else if(_FaceRole>7.5h){if(i.eyeCoord.y<1.3h)clip(.2h-_Blink);}
+@@ -195,9 +208,25 @@
+                     half forehead=SkinRegion(hp,float3(0,.062,-.027),float3(.054,.044,.075));
+                     half ears=SkinRegion(hp,float3(-.092,-.025,-.055),float3(.020,.042,.055))+SkinRegion(hp,float3(.092,-.025,-.055),float3(.020,.042,.055));
+                     half warmth=saturate(cheeks*.85h+nose*.40h+ears*.7h);
+-                    c.rgb*=half3(1+.025h*warmth,1-.060h*warmth,1-.025h*warmth)*(1+.012h*forehead);
+-                    surfaceSmoothness=saturate(surfaceSmoothness+.08h*nose+.06h*forehead-.025h*cheeks);
+-                    if(_SkinResponse>.5h){
++                    if (_SkinFinish > .5h) {
++                        // Low-frequency, restrained pigment on the existing
++                        // registered form. No grain, pore noise or new normals.
++                        c.rgb *= lerp(half3(1,1,1),half3(1.012h,.965h,.955h),warmth);
++                        if (_SkinFinish < 1.5h) {
++                            half jaw = SkinRegion(hp,float3(0,-.126h,-.010h),float3(.086h,.048h,.095h));
++                            half upperLip = SkinRegion(hp,float3(0,-.077h,.016h),float3(.048h,.016h,.060h));
++                            half beard = saturate(jaw*.42h+upperLip*.20h);
++                            c.rgb *= lerp(half3(1,1,1),half3(.88h,.91h,.94h),beard);
++                        }
++                        surfaceSmoothness = lerp(.32h,.40h,saturate(nose+forehead*.55h));
++                        surfaceSpecular = .95h;
++                        surfaceWrap = .20h;
++                    }
++                    else {
++                        c.rgb*=half3(1+.025h*warmth,1-.060h*warmth,1-.025h*warmth)*(1+.012h*forehead);
++                        surfaceSmoothness=saturate(surfaceSmoothness+.08h*nose+.06h*forehead-.025h*cheeks);
++                    }
++                    if(_SkinFinish<.5h && _SkinResponse>.5h){
+                         // Colour variation follows the original head's registered bind frame.
+                         // This survives animation and every selected skin tone.
+                         half blush=saturate(cheeks*.85h+nose*.30h+ears*.65h);
+@@ -214,7 +243,9 @@
+                 c.rgb = lerp(dot(c.rgb, half3(0.2126, 0.7152, 0.0722)).xxx, c.rgb, _Saturation);
+                 Light main = HeroMain(GetMainLight(TransformWorldToShadowCoord(i.positionWS)));
+                 half3 reflection;
+-                half3 colour = HeroCharacterShade(main, n, v, c.rgb, surfaceWrap, surfaceSmoothness, _Subsurface.rgb, surfaceSpecular, reflection);
++                half3 colour;
++                if (_SkinFinish > .5h) colour = HeroSkinShade(main, n, v, c.rgb, surfaceWrap, surfaceSmoothness, _Subsurface.rgb, surfaceSpecular, reflection);
++                else colour = HeroCharacterShade(main, n, v, c.rgb, surfaceWrap, surfaceSmoothness, _Subsurface.rgb, surfaceSpecular, reflection);
+                 #if defined(_ADDITIONAL_LIGHTS)
+                 uint count = GetAdditionalLightsCount();
+                 #if defined(_LIGHT_LAYERS)
+@@ -228,7 +259,8 @@
+                     if (!IsMatchingLightLayer(extra.layerMask, meshLayers)) continue;
+                     #endif
+                     half3 extraReflection;
+-                    colour += HeroCharacterShade(extra, n, v, c.rgb, surfaceWrap, surfaceSmoothness, _Subsurface.rgb, surfaceSpecular, extraReflection);
++                    if (_SkinFinish > .5h) colour += HeroSkinShade(extra, n, v, c.rgb, surfaceWrap, surfaceSmoothness, _Subsurface.rgb, surfaceSpecular, extraReflection);
++                    else colour += HeroCharacterShade(extra, n, v, c.rgb, surfaceWrap, surfaceSmoothness, _Subsurface.rgb, surfaceSpecular, extraReflection);
+                     reflection += extraReflection;
+                 }
+                 #endif
+@@ -239,6 +271,7 @@
+                 half3 environment = GlossyEnvironmentReflection(reflect(-v, n), i.positionWS, roughness, 1) * fresnel * lerp(_EnvironmentStrength, .12h, lid);
+                 colour += environment; reflection += environment;
+                 half3 ambient = HeroAmbient(n) * c.rgb;
++                if (_SkinFinish > .5h) ambient *= .70h;
+                 #if defined(_SCREEN_SPACE_OCCLUSION)
+                 AmbientOcclusionFactor ao = GetScreenSpaceAmbientOcclusion(GetNormalizedScreenSpaceUV(i.positionCS));
+                 half indirectAO = lerp(1,ao.indirectAmbientOcclusion,_OcclusionStrength);
+@@ -247,6 +280,7 @@
+                 #endif
+                 half rim = pow(1 - saturate(dot(v, n)), _RimPower) * _RimStrength * (_HeroProfile > .5h ? _HeroRim : 1);
+                 half3 rimLight = _RimColor.rgb * rim * (0.35 + 0.65 * c.rgb) * main.color;
++                if (_SkinFinish > .5h) rimLight *= .45h;
+                 colour += ambient + rimLight; reflection += rimLight;
+                 return half4(MixFog(HeroCharacterFinish(colour, reflection), i.fog), 1);
+             }

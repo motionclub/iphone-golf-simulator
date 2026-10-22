@@ -1,0 +1,221 @@
+{
+  "source_bindings_vs_captured_canonical": {
+    "changedVertices": 0,
+    "maxL1": 0.0
+  },
+  "alias_bindings_maxL1": 0.0,
+  "mixed_free_nonfree_alias_groups": 0,
+  "samples": [
+    {
+      "sample": "female_Forehand_0",
+      "anchorWeightsPercent": {
+        "female_IntroPushups_0": 4.7097305611032425e-08,
+        "female_IntroPushups_1": 2.51119047334214e-07,
+        "female_IntroPushups_2": 2.051112168999225e-08,
+        "female_IntroWave_0": 3.885469368469785e-08,
+        "female_IntroWave_1": 3.85646963252384e-08,
+        "female_IntroWave_2": 2.6331670710533217e-07,
+        "female_Ready_0": 1.7055420875549316,
+        "female_Ready_1": 96.42181396484375,
+        "female_Ready_2": 1.8726398944854739,
+        "female_intro": 3.502281842315824e-08
+      },
+      "totalAnchorPercent": 99.99999664137054,
+      "dqOnVersusActual": {
+        "maxMm": 0.0005355350932935169,
+        "p95Mm": 0.00035281547799775897,
+        "verticesOver10mm": 0
+      },
+      "anchorEffectWithLBS": {
+        "maxMm": 51.98189284181019,
+        "p95Mm": 32.73853020267838,
+        "verticesOver10mm": 2841
+      },
+      "anchorEffectWithDQ": {
+        "maxMm": 53.01024575753812,
+        "p95Mm": 33.650474871164455,
+        "verticesOver10mm": 2883
+      },
+      "DQEffectNoAnchors": {
+        "maxMm": 8.42469400703957,
+        "p95Mm": 6.798220301932275,
+        "verticesOver10mm": 0
+      },
+      "DQEffectWithAnchors": {
+        "maxMm": 9.44593166830188,
+        "p95Mm": 7.595169832653828,
+        "verticesOver10mm": 0
+      },
+      "maxAliasGapMmLBS": 5.721958498152797e-14,
+      "maxAliasGapMmDQ": 5.721958498152797e-14,
+      "timeSeconds": 0.0
+    },
+    {
+      "sample": "female_Forehand_1",
+      "anchorWeightsPercent": {},
+      "totalAnchorPercent": 0.0,
+      "dqOnVersusActual": {
+        "maxMm": 0.0006737682255987476,
+        "p95Mm": 0.00035840814922587753,
+        "verticesOver10mm": 0
+      },
+      "anchorEffectWithLBS": {
+        "maxMm": 0.0,
+        "p95Mm": 0.0,
+        "verticesOver10mm": 0
+      },
+      "anchorEffectWithDQ": {
+        "maxMm": 0.0,
+        "p95Mm": 0.0,
+        "verticesOver10mm": 0
+      },
+      "DQEffectNoAnchors": {
+        "maxMm": 107.25171282514535,
+        "p95Mm": 86.37484437290425,
+        "verticesOver10mm": 3188
+      },
+      "DQEffectWithAnchors": {
+        "maxMm": 107.25171282514535,
+        "p95Mm": 86.37484437290425,
+        "verticesOver10mm": 3188
+      },
+      "maxAliasGapMmLBS": 0.0,
+      "maxAliasGapMmDQ": 0.0,
+      "timeSeconds": 0.40000003576278687
+    },
+    {
+      "sample": "female_Forehand_2",
+      "anchorWeightsPercent": {
+        "female_IntroPushups_0": 0.04835447669029236,
+        "female_IntroPushups_1": 0.06432642787694931,
+        "female_IntroPushups_2": 0.04006253927946091,
+        "female_IntroWave_0": 0.07505107671022415,
+        "female_IntroWave_1": 0.08060850948095322,
+        "female_IntroWave_2": 0.10855690389871599,
+        "female_Ready_0": 0.03858460858464241,
+        "female_Ready_1": 0.038605812937021255,
+        "female_Ready_2": 0.03871024772524834,
+        "female_intro": 0.07695452123880386
+      },
+      "totalAnchorPercent": 0.6098151244223118,
+      "dqOnVersusActual": {
+        "maxMm": 0.0007556766340592493,
+        "p95Mm": 0.00035874331053114416,
+        "verticesOver10mm": 0
+      },
+      "anchorEffectWithLBS": {
+        "maxMm": 0.45300258040084307,
+        "p95Mm": 0.25054212117119007,
+        "verticesOver10mm": 0
+      },
+      "anchorEffectWithDQ": {
+        "maxMm": 0.46343887967317093,
+        "p95Mm": 0.2573392835359967,
+        "verticesOver10mm": 0
+      },
+      "DQEffectNoAnchors": {
+        "maxMm": 221.23194945904206,
+        "p95Mm": 133.12658407028255,
+        "verticesOver10mm": 1495
+      },
+      "DQEffectWithAnchors": {
+        "maxMm": 221.20372932709572,
+        "p95Mm": 133.14008331202416,
+        "verticesOver10mm": 1495
+      },
+      "maxAliasGapMmLBS": 6.162044985446755e-08,
+      "maxAliasGapMmDQ": 6.162044985446755e-08,
+      "timeSeconds": 0.8000000715255737
+    },
+    {
+      "sample": "female_Forehand_3",
+      "anchorWeightsPercent": {
+        "female_IntroPushups_0": 7.900506716396194e-06,
+        "female_IntroPushups_1": 4.184038334642537e-05,
+        "female_IntroPushups_2": 3.460707830527099e-06,
+        "female_IntroWave_0": 6.395896434696624e-06,
+        "female_IntroWave_1": 6.32000774203334e-06,
+        "female_IntroWave_2": 4.277305561117828e-05,
+        "female_Ready_0": 25.89843559265137,
+        "female_Ready_1": 55.86724853515626,
+        "female_Ready_2": 18.234201431274414,
+        "female_intro": 5.731518740503816e-06
+      },
+      "totalAnchorPercent": 99.99999998115845,
+      "dqOnVersusActual": {
+        "maxMm": 0.0005753912349219714,
+        "p95Mm": 0.00033188796056885894,
+        "verticesOver10mm": 0
+      },
+      "anchorEffectWithLBS": {
+        "maxMm": 52.02698382754421,
+        "p95Mm": 32.645588883925136,
+        "verticesOver10mm": 2846
+      },
+      "anchorEffectWithDQ": {
+        "maxMm": 53.024912423673435,
+        "p95Mm": 33.631308496732636,
+        "verticesOver10mm": 2887
+      },
+      "DQEffectNoAnchors": {
+        "maxMm": 8.223158496632262,
+        "p95Mm": 6.630392843715595,
+        "verticesOver10mm": 0
+      },
+      "DQEffectWithAnchors": {
+        "maxMm": 9.049134481699122,
+        "p95Mm": 7.319789484597354,
+        "verticesOver10mm": 0
+      },
+      "maxAliasGapMmLBS": 4.399083617550067e-12,
+      "maxAliasGapMmDQ": 4.399083617550067e-12,
+      "timeSeconds": 1.2000000476837158
+    },
+    {
+      "sample": "female_Forehand_4",
+      "anchorWeightsPercent": {
+        "female_IntroPushups_0": 2.032932996749878,
+        "female_IntroPushups_1": 7.950214862823486,
+        "female_IntroPushups_2": 1.262323260307312,
+        "female_IntroWave_0": 1.954844832420349,
+        "female_IntroWave_1": 2.133211851119995,
+        "female_IntroWave_2": 3.5210623741149902,
+        "female_Ready_0": 4.568582057952881,
+        "female_Ready_1": 4.589017868041992,
+        "female_Ready_2": 4.598852634429932,
+        "female_intro": 2.002626419067383
+      },
+      "totalAnchorPercent": 34.613669157028205,
+      "dqOnVersusActual": {
+        "maxMm": 0.0005817543966144018,
+        "p95Mm": 0.00033452881774393556,
+        "verticesOver10mm": 0
+      },
+      "anchorEffectWithLBS": {
+        "maxMm": 21.508873358192474,
+        "p95Mm": 12.095502325773953,
+        "verticesOver10mm": 442
+      },
+      "anchorEffectWithDQ": {
+        "maxMm": 21.940370731658142,
+        "p95Mm": 12.330706229915307,
+        "verticesOver10mm": 470
+      },
+      "DQEffectNoAnchors": {
+        "maxMm": 39.05773899029257,
+        "p95Mm": 31.926210158969234,
+        "verticesOver10mm": 1053
+      },
+      "DQEffectWithAnchors": {
+        "maxMm": 39.683778537930046,
+        "p95Mm": 31.963138051875166,
+        "verticesOver10mm": 1044
+      },
+      "maxAliasGapMmLBS": 1.6119720169790408e-06,
+      "maxAliasGapMmDQ": 1.6119720169790408e-06,
+      "timeSeconds": 0.666670024394989
+    }
+  ],
+  "algorithm": "same recorded bones/shapes, exact profile weights; LBS and runtime DQ four CPU controls; no new geometry/render",
+  "noUnityOrGpu": true
+}

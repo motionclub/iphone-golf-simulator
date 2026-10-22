@@ -1,0 +1,55 @@
+{
+  "status": "INSTALLED SOURCE-REVIEWED PILOT CANDIDATE; actual Unity visual/instancing/cost gates pending",
+  "tileSizeMeters": 2,
+  "nearBlades": 2400,
+  "nearTriangles": 4800,
+  "farBlades": 240,
+  "farTriangles": 480,
+  "grassHeightMeters": [
+    0.01,
+    0.023
+  ],
+  "microTurfTileMeters": 0.5,
+  "microTextureResolution": 512,
+  "maps": [
+    "CoastalTurf_C.png",
+    "CoastalTurf_N.png",
+    "CoastalTurf_R.png"
+  ],
+  "geometryCap": {
+    "nearCells": 20,
+    "patchRadiusMeters": 12,
+    "maximumCells": 121,
+    "maximumTriangles": 144480,
+    "shadowCasting": false,
+    "expectedDrawSubmissions": 2
+  },
+  "files": {
+    "CoastalTurf.fbx": "3ae978fd0ba402f22c3235ad1118b778c9cafeba7dc23b879516904d01e213ba",
+    "CoastalTurf.blend": "4f28b2b703c145410122c58f7b76d91ccb7cb3e678ff99daa88b519d75157585",
+    "CoastalTurf_N.png": "df561653e972c1623864be01c67301ca0a4e8fa822a0c2e63cb0e05c9573997a",
+    "coastal-turf-source.png": "bd18922c40e42e7e9dea022a6260d4fb4433497e56f4c05e9bd3a45474f1fc02",
+    "CoastalTurf_C.png": "8b1221986832b67d289f5d8fa313a3026f208e613897ed54012abce0455e1dcd",
+    "CoastalTurf_R.png": "899807f59656b826581552c90a3de46ff99abc3ff92b6a962d587c3c0d84752c"
+  },
+  "hook": "GolfCoastalTurf.Apply(model,hole) after GolfCoastalBotany inside hole12 Dress branch, before SurfaceBatching",
+  "groundChanges": "Render material clones only: near-tee grass albedo/normal at0.5m tile, original shader/palette/mowing retained",
+  "physicsChanges": false,
+  "installedFiles": {
+    "ArtDir/golf/source/CoastalTurf.blend": "4f28b2b703c145410122c58f7b76d91ccb7cb3e678ff99daa88b519d75157585",
+    "ArtDir/golf/tools/build-coastal-turf.py": "6bf484d0e2f8686dc7f8b037ab8b105e5ff96f8261ec26051676a09b4ae88a97",
+    "Unity/Assets/Scripts/Course/GolfCoastalTurf.cs": "522d48d652a6d8038b70576673b85d87e6a36b56e3e3742de9b728dd5c9f978d",
+    "Unity/Assets/Scripts/Course/GolfCoastalTurf.cs.meta": "b0e0febe7f453a9d728d938975872074964ac22172cad66f9153bd2c031973e4",
+    "Unity/Assets/Resources/Course/Shaders/GolfCoastalTurf.shader": "cd9b91434d14f0c6ab6d87671f739db5f8b9114d2abea949e3bee34ecdc38111",
+    "Unity/Assets/Resources/Course/Shaders/GolfCoastalTurf.shader.meta": "78397dc70118e665fc4e4155288f986d62c7e722bca17a81a50bd76c7dc65ca9",
+    "Unity/Assets/Resources/Course/Resort/CoastalTurf.fbx": "3ae978fd0ba402f22c3235ad1118b778c9cafeba7dc23b879516904d01e213ba",
+    "Unity/Assets/Resources/Course/Resort/CoastalTurf.fbx.meta": "944010691aa5ac71d4d392a5102304338e5d97d0166385521d9c395e74087ed8",
+    "Unity/Assets/Scripts/Course/GolfResortDress.cs": "98c49cb7c14c1f55c0556ab81c3a2760bf307affd28eb6e5af7609bd5a2ef829",
+    "Unity/Assets/Scripts/Course/GolfCourseFringe.cs": "968a591628569f12a7689eeea6945eda3f82fce93f8eb3aca14f345eb5e72429",
+    "Unity/Assets/Resources/Course/Resort/CoastalTurf_C.png": "8b1221986832b67d289f5d8fa313a3026f208e613897ed54012abce0455e1dcd",
+    "Unity/Assets/Resources/Course/Resort/CoastalTurf_C.png.meta": "2ce68707128d280e50288b810199d9716f6cb8603c10643b2294f0354aa2164c",
+    "Unity/Assets/Resources/Course/Resort/CoastalTurf_N.png": "df561653e972c1623864be01c67301ca0a4e8fa822a0c2e63cb0e05c9573997a",
+    "Unity/Assets/Resources/Course/Resort/CoastalTurf_N.png.meta": "20caf8f16fcd592013a5cdb50028fb13576ef4defbd778e7807e478c8cd90a25"
+  },
+  "unusedRoughnessSource": "CoastalTurf_R.png remains source output; uniform.87 is represented by shader smoothness.12, no extra runtime texture."
+}

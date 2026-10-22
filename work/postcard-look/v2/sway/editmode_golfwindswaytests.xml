@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="16" result="Passed" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-05 09:14:36Z" end-time="2026-10-05 09:14:36Z" duration="0.1724245">
+  <test-suite type="TestSuite" id="1000" name="Golf Arcade" fullname="Golf Arcade" runstate="Runnable" testcasecount="249" result="Passed" start-time="2026-10-05 09:14:36Z" end-time="2026-10-05 09:14:36Z" duration="0.172425" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1290" name="GolfArcade.Tests.dll" fullname="/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Library/ScriptAssemblies/GolfArcade.Tests.dll" runstate="Runnable" testcasecount="249" result="Passed" start-time="2026-10-05 09:14:36Z" end-time="2026-10-05 09:14:36Z" duration="0.167664" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="4891" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1291" name="GolfArcade" fullname="GolfArcade" runstate="Runnable" testcasecount="175" result="Passed" start-time="2026-10-05 09:14:36Z" end-time="2026-10-05 09:14:36Z" duration="0.166702" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1292" name="Tests" fullname="GolfArcade.Tests" runstate="Runnable" testcasecount="175" result="Passed" start-time="2026-10-05 09:14:36Z" end-time="2026-10-05 09:14:36Z" duration="0.166391" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1085" name="GolfWindSwayTests" fullname="GolfArcade.Tests.GolfWindSwayTests" classname="GolfArcade.Tests.GolfWindSwayTests" runstate="Runnable" testcasecount="16" result="Passed" start-time="2026-10-05 09:14:36Z" end-time="2026-10-05 09:14:36Z" duration="0.164131" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1086" name="AmplitudeIsMonotonicWithAFaintIdleBreeze" fullname="GolfArcade.Tests.GolfWindSwayTests.AmplitudeIsMonotonicWithAFaintIdleBreeze" methodname="AmplitudeIsMonotonicWithAFaintIdleBreeze" classname="GolfArcade.Tests.GolfWindSwayTests" runstate="Runnable" seed="421139834" result="Passed" start-time="2026-10-05 09:14:36Z" end-time="2026-10-05 09:14:36Z" duration="0.008846" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1095" name="ClockWrapsSeamlesslyAtTheLoop" fullname="GolfArcade.Tests.GolfWindSwayTests.ClockWrapsSeamlesslyAtTheLoop" methodname="ClockWrapsSeamlesslyAtTheLoop" classname="GolfArcade.Tests.GolfWindSwayTests" runstate="Runnable" seed="1526405866" result="Passed" start-time="2026-10-05 09:14:36Z" end-time="2026-10-05 09:14:36Z" duration="0.001026" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1097" name="DisplacementIsLinearInTheWeightAndPointsDownwind" fullname="GolfArcade.Tests.GolfWindSwayTests.DisplacementIsLinearInTheWeightAndPointsDownwind" methodname="DisplacementIsLinearInTheWeightAndPointsDownwind" classname="GolfArcade.Tests.GolfWindSwayTests" runstate="Runnable" seed="1666309753" result="Passed" start-time="2026-10-05 09:14:36Z" end-time="2026-10-05 09:14:36Z" duration="0.004732" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-suite type="ParameterizedMethod" id="1094" name="GlobalVectorPointsWhereTheWindBlowsTowardInWorldXZ" fullname="GolfArcade.Tests.GolfWindSwayTests.GlobalVectorPointsWhereTheWindBlowsTowardInWorldXZ" classname="GolfArcade.Tests.GolfWindSwayTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-10-05 09:14:36Z" end-time="2026-10-05 09:14:36Z" duration="0.003942" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1087" name="GlobalVectorPointsWhereTheWindBlowsTowardInWorldXZ(0.0d)" fullname="GolfArcade.Tests.GolfWindSwayTests.GlobalVectorPointsWhereTheWindBlowsTowardInWorldXZ(0.0d)" methodname="GlobalVectorPointsWhereTheWindBlowsTowardInWorldXZ" classname="GolfArcade.Tests.GolfWindSwayTests" runstate="Runnable" seed="2115104844" result="Passed" start-time="2026-10-05 09:14:36Z" end-time="2026-10-05 09:14:36Z" duration="0.000381" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1088" name="GlobalVectorPointsWhereTheWindBlowsTowardInWorldXZ(45.0d)" fullname="GolfArcade.Tests.GolfWindSwayTests.GlobalVectorPointsWhereTheWindBlowsTowardInWorldXZ(45.0d)" methodname="GlobalVectorPointsWhereTheWindBlowsTowardInWorldXZ" classname="GolfArcade.Tests.GolfWindSwayTests" runstate="Runnable" seed="161444738" result="Passed" start-time="2026-10-05 09:14:36Z" end-time="2026-10-05 09:14:36Z" duration="0.000045" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1089" name="GlobalVectorPointsWhereTheWindBlowsTowardInWorldXZ(90.0d)" fullname="GolfArcade.Tests.GolfWindSwayTests.GlobalVectorPointsWhereTheWindBlowsTowardInWorldXZ(90.0d)" methodname="GlobalVectorPointsWhereTheWindBlowsTowardInWorldXZ" classname="GolfArcade.Tests.GolfWindSwayTests" runstate="Runnable" seed="2099834908" result="Passed" start-time="2026-10-05 09:14:36Z" end-time="2026-10-05 09:14:36Z" duration="0.000043" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1090" name="GlobalVectorPointsWhereTheWindBlowsTowardInWorldXZ(135.0d)" fullname="GolfArcade.Tests.GolfWindSwayTests.GlobalVectorPointsWhereTheWindBlowsTowardInWorldXZ(135.0d)" methodname="GlobalVectorPointsWhereTheWindBlowsTowardInWorldXZ" classname="GolfArcade.Tests.GolfWindSwayTests" runstate="Runnable" seed="453140837" result="Passed" start-time="2026-10-05 09:14:36Z" end-time="2026-10-05 09:14:36Z" duration="0.000038" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1091" name="GlobalVectorPointsWhereTheWindBlowsTowardInWorldXZ(180.0d)" fullname="GolfArcade.Tests.GolfWindSwayTests.GlobalVectorPointsWhereTheWindBlowsTowardInWorldXZ(180.0d)" methodname="GlobalVectorPointsWhereTheWindBlowsTowardInWorldXZ" classname="GolfArcade.Tests.GolfWindSwayTests" runstate="Runnable" seed="1330506501" result="Passed" start-time="2026-10-05 09:14:36Z" end-time="2026-10-05 09:14:36Z" duration="0.000039" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1092" name="GlobalVectorPointsWhereTheWindBlowsTowardInWorldXZ(-90.0d)" fullname="GolfArcade.Tests.GolfWindSwayTests.GlobalVectorPointsWhereTheWindBlowsTowardInWorldXZ(-90.0d)" methodname="GlobalVectorPointsWhereTheWindBlowsTowardInWorldXZ" classname="GolfArcade.Tests.GolfWindSwayTests" runstate="Runnable" seed="7563340" result="Passed" start-time="2026-10-05 09:14:36Z" end-time="2026-10-05 09:14:36Z" duration="0.000034" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1093" name="GlobalVectorPointsWhereTheWindBlowsTowardInWorldXZ(270.0d)" fullname="GolfArcade.Tests.GolfWindSwayTests.GlobalVectorPointsWhereTheWindBlowsTowardInWorldXZ(270.0d)" methodname="GlobalVectorPointsWhereTheWindBlowsTowardInWorldXZ" classname="GolfArcade.Tests.GolfWindSwayTests" runstate="Runnable" seed="1727818487" result="Passed" start-time="2026-10-05 09:14:36Z" end-time="2026-10-05 09:14:36Z" duration="0.000035" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-case id="1103" name="NeighbouringClumpsDoNotMoveTogether" fullname="GolfArcade.Tests.GolfWindSwayTests.NeighbouringClumpsDoNotMoveTogether" methodname="NeighbouringClumpsDoNotMoveTogether" classname="GolfArcade.Tests.GolfWindSwayTests" runstate="Runnable" seed="1630938064" result="Passed" start-time="2026-10-05 09:14:36Z" end-time="2026-10-05 09:14:36Z" duration="0.004604" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1096" name="TheRootNeverMovesAndNoDataIsStatic" fullname="GolfArcade.Tests.GolfWindSwayTests.TheRootNeverMovesAndNoDataIsStatic" methodname="TheRootNeverMovesAndNoDataIsStatic" classname="GolfArcade.Tests.GolfWindSwayTests" runstate="Runnable" seed="89030526" result="Passed" start-time="2026-10-05 09:14:36Z" end-time="2026-10-05 09:14:36Z" duration="0.000722" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-suite type="ParameterizedMethod" id="1102" name="TipDisplacementStaysUnderTheKindsCap" fullname="GolfArcade.Tests.GolfWindSwayTests.TipDisplacementStaysUnderTheKindsCap" classname="GolfArcade.Tests.GolfWindSwayTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-05 09:14:36Z" end-time="2026-10-05 09:14:36Z" duration="0.128540" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1098" name="TipDisplacementStaysUnderTheKindsCap(&quot;tuft&quot;,0.06f,1.0f)" fullname="GolfArcade.Tests.GolfWindSwayTests.TipDisplacementStaysUnderTheKindsCap(&quot;tuft&quot;,0.06f,1.0f)" methodname="TipDisplacementStaysUnderTheKindsCap" classname="GolfArcade.Tests.GolfWindSwayTests" runstate="Runnable" seed="620722846" result="Passed" start-time="2026-10-05 09:14:36Z" end-time="2026-10-05 09:14:36Z" duration="0.031854" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1099" name="TipDisplacementStaysUnderTheKindsCap(&quot;flower&quot;,0.05f,0.84f)" fullname="GolfArcade.Tests.GolfWindSwayTests.TipDisplacementStaysUnderTheKindsCap(&quot;flower&quot;,0.05f,0.84f)" methodname="TipDisplacementStaysUnderTheKindsCap" classname="GolfArcade.Tests.GolfWindSwayTests" runstate="Runnable" seed="1324675093" result="Passed" start-time="2026-10-05 09:14:36Z" end-time="2026-10-05 09:14:36Z" duration="0.031654" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1100" name="TipDisplacementStaysUnderTheKindsCap(&quot;shrub&quot;,0.03f,0.5f)" fullname="GolfArcade.Tests.GolfWindSwayTests.TipDisplacementStaysUnderTheKindsCap(&quot;shrub&quot;,0.03f,0.5f)" methodname="TipDisplacementStaysUnderTheKindsCap" classname="GolfArcade.Tests.GolfWindSwayTests" runstate="Runnable" seed="12306205" result="Passed" start-time="2026-10-05 09:14:36Z" end-time="2026-10-05 09:14:36Z" duration="0.031669" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1101" name="TipDisplacementStaysUnderTheKindsCap(&quot;vine&quot;,0.08f,1.0f)" fullname="GolfArcade.Tests.GolfWindSwayTests.TipDisplacementStaysUnderTheKindsCap(&quot;vine&quot;,0.08f,1.0f)" methodname="TipDisplacementStaysUnderTheKindsCap" classname="GolfArcade.Tests.GolfWindSwayTests" runstate="Runnable" seed="343968449" result="Passed" start-time="2026-10-05 09:14:36Z" end-time="2026-10-05 09:14:36Z" duration="0.031679" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[DONE EditMode: 16 passed, 0 failed, 0 skipped
+<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /Users/adnanyonathan/Library/Application Support/aloniewski/Golf Arcade/TestResults.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

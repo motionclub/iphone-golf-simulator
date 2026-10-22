@@ -1,0 +1,151 @@
+{
+  "poses": 5,
+  "views": 10,
+  "regionBefore": 2643,
+  "regionAfter": 729,
+  "newHoleViews": 0,
+  "maxNewHolePixels": 0,
+  "maxNewBackgroundPixels": 167,
+  "rows": [
+    {
+      "sample": "female_Forehand_1",
+      "maxClearanceMoveMm": 40.000000000000014,
+      "capVertices": 430,
+      "penetratingBefore": 6929,
+      "views": [
+        {
+          "view": "front",
+          "regionBefore": 452,
+          "regionAfter": 57,
+          "targetBefore": 411,
+          "targetAfter": 34,
+          "newBackgroundPixels": 0,
+          "newHolePixels": 0,
+          "newSkinPixels": 0
+        },
+        {
+          "view": "rear",
+          "regionBefore": 501,
+          "regionAfter": 22,
+          "targetBefore": 0,
+          "targetAfter": 0,
+          "newBackgroundPixels": 0,
+          "newHolePixels": 0,
+          "newSkinPixels": 0
+        }
+      ]
+    },
+    {
+      "sample": "female_EmoteSpike_1",
+      "maxClearanceMoveMm": 40.00000000000001,
+      "capVertices": 258,
+      "penetratingBefore": 6160,
+      "views": [
+        {
+          "view": "front",
+          "regionBefore": 324,
+          "regionAfter": 12,
+          "targetBefore": 0,
+          "targetAfter": 0,
+          "newBackgroundPixels": 0,
+          "newHolePixels": 0,
+          "newSkinPixels": 1
+        },
+        {
+          "view": "rear",
+          "regionBefore": 356,
+          "regionAfter": 237,
+          "targetBefore": 179,
+          "targetAfter": 81,
+          "newBackgroundPixels": 0,
+          "newHolePixels": 0,
+          "newSkinPixels": 0
+        }
+      ]
+    },
+    {
+      "sample": "female_Serve_4",
+      "maxClearanceMoveMm": 40.00000000000001,
+      "capVertices": 278,
+      "penetratingBefore": 7520,
+      "views": [
+        {
+          "view": "front",
+          "regionBefore": 461,
+          "regionAfter": 264,
+          "targetBefore": 0,
+          "targetAfter": 0,
+          "newBackgroundPixels": 0,
+          "newHolePixels": 0,
+          "newSkinPixels": 0
+        },
+        {
+          "view": "rear",
+          "regionBefore": 204,
+          "regionAfter": 55,
+          "targetBefore": 198,
+          "targetAfter": 33,
+          "newBackgroundPixels": 0,
+          "newHolePixels": 0,
+          "newSkinPixels": 0
+        }
+      ]
+    },
+    {
+      "sample": "female_CelebratePoint_1",
+      "maxClearanceMoveMm": 40.00000000000001,
+      "capVertices": 365,
+      "penetratingBefore": 5432,
+      "views": [
+        {
+          "view": "front",
+          "regionBefore": 75,
+          "regionAfter": 39,
+          "targetBefore": 0,
+          "targetAfter": 0,
+          "newBackgroundPixels": 145,
+          "newHolePixels": 0,
+          "newSkinPixels": 0
+        },
+        {
+          "view": "rear",
+          "regionBefore": 248,
+          "regionAfter": 32,
+          "targetBefore": 144,
+          "targetAfter": 2,
+          "newBackgroundPixels": 167,
+          "newHolePixels": 0,
+          "newSkinPixels": 0
+        }
+      ]
+    },
+    {
+      "sample": "female_Ready_0",
+      "maxClearanceMoveMm": 40.00000000000001,
+      "capVertices": 97,
+      "penetratingBefore": 3821,
+      "views": [
+        {
+          "view": "front",
+          "regionBefore": 11,
+          "regionAfter": 10,
+          "targetBefore": 0,
+          "targetAfter": 0,
+          "newBackgroundPixels": 0,
+          "newHolePixels": 0,
+          "newSkinPixels": 0
+        },
+        {
+          "view": "rear",
+          "regionBefore": 11,
+          "regionAfter": 1,
+          "targetBefore": 10,
+          "targetAfter": 0,
+          "newBackgroundPixels": 3,
+          "newHolePixels": 0,
+          "newSkinPixels": 11
+        }
+      ]
+    }
+  ]
+}

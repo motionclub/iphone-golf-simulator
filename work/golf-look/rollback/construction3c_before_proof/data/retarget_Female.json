@@ -1,0 +1,113 @@
+{
+  "sex": "Female",
+  "source": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/Unity/Assets/Resources/StandardCharacters/standard_female_golf.fbx",
+  "source_sha256": "f0c753bda96b0c4b057507eed607a00942dc70ccbd5023b9d2ac09470bead0e2",
+  "fps": 30.0,
+  "source_action": "Female_Golf_Rig|01 GOLF",
+  "mapping": {
+    "Root": "Root",
+    "Hips": "Hips",
+    "Spine": "Spine",
+    "Chest": "Chest",
+    "Neck": "Neck",
+    "Head": "Head",
+    "LeftShoulder": "Shoulder.L",
+    "LeftUpperArm": "UpperArm.L",
+    "LeftLowerArm": "LowerArm.L",
+    "LeftHand": "Hand.L",
+    "LeftUpperLeg": "UpperLeg.L",
+    "LeftLowerLeg": "LowerLeg.L",
+    "LeftFoot": "Foot.L",
+    "LeftToes": "Toes.L",
+    "RightShoulder": "Shoulder.R",
+    "RightUpperArm": "UpperArm.R",
+    "RightLowerArm": "LowerArm.R",
+    "RightHand": "Hand.R",
+    "RightUpperLeg": "UpperLeg.R",
+    "RightLowerLeg": "LowerLeg.R",
+    "RightFoot": "Foot.R",
+    "RightToes": "Toes.R"
+  },
+  "body_unchanged": true,
+  "rest_matrices_unchanged": true,
+  "new_bones": 0,
+  "poses": [
+    {
+      "action": "GolfProof_RH_Top",
+      "state": "Top",
+      "handedness": "RH",
+      "v4_seconds": 1.77,
+      "v4_frame": 55.1,
+      "foot_ground_correction_m": -0.0632108598947525,
+      "mapped_bones": 22,
+      "finger_pose": "ReadyIdle-derived; V4 has no finger bones",
+      "status": "proof retarget; not gameplay motion or deformation PASS"
+    },
+    {
+      "action": "GolfProof_RH_Impact",
+      "state": "Impact",
+      "handedness": "RH",
+      "v4_seconds": 2.4,
+      "v4_frame": 74.0,
+      "foot_ground_correction_m": -0.08488239347934723,
+      "mapped_bones": 22,
+      "finger_pose": "ReadyIdle-derived; V4 has no finger bones",
+      "status": "proof retarget; not gameplay motion or deformation PASS"
+    },
+    {
+      "action": "GolfProof_RH_Finish",
+      "state": "Finish",
+      "handedness": "RH",
+      "v4_seconds": 3.0,
+      "v4_frame": 92.0,
+      "foot_ground_correction_m": -0.015914328396320343,
+      "mapped_bones": 22,
+      "finger_pose": "ReadyIdle-derived; V4 has no finger bones",
+      "status": "proof retarget; not gameplay motion or deformation PASS"
+    },
+    {
+      "action": "GolfProof_LH_Top",
+      "state": "Top",
+      "handedness": "LH",
+      "v4_seconds": 1.77,
+      "v4_frame": 55.1,
+      "foot_ground_correction_m": -0.06321918219327927,
+      "mapped_bones": 22,
+      "finger_pose": "ReadyIdle-derived; V4 has no finger bones",
+      "status": "proof retarget; not gameplay motion or deformation PASS"
+    },
+    {
+      "action": "GolfProof_LH_Impact",
+      "state": "Impact",
+      "handedness": "LH",
+      "v4_seconds": 2.4,
+      "v4_frame": 74.0,
+      "foot_ground_correction_m": -0.08483093231916428,
+      "mapped_bones": 22,
+      "finger_pose": "ReadyIdle-derived; V4 has no finger bones",
+      "status": "proof retarget; not gameplay motion or deformation PASS"
+    },
+    {
+      "action": "GolfProof_LH_Finish",
+      "state": "Finish",
+      "handedness": "LH",
+      "v4_seconds": 3.0,
+      "v4_frame": 92.0,
+      "foot_ground_correction_m": -0.01591099053621292,
+      "mapped_bones": 22,
+      "finger_pose": "ReadyIdle-derived; V4 has no finger bones",
+      "status": "proof retarget; not gameplay motion or deformation PASS"
+    },
+    {
+      "action": "GolfProof_LH_ReadyIdle",
+      "state": "ReadyIdle",
+      "handedness": "LH",
+      "v4_seconds": null,
+      "v4_frame": null,
+      "mapped_bones": 53,
+      "finger_pose": "mirrored ReadyIdle",
+      "status": "proof mirror; not gameplay motion or deformation PASS"
+    }
+  ],
+  "output": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/golf-look/export/Golf_Female_SwingProof.blend"
+}

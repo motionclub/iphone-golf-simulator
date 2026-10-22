@@ -1,0 +1,26 @@
+{
+ "hero": "MatchHero_Female",
+ "tag": "Kit_Bottom",
+ "source": "dump:Kit_Bottom",
+ "seconds": 43.3,
+ "weights": {
+  "kept": true
+ },
+ "shapes": 16,
+ "log": [
+  "FIT MatchHero_Female Kit_Bottom from dump:Kit_Bottom: 10185 verts 19800 tris",
+  "  seams: 1321 coincident vertices welded into 556 groups",
+  "  weights 0.5 s",
+  "  skin deep under Kit_Bottom (hidden, no clearance needed): 2702 of 34443 body vertices",
+  "  obstacles: body",
+  "    pose 0/152  3 s",
+  "    pose 25/152  9 s",
+  "    pose 50/152  16 s",
+  "    pose 75/152  22 s",
+  "    pose 100/152  29 s",
+  "    pose 125/152  35 s",
+  "    pose 150/152  42 s",
+  "  correctives: 152/152 poses need a lift (max 25.0 mm, p90 25.0 mm) in 42 s",
+  "  16 shapes, RBF sigma 0.710, anchor fit err max 0.098, weight at rest 0.0002"
+ ]
+}

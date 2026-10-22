@@ -1,0 +1,63 @@
+{
+  "_comment": "POSTCARD_LOOK hole 10 Crater proof shots for PostcardLookStills (schema: work/postcard-look/RUNTIME.md v2.8). Unity WORLD YARDS: course x right, z (= course d) down the hole, y = model metres x 1.0936 (lava at 0, play surface 6.56), tee marker at the origin (HoleView.BuildFromModel). tee = default address shot (aim = recommended target A); approach = ball on the fairway at station C (the last dry fairway, 154 yd to the pin: where the iron second shot is played; the camera is CameraRig.FrameAddress); lavarim = the landmark close-up (round 3 2026-10-04: moved from the 2.2 yd shelf eye to a raised camera 14 yd over the lava, 7 yd above the play surface, just off the inner shoulder of the rim between B and C, looking east-south-east along the rim cliff: the basalt columns of the rim with their glowing joints and the lava at their foot fill the left, the grass shelf with agave on the rim, the lava channel, the pillar with the flag and the tall black wall behind it; the cameras of tee and approach did not move).",
+  "shots": [
+    {
+      "name": "hole10_tee",
+      "hole": 10,
+      "kind": "address",
+      "ball": [
+        0,
+        0
+      ],
+      "aim": [
+        14.3,
+        66.2
+      ]
+    },
+    {
+      "name": "hole10_approach",
+      "hole": 10,
+      "kind": "address",
+      "ball": [
+        107.1,
+        159.3
+      ],
+      "aim": [
+        261,
+        164.7
+      ]
+    },
+    {
+      "name": "hole10_lavarim",
+      "hole": 10,
+      "kind": "landmark",
+      "pos": [
+        70,
+        14,
+        108
+      ],
+      "look": [
+        140,
+        1,
+        150
+      ],
+      "fov": 55
+    }
+  ],
+  "aerial_preview_only": {
+    "name": "hole10_aerial",
+    "hole": 10,
+    "kind": "aerial",
+    "pos": [
+      -25,
+      60,
+      20
+    ],
+    "look": [
+      170,
+      0,
+      120
+    ],
+    "fov": 50
+  }
+}

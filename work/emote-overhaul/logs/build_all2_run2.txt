@@ -1,0 +1,11 @@
+SOLVED male Emote_Scuba 142 frames; racket off the hand 117 frames; 2s
+SOLVED male Emote_Thrust 106 frames; racket off the hand 0 frames; 21s
+SOLVED male Emote_Spike 97 frames; racket off the hand 0 frames; 101s
+SOLVED female Emote_Scuba 142 frames; racket off the hand 117 frames; 16s
+SOLVED female Emote_Thrust 106 frames; racket off the hand 0 frames; 64s
+SOLVED female Emote_Spike 97 frames; racket off the hand 0 frames; 113s
+BAKE_DONE male
+FBX_DONE male 3
+BAKE_DONE female
+FBX_DONE female 3
+./build_all2.sh  248.85s user 12.84s system 118% cpu 3:41.56 total

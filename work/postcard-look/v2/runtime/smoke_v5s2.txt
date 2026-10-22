@@ -1,0 +1,23 @@
+INFO: active pipeline asset 'TennisURP', quality level 2 'Medium', Unity 6000.3.24f1, Metal
+INFO: TUNE overrides: lava light intensity 600, basalt tint RGBA(0.520, 0.740, 0.900, 1.000), matte True, smoke gain 1.35 emission 0.4 lit 0.8
+INFO: CRATER lava uses the CANDIDATE textures in /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v2/tex/v5/lava_l (not the installed Look/ ones)
+INFO: CRATER board lights in the scene: 5 enabled (1 Directional, 4 Point); main light = 'Board sun', additional directionals 0
+INFO: CRATER lava, phone view (rim height, grazing), TennisURP, 4 lava point lights: 911822 px: in band 91.9 % (>= 85), G clipped 0.0 % (<= 5), cream 0.00 %; misses: dark 8.1 %, pale 0.0 %, yellow 0.0 %, red 0.0 %; mean (214,76,17) h18 s0.92 v0.84
+INFO: CRATER lava, 40 deg down view: 1263198 px: in band 91.5 % (>= 85), G clipped 0.0 % (<= 5), cream 0.00 %; misses: dark 8.5 %, pale 0.0 %, yellow 0.0 %, red 0.0 %; mean (215,78,18) h18 s0.92 v0.84
+INFO: CRATER lava lights (4 point lights I 600 range 52 lift 4, additional-lights limit 2): wall 1073469 px, +9.0 luminance on average, >= +8 on 41.4 % of it; lava pixels brightened by >= 40 levels: 0.0 %
+INFO: CRATER grass ledge 10-30 yd from the lava lights: lights off (158,179,53) hue 70 V 0.70; lights on (159,179,53) hue 70 V 0.70, G clipped 0.3 %
+GATE: LAVA_LIGHTS_KEEP_GRASS_GREEN PASS - grass near the lights: hue 70 -> 70 (|shift| <= 4), G clipped 0.3 % (<= 5); 788360 px
+INFO: BASALT glow pixels (emission adds >= 24 levels): 35167 px = 2.5 % of the wall, mean (124,35,14) hue 12 S 0.89 V 0.49, hue 8..32 on 58 %, cream 0.00 %, G clipped 0.00 %; wall median luminance 28
+GATE: LAVA_ORANGE_NO_BLOOM phone PASS - 911822 px: in band 91.9 % (>= 85), G clipped 0.0 % (<= 5), cream 0.00 %; misses: dark 8.1 %, pale 0.0 %, yellow 0.0 %, red 0.0 %; mean (214,76,17) h18 s0.92 v0.84
+GATE: LAVA_ORANGE_NO_BLOOM down PASS - 1263198 px: in band 91.5 % (>= 85), G clipped 0.0 % (<= 5), cream 0.00 %; misses: dark 8.5 %, pale 0.0 %, yellow 0.0 %, red 0.0 %; mean (215,78,18) h18 s0.92 v0.84
+GATE: LAVA_GAMEVIEW_ORANGE PASS - calibration id (both lava views, post OFF, no bloom): phone 91.9 % / down 91.5 % of the lava pixels in hue 8..28, S >= 0.75, V >= 0.7 (>= 85 %), G clipped 0.0 % / 0.0 % (<= 5 %), mean (214,76,17) h18 S0.92 V0.84 (crater.jpg pool (212,62,14) h15 S.93 V.83)
+GATE: LAVA_HAS_CRUST PASS - phone view: 4.1 % of the 911822 lava px darker than V .4 (2.5..10 %), luminance sd 25.9 (>= 25); in band 91.9 % (>= 85)
+GATE: BASALT_NOT_GREEN PASS - brightest tenth of the key-lit wall (emission off) mean (56,55,54) hue 31 S 0.04: neutral (S <= .05) or warm (hue <= 70 / >= 300); not a green-grey cast
+GATE: BASALT_JOINT_ORANGE PASS - calibration id (basalt joints orange, not cream; emission alone): 35167 glow px, mean hue 12 (8..32), brightest quarter (crack cores) (213,67,17) hue 15 (12..34), cream 0.00 % (<= 1), G clipped 0.00 % (<= 5), 2.5 % of the wall (<= 20)
+GATE: BASALT_GLOW_ORANGE PASS - 35167 glow px (2.5 % of the wall, <= 20): mean hue 12 (8..32), brightest quarter (crack cores) (213,67,17) hue 15 (12..34), cream 0.00 % (<= 1), G clipped 0.00 % (<= 5); mean (124,35,14)
+GATE: BASALT_RENDERS_DARK PASS - key-lit wall facing the sun (emission off, worst case): median luminance 28 (<= 40), mean (35,29,28) S 0.18 (<= 0.25); wall beside the lava lights (lights on): median 32 (<= 55), mean (50,32,25) S 0.49 (<= 0.65); crater.jpg: charcoal (26,25,29), median 30..34 S .2..28, lava-lit (52,27,23) S .5..62
+GATE: LAVA_LIGHTS_REACH_BASALT PASS - 4 lava point lights, additional-lights limit 2: >= +8 luminance on 41.4 % of the wall near a light (>= 20), +9.0 on average; lava pixels brightened by >= 40 levels 0.0 % (<= 10, no hot pools)
+INFO: SMOKE card over the crater sky: effective alpha max 0.67 p95 0.56 border 0.000 (_Color.a 1.00, _AlphaGain 1.35, _AlphaPower 1.00, _EdgeFade 0.18); 40485 px move the frame, |delta luminance| median 14.8 p99 61.0, edge step p99 2.43 levels/px
+GATE: SMOKE_SOFT_GAMEVIEW PASS - calibration id (Game-view card over the Crater sky, post OFF): effective alpha max 0.67 (0.55..0.72), border 0.000 (<= .02), median |delta lum| 14.8 (>= 8), p99 61.0 (28..90), edge step p99 2.43 (<= 6); 40485 px
+GATE: SMOKE_SOFT PASS - effective alpha max 0.67 (0.55..0.72: translucent, never a ball), border alpha 0.000 (<= .02, no hard rim), card moves the frame by median 14.8 (>= 8) / p99 61.0 luminance levels (p99 28..90: readable but never a ball; 40485 px), edge step p99 2.43 levels/px (<= 6)
+SUMMARY: 12/12 gates PASS

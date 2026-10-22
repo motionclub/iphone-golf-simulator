@@ -1,0 +1,26 @@
+--- Unity/Assets/Editor/VisualOverhaulCharacterCapture.cs
++++ Unity/Assets/Editor/VisualOverhaulCharacterCapture.cs
+@@ -190,10 +190,11 @@
+                         (name:"pigment",tone:TonemappingMode.ACES,exposure:.70f,male:"EA8D71",woman:"FBAE8F",response:1f),
+                         (name:"neutral",tone:TonemappingMode.Neutral,exposure:.30f,male:"E58D64",woman:"F5AB7F",response:1f)
+                     };
++                    bool twoFrontOnly=Environment.GetEnvironmentVariable("VISUAL_CHARACTER_TWO_FRONT_ONLY")=="1";
+                     foreach(var variant in variants){
+                         bool blinkReview=Environment.GetEnvironmentVariable("VISUAL_CHARACTER_BLINK_REVIEW")=="1";
+                         bool fullReview=Environment.GetEnvironmentVariable("VISUAL_CHARACTER_FULL_REVIEW")=="1";
+-                        if((blinkReview||fullReview)&&variant.name!="pigment")continue;
++                        if((blinkReview||fullReview||twoFrontOnly)&&variant.name!="pigment")continue;
+                         foreach(var volume in Object.FindObjectsByType<UnityEngine.Rendering.Volume>(FindObjectsSortMode.None)){
+                             if(!volume.profile)continue;
+                             if(volume.profile.TryGet(out Tonemapping tone))tone.mode.Override(variant.tone);
+@@ -203,6 +204,10 @@
+                         style.SkinTint=HeroKit.Hex(female?variant.woman:variant.male);game.SetPlayerLook(style);yield return Frames(2);
+                         var front=faceAligned?reviewTarget+reviewForward*.90f+reviewUp*.01f:reviewHead+hero.transform.TransformDirection(new Vector3(0,.06f,1));
+                         Shot(sex+"_"+variant.name+"_front",front,reviewTarget,24,900,900,reviewUp);
++                        if(twoFrontOnly){
++                            audit.Add($"Two-front normal review {sex}: mesh={hero.body.sharedMesh.name}; eye, skin finish and open blink retained");
++                            continue;
++                        }
+                         Shot(sex+"_"+variant.name+"_threequarter",front+reviewRight*.30f,reviewTarget,24,900,900,reviewUp);
+                         if(fullReview){
+                             Vector3 fullReviewTarget=hero.transform.TransformPoint(new Vector3(0,.88f,0));

@@ -1,0 +1,645 @@
+{
+  "poses": [
+    {
+      "action": "ReadyIdle",
+      "headwear": [
+        {
+          "piece": "Golf_BrimStitch_0",
+          "vertices": 120,
+          "driftMaxMm": 0.0002293723896665068
+        },
+        {
+          "piece": "Golf_BrimStitch_1",
+          "vertices": 120,
+          "driftMaxMm": 0.00022948745747255065
+        },
+        {
+          "piece": "Golf_BrimStitch_2",
+          "vertices": 120,
+          "driftMaxMm": 0.00023319018772617915
+        },
+        {
+          "piece": "Golf_BrimStitch_3",
+          "vertices": 120,
+          "driftMaxMm": 0.0002295079598200374
+        },
+        {
+          "piece": "Golf_CapCrown_F",
+          "vertices": 6962,
+          "driftMaxMm": 0.00023704893701543026
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_0",
+          "vertices": 60,
+          "driftMaxMm": 0.0002075736998882312
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_1",
+          "vertices": 60,
+          "driftMaxMm": 0.0002089225222514104
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_2",
+          "vertices": 60,
+          "driftMaxMm": 0.00022812810705247333
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_3",
+          "vertices": 60,
+          "driftMaxMm": 0.0002153077154504625
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_4",
+          "vertices": 60,
+          "driftMaxMm": 0.00022046112412435882
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_5",
+          "vertices": 60,
+          "driftMaxMm": 0.00022945462581225323
+        },
+        {
+          "piece": "Golf_CurvedBrim",
+          "vertices": 200,
+          "driftMaxMm": 0.00022128827594607655
+        },
+        {
+          "piece": "Golf_VisorBand",
+          "vertices": 360,
+          "driftMaxMm": 0.0002241735696697458
+        }
+      ],
+      "glove": {
+        "piece": "Golf_Glove_Left",
+        "vertices": 2224,
+        "edges": 6666,
+        "edgeRatioMin": 0.12858555345850034,
+        "edgeRatioMax": 2.6646605225747373,
+        "triangleAreaRatioMin": 0.12112990576587726,
+        "degenerateTrianglesRest": 0,
+        "collapsedTrianglesNew": 0
+      }
+    },
+    {
+      "action": "GolfProof_RH_Top",
+      "headwear": [
+        {
+          "piece": "Golf_BrimStitch_0",
+          "vertices": 120,
+          "driftMaxMm": 0.00023810156628602174
+        },
+        {
+          "piece": "Golf_BrimStitch_1",
+          "vertices": 120,
+          "driftMaxMm": 0.00023674272508727372
+        },
+        {
+          "piece": "Golf_BrimStitch_2",
+          "vertices": 120,
+          "driftMaxMm": 0.0002311053642934468
+        },
+        {
+          "piece": "Golf_BrimStitch_3",
+          "vertices": 120,
+          "driftMaxMm": 0.0002234783633085602
+        },
+        {
+          "piece": "Golf_CapCrown_F",
+          "vertices": 6962,
+          "driftMaxMm": 0.0002454551969351334
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_0",
+          "vertices": 60,
+          "driftMaxMm": 0.00023255266685100504
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_1",
+          "vertices": 60,
+          "driftMaxMm": 0.00022229385261902682
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_2",
+          "vertices": 60,
+          "driftMaxMm": 0.00023407733248963987
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_3",
+          "vertices": 60,
+          "driftMaxMm": 0.00022170327694657948
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_4",
+          "vertices": 60,
+          "driftMaxMm": 0.00022995890410793912
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_5",
+          "vertices": 60,
+          "driftMaxMm": 0.00021576797928522836
+        },
+        {
+          "piece": "Golf_CurvedBrim",
+          "vertices": 200,
+          "driftMaxMm": 0.00023925449382195858
+        },
+        {
+          "piece": "Golf_VisorBand",
+          "vertices": 360,
+          "driftMaxMm": 0.00023478658798429332
+        }
+      ],
+      "glove": {
+        "piece": "Golf_Glove_Left",
+        "vertices": 2224,
+        "edges": 6666,
+        "edgeRatioMin": 0.12858603650822992,
+        "edgeRatioMax": 2.6646161428340194,
+        "triangleAreaRatioMin": 0.12113550540288592,
+        "degenerateTrianglesRest": 0,
+        "collapsedTrianglesNew": 0
+      }
+    },
+    {
+      "action": "GolfProof_RH_Impact",
+      "headwear": [
+        {
+          "piece": "Golf_BrimStitch_0",
+          "vertices": 120,
+          "driftMaxMm": 0.00023843540794995114
+        },
+        {
+          "piece": "Golf_BrimStitch_1",
+          "vertices": 120,
+          "driftMaxMm": 0.00023107128484531887
+        },
+        {
+          "piece": "Golf_BrimStitch_2",
+          "vertices": 120,
+          "driftMaxMm": 0.00020499278121836675
+        },
+        {
+          "piece": "Golf_BrimStitch_3",
+          "vertices": 120,
+          "driftMaxMm": 0.00022406017764519832
+        },
+        {
+          "piece": "Golf_CapCrown_F",
+          "vertices": 6962,
+          "driftMaxMm": 0.00023922029230488988
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_0",
+          "vertices": 60,
+          "driftMaxMm": 0.0002223154991104901
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_1",
+          "vertices": 60,
+          "driftMaxMm": 0.00022107085033618788
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_2",
+          "vertices": 60,
+          "driftMaxMm": 0.00021993182340910176
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_3",
+          "vertices": 60,
+          "driftMaxMm": 0.000218735177840937
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_4",
+          "vertices": 60,
+          "driftMaxMm": 0.00022077715340881928
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_5",
+          "vertices": 60,
+          "driftMaxMm": 0.00023092833433477849
+        },
+        {
+          "piece": "Golf_CurvedBrim",
+          "vertices": 200,
+          "driftMaxMm": 0.00021173772231663002
+        },
+        {
+          "piece": "Golf_VisorBand",
+          "vertices": 360,
+          "driftMaxMm": 0.0002392416817272991
+        }
+      ],
+      "glove": {
+        "piece": "Golf_Glove_Left",
+        "vertices": 2224,
+        "edges": 6666,
+        "edgeRatioMin": 0.12857089622860185,
+        "edgeRatioMax": 2.6647455641704396,
+        "triangleAreaRatioMin": 0.06087052525190946,
+        "degenerateTrianglesRest": 0,
+        "collapsedTrianglesNew": 0
+      }
+    },
+    {
+      "action": "GolfProof_RH_Finish",
+      "headwear": [
+        {
+          "piece": "Golf_BrimStitch_0",
+          "vertices": 120,
+          "driftMaxMm": 0.0002373144752729773
+        },
+        {
+          "piece": "Golf_BrimStitch_1",
+          "vertices": 120,
+          "driftMaxMm": 0.0002315441250798191
+        },
+        {
+          "piece": "Golf_BrimStitch_2",
+          "vertices": 120,
+          "driftMaxMm": 0.00022694026305250317
+        },
+        {
+          "piece": "Golf_BrimStitch_3",
+          "vertices": 120,
+          "driftMaxMm": 0.00021658516561369462
+        },
+        {
+          "piece": "Golf_CapCrown_F",
+          "vertices": 6962,
+          "driftMaxMm": 0.00023684433154545404
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_0",
+          "vertices": 60,
+          "driftMaxMm": 0.00022525218855407028
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_1",
+          "vertices": 60,
+          "driftMaxMm": 0.00023124175786365424
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_2",
+          "vertices": 60,
+          "driftMaxMm": 0.00021929028504879817
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_3",
+          "vertices": 60,
+          "driftMaxMm": 0.00023445378556827425
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_4",
+          "vertices": 60,
+          "driftMaxMm": 0.00023280954396406566
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_5",
+          "vertices": 60,
+          "driftMaxMm": 0.00023601383728403662
+        },
+        {
+          "piece": "Golf_CurvedBrim",
+          "vertices": 200,
+          "driftMaxMm": 0.00023388499952928902
+        },
+        {
+          "piece": "Golf_VisorBand",
+          "vertices": 360,
+          "driftMaxMm": 0.00022882831971870413
+        }
+      ],
+      "glove": {
+        "piece": "Golf_Glove_Left",
+        "vertices": 2224,
+        "edges": 6666,
+        "edgeRatioMin": 0.12269722968853991,
+        "edgeRatioMax": 2.86931225711094,
+        "triangleAreaRatioMin": 0.12109853537487558,
+        "degenerateTrianglesRest": 0,
+        "collapsedTrianglesNew": 0
+      }
+    },
+    {
+      "action": "GolfProof_LH_ReadyIdle",
+      "headwear": [
+        {
+          "piece": "Golf_BrimStitch_0",
+          "vertices": 120,
+          "driftMaxMm": 0.0002281774001952537
+        },
+        {
+          "piece": "Golf_BrimStitch_1",
+          "vertices": 120,
+          "driftMaxMm": 0.00023451662439089976
+        },
+        {
+          "piece": "Golf_BrimStitch_2",
+          "vertices": 120,
+          "driftMaxMm": 0.0002304261562061922
+        },
+        {
+          "piece": "Golf_BrimStitch_3",
+          "vertices": 120,
+          "driftMaxMm": 0.00021754086915649058
+        },
+        {
+          "piece": "Golf_CapCrown_F",
+          "vertices": 6962,
+          "driftMaxMm": 0.00023902410897602808
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_0",
+          "vertices": 60,
+          "driftMaxMm": 0.0002155201080971378
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_1",
+          "vertices": 60,
+          "driftMaxMm": 0.0001986850400606791
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_2",
+          "vertices": 60,
+          "driftMaxMm": 0.00020766262077418098
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_3",
+          "vertices": 60,
+          "driftMaxMm": 0.00021933800407501387
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_4",
+          "vertices": 60,
+          "driftMaxMm": 0.00019737909741804658
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_5",
+          "vertices": 60,
+          "driftMaxMm": 0.0001970457271433843
+        },
+        {
+          "piece": "Golf_CurvedBrim",
+          "vertices": 200,
+          "driftMaxMm": 0.00021935175820398086
+        },
+        {
+          "piece": "Golf_VisorBand",
+          "vertices": 360,
+          "driftMaxMm": 0.00020959701047039563
+        }
+      ],
+      "glove": {
+        "piece": "Golf_Glove_Right",
+        "vertices": 2388,
+        "edges": 7158,
+        "edgeRatioMin": 0.12856409447419456,
+        "edgeRatioMax": 2.1993802390792867,
+        "triangleAreaRatioMin": 0.04189080651634767,
+        "degenerateTrianglesRest": 0,
+        "collapsedTrianglesNew": 0
+      }
+    },
+    {
+      "action": "GolfProof_LH_Top",
+      "headwear": [
+        {
+          "piece": "Golf_BrimStitch_0",
+          "vertices": 120,
+          "driftMaxMm": 0.000257065092326648
+        },
+        {
+          "piece": "Golf_BrimStitch_1",
+          "vertices": 120,
+          "driftMaxMm": 0.00023661999436143082
+        },
+        {
+          "piece": "Golf_BrimStitch_2",
+          "vertices": 120,
+          "driftMaxMm": 0.0002442745962243858
+        },
+        {
+          "piece": "Golf_BrimStitch_3",
+          "vertices": 120,
+          "driftMaxMm": 0.0002494601011168054
+        },
+        {
+          "piece": "Golf_CapCrown_F",
+          "vertices": 6962,
+          "driftMaxMm": 0.00026172378402281656
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_0",
+          "vertices": 60,
+          "driftMaxMm": 0.0002193845801842151
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_1",
+          "vertices": 60,
+          "driftMaxMm": 0.00024137628135746338
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_2",
+          "vertices": 60,
+          "driftMaxMm": 0.00023727530346104734
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_3",
+          "vertices": 60,
+          "driftMaxMm": 0.00021028951512265173
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_4",
+          "vertices": 60,
+          "driftMaxMm": 0.000243300934179351
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_5",
+          "vertices": 60,
+          "driftMaxMm": 0.0002287496882806453
+        },
+        {
+          "piece": "Golf_CurvedBrim",
+          "vertices": 200,
+          "driftMaxMm": 0.00023023329812833546
+        },
+        {
+          "piece": "Golf_VisorBand",
+          "vertices": 360,
+          "driftMaxMm": 0.00023616243688650573
+        }
+      ],
+      "glove": {
+        "piece": "Golf_Glove_Right",
+        "vertices": 2388,
+        "edges": 7158,
+        "edgeRatioMin": 0.1285804932802563,
+        "edgeRatioMax": 2.199397671161987,
+        "triangleAreaRatioMin": 0.12536823918770434,
+        "degenerateTrianglesRest": 0,
+        "collapsedTrianglesNew": 0
+      }
+    },
+    {
+      "action": "GolfProof_LH_Impact",
+      "headwear": [
+        {
+          "piece": "Golf_BrimStitch_0",
+          "vertices": 120,
+          "driftMaxMm": 0.0002639192458798835
+        },
+        {
+          "piece": "Golf_BrimStitch_1",
+          "vertices": 120,
+          "driftMaxMm": 0.0002418400058004471
+        },
+        {
+          "piece": "Golf_BrimStitch_2",
+          "vertices": 120,
+          "driftMaxMm": 0.000299884800780109
+        },
+        {
+          "piece": "Golf_BrimStitch_3",
+          "vertices": 120,
+          "driftMaxMm": 0.0002705099311930639
+        },
+        {
+          "piece": "Golf_CapCrown_F",
+          "vertices": 6962,
+          "driftMaxMm": 0.00027757714201306883
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_0",
+          "vertices": 60,
+          "driftMaxMm": 0.0002591081852434638
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_1",
+          "vertices": 60,
+          "driftMaxMm": 0.00024425980489275074
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_2",
+          "vertices": 60,
+          "driftMaxMm": 0.00025427066656438964
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_3",
+          "vertices": 60,
+          "driftMaxMm": 0.00025817791568837355
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_4",
+          "vertices": 60,
+          "driftMaxMm": 0.00023990223626553948
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_5",
+          "vertices": 60,
+          "driftMaxMm": 0.0002448403845292201
+        },
+        {
+          "piece": "Golf_CurvedBrim",
+          "vertices": 200,
+          "driftMaxMm": 0.0002690359844503274
+        },
+        {
+          "piece": "Golf_VisorBand",
+          "vertices": 360,
+          "driftMaxMm": 0.0002683145194319112
+        }
+      ],
+      "glove": {
+        "piece": "Golf_Glove_Right",
+        "vertices": 2388,
+        "edges": 7158,
+        "edgeRatioMin": 0.1285941608823155,
+        "edgeRatioMax": 2.1993819560149452,
+        "triangleAreaRatioMin": 0.1029448036144234,
+        "degenerateTrianglesRest": 0,
+        "collapsedTrianglesNew": 0
+      }
+    },
+    {
+      "action": "GolfProof_LH_Finish",
+      "headwear": [
+        {
+          "piece": "Golf_BrimStitch_0",
+          "vertices": 120,
+          "driftMaxMm": 0.00022190117025816758
+        },
+        {
+          "piece": "Golf_BrimStitch_1",
+          "vertices": 120,
+          "driftMaxMm": 0.0002149955167196399
+        },
+        {
+          "piece": "Golf_BrimStitch_2",
+          "vertices": 120,
+          "driftMaxMm": 0.00024313492605574982
+        },
+        {
+          "piece": "Golf_BrimStitch_3",
+          "vertices": 120,
+          "driftMaxMm": 0.00022542903941281272
+        },
+        {
+          "piece": "Golf_CapCrown_F",
+          "vertices": 6962,
+          "driftMaxMm": 0.00023938254693640386
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_0",
+          "vertices": 60,
+          "driftMaxMm": 0.0002194735856320941
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_1",
+          "vertices": 60,
+          "driftMaxMm": 0.00023806163882751904
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_2",
+          "vertices": 60,
+          "driftMaxMm": 0.00023431997529530985
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_3",
+          "vertices": 60,
+          "driftMaxMm": 0.0002111959920303028
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_4",
+          "vertices": 60,
+          "driftMaxMm": 0.00024143464988603489
+        },
+        {
+          "piece": "Golf_CapPanelSeam_F_5",
+          "vertices": 60,
+          "driftMaxMm": 0.00023924544677019115
+        },
+        {
+          "piece": "Golf_CurvedBrim",
+          "vertices": 200,
+          "driftMaxMm": 0.00022753185620128468
+        },
+        {
+          "piece": "Golf_VisorBand",
+          "vertices": 360,
+          "driftMaxMm": 0.00023638569898687606
+        }
+      ],
+      "glove": {
+        "piece": "Golf_Glove_Right",
+        "vertices": 2388,
+        "edges": 7158,
+        "edgeRatioMin": 0.11319648786968262,
+        "edgeRatioMax": 2.952783955009811,
+        "triangleAreaRatioMin": 0.1093524107323744,
+        "degenerateTrianglesRest": 0,
+        "collapsedTrianglesNew": 0
+      }
+    }
+  ],
+  "scope": "every headwear vertex in Head coordinates; every lead glove edge/triangle; ReadyIdle-derived fingers with all retargeted arm/hand stress actions, not a playable club grip"
+}

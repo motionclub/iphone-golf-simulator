@@ -1,0 +1,72 @@
+[
+  {
+    "file": "static_female_body.png",
+    "heroRegionPixels": 102427,
+    "meanByte": 0.0,
+    "maxByte": 0,
+    "PASS": true
+  },
+  {
+    "file": "static_female_feet.png",
+    "heroRegionPixels": 278799,
+    "meanByte": 3.34769254313442e-05,
+    "maxByte": 1,
+    "PASS": true
+  },
+  {
+    "file": "static_female_head.png",
+    "heroRegionPixels": 263572,
+    "meanByte": 0.0,
+    "maxByte": 0,
+    "PASS": true
+  },
+  {
+    "file": "static_female_shirt.png",
+    "heroRegionPixels": 525338,
+    "meanByte": 3.807072779810332e-06,
+    "maxByte": 1,
+    "PASS": true
+  },
+  {
+    "file": "static_female_torso.png",
+    "heroRegionPixels": 236246,
+    "meanByte": 0.0,
+    "maxByte": 0,
+    "PASS": true
+  },
+  {
+    "file": "static_male_body.png",
+    "heroRegionPixels": 124317,
+    "meanByte": 0.0006515601245203794,
+    "maxByte": 13,
+    "PASS": false
+  },
+  {
+    "file": "static_male_feet.png",
+    "heroRegionPixels": 343921,
+    "meanByte": 5.13683859568525e-05,
+    "maxByte": 10,
+    "PASS": false
+  },
+  {
+    "file": "static_male_head.png",
+    "heroRegionPixels": 285100,
+    "meanByte": 0.0,
+    "maxByte": 0,
+    "PASS": true
+  },
+  {
+    "file": "static_male_shirt.png",
+    "heroRegionPixels": 639819,
+    "meanByte": 5.20980673179967e-07,
+    "maxByte": 1,
+    "PASS": true
+  },
+  {
+    "file": "static_male_torso.png",
+    "heroRegionPixels": 279657,
+    "meanByte": 1.1919363124589527e-06,
+    "maxByte": 1,
+    "PASS": true
+  }
+]

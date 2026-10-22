@@ -1,0 +1,21 @@
+{
+ "neck/shoulder ring": {
+  "delivered_mm": 0.5671694173672348,
+  "if_chat7_border_residue_kept_mm": 0.5452573168972504
+ },
+ "armpit ring": {
+  "delivered_mm": 9.415268668805563,
+  "if_chat7_border_residue_kept_mm": 8.465342005835728
+ },
+ "leg-top floor ring": {
+  "delivered_mm": 1.352949593786038,
+  "if_chat7_border_residue_kept_mm": 1.352949593786038
+ },
+ "border_residue_vertices": 123,
+ "max_residue_displacement_mm": 2.45536049176094,
+ "FORM5_budget_mm": {
+  "neck": 1.0,
+  "armpit": 10.0,
+  "floor": 8.0
+ }
+}

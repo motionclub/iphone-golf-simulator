@@ -1,0 +1,18 @@
+GATE TOPOLOGY Body_F                      PASS  faces+offsets True, material idx True, smooth flags True, UVs True (1 layers): positions + shading normals only
+GATE VERTEX_GROUPS (21 LOOP_*)            PASS  21 groups, membership+weights identical: True
+GATE MATERIALS/OBJECTS                    PASS  slots ['Base_Grey_F', 'Skin_F'], edges 42449; Body_F custom normals F1 False -> F3 True (intended: analytic jaw normals)
+GATE MATERIALS Face_F                     PASS  14 slots unchanged
+GATE TOPOLOGY Face_F (non-lip)            PASS  face counts per non-lip material identical, max centroid shift 0.010 mm (paint follows the skin)
+   lip paint faces (quads): F1 {'Face_Lip': 312, 'Face_LipUp': 400, 'Face_Seam': 80} -> F3 {'Face_Lip': 544, 'Face_LipUp': 504, 'Face_Seam': 88}
+GATE TRI_BUDGET (<= 50k, Body_F unchanged) PASS  Body_F 42296 (F1 42,296) + Face_F 6052 (F1 5,364: the rebuilt lip strips add 688) = 48348 tris
+GATE MANIFOLD Body_F                      PASS  boundary edges 256 (= the two 128-vertex eye apertures), non-manifold 0 (F1: 256, 0)
+GATE BODY_BELOW_NECK (vs F1)              PASS  12506 verts with z < 1.4225 (collar ring + everything below): moved 0, max diff 0.0e+00 m
+GATE ZONE (head only, lower face)         PASS  moved 2130 Body_F verts (max 5.15 mm), z 1425.9..1563.7 mm; y -124..33 mm; |x| max 96 mm
+GATE HOLD mouth/nose core + cranial       PASS  mouth/nose core |x|<20 mm, z>1.4575: 790 verts, moved 0; z>1.575: 1571 verts, moved 0
+GATE LOOPS hold (eye/ear/nose/mouth)      PASS  loops that moved (mm): none (19 loops bit-identical)
+   jaw_ear loops (same vertex ids, ride with the surface): {'LOOP_jaw_ear_L': {'n': 44, 'moved_mean_mm': 2.3167709418041853, 'moved_max_mm': 4.078317766791455}, 'LOOP_jaw_ear_R': {'n': 46, 'moved_mean_mm': 2.248936890121678, 'moved_max_mm': 4.113404649493124}}
+GATE NO_FOLDS / inversions                PASS  faces touching moved verts 2242: max face-normal change 31.8 deg, >30deg 8, inverted(>90) 0, min area 0.74 mm2 (F1 min 0.74)
+   edges touching moved verts: 4369; length mm F1 min 0.65 mean 4.14 max 11.97 | F3 min 0.65 mean 4.11 max 11.97
+   height Body_F: 1.7044 m (F1 1.7044)
+   F3 vs F2 (previous delivery): 2138 verts differ, max 2.73 mm, mean(differing) 0.59 mm
+ALL STRUCTURAL GATES PASS

@@ -1,0 +1,118 @@
+INFO: probe: quality level 2 'Medium', pipeline asset 'TennisURP', camera near 0.3 far 900, probe assets Assets/_GolfLookProbe
+=== hole 8 ===
+INFO: hole08_tee_current: ball (0.0,0.0) ground 6.82 yd, lower 55 %: 2/1980 flat 20 px tiles (0.1 %)
+INFO: hole08_green_current: ball (-3.7,325.2) ground 6.71 yd, lower 55 %: 1/1980 flat 20 px tiles (0.1 %)
+INFO: hole08_arch_current: ball (-4.0,322.0) ground 6.71 yd, lower 55 %: 0/1980 flat 20 px tiles (0.0 %)
+INFO: hole 8: before the swap 5 player frame(s) since StartHole, 1 HoleView(s) alive
+INFO: hole 8: course model swapped for the probe Assets/_GolfLookProbe/hole_08.fbx through HoleView.BuildFromModel
+GATE: PROBE_SWAP_TOOK_EFFECT hole8 PASS - 1 HoleView(s) (need 1), 1 'Course model' child(ren) (need 1), 0 MeshFilter(s) still on the installed baseline Assets/Resources/Course/hole_08.fbx (need 0), 933 mesh(es) of the probe model, 927 of 933 renderers of the instantiated model carry an LK_ material (need >= 20: the flat baseline carries 0); 5 player frame(s) since StartHole, 1 HoleView(s) alive
+INFO: PROBE hole 8: 964 LK_ slot(s) (944 textured URP Lit, 18 GolfSurf), 6 flat palette slot(s) [#1C1C1C, #E82828, #F0F0F0, #FAFAFA], 0 kept as imported, 20 water slot(s), 0 lava point light(s)
+GATE: PROBE HOLE8_WATER_NEVER_FLAT PASS - 20 WATER* slot(s), 0 not TennisWater/GolfSurf/emissive lava
+GATE: PROBE HOLE8_LK_NOT_FLAT PASS - 964 LK_ slot(s), 0 URP Lit LK_ slot(s) without a base map
+GATE: PROBE HOLE8_NO_PROP_COLLIDERS PASS - colliders only on TERRAIN/FAIRWAY/GREEN/TEE_BOX/BUNKER/CART_PATH
+INFO: hole 8 material rules: 964 LK_ slot(s) -> GolfLook (10 ground kinds: LK_CLIFF, LK_CLIFF_DARK, LK_FAIRWAY, LK_GREEN, LK_MASONRY, LK_PATH, LK_ROCK, LK_ROCK_WET, LK_ROUGH, LK_SAND), 0 WATER* slot(s) -> TennisWater/GolfSurf/lava, 6 palette slot(s) flat, 0 kept (own maps), 0 empty
+GATE: PROBE LK_RULES hole8 PALETTE_OVERRIDES_APPLIED PASS - 964 LK_ slot(s) textured by GolfLook, 0 water slot(s) on TennisWater/GolfSurf/emissive lava, 6 palette slot(s) flat
+GATE: PROBE LK_RULES hole8 PALETTE_NO_LEAKS PASS - every slot is LK_, water/lava, a Palette name, or carries its own maps
+GATE: PROBE LK_RULES hole8 GROUND_ALBEDO_AND_NORMAL PASS - 10 LK_ ground kind(s) in the instantiated hole, 0 without base map + normal map + _NORMALMAP; LK_FAIRWAY, LK_GREEN, LK_ROUGH present; ground kinds >= 5 needed
+GATE: PROBE LK_RULES hole8 NO_FLAT_POSTCARD_GROUND PASS - no flat _BaseColor-only URP Lit left on a visible renderer (gameplay MAT_FLAG/POLE/CUP/BALL aside)
+GATE: PROBE LK_RULES hole8 NO_FOAM_STRIP_8_10 PASS - no foam strip: no WATER_FOAM / DRESS_FOAM / MAT_FOAM, every LK_SURF piece is a patch <= 12 yd long and >= 7 yd from the next
+GATE: PROBE LK_RULES hole8 NO_LAVA_OUTSIDE_HOLE_10 PASS - no WATER_LAVA renderer
+INFO: hole 8 surf: 17 WATER_SURF mesh(es), 992 vertices (every 1th sampled), 0 without vertex colours, 0 unreadable; mean vertex alpha by distance to land: <=2 yd 0.19 (n 604), 2-4 0.11 (n 294), 4-10 0.24 (n 93), >10 0.00 (n 1, shelf-edge breaks)
+GATE: PROBE_SURF_ALPHA hole8 FAIL - vertex alpha falls off away from the shore: <=2 yd 0.19 (>= .45) > 2-4 yd 0.11 > 4-10 yd 0.24 (<= .30); colours on every mesh True
+INFO: hole08_tee_probe: ball (0.0,0.0) ground 6.82 yd, lower 55 %: 2/1980 flat 20 px tiles (0.1 %)
+GATE: PROBE_GROUND_TEXTURED hole8 tee PASS - 2/1980 tiles of the lower 55 % are flat colour (luminance std < 1.5): 0.1 % <= 15 %
+INFO: hole08_tee_probe: visible sea 1.8 % of the frame, mean (58,104,141), 0/24 flat tiles inside it
+GATE: PROBE_SEA_NOT_FLAT hole8 tee PASS - 0/24 sea tiles flat (0.0 % <= 30 %), sea mean (58,104,141)
+INFO: hole08_green_probe: ball (-3.7,325.2) ground 6.71 yd, lower 55 %: 1/1980 flat 20 px tiles (0.1 %)
+GATE: PROBE_GROUND_TEXTURED hole8 green PASS - 1/1980 tiles of the lower 55 % are flat colour (luminance std < 1.5): 0.1 % <= 15 %
+INFO: hole08_green_probe: visible sea 3.1 % of the frame, mean (70,111,145), 0/88 flat tiles inside it
+GATE: PROBE_SEA_NOT_FLAT hole8 green PASS - 0/88 sea tiles flat (0.0 % <= 30 %), sea mean (70,111,145)
+INFO: hole08_arch_probe: ball (-4.0,322.0) ground 6.71 yd, lower 55 %: 0/1980 flat 20 px tiles (0.0 %)
+GATE: PROBE_GROUND_TEXTURED hole8 arch PASS - 0/1980 tiles of the lower 55 % are flat colour (luminance std < 1.5): 0.0 % <= 15 %
+INFO: hole08_aerial_probe: shelf 2445 px (0.17 % of the frame) mean (37,85,96) lum 76 V 0.38; open ocean beside it 922098 px mean (48,89,129) lum 83; brightest 2 % of the frame (lum >= 228, 28821 px): shelf 0.0 %, whitewater 0.4 %, lava 0.0 %, open ocean 8.3 %, upper-frame sky 91.1 %, everything else (land, rock, sky) 0.2 %
+GATE: PROBE_SHELF_NOT_LOUDEST hole8 PASS - aerial on the ground library's shelf: 2445 shelf px (0.17 % of the frame), mean (37,85,96) hue 191 lum 76 <= 1.3 x the open sea 83 = 108; shelf is 0.0 % of the brightest 2 % of the frame (<= 10 %)
+INFO: hole 8 golfer (hole light): 49565 px, mean (117,111,112); skin 25549 px mean (140,102,80) clipped 1.7 %; blue 15595 px mean (55,96,131) clipped 0.0 %; near-white 4629 px; any channel >= 250 7.3 %, 2+ channels 3.6 %
+INFO: hole 8 golfer (legacy light): 49565 px, mean (105,105,108); skin 23875 px mean (127,96,77) clipped 0.0 %; blue 16405 px mean (45,87,123) clipped 0.0 %; near-white 5076 px; any channel >= 250 6.7 %, 2+ channels 5.3 %
+GATE: GOLFER_SHIRT_READABLE hole8 PASS - shirt px 15595 (>= 60 % of the legacy light's 16405), mean (55,96,131) luminance 90 (>= 60 % of the legacy 81 = 48), B - R 76 levels (>= 20); exposure (1.00,1.00,1.00)
+GATE: GOLFER_NOT_CLIPPED hole8 PASS - 49565 golfer px; skin px with a channel >= 250: 1.7 % (<= 5 %), shirt/blue 0.0 % (<= 5 %), whole figure with 2+ channels >= 250 3.6 % (<= max(5 %, legacy 5.3 % + 2))
+=== hole 9 ===
+INFO: hole09_tee_current: ball (0.0,0.0) ground 6.82 yd, lower 55 %: 0/1980 flat 20 px tiles (0.0 %)
+INFO: hole09_green_current: ball (-6.5,477.4) ground 6.85 yd, lower 55 %: 0/1980 flat 20 px tiles (0.0 %)
+INFO: hole09_ridge_current: ball (-61.2,261.7) ground 6.56 yd, lower 55 %: 0/1980 flat 20 px tiles (0.0 %)
+INFO: hole 9: before the swap 5 player frame(s) since StartHole, 1 HoleView(s) alive
+INFO: hole 9: course model swapped for the probe Assets/_GolfLookProbe/hole_09.fbx through HoleView.BuildFromModel
+GATE: PROBE_SWAP_TOOK_EFFECT hole9 PASS - 1 HoleView(s) (need 1), 1 'Course model' child(ren) (need 1), 0 MeshFilter(s) still on the installed baseline Assets/Resources/Course/hole_09.fbx (need 0), 832 mesh(es) of the probe model, 826 of 832 renderers of the instantiated model carry an LK_ material (need >= 20: the flat baseline carries 0); 5 player frame(s) since StartHole, 1 HoleView(s) alive
+INFO: PROBE hole 9: 891 LK_ slot(s) (828 textured URP Lit, 61 GolfSurf), 6 flat palette slot(s) [#1C1C1C, #E82828, #F0F0F0, #FAFAFA], 0 kept as imported, 63 water slot(s), 0 lava point light(s)
+GATE: PROBE HOLE9_WATER_NEVER_FLAT PASS - 63 WATER* slot(s), 0 not TennisWater/GolfSurf/emissive lava
+GATE: PROBE HOLE9_LK_NOT_FLAT PASS - 891 LK_ slot(s), 0 URP Lit LK_ slot(s) without a base map
+GATE: PROBE HOLE9_NO_PROP_COLLIDERS PASS - colliders only on TERRAIN/FAIRWAY/GREEN/TEE_BOX/BUNKER/CART_PATH
+INFO: hole 9 material rules: 891 LK_ slot(s) -> GolfLook (10 ground kinds: LK_CLIFF, LK_CLIFF_DARK, LK_FAIRWAY, LK_GREEN, LK_MASONRY, LK_ROCK, LK_ROCK_WET, LK_ROUGH, LK_SAND, LK_SCRUB), 0 WATER* slot(s) -> TennisWater/GolfSurf/lava, 6 palette slot(s) flat, 0 kept (own maps), 0 empty
+GATE: PROBE LK_RULES hole9 PALETTE_OVERRIDES_APPLIED PASS - 891 LK_ slot(s) textured by GolfLook, 0 water slot(s) on TennisWater/GolfSurf/emissive lava, 6 palette slot(s) flat
+GATE: PROBE LK_RULES hole9 PALETTE_NO_LEAKS PASS - every slot is LK_, water/lava, a Palette name, or carries its own maps
+GATE: PROBE LK_RULES hole9 GROUND_ALBEDO_AND_NORMAL PASS - 10 LK_ ground kind(s) in the instantiated hole, 0 without base map + normal map + _NORMALMAP; LK_FAIRWAY, LK_GREEN, LK_ROUGH present; ground kinds >= 5 needed
+GATE: PROBE LK_RULES hole9 NO_FLAT_POSTCARD_GROUND PASS - no flat _BaseColor-only URP Lit left on a visible renderer (gameplay MAT_FLAG/POLE/CUP/BALL aside)
+GATE: PROBE LK_RULES hole9 NO_FOAM_STRIP_8_10 PASS - no foam strip: no WATER_FOAM / DRESS_FOAM / MAT_FOAM, every LK_SURF piece is a patch <= 12 yd long and >= 7 yd from the next
+GATE: PROBE LK_RULES hole9 NO_LAVA_OUTSIDE_HOLE_10 PASS - no WATER_LAVA renderer
+INFO: hole 9 surf: 61 WATER_SURF mesh(es), 3388 vertices (every 1th sampled), 0 without vertex colours, 0 unreadable; mean vertex alpha by distance to land: <=2 yd 0.18 (n 1944), 2-4 0.14 (n 810), 4-10 0.07 (n 583), >10 0.11 (n 51, shelf-edge breaks)
+GATE: PROBE_SURF_ALPHA hole9 FAIL - vertex alpha falls off away from the shore: <=2 yd 0.18 (>= .45) > 2-4 yd 0.14 > 4-10 yd 0.07 (<= .30); colours on every mesh True
+INFO: hole09_tee_probe: ball (0.0,0.0) ground 6.82 yd, lower 55 %: 0/1980 flat 20 px tiles (0.0 %)
+GATE: PROBE_GROUND_TEXTURED hole9 tee PASS - 0/1980 tiles of the lower 55 % are flat colour (luminance std < 1.5): 0.0 % <= 15 %
+INFO: hole09_tee_probe: visible sea 0.5 % of the frame, mean (84,123,161), 0/3 flat tiles inside it
+INFO: hole09_green_probe: ball (-6.5,477.4) ground 6.85 yd, lower 55 %: 0/1980 flat 20 px tiles (0.0 %)
+GATE: PROBE_GROUND_TEXTURED hole9 green PASS - 0/1980 tiles of the lower 55 % are flat colour (luminance std < 1.5): 0.0 % <= 15 %
+INFO: hole09_green_probe: visible sea 2.0 % of the frame, mean (80,121,159), 0/36 flat tiles inside it
+GATE: PROBE_SEA_NOT_FLAT hole9 green PASS - 0/36 sea tiles flat (0.0 % <= 30 %), sea mean (80,121,159)
+INFO: hole09_ridge_probe: ball (-61.2,261.7) ground 6.56 yd, lower 55 %: 0/1980 flat 20 px tiles (0.0 %)
+GATE: PROBE_GROUND_TEXTURED hole9 ridge PASS - 0/1980 tiles of the lower 55 % are flat colour (luminance std < 1.5): 0.0 % <= 15 %
+INFO: hole09_aerial_probe: shelf 6511 px (0.45 % of the frame) mean (36,95,113) lum 84 V 0.44; open ocean beside it 740178 px mean (47,94,143) lum 88; brightest 2 % of the frame (lum >= 231, 30192 px): shelf 0.0 %, whitewater 0.0 %, lava 0.0 %, open ocean 0.5 %, upper-frame sky 99.5 %, everything else (land, rock, sky) 0.0 %
+GATE: PROBE_SHELF_NOT_LOUDEST hole9 PASS - aerial on the ground library's shelf: 6511 shelf px (0.45 % of the frame), mean (36,95,113) hue 194 lum 84 <= 1.3 x the open sea 88 = 114; shelf is 0.0 % of the brightest 2 % of the frame (<= 10 %)
+INFO: hole 9 golfer (hole light): 49565 px, mean (118,119,122); skin 25172 px mean (140,110,89) clipped 3.0 %; blue 16491 px mean (56,104,144) clipped 0.0 %; near-white 4498 px; any channel >= 250 9.7 %, 2+ channels 6.8 %
+INFO: hole 9 golfer (legacy light): 49565 px, mean (106,106,109); skin 24000 px mean (128,97,78) clipped 0.0 %; blue 16386 px mean (46,88,124) clipped 0.0 %; near-white 5013 px; any channel >= 250 6.8 %, 2+ channels 5.4 %
+GATE: GOLFER_SHIRT_READABLE hole9 PASS - shirt px 16491 (>= 60 % of the legacy light's 16386), mean (56,104,144) luminance 97 (>= 60 % of the legacy 82 = 49), B - R 88 levels (>= 20); exposure (1.00,1.00,1.00)
+GATE: GOLFER_NOT_CLIPPED hole9 PASS - 49565 golfer px; skin px with a channel >= 250: 3.0 % (<= 5 %), shirt/blue 0.0 % (<= 5 %), whole figure with 2+ channels >= 250 6.8 % (<= max(5 %, legacy 5.4 % + 2))
+=== hole 10 ===
+INFO: hole10_tee_current: ball (0.0,0.0) ground 6.82 yd, lower 55 %: 0/1980 flat 20 px tiles (0.0 %)
+INFO: hole10_green_current: ball (246.0,164.2) ground 6.85 yd, lower 55 %: 0/1980 flat 20 px tiles (0.0 %)
+INFO: hole10_lavaedge_current: ball (113.1,159.5) ground 6.71 yd, lower 55 %: 0/1980 flat 20 px tiles (0.0 %)
+INFO: hole 10: before the swap 5 player frame(s) since StartHole, 1 HoleView(s) alive
+INFO: hole 10: course model swapped for the probe Assets/_GolfLookProbe/hole_10.fbx through HoleView.BuildFromModel
+GATE: PROBE_SWAP_TOOK_EFFECT hole10 PASS - 1 HoleView(s) (need 1), 1 'Course model' child(ren) (need 1), 0 MeshFilter(s) still on the installed baseline Assets/Resources/Course/hole_10.fbx (need 0), 697 mesh(es) of the probe model, 691 of 697 renderers of the instantiated model carry an LK_ material (need >= 20: the flat baseline carries 0); 5 player frame(s) since StartHole, 1 HoleView(s) alive
+INFO: PROBE hole 10: 693 LK_ slot(s) (679 textured URP Lit, 12 GolfSurf), 6 flat palette slot(s) [#1C1C1C, #E82828, #F0F0F0, #FAFAFA], 0 kept as imported, 1 water slot(s), 5 lava point light(s)
+GATE: PROBE HOLE10_WATER_NEVER_FLAT PASS - 1 WATER* slot(s), 0 not TennisWater/GolfSurf/emissive lava
+GATE: PROBE HOLE10_LK_NOT_FLAT PASS - 693 LK_ slot(s), 0 URP Lit LK_ slot(s) without a base map
+GATE: PROBE HOLE10_NO_PROP_COLLIDERS PASS - colliders only on TERRAIN/FAIRWAY/GREEN/TEE_BOX/BUNKER/CART_PATH
+INFO: hole 10 material rules: 693 LK_ slot(s) -> GolfLook (5 ground kinds: LK_BASALT, LK_FAIRWAY, LK_GREEN, LK_ROUGH, LK_SAND), 0 WATER* slot(s) -> TennisWater/GolfSurf/lava, 6 palette slot(s) flat, 0 kept (own maps), 0 empty
+GATE: PROBE LK_RULES hole10 PALETTE_OVERRIDES_APPLIED PASS - 693 LK_ slot(s) textured by GolfLook, 0 water slot(s) on TennisWater/GolfSurf/emissive lava, 6 palette slot(s) flat
+GATE: PROBE LK_RULES hole10 PALETTE_NO_LEAKS PASS - every slot is LK_, water/lava, a Palette name, or carries its own maps
+GATE: PROBE LK_RULES hole10 GROUND_ALBEDO_AND_NORMAL PASS - 5 LK_ ground kind(s) in the instantiated hole, 0 without base map + normal map + _NORMALMAP; LK_FAIRWAY, LK_GREEN, LK_ROUGH present; ground kinds >= 5 needed
+GATE: PROBE LK_RULES hole10 NO_FLAT_POSTCARD_GROUND PASS - no flat _BaseColor-only URP Lit left on a visible renderer (gameplay MAT_FLAG/POLE/CUP/BALL aside)
+GATE: PROBE LK_RULES hole10 NO_FOAM_STRIP_8_10 PASS - no foam strip: no WATER_FOAM / DRESS_FOAM / MAT_FOAM, every LK_SURF piece is a patch <= 12 yd long and >= 7 yd from the next
+GATE: PROBE LK_RULES hole10 LAVA_RENDERER_PRESENT PASS - 1 WATER_LAVA renderer(s)
+GATE: PROBE LK_RULES hole10 LAVA_MAPPING_DENSITY PASS - lava mapping reads: WATER_LAVA: world projection 1.00x of one tile per 24 m (24 m per tile); covers 30.4 tiles across (>= 2)
+GATE: PROBE LK_RULES hole10 LAVA_LIGHTS_PLACED PASS - 5 LAVA_LIGHT empties, nearest pair 50.0 yd apart (>= 8), each 0.5..6 yd over the lava
+GATE: PROBE LK_RULES hole10 ROCK_NEAR_LAVA_CHUNKED PASS - 71 ROCK_ piece(s) within 25 yd of a lava light, none wider than 24 yd
+INFO: hole 10 WATER_LAVA 'LK_LAVA' shader 'GolfArcade/GolfLava' _BaseColor #000000, emission map Lava_E, _EMISSION False, multiplier (0.00,0.00,0.00): self-lit GolfLava: ramp _Deep hue 15 S 0.98 V 0.33, _Crust hue 11 S 0.92 V 0.82, _Flow hue 18 S 0.92 V 0.88, _Hot hue 28 S 0.76 V 1.00 (hue 8..28, S >= .75, V >= .7 except _Deep); no emission multiplier, no bloom
+GATE: PROBE LK_RULES hole10 LAVA_READS_ORANGE PASS - WATER_LAVA is emissive and its brightest emission texels x the multiplier encode to orange without bloom: self-lit GolfLava: ramp _Deep hue 15 S 0.98 V 0.33, _Crust hue 11 S 0.92 V 0.82, _Flow hue 18 S 0.92 V 0.88, _Hot hue 28 S 0.76 V 1.00 (hue 8..28, S >= .75, V >= .7 except _Deep); no emission multiplier, no bloom
+GATE: PROBE LK_RULES hole10 LAVA_SHADER_RENDERS_IN_PIPELINE PASS - the lava shader is drawn by the active pipeline
+INFO: hole10_tee_probe: ball (0.0,0.0) ground 6.82 yd, lower 55 %: 0/1980 flat 20 px tiles (0.0 %)
+GATE: PROBE_GROUND_TEXTURED hole10 tee PASS - 0/1980 tiles of the lower 55 % are flat colour (luminance std < 1.5): 0.0 % <= 15 %
+INFO: hole10_green_probe: ball (246.0,164.2) ground 6.85 yd, lower 55 %: 0/1980 flat 20 px tiles (0.0 %)
+GATE: PROBE_GROUND_TEXTURED hole10 green PASS - 0/1980 tiles of the lower 55 % are flat colour (luminance std < 1.5): 0.0 % <= 15 %
+INFO: hole10_lavaedge_probe: ball (113.1,159.5) ground 6.71 yd, lower 55 %: 0/1980 flat 20 px tiles (0.0 %)
+GATE: PROBE_GROUND_TEXTURED hole10 lavaedge PASS - 0/1980 tiles of the lower 55 % are flat colour (luminance std < 1.5): 0.0 % <= 15 %
+INFO: hole 10 lava edge: lava 26.7 % of the frame, mean (218,83,25), top-10% (250,141,55) hue 26.4 G/R 0.56, darker half (202,60,15), cream 0.00 %, 4/853 flat tiles
+GATE: PROBE_LAVA_VISIBLE hole10 PASS - visible lava 26.7 % of the frame (>= 3 %)
+GATE: PROBE_LAVA_HUE hole10 PASS - top-10% (250,141,55) hue 26.4 (15..45), G/R 0.56 (<= .80), cream 0.00 % (<= 1 %), mean (218,83,25) R>G>B
+GATE: PROBE_LAVA_NOT_FLAT hole10 PASS - 4/853 lava tiles flat colour (<= 30 %): not a solid orange plane
+INFO: hole 10 lava edge: darker half of the visible lava (202,60,15) luminance 87 (the retired gate wanted <= 70, crater.jpg 48)
+GATE: PROBE_LAVA_HAS_CRUST hole10 PASS - real geometry, phone view at the rim: 2.8 % of the 384032 lava px darker than V .4 (2.5..10 %), in band 93.0 % (>= 85)
+INFO: hole 10 phone view: basalt 20.0 % of the frame, median luminance 26, cracks (153,138,122) hue 31.5; lava lights add 1.1 luminance on average, >= 8 levels on 4.2 % of it (most visible basalt here is the far ring / pillar)
+INFO: hole10_aerial_probe: shelf 0 px (0.00 % of the frame) mean (0,0,0) lum 0 V 0.00; open ocean beside it 0 px mean (0,0,0) lum 0; brightest 2 % of the frame (lum >= 185, 28816 px): shelf 0.0 %, whitewater 0.0 %, lava 0.0 %, open ocean 0.0 %, upper-frame sky 0.0 %, everything else (land, rock, sky) 100.0 %
+INFO: hole 10 lava lights: 5 light(s) I 600 range 52 yd, 6.5 yd high; basalt vertices within 20 yd of a light: 1618, 100 % get illuminance >= .5, farthest such vertex 34.9 yd from its light; witness view: basalt 329278 px, +0.2 luminance on average, >= +8 on 1.0 %; lava 103525 px, +0.0 on average, >= +40 (hot pool) on 0.0 %
+GATE: PROBE_LAVA_LIGHTS_REACH_BASALT hole10 FAIL - 5 LAVA_LIGHT point lights; witness view of the wall nearest a light: >= +8 luminance on 1.0 % of the visible basalt (>= 20 %); analytic: 100 % of the basalt within 20 yd of a light gets illuminance >= .5, out to 34.9 yd
+GATE: PROBE_LAVA_LIGHTS_NO_HOT_POOLS hole10 PASS - lava pixels the lights brighten by >= 40 levels: 0.0 % (<= 10 %) in the witness view
+INFO: hole 10 golfer (hole light): 49557 px, mean (95,75,73); skin 21568 px mean (125,82,58) clipped 0.8 %; blue 12183 px mean (50,69,97) clipped 0.0 %; near-white 2871 px; any channel >= 250 2.1 %, 2+ channels 0.4 %
+INFO: hole 10 golfer (legacy light): 49565 px, mean (103,103,107); skin 23785 px mean (124,94,76) clipped 0.0 %; blue 16411 px mean (45,86,121) clipped 0.0 %; near-white 5060 px; any channel >= 250 6.4 %, 2+ channels 5.0 %
+GATE: GOLFER_SHIRT_READABLE hole10 PASS - shirt px 12183 (>= 60 % of the legacy light's 16411), mean (50,69,97) luminance 67 (>= 60 % of the legacy 80 = 48), B - R 47 levels (>= 20); exposure (0.76,0.90,1.20)
+GATE: GOLFER_NOT_CLIPPED hole10 PASS - 49557 golfer px; skin px with a channel >= 250: 0.8 % (<= 5 %), shirt/blue 0.0 % (<= 5 %), whole figure with 2+ channels >= 250 0.4 % (<= max(5 %, legacy 5.0 % + 2))
+SUMMARY: 60/63 probe gates PASS

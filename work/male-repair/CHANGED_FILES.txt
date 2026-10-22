@@ -1,0 +1,12 @@
+# Installed into the main checkout (uncommitted). Backups of the originals in work/male-repair/backup/
+Unity/Assets/Scripts/Tennis/MaleFaceFinish.cs              # male Kit_ materials -> female knit path (_FemaleSurface 1 + female numbers); iris env .30
+Unity/Assets/Scripts/Tennis/HeroFaceReferenceFit.cs        # MaleScleraInset .03->.06; new MaleNeckSideZone + Relax(nw,10) (male-only branch)
+Unity/Assets/Characters/KitsV2/GolfKitHero_Male/Kit_Top.asset          # golf male polo: tucked tail (MaleRepairPolo, TUCK .015, MR_BELT off)
+Unity/Assets/Resources/Golf/KitsV2/Male/KitV2_Golf_Male_Bottom_hide.bytes  # +2,489 body tris inside trousers/belt/socks/shoes + 5 cm torso band above the belt
+# Work files (new)
+work/male-repair/unity/MaleRepairCapture.cs   # game-scene captures (MR_SPORT, MR_OUT; MR_DIAG colours; MR_HIDE builds the hide list)
+work/male-repair/unity/MaleRepairPolo.cs      # polo tail tool (+ optional belt rebind, MR_BELT=1, rejected)
+work/male-repair/unity/MaleRepairGarments.cs  # first hide attempt on the prefab body (wrong mesh; kept for the record)
+work/male-repair/tools/{capture.sh,golf_fix.sh,garments.sh,sheet.py}
+work/male-repair/{GATE_RESULTS.md,CHANGED_FILES.txt,FOLLOWUPS.md,proof/*,out/*,build/*,backup/*,logs/*}
+# Clone used: ~/unity-clones/male-repair (APFS clone of Unity/)

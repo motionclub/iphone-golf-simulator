@@ -1,0 +1,32 @@
+{
+  "other_index_entries": 24648,
+  "sha256": "b9a29a0fa98920886cc299f254185b106218f5e04db8043725ce8c7823ea3eb1",
+  "result": "All unrelated index entries were byte-for-byte unchanged across this task's explicit stage operation.",
+  "other_staged_paths": [
+    "Unity/Assets/Editor/ServeWalkFilm.cs",
+    "Unity/Assets/Editor/ServeWalkFilm.cs.meta",
+    "work/serve-walk-arm/GATE_RESULTS.md",
+    "work/serve-walk-arm/REPRO.md",
+    "work/serve-walk-arm/report/CANDIDATE_GATES_FAIL.patch",
+    "work/serve-walk-arm/report/GATE_RESULTS.md",
+    "work/serve-walk-arm/report/clone-assets-diff.txt",
+    "work/serve-walk-arm/report/keyboard-audit.json",
+    "work/serve-walk-arm/report/matrix.json",
+    "work/serve-walk-arm/report/source-audit.json",
+    "work/serve-walk-arm/report/unity-runs.json",
+    "work/serve-walk-arm/rollback/README.md",
+    "work/serve-walk-arm/rollback/Unity/Assets/Editor/ServeWalkFilm.cs.ABSENT",
+    "work/serve-walk-arm/rollback/Unity/Assets/Editor/ServeWalkFilm.cs.meta.ABSENT",
+    "work/serve-walk-arm/rollback/Unity/Assets/Scripts/Tennis/HeroTennisDriver.cs",
+    "work/serve-walk-arm/rollback/Unity/Assets/Scripts/Tennis/TennisActor.cs",
+    "work/serve-walk-arm/rollback/Unity/Assets/Scripts/Tennis/TennisServeRoutine.cs",
+    "work/serve-walk-arm/scripts/apply_carry.py",
+    "work/serve-walk-arm/scripts/comparison_films.py",
+    "work/serve-walk-arm/scripts/gates.py",
+    "work/serve-walk-arm/scripts/proof.py",
+    "work/serve-walk-arm/scripts/report.py",
+    "work/serve-walk-arm/scripts/run_after_matrix.sh",
+    "work/serve-walk-arm/scripts/run_matrix.sh",
+    "work/serve-walk-arm/scripts/run_opponents.sh"
+  ]
+}

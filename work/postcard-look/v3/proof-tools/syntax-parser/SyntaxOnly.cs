@@ -1,0 +1,2 @@
+using System;using System.IO;using Microsoft.CodeAnalysis;using Microsoft.CodeAnalysis.CSharp;
+class SyntaxOnly {static int Main(string[] paths){int errors=0;foreach(var p in paths){var tree=CSharpSyntaxTree.ParseText(File.ReadAllText(p),new CSharpParseOptions(LanguageVersion.Preview),p);foreach(var d in tree.GetDiagnostics())if(d.Severity==DiagnosticSeverity.Error){Console.WriteLine(d.ToString());errors++;}}Console.WriteLine("Roslyn C# syntax errors: "+errors+"; not a Unity type-check or run");return errors==0?0:1;}}

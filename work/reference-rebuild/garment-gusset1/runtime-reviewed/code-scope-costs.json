@@ -1,0 +1,28 @@
+{
+  "Full": {
+    "profileBytes": 4514463,
+    "profileNumericPayloadBytes": 2123328,
+    "vertices": 18401,
+    "triangles": 27470,
+    "freeVertices": 4172,
+    "contactTriangles": 7874,
+    "rayQueriesPerChangedPose": 51416,
+    "worstCaseShapeVectorAddsPerChangedPose": 184010,
+    "positionAndNormalUploadBytesPerChangedPose": 441624,
+    "solverArrayPayloadBytesApprox": 5546049,
+    "arrayPayloadExcludes": "object headers, BVH, Mesh native CPU/GPU buffers, source.bindposes and profile text/string, persistent external sources"
+  },
+  "LOD": {
+    "profileBytes": 3868923,
+    "profileNumericPayloadBytes": 1836424,
+    "vertices": 15989,
+    "triangles": 23946,
+    "freeVertices": 4161,
+    "contactTriangles": 7845,
+    "rayQueriesPerChangedPose": 51231,
+    "worstCaseShapeVectorAddsPerChangedPose": 159890,
+    "positionAndNormalUploadBytesPerChangedPose": 383736,
+    "solverArrayPayloadBytesApprox": 4820789,
+    "arrayPayloadExcludes": "object headers, BVH, Mesh native CPU/GPU buffers, source.bindposes and profile text/string, persistent external sources"
+  }
+}

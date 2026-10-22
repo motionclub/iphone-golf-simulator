@@ -1,0 +1,17 @@
+INFO: active pipeline asset 'HeroBaseStudioURP', quality level 2 'Medium', Unity 6000.3.24f1, Metal
+INFO: TUNE overrides: lava light intensity 600, basalt tint RGBA(0.520, 0.800, 0.920, 1.000), matte True, smoke gain 1.3 emission 0.3 lit 0.8
+INFO: CRATER board lights in the scene: 5 enabled (1 Directional, 4 Point); main light = 'Board sun', additional directionals 0
+INFO: CRATER lava, phone view (rim height, grazing), HeroBaseStudioURP, 4 lava point lights: 912308 px: in band 92.6 % (>= 85), G clipped 0.0 % (<= 5), cream 0.00 %; misses: dark 7.4 %, pale 0.0 %, yellow 0.0 %, red 0.0 %; mean (217,79,18) h18 s0.92 v0.85
+INFO: CRATER lava, 40 deg down view: 1264497 px: in band 92.6 % (>= 85), G clipped 0.0 % (<= 5), cream 0.00 %; misses: dark 7.4 %, pale 0.0 %, yellow 0.0 %, red 0.0 %; mean (217,79,18) h18 s0.92 v0.85
+INFO: CRATER lava lights (4 point lights I 600 range 52 lift 4, additional-lights limit 4): wall 1075090 px, +9.6 luminance on average, >= +8 on 43.5 % of it; lava pixels brightened by >= 40 levels: 0.0 %
+INFO: CRATER grass ledge 10-30 yd from the lava lights: lights off (158,180,53) hue 70 V 0.71; lights on (160,181,53) hue 70 V 0.71, G clipped 0.0 %
+GATE: LAVA_LIGHTS_KEEP_GRASS_GREEN PASS - grass near the lights: hue 70 -> 70 (|shift| <= 4), G clipped 0.0 % (<= 5); 788360 px
+INFO: BASALT glow pixels (emission adds >= 24 levels): 30714 px = 2.1 % of the wall, mean (182,68,20) hue 18 S 0.89 V 0.71, hue 8..32 on 86 %, cream 0.00 %, G clipped 0.00 %; wall median luminance 29
+GATE: LAVA_ORANGE_NO_BLOOM phone PASS - 912308 px: in band 92.6 % (>= 85), G clipped 0.0 % (<= 5), cream 0.00 %; misses: dark 7.4 %, pale 0.0 %, yellow 0.0 %, red 0.0 %; mean (217,79,18) h18 s0.92 v0.85
+GATE: LAVA_ORANGE_NO_BLOOM down PASS - 1264497 px: in band 92.6 % (>= 85), G clipped 0.0 % (<= 5), cream 0.00 %; misses: dark 7.4 %, pale 0.0 %, yellow 0.0 %, red 0.0 %; mean (217,79,18) h18 s0.92 v0.85
+GATE: BASALT_GLOW_ORANGE PASS - 30714 glow px (2.1 % of the wall, <= 20): mean hue 18 (8..32), brightest quarter (crack cores) (253,125,27) hue 26 (12..34), cream 0.00 % (<= 1), G clipped 0.00 % (<= 5); mean (182,68,20)
+GATE: BASALT_RENDERS_DARK PASS - key-lit wall facing the sun (emission off, worst case): median luminance 29 (<= 40), mean (36,31,28) S 0.21 (<= 0.25); wall beside the lava lights (lights on): median 33 (<= 55), mean (51,35,25) S 0.50 (<= 0.65); crater.jpg: charcoal (26,25,29), median 30..34 S .2..28, lava-lit (52,27,23) S .5..62
+GATE: LAVA_LIGHTS_REACH_BASALT PASS - 4 lava point lights, additional-lights limit 4: >= +8 luminance on 43.5 % of the wall near a light (>= 20), +9.6 on average; lava pixels brightened by >= 40 levels 0.0 % (<= 10, no hot pools)
+INFO: SMOKE card over the crater sky: effective alpha max 0.67 p95 0.36 border 0.000 (_Color.a 1.00, _AlphaGain 1.30, _AlphaPower 1.00, _EdgeFade 0.18); 31369 px move the frame, |delta luminance| median 7.4 p99 72.2, edge step p99 3.93 levels/px
+GATE: SMOKE_SOFT FAIL - effective alpha max 0.67 (0.55..0.72: translucent, never a ball), border alpha 0.000 (<= .02, no hard rim), card moves the frame by median 7.4 (>= 8) / p99 72.2 luminance levels (p99 28..90: readable but never a ball; 31369 px), edge step p99 3.93 levels/px (<= 6)
+SUMMARY: 6/7 gates PASS

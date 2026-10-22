@@ -1,0 +1,67 @@
+[
+  {
+    "gate": "G0 PRECONDITIONS",
+    "status": "WAITING",
+    "evidence": "HEAD 23cbedab; v3/PHASE_STATUS.md says P8 NOT RUN and the required course-only P8 release has not landed; 29 active, draft GARMENT_SPEC exists but no completion report. No dependency-owned file edited."
+  },
+  {
+    "gate": "G1 GOLFER_LIT",
+    "status": "FAIL",
+    "evidence": "No semantic-masked Unity skin clip %, polo L* or trim L* on holes 7\u201310. Historical V4 numbers in AUDIT are not new evidence."
+  },
+  {
+    "gate": "G2 ONE_LIGHT",
+    "status": "FAIL",
+    "evidence": "Shared hero profile not installed; no measured shadow-angle comparison or tee contact-shadow proof."
+  },
+  {
+    "gate": "G3 GROUND_READS",
+    "status": "FAIL",
+    "evidence": "No new Ground/Rock shader installed or per-hole masked phone measures/worst-cliff sheets. v3 thresholds .12 fairway / .08 green upper bounds are recorded."
+  },
+  {
+    "gate": "G4 NO_SHIMMER",
+    "status": "FAIL",
+    "evidence": "No BEFORE/AFTER 3-second 1170\u00d72532 camera films; temporal residuals unmeasured."
+  },
+  {
+    "gate": "G5 COURSE_FROZEN",
+    "status": "FAIL",
+    "evidence": "Seven guards PASS in logs/guards_before.txt and guards_after.txt; final 15 freeze and complete top-surface/collision proof still pending. This task changed no course geometry."
+  },
+  {
+    "gate": "G6 GOLF_KIT_READS",
+    "status": "FAIL",
+    "evidence": "Male_DRAFT_SHEET.png / Female_DRAFT_SHEET.png show drafts. Added actual trouser pocket openings/bags/lips, vertex creases, separate skort inner shorts, 16 geometric pleats and clean glove wrist cuts. Pocket edges distort and torso fit still fails; collar/vent/cuff, sole/welt and perforation detail need completion. Required labelled G6 crops have not all passed."
+  },
+  {
+    "gate": "G7 DEFORM",
+    "status": "FAIL",
+    "evidence": "Both heroes: 8 proof poses each, RH/LH ReadyIdle and V4 top/impact/finish, in *_SWING_DRAFT_SHEET.png. Body and 53-bone rig unchanged, max 4 weights. Sampled candidates/lost correspondences are listed below; full collision and grip verification incomplete. Rigid headwear drift max 0.000285 mm. No gameplay motion installed."
+  },
+  {
+    "gate": "G8 RECOLOUR + LOCKER",
+    "status": "FAIL",
+    "evidence": "No Unity colour grid or locker payload/sport-swap/parity capture. Catalog/preview currently owned by concurrent work."
+  },
+  {
+    "gate": "G9 ONE_SYSTEM",
+    "status": "FAIL",
+    "evidence": "No shader fork introduced. Shared lighting/fabric includes and registered golf IDs not implemented; active GARMENT_SPEC not edited."
+  },
+  {
+    "gate": "G10 TENNIS_UNCHANGED",
+    "status": "FAIL",
+    "evidence": "No post-29 tennis BEFORE/AFTER hero-region diff. Shader/kit files continue changing in the owner chat."
+  },
+  {
+    "gate": "G11 BUDGET",
+    "status": "FAIL",
+    "evidence": "Draft kit tris 74,231 male / 43,108 female, within pre-29 allowances; final N/M plan 4.391 MB/hero before shared atlas. Actual GPU draws, UV density, resident ASTC budget, iPhone timing and Metal stats/log all unmeasured."
+  },
+  {
+    "gate": "G12 EYE",
+    "status": "FAIL",
+    "evidence": "Two Blender review sheets and fabric prototype sheet exist; required Unity BEFORE/AFTER sheets, films, locker views and Adnan eye approval are pending."
+  }
+]

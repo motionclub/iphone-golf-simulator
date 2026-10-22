@@ -1,0 +1,48 @@
+{
+ "male": {
+  "T4_thrust_window_frames": [
+   11,
+   47
+  ],
+  "T4_min_wrist_to_hips_in_window_m": 0.41837712040130753,
+  "T4_min_over_all_frames_m": 0.19208804108076372,
+  "T4_min_in_the_ReadyIdle_clip_itself_m": 0.18692990427160333
+ },
+ "female": {
+  "T4_thrust_window_frames": [
+   11,
+   47
+  ],
+  "T4_min_wrist_to_hips_in_window_m": 0.4064043064657781,
+  "T4_min_over_all_frames_m": 0.1933906754692223,
+  "T4_min_in_the_ReadyIdle_clip_itself_m": 0.1889594402321916
+ },
+ "R1_noise_floor_shipped_clips": {
+  "Male_Forehand": {
+   "max_rot_dev_deg": 0.07912937001338383,
+   "max_pos_dev_m": 1.8189184913808276e-07
+  },
+  "Male_ReadyIdle": {
+   "max_rot_dev_deg": 0.07401874722002606,
+   "max_pos_dev_m": 1.5041364065382368e-07
+  },
+  "Female_Forehand": {
+   "max_rot_dev_deg": 0.1370561110185936,
+   "max_pos_dev_m": 2.682209014892578e-07
+  },
+  "Female_ReadyIdle": {
+   "max_rot_dev_deg": 0.1341703946898555,
+   "max_pos_dev_m": 1.2731557319511921e-07
+  }
+ },
+ "R1_in_game_max_grip_hand_distance_m": {
+  "Male_Emote_Scuba": 0.0,
+  "Male_Emote_Thrust": 0.0,
+  "Male_Intro_Wave": 0.0,
+  "Male_Intro_BringIt": 0.0,
+  "Female_Emote_Scuba": 0.0,
+  "Female_Emote_Thrust": 0.0,
+  "Female_Intro_Wave": 0.0,
+  "Female_Intro_BringIt": 0.0
+ }
+}

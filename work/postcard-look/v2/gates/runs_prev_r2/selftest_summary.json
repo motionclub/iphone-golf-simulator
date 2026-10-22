@@ -1,0 +1,573 @@
+{
+ "per_gate_from_lines": {
+  "ALBEDO_DISTINCT": {
+   "bad_ok": 18,
+   "bad_n": 18,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "BASALT_PRISMS": {
+   "bad_ok": 4,
+   "bad_n": 4,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "BASELINE_SIGNATURE": {
+   "bad_ok": 3,
+   "bad_n": 3,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "CRATER_COLUMNS": {
+   "bad_ok": 1,
+   "bad_n": 1,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "CRATER_CONE_SMOKE": {
+   "bad_ok": 2,
+   "bad_n": 2,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "CRATER_LAVA": {
+   "bad_ok": 2,
+   "bad_n": 2,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "CRATER_LAVA_LIGHTS": {
+   "bad_ok": 2,
+   "bad_n": 2,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "CRATER_PILLAR": {
+   "bad_ok": 1,
+   "bad_n": 1,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "CRATER_SHELF_PLANTS": {
+   "bad_ok": 1,
+   "bad_n": 1,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "CRATER_TEE_PAD": {
+   "bad_ok": 1,
+   "bad_n": 1,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "CRATER_WALL_COVERED": {
+   "bad_ok": 3,
+   "bad_n": 3,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "FBX_FILE": {
+   "bad_ok": 3,
+   "bad_n": 3,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "FBX_REIMPORT": {
+   "bad_ok": 3,
+   "bad_n": 3,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "GRASS_ALBEDO_HUE": {
+   "bad_ok": 9,
+   "bad_n": 9,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "GROUND_MATERIALS": {
+   "bad_ok": 3,
+   "bad_n": 3,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "HOLE07_UNTOUCHED": {
+   "bad_ok": 3,
+   "bad_n": 3,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "LAVA_TEXTURE": {
+   "bad_ok": 8,
+   "bad_n": 8,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "LK_TEXTURED": {
+   "bad_ok": 3,
+   "bad_n": 3,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "LOOK_FILES": {
+   "bad_ok": 22,
+   "bad_n": 22,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "MARKERS_FROZEN": {
+   "bad_ok": 3,
+   "bad_n": 3,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "NEEDLE_ARCH": {
+   "bad_ok": 5,
+   "bad_n": 5,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "NEEDLE_CLIFF_SKIN": {
+   "bad_ok": 2,
+   "bad_n": 2,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "NEEDLE_FLOWERS_SHRUBS_TUFTS": {
+   "bad_ok": 2,
+   "bad_n": 2,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "NEEDLE_PATH": {
+   "bad_ok": 2,
+   "bad_n": 2,
+   "good_ok": 1,
+   "good_n": 1
+  },
+  "NEEDLE_SEA_STACKS": {
+   "bad_ok": 2,
+   "bad_n": 2,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "NEEDLE_WALL_VINES": {
+   "bad_ok": 1,
+   "bad_n": 1,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "NEEDLE_WATERFALL": {
+   "bad_ok": 3,
+   "bad_n": 3,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "NEW_OBJECT_PREFIXES": {
+   "bad_ok": 6,
+   "bad_n": 6,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "NO_ANIMATION": {
+   "bad_ok": 3,
+   "bad_n": 3,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "NO_FOAM_STRIP": {
+   "bad_ok": 29,
+   "bad_n": 29,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "NO_LEGACY_MATERIALS": {
+   "bad_ok": 6,
+   "bad_n": 6,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "NO_MAT_FOAM": {
+   "bad_ok": 3,
+   "bad_n": 3,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "NO_PLANT_ON_WATER": {
+   "bad_ok": 22,
+   "bad_n": 22,
+   "good_ok": 3,
+   "good_n": 3
+  },
+  "NO_ROCK_STRETCH_2X": {
+   "bad_ok": 15,
+   "bad_n": 15,
+   "good_ok": 6,
+   "good_n": 6
+  },
+  "OCEAN_WATER": {
+   "bad_ok": 2,
+   "bad_n": 2,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "ONE_GREEN": {
+   "bad_ok": 6,
+   "bad_n": 6,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "PATH_UNDER_BALL": {
+   "bad_ok": 3,
+   "bad_n": 3,
+   "good_ok": 4,
+   "good_n": 4
+  },
+  "PLANTS_INSTANCED": {
+   "bad_ok": 3,
+   "bad_n": 3,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "PLANTS_SHARED_MATERIAL": {
+   "bad_ok": 3,
+   "bad_n": 3,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "PLAY_SURFACE_FACES": {
+   "bad_ok": 12,
+   "bad_n": 12,
+   "good_ok": 3,
+   "good_n": 3
+  },
+  "PLAY_SURFACE_GRID": {
+   "bad_ok": 3,
+   "bad_n": 3,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "PLAY_SURFACE_NAMES": {
+   "bad_ok": 6,
+   "bad_n": 6,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "PLAY_SURFACE_TOPS": {
+   "bad_ok": 3,
+   "bad_n": 3,
+   "good_ok": 3,
+   "good_n": 3
+  },
+  "PROPS_OFF_PLAY": {
+   "bad_ok": 15,
+   "bad_n": 15,
+   "good_ok": 3,
+   "good_n": 3
+  },
+  "PROP_FACE_BUDGET": {
+   "bad_ok": 3,
+   "bad_n": 3,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "PROP_MATERIALS": {
+   "bad_ok": 2,
+   "bad_n": 2,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "RESERVED_NAMES": {
+   "bad_ok": 3,
+   "bad_n": 3,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "ROCK_NOT_ICOSAHEDRON": {
+   "bad_ok": 30,
+   "bad_n": 30,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "ROCK_VARIETY": {
+   "bad_ok": 36,
+   "bad_n": 36,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "SAND_NAMES": {
+   "bad_ok": 3,
+   "bad_n": 3,
+   "good_ok": 3,
+   "good_n": 3
+  },
+  "SEASTACK_TAPERED": {
+   "bad_ok": 10,
+   "bad_n": 10,
+   "good_ok": 2,
+   "good_n": 2
+  },
+  "SHELF_THIN": {
+   "bad_ok": 8,
+   "bad_n": 8,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "SMOKE_SOFT": {
+   "bad_ok": 5,
+   "bad_n": 5,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "SPLIT_NO_SCRUB_RIBBON": {
+   "bad_ok": 1,
+   "bad_n": 1,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "SPLIT_RIDGE_SCATTER": {
+   "bad_ok": 1,
+   "bad_n": 1,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "SPLIT_RUIN": {
+   "bad_ok": 1,
+   "bad_n": 1,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "SPLIT_SCRUB_RIDGE": {
+   "bad_ok": 5,
+   "bad_n": 5,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "SPLIT_SHORE_SKIN": {
+   "bad_ok": 2,
+   "bad_n": 2,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "SURF_SHORE": {
+   "bad_ok": 4,
+   "bad_n": 4,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "TRIANGLE_BUDGET": {
+   "bad_ok": 3,
+   "bad_n": 3,
+   "good_ok": 0,
+   "good_n": 0
+  },
+  "UV_DENSITY": {
+   "bad_ok": 9,
+   "bad_n": 9,
+   "good_ok": 0,
+   "good_n": 0
+  }
+ },
+ "selftest_gate": {
+  "PROP_MATERIALS": {
+   "bad_ok": 2,
+   "bad_n": 2,
+   "good_ok": 6,
+   "good_n": 6,
+   "ok": true
+  },
+  "ROCK_NOT_ICOSAHEDRON": {
+   "bad_ok": 30,
+   "bad_n": 30,
+   "good_ok": 6,
+   "good_n": 6,
+   "ok": true
+  },
+  "ROCK_VARIETY": {
+   "bad_ok": 36,
+   "bad_n": 36,
+   "good_ok": 6,
+   "good_n": 6,
+   "ok": true
+  },
+  "LOOK_FILES": {
+   "bad_ok": 22,
+   "bad_n": 22,
+   "good_ok": 6,
+   "good_n": 6,
+   "ok": true
+  },
+  "NO_FOAM_STRIP": {
+   "bad_ok": 29,
+   "bad_n": 29,
+   "good_ok": 6,
+   "good_n": 6,
+   "ok": true
+  },
+  "SURF_SHORE": {
+   "bad_ok": 4,
+   "bad_n": 4,
+   "good_ok": 4,
+   "good_n": 4,
+   "ok": true
+  },
+  "SPLIT_SCRUB_RIDGE": {
+   "bad_ok": 5,
+   "bad_n": 5,
+   "good_ok": 2,
+   "good_n": 2,
+   "ok": true
+  },
+  "PROPS_OFF_PLAY": {
+   "bad_ok": 15,
+   "bad_n": 15,
+   "good_ok": 9,
+   "good_n": 9,
+   "ok": true
+  },
+  "PLAY_SURFACE_FACES": {
+   "bad_ok": 12,
+   "bad_n": 12,
+   "good_ok": 9,
+   "good_n": 9,
+   "ok": true
+  },
+  "GRASS_ALBEDO_HUE": {
+   "bad_ok": 9,
+   "bad_n": 9,
+   "good_ok": 6,
+   "good_n": 6,
+   "ok": true
+  },
+  "ALBEDO_DISTINCT": {
+   "bad_ok": 18,
+   "bad_n": 18,
+   "good_ok": 6,
+   "good_n": 6,
+   "ok": true
+  },
+  "SHELF_THIN": {
+   "bad_ok": 8,
+   "bad_n": 8,
+   "good_ok": 4,
+   "good_n": 4,
+   "ok": true
+  },
+  "LAVA_TEXTURE": {
+   "bad_ok": 8,
+   "bad_n": 8,
+   "good_ok": 2,
+   "good_n": 2,
+   "ok": true
+  },
+  "BASALT_PRISMS": {
+   "bad_ok": 4,
+   "bad_n": 4,
+   "good_ok": 2,
+   "good_n": 2,
+   "ok": true
+  },
+  "SMOKE_SOFT": {
+   "bad_ok": 5,
+   "bad_n": 5,
+   "good_ok": 2,
+   "good_n": 2,
+   "ok": true
+  },
+  "NO_PLANT_ON_WATER": {
+   "bad_ok": 22,
+   "bad_n": 22,
+   "good_ok": 9,
+   "good_n": 9,
+   "ok": true
+  },
+  "NO_ROCK_STRETCH_2X": {
+   "bad_ok": 15,
+   "bad_n": 15,
+   "good_ok": 12,
+   "good_n": 12,
+   "ok": true
+  },
+  "PATH_UNDER_BALL": {
+   "bad_ok": 3,
+   "bad_n": 3,
+   "good_ok": 10,
+   "good_n": 10,
+   "ok": true
+  },
+  "CRATER_WALL_COVERED": {
+   "bad_ok": 3,
+   "bad_n": 3,
+   "good_ok": 2,
+   "good_n": 2,
+   "ok": true
+  },
+  "SEASTACK_TAPERED": {
+   "bad_ok": 10,
+   "bad_n": 10,
+   "good_ok": 6,
+   "good_n": 6,
+   "ok": true
+  },
+  "UV_DENSITY": {
+   "bad_ok": 9,
+   "bad_n": 9,
+   "good_ok": 6,
+   "good_n": 6,
+   "ok": true
+  },
+  "NEEDLE_ARCH": {
+   "bad_ok": 5,
+   "bad_n": 5,
+   "good_ok": 2,
+   "good_n": 2,
+   "ok": true
+  },
+  "ONE_GREEN": {
+   "bad_ok": 6,
+   "bad_n": 6,
+   "good_ok": 6,
+   "good_n": 6,
+   "ok": true
+  },
+  "NEEDLE_SEA_STACKS": {
+   "bad_ok": 2,
+   "bad_n": 2,
+   "good_ok": 2,
+   "good_n": 2,
+   "ok": true
+  },
+  "NEEDLE_CLIFF_SKIN": {
+   "bad_ok": 2,
+   "bad_n": 2,
+   "good_ok": 2,
+   "good_n": 2,
+   "ok": true
+  },
+  "SPLIT_SHORE_SKIN": {
+   "bad_ok": 2,
+   "bad_n": 2,
+   "good_ok": 2,
+   "good_n": 2,
+   "ok": true
+  },
+  "SHADERS_STATIC": {
+   "bad_ok": 1,
+   "bad_n": 1,
+   "good_ok": 3,
+   "good_n": 3,
+   "ok": true
+  },
+  "HOLE07_UNTOUCHED": {
+   "bad_ok": 3,
+   "bad_n": 3,
+   "good_ok": 3,
+   "good_n": 3,
+   "ok": true
+  }
+ },
+ "positives_failed": {
+  "8": [],
+  "9": [],
+  "10": []
+ }
+}

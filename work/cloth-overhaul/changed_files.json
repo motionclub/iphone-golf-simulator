@@ -1,0 +1,679 @@
+[
+  {
+    "path": "ArtDir/hero/kit/COPY_TO_GOLF.md",
+    "rollback": "NEW",
+    "sha256": "cc9622e18929c0fa3d5060c8201ec341aa374f4b90a8d66f40657a1db973f500"
+  },
+  {
+    "path": "ArtDir/hero/kit/GARMENT_SELECTION_TEMPLATE.json",
+    "rollback": "NEW",
+    "sha256": "b191ae3a66f0a38d8d513fb5ece1475720f76d31ceffd502b07ce01bcdd3368e"
+  },
+  {
+    "path": "ArtDir/hero/kit/GARMENT_SPEC.md",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/reuse_standard/GARMENT_SPEC.md",
+    "sha256": "0a73974ee58eeb2451c047d8f657a7a1945334dca0466da9c6ad2ab612ea0b8f"
+  },
+  {
+    "path": "ArtDir/hero/kit/GARMENT_STANDARD.json",
+    "rollback": "NEW",
+    "sha256": "ad81e688a9e2c1b72a0acd828bf07b9ed709e9ba398df6c8d05758dcc5ef2479"
+  },
+  {
+    "path": "GolfArcade.xcodeproj/project.pbxproj",
+    "sha256": "041840e6780034b52af564c26d250875d388f65da91f11b81907327e351cab8f",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/GolfArcade.xcodeproj/project.pbxproj",
+    "index_candidate": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/locker/GolfArcade.xcodeproj.index.pbxproj"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Cloth_FabricAtlas.ktx",
+    "sha256": "eb145e7cc92e16ccaa7f051c735d8ebb24846eed408e84e55ccfec646fdba054",
+    "rollback": "NEW"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Female.json",
+    "sha256": "852ea40ca385ff0cd42da76e695bf37f5434c70759c25229f897e89f3829a8c7",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/GolfArcade/Unity/CharacterAssets/MatchHero_Female.json"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Female.lzfse",
+    "sha256": "844213a7a9c38585e06d3f45d8ed6a714097a0c748517bf8d3c37a67b9442a88",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/GolfArcade/Unity/CharacterAssets/MatchHero_Female.lzfse"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Rig.lzfse",
+    "sha256": "6617b4e86597a0fe08fe07457f4bffed2b72aae1d017d552ddf750b89595a86a",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/GolfArcade/Unity/CharacterAssets/MatchHero_Female_Rig.lzfse"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_00.lzfse",
+    "sha256": "79bd2ee6a6aad934c2afad46b726f287c9d8fb9d475d3300072afdf5c37ef235",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_00.lzfse"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_01.lzfse",
+    "sha256": "e3066190ebecf2b6d49b27db10cb1a28e0e37d086b00563ddc4b57278af871e6",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_01.lzfse"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_02.lzfse",
+    "sha256": "05a0aaeec3fa3f1aacea289f78aaf80ad0ae827f3b01442c2025d89f791fee77",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_02.lzfse"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_03.lzfse",
+    "sha256": "dbe17d0b35ed39b1f13e139fd5a53892cd96bb06ca351cb3765e1832985af4f6",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_03.lzfse"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_04.lzfse",
+    "sha256": "d992cb5cd5c8361021ae42732ce9a02b3813c04041861f45ac20c5eaa7533c17",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_04.lzfse"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_05.lzfse",
+    "sha256": "b3abca897ffd747c2ff4d31bfb2a7305f48cfeb603386228ae382023b3b65e3d",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_05.lzfse"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_06.lzfse",
+    "sha256": "c5ab54947e55a3cabae32a3846f68fd491046b3aeb280f27c50ea328e246cecb",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_06.lzfse"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_07.lzfse",
+    "sha256": "996452b8aeda0b77aad32c262fedca95ae0bf888da3fd59f24f977ce944d14b9",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_07.lzfse"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_08.lzfse",
+    "sha256": "96a7c19bd9c13eb670edddade2e1e3ab4bb513ccacec837f4d6f0157a1464ef4",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_08.lzfse"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_09.lzfse",
+    "sha256": "86c2f822d46e7c4c0a1b1ffc2fb469645ec4c4de9f5097e548a22ef26d325e91",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_09.lzfse"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_10.lzfse",
+    "sha256": "c774831a0727fa3e37a215c44058ada3884488efc31145a8fb7cccc74a3970f3",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_10.lzfse"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_11.lzfse",
+    "sha256": "48da5c47962593ad24b0bea0e38b5006952f2e8f92dccfb7d22b4a34d7f0ba00",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/GolfArcade/Unity/CharacterAssets/MatchHero_Female_Swing_11.lzfse"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_Bottom_M.ktx",
+    "sha256": "255b281e42d1c57b0ee23c997c509262a3e56af4f9e4fd9fde9eae478fc8845d",
+    "rollback": "NEW"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_Bottom_N.ktx",
+    "sha256": "083c40594a1a7a7a82dd2165a9c74a70faab8bbe30a4819f65d0506f550e74d5",
+    "rollback": "NEW"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_ShoeL_M.ktx",
+    "sha256": "68d3f8ada462e81dc601fd4ad44782be6a0a25d7db263cc73771818249bf2363",
+    "rollback": "NEW"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_ShoeL_N.ktx",
+    "sha256": "dc46d6ef144d97634e3d89885bf0f8c112442ef136a5397c664c0713485543ed",
+    "rollback": "NEW"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_ShoeR_M.ktx",
+    "sha256": "0c065e30a966d60199e3aef7e287d06b85607698e61122878b8747ba917603d7",
+    "rollback": "NEW"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_ShoeR_N.ktx",
+    "sha256": "64978e8235665b7901e2960aae07fdc73b0c2530e72a4d781aa3fd8fb8b6f71e",
+    "rollback": "NEW"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_SockL_M.ktx",
+    "sha256": "4cd1cc869694008ffa7d330e3e82900719c1749a11ccf606eb9da68abd3c0d77",
+    "rollback": "NEW"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_SockL_N.ktx",
+    "sha256": "d150114ae384f65a5e81af263f467341d644c4b92e72cac33f41938ff57305c1",
+    "rollback": "NEW"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_SockR_M.ktx",
+    "sha256": "018d4a9c5efae1ce18a82af9bf3b115e3ae022502709517131ac4931e6a04f82",
+    "rollback": "NEW"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_SockR_N.ktx",
+    "sha256": "6f9e2a64c30a43ac9011391c7b919dff9665ab6c5faa884592e67d7540cfc1ac",
+    "rollback": "NEW"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_Top_M.ktx",
+    "sha256": "5d71820eb05176fb00616f8f286f3650653d0a52c4e7582f8eb502b1a4988241",
+    "rollback": "NEW"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Female_Top_N.ktx",
+    "sha256": "e35847282bbbe3dc6c831360fe21bcce624e416f3e6d1add4b2b3ce62f3b918c",
+    "rollback": "NEW"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_Bottom_M.ktx",
+    "sha256": "d0aac58d481b2a535106ca61e9160c7a14d8637f31409ad6d626e0259db045c1",
+    "rollback": "NEW"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_Bottom_N.ktx",
+    "sha256": "371e349a6f23f20508927b2f2ebc10f5c9c2a39d841fe633c35816601da7b959",
+    "rollback": "NEW"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_ShoeL_M.ktx",
+    "sha256": "4341c9685f54b2f9c25c4b7ee35c7f36bae6fe51f90343e1e4f98229030ee3de",
+    "rollback": "NEW"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_ShoeL_N.ktx",
+    "sha256": "0052e9c2c0f1b5191eaf9dae779cac52a67f9890474ddce8037a589dc1b0cce8",
+    "rollback": "NEW"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_ShoeR_M.ktx",
+    "sha256": "83d8cceee3eab10c3dc943f262e86938faab23c980aa5c3b5d005aae64eea39b",
+    "rollback": "NEW"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_ShoeR_N.ktx",
+    "sha256": "65aa8723ff90e0f5a68a08449688469fa2b5ee04b8a6959757ae04dde5a114be",
+    "rollback": "NEW"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_SockL_M.ktx",
+    "sha256": "514b0cd4cb9d1940fa469210b878ea9c985bf8c13803358bab7523afefbe5008",
+    "rollback": "NEW"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_SockL_N.ktx",
+    "sha256": "96e32648bc6e57853f60b8b4856e01ad73f91ca20ba03487af5651aa72d5fc12",
+    "rollback": "NEW"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_SockR_M.ktx",
+    "sha256": "17ad87a369ec72aac6695e765b9feff82b869e563dd023ed99a884167e36986e",
+    "rollback": "NEW"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_SockR_N.ktx",
+    "sha256": "69c3bf33d8b17a8d2eba5f6f11ccbd2031d43e99f92e5ab8f0c9943e24510684",
+    "rollback": "NEW"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_Top_M.ktx",
+    "sha256": "2853bc178f78e12ae59ef1375852b8868dac90286971113578b9e5427c65f9cb",
+    "rollback": "NEW"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Kit_Male_Top_N.ktx",
+    "sha256": "fe7561bad722f72cc9c1490447640223a1db640fe1e82b2b9a53b98884ecaad4",
+    "rollback": "NEW"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Male.json",
+    "sha256": "b8ae7337721b745fd048a7e258b7baa00ce7fd713b2f4e83bcfab3c3222933de",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/GolfArcade/Unity/CharacterAssets/MatchHero_Male.json"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Male.lzfse",
+    "sha256": "315322dfe2202e7c3e42411f201875981cebed98d3b516021440d19a9f5afbec",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/GolfArcade/Unity/CharacterAssets/MatchHero_Male.lzfse"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Rig.lzfse",
+    "sha256": "83ecbd652b66336ac7c1774dbc0a05eccb23a6fcb1e315d9df9d38ceab5f86ce",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/GolfArcade/Unity/CharacterAssets/MatchHero_Male_Rig.lzfse"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_00.lzfse",
+    "sha256": "08035e6cd111c4fd6e702b3448d745336432a30018b6dece742f5da65e6a1f1a",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_00.lzfse"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_01.lzfse",
+    "sha256": "1bc6c87a5d4c4102bb5257bf7fa487fc0c6eb3d5904f51d78d563d00504f8cd3",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_01.lzfse"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_02.lzfse",
+    "sha256": "77b8b2f979cd102e8a9c8e948034f6f62039608d6d9d9693b656b76f558e06c8",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_02.lzfse"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_03.lzfse",
+    "sha256": "448a923b99c6de0de07e2a0e36f834dd2adfaaf520cc4e421315d13ec1a56c24",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_03.lzfse"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_04.lzfse",
+    "sha256": "c2cdaef861312b7ac6bf0aebab350345e16f2a6efe04bc765d0dff1f99071077",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_04.lzfse"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_05.lzfse",
+    "sha256": "4f6caf130be1f3380ab02198728ddaca2b29d78d4c13af3c4bbdec2ad916aaf0",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_05.lzfse"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_06.lzfse",
+    "sha256": "13c1af57c3221c3327a32fb9c0090865b639af00dc31caca15d51aaefed5d513",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_06.lzfse"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_07.lzfse",
+    "sha256": "ee112ebbed72092fc5fd61a14aaee1fcc8902c80936a1c685c63cc2c2392a12b",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_07.lzfse"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_08.lzfse",
+    "sha256": "25fb74eb3a438f412dfa68698e6c54eeab90769828a0c1f19d73d5a71df94dc0",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_08.lzfse"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_09.lzfse",
+    "sha256": "bcce51f74222236e87d5b2cde848bd39ac87cfa0a023cb3a7cd3233c6549e4ed",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_09.lzfse"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_10.lzfse",
+    "sha256": "fb84de624aa0442d0a3f1d7f0ef8ed33c40d2e59d8a6cc57edbe1f7d1d752679",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_10.lzfse"
+  },
+  {
+    "path": "GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_11.lzfse",
+    "sha256": "29c4b08c0f8abaf9cd65e9b97ed8dcaa059ad6c5b14e74f3a3f1f8096aea360c",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/GolfArcade/Unity/CharacterAssets/MatchHero_Male_Swing_11.lzfse"
+  },
+  {
+    "path": "GolfArcade/Unity/MatchHeroData.swift",
+    "sha256": "32fdd3c489b0a48cd210423936d6c698a7b019c18f1844ec2c8dbd6af592c58a",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/GolfArcade/Unity/MatchHeroData.swift"
+  },
+  {
+    "path": "GolfArcade/Unity/MatchHeroSurfaces.swift",
+    "sha256": "a1653038601585b3f0e0319fb9e80cf93a50f26c146d9b13bf991acdf6037046",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/GolfArcade/Unity/MatchHeroSurfaces.swift"
+  },
+  {
+    "path": "GolfArcadeUnity.xcodeproj/project.pbxproj",
+    "sha256": "141548f2ef34bef3b4cabff7ba7c3a03ea8c2275dbac93c9831f077e70ce6e12",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/GolfArcadeUnity.xcodeproj/project.pbxproj",
+    "index_candidate": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/locker/GolfArcadeUnity.xcodeproj.index.pbxproj"
+  },
+  {
+    "path": "Unity/Assets/Characters/MatchHeroKit/Female_Kit.fbx",
+    "sha256": "2dc969c10f821136c91fdad1380b2dc84dbea441cf3f933d30084e43b9ca4d00",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/Unity/Assets/Characters/MatchHeroKit/Female_Kit.fbx"
+  },
+  {
+    "path": "Unity/Assets/Characters/MatchHeroKit/Male_Kit.fbx",
+    "sha256": "e76294335dba33904bafecc62f0b96d9ef0866a9afb7a177a3c8a6952a18bcc2",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/Unity/Assets/Characters/MatchHeroKit/Male_Kit.fbx"
+  },
+  {
+    "path": "Unity/Assets/Characters/MatchHeroes/Materials/Kit/Kit_Shirt.mat",
+    "sha256": "8518fcbcec539d3767e04098f1d8af4dd5d3dbbe4e0bc2cc468dfc1e20e2db17",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/Unity/Assets/Characters/MatchHeroes/Materials/Kit/Kit_Shirt.mat"
+  },
+  {
+    "path": "Unity/Assets/Characters/MatchHeroes/Materials/Kit/Kit_ShirtTrim.mat",
+    "sha256": "150082c6510f9ac7b04f3c5dc9061a954ae0f548b48aab16ad3cdc10af9a75b3",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/Unity/Assets/Characters/MatchHeroes/Materials/Kit/Kit_ShirtTrim.mat"
+  },
+  {
+    "path": "Unity/Assets/Characters/MatchHeroes/Materials/Kit/Kit_Shoe.mat",
+    "sha256": "738fb94c0a955bae87cfa6af2d16b5f1189c378d211a309d9a104e676c939bd7",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/Unity/Assets/Characters/MatchHeroes/Materials/Kit/Kit_Shoe.mat"
+  },
+  {
+    "path": "Unity/Assets/Characters/MatchHeroes/Materials/Kit/Kit_Shorts.mat",
+    "sha256": "575b79116cfcce741d7dd32497e25f7da056a572ac1a16b90974bbd7a183a3e7",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/Unity/Assets/Characters/MatchHeroes/Materials/Kit/Kit_Shorts.mat"
+  },
+  {
+    "path": "Unity/Assets/Characters/MatchHeroes/Materials/Kit/Kit_ShortsBand.mat",
+    "sha256": "e5a1b4accca19c7685f7e2810e92c1f31a194ded383d21fdc43b068d3c023aca",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/Unity/Assets/Characters/MatchHeroes/Materials/Kit/Kit_ShortsBand.mat"
+  },
+  {
+    "path": "Unity/Assets/Characters/MatchHeroes/Materials/Kit/Kit_Sock.mat",
+    "sha256": "ec67b9a9a7d1edfe0a628361cf816a48a88e59c53d2aa516349538bb8d4da226",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/Unity/Assets/Characters/MatchHeroes/Materials/Kit/Kit_Sock.mat"
+  },
+  {
+    "path": "Unity/Assets/Characters/MatchHeroes/Materials/Kit/Kit_Sole.mat",
+    "sha256": "c535c9ed79eac3e4a5736777ae60a61580135d9102c146fc4a36af4003f31ea1",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/Unity/Assets/Characters/MatchHeroes/Materials/Kit/Kit_Sole.mat"
+  },
+  {
+    "path": "Unity/Assets/Editor/ClothCompileProbe.cs",
+    "rollback": "NEW",
+    "sha256": "b9cd8f57197a72133b6d4edb4cf36176ee6d0e70cba57daf20528696bb73a22a"
+  },
+  {
+    "path": "Unity/Assets/Editor/ClothCompileProbe.cs.meta",
+    "rollback": "NEW",
+    "sha256": "5f7eaf42347ef9061413db5632aac9f1ee59f2321f063d8f851a0c534306c6e6"
+  },
+  {
+    "path": "Unity/Assets/Editor/ClothProofMask.shader",
+    "rollback": "NEW",
+    "sha256": "ce9fea389f5d3b82573174b1bb1fe5e6c2015c4bee67660dcc50615c37fa194f"
+  },
+  {
+    "path": "Unity/Assets/Editor/ClothProofMask.shader.meta",
+    "rollback": "NEW",
+    "sha256": "842731caf4546adfa8ec100ba99e7570535549e57ba3abd82c9cec3e7ecdb3d5"
+  },
+  {
+    "path": "Unity/Assets/Editor/ClothProofRig.cs",
+    "rollback": "NEW",
+    "sha256": "4f6f3cc980d7c4edcd290f78f54e37bb94b5f0e9e18e4c3ea393123c501b43b8"
+  },
+  {
+    "path": "Unity/Assets/Editor/ClothProofRig.cs.meta",
+    "rollback": "NEW",
+    "sha256": "0d328ac2604295f6f2afd79055869504753b4e23cbc705593be985a6212f116b"
+  },
+  {
+    "path": "Unity/Assets/Editor/HeroDetailTextures.cs",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/Unity/Assets/Editor/HeroDetailTextures.cs",
+    "sha256": "815785c074b9337faf39a94a42970ad017009e2d5364a5b4eeb01d5ba989edbc"
+  },
+  {
+    "path": "Unity/Assets/Editor/MatchHeroKit.cs",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/Unity/Assets/Editor/MatchHeroKit.cs",
+    "sha256": "98e2fcfd8a8cc2fe3e8abd1daf731a7a32f64a6bbe274b50d019c4f6e3700204"
+  },
+  {
+    "path": "Unity/Assets/Editor/MatchHeroLockerExport.cs",
+    "sha256": "c17e3fdd7323d2072dc6a6cb6128a4b528244f686ed346607a94c280935125a0",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/p5_after_lobby/Unity/Assets/Editor/MatchHeroLockerExport.cs"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/Customization/PlayerFemale.prefab",
+    "sha256": "dd862e375449c4091c1f36ac68e6d5cbc610f48c2224a773742b91f6be347da1",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/Unity/Assets/Resources/Tennis/Customization/PlayerFemale.prefab"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/Customization/PlayerMale.prefab",
+    "sha256": "da4aa3dbd03297bcac610e7cb58887cb5166a5b2ca93c59d1d0bd9a34e49cb72",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/Unity/Assets/Resources/Tennis/Customization/PlayerMale.prefab"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Cloth_FabricAtlas.png",
+    "sha256": "128701f06966d396cc25c1b17775594f6a624e72999e4e57f9528f5439752ffd",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Cloth_FabricAtlas.png.meta",
+    "sha256": "90c95a9e98f1b3cee14070ecfc61318d5067fc7c5011d5171a2905f17f03623b",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Female_Bottom_M.png",
+    "sha256": "a303d9781f5c896e0fcf08a374135532ab2507e5f38cb4238f8552b3dc9f8395",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Female_Bottom_M.png.meta",
+    "sha256": "0adbc1219db0adc9c364da661d7a33ca64cf3d9f8f0500f30bafc91571b517f1",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Female_Bottom_N.png",
+    "sha256": "84600eb995f43f1d461916fa9da4097179e2718de6be922b89787313e5ebf611",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Female_Bottom_N.png.meta",
+    "sha256": "434b8696d3dc4144b45ed0b2be0126d5ad849d800bd4ecb510e12d5f46986b56",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Female_ShoeL_M.png",
+    "sha256": "32d4e689ba820900b7080a50c89b31cdd3176c580477af4416bda1d88b353021",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Female_ShoeL_M.png.meta",
+    "sha256": "9de4d683f03d5fa501509c46debe882068c958c8a36b00784537a92f0f058c42",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Female_ShoeL_N.png",
+    "sha256": "d8feaf7fdd2bac332dcda985385abaff5b4c93732db79bb0c9f1a0eb6ec2d48a",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Female_ShoeL_N.png.meta",
+    "sha256": "1f6386c9f1bf6bd5745f19e245a734746b5a0eab96a94e4c89e81ec65b273902",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Female_ShoeR_M.png",
+    "sha256": "46ee40f4eaa7498dbc9eac4256d66ce99e907d6e2c6e2763ede510f47c88d520",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Female_ShoeR_M.png.meta",
+    "sha256": "235b3c1ff5a145fb8538638e8be0b174b26097a5628ccfba4fcf06bf738d2f7e",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Female_ShoeR_N.png",
+    "sha256": "1b463a8279a6636b898d03c64075502bd08483427f23ffb7d69acd564455d2d1",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Female_ShoeR_N.png.meta",
+    "sha256": "d42f69845049b70fb2d6105df13a5ea863d5d1781ea01d301be99880ce870abc",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Female_SockL_M.png",
+    "sha256": "2d61934f1a11009022148ddb66aef12a1645516f0292b9bccda961585ceb9a9e",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Female_SockL_M.png.meta",
+    "sha256": "589b52523abcdb4117a34e98b4172ed9914313bd664f137049112e00dc0da667",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Female_SockL_N.png",
+    "sha256": "bac5605827b8b4435761be30a4b8ad5cd41abd453888d72bd2eac47463976d36",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Female_SockL_N.png.meta",
+    "sha256": "3dc5cc4daab0bfa8b63adf2f967375089f4f8f7992437ce339ea00292704d796",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Female_SockR_M.png",
+    "sha256": "88759221f4dec7fda316c41217596ca2c583acb5f3c1951dcfc3bafe5efd78d6",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Female_SockR_M.png.meta",
+    "sha256": "1b4260083a0661d8a88cd755ee47136ec5941c3861895ceb5ba6b18be937d2be",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Female_SockR_N.png",
+    "sha256": "6e9bc682f86f5286c102709b71bba64c4b2cb502a242496078c76c134bca1314",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Female_SockR_N.png.meta",
+    "sha256": "901b5646711251f84b9f72577e1189f3f5a0909769fab08299b3ec98fc22a10a",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Female_Top_M.png",
+    "sha256": "8ca8e7d7d90233c769a0abaaf71c73a94fa336dc8073a8434573faccf11bc01b",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Female_Top_M.png.meta",
+    "sha256": "4a9d38f413c0b002478eaf5f2fea7f8c271b5e82ecaad51a55aed8dbb4896c40",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Female_Top_N.png",
+    "sha256": "13874d66ed2ae2e661a950ba02d4926498f6afd4c361aa7c1846b4eaf0c35a85",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Female_Top_N.png.meta",
+    "sha256": "7069d943c4b03a4680e2279bdd9c130b55d262571fd58b043955f791e4b51831",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Male_Bottom_M.png",
+    "sha256": "8a551c4c254b8f01fa01a272eca44628f760417e3a8a62ee306afbc5559fbb1c",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Male_Bottom_M.png.meta",
+    "sha256": "1d53aa9551796fb3b11076ad6921c73304af1a37f16db35c3a200192443263f6",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Male_Bottom_N.png",
+    "sha256": "4f4364f6fe4b83a083cc017fd09fe89a9fb32389386fc95ee0e8521095f0609f",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Male_Bottom_N.png.meta",
+    "sha256": "cb13eff33d39afb1afac467614a7072e277fa528bebb61deddca3f6297ffd919",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Male_ShoeL_M.png",
+    "sha256": "477d1f1e53ce2480e8743d57071f925ef58370950ab1649cf2d10d6c5ba28f9c",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Male_ShoeL_M.png.meta",
+    "sha256": "a83a49baa35f88d0d954e4b57e65799e8b260a08fcb64e693dec283808ea650f",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Male_ShoeL_N.png",
+    "sha256": "66b1ca2c966747a3af7eb1e7544a4929e01d25bacef0e73db6e7a73e71cca8ef",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Male_ShoeL_N.png.meta",
+    "sha256": "9d5f7ab5cc45b3a117baf3b3de2c2e84d4875d84c006cf3cc35f5563c70d6941",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Male_ShoeR_M.png",
+    "sha256": "5841820432131ba6056046e8b9c9e5412ec1576b70f1f98b94993e01acce9317",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Male_ShoeR_M.png.meta",
+    "sha256": "f74f3f72129e75345d82282a5afe8b024fadb30a92c74e4f1a6b16f219346bb8",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Male_ShoeR_N.png",
+    "sha256": "6302fe89585fb07249c2710652557f95606d15f3d6739d0b1d2e67bf2ee9426e",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Male_ShoeR_N.png.meta",
+    "sha256": "3fd0dd8585ffa117bbd664885cf62b40dbc16c481e75b7b39a8e2c54efa7e37c",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Male_SockL_M.png",
+    "sha256": "1ea511869a6a016b2823b43079e33849aa0a65ebfc29addf7728a264b80f4731",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Male_SockL_M.png.meta",
+    "sha256": "de16ddf53143a6f889f99d7582c62a1f587ca6837878621904e72752ecdffc9b",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Male_SockL_N.png",
+    "sha256": "bc44c71fb60ca94d98f182e3c289cbae143714ca12c07c34838f905ad1e232e9",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Male_SockL_N.png.meta",
+    "sha256": "fb933948aab4231a8f3574bf4cc3b30642a14c3e9533c26da7ca9d83a4300433",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Male_SockR_M.png",
+    "sha256": "a6dc8214f154950925800ed6c0b27d0c3d8ab1bf43b61fa52362af3266d0ad59",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Male_SockR_M.png.meta",
+    "sha256": "81ec6958463855d48cbfda5a6bfaf4cef4415587b6d681327cfc56c9fb2a10bf",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Male_SockR_N.png",
+    "sha256": "f9682ea886228995cdda1dc6fb527c5f02fdd45ac6f446667d11b083f2274234",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Male_SockR_N.png.meta",
+    "sha256": "516d970a45c485b14ad6ca49c016ab34cf3d4588f9f693e2821852353124a8d9",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Male_Top_M.png",
+    "sha256": "a20bb0a29353e56730bdf79d8c7ad9816def39b5bea1eb6e6d85181173ee7545",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Male_Top_M.png.meta",
+    "sha256": "9dce9265990d304f6eb0c1c947eee8210925bc3170242bb9d92d019b1a7cddc4",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Male_Top_N.png",
+    "sha256": "a5345c3b3c45de6a680db0a414ea7f6383907880b4be0567ebbbb055d74db7f7",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/HeroDetail/Kit_Male_Top_N.png.meta",
+    "sha256": "f002df414429d3859dd1821d137292e9c3968f3480f00900c18f266c3fca6263",
+    "rollback": "NEW FILE \u2014 remove to roll back"
+  },
+  {
+    "path": "Unity/Assets/Resources/Tennis/Shaders/TennisCloth.shader",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/Unity/Assets/Resources/Tennis/Shaders/TennisCloth.shader",
+    "sha256": "1168ac2ff3a660dfce05a0e50e1fbd3b7346911c9da03a699983d82740f04d4c"
+  },
+  {
+    "path": "Unity/Assets/Scripts/Tennis/MatchHeroLook.cs",
+    "rollback": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/cloth-overhaul/rollback/Unity/Assets/Scripts/Tennis/MatchHeroLook.cs",
+    "sha256": "439a711ee53464c7a94b1cc77bf1aa714846f39375b24203ee0685a68c96c285"
+  }
+]

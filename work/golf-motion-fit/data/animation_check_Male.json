@@ -1,0 +1,441 @@
+{
+  "immutableBodies": {
+    "Body_M": "212b6a28ecfd0cfeb693c4fc6cf5ccaf1344b16546eaf62cc8890b5a11136739",
+    "Face_M": "5a51f7724c576b33aac158124c713f58a2be7961e4db0b30c61f956f49ad7947"
+  },
+  "immutableSkeleton": true,
+  "metrics": [
+    {
+      "id": "NeutralIdle_Male_RH",
+      "samples": 289,
+      "handDriftMaxM": 3.66450241208642e-07,
+      "handleProjectionMaxM": 0.0,
+      "contactErrorM": null,
+      "finite": true,
+      "quaternionNormError": 2.220446049250313e-16
+    },
+    {
+      "id": "AddressDriver_Male_RH",
+      "samples": 289,
+      "handDriftMaxM": 3.983611648172855e-07,
+      "handleProjectionMaxM": 0.0,
+      "contactErrorM": null,
+      "finite": true,
+      "quaternionNormError": 2.220446049250313e-16
+    },
+    {
+      "id": "AddressIron_Male_RH",
+      "samples": 289,
+      "handDriftMaxM": 3.223572248554311e-07,
+      "handleProjectionMaxM": 0.0,
+      "contactErrorM": null,
+      "finite": true,
+      "quaternionNormError": 2.220446049250313e-16
+    },
+    {
+      "id": "AddressWedge_Male_RH",
+      "samples": 289,
+      "handDriftMaxM": 4.045024662609939e-07,
+      "handleProjectionMaxM": 0.0,
+      "contactErrorM": null,
+      "finite": true,
+      "quaternionNormError": 2.220446049250313e-16
+    },
+    {
+      "id": "AddressPutt_Male_RH",
+      "samples": 289,
+      "handDriftMaxM": 4.089196836943599e-07,
+      "handleProjectionMaxM": 0.0,
+      "contactErrorM": null,
+      "finite": true,
+      "quaternionNormError": 2.220446049250313e-16
+    },
+    {
+      "id": "Waggle_Male_RH",
+      "samples": 289,
+      "handDriftMaxM": 3.223572248554311e-07,
+      "handleProjectionMaxM": 0.0,
+      "contactErrorM": null,
+      "finite": true,
+      "quaternionNormError": 3.3306690738754696e-16
+    },
+    {
+      "id": "AimLeft_Male_RH",
+      "samples": 145,
+      "handDriftMaxM": 3.235825422781439e-07,
+      "handleProjectionMaxM": 0.0,
+      "contactErrorM": null,
+      "finite": true,
+      "quaternionNormError": 2.220446049250313e-16
+    },
+    {
+      "id": "AimRight_Male_RH",
+      "samples": 145,
+      "handDriftMaxM": 3.223572248554311e-07,
+      "handleProjectionMaxM": 0.0,
+      "contactErrorM": null,
+      "finite": true,
+      "quaternionNormError": 3.3306690738754696e-16
+    },
+    {
+      "id": "Drive_Male_RH",
+      "samples": 409,
+      "handDriftMaxM": 6.099949404556467e-07,
+      "handleProjectionMaxM": 0.1383958534731741,
+      "contactErrorM": 0.0004148359780072496,
+      "finite": true,
+      "quaternionNormError": 3.3306690738754696e-16
+    },
+    {
+      "id": "IronSwing_Male_RH",
+      "samples": 373,
+      "handDriftMaxM": 5.96791878653821e-07,
+      "handleProjectionMaxM": 0.10784197407531404,
+      "contactErrorM": 0.0003816490997666176,
+      "finite": true,
+      "quaternionNormError": 3.3306690738754696e-16
+    },
+    {
+      "id": "HalfSwing_Male_RH",
+      "samples": 301,
+      "handDriftMaxM": 4.0528639266170684e-07,
+      "handleProjectionMaxM": 0.0,
+      "contactErrorM": 2.2084876237282098e-16,
+      "finite": true,
+      "quaternionNormError": 3.3306690738754696e-16
+    },
+    {
+      "id": "Pitch_Male_RH",
+      "samples": 283,
+      "handDriftMaxM": 4.045024662609939e-07,
+      "handleProjectionMaxM": 0.0,
+      "contactErrorM": 1.4220500840710912e-16,
+      "finite": true,
+      "quaternionNormError": 2.220446049250313e-16
+    },
+    {
+      "id": "Chip_Male_RH",
+      "samples": 235,
+      "handDriftMaxM": 4.0614857094958007e-07,
+      "handleProjectionMaxM": 0.0,
+      "contactErrorM": 1.4220500840710912e-16,
+      "finite": true,
+      "quaternionNormError": 2.220446049250313e-16
+    },
+    {
+      "id": "BunkerShot_Male_RH",
+      "samples": 319,
+      "handDriftMaxM": 4.605675149338652e-07,
+      "handleProjectionMaxM": 0.017084485051619767,
+      "contactErrorM": 1.4220500840710912e-16,
+      "finite": true,
+      "quaternionNormError": 3.3306690738754696e-16
+    },
+    {
+      "id": "Putt_Male_RH",
+      "samples": 241,
+      "handDriftMaxM": 4.5101620549784644e-07,
+      "handleProjectionMaxM": 0.0368537041808564,
+      "contactErrorM": 1.8875832159447664e-16,
+      "finite": true,
+      "quaternionNormError": 3.3306690738754696e-16
+    },
+    {
+      "id": "SwingAbort_Male_RH",
+      "samples": 157,
+      "handDriftMaxM": 5.809846989157401e-07,
+      "handleProjectionMaxM": 0.07688336095658643,
+      "contactErrorM": null,
+      "finite": true,
+      "quaternionNormError": 3.3306690738754696e-16
+    },
+    {
+      "id": "Recovery_Male_RH",
+      "samples": 157,
+      "handDriftMaxM": 4.757054521066308e-07,
+      "handleProjectionMaxM": 0.0,
+      "contactErrorM": null,
+      "finite": true,
+      "quaternionNormError": 2.220446049250313e-16
+    },
+    {
+      "id": "WalkStart_Male_RH",
+      "samples": 91,
+      "handDriftMaxM": 4.0671092552567425e-07,
+      "handleProjectionMaxM": 0.0,
+      "contactErrorM": null,
+      "finite": true,
+      "quaternionNormError": 3.3306690738754696e-16
+    },
+    {
+      "id": "WalkLoop_Male_RH",
+      "samples": 145,
+      "handDriftMaxM": 4.0848423533874814e-07,
+      "handleProjectionMaxM": 0.0,
+      "contactErrorM": null,
+      "finite": true,
+      "quaternionNormError": 2.220446049250313e-16
+    },
+    {
+      "id": "WalkStop_Male_RH",
+      "samples": 91,
+      "handDriftMaxM": 4.039538028170299e-07,
+      "handleProjectionMaxM": 0.0,
+      "contactErrorM": null,
+      "finite": true,
+      "quaternionNormError": 2.220446049250313e-16
+    },
+    {
+      "id": "BallPickup_Male_RH",
+      "samples": 265,
+      "handDriftMaxM": 3.223572248554311e-07,
+      "handleProjectionMaxM": 0.006386035745098915,
+      "contactErrorM": null,
+      "finite": true,
+      "quaternionNormError": 2.220446049250313e-16
+    },
+    {
+      "id": "TeePlacement_Male_RH",
+      "samples": 265,
+      "handDriftMaxM": 3.223572248554311e-07,
+      "handleProjectionMaxM": 0.006386035745098915,
+      "contactErrorM": null,
+      "finite": true,
+      "quaternionNormError": 2.220446049250313e-16
+    },
+    {
+      "id": "GoodShot_Male_RH",
+      "samples": 277,
+      "handDriftMaxM": 5.32873926890402e-07,
+      "handleProjectionMaxM": 0.12672969545571514,
+      "contactErrorM": null,
+      "finite": true,
+      "quaternionNormError": 2.220446049250313e-16
+    },
+    {
+      "id": "Disappointed_Male_RH",
+      "samples": 265,
+      "handDriftMaxM": 4.15343075400735e-07,
+      "handleProjectionMaxM": 0.0,
+      "contactErrorM": null,
+      "finite": true,
+      "quaternionNormError": 2.220446049250313e-16
+    },
+    {
+      "id": "NeutralIdle_Male_LH",
+      "samples": 289,
+      "handDriftMaxM": 1.0355552055580995e-07,
+      "handleProjectionMaxM": 0.0,
+      "contactErrorM": null,
+      "finite": true,
+      "quaternionNormError": 2.220446049250313e-16
+    },
+    {
+      "id": "AddressDriver_Male_LH",
+      "samples": 289,
+      "handDriftMaxM": 3.750908483295955e-07,
+      "handleProjectionMaxM": 0.0,
+      "contactErrorM": null,
+      "finite": true,
+      "quaternionNormError": 2.220446049250313e-16
+    },
+    {
+      "id": "AddressIron_Male_LH",
+      "samples": 289,
+      "handDriftMaxM": 4.0260893318933656e-07,
+      "handleProjectionMaxM": 0.0,
+      "contactErrorM": null,
+      "finite": true,
+      "quaternionNormError": 3.3306690738754696e-16
+    },
+    {
+      "id": "AddressWedge_Male_LH",
+      "samples": 289,
+      "handDriftMaxM": 4.5265345801509986e-07,
+      "handleProjectionMaxM": 0.0,
+      "contactErrorM": null,
+      "finite": true,
+      "quaternionNormError": 2.220446049250313e-16
+    },
+    {
+      "id": "AddressPutt_Male_LH",
+      "samples": 289,
+      "handDriftMaxM": 4.4559816805100075e-07,
+      "handleProjectionMaxM": 0.0,
+      "contactErrorM": null,
+      "finite": true,
+      "quaternionNormError": 3.3306690738754696e-16
+    },
+    {
+      "id": "Waggle_Male_LH",
+      "samples": 289,
+      "handDriftMaxM": 4.0260893318933656e-07,
+      "handleProjectionMaxM": 0.0,
+      "contactErrorM": null,
+      "finite": true,
+      "quaternionNormError": 2.220446049250313e-16
+    },
+    {
+      "id": "AimLeft_Male_LH",
+      "samples": 145,
+      "handDriftMaxM": 4.027407466420409e-07,
+      "handleProjectionMaxM": 0.0,
+      "contactErrorM": null,
+      "finite": true,
+      "quaternionNormError": 3.3306690738754696e-16
+    },
+    {
+      "id": "AimRight_Male_LH",
+      "samples": 145,
+      "handDriftMaxM": 4.032126341711534e-07,
+      "handleProjectionMaxM": 0.0,
+      "contactErrorM": null,
+      "finite": true,
+      "quaternionNormError": 3.3306690738754696e-16
+    },
+    {
+      "id": "Drive_Male_LH",
+      "samples": 409,
+      "handDriftMaxM": 7.991949935320996e-07,
+      "handleProjectionMaxM": 0.13710188722861114,
+      "contactErrorM": 0.0004148359780072496,
+      "finite": true,
+      "quaternionNormError": 2.220446049250313e-16
+    },
+    {
+      "id": "IronSwing_Male_LH",
+      "samples": 373,
+      "handDriftMaxM": 7.817193001442646e-07,
+      "handleProjectionMaxM": 0.10784196775676622,
+      "contactErrorM": 0.0003816490997666176,
+      "finite": true,
+      "quaternionNormError": 3.3306690738754696e-16
+    },
+    {
+      "id": "HalfSwing_Male_LH",
+      "samples": 301,
+      "handDriftMaxM": 5.188924765529081e-07,
+      "handleProjectionMaxM": 0.0,
+      "contactErrorM": 2.2084876237282098e-16,
+      "finite": true,
+      "quaternionNormError": 2.220446049250313e-16
+    },
+    {
+      "id": "Pitch_Male_LH",
+      "samples": 283,
+      "handDriftMaxM": 4.5265345801509986e-07,
+      "handleProjectionMaxM": 0.0,
+      "contactErrorM": 1.4220500840710912e-16,
+      "finite": true,
+      "quaternionNormError": 3.3306690738754696e-16
+    },
+    {
+      "id": "Chip_Male_LH",
+      "samples": 235,
+      "handDriftMaxM": 4.874273209491641e-07,
+      "handleProjectionMaxM": 0.0,
+      "contactErrorM": 1.4220500840710912e-16,
+      "finite": true,
+      "quaternionNormError": 2.220446049250313e-16
+    },
+    {
+      "id": "BunkerShot_Male_LH",
+      "samples": 319,
+      "handDriftMaxM": 5.956614775509999e-07,
+      "handleProjectionMaxM": 0.017084479639235213,
+      "contactErrorM": 1.4220500840710912e-16,
+      "finite": true,
+      "quaternionNormError": 3.3306690738754696e-16
+    },
+    {
+      "id": "Putt_Male_LH",
+      "samples": 241,
+      "handDriftMaxM": 4.4559816805100075e-07,
+      "handleProjectionMaxM": 0.03685370849726672,
+      "contactErrorM": 1.8875832159447664e-16,
+      "finite": true,
+      "quaternionNormError": 2.220446049250313e-16
+    },
+    {
+      "id": "SwingAbort_Male_LH",
+      "samples": 157,
+      "handDriftMaxM": 7.811218221878401e-07,
+      "handleProjectionMaxM": 0.07687279067435385,
+      "contactErrorM": null,
+      "finite": true,
+      "quaternionNormError": 2.220446049250313e-16
+    },
+    {
+      "id": "Recovery_Male_LH",
+      "samples": 157,
+      "handDriftMaxM": 4.861884345414404e-07,
+      "handleProjectionMaxM": 0.0,
+      "contactErrorM": null,
+      "finite": true,
+      "quaternionNormError": 3.3306690738754696e-16
+    },
+    {
+      "id": "WalkStart_Male_LH",
+      "samples": 91,
+      "handDriftMaxM": 1.1482906794571966e-07,
+      "handleProjectionMaxM": 0.0,
+      "contactErrorM": null,
+      "finite": true,
+      "quaternionNormError": 2.220446049250313e-16
+    },
+    {
+      "id": "WalkLoop_Male_LH",
+      "samples": 145,
+      "handDriftMaxM": 1.1575759183796158e-07,
+      "handleProjectionMaxM": 0.0,
+      "contactErrorM": null,
+      "finite": true,
+      "quaternionNormError": 3.3306690738754696e-16
+    },
+    {
+      "id": "WalkStop_Male_LH",
+      "samples": 91,
+      "handDriftMaxM": 1.132491757732072e-07,
+      "handleProjectionMaxM": 0.0,
+      "contactErrorM": null,
+      "finite": true,
+      "quaternionNormError": 2.220446049250313e-16
+    },
+    {
+      "id": "BallPickup_Male_LH",
+      "samples": 265,
+      "handDriftMaxM": 4.0260893318933656e-07,
+      "handleProjectionMaxM": 0.00638603677653239,
+      "contactErrorM": null,
+      "finite": true,
+      "quaternionNormError": 2.220446049250313e-16
+    },
+    {
+      "id": "TeePlacement_Male_LH",
+      "samples": 265,
+      "handDriftMaxM": 4.0260893318933656e-07,
+      "handleProjectionMaxM": 0.00638603677653239,
+      "contactErrorM": null,
+      "finite": true,
+      "quaternionNormError": 2.220446049250313e-16
+    },
+    {
+      "id": "GoodShot_Male_LH",
+      "samples": 277,
+      "handDriftMaxM": 6.046673032075525e-07,
+      "handleProjectionMaxM": 0.1267296972754508,
+      "contactErrorM": null,
+      "finite": true,
+      "quaternionNormError": 3.3306690738754696e-16
+    },
+    {
+      "id": "Disappointed_Male_LH",
+      "samples": 265,
+      "handDriftMaxM": 4.4811990894325547e-07,
+      "handleProjectionMaxM": 0.0,
+      "contactErrorM": null,
+      "finite": true,
+      "quaternionNormError": 2.220446049250313e-16
+    }
+  ]
+}

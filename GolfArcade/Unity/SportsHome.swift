@@ -151,10 +151,11 @@ struct SportsHome: View {
                 session.golfShotReady = true; session.golfPhase = "Aim"
                 session.golfController = .reference; session.loading.cancel()
                 if args.contains("-golfControllerNotReady") { session.ready = false }
-                // the swing button as held: 1 holding still while the grip is set, 2 armed, swing
-                if let i = args.firstIndex(of: "-golfControllerHold"), let state = Int(args[safe: i + 1] ?? "") {
-                    _ = session.golfHold.press(canArm: true); session.golfSwingState = state
-                    _ = session.golfHold.observe(phase: "Aim", shotReady: true, unityState: state)
+                // the swing button as tapped: swinging, tap again to cancel
+                if args.contains("-golfControllerSwinging") {
+                    let now = ProcessInfo.processInfo.systemUptime
+                    _ = session.golfTap.tap(canArm: true, now: now); session.golfSwingState = 2
+                    _ = session.golfTap.observe(phase: "Aim", shotReady: true, unityState: 2, now: now)
                 }
                 if args.contains("-golfControllerLoading") { session.loading.begin(now: Date()) }
             }

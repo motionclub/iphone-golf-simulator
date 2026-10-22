@@ -1,0 +1,25 @@
+{
+ "lam": 0.1,
+ "psig": 2.5,
+ "hp": 3,
+ "sp": 0.012,
+ "sg": 0.009,
+ "lo": 1.0,
+ "hi": 1.0,
+ "chestF": 0.25,
+ "chestB": 0.12,
+ "zr": [
+  1.12,
+  1.32
+ ],
+ "hmax": 10.0,
+ "iters": 14,
+ "guard_n": 1,
+ "guard_sigma": 0.02,
+ "guard_tol": 0.0,
+ "chest_gain": 1.7,
+ "chest_gain_z": [
+  1.13,
+  1.25
+ ]
+}

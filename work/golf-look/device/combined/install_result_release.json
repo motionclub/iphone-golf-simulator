@@ -1,0 +1,71 @@
+{
+  "error" : {
+    "code" : 3002,
+    "domain" : "com.apple.dt.CoreDeviceError",
+    "userInfo" : {
+      "NSLocalizedDescription" : {
+        "string" : "Failed to install the app on the device."
+      },
+      "NSURL" : {
+        "url" : "file:///Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/golf-look/device/combined/DerivedData/Build/Products/Release-iphoneos/GolfArcade.app/"
+      },
+      "NSUnderlyingError" : {
+        "error" : {
+          "code" : 1,
+          "domain" : "IXUserPresentableErrorDomain",
+          "userInfo" : {
+            "NSLocalizedDescription" : {
+              "string" : "Unable to Install “Motion Club”"
+            },
+            "NSLocalizedFailureReason" : {
+              "string" : "Please try again later."
+            },
+            "NSLocalizedRecoverySuggestion" : {
+              "string" : "Upgrade's application-identifier entitlement string (9F65U6SU2W.com.aloniewski.GolfArcade) does not match installed application's application-identifier string (9VP5B3Q5VQ.com.aloniewski.GolfArcade); rejecting upgrade."
+            },
+            "NSUnderlyingError" : {
+              "error" : {
+                "code" : 64,
+                "domain" : "MIInstallerErrorDomain",
+                "userInfo" : {
+                  "FunctionName" : {
+                    "string" : "-[MIInstallableBundle _validateApplicationIdentifierForNewBundleSigningInfo:error:]"
+                  },
+                  "LegacyErrorString" : {
+                    "string" : "MismatchedApplicationIdentifierEntitlement"
+                  },
+                  "NSLocalizedDescription" : {
+                    "string" : "Upgrade's application-identifier entitlement string (9F65U6SU2W.com.aloniewski.GolfArcade) does not match installed application's application-identifier string (9VP5B3Q5VQ.com.aloniewski.GolfArcade); rejecting upgrade."
+                  },
+                  "SourceFileLine" : {
+                    "int" : 1257
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "info" : {
+    "arguments" : [
+      "devicectl",
+      "device",
+      "install",
+      "app",
+      "--device",
+      "00008150-00041CD92287801C",
+      "work/golf-look/device/combined/DerivedData/Build/Products/Release-iphoneos/GolfArcade.app",
+      "--json-output",
+      "work/golf-look/device/combined/install_result_release.json"
+    ],
+    "commandType" : "devicectl.device.install.app",
+    "environment" : {
+      "TERM" : "dumb"
+    },
+    "jsonVersion" : 5,
+    "outcome" : "failed",
+    "version" : "642.16"
+  }
+}

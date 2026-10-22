@@ -1,0 +1,370 @@
+{
+  "basis": "Unity Metal variants compiled to optimized iOS AIR; vector IR inventory, not GPU hardware ALU counts or Xcode Compiler Statistics",
+  "compiler": "Apple metal version 32023.921 (metalfe-32023.921.6)\nTarget: air64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /private/var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v27.1.266.1.N2xUMW/Metal.xctoolchain/usr/metal/current/bin\n",
+  "variants": {
+    "GolfGround_golf": {
+      "floating_IR_instructions": {
+        "fmul": 90,
+        "fcmp": 15,
+        "fneg": 20,
+        "fsub": 9,
+        "fdiv": 9,
+        "fadd": 26
+      },
+      "floating_IR_count": 169,
+      "AIR_intrinsics": {
+        "dot": 27,
+        "rsqrt": 6,
+        "fast_fmax": 14,
+        "fast_rsqrt": 2,
+        "sample_texture_2d": 3,
+        "fma": 91,
+        "dfdx": 4,
+        "fast_sqrt": 2,
+        "dfdy": 4,
+        "fast_clamp": 3,
+        "fast_fabs": 6,
+        "fast_sin": 3,
+        "convert": 62,
+        "fast_saturate": 4,
+        "sample_compare_depth_2d": 30,
+        "fast_floor": 1,
+        "fast_fmin": 2,
+        "clamp": 10,
+        "log2": 2,
+        "exp2": 2,
+        "fmin": 1,
+        "fmax": 1
+      },
+      "sample_calls": 33
+    },
+    "GolfGround_plain": {
+      "floating_IR_instructions": {
+        "fmul": 46,
+        "fcmp": 10,
+        "fneg": 10,
+        "fsub": 5,
+        "fdiv": 3,
+        "fadd": 8
+      },
+      "floating_IR_count": 82,
+      "AIR_intrinsics": {
+        "dot": 20,
+        "rsqrt": 5,
+        "sample_texture_2d": 3,
+        "fma": 32,
+        "dfdx": 4,
+        "fast_sqrt": 2,
+        "dfdy": 4,
+        "fast_fmax": 10,
+        "fast_clamp": 3,
+        "fast_fabs": 6,
+        "fast_sin": 3,
+        "convert": 28,
+        "fast_rsqrt": 1,
+        "clamp": 6,
+        "log2": 1,
+        "exp2": 1
+      },
+      "sample_calls": 3
+    },
+    "GolfRock_golf": {
+      "floating_IR_instructions": {
+        "fmul": 78,
+        "fcmp": 10,
+        "fneg": 13,
+        "fsub": 8,
+        "fdiv": 8,
+        "fadd": 24
+      },
+      "floating_IR_count": 141,
+      "AIR_intrinsics": {
+        "dot": 21,
+        "rsqrt": 3,
+        "fast_fmax": 9,
+        "fast_rsqrt": 2,
+        "fabs": 1,
+        "convert": 63,
+        "sample_texture_2d": 3,
+        "fma": 80,
+        "fast_sin": 3,
+        "dfdx": 2,
+        "dfdy": 2,
+        "fast_fabs": 4,
+        "fast_clamp": 1,
+        "fast_saturate": 4,
+        "sample_compare_depth_2d": 30,
+        "fast_floor": 1,
+        "fast_fmin": 2,
+        "clamp": 10,
+        "log2": 2,
+        "exp2": 2,
+        "fmin": 1,
+        "fmax": 1
+      },
+      "sample_calls": 33
+    },
+    "GolfRock_plain": {
+      "floating_IR_instructions": {
+        "fcmp": 5,
+        "fmul": 34,
+        "fneg": 3,
+        "fadd": 6,
+        "fsub": 4,
+        "fdiv": 2
+      },
+      "floating_IR_count": 54,
+      "AIR_intrinsics": {
+        "dot": 14,
+        "rsqrt": 2,
+        "fma": 21,
+        "fast_clamp": 1,
+        "convert": 28,
+        "clamp": 6,
+        "fast_sin": 3,
+        "dfdx": 2,
+        "dfdy": 2,
+        "fast_fabs": 4,
+        "fast_fmax": 5,
+        "fabs": 1,
+        "sample_texture_2d": 3,
+        "fast_rsqrt": 1,
+        "log2": 1,
+        "exp2": 1
+      },
+      "sample_calls": 3
+    },
+    "Lit_golf": {
+      "floating_IR_instructions": {
+        "fmul": 45,
+        "fcmp": 4,
+        "fneg": 11,
+        "fsub": 7,
+        "fadd": 11,
+        "fdiv": 4
+      },
+      "floating_IR_count": 82,
+      "AIR_intrinsics": {
+        "sample_texture_2d": 2,
+        "convert": 30,
+        "fma": 33,
+        "dot": 26,
+        "fast_rsqrt": 5,
+        "fast_fmax": 7,
+        "fmax": 5,
+        "fast_saturate": 1,
+        "sample_compare_depth_2d": 4,
+        "sample_texture_cube": 1,
+        "fmin": 5,
+        "clamp": 5,
+        "fast_clamp": 6,
+        "log2": 1,
+        "exp2": 1
+      },
+      "sample_calls": 7
+    },
+    "Lit_plain": {
+      "floating_IR_instructions": {
+        "fsub": 3,
+        "fmul": 29,
+        "fcmp": 2,
+        "fneg": 8,
+        "fadd": 5,
+        "fdiv": 2
+      },
+      "floating_IR_count": 49,
+      "AIR_intrinsics": {
+        "sample_texture_2d": 2,
+        "dot": 17,
+        "fast_rsqrt": 3,
+        "convert": 19,
+        "fma": 19,
+        "fast_fmax": 3,
+        "fmax": 3,
+        "sample_texture_cube": 1,
+        "log2": 1,
+        "exp2": 1,
+        "clamp": 3,
+        "fast_clamp": 2,
+        "fmin": 3
+      },
+      "sample_calls": 3
+    },
+    "TennisCharacter_golf": {
+      "floating_IR_instructions": {
+        "fmul": 37,
+        "fcmp": 7,
+        "fneg": 6,
+        "fsub": 11,
+        "fadd": 8,
+        "fdiv": 5
+      },
+      "floating_IR_count": 74,
+      "AIR_intrinsics": {
+        "dot": 20,
+        "fast_rsqrt": 3,
+        "sample_texture_2d": 1,
+        "convert": 28,
+        "fma": 24,
+        "fast_saturate": 1,
+        "sample_compare_depth_2d": 4,
+        "clamp": 10,
+        "fmax": 4,
+        "rsqrt": 2,
+        "log2": 3,
+        "exp2": 4,
+        "fmin": 1,
+        "fast_fmax": 4
+      },
+      "sample_calls": 5
+    },
+    "TennisCharacter_plain": {
+      "floating_IR_instructions": {
+        "fcmp": 5,
+        "fmul": 21,
+        "fsub": 8,
+        "fneg": 4,
+        "fadd": 3,
+        "fdiv": 3
+      },
+      "floating_IR_count": 44,
+      "AIR_intrinsics": {
+        "sample_texture_2d": 1,
+        "convert": 17,
+        "dot": 13,
+        "fast_rsqrt": 2,
+        "clamp": 6,
+        "log2": 2,
+        "exp2": 3,
+        "fma": 14,
+        "fmax": 2,
+        "rsqrt": 1,
+        "fast_fmax": 3
+      },
+      "sample_calls": 1
+    },
+    "TennisCloth_golf": {
+      "floating_IR_instructions": {
+        "fmul": 94,
+        "fcmp": 14,
+        "fneg": 13,
+        "fsub": 17,
+        "fadd": 12,
+        "fdiv": 10
+      },
+      "floating_IR_count": 160,
+      "AIR_intrinsics": {
+        "dot": 25,
+        "fast_rsqrt": 4,
+        "sample_texture_2d": 2,
+        "fma": 53,
+        "fast_floor": 1,
+        "fast_sin": 1,
+        "fast_cos": 1,
+        "dfdx": 1,
+        "dfdy": 1,
+        "fast_fabs": 4,
+        "fast_fmax": 16,
+        "fast_clamp": 2,
+        "sample_texture_2d_grad": 1,
+        "convert": 75,
+        "rsqrt": 4,
+        "clamp": 10,
+        "fast_saturate": 1,
+        "sample_compare_depth_2d": 2,
+        "fast_log2": 2,
+        "fast_exp2": 2,
+        "log2": 3,
+        "exp2": 5,
+        "fmin": 1,
+        "fmax": 5
+      },
+      "sample_calls": 5
+    },
+    "TennisCloth_plain": {
+      "floating_IR_instructions": {
+        "fmul": 70,
+        "fcmp": 12,
+        "fsub": 13,
+        "fneg": 8,
+        "fadd": 8,
+        "fdiv": 7
+      },
+      "floating_IR_count": 118,
+      "AIR_intrinsics": {
+        "dot": 18,
+        "fast_rsqrt": 3,
+        "sample_texture_2d": 2,
+        "fma": 36,
+        "fast_floor": 1,
+        "fast_sin": 1,
+        "fast_cos": 1,
+        "dfdx": 1,
+        "dfdy": 1,
+        "fast_fabs": 4,
+        "fast_fmax": 12,
+        "fast_clamp": 1,
+        "sample_texture_2d_grad": 1,
+        "convert": 57,
+        "rsqrt": 3,
+        "clamp": 6,
+        "fast_log2": 1,
+        "fast_exp2": 1,
+        "log2": 2,
+        "exp2": 4,
+        "fmax": 4
+      },
+      "sample_calls": 3
+    },
+    "TennisFace_golf": {
+      "floating_IR_instructions": {
+        "fadd": 7,
+        "fcmp": 7,
+        "fmul": 11,
+        "fdiv": 3,
+        "fsub": 7,
+        "fneg": 3
+      },
+      "floating_IR_count": 38,
+      "AIR_intrinsics": {
+        "sample_texture_2d": 1,
+        "discard_fragment": 1,
+        "fma": 10,
+        "fast_saturate": 1,
+        "sample_compare_depth_2d": 4,
+        "convert": 11,
+        "dot": 9,
+        "fast_rsqrt": 1,
+        "clamp": 3,
+        "fmax": 1,
+        "fast_fmax": 3,
+        "exp2": 1
+      },
+      "sample_calls": 5
+    },
+    "TennisFace_plain": {
+      "floating_IR_instructions": {
+        "fadd": 4,
+        "fcmp": 5,
+        "fmul": 8,
+        "fsub": 5,
+        "fneg": 3,
+        "fdiv": 3
+      },
+      "floating_IR_count": 28,
+      "AIR_intrinsics": {
+        "sample_texture_2d": 1,
+        "discard_fragment": 1,
+        "convert": 10,
+        "dot": 8,
+        "fast_rsqrt": 1,
+        "clamp": 3,
+        "fma": 6,
+        "fmax": 1,
+        "fast_fmax": 3,
+        "exp2": 1
+      },
+      "sample_calls": 1
+    }
+  }
+}

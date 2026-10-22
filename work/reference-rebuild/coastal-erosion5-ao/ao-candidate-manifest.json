@@ -1,0 +1,19 @@
+{
+  "status": "INSTALLED AO CANDIDATE; Unity compile and actual same-geometry A/B pending",
+  "source": "Unity/Assets/Resources/Course/Shaders/GolfRock.shader",
+  "sourceSha256": "12349f7037212fdf54f49a527a2e98de0d0654bbbfa92d9bfcea4667b7f2608c",
+  "staged": "work/reference-rebuild/coastal-erosion5-ao/GolfRock.shader",
+  "stagedSha256": "235937a8d6d8a489310852264db5bde5eba7c3c3e5325e463543324cb5f4528f",
+  "gate": "_SCREEN_SPACE_OCCLUSION variant AND _AuthoredUV > .5",
+  "ambientOcclusionStrength": 0.65,
+  "indirectVisibilityRange": [
+    0.35,
+    1
+  ],
+  "directMainLightUnchanged": true,
+  "specularUnchanged": true,
+  "legacyRockBranchesUnchanged": true,
+  "renderer": "Unity/Assets/Resources/Tennis/Rendering/TennisURP_Renderer.asset Contact AO AfterOpaque=0",
+  "comparison": "Erosion5 baseline vs identical geometry with this shader correction",
+  "installedSha256": "235937a8d6d8a489310852264db5bde5eba7c3c3e5325e463543324cb5f4528f"
+}

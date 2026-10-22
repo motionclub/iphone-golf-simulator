@@ -1,0 +1,59 @@
+{
+  "gate": "PASS",
+  "results": {
+    "Male": {
+      "gate": "PASS",
+      "bonesCount": 53,
+      "bonesRestHierarchyExact": true,
+      "objects": {
+        "Body": {
+          "vertices": 33472,
+          "weightsTopologyUvColorExact": false,
+          "maxPositionDeltaMetres": 0.0032457709312438965,
+          "maxShapeDeltaErrorsMetres": {
+            "Basis": 0.0,
+            "Hero_Blink_Half": 0.0,
+            "Hero_Blink": 0.0
+          }
+        },
+        "ReferenceFeatures": {
+          "vertices": 1812,
+          "weightsTopologyUvColorExact": true,
+          "maxPositionDeltaMetres": 0.0,
+          "maxShapeDeltaErrorsMetres": {
+            "Basis": 0.0,
+            "Hero_Blink_Half": 0.0,
+            "Hero_Blink": 0.0
+          }
+        }
+      }
+    },
+    "Female": {
+      "gate": "PASS",
+      "bonesCount": 53,
+      "bonesRestHierarchyExact": true,
+      "objects": {
+        "Body": {
+          "vertices": 22891,
+          "weightsTopologyUvColorExact": false,
+          "maxPositionDeltaMetres": 0.0025242865085601807,
+          "maxShapeDeltaErrorsMetres": {
+            "Basis": 0.0,
+            "Hero_Blink_Half": 0.0,
+            "Hero_Blink": 0.0
+          }
+        },
+        "ReferenceFeatures": {
+          "vertices": 1616,
+          "weightsTopologyUvColorExact": true,
+          "maxPositionDeltaMetres": 0.0,
+          "maxShapeDeltaErrorsMetres": {
+            "Basis": 0.0,
+            "Hero_Blink_Half": 0.0,
+            "Hero_Blink": 0.0
+          }
+        }
+      }
+    }
+  }
+}

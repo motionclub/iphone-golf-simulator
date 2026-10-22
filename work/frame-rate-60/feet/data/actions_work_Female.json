@@ -1,0 +1,170 @@
+{
+ "Backhand": {
+  "sha256": "ba92059285baff4beedfa0fe827d16753c5816a2ee1fd1b3c0f457746ef627d2",
+  "fcurves": 211,
+  "frame_range": [
+   0.0,
+   36.0
+  ]
+ },
+ "BackhandWide": {
+  "sha256": "6d3507b4602e7bd74e101fcbdcc75ce5f4b8caeb065c3c4528404030a872a881",
+  "fcurves": 211,
+  "frame_range": [
+   0.0,
+   39.0
+  ]
+ },
+ "Forehand": {
+  "sha256": "888abf56963c1a03b1d76ef92c0b752f3b414194ab6269eb6c906c687598f586",
+  "fcurves": 211,
+  "frame_range": [
+   0.0,
+   36.0
+  ]
+ },
+ "ForehandOpen": {
+  "sha256": "bdafb9449b568e745ddff1f57734fc08ffba80b9226cb20600c0e9ccaec1d9e5",
+  "fcurves": 211,
+  "frame_range": [
+   0.0,
+   30.0
+  ]
+ },
+ "ForehandShort": {
+  "sha256": "f038273eb58c26f64fd38e61d6ce23eadbd09e7b777f50bf05b6f6c5fca3399e",
+  "fcurves": 211,
+  "frame_range": [
+   0.0,
+   30.0
+  ]
+ },
+ "ForehandWide": {
+  "sha256": "36389feab2605bbacbcb8becf4aedcadf833a44029c0f17e0e8cb454af6c39b0",
+  "fcurves": 211,
+  "frame_range": [
+   0.0,
+   39.0
+  ]
+ },
+ "Overhead": {
+  "sha256": "bface1ff1c59e9e368cbf19bd962125a22e7744ad19cbf172aa0a1419d7dda67",
+  "fcurves": 211,
+  "frame_range": [
+   0.0,
+   36.0
+  ]
+ },
+ "ReadyIdle": {
+  "sha256": "12e765ff72a2f3def28303820d51f31b02739fb7ba11607c17da0c16426d1fe1",
+  "fcurves": 211,
+  "frame_range": [
+   0.0,
+   66.0
+  ]
+ },
+ "RecoverCenter": {
+  "sha256": "854470256c26d9a9eb7d6682849ef65b6ccec00daceead5cf82c8b11a6f3243d",
+  "fcurves": 211,
+  "frame_range": [
+   0.0,
+   24.0
+  ]
+ },
+ "Return": {
+  "sha256": "29f8a6caf9a503508a07621fdd62113d853db78cf354db5e8e2bcc640e65771c",
+  "fcurves": 211,
+  "frame_range": [
+   0.0,
+   27.0
+  ]
+ },
+ "RunForward": {
+  "sha256": "63b2881d4dc91407ce615cf9321357b4b88eec8e3c247c68ff257b82a58b5eef",
+  "fcurves": 211,
+  "frame_range": [
+   0.0,
+   17.0
+  ]
+ },
+ "RunLeft": {
+  "sha256": "6dcd1172ded61a5d6c23fc4c8b9eff49ab2eb8698af71c19cfca311ecc641935",
+  "fcurves": 211,
+  "frame_range": [
+   0.0,
+   17.0
+  ]
+ },
+ "RunRight": {
+  "sha256": "df150aec30381b53220174e158ac59d69a160a68335218479a2d57301f836b5f",
+  "fcurves": 211,
+  "frame_range": [
+   0.0,
+   17.0
+  ]
+ },
+ "Serve": {
+  "sha256": "5d2a5002ba1b8d8621fc4ff4c446a52c24706549c5459aadccf3e0c42b2c5725",
+  "fcurves": 211,
+  "frame_range": [
+   0.0,
+   75.0
+  ]
+ },
+ "Serve_old": {
+  "sha256": "5888e1ced7206a9ba9579aac09ca05332a42454ba514f0aba09579120976b7df",
+  "fcurves": 211,
+  "frame_range": [
+   0.0,
+   48.0
+  ]
+ },
+ "SliceApproach": {
+  "sha256": "eeb7f3ab0fecbe9f23531f7b3052d67da6ccaddc7d6f4d88b3899d1150911e33",
+  "fcurves": 211,
+  "frame_range": [
+   0.0,
+   36.0
+  ]
+ },
+ "SplitToBackhand": {
+  "sha256": "cf120cc3705c7ae9ea78787ead241e9021aed47714af3629c657bceb27a12a01",
+  "fcurves": 211,
+  "frame_range": [
+   0.0,
+   18.0
+  ]
+ },
+ "SplitToForehand": {
+  "sha256": "b252d103c425c4a99b72cba77a35cd43ffba62a80f5c6fa49fda8dd657e8be7b",
+  "fcurves": 211,
+  "frame_range": [
+   0.0,
+   18.0
+  ]
+ },
+ "VolleyBackhand": {
+  "sha256": "5ea1651bc71e3aff089d7c5ac8c61289dab79b1e3bf2633a08e3db370822f8ea",
+  "fcurves": 211,
+  "frame_range": [
+   0.0,
+   21.0
+  ]
+ },
+ "VolleyForehand": {
+  "sha256": "43d3c9279a8ecbd93435035f599a3c9b212a87171881111d2379aadc055e266e",
+  "fcurves": 211,
+  "frame_range": [
+   0.0,
+   21.0
+  ]
+ },
+ "Walk": {
+  "sha256": "6f940b54d2e1964178914f7c8c2e3570e2d9bdef1791a24fcfe67099c97333b7",
+  "fcurves": 211,
+  "frame_range": [
+   0.0,
+   33.0
+  ]
+ }
+}

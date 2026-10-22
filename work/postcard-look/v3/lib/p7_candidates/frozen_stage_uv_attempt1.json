@@ -1,0 +1,14 @@
+{
+  "scope": "Unchanged original H_GLOW_JOINTS predicate on complete read-only frozen P4 blend; only sampled source PNGs redirected to scratch. No stage/source writes.",
+  "gates": [
+    {
+      "name": "H_GLOW_JOINTS@scratch_candidate_on_frozen_blend",
+      "ok": true,
+      "detail": "Basalt_E sampled at the authored UVs of 598 ROCK_ objects (LK_BASALT): glow texels on TOP faces 0.02% (<= 0.5 %), on SIDE faces 1.96% (texture mean 4.05%, continuous box UV = 1.0 x; allowed 0.25..0.6 x = 1.01%..2.43%), 30% of the side area carries any glow (10-50 %), median glow dash 2.6 m long in the world (>= 2.5 m; the box-UV lattice is 0.84 m), world v tile 25.0 m"
+    }
+  ],
+  "stage": "/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/postcard-look/v3/hole10/stage/hole_10.blend",
+  "stage_sha256": "37484886feb1bb779e656ba90b597735385e543122299ca9c804e481afa9602d",
+  "emission_sha256": "7d46c1565ebae9e85d0c3dd23d7d42f79ed37f45e677ee44972f857cee7e75e3",
+  "base_s": 1.0
+}

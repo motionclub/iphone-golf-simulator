@@ -1,0 +1,130 @@
+{
+  "Male": {
+    "columns": "left0, middle50%, right100% existing sleeve9 envelope",
+    "sameBindVerticesNormalsTrianglesUVWeightsRig": true,
+    "poses": [
+      {
+        "envelopeWeight": 0,
+        "comparedTorsoVertices": 2999,
+        "penetrationsOver1mm": 248,
+        "maximumPenetrationMetres": 0.03378885536221787,
+        "posedSourceVertices": 15401,
+        "poseBounds": [
+          [
+            -0.3369504517044713,
+            0.8926447565842976,
+            -0.10284485782590816
+          ],
+          [
+            0.3121009131688962,
+            1.4435034896796317,
+            0.24342150249639102
+          ]
+        ]
+      },
+      {
+        "envelopeWeight": 0.5,
+        "comparedTorsoVertices": 2999,
+        "penetrationsOver1mm": 89,
+        "maximumPenetrationMetres": 0.008666490510222502,
+        "posedSourceVertices": 15401,
+        "poseBounds": [
+          [
+            -0.3418529268529261,
+            0.8926447565842976,
+            -0.10284485782590816
+          ],
+          [
+            0.3104662293793816,
+            1.4435034896796317,
+            0.2436141471632546
+          ]
+        ]
+      },
+      {
+        "envelopeWeight": 1,
+        "comparedTorsoVertices": 2999,
+        "penetrationsOver1mm": 2,
+        "maximumPenetrationMetres": 0.0036068091867491603,
+        "posedSourceVertices": 15401,
+        "poseBounds": [
+          [
+            -0.347885124842225,
+            0.8926447565842976,
+            -0.10284485782590816
+          ],
+          [
+            0.30905772163299045,
+            1.4435034896796317,
+            0.2464768357760793
+          ]
+        ]
+      }
+    ],
+    "warning": "Nearest signed samples include garment linings; visual body-poke review remains required. No final coverage PASS."
+  },
+  "Female": {
+    "columns": "left0, middle50%, right100% existing sleeve9 envelope",
+    "sameBindVerticesNormalsTrianglesUVWeightsRig": true,
+    "poses": [
+      {
+        "envelopeWeight": 0,
+        "comparedTorsoVertices": 6184,
+        "penetrationsOver1mm": 634,
+        "maximumPenetrationMetres": 0.020228144247084856,
+        "posedSourceVertices": 13932,
+        "poseBounds": [
+          [
+            -0.29169900319439446,
+            0.9232870970043061,
+            -0.11306722509956514
+          ],
+          [
+            0.2557896474557768,
+            1.3763695065152375,
+            0.19775364066621287
+          ]
+        ]
+      },
+      {
+        "envelopeWeight": 0.5,
+        "comparedTorsoVertices": 6184,
+        "penetrationsOver1mm": 123,
+        "maximumPenetrationMetres": 0.008980408892966807,
+        "posedSourceVertices": 13932,
+        "poseBounds": [
+          [
+            -0.2914086589604905,
+            0.9232870970043061,
+            -0.11306722509956514
+          ],
+          [
+            0.2549334724220532,
+            1.3763695065152375,
+            0.19783508102079803
+          ]
+        ]
+      },
+      {
+        "envelopeWeight": 1,
+        "comparedTorsoVertices": 6184,
+        "penetrationsOver1mm": 64,
+        "maximumPenetrationMetres": 0.008819404989480972,
+        "posedSourceVertices": 13932,
+        "poseBounds": [
+          [
+            -0.2911985614452471,
+            0.9232870970043061,
+            -0.11306722509956514
+          ],
+          [
+            0.25496959026504323,
+            1.3763695065152375,
+            0.19791652137538318
+          ]
+        ]
+      }
+    ],
+    "warning": "Nearest signed samples include garment linings; visual body-poke review remains required. No final coverage PASS."
+  }
+}

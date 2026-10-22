@@ -1,0 +1,387 @@
+{
+    "unity": "6000.3.24f1",
+    "gpu": "Apple M5",
+    "pipeline": "TennisURP",
+    "heroes": [
+        {
+            "sex": "male",
+            "kit": [
+                {
+                    "name": "Kit_Top",
+                    "verts": 15273,
+                    "tris": 22298,
+                    "bones": 53,
+                    "areaM2": 1.4413471221923829,
+                    "uvArea": 0.46779826283454897,
+                    "pxPerCm": 11.667423248291016,
+                    "materials": [
+                        "Kit_Shirt (hero)",
+                        "Kit_ShirtTrim (hero)"
+                    ],
+                    "maps": [
+                        "_BaseMap=Kit_Male_Top",
+                        "_NormalMap=-",
+                        "_MaskMap=-",
+                        "_WeaveMap=Cloth_Weave",
+                        "_BaseMap=Kit_Male_Top",
+                        "_NormalMap=-",
+                        "_MaskMap=-",
+                        "_WeaveMap=Cloth_Weave"
+                    ]
+                },
+                {
+                    "name": "Kit_Bottom",
+                    "verts": 13425,
+                    "tris": 21032,
+                    "bones": 53,
+                    "areaM2": 1.058232307434082,
+                    "uvArea": 0.4683879613876343,
+                    "pxPerCm": 6.812591075897217,
+                    "materials": [
+                        "Kit_Shorts (hero)",
+                        "Kit_ShortsBand (hero)"
+                    ],
+                    "maps": [
+                        "_BaseMap=Kit_Male_Bottom",
+                        "_NormalMap=-",
+                        "_MaskMap=-",
+                        "_WeaveMap=Cloth_Weave",
+                        "_BaseMap=Kit_Male_Bottom",
+                        "_NormalMap=-",
+                        "_MaskMap=-",
+                        "_WeaveMap=Cloth_Weave"
+                    ]
+                },
+                {
+                    "name": "Kit_Sock_L",
+                    "verts": 4164,
+                    "tris": 6270,
+                    "bones": 53,
+                    "areaM2": 0.3905433714389801,
+                    "uvArea": 0.42005354166030886,
+                    "pxPerCm": 5.309916019439697,
+                    "materials": [
+                        "Kit_Sock (hero)"
+                    ],
+                    "maps": [
+                        "_BaseMap=Kit_Male_SockL",
+                        "_NormalMap=-",
+                        "_MaskMap=-",
+                        "_WeaveMap=Cloth_Weave"
+                    ]
+                },
+                {
+                    "name": "Kit_Sock_R",
+                    "verts": 4197,
+                    "tris": 6270,
+                    "bones": 53,
+                    "areaM2": 0.3912980258464813,
+                    "uvArea": 0.41977086663246157,
+                    "pxPerCm": 5.30300760269165,
+                    "materials": [
+                        "Kit_Sock (hero)"
+                    ],
+                    "maps": [
+                        "_BaseMap=Kit_Male_SockR",
+                        "_NormalMap=-",
+                        "_MaskMap=-",
+                        "_WeaveMap=Cloth_Weave"
+                    ]
+                },
+                {
+                    "name": "Kit_Shoe_L",
+                    "verts": 12868,
+                    "tris": 17678,
+                    "bones": 53,
+                    "areaM2": 0.3918282687664032,
+                    "uvArea": 0.43128836154937746,
+                    "pxPerCm": 10.743256568908692,
+                    "materials": [
+                        "Kit_Shoe (hero)",
+                        "Kit_Sole (hero)"
+                    ],
+                    "maps": [
+                        "_BaseMap=Kit_Male_ShoeL",
+                        "_NormalMap=-",
+                        "_MaskMap=-",
+                        "_WeaveMap=Cloth_Weave",
+                        "_BaseMap=Kit_Male_ShoeL",
+                        "_NormalMap=-",
+                        "_MaskMap=-",
+                        "_WeaveMap=Cloth_Weave"
+                    ]
+                },
+                {
+                    "name": "Kit_Shoe_R",
+                    "verts": 12868,
+                    "tris": 17678,
+                    "bones": 53,
+                    "areaM2": 0.3918282687664032,
+                    "uvArea": 0.4312882721424103,
+                    "pxPerCm": 10.743255615234375,
+                    "materials": [
+                        "Kit_Shoe (hero)",
+                        "Kit_Sole (hero)"
+                    ],
+                    "maps": [
+                        "_BaseMap=Kit_Male_ShoeR",
+                        "_NormalMap=-",
+                        "_MaskMap=-",
+                        "_WeaveMap=Cloth_Weave",
+                        "_BaseMap=Kit_Male_ShoeR",
+                        "_NormalMap=-",
+                        "_MaskMap=-",
+                        "_WeaveMap=Cloth_Weave"
+                    ]
+                }
+            ],
+            "sockets": [
+                {
+                    "pose": "Ready",
+                    "name": "Hand_Racket",
+                    "world": {
+                        "x": 0.030293142423033716,
+                        "y": 0.960273265838623,
+                        "z": -10.894121170043946
+                    }
+                },
+                {
+                    "pose": "Ready",
+                    "name": "Kit_Shoe_L",
+                    "world": {
+                        "x": 0.0,
+                        "y": 0.03500000014901161,
+                        "z": -11.199999809265137
+                    }
+                },
+                {
+                    "pose": "Ready",
+                    "name": "Kit_Shoe_R",
+                    "world": {
+                        "x": 0.0,
+                        "y": 0.03500000014901161,
+                        "z": -11.199999809265137
+                    }
+                },
+                {
+                    "pose": "Serve",
+                    "name": "Hand_Racket",
+                    "world": {
+                        "x": 0.3366146683692932,
+                        "y": 1.9737744331359864,
+                        "z": -10.874577522277832
+                    }
+                },
+                {
+                    "pose": "Serve",
+                    "name": "Kit_Shoe_L",
+                    "world": {
+                        "x": 0.0,
+                        "y": 0.03500000014901161,
+                        "z": -11.199999809265137
+                    }
+                },
+                {
+                    "pose": "Serve",
+                    "name": "Kit_Shoe_R",
+                    "world": {
+                        "x": 0.0,
+                        "y": 0.03500000014901161,
+                        "z": -11.199999809265137
+                    }
+                }
+            ],
+            "totalTris": 174032
+        },
+        {
+            "sex": "female",
+            "kit": [
+                {
+                    "name": "Kit_Top",
+                    "verts": 13600,
+                    "tris": 19408,
+                    "bones": 53,
+                    "areaM2": 0.9626495838165283,
+                    "uvArea": 0.47992315888404848,
+                    "pxPerCm": 14.46044635772705,
+                    "materials": [
+                        "Kit_Shirt (hero)",
+                        "Kit_ShirtTrim (hero)"
+                    ],
+                    "maps": [
+                        "_BaseMap=Kit_Female_Top",
+                        "_NormalMap=-",
+                        "_MaskMap=-",
+                        "_WeaveMap=Cloth_Weave",
+                        "_BaseMap=Kit_Female_Top",
+                        "_NormalMap=-",
+                        "_MaskMap=-",
+                        "_WeaveMap=Cloth_Weave"
+                    ]
+                },
+                {
+                    "name": "Kit_Bottom",
+                    "verts": 16744,
+                    "tris": 25646,
+                    "bones": 53,
+                    "areaM2": 1.3992847204208375,
+                    "uvArea": 0.5084078311920166,
+                    "pxPerCm": 6.172385215759277,
+                    "materials": [
+                        "Kit_Shorts (hero)",
+                        "Kit_ShortsBand (hero)"
+                    ],
+                    "maps": [
+                        "_BaseMap=Kit_Female_Bottom",
+                        "_NormalMap=-",
+                        "_MaskMap=-",
+                        "_WeaveMap=Cloth_Weave",
+                        "_BaseMap=Kit_Female_Bottom",
+                        "_NormalMap=-",
+                        "_MaskMap=-",
+                        "_WeaveMap=Cloth_Weave"
+                    ]
+                },
+                {
+                    "name": "Kit_Sock_L",
+                    "verts": 3426,
+                    "tris": 5082,
+                    "bones": 53,
+                    "areaM2": 0.2509858310222626,
+                    "uvArea": 0.3961256146430969,
+                    "pxPerCm": 6.4322333335876469,
+                    "materials": [
+                        "Kit_Sock (hero)"
+                    ],
+                    "maps": [
+                        "_BaseMap=Kit_Female_SockL",
+                        "_NormalMap=-",
+                        "_MaskMap=-",
+                        "_WeaveMap=Cloth_Weave"
+                    ]
+                },
+                {
+                    "name": "Kit_Sock_R",
+                    "verts": 3443,
+                    "tris": 5082,
+                    "bones": 53,
+                    "areaM2": 0.25086095929145815,
+                    "uvArea": 0.41409003734588625,
+                    "pxPerCm": 6.578105449676514,
+                    "materials": [
+                        "Kit_Sock (hero)"
+                    ],
+                    "maps": [
+                        "_BaseMap=Kit_Female_SockR",
+                        "_NormalMap=-",
+                        "_MaskMap=-",
+                        "_WeaveMap=Cloth_Weave"
+                    ]
+                },
+                {
+                    "name": "Kit_Shoe_L",
+                    "verts": 9935,
+                    "tris": 12910,
+                    "bones": 53,
+                    "areaM2": 0.23754937946796418,
+                    "uvArea": 0.4533209204673767,
+                    "pxPerCm": 14.145746231079102,
+                    "materials": [
+                        "Kit_Shoe (hero)",
+                        "Kit_Sole (hero)"
+                    ],
+                    "maps": [
+                        "_BaseMap=Kit_Female_ShoeL",
+                        "_NormalMap=-",
+                        "_MaskMap=-",
+                        "_WeaveMap=Cloth_Weave",
+                        "_BaseMap=Kit_Female_ShoeL",
+                        "_NormalMap=-",
+                        "_MaskMap=-",
+                        "_WeaveMap=Cloth_Weave"
+                    ]
+                },
+                {
+                    "name": "Kit_Shoe_R",
+                    "verts": 9935,
+                    "tris": 12910,
+                    "bones": 53,
+                    "areaM2": 0.23754937946796418,
+                    "uvArea": 0.4533209204673767,
+                    "pxPerCm": 14.145746231079102,
+                    "materials": [
+                        "Kit_Shoe (hero)",
+                        "Kit_Sole (hero)"
+                    ],
+                    "maps": [
+                        "_BaseMap=Kit_Female_ShoeR",
+                        "_NormalMap=-",
+                        "_MaskMap=-",
+                        "_WeaveMap=Cloth_Weave",
+                        "_BaseMap=Kit_Female_ShoeR",
+                        "_NormalMap=-",
+                        "_MaskMap=-",
+                        "_WeaveMap=Cloth_Weave"
+                    ]
+                }
+            ],
+            "sockets": [
+                {
+                    "pose": "Ready",
+                    "name": "Hand_Racket",
+                    "world": {
+                        "x": 0.02779039740562439,
+                        "y": 0.9686503410339356,
+                        "z": -10.947046279907227
+                    }
+                },
+                {
+                    "pose": "Ready",
+                    "name": "Kit_Shoe_L",
+                    "world": {
+                        "x": 0.0,
+                        "y": 0.03500000014901161,
+                        "z": -11.199999809265137
+                    }
+                },
+                {
+                    "pose": "Ready",
+                    "name": "Kit_Shoe_R",
+                    "world": {
+                        "x": 0.0,
+                        "y": 0.03500000014901161,
+                        "z": -11.199999809265137
+                    }
+                },
+                {
+                    "pose": "Serve",
+                    "name": "Hand_Racket",
+                    "world": {
+                        "x": 0.3445481061935425,
+                        "y": 1.8885830640792847,
+                        "z": -10.942073822021485
+                    }
+                },
+                {
+                    "pose": "Serve",
+                    "name": "Kit_Shoe_L",
+                    "world": {
+                        "x": 0.0,
+                        "y": 0.03500000014901161,
+                        "z": -11.199999809265137
+                    }
+                },
+                {
+                    "pose": "Serve",
+                    "name": "Kit_Shoe_R",
+                    "world": {
+                        "x": 0.0,
+                        "y": 0.03500000014901161,
+                        "z": -11.199999809265137
+                    }
+                }
+            ],
+            "totalTris": 141840
+        }
+    ]
+}

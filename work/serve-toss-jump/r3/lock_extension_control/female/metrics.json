@@ -1,0 +1,111 @@
+{
+  "rows": 1107,
+  "entryFrame": 107,
+  "entryTime": 2.8,
+  "serveEnd": 1.978333,
+  "G1_heights_mm": {
+    "Lheel": 10.79622,
+    "Ltoe": 1.412865,
+    "Rheel": 10.8836,
+    "Rtoe": 1.364298
+  },
+  "G2_knee_deg": 73.3982,
+  "G2_time": 1.329928,
+  "tossKneeThroughRelease": 35.09633,
+  "G3_first_clearance": {
+    "L": 1.572265,
+    "R": 1.572265
+  },
+  "G4_G8_contact": {
+    "clipTime": 1.6962630242409698,
+    "strings_x": 0.14755290399615983,
+    "strings_y": 2.167191314532581,
+    "strings_z": 0.4871936954278171,
+    "Lheel_mm": 269.6788571822873,
+    "Ltoe_mm": 207.06027718708748,
+    "Rheel_mm": 468.1069907716309,
+    "Rtoe_mm": 407.0464635665427,
+    "Lknee_deg": 73.5967806324253,
+    "Rknee_deg": 111.21238713548541,
+    "Relbow_deg": 159.74060222008882,
+    "bracket_ttc": [
+      0.005,
+      -0.003333
+    ]
+  },
+  "G5_apex": 1.778333,
+  "G6_touch": null,
+  "G6_settled": null,
+  "G7_entry_max_step": {
+    "mm": 32.924725678432026,
+    "bone": "Lhand",
+    "frame": 116,
+    "clipTime": 0.152272
+  },
+  "G9_hands": {
+    "L_all": {
+      "mm": 391.0492425577628,
+      "frame": 387,
+      "clipTime": 1.703333
+    },
+    "L_before": {
+      "mm": 223.7353495941131,
+      "frame": 383,
+      "clipTime": 1.572265
+    },
+    "L_contact": {
+      "mm": 391.0492425577628,
+      "frame": 387,
+      "clipTime": 1.703333
+    },
+    "L_after": {
+      "mm": 133.46263752076834,
+      "frame": 390,
+      "clipTime": 1.761667
+    },
+    "R_all": {
+      "mm": 284.9151666391244,
+      "frame": 387,
+      "clipTime": 1.703333
+    },
+    "R_before": {
+      "mm": 264.85001742495695,
+      "frame": 383,
+      "clipTime": 1.572265
+    },
+    "R_contact": {
+      "mm": 284.9151666391244,
+      "frame": 387,
+      "clipTime": 1.703333
+    },
+    "R_after": {
+      "mm": 204.84801077384182,
+      "frame": 395,
+      "clipTime": 1.861667
+    }
+  },
+  "G9_wrist": {
+    "degrees": 42.17180033735022,
+    "side": "R",
+    "frame": 383,
+    "clipTime": 1.572265
+  },
+  "G11_drift": {
+    "live": {
+      "mm": 5.809027457329039,
+      "side": "R",
+      "part": "toe",
+      "frame": 382,
+      "clipTime": 1.530292
+    },
+    "pureServe": {
+      "mm": 540.5762048379488,
+      "side": "R",
+      "part": "toe",
+      "frame": 382,
+      "clipTime": 1.530292
+    }
+  },
+  "nonServeSteps": 2,
+  "totalSteps": 3
+}
