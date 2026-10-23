@@ -2537,6 +2537,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GolfArcade/Unity/SportsInfo.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Motion Club";
 				INFOPLIST_KEY_NSCameraUsageDescription = "The rear camera tracks your phone position for physical tennis steering. Images are processed on your phone, not recorded or uploaded.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Motion Club uses the microphone for party voice chat, only after you turn it on. Only the people in your party can hear you, and your voice can be heard in a TV recording you or a friend makes.";
 				INFOPLIST_KEY_NSMotionUsageDescription = "Phone motion controls your sports swings.";
@@ -2704,6 +2705,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GolfArcade/Unity/SportsInfo.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Motion Club";
 				INFOPLIST_KEY_NSCameraUsageDescription = "The rear camera tracks your phone position for physical tennis steering. Images are processed on your phone, not recorded or uploaded.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Motion Club uses the microphone for party voice chat, only after you turn it on. Only the people in your party can hear you, and your voice can be heard in a TV recording you or a friend makes.";
 				INFOPLIST_KEY_NSMotionUsageDescription = "Phone motion controls your sports swings.";
