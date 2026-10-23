@@ -56,6 +56,7 @@ namespace UnityEngine {
         public float magnitude => Mathf.Sqrt(x * x + y * y);
         public float sqrMagnitude => x * x + y * y;
         public Vector2 normalized { get { var m = magnitude; return m > 1e-5f ? this / m : zero; } }
+        public static Vector2 ClampMagnitude(Vector2 v, float max) => v.sqrMagnitude > max * max ? v.normalized * max : v;
         public static Vector2 zero => new Vector2(0, 0);
         public static Vector2 one => new Vector2(1, 1);
         public static float Dot(Vector2 a, Vector2 b) => a.x * b.x + a.y * b.y;
@@ -86,6 +87,11 @@ namespace UnityEngine {
         public static implicit operator Vector2(Vector3 v) => new Vector2(v.x, v.y);
         public static implicit operator Vector3(Vector2 v) => new Vector3(v.x, v.y, 0);
     }
+    // TennisRules.ContactColor names a colour; the rules never draw it.
+    public struct Color {
+        public float r, g, b, a;
+        public Color(float r, float g, float b, float a = 1f) { this.r = r; this.g = g; this.b = b; this.a = a; }
+    }
 }
 
 namespace UnityEngine {
@@ -102,7 +108,24 @@ namespace UnityEngine {
     }
 }
 
+namespace GolfArcade.EnvironmentArt {
+    // The shot's environment stamp; the rules only pass the number along.
+    public static class DreamEnvironment { public static double Utc => 0; }
+}
+
 namespace GolfArcade.Tennis {
+    using GolfArcade.Course;
+    // TennisConditions is a scene component (weather over the court); the rules read its numbers. No weather in the
+    // harness, as when the court's conditions are off: no extra drag, the plain bounce. The pure picks are the game's.
+    public static class TennisConditions {
+        public static float AirDrag => 0;
+        public static float BounceScale => 1;
+        public static float DragFor(Weather condition) => condition == Weather.Storm ? .035f : condition == Weather.Gusty ? .025f : 0;
+        public static float BounceFor(Weather condition, int venue) => condition.IsWet() ? (venue == 2 ? .99f : .97f) : 1;
+        public static int Epoch(TennisMatch match) => match.PlayerGames + match.OpponentGames + 20 * (match.PlayerSets + match.OpponentSets);
+        public static Weather For(int seed, int epoch, int venue) => DreamConditions.WeatherFor(seed, epoch + venue * 31);
+    }
+
     // Only the clip NAMES that TennisEmotes refers to.
-    public class HeroTennisDriver { public enum Clip { EmoteScuba, EmoteThrust, EmoteSpike, IntroWave, IntroBringIt, IntroPushups, EmoteJumpJoy, EmoteFistPump, EmoteStomp, EmoteSlump, EmoteShock, EmoteVictory, EmoteDefeat } }
+    public class HeroTennisDriver { public enum Clip { EmoteScuba, EmoteThrust, EmoteSpike, IntroWave, IntroBringIt, IntroPushups, EmoteJumpJoy, EmoteFistPump, EmoteStomp, EmoteSlump, EmoteShock, EmoteVictory, EmoteDefeat, CelebratePoint, HitPerfect, MatchLose, MatchWin, MissWhiff, SadPointLost } }
 }

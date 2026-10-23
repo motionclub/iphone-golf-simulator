@@ -58,6 +58,9 @@
     <!-- the round's events the host deals: twists and weather (PlayRules), what moves about a hole, rings, bounties -->
     <Compile Include="$(Scripts)Course/PlayRules.cs" Link="Linked/Course/PlayRules.cs" />
     <Compile Include="$(Scripts)Course/RoundEvents.cs" Link="Linked/Course/RoundEvents.cs" />
+    <Compile Include="$(Scripts)Course/DreamCourseLayout.cs" Link="Linked/Course/DreamCourseLayout.cs" />
+    <Compile Include="$(Scripts)Course/DreamConditions.cs" Link="Linked/Course/DreamConditions.cs" />
+    <Compile Include="$(Scripts)Course/QuirkyObstacles.cs" Link="Linked/Course/QuirkyObstacles.cs" />
     <Compile Include="$(Scripts)Course/CourseMovers.cs" Link="Linked/Course/CourseMovers.cs" />
     <Compile Include="$(Scripts)Course/CourseRings.cs" Link="Linked/Course/CourseRings.cs" />
     <Compile Include="$(Scripts)Course/Bounties.cs" Link="Linked/Course/Bounties.cs" />
