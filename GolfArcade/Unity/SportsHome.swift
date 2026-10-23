@@ -125,7 +125,8 @@ struct SportsHome: View {
         .onChange(of: hub.phase) { _, _ in clubHub.updateBanner() }
     }
 
-    var body: some View {
+    // (split up so the type checker takes the body a piece at a time)
+    private var withLobbyWatches: some View {
         withWatches
         .onChange(of: menu.online.service.lobby?.revision) { _, _ in clubHub.publishPresence() }
         .onChange(of: menu.classic) { _, _ in hub.evaluate() }
@@ -134,96 +135,104 @@ struct SportsHome: View {
         .onChange(of:menu.online.service.lastError) { _,error in if let error { menu.onlineNotice(error); if hub.drivesPhone { hub.notice = error } } }
         .onChange(of: hub.drivesPhone) { _, _ in SportsDisplays.shared.phoneSeeThrough(hub.drivesPhone && hub.onPhone) }
         .onChange(of: hub.onPhone) { _, _ in SportsDisplays.shared.phoneSeeThrough(hub.drivesPhone && hub.onPhone) }
-        .task {
-            InviteBannerWindow.install()
-            clubHub.configureLive(); clubHub.start()
-            PartySafety.shared.refresh()
-            RecordingService.shared.captureHook = { PartyVoiceCoordinator.shared.recordingChanged($0) }
-            await RecordingService.shared.recoverLeftovers()
-            menu.online.installCallbacks(menu)
-            let args = ProcessInfo.processInfo.arguments
-            #if DEBUG
-            if args.contains("-golfControllerDesign") {
-                OnboardingFlow.shared.exitToMenu()
-                SportsDisplays.shared.external = UIWindow(frame: CGRect(x: 0, y: 0, width: 1920, height: 1080))
-                session.sport = "golf"; session.active = true; session.ready = true
-                session.displayConnected = true; session.touch = false; session.paused = false
-                session.golfShotReady = true; session.golfPhase = "Aim"
-                session.golfController = .reference; session.loading.cancel()
-                if args.contains("-golfControllerNotReady") { session.ready = false }
-                // the swing button as tapped: swinging, tap again to cancel
-                if args.contains("-golfControllerSwinging") {
-                    let now = ProcessInfo.processInfo.systemUptime
-                    _ = session.golfTap.tap(canArm: true, now: now); session.golfSwingState = 2
-                    _ = session.golfTap.observe(phase: "Aim", shotReady: true, unityState: 2, now: now)
-                }
-                if args.contains("-golfControllerLoading") { session.loading.begin(now: Date()) }
-            }
-            if args.contains("-phonePlazaCheck") {
-                OnboardingFlow.shared.exitToMenu(); session.displayConnected = false
-                hub.debugLive(place: "plaza", zone: "door|door-plaza-play|Play|TV needed", onPhone: true)
-                SportsDisplays.shared.debugFakePhonePlaza()
-                if args.contains("-phonePlazaInvite") {
-                    clubHub.notification(invite: HubInvite(inviteID: "check", from: HubPlayerRef(id: "sam", name: "Sam"), sport: "tennis", lobbyCode: "ABC234", group: 0, capacity: 2,
-                                                           expiresAt: Date().timeIntervalSince1970 * 1000 + 110_000), accept: nil)
-                }
-            }
-            if args.contains("-controllerMenuCheck") {
-                SportsDisplays.shared.external = UIWindow(frame: CGRect(x: 0, y: 0, width: 1920, height: 1080))
-                session.displayConnected = true
-            }
-            if let i = args.firstIndex(of: "-controllerPhaseCheck"), let phase = args[safe: i + 1] {
-                SportsDisplays.shared.external = UIWindow(frame: CGRect(x: 0, y: 0, width: 1920, height: 1080))
-                session.displayConnected = true; session.active = true; session.ready = true
-                session.sport = "tennis"; session.touch = true; session.loading.cancel()
-                session.setupStage = .playing; session.paused = false; session.tennisPhase = phase
-                session.canDive = phase == "rally"; session.emoteWindow = phase == "point" ? "point" : ""
-                if phase == "timing" { session.offerTimingCalibration() }
-                if phase == "ready" { session.setupStage = .ready; session.paused = true }
-            }
-            OnlineLobbyProofDriver.start(menu,args:args)
-            #endif
-            if let index = args.firstIndex(of:"--lobby-mock"), let count = args[safe:index+1].flatMap(Int.init) {
-                try? menu.online.service.enableMock(count:count,player:menu.player ?? Player(name:"Player 1",colorIndex:0)); menu.showOnline(.lobby)
-            }
-            if ProcessInfo.processInfo.arguments.contains("--resume-tennis-round-2") {
-                menu.resumeCampaign(round: 1)
-            }
-            if ProcessInfo.processInfo.arguments.contains("--resume-tennis-round-3") {
-                menu.resumeCampaign(round: 2)
-            }
-            if ProcessInfo.processInfo.arguments.contains("--resume-tennis-round-4") {
-                menu.resumeCampaign(round: 3)
-            }
-            if ProcessInfo.processInfo.arguments.contains("--resume-tennis-round-5") {
-                menu.resumeCampaign(round: 4)
-            }
-            if ProcessInfo.processInfo.arguments.contains("--lobby"), menu.screen == .title { menu.tap("start") }
-            if ProcessInfo.processInfo.arguments.contains("--character-editor") { menu.openCharacterEditor() }
-            // `-benchTennis`: play a self-driving rally on the phone and log frame times.
-            if args.contains("--playability-check") { await PlayabilityCheck.run(); return }
-            // the Plaza is the menu from the first frame, with a TV or without (a TV arriving later re-evaluates by itself)
-            hub.evaluate()
-            if SportsSession.benchmark && !session.active {
-                session.sport = args.contains("-benchGolf") ? "golf" : "tennis"
-                session.touch = true; session.start(preview:!session.displayConnected)
-            }
-        }
+    }
+
+    var body: some View {
+        withLobbyWatches
+        .task { await launch() }
         .background(DisplayRegistration().frame(width:0,height:0))
-        .onChange(of:scenePhase) { _,phase in
-            // Leaving the app (AwayPolicy): only .background is leaving; .inactive is Control Center or a banner over the app.
-            if phase == .active {
-                let away = AwayPolicy.shared.returned()
-                hub.returned(after: away)
-                clubHub.returned(after: away)
-                ClubSignIn.presentPending(); clubHub.start(); Task { await clubHub.refresh() }
-            } else if phase == .background { AwayPolicy.shared.left(); clubHub.background() }
-            clubHub.updateBanner()
-            // a local match pauses; in an online match only this player's controller rests (the match goes on): Ready takes it back
-            if phase != .active { session.pause(reason:"App inactive — return to the controller and tap Ready") }
-            // UIKit notifications forward Unity's lifecycle once, at the actual boundary.
-            hub.setForeground(phase == .active)
+        .onChange(of:scenePhase) { _,phase in scenePhaseChanged(phase) }
+    }
+
+    private func launch() async {
+        InviteBannerWindow.install()
+        clubHub.configureLive(); clubHub.start()
+        PartySafety.shared.refresh()
+        RecordingService.shared.captureHook = { PartyVoiceCoordinator.shared.recordingChanged($0) }
+        await RecordingService.shared.recoverLeftovers()
+        menu.online.installCallbacks(menu)
+        let args = ProcessInfo.processInfo.arguments
+        #if DEBUG
+        if args.contains("-golfControllerDesign") {
+            OnboardingFlow.shared.exitToMenu()
+            SportsDisplays.shared.external = UIWindow(frame: CGRect(x: 0, y: 0, width: 1920, height: 1080))
+            session.sport = "golf"; session.active = true; session.ready = true
+            session.displayConnected = true; session.touch = false; session.paused = false
+            session.golfShotReady = true; session.golfPhase = "Aim"
+            session.golfController = .reference; session.loading.cancel()
+            if args.contains("-golfControllerNotReady") { session.ready = false }
+            // the swing button as tapped: swinging, tap again to cancel
+            if args.contains("-golfControllerSwinging") {
+                let now = ProcessInfo.processInfo.systemUptime
+                _ = session.golfTap.tap(canArm: true, now: now); session.golfSwingState = 2
+                _ = session.golfTap.observe(phase: "Aim", shotReady: true, unityState: 2, now: now)
+            }
+            if args.contains("-golfControllerLoading") { session.loading.begin(now: Date()) }
         }
+        if args.contains("-phonePlazaCheck") {
+            OnboardingFlow.shared.exitToMenu(); session.displayConnected = false
+            hub.debugLive(place: "plaza", zone: "door|door-plaza-play|Play|TV needed", onPhone: true)
+            SportsDisplays.shared.debugFakePhonePlaza()
+            if args.contains("-phonePlazaInvite") {
+                clubHub.notification(invite: HubInvite(inviteID: "check", from: HubPlayerRef(id: "sam", name: "Sam"), sport: "tennis", lobbyCode: "ABC234", group: 0, capacity: 2,
+                                                       expiresAt: Date().timeIntervalSince1970 * 1000 + 110_000), accept: nil)
+            }
+        }
+        if args.contains("-controllerMenuCheck") {
+            SportsDisplays.shared.external = UIWindow(frame: CGRect(x: 0, y: 0, width: 1920, height: 1080))
+            session.displayConnected = true
+        }
+        if let i = args.firstIndex(of: "-controllerPhaseCheck"), let phase = args[safe: i + 1] {
+            SportsDisplays.shared.external = UIWindow(frame: CGRect(x: 0, y: 0, width: 1920, height: 1080))
+            session.displayConnected = true; session.active = true; session.ready = true
+            session.sport = "tennis"; session.touch = true; session.loading.cancel()
+            session.setupStage = .playing; session.paused = false; session.tennisPhase = phase
+            session.canDive = phase == "rally"; session.emoteWindow = phase == "point" ? "point" : ""
+            if phase == "timing" { session.offerTimingCalibration() }
+            if phase == "ready" { session.setupStage = .ready; session.paused = true }
+        }
+        OnlineLobbyProofDriver.start(menu,args:args)
+        #endif
+        if let index = args.firstIndex(of:"--lobby-mock"), let count = args[safe:index+1].flatMap(Int.init) {
+            try? menu.online.service.enableMock(count:count,player:menu.player ?? Player(name:"Player 1",colorIndex:0)); menu.showOnline(.lobby)
+        }
+        if ProcessInfo.processInfo.arguments.contains("--resume-tennis-round-2") {
+            menu.resumeCampaign(round: 1)
+        }
+        if ProcessInfo.processInfo.arguments.contains("--resume-tennis-round-3") {
+            menu.resumeCampaign(round: 2)
+        }
+        if ProcessInfo.processInfo.arguments.contains("--resume-tennis-round-4") {
+            menu.resumeCampaign(round: 3)
+        }
+        if ProcessInfo.processInfo.arguments.contains("--resume-tennis-round-5") {
+            menu.resumeCampaign(round: 4)
+        }
+        if ProcessInfo.processInfo.arguments.contains("--lobby"), menu.screen == .title { menu.tap("start") }
+        if ProcessInfo.processInfo.arguments.contains("--character-editor") { menu.openCharacterEditor() }
+        // `-benchTennis`: play a self-driving rally on the phone and log frame times.
+        if args.contains("--playability-check") { await PlayabilityCheck.run(); return }
+        // the Plaza is the menu from the first frame, with a TV or without (a TV arriving later re-evaluates by itself)
+        hub.evaluate()
+        if SportsSession.benchmark && !session.active {
+            session.sport = args.contains("-benchGolf") ? "golf" : "tennis"
+            session.touch = true; session.start(preview:!session.displayConnected)
+        }
+    }
+
+    private func scenePhaseChanged(_ phase: ScenePhase) {
+        // Leaving the app (AwayPolicy): only .background is leaving; .inactive is Control Center or a banner over the app.
+        if phase == .active {
+            let away = AwayPolicy.shared.returned()
+            hub.returned(after: away)
+            clubHub.returned(after: away)
+            ClubSignIn.presentPending(); clubHub.start(); Task { await clubHub.refresh() }
+        } else if phase == .background { AwayPolicy.shared.left(); clubHub.background() }
+        clubHub.updateBanner()
+        // a local match pauses; in an online match only this player's controller rests (the match goes on): Ready takes it back
+        if phase != .active { session.pause(reason:"App inactive — return to the controller and tap Ready") }
+        // UIKit notifications forward Unity's lifecycle once, at the actual boundary.
+        hub.setForeground(phase == .active)
     }
 }
 
