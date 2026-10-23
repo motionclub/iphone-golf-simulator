@@ -219,22 +219,7 @@ final class SportsDisplays: NSObject {
         host.view.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([host.view.leadingAnchor.constraint(equalTo:root.view.safeAreaLayoutGuide.leadingAnchor),host.view.trailingAnchor.constraint(equalTo:root.view.safeAreaLayoutGuide.trailingAnchor),host.view.topAnchor.constraint(equalTo:root.view.safeAreaLayoutGuide.topAnchor),host.view.heightAnchor.constraint(equalToConstant:150)])
     }
-    private func installBetaMark(in root: UIViewController) {
-        let tag = 9023
-        guard root.view.viewWithTag(tag) == nil else { return }
-        let label = UILabel(); label.tag = tag; label.text = " MOTION CLUB · BETA "
-        label.font = .boldSystemFont(ofSize: 12); label.textColor = .white
-        label.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        label.layer.cornerRadius = 6; label.clipsToBounds = true; label.isUserInteractionEnabled = false
-        root.view.addSubview(label); label.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            label.trailingAnchor.constraint(equalTo: root.view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            label.bottomAnchor.constraint(equalTo: root.view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
-            label.heightAnchor.constraint(equalToConstant: 24)
-        ])
-    }
     func restorePhoneControls() {
-        if let root = external?.rootViewController { installBetaMark(in: root) }
         if external != nil && preview != nil { endPreview() }
         phone?.makeKeyAndVisible()
         if let preview {

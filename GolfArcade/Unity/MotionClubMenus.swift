@@ -236,16 +236,16 @@ struct BetaFeedbackBar: View {
     @State private var unavailable = false
     var body: some View {
         HStack {
-            Text("MOTION CLUB · BETA").font(IslandUI.font(11, bold: true)).tracking(1)
+            Text("MOTION CLUB").font(IslandUI.font(11, bold: true)).tracking(1)
             Spacer()
             Button {
                 openURL(BetaFeedback.url) { accepted in unavailable = !accepted }
             } label: {
                 Label("Feedback", systemImage: "message.fill").font(IslandUI.font(14, bold: true))
                     .padding(.vertical, 10)
-            }.accessibilityLabel("Send beta feedback by text").accessibilityIdentifier("beta-feedback")
+            }.accessibilityLabel("Send feedback by text").accessibilityIdentifier("beta-feedback")
         }.foregroundStyle(IslandUI.navy).padding(.horizontal, 18).background(IslandUI.paper)
-            .alert("Text beta feedback", isPresented: $unavailable) {
+            .alert("Text feedback", isPresented: $unavailable) {
                 Button("Copy number") { UIPasteboard.general.string = "908-590-9023" }
                 Button("Close", role: .cancel) { }
             } message: { Text("Text 908-590-9023. Messages is not available on this device.") }

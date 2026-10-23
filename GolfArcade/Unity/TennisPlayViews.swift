@@ -16,7 +16,7 @@ struct TennisTVRoot: View {
                     else if HubSession.shared.drivesPhone || (!SportsSession.shared.active && !TennisMenu.shared.classic) { HubLoadingScreen(hub: .shared) }
                     else { TennisMenuScreen(compact: false)
                         .overlay(alignment: .bottomTrailing) {
-                            Text("BETA · Feedback on your phone").font(IslandUI.font(13, bold: true))
+                            Text("Feedback on your phone").font(IslandUI.font(13, bold: true))
                                 .foregroundStyle(IslandUI.navy).padding(8).background(IslandUI.paper, in: Capsule()).padding(12)
                                 .allowsHitTesting(false)
                         }

@@ -481,8 +481,8 @@ struct IslandWordmark: View {
                 IslandPalm().fill(IslandUI.navy).frame(width: size * 1.5, height: size * 1.12)
             }.frame(height: size * 1.12)
             Text("MOTION").font(IslandUI.font(size, bold: true)).tracking(size * 0.035)
-            Text("CLUB · BETA").font(IslandUI.font(size * 0.32, bold: true)).tracking(size * 0.095)
-        }.foregroundStyle(IslandUI.navy).accessibilityElement(children: .ignore).accessibilityLabel("Motion Club Beta")
+            Text("CLUB").font(IslandUI.font(size * 0.32, bold: true)).tracking(size * 0.095)
+        }.foregroundStyle(IslandUI.navy).accessibilityElement(children: .ignore).accessibilityLabel("Motion Club")
     }
 }
 

@@ -235,7 +235,7 @@ struct PartyReport: Equatable, Sendable {
 }
 
 /// Where players find help and the rules, set per build in Info.plist (ClubSupportEmail, ClubSupportURL, ClubPrivacyPolicyURL). Apple
-/// asks for published contact details and, for communication features, a privacy policy; the beta uses the text-message line the app
+/// asks for published contact details and, for communication features, a privacy policy; the app uses the text-message line it
 /// already has for feedback.
 enum PartyContact {
     static func plist(_ key: String) -> String { (Bundle.main.object(forInfoDictionaryKey: key) as? String) ?? "" }

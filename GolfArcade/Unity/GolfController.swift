@@ -151,10 +151,10 @@ struct GolfPhoneController: View {
         ZStack(alignment: .topLeading) {
             Color.clear
             Button { BetaFeedback.open() } label: {
-                Text("BETA · Feedback").font(GolfControllerStyle.font(11)).foregroundStyle(GolfControllerStyle.ink)
+                Text("Feedback").font(GolfControllerStyle.font(11)).foregroundStyle(GolfControllerStyle.ink)
                     .frame(width: 132, height: 48)
             }.buttonStyle(.plain).position(x: 78, y: 48)
-                .accessibilityLabel("Send beta feedback by text").accessibilityIdentifier("beta-feedback")
+                .accessibilityLabel("Send feedback by text").accessibilityIdentifier("beta-feedback")
             holeBadge.frame(width: 240, height: 64).position(x: 224, y: 119)
             Text((reading.party?.player ?? reading.name).uppercased()).font(GolfControllerStyle.font(13)).foregroundStyle(GolfControllerStyle.ink)
                 .lineLimit(1).minimumScaleFactor(0.7).padding(.horizontal, 12).frame(minWidth: 118, minHeight: 20)

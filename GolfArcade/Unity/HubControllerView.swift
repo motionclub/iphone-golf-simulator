@@ -245,7 +245,7 @@ struct HubLoadingScreen: View {
             VStack(spacing: 6) {
                 Text("MOTION CLUB").font(Club.display(112, condensed: false)).foregroundStyle(Club.sun)
                     .shadow(color: Club.lagoonDeep, radius: 0, y: 8)
-                Text("PARTY SPORTS · BETA").font(IslandUI.font(18, bold: true)).tracking(8).foregroundStyle(Club.cream)
+                Text("PARTY SPORTS").font(IslandUI.font(18, bold: true)).tracking(8).foregroundStyle(Club.cream)
             }
             .position(x: 640, y: 160)
             track(p).frame(width: 1040, height: 120).position(x: 640, y: 420)

@@ -208,7 +208,7 @@ struct LoadingScreen: View {
             ZStack {
                 Club.lagoonDeep
                 VStack(spacing: compact ? 18 : 24) {
-                    Text("MOTION CLUB · BETA").font(IslandUI.font(12, bold: true)).tracking(1.5)
+                    Text("MOTION CLUB").font(IslandUI.font(12, bold: true)).tracking(1.5)
                     Text(venue).font(IslandUI.font(compact ? 32 : 58, bold: true))
                     Text(modeLine).font(IslandUI.font(compact ? 15 : 23)).multilineTextAlignment(.center)
                     GameplayPreview(sport: sport, venue: venueID)
@@ -312,7 +312,7 @@ extension TennisMenu {
         case "onlineQuick": return "Quick Match"
         case "homeInvite": return "Play with Friends"
         case "homeEmotes": return "Emotes"
-        case "betaFeedback": return "Beta Feedback"
+        case "betaFeedback": return "Feedback"
         case "loadingBack": return "Back to Home"; case "loadingRetry": return "Retry loading"
         case "play": return "Play"; case "character": return "Locker"; case "settings": return "Settings"
         case "howto": return "How to play"; case let g where g.hasPrefix("guide-"): return GuideDeck(rowID: g)?.title ?? "Guide"; case "tutorial": return "Tutorial"; case "replayTutorial": return "Replay tutorial"

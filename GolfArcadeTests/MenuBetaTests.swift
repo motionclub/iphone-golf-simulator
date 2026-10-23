@@ -91,7 +91,7 @@ import SwiftUI
         for name in ["gameplay-golf-cliffside", "gameplay-tennis-skyscraper"] {
             XCTAssertNotNil(Bundle.main.url(forResource: name, withExtension: "mp4"), name)
         }
-        XCTAssertEqual(Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String, "Motion Club Beta")
+        XCTAssertEqual(Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String, "Motion Club")
     }
 }
 
