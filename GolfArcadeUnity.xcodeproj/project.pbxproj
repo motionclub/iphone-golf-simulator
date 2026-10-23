@@ -85,6 +85,22 @@
 		29CAD1351C33C3778369B2C3 /* MatchHero_Kit_Female_Bottom.png in Resources */ = {isa = PBXBuildFile; fileRef = BD2A1EDA45DE174A45CA4649 /* MatchHero_Kit_Female_Bottom.png */; };
 		29D13099AF951347D2C3C226 /* MatchHero_KitV2_Tennis_Female_SockL_M.ktx in Resources */ = {isa = PBXBuildFile; fileRef = 258EBE78379B5009326ECE82 /* MatchHero_KitV2_Tennis_Female_SockL_M.ktx */; };
 		2AB50D70016D1007927B92F8 /* MatchHero_Kit_Female_Bottom_N.ktx in Resources */ = {isa = PBXBuildFile; fileRef = 28938EA20F01EFC6A73E4FA4 /* MatchHero_Kit_Female_Bottom_N.ktx */; };
+		82165CCBA95AA82B03989471 /* MatchHero_Acc_Female_golf_bag_Bag_M.ktx in Resources */ = {isa = PBXBuildFile; fileRef = F9A72DC3503D0FE3D4396062 /* MatchHero_Acc_Female_golf_bag_Bag_M.ktx */; };
+		6E7A3B6D7F105FD01CA46FB1 /* MatchHero_Acc_Female_golf_bag_Bag_M.png in Resources */ = {isa = PBXBuildFile; fileRef = BA39BF17F9768F0FCB99A98C /* MatchHero_Acc_Female_golf_bag_Bag_M.png */; };
+		446D1B522F2043C5045D5816 /* MatchHero_Acc_Female_golf_bag_Bag_N.ktx in Resources */ = {isa = PBXBuildFile; fileRef = E7A9C4270B61D0ABED3C73A8 /* MatchHero_Acc_Female_golf_bag_Bag_N.ktx */; };
+		983E47C2827B51C2A029C090 /* MatchHero_Acc_Female_golf_bag_Bag_N.png in Resources */ = {isa = PBXBuildFile; fileRef = 07F51C0F62E528A22D897CC1 /* MatchHero_Acc_Female_golf_bag_Bag_N.png */; };
+		2FE3AD6DA69F692AE52885F2 /* MatchHero_Acc_Male_golf_bag_Bag_M.ktx in Resources */ = {isa = PBXBuildFile; fileRef = 8C21E797E7BA6B78D686444A /* MatchHero_Acc_Male_golf_bag_Bag_M.ktx */; };
+		AEF63900CB7C4C12C1E86B5E /* MatchHero_Acc_Male_golf_bag_Bag_M.png in Resources */ = {isa = PBXBuildFile; fileRef = 032213CBD7B47FEBDFFECB9D /* MatchHero_Acc_Male_golf_bag_Bag_M.png */; };
+		6761126D9971A94A1D305FCB /* MatchHero_Acc_Male_golf_bag_Bag_N.ktx in Resources */ = {isa = PBXBuildFile; fileRef = 80D12054F360C7D216A56433 /* MatchHero_Acc_Male_golf_bag_Bag_N.ktx */; };
+		AA1CCDCEE199AABFD08775CB /* MatchHero_Acc_Male_golf_bag_Bag_N.png in Resources */ = {isa = PBXBuildFile; fileRef = 7067DF7FC8AAF82F7BACA4F3 /* MatchHero_Acc_Male_golf_bag_Bag_N.png */; };
+		F2E001E7EE313C1AB4479CDD /* MatchHero_KitV2_Golf_Male_SockL_M.ktx in Resources */ = {isa = PBXBuildFile; fileRef = B590BB489A37606C20FD60FA /* MatchHero_KitV2_Golf_Male_SockL_M.ktx */; };
+		55D1A187B174A509FC38CAAD /* MatchHero_KitV2_Golf_Male_SockL_M.png in Resources */ = {isa = PBXBuildFile; fileRef = 03243ADA64E41999203E71FB /* MatchHero_KitV2_Golf_Male_SockL_M.png */; };
+		74186508CAA09A860719E76F /* MatchHero_KitV2_Golf_Male_SockL_N.ktx in Resources */ = {isa = PBXBuildFile; fileRef = C35C540C4F018367A674822D /* MatchHero_KitV2_Golf_Male_SockL_N.ktx */; };
+		CCAAD2BA4B26D8B29E876114 /* MatchHero_KitV2_Golf_Male_SockL_N.png in Resources */ = {isa = PBXBuildFile; fileRef = FAF55F85A8401AEBB5CB3150 /* MatchHero_KitV2_Golf_Male_SockL_N.png */; };
+		E5BBD6896FF4D1C3994C9502 /* MatchHero_KitV2_Golf_Male_SockR_M.ktx in Resources */ = {isa = PBXBuildFile; fileRef = 4184E90A0057C141FBA8BACE /* MatchHero_KitV2_Golf_Male_SockR_M.ktx */; };
+		003347C4E4B4AAD68DE7FF8B /* MatchHero_KitV2_Golf_Male_SockR_M.png in Resources */ = {isa = PBXBuildFile; fileRef = 81ADBE35CB73438E74B154E1 /* MatchHero_KitV2_Golf_Male_SockR_M.png */; };
+		E97C56C02FC41EE9096D125D /* MatchHero_KitV2_Golf_Male_SockR_N.ktx in Resources */ = {isa = PBXBuildFile; fileRef = 76FBE3614480544F75C30A7A /* MatchHero_KitV2_Golf_Male_SockR_N.ktx */; };
+		74FE998398173AC8C92BD518 /* MatchHero_KitV2_Golf_Male_SockR_N.png in Resources */ = {isa = PBXBuildFile; fileRef = C6F14B35CC894B40B79DAABA /* MatchHero_KitV2_Golf_Male_SockR_N.png */; };
 		2BAB6810FAC13C4AF61D583E /* MatchHero_Acc_Male_golf_glove_Glove_N.ktx in Resources */ = {isa = PBXBuildFile; fileRef = 76DAA1777CF2BBF8FC633898 /* MatchHero_Acc_Male_golf_glove_Glove_N.ktx */; };
 		2C7DDDF7DCC76B549E6A119E /* MatchHero_KitV2_Golf_Male_Top_M.ktx in Resources */ = {isa = PBXBuildFile; fileRef = 5C36FF8C17876F61B799BCF5 /* MatchHero_KitV2_Golf_Male_Top_M.ktx */; };
 		2C8D5E4EE6D8E950349E48CF /* GolfKitHero_Male.json in Resources */ = {isa = PBXBuildFile; fileRef = 843EFF6E82B9E552ED42732F /* GolfKitHero_Male.json */; };
@@ -796,6 +812,22 @@
 		753BBE9B1D0F1EEB28423B30 /* MatchHero_Kit_Female_ShoeL_M.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_Kit_Female_ShoeL_M.ktx; sourceTree = "<group>"; };
 		75E73C0611EEDBC9DF6CEBE7 /* MatchHero_KitV2_Tennis_Male_Top_N.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_KitV2_Tennis_Male_Top_N.ktx; sourceTree = "<group>"; };
 		768100D47C08E835188B47E2 /* MatchHero_Male_Distance_Swing_07.lzfse */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_Male_Distance_Swing_07.lzfse; sourceTree = "<group>"; };
+		F9A72DC3503D0FE3D4396062 /* MatchHero_Acc_Female_golf_bag_Bag_M.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_Acc_Female_golf_bag_Bag_M.ktx; sourceTree = "<group>"; };
+		BA39BF17F9768F0FCB99A98C /* MatchHero_Acc_Female_golf_bag_Bag_M.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MatchHero_Acc_Female_golf_bag_Bag_M.png; sourceTree = "<group>"; };
+		E7A9C4270B61D0ABED3C73A8 /* MatchHero_Acc_Female_golf_bag_Bag_N.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_Acc_Female_golf_bag_Bag_N.ktx; sourceTree = "<group>"; };
+		07F51C0F62E528A22D897CC1 /* MatchHero_Acc_Female_golf_bag_Bag_N.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MatchHero_Acc_Female_golf_bag_Bag_N.png; sourceTree = "<group>"; };
+		8C21E797E7BA6B78D686444A /* MatchHero_Acc_Male_golf_bag_Bag_M.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_Acc_Male_golf_bag_Bag_M.ktx; sourceTree = "<group>"; };
+		032213CBD7B47FEBDFFECB9D /* MatchHero_Acc_Male_golf_bag_Bag_M.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MatchHero_Acc_Male_golf_bag_Bag_M.png; sourceTree = "<group>"; };
+		80D12054F360C7D216A56433 /* MatchHero_Acc_Male_golf_bag_Bag_N.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_Acc_Male_golf_bag_Bag_N.ktx; sourceTree = "<group>"; };
+		7067DF7FC8AAF82F7BACA4F3 /* MatchHero_Acc_Male_golf_bag_Bag_N.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MatchHero_Acc_Male_golf_bag_Bag_N.png; sourceTree = "<group>"; };
+		B590BB489A37606C20FD60FA /* MatchHero_KitV2_Golf_Male_SockL_M.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_KitV2_Golf_Male_SockL_M.ktx; sourceTree = "<group>"; };
+		03243ADA64E41999203E71FB /* MatchHero_KitV2_Golf_Male_SockL_M.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MatchHero_KitV2_Golf_Male_SockL_M.png; sourceTree = "<group>"; };
+		C35C540C4F018367A674822D /* MatchHero_KitV2_Golf_Male_SockL_N.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_KitV2_Golf_Male_SockL_N.ktx; sourceTree = "<group>"; };
+		FAF55F85A8401AEBB5CB3150 /* MatchHero_KitV2_Golf_Male_SockL_N.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MatchHero_KitV2_Golf_Male_SockL_N.png; sourceTree = "<group>"; };
+		4184E90A0057C141FBA8BACE /* MatchHero_KitV2_Golf_Male_SockR_M.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_KitV2_Golf_Male_SockR_M.ktx; sourceTree = "<group>"; };
+		81ADBE35CB73438E74B154E1 /* MatchHero_KitV2_Golf_Male_SockR_M.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MatchHero_KitV2_Golf_Male_SockR_M.png; sourceTree = "<group>"; };
+		76FBE3614480544F75C30A7A /* MatchHero_KitV2_Golf_Male_SockR_N.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_KitV2_Golf_Male_SockR_N.ktx; sourceTree = "<group>"; };
+		C6F14B35CC894B40B79DAABA /* MatchHero_KitV2_Golf_Male_SockR_N.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MatchHero_KitV2_Golf_Male_SockR_N.png; sourceTree = "<group>"; };
 		76DAA1777CF2BBF8FC633898 /* MatchHero_Acc_Male_golf_glove_Glove_N.ktx */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchHero_Acc_Male_golf_glove_Glove_N.ktx; sourceTree = "<group>"; };
 		773F0CB4DFC32FB30E4F2450 /* MatchHero_KitV2_Tennis_Male_ShoeL_M.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MatchHero_KitV2_Tennis_Male_ShoeL_M.png; sourceTree = "<group>"; };
 		77670D7753D5D18D5CB93617 /* HubControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HubControllerView.swift; sourceTree = "<group>"; };
@@ -1426,6 +1458,22 @@
 				B5FED56E5734DF3AF435003B /* MatchHero_KitV2_Golf_Female_GloveL_M.ktx */,
 				0663F52162A627456B903E7E /* MatchHero_KitV2_Golf_Male_GloveL_M.ktx */,
 				FB3762BB60D0727A6D4A6EFC /* MatchHero_KitV2_Golf_Female_ShoeL_M.ktx */,
+				F9A72DC3503D0FE3D4396062 /* MatchHero_Acc_Female_golf_bag_Bag_M.ktx */,
+				BA39BF17F9768F0FCB99A98C /* MatchHero_Acc_Female_golf_bag_Bag_M.png */,
+				E7A9C4270B61D0ABED3C73A8 /* MatchHero_Acc_Female_golf_bag_Bag_N.ktx */,
+				07F51C0F62E528A22D897CC1 /* MatchHero_Acc_Female_golf_bag_Bag_N.png */,
+				8C21E797E7BA6B78D686444A /* MatchHero_Acc_Male_golf_bag_Bag_M.ktx */,
+				032213CBD7B47FEBDFFECB9D /* MatchHero_Acc_Male_golf_bag_Bag_M.png */,
+				80D12054F360C7D216A56433 /* MatchHero_Acc_Male_golf_bag_Bag_N.ktx */,
+				7067DF7FC8AAF82F7BACA4F3 /* MatchHero_Acc_Male_golf_bag_Bag_N.png */,
+				B590BB489A37606C20FD60FA /* MatchHero_KitV2_Golf_Male_SockL_M.ktx */,
+				03243ADA64E41999203E71FB /* MatchHero_KitV2_Golf_Male_SockL_M.png */,
+				C35C540C4F018367A674822D /* MatchHero_KitV2_Golf_Male_SockL_N.ktx */,
+				FAF55F85A8401AEBB5CB3150 /* MatchHero_KitV2_Golf_Male_SockL_N.png */,
+				4184E90A0057C141FBA8BACE /* MatchHero_KitV2_Golf_Male_SockR_M.ktx */,
+				81ADBE35CB73438E74B154E1 /* MatchHero_KitV2_Golf_Male_SockR_M.png */,
+				76FBE3614480544F75C30A7A /* MatchHero_KitV2_Golf_Male_SockR_N.ktx */,
+				C6F14B35CC894B40B79DAABA /* MatchHero_KitV2_Golf_Male_SockR_N.png */,
 				76DAA1777CF2BBF8FC633898 /* MatchHero_Acc_Male_golf_glove_Glove_N.ktx */,
 				95143F2B46A9983021DCD376 /* MatchHero_KitV2_Tennis_Female_ShoeL_M.ktx */,
 				8EAF4662A40D4F6C10E681F7 /* MatchHero_KitV2_Tennis_Female_Bottom_N.ktx */,
@@ -2155,6 +2203,22 @@
 				870454D92DCC8E005AE2B997 /* MatchHero_KitV2_Golf_Female_GloveL_M.ktx in Resources */,
 				6DB19895EB4CA17940A62A0F /* MatchHero_KitV2_Golf_Male_GloveL_M.ktx in Resources */,
 				57029EA4D18F46CC5863563F /* MatchHero_KitV2_Golf_Female_ShoeL_M.ktx in Resources */,
+				82165CCBA95AA82B03989471 /* MatchHero_Acc_Female_golf_bag_Bag_M.ktx in Resources */,
+				6E7A3B6D7F105FD01CA46FB1 /* MatchHero_Acc_Female_golf_bag_Bag_M.png in Resources */,
+				446D1B522F2043C5045D5816 /* MatchHero_Acc_Female_golf_bag_Bag_N.ktx in Resources */,
+				983E47C2827B51C2A029C090 /* MatchHero_Acc_Female_golf_bag_Bag_N.png in Resources */,
+				2FE3AD6DA69F692AE52885F2 /* MatchHero_Acc_Male_golf_bag_Bag_M.ktx in Resources */,
+				AEF63900CB7C4C12C1E86B5E /* MatchHero_Acc_Male_golf_bag_Bag_M.png in Resources */,
+				6761126D9971A94A1D305FCB /* MatchHero_Acc_Male_golf_bag_Bag_N.ktx in Resources */,
+				AA1CCDCEE199AABFD08775CB /* MatchHero_Acc_Male_golf_bag_Bag_N.png in Resources */,
+				F2E001E7EE313C1AB4479CDD /* MatchHero_KitV2_Golf_Male_SockL_M.ktx in Resources */,
+				55D1A187B174A509FC38CAAD /* MatchHero_KitV2_Golf_Male_SockL_M.png in Resources */,
+				74186508CAA09A860719E76F /* MatchHero_KitV2_Golf_Male_SockL_N.ktx in Resources */,
+				CCAAD2BA4B26D8B29E876114 /* MatchHero_KitV2_Golf_Male_SockL_N.png in Resources */,
+				E5BBD6896FF4D1C3994C9502 /* MatchHero_KitV2_Golf_Male_SockR_M.ktx in Resources */,
+				003347C4E4B4AAD68DE7FF8B /* MatchHero_KitV2_Golf_Male_SockR_M.png in Resources */,
+				E97C56C02FC41EE9096D125D /* MatchHero_KitV2_Golf_Male_SockR_N.ktx in Resources */,
+				74FE998398173AC8C92BD518 /* MatchHero_KitV2_Golf_Male_SockR_N.png in Resources */,
 				2BAB6810FAC13C4AF61D583E /* MatchHero_Acc_Male_golf_glove_Glove_N.ktx in Resources */,
 				4968332A570F5225ED6F8E3F /* MatchHero_KitV2_Tennis_Female_ShoeL_M.ktx in Resources */,
 				4EE85BFC313B23357A52EDD3 /* MatchHero_KitV2_Tennis_Female_Bottom_N.ktx in Resources */,
