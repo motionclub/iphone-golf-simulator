@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using GolfArcade.Course;
 using GolfArcade.Game;
@@ -108,20 +109,27 @@ namespace GolfArcade.EditorTools
             shot.gameObject.SetActive(false);
 
             var holeOut = Object.FindFirstObjectByType<HoleOutCard>(FindObjectsInactive.Include) ?? HoleOutCard.Create(game.transform, cam);
-            var tiles = new HoleOutCard.Tile[5]; int[] pars = { 4, 4, 5, 3, 3 };
-            for (int i = 0; i < 5; i++) tiles[i] = new HoleOutCard.Tile { Ordinal = i + 1, Par = pars[i], Strokes = i == 0 ? 4 : i == 1 ? 5 : null, Current = i == 1 };
-            tiles[0].Current = false;
-            holeOut.Show(new HoleOutCard.Data { Score = "BOGEY", Eyebrow = "HOLE 2 OF 5  ·  NEEDLE", Detail = "PAR 4", Strokes = 5, Par = 4, HoleToPar = 1, ToPar = 1, Thru = 2, Tiles = tiles, NextLabel = "NEXT HOLE", NextDetail = "3 · THE STEPS · PAR 5 · 512 YD", Emotes = new[] { "Wave", "Scuba", "Spike" } }, () => { }, _ => true);
+            int[] pars = { 4, 4, 5, 3, 3 };
+            holeOut.Show(new HoleOutCard.Data { Score = "BOGEY", Eyebrow = "HOLE 2 OF 5  ·  NEEDLE", Detail = "PAR 4", Strokes = 5, Par = 4, HoleToPar = 1, ToPar = 1, Thru = 2, NextLabel = "NEXT HOLE", NextDetail = "3 · THE STEPS · PAR 5 · 512 YD", Emotes = new[] { "Wave", "Scuba", "Spike" } }, () => { }, _ => true);
             for (int i = 0; i < 50; i++) yield return null; Capture("holeout_bogey");
-            tiles[1].Strokes = 3;
-            holeOut.Show(new HoleOutCard.Data { Score = "BIRDIE", Eyebrow = "HOLE 2 OF 5  ·  NEEDLE", Detail = "PAR 4", Strokes = 3, Par = 4, HoleToPar = -1, ToPar = -1, Thru = 2, Tiles = tiles, NextLabel = "NEXT HOLE", NextDetail = "3 · THE STEPS · PAR 5 · 512 YD", Emotes = new[] { "Wave", "Scuba", "Spike" } }, () => { }, _ => true);
+            holeOut.Show(new HoleOutCard.Data { Score = "BIRDIE", Eyebrow = "HOLE 2 OF 5  ·  NEEDLE", Detail = "PAR 4", Strokes = 3, Par = 4, HoleToPar = -1, ToPar = -1, Thru = 2, NextLabel = "NEXT HOLE", NextDetail = "3 · THE STEPS · PAR 5 · 512 YD", Emotes = new[] { "Wave", "Scuba", "Spike" } }, () => { }, _ => true);
             for (int i = 0; i < 50; i++) yield return null; Capture("holeout_birdie");
+            Capture("holeout_birdie_phone", 1080, 2340);
             holeOut.Hide();
 
             var card = new RoundCard(hud.IntroLayer, "Round complete", null, new[] { 1, 2, 3, 4, 5 }, pars, new int?[] { 4, 3, 5, 3, 2 }, 17, -2,
                 new[] { new RoundCard.Highlight { Icon = "star", Title = "Perfect strikes", Value = "3" }, new RoundCard.Highlight { Icon = "flag", Title = "Longest drive", Value = "268 yd" }, new RoundCard.Highlight { Icon = "trophy", Title = "Fairways hit", Value = "4 / 5" } }, false);
             for (int i = 0; i < 30; i++) yield return null; Capture("roundcard");
             card.Destroy();
+
+            // a long round's card: the front nine over the back nine
+            var long18 = GolfArcade.Course.Course.ByKey("cliffside+18");
+            var numbers18 = long18.Holes.Select(h => h.PlayNumber).ToArray(); var pars18 = long18.Holes.Select(h => h.Par).ToArray();
+            var strokes18 = pars18.Select((p, i) => (int?)(p + (i % 5 == 1 ? -1 : i % 7 == 3 ? 1 : 0))).ToArray();
+            var card18 = new RoundCard(hud.IntroLayer, "Round complete", null, numbers18, pars18, strokes18, strokes18.Sum(s => s ?? 0), strokes18.Sum(s => s ?? 0) - pars18.Sum(),
+                new[] { new RoundCard.Highlight { Icon = "star", Title = "Perfect strikes", Value = "7" }, new RoundCard.Highlight { Icon = "flag", Title = "Longest drive", Value = "281 yd" }, new RoundCard.Highlight { Icon = "trophy", Title = "Fairways hit", Value = "9 / 13" } }, false);
+            for (int i = 0; i < 30; i++) yield return null; Capture("roundcard_18");
+            card18.Destroy();
 
             // the phone steering the round card's buttons: lit ring on the way on, the stick down, then right, then a tap
             int pressed = -1;

@@ -4,11 +4,12 @@ using GolfArcade.Game;
 using UnityEngine;
 namespace GolfArcade.EnvironmentArt
 {
-    /// VFX consumes the same cycle as collision. Nothing spawns or retargets in flight.
+    /// VFX consumes the same cycle as collision. Nothing spawns or retargets in flight. No words float over the
+    /// hazards: the warning disc's colour and the rumble say a vent is about to go.
     public sealed class DreamHazardView : MonoBehaviour
     {
-        Hole hole;readonly List<Transform> plumes=new();readonly List<Renderer> warnings=new();readonly List<TextMesh> labels=new();
-        readonly List<Material> materials=new();readonly List<Mesh> meshes=new();VentStage[] stages;EventSounds sound;float nextLabel;
+        Hole hole;readonly List<Transform> plumes=new();readonly List<Renderer> warnings=new();
+        readonly List<Material> materials=new();readonly List<Mesh> meshes=new();VentStage[] stages;EventSounds sound;
         public static void Build(Transform parent,Hole hole)
         {
             if(hole.Dream==null)return;var root=new GameObject("Authored hazard windows");root.transform.SetParent(parent,false);
@@ -37,21 +38,16 @@ namespace GolfArcade.EnvironmentArt
                 var plumeRenderer=plume.GetComponent<Renderer>();var plumeShader=Resources.Load<Shader>("Environment/DreamLavaPlume");
                 if(plumeShader)plumeRenderer.material.shader=plumeShader;
                 plume.transform.position=p+Vector3.up*(float)h.ActiveHeight*.5f;plume.transform.localScale=new Vector3((float)h.Radius*2,(float)h.ActiveHeight*.5f,(float)h.Radius*2);plume.SetActive(false);v.plumes.Add(plume.transform);v.materials.Add(plume.GetComponent<Renderer>().material);
-                var go=new GameObject("Window sign");go.transform.SetParent(root.transform,false);go.transform.position=p+new Vector3(0,5,0);
-                var text=go.AddComponent<TextMesh>();text.characterSize=.75f;text.fontSize=40;text.anchor=TextAnchor.MiddleCenter;text.color=new Color(1,.87f,.55f);v.labels.Add(text);
             }
         }
         void LateUpdate()
         {
             if(hole?.Dream==null)return;double now=hole.Movers?.Now??0;
-            bool updateLabel=Time.unscaledTime>=nextLabel;if(updateLabel)nextLabel=Time.unscaledTime+.1f;
             for(int i=0;i<hole.Dream.Hazards.Length;i++){
                 var h=hole.Dream.Hazards[i];var state=h.Stage(now);bool vent=h.Kind==DreamHazardKind.LavaVent;
                 bool visible=DreamVisibility.Visible(warnings[i].transform.position);
                 plumes[i].gameObject.SetActive(vent&&state==VentStage.Active);warnings[i].enabled=visible;
                 materials[i*2].color=vent?state==VentStage.Warning?new Color(1,.65f,.06f):state==VentStage.Active?new Color(1,.2f,.02f):new Color(.16f,.22f,.24f):new Color(.3f,.65f,.7f);
-                labels[i].gameObject.SetActive(visible);if(updateLabel||stages[i]!=state)labels[i].text=vent?(state==VentStage.Warning?"ERUPTING IN ":state==VentStage.Active?"ACTIVE ":"COOLING ")+h.UntilChange(now).ToString("0.0")+"s":hole.Dream.RouteName;
-                if(Camera.main)labels[i].transform.rotation=Camera.main.transform.rotation;
                 if(vent&&state==VentStage.Warning&&stages[i]!=state)sound.Rumble();stages[i]=state;
             }
         }

@@ -8,9 +8,9 @@ using UnityEngine;
 
 namespace GolfArcade.Game
 {
-    /// The ball drops in a round of one golfer (UI/HoleOutCard.cs): the hole's result, the round so far and the way
-    /// on are one card, and the round goes on from it to the next hole without a scorecard in between (the full
-    /// card is for the round's end). Rounds with others, contests and online rounds keep their own cards.
+    /// The ball drops in a round of one golfer (UI/HoleOutCard.cs): the hole's result (BIRDIE! and -1 under it) and the
+    /// way on are one card, and the round goes on from it to the next hole without a scorecard in between (the full card
+    /// is for the round's end). Rounds with others go on between holes without the card too.
     public sealed partial class GolfGame
     {
         HoleOutCard holeOutCard;
@@ -34,12 +34,10 @@ namespace GolfArcade.Game
         HoleOutCard.Data HoleOutData(CourseShot shot)
         {
             int strokes = holeStrokes, par = hole.Par;
-            var tiles = new HoleOutCard.Tile[course.Holes.Length];
             int toPar = 0, thru = 0;
-            for (int i = 0; i < tiles.Length; i++)
+            for (int i = 0; i < course.Holes.Length; i++)
             {
                 int? s = i == holeIndex ? strokes : HoleOutCardSource.StrokesOn(i);
-                tiles[i] = new HoleOutCard.Tile { Ordinal = i + 1, Par = course.Holes[i].Par, Strokes = s, Current = i == holeIndex };
                 if (s is int played) { toPar += played - course.Holes[i].Par; thru++; }
             }
             bool more = holeIndex + 1 < course.Holes.Length;
@@ -51,7 +49,6 @@ namespace GolfArcade.Game
                 Eyebrow = string.IsNullOrEmpty(hole.Name) ? $"HOLE {holeIndex + 1} OF {course.Holes.Length}" : $"HOLE {holeIndex + 1} OF {course.Holes.Length}  ·  {hole.Name.ToUpperInvariant()}",
                 Detail = strokes == 1 ? $"PAR {par}  ·  ACE FROM {holedFrom}" : $"PAR {par}  ·  HOLED FROM {holedFrom}",
                 Strokes = strokes, Par = par, HoleToPar = strokes - par, ToPar = toPar, Thru = thru,
-                Tiles = tiles,
                 Emotes = resultEmotes.Select(TennisEmotes.Name).ToArray(),
             };
             string waiting = networkConfigured ? NetworkStillToHoleOut() : null;

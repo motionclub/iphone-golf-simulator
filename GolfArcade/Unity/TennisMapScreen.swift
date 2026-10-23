@@ -48,9 +48,35 @@ enum GolfCourseChoice: String, CaseIterable {
     var theme: String {
         switch self { case .cliffside: "OCEAN CLIFFS"; case .wildisles: "WILD ISLANDS"; case .magma: "LAVA CRATER" }
     }
-    /// Holes and par, as Unity's Course.All() has them.
-    var card: String {
-        switch self { case .cliffside: "5 HOLES · PAR 19"; case .wildisles: "6 HOLES · PAR 25"; case .magma: "5 HOLES · PAR 20" }
+    /// Each hole's par, in the order Unity's Course.All() deals them.
+    var pars: [Int] {
+        switch self { case .cliffside: [4, 4, 5, 3, 3]; case .wildisles: [5, 4, 5, 3, 4, 4]; case .magma: [4, 4, 3, 4, 5] }
+    }
+    /// Holes and par.
+    var card: String { "\(pars.count) HOLES · PAR \(pars.reduce(0, +))" }
+    /// The courses a round from here plays, hole by hole, as Unity's Course.Round deals them: `holes` (0 for this course's
+    /// own) going on into the courses after it on the screen (`link`), or round this course again.
+    func round(holes: Int, link: Bool) -> [(course: GolfCourseChoice, par: Int)] {
+        let all = Self.allCases, first = all.firstIndex(of: self) ?? 0
+        let run = (0..<(link ? all.count : 1)).map { all[(first + $0) % all.count] }
+        let order = run.flatMap { c in c.pars.map { (course: c, par: $0) } }
+        return (0..<(holes > 0 ? holes : pars.count)).map { order[$0 % order.count] }
+    }
+    /// A golf venue as the player reads it: "Cliffside", or "Cliffside · 9 holes" for a longer round from it.
+    static func venueTitle(_ venue: String) -> String {
+        let round = MultiplayerLobby.golfRoundParts(venue)
+        let title = GolfCourseChoice(rawValue: MultiplayerLobby.currentGolfVenue(round.course))?.title ?? "Cliffside"
+        return round.holes > 0 ? "\(title) · \(round.holes) holes" : title
+    }
+    /// "9 HOLES · PAR 35 · CLIFFSIDE + WILD ISLES", or this course's own card.
+    func roundCard(holes: Int, link: Bool) -> String {
+        guard holes > 0, holes != pars.count || link else { return card }
+        let round = round(holes: holes, link: link)
+        var names: [String] = []
+        for hole in round where !names.contains(hole.course.title) { names.append(hole.course.title) }
+        let place = names.count == Self.allCases.count ? "GRAND TOUR" : names.count > 1 ? names.joined(separator: " + ").uppercased()
+            : round.count > pars.count ? "TWICE ROUND" : title.uppercased()
+        return "\(round.count) HOLES · PAR \(round.map(\.par).reduce(0, +)) · \(place)"
     }
 }
 struct SportMapChoice: Identifiable {
@@ -156,17 +182,25 @@ struct GolfCourseScreen: View {
                 .padding(.horizontal, 14).padding(.vertical, 5).background(IslandUI.lime, in: Capsule())
             Text(shown.title.uppercased()).font(IslandUI.font(size, bold: true)).foregroundStyle(.white)
                 .shadow(color: .black.opacity(0.5), radius: 6, y: 3).lineLimit(1).minimumScaleFactor(0.6)
-            Text("\(shown.detail)  ·  \(shown.card)").font(IslandUI.font(size * 0.3)).foregroundStyle(.white.opacity(0.9))
+            Text(shown.detail).font(IslandUI.font(size * 0.3)).foregroundStyle(.white.opacity(0.9))
+                .lineLimit(1).minimumScaleFactor(0.6)
+            Text(shown.roundCard(holes: SportsSession.shared.golfHoles, link: SportsSession.shared.golfLinkCourses))
+                .font(IslandUI.font(size * 0.3, bold: true)).foregroundStyle(IslandUI.lime)
                 .lineLimit(1).minimumScaleFactor(0.6)
         }.frame(maxWidth: .infinity).accessibilityElement(children: .combine)
     }
 
-    /// The round's match settings, before it starts: twists (two random modifiers dealt each round), the
-    /// weather with things moving about the holes, and a bounty on every hole paying coins (the golden
-    /// rings come with the Point Frenzy twist), each on or off, remembered for the next round.
+    /// The round's match settings, before it starts: how many holes (the course's own, 9 or 18) and whether a longer
+    /// round goes on into the next courses, twists (two random modifiers dealt each round), the weather with things
+    /// moving about the holes, and a bounty on every hole paying coins (the golden rings come with the Point Frenzy
+    /// twist), remembered for the next round.
     private func settings(height: CGFloat) -> some View {
         let session = SportsSession.shared
         return VStack(spacing: 6) {
+            HStack(spacing: 10) {
+                stepper("golf-holes", "Holes", icon: "flag.fill", value: session.golfHoles > 0 ? "\(session.golfHoles)" : "\(shown.pars.count)", height: height)
+                toggle("golf-link", "Link courses", icon: "link", on: session.golfLinkCourses, height: height)
+            }
             HStack(spacing: 10) {
                 toggle("golf-twists", "Twists", icon: "dice.fill", on: session.golfTwists, height: height)
                 toggle("golf-challenges", "Bounties", icon: "target", on: session.golfChallenges, height: height)
@@ -180,6 +214,25 @@ struct GolfCourseScreen: View {
         return [twists ? "2 random twists each round" : "Classic rules",
                 "Automatic weather · EST day/night",
                 challenges ? "a bounty on every hole" : nil].compactMap { $0 }.joined(separator: " · ")
+    }
+
+    /// A setting that steps through its values on each tap (the holes: the course's own, 9, 18).
+    private func stepper(_ id: String, _ title: String, icon: String, value: String, height: CGFloat) -> some View {
+        let focused = menu.isFocused(id)
+        return Button { menu.tap(id) } label: {
+            HStack(spacing: 8) {
+                Image(systemName: icon).font(.system(size: height * 0.34, weight: .bold))
+                Text(title.uppercased()).font(IslandUI.font(height * 0.3, bold: true)).lineLimit(1).minimumScaleFactor(0.6)
+                Text(value).font(IslandUI.font(height * 0.3, bold: true))
+                    .padding(.horizontal, 10).padding(.vertical, 3)
+                    .background(IslandUI.navy.opacity(0.18), in: Capsule())
+            }
+            .foregroundStyle(IslandUI.navy)
+            .padding(.horizontal, 16).frame(maxWidth: .infinity, minHeight: height)
+            .background(IslandUI.lime, in: Capsule())
+            .overlay(Capsule().strokeBorder(.white.opacity(focused ? 1 : 0.45), lineWidth: focused ? 3 : 2))
+        }.buttonStyle(.plain).accessibilityLabel(title).accessibilityValue(value)
+            .accessibilityAddTraits(.isButton).accessibilityIdentifier(id)
     }
 
     private func toggle(_ id: String, _ title: String, icon: String, on: Bool, height: CGFloat) -> some View {

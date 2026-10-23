@@ -281,18 +281,19 @@ namespace GolfArcade.UI
             noteText.text = ObjectiveOf(info.Blurb);
             note.gameObject.SetActive(!string.IsNullOrEmpty(noteText.text));
             status.text = "Packing the clubs…";
-            // the round's holes: those played, the one coming, those still to play
+            // the round's holes: those played, the one coming, those still to play (closer and smaller on a long round)
             foreach (Transform t in dots) { t.gameObject.SetActive(false); Destroy(t.gameObject); }
+            float step = Mathf.Min(46, 384f / Mathf.Max(1, info.Count)), size = Mathf.Min(30, step - 8), rim = Mathf.Min(7, size * .25f);
             for (int i = 0; i < info.Count; i++)
             {
                 int place = i + 1;
                 var dot = Disc(dots, "Dot " + place, place < info.Ordinal ? Lime : place == info.Ordinal ? Ink : new Color(1, 1, 1, .25f));
                 dot.rectTransform.anchorMin = dot.rectTransform.anchorMax = new Vector2(0, .5f); dot.rectTransform.pivot = new Vector2(0, .5f);
-                dot.rectTransform.sizeDelta = new Vector2(30, 30); dot.rectTransform.anchoredPosition = new Vector2(i * 46 + 8, 0);
+                dot.rectTransform.sizeDelta = new Vector2(size, size); dot.rectTransform.anchoredPosition = new Vector2(i * step + 8, 0);
                 if (place == info.Ordinal)
                 {
                     var ring = Disc(dot.transform, "Ring", Lime);
-                    ring.rectTransform.offsetMin = Vector2.one * -7; ring.rectTransform.offsetMax = Vector2.one * 7;
+                    ring.rectTransform.offsetMin = Vector2.one * -rim; ring.rectTransform.offsetMax = Vector2.one * rim;
                     ring.transform.SetAsFirstSibling();
                 }
             }

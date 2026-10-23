@@ -317,8 +317,55 @@ namespace GolfArcade.Course
         public static Course ByKey(string key)
         {
             if (key == "postcards") key = "cliffside";   // the retired Postcards course: its holes are Cliffside's now
+            if (ParseRound(key, out var start, out int holes, out bool link)) return Round(start, holes, link);
             foreach (var c in All()) if (c.Key == key) return c;
             return null;
+        }
+
+        /// The longest round there is: two full rounds of every modelled hole.
+        public const int MostHoles = 36;
+
+        /// A round's key: the course it starts on and how many holes, "cliffside+9" going on into the next courses
+        /// (`link`) or "cliffside*9" round the same course again; the course's own key for its own round.
+        public static string RoundKey(string key, int holes, bool link)
+        {
+            var start = ByKey(key);
+            if (start == null || holes <= 0 || (holes == start.Holes.Length && !link)) return start?.Key ?? key;
+            return $"{start.Key}{(link ? '+' : '*')}{Math.Min(holes, MostHoles)}";
+        }
+
+        static bool ParseRound(string key, out string start, out int holes, out bool link)
+        {
+            start = null; holes = 0; link = false;
+            if (string.IsNullOrEmpty(key)) return false;
+            int at = key.IndexOfAny(new[] { '+', '*' });
+            if (at <= 0 || !int.TryParse(key.Substring(at + 1), out holes) || holes < 1 || holes > MostHoles) return false;
+            start = key.Substring(0, at); link = key[at] == '+';
+            if (start == "postcards") start = "cliffside";
+            string named = start;
+            return Array.Exists(All(), c => c.Key == named);
+        }
+
+        /// A round of `holes` holes that starts on the course `key`. Past that course's own holes it goes on into the
+        /// courses after it on the course screen (`link`: Cliffside, Wild Isles, the Magma Open, then round again), or round
+        /// the same course again; a hole comes round a second time only once every hole in the round's run has been played.
+        /// Each hole is its own fresh copy, told its place in the round (Ordinal), so a hole played twice is two holes on the card.
+        public static Course Round(string key, int holes, bool link)
+        {
+            var all = All();
+            int first = Math.Max(0, Array.FindIndex(all, c => c.Key == key));
+            var run = new List<Course>();
+            for (int i = 0; i < (link ? all.Length : 1); i++) run.Add(all[(first + i) % all.Length]);
+            var order = new List<int>();
+            foreach (var c in run) foreach (var h in c.Holes) order.Add(h.Number);
+            holes = Math.Max(1, Math.Min(holes, MostHoles));
+            var numbers = new int[holes];
+            for (int i = 0; i < holes; i++) numbers[i] = order[i % order.Count];
+            // named for the courses it plays: "Cliffside + Wild Isles", every course "Grand Tour"
+            var visited = new List<string>();
+            foreach (int n in numbers) { var c = run.Find(x => Array.Exists(x.Holes, h => h.Number == n)); if (c != null && !visited.Contains(c.Name)) visited.Add(c.Name); }
+            string name = visited.Count >= all.Length ? "Grand Tour" : string.Join(" + ", visited);
+            return Deal(name, RoundKey(all[first].Key, holes, link), numbers);
         }
         public int Par { get { int p = 0; foreach (var h in Holes) p += h.Par; return p; } }
 
@@ -346,15 +393,22 @@ namespace GolfArcade.Course
         /// look tooling and its tests: not a course that can be picked; they are played on Cliffside and the Magma Open.
         public static Course Postcards() => new() { Name = "Postcards", Key = "postcards", Holes = PostcardHoles() };
 
-        /// A course from the catalogue: the holes with these numbers, in this order, each told its place in the round.
+        /// A course from the catalogue: the holes with these numbers, in this order, each told its place in the round. A number
+        /// that comes round again (a long round) is a fresh copy of its hole, its own place on the card.
         static Course Deal(string name, string key, params int[] numbers)
         {
-            var catalogue = Catalogue();
+            var catalogues = new List<Hole[]> { Catalogue() };
+            var taken = new HashSet<Hole>();
             var holes = new Hole[numbers.Length];
             for (int i = 0; i < numbers.Length; i++)
             {
-                holes[i] = Array.Find(catalogue, h => h.Number == numbers[i]) ?? throw new ArgumentException($"no modelled hole {numbers[i]} for {name}");
-                holes[i].Ordinal = i + 1;
+                int number = numbers[i];
+                Hole hole = null;
+                foreach (var c in catalogues) if ((hole = Array.Find(c, h => h.Number == number && !taken.Contains(h))) != null) break;
+                if (hole == null) { var fresh = Catalogue(); catalogues.Add(fresh); hole = Array.Find(fresh, h => h.Number == number); }
+                holes[i] = hole ?? throw new ArgumentException($"no modelled hole {number} for {name}");
+                taken.Add(hole);
+                hole.Ordinal = i + 1;
             }
             return new Course { Name = name, Key = key, Holes = holes };
         }

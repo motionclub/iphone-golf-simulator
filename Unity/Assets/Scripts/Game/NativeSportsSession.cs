@@ -347,8 +347,10 @@ namespace GolfArcade.Game
             while(!frameRendered && Time.realtimeSinceStartup<deadline) yield return null;
             if(!frameRendered) { Emit("error","Gameplay camera did not render a frame. Return to the menu and retry."); yield break; }
             Ready=true; Emit(eventType,"Gameplay camera rendered");
-            // The match is up and the scene has set its own frame rate: swing input goes to 120 Hz now if asked (InputRate).
-            if(tennis || golf) InputRate.Begin(gameObject,external,lastInputHz); else InputRate.Stop();
+            // The match is up and the scene has set its own frame rate: tennis swing input goes to 120 Hz now if asked (InputRate).
+            // Golf stays on the plain 60 Hz loop: it runs every queued motion sample through the swing whatever the loop rate, and
+            // its heavier TV frame, drawn every other 120 Hz loop, stuttered whenever one missed its 8.3 ms slot.
+            if(tennis) InputRate.Begin(gameObject,external,lastInputHz); else InputRate.Stop();
             // A tennis phone with no TV of its own is only a controller: it needs the match state, not the picture, so once the first
             // frame has proved the scene loaded it stops drawing (the phone is also tracking motion and running the camera).
             if(SportsMultiplayer.Active && SportsMultiplayer.Instance.Configuration.sport=="tennis"

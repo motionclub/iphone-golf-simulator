@@ -9,8 +9,8 @@ using UnityEngine.UI;
 
 namespace GolfArcade.PlayTests
 {
-    /// What follows holing out, and the way to the next hole: one result card (HoleOutCard) with the score, the
-    /// round so far and NEXT HOLE; then the loading screen (HoleLoadingCover) up and drawn BEFORE the next hole is
+    /// What follows holing out, and the way to the next hole: one result card (HoleOutCard) with the score, the hole
+    /// against par under it and NEXT HOLE (the scoreboard is for the round's end); then the loading screen (HoleLoadingCover) up and drawn BEFORE the next hole is
     /// built, the hole built in slices behind it, and the new hole's tee. Phone and TV frames of each go to
     /// Library/Captures/review (run windowed: Unity/Tools/run-playmode-windowed.sh HoleFlowTests).
     public class HoleFlowTests
@@ -87,8 +87,12 @@ namespace GolfArcade.PlayTests
                 Assert.IsTrue(card && card.activeInHierarchy);
                 var words = System.Array.ConvertAll(card.GetComponentsInChildren<Text>(true), t => t.text);
                 Assert.IsTrue(System.Array.Exists(words, w => w.StartsWith("HOLE 1 OF 5")), "it says which hole of the round: " + string.Join(" | ", words));
-                foreach (var label in new[] { "HOLE", "PAR", "YOU", "TOTAL" })
-                    Assert.IsTrue(System.Array.Exists(words, w => w == label), $"the scoreboard has its {label} row or column: " + string.Join(" | ", words));
+                // the score and, under it, the hole against par (BIRDIE and -1): no scoreboard until the round's end
+                Assert.IsTrue(System.Array.Exists(words, w => w == game.HoleOut.ScoreWord), "the score: " + string.Join(" | ", words));
+                Assert.IsTrue(System.Array.Exists(words, w => w == game.HoleOut.ToParText) && System.Text.RegularExpressions.Regex.IsMatch(game.HoleOut.ToParText, @"^(E|[+-]\d+)$"),
+                    "the hole against par under it: " + string.Join(" | ", words));
+                foreach (var label in new[] { "YOU", "TOTAL" })
+                    Assert.IsFalse(System.Array.Exists(words, w => w == label), $"no scoreboard {label} after a hole: " + string.Join(" | ", words));
                 Assert.IsNotNull(game.ResultEmote, "the golfer is reacting to the score, in the clear of the card");
                 Assert.IsTrue(game.PlayResultEmote(0), "an emote can be played on the spot");
                 float before = game.ResultWaitSeconds;

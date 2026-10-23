@@ -349,14 +349,15 @@ final class MultiplayerService {
     }
     func configure(_ sport: MultiplayerSport, venue: String? = nil, sets: Int = 1, games: Int = 3) throws {
         try requireOwnerIdle()
-        let venue = sport == .golf ? MultiplayerLobby.currentGolfVenue(venue ?? "cliffside") : (venue ?? "resort")
+        // golf: the course, played as long as this host last chose (its own holes, 9 or 18, linked on or round again)
+        let session = SportsSession.shared
+        let venue = sport == .golf ? MultiplayerLobby.golfRound(MultiplayerLobby.golfRoundParts(venue ?? "cliffside").course, holes: session.golfHoles, link: session.golfLinkCourses) : (venue ?? "resort")
         guard MultiplayerLobby.validVenue(venue, sport: sport), (1...3).contains(sets), [1,3,6].contains(games) else { throw MultiplayerError.invalidOperation("Invalid match settings.") }
         if sport != .golf { lobby?.participants.removeAll { $0.isGuest } }
         lobby?.configure(sport: sport, venue: venue)
         for i in lobby!.participants.indices where lobby!.participants[i].isGuest { lobby!.participants[i].ready = true }
         lobby?.sets = sets; lobby?.games = games
         // golf's optional twists and challenges as this host last chose them
-        let session = SportsSession.shared
         lobby?.twistsOff = sport == .golf && !session.golfTwists ? true : nil
         publishLobby()
     }
@@ -365,6 +366,16 @@ final class MultiplayerService {
         try requireOwnerIdle()
         SportsSession.shared.golfTwists = twists
         lobby?.twistsOff = twists ? nil : true
+        lobby?.revision += 1; publishLobby()
+    }
+    /// Golf's round length: the course's own holes (0), 9 or 18, and whether a longer round goes on into the next courses or
+    /// round the same course again; remembered for the next round like the twists. The seats and who is ready stay as they are.
+    func setGolfRound(holes: Int, link: Bool) throws {
+        try requireOwnerIdle()
+        let session = SportsSession.shared
+        session.golfHoles = holes; session.golfLinkCourses = link
+        guard let l = lobby, l.sport == .golf else { return }
+        lobby?.venue = MultiplayerLobby.golfRound(MultiplayerLobby.golfRoundParts(l.venue).course, holes: holes, link: link)
         lobby?.revision += 1; publishLobby()
     }
     func assignSeat(_ player: String, seat: Int) throws { try requireOwnerIdle(); try lobby?.assign(player, seat: seat); publishLobby() }

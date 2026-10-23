@@ -308,7 +308,7 @@ struct IslandSettingsScreen: View {
         case "relock": return Item(title: "Court direction", detail: "Point at the TV again at the start of your next match.", control: .action("Set again", danger: false))
         case "timing": return Item(title: "Swing timing check", detail: "Re-measure your TV's picture delay at the start of your next match.", control: .action("Run next match", danger: false))
         case "swingPrediction": return Item(title: "Swing prediction", detail: "A strong swing counts the moment it peaks, not a moment after. From your next match; turn off to compare.", control: .toggle(s.swingPrediction))
-        case "fastInput": return Item(title: "120 Hz swing input", detail: "Reads your swing twice as often during a match on a TV, which stays at a steady 60. From your next match; turn off to compare.", control: .toggle(s.fastInput))
+        case "fastInput": return Item(title: "120 Hz swing input", detail: "Reads your swing twice as often during a tennis match on a TV, which stays at a steady 60. From your next match; turn off to compare.", control: .toggle(s.fastInput))
         case let g where g.hasPrefix("guide-"):
             let deck = GuideDeck(rowID: g)
             return Item(title: deck?.title ?? "Guide", detail: deck?.detail ?? "", control: .link)
@@ -695,12 +695,17 @@ struct IslandOnlineScreen: View {
                     action("net-settings-match","Match Options",icon:"slider.horizontal.3")
                 } else {
                     choices("Sport",values:["tennis","golf"],selected:lobby.sport.rawValue,prefix:"net-sport-")
-                    choices(lobby.sport == .tennis ? "Court" : "Course",values:lobby.sport == .tennis ? ["resort","skyscraper","volcano"] : GolfCourseChoice.allCases.map(\.rawValue),selected:lobby.venue,prefix:"net-venue-")
+                    let round = MultiplayerLobby.golfRoundParts(lobby.venue)
+                    choices(lobby.sport == .tennis ? "Court" : "Course",values:lobby.sport == .tennis ? ["resort","skyscraper","volcano"] : GolfCourseChoice.allCases.map(\.rawValue),selected:lobby.sport == .tennis ? lobby.venue : round.course,prefix:"net-venue-")
                     if lobby.sport == .tennis {
                         choices("Sets",values:["1","2","3"],selected:String(lobby.sets),prefix:"net-sets-")
                         choices("Games",values:["1","3","6"],selected:String(lobby.games),prefix:"net-games-")
                     } else {
                         choices("Round twists",values:["on","off"],selected:lobby.twistsOff == true ? "off" : "on",prefix:"net-twists-")
+                        // the round's length: the course's own holes, 9 or 18, on into the next courses or round it again
+                        choices("Holes",values:SportsSession.golfRoundLengths.map(String.init),selected:String(max(0,round.holes)),prefix:"net-holes-",
+                                titles:SportsSession.golfRoundLengths.map { $0 > 0 ? "\($0)" : "\(GolfCourseChoice(rawValue:round.course)?.pars.count ?? 5)" })
+                        choices("Link courses",values:["on","off"],selected:(round.holes > 0 ? round.link : SportsSession.shared.golfLinkCourses) ? "on" : "off",prefix:"net-link-")
                     }
                     action("net-settings-seats","Player Seats",icon:"person.2.fill")
                 }
@@ -708,10 +713,10 @@ struct IslandOnlineScreen: View {
             }
         }
     }
-    private func choices(_ label: String,values:[String],selected:String,prefix:String) -> some View {
+    private func choices(_ label: String,values:[String],selected:String,prefix:String,titles:[String]? = nil) -> some View {
         VStack(alignment:.leading,spacing:5) {
             Text(label).islandType(compact ? 12 : 15,bold:true)
-            IslandSegments(titles:values.map { GolfCourseChoice(rawValue:$0)?.title ?? TennisVenueChoice(rawValue:$0)?.title ?? $0.capitalized },selected:values.firstIndex(of:selected) ?? 0,compact:compact,focused:values.firstIndex { menu.isFocused(prefix+$0) }) { i in menu.tap(prefix+values[i]) }.disabled(!service.isOwner)
+            IslandSegments(titles:titles ?? values.map { GolfCourseChoice(rawValue:$0)?.title ?? TennisVenueChoice(rawValue:$0)?.title ?? $0.capitalized },selected:values.firstIndex(of:selected) ?? 0,compact:compact,focused:values.firstIndex { menu.isFocused(prefix+$0) }) { i in menu.tap(prefix+values[i]) }.disabled(!service.isOwner)
         }.id(values.first { menu.isFocused(prefix+$0) }.map { prefix+$0 } ?? prefix+values[0])
     }
     private func action(_ id: String,_ title: String,subtitle: String = "",icon: String = "chevron.right",enabled: Bool = true,ready: Bool? = nil) -> some View {

@@ -511,7 +511,7 @@ struct HubPartyBayPanel: View {
                     VStack(alignment: .leading, spacing: 12) {
                         HStack {
                             Text("Map"); Spacer()
-                            Picker("Map", selection: Binding(get: { party?.venue ?? lobby.venue }, set: { hub.configureParty(venue: $0) })) {
+                            Picker("Map", selection: Binding(get: { golf ? MultiplayerLobby.golfRoundParts(party?.venue ?? lobby.venue).course : party?.venue ?? lobby.venue }, set: { hub.configureParty(venue: $0) })) {
                                 if golf {
                                     ForEach(GolfCourseChoice.allCases, id: \.rawValue) { course in Text(course.title).tag(course.rawValue) }
                                 } else {
@@ -539,7 +539,7 @@ struct HubPartyBayPanel: View {
                     }.tint(IslandUI.lime).frame(maxWidth: .infinity).padding(14).background(.white.opacity(0.07), in: RoundedRectangle(cornerRadius: 14))
                 }
                 if !hub.partyService.isOwner, hub.partyAllSeated, let lobby = party {
-                    Text(lobby.venue.capitalized + (golf ? "" : " · \(lobby.sets) sets · \(lobby.games) games")).font(.subheadline).foregroundStyle(.white.opacity(0.7))
+                    Text(golf ? GolfCourseChoice.venueTitle(lobby.venue) : lobby.venue.capitalized + " · \(lobby.sets) sets · \(lobby.games) games").font(.subheadline).foregroundStyle(.white.opacity(0.7))
                 }
                 if !hub.notice.isEmpty { Text(hub.notice).font(IslandUI.font(14, bold: true)).foregroundStyle(IslandUI.lime) }
                 if hub.partyHasUnseatedFriends {

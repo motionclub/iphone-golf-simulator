@@ -163,10 +163,24 @@ struct MultiplayerLobby: Codable, Equatable, Sendable {
     /// Still accepted for golf: the shared "resort" default and the old Meadow Run course of earlier lobbies.
     private static let legacyGolfVenues = ["resort", "meadow"]
     static func validVenue(_ venue: String, sport: MultiplayerSport) -> Bool {
-        (sport == .golf ? golfVenues + legacyGolfVenues : ["resort", "skyscraper", "volcano"]).contains(venue)
+        guard sport == .golf else { return ["resort", "skyscraper", "volcano"].contains(venue) }
+        let round = golfRoundParts(venue)
+        return round.holes == 0 ? (golfVenues + legacyGolfVenues).contains(round.course) : golfVenues.contains(round.course) && (1...36).contains(round.holes)
     }
     /// "postcards" was folded into Cliffside; saved settings and older lobbies may still carry it.
     static func currentGolfVenue(_ venue: String) -> String { venue == "postcards" ? "cliffside" : venue }
+    /// A golf round as a venue: the course's key for its own round, or the longer round played from it, "cliffside+9" going on
+    /// into the next courses and "cliffside*9" round the same course again (Unity's Course.RoundKey; Course.ByKey reads it).
+    static func golfRound(_ course: String, holes: Int, link: Bool) -> String {
+        let course = currentGolfVenue(golfRoundParts(course).course)
+        guard golfVenues.contains(course), (1...36).contains(holes), holes != GolfCourseChoice(rawValue: course)?.pars.count || link else { return course }
+        return "\(course)\(link ? "+" : "*")\(holes)"
+    }
+    /// A golf venue's parts: the course it starts on, its holes (0 for the course's own round) and whether it links courses.
+    static func golfRoundParts(_ venue: String) -> (course: String, holes: Int, link: Bool) {
+        guard let at = venue.firstIndex(where: { $0 == "+" || $0 == "*" }) else { return (venue, 0, false) }
+        return (String(venue[..<at]), Int(venue[venue.index(after: at)...]) ?? -1, venue[at] == "+")
+    }
     var startReason: String {
         if phase != .lobby { return "Return to the lobby first" }
         if let p = participants.first(where: { $0.seat >= 0 && !$0.connected }) { return "Waiting for \(p.name) to reconnect" }

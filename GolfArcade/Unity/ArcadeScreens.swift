@@ -197,7 +197,7 @@ struct LoadingScreen: View {
     private var service: MultiplayerService { menu.online.service }
     private var sport: Sport { service.lobby?.phase == .loading ? (service.lobby?.sport == .golf ? .golf : .tennis) : menu.launch?.sport ?? Sport(rawValue: session.sport) ?? .tennis }
     private var venueID: String { service.lobby?.phase == .loading ? service.lobby?.venue ?? (sport == .golf ? session.golfCourse : session.tennisVenue) : (sport == .golf ? session.golfCourse : session.tennisVenue) }
-    private var venue: String { sport == .golf ? (GolfCourseChoice(rawValue: venueID)?.title ?? "Cliffside") : (TennisVenueChoice(rawValue: venueID)?.title ?? "Tropical Resort") }
+    private var venue: String { sport == .golf ? GolfCourseChoice.venueTitle(service.lobby?.phase == .loading || menu.launch?.daily != nil ? venueID : MultiplayerLobby.golfRound(venueID, holes: session.golfHoles, link: session.golfLinkCourses)) : (TennisVenueChoice(rawValue: venueID)?.title ?? "Tropical Resort") }
     private var modeLine: String {
         if sport == .golf { return "Golf · Stroke Play · \(venue)" }
         if menu.launch?.mode == .training { return "Tennis · Practice · \(venue)" }

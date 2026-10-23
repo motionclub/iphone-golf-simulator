@@ -330,93 +330,98 @@ namespace GolfArcade.UI
             Icons.Fit(head, 80, 150);
             Top(head.rectTransform, y, 170); y -= 170 + 26;
 
-            // the card: a cream slab
+            // the card: a cream slab, or two on a round of more than nine holes (the front nine over the back nine)
             int n = holes.Length;
-            const float rowH = 92, labelW = 170;
-            float colW = Mathf.Min(140, (inner - 48 - labelW) / Mathf.Max(1, n));
-            float tableH = tableRows * rowH + 36;
-            var slab = Club.Box(f, "Card", new Vector2(0, 1), new Vector2(1, 1), new Vector2(0.5f, 1), new Vector2(0, y), new Vector2(0, tableH));
-            Transform tt = slab;
-            if (!clear)
+            int per = n <= 9 ? n : (n + 1) / 2;
+            for (int from = 0; from < Mathf.Max(1, n); from += Mathf.Max(1, per))
             {
-                var bas = Club.Paint(slab, "Base", Club.CreamDeep, 60); bas.rectTransform.offsetMin = new Vector2(0, -18); bas.rectTransform.offsetMax = new Vector2(0, -18);
-                var face = Club.Paint(slab, "Face", Club.Cream, 60);
-                var strip = Club.Paint(face.transform, "Strip", Club.Green);
-                face.gameObject.AddComponent<Mask>().showMaskGraphic = true;
-                strip.rectTransform.anchorMin = new Vector2(0, 1); strip.rectTransform.offsetMin = new Vector2(0, -18);
-                tt = face.transform;
-            }
-            float left = -inner / 2 + 24;
-            Text Cell(string text, float x, float yy, float w, int size, Color c, Font font = null)
-            {
-                var l = UiKit.Label(tt, "Cell", size, TextAnchor.MiddleCenter, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(x, yy), new Vector2(w, rowH), font ?? Club.Title, false);
-                l.rectTransform.pivot = new Vector2(0.5f, 0.5f);
-                l.text = text; l.color = c; l.raycastTarget = false;
-                if (clear)
-                {
-                    // the clear style's lettering: dark ink on the cream becomes white, with the club card's outline
-                    l.font = UiKit.Display; l.color = c == Club.Muted ? Color.white : c.grayscale < .5f ? Color.white : c;
-                    l.horizontalOverflow = HorizontalWrapMode.Overflow; GlassKit.Outline(l);
-                }
-                return l;
-            }
-            Image Mark(float x, float yy, Color c, bool round, float size)
-            {
-                var m = UiKit.Panel(tt, "Mark", c, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(x, yy), new Vector2(size, size));
-                m.rectTransform.pivot = new Vector2(0.5f, 0.5f);
-                if (round) { m.sprite = UiKit.Circle; m.type = Image.Type.Simple; }
-                m.raycastTarget = false; return m;
-            }
-            float r0 = (tableRows * rowH) / 2 - rowH / 2 - 9, r1 = r0 - rowH;
-            if (clear)
-                for (int k = 0; k < tableRows - 1; k++)
-                {
-                    float ry = r0 - rowH * k - rowH / 2;
-                    foreach (var (off, h, col) in new[] { (3f, 8f, new Color(GlassKit.Ink.r, GlassKit.Ink.g, GlassKit.Ink.b, .6f)), (0f, 4f, Color.white) })
-                    {
-                        var rule = UiKit.Panel(tt, "Rule", col, new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(0, ry - off), new Vector2(inner - 48, h), false);
-                        rule.rectTransform.pivot = new Vector2(.5f, .5f); rule.raycastTarget = false;
-                    }
-                }
-            Cell("HOLE", left + labelW / 2, r0, labelW, 34, Club.Muted, Club.Caps);
-            Cell("PAR", left + labelW / 2, r1, labelW, 34, Club.Muted, Club.Caps);
-            for (int i = 0; i < n; i++)
-            {
-                float x = left + labelW + 12 + colW * (i + 0.5f);
-                if (!clear) Mark(x, r0, Club.Ink, true, 62);
-                Cell($"{holes[i]}", x, r0, colW, 32, Color.white, Club.Caps);
-                Cell($"{pars[i]}", x, r1, colW, 42, Club.Ink);
-            }
-            for (int p = 0; p < players.Length; p++)
-            {
-                float r2 = r1 - rowH * (p + 1);
+                int to = Mathf.Min(n, from + per);
+                const float rowH = 92, labelW = 170;
+                float colW = Mathf.Min(140, (inner - 48 - labelW) / Mathf.Max(1, per));
+                float tableH = tableRows * rowH + 36;
+                var slab = Club.Box(f, "Card", new Vector2(0, 1), new Vector2(1, 1), new Vector2(0.5f, 1), new Vector2(0, y), new Vector2(0, tableH));
+                Transform tt = slab;
                 if (!clear)
                 {
-                    var band = UiKit.Panel(tt, players[p].Name, players[p].Color, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(left + labelW / 2, r2), new Vector2(labelW, rowH - 14));
-                    band.rectTransform.pivot = new Vector2(0.5f, 0.5f); band.sprite = UiKit.Circle; band.type = Image.Type.Sliced; band.raycastTarget = false;
+                    var bas = Club.Paint(slab, "Base", Club.CreamDeep, 60); bas.rectTransform.offsetMin = new Vector2(0, -18); bas.rectTransform.offsetMax = new Vector2(0, -18);
+                    var face = Club.Paint(slab, "Face", Club.Cream, 60);
+                    var strip = Club.Paint(face.transform, "Strip", Club.Green);
+                    face.gameObject.AddComponent<Mask>().showMaskGraphic = true;
+                    strip.rectTransform.anchorMin = new Vector2(0, 1); strip.rectTransform.offsetMin = new Vector2(0, -18);
+                    tt = face.transform;
                 }
-                var name = Cell(players[p].Name, left + labelW / 2, r2, labelW - 24, 38, clear ? players[p].Color : Club.Ink);
-                Icons.Fit(name, 18, 38);
-                for (int i = 0; i < n; i++)
+                float left = -inner / 2 + 24;
+                Text Cell(string text, float x, float yy, float w, int size, Color c, Font font = null)
                 {
-                    float x = left + labelW + 12 + colW * (i + 0.5f);
-                    if (players[p].Cells != null)
+                    var l = UiKit.Label(tt, "Cell", size, TextAnchor.MiddleCenter, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(x, yy), new Vector2(w, rowH), font ?? Club.Title, false);
+                    l.rectTransform.pivot = new Vector2(0.5f, 0.5f);
+                    l.text = text; l.color = c; l.raycastTarget = false;
+                    if (clear)
                     {
-                        var cell = Cell(i < players[p].Cells.Length ? players[p].Cells[i] ?? "–" : "–", x, r2, colW, 32, Club.Ink);
-                        Icons.Fit(cell, 16, 32);
+                        // the clear style's lettering: dark ink on the cream becomes white, with the club card's outline
+                        l.font = UiKit.Display; l.color = c == Club.Muted ? Color.white : c.grayscale < .5f ? Color.white : c;
+                        l.horizontalOverflow = HorizontalWrapMode.Overflow; GlassKit.Outline(l);
                     }
-                    else if (i < players[p].Strokes.Length && players[p].Strokes[i] is int st)
-                    {
-                        int d = st - pars[i];
-                        if (d < 0 && clear) { var ring = Mark(x, r2, GlassKit.Gold, true, 70); ring.sprite = UiKit.RingOf(128, 9); ring.color = UiKit.Hex("D7F044"); }
-                        else if (d < 0) Mark(x, r2, Club.Sun, true, 70);
-                        else if (d > 0) Mark(x, r2, d == 1 ? Club.Coral : UiKit.Hex("C23A2E"), false, 64);
-                        Cell($"{st}", x, r2, colW, 46, d > 0 ? Color.white : clear && d < 0 ? GlassKit.Gold : Club.Ink);
-                    }
-                    else Cell("–", x, r2, colW, 46, Club.Muted);
+                    return l;
                 }
+                Image Mark(float x, float yy, Color c, bool round, float size)
+                {
+                    var m = UiKit.Panel(tt, "Mark", c, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(x, yy), new Vector2(size, size));
+                    m.rectTransform.pivot = new Vector2(0.5f, 0.5f);
+                    if (round) { m.sprite = UiKit.Circle; m.type = Image.Type.Simple; }
+                    m.raycastTarget = false; return m;
+                }
+                float r0 = (tableRows * rowH) / 2 - rowH / 2 - 9, r1 = r0 - rowH;
+                if (clear)
+                    for (int k = 0; k < tableRows - 1; k++)
+                    {
+                        float ry = r0 - rowH * k - rowH / 2;
+                        foreach (var (off, h, col) in new[] { (3f, 8f, new Color(GlassKit.Ink.r, GlassKit.Ink.g, GlassKit.Ink.b, .6f)), (0f, 4f, Color.white) })
+                        {
+                            var rule = UiKit.Panel(tt, "Rule", col, new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(0, ry - off), new Vector2(inner - 48, h), false);
+                            rule.rectTransform.pivot = new Vector2(.5f, .5f); rule.raycastTarget = false;
+                        }
+                    }
+                Cell("HOLE", left + labelW / 2, r0, labelW, 34, Club.Muted, Club.Caps);
+                Cell("PAR", left + labelW / 2, r1, labelW, 34, Club.Muted, Club.Caps);
+                for (int i = from; i < to; i++)
+                {
+                    float x = left + labelW + 12 + colW * (i - from + 0.5f);
+                    if (!clear) Mark(x, r0, Club.Ink, true, 62);
+                    Cell($"{holes[i]}", x, r0, colW, 32, Color.white, Club.Caps);
+                    Cell($"{pars[i]}", x, r1, colW, 42, Club.Ink);
+                }
+                for (int p = 0; p < players.Length; p++)
+                {
+                    float r2 = r1 - rowH * (p + 1);
+                    if (!clear)
+                    {
+                        var band = UiKit.Panel(tt, players[p].Name, players[p].Color, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(left + labelW / 2, r2), new Vector2(labelW, rowH - 14));
+                        band.rectTransform.pivot = new Vector2(0.5f, 0.5f); band.sprite = UiKit.Circle; band.type = Image.Type.Sliced; band.raycastTarget = false;
+                    }
+                    var name = Cell(players[p].Name, left + labelW / 2, r2, labelW - 24, 38, clear ? players[p].Color : Club.Ink);
+                    Icons.Fit(name, 18, 38);
+                    for (int i = from; i < to; i++)
+                    {
+                        float x = left + labelW + 12 + colW * (i - from + 0.5f);
+                        if (players[p].Cells != null)
+                        {
+                            var cell = Cell(i < players[p].Cells.Length ? players[p].Cells[i] ?? "–" : "–", x, r2, colW, 32, Club.Ink);
+                            Icons.Fit(cell, 16, 32);
+                        }
+                        else if (i < players[p].Strokes.Length && players[p].Strokes[i] is int st)
+                        {
+                            int d = st - pars[i];
+                            if (d < 0 && clear) { var ring = Mark(x, r2, GlassKit.Gold, true, 70); ring.sprite = UiKit.RingOf(128, 9); ring.color = UiKit.Hex("D7F044"); }
+                            else if (d < 0) Mark(x, r2, Club.Sun, true, 70);
+                            else if (d > 0) Mark(x, r2, d == 1 ? Club.Coral : UiKit.Hex("C23A2E"), false, 64);
+                            Cell($"{st}", x, r2, colW, 46, d > 0 ? Color.white : clear && d < 0 ? GlassKit.Gold : Club.Ink);
+                        }
+                        else Cell("–", x, r2, colW, 46, Club.Muted);
+                    }
+                }
+                y -= tableH + 18 + 26;
             }
-            y -= tableH + 18 + 26;
 
             // the total, and against par (with others, the standings are the tiles below)
             if (solo) AddTotal(f, ref y, total, toPar);

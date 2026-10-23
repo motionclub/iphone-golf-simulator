@@ -2352,7 +2352,8 @@ namespace GolfArcade.Game
                         // another golfer on this phone still to hole out: their shot, from their ball
                         if (PassTheClub()) break;
                         RefreshControls();
-                        if((NativeControlled || holeOutShown) && holeIndex+1<course.Holes.Length) { NextPresentationHole(); }
+                        // the scorecard is for the round's end: between holes the round goes on (a contest's card names the hole's winner)
+                        if (holeIndex+1<course.Holes.Length && (NativeControlled || holeOutShown || Match?.IsContest != true)) { NextPresentationHole(); }
                         else { ShowRoundCard(); Enter(State.RoundDone); }
                     }
                     break;

@@ -97,6 +97,17 @@ final class SportsSession {
     var golfCourse = MultiplayerLobby.currentGolfVenue(UserDefaults.standard.string(forKey: "sports.golfCourse") ?? "cliffside") {
         didSet { UserDefaults.standard.set(golfCourse, forKey: "sports.golfCourse") }
     }
+    /// How long a golf round is: 0 plays the course's own holes (five or six); 9 or 18 go past them, on into the next courses
+    /// when `golfLinkCourses` is on, else round the same course again (Unity's Course.Round). Set on the course screen or a
+    /// lobby's Match Options, and remembered.
+    var golfHoles = UserDefaults.standard.integer(forKey: "sports.golfHoles") {
+        didSet { UserDefaults.standard.set(golfHoles, forKey: "sports.golfHoles") }
+    }
+    var golfLinkCourses = (UserDefaults.standard.object(forKey: "sports.golfLinkCourses") as? Bool) ?? true {
+        didSet { UserDefaults.standard.set(golfLinkCourses, forKey: "sports.golfLinkCourses") }
+    }
+    /// The round lengths the course screen steps through: the course's own, 9, 18.
+    static let golfRoundLengths = [0, 9, 18]
     /// Golf's match settings, set before the round (the course screen, a lobby's Match Settings) and remembered:
     /// round twists (two random modifiers dealt each round), and weather with things moving about the holes
     /// (rain, storms, gusts; balloons, carts, gulls). Both on unless turned off.
@@ -388,7 +399,9 @@ final class SportsSession {
         sport = "golf"; opponentName = ""; lastGolfRound = nil
         // the day's forecast round has everything on, whatever the match settings say
         let daily = tutorial ? 0 : daily ?? 0
-        launchExtras = ["mode": "round", "course": GolfCourseChoice(rawValue: golfCourse)?.rawValue ?? "cliffside",
+        let course = GolfCourseChoice(rawValue: golfCourse)?.rawValue ?? "cliffside"
+        // (the lesson and the day's forecast are the course's own round; anything else is as long as the player chose)
+        launchExtras = ["mode": "round", "course": tutorial || daily != 0 ? course : MultiplayerLobby.golfRound(course, holes: golfHoles, link: golfLinkCourses),
                         // (the lesson is plain golf, whatever the match settings say)
                         "noTwists": tutorial || (daily == 0 && !golfTwists),
                         "noChallenges": tutorial || (daily == 0 && !golfChallenges), "daily": daily]
@@ -403,7 +416,7 @@ final class SportsSession {
         multiplayerControllerOnly=configuration.controllerOnly
         multiplayerSeat=configuration.participants.first { $0.id == configuration.localID }?.seat ?? -1
         sport=configuration.sport; tennisVenue=configuration.venue
-        if configuration.sport == "golf" { golfCourse=configuration.venue }
+        if configuration.sport == "golf" { golfCourse=MultiplayerLobby.currentGolfVenue(MultiplayerLobby.golfRoundParts(configuration.venue).course) }
         launchExtras=["course":configuration.venue,"mode":"multiplayer", "network":json, "sets":configuration.sets, "games":configuration.games, "tips":false]
         start(preview: !displayConnected)
         launchExtras=[:]

@@ -120,7 +120,9 @@ struct GolfRoundStats: Equatable {
     /// "−2", "E", "+3".
     var toParText: String { Self.text(toPar: toPar) }
     static func text(toPar: Int) -> String { toPar == 0 ? "E" : toPar < 0 ? "\u{2212}\(-toPar)" : "+\(toPar)" }
-    var courseTitle: String { GolfCourseChoice(rawValue: course)?.title ?? "the course" }
+    var courseTitle: String {
+        GolfCourseChoice(rawValue: MultiplayerLobby.golfRoundParts(course).course) == nil ? "the course" : GolfCourseChoice.venueTitle(course)
+    }
 }
 
 @MainActor @Observable

@@ -44,9 +44,11 @@ namespace GolfArcade.Game
         HoleLoadingCover.Info InfoFor(int index)
         {
             var next = course.Holes[index];
+            // a round linking courses names the one the hole is on ("WILD ISLES" for its 13th), not the whole tour
+            bool linked = course.Key != null && course.Key.IndexOf('+') > 0;
             return new HoleLoadingCover.Info
             {
-                Hole = next, Course = course.Name, Name = next.Name, Blurb = next.Blurb,
+                Hole = next, Course = linked ? Course.Course.Containing(next.Number)?.Name ?? course.Name : course.Name, Name = next.Name, Blurb = next.Blurb,
                 Ordinal = index + 1, Count = course.Holes.Length, Par = next.Par, Yards = next.Length,
             };
         }
@@ -71,6 +73,7 @@ namespace GolfArcade.Game
             yield return null;
             while (!loadingCover.Opaque || Time.unscaledTime < until) yield return null;
             yield return null;
+            holeOutCard?.Hide();   // the last hole's result stays up until the cover is over it
 
             var steps = StartHoleSteps(index);
             double previous = watch.Elapsed.TotalMilliseconds;

@@ -138,7 +138,7 @@ namespace GolfArcade.Game {
             if(loadingHole)return;
             if(state.hole!=networkHole) {
                 bool first=networkHole<0;
-                networkHole=state.hole;networkLineUp=null;networkSolo=false;networkHoleReady=false;
+                networkHole=state.hole;networkLineUp=null;networkSolo=false;networkHoleReady=false;holeDoneSent=false;
                 if(cardShownFor>=0){cardShownFor=-1;hud.HideScorecard();}
                 NetworkHoleEvents(state);   // the host's twists and this hole's weather
                 if(first) StartHole(state.hole);   // (the first hole is built while the match itself is loading)
@@ -173,7 +173,7 @@ namespace GolfArcade.Game {
                 hud.SetStatus("Ready · everyone starts together");
                 return;
             }
-            if(state.phase=="holeDone") { NetworkHoleCard(state,true); return; }
+            if(state.phase=="holeDone") { NetworkHoleDone(state); return; }
             if(cardShownFor>=0&&!state.complete){cardShownFor=-1;hud.HideScorecard();}
             var active=state.golfers.FirstOrDefault(p=>p.seat==state.turn);if(active==null)return;
             if(networkCardRevision!=state.revision||networkTurn!=state.turn){
@@ -436,7 +436,17 @@ namespace GolfArcade.Game {
             return other==null?null:NetworkName(other.seat);
         }
         int cardShownFor=-1, introBegunFor=-1;
-        /// Single player's card with others, from the host's cards: a row each and the standings, after every hole (more) and at the end.
+        bool holeDoneSent;
+        /// Everyone has holed out and another hole follows: no scorecard in between (the card is for the round's end), so the
+        /// hole-out card that said BIRDIE! stays up and this phone tells the host it is done with the hole at once; the next hole
+        /// then loads behind its screen as in single player.
+        void NetworkHoleDone(NetworkGolfState state) {
+            if(holeDoneSent||!SportsMultiplayer.Active)return;
+            holeDoneSent=true;
+            var mine=state.golfers.FirstOrDefault(g=>!g.dnf&&partyConfiguration.Controls(partyConfiguration.localID,g.seat))??state.golfers.FirstOrDefault(g=>!g.dnf);
+            if(mine!=null) SportsMultiplayer.Instance.Submit(new NetworkInput{action="golfHoleCardDone",value=state.hole,actorSeat=mine.seat});
+        }
+        /// Single player's card with others, from the host's cards: a row each and the standings, at the round's end.
         void NetworkHoleCard(NetworkGolfState state,bool more) {
             int key=more?state.hole:1000+state.hole;
             if(cardShownFor==key)return;
