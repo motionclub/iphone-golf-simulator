@@ -74,8 +74,8 @@ final class LocalMultiplayerTransport: MultiplayerTransport {
             #if DEBUG
             Task { @MainActor in OnlineLobbyProofDriver.event("listener",String(describing:state)) }
             #endif
-            if case .failed(let error) = state { Task { @MainActor in self?.onError?(error) } }
-            if case .waiting(let error) = state, Self.isLocalNetworkDenied(error) { Task { @MainActor in self?.onError?(MultiplayerError.localNetworkDenied) } }
+            if case .failed(let error) = state { Task { @MainActor [weak self] in self?.onError?(error) } }
+            if case .waiting(let error) = state, Self.isLocalNetworkDenied(error) { Task { @MainActor [weak self] in self?.onError?(MultiplayerError.localNetworkDenied) } }
         }
         self.listener = listener; listener.start(queue: queue)
     }
@@ -100,8 +100,8 @@ final class LocalMultiplayerTransport: MultiplayerTransport {
             #if DEBUG
             Task { @MainActor in OnlineLobbyProofDriver.event("browser",String(describing:state)) }
             #endif
-            if case .failed(let e) = state { Task { @MainActor in self?.onError?(e) } }
-            if case .waiting(let e) = state, Self.isLocalNetworkDenied(e) { Task { @MainActor in self?.onError?(MultiplayerError.localNetworkDenied) } } }
+            if case .failed(let e) = state { Task { @MainActor [weak self] in self?.onError?(e) } }
+            if case .waiting(let e) = state, Self.isLocalNetworkDenied(e) { Task { @MainActor [weak self] in self?.onError?(MultiplayerError.localNetworkDenied) } } }
         browser = b; b.start(queue: queue)
     }
     func join(_ lobby: DiscoveredLobby) throws {

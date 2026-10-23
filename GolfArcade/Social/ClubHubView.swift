@@ -74,7 +74,7 @@ struct ClubHubView: View {
         switch hub.link {
         case .online: "\(hub.onlineFriends.count) friend\(hub.onlineFriends.count == 1 ? "" : "s") online"
         case .connecting: "Reaching the Club Hub"
-        case .notConfigured: "Invite friends with Game Center, even when they are offline."
+        case .notConfigured: "Tap Invite. Your friend taps Game Center's invitation and joins your party."
         case .signedOut: "Game Center keeps your friends list."
         case .offline(let why): why.isEmpty ? "Trying again…" : why
         }
@@ -147,7 +147,7 @@ struct ClubHubView: View {
                     }
                 }
                 section(hub.link == .online ? "Offline" : "Friends", badge: hub.offlineFriends.count) {
-                    if hub.offlineFriends.isEmpty { empty("Nobody offline.") }
+                    if hub.offlineFriends.isEmpty { empty(hub.link == .online ? "Nobody offline." : "No friends here yet. A friend shows up once they have Motion Club and allow friends in Game Center.") }
                     ForEach(hub.offlineFriends) { friendRow($0) }
                     if !hub.offlineFriends.isEmpty, hub.link == .online { Text("Invite anyone: an offline friend sees it the moment they open the game.").font(IslandUI.font(12)).foregroundStyle(.white.opacity(0.5)) }
                 }
@@ -173,7 +173,7 @@ struct ClubHubView: View {
     }
 
     private func friendRow(_ f: ClubHub.Friend) -> some View {
-        let state = f.online ? stateText(f.state) : hub.link == .online ? "Offline" : "Invite to your lobby"
+        let state = f.online ? stateText(f.state) : hub.link == .online ? "Offline" : "Invite to your party"
         let sent = hub.sent[f.id]
         return HStack(spacing: 12) {
             avatar(f.name, dot: hub.link == .online ? (f.online ? IslandUI.lime : .gray.opacity(0.6)) : nil)
@@ -216,7 +216,8 @@ struct ClubHubView: View {
 
     private var addSection: some View {
         section("Add friends") {
-            Button { hub.addFriend() } label: { rowButton("person.badge.plus", "Add a friend", "Opens Game Center's friend request") }.accessibilityIdentifier("club-add-friend")
+            Button { hub.addFriend() } label: { rowButton("person.badge.plus", "Add a friend", "Send a Game Center friend request") }.accessibilityIdentifier("club-add-friend")
+            Button { hub.showFriendRequests() } label: { rowButton("person.2", "Friend requests", "Accept requests in Game Center") }.accessibilityIdentifier("club-friend-requests")
             ForEach(hub.recentNotFriends.prefix(5)) { p in
                 HStack { avatar(p.name, dot: nil); Text(p.name).font(IslandUI.font(15, bold: true)); Spacer(); Text("Played recently").font(IslandUI.font(12)).foregroundStyle(.white.opacity(0.5)) }
             }

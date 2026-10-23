@@ -46,20 +46,28 @@ extension ClubHub {
             return service.isParty && service.lobby?.participants.contains { $0.id == id || $0.id == gameID } == true
         }
         nativeCancel = { MultiplayerService.shared.cancelSearch() }
-        nativeAccept = { try await MultiplayerService.shared.acceptGameCenterInvitation($0) }
-        nativeDecline = { MultiplayerService.shared.declineGameCenterInvitation($0) }
-        nativeRefresh = { await MultiplayerService.shared.refreshGameCenterInvitations() }
         autoOpenLobby = true
         nativeInvite = { id in
             guard let player = (ClubHub.shared.source as? GameKitFriendsSource)?.player(id) else {
                 throw MultiplayerError.unavailable("Refresh your Game Center friends list and try again.")
             }
-            TennisMenu.shared.online.identity(TennisMenu.shared)
-            MultiplayerService.shared.setScreen(SportsSession.shared.displayConnected)
-            try await MultiplayerService.shared.inviteGameCenterFriend(player)
+            try await MultiplayerService.shared.inviteGameCenterFriends([player])
         }
         ClubPush.registerIfAuthorized()
         ClubSignIn.start()
+    }
+}
+
+extension ClubHub {
+    /// Friends picked in Apple's Games app, which opened this game to play with them: the same invitation as the Friends list's.
+    func inviteFromGameCenter(_ players: [GKPlayer]) {
+        guard !players.isEmpty else { return }
+        say("Inviting \(players.map(\.displayName).joined(separator: ", "))…")
+        Task { @MainActor in
+            do { try await MultiplayerService.shared.inviteGameCenterFriends(players) }
+            catch where !(error is CancellationError) { say(error.localizedDescription) }
+            catch {}
+        }
     }
 }
 
@@ -95,7 +103,12 @@ extension ClubHub {
     static func signIn() {
         if pendingController != nil { presentPending(); return }
         Task { @MainActor in
-            try? await MultiplayerService.shared.authenticate { vc in GameKitFriendsSource.topViewController()?.present(vc, animated: true) }
+            do { try await MultiplayerService.shared.authenticate { vc in GameKitFriendsSource.topViewController()?.present(vc, animated: true) } }
+            catch {
+                // After a few dismissed sign-in sheets iOS stops offering one to the game: Settings is the only way in then.
+                ClubHub.shared.say((error as NSError).domain == GKErrorDomain && (error as NSError).code == GKError.Code.cancelled.rawValue
+                    ? "Sign in to Game Center in Settings › Game Center, then come back here." : error.localizedDescription)
+            }
             await ClubHub.shared.refresh()
         }
     }

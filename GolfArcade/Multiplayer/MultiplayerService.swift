@@ -229,9 +229,9 @@ final class MultiplayerService {
     private func ensureGameCenter() -> GameCenterTransport {
         if let gameCenter { return gameCenter }
         let gc = GameCenterTransport(); gameCenter = gc
-        gc.onInvitations = { ClubHub.shared.gameCenterInvitations($0) }
         gc.onInvitationSent = { ClubHub.shared.gameCenterInvitationSent(to: $0) }
-        gc.onInvitationOpened = { ClubHub.shared.accept($0) }
+        gc.onJoining = { ClubHub.shared.joiningFriend($0) }
+        gc.onRequestMatch = { players in ClubHub.shared.inviteFromGameCenter(players) }
         gc.invitationAllowed = { gameID, teamID in
             !ClubHub.shared.blocked.contains(gameID) && !ClubHub.shared.blocked.contains(teamID)
             && !PartySafety.shared.isBlocked(gameID) && !PartySafety.shared.isBlocked(teamID)
@@ -256,22 +256,17 @@ final class MultiplayerService {
         }
         return gc
     }
-    func acceptGameCenterInvitation(_ invite: HubInvite) async throws {
-        guard !SportsSession.shared.active else { throw MultiplayerError.invalidOperation("Return to the Plaza to join your friend.") }
-        TennisMenu.shared.online.identity(TennisMenu.shared)
-        setScreen(SportsSession.shared.displayConnected)
-        try await ensureGameCenter().acceptStoredInvitation(invite)
-    }
-    func declineGameCenterInvitation(_ invite: String) { ensureGameCenter().declineStoredInvitation(invite) }
-    func refreshGameCenterInvitations() async { await ensureGameCenter().refreshInvitations() }
-    func inviteGameCenterFriend(_ player: GKPlayer) async throws {
+    /// Invite Game Center friends to this phone's party (made when the first one says yes). Returns once one is in.
+    func inviteGameCenterFriends(_ players: [GKPlayer]) async throws {
         guard !SportsSession.shared.active else { throw MultiplayerError.invalidOperation("Return to the Plaza before inviting a friend.") }
         let gc = ensureGameCenter()
         if transport != nil && transport !== gc { throw MultiplayerError.invalidOperation("Leave your current party before starting a Game Center party.") }
         if transport === gc && !isParty { throw MultiplayerError.invalidOperation("Leave quick match before inviting a friend.") }
         if transport === gc && !isOwner { throw MultiplayerError.invalidOperation("The party host can invite more friends.") }
-        if transport === gc { try broadcast("partyAdmission", payload: player.gamePlayerID) }
-        try await gc.invite(player)
+        TennisMenu.shared.online.identity(TennisMenu.shared)
+        setScreen(SportsSession.shared.displayConnected)
+        if transport === gc { for player in players { try broadcast("partyAdmission", payload: player.gamePlayerID) } }
+        try await gc.invite(players)
     }
     // MARK: friends' parties (the Club Hub relay: invites from the Friends list, no Game Center screen at any step)
 
