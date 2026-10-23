@@ -176,10 +176,12 @@ struct MultiplayerLobby: Codable, Equatable, Sendable {
         guard golfVenues.contains(course), (1...36).contains(holes), holes != GolfCourseChoice(rawValue: course)?.pars.count || link else { return course }
         return "\(course)\(link ? "+" : "*")\(holes)"
     }
-    /// A golf venue's parts: the course it starts on, its holes (0 for the course's own round) and whether it links courses.
+    /// A golf venue's parts: the course it starts on, its holes (0 for the course's own round, -1 for a round key that names
+    /// no holes, as Unity's Course.ByKey refuses it) and whether it links courses.
     static func golfRoundParts(_ venue: String) -> (course: String, holes: Int, link: Bool) {
         guard let at = venue.firstIndex(where: { $0 == "+" || $0 == "*" }) else { return (venue, 0, false) }
-        return (String(venue[..<at]), Int(venue[venue.index(after: at)...]) ?? -1, venue[at] == "+")
+        let holes = Int(venue[venue.index(after: at)...]) ?? -1
+        return (String(venue[..<at]), holes > 0 ? holes : -1, venue[at] == "+")
     }
     var startReason: String {
         if phase != .lobby { return "Return to the lobby first" }
