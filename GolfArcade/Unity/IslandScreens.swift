@@ -321,7 +321,6 @@ struct IslandSettingsScreen: View {
         case "racketSound": return Item(title: "Racket sound on the phone", detail: "A short knock from the phone's own speaker on each hit, in time with your swing.", control: .toggle(s.racketSound))
         case "feelTest": return Item(title: "Feel test", detail: menu.feelTestLabel.isEmpty ? "Every hit and moment, one per press: perfect, mishit, smash, supercharged, point won…" : menu.feelTestLabel, control: .action("Next", danger: false))
         case "partyVoice": return Item(title: "Voice & party chat", detail: "Microphone, volume, language filter, blocking and safety.", control: .action("Open", danger: false))
-        case "partyRecording": return Item(title: "Recording", detail: "Record the TV with the game's sound and your party's voices, saved to Photos.", control: .action("Open", danger: false))
         case "bigText": return Item(title: "Larger text on the remote", detail: "Bigger words on the phone while it is your TV remote.", control: .toggle(s.bigText))
         case "reduceMotion": return Item(title: "Reduce motion", detail: "Still pictures instead of moving backdrops.", control: .toggle(s.reduceMotion))
         default: return Item(title: "Frame-time benchmark", detail: "Launch the app with -benchTennis to run it.", control: .action("Info", danger: false))

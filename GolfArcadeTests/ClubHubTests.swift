@@ -31,6 +31,55 @@ final class ClubHubTests: XCTestCase {
         await until("accepted") { phone.hub.sent["bea"] == .accepted }
     }
 
+    /// A doorbell only opens for its own friend, inside Game Center's 100 seconds, and only for a private group.
+    func testGameCenterDoorbellIsPrivateBoundedAndExpiring() throws {
+        let now = 1_800_000_000_000.0
+        let bell = GameCenterDoorbell(host: "host", name: "Ann", recipient: "guest", group: 0x60000001, size: 2, expiresAt: now + 100_000)
+        XCTAssertTrue(bell.valid(for: "guest", now: now))
+        XCTAssertFalse(bell.valid(for: "stranger", now: now))
+        XCTAssertFalse(bell.valid(for: "host", now: now))
+        XCTAssertFalse(bell.valid(for: "guest", now: now + 100_001))
+        var bad = bell; bad.kind = "motionclub.partyInvite.v1"; XCTAssertFalse(bad.valid(for: "guest", now: now))
+        bad = bell; bad.group = 0x4d500200; XCTAssertFalse(bad.valid(for: "guest", now: now), "never the quick-match groups")
+        bad = bell; bad.size = 5; XCTAssertFalse(bad.valid(for: "guest", now: now))
+        bad = bell; bad.expiresAt = now + 600_000; XCTAssertFalse(bad.valid(for: "guest", now: now))
+        XCTAssertEqual(try JSONDecoder().decode(GameCenterDoorbell.self, from: JSONEncoder().encode(bell)), bell)
+        let card = bell.card("m1")
+        XCTAssertEqual(card.id, "gc:m1"); XCTAssertEqual(card.sportTitle, "their party"); XCTAssertEqual(card.from.name, "Ann")
+    }
+
+    /// A Game Center invitation shows our own banner in the game (no service): Join and Not now work from it and from Friends, a
+    /// poll never replays the arrival, and the banner waits out a match.
+    func testGameCenterInvitationsShowTheInGameBanner() async throws {
+        let p = Phone(nil, id: "guest", name: "Bea", friends: [])
+        defer { finish(p) }
+        p.hub.now = { 100_000 }
+        var joined: [String] = [], declined: [String] = []
+        p.hub.nativeAccept = { joined.append($0.id) }; p.hub.nativeDecline = { declined.append($0) }
+        let one = GameCenterDoorbell(host: "a", name: "Ann", recipient: "guest", group: 0x60000001, size: 2, expiresAt: 190_000).card("first")
+        let two = GameCenterDoorbell(host: "c", name: "Cy", recipient: "guest", group: 0x60000002, size: 3, expiresAt: 180_000).card("second")
+        p.hub.gameCenterInvitations([one, two])
+        XCTAssertEqual(p.hub.unreadInvites, 2); XCTAssertEqual(p.hub.banner?.id, one.id)
+        XCTAssertEqual(p.hub.remaining(one), 0.9, accuracy: 0.001, "Game Center's 100 s, on this phone's clock")
+        XCTAssertEqual(p.toasts.last, "Ann invited you · their party · accept on your phone")
+        try await save(ZStack(alignment: .top) { Color(hex: "0E1B33").ignoresSafeArea(); InviteBanner(hub: p.hub, invite: one).padding(12) }, "game-center-invite-banner", size: CGSize(width: 402, height: 300))
+        let haptics = p.haptics
+        p.hub.snooze(one); p.hub.gameCenterInvitations([one, two])
+        XCTAssertEqual(p.haptics, haptics, "a poll does not replay the arrival")
+        XCTAssertEqual(p.hub.banner?.id, two.id, "a snoozed invite stays off the banner")
+        p.hub.decline(two); XCTAssertEqual(declined, [two.id])
+        p.hub.accept(one)
+        await until("joined") { p.hub.joining == nil && joined == [one.id] }
+        XCTAssertTrue(p.hub.invites.isEmpty); XCTAssertTrue(p.room.joined.isEmpty, "no relay room or service")
+        XCTAssertEqual(p.hub.notice, "You joined Ann's party")
+
+        p.context.inMatch = true
+        p.hub.gameCenterInvitations([two]); XCTAssertNil(p.hub.banner, "held during a match"); XCTAssertEqual(p.hub.unreadInvites, 1)
+        p.context.inMatch = false; p.hub.updateBanner(); XCTAssertEqual(p.hub.banner?.id, two.id)
+        p.hub.gameCenterInvitations([]); XCTAssertTrue(p.hub.invites.isEmpty, "an ended invitation leaves"); XCTAssertNil(p.hub.banner)
+        p.hub.now = { 181_000 }; p.hub.gameCenterInvitations([two]); XCTAssertNil(p.hub.banner, "an expired one never shows")
+    }
+
     /// Accepting a friend's Game Center invitation says so on the phone and on the TV (not over a match).
     func testJoiningAFriendIsAnnounced() {
         let p = Phone(nil, id: "bea", name: "Bea", friends: [])

@@ -46,6 +46,9 @@ extension ClubHub {
             return service.isParty && service.lobby?.participants.contains { $0.id == id || $0.id == gameID } == true
         }
         nativeCancel = { MultiplayerService.shared.cancelSearch() }
+        nativeAccept = { try await MultiplayerService.shared.acceptGameCenterInvitation($0) }
+        nativeDecline = { MultiplayerService.shared.declineGameCenterInvitation($0) }
+        nativeRefresh = { await MultiplayerService.shared.refreshGameCenterInvitations() }
         autoOpenLobby = true
         nativeInvite = { id in
             guard let player = (ClubHub.shared.source as? GameKitFriendsSource)?.player(id) else {

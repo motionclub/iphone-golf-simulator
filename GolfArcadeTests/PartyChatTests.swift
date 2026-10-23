@@ -2,9 +2,8 @@ import SwiftUI
 import XCTest
 @testable import GolfArcade
 
-/// The party chat, the safety rules Apple expects around it (filter, report, block, mute, age and parental limits) and one-tap
-/// recording with the party told. In-memory fakes stand in for the lobby, the native TV recorder and Photos; the real recorder and
-/// microphone are device gates (proof/party/GATE_RESULTS.md).
+/// The party chat and the safety rules Apple expects around it (filter, report, block, mute, age and parental limits). In-memory
+/// fakes stand in for the lobby; the microphone is a device gate (proof/party/GATE_RESULTS.md).
 @MainActor
 final class PartyChatTests: XCTestCase {
     func testOverheadMessagesUseVisibleFilteredTextAndHonorMute() {
@@ -155,6 +154,23 @@ final class PartyChatTests: XCTestCase {
         XCTAssertEqual(p[0].chat.send(text: "x"), .tooFast, "six in ten seconds at most")
         XCTAssertEqual(p[0].chat.send(text: "   "), .empty)
     }
+    /// A friend who has not set up typing yet is told a message came (once per friend), not left with an empty chat.
+    func testAFriendNotSetUpIsToldSomeoneTyped() {
+        let a = Phone("a", "Ann"); let b = Phone("b", "Bea", adult: false)
+        a.channel.peers = [b.channel]; b.channel.peers = [a.channel]
+        XCTAssertEqual(a.chat.send(text: "you there?"), .sent)
+        XCTAssertEqual(b.chat.messages.map(\.text), ["Ann typed a message. Tap Set up to read and type."])
+        XCTAssertEqual(b.chat.messages.first?.kind, .system); XCTAssertEqual(b.chat.unread, 1)
+        a.tick(); a.chat.send(text: "hello?")
+        XCTAssertEqual(b.chat.messages.count, 1, "said once, not for every line")
+        b.safety.setBirthYear(1990); b.safety.acceptRules()
+        a.tick(); a.chat.send(text: "now?")
+        XCTAssertEqual(b.chat.messages.last?.text, "now?")
+        let kid = Phone("k", "Kid", adult: false); kid.safety.setBirthYear(kid.safety.year() - 9)
+        a.channel.peers = [kid.channel]; kid.channel.peers = [a.channel]
+        a.tick(); a.chat.send(text: "hi kid")
+        XCTAssertTrue(kid.chat.messages.isEmpty, "a child is not prompted about typed chat")
+    }
     func testAFloodingSenderIsDroppedOnTheReceiver() {
         let p = party(2)
         for i in 0..<12 { p[0].channel.send("partyChat", payload: "{\"t\":\"m\",\"text\":\"spam \(i)\",\"name\":\"Ann\"}", reliable: true) }
@@ -243,158 +259,6 @@ final class PartyChatTests: XCTestCase {
         XCTAssertEqual(p[1].chat.send(text: "hi"), .noParty)
     }
 
-    // MARK: recording
-
-    @MainActor final class Runtime: CaptureRuntime {
-        var available = true, active = false, accept = true
-        var started: [String] = [], stops = 0
-        var handler: (@MainActor (String) -> Void)?
-        func start(_ json: String) -> Bool { started.append(json); if accept { active = true; handler?(#"{"type":"capture","state":"started"}"#) }; return accept }
-        func stop() { stops += 1; active = false }
-        func setHandler(_ h: (@MainActor (String) -> Void)?) { handler = h }
-        func finish(_ path: String, reason: String = "user", seconds: Double = 75) {
-            handler?("{\"type\":\"capture\",\"state\":\"finished\",\"url\":\"\(path)\",\"seconds\":\(seconds),\"reason\":\"\(reason)\"}")
-        }
-    }
-    @MainActor final class Photos: PhotoSaving {
-        var access = true, requests = 0, saved: [URL] = [], fail = false
-        var hasAccess: Bool { access }
-        func requestAccess() async -> Bool { requests += 1; return access }
-        func save(_ url: URL) async throws { if fail { throw NSError(domain: "x", code: 1) }; saved.append(url) }
-    }
-    private func recorder(connected: Bool = true) -> (RecordingService, Runtime, Photos, Phone) {
-        let phone = party(2)[0]
-        let rt = Runtime(), ph = Photos()
-        let svc = RecordingService(runtime: rt, photos: ph, chat: phone.chat, defaults: UserDefaults(suiteName: "rec-\(UUID().uuidString)")!)
-        svc.displayConnected = { connected }; svc.freeBytes = { 50_000_000_000 }
-        return (svc, rt, ph, phone)
-    }
-    private func tempVideo() -> URL {
-        let dir = RecordingService.tempFolder; try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
-        let url = dir.appendingPathComponent("MotionClub-test-\(UUID().uuidString).mp4"); FileManager.default.createFile(atPath: url.path, contents: Data([0, 0, 0, 24]))
-        return url
-    }
-    private func settle(_ svc: RecordingService, until: RecordingService.State) async {
-        for _ in 0..<200 { if svc.state == until { return }; try? await Task.sleep(for: .milliseconds(10)) }
-        XCTFail("state stayed \(svc.state), wanted \(until)")
-    }
-
-    func testOneTapRecordsTheTVAndSavesToPhotosOnStop() async {
-        let (svc, rt, photos, phone) = recorder(); defer { try? FileManager.default.removeItem(at: RecordingService.tempFolder) }
-        XCTAssertNil(svc.unavailableReason); XCTAssertTrue(svc.canToggle)
-        svc.toggle(); await settle(svc, until: .recording)
-        XCTAssertEqual(photos.requests, 1, "Photos access is asked up front, not when you stop")
-        let cfg = (try? JSONSerialization.jsonObject(with: Data(rt.started[0].utf8))) as? [String: Any]
-        XCTAssertEqual(cfg?["display"] as? Int, 1, "the TV (first non-main display), never the phone"); XCTAssertEqual(cfg?["width"] as? Int, 1920); XCTAssertEqual(cfg?["fps"] as? Int, 30)
-        XCTAssertEqual(cfg?["voice"] as? Bool, true, "party voices are in the recording"); XCTAssertEqual(cfg?["mic"] as? Bool, true); XCTAssertEqual(cfg?["gameAudio"] as? Bool, true)
-        XCTAssertTrue(phone.channel.sent.contains { $0.kind == "partyRec" && $0.payload.contains("true") }, "the party is told you are recording")
-        XCTAssertTrue(svc.isRecording)
-        svc.toggle(); XCTAssertEqual(svc.state, .saving); XCTAssertEqual(rt.stops, 1)
-        XCTAssertTrue(phone.channel.sent.last?.payload.contains("false") == true, "and told when it stops")
-        let file = tempVideo(); rt.finish(file.path)
-        await settle(svc, until: .saved)
-        XCTAssertEqual(photos.saved, [file]); XCTAssertFalse(FileManager.default.fileExists(atPath: file.path), "the temporary file is removed once it is in Photos")
-        XCTAssertTrue(svc.message.contains("Saved to Photos") && svc.message.contains("1:15"), svc.message)
-    }
-    func testNoTVNoRecording() async {
-        let (svc, rt, _, _) = recorder(connected: false)
-        XCTAssertEqual(svc.unavailableReason, "Connect a TV to record. Recordings capture the TV picture, never this phone.")
-        XCTAssertFalse(svc.canToggle); await svc.start(); XCTAssertEqual(svc.state, .failed); XCTAssertTrue(rt.started.isEmpty)
-        let (svc2, rt2, _, _) = recorder(); rt2.available = false
-        XCTAssertNotNil(svc2.unavailableReason); await svc2.start(); XCTAssertEqual(svc2.state, .failed)
-    }
-    func testLowStorageRefusesToStart() async {
-        let (svc, rt, _, _) = recorder(); svc.freeBytes = { 300_000_000 }
-        await svc.start(); XCTAssertEqual(svc.state, .failed); XCTAssertTrue(svc.message.contains("storage")); XCTAssertTrue(rt.started.isEmpty)
-    }
-    func testPhotosDeniedKeepsTheFileInTheApp() async {
-        let (svc, rt, photos, _) = recorder(); photos.access = false
-        defer { try? FileManager.default.removeItem(at: RecordingService.folder) }
-        await svc.start(); XCTAssertEqual(svc.state, .recording); XCTAssertTrue(svc.message.contains("stay in the app"))
-        let file = tempVideo(); svc.stop(); rt.finish(file.path)
-        await settle(svc, until: .saved)
-        XCTAssertTrue(photos.saved.isEmpty); XCTAssertNotNil(svc.keptFile); XCTAssertTrue(FileManager.default.fileExists(atPath: svc.keptFile!.path))
-        XCTAssertTrue(svc.message.contains("kept in Motion Club"), svc.message)
-        XCTAssertEqual(RecordingService.library().first, svc.keptFile); svc.deleteKept(svc.keptFile!); XCTAssertNil(svc.keptFile)
-    }
-    func testAutoStopReasonsAreExplainedAndSaved() async {
-        for (reason, words) in [("background", "left the screen"), ("thermal", "too warm"), ("storage", "out of storage"), ("display", "TV disconnected"), ("limit", "90 minute")] {
-            let (svc, rt, photos, _) = recorder()
-            await svc.start(); let file = tempVideo(); rt.finish(file.path, reason: reason)
-            await settle(svc, until: .saved)
-            XCTAssertTrue(svc.message.contains(words), "\(reason): \(svc.message)"); XCTAssertEqual(photos.saved.count, 1, "what was recorded is kept")
-        }
-    }
-    func testRecorderFailureAndSecondStart() async {
-        let (svc, rt, _, _) = recorder(); rt.accept = false
-        await svc.start(); XCTAssertEqual(svc.state, .failed)
-        rt.accept = true; await svc.start(); XCTAssertEqual(svc.state, .recording); await svc.start(); XCTAssertEqual(rt.started.count, 2, "a second tap while recording does not start another")
-        svc.receive(#"{"type":"capture","state":"failed","message":"The encoder stopped."}"#)
-        XCTAssertEqual(svc.state, .failed); XCTAssertEqual(svc.message, "The encoder stopped.")
-        svc.receive("garbage"); svc.receive(#"{"type":"other","state":"finished"}"#); XCTAssertEqual(svc.state, .failed)
-    }
-    func testSettingsPickWhatGoesInTheRecording() async {
-        let (svc, rt, _, _) = recorder()
-        svc.settings.quality = .p720at60; svc.settings.partyVoice = false; svc.settings.myMic = false; svc.settings.gameAudio = false
-        await svc.start()
-        let cfg = (try? JSONSerialization.jsonObject(with: Data(rt.started[0].utf8))) as? [String: Any]
-        XCTAssertEqual(cfg?["width"] as? Int, 1280); XCTAssertEqual(cfg?["fps"] as? Int, 60); XCTAssertEqual(cfg?["voice"] as? Bool, false); XCTAssertEqual(cfg?["mic"] as? Bool, false); XCTAssertEqual(cfg?["gameAudio"] as? Bool, false)
-        XCTAssertEqual(CaptureSettings.Quality.allCases.map(\.title), ["720p · 30 fps", "720p · 60 fps", "1080p · 30 fps", "1080p · 60 fps"])
-    }
-    func testLosingTheTVStopsTheRecording() async {
-        let (svc, rt, _, _) = recorder(); await svc.start(); svc.displayLost(); XCTAssertEqual(svc.state, .saving); XCTAssertEqual(rt.stops, 1)
-    }
-    // Adnan 10-18 "where do recordings go? it just disappeared / stopped randomly": every recording says where it went, a problem
-    // never throws away what was recorded, a stop never hangs on "Saving…", and the recorder log says why.
-    func testAPartialRecordingAfterAProblemIsKeptAndExplained() async {
-        let (svc, rt, photos, _) = recorder(); defer { try? FileManager.default.removeItem(at: RecordingService.tempFolder) }
-        await svc.start(); let file = tempVideo()
-        rt.handler?("{\"type\":\"capture\",\"state\":\"finished\",\"url\":\"\(file.path)\",\"seconds\":42,\"reason\":\"error\",\"partial\":true,\"message\":\"The recording stopped because the phone's video encoder had a problem. What was recorded before it stopped was kept.\"}")
-        await settle(svc, until: .saved)
-        XCTAssertEqual(photos.saved, [file], "the part that was recorded goes to Photos like any recording")
-        XCTAssertTrue(svc.message.contains("video encoder had a problem") && svc.message.contains("Saved to Photos"), svc.message)
-        XCTAssertEqual(svc.history.first?.place, .photos); XCTAssertEqual(svc.history.first?.seconds, 42)
-        XCTAssertTrue(svc.history.first?.note.contains("encoder") == true)
-    }
-    func testRecordingsSayWhereEachOneWent() async {
-        let (svc, rt, photos, _) = recorder()
-        defer { try? FileManager.default.removeItem(at: RecordingService.folder); try? FileManager.default.removeItem(at: RecordingService.tempFolder) }
-        await svc.start(); rt.finish(tempVideo().path); await settle(svc, until: .saved)
-        photos.fail = true; await svc.start(); rt.finish(tempVideo().path, reason: "display"); await settle(svc, until: .saved)
-        await svc.start(); svc.receive(#"{"type":"capture","state":"failed","message":"No picture was recorded from the TV."}"#)
-        XCTAssertEqual(svc.history.map(\.place), [.notSaved, .kept, .photos], "newest first")
-        XCTAssertEqual(svc.history[0].note, "No picture was recorded from the TV.")
-        XCTAssertTrue(svc.history[1].note.contains("TV disconnected")); XCTAssertNotNil(svc.history[1].file)
-        XCTAssertTrue(svc.message.contains("Recordings") || svc.state == .failed)
-    }
-    func testAStopThatNeverFinishesDoesNotHangOnSaving() async {
-        let (svc, rt, _, _) = recorder(); svc.savingTimeout = .milliseconds(60)
-        await svc.start(); svc.stop(); XCTAssertEqual(svc.state, .saving); XCTAssertEqual(rt.stops, 1)
-        await settle(svc, until: .failed)
-        XCTAssertTrue(svc.message.contains("did not finish saving"), svc.message); XCTAssertEqual(svc.history.first?.place, .notSaved)
-        XCTAssertTrue(svc.canToggle, "and the next recording can start")
-    }
-    func testAFinishedEventWithoutItsFileIsNotReportedAsSaved() async {
-        let (svc, rt, photos, _) = recorder()
-        await svc.start(); rt.finish("/nonexistent/MotionClub-gone.mp4")
-        await settle(svc, until: .failed)
-        XCTAssertTrue(photos.saved.isEmpty); XCTAssertTrue(svc.message.contains("missing"), svc.message); XCTAssertEqual(svc.history.first?.place, .notSaved)
-    }
-    func testTheRecorderLogSaysWhoStartedAndStopped() async {
-        let (svc, rt, _, _) = recorder(); defer { try? FileManager.default.removeItem(at: RecordingService.tempFolder) }
-        try? FileManager.default.removeItem(at: RecordingService.logURL)
-        await svc.start(from: "the Record TV control"); svc.displayLost(); rt.finish(tempVideo().path); await settle(svc, until: .saved)
-        let log = (try? String(contentsOf: RecordingService.logURL, encoding: .utf8)) ?? ""
-        XCTAssertTrue(log.contains("start requested (the Record TV control)"), log)
-        XCTAssertTrue(log.contains("stop requested (the TV disconnected)"), log)
-        XCTAssertTrue(log.contains("saved to Photos"), log)
-    }
-    func testALeftoverRecordingIsRecovered() async {
-        let (svc, _, photos, _) = recorder(); defer { try? FileManager.default.removeItem(at: RecordingService.tempFolder) }
-        let file = tempVideo(); await svc.recoverLeftovers()
-        XCTAssertEqual(photos.saved, [file], "a recording left by a crash goes to Photos on the next launch")
-    }
-
     // MARK: renders
 
     func testPartyScreensRender() async throws {
@@ -407,7 +271,7 @@ final class PartyChatTests: XCTestCase {
         chat.localName = { "Ann" }
         chat.receive("partyChat", "{\"t\":\"m\",\"text\":\"you coming to the net?\",\"name\":\"Bea\"}", from: "p1")
         chat.receive("partyChat", "{\"t\":\"q\",\"id\":\"nice\",\"name\":\"Cy\"}", from: "p2")
-        chat.sendQuick("gg"); chat.receive("partyRec", "{\"on\":true}", from: "p2")
+        chat.sendQuick("gg")
         let folder = URL(fileURLWithPath: dir, isDirectory: true)
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
         func shot<V: View>(_ v: V, _ name: String) async throws {

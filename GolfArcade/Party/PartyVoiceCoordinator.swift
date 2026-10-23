@@ -99,15 +99,6 @@ final class PartyVoiceCoordinator {
         }
     }
 
-    /// Voice goes into a recording only while one is running (the recording service says when).
-    func recordingChanged(_ on: Bool) {
-        guard on else { engine.captureSink = nil; return }
-        let sink: @Sendable (UnsafePointer<Float>, Int, Int, Int) -> Void = { samples, frames, rate, source in
-            LiveCaptureRuntime.pushVoice(samples, frames: frames, rate: rate, source: source)
-        }
-        engine.captureSink = sink
-    }
-
     // MARK: controls
 
     func setMode(_ mode: VoiceMode) {

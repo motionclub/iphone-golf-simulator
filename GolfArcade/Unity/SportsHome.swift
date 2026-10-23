@@ -120,7 +120,6 @@ struct SportsHome: View {
         .onChange(of: session.active) { _, _ in hub.evaluate() }
         .onChange(of: menu.screen) { _, _ in hub.evaluate() }
         .onChange(of: session.active) { _, _ in clubHub.updateBanner(); clubHub.publishPresence() }
-        .onChange(of: session.displayConnected) { _, on in if !on { RecordingService.shared.displayLost() } }
         .onChange(of: hub.arriving) { _, _ in clubHub.updateBanner() }
         .onChange(of: hub.phase) { _, _ in clubHub.updateBanner() }
     }
@@ -148,8 +147,6 @@ struct SportsHome: View {
         InviteBannerWindow.install()
         clubHub.configureLive(); clubHub.start()
         PartySafety.shared.refresh()
-        RecordingService.shared.captureHook = { PartyVoiceCoordinator.shared.recordingChanged($0) }
-        await RecordingService.shared.recoverLeftovers()
         menu.online.installCallbacks(menu)
         let args = ProcessInfo.processInfo.arguments
         #if DEBUG

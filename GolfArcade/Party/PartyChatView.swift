@@ -5,7 +5,6 @@ import SwiftUI
 struct PartyChatView: View {
     var chat = PartyChat.shared
     var voice = PartyVoiceCoordinator.shared
-    var recording = RecordingService.shared
     var dismiss: () -> Void = {}
     @State private var draft = ""
     @State private var showSettings = false
@@ -16,7 +15,6 @@ struct PartyChatView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                if let name = chat.someoneRecording { recordingBanner("\(name) is recording this session") }
                 if !chat.channel.inParty { emptyState }
                 else {
                     voiceBar
@@ -48,11 +46,6 @@ struct PartyChatView: View {
 
     // MARK: pieces
 
-    private func recordingBanner(_ text: String) -> some View {
-        HStack(spacing: 8) { Circle().fill(.red).frame(width: 10, height: 10); Text(text).font(IslandUI.font(13, bold: true)); Spacer() }
-            .padding(.horizontal, 16).padding(.vertical, 8).background(Color.red.opacity(0.22))
-            .accessibilityIdentifier("party-recording-banner")
-    }
 
     private var emptyState: some View {
         VStack(spacing: 14) {
@@ -149,7 +142,7 @@ struct PartyChatView: View {
                     Image(systemName: "lock.fill").font(.system(size: 13))
                     Text(reason).font(IslandUI.font(12)).lineLimit(3)
                     Spacer(minLength: 0)
-                    if case .quickOnly = chat.safety.access, chat.safety.restrictions == GameCenterRestrictions(), chat.safety.ageBand != .under13 {
+                    if chat.canSetUp {
                         Button("Set up") { showSetup = true }.font(IslandUI.font(13, bold: true)).foregroundStyle(IslandUI.lime).accessibilityIdentifier("party-chat-setup")
                     }
                 }.foregroundStyle(.white.opacity(0.7)).padding(.horizontal, 16)
@@ -175,7 +168,7 @@ struct PartyChatView: View {
         case .tooFast: chat.say("Slow down a little.")
         case .notAllowed(let why):
             chat.say(why)
-            if case .quickOnly = chat.safety.access, chat.safety.restrictions == GameCenterRestrictions(), chat.safety.ageBand != .under13 { showSetup = true }
+            if chat.canSetUp { showSetup = true }
         case .noParty: chat.say("Join or invite a friend first.")
         case .empty: break
         }
@@ -247,7 +240,6 @@ struct PartyMembersView: View {
                         HStack {
                             Image(systemName: voice.speakingIDs.contains(m.id) ? "speaker.wave.2.fill" : "person.fill").foregroundStyle(voice.speakingIDs.contains(m.id) ? IslandUI.lime : .secondary)
                             Text(m.name).font(.headline)
-                            if chat.recording[m.id] != nil { Label("Recording", systemImage: "record.circle").font(.caption.bold()).foregroundStyle(.red) }
                             Spacer()
                             Button(chat.isMuted(m.id) ? "Unmute" : "Mute") { chat.isMuted(m.id) ? chat.unmute(m.id) : chat.mute(m.id); voice.syncPeers() }
                                 .buttonStyle(.bordered).accessibilityIdentifier("party-member-mute-\(m.id)")
@@ -379,7 +371,6 @@ struct PartyChatStrip: View {
             HStack(spacing: 8) {
                 Image(systemName: "bubble.left.and.bubble.right.fill").font(.system(size: 13, weight: .bold)).foregroundStyle(IslandUI.lime)
                 Text("PARTY · \(chat.members.count + 1)").font(IslandUI.font(12, bold: true)).tracking(1.4).foregroundStyle(IslandUI.lime)
-                if let name = chat.someoneRecording { Text("● \(name) is recording").font(IslandUI.font(11, bold: true)).foregroundStyle(.red) }
                 Spacer()
                 Button { showFull = true } label: { Image(systemName: "arrow.up.left.and.arrow.down.right").font(.system(size: 13, weight: .bold)).frame(width: 32, height: 32).background(.white.opacity(0.12), in: Circle()) }
                     .accessibilityLabel("Open the full chat").accessibilityIdentifier("party-strip-full")
@@ -440,10 +431,7 @@ struct PartyChatStrip: View {
         .accessibilityElement(children: .contain).accessibilityIdentifier("party-strip")
     }
 
-    private var canSetUp: Bool {
-        if case .quickOnly = chat.safety.access, chat.safety.restrictions == GameCenterRestrictions(), chat.safety.ageBand != .under13 { return true }
-        return false
-    }
+    private var canSetUp: Bool { chat.canSetUp }
     private func quick(_ id: String) { if chat.sendQuick(id) == .tooFast { chat.say("Slow down a little.") } }
     private func send() {
         switch chat.send(text: draft) {

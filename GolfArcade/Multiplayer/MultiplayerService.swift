@@ -30,11 +30,11 @@ final class MultiplayerService {
         guard lobby?.phase == .lobby, ["hubPresence", "hubEvent"].contains(kind), payload.utf8.count <= 2048 else { return }
         try? broadcast(kind, payload: payload, reliable: reliable)
     }
-    /// The party channel: typed chat, voice frames and "I am recording" notices between the phones of ONE lobby, in every phase (the lobby,
+    /// The party channel: typed chat and voice frames between the phones of ONE lobby, in every phase (the lobby,
     /// loading, a match). Only real players of this lobby can send (the receiver checks), nothing is stored here, and nothing is sent to
     /// Unity or any server. (kind, payload, sender)
     @ObservationIgnored var onParty: ((String, String, String) -> Void)?
-    static let partyKinds: Set<String> = ["partyChat", "partyVoice", "partyRec"]
+    static let partyKinds: Set<String> = ["partyChat", "partyVoice"]
     func sendParty(_ kind: String, payload: String, reliable: Bool) {
         guard lobby != nil, !sharedPhoneHost, Self.partyKinds.contains(kind), payload.utf8.count <= 4096 else { return }
         try? broadcast(kind, payload: payload, reliable: reliable)
@@ -229,6 +229,8 @@ final class MultiplayerService {
     private func ensureGameCenter() -> GameCenterTransport {
         if let gameCenter { return gameCenter }
         let gc = GameCenterTransport(); gameCenter = gc
+        gc.onInvitations = { ClubHub.shared.gameCenterInvitations($0) }
+        gc.onInvitationOpened = { ClubHub.shared.accept($0) }
         gc.onInvitationSent = { ClubHub.shared.gameCenterInvitationSent(to: $0) }
         gc.onJoining = { ClubHub.shared.joiningFriend($0) }
         gc.onRequestMatch = { players in ClubHub.shared.inviteFromGameCenter(players) }
@@ -256,6 +258,15 @@ final class MultiplayerService {
         }
         return gc
     }
+    /// Join from our banner (a friend's doorbell).
+    func acceptGameCenterInvitation(_ invite: HubInvite) async throws {
+        guard !SportsSession.shared.active else { throw MultiplayerError.invalidOperation("Return to the Plaza to join your friend.") }
+        TennisMenu.shared.online.identity(TennisMenu.shared)
+        setScreen(SportsSession.shared.displayConnected)
+        try await ensureGameCenter().acceptInvitation(invite)
+    }
+    func declineGameCenterInvitation(_ id: String) { ensureGameCenter().declineInvitation(id) }
+    func refreshGameCenterInvitations() async { await ensureGameCenter().refreshInvitations() }
     /// Invite Game Center friends to this phone's party (made when the first one says yes). Returns once one is in.
     func inviteGameCenterFriends(_ players: [GKPlayer]) async throws {
         guard !SportsSession.shared.active else { throw MultiplayerError.invalidOperation("Return to the Plaza before inviting a friend.") }

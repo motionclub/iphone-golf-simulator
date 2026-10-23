@@ -37,26 +37,6 @@ targets:
         INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
         TARGETED_DEVICE_FAMILY: "1"
         SUPPORTS_MACCATALYST: NO
-    dependencies:
-      - target: MotionClubControls
-  # "Record the TV" in Control Center / Lock Screen / Action button (iOS 18 controls). The intent itself runs in the app.
-  MotionClubControls:
-    type: app-extension
-    platform: iOS
-    deploymentTarget: "18.0"
-    sources:
-      - path: MotionClubControls
-        excludes: [Info.plist]
-      - path: GolfArcade/Party/RecordTVIntent.swift
-    settings:
-      base:
-        PRODUCT_BUNDLE_IDENTIFIER: $(APP_BUNDLE_ID).controls
-        INFOPLIST_FILE: MotionClubControls/Info.plist
-        GENERATE_INFOPLIST_FILE: YES
-        INFOPLIST_KEY_CFBundleDisplayName: Motion Club
-        SWIFT_ACTIVE_COMPILATION_CONDITIONS: $(inherited) MOTION_CLUB_CONTROLS
-        TARGETED_DEVICE_FAMILY: "1"
-        SKIP_INSTALL: YES
   GolfArcadeTests:
     type: bundle.unit-test
     platform: iOS
