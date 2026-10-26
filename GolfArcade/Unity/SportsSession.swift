@@ -486,6 +486,11 @@ final class SportsSession {
         pending?["emotes"] = matchEmotes
         for (key, value) in launchExtras { pending?[key] = value }
         if let bay { pending?["seamless"] = true; pending?["bay"] = bay }
+        // from the pointer menu: the TV keeps the menu while the match builds; solo / local waits for START on the TV
+        if bay != nil, HubSession.shared.menuMode {
+            pending?["hold"] = multiplayerMatchID == nil
+            pending?["menuLabel"] = HubSession.shared.menuLaunchLabel
+        }
         if Self.benchmark {
             // Verification flags affect this explicit benchmark launch only;
             // they do not save frame-rate, venue, or character preferences.
@@ -1057,6 +1062,8 @@ final class SportsSession {
             if !["feedback", "golfController"].contains(event["type"] as? String ?? "") { NSLog("[SportsSession] %@",json) }
             if event["type"] as? String == "boot" { loading.markBoot(); sendPending(); continue }
             guard event["session"] as? String == sessionID else { continue }
+            // the pointer menu is still on the TV while this match loads behind it: its events are the menu's
+            if let type = event["type"] as? String, type.hasPrefix("menu") { HubSession.shared.menuEvent(type, event["message"] as? String ?? ""); continue }
             if sport == "golf", let state = event["golfState"] as? String, !state.isEmpty {
                 golfPhase = state
                 golfHasNextHole = event["golfHasNextHole"] as? Bool ?? false
@@ -1067,6 +1074,7 @@ final class SportsSession {
             if let allowed = event["presentationResultReady"] as? Bool { resultPresentationReady = allowed }
             switch event["type"] as? String {
             case "ready":
+                HubSession.shared.menuMatchStarted()
                 runtimeDidRender(renderedAt: event["renderedAt"] as? Double)
             case "sceneReady": loading.markSceneReady(now: Date(timeIntervalSince1970: event["clock"] as? Double ?? ProcessInfo.processInfo.systemUptime))
             case "loadProgress":
