@@ -190,7 +190,7 @@ struct CaptureDock: View {
     private var golf: Bool { session.active && session.sport == "golf" }
     static func isCompact(_ session: SportsSession) -> Bool {
         if session.active && session.sport == "golf" { return true }
-        return session.active && !session.paused && !session.touch && session.finishedMatch == nil && session.setupStage == .playing
+        return session.active && !session.paused && session.finishedMatch == nil && session.setupStage == .playing
     }
     var visible: Bool { tvOn || inParty || recording.isRecording || recording.showsOutcome }
 

@@ -15,6 +15,13 @@ namespace GolfArcade.Tennis {
         /// The second player's camera, if the split screen is in use (NativeSportsSession keeps it on the same display).
         public Camera SplitCamera => splitCamera;
         bool UsesSplit => SplitScreen && networkView == NetworkConfiguration.ViewSplit && splitCamera;
+        /// One TV, two phones (MultiplayerService.assignViews): both players watch the TV phone's picture, so the controller-only
+        /// phone's TV credit starts from the TV phone's (its Lag, shared through the lobby). It moves the lag learner's prior only:
+        /// this phone's own swings keep refining it, as the TV phone's do (setting DisplayLatency again would throw them away).
+        public void ShareDisplayLatency(float seconds) {
+            if (float.IsNaN(seconds) || float.IsInfinity(seconds)) return;
+            if (!lagPriorSet) DisplayLatency = seconds; else lag.Prior = seconds;
+        }
         /// True while both halves are on screen: whatever is drawn only for "the camera" (the crowd) must then draw for both.
         public bool SplitActive => splitCamera && splitCamera.enabled;
         /// Distance from a point to the nearest camera that is drawing the match: the gameplay camera, or either half of a split screen.

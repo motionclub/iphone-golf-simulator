@@ -234,10 +234,9 @@ namespace GolfArcade.Tennis
             return nearest;
         }
 
-        /// Shot pace comes from the quality of contact, not how hard the phone was swung:
-        /// a clean strike flies, a frame shot floats. Effort only nudges it.
-        public static float ShotSpeed(float quality, float power, float stamina) =>
-            Mathf.Lerp(13f, 30f, Mathf.Pow(Mathf.Clamp01(quality), 1.35f)) * Mathf.Lerp(.9f, 1.05f, Mathf.Clamp01(power)) * Mathf.Lerp(.9f, 1f, Mathf.Clamp01(stamina));
+        /// Shot pace comes from the quality of contact -- mostly the timing -- not how hard the phone
+        /// was swung: a swing on the ball flies, a mistimed one floats. Effort only nudges it.
+        public static float ShotSpeed(float quality, float power, float stamina) => TimingPace(quality, power, stamina);
 
         /// Where an aimed rally ball is sent. The racket face picks the side (-1...1); the
         /// contact decides how much of the court the player can use: a clean hit can go
@@ -308,11 +307,12 @@ namespace GolfArcade.Tennis
             float finish = Mathf.Clamp01((age - SweetTime) / (StrokeDuration - SweetTime));
             return .5f + .5f * (1 - (1 - finish) * (1 - finish));
         }
+        /// Contact quality is the timing, trimmed a little by spacing (a crowded or stretched ball comes off
+        /// the frame) and balance. Timing dominates: it is the skill the player controls.
         public static float ContactQuality(float timing, float center, float positioning) =>
-            Mathf.Max(.05f, Mathf.Clamp01(center) * Mathf.Lerp(.95f, 1f, Mathf.Clamp01(positioning)));
+            Mathf.Max(.05f, Mathf.Clamp01(timing) * Mathf.Lerp(.85f, 1f, Mathf.Clamp01(center)) * Mathf.Lerp(.95f, 1f, Mathf.Clamp01(positioning)));
 
-        /// Timing chooses direction; string-bed contact chooses pace. The timing parameter is retained
-        /// for diagnostics and the forgiving contact window, never used as a power penalty.
+        /// Timing chooses the pace (through quality); the swing's direction chooses the side, elsewhere.
         public static TennisHit AssistedHit(float late, float center, float balance, float power, float stamina)
         {
             // A return that physically connects is at least a scrappy OK hit.
@@ -321,9 +321,12 @@ namespace GolfArcade.Tennis
             return new TennisHit {
                 Contact = true, Timing = timing, Center = center, Positioning = balance, Quality = quality,
                 Speed = ShotSpeed(quality, power, stamina),
-                ErrorDegrees = Mathf.Lerp(7, .6f, quality), Label = quality >= .96f ? "SWEET SPOT" : quality >= .63f ? "CLEAN HIT" : "OFF CENTER"
+                ErrorDegrees = Mathf.Lerp(7, .6f, quality), Label = quality >= .96f ? "SWEET SPOT" : quality >= .63f ? "CLEAN HIT" : timing < .55f ? "MISTIMED" : "OFF CENTER"
             };
         }
+
+        /// Outer share of the string bed that counts as the frame for a real string contact.
+        public const float FrameRing = .85f;
 
         public static TennisHit Evaluate(float swingAge, Vector2 faceOffset, float balance, float reachQuality, float power, float stamina)
         {
@@ -333,10 +336,12 @@ namespace GolfArcade.Tennis
             float center = Mathf.Clamp01(1 - radial);
             float positioning = Mathf.Clamp01(balance) * Mathf.Clamp01(reachQuality);
             float quality = contact ? ContactQuality(timing, center, positioning) : 0;
+            // The ball visibly met the frame: a weak return whatever the timing.
+            if (radial > FrameRing) quality = Mathf.Min(quality, .5f);
             return new TennisHit {
                 Contact = contact, Timing = timing, Center = center, Positioning = positioning, Quality = quality,
                 Speed = contact ? ShotSpeed(quality, power, stamina) : 0,
-                // Contact quality sets control; directional timing is not a second penalty.
+                // Contact quality (mostly timing) sets control as well as pace.
                 ErrorDegrees = contact ? Mathf.Lerp(.6f, 13f, 1 - quality) + (1 - Mathf.Clamp01(stamina)) * 4 : 0,
                 Label = !contact ? "MISS" : quality > .86f ? "SWEET SPOT" : quality > .63f ? "CLEAN HIT" : radial > .72f ? "OFF CENTER" : "OFF BALANCE"
             };
@@ -446,6 +451,23 @@ namespace GolfArcade.Tennis
         /// a wildly early or late one nets. The old +/-0.20s window was unplayable once swing
         /// detection latency was accounted for.
         public const float ServeCatch = 1.3f, ServePerfectWindow = ServePerfectRealSeconds * ServePace, ServeLegalWindow = ServePowerWindow * (1 - ServeFaultPower);
+
+        /// Serve on a slow TV. The player swings at the top of the toss they see, which reaches the game a TV delay late:
+        /// past ~0.3 s of delay the ball had already fallen through the strike point when that swing arrived, and past ~0.7 s
+        /// it was caught first. So on a slow TV the toss falls more slowly after its top: the rise, the top, the power bar and
+        /// the grading are untouched, and the fall from the top to the strike point lasts at least the delay, the swing's
+        /// report (`ServeSwingReport`, real seconds) and `ServeLateReach` (game seconds of lateness the strike still reaches).
+        /// Delays up to ~0.25 s keep full gravity.
+        public const float ServeLateReach = .15f, ServeSwingReport = ServeOnsetLatency + .03f;
+        /// Gravity (m/s²) for the fall after the top of a toss whose top is `drop` metres above the strike point, at a TV delay
+        /// of `lag` real seconds and `pace` game seconds per real second. Full gravity unless the delay needs a slower fall.
+        public static float ServeFallGravity(float lag, float drop, float pace)
+        {
+            const float g = 9.81f;
+            if (drop <= 0) return g;
+            float fall = (Mathf.Clamp(lag, 0, TennisLagLearner.Max) + ServeSwingReport) * pace + ServeLateReach;
+            return Mathf.Min(g, 2 * drop / (fall * fall));
+        }
         /// Motion detection needs a moment of swing before it can confirm one, so the moment
         /// it reports is always later than the moment the player actually started. Without
         /// this correction every serve reads as late.
@@ -453,6 +475,54 @@ namespace GolfArcade.Tennis
         /// The same correction when the swing is reported at onset rather than confirmation:
         /// only the short onset hold and the rise to threshold are left.
         public const float ServeOnsetLatency = .04f;
+        /// A rally stroke is detected the same way, so it carries the same delay: `ServeOnsetLatency` when the phone
+        /// reports it at onset, `ServeLatency` when it is first seen at confirmation (motion only; keys and tests are instant).
+        public static float SwingDetectionLatency(bool atOnset, bool motion) => atOnset ? ServeOnsetLatency : motion ? ServeLatency : 0;
+
+        /// Swing prediction (the phone's setting): a stroke reported at onset is proven, before the phone confirms it, once
+        /// its rotation has reached `ProvenRate` over `ProvenArc` of turn. That is the evidence the phone's own peak
+        /// confirmation accepts (SteeringFilter.peakConfirmRate / peakArc, after an onset that already held the stroke's
+        /// force), without waiting for the rate to top out. A proven stroke strikes the ball at once; confirmation no longer
+        /// gates it, and a write-off before the ball leaves still cancels it. Change these with SteeringFilter's.
+        public const float ProvenRate = 7f, ProvenArc = .3f;
+
+        /// Watches the phone's samples for the stroke that proves itself (see `ProvenRate`).
+        public struct OnsetStrength
+        {
+            int onsets; double last; float peak, arc; bool proven;
+            /// Feed every sample in order: the phone's onset count and onset time, the sample's time and its rotation rate
+            /// (rad/s). True once per stroke, on the sample that proves it. Like the phone, the turn counts from the onset.
+            public bool Add(int onsetCount, double onsetTime, double time, float rate)
+            {
+                if (onsetCount != onsets) { onsets = onsetCount; last = onsetTime; peak = arc = 0; proven = false; }
+                if (proven || onsetCount <= 0 || time < onsetTime || float.IsNaN(rate)) return false;
+                peak = Mathf.Max(peak, rate);
+                if (time > last) { arc += rate * (float)System.Math.Min(time - last, .05); last = time; }
+                return proven = peak >= ProvenRate && arc >= ProvenArc;
+            }
+        }
+
+        /// Display-delay catch-up (TennisGame.CompensateDisplayDelay). A stroke that should already be `shift` game seconds
+        /// along used to jump there in one frame, short of contact by `CatchUpOldFloor`: with a big TV delay that skipped
+        /// nearly the whole approach and the racket popped onto the ball. Now it jumps at most `CatchUpJump` and plays the
+        /// rest of the approach faster (at most `CatchUpPace` times), arriving no sooner than `CatchUpFloor`. A small shift
+        /// (a cable, a fast TV) is still one plain jump, exactly as before.
+        public const float CatchUpJump = .05f, CatchUpPace = 3f, CatchUpFloor = .06f, CatchUpOldFloor = .02f;
+
+        /// `left`: the approach still to play (swing seconds, pace 1); `shift`: how far ahead it should be. Returns the jump,
+        /// with the pace for the rest, and `late`: how much later than the old one-frame jump the contact frame now arrives,
+        /// which grading takes back off so the swing is judged exactly as before.
+        public static float CatchUp(float left, float shift, out float pace, out float late)
+        {
+            pace = 1; late = 0;
+            if (left <= 0 || shift <= 0) return 0;
+            float arrive = Mathf.Max(left - shift, Mathf.Min(left, CatchUpFloor));
+            late = arrive - Mathf.Max(left - shift, Mathf.Min(left, CatchUpOldFloor));
+            float jump = Mathf.Min(CatchUpJump, left - arrive);
+            if (left - jump > CatchUpPace * arrive) jump = left - CatchUpPace * arrive;
+            pace = (left - jump) / arrive;
+            return jump;
+        }
         /// Contact happens above the head, not wherever the racket happens to be resting.
         public const float ServeContactHeight = 2.45f;
         /// Clearance the ball must have over the net for a serve to count as safe.
@@ -861,61 +931,84 @@ namespace GolfArcade.Tennis
         /// still must not keep the feet turning over.
         public static float CycleRate(float speed) => Mathf.Abs(speed) / StrideMetres;
 
-        // --- Timing decides direction (Wii Sports Tennis) ------------------------------------
+        // --- Timing sets the pace, the swing sets the direction --------------------------------
         //
-        // Wii Sports put all the skill in the swing, because the character walks itself to the ball:
-        // swing on the ball and it goes straight, swing a little early and it goes to the left, a little
-        // late and it goes to the right. The direction is the same whichever wing is playing it (it is
-        // screen-relative, like the Wii's), so it is learned once: "early = left, late = right".
+        // Golf separates the two jobs and is easy to read: you choose where, then the swing decides how well.
+        // A rally shot does the same in one motion. WHERE you swing picks the side: the racket face (the
+        // phone) turned toward the left of the TV sends the ball left, square to it straight, toward the right
+        // right. WHEN you swing picks the pace and the depth: on the ball is a deep, fast drive, a little off is
+        // a rally ball, well off a slow, short floater the opponent can attack. Contact itself is generous (see
+        // `EarlySwingHold`), so nearly every swing meets the ball and the skill is in how good the shot is.
         //
-        // It replaces aiming with the racket face. The phone's yaw angle was an invisible number
-        // (about 10 cm of landing spot per degree, read 50-100 ms before contact, no personal "straight"),
-        // and depth sat behind three buttons on a screen nobody looks at mid-rally.
+        // The 2026-10-10 pass had timing pick the side (Wii Sports' own rule); playtests wanted timing to mean
+        // power and the swing to mean direction, so that was reversed. The racket-face reading is shaped here
+        // with a wide straight band and full angle well inside a comfortable wrist turn, so it is not the
+        // twitchy degree-per-10-cm number it was before the timing pass.
 
-        /// Full left or right at this many seconds early or late.
-        public const float AimWindow = .24f;
-        /// Within this long of the ideal moment the ball goes straight up the middle. It is wider than a
-        /// Perfect (35 ms) because the TV's delay and a frame or two of jitter blur the player's sense of
-        /// "on the ball", and a straight ball has to be easy to find.
-        public const float AimCentreBand = .06f;
+        /// Racket-face aim (-1..1 as the phone sends it; its calibration tops out near 0.8) inside this
+        /// band hits straight up the middle: wrist wobble must not steer a ball.
+        public const float SwingAimDeadBand = .15f;
+        /// Face aim at which the ball goes to the corner.
+        public const float SwingAimFull = .75f;
 
-        /// Direction from swing timing, -1 (left corner) .. 1 (right corner). `late` is the seconds the
-        /// swing met the ball after the ideal moment; negative is early. Linear between the centre band and
-        /// `AimWindow`, so a swing 100 ms late goes about 0.8 m right and one 200 ms late about 2.9 m.
-        public static float AimFromTiming(float late)
+        /// Direction from the swing, -1 (left corner) .. 1 (right corner), from the racket-face aim.
+        public static float SideFromSwing(float aim)
         {
-            float t = Mathf.Abs(late);
-            if (t <= AimCentreBand) return 0;
-            return Mathf.Sign(late) * Mathf.Clamp01((t - AimCentreBand) / (AimWindow - AimCentreBand));
+            float a = Mathf.Abs(Mathf.Clamp(aim, -1, 1));
+            if (a <= SwingAimDeadBand) return 0;
+            return Mathf.Sign(aim) * Mathf.Clamp01((a - SwingAimDeadBand) / (SwingAimFull - SwingAimDeadBand));
         }
 
-        /// Depth from the swing's power (0..1 as the phone reports it: a gentle swing is about 0.15):
-        /// a soft swing lands shorter, a full one deep. 0 is the short end of the court, 1 the baseline.
-        public static float DepthFromPower(float power) =>
-            Mathf.Lerp(.45f, .95f, Mathf.InverseLerp(.15f, 1f, Mathf.Clamp01(power)));
-
-        /// Where a rally ball goes when the swing's timing aims it. The timing has already chosen the side
-        /// and is never punished a second time: unlike `TimedPlacement` this does not pull the target toward
-        /// the middle. Only the contact's quality loosens it (scatter) and shortens it a little, so a clean
-        /// strike lands where the timing sent it. Clamped inside the lines, so a rally ball is never out.
-        public static Vector3 TimingPlacement(float late, float power, float quality, float rollX, float rollZ)
+        /// Rally pace from timing (`TimingScore`, 1 on the ball .. 0 at the edge of contact), in the speed the
+        /// shot solver takes. Swing effort only nudges it, as in golf a smooth swing on time beats a hard one off it.
+        /// The range is set against Wii Sports Tennis, measured from gameplay video: about 1.55 s from one hit to
+        /// the next in a casual rally, about 0.95 s at Pro level. Through the real flight (GameSpeed included) a
+        /// mistimed ball here takes about 1.6 s baseline to baseline, a GOOD one 1.35 s, a GREAT one 1.2 s and a
+        /// PERFECT one 0.95 s -- Wii's Pro pace, the shot that wins points. The old range (13-30) put every clean
+        /// ball under 0.9 s. See docs/tennis-timing-power-2026-10-24.md.
+        public const float SlowRallyPace = 11.5f, RallyPace = 14.5f, FastRallyPace = 20.5f;
+        public static float TimingPace(float timing, float power, float stamina)
         {
-            Vector3 intended = PlacementTarget(AimFromTiming(late), DepthFromPower(power));
-            float control = Mathf.SmoothStep(0, 1, Mathf.Clamp01(quality / .8f));
-            float spread = Mathf.Lerp(.5f, .03f, control);
-            float x = intended.x + Mathf.Clamp(rollX, -1, 1) * spread;
-            float z = Mathf.Lerp(4.8f, intended.z, control) + Mathf.Clamp(rollZ, -1, 1) * spread;
+            float t = Mathf.Clamp01(timing);
+            float pace = t < .55f ? Mathf.Lerp(SlowRallyPace, RallyPace, t / .55f)
+                : Mathf.Lerp(RallyPace, FastRallyPace, Mathf.Pow((t - .55f) / .45f, 1.3f));
+            return pace * Mathf.Lerp(.95f, 1.05f, Mathf.Clamp01(power)) * Mathf.Lerp(.92f, 1f, Mathf.Clamp01(stamina));
+        }
+
+        /// Where a rally ball goes. The swing's side is kept whatever the timing (it is never punished twice);
+        /// the timing, through `quality`, decides the depth -- a clean hit lands deep, a poor one sits up short --
+        /// how close to the line the ball can go, and how much it scatters. Always inside the lines: a rally ball
+        /// is never out, so new players keep the ball in play and the challenge is beating the opponent with it.
+        public static Vector3 SwingPlacement(float aim, float quality, float rollX, float rollZ)
+        {
+            float control = Mathf.SmoothStep(0, 1, Mathf.Clamp01(quality / .85f));
+            float side = SideFromSwing(aim);
+            float width = Mathf.Lerp(2.4f, CourtHalfWidth - .45f, control);
+            float spread = Mathf.Lerp(.6f, .05f, control);
+            float x = side * width + Mathf.Clamp(rollX, -1, 1) * spread;
+            float z = Mathf.Lerp(6.2f, 10.4f, control) + Mathf.Clamp(rollZ, -1, 1) * spread;
             return new Vector3(Mathf.Clamp(x, -CourtHalfWidth + .12f, CourtHalfWidth - .12f), BallRadius,
                 Mathf.Clamp(z, 2.8f, CourtHalfLength - .3f));
         }
 
-        /// "EARLY · LEFT", "LATE · RIGHT" or "STRAIGHT": the hit badge's reading of the swing's timing.
-        public static string TimingAimWord(float late)
+        /// A swing this early still meets the ball: the character holds the racket back and lets it go as the
+        /// ball arrives (the shot is graded on the real, early timing, so it is slow). Earlier than this is a
+        /// whiff. The October audit measured every swing more than 0.10 s early missing outright.
+        public const float EarlySwingHold = .32f;
+
+        /// How long to hold a swing that started `early` game seconds before the ball will reach it (0 when it
+        /// is on time or late, or so early it is a whiff).
+        public static float SwingHold(float early, float speedScale = 1)
         {
-            float aim = AimFromTiming(late);
-            if (aim == 0) return "STRAIGHT";
-            string side = aim < 0 ? "LEFT" : "RIGHT";
-            return (late < 0 ? "EARLY" : "LATE") + " · " + side;
+            if (early <= .015f * speedScale || early > EarlySwingHold * speedScale) return 0;
+            return early;
+        }
+
+        /// "LEFT", "RIGHT" or "" (straight): the hit badge's reading of the swing's direction.
+        public static string SwingSideWord(float aim)
+        {
+            float side = SideFromSwing(aim);
+            return side < -.01f ? "LEFT" : side > .01f ? "RIGHT" : "";
         }
 
         /// Which authored stroke suits the ball. Height and distance pick the animation, so

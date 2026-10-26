@@ -382,19 +382,16 @@ struct IslandPauseScreen: View {
                                 PointRecordingSettings(session: session)
                                 Divider()
                             }
-                            if !session.touch {
-                                Button("Re-aim at the TV") { session.menuPauseVisible = false; SportsDisplays.shared.external?.isHidden = true; session.beginAxisCapture(); dismiss() }
-                                if session.sport == "tennis" {
-                                    Button("Recenter racket") { session.recalibrateAiming(); dismiss() }
-                                        .disabled(!session.motion.axisLocked || session.checkingTiming || session.measuringDelay)
-                                }
-                                Button("Flip left / right") { session.flipSteering() }
+                            Button("Re-aim at the TV") { session.menuPauseVisible = false; SportsDisplays.shared.external?.isHidden = true; session.beginAxisCapture(); dismiss() }
+                            if session.sport == "tennis" {
+                                Button("Recenter racket") { session.recalibrateAiming(); dismiss() }
+                                    .disabled(!session.motion.axisLocked || session.checkingTiming || session.measuringDelay)
                             }
+                            Button("Flip left / right") { session.flipSteering() }
                             // Not online: a network match has no timing check (Unity ignores it), so the screens would never finish.
                             if session.displayConnected && session.sport == "tennis" && session.multiplayerMatchID == nil {
                                 Button("Re-check swing timing") { session.menuPauseVisible = false; SportsDisplays.shared.external?.isHidden = true; session.recheckTiming(); dismiss() }
                             }
-                            Button(session.touch ? "Use motion controls" : "Use touch controls") { if session.touch { session.useMotion() } else { session.useTouch() }; dismiss() }
                         }.font(IslandUI.font(18)).padding(20).background(.white.opacity(0.95),in:RoundedRectangle(cornerRadius:16))
                     }
                 }

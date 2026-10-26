@@ -58,6 +58,8 @@ namespace GolfArcade.EditorTools
         }
         static string Env(string key, string fallback) => Environment.GetEnvironmentVariable(key) ?? fallback;
         static int Number(string key, int fallback, int min, int max) => int.TryParse(Env(key, ""), out int n) ? Mathf.Clamp(n, min, max) : fallback;
+        static int FW => Number("FILM_W", 1280, 320, 4096);
+        static int FH => Number("FILM_H", 720, 240, 4096);
         static string F(float f) => f.ToString("0.00000", Inv);
         static string Csv(string s) => "\"" + (s ?? "").Replace("\"", "\"\"") + "\"";
         static string V(Vector3 v) => F(v.x) + "," + F(v.y) + "," + F(v.z);
@@ -88,7 +90,7 @@ namespace GolfArcade.EditorTools
             game.Refeed();
             for (int warm = 0; warm < 30; warm++) yield return null;
             if (!game.GameplayCamera || Camera.main != game.GameplayCamera) throw new InvalidOperationException("Expected the live gameplay camera to be Camera.main.");
-            game.GameplayCamera.aspect = 1280f / 720f;
+            game.GameplayCamera.aspect = (float)FW / FH;
             game.AutoPlayLean = true; game.AutoPlay = true;
             var attempts = new List<Take>(); Take best = null;
             for (int attempt = 1; attempt <= maxAttempts; attempt++)
@@ -122,7 +124,7 @@ namespace GolfArcade.EditorTools
                     if (videoFrame >= 0)
                     {
                         string path = Path.Combine(take.directory, "frames", "game_" + take.frames.ToString("00000") + ".jpg");
-                        if (GameCapture.Save(path, 1280, 720) == null) throw new InvalidOperationException("Gameplay capture failed.");
+                        if (GameCapture.Save(path, FW, FH) == null) throw new InvalidOperationException("Gameplay capture failed.");
                         take.frames++;
                     }
                     // An even number of simulation frames keeps WAV and 30 fps frames aligned.

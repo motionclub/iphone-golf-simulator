@@ -14,7 +14,9 @@ typedef struct SportsSample {
     float qx, qy, qz, qw, rx, ry, rz, gx, gy, gz;
     double onsetTime, confirmationTime, abortTime;
 } SportsSample;
-enum { SportsSampleVersion = 3, SportsSampleValid = 1, SportsSampleDegraded = 2 };
+/// Flags: tracking valid, tracking degraded, and swing prediction on (the stroke detector confirms strong swings at their
+/// peak; Unity may then let a stroke that proves itself strike before its confirmation, TennisRules.ProvenRate).
+enum { SportsSampleVersion = 3, SportsSampleValid = 1, SportsSampleDegraded = 2, SportsSamplePrediction = 4 };
 @interface SportsRuntime : NSObject
 + (instancetype)shared;
 - (BOOL)loadInWindow:(UIWindow*)window error:(NSError**)error;
@@ -29,6 +31,8 @@ enum { SportsSampleVersion = 3, SportsSampleValid = 1, SportsSampleDegraded = 2 
 - (void)pushSample:(SportsSample)sample;
 - (BOOL)pushNetwork:(NSString*)json;
 - (nullable NSString*)pollNetwork;
+/// Drops the last match's queued network packets (both directions); a sport session's inputs are untouched.
+- (void)clearNetwork;
 - (BOOL)multiplayerAvailable;
 - (nullable NSString*)pollEvent;
 - (nullable NSString*)tennisResult;

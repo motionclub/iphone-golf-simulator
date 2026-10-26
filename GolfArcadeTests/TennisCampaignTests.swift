@@ -265,7 +265,7 @@ final class TennisCampaignTests: XCTestCase {
         let menu = TennisMenu.shared, s = SportsSession.shared
         menu.debugShow(.settings, row: 0, column: 0)
         menu.move(.right); XCTAssertEqual(menu.settingsTab, .controls, "moving along the tab row switches tabs")
-        XCTAssertEqual(menu.rows(.settings)[1], ["controls"])
+        XCTAssertEqual(menu.rows(.settings)[1], ["swingPrediction"])
         menu.debugShow(.character)
         menu.tap("lk-tab-customize"); XCTAssertTrue(menu.focus("lk-shirt"))
         XCTAssertEqual(menu.focused, "lk-shirt")
@@ -316,6 +316,7 @@ final class TennisCampaignTests: XCTestCase {
             XCTAssertEqual(Set(tips.map(\.text)).count, tips.count, "\(sport) tips do not repeat")
             XCTAssertTrue(tips.allSatisfy { $0.text.count <= 130 }, "\(sport) tips fit on a loading screen")
             XCTAssertGreaterThanOrEqual(Set(tips.map(\.kind)).count, 3, "\(sport) tips cover several topics")
+            XCTAssertTrue(tips.allSatisfy { !$0.title.isEmpty && $0.title.count <= 24 }, "\(sport) tips have a short card headline")
             XCTAssertEqual(GameTips.tip(sport, at: tips.count + 2), GameTips.tip(sport, at: 2), "tips wrap round")
             XCTAssertEqual(GameTips.tip(sport, at: -1), tips.last, "and a negative index still lands on a tip")
         }

@@ -1,5 +1,6 @@
 import XCTest
 import SwiftUI
+import Network
 @testable import GolfArcade
 
 @MainActor
@@ -314,11 +315,17 @@ final class MultiplayerTests: XCTestCase {
         p.runtimes[0].outgoing.append(String(decoding:try JSONEncoder().encode(result),as:UTF8.self));p.host.update();try p.host.returnToLobby()
         XCTAssertEqual(p.services[1].localSeat,1);XCTAssertEqual(p.services[2].localSeat,0);XCTAssertEqual(p.host.localSeat,-1)
     }
-    func testBridgeOverflowInterruptsInsteadOfStallingContest() throws {
+    /// The bridge reporting dropped packets is logged and play goes on: ending the match here (owner) or leaving it (guest) was what
+    /// ejected guests mid-match. A lost versus call is caught by the next point's ready check in Unity.
+    func testBridgeOverflowIsLoggedAndTheMatchPlaysOn() throws {
         let p=try party(2);defer {p.close()};try start(p)
         let error=MultiplayerPacket(kind:"bridgeError",payload:"Queue overflow")
         p.runtimes[0].outgoing.append(String(decoding:try JSONEncoder().encode(error),as:UTF8.self));p.host.update()
-        XCTAssertEqual(p.host.lobby?.phase,.interrupted);XCTAssertEqual(p.services[1].lobby?.phase,.interrupted);XCTAssertEqual(p.host.lastError,"Queue overflow")
+        p.runtimes[1].outgoing.append(String(decoding:try JSONEncoder().encode(error),as:UTF8.self));p.services[1].update()
+        XCTAssertEqual(p.host.lobby?.phase,.playing);XCTAssertEqual(p.services[1].lobby?.phase,.playing)
+        XCTAssertNil(p.host.lastError);XCTAssertNil(p.services[1].lastError)
+        XCTAssertFalse(p.runtimes[1].received.contains { $0.kind=="stop" },"the guest keeps its match")
+        XCTAssertFalse(p.runtimes[0].received.contains { $0.kind=="suspend" })
     }
     func testReconnectingCompetitorReloadsBeforeResume() throws {
         // Golf: reloading the game is enough. (Tennis also needs the controller set up again: see the calibration tests.)
@@ -995,13 +1002,15 @@ final class MultiplayerTests: XCTestCase {
         advance(p, by: 3)
         XCTAssertFalse(p.runtimes[0].received.contains { $0.kind == "suspend" }, "the silence grace starts after the countdown")
     }
-    func testAQuietCompetitorPausesPlayWithinHalfASecondAndResumesWhenHeardAgain() throws {
+    func testAQuietCompetitorPausesPlayAfterTheSilenceLimitAndResumesWhenHeardAgain() throws {
         let p = try party(2); defer { p.close() }; try start(p)
         advancePastStart(p)   // past the start grace, with heartbeats flowing
         XCTAssertFalse(p.runtimes[0].received.contains { $0.kind == "suspend" }, "a healthy link never pauses")
         p.bus.links["b"]!.drop = true
+        advance(p, by: MultiplayerTuning.silenceSeconds - 0.3)
+        XCTAssertFalse(p.runtimes[0].received.contains { $0.kind == "suspend" }, "a gap shorter than the silence limit is played through")
         advance(p, by: 0.5)
-        XCTAssertTrue(p.runtimes[0].received.contains { $0.kind == "suspend" && $0.payload == "b" }, "the owner must pause within half a second of silence")
+        XCTAssertTrue(p.runtimes[0].received.contains { $0.kind == "suspend" && $0.payload == "b" }, "the owner must pause once the silence limit has passed")
         XCTAssertEqual(p.host.lobby?.participants.first { $0.id == "b" }?.connected, true, "...without waiting for the transport to report a disconnect")
         let resumedBefore = p.runtimes[0].received.filter { $0.kind == "resumePeer" }.count
         p.bus.links["b"]!.drop = false
@@ -1045,6 +1054,37 @@ final class MultiplayerTests: XCTestCase {
         p.bus.links["b"]!.drop = false
         XCTAssertFalse(p.runtimes[0].received.contains { $0.kind == "suspend" }, "occasional packet loss must not pause play")
     }
+    /// Both sides watch (P2): a guest that hears nothing from the owner holds its own game, and only its own (it does not speak for
+    /// the lobby), then resumes after a few packets.
+    func testAGuestHoldsItsGameWhileTheOwnerIsQuietAndResumes() throws {
+        let p = try party(2); defer { p.close() }; try start(p)
+        advancePastStart(p)
+        XCTAssertFalse(p.runtimes[1].received.contains { $0.kind == "suspend" }, "a healthy link never holds the guest")
+        p.bus.links["a"]!.drop = true
+        advance(p, by: MultiplayerTuning.silenceSeconds - 0.3)
+        XCTAssertFalse(p.runtimes[1].received.contains { $0.kind == "suspend" })
+        advance(p, by: 0.5)
+        XCTAssertTrue(p.runtimes[1].received.contains { $0.kind == "suspend" && $0.payload == "a" && $0.sender == "b" }, "the guest's own watch holds its game")
+        XCTAssertFalse(p.runtimes[0].received.contains { $0.kind == "suspend" }, "the owner, which hears the guest, plays on")
+        p.bus.links["a"]!.drop = false
+        advance(p, by: 1)
+        XCTAssertTrue(p.runtimes[1].received.contains { $0.kind == "resumePeer" && $0.payload == "a" }, "...and resumes once the owner is heard again")
+        XCTAssertEqual(p.services[1].lobby?.phase, .playing)
+    }
+    /// A nearby guest whose connection broke and came back without its game reloading (LocalMultiplayerTransport dials again): its
+    /// repeated load report is the same game, so play resumes for it without a reload.
+    func testAGuestThatReconnectsWithoutReloadingResumes() throws {
+        let p = try party(2); defer { p.close() }; try start(p, .golf)
+        advancePastStart(p)
+        dropAndReturn(p)
+        XCTAssertTrue(p.runtimes[0].received.contains { $0.kind == "suspend" && $0.payload == "b" })
+        let prior = p.runtimes[0].received.filter { $0.kind == "resumePeer" }.count
+        advance(p, by: 1.5)
+        XCTAssertGreaterThan(p.runtimes[0].received.filter { $0.kind == "resumePeer" && $0.payload == "b" }.count, prior)
+        XCTAssertEqual(p.host.lobby?.participants.first { $0.id == "b" }?.loaded, true)
+        XCTAssertEqual(p.runtimes[1].configurations.count, 1, "nothing was loaded again")
+        XCTAssertEqual(p.host.lobby?.phase, .playing)
+    }
     func testASpectatorGoingQuietNeverPausesPlay() throws {
         let p = try party(3); defer { p.close() }; try start(p)
         advancePastStart(p)
@@ -1056,7 +1096,7 @@ final class MultiplayerTests: XCTestCase {
         let p = try party(3); defer { p.close() }; try start(p)
         advancePastStart(p)
         p.bus.links["b"]!.drop = true
-        advance(p, by: 0.5)
+        advance(p, by: MultiplayerTuning.silenceSeconds + 0.2)
         XCTAssertTrue(p.runtimes[0].received.contains { $0.kind == "suspend" && $0.payload == "b" })
         p.services[2].leave()   // the spectator goes: the owner's list of connected phones changes while b is quiet
         p.bus.links["b"]!.drop = false
@@ -1120,26 +1160,231 @@ final class MultiplayerTests: XCTestCase {
         XCTAssertFalse(link.transportModes.contains { $0.kind == "snapshot" }, "a small message that fails is some other problem: it is not silently resent")
         XCTAssertNotNil(p.host.lastError)
     }
+    /// Versus tennis' unreliable "peer" packets are its 30 Hz poses: a refused one is dropped, and the kind is never switched to reliable
+    /// (that would queue every later pose behind any lost packet for the rest of the match). Its reliable events still go reliably.
+    func testARefusedVersusPoseIsDroppedAndThePeerKindStaysUnreliable() throws {
+        let p = try party(2); defer { p.close() }; try start(p)
+        let link = p.bus.links["a"]!
+        link.refuseUnreliableOver = 100
+        func relay(_ payload: String, reliable: Bool) throws {
+            let packet = MultiplayerPacket(lobbyID: p.host.lobby!.id, matchID: p.host.lobby!.matchID, sender: "a", kind: "peer", reliable: reliable, payload: payload)
+            p.runtimes[0].outgoing.append(String(decoding: try JSONEncoder().encode(packet), as: UTF8.self))
+            p.host.update()
+        }
+        try relay(String(repeating: "x", count: 1200), reliable: false)
+        XCTAssertEqual(link.refused, 1)
+        XCTAssertFalse(link.transportModes.contains { $0.kind == "peer" }, "the refused pose is dropped, not resent reliably")
+        XCTAssertNil(p.host.lastError)
+        link.refuseUnreliableOver = nil
+        try relay("P|0|3|105.1234|0.5|-11.4|0|0|0|0|-1|0", reliable: false)
+        XCTAssertEqual(link.transportModes.last { $0.kind == "peer" }?.reliable, false, "the next pose still goes unreliably")
+        try relay("{\"k\":\"hit\"}", reliable: true)
+        XCTAssertEqual(link.transportModes.last { $0.kind == "peer" }?.reliable, true)
+    }
+    /// The compact pose (Unity's VersusWire) on the wire as this app sends it, with real-length ids, stays far below the size Apple may
+    /// refuse unreliably.
+    func testAVersusPosePacketIsSmall() throws {
+        let gameCenterID = "T:_" + String(repeating: "a", count: 32)
+        let pose = "P|1|123|12345.6789|-3.142|-11.875|-4.25|1.5|0.875|2.375|0.42|13"
+        let packet = MultiplayerPacket(lobbyID: UUID().uuidString, matchID: UUID().uuidString, sender: gameCenterID, sequence: 123456, kind: "peer", reliable: false, sentAt: 12345.678901, payload: pose)
+        let bytes = try JSONEncoder().encode(packet).count
+        XCTAssertLessThan(pose.utf8.count, 100)
+        XCTAssertLessThan(bytes, 400, "a pose packet is \(bytes) bytes")
+        XCTAssertLessThan(bytes, MultiplayerTuning.unreliableSafeBytes / 2)
+    }
 
     // MARK: The Swift → Unity bridge must not fill up while no match is running
 
-    /// The native queue behind `SportsRuntime.pushNetwork` (Unity/Assets/Plugins/iOS/SportsBridge.mm, `networkPush`): 128 slots, drained
-    /// by Unity only while a match is configured, and never cleared. When it is full the oldest *unreliable* entry is evicted; a queue
-    /// holding nothing but reliable entries refuses the push, and the refusal ends the match (`bridgeError`).
+    /// The native queue behind `SportsRuntime.pushNetwork` (Unity/Assets/Plugins/iOS/SportsBridge.mm, `networkPush`), drained by Unity
+    /// only while a match is configured and cleared at each match launch. Past 128 entries an unreliable packet evicts the oldest
+    /// unreliable one (or is dropped itself); reliable packets grow the queue to 1024, and only past that is the oldest lost (reported
+    /// as `bridgeError`, which is logged). It never refuses a match's packet. (work/tennis-online-resilience/bridge_test.cpp runs the
+    /// real C++ against the same rules.)
+    // MARK: P3: Nearby tennis made convenient (PLAN_Tennis_Latency_Online_Local §3)
+
+    /// The menu's "Tennis with a friend nearby" hosts a tennis game (one action, no walking); the friend's phone, browsing in the
+    /// background on its menu, offers "Join Adnan's tennis game?" and one tap joins. The match then starts by itself on both phones.
+    func testOneMenuActionHostsAndTheBannerJoinsInOneTap() throws {
+        let saved = SportsSession.shared.displayConnected; SportsSession.shared.displayConnected = true
+        let savedContext = ClubHub.shared.context; ClubHub.shared.context = { ClubHubContext() }
+        TennisMenu.shared.debugShow(.main); OnboardingFlow.shared.exitToMenu()
+        let bus = Bus(), hostRuntime = Runtime(), guestRuntime = Runtime()
+        let hostService = hostRuntime.service(), guestService = guestRuntime.service()
+        hostService.requiresStableLink = false; guestService.requiresStableLink = false
+        let host = HubSession(), guest = HubSession()
+        host.partyService = hostService; guest.partyService = guestService
+        defer { hostService.leave(); guestService.leave(); ClubHub.shared.context = savedContext; HubTestState.restore(display: saved); withExtendedLifetime(bus) {} }
+        host.debugLive(session: "h"); guest.debugLive(session: "g")   // (whatever menu is up: the nearby flow does not use the Plaza)
+        var browsing: [Bool] = []
+        host.nearbyBrowse = { _, _ in XCTFail("a hosting phone does not browse") }
+        guest.nearbyBrowse = { _, on in browsing.append(on) }
+        host.nearbyHost = { hub in try hub.partyService.host(using: bus.link("host"), quick: .tennis) }
+        guest.nearbyJoin = { hub, _ in try hub.partyService.connect(using: bus.link("guest"), quick: .tennis) }
+
+        host.useNearbyBench()   // the phone menu's Play › "Tennis with a friend nearby", or the pointer menu's Tennis › Nearby: 1 action
+        XCTAssertEqual(host.station, HubSession.nearbyBay, "its panel shows (SportsHome)")
+        XCTAssertTrue(host.nearbyHosting)
+        XCTAssertEqual(hostService.lobby?.sport, .tennis)
+        XCTAssertEqual(hostService.lobby?.participants.first?.ready, true, "the host is ready at once")
+        host.evaluate(); host.nearbyTick()
+        XCTAssertEqual(host.station, HubSession.nearbyBay, "not a menu screen evaluate would close")
+        XCTAssertTrue(host.nearbyHosting)
+
+        guest.nearbyTick()
+        XCTAssertEqual(browsing, [true], "a free phone on the menu looks for nearby games in the background (no Plaza needed)")
+        XCTAssertNil(guest.nearbyOffer)
+        let found = LocalMultiplayerTransport.DiscoveredLobby(id: LocalMultiplayerTransport.advertisedName("Adnan", token: UUID().uuidString), name: "Adnan",
+                                                             endpoint: .hostPort(host: "127.0.0.1", port: 9), sport: "tennis", players: 1)
+        guestService.debugSetDiscovered([found])
+        XCTAssertEqual(guest.nearbyOffer?.name, "Adnan", "the banner: Join Adnan's tennis game?")
+
+        guest.joinNearby()   // the banner's Join: 1 tap
+        XCTAssertNotNil(guestService.lobby, "joined the host's lobby")
+        XCTAssertEqual(hostService.lobby?.participants.count, 2)
+        XCTAssertEqual(hostRuntime.configurations.count, 1, "the host's quick lobby started the match as soon as the friend was in")
+        XCTAssertEqual(guestRuntime.configurations.count, 1)
+        guest.nearbyTick()
+        XCTAssertNil(guest.nearbyJoining)
+        XCTAssertTrue(guest.notice.contains("Adnan"), guest.notice)
+        XCTAssertFalse(guest.wantsNearbyBrowse, "no background browse while in a lobby")
+        XCTAssertNil(guest.nearbyOffer)
+        XCTAssertEqual(browsing, [true], "joining ends the browse itself (no second call that could drop the new connection)")
+        XCTAssertTrue(TennisMenu.shared.rows(.party).contains(["partyNearbyTennis"]), "the phone menu's Play list has the one-tap row")
+        XCTAssertNotNil(HubSession.route(HubSession.nearbyBay), "the pointer menu opens the same station id")
+    }
+
+    /// ✕ hides that game only; a phone that could not join now (a match, loading, onboarding: ClubHub.canJoinNow, the invite rule)
+    /// neither browses nor offers; cancelling the hosted game before a match ends it; a friends' party is never broken up by it.
+    func testNearbyBannerDismissBusyPhonesAndCancelling() throws {
+        let saved = SportsSession.shared.displayConnected; SportsSession.shared.displayConnected = true
+        let savedContext = ClubHub.shared.context
+        var context = ClubHubContext(); ClubHub.shared.context = { context }
+        TennisMenu.shared.debugShow(.main); OnboardingFlow.shared.exitToMenu()
+        let bus = Bus(), partyBus = Bus(), runtime = Runtime(), service = runtime.service(), friend = Runtime().service()
+        let hub = HubSession(); hub.partyService = service
+        // (the buses outlive every leave: their links hold them unowned)
+        defer { friend.leave(); service.leave(); ClubHub.shared.context = savedContext; HubTestState.restore(display: saved); withExtendedLifetime((bus, partyBus)) {} }
+        hub.debugLive(session: "n")
+        var browsing: [Bool] = []
+        hub.nearbyBrowse = { _, on in browsing.append(on) }
+        hub.nearbyHost = { hub in try hub.partyService.host(using: bus.link("me"), quick: .tennis) }
+        func lobby(_ name: String, players: Int = 1, sport: String = "tennis") -> LocalMultiplayerTransport.DiscoveredLobby {
+            .init(id: LocalMultiplayerTransport.advertisedName(name, token: UUID().uuidString), name: name, endpoint: .hostPort(host: "127.0.0.1", port: 9), sport: sport, players: players)
+        }
+        let sam = lobby("Sam")
+        service.debugSetDiscovered([lobby("Golfer", sport: "golf"), lobby("Full", players: 2), sam])
+        XCTAssertEqual(hub.nearbyOffer?.name, "Sam", "only a tennis game with room is offered")
+        hub.dismissNearby()
+        XCTAssertNil(hub.nearbyOffer)
+        service.debugSetDiscovered([sam, lobby("Sam")])
+        XCTAssertEqual(hub.nearbyOffer?.name, "Sam", "a new game from the same phone is offered again")
+
+        hub.nearbyTick(); XCTAssertEqual(browsing, [true])
+        context.busyLoading = true
+        hub.nearbyTick(); XCTAssertEqual(browsing, [true, false], "not joinable now (loading): the browse pauses")
+        XCTAssertNil(hub.nearbyOffer, "and nothing is offered")
+        context.busyLoading = false; context.onboarding = true
+        hub.nearbyTick(); XCTAssertEqual(browsing, [true, false]); XCTAssertNil(hub.nearbyOffer)
+        context.onboarding = false
+        hub.nearbyTick(); XCTAssertEqual(browsing, [true, false, true])
+
+        hub.useNearbyBench()
+        XCTAssertEqual(browsing, [true, false, true, false], "hosting stops the browse first")
+        XCTAssertTrue(hub.nearbyHosting); XCTAssertNotNil(service.lobby)
+        XCTAssertNil(hub.nearbyOffer, "a hosting phone is not offered games")
+        hub.leaveStation()   // the panel's Cancel
+        XCTAssertFalse(hub.nearbyHosting); XCTAssertNil(service.lobby, "cancelling ends the game before a match")
+        XCTAssertNil(hub.station)
+        hub.nearbyTick(); XCTAssertEqual(browsing.last, true, "and the phone is free to find games again")
+
+        // in a friends' party (another phone in the lobby) the nearby game is refused, and the party stays
+        try service.host(using: partyBus.link("me2")); try friend.connect(using: partyBus.link("friend"))
+        XCTAssertTrue(hub.soloLocked)
+        hub.useNearbyBench()
+        XCTAssertFalse(hub.nearbyHosting); XCTAssertNil(hub.station)
+        XCTAssertEqual(hub.notice, HubSession.soloLockMessage)
+        XCTAssertEqual(service.lobby?.participants.count, 2, "the party is not broken up")
+    }
+
+    /// Nearby over real sockets on this machine (loopback): the 30 Hz pose and other unreliable packets go as UDP datagrams, the
+    /// rest over TCP; after the TCP connection breaks mid-match the guest dials again (§6's 30 s hold) and datagrams flow again.
+    func testNearbyPosesTravelAsDatagramsAndSurviveAReconnect() async throws {
+        let host = LocalMultiplayerTransport(), guest = LocalMultiplayerTransport()
+        defer { host.disconnect(); guest.disconnect() }
+        func until(_ seconds: Double, _ what: String, _ done: () -> Bool) async throws {
+            let end = Date().addingTimeInterval(seconds)
+            while !done() { guard Date() < end else { XCTFail("timed out: \(what)"); throw CancellationError() }; try await Task.sleep(for: .milliseconds(20)) }
+        }
+        try host.host(name: "Adnan")
+        try await until(5, "listeners ready") { host.debugPort != nil && host.debugUDPReady }
+        let lobby = LocalMultiplayerTransport.DiscoveredLobby(id: LocalMultiplayerTransport.advertisedName("Adnan", token: host.debugToken), name: "Adnan",
+                                                             endpoint: .hostPort(host: "127.0.0.1", port: NWEndpoint.Port(rawValue: host.debugPort!)!))
+        var atHost: [String] = [], atGuest: [String] = []
+        host.onData = { data, _ in atHost.append(String(decoding: data, as: UTF8.self)) }
+        guest.onData = { data, _ in atGuest.append(String(decoding: data, as: UTF8.self)) }
+        try guest.join(lobby)
+        try await until(5, "connected") { host.peers.count == 1 && guest.peers.count == 1 }
+        try await until(5, "datagrams both ways") { guest.debugDatagramsUp(host.localID) && host.debugDatagramsUp(guest.localID) }
+
+        try guest.send(Data("pose-1".utf8), to: nil, reliable: false)
+        try guest.send(Data("hit-1".utf8), to: nil, reliable: true)
+        try host.send(Data("pose-back".utf8), to: nil, reliable: false)
+        try await until(5, "delivered") { atHost.contains("pose-1") && atHost.contains("hit-1") && atGuest.contains("pose-back") }
+        XCTAssertEqual(guest.datagramsSent, 1, "the pose went as a datagram, the hit did not")
+        XCTAssertEqual(host.datagramsReceived, 1)
+        XCTAssertEqual(host.datagramsSent, 1); XCTAssertEqual(guest.datagramsReceived, 1)
+        try guest.send(Data(repeating: 65, count: LocalMultiplayerTransport.datagramLimit + 1), to: nil, reliable: false)
+        XCTAssertEqual(guest.datagramsSent, 1, "an unreliable packet too big for one datagram goes over TCP")
+
+        // mid-match the host's side of the connection breaks; the guest dials again and opens a fresh datagram flow
+        guest.holdForReconnect = true
+        var errors = 0; guest.onError = { _ in errors += 1 }
+        host.debugDropConnections()
+        try await until(3, "the break is noticed") { guest.peers.isEmpty }
+        try await until(8, "reconnected") { host.peers.count == 1 && guest.peers.count == 1 }
+        try await until(5, "datagrams again") { guest.debugDatagramsUp(host.localID) && host.debugDatagramsUp(guest.localID) }
+        XCTAssertEqual(errors, 0, "a reconnect within the hold is not an error")
+        try guest.send(Data("pose-2".utf8), to: nil, reliable: false)
+        try await until(5, "pose after reconnect") { atHost.contains("pose-2") }
+        XCTAssertEqual(guest.datagramsSent, 2)
+    }
+
     @MainActor final class BridgeModel {
         var queue: [String] = []
-        var refused = 0
-        /// Every packet the queue accepted (a refused push is only counted).
+        var refused = 0, dropped = 0, clears = 0
+        /// Every packet the queue accepted.
         var pushed: [MultiplayerPacket] = []
         func push(_ text: String) -> Bool {
+            let unreliable = text.contains("\"reliable\":false")
             if queue.count >= 128 {
-                guard let oldest = queue.firstIndex(where: { $0.contains("\"reliable\":false") }) else { refused += 1; return false }
-                queue.remove(at: oldest)
+                if let oldest = queue.firstIndex(where: { $0.contains("\"reliable\":false") }) { queue.remove(at: oldest) }
+                else if unreliable { dropped += 1; return true }
+                else if queue.count >= 1024 { dropped += 1; queue.removeFirst() }
             }
             queue.append(text)
             if let packet = try? JSONDecoder().decode(MultiplayerPacket.self, from: Data(text.utf8)) { pushed.append(packet) }
             return true
         }
+        func clear() { queue.removeAll(); clears += 1 }
+    }
+    /// A full bridge holding only reliable packets (Unity stalled mid-match) no longer refuses, and a match launch starts it empty.
+    func testABridgeFullOfReliablePacketsKeepsTheMatchAndALaunchClearsIt() throws {
+        let bus = Bus(), hostRuntime = Runtime(), guestRuntime = Runtime(), bridge = BridgeModel()
+        let host = hostRuntime.service()
+        let guest = MultiplayerService(sendToRuntime: { bridge.push($0) }, pollRuntime: { nil }, clearRuntime: { bridge.clear() }, clock: { guestRuntime.time })
+        guest.onMatchRequested = { guestRuntime.configurations.append($0) }; guest.onReturnToLobby = {}
+        host.requiresStableLink = false; guest.requiresStableLink = false
+        host.setScreen(true); guest.setScreen(true)
+        try host.host(using: bus.link("a")); try guest.connect(using: bus.link("b"))
+        let party = Party(bus: bus, services: [host, guest], runtimes: [hostRuntime, guestRuntime])
+        defer { party.close() }
+        for n in 0..<200 { _ = bridge.push("{\"kind\":\"stale\",\"reliable\":true,\"n\":\(n)}") }
+        try start(party)
+        XCTAssertGreaterThanOrEqual(bridge.clears, 1, "the launch emptied the bridge of the last match's packets")
+        XCTAssertFalse(bridge.queue.contains { $0.contains("stale") })
+        for n in 0..<300 { XCTAssertTrue(bridge.push("{\"kind\":\"peer\",\"reliable\":true,\"n\":\(n)}")) }
+        for _ in 0..<50 { guestRuntime.time += 0.1; hostRuntime.time += 0.1; host.update(); guest.update() }
+        XCTAssertEqual(bridge.refused, 0); XCTAssertNil(guest.lastError); XCTAssertEqual(guest.lobby?.phase, .playing)
     }
 
     /// A guest that waits in the lobby: every pong used to put a reliable `clock` packet in a queue that nothing reads between matches,

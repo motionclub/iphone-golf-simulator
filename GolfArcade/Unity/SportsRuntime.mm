@@ -37,6 +37,7 @@ static void SportsCaptureTrampoline(const char *json) {
     void (*_pushSample)(const SportsSample*);
     int (*_networkPush)(const char*);
     int (*_networkPoll)(char*,int);
+    void (*_networkClear)(void);
     int (*_poll)(char*,int);
     int (*_readResult)(char*,int);
     void (*_setResult)(const char*);
@@ -116,6 +117,7 @@ static void SportsCaptureTrampoline(const char *json) {
         _clock=(double(*)(void))dlsym(RTLD_DEFAULT,"SportsClock");
         _networkPush=(int(*)(const char*))dlsym(RTLD_DEFAULT,"SportsNetworkPush");
         _networkPoll=(int(*)(char*,int))dlsym(RTLD_DEFAULT,"SportsNetworkPollOutput");
+        _networkClear=(void(*)(void))dlsym(RTLD_DEFAULT,"SportsNetworkClear");
         _captureStart=(int(*)(const char*))dlsym(RTLD_DEFAULT,"SportsCaptureStart");
         _captureStop=(void(*)(void))dlsym(RTLD_DEFAULT,"SportsCaptureStop");
         _captureActive=(int(*)(void))dlsym(RTLD_DEFAULT,"SportsCaptureActive");
@@ -196,6 +198,7 @@ static void SportsCaptureTrampoline(const char *json) {
 - (void)pushSample:(SportsSample)sample { if(_pushSample) _pushSample(&sample); }
 - (BOOL)multiplayerAvailable { return _networkPush && _networkPoll; }
 - (BOOL)pushNetwork:(NSString*)json { return _networkPush && _networkPush(json.UTF8String); }
+- (void)clearNetwork { if(_networkClear) _networkClear(); }
 - (NSString*)pollNetwork { char buffer[65536]; if(!_networkPoll || !_networkPoll(buffer,sizeof(buffer))) return nil; return [NSString stringWithUTF8String:buffer]; }
 - (NSString*)pollEvent {
     // Course thumbnails travel with golf telemetry; an 8 KB buffer dropped the whole

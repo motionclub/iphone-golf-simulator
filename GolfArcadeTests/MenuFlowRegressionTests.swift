@@ -6,11 +6,13 @@ import UIKit
     func testCalibrationPrecedesReadyAndDoesNotStartAPoint() {
         let session = SportsSession()
         session.active = true; session.ready = true; session.displayConnected = true
-        session.sport = "tennis"; session.touch = true; session.loading.cancel()
+        session.sport = "tennis"; session.motion.fixtureSensors = true; session.loading.cancel()
         session.readyToPlay()
         XCTAssertTrue(session.paused)
         XCTAssertEqual(session.setupStage, .scan)
         session.offerTimingCalibration()
+        XCTAssertTrue(session.measuringDelay, "the screen flashes run first")
+        session.debugFinishTVDelay()
         XCTAssertEqual(session.setupStage, .timing)
         XCTAssertTrue(session.timingPrompt)
         session.readyToPlay(); session.resume()
@@ -36,7 +38,7 @@ import UIKit
     func testAnOnlineMatchNeverOffersTimingCalibration() {
         let session = SportsSession()
         session.active = true; session.ready = true; session.displayConnected = true
-        session.sport = "tennis"; session.touch = true; session.loading.cancel()
+        session.sport = "tennis"; session.motion.fixtureSensors = true; session.loading.cancel()
         session.debugSetOnlineMatch("match-1")
         session.setupStage = .scan; session.paused = true
         session.offerTimingCalibration()
@@ -53,12 +55,12 @@ import UIKit
         // Practice and offline matches keep their timing check.
         session.debugSetOnlineMatch(nil)
         session.setupStage = .scan
-        session.offerTimingCalibration()
+        session.offerTimingCalibration(); session.debugFinishTVDelay()
         XCTAssertEqual(session.setupStage, .timing); XCTAssertTrue(session.timingPrompt)
     }
     func testOnlineSetupIsVisibleAndCanFinishBeforeTheRuntimeOrOpponentLoads() {
         let session = SportsSession()
-        session.active = true; session.sport = "tennis"; session.touch = true
+        session.active = true; session.sport = "tennis"; session.motion.fixtureSensors = true
         session.debugSetOnlineMatch("independent-setup", seat: 0)
         session.loading.begin(now: LoadingModel.clockNow, multiplayer: true)
         session.setupStage = .scan
@@ -121,8 +123,8 @@ import UIKit
     func testInterruptedTimingReturnsToCalibrationWithoutStartingPlay() {
         let session = SportsSession()
         session.active = true; session.ready = true; session.displayConnected = true
-        session.sport = "tennis"; session.touch = true; session.loading.cancel()
-        session.offerTimingCalibration(); session.startTimingCheck()
+        session.sport = "tennis"; session.motion.fixtureSensors = true; session.loading.cancel()
+        session.offerTimingCalibration(); session.debugFinishTVDelay(); session.startTimingCheck()
         session.pause(reason: "Display disconnected")
         XCTAssertTrue(session.timingPrompt)
         XCTAssertFalse(session.checkingTiming)
@@ -171,15 +173,14 @@ import UIKit
         XCTAssertEqual(menu.notice, "Display unavailable")
         menu.goHome()
     }
-    func testRetiredTennisTutorialAndRewardSavesReturnToSelection() {
-        for step in [OnboardingStep.tutorial(.tennis), .reward(.tennis), .motionPrimer] {
-            let defaults = UserDefaults(suiteName: "retired-\(UUID())")!
-            let store = OnboardingStore(defaults: defaults)
-            store.step = step; store.explicitRun = true
-            let flow = OnboardingFlow(store: store, progress: SportProgress(defaults: defaults), arguments: [])
-            XCTAssertEqual(flow.step, .choose)
-            XCTAssertFalse(store.rewardClaimed(.tennis))
-        }
+    func testALessonLeftMidwayComesBackToItsResumeScreen() {
+        let defaults = UserDefaults(suiteName: "lesson-resume-\(UUID())")!
+        let store = OnboardingStore(defaults: defaults)
+        store.step = .lesson(.tennis); store.explicitRun = true; store.setLessonStation(.tennis, 3)
+        let flow = OnboardingFlow(store: store, progress: SportProgress(defaults: defaults), arguments: [])
+        XCTAssertEqual(flow.step, .lesson(.tennis)); XCTAssertTrue(flow.holdsMenu, "no game is running, so the TV shows Resume")
+        XCTAssertEqual(flow.rows(), [["resume"], ["choose"], ["skip"]])
+        XCTAssertFalse(store.rewardClaimed(.tennis))
     }
     func testMainMenuIsReachableFromLoadingStoryAndEverySetupRoute() {
         let menu = TennisMenu()
@@ -201,22 +202,15 @@ import UIKit
         let defaults = UserDefaults(suiteName: "navigation-\(UUID())")!
         let store = OnboardingStore(defaults: defaults)
         let progress = SportProgress(defaults: defaults)
-        store.step = .connect
+        store.step = .card; store.characterInitialized = true
         let flow = OnboardingFlow(store: store, progress: progress, arguments: [])
         flow.back()
-        XCTAssertEqual(flow.step, .character)
+        XCTAssertEqual(flow.step, .player)
         flow.exitToMenu()
         XCTAssertEqual(flow.step, .done)
         XCTAssertFalse(flow.holdsMenu)
         XCTAssertFalse(progress.finishedTutorial(.golf))
         XCTAssertFalse(store.rewardClaimed(.golf))
-    }
-    func testRetiredGolfTutorialSaveReturnsToGameSelection() {
-        let defaults = UserDefaults(suiteName: "golf-resume-\(UUID())")!
-        let store = OnboardingStore(defaults: defaults)
-        store.step = .tutorial(.golf); store.explicitRun = true
-        let flow = OnboardingFlow(store: store, progress: SportProgress(defaults: defaults), arguments: [])
-        XCTAssertEqual(flow.step, .choose)
     }
     func testPhoneGameplayIsBlockedWithoutAnExternalScreen() {
         let displays = SportsDisplays.shared

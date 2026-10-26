@@ -34,12 +34,13 @@ namespace GolfArcade.Tests {
     Assert.Greater(poorError,cleanError*5);
    }
   }
-  [Test] public void DirectionalTimingPreservesPaceOnBothSides() {
+  [Test] public void TimingSetsPaceAlikeOnBothSides() {
+   // Early and late by the same amount are the same shot; the further off, the slower.
    float previous=TennisRules.AssistedHit(0,.65f,1,.65f,1).Speed;
    for(float late=0;late<.34f;late+=.005f) {
     var a=TennisRules.AssistedHit(late,.65f,1,.65f,1);
     var b=TennisRules.AssistedHit(-late,.65f,1,.65f,1);
-    Assert.AreEqual(a.Speed,b.Speed);Assert.AreEqual(a.Speed,previous);previous=a.Speed;
+    Assert.AreEqual(a.Speed,b.Speed,1e-4f);Assert.LessOrEqual(a.Speed,previous+1e-4f);previous=a.Speed;
     Assert.Greater(a.Timing,0);
    }
   }
@@ -57,13 +58,14 @@ namespace GolfArcade.Tests {
    }
   }
   // Landing is returned in the hitter's own frame (x to their right, z away from them), so both seats read alike.
-  static (float speed,Vector2 land,string grade) OnlineShot(int seat,float due,float power,float delay=0,float side=.65f) {
+  // `aim` is the hitter's own racket face; seat 1's is flipped into the host's frame as SportsMultiplayer.Submit does.
+  static (float speed,Vector2 land,string grade) OnlineShot(int seat,float due,float power,float delay=0,float side=.65f,float aim=0) {
    var match=new NetworkTennisMatch();var s=match.State;var p=s.players[seat];float sign=seat==0?1:-1;
-   s.phase="rally";s.receiver=seat;p.x=0;p.target=0;p.aim=.9f;p.depth=.8f;
+   s.phase="rally";s.receiver=seat;p.x=0;p.target=0;p.aim=aim*sign;p.depth=.8f;
    s.ball=new NetworkVector(side*sign,1.1f,p.z+sign*(.65f+16*due));s.velocity=new NetworkVector(0,1,-16*sign);
    for(int i=0;i<Mathf.RoundToInt(delay*120);i++)match.Step(1.0/120);
    long contact=s.contact;
-   Assert.IsTrue(match.Input(seat,new NetworkInput {action="swing",eventID=1,point=s.point,contact=s.contact,time=0,power=power,aim=.9f},s.time));
+   Assert.IsTrue(match.Input(seat,new NetworkInput {action="swing",eventID=1,point=s.point,contact=s.contact,time=0,power=power,aim=aim*sign},s.time));
    for(int i=0;i<65&&s.contact==contact;i++)match.Step(1.0/120);
    Assert.Greater(s.contact,contact);
    var b=s.ball;var v=s.velocity;
@@ -87,19 +89,20 @@ namespace GolfArcade.Tests {
     Assert.Greater(clean.speed,poor.speed);
    }
   }
-  [Test] public void OnlineTimingAimsTheBallForBothSeats() {
-   // A swing on the ball goes straight, to the depth the swing's power picks; one that meets the ball late goes to the
-   // hitter's right, one that meets it early to their left. The same for the seat at either end of the court.
+  [Test] public void OnlineSwingAimsAndTimingPowersTheBallForBothSeats() {
+   // The racket face sent with the swing picks the side, the same for the seat at either end of the court; the
+   // timing picks the pace and depth.
    foreach(int seat in new[]{0,1}) {
-    var straight=OnlineShot(seat,.18f,.2f);
-    Assert.That(Mathf.Abs(straight.land.x),Is.LessThan(.15f),$"seat {seat} on the ball goes straight");
-    Assert.That(straight.land.y,Is.EqualTo(TennisRules.PlacementTarget(0,TennisRules.DepthFromPower(.2f)).z).Within(.2f),$"seat {seat} depth follows power");
-    var late=OnlineShot(seat,-.03f,.2f);
-    Assert.Greater(late.land.x,2f,$"seat {seat} a late swing goes to the hitter's right");
-    var power=OnlineShot(seat,.18f,1f);
-    Assert.Greater(power.land.y,straight.land.y+1.5f,$"seat {seat} a full swing lands deeper than a soft one");
-    // ...and the ball is always inside the lines.
-    foreach(var shot in new[]{straight,late,power}) Assert.IsTrue(TennisRules.BounceIsIn(new Vector3(shot.land.x,TennisRules.BallRadius,shot.land.y)));
+    var straight=OnlineShot(seat,.18f,.65f,aim:0);
+    Assert.That(Mathf.Abs(straight.land.x),Is.LessThan(.15f),$"seat {seat} a square racket goes straight");
+    var right=OnlineShot(seat,.18f,.65f,aim:.8f);
+    Assert.Greater(right.land.x,2.5f,$"seat {seat} a face turned right goes to the hitter's right");
+    var left=OnlineShot(seat,.18f,.65f,aim:-.8f);
+    Assert.Less(left.land.x,-2.5f,$"seat {seat} a face turned left goes to the hitter's left");
+    var mistimed=OnlineShot(seat,-.03f,.65f,aim:0);
+    Assert.Greater(straight.speed,mistimed.speed,$"seat {seat} on time is faster");
+    Assert.Greater(straight.land.y,mistimed.land.y+1f,$"seat {seat} on time is deeper");
+    foreach(var shot in new[]{straight,right,left,mistimed}) Assert.IsTrue(TennisRules.BounceIsIn(new Vector3(shot.land.x,TennisRules.BallRadius,shot.land.y)));
    }
   }
  }

@@ -12,7 +12,7 @@ import SwiftUI
         menu.tap("partySolo"); XCTAssertEqual(menu.screen, .gameSelect)
         menu.back(); XCTAssertEqual(menu.screen, .party)
         // every way to play is on the one Play list: alone, in the same room, or online
-        XCTAssertEqual(menu.rows(.party), [["partySolo"], ["partyLocal"], ["partyOnline"], ["back"]])
+        XCTAssertEqual(menu.rows(.party), [["partySolo"], ["partyNearbyTennis"], ["partyLocal"], ["partyOnline"], ["back"]])
         menu.tap("partyOnline"); XCTAssertEqual(menu.screen, .onlineChoice)
         menu.tap("onlineQuick"); XCTAssertEqual(menu.screen, .online(.entry))
         menu.back(); XCTAssertEqual(menu.screen, .onlineChoice)

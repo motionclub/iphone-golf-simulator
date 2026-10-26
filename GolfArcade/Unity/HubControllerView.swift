@@ -131,7 +131,7 @@ struct HubControllerView: View {
         .accessibilityIdentifier("hub-controller")
     }
 
-    private var friendsTitle: String { hub.party.map { "Friends · \($0.participants.filter { !$0.isGuest }.count) in your party" } ?? "Friends" }
+    private var friendsTitle: String { hub.party.map { "Friends · \($0.participants.filter { !$0.isGuest }.count) in your party" } ?? "Invite friends" }
     private var currentEmotes: [String] {
         session.players.indices.contains(session.playerIndex) ? session.players[session.playerIndex].equippedEmotes : EmoteCatalog.defaults
     }
@@ -221,88 +221,40 @@ struct HubControllerSheets: ViewModifier {
     }
 }
 
-/// The TV while the Plaza boots (loading screen D, picked 2026-10-11): MOTION CLUB over navy stripes, a tennis ball rolling along
-/// a court line as the bar, what is loading and a tip. The bar is HubSession.loadProgress (real progress: the runtime, the scene,
-/// the plaza's build); at 100 % it holds a moment and fades into the arrival fly-in. Drawn on the 1280×720 TV canvas.
+/// The TV while the game starts and the Plaza boots (MotionSports title loading, picked 2026-10-25): the wordmark and tagline on
+/// the brand's royal-to-navy spotlight with the swing arc sweeping over, and LOADING… with the bar. The bar is
+/// HubSession.loadProgress (real progress: the runtime, the scene, the plaza's build); at 100 % it holds a moment and fades into
+/// the arrival fly-in. Drawn on the 1280×720 TV canvas (the phone with no TV shows it scaled above its controls).
 struct HubLoadingScreen: View {
     let hub: HubSession
-    static let tips = ["A short push on the stick walks. Push it all the way to run.",
-                       "Walk up to anything in the Plaza and press A to use it.",
-                       "Sit on a bench in the PLAY hall to start a match.",
-                       "Invite friends from your phone: they walk the Plaza with you.",
-                       "Change your look at the racks in the Locker."]
-    static let court = Color(hex: "3E57A8"), stripe = Color(hex: "16305A")
     var body: some View {
-        let p = hub.loadProgress
-        ZStack {
-            Canvas { ctx, size in
-                ctx.fill(Path(CGRect(origin: .zero, size: size)), with: .color(Club.ink))
-                ctx.translateBy(x: size.width / 2, y: size.height / 2); ctx.rotate(by: .degrees(-28))
-                let span = hypot(size.width, size.height)
-                var x = -span
-                while x < span { ctx.fill(Path(CGRect(x: x + 90, y: -span, width: 90, height: span * 2)), with: .color(Self.stripe)); x += 180 }
+        let p = hub.loadProgress, failed = hub.phase == .failed
+        ZStack(alignment: .topLeading) {
+            MSBrand.backdrop(spotlight: UnitPoint(x: 0.3, y: 0.47), radius: 820)
+            MSSwingArc().frame(width: 1280, height: 720)
+            VStack(alignment: .leading, spacing: 44) {
+                MSWordmark(size: 96)
+                Text("Swing your phone. Play on your TV.").font(MSLoadingFont.subline(30)).foregroundStyle(MSBrand.n300)
+                    .shadow(color: MSBrand.textShadow.opacity(0.55), radius: 3, y: 1).padding(.leading, 6)
             }
-            VStack(spacing: 6) {
-                Text("MOTION CLUB").font(Club.display(112, condensed: false)).foregroundStyle(Club.sun)
-                    .shadow(color: Club.lagoonDeep, radius: 0, y: 8)
-                Text("PARTY SPORTS").font(IslandUI.font(18, bold: true)).tracking(8).foregroundStyle(Club.cream)
-            }
-            .position(x: 640, y: 160)
-            track(p).frame(width: 1040, height: 120).position(x: 640, y: 420)
-            VStack(spacing: 14) {
-                Text(hub.phase == .failed ? "The Plaza didn't open · tap Try again on your phone" : hub.loadStage).font(Club.title(40)).foregroundStyle(Club.cream)
-                    .multilineTextAlignment(.center).accessibilityIdentifier("hub-loading-stage")
-                TimelineView(.periodic(from: .now, by: 4)) { context in
-                    let tip = Self.tips[Int(context.date.timeIntervalSinceReferenceDate / 4) % Self.tips.count]
-                    (Text("TIP   ").foregroundStyle(Club.sun).font(IslandUI.font(19, bold: true)) + Text(tip).foregroundStyle(Club.cream.opacity(0.85)).font(IslandUI.font(19)))
+            .position(x: 128 + 255, y: 360)
+            VStack(spacing: 12) {
+                HStack(alignment: .firstTextBaseline) {
+                    Text(failed ? "The Plaza didn't open · tap Try again on your phone" : "LOADING…")
+                        .font(MSLoadingFont.display(failed ? 24 : 28)).foregroundStyle(.white)
+                        .shadow(color: MSBrand.textShadow.opacity(0.55), radius: 3, y: 1)
+                        .accessibilityLabel(failed ? "The Plaza didn't open" : hub.loadStage).accessibilityIdentifier("hub-loading-stage")
+                    Spacer()
+                    if !failed { Text("\(Int((p * 100).rounded()))%").font(MSLoadingFont.display(28)).foregroundStyle(MSBrand.gold).monospacedDigit() }
                 }
+                MSLoadingBar(progress: p, fill: MSBrand.gold, height: 22)
             }
-            .position(x: 640, y: 590)
+            .frame(width: 1024).position(x: 640, y: 622)
         }
         .frame(width: 1280, height: 720)
         .clipped()
+        .ignoresSafeArea()
         .accessibilityIdentifier("hub-loading")
-    }
-
-    /// The court-line bar: the ball rolls to the progress, a lime line behind it and a few bounce marks.
-    private func track(_ p: Double) -> some View {
-        let w = 1028.0, x = 6 + w * p
-        return ZStack(alignment: .topLeading) {
-            RoundedRectangle(cornerRadius: 18).fill(Self.court)
-            Rectangle().fill(Club.cream.opacity(0.85)).frame(width: w, height: 4).position(x: 520, y: 60)
-            Rectangle().fill(Club.cream.opacity(0.85)).frame(width: 4, height: 108).position(x: 520, y: 60)
-            Capsule().fill(Club.sun).frame(width: max(14, x - 6), height: 14).position(x: 6 + max(14, x - 6) / 2, y: 60)
-            ForEach(0..<3) { i in
-                Circle().fill(Club.sun).opacity(0.2 + Double(i) * 0.2).frame(width: 14, height: 14)
-                    .position(x: 6 + w * max(0, p - [0.09, 0.06, 0.03][i]), y: i % 2 == 0 ? 43 : 31)
-            }
-            HubTennisBall().frame(width: 76, height: 76).rotationEffect(.degrees(p * 1080)).position(x: x, y: 60)
-            Text("\(Int((p * 100).rounded()))%").font(Club.title(26)).foregroundStyle(Club.ink)
-                .padding(.horizontal, 14).padding(.vertical, 6).background(Club.cream, in: RoundedRectangle(cornerRadius: 12))
-                .position(x: x, y: -34)
-        }
-        .overlay(RoundedRectangle(cornerRadius: 18).strokeBorder(Club.cream, lineWidth: 6))
-        .background(RoundedRectangle(cornerRadius: 18).fill(Club.lagoonDeep).offset(y: 10))
-        .animation(.easeOut(duration: 0.3), value: p)
-        .accessibilityElement(children: .ignore).accessibilityLabel("Loading \(Int((p * 100).rounded())) percent")
-    }
-}
-
-/// The loading bar's ball: lime felt, white seams, a dark outline so it reads on the court blue.
-struct HubTennisBall: View {
-    var body: some View {
-        Canvas { ctx, size in
-            let r = min(size.width, size.height) / 2, c = CGPoint(x: size.width / 2, y: size.height / 2)
-            let ball = Path(ellipseIn: CGRect(x: c.x - r + 2, y: c.y - r + 2, width: r * 2 - 4, height: r * 2 - 4))
-            ctx.fill(ball, with: .color(Club.sun)); ctx.stroke(ball, with: .color(Club.lagoonDeep), lineWidth: 4)
-            var seams = Path()
-            seams.move(to: CGPoint(x: c.x - r * 0.68, y: c.y - r * 0.53))
-            seams.addCurve(to: CGPoint(x: c.x - r * 0.68, y: c.y + r * 0.53), control1: CGPoint(x: c.x - r * 0.15, y: c.y - r * 0.25), control2: CGPoint(x: c.x - r * 0.15, y: c.y + r * 0.25))
-            seams.move(to: CGPoint(x: c.x + r * 0.68, y: c.y - r * 0.53))
-            seams.addCurve(to: CGPoint(x: c.x + r * 0.68, y: c.y + r * 0.53), control1: CGPoint(x: c.x + r * 0.15, y: c.y - r * 0.25), control2: CGPoint(x: c.x + r * 0.15, y: c.y + r * 0.25))
-            ctx.stroke(seams, with: .color(Club.cream), style: StrokeStyle(lineWidth: 5, lineCap: .round))
-        }
-        .accessibilityHidden(true)
     }
 }
 
@@ -609,6 +561,89 @@ struct HubOnlineBenchPanel: View {
         .background(LinearGradient(colors: [Color(hex: "16294A"), IslandUI.dark], startPoint: .top, endPoint: .bottom).ignoresSafeArea())
         .preferredColorScheme(.dark)
         .accessibilityIdentifier("hub-online-bench")
+    }
+}
+
+/// "Tennis with a friend nearby" (a menu entry, HubSession.useNearbyBench): this phone hosts a tennis game for a friend's phone in the
+/// same room (one TV, or one each). Their phone offers "Join <you>'s tennis game?" by itself; the match starts as soon as they tap it.
+/// No shared Wi-Fi network is needed. SportsHome shows it over whatever menu is up.
+struct HubNearbyBenchPanel: View {
+    let hub: HubSession
+    var body: some View {
+        let service = hub.partyService
+        let friend = service.lobby?.participants.first { $0.id != service.localID && !$0.isGuest }
+        let me = service.lobby?.participants.first { $0.id == service.localID }?.name ?? "you"
+        VStack(alignment: .leading, spacing: 16) {
+            HStack {
+                Text("TENNIS · NEARBY").font(IslandUI.font(13, bold: true)).tracking(1.4).foregroundStyle(IslandUI.lime)
+                Spacer()
+                Button { hub.leaveStation() } label: { Text("Cancel").font(IslandUI.font(15, bold: true)).foregroundStyle(.white).padding(.horizontal, 14).padding(.vertical, 8).background(.white.opacity(0.12), in: Capsule()) }
+                    .buttonStyle(.plain).accessibilityIdentifier("hub-nearby-leave")
+            }
+            Text(friend.map { "\($0.name) joined · starting…" } ?? (hub.nearbyHosting ? "Waiting for a friend nearby…" : "Two phones, one TV"))
+                .font(IslandUI.font(26, bold: true)).accessibilityIdentifier("hub-nearby-status")
+            if friend == nil && hub.nearbyHosting {
+                ProgressView().tint(IslandUI.lime).scaleEffect(1.4).frame(maxWidth: .infinity)
+                Text("Your friend opens the app on their phone: \u{201C}Join \(me)'s tennis game?\u{201D} pops up. One tap and you play.")
+                    .font(IslandUI.font(16)).foregroundStyle(.white.opacity(0.85)).fixedSize(horizontal: false, vertical: true)
+                Text("No shared Wi-Fi needed: keep the phones close, with Wi-Fi turned on.").font(.footnote).foregroundStyle(.white.opacity(0.6))
+                if let code = service.localJoinCode {
+                    Text("Code \(code)").font(IslandUI.font(15, bold: true)).foregroundStyle(.white.opacity(0.7)).accessibilityIdentifier("hub-nearby-code")
+                }
+            }
+            if service.localNetworkDenied {
+                Text(MultiplayerError.localNetworkDenied.localizedDescription).font(.subheadline).fixedSize(horizontal: false, vertical: true)
+                Button("Open Settings") { if let url = URL(string: UIApplication.openSettingsURLString) { UIApplication.shared.open(url) } }
+                    .tint(IslandUI.lime).accessibilityIdentifier("hub-nearby-settings")
+            }
+            if !hub.notice.isEmpty { Text(hub.notice).font(IslandUI.font(14, bold: true)).foregroundStyle(IslandUI.lime) }
+            Spacer(minLength: 0)
+            if !hub.nearbyHosting {
+                Button { hub.useNearbyBench() } label: {
+                    Text("Host a game").font(IslandUI.font(20, bold: true)).foregroundStyle(IslandUI.navy).frame(maxWidth: .infinity, minHeight: 58).background(IslandUI.lime, in: Capsule())
+                }.buttonStyle(.plain).accessibilityIdentifier("hub-nearby-host")
+            }
+        }
+        .foregroundStyle(.white).padding(22)
+        .background(LinearGradient(colors: [Color(hex: "16294A"), IslandUI.dark], startPoint: .top, endPoint: .bottom).ignoresSafeArea())
+        .preferredColorScheme(.dark)
+        .accessibilityIdentifier("hub-nearby-bench")
+    }
+}
+
+/// "Join Adnan's tennis game?": a friend's phone in the same room is hosting (it sat on the Nearby bench). One tap joins and the match
+/// starts; ✕ hides that game. While joining it says so, with Cancel.
+struct HubNearbyBanner: View {
+    let hub: HubSession
+    var body: some View {
+        if let joining = hub.nearbyJoining {
+            row {
+                ProgressView().tint(IslandUI.lime)
+                Text("Joining \(joining.name)'s game…").font(IslandUI.font(16, bold: true)).lineLimit(1).minimumScaleFactor(0.7)
+                Spacer(minLength: 4)
+                Button("Cancel") { hub.cancelNearbyJoin() }.font(IslandUI.font(15, bold: true)).tint(.white).accessibilityIdentifier("hub-nearby-cancel")
+            }
+        } else if let offer = hub.nearbyOffer {
+            row {
+                Image(systemName: "tennis.racket").font(.system(size: 20, weight: .bold)).foregroundStyle(IslandUI.lime)
+                Text("Join \(offer.name)'s tennis game?").font(IslandUI.font(17, bold: true)).lineLimit(2).minimumScaleFactor(0.7)
+                    .accessibilityIdentifier("hub-nearby-offer")
+                Spacer(minLength: 4)
+                Button { hub.joinNearby() } label: {
+                    Text("Join").font(IslandUI.font(17, bold: true)).foregroundStyle(IslandUI.navy).padding(.horizontal, 18).frame(minHeight: 44).background(IslandUI.lime, in: Capsule())
+                }.buttonStyle(.plain).accessibilityIdentifier("hub-nearby-join")
+                Button { hub.dismissNearby() } label: { Image(systemName: "xmark").font(.system(size: 15, weight: .bold)).frame(width: 36, height: 44) }
+                    .buttonStyle(.plain).accessibilityLabel("Not now").accessibilityIdentifier("hub-nearby-dismiss")
+            }
+        }
+    }
+    private func row<Content: View>(@ViewBuilder _ content: () -> Content) -> some View {
+        HStack(spacing: 10) { content() }
+            .foregroundStyle(.white).padding(.leading, 14).padding(.trailing, 6).padding(.vertical, 6)
+            .background(Color(hex: "16294A").opacity(0.96), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+            .overlay(RoundedRectangle(cornerRadius: 18, style: .continuous).strokeBorder(IslandUI.lime.opacity(0.7), lineWidth: 2))
+            .shadow(color: .black.opacity(0.35), radius: 10, y: 4)
+            .accessibilityElement(children: .contain).accessibilityIdentifier("hub-nearby-banner")
     }
 }
 

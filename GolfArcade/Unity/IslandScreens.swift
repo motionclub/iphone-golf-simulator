@@ -302,7 +302,6 @@ struct IslandSettingsScreen: View {
         case "resetTips": return Item(title: "Show every coaching tip again", detail: "The hints you have already seen will come back.", control: .action("Reset", danger: false))
         case "replayOnboarding": return Item(title: "Replay onboarding", detail: "Account, look, screen setup and a tutorial again. Your progress stays.", control: .action("Replay", danger: false))
         case "resetProgress": return Item(title: "Reset campaign", detail: "Starts the Island Circuit from the beginning. Your look and level stay. Asks twice.", control: .action(menu.confirmingReset ? "Press again" : "Erase…", danger: true))
-        case "controls": return Item(title: "Controls", detail: "Swing the phone like a racket, or play with touch buttons.", control: .choice(["Swing", "Touch"], s.touch ? 1 : 0))
         case "range": return Item(title: "Step to cross court", detail: "How far you walk for a full court width.", control: .stepper("\(Int(s.travel * 100)) cm"))
         case "hand": return Item(title: "Plays", detail: "Which hand holds the racket.", control: .choice(["Right", "Left"], p?.handedness == .left ? 1 : 0))
         case "relock": return Item(title: "Court direction", detail: "Point at the TV again at the start of your next match.", control: .action("Set again", danger: false))
@@ -447,11 +446,11 @@ struct IslandPartyScreen: View {
                 switch menu.screen {
                 case .multiplayer:
                     IslandLobbyRow(title: "Online", subtitle: "Quick match or play with friends", icon: "globe", id: "partyOnline", menu: menu, compact: compact)
-                    IslandLobbyRow(title: "Local", subtitle: "Share a phone or play on the same Wi-Fi", icon: "person.2.fill", id: "partyLocal", menu: menu, compact: compact)
+                    IslandLobbyRow(title: "Local", subtitle: "Share a phone or play with phones nearby", icon: "person.2.fill", id: "partyLocal", menu: menu, compact: compact)
                 case .localChoice:
                     IslandLobbyRow(title: "Golf · Pass the Phone", subtitle: "2–4 players take turns on one phone", icon: "figure.golf", id: "partyLocalGolf", menu: menu, compact: compact)
                     IslandLobbyRow(title: "Tennis · Two Phones", subtitle: "One TV. Each player uses their own phone", icon: "tennis.racket", id: "partyLocalTennis", menu: menu, compact: compact)
-                    IslandLobbyRow(title: "Join a Friend", subtitle: "Find a game on the same Wi-Fi", icon: "wifi", id: "partyNearby", menu: menu, compact: compact)
+                    IslandLobbyRow(title: "Join a Friend", subtitle: "Find a game on a phone nearby", icon: "antenna.radiowaves.left.and.right", id: "partyNearby", menu: menu, compact: compact)
                 case .localPlayers:
                     ForEach(2...4, id: \.self) { count in
                         IslandLobbyRow(title: "\(count) Players", subtitle: "Starts right away", icon: Self.playersIcon(count), id: "localPlayers\(count)", menu: menu, compact: compact)
@@ -461,6 +460,7 @@ struct IslandPartyScreen: View {
                     IslandLobbyRow(title: "Play with Friends", subtitle: "Invite friends to your lobby", icon: "person.badge.plus", id: "homeInvite", menu: menu, compact: compact)
                 default:
                     IslandLobbyRow(title: "Single Player", subtitle: "Golf or tennis on your TV", icon: "person.fill", id: "partySolo", menu: menu, compact: compact)
+                    IslandLobbyRow(title: "Tennis with a Friend Nearby", subtitle: "One TV, two phones: Join pops up on their phone", icon: "antenna.radiowaves.left.and.right", id: "partyNearbyTennis", menu: menu, compact: compact)
                     IslandLobbyRow(title: "Local", subtitle: "Pass a phone round, or two phones on one TV", icon: "person.2.fill", id: "partyLocal", menu: menu, compact: compact)
                     IslandLobbyRow(title: "Online", subtitle: "Quick match or invite friends", icon: "globe", id: "partyOnline", menu: menu, compact: compact)
                 }
@@ -530,7 +530,7 @@ struct IslandOnlineScreen: View {
                         action("net-golf","Quick Match Golf",icon:"figure.golf")
                         action("back","Back",icon:"arrow.left")
                     } else if route == .nearby {
-                        Text("Join on the same Wi-Fi to bring your saved player and look.").islandType(compact ? 15 : 19).foregroundStyle(IslandUI.muted)
+                        Text("Join a phone nearby (no shared Wi-Fi needed) to bring your saved player and look.").islandType(compact ? 15 : 19).foregroundStyle(IslandUI.muted)
                         HStack {
                             TextField("6-character code", text: Binding(get: { online.joinCode }, set: { online.joinCode = String($0.uppercased().filter { $0.isASCII && $0.isHexDigit }.prefix(6)) }))
                                 .textInputAutocapitalization(.characters).autocorrectionDisabled().textFieldStyle(.roundedBorder)

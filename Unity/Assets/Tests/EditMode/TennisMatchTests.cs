@@ -368,63 +368,86 @@ public class TennisMatchTests
         Assert.Less(Mathf.Abs(x - TennisOpponent.RestX), .05f);
     }
 
-    [Test] public void SwingTimingSteersTheBall()
+    [Test] public void TheSwingsDirectionPicksTheSide()
     {
-        // Wii Sports: on the ball goes straight, early goes left, late goes right, the same for every wing.
-        Assert.AreEqual(0, TennisRules.AimFromTiming(0), .001f);
-        Assert.Less(TennisRules.AimFromTiming(-TennisRules.AimWindow), -.99f, "full early is the left corner");
-        Assert.Greater(TennisRules.AimFromTiming(TennisRules.AimWindow), .99f, "full late is the right corner");
-        // A wide flat middle: anywhere inside the centre band is straight, so "on the ball" is easy to find.
-        foreach (float late in new[] { -TennisRules.AimCentreBand, -.03f, 0f, .03f, TennisRules.AimCentreBand })
-            Assert.AreEqual(0, TennisRules.AimFromTiming(late), 1e-6f, $"{late * 1000:0} ms is straight");
-        Assert.Greater(TennisRules.AimCentreBand, .035f, "wider than a Perfect, so straight is never a coin toss");
-        // It grows steadily either side and is mirror-symmetric...
+        // Racket face square to the TV is straight; turned left or right sends the ball that way.
+        Assert.AreEqual(0, TennisRules.SideFromSwing(0), 1e-6f);
+        // A wide straight band: wrist wobble never steers a ball.
+        foreach (float aim in new[] { -TennisRules.SwingAimDeadBand, -.08f, 0f, .08f, TennisRules.SwingAimDeadBand })
+            Assert.AreEqual(0, TennisRules.SideFromSwing(aim), 1e-6f, $"aim {aim} is straight");
+        // The corner is reachable inside the phone's calibrated range (which tops out near 0.8).
+        Assert.AreEqual(1, TennisRules.SideFromSwing(.8f), 1e-6f);
+        Assert.AreEqual(-1, TennisRules.SideFromSwing(-.8f), 1e-6f);
         float previous = 0;
-        for (float late = TennisRules.AimCentreBand; late <= TennisRules.AimWindow + .05f; late += .01f)
+        for (float aim = 0; aim <= 1.001f; aim += .05f)
         {
-            float aim = TennisRules.AimFromTiming(late);
-            Assert.GreaterOrEqual(aim, previous - 1e-6f, "later is never further left");
-            Assert.AreEqual(-aim, TennisRules.AimFromTiming(-late), 1e-6f);
-            previous = aim;
+            float side = TennisRules.SideFromSwing(aim);
+            Assert.GreaterOrEqual(side, previous - 1e-6f, "turning further never goes less far");
+            Assert.AreEqual(-side, TennisRules.SideFromSwing(-aim), 1e-6f, "mirror-symmetric");
+            Assert.LessOrEqual(Mathf.Abs(side), 1f);
+            previous = side;
         }
-        // ...and never steers further than the aim range allows, however mistimed.
-        foreach (float late in new[] { -3f, -1f, -.3f, 0f, .3f, 1f, 3f })
-            Assert.LessOrEqual(Mathf.Abs(TennisRules.AimFromTiming(late)), 1f);
+        Assert.AreEqual("", TennisRules.SwingSideWord(0));
+        Assert.AreEqual("LEFT", TennisRules.SwingSideWord(-.6f));
+        Assert.AreEqual("RIGHT", TennisRules.SwingSideWord(.6f));
     }
 
-    [Test] public void TimingPlacementSendsTheBallWhereTheTimingAimedItAndNeverOut()
+    [Test] public void TimingSetsThePaceNotTheSide()
     {
-        // Early, on the ball, late: the landing spot moves left, middle, right.
-        var left = TennisRules.TimingPlacement(-.2f, .6f, .8f, 0, 0);
-        var straight = TennisRules.TimingPlacement(0, .6f, .8f, 0, 0);
-        var right = TennisRules.TimingPlacement(.2f, .6f, .8f, 0, 0);
-        Assert.Less(left.x, -2f); Assert.AreEqual(0, straight.x, .05f); Assert.Greater(right.x, 2f);
-        Assert.AreEqual(left.x, -right.x, .05f, "symmetric");
-        // Power picks the depth: a full swing lands deeper than a soft one.
-        Assert.Greater(TennisRules.TimingPlacement(0, 1f, .8f, 0, 0).z, TennisRules.TimingPlacement(0, .2f, .8f, 0, 0).z + 1.5f);
-        // The timing that chose the side is not punished twice: a clean hit keeps the whole corner (unlike TimedPlacement,
-        // which would pull a half-good contact toward the middle).
-        Assert.Greater(Mathf.Abs(TennisRules.TimingPlacement(.24f, .6f, .8f, 0, 0).x), 3.5f);
-        // A scrappy contact is looser and shorter, not suddenly somewhere else.
-        var scrappy = TennisRules.TimingPlacement(0, .6f, .1f, 1, 1);
-        var clean = TennisRules.TimingPlacement(0, .6f, .9f, 1, 1);
-        Assert.Greater(Mathf.Abs(scrappy.x - clean.x) + Mathf.Abs(scrappy.z - clean.z), .3f);
-        Assert.Less(scrappy.z, clean.z);
+        // On the ball is the fastest shot, and every step off it is slower: timing is the power control.
+        float last = float.MaxValue;
+        foreach (float late in new[] { 0f, .035f, .06f, .095f, .14f, .2f, .3f })
+        {
+            float pace = TennisRules.ShotSpeed(TennisRules.AssistedHit(late, 1, 1, .6f, 1).Quality, .6f, 1);
+            Assert.Less(pace, last + 1e-4f, $"{late * 1000:0} ms late is not faster than an earlier, cleaner swing");
+            Assert.AreEqual(pace, TennisRules.ShotSpeed(TennisRules.AssistedHit(-late, 1, 1, .6f, 1).Quality, .6f, 1), 1e-4f, "early and late are judged alike");
+            last = pace;
+        }
+        float perfect = TennisRules.AssistedHit(0, 1, 1, .6f, 1).Speed, scrappy = TennisRules.AssistedHit(.3f, 1, 1, .6f, 1).Speed;
+        Assert.Greater(perfect, scrappy * 1.6f, "a perfect hit is a different shot from a mistimed one");
+        // Swinging harder barely matters next to timing.
+        float soft = TennisRules.TimingPace(.9f, .1f, 1), hard = TennisRules.TimingPace(.9f, 1f, 1);
+        Assert.Less(hard / soft, 1.12f);
+        Assert.Greater(TennisRules.TimingPace(1, .1f, 1), TennisRules.TimingPace(.6f, 1, 1), "on time and soft beats late and hard");
+        // A mistimed ball still connects: a physical contact is never graded a miss.
+        Assert.AreNotEqual(Timing.Missed, TennisRules.Grade(TennisRules.AssistedHit(TennisRules.ContactTimingWindow, 1, 1, .5f, 1).Quality));
+    }
+
+    [Test] public void SwingPlacementKeepsTheSideAndTimingDecidesDepth()
+    {
+        var left = TennisRules.SwingPlacement(-.8f, .9f, 0, 0);
+        var straight = TennisRules.SwingPlacement(0, .9f, 0, 0);
+        var right = TennisRules.SwingPlacement(.8f, .9f, 0, 0);
+        Assert.Less(left.x, -3f); Assert.AreEqual(0, straight.x, .01f); Assert.Greater(right.x, 3f);
+        Assert.AreEqual(left.x, -right.x, .01f, "symmetric");
+        // A poorly timed ball still goes to the side the swing chose, just not as close to the line...
+        var lateLeft = TennisRules.SwingPlacement(-.8f, .1f, 0, 0);
+        Assert.Less(lateLeft.x, -2f, "the side is never taken away by timing");
+        Assert.Greater(lateLeft.x, left.x);
+        // ...and it sits up short, while a clean hit lands deep.
+        Assert.Greater(straight.z, TennisRules.SwingPlacement(0, .1f, 0, 0).z + 3f);
+        Assert.Greater(straight.z, 9.5f);
+        // A clean hit scatters less than a scrappy one.
+        var scrappy = TennisRules.SwingPlacement(0, .1f, 1, 1);
+        var clean = TennisRules.SwingPlacement(0, .9f, 1, 1);
+        Assert.Greater(Mathf.Abs(scrappy.x), Mathf.Abs(clean.x));
         // Whatever the swing did, the ball lands in the court.
-        foreach (float late in new[] { -.34f, -.1f, 0f, .1f, .34f })
-            foreach (float power in new[] { .1f, .5f, 1f })
-                foreach (float quality in new[] { .02f, .5f, .95f })
-                    foreach (float roll in new[] { -1f, 1f })
-                        Assert.IsTrue(TennisRules.BounceIsIn(TennisRules.TimingPlacement(late, power, quality, roll, -roll)),
-                            $"late {late} power {power} quality {quality}");
+        foreach (float aim in new[] { -1f, -.8f, -.3f, 0f, .3f, .8f, 1f })
+            foreach (float quality in new[] { .02f, .3f, .6f, .95f, 1f })
+                foreach (float roll in new[] { -1f, 1f })
+                    Assert.IsTrue(TennisRules.BounceIsIn(TennisRules.SwingPlacement(aim, quality, roll, -roll)),
+                        $"aim {aim} quality {quality} roll {roll}");
     }
 
-    [Test] public void TheHitBadgeNamesTheDirectionTheTimingChose()
+    [Test] public void AnEarlySwingWaitsForTheBallInsteadOfWhiffing()
     {
-        Assert.AreEqual("STRAIGHT", TennisRules.TimingAimWord(0));
-        Assert.AreEqual("STRAIGHT", TennisRules.TimingAimWord(.05f));
-        Assert.AreEqual("EARLY · LEFT", TennisRules.TimingAimWord(-.15f));
-        Assert.AreEqual("LATE · RIGHT", TennisRules.TimingAimWord(.15f));
+        Assert.AreEqual(0, TennisRules.SwingHold(-.1f), "a late swing is never held");
+        Assert.AreEqual(0, TennisRules.SwingHold(.005f), "on time needs no hold");
+        Assert.AreEqual(.2f, TennisRules.SwingHold(.2f), 1e-6f, "a swing 0.2 s early waits 0.2 s");
+        Assert.AreEqual(TennisRules.EarlySwingHold, TennisRules.SwingHold(TennisRules.EarlySwingHold), 1e-6f);
+        Assert.AreEqual(0, TennisRules.SwingHold(TennisRules.EarlySwingHold + .05f), "far too early is a whiff, not a hit");
+        Assert.AreEqual(.33f, TennisRules.SwingHold(.33f, 1.1f), 1e-6f, "the window is in real seconds");
+        Assert.GreaterOrEqual(TennisRules.EarlySwingHold, .3f, "the October audit's 0.10 s early limit is gone");
     }
 
     [Test] public void OnlineHitFeedbackReadsTheGradeTheHostSent()
@@ -443,25 +466,12 @@ public class TennisMatchTests
         }
     }
 
-    [Test] public void DepthFollowsSwingPower()
-    {
-        float last = 0;
-        for (float power = 0; power <= 1.001f; power += .1f)
-        {
-            float depth = TennisRules.DepthFromPower(power);
-            Assert.GreaterOrEqual(depth, last - 1e-6f, "a harder swing never lands shorter");
-            Assert.That(depth, Is.InRange(.45f, .95f));
-            last = depth;
-        }
-        Assert.AreEqual(.95f, TennisRules.DepthFromPower(1), 1e-5f);
-    }
-
     // --- Gameplay depth: contact decides pace and placement; reaching the ball is a skill ---
 
     [Test] public void ShotPaceComesFromContactNotEffort()
     {
         float clean = TennisRules.ShotSpeed(.95f, .5f, 1), poor = TennisRules.ShotSpeed(.35f, .5f, 1);
-        Assert.Greater(clean, poor + 8, "a clean strike must be much faster than a poor one");
+        Assert.Greater(clean, poor * 1.4f, "a clean strike must be much faster than a poor one");
         float hard = TennisRules.ShotSpeed(.5f, 1, 1), soft = TennisRules.ShotSpeed(.5f, .1f, 1);
         Assert.Less(hard - soft, 3.5f, "swinging harder only nudges the pace");
     }

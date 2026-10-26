@@ -48,9 +48,10 @@ import CryptoKit
             for role in ["Body", "Face"] {
                 let index = try XCTUnwrap(asset.manifest.parts.firstIndex { $0.name == role })
                 let part = asset.manifest.parts[index]
-                XCTAssertEqual(part.vertexCount, role == "Body" ? (female ? 34443 : 44168) : (female ? 3004 : 3824), "current Unity source exact count (OriginalSeamBlinkFinish composed-ears head)")
-                // Body: UV0, bind xy, bind z and HeroFaceSkin's lid-liner distances (+ the CLOTHING V2 garment contact shadow, 2); Face: its eye UV0
-                XCTAssertEqual(asset.geometry[index].sources(for: .texcoord).count, role == "Body" ? 4 + (part.hasEdges ? 2 : 0) : 1)
+                XCTAssertEqual(part.vertexCount, role == "Body" ? (female ? 40721 : 52020) : (female ? 3004 : 3824), "current Unity source exact count (OriginalSeamBlinkFinish composed-ears head + the SkinUnwrap seams, CHARACTER QUALITY 10-25)")
+                // Body: UV0, bind xy, bind z and HeroFaceSkin's lid-liner distances (+ the CLOTHING V2 garment contact shadow, 2) + the skin texture layout; Face: its eye UV0
+                XCTAssertEqual(asset.geometry[index].sources(for: .texcoord).count, role == "Body" ? 4 + (part.hasEdges ? 2 : 0) + 1 : 1)
+                if role == "Body" { XCTAssertTrue(part.hasSkinUV, "the body carries the skin texture layout (CHARACTER QUALITY 10-25)") }
                 if role == "Body" { XCTAssertTrue(part.hasLid, "the body carries HeroFaceSkin's lid-liner channel") }
                 let skin = try XCTUnwrap(rig.skinned.first { $0.name == role })
                 XCTAssertEqual(skin.morphTargets.map(\.name), role == "Body" ? ["Hero_Blink_Half", "Hero_Blink"] : ["Hero_Blink_Half", "Hero_Blink", "Face_GazeRight", "Face_GazeLeft", "Face_GazeUp", "Face_GazeDown", "Face_BrowUp", "Face_BrowDown"])

@@ -79,7 +79,8 @@ namespace GolfArcade.Tests
                     var face = TennisRules.PositionFace(new Vector3(Mathf.Clamp(.65f + Normal() * .4f, 0, 1.75f), 1.1f, .65f), Vector3.zero);
                     var hit = TennisRules.AssistedHit(late, 1 - TennisRules.FaceError(face), 1, .65f, 1);
                     incomingQuality = hit.Quality;
-                    var target = TennisRules.TimingPlacement(late, .65f, hit.Quality, R() * 2 - 1, R() * 2 - 1);
+                    // The swing aims anywhere across the court; its timing sets pace and depth.
+                    var target = TennisRules.SwingPlacement(R() * 1.6f - .8f, hit.Quality, R() * 2 - 1, R() * 2 - 1);
                     var strikeAt = new Vector3(humanX, 1.1f, -StrikeZ);
                     var shot = TennisRules.RallyVelocity(strikeAt, target, hit.Speed, .35f, hit.Quality);
                     incomingPace = Mathf.InverseLerp(16, 32, new Vector2(shot.x, shot.z).magnitude);
@@ -119,15 +120,17 @@ namespace GolfArcade.Tests
             TestContext.WriteLine(report);
         }
 
-        [Test] public void TheAutoJumpIsWhatKeepsTheHardRivalsPlayable()
+        [Test] public void TheBossIsPlayableForAPhonePlayerAndTheAutoJumpNeverHurts()
         {
-            // Without the rescue the sprint boost never reaches a phone player; the hardest rivals then end most points on
-            // the first ball. This pins down why the assist exists, so it is not removed as "free help".
+            // Before the Wii-paced rally (2026-10-24) the boss's balls crossed in under a second and only the automatic
+            // sprint kept a phone player in the point. At Wii's pace they are reachable at a plain run; the rescue must
+            // still never make things worse, and the boss must not end points on the first ball either way.
             var boss = OpponentProfile.Rival("boss", 1f);
             var assisted = Simulate(boss, true, 23);
             var unassisted = Simulate(boss, false, 23);
             TestContext.WriteLine($"boss: with the auto-jump {assisted.MeanRally:0.0} shots, without {unassisted.MeanRally:0.0}");
-            Assert.Greater(assisted.MeanRally, unassisted.MeanRally + 2f);
+            Assert.GreaterOrEqual(assisted.MeanRally, unassisted.MeanRally - .5f);
+            Assert.Greater(unassisted.MeanRally, 6f);
         }
     }
 }

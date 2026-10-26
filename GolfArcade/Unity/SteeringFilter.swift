@@ -167,6 +167,11 @@ struct SteeringFilter {
     var peakConfirm = UserDefaults.standard.object(forKey: "sports.swingPrediction") as? Bool ?? true
     /// How the last stroke was confirmed, and when its rotation peaked (the swingtrace logs both, to measure the gain).
     private(set) var confirmedAtPeak = false, peakTime = 0.0
+    /// Strokes whose rotation has been seen to top out: the moment the racket in the hand is at the ball. Counted once per
+    /// stroke, whether or not swing prediction is on, so the strike can be felt with the arm (GolfHaptics_SwingContact)
+    /// rather than when the game, a TV delay ahead of the picture, decided it.
+    private(set) var contacts = 0
+    private var contactSeen = false
     /// The two rates before this one, to see the curve bending over.
     private var rateBack1 = 0.0, rateBack2 = 0.0
     private(set) var phase: Phase = .calibrating
@@ -261,6 +266,7 @@ struct SteeringFilter {
             candidateDuration = onset ? candidateDuration+dt : 0
             if detectSwings && onset && (!tennisStroke || candidateDuration >= Self.strokeHold) {
                 phase = .swinging; started=time; peak=rate; peakTime=time; peakAcceleration=acceleration; arc=0; emitted=false; strokeArmed=false
+                contactSeen=false
                 rateBack1=rate; rateBack2=rate
                 onsets+=1; onsetTime=time
                 return nil
@@ -296,6 +302,9 @@ struct SteeringFilter {
             let topping = rate<=peak*Self.peakDrop || (bend < -Self.peakBend*peak && rise <= -bend)
             let peaked = tennisStroke && peakConfirm && peak>=Self.peakConfirmRate && topping
                 && arc>=Self.peakArc && peakAcceleration>=Self.strokeForce
+            if tennisStroke && !contactSeen && topping && arc>=Self.peakArc && peakAcceleration>=Self.strokeForce {
+                contactSeen=true; contacts+=1
+            }
             if !emitted && (proven || peaked) {
                 emitted=true; confirmationTime=time; confirmedAtPeak = peaked && !proven
                 return tennisStroke ? max(0.15,min(1,(peak-Self.strokeRate)/10)) : min(1,peak/12)

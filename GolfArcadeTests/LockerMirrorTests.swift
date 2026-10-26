@@ -348,7 +348,9 @@ final class LockerMirrorTests: XCTestCase {
                 XCTAssertNotNil(cgImage(skin.diffuse.contents), "linear relative pigment LUT is bound")
                 XCTAssertNotNil(skin.value(forKey: "heroTint"))
                 XCTAssertTrue(skin.shaderModifiers?[.surface]?.contains("skinPigmentUV") == true)
-                XCTAssertEqual(try XCTUnwrap(hero.childNode(withName: "Body", recursively: false)?.geometry).sources(for: .texcoord).count, 4)
+                // UV0, bind xy, bind z, lid liner + the skin texture layout (CHARACTER QUALITY 10-25)
+                XCTAssertEqual(try XCTUnwrap(hero.childNode(withName: "Body", recursively: false)?.geometry).sources(for: .texcoord).count, 5)
+                XCTAssertEqual(skin.value(forKey: "skinTex") as? Float, 1, "the baked skin maps are bound")
                 XCTAssertTrue(skin.shaderModifiers?[.surface]?.contains("lipMask") == true && skin.shaderModifiers?[.geometry]?.contains("lidDistance") == true, "HeroFaceSkin's analytic lips and lid liner")
             } else {
                 XCTAssertEqual(sl.smoothness, 0.2, accuracy: 0.03, "skin smoothness is about 0.2, not 0.35")

@@ -451,15 +451,6 @@ extension SportsIntegrationTests {
         }
         XCTAssertEqual(bad.phase,.capture); XCTAssertFalse(bad.quick)
     }
-    @MainActor func testTouchSelectionLeavesNeitherAimingNorTimingSetupRunning() {
-        let session=SportsSession(); session.sport="tennis"
-        session.timingPrompt=true; session.checkingTiming=true; session.timingCountdownEnds=Date()
-        session.useTouch()
-        XCTAssertTrue(session.touch); XCTAssertNil(session.aimLesson)
-        XCTAssertFalse(session.timingPrompt); XCTAssertFalse(session.checkingTiming); XCTAssertNil(session.timingCountdownEnds)
-        session.touch=false; session.aimLesson=TennisAimLesson()
-        session.useTouch(); XCTAssertNil(session.aimLesson); XCTAssertTrue(session.touch)
-    }
     @MainActor func testIndependentDepthControlsAndCalibrationProof() throws {
         let session=SportsSession()
         session.setShotAim(across:-0.8,depth:0.2)

@@ -23,12 +23,15 @@ namespace GolfArcade.Tennis
             s.crowd = go.AddComponent<AudioSource>(); s.crowd.playOnAwake = false; s.crowd.spatialBlend = 0; s.crowd.loop = true;
             s.Synthesize();
             s.SwapV2();
+            s.LoadGrunts();
             s.crowd.clip = s.applause;
             return s;
         }
 
         /// Which hero the player is: picks male or female grunts (the rival is the other one).
-        public bool Female;
+        /// Grunts are loaded when this changes, not on the first hit.
+        public bool Female { get => female; set { if (female != value) { female = value; LoadGrunts(); } } }
+        bool female;
         AudioClip[] gruntGround, gruntPower, gruntServe, gruntSmash, gruntOpp;
         void LoadGrunts()
         {

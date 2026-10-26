@@ -52,6 +52,8 @@ namespace GolfArcade.Game
 
         /// How loud the rain is (0 none, 1 a downpour) and the wind (0 still, 1 a gale): the loops ease toward them.
         public void SetAmbience(float rainLevel, float windLevel) { rainTarget = Mathf.Clamp01(rainLevel); windTarget = Mathf.Clamp01(windLevel); }
+        /// How hard it is raining now (0–1): the course's ambience bed ducks under it.
+        public float RainLevel => rainTarget;
 
         void Update()
         {

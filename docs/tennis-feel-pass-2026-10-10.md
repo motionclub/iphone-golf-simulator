@@ -1,5 +1,8 @@
 # Tennis feel pass — 2026-10-10
 
+> **Superseded in part (2026-10-24):** aiming is no longer by timing. Where you swing picks the side, timing picks
+> pace and depth, and rally/CPU pace is set against Wii Sports. See `tennis-timing-power-2026-10-24.md`.
+
 Why: playtest feedback was that tennis against the CPU was too hard to be fun. Aiming should be a timing
 skill (Wii Sports Tennis), the ball outran the character and rallies were short, and swing and serve
 response still felt slow, which made an online match hard to imagine. An audit found the causes; this pass

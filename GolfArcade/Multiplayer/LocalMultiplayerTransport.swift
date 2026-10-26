@@ -25,7 +25,27 @@ final class LocalMultiplayerTransport: MultiplayerTransport {
     private var sending: Set<String> = []
     private var outbound: [String: [Data]] = [:]
     private var latest: [String: Data] = [:]
-    private struct Hello: Codable { var id: String; var version: Int; var token: String; var reason: String? }
+    /// `udp`: the host's datagram port (see "Datagrams" below); an older phone sends none and everything stays on TCP.
+    private struct Hello: Codable { var id: String; var version: Int; var token: String; var reason: String?; var udp: UInt16? }
+    // Datagrams (P3): the 30 Hz pose and the other unreliable packets (pings, heartbeats) go over UDP, so one lost packet is just
+    // lost instead of stalling everything behind it on TCP. Lobby, hit and point messages stay on TCP. The host listens on a UDP port
+    // (no Bonjour service of its own) and names it in its TCP hello; the guest sends a datagram hello (its id and the lobby secret)
+    // every half second, which the host answers. A peer counts as reachable by datagram only while one has arrived from it in the
+    // last `datagramQuiet` seconds; otherwise unreliable packets fall back to TCP (a network that blocks UDP still plays).
+    private var udpListener: NWListener?
+    private var udpPort: UInt16?
+    private var datagrams: [String: NWConnection] = [:]
+    private var unclaimed: [ObjectIdentifier: NWConnection] = [:]
+    private var datagramHeard: [String: Double] = [:]
+    static let datagramLimit = 1200, datagramQuiet = 1.5
+    private enum Datagram: UInt8 { case hello = 1, packet = 2 }
+    /// Diagnostics and tests: unreliable packets sent and received as datagrams.
+    private(set) var datagramsSent = 0, datagramsReceived = 0
+    /// Set during a match (MultiplayerService): a guest whose connection to the host breaks dials the same lobby again for
+    /// MultiplayerTuning.reconnectSeconds before it reports the error (which ends its match). Wi-Fi blips and roaming survive this.
+    var holdForReconnect = false
+    private var joined: DiscoveredLobby?
+    private var reconnectUntil: Double?
     private var token = ""
     var joinCode: String { Self.joinCode(for: token) }
     static func joinCode(for token: String) -> String {
@@ -51,7 +71,14 @@ final class LocalMultiplayerTransport: MultiplayerTransport {
         let tcp = NWProtocolTCP.Options(); tcp.noDelay = true
         // A phone that vanishes without closing the connection (Wi-Fi lost, app killed) is noticed in a few seconds instead of hours.
         tcp.enableKeepalive = true; tcp.keepaliveIdle = 2; tcp.keepaliveInterval = 1; tcp.keepaliveCount = 3
+        // Peer-to-peer Wi-Fi (AWDL) for the listener, the browser and every connection: two phones find and reach each other with no
+        // shared Wi-Fi network (only Wi-Fi turned on).
         let p = NWParameters(tls: nil, tcp: tcp); p.includePeerToPeer = true
+        return p
+    }
+    private func datagramParameters() -> NWParameters {
+        let p = NWParameters.udp; p.includePeerToPeer = true
+        p.serviceClass = .interactiveVoice   // Wi-Fi's lowest-latency queue
         return p
     }
     func host(name: String) throws {
@@ -78,6 +105,25 @@ final class LocalMultiplayerTransport: MultiplayerTransport {
             if case .waiting(let error) = state, Self.isLocalNetworkDenied(error) { Task { @MainActor in self?.onError?(MultiplayerError.localNetworkDenied) } }
         }
         self.listener = listener; listener.start(queue: queue)
+        listenForDatagrams(epoch: epoch)
+    }
+    private func listenForDatagrams(epoch: Int) {
+        guard let udp = try? NWListener(using: datagramParameters()) else { return }   // (TCP carries everything then)
+        udp.newConnectionHandler = { [weak self] c in Task { @MainActor in
+            guard let self, self.generation == epoch, self.unclaimed.count < 8 else { c.cancel(); return }
+            self.unclaimed[ObjectIdentifier(c)] = c
+            c.start(queue: self.queue); self.receiveDatagram(c, epoch: epoch)
+            // a flow that never says a valid hello is dropped
+            Task { @MainActor [weak self] in
+                try? await Task.sleep(for: .seconds(10))
+                if self?.unclaimed.removeValue(forKey: ObjectIdentifier(c)) != nil { c.cancel() }
+            }
+        } }
+        udp.stateUpdateHandler = { [weak self] state in
+            guard case .ready = state else { return }
+            Task { @MainActor in guard let self, self.generation == epoch else { return }; self.udpPort = udp.port?.rawValue }
+        }
+        udpListener = udp; udp.start(queue: queue)
     }
     func advertise(sport: String, players: Int) {
         guard host, let listener else { return }; let key = "\(sport)-\(players)"
@@ -107,7 +153,7 @@ final class LocalMultiplayerTransport: MultiplayerTransport {
     func join(_ lobby: DiscoveredLobby) throws {
         guard connections.isEmpty, pending.isEmpty, listener == nil else { throw MultiplayerError.invalidOperation("Leave the current lobby first.") }
         guard let secret = lobby.id.components(separatedBy: "~").last, UUID(uuidString: secret) != nil else { throw MultiplayerError.incompatible }
-        browser?.cancel(); browser = nil; host = false; token = secret
+        browser?.cancel(); browser = nil; host = false; token = secret; joined = lobby; reconnectUntil = nil
         connect(NWConnection(to: lobby.endpoint, using: parameters()))
     }
     private func connect(_ c: NWConnection) {
@@ -126,11 +172,11 @@ final class LocalMultiplayerTransport: MultiplayerTransport {
                 guard let self, epoch == self.generation else { return }
                 switch state {
                 case .ready:
-                    guard let data = try? JSONEncoder().encode(Hello(id: self.localID, version: MultiplayerPacket.version, token: self.token)) else { return }
+                    guard let data = try? JSONEncoder().encode(Hello(id: self.localID, version: MultiplayerPacket.version, token: self.token, udp: self.host ? self.udpPort : nil)) else { return }
                     self.write(data, connection: c) { }
                     self.readHello(c, key: key, epoch: epoch)
-                case .failed(let error): self.remove(c, key: key); if !self.host { self.onError?(error) }
-                case .cancelled: self.remove(c, key: key); if !self.host { self.onError?(MultiplayerError.unavailable("The local lobby closed the connection.")) }
+                case .failed(let error): self.remove(c, key: key); if !self.host { self.lost(error) }
+                case .cancelled: self.remove(c, key: key); if !self.host { self.lost(MultiplayerError.unavailable("The local lobby closed the connection.")) }
                 default: break
                 }
             }
@@ -139,7 +185,22 @@ final class LocalMultiplayerTransport: MultiplayerTransport {
         Task { @MainActor [weak self] in
             try? await Task.sleep(for: .seconds(10))
             guard let self, self.generation == epoch, self.pending[key] != nil else { return }
-            c.cancel(); self.remove(c, key: key); self.onError?(MultiplayerError.unavailable("Local lobby connection timed out. Check that both phones are on the same Wi-Fi network."))
+            c.cancel(); self.remove(c, key: key); self.lost(MultiplayerError.unavailable("Local lobby connection timed out. Keep both phones close together, with Wi-Fi turned on (no shared network needed)."))
+        }
+    }
+    /// A guest lost (or could not reach) the host. Mid-match it dials again, once a second, until reconnectSeconds have passed;
+    /// otherwise, or after that, the error goes up (and its match ends).
+    private func lost(_ error: Error) {
+        let now = ProcessInfo.processInfo.systemUptime
+        guard !host, holdForReconnect, let lobby = joined, connections.isEmpty else { reconnectUntil = nil; onError?(error); return }
+        let until = reconnectUntil ?? now + MultiplayerTuning.reconnectSeconds; reconnectUntil = until
+        guard now < until else { reconnectUntil = nil; onError?(error); return }
+        guard pending.isEmpty else { return }   // (a dial is already under way; its own failure comes back here)
+        let epoch = generation
+        Task { @MainActor [weak self] in
+            try? await Task.sleep(for: .seconds(1))
+            guard let self, self.generation == epoch, !self.host, self.connections.isEmpty, self.pending.isEmpty else { return }
+            self.connect(NWConnection(to: lobby.endpoint, using: self.parameters()))
         }
     }
     private func readHello(_ c: NWConnection, key: UUID, epoch: Int) {
@@ -147,9 +208,20 @@ final class LocalMultiplayerTransport: MultiplayerTransport {
             guard let self, self.generation == epoch, let data, let hello = try? JSONDecoder().decode(Hello.self, from: data) else { c.cancel(); return }
             if let reason = hello.reason { self.onError?(MultiplayerError.unavailable(reason)); c.cancel(); return }
             guard hello.version == MultiplayerPacket.version else { self.onError?(MultiplayerError.incompatible); c.cancel(); return }
-            guard hello.token == self.token, UUID(uuidString: hello.id) != nil,
-                  hello.id != self.localID, self.connections[hello.id] == nil else { c.cancel(); return }
+            guard hello.token == self.token, UUID(uuidString: hello.id) != nil, hello.id != self.localID else { c.cancel(); return }
+            if let stale = self.connections[hello.id] {
+                // The same player dialled in again (it knows the lobby's secret): its old connection is dead and this one replaces it.
+                guard self.host else { c.cancel(); return }
+                self.connections.removeValue(forKey: hello.id); self.outbound.removeValue(forKey: hello.id); self.latest.removeValue(forKey: hello.id); self.sending.remove(hello.id)
+                self.dropDatagrams(hello.id)
+                stale.cancel()
+            }
+            self.reconnectUntil = nil
             self.pending.removeValue(forKey: key); self.connections[hello.id] = c; self.onPeersChanged?(); self.readPacket(c, id: hello.id, epoch: epoch)
+            // a guest opens its datagram flow to the host it has just reached (after every reconnect too: a fresh flow)
+            if !self.host, let port = hello.udp.flatMap(NWEndpoint.Port.init(rawValue:)), case .hostPort(let address, _)? = c.currentPath?.remoteEndpoint {
+                self.openDatagrams(to: address, port: port, peer: hello.id, epoch: epoch)
+            }
         }
     }
     private func readPacket(_ c: NWConnection, id: String, epoch: Int) {
@@ -174,7 +246,7 @@ final class LocalMultiplayerTransport: MultiplayerTransport {
         let n = UInt32(data.count)
         var framed = Data([UInt8((n >> 24) & 255), UInt8((n >> 16) & 255), UInt8((n >> 8) & 255), UInt8(n & 255)]); framed.append(data)
         connection.send(content: framed, completion: .contentProcessed { [weak self] error in
-            Task { @MainActor in if let error { if self?.host == true { connection.cancel() } else { self?.onError?(error) } }; completion() }
+            Task { @MainActor in if let error { if self?.host == true { connection.cancel() } else if self?.holdForReconnect == true { connection.cancel() /* its .cancelled state re-dials */ } else { self?.onError?(error) } }; completion() }
         })
     }
     func send(_ data: Data, to ids: [String]?, reliable: Bool) throws {
@@ -184,6 +256,10 @@ final class LocalMultiplayerTransport: MultiplayerTransport {
             if reliable {
                 guard (outbound[id]?.count ?? 0) < 64 else { throw MultiplayerError.unavailable("A local peer is not keeping up.") }
                 outbound[id, default: []].append(data)
+            } else if let flow = datagrams[id], datagramsUp(id), data.count <= Self.datagramLimit {
+                var datagram = Data([Datagram.packet.rawValue]); datagram.append(data)
+                flow.send(content: datagram, completion: .idempotent); datagramsSent += 1
+                continue
             } else { latest[id] = data } // Coalesce snapshots under backpressure, never grow indefinitely.
             flush(id)
         }
@@ -199,12 +275,95 @@ final class LocalMultiplayerTransport: MultiplayerTransport {
     }
     private func remove(_ c: NWConnection, key: UUID) {
         pending.removeValue(forKey: key)
-        for id in Array(connections.keys) where connections[id] === c { connections.removeValue(forKey: id); outbound.removeValue(forKey: id); latest.removeValue(forKey: id); sending.remove(id) }
+        for id in Array(connections.keys) where connections[id] === c { connections.removeValue(forKey: id); outbound.removeValue(forKey: id); latest.removeValue(forKey: id); sending.remove(id); dropDatagrams(id) }
         onPeersChanged?()
+    }
+
+    // MARK: datagrams
+
+    private func datagramsUp(_ id: String) -> Bool {
+        guard let heard = datagramHeard[id] else { return false }
+        return ProcessInfo.processInfo.systemUptime - heard < Self.datagramQuiet
+    }
+    private func dropDatagrams(_ id: String) {
+        datagrams.removeValue(forKey: id)?.cancel(); datagramHeard.removeValue(forKey: id)
+    }
+    private func helloDatagram() -> Data {
+        var d = Data([Datagram.hello.rawValue]); d.append(Data("\(localID)|\(token)".utf8)); return d
+    }
+    /// Guest: the flow to the host's datagram port, and the hello every half second that keeps it open and tells both ends it works.
+    private func openDatagrams(to address: NWEndpoint.Host, port: NWEndpoint.Port, peer: String, epoch: Int) {
+        dropDatagrams(peer)
+        let flow = NWConnection(host: address, port: port, using: datagramParameters())
+        datagrams[peer] = flow
+        flow.start(queue: queue); receiveDatagram(flow, epoch: epoch)
+        Task { @MainActor [weak self] in
+            while let self, self.generation == epoch, self.datagrams[peer] === flow {
+                flow.send(content: self.helloDatagram(), completion: .idempotent)
+                try? await Task.sleep(for: .milliseconds(500))
+            }
+        }
+    }
+    private func receiveDatagram(_ c: NWConnection, epoch: Int) {
+        c.receiveMessage { [weak self] data, _, _, error in
+            Task { @MainActor in
+                guard let self, self.generation == epoch else { return }
+                guard error == nil else {
+                    self.unclaimed.removeValue(forKey: ObjectIdentifier(c))
+                    for (id, flow) in self.datagrams where flow === c {
+                        self.datagrams.removeValue(forKey: id)
+                        // a guest's flow that failed (the port was briefly unreachable) is opened again while the host is still there
+                        if !self.host, case .hostPort(let address, let port) = c.endpoint {
+                            Task { @MainActor [weak self] in
+                                try? await Task.sleep(for: .seconds(1))
+                                guard let self, self.generation == epoch, self.datagrams[id] == nil, self.connections[id] != nil else { return }
+                                self.openDatagrams(to: address, port: port, peer: id, epoch: epoch)
+                            }
+                        }
+                    }
+                    c.cancel(); return
+                }
+                if let data, data.count > 1, data.count <= MultiplayerPacket.maximumBytes + 1 { self.datagram(data, on: c) }
+                self.receiveDatagram(c, epoch: epoch)
+            }
+        }
+    }
+    private func datagram(_ data: Data, on c: NWConnection) {
+        let body = data.dropFirst()
+        switch Datagram(rawValue: data[data.startIndex]) {
+        case .hello:
+            let parts = String(decoding: body, as: UTF8.self).split(separator: "|").map(String.init)
+            guard parts.count == 2, parts[1] == token, connections[parts[0]] != nil, parts[0] != localID else { return }
+            let id = parts[0]
+            if host {
+                // this flow is that guest's now (a re-dialled guest opens a new one, which replaces the old)
+                unclaimed.removeValue(forKey: ObjectIdentifier(c))
+                if datagrams[id] !== c { datagrams.removeValue(forKey: id)?.cancel(); datagrams[id] = c }
+                c.send(content: helloDatagram(), completion: .idempotent)
+            } else if datagrams[id] !== c { return }
+            datagramHeard[id] = ProcessInfo.processInfo.systemUptime
+        case .packet:
+            guard let id = datagrams.first(where: { $0.value === c })?.key, connections[id] != nil else { return }
+            datagramHeard[id] = ProcessInfo.processInfo.systemUptime; datagramsReceived += 1
+            onData?(Data(body), id)
+        case nil: break
+        }
     }
     func disconnect() {
         generation += 1; registered = false; pendingMetadata = nil; advertisedMetadata = ""; browser?.cancel(); browser = nil; listener?.cancel(); listener = nil
+        udpListener?.cancel(); udpListener = nil; udpPort = nil
+        datagrams.values.forEach { $0.cancel() }; unclaimed.values.forEach { $0.cancel() }; datagrams.removeAll(); unclaimed.removeAll(); datagramHeard.removeAll()
+        joined = nil; reconnectUntil = nil; holdForReconnect = false
         let all = Array(connections.values) + Array(pending.values); connections.removeAll(); pending.removeAll()
         outbound.removeAll(); latest.removeAll(); sending.removeAll(); all.forEach { $0.cancel() }; onPeersChanged?()
     }
+    #if DEBUG
+    /// Tests: the listener's TCP port, the lobby secret and whether a peer is reachable by datagram (a loopback lobby).
+    var debugPort: UInt16? { listener?.port?.rawValue }
+    var debugToken: String { token }
+    var debugUDPReady: Bool { udpPort != nil }
+    func debugDatagramsUp(_ id: String) -> Bool { datagramsUp(id) }
+    /// Tests: the host's TCP connections break (as a Wi-Fi blip would) while its listeners stay up.
+    func debugDropConnections() { connections.values.forEach { $0.cancel() } }
+    #endif
 }

@@ -21,6 +21,11 @@ namespace GolfArcade.PlayTests
     /// over UDP on this Mac with a simulated network (delay, jitter, lost pose updates). Each plays its own player only through single
     /// player's controls (toss, serve aim, the phone's swing onset then confirmation, dives, emotes) and writes what it saw; the
     /// windowed one records its TV. Not a gate on its own: compare the two summaries (scripts in the session scratchpad).
+    ///
+    /// Resilience runs (work/tennis-online-resilience): MP_RELIABLE_LOSS drops that share of every non-pose message (calls, shots, readies,
+    /// syncs: what a real link loses only when it breaks or the bridge overflows); MP_CUT_AT / MP_CUT_FOR cut the link both ways for a
+    /// while, as a dropped connection does, with the phone's silence watch (MultiplayerService) played here: this phone's game is told
+    /// the other is away after MP_SILENCE (1.5 s) and back after a few packets. The gate is vcheck.py: both matches finish, same score.
     public class VersusPeerCapture
     {
         static string Env(string key, string fallback) { var v = Environment.GetEnvironmentVariable(key); return string.IsNullOrEmpty(v) ? fallback : v; }
@@ -31,9 +36,10 @@ namespace GolfArcade.PlayTests
         {
             readonly UdpClient udp; readonly IPEndPoint peer;
             readonly List<(double due, string text)> inbox = new(); readonly System.Random rng = new(17);
-            public double Latency, Jitter, PoseLoss; public int Sent, Received, Dropped;
+            public double Latency, Jitter, PoseLoss, ReliableLoss, CutUntil = -1, LastHeard = Now; public int Sent, Received, Dropped, ReliableDropped, CutDropped;
+            static bool IsPose(string text) => text.Contains("\"payload\":\"P|") || text.Contains("\\\"k\\\":\\\"pose\\\"");
             public Link(int self, int other) { udp = new UdpClient(new IPEndPoint(IPAddress.Loopback, self)); peer = new IPEndPoint(IPAddress.Loopback, other); }
-            public void Send(string text) { var b = Encoding.UTF8.GetBytes(text); try { udp.Send(b, b.Length, peer); Sent++; } catch { } }
+            public void Send(string text) { if (Now < CutUntil && text.StartsWith("{")) { CutDropped++; return; } var b = Encoding.UTF8.GetBytes(text); try { udp.Send(b, b.Length, peer); Sent++; } catch { } }
             /// Datagrams that have "arrived" (after the simulated delay), in send order.
             public IEnumerable<string> Pump()
             {
@@ -42,7 +48,10 @@ namespace GolfArcade.PlayTests
                     IPEndPoint from = null; byte[] b;
                     try { b = udp.Receive(ref from); } catch { break; }
                     string text = Encoding.UTF8.GetString(b);
-                    if (text.StartsWith("{") && PoseLoss > 0 && text.Contains("\\\"k\\\":\\\"pose\\\"") && rng.NextDouble() < PoseLoss) { Dropped++; continue; }
+                    if (text.StartsWith("{") && Now < CutUntil) { CutDropped++; continue; }
+                    if (text.StartsWith("{") && PoseLoss > 0 && IsPose(text) && rng.NextDouble() < PoseLoss) { Dropped++; continue; }
+                    if (text.StartsWith("{") && ReliableLoss > 0 && text.Contains("\"kind\":\"peer\"") && !IsPose(text) && rng.NextDouble() < ReliableLoss) { ReliableDropped++; continue; }
+                    if (text.StartsWith("{")) LastHeard = Now;
                     double delay = text.StartsWith("{") ? Math.Max(.002, Latency + (rng.NextDouble() * 2 - 1) * Jitter) : 0;
                     inbox.Add((Now + delay, text)); Received++;
                 }
@@ -107,9 +116,14 @@ namespace GolfArcade.PlayTests
             public int mySwings, myHits, myServes, myDives, myEmotes, honestMisses;
             // MP_AWAY_SEAT: one phone leaves the app mid-match (AwayPolicy): CPU takeovers seen here, rejoins completed here, the gap
             public int takeovers, rejoins; public double awaySeconds; public string scoreBeforeAway, scoreAfterRejoin;
+            // resilience: lost non-pose messages, the cut, the ready check and stall watch (TennisGame.Versus), the score as seat 0 sees it
+            public int reliableDropped, cutDropped, mismatches, resyncsSent, resyncsTaken, stalls, emitFailures, localSuspends, localResumes, finalSum, pointsPlayed;
+            public double cutAt, cutFor; public string finalSeat0;
+            // MP_LAG_SEAT: that phone's TV runs MP_LAG s behind (DisplayLatency); every toss as each phone draws it, for vtoss.py
+            public float lag; public List<string> tossTrack = new(), tossFalls = new();
         }
 
-        [UnityTest, Timeout(1800000)]
+        [UnityTest, Timeout(3600000)]
         public IEnumerator TennisVersusPeer()
         {
             if (Environment.GetEnvironmentVariable("MP_VERSUS") != "1") Assert.Ignore("two-editor capture: MP_VERSUS=1");
@@ -143,7 +157,8 @@ namespace GolfArcade.PlayTests
             };
             Assert.IsTrue(c.Valid, "configuration");
             using var link = new Link(int.Parse(Env("MP_PORT_SELF", seat == 0 ? "47110" : "47111")), int.Parse(Env("MP_PORT_PEER", seat == 0 ? "47111" : "47110")))
-            { Latency = double.Parse(Env("MP_LATENCY", ".06"), Inv), Jitter = double.Parse(Env("MP_JITTER", ".025"), Inv), PoseLoss = double.Parse(Env("MP_LOSS", ".03"), Inv) };
+            { Latency = double.Parse(Env("MP_LATENCY", ".06"), Inv), Jitter = double.Parse(Env("MP_JITTER", ".025"), Inv), PoseLoss = double.Parse(Env("MP_LOSS", ".03"), Inv),
+              ReliableLoss = double.Parse(Env("MP_RELIABLE_LOSS", "0"), Inv) };
             SportsMultiplayer.TestOutput = json => { if (json.Contains("\"kind\":\"peer\"") || json.Contains("\"kind\":\"result\"")) link.Send(json); };
 
             var root = new GameObject("Versus peer " + seat); Object.DontDestroyOnLoad(root);
@@ -162,9 +177,13 @@ namespace GolfArcade.PlayTests
                 var net = SportsMultiplayer.Instance; var game = Object.FindFirstObjectByType<TennisGame>();
                 Assert.IsTrue(net && game && game.Versus, "versus configured");
                 Log($"loaded, versus seat {game.VersusSeat}, rival {game.VersusRivalName}, screen {Screen.width}x{Screen.height}");
+                // a slow TV on one phone: its toss falls slowly after the top (TennisRules.ServeFallGravity), and its player swings
+                // at the top they see, that delay late
+                float lag = seat == int.Parse(Env("MP_LAG_SEAT", "-1")) ? float.Parse(Env("MP_LAG", ".7"), Inv) : 0;
+                if (lag > 0) { game.DisplayLatency = lag; sum.lag = lag; Log($"slow TV: DisplayLatency {lag:0.00} s, Lag {game.Lag:0.00} s"); }
 
                 // hello: clock epochs (the shared clock is the host's), then the host starts the match
-                double peerEpoch = double.NaN, runAt = double.NaN, nextHello = 0, waitUntil = Now + 300;
+                double peerEpoch = double.NaN, runAt = double.NaN, nextHello = 0, waitUntil = Now + double.Parse(Env("MP_JOIN_WAIT", "300"), Inv);   // (MP_JOIN_WAIT: the other editor may queue for a heavy.sh slot)
                 while ((double.IsNaN(peerEpoch) || double.IsNaN(runAt)) && Now < waitUntil)
                 {
                     if (Now >= nextHello) { nextHello = Now + .2; link.Send($"HELLO|{seat}|{epoch.ToString("R", Inv)}"); }
@@ -193,6 +212,13 @@ namespace GolfArcade.PlayTests
                 float swingAt = .15f; bool planned = false; var flowSeen = TennisGame.Phase.MatchOver; int lastHits = 0;
                 // leaving the app: the main thread stops as iOS suspends it (no frames, nothing sent, datagrams pile up), with Unity's
                 // pause message around it as the phone's lifecycle forwarding sends it
+                // the link cut both ways (MP_CUT_AT s after the start, for MP_CUT_FOR s), and the phone's silence watch around it
+                double cutAt = double.Parse(Env("MP_CUT_AT", "-1"), Inv), cutFor = double.Parse(Env("MP_CUT_FOR", "20"), Inv), silenceLimit = double.Parse(Env("MP_SILENCE", "1.5"), Inv);
+                if (cutAt >= 0) { link.CutUntil = -1; sum.cutAt = cutAt; sum.cutFor = cutFor; cutAt += Now; }
+                double nextState = 0;
+                bool cutDone = false, peerHeld = false; int heardSinceHeld = 0; double lastHeardSeen = link.LastHeard;
+                string otherID = seat == 0 ? "b" : "a";
+                void Local(string kind) => net.Receive(JsonUtility.ToJson(new NetworkPacket { lobbyID = c.lobbyID, matchID = c.matchID, sender = c.localID, kind = kind, payload = otherID }));
                 int awaySeat = int.Parse(Env("MP_AWAY_SEAT", "-1"));
                 double awayAt = Now + double.Parse(Env("MP_AWAY_AT", "45"), Inv), awayFor = double.Parse(Env("MP_AWAY_FOR", "20"), Inv); bool wentAway = false;
                 while (Now < end)
@@ -213,15 +239,25 @@ namespace GolfArcade.PlayTests
                     double dt = Now - lastFrame; lastFrame = Now; sum.frames++;
                     if (dt > 1 / 30.0) sum.slowFrames++; sum.worstFrame = Mathf.Max(sum.worstFrame, (float)dt);
                     if (dt > .2) sum.hitches.Add($"{Now:F2} {dt * 1000:F0} ms {game.Flow}");
+                    if (Now >= nextState) { nextState = Now + 10; Log("state " + game.VersusState); }
+                    if (cutAt >= 0 && !cutDone && Now >= cutAt) { cutDone = true; link.CutUntil = Now + cutFor; Log($"LINK CUT for {cutFor:0} s at {game.Match.Scoreboard}"); }
                     foreach (var text in link.Pump()) if (text.StartsWith("{")) net.Receive(text);
-                    if (game.Match.Complete) { if (completeAt < 0) { completeAt = Now; Log("MATCH COMPLETE " + game.Match.FinalScore); } if (Now - completeAt > 9) break; continue; }
+                    // the phone's silence watch (MultiplayerService): the other phone is away after silenceLimit, back after 3 packets
+                    if (!peerHeld && Now - link.LastHeard > silenceLimit) { peerHeld = true; heardSinceHeld = 0; sum.localSuspends++; Local("suspend"); Log($"silence watch: {otherID} quiet {Now - link.LastHeard:0.0} s, held"); }
+                    if (peerHeld && link.LastHeard != lastHeardSeen && ++heardSinceHeld >= 3) { peerHeld = false; sum.localResumes++; Local("resumePeer"); Log($"silence watch: {otherID} heard again"); }
+                    lastHeardSeen = link.LastHeard;
+                    // (a match that a resync makes undecided again plays on: the wait after the end starts again when it is decided)
+                    if (game.Match.Complete) { if (completeAt < 0) { completeAt = Now; Log("MATCH COMPLETE " + game.Match.FinalScore); } if (Now - completeAt > 20) break; continue; }
+                    if (completeAt >= 0) { Log("match undecided again (score sync)"); completeAt = -1; }
 
                     // ---- this phone's player, through single player's controls
                     if (game.IntroPlaying && !introEmote && game.EmoteWindow == "intro" && R() < .02f) { introEmote = true; if (game.RequestEquippedEmote(2)) { sum.myEmotes++; Log("intro emote"); } }
-                    if (game.Flow != flowSeen) { flowSeen = game.Flow; if (flowSeen == TennisGame.Phase.PlayerServeHold) { holdStart = Now; tossed = false; serveSwung = false; tossDelay = .9 + R() * 1.6; nudge = R() < .3f ? (R() < .5f ? -1 : 1) : 0; nudgeUntil = Now + .3 + R() * .5; game.SetServeAim(R() * 2 - 1, .3f + R() * .7f); } if (flowSeen == TennisGame.Phase.PlayerServeToss) { tossStart = Now; swingAtToss = .62 + R() * .38; } }
+                    if (game.Flow != flowSeen) { flowSeen = game.Flow; if (flowSeen == TennisGame.Phase.PlayerServeHold) { holdStart = Now; tossed = false; serveSwung = false; tossDelay = .9 + R() * 1.6; nudge = R() < .3f ? (R() < .5f ? -1 : 1) : 0; nudgeUntil = Now + .3 + R() * .5; game.SetServeAim(R() * 2 - 1, .3f + R() * .7f); } if (flowSeen == TennisGame.Phase.PlayerServeToss) { tossStart = Now; swingAtToss = .62 + R() * .38 + lag; } }
                     if (game.Flow == TennisGame.Phase.PlayerServeHold)
                     {
                         game.ServeNudge = Now < nudgeUntil ? nudge : 0;
+                        // (a toss before the serve is ready, e.g. while the intro still plays, does nothing: try again)
+                        if (tossed && Now - holdStart > tossDelay + 2.5) { tossed = false; holdStart = Now - tossDelay; }
                         if (!tossed && Now - holdStart > tossDelay) { tossed = true; game.ServeNudge = 0; game.Toss(); }
                     }
                     if (game.Flow == TennisGame.Phase.PlayerServeToss && !serveSwung && Now - tossStart >= swingAtToss)
@@ -239,6 +275,15 @@ namespace GolfArcade.PlayTests
                         }
                     }
                     if (game.Flow != TennisGame.Phase.Rally || game.BallVelocity.z > 0) planned = false;
+                    // the toss as each phone draws it, on the shared clock in the server's court frame (the rival's is mirrored back)
+                    bool ownToss = game.Flow == TennisGame.Phase.PlayerServeToss, remoteToss = game.Flow == TennisGame.Phase.OpponentServe && game.VersusRemoteTossFlying;
+                    if ((ownToss || remoteToss) && sum.tossTrack.Count < 30000)
+                    {
+                        Vector3 b = remoteToss ? new Vector3(-game.BallPosition.x, game.BallPosition.y, -game.BallPosition.z) : game.BallPosition;
+                        sum.tossTrack.Add($"{(ownToss ? "own" : "remote")}|{game.VersusPoints}|{net.SharedClock.ToString("0.00000", Inv)}|{b.x.ToString("0.0000", Inv)}|{b.y.ToString("0.0000", Inv)}|{b.z.ToString("0.0000", Inv)}");
+                        string fallSeen = $"{game.VersusPoints}|{(ownToss ? "own lag " + game.Lag.ToString("0.000", Inv) : "remote fall " + game.VersusRemoteTossFall.ToString("0.000", Inv))}";
+                        if (sum.tossFalls.Count == 0 || sum.tossFalls[^1] != fallSeen) sum.tossFalls.Add(fallSeen);
+                    }
                     if (confirmIn >= 0 && confirmIn-- == 0) game.RequestSwing(confirmPower, 0, confirmLift, confirmFacing);
                     if (game.EmoteWindow == "point" && R() < .03f) { int slot = rng.Next(3); if (game.RequestEquippedEmote(slot)) { sum.myEmotes++; Log("point emote " + slot); } }
                     if (game.VersusPoints != lastPoint) { lastPoint = game.VersusPoints; }
@@ -254,6 +299,12 @@ namespace GolfArcade.PlayTests
                 sum.callsMade = game.VersusCallsMade; sum.callsTaken = game.VersusCallsTaken; sum.honestMisses = game.HonestMisses;
                 sum.takeovers = game.VersusTakeovers; sum.rejoins = game.VersusRejoins;
                 sum.sent = link.Sent; sum.received = link.Received; sum.dropped = link.Dropped;
+                sum.reliableDropped = link.ReliableDropped; sum.cutDropped = link.CutDropped;
+                sum.mismatches = game.VersusMismatches; sum.resyncsSent = game.VersusResyncsSent; sum.resyncsTaken = game.VersusResyncsTaken; sum.stalls = game.VersusStalls;
+                sum.emitFailures = net.EmitFailures; sum.pointsPlayed = (int)game.VersusPoints;
+                var seat0 = VersusWire.SeatZeroView(game.Match, seat);
+                sum.finalSeat0 = $"{seat0.PlayerSets}-{seat0.OpponentSets} {seat0.PlayerGames}-{seat0.OpponentGames} {seat0.PlayerPoints}-{seat0.OpponentPoints} complete={seat0.Complete} seat0won={seat0.PlayerWonMatch}";
+                sum.finalSum = VersusWire.ScoreChecksum(seat0);
             }
             finally
             {

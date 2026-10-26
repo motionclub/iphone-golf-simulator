@@ -54,6 +54,25 @@ final class HubPartyTests: XCTestCase {
         XCTAssertTrue(toUnity.contains { $0["action"] as? String == "hubRoster" && $0["mode"] as? String == "a" })
     }
 
+    /// The leader's tools (2026-10-25): hand the crown to a member (their lobby is the party's from then on, and the party follows
+    /// them), and take someone out (their phone leaves and says why, and is not invited back by itself).
+    func testTheLeaderCanHandOverTheCrownAndTakeSomeoneOut() throws {
+        let bus = Bus(), a = service("Ann", shirt: "E8505B"), b = service("Bea", shirt: "3F62CC"), c = service("Cy", shirt: "2FA36B")
+        try a.host(using: bus.link("a")); try b.connect(using: bus.link("b")); try c.connect(using: bus.link("c"))
+        defer { c.leave(); b.leave(); a.leave() }
+        XCTAssertEqual(a.lobby?.participants.count, 3)
+        XCTAssertThrowsError(try b.makeLeader("c"), "only the leader hands over the crown")
+        XCTAssertThrowsError(try b.removeFromParty("c"), "only the leader takes someone out")
+        try a.makeLeader("b")
+        XCTAssertTrue(b.isOwner); XCTAssertFalse(a.isOwner)
+        XCTAssertEqual(a.lobby?.ownerID, "b"); XCTAssertEqual(c.lobby?.ownerID, "b", "everyone follows the new leader")
+        XCTAssertEqual(b.lastError, "You're the party leader now.")
+        XCTAssertThrowsError(try a.removeFromParty("c"), "the old leader has no leader tools any more")
+        try b.removeFromParty("c")
+        XCTAssertNil(c.lobby, "Cy's phone left the party"); XCTAssertEqual(c.lastError, "Bea took you out of the party.")
+        XCTAssertEqual(b.lobby?.participants.map(\.id).sorted(), ["a", "b"]); XCTAssertEqual(a.lobby?.participants.map(\.id).sorted(), ["a", "b"])
+    }
+
     func testSittingDownTogetherStartsTheMatchFromTheHostsPhone() throws {
         let bus = Bus(), a = service("Ann", shirt: "E8505B"), b = service("Bea", shirt: "3F62CC")
         try a.host(using: bus.link("a")); try b.connect(using: bus.link("b"))

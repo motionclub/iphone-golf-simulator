@@ -10,8 +10,9 @@ to step back if you are closer). After that, hold and swing the phone however fe
 
 | Check | Expected |
 |---|---|
-| Aim by timing: swing a touch early, right on the ball, a touch late | Early goes left, on the ball straight, late right (badge: EARLY · LEFT / STRAIGHT / LATE · RIGHT); a full swing lands deeper than a soft one |
-| Clean vs poor contact | Clean: fast, deep, can hit near the lines. Poor: slow, short, pulled to the middle |
+| Aim by swing direction: finish with the racket face toward the left of the TV, square to it, toward the right | Left, straight, right, whatever the timing; a normal swing goes straight (straight band about ±8° of face turn, corner about 30°) |
+| Timing = power: swing early, on the ball, late | On the ball: fast and deep (PERFECT about 0.95 s to the far baseline). Off it: slower and shorter, EARLY / LATE badge; well off: a slow floater that sits up |
+| Swing a beat too early | Your player holds the racket back and still hits it, slowly. Only a swing more than ~0.3 s early whiffs |
 | Wide, clean opponent shot, standing still | The character sprints on its own for a ball it could not reach at a run; only the widest, fastest corner balls win the point |
 | Same, but (touch) steer toward it as the opponent hits | Character sets off at once and sprints ("good jump") |
 | Ball just out of reach | Character dives (2.1 m, 2.5 s cooldown); the return is weak; they stay down under a second |

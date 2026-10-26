@@ -12,20 +12,27 @@ namespace GolfArcade.Tests {
     Assert.Less(Center(.65f,.3f),Center(.65f)); Assert.Less(Center(.65f,2f),Center(.65f));
    }
   }
-  [Test] public void SameSpatialContactHasSameGradeSpeedAndHapticsAcrossAimWindow() {
+  [Test] public void TimingDecidesPaceAndSpacingOnlyTrimsIt() {
    foreach(float spacing in new[]{0f,.3f,.65f,1.2f,1.7f}) {
     var face=TennisRules.PositionFace(new Vector3(spacing,1.1f,.65f),Vector3.zero);
     float center=1-TennisRules.FaceError(face);
-    var baseline=TennisRules.AssistedHit(0,center,1,.65f,1);
+    var onTime=TennisRules.AssistedHit(0,center,1,.65f,1);
+    // Spacing costs at most 15% of the quality: a jammed ball on time still beats a comfortable one mistimed.
+    Assert.GreaterOrEqual(onTime.Quality,.84f);
+    Assert.Greater(onTime.Speed,TennisRules.AssistedHit(.2f,1,1,.65f,1).Speed);
     foreach(float late in new[]{-.3f,-.2f,0,.2f,.3f}) {
      var hit=TennisRules.AssistedHit(late,center,1,.65f,1);
-     Assert.AreEqual(baseline.Speed,hit.Speed); Assert.AreEqual(baseline.Quality,hit.Quality);
+     Assert.LessOrEqual(hit.Speed,onTime.Speed+1e-4f);
+     var mirrored=TennisRules.AssistedHit(-late,center,1,.65f,1);
+     Assert.AreEqual(hit.Speed,mirrored.Speed,1e-4f,"early and late are judged alike");
      var grade=TennisRules.Grade(hit.Quality);
      var feel=TennisHitFeel.Rally(grade,face,late,TennisActor.Stroke.Drive,.65f,0,false,2);
-     Assert.AreEqual(center,feel.Center,1e-5f); Assert.AreEqual(0,feel.Mistime);
-     var target=TennisRules.TimingPlacement(late,.65f,hit.Quality,0,0);
-     Assert.AreEqual(Mathf.Sign(TennisRules.AimFromTiming(late))*Mathf.Abs(target.x),target.x);
-     Assert.IsTrue(TennisRules.BounceIsIn(target));
+     Assert.AreEqual(center,feel.Center,1e-5f);
+     foreach(float aim in new[]{-.8f,0f,.8f}) {
+      var target=TennisRules.SwingPlacement(aim,hit.Quality,0,0);
+      Assert.AreEqual(Mathf.Sign(TennisRules.SideFromSwing(aim))*Mathf.Abs(target.x),target.x,1e-5f,"the swing's side survives any timing");
+      Assert.IsTrue(TennisRules.BounceIsIn(target));
+     }
     }
    }
   }
@@ -45,10 +52,10 @@ namespace GolfArcade.Tests {
    Assert.Less(hit.Speed,16);
   }
   [Test] public void FrameContactsStayPlayableAndGiveUpDepth() {
-   foreach(float late in new[]{-.24f,0,.24f}) foreach(float power in new[]{0f,1f}) {
-    var clean=TennisRules.TimingPlacement(late,power,1,0,0);
-    var poor=TennisRules.TimingPlacement(late,power,.05f,0,0);
-    Assert.Less(poor.z,clean.z); Assert.AreEqual(clean.x,poor.x);
+   foreach(float aim in new[]{-.8f,0,.8f}) foreach(float power in new[]{0f,1f}) {
+    var clean=TennisRules.SwingPlacement(aim,1,0,0);
+    var poor=TennisRules.SwingPlacement(aim,.05f,0,0);
+    Assert.Less(poor.z,clean.z); Assert.AreEqual(Mathf.Sign(clean.x),Mathf.Sign(poor.x));
     foreach(float height in new[]{.3f,1.1f,2f}) {
      var start=new Vector3(.65f,height,-10.5f);
      var v=TennisRules.RallyVelocity(start,poor,TennisRules.ShotSpeed(.05f,power,1),.35f,.05f);

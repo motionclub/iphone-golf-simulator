@@ -32,6 +32,8 @@ targets:
         INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription: Motion Club saves your gameplay recordings to Photos. It never reads your photo library.
         INFOPLIST_KEY_UIApplicationSceneManifest_Generation: NO
         INFOPLIST_KEY_NSCameraUsageDescription: The rear camera tracks your phone position for physical tennis steering. Images are processed on your phone, not recorded or uploaded.
+        INFOPLIST_KEY_NSGKFriendListUsageDescription: "Motion Club shows which of your Game Center friends are online, so you can invite them to play."
+        INFOPLIST_KEY_NSLocalNetworkUsageDescription: "Motion Club finds and joins friends’ games on the same Wi-Fi."
         INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
@@ -50,7 +52,7 @@ targets:
       - path: GolfArcade/Party/RecordTVIntent.swift
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: $(APP_BUNDLE_ID).controls
+        PRODUCT_BUNDLE_IDENTIFIER: $(APP_BUNDLE_ID).recordcontrol
         INFOPLIST_FILE: MotionClubControls/Info.plist
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_CFBundleDisplayName: Motion Club

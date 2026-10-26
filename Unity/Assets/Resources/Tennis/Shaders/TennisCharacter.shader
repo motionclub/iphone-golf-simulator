@@ -62,6 +62,10 @@ Shader "GolfArcade/TennisCharacter"
         _RimColor ("Rim colour", Color) = (1,0.96,0.88,1)
         _RimPower ("Rim power", Range(0.5,8)) = 3.5
         _RimStrength ("Rim strength", Range(0,1)) = 0.22
+        // CHARACTER QUALITY 10-25 (eyes): rounded eyeball / cornea shading on the original-seam eye layers (_FemaleSurface eyes, both sexes)
+        [HideInInspector] _EyeV2 ("Eye V2", Float) = 0
+        _EyeCaustic ("Iris light pooling", Range(0,2)) = 1
+        _EyeGloss ("Cornea highlight", Range(0,3)) = 1
     }
     SubShader
     {
@@ -95,6 +99,7 @@ Shader "GolfArcade/TennisCharacter"
                 float4 _BumpMap_ST; half _Smoothness, _Wrap, _RimPower, _RimStrength, _BumpScale, _Saturation, _BumpTriplanar, _SpecularStrength, _EnvironmentStrength, _OcclusionStrength; float _BumpTile; half _SkinResponse, _SkinFinish, _SkinPigmentUV;
                 half _KitContact, _FemaleSurface, _FemaleEyeRole;
                 float4 _FemaleEyeL, _FemaleEyeR, _FemaleEyeRight, _FemaleEyeUp, _MaleLash;
+                half _EyeV2, _EyeCaustic, _EyeGloss;
             CBUFFER_END
             TEXTURE2D(_BaseMap); SAMPLER(sampler_BaseMap);
             TEXTURE2D(_BumpMap); SAMPLER(sampler_BumpMap);
@@ -149,9 +154,22 @@ Shader "GolfArcade/TennisCharacter"
             half SkinRegion(float3 skinPoint,float3 centre,float3 radius) {
                 float3 q=(skinPoint-centre)/radius;return exp(-2*dot(q,q));
             }
+            static half3 eyeDome;   // CHARACTER QUALITY 10-25: the rounded eyeball / cornea normal of this pixel (0 = none)
             half3 EyeSurfaceShade(Light light, half3 n, half3 v, half3 albedo, half wrap, half smoothness, half3 subsurface, half specular, out half3 reflection)
             {
                 reflection=0;
+                if (_EyeV2 > .5h && dot(eyeDome, eyeDome) > .5h && _FemaleEyeRole > .5h) {
+                    // diffuse on the mesh normal (the authored eye), the highlight on the dome: a sharp wet glint that moves with the light
+                    half ndl = dot(n, light.direction), wrapped = saturate((ndl + .10h) / 1.10h);
+                    half3 h = SafeNormalize(light.direction + v);
+                    half nh = saturate(dot(eyeDome, h)), vh = saturate(dot(v, h));
+                    bool corneaRole = _FemaleEyeRole > 1.5h;
+                    half glint = pow(nh, corneaRole ? 320 : 200) * (corneaRole ? 4.0h : 1.2h) + pow(nh, corneaRole ? 60 : 40) * (corneaRole ? .30h : .08h);
+                    half fres = .04h + .96h * pow(1 - vh, 5);
+                    half lit = saturate(dot(eyeDome, light.direction) * 4) * light.distanceAttenuation * light.shadowAttenuation;
+                    reflection = glint * (.25h + fres) * _EyeGloss * lit * light.color;
+                    return albedo * wrapped * .88h * light.color * light.distanceAttenuation * light.shadowAttenuation + reflection;
+                }
                 if (_FemaleSurface<.5h || _FemaleEyeRole<.5h || _FemaleEyeRole>2.5h)
                     return HeroCharacterShade(light,n,v,albedo,wrap,smoothness,subsurface,specular,reflection);
                 half nl=saturate(dot(n,light.direction));
@@ -279,7 +297,7 @@ Shader "GolfArcade/TennisCharacter"
                 }
                 c.rgb = lerp(dot(c.rgb, half3(0.2126, 0.7152, 0.0722)).xxx, c.rgb, _Saturation);
                 Light main = HeroMain(GetMainLight(TransformWorldToShadowCoord(i.positionWS)));
-                half eyeOcclusion = 1;
+                half eyeOcclusion = 1; eyeDome = 0;
                 if (_FemaleSurface > .5h && _FemaleEyeRole > .5h) {
                     // Female eye depth from the existing lid frame (eyeCoord: visible
                     // opening is about y -.3 .. .75). The upper lid shades every eye
@@ -331,6 +349,33 @@ Shader "GolfArcade/TennisCharacter"
                     }
                     c.rgb *= lerp(_FemaleEyeRole < 1.5h ? .88h : .70h, 1, eyeOcclusion);   // sclera: the lid shadow is light, not pigment
                     main.shadowAttenuation *= eyeOcclusion;
+                    if (_EyeV2 > .5h) {
+                        // CHARACTER QUALITY 10-25 (eyes): the eye meshes are nearly flat, so a lobe on their own normal almost never shows.
+                        // A rounded normal is built per pixel: the eyeball's for the white (eye-frame coordinates), the cornea's dome for the
+                        // iris / pupil (their eye-local UV: 0.5 centre, iris edge at radius 1). Tangents come from screen derivatives
+                        // (cotangent frame), so the dome turns with the head and follows the gaze.
+                        bool corneaRole = _FemaleEyeRole > 1.5h;
+                        float2 q = corneaRole ? (i.uv - .5) * 2 : float2(eyeUV.x, eyeUV.y - .2);
+                        float3 dpx = ddx(i.positionWS), dpy = ddy(i.positionWS); float2 dqx = ddx(q), dqy = ddy(q);
+                        float3 c1 = cross(dpy, n), c2 = cross(n, dpx);
+                        float3 tq = c1 * dqx.x + c2 * dqy.x, bq = c1 * dqx.y + c2 * dqy.y;
+                        tq *= rsqrt(max(dot(tq, tq), 1e-20)); bq *= rsqrt(max(dot(bq, bq), 1e-20));
+                        eyeDome = normalize(n + (tq * q.x + bq * q.y) * (corneaRole ? .55h : .45h));
+                        if (corneaRole) {
+                            half r = length(q);
+                            // light gathered by the cornea on the far side of the iris from the light (the "alive" glow), warm
+                            float2 pool = -float2(dot(main.direction, tq), dot(main.direction, bq)) * .55;
+                            half caustic = exp(-dot(q - pool, q - pool) / .22h) * saturate(dot(eyeDome, main.direction) + .2h) * main.shadowAttenuation;
+                            if (_FemaleEyeRole < 2.5h) {
+                                c.rgb *= 1 + caustic * half3(.85h, .62h, .30h) * _EyeCaustic;
+                                c.rgb *= lerp(1, .55h, smoothstep(.72h, 1.0h, r));   // a darker limbal edge
+                            }
+                        } else {
+                            // the white turns away at its edges like a ball
+                            half ball = saturate(dot(eyeDome, v));
+                            c.rgb *= lerp(half3(.80h, .80h, .84h), half3(1, 1, 1), smoothstep(.15h, .75h, ball));
+                        }
+                    }
                 }
                 half3 reflection;
                 half3 colour;
@@ -368,9 +413,19 @@ Shader "GolfArcade/TennisCharacter"
                 half roughness = max(1 - surfaceSmoothness, .08h);
                 half fresnel = .04h + .10h * pow(1 - saturate(dot(n, v)), 5);
                 half3 environment = GlossyEnvironmentReflection(reflect(-v, n), i.positionWS, roughness, 1) * fresnel * lerp(_EnvironmentStrength, .12h, lid) * (_FemaleSurface > .5h && _FemaleEyeRole > 2.5h ? .35h : 1);
+                if (_EyeV2 > .5h && dot(eyeDome, eyeDome) > .5h) {
+                    half fresC = .03h + .97h * pow(1 - saturate(dot(eyeDome, v)), 5);
+                    environment = GlossyEnvironmentReflection(reflect(-v, eyeDome), i.positionWS, _FemaleEyeRole > 1.5h ? .04h : .14h, 1)
+                                * (fresC * .5h + (_FemaleEyeRole > 1.5h ? .03h : .012h)) * _EyeGloss * eyeOcclusion;
+                    // r8: the reflection is light, not paint: neutral, so foliage or sky never tints the white or the iris (r7: grey-blue male iris,
+                    // the green crescent under the female's iris)
+                    environment = lerp(dot(environment, half3(.2126h, .7152h, .0722h)).xxx, environment, .25h);
+                }
                 colour += environment; reflection += environment;
                 half3 ambient = HeroAmbient(n) * c.rgb;
                 if(_FemaleSurface>.5h&&_FemaleEyeRole>.5h)ambient*=(_FemaleEyeRole<1.5h?.78h:_FemaleEyeRole<2.5h?.62h:1)*lerp(_FemaleEyeRole<1.5h?.62h:.40h,1,eyeOcclusion);
+                // r9: ambient on the eye is neutral too (the plaza's green ground light read as a lime line along the lower white)
+                if (_EyeV2 > .5h && dot(eyeDome, eyeDome) > .5h) ambient = lerp(dot(ambient, half3(.2126h, .7152h, .0722h)).xxx, ambient, .30h);
                 if (_SkinFinish > .5h) ambient *= .82h;
                 #if defined(_SCREEN_SPACE_OCCLUSION)
                 AmbientOcclusionFactor ao = GetScreenSpaceAmbientOcclusion(GetNormalizedScreenSpaceUV(i.positionCS));

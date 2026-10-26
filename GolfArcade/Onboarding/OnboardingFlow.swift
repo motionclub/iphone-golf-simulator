@@ -1,51 +1,53 @@
 import SwiftUI
 
+/// First launch on the TV (option B of PLAN_Onboarding_GolfLesson.md): SwiftUI screens in the TV window, driven by the phone's
+/// click remote exactly like the menu (arrows move the focus, A selects, B goes back). Only a lesson runs the game; while one runs
+/// the TV and phone belong to it, and Unity's lesson reports (LessonCenter) bring the flow back for the reward.
 @MainActor @Observable
 final class OnboardingFlow {
     static let shared = OnboardingFlow()
     let store: OnboardingStore
-    private let progress: SportProgress
+    let progress: SportProgress
     private(set) var step: OnboardingStep
-    private(set) var tutorialBegan: Double?
-    private var firstHit = false
-    private var launched = false
-    private var reportedExercise: String?
-    private(set) var coachIntro = false
+    /// TV focus, as TennisMenu keeps it.
+    private(set) var row = 0
+    private(set) var column = 0
+    /// The controller step's practice button has been pressed.
+    private(set) var triedSelect = false
+    private(set) var lessonBegan: Double?
     var active: Bool { step != .done }
-    var holdsMenu: Bool { active && { if case .tutorial = step { return coachIntro || !SportsSession.shared.active }; return true }() }
+    /// A lesson's game is on: the TV and phone are the game's, not onboarding's.
+    var lessonRunning: Bool { if case .lesson = step { return SportsSession.shared.active }; return false }
+    /// Onboarding owns the TV and the phone (every step but a running lesson).
+    var holdsMenu: Bool { active && !lessonRunning }
+
+    /// Shirt colours offered on first launch (the Locker has the full range).
+    static let shirts = ["1F5BD8", "D8262B", "F1B120", "2E9A3A", "18245A", "ECEAE3", "E2533F", "7A4DD8"]
+    static let nameIdeas = ["Ace", "Birdie", "Eagle", "Chip", "Lefty"]
 
     init(store: OnboardingStore = OnboardingStore(), progress: SportProgress = .shared,
          arguments: [String] = ProcessInfo.processInfo.arguments) {
         self.store = store; self.progress = progress
+        // A fresh install has no install time yet. A phone that used the app before this onboarding existed (no step saved by
+        // it) is not shown it; one that started it carries on where it was.
         let first = store.defaults.object(forKey: "ftue.installedAt.v1") == nil
         _ = store.installedAt
         var selected = store.step
+        if !first && !store.explicitRun && !store.hasSavedStep { selected = .done }
+        if progress.anyTutorialDone && !store.explicitRun { selected = .done }
         #if DEBUG
-        // Seeds an existing save for the P9 returning-player UI test; never completes a live lesson.
-        if let value = ProcessInfo.processInfo.environment["ONBOARDING_SEED_COMPLETED_SPORT"], let sport = Sport(rawValue: value), sport.playable { progress.completeTutorial(sport) }
-        if arguments.contains("-resetOnboarding") { store.reset(); _ = store.installedAt; selected = .account }
+        if arguments.contains("-resetOnboarding") { store.reset(); _ = store.installedAt; selected = .hello }
         let force = arguments.contains("-forceOnboarding")
         let legacy = arguments.contains { arg in
-            ["-skipPlayerCalibration", "-startInCameraMode", "-startCourse", "--lobby-mock", "--lobby", "--character-editor", "-benchTennis", "-range.swingInput"].contains(arg) || arg.hasPrefix("--resume-tennis-round-")
+            ["-skipPlayerCalibration", "-startInCameraMode", "-startCourse", "--lobby-mock", "--lobby", "--character-editor", "-benchTennis", "-benchGolf", "-range.swingInput"].contains(arg) || arg.hasPrefix("--resume-tennis-round-")
         }
         let unitHost = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil && arguments == ProcessInfo.processInfo.arguments
-        if force { store.explicitRun = true; selected = .account }
+        if force { store.explicitRun = true; selected = .hello }
         else if arguments.contains("-skipOnboarding") || legacy || unitHost { selected = .done }
         if let i = arguments.firstIndex(of: "-onboardingStep"), arguments.indices.contains(i + 1),
            let override = OnboardingStep(key: arguments[i + 1]) { selected = override; store.explicitRun = true }
         #endif
-        // Explicit replay/other-sport runs and the reward already earned survive process death.
-        if progress.anyTutorialDone && !store.explicitRun {
-            selected = .done; Analytics.track("onboarding_skipped_existing")
-        }
-        switch selected {
-        case .tutorial, .reward, .motionPrimer: selected = .choose; store.explicitRun = false
-        default: break
-        }
-        // The shipped app opens the menu directly. Identity editing remains in the locker.
-        if arguments == ProcessInfo.processInfo.arguments && !arguments.contains("-forceOnboarding") {
-            selected = .done; store.explicitRun = false
-        }
+        // A lesson cannot pick up mid-game after the app was closed: offer it again from the lesson's own screen.
         store.step = selected; step = selected
         if first { Analytics.track("app_first_open") }
         let n = store.defaults.integer(forKey: "ftue.sessions.v1") + 1
@@ -53,101 +55,206 @@ final class OnboardingFlow {
         Analytics.track("session_start", ["n": String(n)])
         viewed()
     }
-    private func viewed() {
-        Analytics.track("onboarding_step_view", ["step": step.key])
-        if step == .connect { Analytics.track("connect_view") }
+
+    // MARK: Steps
+
+    private func viewed() { Analytics.track("onboarding_step_view", ["step": step.key]) }
+    func move(to next: OnboardingStep) {
+        store.step = next; step = next; row = 0; column = 0; viewed()
+        if next == .card { save() }
+        if next == .player, !store.characterInitialized { TennisMenu.shared.randomizeLook(); store.characterInitialized = true }
+        if next == .done { HubSession.shared.evaluate() }
     }
-    func move(to next: OnboardingStep) { store.step = next; step = next; viewed() }
     func next() {
         switch step {
-        case .account: move(to: .character)
-        case .character: move(to: .connect)
-        case .connect: playOnPhone()
-        case .motionPrimer: primer(touch: false)
+        case .hello: move(to: .controller)
+        case .controller: move(to: .room)
+        case .room: move(to: .player)
+        case .player: move(to: .card)
+        case .card: move(to: .choose)
         case .reward(let sport): finish(sport)
         default: break
         }
     }
-    func guest() { _ = store.guest(); Analytics.track("guest_selected"); next() }
-    func playOnPhone() { move(to: .connect) }
-    func playOnTV() {
-        guard SportsSession.shared.displayConnected else { return }
-        store.touch = false; SportsSession.shared.touch = false; move(to: .choose)
+    func back() {
+        switch step {
+        case .hello, .done: return
+        case .controller: move(to: .hello)
+        case .room: move(to: .controller)
+        case .player: move(to: .room)
+        case .card: move(to: .player)
+        case .choose: move(to: .card)
+        case .lesson: LessonCenter.shared.end(); if SportsSession.shared.active { SportsSession.shared.end() }; move(to: .choose)
+        case .reward(let sport): finish(sport)
+        }
     }
-    func primer(touch: Bool) {
-        store.touch = touch; SportsSession.shared.touch = touch
-        Analytics.track("motion_primer", ["choice": touch ? "touch" : "motion"]); move(to: .choose)
+
+    // MARK: TV focus (the phone's remote)
+
+    func rows() -> [[String]] {
+        switch step {
+        case .hello: [["go"]]
+        case .controller: [[triedSelect ? "next" : "try"]]
+        case .room: [["ready"]]
+        case .player: [["male", "female"], ["skin"], ["shirt"], ["name"], ["shuffle", "save"]]
+        case .card: [["play"]]
+        case .choose: [["golf", "tennis"], ["skip"]]
+        case .lesson: [["resume"], ["choose"], ["skip"]]
+        case .reward(let sport):
+            [["play", progress.finishedTutorial(sport == .golf ? .tennis : .golf) ? "menu" : "other"]] + (progress.finishedTutorial(sport == .golf ? .tennis : .golf) ? [] : [["menu"]])
+        case .done: []
+        }
     }
-    func choose(_ sport: Sport) {
+    var focused: String {
+        let grid = rows()
+        guard row < grid.count, column < grid[row].count else { return "" }
+        return grid[row][column]
+    }
+    func isFocused(_ id: String) -> Bool { focused == id }
+    func move(_ direction: MenuMove) {
+        let grid = rows()
+        guard !grid.isEmpty else { return }
+        row = min(row, grid.count - 1); column = min(column, grid[row].count - 1)
+        // A swatch row changes its value sideways, like the Locker's.
+        if direction == .left || direction == .right, grid[row].count == 1, adjust(focused, by: direction == .left ? -1 : 1) { tick(); return }
+        var r = row, c = column
+        switch direction {
+        case .up: r = max(0, r - 1)
+        case .down: r = min(grid.count - 1, r + 1)
+        case .left: c = max(0, c - 1)
+        case .right: c = min(grid[r].count - 1, c + 1)
+        }
+        c = min(c, grid[r].count - 1)
+        if r != row || c != column { row = r; column = c; tick() }
+    }
+    @discardableResult func focus(_ id: String) -> Bool {
+        for (r, items) in rows().enumerated() { if let c = items.firstIndex(of: id) { row = r; column = c; return true } }
+        return false
+    }
+    /// Touch on the TV canvas (snapshots, the simulator) and the phone's A button.
+    func tap(_ id: String) { if focus(id) { select() } }
+    private func tick() {
+        if SportsSession.shared.haptics { UISelectionFeedbackGenerator().selectionChanged() }
+        ClubSound.play("tick", volume: 0.4)
+    }
+    func select() {
+        let id = focused
+        if SportsSession.shared.haptics { UIImpactFeedbackGenerator(style: .medium).impactOccurred() }
+        ClubSound.play("pop", volume: 0.5)
+        switch id {
+        case "go", "ready", "next": next()
+        case "play":
+            if step == .card { next() }
+            else if case .reward(let sport) = step { finish(sport, playNext: true) }
+        case "try": triedSelect = true; column = 0
+        case "male", "female": edit { $0.standardFemale = id == "female" }
+        case "skin", "shirt": _ = adjust(id, by: 1)
+        case "name": nameRequested = true
+        case "shuffle": TennisMenu.shared.randomizeLook(); edit { $0.name = OnboardingStore.name(Self.nameIdeas.randomElement() ?? "Ace") }
+        case "save": move(to: .card)
+        case "golf": startLesson(.golf)
+        case "tennis": startLesson(.tennis)
+        case "skip": skipLessons()
+        case "resume": if case .lesson(let sport) = step { startLesson(sport) }
+        case "choose": move(to: .choose)
+        case "other": if case .reward(let sport) = step { startLesson(sport == .golf ? .tennis : .golf) }
+        case "menu": if case .reward(let sport) = step { finish(sport) }
+        default: break
+        }
+    }
+    /// The phone opens its keyboard for the name (it is the only thing typed in onboarding).
+    var nameRequested = false
+
+    // MARK: Your player
+
+    var player: Player? {
+        let s = SportsSession.shared
+        return s.players.indices.contains(s.playerIndex) ? s.players[s.playerIndex] : nil
+    }
+    var skinIndex: Int {
+        guard let t = player?.skinT else { return 2 }
+        return LockerColor.skinPresets.indices.min { abs(LockerColor.skinPresets[$0] - t) < abs(LockerColor.skinPresets[$1] - t) } ?? 2
+    }
+    var shirtIndex: Int { player?.outfitHex("shirt").map { LockerColor.nearest(Self.shirts, $0) } ?? 0 }
+    @discardableResult func adjust(_ id: String, by step: Int) -> Bool {
+        switch id {
+        case "skin":
+            let n = LockerColor.skinPresets.count, i = (skinIndex + step + n) % n
+            edit { $0.setSkin(LockerColor.skinPresets[i]) }; return true
+        case "shirt":
+            let n = Self.shirts.count, i = (shirtIndex + step + n) % n
+            edit { $0.setOutfitHex("shirt", Self.shirts[i]) }; return true
+        default: return false
+        }
+    }
+    func setName(_ value: String) { edit { $0.name = OnboardingStore.name(value) } }
+    private func edit(_ change: (inout Player) -> Void) {
+        let s = SportsSession.shared
+        guard s.players.indices.contains(s.playerIndex) else { return }
+        change(&s.players[s.playerIndex]); s.savePlayers()
+    }
+    private func save() {
+        guard let p = player else { return }
+        SportsSession.shared.savePlayers()
+        MultiplayerService.shared.setIdentity(name: p.name, female: p.standardFemale, left: p.handedness == .left, loadout: p.multiplayerLoadout)
+        Analytics.track("hero_created", ["female": String(p.standardFemale), "named": String(p.name != "Player 1")])
+    }
+
+    // MARK: Lessons
+
+    /// Start (or resume) a sport's lesson. From onboarding, or from the menu's Lessons any time.
+    func startLesson(_ sport: Sport) {
         guard sport.playable else { return }
-        store.explicitRun = false; launched = false; coachIntro = false
-        move(to: .done)
-        TennisMenu.shared.begin(MenuLaunch(sport: sport, mode: sport == .golf ? .round : .exhibition, round: sport == .tennis ? 0 : nil))
+        step = .lesson(sport); store.step = step; row = 0; column = 0
+        lessonBegan = ProcessInfo.processInfo.systemUptime
+        Analytics.track("tutorial_start", ["sport": sport.rawValue, "station": String(store.lessonStation(sport))])
+        TennisMenu.shared.beginLesson(sport, station: store.lessonStation(sport))
     }
-    func launchTutorialIfNeeded() {
-        if case .tutorial = step { move(to: .choose) }
-    }
-    func tutorialStarted(_ sport: Sport) {
-        tutorialBegan = ProcessInfo.processInfo.systemUptime; firstHit = false; reportedExercise = nil
-        Analytics.track("tutorial_start", ["sport": sport.rawValue, "resumedAt": String(store.tutorialStep)])
-        Analytics.track("match_start", ["mode": "tutorial"])
-    }
-    func resumeTutorial() { launched = false; launchTutorialIfNeeded() }
-    func showCoachIntro() { coachIntro = true }
-    func continueIntro() {
-        TennisCampaign.shared.markSeen("tutorialIntro")
-        coachIntro = false
-        TennisMenu.shared.startTutorial(.tennis)
-    }
-    func reportedStep(_ index: Int, sport: Sport) {
-        if sport == .tennis { store.tutorialStep = index }
-        let key = "\(sport.rawValue):\(index)"
-        if reportedExercise != key { reportedExercise = key; Analytics.track("tutorial_step_start", ["i": String(index)]) }
-    }
-    func hit() {
-        guard !firstHit, let began = tutorialBegan else { return }
-        firstHit = true
-        Analytics.track("first_hit", ["seconds_since_tutorial_start": String(ProcessInfo.processInfo.systemUptime - began), "seconds_since_install": String(Analytics.secondsSinceInstall)])
-    }
+    /// Unity's lesson started a station (resumes there next time).
+    func lessonStation(_ index: Int, sport: Sport) { store.setLessonStation(sport, index) }
+    /// The lesson's last station is done: its reward, then on.
     func completed(_ sport: Sport) {
-        if let player = TennisMenu.shared.player { Progression.shared.awardTutorial(player: player.id, sport: sport, store: store) }
-        Analytics.track("tutorial_complete", ["sport": sport.rawValue, "seconds": String(tutorialBegan.map { ProcessInfo.processInfo.systemUptime - $0 } ?? 0)])
-        let score = SportsSession.shared.score.detail
-        let won = sport == .golf ? "true" : score.contains("15–0") ? "true" : score.contains("0–15") ? "false" : "unknown"
-        Analytics.track("match_end", ["mode": "tutorial", "won": won])
-        move(to: .reward(sport))
+        progress.completeTutorial(sport)
+        store.setLessonStation(sport, 0)
+        if let player { Progression.shared.awardTutorial(player: player.id, sport: sport, store: store) }
+        Analytics.track("tutorial_complete", ["sport": sport.rawValue, "seconds": String(lessonBegan.map { ProcessInfo.processInfo.systemUptime - $0 } ?? 0)])
+        lessonBegan = nil
+        step = .reward(sport); store.step = step; row = 0; column = 0
+        if SportsSession.shared.active { SportsSession.shared.end() }
     }
-    func finish(_ sport: Sport) {
+    /// The game was left from its pause menu: a lesson stops and its screen offers Resume; anything else leaves onboarding.
+    func gameLeft() {
+        guard case .lesson = step else { exitToMenu(); return }
+        LessonCenter.shared.end()
+        if SportsSession.shared.active { SportsSession.shared.end() }
+        row = 0; column = 0
+    }
+    private func skipLessons() {
+        Analytics.track("onboarding_skip_lessons")
         store.explicitRun = false; move(to: .done)
-        TennisMenu.shared.finishOnboarding(sport)
-        Analytics.track("onboarding_done", ["seconds_since_install": String(Analytics.secondsSinceInstall)])
+        TennisMenu.shared.goHome()
     }
-    /// Leaving setup never claims a tutorial or awards its reward.
+    func finish(_ sport: Sport, playNext: Bool = false) {
+        store.explicitRun = false
+        Analytics.track("onboarding_done", ["seconds_since_install": String(Analytics.secondsSinceInstall)])
+        move(to: .done)
+        if playNext { TennisMenu.shared.begin(sport == .golf ? MenuLaunch(sport: .golf, mode: .round) : MenuLaunch(sport: .tennis, mode: .exhibition, round: 0)) }
+        else { TennisMenu.shared.goHome() }
+    }
+    /// Leaving onboarding from anywhere (tests, Settings): no reward is claimed.
     func exitToMenu() {
-        store.explicitRun = false; launched = false; coachIntro = false; tutorialBegan = nil
+        store.explicitRun = false; lessonBegan = nil
         move(to: .done)
         TennisMenu.shared.goHome()
     }
-    func back() {
-        coachIntro = false; launched = false
-        let destination: OnboardingStep
-        switch step {
-        case .account, .done: exitToMenu(); return
-        case .character: destination = .account
-        case .connect: destination = .character
-        case .motionPrimer: destination = .connect
-        case .choose: destination = .connect
-        case .tutorial: destination = .choose
-        case .reward(let sport): finish(sport); return
-        }
-        move(to: destination)
-        if SportsSession.shared.active { SportsSession.shared.end() }
-    }
+    /// Settings → Replay onboarding.
     func replay() {
+        // a lesson finished before pays nothing when it is played again
         for sport in [Sport.tennis, .golf] where progress.finishedTutorial(sport) && !store.rewardClaimed(sport) {
             store.markReward(sport, xp: 0, item: nil)
         }
-        store.explicitRun = true; store.characterInitialized = true; launched = false
-        Analytics.track("onboarding_replay"); move(to: .account)
+        store.explicitRun = true; store.characterInitialized = true
+        Analytics.track("onboarding_replay"); move(to: .hello)
+        HubSession.shared.evaluate()
     }
 }

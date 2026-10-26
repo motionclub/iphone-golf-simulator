@@ -125,6 +125,7 @@ namespace GolfArcade.PlayTests
             var game = Object.FindFirstObjectByType<TennisGame>();
             yield return null;
             game.ConfigureMatch(TennisGame.Mode.Tutorial, null, "Ray", null);
+            game.BeginLesson(1);
             var tutorial = game.GetComponent<TennisTutorial>();
             Assert.IsNotNull(tutorial, "tutorial mode adds the lesson");
             game.AutoPlay = true;

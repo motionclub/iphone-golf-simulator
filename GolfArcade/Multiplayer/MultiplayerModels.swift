@@ -24,7 +24,7 @@ struct MultiplayerParticipant: Codable, Equatable, Sendable {
     var seat: Int = -1
     var ready = false
     var loaded = false
-    /// Tennis: this player's phone has its court direction and centre set (touch players and spectators need nothing).
+    /// Tennis: this player's phone has its court direction and centre set (spectators need nothing).
     var calibrated = false
     /// UI progress only; `calibrated` remains the authority for starting a match.
     var setupStep: String? = nil
@@ -284,8 +284,13 @@ struct ClockFilter {
 
 /// Timing rules for noticing that a player's connection has gone quiet (see PLAN_Multiplayer_OnlineLocal.md, P1.4).
 enum MultiplayerTuning {
-    /// A competitor the owner has heard nothing from (no packet of any kind) for this long pauses the match for everyone.
-    static let silenceSeconds = 0.4
+    /// A competitor the owner has heard nothing from (no packet of any kind) for this long pauses the match for everyone; a guest
+    /// that hears nothing from the owner for as long holds its own game. (0.4 s paused play on every Wi-Fi hiccup; tennis flights
+    /// are 0.9–1.5 s of deterministic ball, so a shorter gap is played through.)
+    static let silenceSeconds = 1.5
+    /// A nearby (Bonjour/TCP) guest whose connection to the owner breaks mid-match dials it again for this long before the match
+    /// ends for it; meanwhile the owner holds its place (and tennis' CPU plays it).
+    static let reconnectSeconds = 30.0
     /// Packets heard from a quiet competitor before play resumes.
     static let resumeBeats = 3
     /// How often a competitor's phone tells the owner it is still there during play (10 per second).

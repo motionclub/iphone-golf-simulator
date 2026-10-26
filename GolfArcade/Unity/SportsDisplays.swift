@@ -353,8 +353,6 @@ final class SportsExternalScene: NSObject, UIWindowSceneDelegate {
 }
 
 struct SportsPreviewControls:View {
-    @State private var position=0.0
-    @State private var power=0.6
     @State private var session=SportsSession.shared
     var body:some View {
         VStack {
@@ -377,14 +375,6 @@ struct SportsPreviewControls:View {
             if session.sport == "tennis" && session.ready {
                 if session.tennisPhase == "rally" { Text("Early ← · On time ↑ · Late →").font(.caption); TennisAbilityControls(session: session) }
                 if session.tennisPhase == "serve" || session.tennisPhase == "toss" { ServeAimPad(session:session).frame(width:180,height:90); if session.tennisPhase == "serve" { Button("Toss") { session.toss() } } }
-            }
-            if session.sport != "golf" || session.golfPhase == "Aim" {
-            HStack {
-                if session.sport == "tennis" { Slider(value:$position,in:-1...1).accessibilityLabel("Court position").onChange(of:position) { _,v in session.steer(v) } }
-                else { Button("Aim left") { session.setAim(-1) }; Button("Aim right") { session.setAim(1) }; Button("Club") { session.command("club",value:1) } }
-                Slider(value:$power,in:(session.sport == "golf" ? 0.02 : 0.1)...1).accessibilityLabel("Swing power")
-                Button("Swing") { session.swing(power) }.disabled(session.paused || (session.sport == "golf" && (session.golfPhase != "Aim" || !session.golfShotReady)))
-            }
             }
             }
         }.padding().background(.regularMaterial)

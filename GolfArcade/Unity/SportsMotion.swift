@@ -115,6 +115,7 @@ final class SportsMotion: NSObject, ARSessionDelegate, @unchecked Sendable {
     private var traceOutcome = ""
     // Output to Unity.
     private var token: Int32 = 0, live = false, swings = 0, lastPower = 0.0
+    private var swingContacts = 0
     private var status = SportsMotionStatus(), nextStatusAt = 0.0
     // Delay probe: centre-of-frame brightness while the camera is aimed at the TV.
     private var probing = false
@@ -132,7 +133,16 @@ final class SportsMotion: NSObject, ARSessionDelegate, @unchecked Sendable {
         get { queue.sync { sign } }
         set { UserDefaults.standard.set(newValue,forKey:Self.signKey); queue.async { self.sign=newValue } }
     }
-    var axisLocked: Bool { queue.sync { gate.locked } }
+    #if DEBUG
+    /// Tests stand in for the camera and motion sensors: the court direction reads as locked and Ready always takes a centre.
+    var fixtureSensors = false
+    #endif
+    var axisLocked: Bool {
+        #if DEBUG
+        if fixtureSensors { return true }
+        #endif
+        return queue.sync { gate.locked }
+    }
     /// Exposed so the aiming screen can show a viewfinder from this same session.
     var previewSession: ARSession { ar }
 
@@ -154,7 +164,7 @@ final class SportsMotion: NSObject, ARSessionDelegate, @unchecked Sendable {
         if tennis && AVCaptureDevice.authorizationStatus(for: .video) != .authorized {
             AVCaptureDevice.requestAccess(for: .video) { [weak self] allowed in
                 if allowed { self?.start(tennis:true,travel:travel) }
-                else { self?.report("Camera permission denied. Physical steering needs the rear camera; touch remains available.") }
+                else { self?.report("Camera permission denied. Physical steering needs the rear camera.") }
             }
             return
         }
@@ -165,9 +175,9 @@ final class SportsMotion: NSObject, ARSessionDelegate, @unchecked Sendable {
         calibrated = !tennis; self.tennis=tennis; filter=SteeringFilter(); filter.travel=travel
         filter.tennisStroke = tennis
         SportsDiagnostics.write("motion start tennis=\(tennis) axisLocked=\(gate.locked)")
-        guard motion.isDeviceMotionAvailable else { report("Motion sensors unavailable. Select touch controls."); return }
+        guard motion.isDeviceMotionAvailable else { report("Motion sensors unavailable on this phone."); return }
         if tennis {
-            guard ARWorldTrackingConfiguration.isSupported else { report("Physical steering is unsupported. Select touch controls."); return }
+            guard ARWorldTrackingConfiguration.isSupported else { report("Physical steering is unsupported on this phone."); return }
             runWorldTracking(reset: !worldRunning)
         }
         startDeviceMotion()
@@ -231,14 +241,14 @@ final class SportsMotion: NSObject, ARSessionDelegate, @unchecked Sendable {
     // MARK: - Output to Unity
 
     /// Where samples go and whether they flow: `live` while a motion-controlled session is
-    /// playing (not paused). `swingBase` continues the swing count after touch play.
+    /// playing (not paused). `swingBase` continues the swing count.
     func setAimProfile(_ profile: TennisAimProfile?) {
         queue.sync { aimProfile=profile?.valid == true ? profile : nil; aimHistory.removeAll(); faceAim=0 }
     }
     func setOutput(token: Int32, live: Bool, swingBase: Int) {
         queue.async { self.token=token; self.live=live; self.swings=max(self.swings,swingBase) }
     }
-    /// Swings counted so far, so touch play can carry on from here.
+    /// Swings counted so far.
     var swingCount: Int { queue.sync { swings } }
 
     // MARK: - Aim-at-the-TV gate
@@ -251,11 +261,11 @@ final class SportsMotion: NSObject, ARSessionDelegate, @unchecked Sendable {
     /// Begin capturing the court axis. Tennis cannot start until this locks, because a phone
     /// that flips between forehand and backhand can never reveal where the TV is mid-rally.
     func beginAxisCapture(travel: Double) {
-        guard ARWorldTrackingConfiguration.isSupported else { report("Physical steering is unsupported. Select touch controls."); return }
+        guard ARWorldTrackingConfiguration.isSupported else { report("Physical steering is unsupported on this phone."); return }
         guard AVCaptureDevice.authorizationStatus(for: .video) == .authorized else {
             AVCaptureDevice.requestAccess(for: .video) { [weak self] allowed in
                 if allowed { self?.beginAxisCapture(travel:travel) }
-                else { self?.report("Camera permission denied. Physical steering needs the rear camera; touch remains available.") }
+                else { self?.report("Camera permission denied. Physical steering needs the rear camera.") }
             }
             return
         }
@@ -425,6 +435,8 @@ final class SportsMotion: NSObject, ARSessionDelegate, @unchecked Sendable {
             filteredAngle=angle
             faceAim=(aimProfile ?? TennisAimProfile(forehand:.standard,backhand:.standard)).aim(angle:angle,facing:facing)
         }
+        // The racket in the hand is at the ball: a strike the game has already decided is felt now, from this queue.
+        if filter.contacts>swingContacts { swingContacts=filter.contacts; if live && tennis { RacketFeel.swingReachedBall() } }
         if let swing { NSLog("[SportsMotion] tennis stroke power=%.2f",swing) }
         recordTrace(time:time,rate:speed,force:force,swing:swing)
         let valid = tennis ? calibrated : current != .lost
@@ -439,6 +451,7 @@ final class SportsMotion: NSObject, ARSessionDelegate, @unchecked Sendable {
             }
             var flags:Int32 = valid ? Int32(SportsSampleValid) : 0
             if current != .good { flags |= Int32(SportsSampleDegraded) }
+            if tennis && filter.peakConfirm { flags |= Int32(SportsSamplePrediction) }
             let handSide = tracked ? Float(x-neutralX-filter.target*filter.travel) : 0
             let lift = tracked ? Float(position.y-neutralY) : 0
             SportsRuntime.shared().push(SportsSample(version:Int32(SportsSampleVersion),session:token,time:time,
@@ -510,8 +523,11 @@ final class SportsMotion: NSObject, ARSessionDelegate, @unchecked Sendable {
     /// `quiet` keeps a failure to ourselves: used to re-centre at the moment an online match starts, where a missed frame
     /// must not pause the match for both players (the centre taken at Ready stays).
     @discardableResult func calibrate(quiet: Bool = false) -> Bool {
+        #if DEBUG
+        if fixtureSensors { return true }
+        #endif
         let problem: String? = queue.sync {
-            guard motion.isDeviceMotionActive else { return "Motion is starting. Tap Ready again in a moment, or choose touch controls." }
+            guard motion.isDeviceMotionActive else { return "Motion is starting. Tap Ready again in a moment." }
             guard !tennis || gate.locked else { return "Aim the back of the phone at the TV to set the court direction first." }
             // A laptop screen can leave ARKit short of features. The locked heading and
             // IMU still support swings; positional steering resumes when tracking recovers.

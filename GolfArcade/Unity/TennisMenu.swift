@@ -162,7 +162,7 @@ final class TennisMenu {
     static func settingsRows(_ tab: SettingsTab) -> [String] {
         switch tab {
         case .gameplay: ["level", "presentationIntros", "holeFlyover", "presentationBigMoments", "golfTwists", "golfBounties", "resetProgress"]
-        case .controls: ["controls", "swingPrediction", "fastInput", "range", "hand", "relock", "timing"]
+        case .controls: ["swingPrediction", "fastInput", "range", "hand", "relock", "timing"]
         case .guide: GuideDeck.allCases.map(\.rowID)
         case .display: ["tennisCamera", "fps", "overscan"]
         case .audio: ["sound", "haptics", "hapticStrength", "racketSound", "feelTest", "partyVoice", "partyRecording"]
@@ -178,7 +178,7 @@ final class TennisMenu {
         case .title: return [["start"]]
         case .main: return [["play", "homeInvite"], ["character"], ["homeEmotes"], ["settings"], ["betaFeedback"]]
         // One list: play alone, pass one phone round, friends nearby, or online.
-        case .party: return [["partySolo"], ["partyLocal"], ["partyOnline"], ["back"]]
+        case .party: return [["partySolo"], ["partyNearbyTennis"], ["partyLocal"], ["partyOnline"], ["back"]]
         case .multiplayer: return [["partyOnline"], ["partyLocal"], ["back"]]
         // Same room: pass one phone round (golf), or two phones and one TV (tennis), or join a friend's game.
         case .localChoice: return [["partyLocalGolf"], ["partyLocalTennis"], ["partyNearby"], ["back"]]
@@ -336,6 +336,8 @@ final class TennisMenu {
         case "quickPlay", "partySolo": show(.gameSelect)
         case "partyLocalGolf": show(.localPlayers)
         case "partyLocalTennis": online.select(id, menu: self)
+        // one tap: host a nearby tennis game; the friend's phone offers "Join …?" and the match starts when they tap it
+        case "partyNearbyTennis": HubSession.shared.useNearbyBench()
         case let count where count.hasPrefix("localPlayers"): online.select(count, menu: self)
         case "partyMultiplayer": show(.multiplayer)
         case "partyLocal": show(.localChoice)
@@ -405,7 +407,7 @@ final class TennisMenu {
         case "nextPage": howToPage = min(guideDeck.cards.count - 1, howToPage + 1)
         case "nextCard":
             if lessonCard + 1 < GolfLesson.cards.count { lessonCard += 1 }
-            else { begin(MenuLaunch(sport: .golf, mode: .tutorial), onPhone: !session.displayConnected || session.touch) }
+            else { begin(MenuLaunch(sport: .golf, mode: .tutorial), onPhone: !session.displayConnected) }
         case "pm-skip": postMatchSkips += 1
         // A second press of the button that skipped the show must not also pick a choice.
         case "pm-next", "pm-replay", "pm-court", "pm-menu":
@@ -505,7 +507,6 @@ final class TennisMenu {
         case "quickLength": quickLength = cycle(quickLength, 3)
         case "level": trainingLevel = cycle(trainingLevel, Self.trainingLevels.count); s.tennisDifficulty = Self.trainingLevels[trainingLevel].difficulty
         case "hand": s.players[p].handedness = s.players[p].handedness == .left ? .right : .left; s.savePlayers()
-        case "controls": s.touch.toggle()
         case "swingPrediction": s.swingPrediction.toggle()
         case "fastInput": s.fastInput.toggle()
         case "presentationIntros":
@@ -572,9 +573,17 @@ final class TennisMenu {
         if session.displayConnected { show(.main) } else { show(.hub(sport)) }
     }
 
-    /// Compatibility for saved routes and older UI: choose a map for a normal game.
-    func startTutorial(_ sport: Sport) {
-        begin(MenuLaunch(sport: sport, mode: sport == .golf ? .round : .exhibition, round: sport == .tennis ? 0 : nil))
+    /// Older routes (Settings → tutorial): the sport's lesson.
+    func startTutorial(_ sport: Sport) { OnboardingFlow.shared.startLesson(sport) }
+    /// A lesson (PLAN_Onboarding_GolfLesson.md): no map, its own practice venue, from `station` on.
+    func beginLesson(_ sport: Sport, station: Int) {
+        guard !online.service.hasFriendsInLobby else { refuse(HubSession.soloLockMessage); return }
+        launch = MenuLaunch(sport: sport, mode: .tutorial); launchOrigin = .main; result = nil; pendingPick = nil
+        SportsDisplays.shared.refresh()
+        guard session.displayConnected else { show(.connect); return }
+        show(.loading)
+        session.startLesson(sport, station: station)
+        if !session.active, screen == .loading { launchFailed(session.status) }
     }
     func tutorialFinished() {}
 
@@ -1184,7 +1193,7 @@ struct OnlineAppleSheet: Identifiable {
                 identity(menu); try service.joinLocal(found); searchStarted = Date(); menu.showOnline(.searching)
             case "net-invite":
                 // friends are invited from the Friends list (the Club Hub), never Apple's invite sheet
-                if service.isNearby { menu.onlineNotice("Ask your friend to open Nearby on the same Wi-Fi."); return }
+                if service.isNearby { menu.onlineNotice("Ask your friend to open the app nearby: your game pops up on their phone."); return }
                 HubSession.shared.inviteFriends()
             case "net-find":
                 if service.isNearby { menu.onlineNotice("Your lobby is visible in Nearby. Ask a friend to join."); return }
