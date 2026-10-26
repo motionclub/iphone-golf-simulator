@@ -34,7 +34,7 @@ struct PartyChatMessage: Identifiable, Equatable, Sendable {
     func send(_ kind: String, payload: String, reliable: Bool) { service.sendParty(kind, payload: payload, reliable: reliable) }
 }
 
-/// Typed chat, quick phrases and "who is recording" for ONE party (the phones in your lobby). Messages live only in memory and only for
+/// Typed chat and quick phrases for ONE party (the phones in your lobby). Messages live only in memory and only for
 /// this session: nothing is saved, uploaded or sent anywhere but to the party's own phones. PLAN_PartyChat_Recording.md.
 @MainActor @Observable
 final class PartyChat {
@@ -43,8 +43,6 @@ final class PartyChat {
     private(set) var messages: [PartyChatMessage] = []
     private(set) var unread = 0
     private(set) var notice = ""
-    /// Party members who are recording the TV right now (their phones told us).
-    private(set) var recording: [String: String] = [:]
     /// The chat sheet is open (new messages are read as they arrive).
     var chatOpen = false { didSet { if chatOpen { unread = 0 } } }
     /// The inline chat strip (PartyChatStrip) is open over the game: typing without leaving the controller or the Plaza.
@@ -69,6 +67,8 @@ final class PartyChat {
     @ObservationIgnored private var sentTimes: [Date] = []
     @ObservationIgnored private var heard: [String: [Date]] = [:]
     @ObservationIgnored private var names: [String: String] = [:]
+    /// Friends whose typed lines this phone could not show yet (typing not set up here): told once each.
+    @ObservationIgnored private var hiddenNoted: Set<String> = []
     static let history = 100
 
     init(channel: PartyChannel? = nil, safety: PartySafety = .shared, defaults: UserDefaults = .standard) {
@@ -83,6 +83,12 @@ final class PartyChat {
     /// There is a party to talk to.
     var available: Bool { channel.inParty && !isBlockedAccess }
     private var isBlockedAccess: Bool { if case .blocked = safety.access { return true }; return false }
+    /// Typing is locked only because this player has not said their age or accepted the rules yet (not a child, not a limited
+    /// Game Center account): Set up unlocks it.
+    var canSetUp: Bool {
+        if case .quickOnly = safety.access, safety.restrictions == GameCenterRestrictions(), safety.ageBand != .under13 { return true }
+        return false
+    }
     var members: [(id: String, name: String)] { channel.members.filter { !isBlockedID($0.id) } }
     func isBlockedID(_ id: String) -> Bool { safety.isBlocked(id) || ClubHub.shared.blocked.contains(id) }
     func isMuted(_ id: String) -> Bool { muted.contains(id) || isBlockedID(id) }
@@ -132,10 +138,6 @@ final class PartyChat {
             // voice frames: only while voice is on here, only from someone not muted or blocked
             guard !isMuted(sender), let data = Data(base64Encoded: payload) else { return }
             voiceHandler?(data, sender)
-        case "partyRec":
-            guard let o = decode(payload) else { return }
-            let on = o["on"] as? Bool ?? false
-            if on { recording[sender] = name(of: sender) } else { recording[sender] = nil }
         default: break
         }
     }
@@ -156,7 +158,13 @@ final class PartyChat {
             add(PartyChatMessage(senderID: sender, senderName: display, text: text, kind: .quick, date: t))
         case "m":
             // children (and anyone whose account limits chat) never see typed text from others
-            guard safety.access.canType, incomingTextVisible, let raw = o["text"] as? String else { return }
+            guard incomingTextVisible, let raw = o["text"] as? String else { return }
+            guard safety.access.canType else {
+                // not set up yet: say a friend is typing to you instead of dropping it without a word
+                guard canSetUp, hiddenNoted.insert(sender).inserted else { return }
+                systemNote("\(display) typed a message. Tap Set up to read and type.")
+                break
+            }
             let clean = ChatFilter.clean(raw, mask: safety.filterOn)
             guard !clean.text.isEmpty else { return }
             add(PartyChatMessage(senderID: sender, senderName: display, text: clean.text, date: t, filtered: clean.flagged))
@@ -181,7 +189,6 @@ final class PartyChat {
     func block(_ id: String) {
         safety.block(id); mute(id)
         messages.removeAll { $0.senderID == id }
-        recording[id] = nil
     }
 
     func lastLines(from id: String, count: Int = 5) -> [String] {
@@ -193,16 +200,9 @@ final class PartyChat {
         return r
     }
 
-    // MARK: recording notices (the party always knows when someone records)
-
-    func announceRecording(_ on: Bool) { channel.send("partyRec", payload: json(["on": on]), reliable: true) }
-    var someoneRecording: String? { recording.values.sorted().first }
-
     /// The lobby changed (someone left, the party ended): forget people who are gone.
     func membersChanged() {
-        let ids = Set(channel.members.map(\.id))
-        recording = recording.filter { ids.contains($0.key) }
-        if !channel.inParty { messages = []; unread = 0; stripOpen = false }
+        if !channel.inParty { messages = []; unread = 0; stripOpen = false; hiddenNoted = [] }
     }
 
     func say(_ text: String) { notice = text }
@@ -212,6 +212,6 @@ final class PartyChat {
     private func decode(_ s: String) -> [String: Any]? { (try? JSONSerialization.jsonObject(with: Data(s.utf8))) as? [String: Any] }
 
     #if DEBUG
-    func debugReset() { messages = []; unread = 0; recording = [:]; muted = []; sentTimes = []; heard = [:]; names = [:]; chatOpen = false; stripOpen = false; notice = "" }
+    func debugReset() { messages = []; unread = 0; muted = []; sentTimes = []; heard = [:]; names = [:]; hiddenNoted = []; chatOpen = false; stripOpen = false; notice = "" }
     #endif
 }

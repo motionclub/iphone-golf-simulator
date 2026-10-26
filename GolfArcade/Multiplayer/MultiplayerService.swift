@@ -34,7 +34,7 @@ final class MultiplayerService {
     /// loading, a match). Only real players of this lobby can send (the receiver checks), nothing is stored here, and nothing is sent to
     /// Unity or any server. (kind, payload, sender)
     @ObservationIgnored var onParty: ((String, String, String) -> Void)?
-    static let partyKinds: Set<String> = ["partyChat", "partyVoice", "partyRec"]
+    static let partyKinds: Set<String> = ["partyChat", "partyVoice"]
     func sendParty(_ kind: String, payload: String, reliable: Bool) {
         guard lobby != nil, !sharedPhoneHost, Self.partyKinds.contains(kind), payload.utf8.count <= 4096 else { return }
         try? broadcast(kind, payload: payload, reliable: reliable)

@@ -549,7 +549,7 @@ typealias HeroColor = NSColor
 
     // ---- TennisCloth: the kit and the racket grip
     private static func cloth(_ look: MatchHeroData.Look, tint: SIMD3<Float>, sceneScale: Float, trim: SIMD3<Float>?, edges: Bool = false) -> SCNMaterial {
-        if (look.useGarmentMaps ?? 0) > 0.5 { return garment(look, tint: tint, trim: trim, edges: edges) }
+        if (look.useGarmentMaps ?? 0) > 0.5, let m = garment(look, tint: tint, trim: trim, edges: edges) { return m }
         let m = SCNMaterial(); m.lightingModel = .blinn   // the per-light maths is replaced by the lighting modifier below
         // the kit's seam / collar / placket / hem map on its own UV (clamped); the grip has none (no UVs on the racket)
         if !look.baseMap.isEmpty, let seams = image(look.baseMap, linear: false, maxPixels: 1024) {
@@ -1197,10 +1197,14 @@ typealias HeroColor = NSColor
             return texture
         } catch { print("GARMENT_TEXTURE_ERROR \(name): \(error)"); return nil }
     }
-    static func garment(_ look: MatchHeroData.Look, tint: SIMD3<Float>, trim: SIMD3<Float>?, edges: Bool = false) -> SCNMaterial {
+    /// Nil when one of the garment's maps is not in the app (the plain cloth stands in): a missing texture must never end the game.
+    static func garment(_ look: MatchHeroData.Look, tint: SIMD3<Float>, trim: SIMD3<Float>?, edges: Bool = false) -> SCNMaterial? {
+        guard let n = compressed(look.normalMap ?? ""), let mask = compressed(look.maskMap ?? ""), let atlas = compressed(look.weaveMap) else {
+            SportsDiagnostics.write("garment maps missing: \(look.normalMap ?? "-") \(look.maskMap ?? "-") \(look.weaveMap)")
+            return nil
+        }
         let m = SCNMaterial(); m.lightingModel = .blinn
         m.diffuse.contents = flatColour(tint)
-        guard let n = compressed(look.normalMap ?? ""), let mask = compressed(look.maskMap ?? ""), let atlas = compressed(look.weaveMap) else { fatalError("Incomplete garment maps") }
         for (key, tex) in [("garmentN", n), ("garmentM", mask), ("fabricAtlas", atlas)] {
             let prop = SCNMaterialProperty(contents: tex); prop.wrapS = .clamp; prop.wrapT = .clamp
             prop.mipFilter = .linear; prop.minificationFilter = .linear; prop.magnificationFilter = .linear; prop.maxAnisotropy = 4

@@ -165,7 +165,7 @@ final class TennisMenu {
         case .controls: ["swingPrediction", "fastInput", "range", "hand", "relock", "timing"]
         case .guide: GuideDeck.allCases.map(\.rowID)
         case .display: ["tennisCamera", "fps", "overscan"]
-        case .audio: ["sound", "haptics", "hapticStrength", "racketSound", "feelTest", "partyVoice", "partyRecording"]
+        case .audio: ["sound", "haptics", "hapticStrength", "racketSound", "feelTest", "partyVoice"]
         case .access: ["bigText", "reduceMotion"]
         case .developer: ["bench"]
         }
@@ -528,7 +528,7 @@ final class TennisMenu {
             let i = feelTestLabel.isEmpty ? 0 : feelTestShown + step
             feelTestShown = i
             feelTestLabel = RacketFeel.playDemo(i) ?? "Open the plaza or a match first: the feel test plays through the game."
-        case "partyVoice", "partyRecording": PartyUI.shared.settingsOpen = true
+        case "partyVoice": PartyUI.shared.settingsOpen = true
         case "tennisCamera": s.tennisCamera = s.tennisCamera == "elevated" ? "chase" : "elevated"
         case "fps": s.highFrameRate.toggle()
         case "range": s.travel = min(1.2, max(0.3, s.travel + Double(step) * 0.1))

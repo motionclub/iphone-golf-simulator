@@ -247,4 +247,25 @@ final class MatchHeroLockerTests: XCTestCase {
             window.isHidden = true
         }
     }
+
+    /// The App Store build (GolfArcadeUnity.xcodeproj) lists CharacterAssets file by file. Every file must be in it: build 0.1.5 (5)
+    /// and (6) lacked the golf bag and golf sock maps added 10/20, and drawing any hero (the bag is always built) ended the game.
+    func testTheAppStoreProjectBundlesEveryCharacterAsset() throws {
+        let project = try String(contentsOf: repo.appendingPathComponent("GolfArcadeUnity.xcodeproj/project.pbxproj"), encoding: .utf8)
+        let files = try FileManager.default.contentsOfDirectory(atPath: repo.appendingPathComponent("GolfArcade/Unity/CharacterAssets").path)
+            .filter { !$0.hasPrefix(".") }
+        XCTAssertFalse(files.isEmpty)
+        let missing = files.filter { !project.contains("/* \($0) in Resources */") }.sorted()
+        XCTAssertEqual(missing, [], "add these to GolfArcadeUnity.xcodeproj (CharacterAssets group and the app's Resources)")
+    }
+    /// A garment whose maps are not in the app is drawn as plain cloth: never a crash.
+    func testAGarmentWithoutItsMapsFallsBackToPlainCloth() throws {
+        let url = try XCTUnwrap(MatchHeroData.locate("MatchHero_Male", "json"))
+        let manifest = try XCTUnwrap(JSONSerialization.jsonObject(with: Data(contentsOf: url)) as? [String: Any])
+        let looks = (manifest["parts"] as? [[String: Any]] ?? []).flatMap { $0["submeshes"] as? [[String: Any]] ?? [] }.compactMap { $0["look"] as? [String: Any] }
+        var look = try XCTUnwrap(looks.first { ($0["useGarmentMaps"] as? Double ?? 0) > 0.5 }, "a garment look to break")
+        look["normalMap"] = "no_such_map_N"
+        let broken = try JSONDecoder().decode(MatchHeroData.Look.self, from: JSONSerialization.data(withJSONObject: look))
+        XCTAssertNil(MatchHeroSurfaces.garment(broken, tint: SIMD3(0.5, 0.5, 0.5), trim: nil))
+    }
 }
