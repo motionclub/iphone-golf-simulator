@@ -2,6 +2,7 @@
 #include <string>
 #include <mutex>
 #include <cstring>
+#include <cstdio>
 #include <mach/mach_time.h>
 
 // Bounded queues owned by the framework: no callbacks into released Swift objects.
@@ -10,16 +11,25 @@ static std::deque<std::string> inputs, events;
 static std::string tennisResult;
 static std::deque<std::string> networkInputs, networkOutputs;
 static bool networkFault = false;
+// The network queues never refuse a match's traffic (a refusal used to end the match: the guest ejected itself). Past a soft limit an
+// unreliable packet (a pose or a clock update, stale a frame later) makes room by evicting the oldest unreliable one, or is dropped
+// itself; reliable packets grow the queue up to a hard limit. Only past that is a packet lost, and that is reported (logged, never an
+// eject): the versus ready handshake's score check re-syncs a lost call.
+static const size_t networkSoftLimit = 128, networkHardLimit = 1024;
+static int networkDropped = 0;
+static bool unreliablePacket(const std::string& json) { return json.find("\"reliable\":false") != std::string::npos; }
 static int networkPush(std::deque<std::string>& queue,const char* json) {
     if(!json || strlen(json)>60000) return 0;
     std::lock_guard<std::mutex> lock(gate);
-    if(queue.size()>=128) {
+    std::string value(json);
+    if(queue.size()>=networkSoftLimit) {
         auto old=queue.begin();
-        while(old!=queue.end() && old->find("\"reliable\":false")==std::string::npos) ++old;
-        if(old==queue.end()) { networkFault=true; return 0; }
-        queue.erase(old);
+        while(old!=queue.end() && !unreliablePacket(*old)) ++old;
+        if(old!=queue.end()) queue.erase(old);
+        else if(unreliablePacket(value)) { networkDropped++; return 1; }
+        else if(queue.size()>=networkHardLimit) { networkDropped++; networkFault=true; queue.pop_front(); }
     }
-    queue.emplace_back(json);return 1;
+    queue.emplace_back(std::move(value));return 1;
 }
 // Mirrors SportsSample in the host's SportsRuntime.h and NativeSportsSession.Sample in C#.
 struct SportsSample {
@@ -51,8 +61,10 @@ __attribute__((visibility("default"))) int SportsNetworkPollOutput(char* output,
     {
         std::lock_guard<std::mutex> lock(gate);
         if(networkFault) {
-            const char* fault="{\"version\":1,\"lobbyID\":\"\",\"matchID\":\"\",\"sender\":\"\",\"sequence\":0,\"kind\":\"bridgeError\",\"reliable\":true,\"sentAt\":0,\"payload\":\"Multiplayer message queue overflow.\"}";
-            if(output && capacity>(int)strlen(fault)) { networkFault=false;strcpy(output,fault);return (int)strlen(fault); }
+            // a report only: the phone logs it and plays on
+            char fault[320];
+            int n=snprintf(fault,sizeof(fault),"{\"version\":1,\"lobbyID\":\"\",\"matchID\":\"\",\"sender\":\"\",\"sequence\":0,\"kind\":\"bridgeError\",\"reliable\":true,\"sentAt\":0,\"payload\":\"Multiplayer message queue overflow: %d packets dropped.\"}",networkDropped);
+            if(output && n>0 && capacity>n) { networkFault=false;memcpy(output,fault,n+1);return n; }
         }
     }
     return pop(networkOutputs,output,capacity);
@@ -97,7 +109,11 @@ __attribute__((visibility("default"))) void SportsEmit(const char* json) {
     if(events.size()>=64) events.pop_front(); events.emplace_back(json);
 }
 __attribute__((visibility("default"))) int SportsPollEvent(char* output,int capacity) { return pop(events,output,capacity); }
+/// Between matches: the last match's network traffic only (a sport session's inputs and motion samples stay).
+__attribute__((visibility("default"))) void SportsNetworkClear() {
+    std::lock_guard<std::mutex> lock(gate); networkInputs.clear(); networkOutputs.clear(); networkFault=false; networkDropped=0;
+}
 __attribute__((visibility("default"))) void SportsClear() {
-    std::lock_guard<std::mutex> lock(gate); inputs.clear(); events.clear(); networkInputs.clear(); networkOutputs.clear(); networkFault=false; sampleHead = sampleCount = 0;
+    std::lock_guard<std::mutex> lock(gate); inputs.clear(); events.clear(); networkInputs.clear(); networkOutputs.clear(); networkFault=false; networkDropped=0; sampleHead = sampleCount = 0;
 }
 }

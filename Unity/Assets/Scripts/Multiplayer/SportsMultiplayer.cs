@@ -63,12 +63,13 @@ namespace GolfArcade.Multiplayer {
         public static void Configure(string json) {
             var c=JsonUtility.FromJson<NetworkConfiguration>(json);if(c==null||!c.Valid)throw new ArgumentException("Invalid multiplayer configuration.");
             if(!Instance){var go=new GameObject("SportsMultiplayer");DontDestroyOnLoad(go);Instance=go.AddComponent<SportsMultiplayer>();}
-            Instance.Initialize(c);
+            // a match half set up must not stay Active (every frame would act on it): undo it, and the loader reports the error
+            try{Instance.Initialize(c);}catch{Shutdown();throw;}
         }
         void Initialize(NetworkConfiguration c) {
             GolfArcade.EnvironmentArt.DreamEnvironment.StartSession(c.seed,c.environmentUtc);
             pendingResult=null; startScheduled=false; scheduledStart=double.PositiveInfinity;
-            PresentationPolicy.Multiplayer=true; Configuration=c;Running=false;LocalTarget=0;lastSwing=lastStart=lastAbort=0;eventID=0;lastTick=lastRevision=-1;nextSnapshot=lastMove=0;nextStats=maxSnapshotGap=0;lastSnapshot=packetAt=Clock;clockOffset=0;suspended.Clear();GolfShot=null;TennisState=null;GolfState=null;compactSnapshots=false;
+            PresentationPolicy.Multiplayer=true; Configuration=c;Running=false;LocalTarget=0;lastSwing=lastStart=lastAbort=0;eventID=0;lastTick=lastRevision=-1;nextSnapshot=lastMove=0;nextStats=maxSnapshotGap=0;lastSnapshot=packetAt=Clock;clockOffset=0;suspended.Clear();EmitFailures=0;GolfShot=null;TennisState=null;GolfState=null;compactSnapshots=false;
             tennisView=FindFirstObjectByType<TennisGame>();golfView=FindFirstObjectByType<GolfGame>();
             versusMatch=c.sport=="tennis"&&TennisVersusEnabled; lastPeer=Clock;
             if(versusMatch) {
@@ -119,6 +120,8 @@ namespace GolfArcade.Multiplayer {
             NetworkPacket p;try{p=JsonUtility.FromJson<NetworkPacket>(json);}catch{return;}
             if(p==null||p.version!=NetworkPacket.Version||p.lobbyID!=Configuration.lobbyID||p.matchID!=Configuration.matchID)return;
             if(p.kind=="clock") {if(p.sender!=Configuration.localID)return;}
+            // (this phone's own suspend/resume: a guest whose owner went quiet holds its game, MultiplayerService's owner watch)
+            else if((p.kind=="suspend"||p.kind=="resumePeer")&&p.sender==Configuration.localID) {}
             else if(p.kind!="input"&&p.kind!="peer"&&p.sender!=Configuration.hostID)return;
             switch(p.kind) {
                 case "run":
@@ -191,7 +194,7 @@ namespace GolfArcade.Multiplayer {
                 case "start":case "end":return false;
                 case "pause":Instance.Send("availability","false");return true;
                 case "resume":Instance.Send("availability","true");Time.timeScale=1;return true;
-                case "touch":case "motion":case "recalibrate":case "latency":case "golfAimDirection":
+                case "touch":case "motion":case "recalibrate":case "latency":case "sharedLatency":case "golfAimDirection":
                 case "golfStartSwing":case "golfReleaseSwing":case "golfCancelSwing":case "golfLoad":return false;
                 // golf's taps on (skip the intro or the replay, finish the result): single player's, and the round follows (GolfGame.Network)
                 case "presentationSkip":case "golfContinue":return Instance.Configuration.sport!="golf";
@@ -263,8 +266,13 @@ namespace GolfArcade.Multiplayer {
         void Send(string kind,string payload,bool reliable=true) {
             if(Configuration==null)return;
             var p=new NetworkPacket {lobbyID=Configuration.lobbyID,matchID=Configuration.matchID,sender=Configuration.localID,kind=kind,payload=payload,reliable=reliable,sentAt=Clock};
-            var json=JsonUtility.ToJson(p);if(Encoding.UTF8.GetByteCount(json)<=60000)if(SportsNetworkEmit(json)==0){Running=false;Debug.LogError("Multiplayer bridge backpressure: match paused.");}
+            var json=JsonUtility.ToJson(p);
+            // A packet the bridge cannot take is lost, never the match: stopping here (Running=false) used to end it for good. The bridge
+            // makes room itself (SportsBridge.mm), and a lost versus call is caught by the next ready's score check.
+            if(Encoding.UTF8.GetByteCount(json)>60000||SportsNetworkEmit(json)==0){EmitFailures++;if(EmitFailures<=5)Debug.LogWarning($"Multiplayer bridge refused a {kind} packet ({EmitFailures} so far); playing on.");}
         }
+        /// Packets the bridge refused this match (diagnostics, tests).
+        public int EmitFailures {get;private set;}
         public static void Shutdown(){PresentationPolicy.Multiplayer=false;if(!Instance)return;Instance.pendingResult=null;Instance.startScheduled=false;Instance.Running=false;Instance.Configuration=null;Instance.tennis=null;Instance.golf=null;Time.timeScale=1;}
     }
 }

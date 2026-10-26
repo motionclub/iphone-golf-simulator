@@ -7,6 +7,15 @@
 - (void)registerScreen:(UIScreen*)screen;
 @end
 
+// Unity-internal method implemented in UnityAppController+Rendering.mm.
+@interface UnityAppController (SportsRenderingRegistration)
+- (void)callbackFramerateChange:(int)targetFPS;
+@end
+
+@interface SportsUnityAppController : UnityAppController
+- (void)sportsDriveLoopFromScreen:(UIScreen*)screen;
+@end
+
 @interface SportsExternalRendererController : UIViewController
 @end
 @implementation SportsExternalRendererController
@@ -29,6 +38,17 @@ static void SportsCapExternalMode(UIScreen *screen) {
     if (!best || [screen.currentMode isEqual:best]) return;
     NSLog(@"[SportsDisplay] external mode %@ -> %@", NSStringFromCGSize(screen.currentMode.size), NSStringFromCGSize(best.size));
     screen.currentMode = best;
+}
+
+// Latency plan P1 (B4). Unity's maxQueuedFrames setting only reaches the phone's layer; the TV layer kept CAMetalLayer's
+// default of three drawables, so a finished frame could wait two refreshes before it was shown. Two is the least Metal
+// allows. Launch with `-sportsTVQueuedFrames 3` to compare on a device.
+static void SportsCapExternalQueue(UIView *view) {
+    if (![view.layer isKindOfClass:CAMetalLayer.class]) return;
+    NSInteger frames = [NSUserDefaults.standardUserDefaults integerForKey:@"sportsTVQueuedFrames"];
+    CAMetalLayer *layer = (CAMetalLayer*)view.layer;
+    layer.maximumDrawableCount = frames == 3 ? 3 : 2;
+    NSLog(@"[SportsDisplay] external queued frames %lu", (unsigned long)layer.maximumDrawableCount);
 }
 
 // Scene connection and Unity's UIScreen notification cache can arrive in either order.
@@ -70,14 +90,16 @@ extern "C" __attribute__((visibility("default"))) int SportsPrepareExternalDispl
     view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     window.hidden = NO;
     [window layoutIfNeeded];
+    SportsCapExternalQueue(view);
+    // Experiment (P1, B4), off unless launched with `-sportsTVClock YES`: pace the game loop by the TV's refresh, not the phone's.
+    if ([NSUserDefaults.standardUserDefaults boolForKey:@"sportsTVClock"])
+        [(SportsUnityAppController*)GetAppController() sportsDriveLoopFromScreen:externalScene.screen];
     NSLog(@"[SportsDisplay] external ready index=1 screen=%@ window=%@ view=%@ scene=%@ bounds=%@", externalScene.screen, window, view, window.windowScene, NSStringFromCGRect(window.bounds));
     return window.windowScene == externalScene && !window.hidden ? 1 : -1;
 }
 
 // Unity's default picker accepts any foreground scene, including the TV scene.
 // DisplayManager still treats the phone as display 0, so always initialize there.
-@interface SportsUnityAppController : UnityAppController
-@end
 extern "C" void SportsRegisterPointCapture();
 extern "C" id SportsMakePointRenderDelegate(id existing);
 @implementation SportsUnityAppController
@@ -97,5 +119,31 @@ extern "C" id SportsMakePointRenderDelegate(id existing);
     return nil;
 }
 - (BOOL)shouldUseMetalDisplayLink { return NO; }
+
+// The game loop is driven by the phone's display link, so frames reach the TV on the phone's clock: up to a frame of
+// jitter on top of everything else. This swaps in the TV screen's own link (nil: back to the phone's, as Unity made it),
+// and goes back by itself if the TV goes away, so the loop never waits on a screen that is gone.
+- (void)sportsDriveLoopFromScreen:(UIScreen*)screen {
+    CADisplayLink *link = screen ? [screen displayLinkWithTarget:self selector:@selector(repaintDisplayLink)]
+                                 : [CADisplayLink displayLinkWithTarget:self selector:@selector(repaintDisplayLink)];
+    if (!link || !_displayLink) return;
+    link.paused = _displayLink.paused;
+    [_displayLink invalidate];
+    _displayLink = link;
+    [self callbackFramerateChange:-1];
+    [_displayLink addToRunLoop:NSRunLoop.mainRunLoop forMode:NSRunLoopCommonModes];
+    NSLog(@"[SportsDisplay] game loop clock: %@", screen ? @"TV" : @"phone");
+    static id sceneGone;
+    if (sceneGone) { [NSNotificationCenter.defaultCenter removeObserver:sceneGone]; sceneGone = nil; }
+    if (!screen) return;
+    // Any TV scene going away counts: by then its `screen` may already be gone too.
+    __weak SportsUnityAppController *weakSelf = self;
+    sceneGone = [NSNotificationCenter.defaultCenter addObserverForName:UISceneDidDisconnectNotification object:nil
+        queue:NSOperationQueue.mainQueue usingBlock:^(NSNotification *note) {
+            UIScene *scene = note.object;
+            if (![scene.session.role isEqualToString:UIWindowSceneSessionRoleExternalDisplayNonInteractive]) return;
+            [weakSelf sportsDriveLoopFromScreen:nil];
+        }];
+}
 @end
 IMPL_APP_CONTROLLER_SUBCLASS(SportsUnityAppController)

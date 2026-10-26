@@ -128,6 +128,9 @@ namespace GolfArcade.Tennis
             else return;
             material.SetColor("_BaseColor", c);
             if (material.HasProperty("_Color")) material.SetColor("_Color", c);
+            // CHARACTER QUALITY 10-25: rounded eyeball / cornea shading (TennisCharacter _EyeV2); VISUAL_EYE_V2=0 keeps the flat eyes
+            if (material.HasProperty("_EyeV2") && !sourceName.Contains("Brow") && !sourceName.Contains("Catch"))
+                material.SetFloat("_EyeV2", Environment.GetEnvironmentVariable("VISUAL_EYE_V2") == "0" ? 0 : 1);
             if (!EyeMaterialEnabled) return;
             if (sourceName.Contains("Iris") || sourceName.Contains("Sclera")) {
                 bool iris = sourceName.Contains("Iris");
@@ -151,7 +154,7 @@ namespace GolfArcade.Tennis
         {
             var existing = iris ? irisLookup : scleraLookup; if (existing) return existing;
             const int size = 128;
-            var texture = new Texture2D(size, size, TextureFormat.RGBA32, false, true) {
+            var texture = new Texture2D(size, size, TextureFormat.RGBA32, true, true) {   // 10-25: mipmapped, so the iris fibres never shimmer at distance
                 name = iris ? "OriginalEye_RelativeIris" : "OriginalEye_RelativeSclera",
                 wrapMode = TextureWrapMode.Clamp, filterMode = FilterMode.Bilinear
             };
@@ -164,6 +167,15 @@ namespace GolfArcade.Tennis
                     float r = new Vector2(2 * u - 1, 2 * v - 1).magnitude;
                     float middle = Mathf.Exp(-Mathf.Pow((r - .71f) / .22f, 2));
                     float a = .68f + .32f * middle - .16f * Smooth(.86f, 1, r);
+                    if (Environment.GetEnvironmentVariable("VISUAL_EYE_V2") != "0") {
+                        // CHARACTER QUALITY 10-25: radial fibres (two frequencies, irregular) and a lighter collarette ring around the pupil,
+                        // fading out at the limbal edge, so the iris reads as a structure and not a flat disc
+                        float ang = Mathf.Atan2(2 * v - 1, 2 * u - 1);
+                        float fib = .6f * Mathf.Sin(ang * 17 + 1.7f * Mathf.Sin(ang * 5)) + .4f * Mathf.Sin(ang * 29 + 2.3f * Mathf.Sin(ang * 3 + 1));
+                        float band = Smooth(.30f, .45f, r) * (1 - Smooth(.80f, .95f, r));
+                        float collar = Mathf.Exp(-Mathf.Pow((r - .43f) / .07f, 2));
+                        a *= 1 + .12f * collar;   // r9: no fibres (they swirled on the male's iris), only the lighter ring around the pupil
+                    }
                     color = new Color(a, a * (.91f + .09f * middle), a * (.82f + .18f * middle), 1);
                 }
                 else {
@@ -174,7 +186,7 @@ namespace GolfArcade.Tennis
                 }
                 colors[y * size + x] = color;
             }
-            texture.SetPixels(colors); texture.Apply(false, false);
+            texture.SetPixels(colors); texture.Apply(true, false);
             if (iris) irisLookup = texture; else scleraLookup = texture;
             return texture;
         }

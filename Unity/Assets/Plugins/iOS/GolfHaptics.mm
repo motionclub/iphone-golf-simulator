@@ -5,15 +5,33 @@
 // The phone's own speaker can add a short knock: system sounds play on the device and ignore the AirPlay
 // route, so it arrives at once while the TV's hit sound is still on its way.
 //
-// Called from GolfArcade.Game.Haptics via DllImport("__Internal") and from the app (the Settings feel test)
-// through dlsym. Every entry point is safe on devices without haptics (it just does less, or nothing).
+// Called from GolfArcade.Game.Haptics via DllImport("__Internal") and from the app (the Settings feel test, and the
+// swing-contact signal from the motion sensor queue) through dlsym. Every entry point is safe on devices without haptics
+// (it just does less, or nothing). All the work runs on one serial queue (`Feel()`), never the main thread: the hand-first
+// strike is played straight from the motion queue's signal without waiting for Unity's frame on the main thread.
+//
+// Hand first: a tennis strike is decided by the game a TV delay before the picture shows it, and before the player's arm
+// gets there (the player swings at the picture). `GolfHaptics_HitOnSwing` holds that strike until the phone's own swing
+// reaches the ball (`GolfHaptics_SwingContact`, its rotation peak), plays it at once if that peak has just passed, and
+// otherwise at the latest after the wait it was given.
 #import <UIKit/UIKit.h>
 #import <CoreHaptics/CoreHaptics.h>
 #import <AudioToolbox/AudioToolbox.h>
+#import <QuartzCore/QuartzCore.h>
 #include "GolfHitFeel.h"
 
+static dispatch_queue_t Feel(void)
+{
+    static dispatch_queue_t queue;
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        queue = dispatch_queue_create("golf.haptics.feel", dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INTERACTIVE, 0));
+    });
+    return queue;
+}
+
 static CHHapticEngine *engine;
-static volatile BOOL engineRunning;
+static BOOL engineRunning;
 static id<CHHapticAdvancedPatternPlayer> tension;
 /// The "swing felt" swish waits a moment before it plays, and a hit that lands in that moment cancels it,
 /// so a swing that meets the ball is one clean strike and not a tick and a strike on top of each other.
@@ -24,6 +42,13 @@ static float strength = 1;
 static BOOL racketSound;
 static SystemSoundID knocks[GolfFeel::SoundCount];
 static BOOL knocksReady, knocksBuilding;
+/// A strike waiting for the swing to reach the ball, and when the swing last did with nothing waiting (CACurrentMediaTime).
+static BOOL strikeArmed;
+static GolfFeel::Hit armedStrike;
+static uint64_t armedTicket;
+static CFTimeInterval lastSwingContact = -1;
+/// A strike decided this soon after the swing's peak plays at once: the peak was this swing's.
+static const CFTimeInterval RecentSwingContact = .2;
 static UIImpactFeedbackGenerator *impactGen;
 static UISelectionFeedbackGenerator *selectionGen;
 static UINotificationFeedbackGenerator *notifyGen;
@@ -44,14 +69,16 @@ static BOOL EnsureEngine(void)
         engine.playsHapticsOnly = YES;      // lowest start latency; the knock goes through System Sound Services instead
         engine.autoShutdownEnabled = NO;    // an idle shutdown would put a restart in front of the next hit
         __weak CHHapticEngine *weakEngine = engine;
-        engine.stoppedHandler = ^(CHHapticEngineStoppedReason reason) { engineRunning = NO; };
+        engine.stoppedHandler = ^(CHHapticEngineStoppedReason reason) { dispatch_async(Feel(), ^{ engineRunning = NO; }); };
         engine.resetHandler = ^{
-            engineRunning = [weakEngine startAndReturnError:nil];
-            // Players made before a reset are dead.
-            dispatch_async(dispatch_get_main_queue(), ^{ tension = nil; swingCue = nil; });
+            dispatch_async(Feel(), ^{
+                engineRunning = [weakEngine startAndReturnError:nil];
+                // Players made before a reset are dead.
+                tension = nil; swingCue = nil;
+            });
         };
         [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillEnterForegroundNotification object:nil
-            queue:NSOperationQueue.mainQueue usingBlock:^(NSNotification *note) { EnsureEngine(); }];
+            queue:NSOperationQueue.mainQueue usingBlock:^(NSNotification *note) { dispatch_async(Feel(), ^{ EnsureEngine(); }); }];
     }
     if (!engineRunning) engineRunning = [engine startAndReturnError:nil];
     return engineRunning;
@@ -110,11 +137,14 @@ static NSArray<id<CHHapticPatternPlayer>> *Play(const GolfFeel::Score &score, fl
     return players;
 }
 
+/// The UIKit fallback (no CoreHaptics): its generators belong to the main thread.
 static void Impact(float intensity)
 {
-    if (!impactGen) impactGen = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleHeavy];
-    [impactGen impactOccurredWithIntensity:Clamp01(intensity)];
-    [impactGen prepare];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (!impactGen) impactGen = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleHeavy];
+        [impactGen impactOccurredWithIntensity:Clamp01(intensity)];
+        [impactGen prepare];
+    });
 }
 
 static void CancelSwingCue(void)
@@ -155,7 +185,7 @@ static void PrepareKnocks(void)
             if (![Wav(GolfFeel::RenderSound(s), 44100) writeToFile:path atomically:YES]) continue;
             AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:path], &made[s]);
         }
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(Feel(), ^{
             for (int s = 0; s < GolfFeel::SoundCount; s++) knocks[s] = made[s];
             knocksReady = YES; knocksBuilding = NO;
         });
@@ -177,9 +207,31 @@ static void HitNow(const GolfFeel::Hit &hit)
         Impact(GolfFeel::Mix(.5f, 1, GolfFeel::Clean(hit)) * strength);
 }
 
+/// Hold `hit` until the swing reaches the ball, or `wait` seconds. Feel queue only.
+static void HitOnSwing(const GolfFeel::Hit &hit, float wait)
+{
+    if (CACurrentMediaTime() - lastSwingContact <= RecentSwingContact) { lastSwingContact = -1; HitNow(hit); return; }
+    if (strikeArmed) HitNow(armedStrike);   // never lose a strike: one still waiting plays now
+    CancelSwingCue();
+    strikeArmed = YES; armedStrike = hit;
+    uint64_t ticket = ++armedTicket;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(fmaxf(0, fminf(1, wait)) * NSEC_PER_SEC)), Feel(), ^{
+        if (!strikeArmed || armedTicket != ticket) return;
+        strikeArmed = NO; HitNow(armedStrike);
+    });
+}
+
+/// The phone's own swing has reached the ball. Feel queue only.
+static void SwingContact(void)
+{
+    if (strikeArmed) { strikeArmed = NO; HitNow(armedStrike); }
+    else lastSwingContact = CACurrentMediaTime();
+}
+
 static void CueNow(int kind, float intensity, float delay)
 {
     float wait = fmaxf(0, fminf(1, delay));
+    if (kind == GolfFeel::Swing && strikeArmed) return;   // the strike itself is on its way
     if (kind == GolfFeel::Swing) { CancelSwingCue(); wait = fmaxf(wait, SwingCueHold); }
     NSArray<id<CHHapticPatternPlayer>> *players = Play(GolfFeel::BuildCue(kind, intensity, strength), wait);
     if (kind == GolfFeel::Swing && players.count) { swingCue = players.firstObject; swingCueAt = engine.currentTime + wait; }
@@ -194,26 +246,42 @@ extern "C" {
 /// Start the engine and make the knocks now, so the first hit of a match pays for neither.
 void GolfHaptics_Warm(void)
 {
-    EnsureEngine();
-    if (racketSound) PrepareKnocks();
+    dispatch_async(Feel(), ^{
+        EnsureEngine();
+        if (racketSound) PrepareKnocks();
+    });
 }
 
 /// `level` scales every haptic (Settings: hit strength); `sound` turns the phone-speaker knock on.
 GOLF_HAPTICS_APP_API void GolfHaptics_Configure(float level, int sound)
 {
-    strength = fmaxf(.2f, fminf(1, level));
-    racketSound = sound != 0;
-    if (racketSound) PrepareKnocks();
+    dispatch_async(Feel(), ^{
+        strength = fmaxf(.2f, fminf(1, level));
+        racketSound = sound != 0;
+        if (racketSound) PrepareKnocks();
+    });
 }
 
 /// A strike, felt by how it was struck. See GolfHitFeel.h for the fields.
 void GolfHaptics_Hit(int style, int grade, int pips, int flags, float power, float center, float mistime, float heat)
 {
-    HitNow({ style, grade, pips, flags, power, center, mistime, heat });
+    GolfFeel::Hit hit = { style, grade, pips, flags, power, center, mistime, heat };
+    dispatch_async(Feel(), ^{ HitNow(hit); });
 }
 
+/// The same strike, held for the phone's own swing to reach the ball (at most `wait` seconds).
+void GolfHaptics_HitOnSwing(int style, int grade, int pips, int flags, float power, float center, float mistime, float heat, float wait)
+{
+    GolfFeel::Hit hit = { style, grade, pips, flags, power, center, mistime, heat };
+    dispatch_async(Feel(), ^{ HitOnSwing(hit, wait); });
+}
+
+/// From the motion sensor queue (SportsMotion, through dlsym): the swing's rotation has just peaked, i.e. the racket
+/// in the player's hand is at the ball.
+GOLF_HAPTICS_APP_API void GolfHaptics_SwingContact(void) { dispatch_async(Feel(), ^{ SwingContact(); }); }
+
 /// A moment that is not a strike (GolfFeel::Cue), `delay` seconds from now (the TV's lag for TV moments).
-void GolfHaptics_Cue(int kind, float intensity, float delay) { CueNow(kind, intensity, delay); }
+void GolfHaptics_Cue(int kind, float intensity, float delay) { dispatch_async(Feel(), ^{ CueNow(kind, intensity, delay); }); }
 
 GOLF_HAPTICS_APP_API int GolfHaptics_DemoCount(void) { return (int)GolfFeel::Demos().size(); }
 
@@ -223,7 +291,8 @@ GOLF_HAPTICS_APP_API const char *GolfHaptics_Demo(int index)
     const auto &demos = GolfFeel::Demos();
     if (index < 0 || index >= (int)demos.size()) return NULL;
     const GolfFeel::Demo &d = demos[index];
-    if (d.cue) CueNow(d.kind, 1, 0); else HitNow(d.hit);
+    if (d.cue) { int kind = d.kind; dispatch_async(Feel(), ^{ CueNow(kind, 1, 0); }); }
+    else { GolfFeel::Hit hit = d.hit; dispatch_async(Feel(), ^{ HitNow(hit); }); }
     return d.name;
 }
 
@@ -246,7 +315,7 @@ void GolfHaptics_Notification(int type)
 }
 
 /// Starts a silent continuous buzz (up to 30 s) whose intensity and sharpness the game drives.
-void GolfHaptics_TensionStart(void)
+static void TensionStart(void)
 {
     if (!EnsureEngine()) return;
     if (tension) { [tension stopAtTime:0 error:nil]; tension = nil; }
@@ -267,19 +336,19 @@ void GolfHaptics_TensionStart(void)
     [tension startAtTime:0 error:nil];
 }
 
-void GolfHaptics_TensionSet(float intensity, float sharpness)
-{
+void GolfHaptics_TensionStart(void) { dispatch_async(Feel(), ^{ TensionStart(); }); }
+
+void GolfHaptics_TensionSet(float intensity, float sharpness) { dispatch_async(Feel(), ^{
     if (!tension) return;
     CHHapticDynamicParameter *i = [[CHHapticDynamicParameter alloc] initWithParameterID:CHHapticDynamicParameterIDHapticIntensityControl value:Clamp01(intensity) * strength relativeTime:0];
     CHHapticDynamicParameter *s = [[CHHapticDynamicParameter alloc] initWithParameterID:CHHapticDynamicParameterIDHapticSharpnessControl value:Clamp01(sharpness) relativeTime:0];
     [tension sendParameters:@[i, s] atTime:0 error:nil];
-}
+}); }
 
-void GolfHaptics_TensionStop(void)
-{
+void GolfHaptics_TensionStop(void) { dispatch_async(Feel(), ^{
     if (!tension) return;
     [tension stopAtTime:0 error:nil];
     tension = nil;
-}
+}); }
 
 }

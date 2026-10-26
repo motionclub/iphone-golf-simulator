@@ -487,8 +487,27 @@ namespace GolfArcade.Tennis
             if (!src || !src.isReadable) return null;
             if (bindPoseMeshes.TryGetValue(src, out var copy) && copy) return copy;
             copy = Object.Instantiate(src); copy.name = src.name + " (bind pose)"; copy.hideFlags = HideFlags.DontSave;
+            // CHARACTER QUALITY 10-24: the FBX's second UV layer is the skin texture unwrap (SkinUnwrap); it moves to channel 4 before
+            // channel 1 takes the bind pose
+            var unwrap = new System.Collections.Generic.List<Vector2>(); src.GetUVs(1, unwrap);
+            if (unwrap.Count == src.vertexCount && src.GetVertexAttributeDimension(UnityEngine.Rendering.VertexAttribute.TexCoord1) == 2) copy.SetUVs(4, unwrap);
             copy.SetUVs(1, new System.Collections.Generic.List<Vector3>(src.vertices));
             bindPoseMeshes[src] = copy; return copy;
+        }
+
+        /// CHARACTER QUALITY 10-24: the baked skin set (Resources/Tennis/SkinMaps/<Sex>_skin_pigment / _mask) on a body that carries the
+        /// SkinUnwrap layout in channel 4. VISUAL_SKIN_TEX=0 keeps the untextured skin.
+        void SkinTextures(Material m, Mesh mesh)
+        {
+            if (!m || !m.HasProperty("_SkinTex") || System.Environment.GetEnvironmentVariable("VISUAL_SKIN_TEX") == "0") return;
+            if (!mesh || !mesh.HasVertexAttribute(UnityEngine.Rendering.VertexAttribute.TexCoord4)) return;
+            string sex = female ? "Female" : "Male";
+            var pigment = Resources.Load<Texture2D>("Tennis/SkinMaps/" + sex + "_skin_pigment");
+            var mask = Resources.Load<Texture2D>("Tennis/SkinMaps/" + sex + "_skin_mask");
+            if (!pigment || !mask) return;
+            m.SetTexture("_SkinPigmentMap", pigment); m.SetTexture("_SkinMaskMap", mask); m.SetFloat("_SkinTex", 1);
+            if (float.TryParse(System.Environment.GetEnvironmentVariable("VISUAL_SKIN_COOLFILL"), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var cool))
+                m.SetFloat("_SkinCoolFill", cool);   // look-dev override of the shader default
         }
 
         static bool IsEye(Material m)
@@ -576,6 +595,7 @@ namespace GolfArcade.Tennis
                             HeroOriginalSeamAnatomy.ConfigurePigment(skinMaterials[i]);
                             skinMaterials[i].SetFloat("_SkinPigmentUV",System.Environment.GetEnvironmentVariable("VISUAL_CHARACTER_LIP_FINISH")=="0"?1:2);
                         }
+                        if (bump) SkinTextures(skinMaterials[i], body.sharedMesh);
                         if(System.Environment.GetEnvironmentVariable("VISUAL_CHARACTER_SKIN_FINISH")=="1" ||
                            (originalSeam && System.Environment.GetEnvironmentVariable("VISUAL_CHARACTER_SKIN_FINISH")!="0"))
                             skinMaterials[i].SetFloat("_SkinFinish",female?2:1);

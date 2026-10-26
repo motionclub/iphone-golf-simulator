@@ -146,6 +146,41 @@ final class HubSessionTests: XCTestCase {
         try await save(HubLoadingScreen(hub: hub), "hub-loading-tv-100", size: CGSize(width: 1280, height: 720))
     }
 
+    /// A boot that is given up (the plaza moving screens, the TV going away) is ended in Unity too. 2026-10-25 device log: the
+    /// TV connected mid-boot, Unity dropped the TV's start while the phone's load ran, and the boot sat until Try again.
+    func testAnAbandonedBootIsEndedInUnity() {
+        let hub = HubSession.shared
+        SportsSession.shared.displayConnected = true; TennisMenu.shared.debugShow(.title)
+        var sent: [String] = []; hub.debugSent = { sent.append($0["action"] as? String ?? "") }
+        hub.debugBoot(session: "abandoned")
+        XCTAssertEqual(sent, ["start"])
+        hub.displayLost()
+        XCTAssertEqual(sent, ["start", "end"], "Unity stops loading the old session, so the next start is not dropped")
+    }
+
+    /// The venue loading screens (2026-10-25): each venue's art, both of a load's tip cards and the bar at 50 % on the TV, and the
+    /// phone's upright version (written to $MENU_SNAP_DIR).
+    func testVenueLoadingSnapshots() async throws {
+        let session = SportsSession.shared, menu = TennisMenu.shared
+        let saved = (session.sport, session.tennisVenue, session.golfCourse)
+        defer { session.sport = saved.0; session.tennisVenue = saved.1; session.golfCourse = saved.2; session.loading.cancel() }
+        let start = LoadingModel.clockNow
+        for (sport, venue) in [(Sport.tennis, "resort"), (.tennis, "skyscraper"), (.tennis, "volcano"),
+                               (.golf, "cliffside"), (.golf, "wildisles"), (.golf, "magma")] {
+            session.sport = sport.rawValue
+            if sport == .tennis { session.tennisVenue = venue } else if sport == .golf { session.golfCourse = venue }
+            menu.debugShow(.loading, launch: MenuLaunch(sport: sport, mode: sport == .golf ? .round : .exhibition))
+            for tip in 1...LoadingModel.tipsPerLoad {
+                session.loading.begin(now: start); session.loading.reach(0.5)
+                session.loading.tick(now: start.addingTimeInterval(LoadingModel.firstTipDelay + LoadingModel.tipInterval * Double(tip - 1) + 0.1))
+                XCTAssertEqual(session.loading.tipNumber, tip)
+                XCTAssertEqual(Int((session.loading.displayProgress * 100).rounded()), 46)
+                try await save(LoadingScreen(menu: menu, compact: false), "venue-\(sport.rawValue)-\(venue)-tv-\(tip)", size: CGSize(width: 1280, height: 720))
+                if tip == 1 { try await save(LoadingScreen(menu: menu, compact: true), "venue-\(sport.rawValue)-\(venue)-phone") }
+            }
+        }
+    }
+
     func testPhoneControllerSnapshots() async throws {
         let hub = HubSession.shared
         SportsSession.shared.displayConnected = true; TennisMenu.shared.debugShow(.main)

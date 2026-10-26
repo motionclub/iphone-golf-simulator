@@ -53,6 +53,7 @@ namespace GolfArcade.PlayTests
             var game = Object.FindFirstObjectByType<TennisGame>();
             game.ManualSimulation = true; game.NativeControlled = true;
             game.ConfigureMatch(TennisGame.Mode.Tutorial, "", "Ray", "TUTORIAL");
+            game.BeginLesson(1);
             var tutorial = game.GetComponent<TennisTutorial>();
             int finished = 0;
             float began = Time.realtimeSinceStartup, firstContact = -1;
@@ -64,14 +65,14 @@ namespace GolfArcade.PlayTests
             try
             {
                 Assert.AreEqual(TutorialLesson.Kind.Forehand, tutorial.Lesson.Current.Kind);
-                foreach (var kind in new[] { TutorialLesson.Kind.Forehand, TutorialLesson.Kind.Backhand, TutorialLesson.Kind.Aim })
+                foreach (var kind in new[] { TutorialLesson.Kind.Forehand, TutorialLesson.Kind.Pace, TutorialLesson.Kind.Backhand, TutorialLesson.Kind.Aim })
                 {
                     Assert.AreEqual(kind, tutorial.Lesson.Current.Kind);
                     // Search human-playable swing timing using the scheduled real coach feeds.
                     for (int attempt = 0; attempt < 80 && tutorial.Lesson.Current.Kind == kind; attempt++)
                     {
                         yield return new WaitForSeconds(2);
-                        game.AimInput = kind == TutorialLesson.Kind.Aim ? (tutorial.Lesson.AimLeft ? -.6f : .6f) : 0;
+                        game.AimInput = kind == TutorialLesson.Kind.Aim ? (tutorial.Lesson.Progress == 0 ? -.6f : .6f) : 0;
                         Simulate(game, .6f + (attempt % 60) * .04f);
                         bool back = game.BallPosition.x < game.Player.transform.position.x;
                         game.RequestSwing(.65f, back ? -1 : 1, 0, back ? -1 : 1);
@@ -92,7 +93,17 @@ namespace GolfArcade.PlayTests
                 Assert.AreEqual(1, tutorial.Lesson.Misses, "net faults retry with coaching");
                 yield return new WaitForSeconds(1.6f);
                 Serve(game, true); yield return null;
-                Assert.AreEqual(TutorialLesson.Kind.Point, tutorial.Lesson.Current.Kind);
+                Assert.AreEqual(TutorialLesson.Kind.Dive, tutorial.Lesson.Current.Kind);
+                // the wide ball: dive for it as it comes
+                for (int attempt = 0; attempt < 20 && tutorial.Lesson.Current.Kind == TutorialLesson.Kind.Dive; attempt++)
+                {
+                    yield return new WaitForSeconds(2);
+                    Simulate(game, .5f + (attempt % 10) * .05f);
+                    game.RequestDive();
+                    Simulate(game, 4);
+                    yield return null;
+                }
+                Assert.AreEqual(TutorialLesson.Kind.Point, tutorial.Lesson.Current.Kind, "the dive station passes on a real dive (or a reached ball)");
                 Assert.IsFalse(tutorial.Lesson.Done, "the previous drill must not finish the real point");
                 yield return new WaitForSeconds(1.6f);
                 Assert.IsFalse(game.Drill);
@@ -113,8 +124,8 @@ namespace GolfArcade.PlayTests
                 game.ManualSimulation = true; game.NativeControlled = true; game.OpponentDifficulty = .1f;
                 typeof(TennisGame).GetField("random", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
                     .SetValue(game, new System.Random(seed));
-                TennisTutorial.StartIndex = 4;
                 game.ConfigureMatch(TennisGame.Mode.Tutorial, "", "Ray", "TUTORIAL");
+                game.BeginLesson(TutorialLesson.Steps.Length);   // the phone's numbering: the last station, the point
                 var tutorial = game.GetComponent<TennisTutorial>();
                 yield return new WaitForSeconds(1.4f);
                 float tossAge = 0; bool served = false;

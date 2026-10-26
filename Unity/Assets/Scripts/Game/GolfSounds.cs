@@ -17,6 +17,8 @@ namespace GolfArcade.Game
         // (the strike has a source of its own, so a cheer or a whoosh already playing never steals its voice)
         AudioSource source, tensionSource, strikeSource;
         AudioSource flightSource;
+        AudioSource ambience, gallery, galleryLean;
+        float leanRef = -1;
         AudioClip mishit, landGreen, landFairway, landRough, landSand, perfect, driver, iron, wedge, putter, whoosh, cup, splash, thud, tension, ready, fanfare, tick, applause, gasp, groan, leaves, knockWood, knockStone, ovation, whistles, lavaHiss, iceSkid, flight;
         float tensionTarget;
 
@@ -36,6 +38,9 @@ namespace GolfArcade.Game
             s.tensionSource.playOnAwake = false;
             s.tensionSource.spatialBlend = 0;
             s.tensionSource.loop = true;
+            AudioSource Bed() { var a = go.AddComponent<AudioSource>(); a.playOnAwake = false; a.spatialBlend = 0; a.loop = true; a.volume = 0; return a; }
+            s.ambience = Bed(); s.gallery = Bed(); s.galleryLean = Bed();
+            s.gallery.clip = GameAudio.Load("sfx/crowd/gallery_bed")?[0]; s.galleryLean.clip = GameAudio.Load("sfx/crowd/gallery_swell")?[0];
             s.Synthesize();
             s.SwapV2();
             s.tensionSource.clip = s.tension;
@@ -120,6 +125,32 @@ namespace GolfArcade.Game
         }
 
         public void Release() { tensionTarget = 0; }
+
+        string ambienceKey;
+        /// The hole's own sound, every frame: the course's ambience (the sea and gulls, jungle birds, the crater's
+        /// rumble — pulled down under rain) and one gallery round the green, murmuring between shots and leaning in
+        /// as a ball runs at the cup. They are the people who applaud a ball onto the green (the gallery files are
+        /// EQ-matched to that applause), so the hole is one crowd from tee to cup. `toPin` is the moving ball's
+        /// distance to the cup in metres (negative when it is still); a putt builds over its own length, so even a
+        /// 10 m putt starts from the murmur, and any other shot over its last 25 m.
+        public void Atmosphere(string course, bool onCourse, float toPin, bool putt, float rain)
+        {
+            string key = course == "wildisles" || course == "magma" ? course : "cliffside";
+            if (key != ambienceKey) { ambienceKey = key; ambience.Stop(); ambience.clip = GameAudio.Load("sfx/amb/golf_" + key)?[0]; }
+            if (toPin < 0) leanRef = -1; else if (leanRef < 0) leanRef = putt ? Mathf.Clamp(toPin, 2.5f, 25f) : 25f;
+            float close = toPin < 0 ? 0 : Mathf.Clamp01(1 - toPin / leanRef), sfx = GameAudio.SfxVolume;
+            Ease(ambience, onCourse ? .4f * (1 - .6f * Mathf.Clamp01(rain)) * sfx : 0, .5f, .5f);
+            Ease(gallery, onCourse ? (.22f + .2f * close) * sfx : 0, .6f, .6f);
+            Ease(galleryLean, onCourse ? close * close * .5f * sfx : 0, .8f, 2.5f);
+        }
+
+        static void Ease(AudioSource a, float target, float up, float down)
+        {
+            if (!a.clip) return;
+            a.volume = Mathf.MoveTowards(a.volume, target, Time.unscaledDeltaTime * (target > a.volume ? up : down));
+            if (a.volume > .005f && !a.isPlaying) a.Play();
+            else if (a.volume <= .005f && a.isPlaying && target <= 0) a.Pause();
+        }
 
         void Update()
         {

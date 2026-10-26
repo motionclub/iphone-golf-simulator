@@ -58,7 +58,10 @@ namespace GolfArcade.Tennis
             float n = SmoothMax(ridge, ala, Mathf.Lerp(AlaCrease, AlaBaseBlend, Sm(-44, -50, y)));
             if (y > NoseTop || y < NoseBottom) n = -1000;
             n -= 25 * Sm(NoseBottom + BaseSoft, NoseBottom, y) + 60 * Sm(NoseTop - 3, NoseTop, y);
-            float zo = ax < 13 && y < -28 && y > NoseBottom + 3 ? Mathf.Min(z, n) : z;   // no carve next to the base (it folded the columella)
+            // no carve next to the base (it folded the columella). 10-25: the carve fades in over 12..14 mm across and 1 mm round its y limits; switching
+            // on at ax 13 left a 12 mm step that turned the warp over (minJacobian -0.087 -> +0.033)
+            float carve = (1 - Sm(12, 14, ax)) * (1 - Sm(-29, -27, y)) * Sm(NoseBottom + 2, NoseBottom + 4, y);
+            float zo = Mathf.Lerp(z, Mathf.Min(z, n), carve);
             float target = SmoothMax(zo, n, CheekBlend);
             float zone = (1 - Sm(26, 32, ax)) * Sm(18, 28, z) * Sm(NoseBottom - 4, NoseBottom - 1, y) * (1 - Sm(NoseTop, NoseTop + 4, y));
             zone *= 1 - Mathf.Exp(-Mathf.Pow((ax - 7.5f) / 4.5f, 2) - Mathf.Pow((y + 54) / 3.5f, 2));   // the nostril rims stay over their cavities (pulling them folded the walls)
@@ -355,6 +358,26 @@ namespace GolfArcade.Tennis
                         if (cw[w] <= 0 || nbr[w] == null) continue;
                         var avg = Vector3.zero; foreach (int b in nbr[w]) avg += pos[b]; avg /= nbr[w].Count;
                         next[w] = pos[w] + .5f * cw[w] * (avg - pos[w]);
+                    }
+                    pos = next;
+                }
+                // 10-25 untangle: pressing the old, steep nose side walls onto the new nose along z turns a few triangles over at the wing tops
+                // (14 after the relax passes, a pale crack on the wing). Smooth only their corners and two rings round them until none is turned
+                // over (12 passes; 141 vertices of the nose zone move, at most 2.4 mm; work/male-nose-fold-preview).
+                for (int pass = 0; pass < 60; pass++) {
+                    var hot = new HashSet<int>();
+                    for (int t = 0; t < tris.Length; t += 3) {
+                        var c0 = Vector3.Cross(before[tris[t + 1]] - before[tris[t]], before[tris[t + 2]] - before[tris[t]]);
+                        var c1 = Vector3.Cross(pos[id[tris[t + 1]]] - pos[id[tris[t]]], pos[id[tris[t + 2]]] - pos[id[tris[t]]]);
+                        if (Vector3.Dot(c0, c1) < 0) { hot.Add(id[tris[t]]); hot.Add(id[tris[t + 1]]); hot.Add(id[tris[t + 2]]); }
+                    }
+                    if (hot.Count == 0) break;
+                    for (int ring = 0; ring < 2; ring++) foreach (int w in hot.ToArray()) if (nbr[w] != null) foreach (int b in nbr[w]) hot.Add(b);
+                    var next = (Vector3[])pos.Clone();
+                    foreach (int w in hot) {
+                        if (zw[w] <= 0 || nbr[w] == null) continue;
+                        var avg = Vector3.zero; foreach (int b in nbr[w]) avg += pos[b]; avg /= nbr[w].Count;
+                        next[w] = pos[w] + .5f * (avg - pos[w]);
                     }
                     pos = next;
                 }

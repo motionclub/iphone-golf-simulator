@@ -384,10 +384,36 @@ namespace GolfArcade.Tennis
             Tick(0, 0);
         }
 
-        /// Time until the swing reaches its authored contact frame (0 once past it).
-        public float TimeToContact => Swinging ? Mathf.Max(0, TennisRules.SweetTime - ContactAge) * swingDuration / TennisRules.StrokeDuration : 0;
+        /// Time until the swing reaches its authored contact frame (0 once past it), any hold included.
+        public float TimeToContact => Swinging ? Mathf.Max(0, TennisRules.SweetTime - ContactAge) * swingDuration / TennisRules.StrokeDuration + holdLeft : 0;
         /// The same, signed: negative once the contact frame has passed (game seconds).
-        public float SignedTimeToContact => Swinging ? (TennisRules.SweetTime - ContactAge) * swingDuration / TennisRules.StrokeDuration : 0;
+        public float SignedTimeToContact => Swinging ? (TennisRules.SweetTime - ContactAge) * swingDuration / TennisRules.StrokeDuration + holdLeft : 0;
+        /// The same in game seconds as they will pass: a paced approach (`PaceToContact`) reaches contact sooner or later
+        /// than its swing time says. Timing and grading read this one; the hero's clip time reads the swing time above.
+        public float SignedRealTimeToContact
+        {
+            get
+            {
+                if (!Swinging) return 0;
+                float swing = (TennisRules.SweetTime - ContactAge) * swingDuration / TennisRules.StrokeDuration;
+                return (swing > 0 ? swing / Mathf.Max(.01f, swingPace) : swing) + holdLeft;
+            }
+        }
+        public float RealTimeToContact => Mathf.Max(0, SignedRealTimeToContact);
+
+        /// An early swing waits at its backswing for this long (game seconds) before playing on, so it still
+        /// meets the ball; see `TennisRules.EarlySwingHold`. `HeldTotal` is how much hold this swing was given,
+        /// so the game can grade the timing the player actually swung with.
+        float holdLeft;
+        public float HeldTotal { get; private set; }
+        public bool Holding => holdLeft > 0 && Swinging;
+        /// Real swing time so far, holds included (SwingAge stands still during a hold).
+        public float SwingElapsed => SwingAge + HeldTotal - holdLeft;
+        public void HoldSwing(float seconds)
+        {
+            if (!Swinging || seconds <= 0 || ContactAge >= TennisRules.SweetTime) return;
+            holdLeft = seconds; HeldTotal = seconds;
+        }
 
         /// Where the strings would be at the authored contact frame if the body stayed where
         /// it is now.
@@ -415,6 +441,14 @@ namespace GolfArcade.Tennis
         /// backswing or already past.
         public void PaceToContact(float seconds, float slowest = .6f)
         {
+            // A held swing re-plans its wait instead of crawling through the stroke.
+            if (holdLeft > 0)
+            {
+                float swing = TimeToContact - holdLeft;
+                float wait = Mathf.Max(0, seconds - swing);
+                HeldTotal += wait - holdLeft; holdLeft = wait;
+                if (wait > 0) { swingPace = 1; return; }
+            }
             float left = TimeToContact;
             swingPace = left > 0 && seconds > 0 ? Mathf.Clamp(left / seconds, slowest, 6f) : 1;
         }
@@ -628,7 +662,7 @@ namespace GolfArcade.Tennis
             // A swing out of a prepared backswing blends from it rather than cutting.
             swingFromPrepare = prepare > .05f;
             prepare = prepareTarget = 0; prepareServe = false;
-            swingPace = 1; guiding = false;
+            swingPace = 1; guiding = false; holdLeft = 0; HeldTotal = 0;
             if (oneShotIndex >= 0 && oneShotClip != "GroundRecovery") oneShotIndex = -1;
             strokeTrail.Clear();
         }
@@ -643,7 +677,7 @@ namespace GolfArcade.Tennis
         public void CancelSwing()
         {
             if (!Swinging) return;
-            SwingAge = swingDuration; Provisional = false; cancelled = true; guiding = false; swingPace = 1;
+            SwingAge = swingDuration; Provisional = false; cancelled = true; guiding = false; swingPace = 1; holdLeft = 0;
         }
 
         /// Take the racket back as the ball approaches, before any swing is detected.
@@ -802,13 +836,21 @@ namespace GolfArcade.Tennis
             travelSpeed = postureVelocity.magnitude;
             bool wasSwinging = Swinging;
             float toContact = TennisRules.SweetTime * swingDuration / TennisRules.StrokeDuration;
+            // An early swing waits at its backswing first; whatever is left of the step plays on.
+            float swingDt = dt;
+            if (holdLeft > 0)
+            {
+                if (SwingAge >= toContact || !Swinging) holdLeft = 0;
+                float spend = Mathf.Min(holdLeft, swingDt);
+                holdLeft -= spend; swingDt -= spend;
+            }
             if (swingPace != 1 && SwingAge < toContact)
             {
-                float paced = SwingAge + dt * swingPace;
+                float paced = SwingAge + swingDt * swingPace;
                 SwingAge = paced < toContact ? paced : toContact + (paced - toContact) / swingPace;
                 if (SwingAge >= toContact) swingPace = 1;
             }
-            else { SwingAge += dt; swingPace = 1; }
+            else { SwingAge += swingDt; swingPace = 1; }
             guideClock -= dt;
             float readyIndexLength = clipLength[Mathf.Max(0, Resolve("Ready"))];
             idlePhase = Mathf.Repeat(idlePhase + dt / readyIndexLength, 1);

@@ -9,7 +9,8 @@ namespace GolfArcade.Tennis
     /// One message between the two players' phones in a versus match (see TennisGame.Versus).
     [Serializable] public sealed class VersusMessage
     {
-        /// pose · swing · confirm · cancel · toss · catch · hit · whiff · point · fault · ready · emote · skip · syncRequest · sync
+        /// pose · swing · confirm · cancel · toss · catch · hit · whiff · point · fault · ready · emote · skip · syncRequest · sync · resync
+        /// (a pose travels in VersusWire's compact text, everything else as this class's JSON)
         public string k;
         /// The sender's seat, the points played when it was sent, and the shared clock it refers to.
         public int s; public long n; public double t;
@@ -21,6 +22,8 @@ namespace GolfArcade.Tennis
         // toss / hit: positions and velocities in the sender's court frame
         public Vector3 p, v, d;
         public float spin, curve, rest, acc;
+        // toss: gravity after its top (TennisRules.ServeFallGravity, slower on the sender's slow TV; 0 from an older phone = 9.81)
+        public float fall;
         public bool srv, ult, sup, smash;
         public int grade;
         // point / fault: called by the phone the ball was coming to
@@ -30,6 +33,8 @@ namespace GolfArcade.Tennis
         public int clip;
         // sync: the score as the sender has it (their side first), after the CPU played for the receiver while it was away
         public string score;
+        // ready / resync: the sender's score checksum as seat 0 sees it (VersusWire.ScoreChecksum; 0 = not sent)
+        public int sum;
     }
 
     /// VERSUS: two people, one match, and each plays it exactly as single player plays — the same camera behind their own player, the
@@ -74,6 +79,10 @@ namespace GolfArcade.Tennis
         /// One line per rival contact (tests): held or not, their stroke, the gaps, where the ball and they were.
         public readonly List<string> VersusContactLog = new();
         public float VersusHeldSeconds { get; private set; }
+        /// Points whose ready found the two phones on different points or scores, and the host's score re-sent / taken here (tests).
+        public int VersusMismatches { get; private set; }
+        public int VersusResyncsSent { get; private set; }
+        public int VersusResyncsTaken { get; private set; }
         /// The drawn ball eases from where it was (on the rival's strings) onto the shared flight: physics untouched, no visible jump.
         Vector3 versusBallOffset; float versusBallOffsetAt;
         const float VersusBlend = .15f;
@@ -81,10 +90,22 @@ namespace GolfArcade.Tennis
         readonly Queue<VersusMessage> versusInbox = new();
         VersusMessage remotePose;
         long versusPoint, remoteReady = -2, localReadySent = -2;
-        double readySince = -1, nextPoseSend;
+        // the other phone's latest ready: its point number and score checksum
+        long remoteReadyLatest = -2; int remoteReadySum;
+        double readySince = -1, nextPoseSend, nextResync;
+        /// A phone still short of the other's ready this long after its own is behind (a lost call) or stuck: the host's score goes out.
+        public const double VersusBehindAfter = 6;
+        /// A rally that has waited this long on the other phone (our shot is with them) lost a message: see VersusStallWatch.
+        public const double VersusStallAfter = 6;
+        double rallyWaitSince;
+        /// Rallies restarted because a shot or a call never arrived (tests).
+        public int VersusStalls { get; private set; }
         bool versusStarted;
         // the rival's serve: their toss (mirrored to this court), when it left the hand
-        bool remoteTossed; Vector3 remoteTossOrigin, remoteTossDrift, remoteServeHeldAt; double remoteTossAt;
+        bool remoteTossed; Vector3 remoteTossOrigin, remoteTossDrift, remoteServeHeldAt; double remoteTossAt; float remoteTossFall = 9.81f;
+        /// The rival's toss as this phone draws it (tests): in flight (not waiting on their strings), and its gravity after the top.
+        public bool VersusRemoteTossFlying => remoteTossed && !holdingForRemote;
+        public float VersusRemoteTossFall => remoteTossFall;
         // the rival's swing is about to meet our shot: the ball waits on their strings for their phone's shot (at most RemoteHoldMax)
         bool holdingForRemote, heldThisContact; double holdSince;
         /// How late the other phone's messages arrive (smoothed; seconds): the hold at the rival's strings never waits longer than a
@@ -122,6 +143,8 @@ namespace GolfArcade.Tennis
             match = TennisMatch.New(VersusSeat == 0, MatchSets, MatchGames); ResetMatchStats(); matchReported = false; ResetMatchAbilities();
             Hits = 0; Misses = 0; LongestRally = 0;
             versusInbox.Clear(); remotePose = null; versusPoint = 0; remoteReady = -2; localReadySent = -2; readySince = -1;
+            remoteReadyLatest = -2; remoteReadySum = 0; nextResync = 0; handedBackAt = double.NegativeInfinity;
+            VersusMismatches = VersusResyncsSent = VersusResyncsTaken = VersusStalls = 0; rallyWaitSince = 0;
             versusStarted = false; remoteTossed = false; holdingForRemote = heldThisContact = false; hitQueued = false;
             sentSwinging = sentProvisional = false; VersusScoreLog.Clear(); VersusRivalStrokes.Clear();
             VersusSent = VersusReceived = 0; VersusCallsMade = VersusCallsTaken = 0;
@@ -154,7 +177,9 @@ namespace GolfArcade.Tennis
         public void ReceiveVersus(string json)
         {
             if (!Versus) return;
-            VersusMessage m; try { m = JsonUtility.FromJson<VersusMessage>(json); } catch { return; }
+            VersusMessage m;
+            if (VersusWire.IsPose(json)) { if (!VersusWire.TryDecodePose(json, out m)) return; }
+            else try { m = JsonUtility.FromJson<VersusMessage>(json); } catch { return; }
             if (m == null || string.IsNullOrEmpty(m.k) || m.s == VersusSeat) return;
             versusInbox.Enqueue(m);
         }
@@ -163,11 +188,13 @@ namespace GolfArcade.Tennis
         {
             var net = SportsMultiplayer.Instance; if (!Versus || !net) return;
             // while the CPU plays the rival, or while this phone waits to rejoin, only the rejoin talk goes out (anything else would
-            // reach the other phone late, about points it never played)
-            if (VersusRivalByCpu && m.k != "sync") return;
+            // reach the other phone late, about points it never played) — and the pose: after a dropped link BOTH phones have the CPU
+            // playing the other, and the pose is how each hears the other is back (and hands back, the host's score standing)
+            if (VersusRivalByCpu && m.k != "sync" && m.k != "pose") return;
             if (VersusRejoining && m.k != "syncRequest") return;
-            m.s = VersusSeat; m.n = versusPoint; if (m.t == 0) m.t = VersusClock;
-            net.SendPeer(JsonUtility.ToJson(m), reliable); VersusSent++;
+            m.s = VersusSeat; if (m.k != "ready" && m.k != "resync" && m.k != "sync") m.n = versusPoint; if (m.t == 0) m.t = VersusClock;
+            // the pose is the one unreliable message: compact, so it is never too big to go unreliably
+            net.SendPeer(m.k == "pose" ? VersusWire.EncodePose(m) : JsonUtility.ToJson(m), reliable); VersusSent++;
         }
 
         // ---------------------------------------------------------------- each frame
@@ -212,16 +239,52 @@ namespace GolfArcade.Tennis
             }
         }
 
-        /// Both phones have finished the intro (or the last point's beat) before a serve: false holds play. Never longer than 8 s.
+        /// One line of the link's state (tests, diagnostics).
+        public string VersusState => $"flow={Flow} point={versusPoint} ready(sent={localReadySent} theirs={remoteReadyLatest}/{remoteReadySum} mine={VersusScoreSum}) started={versusStarted} " +
+            $"suspended={VersusSuspended} cpu={VersusRivalByCpu} rejoining={VersusRejoining} incoming={incoming} reset={resetTimer:0.000} intro={IntroPlaying}";
+        /// The score's checksum as seat 0 sees it (both phones compute the same number for the same score).
+        int VersusScoreSum => VersusWire.ScoreChecksum(VersusWire.SeatZeroView(match, VersusSeat));
+        /// When the phones disagree about the score, the host's stands (it reports the result; tests' seat 0 is the host).
+        bool VersusScoreAuthority => SportsMultiplayer.Instance && SportsMultiplayer.Instance.Configuration != null ? SportsMultiplayer.Instance.IsHost : VersusSeat == 0;
+
+        /// Both phones have finished the last point's beat before a serve, on the same point with the same score: false holds play.
+        /// A point never starts out of step. When the other phone is ready for another point or with another score (a call lost on the
+        /// way, or a point played on only one phone), or is still short of ready VersusBehindAfter after this phone, the host's score
+        /// goes out (sync) and the other phone takes it; both then say ready again. A silent phone is the AwayPolicy's (CPU) case.
         bool VersusMayPlay(long point)
         {
             if (!Versus) return true;
             if (VersusRejoining) return false;
             if (VersusRivalByCpu) { if (!rivalBackPending) return true; HandBackRival(); }
-            if (localReadySent < point) { localReadySent = point; readySince = VersusClock; VersusSend(new VersusMessage { k = "ready", n = point }); }
-            if (remoteReady >= point) return true;
-            if (VersusClock - readySince > 8) { Debug.LogWarning($"[Versus] the other phone never said ready for point {point}; playing on"); return true; }
+            int sum = VersusScoreSum;
+            if (localReadySent < point) { localReadySent = point; readySince = VersusClock; VersusSend(new VersusMessage { k = "ready", n = point, sum = sum }); }
+            if (remoteReadyLatest == point && (remoteReadySum == 0 || remoteReadySum == sum)) return true;
+            bool differs = remoteReadyLatest >= point || VersusClock - readySince > VersusBehindAfter;
+            if (differs && VersusClock >= nextResync)
+            {
+                nextResync = VersusClock + 1;
+                if (VersusMismatches++ < 20) Debug.LogWarning($"[Versus] out of step at point {point} (sum {sum}): the other phone is ready for {remoteReadyLatest} (sum {remoteReadySum}); "
+                    + (VersusScoreAuthority ? "sending the host's score" : "asking the host for its score"));
+                if (VersusScoreAuthority) SendScoreSync("resync");
+                else VersusSend(new VersusMessage { k = "resync", n = point, sum = sum });
+            }
             return false;
+        }
+
+        /// The host's score and point number to the other phone (it takes them and says ready again). The host goes to its own ready gate
+        /// too, so its ready follows the sync: one still in a point the other phone has finished (that phone's call never arrived)
+        /// starts that point again with it.
+        void SendScoreSync(string why)
+        {
+            VersusResyncsSent++;
+            VersusSend(new VersusMessage { k = "sync", n = versusPoint, score = JsonUtility.ToJson(match), reason = why, sum = VersusScoreSum });
+            localReadySent = Math.Min(localReadySent, versusPoint - 1);
+            if (Flow == Phase.PointOver || Flow == Phase.MatchOver) return;
+            Debug.Log($"[Versus] point {versusPoint} starts again on both phones");
+            if (Player.Swinging) Player.CancelSwing();
+            remoteTossed = false; holdingForRemote = heldThisContact = false;
+            BallVelocity = Vector3.zero; serveInFlight = false;
+            Flow = Phase.PointOver; resetTimer = .0001f; faultDelay = 0;
         }
 
         /// The intro: play starts when both phones have finished theirs.
@@ -250,13 +313,21 @@ namespace GolfArcade.Tennis
             switch (m.k)
             {
                 case "pose": if (remotePose == null || m.t >= remotePose.t) remotePose = m; break;
-                case "ready": remoteReady = Math.Max(remoteReady, m.n); break;
+                case "ready": remoteReady = Math.Max(remoteReady, m.n); remoteReadyLatest = m.n; remoteReadySum = m.sum; break;
+                // the other phone found us out of step (or its rally stalled): the host answers with its score, and starts the point again
+                // if it is in one, unless the two agree at the ready gate; then our ready went missing, so it goes again
+                case "resync":
+                    if (VersusClock < nextResync) break;
+                    nextResync = VersusClock + 1;
+                    if (VersusScoreAuthority && (m.n != versusPoint || (m.sum != 0 && m.sum != VersusScoreSum) || (Flow != Phase.PointOver && Flow != Phase.MatchOver))) SendScoreSync("resync");
+                    else if (localReadySent == versusPoint) VersusSend(new VersusMessage { k = "ready", n = versusPoint, sum = VersusScoreSum });
+                    break;
                 case "swing": RemoteSwing(m); break;
                 case "confirm": if (Opponent.Swinging) Opponent.Confirm(m.power); break;
                 case "cancel": if (Opponent.Swinging && Opponent.Provisional) Opponent.CancelSwing(); break;
                 case "toss":
                     if (Flow != Phase.OpponentServe) break;
-                    remoteTossed = true; remoteTossOrigin = Mirror(m.p); remoteTossDrift = Mirror(m.d); remoteTossAt = m.t; heldThisContact = holdingForRemote = false;
+                    remoteTossed = true; remoteTossOrigin = Mirror(m.p); remoteTossDrift = Mirror(m.d); remoteTossAt = m.t; remoteTossFall = VersusWire.TossFall(m.fall); heldThisContact = holdingForRemote = false;
                     break;
                 case "catch": remoteTossed = false; break;
                 case "hit": RemoteHit(m); break;
@@ -299,8 +370,16 @@ namespace GolfArcade.Tennis
             }
         }
 
-        /// Where the rival's toss is, `t` game seconds after it left the hand (their own toss rule, on this court).
-        Vector3 RemoteToss(float t) => remoteTossOrigin + remoteTossDrift * t + new Vector3(0, 9.81f * TennisRules.ServeApex * t - 4.905f * t * t, 0);
+        /// Where the rival's toss is, `t` game seconds after it left the hand (their own toss rule, PlayerToss, on this court):
+        /// down from the top at the gravity their phone sent.
+        Vector3 RemoteToss(float t)
+        {
+            float fall = t - TennisRules.ServeApex;
+            float y = fall <= 0 ? 9.81f * TennisRules.ServeApex * t - 4.905f * t * t : TossTop - .5f * remoteTossFall * fall * fall;
+            return remoteTossOrigin + remoteTossDrift * t + new Vector3(0, y, 0);
+        }
+        /// When their phone catches a toss nobody swung at (their serveCatchAt: later by as much as a slower fall takes).
+        float RemoteCatchAt => TennisRules.ServeCatch + Mathf.Sqrt(2 * TossTop / remoteTossFall) - TennisRules.ServeApex;
         float RemoteTossAge => (float)Math.Max(0, (VersusClock - remoteTossAt) * TennisRules.ServePace);
 
         void PlanRemoteServeContact()
@@ -344,7 +423,9 @@ namespace GolfArcade.Tennis
                 rightHud.ShowGrade((Timing)m.grade, m.sup, m.reason);
                 rightHud.ShowCause(m.reason.StartsWith("EARLY") ? "EARLY" : m.reason.StartsWith("LATE") ? "LATE" : "");
             }
-            fx.OpponentContact(start, m.ult); sounds.RivalHit(m.srv ? .8f : Mathf.Lerp(.5f, .9f, m.power)); contactHitter = Opponent; OpponentStruck?.Invoke();
+            if (fx) fx.OpponentContact(start, m.ult);
+            if (sounds) sounds.RivalHit(m.srv ? .8f : Mathf.Lerp(.5f, .9f, m.power));
+            contactHitter = Opponent; OpponentStruck?.Invoke();
             if (juice) juice.EndLiveShot();
             Player.SplitStep();
             Feedback = m.srv ? "Opponent serves" : "Incoming";
@@ -502,7 +583,7 @@ namespace GolfArcade.Tennis
             Opponent.ReachTossHand(TennisServeRoutine.TossPalm(Opponent, tossAge), Opponent.Swinging ? 0 : 1);
             if (!Opponent.Swinging) Opponent.Prepare(Mathf.Clamp01(.4f + .6f * tossAge / TennisRules.ServeApex), false, true);
             // their phone says when it is caught; if that is lost, put the ball back in the hand anyway
-            if (tossAge > TennisRules.ServeCatch + 1f) remoteTossed = false;
+            if (tossAge > RemoteCatchAt + 1f) remoteTossed = false;
         }
 
         /// Our shot has reached the rival and their swing is at contact: the ball waits on their strings for their phone's shot
@@ -557,7 +638,7 @@ namespace GolfArcade.Tennis
         public int VersusTakeovers { get; private set; }
         public int VersusRejoins { get; private set; }
         public const double RivalAwayAfter = 2.0, RejoinGiveUp = 12.0, AwayPauseLongEnough = 1.5;
-        bool rivalBackPending; double cpuSince, rejoinSince, nextSyncRequest;
+        bool rivalBackPending; double cpuSince, rejoinSince, nextSyncRequest, handedBackAt = double.NegativeInfinity;
         DateTime appPausedAt; bool appPaused;
         /// The far end is the other person (false: the AI, as in single player).
         bool RemoteRival => Versus && !VersusRivalByCpu;
@@ -597,6 +678,19 @@ namespace GolfArcade.Tennis
                 return;
             }
             if (!VersusRivalByCpu && net.PeerSilence > RivalAwayAfter) TakeOverRival($"silent {net.PeerSilence:0.0} s");
+            VersusStallWatch();
+        }
+
+        /// A rally waiting on the other phone (its shot back, or its call on ours) far longer than any flight: a message was lost on the way
+        /// (the link itself is alive, or the CPU would have the rival). The host's score goes out and the point starts again on both phones.
+        void VersusStallWatch()
+        {
+            if (VersusRivalByCpu || Flow != Phase.Rally || incoming || VersusSuspended) { rallyWaitSince = VersusClock; return; }
+            if (VersusClock - rallyWaitSince < VersusStallAfter || VersusClock < nextResync) return;
+            nextResync = VersusClock + 1; VersusStalls++;
+            Debug.LogWarning($"[Versus] point {versusPoint}: no shot or call from the other phone for {VersusClock - rallyWaitSince:0.0} s; " + (VersusScoreAuthority ? "starting it again" : "asking the host to start it again"));
+            if (VersusScoreAuthority) SendScoreSync("resync");
+            else VersusSend(new VersusMessage { k = "resync", n = versusPoint, sum = VersusScoreSum });
         }
 
         /// The other person is away: the CPU plays their side from this moment (mid-point too).
@@ -615,8 +709,9 @@ namespace GolfArcade.Tennis
         void HandBackRival()
         {
             rivalBackPending = false; VersusRivalByCpu = false;
-            remoteReady = -2; localReadySent = Math.Min(localReadySent, versusPoint - 1); remotePose = null;
-            VersusSend(new VersusMessage { k = "sync", n = versusPoint, score = JsonUtility.ToJson(match) });
+            remoteReady = remoteReadyLatest = -2; remoteReadySum = 0; localReadySent = Math.Min(localReadySent, versusPoint - 1); remotePose = null;
+            handedBackAt = VersusClock;
+            VersusSend(new VersusMessage { k = "sync", n = versusPoint, score = JsonUtility.ToJson(match), reason = "handback", sum = VersusScoreSum });
             if (hud) hud.ShowNotice($"{VersusRivalName} is back", "NEXT POINT IS THEIRS AGAIN");
             if (rightHud) rightHud.ShowNotice($"{VersusRivalName} is back", "NEXT POINT IS THEIRS AGAIN");
             Debug.Log($"[Versus] {VersusRivalName} is back: score sent for point {versusPoint}");
@@ -626,15 +721,21 @@ namespace GolfArcade.Tennis
         void ApplySync(VersusMessage m)
         {
             TennisMatch theirs;
-            try { theirs = JsonUtility.FromJson<TennisMatch>(m.score); } catch { return; }
+            if (string.IsNullOrEmpty(m.score) || m.n < 0) { Debug.LogWarning("[Versus] a score sync without a score; still waiting"); return; }
+            try { theirs = JsonUtility.FromJson<TennisMatch>(m.score); } catch { Debug.LogWarning("[Versus] an unreadable score sync; still waiting"); return; }
+            if (!VersusWire.Playable(theirs)) { Debug.LogWarning("[Versus] an unplayable score sync; still waiting"); return; }
+            bool rejoin = VersusRejoining || m.reason != "resync";
             match = theirs.Mirrored();
-            versusPoint = m.n; remoteReady = -2; localReadySent = Math.Min(localReadySent, m.n - 1);
-            VersusRejoining = false; VersusRivalByCpu = false; rivalBackPending = false; VersusRejoins++;
-            versusInbox.Clear(); remotePose = null; remoteTossed = false; holdingForRemote = heldThisContact = false;
+            versusPoint = m.n; remoteReady = remoteReadyLatest = -2; remoteReadySum = 0; localReadySent = Math.Min(localReadySent, m.n - 1);
+            VersusRejoining = false; VersusRivalByCpu = false; rivalBackPending = false;
+            if (rejoin) VersusRejoins++; else VersusResyncsTaken++;
+            // (what is still in the inbox came after the sync, e.g. the sender's ready: it stays; while rejoining nothing older got in)
+            remotePose = null; remoteTossed = false; holdingForRemote = heldThisContact = false;
             if (Player.Swinging) Player.CancelSwing();
             BallVelocity = Vector3.zero; serveInFlight = false;
             if (match.Complete) { Flow = Phase.PointOver; resetTimer = .0001f; return; }
             Flow = Phase.PointOver; resetTimer = .0001f; faultDelay = 0;   // the next step starts point n (with the ready handshake)
+            if (!rejoin) { Debug.Log($"[Versus] took the host's score at point {m.n}: {match.PlayerGames}-{match.OpponentGames} {match.Scoreboard}"); return; }
             Feedback = "Back in the match";
             if (hud) hud.ShowNotice("Back in the match", match.Scoreboard);
             Debug.Log($"[Versus] rejoined at point {m.n}: {match.PlayerGames}-{match.OpponentGames} {match.Scoreboard}");
@@ -644,16 +745,31 @@ namespace GolfArcade.Tennis
         bool VersusAwayFilter(VersusMessage m)
         {
             if (VersusRejoining) { if (m.k == "sync") ApplySync(m); return false; }
-            if (!VersusRivalByCpu) { if (m.k == "sync") ApplySync(m); else if (m.k == "syncRequest") { TakeOverRival("asked to rejoin"); rivalBackPending = true; } return m.k != "sync" && m.k != "syncRequest"; }
+            if (!VersusRivalByCpu)
+            {
+                if (m.k == "sync") { if (TakesSync(m)) ApplySync(m); }
+                else if (m.k == "syncRequest") { TakeOverRival("asked to rejoin"); rivalBackPending = true; }
+                return m.k != "sync" && m.k != "syncRequest";
+            }
             switch (m.k)
             {
                 case "syncRequest": rivalBackPending = true; break;
                 // they never knew they were gone (a short pause): hand back at the next point all the same
                 case "pose": if (m.t > cpuSince + .5) rivalBackPending = true; break;
-                // both phones thought the other away: seat 0's score stands
-                case "sync": if (VersusSeat == 1) ApplySync(m); break;
+                // both phones thought the other away: the host's score stands
+                case "sync": if (!VersusScoreAuthority) ApplySync(m); break;
             }
             return false;
+        }
+
+        /// A sync reaching a phone that plays on (not rejoining, not covering with the CPU): the host's resync always; the other phone's
+        /// hand-back (the CPU played this phone's side over there) unless this phone handed back too and is the host (both thought the
+        /// other away: the host's score stands); the guest's resync never.
+        bool TakesSync(VersusMessage m)
+        {
+            if (m.reason == "resync") return !VersusScoreAuthority;
+            bool bothHandedBack = VersusClock - handedBackAt < 15;
+            return !(bothHandedBack && VersusScoreAuthority);
         }
         /// The match is decided: the host's phone reports it (the phones' lobbies show the result).
         void SportsMultiplayer_VersusResult() { if (SportsMultiplayer.Instance) SportsMultiplayer.Instance.VersusResult(VersusSeat, match.PlayerWonMatch, match.FinalScore); }

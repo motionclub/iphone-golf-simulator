@@ -48,6 +48,11 @@ enum HeroAssets {
         let faceSkin: Bool?
         /// TennisCloth's kit edge lines: 1 the shoe's sole line, 2 the sock's ribbed cuff (data in the part's edgeOffset channel).
         let edgeLines: Float?
+        /// CHARACTER QUALITY 10-25: HeroFaceSkin's textured skin (pigment / mask maps in the body's skin channel) and TennisCharacter's rounded eyes; absent in older payloads.
+        var skinTex: Float? = nil, skinScatter: Float? = nil, skinTransmission: Float? = nil, skinAO: Float? = nil, skinSpecular: Float? = nil
+        var skinLightChroma: Float? = nil, skinCoolFill: Float? = nil, eyeV2: Float? = nil, eyeCaustic: Float? = nil, eyeGloss: Float? = nil
+        var skinPigmentMap: String? = nil, skinMaskMap: String? = nil
+        var hasSkinMaps: Bool { (skinTex ?? 0) > 0.5 && !(skinPigmentMap ?? "").isEmpty && !(skinMaskMap ?? "").isEmpty }
         var isCloth: Bool { shader == "TennisCloth" }
         var isCharacter: Bool { shader == "TennisCharacter" }
     }
@@ -58,9 +63,14 @@ enum HeroAssets {
         let uvOffset: Int?, bindPositionOffset: Int?
         /// Body: HeroFaceSkin's lid-liner distances (float2). Kit: HeroKitEdges' measurements (float4, metres).
         let lidOffset: Int?, edgeOffset: Int?
+        /// Body: the skin texture layout (SkinUnwrap, float2), the LAST texcoord channel (CHARACTER QUALITY 10-25); absent in older payloads.
+        var skinUVOffset: Int? = nil
         let submeshes: [Sub]
         var hasLid: Bool { (lidOffset ?? -1) >= 0 }
         var hasEdges: Bool { (edgeOffset ?? -1) >= 0 }
+        var hasSkinUV: Bool { (skinUVOffset ?? -1) >= 0 }
+        /// The texcoord channel the skin layout lands in: after UV0, the bind pose (2), the lid liner and the edge channels (2), as texcoordSources appends them.
+        var skinUVChannel: Int { (uvOffset ?? -1 >= 0 ? 1 : 0) + ((bindPositionOffset ?? -1) >= 0 ? 2 : 0) + (hasLid ? 1 : 0) + (hasEdges ? 2 : 0) }
     }
     struct Mat: Decodable { let name: String; let color: [Float]; let smoothness: Float }
     struct MorphShapeInfo: Decodable { let name: String; let positionOffset: Int; let normalOffset: Int }
@@ -203,6 +213,11 @@ enum HeroAssets {
         if let edge = part.edgeOffset, edge >= 0, edge + part.vertexCount * 16 <= bin.count {
             let d = bin.subdata(in: edge ..< edge + part.vertexCount * 16)
             result += [0, 8].map { SCNGeometrySource(data: d, semantic: .texcoord, vectorCount: part.vertexCount, usesFloatComponents: true, componentsPerVector: 2, bytesPerComponent: 4, dataOffset: $0, dataStride: 16) }
+        }
+        if let skin = part.skinUVOffset, skin >= 0, skin + part.vertexCount * 8 <= bin.count {
+            // CHARACTER QUALITY 10-25: the skin texture layout, always last so no earlier channel number moves (Part.skinUVChannel)
+            result.append(SCNGeometrySource(data: bin.subdata(in: skin ..< skin + part.vertexCount * 8), semantic: .texcoord, vectorCount: part.vertexCount,
+                                           usesFloatComponents: true, componentsPerVector: 2, bytesPerComponent: 4, dataOffset: 0, dataStride: 8))
         }
         return result.isEmpty ? nil : result
     }

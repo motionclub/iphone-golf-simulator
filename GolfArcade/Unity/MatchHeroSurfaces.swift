@@ -81,7 +81,7 @@ typealias HeroColor = NSColor
                 mat=SCNMaterial();mat.lightingModel = .physicallyBased;mat.diffuse.contents=flatColour(tint)
                 mat.metalness.contents=look.metallic ?? 0;mat.roughness.contents=1-look.smoothness
             } else {
-                mat = look.isCloth ? cloth(look, tint: tint, sceneScale: sceneScale, trim: trimColour, edges: part?.hasEdges == true) : character(look, tint: tint, lid: part?.hasLid == true)
+                mat = look.isCloth ? cloth(look, tint: tint, sceneScale: sceneScale, trim: trimColour, edges: part?.hasEdges == true) : character(look, tint: tint, lid: part?.hasLid == true, skinChannel: part?.hasSkinUV == true ? part?.skinUVChannel : nil)
             }
         } else {
             tint = colour ?? SIMD3(repeating: 1)
@@ -112,6 +112,25 @@ typealias HeroColor = NSColor
             }
             mat.shaderModifiers=modifiers
         }
+        if let look=sub.look, (look.femaleSurface ?? 0)>0.5, (look.eyeV2 ?? 0)>0.5,
+           ["Iris","Sclera","Pupil","Limbal"].contains(where:{sub.material.contains($0)}) {
+            // CHARACTER QUALITY 10-25 (= TennisCharacter _EyeV2): a rounded eyeball / cornea normal per pixel for the glint, light pooled in the iris
+            let role:Float=sub.material.contains("Sclera") ? 1:sub.material.contains("Iris") ? 2:3
+            mat.setValue(role,forKey:"femaleEyeRole")
+            mat.setValue(SCNVector4(1, look.eyeCaustic ?? 1, look.eyeGloss ?? 1, 0),forKey:"eyeV2")
+            var modifiers=mat.shaderModifiers ?? [:]
+            // femaleEyeRole / eyeV2 are declared once, in eyeDomeLighting (the surface sees a lighting modifier's arguments; a name declared in both does not compile)
+            let surface=(modifiers[.surface] ?? "#pragma body\n").replacingOccurrences(of:"float femaleEyeRole;\n", with:"")
+            modifiers[.surface]=surface+eyeDomeSurface
+            // the lighting it replaces declared the arguments the existing surface reads (athleteSurface ...): carry those declarations over
+            var declared=Set(["float femaleEyeRole;","float4 eyeV2;"])
+            var inherited=""
+            if let previous=modifiers[.lightingModel], let args=previous.components(separatedBy:"#pragma body").first {
+                for line in args.split(separator:"\n").map({$0.trimmingCharacters(in:.whitespaces)}) where !line.isEmpty && !line.hasPrefix("#") && declared.insert(line).inserted { inherited+=line+"\n" }
+            }
+            modifiers[.lightingModel]=eyeDomeLighting.replacingOccurrences(of:"#pragma arguments\n", with:"#pragma arguments\n"+inherited)
+            mat.shaderModifiers=modifiers
+        }
         if let look=sub.look, (look.femaleSurface ?? 0)>0.5, look.isCloth {
             mat.setValue(sub.material.contains("Sole") ? Float(3):sub.material.contains("Shoe") ? Float(2):Float(0),forKey:"femaleClothKind")
         }
@@ -122,7 +141,7 @@ typealias HeroColor = NSColor
     }
 
     // ---- TennisCharacter: skin, eyes, face decals, racket frame and strings
-    private static func character(_ look: MatchHeroData.Look, tint: SIMD3<Float>, lid: Bool = false) -> SCNMaterial {
+    private static func character(_ look: MatchHeroData.Look, tint: SIMD3<Float>, lid: Bool = false, skinChannel: Int? = nil) -> SCNMaterial {
         let m = SCNMaterial(); m.lightingModel = .blinn
         let lum=simd_dot(tint,SIMD3<Float>(0.2126,0.7152,0.0722))
         m.diffuse.contents = flatColour(SIMD3<Float>(repeating:lum)+(tint-SIMD3<Float>(repeating:lum))*look.saturation)
@@ -160,7 +179,10 @@ typealias HeroColor = NSColor
             m.setValue(SCNVector4(look.wrap, look.smoothness, look.specularStrength ?? 1, skinSaturation(for: tint)), forKey: "athleteSurface")
         }
         guard look.bumpTriplanar > 0.5, !look.bumpMap.isEmpty, let map = image(look.bumpMap, linear: true) else {
-            if face { m.shaderModifiers = [.geometry: faceSkinGeometry(lid: lid, bindChannel: (look.skinPigmentUV ?? 0) > 0.5), .surface: "#pragma arguments\n" + headSurfaceArguments + "\n" + faceSkinDeclarations + "#pragma body\n" + faceSkinBody(lid: lid), .lightingModel: faceSkinLighting, .fragment: faceSkinFinish] }
+            if face {
+                m.shaderModifiers = [.geometry: faceSkinGeometry(lid: lid, bindChannel: (look.skinPigmentUV ?? 0) > 0.5, skinChannel: skinChannel), .surface: "#pragma arguments\n" + headSurfaceArguments + skinTextureArguments + "\n" + faceSkinDeclarations + "#pragma body\n" + faceSkinBody(lid: lid), .lightingModel: faceSkinLighting, .fragment: faceSkinFinish]
+                bindSkinTextures(m, look, textured: skinChannel != nil)
+            }
             return m
         }
         let prop = SCNMaterialProperty(contents: map)
@@ -170,9 +192,10 @@ typealias HeroColor = NSColor
         m.shaderModifiers = [.geometry: skinGeometry, .surface: regional ? skinSurface.replacingOccurrences(of:"#pragma body",with:headSurfaceArguments+"\n#pragma body"+(hasRelativeMap ? "\n"+relativeTintBody:""))+headSurfaceBody:skinSurface, .lightingModel: athleteLighting]
         if face {
             // Unity's HeroFaceSkin (the in-game head): the same registered face, its analytic lips / lid liner / blush / beard and its face light.
-            m.shaderModifiers = [.geometry: faceSkinGeometry(lid: lid, bindChannel: (look.skinPigmentUV ?? 0) > 0.5),
-                                 .surface: skinSurface.replacingOccurrences(of: "#pragma body", with: headSurfaceArguments + "\n" + faceSkinDeclarations + "#pragma body") + faceSkinBody(lid: lid),
+            m.shaderModifiers = [.geometry: faceSkinGeometry(lid: lid, bindChannel: (look.skinPigmentUV ?? 0) > 0.5, skinChannel: skinChannel),
+                                 .surface: skinSurface.replacingOccurrences(of: "#pragma body", with: headSurfaceArguments + skinTextureArguments + "\n" + faceSkinDeclarations + "#pragma body") + faceSkinBody(lid: lid),
                                  .lightingModel: faceSkinLighting, .fragment: faceSkinFinish]
+            bindSkinTextures(m, look, textured: skinChannel != nil)
         }
         return m
     }
@@ -299,6 +322,50 @@ typealias HeroColor = NSColor
     _surface.diffuse.rgb*=mix(femaleEyeRole<1.5 ? 0.88:0.70,1.0,occ);
     _surface.metalness=max(occ,0.001);
     _surface.ambient.rgb+=_surface.diffuse.rgb*((femaleEyeRole<1.5 ? 0.78:femaleEyeRole<2.5 ? 0.62:1.0)*mix(femaleEyeRole<1.5 ? 0.62:0.40,1.0,occ)-1.0);
+    """
+
+    /// CHARACTER QUALITY 10-25 (= TennisCharacter _EyeV2): the eye meshes are nearly flat, so the glint needs a rounded normal: the cornea's dome for the iris
+    /// and pupil, the eyeball's for the white, from the layer's own eye-local UV (0.5 centre) and screen derivatives. It rides to the light in `tangent` (SceneKit rejects a write to bitangent).
+    /// The lobby has one fixed key, so the iris pools the light from that key (upper left, in front).
+    static let eyeDomeSurface = """
+
+    {
+        float2 q=(_surface.diffuseTexcoord-0.5)*2.0;
+        float3 pE=_surface.position, nE=normalize(_surface.normal);
+        float3 dpx=dfdx(pE), dpy=dfdy(pE); float2 dqx=dfdx(q), dqy=dfdy(q);
+        float3 c1=cross(dpy,nE), c2=cross(nE,dpx);
+        float3 tq=c1*dqx.x+c2*dqy.x, bq=c1*dqx.y+c2*dqy.y;
+        tq*=rsqrt(max(dot(tq,tq),1e-20)); bq*=rsqrt(max(dot(bq,bq),1e-20));
+        float3 dome=normalize(nE+(tq*q.x+bq*q.y)*(femaleEyeRole>1.5 ? 0.55:0.45));
+        _surface.tangent=dome;
+        if(femaleEyeRole>1.5&&femaleEyeRole<2.5){
+            float3 keyV=normalize(float3(-0.45,0.55,0.70));
+            float2 pool=-float2(dot(keyV,tq),dot(keyV,bq))*0.55;
+            float caustic=exp(-dot(q-pool,q-pool)/0.22)*saturate(dot(dome,keyV)+0.2);
+            _surface.diffuse.rgb*=1.0+caustic*float3(0.85,0.62,0.30)*eyeV2.y;
+            _surface.diffuse.rgb*=mix(1.0,0.55,smoothstep(0.72,1.0,length(q)));
+        }else if(femaleEyeRole<1.5){
+            float ball=saturate(dot(dome,normalize(_surface.view)));
+            _surface.diffuse.rgb*=mix(float3(0.80,0.80,0.84),float3(1.0),smoothstep(0.15,0.75,ball));
+        }
+    }
+    """
+    static let eyeDomeLighting = """
+    #pragma arguments
+    float femaleEyeRole;
+    float4 eyeV2;
+    #pragma body
+    float3 n=normalize(_surface.normal),v=normalize(_surface.view),l=normalize(_light.direction);
+    float wrapped=saturate((dot(n,l)+0.10)/1.10);
+    float occlusion=_surface.metalness>0.0 ? _surface.metalness:1.0;
+    float3 dome=normalize(_surface.tangent);
+    float3 h=normalize(l+v); float nh=saturate(dot(dome,h)), vh=saturate(dot(v,h));
+    bool corneaRole=femaleEyeRole>1.5;
+    float glint=pow(nh,corneaRole ? 320.0:200.0)*(corneaRole ? 4.0:1.2)+pow(nh,corneaRole ? 60.0:40.0)*(corneaRole ? 0.30:0.08);
+    float fres=0.04+0.96*pow(1.0-vh,5.0);
+    float lit=saturate(dot(dome,l)*4.0);
+    _lightingContribution.diffuse+=_light.intensity.rgb*wrapped*0.88*occlusion;
+    _lightingContribution.specular+=_light.intensity.rgb*glint*(0.25+fres)*eyeV2.z*lit*occlusion;
     """
 
     private final class FacePerformanceState {
@@ -593,10 +660,83 @@ typealias HeroColor = NSColor
     }
 
     /// The skin's geometry modifier with HeroFaceSkin's lid-liner distances as a varying (the channel after the bind pose: 3 after UV0, else 2).
-    static func faceSkinGeometry(lid: Bool, bindChannel: Bool) -> String {
-        guard lid else { return skinGeometry }
-        return skinGeometry.replacingOccurrences(of: "float3 bindPos;", with: "float3 bindPos;\nfloat2 lidDistance;")
-            + "\nout.lidDistance = _geometry.texcoords[\(bindChannel ? 3 : 2)];\n"
+    static func faceSkinGeometry(lid: Bool, bindChannel: Bool, skinChannel: Int? = nil) -> String {
+        // CHARACTER QUALITY 10-25: the skin texture layout as a varying (Part.skinUVChannel), zero when the export carries none
+        let skin = "\nout.skinUV = " + (skinChannel.map { "_geometry.texcoords[\($0)]" } ?? "float2(0.0)") + ";\n"
+        guard lid else { return skinGeometry.replacingOccurrences(of: "float3 bindPos;", with: "float3 bindPos;\nfloat2 skinUV;") + skin }
+        return skinGeometry.replacingOccurrences(of: "float3 bindPos;", with: "float3 bindPos;\nfloat2 lidDistance;\nfloat2 skinUV;")
+            + "\nout.lidDistance = _geometry.texcoords[\(bindChannel ? 3 : 2)];\n" + skin
+    }
+
+    /// CHARACTER QUALITY 10-25: HeroFaceSkin's textured skin (`_SkinTex`): the pigment and mask maps (surface). Their numbers (skinTex, skinV2: scatter,
+    /// transmission, AO, highlight; skinV2b: light colour cap, cool fill) are declared once, in faceSkinLighting: SceneKit shares a lighting modifier's
+    /// arguments with the surface but not the other way round, and a name declared in both fails to compile (magenta, work/character-quality-20261024/tools/modtest.swift).
+    static let skinTextureArguments = """
+
+    texture2d<float> skinPigmentMap;
+    texture2d<float> skinMaskMap;
+    texture2d<float> skinOilMap;
+    """
+    private static var flatSkinMaps: (pigment: CGImage, mask: CGImage)?
+    static func bindSkinTextures(_ m: SCNMaterial, _ look: MatchHeroData.Look, textured: Bool) {
+        func property(_ img: CGImage) -> SCNMaterialProperty {
+            let p = SCNMaterialProperty(contents: img)
+            p.wrapS = .clamp; p.wrapT = .clamp; p.mipFilter = .linear; p.minificationFilter = .linear; p.magnificationFilter = .linear
+            return p
+        }
+        if flatSkinMaps == nil, let grey = flatImage(128), let white = flatImage(255) { flatSkinMaps = (grey, white) }
+        var on = textured && look.hasSkinMaps
+        var pigment = flatSkinMaps?.pigment, mask = flatSkinMaps?.mask, oil = flatSkinMaps?.mask
+        // the mask's alpha is the oil map: image() draws into an opaque context, which multiplies RGB by alpha, so it is split from the raw bytes instead
+        if on, let pm = image(look.skinPigmentMap ?? "", linear: true), let mm = dataChannels(look.skinMaskMap ?? "") { pigment = pm; mask = mm.rgb; oil = mm.alpha } else { on = false }
+        if let pigment, let mask, let oil {
+            m.setValue(property(pigment), forKey: "skinPigmentMap"); m.setValue(property(mask), forKey: "skinMaskMap"); m.setValue(property(oil), forKey: "skinOilMap")
+        }
+        m.setValue(on ? Float(1) : Float(0), forKey: "skinTex")
+        m.setValue(SCNVector4(look.skinScatter ?? 1, look.skinTransmission ?? 0.4, look.skinAO ?? 1, look.skinSpecular ?? 1.6), forKey: "skinV2")
+        m.setValue(SCNVector4(look.skinLightChroma ?? 0.45, look.skinCoolFill ?? 0.5, 0, 0), forKey: "skinV2b")
+    }
+    private static var channelCache: [String: (rgb: CGImage, alpha: CGImage)] = [:]
+    /// A shipped RGBA data map split into its RGB and its alpha (as grey), from the decoded bytes with no compositing (un-premultiplied if the decoder
+    /// premultiplied), rows flipped like image() so (u, v) reads the texel Unity reads. Both tagged linear.
+    static func dataChannels(_ name: String) -> (rgb: CGImage, alpha: CGImage)? {
+        if let c = channelCache[name] { return c }
+        guard let url = MatchHeroData.locate(name, "png"), let src = CGImageSourceCreateWithURL(url as CFURL, nil),
+              let cg = CGImageSourceCreateImageAtIndex(src, 0, nil), cg.bitsPerComponent == 8, cg.bitsPerPixel == 32,
+              let raw = cg.dataProvider?.data as Data? else { return nil }
+        let w = cg.width, h = cg.height, bpr = cg.bytesPerRow
+        let info = cg.alphaInfo
+        let alphaFirst = info == .first || info == .premultipliedFirst || info == .noneSkipFirst
+        let premultiplied = info == .premultipliedLast || info == .premultipliedFirst
+        let hasAlpha = info != .none && info != .noneSkipLast && info != .noneSkipFirst
+        var rgb = [UInt8](repeating: 255, count: w * h * 4), alpha = [UInt8](repeating: 255, count: w * h * 4)
+        raw.withUnsafeBytes { (p: UnsafeRawBufferPointer) in
+            for y in 0 ..< h {
+                let row = p.baseAddress!.advanced(by: y * bpr).assumingMemoryBound(to: UInt8.self), out = (h - 1 - y) * w * 4
+                for x in 0 ..< w {
+                    let i = x * 4
+                    let a = hasAlpha ? row[alphaFirst ? i : i + 3] : 255
+                    var c = alphaFirst ? (row[i + 1], row[i + 2], row[i + 3]) : (row[i], row[i + 1], row[i + 2])
+                    if premultiplied && a > 0 && a < 255 { c = (UInt8(min(255, Int(c.0) * 255 / Int(a))), UInt8(min(255, Int(c.1) * 255 / Int(a))), UInt8(min(255, Int(c.2) * 255 / Int(a)))) }
+                    rgb[out + x * 4] = c.0; rgb[out + x * 4 + 1] = c.1; rgb[out + x * 4 + 2] = c.2
+                    alpha[out + x * 4] = a; alpha[out + x * 4 + 1] = a; alpha[out + x * 4 + 2] = a
+                }
+            }
+        }
+        func make(_ bytes: [UInt8]) -> CGImage? {
+            guard let provider = CGDataProvider(data: Data(bytes) as CFData) else { return nil }
+            return CGImage(width: w, height: h, bitsPerComponent: 8, bitsPerPixel: 32, bytesPerRow: w * 4, space: CGColorSpace(name: CGColorSpace.linearSRGB)!,
+                           bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.noneSkipLast.rawValue), provider: provider, decode: nil, shouldInterpolate: true, intent: .defaultIntent)
+        }
+        guard let r = make(rgb), let a = make(alpha) else { return nil }
+        channelCache[name] = (r, a); return (r, a)
+    }
+    /// A 2 x 2 linear grey placeholder (128 = the pigment's "unchanged", 255 = an all-ones mask).
+    private static func flatImage(_ value: UInt8) -> CGImage? {
+        let bytes = Data(repeating: value, count: 16)
+        guard let provider = CGDataProvider(data: bytes as CFData) else { return nil }
+        return CGImage(width: 2, height: 2, bitsPerComponent: 8, bitsPerPixel: 32, bytesPerRow: 8, space: CGColorSpace(name: CGColorSpace.linearSRGB)!,
+                       bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.noneSkipLast.rawValue), provider: provider, decode: nil, shouldInterpolate: true, intent: .defaultIntent)
     }
 
     /// Port of HeroFaceSkin's registered face (`_SkinFinish` 1 male / 2 female, `_SkinPigmentUV` on): the same regions, pigments and order, in the same head frame.
@@ -771,6 +911,14 @@ typealias HeroColor = NSColor
     c*=1.0+fineGrain*0.05*(1.0-smoothstep(0.0008,0.0025,grainFootprint));
     c*=mix(float3(1.0),float3(1.03,0.975,0.95),coarseGrain*1.2*(1.0-smoothstep(0.004,0.012,grainFootprint)));
     }
+    // CHARACTER QUALITY 10-25 (= HeroFaceSkin _SkinTex): the baked pigment on the picked tone, and the mask (AO, curvature, thinness, oil)
+    float4 skinMask=float4(1.0,0.5,0.0,0.35);
+    if(skinTex>0.5){
+        constexpr sampler skinMapSmp(filter::linear, mip_filter::linear, address::clamp_to_edge);
+        c*=skinPigmentMap.sample(skinMapSmp,in.skinUV).rgb*2.0;
+        skinMask=float4(skinMaskMap.sample(skinMapSmp,in.skinUV).rgb,skinOilMap.sample(skinMapSmp,in.skinUV).r);
+        surfaceSmoothness=mix(0.36,0.64,saturate((skinMask.a-0.2)/0.6));
+    }
     float lum=dot(c,float3(0.2126,0.7152,0.0722));
     c=mix(float3(lum),c,maleFace ? (malePass ? max(athleteSurface.w,0.86):athleteSurface.w) : max(athleteSurface.w,0.95));
     _surface.diffuse=float4(c,1.0);
@@ -784,12 +932,24 @@ typealias HeroColor = NSColor
         float upness=saturate(dot(normalize(_surface.normal),upView)*0.5+0.5);
         ambientNew=mix(float3(1.0),skinTone/max(c,float3(0.001)),0.45)*mix(0.60,0.88,upness*upness)*mix(1.0,1.04,faceAmount);
     }
+    if(skinTex>0.5){
+        // = HeroFaceSkin skinV2 ambient: warm key / cool fill (the shade takes a sky hue at its own brightness), baked AO, light through thin skin
+        float3 coolTint=float3(0.80,0.95,1.22)/dot(float3(0.80,0.95,1.22),float3(0.2126,0.7152,0.0722));
+        ambientNew=mix(ambientNew,float3(dot(ambientNew,float3(0.2126,0.7152,0.0722)))*coolTint,skinV2b.y);
+        ambientNew*=mix(1.0,skinMask.r,skinV2.z);
+        ambientNew+=float3(0.14,0.045,0.02)*skinMask.b*skinV2.x;
+    }
     _surface.ambient=float4(c*(ambientNew-ambientOld),1.0);
     // The warm lift under the nose is unlit in HeroFaceSkin, so it goes in as emission.
     _surface.emission=float4(c*(maleFace ? (malePass ? float3(0.30,0.21,0.16):float3(0.17,0.13,0.11)):float3(0.08,0.035,0.025))*noseUnderside*0.5,0.0);
     _surface.shininess=surfaceSmoothness;
     _surface.roughness=surfaceWrap;
     _surface.metalness=faceAmount;
+    if(skinTex>0.5){
+        // the textured light reads the mask from fields it does not otherwise use: curvature, thinness; the AO occludes the highlight through specular
+        _surface.metalness=skinMask.g; _surface.roughness=skinMask.b;
+        _surface.specular=float4(float3(mix(1.0,skinMask.r,skinV2.z)),1.0);
+    }
     """
 
     /// HeroSkinShade blended into HeroFaceSkin's FaceSkinShade by the face amount (same wrap, light bleed and sheen), the skin rim at .30.
@@ -802,9 +962,33 @@ typealias HeroColor = NSColor
     float skinFinish;
     float skinPolish;
     float maleFormPass;
+    float skinTex;
+    float4 skinV2;
+    float4 skinV2b;
     #pragma body
     float3 n=normalize(_surface.normal), v=normalize(_surface.view), l=normalize(_light.direction);
-    if(skinFinish>1.5||maleFormPass>0.5){   // the male face pass uses the female light model too (= HeroFaceSkin FaceSkinShade)
+    if(skinTex>0.5){
+        // = HeroFaceSkin HeroSkinV2 (CHARACTER QUALITY 10-25): light keeps its Lambert form, the terminator band is lifted more in red than blue where skin is curved
+        // or thin, a capped light colour, two GGX lobes on the baked oil (AO applies through _surface.specular), and light through thin parts from behind
+        float3 lc=_light.intensity.rgb;
+        float pk=max(max(lc.r,lc.g),lc.b), tr=min(min(lc.r,lc.g),lc.b), sat=(pk-tr)/max(pk,0.0001);
+        if(sat>skinV2b.x) lc=mix(float3(dot(lc,float3(0.2126,0.7152,0.0722))),lc,skinV2b.x/sat);
+        float ndl=dot(n,l), thin=_surface.roughness, curved=saturate(abs(_surface.metalness-0.5)*2.4);
+        float scatter=saturate(0.30+0.45*curved+0.20*thin)*skinV2.x;
+        float lambert=saturate(ndl);
+        float3 w=scatter*float3(0.36,0.12,0.05);
+        float3 diffuse=mix(float3(lambert),saturate((float3(ndl)+w)/(1.0+w)),saturate(1.0-lambert*2.2));
+        diffuse*=mix(1.0,_surface.specular.r,0.35);
+        float3 h=normalize(l+v); float nh=saturate(dot(n,h)), lh=saturate(dot(l,h));
+        float r1=max(1.0-_surface.shininess,0.2), r2=min(1.0,r1*1.55), a1=r1*r1, a2=r2*r2;
+        float d1=nh*nh*(a1*a1-1.0)+1.0, d2=nh*nh*(a2*a2-1.0)+1.0;
+        float lobe=0.70*a1*a1/(d1*d1*max(0.1,lh*lh)*(r1*4.0+2.0))+0.30*a2*a2/(d2*d2*max(0.1,lh*lh)*(r2*4.0+2.0));
+        float fres=0.028+0.972*pow(1.0-lh,5.0);
+        float back=pow(saturate(dot(v,-normalize(l+n*0.35))),5.0);
+        _lightingContribution.diffuse+=lc*(diffuse+back*thin*skinV2.y*float3(1.0,0.45,0.32));
+        float rim=pow(1.0-saturate(dot(n,v)),athleteRim.y)*athleteRim.x;
+        _lightingContribution.specular+=lc*(lobe*fres*lambert*skinV2.w)+_light.intensity.rgb*rim*0.195*(float3(0.35)+0.65*_surface.diffuse.rgb);
+    }else if(skinFinish>1.5||maleFormPass>0.5){   // the male face pass uses the female light model too (= HeroFaceSkin FaceSkinShade)
         // HeroFemaleSkinShade: Lambert form, a terminator band in the picked tone's own
         // saturated hue, a broad satin wash plus a soft core (2026-10-16 shader pass).
         float nl=dot(n,l), snl=saturate(nl);

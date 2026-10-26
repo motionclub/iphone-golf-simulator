@@ -74,7 +74,6 @@ struct SettingsScreen: View {
         case "coaching": ("Coaching tips in matches", s.coachingTips ? "On" : "Off")
         case "resetTips": ("Show every coaching tip again", "Reset")
         case "resetProgress": ("Reset tutorials & campaign", TennisMenu.shared.confirmingReset ? "Press again" : "Reset…")
-        case "controls": ("Controls", s.touch ? "Touch" : "Swing the phone")
         case "range": ("Step to cross court", "\(Int(s.travel * 100)) cm")
         case "hand": ("Plays", p?.handedness == .left ? "Left-handed" : "Right-handed")
         case "relock": ("Court direction", "Set again")
@@ -190,89 +189,342 @@ private struct PresentationRosterCard: View {
     }
 }
 
+// MARK: - MotionSports loading pieces (MotionSports_Brand_Guide.pdf §4–8)
+
+/// The loading screens' type: Kanit (§5) once its TTFs are in the bundle; until then SF's heavy italic, which keeps the brand's
+/// loud, slanted look (the club fonts are upright).
+enum MSLoadingFont {
+    static func display(_ size: CGFloat) -> Font { kanit("Kanit-ExtraBoldItalic", size) ?? .system(size: size, weight: .black).italic() }
+    static func subline(_ size: CGFloat) -> Font { kanit("Kanit-MediumItalic", size) ?? .system(size: size, weight: .semibold).italic() }
+    static func body(_ size: CGFloat) -> Font { kanit("Kanit-Medium", size) ?? .system(size: size, weight: .medium) }
+    private static func kanit(_ name: String, _ size: CGFloat) -> Font? { UIFont(name: name, size: size) != nil ? .custom(name, fixedSize: size) : nil }
+}
+
+/// "MotionSports": white Motion, Wordmark Gold Sports, no space, with its required text shadow (§6).
+struct MSWordmark: View {
+    let size: CGFloat
+    var body: some View {
+        (Text("Motion").foregroundColor(MSBrand.white) + Text("Sports").foregroundColor(MSBrand.goldWordmark))
+            .font(MSLoadingFont.display(size)).fixedSize()
+            .shadow(color: MSBrand.textShadow.opacity(0.55), radius: size / 14, y: size / 40)
+            .accessibilityLabel("MotionSports")
+    }
+}
+
+/// The swing arc's head: a 4-point white sparkle with a soft glow (§7).
+struct MSSparkle: View {
+    var color: Color = .white
+    var body: some View {
+        Canvas { ctx, size in
+            let c = CGPoint(x: size.width / 2, y: size.height / 2), r = min(size.width, size.height) / 2, w = r * 0.16
+            var star = Path()
+            star.move(to: CGPoint(x: c.x, y: c.y - r))
+            star.addQuadCurve(to: CGPoint(x: c.x + r, y: c.y), control: CGPoint(x: c.x + w, y: c.y - w))
+            star.addQuadCurve(to: CGPoint(x: c.x, y: c.y + r), control: CGPoint(x: c.x + w, y: c.y + w))
+            star.addQuadCurve(to: CGPoint(x: c.x - r, y: c.y), control: CGPoint(x: c.x - w, y: c.y + w))
+            star.addQuadCurve(to: CGPoint(x: c.x, y: c.y - r), control: CGPoint(x: c.x - w, y: c.y - w))
+            ctx.drawLayer { glow in glow.addFilter(.blur(radius: r * 0.35)); glow.fill(star, with: .color(MSBrand.gold.opacity(0.9))) }
+            ctx.fill(star, with: .color(color))
+            ctx.fill(Path(ellipseIn: CGRect(x: c.x - w * 1.6, y: c.y - w * 1.6, width: w * 3.2, height: w * 3.2)), with: .color(.white))
+        }
+        .accessibilityHidden(true)
+    }
+}
+
+/// The loading bar: a white-rimmed pill on Navy Ink, filled in the sport's colour with a sparkle riding its head.
+struct MSLoadingBar: View {
+    let progress: Double
+    var fill: Color = MSBrand.gold
+    var height: CGFloat = 20
+    var body: some View {
+        GeometryReader { g in
+            let inset = height * 0.22, track = g.size.width - inset * 2
+            let p = min(1, max(0, progress.isFinite ? progress : 0)), w = max(height - inset * 2, track * p)
+            ZStack(alignment: .leading) {
+                Capsule().fill(MSBrand.navyInk)
+                Capsule().fill(LinearGradient(colors: [fill.mix(.white, 0.35), fill, fill.mix(MSBrand.goldDeep, 0.25)], startPoint: .top, endPoint: .bottom))
+                    .frame(width: w, height: height - inset * 2).padding(.leading, inset)
+                MSSparkle().frame(width: height * 2.4, height: height * 2.4).position(x: inset + w, y: height / 2)
+            }
+            .overlay(Capsule().strokeBorder(.white, lineWidth: max(2, height * 0.14)))
+            .shadow(color: MSBrand.shadowInk.opacity(0.43), radius: height * 0.5, y: height * 0.3)
+        }
+        .frame(height: height)
+        .animation(.easeOut(duration: 0.35), value: progress)
+        .accessibilityElement(children: .ignore).accessibilityLabel("Loading \(Int((progress * 100).rounded())) percent")
+    }
+}
+
+/// Loading without a spinner (§7): a short swing arc chasing round a faint ring.
+struct MSArcRing: View {
+    var color: Color = .white
+    var body: some View {
+        TimelineView(.animation(minimumInterval: 1.0 / 30)) { context in
+            let turn = context.date.timeIntervalSinceReferenceDate.truncatingRemainder(dividingBy: 1.1) / 1.1
+            ZStack {
+                Circle().stroke(.white.opacity(0.18), lineWidth: 4)
+                Circle().trim(from: 0, to: 0.36)
+                    .stroke(AngularGradient(colors: [color.opacity(0), color, .white], center: .center, startAngle: .degrees(0), endAngle: .degrees(130)),
+                            style: StrokeStyle(lineWidth: 5, lineCap: .round))
+                    .shadow(color: MSBrand.arcWarm.opacity(0.7), radius: 4)
+                    .rotationEffect(.degrees(turn * 360))
+            }
+        }
+        .accessibilityHidden(true)
+    }
+}
+
+/// The signature swing arc across a screen (§7): part of a tilted ellipse, tapering from 15 % at the tail to full width at the
+/// head, alpha 0 → 1, a white core with an Arc Warm fringe and glow. Points are fractions of the view.
+struct MSSwingArc: View {
+    var center = CGPoint(x: 0.64, y: 1.06)
+    var radii = CGSize(width: 0.6, height: 0.79)
+    var from: Double = 168, to: Double = 28   // degrees, tail → head
+    var width: CGFloat = 16
+    var body: some View {
+        Canvas { ctx, size in
+            let steps = 160
+            func point(_ t: Double) -> CGPoint {
+                let a = (from + (to - from) * t) * .pi / 180
+                return CGPoint(x: size.width * (center.x + radii.width * cos(a)), y: size.height * (center.y - radii.height * sin(a)))
+            }
+            // One filled ribbon per layer (no seams between pieces), widening from 15 % at the tail to full at the head.
+            func ribbon(_ scale: CGFloat) -> Path {
+                var left: [CGPoint] = [], right: [CGPoint] = []
+                for i in 0...steps {
+                    let t = Double(i) / Double(steps), p = point(t), q = point(min(1, t + 0.002)), r = point(max(0, t - 0.002))
+                    let dx = q.x - r.x, dy = q.y - r.y, len = max(0.0001, hypot(dx, dy))
+                    let half = width * scale * (0.15 + 0.85 * t) / 2
+                    left.append(CGPoint(x: p.x - dy / len * half, y: p.y + dx / len * half))
+                    right.append(CGPoint(x: p.x + dy / len * half, y: p.y - dx / len * half))
+                }
+                var path = Path(); path.addLines(left + right.reversed()); path.closeSubpath()
+                return path
+            }
+            // alpha 0 → 1 tail to head (the arc runs left to right)
+            let tail = point(0), head = point(1)
+            func shade(_ color: Color, _ alpha: Double) -> GraphicsContext.Shading {
+                .linearGradient(Gradient(stops: [.init(color: color.opacity(0), location: 0), .init(color: color.opacity(alpha * 0.35), location: 0.45),
+                                                 .init(color: color.opacity(alpha), location: 1)]), startPoint: tail, endPoint: head)
+            }
+            ctx.drawLayer { glow in glow.addFilter(.blur(radius: width * 1.8)); glow.fill(ribbon(3.4), with: shade(MSBrand.arcWarm, 0.75)) }
+            ctx.drawLayer { soft in soft.addFilter(.blur(radius: width * 0.3)); soft.fill(ribbon(1.2), with: shade(MSBrand.arcWarm, 1)) }
+            ctx.fill(ribbon(0.5), with: shade(.white, 1))
+        }
+        .allowsHitTesting(false).accessibilityHidden(true)
+    }
+}
+
+extension MSBrand {
+    static let arcWarm = Color(hex: "EDB15D")
+    /// Royal at the spotlight, Deep Navy, Navy Ink at the edges (§4 background + spotlight).
+    static func backdrop(spotlight: UnitPoint = UnitPoint(x: 0.3, y: 0.46), radius: CGFloat = 900) -> some View {
+        ZStack {
+            LinearGradient(colors: [navyInk, navyDeep, Color(hex: "0B2C86")], startPoint: .top, endPoint: .bottom)
+            RadialGradient(colors: [Color(hex: "1D4FB8"), Color(hex: "123A9A").opacity(0.6), .clear], center: spotlight, startRadius: 0, endRadius: radius)
+        }
+    }
+}
+
+extension Color {
+    /// This colour moved `amount` of the way to `other` (sRGB).
+    func mix(_ other: Color, _ amount: Double) -> Color {
+        let a = UIColor(self), b = UIColor(other)
+        var (r1, g1, b1, a1, r2, g2, b2, a2): (CGFloat, CGFloat, CGFloat, CGFloat, CGFloat, CGFloat, CGFloat, CGFloat) = (0, 0, 0, 0, 0, 0, 0, 0)
+        a.getRed(&r1, green: &g1, blue: &b1, alpha: &a1); b.getRed(&r2, green: &g2, blue: &b2, alpha: &a2)
+        let t = CGFloat(amount)
+        return Color(red: Double(r1 + (r2 - r1) * t), green: Double(g1 + (g2 - g1) * t), blue: Double(b1 + (b2 - b1) * t), opacity: Double(a1 + (a2 - a1) * t))
+    }
+}
+
+/// Loading into a match (venue tips, picked 2026-10-25): the venue's key art full screen, a tip card (TENNIS TIP 1/2) with a
+/// headline and one line of how to play, and the bar with what is loading and how far. The TV draws it on its 1280×720 canvas;
+/// the phone stacks the same pieces upright, with Leave match. The bar is LoadingModel.displayProgress (measured milestones).
 struct LoadingScreen: View {
     let menu: TennisMenu
     let compact: Bool
     private var session: SportsSession { .shared }
+    private var loading: LoadingModel { session.loading }
     private var service: MultiplayerService { menu.online.service }
-    private var sport: Sport { service.lobby?.phase == .loading ? (service.lobby?.sport == .golf ? .golf : .tennis) : menu.launch?.sport ?? Sport(rawValue: session.sport) ?? .tennis }
-    private var venueID: String { service.lobby?.phase == .loading ? service.lobby?.venue ?? (sport == .golf ? session.golfCourse : session.tennisVenue) : (sport == .golf ? session.golfCourse : session.tennisVenue) }
-    private var venue: String { sport == .golf ? GolfCourseChoice.venueTitle(service.lobby?.phase == .loading || menu.launch?.daily != nil ? venueID : MultiplayerLobby.golfRound(venueID, holes: session.golfHoles, link: session.golfLinkCourses)) : (TennisVenueChoice(rawValue: venueID)?.title ?? "Tropical Resort") }
+    private var lobbyLoading: Bool { service.lobby?.phase == .loading }
+    private var sport: Sport {
+        if lobbyLoading { return service.lobby?.sport == .golf ? .golf : .tennis }
+        if session.sport == "bowling" { return .bowling }
+        return menu.launch?.sport ?? Sport(rawValue: session.sport) ?? .tennis
+    }
+    private var venueID: String { lobbyLoading ? service.lobby?.venue ?? (sport == .golf ? session.golfCourse : session.tennisVenue) : (sport == .golf ? session.golfCourse : session.tennisVenue) }
+    private var golfCourse: String { MultiplayerLobby.currentGolfVenue(MultiplayerLobby.golfRoundParts(venueID).course) }
+    /// "Tropical Resort", "Cliffside", "the lanes".
+    private var venueName: String {
+        switch sport {
+        case .golf: GolfCourseChoice(rawValue: golfCourse)?.title ?? "Cliffside"
+        case .bowling: "the lanes"
+        default: TennisVenueChoice(rawValue: venueID)?.title ?? "Tropical Resort"
+        }
+    }
     private var modeLine: String {
-        if sport == .golf { return "Golf · Stroke Play · \(venue)" }
-        if menu.launch?.mode == .training { return "Tennis · Practice · \(venue)" }
-        return "Tennis · Singles · \(venue)"
+        if sport == .golf { return "Golf · Stroke Play · \(GolfCourseChoice.venueTitle(lobbyLoading || menu.launch?.daily != nil ? venueID : MultiplayerLobby.golfRound(venueID, holes: session.golfHoles, link: session.golfLinkCourses)))" }
+        if sport == .bowling { return "Bowling · 10 frames" }
+        if menu.launch?.mode == .training { return "Tennis · Practice · \(venueName)" }
+        return "Tennis · Singles · \(venueName)"
     }
+    /// The venue's loading art (Assets: loading-<sport>-<venue>), else its map still.
+    private var art: UIImage? {
+        switch sport {
+        case .golf: UIImage(named: "loading-golf-\(golfCourse)") ?? UIImage(named: "map-golf-\(golfCourse).jpg")
+        case .bowling: UIImage(named: "loading-bowling-lanes")
+        default: UIImage(named: "loading-tennis-\(venueID)") ?? UIImage(named: "map-\(venueID).jpg")
+        }
+    }
+    /// The sport's colour on the bar and the percentage: tennis gold, golf green, bowling glow blue.
+    private var accent: Color { sport == .golf ? MSBrand.success : sport == .bowling ? MSBrand.glow : MSBrand.gold }
+    /// What the bar says: the venue, or why it is waiting.
+    private var line: String {
+        let status = loading.statusText
+        return loading.phase == .loading && !loading.isStalled && loading.waitingPlayers.isEmpty ? "Loading \(venueName)…" : status
+    }
+    private var percent: Int { Int((loading.displayProgress * 100).rounded()) }
+    /// The tip card sits left for tip 1 and right for tip 2, the wordmark in the other top corner.
+    private var cardLeading: Bool { (loading.tipNumber ?? 1) == 1 }
+
     var body: some View {
-        GeometryReader { geometry in
-            ZStack {
-                Club.lagoonDeep
-                VStack(spacing: compact ? 18 : 24) {
-                    Text("MOTION CLUB").font(IslandUI.font(12, bold: true)).tracking(1.5)
-                    Text(venue).font(IslandUI.font(compact ? 32 : 58, bold: true))
-                    Text(modeLine).font(IslandUI.font(compact ? 15 : 23)).multilineTextAlignment(.center)
-                    GameplayPreview(sport: sport, venue: venueID)
-                        .aspectRatio(16 / 9, contentMode: .fit).clipShape(RoundedRectangle(cornerRadius: 18))
-                    Spacer(minLength: 0)
-                    loadingStatus
-                    HStack(spacing: 16) {
-                        if session.multiplayerMatchID != nil || service.lobby?.phase == .loading {
-                            if service.loadingNeedsDecision {
-                                IslandAction(title: "Keep waiting", focused: menu.isFocused("net-wait"), primary: true, compact: true) { menu.tap("net-wait") }
-                            }
-                            IslandAction(title: "Leave match", focused: menu.isFocused("net-leave"), compact: true) { menu.tap("net-leave") }
-                        } else {
-                            IslandAction(title: "Leave match", focused: menu.isFocused("loadingBack"), compact: true) { menu.tap("loadingBack") }
-                            if session.loading.isStalled || session.loading.phase == .failed {
-                                IslandAction(title: "Retry", focused: menu.isFocused("loadingRetry"), primary: true, compact: true) { menu.tap("loadingRetry") }
-                            }
+        Group { if compact { phone } else { tv } }
+            .accessibilityIdentifier("presentation-loading-card")
+    }
+
+    private var backdrop: some View {
+        ZStack {
+            MSBrand.backdrop()
+            if let art { Image(uiImage: art).resizable().scaledToFill() }
+        }
+    }
+
+    // MARK: TV (1280×720)
+
+    private var tv: some View {
+        ZStack(alignment: .topLeading) {
+            backdrop.frame(width: 1280, height: 720).clipped()
+            LinearGradient(stops: [.init(color: MSBrand.navyInk.opacity(0.45), location: 0), .init(color: .clear, location: 0.22),
+                                   .init(color: .clear, location: 0.58), .init(color: MSBrand.navyInk.opacity(0.78), location: 1)],
+                           startPoint: .top, endPoint: .bottom)
+            MSWordmark(size: 34).position(x: cardLeading ? 1150 - 105 : 130 + 105, y: 66)
+            if loading.tip != nil {
+                tipCard(width: 600).frame(width: 600)
+                    .position(x: cardLeading ? 130 + 300 : 1150 - 300, y: 452)
+                    .id(loading.tipNumber).transition(.opacity)
+            }
+            if needsControls { controls.position(x: 640, y: 300) }
+            bar(labelSize: 24, height: 20).frame(width: 1020).position(x: 130 + 510, y: 618)
+            MSArcRing(color: accent).frame(width: 44, height: 44).position(x: 1190, y: 636)
+        }
+        .frame(width: 1280, height: 720).clipped()
+        .ignoresSafeArea()
+        .foregroundStyle(.white)
+        .animation(.easeInOut(duration: 0.35), value: loading.tipNumber)
+    }
+
+    // MARK: Phone (upright)
+
+    private var phone: some View {
+        GeometryReader { g in
+            ZStack(alignment: .top) {
+                MSBrand.backdrop(spotlight: UnitPoint(x: 0.5, y: 0.6), radius: 520).ignoresSafeArea()
+                VStack(spacing: 0) {
+                    ZStack(alignment: .bottomLeading) {
+                        backdrop.frame(width: g.size.width, height: g.size.height * 0.44).clipped()
+                        LinearGradient(colors: [MSBrand.navyInk.opacity(0.55), .clear, .clear, MSBrand.navyDeep], startPoint: .top, endPoint: .bottom)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(venueName == "the lanes" ? "Bowling" : venueName).font(MSLoadingFont.display(34)).lineLimit(1).minimumScaleFactor(0.6)
+                            Text(modeLine).font(MSLoadingFont.subline(15)).foregroundStyle(MSBrand.n300).lineLimit(1).minimumScaleFactor(0.7)
                         }
+                        .shadow(color: MSBrand.textShadow.opacity(0.6), radius: 6, y: 2)
+                        .padding(.horizontal, 22).padding(.bottom, 14)
                     }
-                }.padding(compact ? 24 : 64).frame(maxWidth: .infinity)
-            }.foregroundStyle(.white).clipped()
-        }.ignoresSafeArea().accessibilityIdentifier("presentation-loading-card")
-    }
-    private var roster: some View {
-        let competitors = session.multiplayerMatchID != nil || service.lobby?.phase == .loading ? service.lobby?.competitors ?? [] : []
-        return Group {
-            if !competitors.isEmpty {
-                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: compact ? min(2, competitors.count) : competitors.count), spacing: 12) {
-                    ForEach(competitors, id: \.id) { participant in
-                        PresentationRosterCard(name: participant.name, player: participant.loadout == nil ? nil : participant.lobbyPlayer,
-                                               sport: sport, loaded: participant.loaded, compact: compact)
+                    .frame(height: g.size.height * 0.44)
+                    .overlay(alignment: .top) { MSWordmark(size: 24).padding(.top, g.safeAreaInsets.top + 12) }
+                    VStack(spacing: 22) {
+                        if loading.tip != nil { tipCard(width: nil).id(loading.tipNumber).transition(.opacity) }
+                        Spacer(minLength: 0)
+                        HStack(alignment: .bottom, spacing: 12) {
+                            bar(labelSize: 17, height: 16)
+                            MSArcRing(color: accent).frame(width: 30, height: 30)
+                        }
+                        controls
                     }
+                    .padding(.horizontal, 22).padding(.top, 26).padding(.bottom, max(18, g.safeAreaInsets.bottom))
                 }
+            }
+            .ignoresSafeArea()
+            .foregroundStyle(.white)
+            .animation(.easeInOut(duration: 0.35), value: loading.tipNumber)
+        }
+    }
+
+    // MARK: Pieces
+
+    /// TENNIS TIP 1/2 · phone icon · headline in gold · one line of how to play.
+    private func tipCard(width: CGFloat?) -> some View {
+        let tv = width != nil
+        return HStack(alignment: .center, spacing: tv ? 18 : 14) {
+            RoundedRectangle(cornerRadius: tv ? 12 : 10, style: .continuous)
+                .fill(LinearGradient(colors: [MSBrand.lift, MSBrand.royal], startPoint: .top, endPoint: .bottom))
+                .overlay(Image(systemName: "iphone").font(.system(size: tv ? 30 : 24, weight: .bold)).foregroundStyle(.white))
+                .overlay(RoundedRectangle(cornerRadius: tv ? 12 : 10, style: .continuous).strokeBorder(.white.opacity(0.35), lineWidth: 1.5))
+                .frame(width: tv ? 60 : 48, height: tv ? 60 : 48)
+            VStack(alignment: .leading, spacing: tv ? 6 : 4) {
+                Text(loading.tipTitle ?? "").font(MSLoadingFont.display(tv ? 30 : 22)).foregroundStyle(MSBrand.gold).lineLimit(1).minimumScaleFactor(0.7)
+                Text(loading.tip ?? "").font(MSLoadingFont.body(tv ? 19 : 15)).foregroundStyle(.white).fixedSize(horizontal: false, vertical: true)
+            }
+            Spacer(minLength: 0)
+        }
+        .padding(.horizontal, tv ? 22 : 16).padding(.top, tv ? 26 : 22).padding(.bottom, tv ? 20 : 16)
+        .background(LinearGradient(colors: [Color(hex: "1A3FA0"), MSBrand.navyDeep], startPoint: .top, endPoint: .bottom),
+                    in: RoundedRectangle(cornerRadius: tv ? 16 : 14, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: tv ? 16 : 14, style: .continuous).strokeBorder(.white, lineWidth: tv ? 4 : 3))
+        .shadow(color: MSBrand.shadowInk.opacity(0.43), radius: 14, y: 11)
+        .overlay(alignment: .topLeading) {
+            Text("\(sport.title) TIP \(loading.tipNumber ?? 1)/\(LoadingModel.tipsPerLoad)")
+                .font(MSLoadingFont.display(tv ? 14 : 12)).tracking(0.5).foregroundStyle(MSBrand.navyInk)
+                .padding(.horizontal, 12).padding(.vertical, 4)
+                .background(MSBrand.gold, in: Capsule()).overlay(Capsule().strokeBorder(.white, lineWidth: 2))
+                .offset(x: tv ? 18 : 14, y: tv ? -14 : -12)
+        }
+        .accessibilityElement(children: .combine).accessibilityIdentifier("loading-tip")
+    }
+
+    /// "Loading Tropical Resort…" and the percentage over the bar.
+    private func bar(labelSize: CGFloat, height: CGFloat) -> some View {
+        VStack(spacing: height * 0.6) {
+            HStack(alignment: .firstTextBaseline) {
+                Text(line).font(MSLoadingFont.display(labelSize)).lineLimit(1).minimumScaleFactor(0.6)
+                    .shadow(color: MSBrand.textShadow.opacity(0.6), radius: 4, y: 1)
+                Spacer(minLength: 10)
+                Text("\(percent)%").font(MSLoadingFont.display(labelSize)).foregroundStyle(accent).monospacedDigit()
+                    .shadow(color: MSBrand.textShadow.opacity(0.6), radius: 4, y: 1)
+            }
+            MSLoadingBar(progress: loading.displayProgress, fill: accent, height: height)
+        }
+        .accessibilityElement(children: .combine).accessibilityIdentifier("presentation-loading-status")
+    }
+
+    /// Leave / Retry / Keep waiting. The phone always offers Leave match; the TV shows them only when there is a decision.
+    private var needsControls: Bool {
+        loading.isStalled || loading.phase == .failed || (session.multiplayerMatchID != nil || lobbyLoading) && service.loadingNeedsDecision
+    }
+    private var controls: some View {
+        HStack(spacing: 16) {
+            if session.multiplayerMatchID != nil || lobbyLoading {
+                if service.loadingNeedsDecision {
+                    IslandAction(title: "Keep waiting", focused: menu.isFocused("net-wait"), primary: true, compact: true) { menu.tap("net-wait") }
+                }
+                IslandAction(title: "Leave match", focused: menu.isFocused("net-leave"), compact: true) { menu.tap("net-leave") }
             } else {
-                HStack(alignment: .center, spacing: 12) {
-                    PresentationRosterCard(name: menu.player?.name ?? "You", player: menu.player, sport: sport, loaded: nil, compact: compact)
-                    if sport == .tennis {
-                        Text("VS").font(IslandUI.font(compact ? 16 : 26, bold: true)).foregroundStyle(IslandUI.lime)
-                        PresentationRosterCard(name: menu.loadingOpponent?.name ?? "Practice", player: menu.loadingOpponent.map { RivalLooks.player(for: $0) }, sport: sport, loaded: nil, compact: compact)
-                    }
+                IslandAction(title: "Leave match", focused: menu.isFocused("loadingBack"), compact: true) { menu.tap("loadingBack") }
+                if loading.isStalled || loading.phase == .failed {
+                    IslandAction(title: "Retry", focused: menu.isFocused("loadingRetry"), primary: true, compact: true) { menu.tap("loadingRetry") }
                 }
             }
-        }.frame(maxWidth: compact ? 440 : 1040)
-    }
-    private var loadingStatus: some View {
-        VStack(spacing: 10) {
-            HStack(spacing: 10) {
-                if session.loading.showsActivity { ProgressView().tint(IslandUI.lime) }
-                if session.loading.phase == .transitioning { Image(systemName: "checkmark.circle.fill").foregroundStyle(IslandUI.lime) }
-                Text(session.loading.statusText).font(IslandUI.font(compact ? 17 : 23, bold: true)).multilineTextAlignment(.center)
-            }
-            if let tip = session.loading.tip {
-                VStack(spacing: 6) {
-                    Text((session.loading.tipKind ?? "Tip").uppercased()).font(IslandUI.font(12, bold: true)).tracking(1.6).foregroundStyle(IslandUI.lime)
-                    Text(tip).font(IslandUI.font(compact ? 16 : 22, bold: true)).multilineTextAlignment(.center).fixedSize(horizontal: false, vertical: true)
-                }
-                .padding(.horizontal, 20).padding(.vertical, 12).frame(maxWidth: compact ? .infinity : 780)
-                .background(.white.opacity(0.1), in: RoundedRectangle(cornerRadius: 16, style: .continuous))
-                .accessibilityElement(children: .combine).accessibilityIdentifier("loading-tip")
-            }
-            if session.loading.elapsed >= 10, let measured = session.loading.sceneProgress, measured < 1 {
-                ProgressView("Venue loading", value: measured).tint(IslandUI.lime).frame(maxWidth: 350)
-            }
-        }.accessibilityIdentifier("presentation-loading-status")
+        }
     }
     static func label(_ launch: MenuLaunch, _ opponent: TennisOpponent?) -> String {
         launch.sport == .golf ? (GolfCourseChoice(rawValue: SportsSession.shared.golfCourse)?.title ?? "Cliffside") : (TennisVenueChoice(rawValue: SportsSession.shared.tennisVenue)?.title ?? "Tropical Resort")
@@ -308,6 +560,7 @@ extension TennisMenu {
         case "partyNearby": return "Join a Friend"
         case "partyLocalGolf": return "Golf · Pass the Phone"
         case "partyLocalTennis": return "Tennis · Two Phones"
+        case "partyNearbyTennis": return "Tennis with a friend nearby"
         case "localPlayers2", "localPlayers3", "localPlayers4": return "\(id.dropFirst("localPlayers".count)) Players"
         case "onlineQuick": return "Quick Match"
         case "homeInvite": return "Play with Friends"

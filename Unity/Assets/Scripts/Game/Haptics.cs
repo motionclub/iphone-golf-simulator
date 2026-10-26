@@ -11,6 +11,7 @@ namespace GolfArcade.Game
 #if UNITY_IOS && !UNITY_EDITOR
         [DllImport("__Internal")] static extern void GolfHaptics_Warm();
         [DllImport("__Internal")] static extern void GolfHaptics_Hit(int style, int grade, int pips, int flags, float power, float center, float mistime, float heat);
+        [DllImport("__Internal")] static extern void GolfHaptics_HitOnSwing(int style, int grade, int pips, int flags, float power, float center, float mistime, float heat, float wait);
         [DllImport("__Internal")] static extern void GolfHaptics_Cue(int kind, float intensity, float delay);
         [DllImport("__Internal")] static extern void GolfHaptics_Selection();
         [DllImport("__Internal")] static extern void GolfHaptics_Notification(int type);
@@ -21,6 +22,7 @@ namespace GolfArcade.Game
 #else
         static void GolfHaptics_Warm() { }
         static void GolfHaptics_Hit(int style, int grade, int pips, int flags, float power, float center, float mistime, float heat) { }
+        static void GolfHaptics_HitOnSwing(int style, int grade, int pips, int flags, float power, float center, float mistime, float heat, float wait) { }
         static void GolfHaptics_Cue(int kind, float intensity, float delay) { }
         static void GolfHaptics_Selection() { }
         static void GolfHaptics_Notification(int type) { }
@@ -69,6 +71,16 @@ namespace GolfArcade.Game
             if (!On) return;
             GolfHaptics_Hit((int)f.Style, System.Math.Clamp(f.Grade, 0, 5), System.Math.Max(0, f.Pips), f.Supercharged ? 1 : 0,
                 Clamp01(f.Power), Clamp01(f.Center), Clamp01(f.Mistime), Clamp01(f.Heat));
+        }
+
+        /// The same strike, felt when the phone's own swing reaches the ball: the plugin plays it at the swing's rotation
+        /// peak (reported straight from the motion sensor queue, see SportsMotion), at once if that peak has just passed,
+        /// and at the latest `wait` real seconds from now. The game decides a hit a TV delay before the picture shows it.
+        public static void HitOnSwing(in HitFeel f, float wait)
+        {
+            if (!On) return;
+            GolfHaptics_HitOnSwing((int)f.Style, System.Math.Clamp(f.Grade, 0, 5), System.Math.Max(0, f.Pips), f.Supercharged ? 1 : 0,
+                Clamp01(f.Power), Clamp01(f.Center), Clamp01(f.Mistime), Clamp01(f.Heat), System.Math.Clamp(wait, 0, 1));
         }
 
         /// A moment, `delay` real seconds from now: pass the TV's lag for something the player sees on the

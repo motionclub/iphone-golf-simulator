@@ -1,15 +1,17 @@
+using System.Collections.Generic;
 using GolfArcade.Course;
+using MotionSports.Brand;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace GolfArcade.UI
 {
     /// The screen between two holes. Building the next hole takes a few seconds of the main thread, so the game puts this
-    /// up first, lets it be drawn, and only then builds. It is a postcard of the hole that is coming: its number on a red
-    /// flag and its name on a ribbon, the hole drawn from above from its own numbers (the sea, the island, the fairway, the
-    /// hazards, the green and its flag), par, length and what is in the way, and a ball that rolls from the tee to the pin as
-    /// the hole comes together, so the wait has a clear end. It covers the whole display (an overlay canvas on the display the
-    /// course camera draws to, so the TV gets it as well as the phone).
+    /// up first, lets it be drawn, and only then builds. It is the MotionSports venue loading screen (picked 2026-10-25, the
+    /// same design as the app's match loading): the course's key art, the hole that is coming (HOLE 3 OF 9, its name, what to
+    /// do on it, par, length and what is in the way), a GOLF TIP card, and the bar with what is being done and how far, so the
+    /// wait has a clear end. It covers the whole display (an overlay canvas on the display the course camera draws to, so the
+    /// TV gets it as well as the phone).
     public sealed class HoleLoadingCover : MonoBehaviour
     {
         public struct Info
@@ -22,22 +24,44 @@ namespace GolfArcade.UI
         }
 
         public const float FadeIn = 0.14f, FadeOut = 0.32f;
-        static readonly Color Ink = UiKit.Hex("10243D"), Lime = UiKit.Hex("D7F044"), Cream = UiKit.Hex("FFF9EE"), FlagRed = UiKit.Hex("D9161C");
+        /// Each tip stays this long before the second one comes up (seconds, unscaled).
+        const float TipSeconds = 4f;
+        /// Golf's colour on the bar and the percentage (the app's match loading uses the same).
+        static Color Accent => BrandColors.Success;
+
+        /// A few of the app's loading tips (GameTips.golf in HowToCards.swift, word for word), with their card headlines.
+        static readonly (string title, string text)[] Tips =
+        {
+            ("Smooth tempo", "Smooth tempo, a square face and a committed swing together earn a PERFECT strike."),
+            ("Read the wind", "Check the wind arrow and MPH badge before you pick a club, and aim off for a strong crosswind."),
+            ("Backswing sets distance", "How far back you take the phone sets the distance: hip-high is about 60%, up behind you is full power."),
+            ("Smooth beats hard", "You don't have to swing hard. A smooth, committed swing through the ball carries full distance."),
+            ("Shape your shot", "Twisting the phone open or closed bends the ball: open slices right, closed hooks left."),
+            ("Play it safe", "Water and lava cost a stroke. Play short of trouble with a safer club."),
+            ("Club up in the rough", "Rough takes 10–15% off your swing. Take one more club than the yardage says."),
+            ("Escape the sand", "Bunkers rob most clubs of about 40% of their speed. Take a wedge and just get out."),
+            ("Read the break", "On the green, the beads on the slope grid drift the way the ball will break. Read them before you putt."),
+            ("Tiny putts", "Putting uses tiny strokes. A 3-foot putt is only about a fifth of a full putting stroke."),
+            ("Free do-overs", "Tap the button again, or stop short on the way through, and the swing resets with no stroke lost. Tap it and go again."),
+            ("Give yourself room", "Clear a full swing's room around you, and keep the phone in a firm grip."),
+        };
 
         Camera view;
         Canvas canvas;
         CanvasScaler scaler;
         CanvasGroup group;
-        RectTransform root, tab, dots, flagBadge, ribbon, card, cardShadow, chips, note, statusRow, ball;
-        Text courseText, flagNumber, title, noteText, status;
-        HoleMapGraphic map;
-        HoleMapGraphic[] layers = new HoleMapGraphic[0];
-        TrailGraphic trail;
-        Image statusDot;
-        bool portraitBuilt = true, laidOut;
+        RectTransform root, artFrame, wordmark, header, holeTab, chips, card, cardTab, phoneIcon, barRoot, track, fill, sparkle, ring, ringArc;
+        RawImage art;
+        AspectRatioFitter artFit;
+        GradientGraphic topShade, bottomShade;
+        Text motion, sports, holeTabText, title, objective, tipTab, tipTitle, tipText, status, percent;
+        bool portraitBuilt = true, laidOut, cardLeft = true;
         float shownAt = -1, hideAt = -1, shown, target, progress, lastWidth, lastHeight;
+        int tipShown = -1;
         bool visible;
         Info info;
+        static readonly Dictionary<string, Texture2D> arts = new();
+        static Sprite star, ringSprite;
 
         /// Up on screen, or fading out.
         public bool Visible => visible || group.alpha > 0.001f;
@@ -48,7 +72,7 @@ namespace GolfArcade.UI
         public float Progress => progress;
         public string Status => status ? status.text : "";
         public string Title => title ? title.text : "";
-        public string Number => flagNumber ? flagNumber.text : "";
+        public string Number => info.Ordinal > 0 ? info.Ordinal.ToString() : "";
 
         public static HoleLoadingCover Create(Camera camera)
         {
@@ -64,6 +88,20 @@ namespace GolfArcade.UI
             return c;
         }
 
+        // ---- Type (Kanit when the brand kit's TTFs are in; the club fonts slanted stand in until then)
+
+        static Font Display => BrandFonts.ExtraBoldItalic(UiKit.Display);
+        static Font Subline => BrandFonts.MediumItalic(UiKit.Strong);
+        static Font Body => BrandFonts.Medium(UiKit.Body);
+
+        static Text Words(Transform parent, string name, Font face, int size, Color color, TextAnchor anchor, bool loud, bool shadow = true)
+        {
+            var t = Club.Words(parent, name, "", face, size, color, anchor);
+            if (loud && BrandFonts.Missing) t.fontStyle = FontStyle.Italic;
+            if (shadow) { var s = t.gameObject.AddComponent<Shadow>(); s.effectColor = new Color(BrandColors.TextShadow.r, BrandColors.TextShadow.g, BrandColors.TextShadow.b, .55f); s.effectDistance = new Vector2(0, -Mathf.Max(2, size / 24f)); }
+            return t;
+        }
+
         // ---- Building
 
         static RectTransform Node(Transform parent, string name)
@@ -74,100 +112,144 @@ namespace GolfArcade.UI
             return rt;
         }
 
-        static T Add<T>(Transform parent, string name) where T : Graphic
-        {
-            var rt = Node(parent, name);
-            rt.anchorMin = Vector2.zero; rt.anchorMax = Vector2.one; rt.offsetMin = rt.offsetMax = Vector2.zero; rt.pivot = new Vector2(.5f, .5f);
-            var g = rt.gameObject.AddComponent<T>(); g.raycastTarget = false;
-            return g;
-        }
-
         static Image Rounded(Transform parent, string name, Color color, float radius, bool ring = false)
         {
             var img = Club.Paint(parent, name, color, radius, ring); img.raycastTarget = false; return img;
         }
 
-        static Image Disc(Transform parent, string name, Color color)
+        /// A brand panel: a Shadow Ink drop shadow, a white border and the fill inset by it.
+        static void Panel(RectTransform rt, Color fill, float radius, float border, float drop)
         {
-            var img = Rounded(parent, name, color, 0); img.sprite = UiKit.Circle; img.type = Image.Type.Simple; return img;
-        }
-
-        static Text Words(Transform parent, string name, Font face, int size, Color color, TextAnchor anchor)
-        {
-            var t = Club.Words(parent, name, "", face, size, color, anchor); t.horizontalOverflow = HorizontalWrapMode.Overflow; return t;
+            var shade = Rounded(rt, "Shadow", new Color(BrandColors.ShadowInk.r, BrandColors.ShadowInk.g, BrandColors.ShadowInk.b, .43f), radius);
+            shade.rectTransform.offsetMin = new Vector2(0, -drop); shade.rectTransform.offsetMax = new Vector2(0, -drop);
+            if (border > 0) Rounded(rt, "Border", Color.white, radius);
+            var face = Rounded(rt, "Fill", fill, Mathf.Max(1, radius - border));
+            face.rectTransform.offsetMin = Vector2.one * border; face.rectTransform.offsetMax = -Vector2.one * border;
         }
 
         void Build()
         {
             group = gameObject.AddComponent<CanvasGroup>();
             root = Club.Fill(transform, "Cover");
-            // the sea-blue sky, slanted bands and a glow in the corner: the candy colours of a party game's loading screen
-            var back = Add<GradientGraphic>(root, "Back"); back.Vertical = true; back.raycastTarget = true;
-            back.Stops = new[] { UiKit.Hex("17b0dd"), UiKit.Hex("1673b8"), UiKit.Hex("0f3d6e"), UiKit.Hex("0a2442") };
-            var bands = Add<StripesGraphic>(root, "Bands"); bands.color = new Color(1, 1, 1, .055f);
-            var glow = Disc(root, "Glow", new Color(.55f, .92f, .92f, .55f)); glow.sprite = Club.Glow;
-            glow.rectTransform.anchorMin = glow.rectTransform.anchorMax = new Vector2(.9f, 1f); glow.rectTransform.sizeDelta = new Vector2(2000, 1700);
+            // the brand's navy-to-royal field, the course's key art over it, darker at the top and bottom for the type
+            var back = Club.Fill(root, "Back").gameObject.AddComponent<GradientGraphic>(); back.Vertical = true; back.raycastTarget = true;
+            back.Stops = new[] { BrandColors.NavyInk, BrandColors.NavyDeep, UiKit.Hex("0B2C86") };
+            artFrame = Club.Fill(root, "Art frame"); artFrame.gameObject.AddComponent<RectMask2D>();
+            art = Club.Fill(artFrame, "Art").gameObject.AddComponent<RawImage>(); art.raycastTarget = false;
+            artFit = art.gameObject.AddComponent<AspectRatioFitter>(); artFit.aspectMode = AspectRatioFitter.AspectMode.EnvelopeParent;
+            topShade = Club.Fill(root, "Top shade").gameObject.AddComponent<GradientGraphic>(); topShade.Vertical = true; topShade.raycastTarget = false;
+            topShade.Stops = new[] { Ink(.5f), Ink(0) };
+            bottomShade = Club.Fill(root, "Bottom shade").gameObject.AddComponent<GradientGraphic>(); bottomShade.Vertical = true; bottomShade.raycastTarget = false;
 
-            // the course and the round's holes
-            tab = Node(root, "Course tab");
-            var coursePill = Rounded(tab, "Pill", Cream, 80);
-            courseText = Words(tab, "Course", UiKit.Display, 40, Ink, TextAnchor.MiddleCenter);
-            dots = Node(root, "Dots");
+            // MotionSports: white Motion, Wordmark Gold Sports
+            wordmark = Node(root, "Wordmark");
+            motion = Words(wordmark, "Motion", Display, 52, Color.white, TextAnchor.MiddleLeft, true);
+            sports = Words(wordmark, "Sports", Display, 52, BrandColors.GoldWordmark, TextAnchor.MiddleLeft, true);
+            motion.text = "Motion"; sports.text = "Sports";
+            foreach (var t in new[] { motion, sports }) { t.horizontalOverflow = HorizontalWrapMode.Overflow; t.rectTransform.anchorMin = t.rectTransform.anchorMax = new Vector2(0, .5f); t.rectTransform.pivot = new Vector2(0, .5f); }
 
-            // the hole's number on a red flag, its name on a ribbon
-            flagBadge = Node(root, "Flag");
-            var flagBase = Rounded(flagBadge, "Base", UiKit.Hex("7d0c10"), 26); flagBase.rectTransform.offsetMin = new Vector2(0, -14); flagBase.rectTransform.offsetMax = new Vector2(0, -14);
-            Rounded(flagBadge, "Face", FlagRed, 26);
-            var flagRing = Rounded(flagBadge, "Rim", new Color(1, 1, 1, .85f), 18, true); flagRing.rectTransform.offsetMin = Vector2.one * 14; flagRing.rectTransform.offsetMax = -Vector2.one * 14;
-            flagNumber = Words(flagBadge, "Number", UiKit.Display, 170, Color.white, TextAnchor.MiddleCenter);
-            ribbon = Node(root, "Ribbon");
-            var ribShadow = Add<Image>(ribbon, "Shadow"); ribShadow.color = new Color(.03f, .1f, .18f, .55f); ribShadow.rectTransform.offsetMin = new Vector2(0, -22); ribShadow.rectTransform.offsetMax = new Vector2(0, -22);
-            var ribFill = Add<GradientGraphic>(ribbon, "Fill"); ribFill.Stops = new[] { UiKit.Hex("bfe83a"), UiKit.Hex("e8f87a"), UiKit.Hex("9ee06b") };
-            foreach (var side in new[] { 1f, 0f })
-            {
-                var edge = Add<Image>(ribbon, side > 0 ? "Top edge" : "Bottom edge"); edge.color = Color.white;
-                edge.rectTransform.anchorMin = new Vector2(0, side); edge.rectTransform.anchorMax = new Vector2(1, side); edge.rectTransform.pivot = new Vector2(.5f, side);
-                edge.rectTransform.sizeDelta = new Vector2(0, 10); edge.rectTransform.anchoredPosition = Vector2.zero;
-            }
-            title = UiKit.Chunky(ribbon, "Name", 150, Color.white, Ink, 7);
-            title.horizontalOverflow = HorizontalWrapMode.Overflow; title.alignment = TextAnchor.MiddleLeft;
+            // the hole: HOLE 3 OF 9 · CLIFFSIDE on a gold tab, its name, what to do on it, par / yards / hazards
+            header = Node(root, "Hole");
+            holeTab = Node(header, "Tab");
+            Rounded(holeTab, "Rim", Color.white, 40);
+            var tabFill = Rounded(holeTab, "Fill", BrandColors.Gold, 37); tabFill.rectTransform.offsetMin = Vector2.one * 3; tabFill.rectTransform.offsetMax = -Vector2.one * 3;
+            holeTabText = Words(holeTab, "Words", Display, 26, BrandColors.NavyInk, TextAnchor.MiddleCenter, true, false);
+            title = Words(header, "Name", Display, 96, Color.white, TextAnchor.UpperLeft, true);
+            title.horizontalOverflow = HorizontalWrapMode.Overflow;
+            objective = Words(header, "Objective", Subline, 34, BrandColors.N100, TextAnchor.UpperLeft, true);
+            chips = Node(header, "Chips");
 
-            // the postcard: the hole from above in a white frame, the ball rolling along it
-            cardShadow = Node(root, "Postcard shadow"); Rounded(cardShadow, "Shade", new Color(.03f, .1f, .18f, .5f), 64);
-            card = Node(root, "Postcard"); Rounded(card, "Frame", Color.white, 64);
-            var inner = Club.Fill(card, "Picture", 26);
-            var mask = inner.gameObject.AddComponent<Image>(); mask.sprite = Club.Rounded; mask.type = Image.Type.Sliced; mask.pixelsPerUnitMultiplier = 80f / 42f; mask.raycastTarget = false;
-            inner.gameObject.AddComponent<Mask>().showMaskGraphic = false;
-            // the picture in layers: the sea and land, the ground inside a mask of the land, the line and the flag over all of it
-            map = Add<HoleMapGraphic>(inner, "Hole"); map.Part = HoleMapGraphic.Layer.Base;
-            var shape = Add<HoleMapGraphic>(inner, "Land"); shape.Part = HoleMapGraphic.Layer.LandShape;
-            shape.gameObject.AddComponent<Mask>().showMaskGraphic = false;
-            var ground = Add<HoleMapGraphic>(shape.transform, "Ground"); ground.Part = HoleMapGraphic.Layer.Ground;
-            var marks = Add<HoleMapGraphic>(inner, "Marks"); marks.Part = HoleMapGraphic.Layer.Marks;
-            layers = new[] { map, shape, ground, marks };
-            trail = Add<TrailGraphic>(inner, "Trail");
-            var ballRim = Disc(inner, "Ball", Ink);
-            ball = ballRim.rectTransform; ball.anchorMin = ball.anchorMax = new Vector2(.5f, .5f); ball.sizeDelta = new Vector2(48, 48);
-            var ballFace = Disc(ball, "Face", Color.white);
-            ballFace.rectTransform.offsetMin = Vector2.one * 5; ballFace.rectTransform.offsetMax = -Vector2.one * 5;
-            foreach (var spot in new[] { new Vector2(-7, 6), new Vector2(7, 3), new Vector2(0, -8) })
-            {
-                var d = Disc(ballFace.transform, "Dimple", new Color(.72f, .78f, .81f));
-                d.rectTransform.anchorMin = d.rectTransform.anchorMax = new Vector2(.5f, .5f); d.rectTransform.sizeDelta = new Vector2(6, 6); d.rectTransform.anchoredPosition = spot;
-            }
+            // GOLF TIP 1/2: the phone, a headline in gold and one line of how to play
+            card = Node(root, "Tip");
+            Panel(card, UiKit.Hex("15389A"), 24, 6, 16);
+            phoneIcon = Node(card, "Phone");
+            Rounded(phoneIcon, "Tile", BrandColors.Lift, 18);
+            Rounded(phoneIcon, "Rim", new Color(1, 1, 1, .35f), 18, true);
+            // a phone: a white body with the tile's blue as its screen
+            var handset = Node(phoneIcon, "Handset"); handset.anchorMin = handset.anchorMax = handset.pivot = new Vector2(.5f, .5f); handset.sizeDelta = new Vector2(36, 60);
+            Rounded(handset, "Body", Color.white, 10);
+            var screen = Rounded(handset, "Screen", BrandColors.Lift, 5);
+            screen.rectTransform.offsetMin = new Vector2(5, 9); screen.rectTransform.offsetMax = new Vector2(-5, -9);
+            tipTitle = Words(card, "Headline", Display, 46, BrandColors.Gold, TextAnchor.UpperLeft, true);
+            tipTitle.horizontalOverflow = HorizontalWrapMode.Overflow;
+            tipText = Words(card, "Tip", Body, 32, Color.white, TextAnchor.UpperLeft, false, false);
+            cardTab = Node(card, "Tab");
+            Rounded(cardTab, "Rim", Color.white, 30);
+            var cardTabFill = Rounded(cardTab, "Fill", BrandColors.Gold, 28); cardTabFill.rectTransform.offsetMin = Vector2.one * 3; cardTabFill.rectTransform.offsetMax = -Vector2.one * 3;
+            tipTab = Words(cardTab, "Words", Display, 22, BrandColors.NavyInk, TextAnchor.MiddleCenter, true, false);
 
-            chips = Node(root, "Chips");
-            note = Node(root, "Note");
-            Rounded(note, "Panel", new Color(1, .98f, .93f, .13f), 44);
-            Rounded(note, "Edge", new Color(1, 1, 1, .28f), 44, true);
-            noteText = Club.Words(note, "Words", "", Club.UiMedium, 42, Color.white, TextAnchor.MiddleLeft);
-            noteText.rectTransform.offsetMin = new Vector2(44, 12); noteText.rectTransform.offsetMax = new Vector2(-44, -12);
-            statusRow = Node(root, "Status");
-            statusDot = Disc(statusRow, "Dot", Lime);
-            statusDot.rectTransform.anchorMin = statusDot.rectTransform.anchorMax = new Vector2(0, .5f); statusDot.rectTransform.pivot = new Vector2(.5f, .5f);
-            statusDot.rectTransform.sizeDelta = new Vector2(26, 26);
-            status = Club.Words(statusRow, "Words", "", Club.UiMedium, 48, Color.white, TextAnchor.MiddleLeft);
+            // the bar: what is being done and how far, a white-rimmed pill filled in golf green with a sparkle at its head,
+            // and a short arc chasing round a faint ring (the brand's loading, never a spinner)
+            barRoot = Node(root, "Loading");
+            status = Words(barRoot, "Status", Display, 38, Color.white, TextAnchor.LowerLeft, true);
             status.horizontalOverflow = HorizontalWrapMode.Overflow;
+            percent = Words(barRoot, "Percent", Display, 38, Accent, TextAnchor.LowerRight, true);
+            track = Node(barRoot, "Track");
+            Rounded(track, "Shadow", new Color(BrandColors.ShadowInk.r, BrandColors.ShadowInk.g, BrandColors.ShadowInk.b, .43f), 30).rectTransform.anchoredPosition = new Vector2(0, -8);
+            Rounded(track, "Rim", Color.white, 30);
+            var trackFill = Rounded(track, "Inside", BrandColors.NavyInk, 26); trackFill.rectTransform.offsetMin = Vector2.one * 4; trackFill.rectTransform.offsetMax = -Vector2.one * 4;
+            fill = Node(track, "Fill");
+            Rounded(fill, "Colour", Accent, 20);
+            var shine = Rounded(fill, "Shine", new Color(1, 1, 1, .32f), 10);
+            shine.rectTransform.anchorMin = new Vector2(0, .55f); shine.rectTransform.offsetMin = new Vector2(8, 0); shine.rectTransform.offsetMax = new Vector2(-8, -3);
+            sparkle = Node(track, "Sparkle"); sparkle.anchorMin = sparkle.anchorMax = new Vector2(0, .5f); sparkle.pivot = new Vector2(.5f, .5f);
+            var halo = Rounded(sparkle, "Glow", new Color(BrandColors.Gold.r, BrandColors.Gold.g, BrandColors.Gold.b, .85f), 0); halo.sprite = Club.Glow; halo.type = Image.Type.Simple;
+            halo.rectTransform.offsetMin = -Vector2.one * 14; halo.rectTransform.offsetMax = Vector2.one * 14;
+            var starImage = Rounded(sparkle, "Star", Color.white, 0); starImage.sprite = Star; starImage.type = Image.Type.Simple;
+            ring = Node(root, "Ring"); ring.anchorMin = ring.anchorMax = ring.pivot = new Vector2(.5f, .5f);
+            var faint = Rounded(ring, "Faint", new Color(1, 1, 1, .18f), 0); faint.sprite = RingSprite; faint.type = Image.Type.Simple;
+            ringArc = Club.Fill(ring, "Arc");
+            var arc = ringArc.gameObject.AddComponent<Image>(); arc.raycastTarget = false; arc.sprite = RingSprite;
+            arc.type = Image.Type.Filled; arc.fillMethod = Image.FillMethod.Radial360; arc.fillOrigin = (int)Image.Origin360.Top; arc.fillAmount = .34f; arc.fillClockwise = false;
+            arc.color = BrandColors.ArcWarm;
+        }
+
+        static Color Ink(float a) => new(BrandColors.NavyInk.r, BrandColors.NavyInk.g, BrandColors.NavyInk.b, a);
+
+        /// The 4-point sparkle at the head of the swing arc (and of the bar).
+        static Sprite Star => star ? star : (star = MakeStar(96));
+        static Sprite RingSprite => ringSprite ? ringSprite : (ringSprite = MakeRing(96, 6));
+
+        static Sprite MakeStar(int n)
+        {
+            var tex = new Texture2D(n, n, TextureFormat.RGBA32, false) { filterMode = FilterMode.Bilinear, wrapMode = TextureWrapMode.Clamp };
+            var px = new Color32[n * n];
+            for (int y = 0; y < n; y++)
+                for (int x = 0; x < n; x++)
+                {
+                    float dx = Mathf.Abs((x + .5f) / n * 2 - 1), dy = Mathf.Abs((y + .5f) / n * 2 - 1);
+                    // a concave diamond: |x|^.5 + |y|^.5 <= 1, with a soft edge
+                    float d = Mathf.Sqrt(dx) + Mathf.Sqrt(dy);
+                    float a = Mathf.Clamp01((1f - d) * n * .25f) + Mathf.Clamp01(1 - Mathf.Sqrt(dx * dx + dy * dy) * 7f);
+                    px[y * n + x] = new Color32(255, 255, 255, (byte)(255 * Mathf.Clamp01(a)));
+                }
+            tex.SetPixels32(px); tex.Apply();
+            return Sprite.Create(tex, new Rect(0, 0, n, n), new Vector2(.5f, .5f));
+        }
+
+        static Sprite MakeRing(int n, float thickness)
+        {
+            var tex = new Texture2D(n, n, TextureFormat.RGBA32, false) { filterMode = FilterMode.Bilinear, wrapMode = TextureWrapMode.Clamp };
+            var px = new Color32[n * n];
+            float r = n / 2f - 1, inner = r - thickness;
+            for (int y = 0; y < n; y++)
+                for (int x = 0; x < n; x++)
+                {
+                    float d = Mathf.Sqrt((x + .5f - n / 2f) * (x + .5f - n / 2f) + (y + .5f - n / 2f) * (y + .5f - n / 2f));
+                    float a = Mathf.Clamp01(r - d + .5f) * Mathf.Clamp01(d - inner + .5f);
+                    px[y * n + x] = new Color32(255, 255, 255, (byte)(255 * a));
+                }
+            tex.SetPixels32(px); tex.Apply();
+            return Sprite.Create(tex, new Rect(0, 0, n, n), new Vector2(.5f, .5f));
+        }
+
+        /// The course's key art (Resources/Loading/loading-golf-<course>), or nothing (the brand field shows).
+        static Texture2D ArtFor(string course)
+        {
+            string name = (course ?? "").ToLowerInvariant();
+            string key = name.Contains("magma") ? "magma" : name.Contains("wild") ? "wildisles" : "cliffside";
+            if (!arts.TryGetValue(key, out var tex)) arts[key] = tex = Resources.Load<Texture2D>("Loading/loading-golf-" + key);
+            return tex;
         }
 
         // ---- Layout
@@ -180,6 +262,19 @@ namespace GolfArcade.UI
         static void Put(RectTransform rt, Vector2 anchor, Vector2 pivot, float x, float y, float w, float h)
         {
             rt.anchorMin = rt.anchorMax = anchor; rt.pivot = pivot; rt.anchoredPosition = new Vector2(x, y); rt.sizeDelta = new Vector2(w, h);
+        }
+
+        static void Place(Text t, float x, float y, float w, float h)
+        {
+            var rt = t.rectTransform; rt.anchorMin = rt.anchorMax = rt.pivot = new Vector2(0, 1);
+            rt.anchoredPosition = new Vector2(x, y); rt.sizeDelta = new Vector2(w, h);
+        }
+
+        /// How tall `t` is set `width` wide, in canvas units.
+        static float TallAt(Text t, float width)
+        {
+            var settings = t.GetGenerationSettings(new Vector2(width, 0));
+            return t.cachedTextGeneratorForLayout.GetPreferredHeight(t.text, settings) / Mathf.Max(.01f, t.pixelsPerUnit);
         }
 
         void Layout()
@@ -195,65 +290,104 @@ namespace GolfArcade.UI
             float safeTop = 0;
             if (view && view.targetDisplay == 0 && !view.targetTexture && OffscreenSize.Override == null) safeTop = Mathf.Max(0, Screen.height - Screen.safeArea.yMax) / scale;
             laidOut = true; portraitBuilt = portrait;
-            var topLeft = new Vector2(0, 1); var bottomLeft = new Vector2(0, 0); var bottomMid = new Vector2(.5f, 0);
-            var middleLeft = new Vector2(0, .5f);
+            var topLeft = new Vector2(0, 1); var topRight = new Vector2(1, 1); var bottomLeft = new Vector2(0, 0);
+
+            // the wordmark's two halves side by side
+            int markSize = portrait ? 46 : 52;
+            motion.fontSize = sports.fontSize = markSize;
+            float mw = motion.preferredWidth, sw = sports.preferredWidth;
+            motion.rectTransform.anchoredPosition = Vector2.zero; motion.rectTransform.sizeDelta = new Vector2(mw + 4, markSize * 1.4f);
+            sports.rectTransform.anchoredPosition = new Vector2(mw, 0); sports.rectTransform.sizeDelta = new Vector2(sw + 8, markSize * 1.4f);
+
+            float headerWidth = portrait ? W - 120 : Mathf.Min(1150, W - 240);
+            holeTabText.fontSize = portrait ? 26 : 26;
+            float tabWidth = holeTabText.preferredWidth + 56;
+            Put(holeTab, topLeft, topLeft, 0, 0, tabWidth, 54);
+            title.fontSize = portrait ? 88 : 96; Icons.Fit(title, 48, title.fontSize);
+            Place(title, -4, -62, headerWidth, title.fontSize * 1.25f);
+            objective.fontSize = portrait ? 34 : 34;
+            float objectiveTall = string.IsNullOrEmpty(objective.text) ? 0 : TallAt(objective, headerWidth);
+            Place(objective, 0, -62 - title.fontSize * 1.2f, headerWidth, objectiveTall + 8);
+            float chipsY = -62 - title.fontSize * 1.2f - objectiveTall - 22;
+            ArrangeChips(portrait);
+            Put(chips, topLeft, topLeft, 0, chipsY, headerWidth, 64);
+            float headerTall = -chipsY + 64;
+
             if (portrait)
             {
-                float top = 118 + safeTop;
-                courseText.fontSize = 42;
-                Put(tab, topLeft, topLeft, 80, -top, Mathf.Max(260, courseText.preferredWidth + 88), 92);
-                Put(dots, topLeft, topLeft, 80 + tab.sizeDelta.x + 24, -top - 31, 400, 30);
-                Put(flagBadge, topLeft, topLeft, 80, -(top + 190), 250, 250); flagNumber.fontSize = 170;
-                Put(ribbon, topLeft, middleLeft, 300, -(top + 190 + 125), W - 300 + 60, 210); ribbon.localEulerAngles = new Vector3(0, 0, -3f);
-                title.rectTransform.offsetMin = new Vector2(70, 8); title.rectTransform.offsetMax = new Vector2(-110, -8);
-                float cardTop = top + 190 + 250 + 70, bottom = 560 + 60;
-                Put(cardShadow, topLeft, topLeft, 90, -(cardTop + 36), 900, H - cardTop - bottom);
-                Put(card, topLeft, topLeft, 90, -cardTop, 900, H - cardTop - bottom); card.localEulerAngles = new Vector3(0, 0, -1.2f); cardShadow.localEulerAngles = card.localEulerAngles;
-                Put(chips, bottomLeft, bottomLeft, 90, 440, 900, 110);
-                Put(note, bottomLeft, bottomLeft, 90, 235, 900, 170); noteText.fontSize = 42;
-                Put(statusRow, bottomMid, new Vector2(.5f, 0), 0, 110, 800, 64); status.fontSize = 48;
+                float artH = Mathf.Round(H * .42f);
+                artFrame.anchorMin = new Vector2(0, 1); artFrame.anchorMax = new Vector2(1, 1); artFrame.pivot = new Vector2(.5f, 1);
+                artFrame.anchoredPosition = Vector2.zero; artFrame.sizeDelta = new Vector2(0, artH);
+                Put(topShade.rectTransform, new Vector2(.5f, 1), new Vector2(.5f, 1), 0, 0, W, 360);
+                // the art fades into the navy field under it, where the hole's name sits
+                Put(bottomShade.rectTransform, new Vector2(.5f, 1), new Vector2(.5f, 1), 0, -(artH - 420), W, 422);
+                bottomShade.Stops = new[] { Ink(0), new Color(BrandColors.NavyDeep.r, BrandColors.NavyDeep.g, BrandColors.NavyDeep.b, .85f), BrandColors.NavyDeep };
+                Put(wordmark, new Vector2(.5f, 1), new Vector2(.5f, 1), 0, -(safeTop + 70), mw + sw, markSize * 1.4f);
+                // the name over the foot of the art, what to do and the chips under it, then the tip
+                float headerTop = artH - (62 + title.fontSize * 1.2f) - 30;
+                Put(header, topLeft, topLeft, 60, -headerTop, headerWidth, headerTall);
+                LayoutCard(topLeft, topLeft, 60, -(headerTop + headerTall + 70), W - 120, true);
+                Put(barRoot, bottomLeft, bottomLeft, 60, 130, W - 120 - 90, 120);
+                Put(ring, bottomLeft, new Vector2(.5f, .5f), W - 60 - 32, 130 + 14 + 15, 60, 60);
             }
             else
             {
-                courseText.fontSize = 30;
-                Put(tab, topLeft, topLeft, 120, -(70 + safeTop), Mathf.Max(220, courseText.preferredWidth + 64), 64);
-                Put(dots, topLeft, topLeft, 120 + tab.sizeDelta.x + 22, -(70 + safeTop) - 17, 400, 30);
-                Put(flagBadge, topLeft, topLeft, 120, -250, 210, 210); flagNumber.fontSize = 140;
-                Put(ribbon, topLeft, middleLeft, 300, -(250 + 105), 740, 170); ribbon.localEulerAngles = new Vector3(0, 0, -3f);
-                title.rectTransform.offsetMin = new Vector2(64, 6); title.rectTransform.offsetMax = new Vector2(-70, -6);
-                Put(cardShadow, topLeft, topLeft, 1060, -126, 700, H - 180);
-                Put(card, topLeft, topLeft, 1060, -90, 700, H - 180); card.localEulerAngles = new Vector3(0, 0, 1.6f); cardShadow.localEulerAngles = card.localEulerAngles;
-                Put(chips, topLeft, topLeft, 120, -560, 800, 84);
-                Put(note, topLeft, topLeft, 120, -690, 780, 190); noteText.fontSize = 38;
-                Put(statusRow, bottomLeft, bottomLeft, 120, 90, 700, 64); status.fontSize = 40;
+                artFrame.anchorMin = Vector2.zero; artFrame.anchorMax = Vector2.one; artFrame.pivot = new Vector2(.5f, .5f);
+                artFrame.anchoredPosition = Vector2.zero; artFrame.sizeDelta = Vector2.zero;
+                Put(topShade.rectTransform, new Vector2(.5f, 1), new Vector2(.5f, 1), 0, 0, W, 520);
+                Put(bottomShade.rectTransform, new Vector2(.5f, 0), new Vector2(.5f, 0), 0, 0, W, 520);
+                bottomShade.Stops = new[] { Ink(0), Ink(.8f) };
+                Put(wordmark, topRight, topRight, -120, -(56 + safeTop), mw + sw, markSize * 1.4f);
+                Put(header, topLeft, topLeft, 120, -(56 + safeTop), headerWidth, headerTall);
+                float cardWidth = Mathf.Min(980, W * .5f);
+                LayoutCard(cardLeft ? topLeft : topRight, cardLeft ? topLeft : topRight, cardLeft ? 195 : -195, -Mathf.Max(560, 56 + headerTall + 90), cardWidth, false);
+                Put(barRoot, bottomLeft, bottomLeft, 195, 100, W - 195 * 2 - 30, 130);
+                Put(ring, bottomLeft, new Vector2(.5f, .5f), W - 195 + 30, 100 + 14 + 16, 66, 66);
             }
-            title.fontSize = portrait ? 150 : 120; Icons.Fit(title, 40, title.fontSize);
-            ArrangeChips(portrait);
-            // the status: a pulsing dot, then the words, together in the middle (phone) or at the left (big screen)
-            float rowWidth = status.preferredWidth + 46, rowLeft = portrait ? (statusRow.rect.width - rowWidth) / 2 : 0;
-            statusDot.rectTransform.anchoredPosition = new Vector2(rowLeft + 13, 0);
-            status.rectTransform.offsetMin = new Vector2(rowLeft + 46, 0); status.rectTransform.offsetMax = Vector2.zero;
-            status.alignment = TextAnchor.MiddleLeft;
-            foreach (var layer in layers) layer.SetHole(info.Hole, portrait ? 56 : 52);
+            // the bar's pieces: the words over the track
+            status.fontSize = percent.fontSize = portrait ? 36 : 38;
+            status.rectTransform.anchorMin = new Vector2(0, 1); status.rectTransform.anchorMax = new Vector2(1, 1); status.rectTransform.pivot = new Vector2(0, 1);
+            status.rectTransform.anchoredPosition = Vector2.zero; status.rectTransform.sizeDelta = new Vector2(-140, 60);
+            percent.rectTransform.anchorMin = percent.rectTransform.anchorMax = percent.rectTransform.pivot = new Vector2(1, 1);
+            percent.rectTransform.anchoredPosition = Vector2.zero; percent.rectTransform.sizeDelta = new Vector2(160, 60);
+            track.anchorMin = new Vector2(0, 0); track.anchorMax = new Vector2(1, 0); track.pivot = new Vector2(.5f, 0);
+            track.anchoredPosition = new Vector2(0, 14); track.sizeDelta = new Vector2(0, portrait ? 30 : 32);
+            sparkle.sizeDelta = Vector2.one * (portrait ? 68 : 74);
             ApplyProgress(shown);
         }
+
+        void LayoutCard(Vector2 anchor, Vector2 pivot, float x, float y, float cardWidth, bool portrait)
+        {
+            float icon = portrait ? 96 : 100, pad = portrait ? 34 : 36, gap = 30;
+            tipTitle.fontSize = portrait ? 46 : 48; Icons.Fit(tipTitle, 30, tipTitle.fontSize);
+            tipText.fontSize = portrait ? 32 : 32;
+            float textWidth = cardWidth - pad * 2 - icon - gap;
+            float bodyTall = TallAt(tipText, textWidth);
+            float cardTall = Mathf.Max(icon + pad * 2, 42 + tipTitle.fontSize * 1.2f + 8 + bodyTall + pad);
+            Put(card, anchor, pivot, x, y, cardWidth, cardTall);
+            Put(phoneIcon, new Vector2(0, .5f), new Vector2(0, .5f), pad, 0, icon, icon);
+            Place(tipTitle, pad + icon + gap, -42, textWidth, tipTitle.fontSize * 1.25f);
+            Place(tipText, pad + icon + gap, -42 - tipTitle.fontSize * 1.2f - 8, textWidth, bodyTall + 6);
+            Put(cardTab, topLeft2, new Vector2(0, .5f), 28, 0, tipTab.preferredWidth + 44, 46);
+        }
+        static readonly Vector2 topLeft2 = new(0, 1);
 
         void ArrangeChips(bool portrait)
         {
             foreach (Transform child in chips) { child.gameObject.SetActive(false); Destroy(child.gameObject); }
-            float h = portrait ? 110 : 84, size = portrait ? 52 : 42, pad = portrait ? 48 : 40, x = 0;
+            float h = 64, size = 30, pad = 30, x = 0;
             void Chip(string text, Color fill)
             {
                 var rt = Node(chips, "Chip"); rt.anchorMin = rt.anchorMax = new Vector2(0, .5f); rt.pivot = new Vector2(0, .5f);
-                Rounded(rt, "Pill", fill, 80);
-                var t = Words(rt, "Text", UiKit.Display, (int)size, Ink, TextAnchor.MiddleCenter);
-                t.text = text;
+                Panel(rt, fill, 32, 3, 6);
+                var t = Words(rt, "Text", Display, (int)size, Color.white, TextAnchor.MiddleCenter, true, false);
+                t.horizontalOverflow = HorizontalWrapMode.Overflow; t.text = text;
                 float w = t.preferredWidth + 2 * pad;
                 rt.sizeDelta = new Vector2(w, h); rt.anchoredPosition = new Vector2(x, 0);
-                x += w + (portrait ? 20 : 16);
+                x += w + 14;
             }
-            Chip($"PAR {info.Par}", Cream);
-            Chip($"{info.Yards:F0} YD", Cream);
+            Chip($"PAR {info.Par}", BrandColors.NavyDeep);
+            Chip($"{info.Yards:F0} YD", BrandColors.NavyDeep);
             if (info.Hole != null)
             {
                 int wet = 0, sand = 0; bool lava = false;
@@ -262,8 +396,8 @@ namespace GolfArcade.UI
                     if (hz.Kind == HazardKind.Water || hz.Kind == HazardKind.Lava) { wet++; lava |= hz.Kind == HazardKind.Lava; }
                     else if (hz.Kind == HazardKind.Bunker) sand++;
                 }
-                if (wet > 0) Chip($"{wet} {(lava ? "LAVA" : "WATER")}", UiKit.Hex("bdeaff"));
-                else if (sand > 0) Chip($"{sand} BUNKER{(sand > 1 ? "S" : "")}", UiKit.Hex("f7e6a6"));
+                if (wet > 0) Chip($"{wet} {(lava ? "LAVA" : "WATER")}", lava ? UiKit.Hex("B5341B") : BrandColors.Bright);
+                else if (sand > 0) Chip($"{sand} BUNKER{(sand > 1 ? "S" : "")}", UiKit.Hex("A07818"));
             }
         }
 
@@ -275,33 +409,32 @@ namespace GolfArcade.UI
             info = next;
             gameObject.SetActive(true);
             canvas.targetDisplay = view ? view.targetDisplay : 0;
-            courseText.text = (info.Course ?? "").ToUpperInvariant();
-            flagNumber.text = info.Ordinal.ToString();
-            title.text = (info.Name ?? "").ToUpperInvariant();
-            noteText.text = ObjectiveOf(info.Blurb);
-            note.gameObject.SetActive(!string.IsNullOrEmpty(noteText.text));
+            var picture = ArtFor(info.Course);
+            art.texture = picture; art.enabled = picture;
+            if (picture) artFit.aspectRatio = (float)picture.width / Mathf.Max(1, picture.height);
+            holeTabText.text = info.Count > 1 ? $"HOLE {info.Ordinal} OF {info.Count}  ·  {(info.Course ?? "").ToUpperInvariant()}" : $"HOLE {info.Ordinal}  ·  {(info.Course ?? "").ToUpperInvariant()}";
+            title.text = info.Name ?? "";
+            objective.text = ObjectiveOf(info.Blurb);
             status.text = "Packing the clubs…";
-            // the round's holes: those played, the one coming, those still to play (closer and smaller on a long round)
-            foreach (Transform t in dots) { t.gameObject.SetActive(false); Destroy(t.gameObject); }
-            float step = Mathf.Min(46, 384f / Mathf.Max(1, info.Count)), size = Mathf.Min(30, step - 8), rim = Mathf.Min(7, size * .25f);
-            for (int i = 0; i < info.Count; i++)
-            {
-                int place = i + 1;
-                var dot = Disc(dots, "Dot " + place, place < info.Ordinal ? Lime : place == info.Ordinal ? Ink : new Color(1, 1, 1, .25f));
-                dot.rectTransform.anchorMin = dot.rectTransform.anchorMax = new Vector2(0, .5f); dot.rectTransform.pivot = new Vector2(0, .5f);
-                dot.rectTransform.sizeDelta = new Vector2(size, size); dot.rectTransform.anchoredPosition = new Vector2(i * step + 8, 0);
-                if (place == info.Ordinal)
-                {
-                    var ring = Disc(dot.transform, "Ring", Lime);
-                    ring.rectTransform.offsetMin = Vector2.one * -rim; ring.rectTransform.offsetMax = Vector2.one * rim;
-                    ring.transform.SetAsFirstSibling();
-                }
-            }
+            // the card sits left on odd holes and right on even ones, so a round does not look the same every time
+            cardLeft = info.Ordinal % 2 == 1;
+            tipShown = -1; ShowTip(0);
             progress = target = 0; shown = 0;
             laidOut = false; Layout();
             visible = true; shownAt = Time.unscaledTime; hideAt = -1;
             group.alpha = 0; group.blocksRaycasts = true; group.interactable = true;
             SetFade(0);
+        }
+
+        /// The load's first or second tip (two per hole, a different pair every hole).
+        void ShowTip(int which)
+        {
+            if (which == tipShown) return;
+            tipShown = which;
+            var tip = Tips[((Mathf.Max(1, info.Ordinal) - 1) * 2 + which) % Tips.Length];
+            tipTab.text = $"GOLF TIP {which + 1}/2";
+            tipTitle.text = tip.title; tipText.text = tip.text;
+            if (laidOut) Layout();
         }
 
         /// What to do on the hole, from its blurb: "A par 4 down a clifftop: carry the inlet…" gives "Carry the inlet…".
@@ -313,11 +446,11 @@ namespace GolfArcade.UI
             return char.ToUpperInvariant(s[0]) + s.Substring(1);
         }
 
-        /// Where the loading has got to (0 to 1) and what is being done; the ball eases to it.
+        /// Where the loading has got to (0 to 1) and what is being done; the bar eases to it.
         public void SetProgress(float to, string what)
         {
             target = Mathf.Max(target, Mathf.Clamp01(to));
-            if (!string.IsNullOrEmpty(what) && status.text != what) { status.text = what; if (laidOut) Layout(); }
+            if (!string.IsNullOrEmpty(what) && status.text != what) status.text = what;
         }
 
         /// Fades out over a third of a second (at once with `instant`), and the screen is gone.
@@ -333,11 +466,13 @@ namespace GolfArcade.UI
         void ApplyProgress(float p)
         {
             progress = p;
-            if (map == null) return;
-            ball.anchoredPosition = map.PointAt(p);
-            trail.Points = map.TrailTo(p);
-            trail.SetVerticesDirty();
-            ball.localRotation = Quaternion.Euler(0, 0, -p * 720f);
+            if (!track) return;
+            float inset = 6, inner = Mathf.Max(0, track.rect.width - inset * 2), h = track.rect.height - inset * 2;
+            float w = Mathf.Max(h, inner * Mathf.Clamp01(p));
+            fill.anchorMin = new Vector2(0, 0); fill.anchorMax = new Vector2(0, 1); fill.pivot = new Vector2(0, .5f);
+            fill.anchoredPosition = new Vector2(inset, 0); fill.sizeDelta = new Vector2(w, -inset * 2);
+            sparkle.anchoredPosition = new Vector2(inset + w, 0);
+            percent.text = $"{Mathf.RoundToInt(Mathf.Clamp01(p) * 100)}%";
         }
 
         void Update()
@@ -354,8 +489,9 @@ namespace GolfArcade.UI
                 float ease = 1 - Mathf.Exp(-5f * Time.unscaledDeltaTime);
                 shown = Mathf.Lerp(shown, target, ease);
                 ApplyProgress(shown);
-                float pulse = Mathf.Abs(Mathf.Sin(now * 3f));
-                statusDot.transform.localScale = Vector3.one * (.6f + .4f * pulse);
+                ShowTip(Mathf.FloorToInt((now - shownAt) / TipSeconds) % 2);
+                ringArc.localRotation = Quaternion.Euler(0, 0, -(now % 1.1f) / 1.1f * 360f);
+                sparkle.localScale = Vector3.one * (.92f + .08f * Mathf.Sin(now * 6f));
             }
             else if (hideAt >= 0)
             {

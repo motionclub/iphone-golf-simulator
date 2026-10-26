@@ -94,8 +94,6 @@ private struct GolfControllerText: View {
 
 struct GolfPhoneController: View {
     @Bindable var session: SportsSession
-    @State private var power = 0.6
-    @State private var touchSheet = false
     @State private var partyChat = false
     @State private var stickOffset = CGSize.zero
     @State private var draggingAim = false
@@ -129,21 +127,7 @@ struct GolfPhoneController: View {
             pauseMenu
         }
         .onChange(of: session.paused) { _, paused in
-            if paused { touchSheet = false; draggingAim = false; stickOffset = .zero }
-        }
-        .sheet(isPresented: $touchSheet) {
-            VStack(spacing: 24) {
-                GolfControllerText(text: "SWING POWER", size: 30)
-                Text("\(Int(power * 100))%").font(GolfControllerStyle.font(44)).foregroundStyle(.white)
-                Slider(value: $power, in: 0.02...1).tint(GolfControllerStyle.yellow)
-                    .accessibilityLabel("Swing power")
-                    .onChange(of: power) { _, value in session.command("golfLoad", value: value) }
-                Button { session.swing(power); touchSheet = false } label: {
-                    GolfControllerText(text: "SWING", size: 30).frame(maxWidth: .infinity).padding(16)
-                        .background(GolfControllerStyle.yellow, in: RoundedRectangle(cornerRadius: 16))
-                }.disabled(!session.golfShotReady || session.paused).accessibilityIdentifier("golf-swing")
-            }.padding(28).presentationDetents([.medium]).presentationDragIndicator(.visible)
-                .presentationBackground(GolfControllerStyle.blue)
+            if paused { draggingAim = false; stickOffset = .zero }
         }
     }
 
@@ -176,13 +160,13 @@ struct GolfPhoneController: View {
             arrowButton(right: true) { changeClub(1) }.position(x: 396, y: 666)
             sectionTitle("AIM", lines: false).position(x: 232, y: 766)
             aimPad.frame(width: 156, height: 156).position(x: 232, y: 866)
-            if canAim && session.golfShotReady && !session.touch { startSwingButton.position(x: 384, y: 866) }
+            if canAim && session.golfShotReady { startSwingButton.position(x: 384, y: 866) }
             GolfControllerText(text: reading.aimLabel, size: 15, stroke: 1)
                 .frame(width: 126, height: 34).background(GolfControllerStyle.ink, in: RoundedRectangle(cornerRadius: 14))
                 .overlay(RoundedRectangle(cornerRadius: 14).stroke(.white, lineWidth: 3))
                 .shadow(color: .black.opacity(0.15), radius: 0, y: 3).position(x: 232, y: 946)
                 .accessibilityIdentifier("golf-aim-reading")
-            Text(reading.party?.phase == "result" ? (reading.party?.shared == true ? "NEXT PLAYER STARTS AUTOMATICALLY" : "PICK AN EMOTE · NEXT PLAYER STARTS AUTOMATICALLY") : reading.party?.myTurn == false ? "WATCH THE SHOT · REACT WITH YOUR PLAYER" : session.touch ? "DRAG TO AIM · TAP BALL TO SWING" : "DRAG TO AIM · TAP TO SWING · TAP AGAIN TO CANCEL")
+            Text(reading.party?.phase == "result" ? (reading.party?.shared == true ? "NEXT PLAYER STARTS AUTOMATICALLY" : "PICK AN EMOTE · NEXT PLAYER STARTS AUTOMATICALLY") : reading.party?.myTurn == false ? "WATCH THE SHOT · REACT WITH YOUR PLAYER" : "DRAG TO AIM · TAP TO SWING · TAP AGAIN TO CANCEL")
                 .font(GolfControllerStyle.font(11)).foregroundStyle(GolfControllerStyle.ink)
                 .position(x: 232, y: 985)
         }.overlay {
@@ -221,12 +205,6 @@ struct GolfPhoneController: View {
                     if !session.displayConnected && !session.multiplayerControllerOnly { Text("Reconnect your TV to continue.") }
                 }
                 Section("Settings") {
-                    Picker("Controls", selection: Binding(get: { session.touch }, set: { touch in
-                        if touch { session.useTouch() } else { session.useMotion() }
-                    })) {
-                        Text("Swing phone").tag(false)
-                        Text("Touch").tag(true)
-                    }.accessibilityIdentifier("golf-control-mode")
                     Toggle("Sound", isOn: $session.sound)
                         .onChange(of: session.sound) { _, enabled in session.command("sound", value: enabled ? 1 : 0) }
                     Toggle("Haptics", isOn: $session.haptics)
@@ -355,7 +333,6 @@ struct GolfPhoneController: View {
             Button {
                 if canMenu { session.selectGolfMenu() }
                 else if session.paused || !session.golfShotReady { session.readyToPlay() }
-                else if session.touch { touchSheet = true }
             } label: {
                 ZStack {
                     Circle().fill(Color(hex: "D0E9FA"))
@@ -364,7 +341,7 @@ struct GolfPhoneController: View {
                     .shadow(color: GolfControllerStyle.ink.opacity(0.5), radius: 0, y: 4)
             }.offset(thumbOffset)
                 .disabled(!canAim && !canMenu)
-                .accessibilityLabel(canMenu ? "Select" : session.touch ? "Swing controls" : "Ready for shot")
+                .accessibilityLabel(canMenu ? "Select" : "Ready for shot")
                 .accessibilityIdentifier("golf-aim-center")
         }.contentShape(Circle())
             .simultaneousGesture(DragGesture(minimumDistance: 8, coordinateSpace: .local)

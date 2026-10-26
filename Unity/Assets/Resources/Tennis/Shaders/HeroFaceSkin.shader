@@ -58,6 +58,17 @@ Shader "GolfArcade/HeroFaceSkin"
         _RimColor ("Rim colour", Color) = (1,0.96,0.88,1)
         _RimPower ("Rim power", Range(0.5,8)) = 3.5
         _RimStrength ("Rim strength", Range(0,1)) = 0.22
+        // CHARACTER QUALITY 10-24: baked skin set in the SkinUnwrap layout (mesh channel 4). Pigment is relative to the picked tone (0.5 = unchanged);
+        // mask R ambient occlusion, G curvature (0.5 flat), B thinness, A oil.
+        [NoScaleOffset] _SkinPigmentMap ("Skin pigment (tone-relative, x2)", 2D) = "grey" {}
+        [NoScaleOffset] _SkinMaskMap ("Skin mask (AO, curvature, thinness, oil)", 2D) = "white" {}
+        [HideInInspector] _SkinTex ("Textured skin", Float) = 0
+        _SkinScatter ("Scatter", Range(0,2)) = 1
+        _SkinTransmission ("Transmission", Range(0,2)) = .4
+        _SkinLightChroma ("Light colour reaching skin (max HSV saturation)", Range(0,1)) = .45
+        _SkinCoolFill ("Sky-coloured fill in the shade", Range(0,1)) = .5
+        _SkinAO ("Baked occlusion", Range(0,1)) = 1
+        _SkinSpecular ("Skin highlight", Range(0,4)) = 1.6
     }
     SubShader
     {
@@ -90,12 +101,14 @@ Shader "GolfArcade/HeroFaceSkin"
                 float4 _EyeL, _EyeR, _FaceUp, _FaceRight, _Gaze, _FaceSkin, _EyeNL, _EyeNR; half _PaintLift, _FaceRole, _Blink, _BrowLift, _CraftedPaint;
                 float4 _BumpMap_ST; half _Smoothness, _Wrap, _RimPower, _RimStrength, _BumpScale, _Saturation, _BumpTriplanar, _SpecularStrength, _EnvironmentStrength, _OcclusionStrength; float _BumpTile; half _SkinResponse, _SkinFinish, _SkinPigmentUV, _MaleFormPass; float4 _MaleForm, _MaleBeard;
                 half _KitContact;
+                half _SkinTex, _SkinScatter, _SkinTransmission, _SkinAO, _SkinSpecular, _SkinLightChroma, _SkinCoolFill;
             CBUFFER_END
             TEXTURE2D(_BaseMap); SAMPLER(sampler_BaseMap);
             TEXTURE2D(_BumpMap); SAMPLER(sampler_BumpMap);
+            TEXTURE2D(_SkinPigmentMap); SAMPLER(sampler_SkinPigmentMap); TEXTURE2D(_SkinMaskMap);
 
-            struct Attributes { float4 positionOS : POSITION; float3 normalOS : NORMAL; float4 tangentOS : TANGENT; float2 uv : TEXCOORD0; float3 bindPos : TEXCOORD1; float2 lidDistance : TEXCOORD2; float2 kitContact : TEXCOORD3; };
-            struct Varyings { float4 positionCS : SV_POSITION; float2 uv : TEXCOORD0; float3 positionWS : TEXCOORD1; float3 normalWS : TEXCOORD2; half fog : TEXCOORD3; float4 tangentWS : TEXCOORD4; float3 bindPos : TEXCOORD5; float3 normalOS : TEXCOORD6; float2 eyeCoord : TEXCOORD7; float2 lidDistance : TEXCOORD8; half kitContact : TEXCOORD9; };
+            struct Attributes { float4 positionOS : POSITION; float3 normalOS : NORMAL; float4 tangentOS : TANGENT; float2 uv : TEXCOORD0; float3 bindPos : TEXCOORD1; float2 lidDistance : TEXCOORD2; float2 kitContact : TEXCOORD3; float2 uvSkin : TEXCOORD4; };
+            struct Varyings { float4 positionCS : SV_POSITION; float2 uv : TEXCOORD0; float3 positionWS : TEXCOORD1; float3 normalWS : TEXCOORD2; half fog : TEXCOORD3; float4 tangentWS : TEXCOORD4; float3 bindPos : TEXCOORD5; float3 normalOS : TEXCOORD6; float2 eyeCoord : TEXCOORD7; float2 lidDistance : TEXCOORD8; half kitContact : TEXCOORD9; float2 uvSkin : TEXCOORD10; };
 
             Varyings vert (Attributes i)
             {
@@ -134,7 +147,7 @@ Shader "GolfArcade/HeroFaceSkin"
                     float3 d = i.positionOS.xyz - centre.xyz;
                     o.uv = .5 + .5 * float2(dot(d, mapRight) / max(centre.w, .0001), dot(d, mapUp.xyz) / max(mapUp.w, .0001));
                 }
-                o.bindPos = i.bindPos; o.normalOS = i.normalOS;
+                o.bindPos = i.bindPos; o.normalOS = i.normalOS; o.uvSkin = i.uvSkin;
                 o.fog = ComputeFogFactor(p.positionCS.z);
                 return o;
             }
@@ -172,6 +185,45 @@ Shader "GolfArcade/HeroFaceSkin"
                 half3 result=albedo*wrapped*.84h*light.color*attenuation+scatter+spec;
                 reflection=lerp(previousReflection,spec,faceAmount);
                 return lerp(previous,result,faceAmount);
+            }
+            // CHARACTER QUALITY 10-24: textured stylised skin. Light wraps further in red than in blue where the skin is curved or thin
+            // (cheap pre-integrated scattering, no LUT), the shadow edge bleeds warm, two GGX lobes (a broad sheen and a tighter oil
+            // highlight) follow the baked oil map, and thin parts (ears, nose, fingers) glow when lit from behind.
+            // r4: the light reaching textured skin keeps its brightness and direction but at most _SkinLightChroma of its colour (HSV
+            // saturation), so a sunset or a lava glow tints the skin instead of turning the whole hero one orange (plaza r3)
+            half3 SkinLight(half3 c)
+            {
+                half peak = max(max(c.r, c.g), c.b), trough = min(min(c.r, c.g), c.b);
+                half sat = (peak - trough) / max(peak, .0001h);
+                half3 grey = dot(c, half3(.2126h, .7152h, .0722h)).xxx;
+                return sat > _SkinLightChroma ? lerp(grey, c, _SkinLightChroma / sat) : c;
+            }
+            half3 HeroSkinV2(Light light, half3 n, half3 v, half3 albedo, half4 m, half smoothness, half specularStrength, out half3 reflection)
+            {
+                light.color = SkinLight(light.color);
+                half ndl = dot(n, light.direction);
+                half thin = m.b, curved = saturate(abs(m.g - .5h) * 2.4h);
+                half scatter = saturate(.30h + .45h * curved + .20h * thin) * _SkinScatter;
+                // r2: light keeps its Lambert falloff (the form stays); only the band at the terminator is lifted, more in red than blue
+                half lambert = saturate(ndl);
+                half3 w = scatter * half3(.36h, .12h, .05h);
+                half3 diffuse = lerp(lambert.xxx, saturate((ndl + w) / (1 + w)), saturate(1 - lambert * 2.2h));
+                half sh = light.shadowAttenuation;
+                half3 shadow = saturate(sh + (1 - sh) * scatter * half3(.18h, .05h, .02h));  // warm penumbra
+                half att = light.distanceAttenuation;
+                half3 direct = albedo * diffuse * shadow * light.color * att * lerp(1, m.r, .35h * _SkinAO);
+                half3 h = SafeNormalize(light.direction + v);
+                half nh = saturate(dot(n, h)), lh = saturate(dot(light.direction, h)), nl = saturate(ndl);
+                half r1 = max(1 - smoothness, .2h), r2 = min(1, r1 * 1.55h);
+                half a1 = r1 * r1, a2 = r2 * r2;
+                half d1 = nh * nh * (a1 * a1 - 1) + 1, d2 = nh * nh * (a2 * a2 - 1) + 1;
+                half lobe = .70h * a1 * a1 / (d1 * d1 * max(.1h, lh * lh) * (r1 * 4 + 2)) + .30h * a2 * a2 / (d2 * d2 * max(.1h, lh * lh) * (r2 * 4 + 2));
+                half fres = .028h + .972h * pow(1 - lh, 5);
+                half3 spec = lobe * fres * nl * sh * _SkinSpecular * light.color * att * lerp(1, m.r, _SkinAO);
+                half back = pow(saturate(dot(v, -SafeNormalize(light.direction + n * .35h))), 5);
+                half3 trans = back * thin * _SkinTransmission * half3(1, .45h, .32h) * albedo * light.color * att * lerp(.35h, 1, sh);
+                reflection = spec;
+                return direct + spec + trans;
             }
             half4 frag (Varyings i) : SV_Target
             {
@@ -454,6 +506,12 @@ Shader "GolfArcade/HeroFaceSkin"
                         surfaceWrap=.28h;
                     }
                 }
+                half4 skinMask = half4(1, .5h, 0, .35h);
+                if (_SkinTex > .5h && _FaceRole < .5h) {
+                    c.rgb *= SAMPLE_TEXTURE2D(_SkinPigmentMap, sampler_SkinPigmentMap, i.uvSkin).rgb * 2;
+                    skinMask = SAMPLE_TEXTURE2D(_SkinMaskMap, sampler_SkinPigmentMap, i.uvSkin);
+                    surfaceSmoothness = lerp(.36h, .64h, saturate((skinMask.a - .2h) / .6h));
+                }
                 // Female pigment remains relative to the selected tone; no overall tan grade.
                 if (_SkinFinish > .5h && _SkinFinish < 1.5h && _FaceRole < .5h) {
                     // Skin pass (2026-10-12): golden tan, not pink or salmon. A relative grade, so every skin-tone pick keeps its own depth.
@@ -471,14 +529,17 @@ Shader "GolfArcade/HeroFaceSkin"
                 Light main = HeroMain(GetMainLight(TransformWorldToShadowCoord(i.positionWS)));
                 half3 reflection;
                 half3 colour;
-                if (_SkinFinish > .5h) colour = FaceSkinShade(main, n, v, c.rgb, surfaceWrap, surfaceSmoothness, _Subsurface.rgb, surfaceSpecular, faceAmount, reflection);
+                bool skinV2 = _SkinTex > .5h && _FaceRole < .5h;
+                if (skinV2) colour = HeroSkinV2(main, n, v, c.rgb, skinMask, surfaceSmoothness, surfaceSpecular, reflection);
+                else if (_SkinFinish > .5h) colour = FaceSkinShade(main, n, v, c.rgb, surfaceWrap, surfaceSmoothness, _Subsurface.rgb, surfaceSpecular, faceAmount, reflection);
                 else colour = HeroCharacterShade(main, n, v, c.rgb, surfaceWrap, surfaceSmoothness, _Subsurface.rgb, surfaceSpecular, reflection);
                 if (_HeroPresentationFill > 0) {
                     half3 fillReflection;
                     Light fill = HeroPresentationLight(v);
                     if (_SkinFinish > 1.5h) fill.color *= .30h;   // female: the camera-side fill must not erase the form
                     else if (_MaleFormPass > .5h) fill.color *= .40h;   // male face pass 2026-10-18: same reason
-                    if (_SkinFinish > .5h) colour += FaceSkinShade(fill, n, v, c.rgb, surfaceWrap, surfaceSmoothness, _Subsurface.rgb, surfaceSpecular, faceAmount, fillReflection);
+                    if (skinV2) colour += HeroSkinV2(fill, n, v, c.rgb, skinMask, surfaceSmoothness, surfaceSpecular, fillReflection);
+                    else if (_SkinFinish > .5h) colour += FaceSkinShade(fill, n, v, c.rgb, surfaceWrap, surfaceSmoothness, _Subsurface.rgb, surfaceSpecular, faceAmount, fillReflection);
                     else colour += HeroCharacterShade(fill, n, v, c.rgb, surfaceWrap, surfaceSmoothness, _Subsurface.rgb, surfaceSpecular, fillReflection);
                     reflection += fillReflection;
                 }
@@ -495,7 +556,8 @@ Shader "GolfArcade/HeroFaceSkin"
                     if (!IsMatchingLightLayer(extra.layerMask, meshLayers)) continue;
                     #endif
                     half3 extraReflection;
-                    if (_SkinFinish > .5h) colour += FaceSkinShade(extra, n, v, c.rgb, surfaceWrap, surfaceSmoothness, _Subsurface.rgb, surfaceSpecular, faceAmount, extraReflection);
+                    if (skinV2) colour += HeroSkinV2(extra, n, v, c.rgb, skinMask, surfaceSmoothness, surfaceSpecular, extraReflection);
+                    else if (_SkinFinish > .5h) colour += FaceSkinShade(extra, n, v, c.rgb, surfaceWrap, surfaceSmoothness, _Subsurface.rgb, surfaceSpecular, faceAmount, extraReflection);
                     else colour += HeroCharacterShade(extra, n, v, c.rgb, surfaceWrap, surfaceSmoothness, _Subsurface.rgb, surfaceSpecular, extraReflection);
                     reflection += extraReflection;
                 }
@@ -505,6 +567,7 @@ Shader "GolfArcade/HeroFaceSkin"
                 half roughness = max(1 - surfaceSmoothness, .08h);
                 half fresnel = .04h + .10h * pow(1 - saturate(dot(n, v)), 5);
                 half3 environment = GlossyEnvironmentReflection(reflect(-v, n), i.positionWS, roughness, 1) * fresnel * lerp(_EnvironmentStrength * (_SkinFinish > .5h ? .3h : 1), .12h, lid);   // matte skin
+                if (skinV2) environment *= skinMask.r;
                 colour += environment; reflection += environment;
                 half3 ambient = HeroAmbient(n) * c.rgb;
                 // Skin pass: the fill in the shade comes back warm (skin passes light back reddish-brown) instead of grey; .82 off the face as before.
@@ -515,6 +578,14 @@ Shader "GolfArcade/HeroFaceSkin"
                     ambient = HeroAmbient(n) * lerp(c.rgb, HeroFemaleSkinTone(c.rgb), .45h) * lerp(.60h,.88h,up*up) * lerp(1,1.04h,faceAmount);
                 }
                 else if (_SkinFinish > .5h) ambient *= lerp(.82h,.97h,faceAmount)*half3(1.0h,.86h,.72h);
+                if (skinV2) {
+                    half3 ambientLight = SkinLight(ambient / max(c.rgb, .02h));   // the same colour cap on the ambient
+                    // warm key / cool fill: the shade takes a sky hue at the same brightness, so the skin separates from a warm world
+                    ambientLight = lerp(ambientLight, dot(ambientLight, half3(.2126h, .7152h, .0722h)) * half3(.80h, .95h, 1.22h), _SkinCoolFill);
+                    ambient = ambientLight * c.rgb;
+                    ambient *= lerp(1, skinMask.r, _SkinAO);
+                    ambient += HeroAmbient(n) * c.rgb * half3(.14h, .045h, .02h) * skinMask.b * _SkinScatter;   // light passing through thin skin
+                }
                 ambient+=c.rgb*(_SkinFinish>1.5h?half3(.08h,.035h,.025h):_MaleFormPass>.5h?half3(.30h,.21h,.16h):half3(.17h,.13h,.11h))*noseUnderside;   // male pass: warm bounce off the upper lip lights the nose underside (sheet 17), not a dark band
                 #if defined(_SCREEN_SPACE_OCCLUSION)
                 AmbientOcclusionFactor ao = GetScreenSpaceAmbientOcclusion(GetNormalizedScreenSpaceUV(i.positionCS));

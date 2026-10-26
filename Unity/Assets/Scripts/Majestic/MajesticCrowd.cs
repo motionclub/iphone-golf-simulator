@@ -38,18 +38,24 @@ namespace GolfArcade.Majestic
             return list;
         }
 
+        /// Triangle budget per part on the lod path: the authored _FAR head (~5k) and body (~2k) are cut to these at load;
+        /// the arms (~270) stay as authored.
+        public const int LodHeadTris = 800, LodBodyTris = 750;
+
         public static MajesticCrowd Build(Transform parent) => Build(parent, ResortSeats());
-        public static MajesticCrowd Build(Transform parent, List<(Vector3 pos, float yaw)> seats)
+        /// lod: decimate the fans' parts once at load (MajesticMeshLod, cached across venues) for rooms that fill
+        /// every seat (bowling: 157 fans x 7.5k tris on the authored _FAR parts, ~2.1k on the lod path).
+        public static MajesticCrowd Build(Transform parent, List<(Vector3 pos, float yaw)> seats, bool lod = false)
         {
             var prefab = Resources.Load<GameObject>("Tennis/Premium/TennisSeatedHero3");
             if (!prefab) return null;
             var go = new GameObject("Majestic crowd"); go.transform.SetParent(parent, false);
             var c = go.AddComponent<MajesticCrowd>();
-            c.Init(prefab, seats);
+            c.Init(prefab, seats, lod);
             return c;
         }
 
-        void Init(GameObject prefab, List<(Vector3 pos, float yaw)> seats)
+        void Init(GameObject prefab, List<(Vector3 pos, float yaw)> seats, bool lod)
         {
             // reuse the stands' spectator material (it already knows how its vertex colours decode)
             foreach (var r in FindObjectsByType<MeshRenderer>(FindObjectsSortMode.None))
@@ -62,6 +68,7 @@ namespace GolfArcade.Majestic
                 if (material.HasProperty("_SurfaceRoles")) material.SetFloat("_SurfaceRoles", 1);
             }
             var template = Instantiate(prefab); template.SetActive(false);
+            var clock = System.Diagnostics.Stopwatch.StartNew();
             for (int v = 0; v < 6; v++)
             {
                 Transform sel = null;
@@ -78,7 +85,9 @@ namespace GolfArcade.Majestic
                 {
                     if (!mf.sharedMesh || mf.name.Contains("_FAR") != hasFar) continue;
                     int kind = mf.name.StartsWith("HEAD") ? 1 : mf.name.StartsWith("ARM_L") ? 2 : mf.name.StartsWith("ARM_R") ? 3 : 0;
-                    variant.parts.Add(new Part { mesh = mf.sharedMesh, local = toFan * mf.transform.localToWorldMatrix, kind = kind });
+                    var mesh = mf.sharedMesh;
+                    if (lod && kind <= 1) mesh = MajesticMeshLod.Decimated(mesh, kind == 1 ? LodHeadTris : LodBodyTris);
+                    variant.parts.Add(new Part { mesh = mesh, local = toFan * mf.transform.localToWorldMatrix, kind = kind });
                 }
             }
             for (int i = 0; i < seats.Count; i++)
@@ -92,8 +101,10 @@ namespace GolfArcade.Majestic
             bounds = new Bounds((lo + hi) * .5f, hi - lo + new Vector3(4, 6, 4));
             foreach (var v in variants) foreach (var p in v.parts) p.m = new Matrix4x4[fans.Count];
             Destroy(template);
-            int parts = 0; long tris = 0; foreach (var v in variants) foreach (var p in v.parts) { parts++; for (int k = 0; k < p.mesh.subMeshCount; k++) tris += p.mesh.GetIndexCount(k) / 3; }
-            Debug.Log($"[Majestic] crowd fans={fans.Count} variantParts={parts} trisPerVariantSet={tris} material={(material ? material.name : "none")} instancing={material && material.enableInstancing}");
+            int parts = 0; long tris = 0, drawn = 0;
+            foreach (var v in variants) foreach (var p in v.parts) { parts++; tris += MajesticMeshLod.Tris(p.mesh); }
+            foreach (var f in fans) foreach (var p in variants[f.variant].parts) drawn += MajesticMeshLod.Tris(p.mesh);
+            Debug.Log($"[Majestic] crowd fans={fans.Count} variantParts={parts} trisPerVariantSet={tris} material={(material ? material.name : "none")} instancing={material && material.enableInstancing} crowdTris={drawn} lod={(lod ? $"on {clock.ElapsedMilliseconds}ms" : "off")}");
             rp = new RenderParams(material)
             {
                 shadowCastingMode = ShadowCastingMode.Off, receiveShadows = true,

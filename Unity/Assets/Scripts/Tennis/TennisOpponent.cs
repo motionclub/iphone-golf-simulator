@@ -57,6 +57,11 @@ namespace GolfArcade.Tennis
         /// as ever, and the rival's errors are untouched (it is eased, never gifted points).
         public const int RallyBuilderShots = 6;
         public const float RallyEaseWidth = .4f, RallyEasePace = .15f;
+        /// The profiles' rally paces (not serve returns) scaled to Wii Sports Tennis's ball speed (gameplay video: about 1.55 s from
+        /// hit to hit in a casual rally, 0.95 s at Pro level). At full value every rival, the club player included,
+        /// crossed the court in about 1.0 s; scaled, a club rival takes about 1.25-1.4 s and the boss about 0.95 s.
+        /// Kept as one factor so the profiles' relative character (and the campaign balance built on them) stands.
+        public const float WiiPace = .72f, MinRallyPace = 14f;
 
         /// 1 on the first ball of a rally (the serve), fading to 0 after `RallyBuilderShots` shots.
         public static float RallyEase(int rallyShots) =>
@@ -251,6 +256,9 @@ namespace GolfArcade.Tennis
             float depth = Mathf.Lerp(Mathf.Lerp(5.0f, 8.6f, p.Depth), Mathf.Lerp(8.0f, 11.1f, p.Depth), depthRoll) * (1 - .4f * defend);
             float speed = Mathf.Max(Mathf.Lerp(18.5f, 16.5f, rallyEase),
                 Mathf.Lerp(p.PaceMax, p.PaceMin, Mathf.Max(stretch, defend)) * (1 - RallyEasePace * rallyEase));
+            // Rally balls run at Wii's pace; slower than MinRallyPace a deep ball has to loop like a lob to get there.
+            // A serve return keeps its firm, low pace (scaled, a topspin return balloons over the server).
+            if (!returningServe) speed = Mathf.Max(MinRallyPace, speed * WiiPace);
             float spin = Mathf.Lerp(p.SpinMin, p.SpinMax, Mathf.Repeat(widthRoll * 3.1f, 1f));
             float special = Mathf.Repeat(depthRoll * 6.73f, 1f);
             result.Label = defend > .6f ? "Opponent scrambles it back" : "Opponent returns";

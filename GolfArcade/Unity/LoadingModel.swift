@@ -26,13 +26,29 @@ final class LoadingModel {
     /// Where in the sport's tips this load starts, so a player who loads often does not always
     /// meet the same first tip.
     private var tipOffset = 0
+    /// Each load shows two tips from different parts of the sport's list and alternates them ("TIP 1/2", "TIP 2/2").
+    static let tipsPerLoad = 2
     private var currentTip: GameTip? {
         guard tipIndex >= 0 else { return nil }
-        return GameTips.tip(SportsSession.shared.sport == "golf" ? .golf : .tennis, at: tipOffset + tipIndex)
+        let sport = Sport(rawValue: SportsSession.shared.sport) ?? .tennis
+        return GameTips.tip(sport, at: tipOffset + (tipIndex % Self.tipsPerLoad) * 7)
     }
     var tip: String? { currentTip?.text }
+    /// The tip card's headline ("Add topspin").
+    var tipTitle: String? { currentTip?.title }
     /// The tip's topic ("Technique", "Setup", …) for its label.
     var tipKind: String? { currentTip?.kind.title }
+    /// Which of this load's tips is up, 1-based (nil before the first).
+    var tipNumber: Int? { tipIndex >= 0 ? tipIndex % Self.tipsPerLoad + 1 : nil }
+    /// The loading bar, 0...1, from measured milestones only: the scene's own load (most of the bar), the scene ready, the first
+    /// rendered frame. Never elapsed time, so it cannot run ahead of the real work.
+    var displayProgress: Double {
+        if phase == .finished || phase == .transitioning || phase == .frameReady { return 1 }
+        if localReady { return 0.97 }
+        if timing["sceneReady"] != nil { return 0.92 }
+        if let sceneProgress { return 0.06 + 0.8 * sceneProgress }
+        return timing["boot"] != nil ? 0.04 : 0.02
+    }
     /// The first tip is up almost at once, and each stays long enough to read.
     static let firstTipDelay: TimeInterval = 0.4
     static let tipInterval: TimeInterval = 6

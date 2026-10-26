@@ -11,19 +11,20 @@
         {
             "name": "Body",
             "kind": "body",
-            "vertexCount": 34443,
+            "vertexCount": 40721,
             "positionOffset": 0,
-            "normalOffset": 413316,
+            "normalOffset": 488652,
             "swingPositionOffset": 0,
-            "swingNormalOffset": 413316,
-            "uvOffset": 1563792,
-            "bindPositionOffset": 1839336,
-            "lidOffset": 2252652,
-            "edgeOffset": 2528196,
+            "swingNormalOffset": 488652,
+            "uvOffset": 1714464,
+            "bindPositionOffset": 2040232,
+            "lidOffset": 2528884,
+            "edgeOffset": 2854652,
+            "skinUVOffset": 3506188,
             "submeshes": [
                 {
                     "material": "Skin",
-                    "indexOffset": 826632,
+                    "indexOffset": 977304,
                     "indexCount": 184290,
                     "look": {
                         "shader": "TennisCharacter",
@@ -113,7 +114,19 @@
                         "femaleSurface": 0.0,
                         "maleFormPass": 0.0,
                         "faceSkin": true,
-                        "edgeLines": 0.0
+                        "edgeLines": 0.0,
+                        "skinTex": 1.0,
+                        "skinScatter": 1.0,
+                        "skinTransmission": 0.4000000059604645,
+                        "skinAO": 1.0,
+                        "skinSpecular": 1.600000023841858,
+                        "skinLightChroma": 0.44999998807907107,
+                        "skinCoolFill": 0.5,
+                        "eyeV2": 0.0,
+                        "eyeCaustic": 0.0,
+                        "eyeGloss": 0.0,
+                        "skinPigmentMap": "MatchHero_Female_skin_pigment",
+                        "skinMaskMap": "MatchHero_Female_skin_mask"
                     }
                 }
             ]
@@ -122,18 +135,19 @@
             "name": "Face",
             "kind": "face",
             "vertexCount": 3004,
-            "positionOffset": 3079284,
-            "normalOffset": 3115332,
-            "swingPositionOffset": 826632,
-            "swingNormalOffset": 862680,
-            "uvOffset": 3178740,
+            "positionOffset": 3831956,
+            "normalOffset": 3868004,
+            "swingPositionOffset": 977304,
+            "swingNormalOffset": 1013352,
+            "uvOffset": 3931412,
             "bindPositionOffset": -1,
             "lidOffset": -1,
             "edgeOffset": -1,
+            "skinUVOffset": -1,
             "submeshes": [
                 {
                     "material": "Reference_Face_Brow",
-                    "indexOffset": 3151380,
+                    "indexOffset": 3904052,
                     "indexCount": 1896,
                     "look": {
                         "shader": "TennisCharacter",
@@ -223,12 +237,24 @@
                         "femaleSurface": 0.0,
                         "maleFormPass": 0.0,
                         "faceSkin": false,
-                        "edgeLines": 0.0
+                        "edgeLines": 0.0,
+                        "skinTex": 0.0,
+                        "skinScatter": 0.0,
+                        "skinTransmission": 0.0,
+                        "skinAO": 0.0,
+                        "skinSpecular": 0.0,
+                        "skinLightChroma": 0.0,
+                        "skinCoolFill": 0.0,
+                        "eyeV2": 0.0,
+                        "eyeCaustic": 1.0,
+                        "eyeGloss": 1.0,
+                        "skinPigmentMap": "",
+                        "skinMaskMap": ""
                     }
                 },
                 {
                     "material": "Reference_Face_Sclera",
-                    "indexOffset": 3158964,
+                    "indexOffset": 3911636,
                     "indexCount": 2400,
                     "look": {
                         "shader": "TennisCharacter",
@@ -318,12 +344,24 @@
                         "femaleSurface": 0.0,
                         "maleFormPass": 0.0,
                         "faceSkin": false,
-                        "edgeLines": 0.0
+                        "edgeLines": 0.0,
+                        "skinTex": 0.0,
+                        "skinScatter": 0.0,
+                        "skinTransmission": 0.0,
+                        "skinAO": 0.0,
+                        "skinSpecular": 0.0,
+                        "skinLightChroma": 0.0,
+                        "skinCoolFill": 0.0,
+                        "eyeV2": 1.0,
+                        "eyeCaustic": 1.0,
+                        "eyeGloss": 1.0,
+                        "skinPigmentMap": "",
+                        "skinMaskMap": ""
                     }
                 },
                 {
                     "material": "Reference_Face_IrisIn",
-                    "indexOffset": 3168564,
+                    "indexOffset": 3921236,
                     "indexCount": 480,
                     "look": {
                         "shader": "TennisCharacter",
@@ -413,12 +451,24 @@
                         "femaleSurface": 0.0,
                         "maleFormPass": 0.0,
                         "faceSkin": false,
-                        "edgeLines": 0.0
+                        "edgeLines": 0.0,
+                        "skinTex": 0.0,
+                        "skinScatter": 0.0,
+                        "skinTransmission": 0.0,
+                        "skinAO": 0.0,
+                        "skinSpecular": 0.0,
+                        "skinLightChroma": 0.0,
+                        "skinCoolFill": 0.0,
+                        "eyeV2": 1.0,
+                        "eyeCaustic": 1.0,
+                        "eyeGloss": 1.0,
+                        "skinPigmentMap": "",
+                        "skinMaskMap": ""
                     }
                 },
                 {
                     "material": "Reference_Face_Iris",
-                    "indexOffset": 3170484,
+                    "indexOffset": 3923156,
                     "indexCount": 480,
                     "look": {
                         "shader": "TennisCharacter",
@@ -508,12 +558,24 @@
                         "femaleSurface": 0.0,
                         "maleFormPass": 0.0,
                         "faceSkin": false,
-                        "edgeLines": 0.0
+                        "edgeLines": 0.0,
+                        "skinTex": 0.0,
+                        "skinScatter": 0.0,
+                        "skinTransmission": 0.0,
+                        "skinAO": 0.0,
+                        "skinSpecular": 0.0,
+                        "skinLightChroma": 0.0,
+                        "skinCoolFill": 0.0,
+                        "eyeV2": 1.0,
+                        "eyeCaustic": 1.0,
+                        "eyeGloss": 1.0,
+                        "skinPigmentMap": "",
+                        "skinMaskMap": ""
                     }
                 },
                 {
                     "material": "Reference_Face_Limbal",
-                    "indexOffset": 3172404,
+                    "indexOffset": 3925076,
                     "indexCount": 480,
                     "look": {
                         "shader": "TennisCharacter",
@@ -603,12 +665,24 @@
                         "femaleSurface": 0.0,
                         "maleFormPass": 0.0,
                         "faceSkin": false,
-                        "edgeLines": 0.0
+                        "edgeLines": 0.0,
+                        "skinTex": 0.0,
+                        "skinScatter": 0.0,
+                        "skinTransmission": 0.0,
+                        "skinAO": 0.0,
+                        "skinSpecular": 0.0,
+                        "skinLightChroma": 0.0,
+                        "skinCoolFill": 0.0,
+                        "eyeV2": 1.0,
+                        "eyeCaustic": 1.0,
+                        "eyeGloss": 1.0,
+                        "skinPigmentMap": "",
+                        "skinMaskMap": ""
                     }
                 },
                 {
                     "material": "Reference_Face_Pupil",
-                    "indexOffset": 3174324,
+                    "indexOffset": 3926996,
                     "indexCount": 720,
                     "look": {
                         "shader": "TennisCharacter",
@@ -698,12 +772,24 @@
                         "femaleSurface": 0.0,
                         "maleFormPass": 0.0,
                         "faceSkin": false,
-                        "edgeLines": 0.0
+                        "edgeLines": 0.0,
+                        "skinTex": 0.0,
+                        "skinScatter": 0.0,
+                        "skinTransmission": 0.0,
+                        "skinAO": 0.0,
+                        "skinSpecular": 0.0,
+                        "skinLightChroma": 0.0,
+                        "skinCoolFill": 0.0,
+                        "eyeV2": 1.0,
+                        "eyeCaustic": 1.0,
+                        "eyeGloss": 1.0,
+                        "skinPigmentMap": "",
+                        "skinMaskMap": ""
                     }
                 },
                 {
                     "material": "Reference_Face_Catch",
-                    "indexOffset": 3177204,
+                    "indexOffset": 3929876,
                     "indexCount": 384,
                     "look": {
                         "shader": "TennisCharacter",
@@ -793,7 +879,19 @@
                         "femaleSurface": 0.0,
                         "maleFormPass": 0.0,
                         "faceSkin": false,
-                        "edgeLines": 0.0
+                        "edgeLines": 0.0,
+                        "skinTex": 0.0,
+                        "skinScatter": 0.0,
+                        "skinTransmission": 0.0,
+                        "skinAO": 0.0,
+                        "skinSpecular": 0.0,
+                        "skinLightChroma": 0.0,
+                        "skinCoolFill": 0.0,
+                        "eyeV2": 0.0,
+                        "eyeCaustic": 1.0,
+                        "eyeGloss": 1.0,
+                        "skinPigmentMap": "",
+                        "skinMaskMap": ""
                     }
                 }
             ]
@@ -802,18 +900,19 @@
             "name": "Acc_Bag",
             "kind": "kit",
             "vertexCount": 19437,
-            "positionOffset": 3202772,
-            "normalOffset": 3436016,
-            "swingPositionOffset": 898728,
-            "swingNormalOffset": 1131972,
-            "uvOffset": 4025132,
+            "positionOffset": 3955444,
+            "normalOffset": 4188688,
+            "swingPositionOffset": 1049400,
+            "swingNormalOffset": 1282644,
+            "uvOffset": 4777804,
             "bindPositionOffset": -1,
             "lidOffset": -1,
             "edgeOffset": -1,
+            "skinUVOffset": -1,
             "submeshes": [
                 {
                     "material": "Acc_Bag",
-                    "indexOffset": 3669260,
+                    "indexOffset": 4421932,
                     "indexCount": 76680,
                     "look": {
                         "shader": "TennisCloth",
@@ -878,12 +977,24 @@
                         "femaleSurface": 0.0,
                         "maleFormPass": 0.0,
                         "faceSkin": false,
-                        "edgeLines": 0.0
+                        "edgeLines": 0.0,
+                        "skinTex": 0.0,
+                        "skinScatter": 0.0,
+                        "skinTransmission": 0.0,
+                        "skinAO": 0.0,
+                        "skinSpecular": 0.0,
+                        "skinLightChroma": 0.0,
+                        "skinCoolFill": 0.0,
+                        "eyeV2": 0.0,
+                        "eyeCaustic": 0.0,
+                        "eyeGloss": 0.0,
+                        "skinPigmentMap": "",
+                        "skinMaskMap": ""
                     }
                 },
                 {
                     "material": "Acc_BagMetal",
-                    "indexOffset": 3975980,
+                    "indexOffset": 4728652,
                     "indexCount": 12288,
                     "look": {
                         "shader": "TennisCharacter",
@@ -973,7 +1084,19 @@
                         "femaleSurface": 0.0,
                         "maleFormPass": 0.0,
                         "faceSkin": false,
-                        "edgeLines": 0.0
+                        "edgeLines": 0.0,
+                        "skinTex": 0.0,
+                        "skinScatter": 0.0,
+                        "skinTransmission": 0.0,
+                        "skinAO": 0.0,
+                        "skinSpecular": 0.0,
+                        "skinLightChroma": 0.0,
+                        "skinCoolFill": 0.0,
+                        "eyeV2": 0.0,
+                        "eyeCaustic": 1.0,
+                        "eyeGloss": 1.0,
+                        "skinPigmentMap": "",
+                        "skinMaskMap": ""
                     }
                 }
             ]
@@ -982,18 +1105,19 @@
             "name": "Acc_Cap",
             "kind": "kit",
             "vertexCount": 6675,
-            "positionOffset": 4180628,
-            "normalOffset": 4260728,
-            "swingPositionOffset": 1365216,
-            "swingNormalOffset": 1445316,
-            "uvOffset": 4467692,
+            "positionOffset": 4933300,
+            "normalOffset": 5013400,
+            "swingPositionOffset": 1515888,
+            "swingNormalOffset": 1595988,
+            "uvOffset": 5220364,
             "bindPositionOffset": -1,
             "lidOffset": -1,
             "edgeOffset": -1,
+            "skinUVOffset": -1,
             "submeshes": [
                 {
                     "material": "Acc_Cap",
-                    "indexOffset": 4340828,
+                    "indexOffset": 5093500,
                     "indexCount": 29916,
                     "look": {
                         "shader": "TennisCloth",
@@ -1058,12 +1182,24 @@
                         "femaleSurface": 0.0,
                         "maleFormPass": 0.0,
                         "faceSkin": false,
-                        "edgeLines": 0.0
+                        "edgeLines": 0.0,
+                        "skinTex": 0.0,
+                        "skinScatter": 0.0,
+                        "skinTransmission": 0.0,
+                        "skinAO": 0.0,
+                        "skinSpecular": 0.0,
+                        "skinLightChroma": 0.0,
+                        "skinCoolFill": 0.0,
+                        "eyeV2": 0.0,
+                        "eyeCaustic": 0.0,
+                        "eyeGloss": 0.0,
+                        "skinPigmentMap": "",
+                        "skinMaskMap": ""
                     }
                 },
                 {
                     "material": "Acc_CapMetal",
-                    "indexOffset": 4460492,
+                    "indexOffset": 5213164,
                     "indexCount": 1800,
                     "look": {
                         "shader": "TennisCharacter",
@@ -1153,7 +1289,19 @@
                         "femaleSurface": 0.0,
                         "maleFormPass": 0.0,
                         "faceSkin": false,
-                        "edgeLines": 0.0
+                        "edgeLines": 0.0,
+                        "skinTex": 0.0,
+                        "skinScatter": 0.0,
+                        "skinTransmission": 0.0,
+                        "skinAO": 0.0,
+                        "skinSpecular": 0.0,
+                        "skinLightChroma": 0.0,
+                        "skinCoolFill": 0.0,
+                        "eyeV2": 0.0,
+                        "eyeCaustic": 1.0,
+                        "eyeGloss": 1.0,
+                        "skinPigmentMap": "",
+                        "skinMaskMap": ""
                     }
                 }
             ]
@@ -1162,18 +1310,19 @@
             "name": "Kit_Bottom",
             "kind": "kit",
             "vertexCount": 10185,
-            "positionOffset": 4521092,
-            "normalOffset": 4643312,
-            "swingPositionOffset": 1525416,
-            "swingNormalOffset": 1647636,
-            "uvOffset": 5003132,
+            "positionOffset": 5273764,
+            "normalOffset": 5395984,
+            "swingPositionOffset": 1676088,
+            "swingNormalOffset": 1798308,
+            "uvOffset": 5755804,
             "bindPositionOffset": -1,
             "lidOffset": -1,
             "edgeOffset": -1,
+            "skinUVOffset": -1,
             "submeshes": [
                 {
                     "material": "Kit_Shorts",
-                    "indexOffset": 4765532,
+                    "indexOffset": 5518204,
                     "indexCount": 59400,
                     "look": {
                         "shader": "TennisCloth",
@@ -1238,7 +1387,19 @@
                         "femaleSurface": 0.0,
                         "maleFormPass": 0.0,
                         "faceSkin": false,
-                        "edgeLines": 0.0
+                        "edgeLines": 0.0,
+                        "skinTex": 0.0,
+                        "skinScatter": 0.0,
+                        "skinTransmission": 0.0,
+                        "skinAO": 0.0,
+                        "skinSpecular": 0.0,
+                        "skinLightChroma": 0.0,
+                        "skinCoolFill": 0.0,
+                        "eyeV2": 0.0,
+                        "eyeCaustic": 0.0,
+                        "eyeGloss": 0.0,
+                        "skinPigmentMap": "",
+                        "skinMaskMap": ""
                     }
                 }
             ]
@@ -1247,18 +1408,19 @@
             "name": "Kit_Shoe_L",
             "kind": "kit",
             "vertexCount": 14054,
-            "positionOffset": 5084612,
-            "normalOffset": 5253260,
-            "swingPositionOffset": 1769856,
-            "swingNormalOffset": 1938504,
-            "uvOffset": 5755508,
+            "positionOffset": 5837284,
+            "normalOffset": 6005932,
+            "swingPositionOffset": 1920528,
+            "swingNormalOffset": 2089176,
+            "uvOffset": 6508180,
             "bindPositionOffset": -1,
             "lidOffset": -1,
             "edgeOffset": -1,
+            "skinUVOffset": -1,
             "submeshes": [
                 {
                     "material": "Kit_Shoe",
-                    "indexOffset": 5421908,
+                    "indexOffset": 6174580,
                     "indexCount": 79200,
                     "look": {
                         "shader": "TennisCloth",
@@ -1323,12 +1485,24 @@
                         "femaleSurface": 0.0,
                         "maleFormPass": 0.0,
                         "faceSkin": false,
-                        "edgeLines": 0.0
+                        "edgeLines": 0.0,
+                        "skinTex": 0.0,
+                        "skinScatter": 0.0,
+                        "skinTransmission": 0.0,
+                        "skinAO": 0.0,
+                        "skinSpecular": 0.0,
+                        "skinLightChroma": 0.0,
+                        "skinCoolFill": 0.0,
+                        "eyeV2": 0.0,
+                        "eyeCaustic": 0.0,
+                        "eyeGloss": 0.0,
+                        "skinPigmentMap": "",
+                        "skinMaskMap": ""
                     }
                 },
                 {
                     "material": "Kit_Buckle",
-                    "indexOffset": 5738708,
+                    "indexOffset": 6491380,
                     "indexCount": 4200,
                     "look": {
                         "shader": "TennisCharacter",
@@ -1418,7 +1592,19 @@
                         "femaleSurface": 0.0,
                         "maleFormPass": 0.0,
                         "faceSkin": false,
-                        "edgeLines": 0.0
+                        "edgeLines": 0.0,
+                        "skinTex": 0.0,
+                        "skinScatter": 0.0,
+                        "skinTransmission": 0.0,
+                        "skinAO": 0.0,
+                        "skinSpecular": 0.0,
+                        "skinLightChroma": 0.0,
+                        "skinCoolFill": 0.0,
+                        "eyeV2": 0.0,
+                        "eyeCaustic": 1.0,
+                        "eyeGloss": 1.0,
+                        "skinPigmentMap": "",
+                        "skinMaskMap": ""
                     }
                 }
             ]
@@ -1427,18 +1613,19 @@
             "name": "Kit_Shoe_R",
             "kind": "kit",
             "vertexCount": 13924,
-            "positionOffset": 5867940,
-            "normalOffset": 6035028,
-            "swingPositionOffset": 2107152,
-            "swingNormalOffset": 2274240,
-            "uvOffset": 6532596,
+            "positionOffset": 6620612,
+            "normalOffset": 6787700,
+            "swingPositionOffset": 2257824,
+            "swingNormalOffset": 2424912,
+            "uvOffset": 7285268,
             "bindPositionOffset": -1,
             "lidOffset": -1,
             "edgeOffset": -1,
+            "skinUVOffset": -1,
             "submeshes": [
                 {
                     "material": "Kit_Shoe",
-                    "indexOffset": 6202116,
+                    "indexOffset": 6954788,
                     "indexCount": 78420,
                     "look": {
                         "shader": "TennisCloth",
@@ -1503,12 +1690,24 @@
                         "femaleSurface": 0.0,
                         "maleFormPass": 0.0,
                         "faceSkin": false,
-                        "edgeLines": 0.0
+                        "edgeLines": 0.0,
+                        "skinTex": 0.0,
+                        "skinScatter": 0.0,
+                        "skinTransmission": 0.0,
+                        "skinAO": 0.0,
+                        "skinSpecular": 0.0,
+                        "skinLightChroma": 0.0,
+                        "skinCoolFill": 0.0,
+                        "eyeV2": 0.0,
+                        "eyeCaustic": 0.0,
+                        "eyeGloss": 0.0,
+                        "skinPigmentMap": "",
+                        "skinMaskMap": ""
                     }
                 },
                 {
                     "material": "Kit_Buckle",
-                    "indexOffset": 6515796,
+                    "indexOffset": 7268468,
                     "indexCount": 4200,
                     "look": {
                         "shader": "TennisCharacter",
@@ -1598,7 +1797,19 @@
                         "femaleSurface": 0.0,
                         "maleFormPass": 0.0,
                         "faceSkin": false,
-                        "edgeLines": 0.0
+                        "edgeLines": 0.0,
+                        "skinTex": 0.0,
+                        "skinScatter": 0.0,
+                        "skinTransmission": 0.0,
+                        "skinAO": 0.0,
+                        "skinSpecular": 0.0,
+                        "skinLightChroma": 0.0,
+                        "skinCoolFill": 0.0,
+                        "eyeV2": 0.0,
+                        "eyeCaustic": 1.0,
+                        "eyeGloss": 1.0,
+                        "skinPigmentMap": "",
+                        "skinMaskMap": ""
                     }
                 }
             ]
@@ -1607,18 +1818,19 @@
             "name": "Kit_Sock_L",
             "kind": "kit",
             "vertexCount": 1958,
-            "positionOffset": 6643988,
-            "normalOffset": 6667484,
-            "swingPositionOffset": 2441328,
-            "swingNormalOffset": 2464824,
-            "uvOffset": 6737012,
+            "positionOffset": 7396660,
+            "normalOffset": 7420156,
+            "swingPositionOffset": 2592000,
+            "swingNormalOffset": 2615496,
+            "uvOffset": 7489684,
             "bindPositionOffset": -1,
             "lidOffset": -1,
             "edgeOffset": -1,
+            "skinUVOffset": -1,
             "submeshes": [
                 {
                     "material": "Kit_Sock",
-                    "indexOffset": 6690980,
+                    "indexOffset": 7443652,
                     "indexCount": 11508,
                     "look": {
                         "shader": "TennisCloth",
@@ -1683,7 +1895,19 @@
                         "femaleSurface": 0.0,
                         "maleFormPass": 0.0,
                         "faceSkin": false,
-                        "edgeLines": 0.0
+                        "edgeLines": 0.0,
+                        "skinTex": 0.0,
+                        "skinScatter": 0.0,
+                        "skinTransmission": 0.0,
+                        "skinAO": 0.0,
+                        "skinSpecular": 0.0,
+                        "skinLightChroma": 0.0,
+                        "skinCoolFill": 0.0,
+                        "eyeV2": 0.0,
+                        "eyeCaustic": 0.0,
+                        "eyeGloss": 0.0,
+                        "skinPigmentMap": "",
+                        "skinMaskMap": ""
                     }
                 }
             ]
@@ -1692,18 +1916,19 @@
             "name": "Kit_Sock_R",
             "kind": "kit",
             "vertexCount": 1958,
-            "positionOffset": 6752676,
-            "normalOffset": 6776172,
-            "swingPositionOffset": 2488320,
-            "swingNormalOffset": 2511816,
-            "uvOffset": 6845700,
+            "positionOffset": 7505348,
+            "normalOffset": 7528844,
+            "swingPositionOffset": 2638992,
+            "swingNormalOffset": 2662488,
+            "uvOffset": 7598372,
             "bindPositionOffset": -1,
             "lidOffset": -1,
             "edgeOffset": -1,
+            "skinUVOffset": -1,
             "submeshes": [
                 {
                     "material": "Kit_Sock",
-                    "indexOffset": 6799668,
+                    "indexOffset": 7552340,
                     "indexCount": 11508,
                     "look": {
                         "shader": "TennisCloth",
@@ -1768,7 +1993,19 @@
                         "femaleSurface": 0.0,
                         "maleFormPass": 0.0,
                         "faceSkin": false,
-                        "edgeLines": 0.0
+                        "edgeLines": 0.0,
+                        "skinTex": 0.0,
+                        "skinScatter": 0.0,
+                        "skinTransmission": 0.0,
+                        "skinAO": 0.0,
+                        "skinSpecular": 0.0,
+                        "skinLightChroma": 0.0,
+                        "skinCoolFill": 0.0,
+                        "eyeV2": 0.0,
+                        "eyeCaustic": 0.0,
+                        "eyeGloss": 0.0,
+                        "skinPigmentMap": "",
+                        "skinMaskMap": ""
                     }
                 }
             ]
@@ -1777,18 +2014,19 @@
             "name": "Kit_Top",
             "kind": "kit",
             "vertexCount": 22516,
-            "positionOffset": 6861364,
-            "normalOffset": 7131556,
-            "swingPositionOffset": 2535312,
-            "swingNormalOffset": 2805504,
-            "uvOffset": 7932052,
+            "positionOffset": 7614036,
+            "normalOffset": 7884228,
+            "swingPositionOffset": 2685984,
+            "swingNormalOffset": 2956176,
+            "uvOffset": 8684724,
             "bindPositionOffset": -1,
             "lidOffset": -1,
             "edgeOffset": -1,
+            "skinUVOffset": -1,
             "submeshes": [
                 {
                     "material": "Kit_Shirt",
-                    "indexOffset": 7401748,
+                    "indexOffset": 8154420,
                     "indexCount": 132576,
                     "look": {
                         "shader": "TennisCloth",
@@ -1853,7 +2091,19 @@
                         "femaleSurface": 0.0,
                         "maleFormPass": 0.0,
                         "faceSkin": false,
-                        "edgeLines": 0.0
+                        "edgeLines": 0.0,
+                        "skinTex": 0.0,
+                        "skinScatter": 0.0,
+                        "skinTransmission": 0.0,
+                        "skinAO": 0.0,
+                        "skinSpecular": 0.0,
+                        "skinLightChroma": 0.0,
+                        "skinCoolFill": 0.0,
+                        "eyeV2": 0.0,
+                        "eyeCaustic": 0.0,
+                        "eyeGloss": 0.0,
+                        "skinPigmentMap": "",
+                        "skinMaskMap": ""
                     }
                 }
             ]
@@ -1862,18 +2112,19 @@
             "name": "Racket_Racket_Classic",
             "kind": "racket",
             "vertexCount": 2998,
-            "positionOffset": 8112180,
-            "normalOffset": 8148156,
-            "swingPositionOffset": 3075696,
-            "swingNormalOffset": 3111672,
+            "positionOffset": 8864852,
+            "normalOffset": 8900828,
+            "swingPositionOffset": 3226368,
+            "swingNormalOffset": 3262344,
             "uvOffset": -1,
             "bindPositionOffset": -1,
             "lidOffset": -1,
             "edgeOffset": -1,
+            "skinUVOffset": -1,
             "submeshes": [
                 {
                     "material": "White_Frame",
-                    "indexOffset": 8184132,
+                    "indexOffset": 8936804,
                     "indexCount": 18000,
                     "look": {
                         "shader": "TennisCharacter",
@@ -1963,7 +2214,19 @@
                         "femaleSurface": 0.0,
                         "maleFormPass": 0.0,
                         "faceSkin": false,
-                        "edgeLines": 0.0
+                        "edgeLines": 0.0,
+                        "skinTex": 0.0,
+                        "skinScatter": 0.0,
+                        "skinTransmission": 0.0,
+                        "skinAO": 0.0,
+                        "skinSpecular": 0.0,
+                        "skinLightChroma": 0.0,
+                        "skinCoolFill": 0.0,
+                        "eyeV2": 0.0,
+                        "eyeCaustic": 1.0,
+                        "eyeGloss": 1.0,
+                        "skinPigmentMap": "",
+                        "skinMaskMap": ""
                     }
                 }
             ]
@@ -1972,18 +2235,19 @@
             "name": "Racket_ButtCap",
             "kind": "racket",
             "vertexCount": 314,
-            "positionOffset": 8256132,
-            "normalOffset": 8259900,
-            "swingPositionOffset": 3147648,
-            "swingNormalOffset": 3151416,
+            "positionOffset": 9008804,
+            "normalOffset": 9012572,
+            "swingPositionOffset": 3298320,
+            "swingNormalOffset": 3302088,
             "uvOffset": -1,
             "bindPositionOffset": -1,
             "lidOffset": -1,
             "edgeOffset": -1,
+            "skinUVOffset": -1,
             "submeshes": [
                 {
                     "material": "Black_Grip",
-                    "indexOffset": 8263668,
+                    "indexOffset": 9016340,
                     "indexCount": 1440,
                     "look": {
                         "shader": "TennisCloth",
@@ -2048,7 +2312,19 @@
                         "femaleSurface": 0.0,
                         "maleFormPass": 0.0,
                         "faceSkin": false,
-                        "edgeLines": 0.0
+                        "edgeLines": 0.0,
+                        "skinTex": 0.0,
+                        "skinScatter": 0.0,
+                        "skinTransmission": 0.0,
+                        "skinAO": 0.0,
+                        "skinSpecular": 0.0,
+                        "skinLightChroma": 0.0,
+                        "skinCoolFill": 0.0,
+                        "eyeV2": 0.0,
+                        "eyeCaustic": 0.0,
+                        "eyeGloss": 0.0,
+                        "skinPigmentMap": "",
+                        "skinMaskMap": ""
                     }
                 }
             ]
@@ -2057,18 +2333,19 @@
             "name": "Racket_Grip",
             "kind": "racket",
             "vertexCount": 1442,
-            "positionOffset": 8269428,
-            "normalOffset": 8286732,
-            "swingPositionOffset": 3155184,
-            "swingNormalOffset": 3172488,
+            "positionOffset": 9022100,
+            "normalOffset": 9039404,
+            "swingPositionOffset": 3305856,
+            "swingNormalOffset": 3323160,
             "uvOffset": -1,
             "bindPositionOffset": -1,
             "lidOffset": -1,
             "edgeOffset": -1,
+            "skinUVOffset": -1,
             "submeshes": [
                 {
                     "material": "Black_Grip",
-                    "indexOffset": 8304036,
+                    "indexOffset": 9056708,
                     "indexCount": 6912,
                     "look": {
                         "shader": "TennisCloth",
@@ -2133,7 +2410,19 @@
                         "femaleSurface": 0.0,
                         "maleFormPass": 0.0,
                         "faceSkin": false,
-                        "edgeLines": 0.0
+                        "edgeLines": 0.0,
+                        "skinTex": 0.0,
+                        "skinScatter": 0.0,
+                        "skinTransmission": 0.0,
+                        "skinAO": 0.0,
+                        "skinSpecular": 0.0,
+                        "skinLightChroma": 0.0,
+                        "skinCoolFill": 0.0,
+                        "eyeV2": 0.0,
+                        "eyeCaustic": 0.0,
+                        "eyeGloss": 0.0,
+                        "skinPigmentMap": "",
+                        "skinMaskMap": ""
                     }
                 }
             ]
@@ -2142,18 +2431,19 @@
             "name": "Racket_StringBed",
             "kind": "racket",
             "vertexCount": 1368,
-            "positionOffset": 8331684,
-            "normalOffset": 8348100,
-            "swingPositionOffset": 3189792,
-            "swingNormalOffset": 3206208,
+            "positionOffset": 9084356,
+            "normalOffset": 9100772,
+            "swingPositionOffset": 3340464,
+            "swingNormalOffset": 3356880,
             "uvOffset": -1,
             "bindPositionOffset": -1,
             "lidOffset": -1,
             "edgeOffset": -1,
+            "skinUVOffset": -1,
             "submeshes": [
                 {
                     "material": "White_Strings",
-                    "indexOffset": 8364516,
+                    "indexOffset": 9117188,
                     "indexCount": 5928,
                     "look": {
                         "shader": "TennisCharacter",
@@ -2243,7 +2533,19 @@
                         "femaleSurface": 0.0,
                         "maleFormPass": 0.0,
                         "faceSkin": false,
-                        "edgeLines": 0.0
+                        "edgeLines": 0.0,
+                        "skinTex": 0.0,
+                        "skinScatter": 0.0,
+                        "skinTransmission": 0.0,
+                        "skinAO": 0.0,
+                        "skinSpecular": 0.0,
+                        "skinLightChroma": 0.0,
+                        "skinCoolFill": 0.0,
+                        "eyeV2": 0.0,
+                        "eyeCaustic": 1.0,
+                        "eyeGloss": 1.0,
+                        "skinPigmentMap": "",
+                        "skinMaskMap": ""
                     }
                 }
             ]
@@ -2592,12 +2894,12 @@
             {
                 "part": "Body",
                 "kind": "skin",
-                "vertexCount": 34443,
+                "vertexCount": 40721,
                 "bindPositionOffset": 0,
-                "bindNormalOffset": 413316,
-                "weightOffset": 826632,
-                "indexOffset": 1377720,
-                "inverseBindOffset": 1515492,
+                "bindNormalOffset": 488652,
+                "weightOffset": 977304,
+                "indexOffset": 1628840,
+                "inverseBindOffset": 1791724,
                 "track": -1,
                 "bones": [
                     0,
@@ -2685,38 +2987,38 @@
                 "morphs": [
                     {
                         "name": "Hero_Blink_Half",
-                        "positionOffset": 1520676,
-                        "normalOffset": 1933992
+                        "positionOffset": 1796908,
+                        "normalOffset": 2285560
                     },
                     {
                         "name": "Hero_Blink",
-                        "positionOffset": 2347308,
-                        "normalOffset": 2760624
+                        "positionOffset": 2774212,
+                        "normalOffset": 3262864
                     },
                     {
                         "name": "Face_Smile",
-                        "positionOffset": 3173940,
-                        "normalOffset": 3587256
+                        "positionOffset": 3751516,
+                        "normalOffset": 4240168
                     },
                     {
                         "name": "Face_Sad",
-                        "positionOffset": 4000572,
-                        "normalOffset": 4413888
+                        "positionOffset": 4728820,
+                        "normalOffset": 5217472
                     },
                     {
                         "name": "Face_Shock",
-                        "positionOffset": 4827204,
-                        "normalOffset": 5240520
+                        "positionOffset": 5706124,
+                        "normalOffset": 6194776
                     },
                     {
                         "name": "ShoulderFold_Left",
-                        "positionOffset": 5653836,
-                        "normalOffset": 6067152
+                        "positionOffset": 6683428,
+                        "normalOffset": 7172080
                     },
                     {
                         "name": "ShoulderFold_Right",
-                        "positionOffset": 6480468,
-                        "normalOffset": 6893784
+                        "positionOffset": 7660732,
+                        "normalOffset": 8149384
                     }
                 ]
             },
@@ -2724,11 +3026,11 @@
                 "part": "Face",
                 "kind": "skin",
                 "vertexCount": 3004,
-                "bindPositionOffset": 7307100,
-                "bindNormalOffset": 7343148,
-                "weightOffset": 7379196,
-                "indexOffset": 7427260,
-                "inverseBindOffset": 7439276,
+                "bindPositionOffset": 8638036,
+                "bindNormalOffset": 8674084,
+                "weightOffset": 8710132,
+                "indexOffset": 8758196,
+                "inverseBindOffset": 8770212,
                 "track": -1,
                 "bones": [
                     0,
@@ -2788,58 +3090,58 @@
                 "morphs": [
                     {
                         "name": "Hero_Blink_Half",
-                        "positionOffset": 7442668,
-                        "normalOffset": 7478716
+                        "positionOffset": 8773604,
+                        "normalOffset": 8809652
                     },
                     {
                         "name": "Hero_Blink",
-                        "positionOffset": 7514764,
-                        "normalOffset": 7550812
+                        "positionOffset": 8845700,
+                        "normalOffset": 8881748
                     },
                     {
                         "name": "Face_GazeRight",
-                        "positionOffset": 7586860,
-                        "normalOffset": 7622908
+                        "positionOffset": 8917796,
+                        "normalOffset": 8953844
                     },
                     {
                         "name": "Face_GazeLeft",
-                        "positionOffset": 7658956,
-                        "normalOffset": 7695004
+                        "positionOffset": 8989892,
+                        "normalOffset": 9025940
                     },
                     {
                         "name": "Face_GazeUp",
-                        "positionOffset": 7731052,
-                        "normalOffset": 7767100
+                        "positionOffset": 9061988,
+                        "normalOffset": 9098036
                     },
                     {
                         "name": "Face_GazeDown",
-                        "positionOffset": 7803148,
-                        "normalOffset": 7839196
+                        "positionOffset": 9134084,
+                        "normalOffset": 9170132
                     },
                     {
                         "name": "Face_BrowUp",
-                        "positionOffset": 7875244,
-                        "normalOffset": 7911292
+                        "positionOffset": 9206180,
+                        "normalOffset": 9242228
                     },
                     {
                         "name": "Face_BrowDown",
-                        "positionOffset": 7947340,
-                        "normalOffset": 7983388
+                        "positionOffset": 9278276,
+                        "normalOffset": 9314324
                     },
                     {
                         "name": "Face_Smile",
-                        "positionOffset": 8019436,
-                        "normalOffset": 8055484
+                        "positionOffset": 9350372,
+                        "normalOffset": 9386420
                     },
                     {
                         "name": "Face_Sad",
-                        "positionOffset": 8091532,
-                        "normalOffset": 8127580
+                        "positionOffset": 9422468,
+                        "normalOffset": 9458516
                     },
                     {
                         "name": "Face_Shock",
-                        "positionOffset": 8163628,
-                        "normalOffset": 8199676
+                        "positionOffset": 9494564,
+                        "normalOffset": 9530612
                     }
                 ]
             },
@@ -2847,11 +3149,11 @@
                 "part": "Acc_Bag",
                 "kind": "skin",
                 "vertexCount": 19437,
-                "bindPositionOffset": 8235724,
-                "bindNormalOffset": 8468968,
-                "weightOffset": 8702212,
-                "indexOffset": 9013204,
-                "inverseBindOffset": 9090952,
+                "bindPositionOffset": 9566660,
+                "bindNormalOffset": 9799904,
+                "weightOffset": 10033148,
+                "indexOffset": 10344140,
+                "inverseBindOffset": 10421888,
                 "track": -1,
                 "bones": [
                     81,
@@ -2868,11 +3170,11 @@
                 "part": "Acc_Cap",
                 "kind": "skin",
                 "vertexCount": 6675,
-                "bindPositionOffset": 9091400,
-                "bindNormalOffset": 9171500,
-                "weightOffset": 9251600,
-                "indexOffset": 9358400,
-                "inverseBindOffset": 9385100,
+                "bindPositionOffset": 10422336,
+                "bindNormalOffset": 10502436,
+                "weightOffset": 10582536,
+                "indexOffset": 10689336,
+                "inverseBindOffset": 10716036,
                 "track": -1,
                 "bones": [
                     82
@@ -2883,11 +3185,11 @@
                 "part": "Kit_Bottom",
                 "kind": "skin",
                 "vertexCount": 10185,
-                "bindPositionOffset": 9385164,
-                "bindNormalOffset": 9507384,
-                "weightOffset": 9629604,
-                "indexOffset": 9792564,
-                "inverseBindOffset": 9833304,
+                "bindPositionOffset": 10716100,
+                "bindNormalOffset": 10838320,
+                "weightOffset": 10960540,
+                "indexOffset": 11123500,
+                "inverseBindOffset": 11164240,
                 "track": -1,
                 "bones": [
                     1,
@@ -2898,163 +3200,163 @@
                 "morphs": [
                     {
                         "name": "GP_Pose00",
-                        "positionOffset": 9833560,
-                        "normalOffset": 9955780
+                        "positionOffset": 11164496,
+                        "normalOffset": 11286716
                     },
                     {
                         "name": "GP_Pose01",
-                        "positionOffset": 10078000,
-                        "normalOffset": 10200220
+                        "positionOffset": 11408936,
+                        "normalOffset": 11531156
                     },
                     {
                         "name": "GP_Pose02",
-                        "positionOffset": 10322440,
-                        "normalOffset": 10444660
+                        "positionOffset": 11653376,
+                        "normalOffset": 11775596
                     },
                     {
                         "name": "GP_Pose03",
-                        "positionOffset": 10566880,
-                        "normalOffset": 10689100
+                        "positionOffset": 11897816,
+                        "normalOffset": 12020036
                     },
                     {
                         "name": "GP_Pose04",
-                        "positionOffset": 10811320,
-                        "normalOffset": 10933540
+                        "positionOffset": 12142256,
+                        "normalOffset": 12264476
                     },
                     {
                         "name": "GP_Pose05",
-                        "positionOffset": 11055760,
-                        "normalOffset": 11177980
+                        "positionOffset": 12386696,
+                        "normalOffset": 12508916
                     },
                     {
                         "name": "GP_Pose06",
-                        "positionOffset": 11300200,
-                        "normalOffset": 11422420
+                        "positionOffset": 12631136,
+                        "normalOffset": 12753356
                     },
                     {
                         "name": "GP_Pose07",
-                        "positionOffset": 11544640,
-                        "normalOffset": 11666860
+                        "positionOffset": 12875576,
+                        "normalOffset": 12997796
                     },
                     {
                         "name": "GP_Pose08",
-                        "positionOffset": 11789080,
-                        "normalOffset": 11911300
+                        "positionOffset": 13120016,
+                        "normalOffset": 13242236
                     },
                     {
                         "name": "GP_Pose09",
-                        "positionOffset": 12033520,
-                        "normalOffset": 12155740
+                        "positionOffset": 13364456,
+                        "normalOffset": 13486676
                     },
                     {
                         "name": "GP_Pose10",
-                        "positionOffset": 12277960,
-                        "normalOffset": 12400180
+                        "positionOffset": 13608896,
+                        "normalOffset": 13731116
                     },
                     {
                         "name": "GP_Pose11",
-                        "positionOffset": 12522400,
-                        "normalOffset": 12644620
+                        "positionOffset": 13853336,
+                        "normalOffset": 13975556
                     },
                     {
                         "name": "GP_Pose12",
-                        "positionOffset": 12766840,
-                        "normalOffset": 12889060
+                        "positionOffset": 14097776,
+                        "normalOffset": 14219996
                     },
                     {
                         "name": "GP_Pose13",
-                        "positionOffset": 13011280,
-                        "normalOffset": 13133500
+                        "positionOffset": 14342216,
+                        "normalOffset": 14464436
                     },
                     {
                         "name": "GP_Pose14",
-                        "positionOffset": 13255720,
-                        "normalOffset": 13377940
+                        "positionOffset": 14586656,
+                        "normalOffset": 14708876
                     },
                     {
                         "name": "GP_Pose15",
-                        "positionOffset": 13500160,
-                        "normalOffset": 13622380
+                        "positionOffset": 14831096,
+                        "normalOffset": 14953316
                     },
                     {
                         "name": "GP_Pose16",
-                        "positionOffset": 13744600,
-                        "normalOffset": 13866820
+                        "positionOffset": 15075536,
+                        "normalOffset": 15197756
                     },
                     {
                         "name": "GP_Pose17",
-                        "positionOffset": 13989040,
-                        "normalOffset": 14111260
+                        "positionOffset": 15319976,
+                        "normalOffset": 15442196
                     },
                     {
                         "name": "GP_Pose18",
-                        "positionOffset": 14233480,
-                        "normalOffset": 14355700
+                        "positionOffset": 15564416,
+                        "normalOffset": 15686636
                     },
                     {
                         "name": "GP_Pose19",
-                        "positionOffset": 14477920,
-                        "normalOffset": 14600140
+                        "positionOffset": 15808856,
+                        "normalOffset": 15931076
                     },
                     {
                         "name": "GP_Pose20",
-                        "positionOffset": 14722360,
-                        "normalOffset": 14844580
+                        "positionOffset": 16053296,
+                        "normalOffset": 16175516
                     },
                     {
                         "name": "GP_Pose21",
-                        "positionOffset": 14966800,
-                        "normalOffset": 15089020
+                        "positionOffset": 16297736,
+                        "normalOffset": 16419956
                     },
                     {
                         "name": "GP_Pose22",
-                        "positionOffset": 15211240,
-                        "normalOffset": 15333460
+                        "positionOffset": 16542176,
+                        "normalOffset": 16664396
                     },
                     {
                         "name": "GP_Pose23",
-                        "positionOffset": 15455680,
-                        "normalOffset": 15577900
+                        "positionOffset": 16786616,
+                        "normalOffset": 16908836
                     },
                     {
                         "name": "GP_Pose24",
-                        "positionOffset": 15700120,
-                        "normalOffset": 15822340
+                        "positionOffset": 17031056,
+                        "normalOffset": 17153276
                     },
                     {
                         "name": "GP_Pose25",
-                        "positionOffset": 15944560,
-                        "normalOffset": 16066780
+                        "positionOffset": 17275496,
+                        "normalOffset": 17397716
                     },
                     {
                         "name": "GP_Pose26",
-                        "positionOffset": 16189000,
-                        "normalOffset": 16311220
+                        "positionOffset": 17519936,
+                        "normalOffset": 17642156
                     },
                     {
                         "name": "GP_Pose27",
-                        "positionOffset": 16433440,
-                        "normalOffset": 16555660
+                        "positionOffset": 17764376,
+                        "normalOffset": 17886596
                     },
                     {
                         "name": "GP_Pose28",
-                        "positionOffset": 16677880,
-                        "normalOffset": 16800100
+                        "positionOffset": 18008816,
+                        "normalOffset": 18131036
                     },
                     {
                         "name": "GP_Pose29",
-                        "positionOffset": 16922320,
-                        "normalOffset": 17044540
+                        "positionOffset": 18253256,
+                        "normalOffset": 18375476
                     },
                     {
                         "name": "GP_Pose30",
-                        "positionOffset": 17166760,
-                        "normalOffset": 17288980
+                        "positionOffset": 18497696,
+                        "normalOffset": 18619916
                     },
                     {
                         "name": "GP_Pose31",
-                        "positionOffset": 17411200,
-                        "normalOffset": 17533420
+                        "positionOffset": 18742136,
+                        "normalOffset": 18864356
                     }
                 ]
             },
@@ -3062,11 +3364,11 @@
                 "part": "Kit_Shoe_L",
                 "kind": "skin",
                 "vertexCount": 14054,
-                "bindPositionOffset": 17655640,
-                "bindNormalOffset": 17824288,
-                "weightOffset": 17992936,
-                "indexOffset": 18217800,
-                "inverseBindOffset": 18274016,
+                "bindPositionOffset": 18986576,
+                "bindNormalOffset": 19155224,
+                "weightOffset": 19323872,
+                "indexOffset": 19548736,
+                "inverseBindOffset": 19604952,
                 "track": -1,
                 "bones": [
                     46,
@@ -3079,11 +3381,11 @@
                 "part": "Kit_Shoe_R",
                 "kind": "skin",
                 "vertexCount": 13924,
-                "bindPositionOffset": 18274208,
-                "bindNormalOffset": 18441296,
-                "weightOffset": 18608384,
-                "indexOffset": 18831168,
-                "inverseBindOffset": 18886864,
+                "bindPositionOffset": 19605144,
+                "bindNormalOffset": 19772232,
+                "weightOffset": 19939320,
+                "indexOffset": 20162104,
+                "inverseBindOffset": 20217800,
                 "track": -1,
                 "bones": [
                     50,
@@ -3096,11 +3398,11 @@
                 "part": "Kit_Sock_L",
                 "kind": "skin",
                 "vertexCount": 1958,
-                "bindPositionOffset": 18887056,
-                "bindNormalOffset": 18910552,
-                "weightOffset": 18934048,
-                "indexOffset": 18965376,
-                "inverseBindOffset": 18973208,
+                "bindPositionOffset": 20217992,
+                "bindNormalOffset": 20241488,
+                "weightOffset": 20264984,
+                "indexOffset": 20296312,
+                "inverseBindOffset": 20304144,
                 "track": -1,
                 "bones": [
                     46,
@@ -3112,11 +3414,11 @@
                 "part": "Kit_Sock_R",
                 "kind": "skin",
                 "vertexCount": 1958,
-                "bindPositionOffset": 18973336,
-                "bindNormalOffset": 18996832,
-                "weightOffset": 19020328,
-                "indexOffset": 19051656,
-                "inverseBindOffset": 19059488,
+                "bindPositionOffset": 20304272,
+                "bindNormalOffset": 20327768,
+                "weightOffset": 20351264,
+                "indexOffset": 20382592,
+                "inverseBindOffset": 20390424,
                 "track": -1,
                 "bones": [
                     50,
@@ -3129,11 +3431,11 @@
                 "part": "Kit_Top",
                 "kind": "skin",
                 "vertexCount": 22516,
-                "bindPositionOffset": 19059680,
-                "bindNormalOffset": 19329872,
-                "weightOffset": 19600064,
-                "indexOffset": 19960320,
-                "inverseBindOffset": 20050384,
+                "bindPositionOffset": 20390616,
+                "bindNormalOffset": 20660808,
+                "weightOffset": 20931000,
+                "indexOffset": 21291256,
+                "inverseBindOffset": 21381320,
                 "track": -1,
                 "bones": [
                     1,
@@ -3152,163 +3454,163 @@
                 "morphs": [
                     {
                         "name": "GP_Pose00",
-                        "positionOffset": 20051152,
-                        "normalOffset": 20321344
+                        "positionOffset": 21382088,
+                        "normalOffset": 21652280
                     },
                     {
                         "name": "GP_Pose01",
-                        "positionOffset": 20591536,
-                        "normalOffset": 20861728
+                        "positionOffset": 21922472,
+                        "normalOffset": 22192664
                     },
                     {
                         "name": "GP_Pose02",
-                        "positionOffset": 21131920,
-                        "normalOffset": 21402112
+                        "positionOffset": 22462856,
+                        "normalOffset": 22733048
                     },
                     {
                         "name": "GP_Pose03",
-                        "positionOffset": 21672304,
-                        "normalOffset": 21942496
+                        "positionOffset": 23003240,
+                        "normalOffset": 23273432
                     },
                     {
                         "name": "GP_Pose04",
-                        "positionOffset": 22212688,
-                        "normalOffset": 22482880
+                        "positionOffset": 23543624,
+                        "normalOffset": 23813816
                     },
                     {
                         "name": "GP_Pose05",
-                        "positionOffset": 22753072,
-                        "normalOffset": 23023264
+                        "positionOffset": 24084008,
+                        "normalOffset": 24354200
                     },
                     {
                         "name": "GP_Pose06",
-                        "positionOffset": 23293456,
-                        "normalOffset": 23563648
+                        "positionOffset": 24624392,
+                        "normalOffset": 24894584
                     },
                     {
                         "name": "GP_Pose07",
-                        "positionOffset": 23833840,
-                        "normalOffset": 24104032
+                        "positionOffset": 25164776,
+                        "normalOffset": 25434968
                     },
                     {
                         "name": "GP_Pose08",
-                        "positionOffset": 24374224,
-                        "normalOffset": 24644416
+                        "positionOffset": 25705160,
+                        "normalOffset": 25975352
                     },
                     {
                         "name": "GP_Pose09",
-                        "positionOffset": 24914608,
-                        "normalOffset": 25184800
+                        "positionOffset": 26245544,
+                        "normalOffset": 26515736
                     },
                     {
                         "name": "GP_Pose10",
-                        "positionOffset": 25454992,
-                        "normalOffset": 25725184
+                        "positionOffset": 26785928,
+                        "normalOffset": 27056120
                     },
                     {
                         "name": "GP_Pose11",
-                        "positionOffset": 25995376,
-                        "normalOffset": 26265568
+                        "positionOffset": 27326312,
+                        "normalOffset": 27596504
                     },
                     {
                         "name": "GP_Pose12",
-                        "positionOffset": 26535760,
-                        "normalOffset": 26805952
+                        "positionOffset": 27866696,
+                        "normalOffset": 28136888
                     },
                     {
                         "name": "GP_Pose13",
-                        "positionOffset": 27076144,
-                        "normalOffset": 27346336
+                        "positionOffset": 28407080,
+                        "normalOffset": 28677272
                     },
                     {
                         "name": "GP_Pose14",
-                        "positionOffset": 27616528,
-                        "normalOffset": 27886720
+                        "positionOffset": 28947464,
+                        "normalOffset": 29217656
                     },
                     {
                         "name": "GP_Pose15",
-                        "positionOffset": 28156912,
-                        "normalOffset": 28427104
+                        "positionOffset": 29487848,
+                        "normalOffset": 29758040
                     },
                     {
                         "name": "GP_Pose16",
-                        "positionOffset": 28697296,
-                        "normalOffset": 28967488
+                        "positionOffset": 30028232,
+                        "normalOffset": 30298424
                     },
                     {
                         "name": "GP_Pose17",
-                        "positionOffset": 29237680,
-                        "normalOffset": 29507872
+                        "positionOffset": 30568616,
+                        "normalOffset": 30838808
                     },
                     {
                         "name": "GP_Pose18",
-                        "positionOffset": 29778064,
-                        "normalOffset": 30048256
+                        "positionOffset": 31109000,
+                        "normalOffset": 31379192
                     },
                     {
                         "name": "GP_Pose19",
-                        "positionOffset": 30318448,
-                        "normalOffset": 30588640
+                        "positionOffset": 31649384,
+                        "normalOffset": 31919576
                     },
                     {
                         "name": "GP_Pose20",
-                        "positionOffset": 30858832,
-                        "normalOffset": 31129024
+                        "positionOffset": 32189768,
+                        "normalOffset": 32459960
                     },
                     {
                         "name": "GP_Pose21",
-                        "positionOffset": 31399216,
-                        "normalOffset": 31669408
+                        "positionOffset": 32730152,
+                        "normalOffset": 33000344
                     },
                     {
                         "name": "GP_Pose22",
-                        "positionOffset": 31939600,
-                        "normalOffset": 32209792
+                        "positionOffset": 33270536,
+                        "normalOffset": 33540728
                     },
                     {
                         "name": "GP_Pose23",
-                        "positionOffset": 32479984,
-                        "normalOffset": 32750176
+                        "positionOffset": 33810920,
+                        "normalOffset": 34081112
                     },
                     {
                         "name": "GP_Pose24",
-                        "positionOffset": 33020368,
-                        "normalOffset": 33290560
+                        "positionOffset": 34351304,
+                        "normalOffset": 34621496
                     },
                     {
                         "name": "GP_Pose25",
-                        "positionOffset": 33560752,
-                        "normalOffset": 33830944
+                        "positionOffset": 34891688,
+                        "normalOffset": 35161880
                     },
                     {
                         "name": "GP_Pose26",
-                        "positionOffset": 34101136,
-                        "normalOffset": 34371328
+                        "positionOffset": 35432072,
+                        "normalOffset": 35702264
                     },
                     {
                         "name": "GP_Pose27",
-                        "positionOffset": 34641520,
-                        "normalOffset": 34911712
+                        "positionOffset": 35972456,
+                        "normalOffset": 36242648
                     },
                     {
                         "name": "GP_Pose28",
-                        "positionOffset": 35181904,
-                        "normalOffset": 35452096
+                        "positionOffset": 36512840,
+                        "normalOffset": 36783032
                     },
                     {
                         "name": "GP_Pose29",
-                        "positionOffset": 35722288,
-                        "normalOffset": 35992480
+                        "positionOffset": 37053224,
+                        "normalOffset": 37323416
                     },
                     {
                         "name": "GP_Pose30",
-                        "positionOffset": 36262672,
-                        "normalOffset": 36532864
+                        "positionOffset": 37593608,
+                        "normalOffset": 37863800
                     },
                     {
                         "name": "GP_Pose31",
-                        "positionOffset": 36803056,
-                        "normalOffset": 37073248
+                        "positionOffset": 38133992,
+                        "normalOffset": 38404184
                     }
                 ]
             },
@@ -3374,7 +3676,7 @@
                 "fps": 60.0,
                 "contact": 0.0,
                 "frames": 133,
-                "offset": 37343440,
+                "offset": 38674376,
                 "boundsMin": [
                     -0.39254504442214968,
                     -0.026049552485346795,
@@ -3389,22 +3691,22 @@
                 "morphWeights": [
                     {
                         "part": "Body",
-                        "offset": 37806280,
+                        "offset": 39137216,
                         "count": 7
                     },
                     {
                         "part": "Face",
-                        "offset": 37810004,
+                        "offset": 39140940,
                         "count": 11
                     },
                     {
                         "part": "Kit_Bottom",
-                        "offset": 37815856,
+                        "offset": 39146792,
                         "count": 32
                     },
                     {
                         "part": "Kit_Top",
-                        "offset": 37832880,
+                        "offset": 39163816,
                         "count": 32
                     }
                 ],
@@ -3418,7 +3720,7 @@
                 "fps": 59.999996185302737,
                 "contact": 1.7000000476837159,
                 "frames": 151,
-                "offset": 37849904,
+                "offset": 39180840,
                 "boundsMin": [
                     -0.7552233934402466,
                     -0.026049356907606126,
@@ -3433,22 +3735,22 @@
                 "morphWeights": [
                     {
                         "part": "Body",
-                        "offset": 38375384,
+                        "offset": 39706320,
                         "count": 7
                     },
                     {
                         "part": "Face",
-                        "offset": 38379612,
+                        "offset": 39710548,
                         "count": 11
                     },
                     {
                         "part": "Kit_Bottom",
-                        "offset": 38386256,
+                        "offset": 39717192,
                         "count": 32
                     },
                     {
                         "part": "Kit_Top",
-                        "offset": 38405584,
+                        "offset": 39736520,
                         "count": 32
                     }
                 ],
@@ -3462,7 +3764,7 @@
                 "fps": 59.999996185302737,
                 "contact": 0.0,
                 "frames": 3427,
-                "offset": 38424912,
+                "offset": 39755848,
                 "boundsMin": [
                     -0.4074796736240387,
                     -0.02605004794895649,
@@ -6905,22 +7207,22 @@
                 "morphWeights": [
                     {
                         "part": "Body",
-                        "offset": 50350872,
+                        "offset": 51681808,
                         "count": 7
                     },
                     {
                         "part": "Face",
-                        "offset": 50446828,
+                        "offset": 51777764,
                         "count": 11
                     },
                     {
                         "part": "Kit_Bottom",
-                        "offset": 50597616,
+                        "offset": 51928552,
                         "count": 32
                     },
                     {
                         "part": "Kit_Top",
-                        "offset": 51036272,
+                        "offset": 52367208,
                         "count": 32
                     }
                 ],
@@ -6934,7 +7236,7 @@
                 "fps": 59.999996185302737,
                 "contact": 0.0,
                 "frames": 2023,
-                "offset": 51474928,
+                "offset": 52805864,
                 "boundsMin": [
                     -0.4174843430519104,
                     -0.026049604639410974,
@@ -8973,22 +9275,22 @@
                 "morphWeights": [
                     {
                         "part": "Body",
-                        "offset": 58514968,
+                        "offset": 59845904,
                         "count": 7
                     },
                     {
                         "part": "Face",
-                        "offset": 58571612,
+                        "offset": 59902548,
                         "count": 11
                     },
                     {
                         "part": "Kit_Bottom",
-                        "offset": 58660624,
+                        "offset": 59991560,
                         "count": 32
                     },
                     {
                         "part": "Kit_Top",
-                        "offset": 58919568,
+                        "offset": 60250504,
                         "count": 32
                     }
                 ],
@@ -9002,7 +9304,7 @@
                 "fps": 59.999996185302737,
                 "contact": 0.0,
                 "frames": 1460,
-                "offset": 59178512,
+                "offset": 60509448,
                 "boundsMin": [
                     -0.3925449252128601,
                     -0.0260492954403162,
@@ -10478,22 +10780,22 @@
                 "morphWeights": [
                     {
                         "part": "Body",
-                        "offset": 64259312,
+                        "offset": 65590248,
                         "count": 7
                     },
                     {
                         "part": "Face",
-                        "offset": 64300192,
+                        "offset": 65631128,
                         "count": 11
                     },
                     {
                         "part": "Kit_Bottom",
-                        "offset": 64364432,
+                        "offset": 65695368,
                         "count": 32
                     },
                     {
                         "part": "Kit_Top",
-                        "offset": 64551312,
+                        "offset": 65882248,
                         "count": 32
                     }
                 ],
@@ -10507,7 +10809,7 @@
                 "fps": 60.0,
                 "contact": 0.0,
                 "frames": 351,
-                "offset": 64738192,
+                "offset": 66069128,
                 "boundsMin": [
                     -0.4762822985649109,
                     -0.026049118489027025,
@@ -10874,22 +11176,22 @@
                 "morphWeights": [
                     {
                         "part": "Body",
-                        "offset": 65959672,
+                        "offset": 67290608,
                         "count": 7
                     },
                     {
                         "part": "Face",
-                        "offset": 65969500,
+                        "offset": 67300436,
                         "count": 11
                     },
                     {
                         "part": "Kit_Bottom",
-                        "offset": 65984944,
+                        "offset": 67315880,
                         "count": 32
                     },
                     {
                         "part": "Kit_Top",
-                        "offset": 66029872,
+                        "offset": 67360808,
                         "count": 32
                     }
                 ],
@@ -10903,7 +11205,7 @@
                 "fps": 59.999996185302737,
                 "contact": 0.0,
                 "frames": 215,
-                "offset": 66074800,
+                "offset": 67405736,
                 "boundsMin": [
                     -0.39254501461982729,
                     -0.026049118489027025,
@@ -11134,22 +11436,22 @@
                 "morphWeights": [
                     {
                         "part": "Body",
-                        "offset": 66823000,
+                        "offset": 68153936,
                         "count": 7
                     },
                     {
                         "part": "Face",
-                        "offset": 66829020,
+                        "offset": 68159956,
                         "count": 11
                     },
                     {
                         "part": "Kit_Bottom",
-                        "offset": 66838480,
+                        "offset": 68169416,
                         "count": 32
                     },
                     {
                         "part": "Kit_Top",
-                        "offset": 66866000,
+                        "offset": 68196936,
                         "count": 32
                     }
                 ],
@@ -11163,7 +11465,7 @@
                 "fps": 59.999996185302737,
                 "contact": 0.0,
                 "frames": 2361,
-                "offset": 66893520,
+                "offset": 68224456,
                 "boundsMin": [
                     -0.39254528284072878,
                     -0.03921152278780937,
@@ -13540,22 +13842,22 @@
                 "morphWeights": [
                     {
                         "part": "Body",
-                        "offset": 75109800,
+                        "offset": 76440736,
                         "count": 7
                     },
                     {
                         "part": "Face",
-                        "offset": 75175908,
+                        "offset": 76506844,
                         "count": 11
                     },
                     {
                         "part": "Kit_Bottom",
-                        "offset": 75279792,
+                        "offset": 76610728,
                         "count": 32
                     },
                     {
                         "part": "Kit_Top",
-                        "offset": 75582000,
+                        "offset": 76912936,
                         "count": 32
                     }
                 ],
@@ -13569,7 +13871,7 @@
                 "fps": 60.0,
                 "contact": 0.0,
                 "frames": 241,
-                "offset": 75884208,
+                "offset": 77215144,
                 "boundsMin": [
                     -0.3925447463989258,
                     -0.02604912593960762,
@@ -13584,22 +13886,22 @@
                 "morphWeights": [
                     {
                         "part": "Body",
-                        "offset": 76722888,
+                        "offset": 78053824,
                         "count": 7
                     },
                     {
                         "part": "Face",
-                        "offset": 76729636,
+                        "offset": 78060572,
                         "count": 11
                     },
                     {
                         "part": "Kit_Bottom",
-                        "offset": 76740240,
+                        "offset": 78071176,
                         "count": 32
                     },
                     {
                         "part": "Kit_Top",
-                        "offset": 76771088,
+                        "offset": 78102024,
                         "count": 32
                     }
                 ],
@@ -13613,7 +13915,7 @@
                 "fps": 59.999996185302737,
                 "contact": 0.0,
                 "frames": 315,
-                "offset": 76801936,
+                "offset": 78132872,
                 "boundsMin": [
                     -0.4318397045135498,
                     -0.0260496586561203,
@@ -13944,22 +14246,22 @@
                 "morphWeights": [
                     {
                         "part": "Body",
-                        "offset": 77898136,
+                        "offset": 79229072,
                         "count": 7
                     },
                     {
                         "part": "Face",
-                        "offset": 77906956,
+                        "offset": 79237892,
                         "count": 11
                     },
                     {
                         "part": "Kit_Bottom",
-                        "offset": 77920816,
+                        "offset": 79251752,
                         "count": 32
                     },
                     {
                         "part": "Kit_Top",
-                        "offset": 77961136,
+                        "offset": 79292072,
                         "count": 32
                     }
                 ],
@@ -13973,7 +14275,7 @@
                 "fps": 59.999996185302737,
                 "contact": 0.0,
                 "frames": 405,
-                "offset": 78001456,
+                "offset": 79332392,
                 "boundsMin": [
                     -0.46123602986335757,
                     -0.02604948915541172,
@@ -14394,22 +14696,22 @@
                 "morphWeights": [
                     {
                         "part": "Body",
-                        "offset": 79410856,
+                        "offset": 80741792,
                         "count": 7
                     },
                     {
                         "part": "Face",
-                        "offset": 79422196,
+                        "offset": 80753132,
                         "count": 11
                     },
                     {
                         "part": "Kit_Bottom",
-                        "offset": 79440016,
+                        "offset": 80770952,
                         "count": 32
                     },
                     {
                         "part": "Kit_Top",
-                        "offset": 79491856,
+                        "offset": 80822792,
                         "count": 32
                     }
                 ],
@@ -14423,7 +14725,7 @@
                 "fps": 59.999996185302737,
                 "contact": 0.0,
                 "frames": 637,
-                "offset": 79543696,
+                "offset": 80874632,
                 "boundsMin": [
                     -0.4947298765182495,
                     -0.02605084702372551,
@@ -15076,22 +15378,22 @@
                 "morphWeights": [
                     {
                         "part": "Body",
-                        "offset": 81760456,
+                        "offset": 83091392,
                         "count": 7
                     },
                     {
                         "part": "Face",
-                        "offset": 81778292,
+                        "offset": 83109228,
                         "count": 11
                     },
                     {
                         "part": "Kit_Bottom",
-                        "offset": 81806320,
+                        "offset": 83137256,
                         "count": 32
                     },
                     {
                         "part": "Kit_Top",
-                        "offset": 81887856,
+                        "offset": 83218792,
                         "count": 32
                     }
                 ],
@@ -15105,7 +15407,7 @@
                 "fps": 59.999996185302737,
                 "contact": 0.0,
                 "frames": 234,
-                "offset": 81969392,
+                "offset": 83300328,
                 "boundsMin": [
                     -0.39278289675712588,
                     -0.026049204170703889,
@@ -15355,22 +15657,22 @@
                 "morphWeights": [
                     {
                         "part": "Body",
-                        "offset": 82783712,
+                        "offset": 84114648,
                         "count": 7
                     },
                     {
                         "part": "Face",
-                        "offset": 82790264,
+                        "offset": 84121200,
                         "count": 11
                     },
                     {
                         "part": "Kit_Bottom",
-                        "offset": 82800560,
+                        "offset": 84131496,
                         "count": 32
                     },
                     {
                         "part": "Kit_Top",
-                        "offset": 82830512,
+                        "offset": 84161448,
                         "count": 32
                     }
                 ],
@@ -15384,7 +15686,7 @@
                 "fps": 60.0,
                 "contact": 0.0,
                 "frames": 833,
-                "offset": 82860464,
+                "offset": 84191400,
                 "boundsMin": [
                     -0.6233813762664795,
                     -0.026056360453367235,
@@ -16233,22 +16535,22 @@
                 "morphWeights": [
                     {
                         "part": "Body",
-                        "offset": 85759304,
+                        "offset": 87090240,
                         "count": 7
                     },
                     {
                         "part": "Face",
-                        "offset": 85782628,
+                        "offset": 87113564,
                         "count": 11
                     },
                     {
                         "part": "Kit_Bottom",
-                        "offset": 85819280,
+                        "offset": 87150216,
                         "count": 32
                     },
                     {
                         "part": "Kit_Top",
-                        "offset": 85925904,
+                        "offset": 87256840,
                         "count": 32
                     }
                 ],
@@ -16262,7 +16564,7 @@
                 "fps": 59.999996185302737,
                 "contact": 0.0,
                 "frames": 340,
-                "offset": 86032528,
+                "offset": 87363464,
                 "boundsMin": [
                     -0.3933102786540985,
                     -0.027521975338459016,
@@ -16618,22 +16920,22 @@
                 "morphWeights": [
                     {
                         "part": "Body",
-                        "offset": 87215728,
+                        "offset": 88546664,
                         "count": 7
                     },
                     {
                         "part": "Face",
-                        "offset": 87225248,
+                        "offset": 88556184,
                         "count": 11
                     },
                     {
                         "part": "Kit_Bottom",
-                        "offset": 87240208,
+                        "offset": 88571144,
                         "count": 32
                     },
                     {
                         "part": "Kit_Top",
-                        "offset": 87283728,
+                        "offset": 88614664,
                         "count": 32
                     }
                 ],
@@ -16647,7 +16949,7 @@
                 "fps": 59.999996185302737,
                 "contact": 0.0,
                 "frames": 637,
-                "offset": 87327248,
+                "offset": 88658184,
                 "boundsMin": [
                     -0.4947298765182495,
                     -0.02605084702372551,
@@ -17300,22 +17602,22 @@
                 "morphWeights": [
                     {
                         "part": "Body",
-                        "offset": 89544008,
+                        "offset": 90874944,
                         "count": 7
                     },
                     {
                         "part": "Face",
-                        "offset": 89561844,
+                        "offset": 90892780,
                         "count": 11
                     },
                     {
                         "part": "Kit_Bottom",
-                        "offset": 89589872,
+                        "offset": 90920808,
                         "count": 32
                     },
                     {
                         "part": "Kit_Top",
-                        "offset": 89671408,
+                        "offset": 91002344,
                         "count": 32
                     }
                 ],
@@ -17329,7 +17631,7 @@
                 "fps": 59.999996185302737,
                 "contact": 0.0,
                 "frames": 315,
-                "offset": 89752944,
+                "offset": 91083880,
                 "boundsMin": [
                     -0.4318397045135498,
                     -0.0260496586561203,
@@ -17660,22 +17962,22 @@
                 "morphWeights": [
                     {
                         "part": "Body",
-                        "offset": 90849144,
+                        "offset": 92180080,
                         "count": 7
                     },
                     {
                         "part": "Face",
-                        "offset": 90857964,
+                        "offset": 92188900,
                         "count": 11
                     },
                     {
                         "part": "Kit_Bottom",
-                        "offset": 90871824,
+                        "offset": 92202760,
                         "count": 32
                     },
                     {
                         "part": "Kit_Top",
-                        "offset": 90912144,
+                        "offset": 92243080,
                         "count": 32
                     }
                 ],
@@ -17689,7 +17991,7 @@
                 "fps": 59.999996185302737,
                 "contact": 0.0,
                 "frames": 377,
-                "offset": 90952464,
+                "offset": 92283400,
                 "boundsMin": [
                     -0.42449626326560976,
                     -0.026049423962831498,
@@ -18082,22 +18384,22 @@
                 "morphWeights": [
                     {
                         "part": "Body",
-                        "offset": 92264424,
+                        "offset": 93595360,
                         "count": 7
                     },
                     {
                         "part": "Face",
-                        "offset": 92274980,
+                        "offset": 93605916,
                         "count": 11
                     },
                     {
                         "part": "Kit_Bottom",
-                        "offset": 92291568,
+                        "offset": 93622504,
                         "count": 32
                     },
                     {
                         "part": "Kit_Top",
-                        "offset": 92339824,
+                        "offset": 93670760,
                         "count": 32
                     }
                 ],
@@ -18111,7 +18413,7 @@
                 "fps": 59.999996185302737,
                 "contact": 0.0,
                 "frames": 234,
-                "offset": 92388080,
+                "offset": 93719016,
                 "boundsMin": [
                     -0.39278289675712588,
                     -0.026049204170703889,
@@ -18361,22 +18663,22 @@
                 "morphWeights": [
                     {
                         "part": "Body",
-                        "offset": 93202400,
+                        "offset": 94533336,
                         "count": 7
                     },
                     {
                         "part": "Face",
-                        "offset": 93208952,
+                        "offset": 94539888,
                         "count": 11
                     },
                     {
                         "part": "Kit_Bottom",
-                        "offset": 93219248,
+                        "offset": 94550184,
                         "count": 32
                     },
                     {
                         "part": "Kit_Top",
-                        "offset": 93249200,
+                        "offset": 94580136,
                         "count": 32
                     }
                 ],
@@ -18390,7 +18692,7 @@
                 "fps": 59.999996185302737,
                 "contact": 0.0,
                 "frames": 405,
-                "offset": 93279152,
+                "offset": 94610088,
                 "boundsMin": [
                     -0.46123602986335757,
                     -0.02604948915541172,
@@ -18811,22 +19113,22 @@
                 "morphWeights": [
                     {
                         "part": "Body",
-                        "offset": 94688552,
+                        "offset": 96019488,
                         "count": 7
                     },
                     {
                         "part": "Face",
-                        "offset": 94699892,
+                        "offset": 96030828,
                         "count": 11
                     },
                     {
                         "part": "Kit_Bottom",
-                        "offset": 94717712,
+                        "offset": 96048648,
                         "count": 32
                     },
                     {
                         "part": "Kit_Top",
-                        "offset": 94769552,
+                        "offset": 96100488,
                         "count": 32
                     }
                 ],
@@ -18840,7 +19142,7 @@
                 "fps": 60.0,
                 "contact": 0.0,
                 "frames": 833,
-                "offset": 94821392,
+                "offset": 96152328,
                 "boundsMin": [
                     -0.6233813762664795,
                     -0.026056360453367235,
@@ -19689,22 +19991,22 @@
                 "morphWeights": [
                     {
                         "part": "Body",
-                        "offset": 97720232,
+                        "offset": 99051168,
                         "count": 7
                     },
                     {
                         "part": "Face",
-                        "offset": 97743556,
+                        "offset": 99074492,
                         "count": 11
                     },
                     {
                         "part": "Kit_Bottom",
-                        "offset": 97780208,
+                        "offset": 99111144,
                         "count": 32
                     },
                     {
                         "part": "Kit_Top",
-                        "offset": 97886832,
+                        "offset": 99217768,
                         "count": 32
                     }
                 ],
@@ -19718,7 +20020,7 @@
                 "fps": 59.999996185302737,
                 "contact": 0.0,
                 "frames": 340,
-                "offset": 97993456,
+                "offset": 99324392,
                 "boundsMin": [
                     -0.3933102786540985,
                     -0.027521975338459016,
@@ -20074,22 +20376,22 @@
                 "morphWeights": [
                     {
                         "part": "Body",
-                        "offset": 99176656,
+                        "offset": 100507592,
                         "count": 7
                     },
                     {
                         "part": "Face",
-                        "offset": 99186176,
+                        "offset": 100517112,
                         "count": 11
                     },
                     {
                         "part": "Kit_Bottom",
-                        "offset": 99201136,
+                        "offset": 100532072,
                         "count": 32
                     },
                     {
                         "part": "Kit_Top",
-                        "offset": 99244656,
+                        "offset": 100575592,
                         "count": 32
                     }
                 ],
@@ -20103,7 +20405,7 @@
                 "fps": 59.999996185302737,
                 "contact": 0.6666666865348816,
                 "frames": 620,
-                "offset": 99288176,
+                "offset": 100619112,
                 "boundsMin": [
                     -0.8363170027732849,
                     -0.02650231122970581,
@@ -20739,22 +21041,22 @@
                 "morphWeights": [
                     {
                         "part": "Body",
-                        "offset": 101445776,
+                        "offset": 102776712,
                         "count": 7
                     },
                     {
                         "part": "Face",
-                        "offset": 101463136,
+                        "offset": 102794072,
                         "count": 11
                     },
                     {
                         "part": "Kit_Bottom",
-                        "offset": 101490416,
+                        "offset": 102821352,
                         "count": 32
                     },
                     {
                         "part": "Kit_Top",
-                        "offset": 101569776,
+                        "offset": 102900712,
                         "count": 32
                     }
                 ],
@@ -20768,14 +21070,14 @@
                 "fps": 14.94252872467041,
                 "contact": 0.0,
                 "frames": 131,
-                "offset": 101649136,
+                "offset": 102980072,
                 "boundsMin": [
-                    -0.242069274187088,
+                    -0.29118940234184267,
                     -0.04659869894385338,
-                    -0.2292751520872116
+                    -0.37218931317329409
                 ],
                 "boundsMax": [
-                    0.38415682315826418,
+                    0.29855766892433169,
                     1.7200490236282349,
                     0.497703492641449
                 ],
@@ -20783,22 +21085,22 @@
                 "morphWeights": [
                     {
                         "part": "Body",
-                        "offset": 102105016,
+                        "offset": 103435952,
                         "count": 7
                     },
                     {
                         "part": "Face",
-                        "offset": 102108684,
+                        "offset": 103439620,
                         "count": 11
                     },
                     {
                         "part": "Kit_Bottom",
-                        "offset": 102114448,
+                        "offset": 103445384,
                         "count": 32
                     },
                     {
                         "part": "Kit_Top",
-                        "offset": 102131216,
+                        "offset": 103462152,
                         "count": 32
                     }
                 ],

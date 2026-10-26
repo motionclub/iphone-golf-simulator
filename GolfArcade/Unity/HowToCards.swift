@@ -32,12 +32,12 @@ enum HowTo {
     static let swing = HowToCard(id: "swing", title: "Forehand", steps: [
         "Your player runs to the ball, and sprints on its own for a hard one.",
         "Swing as the ball rises to the top of its bounce.",
-        "Timing aims the ball: a touch early goes left, right on the ball goes straight, a touch late goes right.",
+        "The ball goes where you swing: face the racket left, straight or right as you hit. Timing sets the pace.",
     ], art: .swing)
     static let backhand = HowToCard(id: "backhand", title: "Backhand", steps: [
         "Ball on your other side? Turn the phone so the camera faces the TV.",
         "Swing across your body — the game picks the side from where the ball is.",
-        "Clean contact beats a harder swing: the ball flies faster off the sweet spot.",
+        "Timing beats a harder swing: right on the ball flies fastest.",
     ], art: .backhand)
     static let serve = HowToCard(id: "serve", title: "Serve", steps: [
         "Press TOSS as the meter crosses the middle — green is a perfect toss.",
@@ -55,7 +55,7 @@ enum HowTo {
 
 // MARK: - Loading tips
 
-/// One tip for the loading screen. `kind` is its label ("Technique", "Setup"…).
+/// One tip for the loading screen. `kind` is its topic ("Technique", "Setup"…), `title` the card's headline.
 struct GameTip: Equatable {
     enum Kind: String {
         case technique, strategy, setup, party
@@ -64,6 +64,7 @@ struct GameTip: Equatable {
         }
     }
     let kind: Kind
+    let title: String
     let text: String
 }
 
@@ -71,74 +72,91 @@ struct GameTip: Equatable {
 /// distance in golf comes from the length of the backswing (speed only has to be committed),
 /// and tennis shot quality is mostly timing.
 enum GameTips {
-    static func tips(for sport: Sport) -> [GameTip] { sport == .golf ? golf : tennis }
+    static func tips(for sport: Sport) -> [GameTip] {
+        switch sport { case .golf: golf; case .bowling: bowling; default: tennis }
+    }
     /// Any index; it wraps, so a caller can keep counting.
     static func tip(_ sport: Sport, at index: Int) -> GameTip {
         let all = tips(for: sport)
         return all[((index % all.count) + all.count) % all.count]
     }
 
-    private static func t(_ kind: GameTip.Kind, _ text: String) -> GameTip { GameTip(kind: kind, text: text) }
+    private static func t(_ kind: GameTip.Kind, _ title: String, _ text: String) -> GameTip { GameTip(kind: kind, title: title, text: text) }
 
     static let golf: [GameTip] = [
-        t(.technique, "How far back you take the phone sets the distance: hip-high is about 60%, up behind you is full power."),
-        t(.technique, "You don't have to swing hard. A smooth, committed swing through the ball carries full distance."),
-        t(.technique, "Tap the swing button and swing: it starts at once, from wherever you are holding the phone. Tap it again to cancel."),
-        t(.technique, "Tap the button again, or stop short on the way through, and the swing resets with no stroke lost. Tap it and go again."),
-        t(.technique, "Twisting the phone open or closed bends the ball: open slices right, closed hooks left."),
-        t(.technique, "Keep the phone's face square. A twist of more than about 10° starts to curve the shot."),
-        t(.technique, "Smooth tempo, a square face and a committed swing together earn a PERFECT strike."),
-        t(.technique, "A tentative downswing is graded THIN and flies low. Take it back, then go through."),
-        t(.technique, "Touching the aim pad or club arrows after you tap resets the swing. Line up first, then tap the button."),
-        t(.technique, "Putting uses tiny strokes. A 3-foot putt is only about a fifth of a full putting stroke."),
-        t(.strategy, "Check the wind arrow and MPH badge before you pick a club, and aim off for a strong crosswind."),
-        t(.strategy, "Water and lava cost a stroke. Play short of trouble with a safer club."),
-        t(.strategy, "Out of bounds costs a stroke and you replay from the same spot. Aim away from the edges."),
-        t(.strategy, "Bunkers rob most clubs of about 40% of their speed. Take a wedge and just get out."),
-        t(.strategy, "Rough takes 10–15% off your swing. Take one more club than the yardage says."),
-        t(.strategy, "Full-swing yards: Driver 240, Hybrid 190, 5 Iron 175, 7 Iron 150, 9 Iron 125, Pitching Wedge 100."),
-        t(.strategy, "On the green, the beads on the slope grid drift the way the ball will break. Read them before you putt."),
-        t(.strategy, "Frozen lakes are slick. A ball landing on the ice keeps skidding, so land short of it."),
-        t(.strategy, "Trees, rocks, walls and windmill blades knock the ball. Aim to miss them."),
-        t(.setup, "Clear a full swing's room around you, and keep the phone in a firm grip."),
-        t(.setup, "Any grip works in golf. Tapping the swing button learns how you hold the phone, so pick a stance that's comfortable."),
-        t(.setup, "Mirror your phone first: Control Center → Screen Mirroring, then pick your TV or Mac."),
-        t(.setup, "Playing on a Mac? Turn on AirPlay Receiver in System Settings → General → AirDrop & Handoff."),
-        t(.setup, "No room to swing? Settings → Controls → Touch plays with a power slider instead."),
-        t(.party, "In party golf, everyone tees off first. After that, whoever is farthest from the hole plays next."),
-        t(.party, "A party turn left idle for 60 seconds costs a stroke, so keep the phone ready."),
-        t(.party, "Waiting for your turn? Tap an emote to react while a friend's shot is in the air."),
+        t(.technique, "Backswing sets distance", "How far back you take the phone sets the distance: hip-high is about 60%, up behind you is full power."),
+        t(.technique, "Smooth beats hard", "You don't have to swing hard. A smooth, committed swing through the ball carries full distance."),
+        t(.technique, "Tap, then swing", "Tap the swing button and swing: it starts at once, from wherever you are holding the phone. Tap it again to cancel."),
+        t(.technique, "Free do-overs", "Tap the button again, or stop short on the way through, and the swing resets with no stroke lost. Tap it and go again."),
+        t(.technique, "Shape your shot", "Twisting the phone open or closed bends the ball: open slices right, closed hooks left."),
+        t(.technique, "Square the face", "Keep the phone's face square. A twist of more than about 10° starts to curve the shot."),
+        t(.technique, "Smooth tempo", "Smooth tempo, a square face and a committed swing together earn a PERFECT strike."),
+        t(.technique, "Commit to it", "A tentative downswing is graded THIN and flies low. Take it back, then go through."),
+        t(.technique, "Line up first", "Touching the aim pad or club arrows after you tap resets the swing. Line up first, then tap the button."),
+        t(.technique, "Tiny putts", "Putting uses tiny strokes. A 3-foot putt is only about a fifth of a full putting stroke."),
+        t(.strategy, "Read the wind", "Check the wind arrow and MPH badge before you pick a club, and aim off for a strong crosswind."),
+        t(.strategy, "Play it safe", "Water and lava cost a stroke. Play short of trouble with a safer club."),
+        t(.strategy, "Stay in bounds", "Out of bounds costs a stroke and you replay from the same spot. Aim away from the edges."),
+        t(.strategy, "Escape the sand", "Bunkers rob most clubs of about 40% of their speed. Take a wedge and just get out."),
+        t(.strategy, "Club up in the rough", "Rough takes 10–15% off your swing. Take one more club than the yardage says."),
+        t(.strategy, "Know your clubs", "Full-swing yards: Driver 240, Hybrid 190, 5 Iron 175, 7 Iron 150, 9 Iron 125, Pitching Wedge 100."),
+        t(.strategy, "Read the break", "On the green, the beads on the slope grid drift the way the ball will break. Read them before you putt."),
+        t(.strategy, "Mind the ice", "Frozen lakes are slick. A ball landing on the ice keeps skidding, so land short of it."),
+        t(.strategy, "Avoid obstacles", "Trees, rocks, walls and windmill blades knock the ball. Aim to miss them."),
+        t(.setup, "Give yourself room", "Clear a full swing's room around you, and keep the phone in a firm grip."),
+        t(.setup, "Any grip works", "Any grip works in golf. Tapping the swing button learns how you hold the phone, so pick a stance that's comfortable."),
+        t(.setup, "Get on the TV", "Mirror your phone first: Control Center → Screen Mirroring, then pick your TV or Mac."),
+        t(.setup, "Play on a Mac", "Playing on a Mac? Turn on AirPlay Receiver in System Settings → General → AirDrop & Handoff."),
+        t(.party, "Who plays next", "In party golf, everyone tees off first. After that, whoever is farthest from the hole plays next."),
+        t(.party, "Stay ready", "A party turn left idle for 60 seconds costs a stroke, so keep the phone ready."),
+        t(.party, "React with emotes", "Waiting for your turn? Tap an emote to react while a friend's shot is in the air."),
+    ]
+
+    /// Bowling (PLAN_Bowling.md §4): the bowler walks a fixed four-step approach; the swing makes power, the release against the
+    /// slide step makes control, and a wrist turn at release makes the hook.
+    static let bowling: [GameTip] = [
+        t(.technique, "Hold, then swing", "Press and hold the ball, then swing your arm with the bowler's steps. Your swing makes the power."),
+        t(.technique, "Let go at the slide", "Let go just after the slide foot lands, as the ball passes the ankle. That's a PERFECT release."),
+        t(.technique, "Add some hook", "Turn your wrist into a handshake as you let go to curve the ball into the pocket."),
+        t(.technique, "Straight is fine", "No wrist turn rolls the ball straight. Turn the other way for a backup ball."),
+        t(.technique, "Feel the rhythm", "Your phone ticks on every step. Count along and release on the fourth."),
+        t(.technique, "Don't hang on", "Hold past the slide and you cross the foul line. A foul counts zero pins."),
+        t(.technique, "Not too early", "Let go during the backswing and the ball drops behind you. That ball counts zero."),
+        t(.strategy, "Hit the pocket", "Aim between the 1 and 3 pins (1 and 2 if you bowl left-handed). A hook carries more pins there."),
+        t(.strategy, "Pick up spares", "Move along the approach to line up with the pins left standing before you throw again."),
+        t(.setup, "Give yourself room", "Clear some space around you and keep a firm grip on the controller."),
+        t(.party, "Pass the phone", "Taking turns? Pass the phone between frames, after the ball comes back."),
     ]
 
     static let tennis: [GameTip] = [
-        t(.technique, "Swing as the rings close on the ball. Shot quality is mostly timing, not effort."),
-        t(.technique, "Swing effort barely changes the pace. A smooth swing on time beats a hard swing that's late."),
-        t(.technique, "The TV shows STRAIGHT, EARLY · LEFT or LATE · RIGHT after each hit. Use it to place your next ball."),
-        t(.technique, "Swinging LATE every time? Keep playing: the game learns your lag in three or four swings."),
-        t(.technique, "Timing aims the ball, like Wii Tennis: swing a touch early to go left, on the ball to go straight, a touch late to go right."),
-        t(.technique, "Swing power picks the depth: a smooth swing lands shorter, a full swing sends the ball deep."),
-        t(.technique, "The side the ball is on picks forehand or backhand, so you don't need to flip your grip."),
-        t(.technique, "A low, flat swing slices. A swing with lift hits topspin."),
-        t(.technique, "Three GREAT hits in a row charge a SUPERCHARGED shot: faster and almost dead accurate."),
-        t(.technique, "Serving: tap TOSS exactly as the meter's ticker crosses the middle. Off-centre tosses scatter the ball."),
-        t(.technique, "After the toss, swing as the power bar peaks. Swinging too early or too late is a fault."),
-        t(.strategy, "Your player runs for you, and sprints on its own for a ball that is hard to reach."),
-        t(.strategy, "Standing still on a wide ball usually hands your opponent the point. Move early."),
-        t(.strategy, "Dive saves a wide ball but costs stamina and needs a couple of seconds to recharge. Use it as a last resort."),
-        t(.strategy, "Stamina drains while you sprint and refills when you stand still. Recover between points."),
-        t(.strategy, "Deep balls push your opponent back; short balls invite an attack."),
-        t(.strategy, "Stronger rivals hunt your weaker side. Mix up your shots."),
-        t(.strategy, "Get back toward the middle of the court after every shot."),
-        t(.strategy, "Aiming at the lines with a loose toss can land long or wide. A second fault loses the point."),
-        t(.strategy, "Win a point? Tap an emote on your phone to celebrate."),
-        t(.setup, "For the court scan, stand about 2.5 m from the screen with the rear camera pointing at it."),
-        t(.setup, "Blank walls or a covered lens can stop tracking. Keep the rear camera clear and the room lit."),
-        t(.setup, "TV picture delayed? Turn on your TV's Game Mode, then run Settings → Controls → Swing timing check."),
-        t(.setup, "Moved the TV? Settings → Controls → Court direction → Set again."),
-        t(.setup, "Left-handed? Set Plays to Left in Settings → Controls."),
-        t(.setup, "TV cropping the picture? Settings → Display → Screen edge margin pulls it back in."),
-        t(.setup, "Keep your phone unlocked and in your hand. It is your racket."),
-        t(.setup, "To pause during a point, hold the pause icon for about half a second."),
+        t(.technique, "Time it with the rings", "Swing as the rings close on the ball. Shot quality is mostly timing, not effort."),
+        t(.technique, "On time beats hard", "Swing effort barely changes the pace. A smooth swing on time beats a hard swing that's late."),
+        t(.technique, "Early or late?", "The TV shows EARLY or LATE after a mistimed hit, and its speed. Right on the ball is your fastest shot."),
+        t(.technique, "It learns your lag", "Swinging LATE every time? Keep playing: the game learns your lag in three or four swings."),
+        t(.technique, "Aim with your swing", "The ball goes where you swing: finish with the racket face toward the left, middle or right of the screen."),
+        t(.technique, "Hit it deep", "Timing picks the depth too: on the ball lands deep, a mistimed swing sits up short for your opponent."),
+        t(.technique, "No grip change", "The side the ball is on picks forehand or backhand, so you don't need to flip your grip."),
+        t(.technique, "Add topspin", "A low, flat swing slices. A swing with lift hits topspin."),
+        t(.technique, "Supercharge it", "Three GREAT hits in a row charge a SUPERCHARGED shot: faster and almost dead accurate."),
+        t(.technique, "Toss it true", "Serving: tap TOSS exactly as the meter's ticker crosses the middle. Off-centre tosses scatter the ball."),
+        t(.technique, "Serve at the peak", "After the toss, swing as the power bar peaks. Swinging too early or too late is a fault."),
+        t(.strategy, "Auto-run", "Your player runs for you, and sprints on its own for a ball that is hard to reach."),
+        t(.strategy, "Move early", "Standing still on a wide ball usually hands your opponent the point. Move early."),
+        t(.strategy, "Dive as a last resort", "Dive saves a wide ball but costs stamina and needs a couple of seconds to recharge. Use it as a last resort."),
+        t(.strategy, "Save your stamina", "Stamina drains while you sprint and refills when you stand still. Recover between points."),
+        t(.strategy, "Push them back", "Deep balls push your opponent back; short balls invite an attack."),
+        t(.strategy, "Mix it up", "Stronger rivals hunt your weaker side. Mix up your shots."),
+        t(.strategy, "Recover to the middle", "Get back toward the middle of the court after every shot."),
+        t(.strategy, "Careful on the lines", "Aiming at the lines with a loose toss can land long or wide. A second fault loses the point."),
+        t(.strategy, "Celebrate", "Win a point? Tap an emote on your phone to celebrate."),
+        t(.setup, "Court scan", "For the court scan, stand about 2.5 m from the screen with the rear camera pointing at it."),
+        t(.setup, "Keep tracking clear", "Blank walls or a covered lens can stop tracking. Keep the rear camera clear and the room lit."),
+        t(.setup, "Fix TV delay", "TV picture delayed? Turn on your TV's Game Mode, then run Settings → Controls → Swing timing check."),
+        t(.setup, "Moved the TV?", "Moved the TV? Settings → Controls → Court direction → Set again."),
+        t(.setup, "Lefty?", "Left-handed? Set Plays to Left in Settings → Controls."),
+        t(.setup, "Fit the screen", "TV cropping the picture? Settings → Display → Screen edge margin pulls it back in."),
+        t(.setup, "Phone = racket", "Keep your phone unlocked and in your hand. It is your racket."),
+        t(.setup, "Pausing", "To pause during a point, hold the pause icon for about half a second."),
     ]
 }
 
@@ -221,9 +239,8 @@ extension HowTo {
             "Putts use tiny strokes. Distance grows with the square of your backswing, so a 3-foot putt is only about a fifth of a full stroke.",
             "There is no curve on a putt, so keep the face quiet and the stroke smooth.",
         ], art: .golfAim, icon: "scope"),
-        HowToCard(id: "gg-touch", title: "Touch controls and party golf", steps: [
-            "No room to swing? In Settings → Controls (or the pause menu) choose Touch. Tap the middle of the aim pad, set SWING POWER and tap SWING. Touch shots grade up to GREAT.",
-            "Party golf takes 2–4 players: Pass the Phone on one phone, Nearby on the same Wi-Fi, or Online with Game Center.",
+        HowToCard(id: "gg-party", title: "Party golf", steps: [
+            "Party golf takes 2–4 players: Pass the Phone on one phone, Nearby with phones in the same room, or Online with Game Center.",
             "Everyone tees off first. After that, whoever is farthest from the hole plays. An idle turn costs a stroke after 60 seconds.",
             "While a friend's shot is in the air, tap an emote to react.",
         ], art: .golfClubs, icon: "person.3.fill"),
@@ -236,7 +253,7 @@ extension HowTo {
             "Practice first with Coach Ray's tutorial: forehand, backhand, aim, serve, then a point.",
         ], art: .swing, icon: "sportscourt.fill"),
         HowToCard(id: "tg-move", title: "Moving", steps: [
-            "Your player runs to the ball for you, and sprints on its own for a hard one. In touch mode, steering toward the ball early gets a faster jump.",
+            "Your player runs to the ball for you, and sprints on its own for a hard one.",
             "Standing still on a wide shot usually hands your opponent the point.",
             "Sprinting drains stamina, and tired legs run slower. Stamina refills when you stand still and resets each point.",
             "Settings → Controls → Step to cross court sets how far you walk for the full width of the court.",
@@ -244,14 +261,13 @@ extension HowTo {
         HowToCard(id: "tg-hit", title: "Hitting the ball", steps: [
             "Swing as the rings close on the ball, after it bounces. Timing is most of shot quality.",
             "Swinging harder barely changes the pace. A smooth swing on time beats a hard one that's late.",
-            "The TV shows STRAIGHT, EARLY · LEFT or LATE · RIGHT after each hit. If your timing always runs late, keep playing: the game adapts in a few swings.",
+            "The TV shows EARLY or LATE after a mistimed hit, with the ball's speed. Swung too soon? Your player holds the racket back and still hits it, just slower.",
             "The side the ball is on picks forehand or backhand. Your grip only matters for balls right at your body.",
         ], art: .swing, icon: "figure.tennis"),
         HowToCard(id: "tg-aim", title: "Aim and depth", steps: [
-            "Timing aims the ball, like Wii Tennis: swing a touch early to send it left, right on the ball to send it straight, a touch late to send it right.",
-            "There is a wide flat middle, so straight is easy to find. The earlier or later you swing, the wider the angle.",
-            "Swing power picks the depth: a smooth swing lands shorter, a full swing sends the ball deep and pushes your opponent back.",
-            "Touch controls keep the aim pad: drag it to choose the side and the depth.",
+            "The ball goes where you swing: finish with the racket face toward the left of the screen, square to it, or toward the right.",
+            "There is a wide straight middle, so a normal swing goes straight. Turn further for a sharper angle.",
+            "Timing sets pace and depth: right on the ball is a fast, deep drive; mistimed is a slow ball that lands short.",
             "A low, flat swing slices the ball. A swing with lift hits topspin.",
         ], art: .backhand, icon: "arrow.left.and.right"),
         HowToCard(id: "tg-serve", title: "Serving", steps: [
@@ -284,7 +300,7 @@ extension HowTo {
         HowToCard(id: "sg-permissions", title: "Permissions", steps: [
             "Motion: lets the phone read your swings in both games.",
             "Camera: used by tennis only, to track where the phone is. Images are processed on your phone and are not recorded or uploaded.",
-            "Online play needs a Game Center sign-in. Nearby play needs the same Wi-Fi network as your friends.",
+            "Online play needs a Game Center sign-in. Nearby play needs your friends' phones in the same room (no shared Wi-Fi needed).",
         ], art: .mirror, icon: "camera.fill"),
         HowToCard(id: "sg-fix", title: "Fixing common problems", steps: [
             "Golf swing not registering? Tap the swing button first, settle the phone in your stance, and don't touch the aim pad or club arrows after you tap.",
@@ -295,7 +311,7 @@ extension HowTo {
         ], art: .mirror, icon: "wrench.and.screwdriver.fill"),
         HowToCard(id: "sg-friends", title: "Playing with friends", steps: [
             "Pass the Phone: 2–4 players share one phone and one screen.",
-            "Nearby: friends on the same Wi-Fi, each with their own phone. Online: Quick Match or Play with Friends through Game Center.",
+            "Nearby: friends in the same room, each with their own phone. Online: Quick Match or Play with Friends through Game Center.",
             "Golf has up to 4 players and tennis has 2. A lobby holds up to 4 people including spectators.",
         ], art: .mirror, icon: "person.3.fill"),
     ]
@@ -332,7 +348,7 @@ extension HowTo {
 enum GolfLesson {
     static let cards = [
         HowToCard(id: "g-stance", title: "Set up", steps: [
-            "Hold the phone like a club grip, or use touch controls — we’ll practice, aim, then play a friendly hole.",
+            "Hold the phone like a club grip — we’ll practice, aim, then play a friendly hole.",
         ], art: .golfStance),
     ]
 }

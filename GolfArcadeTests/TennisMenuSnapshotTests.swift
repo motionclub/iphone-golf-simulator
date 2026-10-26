@@ -11,17 +11,17 @@ final class TennisMenuSnapshotTests: XCTestCase {
     /// Native production setup screens with explicit fixture sensor/network state. Physical sensors are checked on devices.
     func testOnlineCalibrationScreensAndFlow() async throws {
         let session = SportsSession.shared, service = MultiplayerService.shared
-        let active = session.active, ready = session.ready, paused = session.paused, touch = session.touch
+        let active = session.active, ready = session.ready, paused = session.paused
         let sport = session.sport, stage = session.setupStage, gate = session.axisGate
         defer {
             session.debugSetOnlineMatch(nil); service.leave()
-            session.active = active; session.ready = ready; session.paused = paused; session.touch = touch
+            session.active = active; session.ready = ready; session.paused = paused; session.motion.fixtureSensors = false
             session.sport = sport; session.setupStage = stage; session.axisGate = gate; session.setupProblem = ""
             session.loading.cancel()
         }
         try service.enableMock(count: 2, player: Player(name: "You", colorIndex: 0))
         service.mockState(phase: .loading)
-        session.active = true; session.ready = false; session.paused = true; session.touch = false
+        session.active = true; session.ready = false; session.paused = true
         session.sport = "tennis"; session.debugSetOnlineMatch("ui-proof", seat: 0)
         session.loading.begin(now: LoadingModel.clockNow, multiplayer: true)
         session.setupStage = .scan; session.axisGate = SportsAxisGate()
@@ -41,9 +41,9 @@ final class TennisMenuSnapshotTests: XCTestCase {
         try await capture(TennisRacketController(session: session).environment(\.dynamicTypeSize, .xxxLarge), "online-setup-recovery-large-text", CGSize(width: 375, height: 812))
         session.setupStage = .ready; session.setupProblem = ""
         try await capture(TennisRacketController(session: session), "online-setup-ready-phone", phone)
-        session.touch = true; session.readyToPlay()
+        session.motion.fixtureSensors = true; session.readyToPlay()
         XCTAssertEqual(session.setupStage, .waiting)
-        session.touch = false
+        session.motion.fixtureSensors = false
         try await capture(TennisRacketController(session: session), "online-setup-waiting-phone", phone)
         service.mockStartCountdown()
         try await capture(TennisRacketController(session: session), "online-setup-countdown-phone", phone)
@@ -430,7 +430,7 @@ final class TennisMenuSnapshotTests: XCTestCase {
         let session = SportsSession.shared
         let savedChoice = session.ultimateChoice
         defer { session.loadoutLocked = false; session.chooseUltimate(savedChoice) }
-        session.sport = "tennis"; session.ready = true; session.touch = true; session.paused = true
+        session.sport = "tennis"; session.ready = true; session.paused = true
         session.finishedMatch = nil; session.loadoutLocked = false
         defer { session.ready = false; session.paused = true; session.loadoutLocked = false; session.canDive = false; session.canArmUltimate = false }
         session.chooseUltimate(.curveball)
@@ -495,7 +495,7 @@ final class TennisMenuSnapshotTests: XCTestCase {
         try save(TennisTVRoot(), "tv-campaign-final", tv)
 
         let session = SportsSession.shared
-        session.ready = true; session.touch = true; session.paused = false; session.opponentName = "Suki"
+        session.ready = true; session.paused = false; session.opponentName = "Suki"
         session.score = TennisScore(line: "2,1,GAMES 2–1 · 30–15 · YOUR SERVE")
         session.contacts = ["0.1,0.05,5,0", "-0.4,0.3,3,0", "0.6,-0.5,1,0", "0.0,-0.1,4,0", "0.2,0.2,5,1"].compactMap(TennisContact.init(line:))
         try save(TennisRacketController(session: session), "phone-racket", phone)

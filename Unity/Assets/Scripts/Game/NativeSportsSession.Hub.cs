@@ -32,6 +32,9 @@ namespace GolfArcade.Game
             // a bay load was cancelled (standing up): the plaza never left, so take it over instead of reloading it
             var existing = adoptable; adoptable = null;
             if (existing && existing.Initialized && existing.gameObject.activeInHierarchy) { StopAllCoroutines(); loading = false; StartCoroutine(AdoptHub(m, existing)); return; }
+            // a newer plaza start while an older one is still loading (the phone moved the plaza to a TV that just connected):
+            // the newer one wins. Dropping it left that boot waiting until the player tapped Try again.
+            if (loading && hubMode) { StopAllCoroutines(); loading = false; }
             if (loading) return;
             StartCoroutine(LoadHub(m));
         }

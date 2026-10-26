@@ -22,7 +22,7 @@ import UserNotifications
         service.setScreen(SportsSession.shared.displayConnected)
         try await service.joinParty(over: transport, host: host)
     }
-    func leaveLobby() { if service.isParty { service.leave() } }
+    func leaveLobby() { service.forgetParty(); if service.isParty { service.leave() } }
 }
 
 extension ClubHub {
@@ -32,7 +32,8 @@ extension ClubHub {
             let hub = HubSession.shared
             return ClubHubContext(background: UIApplication.shared.applicationState != .active,
                                   inMatch: SportsSession.shared.active,
-                                  busyLoading: hub.phase == .booting || hub.arriving)
+                                  busyLoading: hub.phase == .booting || hub.arriving,
+                                  onboarding: OnboardingFlow.shared.holdsMenu)
         }
         playerName = { TennisMenu.shared.player?.name ?? "Player" }
         tvToast = { HubSession.shared.toast($0) }
@@ -45,32 +46,35 @@ extension ClubHub {
             let gameID = (ClubHub.shared.source as? GameKitFriendsSource)?.player(id)?.gamePlayerID
             return service.isParty && service.lobby?.participants.contains { $0.id == id || $0.id == gameID } == true
         }
-        nativeCancel = { MultiplayerService.shared.cancelSearch() }
+        nativeCancel = { MultiplayerService.shared.cancelGameCenterJoin() }
+        nativeCancelInvite = { id in
+            if let player = (ClubHub.shared.source as? GameKitFriendsSource)?.player(id) { MultiplayerService.shared.cancelGameCenterInvite(player) }
+        }
         nativeAccept = { try await MultiplayerService.shared.acceptGameCenterInvitation($0) }
         nativeDecline = { MultiplayerService.shared.declineGameCenterInvitation($0) }
         nativeRefresh = { await MultiplayerService.shared.refreshGameCenterInvitations() }
         autoOpenLobby = true
+        isRejoin = { $0.rejoin == true && MultiplayerService.shared.lastPartyLeader == $0.from.id }
+        cloud.me = { GKLocalPlayer.local.isAuthenticated ? (GKLocalPlayer.local.teamPlayerID, GKLocalPlayer.local.gamePlayerID, GKLocalPlayer.local.displayName) : nil }
+        cloud.presence = { ClubHub.shared.currentPresence() }
+        cloud.hostParty = { MultiplayerService.shared.cloudHostParty() }
+        cloud.bringIn = { try await MultiplayerService.shared.letIn($0, group: $1, players: $2) }
+        cloud.connect = { try await MultiplayerService.shared.joinGroup(host: $0, group: $1, players: $2) }
+        cloud.canJoinNow = { ClubHub.shared.canJoinNow }
+        cloud.isFriend = { id in ClubHub.shared.friends.contains { $0.id == id } }
+        cloud.say = { ClubHub.shared.say($0) }
+        cloud.joined = { name in ClubHub.shared.say("\(name) joined your party!"); HubSession.shared.toast("\(name) joined your party!") }
+        forgetParty = { MultiplayerService.shared.forgetParty() }
         nativeInvite = { id in
             guard let player = (ClubHub.shared.source as? GameKitFriendsSource)?.player(id) else {
                 throw MultiplayerError.unavailable("Refresh your Game Center friends list and try again.")
             }
-            try await MultiplayerService.shared.inviteGameCenterFriends([player])
+            TennisMenu.shared.online.identity(TennisMenu.shared)
+            MultiplayerService.shared.setScreen(SportsSession.shared.displayConnected)
+            try await MultiplayerService.shared.inviteGameCenterFriend(player)
         }
         ClubPush.registerIfAuthorized()
         ClubSignIn.start()
-    }
-}
-
-extension ClubHub {
-    /// Friends picked in Apple's Games app, which opened this game to play with them: the same invitation as the Friends list's.
-    func inviteFromGameCenter(_ players: [GKPlayer]) {
-        guard !players.isEmpty else { return }
-        say("Inviting \(players.map(\.displayName).joined(separator: ", "))…")
-        Task { @MainActor in
-            do { try await MultiplayerService.shared.inviteGameCenterFriends(players) }
-            catch where !(error is CancellationError) { say(error.localizedDescription) }
-            catch {}
-        }
     }
 }
 
@@ -106,12 +110,7 @@ extension ClubHub {
     static func signIn() {
         if pendingController != nil { presentPending(); return }
         Task { @MainActor in
-            do { try await MultiplayerService.shared.authenticate { vc in GameKitFriendsSource.topViewController()?.present(vc, animated: true) } }
-            catch {
-                // After a few dismissed sign-in sheets iOS stops offering one to the game: Settings is the only way in then.
-                ClubHub.shared.say((error as NSError).domain == GKErrorDomain && (error as NSError).code == GKError.Code.cancelled.rawValue
-                    ? "Sign in to Game Center in Settings › Game Center, then come back here." : error.localizedDescription)
-            }
+            try? await MultiplayerService.shared.authenticate { vc in GameKitFriendsSource.topViewController()?.present(vc, animated: true) }
             await ClubHub.shared.refresh()
         }
     }
@@ -178,9 +177,24 @@ enum ClubPush {
 /// Foreground: the in-game banner shows instead of the system one. Tapped, or Join / Not now chosen: the hub answers.
 final class ClubNotificationDelegate: NSObject, UNUserNotificationCenterDelegate, @unchecked Sendable {
     static let shared = ClubNotificationDelegate()
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions { [] }
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
+        // in the game: our own banner shows instead; a knock or an invite is picked up now rather than at the next check
+        if ClubPush.cloudInvite(from: notification.request.content.userInfo) != nil {
+            await ClubHub.shared.cloud.tick(); await MultiplayerService.shared.refreshGameCenterInvitations()
+        }
+        return []
+    }
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
-        guard let invite = ClubPush.invite(from: response.notification.request.content.userInfo) else { return }
+        let info = response.notification.request.content.userInfo
+        if let cloud = ClubPush.cloudInvite(from: info) {
+            let accept: Bool? = response.actionIdentifier == ClubPush.declineAction ? false : true
+            await MainActor.run {
+                if let invite = cloud.invite { ClubHub.shared.notification(invite: invite, accept: accept) }
+                else { Task { await ClubHub.shared.cloud.tick() } }
+            }
+            return
+        }
+        guard let invite = ClubPush.invite(from: info) else { return }
         let accept: Bool? = switch response.actionIdentifier {
         case ClubPush.joinAction: true
         case ClubPush.declineAction: false

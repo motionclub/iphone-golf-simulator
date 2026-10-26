@@ -15,6 +15,9 @@ namespace GolfArcade.Hub
     {
         public MatchHeroLook look;
         public float walkClipSpeed = 1.25f, runClipSpeed = 3.25f;
+        /// Clips run on game time instead of unscaled time (bowling: its proof films step a fixed capture clock;
+        /// the plaza keeps unscaled time because a match loading behind it pauses Time.timeScale).
+        public bool GameTime;
         /// Planted-foot speeds of the standard Walk / Run cycles at 1x (work/emote-standard/scripts/gait.py: 2 x 0.64 m per 1.067 s, 2 x 1.167 m per 0.667 s).
         public const float StandardWalkSpeed = 1.2f, StandardRunSpeed = 3.5f;
         /// Ground speeds where the legs hand over from the walk to the run (both clips at their matched rate in between).
@@ -45,6 +48,10 @@ namespace GolfArcade.Hub
             var driver = hero.GetComponent<HeroTennisDriver>();
             if (!look || !look.animator) return null;
             var a = hero.AddComponent<HubHeroAnimator>(); a.look = look;
+            // IDLE HANDS 10-24: the plaza hero holds nothing (the racket's renderers are hidden, but its grip transform still rides in the right
+            // hand), so the match grip pass must not run here: it wrapped the right fingers round the invisible handle (the male claw, the
+            // female thumb-index pinch) and re-curled the left from the cupped bind pose (her hook), after this stand had relaxed them.
+            var grip = hero.GetComponent<HeroGripPolish>(); if (grip) grip.enabled = false;
             a.CaptureRest();   // the prefab's bind pose, before any clip has posed it
             AnimationClip idleClip = null, walkClip = null, runClip = null;
             if (driver)
@@ -76,6 +83,7 @@ namespace GolfArcade.Hub
                 if (c.name == "Walk") { walkClip = c; a.walkClipSpeed = StandardWalkSpeed; }
                 else if (c.name == "Run") { runClip = c; a.runClipSpeed = StandardRunSpeed; }
                 else if (c.name.StartsWith("Emote_")) a.clips[c.name.Replace("_", "")] = c;
+                else if (c.name.StartsWith("Bowl_")) a.clips[c.name.Replace("_", "")] = c;   // BOWLING ANIMATION: authored bowling set (BowlingClips)
             }
             a.Build(idleClip, walkClip, runClip);
             return a;
@@ -146,54 +154,74 @@ namespace GolfArcade.Hub
             // arms hang: upper arm down, just clear of the torso, forearm a touch forward and IN toward the thigh, hand in line
             // (MENU HERO 10-19, Adnan "arms stuck out": was upper .2 out, forearm .1 out + .3 forward, which flared the hands away from the body;
             // Switch Sports / Fall Guys stand with the hands by the thighs, work/menu-hero/REFERENCES.md)
+            // IDLE HANDS 10-24 (Adnan "they act as if they are holding something"): the forearms hung .16 forward, which put the hands in
+            // front of the thighs as if carrying something; they now hang almost straight, so the hands sit beside the thighs (work/idle-hands-20261024)
             foreach (var (ua, la, hd, mid, side) in new[] { (HumanBodyBones.LeftUpperArm, HumanBodyBones.LeftLowerArm, HumanBodyBones.LeftHand, HumanBodyBones.LeftMiddleProximal, -1f), (HumanBodyBones.RightUpperArm, HumanBodyBones.RightLowerArm, HumanBodyBones.RightHand, HumanBodyBones.RightMiddleProximal, 1f) })
             {
-                Aim(B(ua), B(la), -up + right * side * .13f + fwd * .01f);
-                Aim(B(la), B(hd), -up - right * side * .02f + fwd * .16f);
-                // 10-19 (female): a straight wrist and the soft finger pose of the hand reference sheets; the male keeps his accepted stand
-                Aim(B(hd), B(mid), look.female ? (B(hd).position - B(la).position).normalized : -up + fwd * .1f);
-                // palm toward the thigh: roll the hand so its thumb side points forward
-                var hand = B(hd); var thumb = B(side < 0 ? HumanBodyBones.LeftThumbProximal : HumanBodyBones.RightThumbProximal); var m = B(mid);
-                if (hand && thumb && m)
+                Aim(B(ua), B(la), -up + right * side * .13f + fwd * UpperArmForward);
+                Aim(B(la), B(hd), -up - right * side * .02f + fwd * ForearmForward);
+                // a straight wrist (both heroes; 10-19 female only, the male's bent wrist read as a hook)
+                if (B(hd) && B(la)) Aim(B(hd), B(mid), (B(hd).position - B(la).position).normalized);
+                // palm toward the thigh: roll the hand so its knuckle line (little -> index) points forward. The thumb's root was used before,
+                // but it sits on the palm side of the wrist, so the roll left the palm turned back.
+                var hand = B(hd); var m = B(mid);
+                var ip = B(side < 0 ? HumanBodyBones.LeftIndexProximal : HumanBodyBones.RightIndexProximal); var lp = B(side < 0 ? HumanBodyBones.LeftLittleProximal : HumanBodyBones.RightLittleProximal);
+                if (hand && m && ip && lp)
                 {
                     var axis = (m.position - hand.position).normalized;
-                    var t0 = Vector3.ProjectOnPlane(thumb.position - hand.position, axis); var t1 = Vector3.ProjectOnPlane(fwd, axis);
+                    var t0 = Vector3.ProjectOnPlane(ip.position - lp.position, axis); var t1 = Vector3.ProjectOnPlane(fwd - right * side * PalmTurnIn, axis);
                     if (t0.sqrMagnitude > 1e-8f && t1.sqrMagnitude > 1e-8f) hand.rotation = Quaternion.AngleAxis(Vector3.SignedAngle(t0, t1, axis), axis) * hand.rotation;
                 }
-                if (look.female) RelaxFingers(side < 0, up, fwd, -right * side);
+                RelaxFingers(side < 0);
             }
         }
+        /// The hanging arm (IDLE HANDS 10-24): forward share of the upper arm and forearm aims, and how far the knuckle line turns in from
+        /// straight forward (palm a little toward the back of the thigh, as a relaxed arm hangs).
+        const float UpperArmForward = -.1f, ForearmForward = .05f, PalmTurnIn = .12f;
 
         /// A standing hand (10-19, Adnan "her hands are all over the place"): the bind pose keeps the racket-grip curl of the ready stance, so
         /// the relaxed hands showed fingers bunched into a claw / a pinched O (worse on the smaller female hand). The fingers instead fall
         /// together in a soft curl toward the palm (each joint a little more than the one before, the little finger the most) with the thumb
-        /// resting along the side of the index finger. `palm` is the direction the palm faces (toward the thigh).
-        void RelaxFingers(bool left, Vector3 up, Vector3 fwd, Vector3 palm)
+        /// resting along the side of the index finger.
+        /// IDLE HANDS 10-24 (both heroes now): the curl is built in the hand's own frame (its axis to the middle knuckle, the knuckle line,
+        /// the palm normal from the hand's handedness) rather than from world down / forward / toward the thigh, which no longer matched
+        /// the hand once the wrist followed the forearm: the fingers curled partly sideways (the female's cupped hook) and the index
+        /// met the thumb (her pinch).
+        void RelaxFingers(bool left)
         {
             string side = left ? "Left" : "Right";
             Transform Bn(string n) => look.Bone((HumanBodyBones)System.Enum.Parse(typeof(HumanBodyBones), side + n));
-            var down = (-up + fwd * .08f).normalized; palm = palm.normalized;
+            var hand = Bn("Hand"); var ip = Bn("IndexProximal"); var mp = Bn("MiddleProximal"); var lp = Bn("LittleProximal");
+            if (!hand || !ip || !mp || !lp) return;
+            var axis = (mp.position - hand.position).normalized;
+            var across = Vector3.ProjectOnPlane(ip.position - lp.position, axis).normalized;   // toward the thumb side
+            var palm = left ? Vector3.Cross(across, axis) : Vector3.Cross(axis, across);       // the way the palm faces
             Vector3 Dir(Vector3 from, float deg) => (from * Mathf.Cos(deg * Mathf.Deg2Rad) + palm * Mathf.Sin(deg * Mathf.Deg2Rad)).normalized;
-            string[] fingers = { "Index", "Middle", "Ring", "Little" }; float[] more = { .75f, .95f, 1.1f, 1.25f };
-            for (int k = 0; k < fingers.Length; k++)
+            for (int k = 0; k < Fingers.Length; k++)
             {
-                var p = Bn(fingers[k] + "Proximal"); var i = Bn(fingers[k] + "Intermediate"); var d = Bn(fingers[k] + "Distal");
+                var p = Bn(Fingers[k] + "Proximal"); var i = Bn(Fingers[k] + "Intermediate"); var d = Bn(Fingers[k] + "Distal");
                 if (!p || !i || !d) continue;
-                float a1 = 12f * more[k], a2 = a1 + 24f * more[k], a3 = a2 + 16f * more[k];
-                AimBone(p, i, Dir(down, a1)); AimBone(i, d, Dir(down, a2));
-                AimTip(d, Dir(down, a3));   // the tip has no child bone: its real tip (bind-pose farthest vertex) is aimed, so the rest pose's own fingertip hook does not add to the curl
+                // loosely together: a small fan about the middle finger, then each joint a little more than the one before
+                var start = (axis + across * FingerFan[k]).normalized; float more = FingerMore[k];
+                float a1 = CurlMcp * more, a2 = a1 + CurlPip * more, a3 = a2 + CurlDip * more;
+                AimBone(p, i, Dir(start, a1)); AimBone(i, d, Dir(start, a2));
+                AimTip(d, Dir(start, a3));   // the tip has no child bone: its real tip (bind-pose farthest vertex) is aimed, so the rest pose's own fingertip hook does not add to the curl
             }
             var tp = Bn("ThumbProximal"); var ti = Bn("ThumbIntermediate"); var td = Bn("ThumbDistal");
             if (tp && ti && td)
             {
-                // the thumb rests along the front edge of the index finger (the hand is rolled thumb-side forward), tip near its first joint: no pinch across the palm
                 // 10-19 r4 (Adnan: "the thumb shouldn't cross the palm, it should align like the rest of the fingers, when people walk or run their thumbs are out"):
-                // the thumb hangs parallel to the fingers, pointing down and a little forward (thumb side), with only the same faint palm-ward curl as the fingers
-                var along = (down * .97f + fwd * .22f + palm * .02f).normalized; var tip = (down * .97f + fwd * .20f + palm * .06f).normalized;
-                AimBone(tp, ti, along); AimBone(ti, td, tip);
-                AimTip(td, (down * .97f + fwd * .18f + palm * .10f).normalized);
+                // IDLE HANDS 10-24: the thumb's root sits on the palm side of the index knuckle, so the thumb stays on the palm side all the way down
+                // (beside the near-straight index, a little out from it): a thumb aimed down the hand's middle crossed the curled index and met its
+                // tip, an "O" seen from the front (a pinch)
+                AimBone(tp, ti, (axis * .97f + across * .40f + palm * .32f).normalized); AimBone(ti, td, (axis * .97f + across * .34f + palm * .40f).normalized);
+                AimTip(td, (axis * .97f + across * .28f + palm * .46f).normalized);
             }
         }
+        static readonly string[] Fingers = { "Index", "Middle", "Ring", "Little" };
+        /// IDLE HANDS 10-24: the relaxed curl (degrees per joint, scaled per finger: the little finger curls the most) and the fan toward the thumb side.
+        static readonly float[] FingerMore = { .35f, .8f, 1.05f, 1.2f }, FingerFan = { .05f, 0f, -.04f, -.09f };
+        const float CurlMcp = 10f, CurlPip = 20f, CurlDip = 12f;
         readonly Dictionary<Transform, Vector3> tipLocal = new Dictionary<Transform, Vector3>();
         /// The distal bone's tip in its own space: the bind-pose vertex weighted to it that lies farthest from its head.
         Vector3 TipLocal(Transform bone)
@@ -277,9 +305,9 @@ namespace GolfArcade.Hub
         }
 
         static bool IsFinger(string n) => n.Contains("Thumb") || n.Contains("Index") || n.Contains("Middle") || n.Contains("Ring") || n.Contains("Little");
-        /// Female: the fingers take the soft relaxed pose at this weight whatever the legs do (standing, walking, running): she holds nothing, so
-        /// the clips' racket-grip curl must not show. Emotes and intros (actionFade) keep their own hands.
-        float FingerWeight(float w) => look.female ? Mathf.Max(w, 1 - actionFade) : w;
+        /// The fingers take the soft relaxed pose at this weight whatever the legs do (standing, walking, running): the plaza hero holds nothing, so
+        /// the clips' racket-grip curl must not show (female since 10-19, both heroes since IDLE HANDS 10-24). Emotes and intros (actionFade) keep their own hands.
+        float FingerWeight(float w) => Mathf.Max(w, 1 - actionFade);
         void Relax(float w, float time)
         {
             float wf = FingerWeight(w);
@@ -328,15 +356,22 @@ namespace GolfArcade.Hub
         Vector3 Local(Transform t) => t ? transform.InverseTransformPoint(t.position) : Vector3.zero;
 
         /// Play an emote / intro by clip id name ("EmoteSpike", "IntroWave"...). Moving cancels it.
-        public bool Play(string clipId, bool loop = false)
+        public bool Play(string clipId, bool loop = false, float startAt = 0)
         {
             if (!graph.IsValid() || !clips.TryGetValue(clipId, out var clip)) return false;
+            // BOWLING ANIMATION: a clip started while another action is in full effect keeps the blend (clips that branch from each other
+            // are identical up to the branch, so switching mid-clip at `startAt` must not dip back to the legs)
+            float keepFade = actionFade;   // (also while an action is still fading out)
             if (action.IsValid()) { graph.Disconnect(mixer, (int)Slot.Action); action.Destroy(); }
             action = AnimationClipPlayable.Create(graph, clip); action.SetApplyFootIK(false); action.SetSpeed(0);
             graph.Connect(action, 0, mixer, (int)Slot.Action);
-            actionLen = Mathf.Max(.05f, clip.length); actionT = 0; playing = clipId; actionLoops = loop; actionFade = 0;
+            actionLen = Mathf.Max(.05f, clip.length); actionT = Mathf.Clamp(startAt, 0, actionLen); playing = clipId; actionLoops = loop; actionFade = keepFade;
             return true;
         }
+        /// True when this hero has the clip with that id ("EmoteSpike", "BowlShot"...).
+        public bool Has(string clipId) => clips.ContainsKey(clipId);
+        /// Seconds into the playing action (0 when none).
+        public float ActionTime => playing != null ? (float)actionT : 0;
         public void Stop() { playing = null; }
 
         /// Called by HubPlayer every frame after it moved the hero; the pose is evaluated in LateUpdate, after the Animator's own pass.
@@ -344,7 +379,7 @@ namespace GolfArcade.Hub
 
         void LateUpdate()
         {
-            float dt = Time.unscaledDeltaTime, speed = Speed;
+            float dt = GameTime ? Time.deltaTime : Time.unscaledDeltaTime, speed = Speed;
             if (!graph.IsValid() || dt <= 0) return;
             if (playing != null && speed > .4f) playing = null;   // walking away ends an emote
             // the leg blend by speed: idle -> walk (matched) -> run (matched)
@@ -382,7 +417,10 @@ namespace GolfArcade.Hub
                     if (r.bone == hipsBone) r.bone.localPosition = Vector3.Lerp(r.bone.localPosition, hipsSeated, sit);
                 }
             }
-            if (SeatWeight < .001f) PinPlantedFoot(dt); else { var lp = transform.localPosition; transform.localPosition = Vector3.MoveTowards(lp, new Vector3(0, lp.y, 0), dt); }
+            // BOWLING ANIMATION: the authored bowling clips carry their own foot plants and the slide (the hips travel inside the clip), so the pin stays out of them
+            bool bowlClip = playing != null && playing.StartsWith("Bowl");
+            if (bowlClip) { var lp = transform.localPosition; transform.localPosition = new Vector3(0, lp.y, 0); }
+            else if (SeatWeight < .001f) PinPlantedFoot(dt); else { var lp = transform.localPosition; transform.localPosition = Vector3.MoveTowards(lp, new Vector3(0, lp.y, 0), dt); }
             // HAND CLEARANCE (work/hand-clearance): hands and forearms out of the body and the clothes, as in tennis and golf
             if (safety == null) { safety = new HeroPoseSafety(look); safety.UseGraph(graph); }   // + the baked corrections of the clips playing
             // MENU HERO: standing still, the relaxed stand replaces the Idle clip's arms, so the Idle clip's baked racket-arm correction must not

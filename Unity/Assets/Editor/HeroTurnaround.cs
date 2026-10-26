@@ -235,6 +235,8 @@ namespace GolfArcade.EditorTools
             var own = typeof(MatchHeroLook).GetMethod("OwnMaterials", BindingFlags.Instance | BindingFlags.NonPublic);
             if (!look || own == null) throw new InvalidOperationException("MatchHeroLook.OwnMaterials not found on " + id);
             own.Invoke(look, null);
+            // CHARACTER QUALITY 10-24: the game applies the male face pass / female finish in LateUpdate, which edit mode never runs
+            root.GetComponent<MaleFaceFinish>()?.Apply(); root.GetComponent<FemaleGarmentFinish>()?.Apply();
             ColorUtility.TryParseHtmlString("#" + LookSkin, out var tone); look.SetSkin(tone);
             look.SetKit(LookShirt, LookLower, LookShoes);
             if (TargetLook) ApplyTargetLook(id, look);

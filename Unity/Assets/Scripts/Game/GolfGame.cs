@@ -52,6 +52,9 @@ namespace GolfArcade.Game
         GolfSounds sounds;
         /// How the last full swing was struck, and whether its word has popped yet.
         StrikeReport lastReport;
+        /// The last strike's verdict and what the swing measured (the lesson's Shot Read).
+        public StrikeReport LastStrike => lastReport;
+        public SwingImpact LastImpact { get; private set; }
         bool gradeShown;
         /// How many of the shot's knocks (trees, rocks) have been shown and heard.
         int knocksShown;
@@ -2085,7 +2088,7 @@ namespace GolfArcade.Game
             driftX = driftD = rollVx = rollVd = 0; havePath = false;
             touchedDown = false; splashedAt = -1; onIce = false; cupFeedback = lipFeedback = false;
             lastImpact = impact; originWorld = HoleView.ToWorld(ballAt); flightHud = false;
-            lastReport = Strikes.Judge(impact); gradeShown = false;
+            lastReport = Strikes.Judge(impact); LastImpact = impact; gradeShown = false;
             knocksShown = 0;
             CountForTheCard();
             replayPath.Clear(); replayRolling.Clear();
@@ -2140,8 +2143,9 @@ namespace GolfArcade.Game
         {
             IntroMusic.Drive(chosenCourse, Current == State.Intro);
             if (Current == State.Intro) GameVoice.WelcomeOnce(chosenCourse);
-            if (Current == State.Flight && hole != null && ball) GameAudioHost.Instance.Swell(1f - Vector3.Distance(ball.position, HoleView.ToWorld(hole.Pin)) / 25f);
-            else GameAudioHost.Instance.Swell(0);
+            if (sounds) sounds.Atmosphere(chosenCourse, Current is State.Intro or State.Aim or State.Flight or State.Result or State.HoleDone or State.Replay,
+                Current == State.Flight && hole != null && ball ? Vector3.Distance(ball.position, HoleView.ToWorld(hole.Pin)) : -1, club == GolfClub.Putter,
+                eventSounds ? eventSounds.RainLevel : 0);
             if (NativeSportsSession.Active && !NativeControlled) return;
             if (NetworkFrame()) return;
             ErrorGuard.Pump();
@@ -2910,7 +2914,7 @@ namespace GolfArcade.Game
             if (!replayDone && replayClock >= last)
             {
                 replayDone = true;
-                if (LastShot.IsHoled) { sounds.PlayCup(); sounds.PlayApplause(0.3f); ball.gameObject.SetActive(false); }
+                if (LastShot.IsHoled) { sounds.PlayCup(); sounds.PlayApplause(0.45f); ball.gameObject.SetActive(false); }
                 else if (LastShot.Lie == CourseLie.Water)
                 {
                     if (InLava(LastShot, ball.position)) { effects.LavaBurst(ball.position); sounds.PlayLavaHiss(); }

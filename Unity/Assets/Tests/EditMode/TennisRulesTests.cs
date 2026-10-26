@@ -22,10 +22,12 @@ namespace GolfArcade.Tests
         }
         TennisHit Hit(float age = TennisRules.SweetTime, float offset = 0, float balance = 1, float reach = 1, float power = .8f, float stamina = 1)
             => TennisRules.Evaluate(age,new Vector2(offset,0),balance,reach,power,stamina);
-        [Test] public void CenterImprovesTheHitWhileTimingOnlyGatesContact()
+        [Test] public void TimingAndCenterBothImproveTheHit()
         {
+            // Timing is the main control (it sets the pace); the sweet spot adds a little on top.
             Assert.Greater(Hit().Quality, Hit(offset:.10f).Quality);
-            Assert.AreEqual(Hit().Quality, Hit(age:.10f).Quality);
+            Assert.Greater(Hit().Quality, Hit(age:.10f).Quality);
+            Assert.Greater(Hit(offset:.10f).Quality, Hit(age:.10f).Quality, "a little off-centre on time beats centred and late");
             Assert.IsFalse(Hit(age:0).Contact);
             Assert.IsFalse(Hit(offset:.3f).Contact);
         }

@@ -1,3 +1,4 @@
+import MessageUI
 import SwiftUI
 
 /// The online hub (one button on the phone): invites, your party, who is online, who is not, adding friends, inviting someone
@@ -7,8 +8,11 @@ struct ClubHubView: View {
     var dismiss: () -> Void = {}
     @State private var code = ""
     @State private var sharing = false
+    @State private var texting = false
     @State private var shareText = ""
     @State private var confirmJoin: HubInvite?
+    @State private var confirmRemove: MultiplayerParticipant?
+    private var calls: CallWatcher { .shared }
 
     var body: some View {
         NavigationStack {
@@ -20,8 +24,10 @@ struct ClubHubView: View {
                     if !hub.invites.isEmpty { invitesSection }
                     partySection
                     friendsSections
-                    addSection
-                    if hub.link == .online { codeSection; settingsSection }
+                    if !hub.recentNotFriends.isEmpty, hub.canInvite { recentSection }
+                    // (the empty list already has its own big Add a friend button)
+                    inviteNewSection
+                    if hub.presenceOn { settingsSection }
                 }
                 .padding(.horizontal, 20).padding(.vertical, 14)
             }
@@ -32,8 +38,13 @@ struct ClubHubView: View {
         }
         .preferredColorScheme(.dark)
         .foregroundStyle(.white)
-        .task { hub.start(); await hub.refresh() }
+        .task { hub.start(); hub.friendsOpened(); await hub.refresh() }
         .sheet(isPresented: $sharing) { ShareSheet(items: [shareText]).presentationDetents([.medium, .large]) }
+        .sheet(isPresented: $texting) { MessageComposer(body: shareText).ignoresSafeArea() }
+        .confirmationDialog("Remove \(confirmRemove?.name ?? "them") from the party?", isPresented: Binding(get: { confirmRemove != nil }, set: { if !$0 { confirmRemove = nil } }), titleVisibility: .visible) {
+            Button("Remove", role: .destructive) { if let p = confirmRemove { leaderAction { try MultiplayerService.shared.removeFromParty(p.id) } }; confirmRemove = nil }
+            Button("Keep", role: .cancel) { confirmRemove = nil }
+        }
         .confirmationDialog("Leave your party to join \(confirmJoin?.from.name ?? "them")?", isPresented: Binding(get: { confirmJoin != nil }, set: { if !$0 { confirmJoin = nil } }), titleVisibility: .visible) {
             Button("Leave and join") { if let i = confirmJoin { hub.accept(i) }; confirmJoin = nil }
             Button("Stay", role: .cancel) { confirmJoin = nil }
@@ -65,8 +76,8 @@ struct ClubHubView: View {
         switch hub.link {
         case .online: hub.invisible ? "You appear offline" : "You are online"
         case .connecting: "Connecting…"
-        case .notConfigured: "Game Center connected"
-        case .signedOut: "Sign in to Game Center"
+        case .notConfigured: "Play with friends"
+        case .signedOut: "Sign in to play with friends"
         case .offline: "Not connected"
         }
     }
@@ -74,7 +85,7 @@ struct ClubHubView: View {
         switch hub.link {
         case .online: "\(hub.onlineFriends.count) friend\(hub.onlineFriends.count == 1 ? "" : "s") online"
         case .connecting: "Reaching the Club Hub"
-        case .notConfigured: "Tap Invite. Your friend taps Game Center's invitation and joins your party."
+        case .notConfigured: "Tap Invite next to a friend. They get it even if their game is closed."
         case .signedOut: "Game Center keeps your friends list."
         case .offline(let why): why.isEmpty ? "Trying again…" : why
         }
@@ -103,7 +114,7 @@ struct ClubHubView: View {
                         avatar(invite.from.name, dot: nil)
                         VStack(alignment: .leading, spacing: 2) {
                             Text(invite.from.name).font(IslandUI.font(17, bold: true))
-                            Text("invites you to \(invite.sportTitle) · Online").font(IslandUI.font(13)).foregroundStyle(.white.opacity(0.65))
+                            Text(invite.line).font(IslandUI.font(13)).foregroundStyle(.white.opacity(0.65))
                         }
                         Spacer()
                     }
@@ -127,7 +138,20 @@ struct ClubHubView: View {
                             avatar(p.name, dot: p.connected ? IslandUI.lime : .gray)
                             Text(p.name + (p.id == MultiplayerService.shared.localID ? " (you)" : "")).font(IslandUI.font(16, bold: true))
                             if p.id == lobby.ownerID { Image(systemName: "crown.fill").font(.system(size: 13)).foregroundStyle(IslandUI.lime) }
+                            if !p.connected { Text("Coming back…").font(IslandUI.font(12)).foregroundStyle(.white.opacity(0.55)) }
                             Spacer()
+                            // the leader's tools: hand over the crown, or take someone out (with a check first)
+                            if MultiplayerService.shared.isOwner, p.id != MultiplayerService.shared.localID {
+                                Menu {
+                                    if p.connected {
+                                        Button { leaderAction { try MultiplayerService.shared.makeLeader(p.id) } } label: { Label("Make \(p.name) the leader", systemImage: "crown") }
+                                    }
+                                    Button(role: .destructive) { confirmRemove = p } label: { Label("Remove from party", systemImage: "person.fill.xmark") }
+                                } label: {
+                                    Image(systemName: "ellipsis.circle.fill").font(.system(size: 28)).foregroundStyle(.white.opacity(0.75)).frame(width: 44, height: 44)
+                                }
+                                .accessibilityLabel("Options for \(p.name)").accessibilityIdentifier("club-party-member-\(p.id)")
+                            }
                         }
                     }
                     Button(role: .destructive) { hub.leaveParty() } label: { smallButton("Leave party", filled: false) }
@@ -140,25 +164,26 @@ struct ClubHubView: View {
     private var friendsSections: some View {
         Group {
             if hub.access == .authorized || !hub.friends.isEmpty {
-                if hub.link == .online {
+                if hub.presenceOn {
                     section("Online", badge: hub.onlineFriends.count) {
                         if hub.onlineFriends.isEmpty { empty("None of your friends are online.") }
                         ForEach(hub.onlineFriends) { friendRow($0) }
                     }
                 }
-                section(hub.link == .online ? "Offline" : "Friends", badge: hub.offlineFriends.count) {
-                    if hub.offlineFriends.isEmpty { empty(hub.link == .online ? "Nobody offline." : "No friends here yet. A friend shows up once they have Motion Club and allow friends in Game Center.") }
+                section(hub.presenceOn ? "Offline" : "Your friends", badge: hub.presenceOn ? hub.offlineFriends.count : nil) {
+                    if hub.offlineFriends.isEmpty { if showsNoFriendsYet { noFriendsYet } else { empty("Nobody offline.") } }
                     ForEach(hub.offlineFriends) { friendRow($0) }
-                    if !hub.offlineFriends.isEmpty, hub.link == .online { Text("Invite anyone: an offline friend sees it the moment they open the game.").font(IslandUI.font(12)).foregroundStyle(.white.opacity(0.5)) }
                 }
             } else {
                 section("Friends") {
                     switch hub.access {
                     case .notDetermined:
-                        Text("Allow Motion Club to see your Game Center friends, so you can see who is online and invite them.").font(IslandUI.font(14)).foregroundStyle(.white.opacity(0.75))
-                        Button { Task { await hub.allowFriends() } } label: { bigButton("Allow friends list") }.accessibilityIdentifier("club-allow-friends")
+                        Text("Let Motion Club see your Game Center friends, so you can invite them.").font(IslandUI.font(14)).foregroundStyle(.white.opacity(0.75))
+                        Button { Task { await hub.allowFriends() } } label: { bigButton("Show my friends") }.accessibilityIdentifier("club-allow-friends")
                     case .denied, .restricted:
-                        Text("Friends are off for this game. Turn them on in Settings › Game Center › Motion Club.").font(IslandUI.font(14)).foregroundStyle(.white.opacity(0.75))
+                        Text("Friends are turned off for this game. Turn them on in Settings › Game Center › Motion Club.").font(IslandUI.font(14)).foregroundStyle(.white.opacity(0.75))
+                        Button { if let url = URL(string: UIApplication.openSettingsURLString) { UIApplication.shared.open(url) } } label: { bigButton("Open Settings") }
+                            .accessibilityIdentifier("club-open-settings")
                     default:
                         empty("Sign in to Game Center to see your friends.")
                     }
@@ -172,11 +197,11 @@ struct ClubHubView: View {
         }
     }
 
-    private func friendRow(_ f: ClubHub.Friend) -> some View {
-        let state = f.online ? stateText(f.state) : hub.link == .online ? "Offline" : "Invite to your party"
+    private func friendRow(_ f: ClubHub.Friend, recent: Bool = false) -> some View {
+        let state = recent ? "Play again together" : f.online ? stateText(f.state) : hub.presenceOn ? "Offline · they get your invite" : "Tap Invite to play together"
         let sent = hub.sent[f.id]
         return HStack(spacing: 12) {
-            avatar(f.name, dot: hub.link == .online ? (f.online ? IslandUI.lime : .gray.opacity(0.6)) : nil)
+            avatar(f.name, dot: hub.presenceOn ? (f.online ? IslandUI.lime : .gray.opacity(0.6)) : nil)
             VStack(alignment: .leading, spacing: 2) {
                 Text(f.name).font(IslandUI.font(17, bold: true))
                 Text(sent?.text ?? state).font(IslandUI.font(13)).foregroundStyle(sent == nil ? .white.opacity(0.6) : IslandUI.lime)
@@ -207,6 +232,23 @@ struct ClubHubView: View {
         .accessibilityElement(children: .combine).accessibilityIdentifier("club-friend-\(f.id)")
     }
 
+    /// People played with recently who are not friends (a quick match, a friend's friend in a party): Invite them again.
+    private var recentSection: some View {
+        section("Played with recently") {
+            ForEach(hub.recentNotFriends.prefix(6)) { p in friendRow(ClubHub.Friend(id: p.id, name: p.name), recent: true) }
+        }
+    }
+
+    private var showsNoFriendsYet: Bool { (hub.access == .authorized || !hub.friends.isEmpty) && hub.offlineFriends.isEmpty && hub.onlineFriends.isEmpty }
+    private var noFriendsYet: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text("No friends here yet").font(IslandUI.font(18, bold: true))
+            Text("A friend shows up here when they have Motion Club and you are friends in Game Center.").font(IslandUI.font(14)).foregroundStyle(.white.opacity(0.75))
+            Button { hub.addFriend() } label: { bigButton("Add a friend") }.accessibilityIdentifier("club-add-friend-empty")
+        }
+        .padding(14).background(.white.opacity(0.07), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+    }
+
     private func inParty(_ id: String) -> Bool {
         hub.friendInParty(id)
     }
@@ -214,31 +256,47 @@ struct ClubHubView: View {
         switch s { case .plaza?: "In the Plaza"; case .lobby?: "In a lobby"; case .match?: "In a match"; case .away?: "Away"; case .dnd?: "Do not disturb"; case nil: "Online" }
     }
 
-    private var addSection: some View {
-        section("Add friends") {
-            Button { hub.addFriend() } label: { rowButton("person.badge.plus", "Add a friend", "Send a Game Center friend request") }.accessibilityIdentifier("club-add-friend")
-            Button { hub.showFriendRequests() } label: { rowButton("person.2", "Friend requests", "Accept requests in Game Center") }.accessibilityIdentifier("club-friend-requests")
-            ForEach(hub.recentNotFriends.prefix(5)) { p in
-                HStack { avatar(p.name, dot: nil); Text(p.name).font(IslandUI.font(15, bold: true)); Spacer(); Text("Played recently").font(IslandUI.font(12)).foregroundStyle(.white.opacity(0.5)) }
+    /// Everyone who is not in the list above: people on your FaceTime call, and (when the empty list has no big button of its own) a
+    /// Game Center friend request.
+    private var inviteNewSection: some View {
+        section("Invite someone new") {
+            Button { textInvite() } label: {
+                rowButton("message.fill", "Text an invite", "Any phone number. They don't need the game yet")
+            }.accessibilityIdentifier("club-text-invite")
+            if hub.cloud.on || hub.link == .online {
+                HStack(spacing: 10) {
+                    TextField("Got a code? Type it here", text: $code).textInputAutocapitalization(.characters).autocorrectionDisabled()
+                        .font(IslandUI.font(16, bold: true)).padding(12).background(.white.opacity(0.1), in: RoundedRectangle(cornerRadius: 12))
+                        .submitLabel(.join).onSubmit { hub.resolve(code) }
+                        .accessibilityIdentifier("club-code-field")
+                    Button { hub.resolve(code) } label: { smallButton("Join", filled: true) }.disabled(code.isEmpty).accessibilityIdentifier("club-code-find")
+                }
+            }
+            Button { startSharePlay() } label: {
+                rowButton("shareplay", calls.active ? "Invite everyone on your call" : "Invite your FaceTime call",
+                          calls.active ? "They tap Join on their phone" : "Start a FaceTime call first, then tap here")
+            }.accessibilityIdentifier("club-shareplay")
+            if !showsNoFriendsYet {
+                Button { hub.addFriend() } label: { rowButton("person.badge.plus", "Add a friend", "Send a Game Center friend request") }.accessibilityIdentifier("club-add-friend")
             }
         }
     }
-
-    private var codeSection: some View {
-        section("Someone without the app?") {
-            Button {
-                if let text = hub.prepareShare() { shareText = text; sharing = true }
-            } label: { rowButton("square.and.arrow.up", "Send an invite link", "Text them a link and a code") }.accessibilityIdentifier("club-share")
-            HStack(spacing: 10) {
-                TextField("Have an invite code?", text: $code).textInputAutocapitalization(.characters).autocorrectionDisabled()
-                    .font(IslandUI.font(16, bold: true)).padding(12).background(.white.opacity(0.1), in: RoundedRectangle(cornerRadius: 12))
-                    .accessibilityIdentifier("club-code-field")
-                PasteButton(payloadType: String.self) { strings in
-                    if let t = strings.first { Task { @MainActor in code = t; hub.resolve(t) } }
-                }.labelStyle(.iconOnly).buttonBorderShape(.capsule).tint(IslandUI.lime)
-                Button { hub.resolve(code) } label: { smallButton("Find", filled: true) }.accessibilityIdentifier("club-code-find")
+    /// Messages with the invite written in, so a phone number is all it takes (the share sheet where Messages is not set up).
+    private func textInvite() {
+        guard !sharing, !texting else { return }
+        Task {
+            guard let text = await hub.prepareTextInvite() else {
+                if !hub.cloud.on { hub.say("Texting invites needs iCloud. Sign in to iCloud in Settings, then try again.") }
+                return
             }
+            shareText = text
+            if MessageComposer.canSend { texting = true } else { sharing = true }
         }
+    }
+    private func startSharePlay() {
+        guard calls.active else { hub.say("Start a FaceTime call with your friends, then tap this again."); return }
+        do { try MultiplayerService.shared.startSharePlay(); hub.say("Your call can see the game now. Everyone who wants to play gets an invite.") }
+        catch { hub.say(error.localizedDescription) }
     }
 
     private var settingsSection: some View {
@@ -251,6 +309,10 @@ struct ClubHubView: View {
     }
 
     // MARK: pieces
+
+    private func leaderAction(_ action: () throws -> Void) {
+        do { try action() } catch { hub.say(error.localizedDescription) }
+    }
 
     private func join(_ invite: HubInvite) {
         if MultiplayerService.shared.lobby != nil, !MultiplayerService.shared.isNearby, (MultiplayerService.shared.lobby?.participants.count ?? 1) > 1 { confirmJoin = invite }
@@ -282,10 +344,29 @@ struct ClubHubView: View {
     private func rowButton(_ icon: String, _ title: String, _ subtitle: String) -> some View {
         HStack(spacing: 12) {
             Image(systemName: icon).font(.system(size: 18, weight: .bold)).frame(width: 42, height: 42).background(.white.opacity(0.1), in: Circle())
-            VStack(alignment: .leading, spacing: 2) { Text(title).font(IslandUI.font(16, bold: true)); Text(subtitle).font(IslandUI.font(12)).foregroundStyle(.white.opacity(0.6)) }
+            VStack(alignment: .leading, spacing: 2) { Text(title).font(IslandUI.font(16, bold: true)); Text(subtitle).font(IslandUI.font(12)).foregroundStyle(.white.opacity(0.6)).multilineTextAlignment(.leading) }
             Spacer(); Image(systemName: "chevron.right").font(.system(size: 13, weight: .bold)).foregroundStyle(.white.opacity(0.4))
         }
         .padding(10).background(.white.opacity(0.06), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+    }
+}
+
+/// Messages, with the invite already written: the player only picks who (a contact or any phone number) and taps Send.
+struct MessageComposer: UIViewControllerRepresentable {
+    let body: String
+    static var canSend: Bool { MFMessageComposeViewController.canSendText() }
+    func makeCoordinator() -> Coordinator { Coordinator() }
+    func makeUIViewController(context: Context) -> MFMessageComposeViewController {
+        let vc = MFMessageComposeViewController(); vc.body = body; vc.messageComposeDelegate = context.coordinator; return vc
+    }
+    func updateUIViewController(_ controller: MFMessageComposeViewController, context: Context) {}
+    final class Coordinator: NSObject, MFMessageComposeViewControllerDelegate {
+        func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+            MainActor.assumeIsolated {
+                if result == .sent { ClubHub.shared.say("Invite sent! They tap the link or type the code to join you.") }
+                controller.dismiss(animated: true)
+            }
+        }
     }
 }
 
@@ -304,7 +385,8 @@ struct InviteBannerHost: View {
     var body: some View {
         VStack(spacing: 8) {
             if let invite = hub.banner { InviteBanner(hub: hub, invite: invite).transition(.move(edge: .top).combined(with: .opacity)) }
-            if let who = hub.joining { JoiningPill(hub: hub, who: who).transition(.move(edge: .top).combined(with: .opacity)) }
+            if let who = hub.joining, !hub.heldForGame { JoiningPill(hub: hub, who: who).transition(.move(edge: .top).combined(with: .opacity)) }
+            else if let knock = hub.cloud.knocking, !hub.heldForGame { KnockPill(hub: hub, text: knock.stage).transition(.move(edge: .top).combined(with: .opacity)) }
             else if !hub.notice.isEmpty, !hub.hubOpen { NoticePill(hub: hub).transition(.opacity) }
             // in-game chat over every screen (the strip takes touches only while it is open)
             if !hub.hubOpen { PartyChatStrip(chat: chat).padding(.top, chat.stripOpen ? 44 : 48) }
@@ -313,7 +395,7 @@ struct InviteBannerHost: View {
         .frame(maxWidth: 560)
         .animation(.spring(response: 0.4, dampingFraction: 0.8), value: hub.banner?.inviteID)
         .animation(.easeInOut(duration: 0.25), value: hub.joining)
-        .allowsHitTesting(hub.banner != nil || hub.joining != nil || !hub.notice.isEmpty || (chat.stripOpen && chat.available))
+        .allowsHitTesting(hub.banner != nil || ((hub.joining != nil || hub.cloud.knocking != nil) && !hub.heldForGame) || !hub.notice.isEmpty || (chat.stripOpen && chat.available))
     }
 }
 
@@ -371,7 +453,7 @@ struct InviteBanner: View {
                         .frame(width: 46, height: 46).background(Circle().fill(IslandUI.lime))
                     VStack(alignment: .leading, spacing: 2) {
                         Text(invite.from.name).font(IslandUI.font(17, bold: true))
-                        Text("invites you to \(invite.sportTitle) · Online").font(IslandUI.font(13)).foregroundStyle(.white.opacity(0.75))
+                        Text(invite.line).font(IslandUI.font(13)).foregroundStyle(.white.opacity(0.75))
                     }
                     Spacer(minLength: 0)
                     if hub.invites.count > 1 { Text("+\(hub.invites.count - 1)").font(IslandUI.font(13, bold: true)).padding(.horizontal, 8).padding(.vertical, 3).background(.white.opacity(0.15), in: Capsule()) }
@@ -403,14 +485,36 @@ struct InviteBanner: View {
 private struct JoiningPill: View {
     let hub: ClubHub
     let who: String
+    private var text: String {
+        switch hub.joinStage {
+        case .later?: "You'll join \(who) in the Plaza"
+        case .waiting?: "Waiting for \(who)…"
+        default: "Joining \(who)…"
+        }
+    }
     var body: some View {
         HStack(spacing: 10) {
-            ProgressView().tint(IslandUI.navy)
-            Text("Joining \(who)…").font(IslandUI.font(15, bold: true))
+            if hub.joinStage != .later { ProgressView().tint(IslandUI.navy) }
+            Text(text).font(IslandUI.font(15, bold: true)).lineLimit(1).minimumScaleFactor(0.8)
             Button("Cancel") { hub.cancelJoin() }.font(IslandUI.font(14, bold: true)).padding(.leading, 6)
         }
         .foregroundStyle(IslandUI.navy).padding(.horizontal, 16).frame(minHeight: 44).background(IslandUI.lime, in: Capsule())
         .accessibilityIdentifier("club-joining")
+    }
+}
+
+/// Dropping in on a friend or joining with a code: waiting for the host to let you in.
+private struct KnockPill: View {
+    let hub: ClubHub
+    let text: String
+    var body: some View {
+        HStack(spacing: 10) {
+            ProgressView().tint(IslandUI.navy)
+            Text(text).font(IslandUI.font(15, bold: true)).lineLimit(1).minimumScaleFactor(0.8)
+            Button("Cancel") { hub.cloud.cancelKnock() }.font(IslandUI.font(14, bold: true)).padding(.leading, 6)
+        }
+        .foregroundStyle(IslandUI.navy).padding(.horizontal, 16).frame(minHeight: 44).background(IslandUI.lime, in: Capsule())
+        .accessibilityIdentifier("club-knocking")
     }
 }
 

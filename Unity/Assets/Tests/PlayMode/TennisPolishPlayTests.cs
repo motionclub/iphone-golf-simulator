@@ -49,17 +49,22 @@ namespace GolfArcade.PlayTests
         [UnityTest] public IEnumerator LateConfirmationStillHits()
         {
             TennisGame game = null; yield return Load(g => game = g); game.ManualSimulation = true;
-            Vector3 p = game.Player.transform.position;
-            // Arrives at the hitting zone about 0.47s from now at racket height.
-            game.InjectBall(new Vector3(p.x, 2.17f, -4f), new Vector3(0, 0, -14f));
-            for (int i = 0; i < 34; i++) game.Step(1f / 120);
+            game.ConfigureMatch(TennisGame.Mode.Training, null, null, null);
+            // A rally ball from the far side that bounces and comes through at about waist height, so the swing is a
+            // groundstroke (a ball still over 1.75 m when the swing starts is played as an overhead smash). The stroke
+            // starts on time, 0.8 s after the ball is fed.
+            game.Player.transform.position = new Vector3(0, .035f, -11.2f);
+            game.InjectBall(new Vector3(0, 1.3f, 6), new Vector3(0, 2.2f, -16.5f));
+            for (float t = 0; t < .8f; t += TennisBall.Step) game.Step(TennisBall.Step);
             game.BeginSwing(0, 0, 1);
             int hits = game.Hits;
-            for (int i = 0; i < 24 && game.Hits == hits; i++) game.Step(1f / 120);
+            // The confirmation is still out when the racket reaches the ball: the contact is held for it.
+            for (int i = 0; i < 60 && game.Player.SignedTimeToContact > 0 && game.Hits == hits; i++) game.Step(TennisBall.Step);
             Assert.AreEqual(hits, game.Hits, "no hit is awarded while the swing is unconfirmed");
+            Assert.LessOrEqual(game.Player.SignedTimeToContact, 0f, "the racket reached the ball before the confirmation");
             game.RequestSwing(.8f, 0, 0, 1);
-            for (int i = 0; i < 3; i++) game.Step(1f / 120);
-            Assert.AreEqual(hits + 1, game.Hits, $"confirmation must credit the held contact (feedback {game.Feedback})");
+            for (int i = 0; i < 3; i++) game.Step(TennisBall.Step);
+            Assert.AreEqual(hits + 1, game.Hits, $"confirmation must credit the held contact (feedback {game.Feedback}, gap {game.LastContactGap:F3})");
             Assert.Greater(game.BallVelocity.z, 0, "and send the ball back over the net");
             yield return null;
         }
@@ -486,8 +491,10 @@ namespace GolfArcade.PlayTests
             finally { Time.captureFramerate = oldRate; game.AutoPlay = false; }
         }
 
-        /// The timing check in the running game: play holds, a ball bounces on the TV, and
-        /// swings that land 150ms after each bounce leave the game compensating 150ms.
+        /// The timing check in the running game: play holds, a ball bounces on the TV after the
+        /// countdown, and swings that land 150ms after each bounce leave the game compensating 150ms.
+        /// Each swing comes as the phone sends it: an onset `ServeOnsetLatency` after the swing began,
+        /// then its confirmation, both stamped with their age; the check scores the confirmed stroke.
         [UnityTest, Timeout(60000)] public IEnumerator TimingCheckSetsTheLagFromSwingsOnTheBeat()
         {
             TennisGame game = null; yield return Load(g => game = g);
@@ -499,12 +506,17 @@ namespace GolfArcade.PlayTests
                 int hitsBefore = game.Hits;
                 game.StartTimingCheck();
                 Assert.IsTrue(game.CheckingTiming);
-                float start = Time.unscaledTime;
+                float start = Time.unscaledTime + TennisBeatCalibration.Countdown;
                 int next = 0; bool captured = false;
                 while (game.CheckingTiming && Time.unscaledTime - start < 20)
                 {
                     float beat = start + TennisBeatCalibration.LeadIn + next * TennisBeatCalibration.Interval;
-                    if (next < TennisBeatCalibration.Beats && Time.unscaledTime >= beat + .15f) { game.BeginSwing(0, 0, 1); next++; }
+                    float reported = beat + .15f + TennisRules.ServeOnsetLatency;
+                    if (next < TennisBeatCalibration.Beats && Time.unscaledTime >= reported)
+                    {
+                        float age = Time.unscaledTime - reported;
+                        game.BeginSwing(0, 0, 1, age); game.RequestSwing(.8f, 0, 0, 1, age); next++;
+                    }
                     if (!captured && next == 4) { captured = true; Directory.CreateDirectory("Library/Captures/timing-check"); GameCapture.Save("Library/Captures/timing-check/check.png", 1280, 720); }
                     yield return null;
                 }

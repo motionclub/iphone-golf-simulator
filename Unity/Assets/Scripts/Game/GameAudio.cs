@@ -30,10 +30,16 @@ namespace GolfArcade.Game
         }
 
         /// Loads every v2 variant of `name` ("sfx/golf/driver" -> driver_1, driver_2, ...). Null when none exist.
+        /// The sample data is loaded here too, so the first Play() on a contact frame never waits on a decode.
         public static AudioClip[] Load(string name)
         {
             var found = new List<AudioClip>();
-            for (int i = 1; i <= 4; i++) { var c = Resources.Load<AudioClip>("Audio/v2/" + name + "_" + i); if (c) found.Add(c); }
+            for (int i = 1; i <= 4; i++)
+            {
+                var c = Resources.Load<AudioClip>("Audio/v2/" + name + "_" + i); if (!c) continue;
+                if (c.loadState == AudioDataLoadState.Unloaded) c.LoadAudioData();
+                found.Add(c);
+            }
             return found.Count > 0 ? found.ToArray() : null;
         }
         /// Replace `target` with the v2 sound `name` when it exists (keeps the synthesised one otherwise).
@@ -84,11 +90,11 @@ namespace GolfArcade.Game
         void Update() { if (src) src.volume = Mathf.MoveTowards(src.volume, .55f * GameAudio.MusicGain(), Time.unscaledDeltaTime * .5f + .01f); }
     }
 
-    /// One-shot UI / stinger sounds and the golf crowd swell, on one hidden object.
+    /// One-shot UI / stinger sounds, on one hidden object.
     public sealed class GameAudioHost : MonoBehaviour
     {
         static GameAudioHost instance;
-        AudioSource shot, swell;
+        AudioSource shot;
         public static GameAudioHost Instance
         {
             get
@@ -96,27 +102,23 @@ namespace GolfArcade.Game
                 if (instance) return instance;
                 var go = new GameObject("Game audio host"); DontDestroyOnLoad(go); instance = go.AddComponent<GameAudioHost>();
                 instance.shot = go.AddComponent<AudioSource>(); instance.shot.playOnAwake = false; instance.shot.spatialBlend = 0;
-                var s = GameAudio.Load("sfx/crowd/golf_swell");
-                instance.swell = go.AddComponent<AudioSource>(); instance.swell.playOnAwake = false; instance.swell.spatialBlend = 0; instance.swell.loop = true; instance.swell.volume = 0;
-                if (s != null) instance.swell.clip = s[0];
+                foreach (var n in UiSounds) instance.UiClip(n);
                 return instance;
             }
         }
-        public void PlayUI(string name, float volume)
+        /// The PlayUI sounds, loaded when the host is made; Shot rotates each one's variants.
+        static readonly string[] UiSounds = { "sfx/ui/confirm", "sfx/ui/cancel", "sfx/ui/point_win", "sfx/ui/point_lose" };
+        readonly Dictionary<string, AudioClip> ui = new Dictionary<string, AudioClip>();
+        AudioClip UiClip(string name)
         {
-            var c = GameAudio.Load(name); if (c == null) return;
-            GameAudio.Swap(ref c[0], name);
-            shot.Shot(c[Random.Range(0, c.Length)], volume);
+            if (!ui.TryGetValue(name, out var c)) { GameAudio.Swap(ref c, name); ui[name] = c; }
+            return c;
         }
-        float swellTarget, nextRefresh;
-        public void Swell(float closeness) { swellTarget = Mathf.Clamp01(closeness); }
+        public void PlayUI(string name, float volume) => shot.Shot(UiClip(name), volume);
+        float nextRefresh;
         void Update()
         {
             if (Time.unscaledTime > nextRefresh) { nextRefresh = Time.unscaledTime + .5f; GameAudio.RefreshVolumes(); }
-            if (!swell || !swell.clip) return;
-            float want = swellTarget * swellTarget * .6f * GameAudio.SfxVolume;
-            swell.volume = Mathf.MoveTowards(swell.volume, want, Time.unscaledDeltaTime * (want > swell.volume ? .8f : 2.5f));
-            if (swell.volume > .01f && !swell.isPlaying) swell.Play(); else if (swell.volume <= .01f && swell.isPlaying) swell.Pause();
         }
     }
 

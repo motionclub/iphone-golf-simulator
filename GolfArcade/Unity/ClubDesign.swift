@@ -76,13 +76,17 @@ enum ClubFonts {
 @MainActor
 enum ClubSound {
     private static var players: [String: AVAudioPlayer] = [:]
-    static func play(_ name: String, volume: Float = 0.5) {
-        guard SportsSession.shared.sound else { return }
+    /// Makes and primes every player at launch, so the first tap is not late.
+    static func preload() { for name in ["tick", "pop", "whoosh"] { _ = player(name) } }
+    private static func player(_ name: String) -> AVAudioPlayer? {
         if players[name] == nil, let url = Bundle.main.url(forResource: name, withExtension: "wav") {
             players[name] = try? AVAudioPlayer(contentsOf: url)
             players[name]?.prepareToPlay()
         }
-        guard let p = players[name] else { return }
+        return players[name]
+    }
+    static func play(_ name: String, volume: Float = 0.5) {
+        guard SportsSession.shared.sound, let p = player(name) else { return }
         p.volume = volume; p.currentTime = 0; p.play()
     }
 }

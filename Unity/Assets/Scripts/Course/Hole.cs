@@ -316,6 +316,7 @@ namespace GolfArcade.Course
 
         public static Course ByKey(string key)
         {
+            if (key == "lesson") return Lesson();
             if (key == "postcards") key = "cliffside";   // the retired Postcards course: its holes are Cliffside's now
             if (ParseRound(key, out var start, out int holes, out bool link)) return Round(start, holes, link);
             foreach (var c in All()) if (c.Key == key) return c;
@@ -806,6 +807,15 @@ namespace GolfArcade.Course
         };
 
         /// Meadow Run: the iOS app's easy course, hole for hole.
+        /// The golf lesson's Practice Tee (PLAN_Onboarding_GolfLesson.md): Meadow's short par 3 twice. The practice stations play
+        /// the first copy from its tee again and again; holing the putt there moves on to the second, played as a real hole.
+        public static Course Lesson()
+        {
+            Hole PracticeThree(int ordinal) => new Hole { Number = 3, Ordinal = ordinal, Par = 3, Centerline = new[] { P(0, 0), P(8, 115) }, FairwayWidth = 50,
+                GreenRadius = 20, Hazards = new[] { Bunker(-12, 108, 14, 18) } };
+            return new Course { Name = "Practice Tee", Key = "lesson", Holes = new[] { PracticeThree(1), PracticeThree(2) } };
+        }
+
         public static Course Meadow() => new()
         {
             Name = "Meadow Run", Key = "meadow",

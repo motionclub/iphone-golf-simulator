@@ -4,12 +4,16 @@ OUT = os.path.abspath('../../Unity/Assets/Resources/Audio/v2')
 def load(p, ch):
     subprocess.run([FF,'-y','-loglevel','quiet','-i',p,'-ac',str(ch),'-ar',str(SR),'/tmp/_p.wav'], check=True)
     x,_ = sf.read('/tmp/_p.wav'); return x
-def trim(x, thresh_db=-42, pre=.004, fade=.02):
+# The start is found at -20 dB re peak: ElevenLabs pre-roll noise sits near -37 dB, so the old
+# -42 dB start left up to 0.5 s before the hit (work/audio-delay-fix). The tail still ends at thresh_db.
+def trim(x, thresh_db=-42, pre=.004, fade=.02, start_db=-20, fade_in=.003):
     m = np.abs(x) if x.ndim == 1 else np.abs(x).max(1)
     pk = m.max()+1e-9; act = np.where(m > pk*10**(thresh_db/20))[0]
     if not len(act): return x
-    a = max(0, act[0]-int(pre*SR)); b = min(len(x), act[-1]+int(.03*SR))
-    y = x[a:b].copy(); n = min(int(fade*SR), len(y)//2)
+    a = max(0, np.argmax(m >= pk*10**(start_db/20))-int(pre*SR)); b = min(len(x), act[-1]+int(.03*SR))
+    y = x[a:b].copy(); k = min(int(fade_in*SR), len(y)//2)
+    y[:k] *= (.5-.5*np.cos(np.linspace(0, np.pi, k)))[:, None] if y.ndim == 2 else .5-.5*np.cos(np.linspace(0, np.pi, k))
+    n = min(int(fade*SR), len(y)//2)
     y[-n:] *= np.linspace(1, 0, n)[:, None] if y.ndim == 2 else np.linspace(1, 0, n)
     return y
 def peak_norm(x, db=-1.0): return x * (10**(db/20)/(np.abs(x).max()+1e-9))
@@ -38,7 +42,7 @@ for g, ps in sorted(groups.items()):
 # Voice: keep all 3 takes, trimmed, ~-18 LUFS with -1 dBFS ceiling
 m = pn.Meter(SR)
 for p in sorted(glob.glob('raw/v2/voice/*.mp3')):
-    x = trim(load(p, 1), -40, .02, .04)
+    x = trim(load(p, 1), -40, .02, .04, start_db=-40, fade_in=0)
     try: x = pn.normalize.loudness(x, m.integrated_loudness(x), -18.0) if len(x)/SR > .4 else x
     except Exception: pass
     if np.abs(x).max() > .89: x = x*.89/np.abs(x).max()

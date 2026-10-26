@@ -57,7 +57,7 @@ final class SportsDelayProbeTests: XCTestCase {
     @MainActor func testFlashesRunBeforeTheSwingCheck() {
         let session = SportsSession()
         session.active = true; session.ready = true; session.displayConnected = true
-        session.sport = "tennis"; session.touch = false; session.loading.cancel()
+        session.sport = "tennis"; session.loading.cancel()
         session.offerTimingCalibration()
         XCTAssertTrue(session.measuringDelay)
         XCTAssertFalse(session.timingPrompt)
@@ -66,6 +66,19 @@ final class SportsDelayProbeTests: XCTestCase {
         XCTAssertTrue(session.paused)
         session.active = false; session.motion.setDelayProbe(false)
     }
+    /// Latency plan P1 (C1-2): the setup tells a cable from AirPlay and shows the measured delay with the fix that helps.
+    func testScreenLinkAndAdvice() {
+        XCTAssertEqual(SportsTiming.link(ports: [.airPlay]), .airPlay)
+        XCTAssertEqual(SportsTiming.link(ports: [.HDMI]), .cable)
+        XCTAssertEqual(SportsTiming.link(ports: [.builtInSpeaker]), .unknown)
+        let airPlay = SportsTiming.advice(link: .airPlay, delay: 0.14, gameModeHint: 0.14)
+        XCTAssertTrue(airPlay.contains("140 ms") && airPlay.contains("cable"), airPlay)
+        XCTAssertTrue(SportsTiming.advice(link: .airPlay, delay: 0.2, gameModeHint: 0.14).contains("Game Mode"))
+        XCTAssertFalse(SportsTiming.advice(link: .cable, delay: 0.05, gameModeHint: 0.14).contains("Game Mode"))
+        XCTAssertTrue(SportsTiming.advice(link: .cable, delay: 0.2, gameModeHint: 0.14).contains("Game Mode"))
+        XCTAssertEqual(SportsTiming.advice(link: .unknown, delay: 0, gameModeHint: 0.14), "")
+    }
+
     func testMedianNeedsTwoReadings() {
         XCTAssertNil(SportsDelayProbe.combine([0.15]))
         XCTAssertEqual(SportsDelayProbe.combine([0.15, 0.30, 0.16, 0.14]) ?? 0, 0.15, accuracy: 1e-9)

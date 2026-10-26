@@ -71,7 +71,7 @@ final class HubSession {
         // Drop a held stick on every interruption; never replay it after returning.
         setStick(x: 0, y: 0, magnitude: 0)
         foreground = active
-        if active { evaluate() }
+        if active { evaluate() } else { endNearbyBrowse() }
     }
 
     private var session: SportsSession { .shared }
@@ -103,7 +103,7 @@ final class HubSession {
     func evaluate() {
         guard foreground else { return }
         // the panel's own Back / Done went past the station's screens (home, or an old menu screen): the station is finished
-        if let s = station, !Self.partyBays.contains(s), !Self.panelScreens(menu.screen) {
+        if let s = station, !Self.partyBays.contains(s), s != Self.nearbyBay, !Self.panelScreens(menu.screen) {
             station = nil; returnBay = nil; command("hubB")
             if menu.screen != .main && menu.screen != .title { menu.openFromPlaza(.main) }
         }
@@ -119,7 +119,7 @@ final class HubSession {
         // a TV was connected or went away: the plaza moves to the screen there is now (it boots again there)
         if phase != .off, phase != .failed, onPhone != wantPhone {
             SportsDiagnostics.write("hub moves to the \(wantPhone ? "phone" : "TV")")
-            if loaded && !session.active { sendJSON(["version": 1, "session": sessionID, "action": "end"]) }
+            endUnitySession()
             timer?.invalidate(); timer = nil; phase = .off; loaded = false; zone = nil; station = nil; arriving = false
             if onPhone { SportsDisplays.shared.endPhonePlaza() }
         }
@@ -137,7 +137,8 @@ final class HubSession {
             return
         }
         windowRetries = 0
-        phase = .booting; bootStarted = Date(); notice = ""; loadProgress = 0; progress(0.03); revealedOnPhone = false
+        phase = .booting; bootStarted = Date(); lastBootSignal = bootStarted; heardFromUnity = false
+        notice = ""; loadProgress = 0; progress(0.03); revealedOnPhone = false
         sessionID = UUID().uuidString; token = Int32.random(in: 1...Int32.max); loaded = false
         place = "plaza"; zone = nil; lastAction = nil
         if onPhone { returnBay = nil }   // (no benches without a TV)
@@ -159,6 +160,7 @@ final class HubSession {
             if phone { SportsDisplays.shared.showPhonePlaza() }
             self.progress(0.12)
             SportsRuntime.shared().pause(false)
+            self.lastBootSignal = Date()   // (a cold Unity start blocked until now)
             self.startTimer()
             self.sendStart()
         }
@@ -166,7 +168,7 @@ final class HubSession {
 
     /// A match takes the runtime: stop walking and idle Unity (the match's own screens take over).
     private func suspend() {
-        setStick(x: 0, y: 0, magnitude: 0)
+        setStick(x: 0, y: 0, magnitude: 0); endNearbyBrowse()
         if phase == .booting { phase = .off; timer?.invalidate(); timer = nil; if onPhone { SportsDisplays.shared.endPhonePlaza() }; return }
         phase = .suspended; timer?.invalidate(); timer = nil
         if onPhone { SportsDisplays.shared.endPhonePlaza() } else { SportsDisplays.shared.showMenu() }
@@ -227,7 +229,7 @@ final class HubSession {
     private(set) var bayLaunches = 0
     func runtimeTaken(bay: String? = nil) {
         if let bay { returnBay = bay; bayLaunches += 1 }
-        timer?.invalidate(); timer = nil; station = nil
+        timer?.invalidate(); timer = nil; station = nil; endNearbyBrowse(); nearbyJoining = nil
         if phase != .off { phase = .suspended }
         loaded = false
     }
@@ -235,19 +237,44 @@ final class HubSession {
     /// The TV went away: the plaza on it is gone (it opens again on the phone).
     func displayLost() {
         guard !onPhone else { return }
-        timer?.invalidate(); timer = nil
-        if loaded && !session.active { sendJSON(["version": 1, "session": sessionID, "action": "end"]) }
+        timer?.invalidate(); timer = nil; endNearbyBrowse()
+        endUnitySession()
         phase = .off; loaded = false; zone = nil; station = nil; returnBay = nil; arriving = false
     }
 
     private func fail(_ message: String) {
         SportsDiagnostics.write("hub failed: \(message)")
-        timer?.invalidate(); timer = nil; loaded = false
+        timer?.invalidate(); timer = nil; loaded = false; endNearbyBrowse()
         phase = .failed; notice = message
         if !onPhone { SportsDisplays.shared.showMenu() }   // (the TV says so; the phone offers Try again)
     }
     /// Try the plaza again after a failure.
-    func retry() { if phase == .failed { phase = .off; notice = ""; evaluate() } }
+    func retry() { if phase == .failed { phase = .off; notice = ""; autoRetried = false; evaluate() } }
+
+    /// Unity drops a plaza start while it is still loading another one, so a boot that is given up (the plaza moving to a TV that
+    /// just connected, or a stalled boot) is ended first: otherwise the new boot waits forever and only a manual retry got through.
+    private func endUnitySession() {
+        if (loaded || phase == .booting) && !session.active { sendJSON(["version": 1, "session": sessionID, "action": "end"]) }
+    }
+    /// The boot's last sign of life from Unity (its start, a progress event), and whether Unity has answered this session at all.
+    @ObservationIgnored private var lastBootSignal = Date.distantPast
+    @ObservationIgnored private var lastStartSent = Date.distantPast
+    @ObservationIgnored private var heardFromUnity = false
+    @ObservationIgnored private var autoRetried = false
+    /// A boot with no progress for this long is given up (Unity's own display and first-frame waits are 8 s each).
+    static let bootStall: TimeInterval = 20
+    /// Unity has not answered a start for this long: send it again (a start for the same session is ignored once it is loading).
+    static let startResend: TimeInterval = 3
+    /// No progress: end it and boot once more by itself, as a tap on Try again would; only a second stall shows the failure.
+    private func bootStalled() {
+        guard !autoRetried else { fail("The plaza did not open. Showing the classic menu."); return }
+        autoRetried = true
+        SportsDiagnostics.write("hub boot stalled after \(String(format: "%.1f", Date().timeIntervalSince(bootStarted))) s: booting again")
+        endUnitySession()
+        timer?.invalidate(); timer = nil; loaded = false; phase = .off
+        if onPhone { SportsDisplays.shared.endPhonePlaza() }
+        evaluate()
+    }
 
     /// On a phone with no TV: the loading screen has faded and the plaza shows above the controls.
     private(set) var revealedOnPhone = false
@@ -317,12 +344,14 @@ final class HubSession {
         // the online benches: with your party, its bench (that sport); alone, a quick match with other players of that sport
         case "bay-tennis-online": Route(action: { HubSession.shared.useOnlineBench(.tennis) })
         case "bay-golf-online": Route(action: { HubSession.shared.useOnlineBench(.golf) })
+        // two phones in one room, one TV (a menu entry, not a place to walk to): hosts a nearby tennis game; the friend's phone offers "Join …?"
+        case "bay-tennis-nearby": Route(action: { HubSession.shared.useNearbyBench() })
         default: nil
         }
     }
 
     /// Unity confirmed A at a spot (hubAction): open its panel.
-    static let soloStations: Set<String> = ["bay-tennis-exhibition", "bay-tennis-campaign", "bay-tennis-training", "bay-golf-round", "bay-golf-pass", "shelf-trophies"]
+    static let soloStations: Set<String> = ["bay-tennis-exhibition", "bay-tennis-campaign", "bay-tennis-training", "bay-golf-round", "bay-golf-pass", "shelf-trophies", "bay-tennis-nearby"]
     var soloLocked: Bool { partyService.hasFriendsInLobby }
     var zonePrompt: String? {
         guard let zone else { return nil }
@@ -341,6 +370,7 @@ final class HubSession {
             if partyService.isOwner, party.sport != sport { try? partyService.configure(sport, venue: sport == .golf ? session.golfCourse : session.tennisVenue) }
             haptic(); evaluate(); return
         }
+        if id == Self.nearbyBay { station = id; useNearbyBench(); evaluate(); return }
         guard let route = Self.route(id) else { command("hubB"); return }
         if let action = route.action {
             // a bench's action keeps you seated on it (its panel is the course picker / the search); a station's just happens
@@ -391,6 +421,7 @@ final class HubSession {
     func leaveStation() {
         guard station != nil || panelOpen else { return }
         if onlineBench != nil { stopSearching(); onlineBench = nil }
+        if station == Self.nearbyBay { stopHostingNearby() }
         if station != nil { station = nil; returnBay = nil; command("hubB") }
         if menu.screen != .main && menu.screen != .title { menu.openFromPlaza(.main) }
         evaluate()
@@ -480,6 +511,7 @@ final class HubSession {
                        "sound": session.sound, "haptics": session.haptics, "touch": true, "external": !onPhone, "phoneOnly": onPhone,
                        "fps": 60, "left": p.handedness == .left, "emotes": p.equippedEmotes]) { _, new in new }
         if let returnBay, !onPhone { message["bay"] = returnBay }
+        lastStartSent = Date()
         sendJSON(message)
     }
 
@@ -527,7 +559,11 @@ final class HubSession {
         guard !session.active else { timer?.invalidate(); timer = nil; return }
         partyTick()
         if stick.mag > 0 && phase == .live { sendStick() }
-        if phase == .booting && Date().timeIntervalSince(bootStarted) > 25 { fail("The plaza did not open. Showing the classic menu."); return }
+        if phase == .booting {
+            let now = Date()
+            if now.timeIntervalSince(lastBootSignal) > Self.bootStall { bootStalled(); return }
+            if !heardFromUnity && now.timeIntervalSince(lastStartSent) > Self.startResend { sendStart() }
+        }
         for _ in 0..<64 {
             guard let json = SportsRuntime.shared().pollEvent(), let data = json.data(using: .utf8),
                   let event = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any] else { break }
@@ -542,13 +578,17 @@ final class HubSession {
         self.place = place; self.zone = HubZone(line: zone)
     }
     /// Tests: the boot message the plaza would send (no Unity in the simulator).
-    func debugBoot(session: String, onPhone: Bool = false) { sessionID = session; token = 7; phase = .booting; loadProgress = 0; self.onPhone = onPhone; sendStart() }
+    func debugBoot(session: String, onPhone: Bool = false) { sessionID = session; token = 7; phase = .booting; loadProgress = 0; lastBootSignal = Date(); heardFromUnity = false; self.onPhone = onPhone; sendStart() }
     func debugPartyTick() { partyTick() }
+    /// Tests: the arrival fly-in finished (or never ran).
+    func debugArrived() { arriving = false }
     /// Snapshots: sitting on an online bench (searching or not), no Game Center.
     func debugOnlineBench(_ sport: MultiplayerSport, searching: Bool) { station = sport == .golf ? "bay-golf-online" : "bay-tennis-online"; onlineBench = sport; self.searching = searching }
-    func debugReset() { timer?.invalidate(); timer = nil; phase = .off; loaded = false; loadProgress = 0; arriving = false; zone = nil; station = nil; returnBay = nil; place = "plaza"; notice = ""; lookSent = ""; debugSent = nil
+    func debugReset() { timer?.invalidate(); timer = nil; phase = .off; autoRetried = false; heardFromUnity = false; loaded = false; loadProgress = 0; arriving = false; zone = nil; station = nil; returnBay = nil; place = "plaza"; notice = ""; lookSent = ""; debugSent = nil
         foreground = true; onPhone = false; revealedOnPhone = false; runtimeMissing = false; searching = false; onlineBench = nil; searchTask?.cancel(); meetHost = nil; matchOver = nil; partyStartAt = nil
         partyJoinPending = false; pendingPartyBay = nil; gatheredBay = nil; gatheredMembers = []; follow = nil
+        nearbyHosting = false; nearbyJoining = nil; nearbyDismissed = []; nearbyBrowsing = false
+        nearbyBrowse = Self.browseNearby; nearbyHost = Self.hostNearby; nearbyJoin = Self.joinNearby
         presentInvite = { ClubHub.shared.hubOpen = true; ClubHub.shared.start() } }
     #endif
 
@@ -728,6 +768,119 @@ final class HubSession {
         partyStartAt = nil
     }
 
+    // MARK: Nearby tennis (PLAN_Tennis_Latency_Online_Local §3): one menu action hosts, a friend's phone offers one-tap Join
+    //
+    // Nothing here depends on walking in the Plaza: the host's entry is a menu row (the phone's Play list, the pointer menu's Tennis
+    // modes) that opens the "bay-tennis-nearby" station; the guest's banner shows over whatever menu is up (SportsHome), whenever
+    // ClubHub.canJoinNow says this phone could join (the same rule the Game Center invite handshake uses), and SportsHome drives
+    // nearbyTick.
+
+    static let nearbyBay = "bay-tennis-nearby"
+    /// Hosting a nearby tennis game from the menu (Bonjour, peer-to-peer Wi-Fi: no shared network needed). It starts by itself as
+    /// soon as a friend's phone has joined.
+    private(set) var nearbyHosting = false
+    /// Joining a nearby game from the banner: whose, and since when (the banner says "Joining …" until the lobby arrives).
+    private(set) var nearbyJoining: (id: String, name: String, since: Double)?
+    @ObservationIgnored private var nearbyDismissed: Set<String> = []
+    @ObservationIgnored private var nearbyBrowsing = false
+    /// How long a join may take before the banner gives up (the transport's own connection timeout is 10 s).
+    static let nearbyJoinSeconds = 15.0
+    /// Network seams (tests use an in-memory link). Each gets the hub, so no closure keeps one alive.
+    @ObservationIgnored var nearbyBrowse: @MainActor (HubSession, Bool) -> Void = HubSession.browseNearby
+    @ObservationIgnored var nearbyHost: @MainActor (HubSession) throws -> Void = HubSession.hostNearby
+    @ObservationIgnored var nearbyJoin: @MainActor (HubSession, LocalMultiplayerTransport.DiscoveredLobby) throws -> Void = HubSession.joinNearby
+    static let browseNearby: @MainActor (HubSession, Bool) -> Void = { hub, on in if on { hub.partyService.browseLocal(quiet: true) } else { hub.partyService.stopBrowsing() } }
+    static let hostNearby: @MainActor (HubSession) throws -> Void = { hub in
+        let p = hub.session.players.indices.contains(hub.session.playerIndex) ? hub.session.players[hub.session.playerIndex].name : "Friends"
+        try hub.partyService.hostLocal(name: p, quick: .tennis)
+    }
+    static let joinNearby: @MainActor (HubSession, LocalMultiplayerTransport.DiscoveredLobby) throws -> Void = { hub, lobby in try hub.partyService.joinLocal(lobby) }
+
+    /// Look for nearby games in the background whenever this phone could join one: on a menu (ClubHub.canJoinNow: no match, nothing
+    /// loading, not onboarding, in the foreground), in no lobby, not searching, and Local Network not refused. (The first browse is
+    /// when iOS asks for Local Network access.)
+    var wantsNearbyBrowse: Bool {
+        foreground && !session.active && !SportsSession.benchmark && ClubHub.shared.canJoinNow && onlineBench == nil
+            && nearbyJoining == nil && !nearbyHosting && partyService.lobby == nil && !partyService.searching && !partyService.localNetworkDenied
+    }
+    /// A nearby tennis game with room for this phone, shown as "Join <name>'s tennis game?" (one tap joins). Nil when there is none,
+    /// the player dismissed it, or this phone is busy.
+    var nearbyOffer: LocalMultiplayerTransport.DiscoveredLobby? {
+        guard !session.active, ClubHub.shared.canJoinNow, nearbyJoining == nil, !nearbyHosting, partyService.lobby == nil else { return nil }
+        return partyService.discoveredLobbies.first { $0.sport == MultiplayerSport.tennis.rawValue && $0.players < 2 && !nearbyDismissed.contains($0.id) }
+    }
+    /// The menu's "Tennis with a friend nearby": host a nearby tennis game (a quick lobby: it readies itself and starts when the
+    /// friend's phone is in). Its panel (HubNearbyBenchPanel) shows while this station is open.
+    func useNearbyBench() {
+        // friends in your party play together from the Online modes; a nearby game would break the party up
+        guard !soloLocked || nearbyHosting else {
+            notice = Self.soloLockMessage; if station == Self.nearbyBay { station = nil; command("hubB") }; return
+        }
+        station = Self.nearbyBay
+        endNearbyBrowse()
+        if nearbyHosting, partyService.lobby != nil { return }   // (already hosting; a hosted game that went is hosted again)
+        nearbyHosting = false
+        // a party of one waiting on an invite, or a stale lobby, gives way to the nearby game
+        if partyService.isParty { ClubHub.shared.leaveParty() } else if partyService.lobby != nil { partyService.leave() }
+        nearbyIdentity()
+        do { try nearbyHost(self); nearbyHosting = true; notice = "" }
+        catch { notice = error.localizedDescription }
+        SportsDiagnostics.write("nearby bench: hosting=\(nearbyHosting)\(notice.isEmpty ? "" : " (\(notice))")")
+    }
+    /// Leaving the nearby panel before a match: the game is no longer offered.
+    private func stopHostingNearby() {
+        guard nearbyHosting else { return }
+        nearbyHosting = false
+        if partyService.lobby?.phase == .lobby || partyService.lobby == nil { partyService.leave() }
+    }
+    /// The banner's Join: close any station, and join that game (the match then starts on its own: the host's lobby readies
+    /// this phone and starts as soon as it is in).
+    func joinNearby() {
+        guard let offer = nearbyOffer else { return }
+        haptic()
+        if station != nil || panelOpen { leaveStation() }
+        nearbyIdentity()
+        do {
+            try nearbyJoin(self, offer)
+            nearbyBrowsing = false   // (joining ends the browse itself)
+            nearbyJoining = (offer.id, offer.name, ProcessInfo.processInfo.systemUptime); notice = ""
+            SportsDiagnostics.write("nearby join \(offer.name)")
+        } catch { notice = error.localizedDescription }
+    }
+    /// This phone's player, look and TV, on the lobby it is about to host or join.
+    private func nearbyIdentity() {
+        if let p = menu.player { partyService.setIdentity(name: p.name, female: p.standardFemale, left: p.handedness == .left, loadout: p.multiplayerLoadout) }
+        partyService.setScreen(session.displayConnected)
+        partyService.clearError()
+    }
+    /// The banner's ✕: not this game (a new game from the same phone is offered again).
+    func dismissNearby() { if let offer = nearbyOffer { nearbyDismissed.insert(offer.id) } }
+    func cancelNearbyJoin() {
+        guard nearbyJoining != nil else { return }
+        nearbyJoining = nil; partyService.leave()
+    }
+    private func endNearbyBrowse() {
+        guard nearbyBrowsing else { return }
+        nearbyBrowsing = false; nearbyBrowse(self, false)
+    }
+    /// Four times a second from SportsHome (whatever menu is up): starts and stops the background browse, and follows a join.
+    func nearbyTick() {
+        let want = wantsNearbyBrowse
+        if want != nearbyBrowsing { nearbyBrowsing = want; nearbyBrowse(self, want) }
+        if let joining = nearbyJoining {
+            if partyService.lobby != nil {
+                nearbyJoining = nil; notice = "Joined \(joining.name)'s game · the match starts on the TV"
+                if session.haptics { UINotificationFeedbackGenerator().notificationOccurred(.success) }
+            } else if let error = partyService.lastError, !error.isEmpty {
+                nearbyJoining = nil; partyService.leave(); notice = error
+            } else if ProcessInfo.processInfo.systemUptime - joining.since > Self.nearbyJoinSeconds {
+                nearbyJoining = nil; partyService.leave(); notice = "Couldn't reach \(joining.name)'s game. Keep the phones close and try again."
+            }
+        }
+        // the hosted game went (left, or its match ended and was left): nothing is hosted any more
+        if nearbyHosting, partyService.lobby == nil, station != Self.nearbyBay { nearbyHosting = false }
+    }
+
     /// Seconds between everyone sitting down and the match starting (the panels count down).
     static var partyCountdown = 2.5
     /// When the host's phone starts the party's match (everyone seated); nil while waiting.
@@ -739,13 +892,14 @@ final class HubSession {
         if type == "boot" { if phase == .booting { sendStart() }; return }
         guard event["session"] as? String == sessionID else { return }
         let message = event["message"] as? String ?? ""
+        if phase == .booting { heardFromUnity = true; lastBootSignal = Date() }
         switch type {
         case "loadProgress": progress(0.12 + 0.18 * (Double(message) ?? 0))
         case "buildProgress": progress(0.30 + 0.65 * (Double(message) ?? 0))
         case "ready":
             loaded = true; progress(1)
             let fresh = phase == .booting && returnBay == nil
-            if phase == .booting { phase = .live; SportsDiagnostics.write("hub ready after \(String(format: "%.2f", Date().timeIntervalSince(bootStarted))) s") }
+            if phase == .booting { phase = .live; autoRetried = false; SportsDiagnostics.write("hub ready after \(String(format: "%.2f", Date().timeIntervalSince(bootStarted))) s") }
             // back from a match on the same bench: its panel again (staying seated = rematch, B = stand up)
             if let bay = returnBay, station == nil { returning = true; useStation(bay); returning = false }
             if !wanted { suspend() } else if fresh { arrive() } else { reveal() }

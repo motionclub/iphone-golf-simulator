@@ -27,9 +27,13 @@ struct HubInvite: Codable, Equatable, Identifiable, Sendable {
     var capacity: Int
     /// Milliseconds since 1970, by the service's clock (the app corrects for the offset it measured at welcome).
     var expiresAt: Double
+    /// A Game Center invite back into a party this phone dropped out of: accepted by itself.
+    var rejoin: Bool? = nil
     var id: String { inviteID }
     /// A Game Center party invite is to the party (sport-neutral), not to a sport.
     var sportTitle: String { sport == "golf" ? "Golf" : sport == "party" ? "their party" : "Tennis" }
+    /// Under the friend's name on the banner and in the inbox.
+    var line: String { sport == "party" ? "wants to play with you!" : "invites you to \(sportTitle) · Online" }
 }
 
 enum HubServerMessage: Equatable, Sendable {

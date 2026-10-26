@@ -1,13 +1,13 @@
 == Male
   relaxed stand: HubHeroAnimator on Male_Idle, 55 bones, 131 keys over 8.7s, loop seam 0.000 deg
-  parts: Body[body] v=44168 subs=1, Face[face] v=3824 subs=6, Acc_Bag[kit] v=19437 subs=2, Acc_Cap[kit] v=6675 subs=2, Kit_Bottom[kit] v=18066 subs=2, Kit_Shoe_L[kit] v=16565 subs=3, Kit_Shoe_R[kit] v=16643 subs=3, Kit_Sock_L[kit] v=2999 subs=1, Kit_Sock_R[kit] v=3008 subs=1, Kit_Top[kit] v=19644 subs=1, Racket_Racket_Classic[racket] v=2998 subs=1, Racket_ButtCap[racket] v=314 subs=1, Racket_Grip[racket] v=1442 subs=1, Racket_StringBed[racket] v=1368 subs=1
+  parts: Body[body] v=52020 subs=1, Face[face] v=3824 subs=6, Acc_Bag[kit] v=19437 subs=2, Acc_Cap[kit] v=6675 subs=2, Kit_Bottom[kit] v=18066 subs=2, Kit_Shoe_L[kit] v=16565 subs=3, Kit_Shoe_R[kit] v=16643 subs=3, Kit_Sock_L[kit] v=2999 subs=1, Kit_Sock_R[kit] v=3008 subs=1, Kit_Top[kit] v=19644 subs=1, Racket_Racket_Classic[racket] v=2998 subs=1, Racket_ButtCap[racket] v=314 subs=1, Racket_Grip[racket] v=1442 subs=1, Racket_StringBed[racket] v=1368 subs=1
   racket on the back: bone UpperChest, scale 1.000, matrix -0.42107	-0.88723	-0.18846	0.95257
 0.31582	-0.33819	0.88650	0.77662
 -0.85027	0.31376	0.42261	0.07737
 0.00000	0.00000	0.00000	1.00000
 
   base pose Male_ReadyIdle60 t=0: body bounds min=(-0.392, 0.002, -0.101) max=(0.392, 1.658, 0.495) height=1.656 m; neck y=1.361 head bone y=1.464; head box centre y=1.520 top=1.658 size=(0.206, 0.277, 0.250)
-  CPU skin vs Unity BakeMesh (tier skinWeights was FourBones): Body max deviation 0.001 mm, mean 0.0002 mm, 0 verts over 1 mm, of 44168
+  CPU skin vs Unity BakeMesh (tier skinWeights was FourBones): Body max deviation 0.001 mm, mean 0.0002 mm, 0 verts over 1 mm, of 52020
   CPU skin vs Unity BakeMesh (tier skinWeights was FourBones): Face max deviation 0.000 mm, mean 0.0003 mm, 0 verts over 1 mm, of 3824
   CPU skin vs Unity BakeMesh (tier skinWeights was FourBones): Acc_Bag max deviation 0.001 mm, mean 0.0003 mm, 0 verts over 1 mm, of 19437
   CPU skin vs Unity BakeMesh (tier skinWeights was FourBones): Acc_Cap max deviation 0.000 mm, mean 0.0002 mm, 0 verts over 1 mm, of 6675
@@ -67,14 +67,14 @@
   clip defeat: Male_Emote_Defeat length 3.300s, 359 frames at 60.00 Hz, loop seam 0.001 mm / 0.000 deg (last frame vs first), TRS recompose error 1.89E-006, bone scale error 2.15E-006; mesh bounds (file space) min=(-0.417, -0.041, -1.374) max=(0.658, 1.666, 0.512)
   clip forehand: 714 total samples including 60 Hz base + cut guards
   clip forehand: Male_ForehandArmCorrected length 1.200s, 714 frames at 60.00 Hz, loop seam 520.806 mm / 29.452 deg (last frame vs first), TRS recompose error 1.51E-006, bone scale error 1.79E-006; mesh bounds (file space) min=(-0.876, -0.039, -0.969) max=(1.071, 1.868, 0.831)
-  clip relaxed: Relaxed length 8.700s, 131 frames at 14.94 Hz, loop seam 0.000 mm / 0.000 deg (last frame vs first), TRS recompose error 1.03E-006, bone scale error 1.31E-006; mesh bounds (file space) min=(-0.332, -0.054, -0.611) max=(0.330, 1.725, 0.363)
-  rig file MatchHero_Male_Rig: 124.65 MB decompressed
+  clip relaxed: Relaxed length 8.700s, 131 frames at 14.94 Hz, loop seam 0.000 mm / 0.000 deg (last frame vs first), TRS recompose error 9.83E-007, bone scale error 1.31E-006; mesh bounds (file space) min=(-0.317, -0.054, -0.540) max=(0.331, 1.725, 0.363)
+  rig file MatchHero_Male_Rig: 125.88 MB decompressed
   rig self check ready: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0004 mm (ready frame 62 Kit_Top v9737)
   rig self check serve: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0007 mm (serve frame 124 Kit_Sock_R v1799)
   rig self check scuba: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0005 mm (scuba frame 1074 Kit_Sock_R v1799)
   rig self check thrust: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0006 mm (thrust frame 166 Kit_Sock_R v1806)
   rig self check spike: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0008 mm (spike frame 335 Kit_Sock_R v1799)
-  rig self check wave: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0004 mm (wave frame 80 Body v22764)
+  rig self check wave: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0005 mm (wave frame 179 Body v47103)
   rig self check bringIt: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0004 mm (bringIt frame 183 Body v19656)
   rig self check pushups: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0006 mm (pushups frame 708 Kit_Sock_R v1799)
   rig self check idle: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0007 mm (idle frame 199 Body v23849)
@@ -92,23 +92,23 @@
   rig self check victory: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0006 mm (victory frame 818 Body v16758)
   rig self check defeat: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0005 mm (defeat frame 297 Body v9653)
   rig self check forehand: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0005 mm (forehand frame 335 Kit_Top v6139)
-  rig self check relaxed: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0006 mm (relaxed frame 61 Body v77)
-  wrote MatchHero_Male.json + .lzfse + 12 swing frames (34.0 MB compressed); triangles=253646; materials=Acc_Bag,Acc_BagMetal,Acc_Cap,Acc_CapMetal,Black_Grip,Kit_Buckle,Kit_Shirt,Kit_Shoe,Kit_Shorts,Kit_ShortsBand,Kit_Sock,Kit_Sole,Reference_Face_Brow,Reference_Face_Catch,Reference_Face_Iris,Reference_Face_Limbal,Reference_Face_Pupil,Reference_Face_Sclera,Skin,White_Frame,White_Strings
-  maps copied: OriginalEye_RelativeIris.png, OriginalEye_RelativeSclera.png, OriginalSeam_RelativeSkinPigment.png, Acc_Male_golf_bag_Bag_M.png, Acc_Male_golf_bag_Bag_N.png, Acc_Male_tennis_cap_Cap_M.png, Acc_Male_tennis_cap_Cap_N.png, KitV2_FabricAtlas.png, KitV2_Tennis_Male_Bottom_M.png, KitV2_Tennis_Male_Bottom_N.png, KitV2_Tennis_Male_ShoeL_M.png, KitV2_Tennis_Male_ShoeL_N.png, KitV2_Tennis_Male_ShoeR_M.png, KitV2_Tennis_Male_ShoeR_N.png, KitV2_Tennis_Male_SockL_M.png, KitV2_Tennis_Male_SockL_N.png, KitV2_Tennis_Male_SockR_M.png, KitV2_Tennis_Male_SockR_N.png, KitV2_Tennis_Male_Top_M.png, KitV2_Tennis_Male_Top_N.png
+  rig self check relaxed: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0007 mm (relaxed frame 108 Body v7)
+  wrote MatchHero_Male.json + .lzfse + 12 swing frames (36.3 MB compressed); triangles=253646; materials=Acc_Bag,Acc_BagMetal,Acc_Cap,Acc_CapMetal,Black_Grip,Kit_Buckle,Kit_Shirt,Kit_Shoe,Kit_Shorts,Kit_ShortsBand,Kit_Sock,Kit_Sole,Reference_Face_Brow,Reference_Face_Catch,Reference_Face_Iris,Reference_Face_Limbal,Reference_Face_Pupil,Reference_Face_Sclera,Skin,White_Frame,White_Strings
+  maps copied: OriginalEye_RelativeIris.png, OriginalEye_RelativeSclera.png, OriginalSeam_RelativeSkinPigment.png, Acc_Male_golf_bag_Bag_M.png, Acc_Male_golf_bag_Bag_N.png, Acc_Male_tennis_cap_Cap_M.png, Acc_Male_tennis_cap_Cap_N.png, KitV2_FabricAtlas.png, KitV2_Tennis_Male_Bottom_M.png, KitV2_Tennis_Male_Bottom_N.png, KitV2_Tennis_Male_ShoeL_M.png, KitV2_Tennis_Male_ShoeL_N.png, KitV2_Tennis_Male_ShoeR_M.png, KitV2_Tennis_Male_ShoeR_N.png, KitV2_Tennis_Male_SockL_M.png, KitV2_Tennis_Male_SockL_N.png, KitV2_Tennis_Male_SockR_M.png, KitV2_Tennis_Male_SockR_N.png, KitV2_Tennis_Male_Top_M.png, KitV2_Tennis_Male_Top_N.png, Male_skin_mask.png, Male_skin_pigment.png
   swing clip Male_ForehandArmCorrected len=1.200s contact=0.667s sampled at [0.000, 0.150, 0.300, 0.420, 0.500, 0.560, 0.620, 0.667, 0.720, 0.780, 0.900, 1.200]
-  BUDGET Male: vertices 157151 (kit 103037), triangles 253646 (kit 174150); one swing frame = 3.60 MB decompressed (positions + normals), base file 9.17 MB; 12 morph targets resident = 43.2 MB
+  BUDGET Male: vertices 165003 (kit 103037), triangles 253646 (kit 174150); one swing frame = 3.78 MB decompressed (positions + normals), base file 10.07 MB; 12 morph targets resident = 45.3 MB
   looks: Body/Skin=Character; Face/Reference_Face_Brow=Character; Face/Reference_Face_Sclera=Character; Face/Reference_Face_Iris=Character; Face/Reference_Face_Pupil=Character; Face/Reference_Face_Limbal=Character; Face/Reference_Face_Catch=Character; Acc_Bag/Acc_Bag=Cloth; Acc_Bag/Acc_BagMetal=Character; Acc_Cap/Acc_Cap=Cloth; Acc_Cap/Acc_CapMetal=Character; Kit_Bottom/Kit_Shorts=Cloth; Kit_Bottom/Kit_ShortsBand=Cloth; Kit_Shoe_L/Kit_Shoe=Cloth; Kit_Shoe_L/Kit_Sole=Cloth; Kit_Shoe_L/Kit_Buckle=Character; Kit_Shoe_R/Kit_Shoe=Cloth; Kit_Shoe_R/Kit_Sole=Cloth; Kit_Shoe_R/Kit_Buckle=Character; Kit_Sock_L/Kit_Sock=Cloth; Kit_Sock_R/Kit_Sock=Cloth; Kit_Top/Kit_Shirt=Cloth; Racket_Racket_Classic/White_Frame=Character; Racket_ButtCap/Black_Grip=Cloth; Racket_Grip/Black_Grip=Cloth; Racket_StringBed/White_Strings=Character
 
 == Female
   relaxed stand: HubHeroAnimator on Female_Idle, 55 bones, 131 keys over 8.7s, loop seam 0.000 deg
-  parts: Body[body] v=34443 subs=1, Face[face] v=3004 subs=7, Acc_Bag[kit] v=19437 subs=2, Acc_Cap[kit] v=6675 subs=2, Kit_Bottom[kit] v=10185 subs=1, Kit_Shoe_L[kit] v=14054 subs=2, Kit_Shoe_R[kit] v=13924 subs=2, Kit_Sock_L[kit] v=1958 subs=1, Kit_Sock_R[kit] v=1958 subs=1, Kit_Top[kit] v=22516 subs=1, Racket_Racket_Classic[racket] v=2998 subs=1, Racket_ButtCap[racket] v=314 subs=1, Racket_Grip[racket] v=1442 subs=1, Racket_StringBed[racket] v=1368 subs=1
+  parts: Body[body] v=40721 subs=1, Face[face] v=3004 subs=7, Acc_Bag[kit] v=19437 subs=2, Acc_Cap[kit] v=6675 subs=2, Kit_Bottom[kit] v=10185 subs=1, Kit_Shoe_L[kit] v=14054 subs=2, Kit_Shoe_R[kit] v=13924 subs=2, Kit_Sock_L[kit] v=1958 subs=1, Kit_Sock_R[kit] v=1958 subs=1, Kit_Top[kit] v=22516 subs=1, Racket_Racket_Classic[racket] v=2998 subs=1, Racket_ButtCap[racket] v=314 subs=1, Racket_Grip[racket] v=1442 subs=1, Racket_StringBed[racket] v=1368 subs=1
   racket on the back: bone UpperChest, scale 1.000, matrix -0.50137	-0.82960	-0.24575	0.92017
 0.20931	-0.39189	0.89589	0.72110
 -0.83954	0.39773	0.37012	-0.07622
 0.00000	0.00000	0.00000	1.00000
 
   base pose Female_ReadyIdle60 t=0: body bounds min=(-0.383, 0.001, -0.119) max=(0.383, 1.653, 0.401) height=1.652 m; neck y=1.336 head bone y=1.438; head box centre y=1.504 top=1.653 size=(0.218, 0.297, 0.253)
-  CPU skin vs Unity BakeMesh (tier skinWeights was FourBones): Body max deviation 0.001 mm, mean 0.0002 mm, 0 verts over 1 mm, of 34443
+  CPU skin vs Unity BakeMesh (tier skinWeights was FourBones): Body max deviation 0.001 mm, mean 0.0002 mm, 0 verts over 1 mm, of 40721
   CPU skin vs Unity BakeMesh (tier skinWeights was FourBones): Face max deviation 0.000 mm, mean 0.0003 mm, 0 verts over 1 mm, of 3004
   CPU skin vs Unity BakeMesh (tier skinWeights was FourBones): Acc_Bag max deviation 0.001 mm, mean 0.0002 mm, 0 verts over 1 mm, of 19437
   CPU skin vs Unity BakeMesh (tier skinWeights was FourBones): Acc_Cap max deviation 0.000 mm, mean 0.0001 mm, 0 verts over 1 mm, of 6675
@@ -166,11 +166,11 @@
   clip defeat: Female_Emote_Defeat length 3.300s, 340 frames at 60.00 Hz, loop seam 0.000 mm / 0.000 deg (last frame vs first), TRS recompose error 1.01E-006, bone scale error 1.13E-006; mesh bounds (file space) min=(-0.393, -0.028, -1.241) max=(0.628, 1.662, 0.576)
   clip forehand: 620 total samples including 60 Hz base + cut guards
   clip forehand: Female_ForehandArmCorrected length 1.200s, 620 frames at 60.00 Hz, loop seam 181.083 mm / 18.881 deg (last frame vs first), TRS recompose error 1.07E-006, bone scale error 1.79E-006; mesh bounds (file space) min=(-0.836, -0.027, -1.029) max=(0.919, 1.927, 0.571)
-  clip relaxed: Relaxed length 8.700s, 131 frames at 14.94 Hz, loop seam 0.002 mm / 0.000 deg (last frame vs first), TRS recompose error 1.01E-006, bone scale error 8.34E-007; mesh bounds (file space) min=(-0.242, -0.047, -0.229) max=(0.384, 1.720, 0.498)
-  rig file MatchHero_Female_Rig: 97.42 MB decompressed
+  clip relaxed: Relaxed length 8.700s, 131 frames at 14.94 Hz, loop seam 1.300 mm / 0.000 deg (last frame vs first), TRS recompose error 9.24E-007, bone scale error 8.34E-007; mesh bounds (file space) min=(-0.291, -0.047, -0.372) max=(0.299, 1.720, 0.498)
+  rig file MatchHero_Female_Rig: 98.69 MB decompressed
   rig self check ready: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0003 mm (ready frame 62 Body v707)
   rig self check serve: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0004 mm (serve frame 31 Body v889)
-  rig self check scuba: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0003 mm (scuba frame 2844 Body v350)
+  rig self check scuba: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0003 mm (scuba frame 2844 Body v34384)
   rig self check thrust: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0004 mm (thrust frame 2022 Kit_Top v5908)
   rig self check spike: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0004 mm (spike frame 1211 Body v49)
   rig self check wave: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0003 mm (wave frame 164 Body v630)
@@ -179,22 +179,22 @@
   rig self check idle: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0007 mm (idle frame 0 Body v9870)
   rig self check hitPerfect: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0003 mm (hitPerfect frame 66 Body v10346)
   rig self check missWhiff: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0004 mm (missWhiff frame 335 Body v1015)
-  rig self check celebratePoint: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0004 mm (celebratePoint frame 528 Body v707)
+  rig self check celebratePoint: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0004 mm (celebratePoint frame 528 Body v34489)
   rig self check sadPointLost: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0003 mm (sadPointLost frame 49 Body v196)
   rig self check matchWin: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0004 mm (matchWin frame 391 Body v210)
   rig self check matchLose: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0003 mm (matchLose frame 71 Body v630)
-  rig self check jumpJoy: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0004 mm (jumpJoy frame 528 Body v707)
+  rig self check jumpJoy: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0004 mm (jumpJoy frame 528 Body v34489)
   rig self check fistPump: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0003 mm (fistPump frame 66 Body v10346)
   rig self check stomp: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0003 mm (stomp frame 376 Body v10416)
   rig self check slump: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0003 mm (slump frame 49 Body v196)
   rig self check shock: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0004 mm (shock frame 335 Body v1015)
   rig self check victory: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0004 mm (victory frame 391 Body v210)
   rig self check defeat: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0003 mm (defeat frame 71 Body v630)
-  rig self check forehand: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0003 mm (forehand frame 514 Body v1204)
-  rig self check relaxed: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0005 mm (relaxed frame 0 Body v10346)
-  wrote MatchHero_Female.json + .lzfse + 12 swing frames (29.2 MB compressed); triangles=241702; materials=Acc_Bag,Acc_BagMetal,Acc_Cap,Acc_CapMetal,Black_Grip,Kit_Buckle,Kit_Shirt,Kit_Shoe,Kit_Shorts,Kit_Sock,Reference_Face_Brow,Reference_Face_Catch,Reference_Face_Iris,Reference_Face_IrisIn,Reference_Face_Limbal,Reference_Face_Pupil,Reference_Face_Sclera,Skin,White_Frame,White_Strings
-  maps copied: OriginalEye_RelativeIris.png, OriginalEye_RelativeSclera.png, OriginalSeam_RelativeSkinPigment.png, Acc_Female_golf_bag_Bag_M.png, Acc_Female_golf_bag_Bag_N.png, Acc_Female_tennis_cap_Cap_M.png, Acc_Female_tennis_cap_Cap_N.png, KitV2_Tennis_Female_Bottom_M.png, KitV2_Tennis_Female_Bottom_N.png, KitV2_Tennis_Female_ShoeL_M.png, KitV2_Tennis_Female_ShoeL_N.png, KitV2_Tennis_Female_ShoeR_M.png, KitV2_Tennis_Female_ShoeR_N.png, KitV2_Tennis_Female_SockL_M.png, KitV2_Tennis_Female_SockL_N.png, KitV2_Tennis_Female_SockR_M.png, KitV2_Tennis_Female_SockR_N.png, KitV2_Tennis_Female_Top_M.png, KitV2_Tennis_Female_Top_N.png, KitV2_FabricAtlas.png
+  rig self check forehand: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0004 mm (forehand frame 514 Body v35322)
+  rig self check relaxed: exported tracks + bind mesh vs live CPU skinning, max deviation 0.0005 mm (relaxed frame 0 Body v9639)
+  wrote MatchHero_Female.json + .lzfse + 12 swing frames (31.0 MB compressed); triangles=241702; materials=Acc_Bag,Acc_BagMetal,Acc_Cap,Acc_CapMetal,Black_Grip,Kit_Buckle,Kit_Shirt,Kit_Shoe,Kit_Shorts,Kit_Sock,Reference_Face_Brow,Reference_Face_Catch,Reference_Face_Iris,Reference_Face_IrisIn,Reference_Face_Limbal,Reference_Face_Pupil,Reference_Face_Sclera,Skin,White_Frame,White_Strings
+  maps copied: OriginalEye_RelativeIris.png, OriginalEye_RelativeSclera.png, OriginalSeam_RelativeSkinPigment.png, Acc_Female_golf_bag_Bag_M.png, Acc_Female_golf_bag_Bag_N.png, Acc_Female_tennis_cap_Cap_M.png, Acc_Female_tennis_cap_Cap_N.png, KitV2_Tennis_Female_Bottom_M.png, KitV2_Tennis_Female_Bottom_N.png, KitV2_Tennis_Female_ShoeL_M.png, KitV2_Tennis_Female_ShoeL_N.png, KitV2_Tennis_Female_ShoeR_M.png, KitV2_Tennis_Female_ShoeR_N.png, KitV2_Tennis_Female_SockL_M.png, KitV2_Tennis_Female_SockL_N.png, KitV2_Tennis_Female_SockR_M.png, KitV2_Tennis_Female_SockR_N.png, KitV2_Tennis_Female_Top_M.png, KitV2_Tennis_Female_Top_N.png, KitV2_FabricAtlas.png, Female_skin_mask.png, Female_skin_pigment.png
   swing clip Female_ForehandArmCorrected len=1.200s contact=0.667s sampled at [0.000, 0.150, 0.300, 0.420, 0.500, 0.560, 0.620, 0.667, 0.720, 0.780, 0.900, 1.200]
-  BUDGET Female: vertices 134276 (kit 90707), triangles 241702 (kit 167232); one swing frame = 3.07 MB decompressed (positions + normals), base file 8.00 MB; 12 morph targets resident = 36.9 MB
+  BUDGET Female: vertices 140554 (kit 90707), triangles 241702 (kit 167232); one swing frame = 3.22 MB decompressed (positions + normals), base file 8.72 MB; 12 morph targets resident = 38.6 MB
   looks: Body/Skin=Character; Face/Reference_Face_Brow=Character; Face/Reference_Face_Sclera=Character; Face/Reference_Face_IrisIn=Character; Face/Reference_Face_Iris=Character; Face/Reference_Face_Limbal=Character; Face/Reference_Face_Pupil=Character; Face/Reference_Face_Catch=Character; Acc_Bag/Acc_Bag=Cloth; Acc_Bag/Acc_BagMetal=Character; Acc_Cap/Acc_Cap=Cloth; Acc_Cap/Acc_CapMetal=Character; Kit_Bottom/Kit_Shorts=Cloth; Kit_Shoe_L/Kit_Shoe=Cloth; Kit_Shoe_L/Kit_Buckle=Character; Kit_Shoe_R/Kit_Shoe=Cloth; Kit_Shoe_R/Kit_Buckle=Character; Kit_Sock_L/Kit_Sock=Cloth; Kit_Sock_R/Kit_Sock=Cloth; Kit_Top/Kit_Shirt=Cloth; Racket_Racket_Classic/White_Frame=Character; Racket_ButtCap/Black_Grip=Cloth; Racket_Grip/Black_Grip=Cloth; Racket_StringBed/White_Strings=Character
 

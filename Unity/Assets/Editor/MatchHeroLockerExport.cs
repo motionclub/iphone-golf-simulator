@@ -83,9 +83,13 @@ namespace GolfArcade.EditorTools
             public bool faceSkin;
             /// TennisCloth's kit edge lines (HeroKitEdges): 1 shoe sole line, 2 sock cuff, 0 none. Their data is the part's edgeOffset channel.
             public float edgeLines;
+            /// CHARACTER QUALITY 10-25: HeroFaceSkin's textured skin (_SkinTex: pigment / mask maps in the body's skin channel, HeroSkinV2 light) and
+            /// TennisCharacter's rounded eyes (_EyeV2). Maps are linear data files; "" = none.
+            public float skinTex, skinScatter, skinTransmission, skinAO, skinSpecular, skinLightChroma, skinCoolFill, eyeV2, eyeCaustic, eyeGloss;
+            public string skinPigmentMap = "", skinMaskMap = "";
         }
         [Serializable] class Sub { public string material; public int indexOffset, indexCount; public Look look; }
-        [Serializable] class PartInfo { public string name, kind; public int vertexCount, positionOffset, normalOffset, swingPositionOffset, swingNormalOffset, uvOffset = -1, bindPositionOffset = -1, lidOffset = -1, edgeOffset = -1; public Sub[] submeshes; }
+        [Serializable] class PartInfo { public string name, kind; public int vertexCount, positionOffset, normalOffset, swingPositionOffset, swingNormalOffset, uvOffset = -1, bindPositionOffset = -1, lidOffset = -1, edgeOffset = -1, skinUVOffset = -1; public Sub[] submeshes; }
         [Serializable] class MatInfo { public string name; public float[] color; public float smoothness; }
         [Serializable] class RigMorph { public string name; public int positionOffset, normalOffset; }
         [Serializable] class MorphTrack { public string part; public int offset, count; }
@@ -454,6 +458,9 @@ namespace GolfArcade.EditorTools
                         // CLOTHING V2: the garments' contact shadow on the skin (mesh channel 3, x), exported in the edge channel
                         var contact = new List<Vector4>(); p.mesh.GetUVs(3, contact);
                         if (contact.Count == p.pos.Length) { info.edgeOffset = bin.Count; foreach (var e in contact) { AddV2(bin, new[] { new Vector2(e.x, e.y) }); AddV2(bin, new[] { new Vector2(e.z, e.w) }); } }
+                        // CHARACTER QUALITY 10-25: the skin texture layout (SkinUnwrap, mesh channel 4) for the baked skin maps
+                        var skinUV = new List<Vector2>(); p.mesh.GetUVs(4, skinUV);
+                        if (skinUV.Count == p.pos.Length) { info.skinUVOffset = bin.Count; AddV2(bin, skinUV.ToArray()); }
                     }
                     if (p.kind == "kit")
                     {
@@ -570,6 +577,10 @@ namespace GolfArcade.EditorTools
             look.saturation = F("_Saturation"); look.bumpScale = F("_BumpScale"); look.bumpTriplanar = F("_BumpTriplanar"); look.bumpTile = F("_BumpTile");
             look.baseMap = Map("_BaseMap"); look.weaveMap = Map("_WeaveMap"); look.bumpMap = Map("_BumpMap");
             look.normalMap = Map("_NormalMap"); look.maskMap = Map("_MaskMap"); look.trimColor = C("_TrimColor"); look.normalStrength = F("_NormalStrength"); look.useGarmentMaps = F("_UseGarmentMaps"); look.fabricVersion = F("_FabricVersion"); look.femaleSurface = F("_FemaleSurface"); look.edgeLines = F("_EdgeLines"); look.maleFormPass = F("_MaleFormPass");
+            look.skinTex = F("_SkinTex"); look.skinScatter = F("_SkinScatter"); look.skinTransmission = F("_SkinTransmission"); look.skinAO = F("_SkinAO");
+            look.skinSpecular = F("_SkinSpecular"); look.skinLightChroma = F("_SkinLightChroma"); look.skinCoolFill = F("_SkinCoolFill");
+            look.eyeV2 = F("_EyeV2"); look.eyeCaustic = F("_EyeCaustic"); look.eyeGloss = F("_EyeGloss");
+            if (look.skinTex > .5f) { look.skinPigmentMap = Map("_SkinPigmentMap"); look.skinMaskMap = Map("_SkinMaskMap"); }
             float.TryParse(m.GetTag("FemaleBindingTone",false,"0"),System.Globalization.NumberStyles.Float,System.Globalization.CultureInfo.InvariantCulture,out look.bindingTone);
             if (look.shader == "TennisCloth")
             {

@@ -1,5 +1,31 @@
+import CallKit
 import Foundation
 import Observation
+
+/// A FaceTime or phone call, or a voice app that uses the system call screen (Discord, WhatsApp, Messenger…). While one is on, the call
+/// already carries everyone's voice: party voice stays off so the two never fight over the microphone or echo each other, and the game's
+/// own sound keeps playing alongside the call (Unity's session mixes with other audio).
+@MainActor @Observable
+final class CallWatcher: NSObject, CXCallObserverDelegate {
+    static let shared = CallWatcher()
+    static let changed = Notification.Name("CallWatcher.changed")
+    @ObservationIgnored private let observer = CXCallObserver()
+    private(set) var active = false
+    override init() {
+        super.init()
+        observer.setDelegate(self, queue: .main)
+        active = Self.anyCall(observer.calls)
+    }
+    nonisolated func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall) {
+        let on = Self.anyCall(callObserver.calls)
+        Task { @MainActor in
+            guard on != self.active else { return }
+            self.active = on
+            NotificationCenter.default.post(name: Self.changed, object: nil)
+        }
+    }
+    nonisolated static func anyCall(_ calls: [CXCall]) -> Bool { calls.contains { !$0.hasEnded } }
+}
 
 /// The party's voice, wired up: the engine (microphone, codec, playback), the party channel it travels over, the safety gates that can
 /// switch it off at any moment, and the recording. The engine itself touches no microphone or audio session until `turnOn()`.
@@ -14,6 +40,10 @@ final class PartyVoiceCoordinator {
     @ObservationIgnored let chat: PartyChat
     @ObservationIgnored private let defaults: UserDefaults
     @ObservationIgnored private var gate: Task<Void, Never>?
+    /// On a call (CallWatcher): party voice is off and comes back by itself when the call ends.
+    @ObservationIgnored var callActive: () -> Bool = { CallWatcher.shared.active }
+    private(set) var pausedForCall = false
+    @ObservationIgnored private var callObserver: NSObjectProtocol?
 
     init(engine: PartyVoiceEngine? = nil, chat: PartyChat = .shared, defaults: UserDefaults = .standard) {
         self.engine = engine ?? PartyVoiceEngine()
@@ -22,6 +52,20 @@ final class PartyVoiceCoordinator {
         // (a fresh launch never has a live microphone: the engine only starts from `turnOn()`, whatever mode was saved)
         self.engine.onPacket = { [weak self] data in
             self?.chat.channel.send("partyVoice", payload: data.base64EncodedString(), reliable: false)
+        }
+        callObserver = NotificationCenter.default.addObserver(forName: CallWatcher.changed, object: nil, queue: .main) { [weak self] _ in
+            MainActor.assumeIsolated { self?.callChanged(CallWatcher.shared.active) }
+        }
+    }
+
+    /// A call started: voice steps aside (the call carries the voices). It ended: voice comes back if it was on.
+    func callChanged(_ on: Bool) {
+        if on, engine.state != .off {
+            turnOff(); pausedForCall = true
+            notice = "You're on a call, so party voice is off. It comes back when the call ends."
+        } else if !on, pausedForCall {
+            pausedForCall = false
+            Task { await turnOn() }
         }
     }
 
@@ -44,7 +88,7 @@ final class PartyVoiceCoordinator {
     }
     var statusDetail: String {
         switch engine.state {
-        case .off: chat.safety.access.canTalk ? "Tap the mic to talk to your party. Only they can hear you." : (chat.safety.access.reason ?? "")
+        case .off: callActive() ? "You're on a call: it carries your voice. Party voice comes back after it." : chat.safety.access.canTalk ? "Tap the mic to talk to your party. Only they can hear you." : (chat.safety.access.reason ?? "")
         case .starting: "Setting up your microphone"
         case .live: "Only people in your party can hear you."
         case .paused(let why): why == .background ? "Comes back when you return to the app." : "Comes back after the interruption."
@@ -57,6 +101,11 @@ final class PartyVoiceCoordinator {
     /// Turn voice on (the first tap on the mic). False when it cannot be: not in a party, not allowed yet, or the mic was refused.
     @discardableResult func turnOn() async -> Bool {
         guard chat.channel.inParty else { notice = "Voice chat is for your party. Invite a friend first."; return false }
+        guard !callActive() else {
+            pausedForCall = true
+            notice = "You're on a call (FaceTime, phone or Discord), and it already carries your voice. Party voice comes on when it ends."
+            return false
+        }
         chat.safety.refresh()
         guard chat.safety.access.canTalk else { notice = chat.safety.access.reason ?? "Voice is not available."; return false }
         if prefs.mode == .off { prefs.mode = .pushToTalk; save() }
@@ -71,6 +120,7 @@ final class PartyVoiceCoordinator {
 
     func turnOff() {
         gate?.cancel(); gate = nil
+        pausedForCall = false   // (turned off by the player: a call ending does not bring it back)
         engine.stop(); engine.captureSink = nil; chat.voiceHandler = nil
         selfMuted = false
     }

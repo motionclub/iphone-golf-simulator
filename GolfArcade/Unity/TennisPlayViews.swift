@@ -11,7 +11,7 @@ struct TennisTVRoot: View {
             ZStack {
                 Club.lagoonDeep   // around the canvas on 16:10 screens; each screen paints its own scene
                 Group {
-                    if OnboardingFlow.shared.holdsMenu { OnboardingHoldingCard() }
+                    if OnboardingFlow.shared.holdsMenu { OnboardingTV(flow: .shared) }
                     // the Plaza is the TV's only menu: its loading screen (or why it did not open), then the plaza itself (this window hides)
                     else if HubSession.shared.drivesPhone || (!SportsSession.shared.active && !TennisMenu.shared.classic) { HubLoadingScreen(hub: .shared) }
                     else { TennisMenuScreen(compact: false)
@@ -282,8 +282,6 @@ private struct PressButton<Label: View>: View {
 struct TennisRacketController: View {
     @Bindable var session: SportsSession
     @State private var showOptions = false
-    @State private var power = 0.6
-    @State private var steering = 0.0
     @State private var shotAim = 0.0
     @State private var holdHint = false
     var body: some View {
@@ -317,24 +315,6 @@ struct TennisRacketController: View {
                 RacketRadar(contacts: session.contacts)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 stamina
-                // Touch and motion both aim by timing; touch keeps steering and swing effort controls.
-                if session.touch {
-                    VStack(spacing: 6) {
-                        Slider(value: $steering, in: -1...1) { Text("Court position") }
-                            .onChange(of: steering) { _, v in session.steer(v) }
-                        Text("Early ←   ·   On time ↑   ·   Late →")
-                            .font(.caption).foregroundStyle(.white)
-                        HStack {
-                            Slider(value: $power, in: 0.15...1) { Text("Swing power") }
-                            PressButton(enabled: !session.paused, action: { session.swing(power) }) { pressed in
-                                Text("Swing").font(IslandUI.font(24, bold: true)).frame(maxWidth: .infinity, minHeight: 70)
-                                    .foregroundStyle(IslandUI.navy)
-                                    .background(IslandUI.lime, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
-                                    .opacity(session.paused ? 0.45 : 1).scaleEffect(pressed ? 0.97 : 1)
-                            }.disabled(session.paused)
-                        }
-                    }.tint(IslandUI.lime)
-                }
             }
             if session.ready && session.loading.finished && session.finishedMatch == nil {
                 if session.pointControlsVisible { TennisAbilityControls(session: session) }
@@ -373,7 +353,7 @@ struct TennisRacketController: View {
                     .accessibilityAction(named: "Pause") { if !session.paused { session.pause() }; showOptions = true }
             }
             if session.ready && session.loading.finished { Scoreline(session: session) } else { Spacer() }
-            if !session.touch && !session.trackingWarning.isEmpty {
+            if !session.trackingWarning.isEmpty {
                 Image(systemName: "exclamationmark.triangle.fill").foregroundStyle(.orange)
             }
         }
@@ -457,7 +437,6 @@ private struct ServePanel: View {
                 Spacer()
                 Image(systemName:"figure.tennis").font(.system(size:52)).foregroundStyle(IslandUI.lime)
 
-                if session.touch { ControllerButton(title: "Swing", icon: "bolt.fill", onPress: true) { session.swing(0.8) } }
                 Spacer()
             } else {
                 Text(session.serveFromDeuce ? "DEUCE" : "AD")
@@ -599,9 +578,11 @@ private struct TimingCheckPrompt: View {
             if !session.timingNote.isEmpty {
                 Text(session.timingNote).font(IslandUI.font(14, bold: true)).multilineTextAlignment(.center)
             }
-            if !session.touch {
-                Button("Retry screen flashes") { session.measureTVDelay() }.accessibilityIdentifier("timing-flashes")
+            if !session.delayTip.isEmpty {
+                Text(session.delayTip).font(IslandUI.font(13, bold: true)).foregroundStyle(.white.opacity(0.75)).multilineTextAlignment(.center)
+                    .padding(.horizontal, 12).accessibilityIdentifier("timing-tv-delay")
             }
+            Button("Retry screen flashes") { session.measureTVDelay() }.accessibilityIdentifier("timing-flashes")
             ControllerButton(title: "Start timing check", icon: "play.fill", height: 58, size: 21) { session.startTimingCheck() }.accessibilityIdentifier("timing-start")
             Button("Skip for now") { session.skipTimingCheck() }.accessibilityIdentifier("timing-skip")
                 .font(IslandUI.font(15, bold: true)).foregroundStyle(.white.opacity(0.7))
@@ -876,7 +857,7 @@ struct OnlineTennisSetupPanel: View {
                     direction
                 } else if session.setupStage == .ready {
                     Image(systemName: "checkmark.circle.fill").font(.system(size: 64)).foregroundStyle(IslandUI.lime)
-                    Text(session.touch ? "You're in control" : "Direction set").font(IslandUI.font(30, bold: true))
+                    Text("Direction set").font(IslandUI.font(30, bold: true))
                     Text("Stand where you'll play. Tap Ready, then watch the TV.").multilineTextAlignment(.center)
                     ControllerButton(title: "Ready", icon: "play.fill") { session.readyToPlay() }
                         .accessibilityIdentifier("controller-ready")
@@ -884,10 +865,8 @@ struct OnlineTennisSetupPanel: View {
                         Text(session.setupProblem).font(.subheadline).multilineTextAlignment(.center)
                             .accessibilityIdentifier("controller-ready-status")
                     }
-                    if !session.touch {
-                        Button("Set direction again") { scanStarted = Date(); session.retryCourtDirection() }
-                            .frame(minHeight: 44).tint(IslandUI.lime)
-                    }
+                    Button("Set direction again") { scanStarted = Date(); session.retryCourtDirection() }
+                        .frame(minHeight: 44).tint(IslandUI.lime)
                 } else {
                     TimelineView(.periodic(from: .now, by: 0.1)) { _ in
                         if let count = service.startCountdown {
@@ -937,8 +916,6 @@ struct OnlineTennisSetupPanel: View {
                             .accessibilityIdentifier("forceAxis")
                         Button("Try again") { scanStarted = Date(); session.retryCourtDirection() }
                             .accessibilityIdentifier("retryAxis")
-                        Button("Use touch controls") { session.useTouch() }
-                            .accessibilityIdentifier("setup-use-touch")
                     }.tint(IslandUI.lime).buttonStyle(.bordered).controlSize(.large)
                 }
             }
@@ -999,6 +976,7 @@ struct ControllerReadyPanel: View {
             // An online match skips the timing check, so Ready is its second step.
             Text("\(session.multiplayerMatchID == nil ? 3 : 2) · Ready to play").font(IslandUI.font(28, bold: true))
             if !session.timingNote.isEmpty { Text(session.timingNote).multilineTextAlignment(.center) }
+            if !session.delayTip.isEmpty { Text(session.delayTip).font(.footnote).multilineTextAlignment(.center).foregroundStyle(.white.opacity(0.75)).padding(.horizontal, 12) }
             Text("Watch the TV. Your phone stays your controller.").multilineTextAlignment(.center)
             ControllerButton(title: "Ready to play", icon: "play.fill") { session.readyToPlay() }
                 .accessibilityIdentifier("controller-ready")

@@ -34,6 +34,8 @@ namespace GolfArcade.EditorTools
         int savedHoles,channels,rate;string savedCourse;readonly List<float> sound=new();StreamWriter trace;
         [Serializable]class Report{public string course,source="Live GolfGame.ShowBackswing + StrikeToward; actual game ball physics/camera/HUD",unity,graphics,finalState;public int hole,fps=30,width=1280,height=720,frames,flightSimulationFrames,impactFrame;public bool sawFlight,audioStarted;public float duration,audioSeconds;public double windMPH,windDegrees,shotDuration,restX,restD;public string weather,club;public bool compressed;}
         Report report=new();
+        static int FW=>int.Parse(CurrentGolfSwingFilm.Env("FILM_W","1280"));
+        static int FH=>int.Parse(CurrentGolfSwingFilm.Env("FILM_H","720"));
         public void Begin(GolfGame g){
             ExperienceTrace.Enabled = true;
             game=g;dir=Path.GetFullPath(CurrentGolfSwingFilm.Env("FILM_OUT","../work/reference-rebuild/gameplay-films31/golf"));Directory.CreateDirectory(dir);
@@ -47,13 +49,13 @@ namespace GolfArcade.EditorTools
             if(double.TryParse(CurrentGolfSwingFilm.Env("FILM_WIND_MPH",""),NumberStyles.Float,CultureInfo.InvariantCulture,out double windMPH))
                 game.SetWind(new Wind(windMPH,double.Parse(CurrentGolfSwingFilm.Env("FILM_WIND_DEGREES","0"),CultureInfo.InvariantCulture)));
             report.windMPH=game.Wind.SpeedMPH;report.windDegrees=game.Wind.DirectionDegrees;report.weather=game.CurrentWeather.ToString();report.compressed=game.CompressRunout;
-            cam=Camera.main;cam.aspect=1280f/720f;cam.rect=new Rect(0,0,1,1);
+            cam=Camera.main;cam.aspect=(float)FW/FH;cam.rect=new Rect(0,0,1,1);
             report.course=course;report.hole=hole;report.unity=Application.unityVersion;report.graphics=SystemInfo.graphicsDeviceName;
             trace=new StreamWriter(Path.Combine(dir,"trace.csv"));trace.WriteLine("simulationFrame,videoFrame,time,stage,state,swingPhase,ballX,ballY,ballZ,flightTime,resultAge,canContinue,realtime");
         }
         void LateUpdate(){if(done||!game)return;try{Step();}catch(Exception e){Debug.LogException(e);Finish(1);}}
         void Step(){
-            cam.aspect=1280f/720f;cam.rect=new Rect(0,0,1,1);
+            cam.aspect=(float)FW/FH;cam.rect=new Rect(0,0,1,1);
             if(!filming){if(++wait<60||game.Current!=GolfGame.State.Aim)return;filming=true;wait=0;StartAudio();}
             tick++;
             if(stage==0 && tick>=60){stage=1;wait=0;}
@@ -77,7 +79,7 @@ namespace GolfArcade.EditorTools
                 else if(post>600) throw new TimeoutException("Result did not reach next Aim");
             }
             else if(stage==5 && ++post>=30){Finish(sawFlight?0:2);return;}
-            if(tick%2==0){GameCapture.Save(Path.Combine(dir,$"f_{frames:D5}.jpg"),1280,720);frames++;}
+            if(tick%2==0){GameCapture.Save(Path.Combine(dir,$"f_{frames:D5}.jpg"),FW,FH);frames++;}
             if(audio){int n=AudioRenderer.GetSampleCountForCaptureFrame();if(n>0){using var b=new NativeArray<float>(n*channels,Allocator.Temp);AudioRenderer.Render(b);sound.AddRange(b);}}
             var ball=GameObject.Find("Ball");var p=ball?ball.transform.position:Vector3.zero;
             trace.WriteLine(string.Join(",",tick,frames,Time.time.ToString("F5",CultureInfo.InvariantCulture),stage,game.Current,game.Swing.Phase,p.x.ToString("F5",CultureInfo.InvariantCulture),p.y.ToString("F5",CultureInfo.InvariantCulture),p.z.ToString("F5",CultureInfo.InvariantCulture),game.PresentationFlightTime.ToString("F5",CultureInfo.InvariantCulture),game.ResultAge.ToString("F5",CultureInfo.InvariantCulture),game.ResultCanContinue,Time.realtimeSinceStartupAsDouble.ToString("F5",CultureInfo.InvariantCulture)));

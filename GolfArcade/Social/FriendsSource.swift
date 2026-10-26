@@ -28,8 +28,6 @@ enum FriendsAccess: Equatable, Sendable {
     func recent() async throws -> [FriendProfile]
     /// Apple's friend-request screen (we cannot build our own).
     func presentAddFriend() throws
-    /// Apple's friends list, where friend requests are accepted.
-    func presentFriendsList() throws
     /// Apple's identity verification of the local player, for the service to check.
     func identity() async throws -> HubClientMessage.Auth
 }
@@ -37,8 +35,9 @@ enum FriendsAccess: Equatable, Sendable {
 /// Ids are Game Center **teamPlayerID**s: that is the id Apple's identity signature is made over (Apple's verification steps for
 /// fetchItems(forIdentityVerificationSignature:)), so the Club Hub can check it. (A gamePlayerID would fail every real sign-in.)
 @MainActor final class GameKitFriendsSource: FriendsSource {
-    private var players: [String: GKPlayer] = [:]
-    func player(_ teamID: String) -> GKPlayer? { players[teamID] }
+    private var players: [String: GKPlayer] = [:], recentPlayers: [String: GKPlayer] = [:]
+    /// A friend, or someone played with recently (both can be invited).
+    func player(_ teamID: String) -> GKPlayer? { players[teamID] ?? recentPlayers[teamID] }
     var localID: String { GKLocalPlayer.local.teamPlayerID }
     var localName: String { GKLocalPlayer.local.displayName }
 
@@ -59,21 +58,14 @@ enum FriendsAccess: Equatable, Sendable {
     }
 
     func recent() async throws -> [FriendProfile] {
-        try await GKLocalPlayer.local.loadRecentPlayers().map { FriendProfile(id: $0.teamPlayerID, name: $0.displayName) }
+        let list = try await GKLocalPlayer.local.loadRecentPlayers()
+        recentPlayers = Dictionary(list.map { ($0.teamPlayerID, $0) }, uniquingKeysWith: { a, _ in a })
+        return list.map { FriendProfile(id: $0.teamPlayerID, name: $0.displayName) }
     }
 
-    /// iOS 26: the Games app's own Add Friends view (GKAccessPoint replaces Game Center's view controllers there). Earlier: the
-    /// Messages friend request.
     func presentAddFriend() throws {
-        guard GKLocalPlayer.local.isAuthenticated else { throw MultiplayerError.unavailable("Sign in to Game Center first.") }
-        if #available(iOS 26.0, *) { GKAccessPoint.shared.triggerForFriending(handler: nil); return }
         guard let top = Self.topViewController() else { throw MultiplayerError.unavailable("There is nothing to show Game Center on right now.") }
         try GKLocalPlayer.local.presentFriendRequestCreator(from: top)
-    }
-
-    func presentFriendsList() throws {
-        guard GKLocalPlayer.local.isAuthenticated else { throw MultiplayerError.unavailable("Sign in to Game Center first.") }
-        GKAccessPoint.shared.trigger(state: .localPlayerFriendsList, handler: { @Sendable in })
     }
 
     func identity() async throws -> HubClientMessage.Auth {

@@ -15,8 +15,9 @@ enum RacketFeel {
     private typealias Configure = @convention(c) (Float, Int32) -> Void
     private typealias DemoCount = @convention(c) () -> Int32
     private typealias Demo = @convention(c) (Int32) -> UnsafePointer<CChar>?
+    private typealias Signal = @convention(c) () -> Void
 
-    private static func symbol<T>(_ name: String, as type: T.Type) -> T? {
+    private nonisolated static func symbol<T>(_ name: String, as type: T.Type) -> T? {
         // RTLD_DEFAULT: search every image loaded into the process, UnityFramework included.
         guard let pointer = dlsym(UnsafeMutableRawPointer(bitPattern: -2), name) else { return nil }
         return unsafeBitCast(pointer, to: type)
@@ -25,6 +26,12 @@ enum RacketFeel {
     /// Hands the saved strength and knock setting to the plugin: when either changes and as a match starts.
     static func apply(_ session: SportsSession = .shared) {
         symbol("GolfHaptics_Configure", as: Configure.self)?(Float(session.hapticStrength), session.racketSound ? 1 : 0)
+    }
+
+    /// The phone's own swing has reached the ball (its rotation peaked). Called straight from the motion sensor queue, so
+    /// a tennis strike the game has decided plays in the hand now and not a Unity frame later (GolfHaptics_HitOnSwing).
+    nonisolated static func swingReachedBall() {
+        symbol("GolfHaptics_SwingContact", as: Signal.self)?()
     }
 
     /// Plays entry `index` of the feel test (wrapping round) and names it: "3/22 · Great drive". Nil without Unity.
