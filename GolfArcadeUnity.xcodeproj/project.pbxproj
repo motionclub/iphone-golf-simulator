@@ -1906,6 +1906,7 @@
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					4B994B0A6441F50EC13DBD54 = {
+						DevelopmentTeam = 9F65U6SU2W;
 						ProvisioningStyle = Automatic;
 					};
 					8FC975F17CE6FFDCE8B539C6 = {
@@ -2567,6 +2568,8 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CODE_SIGN_ENTITLEMENTS = GolfArcade/Multiplayer/GolfArcade.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 7;
+				DEVELOPMENT_TEAM = 9F65U6SU2W;
 				ENABLE_BITCODE = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GolfArcade/Unity/SportsInfo.plist;
@@ -2582,6 +2585,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 0.1.5;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -2618,6 +2622,8 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CODE_SIGN_ENTITLEMENTS = GolfArcade/Multiplayer/GolfArcade.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 7;
+				DEVELOPMENT_TEAM = 9F65U6SU2W;
 				ENABLE_BITCODE = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GolfArcade/Unity/SportsInfo.plist;
@@ -2633,6 +2639,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 0.1.5;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
