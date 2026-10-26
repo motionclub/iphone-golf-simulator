@@ -16,8 +16,10 @@ struct SportsHome: View {
         if menu.classic && !session.active { ClassicSportsHome() }
         else if onboarding.holdsMenu && !session.active { OnboardingRoot(flow: onboarding) }
         // no match: the Plaza's controller, whatever else happens (invites, a party, a friend joining, the plaza loading or failing)
-        else if !session.active { if hub.runtimeMissing { TennisPhoneMenu() } else { HubControllerView() } }
+        else if !session.active { if hub.runtimeMissing { TennisPhoneMenu() } else if hub.menuMode { MenuControllerView() } else { HubControllerView() } }
         else if onboarding.holdsMenu { OnboardingRoot(flow: onboarding) }
+        // a match loading behind the pointer menu: the phone is still the menu's remote (START on the TV, Back cancels)
+        else if hub.menuHolding { MenuControllerView() }
         // an online match is over: its result is on the TV, the phone takes everyone back to the Plaza
         else if session.multiplayerMatchID != nil && hub.matchOver != nil { HubMatchOverPanel(hub: hub) }
         else if session.showsOnlineTennisSetup { TennisRacketController(session: session) }

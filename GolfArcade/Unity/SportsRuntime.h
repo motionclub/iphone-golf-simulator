@@ -14,7 +14,9 @@ typedef struct SportsSample {
     float qx, qy, qz, qw, rx, ry, rz, gx, gy, gz;
     double onsetTime, confirmationTime, abortTime;
 } SportsSample;
-enum { SportsSampleVersion = 3, SportsSampleValid = 1, SportsSampleDegraded = 2 };
+/// MenuPointer: a pointer-menu sample (target/aim = cursor x/y in -1..1, power > 0 = shown, swing = Select held,
+/// swingStart = Select press count). Touch: the same, from a finger on the phone screen (no TV).
+enum { SportsSampleVersion = 3, SportsSampleValid = 1, SportsSampleDegraded = 2, SportsSampleMenuPointer = 4, SportsSampleTouch = 8 };
 @interface SportsRuntime : NSObject
 + (instancetype)shared;
 - (BOOL)loadInWindow:(UIWindow*)window error:(NSError**)error;

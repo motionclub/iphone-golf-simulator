@@ -82,6 +82,20 @@ namespace GolfArcade.Hub
         }
         HubWorld world;
         public int Count => remotes.Count;
+        /// MENU: the pointer menu stands friends on its line-up itself. Asked every frame per friend id: where they stand, which way
+        /// they face, and whether they are shown (null: their own walk, as relayed).
+        public Func<string, (Vector3 pos, float yaw, bool show)?> Override;
+        readonly List<string> ids = new List<string>();
+        /// Friends here now, ordered by id (a stable line-up order on every TV).
+        public List<string> Ids { get { ids.Clear(); ids.AddRange(remotes.Keys); ids.Sort(System.StringComparer.Ordinal); return ids; } }
+        /// A friend's name and party colour (for the menu's name plates).
+        public bool TryGetIdentity(string id, out string name, out Color colour)
+        {
+            name = null; colour = PartyColours[0];
+            if (!remotes.TryGetValue(id ?? "", out var r) || r.snaps.Count == 0) return false;
+            var s = r.snaps[r.snaps.Count - 1].s; name = string.IsNullOrEmpty(s.name) ? "Friend" : s.name;
+            colour = PartyColours[Mathf.Abs(s.colour) % PartyColours.Length]; return true;
+        }
         /// Diagnostics for SYNC: where a friend is drawn now.
         public bool TryGetShown(string id, out Vector3 at) { at = default; if (!remotes.TryGetValue(id, out var r)) return false; at = r.shown; return true; }
         /// Where a friend last said they are (their place and position), for joining them.
@@ -154,6 +168,18 @@ namespace GolfArcade.Hub
             {
                 if (!r.root || r.snaps.Count == 0) continue;
                 var last = r.snaps[r.snaps.Count - 1].s;
+                if (Override != null && Override(r.id) is var placed && placed.HasValue)
+                {
+                    // MENU: on the line-up, idle, facing the camera; the menu draws the name plates itself
+                    var o = placed.Value;
+                    r.root.SetActive(o.show);
+                    if (r.tag) r.tag.gameObject.SetActive(false);
+                    if (!o.show) continue;
+                    r.shown = o.pos; r.root.transform.position = o.pos; r.place = last.place;
+                    r.yaw = Mathf.MoveTowardsAngle(r.yaw, o.yaw, 900 * dt);
+                    if (r.hero) { r.hero.Seated = false; r.hero.transform.localRotation = Quaternion.Euler(0, r.yaw, 0); r.hero.Tick(0, dt); }
+                    continue;
+                }
                 Vector3 pos; float yaw, speed;
                 if (!string.IsNullOrEmpty(last.bay) && HubLayout.SpotById(last.bay) is HubLayout.Spot bay)
                 {

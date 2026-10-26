@@ -49,6 +49,10 @@ namespace GolfArcade.Game
             public bool valid => (flags & 1) != 0;
             /// World tracking is blurred or limited; the rally continues with a warning.
             public bool degraded => (flags & 2) != 0;
+            /// A pointer-menu sample: target/aim = cursor x/y (-1..1), power > 0 = shown, swing = Select held, swingStart = press count.
+            public bool menuPointer => (flags & 4) != 0;
+            /// The pointer comes from a finger on the phone screen (no TV), not from aiming the phone.
+            public bool touch => (flags & 8) != 0;
         }
         float nextGolfController;
         [Serializable] class Event {
@@ -162,6 +166,7 @@ namespace GolfArcade.Game
                     if(m.sport!="golf" && m.sport!="tennis") return;
                     LeaveHub(); StartCoroutine(Load(m)); return;
                 }
+                if(MenuDuringLoad(m)) return;
                 if(m.session!=session || !Active) return;
                 if(HubIntercept(m)) return;
                 if (SportsMultiplayer.Active && (m.action=="pause" || m.action=="resume")) SetPaused(m.action=="pause",m.reason);
@@ -290,7 +295,7 @@ namespace GolfArcade.Game
             if(m.bench && !GetComponent<FrameProbe>()) gameObject.AddComponent<FrameProbe>().Report=r=>Emit("perf",r);
             if(golf) { golf.EquipResultEmotes(m.emotes); golf.SetRoundEvents(!m.noTwists,true,!m.noChallenges); golf.SetDailyRound(m.daily);
                 // behind the plaza the first hole builds a slice a frame (the plaza keeps drawing); otherwise at once, under the TV's cover
-                if(behindPlaza) { var steps=golf.PrepareNativeAddressSteps(m.course); while(steps.MoveNext()) { if(hub) hub.BayLoading(.6f+.4f*steps.Current); yield return null; } }
+                if(behindPlaza) { var steps=golf.PrepareNativeAddressSteps(m.course); while(steps.MoveNext()) { if(hub) hub.MatchLoading(.6f+.4f*steps.Current); yield return null; } }
                 else golf.PrepareNativeAddress(m.course); }
             if(golf && m.bench) {
                 golf.gameObject.AddComponent<GolfVisualBenchmark>();
@@ -408,6 +413,7 @@ namespace GolfArcade.Game
             Time.timeScale=SportsMultiplayer.Active?1:value?0:1; Haptics.Release(); if(value && golf) golf.RequireNativeReady();
         }
         void Update() {
+            if(loading) MenuLoadingUpdate();
             if(!Active || loading) return;
             if(hubMode) { HubUpdate(); return; }
             // Rotation settles after scene loading; do not freeze the initial portrait aspect.
