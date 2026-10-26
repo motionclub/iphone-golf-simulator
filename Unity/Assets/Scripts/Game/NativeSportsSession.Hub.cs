@@ -114,7 +114,7 @@ namespace GolfArcade.Game
         /// Load's scene request: the normal single-scene load, or, from a bay with the plaza up, an additive load held behind it.
         AsyncOperation BeginSceneLoad(Message m)
         {
-            string scene = SceneFor(m.sport);
+            string scene = m.sport == "tennis" ? "Tennis" : "Golf";
             var world = HubWorld.Find();
             behindPlaza = m.seamless && world && world.Initialized && world.gameObject.activeInHierarchy;
             if (!behindPlaza) return SceneManager.LoadSceneAsync(scene);
