@@ -14,9 +14,11 @@ typedef struct SportsSample {
     float qx, qy, qz, qw, rx, ry, rz, gx, gy, gz;
     double onsetTime, confirmationTime, abortTime;
 } SportsSample;
+/// MenuPointer: a pointer-menu sample (target/aim = cursor x/y in -1..1, power > 0 = shown, swing = Select held,
+/// swingStart = Select press count). Touch: the same, from a finger on the phone screen (no TV).
 /// Flags: tracking valid, tracking degraded, and swing prediction on (the stroke detector confirms strong swings at their
 /// peak; Unity may then let a stroke that proves itself strike before its confirmation, TennisRules.ProvenRate).
-enum { SportsSampleVersion = 3, SportsSampleValid = 1, SportsSampleDegraded = 2, SportsSamplePrediction = 4 };
+enum { SportsSampleVersion = 3, SportsSampleValid = 1, SportsSampleDegraded = 2, SportsSamplePrediction = 4, SportsSampleMenuPointer = 8, SportsSampleTouch = 16 };
 @interface SportsRuntime : NSObject
 + (instancetype)shared;
 - (BOOL)loadInWindow:(UIWindow*)window error:(NSError**)error;

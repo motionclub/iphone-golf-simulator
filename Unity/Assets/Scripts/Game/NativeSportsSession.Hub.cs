@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using GolfArcade.Hub;
+using GolfArcade.Hub.Menu;
 using GolfArcade.Tennis;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -20,7 +21,21 @@ namespace GolfArcade.Game
     {
         /// A match start from a bay: load it behind the plaza (additive, hidden) and hand off with a dive into the bay screen.
         public partial class Message { public bool seamless; public string bay; public string remote; public bool phoneOnly; }
+        /// The pointer menu (PLAN_PointerMenu.md): `menu` boots the plaza as the menu's backdrop; `leader` = this phone drives it (no
+        /// party, or the party's leader); `soloLocked` = friends are here (solo modes lock); `screen` = the screen to open on (back from a
+        /// match); `colour` = your party colour. A match start from the menu: `hold` = wait for START on the TV once it is built
+        /// (solo / local), `menuLabel` = the mode's name for the loader.
+        ///   phone -> Unity  menuBack  menuRecenter  menuGo{mode:screen}  menuPhone{mode:on|off, reason:title}  menuParty{leader, soloLocked}
+        ///                   menuMirror{mode:screen|hover|x|y|shown} (a guest's TV)  menuRows{mode:"name|STATE;…"}  menuTag{remote:id, mode:tag}
+        ///                   + the pointer on the binary sample channel (flags & 8: target/aim = x/y -1..1, power = shown, swing = Select held,
+        ///                   swingStart = Select presses; flags & 16 = a finger, no TV)
+        ///   Unity -> phone  menuScreen(id)  menuHover(id|label)  menuOpen(route id)  menuLook(slot|hex)  menuStart  menuCancel
+        ///                   menuState(screen|hover|x|y|shown, the leader's, ≤15 Hz)
+        public partial class Message { public bool menu, hold, soloLocked; public bool leader = true; public string screen, menuLabel; public int colour; }
         bool hubMode; HubWorld hub; float nextHubBeat, nextHubPose;
+        /// The menu's own session and token: a match loading behind the menu takes over `session` / `token`, but the menu (and its
+        /// pointer) keeps working until the hand-off.
+        string menuSession; int menuToken; double lastMenuSample = -1; string menuReturn;
         readonly float[] hubAges = new float[64]; int hubAgeCount, hubAgeNext;
         /// True while the phone is driving the Plaza.
         public static bool HubActive { get; private set; }
@@ -53,7 +68,8 @@ namespace GolfArcade.Game
             QualitySettings.vSyncCount = 0;
             // the phone stays upright either way: with a TV it is the controller, alone it shows the plaza above its controls
             Screen.orientation = ScreenOrientation.Portrait;
-            HubWorld.StartFemale = m.female; HubWorld.DeferBuild = true; HubWorld.PhoneOnly = m.phoneOnly;
+            HubWorld.StartFemale = m.female; HubWorld.DeferBuild = true; HubWorld.PhoneOnly = m.phoneOnly; HubWorld.MenuMode = m.menu;
+            menuSession = m.session; menuToken = m.token; lastMenuSample = -1;
             var op = SceneManager.LoadSceneAsync("Hub");
             float nextProgress = 0;
             while (op != null && !op.isDone)
@@ -77,7 +93,9 @@ namespace GolfArcade.Game
             hub.ZoneChanged += _ => { if (hubMode) Emit("hubZone", ZoneMessage()); };
             hub.Interacted += id => { if (hubMode) Emit("hubAction", id); };
             hub.ApplyLook(m.female, m.skinHex, m.skin, m.shirt, m.shorts, m.accent, m.racket, m.back);
-            if (!string.IsNullOrEmpty(m.bay) && !m.phoneOnly) hub.SitAt(m.bay);   // back from a match: on the same bench (RETURN)
+            WireMenu(hub, m);
+            if (hub.Hud) { if (!string.IsNullOrEmpty(m.screen)) hub.Hud.Go(m.screen); else hub.PrepareArrival(); }   // back from a match: straight onto the menu
+            else if (!string.IsNullOrEmpty(m.bay) && !m.phoneOnly) hub.SitAt(m.bay);   // back from a match: on the same bench (RETURN)
             else hub.PrepareArrival();   // a fresh boot: the first frame is the arrival's opening shot, held until the phone says go
             gameplayCamera = hub.Camera;
             paused = true;   // the point recorder stays off; the plaza itself never pauses (timeScale stays 1)
@@ -86,6 +104,68 @@ namespace GolfArcade.Game
             if (!Ready) yield break;
             hub.ArriveBy(Time.unscaledTime + 1.5f);   // (hubArrive normally comes first, once the loading screen has faded off the TV)
             Emit("hubPlace", hub.Place); Emit("hubZone", ZoneMessage());
+            if (hub.Hud) Emit("menuScreen", hub.Hud.Screen);
+        }
+
+        /// The menu's events go to the phone; its first look comes from the start message.
+        void WireMenu(HubWorld world, Message m)
+        {
+            var hud = world ? world.Hud : null; if (!hud) return;
+            hud.Event -= MenuEvent; hud.Event += MenuEvent;
+            hud.SetLook(m.shirt, m.shorts, m.accent, m.racket);
+            hud.SetIdentity(m.playerName, m.colour, m.leader && m.soloLocked ? "HOST" : "");
+            hud.SetParty(m.leader, m.soloLocked);
+        }
+        void MenuEvent(string type, string message) { if (hubMode || behindPlaza) Emit(type, message); }
+
+        /// Menu commands that still come under the menu's session while a match loads behind it (the hold): the party, the rows,
+        /// a guest's mirror, Back. False: not the menu's (or nothing is loading behind it).
+        bool MenuDuringLoad(Message m)
+        {
+            if (!loading || !behindPlaza || !hub || !hub.Hud || m.session != menuSession || m.session == session) return false;
+            if (MenuCommand(m)) return true;
+            switch (m.action)
+            {
+                case "hubRemote": if (!string.IsNullOrEmpty(m.remote)) HubRemotes.For(hub).Receive(JsonUtility.FromJson<RemoteState>(m.remote)); return true;
+                case "hubRoster": HubRemotes.For(hub).Roster((m.mode ?? "").Split(new[] { ',' }, System.StringSplitOptions.RemoveEmptyEntries)); return true;
+            }
+            return false;
+        }
+        bool MenuCommand(Message m)
+        {
+            var hud = hub ? hub.Hud : null; if (!hud) return false;
+            switch (m.action)
+            {
+                case "menuBack": hud.Back(); return true;
+                case "menuRecenter": return true;
+                case "menuGo": if (!string.IsNullOrEmpty(m.mode)) hud.Go(m.mode); return true;
+                case "menuPhone": hud.SetPhonePanel(m.mode == "on", m.reason); return true;
+                case "menuParty": hud.SetParty(m.leader, m.soloLocked); return true;
+                case "menuRows": hud.SetRows(m.mode); return true;
+                case "menuTag": hud.SetFriendTag(m.remote ?? "", m.mode); return true;
+                case "menuMirror":
+                {
+                    var f = (m.mode ?? "").Split('|');
+                    if (f.Length >= 5 && float.TryParse(f[2], NumberStyles.Float, CultureInfo.InvariantCulture, out var x) && float.TryParse(f[3], NumberStyles.Float, CultureInfo.InvariantCulture, out var y))
+                        hud.Mirror(f[0], f[1], x, y, f[4] == "1");
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// While a match loads behind the menu the session's Update stands down: the pointer still moves the menu (START, Back).
+        void MenuLoadingUpdate()
+        {
+            if (!behindPlaza || !hub || !hub.Hud) return;
+            Sample latest = default; bool have = false; double now = SportsClock();
+            for (int i = 0; i < 64; i++)
+            {
+                if (SportsPollSample(out var sample) == 0) break;
+                if (!sample.menuPointer || !AcceptSample(sample, menuToken, lastMenuSample, now)) continue;
+                lastMenuSample = sample.time; latest = sample; have = true;
+            }
+            if (have) hub.Hud.Pointer(latest.target, latest.aim, latest.power > 0, latest.swing != 0, latest.swingStart, latest.touch);
         }
 
         /// The plaza is still loaded (a bay load was cancelled): take it over again without reloading it.
@@ -94,13 +174,18 @@ namespace GolfArcade.Game
             loading = true; Ready = false; Active = true; hubMode = true; HubActive = true; multiplayerSession = false;
             session = m.session; token = m.token; lastSample = -1; tennis = null; golf = null; hub = world; Time.timeScale = 1;
             if (world.gameObject.scene.IsValid()) SceneManager.SetActiveScene(world.gameObject.scene);
-            if (!string.IsNullOrEmpty(m.bay)) world.SitAt(m.bay); else world.LeaveStation();
-            world.BayLoading(-1);
+            menuSession = m.session; menuToken = m.token; lastMenuSample = -1;
+            if (world.Hud) world.MatchLoading(-1);
+            else { if (!string.IsNullOrEmpty(m.bay)) world.SitAt(m.bay); else world.LeaveStation(); world.BayLoading(-1); }
             world.ApplyLook(m.female, m.skinHex, m.skin, m.shirt, m.shorts, m.accent, m.racket, m.back);
+            WireMenu(world, m);
+            // a cancelled load: back on the list it was started from
+            if (world.Hud) world.Hud.Go(!string.IsNullOrEmpty(m.screen) ? m.screen : menuReturn ?? MenuHud.Home);
             gameplayCamera = world.Camera; paused = true;
             yield return Present(m.external, "ready");
             loading = false;
             Emit("hubPlace", world.Place); Emit("hubZone", ZoneMessage());
+            if (world.Hud) Emit("menuScreen", world.Hud.Screen);
         }
 
         // ================================================================== a match loading behind the plaza (PLAN §5)
@@ -130,14 +215,15 @@ namespace GolfArcade.Game
             hidden = gameObject.AddComponent<HiddenMatch>(); hidden.Begin(scene, world);
             var op = SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
             op.allowSceneActivation = false; behindOp = op;
-            world.BayLoading(0);
+            if (world.Hud) { menuReturn = world.Hud.Screen == MenuHud.Loading ? menuReturn : world.Hud.Screen; world.Hud.BeginLoading(m.sport, m.menuLabel, m.hold); }
+            world.MatchLoading(0);
             return op;
         }
         void SceneLoadTick(AsyncOperation op)
         {
             if (!behindPlaza || op != behindOp) return;
             float assets = 0; foreach (var r in preloads) assets += r.isDone ? 1 : r.progress; assets = preloads.Count > 0 ? assets / preloads.Count : 1;
-            if (hub) hub.BayLoading(.6f * Mathf.Min(Mathf.Clamp01(op.progress / .9f), assets));
+            if (hub) hub.MatchLoading(.6f * Mathf.Min(Mathf.Clamp01(op.progress / .9f), assets));
             // activate once the scene's data and the preloads are in (the build itself is sliced across frames)
             if (op.progress >= .9f && assets >= 1 && !cancelBehind) op.allowSceneActivation = true;
         }
@@ -146,7 +232,17 @@ namespace GolfArcade.Game
         IEnumerator HandOff(Message m)
         {
             Emit("matchReady", m.bay ?? "");
-            if (hub) { hub.BayLoading(1); yield return hub.Dive(.55f); }
+            if (hub && hub.Hud)
+            {
+                // the menu: START lights up once the match is built (solo / local: the player starts it; online starts itself), READY! pops,
+                // the screen fades to the match
+                hub.MatchLoading(1); hub.Hud.ResetStart(); hub.Hud.MatchBuilt();
+                if (m.hold) while (!hub.Hud.StartPressed) yield return null;
+                hub.Hud.ShowReady();
+                for (float t = 0; t < .65f; t += Time.unscaledDeltaTime) yield return null;
+                yield return hub.FadeOut(.3f);
+            }
+            else if (hub) { hub.BayLoading(1); yield return hub.Dive(.55f); }
             TennisGame.SliceInit = false; Application.backgroundLoadingPriority = ThreadPriority.Normal;
             var plaza = hub ? hub.gameObject.scene : default;
             if (hub) hub.gameObject.SetActive(false);
@@ -182,7 +278,7 @@ namespace GolfArcade.Game
             if (hidden) hidden.Abandon();
             TennisGame.SliceInit = false; Application.backgroundLoadingPriority = ThreadPriority.Normal;
             preloads.Clear(); behindOp = null; behindPlaza = false; tennis = null; golf = null;
-            if (plaza) plaza.BayLoading(-1);
+            if (plaza) plaza.MatchLoading(-1);
         }
 
         string ZoneMessage()
@@ -196,6 +292,7 @@ namespace GolfArcade.Game
         /// Hub commands; false lets the shared handler take it (sound, haptics, display).
         bool HubCommand(Message m)
         {
+            if (MenuCommand(m)) return true;
             switch (m.action)
             {
                 case "end":
@@ -213,7 +310,10 @@ namespace GolfArcade.Game
                     if (hub && hub.Player && TennisEmotes.TryClip(m.mode, out var clip))
                         Emit("emoteResult", hub.Player.PlayEmote(clip.ToString()) ? TennisEmotes.Name(m.mode) : "Stand still to emote");
                     return true;
-                case "hubLook": if (hub) hub.ApplyLook(m.female, m.skinHex, m.skin, m.shirt, m.shorts, m.accent, m.racket, m.back); return true;
+                case "hubLook":
+                    if (hub) hub.ApplyLook(m.female, m.skinHex, m.skin, m.shirt, m.shorts, m.accent, m.racket, m.back);
+                    if (hub && hub.Hud) hub.Hud.SetLook(m.shirt, m.shorts, m.accent, m.racket);
+                    return true;
                 // party (PLAN §4): a friend's state, the member list, Call party
                 case "hubRemote": if (hub && !string.IsNullOrEmpty(m.remote)) HubRemotes.For(hub).Receive(JsonUtility.FromJson<RemoteState>(m.remote)); return true;
                 case "hubRoster": if (hub) HubRemotes.For(hub).Roster((m.mode ?? "").Split(new[] { ',' }, System.StringSplitOptions.RemoveEmptyEntries)); return true;
@@ -237,15 +337,18 @@ namespace GolfArcade.Game
             }
             if (have)
             {
-                hub.Player.SetStick(latest.target, latest.aim, latest.power, latest.time);
+                // the pointer menu: the phone's pointer moves the TV's cursor; the walkable plaza: the stick walks the hero
+                if (hub.Hud) { if (latest.menuPointer) hub.Hud.Pointer(latest.target, latest.aim, latest.power > 0, latest.swing != 0, latest.swingStart, latest.touch); }
+                else hub.Player.SetStick(latest.target, latest.aim, latest.power, latest.time);
                 hubAges[hubAgeNext] = (float)(now - latest.time); hubAgeNext = (hubAgeNext + 1) % hubAges.Length; hubAgeCount = Mathf.Min(hubAgeCount + 1, hubAges.Length);
             }
             // a phone that stops talking (backgrounded, out of range) must not leave the hero running
             else if (lastSample > 0 && now - lastSample > .4 && hub.Player.StickMagnitude > 0) hub.Player.SetStick(0, 0, 0);
-            // my pose for the party (the phone relays it to friends at ~10 Hz): place|x|y|z|yaw|speed|seated bay|emote
+            // my pose for the party (the phone relays it to friends at ~10 Hz; the menu's line-up only needs it now and then for the
+            // emotes): place|x|y|z|yaw|speed|seated bay|emote
             if (Time.unscaledTime >= nextHubPose)
             {
-                nextHubPose = Time.unscaledTime + .1f;
+                nextHubPose = Time.unscaledTime + (hub.Hud ? 1f : .1f);
                 var pp = hub.Player.transform.position;
                 string seat = hub.SeatedInBay ? hub.Station.id : "";
                 string emote = hub.Player.hero && hub.Player.hero.Playing != null ? hub.Player.hero.Playing : "";
@@ -313,7 +416,7 @@ namespace GolfArcade.Game
             var now = Snapshot.Take();
             if (!now.Same(hubLight)) { matchLight = now; sawMatchLight = true; hubLight.Apply(); }
             var game = FindFirstObjectByType<GolfArcade.Tennis.TennisGame>();
-            if (plaza && game && !game.Initialized) plaza.BayLoading(.6f + .4f * game.InitProgress);
+            if (plaza && game && !game.Initialized) plaza.MatchLoading(.6f + .4f * game.InitProgress);
         }
         void Hold()
         {

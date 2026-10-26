@@ -60,6 +60,12 @@ namespace GolfArcade.Hub
         /// Phone only (no TV connected): the plaza draws in the top part of the phone's own screen, above the phone's controls, and the
         /// PLAY hall is shut (a match needs a TV). Set by the session before the scene loads.
         public static bool PhoneOnly;
+        /// The pointer menu (work/pointer-menu, PLAN_PointerMenu.md): the plaza is the menu's backdrop. Only the plaza is built (no
+        /// rooms, doors or spots), nobody walks, MenuStage holds the camera on the line-up and MenuHud draws the menu. Set by the
+        /// session before the scene loads; off = the walkable plaza.
+        public static bool MenuMode;
+        public Menu.MenuStage Menu { get; private set; }
+        public Menu.MenuHud Hud { get; private set; }
         /// The share of the phone's height the plaza takes in phone-only mode, from the top (the controls are under it).
         /// The phone's layout uses the same number (HubSession.phoneViewShare).
         public const float PhoneViewShare = .56f;
@@ -91,25 +97,36 @@ namespace GolfArcade.Hub
         {
             if (Initialized || world) yield break;
             world = new GameObject("Hub world").transform; world.SetParent(transform, false);
+            bool menu = MenuMode;
             int built = 0;
             foreach (var place in HubLayout.Places)
             {
+                if (menu && !place.outdoor) continue;   // the menu shows the plaza only
                 var root = new GameObject(place.title).transform; root.SetParent(world, false); placeRoots[place.id] = root;
                 if (place.outdoor) HubArt.BuildPlaza(root); else HubRooms.Room(root, place);
-                yield return .35f * ++built / HubLayout.Places.Length;
+                yield return .35f * ++built / (menu ? 1 : HubLayout.Places.Length);
             }
-            // the plaza's doorways are part of its buildings and the PLAY hall's arches part of the hall; each room's way out is a lit mat
-            foreach (var d in HubLayout.Doors) if (d.place != HubLayout.Plaza && Vector3.Dot(d.inward, Vector3.back) > .7f) HubRooms.Exit(placeRoots[d.place], d);
-            foreach (var s in HubLayout.Spots) HubRooms.Spot(placeRoots[s.place], s);
+            if (!menu)
+            {
+                // the plaza's doorways are part of its buildings and the PLAY hall's arches part of the hall; each room's way out is a lit mat
+                foreach (var d in HubLayout.Doors) if (d.place != HubLayout.Plaza && Vector3.Dot(d.inward, Vector3.back) > .7f) HubRooms.Exit(placeRoots[d.place], d);
+                foreach (var s in HubLayout.Spots) HubRooms.Spot(placeRoots[s.place], s);
+            }
             // the static greybox draws in a handful of batches
             StaticBatchingUtility.Combine(world.gameObject);
             yield return .42f;
             BuildCamera();
             HubArt.Lighting(transform, Camera);
             BuildOverlay();
-            Player = HubPlayer.Spawn(transform, female, HubLayout.Spawn, 0);
-            youTag = HubArt.NameTag(Player.transform, "You", HubArt.RoyalDeep); youTag.localPosition = Vector3.up * 2.2f;
+            var slot0 = global::GolfArcade.Hub.Menu.MenuShots.Slots[0];
+            Player = HubPlayer.Spawn(transform, female, menu ? slot0 : HubLayout.Spawn, menu ? global::GolfArcade.Hub.Menu.MenuShots.FacingYaw(slot0) : 0);
+            if (!menu) { youTag = HubArt.NameTag(Player.transform, "You", HubArt.RoyalDeep); youTag.localPosition = Vector3.up * 2.2f; }
             SetLayer(transform);
+            if (menu)
+            {
+                Menu = global::GolfArcade.Hub.Menu.MenuStage.Attach(this);
+                Hud = global::GolfArcade.Hub.Menu.MenuHud.Attach(this, Menu);
+            }
             yield return .5f;
             Prewarm();
             yield return .62f;
@@ -133,12 +150,13 @@ namespace GolfArcade.Hub
         public void PrepareArrival()
         {
             if (!Player || !Camera) return;
+            if (Menu) { Menu.PrepareArrival(); arrivalAutoStart = 0; return; }
             arrival = 0; arrivalRunning = false; arrivalAutoStart = 0; Player.locked = true; ArrivalCamera(0);
         }
         /// The phone's loading screen faded off the TV: fly.
-        public void StartArrival() { if (Arriving) arrivalRunning = true; }
+        public void StartArrival() { if (Menu) { Menu.Arrive(); return; } if (Arriving) arrivalRunning = true; }
         /// Fly at `time` (unscaled) even if the phone never says so.
-        public void ArriveBy(float time) { if (Arriving) arrivalAutoStart = time; }
+        public void ArriveBy(float time) { if (Menu) { if (Menu.Arriving) arrivalAutoStart = time; return; } if (Arriving) arrivalAutoStart = time; }
         /// Skip to the end quickly (a push on the stick, A, a shortcut): the hero is yours at once, the camera catches up.
         public void HurryArrival()
         {
@@ -197,6 +215,21 @@ namespace GolfArcade.Hub
         void LateUpdate()
         {
             if (!Initialized) return;
+            if (Menu)
+            {
+                // the pointer menu: nobody walks; the stage holds the camera on the line-up (and the plaza fills the phone with no TV)
+                if (arrivalAutoStart > 0 && Time.unscaledTime >= arrivalAutoStart) { arrivalAutoStart = 0; Menu.Arrive(); }
+                Menu.Tick(Time.unscaledDeltaTime);
+                if (overlay && Camera) overlay.targetDisplay = Camera.targetDisplay;
+                if (Camera && PhoneOnly && Screen.height > 0)
+                {
+                    // no TV: the menu is a 16:9 band at the top of the upright phone (the phone's own controls are under it)
+                    float h = Mathf.Min(1, Screen.width * 9f / 16f / Screen.height);
+                    var band = new Rect(0, 1 - h, 1, h);
+                    if (Camera.rect != band) { Camera.rect = band; Camera.ResetAspect(); }
+                }
+                return;
+            }
             if (!Transitioning && pendingPartyBay != null) {
                 var bay = pendingPartyBay; pendingPartyBay = null; GatherParty(bay);
             }
@@ -469,8 +502,15 @@ namespace GolfArcade.Hub
             if (!Camera) return;
             var rt = RenderTexture.GetTemporary(320, 180, 24); var keep = Camera.targetTexture; var pos = Camera.transform.position; var rot = Camera.transform.rotation; float far = Camera.farClipPlane;
             Camera.targetTexture = rt;
+            if (Menu)
+                foreach (var id in new[] { global::GolfArcade.Hub.Menu.MenuShots.Low, global::GolfArcade.Hub.Menu.MenuShots.Close, global::GolfArcade.Hub.Menu.MenuShots.Mid, global::GolfArcade.Hub.Menu.MenuShots.Solo })
+                {
+                    var s = global::GolfArcade.Hub.Menu.MenuShots.For(id);
+                    Camera.transform.SetPositionAndRotation(s.position, Quaternion.LookRotation(s.look - s.position)); Camera.farClipPlane = 600; Camera.Render();
+                }
             foreach (var place in HubLayout.Places)
             {
+                if (Menu && !place.outdoor) continue;
                 var o = place.origin;
                 foreach (var view in place.outdoor ? new[] { new Vector3(0, 5, -17), new Vector3(0, 30, -30) } : new[] { new Vector3(0, 3.4f, -place.size.y / 2 - 3), new Vector3(0, 2.5f, 0) })
                 {
@@ -539,7 +579,7 @@ namespace GolfArcade.Hub
             Player.cameraYaw = 0;
         }
         Vector3 FollowLook() => Player.transform.position + Vector3.up * CameraFor(Place).lookHeight + Vector3.forward * (HubLayout.PlaceOf(Place).outdoor ? 10f : 1.6f);
-        void SnapCamera() { cameraSnapped = true; camVelocity = Vector3.zero; if (Camera && Player) FollowCamera(0); }
+        void SnapCamera() { if (Menu) return; cameraSnapped = true; camVelocity = Vector3.zero; if (Camera && Player) FollowCamera(0); }
 
         // ------------------------------------------------------------------ toast (an invite arrived, a friend is joining)
         Image toastBox; Text toastText; Coroutine toastRoutine;
@@ -598,6 +638,14 @@ namespace GolfArcade.Hub
             if (litRing) litRing.localScale = Vector3.one * (1.12f + .08f * Mathf.Sin(Time.unscaledTime * 6f));
         }
         void SetFade(float a) { if (fade) fade.color = new Color(.02f, .02f, .05f, Mathf.Clamp01(a)); }
+        /// A match loading behind the plaza (0..1, -1 = none): the bay's floor ring while walking, the menu's loader in menu mode.
+        public void MatchLoading(float progress) { if (Hud) Hud.SetLoading(progress); else BayLoading(progress); }
+        /// The fade to the match (menu mode's hand-off; the walkable plaza dives into the bay screen instead).
+        public IEnumerator FadeOut(float seconds)
+        {
+            for (float t = 0; t < seconds; t += Time.unscaledDeltaTime) { SetFade(t / seconds * .85f); yield return null; }
+            SetFade(.85f);
+        }
         public float FadeAlpha => fade ? fade.color.a : 0;
 
         // ------------------------------------------------------------------ greybox
@@ -608,7 +656,7 @@ namespace GolfArcade.Hub
         /// Editor play: WASD / arrows walk, Shift runs, hold Shift 1 s to sprint, E is A, Q is B.
         void Update()
         {
-            if (GolfArcade.Game.NativeSportsSession.Active || !Player || !Application.isEditor) return;
+            if (GolfArcade.Game.NativeSportsSession.Active || !Player || !Application.isEditor || Menu) return;
 #if ENABLE_LEGACY_INPUT_MANAGER
             var v = new Vector2((Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow) ? 1 : 0) - (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow) ? 1 : 0),
                                 (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) ? 1 : 0) - (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow) ? 1 : 0));
