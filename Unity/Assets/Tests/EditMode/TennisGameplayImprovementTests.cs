@@ -47,17 +47,20 @@ namespace GolfArcade.Tests
             Assert.AreEqual(Vector2.zero,TennisRules.ServeTossScatter(2,1,0));
         }
 
-        [Test] public void WorseTossTimingRaisesTheRiskOfWideAndLongFaults()
+        [Test] public void WorseTossWandersFurtherButAStruckServeStaysIn()
         {
+            // 2026-10-26 (Wii Sports): a struck serve goes in. A worse toss still lands further from the aim.
             foreach(bool near in new[]{true,false}) foreach(bool deuce in new[]{true,false}) {
-                int previous=-1;
+                float previous=-1;
+                var aim=TennisRules.JudgeServeStrike(0,1,new Vector2(0,.5f),near,deuce,false,.5f,.5f).Landing;
                 foreach(float accuracy in new[]{1f,.7f,.4f,0f}) {
-                    int faults=0;
+                    float wander=0;
                     for(int x=0;x<=20;x++) for(int z=0;z<=20;z++) {
-                        var serve=TennisRules.JudgeServeStrike(0,accuracy,new Vector2(1,1),near,deuce,false,x/20f,z/20f);
-                        if(!TennisRules.ServeIsIn(serve.Landing,near,deuce))faults++;
+                        var serve=TennisRules.JudgeServeStrike(0,accuracy,new Vector2(0,.5f),near,deuce,false,x/20f,z/20f);
+                        Assert.IsTrue(serve.Legal&&TennisRules.ServeIsIn(serve.Landing,near,deuce),$"accuracy {accuracy}: {serve.Landing}");
+                        wander+=Vector3.Distance(serve.Landing,aim);
                     }
-                    Assert.Greater(faults,previous,$"accuracy {accuracy}");previous=faults;
+                    Assert.Greater(wander,previous,$"accuracy {accuracy}");previous=wander;
                 }
             }
         }

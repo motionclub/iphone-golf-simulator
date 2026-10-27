@@ -50,7 +50,7 @@ namespace GolfArcade.Tennis
             if (failed) return false;
             if (!look) look = GetComponent<MatchHeroLook>();
             if (!look || !look.kitV2 || look.kit == null || !look.body) return false;
-            string sport = look.golfKit ? "Golf" : "Tennis", sex = look.female ? "Female" : "Male";
+            string sport = look.KitSportFolder, sex = look.female ? "Female" : "Male";
             foreach (var r in look.kit)
             {
                 if (!r || !r.sharedMesh || !MatchHeroLook.IsKitV2(r.sharedMesh) || r.sharedMesh.blendShapeCount == 0) continue;

@@ -31,7 +31,7 @@ namespace GolfArcade.Multiplayer {
             }
         }
         public bool Valid => double.IsFinite(environmentUtc) && environmentUtc>0 && environmentVersion==GolfArcade.Course.DreamConditions.Version && !string.IsNullOrEmpty(matchID) && !string.IsNullOrEmpty(lobbyID) && !string.IsNullOrEmpty(localID)
-            && (sport=="tennis" || sport=="golf") && participants!=null && participants.Length>=2 && participants.Length<=4
+            && (sport=="tennis" || sport=="golf" || sport=="bowling") && participants!=null && participants.Length>=2 && participants.Length<=4
             && participants.Any(p=>p.id==hostID) && participants.Any(p=>p.id==localID)
             && participants.Select(p=>p.id).Distinct().Count()==participants.Length
             && participants.All(p=>string.IsNullOrEmpty(p.controllerID) || (sport=="golf" && p.controllerID==hostID && p.id!=hostID))

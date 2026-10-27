@@ -42,7 +42,7 @@ enum HowTo {
     static let serve = HowToCard(id: "serve", title: "Serve", steps: [
         "Press TOSS as the meter crosses the middle — green is a perfect toss.",
         "Swing down hard as the ball peaks.",
-        "Aiming at the lines is risky: a loose toss can fault.",
+        "Every serve you swing at goes in. Hit it at the very top for a rocket serve.",
     ], art: .serve)
 
     static let pages = [connectTV, connectMac, stand, swing, backhand, serve]
@@ -112,20 +112,22 @@ enum GameTips {
         t(.party, "React with emotes", "Waiting for your turn? Tap an emote to react while a friend's shot is in the air."),
     ]
 
-    /// Bowling (PLAN_Bowling.md §4): the bowler walks a fixed four-step approach; the swing makes power, the release against the
-    /// slide step makes control, and a wrist turn at release makes the hook.
+    /// Bowling (PLAN_PhonePlay §5, bowling V2): the bowler walks up at a steady pace and you swing with them; the swing makes power,
+    /// letting go as your arm passes the bottom makes control, and a wrist turn at release makes the hook.
     static let bowling: [GameTip] = [
-        t(.technique, "Hold, then swing", "Press and hold the ball, then swing your arm with the bowler's steps. Your swing makes the power."),
-        t(.technique, "Let go at the slide", "Let go just after the slide foot lands, as the ball passes the ankle. That's a PERFECT release."),
+        t(.technique, "Hold, then swing", "Press and hold the ball, then swing with your bowler's steps: push away, back, and through."),
+        t(.technique, "Let go at the bottom", "Let go just as your arm swings through the bottom, by your ankle. That's a PERFECT release."),
         t(.technique, "Add some hook", "Turn your wrist into a handshake as you let go to curve the ball into the pocket."),
         t(.technique, "Straight is fine", "No wrist turn rolls the ball straight. Turn the other way for a backup ball."),
-        t(.technique, "Feel the rhythm", "Your phone ticks on every step. Count along and release on the fourth."),
-        t(.technique, "Don't hang on", "Hold past the slide and you cross the foul line. A foul counts zero pins."),
-        t(.technique, "Not too early", "Let go during the backswing and the ball drops behind you. That ball counts zero."),
+        t(.technique, "Feel the swing", "Your phone ticks at the top of your backswing and buzzes as your arm comes through the bottom: let go then."),
+        t(.technique, "Don't hang on", "Hold on as your arm rises and the ball goes late: lofted and pulled off line."),
+        t(.technique, "Not too early", "Let go in your first steps, before you swing, and the ball drops behind you. That ball counts zero."),
         t(.strategy, "Hit the pocket", "Aim between the 1 and 3 pins (1 and 2 if you bowl left-handed). A hook carries more pins there."),
         t(.strategy, "Pick up spares", "Move along the approach to line up with the pins left standing before you throw again."),
         t(.setup, "Give yourself room", "Clear some space around you and keep a firm grip on the controller."),
         t(.party, "Pass the phone", "Taking turns? Pass the phone between frames, after the ball comes back."),
+        t(.party, "No TV? No problem", "Bowling plays right on your phone: the lane fills the screen and the ball sits at the bottom."),
+        t(.strategy, "Beat the computer", "Exhibition pits you against Rookie Ray, Steady Sam, Lucky Lou or Pro Pia. Pick on the venue screen."),
     ]
 
     static let tennis: [GameTip] = [
@@ -139,15 +141,15 @@ enum GameTips {
         t(.technique, "Add topspin", "A low, flat swing slices. A swing with lift hits topspin."),
         t(.technique, "Supercharge it", "Three GREAT hits in a row charge a SUPERCHARGED shot: faster and almost dead accurate."),
         t(.technique, "Toss it true", "Serving: tap TOSS exactly as the meter's ticker crosses the middle. Off-centre tosses scatter the ball."),
-        t(.technique, "Serve at the peak", "After the toss, swing as the power bar peaks. Swinging too early or too late is a fault."),
+        t(.technique, "Serve at the peak", "After the toss, swing as the power bar peaks for a rocket serve. Off the peak it still goes in, just slower."),
         t(.strategy, "Auto-run", "Your player runs for you, and sprints on its own for a ball that is hard to reach."),
-        t(.strategy, "Move early", "Standing still on a wide ball usually hands your opponent the point. Move early."),
+        t(.strategy, "Just swing", "Your player always gets to the ball. Your job is when you swing and which way."),
         t(.strategy, "Dive as a last resort", "Dive saves a wide ball but costs stamina and needs a couple of seconds to recharge. Use it as a last resort."),
         t(.strategy, "Save your stamina", "Stamina drains while you sprint and refills when you stand still. Recover between points."),
         t(.strategy, "Push them back", "Deep balls push your opponent back; short balls invite an attack."),
         t(.strategy, "Mix it up", "Stronger rivals hunt your weaker side. Mix up your shots."),
         t(.strategy, "Recover to the middle", "Get back toward the middle of the court after every shot."),
-        t(.strategy, "Careful on the lines", "Aiming at the lines with a loose toss can land long or wide. A second fault loses the point."),
+        t(.strategy, "Work the corners", "Left, then right: a clean hit into one corner and then the other runs your rival ragged. Swing way too early or late and it sails out."),
         t(.strategy, "Celebrate", "Win a point? Tap an emote on your phone to celebrate."),
         t(.setup, "Court scan", "For the court scan, stand about 2.5 m from the screen with the rear camera pointing at it."),
         t(.setup, "Keep tracking clear", "Blank walls or a covered lens can stop tracking. Keep the rear camera clear and the room lit."),
@@ -273,8 +275,8 @@ extension HowTo {
         HowToCard(id: "tg-serve", title: "Serving", steps: [
             "Your phone shows DEUCE or AD, a target box and a big TOSS button. Tap the box to aim, or use the arrows to walk along the baseline.",
             "Tap TOSS exactly as the ticker on the TV's toss meter crosses the middle. The closer to the middle, the better the toss.",
-            "Swing overhead as the power bar peaks at the top of the toss. Swinging too early or too late is a fault.",
-            "Aiming at the lines with a loose toss can land long or wide. Two faults in a row lose the point.",
+            "Swing overhead as the power bar peaks at the top of the toss for a rocket serve. Off the peak it still goes in, just slower.",
+            "A clean toss puts it right where you aimed; a loose one wanders, but stays in the box.",
         ], art: .serve, icon: "arrow.up.circle.fill"),
         HowToCard(id: "tg-extras", title: "Dive, supercharge and emotes", steps: [
             "Tap DIVE to reach a wide ball. It only works with a ball coming, costs stamina and needs about 2.5 seconds to recharge.",

@@ -96,7 +96,10 @@ namespace GolfArcade.Majestic
             for (int i = 0; i < count; i++)
             {
                 float s0 = (i + .12f) / count, s1 = (i + .88f) / count, sm = (s0 + s1) * .5f;
-                Vector3 p0 = Sag(a, d, sag, s0), p1 = Sag(a, d, sag, s1), tip = Sag(a, d, sag, sm) + Vector3.down * .42f * size;
+                // hung from the rope's lower edge and 4 mm in front of its plane: a pennant overlapping the rope band in the
+                // same plane z-fought with it (the menu's flicker along every string)
+                Vector3 hang = Vector3.down * .025f + Vector3.Cross(d - a, Vector3.up).normalized * .004f;
+                Vector3 p0 = Sag(a, d, sag, s0) + hang, p1 = Sag(a, d, sag, s1) + hang, tip = Sag(a, d, sag, sm) + hang + Vector3.down * .42f * size;
                 float phase = (float)rng.NextDouble();
                 Tri(p0, p1, tip, Pennants[(colour + i) % Pennants.Length], new Vector2(0, phase), new Vector2(0, phase), new Vector2(.25f, phase));
             }

@@ -1,4 +1,5 @@
 import SwiftUI
+import GameKit
 
 /// First launch on the TV (option B of PLAN_Onboarding_GolfLesson.md): SwiftUI screens in the TV window, driven by the phone's
 /// click remote exactly like the menu (arrows move the focus, A selects, B goes back). Only a lesson runs the game; while one runs
@@ -67,7 +68,8 @@ final class OnboardingFlow {
     }
     func next() {
         switch step {
-        case .hello: move(to: .controller)
+        case .hello: move(to: .account)
+        case .account: move(to: .controller)
         case .controller: move(to: .room)
         case .room: move(to: .player)
         case .player: move(to: .card)
@@ -79,7 +81,8 @@ final class OnboardingFlow {
     func back() {
         switch step {
         case .hello, .done: return
-        case .controller: move(to: .hello)
+        case .account: move(to: .hello)
+        case .controller: move(to: .account)
         case .room: move(to: .controller)
         case .player: move(to: .room)
         case .card: move(to: .player)
@@ -94,6 +97,7 @@ final class OnboardingFlow {
     func rows() -> [[String]] {
         switch step {
         case .hello: [["go"]]
+        case .account: signedIn ? [["next"]] : [["signin"], ["later"]]
         case .controller: [[triedSelect ? "next" : "try"]]
         case .room: [["ready"]]
         case .player: [["male", "female"], ["skin"], ["shirt"], ["name"], ["shuffle", "save"]]
@@ -142,7 +146,8 @@ final class OnboardingFlow {
         if SportsSession.shared.haptics { UIImpactFeedbackGenerator(style: .medium).impactOccurred() }
         ClubSound.play("pop", volume: 0.5)
         switch id {
-        case "go", "ready", "next": next()
+        case "go", "ready", "next", "later": next()
+        case "signin": signIn()
         case "play":
             if step == .card { next() }
             else if case .reward(let sport) = step { finish(sport, playNext: true) }
@@ -162,6 +167,21 @@ final class OnboardingFlow {
         default: break
         }
     }
+    // MARK: Your Apple Account (Game Center): friends, invites and online play need it, so it is asked for at the start
+
+    /// Signed in to Game Center on this phone (Apple's sign-in for games: it carries the friends list and the invites).
+    var signedIn: Bool { signedInOverride ?? GKLocalPlayer.local.isAuthenticated }
+    /// Tests: the sign-in state without Game Center.
+    var signedInOverride: Bool?
+    var accountName: String { GKLocalPlayer.local.isAuthenticated ? GKLocalPlayer.local.displayName : "" }
+    /// Apple's sign-in sheet on the phone (or the normal flow when Game Center has none to show). Once signed in the step's
+    /// Next lights up by itself.
+    func signIn() {
+        Analytics.track("onboarding_sign_in")
+        ClubSignIn.signIn()
+        row = 0; column = 0
+    }
+
     /// The phone opens its keyboard for the name (it is the only thing typed in onboarding).
     var nameRequested = false
 

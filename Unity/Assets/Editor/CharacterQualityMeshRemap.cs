@@ -114,7 +114,9 @@ namespace GolfArcade.EditorTools
             for (int n = 0; n < newToOld.Length; n++) { if (!oldToNew.TryGetValue(newToOld[n], out var l)) oldToNew[newToOld[n]] = l = new List<int>(); l.Add(n); }
             var report = new StringBuilder();
             var files = new List<string>();
-            foreach (var dir in new[] { $"Assets/Resources/Tennis/KitsV2/{sex}", $"Assets/Resources/Golf/KitsV2/{sex}", $"Assets/Resources/Accessories/{sex}" })
+            // CQ_DIRS (comma separated) limits the remap to freshly exported lists (e.g. a new kit), never to lists already on the new body
+            var dirs = Environment.GetEnvironmentVariable("CQ_DIRS")?.Split(',') ?? new[] { $"Assets/Resources/Tennis/KitsV2/{sex}", $"Assets/Resources/Golf/KitsV2/{sex}", $"Assets/Resources/Accessories/{sex}" };
+            foreach (var dir in dirs)
                 if (Directory.Exists(dir)) files.AddRange(Directory.GetFiles(dir, "*.bytes", SearchOption.AllDirectories));
             foreach (var f in files.OrderBy(x => x, StringComparer.Ordinal))
             {

@@ -126,6 +126,12 @@ final class MultiplayerService {
     @ObservationIgnored private var reinvited: Set<String> = []
     var isParty: Bool { transport is any PartyTransport || (nativeParty && transport === gameCenter) }
     var hasFriendsInLobby: Bool { lobby?.participants.contains { !$0.isGuest && $0.id != localID } ?? false }
+    /// Phones connected to this party that its lobby does not list yet (they are still joining: their hello or the lobby is on its way).
+    var joiningPeers: Int {
+        guard let transport else { return 0 }
+        let listed = Set(lobby?.participants.map(\.id) ?? [])
+        return transport.peers.filter { !listed.contains($0) }.count
+    }
     var isNearby: Bool { (local != nil || sharedPhoneHost) && transport != nil }
     var localJoinCode: String? { isNearby && isOwner ? local?.joinCode : nil }
     func joinLocal(code: String) throws {
@@ -403,17 +409,19 @@ final class MultiplayerService {
     func joinLocal(_ item: LocalMultiplayerTransport.DiscoveredLobby) throws {
         guard transport == nil, !searching else { throw MultiplayerError.invalidOperation("Leave the current lobby first.") }
         let lan = local ?? LocalMultiplayerTransport(); local = lan; bind(lan)
-        quickSport = item.sport == MultiplayerSport.tennis.rawValue ? .tennis : nil
+        quickSport = item.sport == MultiplayerSport.tennis.rawValue ? .tennis : item.sport == MultiplayerSport.bowling.rawValue ? .bowling : nil
         do { try lan.join(item) } catch { leave(); throw error }
     }
     func configure(_ sport: MultiplayerSport, venue: String? = nil, sets: Int = 1, games: Int = 3) throws {
         try requireOwnerIdle()
         // golf: the course, played as long as this host last chose (its own holes, 9 or 18, linked on or round again)
         let session = SportsSession.shared
-        let venue = sport == .golf ? MultiplayerLobby.golfRound(MultiplayerLobby.golfRoundParts(venue ?? "cliffside").course, holes: session.golfHoles, link: session.golfLinkCourses) : (venue ?? "resort")
+        let venue = sport == .golf ? MultiplayerLobby.golfRound(MultiplayerLobby.golfRoundParts(venue ?? "cliffside").course, holes: session.golfHoles, link: session.golfLinkCourses)
+            : sport == .bowling ? (venue.flatMap { BowlingVenueChoice(rawValue: $0)?.rawValue } ?? session.bowlingVenue) : (venue ?? "resort")
         guard MultiplayerLobby.validVenue(venue, sport: sport), (1...3).contains(sets), [1,3,6].contains(games) else { throw MultiplayerError.invalidOperation("Invalid match settings.") }
         if sport != .golf { lobby?.participants.removeAll { $0.isGuest } }
         lobby?.configure(sport: sport, venue: venue)
+        lobby?.readyCheck = nil   // (another game: the leader presses Start again)
         for i in lobby!.participants.indices where lobby!.participants[i].isGuest { lobby!.participants[i].ready = true }
         lobby?.sets = sets; lobby?.games = games
         // golf's optional twists and challenges as this host last chose them
@@ -438,9 +446,9 @@ final class MultiplayerService {
         lobby?.revision += 1; publishLobby()
     }
     func assignSeat(_ player: String, seat: Int) throws { try requireOwnerIdle(); try lobby?.assign(player, seat: seat); publishLobby() }
-    /// Host of a friends' party: the competitors are exactly these players (the ones sitting on the Plaza bench, in order, up to the
-    /// sport's seats) and they are ready, because sitting down together is how a party says "play". Everyone else watches from the
-    /// Plaza. Publishes only when something changed.
+    /// Host of a friends' party: the competitors are exactly these players (in order, up to the sport's seats); everyone else
+    /// watches from the menu. Being ready is the ready check's (`startPartyGame`), never a seat's: a player who loses their seat is
+    /// no longer ready. Publishes only when something changed.
     func seatParty(_ ids: [String]) {
         guard isOwner, isParty, var state = lobby, state.phase == .lobby else { return }
         let want = Array(ids.prefix(state.capacity))
@@ -448,12 +456,38 @@ final class MultiplayerService {
         for i in state.participants.indices where !state.participants[i].isGuest {
             let seat = want.firstIndex(of: state.participants[i].id) ?? -1
             if state.participants[i].seat != seat { state.participants[i].seat = seat; changed = true }
-            let ready = seat >= 0
-            if state.participants[i].ready != ready { state.participants[i].ready = ready; changed = true }
+            if seat < 0, state.participants[i].ready { state.participants[i].ready = false; changed = true }
         }
         guard changed else { return }
         state.queue.removeAll(); state.revision += 1; lobby = state; publishLobby()
     }
+    /// Leader of a friends' party: play the game that is set up now (its sport, map and settings). Everyone connected takes a seat
+    /// (up to the sport's seats, the leader first, then in the order they joined); the leader is ready, and each other player's phone
+    /// asks them to tap Ready. The match starts when the last one does.
+    func startPartyGame() throws {
+        guard isParty, isOwner, var state = lobby, state.phase == .lobby else { throw MultiplayerError.invalidOperation("Only the party leader can start a game.") }
+        let players = state.participants.filter { !$0.isGuest && $0.connected }
+        guard players.count >= 2 else { throw MultiplayerError.invalidOperation("Invite a friend to play together.") }
+        let order = [localID] + players.map(\.id).filter { $0 != localID }
+        let seats = Array(order.prefix(state.capacity))
+        for i in state.participants.indices where !state.participants[i].isGuest {
+            let seat = seats.firstIndex(of: state.participants[i].id) ?? -1
+            state.participants[i].seat = seat
+            state.participants[i].ready = state.participants[i].id == localID
+        }
+        state.queue.removeAll(); state.readyCheck = true; state.revision += 1; lobby = state; publishLobby()
+        SportsDiagnostics.write("party game: \(state.sport.rawValue) \(state.venue), ready check for \(seats.count) players")
+        advancePhase()
+    }
+    /// Leader: not this game after all (back to choosing). Nobody is ready any more.
+    func cancelPartyGame() {
+        guard isParty, isOwner, lobby?.phase == .lobby, lobby?.readyCheck == true else { return }
+        lobby?.readyCheck = nil
+        for i in lobby!.participants.indices where !lobby!.participants[i].isGuest { lobby!.participants[i].ready = false }
+        lobby?.revision += 1; publishLobby()
+    }
+    /// A party game is waiting for its players to tap Ready.
+    var partyReadyCheck: Bool { isParty && lobby?.phase == .lobby && lobby?.readyCheck == true }
     func setReady(_ ready: Bool) throws {
         if ready, onMatchRequested == nil, SportsSession.shared.active { throw MultiplayerError.invalidOperation("Finish the current sport session before becoming ready.") }
         try sendControl("ready", payload: ready ? "true" : "false")
@@ -469,7 +503,7 @@ final class MultiplayerService {
         linkSteadySince.removeAll(); linkHeardAt.removeAll(); linkWaitingSince = nil; linkOverride = false; linkNeedsDecision = false
         assignViews()
         let id = UUID().uuidString
-        self.lobby?.matchID = id; self.lobby?.phase = .loading; emotes.removeAll()
+        self.lobby?.matchID = id; self.lobby?.phase = .loading; self.lobby?.readyCheck = nil; emotes.removeAll()
         loadingStarted = now; loadingNeedsDecision = false; winnerSeat = -1; quickSport = nil
         for i in self.lobby!.participants.indices { self.lobby!.participants[i].loaded = false; self.lobby!.participants[i].calibrated = false; self.lobby!.participants[i].setupStep = nil; self.lobby!.participants[i].linkOK = false }
         self.lobby?.revision += 1; publishLobby()
@@ -496,7 +530,7 @@ final class MultiplayerService {
     func returnToLobby(rotateSeats: Bool = true, rematching: Bool = false) throws {
         guard isOwner else { throw MultiplayerError.invalidOperation("Only the lobby owner can end the match.") }
         try broadcast("stop", payload: rematching ? "rematch" : ""); stopRuntime(retainDirection: rematching)
-        lobby?.phase = .lobby; lobby?.matchID = ""
+        lobby?.phase = .lobby; lobby?.matchID = ""; lobby?.readyCheck = nil
         lobby?.participants.removeAll { !$0.connected }
         let remaining = Set(lobby!.participants.map(\.id))
         lobby?.queue.removeAll { !remaining.contains($0) }
@@ -579,7 +613,7 @@ final class MultiplayerService {
         proofPeers.removeAll();proofSnapshot=nil
         #endif
         ownerMissingSince = nil
-        loadingNeedsDecision = false; lobby = nil; hello.removeAll(); seen.removeAll(); disconnected.removeAll(); rate.removeAll(); matchConfiguration = nil; quickSport = nil; searching = false
+        loadingNeedsDecision = false; lobby = nil; hello.removeAll(); dropNotes.removeAll(); seen.removeAll(); disconnected.removeAll(); rate.removeAll(); matchConfiguration = nil; quickSport = nil; searching = false
         lastLook.removeAll(); lastEmote.removeAll(); emotes.removeAll(); localEmoteAt = -Double.infinity; clockOffset = 0; clockFilter = ClockFilter(); nextPing = 0; lastHeard.removeAll(); silent.removeAll(); nextHeartbeat = 0; silenceArmedAt = .infinity
         awaitingCalibration.removeAll(); calibrationNoticed = false; localNetworkDenied = false
         localLoadReport = nil; localCalibrationReported = false; loadReports.removeAll(); scheduledRunAt = 0
@@ -616,7 +650,7 @@ final class MultiplayerService {
         var me = identity(); me.seat = 0; lobby = MultiplayerLobby(ownerID: owner, participants: [me])
         lobby?.sharedScreen = isNearby
         for p in hello.values.sorted(by: { $0.id < $1.id }) { try? lobby?.add(p) }
-        if let sport = quickSport { lobby?.configure(sport: sport, venue: sport == .golf ? "cliffside" : "resort") }
+        if let sport = quickSport { lobby?.configure(sport: sport, venue: sport == .golf ? "cliffside" : sport == .bowling ? SportsSession.shared.bowlingVenue : "resort") }
         publishLobby()
         if quickSport != nil { try? setReady(true) }
     }
@@ -646,6 +680,7 @@ final class MultiplayerService {
                 }
             }
             lobby?.revision += 1; publishLobby()
+            if lobby?.readyCheck == true, lobby?.phase == .lobby { partyReadyAdvance() }
         } else if let owner = lobby?.ownerID, !transport.peers.contains(owner) {
             if lobby?.phase == .lobby, handOver(from: owner) { return }
             // Mid-match the host may only be out of the app: the match waits for it (update() ends it after awayLimitSeconds).
@@ -665,10 +700,20 @@ final class MultiplayerService {
         state.revision += 1; lobby = state; publishLobby(); lastError = "The host left. You are the host now."
         return true
     }
+    /// Diagnostics: why packets were dropped (each reason logged a few times, so the log says what went wrong between two phones).
+    @ObservationIgnored private var dropNotes: [String: Int] = [:]
+    private func noteDrop(_ reason: String, _ peer: String) {
+        let n = dropNotes[reason, default: 0]; dropNotes[reason] = n + 1
+        if n < 3 { SportsDiagnostics.write("multiplayer dropped a packet from \(peer.prefix(8)): \(reason)") }
+    }
     private func receive(_ data: Data, from peer: String) {
-        guard data.count <= MultiplayerPacket.maximumBytes, let transport, transport.peers.contains(peer),
-              var packet = try? decoder.decode(MultiplayerPacket.self, from: data) else { return }
-        guard packet.version == MultiplayerPacket.version else { lastError = MultiplayerError.incompatible.localizedDescription; return }
+        guard data.count <= MultiplayerPacket.maximumBytes, let transport else { return }
+        guard transport.peers.contains(peer) else { noteDrop("not a connected player", peer); return }
+        guard var packet = try? decoder.decode(MultiplayerPacket.self, from: data) else { noteDrop("unreadable", peer); return }
+        guard packet.version == MultiplayerPacket.version else {
+            noteDrop("version \(packet.version), this phone \(MultiplayerPacket.version)", peer)
+            lastError = MultiplayerError.incompatible.localizedDescription; return
+        }
         let bucket = rate[peer] ?? (now, 0)
         if now - bucket.0 < 1 && bucket.1 >= 180 { return }
         rate[peer] = now - bucket.0 >= 1 ? (now,1) : (bucket.0,bucket.1+1)
@@ -678,8 +723,11 @@ final class MultiplayerService {
         lastHeard[peer] = now
         if silent[peer] != nil { quietPeerHeard(peer) }
         if packet.kind == "hello" {
-            guard var p = try? decoder.decode(MultiplayerParticipant.self, from: Data(packet.payload.utf8)), p.loadout?.valid() ?? true else { return }
+            guard var p = try? decoder.decode(MultiplayerParticipant.self, from: Data(packet.payload.utf8)) else { noteDrop("unreadable hello", peer); return }
+            // a look this build cannot show is left out, never the player (it used to drop the whole hello: they never joined)
+            if !(p.loadout?.valid() ?? true) { noteDrop("hello look not valid here", peer); p.loadout = nil }
             p.controllerID = nil; p.id = peer; p.name = String(p.name.prefix(40)); p.seat = -1; p.ready = false; p.loaded = false; p.calibrated = false; p.view = nil; p.screenDelay = nil; p.connected = true; p.invited = !(lobby?.publicAdmission ?? false)
+            if hello[peer] == nil { SportsDiagnostics.write("multiplayer hello from \(peer.prefix(8)) (\(isOwner ? "added to the lobby" : "not the host"))") }
             hello[peer] = p
             if isOwner { do {
                 try lobby?.add(p); publishLobby()
@@ -691,14 +739,18 @@ final class MultiplayerService {
             return
         }
         if packet.kind == "lobby" {
-            guard var state = try? decoder.decode(MultiplayerLobby.self, from: Data(packet.payload.utf8)) else { return }
+            guard var state = try? decoder.decode(MultiplayerLobby.self, from: Data(packet.payload.utf8)) else { noteDrop("unreadable lobby", peer); return }
             if state.sport == .golf { state.venue = MultiplayerLobby.currentGolfVenue(state.venue) }
             // (a handed-over lobby: the old owner is gone and its successor publishes the same lobby with a newer revision)
             let handover = lobby.map { $0.id == state.id && state.revision > $0.revision && !transport.peers.contains($0.ownerID) } ?? false
             // (the leader made this player leader: their lobby wins from now on)
             let promoted = promotedTo.map { $0.lobbyID == state.id && $0.to == peer } ?? false
-            guard state.valid(), state.ownerID == peer, expectingHost == nil || expectingHost == peer,
-                  lobby == nil || handover || promoted || (lobby?.ownerID == peer && lobby?.id == state.id && state.revision > lobby!.revision) else { return }
+            // looks this build cannot show are left out, as in a hello: the lobby still counts
+            for i in state.participants.indices where !(state.participants[i].loadout?.valid() ?? true) { state.participants[i].loadout = nil }
+            guard state.valid() else { noteDrop("lobby not valid here", peer); return }
+            guard state.ownerID == peer, expectingHost == nil || expectingHost == peer else { noteDrop("lobby from someone who is not the host", peer); return }
+            guard lobby == nil || handover || promoted || (lobby?.ownerID == peer && lobby?.id == state.id && state.revision > lobby!.revision) else { return }
+            if lobby == nil { SportsDiagnostics.write("multiplayer lobby from host \(peer.prefix(8)): \(state.participants.count) players") }
             if promoted { promotedTo = nil }
             lobby = state; expectingHost = nil
             if isParty, !isOwner { rememberParty(leader: state.ownerID, name: state.participants.first { $0.id == state.ownerID }?.name ?? "") }
@@ -922,6 +974,18 @@ final class MultiplayerService {
         } else if abortSetupIfShort() {
             return
         } else if quickSport != nil, lobby?.canStart == true { try? startMatch() }
+        else if isOwner, isParty, lobby?.readyCheck == true, lobby?.phase == .lobby { partyReadyAdvance() }
+    }
+    /// The party's ready check: everyone seated tapped Ready, so the game starts; a player gone (or too few left) ends the check.
+    private func partyReadyAdvance() {
+        guard let state = lobby else { return }
+        let seated = state.participants.filter { $0.seat >= 0 && !$0.isGuest }
+        if seated.filter(\.connected).count < 2 {
+            cancelPartyGame(); lastError = "Not enough players for that game. Pick it again when your friends are back."
+            try? broadcast("notice", payload: lastError ?? ""); return
+        }
+        guard state.canStart else { return }
+        do { try startMatch() } catch { lastError = error.localizedDescription }
     }
     /// The owner is never measured (it is the other end); every other tennis competitor must have been steady, unless the owner chose to play anyway.
     private var linksAreSteady: Bool {
@@ -1025,7 +1089,7 @@ final class MultiplayerService {
         }
     }
     /// An online match goes on while a player is away (AwayPolicy); only a match on one shared phone has nobody to go on with.
-    var continuesWhileAway: Bool { !sharedPhoneHost && (lobby?.sport == .tennis || lobby?.sport == .golf) }
+    var continuesWhileAway: Bool { !sharedPhoneHost && (lobby?.sport == .tennis || lobby?.sport == .golf || lobby?.sport == .bowling) }
     /// How long a competitor who went quiet or left the app keeps their place in the match.
     private func dropAfter(_ id: String) -> Double {
         if continuesWhileAway { return MultiplayerTuning.awayLimitSeconds }
@@ -1170,7 +1234,13 @@ final class MultiplayerService {
             try? transmit("hb", reliable: false, to: [owner])
         }
         if now >= nextHello { nextHello = now + 1
-            if lobby == nil { try? broadcast("hello", payload: (try? json(identity())) ?? "") }
+            // A phone not in the lobby keeps saying hello: its first one can go out before the connection to the host is up, and a
+            // lobby that arrived before the host heard it does not list it (2026-10-25: neither phone ever saw the other).
+            if lobby == nil || (!isOwner && lobby?.participants.contains(where: { $0.id == localID }) != true) {
+                try? broadcast("hello", payload: (try? json(identity())) ?? "")
+            }
+            // ...and the host keeps sending its lobby to a connected phone it does not list yet, so that phone has a host to talk to
+            if isOwner, joiningPeers > 0, lobby?.phase == .lobby { publishLobby() }
             inviteDroppedMembersBack()
         }
         if isOwner {

@@ -8,6 +8,8 @@
 // that reads or re-derives hero meshes keeps seeing LOD0). At LOD0 they draw as before: close-ups and the locker are untouched.
 // At LOD>0 an original is hidden with forceRenderingOff (and stops skinning) while a proxy renderer next to it draws the LOD
 // copy with the original's bones, materials, shadow / layer settings, property block and blendshape weights, synced every frame.
+// A proxy is never disabled, only hidden with forceRenderingOff too (10-26: a body proxy SkinnedMeshRenderer switched off and on
+// again drew its skin with broken vertex data, dark streaks and black faces, until its GameObject was re-activated).
 // The level follows the hero's on-screen height (largest over the rendering cameras), with hysteresis, like HeroGarmentLOD.
 // Triangle lists come from Resources/CharacterLOD/HeroLodCache.bytes (keyed by a hash of the final runtime mesh) or, on a
 // miss, from a worker thread; until they exist the hero simply stays at LOD0.
@@ -45,7 +47,7 @@ namespace GolfArcade.CharacterLod
 
         public int Level { get; private set; }
         /// True when every tracked original draws itself and no proxy is on: what LOD0 must be (identity check).
-        public bool OriginalsOnly => parts.All(p => !p.renderer || (!p.renderer.forceRenderingOff && (!p.proxy || !p.proxy.enabled) && p.Current == p.lod0));
+        public bool OriginalsOnly => parts.All(p => !p.renderer || (!p.renderer.forceRenderingOff && (!p.proxy || p.proxy.forceRenderingOff) && p.Current == p.lod0));
         public float ScreenHeight { get; private set; }
         public bool Ready => parts.Count > 0 && parts.All(p => p.ready || p.failed);
         public IEnumerable<(Renderer renderer, int[] tris, bool ready)> Parts => parts.Select(p => (p.renderer, p.tris, p.ready));
@@ -55,7 +57,7 @@ namespace GolfArcade.CharacterLod
             public Renderer renderer; public MeshFilter filter; public SkinnedMeshRenderer skin;
             public Mesh lod0; public Mesh[] lods = new Mesh[Levels];
             public int[] tris = new int[Levels];
-            public bool ready, failed, pending;
+            public bool ready, failed, pending, requested;   // requested: holds a HeroLodLibrary user count (released once)
             // proxy drawing LOD>0, and what the original had before we hid it
             public Renderer proxy; public SkinnedMeshRenderer proxySkin; public MeshFilter proxyFilter;
             public bool hidden, keptOffscreen;
@@ -74,7 +76,7 @@ namespace GolfArcade.CharacterLod
         void OnDestroy()
         {
             Apply(0);
-            foreach (var p in parts) { if (p.proxy) Destroy(p.proxy.gameObject); HeroLodLibrary.Release(p.lod0); }
+            foreach (var p in parts) { if (p.proxy) Destroy(p.proxy.gameObject); if (p.requested) HeroLodLibrary.Release(p.lod0); }
             parts.Clear();
         }
 
@@ -134,8 +136,9 @@ namespace GolfArcade.CharacterLod
                 if (cur == part.lod0) continue;
                 // re-derived by its owner (re-dress, accessory cover, ...): show the original, start over from its new mesh
                 Show(part);
-                HeroLodLibrary.Release(part.lod0);
-                part.lod0 = cur; part.lods = new Mesh[Levels]; part.ready = part.failed = part.pending = false;
+                // only a part that requested LODs holds a user count: releasing one that never did took another hero's (shared garment) LODs
+                if (part.requested) HeroLodLibrary.Release(part.lod0);
+                part.lod0 = cur; part.lods = new Mesh[Levels]; part.ready = part.failed = part.pending = part.requested = false;
                 if (!Eligible(part)) { if (part.proxy) Destroy(part.proxy.gameObject); parts.Remove(part); }
             }
             foreach (var p in parts) if (!p.renderer && p.proxy) Destroy(p.proxy.gameObject);
@@ -158,7 +161,7 @@ namespace GolfArcade.CharacterLod
             foreach (var p in parts)
             {
                 if (p.ready || p.failed || p.pending) continue;
-                if (HeroLodLibrary.Request(p.lod0, p.skin)) p.pending = true; else p.failed = true;
+                if (HeroLodLibrary.Request(p.lod0, p.skin)) p.pending = p.requested = true; else p.failed = true;
             }
         }
 
@@ -221,10 +224,10 @@ namespace GolfArcade.CharacterLod
             }
         }
 
-        /// The original draws again; the proxy rests.
+        /// The original draws again; the proxy rests (hidden, never disabled: see the header).
         void Show(Part p)
         {
-            if (p.proxy && p.proxy.enabled) p.proxy.enabled = false;
+            if (p.proxy && !p.proxy.forceRenderingOff) p.proxy.forceRenderingOff = true;
             if (!p.hidden || !p.renderer) return;
             p.renderer.forceRenderingOff = false;
             if (p.skin) p.skin.updateWhenOffscreen = p.keptOffscreen;
@@ -267,7 +270,7 @@ namespace GolfArcade.CharacterLod
             if (r.HasPropertyBlock()) { block ??= new MaterialPropertyBlock(); r.GetPropertyBlock(block); x.SetPropertyBlock(block); }
             else if (x.HasPropertyBlock()) x.SetPropertyBlock(null);
             bool drawn = r.enabled && r.gameObject.activeInHierarchy;
-            if (x.enabled != drawn) x.enabled = drawn;
+            if (x.forceRenderingOff == drawn) x.forceRenderingOff = !drawn;
             if (!p.hidden)
             {
                 p.keptOffscreen = p.skin && p.skin.updateWhenOffscreen;
@@ -554,7 +557,11 @@ namespace GolfArcade.CharacterLod
             if (Time.unscaledTime < next) return; next = Time.unscaledTime + .5f;
             if (!HeroLod.Enabled) return;
             foreach (var look in FindObjectsByType<Tennis.MatchHeroLook>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
-                if (!look.GetComponent<HeroLod>()) look.gameObject.AddComponent<HeroLod>();
+                if (!look.GetComponent<HeroLod>() && !look.GetComponentInParent<HeroLodExempt>()) look.gameObject.AddComponent<HeroLod>();
         }
     }
+
+    /// A hero under this always draws its full meshes (HeroLodBoot never attaches a HeroLod): bowling's few bowlers, who are
+    /// filmed close; their LOD copies of the bowling kit bodies showed holes (dark streaks, black faces) in game.
+    public sealed class HeroLodExempt : MonoBehaviour { }
 }

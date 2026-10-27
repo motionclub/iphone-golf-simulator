@@ -1,0 +1,118 @@
+DEFINE SCHEMA
+
+    RECORD TYPE Users (
+        "___createTime" TIMESTAMP,
+        "___createdBy"  REFERENCE,
+        "___etag"       STRING,
+        "___modTime"    TIMESTAMP,
+        "___modifiedBy" REFERENCE,
+        "___recordID"   REFERENCE,
+        roles           LIST<INT64>,
+        GRANT WRITE TO "_creator",
+        GRANT READ TO "_world"
+    );
+
+    RECORD TYPE Player (
+        "___createTime" TIMESTAMP,
+        "___createdBy"  REFERENCE,
+        "___etag"       STRING,
+        "___modTime"    TIMESTAMP,
+        "___modifiedBy" REFERENCE,
+        "___recordID"   REFERENCE QUERYABLE,
+        "gameID"        STRING,
+        "name"          STRING,
+        "seen"          TIMESTAMP,
+        "state"         STRING,
+        "lobby"         BYTES,
+        GRANT WRITE TO "_creator",
+        GRANT CREATE TO "_icloud",
+        GRANT READ TO "_world"
+    );
+
+    RECORD TYPE Party (
+        "___createTime" TIMESTAMP,
+        "___createdBy"  REFERENCE,
+        "___etag"       STRING,
+        "___modTime"    TIMESTAMP,
+        "___modifiedBy" REFERENCE,
+        "___recordID"   REFERENCE QUERYABLE,
+        "hostID"        STRING,
+        "hostGameID"    STRING,
+        "hostName"      STRING,
+        "group"         INT64,
+        "size"          INT64,
+        "capacity"      INT64,
+        "open"          INT64,
+        GRANT WRITE TO "_creator",
+        GRANT CREATE TO "_icloud",
+        GRANT READ TO "_world"
+    );
+
+    RECORD TYPE Invite (
+        "___createTime" TIMESTAMP,
+        "___createdBy"  REFERENCE,
+        "___etag"       STRING,
+        "___modTime"    TIMESTAMP,
+        "___modifiedBy" REFERENCE,
+        "___recordID"   REFERENCE QUERYABLE,
+        "to"            STRING QUERYABLE,
+        "from"          STRING,
+        "fromGameID"    STRING,
+        "fromName"      STRING,
+        "code"          STRING,
+        "detail"        STRING,
+        "group"         INT64,
+        "players"       INT64,
+        "round"         INT64,
+        "expires"       TIMESTAMP,
+        "message"       STRING,
+        GRANT WRITE TO "_icloud",
+        GRANT CREATE TO "_icloud",
+        GRANT READ TO "_world"
+    );
+
+    RECORD TYPE Knock (
+        "___createTime" TIMESTAMP,
+        "___createdBy"  REFERENCE,
+        "___etag"       STRING,
+        "___modTime"    TIMESTAMP,
+        "___modifiedBy" REFERENCE,
+        "___recordID"   REFERENCE QUERYABLE,
+        "to"            STRING QUERYABLE,
+        "from"          STRING,
+        "fromGameID"    STRING,
+        "fromName"      STRING,
+        "code"          STRING,
+        "detail"        STRING,
+        "group"         INT64,
+        "players"       INT64,
+        "round"         INT64,
+        "expires"       TIMESTAMP,
+        "message"       STRING,
+        GRANT WRITE TO "_icloud",
+        GRANT CREATE TO "_icloud",
+        GRANT READ TO "_world"
+    );
+
+    RECORD TYPE Answer (
+        "___createTime" TIMESTAMP,
+        "___createdBy"  REFERENCE,
+        "___etag"       STRING,
+        "___modTime"    TIMESTAMP,
+        "___modifiedBy" REFERENCE,
+        "___recordID"   REFERENCE QUERYABLE,
+        "to"            STRING QUERYABLE,
+        "from"          STRING,
+        "fromGameID"    STRING,
+        "fromName"      STRING,
+        "code"          STRING,
+        "detail"        STRING,
+        "group"         INT64,
+        "players"       INT64,
+        "round"         INT64,
+        "expires"       TIMESTAMP,
+        "message"       STRING,
+        GRANT WRITE TO "_icloud",
+        GRANT CREATE TO "_icloud",
+        GRANT READ TO "_world"
+    );

@@ -28,15 +28,69 @@ namespace GolfArcade.Hub
         static readonly Dictionary<string, Material> mats = new Dictionary<string, Material>();
         public static Material Lit(Color c, float smooth = .3f) => HubArt.Lit(c, smooth);
         public static Material Glow(Color hdr) => HubArt.Glow(hdr);
-        /// URP Lit with a painted base map (UVs in metres, so `tile` is the texture's size in metres).
+        static Shader facadeShader;
+        /// A painted base map (UVs in metres, so `tile` is the texture's size in metres) on GolfArcade/HubFacade: URP's PBR
+        /// lighting plus the texture's relief (normal + cavity, see Relief) and a weathered foot (falls back to plain URP Lit).
         public static Material LitTex(Texture2D tex, Color tint, float smooth, float tile)
         {
             string key = "littex" + tex.name + tint + smooth + tile;
             if (mats.TryGetValue(key, out var m) && m) return m;
-            m = new Material(Shader.Find("Universal Render Pipeline/Lit")) { name = "Hub " + tex.name, enableInstancing = true };
+            if (!facadeShader) facadeShader = Shader.Find("GolfArcade/HubFacade");
+            bool facade = facadeShader && facadeShader.isSupported;
+            m = new Material(facade ? facadeShader : Shader.Find("Universal Render Pipeline/Lit")) { name = "Hub " + tex.name, enableInstancing = true };
             m.SetTexture("_BaseMap", tex); m.SetColor("_BaseColor", tint); m.SetFloat("_Smoothness", smooth); m.SetFloat("_Metallic", 0);
             m.SetTextureScale("_BaseMap", Vector2.one / tile);
+            if (facade)
+            {
+                var (relief, cavity) = ReliefLook(tex.name);
+                m.SetTexture("_ReliefMap", Relief(tex)); m.SetFloat("_Relief", relief); m.SetFloat("_Cavity", cavity);
+                m.SetFloat("_Weather", tex.name == "slate" ? 0 : .3f); m.SetFloat("_Macro", .35f);
+            }
             return mats[key] = m;
+        }
+        /// How deep each painted texture's relief reads (normal strength, cavity occlusion).
+        static (float relief, float cavity) ReliefLook(string tex) => tex switch
+        {
+            "stone courses" => (1.6f, .85f), "slate" => (1.4f, .7f), "planks" => (1f, .6f), "cobbles" => (1.4f, .8f),
+            "flagstones" => (1f, .7f), "gravel" => (.9f, .45f), "grass" => (.5f, .3f), "cliff" => (1.2f, .6f),
+            "marble checker" => (.15f, .15f), "plaster" => (.35f, .2f), _ => (.5f, .35f),
+        };
+        static readonly Dictionary<Texture2D, Texture2D> reliefs = new Dictionary<Texture2D, Texture2D>();
+        /// The relief of a painted (greyscale-tinted) texture, read as a height field from its brightness: the dark mortar,
+        /// joints and slate overlaps are grooves, each block's own shade a slight unevenness. rg = tangent-space normal xy
+        /// (0.5 = flat), b = cavity (1 open, darker in the grooves). Linear, mipmapped, wraps like its texture.
+        public static Texture2D Relief(Texture2D tex)
+        {
+            if (reliefs.TryGetValue(tex, out var r) && r) return r;
+            int w = tex.width, h = tex.height; var src = painted.TryGetValue(tex, out var cpu) ? cpu : tex.isReadable ? tex.GetPixels32(0) : null;
+            if (src == null) return reliefs[tex] = Texture2D.grayTexture;
+            var ht = new float[w * h];
+            for (int i = 0; i < ht.Length; i++) ht[i] = (src[i].r * .2126f + src[i].g * .7152f + src[i].b * .0722f) / 255f;
+            bool wrap = tex.wrapMode == TextureWrapMode.Repeat;
+            int X(int x) => wrap ? (x % w + w) % w : Mathf.Clamp(x, 0, w - 1);
+            int Y(int y) => wrap ? (y % h + h) % h : Mathf.Clamp(y, 0, h - 1);
+            float Hh(int x, int y) => ht[Y(y) * w + X(x)];
+            // a wide average (box blur, 2 passes) for the cavity: below the neighbourhood = in a groove
+            float[] Blur(float[] a, int rad)
+            {
+                var t = new float[a.Length]; var o = new float[a.Length];
+                for (int y = 0; y < h; y++) for (int x = 0; x < w; x++) { float sum = 0; for (int k = -rad; k <= rad; k++) sum += a[y * w + X(x + k)]; t[y * w + x] = sum / (rad * 2 + 1); }
+                for (int y = 0; y < h; y++) for (int x = 0; x < w; x++) { float sum = 0; for (int k = -rad; k <= rad; k++) sum += t[Y(y + k) * w + x]; o[y * w + x] = sum / (rad * 2 + 1); }
+                return o;
+            }
+            int rad0 = Mathf.Max(2, w / 48);
+            var wide = Blur(Blur(ht, rad0), rad0);
+            var px = new Color32[w * h]; float k0 = w / 64f;   // slope scale: the same physical depth at any texture size
+            for (int y = 0; y < h; y++) for (int x = 0; x < w; x++)
+            {
+                float dx = (Hh(x + 1, y) - Hh(x - 1, y)) * .5f + (Hh(x + 1, y + 1) - Hh(x - 1, y + 1) + Hh(x + 1, y - 1) - Hh(x - 1, y - 1)) * .25f;
+                float dy = (Hh(x, y + 1) - Hh(x, y - 1)) * .5f + (Hh(x + 1, y + 1) - Hh(x + 1, y - 1) + Hh(x - 1, y + 1) - Hh(x - 1, y - 1)) * .25f;
+                var n = new Vector3(-dx * k0, -dy * k0, 1).normalized;
+                float cav = Mathf.Clamp01(1 - Mathf.Max(0, wide[y * w + x] - ht[y * w + x]) * 6f);
+                px[y * w + x] = new Color32((byte)Mathf.RoundToInt((n.x * .5f + .5f) * 255), (byte)Mathf.RoundToInt((n.y * .5f + .5f) * 255), (byte)Mathf.RoundToInt(cav * 255), 255);
+            }
+            r = new Texture2D(w, h, TextureFormat.RGBA32, true, true) { name = tex.name + " relief", wrapMode = tex.wrapMode, anisoLevel = 4, filterMode = FilterMode.Trilinear };
+            r.SetPixels32(px); r.Apply(true, true); painted.Remove(tex); return reliefs[tex] = r;
         }
         /// An unlit painted picture (a lit room seen through glass, the clock face): `hdr` > 1 glows a little under bloom.
         public static Material Painted(Texture2D tex, float hdr = 1f)
@@ -71,6 +125,7 @@ namespace GolfArcade.Hub
             m.SetColor("_BaseColor", c); m.SetFloat("_UVMode", uvMode); m.SetVector("_Tile", new Vector4(Mathf.Max(.01f, tile.x), Mathf.Max(.01f, tile.y > 0 ? tile.y : tile.x), 0, 0));
             m.SetVector("_Centre", centre); m.SetFloat("_Noise", noise); m.SetFloat("_NoiseScale", noiseScale); m.SetFloat("_Wrap", wrap); m.SetFloat("_Gloss", gloss);
             m.SetFloat("_Leaf", leaf); m.SetFloat("_Sway", sway); m.SetFloat("_VertexTint", vertexTint); m.SetFloat("_Cull", twoSided ? 0 : 2);
+            if (tex && m.HasProperty("_ReliefMap")) { var (relief, cavity) = ReliefLook(tex.name); m.SetTexture("_ReliefMap", Relief(tex)); m.SetFloat("_Relief", relief); m.SetFloat("_Cavity", cavity); }
             return mats[key] = m;
         }
         public static Material Foliage => Surface("foliage", Color.white, null, 0, default, .55f, 1.6f, .38f, .05f, .28f, .35f);
@@ -90,6 +145,7 @@ namespace GolfArcade.Hub
 
         // ================================================================== painted textures (once, cached)
         static readonly Dictionary<string, Texture2D> texs = new Dictionary<string, Texture2D>();
+        static readonly Dictionary<Texture2D, Color32[]> painted = new Dictionary<Texture2D, Color32[]>();   // CPU copy for Relief
         static float H(int x, int y, int s = 0) { uint h = (uint)(x * 73856093) ^ (uint)(y * 19349663) ^ (uint)(s * 83492791); h ^= h >> 13; h *= 0x5bd1e995; h ^= h >> 15; return (h & 0xffffff) / 16777216f; }
         static float N(float x, float y) => Mathf.PerlinNoise(x, y);
         /// Paints a texture once: `f(u, v)` with u, v in 0..1 (v up). Repeats unless `clamp`.
@@ -99,25 +155,28 @@ namespace GolfArcade.Hub
             t = new Texture2D(w, h, TextureFormat.RGBA32, mips) { name = name, wrapMode = clamp ? TextureWrapMode.Clamp : TextureWrapMode.Repeat, anisoLevel = 4 };
             var px = new Color32[w * h];
             for (int y = 0; y < h; y++) for (int x = 0; x < w; x++) px[y * w + x] = f((x + .5f) / w, (y + .5f) / h);
-            t.SetPixels32(px); t.Apply(mips, true); return texs[name] = t;
+            t.SetPixels32(px); t.Apply(mips, true); painted[t] = px; return texs[name] = t;
         }
         static Color Mul(Color c, float k) { c.r *= k; c.g *= k; c.b *= k; return c; }
         static float Smooth(float a, float b, float x) => Mathf.SmoothStep(0, 1, Mathf.InverseLerp(a, b, x));
 
         /// Ashlar: four courses per tile, blocks staggered, thin mortar, each block a slightly different cream. Tile = 1.2 m.
-        public static Texture2D StoneTex => Paint("stone courses", 256, 256, (u, v) =>
+        public static Texture2D StoneTex => Paint("stone courses", 512, 512, (u, v) =>
         {
             int row = Mathf.FloorToInt(v * 4); float rv = v * 4 - row;
             float off = row % 2 == 0 ? 0 : .25f; float bu = (u + off) * 2; int col = Mathf.FloorToInt(bu); float cu = bu - col;
-            float k = .93f + H(col, row, 1) * .12f + (N(u * 18, v * 18) - .5f) * .06f;
+            float k = .91f + H(col, row, 1) * .15f + (N(u * 18, v * 18) - .5f) * .07f + (N(u * 61, v * 61) - .5f) * .05f;
             var c = Mul(Color.white, k);
+            // each block a touch warmer or cooler (quarried stone), a few darker pits
+            float hue = H(col, row, 9) - .5f; c.r *= 1 + hue * .05f; c.b *= 1 - hue * .07f;
+            if (H(Mathf.FloorToInt(u * 170), Mathf.FloorToInt(v * 170), 13) > .985f) c = Mul(c, .86f);
             float mortar = Mathf.Min(Mathf.Min(rv, 1 - rv) * 4 * .3f / .3f, Mathf.Min(cu, 1 - cu) * 2 * .6f / .3f);
             c = Color.Lerp(Mul(Color.white, .76f), c, Smooth(.012f, .05f, mortar));
             c = Mul(c, 1 - .05f * Smooth(.6f, 1, rv));   // a soft shade under each course
             c.a = 1; return c;
         });
         /// Slate shingles: staggered rows, each slate a shade of navy-grey, a dark line under every row. Tile = 1.6 m (8 rows).
-        public static Texture2D SlateTex => Paint("slate", 256, 256, (u, v) =>
+        public static Texture2D SlateTex => Paint("slate", 512, 512, (u, v) =>
         {
             int row = Mathf.FloorToInt(v * 8); float rv = v * 8 - row;
             float bu = (u + (row % 2) * .5f / 6) * 6; int col = Mathf.FloorToInt(bu); float cu = bu - col;
@@ -136,7 +195,7 @@ namespace GolfArcade.Hub
             var c = Mul(Color.white, k); c.a = 1; return c;
         });
         /// Cobbles: two staggered rows of rounded setts with dark joints. Tile = 1.2 m along x 0.6 m across.
-        public static Texture2D CobbleTex => Paint("cobbles", 256, 128, (u, v) =>
+        public static Texture2D CobbleTex => Paint("cobbles", 512, 256, (u, v) =>
         {
             int row = Mathf.FloorToInt(v * 2); float rv = v * 2 - row;
             float bu = (u + (row % 2) * .125f) * 4; int col = Mathf.FloorToInt(bu); float cu = bu - col;
@@ -148,7 +207,7 @@ namespace GolfArcade.Hub
             c.a = 1; return c;
         });
         /// Flagstones for the paths: big irregular slabs in courses. Tile = 2.4 m.
-        public static Texture2D FlagTex => Paint("flagstones", 256, 256, (u, v) =>
+        public static Texture2D FlagTex => Paint("flagstones", 512, 512, (u, v) =>
         {
             int row = Mathf.FloorToInt(v * 3); float rv = v * 3 - row;
             float bu = (u + H(row, 0, 6) * .7f) * (2 + (row % 2)); int col = Mathf.FloorToInt(bu); float cu = bu - col;
@@ -182,7 +241,7 @@ namespace GolfArcade.Hub
             var c = Mul(Color.white, k); c.a = 1; return c;
         });
         /// Wood planks along u. Tile = 1 m.
-        public static Texture2D PlankTex => Paint("planks", 128, 128, (u, v) =>
+        public static Texture2D PlankTex => Paint("planks", 256, 256, (u, v) =>
         {
             int row = Mathf.FloorToInt(v * 6); float rv = v * 6 - row;
             float k = .88f + H(row, 0, 10) * .18f + Mathf.Sin((u * 9 + N(u * 3, row * 3.1f) * 2) * 6.28f) * .03f + (N(u * 40, v * 6) - .5f) * .08f;
@@ -223,6 +282,32 @@ namespace GolfArcade.Hub
             for (int i = 0; i < 4; i++) c += C("FFE8B8") * Mathf.Exp(-((u - .15f - i * .23f) * (u - .15f - i * .23f) * 900 + (v - .97f) * (v - .97f) * 400)) * .8f;
             c.a = 1; return c;
         }, true);
+        /// A lived-in room behind a window (the club's arched windows, which were flat glow): a warm lamp-lit back wall with a
+        /// picture, cream curtains drawn back with soft folds, a navy pelmet, a pool of lamp light, and the glass's own faint
+        /// sky streaks. Fitted to each window by WindowRoom.
+        public static Texture2D RoomInterior => Paint("lit room", 128, 256, (u, v) =>
+        {
+            var c = Color.Lerp(C("7A4A2A"), C("F0B872"), Smooth(.05f, .8f, v));
+            c = Over(c, Mul(C("E8C48E"), .92f), -(v - .32f) * 8);                                   // wainscot
+            c = Over(c, C("5C3A20"), Box2(u, v, .5f, .62f, .16f, .1f, .01f));                       // a picture frame
+            c = Over(c, Color.Lerp(C("4F7A57"), C("B9D2C4"), Smooth(.55f, .7f, v)), Box2(u, v, .5f, .62f, .13f, .075f));
+            c += C("FFE2A8") * Mathf.Exp(-((u - .5f) * (u - .5f) * 14 + (v - .86f) * (v - .86f) * 22)) * .55f;   // the lamp's pool
+            c = Over(c, C("FFF1C8") * 1.3f, Box2(u, v, .5f, .9f, .05f, .03f, .02f));                // the lamp shade
+            // curtains drawn back, folds as soft vertical shading
+            foreach (int side in new[] { -1, 1 })
+            {
+                float edge = side < 0 ? .2f + .05f * (1 - v) : .8f - .05f * (1 - v);
+                bool inside = side < 0 ? u < edge : u > edge;
+                if (inside) { float fold = .86f + .14f * Mathf.Sin(u * 70 + side); c = Mul(C("F1E4CC"), fold * Mathf.Lerp(.82f, 1f, v)); }
+            }
+            if (v > .955f) c = Mul(C("24336B"), .9f + .1f * Mathf.Sin(u * 40));                    // pelmet
+            // the glass: two faint diagonal sky streaks
+            float streak = Smooth(.03f, 0, Mathf.Abs(Mathf.Repeat(u * .6f + v * .9f, 1) - .3f)) * .18f + Smooth(.015f, 0, Mathf.Abs(Mathf.Repeat(u * .6f + v * .9f, 1) - .37f)) * .1f;
+            c = Color.Lerp(c, C("DCE9F5"), streak);
+            c.a = 1; return c;
+        }, true);
+        /// The lit room fitted to a window `w` wide from `sill` to `sill + h` (the Window frame's metre UVs).
+        public static Material WindowRoom(float w, float h, float sill, float hdr = 1.3f) => PaintedFit(RoomInterior, hdr, w, h, -w / 2, sill);
         /// The trophy lounge: shelves of gold cups, a warm lamp, leather chairs.
         public static Texture2D LoungeInterior => Paint("trophy lounge", 256, 256, (u, v) =>
         {
@@ -576,8 +661,8 @@ namespace GolfArcade.Hub
             var trim = b[Lit(StoneLight, .3f)];
             trim.Box(f, new Vector3((x0 + x1) / 2, y - fascia / 2, z1 - .06f), new Vector3(w, fascia, .12f));
             trim.Box(f, new Vector3((x0 + x1) / 2, y - fascia / 2, z0 + .06f), new Vector3(w, fascia, .12f));
-            trim.Box(f, new Vector3(x0 + .06f, y - fascia / 2, (z0 + z1) / 2), new Vector3(.12f, fascia, d));
-            trim.Box(f, new Vector3(x1 - .06f, y - fascia / 2, (z0 + z1) / 2), new Vector3(.12f, fascia, d));
+            trim.Box(f, new Vector3(x0 + .06f, y - fascia / 2, (z0 + z1) / 2), new Vector3(.12f, fascia, d - .24f));
+            trim.Box(f, new Vector3(x1 - .06f, y - fascia / 2, (z0 + z1) / 2), new Vector3(.12f, fascia, d - .24f));
         }
         /// A dormer on a roof slope: a small cream box with a lit window and its own little gable roof.
         public static void Dormer(Batch b, Frame f, float x, float z, float y, float w = 1.2f, float h = 1.1f)
@@ -666,7 +751,7 @@ namespace GolfArcade.Hub
             var m = b[HedgeMat]; m.colour = new Color(HedgeGreen.r, HedgeGreen.g, HedgeGreen.b, 0);
             m.Box(f, new Vector3(0, h / 2 - .02f, 0), new Vector3(len, h, d));
             m.colour = new Color(LeafDark.r, LeafDark.g, LeafDark.b, 0);
-            m.Box(f, new Vector3(0, .06f, 0), new Vector3(len + .02f, .12f, d + .04f));
+            m.Box(f, new Vector3(0, .055f, 0), new Vector3(len + .02f, .11f, d + .04f));
             if (roses > 0) RoseSpray(b, f, len, h, d, roses, seed);
         }
         static readonly Color[] RoseColours = { Rose, RosePale, RoseRed, C("FFF1F3"), Rose };

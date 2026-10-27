@@ -27,6 +27,7 @@ namespace GolfArcade.Game
             public string tennisCamera; public string shirt,shorts,accent,racket,skinHex,hairHex; public bool tips=true; public float overscan;
             public string back;   // MENU HERO: the locker's back pick (HeroAccessories golf_bag | racket_back; "" = the bag)
             // The tennis court: "" / "resort", "skyscraper" or "volcano"; and a court colour (hex, "" = the venue's own).
+            // Bowling reads the same key: "club", "neon", "tiki" or "magma" (BowlingVenue.Parse).
             public string venue,course,courtHex,network; public int aimSequence;
             public string[] emotes; public string intros="full"; public bool presentationConstrained,bigMoments=true,holeFlyover=true;
             public bool hasReadyPose; public float qx,qy,qz,qw;
@@ -167,12 +168,13 @@ namespace GolfArcade.Game
                 if(m.action=="start") {
                     if(m.sport=="hub") { StartHub(m); return; }
                     if(loading || (Active && m.session==session)) return;
-                    if(m.sport!="golf" && m.sport!="tennis") return;
+                    if(m.sport!="golf" && m.sport!="tennis" && m.sport!="bowling") return;
                     LeaveHub(); StartCoroutine(Load(m)); return;
                 }
                 if(MenuDuringLoad(m)) return;
                 if(m.session!=session || !Active) return;
                 if(HubIntercept(m)) return;
+                if(BowlingReceive(m)) return;   // NativeSportsSession.Bowling.cs
                 if(LessonReceive(m)) return;    // NativeSportsSession.Lesson.cs
                 if (SportsMultiplayer.Active && (m.action=="pause" || m.action=="resume")) SetPaused(m.action=="pause",m.reason);
                 if (SportsMultiplayer.Command(m)) return;
@@ -263,9 +265,11 @@ namespace GolfArcade.Game
             TennisQuality.Apply();
             PresentationPolicy.Constrained |= TennisQuality.Current==TennisQuality.Tier.Low;
             // (a multiplayer golf phone without the TV draws only the upright controller sheet)
-            Screen.orientation=m.external || (m.sport=="golf" && !string.IsNullOrEmpty(m.network)) ? ScreenOrientation.Portrait : ScreenOrientation.LandscapeLeft;
+            // (bowling with no TV plays on the phone held upright: the lane runs up the screen under the controls)
+            Screen.orientation=m.external || m.sport=="bowling" || (m.sport=="golf" && !string.IsNullOrEmpty(m.network)) ? ScreenOrientation.Portrait : ScreenOrientation.LandscapeLeft;
             // The phone's loading bar follows the scene load.
             TennisVenue.Selected=TennisVenue.Parse(m.venue);
+            GolfArcade.Bowling.BowlingVenue.Selected=GolfArcade.Bowling.BowlingVenue.Parse(m.venue);
             TennisVenue.CourtColorOverride=string.IsNullOrEmpty(m.courtHex) ? (Color?)null : HeroKit.Hex(m.courtHex);
             var op=BeginSceneLoad(m);
             float nextProgress=0;
@@ -278,10 +282,11 @@ namespace GolfArcade.Game
                 yield return null;
             }
             Emit("loadProgress","1"); Emit("sceneReady","Scene loaded");
-            tennis=FindFirstObjectByType<TennisGame>(); golf=FindFirstObjectByType<GolfGame>();
+            tennis=FindFirstObjectByType<TennisGame>(); golf=FindFirstObjectByType<GolfGame>(); bowling=FindFirstObjectByType<GolfArcade.Bowling.BowlingGame>();
             float deadline=Time.realtimeSinceStartup+15;
             while(m.sport=="tennis" && tennis && !tennis.Initialized && Time.realtimeSinceStartup<deadline) yield return null;
-            if((m.sport=="tennis" && (!tennis || !tennis.Initialized)) || (m.sport=="golf" && !golf)) {
+            while(m.sport=="bowling" && bowling && !bowling.Initialized && Time.realtimeSinceStartup<deadline) yield return null;
+            if((m.sport=="tennis" && (!tennis || !tennis.Initialized)) || (m.sport=="golf" && !golf) || (m.sport=="bowling" && (!bowling || !bowling.Initialized))) {
                 loading=false; SetPaused(true); Emit("error","The sport did not initialize its gameplay scene."); yield break;
             }
             if(tennis) { tennis.ElevatedCamera=m.tennisCamera=="elevated"; tennis.NativeControlled=true; tennis.AutoPlay=m.bench; if(m.difficulty>=0) tennis.OpponentDifficulty=Mathf.Clamp01(m.difficulty); tennis.SelectCharacter(m.female);
@@ -300,6 +305,7 @@ namespace GolfArcade.Game
                 tennis.ConfigureMatch(mode,m.opponent,m.opponentName,m.round,m.sets,m.games,
                     string.IsNullOrEmpty(m.coach) ? null : m.coach.Split('|')); }
             if(tennis) { tennis.EquipEmotes(m.emotes); tennis.SetControllerSetup(!m.bench && !multiplayerSession); }
+            if(bowling) BowlingLoaded(m);
             if(m.bench && !GetComponent<FrameProbe>()) gameObject.AddComponent<FrameProbe>().Report=r=>Emit("perf",r);
             if(golf) { golf.EquipResultEmotes(m.emotes); golf.SetRoundEvents(!m.noTwists,true,!m.noChallenges); golf.SetDailyRound(m.daily);
                 // behind the plaza the first hole builds a slice a frame (the plaza keeps drawing); otherwise at once, under the TV's cover
@@ -318,7 +324,7 @@ namespace GolfArcade.Game
                 catch(Exception e) { Debug.LogException(e); }
                 if(!configured) { loading=false; SetPaused(true); Emit("error","The multiplayer match could not be set up."); yield break; }
             }
-            gameplayCamera=tennis ? tennis.GameplayCamera : golf.GameplayCamera;
+            gameplayCamera=tennis ? tennis.GameplayCamera : golf ? golf.GameplayCamera : bowling.GameplayCamera;
             if(golf && m.touch) golf.Swing.Armed=false;
             SetPaused(true);
             yield return behindPlaza ? HandOff(m) : Present(m.external,"ready");
@@ -444,6 +450,7 @@ namespace GolfArcade.Game
                 latest=sample; haveSample=true;
                 // Swing prediction reads every sample, not just the newest: the one that proves the stroke can be any of them.
                 if(tennis && sample.predicting && onsetStrength.Add(sample.swingStart,sample.onsetTime,sample.time,sample.rotation)) provenOnset=sample.swingStart;
+                if(bowling) BowlingSample(sample);   // the swing integrates every sample
                 // Golf integrates the gyro path; network play forwards its samples.
                 // Local tennis needs the latest position and cumulative stroke events,
                 // not an animation replay of every queued controller sample.
@@ -477,6 +484,7 @@ namespace GolfArcade.Game
                 if(golf && Time.unscaledTime>=nextGolfController) {
                     nextGolfController=Time.unscaledTime+.25f;Emit("golfController","");
                 }
+                if(bowling) Emit("bowling",bowling.NativeState);
                 // One TV (this phone draws both players): the TV credit it gives its own player goes to the controller-only phone,
                 // whose player watches this same picture (MultiplayerService screenDelay → that phone's sharedLatency).
                 if(VersusTennis && SportsMultiplayer.Active && SportsMultiplayer.Instance.Configuration.LocalView==NetworkConfiguration.ViewSplit && Mathf.Abs(tennis.Lag-sharedLag)>=.01f) {

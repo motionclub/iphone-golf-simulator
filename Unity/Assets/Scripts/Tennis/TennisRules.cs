@@ -130,6 +130,9 @@ namespace GolfArcade.Tennis
         public const float CourtMovementScale = .88f;
         public const float PlayerMovementScale = .96f;
         public const float RunSpeed = 5.6f * PlayerMovementScale, SprintSpeed = 6.6f * PlayerMovementScale, Acceleration = 16f;
+        /// The Wii dash: top speed for a ball the sprint cannot reach (TennisGame.AutoReachEverything), so the
+        /// character always gets there and the swing decides the shot.
+        public const float DashSpeed = 11f;
         /// Braking the auto-positioning uses to arrive at the ball instead of stopping dead.
         public const float Deceleration = 18f;
 
@@ -558,7 +561,7 @@ namespace GolfArcade.Tennis
         public const float ServeWindUp = .3f;
         /// How far either side of the top of the toss the power bar has anything to give.
         public const float ServePowerWindow = .4f;
-        /// Swings with less power than this are too early or too late to clear the net.
+        /// Swings with less power than this are far from the top of the toss: the slowest serve (no longer a fault).
         public const float ServeFaultPower = .12f;
         /// Swing onset must be within 45 real milliseconds of the apex for a perfect serve (it was 25,
         /// tighter than the sensor-to-screen chain's own jitter, so a "perfect" was mostly luck).
@@ -653,28 +656,19 @@ namespace GolfArcade.Tennis
             float quality = j.Perfect ? 1 : j.Power * Mathf.Lerp(.6f, 1, j.Toss);
             j.Accuracy = quality;
             var target = ServeAimPoint(aim, serverNearSide, deuceCourt);
-            if (j.Power < ServeFaultPower)
-            {
-                // Swung far too early or late: struck flat into the tape.
-                j.Legal = false;
-                j.Landing = new Vector3(target.x * .5f, BallRadius, serverNearSide ? .6f : -.6f);
-                j.Speed = 18;
-                j.Label = fromApex < 0 ? "FAULT — swung too early" : "FAULT — swung too late";
-                return j;
-            }
+            // Wii Sports: a struck serve goes in. Timing only decides how fast it is (the rocket serve is at the
+            // top of the toss); a swing far from the top is a slow, safe serve rather than a fault into the tape.
             j.Legal = true;
             // Placement is the toss: dead centre on the meter lands on the aim, and it wanders
-            // further the further off centre the toss was. The wander is not rescued: aim at
-            // the lines with a loose toss and it can land long or wide -- a fault, called when
-            // it bounces. The risk is what makes the lines worth aiming at.
+            // further the further off centre the toss was -- but always inside the box.
             Vector2 scatter = ServeTossScatter(j.Toss, rollX, rollZ);
-            var landing = IntoServiceBox(target, serverNearSide, deuceCourt)
-                + new Vector3(scatter.x, 0, scatter.y);
+            var landing = IntoServiceBox(IntoServiceBox(target, serverNearSide, deuceCourt)
+                + new Vector3(scatter.x, 0, scatter.y), serverNearSide, deuceCourt, .3f);
             // Never so short it would not clear the net.
             float minZ = 1.8f;
             if (Mathf.Abs(landing.z) < minZ) landing.z = serverNearSide ? minZ : -minZ;
             j.Landing = new Vector3(landing.x, BallRadius, landing.z);
-            j.Speed = j.Perfect ? ServeTopSpeed : Mathf.Lerp(22, 42, j.Power * j.Power);
+            j.Speed = j.Perfect ? ServeTopSpeed : Mathf.Lerp(20, 42, j.Power * j.Power);
             if (secondServe) j.Speed *= .82f;
             bool inBox = ServeIsIn(j.Landing, serverNearSide, deuceCourt);
             j.Label = j.Perfect ? $"PERFECT SERVE · {j.Speed * 3.6f:0} km/h" : inBox ? $"SERVE IN · {j.Speed * 3.6f:0} km/h" : $"SERVE · {j.Speed * 3.6f:0} km/h";
@@ -740,7 +734,7 @@ namespace GolfArcade.Tennis
         }
 
         /// How far over the tape a clean rally ball passes (metres above the net).
-        public const float RallyNetClearance = .7f;
+        public const float RallyNetClearance = 1.1f;   // was .7: the fastest balls get a visible arc, and air time with it
         /// Editor proof only (HERO_OLDARC=1): the pre-Plan-1B flat net-skimming rally lines.
         public static readonly bool LegacyFlatShots = System.Environment.GetEnvironmentVariable("HERO_OLDARC") == "1";
 
@@ -941,22 +935,22 @@ namespace GolfArcade.Tennis
         // `EarlySwingHold`), so nearly every swing meets the ball and the skill is in how good the shot is.
         //
         // The 2026-10-10 pass had timing pick the side (Wii Sports' own rule); playtests wanted timing to mean
-        // power and the swing to mean direction, so that was reversed. The racket-face reading is shaped here
-        // with a wide straight band and full angle well inside a comfortable wrist turn, so it is not the
-        // twitchy degree-per-10-cm number it was before the timing pass.
+        // power and the swing to mean direction, so that was reversed. Nintendo's own programmers warned that
+        // reading the swing's direction "makes the controls unstable", so the reading is snapped to three lanes
+        // (2026-10-26, Adnan picked lanes): left, straight, right. A wobbly wrist cannot land a ball half-way,
+        // and the hit badge on the TV names the lane, so the player learns it in a few shots.
 
         /// Racket-face aim (-1..1 as the phone sends it; its calibration tops out near 0.8) inside this
         /// band hits straight up the middle: wrist wobble must not steer a ball.
-        public const float SwingAimDeadBand = .15f;
-        /// Face aim at which the ball goes to the corner.
+        public const float SwingAimDeadBand = .3f;
+        /// Kept for the face reading's range: the phone's aim value at a clearly turned wrist.
         public const float SwingAimFull = .75f;
 
-        /// Direction from the swing, -1 (left corner) .. 1 (right corner), from the racket-face aim.
+        /// Direction from the swing: -1 (left lane), 0 (straight) or 1 (right lane), from the racket-face aim.
         public static float SideFromSwing(float aim)
         {
-            float a = Mathf.Abs(Mathf.Clamp(aim, -1, 1));
-            if (a <= SwingAimDeadBand) return 0;
-            return Mathf.Sign(aim) * Mathf.Clamp01((a - SwingAimDeadBand) / (SwingAimFull - SwingAimDeadBand));
+            float a = Mathf.Clamp(aim, -1, 1);
+            return Mathf.Abs(a) <= SwingAimDeadBand ? 0 : Mathf.Sign(a);
         }
 
         /// Rally pace from timing (`TimingScore`, 1 on the ball .. 0 at the edge of contact), in the speed the
@@ -966,7 +960,10 @@ namespace GolfArcade.Tennis
         /// mistimed ball here takes about 1.6 s baseline to baseline, a GOOD one 1.35 s, a GREAT one 1.2 s and a
         /// PERFECT one 0.95 s -- Wii's Pro pace, the shot that wins points. The old range (13-30) put every clean
         /// ball under 0.9 s. See docs/tennis-timing-power-2026-10-24.md.
-        public const float SlowRallyPace = 11.5f, RallyPace = 14.5f, FastRallyPace = 20.5f;
+        /// 2026-10-26 (Adnan: "a bit more hang time on tennis balls"): every pace slowed (11.5 / 14.5 / 20.5 m/s before),
+        /// about 15% more air time on a clean hit (0.95 s -> ~1.1 s hit to hit). The floater slowed most, so a mistimed ball
+        /// is still a different shot from a clean one (a clean strike stays 1.4x+ faster) and loops up as a sitter.
+        public const float SlowRallyPace = 10f, RallyPace = 13f, FastRallyPace = 17.5f;
         public static float TimingPace(float timing, float power, float stamina)
         {
             float t = Mathf.Clamp01(timing);
@@ -979,16 +976,37 @@ namespace GolfArcade.Tennis
         /// the timing, through `quality`, decides the depth -- a clean hit lands deep, a poor one sits up short --
         /// how close to the line the ball can go, and how much it scatters. Always inside the lines: a rally ball
         /// is never out, so new players keep the ball in play and the challenge is beating the opponent with it.
+        public const float SideLaneWidth = 3.95f, SideLaneDepth = 8f;
         public static Vector3 SwingPlacement(float aim, float quality, float rollX, float rollZ)
         {
             float control = Mathf.SmoothStep(0, 1, Mathf.Clamp01(quality / .85f));
             float side = SideFromSwing(aim);
-            float width = Mathf.Lerp(2.4f, CourtHalfWidth - .45f, control);
+            float width = Mathf.Lerp(2.4f, SideLaneWidth, control);
             float spread = Mathf.Lerp(.6f, .05f, control);
             float x = side * width + Mathf.Clamp(rollX, -1, 1) * spread;
-            float z = Mathf.Lerp(6.2f, 10.4f, control) + Mathf.Clamp(rollZ, -1, 1) * spread;
+            // A side lane is an angle: on a clean hit it lands short of the baseline right by the sideline and keeps
+            // travelling wide, which is what pulls the rival off the court (a deep corner gave it time to get there:
+            // 2026-10-26 tuning, a clean deep corner beat the standard rival 0% of the time). Straight goes deep.
+            float z = Mathf.Lerp(6.2f, side != 0 ? SideLaneDepth : 10.4f, control) + Mathf.Clamp(rollZ, -1, 1) * spread;
             return new Vector3(Mathf.Clamp(x, -CourtHalfWidth + .12f, CourtHalfWidth - .12f), BallRadius,
                 Mathf.Clamp(z, 2.8f, CourtHalfLength - .3f));
+        }
+
+        /// Wii Sports: a swing at the very edge of the window sends the ball out (2026-10-26, Adnan: "badly timed shots
+        /// need to go out of bounds"). Within `OutTiming` real seconds of the ball every rally ball lands in; past it the
+        /// ball sails out -- wide of the sideline on a side lane, long down the middle. Contact itself is still made.
+        public const float OutTiming = .17f;
+        public static bool MistimedOut(float late) => Mathf.Abs(late) > OutTiming;
+
+        /// Where a ball swung at more than `OutTiming` off lands: out, and further out the worse the timing.
+        public static Vector3 MistimedLanding(float aim, float late, float rollX, float rollZ)
+        {
+            float side = SideFromSwing(aim);
+            float over = Mathf.Clamp01((Mathf.Abs(late) - OutTiming) / .13f);
+            float rx = Mathf.Clamp(rollX, -1, 1), rz = Mathf.Clamp(rollZ, -1, 1);
+            if (side != 0)
+                return new Vector3(side * (CourtHalfWidth + Mathf.Lerp(.45f, 1.5f, over) + .15f * Mathf.Abs(rx)), BallRadius, Mathf.Lerp(6.5f, 9.5f, (rz + 1) / 2));
+            return new Vector3(rx * 1.5f, BallRadius, CourtHalfLength + Mathf.Lerp(.5f, 1.6f, over) + .15f * Mathf.Abs(rz));
         }
 
         /// A swing this early still meets the ball: the character holds the racket back and lets it go as the

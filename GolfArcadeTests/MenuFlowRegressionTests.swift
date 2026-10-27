@@ -58,14 +58,18 @@ import UIKit
         session.offerTimingCalibration(); session.debugFinishTVDelay()
         XCTAssertEqual(session.setupStage, .timing); XCTAssertTrue(session.timingPrompt)
     }
-    func testOnlineSetupIsVisibleAndCanFinishBeforeTheRuntimeOrOpponentLoads() {
+    /// The court scan needs the court on the TV, so online setup starts when this phone's loading screen is gone, and from then on it
+    /// does not wait for the opponent.
+    func testOnlineSetupStartsOnceTheCourtIsShownAndDoesNotWaitForTheOpponent() {
         let session = SportsSession()
         session.active = true; session.sport = "tennis"; session.motion.fixtureSensors = true
         session.debugSetOnlineMatch("independent-setup", seat: 0)
         session.loading.begin(now: LoadingModel.clockNow, multiplayer: true)
         session.setupStage = .scan
         XCTAssertFalse(session.ready); XCTAssertFalse(session.loading.finished)
-        XCTAssertTrue(session.showsOnlineTennisSetup, "loading must never hide the local setup instruction")
+        XCTAssertFalse(session.showsOnlineTennisSetup, "no scan while the loading screen is on the TV")
+        session.loading.cancel()
+        XCTAssertTrue(session.showsOnlineTennisSetup, "the court is up: the setup shows")
         session.readyToPlay()
         XCTAssertEqual(session.setupStage, .scan, "Ready cannot bypass direction capture")
         session.setupStage = .ready

@@ -98,10 +98,33 @@ final class TennisMenu {
     private var pendingPick: (launch: MenuLaunch, onPhone: Bool)?
     /// Local golf (pass the phone): the number of golfers, held while the course is chosen on the map screen.
     private var pendingPassPhone: Int?
+    /// Local golf straight into the round on the course already picked (the TV's setup screen, MenuSetup).
+    func startPassThePhone(_ players: Int) {
+        guard !online.service.hasFriendsInLobby else { refuse(HubSession.soloLockMessage); return }
+        do { try online.startPassThePhone(players, menu: self) } catch { show(.localPlayers); notice = error.localizedDescription }
+    }
     func chooseCourseForPassThePhone(_ players: Int) {
         guard !online.service.hasFriendsInLobby else { refuse(HubSession.soloLockMessage); return }
+        if localPlayersSport == .bowling {
+            // bowling: one lane, everyone takes turns on this phone; pick the venue, then straight into the game
+            localPlayersSport = .golf
+            pendingBowlers = players; begin(MenuLaunch(sport: .bowling, mode: .round)); return
+        }
         launch = MenuLaunch(sport: .golf, mode: .round); launchOrigin = screen
         pendingPassPhone = players; show(.map)
+    }
+    /// Which sport the "how many players" screen is for: golf (the default) or bowling's one lane.
+    private(set) var localPlayersSport: Sport = .golf
+    /// Bowling pass the phone: how many bowlers, held while the venue is chosen.
+    private var pendingBowlers: Int?
+    func passThePhone(_ sport: Sport) { localPlayersSport = sport; openFromPlaza(.localPlayers) }
+    /// The bowlers' names for one lane: this phone's player first, then the other profiles on the phone, then "Player n".
+    func bowlerNames(_ count: Int) -> [String] {
+        let me = player?.name ?? "You"
+        var names = [me] + session.players.map(\.name).filter { $0 != me }
+        names = Array(names.prefix(count))
+        while names.count < count { names.append("Player \(names.count + 1)") }
+        return names
     }
     /// The XP screen after a match. Its buttons only work once the show is over (or skipped).
     private(set) var postMatch: PostMatchSummary?
@@ -194,7 +217,8 @@ final class TennisMenu {
             return [(0..<5).map { "round\($0)" }, (5..<10).map { "round\($0)" }, ["campaignPlay", "campaignMore"], ["back"]]
         case .exhibition: return [["quickOpponent"], ["quickDifficulty"], ["quickLength"], ["quickStart"], ["back"]]
         case .story: return [["next", "skip"]]
-        case .map: return [mapChoices.map { "map-\($0.id)" }] + (mapSport == .golf ? [["golf-daily"], ["golf-holes", "golf-link"], ["golf-twists", "golf-challenges"]] : []) + [["back"]]
+        case .map: return [mapChoices.map { "map-\($0.id)" }] + (mapSport == .golf ? [["golf-daily"], ["golf-holes", "golf-link"], ["golf-twists", "golf-challenges"]] : [])
+            + (bowlingExhibition ? [["bowl-cpu"]] : []) + [["back"]]
         case .postMatch: return postMatchDone ? postMatchChoices.map { [$0] } : [["pm-skip"]]
         case .training: return [["level"], ["start"], ["back"]]
         case .character: return lockerRows()
@@ -223,8 +247,10 @@ final class TennisMenu {
         Self.hubItems(sport).contains(id)
     }
     var mapSport: Sport { launch?.sport ?? .tennis }
+    /// The venue screen is picking lanes for a game against the computer (it also picks the opponent).
+    var bowlingExhibition: Bool { launch?.sport == .bowling && launch?.mode == .exhibition }
     var mapChoices: [SportMapChoice] { SportMapChoice.choices(for: mapSport) }
-    var selectedMap: String { mapSport == .golf ? session.golfCourse : session.tennisVenue }
+    var selectedMap: String { mapSport == .golf ? session.golfCourse : mapSport == .bowling ? session.bowlingVenue : session.tennisVenue }
 
     /// Bumped on every screen change: drives the stripe wipe and its whoosh.
     private(set) var transitions = 0
@@ -334,7 +360,7 @@ final class TennisMenu {
             match.sets = quickLength == 2 ? 2 : 1; match.games = quickLength == 0 ? 3 : 6
             begin(match)
         case "quickPlay", "partySolo": show(.gameSelect)
-        case "partyLocalGolf": show(.localPlayers)
+        case "partyLocalGolf": localPlayersSport = .golf; show(.localPlayers)
         case "partyLocalTennis": online.select(id, menu: self)
         // one tap: host a nearby tennis game; the friend's phone offers "Join …?" and the match starts when they tap it
         case "partyNearbyTennis": HubSession.shared.useNearbyBench()
@@ -363,8 +389,8 @@ final class TennisMenu {
             openGuide(deck)
         case let s where s.hasPrefix("sport-"):
             guard let sport = Sport(rawValue: String(s.dropFirst(6))) else { return }
-            // Golf has one way to play: straight on to its courses.
-            if sport == .golf { begin(MenuLaunch(sport: .golf, mode: .round)); return }
+            // Golf and bowling have one way to play solo: straight on to their courses / venues.
+            if sport == .golf || sport == .bowling { begin(MenuLaunch(sport: sport, mode: .round)); return }
             show(sport.playable ? .hub(sport) : .locked(sport))
         case let t where t.hasPrefix("tab-"):
             settingsTab = SettingsTab(rawValue: String(t.dropFirst(4))) ?? .gameplay
@@ -381,7 +407,7 @@ final class TennisMenu {
             case "campaign": show(.campaign)
             case "training": show(.training)
             case "exhibition": show(.exhibition)
-            default: begin(MenuLaunch(sport: .golf, mode: .round))
+            default: begin(MenuLaunch(sport: sport, mode: .round))
             }
         case let r where r.hasPrefix("round"):
             let round = Int(r.dropFirst(5)) ?? 0
@@ -416,6 +442,7 @@ final class TennisMenu {
         case let m where m.hasPrefix("map-") && screen == .map:
             // The court is chosen: remember it and go on to the match that was waiting.
             if mapSport == .golf { session.golfCourse = String(m.dropFirst(4)) }
+            else if mapSport == .bowling { session.bowlingVenue = String(m.dropFirst(4)) }
             else { session.tennisVenue = String(m.dropFirst(4)) }
             if let players = pendingPassPhone {
                 pendingPassPhone = nil; launch = nil
@@ -434,6 +461,7 @@ final class TennisMenu {
             let lengths = SportsSession.golfRoundLengths
             session.golfHoles = lengths[((lengths.firstIndex(of: session.golfHoles) ?? 0) + 1) % lengths.count]
         case "golf-link": session.golfLinkCourses.toggle()
+        case "bowl-cpu": session.bowlingOpponent = BowlingOpponent(rawValue: (session.bowlingOpponent.rawValue + 1) % BowlingOpponent.allCases.count) ?? .sam
         case "golf-twists": session.golfTwists.toggle()
         case "golf-challenges": session.golfChallenges.toggle()
         case "continue":
@@ -653,9 +681,15 @@ final class TennisMenu {
             pendingPick = (launch, onPhone); show(.map); return
         }
         SportsDisplays.shared.refresh()
-        guard session.displayConnected else { show(.connect); return }
+        // bowling never needs a TV: with none, the phone plays it (game view <-> controller, PLAN_PhonePlay)
+        guard session.displayConnected || launch.sport == .bowling else { show(.connect); return }
         show(.loading)
-        if launch.sport == .golf {
+        if launch.sport == .bowling {
+            let count = pendingBowlers ?? 1; pendingBowlers = nil
+            // exhibition: you against the computer bowler picked on the venue screen
+            let names = launch.mode == .exhibition ? bowlerNames(1) + [session.bowlingOpponent.launchName] : bowlerNames(count)
+            session.startBowling(players: names, preview: !session.displayConnected)
+        } else if launch.sport == .golf {
             session.startGolf(tutorial: false, preview: onPhone, daily: launch.daily)
         } else {
             let opponent = launch.round.map { TennisCampaign.draw[$0] }
@@ -711,6 +745,14 @@ final class TennisMenu {
         var dailyFirst = false, streak = 0
         if stats.daily > 0 { (dailyFirst, streak) = DailyGolf.shared.record(day: stats.daily, toPar: stats.toPar) }
         postMatch = Progression.shared.awardGolf(player: session.players[session.playerIndex].id, stats: stats, dailyFirst: dailyFirst, streak: streak)
+    }
+
+    /// A bowling game is over (Unity's "bowlingGame"): count it and bank its XP; the rewards screen shows it once the phone's
+    /// Finish is tapped.
+    func bowlingFinished(_ stats: BowlingGameStats) {
+        guard session.active, let launch, launch.sport == .bowling, session.players.indices.contains(session.playerIndex) else { return }
+        progress.recordMatch(won: stats.won)
+        postMatch = Progression.shared.awardBowling(player: session.players[session.playerIndex].id, stats: stats)
     }
 
     /// Explicit device-launch recovery, used only when requested by the player.

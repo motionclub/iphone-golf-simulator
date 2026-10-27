@@ -37,7 +37,16 @@ namespace GolfArcade.Tennis
         float queuedOverheadPower=-1;
         void FireQueuedOverhead() {
             if(queuedOverheadPower<0) return;
-            if(!TrackingOverhead) { queuedOverheadPower=-1; return; }
+            if(!TrackingOverhead) {
+                // The lob came down short of a smash (it bounced, or dropped under overhead height). The swing the player
+                // made still plays it: as a groundstroke when the ball arrives, never dropped (2026-10-26: it used to be
+                // thrown away and the ball went by untouched).
+                float due = BallDueAtRacket();
+                if (Player.Swinging || due < 0 || due > TennisRules.SweetTime) return;
+                float power = queuedOverheadPower; queuedOverheadPower = -1;
+                StartRallySwing(power, 0, 0, 0, false);
+                return;
+            }
             if(overheadPlan.Time>TennisOverheads.ReadySwing) return;
             TryTrackedOverhead(queuedOverheadPower);   // keeps trying each frame until the player is close enough
         }
@@ -72,7 +81,7 @@ namespace GolfArcade.Tennis
             Vector2 face = TennisRules.PositionFace(overheadPlan.Point, Player.transform.position, true,
                 1 - Mathf.Abs(LateralSpeed) / 10);
             Player.PaceToContact(overheadPlan.Time, .1f); Player.GuideContact(overheadPlan.Point,overheadPlan.Time,face);
-            consumedStroke=false; honestRejected=false;
+            consumedStroke=false;
             // Commit the descending overhead intercept. The ordinary reach assist can
             // otherwise fire early while the ball is still above the racket, re-time
             // the smash to that unreachable point, and consume the only attempt.

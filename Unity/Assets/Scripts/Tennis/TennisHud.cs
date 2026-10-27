@@ -353,7 +353,6 @@ namespace GolfArcade.Tennis
                 if (rallyShots == 8 || rallyShots == 12) rallyEmphasisUntil = HudClock.Now + .3f;
             }
             scoreOnly = scoreOnlyText;
-            if (scoreOnly) { badgeAt = -99; feedbackPanel.gameObject.SetActive(false); }
             meterLabel.enabled = tossLabel.enabled = !scoreOnly;
             Points(m, out string pa, out string pb);
             // Multi-set matches show sets won ahead of the games in the current set.
@@ -393,10 +392,10 @@ namespace GolfArcade.Tennis
             cueRow.gameObject.SetActive(shownRally >= 4 || causeText.enabled);
         }
 
-        /// A clean hit: quality and shot detail settle into the lower-left panel.
+        /// A clean hit: quality and shot detail settle into the lower-left panel. In a match (the score-only HUD) it is
+        /// the quiet version, faded back (`MatchGradeAlpha`): there to learn from, never in the way (2026-10-26).
         public void ShowGrade(Timing grade, bool supercharged, string detail)
         {
-            if (scoreOnly) return;
             gradeText.text = supercharged ? "SUPER SHOT" : grade.ToString().ToUpperInvariant();
             badgeCaption.text = (detail ?? "").Replace("KM/H", "km/h").Replace("  ·  ", " · ");
             feedbackPanel.gameObject.SetActive(true);
@@ -404,6 +403,8 @@ namespace GolfArcade.Tennis
         }
 
         /// A point, game or state call. Queued behind whatever is showing.
+        public const float MatchGradeAlpha = .7f;
+
         public void ShowCall(string key, string sub, bool good)
         {
             if (scoreOnly) { calls.Clear(); return; }
@@ -757,7 +758,7 @@ namespace GolfArcade.Tennis
             if (since < 1.8f)
             {
                 feedbackPanel.anchoredPosition = new Vector2(137+left,88+bottom-6*Mathf.Exp(-since*15));
-                SetGroupAlpha(feedbackPanel,Mathf.Min(Mathf.Clamp01(since/.08f),Mathf.Clamp01((1.8f-since)/.25f)));
+                SetGroupAlpha(feedbackPanel,(scoreOnly ? MatchGradeAlpha : 1)*Mathf.Min(Mathf.Clamp01(since/.08f),Mathf.Clamp01((1.8f-since)/.25f)));
             }
             else feedbackPanel.gameObject.SetActive(false);
             float t = Age(now,callAt);

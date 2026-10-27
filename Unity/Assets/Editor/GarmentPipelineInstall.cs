@@ -25,6 +25,8 @@ namespace GolfArcade.EditorTools
             ("MatchHero_Female", "Assets/Resources/Tennis/Customization/PlayerFemale.prefab"),
             ("GolfKitHero_Male", "Assets/Resources/Tennis/Customization/PlayerMaleGolfKit.prefab"),
             ("GolfKitHero_Female", "Assets/Resources/Tennis/Customization/PlayerFemaleGolfKit.prefab"),
+            ("BowlingKitHero_Male", "Assets/Resources/Tennis/Customization/PlayerMaleBowlingKit.prefab"),
+            ("BowlingKitHero_Female", "Assets/Resources/Tennis/Customization/PlayerFemaleBowlingKit.prefab"),
         };
         [Serializable] class Patch { public string tag; public int vertexCount; public string[] bones; public float[] bindposes; public string[] shapes; }
 
@@ -63,7 +65,7 @@ namespace GolfArcade.EditorTools
             var sb = new StringBuilder();
             string dir = Path.Combine(Source, hero);
             if (!Directory.Exists(dir)) return sb.ToString();
-            string sport = hero.StartsWith("Golf") ? "Golf" : "Tennis", sex = hero.EndsWith("Female") ? "Female" : "Male";
+            string sport = hero.StartsWith("Golf") ? "Golf" : hero.StartsWith("Bowling") ? "Bowling" : "Tennis", sex = hero.EndsWith("Female") ? "Female" : "Male";
             string res = $"Assets/Resources/{sport}/KitsV2/{sex}/";
             var root = PrefabUtility.LoadPrefabContents(prefabPath);
             try

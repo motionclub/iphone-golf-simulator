@@ -58,7 +58,54 @@ final class HubSession {
     }
     /// Seconds the full bar holds before the loading screen fades, and the fade (the fly-in starts with it).
     static let readyHold = 0.45, revealFade = 0.35
-    private func progress(_ value: Double) { if value.isFinite { loadProgress = max(loadProgress, min(1, value)) } }
+    private func progress(_ value: Double) {
+        guard value.isFinite else { return }
+        let next = max(loadProgress, min(1, value))
+        if next > loadProgress { loadProgress = next; stageChanged = Date() }
+    }
+
+    /// What the bars draw: loadProgress, eased forward. Between two measured milestones it creeps toward the next one at the pace
+    /// earlier boots took (never past 90 % of the gap, so it cannot run ahead of the real work), and a measured jump fills at
+    /// `fillRate` instead of snapping, so the bar never sits still and never leaps (Adnan 10-26: "stuck on 12, then instantly fills").
+    private(set) var loadShown = 0.0
+    /// The bar's top speed while it catches up with a measured jump (whole bars per second).
+    static let fillRate = 1.6
+    /// The boot's milestones: the runtime up, Unity's first frame, the plaza scene loaded, the plaza built, ready.
+    static let bootMilestones = [0.12, 0.15, 0.30, 0.95, 1.0]
+    /// Seconds each stage took last time (what the creep paces itself by); first boots use these.
+    static let defaultStageSeconds = [0.12: 1.5, 0.15: 0.8, 0.30: 1.6, 0.95: 0.3]
+    @ObservationIgnored private var stageChanged = Date.distantPast
+    @ObservationIgnored private var stageReached: [Double: Date] = [:]
+    @ObservationIgnored private var lastShownTick = Date.distantPast
+
+    static func stageSeconds(from milestone: Double) -> Double {
+        let learned = UserDefaults.standard.dictionary(forKey: "hubBootStageSeconds") as? [String: Double]
+        return learned?[String(format: "%.2f", milestone)] ?? defaultStageSeconds[milestone] ?? 1
+    }
+    /// The bar's creep target now: the last milestone passed, plus a share of the gap to the next one that grows with time.
+    func creepTarget(now: Date = Date()) -> Double {
+        guard loadProgress < 1 else { return 1 }
+        let from = Self.bootMilestones.last { $0 <= loadProgress } ?? 0, to = Self.bootMilestones.first { $0 > loadProgress } ?? 1
+        let t = max(0, now.timeIntervalSince(stageChanged))
+        return loadProgress + (to - loadProgress) * 0.9 * (1 - exp(-t / max(0.2, Self.stageSeconds(from: from))))
+    }
+    /// Moves loadShown one step (the 60 Hz tick; tests pass `now`).
+    func advanceShown(now: Date = Date()) {
+        let dt = min(0.1, max(0, now.timeIntervalSince(lastShownTick))); lastShownTick = now
+        let want = phase == .booting ? max(loadProgress, creepTarget(now: now)) : loadProgress
+        if want > loadShown { loadShown = min(want, loadShown + Self.fillRate * dt) }
+        for m in Self.bootMilestones where loadProgress >= m && stageReached[m] == nil { stageReached[m] = now }
+    }
+    /// A boot finished: remember how long each stage took (averaged with earlier boots), so the next bar keeps the right pace.
+    private func learnStageSeconds() {
+        var learned = UserDefaults.standard.dictionary(forKey: "hubBootStageSeconds") as? [String: Double] ?? [:]
+        for (i, m) in Self.bootMilestones.dropLast().enumerated() {
+            guard let a = stageReached[m], let b = stageReached[Self.bootMilestones[i + 1]] else { continue }
+            let key = String(format: "%.2f", m), took = min(30, b.timeIntervalSince(a))
+            learned[key] = learned[key].map { $0 * 0.5 + took * 0.5 } ?? took
+        }
+        UserDefaults.standard.set(learned, forKey: "hubBootStageSeconds")
+    }
     @ObservationIgnored private var timer: Timer?
     @ObservationIgnored private var stick = (x: 0.0, y: 0.0, mag: 0.0)
     @ObservationIgnored private var lastSampleSent = 0.0
@@ -85,12 +132,12 @@ final class HubSession {
     private(set) var menuMode = false
     /// The TV's screen: home, sport, modes:tennis, modes:golf, locker, clubhouse, loading.
     private(set) var menuScreen = "home"
+    /// The mode the TV's match setup is open for (MenuSetup), nil before the first.
+    private(set) var menuSetupMode: String?
     /// What the TV has lit under the pointer ("" = nothing).
     private(set) var menuHoverLabel = ""
     @ObservationIgnored private var menuHoverID = ""
     private(set) var recentred = false
-    /// A match is loading behind the menu (the TV still shows the menu; START is pressed with the pointer).
-    private(set) var menuHolding = false
     /// This phone drives the menu: no party, or the party's leader. Guests' TVs follow the leader's.
     var menuLeader: Bool { party == nil || partyService.isOwner }
     var menuLeaderName: String { party.flatMap { p in p.participants.first { $0.id == p.ownerID }?.name } ?? "The host" }
@@ -114,9 +161,9 @@ final class HubSession {
         guard phase == .live, foreground, token != 0 else { return }
         MenuPointerSource.shared.touch(token: token, x: x, y: y, down: down, shown: true)
     }
-    /// A menu command: during a load behind the menu (the hold) too, under the menu's own session.
+    /// A menu command, under the menu's own session.
     private func menuCommand(_ action: String, mode: String? = nil, extra: [String: Any] = [:]) {
-        guard menuMode, foreground, phase == .live || menuHolding else { return }
+        guard menuMode, foreground, phase == .live else { return }
         var message: [String: Any] = ["version": 1, "session": sessionID, "action": action]
         if let mode { message["mode"] = mode }
         message.merge(extra) { _, new in new }
@@ -125,7 +172,7 @@ final class HubSession {
     /// The pointer runs while this phone drives the menu on the TV (not with a detail screen open on the phone, never with a match).
     private func updatePointer() {
         let want = menuMode && foreground && !onPhone && menuLeader && !panelOpen && onlineBench == nil && !ClubHub.shared.hubOpen
-            && ((phase == .live && !session.active) || menuHolding) && token != 0
+            && phase == .live && !session.active && token != 0
         if want { MenuPointerSource.shared.start(token: token) } else if MenuPointerSource.shared.isRunning { MenuPointerSource.shared.stop() }
     }
     /// The phone's detail screen opened or closed: the TV dims ("Finish on your phone") or comes back.
@@ -137,7 +184,7 @@ final class HubSession {
     }
     /// Who drives (leader) and whether the solo modes are locked (friends here): the TV styles its lists by it.
     private func syncMenuParty() {
-        guard menuMode, phase == .live || menuHolding else { return }
+        guard menuMode, phase == .live else { return }
         let key = "\(menuLeader)|\(soloLocked)"
         guard key != menuPartySent else { return }
         menuPartySent = key
@@ -148,12 +195,11 @@ final class HubSession {
     var menuLaunchLabel: String {
         switch station ?? returnBay ?? "" {
         case "bay-tennis-exhibition": "Exhibition"; case "bay-tennis-campaign": "Campaign"; case "bay-tennis-training": "Training"
-        case "bay-golf-round": "Round"; case "bay-golf-pass": "Pass the phone"; case "bay-tennis-online", "bay-golf-online": "Online"
+        case "bay-golf-round": "Round"; case "bay-golf-pass", "bay-bowling-pass": "Pass the phone"; case "bay-tennis-online", "bay-golf-online", "bay-bowling-online": "Online"
+        case "bay-bowling-play": "10 frames"; case "bay-bowling-exhibition": "Exhibition"
         default: ""
         }
     }
-    /// The match loading behind the menu has taken the TV (its first frame): the pointer stops, the phone becomes the controller.
-    func menuMatchStarted() { guard menuHolding else { return }; menuHolding = false; updatePointer() }
     /// A menu event while a match loads behind the menu (SportsSession owns the runtime's events then).
     func menuEvent(_ type: String, _ message: String) { handleMenu(type, message) }
 
@@ -176,6 +222,19 @@ final class HubSession {
             if f[1].isEmpty { session.players[session.playerIndex].clearOutfit(f[0]) } else { session.players[session.playerIndex].setOutfitHex(f[0], f[1]) }
             session.savePlayers()
         case "menuStart": if session.haptics { UINotificationFeedbackGenerator().notificationOccurred(.success) }
+        // the TV's match setup (MenuSetup): describe the screen, apply a change, start
+        case "menuSetup":
+            menuSetupMode = message
+            if let json = MenuSetup.json(message) { menuCommand("menuSetupState", mode: json) }
+        case "menuSet":
+            guard let mode = menuSetupMode else { return }
+            if session.haptics { UISelectionFeedbackGenerator().selectionChanged() }
+            MenuSetup.set(mode, message)
+            if let json = MenuSetup.json(mode) { menuCommand("menuSetupState", mode: json) }
+        case "menuSetupStart":
+            guard MenuSetup.modes.contains(message) else { return }
+            if session.haptics { UINotificationFeedbackGenerator().notificationOccurred(.success) }
+            MenuSetup.start(message)
         case "menuCancel": if session.active { session.end() }
         case "menuState":
             // the leader's screen and cursor, for the party's TVs (≤15 a second; a screen change goes reliably)
@@ -249,7 +308,7 @@ final class HubSession {
         }
         windowRetries = 0
         phase = .booting; bootStarted = Date(); lastBootSignal = bootStarted; heardFromUnity = false
-        notice = ""; loadProgress = 0; progress(0.03); revealedOnPhone = false
+        notice = ""; loadProgress = 0; loadShown = 0; stageReached = [:]; lastShownTick = Date(); progress(0.03); revealedOnPhone = false
         sessionID = UUID().uuidString; token = Int32.random(in: 1...Int32.max); loaded = false
         place = "plaza"; zone = nil; lastAction = nil
         menuMode = Self.pointerMenu; menuScreen = "home"; menuHoverLabel = ""; menuHoverID = ""; menuPhoneSent = false; menuPartySent = ""
@@ -330,7 +389,7 @@ final class HubSession {
     /// The online match stopped on this phone (its lobby is back in the plaza, or it was left).
     func onlineMatchEnded() { matchOver = nil; if menu.screen != .main { menu.openFromPlaza(.main) } }
     /// A match ended. Played to the end: back on the same bench. Stopped while loading or quit early: back on your feet (CANCEL).
-    func sessionEnded(finished: Bool) { if !finished { returnBay = nil }; menuHolding = false; updatePointer() }
+    func sessionEnded(finished: Bool) { if !finished { returnBay = nil }; updatePointer() }
     /// The bay to launch from (the match loads behind the plaza), or nil for a normal launch.
     func bayForLaunch() -> String? {
         // the pointer menu: every match from it loads behind the menu on the TV (a party's guests too)
@@ -343,8 +402,6 @@ final class HubSession {
     private(set) var bayLaunches = 0
     func runtimeTaken(bay: String? = nil) {
         if let bay { returnBay = bay; bayLaunches += 1 }
-        // the menu stays on the TV while the match loads behind it: the pointer keeps going (START, Back)
-        menuHolding = menuMode && bay != nil
         timer?.invalidate(); timer = nil; station = nil; endNearbyBrowse(); nearbyJoining = nil
         if phase != .off { phase = .suspended }
         loaded = false
@@ -407,7 +464,8 @@ final class HubSession {
     private func arrive() {
         arriving = true
         let launch = sessionID
-        DispatchQueue.main.asyncAfter(deadline: .now() + Self.readyHold) { [weak self] in
+        // the bar fills the rest of the way (fillRate) before the full bar's hold starts
+        DispatchQueue.main.asyncAfter(deadline: .now() + Self.readyHold + max(0, 1 - loadShown) / Self.fillRate) { [weak self] in
             guard let self, self.sessionID == launch else { return }
             self.command("hubArrive")
             if self.onPhone {
@@ -457,9 +515,14 @@ final class HubSession {
         case "bay-tennis-training": Route(screen: .training)
         case "bay-golf-round": Route(action: { TennisMenu.shared.openFromPlaza(.main); TennisMenu.shared.begin(MenuLaunch(sport: .golf, mode: .round)) })   // the course picker
         case "bay-golf-pass": Route(screen: .localPlayers)   // how many players, then straight into the round
+        // bowling (pointer menu rows): the venue picker; how many bowlers then the venue
+        case "bay-bowling-play": Route(action: { TennisMenu.shared.openFromPlaza(.main); TennisMenu.shared.begin(MenuLaunch(sport: .bowling, mode: .round)) })
+        case "bay-bowling-pass": Route(action: { TennisMenu.shared.passThePhone(.bowling) })
+        case "bay-bowling-exhibition": Route(action: { TennisMenu.shared.openFromPlaza(.main); TennisMenu.shared.begin(MenuLaunch(sport: .bowling, mode: .exhibition)) })
         // the online benches: with your party, its bench (that sport); alone, a quick match with other players of that sport
         case "bay-tennis-online": Route(action: { HubSession.shared.useOnlineBench(.tennis) })
         case "bay-golf-online": Route(action: { HubSession.shared.useOnlineBench(.golf) })
+        case "bay-bowling-online": Route(action: { HubSession.shared.useOnlineBench(.bowling) })
         // two phones in one room, one TV (a menu entry, not a place to walk to): hosts a nearby tennis game; the friend's phone offers "Join …?"
         case "bay-tennis-nearby": Route(action: { HubSession.shared.useNearbyBench() })
         default: nil
@@ -467,23 +530,36 @@ final class HubSession {
     }
 
     /// Unity confirmed A at a spot (hubAction): open its panel.
-    static let soloStations: Set<String> = ["bay-tennis-exhibition", "bay-tennis-campaign", "bay-tennis-training", "bay-golf-round", "bay-golf-pass", "shelf-trophies", "bay-tennis-nearby"]
+    static let soloStations: Set<String> = ["bay-tennis-exhibition", "bay-tennis-campaign", "bay-tennis-training", "bay-golf-round", "bay-golf-pass", "shelf-trophies", "bay-tennis-nearby",
+                                             "bay-bowling-play", "bay-bowling-exhibition", "bay-bowling-pass"]
     var soloLocked: Bool { partyService.hasFriendsInLobby }
     var zonePrompt: String? {
         guard let zone else { return nil }
         return soloLocked && Self.soloStations.contains(zone.id) ? "\(zone.label) · locked while in a party" : zone.prompt
     }
-    static let soloLockMessage = "Single-player is locked while friends are in your lobby. Sit together at an Online bench to play."
+    static let soloLockMessage = "Single-player is locked while friends are in your party. Choose Party game to play together."
+    static let friendJoiningMessage = "Your friend is still joining. One moment…"
+    /// START on the TV's own match setup (MenuSetup): the bay is in use as if its panel had launched the match.
+    func startFromMenu(_ id: String, _ go: () -> Void) {
+        if soloLocked, Self.soloStations.contains(id) { notice = Self.soloLockMessage; toast(notice); return }
+        station = id
+        go()
+        evaluate()
+    }
     func useStation(_ id: String) {
         if soloLocked, Self.soloStations.contains(id) {
             notice = Self.soloLockMessage; command("hubB"); toast(notice); return
         }
+        // a friend is still joining this phone's party (connected, their lobby on its way): an online game would leave them behind
+        if Self.partyBays.contains(id), party == nil, partyService.isParty, partyService.joiningPeers > 0 {
+            notice = Self.friendJoiningMessage; command("hubB"); toast(notice); return
+        }
         if Self.partyBays.contains(id), let party {
-            // a party sits together on an online bench: the bench's sport becomes the party's (host), the phone shows who is here.
-            // Sitting makes the players ready; the host chooses settings and taps Start.
+            // a party's game: the bench's sport becomes the party's (leader), the phone shows the party, the leader picks the map and
+            // settings and taps Start, and everyone taps Ready on their own phone
             station = id
-            let sport: MultiplayerSport = id.contains("golf") ? .golf : .tennis
-            if partyService.isOwner, party.sport != sport { try? partyService.configure(sport, venue: sport == .golf ? session.golfCourse : session.tennisVenue) }
+            let sport = Self.benchSport(id)
+            if partyService.isOwner, party.sport != sport { try? partyService.configure(sport, venue: sport == .golf ? session.golfCourse : sport == .bowling ? session.bowlingVenue : session.tennisVenue) }
             haptic(); evaluate(); return
         }
         if id == Self.nearbyBay { station = id; useNearbyBench(); evaluate(); return }
@@ -518,7 +594,10 @@ final class HubSession {
             guard let self else { return }
             TennisMenu.shared.online.identity(TennisMenu.shared)
             self.partyService.setScreen(self.session.displayConnected)
-            // (a party of one, waiting for an invite to be answered, is given up for the quick match)
+            // (a party of one, waiting for an invite to be answered, is given up for the quick match; never one a friend is joining)
+            if self.partyService.isParty, self.partyService.joiningPeers > 0 || self.partyService.hasFriendsInLobby {
+                self.searching = false; self.notice = Self.friendJoiningMessage; return
+            }
             if self.partyService.isParty { ClubHub.shared.leaveParty() } else if self.partyService.lobby != nil { self.partyService.leave() }
             do { try await self.partyService.quickMatch(sport, golfPlayers: 2) }
             catch is CancellationError {}
@@ -678,6 +757,7 @@ final class HubSession {
     private func tick() {
         guard foreground else { return }
         guard !session.active else { timer?.invalidate(); timer = nil; return }
+        advanceShown()
         partyTick()
         if menuMode { syncMenuParty(); syncMenuPhone(); updatePointer() }
         if stick.mag > 0 && phase == .live { sendStick() }
@@ -700,7 +780,7 @@ final class HubSession {
         self.place = place; self.zone = HubZone(line: zone)
     }
     /// Tests: the boot message the plaza would send (no Unity in the simulator).
-    func debugBoot(session: String, onPhone: Bool = false, menu: Bool = false) { sessionID = session; token = 7; phase = .booting; loadProgress = 0; lastBootSignal = Date(); heardFromUnity = false; self.onPhone = onPhone; menuMode = menu; sendStart() }
+    func debugBoot(session: String, onPhone: Bool = false, menu: Bool = false) { sessionID = session; token = 7; phase = .booting; loadProgress = 0; loadShown = 0; lastBootSignal = Date(); heardFromUnity = false; self.onPhone = onPhone; menuMode = menu; sendStart() }
     /// Tests: the pointer menu up (no Unity in the simulator).
     func debugMenu(leader: Bool = true) { menuMode = true; menuScreen = "home"; menuPartySent = ""; menuPhoneSent = false }
     func debugPartyTick() { partyTick() }
@@ -708,18 +788,20 @@ final class HubSession {
     func debugArrived() { arriving = false }
     /// Snapshots: sitting on an online bench (searching or not), no Game Center.
     func debugOnlineBench(_ sport: MultiplayerSport, searching: Bool) { station = sport == .golf ? "bay-golf-online" : "bay-tennis-online"; onlineBench = sport; self.searching = searching }
-    func debugReset() { timer?.invalidate(); timer = nil; phase = .off; autoRetried = false; heardFromUnity = false; loaded = false; loadProgress = 0; arriving = false; zone = nil; station = nil; returnBay = nil; place = "plaza"; notice = ""; lookSent = ""; debugSent = nil
+    func debugReset() { timer?.invalidate(); timer = nil; phase = .off; autoRetried = false; heardFromUnity = false; loaded = false; loadProgress = 0; loadShown = 0; arriving = false; zone = nil; station = nil; returnBay = nil; place = "plaza"; notice = ""; lookSent = ""; debugSent = nil
         foreground = true; onPhone = false; revealedOnPhone = false; runtimeMissing = false; searching = false; onlineBench = nil; searchTask?.cancel(); meetHost = nil; matchOver = nil; partyStartAt = nil
         partyJoinPending = false; pendingPartyBay = nil; gatheredBay = nil; gatheredMembers = []; follow = nil
         nearbyHosting = false; nearbyJoining = nil; nearbyDismissed = []; nearbyBrowsing = false
         nearbyBrowse = Self.browseNearby; nearbyHost = Self.hostNearby; nearbyJoin = Self.joinNearby
-        menuMode = false; menuScreen = "home"; menuHoverLabel = ""; menuHoverID = ""; menuHolding = false; menuPhoneSent = false; menuPartySent = ""; MenuPointerSource.shared.stop()
+        menuMode = false; menuScreen = "home"; menuHoverLabel = ""; menuHoverID = ""; menuPhoneSent = false; menuPartySent = ""; MenuPointerSource.shared.stop()
         presentInvite = { ClubHub.shared.hubOpen = true; ClubHub.shared.start() } }
     #endif
 
     // MARK: party (PLAN §4: friends in your plaza, sitting together, Call party)
 
-    static let partyBays: Set<String> = ["bay-tennis-online", "bay-golf-online"]
+    static let partyBays: Set<String> = ["bay-tennis-online", "bay-golf-online", "bay-bowling-online"]
+    /// The sport a bench is for, by its id.
+    static func benchSport(_ bay: String) -> MultiplayerSport { bay.contains("golf") ? .golf : bay.contains("bowling") ? .bowling : .tennis }
     /// The lobby the party lives in (tests inject their own service).
     @ObservationIgnored var partyService: MultiplayerService = .shared { didSet { installParty() } }
     /// The friends' party while it is idle (in the plaza) and someone has joined you; nil once a match is on, alone (an invite
@@ -792,13 +874,13 @@ final class HubSession {
                 return
             }
             if f.first == "starting", f.count > 1 {
-                notice = "Everyone's on the bench · starting \(f[1].contains("golf") ? "golf" : "tennis")…"
+                notice = "Everyone's on the bench · starting \(Self.benchSport(f[1]).rawValue)…"
                 if session.haptics { UINotificationFeedbackGenerator().notificationOccurred(.success) }
             }
             if f.first == "call", f.count == 2, Self.partyBays.contains(f[1]) {
                 lastCall = (sender, f[1]); command("hubCall", mode: f[1])
                 let name = party.participants.first { $0.id == sender }?.name ?? "A friend"
-                notice = "Joining \(name) on the \(f[1].contains("golf") ? "Golf" : "Tennis") bench…"
+                notice = "Joining \(name) on the \(Self.benchSport(f[1]).rawValue.capitalized) bench…"
                 meetHost = nil; pendingPartyBay = f[1]; expectCalledParty(at: f[1]); seatCalledParty()
                 if session.haptics { UINotificationFeedbackGenerator().notificationOccurred(.warning) }
             }
@@ -865,20 +947,36 @@ final class HubSession {
         return party.participants.filter { $0.connected && !$0.isGuest && $0.id != partyService.localID && friendBays[$0.id] != bay
                                            && ((gatheredBay == bay && gatheredMembers.contains($0.id)) || ["play", "tennis", "golf"].contains(friendPlaces[$0.id] ?? "")) }.map(\.name)
     }
-    func setPartyReady(_ ready: Bool) { try? partyService.setReady(ready); haptic() }
-    /// Host: start the seated players after choosing the map and settings.
+    func setPartyReady(_ ready: Bool) {
+        do { try partyService.setReady(ready) } catch { notice = error.localizedDescription }
+        if ready, session.haptics { UINotificationFeedbackGenerator().notificationOccurred(.success) } else { haptic() }
+    }
+    /// Leader: start the party's game (the sport, map and settings chosen on this panel). Every phone in the party asks its player
+    /// to tap Ready; the match starts on all of them when the last one has.
     func forcePartyStart() {
-        guard partyService.isOwner, partyAllSeated else { return }
-        updatePartySeats()
-        guard partyService.lobby?.canStart == true else { return }
-        do { try partyService.startMatch() } catch { notice = error.localizedDescription }
+        guard partyService.isOwner, party != nil else { return }
+        do { try partyService.startPartyGame(); notice = "" } catch { notice = error.localizedDescription }
+        haptic()
+    }
+    /// Leader: back to choosing (nobody is ready any more).
+    func cancelPartyGame() { partyService.cancelPartyGame(); haptic() }
+    /// Leader: the party's game is tennis, golf or bowling (on the same panel).
+    func setPartySport(_ sport: MultiplayerSport) {
+        guard partyService.isOwner, let lobby = party, lobby.sport != sport else { return }
+        do { try partyService.configure(sport, venue: sport == .golf ? session.golfCourse : sport == .bowling ? session.bowlingVenue : session.tennisVenue) } catch { notice = error.localizedDescription }
+        station = sport == .golf ? "bay-golf-online" : sport == .bowling ? "bay-bowling-online" : "bay-tennis-online"
+        haptic()
+    }
+    /// The leader's Party game button (the phone, not the TV menu): the party panel for the party's sport.
+    func openPartyGame() {
+        guard let lobby = party else { inviteFriends(); return }
+        useStation(lobby.sport == .golf ? "bay-golf-online" : lobby.sport == .bowling ? "bay-bowling-online" : "bay-tennis-online")
+        syncMenuPhone(force: true); updatePointer()
     }
     func configureParty(venue: String? = nil, sets: Int? = nil, games: Int? = nil) {
-        guard partyService.isOwner, partyAllSeated, let lobby = party else { return }
-        do {
-            try partyService.configure(lobby.sport, venue: venue ?? lobby.venue, sets: sets ?? lobby.sets, games: games ?? lobby.games)
-            updatePartySeats()
-        } catch { notice = error.localizedDescription }
+        guard partyService.isOwner, let lobby = party else { return }
+        do { try partyService.configure(lobby.sport, venue: venue ?? lobby.venue, sets: sets ?? lobby.sets, games: games ?? lobby.games) }
+        catch { notice = error.localizedDescription }
     }
     private func updatePartySeats() {
         guard partyService.isOwner, let bay = station, Self.partyBays.contains(bay), let lobby = party else { return }
@@ -897,9 +995,20 @@ final class HubSession {
         let ids = party?.participants.map(\.id).filter { $0 != partyService.localID }.sorted() ?? []
         let roster = ids.joined(separator: ",")
         if roster != rosterSent { rosterSent = roster; command("hubRoster", mode: roster); friendBays = friendBays.filter { ids.contains($0.key) }; friendPlaces = friendPlaces.filter { ids.contains($0.key) } }
-        updatePartySeats()
+        // the leader pressed Start: every other phone buzzes and the TV says so (the phone shows the big Ready button)
+        let check = partyService.partyReadyCheck
+        if check != readyCheckSeen {
+            readyCheckSeen = check
+            if check, !partyService.isOwner, let lobby = party {
+                let game = lobby.sport == .golf ? "golf" : lobby.sport == .bowling ? "bowling" : "tennis"
+                toast("\(menuLeaderName) started \(game) · tap READY on your phone")
+                if session.haptics { UINotificationFeedbackGenerator().notificationOccurred(.warning) }
+            }
+        }
+        if !check { updatePartySeats() }
         partyStartAt = nil
     }
+    @ObservationIgnored private var readyCheckSeen = false
 
     // MARK: Nearby tennis (PLAN_Tennis_Latency_Online_Local §3): one menu action hosts, a friend's phone offers one-tap Join
     //
@@ -1022,7 +1131,7 @@ final class HubSession {
     /// One Unity event (also called directly by tests).
     func receive(_ event: [String: Any]) {
         let type = event["type"] as? String ?? ""
-        if type == "boot" { if phase == .booting { sendStart() }; return }
+        if type == "boot" { if phase == .booting { progress(0.15); sendStart() }; return }   // Unity's first frame: a milestone of its own
         guard event["session"] as? String == sessionID else { return }
         let message = event["message"] as? String ?? ""
         if phase == .booting { heardFromUnity = true; lastBootSignal = Date() }
@@ -1030,12 +1139,12 @@ final class HubSession {
         case "loadProgress": progress(0.12 + 0.18 * (Double(message) ?? 0))
         case "buildProgress": progress(0.30 + 0.65 * (Double(message) ?? 0))
         case "ready":
-            loaded = true; progress(1)
+            loaded = true; progress(1); if phase == .booting { advanceShown(); learnStageSeconds() }
             let fresh = phase == .booting && returnBay == nil
             if phase == .booting { phase = .live; autoRetried = false; SportsDiagnostics.write("hub ready after \(String(format: "%.2f", Date().timeIntervalSince(bootStarted))) s") }
             // back from a match on the same bench: its panel again (staying seated = rematch, B = stand up); the menu opens on Home
             if let bay = returnBay, station == nil, !menuMode { returning = true; useStation(bay); returning = false }
-            if menuMode { returnBay = nil; menuHolding = false; menuPartySent = ""; syncMenuParty(); updatePointer() }
+            if menuMode { returnBay = nil; menuPartySent = ""; syncMenuParty(); updatePointer() }
             if !wanted { suspend() } else if fresh { arrive() } else { reveal() }
         case "hubPlace": place = message
         case "hubZone": zone = HubZone(line: message)

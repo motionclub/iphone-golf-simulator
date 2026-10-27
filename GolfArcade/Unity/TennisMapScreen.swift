@@ -27,6 +27,42 @@ enum TennisVenueChoice: String, CaseIterable, Identifiable {
 
 
 
+/// The bowling centres (Unity's BowlingVenue: the `venue` field of the start message); the picture is
+/// MenuArt/map-bowling-<key>.jpg, an in-game shot of the lanes.
+enum BowlingVenueChoice: String, CaseIterable, Identifiable {
+    case club, neon, tiki, magma
+    var id: String { rawValue }
+    var title: String {
+        switch self { case .club: "Club Lanes"; case .neon: "Neon Nights"; case .tiki: "Tiki Shores"; case .magma: "Magma Lanes" }
+    }
+    var tagline: String {
+        switch self {
+        case .club: "A sky lounge at the top of the club tower, sunset through the glass"
+        case .neon: "Cosmic bowling at midnight: the room goes dark and everything glows"
+        case .tiki: "Open-air lanes on the beach, palms and the sea all round"
+        case .magma: "Lanes carved into a volcano. Gutter balls roll through lava"
+        }
+    }
+    var badge: String {
+        switch self { case .club: "CLASSIC"; case .neon: "COSMIC"; case .tiki: "OPEN AIR"; case .magma: "LAVA GUTTERS" }
+    }
+    var tint: Color {
+        switch self { case .club: Club.sky; case .neon: Club.violet; case .tiki: Club.green; case .magma: Club.coral }
+    }
+    var art: String { "map-bowling-\(rawValue)" }
+}
+
+/// Bowling exhibition's computer bowlers (Unity BowlingCpu.Opponents: the same names; the skill travels in the start message).
+enum BowlingOpponent: Int, CaseIterable {
+    case ray, sam, lou, pia
+    var name: String { ["Rookie Ray", "Steady Sam", "Lucky Lou", "Pro Pia"][rawValue] }
+    var skill: Double { [0.2, 0.5, 0.8, 1.0][rawValue] }
+    /// Measured: 16 games each on the house pattern (work/bowling/proof/games, BowlingGameHarness).
+    var average: Int { [110, 150, 175, 200][rawValue] }
+    /// The bowler's entry in the start message's player list.
+    var launchName: String { "cpu:\(skill):\(name)" }
+}
+
 /// Keys match Unity's Course.All(); every listed course has modelled playable holes.
 /// The old "postcards" key is retired: MultiplayerLobby.currentGolfVenue maps it to Cliffside.
 enum GolfCourseChoice: String, CaseIterable {
@@ -87,6 +123,9 @@ struct SportMapChoice: Identifiable {
     static func choices(for sport: Sport) -> [Self] {
         if sport == .golf {
             return GolfCourseChoice.allCases.map { Self(id: $0.rawValue, title: $0.title, detail: $0.detail, art: $0.art) }
+        }
+        if sport == .bowling {
+            return BowlingVenueChoice.allCases.map { Self(id: $0.rawValue, title: $0.title, detail: $0.tagline, art: $0.art) }
         }
         return TennisVenueChoice.allCases.map { Self(id: $0.rawValue, title: $0.title, detail: $0.tagline, art: $0.art) }
     }

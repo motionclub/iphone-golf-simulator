@@ -11,6 +11,8 @@ namespace GolfArcade.Game
     {
         public const int PhoneWidth = 1080, PhoneHeight = 2340;
 
+        /// FILM_NO_HUD=1: the world alone, no overlay HUD (the TV menu's gameplay previews; the phone's touch controls must not show).
+        static readonly bool NoHud = System.Environment.GetEnvironmentVariable("FILM_NO_HUD") == "1";
         public static string Save(string path, int width = PhoneWidth, int height = PhoneHeight)
         {
             var camera = Camera.main;
@@ -28,7 +30,7 @@ namespace GolfArcade.Game
             // together, instead of replacing the world with a UI-only second render.
             var overlays = new List<(Canvas canvas, Camera previousCamera, float distance)>();
             foreach (var c in Object.FindObjectsByType<Canvas>(FindObjectsSortMode.None))
-                if (c.renderMode == RenderMode.ScreenSpaceOverlay)
+                if (c.renderMode == RenderMode.ScreenSpaceOverlay && !NoHud)
                 {
                     overlays.Add((c,c.worldCamera,c.planeDistance));
                     c.renderMode = RenderMode.ScreenSpaceCamera; c.worldCamera = camera; c.planeDistance = 0.5f;

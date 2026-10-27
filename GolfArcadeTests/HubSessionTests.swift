@@ -123,7 +123,7 @@ final class HubSessionTests: XCTestCase {
         XCTAssertFalse(sent.contains("hubArrive"))
         hub.receive(["type": "ready", "session": "boot"])
         XCTAssertEqual(hub.loadProgress, 1); XCTAssertEqual(hub.phase, .live); XCTAssertTrue(hub.arriving, "100 %: the full bar holds, then fades")
-        try await Task.sleep(for: .seconds(HubSession.readyHold + 0.15))
+        try await Task.sleep(for: .seconds(HubSession.readyHold + 1 / HubSession.fillRate + 0.15))   // (the bar fills the rest first)
         XCTAssertTrue(sent.contains("hubArrive"), "the fly-in starts as the loading screen fades")
         XCTAssertFalse(hub.arriving)
         // back from a match on the same bench: straight to the bench, no fly-in
@@ -132,6 +132,26 @@ final class HubSessionTests: XCTestCase {
         XCTAssertFalse(hub.arriving)
         try await Task.sleep(for: .seconds(HubSession.readyHold + 0.15))
         XCTAssertFalse(sent.contains("hubArrive"))
+    }
+
+    /// The bar never sits still and never leaps (Adnan 10-26: "stuck on 12, then instantly fills"): between milestones it creeps
+    /// toward the next one, never past 90 % of the gap; a measured jump fills at fillRate.
+    func testBootBarCreepsBetweenMilestonesAndFillsJumps() {
+        let hub = HubSession.shared
+        UserDefaults.standard.removeObject(forKey: "hubBootStageSeconds")
+        hub.debugBoot(session: "creep")
+        hub.receive(["type": "loadProgress", "session": "creep", "message": "0"]); XCTAssertEqual(hub.loadProgress, 0.12, accuracy: 0.001)
+        let t0 = Date()
+        for k in 0...40 { hub.advanceShown(now: t0.addingTimeInterval(Double(k) * 0.05)) }
+        XCTAssertGreaterThan(hub.loadShown, 0.13, "two seconds on one milestone: the bar has moved on")
+        XCTAssertLessThanOrEqual(hub.loadShown, 0.12 + 0.03 * 0.9 + 1e-9, "never past 90 % of the gap to the next milestone")
+        let before = hub.loadShown
+        hub.receive(["type": "buildProgress", "session": "creep", "message": "1"]); XCTAssertEqual(hub.loadProgress, 0.95, accuracy: 0.001)
+        hub.advanceShown(now: t0.addingTimeInterval(2.05))
+        XCTAssertLessThanOrEqual(hub.loadShown - before, HubSession.fillRate * 0.05 + 1e-9, "a jump fills, it does not snap")
+        for k in 1...30 { hub.advanceShown(now: t0.addingTimeInterval(2.05 + Double(k) * 0.05)) }
+        XCTAssertGreaterThanOrEqual(hub.loadShown, 0.95 - 1e-9, "and catches up within a second")
+        hub.debugReset()
     }
 
     /// The approved loading screen (D) on the TV and the phone while the plaza boots, at 68 % (written to $MENU_SNAP_DIR).
@@ -305,6 +325,7 @@ final class HubBayLaunchTests: XCTestCase {
         let hub = HubSession.shared, session = SportsSession.shared, displays = SportsDisplays.shared
         let launchesBefore = hub.bayLaunches
         for i in 0..<20 {
+            hub.debugReset()   // (an ended match boots the hub again, in the pointer menu: its launches show the loading screen)
             hub.debugLive(session: "bay-\(i)")
             hub.receive(["type": "hubAction", "session": "bay-\(i)", "message": "bay-tennis-exhibition"])   // sat down at a bay
             XCTAssertEqual(hub.bayForLaunch(), "bay-tennis-exhibition")

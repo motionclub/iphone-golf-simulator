@@ -34,7 +34,7 @@ namespace GolfArcade.Tennis
             if (!look || !look.kitV2 || look.kit == null) return false;
             top = look.kit.FirstOrDefault(r => r && r.name == "Kit_Top");
             if (!top || !top.sharedMesh || top.sharedMesh.blendShapeCount == 0) return false;
-            string sport = look.golfKit ? "Golf" : "Tennis", sex = look.female ? "Female" : "Male";
+            string sport = look.KitSportFolder, sex = look.female ? "Female" : "Male";
             var text = Resources.Load<TextAsset>($"{sport}/KitsV2/{sex}/KitV2_{sport}_{sex}_Top_correctives");
             if (!text || text.text.Contains("\"gp-rbf\"")) return false;   // pipeline profiles are driven by GarmentPoseCorrectives
             var p = JsonUtility.FromJson<Profile>(text.text);

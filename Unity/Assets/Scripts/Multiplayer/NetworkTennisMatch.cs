@@ -154,8 +154,10 @@ namespace GolfArcade.Multiplayer {
             // The same rule as a local match: the swing's racket face (sent with the swing) picks the side, its
             // timing the pace and depth. `p.aim` arrives in the host's frame (SportsMultiplayer.Submit flips seat
             // 1's), so `* sign` turns it back into the hitter's own left/right first.
-            var target=TennisRules.SwingPlacement(p.aim*sign,hit.Quality,
-                (float)rallyRandom.NextDouble()*2-1,(float)rallyRandom.NextDouble()*2-1);
+            float rollX=(float)rallyRandom.NextDouble()*2-1,rollZ=(float)rallyRandom.NextDouble()*2-1;
+            var target=TennisRules.MistimedOut(late)   // badly timed: it sails out, as in a local match
+                ? TennisRules.MistimedLanding(p.aim*sign,late,rollX,rollZ)
+                : TennisRules.SwingPlacement(p.aim*sign,hit.Quality,rollX,rollZ);
             State.ball.y=Math.Max(.45f,State.ball.y);
             // `target` is in the hitter's own frame (x to their right, z away from them). Seat 1 stands at the far end
             // and sees the court turned half a circle (TennisGame.Network), so both axes flip for them: "swing left

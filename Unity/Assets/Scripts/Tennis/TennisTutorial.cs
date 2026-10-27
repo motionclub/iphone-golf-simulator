@@ -29,7 +29,7 @@ namespace GolfArcade.Tennis
             new Step { Kind = Kind.Aim, Goal = 2, Key = "aim", Name = "Aim", Title = "Aim with the racket face",
                 Say = "Hit one into the LEFT ring, then one into the RIGHT ring. Clean timing lets the ball go closer to the lines.",
                 Hint = "Finish the swing with the racket face turned toward that side of the TV, about a quarter turn.",
-                Tips = new[] { "The ball goes where your racket face points at contact.", "Square to the TV goes straight; the middle is wide.", "A quarter turn reaches the corner." } },
+                Tips = new[] { "The ball goes where your racket face points at contact.", "Three lanes: left, straight, right.", "A quarter turn picks a side lane." } },
             new Step { Kind = Kind.Serve, Goal = 1, Key = "serve", Name = "Serve", Title = "Serve",
                 Say = "Tap TOSS on your phone as the ticker crosses the middle, then swing overhead at the top. Land one in the box.",
                 Hint = "Tap TOSS, watch the ball rise on the TV, and wait for the power bar to peak before you swing.",

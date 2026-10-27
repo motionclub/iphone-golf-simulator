@@ -12,6 +12,8 @@ namespace GolfArcade.Game
         public static string Match(bool female) => "Tennis/Customization/Player" + (female ? "Female" : "Male");
         /// The match hero's golf-skeleton FBX, used when a base is rebound for golf.
         public static string MatchGolfRig(bool female) => Match(female) + "Golf";
+        /// CLOTHING V3: the tennis hero wearing the bowling kit (camp-collar shirt, slacks / skirt, saddle shoes); falls back to the match hero.
+        public static string Bowling(bool female) => Match(female) + "BowlingKit";
         /// The golf kit prefab (body, face and golf garments) that HeroGolfer dresses the golfer in.
         public static string GolfKitPrefab(bool female) => Match(female) + "GolfKit";
         /// The golfer FBX: rig, clubs and the golf swing clips, plus "<path>_clips".

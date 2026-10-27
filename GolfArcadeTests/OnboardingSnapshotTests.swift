@@ -41,10 +41,11 @@ import SwiftUI
         let progress = SportProgress(defaults: defaults)
         let flow = OnboardingFlow(store: store, progress: progress, arguments: [])
         let steps: [(OnboardingStep, String?, String)] = [
-            (.hello, nil, "01-hello"), (.controller, nil, "02-controller"), (.room, nil, "03-room"),
+            (.hello, nil, "01-hello"), (.account, nil, "01b-account"), (.controller, nil, "02-controller"), (.room, nil, "03-room"),
             (.player, "shirt", "04-player"), (.card, nil, "05-card"), (.choose, "golf", "06-choose"),
             (.lesson(.golf), nil, "07-lesson-paused"), (.reward(.golf), nil, "08-reward-golf")
         ]
+        flow.signedInOverride = false   // (the simulator is not signed in to Game Center either way: the sign-in screen as a new player sees it)
         for (step, focus, name) in steps {
             if step == .reward(.golf) { progress.completeTutorial(.golf) }   // completed(.golf) records it before the reward shows
             flow.move(to: step); if let focus { flow.focus(focus) }
@@ -52,6 +53,9 @@ import SwiftUI
         }
         flow.move(to: .controller); flow.select()
         try await save(OnboardingTV(flow: flow), "tv-02b-controller-pressed", tv)
+        flow.signedInOverride = false; flow.move(to: .account)
+        try await save(OnboardingRemote(flow: flow), "phone-remote-account", phone)
+        flow.signedInOverride = nil
         flow.move(to: .player)
         try await save(OnboardingRemote(flow: flow), "phone-remote-player", phone)
         try await save(OnboardingConnectScreen(), "phone-connect", phone)

@@ -15,6 +15,7 @@ struct OnboardingTV: View {
         ZStack {
             switch flow.step {
             case .hello: OnbHello(flow: flow)
+            case .account: OnbAccount(flow: flow)
             case .controller: OnbController(flow: flow)
             case .room: OnbRoom(flow: flow)
             case .player: OnbPlayer(flow: flow)
@@ -264,6 +265,52 @@ private struct OnbController: View {
             Spacer(minLength: 0)
         }
         .foregroundStyle(.white).padding(.horizontal, 18).frame(height: 84).onbPanel(radius: 22)
+    }
+}
+
+// MARK: - 1b · Your Apple Account (Game Center)
+
+private struct OnbAccount: View {
+    @Bindable var flow: OnboardingFlow
+    var body: some View {
+        OnbFrame(act: 0) {
+            // (re-read once a second: Apple's sheet on the phone signs in without telling this view)
+            TimelineView(.periodic(from: .now, by: 1)) { _ in
+                VStack(alignment: .leading, spacing: 30) {
+                    OnbHeadline(first: "Sign in to play", second: "with your friends")
+                    HStack(spacing: 24) {
+                        tile("person.2.fill", "Your friends", "Everyone you know on Game Center, ready to invite.")
+                        tile("envelope.open.fill", "Invites", "A friend invites you: one tap and you're in their party.")
+                        tile("globe", "Online play", "Tennis, golf and bowling with players anywhere.")
+                    }
+                    if flow.signedIn {
+                        HStack(spacing: 18) {
+                            OnbGoldButton(title: "NEXT", icon: "checkmark", focused: flow.isFocused("next"), width: 280, height: 66) { flow.tap("next") }
+                                .accessibilityIdentifier("onboarding-account-next")
+                            Text("Signed in\(flow.accountName.isEmpty ? "" : " as \(flow.accountName)")").font(Onb.font(22, 800)).foregroundStyle(Onb.goldHi)
+                        }
+                    } else {
+                        HStack(spacing: 18) {
+                            OnbGoldButton(title: "SIGN IN", icon: "person.crop.circle.badge.checkmark", focused: flow.isFocused("signin"), width: 300, height: 66) { flow.tap("signin") }
+                                .accessibilityIdentifier("onboarding-account-signin")
+                            OnbOutlineButton(title: "NOT NOW", focused: flow.isFocused("later"), width: 220, height: 60) { flow.tap("later") }
+                                .accessibilityIdentifier("onboarding-account-later")
+                        }
+                        Text("Your Apple Account's Game Center sign-in. It opens on your phone.").font(Onb.font(18, 600)).foregroundStyle(Onb.soft)
+                    }
+                }
+                .padding(.leading, 74).padding(.top, 126)
+            }
+        }
+    }
+    private func tile(_ icon: String, _ title: String, _ text: String) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Image(systemName: icon).font(.system(size: 42, weight: .bold)).foregroundStyle(Onb.goldHi)
+            Text(title).font(Onb.font(27, 900)).italic().foregroundStyle(.white)
+            Text(text).font(Onb.font(17, 600)).foregroundStyle(Onb.soft).fixedSize(horizontal: false, vertical: true)
+            Spacer(minLength: 0)
+        }
+        .padding(24).frame(width: 360, height: 200, alignment: .topLeading).onbPanel()
     }
 }
 

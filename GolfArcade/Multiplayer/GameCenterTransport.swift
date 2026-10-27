@@ -86,6 +86,14 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
     private var registered = false
     private var disconnected: Set<String> = []
     private var activeController: GKMatchmakerViewController?
+    /// Searches running on GKMatchmaker now. Its cancel() stops every one of them, and a cancel sent just before a new search also
+    /// cancels that search (2026-10-25 phone log: "join attempt 1 failed: … canceled"). So it is only sent while one is running.
+    private var matchmaking = 0
+    private func matchmake<T>(_ work: () async throws -> T) async throws -> T {
+        matchmaking += 1; defer { matchmaking -= 1 }
+        return try await work()
+    }
+    private func cancelMatchmaking() { if matchmaking > 0 { GKMatchmaker.shared().cancel() } }
     override init() { super.init(); register() }
     var capacity: Int { min(4, GKMatchRequest.maxPlayersAllowedForMatch(of: .peerToPeer)) }
 
@@ -248,18 +256,20 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
             let timeout = Task { @MainActor [weak self] in
                 try? await Task.sleep(for: .seconds(60))
                 guard !Task.isCancelled, let self, self.generation == token else { return }
-                GKMatchmaker.shared().cancel()
+                self.cancelMatchmaking()
             }
             defer { timeout.cancel() }
             do {
                 let request = try self.privateRequest(group: invitation.group, count: members.count)
                 if let match = self.match {
-                    try await GKMatchmaker.shared().addPlayers(to: match, matchRequest: request)
+                    try await self.matchmake { try await GKMatchmaker.shared().addPlayers(to: match, matchRequest: request) }
+                    try await self.waitForPlayers(match, [invitation.recipient])
                     GKMatchmaker.shared().finishMatchmaking(for: match)
+                    self.onPeersChanged?()
                 } else {
-                    let found = try await GKMatchmaker.shared().findMatch(for: request)
+                    let found = try await self.matchmake { try await GKMatchmaker.shared().findMatch(for: request) }
                     guard token == self.generation else { found.disconnect(); self.onOutgoing?(teamID, .waiting); return }
-                    try self.attachParty(found, host: self.localID)
+                    try await self.attachParty(found, host: self.localID, expecting: [invitation.recipient])
                 }
                 self.outgoing[stored.matchID] = nil
                 self.onOutgoing?(teamID, .joined)
@@ -286,18 +296,20 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
         let timeout = Task { @MainActor [weak self] in
             try? await Task.sleep(for: .seconds(60))
             guard !Task.isCancelled, let self, self.generation == token else { return }
-            GKMatchmaker.shared().cancel()
+            self.cancelMatchmaking()
         }
         defer { timeout.cancel() }
         let request = try privateRequest(group: group, count: players)
         do {
             if let match {
-                try await GKMatchmaker.shared().addPlayers(to: match, matchRequest: request)
+                try await matchmake { try await GKMatchmaker.shared().addPlayers(to: match, matchRequest: request) }
+                try await waitForPlayers(match, [gameID])
                 GKMatchmaker.shared().finishMatchmaking(for: match)
+                onPeersChanged?()
             } else {
-                let found = try await GKMatchmaker.shared().findMatch(for: request)
+                let found = try await matchmake { try await GKMatchmaker.shared().findMatch(for: request) }
                 guard token == generation else { found.disconnect(); throw CancellationError() }
-                try attachParty(found, host: localID)
+                try await attachParty(found, host: localID, expecting: [gameID])
             }
         } catch { throw Self.friendly(error, "Couldn't connect. Try again.") }
     }
@@ -310,13 +322,13 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
         let timeout = Task { @MainActor [weak self] in
             try? await Task.sleep(for: .seconds(45))
             guard !Task.isCancelled, let self, self.joinGeneration == token, self.joinConnecting else { return }
-            GKMatchmaker.shared().cancel()
+            self.cancelMatchmaking()
         }
         defer { timeout.cancel() }
         let found: GKMatch
-        do { found = try await GKMatchmaker.shared().findMatch(for: request) } catch { throw Self.friendly(error, "Couldn't connect. Try again.") }
+        do { found = try await matchmake { try await GKMatchmaker.shared().findMatch(for: request) } } catch { throw Self.friendly(error, "Couldn't connect. Try again.") }
         guard token == joinGeneration else { found.disconnect(); throw CancellationError() }
-        try attachParty(found, host: host)
+        try await attachParty(found, host: host, expecting: [host])
     }
 
     private func privateRequest(group: UInt32, count: Int) throws -> GKMatchRequest {
@@ -478,18 +490,18 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
         let timeout = Task { @MainActor [weak self] in
             try? await Task.sleep(for: .seconds(45))
             guard !Task.isCancelled, let self, self.joinGeneration == token, self.joinConnecting else { return }
-            GKMatchmaker.shared().cancel()
+            self.cancelMatchmaking()
         }
         defer { timeout.cancel() }
-        let found = try await GKMatchmaker.shared().findMatch(for: request)
+        let found = try await matchmake { try await GKMatchmaker.shared().findMatch(for: request) }
         guard token == joinGeneration else { found.disconnect(); throw CancellationError() }
-        try attachParty(found, host: invite.host)
+        try await attachParty(found, host: invite.host, expecting: [invite.host])
     }
 
     /// The player cancelled the join: stop, and tell the host (their row says Not now).
     func cancelJoin() {
         joinGeneration += 1
-        if joinConnecting { joinConnecting = false; GKMatchmaker.shared().cancel() }
+        if joinConnecting { joinConnecting = false; cancelMatchmaking() }
         guard let id = joiningRecord else { return }
         joiningRecord = nil
         Task { if let stored = try? await GKTurnBasedMatch.load(withID: id) { await retire(stored) } }
@@ -537,15 +549,43 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
         }
     }
 
-    private func attachParty(_ found: GKMatch, host: String) throws {
+    /// A private match was found: it is the party's once the `expecting` players are really connected to it. Game Center hands the
+    /// match over while the phones are still connecting (players empty, expectedPlayerCount above 0), and the party used to be called
+    /// joined right then: both phones said so, but no lobby ever got through (2026-10-25). Waits, then binds; a connection that never
+    /// comes throws, and the handshake goes round again.
+    private func attachParty(_ found: GKMatch, host: String, expecting: [String]) async throws {
         if let allowedPartyPlayers, found.players.contains(where: { !allowedPartyPlayers.contains($0.gamePlayerID) }) {
             found.disconnect(); throw MultiplayerError.unavailable("Game Center connected a player outside this invitation. Please try again.")
         }
         if let previous = match, previous !== found { previous.delegate = nil; previous.disconnect() }
+        // the delegate first: a state change or the first packet must not arrive before anyone listens
         match = found; disconnected.removeAll(); found.delegate = self
+        do { try await waitForPlayers(found, expecting) }
+        catch { if match === found { match = nil; found.delegate = nil }; found.disconnect(); throw error }
         for p in found.players { knownPlayers[p.gamePlayerID] = p }
         GKMatchmaker.shared().finishMatchmaking(for: found)
         onPartyConnected?(host); onPeersChanged?()
+    }
+    /// Seconds a found match may take to connect its players before it is given up.
+    static var connectSeconds = 20.0
+    /// Until every one of `ids` is connected to `found` (in its players, nobody else still expected), or `connectSeconds`.
+    private func waitForPlayers(_ found: GKMatch, _ ids: [String]) async throws {
+        let others = ids.filter { $0 != localID }
+        let started = Date()
+        SportsDiagnostics.write("party match found: players=\(found.players.count) expected=\(found.expectedPlayerCount) waiting for \(others.count)")
+        while true {
+            let here = Set(found.players.map(\.gamePlayerID))
+            if others.allSatisfy(here.contains), found.expectedPlayerCount == 0 {
+                SportsDiagnostics.write("party match connected after \(String(format: "%.1f", Date().timeIntervalSince(started))) s: players=\(found.players.count)")
+                return
+            }
+            if match !== found { throw CancellationError() }
+            if Date().timeIntervalSince(started) > Self.connectSeconds {
+                SportsDiagnostics.write("party match never connected: players=\(found.players.count) expected=\(found.expectedPlayerCount)")
+                throw MultiplayerError.unavailable("Couldn't connect to your friend. Check the internet on both phones and try again.")
+            }
+            try await Task.sleep(for: .milliseconds(200))
+        }
     }
     private func register() {
         if GKLocalPlayer.local.isAuthenticated && !registered { GKLocalPlayer.local.register(self); registered = true }
@@ -560,7 +600,7 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
         guard capacity >= count, count >= 2 else { throw MultiplayerError.unavailable("Game Center cannot connect that many players on this OS.") }
         let request = GKMatchRequest(); request.minPlayers = 2; request.maxPlayers = count; request.defaultNumberOfPlayers = count
         // Stable, versioned queues; private parties are sport-neutral.
-        request.playerGroup = sport == .tennis ? 0x4d500201 : sport == .golf ? 0x4d500202 : 0x4d500200
+        request.playerGroup = sport == .tennis ? 0x4d500201 : sport == .golf ? 0x4d500202 : sport == .bowling ? 0x4d500203 : 0x4d500200
         return request
     }
     // Quick match remains separate from friends' sport-neutral parties.
@@ -571,19 +611,19 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
         // partial-fill UI is deliberately deferred rather than pretending a timeout can start it.
         request.minPlayers = request.maxPlayers
         generation += 1; let token = generation
-        let found = try await GKMatchmaker.shared().findMatch(for: request)
+        let found = try await matchmake { try await GKMatchmaker.shared().findMatch(for: request) }
         guard token == generation else { found.disconnect(); throw CancellationError() }
         attach(found)
     }
     func findMore(sport: MultiplayerSport) async throws {
         guard let match, peers.count + 1 < capacity else { throw MultiplayerError.full }
         let request = try request(sport: sport, count: 4)
-        try await GKMatchmaker.shared().addPlayers(to: match, matchRequest: request)
+        try await matchmake { try await GKMatchmaker.shared().addPlayers(to: match, matchRequest: request) }
         GKMatchmaker.shared().finishMatchmaking(for: match)
     }
     /// Stops a search. Invitations already sent stay out (they wait for the friend's Join, not for a search).
     func cancelSearch() {
-        generation += 1; GKMatchmaker.shared().cancel(); activeController?.dismiss(animated: true); activeController = nil
+        generation += 1; cancelMatchmaking(); activeController?.dismiss(animated: true); activeController = nil
         if match == nil { partyGroup = nil; allowedPartyPlayers = nil }
     }
     private func attach(_ found: GKMatch) {
@@ -618,6 +658,7 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
                 self.onError?(MultiplayerError.unavailable("An uninvited player tried to join the party.")); self.disconnect(); return
             }
             if connected { self.disconnected.remove(id); self.knownPlayers[id] = delivery2.value } else { self.disconnected.insert(id) }
+            SportsDiagnostics.write("game center player \(id.prefix(8)) \(connected ? "connected" : "disconnected") (players=\(delivery.value.players.count) expected=\(delivery.value.expectedPlayerCount))")
             self.onPeersChanged?()
         }
     }
@@ -640,9 +681,10 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
         let delivery = GameKitDelivery(value: invite)
         Task { @MainActor [weak self] in
             do {
-                let found = try await GKMatchmaker.shared().match(for: delivery.value)
-                guard let self, token == self.generation else { found.disconnect(); return }
-                try self.attachParty(found, host: delivery.value.sender.gamePlayerID)
+                guard let self else { return }
+                let found = try await self.matchmake { try await GKMatchmaker.shared().match(for: delivery.value) }
+                guard token == self.generation else { found.disconnect(); return }
+                try await self.attachParty(found, host: delivery.value.sender.gamePlayerID, expecting: [delivery.value.sender.gamePlayerID])
             } catch {
                 guard let self, token == self.generation else { return }
                 self.onError?(MultiplayerError.unavailable("Couldn't join \(delivery.value.sender.displayName). Ask them to invite you again."))

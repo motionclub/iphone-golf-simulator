@@ -3,10 +3,10 @@ import Foundation
 /// First launch, on the TV (PLAN_Onboarding_GolfLesson.md): a welcome, the phone as the controller, room to swing, your
 /// player and their club card, then the first lesson (golf or tennis) and its reward. A lesson is the only step that runs a game.
 enum OnboardingStep: Equatable {
-    case hello, controller, room, player, card, choose, lesson(Sport), reward(Sport), done
+    case hello, account, controller, room, player, card, choose, lesson(Sport), reward(Sport), done
     var key: String {
         switch self {
-        case .hello: "hello"; case .controller: "controller"; case .room: "room"; case .player: "player"
+        case .hello: "hello"; case .account: "account"; case .controller: "controller"; case .room: "room"; case .player: "player"
         case .card: "card"; case .choose: "choose"; case .done: "done"
         case .lesson(let sport): "lesson:\(sport.rawValue)"
         case .reward(let sport): "reward:\(sport.rawValue)"
@@ -14,7 +14,7 @@ enum OnboardingStep: Equatable {
     }
     init?(key: String) {
         switch key {
-        case "hello": self = .hello; case "controller": self = .controller; case "room": self = .room
+        case "hello": self = .hello; case "account": self = .account; case "controller": self = .controller; case "room": self = .room
         case "player": self = .player; case "card": self = .card; case "choose": self = .choose; case "done": self = .done
         default:
             let pair = key.split(separator: ":").map(String.init)
@@ -27,7 +27,7 @@ enum OnboardingStep: Equatable {
     /// The three parts the TV's top bar names.
     var act: Int {
         switch self {
-        case .hello, .controller, .room: 0
+        case .hello, .account, .controller, .room: 0
         case .player, .card: 1
         default: 2
         }
