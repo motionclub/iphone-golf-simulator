@@ -1,0 +1,24 @@
+camera near 0.3 far 600 hdr True aa None q High post True depthTex True opaqueTex False msaa(asset) 4 scale 1 shadowDist 60 cascades 1 shadowRes 4096 quality 2 Medium lodBias 0.7 aniso Enable tier High
+light Golden-hour sun Directional int 2.2 shadows Soft bias 0.04 nbias 0.3 res FromQualitySettings
+light Door light Point int 1.2 shadows None bias 0.05 nbias 0.4 res FromQualitySettings
+light Door light Point int 1.4 shadows None bias 0.05 nbias 0.4 res FromQualitySettings
+light Door light Point int 1.2 shadows None bias 0.05 nbias 0.4 res FromQualitySettings
+cost low: 5.58 ms/render @1920x1080 msaa4; per render (frame totals / 91): batches 312 setpass 59 tris 1015940 shadowCasters 130
+cost close: 5.45 ms/render @1920x1080 msaa4; per render (frame totals / 91): batches 306 setpass 59 tris 1010995 shadowCasters 127
+cost mid: 5.16 ms/render @1920x1080 msaa4; per render (frame totals / 91): batches 309 setpass 59 tris 633945 shadowCasters 133
+cost solo: 7.07 ms/render @1920x1080 msaa4; per render (frame totals / 91): batches 294 setpass 59 tris 1014620 shadowCasters 136
+cost arrival: 5.49 ms/render @1920x1080 msaa4; per render (frame totals / 91): batches 354 setpass 59 tris 357610 shadowCasters 160
+GPU breakdown, home shot 1920x1080 (best of 3 x 40 renders; full = everything on, MSAA 4):
+  full frame: 4.52 ms;  MSAA off: 3.85 ms
+  post-processing off: 6.09 ms (full 6.43, saves 0.34)
+  depth of field off: 6.55 ms (full 6.56, saves 0.01)
+  bloom off: 6.45 ms (full 6.72, saves 0.27)
+  sun shadows off: 4.74 ms (full 7.42, saves 2.67)
+  SSAO off: 5.39 ms (full 7.33, saves 1.94)
+  sky dome off: 7.62 ms (full 7.15, saves -0.47)
+  clouds off: 7.73 ms (full 7.48, saves -0.25)
+  sea off: 7.18 ms (full 7.10, saves -0.09)
+  grounds (outside the hedge) off: 8.12 ms (full 7.60, saves -0.52)
+  Majestic dressing off: 8.21 ms (full 7.75, saves -0.47)
+  hub life off: 7.54 ms (full 7.21, saves -0.32)
+  heroes off: 6.34 ms (full 7.56, saves 1.22)

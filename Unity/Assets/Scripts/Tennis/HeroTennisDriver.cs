@@ -751,10 +751,12 @@ namespace GolfArcade.Tennis
         double displayContactVirtual;
 
         int posesSinceFrame;
+        HeroTossHold tossHold;
         void LateUpdate()
         {
             posesSinceFrame = 0;
             if (!graph.IsValid() || !actor || (game && game.ReplayPlaying)) return;
+            if (Match && !tossHold) { tossHold = GetComponent<HeroTossHold>(); if (!tossHold) tossHold = gameObject.AddComponent<HeroTossHold>(); tossHold.driver = this; }   // the ball in the tossing hand (runs after the finger polish)
             float dt = Time.deltaTime;
             // A chosen between-point emote may finish while the own-serve meter is ready.
             // TOSS/movement or receiving gives the body straight back to gameplay.

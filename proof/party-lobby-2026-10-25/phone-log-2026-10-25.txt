@@ -1,0 +1,23 @@
+1792983893.905124 analytics app_first_open t=0.093
+1792983893.9055328 analytics session_start t=0.093 n=1
+1792983893.905587 analytics onboarding_step_view t=0.093 step=hello
+1792983902.337373 analytics onboarding_step_view t=8.525 step=controller
+1792983907.129119 analytics onboarding_step_view t=13.317 step=room
+1792983908.45208 analytics onboarding_step_view t=14.640 step=player
+1792983913.295278 analytics onboarding_step_view t=19.483 step=card
+1792983913.2960582 analytics hero_created t=19.484 female=false named=false
+1792983915.478018 analytics onboarding_step_view t=21.666 step=choose
+1792983919.454018 analytics onboarding_skip_lessons t=25.642
+1792983919.4555578 analytics onboarding_step_view t=25.643 step=done
+1792983919.455937 hub boot session=878E9E4C-DF0F-4628-8AA8-82AC80E74A76 on TV
+1792983929.723974 hub ready after 10.27 s
+1792983939.3788152 push registration failed: no valid “aps-environment” entitlement string found for application
+1792983977.544349 hub boot session=160B2BEA-4A00-40D3-A84B-A95272323EB1 on phone
+1792984003.233151 hub moves to the TV
+1792984003.2343621 hub boot session=C6EE0D57-93FF-47CB-8E21-8648AE3FB7D8 on TV
+1792984004.3988929 hub ready after 1.16 s
+1792984038.702938 multiplayer ? guest: rtt median 0 ms, p95 0 ms, jitter 0 ms, ping loss 0.0% (0 of 0 answered), quiet pauses 0 (resumed 0, dropped 0), largest packet 887 bytes, unreliable refused 0
+1792984101.043016 multiplayer ? guest: rtt median 0 ms, p95 0 ms, jitter 0 ms, ping loss 0.0% (0 of 0 answered), quiet pauses 0 (resumed 0, dropped 0), largest packet 887 bytes, unreliable refused 0
+1792984104.5172892 Game Center invite: join attempt 1 failed: The requested operation has been canceled or disabled by the user.
+1792984149.616782 multiplayer tennis owner: rtt median 0 ms, p95 0 ms, jitter 0 ms, ping loss 100.0% (0 of 1 answered), quiet pauses 0 (resumed 0, dropped 0), largest packet 1223 bytes, unreliable refused 0
+1792984174.075726 hub boot session=B3B8EA56-6B3B-40C3-A67F-7E3B88D18FD4 on phone

@@ -395,7 +395,7 @@ namespace GolfArcade.Bowling
                 float edge = s < 0 ? -BowlingAlleyKit.BankLeft : BowlingAlleyKit.BankRight, w = halfRoom - edge;
                 BowlingAlleyKit.Floor(root, "AisleCarpet", new Vector3(s * (edge + w / 2), 0, (BowlingAlleyKit.ApproachBack + end + 2) / 2),
                     new Vector2(w, end + 2 - BowlingAlleyKit.ApproachBack), carpet, .9f);
-                Box(root, "AisleEdge", new Vector3(s * (edge + w / 2), -.095f, (BowlingAlleyKit.ApproachBack + end + 2) / 2), new Vector3(w, .19f, end + 2 - BowlingAlleyKit.ApproachBack), navyMatte);
+                Box(root, "AisleEdge", new Vector3(s * (edge + w / 2), -.105f, (BowlingAlleyKit.ApproachBack + end + 2) / 2), new Vector3(w, .19f, end + 2 - BowlingAlleyKit.ApproachBack), navyMatte);   // 10-27: top 1 cm under the aisle carpet (was in its plane: z-fight)
             }
             var walnut = BowlingAlleyKit.Pbr("Walnut", Color.white, .7f, Vector2.one, .8f);
             var ceiling = BowlingAlleyKit.Floor(root, "WalnutCeiling", new Vector3(0, ceil, (back + end + 2) / 2), new Vector2(2 * halfRoom, end + 2 - back), walnut, 1.1f);

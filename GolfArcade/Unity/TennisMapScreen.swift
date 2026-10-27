@@ -230,9 +230,8 @@ struct GolfCourseScreen: View {
     }
 
     /// The round's match settings, before it starts: how many holes (the course's own, 9 or 18) and whether a longer
-    /// round goes on into the next courses, twists (two random modifiers dealt each round), the weather with things
-    /// moving about the holes, and a bounty on every hole paying coins (the golden rings come with the Point Frenzy
-    /// twist), remembered for the next round.
+    /// round goes on into the next courses, and a bounty on every hole paying coins, remembered for the next round.
+    /// (No twists since 10-27: Adnan had the pre-game power ups taken out.)
     private func settings(height: CGFloat) -> some View {
         let session = SportsSession.shared
         return VStack(spacing: 6) {
@@ -241,16 +240,15 @@ struct GolfCourseScreen: View {
                 toggle("golf-link", "Link courses", icon: "link", on: session.golfLinkCourses, height: height)
             }
             HStack(spacing: 10) {
-                toggle("golf-twists", "Twists", icon: "dice.fill", on: session.golfTwists, height: height)
                 toggle("golf-challenges", "Bounties", icon: "target", on: session.golfChallenges, height: height)
             }
-            Text(caption(twists: session.golfTwists, challenges: session.golfChallenges))
+            Text(caption(challenges: session.golfChallenges))
                 .font(IslandUI.font(height * 0.27)).foregroundStyle(.white.opacity(0.8)).lineLimit(1).minimumScaleFactor(0.6)
         }.frame(maxWidth: .infinity)
     }
 
-    private func caption(twists: Bool, challenges: Bool) -> String {
-        return [twists ? "2 random twists each round" : "Classic rules",
+    private func caption(challenges: Bool) -> String {
+        return ["Classic rules",
                 "Automatic weather · EST day/night",
                 challenges ? "a bounty on every hole" : nil].compactMap { $0 }.joined(separator: " · ")
     }
@@ -355,11 +353,6 @@ struct GolfDailyCard: View {
                         }.frame(minWidth: compact ? 24 : 34)
                     }
                     Spacer(minLength: 6)
-                    VStack(alignment: .trailing, spacing: 3) {
-                        ForEach(day.twists, id: \.self) { t in
-                            Label(t.title.uppercased(), systemImage: t.icon).font(IslandUI.font(compact ? 11 : 15, bold: true)).foregroundStyle(.white).lineLimit(1)
-                        }
-                    }
                 }
                 HStack {
                     Text(best.map { "Today's best \(GolfRoundStats.text(toPar: $0)) · play again any time" } ?? "Bonus XP for your first round today · same course for everyone")
@@ -374,7 +367,7 @@ struct GolfDailyCard: View {
                         in: RoundedRectangle(cornerRadius: compact ? 16 : 22))
             .overlay(RoundedRectangle(cornerRadius: compact ? 16 : 22).strokeBorder(focused ? Color.white : Color(hex: "FFC93C").opacity(0.7), lineWidth: focused ? 4 : 2))
         }.buttonStyle(.plain)
-            .accessibilityLabel("Daily forecast: \(day.headline) at \(day.course.title). Twists \(day.twists.map(\.title).joined(separator: " and ")).")
+            .accessibilityLabel("Daily forecast: \(day.headline) at \(day.course.title).")
             .accessibilityAddTraits(.isButton).accessibilityIdentifier("golf-daily")
     }
 }

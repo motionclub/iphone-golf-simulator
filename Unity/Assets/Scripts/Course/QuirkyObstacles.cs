@@ -16,13 +16,10 @@ namespace GolfArcade.Course
             public Spot(int hole, MoverKind kind, double along, double side, double offset) { Hole = hole; Kind = kind; Along = along; Side = side; Offset = offset; }
         }
 
-        static readonly Spot[] Spots =
-        {
-            new(7, MoverKind.Launchpad, .50, 1, 14),
-            // (the Crater, hole 10, had a pad in the first pass: its test lob came down among the crater's rocks and ran
-            // into the lava, so it is out until a spot is picked by hand; work/course-fx/GATE_RESULTS.md)
-            new(20, MoverKind.Target, .30, 1, 10),
-        };
+        // 10-27 (Adnan: "get rid of ... any power ups in game, ex. the launch pad on the ground on the first map of
+        // cliffside"): the launchpad on Cliffside's opener (7) and the bullseye on Windmill Links (20) are gone; the
+        // spots list is where to set one out again.
+        static readonly Spot[] Spots = Array.Empty<Spot>();
 
         /// A target's rail runs this far out across the hole, starting `Offset` yards off the line.
         public const double RailLength = 16;

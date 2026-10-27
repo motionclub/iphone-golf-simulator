@@ -447,16 +447,9 @@ final class MultiplayerService {
         lobby?.readyCheck = nil   // (another game: the leader presses Start again)
         for i in lobby!.participants.indices where lobby!.participants[i].isGuest { lobby!.participants[i].ready = true }
         lobby?.sets = sets; lobby?.games = games
-        // golf's optional twists and challenges as this host last chose them
-        lobby?.twistsOff = sport == .golf && !session.golfTwists ? true : nil
+        // golf has no round twists (10-27): said on the wire too, so a phone on an earlier build deals none either
+        lobby?.twistsOff = sport == .golf ? true : nil
         publishLobby()
-    }
-    /// Golf's match settings: optional round twists and challenges, remembered for the next round.
-    func setGolfEvents(twists: Bool) throws {
-        try requireOwnerIdle()
-        SportsSession.shared.golfTwists = twists
-        lobby?.twistsOff = twists ? nil : true
-        lobby?.revision += 1; publishLobby()
     }
     /// Golf's round length: the course's own holes (0), 9 or 18, and whether a longer round goes on into the next courses or
     /// round the same course again; remembered for the next round like the twists. The seats and who is ready stay as they are.

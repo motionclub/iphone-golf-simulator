@@ -203,6 +203,8 @@ namespace GolfArcade.Bowling
             Slab("FloorAisleInR", BowlingAlleyKit.BankRight, sideR - chW / 2, BowlingAlleyKit.ApproachBack, end + 1.2f);
             Slab("FloorAisleOutL", -wall, sideL - chW / 2, crossZ - chW / 2, end + 3);
             Slab("FloorAisleOutR", sideR + chW / 2, wall, crossZ - chW / 2, end + 3);
+            // a basalt footbridge over the trench where the players walk between their bench and the lane (BowlingGame.AisleX)
+            BowlingClubLanes.Box(root, "TrenchBridge", new Vector3(BowlingGame.AisleX, floorY - .045f, crossZ), new Vector3(1.1f, .12f, chW + .5f), rock);   // top 1.5 cm proud of the flagstones it overlaps (never coplanar: no z-fight)
             // the approach's side walls down to the aisle floor (the bank stands one step up)
             foreach (float x in new[] { BowlingAlleyKit.BankLeft, BowlingAlleyKit.BankRight })
                 BowlingClubLanes.Box(root, "BankSide", new Vector3(x, -.09f, (BowlingAlleyKit.ApproachBack + end) / 2), new Vector3(.03f, .18f, end - BowlingAlleyKit.ApproachBack), rock);

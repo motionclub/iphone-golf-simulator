@@ -111,6 +111,9 @@ namespace GolfArcade.Tests {
             Assert.AreEqual(rough.Value.X,shot.originX);Assert.AreEqual(rough.Value.D,shot.originD);
             Assert.AreEqual(impact.SpeedBonus,shot.impact.speedBonus);Assert.AreEqual(impact.Thin,shot.impact.thin);
             Assert.Greater(shot.shown,shot.duration,"the phones show the club coming down before the ball leaves");
+            // 10-27: no replay between hits online, as in the regular game: the strike, the flight (and a splash), nothing more
+            Assert.AreEqual(NetworkGolfRound.StrikeLead+shot.duration+(shot.lie=="Water"?NetworkGolfRound.SplashSeconds:0),shot.shown,1e-9,"no replay's time");
+            Assert.IsEmpty(conditions.Dealt,"the host deals no twists");
         }
         [Test] public void GolfSwingNamingABadClubIsRefusedAndAnUnnamedOneUsesTheHostsClub() {
             var m=new NetworkGolfRound(new[]{0,1},20);

@@ -17,6 +17,10 @@ namespace GolfArcade.Bowling
         public static readonly float[] PairX = { -5.5f * BowlingAlley.LanePitch, -3.5f * BowlingAlley.LanePitch, -1.5f * BowlingAlley.LanePitch,
                                                   .5f * BowlingAlley.LanePitch, 2.5f * BowlingAlley.LanePitch, 4.5f * BowlingAlley.LanePitch };
         public const float SofaZ = -7.6f;
+        /// The game lane's pair (kit.py PAIRS[3] = lanes 1 and 0): its two sofas and side table are left out, so the players walk
+        /// between the lounge and the approach through that gap (BowlingGame.Route), not through the furniture and the crowd on it.
+        public const string GamePair = "Pair3";
+        static bool AisleSlot(string group, string slot) => group == GamePair && (slot == "Upholstery" || slot == "SofaBase" || slot == "TableTop" || slot == "TableBase");
         /// outer edges of the bank (it is not symmetric: six lanes left of the game lane, five right)
         public const float BankLeft = (FirstLane - .5f) * BowlingAlley.LanePitch, BankRight = (LastLane + .5f) * BowlingAlley.LanePitch;
 
@@ -91,6 +95,8 @@ namespace GolfArcade.Bowling
             return go;
         }
 
+        static readonly HashSet<string> FloorSlots = new HashSet<string> { "SofaBase", "TableBase", "ConsoleTrim", "ReturnTrim", "ReturnBody", "TrenchRock", "Iron" };
+
         /// Places the kit under `root` and gives each slot the venue's material (slots without one are hidden).
         /// "Ball0".."Ball3" take the venue's ball colours.
         public static GameObject Place(Transform root, Dictionary<string, Material> slots, Material[] balls = null, string asset = "AlleyKit")
@@ -105,12 +111,18 @@ namespace GolfArcade.Bowling
             {
                 string n = mr.name; int cut = n.IndexOf("__", System.StringComparison.Ordinal);
                 string slot = cut >= 0 ? n.Substring(cut + 2) : n;
+                if (cut >= 0 && asset == "AlleyKit" && AisleSlot(n.Substring(0, cut), slot)) { mr.gameObject.SetActive(false); hidden++; continue; }
                 Material m = null;
                 if (slot.StartsWith("Ball") && balls != null && balls.Length > 0)
                     m = balls[(slot[slot.Length - 1] - '0') % balls.Length];
                 else slots.TryGetValue(slot, out m);
                 if (!m) { mr.gameObject.SetActive(false); hidden++; continue; }
                 mr.sharedMaterial = m;
+                // 10-27 ("parts of the alley are bugged to where they flicker"): the kit lays these exactly on a floor plane (the lane
+                // markings on the lane, the sofa plinths, table and console feet on the lounge floor, the ball return's trims on the
+                // approach, Magma's trench rims), and they z-fought with it as the camera moved. Lifted clear of the plane in world y.
+                float lift = slot == "Ink" ? .0015f : FloorSlots.Contains(slot) ? .003f : 0;
+                if (lift > 0) mr.transform.position += Vector3.up * lift;
                 mr.shadowCastingMode = slot == "Upholstery" || slot.StartsWith("Return") || slot.StartsWith("Console") || slot.StartsWith("Monitor")
                     ? ShadowCastingMode.On : ShadowCastingMode.Off;
                 var mf = mr.GetComponent<MeshFilter>();
@@ -143,6 +155,7 @@ namespace GolfArcade.Bowling
                 foreach (float s in new[] { -1.05f, 1.05f })
                     for (int k = -1; k <= 1; k++, i++)
                     {
+                        if (x == PairX[3]) continue;      // the game pair's sofas make way for the players' aisle (GamePair)
                         if ((i * 7) % 5 == 0) continue;   // a few empty places, like a real night out
                         seats.Add((new Vector3(x + s + k * .5f, SetteeFloor + .42f, SofaZ + .02f), 0));
                     }

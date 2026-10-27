@@ -156,7 +156,7 @@ namespace GolfArcade.Bowling
             // The beach, and a teak deck under the whole centre (the lounge and aisles one step below the approach).
             BowlingClubLanes.Box(root, "Sand", new Vector3(0, -.3f, 5), new Vector3(60, .1f, 70), BowlingClubLanes.Surface(Sand, .18f, SandTexture(), new Vector2(22, 22)));
             BowlingAlleyKit.Floor(root, "Deck", new Vector3(0, BowlingAlleyKit.SetteeFloor, (back + end + 2) / 2), new Vector2(2 * outer + .6f, end + 2 - back), teak, 1);
-            BowlingClubLanes.Box(root, "DeckEdge", new Vector3(0, -.24f, (back + end + 2) / 2), new Vector3(2 * outer + .7f, .12f, end + 2.1f - back), teakDark);
+            BowlingClubLanes.Box(root, "DeckEdge", new Vector3(0, -.26f, (back + end + 2) / 2), new Vector3(2 * outer + .7f, .12f, end + 2.1f - back), teakDark);   // 10-27: top 2 cm under the deck (its top was IN the deck plane: the deck z-fought, the flickering side bands)
             BowlingClubLanes.Box(root, "DeckWallBelow", new Vector3(-.8f, .6f, end + 1.6f), new Vector3(BowlingAlleyKit.BankRight - BowlingAlleyKit.BankLeft + 2, 1.4f, .2f), teakDark);
 
             // The pavilion: posts down both sides, a thatched roof over the approach and the lounge,

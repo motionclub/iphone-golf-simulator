@@ -43,7 +43,9 @@ namespace GolfArcade.Bowling
             if (!rt || rt.width != w || rt.height != h)
             {
                 if (rt) { rt.Release(); Destroy(rt); }
-                rt = new RenderTexture(w, h, 16, RenderTextureFormat.DefaultHDR) { name = "LaneMirror", useMipMap = false };
+                // 24-bit depth (10-27, "parts of the alley flicker"): with 16 bits over the mirror's 45 m and its oblique near plane, the far
+                // half of the reflected alley (masking, kickbacks, pin decks, the ceiling) z-fought, and the lanes' reflections sparkled as the camera moved
+                rt = new RenderTexture(w, h, 24, RenderTextureFormat.DefaultHDR) { name = "LaneMirror", useMipMap = false };
             }
             mirror.CopyFrom(main);
             mirror.enabled = false; mirror.targetTexture = rt; mirror.depth = main.depth - 1;

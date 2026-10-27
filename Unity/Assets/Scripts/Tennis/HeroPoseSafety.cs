@@ -98,10 +98,17 @@ namespace GolfArcade.Tennis
                 travelLeft = !lockWrists || freeLeftHand ? 1 : Mathf.Clamp01(gripFreedom),
                 twoHanded = twoHanded,
             };
+            if (Tracks != null)
+            {
+                bool follow = HeroClearance.FreeHandFollows && clearance != null;
+                if (follow) clearance.DetectGrip(twoHanded);
+                Tracks.freeHand[0] = follow && !clearance.HandHolds(0); Tracks.freeHand[1] = follow && !clearance.HandHolds(1);
+            }
             Tracks?.Apply(q.travelLeft, q.travelRight);
             if (clearance == null) return;
             // a pure baked clip: already cleared offline against the real meshes; the residual solve only runs on blends
-            if (Tracks != null && Tracks.Coverage > .999f) { clearance.Reset(); return; }
+            // (an empty hand left out of the track's correction is checked by the residual solve, which exits at once when it is clear)
+            if (Tracks != null && Tracks.Coverage > .999f && !Tracks.freeHand[0] && !Tracks.freeHand[1]) { clearance.Reset(); return; }
             // continuous playback smooths; a diagnostic sample (edit mode, a jump) solves from scratch
             float dt = 0;
             if (Application.isPlaying)

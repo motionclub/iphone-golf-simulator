@@ -29,7 +29,11 @@ namespace GolfArcade.Bowling
         public OilPattern Oil = OilPattern.House;
 
         /// The swing the controller measured (P1 fills these from the phone).
-        public float SwingSpeed = 7.4f, RevRpm = 260, AxisDeg = 35, SwingDrift;
+        public float SwingSpeed = 7.4f, RevRpm = 260, AxisDeg = 35;
+        /// The launch turn the swing's direction aimed (degrees, + = right; BowlingSwingDetector.AimFromSwing). 0 without a phone swing.
+        public float SwingAimDeg;
+        /// The last ball's aim, as the player made it (the swing plus the editor's aim keys), for the phone: degrees, + = right.
+        public float LastAimDeg { get; private set; }
         /// Degrees added to every ball's launch direction (proof films steer the ball to show the follow-through follows its path; 0 in play).
         public float LaunchBiasDeg;
         public float DisplayLatency;                       // seconds, subtracted from the thumb lift (TV delay; fixed-tempo input only)
@@ -84,7 +88,7 @@ namespace GolfArcade.Bowling
         public int StandingPins => standing;
         public PinAction LastAction { get; private set; }
 
-        float[] boards;
+        float[] boards, aims;
         Camera cam;
         BowlingHud hud;
         readonly List<BowlingHero> heroes = new List<BowlingHero>();
@@ -135,6 +139,8 @@ namespace GolfArcade.Bowling
             sweepBar.transform.localScale = new Vector3(2 * BowlingLane.KickbackX - .04f, .09f, .05f);   // kickback to kickback (it clears the gutters too)
             sweepBar.GetComponent<MeshRenderer>().sharedMaterial = BowlingAlley.Lit(new Color(.75f, .76f, .78f), .7f);
             setter = BowlingPinsetter.Build(transform);
+            aimGuide = AimGuide(transform);
+            BowlingHero.Ground = GroundY;
 
             deck = new BowlingPinDeck();
             NewGame(Players.ToArray());
@@ -145,6 +151,47 @@ namespace GolfArcade.Bowling
 
         BowlingClubLanes.Venue venue;
         BowlingAudio sound;
+        GameObject aimGuide;
+
+        /// The aim on the lane (Wii-style, Adnan 10-27 "make aiming more intuitive"): a dotted gold line from where the ball is set
+        /// down along the line it will leave on, with an arrowhead, shown while this phone's bowler stands at the stance.
+        static GameObject AimGuide(Transform parent)
+        {
+            var verts = new List<Vector3>(); var tris = new List<int>();
+            void Quad(Vector3 a, Vector3 b, Vector3 c, Vector3 d) { int i = verts.Count; verts.Add(a); verts.Add(b); verts.Add(c); verts.Add(d); tris.AddRange(new[] { i, i + 1, i + 2, i, i + 2, i + 3 }); }
+            // 10-27 feel pass: out to 12 m (was 6, mostly behind the bowler's head; a 1.4° swing aim now moves the tip ~30 cm), wider
+            const float w = .03f, dash = .26f, end = 12f;
+            for (float z = .45f; z < end - .5f; z += .6f) Quad(new Vector3(-w, 0, z), new Vector3(-w, 0, z + dash), new Vector3(w, 0, z + dash), new Vector3(w, 0, z));
+            int k = verts.Count;
+            verts.Add(new Vector3(-.12f, 0, end - .45f)); verts.Add(new Vector3(0, 0, end)); verts.Add(new Vector3(.12f, 0, end - .45f));
+            tris.AddRange(new[] { k, k + 1, k + 2 });
+            var mesh = new Mesh { name = "AimGuide" };
+            mesh.SetVertices(verts); mesh.SetTriangles(tris, 0); mesh.RecalculateNormals(); mesh.RecalculateBounds();
+            var go = new GameObject("AimGuide");
+            go.transform.SetParent(parent, false);
+            go.AddComponent<MeshFilter>().sharedMesh = mesh;
+            var r = go.AddComponent<MeshRenderer>();
+            r.sharedMaterial = BowlingAlleyKit.Emissive(MotionSports.Brand.BrandColors.Gold, 1.1f);   // (2.2 bloomed to white)
+            r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off; r.receiveShadows = false;
+            go.SetActive(false);
+            return go;
+        }
+
+        /// 10-27 feel pass: the arrow points up the board line while the bowler sets up (straight: the aim is in the swing now), then
+        /// turns live with the forward swing (the way the swing is heading, eased) until the ball leaves the hand.
+        void PlaceAimGuide(float dt)
+        {
+            if (!aimGuide) return;
+            bool setup = Flow == Phase.Setup || Flow == Phase.Hold, swinging = Flow == Phase.Approach && !released;
+            bool show = (setup || swinging) && !IsCpu(Current) && IsLocal(Current) && Bowler && Bowler.Remaining < LongWalkMetres;
+            if (aimGuide.activeSelf != show) aimGuide.SetActive(show);
+            float want = AimDeg + (swinging && SelfTimed ? BowlingSwingDetector.AimFromSwing(detector.SwingAimDeg) : 0);
+            guideDeg = !show || !swinging ? want : Mathf.Lerp(guideDeg, want, 1 - Mathf.Exp(-dt / .06f));
+            if (!show) return;
+            // 6 mm over the lacquer (clear of it in the depth buffer at every distance the cameras see it from)
+            aimGuide.transform.SetPositionAndRotation(new Vector3(BowlingLane.BoardX(Board), .006f, .1f), Quaternion.Euler(0, guideDeg, 0));
+        }
+        float guideDeg;
 
         /// The lane and pin reflections: rendered once the venue, pins and lights are all in place.
         System.Collections.IEnumerator RenderReflections()
@@ -160,6 +207,7 @@ namespace GolfArcade.Bowling
             if (players != null && players.Count > 0 && !ReferenceEquals(players, Players)) { Players.Clear(); Players.AddRange(players); }
             Scores = new BowlingScore[Players.Count];
             boards = new float[Players.Count];
+            aims = new float[Players.Count];
             for (int i = 0; i < Players.Count; i++) { Scores[i] = new BowlingScore(); boards[i] = 20; }
             gutters = new int[Players.Count]; splitsConverted = new int[Players.Count]; bestStreak = new int[Players.Count];
             Current = 0;
@@ -171,7 +219,7 @@ namespace GolfArcade.Bowling
                 bool female = i < PlayerFemale.Count ? PlayerFemale[i] : i % 2 == 1;
                 var at = i == 0 ? StartSpot(boards[i]) : WaitSpot(i);
                 heroes.Add(BowlingHero.Spawn(transform, female, at, i == 0 ? 0 : WaitYaw));
-                if (i > 0 && heroes[i]) heroes[i].WalkTo(at, WaitYaw, sit: true);
+                if (i > 0 && heroes[i]) Send(heroes[i], at, WaitYaw, sit: true);
             }
             hud?.Dispose();
             hud = new BowlingHud(cam, Players);
@@ -185,11 +233,28 @@ namespace GolfArcade.Bowling
 
         /// The phone's controls: ignored while a computer bowler is up.
         public void PlayerMove(float boardsDelta) { if (!IsCpu(Current) && IsLocal(Current)) Move(boardsDelta); }
+        /// The phone's lane slider (10-27 feel pass: "it takes a while to move side to side"): stand on this board, wherever it is.
+        public void PlayerBoard(float board) { if (!IsCpu(Current) && IsLocal(Current)) Move(board - Board); }
         public void PlayerHold(bool down)
         {
             if (down && Flow == Phase.Replay) { EndReplay(); return; }   // a tap on the ball skips the replay
+            if (down && Flow != Phase.Approach && LongWalk && SkipWalks()) return;   // ... and a walk to or from the lounge
             if ((!IsCpu(Current) && IsLocal(Current)) || !down && Holding) SetHold(down);
         }
+
+        /// The phone's aim: degrees to turn the line the ball leaves on (+ = toward the bowler's right).
+        public void PlayerAim(float degDelta) { if (!IsCpu(Current) && IsLocal(Current)) AimBy(degDelta); }
+        /// Turns the aim (setup only), in quarter degrees, up to MaxAim either way.
+        public void AimBy(float degDelta)
+        {
+            if (Flow != Phase.Setup) return;
+            aims[Current] = Mathf.Clamp(Mathf.Round((aims[Current] + degDelta) * 4) / 4, -MaxAim, MaxAim);
+        }
+        /// About 1 m either way at the pins (18.3 m down the lane): every pocket and corner-pin angle from any board.
+        public const float MaxAim = 3f;
+        /// The set-up aim (degrees, + = right): the editor's Z/C keys (the phone aims with the swing itself since the 10-27 feel
+        /// pass; its old AIM row's bowlAim still lands here). Computer bowlers aim by board only.
+        public float AimDeg => IsCpu(Current) ? 0 : aims[Current];
 
         public void Move(float boardsDelta)
         {
@@ -200,7 +265,8 @@ namespace GolfArcade.Bowling
         public void SetHold(bool down)
         {
             if (Holding == down) return;
-            if (down && Flow == Phase.Setup && Bowler && !Bowler.Arrived) return;   // still walking up to the approach
+            // still walking up to the approach (a side-step along it does not wait: the hold starts, the pushaway waits for the feet)
+            if (down && Flow == Phase.Setup && Bowler && !Bowler.Arrived && Bowler.Remaining >= SideStepHold) return;
             if (down && Flow == Phase.Setup && LoungeWalker() != null) return;     // a friend still crossing behind the approach (under the camera)
             Holding = down;
             if (down && Flow == Phase.Setup) { Flow = Phase.Hold; holdT = 0; detector.Begin(Clock()); cuedTop = cuedBottom = false; }
@@ -236,7 +302,8 @@ namespace GolfArcade.Bowling
         }
 
         /// What the phone's controller screen shows: phase|player|frame|ball|board|grade|mph|hook°|rpm|standing pins|mine (1: this
-        /// phone bowls now; 0: a friend's phone or the computer does).
+        /// phone bowls now; 0: a friend's phone or the computer does)|walking (1: a walk to or from the lounge, a tap skips it)|aim° (the
+        /// last ball's, from the swing's direction).
         public string NativeState
         {
             get
@@ -245,7 +312,8 @@ namespace GolfArcade.Bowling
                 return string.Join("|", Flow, Players[Current], Mathf.Min(10, s.Frame + 1), s.Ball + 1, Board.ToString("0.#", System.Globalization.CultureInfo.InvariantCulture),
                     LastThrow.Grade, (LastThrow.Speed * 2.237f).ToString("0.0", System.Globalization.CultureInfo.InvariantCulture),
                     LastThrow.AxisDeg.ToString("0", System.Globalization.CultureInfo.InvariantCulture), LastThrow.RevRpm.ToString("0", System.Globalization.CultureInfo.InvariantCulture),
-                    BowlingLeave.Numbers(standing), IsLocal(Current) && !IsCpu(Current) ? "1" : "0");
+                    BowlingLeave.Numbers(standing), IsLocal(Current) && !IsCpu(Current) ? "1" : "0",
+                    LongWalk ? "1" : "0", LastAimDeg.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture));
             }
         }
 
@@ -266,7 +334,9 @@ namespace GolfArcade.Bowling
         /// (the ideal release, shifted by the grade, as a remote bowler does), so the walk-up keeps the computer's cadence.
         BowlingThrow? heldThrow;
         /// The slowest ball a self-timed swing gives (m/s, ~12 mph): an easy swing still gets the ball to the pins.
-        const float SelfTimedMinSpeed = 5.4f;
+        const float SelfTimedMinSpeed = 6.9f;   // 10-27 (Adnan "way more sensitivity"): 5.4 → 6.3; feel pass ("easy to put a good amount of power"): 6.9, ~15.4 mph
+        /// A hold pressed while the bowler is still side-stepping this close to the spot is taken (metres; a whole lane is ~0.9).
+        const float SideStepHold = .6f;
 
         void Release(float timingError)
         {
@@ -274,13 +344,16 @@ namespace GolfArcade.Bowling
             {
                 var r = detector.Measure(Clock());
                 LastReading = r;
-                if (detector.ForwardSwing) { SwingSpeed = Mathf.Max(SelfTimedMinSpeed, r.BallSpeed); RevRpm = r.RevRpm; AxisDeg = r.AxisDeg; SwingDrift = r.DriftDeg; }
-                else { SwingSpeed = 6.8f; RevRpm = 150; AxisDeg = 10; SwingDrift = 0; }   // the phone did not read a swing: a plain ball
+                if (detector.ForwardSwing) { SwingSpeed = Mathf.Max(SelfTimedMinSpeed, r.BallSpeed); RevRpm = r.RevRpm; AxisDeg = r.AxisDeg; SwingAimDeg = r.AimDeg; }
+                else { SwingSpeed = 7.4f; RevRpm = 150; AxisDeg = 10; SwingAimDeg = 0; }   // the phone did not read a swing: a plain ball
             }
+            else SwingAimDeg = 0;
+            // the player's aim (the swing's direction, the editor's keys) turns the whole line; the release's own scatter stays on top
+            LastAimDeg = Mathf.Clamp(AimDeg + SwingAimDeg, -MaxAim, MaxAim);
             var th = BowlingRelease.Resolve(new BowlingSwing
             {
                 Board = Board, Speed = SwingSpeed, RevRpm = RevRpm, AxisDeg = AxisDeg,
-                TimingError = timingError, SwingDrift = SwingDrift, Seed = seed++,
+                TimingError = timingError, AimDeg = LastAimDeg, Seed = seed++,
             });
             th.LaunchDeg += LaunchBiasDeg;
             if (SelfTimed && !th.Dropped) heldThrow = th; else Deliver(th);
@@ -353,7 +426,7 @@ namespace GolfArcade.Bowling
                     hud.Status($"{Players[Current]} · Frame {Mathf.Min(10, Scores[Current].Frame + 1)} · Ball {Scores[Current].Ball + 1} · Board {Board:0.#}");
                     break;
                 case Phase.Hold:
-                    holdT += dt;
+                    if (!Bowler || Bowler.Arrived) holdT += dt;
                     PoseBowler(0, false);
                     if (holdT >= BowlingApproach.HoldToStart) { Flow = Phase.Approach; approachT = 0; Bowler?.PlayClip(BowlingClips.Shot, 0, false, true); }
                     break;
@@ -396,6 +469,7 @@ namespace GolfArcade.Bowling
                     Sweep();
                     break;
             }
+            PlaceAimGuide(dt);
             Shoot(dt);
         }
 
@@ -418,13 +492,76 @@ namespace GolfArcade.Bowling
         /// shot, in the reaction shot), one place each.
         Vector3 WaitSpot(int player) => new Vector3(-1.1f + .75f * player, 0, BowlingClubLanes.LoungeZ + .3f);
 
+        /// Where the walk between the lounge and the approach crosses the sofa row: the gap the game pair's own sofas and table
+        /// leave (BowlingAlleyKit.Place hides them), left of the console and the ball return.
+        public const float AisleX = 0, AisleSide = .27f;
+        /// The front edge of the players' settee dais (BowlingVenue.Settee), at approach level; the lounge floor in front of it is a step down.
+        const float DaisFront = BowlingClubLanes.LoungeZ + 1f;
+
+        /// The way between the lounge and the approach (Adnan 10-27: "they walk through obstacles"): along the dais to the aisle, down
+        /// onto the lounge floor, straight up the aisle between the sofas, up the settee step, then to the spot. Null when both ends are
+        /// on the same side. Only the waypoints still ahead of `from` are returned (the route is re-planned when the board moves).
+        public static List<Vector3> Route(Vector3 from, Vector3 to)
+        {
+            float back = BowlingAlleyKit.ApproachBack - .2f;
+            bool fromLounge = from.z < back, toLounge = to.z < back;
+            if (fromLounge == toLounge) return null;
+            float floor = BowlingAlleyKit.SetteeFloor;
+            var seat = fromLounge ? from : to;
+            // two sides of the aisle, so the next bowler going up and the last one coming back pass each other (10-27 film: they met
+            // on the centre line and walked through each other)
+            float x = AisleX + (fromLounge ? -AisleSide : AisleSide);
+            var path = new List<Vector3>
+            {
+                new Vector3(seat.x, 0, DaisFront - .45f),   // square in front of the seat (not cutting along the settee's front)
+                new Vector3(x, 0, DaisFront - .15f), new Vector3(x, floor, DaisFront + .2f),
+                new Vector3(x, floor, BowlingAlleyKit.ApproachBack - .2f), new Vector3(x, 0, BowlingAlleyKit.ApproachBack + .25f),
+            };
+            if (!fromLounge) path.Reverse();
+            path.RemoveAll(p => fromLounge ? p.z < from.z + .05f : p.z > from.z - .05f);
+            return path;
+        }
+
+        /// The floor under a walker: the approach and the players' dais at 0, the lounge floor between them one step (.18 m) down, each
+        /// step taken over a quarter metre (BowlingHero.Ground).
+        public static float GroundY(Vector3 p)
+        {
+            float back = BowlingAlleyKit.ApproachBack, floor = BowlingAlleyKit.SetteeFloor;
+            if (p.z > back - .25f) return Mathf.Lerp(floor, 0, Mathf.InverseLerp(back - .25f, back, p.z));
+            if (p.z < DaisFront + .25f) return Mathf.Lerp(0, floor, Mathf.InverseLerp(DaisFront, DaisFront + .25f, p.z));
+            return floor;
+        }
+
+        /// Sends a hero walking (round the furniture when the walk crosses between the lounge and the approach).
+        void Send(BowlingHero h, Vector3 to, float yaw, bool sit = false)
+        {
+            if (!h) return;
+            h.WalkTo(to, yaw, sit, (to - h.Target).sqrMagnitude > .0004f ? Route(h.Position, to) : null);
+        }
+
+        /// A hero is on a walk worth skipping (to or from the lounge; not a side-step along the approach).
+        public bool LongWalk
+        {
+            get { foreach (var h in heroes) if (h && h.Remaining > LongWalkMetres) return true; return false; }
+        }
+        const float LongWalkMetres = .9f;
+
+        /// Adnan 10-27: the walks between the lounge and the lane can be skipped (a tap on the ball): everyone is where they were going.
+        /// Returns true when a long walk was cut short (that tap is used up; a side-step just finishes).
+        public bool SkipWalks()
+        {
+            bool skipped = LongWalk;
+            foreach (var h in heroes) if (h) h.Snap();
+            return skipped;
+        }
+
         /// Poses the bowler for approach time t (≤ 0: stance at the start spot, walking/side-stepping there first).
         void PoseBowler(float t, bool foul, float dt = 0)
         {
             var h = Bowler; if (!h) return;
             if (t <= 0)
             {
-                h.WalkTo(StartSpot(Board), 0);
+                Send(h, StartSpot(Board), 0);
                 if (h.HasClips && h.Arrived) h.EnsureStance();
                 h.ArmDeg = h.Arrived && !h.HasClips ? BowlingApproach.ArmAngle(0) : float.NaN;   // the ball at the chest once they are set
                 h.Balance = 0;
@@ -578,7 +715,7 @@ namespace GolfArcade.Bowling
             // the bowler turns and walks back up the approach (or, when the frame is over and a friend is up, to the ball return)
             walkedBack = true;
             bool handOver = (s.Complete || s.Ball == 0) && Players.Count > 1;
-            if (Bowler) { Bowler.ArmDeg = float.NaN; Bowler.Balance = 0; Bowler.Ball = null; Bowler.WalkTo(handOver ? WaitSpot(Current) : StartSpot(Board), handOver ? WaitYaw : 0, sit: handOver); }
+            if (Bowler) { Bowler.ArmDeg = float.NaN; Bowler.Balance = 0; Bowler.Ball = null; Send(Bowler, handOver ? WaitSpot(Current) : StartSpot(Board), handOver ? WaitYaw : 0, sit: handOver); }
             bool fresh = s.FreshRack || s.Complete || s.Ball == 0;
             // The pinsetter (real machine): the deck lifts the pins that are still standing, the sweep bar drops in front of the rest and pushes the fallen pins into the pit, then
             // the bar goes back up and the standing pins are set down on their spots again (or, when the frame is over, a fresh rack is lowered). Every pin keeps its own transform until then.
@@ -705,8 +842,8 @@ namespace GolfArcade.Bowling
                 if (Scores[next].Complete) { Flow = Phase.GameOver; hud.Banner("WINNER!", $"{Players[Leader()]} takes it with {Scores[Leader()].Total}.", 30, BowlingHud.Praise.Big); GameOver(); return; }
                 if (next != Current) { FreshRack(); }
                 Current = next;
-                if (Bowler) Bowler.WalkTo(StartSpot(Board), 0);   // the next bowler walks up from the ball return
-                for (int i = 0; i < heroes.Count; i++) if (i != Current && heroes[i]) heroes[i].WalkTo(WaitSpot(i), WaitYaw, sit: true);
+                Send(Bowler, StartSpot(Board), 0);   // the next bowler walks up from the lounge
+                for (int i = 0; i < heroes.Count; i++) if (i != Current && heroes[i]) Send(heroes[i], WaitSpot(i), WaitYaw, sit: true);
             }
             EnterSetup();
         }
@@ -902,6 +1039,8 @@ namespace GolfArcade.Bowling
             if (Autoplay.Count > 0 || !Application.isEditor || !KeyboardEnabled) return;
             if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) Move(+8 * dt); // boards count from the right
             if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) Move(-8 * dt);
+            if (Input.GetKey(KeyCode.Z)) AimBy(-2 * dt);
+            if (Input.GetKey(KeyCode.C)) AimBy(+2 * dt);
             if (Input.GetKeyDown(KeyCode.UpArrow)) SwingSpeed = Mathf.Min(9.5f, SwingSpeed + .3f);
             if (Input.GetKeyDown(KeyCode.DownArrow)) SwingSpeed = Mathf.Max(4, SwingSpeed - .3f);
             if (Input.GetKeyDown(KeyCode.Q)) AxisDeg = Mathf.Min(70, AxisDeg + 10);

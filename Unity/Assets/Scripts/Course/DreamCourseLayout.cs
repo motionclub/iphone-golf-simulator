@@ -95,6 +95,9 @@ namespace GolfArcade.Course
                 }
                 // Severe weather never adds a lethal timing requirement, even on the optional line.
                 if(kind==DreamHazardKind.LavaVent && (weather==Weather.Fog||weather==Weather.Storm))kind=DreamHazardKind.BasaltGate;
+                // 10-27 (Adnan: "get rid of the power ups"): the gates and lifts were only a current boosting the ball on toward
+                // the shortcut's landing, so they are gone; a vent's plume and the ice stay as hazards, with no current.
+                if(kind is DreamHazardKind.RockGate or DreamHazardKind.BasaltGate or DreamHazardKind.WindLift)return new DreamCourseLayout(Array.Empty<DreamHazard>(),hole.Centerline,target,s.Name);
                 var hazard=new DreamHazard{Id=$"v5-{hole.Number}-{kind}",Kind=kind,Centre=p,Height=hole.Ground?.Invoke(p)??0,Recovery=hole.Tee,Phase=RoundEvents.Mix(seed,hole.Number,0x504841)%12000/1000.0};
                 if(Currents.TryGetValue(hole.Number,out var current)){hazard.Gain=current.gain;hazard.LiftFloor=current.lift;}hazard.Preserve=hole.Par==3?0:.2;
                 // The fixed authored flight window is sized from an ordinary approach, before any player commits.
@@ -133,16 +136,7 @@ namespace GolfArcade.Course
             return hole.Tee;
         }
         public bool Burns(double x,double y,double z,double time,out DreamHazard hit){foreach(var h in Hazards)if(h.Burns(x,y,z,time)){hit=h;return true;}hit=null;return false;}
-        public Mover[] SolidMovers()
-        {
-            var list=new List<Mover>();foreach(var h in Hazards){
-                if(h.Kind==DreamHazardKind.RockGate || h.Kind==DreamHazardKind.BasaltGate){
-                    // 10-19 (Adnan: "remove floating rocks from maps"): the gate's two rocks hung in mid-air above and
-                    // below the current; only the current stays.
-                    list.Add(Mover.Dream(h.Centre,h.Height+h.LiftHeight,h.Period,h.Phase/h.Period,4,0,true,ShortcutTarget,h.Gain,h.LiftFloor,h.Preserve));
-                } else if(h.Kind==DreamHazardKind.LavaVent)list.Add(Mover.Dream(h.Centre,h.Height+h.LiftHeight,h.Period,h.Phase/h.Period,4,0,true,ShortcutTarget,h.Gain,h.LiftFloor,h.Preserve));
-                else if(h.Kind==DreamHazardKind.WindLift)list.Add(Mover.Dream(h.Centre,h.Height+h.LiftHeight,h.Period,h.Phase/h.Period,5,0,true,ShortcutTarget,h.Gain,h.LiftFloor,h.Preserve));
-            }return list.ToArray();
-        }
+        /// The currents that carried the ball on toward the shortcut (a boost, removed 10-27): nothing moves for a hazard now.
+        public Mover[] SolidMovers()=>Array.Empty<Mover>();
     }
 }

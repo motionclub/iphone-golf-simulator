@@ -36,6 +36,9 @@ namespace GolfArcade.Hub
         HeroPoseSafety safety;
 
         public float Speed { get; private set; }
+        /// Runs after the pose (clips, relaxed stand, seat, hand clearance) and before the arm skinning and garment passes, so a pose
+        /// layered here is the one drawn (bowling 10-27: arms posed later in the frame by an order-950 LateUpdate never reached the skin).
+        public event System.Action AfterPose;
         /// Diagnostics: the leg blend actually applied this frame (idle, walk, run, action).
         public Vector4 Weights => new Vector4(wIdle, wWalk, wRun, actionFade);
         public string Playing => playing;
@@ -773,11 +776,17 @@ namespace GolfArcade.Hub
             bool keepTracks = HeroClearanceTracks.Enabled; if (RelaxWeight > .5f) HeroClearanceTracks.Enabled = false;
             if (LogStances && stanceShown >= 0 && Time.frameCount % 60 == 0)
                 Debug.Log($"[Stance] {(look.female ? "F" : "M")} {StanceNames[stanceShown]} w {stanceWeight:0.00} before safety L {Local3(look.Bone(HumanBodyBones.LeftHand).position)} R {Local3(look.Bone(HumanBodyBones.RightHand).position)}");
-            try { safety.Apply(false); } finally { HeroClearanceTracks.Enabled = keepTracks; }
+            bool skipSafety = false;
+#if UNITY_EDITOR
+            skipSafety = System.Environment.GetEnvironmentVariable("HUB_SAFETY") == "0";   // A/B: the clips' own arms, no clearance pass
+#endif
+            try { if (!skipSafety) safety.Apply(false); } finally { HeroClearanceTracks.Enabled = keepTracks; }
             if (stanceShown == PalmsOnHipsStance && stanceWeight > .99f) PalmsOnRealHips();
             else { palmFrames = 0; palmMeasured = false; }
             if (LogStances && stanceShown >= 0 && Time.frameCount % 60 == 0)
                 Debug.Log($"[Stance] {(look.female ? "F" : "M")} {StanceNames[stanceShown]} after safety L {Local3(look.Bone(HumanBodyBones.LeftHand).position)} R {Local3(look.Bone(HumanBodyBones.RightHand).position)}");
+            // a sport's own pose on top (bowling: the two-handed carry, palms in, the follow-through turn), before the skin and garment passes
+            AfterPose?.Invoke();
             // the same garment passes the match driver runs after every pose
             look.body?.GetComponent<HeroArmSkinning>()?.Apply();
             look.GetComponent<HeroGarmentPoseCorrectives>()?.Apply();
