@@ -90,11 +90,11 @@ namespace GolfArcade.Game
         void Update() { if (src) src.volume = Mathf.MoveTowards(src.volume, .55f * GameAudio.MusicGain(), Time.unscaledDeltaTime * .5f + .01f); }
     }
 
-    /// One-shot UI / stinger sounds, on one hidden object.
+    /// One-shot UI / stinger sounds and the golf crowd swell, on one hidden object.
     public sealed class GameAudioHost : MonoBehaviour
     {
         static GameAudioHost instance;
-        AudioSource shot;
+        AudioSource shot, swell;
         public static GameAudioHost Instance
         {
             get
@@ -102,6 +102,9 @@ namespace GolfArcade.Game
                 if (instance) return instance;
                 var go = new GameObject("Game audio host"); DontDestroyOnLoad(go); instance = go.AddComponent<GameAudioHost>();
                 instance.shot = go.AddComponent<AudioSource>(); instance.shot.playOnAwake = false; instance.shot.spatialBlend = 0;
+                var s = GameAudio.Load("sfx/crowd/golf_swell");
+                instance.swell = go.AddComponent<AudioSource>(); instance.swell.playOnAwake = false; instance.swell.spatialBlend = 0; instance.swell.loop = true; instance.swell.volume = 0;
+                if (s != null) instance.swell.clip = s[0];
                 foreach (var n in UiSounds) instance.UiClip(n);
                 return instance;
             }
@@ -115,10 +118,15 @@ namespace GolfArcade.Game
             return c;
         }
         public void PlayUI(string name, float volume) => shot.Shot(UiClip(name), volume);
-        float nextRefresh;
+        float swellTarget, nextRefresh;
+        public void Swell(float closeness) { swellTarget = Mathf.Clamp01(closeness); }
         void Update()
         {
             if (Time.unscaledTime > nextRefresh) { nextRefresh = Time.unscaledTime + .5f; GameAudio.RefreshVolumes(); }
+            if (!swell || !swell.clip) return;
+            float want = swellTarget * swellTarget * .6f * GameAudio.SfxVolume;
+            swell.volume = Mathf.MoveTowards(swell.volume, want, Time.unscaledDeltaTime * (want > swell.volume ? .8f : 2.5f));
+            if (swell.volume > .01f && !swell.isPlaying) swell.Play(); else if (swell.volume <= .01f && swell.isPlaying) swell.Pause();
         }
     }
 
