@@ -296,7 +296,6 @@ struct IslandSettingsScreen: View {
         case "presentationIntros": return Item(title: "Match intros", detail: "Full plays once, then uses short cuts. Off goes straight to Ready.", control: .choice(["Full", "Short", "Off"], ["full", "short", "off"].firstIndex(of: s.presentationIntros) ?? 0))
         case "holeFlyover": return Item(title: "Hole flyovers", detail: "Show the course before each hole. Overview stays available at address.", control: .toggle(s.holeFlyover))
         case "presentationBigMoments": return Item(title: "Big moments", detail: "Allow one special camera moment per golf hole.", control: .toggle(s.presentationBigMoments))
-        case "golfTwists": return Item(title: "Golf twists", detail: "Two random modifiers each round: Bounce House, Pinball, Point Frenzy and more.", control: .toggle(s.golfTwists))
         case "golfBounties": return Item(title: "Golf bounties", detail: "A task on every hole that pays coins toward your XP.", control: .toggle(s.golfChallenges))
         case "coaching": return Item(title: "Coaching tips", detail: "Short hints on the phone and TV during matches.", control: .toggle(s.coachingTips))
         case "resetTips": return Item(title: "Show every coaching tip again", detail: "The hints you have already seen will come back.", control: .action("Reset", danger: false))
@@ -700,7 +699,6 @@ struct IslandOnlineScreen: View {
                         choices("Sets",values:["1","2","3"],selected:String(lobby.sets),prefix:"net-sets-")
                         choices("Games",values:["1","3","6"],selected:String(lobby.games),prefix:"net-games-")
                     } else {
-                        choices("Round twists",values:["on","off"],selected:lobby.twistsOff == true ? "off" : "on",prefix:"net-twists-")
                         // the round's length: the course's own holes, 9 or 18, on into the next courses or round it again
                         choices("Holes",values:SportsSession.golfRoundLengths.map(String.init),selected:String(max(0,round.holes)),prefix:"net-holes-",
                                 titles:SportsSession.golfRoundLengths.map { $0 > 0 ? "\($0)" : "\(GolfCourseChoice(rawValue:round.course)?.pars.count ?? 5)" })

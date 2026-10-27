@@ -2328,12 +2328,6 @@ namespace GolfArcade.Game
 
                 case State.Result:
                     if (resultWorldBeat && stateTime >= .3f) FrameResult();
-                    if (replayFirst)
-                    {
-                        // the ball where it finished, a beat, then the replay from the tee box
-                        if (stateTime >= ReplayBeat) { replayFirst = false; StartReplay(); }
-                        break;
-                    }
                     // the same wait in a multiplayer round: the phone that swung moves play on when it is over (NetworkResultDone)
                     float resultWait = ResultWaitSeconds;
                     shotResultPanel?.SetCountdown(Mathf.Max(0, resultWait - stateTime), networkConfigured ? "NEXT PLAYER" : "NEXT SHOT");
@@ -2931,7 +2925,6 @@ namespace GolfArcade.Game
         public void SkipReplay()
         {
             if (Current == State.Replay && stateTime > 0.3f) EndReplay();
-            else if (Current == State.Result && replayFirst) { replayFirst = false; ShowShotResult(); RefreshControls(); }
         }
 
         /// The replay's camera. The tee box's first, low behind the golfer and off the side away from
@@ -3058,18 +3051,10 @@ namespace GolfArcade.Game
             hud.SetStatus(result);   // (the phone controller's line, now the badge has the banner's place)
             ShowScore();
             Enter(State.Result);
-            // A full swing is shown again from the tee box once the ball is down (a beat to see where
-            // it finished first); the result card follows the replay.
-            replayFirst = networkConfigured && InstantReplays && !Demo && ReplaysShot(club);   // (local play: no replay between swings, only the 3 s result window)
-            if (!replayFirst) ShowShotResult();
+            // No replay between swings, online or not (10-27, Adnan: online play matches the regular game): the result, then on.
+            ShowShotResult();
         }
 
-        /// Every full swing is replayed from the tee box before its result; a putt is not (the
-        /// multiplayer host gives every phone the replay's time: NetworkGolfRound.ReplaySeconds).
-        static bool ReplaysShot(GolfClub club) => GolfArcade.Multiplayer.NetworkGolfRound.ReplaysShot(club);
-        /// The replay comes before the result card (FinishShot); it starts after this beat.
-        bool replayFirst;
-        const float ReplayBeat = 1.2f;
         /// How long the replay runs after the strike, at most: the flight, the landing and a little
         /// of the run (a holed ball is followed to the cup).
         static double ReplayEnd(CourseShot shot) => shot.IsHoled ? shot.Duration : Math.Min(shot.Duration, shot.LandingTime + 2.0);

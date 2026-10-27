@@ -14,8 +14,9 @@ namespace GolfArcade.Tests
     public class ChallengeTests
     {
         bool wasEnabled;
-        [SetUp] public void On() { wasEnabled = RoundEvents.Enabled; RoundEvents.Enabled = true; }
-        [TearDown] public void Back() => RoundEvents.Enabled = wasEnabled;
+        // (the twists' own rules: dealt here, though no round deals them since 10-27)
+        [SetUp] public void On() { wasEnabled = RoundEvents.Enabled; RoundEvents.Enabled = true; RoundEvents.DealTwists = true; }
+        [TearDown] public void Back() { RoundEvents.Enabled = wasEnabled; RoundEvents.DealTwists = false; }
 
         static Hole Straight(int par = 4, double length = 400) => new()
         {
@@ -226,16 +227,16 @@ namespace GolfArcade.Tests
             foreach(var course in GolfArcade.Course.Course.All()) foreach(var hole in course.Holes)
             for(int seed=1;seed<=120;seed++) {
                 var layout=DreamCourseLayout.Build(hole,seed,Weather.Clear);
-                Assert.IsNotEmpty(layout.Hazards);
                 foreach(var hazard in layout.Hazards) {
+                    Assert.That(hazard.Kind,Is.EqualTo(DreamHazardKind.LavaVent).Or.EqualTo(DreamHazardKind.IceRunway),"the gates and lifts were boosts, gone 10-27");
                     Assert.GreaterOrEqual(DreamCourseLayout.CorridorDistance(hazard.Centre,hole.Centerline),hazard.Radius+hazard.Motion+8);
                     Assert.Greater(hazard.Centre.DistanceTo(hole.Tee),35);
                     Assert.Greater(hazard.Centre.DistanceTo(hole.Pin),35);
                 }
-                Assert.LessOrEqual(layout.SolidMovers().Length,3,"one gate and at most two supporting volumes");
+                Assert.IsEmpty(layout.SolidMovers(),"no current carries the ball (10-27)");
                 codes.Add(layout.Code);
             }
-            Assert.Greater(codes.Count,1000,"seeded timing remains varied within authored safe sockets");
+            Assert.Greater(codes.Count,100,"seeded timing remains varied within authored safe sockets");
         }
 
         /// The app deals the day's forecast round itself to show it on the course screen

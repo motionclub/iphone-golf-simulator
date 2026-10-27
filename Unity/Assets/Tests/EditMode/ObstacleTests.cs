@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using GolfArcade.Course;
 using GolfArcade.Shot;
 using GolfArcade.Swing;
@@ -192,26 +193,22 @@ namespace GolfArcade.Tests
             Assert.AreEqual(clear.Rest.D, shot.Rest.D, 1e-9);
         }
 
+        /// 10-27 (Adnan: "get rid of ... any power ups in game, ex. the launch pad on the ground on the first map of
+        /// cliffside"): no hole sets out a launchpad or a target, Cliffside's opener included.
         [Test]
-        public void PadsAndTargetsStandOffTheLine()
+        public void NoHoleHasAPadOrATarget()
         {
-            int placed = 0;
             foreach (var course in Course.Course.All())
                 foreach (var hole in course.Holes)
+                {
+                    Assert.IsFalse(QuirkyObstacles.Has(hole.Number), $"hole {hole.Number}");
                     for (int seed = 1; seed <= 6; seed++)
-                        foreach (var m in QuirkyObstacles.For(hole, seed, null, null))
-                        {
-                            placed++;
-                            Assert.IsTrue(QuirkyObstacles.Has(hole.Number));
-                            for (double t = 0; t < m.Period; t += m.Period / 12)
-                            {
-                                var p = m.At(t);
-                                Assert.GreaterOrEqual(DreamCourseLayout.CorridorDistance(new CoursePoint(p.x, p.d), hole.Centerline), QuirkyObstacles.Clear - 1e-6, $"hole {hole.Number} {m.Kind}");
-                            }
-                            Assert.AreEqual(0, hole.LieAt(m.Goal).PenaltyStrokes(), "it sends the ball somewhere playable");
-                            Assert.AreNotEqual(CourseLie.Water, hole.LieAt(new CoursePoint(m.RailFrom.X, m.RailFrom.D)));
-                        }
-            Assert.GreaterOrEqual(placed, 2 * 6, "on at least two holes");
+                    {
+                        Assert.IsEmpty(QuirkyObstacles.For(hole, seed, null, null), $"hole {hole.Number}");
+                        var movers = RoundEvents.Deal(seed).MoversFor(0, hole, Weather.Clear);
+                        Assert.IsFalse(movers != null && movers.All.Any(m => m.Kind is MoverKind.Launchpad or MoverKind.Target or MoverKind.WindLift), $"hole {hole.Number} seed {seed}");
+                    }
+                }
         }
 
         [Test]

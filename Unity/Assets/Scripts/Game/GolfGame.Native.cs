@@ -9,9 +9,8 @@ namespace GolfArcade.Game {
         public static event System.Action ShotStruck;
         public bool NativeControlled { get; private set; }
         public bool NativeHasNextHole => Current == State.RoundDone && holeIndex + 1 < course.Holes.Length;
-        /// The state the app's screens follow: the beat before a replay already counts as the replay
-        /// (the result's screen waits for the result).
-        public string NativePhase => Current == State.Result && replayFirst ? nameof(State.Replay) : Current.ToString();
+        /// The state the app's screens follow.
+        public string NativePhase => Current.ToString();
         public static event System.Action NativeExitRequested;
         void RequestNativeExit() { enabled = false; NativeExitRequested?.Invoke(); }
         public Camera GameplayCamera => rig ? rig.Camera : null;
@@ -45,7 +44,7 @@ namespace GolfArcade.Game {
         }
         public void NativeContinue() {
             if(Current==State.Intro) { SkipPresentation(); return; }
-            if (Current == State.Replay || (Current == State.Result && replayFirst)) { SkipReplay(); return; }
+            if (Current == State.Replay) { SkipReplay(); return; }
             if (Current == State.Result) { ContinueShotResult(); return; }
             if (Current != State.RoundDone || networkConfigured) return;   // (a multiplayer round's end belongs to the lobby)
             if (NativeHasNextHole) NextHole(); else PlayAgain();

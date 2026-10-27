@@ -119,15 +119,9 @@ final class SportsSession {
     }
     /// The round lengths the course screen steps through: the course's own, 9, 18.
     static let golfRoundLengths = [0, 9, 18]
-    /// Golf's match settings, set before the round (the course screen, a lobby's Match Settings) and remembered:
-    /// round twists (two random modifiers dealt each round), and weather with things moving about the holes
-    /// (rain, storms, gusts; balloons, carts, gulls). Both on unless turned off.
-    // (off until the player turns them on: Settings → Gameplay, or the course screen. New keys, so
-    // an earlier build's saved "on" doesn't carry over.)
-    var golfTwists = (UserDefaults.standard.object(forKey: "sports.golfTwists.v2") as? Bool) ?? false {
-        didSet { UserDefaults.standard.set(golfTwists, forKey: "sports.golfTwists.v2") }
-    }
-    /// A bounty on every hole, paying coins (and XP at the round's end); the rings are Point Frenzy's, a twist.
+    /// Golf's match setting, set before the round (the course screen, Settings → Gameplay) and remembered.
+    /// (The round twists, two random modifiers dealt before the first tee, were taken out 10-27: no round has them.)
+    /// A bounty on every hole, paying coins (and XP at the round's end).
     var golfChallenges = (UserDefaults.standard.object(forKey: "sports.golfChallenges.v2") as? Bool) ?? false {
         didSet { UserDefaults.standard.set(golfChallenges, forKey: "sports.golfChallenges.v2") }
     }
@@ -422,7 +416,7 @@ final class SportsSession {
         // (the lesson and the day's forecast are the course's own round; anything else is as long as the player chose)
         launchExtras = ["mode": "round", "course": tutorial || daily != 0 ? course : MultiplayerLobby.golfRound(course, holes: golfHoles, link: golfLinkCourses),
                         // (the lesson is plain golf, whatever the match settings say)
-                        "noTwists": tutorial || (daily == 0 && !golfTwists),
+                        "noTwists": true,
                         "noChallenges": tutorial || (daily == 0 && !golfChallenges), "daily": daily]
         start(preview: preview)
         launchExtras = [:]

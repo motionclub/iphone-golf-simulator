@@ -353,9 +353,9 @@ struct LevelStrip: View {
 
 // MARK: - The day's forecast round
 
-/// Golf's daily forecast: one round a day, the same for everyone — the day's course, its twists and
+/// Golf's daily forecast: one round a day, the same for everyone — the day's course and
 /// each hole's weather dealt from the date, with the same dice as Unity's (Course/RoundEvents.cs:
-/// Dice, Mix, Deal, WeatherFor), so the course screen can show the forecast before it is played.
+/// Dice, Mix, WeatherFor), so the course screen can show the forecast before it is played.
 /// Unity's ChallengeTests.TheDiceAreTheAppsDice holds the numbers both must agree on.
 enum GolfForecast {
     /// SplitMix64 from a seed, as RoundEvents' Dice.
@@ -383,25 +383,6 @@ enum GolfForecast {
         return Int(z & 0x7FFFFFFF)
     }
 
-    /// Unity's Twist, in its order.
-    enum Twist: Int, CaseIterable {
-        case bounceHouse, turboGreens, bucketCup, pinball, bananaBall, hurricane, stickyGreens, pointFrenzy
-        var title: String {
-            switch self {
-            case .bounceHouse: "Bounce House"; case .turboGreens: "Turbo Greens"; case .bucketCup: "Bucket Cup"
-            case .pinball: "Pinball"; case .bananaBall: "Banana Ball"; case .hurricane: "Hurricane"; case .stickyGreens: "Sticky Greens"
-            case .pointFrenzy: "Point Frenzy"
-            }
-        }
-        var icon: String {
-            switch self {
-            case .bounceHouse: "arrow.up.and.down.circle.fill"; case .turboGreens: "hare.fill"; case .bucketCup: "circle.circle.fill"
-            case .pinball: "star.fill"; case .bananaBall: "arrow.turn.up.right"; case .hurricane: "hurricane"; case .stickyGreens: "hand.raised.fill"
-            case .pointFrenzy: "dollarsign.circle.fill"
-            }
-        }
-    }
-
     /// Unity's Weather, in its order.
     enum Weather: Int { case clear, gusty, rain, storm, fog
         var icon: String {
@@ -413,18 +394,6 @@ enum GolfForecast {
             case .storm: magma ? "Eruption" : "Thunderstorm"; case .fog: magma ? "Volcanic Smoke" : "Sea Fog"
             }
         }
-    }
-
-    /// RoundEvents.Deal: two twists, never both green twists.
-    static func deal(_ seed: Int) -> [Twist] {
-        var dice = Dice(mix(seed, 0, 0x7157))
-        var pool = Twist.allCases, dealt: [Twist] = []
-        for _ in 0..<2 {
-            let k = dice.next(pool.count)
-            dealt.append(pool.remove(at: k))
-            if dealt.last == .turboGreens || dealt.last == .stickyGreens { pool.removeAll { $0 == .turboGreens || $0 == .stickyGreens } }
-        }
-        return dealt
     }
 
     /// RoundEvents.WeatherFor: a hole's weather as it starts.
@@ -456,11 +425,11 @@ enum GolfForecast {
 
     /// The day's round as the course screen shows it.
     struct Day: Equatable {
-        var day: Int, course: GolfCourseChoice, twists: [Twist], weather: [Weather]
+        var day: Int, course: GolfCourseChoice, weather: [Weather]
         init(_ day: Int) {
-            self.day = day; course = GolfForecast.course(for: day); twists = GolfForecast.deal(day)
-            let hurricane = twists.contains(.hurricane)
-            weather = (0..<GolfForecast.holes(on: course)).map { GolfForecast.weather(day, hole: $0, hurricane: hurricane) }
+            // (no twists dealt since 10-27, Unity's RoundEvents.DealTwists: the day is its course and its weather)
+            self.day = day; course = GolfForecast.course(for: day)
+            weather = (0..<GolfForecast.holes(on: course)).map { GolfForecast.weather(day, hole: $0, hurricane: false) }
         }
         /// The roughest weather on the day's holes, for the card's headline.
         var headline: String {

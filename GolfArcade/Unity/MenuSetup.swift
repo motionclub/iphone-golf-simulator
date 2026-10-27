@@ -38,8 +38,7 @@ enum MenuSetup {
             let pass = mode == "bay-golf-pass"
             return State(mode: mode, sport: "golf", title: pass ? "Local play · \(passPlayers) players" : "Golf", line2: "Pick a course", start: "TEE OFF",
                          map: session.golfCourse, maps: golfMaps, rows: [
-                Row(key: "holes", label: "Holes", choices: holes, value: holeIndex),
-                Row(key: "twists", label: "Twists", choices: ["Off", "On"], value: session.golfTwists ? 1 : 0)])
+                Row(key: "holes", label: "Holes", choices: holes, value: holeIndex)])
         default: return nil
         }
     }
@@ -67,7 +66,6 @@ enum MenuSetup {
             menu.trainingLevel = min(max(0, index), TennisMenu.trainingLevels.count - 1)
             session.tennisDifficulty = TennisMenu.trainingLevels[menu.trainingLevel].difficulty
         case "holes": session.golfHoles = SportsSession.golfRoundLengths[min(max(0, index), SportsSession.golfRoundLengths.count - 1)]
-        case "twists": session.golfTwists = index == 1
         case "players": passPlayers = min(max(2, index), 4)
         default: break
         }

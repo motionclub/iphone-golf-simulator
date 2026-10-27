@@ -35,40 +35,35 @@ namespace GolfArcade.PlayTests
             yield return null;
         }
 
+        /// 10-27 (Adnan: the power ups added pre-game "need to go"): a round asked for twists deals none, and
+        /// nothing is revealed over the opening.
         [UnityTest, Timeout(180000)]
-        public IEnumerator TheTwistsAreDealtOverTheFirstHole()
+        public IEnumerator NoTwistsAreDealtOverTheFirstHole()
         {
             RoundEvents.Enabled = true;
             try
             {
                 yield return Load();
-                var cam = Camera.main;
-                cam.aspect = 16f / 9f;
                 var game = Object.FindFirstObjectByType<GolfGame>();
                 game.InstantReplays = false;
-                game.SetRoundEvents(true, true, true);   // (off by default: the round's settings turn them on)
+                game.SetRoundEvents(true, true, true);   // (what an earlier build's saved "Twists: On" sends)
                 game.ChooseHoles(0, "cliffside");
                 game.Play();
                 yield return null;
-                Assert.AreEqual(RoundEvents.TwistsPerRound, game.Events.Dealt.Length, "two twists dealt");
+                Assert.IsEmpty(game.Events.Dealt, "no twists dealt");
                 var hud = Object.FindFirstObjectByType<GolfArcade.UI.Hud>();
-                Assert.IsTrue(hud.TwistReveal.Showing, "revealed over the opening");
-                yield return new WaitForSecondsRealtime(0.7f);
-                Assert.IsNotNull(GameCapture.Save($"{Dir}/reveal-spinning.jpg", 1600, 900));
-                yield return new WaitForSecondsRealtime(1.6f);
-                Assert.IsNotNull(GameCapture.Save($"{Dir}/reveal-dealt.jpg", 1600, 900));
-                // the rules the twists make are the hole's
-                // (Hurricane and Point Frenzy leave the rules as they are: the wind and the rings are theirs)
-                bool ruleFree = game.Events.Dealt.All(t => t is Twist.Hurricane or Twist.PointFrenzy);
-                Assert.IsTrue(ruleFree || !game.CurrentHole.Rules.IsStandard, "the hole plays to the twists' rules");
+                Assert.IsFalse(hud.TwistReveal != null && hud.TwistReveal.Showing, "nothing revealed over the opening");
+                Assert.IsTrue(game.CurrentHole.Rules.IsStandard || game.CurrentWeather.IsWet(), "the hole plays to golf's own rules");
                 yield return WaitFor(() => game.Current == GolfGame.State.Aim, 60, "the tee");
+                Assert.IsFalse(game.CurrentHole.Movers != null && System.Array.Exists(game.CurrentHole.Movers.All, m => m.Kind is MoverKind.Launchpad or MoverKind.Target or MoverKind.WindLift),
+                    "no launchpad, target or current on Cliffside's opener");
                 yield return new WaitForSecondsRealtime(0.5f);
-                Assert.IsNotNull(GameCapture.Save($"{Dir}/aim-with-chips.jpg", 1600, 900));
+                Assert.IsNotNull(GameCapture.Save($"{Dir}/no-twists-aim.jpg", 1600, 900));
             }
             finally { RoundEvents.Enabled = false; cleanUp(); }
         }
 
-        static void cleanUp() { GolfGame.ForcedWeather = null; GolfGame.ForcedTwists = null; RoundEvents.EveryMover = false; Time.timeScale = 1f; }
+        static void cleanUp() { GolfGame.ForcedWeather = null; GolfGame.ForcedTwists = null; RoundEvents.DealTwists = false; RoundEvents.EveryMover = false; Time.timeScale = 1f; }
 
         [UnityTest, Timeout(420000)]
         public IEnumerator EveryWeatherAndEveryMoverOnItsCourse()
@@ -174,6 +169,7 @@ namespace GolfArcade.PlayTests
             RoundEvents.Enabled = true;
             // (the rings stand only in a Point Frenzy round)
             GolfGame.ForcedTwists = new[] { Twist.PointFrenzy, Twist.BananaBall };
+            RoundEvents.DealTwists = true;   // (no round deals twists since 10-27: the rings' own look, forced)
             try
             {
                 yield return Load();

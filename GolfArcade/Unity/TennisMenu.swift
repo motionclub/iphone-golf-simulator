@@ -184,7 +184,7 @@ final class TennisMenu {
     }
     static func settingsRows(_ tab: SettingsTab) -> [String] {
         switch tab {
-        case .gameplay: ["level", "presentationIntros", "holeFlyover", "presentationBigMoments", "golfTwists", "golfBounties", "resetProgress"]
+        case .gameplay: ["level", "presentationIntros", "holeFlyover", "presentationBigMoments", "golfBounties", "resetProgress"]
         case .controls: ["swingPrediction", "fastInput", "range", "hand", "relock", "timing"]
         case .guide: GuideDeck.allCases.map(\.rowID)
         case .display: ["tennisCamera", "fps", "overscan"]
@@ -217,7 +217,7 @@ final class TennisMenu {
             return [(0..<5).map { "round\($0)" }, (5..<10).map { "round\($0)" }, ["campaignPlay", "campaignMore"], ["back"]]
         case .exhibition: return [["quickOpponent"], ["quickDifficulty"], ["quickLength"], ["quickStart"], ["back"]]
         case .story: return [["next", "skip"]]
-        case .map: return [mapChoices.map { "map-\($0.id)" }] + (mapSport == .golf ? [["golf-daily"], ["golf-holes", "golf-link"], ["golf-twists", "golf-challenges"]] : [])
+        case .map: return [mapChoices.map { "map-\($0.id)" }] + (mapSport == .golf ? [["golf-daily"], ["golf-holes", "golf-link"], ["golf-challenges"]] : [])
             + (bowlingExhibition ? [["bowl-cpu"]] : []) + [["back"]]
         case .postMatch: return postMatchDone ? postMatchChoices.map { [$0] } : [["pm-skip"]]
         case .training: return [["level"], ["start"], ["back"]]
@@ -462,7 +462,6 @@ final class TennisMenu {
             session.golfHoles = lengths[((lengths.firstIndex(of: session.golfHoles) ?? 0) + 1) % lengths.count]
         case "golf-link": session.golfLinkCourses.toggle()
         case "bowl-cpu": session.bowlingOpponent = BowlingOpponent(rawValue: (session.bowlingOpponent.rawValue + 1) % BowlingOpponent.allCases.count) ?? .sam
-        case "golf-twists": session.golfTwists.toggle()
         case "golf-challenges": session.golfChallenges.toggle()
         case "continue":
             if let result, !campaign.champion, result.won { play(round: campaign.nextRound) } else { show(.campaign) }
@@ -542,7 +541,6 @@ final class TennisMenu {
             s.presentationIntros = values[cycle(values.firstIndex(of: s.presentationIntros) ?? 0, values.count)]
         case "holeFlyover": s.holeFlyover.toggle()
         // golf's round settings (the course screen has the same three)
-        case "golfTwists": s.golfTwists.toggle()
         case "golfBounties": s.golfChallenges.toggle()
         case "presentationBigMoments": s.presentationBigMoments.toggle()
         case "sound": s.sound.toggle()
@@ -1196,7 +1194,7 @@ struct OnlineAppleSheet: Identifiable {
             let venues = sport == .tennis ? ["resort","skyscraper","volcano"] : GolfCourseChoice.allCases.map(\.rawValue)
             return [["net-sport-tennis","net-sport-golf"],venues.map { "net-venue-\($0)" }]
                 + (sport == .tennis ? [["net-sets-1","net-sets-2","net-sets-3"],["net-games-1","net-games-3","net-games-6"]]
-                    : [["net-twists-on","net-twists-off"],SportsSession.golfRoundLengths.map { "net-holes-\($0)" },["net-link-on","net-link-off"]])
+                    : [SportsSession.golfRoundLengths.map { "net-holes-\($0)" },["net-link-on","net-link-off"]])
                 + [["net-settings-seats"],["back"]]
         case .loading: return service.loadingNeedsDecision ? [["net-wait", "net-leave"]] : [["net-leave"]]
         case .match: return (service.isOwner && service.linkNeedsDecision ? [["net-play-anyway"]] : []) + [["net-leave"]]
@@ -1259,9 +1257,6 @@ struct OnlineAppleSheet: Identifiable {
             case let id where id.hasPrefix("net-sets-") || id.hasPrefix("net-games-"):
                 guard let l = service.lobby else { return }
                 try service.configure(l.sport,venue:l.venue,sets:id.hasPrefix("net-sets-") ? Int(id.dropFirst(9)) ?? 1 : l.sets,games:id.hasPrefix("net-games-") ? Int(id.dropFirst(10)) ?? 3 : l.games)
-            case let id where id.hasPrefix("net-twists-"):
-                guard let l = service.lobby else { return }
-                try service.setGolfEvents(twists: id.hasSuffix("-on"))
             case let id where id.hasPrefix("net-holes-"):
                 try service.setGolfRound(holes: Int(id.dropFirst(10)) ?? 0, link: SportsSession.shared.golfLinkCourses)
             case let id where id.hasPrefix("net-link-"):

@@ -156,6 +156,9 @@ namespace GolfArcade.Course
         public static bool Enabled = true;
         /// Twists dealt each round.
         public const int TwistsPerRound = 2;
+        /// Off since 10-27 (Adnan: the power ups added pre-game "need to go"): no round deals a twist, solo, online or the
+        /// daily round, whatever the settings or the host say. The twists' rules stay for the tests, which turn this on.
+        public static bool DealTwists;
         /// For reviews: every kind of mover a hole can take, on every hole.
         public static bool EveryMover;
 
@@ -175,6 +178,7 @@ namespace GolfArcade.Course
         /// `frenzy` false keeps Point Frenzy out of the deal (a multiplayer round's: its rings and coins are a single player's).
         public static RoundEvents Deal(int seed, bool twists = true, bool world = true, bool challenges = true, bool frenzy = true)
         {
+            twists &= DealTwists;
             #if UNITY_EDITOR || DEVELOPMENT_BUILD
             if (!Enabled) return None;
 #endif
@@ -202,7 +206,7 @@ namespace GolfArcade.Course
             if (colon < 1) return Deal(seed, false, true, false);
             string flags = code.Substring(0, colon);
             var list = new List<Twist>();
-            foreach (var part in code.Substring(colon + 1).Split(','))
+            foreach (var part in DealTwists ? code.Substring(colon + 1).Split(',') : Array.Empty<string>())
                 if (int.TryParse(part, out int n) && Enum.IsDefined(typeof(Twist), n) && !list.Contains((Twist)n)) list.Add((Twist)n);
             return new RoundEvents(seed, list.ToArray(), true, flags.IndexOf('c') >= 0);
         }

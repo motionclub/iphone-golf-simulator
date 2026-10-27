@@ -13,8 +13,9 @@ namespace GolfArcade.Tests
     public class RoundEventsTests
     {
         bool wasEnabled;
-        [SetUp] public void On() { wasEnabled = RoundEvents.Enabled; RoundEvents.Enabled = true; }
-        [TearDown] public void Back() => RoundEvents.Enabled = wasEnabled;
+        // (the twists' own rules: dealt here, though no round deals them since 10-27)
+        [SetUp] public void On() { wasEnabled = RoundEvents.Enabled; RoundEvents.Enabled = true; RoundEvents.DealTwists = true; }
+        [TearDown] public void Back() { RoundEvents.Enabled = wasEnabled; RoundEvents.DealTwists = false; }
 
         static Hole Straight(PlayRules rules = null, params Obstacle[] obstacles) => new()
         {
@@ -59,6 +60,22 @@ namespace GolfArcade.Tests
             Assert.IsTrue(RoundEvents.FromCode(7,"").World);
             RoundEvents.Enabled=false;
             try{Assert.AreSame(RoundEvents.None,RoundEvents.Deal(7));}finally{RoundEvents.Enabled=true;}
+        }
+
+        /// 10-27 (Adnan: the power ups added pre-game "need to go"): no round deals a twist, whatever it is asked for,
+        /// and a phone never plays twists a host's code names.
+        [Test]
+        public void NoRoundDealsATwist()
+        {
+            RoundEvents.DealTwists = false;
+            for (int seed = 1; seed < 300; seed++)
+            {
+                Assert.IsEmpty(RoundEvents.Deal(seed).Dealt, "solo, the daily round");
+                Assert.IsEmpty(RoundEvents.Deal(seed, true, true, false, frenzy: false).Dealt, "a multiplayer host's");
+                Assert.IsEmpty(RoundEvents.FromCode(seed, "v5wc:0,7").Dealt, "an earlier build's host code");
+                Assert.IsTrue(RoundEvents.FromCode(seed, "v5wc:0,7").Challenges, "the rest of the code still holds");
+                Assert.IsEmpty(RoundEvents.Deal(seed).RingsFor(0, Course.Course.ByKey("cliffside").Holes[0], PlayRules.Standard), "no Point Frenzy rings");
+            }
         }
 
         [Test]
@@ -292,7 +309,8 @@ namespace GolfArcade.Tests
                     Assert.Greater(DreamCourseLayout.CorridorDistance(new CoursePoint(m.At(0).x,m.At(0).d),hole.Centerline),8);
                 }
             }
-            Assert.AreEqual(0,rocks,"no rock hangs in the air any more (10-19)");Assert.Greater(lifts,0);Assert.Greater(quirky,0,"the launchpads and the target are out");
+            Assert.AreEqual(0,rocks,"no rock hangs in the air any more (10-19)");
+            Assert.AreEqual(0,lifts,"no current boosts the ball (10-27)");Assert.AreEqual(0,quirky,"no launchpad or target (10-27)");
         }
     }
 }

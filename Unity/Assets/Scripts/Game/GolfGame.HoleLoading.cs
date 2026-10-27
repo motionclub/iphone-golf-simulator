@@ -29,7 +29,7 @@ namespace GolfArcade.Game
         public readonly List<(float progress, double ms)> HoleLoadLog = new();
         public double LastHoleLoadMilliseconds { get; private set; }
         public double LongestLoadSliceMilliseconds { get; private set; }
-        /// The state the phone is told: "Loading" while the screen is up (and "Replay" for the beat before a replay: NativePhase).
+        /// The state the phone is told: "Loading" while the screen is up.
         public string NativeState => loadingHole ? "Loading" : NativePhase;
 
         /// Starts a hole of the round behind the loading screen; holeIndex etc. follow when it is built. A game that is

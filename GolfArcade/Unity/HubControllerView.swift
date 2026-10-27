@@ -525,10 +525,7 @@ struct HubPartyBayPanel: View {
             }
             if bowling {
                 Text("One lane, 10 frames, taking turns. Every phone shows the game: no TV needed.").font(.footnote).foregroundStyle(.white.opacity(0.7))
-            } else if golf {
-                Toggle("Course events", isOn: Binding(get: { lobby.twistsOff != true }, set: { try? hub.partyService.setGolfEvents(twists: $0) }))
-                    .tint(IslandUI.lime).accessibilityIdentifier("hub-party-events")
-            } else {
+            } else if !golf {
                 HStack {
                     Text("Sets"); Spacer()
                     Picker("Sets", selection: Binding(get: { lobby.sets }, set: { hub.configureParty(sets: $0) })) {

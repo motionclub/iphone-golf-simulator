@@ -43,7 +43,6 @@ namespace GolfArcade.Tests
         {
             foreach(var course in GolfArcade.Course.Course.All())foreach(var hole in course.Holes)for(int seed=0;seed<1000;seed++){
                 var w=DreamConditions.WeatherFor(seed,hole.Number);var layout=DreamCourseLayout.Build(hole,seed,w);
-                Assert.IsNotEmpty(layout.Hazards,$"hole {hole.Number} seed {seed}");
                 Assert.AreEqual(layout.Code,DreamCourseLayout.Build(hole,seed,w).Code);
                 if(hole.Par==3){Assert.GreaterOrEqual(layout.ShortcutTarget.DistanceTo(hole.Pin),2);Assert.AreEqual(0,hole.LieAt(layout.ShortcutTarget).PenaltyStrokes());}
                 foreach(var h in layout.Hazards){
@@ -51,6 +50,7 @@ namespace GolfArcade.Tests
                     Assert.Greater(h.Centre.DistanceTo(hole.Tee),35);Assert.Greater(h.Centre.DistanceTo(hole.Pin),35);
                     Assert.IsTrue(h.RecoverySafe(hole.Tee));
                     if(w==Weather.Fog||w==Weather.Storm)Assert.AreNotEqual(DreamHazardKind.LavaVent,h.Kind);
+                    Assert.That(h.Kind,Is.EqualTo(DreamHazardKind.LavaVent).Or.EqualTo(DreamHazardKind.IceRunway),$"hole {hole.Number}: no boost gate or lift (10-27)");
                 }
             }
         }

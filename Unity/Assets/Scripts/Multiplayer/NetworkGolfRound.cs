@@ -76,10 +76,6 @@ namespace GolfArcade.Multiplayer {
         /// Everyone has holed out: the most the round waits before the next hole loads. The phones show no card between holes
         /// (the round's card is for its end) and say golfHoleCardDone straight away, so this is only for a phone that never does.
         public const double HoleCardSeconds=4;
-        /// Every full swing is replayed from the tee box before its result (GolfGame), and the replay is given its time: the
-        /// beat to see where the ball finished, the slow-motion strike, the flight and the landing (a holed ball to the cup).
-        public static bool ReplaysShot(GolfClub club)=>club!=GolfClub.Putter;
-        public static double ReplaySeconds(CourseShot shot)=>1.2+4.1+(shot.IsHoled?shot.Duration:Math.Min(shot.Duration,shot.LandingTime+2.0));
         public readonly NetworkGolfState State;
         readonly bool intros; readonly Course.Course course;readonly Random random;readonly long[] lastEvent=new long[4];
         /// The round's events (twists, weather, gusts): what the host deals, every phone plays.
@@ -227,7 +223,7 @@ namespace GolfArcade.Multiplayer {
                 burned=shot.Burned,burnTime=shot.BurnTime,burnHeight=shot.BurnHeight,burnHazard=shot.BurnHazard,environmentUtc=GolfArcade.EnvironmentArt.DreamEnvironment.Utc+StrikeLead,
                 carry=shot.Carry,roll=shot.Roll,apex=shot.Apex,restX=shot.Rest.X,restD=shot.Rest.D,nextX=shot.NextPosition.X,nextD=shot.NextPosition.D,holed=shot.IsHoled,lie=shot.Lie.ToString(),path=path,
                 originX=origin.X,originD=origin.D,heading=p.heading,impact=impact,moverPhase=moverPhase,
-                shown=StrikeLead+shot.Duration+(shot.Lie==CourseLie.Water?SplashSeconds:0)+(ReplaysShot(club)?ReplaySeconds(shot):0)};
+                shown=StrikeLead+shot.Duration+(shot.Lie==CourseLie.Water?SplashSeconds:0)};
             State.phase="flight";State.load=0;State.look=0;State.revision++;Shot?.Invoke(State.shot);
         }
         public void Step(double elapsed) {
