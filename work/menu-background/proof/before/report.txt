@@ -1,0 +1,10 @@
+camera near 0.3 far 600 hdr True aa None q High post True depthTex True opaqueTex False msaa(asset) 4 scale 1 shadowDist 60 cascades 1 shadowRes 4096 quality 2 Medium lodBias 0.7 aniso Enable tier High
+light Door light Point int 1.2 shadows None bias 0.05 nbias 0.4 res FromQualitySettings
+light Door light Point int 1.4 shadows None bias 0.05 nbias 0.4 res FromQualitySettings
+light Golden-hour sun Directional int 2.2 shadows Soft bias 0.04 nbias 0.3 res FromQualitySettings
+light Door light Point int 1.2 shadows None bias 0.05 nbias 0.4 res FromQualitySettings
+cost low: 7.24 ms/render @1920x1080 msaa4; frame stats batches 28179 setpass 5253 tris 92450597 shadowCasters 11915
+cost close: 7.19 ms/render @1920x1080 msaa4; frame stats batches 27472 setpass 5253 tris 91999609 shadowCasters 11614
+cost mid: 7.72 ms/render @1920x1080 msaa4; frame stats batches 27870 setpass 5253 tris 57689017 shadowCasters 12114
+cost solo: 7.97 ms/render @1920x1080 msaa4; frame stats batches 26458 setpass 5254 tris 92329459 shadowCasters 12413
+cost arrival: 7.34 ms/render @1920x1080 msaa4; frame stats batches 31924 setpass 5254 tris 32542571 shadowCasters 14643
