@@ -39,7 +39,7 @@ namespace GolfArcade.Tennis
         {
             Style = "club", Skill = 0,
             Reach = 2.0f, Speed = 4.4f, Reaction = .30f,
-            Threshold = .25f, MissScale = .8f, UnforcedError = .07f,
+            Threshold = .3f, MissScale = .8f, UnforcedError = .07f,
             LobChance = .07f, Width = .05f, Depth = .15f, PaceMin = 18.5f, PaceMax = 22, SpinMin = -.2f, SpinMax = .5f,
             ServeSpeed = 26, SecondServeSpeed = 19, ServeAccuracy = .3f, ServeWide = .25f, FirstFault = .16f, SecondFault = .06f,
             ReturnReach = .2f, ReturnReaction = .3f,

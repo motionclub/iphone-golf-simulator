@@ -24,6 +24,8 @@ namespace GolfArcade.EditorTools
             ("MatchHero_Female", "Assets/Resources/Tennis/Customization/PlayerFemale.prefab", "Assets/Characters/MatchHeroes/Materials/Kit/"),
             ("GolfKitHero_Male", "Assets/Resources/Tennis/Customization/PlayerMaleGolfKit.prefab", "Assets/Characters/GolfHeroKit/Materials/"),
             ("GolfKitHero_Female", "Assets/Resources/Tennis/Customization/PlayerFemaleGolfKit.prefab", "Assets/Characters/GolfHeroKit/Materials/"),
+            ("BowlingKitHero_Male", "Assets/Resources/Tennis/Customization/PlayerMaleBowlingKit.prefab", "Assets/Characters/MatchHeroes/Materials/Kit/"),
+            ("BowlingKitHero_Female", "Assets/Resources/Tennis/Customization/PlayerFemaleBowlingKit.prefab", "Assets/Characters/MatchHeroes/Materials/Kit/"),
         };
 
         [Serializable] class Sub { public string role; public int start, count; }
@@ -66,7 +68,7 @@ namespace GolfArcade.EditorTools
             foreach (var h in Heroes)
             {
                 if (!string.IsNullOrEmpty(only) && !only.Split(',').Contains(h.hero)) continue;
-                string sport = h.hero.StartsWith("Golf") ? "Golf" : "Tennis", sex = h.hero.EndsWith("Female") ? "Female" : "Male";
+                string sport = h.hero.StartsWith("Golf") ? "Golf" : h.hero.StartsWith("Bowling") ? "Bowling" : "Tennis", sex = h.hero.EndsWith("Female") ? "Female" : "Male";
                 string dir = Path.Combine(Source, h.hero, "unity");
                 var man = JsonUtility.FromJson<Manifest>(File.ReadAllText(Path.Combine(dir, "manifest.json")));
                 foreach (var p in man.pieces)
@@ -176,10 +178,14 @@ namespace GolfArcade.EditorTools
             var meshes = new Dictionary<string, Mesh>();
             foreach (var p in man.pieces) meshes[p.name] = BuildMesh(dir, p, MeshRoot + hero + "/" + p.name + ".asset");
             AssetDatabase.SaveAssets();
+            // CLOTHING V3 bowling heroes: a copy of the tennis hero (same body, rig, clips, look), then the bowling pieces replace its kit
+            if (hero.StartsWith("Bowling") && !File.Exists(prefabPath))
+                if (!AssetDatabase.CopyAsset(prefabPath.Replace("BowlingKit", ""), prefabPath)) throw new InvalidOperationException($"copy to {prefabPath} failed");
             var root = PrefabUtility.LoadPrefabContents(prefabPath);
             try
             {
                 var look = root.GetComponent<MatchHeroLook>();
+                if (hero.StartsWith("Bowling")) look.kitSport = "Bowling";
                 var body = look.body;
                 var byName = new Dictionary<string, Transform>();
                 foreach (var t in root.GetComponentsInChildren<Transform>(true)) if (!byName.ContainsKey(t.name)) byName[t.name] = t;

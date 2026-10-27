@@ -15,13 +15,13 @@
 			</array>
 		</dict>
 	</array>
+	<key>ClubAppStoreURL</key>
+	<string></string>
+	<key>ClubCloudContainer</key>
+	<string>iCloud.com.adnanandrew.motionsports</string>
 	<key>ClubHubInviteBaseURL</key>
 	<string></string>
 	<key>ClubHubServerURL</key>
-	<string></string>
-	<key>ClubCloudContainer</key>
-	<string></string>
-	<key>ClubAppStoreURL</key>
 	<string></string>
 	<key>ClubPrivacyPolicyURL</key>
 	<string></string>
@@ -40,7 +40,6 @@
 	<array>
 		<string>_motionparty._tcp</string>
 	</array>
-	<!-- Required: FriendsSource asks Game Center for the friends list and the lobby browses Bonjour; without these iOS ends the app. -->
 	<key>NSGKFriendListUsageDescription</key>
 	<string>Motion Club shows which of your Game Center friends are online, so you can invite them to play.</string>
 	<key>NSLocalNetworkUsageDescription</key>

@@ -1225,7 +1225,7 @@ typealias HeroColor = NSColor
         m.setValue(SCNVector4(rimLight.x, rimLight.y, rimLight.z, 0), forKey: "rimLight")
         m.setValue(SCNVector4(look.exposure * 1.0, look.knee, 0, 0), forKey: "shoulder")
         let golf = (look.fabricVersion ?? 1) > 1.5
-        var surface = golf ? garmentSurfaceV2 : garmentSurface
+        var surface = look.isClothV3 ? garmentSurfaceV3 : golf ? garmentSurfaceV2 : garmentSurface
         var lighting = golf ? garmentLightingV2 : garmentLighting
         var finish = garmentShoulder
         if (look.femaleSurface ?? 0) > 0.5 {
@@ -1247,6 +1247,16 @@ typealias HeroColor = NSColor
                 lighting=lighting.replacingOccurrences(of:"smooth*=0.65*(1.0+_surface.shininess*0.25);sheen*=0.90;",with:"smooth*=0.65;sheen*=0.90*(1.0-_surface.shininess);")
             }
             finish = finish.replacingOccurrences(of:"mix(0.75, 1.0, _surface.specular.a)",with:"mix(0.95, 1.0, _surface.specular.a)")
+        }
+        if look.isClothV3 {
+            // CLOTHING V3: the Blender yarn atlas cells, relief, never-flat yarn shade + tonal grain (surface) and the fibre shine (lighting).
+            // clothV3 / clothV3b are declared in the LIGHTING modifier only (an argument declared in both fails to compile; lighting's are visible to the surface).
+            surface = surface.contains("#pragma declaration\n")
+                ? surface.replacingOccurrences(of: "#pragma declaration\n", with: "#pragma declaration\n" + clothV3Functions)
+                : surface.replacingOccurrences(of: "#pragma body", with: "#pragma declaration\n" + clothV3Functions + "#pragma body")
+            lighting = clothV3Lighting(lighting)
+            m.setValue(SCNVector4(look.knitCell ?? 1, look.fabricDetail ?? 1, look.fibreShine ?? 1, (look.fabricVersion ?? 2) > 2.5 ? 15 : 9), forKey: "clothV3")
+            m.setValue(SCNVector4(look.mottle ?? 0.08, 0, 0, 0), forKey: "clothV3b")
         }
         m.shaderModifiers = [.surface: surface, .lightingModel: lighting, .fragment: finish]
         if edges, let kind = look.edgeLines, kind > 0.5 {
@@ -1394,6 +1404,85 @@ typealias HeroColor = NSColor
         garmentSurface.replacingOccurrences(of: "mask.a * 5.0", with: "mask.a * 9.0")
             .replacingOccurrences(of: "_surface.roughness=id/5.0", with: "_surface.roughness=id/9.0")
             .replacingOccurrences(of: "float freq = id==1.0 || id==5.0 ? 12.0 : 8.0;", with: "if(id>5.5)quad=id<6.5?float2(0.0):id<7.5?float2(0.5,0.0):id<8.5?float2(0.0,0.5):float2(0.5,0.5);\nfloat freq=id==7.0?10.0:id==1.0 || id==5.0 ?12.0:8.0;")
+    }
+    // CLOTHING V3 (2026-10-26) — TennisCloth `_AtlasVersion` 3, line for line: HeroCloth.hlsl FabricV3 / FibreShine / ClothMottle.
+    // Cells of the 4 x 4 atlas: 0 twill, 1 pique, 2 leather, 3 2x2 rib, 4 jersey, 5 plain weave (rayon), 6 canvas, 7 suede, 8 rubber, 9 knit mesh.
+    static let clothV3Functions = """
+    float4 FabricV3Look(float id, float knitCell){
+        float cell=1.0,relief=0.30,shine=0.22,power=10.0;
+        if(id<0.5||(id>5.5&&id<6.5)){cell=0.0;relief=0.32;shine=0.10;power=8.0;}
+        else if(id<1.5||(id>4.5&&id<5.5)){cell=1.0;}
+        else if(id<2.5||(id>7.5&&id<8.5)){cell=2.0;relief=0.22;shine=0.35;power=28.0;}
+        else if(id<4.5){cell=8.0;relief=0.12;shine=0.10;power=30.0;}
+        else if(id<7.5){cell=knitCell;relief=knitCell>3.5?0.26:0.30;shine=knitCell>3.5?0.16:0.22;power=10.0;}
+        else if(id<9.5){cell=3.0;relief=0.34;shine=0.12;power=12.0;}
+        else if(id<10.5){cell=5.0;relief=0.18;shine=0.24;power=24.0;}
+        else if(id<11.5){cell=6.0;relief=0.32;shine=0.06;power=8.0;}
+        else if(id<12.5){cell=7.0;relief=0.14;shine=0.03;power=6.0;}
+        else if(id<13.5){cell=9.0;relief=0.30;shine=0.14;power=10.0;}
+        else{cell=4.0;relief=0.26;shine=0.16;power=10.0;}
+        return float4(cell,relief,shine,power);
+    }
+    float ClothMottleV3(float2 p){
+        float2 i=floor(p),f=fract(p);f=f*f*(3.0-2.0*f);
+        float a=fract(sin(dot(i,float2(127.1,311.7)))*43758.5453),b=fract(sin(dot(i+float2(1.0,0.0),float2(127.1,311.7)))*43758.5453);
+        float c=fract(sin(dot(i+float2(0.0,1.0),float2(127.1,311.7)))*43758.5453),d=fract(sin(dot(i+1.0,float2(127.1,311.7)))*43758.5453);
+        return mix(mix(a,b,f.x),mix(c,d,f.x),f.y);
+    }
+
+    """
+    static var garmentSurfaceV3: String {
+        garmentSurface
+            .replacingOccurrences(of: "float id = floor(mask.a * 5.0 + 0.5);", with: "float id = floor(mask.a * clothV3.w + 0.5);")
+            .replacingOccurrences(of: "float2 quad = id==1.0 || id==5.0 ? float2(0.5,0.0) : id==2.0 ? float2(0.0,0.5) : id==3.0 || id==4.0 ? float2(0.5,0.5) : float2(0.0);", with: "float4 fv3 = FabricV3Look(id, clothV3.x);")
+            .replacingOccurrences(of: "float freq = id==1.0 || id==5.0 ? 12.0 : 8.0;", with: "")
+            .replacingOccurrences(of: "float fade = 1.0-smoothstep(0.32,0.72,max(length(ax),length(ay))*freq);", with: "float fade = 1.0-smoothstep(0.45,1.10,max(max(abs(ax.x),abs(ax.y)),max(abs(ay.x),abs(ay.y)))*8.0);")
+            .replacingOccurrences(of: "if(id==3.0 || id==4.0)fade=0.0;", with: "float2 cellV3 = float2(fmod(fv3.x,4.0), floor(fv3.x/4.0));")
+            .replacingOccurrences(of: "float4 detail = fabricAtlas.sample(maps,quad+(0.03125+fract(wu)*0.9375)*0.5,gradient2d(ax*0.46875,ay*0.46875));",
+                                  with: "float4 detail = fabricAtlas.sample(maps,(cellV3+0.03125+fract(wu)*0.9375)*0.25,gradient2d(ax*0.234375,ay*0.234375));")
+            .replacingOccurrences(of: "float2 slope = (detail.rg*2.0-1.0)*weaveParams.z*fade;", with: "float2 slope = (detail.rg*2.0-1.0)*fv3.y*clothV3.y*fade;")
+            .replacingOccurrences(of: "float threadVisibility=mix(1.0,detail.b*1.28,weaveParams.w*fade);", with: """
+            float threadVisibility=mix(1.0,detail.b*1.28,0.45+0.55*fade);
+            float2 mo1=wu*0.55, mo2=wu*1.9;
+            float mf2=1.0-smoothstep(0.5,1.2,max(length(dfdx(mo2)),length(dfdy(mo2))));
+            threadVisibility*=1.0+clothV3b.x*((ClothMottleV3(mo1)-0.5)*1.4+(ClothMottleV3(mo2)-0.5)*0.9*mf2)*((id>2.5&&id<4.5)?0.3:1.0);
+            """)
+            .replacingOccurrences(of: "_surface.roughness=id/5.0;", with: "_surface.roughness=id/clothV3.w;\n_surface.shininess=detail.a;\n_surface.tangent=normalize(T+float3(1e-6,0.0,0.0));")
+    }
+    /// The fibre shine lobe, added per light after the cloth's own lighting (same table as FabricV3Look, inlined: a function name may not repeat across modifiers).
+    static func clothV3Lighting(_ lighting: String) -> String {
+        lighting
+            .replacingOccurrences(of: "float4 clothLook;\n", with: "float4 clothLook;\nfloat4 clothV3;\nfloat4 clothV3b;\n")
+            .replacingOccurrences(of: "_surface.roughness*9.0", with: "_surface.roughness*clothV3.w") + """
+
+        {
+            float idS=floor(_surface.roughness*clothV3.w+0.5), shS=0.22, pwS=10.0, anS=0.0;
+            if(idS<0.5||(idS>5.5&&idS<6.5)){shS=0.10;pwS=8.0;}
+            else if(idS<1.5||(idS>4.5&&idS<5.5)){}
+            else if(idS<2.5||(idS>7.5&&idS<8.5)){shS=0.35;pwS=28.0;}
+            else if(idS<4.5){shS=0.10;pwS=30.0;}
+            else if(idS<7.5){shS=clothV3.x>3.5?0.16:0.22;}
+            else if(idS<9.5){shS=0.12;pwS=12.0;}
+            else if(idS<10.5){shS=0.24;pwS=24.0;anS=1.0;}
+            else if(idS<11.5){shS=0.06;pwS=8.0;}
+            else if(idS<12.5){shS=0.03;pwS=6.0;}
+            else{shS=idS<13.5?0.14:0.16;}
+            float3 nS=normalize(_surface.normal), vS=normalize(_surface.view), lS=normalize(_light.direction), hS=normalize(lS+vS);
+            float nlS=saturate(dot(nS,lS)), nhS=saturate(dot(nS,hS));
+            float thS=dot(normalize(_surface.tangent.xyz+float3(1e-6,0.0,0.0)),hS);
+            float lobeS=mix(pow(nhS,pwS),pow(saturate(sqrt(max(1.0-thS*thS,0.0))),pwS*2.2),anS);
+            float fresS=0.65+0.35*pow(1.0-saturate(dot(nS,vS)),3.0);
+            float3 aS=max(_surface.diffuse.rgb,float3(0.001));
+            float3 tintS=mix(float3(1.0),aS/max(max(aS.r,max(aS.g,aS.b)),0.05),0.22);
+            // SceneKit multiplies the specular contribution by _surface.specular (the cloth colour here): divide it back out so the
+            // fibre shine keeps TennisCloth's near-white tint instead of turning into a darker copy of the cloth colour. The floor must stay far
+            // below any cloth channel: at .03 the navy / royal golf kits (linear red ~.014) lost most of the shine's red and green
+            tintS/=max(_surface.specular.rgb,float3(1e-4));
+            // TennisCloth gives the additional lights .6 of the shine; the hero rigs' key (850-1050 lux) is Unity's main light, fill / rim (<= 520) are not
+            float mainS=max(_light.intensity.r,max(_light.intensity.g,_light.intensity.b))>0.7?1.0:0.6;
+            _lightingContribution.specular+=_light.intensity.rgb*tintS*(lobeS*shS*clothV3.z*mainS*nlS*fresS*mix(0.55,1.25,_surface.shininess)*(pwS+2.0)*0.125)*mix(1.0,_surface.metalness,0.5);
+        }
+        """
     }
     static var garmentLightingV2: String {
         garmentLighting.replacingOccurrences(of: "_surface.roughness*5.0", with: "_surface.roughness*9.0")

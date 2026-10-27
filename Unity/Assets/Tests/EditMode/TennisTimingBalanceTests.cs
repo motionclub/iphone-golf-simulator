@@ -99,10 +99,15 @@ namespace GolfArcade.Tests {
     Assert.Greater(right.land.x,2.5f,$"seat {seat} a face turned right goes to the hitter's right");
     var left=OnlineShot(seat,.18f,.65f,aim:-.8f);
     Assert.Less(left.land.x,-2.5f,$"seat {seat} a face turned left goes to the hitter's left");
-    var mistimed=OnlineShot(seat,-.03f,.65f,aim:0);
+    var mistimed=OnlineShot(seat,.03f,.65f,aim:0);   // about .15 s late: in, but slow and short
     Assert.Greater(straight.speed,mistimed.speed,$"seat {seat} on time is faster");
     Assert.Greater(straight.land.y,mistimed.land.y+1f,$"seat {seat} on time is deeper");
     foreach(var shot in new[]{straight,right,left,mistimed}) Assert.IsTrue(TennisRules.BounceIsIn(new Vector3(shot.land.x,TennisRules.BallRadius,shot.land.y)));
+    // Past TennisRules.OutTiming it sails out (2026-10-26): long down the middle, wide on a side lane.
+    var wayOff=OnlineShot(seat,-.03f,.65f,aim:0);
+    Assert.IsFalse(TennisRules.BounceIsIn(new Vector3(wayOff.land.x,TennisRules.BallRadius,wayOff.land.y)),$"seat {seat} way off goes out");
+    var wayOffWide=OnlineShot(seat,-.03f,.65f,aim:.8f);
+    Assert.Greater(wayOffWide.land.x,TennisRules.CourtHalfWidth,$"seat {seat} way off to the right goes wide right");
    }
   }
  }

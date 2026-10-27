@@ -7,6 +7,12 @@ namespace GolfArcade.Tennis
     /// Records the last few seconds of every rendered frame -- both players' full skeletons,
     /// their rackets and the ball -- and plays a winner back in slow motion from a low
     /// camera from the umpire's chair. Storage is fixed at build time; recording never allocates.
+    ///
+    /// Capture and playback both run in LateUpdate, after the hero animation (HeroTennisDriver, order 1000) and the
+    /// arm and clearance passes (order 10000) have posed the visible characters. Recording from TennisGame's Update
+    /// caught the skeletons before the heroes were posed, and in playback the driver re-posed them over the replay:
+    /// that was why replays were switched off (2026-10-26).
+    [DefaultExecutionOrder(31000)]
     public sealed class TennisReplay : MonoBehaviour
     {
         public const int Frames = 200;          // ~3.3s at 60fps
@@ -43,8 +49,20 @@ namespace GolfArcade.Tennis
             ball = ballTransform; cam = camera; onPose = refresh;
         }
 
-        /// Capture the frame as rendered. Called after the players have been posed.
-        public void Record(float time)
+        /// Ask for this frame to be captured once it is fully posed (in LateUpdate).
+        public void Record(float time) { recordAt = time; recordPending = true; }
+        bool recordPending; float recordAt;
+        /// Playback: the two recorded frames either side of the playback time and the blend between them,
+        /// applied in LateUpdate over whatever posed the characters this frame; and where the camera wants to be.
+        int poseA = -1, poseC; float poseT; Vector3 camGoal; Quaternion camLook; bool camSet;
+
+        void LateUpdate()
+        {
+            if (Playing) { ApplyPose(); return; }
+            if (recordPending) { recordPending = false; Capture(recordAt); }
+        }
+
+        void Capture(float time)
         {
             if (Playing || tracked == null) return;
             int offset = head * transformsPerFrame;
@@ -66,7 +84,7 @@ namespace GolfArcade.Tennis
             endStamp = stamps[newest] - trim;
             startStamp = Mathf.Max(stamps[(head - recorded + Frames) % Frames], endStamp - seconds);
             playTime = startStamp;
-            Playing = true;
+            Playing = true; poseA = -1; camSet = false;
             cameraRestPosition = cam.transform.position; cameraRestRotation = cam.transform.rotation;
             for (int i = 0; i < transformsPerFrame; i++)
                 if (tracked[i]) { livePositions[i] = tracked[i].position; liveRotations[i] = tracked[i].rotation; }
@@ -104,22 +122,32 @@ namespace GolfArcade.Tennis
             if (c == head) c = b;
             float span = stamps[c] - stamps[a];
             float t = span > 1e-5f ? Mathf.Clamp01((playTime - stamps[a]) / span) : 0;
-            int oa = a * transformsPerFrame, oc = c * transformsPerFrame;
+            poseA = a; poseC = c; poseT = t;
+            // The umpire's view: high in the chair at the net, looking down the court and
+            // turning to follow the ball, so the whole point reads from above.
+            int ballIndex = transformsPerFrame - 1;
+            Vector3 focus = Vector3.Lerp(positions[a * transformsPerFrame + ballIndex], positions[c * transformsPerFrame + ballIndex], t);
+            Vector3 eye = TennisUmpire.Seat + new Vector3(.7f, 2.1f, Mathf.Clamp(focus.z * .12f, -1.5f, 1.5f));
+            Vector3 from = camSet ? camGoal : cam.transform.position; Quaternion fromLook = camSet ? camLook : cam.transform.rotation;
+            camGoal = Vector3.Lerp(from, eye, 1 - Mathf.Exp(-dt * 4));
+            camLook = Quaternion.Slerp(fromLook, Quaternion.LookRotation(new Vector3(focus.x * .6f, Mathf.Max(.4f, focus.y * .5f), focus.z) - camGoal), 1 - Mathf.Exp(-dt * 6));
+            camSet = true;
+            return true;
+        }
+
+        /// The recorded pose for this frame, laid over the live animation (and the replay camera over any rig).
+        void ApplyPose()
+        {
+            if (poseA < 0) return;
+            int oa = poseA * transformsPerFrame, oc = poseC * transformsPerFrame;
             for (int i = 0; i < transformsPerFrame; i++)
             {
                 var tr = tracked[i]; if (!tr) continue;
-                tr.SetPositionAndRotation(Vector3.Lerp(positions[oa + i], positions[oc + i], t),
-                                          Quaternion.Slerp(rotations[oa + i], rotations[oc + i], t));
+                tr.SetPositionAndRotation(Vector3.Lerp(positions[oa + i], positions[oc + i], poseT),
+                                          Quaternion.Slerp(rotations[oa + i], rotations[oc + i], poseT));
             }
-            onPose?.Invoke(true);
-            // The umpire's view: high in the chair at the net, looking down the court and
-            // turning to follow the ball, so the whole point reads from above.
-            Vector3 focus = ball.position;
-            Vector3 eye = TennisUmpire.Seat + new Vector3(.7f, 2.1f, Mathf.Clamp(focus.z * .12f, -1.5f, 1.5f));
-            cam.transform.position = Vector3.Lerp(cam.transform.position, eye, 1 - Mathf.Exp(-dt * 4));
-            var look = Quaternion.LookRotation(new Vector3(focus.x * .6f, Mathf.Max(.4f, focus.y * .5f), focus.z) - cam.transform.position);
-            cam.transform.rotation = Quaternion.Slerp(cam.transform.rotation, look, 1 - Mathf.Exp(-dt * 6));
-            return true;
+            onPose?.Invoke(true);   // the arms follow the replayed body (without it a hand stayed ~2.6 m off, at its live spot)
+            if (camSet) cam.transform.SetPositionAndRotation(camGoal, camLook);
         }
     }
 }

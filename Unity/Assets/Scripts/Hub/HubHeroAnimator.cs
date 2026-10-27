@@ -18,6 +18,8 @@ namespace GolfArcade.Hub
         /// Clips run on game time instead of unscaled time (bowling: its proof films step a fixed capture clock;
         /// the plaza keeps unscaled time because a match loading behind it pauses Time.timeScale).
         public bool GameTime;
+        /// Playback rate of the action clip (1 = as authored). Bowling time-warps its approach to the player's own swing.
+        public float ActionRate = 1;
         /// Planted-foot speeds of the standard Walk / Run cycles at 1x (work/emote-standard/scripts/gait.py: 2 x 0.64 m per 1.067 s, 2 x 1.167 m per 0.667 s).
         public const float StandardWalkSpeed = 1.2f, StandardRunSpeed = 3.5f;
         /// Ground speeds where the legs hand over from the walk to the run (both clips at their matched rate in between).
@@ -117,6 +119,16 @@ namespace GolfArcade.Hub
             BuildSeatedPose();
             foreach (var r in rest) seated[r.bone] = r.bone.localRotation;
             if (hipsBone) hipsSeated = hipsBone.localPosition;
+            // MENU STANCES (Adnan 10-26: "look at overwatch and copy their most simple poses"): each built from the relaxed stand
+            for (int i = 0; i < StanceNames.Length; i++)
+            {
+                foreach (var r in rest) r.bone.localRotation = relaxed[r.bone];
+                if (hipsBone) hipsBone.localPosition = hipsRelaxed;
+                BuildStance(i);
+                var pose = new Dictionary<Transform, Quaternion>();
+                foreach (var r in rest) pose[r.bone] = r.bone.localRotation;
+                stances.Add((pose, hipsBone ? hipsBone.localPosition : Vector3.zero));
+            }
             foreach (var r in rest) { r.bone.localRotation = r.rot; r.bone.localPosition = r.pos; }
         }
         /// Poses the skeleton (from the prefab's ready stance) into a relaxed stand, bone by bone in world space: spine upright, head
@@ -187,7 +199,37 @@ namespace GolfArcade.Hub
         /// the palm normal from the hand's handedness) rather than from world down / forward / toward the thigh, which no longer matched
         /// the hand once the wrist followed the forearm: the fingers curled partly sideways (the female's cupped hook) and the index
         /// met the thumb (her pinch).
-        void RelaxFingers(bool left)
+        void RelaxFingers(bool left) => CurlFingers(left, 1);
+        /// A fist (`amount` 1 = closed, .6 = loose): each finger's knuckles bent by set angles (a multiple of the relaxed curl never closes a
+        /// hand: the index barely bends), the thumb laid across the front of the index and middle fingers.
+        void Fist(bool left, float amount)
+        {
+            string side = left ? "Left" : "Right";
+            Transform Bn(string n) => look.Bone((HumanBodyBones)System.Enum.Parse(typeof(HumanBodyBones), side + n));
+            var hand = Bn("Hand"); var ip = Bn("IndexProximal"); var mp = Bn("MiddleProximal"); var lp = Bn("LittleProximal");
+            if (!hand || !ip || !mp || !lp) return;
+            var axis = (mp.position - hand.position).normalized;
+            var across = Vector3.ProjectOnPlane(ip.position - lp.position, axis).normalized;
+            var palm = left ? Vector3.Cross(across, axis) : Vector3.Cross(axis, across);
+            Vector3 Dir(Vector3 from, float deg) => (from * Mathf.Cos(deg * Mathf.Deg2Rad) + palm * Mathf.Sin(deg * Mathf.Deg2Rad)).normalized;
+            for (int k = 0; k < Fingers.Length; k++)
+            {
+                var p = Bn(Fingers[k] + "Proximal"); var i = Bn(Fingers[k] + "Intermediate"); var d = Bn(Fingers[k] + "Distal");
+                if (!p || !i || !d) continue;
+                var start = (axis + across * FingerFan[k] * .5f).normalized;
+                float a1 = (70 + 6 * k) * amount, a2 = a1 + 95 * amount, a3 = a2 + 55 * amount;
+                AimBone(p, i, Dir(start, a1)); AimBone(i, d, Dir(start, a2)); AimTip(d, Dir(start, a3));
+            }
+            var tp = Bn("ThumbProximal"); var ti = Bn("ThumbIntermediate"); var td = Bn("ThumbDistal");
+            if (tp && ti && td)
+            {
+                AimBone(tp, ti, Vector3.Lerp((axis * .97f + across * .40f + palm * .32f).normalized, (axis * .55f + palm * .55f + across * .25f).normalized, amount));
+                AimBone(ti, td, Vector3.Lerp((axis * .97f + across * .34f + palm * .40f).normalized, (palm * .55f - across * .65f + axis * .3f).normalized, amount));
+                AimTip(td, Vector3.Lerp((axis * .97f + across * .28f + palm * .46f).normalized, (palm * .35f - across * .9f).normalized, amount));
+            }
+        }
+        /// The relaxed curl at `curl` times its angles (MENU STANCES: 3.2 is a loose fist, Mei's / Soldier: 76's hands).
+        void CurlFingers(bool left, float curl)
         {
             string side = left ? "Left" : "Right";
             Transform Bn(string n) => look.Bone((HumanBodyBones)System.Enum.Parse(typeof(HumanBodyBones), side + n));
@@ -203,7 +245,7 @@ namespace GolfArcade.Hub
                 if (!p || !i || !d) continue;
                 // loosely together: a small fan about the middle finger, then each joint a little more than the one before
                 var start = (axis + across * FingerFan[k]).normalized; float more = FingerMore[k];
-                float a1 = CurlMcp * more, a2 = a1 + CurlPip * more, a3 = a2 + CurlDip * more;
+                float a1 = CurlMcp * more * curl, a2 = a1 + CurlPip * more * curl, a3 = a2 + CurlDip * more * curl;
                 AimBone(p, i, Dir(start, a1)); AimBone(i, d, Dir(start, a2));
                 AimTip(d, Dir(start, a3));   // the tip has no child bone: its real tip (bind-pose farthest vertex) is aimed, so the rest pose's own fingertip hook does not add to the curl
             }
@@ -256,6 +298,285 @@ namespace GolfArcade.Hub
             if (!bone || !child) return;
             var have = child.position - bone.position; if (have.sqrMagnitude < 1e-8f) return;
             bone.rotation = Quaternion.FromToRotation(have.normalized, want.normalized) * bone.rotation;
+        }
+
+        // ---- MENU STANCES: Overwatch's plainest victory poses, from the full-size references (work/menu-tv/heroes/REFERENCES.md):
+        // Mei "Hands on hips" (fists on the hips at the belt, elbows out and back, feet wide), Zarya "Casual" (one fist on the hip, weight
+        // on one leg; no gun here), Hanzo "Confident" (arms crossed high, forearms level, weight on one leg, head turned), Soldier: 76
+        // "Classic" (tall, feet a little wide, arms a touch out, loose fists). Built once from the relaxed stand; one per line-up slot.
+        /// The female stance's hands on the hips: the wrist this high over the hips bone and this many half-hip-widths out (tuned so the
+        /// palm rests on the hip: MenuHeroCapture's contact gate measures the gap to the body).
+        public static float PalmHipUp = .16f, PalmHipOut = 2.3f, PalmHipFwd = -.02f;   // out at the side: the palm then slides straight in onto the side of the hip
+        public static readonly string[] StanceNames = { "HandsOnHips", "HandOnHip", "ArmsCrossed", "Heroic", "HeroicFeminine" };
+        readonly List<(Dictionary<Transform, Quaternion> pose, Vector3 hips)> stances = new List<(Dictionary<Transform, Quaternion>, Vector3)>();
+        int stance = -1; float stanceWeight;
+        /// The stance whose hands rest on the hips (the female basic stance): after the clearance pass each palm is slid onto the hip.
+        public const int PalmsOnHipsStance = 4;
+        const float PalmRadius = .015f;
+        Vector3 PalmPoint(bool left, out Vector3 toHip)
+        {
+            var hand = look.Bone(left ? HumanBodyBones.LeftHand : HumanBodyBones.RightHand); var mid = look.Bone(left ? HumanBodyBones.LeftMiddleProximal : HumanBodyBones.RightMiddleProximal);
+            var palm = Vector3.Lerp(hand.position, mid.position, .55f);
+            // straight in from the side (onto the side of the hip, as Tracer's hand rests), not toward the hips' centre (that slid it onto the belly)
+            toHip = transform.right * (left ? 1 : -1);
+            return palm;
+        }
+        /// How far the palm is from the body + clothes (the clearance proxy) toward the hip, up to 10 cm (0 = touching).
+        public float PalmGap(bool left)
+        {
+            if (safety == null || !hipsBone || !look.Bone(left ? HumanBodyBones.LeftHand : HumanBodyBones.RightHand)) return -1;
+            var palm = PalmPoint(left, out var dir);
+            if (safety.Depth(palm, PalmRadius, out _) > .001f) return 0;
+            float lo = 0, hi = .1f;
+            if (safety.Depth(palm + dir * hi, PalmRadius, out _) <= .001f) return hi;
+            for (int i = 0; i < 14; i++) { float m = (lo + hi) * .5f; if (safety.Depth(palm + dir * m, PalmRadius, out _) <= .001f) lo = m; else hi = m; }
+            return lo;
+        }
+        // ---- the palms on the REAL hips (Adnan 10-26 "the hands are not even on her body": the clearance proxy is padded, so a palm
+        // touching it still floated centimetres off the clothes). Once the stance has settled, each palm's gap to the actual tank / skirt /
+        // body triangles is measured with a ray straight in from the side, and the hand is moved that far (kept every frame after).
+        const float PalmHalfThickness = .012f;
+        int palmFrames; bool palmMeasured; readonly Vector3[] palmShift = new Vector3[2];
+        void PalmsOnRealHips()
+        {
+            if (!palmMeasured && ++palmFrames >= 8)
+            {
+                // where each palm belongs: on the side of the hip (found on the real meshes), its skin touching
+                for (int s = 0; s < 2; s++)
+                {
+                    bool left = s == 0; var palm = PalmPoint(left, out _);
+                    palmShift[s] = HipSide(left, palm.y, out var spot) ? transform.InverseTransformVector(spot - palm) : Vector3.zero;
+                }
+                palmMeasured = true;
+            }
+            if (!palmMeasured) return;
+            for (int s = 0; s < 2; s++) MoveHand(s == 0, transform.TransformVector(palmShift[s]));
+        }
+        void MoveHand(bool left, Vector3 by)
+        {
+            if (by.sqrMagnitude < 1e-7f) return;
+            var ua = look.Bone(left ? HumanBodyBones.LeftUpperArm : HumanBodyBones.RightUpperArm); var la = look.Bone(left ? HumanBodyBones.LeftLowerArm : HumanBodyBones.RightLowerArm);
+            var hand = look.Bone(left ? HumanBodyBones.LeftHand : HumanBodyBones.RightHand);
+            if (!ua || !la || !hand) return;
+            var keep = hand.rotation;
+            Reach(ua, la, hand, hand.position + by, la.position + (la.position - Vector3.Lerp(ua.position, hand.position, .5f)));
+            hand.rotation = keep;
+        }
+        /// The palm's place on the side of the hip at height `y`: a ray in from 40 cm outside, through the hips' middle depth, to the first real
+        /// surface (clothes or body, the arms left out); the palm centre goes its half thickness out from that point.
+        public bool HipSide(bool left, float y, out Vector3 spot)
+        {
+            spot = default; if (!hipsBone) return false;
+            float side = left ? -1 : 1; var outward = transform.right * side;
+            var mid = hipsBone.position; mid.y = y;
+            var origin = mid + outward * .4f + transform.forward * .01f;
+            float hit = FirstHit(origin, -outward, .4f);
+            if (hit < 0) return false;
+            spot = origin - outward * hit + outward * PalmHalfThickness;
+            return true;
+        }
+        /// How far the palm's centre is from its place on the side of the hip (proof: 0 = the palm on the hip, skin touching).
+        public float PalmHipError(bool left)
+        {
+            if (!look.Bone(left ? HumanBodyBones.LeftHand : HumanBodyBones.RightHand)) return -1;
+            var palm = PalmPoint(left, out _);
+            return HipSide(left, palm.y, out var spot) ? (spot - palm).magnitude : -1;
+        }
+        /// The distance along a ray to the first triangle of the clothes or the body (the arms' own skin left out), -1 past `range`.
+        float FirstHit(Vector3 origin, Vector3 dir, float range)
+        {
+            float best = float.MaxValue;
+            foreach (var r in look.GetComponentsInChildren<SkinnedMeshRenderer>(false))
+            {
+                bool body = r == look.body;
+                if (!body && !r.name.StartsWith("Kit_")) continue;
+                if (!r.sharedMesh || !r.sharedMesh.isReadable) continue;
+                var baked = new Mesh(); r.BakeMesh(baked);
+                var v = baked.vertices; var tris = baked.triangles; var tr = r.transform;
+                bool[] skip = null;
+                if (body)
+                {
+                    var bones = r.bones; var arm = new HashSet<int>();
+                    foreach (var hb in new[] { HumanBodyBones.LeftUpperArm, HumanBodyBones.RightUpperArm })
+                    { var t = look.Bone(hb); if (t) foreach (var c in t.GetComponentsInChildren<Transform>(true)) { int k = System.Array.IndexOf(bones, c); if (k >= 0) arm.Add(k); } }
+                    var w = r.sharedMesh.boneWeights; skip = new bool[v.Length];
+                    for (int i = 0; i < v.Length && i < w.Length; i++)
+                        skip[i] = (arm.Contains(w[i].boneIndex0) ? w[i].weight0 : 0) + (arm.Contains(w[i].boneIndex1) ? w[i].weight1 : 0) + (arm.Contains(w[i].boneIndex2) ? w[i].weight2 : 0) + (arm.Contains(w[i].boneIndex3) ? w[i].weight3 : 0) > .3f;
+                }
+                var wv = new Vector3[v.Length]; for (int i = 0; i < v.Length; i++) wv[i] = tr.TransformPoint(v[i]);
+                for (int t = 0; t + 2 < tris.Length; t += 3)
+                {
+                    int a = tris[t], b = tris[t + 1], c = tris[t + 2];
+                    if (skip != null && (skip[a] || skip[b] || skip[c])) continue;
+                    if (RayTriangle(origin, dir, wv[a], wv[b], wv[c], out float h) && h < best) best = h;
+                }
+                Destroy(baked);
+            }
+            return best > range ? -1 : best;
+        }
+        static bool RayTriangle(Vector3 o, Vector3 d, Vector3 a, Vector3 b, Vector3 c, out float t)
+        {
+            t = 0; var e1 = b - a; var e2 = c - a; var p = Vector3.Cross(d, e2); float det = Vector3.Dot(e1, p);
+            if (Mathf.Abs(det) < 1e-9f) return false;
+            float inv = 1 / det; var s = o - a; float u = Vector3.Dot(s, p) * inv; if (u < 0 || u > 1) return false;
+            var q = Vector3.Cross(s, e1); float w = Vector3.Dot(d, q) * inv; if (w < 0 || u + w > 1) return false;
+            t = Vector3.Dot(e2, q) * inv; return t > 0;
+        }
+
+        /// Slides the hand toward the hip until the palm touches the body / clothes (the arm re-solved, the elbow where it was, the hand's angle kept).
+        void SnapPalm(bool left)
+        {
+            float gap = PalmGap(left); if (gap <= .002f) return;
+            var ua = look.Bone(left ? HumanBodyBones.LeftUpperArm : HumanBodyBones.RightUpperArm); var la = look.Bone(left ? HumanBodyBones.LeftLowerArm : HumanBodyBones.RightLowerArm);
+            var hand = look.Bone(left ? HumanBodyBones.LeftHand : HumanBodyBones.RightHand);
+            PalmPoint(left, out var dir);
+            var keep = hand.rotation;
+            Reach(ua, la, hand, hand.position + dir * gap, la.position + (la.position - Vector3.Lerp(ua.position, hand.position, .5f)));
+            hand.rotation = keep;
+        }
+
+        /// Builds the stances again from the relaxed stand (proof captures: after changing PalmHip*); the clips pose the skeleton again next frame.
+        public void RebuildStances()
+        {
+            stances.Clear();
+            for (int i = 0; i < StanceNames.Length; i++)
+            {
+                foreach (var r in rest) r.bone.localRotation = relaxed[r.bone];
+                if (hipsBone) hipsBone.localPosition = hipsRelaxed;
+                BuildStance(i);
+                var pose = new Dictionary<Transform, Quaternion>();
+                foreach (var r in rest) pose[r.bone] = r.bone.localRotation;
+                stances.Add((pose, hipsBone ? hipsBone.localPosition : Vector3.zero));
+            }
+        }
+        /// Hold a menu stance (an index into StanceNames; -1 = the plain relaxed stand). It blends in over a third of a second.
+        public void SetStance(int index) { stance = index >= 0 && index < StanceNames.Length ? index : -1; }
+        public int Stance => stance;
+        /// Proof: log each stance's wrist targets, what the IK reached, and (each second) where the hands are after the clearance pass.
+        public static bool LogStances;
+        string Local3(Vector3 world) { var v = transform.InverseTransformPoint(world); return $"({v.x:0.000},{v.y:0.000},{v.z:0.000})"; }
+
+        /// Two-bone IK: the hand's root (the wrist) to `target`, the elbow bent toward `pole`.
+        static void Reach(Transform upper, Transform lower, Transform hand, Vector3 target, Vector3 pole)
+        {
+            if (!upper || !lower || !hand) return;
+            float la = (lower.position - upper.position).magnitude, lb = (hand.position - lower.position).magnitude;
+            var to = target - upper.position; float d = Mathf.Clamp(to.magnitude, .02f, la + lb - .002f);
+            var dir = to.normalized;
+            var bend = Vector3.ProjectOnPlane(pole - upper.position, dir); if (bend.sqrMagnitude < 1e-8f) bend = Vector3.ProjectOnPlane(Vector3.down, dir);
+            bend.Normalize();
+            float a = Mathf.Acos(Mathf.Clamp((la * la + d * d - lb * lb) / (2 * la * d), -1, 1));
+            var elbow = upper.position + (dir * Mathf.Cos(a) + bend * Mathf.Sin(a)) * la;
+            AimBone(upper, lower, elbow - upper.position);
+            AimBone(lower, hand, upper.position + dir * d - lower.position);
+        }
+        /// The hand's fingers pointing `fingers`, its palm turned toward `palmToward` (a direction).
+        void OrientHand(bool left, Vector3 fingers, Vector3 palmToward)
+        {
+            string sd = left ? "Left" : "Right";
+            Transform Bn(string n) => look.Bone((HumanBodyBones)System.Enum.Parse(typeof(HumanBodyBones), sd + n));
+            var hand = Bn("Hand"); var mp = Bn("MiddleProximal"); var ip = Bn("IndexProximal"); var lp = Bn("LittleProximal");
+            if (!hand || !mp || !ip || !lp) return;
+            AimBone(hand, mp, fingers);
+            var axis = (mp.position - hand.position).normalized;
+            var across = Vector3.ProjectOnPlane(ip.position - lp.position, axis).normalized;
+            var palm = left ? Vector3.Cross(across, axis) : Vector3.Cross(axis, across);
+            var want = Vector3.ProjectOnPlane(palmToward, axis);
+            if (want.sqrMagnitude > 1e-8f) hand.rotation = Quaternion.AngleAxis(Vector3.SignedAngle(Vector3.ProjectOnPlane(palm, axis), want, axis), axis) * hand.rotation;
+        }
+        void BuildStance(int index)
+        {
+            var root = transform; Vector3 up = root.up, fwd = root.forward, right = root.right;
+            Transform B(HumanBodyBones b) => look.Bone(b);
+            var chest = B(HumanBodyBones.UpperChest) ?? B(HumanBodyBones.Chest);
+            var lLeg = B(HumanBodyBones.LeftUpperLeg); var rLeg = B(HumanBodyBones.RightUpperLeg);
+            float hipHalf = lLeg && rLeg ? (rLeg.position - lLeg.position).magnitude * .5f : .09f;
+            // a tall stand in every stance: chest up, chin up a little (Overwatch's poses never slump)
+            if (chest) chest.rotation = Quaternion.AngleAxis(-3f, right) * chest.rotation;
+            var head = B(HumanBodyBones.Head); if (head) head.rotation = Quaternion.AngleAxis(-4f, right) * head.rotation;
+            void HandOnHip(float side)
+            {
+                bool left = side < 0;
+                var ua = B(left ? HumanBodyBones.LeftUpperArm : HumanBodyBones.RightUpperArm); var la = B(left ? HumanBodyBones.LeftLowerArm : HumanBodyBones.RightLowerArm);
+                var hd = B(left ? HumanBodyBones.LeftHand : HumanBodyBones.RightHand);
+                if (!hipsBone || !ua) return;
+                // the wrist just above the side of the waist (Mei), the elbow out to the side and a little back; the fist below it sits on the hip
+                var waist = hipsBone.position + up * .20f + right * side * (hipHalf * 1.75f + .03f) - fwd * .02f;
+                Reach(ua, la, hd, waist, ua.position + right * side * .55f - fwd * .3f - up * .05f);
+                if (LogStances) Debug.Log($"[Stance] {(look.female ? "F" : "M")} {StanceNames[index]} side {side}: target {Local3(waist)} reached {Local3(hd.position)} hips {Local3(hipsBone.position)} upperLegs {Local3(lLeg.position)} {Local3(rLeg.position)}");
+                // the hand down and in, so the fist's knuckles rest on the hip bone; the palm turned back
+                OrientHand(left, -right * side * .6f - up * .65f - fwd * .1f, -fwd * .6f - up * .4f);
+                Fist(left, 1);
+            }
+            // an open hand flat on the hip (the female basic stance): palm on the body, fingers down and forward, elbow out and back
+            void PalmOnHip(float side)
+            {
+                bool left = side < 0;
+                var ua = B(left ? HumanBodyBones.LeftUpperArm : HumanBodyBones.RightUpperArm); var la = B(left ? HumanBodyBones.LeftLowerArm : HumanBodyBones.RightLowerArm);
+                var hd = B(left ? HumanBodyBones.LeftHand : HumanBodyBones.RightHand);
+                if (!hipsBone || !ua) return;
+                var wrist = hipsBone.position + up * PalmHipUp + right * side * (hipHalf * PalmHipOut) + fwd * PalmHipFwd;
+                Reach(ua, la, hd, wrist, ua.position + right * side * .5f - fwd * .3f);
+                // on the side of the hip bone, fingers forward and down over it, the palm against the body
+                OrientHand(left, fwd * .5f - up * .85f - right * side * .1f, -right * side);
+                CurlFingers(left, .5f);   // nearly flat: the hand lies on the hip (a curl read as a claw from the front)
+            }
+            void Crossed()
+            {
+                if (!chest) return;
+                var c = chest.position;
+                var lua = B(HumanBodyBones.LeftUpperArm); var lla = B(HumanBodyBones.LeftLowerArm); var lhd = B(HumanBodyBones.LeftHand);
+                var rua = B(HumanBodyBones.RightUpperArm); var rla = B(HumanBodyBones.RightLowerArm); var rhd = B(HumanBodyBones.RightHand);
+                // Hanzo: forearms folded high and level across the chest, the right over the left; each hand tucked by the other arm's biceps
+                if (lua) Reach(lua, lla, lhd, c + fwd * .2f + right * .15f - up * .07f, lua.position - up * .45f + fwd * .2f - right * .25f);
+                if (rua) Reach(rua, rla, rhd, c + fwd * .26f - right * .15f - up * .02f, rua.position - up * .45f + fwd * .25f + right * .25f);
+                OrientHand(true, right * .85f - fwd * .35f - up * .05f, -fwd);
+                OrientHand(false, -right * .85f - fwd * .4f + up * .05f, -fwd);
+                Fist(true, .55f); Fist(false, .55f);   // tucked hands, half closed
+            }
+            switch (index)
+            {
+                case 0:
+                    HandOnHip(-1); HandOnHip(1);
+                    foreach (var (ul, ll, side) in new[] { (HumanBodyBones.LeftUpperLeg, HumanBodyBones.LeftLowerLeg, -1f), (HumanBodyBones.RightUpperLeg, HumanBodyBones.RightLowerLeg, 1f) })
+                        AimBone(B(ul), B(ll), -up + right * side * .12f + fwd * .015f);   // Mei's wide stance
+                    break;
+                case 1:
+                    HandOnHip(1);
+                    // weight on the left leg: the hips slide over it and drop a little on the right
+                    if (hipsBone) { hipsBone.position -= right * .025f; hipsBone.rotation = Quaternion.AngleAxis(3f, fwd) * hipsBone.rotation; }
+                    if (head) head.rotation = Quaternion.AngleAxis(-4f, fwd) * head.rotation;
+                    break;
+                case 2:
+                    Crossed();
+                    // Hanzo's weight on one leg, head turned a little toward the camera's left, chin up
+                    if (hipsBone) { hipsBone.position += right * .02f; hipsBone.rotation = Quaternion.AngleAxis(-2.5f, fwd) * hipsBone.rotation; }
+                    if (head) head.rotation = Quaternion.AngleAxis(8f, up) * head.rotation;
+                    break;
+                case 3:
+                    // heroic: feet a little wider, arms a touch away from the body, chest higher
+                    foreach (var (ul, ll, side) in new[] { (HumanBodyBones.LeftUpperLeg, HumanBodyBones.LeftLowerLeg, -1f), (HumanBodyBones.RightUpperLeg, HumanBodyBones.RightLowerLeg, 1f) })
+                        AimBone(B(ul), B(ll), -up + right * side * .1f + fwd * .015f);
+                    foreach (var (ua, la, side) in new[] { (HumanBodyBones.LeftUpperArm, HumanBodyBones.LeftLowerArm, -1f), (HumanBodyBones.RightUpperArm, HumanBodyBones.RightLowerArm, 1f) })
+                        AimBone(B(ua), B(la), -up + right * side * .22f - fwd * .05f);
+                    if (chest) chest.rotation = Quaternion.AngleAxis(-3f, right) * chest.rotation;
+                    CurlFingers(true, 2.4f); CurlFingers(false, 2.4f);   // relaxed hands (Adnan 10-26 picked this stance exactly as it was: keep it)
+                    break;
+                case 4:
+                    // the female basic stance (Adnan 10-26: "similar, but more feminine"; Tracer "Salute" below the waist): feet closer, the
+                    // weight on her left leg with the hips cocked over it, the right knee a little bent and turned in, arms nearer the body
+                    if (hipsBone) { hipsBone.position -= right * .03f; hipsBone.rotation = Quaternion.AngleAxis(4.5f, fwd) * hipsBone.rotation; }
+                    AimBone(B(HumanBodyBones.LeftUpperLeg), B(HumanBodyBones.LeftLowerLeg), -up + right * .015f + fwd * .01f);
+                    AimBone(B(HumanBodyBones.LeftLowerLeg), B(HumanBodyBones.LeftFoot), -up);
+                    AimBone(B(HumanBodyBones.RightUpperLeg), B(HumanBodyBones.RightLowerLeg), -up - right * .07f + fwd * .1f);
+                    AimBone(B(HumanBodyBones.RightLowerLeg), B(HumanBodyBones.RightFoot), -up - fwd * .07f + right * .03f);
+                    // the shoulders tilt against the hips, the head leans a little the other way
+                    if (chest) chest.rotation = Quaternion.AngleAxis(-3.5f, fwd) * Quaternion.AngleAxis(-3f, right) * chest.rotation;
+                    if (head) head.rotation = Quaternion.AngleAxis(-5f, fwd) * head.rotation;
+                    // both hands on the hips (Adnan 10-26: "with her hands on her hip ... make sure the hands are actually on the hip")
+                    PalmOnHip(-1); PalmOnHip(1);
+                    break;
+            }
         }
 
         /// From the relaxed stand: hips down onto a bench, thighs forward, shins down, a slight lean, forearms resting on the thighs.
@@ -312,11 +633,13 @@ namespace GolfArcade.Hub
         {
             float wf = FingerWeight(w);
             RelaxWeight = w; if (w <= .001f && wf <= .001f) return;
+            var held = stanceWeight > .001f && stanceShown >= 0 && stanceShown < stances.Count ? stances[stanceShown] : default;
             foreach (var r in rest)
             {
                 float k = IsFinger(r.bone.name) ? wf : w; if (k <= .001f) continue;
-                r.bone.localRotation = Quaternion.Slerp(r.bone.localRotation, relaxed[r.bone], k);
-                if (r.bone == hipsBone) r.bone.localPosition = Vector3.Lerp(r.bone.localPosition, hipsRelaxed, w);
+                var want = held.pose != null ? Quaternion.Slerp(relaxed[r.bone], held.pose[r.bone], stanceWeight) : relaxed[r.bone];
+                r.bone.localRotation = Quaternion.Slerp(r.bone.localRotation, want, k);
+                if (r.bone == hipsBone) r.bone.localPosition = Vector3.Lerp(r.bone.localPosition, held.pose != null ? Vector3.Lerp(hipsRelaxed, held.hips, stanceWeight) : hipsRelaxed, w);
             }
             // breathing and a slow weight shift (in the hero's own frame, small)
             float breathe = Mathf.Sin(time * Mathf.PI * 2 * breatheHz), shift = Mathf.Sin(time * Mathf.PI * 2 * shiftHz);
@@ -325,7 +648,7 @@ namespace GolfArcade.Hub
             if (hipsBone) { hipsBone.position += transform.right * shift * .012f * w; hipsBone.rotation = Quaternion.AngleAxis(-shift * 1.4f * w, transform.forward) * hipsBone.rotation; }
             if (headBone) headBone.rotation = Quaternion.AngleAxis(Mathf.Sin(time * Mathf.PI * 2 * headHz) * 3f * w, Vector3.up) * headBone.rotation;
         }
-        float relaxTime;
+        float relaxTime; int stanceShown = -1;
 
         void Build(AnimationClip idleClip, AnimationClip walkClip, AnimationClip runClip)
         {
@@ -363,16 +686,29 @@ namespace GolfArcade.Hub
             // are identical up to the branch, so switching mid-clip at `startAt` must not dip back to the legs)
             float keepFade = actionFade;   // (also while an action is still fading out)
             if (action.IsValid()) { graph.Disconnect(mixer, (int)Slot.Action); action.Destroy(); }
+            held = false;
             action = AnimationClipPlayable.Create(graph, clip); action.SetApplyFootIK(false); action.SetSpeed(0);
             graph.Connect(action, 0, mixer, (int)Slot.Action);
             actionLen = Mathf.Max(.05f, clip.length); actionT = Mathf.Clamp(startAt, 0, actionLen); playing = clipId; actionLoops = loop; actionFade = keepFade;
             return true;
         }
+        /// MENU POSE: hold one frame of a clip (`at` seconds in) as a standing pose, with a slow breath on top, until Stop or another Play.
+        /// The menu's line-up holds these instead of idling and emoting (Adnan 10-26: "give each character a pose to hold").
+        public bool Hold(string clipId, float at)
+        {
+            if (!Play(clipId, false, at)) return false;
+            held = true; return true;
+        }
+        public bool Holding => held && playing != null;
+        bool held;
+
         /// True when this hero has the clip with that id ("EmoteSpike", "BowlShot"...).
         public bool Has(string clipId) => clips.ContainsKey(clipId);
+        /// Seconds in that clip (0 when this hero has no such clip).
+        public float ClipLength(string clipId) => clips.TryGetValue(clipId, out var c) ? c.length : 0;
         /// Seconds into the playing action (0 when none).
         public float ActionTime => playing != null ? (float)actionT : 0;
-        public void Stop() { playing = null; }
+        public void Stop() { playing = null; held = false; }
 
         /// Called by HubPlayer every frame after it moved the hero; the pose is evaluated in LateUpdate, after the Animator's own pass.
         public void Tick(float speed, float dt) { Speed = speed; }
@@ -381,7 +717,7 @@ namespace GolfArcade.Hub
         {
             float dt = GameTime ? Time.deltaTime : Time.unscaledDeltaTime, speed = Speed;
             if (!graph.IsValid() || dt <= 0) return;
-            if (playing != null && speed > .4f) playing = null;   // walking away ends an emote
+            if (playing != null && speed > .4f) { playing = null; held = false; }   // walking away ends an emote
             // the leg blend by speed: idle -> walk (matched) -> run (matched)
             float tWalk = Mathf.InverseLerp(.05f, .35f, speed), tRun = Mathf.InverseLerp(WalkTop, RunFrom, speed);
             float targetIdle = 1 - tWalk, targetWalk = tWalk * (1 - tRun), targetRun = tWalk * tRun;
@@ -394,9 +730,9 @@ namespace GolfArcade.Hub
             runT = (runT + dt * runRate) % runLen;
             // one-shot action on top (full body: emotes own the feet)
             actionFade = Mathf.MoveTowards(actionFade, playing != null ? 1 : 0, dt / (playing != null ? .15f : .2f));
-            if (playing != null)
+            if (playing != null && !held)
             {
-                actionT += dt;
+                actionT += dt * ActionRate;
                 if (actionT >= actionLen) { if (actionLoops) actionT %= actionLen; else { actionT = actionLen; playing = null; } }
             }
             float sum = Mathf.Max(1e-4f, wIdle + wWalk + wRun), legs = 1 - actionFade;
@@ -406,7 +742,16 @@ namespace GolfArcade.Hub
             if (action.IsValid()) { action.SetTime(actionT); mixer.SetInputWeight((int)Slot.Action, actionFade); }
             graph.Evaluate(0);
             relaxTime += dt;
+            // a stance change: the old one blends out, then the new one in (a third of a second each way)
+            if (stance != stanceShown) { stanceWeight = Mathf.MoveTowards(stanceWeight, 0, dt / .3f); if (stanceWeight <= 0) stanceShown = stance; }
+            else stanceWeight = Mathf.MoveTowards(stanceWeight, stance >= 0 ? 1 : 0, dt / .35f);
             Relax((1 - actionFade) * wIdle / sum, relaxTime);
+            if (held && playing != null && chestBone)
+            {
+                // a held pose still breathes: the chest rises a degree and the head drifts a little
+                chestBone.rotation = Quaternion.AngleAxis(Mathf.Sin(relaxTime * Mathf.PI * 2 * breatheHz) * 1.1f * actionFade, transform.right) * chestBone.rotation;
+                if (headBone) headBone.rotation = Quaternion.AngleAxis(Mathf.Sin(relaxTime * Mathf.PI * 2 * headHz) * 2f * actionFade, Vector3.up) * headBone.rotation;
+            }
             SeatWeight = Mathf.MoveTowards(SeatWeight, Seated ? 1 : 0, dt / .45f);
             if (SeatWeight > .001f)
             {
@@ -426,7 +771,13 @@ namespace GolfArcade.Hub
             // MENU HERO: standing still, the relaxed stand replaces the Idle clip's arms, so the Idle clip's baked racket-arm correction must not
             // ride on it (it pushed the right arm out, 10-19); the residual solve still keeps the hands out of the body and the kit
             bool keepTracks = HeroClearanceTracks.Enabled; if (RelaxWeight > .5f) HeroClearanceTracks.Enabled = false;
+            if (LogStances && stanceShown >= 0 && Time.frameCount % 60 == 0)
+                Debug.Log($"[Stance] {(look.female ? "F" : "M")} {StanceNames[stanceShown]} w {stanceWeight:0.00} before safety L {Local3(look.Bone(HumanBodyBones.LeftHand).position)} R {Local3(look.Bone(HumanBodyBones.RightHand).position)}");
             try { safety.Apply(false); } finally { HeroClearanceTracks.Enabled = keepTracks; }
+            if (stanceShown == PalmsOnHipsStance && stanceWeight > .99f) PalmsOnRealHips();
+            else { palmFrames = 0; palmMeasured = false; }
+            if (LogStances && stanceShown >= 0 && Time.frameCount % 60 == 0)
+                Debug.Log($"[Stance] {(look.female ? "F" : "M")} {StanceNames[stanceShown]} after safety L {Local3(look.Bone(HumanBodyBones.LeftHand).position)} R {Local3(look.Bone(HumanBodyBones.RightHand).position)}");
             // the same garment passes the match driver runs after every pose
             look.body?.GetComponent<HeroArmSkinning>()?.Apply();
             look.GetComponent<HeroGarmentPoseCorrectives>()?.Apply();

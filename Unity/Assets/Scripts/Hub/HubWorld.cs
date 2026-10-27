@@ -434,7 +434,7 @@ namespace GolfArcade.Hub
         /// Finish a door transition before gathering so its coroutine cannot undo the seat.
         public bool GatherParty(string bayId)
         {
-            if (bayId != "bay-tennis-online" && bayId != "bay-golf-online") return false;
+            if (bayId != "bay-tennis-online" && bayId != "bay-golf-online" && bayId != "bay-bowling-online") return false;
             var bay = HubLayout.SpotById(bayId);
             if (!Player || bay == null) return false;
             if (Transitioning) { pendingPartyBay = bayId; return true; }

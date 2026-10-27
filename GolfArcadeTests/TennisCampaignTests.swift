@@ -241,11 +241,11 @@ final class TennisCampaignTests: XCTestCase {
         XCTAssertFalse(progress.finishedTutorial(.golf))
     }
 
-    func testGameSelectOffersTheTwoPlayableSports() {
+    func testGameSelectOffersThePlayableSports() {
         let menu = TennisMenu.shared
         menu.debugShow(.gameSelect)
-        XCTAssertEqual(menu.rows(.gameSelect).first?.count, 2)
-        XCTAssertEqual(Sport.allCases.filter(\.playable), [.golf, .tennis])
+        XCTAssertEqual(menu.rows(.gameSelect).first?.count, 3)
+        XCTAssertEqual(Sport.allCases.filter(\.playable), [.golf, .tennis, .bowling])
         menu.tap("sport-tennis"); XCTAssertEqual(menu.screen, .hub(.tennis))
         menu.back(); menu.back(); XCTAssertEqual(menu.screen, .party)
         for sport in Sport.allCases {

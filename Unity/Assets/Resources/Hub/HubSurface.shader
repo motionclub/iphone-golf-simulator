@@ -21,6 +21,9 @@ Shader "GolfArcade/HubSurface"
         _UVMode ("UV: 0 mesh, 1 world XZ, 2 rings", Float) = 0
         _Tile ("Tile size, m (x along, y across)", Vector) = (1, 1, 0, 0)
         _Centre ("Ring centre (xz)", Vector) = (0, 0, 0, 0)
+        [NoScaleOffset] _ReliefMap ("Relief (rg normal xy, b cavity; HubClub.Relief)", 2D) = "grey" {}
+        _Relief ("Relief normal strength", Range(0, 2)) = 0
+        _Cavity ("Relief cavity occlusion", Range(0, 1)) = 0
         [Enum(UnityEngine.Rendering.CullMode)] _Cull ("Cull", Float) = 2
     }
     SubShader
@@ -32,9 +35,10 @@ Shader "GolfArcade/HubSurface"
 #include "../Environment/Shaders/EnvironmentSurface.hlsl"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
         TEXTURE2D(_BaseMap); SAMPLER(sampler_BaseMap);
+        TEXTURE2D(_ReliefMap); SAMPLER(sampler_ReliefMap);
         CBUFFER_START(UnityPerMaterial)
             float4 _BaseMap_ST; half4 _BaseColor;
-            half _VertexTint, _Sway, _Noise, _NoiseScale, _Wrap, _Gloss, _Leaf, _UVMode;
+            half _VertexTint, _Sway, _Noise, _NoiseScale, _Wrap, _Gloss, _Leaf, _UVMode, _Relief, _Cavity;
             float4 _Tile, _Centre;
         CBUFFER_END
         float4 _HubWind;
@@ -60,6 +64,37 @@ Shader "GolfArcade/HubSurface"
             float3 i = floor(x), f = frac(x); f = f * f * (3 - 2 * f);
             return lerp(lerp(lerp(Hash(i), Hash(i + float3(1, 0, 0)), f.x), lerp(Hash(i + float3(0, 1, 0)), Hash(i + float3(1, 1, 0)), f.x), f.y),
                         lerp(lerp(Hash(i + float3(0, 0, 1)), Hash(i + float3(1, 0, 1)), f.x), lerp(Hash(i + float3(0, 1, 1)), Hash(i + float3(1, 1, 1)), f.x), f.y), f.z);
+        }
+        /// The relief's normal (world) and cavity at this pixel: none when _Relief and _Cavity are 0 (foliage, lawns without it).
+        void Relief(V i, half3 n0, inout half3 n, out half cavity)
+        {
+            cavity = 1;
+            if (_Relief + _Cavity <= 0) return;
+            half3 rel; float3 T, B;
+            if (_UVMode < .5)
+            {
+                rel = SAMPLE_TEXTURE2D(_ReliefMap, sampler_ReliefMap, i.uv).rgb;
+                float3 dp1 = ddx(i.w), dp2 = ddy(i.w); float2 du1 = ddx(i.uv), du2 = ddy(i.uv);
+                float3 c1 = cross(dp2, n0), c2 = cross(n0, dp1);
+                T = c1 * du1.x + c2 * du2.x; B = c1 * du1.y + c2 * du2.y;
+                float inv = rsqrt(max(max(dot(T, T), dot(B, B)), 1e-12)); T *= inv; B *= inv;
+            }
+            else
+            {
+                float2 planar = i.w.xz / _Tile.xy, uv = planar;
+                T = float3(1, 0, 0); B = float3(0, 0, 1);
+                if (_UVMode > 1.5)
+                {
+                    float2 d = i.w.xz - _Centre.xz; float r = max(length(d), 1e-4);
+                    float row = floor(r / _Tile.y), rr = (row + .5) * _Tile.y;
+                    uv = float2(atan2(d.y, d.x) * rr / _Tile.x, r / _Tile.y);
+                    T = float3(-d.y, 0, d.x) / r; B = float3(d.x, 0, d.y) / r;
+                }
+                rel = SAMPLE_TEXTURE2D_GRAD(_ReliefMap, sampler_ReliefMap, uv, ddx(planar), ddy(planar)).rgb;
+            }
+            half2 nxy = (rel.rg * 2 - 1) * _Relief;
+            n = normalize(n0 + T * nxy.x + B * nxy.y);
+            cavity = lerp(1, rel.b, _Cavity);
         }
         half3 Albedo(V i)
         {
@@ -102,11 +137,12 @@ Shader "GolfArcade/HubSurface"
             #pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
             half4 frag(V i, FRONT_FACE_TYPE front : FRONT_FACE_SEMANTIC) : SV_Target
             {
-                half3 n = normalize(i.n) * IS_FRONT_VFACE(front, 1, -1);
-                half3 albedo = Albedo(i);
+                half3 n0 = normalize(i.n) * IS_FRONT_VFACE(front, 1, -1), n = n0; half cavity;
+                Relief(i, n0, n, cavity);
+                half3 albedo = Albedo(i) * lerp(1, cavity, .5);
                 uint layers = GetMeshRenderingLayer();
                 Light sun = GetMainLight(TransformWorldToShadowCoord(i.w));
-                half3 ambient = SampleSH(n), direct = 0, spec = 0;
+                half3 ambient = SampleSH(n) * cavity, direct = 0, spec = 0;
                 half aoDirect = 1;
                 #if defined(_SCREEN_SPACE_OCCLUSION)
                     AmbientOcclusionFactor ao = GetScreenSpaceAmbientOcclusion(GetNormalizedScreenSpaceUV(i.p));

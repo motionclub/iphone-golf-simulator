@@ -76,6 +76,23 @@ namespace GolfArcade.Hub.Menu
             return (slot, MenuShots.FacingYaw(slot), !Solo);
         }
 
+        /// MENU POSE (Adnan 10-26: "give each character a pose to hold"; "look at overwatch and copy their most simple poses"): each line-up
+        /// slot holds one of HubHeroAnimator's stances instead of idling: hands on hips, arms crossed, one hand on the hip, a tall heroic
+        /// stand. The Locker shows the plain stand so the clothes are not covered; an emote a player asks for still plays, then the stance returns.
+        /// Adnan 10-26: everyone holds the basic stance (Heroic: Soldier: 76 "Classic").
+        public static readonly int[] SlotStance = { 3, 3, 3, 3 };
+        static void Pose(HubHeroAnimator hero, int slot, bool solo)
+        {
+            if (!hero) return;
+            int want = solo ? -1 : SlotStance[Mathf.Clamp(slot, 0, SlotStance.Length - 1)];
+            if (hero.Stance != want) hero.SetStance(want);
+        }
+        void HoldPoses()
+        {
+            Pose(world.Player ? world.Player.hero : null, 0, Solo);
+            if (remotes) for (int i = 0; i < Friends.Count; i++) Pose(remotes.HeroOf(Friends[i]), i + 1, Solo);
+        }
+
         /// Your hero on slot 0, facing the camera, idle (the stick no longer walks it).
         void Stand()
         {
@@ -92,6 +109,7 @@ namespace GolfArcade.Hub.Menu
             if (!world || !world.Camera) return;
             RefreshFriends();
             Stand();
+            if (enabled) HoldPoses();   // (a proof capture disables the stage to pick the stances itself)
             if (!arrivalHeld && t < 1) t = Mathf.Min(1, t + dt / Mathf.Max(.01f, seconds));
             float s = t * t * t * (t * (t * 6 - 15) + 10);   // smootherstep
             var pos = Vector3.Lerp(from.position, to.position, s);

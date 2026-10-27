@@ -103,9 +103,21 @@ final class MenuPointerMathTests: XCTestCase {
         hub.receive(["type": "menuOpen", "session": "debug-hub", "message": "bay-tennis-training"])
         XCTAssertEqual(hub.bayForLaunch(), "bay-tennis-training")
         XCTAssertEqual(hub.menuLaunchLabel, "Training")
-        hub.runtimeTaken(bay: "bay-tennis-training")
-        XCTAssertTrue(hub.menuHolding, "the menu stays up (START on the TV)")
-        hub.menuMatchStarted()
-        XCTAssertFalse(hub.menuHolding)
+    }
+
+    /// A mode picked from the menu goes straight in: no START on the TV (Unity starts the match once it is built), and the TV shows
+    /// the loading screen (venue art and tips) while it builds behind the menu.
+    func testAMatchFromTheMenuStartsWithoutStartAndShowsTheLoadingScreen() {
+        let hub = HubSession.shared, session = SportsSession.shared, displays = SportsDisplays.shared
+        let savedExternal = displays.external, savedDisplay = session.displayConnected
+        displays.external = UIWindow(frame: CGRect(x: 0, y: 0, width: 1920, height: 1080)); session.displayConnected = true
+        defer { if session.active { session.end() }; displays.external = savedExternal; HubTestState.restore(display: savedDisplay) }
+        // (no menuOpen here: in the test host the app's own hub boot clears the station it sets, as testTheTVsEventsReachThePhone shows)
+        hub.debugLive(); hub.debugMenu()
+        XCTAssertEqual(hub.bayForLaunch(), "menu")
+        let covers = displays.coversShown, launches = hub.bayLaunches
+        session.startTennis(opponent: nil, round: nil, mode: "exhibition", difficulty: 0.45, preview: false)
+        XCTAssertEqual(hub.bayLaunches, launches + 1, "still built behind the menu")
+        XCTAssertEqual(displays.coversShown, covers + 1, "the loading screen covers the TV")
     }
 }

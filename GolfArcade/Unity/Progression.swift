@@ -87,6 +87,8 @@ struct PostMatchSummary: Equatable {
     var levelsGained: [Int] { endLevel > startLevel ? Array((startLevel + 1)...endLevel) : [] }
     /// A golf round's (its card, coins and bounties), and the daily forecast streak it kept; nil for tennis.
     var golf: GolfRoundStats? = nil
+    /// A bowling game's line (score, strikes, spares...); nil for the other sports.
+    var bowling: BowlingGameStats? = nil
     var streak = 0
 }
 
@@ -125,9 +127,73 @@ struct GolfRoundStats: Equatable {
     }
 }
 
+/// What Unity reports when a bowling game ends (the "bowlingGame" event: "key=value;...", BowlingGame.Summary) for the phone's
+/// own player.
+struct BowlingGameStats: Equatable {
+    var score = 0, strikes = 0, spares = 0, opens = 0, gutters = 0, splits = 0, streak = 0, players = 1, rank = 1
+    var venue = ""
+
+    init() {}
+    init(line: String) {
+        for pair in line.split(separator: ";") {
+            let kv = pair.split(separator: "=", maxSplits: 1).map(String.init)
+            guard kv.count == 2 else { continue }
+            if kv[0] == "venue" { venue = kv[1]; continue }
+            guard let v = Int(kv[1]) else { continue }
+            switch kv[0] {
+            case "score": score = v; case "strikes": strikes = v; case "spares": spares = v; case "opens": opens = v
+            case "gutters": gutters = v; case "splits": splits = v; case "streak": streak = v; case "players": players = v; case "rank": rank = v
+            default: break
+            }
+        }
+    }
+    /// A win: first of several bowlers, or a solo game of 150 or more.
+    var won: Bool { players > 1 ? rank == 1 : score >= 150 }
+    var venueTitle: String { BowlingVenueChoice(rawValue: venue)?.title ?? "the lanes" }
+    /// The streak's name: Double, Turkey, Hambone...
+    static func streakName(_ n: Int) -> String? {
+        switch n { case 2: "Double"; case 3: "Turkey"; case 4: "Hambone"; case 5..<6: "Five-bagger"; case 6..<9: "Six-pack"; case 9..<12: "Golden Turkey"; case 12...: "Perfect game"; default: nil }
+    }
+}
+
 @MainActor @Observable
 final class Progression {
     static let shared = Progression()
+
+    /// How a bowling game went, in XP: the game, the score's band, every strike and spare, the best strike run, splits picked up,
+    /// clean frames and beating friends. Every line is a reason the player can see and chase.
+    static func bowlingBreakdown(_ b: BowlingGameStats) -> [XPLine] {
+        var rows: [(String, String, Int)] = []
+        rows.append(("Game bowled", "\(b.score) pins", 60))
+        if b.score >= 300 { rows.append(("PERFECT GAME", "300", 500)) }
+        else if b.score >= 200 { rows.append(("200 club", "\(b.score)", 120)) }
+        else if b.score >= 150 { rows.append(("Over 150", "\(b.score)", 60)) }
+        else if b.score >= 100 { rows.append(("Triple digits", "\(b.score)", 30)) }
+        if b.strikes > 0 { rows.append(("Strikes", "\u{00D7} \(b.strikes)", 15 * b.strikes)) }
+        if b.spares > 0 { rows.append(("Spares", "\u{00D7} \(b.spares)", 8 * b.spares)) }
+        if b.streak >= 2, let name = BowlingGameStats.streakName(b.streak) { rows.append((name, "\(b.streak) in a row", 20 * b.streak)) }
+        if b.splits > 0 { rows.append(("Splits picked up", "\u{00D7} \(b.splits)", 40 * b.splits)) }
+        if b.opens == 0 { rows.append(("Clean game", "No open frames", 80)) }
+        if b.players > 1 && b.rank == 1 { rows.append(("Top of the sheet", "Beat \(b.players - 1)", 60)) }
+        return rows.filter { $0.2 > 0 }.enumerated().map { XPLine(id: $0.offset, title: $0.element.0, detail: $0.element.1, xp: $0.element.2) }
+    }
+
+    func awardBowling(player: UUID, stats: BowlingGameStats) -> PostMatchSummary {
+        let lines = Self.bowlingBreakdown(stats)
+        let total = max(0, lines.reduce(0) { $0 + $1.xp })
+        var entry = entry(for: player)
+        let startLevel = entry.level, startXP = entry.xp
+        entry.xp += total; entry.totalXP += total; entry.matches += 1; if stats.won { entry.wins += 1 }
+        while entry.level < LevelCurve.maxLevel && entry.xp >= LevelCurve.needed(entry.level) {
+            entry.xp -= LevelCurve.needed(entry.level); entry.level += 1
+        }
+        if entry.level >= LevelCurve.maxLevel { entry.xp = min(entry.xp, LevelCurve.needed(entry.level) - 1) }
+        entries[player.uuidString] = entry
+        save()
+        return PostMatchSummary(won: stats.won, score: "\(stats.score)  \u{00B7}  \(stats.strikes) strike\(stats.strikes == 1 ? "" : "s")", opponent: stats.venueTitle,
+                                stats: MatchStats(won: stats.won), lines: lines, total: total, practice: false,
+                                startLevel: startLevel, startXP: startXP, endLevel: entry.level, endXP: entry.xp, bowling: stats)
+    }
 
     struct Entry: Codable, Equatable {
         var level = 1

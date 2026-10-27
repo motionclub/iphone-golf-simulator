@@ -3,13 +3,15 @@ import SwiftUI
 @testable import GolfArcade
 
 /// PLAN_MenuHub_WalkableWorld phase 4 (party), phone half, over an in-memory network: a friend's presence becomes a plaza friend
-/// in their lobby look; sitting down together on an online bench starts the match (ALL_SEATED: sitting is being ready; friends
-/// elsewhere in the plaza do not hold it up and stay in the plaza); Call party reaches the others; the host leaving an idle lobby
-/// hands it to the next phone.
+/// in their lobby look; the leader picks the party's game and taps Start, every other player taps Ready, and the match starts
+/// when the last one has (2026-10-25: Ready is a tap again, not sitting down); Call party reaches the others; the host leaving
+/// an idle lobby hands it to the next phone.
 @MainActor
 final class HubPartyTests: XCTestCase {
     @MainActor final class Bus {
         var links: [String: Link] = [:]
+        /// Lose a packet (sender, kind) on its way.
+        var drop: (String, String) -> Bool = { _, _ in false }
         func link(_ id: String) -> Link { let l = Link(id: id, bus: self); links[id] = l; return l }
     }
     final class Link: PartyTransport {
@@ -17,7 +19,11 @@ final class HubPartyTests: XCTestCase {
         var onData: ((Data, String) -> Void)?; var onPeersChanged: (() -> Void)?; var onError: ((Error) -> Void)?
         var peers: [String] { bus.links.keys.filter { $0 != localID }.sorted() }
         init(id: String, bus: Bus) { localID = id; self.bus = bus }
-        func send(_ data: Data, to ids: [String]?, reliable: Bool) throws { for id in ids ?? peers { bus.links[id]?.onData?(data, localID) } }
+        func send(_ data: Data, to ids: [String]?, reliable: Bool) throws {
+            let kind = (try? JSONDecoder().decode(MultiplayerPacket.self, from: data))?.kind ?? ""
+            guard !bus.drop(localID, kind) else { return }
+            for id in ids ?? peers { bus.links[id]?.onData?(data, localID) }
+        }
         func disconnect() { bus.links.removeValue(forKey: localID); for link in bus.links.values.sorted(by: { $0.localID < $1.localID }) { link.onPeersChanged?() } }
     }
     private func service(_ name: String, shirt: String) -> MultiplayerService {
@@ -85,7 +91,7 @@ final class HubPartyTests: XCTestCase {
         // Bea walks into the tennis room: the bench waits for her
         hb.receive(["type": "hubPose", "session": "hb", "message": "tennis|204.600|-1000.000|0.000|0.0|1.00||"])
         XCTAssertEqual(ha.partyWaitingFor, ["Bea"]); ha.debugPartyTick(); XCTAssertEqual(a.lobby?.phase, .lobby)
-        // ...and sits down: that is all (no Ready button)
+        // ...and sits down
         hb.receive(["type": "hubAction", "session": "hb", "message": "bay-tennis-online"])
         hb.receive(["type": "hubPose", "session": "hb", "message": "tennis|204.600|-1000.000|3.700|0.0|0.00|bay-tennis-online|"])
         XCTAssertEqual(ha.friendBays["b"], "bay-tennis-online"); XCTAssertTrue(ha.partyWaitingFor.isEmpty)
@@ -94,9 +100,12 @@ final class HubPartyTests: XCTestCase {
         XCTAssertEqual(a.lobby?.phase, .lobby, "sitting never starts before the host chooses settings")
         ha.configureParty(venue: "volcano", sets: 3, games: 6)
         XCTAssertEqual(b.lobby?.venue, "volcano"); XCTAssertEqual(b.lobby?.sets, 3); XCTAssertEqual(b.lobby?.games, 6)
-        hb.forcePartyStart(); XCTAssertEqual(a.lobby?.phase, .lobby, "a guest cannot start")
+        hb.forcePartyStart(); XCTAssertEqual(a.lobby?.phase, .lobby, "a guest cannot start"); XCTAssertFalse(b.partyReadyCheck)
         ha.forcePartyStart()
-        XCTAssertEqual(a.lobby?.phase, .loading, "host taps Start after choosing settings")
+        XCTAssertEqual(a.lobby?.phase, .lobby, "Start asks everyone to get ready; it never starts by itself")
+        XCTAssertTrue(b.partyReadyCheck, "Bea's phone shows Ready"); XCTAssertEqual(b.lobby?.participants.first { $0.id == "a" }?.ready, true)
+        hb.setPartyReady(true)
+        XCTAssertEqual(a.lobby?.phase, .loading, "the last Ready starts the match")
         XCTAssertEqual(b.lobby?.phase, .loading)
         XCTAssertEqual(Set(a.lobby?.competitors.map(\.id) ?? []), ["a", "b"])
     }
@@ -115,7 +124,7 @@ final class HubPartyTests: XCTestCase {
         hb.receive(["type": "hubAction", "session": "hb", "message": "bay-tennis-online"])
         hb.receive(["type": "hubPose", "session": "hb", "message": "tennis|204.600|-1000.000|3.700|0.0|0.00|bay-tennis-online|"])
         XCTAssertTrue(ha.partyWaitingFor.isEmpty, "Cy is in the locker: nobody to wait for")
-        ha.debugPartyTick(); ha.debugPartyTick(); ha.forcePartyStart()
+        ha.debugPartyTick(); ha.debugPartyTick(); ha.forcePartyStart(); hb.setPartyReady(true)
         XCTAssertEqual(a.lobby?.phase, .loading)
         XCTAssertNotNil(configs["a"]); XCTAssertNotNil(configs["b"])
         XCTAssertNil(configs["c"], "Cy was not on the bench: Cy's phone stays in the plaza")
@@ -131,7 +140,7 @@ final class HubPartyTests: XCTestCase {
         let ha = hub(a, "ha"), hb = hub(b, "hb")
         for (h, s) in [(ha, "ha"), (hb, "hb")] { h.receive(["type": "hubAction", "session": s, "message": "bay-tennis-online"]) }
         hb.receive(["type": "hubPose", "session": "hb", "message": "tennis|204.600|-1000.000|3.700|0.0|0.00|bay-tennis-online|"])
-        ha.debugPartyTick(); ha.debugPartyTick(); ha.forcePartyStart()
+        ha.debugPartyTick(); ha.debugPartyTick(); ha.forcePartyStart(); hb.setPartyReady(true)
         XCTAssertNotNil(configs["a"]); XCTAssertEqual(configs["a"]?.matchID, configs["b"]?.matchID, "the same match for everyone")
         // each phone launched from the bay (behind its plaza) and, back from the match, sits on the same bench
         for h in [ha, hb] {
@@ -165,6 +174,8 @@ final class HubPartyTests: XCTestCase {
         XCTAssertEqual(hubs[0].partyWaitingFor, ["Dee"])
         sit(3); hubs[0].debugPartyTick(); hubs[0].debugPartyTick(); hubs[0].forcePartyStart()
         XCTAssertTrue(hubs[0].partyWaitingFor.isEmpty)
+        XCTAssertEqual(services[0].lobby?.phase, .lobby, "waiting for three Readys")
+        for i in 1..<4 { hubs[i].setPartyReady(true) }
         XCTAssertEqual(services[0].lobby?.phase, .loading, "everyone on the golf bench: the host's phone starts the match")
         XCTAssertEqual(configs["a"]?.sport, "golf", "the golf bench plays golf")
         XCTAssertEqual(configs.count, 4, "all four phones were asked to load")
@@ -308,7 +319,7 @@ final class HubPartyTests: XCTestCase {
         var back = 0; a.onReturnToLobby = { back += 1 }; b.onReturnToLobby = { back += 1 }
         try a.host(using: bus.link("a")); try b.connect(using: bus.link("b"))
         defer { b.leave(); a.leave() }
-        try a.configure(.tennis); a.seatParty(["a", "b"]); try a.startMatch()
+        try a.configure(.tennis); try a.startPartyGame(); try b.setReady(true)
         XCTAssertEqual(b.lobby?.phase, .loading)
         b.endPartyMatch()   // a guest's Exit mid-load
         XCTAssertEqual(a.lobby?.phase, .lobby, "the host brought everyone back"); XCTAssertEqual(b.lobby?.phase, .lobby)
@@ -328,7 +339,7 @@ final class HubPartyTests: XCTestCase {
             XCTAssertEqual(ha.notice, HubSession.soloLockMessage)
         }
         ha.useStation("bay-tennis-online"); ha.forcePartyStart()
-        XCTAssertEqual(a.lobby?.phase, .lobby, "a walking friend cannot be pulled into play")
+        XCTAssertEqual(a.lobby?.phase, .lobby, "nobody is pulled into play: the friend taps Ready first")
         b.leave()
         XCTAssertFalse(ha.soloLocked, "leaving the party restores single player")
     }
@@ -344,8 +355,8 @@ final class HubPartyTests: XCTestCase {
         XCTAssertEqual(a.lobby?.phase, .lobby)
         guard let dir = ProcessInfo.processInfo.environment["MENU_SNAP_DIR"] else { return }
         let scene = try XCTUnwrap(UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }.first)
-        for (name, width, height) in [("host-bench-settings", 402.0, 874.0), ("host-bench-small-phone", 375.0, 667.0)] {
-            let controller = UIHostingController(rootView: HubPartyBayPanel(hub: ha))
+        func shoot(_ name: String, _ h: HubSession, _ width: Double, _ height: Double) async throws {
+            let controller = UIHostingController(rootView: HubPartyBayPanel(hub: h))
             let window = UIWindow(windowScene: scene)
             window.frame = CGRect(x: 0, y: 0, width: width, height: height)
             window.rootViewController = controller; window.isHidden = false
@@ -355,6 +366,11 @@ final class HubPartyTests: XCTestCase {
             try XCTUnwrap(image.pngData()).write(to: URL(fileURLWithPath: dir).appendingPathComponent(name + ".png"))
             window.isHidden = true
         }
+        try await shoot("party-leader-pick", ha, 402, 874); try await shoot("party-leader-small-phone", ha, 375, 667)
+        ha.forcePartyStart()
+        try await shoot("party-friend-ready", hb, 402, 874); try await shoot("party-leader-waiting", ha, 402, 874)
+        hb.setPartyReady(true)
+        XCTAssertEqual(a.lobby?.phase, .loading)
     }
 
     func testTheHostLeavingAnIdleLobbyHandsItOver() throws {
@@ -366,5 +382,72 @@ final class HubPartyTests: XCTestCase {
         XCTAssertTrue(b.isOwner, "the next phone (lowest id) is the host now")
         XCTAssertEqual(c.lobby?.ownerID, "b"); XCTAssertEqual(c.lobby?.phase, .lobby, "the party carries on")
         XCTAssertFalse(c.lobby?.participants.contains { $0.id == "a" } ?? true)
+    }
+
+    // MARK: 2026-10-25: friends who joined never showed up, and Play acted as if you were alone
+
+    /// The friend's first hello went out before the connection to the host was up, and the host's lobby (with only the host in it)
+    /// reached the friend first. The friend used to stop saying hello once it had any lobby, so the host never listed them and
+    /// neither phone saw the other. Now it keeps saying hello until the lobby lists it, and the host keeps sending its lobby to a
+    /// connected phone it does not list.
+    func testAFriendWhoseFirstHelloWasLostStillEndsUpInTheLobby() throws {
+        var t = 100.0
+        let bus = Bus()
+        func timed(_ name: String) -> MultiplayerService {
+            let s = MultiplayerService(sendToRuntime: { _ in true }, pollRuntime: { nil }, clock: { t })
+            s.onMatchRequested = { _ in }; s.onReturnToLobby = {}; s.setScreen(true); s.requiresStableLink = false
+            s.setIdentity(name: name); return s
+        }
+        let a = timed("Ann"), b = timed("Bea")
+        try a.host(using: bus.link("a"))
+        let lb = bus.link("b")
+        var lost = 1
+        // Bea's first hello is lost on its way to Ann
+        bus.drop = { from, kind in if from == "b", kind == "hello", lost > 0 { lost -= 1; return true }; return false }
+        try b.connect(using: lb)
+        defer { b.leave(); a.leave() }
+        XCTAssertEqual(a.joiningPeers, 1, "Ann's phone is connected to Bea's but does not list her yet")
+        // Ann's lobby (only Ann) reaches Bea
+        a.update(); t += 1.1; a.update()
+        XCTAssertEqual(b.lobby?.ownerID, "a", "Bea has Ann's lobby")
+        t += 1.1; b.update()
+        XCTAssertEqual(a.lobby?.participants.map(\.id).sorted(), ["a", "b"], "Bea's next hello got her in")
+        XCTAssertEqual(b.lobby?.participants.map(\.id).sorted(), ["a", "b"], "and both phones see both")
+        XCTAssertEqual(a.joiningPeers, 0)
+    }
+
+    /// The ready check from the friend's side: Not ready takes it back, and a friend who leaves during it ends it (back to choosing).
+    func testTheReadyCheckWaitsForEveryoneAndEndsWhenTheFriendLeaves() throws {
+        let bus = Bus(), a = service("Ann", shirt: "E8505B"), b = service("Bea", shirt: "3F62CC")
+        try a.host(using: bus.link("a")); try b.connect(using: bus.link("b"))
+        defer { a.leave() }
+        let ha = hub(a, "ha"), hb = hub(b, "hb")
+        XCTAssertThrowsError(try b.startPartyGame(), "only the leader starts")
+        ha.forcePartyStart()
+        XCTAssertTrue(a.partyReadyCheck); XCTAssertTrue(b.partyReadyCheck)
+        hb.setPartyReady(true); XCTAssertEqual(a.lobby?.phase, .loading)
+        try a.returnToLobby(rotateSeats: false)
+        XCTAssertFalse(b.partyReadyCheck, "back from the match: the leader picks the next game")
+        ha.forcePartyStart(); ha.cancelPartyGame()
+        XCTAssertFalse(b.partyReadyCheck, "the leader cancelled"); XCTAssertEqual(b.lobby?.participants.first { $0.id == "b" }?.ready, false)
+        ha.forcePartyStart(); XCTAssertTrue(b.partyReadyCheck)
+        b.leave()
+        XCTAssertFalse(a.partyReadyCheck, "the friend left: no game to wait for")
+        XCTAssertEqual(a.lobby?.phase, .lobby)
+    }
+
+    /// Play online while a friend is still joining your party: never leaves the party for a quick match (it used to: the friend's
+    /// phone was then alone too).
+    func testPlayOnlineNeverLeavesAPartyAFriendIsJoining() throws {
+        let bus = Bus(), a = service("Ann", shirt: "E8505B")
+        try a.host(using: bus.link("a"))
+        defer { a.leave() }
+        bus.drop = { from, _ in from == "b" }   // Bea is connected, nothing of hers has arrived yet
+        _ = bus.link("b")
+        let ha = hub(a, "ha")
+        XCTAssertEqual(a.joiningPeers, 1); XCTAssertNil(ha.party)
+        ha.useStation("bay-tennis-online")
+        XCTAssertEqual(ha.notice, HubSession.friendJoiningMessage)
+        XCTAssertNil(ha.onlineBench, "no quick match"); XCTAssertNotNil(a.lobby, "still Ann's party")
     }
 }

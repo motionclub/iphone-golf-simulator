@@ -25,7 +25,7 @@ namespace GolfArcade.EditorTools
     public static class HeroTurnaround
     {
         const string PrefabDir = "Assets/Resources/Tennis/Customization/";
-        static readonly string[] AllHeroes = { "MatchHero_Male", "MatchHero_Female", "GolfKitHero_Male", "GolfKitHero_Female" };
+        static readonly string[] AllHeroes = { "MatchHero_Male", "MatchHero_Female", "GolfKitHero_Male", "GolfKitHero_Female", "BowlingKitHero_Male", "BowlingKitHero_Female" };
         static readonly string[] OffFlags = { "VISUAL_CHARACTER_SKIN_POLISH", "VISUAL_BLINK_NORMAL_FIELD" };
         static string OutRoot => Path.GetFullPath(Environment.GetEnvironmentVariable("TURNAROUND_OUT") ?? Path.Combine(Application.dataPath, "../../work/model-turnaround"));
 
@@ -215,8 +215,9 @@ namespace GolfArcade.EditorTools
             }
             else
             {
-                var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(PrefabDir + "Player" + sex + ".prefab");
-                if (!prefab) throw new FileNotFoundException(PrefabDir + "Player" + sex + ".prefab");
+                string kitName = "Player" + sex + (id.StartsWith("Bowling") ? "BowlingKit" : "");   // CLOTHING V3 bowling kit heroes
+                var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(PrefabDir + kitName + ".prefab");
+                if (!prefab) throw new FileNotFoundException(PrefabDir + kitName + ".prefab");
                 root = (GameObject)Object.Instantiate(prefab);
             }
             root.name = id;

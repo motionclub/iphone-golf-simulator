@@ -1,7 +1,7 @@
 import SwiftUI
 
-/// Every sport on the game-select screen. Golf and tennis play; the rest are shown, with their
-/// b-roll, as coming soon.
+/// Every sport on the game-select screen. Golf, tennis and bowling play; the rest are shown, with
+/// their b-roll, as coming soon.
 enum Sport: String, CaseIterable, Identifiable, Hashable {
     case golf, tennis, bowling, football, boxing
     var id: String { rawValue }
@@ -16,7 +16,7 @@ enum Sport: String, CaseIterable, Identifiable, Hashable {
         case .boxing: "Beach-side ring, big padded gloves"
         }
     }
-    var playable: Bool { self == .golf || self == .tennis }
+    var playable: Bool { self == .golf || self == .tennis || self == .bowling }
     var icon: String {
         switch self {
         case .golf: "figure.golf"; case .tennis: "figure.tennis"; case .bowling: "figure.bowling"

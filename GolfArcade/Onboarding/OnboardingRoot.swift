@@ -62,6 +62,7 @@ struct OnboardingRemote: View {
         VStack(spacing: 18) {
             onTV
             if flow.step == .player { nameField }
+            if flow.step == .account { account }
             Spacer(minLength: 0)
             OnbDPad(flow: flow)
             Spacer(minLength: 0)
@@ -89,6 +90,23 @@ struct OnboardingRemote: View {
         .background(.white.opacity(0.08), in: RoundedRectangle(cornerRadius: 20, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 20, style: .continuous).strokeBorder(.white.opacity(0.14), lineWidth: 1.5))
     }
+    /// Apple's sign-in sheet opens on this phone, so the button is here too (A on the TV's Sign in does the same).
+    private var account: some View {
+        TimelineView(.periodic(from: .now, by: 1)) { _ in
+            VStack(spacing: 10) {
+                if flow.signedIn {
+                    Label("Signed in\(flow.accountName.isEmpty ? "" : " as \(flow.accountName)")", systemImage: "checkmark.seal.fill")
+                        .font(Onb.font(18, 800)).foregroundStyle(Onb.goldHi).accessibilityIdentifier("onboarding-signed-in")
+                } else {
+                    Button { flow.signIn() } label: {
+                        Label("Sign in with Game Center", systemImage: "person.crop.circle.badge.checkmark")
+                            .font(Onb.font(19, 900)).foregroundStyle(Onb.ink).frame(maxWidth: .infinity, minHeight: 56).background(Onb.goldHi, in: Capsule())
+                    }.buttonStyle(.plain).accessibilityIdentifier("onboarding-sign-in")
+                    Text("Nothing opens? Settings › Game Center › sign in, then come back.").font(Onb.font(13, 600)).foregroundStyle(.white.opacity(0.6))
+                }
+            }
+        }
+    }
     private var nameField: some View {
         HStack(spacing: 10) {
             TextField("Your name", text: $name)
@@ -113,14 +131,14 @@ struct OnboardingRemote: View {
     }
     private var stepName: String {
         switch flow.step {
-        case .hello: "WELCOME"; case .controller: "YOUR CONTROLLER"; case .room: "ROOM TO SWING"; case .player: "YOUR PLAYER"
+        case .hello: "WELCOME"; case .account: "SIGN IN"; case .controller: "YOUR CONTROLLER"; case .room: "ROOM TO SWING"; case .player: "YOUR PLAYER"
         case .card: "YOUR CLUB CARD"; case .choose: "FIRST LESSON"; case .lesson(let s): "\(s.title) LESSON"
         case .reward(let s): "\(s.title) LESSON DONE"; case .done: ""
         }
     }
     private var focusName: String {
         switch flow.focused {
-        case "go": "Let's go"; case "try": "Press A"; case "next": "Next"; case "ready": "I'm ready"
+        case "go": "Let's go"; case "signin": "Sign in"; case "later": "Not now"; case "try": "Press A"; case "next": "Next"; case "ready": "I'm ready"
         case "male": "Body · Male"; case "female": "Body · Female"
         case "skin": "Skin tone · ◀ ▶ to change"; case "shirt": "Shirt colour · ◀ ▶ to change"
         case "name": "Name · type it here"; case "shuffle": "Shuffle"; case "save": "That's me!"

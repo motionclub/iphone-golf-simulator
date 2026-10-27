@@ -139,10 +139,41 @@ final class SportsDisplays: NSObject {
         showPhonePlaza()
     }
     #endif
-    /// The app's window lets the plaza (below it) show through where the controller draws nothing.
+    // MARK: bowling on the phone itself (no TV)
+
+    /// Unity's view while bowling plays on the phone with no TV (PLAN_PhonePlay): a window under the app's own, which turns
+    /// see-through so the lane fills the screen and the bowling controls sit over its foot (BowlingPhoneController, phone play).
+    private var playPhone: UIWindow?
+    func phonePlayWindow() -> UIWindow? {
+        refresh()
+        guard external == nil, let scene = phone?.windowScene else { return nil }
+        if playPhone == nil {
+            let window = UIWindow(windowScene: scene)
+            window.windowLevel = UIWindow.Level(rawValue: UIWindow.Level.normal.rawValue - 1)
+            let root = UIViewController(); root.view.backgroundColor = .black
+            window.rootViewController = root; playPhone = window
+        }
+        return playPhone
+    }
+    func showPhonePlay() {
+        guard let window = playPhone else { return }
+        window.isHidden = false
+        phone?.makeKeyAndVisible()
+        phoneSeeThrough(true)
+    }
+    func endPhonePlay() {
+        guard playPhone != nil else { return }
+        phoneSeeThrough(false)
+        SportsRuntime.shared().restoreUnityWindow()
+        playPhone?.isHidden = true; playPhone = nil
+        phone?.makeKeyAndVisible()
+    }
+    var phonePlayShown: Bool { playPhone?.isHidden == false }
+
+    /// The app's window lets the plaza or the lane (below it) show through where the controller draws nothing.
     func phoneSeeThrough(_ on: Bool) {
         guard let window = phone else { return }
-        let clear = on && phonePlazaShown
+        let clear = on && (phonePlazaShown || phonePlayShown)
         window.backgroundColor = clear ? .clear : .systemBackground
         window.isOpaque = !clear
         window.rootViewController?.view.backgroundColor = clear ? .clear : .systemBackground
@@ -398,15 +429,8 @@ private struct PresentationLoadingCover: View {
         GeometryReader { geometry in
             ZStack {
             Club.lagoonDeep
-            Group {
-                if SportsSession.shared.showsOnlineTennisSetup {
-                    VStack(spacing: 28) {
-                        OnlineTennisTVSetup(session: .shared)
-                        Text("Your court is loading while you set up your racket.")
-                            .font(IslandUI.font(22, bold: true)).foregroundStyle(.white)
-                    }.padding(48)
-                } else { LoadingScreen(menu: .shared, compact: compact) }
-            }
+            // (online tennis sets up the racket after this: the court scan needs the court on the TV)
+            LoadingScreen(menu: .shared, compact: compact)
                 .frame(width: compact ? geometry.size.width : 1280, height: compact ? geometry.size.height : 720)
                 .scaleEffect(compact ? 1 : min(geometry.size.width / 1280, geometry.size.height / 720))
                 .frame(width: geometry.size.width, height: geometry.size.height)

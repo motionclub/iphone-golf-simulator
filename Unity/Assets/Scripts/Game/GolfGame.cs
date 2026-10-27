@@ -2419,7 +2419,7 @@ namespace GolfArcade.Game
                     if (firstDown) Haptics.Tick();
                     if (WetLandingRules(lie)) effects.WetLanding(new Vector3(pos.x, (float)under, pos.z));
                 }
-                if (firstDown) { touchedDown = true; effects.Land(); }
+                if (firstDown) { touchedDown = true; effects.Land(); sounds.EndFlight(); }
                 Bounces++;
             }
             // what it hit on the way: leaves out of a crown, chips off a trunk or a rock, and the sound
@@ -2472,7 +2472,7 @@ namespace GolfArcade.Game
             bool caughtUp = Math.Abs(y - (under + p.h)) < 0.02 || flightTime > end + 3;
             if(LastShot.Burned && flightTime>=LastShot.BurnTime && splashedAt<0){
                 splashedAt=flightTime;var impactAt=new Vector3((float)LastShot.Rest.X,(float)LastShot.BurnHeight,(float)LastShot.Rest.D);
-                effects.LavaBurst(impactAt);sounds.PlayLavaHiss();Haptics.Failure();ball.gameObject.SetActive(false);
+                effects.LavaBurst(impactAt);sounds.EndFlight(.1f);sounds.PlayLavaHiss();Haptics.Failure();ball.gameObject.SetActive(false);
                 hud.ShowCallout("Incinerated · shot + 1 penalty",new Color(1,.4f,.15f));
             }
             if(LastShot.Burned){if(flightTime>=LastShot.BurnTime+.6)FinishShot();return;}

@@ -52,6 +52,9 @@ enum HeroAssets {
         var skinTex: Float? = nil, skinScatter: Float? = nil, skinTransmission: Float? = nil, skinAO: Float? = nil, skinSpecular: Float? = nil
         var skinLightChroma: Float? = nil, skinCoolFill: Float? = nil, eyeV2: Float? = nil, eyeCaustic: Float? = nil, eyeGloss: Float? = nil
         var skinPigmentMap: String? = nil, skinMaskMap: String? = nil
+        /// CLOTHING V3 (2026-10-26): TennisCloth's Blender yarn atlas (atlasVersion 3), knit cell for fabric id 7, yarn relief, fibre shine, tonal grain; absent in older payloads.
+        var atlasVersion: Float? = nil, knitCell: Float? = nil, fabricDetail: Float? = nil, fibreShine: Float? = nil, mottle: Float? = nil
+        var isClothV3: Bool { (atlasVersion ?? 0) > 2.5 }
         var hasSkinMaps: Bool { (skinTex ?? 0) > 0.5 && !(skinPigmentMap ?? "").isEmpty && !(skinMaskMap ?? "").isEmpty }
         var isCloth: Bool { shader == "TennisCloth" }
         var isCharacter: Bool { shader == "TennisCharacter" }

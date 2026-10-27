@@ -98,7 +98,7 @@ namespace GolfArcade.Tennis
         }
         void UpdateBinding()
         {
-            if(look.golfKit||topMaterials==null||topMaterials.Length==0||!topMaterials[0])return;
+            if(look.golfKit||look.kitSport=="Bowling"||topMaterials==null||topMaterials.Length==0||!topMaterials[0])return;   // bowling: own contrast panels
             var color=topMaterials[0].GetColor("_BaseColor");if(hasColor&&color==lastColor)return;
             lastColor=color;hasColor=true;
             foreach(var m in topMaterials)if(m&&m.HasProperty("_TrimColor"))

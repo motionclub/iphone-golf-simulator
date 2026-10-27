@@ -87,6 +87,8 @@ namespace GolfArcade.Hub
         public Func<string, (Vector3 pos, float yaw, bool show)?> Override;
         readonly List<string> ids = new List<string>();
         /// Friends here now, ordered by id (a stable line-up order on every TV).
+        /// A friend's hero animator (null until their hero has spawned): the menu line-up holds a pose on it.
+        public HubHeroAnimator HeroOf(string id) => remotes.TryGetValue(id, out var r) ? r.hero : null;
         public List<string> Ids { get { ids.Clear(); ids.AddRange(remotes.Keys); ids.Sort(System.StringComparer.Ordinal); return ids; } }
         /// A friend's name and party colour (for the menu's name plates).
         public bool TryGetIdentity(string id, out string name, out Color colour)

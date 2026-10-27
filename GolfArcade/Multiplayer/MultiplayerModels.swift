@@ -1,6 +1,7 @@
 import Foundation
 
-enum MultiplayerSport: String, Codable, CaseIterable, Sendable { case tennis, golf }
+/// Bowling: one lane, 2-4 players taking turns; every phone runs the whole game and shows it itself (no TV needed; BowlingGame.Network).
+enum MultiplayerSport: String, Codable, CaseIterable, Sendable { case tennis, golf, bowling }
 /// `calibrating` is tennis only: every phone is loaded and each player points their phone at the TV and taps Ready
 /// before the owner starts the match. Golf goes straight from `loading` to `playing`.
 enum MultiplayerPhase: String, Codable, Sendable { case lobby, loading, calibrating, playing, results, interrupted }
@@ -12,7 +13,7 @@ enum MultiplayerError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .unavailable(let s), .invalidOperation(let s): return s
-        case .incompatible: return "The players need compatible versions of the game."
+        case .incompatible: return "Your friend has a different version of the game. Both of you update to the newest one, then try again."
         case .full: return "The lobby already has four people, including spectators."
         case .localNetworkDenied: return "Allow Local Network access for this app in Settings, so phones in the same room can find each other."
         }
@@ -108,6 +109,9 @@ struct MultiplayerLobby: Codable, Equatable, Sendable {
     var publicAdmission = false
     /// Explicit same-room play (Nearby or the host's sharing-TV choice). Remote play needs a screen each.
     var sharedScreen: Bool? = nil
+    /// A friends' party: the leader picked a game and pressed Start. Everyone playing taps Ready on their phone, and the match starts
+    /// the moment the last one does. Nil otherwise (older builds leave it out).
+    var readyCheck: Bool? = nil
     var competitors: [MultiplayerParticipant] { participants.filter { $0.seat >= 0 && $0.connected }.sorted { $0.seat < $1.seat } }
     var capacity: Int { sport == .tennis ? 2 : 4 }
     var canStart: Bool {
@@ -163,6 +167,7 @@ struct MultiplayerLobby: Codable, Equatable, Sendable {
     /// Still accepted for golf: the shared "resort" default and the old Meadow Run course of earlier lobbies.
     private static let legacyGolfVenues = ["resort", "meadow"]
     static func validVenue(_ venue: String, sport: MultiplayerSport) -> Bool {
+        if sport == .bowling { return BowlingVenueChoice(rawValue: venue) != nil }
         guard sport == .golf else { return ["resort", "skyscraper", "volcano"].contains(venue) }
         let round = golfRoundParts(venue)
         return round.holes == 0 ? (golfVenues + legacyGolfVenues).contains(round.course) : golfVenues.contains(round.course) && (1...36).contains(round.holes)

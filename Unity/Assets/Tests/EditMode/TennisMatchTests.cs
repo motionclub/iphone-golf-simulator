@@ -148,7 +148,7 @@ public class TennisMatchTests
         Assert.Less(Vector3.Distance(early.Landing, spot), .01f);
     }
 
-    [Test] public void AGoodTossLandsWhereAimedAndALooseOneRisksAFault()
+    [Test] public void AGoodTossLandsWhereAimedAndEveryStruckServeGoesIn()
     {
         // A centred toss lands exactly on the aim, anywhere in the box, at any legal timing.
         foreach (bool deuce in new[] { true, false })
@@ -160,18 +160,18 @@ public class TennisMatchTests
                         if (TennisRules.ServePowerAt(fromApex) >= TennisRules.ServeFaultPower)
                             Assert.IsTrue(v.Legal && TennisRules.ServeIsIn(v.Landing, true, deuce), $"aim {across},{depth} at {fromApex}: {v.Landing}");
                     }
-        // Aimed at the lines with a loose toss, the wander can carry it out: a fault.
-        int outs = 0;
-        for (float r = 0; r <= 1; r += .1f)
-        {
-            var v = TennisRules.JudgeServeStrike(0, .2f, new Vector2(1, 1), true, true, false, r, 1 - r);
-            if (!TennisRules.ServeIsIn(v.Landing, true, true)) outs++;
-        }
-        Assert.Greater(outs, 2, "going for the lines with a bad toss must be a real risk");
-        // Aimed safely with a middling toss it still lands in.
-        Assert.IsTrue(TennisRules.ServeIsIn(TennisRules.JudgeServeStrike(0, .7f, new Vector2(0, .5f), true, true, false, .9f, .1f).Landing, true, true));
-        Assert.IsFalse(TennisRules.JudgeServeStrike(.6f, 1, Vector2.zero, true, true, false, .5f, .5f).Legal, "far too late hits the net");
-        Assert.IsFalse(TennisRules.JudgeServeStrike(-.6f, 1, Vector2.zero, true, true, false, .5f, .5f).Legal, "far too early too");
+        // Wii Sports (2026-10-26): any toss, any aim, any swing timing -- a struck serve goes in. A loose toss wanders
+        // inside the box, and a swing far from the top of the toss is slow, not a fault.
+        foreach (bool deuce in new[] { true, false })
+            for (float toss = 0; toss <= 1; toss += .2f)
+                for (float r = 0; r <= 1; r += .1f)
+                    foreach (float fromApex in new[] { -.8f, -.3f, 0f, .3f, .8f })
+                    {
+                        var v = TennisRules.JudgeServeStrike(fromApex, toss, new Vector2(r * 2 - 1, 1 - r), true, deuce, false, r, 1 - r);
+                        Assert.IsTrue(v.Legal && TennisRules.ServeIsIn(v.Landing, true, deuce), $"toss {toss} roll {r} at {fromApex}: {v.Landing}");
+                    }
+        Assert.Less(TennisRules.JudgeServeStrike(.6f, 1, Vector2.zero, true, true, false, .5f, .5f).Speed,
+            TennisRules.JudgeServeStrike(0, 1, Vector2.zero, true, true, false, .5f, .5f).Speed, "off the peak is slower");
         // Aim moves the ball: wide lands further out than the T.
         var t = TennisRules.JudgeServeStrike(0, 1, new Vector2(-1, .8f), true, true, false, .5f, .5f);
         var wide = TennisRules.JudgeServeStrike(0, 1, new Vector2(1, .8f), true, true, false, .5f, .5f);
@@ -262,17 +262,14 @@ public class TennisMatchTests
 
     [Test] public void OpponentOnlyMissesBallsThatAreHardToPlay()
     {
-        // A comfortable ball -- at the body, moderate pace, waist high -- comes back unless the
-        // opponent makes an unforced error, which only weak players do with any regularity.
+        // A comfortable ball -- at the body, moderate pace, waist high -- always comes back, whatever the roll: the
+        // rival never gifts a point (2026-10-26; only a long rally wears it down, TennisFunTests).
         for (float d = 0; d <= 1f; d += .25f)
-        {
-            float unforced = OpponentProfile.FromDifficulty(d).UnforcedError;
-            var easy = TennisOpponent.Decide(0, .4f, 0, d, unforced + .01f, .5f, .5f, .4f, TennisOpponent.Reach, 0, .5f);
-            Assert.IsTrue(easy.Reached && !easy.Error, $"comfortable ball at difficulty {d}");
-            Assert.LessOrEqual(unforced, .1f, "unforced errors stay occasional");
-        }
-        Assert.IsTrue(TennisOpponent.Decide(0, .4f, 0, 0, .02f, .5f, .5f, .4f, TennisOpponent.Reach, 0, .5f).Error,
-            "a club player can shank an easy ball");
+            for (float roll = 0; roll < 1; roll += .1f)
+            {
+                var easy = TennisOpponent.Decide(0, .4f, 0, d, roll, .5f, .5f, .4f, TennisOpponent.Reach, 0, .5f);
+                Assert.IsTrue(easy.Reached && !easy.Error, $"comfortable ball at difficulty {d}, roll {roll}");
+            }
         Assert.Less(OpponentProfile.Rival("boss", 1).UnforcedError, .01f, "the champion almost never gives one away");
         // Each threat alone makes a ball harder; together they compound.
         float calm = TennisOpponent.ShotDifficulty(0, 0);
@@ -372,10 +369,11 @@ public class TennisMatchTests
     {
         // Racket face square to the TV is straight; turned left or right sends the ball that way.
         Assert.AreEqual(0, TennisRules.SideFromSwing(0), 1e-6f);
-        // A wide straight band: wrist wobble never steers a ball.
+        // A wide straight band: wrist wobble never steers a ball. Outside it, a lane (2026-10-26: three lanes).
         foreach (float aim in new[] { -TennisRules.SwingAimDeadBand, -.08f, 0f, .08f, TennisRules.SwingAimDeadBand })
             Assert.AreEqual(0, TennisRules.SideFromSwing(aim), 1e-6f, $"aim {aim} is straight");
-        // The corner is reachable inside the phone's calibrated range (which tops out near 0.8).
+        // The side lane is reachable well inside the phone's calibrated range (which tops out near 0.8).
+        Assert.AreEqual(1, TennisRules.SideFromSwing(TennisRules.SwingAimDeadBand + .02f), 1e-6f);
         Assert.AreEqual(1, TennisRules.SideFromSwing(.8f), 1e-6f);
         Assert.AreEqual(-1, TennisRules.SideFromSwing(-.8f), 1e-6f);
         float previous = 0;

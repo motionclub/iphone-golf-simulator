@@ -160,8 +160,12 @@ namespace MotionSports.Brand
         {
             var t = Fill(parent, name).gameObject.AddComponent<Text>();
             t.font = font; t.fontSize = Mathf.RoundToInt(size); t.color = color; t.alignment = align; t.text = text;
-            t.horizontalOverflow = HorizontalWrapMode.Overflow; t.verticalOverflow = VerticalWrapMode.Overflow; t.raycastTarget = false;
-            t.supportRichText = true; t.lineSpacing = 1f;
+            t.raycastTarget = false; t.supportRichText = true; t.lineSpacing = 1f;
+            // never cut off (Adnan 10-26): text wraps inside its box and shrinks (to 60 %) until it fits, instead of running out of it
+            t.horizontalOverflow = HorizontalWrapMode.Wrap; t.verticalOverflow = VerticalWrapMode.Truncate;
+            t.resizeTextForBestFit = true; t.resizeTextMaxSize = Mathf.RoundToInt(size); t.resizeTextMinSize = Mathf.Max(12, Mathf.RoundToInt(size * .6f));
+            // and readable on anything behind it: every label carries the brand's dark shadow (Underlay adds the stronger one)
+            var s = t.gameObject.AddComponent<Shadow>(); s.effectColor = new Color(BrandColors.TextShadow.r, BrandColors.TextShadow.g, BrandColors.TextShadow.b, .45f); s.effectDistance = new Vector2(0, -2);
             return t;
         }
         /// Text Shadow #00082D at 55 %, offset size/40 (the brand underlay; legacy Text has no blur).
@@ -172,22 +176,29 @@ namespace MotionSports.Brand
             return t;
         }
 
+        /// A navy outline (3 px) under the shadow: titles read over the bright plaza, not only over panels (10-26).
+        public static Text Ink(Text t)
+        {
+            var o = t.gameObject.AddComponent<Outline>(); o.effectColor = BrandColors.ShadowInk; o.effectDistance = new Vector2(3, -3);
+            return t;
+        }
+
         /// The wordmark: "Motion" white + "Sports" Wordmark Gold, Kanit ExtraBold Italic, with its shadow (required over a 3D scene).
         public static Text Wordmark(Transform parent, float x, float y, float size = 64)
         {
             var box = Box(parent, "Wordmark", x, y, size * 7f, size * 1.25f);
             var t = Label(box, "Text", "Motion<color=#F1B120>Sports</color>", ExtraBoldItalic, size, BrandColors.White);
-            return Underlay(t);
+            return Ink(Underlay(t));
         }
 
         /// The two-line headline: line 1 white, line 2 Headline Gold (Title style, 84 px, Kanit ExtraBold Italic).
         public static RectTransform Headline(Transform parent, float x, float y, string line1, string line2, float width = 1000, TextAnchor align = TextAnchor.UpperLeft)
         {
-            var box = Box(parent, "Headline", x, y, width, 210);
-            var a = Underlay(Label(box, "Line 1", line1, ExtraBoldItalic, BrandType.Title, BrandColors.White, align));
-            var b = Underlay(Label(box, "Line 2", line2, ExtraBoldItalic, BrandType.Title, BrandColors.Gold, align));
-            a.rectTransform.offsetMax = new Vector2(0, 0); a.rectTransform.offsetMin = new Vector2(0, 105);
-            b.rectTransform.offsetMax = new Vector2(0, -102); b.rectTransform.offsetMin = new Vector2(0, 0);
+            var box = Box(parent, "Headline", x, y, width, 236);
+            var a = Ink(Underlay(Label(box, "Line 1", line1, ExtraBoldItalic, BrandType.Title, BrandColors.White, align)));
+            var b = Ink(Underlay(Label(box, "Line 2", line2, ExtraBoldItalic, BrandType.Title, BrandColors.Gold, align)));
+            a.rectTransform.offsetMax = new Vector2(0, 0); a.rectTransform.offsetMin = new Vector2(0, 118);
+            b.rectTransform.offsetMax = new Vector2(0, -114); b.rectTransform.offsetMin = new Vector2(0, 0);
             return box;
         }
 
@@ -218,15 +229,16 @@ namespace MotionSports.Brand
             bool off = style == Style.Disabled || style == Style.RowDisabled;
             var ink = gold ? BrandColors.NavyInk : off ? BrandColors.N500 : BrandColors.White;
             bool row = style == Style.Row || style == Style.RowPrimary || style == Style.RowDisabled;
-            var text = Label(face, "Label", label, ExtraBoldItalic, row ? 36 : style == Style.Tab ? 30 : BrandType.Button, ink, row ? TextAnchor.MiddleLeft : TextAnchor.MiddleCenter);
+            var text = Label(face, "Label", label, ExtraBoldItalic, row ? 40 : style == Style.Tab ? 30 : BrandType.Button, ink, row ? TextAnchor.MiddleLeft : TextAnchor.MiddleCenter);
             Text subText = null;
             if (row)
             {
-                text.rectTransform.offsetMin = new Vector2(34, string.IsNullOrEmpty(sub) ? 0 : 30); text.rectTransform.offsetMax = new Vector2(-30, string.IsNullOrEmpty(sub) ? 0 : -6);
+                text.rectTransform.offsetMin = new Vector2(38, string.IsNullOrEmpty(sub) ? 0 : 40); text.rectTransform.offsetMax = new Vector2(-30, string.IsNullOrEmpty(sub) ? 0 : -4);
                 if (!string.IsNullOrEmpty(sub))
                 {
-                    subText = Label(face, "Sub", sub, Medium, BrandType.Caption, gold ? BrandColors.NavyDeep : BrandColors.N300, TextAnchor.MiddleLeft);
-                    subText.rectTransform.offsetMin = new Vector2(34, 8); subText.rectTransform.offsetMax = new Vector2(-30, -50);
+                    // the line under a row: SemiBold 30, near-white (the grey Medium 24 did not read on a TV, 10-26)
+                    subText = Label(face, "Sub", sub, SemiBold, BrandType.Caption, gold ? BrandColors.NavyDeep : new Color(1, 1, 1, .94f), TextAnchor.MiddleLeft);
+                    subText.rectTransform.offsetMin = new Vector2(38, 8); subText.rectTransform.offsetMax = new Vector2(-30, -60);
                 }
             }
             else if (gold) text.rectTransform.offsetMin = new Vector2(0, 6);

@@ -61,7 +61,24 @@ namespace GolfArcade.Tennis
         /// hit to hit in a casual rally, 0.95 s at Pro level). At full value every rival, the club player included,
         /// crossed the court in about 1.0 s; scaled, a club rival takes about 1.25-1.4 s and the boss about 0.95 s.
         /// Kept as one factor so the profiles' relative character (and the campaign balance built on them) stands.
-        public const float WiiPace = .72f, MinRallyPace = 14f;
+        public const float WiiPace = .66f, MinRallyPace = 13f;   // was .72 / 14: more hang time (2026-10-26)
+
+        /// Wii Sports' rivals "sweat and lose their focus" in a long rally. The opponent never gives a point away on a
+        /// comfortable ball (2026-10-26: it used to have a flat unforced-error chance on every ball, so a casual
+        /// player's every contact was a coin-flip the rival might lose). Instead, from `FatigueStart` shots in, each
+        /// shot adds `FatiguePerShot` to its miss chance, up to `FatigueMax`, so a long rally ends on its own.
+        public const int FatigueStart = 10;
+        public const float FatiguePerShot = .012f, FatigueMax = .12f;
+        public static float Fatigue(int rallyShots) => Mathf.Clamp((rallyShots - FatigueStart) * FatiguePerShot, 0, FatigueMax);
+
+        /// Its legs in a rally, against its profile: `RallyLegs` of the speed and `RallyReadDelay` more reading time. The
+        /// Wii-paced ball (WiiPace, 2026-10-24) gives every rival long enough to get across that, at full legs, a clean
+        /// angle hardly ever got past it: self-play through the real game ran 13-shot rallies decided by the rival's
+        /// stretched errors (3 winners in 60 points). Swept 2026-10-26 (work/tennis-fun-1026), re-swept the same day after
+        /// the balls got more hang time (legs .9 then ran 25-shot rallies): at these values self-play that times well wins its
+        /// points with clean angles in ~9-shot rallies, and a ball down the middle never wins.
+        /// Serve returns keep the profile's own legs.
+        public const float RallyLegs = .76f, RallyReadDelay = .085f;
 
         /// 1 on the first ball of a rally (the serve), fading to 0 after `RallyBuilderShots` shots.
         public static float RallyEase(int rallyShots) =>
@@ -121,10 +138,13 @@ namespace GolfArcade.Tennis
         /// (0 at the body .. 1 at full reach), `pace` (0 slow .. 1 very fast), `height`
         /// (0 comfortable waist height .. 1 at the shoe-tops or over the head) and `quality`
         /// (how cleanly the player struck it). Each takes away a share of the ease.
+        public const float QualityBite = .12f;
         public static float ShotDifficulty(float stretch, float pace, float height = 0, float quality = 0)
         {
             float s = Mathf.Clamp01(stretch), q = Mathf.Clamp01(quality);
-            float ease = (1 - .92f * s * s) * (1 - .38f * Mathf.Clamp01(pace)) * (1 - .35f * Mathf.Clamp01(height)) * (1 - .3f * q * q);
+            // A clean hit already makes the ball fast (pace); quality only adds a little on top, so a well-timed ball
+            // down the middle comes back and the points are won by placement (2026-10-26).
+            float ease = (1 - .92f * s * s) * (1 - .38f * Mathf.Clamp01(pace)) * (1 - .35f * Mathf.Clamp01(height)) * (1 - QualityBite * q * q);
             return Mathf.Clamp01(1 - ease);
         }
 
@@ -169,7 +189,7 @@ namespace GolfArcade.Tennis
         public static TennisReturn Decide(float opponentX, float ballX, float playerX, float playerVX, float weakSide,
             OpponentProfile p, float roll, float widthRoll, float depthRoll, float pace, float reach,
             float height = 0, float quality = 0, bool returningServe = false, float playerZ = -11.2f, bool previousLob = false,
-            float rallyEase = 0)
+            float rallyEase = 0, float fatigue = 0)
         {
             rallyEase = Mathf.Clamp01(rallyEase);
             var result = new TennisReturn();
@@ -179,23 +199,23 @@ namespace GolfArcade.Tennis
             float stretch = Stretch(opponentX, ballX, reach);
             float hard = ShotDifficulty(stretch, pace, Mathf.Abs(height), quality);
             result.Difficulty = hard;
-            // Forced errors from how hard the ball was, plus the unforced ones a weaker player
-            // makes on balls that were not hard at all.
-            float chance = MissChance(hard, p) + p.UnforcedError * (1 - hard);
+            // Errors are forced by how hard the ball was, plus the focus a long rally wears away. Never a coin-flip on
+            // an easy ball (`UnforcedError` stays on the profile for the rivals' character, but no longer gifts points).
+            float chance = MissChance(hard, p) + Mathf.Clamp01(fatigue);
             if (roll < chance)
             {
                 result.Error = true;
                 // The miss follows from what made the ball hard, the way a real one does.
                 float stretchPart = .92f * stretch * stretch, pacePart = .38f * Mathf.Clamp01(pace),
-                      heightPart = .35f * Mathf.Clamp01(Mathf.Abs(height)), qualityPart = .3f * quality * quality;
+                      heightPart = .35f * Mathf.Clamp01(Mathf.Abs(height)), qualityPart = QualityBite * quality * quality;
                 // Where within the miss: the roll is already below `chance`, so rescale it.
                 float within = Mathf.Clamp01(roll / Mathf.Max(.0001f, chance));
                 float side = Mathf.Abs(ballX) > .05f ? Mathf.Sign(ballX) : (widthRoll < .5f ? -1 : 1);
                 if (hard < .25f)
                 {
-                    // Nothing forced it: an unforced error, long or into the tape.
-                    if (within < .5f) { result.Landing = new Vector3(ballX * .4f, TennisRules.BallRadius, 1.0f); result.Label = "Opponent nets it"; result.Reason = "UNFORCED ERROR"; }
-                    else { result.Landing = new Vector3(Mathf.Lerp(-2.5f, 2.5f, widthRoll), TennisRules.BallRadius, -TennisRules.CourtHalfLength - Mathf.Lerp(.3f, 1.2f, within)); result.Label = "Opponent hits it long"; result.Reason = "UNFORCED ERROR"; }
+                    // Nothing forced it: the long rally wore it down, long or into the tape.
+                    if (within < .5f) { result.Landing = new Vector3(ballX * .4f, TennisRules.BallRadius, 1.0f); result.Label = "Opponent nets it"; result.Reason = "WORN DOWN"; }
+                    else { result.Landing = new Vector3(Mathf.Lerp(-2.5f, 2.5f, widthRoll), TennisRules.BallRadius, -TennisRules.CourtHalfLength - Mathf.Lerp(.3f, 1.2f, within)); result.Label = "Opponent hits it long"; result.Reason = "WORN DOWN"; }
                 }
                 else if (stretchPart >= Mathf.Max(pacePart, heightPart, qualityPart))
                 {
@@ -260,6 +280,9 @@ namespace GolfArcade.Tennis
             // A serve return keeps its firm, low pace (scaled, a topspin return balloons over the server).
             if (!returningServe) speed = Mathf.Max(MinRallyPace, speed * WiiPace);
             float spin = Mathf.Lerp(p.SpinMin, p.SpinMax, Mathf.Repeat(widthRoll * 3.1f, 1f));
+            // A serve return is blocked back flatter: with less pace taken off it for a clean serve (QualityBite), a heavy
+            // topspin return would balloon over the server's head.
+            if (returningServe) spin = Mathf.Min(spin, .55f);
             float special = Mathf.Repeat(depthRoll * 6.73f, 1f);
             result.Label = defend > .6f ? "Opponent scrambles it back" : "Opponent returns";
             float lobChance = previousLob ? 0 : returningServe ? (playerZ > -5 ? .03f : 0)

@@ -46,6 +46,9 @@ namespace GolfArcade.Tennis
         /// through the cloth in a swing. Per piece: Resources/<Sport>/KitsV2/<Sex>/KitV2_<Sport>_<Sex>_<Tag>_hide.bytes (int32 vertex
         /// triplets of the body). Re-applied when the worn set changes (SetGolfHand). The source body mesh is never modified.
         Mesh kitV2CoverSource; string kitV2CoverKey;
+        /// CLOTHING V3 (2026-10-26): the Resources folder of this hero's kit ("Bowling" for the bowling kit heroes); empty = Golf / Tennis by golfKit.
+        public string kitSport = "";
+        public string KitSportFolder => !string.IsNullOrEmpty(kitSport) ? kitSport : golfKit ? "Golf" : "Tennis";
         static readonly System.Collections.Generic.Dictionary<(Mesh, string), Mesh> kitV2Covered = new System.Collections.Generic.Dictionary<(Mesh, string), Mesh>();
         static long CoverKey(int a, int b, int c)
         {
@@ -58,7 +61,7 @@ namespace GolfArcade.Tennis
             if (!kitV2CoverSource) kitV2CoverSource = body.sharedMesh;
             var src = kitV2CoverSource;
             if (!src || !src.isReadable) return;
-            string sport = golfKit ? "Golf" : "Tennis", sex = female ? "Female" : "Male";
+            string sport = KitSportFolder, sex = female ? "Female" : "Male";
             var worn = kit.Where(r => r && r.enabled).Select(r => r.name).OrderBy(n => n, System.StringComparer.Ordinal).ToArray();
             string key = string.Join("|", worn);
             if (key == kitV2CoverKey) return;
@@ -238,6 +241,14 @@ namespace GolfArcade.Tennis
         static Texture2D kitV2Atlas;
         /// CLOTHING V2 fabric atlas (version-2 decoder): twill (0,0), pique (1,0), leather grain (0,1), 1x1 rib (1,1).
         static Texture2D KitV2Atlas => kitV2Atlas ? kitV2Atlas : kitV2Atlas = Resources.Load<Texture2D>("Tennis/KitsV2/KitV2_FabricAtlas");
+        static readonly Color BowlingPanel = new Color(.86f, .80f, .68f, 1), BowlingPanelDark = new Color(.13f, .17f, .32f, 1), BowlingShoeSaddle = new Color(.55f, .08f, .08f, 1);
+        /// Saddle colour for a bowling shoe colour: deep red on light shoes, cream on dark ones (the rental two-tone look for any pick).
+        public static Color BowlingSaddleFor(Color shoe) => (.2126f * shoe.r + .7152f * shoe.g + .0722f * shoe.b) > .45f ? BowlingShoeSaddle : BowlingPanel;
+        /// Contrast panel colour for a bowling shirt colour: cream panels on mid / dark shirts, navy on light ones.
+        public static Color BowlingPanelFor(Color shirt) => (.2126f * shirt.r + .7152f * shirt.g + .0722f * shirt.b) > .62f ? BowlingPanelDark : BowlingPanel;
+        static Texture2D kitV3Atlas;
+        /// CLOTHING V3 fabric atlas (4 x 4, built from yarn geometry in Blender): see HeroCloth.hlsl FabricV3 for the cells.
+        static Texture2D KitV3Atlas => kitV3Atlas ? kitV3Atlas : kitV3Atlas = Resources.Load<Texture2D>("Tennis/ClothV3/KitV3_FabricAtlas");
         static Texture2D WeaveMap => weaveMap ? weaveMap : weaveMap = Resources.Load<Texture2D>("Tennis/HeroDetail/Cloth_Weave");
         static Texture2D FabricAtlas => fabricAtlas ? fabricAtlas : fabricAtlas = Resources.Load<Texture2D>("Tennis/HeroDetail/Cloth_FabricAtlas");
         static Texture2D SkinBumpMap => skinBumpMap ? skinBumpMap : skinBumpMap = Resources.Load<Texture2D>("Tennis/HeroDetail/Skin_Soft_N");
@@ -406,7 +417,7 @@ namespace GolfArcade.Tennis
             float mpu = MetresPerUv(mesh, sub, scale);
             m.SetFloat("_WeaveTile", mpu > 0 ? mpu / look.tileMetres : 60f);
             if (!female && tag == "Top" && role == RoleShirt) m.SetFloat("_WeaveAngle", MaleShirtWeaveAngle);
-            string garment = v2 ? $"{(golfKit ? "Golf" : "Tennis")}/KitsV2/{(female ? "Female" : "Male")}/KitV2_{(golfKit ? "Golf" : "Tennis")}_{(female ? "Female" : "Male")}_{tag}"
+            string garment = v2 ? $"{KitSportFolder}/KitsV2/{(female ? "Female" : "Male")}/KitV2_{KitSportFolder}_{(female ? "Female" : "Male")}_{tag}"
                 : golfKit ? $"Golf/HeroDetail/Golf_{(female ? "Female" : "Male")}_{tag}" : $"Tennis/HeroDetail/Kit_{(female ? "Female" : "Male")}_{tag}";
             var normal = Resources.Load<Texture2D>(garment + "_N");
             var mask = Resources.Load<Texture2D>(garment + "_M");
@@ -431,6 +442,18 @@ namespace GolfArcade.Tennis
                 m.SetFloat("_WeaveAngle", 0);
                 m.SetFloat("_Exposure", tag.StartsWith("Shoe") ? .78f : golfKit ? 1.05f : .84f);
                 if (v2) m.SetFloat("_EdgeLines", 0);
+                // CLOTHING V3: the Blender yarn atlas, fibre shine and tonal grain (VISUAL_CLOTH_V3=0 keeps the V2 look for A/B).
+                if (v2 && KitV3Atlas && System.Environment.GetEnvironmentVariable("VISUAL_CLOTH_V3") != "0")
+                {
+                    m.SetTexture("_WeaveMap", KitV3Atlas); m.SetFloat("_AtlasVersion", 3);
+                    m.SetFloat("_KnitCell", tag.StartsWith("Sock") || (female && !golfKit && tag == "Top") ? 4 : 1);   // jersey tank + socks, pique polos
+                    // bowling shirts: rayon (V3 ids, M alpha * 15) with cream contrast panels in the trim channel
+                    if (kitSport == "Bowling" && tag == "Top") { m.SetFloat("_FabricVersion", 3); m.SetColor("_TrimColor", KitTint(BowlingPanelFor(m.GetColor("_BaseColor")))); }
+                    if (kitSport == "Bowling" && tag.StartsWith("Shoe")) m.SetColor("_TrimColor", KitTint(BowlingShoeSaddle));
+                    // female tennis top (ref sheet 09): smooth fine performance jersey, not a chunky knit: finer stitches, flatter relief, less grain
+                    if (female && !golfKit && string.IsNullOrEmpty(kitSport) && tag == "Top")
+                    { m.SetFloat("_FabricDetail", .45f); m.SetFloat("_WeaveTile", m.GetFloat("_WeaveTile") * 2f); m.SetFloat("_Mottle", .04f); }
+                }
             }
             else
             {
@@ -849,6 +872,9 @@ namespace GolfArcade.Tennis
             {
                 if (!kitMaterials.TryGetValue(role, out var list)) return;
                 var trim = picked ? KitTint(role == RoleShoe ? KitShoeTrim(pick) : KitDerive(pick)) : KitTint(StarterTrim(role));
+                // bowling kit: two-tone shirt panels in a real contrast of the shirt colour, saddle shoes with a deep red saddle by default
+                if (kitSport == "Bowling" && role == RoleShirt) trim = KitTint(BowlingPanelFor(picked ? pick : kitAuthored[role]));
+                if (kitSport == "Bowling" && role == RoleShoe) trim = KitTint(BowlingSaddleFor(picked ? pick : kitAuthored[role]));
                 foreach (var m in list) if (m.HasProperty("_TrimColor")) m.SetColor("_TrimColor", trim);
             }
             Trim(RoleShirt, hs, shirt); Trim(RoleShirtTrim, hs, shirt);

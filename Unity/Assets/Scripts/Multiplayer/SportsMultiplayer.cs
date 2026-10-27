@@ -18,6 +18,8 @@ namespace GolfArcade.Multiplayer {
         /// ("peer" packets) instead of a host running separate rules. Off only for the old host-rules tests.
         public static bool TennisVersusEnabled=true;
         public bool TennisVersus=>Configuration?.sport=="tennis"&&versusMatch;
+        /// Bowling (BowlingGame.Network): like versus, every phone runs the whole game and only the balls travel ("peer").
+        public bool Bowling=>Configuration?.sport=="bowling";
         bool versusMatch;
         /// A player has paused (their phone's pause or a dropped link): versus play holds on both phones until they are back.
         public bool Suspended=>suspended.Count>0;
@@ -40,7 +42,7 @@ namespace GolfArcade.Multiplayer {
             }
         }
         NetworkTennisMatch tennis;NetworkGolfRound golf;
-        TennisGame tennisView;GolfGame golfView;
+        TennisGame tennisView;GolfGame golfView;GolfArcade.Bowling.BowlingGame bowlingView;
         string pendingResult; double resultDue;
         double scheduledStart = double.PositiveInfinity; bool startScheduled;
         public double SharedClock => Clock + (IsHost ? 0 : clockOffset);
@@ -70,8 +72,14 @@ namespace GolfArcade.Multiplayer {
             GolfArcade.EnvironmentArt.DreamEnvironment.StartSession(c.seed,c.environmentUtc);
             pendingResult=null; startScheduled=false; scheduledStart=double.PositiveInfinity;
             PresentationPolicy.Multiplayer=true; Configuration=c;Running=false;LocalTarget=0;lastSwing=lastStart=lastAbort=0;eventID=0;lastTick=lastRevision=-1;nextSnapshot=lastMove=0;nextStats=maxSnapshotGap=0;lastSnapshot=packetAt=Clock;clockOffset=0;suspended.Clear();EmitFailures=0;GolfShot=null;TennisState=null;GolfState=null;compactSnapshots=false;
-            tennisView=FindFirstObjectByType<TennisGame>();golfView=FindFirstObjectByType<GolfGame>();
-            versusMatch=c.sport=="tennis"&&TennisVersusEnabled; lastPeer=Clock;
+            tennisView=FindFirstObjectByType<TennisGame>();golfView=FindFirstObjectByType<GolfGame>();bowlingView=FindFirstObjectByType<GolfArcade.Bowling.BowlingGame>();
+            versusMatch=c.sport=="tennis"&&TennisVersusEnabled || c.sport=="bowling"; lastPeer=Clock;
+            if(c.sport=="bowling") {
+                // every phone runs the whole game (turns, scoring); only the balls travel
+                PresentationPolicy.Multiplayer=false; tennis=null; golf=null; TennisState=null; GolfState=null;
+                bowlingView?.ConfigureNetwork(c);
+                Time.timeScale=1; return;
+            }
             if(versusMatch) {
                 // single player's presentation (its own cut, skippable), not the shared short one
                 PresentationPolicy.Multiplayer=false; tennis=null; golf=null; TennisState=null; GolfState=null;
@@ -130,7 +138,7 @@ namespace GolfArcade.Multiplayer {
                     startScheduled=true; break;
                 case "peer":
                     if(p.sender==Configuration.localID||Configuration.Seat(p.sender)<0)return;
-                    lastPeer=Clock;tennisView?.ReceiveVersus(p.payload);break;
+                    lastPeer=Clock;if(Bowling)bowlingView?.ReceiveNetwork(p.payload);else tennisView?.ReceiveVersus(p.payload);break;
                 case "clock":if(double.TryParse(p.payload,System.Globalization.NumberStyles.Float,System.Globalization.CultureInfo.InvariantCulture,out var offset))clockOffset=offset;break;
                 case "input":
                     if(!IsHost||!Running)return;var seat=Configuration.Seat(p.sender);if(seat<0)return;
@@ -154,7 +162,7 @@ namespace GolfArcade.Multiplayer {
                     if(shot!=null&&(GolfShot==null||shot.id>GolfShot.id))GolfShot=shot;break;
                 case "suspend":suspended.Add(p.payload);if(TennisState!=null)TennisState.paused=true;if(GolfState!=null)GolfState.paused=true;break;
                 case "resumePeer":suspended.Remove(p.payload);break;
-                case "drop":suspended.Remove(p.payload);if(IsHost){tennis?.Drop(Configuration.Seat(p.payload));golf?.Drop(Configuration.Seat(p.payload));SendSnapshot(true);}break;
+                case "drop":suspended.Remove(p.payload);if(Bowling){bowlingView?.NetworkDrop(Configuration.Seat(p.payload));break;}if(IsHost){tennis?.Drop(Configuration.Seat(p.payload));golf?.Drop(Configuration.Seat(p.payload));SendSnapshot(true);}break;
                 case "snapshotRequest":if(IsHost)SendSnapshot(true);break;
                 case "result":Running=false;break;
                 case "stop":Shutdown();break;
@@ -184,8 +192,8 @@ namespace GolfArcade.Multiplayer {
             if(!Active)return false;
             // Golf's aim and club belong to the phone with the player up, as in single player; it tells the host (GolfGame.Network).
             if(Instance.Configuration.sport=="golf" && (m.action=="aim" || m.action=="club")) return false;
-            // Versus tennis: every control is single player's (NativeSportsSession's own handling); only pause is the lobby's.
-            if(Instance.TennisVersus) {
+            // Versus tennis and bowling: every control is single player's (NativeSportsSession's own handling); only pause is the lobby's.
+            if(Instance.TennisVersus || Instance.Bowling) {
                 if(m.action=="pause") {Instance.Send("availability","false");return true;}
                 if(m.action=="resume") {Instance.Send("availability","true");Time.timeScale=1;return true;}
                 return false;
@@ -214,7 +222,7 @@ namespace GolfArcade.Multiplayer {
             }
         }
         public static void Sample(in NativeSportsSession.Sample s,bool touch) {
-            if(!Active||Instance.LocalSeat<0||!s.valid||Instance.TennisVersus)return;
+            if(!Active||Instance.LocalSeat<0||!s.valid||Instance.TennisVersus||Instance.Bowling)return;
             var self=Instance;
             float aim=touch&&self.TennisState!=null?self.TennisState.players[self.LocalSeat].aim*(self.LocalSeat==1?-1:1):s.aim;
             if(self.Configuration.sport=="tennis"&&Clock-self.lastMove>=1.0/30) {
@@ -254,6 +262,12 @@ namespace GolfArcade.Multiplayer {
         public void VersusResult(int localSeat,bool localWon,string score) {
             if(!IsHost||pendingResult!=null)return;
             var r=new MatchResult {sport="tennis",reason="complete",score=score,winner=localWon?localSeat:1-localSeat};
+            pendingResult=JsonUtility.ToJson(r); resultDue=SharedClock+6;
+        }
+        /// A bowling game ended (every phone knows it from its own game): the host reports it to the lobby, after the result beat.
+        public void BowlingResult(int winnerSeat,string score) {
+            if(!IsHost||pendingResult!=null)return;
+            var r=new MatchResult {sport="bowling",reason="complete",score=score,winner=winnerSeat};
             pendingResult=JsonUtility.ToJson(r); resultDue=SharedClock+6;
         }
         [Serializable] public sealed class MatchResult {public string sport,reason,score;public int winner=-1;public NetworkGolfer[] golfers;}

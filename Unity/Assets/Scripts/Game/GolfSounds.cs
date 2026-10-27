@@ -50,15 +50,17 @@ namespace GolfArcade.Game
         /// The strike, the loudest thing on the course: even a half swing cracks (a putt is a
         /// gentler tock, and follows the stroke more).
         public void PlayStrike(GolfClub club, double power) => PlayStrike(club, power, 0);
-        /// With `flightSeconds` > 0 a rising whoosh follows the ball through the air, stretched to its flight time.
+        /// With `flightSeconds` > 0 the air the ball cuts follows it up: a swell just after the crack, then a thin whistle
+        /// fading over the hang time (sfx/golf/flight, 7 s, built in work/golf-flight-sound). It is not stretched to the
+        /// flight (bent that far, the whistle turned into a siren or a moan); EndFlight fades it as the ball comes down.
         public void PlayStrike(GolfClub club, double power, float flightSeconds)
         {
             if (flight && flightSeconds > .4f && club != GolfClub.Putter)
             {
-                if (!flightSource) { flightSource = gameObject.AddComponent<AudioSource>(); flightSource.playOnAwake = false; flightSource.spatialBlend = 0; }
-                flightSource.Stop(); flightSource.clip = flight;
-                flightSource.pitch = Mathf.Clamp(flight.length / flightSeconds, .6f, 1.6f);
-                flightSource.volume = Mathf.Lerp(.35f, .8f, Mathf.Clamp01((float)power)) * GameAudio.SfxVolume; flightSource.Play();
+                if (!flightSource) { flightSource = gameObject.AddComponent<AudioSource>(); flightSource.playOnAwake = false; flightSource.spatialBlend = 0; flightSource.outputAudioMixerGroup = strikeSource.outputAudioMixerGroup; }
+                flightSource.Stop(); flightSource.clip = flight; flightFade = 0;
+                flightSource.pitch = Mathf.Lerp(.94f, 1.06f, Mathf.Clamp01((float)power));   // a harder hit is a touch brighter
+                flightSource.volume = flightVolume = Mathf.Lerp(.7f, 1f, Mathf.Clamp01((float)power)) * GameAudio.SfxVolume; flightSource.Play();
             }
             var clip = club.Family() switch { ClubFamily.Wood => driver, ClubFamily.Iron => iron, ClubFamily.Wedge => wedge, _ => putter };
             float p = Mathf.Clamp01((float)power);
@@ -66,6 +68,10 @@ namespace GolfArcade.Game
             if (mishit && power < .3 && club != GolfClub.Putter) clip = mishit;
             strikeSource.Shot(clip, club == GolfClub.Putter ? Mathf.Lerp(0.5f, 1f, p) : Mathf.Lerp(0.75f, 1f, p));
         }
+
+        /// The ball is down (or gone): the flight's air fades out over `seconds` instead of running on past the landing.
+        public void EndFlight(float seconds = .3f) { if (flightSource && flightSource.isPlaying && flightFade <= 0) flightFade = Mathf.Max(.01f, seconds); }
+        float flightFade, flightVolume;
 
         public void PlayWhoosh(double load) => source.Shot(whoosh, Mathf.Lerp(0.35f, 0.95f, Mathf.Clamp01((float)load)));
         public void PlayCup() => source.Shot(cup, 1f);
@@ -154,6 +160,11 @@ namespace GolfArcade.Game
 
         void Update()
         {
+            if (flightFade > 0 && flightSource)
+            {
+                flightSource.volume = Mathf.MoveTowards(flightSource.volume, 0, Time.unscaledDeltaTime * flightVolume / flightFade);
+                if (flightSource.volume <= .001f) { flightSource.Stop(); flightFade = 0; }
+            }
             if (!tensionSource.isPlaying) return;
             // Volume tracks the load quickly; pitch climbs with it, from a slack 0.8 to 1.5.
             float v = Mathf.MoveTowards(tensionSource.volume, tensionTarget * 0.75f, Time.unscaledDeltaTime * 4f);
@@ -173,7 +184,7 @@ namespace GolfArcade.Game
             GameAudio.Swap(ref ready, "sfx/ui/ready"); GameAudio.Swap(ref fanfare, "sfx/ui/fanfare");
             GameAudio.Swap(ref tick, "sfx/ui/tick"); GameAudio.Swap(ref applause, "sfx/crowd/golf_erupt");
             GameAudio.Swap(ref gasp, "sfx/crowd/golf_ooh"); GameAudio.Swap(ref groan, "sfx/crowd/golf_groan");
-            GameAudio.Swap(ref ovation, "sfx/crowd/golf_roar"); GameAudio.Swap(ref mishit, "sfx/golf/mishit"); GameAudio.Swap(ref landGreen, "sfx/golf/land_green"); GameAudio.Swap(ref landSand, "sfx/golf/land_sand"); GameAudio.Swap(ref landFairway, "sfx/golf/land_fairway"); GameAudio.Swap(ref landRough, "sfx/golf/land_rough");
+            GameAudio.Swap(ref ovation, "sfx/crowd/golf_roar"); GameAudio.Swap(ref mishit, "sfx/golf/mishit"); GameAudio.Swap(ref flight, "sfx/golf/flight"); GameAudio.Swap(ref landGreen, "sfx/golf/land_green"); GameAudio.Swap(ref landSand, "sfx/golf/land_sand"); GameAudio.Swap(ref landFairway, "sfx/golf/land_fairway"); GameAudio.Swap(ref landRough, "sfx/golf/land_rough");
         }
         void Synthesize()
         {

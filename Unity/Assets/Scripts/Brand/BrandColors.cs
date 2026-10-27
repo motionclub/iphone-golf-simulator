@@ -98,14 +98,14 @@ namespace MotionSports.Brand
     {
         // Sizes at CanvasScaler reference 1920x1080. Create TMP SDF assets for each weight.
         public const float Display = 132f;   // Kanit ExtraBold Italic, UPPER - PERFECT!
-        public const float Title = 84f;      // Kanit ExtraBold Italic - two-line headline
+        public const float Title = 96f;      // Kanit ExtraBold Italic - two-line headline (84 -> 96, 10-26: read from the sofa)
         public const float Heading = 52f;    // Kanit Bold Italic
         public const float Button = 40f;     // Kanit ExtraBold Italic, UPPER, +2 spacing
         public const float HudNumber = 72f;  // Kanit ExtraBold (upright)
         public const float HudLabel = 24f;   // Kanit SemiBold, UPPER, +6 spacing
         public const float Subline = 40f;    // Kanit Medium Italic
-        public const float Body = 30f;       // Kanit Medium
-        public const float Caption = 24f;    // Kanit Medium - never smaller on TV
+        public const float Body = 34f;       // Kanit Medium (30 -> 34, 10-26)
+        public const float Caption = 30f;    // Kanit SemiBold - never smaller on TV (24 -> 30, 10-26: the grey 24s did not read)
     }
 
     public static class BrandMotion

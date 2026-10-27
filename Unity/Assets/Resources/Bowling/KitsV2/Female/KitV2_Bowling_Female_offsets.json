@@ -1,0 +1,147 @@
+{
+ "version": 1,
+ "hero": "MatchHero_Female",
+ "units": "m",
+ "pieces": [
+  {
+   "piece": "Kit_Top",
+   "bones": {
+    "Chest": {
+     "rest_p50": 0.0145,
+     "rest_p95": 0.023,
+     "pose_p95": 0.0231,
+     "max": 0.0435
+    },
+    "Head": {
+     "rest_p50": 0.0714,
+     "rest_p95": 0.0791,
+     "pose_p95": 0.0785,
+     "max": 0.08
+    },
+    "LeftShoulder": {
+     "rest_p50": 0.0157,
+     "rest_p95": 0.0434,
+     "pose_p95": 0.0402,
+     "max": 0.0682
+    },
+    "Neck": {
+     "rest_p50": 0.0331,
+     "rest_p95": 0.0672,
+     "pose_p95": 0.065,
+     "max": 0.0799
+    },
+    "RightShoulder": {
+     "rest_p50": 0.0154,
+     "rest_p95": 0.0409,
+     "pose_p95": 0.0376,
+     "max": 0.0669
+    },
+    "Spine": {
+     "rest_p50": 0.0192,
+     "rest_p95": 0.0252,
+     "pose_p95": 0.0245,
+     "max": 0.0337
+    },
+    "UpperChest": {
+     "rest_p50": 0.0047,
+     "rest_p95": 0.0109,
+     "pose_p95": 0.0126,
+     "max": 0.0267
+    }
+   }
+  },
+  {
+   "piece": "Kit_Bottom",
+   "bones": {
+    "Hips": {
+     "rest_p50": 0.0073,
+     "rest_p95": 0.0186,
+     "pose_p95": 0.0179,
+     "max": 0.0382
+    },
+    "LeftLowerLeg": {
+     "rest_p50": 0.0103,
+     "rest_p95": 0.0214,
+     "pose_p95": 0.0205,
+     "max": 0.0254
+    },
+    "LeftUpperLeg": {
+     "rest_p50": 0.0104,
+     "rest_p95": 0.0336,
+     "pose_p95": 0.0307,
+     "max": 0.078
+    },
+    "RightLowerLeg": {
+     "rest_p50": 0.0107,
+     "rest_p95": 0.0217,
+     "pose_p95": 0.0206,
+     "max": 0.0256
+    },
+    "RightUpperLeg": {
+     "rest_p50": 0.0108,
+     "rest_p95": 0.0328,
+     "pose_p95": 0.0303,
+     "max": 0.0782
+    },
+    "Spine": {
+     "rest_p50": 0.0098,
+     "rest_p95": 0.0127,
+     "pose_p95": 0.012,
+     "max": 0.0145
+    }
+   }
+  },
+  {
+   "piece": "Kit_Shoe_L",
+   "bones": {
+    "LeftFoot": {
+     "rest_p50": 0.0057,
+     "rest_p95": 0.0155,
+     "pose_p95": 0.0151,
+     "max": 0.0247
+    },
+    "LeftToes": {
+     "rest_p50": 0.0073,
+     "rest_p95": 0.0175,
+     "pose_p95": 0.0178,
+     "max": 0.0255
+    }
+   }
+  },
+  {
+   "piece": "Kit_Shoe_R",
+   "bones": {
+    "RightFoot": {
+     "rest_p50": 0.0056,
+     "rest_p95": 0.0152,
+     "pose_p95": 0.0149,
+     "max": 0.025
+    },
+    "RightToes": {
+     "rest_p50": 0.0073,
+     "rest_p95": 0.0176,
+     "pose_p95": 0.0177,
+     "max": 0.0261
+    }
+   }
+  }
+ ],
+ "bones": {
+  "Chest": 0.0231,
+  "Head": 0.0785,
+  "LeftShoulder": 0.0402,
+  "Neck": 0.065,
+  "RightShoulder": 0.0376,
+  "Spine": 0.0245,
+  "UpperChest": 0.0126,
+  "Hips": 0.0179,
+  "LeftLowerLeg": 0.0205,
+  "LeftUpperLeg": 0.0307,
+  "RightLowerLeg": 0.0206,
+  "RightUpperLeg": 0.0303,
+  "LeftFoot": 0.0151,
+  "LeftToes": 0.0178,
+  "RightFoot": 0.0149,
+  "RightToes": 0.0177
+ }
+}

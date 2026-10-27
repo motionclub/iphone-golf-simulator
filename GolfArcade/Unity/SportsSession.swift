@@ -23,6 +23,10 @@ final class SportsSession {
     var players = PlayerRosterStore.load()
     var playerIndex = 0
     var sport = "golf"
+    /// Unity's bowling state line (BowlingControllerState), 4 a second while bowling.
+    var bowlingState = ""
+    /// Bowling on this phone with no TV: the lane fills the screen under the controls (PLAN_PhonePlay_NoTV_GolfBowling.md).
+    private(set) var phonePlay = false
     var lastPlayedSport: Sport {
         guard players.indices.contains(playerIndex) else { return .tennis }
         let id = players[playerIndex].id.uuidString
@@ -89,6 +93,14 @@ final class SportsSession {
     }
     /// The court for tennis matches: "resort", "skyscraper" or "volcano" (Unity's TennisVenue keys).
     /// Picked on the map screen before each match and remembered for the next.
+    /// The bowling centre last picked (BowlingVenueChoice: club, neon, tiki, magma).
+    var bowlingVenue = BowlingVenueChoice(rawValue: UserDefaults.standard.string(forKey: "sports.bowlingVenue") ?? "")?.rawValue ?? "club" {
+        didSet { UserDefaults.standard.set(bowlingVenue, forKey: "sports.bowlingVenue") }
+    }
+    /// Bowling exhibition's opponent (BowlingOpponent), the one last picked.
+    var bowlingOpponent = BowlingOpponent(rawValue: UserDefaults.standard.integer(forKey: "sports.bowlingOpponent")) ?? .sam {
+        didSet { UserDefaults.standard.set(bowlingOpponent.rawValue, forKey: "sports.bowlingOpponent") }
+    }
     var tennisVenue = UserDefaults.standard.string(forKey: "sports.tennisVenue") ?? "resort" {
         didSet { UserDefaults.standard.set(tennisVenue, forKey: "sports.tennisVenue") }
     }
@@ -247,9 +259,10 @@ final class SportsSession {
     private var multiplayerSetupStarted = false
     var retainCourtDirectionForRematch = false
     var setupProblem = ""
-    /// Setup belongs to this phone, independently of the opponent's renderer or connection.
+    /// Setup belongs to this phone, independently of the opponent's renderer or connection. It starts once this phone's loading
+    /// screen is gone, so the court is on the TV for the scan to find.
     var showsOnlineTennisSetup: Bool {
-        active && multiplayerCalibrates && setupStage != .playing && finishedMatch == nil
+        active && multiplayerCalibrates && loading.finished && setupStage != .playing && finishedMatch == nil
     }
     private(set) var sessionID = ""
     /// Numeric stand-in for the session id on the binary sample channel.
@@ -425,6 +438,14 @@ final class SportsSession {
         start(preview: false)
         launchExtras = [:]
     }
+    /// Start bowling (PLAN_Bowling.md): one lane, these players taking turns frame by frame (pass the phone).
+    func startBowling(players names: [String], preview: Bool) {
+        sport = "bowling"; opponentName = ""; bowlingState = ""
+        let names = names.isEmpty ? [players[min(playerIndex, players.count - 1)].name] : names
+        launchExtras = ["mode": names.prefix(4).joined(separator: "|")]
+        start(preview: preview)
+        launchExtras = [:]
+    }
     /// Settings → Controls: run the timing check at the start of the next match.
     func forceTimingCheckNextMatch() { checkTimingOnResume = true }
     func startMultiplayer(_ configuration: MultiplayerMatchConfiguration) {
@@ -440,7 +461,7 @@ final class SportsSession {
         launchExtras=[:]
         if !active { multiplayerMatchID=nil; multiplayerControllerOnly=false; multiplayerSplit=false }
         else {
-            if multiplayerCalibrates { beginMultiplayerCalibration() }
+            // (the court scan waits for the loading screen to finish: the camera has to see the court on the TV, see loadingFinished)
             // On a shared TV both players use the same display delay.
             if configuration.localView == .split, startingLag > 0 { MultiplayerService.shared.setScreenDelay(startingLag) }
         }
@@ -453,9 +474,12 @@ final class SportsSession {
         NSLog("[SportsSession] launch sport=%@ mode=%@",sport,preview ? "phone-preview" : "external-controller")
         // From a bay in the Plaza (PLAN_MenuHub_WalkableWorld §5): the match loads behind the plaza while you sit, no TV cover.
         let bay = Self.benchmark || multiplayerControllerOnly ? nil : HubSession.shared.bayForLaunch()
-        guard let window = bay != nil ? SportsDisplays.shared.external : Self.benchmark ? SportsDisplays.shared.benchmarkWindow() : multiplayerControllerOnly ? SportsDisplays.shared.multiplayerControllerWindow() : SportsDisplays.shared.gameWindow(preview:preview) else {
+        // bowling never needs a TV: with none, it plays on this phone (golf and tennis still ask for one)
+        let phoneGame = sport == "bowling" && !displayConnected && !Self.benchmark && bay == nil
+        guard let window = phoneGame ? SportsDisplays.shared.phonePlayWindow() : bay != nil ? SportsDisplays.shared.external : Self.benchmark ? SportsDisplays.shared.benchmarkWindow() : multiplayerControllerOnly ? SportsDisplays.shared.multiplayerControllerWindow() : SportsDisplays.shared.gameWindow(preview:preview) else {
             status="Connect a TV or Mac with AirPlay or a wired display to play. This phone is your controller."; return
         }
+        phonePlay = phoneGame
         HubSession.shared.runtimeTaken(bay: bay)   // the match scene replaces the Plaza (behind it, from a bay)
         savePlayers(); sessionID=UUID().uuidString; sessionToken=Int32.random(in:1...Int32.max); ready=false; paused=true; active=true; tennisControllerActive=false
         aimFeedTask?.cancel(); aimTimeoutTask?.cancel(); aimLesson=nil; aimChecked=false; aimWaiting=false; aimSwing=nil; shotAim=0; shotDepth=0.75
@@ -474,7 +498,7 @@ final class SportsSession {
             matchEmotes = EmoteCatalog.normalized(local.loadout?.emotes)
         }
         motion.setAimProfile(storedAimProfile())
-        pending=["holeFlyover":holeFlyover,"intros":consumePresentationIntroCut(),"bigMoments":presentationBigMoments,"presentationConstrained":reduceMotion || ProcessInfo.processInfo.thermalState == .serious || ProcessInfo.processInfo.thermalState == .critical,"version":1,"session":sessionID,"action":"start","sport":sport,"playerID":p.id.uuidString,"playerName":p.name,"female":p.standardFemale,"skin":p.standardSkin,"left":p.handedness == .left,"sound":sound && !(multiplayerControllerOnly && (sport == "tennis" || !displayConnected)),"haptics":haptics,"touch":preview,"token":Int(sessionToken),"fps":highFrameRate ? 120 : 60,"inputHz":inputHz,"bench":SportsSession.benchmark,"difficulty":tennisDifficulty,"venue":sport == "tennis" ? tennisVenue : "resort",
+        pending=["holeFlyover":holeFlyover,"intros":consumePresentationIntroCut(),"bigMoments":presentationBigMoments,"presentationConstrained":reduceMotion || ProcessInfo.processInfo.thermalState == .serious || ProcessInfo.processInfo.thermalState == .critical,"version":1,"session":sessionID,"action":"start","sport":sport,"playerID":p.id.uuidString,"playerName":p.name,"female":p.standardFemale,"skin":p.standardSkin,"left":p.handedness == .left,"sound":sound && !(multiplayerControllerOnly && (sport == "tennis" || !displayConnected)),"haptics":haptics,"touch":preview,"token":Int(sessionToken),"fps":highFrameRate ? 120 : 60,"inputHz":inputHz,"bench":SportsSession.benchmark,"difficulty":tennisDifficulty,"venue":sport == "tennis" ? tennisVenue : sport == "bowling" ? bowlingVenue : "resort",
                  "shirt":p.outfitHex("shirt") ?? "","shorts":p.outfitHex("shorts") ?? "","accent":p.outfitHex("accent") ?? "","racket":p.outfitHex("racket") ?? "",
                  "skinHex":p.skinHex,"hairHex":p.hairHex,
                  "tips":false,"overscan":overscan,"tennisCamera":tennisCamera,
@@ -486,11 +510,10 @@ final class SportsSession {
         pending?["emotes"] = matchEmotes
         for (key, value) in launchExtras { pending?[key] = value }
         if let bay { pending?["seamless"] = true; pending?["bay"] = bay }
-        // from the pointer menu: the TV keeps the menu while the match builds; solo / local waits for START on the TV
-        if bay != nil, HubSession.shared.menuMode {
-            pending?["hold"] = multiplayerMatchID == nil
-            pending?["menuLabel"] = HubSession.shared.menuLaunchLabel
-        }
+        // from the pointer menu: the match builds behind the menu under the loading screen and starts as soon as it is built (no
+        // START to press: a party's guests tap Ready before the launch, on their phones)
+        let fromMenu = bay != nil && HubSession.shared.menuMode
+        if fromMenu { pending?["menuLabel"] = HubSession.shared.menuLaunchLabel }
         if Self.benchmark {
             // Verification flags affect this explicit benchmark launch only;
             // they do not save frame-rate, venue, or character preferences.
@@ -516,7 +539,8 @@ final class SportsSession {
         score = TennisScore(); contacts = []; tutorialStep = nil
         loading.begin(now: LoadingModel.clockNow, multiplayer: multiplayerMatchID != nil)
         loading.onFinish = { [weak self] in self?.loadingFinished() }
-        if bay != nil || (multiplayerCalibrates && multiplayerControllerOnly) { loading.cardAppeared(); loadCoveredRuntime(in: window) }   // never put a TV loading window over the controller-only phone
+        // never put a TV loading window over the controller-only phone; a walkable-Plaza bench loads behind the plaza with none
+        if (bay != nil && !fromMenu) || (multiplayerCalibrates && multiplayerControllerOnly) { loading.cardAppeared(); loadCoveredRuntime(in: window) }
         else { SportsDisplays.shared.beginLoadingCover(in: window) { [weak self] in self?.loadCoveredRuntime(in: window) } }
     }
     private func loadCoveredRuntime(in window: UIWindow) {
@@ -649,18 +673,19 @@ final class SportsSession {
         }
     }
     func resume() {
-        guard displayConnected || multiplayerControllerOnly else { pause(reason: "Reconnect your TV or Mac to continue."); return }
+        guard displayConnected || multiplayerControllerOnly || phonePlay else { pause(reason: "Reconnect your TV or Mac to continue."); return }
         guard sport != "tennis" || setupStage == .playing else { status = "Finish TV scan and timing calibration, then tap Ready."; return }
         guard ready, phase == "steering" else { status="Tap Ready to set your center and play."; return }
         menuPauseVisible = false; SportsDisplays.shared.external?.isHidden = true
-        if !displayConnected { SportsDisplays.shared.restorePhoneControls() }
+        if !displayConnected && !phonePlay { SportsDisplays.shared.restorePhoneControls() }
         command("resume"); paused=false; status="Playing"; if sport == "tennis" { loadoutLocked=true }
         if sport == "tennis" { tennisControllerActive=true }
         SportsDiagnostics.write("resume phase=\(phase) target=\(target)")
     }
     func readyToPlay() {
         if showsOnlineTennisSetup { finishMultiplayerCalibration(); return }
-        guard displayConnected || multiplayerControllerOnly, active, ready, loading.finished else { return }
+        // bowling with no TV plays on this phone (phonePlay): it is its own display
+        guard displayConnected || multiplayerControllerOnly || phonePlay, active, ready, loading.finished else { return }
         if multiplayerCalibrates { finishMultiplayerCalibration(); return }
         if sport == "tennis", setupStage == .scan || setupStage == .timing {
             menuPauseVisible = false; SportsDisplays.shared.external?.isHidden = true
@@ -674,7 +699,8 @@ final class SportsSession {
             return
         }
         guard sport != "tennis" || motion.axisLocked else { return }
-        guard motion.calibrate() else { return }
+        // bowling reads its swing from the moment the ball is held, not from this centre: a phone that is not held still yet must not keep it paused
+        guard motion.calibrate() || sport == "bowling" else { return }
         phase = "steering"
         if sport == "golf" { sendGolfReady("recalibrate") } else { command("recalibrate") }
         setupStage = .playing
@@ -836,6 +862,7 @@ final class SportsSession {
             try? data.write(to: directory.appendingPathComponent("L1_load_timing.json"), options: .atomic)
         }
         if displayConnected { SportsDisplays.shared.external?.isHidden=true }
+        else if phonePlay { SportsDisplays.shared.showPhonePlay() }
         else { SportsDisplays.shared.restorePhoneControls() }
         // Compensate from the first point with the last measurement of this TV; the
         // setup re-times it when the camera is aimed at it.
@@ -982,6 +1009,7 @@ final class SportsSession {
         pointClips.reset()
         HubSession.shared.sessionEnded(finished: finishedMatch != nil || multiplayerMatchID != nil)   // a party comes back to its bay together
         multiplayerMatchID=nil; multiplayerSeat = -1; multiplayerControllerOnly=false; multiplayerSplit=false
+        if phonePlay { phonePlay = false; SportsDisplays.shared.endPhonePlay() }
         if unityControllerShown { unityControllerShown = false; SportsRuntime.shared().showUnity(onPhone: false) }
         command("end")
         if retainCourtDirectionForRematch, sport == "tennis" {
@@ -1074,7 +1102,6 @@ final class SportsSession {
             if let allowed = event["presentationResultReady"] as? Bool { resultPresentationReady = allowed }
             switch event["type"] as? String {
             case "ready":
-                HubSession.shared.menuMatchStarted()
                 runtimeDidRender(renderedAt: event["renderedAt"] as? Double)
             case "sceneReady": loading.markSceneReady(now: Date(timeIntervalSince1970: event["clock"] as? Double ?? ProcessInfo.processInfo.systemUptime))
             case "loadProgress":
@@ -1091,6 +1118,9 @@ final class SportsSession {
                     if let encoded = reading.mapImage, !encoded.isEmpty, let bytes = Data(base64Encoded: encoded),
                        let image = UIImage(data: bytes) { golfControllerMap = image }
                 }
+            case "bowling": bowlingState = event["message"] as? String ?? ""
+            case "bowlCue": BowlingHaptics.cue(event["message"] as? String ?? "")
+            case "bowlingGame": TennisMenu.shared.bowlingFinished(BowlingGameStats(line: event["message"] as? String ?? ""))
             case "lesson": LessonCenter.shared.receive(event["message"] as? String ?? "")
             case "feedback":
                 receiveMatchSnapshot(event)

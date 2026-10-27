@@ -8,7 +8,7 @@ struct MenuControllerView: View {
     @Bindable var hub = HubSession.shared
     var body: some View {
         if hub.phase == .failed { HubFailedPanel(hub: hub) }
-        else if let bay = hub.station, HubSession.partyBays.contains(bay), hub.party != nil { HubPartyBayPanel(hub: hub) }
+        else if hub.party != nil, hub.partyService.partyReadyCheck || (hub.station.map { HubSession.partyBays.contains($0) } ?? false) { HubPartyBayPanel(hub: hub) }
         else if hub.onlineBench != nil { HubOnlineBenchPanel(hub: hub) }
         else if hub.panelOpen { HubStationPanel(hub: hub) }
         else if hub.onPhone { MenuTouchPad(hub: hub) }
@@ -68,6 +68,11 @@ struct MenuPointerPad: View {
             .accessibilityElement().accessibilityLabel("Select").accessibilityAddTraits(.isButton)
             .accessibilityAction { hub.menuSelect(true); hub.menuSelect(false) }
             .accessibilityIdentifier("menu-select")
+            // in a party: its game is one tap away (Tennis or Golf with everyone; each friend taps Ready)
+            if hub.party != nil {
+                Button { hub.openPartyGame() } label: { Label("Party game", systemImage: "person.3.fill") }
+                    .buttonStyle(MotionButtonStyle(kind: .secondary)).accessibilityIdentifier("menu-party-game")
+            }
             HStack(spacing: 14) {
                 Button { hub.menuBack() } label: { Label("Back", systemImage: "chevron.left") }
                     .buttonStyle(MotionButtonStyle(kind: .secondary)).accessibilityIdentifier("menu-back")
@@ -90,8 +95,9 @@ struct MenuGuestView: View {
         VStack(alignment: .leading, spacing: 18) {
             MotionWordmark(size: 30)
             Spacer()
-            Text("\(hub.menuLeaderName) is choosing").font(MotionBrand.font(.extraBoldItalic, 38)).fixedSize(horizontal: false, vertical: true)
-            Text("Watch the TV. Your phone takes over when the match starts.").font(MotionBrand.font(.medium, 18)).foregroundStyle(MotionBrand.n300)
+            Text("\(hub.menuLeaderName) is picking a game").font(MotionBrand.font(.extraBoldItalic, 38)).fixedSize(horizontal: false, vertical: true)
+            Text("You're in the party. When they start, a big Ready button shows up here.").font(MotionBrand.font(.medium, 18)).foregroundStyle(MotionBrand.n300)
+            if !hub.notice.isEmpty { Text(hub.notice).font(MotionBrand.font(.medium, 15)).foregroundStyle(MotionBrand.gold) }
             Spacer()
             Button { hub.openPanel(.character) } label: { Label("Your locker", systemImage: "tshirt.fill") }
                 .buttonStyle(MotionButtonStyle(kind: .secondary)).accessibilityIdentifier("menu-guest-locker")

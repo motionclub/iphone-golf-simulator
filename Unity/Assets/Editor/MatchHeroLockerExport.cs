@@ -77,6 +77,9 @@ namespace GolfArcade.EditorTools
             /// Shipped file names (no extension; "" = none): the kit seam map, the weave map, the skin's soft normal.
             public string baseMap = "", weaveMap = "", bumpMap = "", normalMap = "", maskMap = "";
             public float[] trimColor; public float normalStrength, useGarmentMaps, fabricVersion, bindingTone, femaleSurface;
+            /// CLOTHING V3 (2026-10-26): TennisCloth's Blender yarn atlas path: atlasVersion 3, the knit cell for fabric id 7 (1 pique, 4 jersey),
+            /// the yarn relief, the fibre shine and the tonal grain (HeroCloth.hlsl FabricV3). 0 / absent = the V2 path.
+            public float atlasVersion, knitCell, fabricDetail, fibreShine, mottle;
             /// HeroFaceSkin's male face pass (MaleFaceFinish, 2026-10-18): female light model + painted nose/ear/lip form on the male head.
             public float maleFormPass;
             /// The body skin is Unity's HeroFaceSkin (the registered face: analytic lips, lid liner, blush, beard, face light), not plain TennisCharacter.
@@ -238,7 +241,7 @@ namespace GolfArcade.EditorTools
                         else ready = driver.slots.First(s => s.id == HeroTennisDriver.Clip.Ready).clip;
                         SamplePose(root, ready, 0);
                         root.GetComponent<FemaleShoulderFit>()?.Apply();
-                root.GetComponent<FemaleGarmentFinish>()?.Apply(); root.GetComponent<MaleFaceFinish>()?.Apply();
+                FemaleGarmentFinish.Attach(root.GetComponent<MatchHeroLook>()); root.GetComponent<FemaleGarmentFinish>()?.Apply(); root.GetComponent<MaleFaceFinish>()?.Apply();
                 var sources = Collect(root); foreach (var source in sources) Pose(root, source);
                         var bounds = new Bounds(); bool has = false;
                         foreach (var source in sources.Where(p => p.kind == "body")) foreach (var v in source.pos) { if (!has) { bounds = new Bounds(v, Vector3.zero); has = true; } else bounds.Encapsulate(v); }
@@ -369,7 +372,7 @@ namespace GolfArcade.EditorTools
                 if (!golf && Environment.GetEnvironmentVariable("MH_LOCKER_FACE_PARITY") == "1")
                     motions.Add(new MotionSource { id="forehand", clip=fore.clip, contact=fore.contact, loop=false });
                 root.GetComponent<FemaleShoulderFit>()?.Apply();
-                root.GetComponent<FemaleGarmentFinish>()?.Apply(); root.GetComponent<MaleFaceFinish>()?.Apply();
+                FemaleGarmentFinish.Attach(root.GetComponent<MatchHeroLook>()); root.GetComponent<FemaleGarmentFinish>()?.Apply(); root.GetComponent<MaleFaceFinish>()?.Apply();
                 var sources = Collect(root);
                 sb.AppendLine("  parts: " + string.Join(", ", sources.Select(p => $"{p.name}[{p.kind}] v={p.mesh.vertexCount} subs={p.mesh.subMeshCount}")));
                 foreach (var p in sources) if (!p.mesh.isReadable) throw new InvalidOperationException(p.name + " mesh is not readable");
@@ -576,7 +579,7 @@ namespace GolfArcade.EditorTools
             look.weaveTile = F("_WeaveTile"); look.weaveAngle = F("_WeaveAngle"); look.weaveNormal = F("_WeaveNormal"); look.weaveThread = F("_WeaveThread"); look.sheenStrength = F("_SheenStrength"); look.sheenPower = F("_SheenPower");
             look.saturation = F("_Saturation"); look.bumpScale = F("_BumpScale"); look.bumpTriplanar = F("_BumpTriplanar"); look.bumpTile = F("_BumpTile");
             look.baseMap = Map("_BaseMap"); look.weaveMap = Map("_WeaveMap"); look.bumpMap = Map("_BumpMap");
-            look.normalMap = Map("_NormalMap"); look.maskMap = Map("_MaskMap"); look.trimColor = C("_TrimColor"); look.normalStrength = F("_NormalStrength"); look.useGarmentMaps = F("_UseGarmentMaps"); look.fabricVersion = F("_FabricVersion"); look.femaleSurface = F("_FemaleSurface"); look.edgeLines = F("_EdgeLines"); look.maleFormPass = F("_MaleFormPass");
+            look.normalMap = Map("_NormalMap"); look.maskMap = Map("_MaskMap"); look.trimColor = C("_TrimColor"); look.normalStrength = F("_NormalStrength"); look.useGarmentMaps = F("_UseGarmentMaps"); look.fabricVersion = F("_FabricVersion"); look.femaleSurface = F("_FemaleSurface"); look.edgeLines = F("_EdgeLines"); look.atlasVersion = F("_AtlasVersion"); look.knitCell = F("_KnitCell"); look.fabricDetail = F("_FabricDetail"); look.fibreShine = F("_FibreShine"); look.mottle = F("_Mottle"); look.maleFormPass = F("_MaleFormPass");
             look.skinTex = F("_SkinTex"); look.skinScatter = F("_SkinScatter"); look.skinTransmission = F("_SkinTransmission"); look.skinAO = F("_SkinAO");
             look.skinSpecular = F("_SkinSpecular"); look.skinLightChroma = F("_SkinLightChroma"); look.skinCoolFill = F("_SkinCoolFill");
             look.eyeV2 = F("_EyeV2"); look.eyeCaustic = F("_EyeCaustic"); look.eyeGloss = F("_EyeGloss");
@@ -699,7 +702,7 @@ namespace GolfArcade.EditorTools
             if (clip.name != RelaxedName) HeroGripPolish.ApplyGrip(root.GetComponent<MatchHeroLook>());   // the plaza's relaxed stand carries no racket grip
             root.GetComponent<MatchHeroLook>()?.body?.GetComponent<HeroArmSkinning>()?.Apply();
             if(root.GetComponent<FemaleShoulderFit>()) { root.GetComponent<HeroShoulderDeformation>()?.Apply();root.GetComponent<FemaleShoulderFit>().Apply(); }
-            root.GetComponent<FemaleGarmentFinish>()?.Apply(); root.GetComponent<MaleFaceFinish>()?.Apply();
+            FemaleGarmentFinish.Attach(root.GetComponent<MatchHeroLook>()); root.GetComponent<FemaleGarmentFinish>()?.Apply(); root.GetComponent<MaleFaceFinish>()?.Apply();
             root.GetComponent<GolfGarmentCorrectives>()?.Apply();
             root.GetComponent<HeroGarmentPoseCorrectives>()?.Apply();
             root.GetComponent<TailoredPoloDeformation>()?.Apply(); { var kl = root.GetComponent<MatchHeroLook>(); if (kl && kl.kitV2) { KitV2PoseCorrectives.Attach(kl); root.GetComponent<KitV2PoseCorrectives>()?.Apply(); } }

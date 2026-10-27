@@ -9,68 +9,68 @@
     "Chest": {
      "rest_p50": 0.0227,
      "rest_p95": 0.0362,
-     "pose_p95": 0.0385,
-     "max": 0.0617
+     "pose_p95": 0.039,
+     "max": 0.0638
     },
     "Hips": {
      "rest_p50": 0.0213,
      "rest_p95": 0.0322,
-     "pose_p95": 0.039,
-     "max": 0.0521
+     "pose_p95": 0.0383,
+     "max": 0.0573
     },
     "LeftShoulder": {
      "rest_p50": 0.0184,
      "rest_p95": 0.0435,
-     "pose_p95": 0.0466,
-     "max": 0.0649
+     "pose_p95": 0.0472,
+     "max": 0.0654
     },
     "LeftUpperArm": {
      "rest_p50": 0.0101,
      "rest_p95": 0.0221,
-     "pose_p95": 0.0253,
-     "max": 0.0506
+     "pose_p95": 0.0273,
+     "max": 0.0503
     },
     "LeftUpperLeg": {
      "rest_p50": 0.024,
      "rest_p95": 0.0377,
-     "pose_p95": 0.05,
-     "max": 0.0627
+     "pose_p95": 0.0454,
+     "max": 0.063
     },
     "Neck": {
      "rest_p50": 0.0197,
      "rest_p95": 0.0246,
-     "pose_p95": 0.0278,
-     "max": 0.0349
+     "pose_p95": 0.0291,
+     "max": 0.0361
     },
     "RightShoulder": {
      "rest_p50": 0.0188,
      "rest_p95": 0.0435,
-     "pose_p95": 0.0478,
-     "max": 0.0664
+     "pose_p95": 0.0462,
+     "max": 0.0686
     },
     "RightUpperArm": {
      "rest_p50": 0.0101,
      "rest_p95": 0.0223,
-     "pose_p95": 0.0259,
-     "max": 0.0485
+     "pose_p95": 0.0277,
+     "max": 0.048
     },
     "RightUpperLeg": {
      "rest_p50": 0.0245,
      "rest_p95": 0.0379,
-     "pose_p95": 0.0503,
-     "max": 0.0653
+     "pose_p95": 0.0476,
+     "max": 0.0674
     },
     "Spine": {
      "rest_p50": 0.0343,
      "rest_p95": 0.0524,
-     "pose_p95": 0.0528,
+     "pose_p95": 0.054,
      "max": 0.0674
     },
     "UpperChest": {
      "rest_p50": 0.0061,
      "rest_p95": 0.0123,
-     "pose_p95": 0.0193,
-     "max": 0.0318
+     "pose_p95": 0.0209,
+     "max": 0.0336
     }
    }
   },
@@ -167,17 +167,17 @@
   }
  ],
  "bones": {
-  "Chest": 0.0385,
-  "Hips": 0.039,
-  "LeftShoulder": 0.0466,
-  "LeftUpperArm": 0.0253,
-  "LeftUpperLeg": 0.05,
-  "Neck": 0.0278,
-  "RightShoulder": 0.0478,
-  "RightUpperArm": 0.0259,
-  "RightUpperLeg": 0.0503,
-  "Spine": 0.0528,
-  "UpperChest": 0.0193,
+  "Chest": 0.039,
+  "Hips": 0.0383,
+  "LeftShoulder": 0.0472,
+  "LeftUpperArm": 0.0273,
+  "LeftUpperLeg": 0.0454,
+  "Neck": 0.0291,
+  "RightShoulder": 0.0462,
+  "RightUpperArm": 0.0277,
+  "RightUpperLeg": 0.0476,
+  "Spine": 0.054,
+  "UpperChest": 0.0209,
   "LeftFoot": 0.0406,
   "LeftLowerLeg": 0.0149,
   "RightFoot": 0.0521,

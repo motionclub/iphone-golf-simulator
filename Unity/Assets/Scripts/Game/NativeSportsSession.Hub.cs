@@ -66,6 +66,9 @@ namespace GolfArcade.Game
             InputRate.Stop();
             Application.targetFrameRate = m.external ? 60 : FrameRate.Target(m.fps, Screen.currentResolution.refreshRateRatio.value);
             QualitySettings.vSyncCount = 0;
+            // What the plaza used to inherit from GolfGame.Awake while Golf was the build's first scene (Boot.unity is now): the screen
+            // never sleeps in the menu, and Unity keeps running behind the phone's own screens. (Its shadows are HubArt.Lighting's.)
+            Screen.sleepTimeout = SleepTimeout.NeverSleep; Application.runInBackground = true;
             // the phone stays upright either way: with a TV it is the controller, alone it shows the plaza above its controls
             Screen.orientation = ScreenOrientation.Portrait;
             HubWorld.StartFemale = m.female; HubWorld.DeferBuild = true; HubWorld.PhoneOnly = m.phoneOnly; HubWorld.MenuMode = m.menu;
@@ -142,6 +145,7 @@ namespace GolfArcade.Game
                 case "menuPhone": hud.SetPhonePanel(m.mode == "on", m.reason); return true;
                 case "menuParty": hud.SetParty(m.leader, m.soloLocked); return true;
                 case "menuRows": hud.SetRows(m.mode); return true;
+                case "menuSetupState": hud.SetSetup(m.mode); return true;   // the TV's match setup, described by the phone (MenuSetup.swift)
                 case "menuTag": hud.SetFriendTag(m.remote ?? "", m.mode); return true;
                 case "menuMirror":
                 {
@@ -199,7 +203,7 @@ namespace GolfArcade.Game
         /// Load's scene request: the normal single-scene load, or, from a bay with the plaza up, an additive load held behind it.
         AsyncOperation BeginSceneLoad(Message m)
         {
-            string scene = m.sport == "tennis" ? "Tennis" : "Golf";
+            string scene = SceneFor(m.sport);
             var world = HubWorld.Find();
             behindPlaza = m.seamless && world && world.Initialized && world.gameObject.activeInHierarchy;
             if (!behindPlaza) return SceneManager.LoadSceneAsync(scene);
@@ -273,11 +277,11 @@ namespace GolfArcade.Game
             for (int i = 0; i < SceneManager.sceneCount; i++)
             {
                 var s = SceneManager.GetSceneAt(i);
-                if (s.isLoaded && (!plaza || s != plaza.gameObject.scene) && (s.name == "Tennis" || s.name == "Golf")) SceneManager.UnloadSceneAsync(s);
+                if (s.isLoaded && (!plaza || s != plaza.gameObject.scene) && (s.name == "Tennis" || s.name == "Golf" || s.name == "Bowling")) SceneManager.UnloadSceneAsync(s);
             }
             if (hidden) hidden.Abandon();
             TennisGame.SliceInit = false; Application.backgroundLoadingPriority = ThreadPriority.Normal;
-            preloads.Clear(); behindOp = null; behindPlaza = false; tennis = null; golf = null;
+            preloads.Clear(); behindOp = null; behindPlaza = false; tennis = null; golf = null; bowling = null;
             if (plaza) plaza.MatchLoading(-1);
         }
 

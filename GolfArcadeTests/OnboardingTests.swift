@@ -11,8 +11,8 @@ import UIKit
         let (_, store, progress) = fixture()
         let flow = OnboardingFlow(store: store, progress: progress, arguments: [])
         XCTAssertEqual(flow.step, .hello); XCTAssertTrue(flow.holdsMenu)
-        flow.next(); XCTAssertEqual(flow.step, .controller)
-        XCTAssertEqual(OnboardingFlow(store: store, progress: progress, arguments: []).step, .controller, "a started onboarding carries on")
+        flow.next(); XCTAssertEqual(flow.step, .account, "sign in right after the welcome")
+        XCTAssertEqual(OnboardingFlow(store: store, progress: progress, arguments: []).step, .account, "a started onboarding carries on")
     }
     func testPhonesThatUsedTheAppBeforeSkipIt() {
         let (d, store, progress) = fixture()
@@ -45,10 +45,10 @@ import UIKit
         }
     }
     func testStepKeysRoundTrip() {
-        for step in [OnboardingStep.hello, .controller, .room, .player, .card, .choose, .lesson(.golf), .lesson(.tennis), .reward(.golf), .done] {
+        for step in [OnboardingStep.hello, .account, .controller, .room, .player, .card, .choose, .lesson(.golf), .lesson(.tennis), .reward(.golf), .done] {
             XCTAssertEqual(OnboardingStep(key: step.key), step)
         }
-        XCTAssertNil(OnboardingStep(key: "account")); XCTAssertNil(OnboardingStep(key: "tutorial:tennis"))
+        XCTAssertNil(OnboardingStep(key: "tutorial:tennis"))
     }
     func testNameIsBounded() {
         XCTAssertEqual(OnboardingStore.name("  \n"), "Player 1")
@@ -59,7 +59,14 @@ import UIKit
         let (_, store, progress) = fixture()
         store.characterInitialized = true   // (the player step would otherwise shuffle the shared test player)
         let flow = OnboardingFlow(store: store, progress: progress, arguments: [])
-        XCTAssertEqual(flow.focused, "go"); flow.select(); XCTAssertEqual(flow.step, .controller)
+        flow.signedInOverride = false
+        XCTAssertEqual(flow.focused, "go"); flow.select(); XCTAssertEqual(flow.step, .account, "sign in comes right after the welcome")
+        XCTAssertEqual(flow.rows(), [["signin"], ["later"]])
+        flow.move(.down); XCTAssertEqual(flow.focused, "later"); flow.select(); XCTAssertEqual(flow.step, .controller, "Not now goes on")
+        flow.back(); XCTAssertEqual(flow.step, .account)
+        flow.signedInOverride = true
+        XCTAssertEqual(flow.rows(), [["next"]], "signed in: only Next")
+        flow.select(); XCTAssertEqual(flow.step, .controller)
         XCTAssertEqual(flow.focused, "try"); flow.select(); XCTAssertEqual(flow.step, .controller, "the practice press stays on the step")
         XCTAssertEqual(flow.focused, "next"); flow.select(); XCTAssertEqual(flow.step, .room)
         flow.back(); XCTAssertEqual(flow.step, .controller)

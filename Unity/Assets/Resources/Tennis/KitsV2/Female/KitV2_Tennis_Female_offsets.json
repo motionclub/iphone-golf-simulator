@@ -7,40 +7,40 @@
    "piece": "Kit_Top",
    "bones": {
     "Chest": {
-     "rest_p50": 0.0191,
-     "rest_p95": 0.0312,
-     "pose_p95": 0.0395,
-     "max": 0.0713
+     "rest_p50": 0.0169,
+     "rest_p95": 0.0268,
+     "pose_p95": 0.035,
+     "max": 0.0699
     },
     "Hips": {
-     "rest_p50": 0.0327,
-     "rest_p95": 0.0345,
-     "pose_p95": 0.037,
-     "max": 0.0394
+     "rest_p50": 0.0211,
+     "rest_p95": 0.0256,
+     "pose_p95": 0.0313,
+     "max": 0.0393
     },
     "LeftShoulder": {
-     "rest_p50": 0.0077,
-     "rest_p95": 0.0158,
-     "pose_p95": 0.0226,
-     "max": 0.0359
+     "rest_p50": 0.0075,
+     "rest_p95": 0.0165,
+     "pose_p95": 0.0236,
+     "max": 0.0358
     },
     "RightShoulder": {
-     "rest_p50": 0.0076,
-     "rest_p95": 0.0174,
-     "pose_p95": 0.0236,
-     "max": 0.0351
+     "rest_p50": 0.0077,
+     "rest_p95": 0.0179,
+     "pose_p95": 0.0235,
+     "max": 0.0384
     },
     "Spine": {
-     "rest_p50": 0.0321,
-     "rest_p95": 0.0453,
-     "pose_p95": 0.0469,
-     "max": 0.0597
+     "rest_p50": 0.0242,
+     "rest_p95": 0.0386,
+     "pose_p95": 0.0403,
+     "max": 0.0561
     },
     "UpperChest": {
-     "rest_p50": 0.0056,
+     "rest_p50": 0.0055,
      "rest_p95": 0.0099,
-     "pose_p95": 0.0232,
-     "max": 0.0395
+     "pose_p95": 0.0222,
+     "max": 0.0428
     }
    }
   },
@@ -50,20 +50,54 @@
     "Hips": {
      "rest_p50": 0.0027,
      "rest_p95": 0.0141,
-     "pose_p95": 0.0123,
-     "max": 0.0275
+     "pose_p95": 0.0122,
+     "max": 0.0287
     },
     "LeftUpperLeg": {
      "rest_p50": 0.0046,
      "rest_p95": 0.0442,
-     "pose_p95": 0.031,
+     "pose_p95": 0.0346,
      "max": 0.0745
     },
     "RightUpperLeg": {
      "rest_p50": 0.0049,
      "rest_p95": 0.0459,
-     "pose_p95": 0.0333,
+     "pose_p95": 0.0353,
      "max": 0.0765
+    }
+   }
+  },
+  {
+   "piece": "Kit_Sock_L",
+   "bones": {
+    "LeftFoot": {
+     "rest_p50": 0.0042,
+     "rest_p95": 0.0071,
+     "pose_p95": 0.0066,
+     "max": 0.0087
+    },
+    "LeftLowerLeg": {
+     "rest_p50": 0.0051,
+     "rest_p95": 0.0067,
+     "pose_p95": 0.0066,
+     "max": 0.0082
+    }
+   }
+  },
+  {
+   "piece": "Kit_Sock_R",
+   "bones": {
+    "RightFoot": {
+     "rest_p50": 0.0041,
+     "rest_p95": 0.0069,
+     "pose_p95": 0.0065,
+     "max": 0.0083
+    },
+    "RightLowerLeg": {
+     "rest_p50": 0.0048,
+     "rest_p95": 0.0069,
+     "pose_p95": 0.0068,
+     "max": 0.0081
     }
    }
   },
@@ -103,17 +137,19 @@
   }
  ],
  "bones": {
-  "Chest": 0.0395,
-  "Hips": 0.037,
-  "LeftShoulder": 0.0226,
-  "RightShoulder": 0.0236,
-  "Spine": 0.0469,
-  "UpperChest": 0.0232,
-  "LeftUpperLeg": 0.031,
-  "RightUpperLeg": 0.0333,
+  "Chest": 0.035,
+  "Hips": 0.0313,
+  "LeftShoulder": 0.0236,
+  "RightShoulder": 0.0235,
+  "Spine": 0.0403,
+  "UpperChest": 0.0222,
+  "LeftUpperLeg": 0.0346,
+  "RightUpperLeg": 0.0353,
   "LeftFoot": 0.0163,
-  "LeftToes": 0.0178,
+  "LeftLowerLeg": 0.0066,
   "RightFoot": 0.0158,
+  "RightLowerLeg": 0.0068,
+  "LeftToes": 0.0178,
   "RightToes": 0.0178
  }
 }

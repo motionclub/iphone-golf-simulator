@@ -75,7 +75,7 @@ namespace GolfArcade.Tennis
             diveTime = .9f; diveTravelled = 0; DiveCooldownLeft = TennisAbilities.DiveCooldown;
             DiveAttempts++; Stamina = Mathf.Max(0, Stamina - TennisRules.DiveStamina);
             Player.Swing(.4f, (delta.x < 0) != Player.LeftHanded, TennisActor.Stroke.Dive);
-            consumedStroke = false; honestRejected = false; CompensateDisplayDelay();
+            consumedStroke = false; CompensateDisplayDelay();
             Feedback = "DIVE — time the reach";
             return true;
         }

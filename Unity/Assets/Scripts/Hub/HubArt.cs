@@ -129,6 +129,10 @@ namespace GolfArcade.Hub
 
         public static void Lighting(Transform parent, Camera camera)
         {
+            // the plaza's own shadows, whatever ran before it: golf leaves its 180-320 m, 2-4 cascade sun shadows on the session's
+            // pipeline (TennisQuality.SetGolfShadows), which spread the small plaza over coarse, shimmering cascades on the phone.
+            // Off = the tier's own (High: 60 m, one 4096 cascade, MSAA 4x), the setting the editor captures render with.
+            GolfArcade.Tennis.TennisQuality.SetGolfShadows(false);
             var sun = new GameObject("Golden-hour sun").AddComponent<Light>(); sun.transform.SetParent(parent, false);
             sun.type = LightType.Directional; sun.color = C("FFD39C"); sun.intensity = 1.42f; sun.shadows = LightShadows.Soft; sun.shadowStrength = .82f;
             sun.shadowBias = .04f; sun.shadowNormalBias = .3f;
@@ -173,6 +177,7 @@ namespace GolfArcade.Hub
             var smh = profile.Add<ShadowsMidtonesHighlights>(true);
             smh.shadows.Override(new Vector4(.95f, .97f, 1.08f, -.03f)); smh.midtones.Override(new Vector4(1.01f, 1f, .98f, 0)); smh.highlights.Override(new Vector4(1.03f, 1.0f, .95f, -.02f));
             var bloom = profile.Add<Bloom>(true); bloom.threshold.Override(1.05f); bloom.intensity.Override(.7f); bloom.scatter.Override(.62f); bloom.tint.Override(C("FFE2B8")); bloom.maxIterations.Override(5);
+            bloom.highQualityFiltering.Override(true);   // bicubic upsampling: a lantern's or a gold edge's sub-pixel glint no longer pulses its halo
             var vig = profile.Add<Vignette>(true); vig.intensity.Override(.2f); vig.smoothness.Override(.45f); vig.color.Override(C("2A2236"));
             var dof = profile.Add<DepthOfField>(true); dof.mode.Override(DepthOfFieldMode.Gaussian); dof.gaussianStart.Override(55); dof.gaussianEnd.Override(220); dof.gaussianMaxRadius.Override(1.1f); dof.highQualitySampling.Override(true);
             volume.sharedProfile = profile;
@@ -185,7 +190,7 @@ namespace GolfArcade.Hub
         public static void BuildPlaza(Transform root)
         {
             RegisterFootprints();
-            SkyDome(root, Vector3.zero, 760); Sea(root); Islands(root);
+            SkyDome(root, Vector3.zero, 560); Sea(root); Islands(root);   // the dome inside the menu camera's 600 m far clip (MenuStage)
             Ground(root);
             foreach (var pv in HubLayout.Pavilions)
             {
@@ -245,7 +250,9 @@ namespace GolfArcade.Hub
             foreach (var (az, dist, w, h, c, seed) in ranges)
             {
                 var at = Dir(az, 0) * dist; at.y = -h * .32f - 6.0f;
-                var hill = Put("Island", root, HubShapes.Crown(seed, 4, .18f), Glow(c), at, Quaternion.Euler(0, seed * 37, 0), new Vector3(w, h, w * .55f), false);
+                // sunk into the golden-hour haze of the rendered sky (cool grey-blue read as cardboard cut-outs against its warm horizon)
+                var hazed = Color.Lerp(c, C("E6CFA4"), Mathf.Lerp(.35f, .55f, Mathf.InverseLerp(200, 420, dist)));
+                var hill = Put("Island", root, HubShapes.Crown(seed, 4, .18f), Glow(hazed), at, Quaternion.Euler(0, seed * 37, 0), new Vector3(w, h, w * .55f), false);
                 hill.GetComponent<MeshRenderer>().receiveShadows = false;
             }
         }
@@ -460,7 +467,7 @@ namespace GolfArcade.Hub
             var stone = b[HubClub.LitTex(HubClub.StoneTex, HubClub.Stone, .22f, 1.2f)];
             var light = b[Lit(HubClub.StoneLight, .3f)];
             stone.Box(f, new Vector3(0, eave / 2, (back + R) / 2), new Vector3(hx * 2, eave, R - back));
-            b[HubClub.LitTex(HubClub.StoneTex, HubClub.StoneShade, .2f, 1.2f)].Box(f, new Vector3(0, .22f, (back + R) / 2), new Vector3(hx * 2 + .14f, .44f, R - back + .14f));
+            b[HubClub.LitTex(HubClub.StoneTex, HubClub.StoneShade, .2f, 1.2f)].Box(f, new Vector3(0, .22f, (back + R) / 2), new Vector3(hx * 2 + .11f, .44f, R - back + .11f));
             // quoins up the front corners, a cornice under the eaves
             foreach (int s in new[] { -1, 1 })
                 for (int k = 0; k < 8; k++)
@@ -479,7 +486,7 @@ namespace GolfArcade.Hub
             // arched windows on both side walls
             foreach (int s in new[] { -1, 1 })
                 foreach (float z in new[] { .2f, 2.7f })
-                    HubClub.Window(b, new HubClub.Frame(f.P(s * hx, 0, z), f.R * s), 1.15f, .95f, 1.75f, true, Glow(HubClub.WarmGlow * .85f), .13f);
+                    HubClub.Window(b, new HubClub.Frame(f.P(s * hx, 0, z), f.R * s), 1.15f, .95f, 1.75f, true, HubClub.WindowRoom(.95f, 1.75f, 1.15f), .13f);
             // box colliders: the house (its front where the drum's door was), and the dressing hugging the facade
             HubClub.BoxCollider(t, f.P(0, 2.5f, (back + R) / 2), new Vector3(hx * 2, 5f, R - back), f.Facing);
             if (id == "locker") ShopFront(t, b, f, R, label, icon); else ClubFront(t, b, f, R, label, icon);
@@ -498,7 +505,7 @@ namespace GolfArcade.Hub
             foreach (int s in new[] { -1, 1 }) { light.Box(f, new Vector3(s * 2.78f, 1.75f, R + .1f), new Vector3(.5f, 3.5f, .22f)); light.Box(f, new Vector3(s * 2.78f, .12f, R + .14f), new Vector3(.62f, .24f, .3f)); }
             light.Box(f, new Vector3(0, 3.28f, R + .12f), new Vector3(6.1f, .66f, .26f));
             light.Box(f, new Vector3(0, 3.66f, R + .2f), new Vector3(6.3f, .12f, .4f));
-            HubClub.SignBoard(t, label, icon, f.P(0, 3.27f, R + .26f), f.O, .34f, 4.0f, 1.55f);
+            HubClub.SignBoard(t, label, icon, f.P(0, 3.27f, R + .28f), f.O, .34f, 4.0f, 1.55f);
             // the glazed front: the lit shop behind, navy frames, two glass doors in the middle, a window either side
             var inside = HubClub.PaintedFit(HubClub.LockerInterior, 1.25f, 4.9f, 2.55f);
             b[inside].Quad(f.P(-2.45f, .2f, R + .012f), f.P(-2.45f, 2.75f, R + .012f), f.P(2.45f, 2.75f, R + .012f), f.P(2.45f, .2f, R + .012f), f.O);
@@ -591,14 +598,14 @@ namespace GolfArcade.Hub
             var shade = b[HubClub.LitTex(HubClub.StoneTex, HubClub.StoneShade, .2f, 1.2f)];
             // the hall and its roof, dormers along the front slope
             stone.Box(f, new Vector3(0, eave / 2, (hallBack + hallFront) / 2), new Vector3(hall * 2, eave, hallFront - hallBack));
-            shade.Box(f, new Vector3(0, .25f, (hallBack + hallFront) / 2), new Vector3(hall * 2 + .16f, .5f, hallFront - hallBack + .16f));
+            shade.Box(f, new Vector3(0, .25f, (hallBack + hallFront) / 2), new Vector3(hall * 2 + .13f, .5f, hallFront - hallBack + .13f));
             light.Box(f, new Vector3(0, eave - .08f, (hallBack + hallFront) / 2), new Vector3(hall * 2 + .3f, .2f, hallFront - hallBack + .3f));
             HubClub.HipRoof(b, f, -hall - .45f, hall + .45f, hallBack - .45f, hallFront + .45f, eave + .02f, 3.1f);
             foreach (int s in new[] { -1, 1 }) HubClub.Dormer(b, f, s * 5.8f, hallFront - .5f, eave + .5f, 1.25f, 1.05f);
-            foreach (int s in new[] { -1, 1 }) foreach (float x in new[] { 5.6f, 7.0f }) HubClub.Window(b, new HubClub.Frame(f.P(s * (x - .1f), 0, hallFront + .01f), f.O), 1.05f, .9f, 2.0f, true, Glow(HubClub.WarmGlow * .85f), .13f);
+            foreach (int s in new[] { -1, 1 }) foreach (float x in new[] { 5.6f, 7.0f }) HubClub.Window(b, new HubClub.Frame(f.P(s * (x - .1f), 0, hallFront + .01f), f.O), 1.05f, .9f, 2.0f, true, HubClub.WindowRoom(.9f, 2.0f, 1.05f), .13f);
             // the portico
             stone.Box(f, new Vector3(0, 2.8f, (hallFront - 1f + R) / 2), new Vector3(px * 2, 5.6f, R - hallFront + 1f));
-            shade.Box(f, new Vector3(0, .25f, (hallFront - 1f + R) / 2), new Vector3(px * 2 + .16f, .5f, R - hallFront + 1.16f));
+            shade.Box(f, new Vector3(0, .24f, (hallFront - 1f + R) / 2), new Vector3(px * 2 + .13f, .48f, R - hallFront + 1.13f));
             light.Box(f, new Vector3(0, 5.42f, R + .32f), new Vector3(px * 2 + .5f, .56f, .9f));      // entablature over the columns
             light.Box(f, new Vector3(0, 5.76f, R + .36f), new Vector3(px * 2 + .8f, .14f, 1.05f));
             HubClub.HipRoof(b, f, -px - .4f, px + .4f, hallFront - 1.2f, R + .85f, 5.84f, 1.0f);
@@ -647,8 +654,8 @@ namespace GolfArcade.Hub
                 HubClub.Trophy(b, nf.P(0, 1.5f, .22f), .85f);
             }
             // the club's name on the entablature, gold stars either side (PLAY is on the tower)
-            HubClub.SignBoard(t, "MOTION CLUB", null, f.P(0, 5.38f, R + .98f), f.O, .4f, 4.0f, 1.9f);
-            foreach (int s in new[] { -1, 1 }) Put("Sign star", t, StarMesh(4, .26f, .09f, .03f), Lit(HubClub.Gold, .75f), f.P(s * 2.42f, 5.38f, R + .99f), Quaternion.FromToRotation(Vector3.up, f.O), null, false);
+            HubClub.SignBoard(t, "MOTION CLUB", null, f.P(0, 5.36f, R + .98f), f.O, .4f, 4.0f, 1.9f);
+            foreach (int s in new[] { -1, 1 }) Put("Sign star", t, StarMesh(4, .26f, .09f, .03f), Lit(HubClub.Gold, .75f), f.P(s * 2.42f, 5.36f, R + .99f), Quaternion.FromToRotation(Vector3.up, f.O), null, false);
             // the navy runner with gold edges down to the plaza, brass lamps, banners, topiaries in urns
             b[Lit(HubClub.Navy, .25f)].Box(f, new Vector3(0, .07f, R + .6f), new Vector3(1.7f, .03f, 1.4f));
             foreach (int s in new[] { -1, 1 }) b[Lit(HubClub.Gold, .5f)].Box(f, new Vector3(s * .68f, .087f, R + .6f), new Vector3(.07f, .006f, 1.4f));
@@ -777,7 +784,7 @@ namespace GolfArcade.Hub
             b[HubClub.Surface("putting green", HubClub.C("74B44A"), HubClub.StripeTexZ, 1, new Vector2(1.6f, 1.6f), .1f, .5f, .35f, .06f)].Lathe(gc + Vector3.up * .03f, new[] { new Vector2(4.0f, 0), new Vector2(0, 0) }, 40, new Vector3(1.3f, 1, .95f));
             var sand = b[HubClub.Surface("bunker", HubClub.Sand, HubClub.GravelTex, 1, new Vector2(1.2f, 1.2f), .15f, .8f, .4f, .03f)];
             foreach (var (x, z, sx, sz) in new[] { (-5.6f, -1.2f, 1.5f, 1.0f), (5.4f, .8f, 1.3f, .9f), (.5f, -4.4f, 1.8f, .8f) })
-                sand.Lathe(gf.P(x, .04f, z), new[] { new Vector2(1f, 0), new Vector2(0, -.01f) }, 24, new Vector3(sx, 1, sz));
+                sand.Lathe(gf.P(x, .045f, z), new[] { new Vector2(1f, 0), new Vector2(0, -.005f) }, 24, new Vector3(sx, 1, sz));
             var pin = gf.P(1.2f, .03f, .6f); HubClub.Pin(b, pin, 2.1f); life.Flag(pin + Vector3.up * 2.1f, .75f, .5f, HubClub.C("E8433A"));
             // the pond (front lawn) with a wooden bridge on the path
             float pondAz = 165 * Mathf.Deg2Rad; var pc = new Vector3(Mathf.Sin(pondAz), 0, Mathf.Cos(pondAz)) * 20f; pc.y = -.25f;

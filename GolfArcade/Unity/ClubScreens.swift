@@ -301,7 +301,7 @@ struct IslandCourtScreen: View {
     let menu: TennisMenu
     let compact: Bool
     var body: some View {
-        IslandShell(title: menu.mapSport == .golf ? "Choose a course" : "Choose a court", compact: compact) {
+        IslandShell(title: menu.mapSport == .golf ? "Choose a course" : menu.mapSport == .bowling ? "Choose your lanes" : "Choose a court", compact: compact) {
             VStack(alignment: .leading, spacing: 20) {
                 if !menu.notice.isEmpty { IslandMenuNotice(menu: menu, compact: compact) }
                 ScrollViewReader { proxy in
@@ -330,6 +330,12 @@ struct IslandCourtScreen: View {
                     if !compact { withAnimation(.easeOut(duration: 0.2)) { proxy.scrollTo(id, anchor: .center) } }
                 }
                 .onAppear { if !compact { proxy.scrollTo(menu.focused, anchor: .center) } }
+                }
+                if menu.bowlingExhibition {
+                    // the computer bowler: tap to cycle (rookie to pro)
+                    let cpu = SportsSession.shared.bowlingOpponent
+                    IslandAction(title: "Opponent: \(cpu.name) (avg \(cpu.average))", focused: menu.isFocused("bowl-cpu"), compact: compact) { menu.tap("bowl-cpu") }
+                        .frame(maxWidth: 420).accessibilityIdentifier("bowl-cpu")
                 }
                 IslandAction(title: "Back", focused: menu.isFocused("back"), compact: compact) { menu.tap("back") }.frame(width: 170)
             }

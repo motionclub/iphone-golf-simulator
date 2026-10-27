@@ -30,6 +30,12 @@ Shader "GolfArcade/TennisCloth"
         [Enum(UnityEngine.Rendering.CullMode)] _Cull ("Face culling", Float) = 2
         // Bald-base pass: 1 = shoe sole line, 2 = sock cuff, drawn from the kit edge measurements in UV3 (HeroKitEdges). 0 = off.
         [HideInInspector] _EdgeLines ("Kit edge lines", Float) = 0
+        // Clothing V3: 3 = the 4 x 4 Blender yarn atlas (KitV3_FabricAtlas), fibre shine and tonal grain. 2 = the V2 path, unchanged.
+        _AtlasVersion ("Fabric atlas version", Float) = 2
+        _KnitCell ("Knit atlas cell for id 7 (1 pique, 4 jersey)", Float) = 1
+        _FabricDetail ("V3 yarn relief", Range(0,2)) = 1
+        _FibreShine ("V3 fibre shine", Range(0,3)) = 1
+        _Mottle ("V3 tonal grain", Range(0,0.2)) = 0.08
     }
     HLSLINCLUDE
     #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
@@ -40,6 +46,7 @@ Shader "GolfArcade/TennisCloth"
                 half _WeaveNormal, _WeaveThread, _SheenStrength, _SheenPower;
                 half _UseGarmentMaps, _NormalStrength, _AOStrength;
                 half _FabricVersion, _EdgeLines, _FemaleSurface;
+                half _AtlasVersion, _KnitCell, _FabricDetail, _FibreShine, _Mottle;
             CBUFFER_END
             TEXTURE2D(_NormalMap); SAMPLER(sampler_NormalMap);
             TEXTURE2D(_MaskMap); SAMPLER(sampler_MaskMap);
@@ -180,7 +187,9 @@ Shader "GolfArcade/TennisCloth"
                     garment = UnpackNormal(SAMPLE_TEXTURE2D(_NormalMap, sampler_NormalMap, i.uv));
                     garment.xy *= _NormalStrength;
                 }
-                half id = floor(mask.a * (_FabricVersion > 1.5h ? 9 : 5) + .5h), smoothness, sheen, knit, frequency;
+                half id = floor(mask.a * (_FabricVersion > 2.5h ? 15 : _FabricVersion > 1.5h ? 9 : 5) + .5h), smoothness, sheen, knit, frequency;
+                bool v3 = _AtlasVersion > 2.5h;
+                FabricV3Look fv = FabricV3(id, _KnitCell);
                 float2 quadrant;
                 Fabric(id, smoothness, sheen, knit, quadrant, frequency);
                 if (_UseGarmentMaps < .5h) { smoothness = _Smoothness; sheen = _SheenStrength; }
@@ -190,18 +199,27 @@ Shader "GolfArcade/TennisCloth"
                 float2 wuv = float2(cs * i.uv.x - sn * i.uv.y, sn * i.uv.x + cs * i.uv.y) * _WeaveTile;
                 // Fade individual threads before their Nyquist limit; UV derivatives are evaluated before frac.
                 float2 dx = ddx(wuv), dy = ddy(wuv);
-                half fade = 1 - smoothstep(.32h, .72h, max(max(abs(dx.x), abs(dx.y)), max(abs(dy.x), abs(dy.y))) * frequency);
+                float footprint = max(max(abs(dx.x), abs(dx.y)), max(abs(dy.x), abs(dy.y)));
+                half fade = 1 - smoothstep(.32h, .72h, footprint * frequency);
                 float2 atlasUV = (quadrant + .03125 + frac(wuv) * .9375) * .5;
                 if (_UseGarmentMaps < .5h) atlasUV = wuv;
-                half4 weave = SAMPLE_TEXTURE2D_GRAD(_WeaveMap, sampler_WeaveMap, atlasUV, dx * .46875, dy * .46875);
+                half4 weave;
+                if (v3) {
+                    // one tile = 8 threads; the yarn relief is kept until a stitch is ~2 px, then the mips carry its average shade
+                    fade = 1 - smoothstep(.45h, 1.10h, footprint * 8);
+                    float2 cell = float2(fmod(fv.cell, 4), floor(fv.cell / 4));
+                    atlasUV = (cell + .03125 + frac(wuv) * .9375) * .25;
+                    weave = SAMPLE_TEXTURE2D_GRAD(_WeaveMap, sampler_WeaveMap, atlasUV, dx * .234375, dy * .234375);
+                } else weave = SAMPLE_TEXTURE2D_GRAD(_WeaveMap, sampler_WeaveMap, atlasUV, dx * .46875, dy * .46875);
                 half fibreCoverage=_FemaleSurface>1.5h ? 1-mask.b:1;
-                half2 slope = (weave.rg * 2 - 1) * _WeaveNormal * fade * fibreCoverage;
+                half2 slope = (weave.rg * 2 - 1) * (v3 ? fv.relief * _FabricDetail : _WeaveNormal) * fade * fibreCoverage;
                 if(_FemaleSurface>1.5h)sheen*=fibreCoverage;
-                if (id > 2.5h && id < 4.5h) slope = 0;
+                if (!v3 && id > 2.5h && id < 4.5h) slope = 0;
                 // Rotate slopes back from the grain coordinate system (the previous male 41-degree correction).
                 slope = half2(cs * slope.x + sn * slope.y, -sn * slope.x + cs * slope.y);
                 half3 ts = normalize(half3(garment.xy + slope, garment.z));
                 float3 tw = i.tangentWS.xyz;
+                half3 grain = dot(tw, tw) > 1e-8 ? (half3)normalize(tw) : half3(1, 0, 0);
                 if (dot(tw, tw) > 1e-8) {
                     half3 t = normalize(tw), b = cross(n, t) * i.tangentWS.w;
                     n = normalize(TransformTangentToWorld(ts, half3x3(t, b, n)));
@@ -209,8 +227,17 @@ Shader "GolfArcade/TennisCloth"
                 // A visible reverse side of thin cloth shades toward its viewer.
                 n *= IS_FRONT_VFACE(facing, 1.0h, -1.0h);
                 half threadBreak = lerp(1, weave.b * 1.28h, _WeaveThread * fade * fibreCoverage);
-                if (id > 2.5h && id < 4.5h) threadBreak = 1;
-                half3 albedo = lerp(_BaseColor.rgb, _TrimColor.rgb, mask.b) * threadBreak;
+                if (!v3 && id > 2.5h && id < 4.5h) threadBreak = 1;
+                // V3: the yarn shade (traced AO x melange) stays on; its mip average is 1 by construction, so far away it only
+                // loses the threads, never the cloth's tone. Tonal grain at yarn-bundle scale (palette-neutral, after the tint).
+                half mottle = 1;
+                if (v3) {
+                    threadBreak = lerp(1, weave.b * 1.28h, (.45h + .55h * fade) * fibreCoverage);
+                    float2 m1 = wuv * .55, m2 = wuv * 1.9;
+                    half f2 = 1 - smoothstep(.5h, 1.2h, max(length(ddx(m2)), length(ddy(m2))));
+                    mottle = 1 + _Mottle * ((ClothMottle(m1) - .5h) * 1.4h + (ClothMottle(m2) - .5h) * .9h * f2) * (id > 2.5h && id < 4.5h ? .3h : 1);
+                }
+                half3 albedo = lerp(_BaseColor.rgb, _TrimColor.rgb, mask.b) * threadBreak * mottle;
                 if (_FemaleSurface>.5h && !(id>2.5h&&id<4.5h)) {
                     // Larger knit clusters remain visible after individual atlas
                     // threads fade. Relative neutral detail preserves all palettes.
@@ -231,6 +258,11 @@ Shader "GolfArcade/TennisCloth"
                 main.shadowAttenuation = ClothShadow(i.positionWS);
                 if (_HeroLightingEnabled > .5h) main.shadowAttenuation = max(main.shadowAttenuation,.4h);
                 half3 colour = _FemaleSurface>.5h ? FemaleClothShade(main,n,v,albedo,smoothness,sheen,ao,id) : Shade(main, n, v, albedo, smoothness, sheen, ao);
+                // V3 fibre shine: near-white with a hint of the cloth colour (dielectric fibres), on the yarn crowns, shadowed like the key
+                half3 shineTint = lerp(half3(1, 1, 1), albedo / max(max(albedo.r, max(albedo.g, albedo.b)), .05h), .22h);
+                half shineK = v3 ? fv.shine * _FibreShine * fibreCoverage : 0;
+                if (shineK > 0)
+                    colour += shineTint * FibreShine(n, v, main.direction, grain, weave.a, shineK, fv.power, fv.aniso) * ao * main.color * main.distanceAttenuation * main.shadowAttenuation;
                 if (_HeroPresentationFill > 0) { Light fill=HeroPresentationLight(v); if(_FemaleSurface>.5h) { fill.color*=.42h; colour+=FemaleClothShade(fill,n,v,albedo,smoothness,sheen,ao,id); } else colour+=Shade(fill,n,v,albedo,smoothness,sheen,ao); }
                 #if defined(_ADDITIONAL_LIGHTS)
                 uint count = GetAdditionalLightsCount();
@@ -244,6 +276,7 @@ Shader "GolfArcade/TennisCloth"
                     if (!IsMatchingLightLayer(extra.layerMask, meshLayers)) continue;
                     #endif
                     colour += _FemaleSurface>.5h ? FemaleClothShade(extra,n,v,albedo,smoothness,sheen,ao,id) : Shade(extra, n, v, albedo, smoothness, sheen, ao);
+                    if (shineK > 0) colour += shineTint * FibreShine(n, v, extra.direction, grain, weave.a, shineK * .6h, fv.power, fv.aniso) * ao * extra.color * extra.distanceAttenuation * extra.shadowAttenuation;
                 }
                 #endif
                 half3 ambient = HeroAmbient(n) * albedo * ao;
