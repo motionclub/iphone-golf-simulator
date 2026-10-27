@@ -7,8 +7,9 @@ namespace GolfArcade.Game
     /// motion samples stream in on the binary channel and buttons arrive as commands.
     ///
     ///   phone -> Unity   start{sport:"bowling", mode: players "Ana|Sam" (one lane, turns; "cpu:<skill>:<name>" = a computer bowler)}  bowlMove{value: boards, + = left}
-    ///                    bowlHold{value: 1 ball held / 0 thumb lifted}  latency{value: TV delay, s}  end
-    ///   Unity -> phone   bowling(phase|player|frame|ball|board|grade|mph|hook°|rpm|standing pins), 4 a second
+    ///                    bowlBoard{value: the board to stand on, 3..37 (the lane slider)}  bowlHold{value: 1 ball held / 0 thumb lifted}  bowlAim{value: degrees, + = right; the phone aims with its swing since 10-27}  bowlSkip (a walk to/from the lounge)
+    ///                    latency{value: TV delay, s}  end
+    ///   Unity -> phone   bowling(phase|player|frame|ball|board|grade|mph|hook°|rpm|standing pins|mine|walking|aim° (the last ball's)), 4 a second
     ///                    bowlCue(top | bottom | crash:<pins>): the self-timed swing's haptic confirmations and the pin crash, the moment they happen
     ///                    bowlingGame("score=..;strikes=..;..."): the game is over (the phone's player), for XP
     public sealed partial class NativeSportsSession
@@ -44,7 +45,10 @@ namespace GolfArcade.Game
             switch (m.action)
             {
                 case "bowlMove": if (!paused && !float.IsNaN(m.value)) bowling.PlayerMove(Mathf.Clamp(m.value, -39, 39)); return true;
+                case "bowlBoard": if (!paused && !float.IsNaN(m.value)) bowling.PlayerBoard(Mathf.Clamp(m.value, 1, 39)); return true;
                 case "bowlHold": if (!paused) bowling.PlayerHold(m.value > 0); return true;
+                case "bowlAim": if (!paused && !float.IsNaN(m.value)) bowling.PlayerAim(Mathf.Clamp(m.value, -BowlingGame.MaxAim * 2, BowlingGame.MaxAim * 2)); return true;
+                case "bowlSkip": if (!paused) bowling.SkipWalks(); return true;
                 case "latency": bowling.DisplayLatency = Mathf.Clamp(m.value, 0, .5f); return true;
             }
             return false;

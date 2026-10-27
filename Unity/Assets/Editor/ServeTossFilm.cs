@@ -79,6 +79,9 @@ namespace GolfArcade.EditorTools
                     var at = root.position;
                     Shot(cam, $"{dir}/back_{id}.png", root.TransformPoint(1.9f, 1.75f, -3.1f), at + Vector3.up * 1.2f, 40, 720, 720);
                     Shot(cam, $"{dir}/side_{id}.png", root.TransformPoint(-3.3f, 1.55f, 0.2f), at + Vector3.up * 1.2f, 40, 720, 720);
+                    // 10-27: the tossing hand and the ball up close (front-left of the hand, 0.55 m)
+                    var hp = Vector3.Lerp(lh.position, game.BallView ? game.BallView.position : lh.position, .5f);
+                    Shot(cam, $"{dir}/hand_{id}.png", hp + root.TransformDirection(new Vector3(-.30f, .12f, .45f)), hp, 35, 720, 720);
                 }
                 if (swung && game.Flow == TennisGame.Phase.PointOver) break;
             }

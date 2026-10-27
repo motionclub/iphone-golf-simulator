@@ -148,6 +148,10 @@ namespace GolfArcade.Tennis
 
             public Player(Transform root, HeroClearanceTracks lib) { this.root = root; this.lib = lib; }
             readonly Transform[] arm = new Transform[6];   // L upper, lower, hand, R upper, lower, hand
+            /// 10-27: a hand that holds nothing (left, right) takes no baked hand-bone correction: the tracks were baked with every hand
+            /// kept at its world rotation, which on an empty hand bent the wrist by however far the forearm was corrected (female walk:
+            /// wrist 20 -> 39 deg, 34 deg outward). Without it the hand stays in line with its corrected forearm (HeroClearance.FreeHandFollows).
+            public readonly bool[] freeHand = new bool[2];
             /// The arm chains, so a locked hand is held where the game put it (SetArms once; HeroPoseSafety does it).
             public void SetArms(Transform lu, Transform ll, Transform lh, Transform ru, Transform rl, Transform rh) { arm[0] = lu; arm[1] = ll; arm[2] = lh; arm[3] = ru; arm[4] = rl; arm[5] = rh; }
             readonly Vector3[] lockP = new Vector3[2]; readonly Quaternion[] lockR = new Quaternion[2];
@@ -241,6 +245,7 @@ namespace GolfArcade.Tennis
                 }
                 foreach (var t in touched)
                 {
+                    if (freeHand[0] && t == arm[2] || freeHand[1] && t == arm[5]) continue;
                     Vector4 sum = Vector4.zero; float total = 0;
                     foreach (var c in active)
                     {

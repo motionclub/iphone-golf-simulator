@@ -43,7 +43,7 @@ namespace GolfArcade.Bowling
         public float RevRpm;
         public float AxisDeg;
         public float TimingError;    // seconds, thumb lift minus the ideal release (already latency-corrected)
-        public float SwingDrift;     // degrees the forward swing wandered sideways
+        public float AimDeg;         // launch turn the player aimed (the swing's direction, the editor's aim keys), + = right
         public int Seed;
     }
 
@@ -77,9 +77,9 @@ namespace GolfArcade.Bowling
             switch (g)
             {
                 case ReleaseGrade.Perfect: return new Effect(1.02f, 1.00f, 0.0f, 0, .03f);
-                case ReleaseGrade.Good:    return new Effect(0.95f, 0.95f, 0.4f, 0, .05f);
-                case ReleaseGrade.Early:   return new Effect(0.80f, 0.90f, 1.2f, 0, .12f);   // dumped from behind the slide: lands short, bounces
-                case ReleaseGrade.Late:    return new Effect(0.90f, 0.75f, 1.0f, -.6f, .30f); // lofted, pulled inward, skids longer
+                case ReleaseGrade.Good:    return new Effect(1.00f, 0.95f, 0.4f, 0, .05f);   // (10-27 feel pass: speed .98 → 1)
+                case ReleaseGrade.Early:   return new Effect(0.92f, 0.90f, 1.2f, 0, .12f);   // dumped from behind the slide: lands short, bounces (10-27: speed .80 → .88 → .92)
+                case ReleaseGrade.Late:    return new Effect(0.96f, 0.75f, 1.0f, -.6f, .30f); // lofted, pulled inward, skids longer (10-27: speed .90 → .94 → .96)
                 case ReleaseGrade.Foul:    return new Effect(0.85f, 0.60f, 2.0f, -.8f, .45f); // over the line; the big loft still knocks pins (score 0)
                 default:                   return new Effect(0.30f, 0.30f, 0.0f, 0, 0);
             }
@@ -90,7 +90,8 @@ namespace GolfArcade.Bowling
             var grade = Grade(s.TimingError);
             var e = For(grade);
             var rng = new System.Random(s.Seed);
-            float scatter = e.scatter + Mathf.Max(0, s.SwingDrift - 15) * .05f;
+            // (10-27 feel pass: the swing's direction used to add random scatter past 15° of drift; it is the aim now)
+            float scatter = e.scatter;
             float revs = Mathf.Max(0, s.RevRpm) * e.revs, axis = Mathf.Clamp(s.AxisDeg, -75, 75);
             float w = revs * 2 * Mathf.PI / 60, side = w * Mathf.Sin(Mathf.Abs(axis) * Mathf.Deg2Rad);
             if (side > MaxSideRoll) axis = Mathf.Sign(axis) * Mathf.Asin(MaxSideRoll / w) * Mathf.Rad2Deg;
@@ -100,7 +101,7 @@ namespace GolfArcade.Bowling
                 Speed = Mathf.Clamp(s.Speed * e.speed, MinSpeed, MaxSpeed),
                 RevRpm = revs,
                 AxisDeg = axis,
-                LaunchDeg = e.pull + scatter * Gaussian(rng),
+                LaunchDeg = s.AimDeg + e.pull + scatter * Gaussian(rng),
                 LoftHeight = e.loft,
                 Grade = grade,
             };

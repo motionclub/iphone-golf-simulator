@@ -38,6 +38,36 @@ namespace GolfArcade.Tennis
         public static readonly float AheadNear = Tune("AheadNear", .05f), AheadFar = Tune("AheadFar", .1f), AheadNearWeight = Tune("AheadNearWeight", .6f), AheadFarWeight = Tune("AheadFarWeight", .3f);       // the racket / club may touch the (fuller) proxy surface
         public static readonly float MaxSlide = Tune("MaxSlide", .03f);          // a two-hand grip's second hand along the handle
         public static readonly float MaxSwivel = Tune("MaxSwivel", 55f);          // elbow swivel, degrees either way
+        /// 10-27 (Adnan: "the female character has fucked up wrists/hands ... super obvious when she walks"): an EMPTY hand moved by the grip
+        /// translation or the elbow swivel used to keep its world rotation like a gripping hand does, so the wrist bent by however far the
+        /// arm was pushed out (walk, female: wrist 20 -> 41 deg, 35 deg outward). It now keeps its pose relative to its forearm. Hands on a
+        /// racket or club are unchanged. FREE_HAND_FOLLOWS=0 (Editor) restores the old behaviour for A/B.
+        public static readonly bool FreeHandFollows =
+#if UNITY_EDITOR
+            System.Environment.GetEnvironmentVariable("FREE_HAND_FOLLOWS") != "0";
+#else
+            true;
+#endif
+        bool Holds(Arm a) => held != null && (both || holder >= 0 && arms[holder] == a);
+        /// Arm 0 (left) / 1 (right) is on the held racket / club (after DetectGrip or Solve).
+        public bool HandHolds(int index) => arms[index] != null && Holds(arms[index]);
+        static readonly List<Capsule> handNear = new List<Capsule>(64);
+        float HandDepth(Arm a)
+        {
+            Place(a.handS); Gather(a.obstacles, a.hand.position, .22f, handNear);
+            float worst = 0; foreach (var smp in a.handS) worst = Mathf.Max(worst, Worst(handNear, smp.world, true, 0, out _, out _));
+            return worst;
+        }
+        /// An empty hand after the arm moved: in line with its forearm (now) unless that leaves it deeper in the body than its old world
+        /// rotation `kept` would, then the old rotation (the clearance never gets worse than before 10-27).
+        void SettleFreeHand(Arm a, Quaternion kept)
+        {
+            if (!FreeHandFollows) { a.hand.rotation = kept; return; }
+            var follow = a.hand.rotation; float dF = HandDepth(a);
+            if (dF <= 1e-5f) return;
+            a.hand.rotation = kept; float dK = HandDepth(a);
+            if (dF <= dK + .0005f) a.hand.rotation = follow;
+        }
         public static readonly float MaxPropTurn = Tune("MaxPropTurn", 30f);        // a single-hand prop turned about the wrist, degrees
         public static readonly float Release = Tune("Release", .14f);           // s, time constant of a correction fading out
         public static readonly float SwivelRelease = Tune("SwivelRelease", .18f);
@@ -626,7 +656,7 @@ namespace GolfArcade.Tennis
             {
                 var rot = a.hand.rotation; var target = a.hand.position + world;
                 HeroPoseSafety.Solve(a.upper, a.lower, a.hand, target);
-                a.hand.rotation = rot;
+                if (prop != null) a.hand.rotation = rot; else SettleFreeHand(a, rot);   // a hand on a racket / club keeps its grip; an empty hand stays in line with its forearm
                 foreach (var c in a.ownCapsules) proxy.Refresh(c);
             }
             if (prop != null && holder >= 0 && !prop.grip.IsChildOf(arms[holder].hand)) prop.grip.position += world;
@@ -836,7 +866,7 @@ namespace GolfArcade.Tennis
             if (Mathf.Abs(applied) < 1e-4f) return;
             var rot = a.hand.rotation;
             a.upper.rotation = Quaternion.AngleAxis(applied, axis) * a.upper.rotation;
-            a.hand.rotation = rot;
+            if (Holds(a)) a.hand.rotation = rot; else SettleFreeHand(a, rot);
             foreach (var c in a.ownCapsules) proxy.Refresh(c);
         }
 

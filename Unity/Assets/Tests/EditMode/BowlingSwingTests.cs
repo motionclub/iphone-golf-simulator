@@ -57,7 +57,7 @@ namespace GolfArcade.Tests
             Assert.AreEqual(0, r.AxisDeg, .5f);
             Assert.That(r.RevRpm, Is.LessThanOrEqualTo(160));
             Assert.That(r.Load, Is.GreaterThan(.9f));
-            Assert.That(r.BallSpeed, Is.InRange(6.5f, 8.5f));
+            Assert.That(r.BallSpeed, Is.InRange(8f, 9.5f));   // 10-27: a full swing is ~19-20 mph
             Assert.That(r.DriftDeg, Is.LessThan(3));
         }
 
@@ -81,7 +81,9 @@ namespace GolfArcade.Tests
         {
             var full = Swing(0); var half = Swing(0, .5);
             Assert.That(half.Load, Is.LessThan(.6f));
-            Assert.That(half.BallSpeed, Is.LessThan(full.BallSpeed - 1));
+            // 10-27 feel pass: the curve flattens toward the top so any real swing makes most of the speed; half a swing is still
+            // ~2 mph slower (was "more than 1 m/s")
+            Assert.That(half.BallSpeed, Is.LessThan(full.BallSpeed - .6f));
         }
 
         [Test]

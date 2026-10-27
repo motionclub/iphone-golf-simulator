@@ -123,6 +123,10 @@ namespace GolfArcade.Tennis
         public bool Sprint;
         public bool ReplayPlaying => replay && replay.Playing;
         Transform ball, ballSpinner;
+        /// The drawn ball (HeroTossHold seats it on the tossing palm while it is held; the game keeps BallPosition).
+        public Transform BallView => ball;
+        /// True while `server` still has the ball in its serve routine (bounces and wind-up), before the toss.
+        public bool ServeBallHeld(TennisActor server) => server == Player ? Flow == Phase.PlayerServeHold : server == Opponent && Flow == Phase.OpponentServe && serveTimer < TennisRules.ServeTossDelay;
         TrailRenderer ballTrail;
         /// Squash on a bounce or a hit, decaying over a few frames.
         float squash; Vector3 squashAxis = Vector3.up;

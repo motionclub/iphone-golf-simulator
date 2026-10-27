@@ -53,6 +53,7 @@ namespace GolfArcade.Bowling
 
         public static BowlingClubLanes.Venue Build(Transform parent, Camera camera)
         {
+            AlleyShadows();
             var venue = Current switch
             {
                 BowlingVenueKind.NeonNights => BowlingNeonNights.Build(parent, camera),
@@ -119,6 +120,18 @@ namespace GolfArcade.Bowling
             m.vertices = verts; m.triangles = idx;
             m.RecalculateNormals(); m.RecalculateBounds();
             return m;
+        }
+
+        /// The alley's own shadow reach (10-27, "parts of the alley flicker"). The shadow settings live on the shared pipeline asset, and the
+        /// alley never set them: after a golf round it kept golf's 260-320 m, 4 cascades (as the plaza did, menu-background 10-26), and even
+        /// the tier default (32-60 m, one cascade) spreads the map over a reach twice the alley's. Shadow texels of 5-15 cm swim as the camera
+        /// moves (the shadow map refits every frame), and the step and sofa shadows on the lounge floor flickered. The alley fits in 34 m from
+        /// the lounge cameras to the pins: two cascades, the near one over the approach and the lounge.
+        public static void AlleyShadows()
+        {
+            var urp = GolfArcade.Tennis.TennisQuality.Pipeline;
+            if (!urp) return;
+            urp.shadowDistance = 34; urp.shadowCascadeCount = 2; urp.cascade2Split = .3f;
         }
 
         public static GameObject Place(Transform parent, string name, Mesh mesh, Vector3 pos, Vector3 scale, float yaw, Material mat, bool shadows = true)
