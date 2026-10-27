@@ -14,6 +14,10 @@ struct TennisTVRoot: View {
                     if OnboardingFlow.shared.holdsMenu { OnboardingTV(flow: .shared) }
                     // the Plaza is the TV's only menu: its loading screen (or why it did not open), then the plaza itself (this window hides)
                     else if HubSession.shared.drivesPhone || (!SportsSession.shared.active && !TennisMenu.shared.classic) { HubLoadingScreen(hub: .shared) }
+                    // a match from the Plaza or the pointer menu: this window is hidden under the match and only its pause screen is ever
+                    // shown. The classic home it used to fall through to built a SceneKit hero (~130 MB rig) and the club cinemagraph just
+                    // as the match loaded (10-26 20:39 party golf: killed for memory).
+                    else if SportsSession.shared.active && !TennisMenu.shared.classic && !SportsSession.shared.menuPauseVisible { Color.clear }
                     else { TennisMenuScreen(compact: false)
                         .overlay(alignment: .bottomTrailing) {
                             Text("Feedback on your phone").font(IslandUI.font(13, bold: true))

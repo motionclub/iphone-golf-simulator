@@ -343,6 +343,11 @@ final class SportsAppDelegate: NSObject, UIApplicationDelegate {
         ClubPush.registerCategories()
         return true
     }
+    // (Unity hears it from SportsRuntime, which forwards it to UnityAppController)
+    func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
+        SportsDiagnostics.write("memory warning \(SportsDiagnostics.memory)")
+        MatchHeroData.releaseCache()
+    }
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         ClubHub.shared.setPushToken(deviceToken.map { String(format: "%02x", $0) }.joined(), env: ClubPush.environment)
     }

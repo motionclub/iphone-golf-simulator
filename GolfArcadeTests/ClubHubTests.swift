@@ -127,21 +127,74 @@ final class ClubHubTests: XCTestCase {
         XCTAssertEqual(p.hub.notice, "You joined Ann's party!")
     }
 
-    /// First-run onboarding holds an invite the same way; the Plaza after it joins.
-    func testJoinSaidDuringOnboardingWaitsForThePlaza() async {
+    /// First-run onboarding (TV or not) never holds an invite back (2026-10-26): the banner shows over it, and Join puts onboarding
+    /// off until after the party and joins at once. It used to wait for the whole onboarding, and with no TV for ever.
+    func testJoinSaidDuringOnboardingPutsOnboardingOffAndJoinsAtOnce() async {
         let p = Phone(nil, id: "guest", name: "Bea", friends: [])
         defer { p.hub.debugReset() }
         p.hub.now = { 100_000 }
-        var joined = 0
+        var joined = 0, deferred = 0
         p.hub.nativeAccept = { _ in joined += 1 }
+        p.hub.deferOnboarding = { deferred += 1; p.context.onboarding = false }   // (OnboardingFlow.holdsMenu lets go while joining)
         p.context.onboarding = true
         let card = GameCenterPartyInvitation(host: "a", recipient: "guest", name: "Ann", group: 0x60000004, players: ["a", "guest"], expiresAt: 100_000 + GameCenterPartyInvitation.lifetime).card("m4")
         p.hub.gameCenterInvitations([card])
-        XCTAssertNil(p.hub.banner)
+        XCTAssertEqual(p.hub.banner?.id, card.id, "the invite shows over onboarding")
+        XCTAssertFalse(p.hub.heldForGame)
         p.hub.accept(card)
-        p.hub.debugTick(); XCTAssertEqual(joined, 0)
-        p.context.onboarding = false; p.hub.debugTick()
-        await until("joined after onboarding") { joined == 1 && p.hub.joining == nil }
+        XCTAssertEqual(deferred, 1)
+        await until("joined during onboarding") { joined == 1 && p.hub.joining == nil }
+        XCTAssertEqual(p.hub.notice, "You joined Ann's party!")
+    }
+
+    /// A join nobody tapped (a rejoin, a resumed or crossed join) never cancels the join the player asked for, and an old notification
+    /// for a replaced invite joins the friend's open one. A friend whose party this phone is already in is not joined again.
+    func testAutomaticJoinsGiveWayAndOldNotificationsFindTheOpenInvite() async {
+        let p = Phone(nil, id: "guest", name: "Bea", friends: [])
+        defer { p.hub.debugReset() }
+        p.hub.now = { 100_000 }
+        var joined: [HubInvite] = [], declined: [String] = []
+        var release: CheckedContinuation<Void, Never>?
+        p.hub.nativeAccept = { invite in joined.append(invite); await withCheckedContinuation { release = $0 } }
+        p.hub.nativeDecline = { declined.append($0) }
+        func card(_ host: String, _ name: String, _ match: String) -> HubInvite {
+            GameCenterPartyInvitation(host: host, recipient: "guest", name: name, group: 0x60000010, players: [host, "guest"], expiresAt: 100_000 + GameCenterPartyInvitation.lifetime).card(match)
+        }
+        let ann = card("a", "Ann", "m10"), zed = card("z", "Zed", "m11")
+        p.hub.gameCenterInvitations([ann, zed])
+        p.hub.accept(ann)
+        await until("joining Ann") { joined.count == 1 }
+        var auto = zed; auto.automatic = true
+        p.hub.accept(auto)
+        XCTAssertEqual(joined.map(\.id), [ann.id], "the automatic one gives way"); XCTAssertEqual(p.hub.joining, "Ann")
+        release?.resume(); release = nil
+        await until("joined Ann") { p.hub.joining == nil }
+        // an old notification (record m9, since replaced by m12) from Zed: his open invite is the one joined
+        let newer = card("z", "Zed", "m12")
+        p.hub.gameCenterInvitations([newer])
+        p.hub.accept(card("z", "Zed", "m9"))
+        await until("joining Zed") { joined.count == 2 }
+        XCTAssertEqual(joined.last?.id, newer.id)
+        release?.resume(); release = nil
+        await until("joined Zed") { p.hub.joining == nil }
+        // already in Ann's party: nothing to join, and her stale invite goes
+        p.hub.connectedTo = { $0 == "a" }
+        let again = card("a", "Ann", "m13")
+        p.hub.gameCenterInvitations([again])
+        p.hub.accept(again)
+        XCTAssertEqual(joined.count, 2); XCTAssertEqual(declined, [again.id]); XCTAssertEqual(p.hub.notice, "You're already in Ann's party.")
+    }
+
+    /// The host's row when an invitation crossed (the friend invited this phone too) or never connected.
+    func testCrossedAndFailedInvitationRows() {
+        let p = Phone(nil, id: "ann", name: "Ann", friends: [FriendProfile(id: "bea", name: "Bea")])
+        defer { p.hub.debugReset() }
+        p.hub.gameCenterOutgoing(to: "bea", .joining)
+        XCTAssertEqual(p.hub.sent["bea"], .accepted)
+        p.hub.gameCenterOutgoing(to: "bea", .crossed)
+        XCTAssertNil(p.hub.sent["bea"], "back to Invite"); XCTAssertTrue(p.hub.notice.contains("invited you too"))
+        p.hub.gameCenterOutgoing(to: "bea", .failed)
+        XCTAssertEqual(p.hub.sent["bea"], .unavailable); XCTAssertTrue(p.hub.notice.hasPrefix("Couldn't connect to"))
     }
 
     /// A join that fails says why in words a player can act on, and Join is right back on the banner to try again. Cancelling a
@@ -242,6 +295,7 @@ final class ClubHubTests: XCTestCase {
         await until("knocked") { store.notes.contains { $0.kind == .knock && $0.to == "ann" } }
         await ann.cloud.tick()
         await until("Bea in") { bea.log().contains("to g-ann 1610612745 2") }
+        await ann.cloud.debugLetIn()
         XCTAssertEqual(ann.log(), ["in g-bea 1610612745 2", "joined Bea"])
         await until("said") { bea.said().last == "You joined Ann's party!" }
         XCTAssertNil(bea.cloud.knocking)
@@ -252,6 +306,7 @@ final class ClubHubTests: XCTestCase {
         await until("Cy knocked") { store.notes.contains { $0.kind == .knock && $0.from == "cy" } }
         await ann.cloud.tick()
         await until("Cy in") { cy.log().contains("to g-ann 1610612745 2") }
+        await ann.cloud.debugLetIn()
         // a full party says so
         ann.cloud.hostParty = { (0x60000009, 5, 4) }
         bea.cloud.join(code: code)

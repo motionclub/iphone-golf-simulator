@@ -1,6 +1,7 @@
 import ARKit
 import CoreMotion
 import Vision
+import os
 
 // Bounded, local-only diagnostics: no camera images or player identity.
 enum SportsDiagnostics {
@@ -23,6 +24,14 @@ enum SportsDiagnostics {
             }
             if let data=line.data(using:.utf8) { try? handle.write(contentsOf:data) }
         }
+    }
+    /// What jetsam counts (phys_footprint) and what is left before this app's limit: "footprint=2310MB left=1650MB".
+    static var memory: String {
+        var info=task_vm_info_data_t()
+        var count=mach_msg_type_number_t(MemoryLayout<task_vm_info_data_t>.size/MemoryLayout<integer_t>.size)
+        let status=withUnsafeMutablePointer(to:&info) { $0.withMemoryRebound(to:integer_t.self,capacity:Int(count)) { task_info(mach_task_self_,task_flavor_t(TASK_VM_INFO),$0,&count) } }
+        let footprint=status==KERN_SUCCESS ? "\(info.phys_footprint/1_048_576)MB" : "?"
+        return "footprint=\(footprint) left=\(os_proc_available_memory()/1_048_576)MB"
     }
 }
 

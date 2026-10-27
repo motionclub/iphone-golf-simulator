@@ -79,6 +79,8 @@ final class ClubCloud {
     private(set) var link: URL?
     /// Dropping in, or joining with a code: whose party and where it is.
     private(set) var knocking: (name: String, stage: String)?
+    /// The party being knocked on now: its host's teamPlayerID and gamePlayerID (crossed knocks are settled with it).
+    @ObservationIgnored private(set) var knockingHost: (id: String, gameID: String)?
 
     @ObservationIgnored let store: ClubCloudStore?
     /// Me: teamPlayerID, gamePlayerID, name (nil until Game Center has signed in).
@@ -93,6 +95,12 @@ final class ClubCloud {
     @ObservationIgnored var connect: @MainActor (_ hostGameID: String, _ group: UInt32, _ players: Int) async throws -> Void = { _, _, _ in }
     /// This phone may go into another party now (the Plaza; ClubHub.canJoinNow).
     @ObservationIgnored var canJoinNow: @MainActor () -> Bool = { true }
+    /// Host: someone can be let in now (no other party handshake on this phone: PartyJoinCoordinator).
+    @ObservationIgnored var canHost: @MainActor () -> Bool = { true }
+    /// Joiner: a knock on this host (gamePlayerID) begins: its handshake token, or nil when it may not start now. The closure given is
+    /// called when a player's other join cancels it.
+    @ObservationIgnored var beginKnock: @MainActor (_ hostGameID: String, _ onCancel: @escaping () -> Void) -> Int? = { _, _ in 0 }
+    @ObservationIgnored var endKnock: @MainActor (Int) -> Void = { _ in }
     /// Friends (teamPlayerIDs): a friend's knock is let in by itself; anyone else's only with the current code.
     @ObservationIgnored var isFriend: @MainActor (String) -> Bool = { _ in false }
     @ObservationIgnored var say: @MainActor (String) -> Void = { _ in }
@@ -106,6 +114,11 @@ final class ClubCloud {
     @ObservationIgnored private var subscribed = false
     @ObservationIgnored private var handled: Set<String> = []
     @ObservationIgnored private var knockTask: Task<Void, Never>?
+    @ObservationIgnored private var knockToken: Int?
+    /// Host: the let-in running now (the tick goes on beside it: it used to wait up to 80 s, and presence and knocks with it).
+    @ObservationIgnored private var letInTask: Task<Void, Never>?
+    /// Seconds between checks for CloudKit while it is not there (no iCloud account yet, or no network at launch).
+    @ObservationIgnored var availabilityRetry: Duration = .seconds(30)
 
     init(store: ClubCloudStore?) { self.store = store }
 
@@ -124,12 +137,16 @@ final class ClubCloud {
     func start() {
         guard let store, ticker == nil else { return }
         ticker = Task { @MainActor [weak self] in
-            let ok = await store.available()
-            guard let self else { return }
-            self.on = ok
-            guard ok else { return }
+            // (not there at launch, e.g. no network yet or iCloud signed in later: asked again, instead of off for the whole run)
             while !Task.isCancelled {
-                await self.tick()
+                let ok = await store.available()
+                guard let self else { return }
+                self.on = ok
+                if ok { break }
+                try? await Task.sleep(for: self.availabilityRetry)
+            }
+            while !Task.isCancelled {
+                await self?.tick()
                 try? await Task.sleep(for: .seconds(5))
             }
         }
@@ -144,6 +161,10 @@ final class ClubCloud {
         if code == nil { code = Self.newCode() }
         await publish()
         if let knocks = try? await store.notes(.knock, to: me.id) { for k in knocks where !handled.contains(k.id) { await answer(k) } }
+        // Invite notes only carry their notification (the Game Center record is the invite): gone once the game is open. Answers
+        // nobody waits for any more go too. (Neither was ever deleted, 2026-10-26.)
+        for n in (try? await store.notes(.invite, to: me.id)) ?? [] { try? await store.delete(note: n) }
+        for n in (try? await store.notes(.answer, to: me.id)) ?? [] where n.expires <= now() { try? await store.delete(note: n) }
     }
 
     /// My state for my friends (also with `force` when I leave the game: "away").
@@ -222,7 +243,14 @@ final class ClubCloud {
         guard let store, let me = me() else { return }
         guard k.expires > now() else { handled.insert(k.id); try? await store.delete(note: k); return }
         guard isFriend(k.from) || (code != nil && k.code == code) else { handled.insert(k.id); try? await store.delete(note: k); return }
-        guard canJoinNow() else { return }   // (a match is on: answered after it, while the knock lasts)
+        // Knocking on each other: the lower gamePlayerID hosts (PartyTieBreak). That phone stops knocking and answers; the other one
+        // leaves this knock be and keeps knocking (its owner takes it back).
+        if let host = knockingHost, host.id == k.from {
+            guard PartyTieBreak.localHosts(local: me.gameID, other: k.fromGameID) else { return }
+            cancelKnock()
+        }
+        // (a match is on, or another handshake: answered after it, while the knock lasts)
+        guard canJoinNow(), canHost(), letInTask == nil else { return }
         handled.insert(k.id)
         try? await store.delete(note: k)
         guard let host = hostParty() else { return }
@@ -233,9 +261,15 @@ final class ClubCloud {
         }
         try? await store.send(CloudNote(kind: .answer, to: k.from, from: me.id, fromGameID: me.gameID, fromName: me.name, code: k.code,
                                         detail: "go", group: host.group, players: host.size, round: k.round, expires: now().addingTimeInterval(120)))
-        do { try await bringIn(k.fromGameID, host.group, host.size); joined(k.fromName) }
-        catch { SportsDiagnostics.write("cloud: let-in failed: \(error.localizedDescription)") }
+        letInTask = Task { @MainActor [weak self] in
+            guard let self else { return }
+            defer { self.letInTask = nil }
+            do { try await self.bringIn(k.fromGameID, host.group, host.size); self.joined(k.fromName) }
+            catch { SportsDiagnostics.write("cloud: let-in failed: \(error.localizedDescription)") }
+        }
     }
+    /// Tests: until the let-in started by a knock is over.
+    func debugLetIn() async { await letInTask?.value }
 
     // MARK: going into someone's party
 
@@ -243,20 +277,35 @@ final class ClubCloud {
     func join(code text: String) {
         guard let typed = Self.normalized(text) else { say("That code doesn't look right. It has 6 or 8 letters and numbers."); return }
         guard on, let store, let me = me() else { say("Sign in to iCloud in Settings to join with a code."); return }
-        knockTask?.cancel()
+        cancelKnock()
         knockTask = Task { @MainActor [weak self] in
             guard let self else { return }
-            defer { self.knocking = nil }
             guard let party = try? await store.party(code: typed) else { self.say("That code isn't working. Check it, or ask for a new one."); return }
             guard party.hostID != me.id else { self.say("That's your own party code."); return }
             guard party.open, party.size < party.capacity else { self.say("\(party.hostName)'s party is full."); return }
+            guard !Task.isCancelled else { return }
+            // one handshake at a time: this knock is it until it is in or gives up (a player's other Join cancels it)
+            guard let token = self.beginKnock(party.hostGameID, { [weak self] in self?.knockTask?.cancel() }) else {
+                self.say("Finish joining your friend first."); return
+            }
+            self.knockToken = token; self.knockingHost = (party.hostID, party.hostGameID)
+            var mine: CloudNote?
+            defer {
+                if self.knockToken == token { self.knockToken = nil; self.knockingHost = nil; self.knocking = nil }
+                self.endKnock(token)
+                // the knock leaves with the wait (it used to outlive it by minutes, and be let in after the joiner had gone)
+                if let note = mine { Task { try? await store.delete(note: note) } }
+            }
             self.knocking = (party.hostName, "Asking \(party.hostName) to let you in…")
             for round in 0..<3 {
                 guard !Task.isCancelled else { return }
-                try? await store.send(CloudNote(kind: .knock, to: party.hostID, from: me.id, fromGameID: me.gameID, fromName: me.name,
-                                                code: party.code, round: round, expires: self.now().addingTimeInterval(180)))
-                // the host answers when its game is open and free (the knock also alerts their phone)
+                // the host answers when its game is open and free (the knock also alerts their phone); it lasts as long as this wait
                 let deadline = self.now().addingTimeInterval(round == 0 ? 180 : 90)
+                if let old = mine { try? await store.delete(note: old) }
+                let knock = CloudNote(kind: .knock, to: party.hostID, from: me.id, fromGameID: me.gameID, fromName: me.name,
+                                      code: party.code, round: round, expires: deadline)
+                mine = knock
+                try? await store.send(knock)
                 var answer: CloudNote?
                 while answer == nil, self.now() < deadline, !Task.isCancelled {
                     try? await Task.sleep(for: self.pollInterval)
@@ -264,7 +313,7 @@ final class ClubCloud {
                 }
                 guard !Task.isCancelled else { return }
                 guard let answer else { self.say("\(party.hostName) didn't answer. Their game may be closed: they got a notification."); return }
-                try? await store.delete(note: answer)
+                try? await store.delete(note: answer); mine = nil   // (the host took the knock)
                 if answer.detail == "full" { self.say("\(party.hostName)'s party is full."); return }
                 while !self.canJoinNow() { try? await Task.sleep(for: .seconds(1)); if Task.isCancelled { return } }
                 self.knocking = (party.hostName, "Joining \(party.hostName)…")
@@ -273,6 +322,7 @@ final class ClubCloud {
                     self.dropCode(); self.say("You joined \(party.hostName)'s party!")
                     return
                 } catch {
+                    // (a cancel is the player's, or another Join's: quiet. A connection that timed out says so, and knocks again.)
                     if Task.isCancelled || error is CancellationError { return }
                     SportsDiagnostics.write("cloud: join round \(round) failed: \(error.localizedDescription)")
                 }
@@ -280,7 +330,10 @@ final class ClubCloud {
             self.say("Couldn't connect to \(party.hostName). Check the internet on both phones, then try again.")
         }
     }
-    func cancelKnock() { knockTask?.cancel(); knockTask = nil; knocking = nil }
+    func cancelKnock() {
+        knockTask?.cancel(); knockTask = nil; knocking = nil; knockingHost = nil
+        if let token = knockToken { knockToken = nil; endKnock(token) }
+    }
 
     // MARK: codes
 

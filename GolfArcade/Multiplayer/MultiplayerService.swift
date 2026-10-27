@@ -183,7 +183,10 @@ final class MultiplayerService {
         guard !prepared, !ProcessInfo.processInfo.arguments.contains("--lobby-mock") else { return }; prepared = true
         _ = ensureGameCenter()
         NotificationCenter.default.addObserver(forName: UIApplication.didEnterBackgroundNotification, object: nil, queue: .main) { [weak self] _ in Task { @MainActor in self?.setForeground(false) } }
-        NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: .main) { [weak self] _ in Task { @MainActor in self?.setForeground(true) } }
+        NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: .main) { [weak self] _ in
+            // (back in the app: a friend who tapped Join while this phone was away is brought in now, not at the next poll)
+            Task { @MainActor in self?.setForeground(true); await self?.gameCenter?.refreshInvitations() }
+        }
     }
     func createOnlineLobby() throws {
         guard transport == nil, !searching else { throw MultiplayerError.invalidOperation("Already in a lobby.") }
@@ -250,21 +253,26 @@ final class MultiplayerService {
         gc.onJoinStage = { ClubHub.shared.gameCenterJoinStage($0) }
         gc.joinAvailable = { ClubHub.shared.canJoinNow }
         // A friend tapped Join: bring them in when this phone is in the Plaza. Never while this phone is a guest in another party
-        // (its own invitations are void then); later while it is in another kind of lobby or a match.
+        // (its own invitations are void then); later while it is joining someone, searching, in another kind of lobby or a match.
         gc.hostAvailable = { [weak self, weak gc] in
             guard let self, let gc else { return nil }
             if self.transport === gc && self.isParty && !self.isOwner { return nil }
+            if gc.handshakes.joining || self.searching || ClubHub.shared.cloud.knocking != nil { return false }
             if self.transport != nil && !(self.transport === gc && self.isParty) { return false }
             return ClubHub.shared.canJoinNow
         }
+        gc.handshakes.inConnectedParty = { [weak self] in self?.inConnectedParty ?? false }
         gc.invitationAllowed = { gameID, teamID in
             !ClubHub.shared.blocked.contains(gameID) && !ClubHub.shared.blocked.contains(teamID)
             && !PartySafety.shared.isBlocked(gameID) && !PartySafety.shared.isBlocked(teamID)
         }
         gc.onConnected = { [weak self, weak gc] in if let gc { self?.nativeParty = false; self?.bind(gc) } }
-        gc.canAcceptParty = { [weak self] in
-            guard !SportsSession.shared.active else { return false }
-            self?.cancelSearch(); self?.leave()
+        // Going into a friend's party: the one you go into wins over the one you are in. Not for a join nobody tapped (a rejoin, a
+        // resumed or crossed join): that one never leaves a party with friends connected (it used to, every time: cause 1, 10-26).
+        gc.canAcceptParty = { [weak self] automatic in
+            guard let self, !SportsSession.shared.active else { return false }
+            if automatic && self.inConnectedParty { return false }
+            if self.transport != nil || self.searching { self.cancelSearch(); self.leave() }
             return true
         }
         gc.onAuthenticationController = { ClubSignIn.offer($0) }
@@ -283,10 +291,15 @@ final class MultiplayerService {
     }
     func acceptGameCenterInvitation(_ invite: HubInvite) async throws {
         guard !SportsSession.shared.active else { throw MultiplayerError.invalidOperation("Return to the Plaza to join your friend.") }
+        let gc = ensureGameCenter()
+        // (opened from the invite's notification: Game Center may still be signing in)
+        try await gc.untilSignedIn()
         TennisMenu.shared.online.identity(TennisMenu.shared)
         setScreen(SportsSession.shared.displayConnected)
-        try await ensureGameCenter().acceptStoredInvitation(invite)
+        try await gc.acceptStoredInvitation(invite)
     }
+    /// In a lobby with other phones connected now: an automatic join never takes this phone out of it.
+    var inConnectedParty: Bool { lobby != nil && !(transport?.peers.isEmpty ?? true) }
     func declineGameCenterInvitation(_ invite: String) { ensureGameCenter().declineStoredInvitation(invite) }
     func cancelGameCenterJoin() { gameCenter?.cancelJoin() }
     /// Everyone on this phone's FaceTime call can join the party (SharePlay); stops when the party is left.
@@ -305,8 +318,17 @@ final class MultiplayerService {
         guard GKLocalPlayer.local.isAuthenticated else { return nil }
         let gc = ensureGameCenter()
         if transport != nil && !(transport === gc && isParty && isOwner) { return nil }
+        if gc.handshakes.joining { return nil }   // (going into someone else's party: none of its own to offer)
         return (gc.hostGroup(), gc.peers.count + 2, gc.capacity)
     }
+    /// Host: someone who knocked can be let in now (nothing else connecting, not joining anyone, in the Plaza).
+    var canLetIn: Bool {
+        guard let gc = gameCenter, gc.handshakes.active == nil else { return false }
+        return gc.hostAvailable?() == true
+    }
+    /// Joiner: a knock on `host`'s party starts (one handshake at a time). Nil: not now.
+    func beginKnock(host: String, onCancel: @escaping () -> Void) -> Int? { ensureGameCenter().beginKnockJoin(host: host, onCancel: onCancel) }
+    func endKnock(_ token: Int) { gameCenter?.handshakes.end(token) }
     func letIn(_ gameID: String, group: UInt32, players: Int) async throws {
         let gc = ensureGameCenter()
         if transport === gc { try? broadcast("partyAdmission", payload: gameID) }
@@ -361,6 +383,7 @@ final class MultiplayerService {
     }
     func quickMatch(_ sport: MultiplayerSport, golfPlayers: Int = 4) async throws {
         guard transport == nil, !searching else { throw MultiplayerError.invalidOperation("Leave the current lobby first.") }
+        guard gameCenter?.handshakes.active == nil else { throw MultiplayerError.invalidOperation("Finish joining your friend first.") }
         guard sport != .tennis || hasScreen else {
             throw MultiplayerError.unavailable("Connect your TV with AirPlay before finding an online tennis opponent. Sharing a TV? Choose Local Tennis.")
         }
@@ -584,15 +607,19 @@ final class MultiplayerService {
     }
     /// The player left on purpose, was taken out, or went to another party: no invite back is accepted by itself.
     func forgetParty() { UserDefaults.standard.removeObject(forKey: "party.lastLeader"); gameCenter?.stopSharePlay() }
+    /// Seconds a dropped member gets to come back by itself (Apple reconnects the match) before the leader invites them back. It was
+    /// 4 s, under Apple's own reconnect: both happened, and the rejoin tore the reconnected party down (2026-10-26).
+    static let rejoinAfter: Double = 12
     /// Leader: a member whose phone dropped (not one who left) is invited back after a few seconds, once, and their phone accepts
-    /// it by itself (`lastPartyLeader`). A member gone for longer than an invite lasts leaves the party list.
+    /// it by itself (`lastPartyLeader`). The invitation is taken back the moment they are connected again. A member gone for longer
+    /// than an invite lasts leaves the party list.
     private func inviteDroppedMembersBack() {
         guard isOwner, isParty, lobby?.phase == .lobby, let gc = gameCenter, transport === gc else { return }
         for (id, at) in dropped {
             if now - at > 15 * 60 {
                 dropped[id] = nil; reinvited.remove(id)
                 lobby?.participants.removeAll { $0.id == id && !$0.connected }; lobby?.revision += 1; publishLobby()
-            } else if now - at > 4, !reinvited.contains(id) {
+            } else if now - at > Self.rejoinAfter, !reinvited.contains(id) {
                 reinvited.insert(id)
                 Task { @MainActor in
                     do { try await gc.reinvite(id) }
@@ -603,6 +630,8 @@ final class MultiplayerService {
     }
 
     func leave() {
+        // (rejoin invitations still out are void once the leader leaves: nobody goes back into a party that is gone)
+        for id in reinvited { gameCenter?.cancelInvite(id) }
         sharedPhoneHost = false; nativeParty = false; expectingHost = nil; promotedTo = nil; dropped = [:]; reinvited = []
         if transport != nil { try? broadcast("leave") }
         epoch += 1; searchGeneration += 1; timer?.invalidate(); timer = nil; stopRuntime()
@@ -669,7 +698,9 @@ final class MultiplayerService {
                     if lobby!.participants[i].seat >= 0 { try? broadcast("suspend", payload: id); pushRuntime("suspend", payload: id) }
                 }
                 if connected {
-                    dropped[id] = nil; reinvited.remove(id)
+                    // back (Apple reconnected them): the rejoin invitation, if one went out, is taken back before their phone acts on it
+                    if reinvited.remove(id) != nil { gameCenter?.cancelInvite(id) }
+                    dropped[id] = nil
                     if disconnected[id] != nil, [.loading,.calibrating,.playing].contains(lobby!.phase) {
                         // A phone whose connection really dropped reloads the game when it comes back, so it is neither loaded nor set up any more.
                         // One that was only quiet or in the background never dropped (it is still marked connected) and keeps its state.
@@ -1160,7 +1191,7 @@ final class MultiplayerService {
         silent.removeAll(); silenceArmedAt = .infinity; local?.holdForReconnect = true
         matchConfiguration = config; quickSport = nil; lastError = nil; stats = NetStats()
         localLoadReport = nil; localCalibrationReported = false; nextSetupReport = 0; scheduledRunAt = 0
-        SportsDiagnostics.write("multiplayer launch \(config.sport) \(isOwner ? "owner" : "guest") seat=\(config.participants.first { $0.id == localID }?.seat ?? -1) peers=\(transport?.peers.count ?? 0)")
+        SportsDiagnostics.write("multiplayer launch \(config.sport) \(isOwner ? "owner" : "guest") seat=\(config.participants.first { $0.id == localID }?.seat ?? -1) peers=\(transport?.peers.count ?? 0) \(SportsDiagnostics.memory)")
         #if DEBUG
         if proofRecording { OnlineLobbyProofDriver.event("launch-config","bytes=\(payload.utf8.count) \(payload)") }
         #endif

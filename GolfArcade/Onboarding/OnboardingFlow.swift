@@ -19,8 +19,17 @@ final class OnboardingFlow {
     var active: Bool { step != .done }
     /// A lesson's game is on: the TV and phone are the game's, not onboarding's.
     var lessonRunning: Bool { if case .lesson = step { return SportsSession.shared.active }; return false }
-    /// Onboarding owns the TV and the phone (every step but a running lesson).
-    var holdsMenu: Bool { active && !lessonRunning }
+    /// Onboarding owns the TV and the phone (every step but a running lesson), except while the player is joining or in a friend's
+    /// party: a Join puts onboarding off until the party is over, TV or not (2026-10-26; before, an invite could never be joined
+    /// during onboarding, and with no TV the connect screen had no way out).
+    var holdsMenu: Bool { active && !lessonRunning && !partyWaits() }
+    @ObservationIgnored var askNotifications: @MainActor () -> Void = {
+        if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil { ClubPush.requestPermission() }
+    }
+    /// Joining, or in, a friends' party now.
+    @ObservationIgnored var partyWaits: @MainActor () -> Bool = {
+        ClubHub.shared.joining != nil || ClubHub.shared.cloud.knocking != nil || (MultiplayerService.shared.lobby != nil && MultiplayerService.shared.isParty)
+    }
 
     /// Shirt colours offered on first launch (the Locker has the full range).
     static let shirts = ["1F5BD8", "D8262B", "F1B120", "2E9A3A", "18245A", "ECEAE3", "E2533F", "7A4DD8"]
@@ -69,7 +78,10 @@ final class OnboardingFlow {
     func next() {
         switch step {
         case .hello: move(to: .account)
-        case .account: move(to: .controller)
+        case .account:
+            // signed in: friends' invites can reach this phone with the game closed (the one place first-run asks)
+            if signedIn { askNotifications() }
+            move(to: .controller)
         case .controller: move(to: .room)
         case .room: move(to: .player)
         case .player: move(to: .card)

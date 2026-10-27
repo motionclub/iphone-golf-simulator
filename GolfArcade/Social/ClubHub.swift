@@ -82,14 +82,16 @@ final class ClubHub {
     /// Joining a friend's game: who, until it connects or fails (or, said while busy, until the player is back in the Plaza).
     private(set) var joining: String?
     enum JoinStage: Equatable {
-        /// Join was tapped during a match, a load or onboarding (or from Game Center's notification): it happens in the Plaza.
+        /// Join was tapped during a match or a load (or from Game Center's notification): it happens in the Plaza.
         case later
         /// Waiting for the host's phone to say go (it may be finishing a match).
         case waiting
         case connecting
     }
     private(set) var joinStage: JoinStage?
-    /// A match, a load or onboarding holds banners and the joining pill (nothing pops over a swing or a lesson).
+    /// A match or a load holds banners and the joining pill (nothing pops over a swing or a lesson). Onboarding does not: a friend's
+    /// invite shows over it, and Join puts onboarding off until after the party (2026-10-26; it used to wait for the whole onboarding,
+    /// and with no TV for ever).
     private(set) var heldForGame = false
     /// A code looked up (pasted or from a link): who invited you.
     private(set) var resolvedInvite: HubInvite?
@@ -140,6 +142,12 @@ final class ClubHub {
     /// chooses another.
     @ObservationIgnored var isRejoin: @MainActor (HubInvite) -> Bool = { _ in false }
     @ObservationIgnored var forgetParty: @MainActor () -> Void = {}
+    /// Join said during first-run onboarding: onboarding steps aside until the party is over (OnboardingFlow.holdsMenu).
+    @ObservationIgnored var deferOnboarding: @MainActor () -> Void = {}
+    /// Connected to this player (gamePlayerID) in a party now: their invite has nothing left to join.
+    @ObservationIgnored var connectedTo: @MainActor (String) -> Bool = { id in MultiplayerService.shared.partyMembers.contains { $0.id == id } }
+    /// The Game Center invites still open (card ids): notifications for any others are taken off the lock screen.
+    @ObservationIgnored var clearDeliveredInvites: @MainActor (Set<String>) -> Void = { _ in }
     /// The invite being joined, or waiting to be joined in the Plaza.
     @ObservationIgnored private var joinTarget: String?
     @ObservationIgnored var autoOpenLobby = false
@@ -428,8 +436,9 @@ final class ClubHub {
         invites.removeAll { $0.id.hasPrefix("gc:") && !ids.contains($0.id) }
         for card in cards.reversed() where !invites.contains(where: { $0.id == card.id }) { received(card) }
         updateBanner()
+        clearDeliveredInvites(ids)
         // dropped out of a party: its leader's invite back is accepted by itself (in the Plaza; it waits through a match)
-        if joinTarget == nil, let back = cards.first(where: { isRejoin($0) && !expired($0) }) { accept(back) }
+        if joinTarget == nil, var back = cards.first(where: { isRejoin($0) && !expired($0) }) { back.automatic = true; accept(back) }
     }
     func gameCenterInvitationSent(to id: String, match: String = "", players: Int = 2) {
         if sent[id] == .sending { sent[id] = .delivered }
@@ -448,6 +457,9 @@ final class ClubHub {
         case .declined: sent[id] = .declined
         case .expired: sent[id] = .expired
         case .full: sent[id] = .full; say("Your party is full, so \(name) couldn't join.")
+        // (they invited you too: you go into their party, your invite is taken back)
+        case .crossed: sent[id] = nil; say("\(name) invited you too. Joining \(name)…")
+        case .failed: sent[id] = .unavailable; say("Couldn't connect to \(name). Check the internet on both phones, then invite again.")
         }
     }
     /// Friend: where the Game Center join is.
@@ -481,7 +493,7 @@ final class ClubHub {
     /// background; never shown once snoozed (it stays in the hub); shows the newest.
     func updateBanner() {
         let c = context()
-        heldForGame = c.inMatch || c.busyLoading || c.onboarding
+        heldForGame = c.inMatch || c.busyLoading
         if heldForGame || c.background || doNotDisturb { banner = nil }
         else { banner = invites.first { !snoozed.contains($0.inviteID) && !expired($0) && $0.inviteID != joinTarget } }
         joinWhenReady()
@@ -515,11 +527,26 @@ final class ClubHub {
     /// A Game Center invite is never refused for being on the wrong screen: Join said during a match, a load or onboarding (or by
     /// tapping Game Center's notification) is kept, and the join starts by itself the moment the player is back in the Plaza.
     func accept(_ invite: HubInvite) {
+        var invite = invite
+        // an old notification for an invite that has since been replaced: the friend's open invite instead
+        if invite.id.hasPrefix("gc:"), !invites.contains(where: { $0.id == invite.id }),
+           var live = invites.first(where: { $0.id.hasPrefix("gc:") && $0.from.id == invite.from.id && !expired($0) }) {
+            live.automatic = invite.automatic; invite = live
+        }
         guard !expired(invite), !blocked.contains(invite.from.id) else { say("That invite has ended. Ask \(invite.from.name) to invite you again."); return }
         if invite.id.hasPrefix("gc:"), nativeAccept != nil {
+            let automatic = invite.automatic == true
             guard joinTarget != invite.id else { return }
-            if joinTarget != nil { cancelJoin() }   // (Join on another friend's invite: that one wins)
-            if !isRejoin(invite) { forgetParty() }
+            // already in their party (an old notification, a rejoin after the party came back by itself): nothing to join
+            if connectedTo(invite.from.id) {
+                nativeDecline?(invite.id); remove(invite.id)
+                if !automatic { say("You're already in \(invite.from.name)'s party.") }
+                return
+            }
+            // Join on another friend's invite: that one wins. A join nobody tapped never cancels one the player asked for.
+            if joinTarget != nil { if automatic { return }; cancelJoin() }
+            if !isRejoin(invite) && !automatic { forgetParty() }
+            if context().onboarding { deferOnboarding() }
             joinTarget = invite.id; joining = invite.from.name; hubOpen = false; snoozed.remove(invite.id)
             if canJoinNow { startNativeJoin(invite) } else { pendingAccept = invite; joinStage = .later; updateBanner() }
             return
@@ -583,6 +610,8 @@ final class ClubHub {
                 guard !Task.isCancelled else { return }
                 self.remove(invite.id)
                 self.say("You joined \(invite.from.name)'s party!")
+                // so the next invite reaches this phone even with the game closed (asked once; iOS asks only the first time)
+                if !self.askedPush { self.askedPush = true; self.requestPushPermission() }
             } catch {
                 guard !Task.isCancelled, !(error is CancellationError) else { return }
                 self.snoozed.remove(invite.id)
@@ -614,7 +643,8 @@ final class ClubHub {
             guard sent[friend.id]?.pending != true, sent[friend.id] != .accepted else { return }
             sent[friend.id] = .sending
             Task { @MainActor in
-                do { try await nativeInvite(friend.id); if self.sent[friend.id] == .sending { self.sent[friend.id] = .delivered } }
+                if !askedPush { askedPush = true; requestPushPermission() }
+            do { try await nativeInvite(friend.id); if self.sent[friend.id] == .sending { self.sent[friend.id] = .delivered } }
                 catch is CancellationError { if self.sent[friend.id] == .sending { self.sent[friend.id] = nil } }
                 catch { if self.sent[friend.id] == .sending { self.sent[friend.id] = .unavailable; self.say(error.localizedDescription) } }
             }

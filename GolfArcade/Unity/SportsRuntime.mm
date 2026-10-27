@@ -66,6 +66,7 @@ static void SportsCaptureTrampoline(const char *json) {
         [nc addObserver:self selector:@selector(didEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
         [nc addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
         [nc addObserver:self selector:@selector(didBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+        [nc addObserver:self selector:@selector(didReceiveMemoryWarning:) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
     }
     return self;
 }
@@ -268,6 +269,13 @@ static void SportsCaptureTrampoline(const char *json) {
     [self traceLifecycle:@"active"];
 #if HAS_UNITY
     [_unity.appController applicationDidBecomeActive:UIApplication.sharedApplication];
+#endif
+}
+// The app delegate is ours, not Unity's, so UnityAppController never heard about memory warnings (Application.lowMemory never fired).
+- (void)didReceiveMemoryWarning:(NSNotification*)note {
+    [self traceLifecycle:@"lowMemory"];
+#if HAS_UNITY
+    [_unity.appController applicationDidReceiveMemoryWarning:UIApplication.sharedApplication];
 #endif
 }
 - (void)traceLifecycle:(NSString*)edge {

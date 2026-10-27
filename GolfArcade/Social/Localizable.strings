@@ -1,3 +1,5 @@
 /* Motion Club notifications from CloudKit (ClubCloud): the record carries the words, the key just shows them. */
 "CLUB_NOTE" = "%@";
 "Motion Club" = "Motion Club";
+/* Game Center's turn notification on the host's phone when a friend taps Join on their invite (GameCenterTransport). */
+"PARTY_READY" = "%@ is ready to join your party. Open Motion Club to let them in!";

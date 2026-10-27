@@ -61,6 +61,11 @@ extension ClubHub {
         cloud.bringIn = { try await MultiplayerService.shared.letIn($0, group: $1, players: $2) }
         cloud.connect = { try await MultiplayerService.shared.joinGroup(host: $0, group: $1, players: $2) }
         cloud.canJoinNow = { ClubHub.shared.canJoinNow }
+        cloud.canHost = { MultiplayerService.shared.canLetIn }
+        cloud.beginKnock = { MultiplayerService.shared.beginKnock(host: $0, onCancel: $1) }
+        cloud.endKnock = { MultiplayerService.shared.endKnock($0) }
+        deferOnboarding = { Analytics.track("onboarding_deferred_for_party") }
+        clearDeliveredInvites = { ClubPush.removeDelivered(keeping: $0) }
         cloud.isFriend = { id in ClubHub.shared.friends.contains { $0.id == id } }
         cloud.say = { ClubHub.shared.say($0) }
         cloud.joined = { name in ClubHub.shared.say("\(name) joined your party!"); HubSession.shared.toast("\(name) joined your party!") }
@@ -93,6 +98,9 @@ extension ClubHub {
             pendingController = nil
             await ClubHub.shared.refresh()
             askForFriendsOnce()
+            // a friend's invite should reach this phone with the game closed: asked once signed in (iOS asks only the first time; it
+            // used to wait for the Friends screen). First-run onboarding asks on its own account step instead.
+            if GKLocalPlayer.local.isAuthenticated, !OnboardingFlow.shared.active { ClubPush.requestPermission() }
         }
     }
     static func authenticationFinished() { pendingController = nil }
@@ -149,6 +157,18 @@ enum ClubPush {
     static func requestPermission() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .timeSensitive]) { granted, _ in
             if granted { DispatchQueue.main.async { UIApplication.shared.registerForRemoteNotifications() } }
+        }
+    }
+
+    /// Notifications for invites that are over (joined, declined, ended) leave the lock screen and Notification Center, so an old one
+    /// is not tapped later.
+    static func removeDelivered(keeping open: Set<String>) {
+        UNUserNotificationCenter.current().getDeliveredNotifications { delivered in
+            let stale = delivered.filter { n in
+                guard let cloud = cloudInvite(from: n.request.content.userInfo) else { return false }
+                return cloud.knock ? false : !(cloud.invite.map { open.contains($0.id) } ?? false)
+            }.map(\.request.identifier)
+            if !stale.isEmpty { UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: stale) }
         }
     }
 

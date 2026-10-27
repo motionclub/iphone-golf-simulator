@@ -167,6 +167,9 @@ enum HeroAssets {
     }
 
     private static var assets: [String: Asset] = [:]
+    /// Forgets every decoded hero (the next preview decodes again). Previews on screen keep the geometry they hold; the cache only
+    /// stopped anything else from freeing it, all match long (MatchHero_Male_Rig alone is ~130 MB decoded).
+    static func releaseCache() { assets.removeAll() }
 
     static func asset(female: Bool, golf: Bool = false, distance: Bool = false) -> Asset? {
         let name = HeroAssets.nativeExport(golf: golf, female: female, distance: distance)

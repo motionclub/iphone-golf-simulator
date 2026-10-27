@@ -481,6 +481,9 @@ final class SportsSession {
         }
         phonePlay = phoneGame
         HubSession.shared.runtimeTaken(bay: bay)   // the match scene replaces the Plaza (behind it, from a bay)
+        // the menu's heroes are off screen for the whole match: let their decoded meshes go (the menu decodes them again)
+        MatchHeroData.releaseCache()
+        SportsDiagnostics.write("launch \(sport) bay=\(bay ?? "none") \(SportsDiagnostics.memory)")
         savePlayers(); sessionID=UUID().uuidString; sessionToken=Int32.random(in:1...Int32.max); ready=false; paused=true; active=true; tennisControllerActive=false
         aimFeedTask?.cancel(); aimTimeoutTask?.cancel(); aimLesson=nil; aimChecked=false; aimWaiting=false; aimSwing=nil; shotAim=0; shotDepth=0.75
         resultPresentationReady = true; finishedMatch=nil; lastMatchStats=nil; swingSequence=0; target=0; power=0; aim=0; measuringDelay=false; delayTip=""; checkingTiming=false; timingPrompt=false; timingNote=""
@@ -509,10 +512,13 @@ final class SportsSession {
         pending?["external"] = runtimeExternalDisplay
         pending?["emotes"] = matchEmotes
         for (key, value) in launchExtras { pending?[key] = value }
-        if let bay { pending?["seamless"] = true; pending?["bay"] = bay }
-        // from the pointer menu: the match builds behind the menu under the loading screen and starts as soon as it is built (no
-        // START to press: a party's guests tap Ready before the launch, on their phones)
+        // from the pointer menu: the match loads under the loading screen and starts as soon as it is built (no START to press: a
+        // party's guests tap Ready before the launch, on their phones)
         let fromMenu = bay != nil && HubSession.shared.menuMode
+        // Only a walkable-Plaza bench builds the match behind the plaza (the plaza stays on the TV, no cover). Under the menu's
+        // loading cover nobody sees the plaza, and keeping it loaded while the round builds is what got the app killed for memory
+        // (10-26 20:39, party golf at Cliffside: JETSAM per-process limit at the end of the load): the scene swaps instead.
+        if let bay { pending?["seamless"] = !fromMenu; pending?["bay"] = bay }
         if fromMenu { pending?["menuLabel"] = HubSession.shared.menuLaunchLabel }
         if Self.benchmark {
             // Verification flags affect this explicit benchmark launch only;
@@ -856,6 +862,7 @@ final class SportsSession {
     private func loadingFinished() {
         guard active, ready else { return }
         SportsDisplays.shared.finishLoadingCover()
+        SportsDiagnostics.write("loaded \(sport) \(SportsDiagnostics.memory)")
         let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("presentation/\(sessionID)", isDirectory: true)
         try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         if let data = try? JSONSerialization.data(withJSONObject: loading.timing, options: [.prettyPrinted, .sortedKeys]) {
@@ -1127,7 +1134,7 @@ final class SportsSession {
                 feedback=event["message"] as? String ?? ""; stamina=event["stamina"] as? Double ?? 1
                 if SportsRuntime.shared().clock()>=nextDiagnostic {
                     nextDiagnostic=SportsRuntime.shared().clock()+4   // every 4 s: at 1 s the log held only the last few minutes, too little to explain a crash
-                    SportsDiagnostics.write("bridge nativePaused=\(paused) phase=\(phase) target=\(target) unityFrame=\(event["frame"] ?? "unknown") unityPaused=\(event["paused"] ?? "unknown") playerX=\(event["playerX"] ?? "unknown") inputAge=\(event["inputAge"] ?? "unknown")")
+                    SportsDiagnostics.write("bridge nativePaused=\(paused) phase=\(phase) target=\(target) unityFrame=\(event["frame"] ?? "unknown") unityPaused=\(event["paused"] ?? "unknown") playerX=\(event["playerX"] ?? "unknown") inputAge=\(event["inputAge"] ?? "unknown") \(SportsDiagnostics.memory)")
                 }
             case "displayReady":
                 if displayConnected { SportsDisplays.shared.external?.isHidden=true }

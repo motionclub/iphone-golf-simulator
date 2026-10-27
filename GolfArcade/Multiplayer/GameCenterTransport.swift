@@ -82,18 +82,36 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
     var onError: ((Error) -> Void)?
     var onConnected: (() -> Void)?
     private(set) var match: GKMatch?
-    private var generation = 0
+    /// One party handshake at a time on this phone (PartyJoinCoordinator). Its tokens also own the GKMatchmaker searches.
+    let handshakes = PartyJoinCoordinator()
+    /// The quick match (or find more) search's token; 0 when none.
+    private var quickToken = 0
     private var registered = false
     private var disconnected: Set<String> = []
     private var activeController: GKMatchmakerViewController?
-    /// Searches running on GKMatchmaker now. Its cancel() stops every one of them, and a cancel sent just before a new search also
-    /// cancels that search (2026-10-25 phone log: "join attempt 1 failed: … canceled"). So it is only sent while one is running.
-    private var matchmaking = 0
-    private func matchmake<T>(_ work: () async throws -> T) async throws -> T {
-        matchmaking += 1; defer { matchmaking -= 1 }
+    /// The GKMatchmaker search running now, by its owner's token. GKMatchmaker.cancel() stops every search, and a cancel sent just
+    /// before a new search also cancels that search (2026-10-25 phone log: "join attempt 1 failed: … canceled"). Since 2026-10-26 a
+    /// handshake (or a timeout) only ever cancels its own search, and only while it runs: a let-in no longer kills a bring-in.
+    private var searchOwner: Int?
+    private func matchmake<T>(_ owner: Int, _ work: () async throws -> T) async throws -> T {
+        searchOwner = owner; defer { if searchOwner == owner { searchOwner = nil } }
         return try await work()
     }
-    private func cancelMatchmaking() { if matchmaking > 0 { GKMatchmaker.shared().cancel() } }
+    private func cancelMatchmaking(_ owner: Int) { if owner != 0, searchOwner == owner { searchOwner = nil; GKMatchmaker.shared().cancel() } }
+    /// Handshakes whose search was given up by its deadline (it then fails with words, never as a silent cancel).
+    private var timedOut: Set<Int> = []
+    /// Cancels the handshake's search after `seconds`, if it is still running then.
+    private func deadline(_ token: Int, seconds: Double) -> Task<Void, Never> {
+        Task { @MainActor [weak self] in
+            try? await Task.sleep(for: .seconds(seconds))
+            guard !Task.isCancelled, let self, self.handshakes.isCurrent(token) else { return }
+            self.timedOut.insert(token); self.cancelMatchmaking(token)
+        }
+    }
+    /// A search that failed: a deadline's says so in words (it used to come back as a cancel, which callers took for "stop quietly").
+    private func searchFailed(_ token: Int, _ error: Error, _ words: String) -> Error {
+        timedOut.remove(token) != nil ? MultiplayerError.unavailable(words) : Self.friendly(error, words)
+    }
     override init() { super.init(); register() }
     var capacity: Int { min(4, GKMatchRequest.maxPlayersAllowedForMatch(of: .peerToPeer)) }
 
@@ -106,7 +124,8 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
     /// This phone may go into a friend's party now (the Plaza: not a match, a load, onboarding or the background). No side effects.
     var joinAvailable: (() -> Bool)?
     /// Right before connecting to a friend's party: leave whatever party or search this phone is in. False: not now after all.
-    var canAcceptParty: (() -> Bool)?
+    /// `automatic` (a rejoin, a resumed or crossed join): never leave a party with friends connected for it.
+    var canAcceptParty: ((_ automatic: Bool) -> Bool)?
     /// Host: true when a friend who tapped Join can be brought in now; false: later (a match is on); nil: never (this phone is a
     /// guest in someone else's party now).
     var hostAvailable: (() -> Bool?)?
@@ -120,7 +139,9 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
     var invitationAllowed: ((String, String) -> Bool)?
     /// The player tapped Game Center's notification for this invitation: that tap is the Join (no second tap on our banner).
     var onInvitationOpened: ((HubInvite) -> Void)?
-    enum Outgoing: Equatable { case joining, waiting, joined, declined, expired, full }
+    /// `crossed`: the friend invited this phone too, and this phone goes into their party instead (PartyTieBreak). `failed`: the
+    /// phones never connected, round after round.
+    enum Outgoing: Equatable { case joining, waiting, joined, declined, expired, full, crossed, failed }
     enum JoinStage: Equatable { case waitingForHost, connecting }
     private var openedFromNotification: String?
     private var inbox: [String: GKTurnBasedMatch] = [:]
@@ -133,9 +154,13 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
     private var missingOutgoing: [String: Int] = [:]
     /// Friend: the record being joined now, whether it is connecting, and the records already resumed in this run.
     private var joiningRecord: String?
-    private var joinConnecting = false
-    private var joinGeneration = 0
     private var resumed: Set<String> = []
+    /// Records a join gave up on while they could not be read: retired as soon as the inbox lists them.
+    private var retireLater: Set<String> = []
+    /// A turn event while a refresh was running: read the inbox again right after it (it used to wait for the next 4 s poll).
+    private var refreshAgain = false
+    /// A turn event since the joiner's last read: its wait ends now (the host's go arrives as one).
+    private var kicked = false
     /// An Apple real-time invitation accepted while a match was on: joined once this phone is back in the Plaza.
     private var pendingRealTimeInvite: GKInvite?
     private var partyGroup: UInt32?
@@ -237,12 +262,22 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
         }
     }
 
+    /// Rounds of go before an invitation is given up on both phones (the friend's phone tries as many connections).
+    static let maxRounds = 4
+
     /// Host: the friend tapped Join and this phone is free: say go (with the party as it is now) and match with them.
     private func bringIn(_ stored: GKTurnBasedMatch, _ invitation: GameCenterPartyInvitation, teamID: String) {
+        // (another handshake is running: the record still says accepted, and the next refresh tries again)
+        guard let token = handshakes.begin(.hostInvite(stored.matchID), cancel: { [weak self] in self?.cancelMatchmaking($0) }) else {
+            onOutgoing?(teamID, .joining); return
+        }
         hostMatching = stored.matchID
         Task { @MainActor [weak self] in
             guard let self else { return }
-            defer { if self.hostMatching == stored.matchID { self.hostMatching = nil } }
+            defer {
+                self.handshakes.end(token); self.timedOut.remove(token)
+                if self.hostMatching == stored.matchID { self.hostMatching = nil }
+            }
             let members = Array(Set([self.localID, invitation.recipient] + self.peers)).sorted()
             guard members.count <= self.capacity, let friend = self.participant(stored, invitation.recipient) else {
                 self.outgoing[stored.matchID] = nil; self.onOutgoing?(teamID, .full); await self.retire(stored); return
@@ -251,33 +286,35 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
             var go = invitation; go.step = .go; go.round += 1; go.players = members
             do { try await stored.endTurn(withNextParticipants: [friend], turnTimeout: Self.turnTimeout(go), match: JSONEncoder().encode(go)) }
             catch { self.onOutgoing?(teamID, .waiting); return }   // (the record still says accepted: the next refresh tries again)
+            // (a Join the player tapped meanwhile wins: no search starts for a handshake that is over)
+            guard self.handshakes.isCurrent(token) else { self.onOutgoing?(teamID, .waiting); return }
             self.allowedPartyPlayers = (self.allowedPartyPlayers ?? Set([self.localID] + self.peers)).union([invitation.recipient])
-            self.generation += 1; let token = self.generation
-            let timeout = Task { @MainActor [weak self] in
-                try? await Task.sleep(for: .seconds(60))
-                guard !Task.isCancelled, let self, self.generation == token else { return }
-                self.cancelMatchmaking()
-            }
+            let timeout = self.deadline(token, seconds: 60)
             defer { timeout.cancel() }
             do {
                 let request = try self.privateRequest(group: invitation.group, count: members.count)
                 if let match = self.match {
-                    try await self.matchmake { try await GKMatchmaker.shared().addPlayers(to: match, matchRequest: request) }
+                    try await self.matchmake(token) { try await GKMatchmaker.shared().addPlayers(to: match, matchRequest: request) }
                     try await self.waitForPlayers(match, [invitation.recipient])
                     GKMatchmaker.shared().finishMatchmaking(for: match)
                     self.onPeersChanged?()
                 } else {
-                    let found = try await self.matchmake { try await GKMatchmaker.shared().findMatch(for: request) }
-                    guard token == self.generation else { found.disconnect(); self.onOutgoing?(teamID, .waiting); return }
+                    let found = try await self.matchmake(token) { try await GKMatchmaker.shared().findMatch(for: request) }
+                    guard self.handshakes.isCurrent(token) else { found.disconnect(); self.onOutgoing?(teamID, .waiting); return }
                     try await self.attachParty(found, host: self.localID, expecting: [invitation.recipient])
                 }
                 self.outgoing[stored.matchID] = nil
                 self.onOutgoing?(teamID, .joined)
                 await self.retire(stored)
             } catch {
-                // the friend's phone says Join once more and this goes round again, until the invitation runs out
-                SportsDiagnostics.write("Game Center invite: host match failed: \(error.localizedDescription)")
-                self.onOutgoing?(teamID, .waiting)
+                SportsDiagnostics.write("Game Center invite: host match failed (round \(go.round)): \(error.localizedDescription)")
+                if go.round >= Self.maxRounds {
+                    // never a record left at go for nobody: the friend's phone gave up after as many rounds
+                    self.outgoing[stored.matchID] = nil; self.onOutgoing?(teamID, .failed); await self.retire(stored)
+                } else {
+                    // the friend's phone says Join once more and this goes round again
+                    self.onOutgoing?(teamID, .waiting)
+                }
             }
         }
     }
@@ -291,44 +328,50 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
     }
     /// Host: let in someone who knocked (a friend dropping in, or someone with the code).
     func letIn(_ gameID: String, group: UInt32, players: Int) async throws {
-        allowedPartyPlayers = (allowedPartyPlayers ?? Set([localID] + peers)).union([gameID])
-        generation += 1; let token = generation
-        let timeout = Task { @MainActor [weak self] in
-            try? await Task.sleep(for: .seconds(60))
-            guard !Task.isCancelled, let self, self.generation == token else { return }
-            self.cancelMatchmaking()
+        guard let token = handshakes.begin(.hostKnock(gameID), cancel: { [weak self] in self?.cancelMatchmaking($0) }) else {
+            throw MultiplayerError.unavailable("Busy bringing someone else in. Try again.")
         }
+        defer { handshakes.end(token); timedOut.remove(token) }
+        allowedPartyPlayers = (allowedPartyPlayers ?? Set([localID] + peers)).union([gameID])
+        let timeout = deadline(token, seconds: 60)
         defer { timeout.cancel() }
         let request = try privateRequest(group: group, count: players)
         do {
             if let match {
-                try await matchmake { try await GKMatchmaker.shared().addPlayers(to: match, matchRequest: request) }
+                try await matchmake(token) { try await GKMatchmaker.shared().addPlayers(to: match, matchRequest: request) }
                 try await waitForPlayers(match, [gameID])
                 GKMatchmaker.shared().finishMatchmaking(for: match)
                 onPeersChanged?()
             } else {
-                let found = try await matchmake { try await GKMatchmaker.shared().findMatch(for: request) }
-                guard token == generation else { found.disconnect(); throw CancellationError() }
+                let found = try await matchmake(token) { try await GKMatchmaker.shared().findMatch(for: request) }
+                guard handshakes.isCurrent(token) else { found.disconnect(); throw CancellationError() }
                 try await attachParty(found, host: localID, expecting: [gameID])
             }
-        } catch { throw Self.friendly(error, "Couldn't connect. Try again.") }
+        } catch { throw searchFailed(token, error, "Couldn't connect. Try again.") }
+    }
+    /// Joiner, CloudKit: the knock to `host` begins here (ClubCloud.join holds it until it is in or gives up). Nil: not now.
+    func beginKnockJoin(host: String, onCancel: @escaping () -> Void) -> Int? {
+        handshakes.begin(.joinKnock(host), cancel: { [weak self] token in self?.cancelMatchmaking(token); onCancel() })
     }
     /// Joiner: into the host's party group after its go.
     func joinGroup(host: String, group: UInt32, players: Int) async throws {
-        joinGeneration += 1; let token = joinGeneration
-        joinConnecting = true; defer { if joinGeneration == token { joinConnecting = false } }
-        allowedPartyPlayers = nil; partyGroup = group   // (the host checks who comes in)
-        let request = try privateRequest(group: group, count: players)
-        let timeout = Task { @MainActor [weak self] in
-            try? await Task.sleep(for: .seconds(45))
-            guard !Task.isCancelled, let self, self.joinGeneration == token, self.joinConnecting else { return }
-            self.cancelMatchmaking()
+        // the knock that led here holds the handshake; a connect on its own takes one
+        let token: Int, own: Bool
+        if let active = handshakes.active, active.kind == .joinKnock(host) { token = active.token; own = false }
+        else {
+            guard let t = handshakes.begin(.joinKnock(host), cancel: { [weak self] in self?.cancelMatchmaking($0) }) else { throw CancellationError() }
+            token = t; own = true
         }
+        defer { if own { handshakes.end(token) }; timedOut.remove(token) }
+        let request = try privateRequest(group: group, count: players)
+        let timeout = deadline(token, seconds: 45)
         defer { timeout.cancel() }
         let found: GKMatch
-        do { found = try await matchmake { try await GKMatchmaker.shared().findMatch(for: request) } } catch { throw Self.friendly(error, "Couldn't connect. Try again.") }
-        guard token == joinGeneration else { found.disconnect(); throw CancellationError() }
-        try await attachParty(found, host: host, expecting: [host])
+        do { found = try await matchmake(token) { try await GKMatchmaker.shared().findMatch(for: request) } }
+        catch { throw searchFailed(token, error, "Couldn't connect. Try again.") }
+        guard handshakes.isCurrent(token) else { found.disconnect(); throw CancellationError() }
+        // (the host checks who comes in; the group is this phone's only once it is in)
+        try await attachParty(found, host: host, expecting: [host], guest: Guest(allowed: nil, group: group))
     }
 
     private func privateRequest(group: UInt32, count: Int) throws -> GKMatchRequest {
@@ -339,26 +382,52 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
 
     // MARK: the inbox (both sides)
 
-    /// Apple's stored records, polled every 4 s while the app is active and on every turn event: the friend's inbox cards, a join to
-    /// carry on, and the host's friends who tapped Join.
+    /// Apple's stored records, polled every 4 s while the app is active, on every turn event and as the app comes back: the friend's
+    /// inbox cards, a join to carry on, the host's friends who tapped Join, and invitations that crossed.
     func refreshInvitations() async {
-        guard GKLocalPlayer.local.isAuthenticated, UIApplication.shared.applicationState == .active, !refreshingInbox else { return }
+        guard GKLocalPlayer.local.isAuthenticated, UIApplication.shared.applicationState == .active else { return }
+        guard !refreshingInbox else { refreshAgain = true; return }
         refreshingInbox = true; defer { refreshingInbox = false }
+        repeat { refreshAgain = false; await readInbox() } while refreshAgain
+    }
+
+    private func readInbox() async {
         acceptPendingRealTimeInvite()
         let known = outgoing
         do {
             let matches = try await GKTurnBasedMatch.loadMatches()
-            var cards: [HubInvite] = [], pending: [String: GKTurnBasedMatch] = [:], resume: [HubInvite] = [], seen: Set<String> = []
+            var records: [(stored: GKTurnBasedMatch, invite: GameCenterPartyInvitation)] = []
             for stored in matches where stored.status != .ended {
                 guard let data = try? await stored.loadMatchData(),
                       let invite = try? JSONDecoder().decode(GameCenterPartyInvitation.self, from: data) else { continue }
-                let now = Self.now
                 guard invite.kind == GameCenterPartyInvitation.kindV2 else {
                     // an older build's record: cleaned up once it has run out
-                    if invite.kind.hasPrefix("motionclub.partyInvite"), invite.expiresAt <= now,
+                    if invite.kind.hasPrefix("motionclub.partyInvite"), invite.expiresAt <= Self.now,
                        invite.host == localID || invite.recipient == localID { await retire(stored) }
                     continue
                 }
+                if retireLater.remove(stored.matchID) != nil { await retire(stored); continue }
+                records.append((stored, invite))
+            }
+            // Crossed invitations (each friend invited the other): the same one stays on both phones (PartyTieBreak), the other goes.
+            // This phone goes into the friend's party when theirs stays, and hosts when its own stays.
+            let losers = PartyTieBreak.losers(records.map { ($0.stored.matchID, $0.invite) }, local: localID)
+            var crossedFrom = Set<String>()
+            for r in records where losers.contains(r.stored.matchID) {
+                let id = r.stored.matchID
+                if r.invite.host == localID {
+                    crossedFrom.insert(r.invite.recipient)
+                    let teamID = outgoing[id]?.teamID ?? participant(r.stored, r.invite.recipient)?.player?.teamPlayerID ?? r.invite.recipient
+                    outgoing[id] = nil; missingOutgoing[id] = nil; onOutgoing?(teamID, .crossed)
+                } else if id == joiningRecord {
+                    handshakes.cancel { $0 == .joinInvite(id) }   // (this phone hosts instead: its own invitation stays)
+                }
+                SportsDiagnostics.write("Game Center invite: crossed with \((r.invite.host == localID ? r.invite.recipient : r.invite.host).prefix(8)), \(r.invite.host == localID ? "theirs stays" : "mine stays")")
+                await retire(r.stored)
+            }
+            var cards: [HubInvite] = [], pending: [String: GKTurnBasedMatch] = [:], auto: [HubInvite] = [], seen: Set<String> = []
+            for (stored, invite) in records where !losers.contains(stored.matchID) {
+                let now = Self.now
                 let host = participant(stored, invite.host), friend = participant(stored, invite.recipient)
                 let step = GameCenterInviteStep.next(invite, local: localID, myTurn: stored.currentParticipant?.player?.gamePlayerID == localID,
                                                      hostHere: Self.here(host), friendHere: Self.here(friend), now: now)
@@ -386,65 +455,107 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
                 case .card, .resume:
                     guard stored.matchID != joiningRecord, let player = host?.player,
                           invitationAllowed?(player.gamePlayerID, player.teamPlayerID) != false else { continue }
+                    // already together (a rejoin after the party came back by itself): nothing to join, the record goes
+                    if peers.contains(invite.host) { await retire(stored); continue }
                     let card = invite.card(stored.matchID)
                     pending[card.id] = stored; cards.append(card)
-                    if step == .resume, !resumed.contains(card.id) { resumed.insert(card.id); resume.append(card) }
+                    var automatic = card; automatic.automatic = true
+                    if step == .card, crossedFrom.contains(invite.host) { auto.append(automatic) }   // they invited this phone too: in
+                    else if step == .resume, !resumed.contains(card.id) {
+                        resumed.insert(card.id)
+                        // Join tapped a moment ago, and the app closed under it: it carries on. An older one waits for a tap (it used to
+                        // join by itself after any relaunch, even into a party this phone had long left).
+                        if JoinMemory.recent(card.id) { auto.append(automatic) }
+                    }
                 default: break
                 }
             }
             // the host's record ended on the friend's side (they said Not now) without passing through here. Missing twice in a row,
-            // so a record sent while this refresh was loading (or not listed yet) is not taken for an answer.
+            // so a record sent while this refresh was loading (or not listed yet) is not taken for an answer. Missing while the friend's
+            // own invitation to this phone is here: the friend's phone settled a crossing, and this phone goes into their party.
             for (id, out) in known where outgoing[id] != nil && !seen.contains(id) && id != hostMatching {
                 missingOutgoing[id, default: 0] += 1
-                if missingOutgoing[id]! >= 2 { outgoing[id] = nil; missingOutgoing[id] = nil; onOutgoing?(out.teamID, .declined) }
+                guard missingOutgoing[id]! >= 2 else { continue }
+                outgoing[id] = nil; missingOutgoing[id] = nil
+                if let theirs = cards.first(where: { $0.from.id == out.gameID }) {
+                    onOutgoing?(out.teamID, .crossed)
+                    if !auto.contains(where: { $0.id == theirs.id }), records.contains(where: { $0.stored.matchID == theirs.lobbyCode && $0.invite.step == .invited }) {
+                        var automatic = theirs; automatic.automatic = true; auto.append(automatic)
+                    }
+                } else { onOutgoing?(out.teamID, .declined) }
             }
             for id in seen { missingOutgoing[id] = nil }
             inbox = pending; onInvitations?(cards.sorted { $0.expiresAt > $1.expiresAt })
             let opened = openedFromNotification
             if let opened, let card = cards.first(where: { $0.id == opened }) { openedFromNotification = nil; onInvitationOpened?(card) }
-            // tapped Join before the app closed (or before a failed connection): the join carries on by itself, once
-            for card in resume where card.id != opened { onInvitationOpened?(card) }
+            for card in auto where card.id != opened { onInvitationOpened?(card) }
         } catch { SportsDiagnostics.write("Game Center invite inbox: \(error.localizedDescription)") }
     }
 
     // MARK: joining a friend's party
 
+    /// A cold start from an invite's notification: Game Center may still be signing in. Waits for it (it used to fail at once).
+    func untilSignedIn(seconds: Double = 30) async throws {
+        let end = Date().addingTimeInterval(seconds)
+        while !GKLocalPlayer.local.isAuthenticated {
+            guard Date() < end else { throw MultiplayerError.unavailable("Sign in to Game Center to join your friend.") }
+            try await Task.sleep(for: .milliseconds(250))
+        }
+        register()
+    }
+
     /// The friend tapped Join (and is in the Plaza): say yes, then wait for the host's go and connect. Keeps trying, round after round,
-    /// until it is in, the invitation runs out, the host leaves, or the player cancels. Throws only words a player can act on.
+    /// until it is in, the invitation runs out, the host leaves, or the player cancels. Throws only words a player can act on. Every
+    /// way out but success and a cancel retires the record, so nothing is left to join by itself later.
     func acceptStoredInvitation(_ card: HubInvite) async throws {
-        let id = card.lobbyCode, who = card.from.name
-        joinGeneration += 1; let token = joinGeneration
+        let id = card.lobbyCode, who = card.from.name, automatic = card.automatic == true
+        // already together (the party came back by itself, or an old notification): nothing to join
+        if peers.contains(card.from.id) {
+            if let stored = try? await GKTurnBasedMatch.load(withID: id) { await retire(stored) }
+            return
+        }
+        guard let token = handshakes.begin(.joinInvite(id), origin: automatic ? .automatic : .player,
+                                           cancel: { [weak self] in self?.cancelMatchmaking($0) }) else { throw CancellationError() }
         joiningRecord = id; resumed.insert(card.id); inbox[card.id] = nil
-        defer { if joinGeneration == token { joiningRecord = nil; joinConnecting = false } }
+        JoinMemory.tapped(card.id)
+        defer { handshakes.end(token); timedOut.remove(token); if joiningRecord == id { joiningRecord = nil } }
+        var last: GKTurnBasedMatch?
+        func giveUp(_ error: Error) async -> Error {
+            JoinMemory.forget(card.id)
+            if let last { await retire(last) } else { retireLater.insert(id) }
+            return error
+        }
         var tried = -1, failures = 0, loadFailures = 0, acceptFailures = 0
         var goSeen: (round: Int, at: Double)?
         while true {
-            guard token == joinGeneration else { throw CancellationError() }
+            guard handshakes.isCurrent(token) else { throw CancellationError() }
+            // a rejoin is not needed once this phone is in a party with friends again (Apple reconnected it): it never leaves one
+            if automatic, handshakes.inConnectedParty() { throw await giveUp(CancellationError()) }
             let stored: GKTurnBasedMatch, invite: GameCenterPartyInvitation
             do {
                 stored = try await GKTurnBasedMatch.load(withID: id)
                 invite = try JSONDecoder().decode(GameCenterPartyInvitation.self, from: try await stored.loadMatchData() ?? Data())
-                loadFailures = 0
+                loadFailures = 0; last = stored
             } catch {
                 // no connection for a moment: try again for a while; Game Center cannot find or read the record: it has ended
                 let network = Self.isNetwork(error)
                 loadFailures += 1
-                if loadFailures >= (network ? 8 : 3) { throw network ? Self.noInternet(who) : Self.ended(who) }
-                try await Task.sleep(for: .seconds(2)); continue
+                if loadFailures >= (network ? 8 : 3) { throw await giveUp(network ? Self.noInternet(who) : Self.ended(who)) }
+                try await nap(2); continue
             }
-            guard token == joinGeneration else { throw CancellationError() }
+            guard handshakes.isCurrent(token) else { throw CancellationError() }
             let now = Self.now
-            guard stored.status != .ended, invite.kind == GameCenterPartyInvitation.kindV2, invite.recipient == localID, invite.expiresAt > now else { throw Self.ended(who) }
+            guard stored.status != .ended, invite.kind == GameCenterPartyInvitation.kindV2, invite.recipient == localID, invite.expiresAt > now else { throw await giveUp(Self.ended(who)) }
             guard let host = participant(stored, invite.host), Self.here(host), let hostPlayer = host.player,
                   invitationAllowed?(hostPlayer.gamePlayerID, hostPlayer.teamPlayerID) != false else {
-                throw MultiplayerError.unavailable("\(who) left the game. Ask them to invite you again.")
+                throw await giveUp(MultiplayerError.unavailable("\(who) left the game. Ask them to invite you again."))
             }
             if participant(stored, localID)?.status == .invited {
                 do { _ = try await stored.acceptInvite() }
                 catch {
                     acceptFailures += 1
-                    if acceptFailures >= 8 { throw Self.isNetwork(error) ? Self.noInternet(who) : Self.ended(who) }
-                    try await Task.sleep(for: .seconds(2))
+                    if acceptFailures >= 8 { throw await giveUp(Self.isNetwork(error) ? Self.noInternet(who) : Self.ended(who)) }
+                    try await nap(2)
                 }
                 continue   // (read the record again: accepting it changes it)
             }
@@ -454,60 +565,64 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
             let staleGo = invite.step == .go && now - (goSeen?.at ?? now) > 40_000
             if myTurn && (invite.step == .invited || (invite.step == .go && (invite.round <= tried || staleGo))) {
                 if joinAvailable?() != false {
-                    // Join (again): the turn goes to the host, whose phone says go as soon as it is free
+                    // Join (again): the turn goes to the host, whose phone says go as soon as it is free. Game Center's turn notification
+                    // tells the host's phone, even with the game closed.
                     var yes = invite; yes.step = .accepted
+                    stored.setLocalizableMessageWithKey("PARTY_READY", arguments: [GKLocalPlayer.local.displayName])
                     try? await stored.endTurn(withNextParticipants: [host], turnTimeout: Self.turnTimeout(yes), match: JSONEncoder().encode(yes))
                     tried = max(tried, invite.round)
                 }
                 onJoinStage?(.waitingForHost)
             } else if myTurn && invite.step == .go {
-                if joinAvailable?() != false, canAcceptParty?() != false {
-                    tried = invite.round; joinConnecting = true; onJoinStage?(.connecting)
+                if joinAvailable?() != false, canAcceptParty?(automatic) != false {
+                    tried = invite.round; onJoinStage?(.connecting)
                     do {
                         try await connect(invite, token)
-                        joinConnecting = false
+                        JoinMemory.forget(card.id)
                         await retire(stored)
                         return
                     } catch {
-                        joinConnecting = false
-                        guard token == joinGeneration else { throw CancellationError() }
+                        guard handshakes.isCurrent(token) else { throw CancellationError() }
                         failures += 1
                         SportsDiagnostics.write("Game Center invite: join attempt \(failures) failed: \(error.localizedDescription)")
-                        if failures >= 4 { throw MultiplayerError.unavailable("Couldn't connect to \(who). Check the internet on both phones, then tap Join again.") }
+                        if failures >= Self.maxRounds { throw await giveUp(MultiplayerError.unavailable("Couldn't connect to \(who). Check the internet on both phones, then tap Join again.")) }
                         continue   // (round again: the record now says go with a round already tried, so Join goes back to the host)
                     }
                 }
             } else {
                 onJoinStage?(.waitingForHost)
             }
-            try await Task.sleep(for: .seconds(2))
+            try await nap(2)
         }
+    }
+    /// The joiner's wait between reads: `seconds`, or less when a turn event says the record changed (the host's go).
+    private func nap(_ seconds: Double) async throws {
+        kicked = false
+        let end = Date().addingTimeInterval(seconds)
+        while !kicked, Date() < end { try await Task.sleep(for: .milliseconds(100)) }
     }
 
     private func connect(_ invite: GameCenterPartyInvitation, _ token: Int) async throws {
-        allowedPartyPlayers = Set(invite.players); partyGroup = invite.group
         let request = try privateRequest(group: invite.group, count: invite.players.count)
-        let timeout = Task { @MainActor [weak self] in
-            try? await Task.sleep(for: .seconds(45))
-            guard !Task.isCancelled, let self, self.joinGeneration == token, self.joinConnecting else { return }
-            self.cancelMatchmaking()
-        }
+        let timeout = deadline(token, seconds: 45)
         defer { timeout.cancel() }
-        let found = try await matchmake { try await GKMatchmaker.shared().findMatch(for: request) }
-        guard token == joinGeneration else { found.disconnect(); throw CancellationError() }
-        try await attachParty(found, host: invite.host, expecting: [invite.host])
+        let found: GKMatch
+        do { found = try await matchmake(token) { try await GKMatchmaker.shared().findMatch(for: request) } }
+        catch { throw searchFailed(token, error, "Couldn't connect. Try again.") }
+        guard handshakes.isCurrent(token) else { found.disconnect(); throw CancellationError() }
+        try await attachParty(found, host: invite.host, expecting: [invite.host], guest: Guest(allowed: Set(invite.players), group: invite.group))
     }
 
     /// The player cancelled the join: stop, and tell the host (their row says Not now).
     func cancelJoin() {
-        joinGeneration += 1
-        if joinConnecting { joinConnecting = false; cancelMatchmaking() }
+        handshakes.cancel { if case .joinInvite = $0 { return true }; return false }
         guard let id = joiningRecord else { return }
-        joiningRecord = nil
+        joiningRecord = nil; JoinMemory.forget("gc:" + id)
         Task { if let stored = try? await GKTurnBasedMatch.load(withID: id) { await retire(stored) } }
     }
 
     func declineStoredInvitation(_ id: String) {
+        JoinMemory.forget(id)
         let stored = inbox.removeValue(forKey: id)
         let matchID = String(id.dropFirst(3))
         Task {
@@ -549,19 +664,28 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
         }
     }
 
+    /// A guest's side of a private match: who may be in it (nil: the host checks), and its group, this phone's once it is in.
+    struct Guest { var allowed: Set<String>?; var group: UInt32? }
     /// A private match was found: it is the party's once the `expecting` players are really connected to it. Game Center hands the
     /// match over while the phones are still connecting (players empty, expectedPlayerCount above 0), and the party used to be called
     /// joined right then: both phones said so, but no lobby ever got through (2026-10-25). Waits, then binds; a connection that never
-    /// comes throws, and the handshake goes round again.
-    private func attachParty(_ found: GKMatch, host: String, expecting: [String]) async throws {
-        if let allowedPartyPlayers, found.players.contains(where: { !allowedPartyPlayers.contains($0.gamePlayerID) }) {
+    /// comes throws, and the handshake goes round again. A guest's failure leaves no group or guest list behind (the friend's phone
+    /// used to publish the host's group as its own party after a failed join, 2026-10-26).
+    private func attachParty(_ found: GKMatch, host: String, expecting: [String], guest: Guest? = nil) async throws {
+        let allowed = guest.map(\.allowed) ?? allowedPartyPlayers
+        if let allowed, found.players.contains(where: { !allowed.contains($0.gamePlayerID) }) {
             found.disconnect(); throw MultiplayerError.unavailable("Game Center connected a player outside this invitation. Please try again.")
         }
         if let previous = match, previous !== found { previous.delegate = nil; previous.disconnect() }
         // the delegate first: a state change or the first packet must not arrive before anyone listens
         match = found; disconnected.removeAll(); found.delegate = self
+        if let guest { allowedPartyPlayers = guest.allowed }
         do { try await waitForPlayers(found, expecting) }
-        catch { if match === found { match = nil; found.delegate = nil }; found.disconnect(); throw error }
+        catch {
+            if match === found { match = nil; found.delegate = nil; if guest != nil { allowedPartyPlayers = nil; partyGroup = nil } }
+            found.disconnect(); throw error
+        }
+        if let guest { partyGroup = guest.group }
         for p in found.players { knownPlayers[p.gamePlayerID] = p }
         GKMatchmaker.shared().finishMatchmaking(for: found)
         onPartyConnected?(host); onPeersChanged?()
@@ -606,24 +730,30 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
     // Quick match remains separate from friends' sport-neutral parties.
     func quickMatch(sport: MultiplayerSport, count: Int = 2) async throws {
         guard match == nil else { throw MultiplayerError.invalidOperation("Already connected to a lobby.") }
+        guard handshakes.active == nil else { throw MultiplayerError.invalidOperation("Finish joining your friend first.") }
         let request = try request(sport: sport, count: sport == .tennis ? 2 : count)
         // Programmatic matchmaking works on iOS 17 too. Use a fixed requested group size;
         // partial-fill UI is deliberately deferred rather than pretending a timeout can start it.
         request.minPlayers = request.maxPlayers
-        generation += 1; let token = generation
-        let found = try await matchmake { try await GKMatchmaker.shared().findMatch(for: request) }
-        guard token == generation else { found.disconnect(); throw CancellationError() }
+        let token = handshakes.ticket(); quickToken = token
+        let found = try await matchmake(token) { try await GKMatchmaker.shared().findMatch(for: request) }
+        guard token == quickToken else { found.disconnect(); throw CancellationError() }
+        quickToken = 0
         attach(found)
     }
     func findMore(sport: MultiplayerSport) async throws {
         guard let match, peers.count + 1 < capacity else { throw MultiplayerError.full }
         let request = try request(sport: sport, count: 4)
-        try await matchmake { try await GKMatchmaker.shared().addPlayers(to: match, matchRequest: request) }
+        let token = handshakes.ticket(); quickToken = token
+        defer { if quickToken == token { quickToken = 0 } }
+        try await matchmake(token) { try await GKMatchmaker.shared().addPlayers(to: match, matchRequest: request) }
         GKMatchmaker.shared().finishMatchmaking(for: match)
     }
-    /// Stops a search. Invitations already sent stay out (they wait for the friend's Join, not for a search).
+    /// Stops a quick match (or find more) search. A party handshake has its own cancel; invitations already sent stay out (they wait
+    /// for the friend's Join, not for a search).
     func cancelSearch() {
-        generation += 1; cancelMatchmaking(); activeController?.dismiss(animated: true); activeController = nil
+        let token = quickToken; quickToken = 0; cancelMatchmaking(token)
+        activeController?.dismiss(animated: true); activeController = nil
         if match == nil { partyGroup = nil; allowedPartyPlayers = nil }
     }
     private func attach(_ found: GKMatch) {
@@ -638,11 +768,15 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
         if let ids { try match.send(data, to: match.players.filter { ids.contains($0.gamePlayerID) }, dataMode: mode) }
         else { try match.sendData(toAllPlayers: data, with: mode) }
     }
-    func disconnect() { cancelSearch(); match?.delegate = nil; match?.disconnect(); match = nil; partyGroup = nil; allowedPartyPlayers = nil; onPeersChanged?() }
+    func disconnect() {
+        handshakes.cancel(where: \.hosting)   // (leaving the party: nobody is brought into it any more)
+        cancelSearch(); match?.delegate = nil; match?.disconnect(); match = nil; partyGroup = nil; allowedPartyPlayers = nil; onPeersChanged?()
+    }
     nonisolated func player(_ player: GKPlayer, receivedTurnEventFor match: GKTurnBasedMatch, didBecomeActive: Bool) {
         let id = "gc:" + match.matchID
         Task { @MainActor [weak self] in
             if didBecomeActive { self?.openedFromNotification = id }
+            self?.kicked = true
             await self?.refreshInvitations()
         }
     }
@@ -674,20 +808,23 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
     }
     private func acceptPendingRealTimeInvite() {
         guard let invite = pendingRealTimeInvite, joinAvailable?() != false else { return }
+        let sender = invite.sender.gamePlayerID, name = invite.sender.displayName
+        // (another join is running, or it is not the moment: it stays pending, and the next refresh tries again)
+        guard let token = handshakes.begin(.joinRealTime(sender), cancel: { [weak self] in self?.cancelMatchmaking($0) }) else { return }
+        guard canAcceptParty?(false) != false else { handshakes.end(token); return }
         pendingRealTimeInvite = nil
-        guard canAcceptParty?() != false else { pendingRealTimeInvite = invite; return }
-        generation += 1; let token = generation
-        allowedPartyPlayers = nil; partyGroup = nil
         let delivery = GameKitDelivery(value: invite)
         Task { @MainActor [weak self] in
+            guard let self else { return }
+            defer { self.handshakes.end(token) }
+            guard self.handshakes.isCurrent(token) else { return }
             do {
-                guard let self else { return }
-                let found = try await self.matchmake { try await GKMatchmaker.shared().match(for: delivery.value) }
-                guard token == self.generation else { found.disconnect(); return }
-                try await self.attachParty(found, host: delivery.value.sender.gamePlayerID, expecting: [delivery.value.sender.gamePlayerID])
+                let found = try await self.matchmake(token) { try await GKMatchmaker.shared().match(for: delivery.value) }
+                guard self.handshakes.isCurrent(token) else { found.disconnect(); return }
+                try await self.attachParty(found, host: sender, expecting: [sender], guest: Guest(allowed: nil, group: nil))
             } catch {
-                guard let self, token == self.generation else { return }
-                self.onError?(MultiplayerError.unavailable("Couldn't join \(delivery.value.sender.displayName). Ask them to invite you again."))
+                guard self.handshakes.isCurrent(token) else { return }
+                self.onError?(MultiplayerError.unavailable("Couldn't join \(name). Ask them to invite you again."))
             }
         }
     }
@@ -704,4 +841,22 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
             viewController.dismiss(animated: true); self?.activeController = nil; self?.attach(delivery.value)
         }
     }
+}
+
+/// Joins the player said yes to, by card id, kept across a relaunch. One tapped a moment ago carries on by itself after the app closed
+/// under it; an older one waits for a tap (before 2026-10-26 any join said yes to resumed by itself after a relaunch, with no tap,
+/// even long after and into a party the phone had left).
+@MainActor enum JoinMemory {
+    static let key = "party.joinTapped.v1"
+    /// Seconds a Join stays fresh enough to carry on with no tap.
+    static let window: Double = 120
+    static var defaults = UserDefaults.standard
+    static var now: () -> Double = { Date().timeIntervalSince1970 }
+    private static var all: [String: Double] {
+        get { defaults.dictionary(forKey: key) as? [String: Double] ?? [:] }
+        set { defaults.set(newValue.filter { now() - $0.value < window }, forKey: key) }
+    }
+    static func tapped(_ id: String) { var a = all; a[id] = now(); all = a }
+    static func recent(_ id: String) -> Bool { all[id].map { now() - $0 < window } ?? false }
+    static func forget(_ id: String) { var a = all; a[id] = nil; all = a }
 }

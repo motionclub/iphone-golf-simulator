@@ -29,6 +29,9 @@ struct HubInvite: Codable, Equatable, Identifiable, Sendable {
     var expiresAt: Double
     /// A Game Center invite back into a party this phone dropped out of: accepted by itself.
     var rejoin: Bool? = nil
+    /// Joined with no tap (a rejoin, a join resumed after a relaunch, a crossed invite): it never takes the phone out of a party with
+    /// friends in it, and never cancels a join the player asked for. Only on this phone (never sent).
+    var automatic: Bool? = nil
     var id: String { inviteID }
     /// A Game Center party invite is to the party (sport-neutral), not to a sport.
     var sportTitle: String { sport == "golf" ? "Golf" : sport == "party" ? "their party" : "Tennis" }
