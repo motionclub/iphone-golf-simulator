@@ -68,6 +68,7 @@ namespace GolfArcade.Course
         {
             Physics.SyncTransforms();var records=new List<ColliderRecord>();
             foreach(var c in root.GetComponentsInChildren<Collider>(true)){
+                if(c.name.StartsWith(GolfSolidProps.Prefix))continue;   // the visual rock's own ground and the solid dressing (10-28)
                 var record=new ColliderRecord{path=PathOf(root.transform,c.transform),type=c.GetType().Name,componentId=c.GetInstanceID(),enabled=c.enabled,active=c.gameObject.activeInHierarchy,trigger=c.isTrigger};
                 var matrix=c.transform.localToWorldMatrix;record.transformHash=Hash(w=>{for(int i=0;i<16;i++)w.Write(matrix[i]);});
                 record.shapeHash=Hash(w=>{w.Write(c.contactOffset);w.Write(c.sharedMaterial?c.sharedMaterial.GetInstanceID():0);if(c.sharedMaterial){w.Write(c.sharedMaterial.dynamicFriction);w.Write(c.sharedMaterial.staticFriction);w.Write(c.sharedMaterial.bounciness);w.Write((int)c.sharedMaterial.frictionCombine);w.Write((int)c.sharedMaterial.bounceCombine);}

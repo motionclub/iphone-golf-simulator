@@ -76,7 +76,7 @@ struct OnboardingRemote: View {
                 .font(Onb.font(13, 600)).foregroundStyle(.white.opacity(0.55)).multilineTextAlignment(.center)
         }
         .foregroundStyle(.white).padding(24)
-        .background(LinearGradient(colors: [Color(hex: "16294A"), IslandUI.dark], startPoint: .top, endPoint: .bottom).ignoresSafeArea())
+        .background(IslandBrandBackground().ignoresSafeArea())
         .onAppear { name = flow.player?.name == "Player 1" ? "" : flow.player?.name ?? "" }
         .onChange(of: flow.nameRequested) { _, asked in if asked { typing = true; flow.nameRequested = false } }
         .accessibilityIdentifier("onboarding-remote")

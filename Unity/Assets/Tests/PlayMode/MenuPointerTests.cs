@@ -52,22 +52,24 @@ namespace GolfArcade.Tests
             Assert.IsTrue(hub.Player.locked, "nobody walks in the menu");
             Assert.Less(Vector3.Distance(hub.Player.transform.position, MenuShots.Slots[0]), .05f);
             Assert.Less(Mathf.Abs(Mathf.DeltaAngle(hub.Player.Yaw, MenuShots.FacingYaw(MenuShots.Slots[0]))), 5f, "faces the camera");
-            Assert.Less(Vector3.Distance(hub.Camera.transform.position, MenuShots.LowShot.position), .1f, "home: the low shot");
+            Assert.Less(Vector3.Distance(hub.Camera.transform.position, MenuShots.For(MenuShots.Low).position), .1f, "home: the low shot (the centred one with a backdrop)");
             Assert.IsNull(GameObject.Find("Locker Room"), "no rooms in menu mode");
             yield break;
         }
 
-        [UnityTest, Timeout(300000)] public IEnumerator PlayNowThenTennisThenExhibitionOpensItOnThePhone()
+        [UnityTest, Timeout(300000)] public IEnumerator PlayNowThenTennisThenExhibitionSetsUpOnTheTv()
         {
             yield return Click("play"); yield return Settle();
             Assert.AreEqual(MenuHud.Sport, hud.Screen);
             yield return Click("sport-tennis"); yield return Settle();
             Assert.AreEqual(MenuHud.TennisModes, hud.Screen);
-            Assert.Less(Vector3.Distance(hub.Camera.transform.position, MenuShots.CloseShot.position), .1f, "modes: the close shot");
+            Assert.Less(Vector3.Distance(hub.Camera.transform.position, MenuShots.For(MenuShots.Close).position), .1f, "modes: the close shot (the centred one with a backdrop)");
+            // since 10-26 Exhibition sets up on the TV (court strip, options, START) and asks the phone for its options
             yield return Click("bay-tennis-exhibition"); yield return null;
-            Assert.Contains("menuOpen bay-tennis-exhibition", events);
-            Assert.IsTrue(hud.PhonePanelOpen, "the TV says to finish on the phone");
-            hud.SetPhonePanel(false);
+            Assert.Contains("menuSetup bay-tennis-exhibition", events);
+            Assert.AreEqual(MenuHud.Setup, hud.Screen);
+            yield return Click("back"); yield return Settle();
+            Assert.AreEqual(MenuHud.TennisModes, hud.Screen);
             yield return Click("back"); yield return Settle();
             Assert.AreEqual(MenuHud.Sport, hud.Screen);
             yield return Click("back"); yield return Settle();
@@ -96,7 +98,7 @@ namespace GolfArcade.Tests
         {
             yield return Click("tab-" + MenuHud.Locker); yield return Settle();
             Assert.AreEqual(MenuHud.Locker, hud.Screen);
-            Assert.Less(Vector3.Distance(hub.Camera.transform.position, MenuShots.SoloShot.position), .1f, "locker: the solo shot");
+            Assert.Less(Vector3.Distance(hub.Camera.transform.position, MenuShots.For(MenuShots.Solo).position), .1f, "locker: the solo shot (the centred one with a backdrop)");
             yield return Click("swatch-sky"); yield return null;
             Assert.Contains("menuLook shirt|3FA9F5", events);
             yield return Click("lk-shorts"); yield return Click("swatch-navy"); yield return null;

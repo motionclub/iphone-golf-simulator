@@ -2392,7 +2392,7 @@ namespace GolfArcade.Game
             // off a ledge into the water: the drop carries on the way the ball was going (up to a few yards), not straight down
             if (LastShot.Lie == CourseLie.Water && flightTime >= land && y - (under + p.h) > 0.05 && driftX * driftX + driftD * driftD < 100)
             { driftX += rollVx * dt; driftD += rollVd * dt; }
-            var pos = new Vector3((float)(p.x + driftX), (float)(y + 0.06), (float)(p.d + driftD));
+            var pos = ClearOfGround(new Vector3((float)(p.x + driftX), (float)(y + 0.06), (float)(p.d + driftD)));
             if (club != GolfClub.Putter && !trailing) { effects.BeginFlight(povShot); trailing = true; }
 
             // The landing and every bounce after it: the turf it hit puffs up and thuds.
@@ -2484,6 +2484,36 @@ namespace GolfArcade.Game
             }
             // Local splash continues underneath the result; preserve network presentation timing.
             if (!networkConfigured || splashedAt < 0 || flightTime >= splashedAt + 1.1) FinishShot();
+        }
+
+        static readonly Collider[] nearBall = new Collider[8];
+        SphereCollider ballProbe;
+        /// The drawn ball, swollen to be seen far off (BallLook), kept out of the rock and the walls it passes
+        /// (10-28): over an edge or down a cliff face its centre over the ground is not enough, its side sank into
+        /// the face. Only the picture moves; the shot is where it was.
+        Vector3 ClearOfGround(Vector3 pos)
+        {
+            float drawn = ballLook ? ballLook.DrawnDiameter : BallSize;
+            if (drawn < BallSize * 1.5f) return pos;
+            float r = drawn * 0.5f;
+            var centre = pos + Vector3.up * (drawn - BallSize) * 0.5f;
+            if (!ballProbe)
+            {
+                // (a trigger nothing else reads, parked far under the course; only its shape is used)
+                var go = new GameObject("Ball clearance probe") { layer = 2 };
+                go.transform.SetParent(transform, false); go.transform.position = Vector3.down * 10000;
+                ballProbe = go.AddComponent<SphereCollider>(); ballProbe.isTrigger = true;
+            }
+            ballProbe.radius = r;
+            int n = Physics.OverlapSphereNonAlloc(centre, r, nearBall, ~(1 << BallLook.OverlayLayer | 1 << 2), QueryTriggerInteraction.Ignore);
+            var push = Vector3.zero;
+            for (int i = 0; i < n; i++)
+            {
+                var c = nearBall[i];
+                if (c && Physics.ComputePenetration(ballProbe, centre + push, Quaternion.identity, c, c.transform.position, c.transform.rotation, out var dir, out float dist))
+                    push += dir * dist;
+            }
+            return push.sqrMagnitude > r * r ? pos + push.normalized * r : pos + push;
         }
 
         // ----- The round's card -----

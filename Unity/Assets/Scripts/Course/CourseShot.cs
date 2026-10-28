@@ -113,8 +113,40 @@ namespace GolfArcade.Course
             public readonly int Index;
             public readonly bool Trunk;
             public readonly double Time, X, Y, D, Vx, Vy, Vd;
+            /// The face it met, for a solid prop (SolidIndex); zero otherwise.
+            public readonly double Nx, Ny, Nd;
             public ObstacleHit(int index, bool trunk, double time, double x, double y, double d, double vx, double vy, double vd)
-            { Index = index; Trunk = trunk; Time = time; X = x; Y = y; D = d; Vx = vx; Vy = vy; Vd = vd; }
+            { Index = index; Trunk = trunk; Time = time; X = x; Y = y; D = d; Vx = vx; Vy = vy; Vd = vd; Nx = Ny = Nd = 0; }
+            public ObstacleHit(int index, double time, double x, double y, double d, double vx, double vy, double vd, double nx, double ny, double nd)
+            { Index = index; Trunk = true; Time = time; X = x; Y = y; D = d; Vx = vx; Vy = vy; Vd = vd; Nx = nx; Ny = ny; Nd = nd; }
+        }
+
+        /// Along the flight as the game draws it — level with where it was struck, coming down to
+        /// where it lands (`g0` to `gLand`), then its hops over the ground — the first solid prop
+        /// (SolidProps) it meets before `until` seconds; Index SolidIndex. Swept, so a fast ball
+        /// can't step through a fence between two samples.
+        public static ObstacleHit? FirstSolidHit(BallFlight flight, Func<double, double, double, (double x, double h, double d)> world, SolidProps solids, double g0, double gLand, Func<CoursePoint, double> ground, double until)
+        {
+            if (solids == null || solids.Count == 0 || flight.CarryTime <= 0) return null;
+            const double dt = 1.0 / 120;
+            (double x, double y, double d) At(double t)
+            {
+                var p = flight.PositionAt(t);
+                var w = world(p.LateralYards, p.HeightYards, p.DistanceYards);
+                if (t <= flight.CarryTime) return (w.x, g0 + p.HeightYards + (gLand - g0) * t / flight.CarryTime, w.d);
+                // its hops: over the ground under it, asked only near a prop
+                return (w.x, (solids.NearOver(w.x, w.d, 3) ? ground(new CoursePoint(w.x, w.d)) : gLand) + p.HeightYards, w.d);
+            }
+            var a = At(0);
+            for (double t = dt; t < Math.Min(until, flight.Duration); t += dt)
+            {
+                var b = At(t);
+                if (t > 0.04 && solids.Sweep(a.x, a.y, a.d, b.x, b.y, b.d, BallRadius, out double f, out double nx, out double ny, out double nd))
+                    return new ObstacleHit(SolidIndex, t - dt + f * dt, a.x + (b.x - a.x) * f, a.y + (b.y - a.y) * f, a.d + (b.d - a.d) * f,
+                        (b.x - a.x) / dt, (b.y - a.y) / dt, (b.d - a.d) / dt, nx, ny, nd);
+                a = b;
+            }
+            return null;
         }
 
         /// Along the flight as the game draws it — level with where it was struck at first,
@@ -252,46 +284,82 @@ namespace GolfArcade.Course
             { Landing = landing; Time = time; Vx = vx; Vy = vy; Vd = vd; Samples = samples; Knocks = knocks; }
         }
 
-        public static Fall FallFrom(ObstacleHit hit, Obstacle[] obstacles, Func<CoursePoint, double> ground, PlayRules rules = null, CourseMovers movers = null)
+        public static Fall FallFrom(ObstacleHit hit, Obstacle[] obstacles, Func<CoursePoint, double> ground, PlayRules rules = null, CourseMovers movers = null, SolidProps solids = null)
         {
             rules ??= PlayRules.Standard;
             var met = new List<int> { hit.Index };
             var o0 = obstacles[hit.Index];
             var knocked = new List<Knock> { new(hit.Time, hit.X, hit.Y, hit.D, o0.Kind, o0.IsHard(hit.Trunk)) };
             var (vx, vy, vd) = Rebound(o0, hit.Trunk, hit.X, hit.Y, hit.D, hit.Vx, hit.Vy, hit.Vd, Luck(hit.X, hit.D, hit.Index), rules.ObstacleKick);
-            return Down(hit.Time, hit.X, hit.Y, hit.D, vx, vy, vd, met, knocked, obstacles, ground, rules, movers);
+            return Down(hit.Time, hit.X, hit.Y, hit.D, vx, vy, vd, met, knocked, obstacles, ground, rules, movers, -1, solids);
         }
 
         /// Off a windmill's blade (a wooden knock), and down.
-        public static Fall FallFromSail(ObstacleHit hit, SpinningSails sails, Obstacle[] obstacles, Func<CoursePoint, double> ground, PlayRules rules = null, CourseMovers movers = null)
+        public static Fall FallFromSail(ObstacleHit hit, SpinningSails sails, Obstacle[] obstacles, Func<CoursePoint, double> ground, PlayRules rules = null, CourseMovers movers = null, SolidProps solids = null)
         {
             var knocked = new List<Knock> { new(hit.Time, hit.X, hit.Y, hit.D, ObstacleKind.Tree, true) };
             var (vx, vy, vd) = sails.Rebound(hit.X, hit.Y, hit.D, hit.Vx, hit.Vy, hit.Vd);
-            return Down(hit.Time, hit.X, hit.Y, hit.D, vx, vy, vd, new List<int>(), knocked, obstacles, ground, rules ?? PlayRules.Standard, movers);
+            return Down(hit.Time, hit.X, hit.Y, hit.D, vx, vy, vd, new List<int>(), knocked, obstacles, ground, rules ?? PlayRules.Standard, movers, -1, solids);
         }
 
         /// Off something moving about the hole (a balloon's envelope, its basket, a cart, a gull), and down.
-        public static Fall FallFromMover(CourseMovers.Hit hit, CourseMovers movers, Obstacle[] obstacles, Func<CoursePoint, double> ground, PlayRules rules = null)
+        public static Fall FallFromMover(CourseMovers.Hit hit, CourseMovers movers, Obstacle[] obstacles, Func<CoursePoint, double> ground, PlayRules rules = null, SolidProps solids = null)
         {
             var kind = movers.All[hit.Mover].Kind;
             var knocked = new List<Knock> { new(hit.Time, hit.X, hit.Y, hit.D, CourseMovers.KnockKind(kind), kind is not (MoverKind.Gull or MoverKind.Twister or MoverKind.WindLift or MoverKind.Launchpad)) };
             var (vx, vy, vd) = movers.Rebound(hit, Luck(hit.X, hit.D, 11 + hit.Mover));
-            return Down(hit.Time, hit.X, hit.Y, hit.D, vx, vy, vd, new List<int>(), knocked, obstacles, ground, rules ?? PlayRules.Standard, movers, hit.Mover);
+            return Down(hit.Time, hit.X, hit.Y, hit.D, vx, vy, vd, new List<int>(), knocked, obstacles, ground, rules ?? PlayRules.Standard, movers, hit.Mover, solids);
         }
 
-        static Fall Down(double t, double x, double y, double d, double vx, double vy, double vd, List<int> met, List<Knock> knocked, Obstacle[] obstacles, Func<CoursePoint, double> ground, PlayRules rules, CourseMovers movers = null, int ignoredMover = -1)
+        /// Off a solid prop (a fence, a bridge, a tulip bed, a house), and down.
+        public static Fall FallFromSolid(ObstacleHit hit, Obstacle[] obstacles, Func<CoursePoint, double> ground, PlayRules rules = null, CourseMovers movers = null, SolidProps solids = null)
+        {
+            rules ??= PlayRules.Standard;
+            var knocked = new List<Knock> { new(hit.Time, hit.X, hit.Y, hit.D, ObstacleKind.Wall, true) };
+            var (vx, vy, vd) = SolidProps.Rebound(hit.Vx, hit.Vy, hit.Vd, hit.Nx, hit.Ny, hit.Nd, rules.ObstacleKick);
+            return Down(hit.Time, hit.X, hit.Y, hit.D, vx, vy, vd, new List<int>(), knocked, obstacles, ground, rules, movers, -1, solids);
+        }
+
+        /// Over the side: the flight came down level with where it was struck, over ground well below
+        /// it (the sea past an island's edge, a canal), so it keeps falling from there — onto whatever
+        /// it meets on the way: the rock at the cliff's foot, a ledge, the far bank, or the water.
+        public static Fall FallOverTheSide(BallFlight flight, Func<double, double, double, (double x, double h, double d)> world, double g0, Obstacle[] obstacles, Func<CoursePoint, double> ground, PlayRules rules = null, CourseMovers movers = null, SolidProps solids = null)
+        {
+            const double dt = 1.0 / 240;
+            double t = flight.CarryTime;
+            var p0 = flight.PositionAt(t - dt); var p1 = flight.PositionAt(t);
+            var w0 = world(p0.LateralYards, p0.HeightYards, p0.DistanceYards); var w1 = world(p1.LateralYards, p1.HeightYards, p1.DistanceYards);
+            double vy = (p1.HeightYards - p0.HeightYards) / dt;
+            return Down(t, w1.x, g0 + p1.HeightYards, w1.d, (w1.x - w0.x) / dt, Math.Min(vy, -0.5), (w1.d - w0.d) / dt, new List<int>(), new List<Knock>(), obstacles, ground, rules ?? PlayRules.Standard, movers, -1, solids);
+        }
+
+        static Fall Down(double t, double x, double y, double d, double vx, double vy, double vd, List<int> met, List<Knock> knocked, Obstacle[] obstacles, Func<CoursePoint, double> ground, PlayRules rules, CourseMovers movers = null, int ignoredMover = -1, SolidProps solids = null)
         {
             var metMovers = new HashSet<int> { ignoredMover };
             double g = rules.GravityYards;
             var samples = new List<(double, double, double, double)>();
             double next = Math.Ceiling(t / SampleInterval) * SampleInterval;
             const double dt = 1.0 / 240;
+            int solidKnocks = 0;
+            double floorWas = ground(new CoursePoint(x, d));
             for (int step = 0; step < 240 * 12; step++)
             {
                 vy -= g * dt;
                 double drag = 1 - 0.25 * dt;
                 vx *= drag; vd *= drag;
+                double x0 = x, y0 = y, d0 = d;
                 x += vx * dt; y += vy * dt; d += vd * dt; t += dt;
+                // a solid prop on the way: off its face (a few times at most, then it is let through, so a ball
+                // dying on a bridge deck does not rattle there forever)
+                if (solidKnocks < 6 && solids != null && solids.Sweep(x0, y0, d0, x, y, d, BallRadius, out double f, out double nx, out double ny, out double nd))
+                {
+                    x = x0 + (x - x0) * f; y = y0 + (y - y0) * f; d = d0 + (d - d0) * f;
+                    bool hard = vx * nx + vy * ny + vd * nd < -1.5;
+                    (vx, vy, vd) = SolidProps.Rebound(vx, vy, vd, nx, ny, nd, rules.ObstacleKick);
+                    x += nx * 0.01; y += ny * 0.01; d += nd * 0.01;
+                    if (hard) knocked.Add(new Knock(t, x, y, d, ObstacleKind.Wall, true));
+                    solidKnocks++;
+                }
                 if (met.Count < 4)
                     for (int i = 0; i < obstacles.Length; i++)
                     {
@@ -322,7 +390,22 @@ namespace GolfArcade.Course
                         }
                     }
                 double floor = ground(new CoursePoint(x, d));
-                if (y <= floor) return new Fall(new CoursePoint(x, d), t, vx, vy, vd, samples, knocked);
+                if (y <= floor)
+                {
+                    // Into a face, not onto a top: the ground ahead stands well over where the ball was, so it
+                    // meets the wall of a cliff, a bank or a terrace — back off it and on down, rather than up
+                    // onto the top.
+                    if (floor - Math.Max(y, floorWas) > 0.6 && Math.Abs(vx) + Math.Abs(vd) > 0.2)
+                    {
+                        x = x0; d = d0; y = Math.Max(y0, floorWas + BallRadius);
+                        if (Math.Abs(vx) + Math.Abs(vd) > 2) knocked.Add(new Knock(t, x, y, d, ObstacleKind.Rock, true));
+                        vx *= -0.3; vd *= -0.3;
+                        floor = floorWas;
+                        if (y > floor) { if (t >= next) { samples.Add((next, x, y, d)); next += SampleInterval; } continue; }
+                    }
+                    return new Fall(new CoursePoint(x, d), t, vx, vy, vd, samples, knocked);
+                }
+                floorWas = floor;
                 if (t >= next) { samples.Add((next, x, y, d)); next += SampleInterval; }
             }
             return new Fall(new CoursePoint(x, d), t, vx, vy, vd, samples, knocked);
@@ -350,10 +433,22 @@ namespace GolfArcade.Course
             double vx = fall.Vx * keep, vd = fall.Vd * keep, vh = -fall.Vy * Rebound(-fall.Vy);
             double t = fall.Time, next = path.Count * SampleInterval;
             const double dt = 1.0 / 240;
+            var solids = hole.Solids;
             for (int step = 0; step < 240 * 8 && vh > 0.8; step++)
             {
+                double x0 = x, d0 = d, h0 = h;
                 h += vh * dt; vh -= g * dt;
                 x += vx * dt; d += vd * dt; t += dt;
+                // a hop into a solid prop: off its face
+                if (solids != null && solids.NearOver(x, d, 1))
+                {
+                    double under0 = hole.Ground?.Invoke(new CoursePoint(x0, d0)) ?? 0, under = hole.Ground?.Invoke(new CoursePoint(x, d)) ?? 0;
+                    if (solids.Sweep(x0, under0 + h0, d0, x, under + h, d, BallRadius, out double f, out double nx, out double ny, out double nd))
+                    {
+                        x = x0 + (x - x0) * f; d = d0 + (d - d0) * f;
+                        (vx, vh, vd) = SolidProps.Rebound(vx, vh, vd, nx, ny, nd, rules.ObstacleKick);
+                    }
+                }
                 if (h <= 0)
                 {
                     h = 0; vh = -vh * Rebound(-vh); vx *= keep; vd *= keep;
@@ -637,22 +732,44 @@ namespace GolfArcade.Course
                 var moverHit = hole.Movers?.FirstHit(flight, World, gStart, gFlat, obstacleHit?.Time ?? contact?.HitTime ?? flight.CarryTime);
                 if (moverHit is CourseMovers.Hit mh)
                     obstacleHit = new ObstacleHit(MoverIndex, true, mh.Time, mh.X, mh.Y, mh.D, mh.Vx, mh.Vy, mh.Vd);
+                // Over the side (10-28): down level with the tee over ground far below it — the sea past
+                // the island's edge — it keeps falling, onto the rock at the cliff's foot or into the water,
+                // rather than sliding down the line to the sea's surface through the cliff.
+                var flatLie = hole.LieAt(new CoursePoint(first.x, first.d));
+                bool overTheSide = contact == null && hole.Ground != null && flatLie is (CourseLie.Water or CourseLie.OutOfBounds) && gFlat < gStart - 1.0;
+                double lineEnd = overTheSide ? gStart : gFlat;
+                // a solid prop — a fence, a bridge, a tulip bed, a house — met first, in the air or on a hop
+                var solidHit = FirstSolidHit(flight, World, hole.Solids, gStart, lineEnd, groundAt,
+                    obstacleHit?.Time ?? contact?.HitTime ?? (overTheSide || flatLie == CourseLie.Water ? flight.CarryTime : flight.RollStartTime));
+                if (solidHit != null) obstacleHit = solidHit;
+                Fall? fallen = null; double fallFrom = 0;
                 if (obstacleHit is ObstacleHit oh)
                 {
-                    var fall = oh.Index == MoverIndex ? FallFromMover(moverHit.Value, hole.Movers, hole.Obstacles, groundAt, rules)
-                             : oh.Index < 0 ? FallFromSail(oh, hole.Windmill, hole.Obstacles, groundAt, rules, hole.Movers) : FallFrom(oh, hole.Obstacles, groundAt, rules, hole.Movers);
+                    fallen = oh.Index == MoverIndex ? FallFromMover(moverHit.Value, hole.Movers, hole.Obstacles, groundAt, rules, hole.Solids)
+                           : oh.Index == SolidIndex ? FallFromSolid(oh, hole.Obstacles, groundAt, rules, hole.Movers, hole.Solids)
+                           : oh.Index < 0 ? FallFromSail(oh, hole.Windmill, hole.Obstacles, groundAt, rules, hole.Movers, hole.Solids) : FallFrom(oh, hole.Obstacles, groundAt, rules, hole.Movers, hole.Solids);
+                    fallFrom = oh.Time;
+                }
+                else if (overTheSide)
+                {
+                    fallen = FallOverTheSide(flight, World, gStart, hole.Obstacles, groundAt, rules, hole.Movers, hole.Solids);
+                    fallFrom = flight.CarryTime;
+                }
+                if (fallen is Fall fall)
+                {
                     knocks.AddRange(fall.Knocks);
                     double gDown = groundAt(fall.Landing);
                     Landing = fall.Landing; LandingTime = fall.Time;
                     double Level(double s) => gStart + (gDown - gStart) * s / Math.Max(1e-6, fall.Time);
-                    // drawn as it flew up to the hit, then its fall, against the line the game
-                    // draws from where it was struck to where it came down
+                    // drawn as it flew up to the hit (and over its hops after the landing, if it was on one),
+                    // then its fall, against the line the game draws from where it was struck to where it came down
                     double s0 = SampleInterval;
-                    for (; s0 < oh.Time; s0 += SampleInterval)
+                    for (; s0 < fallFrom; s0 += SampleInterval)
                     {
                         var p = flight.PositionAt(s0);
                         var w = World(p.LateralYards, p.HeightYards, p.DistanceYards);
-                        double y = gStart + p.HeightYards + (gFlat - gStart) * s0 / Math.Max(1e-6, flight.CarryTime);
+                        double y = s0 <= flight.CarryTime ? gStart + p.HeightYards + (lineEnd - gStart) * s0 / Math.Max(1e-6, flight.CarryTime)
+                                 : groundAt(new CoursePoint(w.x, w.d)) + p.HeightYards;
                         path.Add((w.x, y - Level(s0), w.d));
                     }
                     foreach (var q in fall.Samples)
@@ -869,7 +986,28 @@ namespace GolfArcade.Course
                     ax -= friction * vx / speed; ad -= friction * vd / speed;
                 }
                 vx += ax * dt; vd += ad * dt;
+                double rx = x, rd = d;
                 x += vx * dt; d += vd * dt;
+                // a solid prop in its way — a fence post, a tulip bed, a bridge's side: off it, a little livelier than dead
+                if (hole.Solids != null && hole.Solids.NearOver(x, d, 0.5) && hole.Ground != null)
+                {
+                    double ga = hole.Ground(new CoursePoint(rx, rd)) + BallRadius, gb = hole.Ground(new CoursePoint(x, d)) + BallRadius;
+                    if (hole.Solids.Sweep(rx, ga, rd, x, gb, d, BallRadius, out double f, out double nx, out _, out double nd))
+                    {
+                        double nl = Math.Sqrt(nx * nx + nd * nd);
+                        if (nl > 0.2)
+                        {
+                            nx /= nl; nd /= nl;
+                            double vn = vx * nx + vd * nd;
+                            x = rx + (x - rx) * f + nx * 0.01; d = rd + (d - rd) * f + nd * 0.01;
+                            if (vn < 0)
+                            {
+                                vx -= 1.35 * vn * nx; vd -= 1.35 * vn * nd;
+                                if (speed > 0.4 && elapsed - lastBump > 0.25) { knocks.Add(new Knock(elapsed, x, double.NaN, d, ObstacleKind.Wall, true)); lastBump = elapsed; }
+                            }
+                        }
+                    }
+                }
                 foreach (int i in inReach)
                     if (!Buried(hole.Obstacles[i], hole.Ground, x, d, ref buried[i]) && RollInto(hole.Obstacles[i], ref x, ref d, ref vx, ref vd) && speed > 0.4)
                         knocks.Add(new Knock(elapsed, x, double.NaN, d, hole.Obstacles[i].Kind, hole.Obstacles[i].Kind != ObstacleKind.Bush));
@@ -913,8 +1051,8 @@ namespace GolfArcade.Course
             return (soft, grab);
         }
 
-        /// ObstacleHit.Index for a mover (the windmill's blades are -1).
-        const int MoverIndex = -2;
+        /// ObstacleHit.Index for a mover (the windmill's blades are -1), and for a solid prop.
+        const int MoverIndex = -2, SolidIndex = -3;
 
         /// Walk back toward where the shot was played until the ball is on dry ground.
         static CoursePoint Drop(CoursePoint from, CoursePoint origin, Hole hole)

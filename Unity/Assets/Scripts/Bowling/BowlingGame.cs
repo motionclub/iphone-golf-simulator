@@ -94,6 +94,8 @@ namespace GolfArcade.Bowling
         readonly List<BowlingHero> heroes = new List<BowlingHero>();
         /// Optional: which players are the female hero (index = player). Default alternates male/female.
         public readonly List<bool> PlayerFemale = new List<bool>();
+        /// Each player's locker look (hex, no '#'; empty = the kit's own colour): skin, shirt, trousers / skirt, shoes.
+        public readonly List<(string skin, string shirt, string bottom, string shoes)> PlayerLook = new List<(string, string, string, string)>();
         BowlingHero Bowler => heroes.Count > Current ? heroes[Current] : null;
         bool reacted, walkedBack, reactShot;
         readonly System.Random clipRng = new System.Random();
@@ -218,7 +220,14 @@ namespace GolfArcade.Bowling
             {
                 bool female = i < PlayerFemale.Count ? PlayerFemale[i] : i % 2 == 1;
                 var at = i == 0 ? StartSpot(boards[i]) : WaitSpot(i);
-                heroes.Add(BowlingHero.Spawn(transform, female, at, i == 0 ? 0 : WaitYaw));
+                var hero = BowlingHero.Spawn(transform, female, at, i == 0 ? 0 : WaitYaw);
+                if (hero && hero.Look && i < PlayerLook.Count)
+                {
+                    var look = PlayerLook[i];
+                    if (!string.IsNullOrEmpty(look.skin)) hero.Look.SetSkin(GolfArcade.Tennis.HeroKit.Hex(look.skin));
+                    hero.Look.SetKit(look.shirt, look.bottom, look.shoes);
+                }
+                heroes.Add(hero);
                 if (i > 0 && heroes[i]) Send(heroes[i], at, WaitYaw, sit: true);
             }
             hud?.Dispose();

@@ -3,9 +3,11 @@ using UnityEngine;
 
 namespace GolfArcade.Game
 {
-    /// How a shot looks in the air and when it comes down. The ball draws a tracer (Tracer): a
-    /// thin luminous line along its whole flight that stays over the hole, in the colour of the
-    /// swing's rating — green for a clean one, yellow for an imperfect one, red for a mishit.
+    /// How a shot looks in the air and when it comes down. The ball draws a short trail, the way
+    /// Wii Sports' does (Adnan 10-28: "shorter, not a straight line", like the strike's effect):
+    /// a comet tail over the last third of a second of its path (CometTail) with speed-line
+    /// wisps twisting round it, in the colour of the swing's rating — green for a clean one,
+    /// yellow for an imperfect one, red for a mishit — gone soon after it lands.
     /// Every bounce throws up a puff of the ground it hit, and a ball in the sea splashes. The
     /// strike itself flashes: a starburst at the ball, a shockwave ring across the ground and the
     /// turf it cut flying forward (Resources/Effects: Higgsfield sprites — flash, ring, grass,
@@ -59,10 +61,9 @@ namespace GolfArcade.Game
         static Texture2D soft;
         static Material particleMaterial;
 
-        Tracer tracer;
         CometTail comet;
-        bool cometShot;
         Transform ball;
+        BallLook look;
         ParticleSystem puffs, splash, trail;
         Gear.TrailStyle trailStyle;
         Vector3 trailFrom; bool trailing;
@@ -78,7 +79,7 @@ namespace GolfArcade.Game
             var fx = go.AddComponent<ShotEffects>();
             fx.view = view;
             fx.ball = ball;
-            fx.tracer = Tracer.Create(go.transform, view);
+            fx.look = look;
             fx.comet = CometTail.Create(go.transform, look);
             fx.SetQuality(Quality.Fair);
             fx.puffs = fx.BuildParticles("Puffs", 0.7f, 1.1f, 0.22f, 0.5f, -2.2f);
@@ -113,6 +114,7 @@ namespace GolfArcade.Game
             var streakDraw = fx.streaks.GetComponent<ParticleSystemRenderer>();
             streakDraw.renderMode = ParticleSystemRenderMode.Stretch; streakDraw.velocityScale = 0.1f; streakDraw.lengthScale = 1f;
             streakDraw.sharedMaterial = new Material(ParticleMaterial()) { mainTexture = Band(), name = "Launch streak" };
+            var streakMain = fx.streaks.main; streakMain.maxParticles = 800;   // the flight's wisps (EmitWisps) as well as the launch's
             fx.crown = fx.Burst("Splash crown", "splash", false);
             // droplets and molten globs: stretched along their flight, shrinking as they fall; ripples spreading flat on the surface
             fx.drops = fx.BuildDroplets("Droplets", -10.5f, 0.05f, 1.9f);
@@ -255,7 +257,7 @@ namespace GolfArcade.Game
             Fire(ripples != null && k < ripples.Length ? ripples[k] : null, at + Vector3.up * 0.02f, seconds, 0.25f, to, tint);
 
         /// How big the contact reads, 0–1, by the strike's grade (the same hook the strike's sound and haptics use):
-        /// a thin one is a dull tick, a perfect one the full bundle. Without a grade, the tracer's rating stands in.
+        /// a thin one is a dull tick, a perfect one the full bundle. Without a grade, the trail's rating stands in.
         public float StrikeTier(GolfArcade.Swing.StrikeGrade? grade) => grade switch
         {
             GolfArcade.Swing.StrikeGrade.Perfect => 1f,
@@ -469,37 +471,75 @@ namespace GolfArcade.Game
         Quality quality = Quality.Fair;
         public void SetQuality(Quality q) => quality = q;
 
-        /// Which ball the tracer follows: the game's, or Codex's during his shot.
+        /// Which ball the trail follows: the game's, or Codex's during his shot.
         public void Follow(Transform t) => ball = t;
 
         bool flying;
-        /// The ball is away: the tracer line — or, for the ball POV, Codex's short tube behind it.
+        /// The ball is away: its short trail starts (the ball POV's too: `pov` no longer draws differently).
         public void BeginFlight(bool pov = false)
         {
-            cometShot = pov;
-            if (pov) comet.Begin(ColorOf(quality)); else tracer.Begin(ColorOf(quality));
-            flying = true;
+            comet.Begin(ColorOf(quality));
+            flying = true; wisping = false;
         }
-        /// The ball is down: the line ends where it landed, the way TopTracer draws it — the
-        /// bounces and the roll are the ball's own, not the line's; the POV's tube narrows away.
+        /// The ball is down: the tail narrows away behind the bouncing ball.
         public void Land()
         {
-            if (cometShot) comet.Land();
-            else if (flying && ball) tracer.Push(ball.position);
+            comet.Land();
             flying = false;
         }
-        /// The shot is over: the line stays over the hole a while, then goes.
-        public void EndFlight() { flying = false; if (!cometShot) tracer.FadeOut(2.5f); }
-        /// Setting up the next shot: the line goes now.
-        public void ClearTracer() { flying = false; tracer.Clear(); comet.Clear(); }
+        /// The shot is over (a ball in the water never Lands): the tail goes the same way.
+        public void EndFlight() { flying = false; comet.Land(); }
+        /// Setting up the next shot: the trail goes now.
+        public void ClearTracer() { flying = false; comet.Clear(); }
 
         void LateUpdate()
         {
             EmitStreaks();
-            if (flying && ball && !cometShot) tracer.Push(ball.position);
+            if (flying && ball) EmitWisps();
+            else wisping = false;
             if (flying && ball && trailStyle != Gear.TrailStyle.None) EmitTrail(ball.position);
             else trailing = false;
         }
+
+        /// The strike's speed lines, carried on for the whole flight: short streaks laid along the
+        /// ball's path on a slow twist round it (two strands, a ball's width out), so the trail
+        /// reads as a ribbon of light curling after the ball rather than a ruled line. Sized off the
+        /// drawn ball, so it reads at any distance.
+        void EmitWisps()
+        {
+            var at = look ? look.Centre : ball.position;
+            if (!wisping) { wispFrom = at; wispTwist = 0; wisping = true; return; }
+            var step = at - wispFrom; float dt = Mathf.Max(1e-4f, Time.deltaTime);
+            float length = step.magnitude;
+            if (length < 1e-3f) return;
+            var dir = step / length;
+            var across = Vector3.Cross(dir, Vector3.up); if (across.sqrMagnitude < 1e-4f) across = Vector3.right;
+            across.Normalize();
+            var up = Vector3.Cross(across, dir);
+            float drawn = look ? look.DrawnDiameter : 0.12f;
+            var tint = Color.Lerp(Color.white, ColorOf(quality), .55f);
+            int n = Mathf.Clamp(Mathf.CeilToInt(length / Mathf.Max(.05f, drawn * .6f)), 1, 12);
+            for (int i = 0; i < n; i++)
+            {
+                float u = (i + 1f) / n;
+                wispTwist += 9f * dt / n;   // radians: about one and a half turns a second
+                for (int strand = 0; strand < 2; strand++)
+                {
+                    float a = wispTwist + strand * Mathf.PI;
+                    var round = across * Mathf.Cos(a) + up * Mathf.Sin(a);
+                    streaks.Emit(new ParticleSystem.EmitParams
+                    {
+                        position = Vector3.Lerp(wispFrom, at, u) + round * drawn * .55f,
+                        velocity = step / dt * .12f + round * drawn * 2f,
+                        startColor = new Color(tint.r, tint.g, tint.b, Random.Range(.55f, .85f)),
+                        startSize = drawn * Random.Range(.35f, .55f),
+                        startLifetime = Random.Range(.16f, .26f),
+                    }, 1);
+                }
+            }
+            wispFrom = at;
+        }
+        Vector3 wispFrom; float wispTwist; bool wisping;
 
         /// Puffs laid along the ball's path since the last frame, a third of a yard apart so a
         /// fast ball leaves no gaps: sparkles twinkling white and gold, fire burning out from

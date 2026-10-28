@@ -75,6 +75,9 @@ namespace GolfArcade.UI
         static readonly Color ArrowBlue = UiKit.Hex("2A84E6");
         // the lettering has no card to sit on in the clear style, so the small type is a little bigger
         static int S(int glass, int clear) => GlassKit.ClearStyle ? clear : glass;
+        /// Handheld play (NativeSportsSession.Handheld): the app's control deck has the club and the app draws the hole map (tap
+        /// to open it full screen), so neither shows here.
+        public static bool Handheld;
         public static GolfShotHud Create(Camera camera)
         {
             var go = new GameObject("Golf broadcast",typeof(RectTransform));
@@ -209,11 +212,12 @@ namespace GolfArcade.UI
             lieRoot.anchoredPosition=new Vector2(left,-top-InfoHeight-12);
             mapRoot.anchoredPosition=new Vector2(-right,-top);
             mapRoot.sizeDelta=MapPanel;
-            if(windDial)windDial.anchoredPosition=new Vector2(-right-MapPanel.x-12,-top);
+            if(windDial)windDial.anchoredPosition=new Vector2(-right-(Handheld?0:MapPanel.x+12),-top);
             // the meter's top is 512 down a 1080-high picture; on the tall phone view it sits higher up
             meterRoot.anchorMin=meterRoot.anchorMax=new Vector2(0,portrait?.62f:1-(GlassKit.ClearStyle?330f:512f)/1080f);
             meterRoot.anchoredPosition=new Vector2(left,0);
             clubRoot.anchoredPosition=new Vector2(left,portrait?250:22);
+            if(Handheld){clubRoot.gameObject.SetActive(false);mapRoot.gameObject.SetActive(false);}
             contactRoot.anchoredPosition=new Vector2(0,-top-(portrait?232:0));
             PlaceBelowLie();
         }

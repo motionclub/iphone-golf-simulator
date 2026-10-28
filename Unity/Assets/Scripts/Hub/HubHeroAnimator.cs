@@ -311,6 +311,8 @@ namespace GolfArcade.Hub
         /// palm rests on the hip: MenuHeroCapture's contact gate measures the gap to the body).
         public static float PalmHipUp = .16f, PalmHipOut = 2.3f, PalmHipFwd = -.02f;   // out at the side: the palm then slides straight in onto the side of the hip
         public static readonly string[] StanceNames = { "HandsOnHips", "HandOnHip", "ArmsCrossed", "Heroic", "HeroicFeminine" };
+        /// How far the Heroic stance's upper arms open from the body (sideways share of the aim; .22 until 10-28).
+        public static float HeroicArmSpread = .34f;
         readonly List<(Dictionary<Transform, Quaternion> pose, Vector3 hips)> stances = new List<(Dictionary<Transform, Quaternion>, Vector3)>();
         int stance = -1; float stanceWeight;
         /// The stance whose hands rest on the hips (the female basic stance): after the clearance pass each palm is slid onto the hip.
@@ -560,8 +562,10 @@ namespace GolfArcade.Hub
                     // heroic: feet a little wider, arms a touch away from the body, chest higher
                     foreach (var (ul, ll, side) in new[] { (HumanBodyBones.LeftUpperLeg, HumanBodyBones.LeftLowerLeg, -1f), (HumanBodyBones.RightUpperLeg, HumanBodyBones.RightLowerLeg, 1f) })
                         AimBone(B(ul), B(ll), -up + right * side * .1f + fwd * .015f);
+                    // MENU BACKDROP (Adnan 10-28: "the hands are too close to the hips ... match that stance"): the plaza framed the hero off to the
+                    // right, which read the arms wider; centred on a course the same .22 looked tucked in, so the arms open to .34
                     foreach (var (ua, la, side) in new[] { (HumanBodyBones.LeftUpperArm, HumanBodyBones.LeftLowerArm, -1f), (HumanBodyBones.RightUpperArm, HumanBodyBones.RightLowerArm, 1f) })
-                        AimBone(B(ua), B(la), -up + right * side * .22f - fwd * .05f);
+                        AimBone(B(ua), B(la), -up + right * side * HeroicArmSpread - fwd * .05f);
                     if (chest) chest.rotation = Quaternion.AngleAxis(-3f, right) * chest.rotation;
                     CurlFingers(true, 2.4f); CurlFingers(false, 2.4f);   // relaxed hands (Adnan 10-26 picked this stance exactly as it was: keep it)
                     break;

@@ -51,16 +51,27 @@ enum LockerCatalog {
     static let standardID = "standard"
     static let golfKitID = "golf-classic-kit"
     static let golfShoesID = "golf-spikeless"
+    static let bowlingKitID = "bowling-camp-kit"
+    static let bowlingShoesID = "bowling-saddle"
     static func defaultID(sport: Sport, slot: LockerSlot) -> String {
-        guard sport == .golf else { return standardID }
-        switch slot { case .skin: return golfKitID; case .shoes: return golfShoesID; default: return standardID }
+        switch (sport, slot) {
+        case (.golf, .skin): return golfKitID
+        case (.golf, .shoes): return golfShoesID
+        case (.bowling, .skin): return bowlingKitID
+        case (.bowling, .shoes): return bowlingShoesID
+        default: return standardID
+        }
     }
     /// Sports with a locker (and a gear shelf).
-    static let sports: [Sport] = [.tennis, .golf]
+    static let sports: [Sport] = [.tennis, .golf, .bowling]
 
-    /// Slots a sport shows, in shelf order.
+    /// Slots a sport shows, in shelf order. Bowling has no held gear (the house ball).
     static func slots(for sport: Sport) -> [LockerSlot] {
-        sport == .golf ? [.skin, .club, .shoes] : [.skin, .racket, .shoes]
+        switch sport {
+        case .golf: [.skin, .club, .shoes]
+        case .bowling: [.skin, .shoes]
+        default: [.skin, .racket, .shoes]
+        }
     }
 
     /// Every item the game knows. One Standard item per slot, nothing else yet.
@@ -71,6 +82,8 @@ enum LockerCatalog {
         LockerItem(id: standardID, slot: .club, name: "Standard", sports: [.golf], tintable: true),
         LockerItem(id: standardID, slot: .shoes, name: "Standard", sports: [.tennis], tintable: true),
         LockerItem(id: golfShoesID, slot: .shoes, name: "Spikeless", sports: [.golf], tintable: true),
+        LockerItem(id: bowlingKitID, slot: .skin, name: "Bowling Shirt", sports: [.bowling], tintable: true),
+        LockerItem(id: bowlingShoesID, slot: .shoes, name: "Saddle Shoes", sports: [.bowling], tintable: true),
     ]
 
     static func items(sport: Sport, slot: LockerSlot) -> [LockerItem] {
@@ -88,7 +101,8 @@ enum LockerCatalog {
 
 extension Player {
     var multiplayerLoadout: MultiplayerLoadout {
-        MultiplayerLoadout(gear: Dictionary(uniqueKeysWithValues: LockerCatalog.sports.map { ($0.rawValue, loadoutPayload(sport: $0)) }),
+        // gear for tennis and golf only: older builds reject a loadout naming another sport, and bowling has one kit per slot (its colours travel below)
+        MultiplayerLoadout(gear: Dictionary(uniqueKeysWithValues: [Sport.tennis, .golf].map { ($0.rawValue, loadoutPayload(sport: $0)) }),
                            skinHex: skinHex, colours: Dictionary(uniqueKeysWithValues: Player.outfitSlots.compactMap { slot in outfitHex(slot).map { (slot, $0) } }), emotes: equippedEmotes, shirtHex: outfitHex("shirt"), shortsHex: outfitHex("shorts"),
                            hairHex: hairHex, haircut: haircut, shoesHex: outfitHex("accent"))
     }

@@ -68,7 +68,8 @@ struct SportsHome: View {
         .safeAreaInset(edge: .bottom, spacing: 0) {
             // Not during an online match either: the bar opens Messages, and a palm on it mid-swing leaves the app, which ends the match
             // for the host and starts the guest's 15 s forfeit clock. Golf hides it for its own reasons.
-            if !session.active || (session.sport != "golf" && session.multiplayerMatchID == nil) { BetaFeedbackBar() }
+            // (nor in handheld play: the deck is the bottom of the screen, level with the game above it)
+            if !session.active || (session.sport != "golf" && session.multiplayerMatchID == nil && !session.phonePlay) { BetaFeedbackBar() }
         }
         .simultaneousGesture(TapGesture().onEnded {
             guard session.active, session.loading.finished, !session.paused, session.multiplayerMatchID == nil else { return }
@@ -80,14 +81,15 @@ struct SportsHome: View {
             }
         })
         .safeAreaInset(edge: .top) {
-            if session.active && session.sport != "golf" {
+            // (handheld play has its pause on the deck, and nothing over the game)
+            if session.active && session.sport != "golf" && !(session.phonePlay && session.loading.finished) {
                 HStack {
                     Text(session.displayConnected ? "Phone controller" : "Game controls")
                     Spacer()
                     Button("Exit Game") { session.exitGame() }.accessibilityIdentifier("controller-exit")
                 }
-                .font(IslandUI.font(16, bold: true)).foregroundStyle(IslandUI.navy)
-                .padding(.horizontal, 20).frame(minHeight: 48).background(IslandUI.paper)
+                .font(IslandUI.font(16, bold: true)).foregroundStyle(IslandUI.ink)
+                .padding(.horizontal, 20).frame(minHeight: 48).background(IslandUI.dark)
             }
         }
     }
@@ -97,7 +99,7 @@ struct SportsHome: View {
         .overlay(alignment: .bottom) {
             TimelineView(.periodic(from: .now, by: 0.1)) { _ in
                 if session.loading.finished, !session.showsOnlineTennisSetup, session.loading.tipRemaining > 0, let tip = session.loading.tip {
-                    Text(tip).font(IslandUI.font(15, bold: true)).foregroundStyle(.white).padding(12).background(IslandUI.navy, in: Capsule()).padding(.bottom, 48)
+                    Text(tip).font(IslandUI.font(15, bold: true)).foregroundStyle(.white).padding(12).background(IslandUI.navy, in: Capsule()).handheldLift(session.phonePlay, base: 48)
                 }
             }
         }
@@ -118,10 +120,10 @@ struct SportsHome: View {
                         session.command("presentationSkip")
                     }
                     .disabled(skip.mine)
-                    .font(IslandUI.font(18, bold: true)).padding(16).background(skip.mine ? IslandUI.paper : IslandUI.lime, in: Capsule()).foregroundStyle(IslandUI.navy)
+                    .font(IslandUI.font(18, bold: true)).padding(16).background(skip.mine ? IslandUI.paper : IslandUI.lime, in: Capsule()).foregroundStyle(skip.mine ? IslandUI.ink : IslandUI.navy)
                     .accessibilityIdentifier("presentation-skip")
                 }
-            }.padding(.bottom, 16)
+            }.handheldLift(session.phonePlay, base: 16)
         }
         .overlay(alignment:.top) { if session.active && session.multiplayerMatchID != nil && !session.showsOnlineTennisSetup && hub.matchOver == nil && session.loading.finished { MultiplayerMatchOverlay() } }
     }
@@ -189,6 +191,24 @@ struct SportsHome: View {
                 clubHub.notification(invite: HubInvite(inviteID: "check", from: HubPlayerRef(id: "sam", name: "Sam"), sport: "tennis", lobbyCode: "ABC234", group: 0, capacity: 2,
                                                        expiresAt: Date().timeIntervalSince1970 * 1000 + 110_000), accept: nil)
             }
+        }
+        // handheld play without Unity (simulator): a game frame from a file stands in for the round above the deck
+        //   -handheldCheck golf|bowling <frame.jpg> [-handheldMap <map.png>] [-handheldMapOpen]
+        if let i = args.firstIndex(of: "-handheldCheck"), let sport = args[safe: i + 1] {
+            OnboardingFlow.shared.exitToMenu(); session.displayConnected = false
+            session.sport = sport; session.active = true; session.ready = true; session.paused = false; session.loading.cancel()
+            session.debugPhonePlay()
+            if sport == "golf" {
+                session.golfShotReady = true; session.golfPhase = "Aim"
+                session.golfController = GolfControllerReading(hole: 1, name: "Cliffside", par: 4, yards: 416, wind: 6, windDegrees: 40,
+                                                               clubIndex: 0, clubName: "Driver", clubYards: 240, aimDegrees: 0)
+                if let m = args.firstIndex(of: "-handheldMap"), let path = args[safe: m + 1] { session.golfControllerMap = UIImage(contentsOfFile: path) }
+            } else {
+                session.bowlingState = "Setup|Adnan|4|1|20|Early|16.4|3|280|1,2,3,4,5,6,7,8,9,10|1|0|0"
+            }
+            // (after the phone's plaza has come and gone for the match)
+            let frame = args[safe: i + 2]
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { SportsDisplays.shared.debugFakePhonePlay(image: frame) }
         }
         if args.contains("-controllerMenuCheck") {
             SportsDisplays.shared.external = UIWindow(frame: CGRect(x: 0, y: 0, width: 1920, height: 1080))

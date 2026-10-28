@@ -63,7 +63,7 @@ namespace GolfArcade.Course
             owner.ScatterRough();yield return .4f;
             owner.DressShore();yield return .55f;
             owner.BuildCliffForms();yield return .7f;
-            GolfCliffSculpt.Apply(model,hole);if(hole.Number is >=1 and <=3)owner.DressMeadow();yield return .85f;
+            GolfCliffSculpt.Apply(model,hole);owner.RockGround();if(hole.Number is >=1 and <=3)owner.DressMeadow();yield return .85f;
             owner.BuildBatches();if(hole.Number==9)owner.CoastalWater(model);
             Debug.Log($"[GolfResortDress] hole {hole.Number}: {owner.plants} botanical assets, {owner.triangles} triangles in {owner.batches.Count} bounded batches; original physics retained");
             done(owner);
@@ -240,6 +240,23 @@ namespace GolfArcade.Course
                 batch.pieces.Add(new CombineInstance{mesh=asset,subMeshIndex=sub,transform=matrix});triangles+=cost;
             }
             plants++;
+            // the bluffs at the cliff foot and the boulders are rock the ball lands on (10-28): RockGround makes them ground
+            if(kind.StartsWith("BLUFF")||kind=="BOULDER"){
+                int at=rockVertices.Count;foreach(var v in asset.vertices)rockVertices.Add(matrix.MultiplyPoint3x4(v));
+                foreach(int i in asset.triangles)rockTriangles.Add(at+i);
+            }
+        }
+        readonly List<Vector3> rockVertices=new();readonly List<int> rockTriangles=new();
+
+        /// One ground collider for every bluff and boulder Add laid down (they are batched for drawing, so none has a
+        /// GameObject of its own).
+        void RockGround()
+        {
+            if(rockTriangles.Count==0)return;
+            var mesh=new Mesh{name="Resort rock collision",indexFormat=UnityEngine.Rendering.IndexFormat.UInt32};
+            mesh.SetVertices(rockVertices);mesh.SetTriangles(rockTriangles,0);mesh.RecalculateBounds();meshes.Add(mesh);
+            GolfSolidProps.Ground(transform,mesh,"RESORT_ROCK");Physics.SyncTransforms();
+            Debug.Log($"[GolfResortDress] hole {hole.Number}: {rockTriangles.Count/3} bluff/boulder triangles made ground");
         }
 
         /// ReplaceMarkers a few milliseconds at a time (it yields how far through the markers it is).
@@ -353,6 +370,7 @@ namespace GolfArcade.Course
                     var ray=new Ray(at+Vector3.up*5,Vector3.down);RaycastHit hit=default;bool found=false,overlay=false;
                     foreach(var c in GetComponentsInChildren<MeshCollider>()){
                         if(c.Raycast(ray,out var h,15)){
+                            if(c.name.StartsWith(GolfSolidProps.Prefix))continue;
                             if(!c.name.StartsWith("TERRAIN")){overlay=true;break;}
                             if(h.normal.y>.7f){hit=h;found=true;}
                         }

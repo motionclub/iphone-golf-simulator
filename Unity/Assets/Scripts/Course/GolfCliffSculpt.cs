@@ -5,7 +5,9 @@ using UnityEngine.Rendering;
 namespace GolfArcade.Course
 {
     /// A continuous eroded render surface. The source MeshFilter and collider remain
-    /// untouched; only their renderer is replaced after obstacle/ground extraction.
+    /// untouched; only their renderer is replaced after obstacle/ground extraction. The shell's
+    /// rock gets a ground collider of its own (10-28: the faces stand up to ~1.5 yd proud of the
+    /// old ones, and a ball dropping past an edge sank through what it was seen to hit).
     public sealed class GolfCliffSculpt : MonoBehaviour
     {
         readonly List<Mesh> owned = new();
@@ -112,6 +114,9 @@ namespace GolfArcade.Course
             var go=new GameObject("RESORT_ERODED_CLIFF");go.transform.SetParent(source.transform,false);
             go.AddComponent<MeshFilter>().sharedMesh=sculpt;var r=go.AddComponent<MeshRenderer>();r.sharedMaterials=mats;r.shadowCastingMode=renderer.shadowCastingMode;r.receiveShadows=renderer.receiveShadows;
             renderer.enabled=false;
+            var rockOnly=new List<int>();for(int s=0;s<sections.Length;s++)if(rock[s])rockOnly.AddRange(sections[s]);
+            var solid=new Mesh{name="Resort eroded cliff collision",indexFormat=IndexFormat.UInt32};solid.SetVertices(vertices);solid.SetTriangles(rockOnly,0);solid.RecalculateBounds();owned.Add(solid);
+            GolfSolidProps.Ground(go.transform,solid,"ERODED_CLIFF");
         }
         void OnDestroy(){foreach(var mesh in owned)if(mesh)Destroy(mesh);}
     }

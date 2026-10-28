@@ -34,7 +34,7 @@ namespace GolfArcade.Course
         public static float GroundAt(float x, float z)
         {
             float best = SeaLevel;
-            int n = Physics.RaycastNonAlloc(new Vector3(x, 600, z), Vector3.down, hits, 1200, ~0, QueryTriggerInteraction.Ignore);
+            int n = Physics.RaycastNonAlloc(new Vector3(x, 600, z), Vector3.down, hits, 1200, ~GolfSolidProps.Mask, QueryTriggerInteraction.Ignore);
             for (int i = 0; i < n; i++)
             {
                 var c = hits[i].collider; if (!c) continue;

@@ -33,6 +33,9 @@ namespace GolfArcade.Game
                 if (part.Length == 3 && part[0] == "cpu" && float.TryParse(part[1], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float skill))
                 { players[i] = part[2]; while (bowling.CpuSkill.Count < i) bowling.CpuSkill.Add(-1); bowling.CpuSkill.Add(Mathf.Clamp01(skill)); }
             }
+            // the phone's own player (seat 0) wears its locker look; computer bowlers and pass-the-phone friends keep the kit
+            bowling.PlayerFemale.Clear(); bowling.PlayerFemale.Add(m.female);
+            bowling.PlayerLook.Clear(); bowling.PlayerLook.Add((m.skinHex, m.shirt, m.shorts, m.accent));
             bowling.NewGame(players);
         }
 

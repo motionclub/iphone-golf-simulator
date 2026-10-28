@@ -47,7 +47,7 @@ namespace GolfArcade.Hub.Menu
         /// A fresh boot: hold the high opening shot until Arrive (the phone's loading screen has faded off the TV).
         public void PrepareArrival()
         {
-            from = MenuShots.ArrivalShot; to = MenuShots.For(MenuShots.Low, Heroes); Shot = MenuShots.Low; t = 0; seconds = ArrivalSeconds; arrivalHeld = true;
+            from = MenuShots.Centred ? MenuShots.CentreShot : MenuShots.ArrivalShot; to = MenuShots.For(MenuShots.Low, Heroes);   // a backdrop has no swoop Shot = MenuShots.Low; t = 0; seconds = ArrivalSeconds; arrivalHeld = true;
             Apply(from.position, from.look, from.fov);
         }
         public void Arrive() { arrivalHeld = false; }

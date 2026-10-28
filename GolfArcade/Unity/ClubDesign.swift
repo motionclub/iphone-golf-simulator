@@ -431,15 +431,23 @@ struct ClubHintBar: View {
 }
 
 
-// MARK: - Approved Island menus (ArtDir/ui/toybox-simple-v6)
+// MARK: - Island menus, drawn in the MotionSports brand (MotionBrand: Royal / Deep Navy, Kanit, white type, gold accents)
+// The token names are the old Island ones so every screen follows: `navy` is the dark ink that sits on gold, `ink` is the
+// white type on navy panels, `lime` is the gold accent, `paper` / `card` are the Deep Navy panels.
 // Deliberately separate from Arcade: the in-match serve meter keeps its original tokens.
 enum IslandUI {
-    static let navy = Club.ink
-    static let lime = Club.sun
-    static let paper = Club.cream
-    static let muted = Club.muted
+    static let navy = MotionBrand.navyInk
+    static let ink = Color.white
+    static let lime = MotionBrand.gold
+    static let paper = MotionBrand.navyDeep
+    static let muted = MotionBrand.n300
+    /// A chosen chip or the focused row: Lift on the navy, so it reads apart from the gold primary.
+    static let selected = MotionBrand.lift
+    static let shadow = MotionBrand.shadowInk
+    static let danger = MotionBrand.error
+    /// Kanit: Medium for body, SemiBold for labels, ExtraBold Italic for headline sizes (as the brand's headlines).
     static func font(_ size: CGFloat, bold: Bool = false) -> Font {
-        Club.ui(size, bold ? 700 : 500)
+        MotionBrand.font(!bold ? .medium : size >= 24 ? .extraBoldItalic : .semiBold, size)
     }
 }
 
@@ -478,16 +486,8 @@ struct IslandPalm: Shape {
 
 struct IslandWordmark: View {
     var size: CGFloat = 36
-    var body: some View {
-        VStack(spacing: 0) {
-            ZStack(alignment: .topTrailing) {
-                Circle().fill(Color(hex: "FFD145")).frame(width: size * 0.9, height: size * 0.9).offset(x: size * 0.25)
-                IslandPalm().fill(IslandUI.navy).frame(width: size * 1.5, height: size * 1.12)
-            }.frame(height: size * 1.12)
-            Text("MOTION").font(IslandUI.font(size, bold: true)).tracking(size * 0.035)
-            Text("CLUB").font(IslandUI.font(size * 0.32, bold: true)).tracking(size * 0.095)
-        }.foregroundStyle(IslandUI.navy).accessibilityElement(children: .ignore).accessibilityLabel("Motion Club")
-    }
+    /// Now the MotionSports wordmark (the brand replaced the palm "Motion Club" mark).
+    var body: some View { MotionWordmark(size: size) }
 }
 
 struct IslandAction: View {
@@ -507,11 +507,11 @@ struct IslandAction: View {
                 Spacer(minLength: 10)
                 if primary { Image(systemName: "play.fill").font(.system(size: 15, weight: .bold)) }
             }
-            .foregroundStyle(IslandUI.navy)
+            .foregroundStyle(primary ? IslandUI.navy : IslandUI.ink)
             .padding(.horizontal, 22).frame(minHeight: compact ? 48 : 58)
-            .background(primary ? (tint ?? IslandUI.lime) : focused ? Color.white : IslandUI.paper, in: RoundedRectangle(cornerRadius: primary ? 26 : 12))
-            .overlay(RoundedRectangle(cornerRadius: primary ? 26 : 12).strokeBorder(IslandUI.navy.opacity(focused ? 0.8 : 0), lineWidth: 2))
-            .shadow(color: IslandUI.navy.opacity(primary ? 0.09 : 0), radius: 3, y: 2)
+            .background(primary ? (tint ?? IslandUI.lime) : focused ? IslandUI.selected : IslandUI.paper, in: Capsule())
+            .overlay(Capsule().strokeBorder(focused ? IslandUI.lime : primary ? .clear : IslandUI.ink, lineWidth: focused ? 3.5 : 2.5))
+            .shadow(color: IslandUI.shadow.opacity(0.4), radius: 8, y: 6)
         }.buttonStyle(.plain).accessibilityLabel(title).accessibilityIdentifier(identifier)
             .accessibilityAddTraits(focused ? .isSelected : [])
             .animation(reduceMotion ? nil : .easeOut(duration: 0.15), value: focused)
@@ -524,18 +524,31 @@ struct IslandShell<Content: View>: View {
     @ViewBuilder var content: () -> Content
     var body: some View {
         ZStack {
-            IslandBackdrop(room: ClubRoom.forTitle(title))
-            LinearGradient(colors: [IslandUI.paper.opacity(0.96), IslandUI.paper.opacity(0.86)], startPoint: .top, endPoint: .bottom)
-                .ignoresSafeArea().allowsHitTesting(false)
+            IslandBrandBackground()
             VStack(alignment: .leading, spacing: compact ? 18 : 24) {
                 HStack(alignment: .center) {
-                    if !compact { IslandWordmark(size: 28).frame(width: 180); Divider().frame(height: 52).padding(.horizontal, 20) }
-                    Text(title).font(IslandUI.font(compact ? 30 : 42, bold: true)).foregroundStyle(IslandUI.navy)
+                    if !compact { MotionWordmark(size: 30).padding(.trailing, 20); Rectangle().fill(.white.opacity(0.35)).frame(width: 2, height: 46).padding(.trailing, 20) }
+                    Text(title).font(MotionBrand.font(.extraBoldItalic, compact ? 34 : 46)).foregroundStyle(IslandUI.ink)
+                        .lineLimit(1).minimumScaleFactor(0.6)
+                        .shadow(color: MotionBrand.textShadow.opacity(0.5), radius: 0, y: compact ? 2 : 3)
                     Spacer()
                 }
                 content().frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             }.padding(.horizontal, compact ? 22 : 52).padding(.vertical, compact ? 22 : 36)
-        }.preferredColorScheme(.light)
+        }
+        .foregroundStyle(IslandUI.ink)
+        .preferredColorScheme(.dark)
+    }
+}
+
+/// The brand's menu field (Deep Navy into Royal) with the soft Lift glow the pointer controller uses.
+struct IslandBrandBackground: View {
+    var body: some View {
+        ZStack {
+            MotionBrand.background
+            RadialGradient(colors: [MotionBrand.lift.opacity(0.5), .clear], center: .init(x: 0.5, y: 0.35), startRadius: 0, endRadius: 420)
+        }
+        .ignoresSafeArea().allowsHitTesting(false).accessibilityHidden(true)
     }
 }
 
@@ -563,17 +576,16 @@ struct IslandSelector: View {
         HStack(spacing: 12) {
             Text(label).font(IslandUI.font(compact ? 15 : 20, bold: true)).lineLimit(1).minimumScaleFactor(0.8)
             Spacer(minLength: 8)
-            if let swatch { Circle().fill(swatch).frame(width: 23, height: 23).overlay(Circle().strokeBorder(IslandUI.navy.opacity(0.18))) }
+            if let swatch { Circle().fill(swatch).frame(width: 23, height: 23).overlay(Circle().strokeBorder(IslandUI.ink.opacity(0.6))) }
             Button { step(-1) } label: { Image(systemName: "chevron.left").frame(width: 36, height: 44) }
                 .accessibilityLabel("Previous \(label)")
             Text(value).font(IslandUI.font(compact ? 15 : 20, bold: true)).lineLimit(1).minimumScaleFactor(0.7)
                 .frame(width: compact ? 96 : 152)
             Button { step(1) } label: { Image(systemName: "chevron.right").frame(width: 36, height: 44) }
                 .accessibilityLabel("Next \(label)")
-        }.buttonStyle(.plain).foregroundStyle(IslandUI.navy)
+        }.buttonStyle(.plain).foregroundStyle(IslandUI.ink)
             .padding(.horizontal, compact ? 12 : 18)
-            .background(focused ? IslandUI.lime : Color.white.opacity(0.9), in: RoundedRectangle(cornerRadius: 13))
-            .shadow(color: IslandUI.navy.opacity(0.06), radius: 3, y: 2)
+            .islandFocus(focused, radius: 13)
             .accessibilityElement(children: .contain)
     }
 }

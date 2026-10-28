@@ -44,7 +44,7 @@ struct MotionClubHome: View {
                     .allowsHitTesting(false)
                 Button { menu.tap("homeInvite") } label: {
                     Image(systemName: "plus").font(.system(size: compact ? 24 : 32, weight: .bold))
-                        .foregroundStyle(IslandUI.navy).frame(width: 54, height: 54)
+                        .foregroundStyle(IslandUI.ink).frame(width: 54, height: 54)
                         .islandFocus(menu.isFocused("homeInvite"), radius: 27, base: IslandUI.paper)
                 }.buttonStyle(.plain).accessibilityLabel("Invite friends to your lobby").accessibilityIdentifier("home-invite")
                     .position(x: w * (compact ? 0.86 : 0.92), y: h * (compact ? 0.31 : 0.53))
@@ -55,10 +55,10 @@ struct MotionClubHome: View {
                 VStack {
                     HStack { Spacer(); IslandProfilePill(player: menu.player, compact: compact) }
                     Spacer()
-                    if !menu.notice.isEmpty { Text(menu.notice).font(IslandUI.font(16)).foregroundStyle(IslandUI.navy).padding(10).background(IslandUI.paper, in: Capsule()).accessibilityAddTraits(.updatesFrequently) }
+                    if !menu.notice.isEmpty { Text(menu.notice).font(IslandUI.font(16)).foregroundStyle(IslandUI.ink).padding(10).background(IslandUI.paper, in: Capsule()).accessibilityAddTraits(.updatesFrequently) }
                 }.padding(compact ? 16 : 32).allowsHitTesting(false)
             }
-        }.preferredColorScheme(.light)
+        }.preferredColorScheme(.dark)
     }
     private func menuCards(width: CGFloat, height: CGFloat) -> some View {
         ZStack(alignment: .leading) {
@@ -76,10 +76,10 @@ struct MotionClubHome: View {
                             Spacer(minLength: 0)
                             if selected { Image(systemName: "chevron.right").font(.system(size: 20, weight: .bold)) }
                         }
-                        .foregroundStyle(IslandUI.navy)
+                        .foregroundStyle(selected ? IslandUI.navy : IslandUI.ink)
                         .padding(.horizontal, compact ? 18 : 26).frame(maxWidth: .infinity, maxHeight: .infinity)
                         .background(selected ? IslandUI.lime : IslandUI.paper, in: RoundedRectangle(cornerRadius: compact ? 18 : 22))
-                        .overlay(RoundedRectangle(cornerRadius: compact ? 18 : 22).strokeBorder(IslandUI.navy, lineWidth: selected ? 3.5 : 0))
+                        .overlay(RoundedRectangle(cornerRadius: compact ? 18 : 22).strokeBorder(MotionBrand.goldDeep, lineWidth: selected ? 3.5 : 0))
                         .overlay(RoundedRectangle(cornerRadius: compact ? 18 : 22).strokeBorder(.white.opacity(0.85), lineWidth: 1.5))
                         .shadow(color: Color.black.opacity(0.13), radius: selected ? 9 : 5, y: selected ? 6 : 3)
                     }
@@ -154,7 +154,7 @@ struct ClubVictorySummary: View {
                     .minimumScaleFactor(0.6).lineLimit(1)
                 if let golf, golf.daily > 0 {
                     Label((summary?.streak ?? 0) > 1 ? "DAILY · \(summary?.streak ?? 0)" : "DAILY", systemImage: "flame.fill")
-                        .font(IslandUI.font(compact ? 12 : 16, bold: true)).foregroundStyle(IslandUI.navy)
+                        .font(IslandUI.font(compact ? 12 : 16, bold: true)).foregroundStyle(IslandUI.ink)
                         .padding(.horizontal, 10).padding(.vertical, 4).background(Color(hex: "FFC93C"), in: Capsule())
                 }
             }
@@ -185,7 +185,7 @@ struct ClubVictorySummary: View {
                             .monospacedDigit()
                     }.font(IslandUI.font(13))
                 }.padding(compact ? 18 : 24).foregroundStyle(.white)
-                    .background(IslandUI.navy, in: RoundedRectangle(cornerRadius: 20))
+                    .background(IslandUI.selected, in: RoundedRectangle(cornerRadius: 20))
                     .accessibilityElement(children: .ignore)
                     .accessibilityLabel("Earned \(summary.total) XP. Level \(summary.endLevel), \(summary.endXP) XP.")
                 if let golf {
@@ -214,7 +214,7 @@ struct ClubVictorySummary: View {
                     }
                 }
             }
-        }.foregroundStyle(IslandUI.navy)
+        }.foregroundStyle(IslandUI.ink)
 
     }
     private func stat(_ title: String, _ value: Int) -> some View {
@@ -236,7 +236,7 @@ struct BetaFeedbackBar: View {
     @State private var unavailable = false
     var body: some View {
         HStack {
-            Text("MOTION CLUB").font(IslandUI.font(11, bold: true)).tracking(1)
+            MotionWordmark(size: 15)
             Spacer()
             Button {
                 openURL(BetaFeedback.url) { accepted in unavailable = !accepted }
@@ -244,7 +244,7 @@ struct BetaFeedbackBar: View {
                 Label("Feedback", systemImage: "message.fill").font(IslandUI.font(14, bold: true))
                     .padding(.vertical, 10)
             }.accessibilityLabel("Send feedback by text").accessibilityIdentifier("beta-feedback")
-        }.foregroundStyle(IslandUI.navy).padding(.horizontal, 18).background(IslandUI.paper)
+        }.foregroundStyle(IslandUI.ink).padding(.horizontal, 18).background(IslandUI.paper)
             .alert("Text feedback", isPresented: $unavailable) {
                 Button("Copy number") { UIPasteboard.general.string = "908-590-9023" }
                 Button("Close", role: .cancel) { }

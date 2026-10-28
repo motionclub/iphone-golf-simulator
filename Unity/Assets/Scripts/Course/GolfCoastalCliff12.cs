@@ -120,6 +120,9 @@ namespace GolfArcade.Course
                 for (int i = 0; i < materials.Length; i++) materials[i] = material;
                 renderer.sharedMaterials = materials; renderer.shadowCastingMode = ShadowCastingMode.On; renderer.receiveShadows = true;
                 for (int i = 0; i < filter.sharedMesh.subMeshCount; i++) CliffTriangles += (int)filter.sharedMesh.GetIndexCount(i) / 3;
+                // its walls are the ground a ball dropping over the edge meets (10-28); the turf on top stays the hole's own
+                var faces = GolfSolidProps.Faces(filter.sharedMesh, filter.transform, .6f);
+                if (faces) { ownedMeshes.Add(faces); GolfSolidProps.Ground(filter.transform, faces, "CHALK_FACES"); }
             }
             // Keep the original ground renderer's top exactly, removing only the
             // cliff slots from a separate render clone. MeshColliders keep originals.

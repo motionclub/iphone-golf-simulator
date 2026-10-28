@@ -149,7 +149,7 @@ final class TennisMenu {
     private(set) var lockerSport: Sport = .tennis
     private(set) var lockerSlot: LockerSlot = .skin
     /// What the lower garment is called in the locker: the golf kit has pants, the tennis kit shorts. The saved slot key stays "shorts".
-    var lockerBottomName: String { lockerSport == .golf ? "Pants" : "Shorts" }
+    var lockerBottomName: String { lockerSport == .golf || lockerSport == .bowling ? "Pants" : "Shorts" }
     /// The colour whose full gradient panel is open (skin / shirt / shorts / accent / racket); nil = closed.
     private(set) var lockerRange: String?
     /// The player as the locker was opened, so Revert can put it back.
@@ -679,8 +679,8 @@ final class TennisMenu {
             pendingPick = (launch, onPhone); show(.map); return
         }
         SportsDisplays.shared.refresh()
-        // bowling never needs a TV: with none, the phone plays it (game view <-> controller, PLAN_PhonePlay)
-        guard session.displayConnected || launch.sport == .bowling else { show(.connect); return }
+        // golf and bowling never need a TV: with none, the phone plays them held upright (handheld play, PLAN_PhonePlay)
+        guard session.displayConnected || launch.sport.playsOnPhone else { show(.connect); return }
         show(.loading)
         if launch.sport == .bowling {
             let count = pendingBowlers ?? 1; pendingBowlers = nil
@@ -932,7 +932,7 @@ extension TennisMenu {
             rows.append(actions)
             return rows
         case .customize:
-            return [tabs, ["lk-body"], ["lk-hand"], ["lk-back"], ["lk-skin"], ["lk-shirt"], ["lk-shorts"], actions]
+            return [LockerCatalog.sports.map { "lk-sport-\($0.rawValue)" }, tabs, ["lk-body"], ["lk-hand"], ["lk-back"], ["lk-skin"], ["lk-shirt"], ["lk-shorts"], ["lk-shoes"], actions]
         case .emotes:
             // one focus row per three emotes, in the locker grid's own order (three columns)
             let emoteRows = stride(from: 0, to: EmoteCatalog.ids.count, by: 3).map { start in
@@ -973,9 +973,12 @@ extension TennisMenu {
         case let s where s.hasPrefix("lk-emote-"):
             let emote = String(s.dropFirst(9))
             lockerEdit { $0.equipEmote(emote, slot: lockerEmoteSlot) }
-        case "lk-sport-tennis", "lk-sport-golf":
-            lockerSport = id == "lk-sport-golf" ? .golf : .tennis
-            if !LockerCatalog.slots(for: lockerSport).contains(lockerSlot) { lockerSlot = lockerSlot == .racket ? .club : lockerSlot == .club ? .racket : .skin }
+        case let s where s.hasPrefix("lk-sport-"):
+            guard let sport = Sport(rawValue: String(s.dropFirst(9))), LockerCatalog.sports.contains(sport) else { break }
+            lockerSport = sport
+            if !LockerCatalog.slots(for: lockerSport).contains(lockerSlot) {
+                lockerSlot = lockerSlot == .racket && sport == .golf ? .club : lockerSlot == .club && sport == .tennis ? .racket : .skin
+            }
         case let s where s.hasPrefix("lk-slot-"):
             if let slot = LockerSlot(rawValue: String(s.dropFirst(8))) { lockerSlot = slot }
         case let s where s.hasPrefix("lk-item-"):
@@ -985,6 +988,7 @@ extension TennisMenu {
         case "lk-skin": lockerOpenRange("skin", from: id)
         case "lk-shirt": lockerOpenRange("shirt", from: id)
         case "lk-shorts": lockerOpenRange("shorts", from: id)
+        case "lk-shoes": lockerOpenRange("accent", from: id)
         case "lk-body": lockerEdit { $0.standardFemale.toggle() }
         case "lk-hand": lockerEdit { $0.handedness = $0.handedness == .left ? .right : .left }
         case "lk-back": lockerEdit { $0.backCarry = $0.backCarry == .bag ? .racket : .bag }   // MENU HERO: racket / golf bag on the back
@@ -1093,6 +1097,8 @@ extension TennisMenu {
         case "lk-tab-emotes": return "Locker · Emotes"
         case "lk-sport-tennis": return "Gear for Tennis"
         case "lk-sport-golf": return "Gear for Golf"
+        case "lk-sport-bowling": return "Gear for Bowling"
+        case "lk-shoes": return "Shoes colour"
         case "lk-colour": return "Colour"
         case "lk-skin": return "Skin tone"
         case "lk-shirt": return "Shirt colour"
@@ -1164,10 +1170,7 @@ struct OnlineAppleSheet: Identifiable {
         try service.configure(.golf, venue: MultiplayerLobby.validVenue(course, sport: .golf) ? course : "cliffside")
         for _ in 1..<players { try service.addLocalGuest() }
         try? service.setReady(true)
-        // The round is shown on the TV: with none connected there is nothing to start yet, so wait in the lobby and say so.
-        guard SportsSession.shared.displayConnected || SportsSession.benchmark else {
-            menu.showOnline(.lobby); menu.onlineNotice("Connect a TV with AirPlay, then tap Start Match."); return
-        }
+        // (with no TV the round plays on this phone, held upright: handheld play)
         try service.startMatch(); menu.showOnline(.loading)
     }
     func identity(_ menu: TennisMenu) {

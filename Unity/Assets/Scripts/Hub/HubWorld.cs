@@ -64,6 +64,8 @@ namespace GolfArcade.Hub
         /// rooms, doors or spots), nobody walks, MenuStage holds the camera on the line-up and MenuHud draws the menu. Set by the
         /// session before the scene loads; off = the walkable plaza.
         public static bool MenuMode;
+        /// The menu's venue plate (null: the plaza shows).
+        public global::GolfArcade.Hub.Menu.MenuBackdrop Backdrop { get; private set; }
         public Menu.MenuStage Menu { get; private set; }
         public Menu.MenuHud Hud { get; private set; }
         /// The share of the phone's height the plaza takes in phone-only mode, from the top (the controls are under it).
@@ -126,6 +128,7 @@ namespace GolfArcade.Hub
             {
                 Menu = global::GolfArcade.Hub.Menu.MenuStage.Attach(this);
                 Hud = global::GolfArcade.Hub.Menu.MenuHud.Attach(this, Menu);
+                Backdrop = global::GolfArcade.Hub.Menu.MenuBackdrop.Attach(this, Menu, world);   // a random course behind the line-up (else the plaza)
             }
             yield return .5f;
             Prewarm();

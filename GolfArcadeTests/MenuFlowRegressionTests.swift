@@ -216,7 +216,8 @@ import UIKit
         XCTAssertFalse(progress.finishedTutorial(.golf))
         XCTAssertFalse(store.rewardClaimed(.golf))
     }
-    func testPhoneGameplayIsBlockedWithoutAnExternalScreen() {
+    /// Tennis needs a TV; golf and bowling play on the phone itself without one (handheld play, PLAN_PhonePlay_Handheld.md).
+    func testTennisNeedsAnExternalScreenButGolfDoesNot() {
         let displays = SportsDisplays.shared
         let saved = displays.external
         defer { displays.external = saved }
@@ -224,11 +225,17 @@ import UIKit
         XCTAssertNil(displays.gameWindow(preview: true))
         XCTAssertNil(displays.gameWindow(preview: false))
         let menu = TennisMenu.shared
-        menu.begin(MenuLaunch(sport: .golf, mode: .round), onPhone: true)
-        menu.tap("map-cliffside")
+        menu.begin(MenuLaunch(mode: .exhibition), onPhone: true)
+        menu.tap("map-resort")
         XCTAssertEqual(menu.screen, .connect)
         XCTAssertFalse(SportsSession.shared.active)
         XCTAssertFalse(menu.rows(.connect).flatMap { $0 }.contains("phone"))
+        menu.goHome()
+        XCTAssertTrue(Sport.golf.playsOnPhone && Sport.bowling.playsOnPhone && !Sport.tennis.playsOnPhone)
+        menu.begin(MenuLaunch(sport: .golf, mode: .round), onPhone: true)
+        menu.tap("map-cliffside")
+        XCTAssertNotEqual(menu.screen, .connect, "golf goes on to load on the phone")
+        if SportsSession.shared.active { SportsSession.shared.end() }
         menu.goHome()
     }
     func testAirPlayWindowWinsOverRequestedPhonePreview() {

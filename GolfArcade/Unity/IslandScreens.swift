@@ -15,13 +15,13 @@ struct IslandProfilePill: View {
         let fraction = entry.map { min(1, Double($0.xp) / Double(max(1, LevelCurve.needed($0.level)))) } ?? 0
         HStack(spacing: 10) {
             ZStack {
-                Circle().stroke(IslandUI.navy.opacity(0.15), lineWidth: 4)
+                Circle().stroke(IslandUI.ink.opacity(0.15), lineWidth: 4)
                 Circle().trim(from: 0, to: fraction).stroke(IslandUI.lime, style: StrokeStyle(lineWidth: 4, lineCap: .round)).rotationEffect(.degrees(-90))
                 Text("\(level)").font(IslandUI.font(compact ? 12 : 15, bold: true))
             }.frame(width: compact ? 30 : 40, height: compact ? 30 : 40)
             Text(player?.name ?? "Player 1").font(IslandUI.font(compact ? 15 : 20, bold: true))
         }
-        .foregroundStyle(IslandUI.navy)
+        .foregroundStyle(IslandUI.ink)
         .padding(.leading, 8).padding(.trailing, 16).padding(.vertical, 7)
         .background(IslandUI.paper.opacity(0.94), in: Capsule()).shadow(color: .black.opacity(0.18), radius: 3, y: 2)
         .accessibilityElement(children: .ignore).accessibilityLabel("\(player?.name ?? "Player 1"), level \(level)")
@@ -63,8 +63,8 @@ struct IslandHubScreen: View {
                 VStack(alignment: .leading, spacing: compact ? 10 : 14) {
                     ForEach(TennisMenu.hubItems(sport), id: \.self) { id in row(id) }
                     if !menu.notice.isEmpty { IslandMenuNotice(menu: menu, compact: compact) }
-                    Spacer(minLength: 8)
-                    IslandAction(title: "Back", focused: menu.isFocused("back"), compact: compact) { menu.tap("back") }.frame(width: 170)
+                    if !compact { Spacer(minLength: 8) }
+                    IslandAction(title: "Back", focused: menu.isFocused("back"), compact: compact) { menu.tap("back") }.frame(maxWidth: compact ? .infinity : 170)
                 }.frame(maxWidth: compact ? .infinity : 600, alignment: .leading)
                 if !compact { detail.frame(maxWidth: .infinity, maxHeight: .infinity) }
             }
@@ -72,23 +72,23 @@ struct IslandHubScreen: View {
     }
 
     private func row(_ id: String) -> some View {
-        let m = mode(id), focused = menu.isFocused(id), primary = sport == .golf ? id == "round" : id == "exhibition"
+        let m = mode(id), focused = menu.isFocused(id)
         return Button { menu.tap(id) } label: {
             HStack(spacing: 16) {
                 Image(systemName: m.icon).font(.system(size: compact ? 19 : 25, weight: .bold)).frame(width: compact ? 40 : 54, height: compact ? 40 : 54)
-                    .background(IslandUI.navy.opacity(0.08), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+                    .background(IslandUI.ink.opacity(0.08), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(m.title).font(IslandUI.font(compact ? 20 : 27, bold: true))
+                    Text(m.title).font(IslandUI.font(compact ? 26 : 27, bold: true))
                     Text(m.subtitle).font(IslandUI.font(compact ? 13 : 17)).foregroundStyle(IslandUI.muted).lineLimit(2)
                 }
                 Spacer(minLength: 6)
-                if m.done { Text("✓ Done").font(IslandUI.font(compact ? 12 : 15, bold: true)).padding(.horizontal, 12).padding(.vertical, 5).background(IslandUI.navy.opacity(0.1), in: Capsule()) }
+                if m.done { Text("✓ Done").font(IslandUI.font(compact ? 12 : 15, bold: true)).padding(.horizontal, 12).padding(.vertical, 5).background(IslandUI.ink.opacity(0.1), in: Capsule()) }
                 else if m.locked { Image(systemName: "lock.fill").font(.system(size: compact ? 16 : 20, weight: .bold)).foregroundStyle(IslandUI.muted) }
                 else { Image(systemName: "play.fill").font(.system(size: compact ? 14 : 18, weight: .bold)) }
             }
-            .foregroundStyle(IslandUI.navy).opacity(m.locked && !focused ? 0.62 : 1)
-            .padding(.horizontal, compact ? 14 : 22).frame(minHeight: compact ? 66 : 90)
-            .islandFocus(focused, radius: 20, base: primary ? IslandUI.lime.opacity(0.65) : .white)
+            .foregroundStyle(IslandUI.ink).opacity(m.locked && !focused ? 0.62 : 1)
+            .padding(.horizontal, compact ? 14 : 22).frame(minHeight: compact ? 66 : 90, maxHeight: compact ? .infinity : nil)
+            .islandFocus(focused, radius: 20)
         }
         .buttonStyle(.plain).accessibilityIdentifier("hub-\(id)")
         .accessibilityLabel("\(m.title). \(m.subtitle)\(m.locked ? ". Locked." : "")")
@@ -122,9 +122,9 @@ struct RivalCard: View {
             }.padding(28).frame(maxWidth: .infinity, alignment: .leading)
             RivalPortrait(opponent: opponent).frame(height: 400).offset(x: -20, y: -62)
         }
-        .foregroundStyle(IslandUI.navy)
+        .foregroundStyle(IslandUI.ink)
         .background(IslandUI.paper, in: RoundedRectangle(cornerRadius: 28, style: .continuous))
-        .shadow(color: IslandUI.navy.opacity(0.2), radius: 16, y: 8)
+        .shadow(color: IslandUI.shadow.opacity(0.2), radius: 16, y: 8)
         .frame(maxWidth: 500, maxHeight: 560)
         .accessibilityElement(children: .ignore).accessibilityLabel("Round \(round + 1), \(opponent.name), \(opponent.nickname). \(opponent.blurb)")
     }
@@ -175,10 +175,10 @@ struct IslandLadderScreen: View {
                 mapNodes(in: geo.size)
                 VStack(spacing: 0) {
                     HStack {
-                        Text("Island Circuit").font(IslandUI.font(compact ? 30 : 48, bold: true)).foregroundStyle(IslandUI.navy)
+                        Text("Island Circuit").font(IslandUI.font(compact ? 30 : 48, bold: true)).foregroundStyle(IslandUI.ink).shadow(color: MotionBrand.textShadow.opacity(0.7), radius: 3, y: 2)
                             .shadow(color: .white.opacity(0.8), radius: 0, y: 1.5)
                         Spacer()
-                        if menu.campaign.titles > 0 { Label("× \(menu.campaign.titles)", systemImage: "trophy.fill").font(IslandUI.font(20, bold: true)).foregroundStyle(IslandUI.navy).padding(8).background(IslandUI.paper.opacity(0.9), in: Capsule()) }
+                        if menu.campaign.titles > 0 { Label("× \(menu.campaign.titles)", systemImage: "trophy.fill").font(IslandUI.font(20, bold: true)).foregroundStyle(IslandUI.ink).padding(8).background(IslandUI.paper.opacity(0.9), in: Capsule()) }
                     }.padding(.horizontal, compact ? 22 : 52).padding(.top, compact ? 14 : 32)
                     Spacer()
                     HStack { sheet(rival, round: round, width: compact ? nil : 540); if !compact { Spacer() } }
@@ -187,7 +187,7 @@ struct IslandLadderScreen: View {
                 if menu.confirmingRestart { restartConfirm }
                 if !compact { VStack { Spacer(); HStack { IslandHintBar(items: IslandHintBar.move); Spacer() }.padding(.leading, 48).padding(.bottom, 20) } }
             }
-        }.preferredColorScheme(.light)
+        }.preferredColorScheme(.dark)
     }
 
     private func mapNodes(in size: CGSize) -> some View {
@@ -209,7 +209,7 @@ struct IslandLadderScreen: View {
                     .font(IslandUI.font(selected ? 24 : 19, bold: true)).foregroundStyle(selected ? IslandUI.navy : .white)
                     .frame(width: d, height: d).background(selected ? IslandUI.lime : IslandUI.navy, in: Circle())
                     .overlay(Circle().strokeBorder(.white, lineWidth: 3))
-                    .overlay(Circle().strokeBorder(IslandUI.navy, lineWidth: focused ? 4 : 0).padding(-5))
+                    .overlay(Circle().strokeBorder(IslandUI.ring, lineWidth: focused ? 4 : 0).padding(-5))
                     .shadow(color: .black.opacity(0.2), radius: 3, y: 2)
                 }.buttonStyle(.plain).position(pt(points[i]))
                     .accessibilityLabel("Round \(i + 1), \(TennisCampaign.draw[i].name)\(unlocked ? "" : ", locked")")
@@ -228,24 +228,24 @@ struct IslandLadderScreen: View {
                     HStack { Text("Play Round").font(IslandUI.font(compact ? 20 : 25, bold: true)); Spacer(); Image(systemName: "play.fill") }
                         .foregroundStyle(IslandUI.navy).padding(.horizontal, 22).frame(minHeight: compact ? 54 : 62)
                         .background(IslandUI.lime, in: Capsule())
-                        .overlay(Capsule().strokeBorder(IslandUI.navy, lineWidth: menu.isFocused("campaignPlay") ? 4 : 2))
+                        .overlay(Capsule().strokeBorder(IslandUI.ring, lineWidth: menu.isFocused("campaignPlay") ? 4 : 2))
                 }.buttonStyle(.plain).accessibilityIdentifier("campaign-play")
                 Button { menu.tap("campaignMore") } label: {
-                    Image(systemName: "ellipsis").font(.system(size: 20, weight: .bold)).foregroundStyle(IslandUI.navy)
-                        .frame(width: compact ? 54 : 62, height: compact ? 54 : 62).background(.white, in: Circle())
-                        .overlay(Circle().strokeBorder(IslandUI.navy, lineWidth: menu.isFocused("campaignMore") ? 4 : 0))
+                    Image(systemName: "ellipsis").font(.system(size: 20, weight: .bold)).foregroundStyle(IslandUI.ink)
+                        .frame(width: compact ? 54 : 62, height: compact ? 54 : 62).background(IslandUI.card, in: Circle())
+                        .overlay(Circle().strokeBorder(IslandUI.ring, lineWidth: menu.isFocused("campaignMore") ? 4 : 0))
                 }.buttonStyle(.plain).accessibilityLabel("More: new tournament")
             }.padding(.top, 8)
             Button { menu.tap("back") } label: {
-                Text("‹ Back").font(IslandUI.font(compact ? 16 : 19, bold: true)).foregroundStyle(IslandUI.navy)
+                Text("‹ Back").font(IslandUI.font(compact ? 16 : 19, bold: true)).foregroundStyle(IslandUI.ink)
                     .padding(.vertical, 6).padding(.horizontal, 4)
-                    .overlay(alignment: .bottom) { Rectangle().fill(IslandUI.navy).frame(height: menu.isFocused("back") ? 3 : 0) }
+                    .overlay(alignment: .bottom) { Rectangle().fill(IslandUI.selected).frame(height: menu.isFocused("back") ? 3 : 0) }
             }.buttonStyle(.plain)
         }
-        .foregroundStyle(IslandUI.navy).padding(compact ? 18 : 28)
+        .foregroundStyle(IslandUI.ink).padding(compact ? 18 : 28)
         .frame(width: width).frame(maxWidth: compact ? .infinity : nil, alignment: .leading)
         .background(IslandUI.paper, in: RoundedRectangle(cornerRadius: 28, style: .continuous))
-        .shadow(color: IslandUI.navy.opacity(0.25), radius: 18, y: 8)
+        .shadow(color: IslandUI.shadow.opacity(0.25), radius: 18, y: 8)
     }
 
     private var restartConfirm: some View {
@@ -261,16 +261,16 @@ struct IslandLadderScreen: View {
             }
             .padding(compact ? 22 : 34).frame(maxWidth: compact ? .infinity : 620, alignment: .leading)
             .background(IslandUI.paper, in: RoundedRectangle(cornerRadius: 28, style: .continuous)).padding(compact ? 18 : 0)
-            .foregroundStyle(IslandUI.navy)
+            .foregroundStyle(IslandUI.ink)
         }
     }
 
     private func confirmButton(_ title: String, id: String, primary: Bool) -> some View {
         Button { menu.tap(id) } label: {
-            Text(title).font(IslandUI.font(compact ? 16 : 20, bold: true)).foregroundStyle(primary ? IslandUI.navy : Color(hex: "B3261E"))
+            Text(title).font(IslandUI.font(compact ? 16 : 20, bold: true)).foregroundStyle(primary ? IslandUI.navy : IslandUI.danger)
                 .lineLimit(1).minimumScaleFactor(0.7).frame(maxWidth: .infinity, minHeight: compact ? 50 : 58)
-                .background(primary ? IslandUI.lime : .white, in: Capsule())
-                .overlay(Capsule().strokeBorder(IslandUI.navy, lineWidth: menu.isFocused(id) ? 4 : primary ? 2 : 1))
+                .background(primary ? IslandUI.lime : IslandUI.card, in: Capsule())
+                .overlay(Capsule().strokeBorder(IslandUI.ring, lineWidth: menu.isFocused(id) ? 4 : primary ? 2 : 1))
         }.buttonStyle(.plain)
     }
 }
@@ -335,10 +335,10 @@ struct IslandSettingsScreen: View {
                             ForEach(SettingsTab.visible, id: \.self) { tab in
                                 let id = "tab-\(tab.rawValue)", on = menu.settingsTab == tab
                                 Button { menu.tap(id) } label: {
-                                    Text(tab.title).font(IslandUI.font(compact ? 16 : 18, bold: true)).foregroundStyle(IslandUI.navy)
+                                    Text(tab.title).font(IslandUI.font(compact ? 16 : 18, bold: true)).foregroundStyle(on ? IslandUI.navy : IslandUI.ink)
                                         .padding(.horizontal, compact ? 18 : 14).padding(.vertical, compact ? 10 : 12)
-                                        .background(on ? IslandUI.lime : .white, in: Capsule())
-                                        .overlay(Capsule().strokeBorder(IslandUI.navy, lineWidth: menu.isFocused(id) ? 3.5 : on ? 1.5 : 0))
+                                        .background(on ? IslandUI.lime : IslandUI.card, in: Capsule())
+                                        .overlay(Capsule().strokeBorder(menu.isFocused(id) ? IslandUI.ring : IslandUI.ink.opacity(on ? 0 : 0.28), lineWidth: menu.isFocused(id) ? 3.5 : 1.5))
                                 }.buttonStyle(.plain).accessibilityAddTraits(on ? .isSelected : [])
                             }
                         }.padding(.vertical, 4).padding(.horizontal, 3)
@@ -349,7 +349,7 @@ struct IslandSettingsScreen: View {
                         }.padding(.horizontal, 3).padding(.vertical, 4)
                     }
                     IslandMenuNotice(menu: menu, compact: compact)
-                    IslandAction(title: "Back", focused: menu.isFocused("back"), compact: compact) { menu.tap("back") }.frame(width: 170)
+                    IslandAction(title: "Back", focused: menu.isFocused("back"), compact: compact) { menu.tap("back") }.frame(maxWidth: compact ? .infinity : 170)
                 }.frame(maxWidth: compact ? .infinity : 720, alignment: .leading)
                 if !compact { explainer.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top) }
             }
@@ -371,7 +371,7 @@ struct IslandSettingsScreen: View {
             if !stacked { Spacer(minLength: 8) }
             control(id, it.control)
         }
-        .foregroundStyle(IslandUI.navy).padding(.horizontal, compact ? 14 : 20).padding(.vertical, compact ? 12 : 16)
+        .foregroundStyle(IslandUI.ink).padding(.horizontal, compact ? 14 : 20).padding(.vertical, compact ? 12 : 16)
         .frame(minHeight: compact ? 58 : 72)
         .islandFocus(focused, radius: 18)
         .contentShape(Rectangle())
@@ -393,8 +393,8 @@ struct IslandSettingsScreen: View {
             }.frame(maxWidth: compact ? .infinity : 280)
         case .action(let label, let danger):
             Button { menu.tap(id) } label: {
-                Text(label).font(IslandUI.font(compact ? 15 : 19, bold: true)).foregroundStyle(danger ? Color(hex: "B3261E") : IslandUI.navy)
-                    .padding(.horizontal, 18).padding(.vertical, compact ? 9 : 11).background(IslandUI.navy.opacity(0.08), in: Capsule())
+                Text(label).font(IslandUI.font(compact ? 15 : 19, bold: true)).foregroundStyle(danger ? IslandUI.danger : IslandUI.ink)
+                    .padding(.horizontal, 18).padding(.vertical, compact ? 9 : 11).background(IslandUI.ink.opacity(0.08), in: Capsule())
             }.buttonStyle(.plain)
         case .stepper(let value):
             HStack(spacing: 4) {
@@ -417,11 +417,11 @@ struct IslandSettingsScreen: View {
         let it = item(TennisMenu.settingsRows(menu.settingsTab).contains(id) ? id : (TennisMenu.settingsRows(menu.settingsTab).first ?? "level"))
         return VStack(alignment: .leading, spacing: 10) {
             Text(it.title.uppercased()).font(IslandUI.font(14, bold: true)).tracking(1.4).foregroundStyle(IslandUI.muted)
-            Text(it.detail).font(IslandUI.font(22)).foregroundStyle(IslandUI.navy).fixedSize(horizontal: false, vertical: true)
+            Text(it.detail).font(IslandUI.font(22)).foregroundStyle(IslandUI.ink).fixedSize(horizontal: false, vertical: true)
         }
         .padding(28).frame(maxWidth: 420, alignment: .leading)
         .background(IslandUI.paper, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
-        .shadow(color: IslandUI.navy.opacity(0.15), radius: 12, y: 6)
+        .shadow(color: IslandUI.shadow.opacity(0.15), radius: 12, y: 6)
     }
 }
 
@@ -440,31 +440,31 @@ struct IslandPartyScreen: View {
     }
     var body: some View {
         IslandShell(title: title, compact: compact) {
-            VStack(alignment: .leading, spacing: compact ? 16 : 24) {
+            VStack(alignment: .leading, spacing: compact ? 14 : 24) {
                 switch menu.screen {
                 case .multiplayer:
-                    IslandLobbyRow(title: "Online", subtitle: "Quick match or play with friends", icon: "globe", id: "partyOnline", menu: menu, compact: compact)
-                    IslandLobbyRow(title: "Local", subtitle: "Share a phone or play with phones nearby", icon: "person.2.fill", id: "partyLocal", menu: menu, compact: compact)
+                    IslandLobbyRow(title: "Online", subtitle: "Quick match or play with friends", icon: "globe", id: "partyOnline", menu: menu, compact: compact, tall: compact)
+                    IslandLobbyRow(title: "Local", subtitle: "Share a phone or play with phones nearby", icon: "person.2.fill", id: "partyLocal", menu: menu, compact: compact, tall: compact)
                 case .localChoice:
-                    IslandLobbyRow(title: "Golf · Pass the Phone", subtitle: "2–4 players take turns on one phone", icon: "figure.golf", id: "partyLocalGolf", menu: menu, compact: compact)
-                    IslandLobbyRow(title: "Tennis · Two Phones", subtitle: "One TV. Each player uses their own phone", icon: "tennis.racket", id: "partyLocalTennis", menu: menu, compact: compact)
-                    IslandLobbyRow(title: "Join a Friend", subtitle: "Find a game on a phone nearby", icon: "antenna.radiowaves.left.and.right", id: "partyNearby", menu: menu, compact: compact)
+                    IslandLobbyRow(title: "Golf · Pass the Phone", subtitle: "2–4 players take turns on one phone", icon: "figure.golf", id: "partyLocalGolf", menu: menu, compact: compact, tall: compact)
+                    IslandLobbyRow(title: "Tennis · Two Phones", subtitle: "One TV. Each player uses their own phone", icon: "tennis.racket", id: "partyLocalTennis", menu: menu, compact: compact, tall: compact)
+                    IslandLobbyRow(title: "Join a Friend", subtitle: "Find a game on a phone nearby", icon: "antenna.radiowaves.left.and.right", id: "partyNearby", menu: menu, compact: compact, tall: compact)
                 case .localPlayers:
                     ForEach(2...4, id: \.self) { count in
-                        IslandLobbyRow(title: "\(count) Players", subtitle: "Starts right away", icon: Self.playersIcon(count), id: "localPlayers\(count)", menu: menu, compact: compact)
+                        IslandLobbyRow(title: "\(count) Players", subtitle: "Starts right away", icon: Self.playersIcon(count), id: "localPlayers\(count)", menu: menu, compact: compact, tall: compact)
                     }
                 case .onlineChoice:
-                    IslandLobbyRow(title: "Quick Match", subtitle: "Find players for golf or tennis", icon: "bolt.fill", id: "onlineQuick", menu: menu, compact: compact)
-                    IslandLobbyRow(title: "Play with Friends", subtitle: "Invite friends to your lobby", icon: "person.badge.plus", id: "homeInvite", menu: menu, compact: compact)
+                    IslandLobbyRow(title: "Quick Match", subtitle: "Find players for golf or tennis", icon: "bolt.fill", id: "onlineQuick", menu: menu, compact: compact, tall: compact)
+                    IslandLobbyRow(title: "Play with Friends", subtitle: "Invite friends to your lobby", icon: "person.badge.plus", id: "homeInvite", menu: menu, compact: compact, tall: compact)
                 default:
-                    IslandLobbyRow(title: "Single Player", subtitle: "Golf or tennis on your TV", icon: "person.fill", id: "partySolo", menu: menu, compact: compact)
-                    IslandLobbyRow(title: "Tennis with a Friend Nearby", subtitle: "One TV, two phones: Join pops up on their phone", icon: "antenna.radiowaves.left.and.right", id: "partyNearbyTennis", menu: menu, compact: compact)
-                    IslandLobbyRow(title: "Local", subtitle: "Pass a phone round, or two phones on one TV", icon: "person.2.fill", id: "partyLocal", menu: menu, compact: compact)
-                    IslandLobbyRow(title: "Online", subtitle: "Quick match or invite friends", icon: "globe", id: "partyOnline", menu: menu, compact: compact)
+                    IslandLobbyRow(title: "Single Player", subtitle: "Golf or tennis on your TV", icon: "person.fill", id: "partySolo", menu: menu, compact: compact, tall: compact)
+                    IslandLobbyRow(title: "Tennis with a Friend Nearby", subtitle: "One TV, two phones: Join pops up on their phone", icon: "antenna.radiowaves.left.and.right", id: "partyNearbyTennis", menu: menu, compact: compact, tall: compact)
+                    IslandLobbyRow(title: "Local", subtitle: "Pass a phone round, or two phones on one TV", icon: "person.2.fill", id: "partyLocal", menu: menu, compact: compact, tall: compact)
+                    IslandLobbyRow(title: "Online", subtitle: "Quick match or invite friends", icon: "globe", id: "partyOnline", menu: menu, compact: compact, tall: compact)
                 }
-                IslandLobbyRow(title: "Back", icon: "arrow.left", id: "back", menu: menu, compact: compact)
                 if !menu.notice.isEmpty { IslandMenuNotice(menu: menu, compact: compact) }
-                Spacer(minLength: 0)
+                if compact { IslandAction(title: "Back", focused: menu.isFocused("back"), compact: true, identifier: "back") { menu.tap("back") }.padding(.top, 4) }
+                else { IslandLobbyRow(title: "Back", icon: "arrow.left", id: "back", menu: menu, compact: compact); Spacer(minLength: 0) }
             }.frame(maxWidth: 700)
         }
     }
@@ -511,7 +511,7 @@ struct IslandOnlineScreen: View {
         Group {
             if [.entry,.nearby,.searching].contains(route) && lobby == nil { entry }
             else { sharedRoom }
-        }.preferredColorScheme(.light)
+        }.preferredColorScheme(.dark)
 
     }
     private var entry: some View {
@@ -561,7 +561,7 @@ struct IslandOnlineScreen: View {
                 if route == .searching || !compact {
                     CharacterModelPreview(player:menu.player ?? Player(name:"Player 1",colorIndex:0),cameraDistance:3.4,idleSport:.tennis).frame(maxWidth:.infinity,minHeight:compact ? 230 : 400)
                 }
-            }.foregroundStyle(IslandUI.navy)
+            }.foregroundStyle(IslandUI.ink)
         }
     }
     private var sharedRoom: some View {
@@ -574,7 +574,7 @@ struct IslandOnlineScreen: View {
                         Text(title).islandType(compact ? 28 : 38,bold:true)
                         Spacer()
                         Text(lobby?.sport.rawValue.capitalized ?? "Tennis").islandType(compact ? 13 : 18,bold:true).padding(.horizontal,14).padding(.vertical,7).background(IslandUI.paper,in:Capsule())
-                    }.foregroundStyle(IslandUI.navy).padding(.horizontal,compact ? 18 : 48).padding(.top,compact ? 12 : 22)
+                    }.foregroundStyle(IslandUI.ink).padding(.horizontal,compact ? 18 : 48).padding(.top,compact ? 12 : 22)
                     let layout = compact ? AnyLayout(VStackLayout(spacing:10)) : AnyLayout(HStackLayout(alignment:.top,spacing:24))
                     layout {
                         VStack(spacing:8) {
@@ -652,7 +652,7 @@ struct IslandOnlineScreen: View {
                 default: EmptyView()
                 }
             }
-            }.foregroundStyle(IslandUI.navy).padding(compact ? 16 : 22).frame(maxWidth:.infinity,maxHeight:.infinity,alignment:.top)
+            }.foregroundStyle(IslandUI.ink).padding(compact ? 16 : 22).frame(maxWidth:.infinity,maxHeight:.infinity,alignment:.top)
                 .background(IslandUI.paper.opacity(0.96),in:RoundedRectangle(cornerRadius:compact ? 32 : 26,style:.continuous))
         }
     }

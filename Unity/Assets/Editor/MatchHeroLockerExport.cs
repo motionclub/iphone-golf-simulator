@@ -286,6 +286,12 @@ namespace GolfArcade.EditorTools
         }
 
         public static void RunGolf() { RunVariant(true); }
+        /// BowlingKitHero_<Sex>: the tennis hero wearing the bowling kit (Player<Sex>BowlingKit.prefab), for the locker's Bowling sport.
+        ///   -executeMethod GolfArcade.EditorTools.MatchHeroLockerExport.RunBowling
+        public static void RunBowling() {
+            try { Directory.CreateDirectory(OutDir); foreach(string sex in new[]{"Male","Female"}) if(string.IsNullOrEmpty(Environment.GetEnvironmentVariable("MH_LOCKER_SEX")) || Environment.GetEnvironmentVariable("MH_LOCKER_SEX")==sex) Debug.Log(ExportSex(sex,false,false,true)); if(Application.isBatchMode)EditorApplication.Exit(0); }
+            catch(Exception e){Debug.LogException(e);if(Application.isBatchMode)EditorApplication.Exit(1);else throw;}
+        }
         public static void RunDistance() {
             try { Directory.CreateDirectory(OutDir); foreach(string sex in new[]{"Male","Female"}) if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("MH_LOCKER_SEX")) || Environment.GetEnvironmentVariable("MH_LOCKER_SEX") == sex) Debug.Log(ExportSex(sex,false,true));if(Application.isBatchMode)EditorApplication.Exit(0); }
             catch(Exception e){Debug.LogException(e);if(Application.isBatchMode)EditorApplication.Exit(1);else throw;}
@@ -304,7 +310,7 @@ namespace GolfArcade.EditorTools
             return definitions.Select(d=>{var mark=landmarks.First(m=>m.name==d.Item2);return new MotionSource{clip=clips[d.Item2],id=d.Item1,loop=d.Item3,contact=mark.fps>0 ? (float)mark.impact/mark.fps:0,equipment=string.IsNullOrEmpty(mark.club)?"iron":mark.club.ToLowerInvariant()};}).ToList();
         }
 
-        static string ExportSex(string sex, bool golf = false,bool distance=false)
+        static string ExportSex(string sex, bool golf = false,bool distance=false,bool bowling=false)
         {
             var sb = new StringBuilder("== " + sex + "\n");
             GameObject root;
@@ -313,7 +319,7 @@ namespace GolfArcade.EditorTools
                 if(golfer==null)throw new FileNotFoundException("Actual golf hero "+sex);
                 root=golfer.Root;
             } else {
-                var prefab=AssetDatabase.LoadAssetAtPath<GameObject>(PrefabDir+"Player"+sex+".prefab");
+                var prefab=AssetDatabase.LoadAssetAtPath<GameObject>(PrefabDir+"Player"+sex+(bowling ? "BowlingKit" : "")+".prefab");
                 if(!prefab)throw new FileNotFoundException("prefab "+sex);
                 root=(GameObject)Object.Instantiate(prefab);
             }
@@ -480,7 +486,7 @@ namespace GolfArcade.EditorTools
                 int swingCursor = 0;
                 foreach (var info in infos) { info.swingPositionOffset = swingCursor; swingCursor += info.vertexCount * 12; info.swingNormalOffset = swingCursor; swingCursor += info.vertexCount * 12; }
 
-                string baseName = (golf ? "GolfKitHero_" : "MatchHero_") + sex+(distance ? "_Distance":"");
+                string baseName = (golf ? "GolfKitHero_" : bowling ? "BowlingKitHero_" : "MatchHero_") + sex+(distance ? "_Distance":"");
                 var man = new Manifest
                 {
                     sex = sex, source = golf ? "HeroGolfer.Build(Resources/Hero/golfer_" + (sex=="Female" ? "f":"m") + "), detailed golf kit + actual Club palette" : "Resources/Tennis/Customization/Player" + sex + ".prefab (work/match-anim-set/export/HeroBase_" + sex + "_MatchAnims.blend)",

@@ -284,14 +284,19 @@ final class TennisCampaignTests: XCTestCase {
         XCTAssertEqual(loading.progress, 0.2, "elapsed time cannot invent progress")
         XCTAssertFalse(loading.finished); XCTAssertTrue(loading.isStalled)
         loading.markReady(now: start.addingTimeInterval(30))
-        loading.tick(now: start.addingTimeInterval(30.05))
+        // the bar eases to full first (never a snap), holds a moment, then the cover lifts
+        let lift = loading.pace.end + LoadingModel.fullHold
+        XCTAssertLessThanOrEqual(lift - 1030, LoadingPace.finishLongest + LoadingModel.fullHold)
+        loading.tick(now: Date(timeIntervalSince1970: lift - 0.02)); XCTAssertEqual(loading.phase, .frameReady)
+        loading.tick(now: Date(timeIntervalSince1970: lift + 0.01))
         XCTAssertEqual(loading.phase, .transitioning)
-        loading.tick(now: start.addingTimeInterval(30.4)); loading.tick(now: start.addingTimeInterval(40))
+        loading.tick(now: Date(timeIntervalSince1970: lift + 0.4)); loading.tick(now: start.addingTimeInterval(40))
         XCTAssertTrue(loading.finished); XCTAssertEqual(completions, 1)
         let fast = LoadingModel(); fast.begin(now: start); fast.markReady(now: start)
-        fast.tick(now: start.addingTimeInterval(1.19)); XCTAssertEqual(fast.phase, .frameReady)
-        fast.tick(now: start.addingTimeInterval(1.2)); XCTAssertEqual(fast.phase, .transitioning)
-        fast.tick(now: start.addingTimeInterval(1.5)); XCTAssertTrue(fast.finished)
+        let fastLift = max(1000 + LoadingModel.minimum, fast.pace.end + LoadingModel.fullHold)
+        fast.tick(now: Date(timeIntervalSince1970: fastLift - 0.02)); XCTAssertEqual(fast.phase, .frameReady)
+        fast.tick(now: Date(timeIntervalSince1970: fastLift + 0.01)); XCTAssertEqual(fast.phase, .transitioning)
+        fast.tick(now: Date(timeIntervalSince1970: fastLift + 0.3)); XCTAssertTrue(fast.finished)
     }
 
     func testLoadingShowsAnImprovementTipEarlyAndRotatesIt() {
@@ -371,9 +376,12 @@ final class TennisCampaignTests: XCTestCase {
         loading.tick(now: start.addingTimeInterval(25)); loading.skip()
         XCTAssertEqual(loading.phase, .waitingForPlayers); XCTAssertTrue(loading.statusText.contains("Sam"))
         loading.updatePlayers(waiting: [], allReady: true, now: start.addingTimeInterval(25))
-        loading.tick(now: start.addingTimeInterval(25.05)); XCTAssertEqual(loading.phase, .transitioning)
-        XCTAssertLessThanOrEqual(loading.timing["wipeStart"]! - loading.timing["allPlayersReady"]!, 0.35)
-        loading.tick(now: start.addingTimeInterval(25.4)); XCTAssertTrue(loading.finished)
+        // a long wait leaves the bar nearly full: it finishes in a moment, then the cover lifts
+        let lift = loading.pace.end + LoadingModel.fullHold
+        XCTAssertLessThanOrEqual(lift - 1025, 0.4)
+        loading.tick(now: Date(timeIntervalSince1970: lift + 0.01)); XCTAssertEqual(loading.phase, .transitioning)
+        XCTAssertLessThanOrEqual(loading.timing["wipeStart"]! - loading.timing["allPlayersReady"]!, 0.45)
+        loading.tick(now: Date(timeIntervalSince1970: lift + 0.4)); XCTAssertTrue(loading.finished)
     }
 
     func testCancelledOrFailedLoadingCannotCompleteFromLateEvents() {

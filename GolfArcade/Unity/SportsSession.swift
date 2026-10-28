@@ -27,6 +27,13 @@ final class SportsSession {
     var bowlingState = ""
     /// Bowling on this phone with no TV: the lane fills the screen under the controls (PLAN_PhonePlay_NoTV_GolfBowling.md).
     private(set) var phonePlay = false
+    /// Handheld play (golf and bowling with no TV of this phone's own): the game draws in the top of the screen and the
+    /// controller's deck covers this share of it at the bottom (Unity's NativeSportsSession.HandheldDeck is the same).
+    static let handheldDeck: CGFloat = 0.25
+    #if DEBUG
+    /// `-handheldCheck` (simulator, no Unity): the handheld layout over a stand-in frame.
+    func debugPhonePlay() { phonePlay = true }
+    #endif
     var lastPlayedSport: Sport {
         guard players.indices.contains(playerIndex) else { return .tennis }
         let id = players[playerIndex].id.uuidString
@@ -468,8 +475,9 @@ final class SportsSession {
         NSLog("[SportsSession] launch sport=%@ mode=%@",sport,preview ? "phone-preview" : "external-controller")
         // From a bay in the Plaza (PLAN_MenuHub_WalkableWorld §5): the match loads behind the plaza while you sit, no TV cover.
         let bay = Self.benchmark || multiplayerControllerOnly ? nil : HubSession.shared.bayForLaunch()
-        // bowling never needs a TV: with none, it plays on this phone (golf and tennis still ask for one)
-        let phoneGame = sport == "bowling" && !displayConnected && !Self.benchmark && bay == nil
+        // golf and bowling never need a TV: with none, they play on this phone, held upright (handheld play). A party guest
+        // without a TV plays its own copy of the round there too, whoever else has one. Tennis still asks for one.
+        let phoneGame = (sport == "bowling" || sport == "golf") && !displayConnected && !Self.benchmark && bay == nil
         guard let window = phoneGame ? SportsDisplays.shared.phonePlayWindow() : bay != nil ? SportsDisplays.shared.external : Self.benchmark ? SportsDisplays.shared.benchmarkWindow() : multiplayerControllerOnly ? SportsDisplays.shared.multiplayerControllerWindow() : SportsDisplays.shared.gameWindow(preview:preview) else {
             status="Connect a TV or Mac with AirPlay or a wired display to play. This phone is your controller."; return
         }
@@ -495,7 +503,7 @@ final class SportsSession {
             matchEmotes = EmoteCatalog.normalized(local.loadout?.emotes)
         }
         motion.setAimProfile(storedAimProfile())
-        pending=["holeFlyover":holeFlyover,"intros":consumePresentationIntroCut(),"bigMoments":presentationBigMoments,"presentationConstrained":reduceMotion || ProcessInfo.processInfo.thermalState == .serious || ProcessInfo.processInfo.thermalState == .critical,"version":1,"session":sessionID,"action":"start","sport":sport,"playerID":p.id.uuidString,"playerName":p.name,"female":p.standardFemale,"skin":p.standardSkin,"left":p.handedness == .left,"sound":sound && !(multiplayerControllerOnly && (sport == "tennis" || !displayConnected)),"haptics":haptics,"touch":preview,"token":Int(sessionToken),"fps":highFrameRate ? 120 : 60,"inputHz":inputHz,"bench":SportsSession.benchmark,"difficulty":tennisDifficulty,"venue":sport == "tennis" ? tennisVenue : sport == "bowling" ? bowlingVenue : "resort",
+        pending=["holeFlyover":holeFlyover,"intros":consumePresentationIntroCut(),"bigMoments":presentationBigMoments,"presentationConstrained":reduceMotion || ProcessInfo.processInfo.thermalState == .serious || ProcessInfo.processInfo.thermalState == .critical,"version":1,"session":sessionID,"action":"start","sport":sport,"playerID":p.id.uuidString,"playerName":p.name,"female":p.standardFemale,"skin":p.standardSkin,"left":p.handedness == .left,"sound":sound && !(multiplayerControllerOnly && !phonePlay && (sport == "tennis" || !displayConnected)),"phonePlay":phonePlay,"haptics":haptics,"touch":preview,"token":Int(sessionToken),"fps":highFrameRate ? 120 : 60,"inputHz":inputHz,"bench":SportsSession.benchmark,"difficulty":tennisDifficulty,"venue":sport == "tennis" ? tennisVenue : sport == "bowling" ? bowlingVenue : "resort",
                  "shirt":p.outfitHex("shirt") ?? "","shorts":p.outfitHex("shorts") ?? "","accent":p.outfitHex("accent") ?? "","racket":p.outfitHex("racket") ?? "",
                  "skinHex":p.skinHex,"hairHex":p.hairHex,
                  "tips":false,"overscan":overscan,"tennisCamera":tennisCamera,
@@ -537,14 +545,16 @@ final class SportsSession {
         }
 
         score = TennisScore(); contacts = []; tutorialStep = nil
-        loading.begin(now: LoadingModel.clockNow, multiplayer: multiplayerMatchID != nil)
+        loading.begin(now: LoadingModel.clockNow, multiplayer: multiplayerMatchID != nil,
+                      key: sport == "golf" ? "golf-\(golfCourse)" : sport == "tennis" ? "tennis-\(tennisVenue)" : sport)
         loading.onFinish = { [weak self] in self?.loadingFinished() }
         // never put a TV loading window over the controller-only phone; a walkable-Plaza bench loads behind the plaza with none
         if (bay != nil && !fromMenu) || (multiplayerCalibrates && multiplayerControllerOnly) { loading.cardAppeared(); loadCoveredRuntime(in: window) }
         else { SportsDisplays.shared.beginLoadingCover(in: window) { [weak self] in self?.loadCoveredRuntime(in: window) } }
     }
     private func loadCoveredRuntime(in window: UIWindow) {
-        do { try SportsRuntime.shared().load(in:window,controllerReplica:multiplayerControllerOnly) }
+        // (the runtime lends its view to a window on this phone for a controller replica and for handheld play alike)
+        do { try SportsRuntime.shared().load(in:window,controllerReplica:multiplayerControllerOnly || phonePlay) }
         catch { failStartup(error.localizedDescription); return }
         RacketFeel.apply(self)
         SportsRuntime.shared().clearTennisResult()
@@ -1040,7 +1050,7 @@ final class SportsSession {
     private func updateGolfPhoneController() {
         let upHere = multiplayerMatchID == nil || (golfController.party?.myTurn == true && ["Aim", "Flight", "Replay"].contains(golfPhase))
         let want = active && sport == "golf" && ready && loading.finished && !paused && !menuPauseVisible
-            && (displayConnected || multiplayerControllerOnly) && upHere
+            && (displayConnected || multiplayerControllerOnly) && !phonePlay && upHere
             && !OnboardingFlow.shared.holdsMenu && finishedMatch == nil
             && ["Intro", "Aim", "Flight", "Replay", "HoleDone"].contains(golfPhase)
             && (golfPhase != "Aim" || golfShotReady || multiplayerMatchID != nil)
@@ -1064,7 +1074,7 @@ final class SportsSession {
         }
         loading.markReady(now: Date(timeIntervalSince1970: renderedAt.flatMap { $0.isFinite && $0 > 0 ? $0 : nil } ?? ProcessInfo.processInfo.systemUptime))
         if multiplayerMatchID != nil, firstReady {
-            MultiplayerService.shared.runtimeLoaded(readyAfter: max(0, LoadingModel.multiplayerMinimum - loading.elapsed) + LoadingModel.finishDuration)
+            MultiplayerService.shared.runtimeLoaded(readyAfter: loading.secondsUntilLift)
         }
         if Self.benchmark { loading.skip() }
     }

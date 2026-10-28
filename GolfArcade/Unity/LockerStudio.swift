@@ -34,7 +34,7 @@ struct IslandLockerScreen: View {
             }
         }
         } }
-        .preferredColorScheme(.light)
+        .preferredColorScheme(.dark)
         .onAppear { nameDraft = player.name }
     }
 
@@ -56,8 +56,8 @@ struct IslandLockerScreen: View {
                 stage.frame(maxWidth: .infinity, maxHeight: .infinity).padding(.top, 20).padding(.bottom, 14)
             }
             HStack(alignment: .center, spacing: 28) {
-                Text("Locker").font(IslandUI.font(42, bold: true)).foregroundStyle(IslandUI.navy)
-                if menu.lockerTab == .gear { sportToggle }
+                Text("Locker").font(IslandUI.font(42, bold: true)).foregroundStyle(IslandUI.ink)
+                if menu.lockerTab != .emotes { sportToggle }
             }.padding(.leading, 56).padding(.top, 36)
             VStack { Spacer(); HStack { IslandHintBar(items: IslandHintBar.move); Spacer() }.padding(.leading, 48).padding(.bottom, 28) }
         }
@@ -67,7 +67,7 @@ struct IslandLockerScreen: View {
         HStack(spacing: 10) {
             roundButton("chevron.left", id: "lk-done", label: "Back")
             Spacer()
-            if menu.lockerTab == .gear { sportToggle }
+            if menu.lockerTab != .emotes { sportToggle }
             Spacer()
             roundButton("dice.fill", id: "lk-shuffle", label: "Shuffle colours")
         }
@@ -75,9 +75,9 @@ struct IslandLockerScreen: View {
 
     private func roundButton(_ icon: String, id: String, label: String) -> some View {
         Button { menu.tap(id) } label: {
-            Image(systemName: icon).font(.system(size: 17, weight: .bold)).foregroundStyle(IslandUI.navy)
+            Image(systemName: icon).font(.system(size: 17, weight: .bold)).foregroundStyle(IslandUI.ink)
                 .frame(width: 42, height: 42).background(IslandUI.paper.opacity(0.94), in: Circle())
-                .overlay(Circle().strokeBorder(IslandUI.navy, lineWidth: menu.isFocused(id) ? 3 : 0))
+                .overlay(Circle().strokeBorder(IslandUI.ring, lineWidth: menu.isFocused(id) ? 3 : 0))
                 .shadow(color: .black.opacity(0.2), radius: 3, y: 2)
         }.buttonStyle(.plain).accessibilityLabel(label)
     }
@@ -87,12 +87,12 @@ struct IslandLockerScreen: View {
             ForEach(LockerCatalog.sports, id: \.self) { sport in
                 let on = menu.lockerSport == sport, id = "lk-sport-\(sport.rawValue)"
                 Button { menu.tap(id) } label: {
-                    Text(sport.title.capitalized).font(IslandUI.font(16 * k, bold: true))
+                    Text(sport.title.capitalized).font(IslandUI.font(16 * k, bold: true)).lineLimit(1).minimumScaleFactor(0.6)
                         .foregroundStyle(on ? .white : IslandUI.muted)
-                        .padding(.horizontal, 20 * k).padding(.vertical, 8 * k)
-                        .background(on ? IslandUI.navy : .clear, in: Capsule())
+                        .padding(.horizontal, 14 * k).padding(.vertical, 8 * k)
+                        .background(on ? IslandUI.selected : .clear, in: Capsule())
                         .overlay(Capsule().strokeBorder(IslandUI.lime, lineWidth: menu.isFocused(id) ? 3.5 : 0))
-                }.buttonStyle(.plain).accessibilityLabel("\(sport.title.capitalized) gear").accessibilityAddTraits(on ? .isSelected : [])
+                }.buttonStyle(.plain).accessibilityLabel("\(sport.title.capitalized) \(menu.lockerTab == .gear ? "gear" : "look")").accessibilityAddTraits(on ? .isSelected : [])
             }
         }
         .padding(4).background(IslandUI.paper.opacity(0.94), in: Capsule()).shadow(color: .black.opacity(0.2), radius: 3, y: 2)
@@ -123,7 +123,7 @@ struct IslandLockerScreen: View {
             }
         }
         .foregroundStyle(IslandUI.navy).padding(.horizontal, 16).padding(.vertical, 6)
-        .background(IslandUI.lime, in: Capsule()).shadow(color: IslandUI.navy.opacity(0.25), radius: 0, y: 2)
+        .background(IslandUI.lime, in: Capsule()).shadow(color: IslandUI.shadow.opacity(0.25), radius: 0, y: 2)
         .accessibilityLabel("Name, \(player.name). Tap to change.")
     }
 
@@ -140,7 +140,7 @@ struct IslandLockerScreen: View {
             if let range = menu.lockerRange { rangePanel(range) }
             else {
                 tabs
-                if lobbyPanel && menu.lockerTab == .gear { sportToggle }
+                if lobbyPanel && menu.lockerTab != .emotes { sportToggle }
                 Group {
                     switch menu.lockerTab {
                     case .gear: gear
@@ -155,7 +155,7 @@ struct IslandLockerScreen: View {
         .padding(.horizontal, 18 * k).padding(.top, 16 * k).padding(.bottom, compact ? 26 : 20)
         .frame(maxWidth: .infinity)
         .background(IslandUI.paper.opacity(0.96), in: RoundedRectangle(cornerRadius: compact ? 32 : 26, style: .continuous))
-        .shadow(color: IslandUI.navy.opacity(0.22), radius: 18, y: compact ? -8 : 8)
+        .shadow(color: IslandUI.shadow.opacity(0.22), radius: 18, y: compact ? -8 : 8)
     }
 
     private var tabs: some View {
@@ -163,14 +163,14 @@ struct IslandLockerScreen: View {
             ForEach([(TennisMenu.LockerTab.gear, "Gear", "lk-tab-gear"), (.customize, "Customize", "lk-tab-customize"), (.emotes, "Emotes", "lk-tab-emotes")], id: \.2) { tab, title, id in
                 let on = menu.lockerTab == tab
                 Button { menu.tap(id) } label: {
-                    Text(title).font(IslandUI.font(17 * k, bold: true)).foregroundStyle(IslandUI.navy)
+                    Text(title).font(IslandUI.font(17 * k, bold: true)).foregroundStyle(on ? IslandUI.navy : IslandUI.ink)
                         .frame(maxWidth: .infinity).padding(.vertical, 11 * k)
                         .background(on ? IslandUI.lime : .clear, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
-                        .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).strokeBorder(IslandUI.navy, lineWidth: menu.isFocused(id) ? 3.5 : 0))
+                        .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).strokeBorder(IslandUI.ring, lineWidth: menu.isFocused(id) ? 3.5 : 0))
                 }.buttonStyle(.plain).accessibilityAddTraits(on ? .isSelected : [])
             }
         }
-        .padding(5).background(IslandUI.navy.opacity(0.07), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .padding(5).background(IslandUI.ink.opacity(0.07), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
     }
 
     private var footer: some View {
@@ -199,9 +199,10 @@ struct IslandLockerScreen: View {
                             Text("SLOT \(slot + 1)").font(IslandUI.font(10 * k, bold: true))
                             Text(EmoteCatalog.name(player.equippedEmotes[slot])).font(IslandUI.font(14 * k, bold: true))
                         }
+                        .foregroundStyle(selected ? IslandUI.navy : IslandUI.ink)
                         .frame(maxWidth: .infinity, minHeight: 50 * k)
-                        .background(selected ? IslandUI.lime : .white, in: RoundedRectangle(cornerRadius: 12))
-                        .overlay(RoundedRectangle(cornerRadius: 12).strokeBorder(IslandUI.navy, lineWidth: menu.isFocused(id) ? 3 : selected ? 1.5 : 0))
+                        .background(selected ? IslandUI.lime : IslandUI.card, in: RoundedRectangle(cornerRadius: 12))
+                        .overlay(RoundedRectangle(cornerRadius: 12).strokeBorder(IslandUI.ring, lineWidth: menu.isFocused(id) ? 3 : selected ? 1.5 : 0))
                     }.buttonStyle(.plain).accessibilityIdentifier(id).accessibilityAddTraits(selected ? .isSelected : [])
                 }
             }
@@ -214,7 +215,7 @@ struct IslandLockerScreen: View {
             }
             Text("Tap one on your controller for your intro or after you score.")
                 .font(IslandUI.font(12 * k, bold: false)).foregroundStyle(IslandUI.muted)
-        }.foregroundStyle(IslandUI.navy)
+        }.foregroundStyle(IslandUI.ink)
     }
 
     private func emoteTile(_ emote: String) -> some View {
@@ -228,8 +229,8 @@ struct IslandLockerScreen: View {
                 }
             }
             .frame(maxWidth: .infinity).padding(.vertical, 6)
-            .background(slot != nil ? IslandUI.lime.opacity(0.3) : .white, in: RoundedRectangle(cornerRadius: 14))
-            .overlay(RoundedRectangle(cornerRadius: 14).strokeBorder(IslandUI.navy, lineWidth: menu.isFocused(id) ? 3 : 0))
+            .background(slot != nil ? IslandUI.selected : IslandUI.card, in: RoundedRectangle(cornerRadius: 14))
+            .overlay(RoundedRectangle(cornerRadius: 14).strokeBorder(IslandUI.ring, lineWidth: menu.isFocused(id) ? 3 : 0))
         }.buttonStyle(.plain).accessibilityIdentifier(id)
             .accessibilityLabel("\(EmoteCatalog.name(emote)), \(slot.map { "equipped in slot \($0 + 1)" } ?? "not equipped"). Equip in slot \(menu.lockerEmoteSlot + 1).")
     }
@@ -251,11 +252,11 @@ struct IslandLockerScreen: View {
 
     private func footerButton(_ title: String, id: String, primary: Bool) -> some View {
         Button { menu.tap(id) } label: {
-            Text(title).font(IslandUI.font(compact ? 18 : 22, bold: true)).foregroundStyle(IslandUI.navy)
+            Text(title).font(IslandUI.font(compact ? 18 : 22, bold: true)).foregroundStyle(primary ? IslandUI.navy : IslandUI.ink)
                 .frame(maxWidth: .infinity, minHeight: compact ? 52 : 58)
-                .background(primary ? IslandUI.lime : .white, in: Capsule())
-                .overlay(Capsule().strokeBorder(IslandUI.navy, lineWidth: menu.isFocused(id) ? 4 : primary ? 2 : 0))
-                .shadow(color: IslandUI.navy.opacity(0.15), radius: 3, y: 2)
+                .background(primary ? IslandUI.lime : IslandUI.card, in: Capsule())
+                .overlay(Capsule().strokeBorder(menu.isFocused(id) ? IslandUI.ring : primary ? .clear : IslandUI.ink, lineWidth: menu.isFocused(id) ? 4 : 2.5))
+                .shadow(color: IslandUI.shadow.opacity(0.15), radius: 3, y: 2)
         }.buttonStyle(.plain).accessibilityLabel(title)
     }
 
@@ -271,10 +272,10 @@ struct IslandLockerScreen: View {
                             Image(systemName: slot.icon).font(.system(size: 14 * k, weight: .bold))
                             Text(slot.title(for: menu.lockerSport)).font(IslandUI.font(15 * k, bold: true))
                         }
-                        .foregroundStyle(on ? .white : IslandUI.navy).frame(maxWidth: .infinity).padding(.vertical, 10 * k)
-                        .background(on ? IslandUI.navy : .white, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+                        .foregroundStyle(IslandUI.ink).frame(maxWidth: .infinity).padding(.vertical, 10 * k)
+                        .background(on ? IslandUI.selected : IslandUI.card, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
                         .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).strokeBorder(IslandUI.lime, lineWidth: menu.isFocused(id) ? 4 : 0))
-                        .shadow(color: IslandUI.navy.opacity(0.1), radius: 2, y: 1)
+                        .shadow(color: IslandUI.shadow.opacity(0.1), radius: 2, y: 1)
                     }.buttonStyle(.plain).accessibilityAddTraits(on ? .isSelected : [])
                 }
             }
@@ -283,7 +284,7 @@ struct IslandLockerScreen: View {
             else if menu.lockerSlot == .skin {
                 Button { menu.tap("lk-tab-customize") } label: {
                     HStack(spacing: 6) { Text("Shirt, \(menu.lockerBottomName.lowercased()) and skin colours").font(IslandUI.font(14 * k, bold: true)); Text("Customize ›").font(IslandUI.font(14 * k, bold: true)).foregroundStyle(IslandUI.muted) }
-                        .foregroundStyle(IslandUI.navy)
+                        .foregroundStyle(IslandUI.ink)
                 }.buttonStyle(.plain)
             }
         }
@@ -301,7 +302,7 @@ struct IslandLockerScreen: View {
                 if items.count < 4 {
                     Text("More gear\ncoming soon").font(IslandUI.font(13 * k, bold: false)).multilineTextAlignment(.center).foregroundStyle(IslandUI.muted)
                         .frame(width: 112 * k, height: 134 * k)
-                        .overlay(RoundedRectangle(cornerRadius: 18, style: .continuous).strokeBorder(IslandUI.navy.opacity(0.25), style: StrokeStyle(lineWidth: 2, dash: [6, 5])))
+                        .overlay(RoundedRectangle(cornerRadius: 18, style: .continuous).strokeBorder(IslandUI.ink.opacity(0.25), style: StrokeStyle(lineWidth: 2, dash: [6, 5])))
                         .accessibilityHidden(true)
                 }
             }.padding(.horizontal, 8).padding(.vertical, 8)
@@ -317,7 +318,7 @@ struct IslandLockerScreen: View {
             }
             IslandSwatchRow(colours: TennisMenu.lockerSwatches.map { Color(hex: $0.hex) }, selected: menu.lockerSwatchIndex(slot), kit: true, size: 27 * k) { menu.lockerPick(slot, index: $0) }
         }
-        .foregroundStyle(IslandUI.navy).padding(.horizontal, 12).padding(.vertical, 9)
+        .foregroundStyle(IslandUI.ink).padding(.horizontal, 12).padding(.vertical, 9)
         .islandFocus(menu.isFocused("lk-colour"), radius: 14, base: .clear, ringWidth: 3)
     }
 
@@ -345,6 +346,9 @@ struct IslandLockerScreen: View {
                 labelledRow(menu.lockerBottomName, id: "lk-shorts", custom: "shorts") {
                     IslandSwatchRow(colours: TennisMenu.lockerSwatches.map { Color(hex: $0.hex) }, selected: menu.lockerSwatchIndex("shorts"), kit: true, size: 23 * k) { menu.lockerPick("shorts", index: $0) }
                 }
+                labelledRow("Shoes", id: "lk-shoes", custom: "accent") {
+                    IslandSwatchRow(colours: TennisMenu.lockerSwatches.map { Color(hex: $0.hex) }, selected: menu.lockerSwatchIndex("accent"), kit: true, size: 23 * k) { menu.lockerPick("accent", index: $0) }
+                }
             }.padding(.horizontal, 3).padding(.vertical, 4)
         }
     }
@@ -358,7 +362,7 @@ struct IslandLockerScreen: View {
                     .buttonStyle(.plain).accessibilityLabel("Custom \(title.lowercased()) colour")
             }
         }
-        .foregroundStyle(IslandUI.navy).padding(.horizontal, 12 * k).padding(.vertical, 9 * k)
+        .foregroundStyle(IslandUI.ink).padding(.horizontal, 12 * k).padding(.vertical, 9 * k)
         .islandFocus(menu.isFocused(id), radius: 15)
     }
 
@@ -371,7 +375,7 @@ struct IslandLockerScreen: View {
             HStack {
                 Text("\(title) · custom colour").font(IslandUI.font(20 * k, bold: true))
                 Spacer()
-                Circle().fill(slot == "skin" ? Color(hex: p.skinHex) : (p.outfitColor(slot) ?? .white.opacity(0.4))).frame(width: 26, height: 26).overlay(Circle().strokeBorder(IslandUI.navy.opacity(0.3), lineWidth: 2))
+                Circle().fill(slot == "skin" ? Color(hex: p.skinHex) : (p.outfitColor(slot) ?? .white.opacity(0.4))).frame(width: 26, height: 26).overlay(Circle().strokeBorder(IslandUI.ink.opacity(0.3), lineWidth: 2))
             }
             if slot == "skin" {
                 rangeRow("Tone", id: "lk-range-skin") {
@@ -398,7 +402,7 @@ struct IslandLockerScreen: View {
             Text(title).font(IslandUI.font(16 * k, bold: true)).frame(width: 56 * k, alignment: .leading)
             content()
         }
-        .foregroundStyle(IslandUI.navy).padding(.horizontal, 12).padding(.vertical, 6)
+        .foregroundStyle(IslandUI.ink).padding(.horizontal, 12).padding(.vertical, 6)
         .islandFocus(menu.isFocused(id), radius: 15)
     }
 }
@@ -416,23 +420,23 @@ struct LockerTile: View {
     var body: some View {
         VStack(spacing: 0) {
             ZStack {
-                LinearGradient(colors: [Color(hex: "F4F0E6"), Color(hex: "E7E0CF")], startPoint: .top, endPoint: .bottom)
+                LinearGradient(colors: [MotionBrand.lift, MotionBrand.royal], startPoint: .top, endPoint: .bottom)
                 if let image { Image(uiImage: image).resizable().scaledToFill() }
             }.frame(height: 98 * scale).clipped()
-            Text(item.name).font(IslandUI.font(14 * scale, bold: true)).foregroundStyle(IslandUI.navy).frame(maxWidth: .infinity, minHeight: 36 * scale)
+            Text(item.name).font(IslandUI.font(14 * scale, bold: true)).foregroundStyle(IslandUI.ink).frame(maxWidth: .infinity, minHeight: 36 * scale)
         }
         .frame(width: 112 * scale, height: 134 * scale)
-        .background(.white, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .background(IslandUI.card, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
         .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
         .overlay(alignment: .topTrailing) {
             if selected {
                 Image(systemName: "checkmark").font(.system(size: 12 * scale, weight: .black)).foregroundStyle(IslandUI.navy)
-                    .frame(width: 24 * scale, height: 24 * scale).background(IslandUI.lime, in: Circle()).overlay(Circle().strokeBorder(IslandUI.navy, lineWidth: 2)).padding(7)
+                    .frame(width: 24 * scale, height: 24 * scale).background(IslandUI.lime, in: Circle()).overlay(Circle().strokeBorder(IslandUI.ring, lineWidth: 2)).padding(7)
             }
         }
-        .overlay(RoundedRectangle(cornerRadius: 18, style: .continuous).strokeBorder(IslandUI.navy, lineWidth: selected ? 3.5 : 0))
+        .overlay(RoundedRectangle(cornerRadius: 18, style: .continuous).strokeBorder(IslandUI.ring, lineWidth: selected ? 3.5 : 0))
         .overlay(RoundedRectangle(cornerRadius: 22, style: .continuous).strokeBorder(IslandUI.lime, lineWidth: focused ? 5 : 0).padding(-5))
-        .shadow(color: IslandUI.navy.opacity(0.14), radius: 4, y: 2)
+        .shadow(color: IslandUI.shadow.opacity(0.14), radius: 4, y: 2)
         .task(id: key) { image = LockerThumbs.image(player, slot: item.slot, item: item) }
         .accessibilityElement(children: .ignore).accessibilityLabel("\(item.name) \(item.slot.title(for: sport))")
         .accessibilityAddTraits(selected ? [.isButton, .isSelected] : .isButton)
@@ -448,7 +452,7 @@ struct LockerTile: View {
     static func image(_ p: Player, slot: LockerSlot, item: LockerItem) -> UIImage? {
         let k = key(p, slot: slot, item: item)
         if let c = cache[k] { return c }
-        let c = CharacterModelPreview.Coordinator(cameraDistance: 3.1); c.update(p, sport: item.sports == [.golf] ? .golf : .tennis)
+        let c = CharacterModelPreview.Coordinator(cameraDistance: 3.1); c.update(p, sport: item.sports.count == 1 ? item.sports.first! : .tennis)
         c.framing = slot == .skin ? .body : slot == .shoes ? .feet : .racket; c.applyFraming()
         c.scene.rootNode.childNode(withName: "idleBall", recursively: true)?.removeFromParentNode()
         let r = SCNRenderer(device: nil, options: nil); r.scene = c.scene; r.pointOfView = c.camera

@@ -11,6 +11,10 @@ namespace GolfArcade.Hub.Menu
     {
         public string id, label; public RectTransform hit, face; public Action activate; public bool enabled = true; public float radius;
         public bool Visible => hit && hit.gameObject.activeInHierarchy;
+        /// The hover look (menu mock 10-28): called with the eased hover amount 0..1 while it changes; null = the old focus ring.
+        public Action<float> glow; public float lit;
+        /// Its stack: when one entry is lit the others dim (`dim`).
+        public List<MenuItem> group; public Action<bool> dim; internal object view;
     }
 
     /// The pointer menu's TV half (PLAN_PointerMenu.md, Brand Guide v1.0): one overlay canvas at 1920×1080 drawn over the plaza
@@ -27,12 +31,12 @@ namespace GolfArcade.Hub.Menu
         public event Action<string, string> Event;
 
         HubWorld world; MenuStage stage;
-        Canvas canvas; CanvasScaler scaler; RectTransform canvasRT, chrome, screensRoot, plates, fx;
+        Canvas canvas; CanvasScaler scaler; RectTransform canvasRT, chrome, screensRoot, plates, fx, scrims;
         readonly Dictionary<string, RectTransform> screens = new Dictionary<string, RectTransform>();
         readonly Dictionary<string, List<MenuItem>> screenItems = new Dictionary<string, List<MenuItem>>();
         readonly List<MenuItem> chromeItems = new List<MenuItem>();
-        RectTransform tabBar, backButton, phoneModal, joinSeat; MenuItem joinItem; Text phoneModalTitle;
-        readonly List<(MenuItem item, string screen, Image pill, Text label, ArcGraphic underline)> tabs = new List<(MenuItem, string, Image, Text, ArcGraphic)>();
+        RectTransform tabBar, backButton, phoneModal, joinSeat, nameChip, hint; MenuItem joinItem; Text phoneModalTitle, nameChipText; Image phoneScreen;
+        readonly List<(MenuItem item, string screen, Text label, RectTransform underline)> tabs = new List<(MenuItem, string, Text, RectTransform)>();
 
         /// A nested canvas: what moves every frame (plates, the cursor, the focus ring) re-batches only itself, not every screen.
         static void SubCanvas(RectTransform r, int order)
@@ -68,6 +72,7 @@ namespace GolfArcade.Hub.Menu
             scaler.referenceResolution = new Vector2(1920, 1080); scaler.matchWidthOrHeight = .5f;
             // everything sits in one 16:9 frame: the whole TV, or (no TV) the band at the top of the phone the plaza draws in
             canvasRT = BrandUi.Fill(go.transform, "Frame");
+            scrims = BrandUi.Fill(canvasRT, "Scrims"); BuildScrims();
             screensRoot = BrandUi.Fill(canvasRT, "Screens");
             plates = BrandUi.Fill(canvasRT, "Name plates"); SubCanvas(plates, 1);
             chrome = BrandUi.Fill(canvasRT, "Chrome");
@@ -98,139 +103,179 @@ namespace GolfArcade.Hub.Menu
             if (buildingFor != null) screenItems[buildingFor].Add(it); else chromeItems.Add(it);
             return it;
         }
-        MenuItem Button(Transform parent, string id, string label, float x, float y, float w, float h, BrandUi.Style style, Action activate, string sub = null)
+
+        // the left / right scrims (mock .scrim): ink .86 → .6 → clear over the left 40 %, clear → .55 → .8 over the right 40 %;
+        // the words left and the pop-ups right read over any venue, the hero in the middle is untouched
+        void BuildScrims()
         {
-            var box = BrandUi.Box(parent, label, x, y, w, h);
-            var (face, _, _) = BrandUi.Button(box, style, label, sub);
-            return Item(box, face, id, label, activate, h / 2);
+            BrandUi.Ramp(scrims, "Left", 0, 500, BrandUi.Ink(.86f), BrandUi.Ink(.6f));
+            BrandUi.Ramp(scrims, "Left fade", 500, 268, BrandUi.Ink(.6f), BrandUi.Ink(0));
+            BrandUi.Ramp(scrims, "Right fade", 1152, 307, BrandUi.Ink(0), BrandUi.Ink(.55f));
+            BrandUi.Ramp(scrims, "Right", 1459, 461, BrandUi.Ink(.55f), BrandUi.Ink(.8f));
+            // and a soft band under the top bar
+            var top = BrandUi.Box(scrims, "Top", 0, 0, 1920, 150).gameObject.AddComponent<Image>(); top.raycastTarget = false;
+            top.rectTransform.anchorMax = new Vector2(1, 1); top.rectTransform.offsetMin = new Vector2(0, -150); top.rectTransform.offsetMax = Vector2.zero;
+            GolfArcade.Tennis.UiGradient.On(top, BrandUi.Ink(.5f), BrandUi.Ink(0));
         }
 
         void BuildChrome()
         {
-            BrandUi.Wordmark(chrome, 72, 36);
-            // the tab bar: PLAZA · LOCKER · CLUBHOUSE (Deep Navy, radius 40, white border; the active tab a Bright pill, gold label, a small arc)
-            tabBar = BrandUi.Box(chrome, "Tab bar", 600, 36, 720, 96);
-            BrandUi.DropShadow(tabBar, 40);
-            BrandUi.Layer(tabBar, "Border", BrandColors.White, 0, 40);
-            BrandUi.Layer(tabBar, "Fill", BrandColors.NavyDeep, 5, 35);
+            // the bar (mock .bar, 5.6cqw): wordmark, PLAZA · LOCKER · CLUBHOUSE as words (the active one white on a gold skewed underline),
+            // the player's name and settings as small skewed chips top right
+            var mark = BrandUi.Wordmark(chrome, Left, 26, 46);
+            tabBar = BrandUi.Box(chrome, "Tabs", 0, 0, 1920, 108);
             string[] names = { "PLAZA", "LOCKER", "CLUBHOUSE" }; string[] go = { Home, Locker, Clubhouse };
+            float x = Left + mark.preferredWidth + 50;
             for (int i = 0; i < 3; i++)
             {
-                var box = BrandUi.Box(tabBar, names[i], 16 + i * 230f, 16, 228, 64);
+                var box = BrandUi.Box(tabBar, names[i], x, 22, 10, 64);
                 var face = BrandUi.Fill(box, "Face");
-                var pill = BrandUi.Layer(face, "Pill", BrandColors.Bright, 0, 32);
-                var label = BrandUi.Label(face, "Label", names[i], BrandUi.ExtraBoldItalic, 30, BrandColors.White, TextAnchor.MiddleCenter);
-                var ul = BrandUi.Box(face, "Arc", 54, 52, 120, 26); var arc = ArcGraphic.Add(ul, 205, 130, 6, new Color(1, .77f, .26f, 0), BrandColors.Gold, .3f);
+                var label = BrandUi.Word(BrandUi.Box(face, "Label", 12, 0, 10, 64), "Text", names[i], BrandUi.BoldItalic, 28, BrandUi.WhiteA(.62f));
+                float w = label.preferredWidth + 24; box.sizeDelta = new Vector2(w, 64);
+                var ul = BrandUi.Box(face, "Underline", 4, 50, w - 8, 6); BrandUi.Slant(ul, "Gold", BrandColors.Gold, 20); ul.pivot = new Vector2(0, .5f);
+                ul.anchoredPosition = new Vector2(4, -53); ul.localScale = new Vector3(0, 1, 1);
                 string target = go[i];
-                var item = Item(box, face, "tab-" + target, names[i], () => Go(target), 32);
-                tabs.Add((item, target, pill, label, arc));
+                var item = Item(box, face, "tab-" + target, names[i], () => Go(target), 0);
+                item.glow = k => { if (Active(target)) return; ul.localScale = new Vector3(k, 1, 1); label.color = BrandUi.WhiteA(Mathf.Lerp(.62f, 1, k)); };
+                tabs.Add((item, target, label, ul));
+                x += w + 22;
             }
-            var gear = BrandUi.Box(chrome, "Settings", 1760, 40, 88, 88);
-            var gearFace = BrandUi.Fill(gear, "Face"); BrandUi.DropShadow(gearFace, 28);
-            BrandUi.Layer(gearFace, "Tile", BrandColors.NavyDeep, 0, 28);
-            var glyph = BrandUi.Layer(gearFace, "Gear", BrandColors.White, 20, -1, BrandUi.Gear); glyph.preserveAspect = true;
-            Item(gear, gearFace, "desk-settings", "Settings", () => OpenPhone("desk-settings", "Settings"), 28);
-            backButton = BrandUi.Box(chrome, "Back", 72, 964, 230, 80);
-            var (backFace, backLabel, _) = BrandUi.Button(backButton, BrandUi.Style.Secondary, "BACK");
-            backLabel.fontSize = 32;
-            Item(backButton, backFace, "back", "Back", () => Back(), 40);
+            var gear = BrandUi.Chip(chrome, "Settings", RightEdge - 66, 30, 66, 50);
+            var gearFace = BrandUi.Fill(gear, "Face");
+            var glyph = BrandUi.Layer(BrandUi.Box(gearFace, "Gear", 19, 10, 30, 30), "Glyph", BrandColors.White, 0, -1, BrandUi.Gear); glyph.preserveAspect = true;
+            var gearItem = Item(gear, gearFace, "desk-settings", "Settings", () => OpenPhone("desk-settings", "Settings"), 0);
+            gearItem.glow = k => glyph.color = Color.Lerp(BrandColors.White, BrandColors.Gold, k);
+            nameChip = BrandUi.Chip(chrome, "Name", RightEdge - 66 - 18 - 160, 30, 160, 50);
+            nameChipText = BrandUi.Word(BrandUi.Box(nameChip, "Name", 22, 0, 10, 50), "Text", "", BrandUi.SemiBold, 24, BrandColors.White);
+            SetChipName(localName);
+
+            // the hint (mock .hint) in place of the BACK pill: Ⓐ SELECT  Ⓑ BACK; the B half is still the pointer's back item
+            hint = BrandUi.Box(chrome, "Hint", Left, 990, 600, 64);
+            BrandUi.FaceButton(hint, "A", 0, 14, 36, BrandColors.White, BrandColors.NavyInk);
+            var select = BrandUi.Word(BrandUi.Box(hint, "Select", 46, 0, 10, 64), "Text", "SELECT", BrandUi.SemiBold, 24, BrandUi.WhiteA(.8f));
+            backButton = BrandUi.Box(hint, "Back", 46 + select.preferredWidth + 22, 0, 10, 64);
+            var backFace = BrandUi.Fill(backButton, "Face");
+            BrandUi.FaceButton(backFace, "B", 10, 14, 36, BrandColors.White, BrandColors.NavyInk);
+            var backLabel = BrandUi.Word(BrandUi.Box(backFace, "Label", 56, 0, 10, 64), "Text", "BACK", BrandUi.SemiBold, 24, BrandUi.WhiteA(.8f));
+            backButton.sizeDelta = new Vector2(56 + backLabel.preferredWidth + 14, 64);
+            var backItem = Item(backButton, backFace, "back", "Back", () => Back(), 0);
+            backItem.glow = k => backLabel.color = Color.Lerp(BrandUi.WhiteA(.8f), BrandColors.Gold, k);
+
+            // the empty seat: "+ JOIN" beside the line-up (a dark skewed tile, white edge; gold when lit)
             joinSeat = BrandUi.Box(chrome, "Join", 0, 0, 104, 140);
             var joinFace = BrandUi.Box(joinSeat, "Face", 0, 0, 104, 104);
-            BrandUi.DropShadow(joinFace, 52);
-            BrandUi.Layer(joinFace, "Glow", new Color(BrandColors.Glow.r, BrandColors.Glow.g, BrandColors.Glow.b, .43f), -22, -1, BrandUi.Glow);
-            BrandUi.Layer(joinFace, "Border", BrandColors.White, 0, 52);
-            BrandUi.Layer(joinFace, "Fill", new Color(BrandColors.NavyDeep.r, BrandColors.NavyDeep.g, BrandColors.NavyDeep.b, .92f), 4, 48);
-            BrandUi.Layer(joinFace, "Plus", BrandColors.White, 26, -1, BrandUi.Plus).preserveAspect = true;
-            var joinLabel = BrandUi.Underlay(BrandUi.Label(BrandUi.Box(joinSeat, "Label", -40, 110, 184, 32), "Text", "JOIN", BrandUi.SemiBold, BrandType.Caption, BrandColors.White, TextAnchor.MiddleCenter));
-            joinItem = Item(joinSeat, joinFace, "board-invite", "Invite friends", () => OpenPhone("board-invite", "Invite friends"), 52);
+            var joinEdge = BrandUi.Slant(joinFace, "Edge", BrandUi.WhiteA(.7f), 10);
+            BrandUi.Slant(joinFace, "Fill", BrandUi.Ink(.62f), 10, 4);
+            BrandUi.Layer(joinFace, "Plus", BrandColors.White, 30, -1, BrandUi.Plus).preserveAspect = true;
+            BrandUi.Word(BrandUi.Box(joinSeat, "Label", -40, 110, 184, 32), "Text", "JOIN", BrandUi.SemiBold, BrandType.Caption, BrandColors.White, TextAnchor.MiddleCenter);
+            joinItem = Item(joinSeat, joinFace, "board-invite", "Invite friends", () => OpenPhone("board-invite", "Invite friends"), 0);
+            joinItem.glow = k => joinEdge.color = Color.Lerp(BrandUi.WhiteA(.7f), BrandColors.Gold, k);
+        }
+        bool Active(string tab) => tab == (Screen == Locker ? Locker : Screen == Clubhouse ? Clubhouse : Home);
+        void SetChipName(string name)
+        {
+            if (!nameChipText) return;
+            name = (name ?? "").ToUpperInvariant();
+            if (nameChipText.text == name) return;
+            nameChipText.text = name;
+            float w = nameChipText.preferredWidth + 44;
+            nameChip.sizeDelta = new Vector2(w, 50); nameChip.anchoredPosition = new Vector2(RightEdge - 66 - 18 - w, -30);
         }
 
         void BuildHome(RectTransform r)
         {
-            BrandUi.Headline(r, 72, 196, "Home", "Play or invite friends");
-            Button(r, "play", "PLAY NOW", 72, 560, 460, 96, BrandUi.Style.Primary, () => Go(Sport));
-            Button(r, "board-invite", "INVITE FRIENDS", 72, 684, 460, 88, BrandUi.Style.Secondary, () => OpenPhone("board-invite", "Invite friends"));
+            // one big stack (mock home): PLAY with its sports under it, then Invite friends — words, no boxes
+            var group = new List<MenuItem>();
+            float h = WordItem(r, "play", "PLAY", "PLAY NOW", "TENNIS · GOLF · BOWLING", Left, 250, BigSize, () => Go(Sport), group, minW: 480, big: true);
+            WordItem(r, "board-invite", "INVITE FRIENDS", "INVITE FRIENDS", "Game Center or a party code", Left, 250 + h + 8, WordSize, () => OpenPhone("board-invite", "Invite friends"), group);
         }
 
+        // ---- Sport: no flat field over the plaza any more (10-28): a dim, and three tall skewed lanes with each sport's venue art; the
+        // hovered lane widens (flex 1 → 2.1), lights its picture and shows its modes
+        const float LaneTop = 340, LaneH = 613, LaneGap = 25, LaneSkew = 8;
+        sealed class SportLane { public MenuItem item; public RectTransform box, name, maps; public RawImage pic; public Image frame; public ChipRow chips; public RectTransform chipsRoot; public float k; }
+        readonly List<SportLane> lanes = new List<SportLane>();
         void BuildSport(RectTransform r)
         {
-            // flat brand blue (cutouts sit on the brand field, Brand Guide §9): navyDeep -> royal by 24 %, the Lift spotlight, three echo arcs
-            var field = BrandUi.Layer(r, "Brand field", Color.white); UiGradientFlat(field);
-            var spot = BrandUi.Box(r, "Spotlight", 960 - 900, 626 - 560, 1800, 1120);
-            var s = spot.gameObject.AddComponent<Image>(); s.sprite = BrandUi.Glow; s.color = new Color(BrandColors.Lift.r, BrandColors.Lift.g, BrandColors.Lift.b, .55f); s.raycastTarget = false;
-            Echo(r, 1320, 960, 700, 480, 10, new Color(1, 1, 1, .08f));
-            Echo(r, 1460, 1080, 760, 540, 6, new Color(BrandColors.Gold.r, BrandColors.Gold.g, BrandColors.Gold.b, .10f));
-            Echo(r, 1600, 1200, 830, 600, 16, new Color(1, 1, 1, .05f));
-            BrandUi.Headline(r, 360, 130, "Play", "Pick a sport", 1200, TextAnchor.UpperCenter);
-            // three sports side by side (tennis · golf · bowling), each card slightly tilted the guide's way
-            SportCard(r, "sport-tennis", "Tennis", "Exhibition · Training · Local · Online", "tennis", 110, -2.5f, () => Go(TennisModes));
-            SportCard(r, "sport-golf", "Golf", "Round · Local · Online", "golf", 690, 1.5f, () => Go(GolfModes));
-            SportCard(r, "sport-bowling", "Bowling", "Exhibition · Local · Online", "bowling", 1270, -1.5f, () => Go(BowlingModes));
+            BrandUi.Layer(r, "Dim", BrandUi.Ink(.45f));
+            BrandUi.Headline(r, Left, 118, "Play", "Pick a sport", 900, TextAnchor.UpperLeft, 80);
+            AddLane(r, "sport-tennis", "Tennis", "RESORT · SKY TOWER · MAGMA CRATER", new[] { "EXHIBITION", "TRAINING", "LOCAL", "ONLINE" }, "tennis-resort", () => Go(TennisModes));
+            AddLane(r, "sport-golf", "Golf", "CLIFFSIDE · WILD ISLES · MAGMA OPEN", new[] { "ROUND", "LOCAL", "ONLINE" }, "golf-cliffside", () => Go(GolfModes));
+            AddLane(r, "sport-bowling", "Bowling", "CLUB · NEON · TIKI · MAGMA", new[] { "PLAY", "EXHIBITION", "LOCAL", "ONLINE" }, "bowling-neon", () => Go(BowlingModes));
+            LayoutLanes();
         }
-        static void UiGradientFlat(Image img)
+        void AddLane(RectTransform r, string id, string title, string maps, string[] modes, string art, Action go)
         {
-            // the background: Deep Navy at the top to Royal at 24 % of the height, then flat Royal
-            img.color = BrandColors.Royal;
-            var band = BrandUi.Box(img.transform, "Top band", 0, 0, 1920, 260).gameObject.AddComponent<Image>(); band.raycastTarget = false;
-            band.rectTransform.anchorMin = new Vector2(0, 1); band.rectTransform.anchorMax = new Vector2(1, 1); band.rectTransform.sizeDelta = new Vector2(0, 260);
-            GolfArcade.Tennis.UiGradient.On(band, BrandColors.NavyDeep, BrandColors.Royal);
+            var l = new SportLane();
+            l.box = BrandUi.Box(r, title, Left, LaneTop, 580, LaneH);
+            var face = BrandUi.Fill(l.box, "Face");
+            var shadow = BrandUi.Skewed(BrandUi.DropShadow(face, 0), LaneSkew); shadow.color = BrandUi.Ink(.5f);
+            l.frame = BrandUi.Slant(face, "Frame", BrandUi.WhiteA(.22f), LaneSkew, -4);
+            var (mask, pic) = PictureCard(face, LaneSkew, false, .35f);
+            l.pic = pic; pic.texture = Resources.Load<Texture2D>("Menu/Maps/" + art);
+            // words bottom-left, upright (the mock counter-skews them): the venues, the sport (scaled, not re-sized: no new glyph sizes), the modes
+            l.chipsRoot = BrandUi.Box(mask, "Modes", 64, LaneH - 36 - 34, 900, 34);
+            l.chips = Chips(l.chipsRoot, 0, 0, 34, modes.Length); l.chips.Set(modes);
+            l.name = BrandUi.Word(BrandUi.Box(mask, "Sport", 0, 0, 800, 120), "Text", title, BrandUi.ExtraBoldItalic, 116, BrandColors.White, TextAnchor.LowerLeft).rectTransform.parent as RectTransform;
+            l.name.anchorMin = l.name.anchorMax = Vector2.zero; l.name.pivot = Vector2.zero;
+            l.maps = BrandUi.Word(BrandUi.Box(mask, "Venues", 0, 0, 900, 28), "Text", maps, BrandUi.SemiBold, 22, BrandColors.Gold).rectTransform.parent as RectTransform;
+            l.maps.anchorMin = l.maps.anchorMax = Vector2.zero; l.maps.pivot = Vector2.zero;
+            l.item = Item(l.box, face, id, title, go, 0);
+            l.item.glow = k => { l.k = k; LayoutLanes(); };
+            lanes.Add(l);
         }
-        static void Echo(RectTransform r, float w, float h, float _, float __, float width, Color c)
+        void LayoutLanes()
         {
-            var box = BrandUi.Box(r, "Echo", 960 - w / 2, 1060 - h / 2, w, h);
-            var a = ArcGraphic.Add(box, 18, 144, width, c, c, 1); a.radius = Vector2.one;
-        }
-        void SportCard(RectTransform r, string id, string title, string sub, string art, float x, float tilt, Action go)
-        {
-            const float W = 540;   // three cards across the 1920 frame
-            var box = BrandUi.Box(r, title, x, 360, W, W);
-            var face = BrandUi.Fill(box, "Face");
-            BrandUi.DropShadow(face, 0);
-            BrandUi.Layer(face, "Frame", BrandColors.White);
-            var inner = BrandUi.Layer(face, "Field", BrandColors.Royal, 10);
-            GolfArcade.Tennis.UiGradient.On(inner, BrandColors.NavyDeep, BrandColors.Royal);
-            var glow = BrandUi.Box(face, "Spot", 36, 130, W - 80, 390).gameObject.AddComponent<Image>(); glow.sprite = BrandUi.Glow; glow.color = new Color(BrandColors.Lift.r, BrandColors.Lift.g, BrandColors.Lift.b, .7f); glow.raycastTarget = false;
-            var pic = BrandUi.Box(face, "Art", (W - 335) / 2, 145, 335, 335).gameObject.AddComponent<Image>(); pic.sprite = GolfArcade.UI.Club.Art(art); pic.preserveAspect = true; pic.raycastTarget = false;
-            BrandUi.Underlay(BrandUi.Label(BrandUi.Box(face, "Title", 34, 24, W - 60, 82), "Text", title, BrandUi.ExtraBoldItalic, 68, BrandColors.White, TextAnchor.UpperLeft));
-            BrandUi.Underlay(BrandUi.Label(BrandUi.Box(face, "Sub", 34, 102, W - 60, 34), "Text", sub, BrandUi.MediumItalic, 24, BrandColors.N300, TextAnchor.UpperLeft));
-            box.localRotation = Quaternion.Euler(0, 0, -tilt);   // the guide's tilt (+ counter-clockwise on screen)
-            Item(box, face, id, title, go, 0);
+            float sum = 0; foreach (var l in lanes) sum += 1 + 1.1f * l.k;
+            float total = RightEdge - Left - (lanes.Count - 1) * LaneGap, x = Left;
+            foreach (var l in lanes)
+            {
+                float w = total * (1 + 1.1f * l.k) / sum;
+                l.box.anchoredPosition = new Vector2(x, -LaneTop); l.box.sizeDelta = new Vector2(w, LaneH);
+                x += w + LaneGap;
+                Cover(l.pic, w + 2 * (Mathf.Tan(LaneSkew * Mathf.Deg2Rad) * LaneH / 2 + 4), LaneH);
+                var tint = Color.Lerp(new Color(.66f, .66f, .7f), Color.white, l.k); if (l.pic.color != tint) l.pic.color = tint;
+                var edge = l.k > .35f ? BrandColors.Gold : BrandUi.WhiteA(.22f); if (l.frame.color != edge) l.frame.color = edge;
+                // the sport's name grows 4.2cqw → 6cqw as it widens (by scale), the venues ride on top of it
+                float s = Mathf.Lerp(.7f, 1f, l.k), bottom = 36 + 34 + 14;
+                l.name.localScale = new Vector3(s, s, 1); l.name.anchoredPosition = new Vector2(52, bottom);
+                l.maps.anchoredPosition = new Vector2(60, bottom + 120 * s + 10);
+                bool modes = l.k > .5f; if (l.chipsRoot.gameObject.activeSelf != modes) l.chipsRoot.gameObject.SetActive(modes);
+            }
         }
 
-        readonly Dictionary<string, (MenuItem item, RectTransform box, string label, string sub, bool solo)> modeRows = new Dictionary<string, (MenuItem, RectTransform, string, string, bool)>();
+        readonly Dictionary<string, (MenuItem item, string label, string sub, bool solo)> modeRows = new Dictionary<string, (MenuItem, string, string, bool)>();
         void BuildModes(RectTransform r, string sport)
         {
             bool tennis = sport == "tennis", bowling = sport == "bowling";
-            BrandUi.Headline(r, 72, 196, tennis ? "Tennis" : bowling ? "Bowling" : "Golf", "Pick a mode");
+            BrandUi.Headline(r, Left, 132, tennis ? "Tennis" : bowling ? "Bowling" : "Golf", "Pick a mode", 720);
             var rows = bowling
                 ? new[] { ("bay-bowling-play", "PLAY", "Four venues · 10 frames", true), ("bay-bowling-exhibition", "EXHIBITION", "Bowl against the computer", true), ("bay-bowling-pass", "LOCAL PLAY", "Same room · one phone, up to 4 players", true), ("bay-bowling-online", "ONLINE", "Play friends online", false) }
                 : tennis
                 ? new[] { ("bay-tennis-exhibition", "EXHIBITION", "Custom match vs the CPU", true), ("bay-tennis-training", "TRAINING", "Rally with the coach", true), ("bay-tennis-nearby", "LOCAL PLAY", "Same room · two phones, one TV", true), ("bay-tennis-online", "ONLINE", "Play friends online", false) }
                 : new[] { ("bay-golf-round", "ROUND", "Play a course, 9 or 18 holes", true), ("bay-golf-pass", "LOCAL PLAY", "Same room · one phone, passed around", true), ("bay-golf-online", "ONLINE", "Play friends online", false) };
+            var group = new List<MenuItem>(); float y = ListTop;
             for (int i = 0; i < rows.Length; i++)
             {
                 var (id, label, sub, solo) = rows[i];
-                var box = BrandUi.Box(r, label, 72, 470 + i * 124f, 640, 108);
                 string key = id, name = label;
-                var item = Item(box, null, id, label, () => OpenMode(key, Title(name)), 54);
-                modeRows[id] = (item, box, label, sub, solo);
+                y += WordItem(r, id, label, label, sub, Left, y, WordSize, () => OpenMode(key, Title(name)), group) + 6;
+                modeRows[id] = (group[group.Count - 1], label, sub, solo);
             }
             BuildPreview(r, sport);
         }
-        /// (Re)draws the mode rows: the first solo mode is the gold primary, unless the party is here (then Online, and solo is locked).
+        /// (Re)words the mode list: with the party here the solo modes lock (dim, "play online") and Online is the way on.
         void StyleModes()
         {
             foreach (var kv in modeRows)
             {
-                var (item, box, label, sub, solo) = kv.Value;
-                bool first = kv.Key == "bay-tennis-exhibition" || kv.Key == "bay-golf-round" || kv.Key == "bay-bowling-play";
+                var (item, label, sub, solo) = kv.Value;
                 bool locked = SoloLocked && solo;
-                var style = locked ? BrandUi.Style.RowDisabled : (SoloLocked ? !solo : first) ? BrandUi.Style.RowPrimary : BrandUi.Style.Row;
-                string want = style.ToString();
-                if (box.name == label + "|" + want) continue;
-                for (int c = box.childCount - 1; c >= 0; c--) DestroyImmediate(box.GetChild(c).gameObject);
-                var (face, _, _) = BrandUi.Button(box, style, label, locked ? "Your party is here: play online" : sub);
-                box.name = label + "|" + want; item.face = face; item.enabled = !locked;
+                if (!(item.view is Word w)) continue;
+                string want = locked ? "Your party is here: play online" : sub;
+                if (w.off == locked && w.sub.text == want) continue;
+                w.off = locked; w.sub.text = want; item.enabled = !locked;
+                FitWord(item); w.Paint();
             }
         }
         static string Title(string upper) => upper.Length == 0 ? upper : upper.Substring(0, 1) + upper.Substring(1).ToLowerInvariant();
@@ -248,55 +293,57 @@ namespace GolfArcade.Hub.Menu
             ("emote-mirror", "EMOTES", null, "emote-mirror", "Emotes"),
         };
         string lockerSlot = "shirt"; Text swatchKicker, swatchTitle; readonly Dictionary<string, string> look = new Dictionary<string, string> { { "shirt", "" }, { "shorts", "" }, { "accent", "" }, { "racket", "" } };
-        readonly List<(MenuItem item, Image ring, string hex)> swatches = new List<(MenuItem, Image, string)>();
-        readonly List<(MenuItem item, Image pill, Text label, string slot)> rail = new List<(MenuItem, Image, Text, string)>();
+        sealed class Swatch { public MenuItem item; public RectTransform art; public GameObject ring; public string hex; public bool on; public float k; public void Size() { float s = Mathf.Max(on ? 1.08f : 1, 1 + .1f * k); art.localScale = new Vector3(s, s, 1); } }
+        readonly List<Swatch> swatches = new List<Swatch>();
+        readonly List<(MenuItem item, Word word, string slot)> rail = new List<(MenuItem, Word, string)>();
         void BuildLocker(RectTransform r)
         {
-            BrandUi.Headline(r, 72, 196, "Locker", "Change your look");
-            var panel = BrandUi.Panel(r, "Rail", 72, 450, 420, 16 * 2 + 7 * 64 + 6 * 8);
+            BrandUi.Headline(r, Left, 132, "Locker", "Your look", 720);
+            // the slots as a word rail (mock .rail, 2.3cqw); the ones that open on the phone say so
+            var group = new List<MenuItem>(); float y = ListTop;
             for (int i = 0; i < LockerRail.Length; i++)
             {
                 var (id, label, slot, route, title) = LockerRail[i];
-                var box = BrandUi.Box(panel, label, 16, 16 + i * 72f, 388, 64);
-                var face = BrandUi.Fill(box, "Face");
-                var pill = BrandUi.Layer(face, "Pill", BrandColors.Bright, 0, 32);
-                var text = BrandUi.Label(face, "Label", label, BrandUi.ExtraBoldItalic, 30, BrandColors.White, TextAnchor.MiddleLeft);
-                text.rectTransform.offsetMin = new Vector2(24, 0);
                 string s = slot, rt = route, t = Title(label);
-                var item = Item(box, face, id, t, () => { if (s != null) SelectSlot(s); else OpenPhone(rt, t); }, 32);
-                rail.Add((item, pill, text, slot));
+                y += WordItem(r, id, label, t, null, Left, y, RailSize, () => { if (s != null) SelectSlot(s); else OpenPhone(rt, t); }, group, phone: route != null) + 4;
+                rail.Add((group[group.Count - 1], (Word)group[group.Count - 1].view, slot));
             }
-            var sw = BrandUi.Panel(r, "Swatches", 1440, 300, 410, 30 * 2 + 92 + 22 + 4 * 72 + 3 * 18 + 6);
-            swatchKicker = BrandUi.Label(BrandUi.Box(sw, "Kicker", 30, 26, 350, 30), "Text", "SHIRT", BrandUi.SemiBold, BrandType.HudLabel, BrandColors.N300, TextAnchor.MiddleLeft);
-            swatchTitle = BrandUi.Label(BrandUi.Box(sw, "Title", 30, 58, 350, 60), "Text", "Shirt colour", BrandUi.BoldItalic, BrandType.Heading, BrandColors.White, TextAnchor.MiddleLeft);
+            // big skewed swatches right of the hero (mock .swatches: 5 across, the picked one gold-ringed and up 8 %)
+            const float X = 1336, W = 520, Cell = 90, Gap = 17;
+            swatchKicker = BrandUi.Word(BrandUi.Box(r, "Kicker", X, 326, W, 30), "Text", "SHIRT", BrandUi.SemiBold, 24, BrandColors.Gold);
+            swatchTitle = BrandUi.Word(BrandUi.Box(r, "Title", X, 358, W, 64), "Text", "Shirt colour", BrandUi.ExtraBoldItalic, 54, BrandColors.White);
             for (int i = 0; i < Palette.Length; i++)
             {
                 var (name, hex) = Palette[i];
-                int col = i % 4, row = i / 4;
-                var box = BrandUi.Box(sw, name, 30 + col * 90f, 140 + row * 90f, 72, 72);
+                int col = i % 5, row = i / 5;
+                var box = BrandUi.Box(r, name, X + 6 + col * (Cell + Gap), 446 + row * (Cell + Gap), Cell, Cell);
                 var face = BrandUi.Fill(box, "Face");
-                var ring = BrandUi.Layer(face, "Ring", BrandColors.Gold, -10, 46); ring.gameObject.SetActive(false);
-                BrandUi.Layer(face, "Gap", BrandColors.NavyDeep, -4, 40);
-                BrandUi.Layer(face, "Edge", BrandColors.White, 0, 36);
-                var fill = BrandUi.Layer(face, "Colour", hex.Length == 0 ? BrandColors.N700 : BrandColors.FromHex("#" + hex), 4, 32);
-                if (hex.Length == 0) BrandUi.Label(fill.transform, "Kit", "KIT", BrandUi.SemiBold, 22, BrandColors.White, TextAnchor.MiddleCenter);
+                var sw = new Swatch { hex = hex };
+                var ring = BrandUi.Fill(face, "Ring"); sw.ring = ring.gameObject;
+                BrandUi.Slant(ring, "Gold", BrandColors.Gold, 10, -10); BrandUi.Slant(ring, "Gap", BrandUi.Ink(.85f), 10, -5);
+                sw.art = BrandUi.Fill(face, "Art");
+                BrandUi.Skewed(BrandUi.DropShadow(sw.art, 0), 10).color = BrandUi.Ink(.35f);
+                BrandUi.Slant(sw.art, "Edge", BrandUi.WhiteA(.4f), 10);
+                BrandUi.Slant(sw.art, "Colour", hex.Length == 0 ? BrandUi.Ink(.75f) : BrandColors.FromHex("#" + hex), 10, 3);
+                if (hex.Length == 0) BrandUi.Word(sw.art, "Kit", "KIT", BrandUi.ExtraBold, 24, BrandColors.White, TextAnchor.MiddleCenter);
                 string h = hex;
-                var item = Item(box, face, "swatch-" + name.ToLowerInvariant(), name, () => PickColour(h), 36);
-                swatches.Add((item, ring, hex));
+                sw.item = Item(box, face, "swatch-" + name.ToLowerInvariant(), name, () => PickColour(h), 0);
+                sw.item.glow = k => { sw.k = k; sw.Size(); };
+                swatches.Add(sw);
             }
             SelectSlot("shirt");
         }
         void SelectSlot(string slot)
         {
             lockerSlot = slot;
-            foreach (var (item, pill, label, s) in rail) { bool on = s == slot; pill.gameObject.SetActive(on); label.color = on ? BrandColors.Gold : BrandColors.White; }
+            foreach (var (item, word, s) in rail) { bool on = s == slot && s != null; if (word.picked != on) { word.picked = on; word.Paint(); } }
             foreach (var (id, label, s, _, title) in LockerRail) if (s == slot) { swatchKicker.text = label; swatchTitle.text = title; }
             RefreshSwatches();
         }
         void RefreshSwatches()
         {
             look.TryGetValue(lockerSlot, out var cur); cur = (cur ?? "").TrimStart('#').ToUpperInvariant();
-            foreach (var (item, ring, hex) in swatches) ring.gameObject.SetActive(hex == cur);
+            foreach (var sw in swatches) { sw.on = sw.hex == cur; sw.ring.SetActive(sw.on); sw.Size(); }
         }
         void PickColour(string hex)
         {
@@ -320,49 +367,63 @@ namespace GolfArcade.Hub.Menu
 
         void BuildClubhouse(RectTransform r)
         {
-            BrandUi.Headline(r, 72, 196, "Clubhouse", "Friends, trophies and help");
-            var rows = new[] { ("board-invite", "INVITE FRIENDS", "Game Center or a party code", BrandUi.Style.RowPrimary), ("screen-howto", "HOW TO PLAY", "Tennis, golf and bowling basics", BrandUi.Style.Row),
-                               ("shelf-trophies", "TROPHIES", "Your records and trophies", BrandUi.Style.Row), ("mailbox-feedback", "FEEDBACK", "Send the team a note", BrandUi.Style.Row) };
-            for (int i = 0; i < rows.Length; i++)
+            BrandUi.Headline(r, Left, 132, "Clubhouse", "Friends & help", 720);
+            var rows = new[] { ("board-invite", "INVITE FRIENDS", "Game Center or a party code"), ("screen-howto", "HOW TO PLAY", "Tennis, golf and bowling basics"),
+                               ("shelf-trophies", "TROPHIES", "Your records and trophies"), ("mailbox-feedback", "FEEDBACK", "Send the team a note") };
+            var group = new List<MenuItem>(); float y = ListTop;
+            foreach (var (id, label, sub) in rows)
             {
-                var (id, label, sub, style) = rows[i];
                 string key = id, t = Title(label);
-                Button(r, id, label, 72, 470 + i * 124f, 640, 108, style, () => OpenPhone(key, t), sub);
+                y += WordItem(r, id, label, label, sub, Left, y, WordSize, () => OpenPhone(key, t), group) + 6;
             }
         }
 
-        // ---- Loading: the match builds behind the line-up; the arc loader, who is ready, START when it is built (solo / local)
-        RectTransform loaderSpin; Text loadTitle, loadSub, holdNote; RectTransform startBox; MenuItem startItem; RectTransform rowsRoot; RectTransform banner;
+        // ---- Loading: the match builds behind the line-up. Left: who is in, SPORT · LOADING, the mode's name big, what you picked, a
+        // skewed gold bar (START under it when it waits for you); right: the venue you are about to play. Built: READY! pops in its place.
+        Text loadTitle, loadSub, loadKicker, holdNote, tipTitle, tipLine; RawImage tipPic; RectTransform loadBlock, loadBar, loadFill, startBox, rowsRoot, banner;
+        MenuItem startItem; float barShown = -1;
         readonly List<(Text name, Text state, Image dot)> partyRows = new List<(Text, Text, Image)>();
         void BuildLoading(RectTransform r)
         {
-            BrandUi.Headline(r, 72, 196, "Loading", "Your match is on its way");
-            var panel = BrandUi.Panel(r, "Loading", 72, 500, 640, 450);
-            var ringBox = BrandUi.Box(panel, "Ring", 34, 34, 84, 84);
-            ArcGraphic.Add(BrandUi.Fill(ringBox, "Track"), 0, 360, 6, new Color(1, 1, 1, .18f), new Color(1, 1, 1, .18f), 1).radius = new Vector2(.82f, .82f);
-            loaderSpin = BrandUi.Fill(ringBox, "Spin");
-            ArcGraphic.Add(loaderSpin, 0, 140, 8, new Color(1, 1, 1, 0), BrandColors.White, .15f).radius = new Vector2(.82f, .82f);
-            loadTitle = BrandUi.Label(BrandUi.Box(panel, "Title", 140, 30, 470, 60), "Text", "Loading the court", BrandUi.BoldItalic, BrandType.Heading, BrandColors.White, TextAnchor.MiddleLeft);
-            loadSub = BrandUi.Label(BrandUi.Box(panel, "Sub", 140, 88, 470, 34), "Text", "", BrandUi.Medium, BrandType.Caption, BrandColors.N300, TextAnchor.MiddleLeft);
-            BrandUi.Layer(BrandUi.Box(panel, "Rule", 34, 140, 572, 3), "Line", new Color(1, 1, 1, .18f));
-            rowsRoot = BrandUi.Box(panel, "Players", 34, 156, 572, 160);
+            rowsRoot = BrandUi.Box(r, "Players", Left, 420, 640, 4 * 46f);
             for (int i = 0; i < 4; i++)
             {
-                var row = BrandUi.Box(rowsRoot, "Player " + i, 0, i * 52f, 572, 48);
-                var dotBox = BrandUi.Box(row, "Dot", 0, 2, 44, 44); var dot = BrandUi.Layer(dotBox, "Fill", BrandColors.Glow, 0, 22);
-                var name = BrandUi.Label(BrandUi.Box(row, "Name", 60, 0, 340, 48), "Text", "", BrandUi.Medium, BrandType.Body, BrandColors.White, TextAnchor.MiddleLeft);
-                var state = BrandUi.Label(BrandUi.Box(row, "State", 330, 0, 242, 48), "Text", "", BrandUi.SemiBold, BrandType.HudLabel, BrandColors.Success, TextAnchor.MiddleRight);
+                var row = BrandUi.Box(rowsRoot, "Player " + i, 0, i * 46f, 640, 40);
+                BrandUi.Slant(row, "Fill", BrandUi.Ink(.5f)).rectTransform.offsetMax = new Vector2(-180, 0);
+                var dotBox = BrandUi.Box(row, "Dot", 14, 9, 22, 22); var dot = BrandUi.Layer(dotBox, "Fill", BrandColors.Glow, 0, 11);
+                var name = BrandUi.Word(BrandUi.Box(row, "Name", 48, 0, 300, 40), "Text", "", BrandUi.SemiBold, 26, BrandColors.White);
+                var state = BrandUi.Word(BrandUi.Box(row, "State", 300, 0, 140, 40), "Text", "", BrandUi.SemiBold, 22, BrandColors.Success, TextAnchor.MiddleRight);
                 partyRows.Add((name, state, dot)); row.gameObject.SetActive(false);
             }
-            startBox = BrandUi.Box(panel, "Start", 34, 330, 572, 96);
-            holdNote = BrandUi.Label(BrandUi.Box(panel, "Note", 34, 330, 572, 96), "Text", "Starting when everyone is in", BrandUi.MediumItalic, BrandType.Body, BrandColors.N300, TextAnchor.MiddleCenter);
-            startItem = Item(startBox, null, "start", "Start match", PressStart, 48);
+            loadBlock = BrandUi.Box(r, "Title block", 0, 0, 1920, 1080);
+            loadKicker = BrandUi.Word(BrandUi.Box(loadBlock, "Kicker", Left + 4, 612, 900, 32), "Text", "", BrandUi.SemiBold, 26, BrandColors.Gold);
+            loadTitle = BrandUi.Ink(BrandUi.Word(BrandUi.Box(loadBlock, "Title", Left, 640, 1000, 124), "Text", "", BrandUi.ExtraBoldItalic, 108, BrandColors.White));
+            loadSub = BrandUi.Word(BrandUi.Box(r, "Sub", Left + 4, 770, 700, 40), "Text", "", BrandUi.Medium, 30, new Color(.863f, .89f, .949f));
+            // the centred hero stands from x ~800: a long line shrinks to stay left of it rather than run across the legs
+            loadSub.horizontalOverflow = HorizontalWrapMode.Wrap; loadSub.resizeTextForBestFit = true; loadSub.resizeTextMinSize = 20; loadSub.resizeTextMaxSize = 30;
+            // the bar (mock .arcbar, 30cqw × .7cqw, skewed 20°): a white track, the gold fill grows from its left
+            loadBar = BrandUi.Box(r, "Bar", Left + 6, 826, 576, 14);
+            BrandUi.Slant(loadBar, "Track", BrandUi.WhiteA(.2f), 20);
+            loadFill = BrandUi.Box(loadBar, "Fill", 0, 0, 0, 14);
+            HGradient.On(BrandUi.Slant(loadFill, "Gold", Color.white, 20), BrandColors.Gold, new Color(1, .906f, .627f));
+            startBox = BrandUi.Box(r, "Start", Left, 862, 400, 84);
+            holdNote = BrandUi.Word(BrandUi.Box(r, "Note", Left + 4, 870, 900, 60), "Text", "Starting when everyone is in", BrandUi.MediumItalic, 30, BrandUi.WhiteA(.78f));
+            startItem = Item(startBox, null, "start", "Start match", PressStart, 0);
+            startItem.glow = k => { if (startItem.face) startItem.face.anchoredPosition = new Vector2(Nudge * .6f * k, 0); };
             StyleStart(false);
-            banner = BrandUi.Box(r, "Ready banner", 1010, 30, 860, 210); banner.gameObject.SetActive(false);
-            var arcBox = BrandUi.Box(banner, "Arc", 120, 0, 620, 110); ArcGraphic.Add(arcBox, 205, 115, 14, new Color(1, 1, 1, 0), BrandColors.White, .15f).radius = new Vector2(1, 1.6f);
-            var word = BrandUi.Label(BrandUi.Box(banner, "Word", 0, 40, 860, 170), "Text", "READY!", BrandUi.ExtraBoldItalic, BrandType.Display, BrandColors.Gold, TextAnchor.MiddleCenter);
-            var o = word.gameObject.AddComponent<Outline>(); o.effectColor = BrandColors.NavyDeep; o.effectDistance = new Vector2(3, -3);
-            for (int i = 1; i <= 5; i++) { var sh = word.gameObject.AddComponent<Shadow>(); sh.effectColor = BrandColors.NavyDeep; sh.effectDistance = new Vector2(0, -2 * i); }
+            // READY! (mock .ready, 11cqw gold, a navy drop): pops where the title was
+            banner = BrandUi.Box(r, "Ready banner", Left, 520, 1000, 250); banner.pivot = new Vector2(0, .5f); banner.anchoredPosition = new Vector2(Left, -645);
+            var word = BrandUi.Word(banner, "Word", "READY!", BrandUi.ExtraBoldItalic, 168, BrandColors.Gold);
+            foreach (var sh in word.GetComponents<Shadow>()) sh.enabled = false;
+            var drop = word.gameObject.AddComponent<Shadow>(); drop.effectColor = BrandColors.NavyDeep; drop.effectDistance = new Vector2(0, -10);
+            var o = word.gameObject.AddComponent<Outline>(); o.effectColor = BrandColors.ShadowInk; o.effectDistance = new Vector2(3, -3);
+            banner.gameObject.SetActive(false);
+            // the venue card right of the hero (mock .tipcard, 30cqw × 16.9cqw)
+            var tip = BrandUi.Box(r, "Venue", RightEdge - 576, 192, 576, 324);
+            BrandUi.Skewed(BrandUi.DropShadow(tip, 0), 7, true).color = BrandUi.Ink(.45f);
+            var (mask, pic) = PictureCard(tip, 7.4f, true, .45f); tipPic = pic;
+            tipTitle = BrandUi.Word(BrandUi.Box(mask, "Title", 50, 220, 500, 50), "Text", "", BrandUi.ExtraBoldItalic, 44, BrandColors.White);
+            tipLine = BrandUi.Label(BrandUi.Box(mask, "Line", 52, 270, 470, 40), "Text", "", BrandUi.Medium, 24, new Color(.863f, .89f, .949f), TextAnchor.UpperLeft);
         }
         bool startReady; string startStyle;
         void StyleStart(bool ready)
@@ -372,19 +433,24 @@ namespace GolfArcade.Hub.Menu
             startBox.gameObject.SetActive(holding); holdNote.gameObject.SetActive(!holding);
             if (startStyle == want) return; startStyle = want;
             for (int c = startBox.childCount - 1; c >= 0; c--) DestroyImmediate(startBox.GetChild(c).gameObject);
+            startBox.sizeDelta = new Vector2(400, 84);
             if (!holding) return;
-            var (face, _, _) = BrandUi.Button(startBox, ready ? BrandUi.Style.Primary : BrandUi.Style.Disabled, ready ? "START MATCH" : "WAITING FOR PLAYERS");
+            var (face, _) = BrandUi.GoButton(startBox, ready ? "START MATCH" : "WAITING FOR PLAYERS", ready);
             startItem.face = face; startItem.enabled = ready;
         }
 
-        // ---- phone modal: a detail screen is open on the leader's phone
+        // ---- phone modal: a detail screen is open on the leader's phone — the whole scene dims, a big phone pulses, its title, gold caption
         void BuildPhoneModal()
         {
             phoneModal = BrandUi.Fill(fx, "Phone modal");
-            BrandUi.Layer(phoneModal, "Scrim", new Color(BrandColors.NavyInk.r, BrandColors.NavyInk.g, BrandColors.NavyInk.b, .6f));
-            var panel = BrandUi.Panel(phoneModal, "Panel", 610, 380, 700, 260);
-            phoneModalTitle = BrandUi.Label(BrandUi.Box(panel, "Title", 40, 50, 620, 70), "Text", "", BrandUi.BoldItalic, BrandType.Heading, BrandColors.White, TextAnchor.MiddleCenter);
-            BrandUi.Label(BrandUi.Box(panel, "Body", 40, 140, 620, 50), "Text", "Finish on your phone", BrandUi.Medium, BrandType.Body, BrandColors.N300, TextAnchor.MiddleCenter);
+            BrandUi.Layer(phoneModal, "Dim", BrandUi.Ink(.66f));
+            var phone = BrandUi.Box(phoneModal, "Phone", 960 - 67, 330, 134, 230);
+            BrandUi.Layer(phone, "Body", BrandColors.White, 0, 26);
+            BrandUi.Layer(phone, "Glass", BrandColors.NavyInk, 8, 19);
+            phoneScreen = BrandUi.Layer(BrandUi.Box(phone, "Screen", 22, 30, 90, 142), "Gold", BrandColors.Gold, 0, 8);
+            BrandUi.Layer(BrandUi.Box(phone, "Home", 59, 192, 16, 16), "Dot", BrandColors.White, 0, 8);
+            phoneModalTitle = BrandUi.Ink(BrandUi.Word(BrandUi.Box(phoneModal, "Title", 160, 586, 1600, 96), "Text", "", BrandUi.ExtraBoldItalic, 80, BrandColors.White, TextAnchor.MiddleCenter));
+            BrandUi.Word(BrandUi.Box(phoneModal, "Body", 160, 690, 1600, 40), "Text", "FINISH ON YOUR PHONE", BrandUi.SemiBold, 30, BrandColors.Gold, TextAnchor.MiddleCenter);
             phoneModal.gameObject.SetActive(false);
         }
 
@@ -397,10 +463,10 @@ namespace GolfArcade.Hub.Menu
             for (int i = 0; i < 4; i++)
             {
                 var root = BrandUi.Box(plates, "Plate " + i, 0, 0, 300, 56);
+                // the mock's plate: a dark skewed chip on a gold underline
                 var pill = BrandUi.Fill(root, "Pill");
-                BrandUi.DropShadow(pill, 28);
-                BrandUi.Layer(pill, "Border", BrandColors.White, 0, 28);
-                BrandUi.Layer(pill, "Fill", new Color(BrandColors.NavyDeep.r, BrandColors.NavyDeep.g, BrandColors.NavyDeep.b, .92f), 4, 24);
+                BrandUi.Slant(pill, "Fill", BrandUi.Ink(.74f));
+                var ul = BrandUi.Slant(pill, "Gold", BrandColors.Gold); ul.rectTransform.offsetMin = new Vector2(-6.5f, 0); ul.rectTransform.offsetMax = new Vector2(-6.5f, -51);
                 var dotBox = BrandUi.Box(pill, "Dot", 8, 8, 40, 40); var dot = BrandUi.Layer(dotBox, "Fill", Color.white, 0, 20);
                 var num = BrandUi.Label(dotBox, "Num", (i + 1).ToString(), BrandUi.ExtraBold, 24, BrandColors.NavyInk, TextAnchor.MiddleCenter);
                 var name = BrandUi.Label(BrandUi.Box(pill, "Name", 58, 0, 160, 56), "Text", "", BrandUi.SemiBold, 26, BrandColors.White, TextAnchor.MiddleLeft);
@@ -412,6 +478,7 @@ namespace GolfArcade.Hub.Menu
         public void SetIdentity(string name, int colour, string tag)
         {
             localName = string.IsNullOrEmpty(name) ? "You" : name; localColour = GolfArcade.Hub.HubRemotes.PartyColours[Mathf.Abs(colour) % 4]; localTag = tag ?? "";
+            SetChipName(localName);
         }
         public void SetFriendTag(string id, string tag) { if (string.IsNullOrEmpty(tag)) friendTags.Remove(id); else friendTags[id] = tag; }
         void UpdatePlates()
@@ -474,20 +541,27 @@ namespace GolfArcade.Hub.Menu
         {
             Screen = screen; ScreenChanges++;
             foreach (var kv in screens) kv.Value.gameObject.SetActive(kv.Key == screen);
-            bool root = screen == Home || screen == Locker || screen == Clubhouse;
-            tabBar.gameObject.SetActive(root);
-            backButton.gameObject.SetActive(!root);
-            foreach (var (item, target, pill, label, arc) in tabs) { bool on = target == screen; pill.gameObject.SetActive(on); label.color = on ? BrandColors.Gold : BrandColors.White; arc.gameObject.SetActive(on); }
-            if (screen == TennisModes || screen == GolfModes) { StyleModes(); PreviewFor(screen == GolfModes ? "golf" : "tennis", null); }
-            if (screen == BowlingModes) StyleModes();   // no bowling clips yet: the rows only
-            ShowPreview(screen == TennisModes || screen == GolfModes || screen == Setup);
+            // the bar stays on every screen (the active tab underlined: Plaza for everything under Play); Back on all but Home; the
+            // tabs do nothing while a match loads (only Back = cancel leaves it)
+            backButton.gameObject.SetActive(screen != Home);
+            foreach (var (item, target, label, ul) in tabs)
+            {
+                bool on = Active(target);
+                label.color = on ? BrandColors.White : BrandUi.WhiteA(.62f); ul.localScale = new Vector3(on ? 1 : 0, 1, 1);
+                item.enabled = screen != Loading;
+            }
+            scrims.gameObject.SetActive(screen != Sport);   // the sport lanes have their own dim
+            bool modes = screen == TennisModes || screen == GolfModes || screen == BowlingModes;
+            if (modes) { StyleModes(); PreviewFor(screen == GolfModes ? "golf" : screen == BowlingModes ? "bowling" : "tennis", null); }
+            ShowPreview(modes || screen == Setup, screen == Setup);
             if (screen == Locker) SelectSlot(lockerSlot);
             if (stage) stage.GoTo(ShotOf(screen), snap);
             var r = screens[screen];
             entered = Time.unscaledTime; enterRoot = r; enterGroup = groups[screen];
             if (!snap) Wipe();
-            SetHovered(null);
+            SetHovered(null); GlowsOff();
             Send("menuScreen", screen);
+            FocusAfterShow();
         }
 
         /// Back: the phone's Back button, the TV's BACK, Esc in the editor.
@@ -512,7 +586,7 @@ namespace GolfArcade.Hub.Menu
         {
             phoneOpen = open; phoneModal.gameObject.SetActive(open);
             if (!string.IsNullOrEmpty(title)) phoneModalTitle.text = title;
-            if (open) SetHovered(null);
+            if (open) SetHovered(null); else if (hovered == null) FocusAfterShow();
         }
 
         // ---- the party
@@ -540,19 +614,32 @@ namespace GolfArcade.Hub.Menu
         /// A match is loading behind the menu: 0..1 (-1: none). Shows the Loading screen.
         public void SetLoading(float progress)
         {
-            if (progress < 0) { loadingShown = -1; built = false; bannerUp = false; if (banner) banner.gameObject.SetActive(false); return; }
+            if (progress < 0) { loadingShown = -1; built = false; bannerUp = false; if (banner) banner.gameObject.SetActive(false); if (loadBlock) { loadBlock.gameObject.SetActive(true); loadBar.gameObject.SetActive(true); } return; }
             if (Screen != Loading && loadingShown < 0) Show(Loading, false);
             loadingShown = Mathf.Max(loadingShown, Mathf.Clamp01(progress));
-            loadTitle.text = loadingShown >= 1 ? "Ready to play" : sportLoading == "golf" ? "Loading the course" : sportLoading == "bowling" ? "Loading the lanes" : "Loading the court";
+            string sport = sportLoading == "golf" ? "GOLF" : sportLoading == "bowling" ? "BOWLING" : "TENNIS";
+            string kicker = sport + " · " + (loadingShown >= 1 ? "READY TO PLAY" : sportLoading == "golf" ? "LOADING THE COURSE" : sportLoading == "bowling" ? "LOADING THE LANES" : "LOADING THE COURT");
+            if (loadKicker.text != kicker) loadKicker.text = kicker;
+            // the bar: only when it moved a pixel (the fill re-shears its mesh)
+            float w = Mathf.Round(576 * loadingShown);
+            if (w != barShown) { barShown = w; loadFill.sizeDelta = new Vector2(w, 14); }
+            bool ready = loadingShown >= 1;
+            if (banner.gameObject.activeSelf != ready) { banner.gameObject.SetActive(ready); loadBlock.gameObject.SetActive(!ready); loadBar.gameObject.SetActive(!ready); if (ready) bannerAt = Time.unscaledTime; }
         }
         string sportLoading = "tennis";
         /// The match being loaded: its sport and mode (for the loader's words), and whether START waits for the player (solo / local).
         public void BeginLoading(string sport, string mode, bool hold)
         {
-            sportLoading = sport; holding = hold; built = false; bannerUp = false; startStyle = null;
-            loadSub.text = (string.IsNullOrEmpty(mode) ? "" : mode + " · ") + (sport == "golf" ? "Golf" : sport == "bowling" ? "Bowling" : "Tennis");
+            sportLoading = string.IsNullOrEmpty(sport) ? "tennis" : sport; holding = hold; built = false; bannerUp = false; startStyle = null;
+            // words, not ids (10-28: the loader said "bay-tennis-exhibition"): the mode's name big, what was picked under it, the venue right
+            var (title, line, map, mapTitle, mapLine) = LoadWords(sportLoading, mode);
+            loadTitle.text = title; loadSub.text = line;
+            tipPic.texture = Resources.Load<Texture2D>("Menu/Maps/" + sportLoading + "-" + map); Cover(tipPic, 576, 324);
+            tipPic.transform.parent.parent.gameObject.SetActive(tipPic.texture);
+            tipTitle.text = mapTitle; tipLine.text = mapLine;
             StyleStart(false); SetPhonePanel(false);
             if (banner) banner.gameObject.SetActive(false);
+            loadBlock.gameObject.SetActive(true); loadBar.gameObject.SetActive(true); barShown = -1;
             loadingShown = -1; SetLoading(0);
         }
         /// The match is built: START lights up (held) — or the hand-off starts at once.
@@ -564,7 +651,7 @@ namespace GolfArcade.Hub.Menu
             StartPressed = true; Send("menuStart", "");
         }
         /// READY! (Brand Guide result banner: pops 0.6 → 1.12 → 1.0 in 0.45 s) just before the hand-off.
-        public void ShowReady() { bannerUp = true; bannerAt = Time.unscaledTime; banner.gameObject.SetActive(true); }
+        public void ShowReady() { bannerUp = true; bannerAt = Time.unscaledTime; banner.gameObject.SetActive(true); loadBlock.gameObject.SetActive(false); loadBar.gameObject.SetActive(false); }
         /// The party's rows on the loader: "name|STATE;name|STATE".
         public void SetRows(string rows)
         {
@@ -576,6 +663,8 @@ namespace GolfArcade.Hub.Menu
                 if (!on) continue;
                 var f = parts[i].Split('|');
                 name.text = f[0]; state.text = f.Length > 1 ? f[1] : "";
+                ((RectTransform)state.transform.parent).anchoredPosition = new Vector2(48 + Mathf.Max(170, name.preferredWidth + 24), 0);
+                state.alignment = TextAnchor.MiddleLeft;
                 state.color = state.text == "READY" ? BrandColors.Success : BrandColors.N300;
                 dot.color = HubRemotes.PartyColours[i % 4];
             }
@@ -693,7 +782,9 @@ namespace GolfArcade.Hub.Menu
         {
             if (it == hovered) return;
             if (hovered != null && hovered.face) hovered.face.localScale = Vector3.one;
+            var was = hovered;
             hovered = it; hoverChanged = Time.unscaledTime;
+            HoverLook(was, it);
             HoverPreview(it);
             if (Leader) Send("menuHover", it == null ? "" : it.id + "|" + it.label);
         }
@@ -740,8 +831,9 @@ namespace GolfArcade.Hub.Menu
                 if (k >= 1) wipe.gameObject.SetActive(false);
                 else wipe.anchoredPosition = new Vector2(Mathf.Lerp(-1180, 1920 + 40, BrandMotion.EaseOut(k)), 0);
             }
-            if (loaderSpin) loaderSpin.localRotation = Quaternion.Euler(0, 0, -now * 330f);
-            if (bannerUp && banner)
+            Glows(dt);
+            if (phoneOpen) { var c = phoneScreen.color; c.a = .55f + .45f * (.5f + .5f * Mathf.Sin(now * 3.9f)); phoneScreen.color = c; }   // the phone's screen breathes
+            if (banner && banner.gameObject.activeSelf && now - bannerAt < BrandMotion.Banner + .05f)
             {
                 float k = Mathf.Clamp01((now - bannerAt) / BrandMotion.Banner);
                 banner.localScale = Vector3.one * Mathf.LerpUnclamped(.6f, 1f, BrandMotion.Overshoot(k));
@@ -761,7 +853,12 @@ namespace GolfArcade.Hub.Menu
                 cursor.localScale = Vector3.one * (held ? .86f : 1f + .15f * pulse);
             }
             // hover: the face grows 4 %, a white + glow ring settles round it; pressed: scales to 0.94 (Brand Guide button press)
-            bool ring = hovered != null && hovered.Visible && !phoneOpen;
+            bool ring = hovered != null && hovered.Visible && !phoneOpen && hovered.glow == null;   // the slash look has no ring
+            if (hovered != null && hovered.glow != null && hovered.face)
+            {
+                var press = Vector3.one * (held && pressedItem == hovered ? BrandMotion.PressScale : 1);
+                if (hovered.face.localScale != press) hovered.face.localScale = press;
+            }
             focusRing.gameObject.SetActive(ring);
             if (ring)
             {
@@ -809,12 +906,18 @@ namespace GolfArcade.Hub.Menu
         void PrewarmGlyphs()
         {
             const string upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ!·' ", lower = "abcdefghijklmnopqrstuvwxyz.,·':!0123456789 ";
+            // every (weight, size) the slash screens draw at; headlines best-fit, so theirs are the likely sizes
             BrandUi.Prewarm(new (Font, int, string)[]
             {
-                (BrandUi.ExtraBoldItalic, 84, upper + lower), (BrandUi.ExtraBoldItalic, 64, "MotionSports"), (BrandUi.ExtraBoldItalic, 40, upper), (BrandUi.ExtraBoldItalic, 36, upper),
-                (BrandUi.ExtraBoldItalic, 32, upper), (BrandUi.ExtraBoldItalic, 30, upper), (BrandUi.ExtraBoldItalic, 72, "TennisGolf"), (BrandUi.ExtraBoldItalic, 132, "READY!"),
-                (BrandUi.BoldItalic, 52, upper + lower), (BrandUi.MediumItalic, 26, upper + lower), (BrandUi.MediumItalic, 30, upper + lower), (BrandUi.Medium, 24, upper + lower),
-                (BrandUi.Medium, 30, upper + lower), (BrandUi.SemiBold, 24, upper), (BrandUi.SemiBold, 26, upper + lower), (BrandUi.ExtraBold, 18, upper), (BrandUi.ExtraBold, 24, "1234"),
+                (BrandUi.ExtraBoldItalic, 96, upper + lower), (BrandUi.ExtraBoldItalic, 80, upper + lower), (BrandUi.ExtraBoldItalic, 46, "MotionSports"), (BrandUi.ExtraBoldItalic, 138, "PLAY"),
+                (BrandUi.ExtraBoldItalic, 58, upper), (BrandUi.ExtraBoldItalic, 44, upper), (BrandUi.ExtraBoldItalic, 116, "TennisGolfBowling"), (BrandUi.ExtraBoldItalic, 168, "READY!"),
+                (BrandUi.ExtraBoldItalic, 108, upper + lower), (BrandUi.ExtraBoldItalic, 56, upper + lower), (BrandUi.ExtraBoldItalic, 54, upper + lower), (BrandUi.ExtraBoldItalic, 44, upper + lower),
+                (BrandUi.ExtraBoldItalic, 42, upper), (BrandUi.ExtraBoldItalic, 36, upper + lower), (BrandUi.ExtraBoldItalic, 22, upper), (BrandUi.ExtraBoldItalic, 20, upper),
+                (BrandUi.ExtraBoldItalic, 124, "234"), (BrandUi.ExtraBoldItalic, 80, upper + lower),
+                (BrandUi.BoldItalic, 28, upper + lower), (BrandUi.BoldItalic, 30, upper), (BrandUi.BoldItalic, 20, upper), (BrandUi.MediumItalic, 26, upper + lower), (BrandUi.MediumItalic, 30, upper + lower),
+                (BrandUi.Medium, 24, upper + lower), (BrandUi.Medium, 26, upper + lower), (BrandUi.Medium, 30, upper + lower), (BrandUi.Medium, 22, upper + lower),
+                (BrandUi.SemiBold, 20, upper), (BrandUi.SemiBold, 22, upper), (BrandUi.SemiBold, 24, upper + lower), (BrandUi.SemiBold, 26, upper + lower), (BrandUi.SemiBold, 30, upper + lower),
+                (BrandUi.ExtraBold, 18, upper), (BrandUi.ExtraBold, 19, "AB"), (BrandUi.ExtraBold, 24, "1234KIT"),
             });
         }
     }

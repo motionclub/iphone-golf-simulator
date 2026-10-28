@@ -35,7 +35,8 @@ namespace GolfArcade.Course
         {
             if (!Current || !Current.hasGround) return 0;
             var from = new Vector3((float)p.X, 400, (float)p.D);
-            return Physics.Raycast(from, Vector3.down, out var hit, 800, ~0, QueryTriggerInteraction.Ignore) ? hit.point.y : 0;
+            // (the solid dressing is not ground: a ball does not roll over a roof)
+            return Physics.Raycast(from, Vector3.down, out var hit, 800, ~GolfSolidProps.Mask, QueryTriggerInteraction.Ignore) ? hit.point.y : 0;
         }
 
         public static HoleView Build(Hole hole, Transform parent)
@@ -298,6 +299,7 @@ namespace GolfArcade.Course
                 if (StartsWithAny(mf.name, Sheets) && !mf.name.Contains("_FALL") && mf.sharedMesh && mf.sharedMesh.isReadable && FacesDown(mf)) FlipUp(mf);
             // Windmill Links' sails turn about the axis the model gives them, and the ball meets them.
             Hole.Windmill = null;
+            Hole.Solids = null;
             if (FindDeep(model.transform, "SAILS_SPIN") is Transform sails && FindDeep(sails, "SAILS_AXIS") is Transform axis)
             {
                 var spinner = sails.gameObject.AddComponent<Spinner>();
@@ -324,6 +326,8 @@ namespace GolfArcade.Course
             if (hasGround) { Hole.Surface = SampleSurface(); Hole.Ground = GroundHeight; }
             // what stands on it, for the ball to run into
             Hole.Obstacles = ObstacleScan.From(model.transform);
+            // and the solid dressing it bounces off — fences, bridges, tulip beds (10-28)
+            GolfSolidProps.FromModel(model.transform, Hole);
             yield return At(0.2f);
             PlaceTeeMarkers();
             // the islands and boats out on the sea round it, past the playable ground
@@ -488,7 +492,7 @@ namespace GolfArcade.Course
                 // draws through the green there, so the hole has real depth in an uncut green. All
                 // of it at the ball's scale (Hole.CupScale) and lying with the green's slope; the
                 // pole and the flag stay life-size and upright.
-                var slope = Physics.Raycast(pin + Vector3.up * 5f, Vector3.down, out var at, 20f, ~0, QueryTriggerInteraction.Ignore)
+                var slope = Physics.Raycast(pin + Vector3.up * 5f, Vector3.down, out var at, 20f, ~GolfSolidProps.Mask, QueryTriggerInteraction.Ignore)
                     ? Quaternion.FromToRotation(Vector3.up, at.normal) : Quaternion.identity;
                 foreach (var name in new[] { "CUP", "CUP_MOUTH", "CUP_EDGE" })
                 {

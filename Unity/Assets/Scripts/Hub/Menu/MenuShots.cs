@@ -32,8 +32,17 @@ namespace GolfArcade.Hub.Menu
         public static readonly Vector3[] Slots = { new Vector3(-.1f, 0, -7.6f), new Vector3(.78f, 0, -7.0f), new Vector3(1.6f, 0, -6.45f), new Vector3(2.38f, 0, -5.95f) };
         /// Where every hero faces: the home camera (they do not turn for each shot; the menu's cameras all sit close to it).
         public static Vector3 FaceToward => LowShot.position;
+        /// MENU BACKDROP (Adnan 10-28: "center the character", feet on the floor): with a venue plate behind the line-up every screen holds this one
+        /// shot, your hero in the middle, head to toe with floor under the feet; the plate was baked from exactly this pose (MenuVenueStand).
+        public static bool Centred;
+        public static readonly Shot CentreShot = Centre();
+        static Shot Centre()
+        {
+            var s = Slots[0]; var d = FaceToward - s; d.y = 0; d.Normalize();
+            return new Shot(Low, s + d * 4.7f + Vector3.up * .95f, s + Vector3.up * 1f, 32f);
+        }
 
-        public static Shot For(string id) => id switch
+        public static Shot For(string id) => Centred ? CentreShot : id switch
         {
             Close => CloseShot, Mid => MidShot, Solo => SoloShot, Arrival => ArrivalShot, _ => LowShot,
         };
@@ -42,6 +51,7 @@ namespace GolfArcade.Hub.Menu
         public static Shot For(string id, int heroes)
         {
             var s = For(id);
+            if (Centred) return s;   // the plate's perspective holds for this one pose only
             if (id == Solo || id == Arrival || heroes <= 2) return s;
             float k = heroes - 2;   // 1 or 2
             return s.Shifted(new Vector3(.55f * k, .12f * k, -1.25f * k), new Vector3(.62f * k, 0, .1f * k), 0);

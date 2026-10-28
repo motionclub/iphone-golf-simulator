@@ -19,8 +19,8 @@ namespace GolfArcade.Game
         /// The golfer FBX: rig, clubs and the golf swing clips, plus "<path>_clips".
         public static string Golf(bool female) => female ? "Hero/golfer_f" : "Hero/golfer_m";
         /// The baked SceneKit export the iOS menus read (CharacterAssets/<name>.json/.lzfse). Golf is the kit export.
-        public static string NativeExport(bool golf, bool female, bool distance = false) =>
-            (golf ? "GolfKitHero_" : "MatchHero_") + (female ? "Female" : "Male") + (distance && !golf ? "_Distance" : "");
+        public static string NativeExport(bool golf, bool female, bool distance = false, bool bowling = false) =>
+            (golf ? "GolfKitHero_" : bowling ? "BowlingKitHero_" : "MatchHero_") + (female ? "Female" : "Male") + (distance && !golf ? "_Distance" : "");
 
         /// LEGACY: the pre-Hero golfer, used only when the Hero is not in the build. Callers must say so loudly.
         public static string LegacyGolfer(bool female) => female ? "Golfer/golfer_f" : "Golfer/golfer_m";

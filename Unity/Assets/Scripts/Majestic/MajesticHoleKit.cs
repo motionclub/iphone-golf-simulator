@@ -7,7 +7,7 @@ namespace GolfArcade.Majestic
     /// Where each hole's landmarks and set pieces stand (work/majestic-all-maps/design/HOLE_BRIEFS.md: one subject per
     /// direction). Positions are in the hole's own frame: from the tee (T) or the pin (P), `f` yards along the line tee->pin,
     /// `r` yards to its right. Pieces face the tee. Anything that would land within the play corridor is pushed out of it,
-    /// so nothing stands in a shot. Visual only: no colliders.
+    /// so nothing stands in a shot. The ones on land are solid to the ball (GolfSolidProps, 10-28); the sea's are visual only.
     public static class MajesticHoleKit
     {
         struct Piece
@@ -66,6 +66,7 @@ namespace GolfArcade.Majestic
                 var toTee = tee - at; toTee.y = 0;
                 var rot = Quaternion.LookRotation(toTee.sqrMagnitude > 1 ? toTee.normalized : -fwd) * Quaternion.Euler(0, p.yaw, 0);
                 var go = MajesticKit.Spawn(p.name, root, at, rot, p.scale, p.shadows);
+                if (!p.sea) GolfSolidProps.FromKit(go, hole);
                 if (p.name == "CalderaVolcano")
                 {
                     MajesticKit.TintFX(go, "Plume", new Color(.40f, .33f, .36f, .85f));   // ash, not steam

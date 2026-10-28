@@ -8,6 +8,8 @@ namespace GolfArcade.Game {
     public sealed partial class GolfGame {
         public static event System.Action ShotStruck;
         public bool NativeControlled { get; private set; }
+        /// The width of the hole map picture sent to the app (512 in handheld play, where it can fill the screen).
+        public static int NativeMapWidth = 256;
         public bool NativeHasNextHole => Current == State.RoundDone && holeIndex + 1 < course.Holes.Length;
         /// The state the app's screens follow.
         public string NativePhase => Current.ToString();
@@ -195,7 +197,7 @@ namespace GolfArcade.Game {
                (controllerMapHole!=hole.Number || controllerMapTarget!=minimapTexture ||
                 controllerMapPosition!=minimapCamera.transform.position || controllerMapSize!=minimapCamera.orthographicSize)) {
                 var previous=RenderTexture.active;
-                var rt=RenderTexture.GetTemporary(256,Mathf.RoundToInt(256f/minimapCamera.aspect),0,RenderTextureFormat.ARGB32);
+                var rt=RenderTexture.GetTemporary(NativeMapWidth,Mathf.RoundToInt(NativeMapWidth/minimapCamera.aspect),0,RenderTextureFormat.ARGB32);
                 Texture2D cpu=null;
                 try {
                     Graphics.Blit(minimapTexture,rt);RenderTexture.active=rt;

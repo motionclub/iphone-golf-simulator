@@ -192,13 +192,14 @@ namespace MotionSports.Brand
         }
 
         /// The two-line headline: line 1 white, line 2 Headline Gold (Title style, 84 px, Kanit ExtraBold Italic).
-        public static RectTransform Headline(Transform parent, float x, float y, string line1, string line2, float width = 1000, TextAnchor align = TextAnchor.UpperLeft)
+        public static RectTransform Headline(Transform parent, float x, float y, string line1, string line2, float width = 1000, TextAnchor align = TextAnchor.UpperLeft, float size = BrandType.Title)
         {
-            var box = Box(parent, "Headline", x, y, width, 236);
-            var a = Ink(Underlay(Label(box, "Line 1", line1, ExtraBoldItalic, BrandType.Title, BrandColors.White, align)));
-            var b = Ink(Underlay(Label(box, "Line 2", line2, ExtraBoldItalic, BrandType.Title, BrandColors.Gold, align)));
-            a.rectTransform.offsetMax = new Vector2(0, 0); a.rectTransform.offsetMin = new Vector2(0, 118);
-            b.rectTransform.offsetMax = new Vector2(0, -114); b.rectTransform.offsetMin = new Vector2(0, 0);
+            float k = size / BrandType.Title;   // a smaller headline keeps the Title's proportions (the sport screen's sits over its lanes)
+            var box = Box(parent, "Headline", x, y, width, 236 * k);
+            var a = Ink(Underlay(Label(box, "Line 1", line1, ExtraBoldItalic, size, BrandColors.White, align)));
+            var b = Ink(Underlay(Label(box, "Line 2", line2, ExtraBoldItalic, size, BrandColors.Gold, align)));
+            a.rectTransform.offsetMax = new Vector2(0, 0); a.rectTransform.offsetMin = new Vector2(0, 118 * k);
+            b.rectTransform.offsetMax = new Vector2(0, -114 * k); b.rectTransform.offsetMin = new Vector2(0, 0);
             return box;
         }
 
@@ -253,6 +254,93 @@ namespace MotionSports.Brand
             Layer(box, "Border", BrandColors.White, 0, radius);
             Layer(box, "Fill", new Color(BrandColors.NavyDeep.r, BrandColors.NavyDeep.g, BrandColors.NavyDeep.b, .94f), 5, radius - 5);
             return box;
+        }
+
+        // ---- the slash language (menu mock 10-28): skewed fills, flat text, gold for what is lit
+
+        /// The brand lean on any graphic (`Skew`, sheared vertices, not a rotated rect: edges stay vertical-true, text stays upright).
+        public static T Skewed<T>(T g, float angle = 14, bool inside = false) where T : Graphic
+        {
+            var s = g.gameObject.GetComponent<Skew>() ?? g.gameObject.AddComponent<Skew>();
+            s.angle = angle; s.inside = inside; g.SetVerticesDirty();
+            return g;
+        }
+        /// A skewed fill: Layer + Skew (the menu's slash, chip, segment and card backgrounds).
+        public static Image Slant(Transform parent, string name, Color color, float angle = 14, float inset = 0)
+            => Skewed(Layer(parent, name, color, inset), angle);
+        /// The hover slash: gold -> light gold, left to right (scale x from its left edge to draw it in).
+        public static Image GoldSlash(Transform parent, string name = "Slash", float angle = 14)
+        {
+            var img = Slant(parent, name, Color.white, angle);
+            HGradient.On(img, BrandColors.Gold, GoldLight);
+            return img;
+        }
+        public static readonly Color GoldLight = new Color(1f, .851f, .471f, 1f);   // #FFD978, the slash's far end
+        public static Color Ink(float a) => new Color(BrandColors.ShadowInk.r, BrandColors.ShadowInk.g, BrandColors.ShadowInk.b, a);
+        public static Color WhiteA(float a) => new Color(1, 1, 1, a);
+
+        /// One line of menu type: no wrapping and no best-fit (a word never shrinks or clips; its box only places it), with the
+        /// soft dark underlay that keeps it readable on the 3D scene. `preferredWidth` is then the word's real width.
+        public static Text Word(Transform parent, string name, string text, Font font, float size, Color color, TextAnchor align = TextAnchor.MiddleLeft)
+        {
+            var t = Label(parent, name, text, font, size, color, align);
+            t.resizeTextForBestFit = false; t.horizontalOverflow = HorizontalWrapMode.Overflow; t.verticalOverflow = VerticalWrapMode.Overflow;
+            return Underlay(t);
+        }
+        /// A controller face button: a white disc with its letter in ink (the "Ⓐ SELECT" hint, the A on the gold GO button).
+        public static RectTransform FaceButton(Transform parent, string letter, float x, float y, float d, Color disc, Color ink)
+        {
+            var box = Box(parent, "Button " + letter, x, y, d, d);
+            Layer(box, "Disc", disc, 0, d / 2);
+            var t = Label(box, "Letter", letter, ExtraBold, d * .52f, ink, TextAnchor.MiddleCenter);
+            t.resizeTextForBestFit = false; t.horizontalOverflow = HorizontalWrapMode.Overflow; t.verticalOverflow = VerticalWrapMode.Overflow;
+            t.GetComponent<Shadow>().enabled = false;
+            return box;
+        }
+        /// The gold skewed GO button (START MATCH / TEE OFF): label + the A disc, a parallelogram clipped inside its box.
+        public static (RectTransform face, Text label) GoButton(RectTransform box, string label, bool on = true)
+        {
+            // sized to its words: [pad] LABEL [gap] (A) [pad], the box's height sets the scale (the mock's .go: 2.2cqw type, 1.1cqw pad)
+            float h = box.sizeDelta.y, d = h * .46f;
+            var face = Fill(box, "Face");
+            var glow = Layer(face, "Glow", new Color(BrandColors.Gold.r, BrandColors.Gold.g, BrandColors.Gold.b, on ? .32f : 0), 0, -1, Glow);
+            glow.rectTransform.offsetMin = new Vector2(-34, -30); glow.rectTransform.offsetMax = new Vector2(34, 14);
+            var fill = Skewed(Layer(face, "Fill", on ? Color.white : BrandUi.Ink(.62f)), Mathf.Atan2(h * .28f, h) * Mathf.Rad2Deg, true);
+            if (on) HGradient.On(fill, BrandColors.Gold, GoldLight);
+            var text = Word(face, "Label", label, ExtraBoldItalic, h * .5f, on ? BrandColors.NavyInk : BrandColors.N300);
+            foreach (var sh in text.GetComponents<Shadow>()) sh.enabled = !on;   // ink on gold: no underlay
+            float pad = h * .55f, tw = text.preferredWidth, w = pad + tw + (on ? h * .26f + d : 0) + pad * 1.1f;
+            box.sizeDelta = new Vector2(w, h);
+            text.rectTransform.offsetMin = new Vector2(pad, 0); text.rectTransform.offsetMax = new Vector2(0, 0);
+            if (on) FaceButton(face, "A", pad + tw + h * .26f, (h - d) / 2, d, BrandColors.NavyInk, BrandColors.White);
+            return (face, text);
+        }
+        /// A dark skewed chip with a gold left edge (the name and settings chips top right).
+        public static RectTransform Chip(Transform parent, string name, float x, float y, float w, float h)
+        {
+            var box = Box(parent, name, x, y, w, h);
+            Slant(box, "Fill", Ink(.55f));
+            var edge = Skewed(Box(box, "Edge", -4, 0, 5, h).gameObject.AddComponent<Image>()); edge.color = BrandColors.Gold; edge.raycastTarget = false;
+            return box;
+        }
+
+        /// A horizontal ramp (the side scrims): `from` at the left edge of its box to `to` at the right.
+        public static Image Ramp(Transform parent, string name, float x, float w, Color from, Color to)
+        {
+            var img = Box(parent, name, x, 0, w, 1080).gameObject.AddComponent<Image>(); img.raycastTarget = false;
+            var rt = img.rectTransform; rt.anchorMin = new Vector2(0, 0); rt.anchorMax = new Vector2(0, 1); rt.offsetMin = new Vector2(x, 0); rt.offsetMax = new Vector2(x + w, 0);
+            HGradient.On(img, from, to);
+            return img;
+        }
+
+        /// Up-right arrow (a slot that opens on the phone).
+        public static Sprite ArrowOut => arrowOut ? arrowOut : (arrowOut = MakeGlyph(128, ArrowOut01));
+        static Sprite arrowOut;
+        static float ArrowOut01(Vector2 p)
+        {
+            float Seg(Vector2 q, Vector2 a, Vector2 b) { var pa = q - a; var ba = b - a; float h = Mathf.Clamp01(Vector2.Dot(pa, ba) / ba.sqrMagnitude); return (pa - ba * h).magnitude - .08f; }
+            var tip = new Vector2(.74f, .74f);
+            return Mathf.Min(Seg(p, new Vector2(.26f, .26f), tip), Mathf.Min(Seg(p, tip, new Vector2(.38f, .74f)), Seg(p, tip, new Vector2(.74f, .38f))));
         }
 
         /// Every glyph the menu uses at every size it uses, rasterised now (a first look at a screen must not pay for it).

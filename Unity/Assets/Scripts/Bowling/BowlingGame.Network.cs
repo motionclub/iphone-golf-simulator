@@ -47,6 +47,7 @@ namespace GolfArcade.Bowling
             remoteBalls.Clear(); hostBowls.Clear(); ballsBowled = 0; authAfter = -1; remoteBall = null; netSendPending = false;
             CpuSkill.Clear(); Autoplay.Clear();
             PlayerFemale.Clear(); PlayerFemale.AddRange(seated.Select(p => p.female));
+            PlayerLook.Clear(); PlayerLook.AddRange(seated.Select(p => (p.loadout?.skinHex ?? "", p.loadout?.shirtHex ?? "", p.loadout?.shortsHex ?? "", p.loadout?.shoesHex ?? "")));
             NewGame(seated.Select(p => string.IsNullOrEmpty(p.name) ? "Player" : p.name).ToList());
         }
 
