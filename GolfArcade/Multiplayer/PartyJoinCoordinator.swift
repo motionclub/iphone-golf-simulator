@@ -1,99 +1,126 @@
 import Foundation
 
-/// One party handshake at a time on this phone (2026-10-26). On build 0.1.5 (11) up to five ran at once (the Game Center host's
-/// bring-in, the Game Center guest's join, a CloudKit let-in, a CloudKit knock, the automatic rejoin), and each one tore down the
-/// others: two friends who invited each other connected and dropped 1–2 s later, round after round.
-///
-/// Every path that connects this phone to another phone's party, or brings someone into its own, asks here first. The rules:
-/// - one handshake at a time; another of the same kind is refused (it is already happening), a different host one waits (the next
-///   inbox refresh or knock tick tries again);
-/// - no host role while this phone is joining someone (it is about to leave whatever it would host);
-/// - a join the player asked for (a tap on Join, a notification, a code) wins: whatever ran before is cancelled;
-/// - an automatic join (a rejoin, a join resumed after a relaunch, a crossed invite) never starts while this phone is in a party
-///   with other phones connected, and never cancels anything.
-@MainActor
-final class PartyJoinCoordinator {
-    enum Kind: Equatable {
-        /// Host, Game Center: bring in a friend who tapped Join on this phone's invitation (its record id).
-        case hostInvite(String)
-        /// Host, CloudKit: let in someone who knocked (their gamePlayerID).
-        case hostKnock(String)
-        /// Guest, Game Center: join a friend's party from their invitation (its record id).
-        case joinInvite(String)
-        /// Guest, CloudKit: drop in on a friend's party, or join with a code (the host's gamePlayerID).
-        case joinKnock(String)
-        /// Guest: Apple's own real-time invitation (the sender's gamePlayerID).
-        case joinRealTime(String)
-        var hosting: Bool { if case .hostInvite = self { return true }; if case .hostKnock = self { return true }; return false }
-    }
-    enum Origin: Equatable {
-        /// The player said so (Join, a notification, a code): it wins over anything else.
-        case player
-        /// Nobody tapped anything: a rejoin, a join resumed after a relaunch, a crossed invite.
-        case automatic
-    }
-    enum Refusal: Equatable, Error {
-        /// The same handshake is already running, or another one this one must not cancel.
-        case busy
-        /// This phone is joining someone: it hosts nobody until that is over.
-        case joining
-        /// An automatic join would leave a party with friends in it.
-        case inParty
-    }
-    enum Decision: Equatable { case start, supersede, refuse(Refusal) }
-    struct Handshake: Equatable { let token: Int; let kind: Kind; let origin: Origin }
+// The party link (2026-10-27): what keeps a friends' party connected, in one place.
+//
+// A party is its leader. Every party meets in ONE private Game Center group worked out from the leader's gamePlayerID
+// (`PartyGroup.of`), the same number on every phone, every time. So every way in (an invite card, Game Center's notification, a
+// CloudKit knock or code, a relaunch, a phone coming back from the background) is the same thing: search the leader's group until
+// the leader is there. The leader searches its own group while it expects someone (a friend it invited or who knocked, or a member
+// whose phone dropped). Nothing has to pass between the phones first, so an invitation that got stuck, crossed, expired on one side
+// or was answered twice still leads to the right place.
+//
+// Apple ends a GKMatch underneath the game whenever a phone leaves it (the background, Wi-Fi, the other phone hanging up): on iOS 26
+// that is GameCenterFoundation.FastSyncTransportError error 4, `groupSessionInvalidated` (decoded from the iOS 26.3.1 and 26.6
+// GameCenterFoundation binaries: cases internalError, illegalState, failedToElectLeader, failedToSendData,
+// groupSessionInvalidated). Before this, the game kept the dead match, showed that text, and every send failed. Now a dead match is
+// dropped and both phones meet again in the leader's group; the lobby, the Plaza and a match in progress carry on.
+//
+// (The file keeps its name so both Xcode projects still compile it; the one-handshake coordinator it held is gone.)
 
-    /// What happens to `kind` asked for now, with `active` running. Pure: the rules above, tested without Game Center.
-    static func decide(_ kind: Kind, _ origin: Origin, active: Handshake?, inConnectedParty: Bool) -> Decision {
-        if !kind.hosting, origin == .automatic, inConnectedParty { return .refuse(.inParty) }
-        guard let active else { return .start }
-        if active.kind == kind { return .refuse(.busy) }
-        if kind.hosting { return .refuse(active.kind.hosting ? .busy : .joining) }
-        return origin == .player ? .supersede : .refuse(.busy)
+/// The private Game Center group a leader's party meets in.
+enum PartyGroup {
+    /// The same for the same leader on every phone and every launch (FNV-1a, never Swift's per-process Hasher), inside the private
+    /// range GameCenterPartyInvitation accepts.
+    static func of(_ leader: String) -> UInt32 {
+        var h: UInt32 = 0x811C9DC5
+        for b in leader.utf8 { h ^= UInt32(b); h = h &* 0x01000193 }
+        return 0x60000000 | (h & 0x0FFFFFFF)
+    }
+    static func valid(_ group: UInt32) -> Bool { group >= 0x60000000 && group < 0x70000000 }
+}
+
+/// The party this phone is in, kept across a relaunch: who leads it and who is in it, and when they were last together.
+struct PartyMemory: Codable, Equatable {
+    var leader: String
+    var leaderName: String
+    var members: [String]
+    /// Seconds since 1970 this phone last had someone from the party connected.
+    var at: Double
+
+    nonisolated(unsafe) static var defaults = UserDefaults.standard
+    private static func key(_ local: String) -> String { "party.link.v1." + local }
+    /// The party this phone was in, if it was together with it within `patience` seconds.
+    static func load(_ local: String, now: Double, patience: Double) -> PartyMemory? {
+        guard !local.isEmpty, let data = defaults.data(forKey: key(local)),
+              let m = try? JSONDecoder().decode(PartyMemory.self, from: data), now - m.at <= patience, m.members.contains(local) else { return nil }
+        return m
+    }
+    static func save(_ m: PartyMemory?, _ local: String) {
+        guard !local.isEmpty else { return }
+        if let m, let data = try? JSONEncoder().encode(m) { defaults.set(data, forKey: key(local)) } else { defaults.removeObject(forKey: key(local)) }
+    }
+}
+
+/// What the party link does next on one phone, from what that phone knows now. Pure: every case is tested without Game Center.
+enum PartyLinkPlan: Equatable {
+    /// Nobody to connect: everyone this phone wants is here, or there is no party.
+    case idle
+    /// Not now (signed out, the background, a quick match, a match on, not in the Plaza). The next change or tick asks again.
+    case wait(String)
+    /// Meet in `group`: a new match of `min...max` players (this phone counted) with at least one of `need` in it.
+    case find(group: UInt32, min: Int, max: Int, need: Set<String>)
+    /// Bring one of `need` into the live match (the leader, with friends still connected to it).
+    case add(group: UInt32, min: Int, max: Int, need: Set<String>)
+    /// The leader has been gone longer than a party waits: the party is over on this phone.
+    case lost
+
+    struct Input {
+        var local: String
+        /// A Join this phone is making: the leader, and the party size it expects with this phone in it.
+        var join: (leader: String, players: Int)?
+        var party: PartyMemory?
+        /// Leader: friends who may come in (invited, tapped Join, knocked), not in yet.
+        var expected: Set<String> = []
+        /// Connected to this phone's live match now.
+        var connected: Set<String> = []
+        /// Party members not connected, since when (seconds).
+        var missingSince: [String: Double] = [:]
+        var matchAlive = false
+        /// This party's lobby is up on this phone (MultiplayerService is bound to it). A party remembered from before a relaunch is
+        /// not, and waits for the Plaza like a new Join.
+        var inLobby = false
+        var signedIn = true, active = true, quickMatch = false
+        /// In the Plaza: a party may be joined now.
+        var canJoin = true
+        /// New friends may be brought in now (false: later, a match is on; nil: never, this phone is a guest elsewhere).
+        var canHost: Bool? = true
+        var capacity = 4
+        var now: Double
+        var patience: Double
     }
 
-    private(set) var active: Handshake?
-    /// This phone is in a party (any lobby) with other phones connected to it now.
-    var inConnectedParty: @MainActor () -> Bool = { false }
-    private var cancelActive: ((Int) -> Void)?
-    private var counter = 0
-    var joining: Bool { active.map { !$0.kind.hosting } ?? false }
-    var hosting: Bool { active?.kind.hosting ?? false }
-
-    /// The handshake's token, or nil when it may not start now. `cancel` stops it (its search) when a player's join supersedes it.
-    func begin(_ kind: Kind, origin: Origin = .player, cancel: @escaping (Int) -> Void = { _ in }) -> Int? {
-        switch Self.decide(kind, origin, active: active, inConnectedParty: inConnectedParty()) {
-        case .refuse(let why):
-            SportsDiagnostics.write("party handshake \(Self.name(kind)) refused: \(why) (running: \(active.map { Self.name($0.kind) } ?? "none"))")
-            return nil
-        case .supersede:
-            if let old = active { SportsDiagnostics.write("party handshake \(Self.name(old.kind)) cancelled for \(Self.name(kind))") }
-            stopActive()
-        case .start: break
+    static func next(_ s: Input) -> PartyLinkPlan {
+        if s.join == nil && s.party == nil && s.expected.isEmpty { return .idle }
+        guard s.signedIn else { return .wait("not signed in to Game Center") }
+        guard s.active else { return .wait("in the background") }
+        guard !s.quickMatch else { return .wait("a quick match is searching") }
+        func size(_ n: Int) -> Int { Swift.max(2, Swift.min(s.capacity, n)) }
+        if let j = s.join {
+            if s.connected.contains(j.leader) { return .idle }
+            guard s.canJoin else { return .wait("joining once this phone is back in the Plaza") }
+            return .find(group: PartyGroup.of(j.leader), min: 2, max: size(j.players), need: [j.leader])
         }
-        let token = ticket()
-        active = Handshake(token: token, kind: kind, origin: origin); cancelActive = cancel
-        return token
-    }
-    /// A number for a search that is not a party handshake (quick match), so its cancel never stops another one.
-    func ticket() -> Int { counter += 1; return counter }
-    func isCurrent(_ token: Int) -> Bool { active?.token == token }
-    /// The handshake ended (in, failed or given up). Only the current one: a superseded handshake's end changes nothing.
-    func end(_ token: Int) { if active?.token == token { active = nil; cancelActive = nil } }
-    /// Stops the running handshake if `which` says so (its search is cancelled and it is no longer current).
-    func cancel(where which: (Kind) -> Bool) { if let a = active, which(a.kind) { stopActive() } }
-    private func stopActive() {
-        guard let old = active else { return }
-        let stop = cancelActive
-        active = nil; cancelActive = nil
-        stop?(old.token)
-    }
-    private static func name(_ kind: Kind) -> String {
-        switch kind {
-        case .hostInvite(let id): "host-invite \(id.prefix(8))"; case .hostKnock(let id): "host-knock \(id.prefix(8))"
-        case .joinInvite(let id): "join-invite \(id.prefix(8))"; case .joinKnock(let id): "join-knock \(id.prefix(8))"
-        case .joinRealTime(let id): "join-realtime \(id.prefix(8))"
+        if let p = s.party, p.leader != s.local {
+            if s.connected.contains(p.leader) { return .idle }
+            // (the leader left on purpose: the lobby hands the party to someone else, and the link follows)
+            guard p.members.contains(p.leader) else { return .wait("the leader left; the party picks a new one") }
+            if s.now - (s.missingSince[p.leader] ?? s.now) > s.patience { return .lost }
+            guard s.inLobby || s.canJoin else { return .wait("back into the party once this phone is in the Plaza") }
+            return .find(group: PartyGroup.of(p.leader), min: 2, max: size(p.members.count), need: [p.leader])
         }
+        // leading: a party of its own, or friends invited to one
+        let members = Set(s.party?.members ?? []).subtracting([s.local])
+        var need = members.subtracting(s.connected).filter { s.now - (s.missingSince[$0] ?? s.now) <= s.patience }
+        if !s.inLobby && s.canHost != true { need = [] }   // (a party remembered from a relaunch comes back in the Plaza)
+        if s.canHost == true { need.formUnion(s.expected.subtracting(s.connected)) }
+        if need.isEmpty { return s.expected.subtracting(s.connected).isEmpty ? .idle : .wait("friends come in after this match") }
+        let group = PartyGroup.of(s.local)
+        if s.matchAlive && !s.connected.isEmpty {
+            let here = 1 + s.connected.count
+            guard here < s.capacity else { return .wait("the party is full") }
+            return .add(group: group, min: here + 1, max: Swift.min(s.capacity, here + need.count), need: need)
+        }
+        return .find(group: group, min: 2, max: size(1 + need.count), need: need)
     }
 }
 

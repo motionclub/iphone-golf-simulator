@@ -95,7 +95,7 @@ final class ClubCloud {
     @ObservationIgnored var connect: @MainActor (_ hostGameID: String, _ group: UInt32, _ players: Int) async throws -> Void = { _, _, _ in }
     /// This phone may go into another party now (the Plaza; ClubHub.canJoinNow).
     @ObservationIgnored var canJoinNow: @MainActor () -> Bool = { true }
-    /// Host: someone can be let in now (no other party handshake on this phone: PartyJoinCoordinator).
+    /// Host: someone can be let in now (this phone is not going into another party, and is in the Plaza).
     @ObservationIgnored var canHost: @MainActor () -> Bool = { true }
     /// Joiner: a knock on this host (gamePlayerID) begins: its handshake token, or nil when it may not start now. The closure given is
     /// called when a player's other join cancels it.

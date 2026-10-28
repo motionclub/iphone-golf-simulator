@@ -53,6 +53,8 @@ final class MultiplayerService {
     @ObservationIgnored private var decoder = JSONDecoder()
     @ObservationIgnored private var sequence: Int64 = 0
     @ObservationIgnored private var seen: [String: Int64] = [:]
+    /// The transport's peers at the last change (who is back is told from it).
+    @ObservationIgnored private var connectedPeers: Set<String> = []
     @ObservationIgnored private var hello: [String: MultiplayerParticipant] = [:]
     @ObservationIgnored private var disconnected: [String: Double] = [:]
     @ObservationIgnored private var epoch = 0
@@ -123,9 +125,8 @@ final class MultiplayerService {
     private var nativeParty = false
     /// Leader handed the party to this player: their lobby is the party's from now on.
     @ObservationIgnored private var promotedTo: (lobbyID: String, to: String)?
-    /// Leader: party members whose phone dropped (they did not leave), since when, and those already invited back.
+    /// Leader: party members whose phone dropped (they did not leave), since when. The party link brings them back by itself.
     @ObservationIgnored private var dropped: [String: Double] = [:]
-    @ObservationIgnored private var reinvited: Set<String> = []
     var isParty: Bool { transport is any PartyTransport || (nativeParty && transport === gameCenter) }
     var hasFriendsInLobby: Bool { lobby?.participants.contains { !$0.isGuest && $0.id != localID } ?? false }
     /// Phones connected to this party that its lobby does not list yet (they are still joining: their hello or the lobby is on its way).
@@ -186,8 +187,9 @@ final class MultiplayerService {
         _ = ensureGameCenter()
         NotificationCenter.default.addObserver(forName: UIApplication.didEnterBackgroundNotification, object: nil, queue: .main) { [weak self] _ in Task { @MainActor in self?.setForeground(false) } }
         NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: .main) { [weak self] _ in
-            // (back in the app: a friend who tapped Join while this phone was away is brought in now, not at the next poll)
-            Task { @MainActor in self?.setForeground(true); await self?.gameCenter?.refreshInvitations() }
+            // (back in the app: a party match that died in the background meets again now, and a friend who tapped Join while this
+            // phone was away is brought in now, not at the next poll)
+            Task { @MainActor in self?.setForeground(true); self?.gameCenter?.appBecameActive(); await self?.gameCenter?.refreshInvitations() }
         }
     }
     func createOnlineLobby() throws {
@@ -268,11 +270,22 @@ final class MultiplayerService {
         gc.hostAvailable = { [weak self, weak gc] in
             guard let self, let gc else { return nil }
             if self.transport === gc && self.isParty && !self.isOwner { return nil }
-            if gc.handshakes.joining || self.searching || ClubHub.shared.cloud.knocking != nil { return false }
+            if gc.joining || self.searching || ClubHub.shared.cloud.knocking != nil { return false }
             if self.transport != nil && !(self.transport === gc && self.isParty) { return false }
             return ClubHub.shared.canJoinNow
         }
-        gc.handshakes.inConnectedParty = { [weak self] in self?.inConnectedParty ?? false }
+        gc.inConnectedParty = { [weak self] in self?.inConnectedParty ?? false }
+        gc.partyInLobby = { [weak self, weak gc] in
+            guard let self, let gc else { return false }
+            return self.transport === gc && self.nativeParty && self.lobby != nil
+        }
+        // the leader never came back (gone longer than a party waits): back to the Plaza on this phone's own
+        gc.onPartyLost = { [weak self] name in
+            guard let self else { return }
+            self.leave("\(name)'s party never came back")
+            self.lastError = "Lost the connection to \(name)'s party."; ClubHub.shared.say("Lost the connection to \(name)'s party.")
+        }
+        gc.onLinkNotice = { ClubHub.shared.say($0) }
         gc.invitationAllowed = { gameID, teamID in
             !ClubHub.shared.blocked.contains(gameID) && !ClubHub.shared.blocked.contains(teamID)
             && !PartySafety.shared.isBlocked(gameID) && !PartySafety.shared.isBlocked(teamID)
@@ -291,6 +304,12 @@ final class MultiplayerService {
         gc.onAuthenticationChanged = { ClubSignIn.authenticationFinished(); Task { @MainActor in await ClubHub.shared.refresh() } }
         gc.onPartyConnected = { [weak self, weak gc] host in
             guard let self, let gc else { return }
+            // The same party back after its match was lost (the background, Wi-Fi, Apple's error 4): the lobby, the Plaza and a match in
+            // progress carry on; hellos and the lobby go round again.
+            if self.transport === gc, self.nativeParty, let lobby = self.lobby, lobby.ownerID == host {
+                SportsDiagnostics.write("multiplayer: party back together (\(lobby.participants.count) in the lobby, \(lobby.phase.rawValue))")
+                self.bind(gc); return
+            }
             if self.transport !== gc { self.leave("party match connected over Game Center, another lobby goes") }
             self.nativeParty = true; self.quickSport = nil; self.expectingHost = host
             self.bind(gc)
@@ -332,17 +351,17 @@ final class MultiplayerService {
         guard GKLocalPlayer.local.isAuthenticated else { return nil }
         let gc = ensureGameCenter()
         if transport != nil && !(transport === gc && isParty && isOwner) { return nil }
-        if gc.handshakes.joining { return nil }   // (going into someone else's party: none of its own to offer)
+        if gc.joining { return nil }   // (going into someone else's party: none of its own to offer)
         return (gc.hostGroup(), gc.peers.count + 2, gc.capacity)
     }
-    /// Host: someone who knocked can be let in now (nothing else connecting, not joining anyone, in the Plaza).
+    /// Host: someone who knocked can be let in now (not joining anyone, in the Plaza).
     var canLetIn: Bool {
-        guard let gc = gameCenter, gc.handshakes.active == nil else { return false }
+        guard let gc = gameCenter, !gc.joining else { return false }
         return gc.hostAvailable?() == true
     }
-    /// Joiner: a knock on `host`'s party starts (one handshake at a time). Nil: not now.
+    /// Joiner: a knock on `host`'s party starts (it stops a Join from an invitation). Nil: not now.
     func beginKnock(host: String, onCancel: @escaping () -> Void) -> Int? { ensureGameCenter().beginKnockJoin(host: host, onCancel: onCancel) }
-    func endKnock(_ token: Int) { gameCenter?.handshakes.end(token) }
+    func endKnock(_ token: Int) { gameCenter?.endKnock(token) }
     func letIn(_ gameID: String, group: UInt32, players: Int) async throws {
         let gc = ensureGameCenter()
         if transport === gc { try? broadcast("partyAdmission", payload: gameID) }
@@ -397,7 +416,7 @@ final class MultiplayerService {
     }
     func quickMatch(_ sport: MultiplayerSport, golfPlayers: Int = 4) async throws {
         guard transport == nil, !searching else { throw MultiplayerError.invalidOperation("Leave the current lobby first.") }
-        guard gameCenter?.handshakes.active == nil else { throw MultiplayerError.invalidOperation("Finish joining your friend first.") }
+        guard gameCenter?.joining != true else { throw MultiplayerError.invalidOperation("Finish joining your friend first.") }
         guard sport != .tennis || hasScreen else {
             throw MultiplayerError.unavailable("Connect your TV with AirPlay before finding an online tennis opponent. Sharing a TV? Choose Local Tennis.")
         }
@@ -589,7 +608,7 @@ final class MultiplayerService {
         }
         // out of the list first: their phone's own "leave" can arrive while the kick is still being sent
         lobby?.participants.removeAll { $0.id == id }; lobby?.queue.removeAll { $0 == id }
-        dropped[id] = nil; reinvited.insert(id)
+        dropped[id] = nil
         gameCenter?.disallowPartyPlayer(id)
         lobby?.revision += 1; publishLobby()
         try? transmit("kick", to: [id])
@@ -603,7 +622,7 @@ final class MultiplayerService {
         try broadcast("promote", payload: id)
         promotedTo = (state.id, id)
         lobby?.ownerID = id   // (this phone is a member now; the new leader's lobby arrives in a moment)
-        dropped = [:]; reinvited = []
+        dropped = [:]
         rememberParty(leader: id, name: state.participants.first { $0.id == id }?.name ?? "")
     }
     /// The party this phone was last in as a member, for 15 minutes: an invite back from its leader is accepted by itself.
@@ -617,25 +636,14 @@ final class MultiplayerService {
     }
     /// The player left on purpose, was taken out, or went to another party: no invite back is accepted by itself.
     func forgetParty() { UserDefaults.standard.removeObject(forKey: "party.lastLeader"); gameCenter?.stopSharePlay() }
-    /// Seconds a dropped member gets to come back by itself (Apple reconnects the match) before the leader invites them back. It was
-    /// 4 s, under Apple's own reconnect: both happened, and the rejoin tore the reconnected party down (2026-10-26).
-    static let rejoinAfter: Double = 12
-    /// Leader: a member whose phone dropped (not one who left) is invited back after a few seconds, once, and their phone accepts
-    /// it by itself (`lastPartyLeader`). The invitation is taken back the moment they are connected again. A member gone for longer
-    /// than an invite lasts leaves the party list.
-    private func inviteDroppedMembersBack() {
+    /// Leader: a member whose phone dropped (not one who left) keeps their place while the party link brings them back (both phones
+    /// meet again in this party's group; until 2026-10-27 the leader sent a rejoin invitation, which raced Apple's own reconnect). A
+    /// member gone for longer than a party waits leaves the party list.
+    private func pruneDroppedMembers() {
         guard isOwner, isParty, lobby?.phase == .lobby, let gc = gameCenter, transport === gc else { return }
-        for (id, at) in dropped {
-            if now - at > 15 * 60 {
-                dropped[id] = nil; reinvited.remove(id)
-                lobby?.participants.removeAll { $0.id == id && !$0.connected }; lobby?.revision += 1; publishLobby()
-            } else if now - at > Self.rejoinAfter, !reinvited.contains(id) {
-                reinvited.insert(id)
-                Task { @MainActor in
-                    do { try await gc.reinvite(id) }
-                    catch { SportsDiagnostics.write("party: invite back failed: \(error.localizedDescription)") }
-                }
-            }
+        for (id, at) in dropped where now - at > GameCenterTransport.patience {
+            dropped[id] = nil
+            lobby?.participants.removeAll { $0.id == id && !$0.connected }; lobby?.revision += 1; publishLobby()
         }
     }
 
@@ -648,9 +656,7 @@ final class MultiplayerService {
             #endif
             SportsDiagnostics.write("multiplayer leave (\(lobby.map { "\($0.participants.count) in lobby, \(isOwner ? "owner" : "guest")" } ?? "no lobby"), peers=\(transport?.peers.count ?? 0)) — \(why.isEmpty ? "from \(file):\(line)" : why)")
         }
-        // (rejoin invitations still out are void once the leader leaves: nobody goes back into a party that is gone)
-        for id in reinvited { gameCenter?.cancelInvite(id) }
-        sharedPhoneHost = false; nativeParty = false; expectingHost = nil; promotedTo = nil; dropped = [:]; reinvited = []
+        sharedPhoneHost = false; nativeParty = false; expectingHost = nil; promotedTo = nil; dropped = [:]
         if transport != nil { try? broadcast("leave") }
         epoch += 1; searchGeneration += 1; timer?.invalidate(); timer = nil; stopRuntime()
         // (a Nearby browse that never became the lobby's transport stops too, rather than running on unowned)
@@ -660,7 +666,7 @@ final class MultiplayerService {
         proofPeers.removeAll();proofSnapshot=nil
         #endif
         ownerMissingSince = nil
-        loadingNeedsDecision = false; lobby = nil; hello.removeAll(); dropNotes.removeAll(); seen.removeAll(); disconnected.removeAll(); rate.removeAll(); matchConfiguration = nil; quickSport = nil; searching = false
+        loadingNeedsDecision = false; lobby = nil; hello.removeAll(); dropNotes.removeAll(); seen.removeAll(); connectedPeers.removeAll(); disconnected.removeAll(); rate.removeAll(); matchConfiguration = nil; quickSport = nil; searching = false
         lastLook.removeAll(); lastEmote.removeAll(); emotes.removeAll(); localEmoteAt = -Double.infinity; clockOffset = 0; clockFilter = ClockFilter(); nextPing = 0; lastHeard.removeAll(); silent.removeAll(); nextHeartbeat = 0; silenceArmedAt = .infinity
         awaitingCalibration.removeAll(); calibrationNoticed = false; localNetworkDenied = false
         localLoadReport = nil; localCalibrationReported = false; loadReports.removeAll(); scheduledRunAt = 0
@@ -704,6 +710,11 @@ final class MultiplayerService {
     private func identity() -> MultiplayerParticipant { MultiplayerParticipant(id: localID, name: name, hasScreen: hasScreen, female: female, left: left, invited: quickSport == nil, loadout: loadout) }
     private func peersChanged() {
         guard let transport else { return }
+        // A phone that is back (its match was lost, or its app closed and opened again) numbers its packets from 1 again: what was
+        // heard from it before must not drop them as old (a relaunched leader's lobby, a guest's hello and input were all ignored).
+        let current = Set(transport.peers)
+        for back in current.subtracting(connectedPeers) { seen = seen.filter { !$0.key.hasPrefix(back + ":") } }
+        connectedPeers = current
         try? broadcast("hello", payload: (try? json(identity())) ?? "")
         if isOwner {
             for i in lobby!.participants.indices where lobby!.participants[i].id != localID && !lobby!.participants[i].isGuest {
@@ -716,8 +727,6 @@ final class MultiplayerService {
                     if lobby!.participants[i].seat >= 0 { try? broadcast("suspend", payload: id); pushRuntime("suspend", payload: id) }
                 }
                 if connected {
-                    // back (Apple reconnected them): the rejoin invitation, if one went out, is taken back before their phone acts on it
-                    if reinvited.remove(id) != nil { gameCenter?.cancelInvite(id) }
                     dropped[id] = nil
                     if disconnected[id] != nil, [.loading,.calibrating,.playing].contains(lobby!.phase) {
                         // A phone whose connection really dropped reloads the game when it comes back, so it is neither loaded nor set up any more.
@@ -732,6 +741,12 @@ final class MultiplayerService {
             if lobby?.readyCheck == true, lobby?.phase == .lobby { partyReadyAdvance() }
         } else if let owner = lobby?.ownerID, !transport.peers.contains(owner) {
             SportsDiagnostics.write("multiplayer: host \(owner.prefix(8)) not connected (phase \(lobby!.phase.rawValue), peers=\(transport.peers.count))")
+            // The leader's phone dropped (it did not leave): the party link brings it back, and nobody takes the party over meanwhile
+            // (that made two leaders the moment it came back). Mid-match the usual away limit still applies.
+            if isParty, let gc = gameCenter, transport === gc, gc.waitingFor(owner) {
+                if lobby?.phase == .playing, continuesWhileAway, ownerMissingSince == nil { ownerMissingSince = now }
+                return
+            }
             if lobby?.phase == .lobby, handOver(from: owner) { return }
             // Mid-match the host may only be out of the app: the match waits for it (update() ends it after awayLimitSeconds).
             if lobby?.phase == .playing, continuesWhileAway { if ownerMissingSince == nil { ownerMissingSince = now }; return }
@@ -799,10 +814,15 @@ final class MultiplayerService {
             for i in state.participants.indices where !(state.participants[i].loadout?.valid() ?? true) { state.participants[i].loadout = nil }
             guard state.valid() else { noteDrop("lobby not valid here", peer); return }
             guard state.ownerID == peer, expectingHost == nil || expectingHost == peer else { noteDrop("lobby from someone who is not the host", peer); return }
-            guard lobby == nil || handover || promoted || (lobby?.ownerID == peer && lobby?.id == state.id && state.revision > lobby!.revision) else { return }
+            // (the host this phone just went into, or its party's leader with a new lobby: its app closed and opened again while this
+            // phone waited, and the party met again)
+            let awaited = expectingHost == peer
+            let restarted = isParty && lobby.map { $0.ownerID == peer && $0.id != state.id } == true
+            guard lobby == nil || awaited || restarted || handover || promoted || (lobby?.ownerID == peer && lobby?.id == state.id && state.revision > lobby!.revision) else { return }
+            if restarted { SportsDiagnostics.write("multiplayer: the leader's new lobby replaces its old one (\(state.participants.count) players)") }
             if lobby == nil { SportsDiagnostics.write("multiplayer lobby from host \(peer.prefix(8)): \(state.participants.count) players") }
             if promoted { promotedTo = nil }
-            lobby = state; expectingHost = nil
+            lobby = state; expectingHost = nil; syncPartyLeader()
             if isParty, !isOwner { rememberParty(leader: state.ownerID, name: state.participants.first { $0.id == state.ownerID }?.name ?? "") }
             if state.phase != .loading { loadingNeedsDecision = false }
             if state.phase != .lobby { emotes.removeAll() }
@@ -822,7 +842,7 @@ final class MultiplayerService {
                 next.revision += 1; lobby = next; publishLobby(); forgetParty()
                 lastError = "You're the party leader now."
             } else {
-                lobby = next; rememberParty(leader: packet.payload, name: next.participants.first { $0.id == packet.payload }?.name ?? "")
+                lobby = next; rememberParty(leader: packet.payload, name: next.participants.first { $0.id == packet.payload }?.name ?? ""); syncPartyLeader()
             }
             return
         }
@@ -1001,7 +1021,7 @@ final class MultiplayerService {
             if lobby!.participants[i].seat >= 0 && lobby!.phase == .playing { lastError = "\(lobby!.participants[i].name) left the match." }
             if lobby!.participants[i].seat >= 0 { try? broadcast("drop", payload: p.sender); pushRuntime("drop", payload: p.sender) }
             lobby!.participants.remove(at: i); lobby!.queue.removeAll { $0 == p.sender }; awaitingCalibration.remove(p.sender)
-            dropped[p.sender] = nil; reinvited.remove(p.sender)
+            dropped[p.sender] = nil
         case "availability":
             lobby!.participants[i].paused = p.payload == "false"
             if lobby!.participants[i].seat >= 0 && lobby!.phase == .playing {
@@ -1156,7 +1176,17 @@ final class MultiplayerService {
         if isOwner { var p = packet(kind, payload: payload); p.sender = localID; handleControl(p) }
         else { try transmit(kind, payload: payload, to: [lobby.ownerID]) }
     }
-    private func publishLobby() { if let lobby { if isOwner { local?.advertise(sport:lobby.sport.rawValue,players:lobby.participants.count) }; try? broadcast("lobby", payload: (try? json(lobby)) ?? "") } }
+    private func publishLobby() {
+        guard let lobby else { return }
+        if isOwner { local?.advertise(sport:lobby.sport.rawValue,players:lobby.participants.count) }
+        syncPartyLeader()
+        try? broadcast("lobby", payload: (try? json(lobby)) ?? "")
+    }
+    /// The party link meets in the leader's group: it follows the lobby's leader (handed over, or made leader).
+    private func syncPartyLeader() {
+        guard isParty, let gc = gameCenter, transport === gc, let lobby else { return }
+        gc.setLeader(lobby.ownerID, name: lobby.participants.first { $0.id == lobby.ownerID }?.name ?? "your friend")
+    }
     private func packet(_ kind: String, payload: String = "", reliable: Bool = true) -> MultiplayerPacket {
         sequence += 1
         return MultiplayerPacket(lobbyID: lobby?.id ?? "", matchID: lobby?.matchID ?? "", sender: localID, sequence: sequence, kind: kind, reliable: reliable, sentAt: now, payload: payload)
@@ -1291,7 +1321,7 @@ final class MultiplayerService {
             }
             // ...and the host keeps sending its lobby to a connected phone it does not list yet, so that phone has a host to talk to
             if isOwner, joiningPeers > 0, lobby?.phase == .lobby { publishLobby() }
-            inviteDroppedMembersBack()
+            pruneDroppedMembers()
         }
         if isOwner {
             // (one shared phone loads on its own: there is nobody to wait for, so no "keep waiting or leave" choice)

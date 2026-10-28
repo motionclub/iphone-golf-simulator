@@ -80,6 +80,8 @@ namespace GolfArcade.Majestic
             new(1f,.52f,.12f), new(.95f,.38f,.62f), new(.97f,.96f,.92f),
         };
 
+        // (not inlined: Xcode 26.2's clang crashed in its register coalescer compiling Bunting with this inlined into it, IL2CPP -O3)
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
         public static Vector3 Sag(Vector3 a, Vector3 d, float sag, float s) => Vector3.Lerp(a, d, s) + Vector3.down * sag * 4 * s * (1 - s);
 
         /// Rope with triangular pennants hanging along a sagging span.

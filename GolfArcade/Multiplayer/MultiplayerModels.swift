@@ -312,6 +312,9 @@ enum MultiplayerTuning {
     /// match goes on without them (tennis: the CPU plays their side; golf: their turns pass). After it they are out of the match,
     /// and their own phone leaves the match or party when it opens again (AwayPolicy). Pass-the-phone matches keep the plain 15 s.
     static let awayLimitSeconds = 180.0
+    /// A friends' party waits this long for a phone that dropped (the background, Wi-Fi, the app closed and opened again) before it
+    /// is over for it: the party link meets again in the leader's group meanwhile (2026-10-27).
+    static let partyPatienceSeconds = 600.0
     /// An unfinished setup is mentioned to everyone after this long (nobody is forced to wait: Leave is always there).
     static let calibrationNoticeSeconds = 60.0
     // Connection check before a tennis match (tuned in the field): pings go out 10 times a second during setup, the last 20 answers

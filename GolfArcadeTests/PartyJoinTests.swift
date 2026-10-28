@@ -1,69 +1,96 @@
 import XCTest
 @testable import GolfArcade
 
-/// Joining a friend's party reliably (2026-10-26): one handshake at a time per phone (PartyJoinCoordinator), crossed invites and
-/// knocks settled the same way on both phones (PartyTieBreak), a relaunch that resumes only a fresh Join (JoinMemory), CloudKit
-/// knocks that leave with their wait, and onboarding that steps aside for a party. Game Center itself is a two-phone gate
-/// (work/party-join-2026-10-26/TWO_PHONE_TEST.md).
+/// Joining a friend's party reliably: the party link's pieces (2026-10-27: the leader's group, the party kept across a relaunch,
+/// what the link does next, Apple's error 4), crossed invites and knocks settled the same way on both phones (PartyTieBreak), a
+/// relaunch that resumes only a fresh Join (JoinMemory), CloudKit knocks that leave with their wait, and onboarding that steps aside
+/// for a party. The link end to end: PartyLinkHarnessTests. Game Center itself is a two-phone gate.
 @MainActor
 final class PartyJoinTests: XCTestCase {
-    typealias Coordinator = PartyJoinCoordinator
+    // MARK: the party link
 
-    // MARK: one handshake at a time
-
-    func testCoordinatorRules() {
-        func h(_ kind: Coordinator.Kind, _ origin: Coordinator.Origin = .player) -> Coordinator.Handshake { .init(token: 1, kind: kind, origin: origin) }
-        let decide = Coordinator.decide
-        // nothing running: anything starts, but an automatic join never takes the phone out of a party with friends in it
-        XCTAssertEqual(decide(.joinInvite("r"), .player, nil, false), .start)
-        XCTAssertEqual(decide(.joinInvite("r"), .automatic, nil, false), .start)
-        XCTAssertEqual(decide(.joinInvite("r"), .automatic, nil, true), .refuse(.inParty))
-        XCTAssertEqual(decide(.joinInvite("r"), .player, nil, true), .start, "a Join the player taps leaves the party for the new one")
-        XCTAssertEqual(decide(.hostInvite("r"), .player, nil, true), .start, "hosting more friends from a party is fine")
-        // no host role while joining; one host handshake at a time
-        XCTAssertEqual(decide(.hostInvite("r"), .player, h(.joinInvite("x")), false), .refuse(.joining))
-        XCTAssertEqual(decide(.hostKnock("g"), .player, h(.joinKnock("x")), false), .refuse(.joining))
-        XCTAssertEqual(decide(.hostKnock("g"), .player, h(.hostInvite("x")), false), .refuse(.busy), "a let-in no longer aborts a bring-in")
-        XCTAssertEqual(decide(.hostInvite("y"), .player, h(.hostKnock("g")), false), .refuse(.busy))
-        // the same handshake twice: already happening
-        XCTAssertEqual(decide(.joinInvite("x"), .player, h(.joinInvite("x")), false), .refuse(.busy))
-        XCTAssertEqual(decide(.hostInvite("x"), .player, h(.hostInvite("x")), false), .refuse(.busy))
-        // a player's join wins over anything; an automatic one over nothing
-        XCTAssertEqual(decide(.joinInvite("y"), .player, h(.joinInvite("x")), false), .supersede)
-        XCTAssertEqual(decide(.joinKnock("g"), .player, h(.hostInvite("x")), false), .supersede)
-        XCTAssertEqual(decide(.joinRealTime("g"), .player, h(.joinKnock("h")), false), .supersede)
-        XCTAssertEqual(decide(.joinInvite("y"), .automatic, h(.joinInvite("x")), false), .refuse(.busy))
-        XCTAssertEqual(decide(.joinInvite("y"), .automatic, h(.hostInvite("x")), false), .refuse(.busy))
+    func testEveryPartyHasOneGroupWorkedOutFromItsLeader() {
+        let ids = (0..<500).map { "G:\($0 * 7919)" } + ["A:_d651b", "T:_9f65u6", ""]
+        for id in ids {
+            XCTAssertEqual(PartyGroup.of(id), PartyGroup.of(id))
+            XCTAssertTrue(PartyGroup.valid(PartyGroup.of(id)), "in the private range invitations accept")
+            var invitation = GameCenterPartyInvitation(host: id + "h", recipient: "me", name: "n", group: PartyGroup.of(id), players: ["me", id + "h"], expiresAt: 2_000)
+            invitation.step = .invited
+            XCTAssertTrue(invitation.valid(for: "me", now: 1_000))
+        }
+        XCTAssertEqual(Set(ids.map(PartyGroup.of)).count, ids.count, "different leaders, different groups")
+        // pinned: the number must never change between builds (two phones on two builds still meet)
+        XCTAssertEqual(PartyGroup.of("G:1"), 0x69375dbf)
+        XCTAssertEqual(PartyGroup.of("A:_d651b"), 0x6e3b9eeb)
     }
 
-    func testCoordinatorTokensCancelsAndEnds() {
-        let c = Coordinator()
-        var inParty = false
-        c.inConnectedParty = { inParty }
-        var cancelled: [Int] = []
-        let host = try! XCTUnwrap(c.begin(.hostInvite("r1"), cancel: { cancelled.append($0) }))
-        XCTAssertTrue(c.hosting); XCTAssertFalse(c.joining); XCTAssertTrue(c.isCurrent(host))
-        XCTAssertNil(c.begin(.hostKnock("g")), "one host handshake at a time")
-        XCTAssertNil(c.begin(.joinInvite("r2"), origin: .automatic), "a rejoin does not cancel a bring-in")
-        XCTAssertEqual(cancelled, [])
-        // the player taps Join: the bring-in is cancelled (its search stops), the join runs
-        let join = try! XCTUnwrap(c.begin(.joinInvite("r2"), cancel: { cancelled.append($0) }))
-        XCTAssertEqual(cancelled, [host]); XCTAssertFalse(c.isCurrent(host)); XCTAssertTrue(c.joining)
-        c.end(host)
-        XCTAssertTrue(c.isCurrent(join), "the cancelled handshake's own end changes nothing")
-        XCTAssertNil(c.begin(.hostInvite("r3")), "no host role while joining")
-        XCTAssertNil(c.begin(.joinInvite("r2")), "the same join is already happening")
-        c.cancel { $0.hosting }
-        XCTAssertTrue(c.isCurrent(join), "leaving a party stops bringing people in, not a join")
-        c.cancel { if case .joinInvite = $0 { return true }; return false }
-        XCTAssertEqual(cancelled, [host, join]); XCTAssertNil(c.active)
-        // an automatic join waits for a party with friends in it to be over
-        inParty = true
-        XCTAssertNil(c.begin(.joinInvite("r4"), origin: .automatic))
-        inParty = false
-        let auto = try! XCTUnwrap(c.begin(.joinInvite("r4"), origin: .automatic))
-        c.end(auto); XCTAssertNil(c.active)
-        XCTAssertNotEqual(c.ticket(), c.ticket(), "quick-match searches get their own numbers")
+    func testThePartyIsKeptAcrossARelaunchForAsLongAsAPartyWaits() {
+        let saved = PartyMemory.defaults
+        defer { PartyMemory.defaults = saved }
+        PartyMemory.defaults = UserDefaults(suiteName: "party-memory-\(UUID())")!
+        let m = PartyMemory(leader: "H", leaderName: "Ann", members: ["H", "J"], at: 1_000)
+        PartyMemory.save(m, "J")
+        XCTAssertEqual(PartyMemory.load("J", now: 1_000 + 599, patience: 600), m)
+        XCTAssertNil(PartyMemory.load("J", now: 1_000 + 601, patience: 600), "too long ago")
+        XCTAssertNil(PartyMemory.load("K", now: 1_000, patience: 600), "another player's")
+        PartyMemory.save(m, "K")
+        XCTAssertNil(PartyMemory.load("K", now: 1_000, patience: 600), "a party this player is not in")
+        PartyMemory.save(nil, "J")
+        XCTAssertNil(PartyMemory.load("J", now: 1_000, patience: 600), "left on purpose: forgotten")
+    }
+
+    func testWhatTheLinkDoesNext() {
+        typealias Plan = PartyLinkPlan
+        func input(_ local: String = "J", _ change: (inout Plan.Input) -> Void = { _ in }) -> Plan.Input {
+            var s = Plan.Input(local: local, now: 1_000, patience: 600); change(&s); return s
+        }
+        let h = PartyGroup.of("H"), j = PartyGroup.of("J")
+        let member = PartyMemory(leader: "H", leaderName: "Ann", members: ["H", "J"], at: 900)
+        let leader = PartyMemory(leader: "J", leaderName: "Bea", members: ["H", "J"], at: 900)
+        XCTAssertEqual(Plan.next(input()), .idle, "no party, nobody invited")
+        // a Join: the leader's group until the leader is there, once in the Plaza
+        XCTAssertEqual(Plan.next(input { $0.join = ("H", 2) }), .find(group: h, min: 2, max: 2, need: ["H"]))
+        XCTAssertEqual(Plan.next(input { $0.join = ("H", 3) }), .find(group: h, min: 2, max: 3, need: ["H"]))
+        XCTAssertEqual(Plan.next(input { $0.join = ("H", 2); $0.connected = ["H"] }), .idle)
+        XCTAssertEqual(Plan.next(input { $0.join = ("H", 2); $0.canJoin = false }), .wait("joining once this phone is back in the Plaza"))
+        XCTAssertEqual(Plan.next(input { $0.join = ("H", 2); $0.active = false }), .wait("in the background"))
+        XCTAssertEqual(Plan.next(input { $0.join = ("H", 2); $0.signedIn = false }), .wait("not signed in to Game Center"))
+        XCTAssertEqual(Plan.next(input { $0.join = ("H", 2); $0.quickMatch = true }), .wait("a quick match is searching"))
+        // a member: back into the leader's group whenever the leader is gone (a match on or not), until a party has waited long enough
+        XCTAssertEqual(Plan.next(input { $0.party = member; $0.inLobby = true; $0.connected = ["H"] }), .idle)
+        XCTAssertEqual(Plan.next(input { $0.party = member; $0.inLobby = true; $0.missingSince = ["H": 990]; $0.canJoin = false }),
+                       .find(group: h, min: 2, max: 2, need: ["H"]), "mid-match too: it is this phone's own party")
+        XCTAssertEqual(Plan.next(input { $0.party = member; $0.missingSince = ["H": 990]; $0.canJoin = false }),
+                       .wait("back into the party once this phone is in the Plaza"), "after a relaunch: the Plaza first")
+        XCTAssertEqual(Plan.next(input { $0.party = member; $0.inLobby = true; $0.missingSince = ["H": 1_000 - 601] }), .lost)
+        var left = member; left.members = ["J", "K"]
+        XCTAssertEqual(Plan.next(input { $0.party = left; $0.inLobby = true; $0.connected = ["K"] }), .wait("the leader left; the party picks a new one"),
+                       "a leader who left on purpose is not looked for")
+        // a leader: its own group, for members who dropped (any time) and friends it invited (in the Plaza)
+        XCTAssertEqual(Plan.next(input { $0.party = leader; $0.inLobby = true; $0.connected = ["H"]; $0.matchAlive = true }), .idle)
+        XCTAssertEqual(Plan.next(input { $0.party = leader; $0.inLobby = true; $0.missingSince = ["H": 990] }), .find(group: j, min: 2, max: 2, need: ["H"]))
+        XCTAssertEqual(Plan.next(input { $0.party = leader; $0.inLobby = true; $0.missingSince = ["H": 990]; $0.canHost = false }),
+                       .find(group: j, min: 2, max: 2, need: ["H"]), "a dropped member comes back mid-match")
+        XCTAssertEqual(Plan.next(input { $0.party = leader; $0.inLobby = true; $0.missingSince = ["H": 300] }), .idle, "gone too long")
+        XCTAssertEqual(Plan.next(input { $0.expected = ["K"] }), .find(group: j, min: 2, max: 2, need: ["K"]), "invited: the leader looks in its group")
+        XCTAssertEqual(Plan.next(input { $0.expected = ["K", "L"] }), .find(group: j, min: 2, max: 3, need: ["K", "L"]))
+        XCTAssertEqual(Plan.next(input { $0.expected = ["K"]; $0.canHost = false }), .wait("friends come in after this match"))
+        XCTAssertEqual(Plan.next(input { $0.party = leader; $0.inLobby = true; $0.expected = ["K"]; $0.connected = ["H"]; $0.matchAlive = true }),
+                       .add(group: j, min: 3, max: 3, need: ["K"]), "into the live match the friends are in")
+        XCTAssertEqual(Plan.next(input { $0.party = leader; $0.inLobby = true; $0.expected = ["K"]; $0.connected = ["H", "L", "M"]; $0.matchAlive = true }),
+                       .wait("the party is full"))
+    }
+
+    /// GameCenterFoundation.FastSyncTransportError error 4 (`groupSessionInvalidated`) and 1 (`illegalState`): Apple ended the match.
+    /// The player never reads that text.
+    func testApplesError4MeansTheMatchIsGoneAndIsNeverShown() {
+        let four = NSError(domain: "GameCenterFoundation.FastSyncTransportError", code: 4)
+        XCTAssertTrue(GameCenterTransport.sessionGone(four))
+        XCTAssertTrue(GameCenterTransport.sessionGone(NSError(domain: "GameCenterFoundation.FastSyncTransportError", code: 1)))
+        XCTAssertFalse(GameCenterTransport.sessionGone(NSError(domain: "GameCenterFoundation.FastSyncTransportError", code: 3)), "a send that was too big")
+        XCTAssertFalse(GameCenterTransport.sessionGone(NSError(domain: NSURLErrorDomain, code: 4)))
+        let words = GameCenterTransport.friendly(four, "Reconnecting to your party…").localizedDescription
+        XCTAssertEqual(words, "Reconnecting to your party…")
     }
 
     // MARK: crossed invites

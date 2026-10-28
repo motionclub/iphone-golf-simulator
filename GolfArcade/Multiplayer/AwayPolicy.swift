@@ -6,12 +6,14 @@ import Foundation
 /// - in a friends' party: only your phone pauses; the party carries on and you are back in it when you return;
 /// - in an online match: the match carries on without you (tennis: the CPU plays your side; golf: your turns pass) and you
 ///   take your place again when you return;
-/// - away longer than `onlineLimit`: you are out of the match or party (the others see you leave), and your phone goes back to
-///   the Plaza on its own when it opens again.
+/// - away longer than `onlineLimit` (a match) or `partyLimit` (a party): you are out of it (the others see you leave), and your
+///   phone goes back to the Plaza on its own when it opens again.
 /// Control Center or a notification banner only makes the app inactive: that is not leaving.
 @MainActor final class AwayPolicy {
     static let shared = AwayPolicy()
     static var onlineLimit: TimeInterval { MultiplayerTuning.awayLimitSeconds }
+    /// A party waits longer than a match: its phones meet again by themselves when the app opens (GameCenterTransport's party link).
+    static var partyLimit: TimeInterval { MultiplayerTuning.partyPatienceSeconds }
     /// Away at least this long, a Club Hub connection is assumed dead (iOS closes sockets of a suspended app) and is opened again.
     static let staleLinkSeconds: TimeInterval = 5
 
@@ -31,15 +33,14 @@ import Foundation
     /// What coming back after `seconds` away means for this phone.
     static func outcome(away seconds: TimeInterval, inOnlineMatch: Bool, inParty: Bool, droppedFromMatch: Bool) -> Outcome {
         if inOnlineMatch && (droppedFromMatch || seconds > onlineLimit) { return .leaveMatch }
-        if inParty && seconds > onlineLimit { return .leaveParty }
+        if inParty && seconds > partyLimit { return .leaveParty }
         return .stay
     }
     static func notice(for outcome: Outcome) -> String {
-        let minutes = Int(onlineLimit / 60)
         switch outcome {
         case .stay: return ""
-        case .leaveMatch: return "You were away for more than \(minutes) minutes, so you left the match."
-        case .leaveParty: return "You were away for more than \(minutes) minutes, so you left the party."
+        case .leaveMatch: return "You were away for more than \(Int(onlineLimit / 60)) minutes, so you left the match."
+        case .leaveParty: return "You were away for more than \(Int(partyLimit / 60)) minutes, so you left the party."
         }
     }
 }

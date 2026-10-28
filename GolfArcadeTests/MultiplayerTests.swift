@@ -1429,8 +1429,11 @@ final class MultiplayerTests: XCTestCase {
         XCTAssertEqual(AwayPolicy.outcome(away: limit - 1, inOnlineMatch: true, inParty: true, droppedFromMatch: false), .stay)
         XCTAssertEqual(AwayPolicy.outcome(away: limit + 1, inOnlineMatch: true, inParty: true, droppedFromMatch: false), .leaveMatch)
         XCTAssertEqual(AwayPolicy.outcome(away: 30, inOnlineMatch: true, inParty: false, droppedFromMatch: true), .leaveMatch, "the host already gave the place up")
-        XCTAssertEqual(AwayPolicy.outcome(away: limit + 1, inOnlineMatch: false, inParty: true, droppedFromMatch: false), .leaveParty)
-        XCTAssertTrue(AwayPolicy.notice(for: .leaveParty).contains("3 minutes"))
+        // a party waits longer than a match: its phones meet again by themselves (the party link)
+        XCTAssertEqual(AwayPolicy.outcome(away: limit + 1, inOnlineMatch: false, inParty: true, droppedFromMatch: false), .stay)
+        XCTAssertEqual(AwayPolicy.outcome(away: AwayPolicy.partyLimit + 1, inOnlineMatch: false, inParty: true, droppedFromMatch: false), .leaveParty)
+        XCTAssertTrue(AwayPolicy.notice(for: .leaveMatch).contains("3 minutes"))
+        XCTAssertTrue(AwayPolicy.notice(for: .leaveParty).contains("10 minutes"))
     }
     func testAwayClockMeasuresOnlyRealAbsences() {
         let clock = AwayPolicy(); var t = Date(timeIntervalSince1970: 1000); clock.now = { t }
