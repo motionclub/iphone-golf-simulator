@@ -31,10 +31,10 @@ struct ClubHubView: View {
                 }
                 .padding(.horizontal, 20).padding(.vertical, 14)
             }
-            .background(LinearGradient(colors: [Color(hex: "16294A"), IslandUI.dark], startPoint: .top, endPoint: .bottom).ignoresSafeArea())
+            .background(IslandBrandBackground().ignoresSafeArea())
             .navigationTitle("Friends").navigationBarTitleDisplayMode(.inline)
             .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Done") { hub.clearNotice(); dismiss() }.accessibilityIdentifier("club-hub-done") } }
-            .toolbarBackground(Color(hex: "16294A"), for: .navigationBar).toolbarBackground(.visible, for: .navigationBar)
+            .toolbarBackground(IslandUI.dark, for: .navigationBar).toolbarBackground(.visible, for: .navigationBar)
         }
         .preferredColorScheme(.dark)
         .foregroundStyle(.white)
@@ -332,7 +332,7 @@ struct ClubHubView: View {
     private func avatar(_ name: String, dot: Color?) -> some View {
         Text(String(name.prefix(1)).uppercased()).font(IslandUI.font(18, bold: true)).foregroundStyle(IslandUI.navy)
             .frame(width: 42, height: 42).background(Circle().fill(Color(hue: Double(abs(name.hashValue) % 360) / 360, saturation: 0.45, brightness: 0.95)))
-            .overlay(alignment: .bottomTrailing) { if let dot { Circle().fill(dot).frame(width: 13, height: 13).overlay(Circle().stroke(Color(hex: "16294A"), lineWidth: 2.5)) } }
+            .overlay(alignment: .bottomTrailing) { if let dot { Circle().fill(dot).frame(width: 13, height: 13).overlay(Circle().stroke(IslandUI.dark, lineWidth: 2.5)) } }
     }
     private func bigButton(_ title: String) -> some View {
         Text(title).font(IslandUI.font(18, bold: true)).foregroundStyle(IslandUI.navy).frame(maxWidth: .infinity, minHeight: 50).background(IslandUI.lime, in: Capsule())
@@ -471,7 +471,7 @@ struct InviteBanner: View {
                 }.frame(height: 4)
             }
             .padding(14)
-            .background(Color(hex: "16294A").opacity(0.97), in: RoundedRectangle(cornerRadius: 22, style: .continuous))
+            .background(IslandUI.dark.opacity(0.97), in: RoundedRectangle(cornerRadius: 22, style: .continuous))
             .overlay(RoundedRectangle(cornerRadius: 22, style: .continuous).strokeBorder(.white.opacity(0.2), lineWidth: 1.5))
             .shadow(color: .black.opacity(0.35), radius: 14, y: 6)
         }

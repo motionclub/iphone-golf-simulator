@@ -187,7 +187,7 @@ namespace GolfArcade.Course
         void CacheGround(GameObject model)
         {
             foreach(var collider in model.GetComponentsInChildren<MeshCollider>()) {
-                if(!collider.sharedMesh)continue;
+                if(!collider.sharedMesh||collider.name.StartsWith(GolfSolidProps.Prefix))continue;   // (the solid dressing's colliders have no renderer)
                 var ends=new int[collider.sharedMesh.subMeshCount];int total=0;
                 for(int i=0;i<ends.Length;i++){total+=(int)collider.sharedMesh.GetIndexCount(i)/3;ends[i]=total;}
                 groundSources.Add(new GroundSource{collider=collider,bounds=collider.bounds,triangleEnds=ends,materials=collider.GetComponent<Renderer>()?.sharedMaterials});

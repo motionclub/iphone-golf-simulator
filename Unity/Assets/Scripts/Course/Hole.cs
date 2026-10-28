@@ -170,6 +170,9 @@ namespace GolfArcade.Course
         /// Windmill Links' turning sails (the modelled hole's, set when it is placed): a ball in
         /// flight meets a blade or slips through, depending on when it gets there.
         public SpinningSails Windmill;
+        /// The solid dressing on the hole — fences, bridges, tulip beds, houses (GolfSolidProps, set
+        /// when it is placed): the ball bounces off them. Null for none.
+        public SolidProps Solids;
         /// Things moving about the hole today — a balloon drifting over it, a cart crossing it,
         /// gulls wheeling over the landing (RoundEvents): a ball in flight or rolling can meet them.
         /// Null for none.

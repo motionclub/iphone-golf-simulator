@@ -1,4 +1,5 @@
 import XCTest
+import SceneKit
 @testable import GolfArcade
 
 /// The locker's data model (Standard-only catalog, loadout saves), its focus grid and its Revert, and the roster safety net.
@@ -30,6 +31,10 @@ final class LockerTests: XCTestCase {
         }
         XCTAssertEqual(LockerCatalog.slots(for: .tennis), [.skin, .racket, .shoes])
         XCTAssertEqual(LockerCatalog.slots(for: .golf), [.skin, .club, .shoes])
+        XCTAssertEqual(LockerCatalog.slots(for: .bowling), [.skin, .shoes])
+        XCTAssertEqual(Player(name: "B", colorIndex: 0).loadoutPayload(sport: .bowling), ["skin": "bowling-camp-kit", "shoes": "bowling-saddle"])
+        XCTAssertNil(Player(name: "B", colorIndex: 0).multiplayerLoadout.gear["bowling"], "older peers reject unknown sports; bowling's colours travel without gear ids")
+        XCTAssertTrue(Player(name: "B", colorIndex: 0).multiplayerLoadout.valid())
     }
 
     func testLoadoutSurvivesSavingAndOldProfilesStillDecode() throws {
@@ -92,7 +97,7 @@ final class LockerTests: XCTestCase {
         XCTAssertEqual(menu.lockerTab, .gear)
         XCTAssertEqual(menu.focused, "lk-item-standard", "opens on the shelf, on the item you wear")
         let gear = menu.rows(.character)
-        XCTAssertEqual(gear[0], ["lk-sport-tennis", "lk-sport-golf"])
+        XCTAssertEqual(gear[0], ["lk-sport-tennis", "lk-sport-golf", "lk-sport-bowling"])
         XCTAssertEqual(gear[1], ["lk-tab-gear", "lk-tab-customize", "lk-tab-emotes"])
         XCTAssertEqual(gear[2], ["lk-slot-skin", "lk-slot-racket", "lk-slot-shoes"])
         XCTAssertEqual(gear[3], ["lk-item-standard"])
@@ -100,7 +105,9 @@ final class LockerTests: XCTestCase {
         menu.tap("lk-slot-racket")
         XCTAssertTrue(menu.rows(.character).contains(["lk-colour"]), "a racket has a colour row")
         menu.tap("lk-tab-customize")
-        XCTAssertEqual(menu.rows(.character).dropFirst().prefix(6).map { $0 }, [["lk-body"], ["lk-hand"], ["lk-back"], ["lk-skin"], ["lk-shirt"], ["lk-shorts"]])
+        let customize = menu.rows(.character)
+        XCTAssertEqual(customize[0], ["lk-sport-tennis", "lk-sport-golf", "lk-sport-bowling"], "Customize switches sports too")
+        XCTAssertEqual(customize.dropFirst(2).prefix(7).map { $0 }, [["lk-body"], ["lk-hand"], ["lk-back"], ["lk-skin"], ["lk-shirt"], ["lk-shorts"], ["lk-shoes"]])
     }
 
     /// MENU HERO: the Customize tab's "Back" row flips racket / golf bag, the pick is part of the saved player, and a profile saved before it existed carries the bag.
@@ -128,6 +135,38 @@ final class LockerTests: XCTestCase {
         XCTAssertEqual(menu.lockerSlot, .club, "the racket slot becomes the club slot for golf")
         XCTAssertEqual(menu.rows(.character)[2], ["lk-slot-skin", "lk-slot-club", "lk-slot-shoes"])
         menu.tap("lk-sport-tennis"); XCTAssertEqual(menu.lockerSlot, .racket)
+    }
+
+    func testBowlingPreviewWearsTheBowlingKit() throws {
+        for female in [false, true] {
+            var p = Player(name: "B", colorIndex: 0); p.standardFemale = female
+            XCTAssertNotNil(MatchHeroData.asset(female: female, bowling: true), "BowlingKitHero export is in the app")
+            let hero = try XCTUnwrap(MatchHero.build(p, sport: .bowling))
+            XCTAssertTrue(try XCTUnwrap(hero.childNode(withName: MatchHero.racketName, recursively: false)).isHidden, "no racket in the alley")
+            p.setOutfitHex("shirt", "1E2A6E")
+            let c = CharacterModelPreview.Coordinator(cameraDistance: 2.7)
+            c.update(p, sport: .bowling)
+            let view = SCNView(frame: CGRect(x: 0, y: 0, width: 400, height: 700)); view.scene = c.scene; view.pointOfView = c.camera
+            if let dir = ProcessInfo.processInfo.environment["MENU_SNAP_DIR"] {
+                try view.snapshot().pngData()?.write(to: URL(fileURLWithPath: dir).appendingPathComponent("bowling_\(female ? "female" : "male").png"))
+            }
+        }
+    }
+
+    func testBowlingKitInTheLocker() {
+        let menu = TennisMenu.shared
+        menu.debugShow(.character)
+        menu.tap("lk-slot-racket")
+        menu.tap("lk-sport-bowling"); XCTAssertEqual(menu.lockerSport, .bowling)
+        XCTAssertEqual(menu.lockerSlot, .skin, "bowling has no racket slot")
+        XCTAssertEqual(menu.rows(.character)[2], ["lk-slot-skin", "lk-slot-shoes"])
+        XCTAssertEqual(menu.rows(.character)[3], ["lk-item-bowling-camp-kit"])
+        XCTAssertTrue(menu.rows(.character).contains(["lk-colour"]), "the bowling shirt takes a colour")
+        menu.tap("lk-slot-shoes"); XCTAssertEqual(menu.lockerShelf.map(\.id), ["bowling-saddle"])
+        XCTAssertEqual(menu.lockerBottomName, "Pants")
+        menu.tap("lk-tab-customize"); XCTAssertEqual(menu.lockerSport, .bowling, "the sport stays picked on Customize")
+        menu.tap("lk-shoes"); XCTAssertEqual(menu.lockerRange, "accent", "shoe colour opens its own range")
+        menu.tap("lk-range-close"); menu.tap("lk-tab-gear"); menu.tap("lk-sport-tennis"); menu.tap("lk-slot-skin")   // the menu is shared between tests
     }
 
     func testClickingAlongSwatchesChangesColourAndRevertRestores() throws {

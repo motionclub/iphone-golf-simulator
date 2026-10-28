@@ -3,7 +3,8 @@ using UnityEngine;
 
 namespace GolfArcade.Game
 {
-    /// Codex's trail, the way his ball POV shows it (Hole_12_Cinematic.blend, Trail_Green /
+    /// Every shot's trail (10-28; it was only the ball POV's, beside a whole-flight tracer line):
+    /// Codex's, the way his ball POV shows it (Hole_12_Cinematic.blend, Trail_Green /
     /// Yellow / Red): one short translucent tube right behind the ball — the last third of a
     /// second of its path — nearly as wide as the ball at its head and a hair at its tail,
     /// brightest at the ball, in the swing's colour; after the landing it narrows and fades away

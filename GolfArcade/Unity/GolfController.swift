@@ -98,6 +98,15 @@ struct GolfPhoneController: View {
     @State private var stickOffset = CGSize.zero
     @State private var draggingAim = false
     @State private var lastAimSent = -Double.infinity
+    /// Handheld play: the hole map opened full screen from its corner of the game view.
+    @State private var mapExpanded = Self.debugMapOpen
+    private static var debugMapOpen: Bool {
+        #if DEBUG
+        ProcessInfo.processInfo.arguments.contains("-handheldMapOpen")
+        #else
+        false
+        #endif
+    }
     private var reading: GolfControllerReading { session.golfController }
     private var canAim: Bool { session.ready && session.golfPhase == "Aim" && !session.paused && (reading.party?.myTurn ?? true) }
     /// A result screen with buttons is up on the TV (a shot's result, a hole out, the round's end): the pad steers its buttons
@@ -112,17 +121,24 @@ struct GolfPhoneController: View {
     }
 
     var body: some View {
-        GeometryReader { geometry in
-            let scale = min(geometry.size.width / 464, geometry.size.height / 1000)
-            ZStack {
-                GolfControllerSky().ignoresSafeArea()
-                controllerCanvas
-                    .frame(width: 464, height: 1000)
-                    .scaleEffect(scale)
-                    .frame(width: geometry.size.width, height: geometry.size.height)
+        Group {
+            // no TV of this phone's own: the round above, the controls on a deck below (handheld play)
+            if session.phonePlay { handheldLayout }
+            else {
+                GeometryReader { geometry in
+                    let scale = min(geometry.size.width / 464, geometry.size.height / 1000)
+                    ZStack {
+                        GolfControllerSky().ignoresSafeArea()
+                        controllerCanvas
+                            .frame(width: 464, height: 1000)
+                            .scaleEffect(scale)
+                            .frame(width: geometry.size.width, height: geometry.size.height)
+                    }
+                }
+                .ignoresSafeArea()
             }
         }
-        .ignoresSafeArea().statusBarHidden().persistentSystemOverlays(.hidden).preferredColorScheme(.light)
+        .statusBarHidden().persistentSystemOverlays(.hidden).preferredColorScheme(.light)
         .sheet(isPresented: $session.menuPauseVisible) {
             pauseMenu
         }
@@ -201,8 +217,8 @@ struct GolfPhoneController: View {
             Form {
                 Section {
                     Button("Resume game") { session.readyToPlay() }
-                        .disabled(!session.displayConnected && !session.multiplayerControllerOnly).accessibilityIdentifier("golf-resume")
-                    if !session.displayConnected && !session.multiplayerControllerOnly { Text("Reconnect your TV to continue.") }
+                        .disabled(!session.displayConnected && !session.multiplayerControllerOnly && !session.phonePlay).accessibilityIdentifier("golf-resume")
+                    if !session.displayConnected && !session.multiplayerControllerOnly && !session.phonePlay { Text("Reconnect your TV to continue.") }
                 }
                 Section("Settings") {
                     Toggle("Sound", isOn: $session.sound)
@@ -411,6 +427,163 @@ struct GolfPhoneController: View {
         if session.haptics { UISelectionFeedbackGenerator().selectionChanged() }
     }
 
+}
+
+// MARK: handheld play (no TV of this phone's own, PLAN_PhonePlay_Handheld.md)
+
+/// The phone held upright like a Game Boy: the round (Unity's camera and its HUD) in the top three quarters, the controller's
+/// club card, aim pad and swing button shrunk onto a deck in the bottom quarter, and the hole map in the game view's corner,
+/// a tap opening it full screen.
+extension GolfPhoneController {
+    private var handheldLayout: some View {
+        ZStack {
+            HandheldFrame {
+                handheldGame
+            } deck: {
+                handheldDeck
+            } deckBackground: {
+                ZStack(alignment: .top) {
+                    GolfControllerSky()
+                    Rectangle().fill(.white).frame(height: 3)
+                }
+            }
+            if mapExpanded { handheldMap.transition(.opacity) }
+        }
+        .animation(.easeOut(duration: 0.18), value: mapExpanded)
+        // the map closes for the shot itself, so the flight is seen
+        .onChange(of: session.golfPhase) { _, phase in if phase != "Aim" { mapExpanded = false } }
+    }
+
+    private var mapRatio: CGFloat {
+        guard let image = session.golfControllerMap, image.size.width > 0 else { return 1.4 }
+        return min(2.2, max(0.6, image.size.height / image.size.width))
+    }
+
+    private var handheldGame: some View {
+        ZStack(alignment: .bottomTrailing) {
+            Color.clear
+            VStack(spacing: 10) { Spacer(minLength: 0); handheldStateCards }
+                .frame(maxWidth: .infinity).padding(.horizontal, 12).padding(.bottom, 12)
+            if session.ready && session.loading.finished && session.golfPhase == "Aim" && (session.golfControllerMap != nil || isDesignPreview) {
+                miniMap.padding(12)
+            }
+        }
+    }
+
+    private var miniMap: some View {
+        Button { mapExpanded = true } label: {
+            GolfControllerMap(reading: reading, image: session.golfControllerMap, reference: isDesignPreview)
+                .frame(width: 92, height: 92 * mapRatio)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .overlay(RoundedRectangle(cornerRadius: 12).stroke(.white, lineWidth: 3))
+                .overlay(alignment: .topTrailing) {
+                    Image(systemName: "arrow.up.left.and.arrow.down.right").font(.system(size: 10, weight: .black)).foregroundStyle(.white)
+                        .frame(width: 22, height: 22).background(GolfControllerStyle.blue, in: RoundedRectangle(cornerRadius: 7))
+                        .overlay(RoundedRectangle(cornerRadius: 7).stroke(.white, lineWidth: 1.5)).padding(5)
+                }
+                .shadow(color: GolfControllerStyle.ink.opacity(0.35), radius: 0, y: 3)
+        }.buttonStyle(GolfControllerPressStyle())
+            .accessibilityLabel("Open the hole map").accessibilityIdentifier("golf-handheld-map")
+    }
+
+    /// What the controller's map card shows over the map between shots (a result, the round's end, a friend's turn), here as
+    /// cards at the foot of the game view.
+    @ViewBuilder private var handheldStateCards: some View {
+        if let party = reading.party, !party.shared, party.phase == "result" || party.phase == "flight" || !party.myTurn {
+            GolfPartyEmoteControls(session: session, party: party).padding(16)
+                .background(GolfControllerStyle.blue.opacity(0.95), in: RoundedRectangle(cornerRadius: 20))
+        } else if session.golfPhase == "Result" {
+            GolfShotResultControls(session: session).padding(16)
+                .background(GolfControllerStyle.ink.opacity(0.94), in: RoundedRectangle(cornerRadius: 20))
+        } else if session.golfPhase == "RoundDone" {
+            Button(session.golfHasNextHole ? "NEXT HOLE" : TennisMenu.shared.postMatch?.golf != nil ? "FINISH ROUND" : "REMATCH") { session.continueGolfRound() }
+                .font(GolfControllerStyle.font(26)).padding(.horizontal, 26).padding(.vertical, 14).foregroundStyle(GolfControllerStyle.ink)
+                .background(GolfControllerStyle.yellow, in: Capsule()).overlay(Capsule().stroke(.white, lineWidth: 3))
+                .accessibilityIdentifier("golf-continue")
+        } else if let party = reading.party, !party.myTurn, !session.paused {
+            Text("\(party.player)’s turn").font(Club.ui(20, 900)).foregroundStyle(.white)
+                .padding(.horizontal, 18).padding(.vertical, 12).background(GolfControllerStyle.ink.opacity(0.94), in: Capsule())
+        }
+    }
+
+    /// The deck, on a 464 × 220 design canvas (HandheldFrame scales it): club bottom left, aim pad in the middle, swing bottom right.
+    private var handheldDeck: some View {
+        ZStack(alignment: .topLeading) {
+            Color.clear
+            GolfControllerText(text: "CLUB", size: 19, stroke: 3).position(x: 84, y: 16)
+            GolfControllerText(text: "AIM", size: 19, stroke: 3).position(x: 232, y: 16)
+            clubCard.frame(width: 240, height: 148).scaleEffect(0.6).frame(width: 144, height: 89).position(x: 84, y: 98)
+            arrowButton(right: false) { changeClub(-1) }.scaleEffect(0.6).position(x: 10, y: 98)
+            arrowButton(right: true) { changeClub(1) }.scaleEffect(0.6).position(x: 160, y: 98)
+            aimPad.frame(width: 156, height: 156).scaleEffect(0.7).frame(width: 109, height: 109).position(x: 232, y: 100)
+            GolfControllerText(text: reading.aimLabel, size: 14, stroke: 1)
+                .frame(width: 112, height: 26).background(GolfControllerStyle.ink, in: RoundedRectangle(cornerRadius: 12))
+                .overlay(RoundedRectangle(cornerRadius: 12).stroke(.white, lineWidth: 2.5))
+                .position(x: 232, y: 178)
+                .accessibilityIdentifier("golf-aim-reading")
+            handheldSwingSlot.position(x: 394, y: 100)
+            Button { session.pause() } label: {
+                Image(systemName: "pause.fill").font(.system(size: 17, weight: .black)).foregroundStyle(.white)
+                    .frame(width: 40, height: 40).background(GolfControllerStyle.blue, in: Circle())
+                    .overlay(Circle().stroke(.white, lineWidth: 2.5))
+            }.position(x: 440, y: 18).accessibilityLabel("Pause golf").accessibilityIdentifier("golf-pause")
+            Text(reading.party?.myTurn == false ? "WATCH THE SHOT" : "DRAG TO AIM · TAP TO SWING · TAP AGAIN TO CANCEL")
+                .font(GolfControllerStyle.font(10)).foregroundStyle(GolfControllerStyle.ink)
+                .frame(width: 464).position(x: 232, y: 208)
+        }
+    }
+
+    /// Tap to swing when the shot is ready; Ready first when the round waits for it (after a pause, or before a solo shot).
+    @ViewBuilder private var handheldSwingSlot: some View {
+        let waiting = session.ready && session.loading.finished && !session.menuPauseVisible
+            && (session.paused || (session.golfPhase == "Aim" && !session.golfShotReady && reading.party == nil))
+        if canAim && session.golfShotReady { startSwingButton }
+        else if waiting {
+            Button { session.readyToPlay() } label: {
+                GolfControllerText(text: "READY", size: 24, stroke: 3).frame(width: 108, height: 108)
+                    .background(GolfControllerStyle.yellow, in: Circle()).overlay(Circle().stroke(.white, lineWidth: 4))
+                    .shadow(color: GolfControllerStyle.ink.opacity(0.25), radius: 0, y: 4)
+            }.buttonStyle(.plain).accessibilityIdentifier("golf-ready")
+        } else {
+            GolfControllerText(text: "TAP TO\nSWING", size: 21, stroke: 3, lines: 2).frame(width: 108, height: 108)
+                .background(GolfControllerStyle.yellow, in: Circle()).overlay(Circle().stroke(.white, lineWidth: 4))
+                .opacity(0.45).accessibilityHidden(true)
+        }
+    }
+
+    /// The hole map opened from the game view: the whole screen, with the hole, par, yards and wind under it.
+    private var handheldMap: some View {
+        ZStack {
+            GolfControllerSky().ignoresSafeArea()
+            VStack(spacing: 14) {
+                HStack {
+                    holeBadge.frame(height: 60).fixedSize()
+                    Spacer()
+                    Button { mapExpanded = false } label: {
+                        Image(systemName: "xmark").font(.system(size: 17, weight: .black)).foregroundStyle(.white)
+                            .frame(width: 44, height: 44).background(GolfControllerStyle.blue, in: Circle()).overlay(Circle().stroke(.white, lineWidth: 3))
+                    }.accessibilityLabel("Close the map")
+                }
+                GolfControllerMap(reading: reading, image: session.golfControllerMap, reference: isDesignPreview)
+                    .aspectRatio(1 / mapRatio, contentMode: .fit)
+                    .accessibilityIdentifier("golf-handheld-map-open")
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                    .overlay(RoundedRectangle(cornerRadius: 16).stroke(.white, lineWidth: 5))
+                    .shadow(color: GolfControllerStyle.ink.opacity(0.16), radius: 0, y: 4)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                HStack(spacing: 8) {
+                    statBadge("PAR \(reading.par)", icon: nil)
+                    statBadge("\(Int(reading.yards.rounded())) YD", icon: "circle.fill")
+                    statBadge("\(Int(reading.wind.rounded())) MPH", icon: "wind")
+                }.frame(height: 46)
+                Button { mapExpanded = false } label: {
+                    GolfControllerText(text: "BACK TO SHOT", size: 22, stroke: 3).padding(.horizontal, 30).padding(.vertical, 12)
+                        .background(GolfControllerStyle.yellow, in: Capsule()).overlay(Capsule().stroke(.white, lineWidth: 3))
+                }.buttonStyle(GolfControllerPressStyle()).accessibilityIdentifier("golf-handheld-map-close")
+            }
+            .padding(.horizontal, 16).padding(.top, 8).padding(.bottom, 12)
+        }
+    }
 }
 
 private struct GolfControllerPressStyle: ButtonStyle {

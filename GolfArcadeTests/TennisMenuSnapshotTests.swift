@@ -173,7 +173,7 @@ final class TennisMenuSnapshotTests: XCTestCase {
             XCTAssertGreaterThan(try XCTUnwrap(c.racket).childNodes.count, 0)
             XCTAssertNil(c.hero?.childNode(withName: "golfClub", recursively: true))
             session.players = [p]; session.playerIndex = 0; menu.debugShow(.character)
-            for sport in ["tennis", "golf"] {
+            for sport in ["tennis", "golf", "bowling"] {
                 menu.tap("lk-sport-" + sport)
                 let size = CGSize(width: 402, height: 874)
                 let host = UIHostingController(rootView: IslandLockerScreen(menu: menu, compact: true)); host.safeAreaRegions = []
@@ -395,6 +395,27 @@ final class TennisMenuSnapshotTests: XCTestCase {
         try await Task.sleep(for: .seconds(1))
         let image = UIGraphicsImageRenderer(size: size).image { _ in host.view.drawHierarchy(in: window.bounds, afterScreenUpdates: true) }
         try XCTUnwrap(image.pngData()).write(to: (destination ?? folder).appendingPathComponent("\(name).png"))
+    }
+
+    /// The screens the phone shows over the pointer menu (HubStationPanel): Play choices, players, locker tabs, settings and so on.
+    func testPhoneStationScreens() async throws {
+        let menu = TennisMenu.shared, session = SportsSession.shared
+        let oldPlayers = session.players, oldIndex = session.playerIndex
+        var p = Player(name: "Adnan", colorIndex: 0); p.setSkin(0.35)
+        session.players = [p]; session.playerIndex = 0
+        defer { session.players = oldPlayers; session.playerIndex = oldIndex; menu.debugShow(.title) }
+        let size = CGSize(width: 402, height: 874)
+        let screens: [(String, MenuScreen)] = [("party", .party), ("local", .localChoice), ("players", .localPlayers), ("online", .onlineChoice),
+            ("settings", .settings), ("campaign", .campaign), ("quick", .exhibition), ("courts", .map), ("hub", .hub(.tennis)),
+            ("training", .training), ("results", .results), ("emotes", .homeEmotes)]
+        for (name, screen) in screens {
+            menu.debugShow(screen, launch: MenuLaunch(round: 0), result: MatchResult(won: true, score: "6–4", round: 0))
+            try await saveHosted(HubStationPanel(hub: .shared), "station-\(name)", size)
+        }
+        for tab in ["gear", "customize", "emotes"] {
+            menu.debugShow(.character); _ = menu.tap("lk-tab-\(tab)")
+            try await saveHosted(HubStationPanel(hub: .shared), "station-locker-\(tab)", size)
+        }
     }
 
     func testNewBaseLocker() async throws {

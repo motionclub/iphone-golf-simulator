@@ -281,9 +281,9 @@ struct CharacterModelPreview: UIViewRepresentable {
         /// Play `m` on the hero (ReadyIdle loop, or one Serve then the loop); nil leaves the static Ready stance. A display link poses the skeleton every frame.
         func play(_ m: MenuMotion?, keepClock: Bool = false) {
             stopLink(); rig?.detach(); rig = nil
-            guard outfitSport == .tennis || outfitSport == .golf else { motion = nil; return }
+            guard outfitSport == .tennis || outfitSport == .golf || outfitSport == .bowling else { motion = nil; return }
             motion = m
-            guard let m, let root = hero, let asset = MatchHero.asset(female: root.value(forKey: "heroFemale") as? Bool ?? false, golf: outfitSport == .golf), let r = HeroRig(root: root, asset: asset) else { return }
+            guard let m, let root = hero, let asset = MatchHero.asset(female: root.value(forKey: "heroFemale") as? Bool ?? false, sport: outfitSport), let r = HeroRig(root: root, asset: asset) else { return }
             r.attach(); rig = r
             r.racketOnBack = carrying && backCarry == .racket
             serveZoom = m.kind == .serveOnce && framing == .body ? computeServeZoom(root: root, rig: r.data, asset: asset) : nil
@@ -356,7 +356,7 @@ struct CharacterModelPreview: UIViewRepresentable {
         }
         /// The racket (in the hand, or on the back) and the golf bag: what the framing, the sport and the back pick show.
         func refreshCarry() {
-            racket?.isHidden = framing == .head || outfitSport == .golf || (carrying && backCarry == .bag)
+            racket?.isHidden = framing == .head || outfitSport == .golf || outfitSport == .bowling || (carrying && backCarry == .bag)
             hero?.childNode(withName: MatchHeroData.bagPartName, recursively: false)?.isHidden = !(carrying && backCarry == .bag) || framing == .head
             rig?.racketOnBack = carrying && backCarry == .racket
         }
@@ -425,7 +425,7 @@ struct CharacterModelPreview: UIViewRepresentable {
             character.scale = SCNVector3(1, 1, 1)
             // The locker mirror is the match hero itself (MatchHero.build): the male or female body the locker's sex pick selects, bald,
             // skin-tinted by the pick, holding the classic racket. What you see here is the mesh that walks onto the court.
-            guard let hero = MatchHero.build(p, sport: sport), let asset = MatchHero.asset(female: p.standardFemale, golf: sport == .golf) else { return }
+            guard let hero = MatchHero.build(p, sport: sport), let asset = MatchHero.asset(female: p.standardFemale, sport: sport) else { return }
             headCentre = asset.manifest.headCentreY * asset.scale
             character.addChildNode(hero)
             scene.rootNode.childNode(withName: "hero-floor", recursively: false)?.isHidden = false
@@ -444,8 +444,8 @@ struct CharacterModelPreview: UIViewRepresentable {
             scene.rootNode.childNode(withName: "idleBall", recursively: false)?.removeFromParentNode()
             character.childNode(withName: "idleClub", recursively: false)?.removeFromParentNode()
             refreshCarry()
-            character.childNode(withName: MatchHero.racketName, recursively: true)?.isHidden = (sport == .golf || outfitSport == .golf) || framing == .head || (carrying && backCarry == .bag)   // close-ups: the Ready racket crosses the chin
-            guard let sport else { if carrying { play(.relaxed) }; return }   // MENU HERO: the locker's Customize stage stands relaxed with the back pick
+            character.childNode(withName: MatchHero.racketName, recursively: true)?.isHidden = (sport == .golf || outfitSport == .golf || outfitSport == .bowling) || framing == .head || (carrying && backCarry == .bag)   // close-ups: the Ready racket crosses the chin
+            guard let sport else { if carrying || outfitSport == .bowling { play(.relaxed) }; return }   // the bowler stands relaxed (no racket to hold ready)   // MENU HERO: the locker's Customize stage stands relaxed with the back pick
             let ball = SCNNode(geometry: SCNSphere(radius: sport == .golf ? 0.032 : 0.065))
             ball.name = "idleBall"
             ball.geometry?.firstMaterial?.diffuse.contents = sport == .golf ? UIColor.white : UIColor(red: 0.8, green: 1, blue: 0.2, alpha: 1)
@@ -511,7 +511,12 @@ struct CharacterModelPreview: UIViewRepresentable {
     typealias Asset = MatchHeroData.Asset
 
     static func previewData(_ name: String) -> Data? { MatchHeroData.data(name) }
-    static func asset(female: Bool, golf: Bool = false, distance: Bool = false) -> Asset? { MatchHeroData.asset(female: female, golf: golf, distance: distance) }
+    static func asset(female: Bool, golf: Bool = false, distance: Bool = false, bowling: Bool = false) -> Asset? {
+        // a build without the bowling export shows the tennis hero rather than nothing
+        if bowling, !distance, let kit = MatchHeroData.asset(female: female, bowling: true) { return kit }
+        return MatchHeroData.asset(female: female, golf: golf, distance: distance)
+    }
+    static func asset(female: Bool, sport: Sport, distance: Bool = false) -> Asset? { asset(female: female, golf: sport == .golf, distance: distance, bowling: sport == .bowling) }
 
     // MARK: the worn kit (DRESS_MATCH_HEROES) - the same maths as Unity's MatchHeroLook.SetKit
     /// sRGB albedo of the authored White kit, and the floor of a tint (the authored Black kit's albedo, so a black pick still shows folds and seams).
@@ -547,7 +552,7 @@ struct CharacterModelPreview: UIViewRepresentable {
     /// The hero node: Body, Face, the six Kit_* parts and a "racket" group (frame, strings, grip), turned to the camera a touch 3/4, mirrored for a left-hander. Surfaces follow Unity's runtime
     /// materials (MatchHeroSurfaces): the skin tone, the racket colour and the kit's role tints are the locker's picks, everything else is the authored look.
     static func build(_ p: Player, sport: Sport = .tennis, distance: Bool = false) -> SCNNode? {
-        guard let asset = asset(female: p.standardFemale, golf: sport == .golf, distance: distance) else { return nil }
+        guard let asset = asset(female: p.standardFemale, sport: sport, distance: distance) else { return nil }
         let picks = MatchHeroData.Picks(colour: { name in
             switch name {
             case "Skin": return rgb(p.skinHex)
@@ -558,6 +563,7 @@ struct CharacterModelPreview: UIViewRepresentable {
         }, leftHanded: p.handedness == .left)
         let root = MatchHeroData.buildHero(asset, picks: picks)
         root.setValue(sport == .golf, forKey: "heroGolf")
+        if sport == .bowling { root.childNode(withName: racketName, recursively: false)?.isHidden = true }   // no racket in the alley
         if sport == .golf, golfEquipment(in: root) == nil { root.addChildNode(golfClub(player: p)) }
         return root
     }

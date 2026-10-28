@@ -51,7 +51,10 @@ namespace GolfArcade.UI
         RectTransform safeArea;
         /// Where a hole's opening draws its graphics (IntroGraphics): the HUD's safe area, on whichever screen the HUD is on.
         public RectTransform IntroLayer => safeArea;
-        Rect appliedSafeArea;
+        Rect appliedSafeArea; float appliedReserved;
+        /// The share of the screen's height, at the bottom, that the app's control deck covers in handheld play (0 otherwise):
+        /// the whole overlay keeps above it.
+        public static float ReservedBottom;
         Text statusText, bannerText, tempoText, controllerText;
         YardageCard yardage;
         Image meterGauge;
@@ -311,9 +314,9 @@ namespace GolfArcade.UI
         {
             if (onTv) return;   // (the TV has no notch)
             var area = Screen.safeArea;
-            if (area == appliedSafeArea || Screen.width == 0 || Screen.height == 0) return;
-            appliedSafeArea = area;
-            safeArea.anchorMin = new Vector2(area.xMin / Screen.width, area.yMin / Screen.height);
+            if ((area == appliedSafeArea && appliedReserved == ReservedBottom) || Screen.width == 0 || Screen.height == 0) return;
+            appliedSafeArea = area; appliedReserved = ReservedBottom;
+            safeArea.anchorMin = new Vector2(area.xMin / Screen.width, Mathf.Max(area.yMin / Screen.height, ReservedBottom));
             safeArea.anchorMax = new Vector2(area.xMax / Screen.width, area.yMax / Screen.height);
             safeArea.offsetMin = safeArea.offsetMax = Vector2.zero;
         }

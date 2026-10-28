@@ -23,7 +23,7 @@ struct PartyChatView: View {
                     composer
                 }
             }
-            .background(LinearGradient(colors: [Color(hex: "16294A"), IslandUI.dark], startPoint: .top, endPoint: .bottom).ignoresSafeArea())
+            .background(IslandBrandBackground().ignoresSafeArea())
             .navigationTitle("Party chat").navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) { Button { showSettings = true } label: { Image(systemName: "gearshape.fill") }.accessibilityLabel("Chat settings").accessibilityIdentifier("party-chat-settings") }
@@ -33,7 +33,7 @@ struct PartyChatView: View {
                     Button("Done") { dismiss() }.accessibilityIdentifier("party-chat-done")
                 }
             }
-            .toolbarBackground(Color(hex: "16294A"), for: .navigationBar).toolbarBackground(.visible, for: .navigationBar)
+            .toolbarBackground(IslandUI.dark, for: .navigationBar).toolbarBackground(.visible, for: .navigationBar)
         }
         .preferredColorScheme(.dark).foregroundStyle(.white)
         .onAppear { chat.chatOpen = true; chat.safety.refresh() }
@@ -363,7 +363,7 @@ struct PartyChatStrip: View {
             + Text(m.text).font(IslandUI.font(m.kind == .quick ? 15 : 14, bold: m.kind == .quick)).foregroundColor(.white))
             .lineLimit(2)
             .padding(.horizontal, 12).padding(.vertical, 7)
-            .background(Color(hex: "16294A").opacity(0.88), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+            .background(IslandUI.dark.opacity(0.88), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
     }
 
     private var strip: some View {
@@ -423,7 +423,7 @@ struct PartyChatStrip: View {
             }
         }
         .padding(12)
-        .background(Color(hex: "16294A").opacity(0.96), in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .background(IslandUI.dark.opacity(0.96), in: RoundedRectangle(cornerRadius: 20, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 20, style: .continuous).strokeBorder(.white.opacity(0.18), lineWidth: 1))
         .shadow(color: .black.opacity(0.3), radius: 12, y: 5)
         .foregroundStyle(.white).preferredColorScheme(.dark)

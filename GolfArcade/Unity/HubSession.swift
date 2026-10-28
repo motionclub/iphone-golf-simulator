@@ -60,52 +60,23 @@ final class HubSession {
     static let readyHold = 0.45, revealFade = 0.35
     private func progress(_ value: Double) {
         guard value.isFinite else { return }
-        let next = max(loadProgress, min(1, value))
-        if next > loadProgress { loadProgress = next; stageChanged = Date() }
+        loadProgress = max(loadProgress, min(1, value))
     }
 
-    /// What the bars draw: loadProgress, eased forward. Between two measured milestones it creeps toward the next one at the pace
-    /// earlier boots took (never past 90 % of the gap, so it cannot run ahead of the real work), and a measured jump fills at
-    /// `fillRate` instead of snapping, so the bar never sits still and never leaps (Adnan 10-26: "stuck on 12, then instantly fills").
-    private(set) var loadShown = 0.0
-    /// The bar's top speed while it catches up with a measured jump (whole bars per second).
-    static let fillRate = 1.6
-    /// The boot's milestones: the runtime up, Unity's first frame, the plaza scene loaded, the plaza built, ready.
-    static let bootMilestones = [0.12, 0.15, 0.30, 0.95, 1.0]
-    /// Seconds each stage took last time (what the creep paces itself by); first boots use these.
-    static let defaultStageSeconds = [0.12: 1.5, 0.15: 0.8, 0.30: 1.6, 0.95: 0.3]
-    @ObservationIgnored private var stageChanged = Date.distantPast
-    @ObservationIgnored private var stageReached: [Double: Date] = [:]
-    @ObservationIgnored private var lastShownTick = Date.distantPast
-
-    static func stageSeconds(from milestone: Double) -> Double {
-        let learned = UserDefaults.standard.dictionary(forKey: "hubBootStageSeconds") as? [String: Double]
-        return learned?[String(format: "%.2f", milestone)] ?? defaultStageSeconds[milestone] ?? 1
+    /// What the bars draw: a LoadingPace (one steady speed over the time a boot usually takes, learned; eased to full once the
+    /// plaza is ready), run by Core Animation, so the cold Unity start and the plaza's build, which hold the main thread, cannot
+    /// freeze it (Adnan 10-26: "stuck on 12, then instantly fills"; 10-28: "freezing, then loading sporadically").
+    private(set) var pace = LoadingPace.fixed(0)
+    /// The bar now, 0...1.
+    var loadShown: Double { pace.value(at: ProcessInfo.processInfo.systemUptime) }
+    /// A boot starts: the bar sets off at the pace earlier boots took.
+    private func beginPace() {
+        paceKey = Self.bootsThisRun == 0 ? "hub-cold" : "hub"; Self.bootsThisRun += 1
+        pace = LoadingPace(start: ProcessInfo.processInfo.systemUptime, expected: LoadingPace.expected(for: paceKey, default: paceKey == "hub-cold" ? 6 : 3))
     }
-    /// The bar's creep target now: the last milestone passed, plus a share of the gap to the next one that grows with time.
-    func creepTarget(now: Date = Date()) -> Double {
-        guard loadProgress < 1 else { return 1 }
-        let from = Self.bootMilestones.last { $0 <= loadProgress } ?? 0, to = Self.bootMilestones.first { $0 > loadProgress } ?? 1
-        let t = max(0, now.timeIntervalSince(stageChanged))
-        return loadProgress + (to - loadProgress) * 0.9 * (1 - exp(-t / max(0.2, Self.stageSeconds(from: from))))
-    }
-    /// Moves loadShown one step (the 60 Hz tick; tests pass `now`).
-    func advanceShown(now: Date = Date()) {
-        let dt = min(0.1, max(0, now.timeIntervalSince(lastShownTick))); lastShownTick = now
-        let want = phase == .booting ? max(loadProgress, creepTarget(now: now)) : loadProgress
-        if want > loadShown { loadShown = min(want, loadShown + Self.fillRate * dt) }
-        for m in Self.bootMilestones where loadProgress >= m && stageReached[m] == nil { stageReached[m] = now }
-    }
-    /// A boot finished: remember how long each stage took (averaged with earlier boots), so the next bar keeps the right pace.
-    private func learnStageSeconds() {
-        var learned = UserDefaults.standard.dictionary(forKey: "hubBootStageSeconds") as? [String: Double] ?? [:]
-        for (i, m) in Self.bootMilestones.dropLast().enumerated() {
-            guard let a = stageReached[m], let b = stageReached[Self.bootMilestones[i + 1]] else { continue }
-            let key = String(format: "%.2f", m), took = min(30, b.timeIntervalSince(a))
-            learned[key] = learned[key].map { $0 * 0.5 + took * 0.5 } ?? took
-        }
-        UserDefaults.standard.set(learned, forKey: "hubBootStageSeconds")
-    }
+    /// The first boot starts Unity itself (slower than a boot back from a match): each is learned on its own.
+    @ObservationIgnored private var paceKey = "hub"
+    private static var bootsThisRun = 0
     @ObservationIgnored private var timer: Timer?
     @ObservationIgnored private var stick = (x: 0.0, y: 0.0, mag: 0.0)
     @ObservationIgnored private var lastSampleSent = 0.0
@@ -146,9 +117,17 @@ final class HubSession {
     @ObservationIgnored private var menuPartySent = ""
     @ObservationIgnored private var menuStateScreen = ""
 
+    /// ARROW FOCUS (Adnan 10-28): the TV's highlight moves with the arrow pad; Select presses what is lit (no cursor is sent).
+    static let menuArrows = true
     func menuSelect(_ down: Bool) {
         if down { if session.haptics { UIImpactFeedbackGenerator(style: .medium).impactOccurred() } }
+        if Self.menuArrows { if down { menuCommand("menuSelect") }; return }
         MenuPointerSource.shared.select(down)
+    }
+    /// One arrow step ("up", "down", "left", "right").
+    func menuMove(_ direction: String) {
+        menuCommand("menuMove", mode: direction)
+        if session.haptics { UISelectionFeedbackGenerator().selectionChanged() }
     }
     /// The menu thumbstick moves the cursor.
     func menuStick(x: Double, y: Double, magnitude: Double) { MenuPointerSource.shared.stick(x: x, y: y, magnitude: magnitude) }
@@ -171,7 +150,7 @@ final class HubSession {
     }
     /// The pointer runs while this phone drives the menu on the TV (not with a detail screen open on the phone, never with a match).
     private func updatePointer() {
-        let want = menuMode && foreground && !onPhone && menuLeader && !panelOpen && onlineBench == nil && !ClubHub.shared.hubOpen
+        let want = !Self.menuArrows && menuMode && foreground && !onPhone && menuLeader && !panelOpen && onlineBench == nil && !ClubHub.shared.hubOpen
             && phase == .live && !session.active && token != 0
         if want { MenuPointerSource.shared.start(token: token) } else if MenuPointerSource.shared.isRunning { MenuPointerSource.shared.stop() }
     }
@@ -308,7 +287,7 @@ final class HubSession {
         }
         windowRetries = 0
         phase = .booting; bootStarted = Date(); lastBootSignal = bootStarted; heardFromUnity = false
-        notice = ""; loadProgress = 0; loadShown = 0; stageReached = [:]; lastShownTick = Date(); progress(0.03); revealedOnPhone = false
+        notice = ""; loadProgress = 0; beginPace(); progress(0.03); revealedOnPhone = false
         sessionID = UUID().uuidString; token = Int32.random(in: 1...Int32.max); loaded = false
         place = "plaza"; zone = nil; lastAction = nil
         menuMode = Self.pointerMenu; menuScreen = "home"; menuHoverLabel = ""; menuHoverID = ""; menuPhoneSent = false; menuPartySent = ""
@@ -418,7 +397,7 @@ final class HubSession {
     private func fail(_ message: String) {
         SportsDiagnostics.write("hub failed: \(message)")
         timer?.invalidate(); timer = nil; loaded = false; endNearbyBrowse()
-        phase = .failed; notice = message
+        phase = .failed; notice = message; pace.hold(at: ProcessInfo.processInfo.systemUptime)
         if !onPhone { SportsDisplays.shared.showMenu() }   // (the TV says so; the phone offers Try again)
     }
     /// Try the plaza again after a failure.
@@ -464,8 +443,8 @@ final class HubSession {
     private func arrive() {
         arriving = true
         let launch = sessionID
-        // the bar fills the rest of the way (fillRate) before the full bar's hold starts
-        DispatchQueue.main.asyncAfter(deadline: .now() + Self.readyHold + max(0, 1 - loadShown) / Self.fillRate) { [weak self] in
+        // the bar eases the rest of the way before the full bar's hold starts
+        DispatchQueue.main.asyncAfter(deadline: .now() + Self.readyHold + max(0, pace.end - ProcessInfo.processInfo.systemUptime)) { [weak self] in
             guard let self, self.sessionID == launch else { return }
             self.command("hubArrive")
             if self.onPhone {
@@ -757,7 +736,6 @@ final class HubSession {
     private func tick() {
         guard foreground else { return }
         guard !session.active else { timer?.invalidate(); timer = nil; return }
-        advanceShown()
         partyTick()
         if menuMode { syncMenuParty(); syncMenuPhone(); updatePointer() }
         if stick.mag > 0 && phase == .live { sendStick() }
@@ -780,7 +758,7 @@ final class HubSession {
         self.place = place; self.zone = HubZone(line: zone)
     }
     /// Tests: the boot message the plaza would send (no Unity in the simulator).
-    func debugBoot(session: String, onPhone: Bool = false, menu: Bool = false) { sessionID = session; token = 7; phase = .booting; loadProgress = 0; loadShown = 0; lastBootSignal = Date(); heardFromUnity = false; self.onPhone = onPhone; menuMode = menu; sendStart() }
+    func debugBoot(session: String, onPhone: Bool = false, menu: Bool = false) { sessionID = session; token = 7; phase = .booting; loadProgress = 0; beginPace(); lastBootSignal = Date(); heardFromUnity = false; self.onPhone = onPhone; menuMode = menu; sendStart() }
     /// Tests: the pointer menu up (no Unity in the simulator).
     func debugMenu(leader: Bool = true) { menuMode = true; menuScreen = "home"; menuPartySent = ""; menuPhoneSent = false }
     func debugPartyTick() { partyTick() }
@@ -788,7 +766,7 @@ final class HubSession {
     func debugArrived() { arriving = false }
     /// Snapshots: sitting on an online bench (searching or not), no Game Center.
     func debugOnlineBench(_ sport: MultiplayerSport, searching: Bool) { station = sport == .golf ? "bay-golf-online" : "bay-tennis-online"; onlineBench = sport; self.searching = searching }
-    func debugReset() { timer?.invalidate(); timer = nil; phase = .off; autoRetried = false; heardFromUnity = false; loaded = false; loadProgress = 0; loadShown = 0; arriving = false; zone = nil; station = nil; returnBay = nil; place = "plaza"; notice = ""; lookSent = ""; debugSent = nil
+    func debugReset() { timer?.invalidate(); timer = nil; phase = .off; autoRetried = false; heardFromUnity = false; loaded = false; loadProgress = 0; pace = .fixed(0); arriving = false; zone = nil; station = nil; returnBay = nil; place = "plaza"; notice = ""; lookSent = ""; debugSent = nil
         foreground = true; onPhone = false; revealedOnPhone = false; runtimeMissing = false; searching = false; onlineBench = nil; searchTask?.cancel(); meetHost = nil; matchOver = nil; partyStartAt = nil
         partyJoinPending = false; pendingPartyBay = nil; gatheredBay = nil; gatheredMembers = []; follow = nil
         nearbyHosting = false; nearbyJoining = nil; nearbyDismissed = []; nearbyBrowsing = false
@@ -1141,7 +1119,10 @@ final class HubSession {
         case "loadProgress": progress(0.12 + 0.18 * (Double(message) ?? 0))
         case "buildProgress": progress(0.30 + 0.65 * (Double(message) ?? 0))
         case "ready":
-            loaded = true; progress(1); if phase == .booting { advanceShown(); learnStageSeconds() }
+            loaded = true; progress(1)
+            let now = ProcessInfo.processInfo.systemUptime
+            if phase == .booting, pace.isMoving, pace.readyAt == nil { LoadingPace.learn(paceKey, took: now - pace.start) }
+            pace.markReady(at: now)
             let fresh = phase == .booting && returnBay == nil
             if phase == .booting { phase = .live; autoRetried = false; SportsDiagnostics.write("hub ready after \(String(format: "%.2f", Date().timeIntervalSince(bootStarted))) s") }
             // back from a match on the same bench: its panel again (staying seated = rematch, B = stand up); the menu opens on Home

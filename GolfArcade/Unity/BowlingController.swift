@@ -72,25 +72,45 @@ struct BowlingPhoneController: View {
                                    startPoint: .top, endPoint: .bottom).ignoresSafeArea())
     }
 
-    /// No TV: the lane fills the screen (Unity, under this see-through window) and the controls sit over its foot, so the
-    /// bowler, the ball and the pins stay in view between throws.
+    /// No TV: handheld play (HandheldFrame). The lane and Unity's score sheet fill the top three quarters; where to stand, the
+    /// ball and the last throw sit on a deck in the bottom quarter, so the bowler, the ball and the pins are never under a thumb.
     private var phoneLayout: some View {
-        VStack(spacing: 10) {
-            Spacer(minLength: 0)
-            if gameOver { finishButton.padding(.bottom, 30) }
-            else {
-                if !state.grade.isEmpty && state.mph > 0 && state.canMove {
-                    Text(gradeText).font(MSBrand.font(.heading, 22)).foregroundStyle(state.grade == "Perfect" ? MSBrand.gold : MSBrand.white)
-                        .shadow(color: MSBrand.textShadow.opacity(0.8), radius: 3, y: 1)
-                }
-                moveStrip.padding(.horizontal, 6)
-                ball.scaleEffect(0.62).frame(height: 190)
+        HandheldFrame {
+            VStack { Spacer(minLength: 0); if gameOver { finishButton.padding(.bottom, 24) } }.frame(maxWidth: .infinity)
+        } deck: {
+            handheldDeck
+        } deckBackground: {
+            ZStack(alignment: .top) {
+                LinearGradient(colors: [MSBrand.navyDeep, MSBrand.royal], startPoint: .top, endPoint: .bottom)
+                Rectangle().fill(MSBrand.white.opacity(0.6)).frame(height: 2)
             }
         }
-        .padding(.horizontal, 16).padding(.bottom, 8)
-        // a soft navy fade at the foot keeps the controls legible over the lane
-        .background(alignment: .bottom) {
-            LinearGradient(colors: [.clear, MSBrand.navyInk.opacity(0.85)], startPoint: .top, endPoint: .bottom).frame(height: 360).ignoresSafeArea()
+    }
+
+    /// The deck on a 464 × 220 design canvas: where to stand on the left, the ball in the middle, the last throw on the right.
+    private var handheldDeck: some View {
+        ZStack(alignment: .topLeading) {
+            Color.clear
+            if !gameOver {
+                ballView(caption: false).scaleEffect(0.4).frame(width: 104, height: 104).position(x: 232, y: 86)
+                Text(ballCaption).font(MSBrand.font(.button, 15)).foregroundStyle(ballCaptionLive ? MSBrand.gold : MSBrand.n300)
+                    .lineLimit(1).minimumScaleFactor(0.6).frame(width: 190).position(x: 232, y: 190)
+            }
+            Text("WHERE TO STAND").font(MSBrand.font(.heading, 15)).foregroundStyle(MSBrand.n300).position(x: 96, y: 18)
+            moveStrip.frame(width: 300, height: 68).scaleEffect(0.6).frame(width: 180, height: 41).position(x: 96, y: 92)
+            Text("LAST THROW").font(MSBrand.font(.heading, 15)).foregroundStyle(MSBrand.n300).position(x: 372, y: 18)
+            VStack(spacing: 2) {
+                Text(state.mph > 0 ? String(format: "%.1f", state.mph) : "–").font(MSBrand.font(.hudNumber, 38)).foregroundStyle(MSBrand.white).monospacedDigit()
+                Text("MPH").font(MSBrand.font(.hudLabel, 13)).foregroundStyle(MSBrand.n300)
+                if !state.grade.isEmpty && state.mph > 0 {
+                    Text(gradeText).font(MSBrand.font(.heading, 16)).foregroundStyle(state.grade == "Perfect" ? MSBrand.gold : MSBrand.white)
+                        .multilineTextAlignment(.center).lineLimit(2).minimumScaleFactor(0.7)
+                }
+            }.frame(width: 150).position(x: 380, y: 98)
+            Button { session.pause() } label: {
+                Image(systemName: "pause.fill").font(.system(size: 17, weight: .black)).foregroundStyle(MSBrand.white)
+                    .frame(width: 40, height: 40).background(MSBrand.navyDeep, in: Circle()).overlay(Circle().stroke(MSBrand.white, lineWidth: 2.5))
+            }.buttonStyle(.plain).position(x: 440, y: 18).accessibilityLabel("Pause bowling").accessibilityIdentifier("bowling-pause")
         }
     }
 
@@ -137,7 +157,7 @@ struct BowlingPhoneController: View {
                     Image(systemName: "arrowtriangle.up.fill").font(.system(size: 11, weight: .bold)).foregroundStyle(MSBrand.navyInk.opacity(0.55))
                         .position(x: x(for: Double(b), width: w), y: 16)
                 }
-                Text(boardText).font(MSBrand.font(.hudNumber, 22)).foregroundStyle(MSBrand.navyInk).monospacedDigit()
+                Text(boardText).font(MSBrand.font(.hudNumber, 22)).foregroundStyle(MSBrand.navyInk).monospacedDigit().lineLimit(1).minimumScaleFactor(0.6)
                     .frame(width: w).position(x: w / 2, y: 46)
                 Circle().fill(LinearGradient(colors: [MSBrand.gold, MSBrand.goldWordmark], startPoint: .top, endPoint: .bottom))
                     .overlay(Circle().stroke(MSBrand.white, lineWidth: 3)).frame(width: 30, height: 30)
@@ -172,8 +192,14 @@ struct BowlingPhoneController: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { if slideBoard == shown { slideBoard = nil } }
     }
 
+    /// What the ball does now (under it on the TV layout, beside it on the handheld deck).
+    private var ballCaption: String {
+        holding ? "SWING · LET GO AT THE BOTTOM" : state.walking ? "TAP TO SKIP" : state.canHold ? "HOLD TO BOWL" : !state.mine && !state.player.isEmpty ? "\(state.player.uppercased()) IS BOWLING" : "WATCH THE PINS"
+    }
+    private var ballCaptionLive: Bool { holding || state.canHold || state.walking }
+    private var ball: some View { ballView(caption: true) }
     /// The ball: press and hold to pick it up and start the approach; lift your thumb to let it go.
-    private var ball: some View {
+    private func ballView(caption: Bool) -> some View {
         ZStack {
             // the spotlight behind the hero object (Lift at 55 %)
             Circle().fill(RadialGradient(colors: [MSBrand.lift.opacity(0.55), .clear], center: .center, startRadius: 40, endRadius: 210)).frame(width: 420, height: 420)
@@ -184,9 +210,10 @@ struct BowlingPhoneController: View {
             ForEach(Array([(CGPoint(x: 0, y: 46), CGFloat(34)), (CGPoint(x: -24, y: -34), 26), (CGPoint(x: 24, y: -34), 26)].enumerated()), id: \.offset) { _, hole in
                 Circle().fill(MSBrand.navyInk.opacity(0.85)).frame(width: hole.1, height: hole.1).offset(x: hole.0.x, y: hole.0.y)
             }
-            Text(holding ? "SWING · LET GO AT THE BOTTOM" : state.walking ? "TAP TO SKIP" : state.canHold ? "HOLD TO BOWL" : !state.mine && !state.player.isEmpty ? "\(state.player.uppercased()) IS BOWLING" : "WATCH THE PINS")
-                .font(MSBrand.font(.button, 24)).foregroundStyle(holding || state.canHold || state.walking ? MSBrand.gold : MSBrand.n300).multilineTextAlignment(.center)
-                .offset(y: 160)
+            if caption {
+                Text(ballCaption).font(MSBrand.font(.button, 24)).foregroundStyle(ballCaptionLive ? MSBrand.gold : MSBrand.n300).multilineTextAlignment(.center)
+                    .offset(y: 160)
+            }
         }
         .frame(width: 260, height: 260)
         .scaleEffect(holding ? 0.94 : 1).animation(.easeOut(duration: 0.12), value: holding)   // BrandMotion press: 0.94, 0.12 s

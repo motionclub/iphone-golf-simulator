@@ -140,6 +140,9 @@ namespace GolfArcade.Game
             switch (m.action)
             {
                 case "menuBack": hud.Back(); return true;
+                // ARROW FOCUS: the phone's arrow pad and Select (no cursor)
+                case "menuMove": hud.Move(m.mode == "left" ? -1 : m.mode == "right" ? 1 : 0, m.mode == "up" ? 1 : m.mode == "down" ? -1 : 0); return true;
+                case "menuSelect": hud.SelectFocused(); return true;
                 case "menuRecenter": return true;
                 case "menuGo": if (!string.IsNullOrEmpty(m.mode)) hud.Go(m.mode); return true;
                 case "menuPhone": hud.SetPhonePanel(m.mode == "on", m.reason); return true;

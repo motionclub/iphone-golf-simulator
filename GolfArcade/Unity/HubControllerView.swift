@@ -47,7 +47,7 @@ struct HubControllerView: View {
                 controls(compact: true)
                     .padding(.horizontal, 18).padding(.top, 14).padding(.bottom, 6)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(LinearGradient(colors: [Color(hex: "16294A"), IslandUI.dark], startPoint: .top, endPoint: .bottom))
+                    .background(IslandBrandBackground())
             }
         }
         .ignoresSafeArea(edges: .top)
@@ -125,7 +125,7 @@ struct HubControllerView: View {
         }
         .foregroundStyle(.white)
         .padding(.horizontal, 24).padding(.vertical, 18)
-        .background(LinearGradient(colors: [Color(hex: "16294A"), IslandUI.dark], startPoint: .top, endPoint: .bottom).ignoresSafeArea())
+        .background(IslandBrandBackground().ignoresSafeArea())
         .preferredColorScheme(.dark)
         .modifier(sheets)
         .accessibilityIdentifier("hub-controller")
@@ -163,12 +163,10 @@ struct HubControllerView: View {
             if hub.phase == .booting {
                 // the TV's loading bar, small
                 HStack(spacing: 12) {
-                    Capsule().fill(.white.opacity(0.16)).frame(height: 10)
-                        .overlay(alignment: .leading) { GeometryReader { g in Capsule().fill(IslandUI.lime).frame(width: max(10, g.size.width * hub.loadShown)) } }
-                    Text("\(Int((hub.loadShown * 100).rounded()))%").font(Club.title(20)).foregroundStyle(IslandUI.lime).frame(width: 56, alignment: .trailing)
+                    PacedBar(pace: hub.pace, style: .plain(IslandUI.lime)).frame(height: 10)
+                    MSLoadingPercent(pace: hub.pace, font: .systemFont(ofSize: 20, weight: .heavy), color: UIColor(IslandUI.lime)).frame(width: 56, alignment: .trailing)
                 }
-                .animation(.easeOut(duration: 0.3), value: hub.loadShown)
-                .accessibilityElement(children: .ignore).accessibilityLabel("Loading \(Int((hub.loadShown * 100).rounded())) percent")
+                .accessibilityElement(children: .ignore).accessibilityLabel("Loading")
                 .accessibilityIdentifier("hub-loading-bar")
             }
             if let detail = hub.zone?.detail, !detail.isEmpty, hub.zone?.kind != .door {
@@ -223,12 +221,12 @@ struct HubControllerSheets: ViewModifier {
 
 /// The TV while the game starts and the Plaza boots (MotionSports title loading, picked 2026-10-25): the wordmark and tagline on
 /// the brand's royal-to-navy spotlight with the swing arc sweeping over, and LOADING… with the bar. The bar is
-/// HubSession.loadProgress (real progress: the runtime, the scene, the plaza's build); at 100 % it holds a moment and fades into
+/// HubSession.pace (steady, on Core Animation, so the cold Unity start cannot freeze it); at 100 % it holds a moment and fades into
 /// the arrival fly-in. Drawn on the 1280×720 TV canvas (the phone with no TV shows it scaled above its controls).
 struct HubLoadingScreen: View {
     let hub: HubSession
     var body: some View {
-        let p = hub.loadShown, failed = hub.phase == .failed
+        let failed = hub.phase == .failed
         ZStack(alignment: .topLeading) {
             MSBrand.backdrop(spotlight: UnitPoint(x: 0.3, y: 0.47), radius: 820)
             MSSwingArc().frame(width: 1280, height: 720)
@@ -239,15 +237,15 @@ struct HubLoadingScreen: View {
             }
             .position(x: 128 + 255, y: 360)
             VStack(spacing: 12) {
-                HStack(alignment: .firstTextBaseline) {
+                HStack(alignment: .center) {
                     Text(failed ? "The Plaza didn't open · tap Try again on your phone" : "LOADING…")
                         .font(MSLoadingFont.display(failed ? 24 : 28)).foregroundStyle(.white)
                         .shadow(color: MSBrand.textShadow.opacity(0.55), radius: 3, y: 1)
                         .accessibilityLabel(failed ? "The Plaza didn't open" : hub.loadStage).accessibilityIdentifier("hub-loading-stage")
                     Spacer()
-                    if !failed { Text("\(Int((p * 100).rounded()))%").font(MSLoadingFont.display(28)).foregroundStyle(MSBrand.gold).monospacedDigit() }
+                    if !failed { MSLoadingPercent(pace: hub.pace, font: MSLoadingFont.uiDisplay(28), color: UIColor(MSBrand.gold)) }
                 }
-                MSLoadingBar(progress: p, fill: MSBrand.gold, height: 22)
+                MSLoadingBar(pace: hub.pace, fill: MSBrand.gold, height: 22)
             }
             .frame(width: 1024).position(x: 640, y: 622)
         }
@@ -401,18 +399,28 @@ struct HubQuickMenu: View {
 struct HubStationPanel: View {
     let hub: HubSession
     var body: some View {
+        let menu = TennisMenu.shared
+        let canGoBack = menu.screen != .title && menu.screen != .main && !SportsSession.shared.menuPauseVisible
+        // one bar: Back (within the menu) · where you are · Done (leave the station); the menu's own bar is hidden under it
         VStack(spacing: 0) {
-            HStack {
-                Text("\(hub.onPhone ? "PLAZA" : "ON THE TV") · \(HubControllerView.placeName(hub.place))").font(IslandUI.font(12, bold: true)).tracking(1.4).foregroundStyle(IslandUI.lime)
-                Spacer()
-                Button { hub.leaveStation() } label: {
-                    Text("Done").font(IslandUI.font(16, bold: true)).foregroundStyle(IslandUI.navy)
-                        .padding(.horizontal, 18).padding(.vertical, 8).background(IslandUI.lime, in: Capsule())
-                }.buttonStyle(.plain).accessibilityIdentifier("hub-station-done")
+            ZStack {
+                Text("\(hub.onPhone ? "PLAZA" : "ON THE TV") · \(HubControllerView.placeName(hub.place))").font(IslandUI.font(12, bold: true)).tracking(1.4)
+                    .foregroundStyle(IslandUI.muted).lineLimit(1).minimumScaleFactor(0.7).padding(.horizontal, 110)
+                HStack {
+                    if canGoBack {
+                        Button { menu.back() } label: { Label("Back", systemImage: "chevron.left").font(IslandUI.font(17, bold: true)).foregroundStyle(IslandUI.ink) }
+                            .buttonStyle(.plain).accessibilityIdentifier("menu-back")
+                    }
+                    Spacer()
+                    Button { hub.leaveStation() } label: {
+                        Text("Done").font(IslandUI.font(16, bold: true)).foregroundStyle(IslandUI.navy)
+                            .padding(.horizontal, 18).padding(.vertical, 8).background(IslandUI.lime, in: Capsule())
+                    }.buttonStyle(.plain).accessibilityIdentifier("hub-station-done")
+                }
             }
-            .padding(.horizontal, 20).padding(.vertical, 10)
-            .background(Color(hex: "16294A"))
-            ZStack { Club.lagoonDeep.ignoresSafeArea(); TennisMenuScreen(compact: true) }
+            .padding(.horizontal, 20).frame(minHeight: 52)
+            .background(IslandUI.dark)
+            ZStack { IslandBrandBackground(); TennisMenuScreen(compact: true).environment(\.menuHostsTopBar, true) }
         }
         .foregroundStyle(.white)
         .preferredColorScheme(.dark)
@@ -473,7 +481,7 @@ struct HubPartyBayPanel: View {
             .padding(22)
         }
         .foregroundStyle(.white)
-        .background(LinearGradient(colors: [Color(hex: "16294A"), IslandUI.dark], startPoint: .top, endPoint: .bottom).ignoresSafeArea())
+        .background(IslandBrandBackground().ignoresSafeArea())
         .preferredColorScheme(.dark)
         .accessibilityIdentifier("hub-party-bay")
     }
@@ -594,7 +602,7 @@ struct HubOnlineBenchPanel: View {
             }.buttonStyle(.plain).accessibilityIdentifier("hub-online-friends")
         }
         .foregroundStyle(.white).padding(22)
-        .background(LinearGradient(colors: [Color(hex: "16294A"), IslandUI.dark], startPoint: .top, endPoint: .bottom).ignoresSafeArea())
+        .background(IslandBrandBackground().ignoresSafeArea())
         .preferredColorScheme(.dark)
         .accessibilityIdentifier("hub-online-bench")
     }
@@ -641,7 +649,7 @@ struct HubNearbyBenchPanel: View {
             }
         }
         .foregroundStyle(.white).padding(22)
-        .background(LinearGradient(colors: [Color(hex: "16294A"), IslandUI.dark], startPoint: .top, endPoint: .bottom).ignoresSafeArea())
+        .background(IslandBrandBackground().ignoresSafeArea())
         .preferredColorScheme(.dark)
         .accessibilityIdentifier("hub-nearby-bench")
     }
@@ -676,7 +684,7 @@ struct HubNearbyBanner: View {
     private func row<Content: View>(@ViewBuilder _ content: () -> Content) -> some View {
         HStack(spacing: 10) { content() }
             .foregroundStyle(.white).padding(.leading, 14).padding(.trailing, 6).padding(.vertical, 6)
-            .background(Color(hex: "16294A").opacity(0.96), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+            .background(IslandUI.dark.opacity(0.96), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
             .overlay(RoundedRectangle(cornerRadius: 18, style: .continuous).strokeBorder(IslandUI.lime.opacity(0.7), lineWidth: 2))
             .shadow(color: .black.opacity(0.35), radius: 10, y: 4)
             .accessibilityElement(children: .contain).accessibilityIdentifier("hub-nearby-banner")
@@ -700,7 +708,7 @@ struct HubMatchOverPanel: View {
             }.buttonStyle(.plain).accessibilityIdentifier("hub-match-over-back")
         }
         .foregroundStyle(.white).padding(24)
-        .background(LinearGradient(colors: [Color(hex: "16294A"), IslandUI.dark], startPoint: .top, endPoint: .bottom).ignoresSafeArea())
+        .background(IslandBrandBackground().ignoresSafeArea())
         .preferredColorScheme(.dark)
         .accessibilityIdentifier("hub-match-over")
     }
@@ -721,7 +729,7 @@ struct HubFailedPanel: View {
             }.buttonStyle(.plain).accessibilityIdentifier("hub-retry")
         }
         .foregroundStyle(.white).padding(24)
-        .background(LinearGradient(colors: [Color(hex: "16294A"), IslandUI.dark], startPoint: .top, endPoint: .bottom).ignoresSafeArea())
+        .background(IslandBrandBackground().ignoresSafeArea())
         .preferredColorScheme(.dark)
         .accessibilityIdentifier("hub-failed")
     }

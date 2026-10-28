@@ -21,7 +21,7 @@ struct TennisTVRoot: View {
                     else { TennisMenuScreen(compact: false)
                         .overlay(alignment: .bottomTrailing) {
                             Text("Feedback on your phone").font(IslandUI.font(13, bold: true))
-                                .foregroundStyle(IslandUI.navy).padding(8).background(IslandUI.paper, in: Capsule()).padding(12)
+                                .foregroundStyle(IslandUI.ink).padding(8).background(IslandUI.paper, in: Capsule()).padding(12)
                                 .allowsHitTesting(false)
                         }
                     }
@@ -40,7 +40,7 @@ struct TennisTVRoot: View {
 struct TennisPhoneMenu: View {
     var body: some View {
         ZStack {
-            Club.lagoonDeep.ignoresSafeArea()
+            IslandBrandBackground()
             TennisMenuScreen(compact: true)
         }
         .preferredColorScheme(.dark)
@@ -91,7 +91,7 @@ struct TennisRemote: View {
         }
         .foregroundStyle(.white)
         .padding(24)
-        .background(LinearGradient(colors: [Color(hex: "16294A"), IslandUI.dark], startPoint: .top, endPoint: .bottom).ignoresSafeArea())
+        .background(IslandBrandBackground().ignoresSafeArea())
         .preferredColorScheme(.dark)
     }
 
@@ -229,7 +229,7 @@ private struct PressStyle: ButtonStyle {
 
 /// The phone's backdrop while it is a controller: dark and quiet, because the player's eyes are on the TV.
 private struct ControllerBackdrop: View {
-    var body: some View { LinearGradient(colors: [Color(hex: "16294A"), IslandUI.dark], startPoint: .top, endPoint: .bottom).ignoresSafeArea() }
+    var body: some View { IslandBrandBackground().ignoresSafeArea() }
 }
 
 /// A big lime action button for the controller (Ready, Toss, Start timing check).

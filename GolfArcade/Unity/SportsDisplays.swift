@@ -118,10 +118,11 @@ final class SportsDisplays: NSObject {
         phoneSeeThrough(true)
     }
     func endPhonePlaza() {
-        phoneSeeThrough(false)
         if plazaPhone != nil { SportsRuntime.shared().restoreUnityWindow() }
         plazaPhone?.isHidden = true; plazaPhone = nil
         phone?.makeKeyAndVisible()
+        // (still see-through if a handheld match's window is up under it)
+        phoneSeeThrough(true)
     }
     var phonePlazaShown: Bool { plazaPhone?.isHidden == false }
     #if DEBUG
@@ -163,12 +164,27 @@ final class SportsDisplays: NSObject {
     }
     func endPhonePlay() {
         guard playPhone != nil else { return }
-        phoneSeeThrough(false)
         SportsRuntime.shared().restoreUnityWindow()
         playPhone?.isHidden = true; playPhone = nil
         phone?.makeKeyAndVisible()
+        phoneSeeThrough(true)
     }
     var phonePlayShown: Bool { playPhone?.isHidden == false }
+    #if DEBUG
+    /// `-handheldCheck` (simulator, no Unity): a captured game frame stands in for Unity's round under the handheld deck, drawn in
+    /// the top three quarters as Unity's camera is.
+    func debugFakePhonePlay(image path: String?) {
+        guard let window = phonePlayWindow() else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in self?.debugFakePhonePlay(image: path) }; return
+        }
+        let root = UIViewController(); root.view.backgroundColor = .black
+        let frame = UIImageView(frame: CGRect(x: 0, y: 0, width: window.bounds.width, height: window.bounds.height * (1 - SportsSession.handheldDeck)))
+        frame.image = path.flatMap(UIImage.init(contentsOfFile:)); frame.contentMode = .scaleAspectFill; frame.clipsToBounds = true
+        root.view.addSubview(frame)
+        window.rootViewController = root
+        showPhonePlay()
+    }
+    #endif
 
     /// The app's window lets the plaza or the lane (below it) show through where the controller draws nothing.
     func phoneSeeThrough(_ on: Bool) {

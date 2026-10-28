@@ -193,7 +193,7 @@ namespace GolfArcade.Game
                 switch(m.action) {
                     case "pause": SetPaused(true,m.reason); break;
                     case "resume": SetPaused(false); break;
-                    case "end": InputRate.Stop(); PresentationStinger.Stop(); SportsMultiplayer.Shutdown(); SportsRecorderStop(); StopAllCoroutines(); loading=false; Ready=false; SetPaused(true); Emit("exit",tennis ? $"Rally hits: {tennis.Hits}" : "Golf session ended"); Active=false; Left=false; break;
+                    case "end": EndHandheld(); InputRate.Stop(); PresentationStinger.Stop(); SportsMultiplayer.Shutdown(); SportsRecorderStop(); StopAllCoroutines(); loading=false; Ready=false; SetPaused(true); Emit("exit",tennis ? $"Rally hits: {tennis.Hits}" : "Golf session ended"); Active=false; Left=false; break;
                     case "recordPoints": if(tennis) SportsRecorderEnable(m.value>0); break;
                     case "savePoint": if(tennis) SportsRecorderSave(); break;
                     case "ultimateSelect": break; // Ignore commands from older controllers.
@@ -278,7 +278,9 @@ namespace GolfArcade.Game
             PresentationPolicy.Constrained |= TennisQuality.Current==TennisQuality.Tier.Low;
             // (a multiplayer golf phone without the TV draws only the upright controller sheet)
             // (bowling with no TV plays on the phone held upright: the lane runs up the screen under the controls)
-            Screen.orientation=m.external || m.sport=="bowling" || (m.sport=="golf" && !string.IsNullOrEmpty(m.network)) ? ScreenOrientation.Portrait : ScreenOrientation.LandscapeLeft;
+            // (handheld golf: upright too, the game above the app's control deck)
+            ConfigureHandheld(m);
+            Screen.orientation=m.external || m.sport=="bowling" || handheld || (m.sport=="golf" && !string.IsNullOrEmpty(m.network)) ? ScreenOrientation.Portrait : ScreenOrientation.LandscapeLeft;
             // The phone's loading bar follows the scene load.
             TennisVenue.Selected=TennisVenue.Parse(m.venue);
             GolfArcade.Bowling.BowlingVenue.Selected=GolfArcade.Bowling.BowlingVenue.Parse(m.venue);
@@ -400,7 +402,8 @@ namespace GolfArcade.Game
             if(GolfGuestController) gameplayCamera.enabled=false;
         }
         /// A multiplayer golf phone without the round's TV: the host's TV shows the course, this phone its controller.
-        bool GolfGuestController => golf && SportsMultiplayer.Active && !SportsMultiplayer.Instance.IsHost && outputDisplay==0;
+        /// (in handheld play the guest's own phone shows the round: its camera stays on)
+        bool GolfGuestController => golf && SportsMultiplayer.Active && !SportsMultiplayer.Instance.IsHost && outputDisplay==0 && !handheld;
         bool ConfigureDisplay(bool external) {
             // The scene's UIScreen can appear after Unity's initial display cache was built.
             // Native code registers and activates that exact screen and returns its cache index.
@@ -425,8 +428,8 @@ namespace GolfArcade.Game
                 if(listener.enabled && !listener.GetComponent<PointClipAudioTap>()) listener.gameObject.AddComponent<PointClipAudioTap>();
             SportsRecorderConfigure(session,index);
             SportsRecorderPause(paused);
-            gameplayCamera.rect=new Rect(0,0,1,1);
-            float displayAspect=(float)Display.displays[index].renderingWidth/Mathf.Max(1,Display.displays[index].renderingHeight);
+            gameplayCamera.rect=index==0 ? PhoneViewport : new Rect(0,0,1,1);
+            float displayAspect=Display.displays[index].renderingWidth*gameplayCamera.rect.width/Mathf.Max(1,Display.displays[index].renderingHeight*gameplayCamera.rect.height);
             gameplayCamera.aspect=displayAspect;
             if(tennis) tennis.SetSplitDisplay(index,displayAspect);   // one TV shared by two players is split down the middle
             gameplayCamera.enabled=true;
@@ -454,7 +457,7 @@ namespace GolfArcade.Game
             if(hubMode) { HubUpdate(); return; }
             // Rotation settles after scene loading; do not freeze the initial portrait aspect.
             if(gameplayCamera && outputDisplay==0 && Screen.height>0)
-                gameplayCamera.aspect=(float)Screen.width/Screen.height;
+                gameplayCamera.aspect=Screen.width*gameplayCamera.rect.width/(Screen.height*gameplayCamera.rect.height);
             Sample latest = default; bool haveSample = false;
             double now = SportsClock();
             for(int i=0;i<64;i++) {

@@ -68,7 +68,7 @@ namespace GolfArcade.Tests
             var h=new Hole{Number=99,Par=4,Centerline=new[]{CoursePoint.Zero,new CoursePoint(0,400)},FairwayWidth=200,RoughWidth=100};
             var dry=new CourseShot(GolfClub.Iron,new SwingImpact{Power=.8},0,h.Tee,h);
             double[] rolls=new double[3];int i=0;foreach(var sky in new[]{Sky.Rain,Sky.Snow,Sky.Ash}){
-                h.Rules=new PlayRules();Weather.Rain.Bend(h.Rules,sky);var wet=new CourseShot(GolfClub.Iron,new SwingImpact{Power=.8},0,h.Tee,h);rolls[i++]=wet.Roll;Assert.Less(wet.Roll,dry.Roll);
+                h.Rules=new PlayRules();Weather.Rain.Bend(h.Rules,sky);var wet=new CourseShot(GolfClub.Iron,new SwingImpact{Power=.8},0,h.Tee,h);double run=wet.Total-wet.Carry;rolls[i++]=run;Assert.Less(run,dry.Total-dry.Carry);   // (the whole run off the landing: on lively dry turf much of it is in the hops)
             }Assert.AreEqual(3,rolls.Distinct().Count());
         }
         [Test] public void VentWarnsThenBurnsOnceWithSafeRecoveryAndRepeatableImpact()

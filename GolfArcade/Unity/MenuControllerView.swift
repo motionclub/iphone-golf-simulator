@@ -1,7 +1,7 @@
 import SwiftUI
 
-/// The phone in the pointer menu (PLAN_PointerMenu.md): the party leader moves the TV's cursor with a thumbstick and presses the big
-/// gold Select button; Back and Center under it; "Pointing at …" says what the TV has lit. A guest's phone says who is choosing (their own
+/// The phone in the pointer menu (PLAN_PointerMenu.md): the party leader moves the TV's gold highlight with an arrow pad (ARROW FOCUS,
+/// Adnan 10-28: no cursor) and presses the big gold Select button; Back under it; "Selected …" says what the TV has lit. A guest's phone says who is choosing (their own
 /// locker is one tap away). With no TV the menu is drawn on this phone's own screen and a finger taps it directly.
 /// A detail screen the TV opened (mode options, the course picker, settings, the locker editor) shows over this, as before.
 struct MenuControllerView: View {
@@ -37,17 +37,17 @@ struct MenuPointerPad: View {
                 }
             }
             VStack(alignment: .leading, spacing: 2) {
-                Text(hub.phase == .booting ? "GETTING READY" : "POINTING AT").font(MotionBrand.font(.semiBold, 15)).tracking(3.5).foregroundStyle(MotionBrand.n300)
-                Text(hub.phase == .booting ? hub.loadStage : hub.menuHoverLabel.isEmpty ? "Move the stick" : hub.menuHoverLabel)
+                Text(hub.phase == .booting ? "GETTING READY" : "SELECTED").font(MotionBrand.font(.semiBold, 15)).tracking(3.5).foregroundStyle(MotionBrand.n300)
+                Text(hub.phase == .booting ? hub.loadStage : hub.menuHoverLabel.isEmpty ? "Use the arrows" : hub.menuHoverLabel)
                     .font(MotionBrand.font(.extraBoldItalic, 44)).foregroundStyle(MotionBrand.gold).lineLimit(1).minimumScaleFactor(0.6)
                     .accessibilityIdentifier("menu-pointing")
                 if !hub.notice.isEmpty { Text(hub.notice).font(MotionBrand.font(.medium, 15)).foregroundStyle(.white.opacity(0.9)) }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            // the stick moves the cursor on the TV; the thumb can land anywhere in its area (eyes stay on the TV)
-            HubStick(diameter: 230) { x, y, m in hub.menuStick(x: x, y: y, magnitude: m) }
+            // the arrows step the TV's highlight: a tap is one step, holding repeats (eyes stay on the TV)
+            MenuArrowPad { hub.menuMove($0) }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .accessibilityIdentifier("menu-stick")
+                .accessibilityIdentifier("menu-arrows")
             // Select: a big gold button under the stick
             ZStack {
                 ZStack(alignment: .bottom) {
@@ -73,12 +73,8 @@ struct MenuPointerPad: View {
                 Button { hub.openPartyGame() } label: { Label("Party game", systemImage: "person.3.fill") }
                     .buttonStyle(MotionButtonStyle(kind: .secondary)).accessibilityIdentifier("menu-party-game")
             }
-            HStack(spacing: 14) {
-                Button { hub.menuBack() } label: { Label("Back", systemImage: "chevron.left") }
-                    .buttonStyle(MotionButtonStyle(kind: .secondary)).accessibilityIdentifier("menu-back")
-                Button { hub.menuRecenter() } label: { Text(hub.recentred ? "Centred" : "Center") }
-                    .buttonStyle(MotionButtonStyle(kind: .ghost)).frame(maxWidth: .infinity).accessibilityIdentifier("menu-recenter")
-            }
+            Button { hub.menuBack() } label: { Label("Back", systemImage: "chevron.left") }
+                .buttonStyle(MotionButtonStyle(kind: .secondary)).accessibilityIdentifier("menu-back")
         }
         .foregroundStyle(.white)
         .padding(.horizontal, 20).padding(.top, 16).padding(.bottom, 12)
@@ -133,7 +129,7 @@ struct MenuTouchPad: View {
                 .frame(height: band)
                 VStack(spacing: 14) {
                     MotionWordmark(size: 26)
-                    Text("Tap the menu above. Connect a TV with AirPlay to play.").font(MotionBrand.font(.medium, 16)).foregroundStyle(MotionBrand.n300).multilineTextAlignment(.center)
+                    Text("Tap the menu above. Golf and bowling play right here on your phone; tennis needs a TV (AirPlay).").font(MotionBrand.font(.medium, 16)).foregroundStyle(MotionBrand.n300).multilineTextAlignment(.center)
                     if !hub.notice.isEmpty { Text(hub.notice).font(MotionBrand.font(.medium, 15)) }
                     Spacer()
                     Button { hub.menuBack() } label: { Label("Back", systemImage: "chevron.left") }.buttonStyle(MotionButtonStyle(kind: .secondary))
@@ -151,5 +147,63 @@ struct MenuTouchPad: View {
         let x = max(-1, min(1, p.x / size.width * 2 - 1)), y = max(-1, min(1, 1 - p.y / size.height * 2))
         hub.menuTouch(x: x, y: y, down: down)
         self.down = down
+    }
+}
+
+/// The menu's arrow pad: four arrows in a plus (the tennis remote's layout). A tap is one step; holding repeats after a short delay.
+struct MenuArrowPad: View {
+    let move: (String) -> Void
+    var body: some View {
+        let cell: CGFloat = 92, gap: CGFloat = 8
+        ZStack {
+            arrow("arrowtriangle.up.fill", "up").offset(y: -(cell + gap))
+            arrow("arrowtriangle.left.fill", "left").offset(x: -(cell + gap))
+            arrow("arrowtriangle.right.fill", "right").offset(x: cell + gap)
+            arrow("arrowtriangle.down.fill", "down").offset(y: cell + gap)
+            Circle().strokeBorder(.white.opacity(0.14), style: StrokeStyle(lineWidth: 2, dash: [4, 5])).frame(width: 60, height: 60)
+        }
+        .frame(width: cell * 3 + gap * 2, height: cell * 3 + gap * 2)
+    }
+    private func arrow(_ icon: String, _ direction: String) -> some View {
+        MenuRepeatButton(action: { move(direction) }) { pressed in
+            Image(systemName: icon).font(.system(size: 32, weight: .bold))
+                .foregroundStyle(pressed ? MotionBrand.navyInk : .white)
+                .frame(width: 92, height: 92)
+                .background(pressed ? MotionBrand.gold : .white.opacity(0.09), in: RoundedRectangle(cornerRadius: 24, style: .continuous))
+                .overlay(RoundedRectangle(cornerRadius: 24, style: .continuous).strokeBorder(pressed ? MotionBrand.gold : .white.opacity(0.22), lineWidth: 2.5))
+                .scaleEffect(pressed ? 0.95 : 1)
+        }
+        .accessibilityLabel("Move \(direction)")
+        .accessibilityIdentifier("menu-arrow-\(direction)")
+    }
+}
+
+/// Acts on touch-down; keeps acting while held (0.42 s, then every 0.11 s). Sliding the finger does nothing extra.
+private struct MenuRepeatButton<Label: View>: View {
+    let action: () -> Void
+    @ViewBuilder let label: (Bool) -> Label
+    @State private var pressed = false
+    @State private var timer: Timer?
+    var body: some View {
+        label(pressed)
+            .contentShape(Rectangle())
+            .gesture(DragGesture(minimumDistance: 0)
+                .onChanged { _ in
+                    guard !pressed else { return }
+                    pressed = true; action()
+                    timer?.invalidate()
+                    let start = Timer(timeInterval: 0.42, repeats: false) { _ in
+                        MainActor.assumeIsolated {
+                            guard pressed else { return }
+                            let repeater = Timer(timeInterval: 0.11, repeats: true) { _ in MainActor.assumeIsolated { action() } }
+                            RunLoop.main.add(repeater, forMode: .common); timer = repeater
+                        }
+                    }
+                    RunLoop.main.add(start, forMode: .common); timer = start
+                }
+                .onEnded { _ in pressed = false; timer?.invalidate(); timer = nil })
+            .accessibilityAddTraits(.isButton)
+            .accessibilityAction { action() }
+            .onDisappear { timer?.invalidate(); timer = nil }
     }
 }

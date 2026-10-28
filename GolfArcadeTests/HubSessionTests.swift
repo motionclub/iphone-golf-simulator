@@ -123,7 +123,8 @@ final class HubSessionTests: XCTestCase {
         XCTAssertFalse(sent.contains("hubArrive"))
         hub.receive(["type": "ready", "session": "boot"])
         XCTAssertEqual(hub.loadProgress, 1); XCTAssertEqual(hub.phase, .live); XCTAssertTrue(hub.arriving, "100 %: the full bar holds, then fades")
-        try await Task.sleep(for: .seconds(HubSession.readyHold + 1 / HubSession.fillRate + 0.15))   // (the bar fills the rest first)
+        XCTAssertNotNil(hub.pace.readyAt, "ready: the bar eases to full")
+        try await Task.sleep(for: .seconds(HubSession.readyHold + LoadingPace.finishLongest + 0.15))   // (the bar fills the rest first)
         XCTAssertTrue(sent.contains("hubArrive"), "the fly-in starts as the loading screen fades")
         XCTAssertFalse(hub.arriving)
         // back from a match on the same bench: straight to the bench, no fly-in
@@ -134,24 +135,33 @@ final class HubSessionTests: XCTestCase {
         XCTAssertFalse(sent.contains("hubArrive"))
     }
 
-    /// The bar never sits still and never leaps (Adnan 10-26: "stuck on 12, then instantly fills"): between milestones it creeps
-    /// toward the next one, never past 90 % of the gap; a measured jump fills at fillRate.
-    func testBootBarCreepsBetweenMilestonesAndFillsJumps() {
-        let hub = HubSession.shared
-        UserDefaults.standard.removeObject(forKey: "hubBootStageSeconds")
-        hub.debugBoot(session: "creep")
-        hub.receive(["type": "loadProgress", "session": "creep", "message": "0"]); XCTAssertEqual(hub.loadProgress, 0.12, accuracy: 0.001)
-        let t0 = Date()
-        for k in 0...40 { hub.advanceShown(now: t0.addingTimeInterval(Double(k) * 0.05)) }
-        XCTAssertGreaterThan(hub.loadShown, 0.13, "two seconds on one milestone: the bar has moved on")
-        XCTAssertLessThanOrEqual(hub.loadShown, 0.12 + 0.03 * 0.9 + 1e-9, "never past 90 % of the gap to the next milestone")
-        let before = hub.loadShown
-        hub.receive(["type": "buildProgress", "session": "creep", "message": "1"]); XCTAssertEqual(hub.loadProgress, 0.95, accuracy: 0.001)
-        hub.advanceShown(now: t0.addingTimeInterval(2.05))
-        XCTAssertLessThanOrEqual(hub.loadShown - before, HubSession.fillRate * 0.05 + 1e-9, "a jump fills, it does not snap")
-        for k in 1...30 { hub.advanceShown(now: t0.addingTimeInterval(2.05 + Double(k) * 0.05)) }
-        XCTAssertGreaterThanOrEqual(hub.loadShown, 0.95 - 1e-9, "and catches up within a second")
-        hub.debugReset()
+    /// The bar never sits still and never leaps (Adnan 10-26: "stuck on 12, then instantly fills"; 10-28: "freezing, then
+    /// loading sporadically"): one steady speed to 90 % over the expected time, a creep that never stops or fills, and from
+    /// "ready" an ease to full that starts at the speed the bar had.
+    func testLoadingPaceIsSteadyAndEasesToFull() {
+        var pace = LoadingPace(start: 100, expected: 4)
+        var last = pace.value(at: 100), steps: [Double] = []
+        for k in 1...400 {   // 20 s at 20 Hz, never ready
+            let v = pace.value(at: 100 + Double(k) * 0.05)
+            XCTAssertGreaterThan(v, last, "always moving (t = \(Double(k) * 0.05))"); steps.append(v - last); last = v
+        }
+        XCTAssertEqual(steps[0], steps[70], accuracy: 1e-9, "one steady speed while loading")
+        XCTAssertEqual(pace.value(at: 104), LoadingPace.cruise, accuracy: 1e-9)
+        XCTAssertLessThan(last, 0.99, "never full before the load is ready")
+        XCTAssertLessThanOrEqual(steps.max()!, (LoadingPace.cruise - LoadingPace.floor) / 4 * 0.05 + 1e-9, "never a leap")
+        // ready early: its top speed stays under three times what it had, and it lands on 100 % at rest
+        pace.markReady(at: 101)
+        let before = pace.value(at: 101), speed = (LoadingPace.cruise - LoadingPace.floor) / 4
+        var prev = before, biggest = 0.0
+        for k in 1...Int(LoadingPace.finishLongest * 100) {
+            let v = pace.value(at: 101 + Double(k) * 0.01); XCTAssertGreaterThanOrEqual(v, prev); biggest = max(biggest, v - prev); prev = v
+        }
+        XCTAssertLessThanOrEqual(biggest, speed * 0.01 * 3.5, "no snap to full")
+        XCTAssertEqual(pace.value(at: pace.end), 1, accuracy: 1e-9); XCTAssertTrue(pace.isFull(at: pace.end))
+        XCTAssertLessThanOrEqual(pace.end - 100, LoadingPace.longestExpected + LoadingPace.finishLongest)
+        // a failure stops it
+        var failed = LoadingPace(start: 0, expected: 4); failed.hold(at: 2)
+        XCTAssertEqual(failed.value(at: 9), failed.value(at: 2)); XCTAssertFalse(failed.isFull(at: 99))
     }
 
     /// The approved loading screen (D) on the TV and the phone while the plaza boots, at 68 % (written to $MENU_SNAP_DIR).
@@ -194,7 +204,7 @@ final class HubSessionTests: XCTestCase {
                 session.loading.begin(now: start); session.loading.reach(0.5)
                 session.loading.tick(now: start.addingTimeInterval(LoadingModel.firstTipDelay + LoadingModel.tipInterval * Double(tip - 1) + 0.1))
                 XCTAssertEqual(session.loading.tipNumber, tip)
-                XCTAssertEqual(Int((session.loading.displayProgress * 100).rounded()), 46)
+                XCTAssertGreaterThan(session.loading.displayProgress, LoadingPace.floor); XCTAssertLessThan(session.loading.displayProgress, LoadingPace.cruise)
                 try await save(LoadingScreen(menu: menu, compact: false), "venue-\(sport.rawValue)-\(venue)-tv-\(tip)", size: CGSize(width: 1280, height: 720))
                 if tip == 1 { try await save(LoadingScreen(menu: menu, compact: true), "venue-\(sport.rawValue)-\(venue)-phone") }
             }

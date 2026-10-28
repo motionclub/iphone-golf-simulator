@@ -37,7 +37,7 @@ namespace GolfArcade.Course
             if(!prefab||!shader){Debug.LogError("[GolfCoastalBotany] missing standalone artist kit/shader");return null;}
             var owner=model.AddComponent<GolfCoastalBotany>();owner.hole=hole;owner.shader=shader;
             owner.instances=model.AddComponent<GolfCoastalInstances>();
-            owner.colliders=model.GetComponentsInChildren<MeshCollider>();Physics.SyncTransforms();
+            owner.colliders=System.Array.FindAll(model.GetComponentsInChildren<MeshCollider>(),c=>!c.name.StartsWith(GolfSolidProps.Prefix));Physics.SyncTransforms();
             var sources=new Dictionary<string,(Mesh,Material[])>();
             foreach(var mf in prefab.GetComponentsInChildren<MeshFilter>())
                 if(mf.sharedMesh&&mf.sharedMesh.isReadable)

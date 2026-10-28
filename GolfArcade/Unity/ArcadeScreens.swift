@@ -198,6 +198,12 @@ enum MSLoadingFont {
     static func subline(_ size: CGFloat) -> Font { kanit("Kanit-MediumItalic", size) ?? .system(size: size, weight: .semibold).italic() }
     static func body(_ size: CGFloat) -> Font { kanit("Kanit-Medium", size) ?? .system(size: size, weight: .medium) }
     private static func kanit(_ name: String, _ size: CGFloat) -> Font? { UIFont(name: name, size: size) != nil ? .custom(name, fixedSize: size) : nil }
+    /// `display` as a UIFont (the paced percentage draws with it).
+    static func uiDisplay(_ size: CGFloat) -> UIFont {
+        if let kanit = UIFont(name: "Kanit-ExtraBoldItalic", size: size) { return kanit }
+        let black = UIFont.systemFont(ofSize: size, weight: .black)
+        return black.fontDescriptor.withSymbolicTraits(.traitItalic).map { UIFont(descriptor: $0, size: size) } ?? black
+    }
 }
 
 /// "MotionSports": white Motion, Wordmark Gold Sports, no space, with its required text shadow (§6).
@@ -231,46 +237,233 @@ struct MSSparkle: View {
     }
 }
 
-/// The loading bar: a white-rimmed pill on Navy Ink, filled in the sport's colour with a sparkle riding its head.
+/// The loading bar: a white-rimmed pill on Navy Ink, filled in the sport's colour with a sparkle riding its head. It runs a
+/// LoadingPace on Core Animation (PacedBarView), so it keeps moving while Unity holds the main thread.
 struct MSLoadingBar: View {
-    let progress: Double
+    let pace: LoadingPace
+    var anchor: PaceAnchor = .live
     var fill: Color = MSBrand.gold
     var height: CGFloat = 20
     var body: some View {
-        GeometryReader { g in
-            let inset = height * 0.22, track = g.size.width - inset * 2
-            let p = min(1, max(0, progress.isFinite ? progress : 0)), w = max(height - inset * 2, track * p)
-            ZStack(alignment: .leading) {
-                Capsule().fill(MSBrand.navyInk)
-                Capsule().fill(LinearGradient(colors: [fill.mix(.white, 0.35), fill, fill.mix(MSBrand.goldDeep, 0.25)], startPoint: .top, endPoint: .bottom))
-                    .frame(width: w, height: height - inset * 2).padding(.leading, inset)
-                MSSparkle().frame(width: height * 2.4, height: height * 2.4).position(x: inset + w, y: height / 2)
-            }
-            .overlay(Capsule().strokeBorder(.white, lineWidth: max(2, height * 0.14)))
+        PacedBar(pace: pace, anchor: anchor, style: .brand(fill: fill, height: height))
+            .frame(height: height)
             .shadow(color: MSBrand.shadowInk.opacity(0.43), radius: height * 0.5, y: height * 0.3)
-        }
-        .frame(height: height)
-        .animation(.easeOut(duration: 0.35), value: progress)
-        .accessibilityElement(children: .ignore).accessibilityLabel("Loading \(Int((progress * 100).rounded())) percent")
+            .accessibilityElement(children: .ignore).accessibilityLabel("Loading")
     }
 }
 
-/// Loading without a spinner (§7): a short swing arc chasing round a faint ring.
-struct MSArcRing: View {
-    var color: Color = .white
-    var body: some View {
-        TimelineView(.animation(minimumInterval: 1.0 / 30)) { context in
-            let turn = context.date.timeIntervalSinceReferenceDate.truncatingRemainder(dividingBy: 1.1) / 1.1
-            ZStack {
-                Circle().stroke(.white.opacity(0.18), lineWidth: 4)
-                Circle().trim(from: 0, to: 0.36)
-                    .stroke(AngularGradient(colors: [color.opacity(0), color, .white], center: .center, startAngle: .degrees(0), endAngle: .degrees(130)),
-                            style: StrokeStyle(lineWidth: 5, lineCap: .round))
-                    .shadow(color: MSBrand.arcWarm.opacity(0.7), radius: 4)
-                    .rotationEffect(.degrees(turn * 360))
-            }
+/// The percentage beside a paced bar, on Core Animation too: one pre-drawn image per percent, switched at the moments the
+/// pace crosses each one (so the number never freezes while the bar moves).
+struct MSLoadingPercent: UIViewRepresentable {
+    let pace: LoadingPace
+    var anchor: PaceAnchor = .live
+    let font: UIFont
+    let color: UIColor
+    func makeUIView(context: Context) -> PacedPercentView { PacedPercentView() }
+    func updateUIView(_ view: PacedPercentView, context: Context) { view.apply(pace: pace, anchor: anchor, font: font, color: color) }
+    func sizeThatFits(_ proposal: ProposedViewSize, uiView: PacedPercentView, context: Context) -> CGSize? { PacedPercentView.size(font) }
+}
+
+/// A paced bar (UIKit): the track, the fill and the sparkle are layers whose widths run as one keyframe animation laid out from
+/// the pace, rebuilt only when the pace changes (start, ready, failed) or the bar is resized.
+struct PacedBar: UIViewRepresentable {
+    struct Style: Equatable {
+        var fill: [UIColor], track: UIColor, rim: UIColor? = nil, rimWidth: CGFloat = 0, insetRatio: CGFloat = 0, sparkle = false
+        /// The MotionSports bar: white rim, inset fill with a top-lit gradient, sparkle on the head.
+        static func brand(fill: Color, height: CGFloat) -> Style {
+            Style(fill: [UIColor(fill.mix(.white, 0.35)), UIColor(fill), UIColor(fill.mix(MSBrand.goldDeep, 0.25))], track: UIColor(MSBrand.navyInk),
+                  rim: .white, rimWidth: max(2, height * 0.14), insetRatio: 0.22, sparkle: true)
         }
-        .accessibilityHidden(true)
+        /// A plain capsule on a faint track (the phone's small copy of the TV's bar).
+        static func plain(_ fill: Color) -> Style { Style(fill: [UIColor(fill)], track: UIColor.white.withAlphaComponent(0.16)) }
+    }
+    let pace: LoadingPace
+    var anchor: PaceAnchor = .live
+    let style: Style
+    func makeUIView(context: Context) -> PacedBarView { PacedBarView() }
+    func updateUIView(_ view: PacedBarView, context: Context) { view.apply(pace: pace, anchor: anchor, style: style) }
+}
+
+/// Keyframes from the pace's clock now to the end of its path (`step` apart), in Core Animation's time.
+@MainActor private enum PaceFrames {
+    static func sample(_ pace: LoadingPace, anchor: PaceAnchor, step: Double) -> (now: Double, span: Double, values: [Double])? {
+        let now = anchor.paceNow, span = min(pace.end, now + LoadingPace.horizon + 10) - now
+        guard pace.isMoving, span > 0.02 else { return nil }
+        let n = max(2, min(1200, Int((span / step).rounded(.up))))
+        return (now, span, (0...n).map { pace.value(at: now + span * Double($0) / Double(n)) })
+    }
+    static func animation(_ keyPath: String, _ values: [Any], keyTimes: [Double]? = nil, span: Double, layer: CALayer, discrete: Bool = false) -> CAKeyframeAnimation {
+        let a = CAKeyframeAnimation(keyPath: keyPath)
+        a.values = values; a.duration = span
+        a.keyTimes = (keyTimes ?? (0..<values.count).map { Double($0) / Double(max(1, values.count - 1)) }).map { NSNumber(value: $0) }
+        a.calculationMode = discrete ? .discrete : .linear
+        a.beginTime = layer.convertTime(CACurrentMediaTime(), from: nil)
+        a.fillMode = .forwards; a.isRemovedOnCompletion = false
+        return a
+    }
+}
+
+final class PacedBarView: UIView {
+    private var pace = LoadingPace.fixed(0), anchor = PaceAnchor.live, style: PacedBar.Style?
+    private let track = CALayer(), fill = CAGradientLayer(), sparkle = CALayer(), rim = CALayer()
+    private var laidOut = CGSize.zero
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        isUserInteractionEnabled = false
+        fill.anchorPoint = CGPoint(x: 0, y: 0.5); fill.startPoint = CGPoint(x: 0.5, y: 0); fill.endPoint = CGPoint(x: 0.5, y: 1)
+        for l in [track, fill, rim, sparkle] { layer.addSublayer(l) }
+        NotificationCenter.default.addObserver(self, selector: #selector(rebuild), name: UIApplication.willEnterForegroundNotification, object: nil)
+    }
+    required init?(coder: NSCoder) { fatalError() }
+    func apply(pace: LoadingPace, anchor: PaceAnchor, style: PacedBar.Style) {
+        guard pace != self.pace || style != self.style else { return }
+        self.pace = pace; self.anchor = anchor
+        if style != self.style {
+            self.style = style
+            fill.colors = style.fill.count > 1 ? style.fill.map(\.cgColor) : [style.fill[0].cgColor, style.fill[0].cgColor]
+            track.backgroundColor = style.track.cgColor
+            rim.borderColor = style.rim?.cgColor; rim.borderWidth = style.rimWidth
+            sparkle.isHidden = !style.sparkle
+        }
+        rebuild()
+    }
+    override func layoutSubviews() { super.layoutSubviews(); if bounds.size != laidOut { rebuild() } }
+    override func didMoveToWindow() { super.didMoveToWindow(); if window != nil { rebuild() } }
+
+    @objc private func rebuild() {
+        guard let style, bounds.width > 0, bounds.height > 0 else { return }
+        laidOut = bounds.size
+        let h = bounds.height, inset = h * style.insetRatio, inner = h - inset * 2, run = bounds.width - inset * 2
+        func width(_ p: Double) -> CGFloat { max(inner, run * CGFloat(min(1, max(0, p.isFinite ? p : 0)))) }
+        CATransaction.begin(); CATransaction.setDisableActions(true)
+        for l in [track, rim] { l.frame = bounds; l.cornerRadius = h / 2 }
+        fill.cornerRadius = inner / 2
+        if style.sparkle, sparkle.contents == nil, let image = Self.sparkleImage() { sparkle.contents = image; sparkle.contentsScale = 3 }
+        sparkle.bounds = CGRect(x: 0, y: 0, width: h * 2.4, height: h * 2.4)
+        fill.removeAllAnimations(); sparkle.removeAllAnimations()
+        let current = pace.value(at: anchor.paceNow)
+        fill.bounds = CGRect(x: 0, y: 0, width: width(current), height: inner); fill.position = CGPoint(x: inset, y: h / 2)
+        sparkle.position = CGPoint(x: inset + width(current), y: h / 2)
+        if let frames = PaceFrames.sample(pace, anchor: anchor, step: 1.0 / 20) {
+            let widths = frames.values.map(width)
+            fill.add(PaceFrames.animation("bounds.size.width", widths, span: frames.span, layer: fill), forKey: "pace")
+            sparkle.add(PaceFrames.animation("position.x", widths.map { inset + $0 }, span: frames.span, layer: sparkle), forKey: "pace")
+        }
+        CATransaction.commit()
+    }
+    @MainActor private static var sparkleCache: CGImage?
+    @MainActor private static func sparkleImage() -> CGImage? {
+        if let sparkleCache { return sparkleCache }
+        let r = ImageRenderer(content: MSSparkle().frame(width: 48, height: 48)); r.scale = 3
+        sparkleCache = r.cgImage; return sparkleCache
+    }
+}
+
+final class PacedPercentView: UIView {
+    private var pace = LoadingPace.fixed(0), anchor = PaceAnchor.live, font = UIFont.systemFont(ofSize: 20), color = UIColor.white
+    private let text = CALayer()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        isUserInteractionEnabled = false
+        text.contentsGravity = .right; text.contentsScale = Self.scale; layer.addSublayer(text)
+        NotificationCenter.default.addObserver(self, selector: #selector(rebuild), name: UIApplication.willEnterForegroundNotification, object: nil)
+    }
+    required init?(coder: NSCoder) { fatalError() }
+    func apply(pace: LoadingPace, anchor: PaceAnchor, font: UIFont, color: UIColor) {
+        guard pace != self.pace || font != self.font || color != self.color else { return }
+        self.pace = pace; self.anchor = anchor; self.font = font; self.color = color
+        rebuild()
+    }
+    override func layoutSubviews() { super.layoutSubviews(); text.frame = bounds }
+    override func didMoveToWindow() { super.didMoveToWindow(); if window != nil { rebuild() } }
+
+    @objc private func rebuild() {
+        let images = Self.images(font, color)
+        func image(_ p: Double) -> CGImage { images[Int((min(1, max(0, p)) * 100).rounded())] }
+        CATransaction.begin(); CATransaction.setDisableActions(true)
+        text.removeAllAnimations(); text.frame = bounds
+        text.contents = image(pace.value(at: anchor.paceNow))
+        if let frames = PaceFrames.sample(pace, anchor: anchor, step: 1.0 / 120) {
+            // one keyframe per change of the shown percent, at the moment it changes
+            var values: [CGImage] = [], times: [Double] = [], last = -1
+            for (i, v) in frames.values.enumerated() {
+                let shown = Int((min(1, max(0, v)) * 100).rounded())
+                if shown != last { last = shown; values.append(images[shown]); times.append(Double(i) / Double(frames.values.count - 1)) }
+            }
+            times.append(1)   // (a discrete animation has one more key time than values)
+            text.add(PaceFrames.animation("contents", values, keyTimes: times, span: frames.span, layer: text, discrete: true), forKey: "pace")
+        }
+        CATransaction.commit()
+    }
+    static let scale: CGFloat = 3
+    static func size(_ font: UIFont) -> CGSize {
+        let s = ("100%" as NSString).size(withAttributes: [.font: font])
+        return CGSize(width: ceil(s.width) + 6, height: ceil(s.height) + 4)
+    }
+    @MainActor private static var cache: [String: [CGImage]] = [:]
+    /// "0%" … "100%", right-aligned in one size, with the label's soft shadow.
+    @MainActor private static func images(_ font: UIFont, _ color: UIColor) -> [CGImage] {
+        let key = "\(font.fontName)-\(font.pointSize)-\(color.description)"
+        if let hit = cache[key] { return hit }
+        let size = size(font), format = UIGraphicsImageRendererFormat(); format.scale = scale; format.opaque = false
+        let shadow = NSShadow(); shadow.shadowColor = UIColor(MSBrand.textShadow).withAlphaComponent(0.6); shadow.shadowBlurRadius = 3; shadow.shadowOffset = CGSize(width: 0, height: 1)
+        let attributes: [NSAttributedString.Key: Any] = [.font: font, .foregroundColor: color, .shadow: shadow]
+        let renderer = UIGraphicsImageRenderer(size: size, format: format)
+        let made = (0...100).compactMap { i -> CGImage? in
+            let label = "\(i)%" as NSString, w = label.size(withAttributes: attributes).width
+            return renderer.image { _ in label.draw(at: CGPoint(x: size.width - 3 - w, y: 2), withAttributes: attributes) }.cgImage
+        }
+        cache[key] = made; return made
+    }
+}
+
+/// Loading without a spinner (§7): a short swing arc chasing round a faint ring. Drawn once and turned by Core Animation, so it
+/// keeps turning while Unity holds the main thread.
+struct MSArcRing: UIViewRepresentable {
+    var color: Color = .white
+    func makeUIView(context: Context) -> ArcRingView { ArcRingView() }
+    func updateUIView(_ view: ArcRingView, context: Context) { view.set(color: color) }
+}
+
+final class ArcRingView: UIView {
+    private let ring = CALayer()
+    private var color: Color?
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        isUserInteractionEnabled = false; isAccessibilityElement = false
+        layer.addSublayer(ring)
+        NotificationCenter.default.addObserver(self, selector: #selector(spin), name: UIApplication.willEnterForegroundNotification, object: nil)
+    }
+    required init?(coder: NSCoder) { fatalError() }
+    func set(color: Color) {
+        guard color != self.color else { return }
+        self.color = color
+        // the ring at 64 pt inside an 80 pt image, so its glow is not cut off
+        let r = ImageRenderer(content: ZStack {
+            Circle().stroke(.white.opacity(0.18), lineWidth: 4)
+            Circle().trim(from: 0, to: 0.36)
+                .stroke(AngularGradient(colors: [color.opacity(0), color, .white], center: .center, startAngle: .degrees(0), endAngle: .degrees(130)),
+                        style: StrokeStyle(lineWidth: 5, lineCap: .round))
+                .shadow(color: MSBrand.arcWarm.opacity(0.7), radius: 4)
+        }.frame(width: 64, height: 64).padding(8))
+        r.scale = 3
+        ring.contents = r.cgImage; ring.contentsGravity = .resizeAspect
+    }
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        CATransaction.begin(); CATransaction.setDisableActions(true)
+        let pad = bounds.width * 8 / 64
+        ring.bounds = CGRect(x: 0, y: 0, width: bounds.width + pad * 2, height: bounds.height + pad * 2)
+        ring.position = CGPoint(x: bounds.midX, y: bounds.midY)
+        CATransaction.commit()
+        spin()
+    }
+    override func didMoveToWindow() { super.didMoveToWindow(); spin() }
+    @objc private func spin() {
+        guard window != nil, ring.animation(forKey: "spin") == nil else { return }
+        let a = CABasicAnimation(keyPath: "transform.rotation.z")
+        a.fromValue = 0; a.toValue = Double.pi * 2; a.duration = 1.1; a.repeatCount = .infinity; a.isRemovedOnCompletion = false
+        ring.add(a, forKey: "spin")
     }
 }
 
@@ -339,7 +532,7 @@ extension Color {
 
 /// Loading into a match (venue tips, picked 2026-10-25): the venue's key art full screen, a tip card (TENNIS TIP 1/2) with a
 /// headline and one line of how to play, and the bar with what is loading and how far. The TV draws it on its 1280×720 canvas;
-/// the phone stacks the same pieces upright, with Leave match. The bar is LoadingModel.displayProgress (measured milestones).
+/// the phone stacks the same pieces upright, with Leave match. The bar is LoadingModel.pace (steady, on Core Animation).
 struct LoadingScreen: View {
     let menu: TennisMenu
     let compact: Bool
@@ -383,7 +576,6 @@ struct LoadingScreen: View {
         let status = loading.statusText
         return loading.phase == .loading && !loading.isStalled && loading.waitingPlayers.isEmpty ? "Loading \(venueName)…" : status
     }
-    private var percent: Int { Int((loading.displayProgress * 100).rounded()) }
     /// The tip card sits left for tip 1 and right for tip 2, the wordmark in the other top corner.
     private var cardLeading: Bool { (loading.tipNumber ?? 1) == 1 }
 
@@ -495,14 +687,13 @@ struct LoadingScreen: View {
     /// "Loading Tropical Resort…" and the percentage over the bar.
     private func bar(labelSize: CGFloat, height: CGFloat) -> some View {
         VStack(spacing: height * 0.6) {
-            HStack(alignment: .firstTextBaseline) {
+            HStack(alignment: .center) {
                 Text(line).font(MSLoadingFont.display(labelSize)).lineLimit(1).minimumScaleFactor(0.6)
                     .shadow(color: MSBrand.textShadow.opacity(0.6), radius: 4, y: 1)
                 Spacer(minLength: 10)
-                Text("\(percent)%").font(MSLoadingFont.display(labelSize)).foregroundStyle(accent).monospacedDigit()
-                    .shadow(color: MSBrand.textShadow.opacity(0.6), radius: 4, y: 1)
+                MSLoadingPercent(pace: loading.pace, anchor: loading.anchor, font: MSLoadingFont.uiDisplay(labelSize), color: UIColor(accent))
             }
-            MSLoadingBar(progress: loading.displayProgress, fill: accent, height: height)
+            MSLoadingBar(pace: loading.pace, anchor: loading.anchor, fill: accent, height: height)
         }
         .accessibilityElement(children: .combine).accessibilityIdentifier("presentation-loading-status")
     }

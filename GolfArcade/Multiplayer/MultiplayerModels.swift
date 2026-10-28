@@ -79,8 +79,8 @@ struct MultiplayerLoadout: Codable, Equatable, Sendable {
         return (shirtHex.map(hex) ?? true) && (shortsHex.map(hex) ?? true) && (hairHex.map(hex) ?? true) && (shoesHex.map(hex) ?? true)
             && (haircut.map { (0..<12).contains($0) } ?? true) && (emotes.map(EmoteCatalog.valid) ?? true) && hex(skinHex) && colours.count <= 4 && colours.allSatisfy {
             ["shirt", "shorts", "accent", "racket"].contains($0.key) && hex($0.value)
-        } && gear.count <= 2 && gear.allSatisfy { sport, slots in
-            ["tennis", "golf"].contains(sport) && slots.count <= 3 && slots.allSatisfy {
+        } && gear.count <= 3 && gear.allSatisfy { sport, slots in
+            ["tennis", "golf", "bowling"].contains(sport) && slots.count <= 3 && slots.allSatisfy {
                 ["skin", "racket", "club", "shoes"].contains($0.key) && !$0.value.isEmpty && $0.value.utf8.count <= 64
             }
         }

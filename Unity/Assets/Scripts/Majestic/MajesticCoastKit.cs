@@ -72,7 +72,7 @@ namespace GolfArcade.Majestic
                             var p = tee + fwd * (len * f) + right * (side * r);
                             if (hole.LieAt(HoleView.ToCourse(p)) != CourseLie.Ice) continue;
                             float y = (float)HoleView.GroundHeight(HoleView.ToCourse(p));
-                            MajesticKit.Spawn("IceFishingHut", root, new Vector3(p.x, y, p.z), Quaternion.LookRotation(-right * side), 1.2f, true);
+                            GolfSolidProps.FromKit(MajesticKit.Spawn("IceFishingHut", root, new Vector3(p.x, y, p.z), Quaternion.LookRotation(-right * side), 1.2f, true), hole);
                             return 1;
                         }
             }
@@ -96,7 +96,7 @@ namespace GolfArcade.Majestic
                             }
                             var across = Vector3.Cross(Vector3.up, best);
                             float y = MajesticKit.Ground(p + across * 6, seaY, out _);
-                            MajesticKit.Spawn("CanalBridge", root, new Vector3(p.x, Mathf.Max(seaY, y - .3f), p.z), Quaternion.LookRotation(best), 1f, true);
+                            GolfSolidProps.FromKit(MajesticKit.Spawn("CanalBridge", root, new Vector3(p.x, Mathf.Max(seaY, y - .3f), p.z), Quaternion.LookRotation(best), 1f, true), hole);
                             placed++; break;
                         }
                 return placed;

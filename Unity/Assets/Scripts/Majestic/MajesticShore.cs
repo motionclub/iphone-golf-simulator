@@ -70,7 +70,7 @@ namespace GolfArcade.Majestic
         static readonly RaycastHit[] hits = new RaycastHit[8];
         static bool Land(Vector3 p, float seaY)
         {
-            int n = Physics.RaycastNonAlloc(new Vector3(p.x, 400, p.z), Vector3.down, hits, 800, ~0, QueryTriggerInteraction.Ignore);
+            int n = Physics.RaycastNonAlloc(new Vector3(p.x, 400, p.z), Vector3.down, hits, 800, ~GolfArcade.Course.GolfSolidProps.Mask, QueryTriggerInteraction.Ignore);
             for (int i = 0; i < n; i++)
             {
                 var c = hits[i].collider; if (!c) continue;

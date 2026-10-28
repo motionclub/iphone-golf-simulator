@@ -4,29 +4,30 @@ import SwiftUI
 // focus look — a lime fill with a navy ring — so it reads from the couch on a TV and on a phone alike.
 
 extension IslandUI {
-    static let ring = navy
-    static let dark = Club.lagoonDeep
-    static let coral = Club.coral
-    /// Row / chip surface that sits on the paper.
-    static let card = Color.white
+    static let ring = lime
+    static let dark = MotionBrand.navyInk
+    static let coral = MotionBrand.error
+    /// Row / chip surface: a Deep Navy panel with a white edge, as the brand's panels.
+    static let card = MotionBrand.navyDeep
 }
 
-/// The focus look: lime fill + navy ring (+ a soft lift). Unfocused: the base fill.
+/// The focus look: Lift fill + gold ring (+ a lift). Unfocused: the base fill (a Deep Navy panel) with a thin white edge.
 struct IslandFocusStyle: ViewModifier {
     let focused: Bool
     var radius: CGFloat = 16
-    var base: Color = .white
+    var base: Color = IslandUI.card
     var ringWidth: CGFloat = 3.5
     func body(content: Content) -> some View {
         content
-            .background(focused ? IslandUI.lime : base, in: RoundedRectangle(cornerRadius: radius, style: .continuous))
-            .overlay(RoundedRectangle(cornerRadius: radius, style: .continuous).strokeBorder(IslandUI.navy, lineWidth: focused ? ringWidth : 0))
-            .shadow(color: IslandUI.navy.opacity(focused ? 0.22 : 0.08), radius: focused ? 6 : 3, y: focused ? 4 : 2)
+            .background(focused ? IslandUI.selected : base, in: RoundedRectangle(cornerRadius: radius, style: .continuous))
+            .overlay(RoundedRectangle(cornerRadius: radius, style: .continuous)
+                .strokeBorder(focused ? IslandUI.ring : IslandUI.ink.opacity(base == .clear ? 0 : 0.28), lineWidth: focused ? ringWidth : 1.5))
+            .shadow(color: IslandUI.shadow.opacity(focused ? 0.5 : 0.25), radius: focused ? 10 : 4, y: focused ? 6 : 3)
             .accessibilityAddTraits(focused ? .isSelected : [])
     }
 }
 extension View {
-    func islandFocus(_ focused: Bool, radius: CGFloat = 16, base: Color = .white, ringWidth: CGFloat = 3.5) -> some View {
+    func islandFocus(_ focused: Bool, radius: CGFloat = 16, base: Color = IslandUI.card, ringWidth: CGFloat = 3.5) -> some View {
         modifier(IslandFocusStyle(focused: focused, radius: radius, base: base, ringWidth: ringWidth))
     }
 }
@@ -44,7 +45,7 @@ struct IslandHintBar: View {
         }
         .font(IslandUI.font(compact ? 13 : 16, bold: true)).foregroundStyle(.white)
         .padding(.horizontal, compact ? 16 : 26).padding(.vertical, compact ? 7 : 9)
-        .background(IslandUI.navy.opacity(0.84), in: Capsule())
+        .background(IslandUI.dark.opacity(0.88), in: Capsule())
         .accessibilityHidden(true)
     }
 }
@@ -56,8 +57,8 @@ struct IslandSwatch: View {
     var size: CGFloat = 32
     var body: some View {
         Circle().fill(colour).frame(width: size, height: size)
-            .overlay(Circle().strokeBorder(IslandUI.navy.opacity(selected ? 1 : 0.16), lineWidth: selected ? 3 : 2.5))
-            .overlay(Circle().strokeBorder(.white, lineWidth: selected ? 2 : 0).padding(selected ? 3 : 0))
+            .overlay(Circle().strokeBorder(selected ? IslandUI.lime : IslandUI.ink.opacity(0.35), lineWidth: selected ? 3 : 2))
+            .overlay(Circle().strokeBorder(IslandUI.dark, lineWidth: selected ? 2 : 0).padding(selected ? 3 : 0))
     }
 }
 
@@ -72,10 +73,10 @@ struct IslandSwatchRow: View {
         HStack(spacing: 0) {
             if kit {
                 Button { pick(-1) } label: {
-                    Text("Kit").font(IslandUI.font(size * 0.34, bold: true)).foregroundStyle(IslandUI.navy)
+                    Text("Kit").font(IslandUI.font(size * 0.34, bold: true)).foregroundStyle(IslandUI.ink)
                         .frame(width: size, height: size)
-                        .background(.white, in: Circle())
-                        .overlay(Circle().strokeBorder(IslandUI.navy.opacity(selected == -1 ? 1 : 0.16), lineWidth: selected == -1 ? 3 : 2.5))
+                        .background(IslandUI.card, in: Circle())
+                        .overlay(Circle().strokeBorder(selected == -1 ? IslandUI.lime : IslandUI.ink.opacity(0.35), lineWidth: selected == -1 ? 3 : 2))
                 }.buttonStyle(.plain).accessibilityLabel("Kit colour")
                 Spacer(minLength: 2)
             }
@@ -99,14 +100,15 @@ struct IslandSegments: View {
         HStack(spacing: 4) {
             ForEach(titles.indices, id: \.self) { i in
                 Button { pick(i) } label: {
-                    Text(titles[i]).font(IslandUI.font(compact ? 14 : 18, bold: true)).foregroundStyle(focused == i ? IslandUI.navy : selected == i ? .white : IslandUI.navy)
+                    Text(titles[i]).font(IslandUI.font(compact ? 14 : 18, bold: true)).foregroundStyle(selected == i && focused != i ? IslandUI.navy : IslandUI.ink)
                         .lineLimit(1).minimumScaleFactor(0.7)
                         .frame(maxWidth: .infinity).padding(.vertical, compact ? 9 : 12)
-                        .islandFocus(focused == i, radius: 11, base: selected == i ? IslandUI.navy : .clear)
+                        .islandFocus(focused == i, radius: 11, base: selected == i ? IslandUI.lime : .clear)
                 }.buttonStyle(.plain)
             }
         }
-        .padding(4).background(.white.opacity(0.85), in: RoundedRectangle(cornerRadius: 15, style: .continuous))
+        .padding(4).background(IslandUI.dark.opacity(0.75), in: RoundedRectangle(cornerRadius: 15, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 15, style: .continuous).strokeBorder(IslandUI.ink.opacity(0.28), lineWidth: 1.5))
     }
 }
 
@@ -117,8 +119,8 @@ struct IslandSwitch: View {
     var body: some View {
         let w: CGFloat = compact ? 56 : 80, h: CGFloat = compact ? 32 : 44
         ZStack(alignment: on ? .trailing : .leading) {
-            Capsule().fill(on ? IslandUI.lime : IslandUI.navy.opacity(0.18)).frame(width: w, height: h)
-                .overlay(Capsule().strokeBorder(IslandUI.navy.opacity(0.55), lineWidth: 2.5))
+            Capsule().fill(on ? IslandUI.lime : IslandUI.dark).frame(width: w, height: h)
+                .overlay(Capsule().strokeBorder(on ? MotionBrand.goldDeep : IslandUI.ink.opacity(0.45), lineWidth: 2.5))
             Circle().fill(.white).frame(width: h - 8, height: h - 8).padding(4).shadow(color: .black.opacity(0.25), radius: 1.5, y: 1)
         }
         .animation(.easeOut(duration: 0.15), value: on)
@@ -132,9 +134,9 @@ struct IslandNotice: View {
     var compact = false
     var body: some View {
         if !text.isEmpty {
-            Text(text).font(IslandUI.font(compact ? 14 : 18, bold: true)).foregroundStyle(.white)
+            Text(text).font(IslandUI.font(compact ? 14 : 18, bold: true)).foregroundStyle(IslandUI.navy)
                 .padding(.horizontal, 18).padding(.vertical, compact ? 9 : 12)
-                .background(IslandUI.navy, in: Capsule())
+                .background(IslandUI.lime, in: Capsule())
                 .transition(.opacity.combined(with: .move(edge: .bottom)))
                 .accessibilityAddTraits(.updatesFrequently)
         }
@@ -171,7 +173,37 @@ struct IslandLobbyRow: View {
     var compact = false
     var enabled = true
     var ready: Bool? = nil
+    /// A big choice tile that stretches to share the screen's height (the phone's choice screens fill the screen).
+    var tall = false
     var body: some View {
+        if tall { tile } else { row }
+    }
+    private var tile: some View {
+        let focused = menu.isFocused(id)
+        return Button { menu.tap(id) } label: {
+            HStack(spacing: 16) {
+                Image(systemName: icon).font(.system(size: 26, weight: .bold)).foregroundStyle(focused ? IslandUI.navy : IslandUI.lime)
+                    .frame(width: 60, height: 60).background(focused ? IslandUI.lime : IslandUI.dark.opacity(0.6), in: Circle())
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(title).font(MotionBrand.font(.extraBoldItalic, 27)).lineLimit(1).minimumScaleFactor(0.6)
+                    if !subtitle.isEmpty { Text(subtitle).islandType(15).foregroundStyle(focused ? IslandUI.ink.opacity(0.85) : IslandUI.muted).fixedSize(horizontal: false, vertical: true) }
+                }
+                Spacer(minLength: 0)
+                Image(systemName: "chevron.right").font(.system(size: 18, weight: .heavy)).opacity(0.7)
+            }
+            .foregroundStyle(IslandUI.ink).padding(.horizontal, 20).padding(.vertical, 14)
+            .frame(maxWidth: .infinity, minHeight: 92, maxHeight: .infinity, alignment: .leading)
+            .background(alignment: .trailing) {
+                // the choice's icon, large and faint, so a tall tile does not read as an empty box
+                Image(systemName: icon).font(.system(size: 120, weight: .bold)).foregroundStyle(IslandUI.ink.opacity(0.06))
+                    .offset(x: 18).clipped().accessibilityHidden(true)
+            }
+            .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+            .islandFocus(focused, radius: 24)
+            .opacity(enabled ? 1 : 0.65)
+        }.buttonStyle(.plain).disabled(!enabled).accessibilityIdentifier(id)
+    }
+    private var row: some View {
         Button { menu.tap(id) } label: {
             HStack(spacing: 12) {
                 Image(systemName: icon).islandType(compact ? 20 : 24, bold: true).frame(width: 30)
@@ -181,7 +213,7 @@ struct IslandLobbyRow: View {
                 }
                 Spacer(minLength: 0)
                 if let ready { IslandSwitch(on: ready, compact: compact) }
-            }.foregroundStyle(IslandUI.navy).padding(.horizontal, 16).padding(.vertical, compact ? 12 : 15)
+            }.foregroundStyle(IslandUI.ink).padding(.horizontal, 16).padding(.vertical, compact ? 12 : 15)
                 .frame(maxWidth: .infinity, minHeight: compact ? 54 : 66, alignment: .leading)
                 .islandFocus(menu.isFocused(id), radius: 20, base: IslandUI.card)
                 .opacity(enabled ? 1 : 0.65)
@@ -212,12 +244,13 @@ struct IslandLobbyPlayerCard: View {
             }
             if loading {
                 Text(participant.loaded ? "Loaded 1/1" : "Loading 0/1").islandType(compact ? 10 : 13)
-                Capsule().fill(IslandUI.navy.opacity(0.15)).frame(height: 5)
+                Capsule().fill(IslandUI.ink.opacity(0.18)).frame(height: 5)
                     .overlay(alignment: .leading) { if participant.loaded { Capsule().fill(IslandUI.lime) } }
             } else if !participant.connected { Text("Reconnecting").islandType(compact ? 10 : 13).foregroundStyle(IslandUI.coral) }
-        }.foregroundStyle(IslandUI.navy).padding(compact ? 10 : 14)
+        }.foregroundStyle(IslandUI.ink).padding(compact ? 10 : 14)
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(IslandUI.paper.opacity(0.96), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+            .overlay(RoundedRectangle(cornerRadius: 18, style: .continuous).strokeBorder(IslandUI.ink.opacity(0.28), lineWidth: 1.5))
             .accessibilityElement(children: .combine)
     }
 }
@@ -239,7 +272,7 @@ struct IslandEmoteTile: View {
                     if cooldown > 0 { Text(String(format: "%.1f s", cooldown)).islandType(14 * scale, bold: true).padding(8).background(IslandUI.paper, in: Capsule()) }
                 }.frame(height: 98 * scale).clipped()
                 Text(title).islandType(14 * scale, bold: true).frame(maxWidth: .infinity, minHeight: 36 * scale)
-            }.foregroundStyle(IslandUI.navy).frame(width: 112 * scale, height: 134 * scale)
+            }.foregroundStyle(IslandUI.ink).frame(width: 112 * scale, height: 134 * scale)
                 .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
                 .islandFocus(menu.isFocused("net-emote-\(id)"), radius: 18)
         }.buttonStyle(.plain).disabled(cooldown > 0).accessibilityIdentifier("net-emote-\(id)")

@@ -14,8 +14,9 @@ import simd
 /// here and there only. HeroAssetRegistryTests (Unity EditMode) fails if any other .swift or .cs file names an older hero model directly.
 enum HeroAssets {
     /// The baked SceneKit export in CharacterAssets (<name>.json / .lzfse): tennis is the match hero with the tailored outfit, golf is the kit.
-    static func nativeExport(golf: Bool, female: Bool, distance: Bool = false) -> String {
-        (golf ? "GolfKitHero_" : "MatchHero_") + (female ? "Female" : "Male") + (distance && !golf ? "_Distance" : "")
+    /// Bowling is the match hero wearing the bowling kit (BowlingKitHero_<Sex>).
+    static func nativeExport(golf: Bool, female: Bool, distance: Bool = false, bowling: Bool = false) -> String {
+        (golf ? "GolfKitHero_" : bowling ? "BowlingKitHero_" : "MatchHero_") + (female ? "Female" : "Male") + (distance && !golf ? "_Distance" : "")
     }
 }
 
@@ -171,8 +172,8 @@ enum HeroAssets {
     /// stopped anything else from freeing it, all match long (MatchHero_Male_Rig alone is ~130 MB decoded).
     static func releaseCache() { assets.removeAll() }
 
-    static func asset(female: Bool, golf: Bool = false, distance: Bool = false) -> Asset? {
-        let name = HeroAssets.nativeExport(golf: golf, female: female, distance: distance)
+    static func asset(female: Bool, golf: Bool = false, distance: Bool = false, bowling: Bool = false) -> Asset? {
+        let name = HeroAssets.nativeExport(golf: golf, female: female, distance: distance, bowling: bowling)
         if let a = assets[name] { return a }
         guard let url = locate(name, "json"), let md = try? Data(contentsOf: url),
               let manifest = try? JSONDecoder().decode(Manifest.self, from: md), let bin = data(name) else { return nil }
@@ -266,6 +267,14 @@ enum HeroAssets {
                     // MatchHeroLook.KitShoeTrim: a whisper of the pick, so a white shoe reads clean white (no heavy grey trim)
                     let derived = luminance >= 0.5 ? pick * 0.93 : pick + (SIMD3<Float>(repeating: 1) - pick) * 0.12
                     trim = SIMD3<Float>(max(derived.x * 0.93, 0.035), max(derived.y * 0.93, 0.035), max(derived.z * 0.93, 0.0401))
+                }
+                // MatchHeroLook bowling kit: contrast shirt panels (cream on mid / dark shirts, navy on light) and a saddle on the shoes, from the pick
+                if let tint = colour, sub.look?.normalMap?.contains("_Bowling_") == true, sub.material == "Kit_Shirt" || sub.material == "Kit_ShirtTrim" || sub.material == "Kit_Shoe" {
+                    let pick = SIMD3<Float>(tint.x <= 0.035 ? 0 : tint.x / 0.93, tint.y <= 0.035 ? 0 : tint.y / 0.93, tint.z <= 0.0401 ? 0 : tint.z / 0.93)
+                    let luminance = simd_dot(pick, SIMD3<Float>(0.2126, 0.7152, 0.0722))
+                    let cream = SIMD3<Float>(0.86, 0.80, 0.68), navy = SIMD3<Float>(0.13, 0.17, 0.32), saddle = SIMD3<Float>(0.55, 0.08, 0.08)
+                    let c = sub.material == "Kit_Shoe" ? (luminance > 0.45 ? saddle : cream) : (luminance > 0.62 ? navy : cream)
+                    trim = SIMD3<Float>(max(c.x * 0.93, 0.035), max(c.y * 0.93, 0.035), max(c.z * 0.93, 0.0401))
                 }
                 return MatchHeroSurfaces.material(sub, colour: colour, sceneScale: s, trimColour: trim, part: part)
             }

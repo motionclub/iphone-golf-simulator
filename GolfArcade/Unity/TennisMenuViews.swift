@@ -226,23 +226,30 @@ struct HintBar: View {
 
 /// The menu itself. `compact` is the phone held upright with no TV: the same screens,
 /// stacked, and touch selects. Otherwise it is laid out for a 16:9 TV and driven by the remote.
+/// Set by a host that draws its own top bar (the Plaza's station panel), so the menu does not stack a second one under it.
+private struct MenuHostsTopBarKey: EnvironmentKey { static let defaultValue = false }
+extension EnvironmentValues {
+    var menuHostsTopBar: Bool { get { self[MenuHostsTopBarKey.self] } set { self[MenuHostsTopBarKey.self] = newValue } }
+}
+
 struct TennisMenuScreen: View {
     @Bindable var menu = TennisMenu.shared
     var compact: Bool
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.menuHostsTopBar) private var hostsTopBar
     var body: some View {
         ClubCameraHost(route: menu.screen, reducedMotion: true, paused: SportsSession.shared.menuPauseVisible, content: AnyView(screenContent))
             .safeAreaInset(edge: .top) {
-                if menu.screen != .title && menu.screen != .main && !SportsSession.shared.menuPauseVisible {
+                if !hostsTopBar && menu.screen != .title && menu.screen != .main && !SportsSession.shared.menuPauseVisible {
                     HStack {
                         Button { menu.back() } label: { Label("Back", systemImage: "chevron.left") }
                             .accessibilityIdentifier("menu-back")
                         Spacer()
                         Button("Main Menu") { menu.goHome() }.accessibilityIdentifier("menu-home")
                     }
-                    .font(IslandUI.font(compact ? 16 : 22, bold: true)).foregroundStyle(IslandUI.navy)
+                    .font(IslandUI.font(compact ? 16 : 22, bold: true)).foregroundStyle(IslandUI.ink)
                     .padding(.horizontal, compact ? 22 : 40).frame(minHeight: compact ? 48 : 60)
-                    .background(IslandUI.paper)
+                    .background(IslandUI.dark)
                 }
             }
     }

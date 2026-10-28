@@ -23,17 +23,30 @@ namespace GolfArcade.Hub.Menu
         SetupState setup;
 
         // what each mode is, in plain words (Adnan: "just say what the tab does"), with its chips
-        static readonly Dictionary<string, (string title, string line, string[] chips)> ModeInfo = new Dictionary<string, (string, string, string[])>
+        // (10-28: each mode previews its own venue, and bowling has a preview too: the four lanes' stills)
+        static readonly Dictionary<string, (string title, string line, string[] chips, string map)> ModeInfo = new Dictionary<string, (string, string, string[], string)>
         {
-            { "bay-tennis-exhibition", ("Exhibition", "Play the CPU on any court, at any difficulty, for as long as you like.", new[] { "1 PLAYER", "VS CPU", "3 COURTS" }) },
-            { "bay-tennis-training", ("Training", "Rally with the coach and work on your timing. No score.", new[] { "1 PLAYER", "COACH" }) },
-            { "bay-tennis-nearby", ("Local play", "Friends in the same room: two phones, one TV.", new[] { "2 PLAYERS", "SAME ROOM" }) },
-            { "bay-tennis-online", ("Online", "Play your friends wherever they are.", new[] { "2 PLAYERS", "ONLINE" }) },
-            { "bay-golf-round", ("Round", "Play a course on your own: its own holes, 9 or 18.", new[] { "1 PLAYER", "3 COURSES" }) },
-            { "bay-golf-pass", ("Local play", "One phone, passed around: swing, then hand it on.", new[] { "2-4 PLAYERS", "ONE PHONE" }) },
-            { "bay-golf-online", ("Online", "Play a round with friends online.", new[] { "2-4 PLAYERS", "ONLINE" }) },
+            { "bay-tennis-exhibition", ("Exhibition", "Play the CPU on any court, at any difficulty, for as long as you like.", new[] { "1 PLAYER", "VS CPU", "3 COURTS" }, null) },
+            { "bay-tennis-training", ("Training", "Rally with the coach and work on your timing. No score.", new[] { "1 PLAYER", "COACH" }, "skyscraper") },
+            { "bay-tennis-nearby", ("Local play", "Friends in the same room: two phones, one TV.", new[] { "2 PLAYERS", "SAME ROOM" }, "volcano") },
+            { "bay-tennis-online", ("Online", "Play your friends wherever they are.", new[] { "2 PLAYERS", "ONLINE" }, "resort") },
+            { "bay-golf-round", ("Round", "Play a course on your own: its own holes, 9 or 18.", new[] { "1 PLAYER", "3 COURSES" }, null) },
+            { "bay-golf-pass", ("Local play", "One phone, passed around: swing, then hand it on.", new[] { "2-4 PLAYERS", "ONE PHONE" }, "wildisles") },
+            { "bay-golf-online", ("Online", "Play a round with friends online.", new[] { "2-4 PLAYERS", "ONLINE" }, "magma") },
+            { "bay-bowling-play", ("Play", "Ten frames on any of four lanes: Club, Neon, Tiki or Magma.", new[] { "1 PLAYER", "4 VENUES" }, null) },
+            { "bay-bowling-exhibition", ("Exhibition", "Bowl a full game against a CPU bowler.", new[] { "1 PLAYER", "VS CPU" }, "neon") },
+            { "bay-bowling-pass", ("Local play", "One phone, passed around between up to four bowlers.", new[] { "2-4 PLAYERS", "ONE PHONE" }, "tiki") },
+            { "bay-bowling-online", ("Online", "Bowl with friends wherever they are.", new[] { "2-4 PLAYERS", "ONLINE" }, "magma") },
         };
-        static readonly Dictionary<string, string> LastMap = new Dictionary<string, string> { { "tennis", "resort" }, { "golf", "cliffside" } };
+        static readonly Dictionary<string, string> LastMap = new Dictionary<string, string> { { "tennis", "resort" }, { "golf", "cliffside" }, { "bowling", "club" } };
+        static readonly Dictionary<string, (string title, string line)> Venues = new Dictionary<string, (string, string)>
+        {
+            { "tennis-resort", ("Tropical Resort", "A bright tropical bay, lush gardens and stands full of fans.") }, { "tennis-skyscraper", ("Sky Tower", "A rooftop above the clouds. Hit it wide and the ball falls forever.") },
+            { "tennis-volcano", ("Magma Crater", "A court floating over a lava lake. Don't miss long.") }, { "golf-cliffside", ("Cliffside", "Cliffs, sea stacks and island carries.") },
+            { "golf-wildisles", ("Wild Isles", "A world tour: pine, ice, mesa, jungle.") }, { "golf-magma", ("Magma Open", "Lava crater holes and volcanic greens.") },
+            { "bowling-club", ("Club Lanes", "The clubhouse alley: wood, brass and a full crowd.") }, { "bowling-neon", ("Neon", "Black-light lanes and a glowing pit.") },
+            { "bowling-tiki", ("Tiki", "Bamboo, torches and a lagoon behind the pins.") }, { "bowling-magma", ("Magma", "Lanes over a lava lake.") },
+        };
 
         /// A mode row pressed: the TV's own setup where there is one, the phone otherwise (local tennis hosting, online).
         void OpenMode(string id, string title)
@@ -48,75 +61,71 @@ namespace GolfArcade.Hub.Menu
             OpenPhone(id, title);
         }
 
-        // ------------------------------------------------------------------ the preview panel (modes + setup): a gameplay clip and what it is
-        RectTransform previewRoot, previewCaption, chipsRoot; RawImage previewImage; Text previewTitle, previewLine, previewTag; Image previewTagFill, previewFrame;
+        // ------------------------------------------------------------------ the preview card (modes + setup): a gameplay clip and what it is
+        // right of the hero (mock .pv.sm, 34.6cqw × 19.5cqw): a borderless skewed card, the clip upright inside it, its words bottom-left
+        const float PreviewW = 664, PreviewH = 374, PreviewModesY = 326, PreviewSetupY = 192;
+        RectTransform previewRoot, previewCaption, previewTagBox; RawImage previewImage; Text previewTitle, previewLine, previewTag; Image previewTagFill; ChipRow previewChips;
         VideoPlayer video; RenderTexture videoTexture; string playing;
 
         void BuildPreview(RectTransform screen, string sport)
         {
-            if (previewRoot) return;   // one panel, shared by both modes screens and the setup screen
-            previewRoot = BrandUi.Box(screensRoot, "Preview", 780, 160, 1068, 600);
+            if (previewRoot) return;   // one card, shared by the three modes screens and the setup screen
+            previewRoot = BrandUi.Box(screensRoot, "Preview", RightX, PreviewModesY, PreviewW, PreviewH);
             previewRoot.SetAsFirstSibling();
-            BrandUi.DropShadow(previewRoot, 32);
-            previewFrame = BrandUi.Layer(previewRoot, "Frame", BrandColors.White, 0, 32);
-            var mask = BrandUi.Layer(previewRoot, "Mask", Color.white, 6, 27); mask.gameObject.AddComponent<Mask>().showMaskGraphic = false;
-            previewImage = BrandUi.Fill(mask.transform, "Clip").gameObject.AddComponent<RawImage>(); previewImage.raycastTarget = false;
-            var shade = BrandUi.Box(mask.transform, "Shade", 0, 330, 1056, 258).gameObject.AddComponent<Image>(); shade.raycastTarget = false;
-            GolfArcade.Tennis.UiGradient.On(shade, new Color(BrandColors.NavyInk.r, BrandColors.NavyInk.g, BrandColors.NavyInk.b, 0), new Color(BrandColors.NavyInk.r, BrandColors.NavyInk.g, BrandColors.NavyInk.b, .95f));
-            var tagBox = BrandUi.Box(mask.transform, "Tag", 26, 26, 260, 52);
-            BrandUi.Layer(tagBox, "Edge", BrandColors.White, 0, 26); previewTagFill = BrandUi.Layer(tagBox, "Fill", BrandColors.Royal, 3, 23);
-            previewTag = BrandUi.Label(tagBox, "Text", "", BrandUi.ExtraBoldItalic, 26, BrandColors.White, TextAnchor.MiddleCenter);
-            previewCaption = BrandUi.Box(mask.transform, "Caption", 44, 380, 980, 200);
-            previewTitle = BrandUi.Ink(BrandUi.Underlay(BrandUi.Label(BrandUi.Box(previewCaption, "Title", 0, 0, 980, 84), "Text", "", BrandUi.ExtraBoldItalic, 76, BrandColors.White, TextAnchor.UpperLeft)));
-            previewLine = BrandUi.Ink(BrandUi.Underlay(BrandUi.Label(BrandUi.Box(previewCaption, "Line", 0, 86, 980, 52), "Text", "", BrandUi.SemiBold, BrandType.Body, BrandColors.White, TextAnchor.UpperLeft)));
-            chipsRoot = BrandUi.Box(previewCaption, "Chips", 0, 142, 980, 48);
+            BrandUi.Skewed(BrandUi.DropShadow(previewRoot, 0), 4.2f, true).color = BrandUi.Ink(.45f);
+            var (mask, pic) = PictureCard(previewRoot, 4.2f, true, .4f);
+            previewImage = pic;
+            previewTagBox = BrandUi.Box(mask, "Tag", 58, 28, 200, 40);
+            previewTagFill = BrandUi.Slant(previewTagBox, "Fill", BrandColors.Royal);
+            previewTag = BrandUi.Word(previewTagBox, "Text", "", BrandUi.ExtraBoldItalic, 22, BrandColors.White, TextAnchor.MiddleCenter);
+            previewCaption = BrandUi.Box(mask, "Caption", 46, 0, 580, PreviewH);
+            previewTitle = BrandUi.Word(BrandUi.Box(previewCaption, "Title", 0, 0, 580, 66), "Text", "", BrandUi.ExtraBoldItalic, 56, BrandColors.White);
+            previewLine = BrandUi.Label(BrandUi.Box(previewCaption, "Line", 2, 0, 560, 66), "Text", "", BrandUi.Medium, 26, new Color(.863f, .89f, .949f), TextAnchor.UpperLeft);
+            previewChips = Chips(previewCaption, 2, 0, 34, 4);
             videoTexture = new RenderTexture(1280, 720, 0) { name = "Menu preview" };
             video = previewRoot.gameObject.AddComponent<VideoPlayer>();
             video.playOnAwake = false; video.isLooping = true; video.audioOutputMode = VideoAudioOutputMode.None; video.skipOnDrop = true;
             video.renderMode = VideoRenderMode.RenderTexture; video.targetTexture = videoTexture;
             previewRoot.gameObject.SetActive(false);
         }
-        void ShowPreview(bool on)
+        void ShowPreview(bool on, bool setupScreen = false)
         {
             if (!previewRoot) return;
             previewRoot.gameObject.SetActive(on);
             if (!on && video && video.isPlaying) video.Stop();
-            // the setup screen draws its own words under the big clip (the map's), the modes screens the mode's
-            if (previewRoot.gameObject.activeSelf) previewRoot.SetSiblingIndex(0);
+            // the setup screen puts its court strip under the card, so the card rides higher there
+            if (on) { previewRoot.anchoredPosition = new Vector2(RightX, -(setupScreen ? PreviewSetupY : PreviewModesY)); previewRoot.SetSiblingIndex(0); }
+        }
+        /// The caption's words bottom-up: chips (when there are any), the line (1–2 lines), the title.
+        void PlaceCaption(bool chips)
+        {
+            float bottom = PreviewH - 26, chipsY = bottom - 34, lineH = Mathf.Min(66, previewLine.preferredHeight + 4);
+            float lineY = (chips ? chipsY - 12 : bottom) - lineH, titleY = lineY - 64;
+            ((RectTransform)previewChips.chips[0].box.parent).anchoredPosition = new Vector2(2, -chipsY);
+            ((RectTransform)previewLine.transform.parent).anchoredPosition = new Vector2(2, -lineY);
+            ((RectTransform)previewTitle.transform.parent).anchoredPosition = new Vector2(0, -titleY);
         }
 
         /// The clip and words for a mode (`id` null: the screen's first mode) on the modes screens.
         void PreviewFor(string sport, string id)
         {
             if (!previewRoot) return;
-            id ??= sport == "golf" ? "bay-golf-round" : "bay-tennis-exhibition";
+            id ??= sport == "golf" ? "bay-golf-round" : sport == "bowling" ? "bay-bowling-play" : "bay-tennis-exhibition";
             if (!ModeInfo.TryGetValue(id, out var info)) return;
-            Clip(sport, LastMap[sport]);
+            Clip(sport, info.map ?? LastMap[sport]);
             previewTitle.text = info.title; previewLine.text = info.line;
-            previewTag.transform.parent.gameObject.SetActive(false);
-            Chips(info.chips);
+            previewTagBox.gameObject.SetActive(false);
+            previewChips.Set(info.chips); PlaceCaption(true);
         }
         void HoverPreview(MenuItem it)
         {
             if (it == null || previewRoot == null || !previewRoot.gameObject.activeInHierarchy) return;
-            if ((Screen == TennisModes || Screen == GolfModes) && ModeInfo.ContainsKey(it.id)) PreviewFor(Screen == GolfModes ? "golf" : "tennis", it.id);
+            if ((Screen == TennisModes || Screen == GolfModes || Screen == BowlingModes) && ModeInfo.ContainsKey(it.id))
+                PreviewFor(Screen == GolfModes ? "golf" : Screen == BowlingModes ? "bowling" : "tennis", it.id);
             else if (Screen == Setup && it.id.StartsWith("map-") && setup != null) ShowMap(it.id.Substring(4));
         }
-        void Chips(string[] chips)
-        {
-            for (int c = chipsRoot.childCount - 1; c >= 0; c--) Destroy(chipsRoot.GetChild(c).gameObject);
-            float x = 0;
-            foreach (var chip in chips)
-            {
-                float w = 30 + chip.Length * 17f;
-                var box = BrandUi.Box(chipsRoot, chip, x, 0, w, 46);
-                BrandUi.Layer(box, "Edge", BrandColors.White, 0, 23); BrandUi.Layer(box, "Fill", BrandColors.NavyDeep, 3, 20);
-                BrandUi.Label(box, "Text", chip, BrandUi.SemiBold, 24, BrandColors.White, TextAnchor.MiddleCenter);
-                x += w + 14;
-            }
-        }
         /// Plays the gameplay clip for a court / course (Resources/Menu/Previews/<sport>-<id>, filmed from the current game 10-26), or its
-        /// still (Resources/Menu/Maps/<sport>-<id>) where there is no clip.
+        /// still (Resources/Menu/Maps/<sport>-<id>) where there is no clip (bowling's lanes, 10-28).
         void Clip(string sport, string id)
         {
             string key = sport + "-" + id;
@@ -132,13 +141,50 @@ namespace GolfArcade.Hub.Menu
                 if (video.isPlaying) video.Stop();
                 previewImage.texture = Resources.Load<Texture2D>("Menu/Maps/" + key);
             }
+            Cover(previewImage, PreviewW, PreviewH);
         }
 
-        // ------------------------------------------------------------------ setup: maps, options, START
+        /// The loader's words for a match: the mode's name (never its id), what was picked on the setup screen, and the venue.
+        (string title, string line, string map, string mapTitle, string mapLine) LoadWords(string sport, string mode)
+        {
+            string id = null, title;
+            if (!string.IsNullOrEmpty(mode) && ModeInfo.ContainsKey(mode)) { id = mode; title = ModeInfo[mode].title; }
+            else if (!string.IsNullOrEmpty(mode) && mode.StartsWith("bay-")) { id = mode; title = Title(mode.Substring(mode.LastIndexOf('-') + 1)); }
+            else if (!string.IsNullOrEmpty(mode)) title = mode;
+            else title = sport == "golf" ? "Golf" : sport == "bowling" ? "Bowling" : "Tennis";
+            if (id == null) foreach (var kv in ModeInfo) if (kv.Key.Contains("-" + sport + "-") && kv.Value.title == title) { id = kv.Key; break; }
+            string map = LastMap.TryGetValue(sport, out var m) ? m : "", line = id != null && ModeInfo.TryGetValue(id, out var info) ? info.line : "";
+            string mapTitle = null, mapLine = null;
+            if (setup != null && id != null && setup.mode == id)
+            {
+                // "Sky Tower · vs Suki Tanaka · Standard · 1 set": the court, then each option as picked
+                var parts = new List<string>();
+                if (setup.maps != null) foreach (var sm in setup.maps) if (sm.id == setup.map) { parts.Add(sm.title); mapTitle = sm.title; mapLine = sm.detail; map = sm.id; }
+                if (setup.rows != null)
+                    foreach (var row in setup.rows)
+                    {
+                        if (row.choices == null || row.choices.Length == 0 || parts.Count >= 4) continue;
+                        string c = row.choices[Mathf.Clamp(row.value, 0, row.choices.Length - 1)];
+                        int dot = c.IndexOf(" · "); if (dot > 0) c = c.Substring(0, dot);
+                        parts.Add(row.key == "opponent" ? "vs " + c : c);
+                    }
+                line = string.Join(" · ", parts);
+            }
+            if (mapTitle == null && Venues.TryGetValue(sport + "-" + map, out var v)) { mapTitle = v.title; mapLine = v.line; }
+            return (title, line, map, mapTitle ?? "", mapLine ?? "");
+        }
+
+        // ------------------------------------------------------------------ setup: options left, the court card + strip right, START
         RectTransform setupContent; Text setupWait;
-        readonly List<(Image ring, string id)> mapCards = new List<(Image, string)>();
-        readonly List<(Image on, Text label, string key, int index)> choiceViews = new List<(Image, Text, string, int)>();
-        readonly List<(Text label, string key)> stepViews = new List<(Text, string)>();
+        sealed class MapCard { public RectTransform face; public GameObject ring; public RawImage still; public Text name; public string id; public bool picked; public float k;
+            public void Paint() { face.anchoredPosition = new Vector2(0, picked ? 10 : 6 * k); ring.SetActive(picked); var c = picked || k > .35f ? Color.white : new Color(.72f, .72f, .76f); if (still.color != c) still.color = c; } }
+        sealed class Segment { public Image fill, on, edge; public Text label; public string key; public int index; public bool picked, lit;
+            public void Paint() { on.gameObject.SetActive(picked); fill.color = lit && !picked ? new Color(BrandColors.Bright.r, BrandColors.Bright.g, BrandColors.Bright.b, .85f) : BrandUi.Ink(.58f);
+                edge.color = picked ? BrandColors.Gold : lit ? BrandUi.WhiteA(.6f) : BrandUi.WhiteA(.16f); label.color = picked ? BrandColors.NavyInk : BrandUi.WhiteA(lit ? 1 : .78f);
+                foreach (var s in label.GetComponents<Shadow>()) s.enabled = !picked; } }
+        readonly List<MapCard> mapCards = new List<MapCard>();
+        readonly List<Segment> choiceViews = new List<Segment>();
+        readonly List<(Text value, Text detail, string key)> stepViews = new List<(Text, Text, string)>();
         /// A new setup screen is on its way from the phone: nothing of the last mode's shows meanwhile.
         void ResetSetup()
         {
@@ -150,7 +196,7 @@ namespace GolfArcade.Hub.Menu
         void BuildSetup(RectTransform r)
         {
             setupContent = BrandUi.Fill(r, "Content");
-            setupWait = BrandUi.Ink(BrandUi.Label(BrandUi.Box(r, "Wait", 72, 500, 640, 60), "Text", "Getting your options...", BrandUi.SemiBold, BrandType.Body, BrandColors.White, TextAnchor.MiddleLeft));
+            setupWait = BrandUi.Word(BrandUi.Box(r, "Wait", Left, 500, 640, 60), "Text", "Getting your options...", BrandUi.MediumItalic, 30, BrandColors.White);
         }
 
         /// The phone's description of the setup screen (menuSetupState): built once per mode, then only the selection moves.
@@ -166,72 +212,83 @@ namespace GolfArcade.Hub.Menu
             RefreshSetup();
         }
 
+        const float OptW = 656, SegH = 56, OptGap = 22;
         void BuildSetupContent(SetupState s)
         {
             for (int c = setupContent.childCount - 1; c >= 0; c--) Destroy(setupContent.GetChild(c).gameObject);
             screenItems[Setup].Clear(); mapCards.Clear(); choiceViews.Clear(); stepViews.Clear();
             setupWait.gameObject.SetActive(false);
             buildingFor = Setup;
-            BrandUi.Headline(setupContent, 72, 170, s.title ?? "", s.line2 ?? "");
-            // option rows: a label, then the choices side by side (the picked one white)
+            BrandUi.Headline(setupContent, Left, 132, s.title ?? "", s.line2 ?? "", 760);
+            // option rows (mock .opts): a small label, then the choices as skewed segments (the picked one white on a gold edge), or a
+            // stepper ‹ value › for a long list (the CPU opponents)
             int rows = s.rows?.Length ?? 0;
-            float y = 430, rowH = 124, gap = 18;
+            float y = ListTop;
             for (int i = 0; i < rows; i++)
             {
                 var row = s.rows[i];
-                var panel = BrandUi.Panel(setupContent, row.label, 72, y, 640, rowH, 28);
-                BrandUi.Label(BrandUi.Box(panel, "Label", 0, 10, 640, 36), "Text", (row.label ?? "").ToUpperInvariant(), BrandUi.SemiBold, 26, BrandColors.Gold, TextAnchor.MiddleCenter);
+                BrandUi.Word(BrandUi.Box(setupContent, row.label + " label", Left + 2, y, OptW, 28), "Text", (row.label ?? "").ToUpperInvariant(), BrandUi.SemiBold, 22, BrandColors.N300);
+                float top = y + 36;
                 int n = Mathf.Max(1, row.choices?.Length ?? 0);
                 if (n > 4)
                 {
-                    // a long list (the CPU opponents): ◀ the current one ▶, wrapping round
-                    var stepLabel = BrandUi.Label(BrandUi.Box(panel, "Value", 90, 54, 460, 54), "Text", "", BrandUi.ExtraBoldItalic, 32, BrandColors.White, TextAnchor.MiddleCenter);
+                    var value = BrandUi.Word(BrandUi.Box(setupContent, row.label + " value", Left + 76, top - 4, OptW - 160, 42), "Text", "", BrandUi.ExtraBoldItalic, 36, BrandColors.White);
+                    var detail = BrandUi.Word(BrandUi.Box(setupContent, row.label + " detail", Left + 78, top + 36, OptW - 160, 28), "Text", "", BrandUi.Medium, 22, BrandColors.N300);
                     for (int side = 0; side < 2; side++)
                     {
-                        var arrow = BrandUi.Box(panel, side == 0 ? "Previous" : "Next", side == 0 ? 16 : 640 - 16 - 64, 50, 64, 64);
+                        var arrow = BrandUi.Box(setupContent, side == 0 ? "Previous" : "Next", side == 0 ? Left : Left + OptW - 56, top, 56, 56);
                         var face = BrandUi.Fill(arrow, "Face");
-                        BrandUi.Layer(face, "Gold", BrandColors.Gold, 0, 32);
-                        var chev = BrandUi.Layer(face, "Chevron", BrandColors.NavyDeep, 16, -1, BrandUi.Chevron); chev.preserveAspect = true;
-                        if (side == 0) chev.rectTransform.localScale = new Vector3(-1, 1, 1);
+                        var fill = BrandUi.Slant(face, "Fill", BrandUi.Ink(.62f));
+                        var chev = BrandUi.Layer(face, "Chevron", BrandColors.Gold, 16, -1, BrandUi.Chevron); chev.preserveAspect = true;
+                        if (side == 1) chev.rectTransform.localScale = new Vector3(-1, 1, 1);
                         string key = row.key; int step = side == 0 ? -1 : 1, count = n;
-                        Item(arrow, face, "opt-" + key + (side == 0 ? "-prev" : "-next"), row.label + (side == 0 ? ": previous" : ": next"), () => StepOption(key, step, count), 32);
+                        var it = Item(arrow, face, "opt-" + key + (side == 0 ? "-prev" : "-next"), row.label + (side == 0 ? ": previous" : ": next"), () => StepOption(key, step, count), 0);
+                        it.glow = k => { bool on = k > .35f; fill.color = on ? BrandColors.Gold : BrandUi.Ink(.62f); chev.color = on ? BrandColors.NavyInk : BrandColors.Gold; };
                     }
-                    stepViews.Add((stepLabel, row.key));
-                    y += rowH + gap; continue;
+                    stepViews.Add((value, detail, row.key));
+                    y = top + 70 + OptGap; continue;
                 }
-                float cw = (640 - 32 - (n - 1) * 10f) / n;
+                float cw = (OptW - (n - 1) * 10f) / n;
                 for (int k = 0; k < n; k++)
                 {
-                    var box = BrandUi.Box(panel, row.choices[k], 16 + k * (cw + 10), 54, cw, 54);
+                    var box = BrandUi.Box(setupContent, row.choices[k], Left + 6 + k * (cw + 10), top, cw, SegH);
                     var face = BrandUi.Fill(box, "Face");
-                    BrandUi.Layer(face, "Edge", new Color(1, 1, 1, .6f), 0, 27);
-                    BrandUi.Layer(face, "Fill", BrandColors.NavyDeep, 3, 24);
-                    var on = BrandUi.Layer(face, "On", BrandColors.White, 0, 27);
-                    var label = BrandUi.Label(face, "Text", row.choices[k].ToUpperInvariant(), BrandUi.ExtraBoldItalic, n > 3 ? 24 : 28, BrandColors.White, TextAnchor.MiddleCenter);
+                    var seg = new Segment { key = row.key, index = k };
+                    seg.fill = BrandUi.Slant(face, "Fill", BrandUi.Ink(.58f));
+                    seg.on = BrandUi.Slant(face, "On", BrandColors.White);
+                    seg.edge = BrandUi.Slant(face, "Edge", BrandUi.WhiteA(.16f)); float lean = -(SegH / 2 - 2) * Mathf.Tan(14 * Mathf.Deg2Rad);   // a bottom bar shears about its own middle: line it up with the fill's foot
+                    seg.edge.rectTransform.offsetMin = new Vector2(lean, 0); seg.edge.rectTransform.offsetMax = new Vector2(lean, -(SegH - 4));
+                    seg.label = BrandUi.Word(face, "Text", row.choices[k], BrandUi.BoldItalic, n > 3 ? 24 : 28, BrandColors.White, TextAnchor.MiddleCenter);
                     string key = row.key; int index = k;
-                    Item(box, face, "opt-" + key + "-" + k, row.label + ": " + row.choices[k], () => PickOption(key, index), 27);
-                    choiceViews.Add((on, label, key, k));
+                    var it = Item(box, face, "opt-" + key + "-" + k, row.label + ": " + row.choices[k], () => PickOption(key, index), 0);
+                    it.glow = g => { bool on = g > .35f; if (seg.lit != on) { seg.lit = on; seg.Paint(); } };
+                    choiceViews.Add(seg);
                 }
-                y += rowH + gap;
+                y = top + SegH + OptGap;
             }
-            Button(setupContent, "setup-start", string.IsNullOrEmpty(s.start) ? "START" : s.start, 72, Mathf.Min(y + 10, 852), 640, 104, BrandUi.Style.Primary, StartSetup);
-            // the court / course strip under the big clip: the picked one lifted with a gold edge
+            // one gold skewed START (mock .go, bottom-left above the hint)
+            var go = BrandUi.Box(setupContent, "Start", Left, Mathf.Clamp(y + 20, 866, 900), 400, 86);
+            var (goFace, _) = BrandUi.GoButton(go, string.IsNullOrEmpty(s.start) ? "START" : s.start.ToUpperInvariant());
+            var start = Item(go, goFace, "setup-start", string.IsNullOrEmpty(s.start) ? "START" : s.start, StartSetup, 0);
+            start.glow = k => goFace.anchoredPosition = new Vector2(Nudge * .6f * k, 0);
+            // the court / course strip under the card (mock .strip.r): skewed thumbnails, the picked one gold-edged and lifted
             int maps = s.maps?.Length ?? 0;
-            float stripW = 1068, cardW = maps > 0 ? Mathf.Min(330, (stripW - (maps - 1) * 24f) / maps) : 0, cardH = cardW * 9 / 16;
+            float cardW = maps > 0 ? Mathf.Min(204, (PreviewW - 12 - (maps - 1) * 19f) / maps) : 0, cardH = cardW * 9 / 16;
             for (int i = 0; i < maps; i++)
             {
                 var m = s.maps[i];
-                var box = BrandUi.Box(setupContent, m.title, 780 + i * (cardW + 24), 800, cardW, cardH + 46);
+                var box = BrandUi.Box(setupContent, m.title, RightX + 12 + i * (cardW + 19), PreviewSetupY + PreviewH + 40, cardW, cardH);
                 var face = BrandUi.Fill(box, "Face");
-                var ring = BrandUi.Layer(BrandUi.Box(face, "Ring", -8, -8, cardW + 16, cardH + 16), "Gold", BrandColors.Gold, 0, 22);
-                var pic = BrandUi.Box(face, "Picture", 0, 0, cardW, cardH);
-                BrandUi.Layer(pic, "Edge", BrandColors.White, 0, 18);
-                var still = BrandUi.Box(pic, "Still", 4, 4, cardW - 8, cardH - 8).gameObject.AddComponent<RawImage>(); still.raycastTarget = false;
-                still.texture = Resources.Load<Texture2D>("Menu/Maps/" + setupSport + "-" + m.id);
-                BrandUi.Ink(BrandUi.Underlay(BrandUi.Label(BrandUi.Box(face, "Name", 0, cardH + 8, cardW, 38), "Text", m.title, BrandUi.ExtraBoldItalic, 30, BrandColors.White, TextAnchor.MiddleCenter)));
+                var card = new MapCard { face = face, id = m.id };
+                var ring = BrandUi.Fill(face, "Ring"); card.ring = ring.gameObject; BrandUi.Slant(ring, "Gold", BrandColors.Gold, 10, -6);
+                BrandUi.Slant(face, "Edge", BrandUi.WhiteA(.3f), 10, -3);
+                var (mask, pic) = PictureCard(face, 10, false, .5f);
+                card.still = pic; pic.texture = Resources.Load<Texture2D>("Menu/Maps/" + setupSport + "-" + m.id); Cover(pic, cardW + 2 * (Mathf.Tan(10 * Mathf.Deg2Rad) * cardH / 2 + 4), cardH);
+                card.name = BrandUi.Word(BrandUi.Box(mask, "Name", 18, cardH - 34, cardW, 28), "Text", (m.title ?? "").ToUpperInvariant(), BrandUi.ExtraBoldItalic, 20, BrandColors.White);
                 string id = m.id;
-                Item(box, face, "map-" + id, m.title, () => PickMap(id), 18);
-                mapCards.Add((ring, id));
+                var it = Item(box, face, "map-" + id, m.title, () => PickMap(id), 0);
+                it.glow = k => { card.k = k; card.Paint(); };
+                mapCards.Add(card);
             }
             buildingFor = null;
         }
@@ -239,18 +296,23 @@ namespace GolfArcade.Hub.Menu
         void RefreshSetup()
         {
             if (setup == null) return;
-            foreach (var (ring, id) in mapCards) ring.gameObject.SetActive(id == setup.map);
-            foreach (var (on, label, key, index) in choiceViews)
+            foreach (var card in mapCards) { card.picked = card.id == setup.map; card.Paint(); }
+            foreach (var seg in choiceViews)
             {
-                int value = 0; foreach (var row in setup.rows) if (row.key == key) value = row.value;
-                bool picked = index == value;
-                on.gameObject.SetActive(picked); label.color = picked ? BrandColors.NavyDeep : BrandColors.White;
+                int value = 0; foreach (var row in setup.rows) if (row.key == seg.key) value = row.value;
+                seg.picked = seg.index == value; seg.Paint();
             }
-            foreach (var (label, key) in stepViews)
-                foreach (var row in setup.rows) if (row.key == key && row.choices != null && row.choices.Length > 0) label.text = row.choices[Mathf.Clamp(row.value, 0, row.choices.Length - 1)];
+            foreach (var (value, detail, key) in stepViews)
+                foreach (var row in setup.rows)
+                    if (row.key == key && row.choices != null && row.choices.Length > 0)
+                    {
+                        // "Suki Tanaka · The Needle": the name big, the rest under it
+                        string c = row.choices[Mathf.Clamp(row.value, 0, row.choices.Length - 1)]; int dot = c.IndexOf(" · ");
+                        value.text = dot > 0 ? c.Substring(0, dot) : c; detail.text = dot > 0 ? c.Substring(dot + 3) : "";
+                    }
             if (Screen == Setup) ShowMap(setup.map);
         }
-        /// The big clip shows a court / course: its own clip, name, line and tag.
+        /// The card shows a court / course: its own clip, name, line and tag.
         void ShowMap(string id)
         {
             if (setup?.maps == null || previewRoot == null) return;
@@ -260,14 +322,14 @@ namespace GolfArcade.Hub.Menu
                 Clip(setupSport, m.id);
                 previewTitle.text = m.title; previewLine.text = m.detail ?? "";
                 bool tag = !string.IsNullOrEmpty(m.tag);
-                previewTag.transform.parent.gameObject.SetActive(tag);
+                previewTagBox.gameObject.SetActive(tag);
                 if (tag)
                 {
                     previewTag.text = m.tag;
                     previewTagFill.color = string.IsNullOrEmpty(m.tagHex) ? BrandColors.Royal : BrandColors.FromHex("#" + m.tagHex);
-                    ((RectTransform)previewTag.transform.parent).sizeDelta = new Vector2(40 + m.tag.Length * 17f, 52);
+                    previewTagBox.sizeDelta = new Vector2(previewTag.preferredWidth + 40, 40);
                 }
-                Chips(Array.Empty<string>());
+                previewChips.Set(null); PlaceCaption(false);
             }
         }
 
@@ -295,29 +357,46 @@ namespace GolfArcade.Hub.Menu
             Send("menuSetupStart", setup.mode);
         }
 
-        // ------------------------------------------------------------------ local golf: how many players (big cards), then the course setup
+        // ------------------------------------------------------------------ local golf: how many players (big skewed numerals right of the hero)
+        sealed class CountCard { public RectTransform face; public Image gold; public Text num, word; public bool lit;
+            public void Glow(float k)
+            {
+                face.anchoredPosition = new Vector2(0, 16 * k);
+                bool on = k > .35f; if (on == lit) return; lit = on;
+                gold.gameObject.SetActive(on); num.color = on ? BrandColors.NavyInk : BrandColors.White; word.color = on ? BrandColors.NavyDeep : BrandColors.N300;
+                foreach (var s in num.GetComponents<Shadow>()) s.enabled = !on;
+            } }
         void BuildPlayers(RectTransform r)
         {
-            BrandUi.Headline(r, 360, 150, "Local play", "How many players?", 1200, TextAnchor.UpperCenter);
+            BrandUi.Headline(r, Left, 132, "Local play", "How many players?", 760);
+            // the tip as a quiet line (mock .note): a gold rule, two lines of words
+            BrandUi.Layer(BrandUi.Box(r, "Rule", Left, ListTop + 4, 5, 84), "Gold", BrandColors.Gold);
+            BrandUi.Label(BrandUi.Box(r, "Note", Left + 26, ListTop, 600, 92), "Text", "Swing, then hand the phone on. The TV says whose turn it is.", BrandUi.Medium, 30,
+                new Color(.902f, .925f, .973f), TextAnchor.UpperLeft);
+            const float W = 204, H = 296, Gap = 24;
+            float x0 = RightEdge - 3 * W - 2 * Gap - 6;
             for (int i = 0; i < 3; i++)
             {
                 int players = i + 2;
-                var box = BrandUi.Box(r, players + " players", 230 + i * 500f, 430, 440, 400);
+                var box = BrandUi.Box(r, players + " players", x0 + i * (W + Gap), 308, W, H);
                 var face = BrandUi.Fill(box, "Face");
-                BrandUi.DropShadow(face, 36);
-                BrandUi.Layer(face, "Edge", BrandColors.White, 0, 36); BrandUi.Layer(face, "Fill", BrandColors.NavyDeep, 6, 30);
-                BrandUi.Ink(BrandUi.Label(BrandUi.Box(face, "Number", 0, 40, 440, 200), "Text", players.ToString(), BrandUi.ExtraBoldItalic, 180, BrandColors.White, TextAnchor.MiddleCenter));
-                BrandUi.Label(BrandUi.Box(face, "Word", 0, 240, 440, 44), "Text", "PLAYERS", BrandUi.SemiBold, 30, BrandColors.White, TextAnchor.MiddleCenter);
-                float dots = players * 56 + (players - 1) * 14, x = (440 - dots) / 2;
+                var card = new CountCard { face = face };
+                BrandUi.Skewed(BrandUi.DropShadow(face, 0), 10).color = BrandUi.Ink(.45f);
+                BrandUi.Slant(face, "Edge", BrandUi.WhiteA(.22f), 10, -4);
+                BrandUi.Slant(face, "Fill", BrandUi.Ink(.66f), 10);
+                card.gold = BrandUi.Slant(face, "Gold", Color.white, 10); HGradient.On(card.gold, BrandColors.Gold, BrandUi.GoldLight); card.gold.gameObject.SetActive(false);
+                card.num = BrandUi.Ink(BrandUi.Word(BrandUi.Box(face, "Number", 0, 34, W, 140), "Text", players.ToString(), BrandUi.ExtraBoldItalic, 124, BrandColors.White, TextAnchor.MiddleCenter));
+                card.word = BrandUi.Word(BrandUi.Box(face, "Word", 0, 182, W, 30), "Text", "PLAYERS", BrandUi.BoldItalic, 20, BrandColors.N300, TextAnchor.MiddleCenter);
+                foreach (var s in card.word.GetComponents<Shadow>()) s.enabled = false;
+                float dots = players * 24 + (players - 1) * 10, x = (W - dots) / 2;
                 for (int d = 0; d < players; d++)
                 {
-                    var dot = BrandUi.Box(face, "Seat " + d, x + d * 70, 306, 56, 56);
-                    BrandUi.Layer(dot, "Edge", BrandColors.White, 0, 28); BrandUi.Layer(dot, "Fill", GolfArcade.Hub.HubRemotes.PartyColours[d], 4, 24);
+                    var dot = BrandUi.Box(face, "Seat " + d, x + d * 34, 230, 24, 24);
+                    BrandUi.Layer(dot, "Fill", GolfArcade.Hub.HubRemotes.PartyColours[d], 0, 12);
                 }
-                Item(box, face, "players-" + players, players + " players", () => PickPlayers(players), 36);
+                var it = Item(box, face, "players-" + players, players + " players", () => PickPlayers(players), 0);
+                it.glow = card.Glow;
             }
-            var note = BrandUi.Panel(r, "How", 380, 880, 1160, 76, 38);
-            BrandUi.Label(note, "Text", "Swing, then hand the phone on. The TV says whose turn it is.", BrandUi.SemiBold, BrandType.Body, BrandColors.White, TextAnchor.MiddleCenter);
         }
         void PickPlayers(int players)
         {
