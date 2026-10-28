@@ -81,6 +81,19 @@ final class PartyJoinTests: XCTestCase {
                        .wait("the party is full"))
     }
 
+    /// One status per player, the leader's: gone (out of the running match) over away (background, dropped) over back (reloading or
+    /// setting up the running match) over here.
+    func testOneStatusPerPlayer() {
+        let s = MultiplayerService.status
+        XCTAssertEqual(s(true, false, false, false), .here)
+        XCTAssertEqual(s(false, false, false, false), .away, "the connection dropped")
+        XCTAssertEqual(s(true, true, false, false), .away, "the app is in the background")
+        XCTAssertEqual(s(false, false, true, false), .away, "away until connected again")
+        XCTAssertEqual(s(true, false, true, false), .back)
+        XCTAssertEqual(s(true, false, true, true), .gone)
+        XCTAssertEqual(s(false, true, false, true), .gone, "out of the match whatever else")
+    }
+
     /// GameCenterFoundation.FastSyncTransportError error 4 (`groupSessionInvalidated`) and 1 (`illegalState`): Apple ended the match.
     /// The player never reads that text.
     func testApplesError4MeansTheMatchIsGoneAndIsNeverShown() {

@@ -139,6 +139,17 @@ namespace GolfArcade.Game
             GolfGame.NativePauseRequested+=GolfPause;
             TennisGame.Landed += AimLanding;
             TennisGame.DrillPoint += AimMiss;
+            Application.lowMemory += LowMemory;
+        }
+        /// iOS warned that memory is low (SportsRuntime forwards it): let go of every asset nothing uses any more, before iOS kills the app
+        /// mid-load or mid-match (2026-10-28: 171 MB left as online tennis loaded). Nothing listened to the warning before. At most every 10 s,
+        /// since unloading costs a frame.
+        float lastLowMemory = -100;
+        void LowMemory() {
+            if (Time.realtimeSinceStartup - lastLowMemory < 10) return;
+            lastLowMemory = Time.realtimeSinceStartup;
+            Debug.Log("[NativeSportsSession] low memory: unloading unused assets");
+            Resources.UnloadUnusedAssets(); System.GC.Collect();
         }
         void AimLanding(bool player, bool legal, Vector3 at, bool serve) {
             if (tennis && tennis.AimPractice && player)
@@ -154,6 +165,7 @@ namespace GolfArcade.Game
             TennisGame.Landed -= AimLanding; TennisGame.DrillPoint -= AimMiss;
             GolfGame.NativeExitRequested -= GolfExit;
             GolfGame.NativePauseRequested -= GolfPause;
+            Application.lowMemory -= LowMemory;
             SportsRecorderStop();
             Active=false; Left=false; TrackingWarning=""; Time.timeScale=1;
         }
@@ -304,7 +316,9 @@ namespace GolfArcade.Game
                     : TennisGame.Mode.Exhibition;
                 tennis.ConfigureMatch(mode,m.opponent,m.opponentName,m.round,m.sets,m.games,
                     string.IsNullOrEmpty(m.coach) ? null : m.coach.Split('|')); }
-            if(tennis) { tennis.EquipEmotes(m.emotes); tennis.SetControllerSetup(!m.bench && !multiplayerSession); }
+            // the in-game setup holds the court while the phone scans and times the TV: online too, as in solo (2026-10-28); the phone
+            // turns it off when play starts
+            if(tennis) { tennis.EquipEmotes(m.emotes); tennis.SetControllerSetup(!m.bench); }
             if(bowling) BowlingLoaded(m);
             if(m.bench && !GetComponent<FrameProbe>()) gameObject.AddComponent<FrameProbe>().Report=r=>Emit("perf",r);
             if(golf) { golf.EquipResultEmotes(m.emotes); golf.SetRoundEvents(!m.noTwists,true,!m.noChallenges); golf.SetDailyRound(m.daily);

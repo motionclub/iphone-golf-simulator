@@ -59,6 +59,13 @@ namespace GolfArcade.Tennis
         public string VersusRivalName { get; private set; }
         /// Messages sent and received (tests, diagnostics).
         public int VersusSent { get; private set; }
+        /// The other phone's messages this game could not use: unreadable, or from its own seat (both phones in one seat).
+        public int VersusUnreadable { get; private set; }
+        public int VersusOwnSeat { get; private set; }
+        /// One line of this versus match's traffic for the 10 s network stats (SportsMultiplayer.ReportStats → SportsDiagnostics.log).
+        public string VersusStatsJson => Versus
+            ? $"{{\"seat\":{VersusSeat},\"sent\":{VersusSent},\"received\":{VersusReceived},\"unreadable\":{VersusUnreadable},\"ownSeat\":{VersusOwnSeat},\"takeovers\":{VersusTakeovers},\"cpu\":{(VersusRivalByCpu ? "true" : "false")},\"rejoining\":{(VersusRejoining ? "true" : "false")},\"point\":{versusPoint}}}"
+            : "null";
         public int VersusReceived { get; private set; }
         /// Points this phone has played (both phones count the same points).
         public long VersusPoints => versusPoint;
@@ -147,7 +154,7 @@ namespace GolfArcade.Tennis
             VersusMismatches = VersusResyncsSent = VersusResyncsTaken = VersusStalls = 0; rallyWaitSince = 0;
             versusStarted = false; remoteTossed = false; holdingForRemote = heldThisContact = false; hitQueued = false;
             sentSwinging = sentProvisional = false; VersusScoreLog.Clear(); VersusRivalStrokes.Clear();
-            VersusSent = VersusReceived = 0; VersusCallsMade = VersusCallsTaken = 0;
+            VersusSent = VersusReceived = 0; VersusCallsMade = VersusCallsTaken = 0; VersusUnreadable = VersusOwnSeat = 0;
             if (presentation) presentation.Bill(TennisVenue.Title, "CHALLENGER");
             // one TV for both players: two single-player views side by side
             if (c.LocalView == NetworkConfiguration.ViewSplit) BuildVersusSplit(VersusRivalName);
@@ -178,9 +185,10 @@ namespace GolfArcade.Tennis
         {
             if (!Versus) return;
             VersusMessage m;
-            if (VersusWire.IsPose(json)) { if (!VersusWire.TryDecodePose(json, out m)) return; }
-            else try { m = JsonUtility.FromJson<VersusMessage>(json); } catch { return; }
-            if (m == null || string.IsNullOrEmpty(m.k) || m.s == VersusSeat) return;
+            if (VersusWire.IsPose(json)) { if (!VersusWire.TryDecodePose(json, out m)) { VersusUnreadable++; return; } }
+            else try { m = JsonUtility.FromJson<VersusMessage>(json); } catch { VersusUnreadable++; return; }
+            if (m == null || string.IsNullOrEmpty(m.k)) { VersusUnreadable++; return; }
+            if (m.s == VersusSeat) { VersusOwnSeat++; return; }
             versusInbox.Enqueue(m);
         }
 
@@ -700,9 +708,17 @@ namespace GolfArcade.Tennis
             holdingForRemote = heldThisContact = false; remotePose = null; opponentShot = default;
             if (Flow == Phase.OpponentServe && remoteTossed) { remoteTossed = false; serveTimer = 0; Opponent.ReachTossHand(Vector3.zero, 0); }
             if (Opponent.Swinging && Opponent.Provisional) Opponent.CancelSwing();
-            if (hud) hud.ShowNotice($"{VersusRivalName} left", "THE CPU PLAYS FOR THEM UNTIL THEY ARE BACK");
-            if (rightHud) rightHud.ShowNotice($"{VersusRivalName} left", "THE CPU PLAYS FOR THEM UNTIL THEY ARE BACK");
+            if (hud) hud.ShowNotice($"{VersusRivalName} disconnected", "CPU PLAYING UNTIL THEY'RE BACK");
+            if (rightHud) rightHud.ShowNotice($"{VersusRivalName} disconnected", "CPU PLAYING UNTIL THEY'RE BACK");
+            ShowRivalByCpu(true);
             Debug.Log($"[Versus] the CPU takes over {VersusRivalName} ({why})");
+        }
+
+        /// While the CPU covers an away rival the scoreboard says so the whole time (a 3 s notice was easy to miss, and a CPU match then
+        /// passed for a real one: 2026-10-28).
+        void ShowRivalByCpu(bool cpu)
+        {
+            if (hud) hud.OpponentName = cpu ? $"CPU ({VersusRivalName.ToUpperInvariant()} AWAY)" : VersusRivalName.ToUpperInvariant();
         }
 
         /// The rival's phone is back: the score goes to it and the far end is theirs again, from the point about to start.
@@ -712,6 +728,7 @@ namespace GolfArcade.Tennis
             remoteReady = remoteReadyLatest = -2; remoteReadySum = 0; localReadySent = Math.Min(localReadySent, versusPoint - 1); remotePose = null;
             handedBackAt = VersusClock;
             VersusSend(new VersusMessage { k = "sync", n = versusPoint, score = JsonUtility.ToJson(match), reason = "handback", sum = VersusScoreSum });
+            ShowRivalByCpu(false);
             if (hud) hud.ShowNotice($"{VersusRivalName} is back", "NEXT POINT IS THEIRS AGAIN");
             if (rightHud) rightHud.ShowNotice($"{VersusRivalName} is back", "NEXT POINT IS THEIRS AGAIN");
             Debug.Log($"[Versus] {VersusRivalName} is back: score sent for point {versusPoint}");
@@ -727,7 +744,7 @@ namespace GolfArcade.Tennis
             bool rejoin = VersusRejoining || m.reason != "resync";
             match = theirs.Mirrored();
             versusPoint = m.n; remoteReady = remoteReadyLatest = -2; remoteReadySum = 0; localReadySent = Math.Min(localReadySent, m.n - 1);
-            VersusRejoining = false; VersusRivalByCpu = false; rivalBackPending = false;
+            VersusRejoining = false; VersusRivalByCpu = false; rivalBackPending = false; ShowRivalByCpu(false);
             if (rejoin) VersusRejoins++; else VersusResyncsTaken++;
             // (what is still in the inbox came after the sync, e.g. the sender's ready: it stays; while rejoining nothing older got in)
             remotePose = null; remoteTossed = false; holdingForRemote = heldThisContact = false;

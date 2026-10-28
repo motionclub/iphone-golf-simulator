@@ -511,7 +511,8 @@ namespace GolfArcade.Tennis
             CancelTimingCheck();
             if (active) { replayDue = -1; if (replay) replay.Stop(); if (presentation) presentation.Skip(); }
             if (hud) hud.MatchVisible = !active;
-            if (!active) Refeed();
+            // (a versus point starts from the two phones' ready handshake, never from a local refeed)
+            if (!active && !Versus) Refeed();
         }
 
         public void StartTimingCheck()

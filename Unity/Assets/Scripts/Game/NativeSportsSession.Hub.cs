@@ -254,7 +254,8 @@ namespace GolfArcade.Game
             preloads.Clear();
             yield return Present(m.external, "ready");
             behindPlaza = false; hub = null; HubActive = false;
-            if (plaza.IsValid() && plaza.isLoaded) SceneManager.UnloadSceneAsync(plaza);
+            // the plaza's scene goes, and with it its assets (an additive unload leaves them in memory until asked)
+            if (plaza.IsValid() && plaza.isLoaded) { var unload = SceneManager.UnloadSceneAsync(plaza); if (unload != null) yield return unload; Resources.UnloadUnusedAssets(); }
         }
 
         /// Hub commands, and "end" for a match that is still loading behind the plaza (standing up from the bench: CANCEL).

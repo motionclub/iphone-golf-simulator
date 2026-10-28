@@ -834,6 +834,7 @@ struct OnlineTennisTVSetup: View {
         if let count = service.startCountdown { return "Starting in \(count)" }
         switch session.setupStage {
         case .scan: return "Set your racket direction"
+        case .timing: return "Timing check"
         case .ready: return "Direction set"
         default: return "You're ready"
         }
@@ -841,6 +842,7 @@ struct OnlineTennisTVSetup: View {
     private var instruction: String {
         switch session.setupStage {
         case .scan: return "Point the back of your phone at this TV. Hold still for one second."
+        case .timing: return "Start the timing check on your phone, then swing with the bouncing ball."
         case .ready: return "Stand where you'll play. Tap Ready on your phone."
         default: return service.startCountdown == nil ? "Each player finishes setup on their own phone." : "Stay at your spot and get ready to play."
         }
@@ -857,8 +859,20 @@ struct OnlineTennisSetupPanel: View {
         ScrollView {
             VStack(spacing: 24) {
                 Text("SET UP YOUR RACKET").font(IslandUI.font(13, bold: true)).tracking(2).foregroundStyle(IslandUI.lime)
-                if session.setupStage == .scan {
+                // Solo's own screens, in solo's order (2026-10-28): the court scan, the TV's delay, the timing check, Ready. Only a
+                // player coming back into a match already being played gets the quick scan and Ready below, then the countdown.
+                if session.setupStage == .scan && !session.onlineComeback {
+                    AxisGatePanel(session: session)
+                } else if session.setupStage == .scan {
                     direction
+                } else if session.measuringDelay {
+                    DelayProbePanel(session: session)
+                } else if session.timingPrompt {
+                    TimingCheckPrompt(session: session)
+                } else if session.checkingTiming {
+                    TimingCheckPanel(countdownEnds: session.timingCountdownEnds)
+                } else if session.setupStage == .ready && !session.onlineComeback {
+                    ControllerReadyPanel(session: session)
                 } else if session.setupStage == .ready {
                     Image(systemName: "checkmark.circle.fill").font(.system(size: 64)).foregroundStyle(IslandUI.lime)
                     Text("Direction set").font(IslandUI.font(30, bold: true))
@@ -946,8 +960,9 @@ struct OnlineTennisSetupPanel: View {
     private func playerStatus(_ player: MultiplayerParticipant, local: Bool, calibrated: Bool) -> String {
         if !player.connected { return "Reconnecting" }
         if calibrated { return player.loaded ? "Ready" : "Ready · Court loading" }
-        if local { return session.setupStage == .ready ? "Tap Ready" : "Setting direction" }
+        if local { return session.setupStage == .ready ? "Tap Ready" : session.setupStage == .timing ? "Checking timing" : "Setting direction" }
         if player.setupStep == "ready" { return "About to tap Ready" }
+        if player.setupStep == "timing" { return "Checking timing" }
         if player.setupStep == "direction" { return "Setting direction" }
         return player.loaded ? "Setting up racket" : "Loading court"
     }
@@ -977,8 +992,8 @@ struct ControllerReadyPanel: View {
         VStack(spacing: 18) {
             Spacer()
             Image(systemName: "checkmark.circle.fill").font(.system(size: 64)).foregroundStyle(IslandUI.lime)
-            // An online match skips the timing check, so Ready is its second step.
-            Text("\(session.multiplayerMatchID == nil ? 3 : 2) · Ready to play").font(IslandUI.font(28, bold: true))
+            // (a player coming back into a match being played skips the timing check: Ready is their second step)
+            Text("\(session.onlineComeback ? 2 : 3) · Ready to play").font(IslandUI.font(28, bold: true))
             if !session.timingNote.isEmpty { Text(session.timingNote).multilineTextAlignment(.center) }
             if !session.delayTip.isEmpty { Text(session.delayTip).font(.footnote).multilineTextAlignment(.center).foregroundStyle(.white.opacity(0.75)).padding(.horizontal, 12) }
             Text("Watch the TV. Your phone stays your controller.").multilineTextAlignment(.center)

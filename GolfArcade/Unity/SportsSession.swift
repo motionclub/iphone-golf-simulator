@@ -512,7 +512,9 @@ final class SportsSession {
         // Only a walkable-Plaza bench builds the match behind the plaza (the plaza stays on the TV, no cover). Under the menu's
         // loading cover nobody sees the plaza, and keeping it loaded while the round builds is what got the app killed for memory
         // (10-26 20:39, party golf at Cliffside: JETSAM per-process limit at the end of the load): the scene swaps instead.
-        if let bay { pending?["seamless"] = !fromMenu; pending?["bay"] = bay }
+        // An online match never builds behind the plaza either: both scenes in memory at once is the peak that gets the app killed, and a
+        // kill sends a player through the reopen path mid-match (2026-10-28: 171 MB left as online tennis loaded).
+        if let bay { pending?["seamless"] = !fromMenu && multiplayerMatchID == nil; pending?["bay"] = bay }
         if fromMenu { pending?["menuLabel"] = HubSession.shared.menuLaunchLabel }
         if Self.benchmark {
             // Verification flags affect this explicit benchmark launch only;
@@ -598,13 +600,12 @@ final class SportsSession {
     /// Court scanning finishes before timing. The match remains held until Ready.
     func offerTimingCalibration() {
         guard active, ready, loading.finished, sport == "tennis" else { return }
-        // An online match has no timing check: Unity ignores `timingCheck` in a network match, so the screens below could never finish
-        // (the phone would sit on "Swing on every bounce!" with no ball while the other player waits). It also sends a pause, which
-        // starts the owner's 15 s forfeit clock if the match is running. "Use the direction I'm pointing now" and "Re-check swing
-        // timing" both end up here, so online they go from the court scan straight to Ready.
+        // Online tennis sets up exactly as solo does before its first serve: the court scan, the TV's delay and the timing check, then
+        // Ready (versus tennis runs the timing drill on this phone's own court; the match only starts once everyone is ready). A player
+        // coming back into a match already being played goes from the scan straight to Ready: the other player is waiting for them.
         if multiplayerMatchID != nil {
-            if setupStage == .scan { multiplayerScanComplete() }
-            return
+            if onlineComeback { if setupStage == .scan { multiplayerScanComplete() }; return }
+            MultiplayerService.shared.runtimeSetupStep("timing")
         }
         setupStage = .timing; timingPrompt = true; checkingTiming = false
         menuPauseVisible = false; measuringDelay = false
@@ -623,6 +624,7 @@ final class SportsSession {
         guard setupStage == .timing else { return }
         timingPrompt = false; checkingTiming = false; timingCountdownEnds = nil
         timingNote = message; setupStage = .ready
+        if multiplayerMatchID != nil { MultiplayerService.shared.runtimeSetupStep("ready") }
         pause(reason: "Timing calibration complete. Tap Ready to play.")
     }
     func receiveTimingResult(_ message: String) {
@@ -752,11 +754,11 @@ final class SportsSession {
         MultiplayerService.shared.runtimeSetupStep("direction")
         motion.beginAxisCapture(travel: travel)
     }
-    /// The court direction is locked (by the scan, or by "use the direction I'm pointing now"). Solo play goes on to the timing check;
-    /// online tennis has no timing check yet, so it goes straight to Ready.
+    /// The court direction is locked (by the scan, or by "use the direction I'm pointing now"): on to the timing check, solo and online
+    /// alike (offerTimingCalibration sends a player coming back mid-match straight to Ready).
     private func scanFinished() {
         guard setupStage == .scan else { return }
-        if multiplayerMatchID != nil { multiplayerScanComplete() } else { offerTimingCalibration() }
+        offerTimingCalibration()
     }
     /// One tap to mirror steering, for when left and right come out swapped.
     func flipSteering() {
@@ -808,23 +810,24 @@ final class SportsSession {
 
     /// An online or Nearby tennis player (not a spectator): their phone is set up before the match starts.
     private var multiplayerCalibrates: Bool { multiplayerMatchID != nil && sport == "tennis" && multiplayerSeat >= 0 }
-    /// Point the phone at the TV (so swings count), then Ready.
+    /// A player whose match is already being played (they came back into it): the quick setup, so the others are not kept waiting.
+    var onlineComeback: Bool { multiplayerMatchID != nil && MultiplayerService.shared.lobby?.phase == .playing }
+    /// Online tennis sets up as solo does: point the phone at the TV, the TV's delay and the timing check, then Ready (and only then is
+    /// this player reported set up). Only a player coming back mid-match with their direction still set goes straight to Ready.
     private func beginMultiplayerCalibration() {
         guard !multiplayerSetupStarted else { return }
         multiplayerSetupStarted = true
-        paused = true
-        if motion.hasUsableCourtDirection {
+        if onlineComeback, motion.hasUsableCourtDirection {
+            paused = true
             motion.start(tennis: true, travel: travel)
             multiplayerScanComplete()
             status = "Your direction is still set. Tap Ready to set your centre again."
             return
         }
-        setupStage = .scan; axisGate = SportsAxisGate()
-        status = "Point the back of your phone at your TV. Hold still for one second."
+        beginAxisCapture()
         MultiplayerService.shared.runtimeSetupStep("direction")
-        motion.beginAxisCapture(travel: travel)
     }
-    /// The court direction is locked. Online tennis has no timing check yet, so it goes straight to Ready.
+    /// A player coming back mid-match: the direction is locked, straight to Ready.
     private func multiplayerScanComplete() {
         setupStage = .ready; setupProblem = ""
         status = "Direction set. Stand where you'll play, then tap Ready."
@@ -848,6 +851,7 @@ final class SportsSession {
         motion.calibrate(quiet: true)
         setupStage = .playing; paused = false; menuPauseVisible = false; status = "Playing"
         SportsDisplays.shared.external?.isHidden = true
+        command("controllerSetup", value: 0)   // (the in-game setup held the court while this phone set up, as in solo)
         command("resume")
     }
 
@@ -877,7 +881,7 @@ final class SportsSession {
             if multiplayerCalibrates { beginMultiplayerCalibration(); return }
             setupStage = .playing; paused=false; status=multiplayerSeat<0 ? "Watching" : "Playing"
             if multiplayerSeat>=0 { motion.start(tennis:sport == "tennis",travel:travel) }
-            command("resume"); return
+            command("controllerSetup", value: 0); command("resume"); return
         }
         if Self.benchmark {
             SportsBenchmarkThermals.start(sport: sport)

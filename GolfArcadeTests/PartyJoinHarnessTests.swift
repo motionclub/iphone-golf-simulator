@@ -460,6 +460,14 @@ final class PartyLinkHarnessTests: XCTestCase {
             room.links = [:]
             return gcs
         }
+        /// The phone's app started again and Game Center put the new one straight back into its match, before the others heard it go:
+        /// the same player, a new app (packet numbers from 1, no lobby). Nobody is told anything.
+        func reopenInPlace(_ id: String, _ gc: GameCenterTransport) -> RoomLink? {
+            guard let room = rooms.first(where: { $0.links[id] != nil }) else { return nil }
+            room.links[id]!.hungUp = true
+            let link = RoomLink(id, room, gc); room.links[id] = link
+            return link
+        }
         /// The app on this phone is closed: its matches drop it, its searches stop.
         func close(_ id: String) {
             offline.insert(id); cancel(id)
@@ -502,13 +510,25 @@ final class PartyLinkHarnessTests: XCTestCase {
         phones = []
         restore.forEach { $0() }; restore = []
     }
-    private func phone(_ id: String, _ name: String, _ server: Server) -> Phone {
+    /// One phone's Unity, as the lobby sees it: what reached the game, what the game sends, and the matches it was asked to load.
+    @MainActor final class Bridge {
+        var received: [MultiplayerPacket] = [], outgoing: [String] = [], launches: [MultiplayerMatchConfiguration] = []
+        /// The game sends a packet of `kind` for the running match (Unity fills in only these fields).
+        func send(_ kind: String, match: String, payload: String, reliable: Bool = true) {
+            let p = MultiplayerPacket(matchID: match, kind: kind, reliable: reliable, payload: payload)
+            outgoing.append(String(decoding: try! JSONEncoder().encode(p), as: UTF8.self))
+        }
+    }
+    private func phone(_ id: String, _ name: String, _ server: Server, bridge: Bridge = Bridge()) -> Phone {
         let gc = GameCenterTransport(); gc.localIDOverride = id
         gc.signedIn = { true }; gc.appActive = { true }
         let maker = Maker(id, server); maker.gc = gc; gc.matchmaker = maker
-        let service = MultiplayerService(sendToRuntime: { _ in true }, pollRuntime: { nil }, clearRuntime: {}, clock: { [unowned self] in clock })
+        let service = MultiplayerService(sendToRuntime: { text in
+            if let p = try? JSONDecoder().decode(MultiplayerPacket.self, from: Data(text.utf8)) { bridge.received.append(p) }; return true
+        }, pollRuntime: { bridge.outgoing.isEmpty ? nil : bridge.outgoing.removeFirst() }, clearRuntime: {}, clock: { [unowned self] in clock })
         service.debugUseGameCenter(gc); service.setIdentity(name: name)
         service.onJoinedParty = { _ in }
+        service.onMatchRequested = { bridge.launches.append($0) }; service.onReturnToLobby = {}
         let p = Phone(id: id, gc: gc, service: service); phones.append(p)
         return p
     }
@@ -612,8 +632,8 @@ final class PartyLinkHarnessTests: XCTestCase {
         server.offline.remove("H")
         let h2 = phone("H", "Ann", server)
         h2.gc.debugRestore()
-        await run([h2, j], "the leader back") { lists(h2) == ["H", "J"] && lists(j) == ["H", "J"] }
-        XCTAssertEqual(j.service.lobby?.id, h2.service.lobby?.id)
+        // (the guest's old lobby lists both too: back means the leader's new lobby has replaced it)
+        await run([h2, j], "the leader back") { lists(h2) == ["H", "J"] && lists(j) == ["H", "J"] && j.service.lobby?.id == h2.service.lobby?.id }
         XCTAssertEqual(j.service.lobby?.ownerID, "H")
         XCTAssertEqual(j.service.debugLeaves, [])
     }
@@ -670,6 +690,166 @@ final class PartyLinkHarnessTests: XCTestCase {
         XCTAssertEqual(h.service.lobby?.matchID, match); XCTAssertEqual(j.service.lobby?.matchID, match)
         XCTAssertEqual(launches, ["H": 1, "J": 1], "nobody loaded a new match")
         XCTAssertEqual(h.service.debugLeaves + j.service.debugLeaves, [])
+    }
+
+    /// Today's field case (build 15): the guest's app was closed and reopened about 40 s before an online tennis match. It rejoined,
+    /// launched tennis in seat 1, set up and played, but no move crossed: the host's game had the CPU play the guest, and the guest's
+    /// game never got a ball. Here the same steps run through both lobbies, and each game's moves must reach the other game.
+    func testTennisMovesCrossAfterTheGuestReopenedItsApp() async {
+        let server = Server(), hb = Bridge(), h = phone("H", "Ann", server, bridge: hb), j = phone("J", "Bea", server)
+        await together(server, h, j)
+        close(j, server); server.offline.remove("J")
+        let jb = Bridge(), j2 = phone("J", "Bea", server, bridge: jb)
+        j2.gc.debugRestore()
+        await run([h, j2], "the guest back") { lists(h) == ["H", "J"] && lists(j2) == ["H", "J"] }
+        await tennisMovesCross(h, hb, j2, jb)
+    }
+    /// The likely cause of today's case: the guest's app started again and came back as the same player before the host heard it go.
+    /// Its new app numbers packets from 1, while the host still held the old app's numbers from the last match (hundreds of moves), so
+    /// every new move looked old and was dropped; the CPU took over on the host and the guest got no ball. The launch id fixes it.
+    func testAGuestReopenedUnnoticedStillGetsItsMovesThrough() async {
+        let server = Server(), hb = Bridge(), jb = Bridge(), h = phone("H", "Ann", server, bridge: hb), j = phone("J", "Bea", server, bridge: jb)
+        await together(server, h, j)
+        await tennisMovesCross(h, hb, j, jb)
+        guard let first = h.service.lobby?.matchID else { return }
+        // (a rally's worth, over a few seconds of game time: the host takes at most 180 packets a second from one phone)
+        for burst in 0..<10 {
+            for i in 0..<30 { jb.send("peer", match: first, payload: "old \(burst * 30 + i)", reliable: i % 3 == 0) }
+            let before = hb.received.count
+            await run([h, j], "the old app's moves") { hb.received.count >= before + 30 }
+            clock += 1
+        }
+        h.service.endPartyMatch()
+        await run([h, j], "back in the lobby") { h.service.lobby?.phase == .lobby && j.service.lobby?.phase == .lobby }
+        // the guest's app starts again and Game Center puts it straight back into the match: the host never hears it go
+        j.gc.signedIn = { false }; j.gc.appActive = { false }; j.gc.localIDOverride = "closed-J"
+        let jb2 = Bridge(), j2 = phone("J", "Bea", server, bridge: jb2)
+        guard let link = server.reopenInPlace("J", j2.gc) else { return XCTFail("no match to reopen into") }
+        try? await j2.gc.debugAttachParty(link, leader: "H", need: ["H"])
+        await run([h, j2], "the reopened guest in the lobby") { lists(j2) == ["H", "J"] }
+        await tennisMovesCross(h, hb, j2, jb2)
+        XCTAssertEqual(h.service.debugMoves.dropped["old sequence"], nil, "\(h.service.debugMoves.line)")
+    }
+
+    /// The same match with nobody reopening (the control: if this fails too, the bug is in the match, not the reopen).
+    func testTennisMovesCrossOnAFreshParty() async {
+        let server = Server(), hb = Bridge(), jb = Bridge(), h = phone("H", "Ann", server, bridge: hb), j = phone("J", "Bea", server, bridge: jb)
+        await together(server, h, j)
+        await tennisMovesCross(h, hb, j, jb)
+    }
+    /// The leader starts online tennis, the guest taps Ready, both load and set up, and then each game sends a move.
+    private func tennisMovesCross(_ h: Phone, _ hb: Bridge, _ j: Phone, _ jb: Bridge, file: StaticString = #filePath, line: UInt = #line) async {
+        let hl = hb.launches.count, jl = jb.launches.count, hm = hb.received.count, jm = jb.received.count
+        for p in [h, j] { p.service.setScreen(true) }
+        h.service.requiresStableLink = false
+        await run([h, j], "both TVs in the lobby", file: file, line: line) { h.service.lobby?.participants.allSatisfy(\.hasScreen) == true }
+        do { try h.service.configure(.tennis); try h.service.startPartyGame() } catch { XCTFail("start: \(error.localizedDescription)", file: file, line: line); return }
+        await run([h, j], "the ready check", file: file, line: line) { j.service.partyReadyCheck }
+        try? j.service.setReady(true)
+        await run([h, j], "tennis loading on both", file: file, line: line) { hb.launches.count == hl + 1 && jb.launches.count == jl + 1 }
+        h.service.runtimeLoaded(); j.service.runtimeLoaded()
+        await run([h, j], "setting up", file: file, line: line) { [h, j].allSatisfy { $0.service.lobby?.phase == .calibrating || $0.service.lobby?.phase == .playing } }
+        h.service.runtimeCalibrated(); j.service.runtimeCalibrated()
+        await run([h, j], "playing on both", file: file, line: line) { h.service.lobby?.phase == .playing && j.service.lobby?.phase == .playing }
+        guard let match = h.service.lobby?.matchID else { return }
+        // each game sends its moves: a reliable call and an unreliable pose, as TennisGame.Versus does
+        hb.send("peer", match: match, payload: "{\"k\":\"ready\",\"s\":0}"); hb.send("peer", match: match, payload: "P0", reliable: false)
+        jb.send("peer", match: match, payload: "{\"k\":\"ready\",\"s\":1}"); jb.send("peer", match: match, payload: "P1", reliable: false)
+        await run([h, j], "each game's moves reaching the other", file: file, line: line) {
+            Set(jb.received.dropFirst(jm).filter { $0.kind == "peer" }.map(\.payload)) == ["{\"k\":\"ready\",\"s\":0}", "P0"]
+            && Set(hb.received.dropFirst(hm).filter { $0.kind == "peer" }.map(\.payload)) == ["{\"k\":\"ready\",\"s\":1}", "P1"]
+        }
+    }
+
+    // MARK: closing and reopening the app at every stage (2026-10-28 brief)
+
+    enum Stage: String, CaseIterable { case lobby, loading, setup, playing, results }
+    enum Reopen: String, CaseIterable { case guest, guestUnnoticed, host }
+    private func status(_ p: Phone, _ id: String) -> PlayerStatus? { p.service.lobby?.participants.first { $0.id == id }?.status }
+    private func seats(_ p: Phone) -> [String] { (p.service.lobby?.participants ?? []).map { "\($0.id):\($0.seat)" }.sorted() }
+    /// A fresh party (H leads, J joined) taken to `stage` of an online tennis match.
+    private func drive(_ server: Server, to stage: Stage) async -> (h: Phone, hb: Bridge, j: Phone, jb: Bridge) {
+        let hb = Bridge(), jb = Bridge(), h = phone("H", "Ann", server, bridge: hb), j = phone("J", "Bea", server, bridge: jb)
+        await together(server, h, j)
+        for p in [h, j] { p.service.setScreen(true) }
+        h.service.requiresStableLink = false
+        await run([h, j], "both TVs in the lobby") { h.service.lobby?.participants.allSatisfy(\.hasScreen) == true }
+        if stage == .lobby { return (h, hb, j, jb) }
+        try? h.service.configure(.tennis); try? h.service.startPartyGame()
+        await run([h, j], "the ready check") { j.service.partyReadyCheck }
+        try? j.service.setReady(true)
+        await run([h, j], "tennis loading") { hb.launches.count == 1 && jb.launches.count == 1 }
+        h.service.runtimeLoaded()
+        if stage == .loading { return (h, hb, j, jb) }
+        j.service.runtimeLoaded()
+        await run([h, j], "setting up") { h.service.lobby?.phase == .calibrating && j.service.lobby?.phase == .calibrating }
+        if stage == .setup { return (h, hb, j, jb) }
+        h.service.runtimeCalibrated(); j.service.runtimeCalibrated()
+        await run([h, j], "playing") { h.service.lobby?.phase == .playing && j.service.lobby?.phase == .playing }
+        if stage == .playing { return (h, hb, j, jb) }
+        if let match = h.service.lobby?.matchID { hb.send("result", match: match, payload: "{\"sport\":\"tennis\",\"reason\":\"complete\",\"winner\":0}") }
+        await run([h, j], "the result") { h.service.lobby?.phase == .results && j.service.lobby?.phase == .results }
+        return (h, hb, j, jb)
+    }
+    /// One phone's app closes and opens again at `stage`. Both phones must end up agreeing on the party, its lobby and the seats. A
+    /// guest back in a running match reloads it and plays on at the current point (moves cross both ways); the leader's own restart
+    /// ends the match it ran, and the party is back in its lobby, together.
+    private func reopen(_ who: Reopen, at stage: Stage, file: StaticString = #filePath, line: UInt = #line) async {
+        let server = Server()
+        let (h, hb, j, jb) = await drive(server, to: stage)
+        let match = h.service.lobby?.matchID ?? ""
+        let running = [.loading, .setup, .playing].contains(stage)
+        if who == .host {
+            close(h, server); server.offline.remove("H")
+            await run([j], "\(stage): the guest sees the leader go", file: file, line: line) { !j.gc.peers.contains("H") }
+            XCTAssertEqual(j.service.lobby?.ownerID, "H", "\(stage): the guest waits for its leader", file: file, line: line)
+            let hb2 = Bridge(), h2 = phone("H", "Ann", server, bridge: hb2)
+            h2.gc.debugRestore()
+            await run([h2, j], "\(stage): the leader back, one party", file: file, line: line) {
+                lists(h2) == ["H", "J"] && lists(j) == ["H", "J"] && j.service.lobby?.id == h2.service.lobby?.id && seats(j) == seats(h2)
+                && j.service.lobby?.phase == .lobby
+            }
+            if running { XCTAssertTrue(jb.received.contains { $0.kind == "stop" }, "\(stage): the match the leader ran ended on the guest", file: file, line: line) }
+            XCTAssertEqual(j.service.debugLeaves, [], "\(stage)", file: file, line: line)
+            return
+        }
+        let jb2 = Bridge(), j2: Phone
+        if who == .guestUnnoticed {
+            j.gc.signedIn = { false }; j.gc.appActive = { false }; j.gc.localIDOverride = "closed-J"
+            j2 = phone("J", "Bea", server, bridge: jb2)
+            guard let link = server.reopenInPlace("J", j2.gc) else { return XCTFail("\(stage): no match to reopen into", file: file, line: line) }
+            try? await j2.gc.debugAttachParty(link, leader: "H", need: ["H"])
+        } else {
+            close(j, server); server.offline.remove("J")
+            j2 = phone("J", "Bea", server, bridge: jb2)
+            j2.gc.debugRestore()
+        }
+        await run([h, j2], "\(stage) \(who): back in one party", file: file, line: line) {
+            lists(h) == ["H", "J"] && lists(j2) == ["H", "J"] && j2.service.lobby?.id == h.service.lobby?.id && seats(j2) == seats(h)
+        }
+        XCTAssertEqual(h.service.debugLeaves, [], "\(stage) \(who)", file: file, line: line)
+        guard running else { return }
+        // the reopened guest gets the running match again, reloads it and sets up; the same match goes on. Both phones show the
+        // leader's word on where the guest is: back while it reloads, here once it plays.
+        await run([h, j2], "\(stage) \(who): the match sent again", file: file, line: line) { jb2.launches.last?.matchID == match }
+        await run([h, j2], "\(stage) \(who): coming back, on both phones", file: file, line: line) { status(h, "J") == .back && status(j2, "J") == .back }
+        j2.service.runtimeLoaded()
+        await run([h, j2], "\(stage) \(who): loaded again", file: file, line: line) { h.service.lobby?.participants.first { $0.id == "J" }?.loaded == true }
+        j2.service.runtimeCalibrated(); h.service.runtimeCalibrated()
+        await run([h, j2], "\(stage) \(who): playing on", file: file, line: line) {
+            h.service.lobby?.phase == .playing && j2.service.lobby?.phase == .playing && h.service.lobby?.matchID == match
+            && h.service.lobby?.competitors.allSatisfy { $0.loaded && $0.calibrated } == true
+        }
+        await run([h, j2], "\(stage) \(who): here again, on both phones", file: file, line: line) { status(h, "J") == .here && status(j2, "J") == .here }
+        let hm = hb.received.count, jm = jb2.received.count
+        hb.send("peer", match: match, payload: "H move"); jb2.send("peer", match: match, payload: "J move")
+        await run([h, j2], "\(stage) \(who): moves crossing", file: file, line: line) {
+            jb2.received.dropFirst(jm).contains { $0.kind == "peer" && $0.payload == "H move" } && hb.received.dropFirst(hm).contains { $0.kind == "peer" && $0.payload == "J move" }
+        }
+        _ = jb
+    }
+    func testReopeningAtEveryStageKeepsOneParty() async {
+        for stage in Stage.allCases { for who in Reopen.allCases { await reopen(who, at: stage); for p in phones { p.service.leave("next case"); p.gc.signedIn = { false } }; phones = [] } }
     }
 
     /// Three phones: the third one's match dies; the leader brings it back into the match the other two are still in.
