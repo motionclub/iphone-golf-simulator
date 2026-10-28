@@ -815,6 +815,8 @@ final class HubSession {
     private(set) var friendPlaces: [String: String] = [:]
     private(set) var lastCall: (from: String, bay: String)?
     @ObservationIgnored private var lastPose = ""
+    /// Seconds, for pacing the pose relay (tests run it on their own clock).
+    @ObservationIgnored var uptime: () -> Double = { ProcessInfo.processInfo.systemUptime }
     @ObservationIgnored private var presenceSent = 0.0
     @ObservationIgnored private var reliablePresenceSent = -Double.infinity
     @ObservationIgnored private var presenceKey = (place: "", bay: "")
@@ -836,7 +838,7 @@ final class HubSession {
         let p = Presence(place: f[0], x: x, y: y, z: z, yaw: yaw, speed: speed, bay: f[6], emote: f[7])
         // ~10 a second, but sitting down, standing up or going through a door goes out at once (and reliably): the bench and the
         // friends' plazas must never miss it
-        let now = ProcessInfo.processInfo.systemUptime, changed = p.bay != presenceKey.bay || p.place != presenceKey.place || ProcessInfo.processInfo.systemUptime - reliablePresenceSent >= 1
+        let now = uptime(), changed = p.bay != presenceKey.bay || p.place != presenceKey.place || now - reliablePresenceSent >= 1
         guard changed || now - presenceSent >= 0.09 else { return }
         guard let data = try? JSONEncoder().encode(p), let text = String(data: data, encoding: .utf8) else { return }
         presenceSent = now; if changed { reliablePresenceSent = now }; presenceKey = (p.place, p.bay); partyService.sendHub("hubPresence", payload: text, reliable: changed)

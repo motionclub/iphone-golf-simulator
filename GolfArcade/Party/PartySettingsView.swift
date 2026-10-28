@@ -32,6 +32,24 @@ struct PartySettingsSections: View {
         voiceSection
         chatSection
         safetySection
+        diagnosticsSection
+    }
+
+    // MARK: diagnostics
+
+    /// The phone's own logs (SportsDiagnostics.log, errors.log and any other .log in Documents), sent by AirDrop, Messages or Mail
+    /// when the player chooses: how a friend's phone shows what happened when a join failed. Nothing is sent by itself.
+    private var diagnosticsSection: some View {
+        Section {
+            let files = SportsDiagnostics.files
+            if files.isEmpty { Text("No diagnostics yet.").foregroundStyle(.secondary) }
+            else {
+                ShareLink(items: files) { Label("Send diagnostics", systemImage: "square.and.arrow.up") }
+                    .accessibilityIdentifier("send-diagnostics")
+            }
+        } header: { Text("Diagnostics") } footer: {
+            Text("Something went wrong joining a friend? Send these files to the developer by AirDrop or text. They hold what the game did, never your camera, voice or messages.")
+        }
     }
 
     // MARK: voice

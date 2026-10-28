@@ -25,6 +25,12 @@ enum SportsDiagnostics {
             if let data=line.data(using:.utf8) { try? handle.write(contentsOf:data) }
         }
     }
+    /// The log files to share (Settings › Send diagnostics): every .log in Documents, SportsDiagnostics.log first.
+    static var files: [URL] {
+        let docs=FileManager.default.urls(for:.documentDirectory,in:.userDomainMask)[0]
+        let logs=((try? FileManager.default.contentsOfDirectory(at:docs,includingPropertiesForKeys:nil)) ?? []).filter { $0.pathExtension=="log" }
+        return logs.sorted { a,b in a.lastPathComponent=="SportsDiagnostics.log" || (b.lastPathComponent != "SportsDiagnostics.log" && a.lastPathComponent<b.lastPathComponent) }
+    }
     /// What jetsam counts (phys_footprint) and what is left before this app's limit: "footprint=2310MB left=1650MB".
     static var memory: String {
         var info=task_vm_info_data_t()
