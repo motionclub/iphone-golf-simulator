@@ -31,32 +31,44 @@ import UIKit
         session.tennisPhase = "serve"
         XCTAssertTrue(session.tossVisible)
     }
-    /// Online tennis has no timing check (Unity ignores `timingCheck` in a network match, so its screens could never finish: the phone
-    /// sat on "Swing on every bounce!" with no ball while the other player waited), and a pause during play starts the owner's 15 s
-    /// forfeit clock. "Use the direction I'm pointing now" and "Re-check swing timing" both end in `offerTimingCalibration`, which
-    /// online goes from the court scan straight to Ready and is otherwise a no-op.
-    func testAnOnlineMatchNeverOffersTimingCalibration() {
+    /// Online tennis sets up exactly as solo does before its first serve (2026-10-28): the court scan, the TV's delay, the timing check,
+    /// then Ready, and only then is the player reported set up. (Versus tennis runs the timing drill on this phone's own court; before,
+    /// online went from the scan straight to Ready.) A player coming back into a match already being played still goes from the scan
+    /// straight to Ready, and re-aiming mid-match never pauses it.
+    func testAnOnlineMatchSetsUpAsSoloDoes() throws {
         let session = SportsSession()
         session.active = true; session.ready = true; session.displayConnected = true
         session.sport = "tennis"; session.motion.fixtureSensors = true; session.loading.cancel()
-        session.debugSetOnlineMatch("match-1")
+        session.debugSetOnlineMatch("match-1", seat: 0)
+        let service = MultiplayerService.shared
+        defer { service.leave("test over") }
+        try service.enableMock(count: 2, player: Player(name: "You", colorIndex: 0))
+        service.mockState(phase: .calibrating)
         session.setupStage = .scan; session.paused = true
         session.offerTimingCalibration()
-        XCTAssertEqual(session.setupStage, .ready, "the court scan ends at Ready, not at a timing check nobody can finish")
-        XCTAssertFalse(session.timingPrompt); XCTAssertFalse(session.checkingTiming); XCTAssertFalse(session.measuringDelay)
+        XCTAssertTrue(session.measuringDelay, "the screen flashes run first, as in solo")
+        session.debugFinishTVDelay()
+        XCTAssertEqual(session.setupStage, .timing); XCTAssertTrue(session.timingPrompt)
+        session.startTimingCheck()
+        XCTAssertTrue(session.checkingTiming)
+        session.receiveTimingResult("120")
+        XCTAssertEqual(session.setupStage, .ready, "Ready comes after the timing check")
         XCTAssertTrue(session.paused, "Ready is what starts play")
+        session.readyToPlay()
+        XCTAssertEqual(session.setupStage, .waiting, "set up (and reported) only once Ready is tapped")
+
+        // coming back into a match already being played: from the scan straight to Ready, no timing check
+        service.mockState(phase: .playing)
+        session.setupStage = .scan; session.paused = true
+        session.offerTimingCalibration()
+        XCTAssertEqual(session.setupStage, .ready)
+        XCTAssertFalse(session.timingPrompt); XCTAssertFalse(session.measuringDelay)
 
         // Re-aiming while the match is running leaves it running: a pause would start the owner's forfeit clock.
         session.setupStage = .playing; session.paused = false
         session.recheckTiming()
         XCTAssertEqual(session.setupStage, .playing); XCTAssertFalse(session.paused)
         XCTAssertFalse(session.timingPrompt); XCTAssertFalse(session.measuringDelay)
-
-        // Practice and offline matches keep their timing check.
-        session.debugSetOnlineMatch(nil)
-        session.setupStage = .scan
-        session.offerTimingCalibration(); session.debugFinishTVDelay()
-        XCTAssertEqual(session.setupStage, .timing); XCTAssertTrue(session.timingPrompt)
     }
     /// The court scan needs the court on the TV, so online setup starts when this phone's loading screen is gone, and from then on it
     /// does not wait for the opponent.

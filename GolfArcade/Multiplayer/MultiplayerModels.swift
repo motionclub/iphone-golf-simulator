@@ -19,6 +19,15 @@ enum MultiplayerError: LocalizedError {
         }
     }
 }
+/// Where a player is, as the party's leader sees it. Only the leader decides it, and it travels in the lobby, so every phone shows the
+/// same (2026-10-28 brief: one status per player, one rule each):
+/// - here: in the party, and in the match if seated;
+/// - away: the app is in the background or the connection dropped. Their place is kept: in a match for awayLimitSeconds (tennis: the
+///   CPU plays them; golf: their turns pass; bowling: their ball is waited for), in the party for partyPatienceSeconds;
+/// - back: connected again, reloading or setting up the running match: play waits for them (as for anyone who dropped);
+/// - gone: out of the running match (away past the limit, or a bowling app that started again): the match ends without them, and
+///   they play again from the next one.
+enum PlayerStatus: String, Codable, Sendable { case here, away, back, gone }
 struct MultiplayerParticipant: Codable, Equatable, Sendable {
     var id: String
     var name: String
@@ -44,6 +53,8 @@ struct MultiplayerParticipant: Codable, Equatable, Sendable {
     var invited = true
     var loadout: MultiplayerLoadout?
     var paused: Bool?
+    /// The leader's word on where this player is (nil from a build before 2026-10-28).
+    var status: PlayerStatus?
     /// Nil for a real device; guests are controlled only by the host that created them.
     var controllerID: String?
     var isGuest: Bool { controllerID != nil }
@@ -241,6 +252,18 @@ struct MultiplayerPacket: Codable, Sendable {
     var reliable = true
     var sentAt: Double = 0
     var payload = ""
+    /// The sender app's launch (a new id each time the app starts). A new one means that phone's app was closed and opened again: it
+    /// numbers its packets from 1, knows no lobby and runs no match, and the receiver starts over with it (MultiplayerService).
+    var launch: String? = nil
+}
+/// Game moves ("peer" packets: tennis versus, bowling) in and out of this phone during a match, and why any were dropped.
+struct MoveStats: Equatable {
+    var sent = 0, sendFailed = 0, received = 0
+    var dropped: [String: Int] = [:]
+    mutating func drop(_ why: String) { dropped[why, default: 0] += 1 }
+    var line: String {
+        "sent \(sent) (failed \(sendFailed)), received \(received), dropped " + (dropped.isEmpty ? "none" : dropped.sorted { $0.key < $1.key }.map { "\($0.value) \($0.key)" }.joined(separator: ", "))
+    }
 }
 @MainActor
 protocol MultiplayerTransport: AnyObject {

@@ -241,7 +241,9 @@ namespace GolfArcade.Multiplayer {
         public bool Quiet=>versusMatch?Running&&PeerSilence>NetworkTuning.QuietSeconds:Running&&!IsHost&&Clock-lastSnapshot>NetworkTuning.QuietSeconds;
         /// A line of local statistics for tuning (nothing is uploaded): Swift writes it to SportsDiagnostics.log.
         void ReportStats() {
-            Send("stats","{\"role\":\""+(IsHost?"host":"guest")+"\",\"compact\":"+(compactSnapshots?"true":"false")+",\"stampRejects\":"+(tennis?.StampRejects??0)+",\"maxSnapshotGapMs\":"+(int)(maxSnapshotGap*1000)+"}");
+            // (versus: what this game sent and got from the other phone, and whether the CPU is covering for it; 2026-10-28)
+            Send("stats","{\"role\":\""+(IsHost?"host":"guest")+"\",\"compact\":"+(compactSnapshots?"true":"false")+",\"stampRejects\":"+(tennis?.StampRejects??0)+",\"maxSnapshotGapMs\":"+(int)(maxSnapshotGap*1000)
+                +",\"peerSilence\":"+(versusMatch?PeerSilence:0).ToString("0.0",System.Globalization.CultureInfo.InvariantCulture)+",\"versus\":"+(versusMatch&&tennisView?tennisView.VersusStatsJson:"null")+"}");
         }
         // The 30 Hz update goes in the compact form (checkpoints in the full one) when this build's JSON passed the self-test at match start.
         bool compactSnapshots;

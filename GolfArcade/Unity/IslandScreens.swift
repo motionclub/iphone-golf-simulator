@@ -735,6 +735,14 @@ struct MultiplayerMatchOverlay: View {
     /// What the other players are doing that this player is waiting on, if anything.
     private func notice(for p: MultiplayerParticipant, in lobby: MultiplayerLobby) -> String? {
         guard p.id != service.localID else { return nil }
+        // the leader's word on where they are (PlayerStatus): every phone shows the same
+        switch p.status {
+        case .gone?: return "\(p.name) left the match"
+        case .back?: return lobby.sport == .tennis ? "\(p.name) is getting ready · Match paused" : "\(p.name) is getting back in"
+        case .away?: return p.connected ? "\(p.name) paused" : lobby.phase == .calibrating ? "\(p.name) reconnecting" : "\(p.name) reconnecting · Match paused"
+        case .here?: return nil
+        case nil: break
+        }
         if !p.connected { return lobby.phase == .calibrating ? "\(p.name) reconnecting" : "\(p.name) reconnecting · Match paused" }
         // A tennis player who came back mid-match points their phone at the TV again before play resumes.
         if lobby.sport == .tennis, lobby.phase == .playing, p.seat >= 0, !p.calibrated { return "\(p.name) is getting ready · Match paused" }
@@ -743,7 +751,8 @@ struct MultiplayerMatchOverlay: View {
     var body: some View {
         if let lobby = service.lobby, [.loading,.calibrating,.playing,.interrupted].contains(lobby.phase) {
             VStack(alignment:.leading,spacing:8) {
-                if lobby.sport == .tennis, SportsSession.shared.showsOnlineTennisSetup {
+                // (off while the TV flashes for its delay and while the timing ball bounces: the whole picture is the measurement)
+                if lobby.sport == .tennis, SportsSession.shared.showsOnlineTennisSetup, !SportsSession.shared.measuringDelay, !SportsSession.shared.checkingTiming {
                     OnlineTennisTVSetup(session: .shared, service: service)
                 }
                 HStack {

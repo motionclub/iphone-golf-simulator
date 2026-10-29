@@ -91,3 +91,74 @@ MultiplayerService, and only Game Center's matchmaking is faked in memory. The c
 
 For any FAIL, send both phones' `Documents/SportsDiagnostics.log` (Settings › Voice & chat › Send diagnostics). Lines to look for
 start with `party link:`, `party match`, `game center hangs up`, and `multiplayer: party back together`.
+
+---
+
+# Closing and reopening the app, and online tennis as real PvP (2026-10-28 brief)
+
+## What broke today's match
+
+The guest's app was closed and reopened about 40 s before an online tennis match. It rejoined and played, but no move crossed: the CPU played the guest on the host's TV, and the guest walked around with no ball.
+
+The cause, reproduced in `PartyLinkHarnessTests.testAGuestReopenedUnnoticedStillGetsItsMovesThrough` (it fails without the fix: "sent 2, received 0, dropped 2 old sequence"):
+- A reopened app numbers its packets from 1 again.
+- The host still held the old app's numbers from the last match, hundreds of moves in. Build 15 forgot them only if its connection list showed that phone leave and come back.
+- So every new move looked old and was dropped.
+- After 2 s of silence the CPU took the guest over on the host. From then on the host sends only poses, so the guest never got a ball.
+
+## What changed (one item per line of the brief)
+
+1. **One rejoin path, the launch id.** Every packet carries `launch`, a new id for each start of the app (`MultiplayerService.launchID`). When a phone's launch changes, the other phones start over with it (`peerRestarted`):
+   - its packet numbers, hello and load report are forgotten;
+   - the leader re-sends the lobby and the running match's launch, and play waits for it like any phone that dropped;
+   - a restarted leader's new lobby is taken (`ownerRestarted`).
+
+   This replaces build 15's two patches, the `seen` clear on reconnect and the "new lobby id from the same owner" rule. It works whatever Game Center reported. The party link (finding the party again) and PartyMemory (remembering it across the relaunch) stay: they bring the phone back, and the launch id makes it a clean start.
+2. **One status per player, owned by the leader:** `PlayerStatus` here / away / back / gone, stamped on every lobby the leader publishes. Other phones show the leader's word (the TV's player notices), and each change is logged. The timers, one per status:
+   - away: a match keeps the place for `awayLimitSeconds` (3 min) and a party for `partyPatienceSeconds` (10 min);
+   - back: play waits;
+   - gone: out of the match until the next one.
+3. **One rule for a match in progress (tennis, golf, bowling):**
+   - While a player is away the match covers for them: in tennis the CPU plays them, in golf their turns pass, in bowling their ball is waited for.
+   - A phone that comes back, even after its app restarted, reloads the match and plays on at the current score. Tennis takes the host's score sync; golf takes the host's state.
+   - Exception: bowling cannot bring a game back to the current frame yet, so a bowling app that restarted mid-game is out of that game at once. The host bowls for it, and it plays from the next game, rather than two disagreeing score sheets.
+   - The leader's own restart ends the match it ran, and the party goes on.
+4. **Moves are gated on the match, not the lobby copy.** A move (`peer`) is sent and taken when the phone is seated in the running match's launch configuration and the match id matches (`takeMove`). The phone's lobby copy may be a revision behind.
+5. **Moves are logged:**
+   - `multiplayer moves tennis owner|guest: sent N (failed N), received N, dropped …`, with the reason for each drop, every 10 s and at the end;
+   - Unity's 10 s `unity network stats` now carries the game's own counts: `versus.sent`, `received`, `unreadable`, `ownSeat`, `takeovers`, `cpu`, `rejoining`, `point`, plus `peerSilence`.
+6. **Memory at match load:**
+   - Unity now frees unused assets on iOS's memory warning (nothing listened before), at most every 10 s;
+   - Unity also frees them after a behind-the-plaza load;
+   - an online match never builds behind the plaza: it swaps scenes under the cover, as menu launches already did.
+
+## Online tennis
+
+1. **PvP:** items 1 and 4 above. When the CPU covers an away rival, the scoreboard says so the whole time ("CPU (NAME AWAY)"), with a "NAME disconnected" notice, so a CPU match can never pass for a real one.
+2. **Setup matches solo:**
+   - Online now runs solo's screens in solo's order: point at the TV, the TV delay flashes, the timing check, Ready. Unity's in-game controller setup is on for network matches too, and goes off when play starts.
+   - "Calibrated" goes to the host only after Ready, so the host waits for every player's full setup.
+   - Two exceptions: a player coming back into a match that is already being played still goes from the scan straight to Ready, and with their direction kept, straight to Ready.
+
+## Proof
+
+- `PartyLinkHarnessTests.testReopeningAtEveryStageKeepsOneParty`:
+  - Each stage of an online tennis match (lobby, loading, setup, playing, results) is run three ways: the guest's app reopened, the guest's app reopened without the host noticing, and the host's app reopened.
+  - Every case ends with both phones agreeing on the party, its lobby and the seats.
+  - When the guest reopens mid-match: the same match goes on, both phones show the guest as back and then here, and moves cross both ways.
+  - When the host reopens: its match ends and the party is back together.
+  - With the launch id switched off, 11 of the 15 cases fail.
+- Plus `testTennisMovesCrossOnAFreshParty` and `testTennisMovesCrossAfterTheGuestReopenedItsApp`.
+
+## Two-phone check for this (both phones on the new build)
+
+Use the brief's steps 2–5:
+- a fresh party plays a few points of tennis;
+- the guest reopens and then you start tennis;
+- the host reopens and then you start tennis;
+- in a running match the guest swipes home for 5 s, then force-quits.
+
+Both games must stay PvP, with no "CPU (… AWAY)" unless someone really left. Then pull both phones' `SportsDiagnostics.log` and check:
+- the `multiplayer moves` lines show `received` growing on both phones;
+- nothing is `dropped … old sequence`;
+- `unity network stats` shows `"cpu":false`.
