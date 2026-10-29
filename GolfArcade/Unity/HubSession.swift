@@ -333,21 +333,37 @@ final class HubSession {
     /// The match's result is on the TV: the phone offers Back to the Plaza (the line says who won). Nil otherwise.
     private(set) var matchOver: String?
     func onlineMatchFinished(_ line: String) { matchOver = line; searching = false }
-    /// Back to the Plaza from an online match, at its end or mid-match (Exit). A party goes back to its bench together (staying
-    /// seated and ready again is the rematch); a quick match with other players is left.
+    /// Leave game: back to the Plaza from an online match, at its end or mid-match, at once. In a party you stay in it (the game ends
+    /// for everyone when the leader leaves it or fewer than two would play on: MultiplayerService.leaveGame); a quick match is left.
     func leaveOnlineMatch(_ lobby: MultiplayerService? = nil) {
         matchOver = nil
         let service = lobby ?? partyService
-        guard service.lobby != nil else { if session.multiplayerMatchID != nil { session.end() }; return }
-        if service.isParty, service.lobby?.phase != .interrupted {
-            service.endPartyMatch()
-            // a guest whose host has gone cannot be brought back by the host: leave after a moment
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
-                guard let self, self.session.multiplayerMatchID != nil else { return }
-                service.leave(); self.session.end()
-            }
-        } else { service.leave(); if session.multiplayerMatchID != nil { session.end() } }
+        if service.lobby != nil { service.leaveGame() }
+        if session.multiplayerMatchID != nil { session.end() }
     }
+    /// Leave party (from a game too): out of the game and the party; this phone is back in its own Plaza.
+    func leaveParty() {
+        matchOver = nil
+        ClubHub.shared.leaveParty()
+        if session.multiplayerMatchID != nil { session.end() }
+        if menu.screen != .main && menu.screen != .title { menu.openFromPlaza(.main) }
+        evaluate()
+    }
+    /// What each choice does for this player now (the pause menus say it before they leave).
+    var leaveGameLine: String {
+        let service = partyService
+        guard service.isParty, let lobby = service.lobby else { return "You go back to the Plaza." }
+        if lobby.phase == .results { return "Everyone goes back to the Plaza together." }
+        let ends = service.isOwner || lobby.competitors.filter { $0.id != service.localID }.count < 2
+        return ends ? "The game ends for everyone, and the party goes back to the Plaza together." : "The others play on. You wait for them in the Plaza."
+    }
+    var leavePartyLine: String {
+        let leader = partyService.lobby.flatMap { l in l.participants.first { $0.id == l.ownerID } }
+        let whose = partyService.isOwner || leader == nil ? "the party" : "\(leader!.name)'s party"
+        return "You leave \(whose) and go back to your own Plaza. To play together again, you need a new invite."
+    }
+    /// In a friends' party (the pause menus offer Leave party too).
+    var inParty: Bool { partyService.isParty && partyService.lobby != nil }
     /// The app is open again after `seconds` in the background (AwayPolicy): past the away limit an online match or a party is left
     /// (the others have already gone on without this phone), and the phone is back in the Plaza with a line saying why.
     func returned(after seconds: TimeInterval) {
@@ -358,9 +374,10 @@ final class HubSession {
         guard outcome != .stay else { return }
         SportsDiagnostics.write("away \(Int(seconds)) s: \(outcome)")
         matchOver = nil
-        service.leave()
+        // too long for the match, not for the party (it waits partyLimit): only the game is left
+        if outcome == .leaveMatch, service.isParty { service.leaveGame() }
+        else { service.leave(); ClubHub.shared.leaveParty() }
         if inMatch { session.end() }
-        ClubHub.shared.leaveParty()
         notice = AwayPolicy.notice(for: outcome)
         if menu.screen != .main { menu.openFromPlaza(.main) }
         evaluate()

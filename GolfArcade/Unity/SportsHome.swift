@@ -10,6 +10,8 @@ struct SportsHome: View {
     @State private var hub = HubSession.shared
     @State private var clubHub = ClubHub.shared
     @State private var partyUI = PartyUI.shared
+    /// Exit Game in an online match: Leave game or Leave party, with what each does (never one tap that ends a friend's game).
+    @State private var leavingOnline = false
     @Environment(\.scenePhase) private var scenePhase
     // (the screen on its own: one long chain inside body is too much for the type checker in Xcode 26.2)
     @ViewBuilder private var screen: some View {
@@ -86,10 +88,15 @@ struct SportsHome: View {
                 HStack {
                     Text(session.displayConnected ? "Phone controller" : "Game controls")
                     Spacer()
-                    Button("Exit Game") { session.exitGame() }.accessibilityIdentifier("controller-exit")
+                    Button("Exit Game") { if session.multiplayerMatchID != nil { leavingOnline = true } else { session.exitGame() } }.accessibilityIdentifier("controller-exit")
                 }
                 .font(IslandUI.font(16, bold: true)).foregroundStyle(IslandUI.ink)
                 .padding(.horizontal, 20).frame(minHeight: 48).background(IslandUI.dark)
+                .confirmationDialog("Leave this game?", isPresented: $leavingOnline, titleVisibility: .visible) {
+                    Button("Leave game", role: .destructive) { session.exitGame() }
+                    if hub.inParty { Button("Leave party", role: .destructive) { hub.leaveParty() } }
+                    Button("Keep playing", role: .cancel) {}
+                } message: { Text(hub.inParty ? "Leave game: \(hub.leaveGameLine)\nLeave party: \(hub.leavePartyLine)" : hub.leaveGameLine) }
             }
         }
     }

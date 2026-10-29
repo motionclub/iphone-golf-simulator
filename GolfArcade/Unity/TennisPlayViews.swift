@@ -981,7 +981,7 @@ struct OnlineTennisSetupPanel: View {
             Button("Keep waiting") { try? service.keepWaitingForLoad(); session.loading.keepWaiting() }
                 .buttonStyle(.bordered).controlSize(.large).tint(IslandUI.lime)
         }
-        Button("Leave match") { session.exitGame() }.font(.subheadline).tint(.white.opacity(0.75))
+        Button("Leave game") { session.exitGame() }.font(.subheadline).tint(.white.opacity(0.75))
             .frame(minHeight: 44).accessibilityIdentifier("setup-leave")
     }
 }

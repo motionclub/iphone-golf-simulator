@@ -61,6 +61,10 @@ final class MultiplayerService {
     /// Game moves this match, written to SportsDiagnostics.log every 10 s.
     @ObservationIgnored private var moves = MoveStats()
     @ObservationIgnored private var nextMoveReport: Double = 0
+    /// Guest: the match this phone left (Leave game) while its leader still runs it. The leader is asked once a second until its
+    /// lobby lets this phone go, and that match never pulls this phone back in.
+    @ObservationIgnored private var leftMatch: String?
+    @ObservationIgnored private var nextLeaveRequest: Double = 0
     #if DEBUG
     var debugMoves: MoveStats { moves }
     #endif
@@ -583,10 +587,17 @@ final class MultiplayerService {
         }
         try startMatch()
     }
-    /// Back to the Plaza from a party's match (any phone, any phase): the owner ends it for everyone, a guest asks the owner.
-    func endPartyMatch() {
-        guard isParty, let phase = lobby?.phase, phase != .lobby else { return }
-        if isOwner { try? returnToLobby(rotateSeats: false) } else { try? sendControl("return") }
+    /// Leave game (any phone, any moment of a match, its result too): this phone is back in the Plaza at once, and stays in its party.
+    /// The leader runs the game, so the leader leaving ends it for everyone. A guest leaving is out of it: the game goes on while two
+    /// still play, and otherwise ends with everyone back in the party (`playerLeft`). Not a party: the match and its lobby are left.
+    func leaveGame() {
+        guard isParty else { leave("left the game"); return }
+        guard let state = lobby, state.phase != .lobby else { if matchConfiguration != nil { stopRuntime() }; return }
+        if isOwner { try? returnToLobby(rotateSeats: false); return }
+        SportsDiagnostics.write("multiplayer: this phone leaves the game (\(state.phase.rawValue)); the party stays")
+        leftMatch = state.matchID.isEmpty ? matchConfiguration?.matchID : state.matchID
+        stopRuntime()
+        try? sendControl("return"); nextLeaveRequest = now + 1
     }
     func returnToLobby(rotateSeats: Bool = true, rematching: Bool = false) throws {
         guard isOwner else { throw MultiplayerError.invalidOperation("Only the lobby owner can end the match.") }
@@ -665,7 +676,7 @@ final class MultiplayerService {
             #endif
             SportsDiagnostics.write("multiplayer leave (\(lobby.map { "\($0.participants.count) in lobby, \(isOwner ? "owner" : "guest")" } ?? "no lobby"), peers=\(transport?.peers.count ?? 0)) — \(why.isEmpty ? "from \(file):\(line)" : why)")
         }
-        sharedPhoneHost = false; nativeParty = false; expectingHost = nil; promotedTo = nil; dropped = [:]
+        sharedPhoneHost = false; nativeParty = false; expectingHost = nil; promotedTo = nil; dropped = [:]; leftMatch = nil
         if transport != nil { try? broadcast("leave") }
         epoch += 1; searchGeneration += 1; timer?.invalidate(); timer = nil; stopRuntime()
         // (a Nearby browse that never became the lobby's transport stops too, rather than running on unowned)
@@ -756,6 +767,18 @@ final class MultiplayerService {
             if lobby?.phase == .playing, continuesWhileAway { if ownerMissingSince == nil { ownerMissingSince = now }; return }
             lobby?.phase = .interrupted; stopRuntime(); lastError = "The host disconnected. Leave and create a new lobby."
         } else if !isOwner { ownerMissingSince = nil }
+    }
+    /// Guest: the leader left the party during a game. The game it ran is over here too (nobody waits minutes for a leader who is not
+    /// coming back), and the party goes on: its lobby is idle again, so the next phone in line takes it over (handOver).
+    private func leaderLeftGame() {
+        guard let state = lobby else { return }
+        SportsDiagnostics.write("multiplayer: the leader left the party during the game (\(state.phase.rawValue))")
+        leftMatch = nil; ownerMissingSince = nil
+        lobby?.phase = .lobby; lobby?.matchID = ""; lobby?.readyCheck = nil
+        for i in lobby!.participants.indices { lobby!.participants[i].ready = lobby!.participants[i].isGuest; lobby!.participants[i].loaded = false; lobby!.participants[i].calibrated = false; lobby!.participants[i].linkOK = false; lobby!.participants[i].view = nil; lobby!.participants[i].screenDelay = nil }
+        if matchConfiguration != nil { stopRuntime() }
+        lastError = "\(state.participants.first { $0.id == state.ownerID }?.name ?? "The leader") left the party, so the game ended."
+        if let transport, !transport.peers.contains(state.ownerID) { _ = handOver(from: state.ownerID) }
     }
     /// The host left an idle lobby: the remaining phone with the lowest id takes it over and publishes it; the others accept that.
     private func handOver(from owner: String) -> Bool {
@@ -876,10 +899,13 @@ final class MultiplayerService {
             if restarted {
                 ownerRestarted = false
                 SportsDiagnostics.write("multiplayer: the leader's new lobby replaces its old one (\(state.participants.count) players)")
-                // the match ran on the leader's old app: over here too; the party goes on
-                if let running = matchConfiguration, running.matchID != state.matchID {
-                    stopRuntime(); lastError = "\(state.participants.first { $0.id == peer }?.name ?? "The leader")'s game restarted, so the match ended."
-                }
+            }
+            // The match this phone runs is not the leader's any more: it ended (its "stop" was missed while this phone was away or the
+            // link was healing), or it ran on the leader's old app. It ends here too; the party goes on.
+            if let running = matchConfiguration, running.matchID != state.matchID {
+                SportsDiagnostics.write("multiplayer: the leader's lobby has no match \(running.matchID.prefix(8)) (\(state.phase.rawValue)): it ends here too")
+                stopRuntime()
+                if restarted { lastError = "\(state.participants.first { $0.id == peer }?.name ?? "The leader")'s game restarted, so the match ended." }
             }
             if lobby == nil { SportsDiagnostics.write("multiplayer lobby from host \(peer.prefix(8)): \(state.participants.count) players") }
             if promoted { promotedTo = nil }
@@ -934,6 +960,8 @@ final class MultiplayerService {
             #endif
             return
         }
+        // the leader left the party in the middle of a game: the game it ran is over here too, and the party picks a new leader
+        if packet.kind == "leave", !isOwner, isParty, peer == state.ownerID, state.phase != .lobby { leaderLeftGame(); return }
         if ["ready","queue","loaded","calibrated","setupStep","startRequest","display","screenDelay","leave","availability","look","emote","return","keepWaiting"].contains(packet.kind) {
             if isOwner { handleControl(packet) }; return
         }
@@ -989,9 +1017,10 @@ final class MultiplayerService {
             guard lobby?.phase == .loading, p.matchID == lobby?.matchID, loadingNeedsDecision else { return }
             loadingStarted = now; loadingNeedsDecision = false; try? broadcast("loadContinue"); return
         case "return":
-            // after the result anyone may bring the lobby back; in a friends' party any member may also end the match early
-            let early = isParty && [.loading, .calibrating, .playing].contains(lobby?.phase ?? .lobby)
-            if lobby?.phase == .results || lobby?.phase == .interrupted || early { try? returnToLobby(rotateSeats: !isParty) }; return
+            // after the result anyone may bring the lobby back; in a friends' party a player may leave the game early (Leave game)
+            if lobby?.phase == .results || lobby?.phase == .interrupted { try? returnToLobby(rotateSeats: !isParty) }
+            else if isParty, [.loading, .calibrating, .playing].contains(lobby?.phase ?? .lobby) { playerLeft(p.sender, "left the game") }
+            return
         case "look":
             guard lobby?.phase == .lobby, now - (lastLook[p.sender] ?? -Double.infinity) >= 0.1 - 1e-6,
                   let update = try? decoder.decode(MultiplayerLookUpdate.self, from: Data(p.payload.utf8)),
@@ -1076,9 +1105,13 @@ final class MultiplayerService {
             // Only a phone with a TV has a delay to report; keep it within what the game would ever credit.
             if lobby!.participants[i].hasScreen, let seconds = Double(p.payload), seconds.isFinite { lobby!.participants[i].screenDelay = min(1, max(0, seconds)) }
         case "leave":
-            if lobby!.participants[i].seat >= 0 && lobby!.phase == .playing { lastError = "\(lobby!.participants[i].name) left the match." }
-            if lobby!.participants[i].seat >= 0 { try? broadcast("drop", payload: p.sender); pushRuntime("drop", payload: p.sender) }
-            lobby!.participants.remove(at: i); lobby!.queue.removeAll { $0 == p.sender }; awaitingCalibration.remove(p.sender)
+            // a friend out of the party mid-game leaves it as Leave game does (the game goes on while two still play)
+            if isParty { playerLeft(p.sender, "left the party") }
+            else {
+                if lobby!.participants[i].seat >= 0 && lobby!.phase == .playing { lastError = "\(lobby!.participants[i].name) left the match." }
+                if lobby!.participants[i].seat >= 0 { try? broadcast("drop", payload: p.sender); pushRuntime("drop", payload: p.sender) }
+            }
+            lobby!.participants.removeAll { $0.id == p.sender }; lobby!.queue.removeAll { $0 == p.sender }; awaitingCalibration.remove(p.sender)
             dropped[p.sender] = nil
         case "availability":
             lobby!.participants[i].paused = p.payload == "false"
@@ -1170,6 +1203,21 @@ final class MultiplayerService {
         try? broadcast("run", payload: String(scheduledRunAt)); pushRuntime("run", payload: String(scheduledRunAt))
         silenceArmedAt = scheduledRunAt + MultiplayerTuning.silenceGrace; silent.removeAll()
         for c in lobby!.competitors { lastHeard[c.id] = now }
+    }
+    /// Leader: a player left a party's game on purpose (Leave game, or out of the party). They are out of it at once, and nobody waits
+    /// for them: the game goes on while two still play, and otherwise it ends and everyone is back in the party. The others are told.
+    private func playerLeft(_ id: String, _ what: String) {
+        guard let i = lobby?.participants.firstIndex(where: { $0.id == id }), lobby!.participants[i].seat >= 0,
+              [.loading, .calibrating, .playing].contains(lobby!.phase) else { return }
+        let name = lobby!.participants[i].name
+        SportsDiagnostics.write("multiplayer: \(id.prefix(8)) \(what) (\(lobby!.phase.rawValue))")
+        try? broadcast("drop", payload: id); pushRuntime("drop", payload: id)
+        lobby!.participants[i].seat = -1; disconnected[id] = nil; silent[id] = nil; awaitingCalibration.remove(id); linkSteadySince[id] = nil
+        let others = lobby!.participants.filter { $0.id != id && $0.id != localID && !$0.isGuest }.map(\.id)
+        let ended = lobby!.competitors.count < 2
+        let text = ended ? "\(name) \(what), so the game ended." : "\(name) \(what). The game goes on."
+        if ended { try? returnToLobby(rotateSeats: false) } else { lobby?.revision += 1; publishLobby(); advancePhase() }
+        lastError = text; if !others.isEmpty { try? transmit("notice", payload: text, to: others) }
     }
     /// Setup cannot finish with fewer than two seated players (one left, or was dropped): go back to the lobby, not wait forever.
     @discardableResult private func abortSetupIfShort() -> Bool {
@@ -1319,8 +1367,9 @@ final class MultiplayerService {
         if config.sport == "golf" { config.venue = MultiplayerLobby.currentGolfVenue(config.venue) }
         guard config.valid(), config.hostID == lobby?.ownerID, config.lobbyID == lobby?.id, config.matchID == lobby?.matchID else { lastError = "Invalid match configuration."; return }
         guard onMatchRequested != nil || !SportsSession.shared.active else { lastError = "Finish the current sport session before joining this match."; return }
-        // In a friends' party only the people on the bench play: everyone else stays where they are in the Plaza.
-        if isParty, (config.participants.first { $0.id == localID }?.seat ?? -1) < 0 { return }
+        // In a friends' party only the people on the bench play: everyone else stays where they are in the Plaza. A game this phone
+        // left (Leave game) never takes it back.
+        if isParty, (config.participants.first { $0.id == localID }?.seat ?? -1) < 0 || config.matchID == leftMatch { return }
         // the last match's packets (and any overflow report) must not use up this match's room in the bridge
         runtimeClear()
         silent.removeAll(); silenceArmedAt = .infinity; local?.holdForReconnect = true
@@ -1377,6 +1426,11 @@ final class MultiplayerService {
     func update() {
         guard let transport else { return }
         if matchConfiguration != nil, now >= nextMoveReport { nextMoveReport = now + 10; reportMoves() }
+        // Leave game: asked again each second (a lost request must not keep this phone in the game) until the leader lets it go
+        if let left = leftMatch, now >= nextLeaveRequest {
+            if isOwner || lobby?.matchID != left || localSeat < 0 { leftMatch = nil }
+            else { nextLeaveRequest = now + 1; try? sendControl("return") }
+        }
         if let phase = lobby?.phase, [.loading, .calibrating, .playing].contains(phase), now >= nextSetupReport {
             nextSetupReport = now + 1
             let me = lobby?.participants.first { $0.id == localID }

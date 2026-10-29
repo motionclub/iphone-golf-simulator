@@ -162,3 +162,62 @@ Both games must stay PvP, with no "CPU (… AWAY)" unless someone really left. T
 - the `multiplayer moves` lines show `received` growing on both phones;
 - nothing is `dropped … old sequence`;
 - `unity network stats` shows `"cpu":false`.
+
+---
+
+# Leave game and Leave party (2026-10-28, evening)
+
+## What was wrong
+
+Leaving a game could quietly throw a player out of the party, three different ways:
+- The tennis/bowling pause screen's **Main Menu → Leave** left the party (it called `service.leave()`).
+- A guest's **Leave match** asked the leader once. If no answer came within 3 s (the link healing, the leader's phone busy), the guest's phone left the party.
+- **Away more than 3 minutes** in a match left the party too, although a party waits 10.
+
+Other gaps:
+- A guest that missed the leader's `stop` (it was in the background, or the link was healing) kept running a game that had ended.
+- When the leader left the party mid-game, the guests waited up to 3 minutes for a leader who was not coming back.
+- Every online "Exit Game" ended the game with one tap and no check.
+
+## The rule now
+
+Two choices, the same on every screen.
+
+**Leave game:** your phone is back in the Plaza at once, and you stay in the party.
+- If you are the leader, or fewer than two players would be left, the game ends for everyone, and the party is back in the Plaza together.
+- Otherwise (golf or bowling with three or more players) the others play on, and you wait for them in the Plaza.
+- A guest's request goes to the leader every second until the leader's lobby lets it go. The game it left never pulls it back in.
+
+**Leave party:** you leave the game and the party, and your phone goes back to your own Plaza.
+- For the others it is the same as Leave game: the game goes on if two or more still play, and otherwise it ends.
+- If the leader leaves mid-game, the game ends on every phone at once, and the next phone in line leads the party.
+
+**A missed stop:** the leader's lobby says which game is running. A phone running any other game ends it.
+
+Where: `MultiplayerService.leaveGame`, `playerLeft` (leader side), `leaderLeftGame` (guest side), the lobby check in `receive`, and
+the retry in `update`. In `HubSession`: `leaveOnlineMatch`, `leaveParty`, `leaveGameLine`/`leavePartyLine`, and `returned(after:)`.
+
+## Buttons
+
+- **Golf pause menu:** Leave game and Leave party. Each has a check that says what happens to the others.
+- **Tennis/bowling pause screen:** Leave game and Leave party (it used to say Main Menu), each with a check.
+- **Tennis/bowling top bar "Exit Game" (online):** one check offering Leave game or Leave party.
+- **Match over:** Back to the Plaza, plus Leave party.
+- **The Plaza's ☰ menu:** Leave party, while you are in one.
+- **Setup screen:** Leave game.
+
+## Tests (HubPartyTests)
+
+- a two-player game: Leave game ends it, and the party stays;
+- a lost Leave game request is sent again, and the game never takes the phone back;
+- three players: the other two play on;
+- a friend leaves the party mid-game;
+- the leader leaves the party mid-game: it ends at once, and the next phone leads;
+- a guest that missed the stop.
+
+## Two-phone check
+
+1. In online tennis, the guest taps Exit Game → Leave game. Both phones go back to the Plaza within a couple of seconds, still in the party. Do the same from the leader.
+2. In online tennis, the guest taps Leave party. The leader's game ends with "Bea left the party, so the game ended." The guest is in their own Plaza.
+3. The leader taps Leave party mid-game. The guest's game ends at once, and the guest leads the party.
+4. Golf pause → Leave game, then start another game together. Nothing is left over.

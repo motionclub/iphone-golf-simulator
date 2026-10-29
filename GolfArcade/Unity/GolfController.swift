@@ -95,6 +95,9 @@ private struct GolfControllerText: View {
 struct GolfPhoneController: View {
     @Bindable var session: SportsSession
     @State private var partyChat = false
+    /// Leave game or Leave party, waiting on its check (online: it says what happens to the others).
+    private enum Leaving { case game, party }
+    @State private var leaving: Leaving?
     @State private var stickOffset = CGSize.zero
     @State private var draggingAim = false
     @State private var lastAimSent = -Double.infinity
@@ -233,11 +236,19 @@ struct GolfPhoneController: View {
                 } }
                 Section {
                     Button("Send feedback") { BetaFeedback.open() }
-                    Button("Leave game", role: .destructive) { session.exitGame() }
+                    Button("Leave game", role: .destructive) { if session.multiplayerMatchID != nil { leaving = .game } else { session.exitGame() } }
                         .accessibilityIdentifier("controller-exit")
+                    if HubSession.shared.inParty {
+                        Button("Leave party", role: .destructive) { leaving = .party }.accessibilityIdentifier("controller-leave-party")
+                    }
                 }
             }.scrollContentBackground(.hidden).navigationTitle("Golf paused").navigationBarTitleDisplayMode(.inline)
                 .sheet(isPresented: $partyChat) { PartyChatView(dismiss: { partyChat = false }).presentationDetents([.large]) }
+                .confirmationDialog(leaving == .party ? "Leave the party?" : "Leave this game?", isPresented: Binding(get: { leaving != nil }, set: { if !$0 { leaving = nil } }), titleVisibility: .visible) {
+                    if leaving == .party { Button("Leave party", role: .destructive) { leaving = nil; HubSession.shared.leaveParty() } }
+                    else { Button("Leave game", role: .destructive) { leaving = nil; session.exitGame() } }
+                    Button("Keep playing", role: .cancel) { leaving = nil }
+                } message: { Text(leaving == .party ? HubSession.shared.leavePartyLine : HubSession.shared.leaveGameLine) }
         }.interactiveDismissDisabled().presentationDetents([.large])
             .presentationBackground(Color(hex: "FFF9ED"))
     }

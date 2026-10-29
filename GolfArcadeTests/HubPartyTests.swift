@@ -312,8 +312,8 @@ final class HubPartyTests: XCTestCase {
         XCTAssertEqual(menu.screen, .main, "a lobby screen left over from an old path is closed")
     }
 
-    /// Leaving a party match (Exit, or Back to the Plaza after it) brings the whole party back to the bench: the host ends it for
-    /// everyone; a guest asks the host. Never a confirm or lobby screen.
+    /// Leaving a two-player party game (Leave game, or Back to the Plaza after it) brings the whole party back to the Plaza: nobody is
+    /// left to play on. Never a lobby screen.
     func testBackToThePlazaFromAPartyMatchBringsEveryoneBack() throws {
         let bus = Bus(), a = service("Ann", shirt: "E8505B"), b = service("Bea", shirt: "3F62CC")
         var back = 0; a.onReturnToLobby = { back += 1 }; b.onReturnToLobby = { back += 1 }
@@ -321,7 +321,7 @@ final class HubPartyTests: XCTestCase {
         defer { b.leave(); a.leave() }
         try a.configure(.tennis); try a.startPartyGame(); try b.setReady(true)
         XCTAssertEqual(b.lobby?.phase, .loading)
-        b.endPartyMatch()   // a guest's Exit mid-load
+        b.leaveGame()   // a guest's Leave game mid-load
         XCTAssertEqual(a.lobby?.phase, .lobby, "the host brought everyone back"); XCTAssertEqual(b.lobby?.phase, .lobby)
         XCTAssertGreaterThanOrEqual(back, 2, "every phone's match stopped")
         XCTAssertEqual(a.lobby?.participants.count, 2, "the party is still together")
@@ -449,5 +449,128 @@ final class HubPartyTests: XCTestCase {
         ha.useStation("bay-tennis-online")
         XCTAssertEqual(ha.notice, HubSession.friendJoiningMessage)
         XCTAssertNil(ha.onlineBench, "no quick match"); XCTAssertNotNil(a.lobby, "still Ann's party")
+    }
+
+    // MARK: 2026-10-28: Leave game and Leave party
+
+    /// A party where every phone counts its matches started and stopped, on a clock the test moves.
+    private final class Counted { var launches = 0, stops = 0 }
+    private func party(_ names: [String], bus: Bus, clock: @escaping @MainActor () -> Double) throws -> ([MultiplayerService], [Counted]) {
+        var phones: [MultiplayerService] = [], counts: [Counted] = []
+        for (i, name) in names.enumerated() {
+            let s = MultiplayerService(sendToRuntime: { _ in true }, pollRuntime: { nil }, clock: clock), c = Counted()
+            s.onMatchRequested = { (_: MultiplayerMatchConfiguration) in c.launches += 1 }; s.onReturnToLobby = { c.stops += 1 }
+            s.setScreen(true); s.requiresStableLink = false; s.setIdentity(name: name)
+            if i == 0 { try s.host(using: bus.link(String(name.prefix(1)).lowercased())) } else { try s.connect(using: bus.link(String(name.prefix(1)).lowercased())) }
+            phones.append(s); counts.append(c)
+        }
+        return (phones, counts)
+    }
+    /// The leader starts `sport`, everyone taps Ready and loads: the game is on (golf plays at once; tennis sets up first).
+    private func play(_ sport: MultiplayerSport, _ phones: [MultiplayerService]) throws {
+        try phones[0].configure(sport); try phones[0].startPartyGame()
+        for s in phones.dropFirst() { try s.setReady(true) }
+        for s in phones { s.runtimeLoaded() }
+    }
+
+    /// Leave game from a two-player game: this phone is back in the Plaza at once and the game ends for both (nobody is left to play
+    /// on); the party stays together, and the leader is told why.
+    func testLeaveGameInATwoPlayerGameEndsItAndKeepsTheParty() throws {
+        let bus = Bus(), (p, n) = try party(["Ann", "Bea"], bus: bus, clock: { 100 })
+        let a = p[0], b = p[1]
+        defer { b.leave(); a.leave() }
+        try play(.tennis, p)
+        XCTAssertEqual(a.lobby?.phase, .calibrating); XCTAssertEqual(n[1].launches, 1)
+        b.leaveGame()
+        XCTAssertGreaterThanOrEqual(n[1].stops, 1, "Bea's game stopped at once")
+        XCTAssertEqual(a.lobby?.phase, .lobby, "nobody left to play: the game ended"); XCTAssertEqual(b.lobby?.phase, .lobby)
+        XCTAssertGreaterThanOrEqual(n[0].stops, 1, "and on Ann's phone")
+        XCTAssertEqual(a.lobby?.participants.map(\.id).sorted(), ["a", "b"], "still a party"); XCTAssertEqual(b.lobby?.ownerID, "a")
+        XCTAssertEqual(a.lastError, "Bea left the game, so the game ended.")
+        XCTAssertTrue(a.isParty && b.isParty)
+    }
+
+    /// A Leave game request lost on its way (a link healing) never keeps the phone in the game: it is already in the Plaza, it asks
+    /// again each second until the leader lets it go, and the game it left never pulls it back in.
+    func testALostLeaveGameRequestIsAskedAgainAndTheGameNeverTakesThePhoneBack() throws {
+        var t = 100.0
+        let bus = Bus(), (p, n) = try party(["Ann", "Bea"], bus: bus, clock: { t })
+        let a = p[0], b = p[1]
+        defer { b.leave(); a.leave() }
+        try play(.tennis, p)
+        var lost = 1
+        bus.drop = { from, kind in if from == "b", kind == "return", lost > 0 { lost -= 1; return true }; return false }
+        b.leaveGame()
+        XCTAssertEqual(n[1].stops, 1, "Bea's game stopped at once"); XCTAssertEqual(a.lobby?.phase, .calibrating, "the request was lost")
+        // Ann's phone sends the running game to a phone that says hello (as after a reconnect): Bea's never takes it
+        bus.links["b"]?.onPeersChanged?()
+        XCTAssertEqual(n[1].launches, 1, "the game Bea left did not start again on her phone")
+        t += 1.1; b.update()
+        XCTAssertEqual(a.lobby?.phase, .lobby, "asked again: the game ended"); XCTAssertEqual(b.lobby?.phase, .lobby)
+        XCTAssertEqual(a.lobby?.participants.count, 2, "still a party")
+        // the next game starts on Bea's phone as usual
+        try play(.tennis, p)
+        XCTAssertEqual(n[1].launches, 2)
+    }
+
+    /// Three playing golf: one leaving the game is out of it, and the other two play on (golf passes their turns). They stay in the
+    /// party and are back with everyone when the game ends.
+    func testInAThreePlayerGameTheOthersPlayOnWhenOneLeaves() throws {
+        let bus = Bus(), (p, n) = try party(["Ann", "Bea", "Cy"], bus: bus, clock: { 100 })
+        let a = p[0], b = p[1], c = p[2]
+        defer { c.leave(); b.leave(); a.leave() }
+        try play(.golf, p)
+        XCTAssertEqual(a.lobby?.phase, .playing); XCTAssertEqual(a.lobby?.competitors.count, 3)
+        c.leaveGame()
+        XCTAssertEqual(n[2].stops, 1, "Cy is back in the Plaza")
+        XCTAssertEqual(a.lobby?.phase, .playing, "Ann and Bea play on"); XCTAssertEqual(n[0].stops, 0); XCTAssertEqual(n[1].stops, 0)
+        XCTAssertEqual(a.lobby?.competitors.map(\.id), ["a", "b"])
+        XCTAssertEqual(a.lobby?.participants.first { $0.id == "c" }?.connected, true, "Cy is still in the party")
+        XCTAssertEqual(b.lastError, "Cy left the game. The game goes on."); XCTAssertEqual(a.lastError, b.lastError)
+        XCTAssertEqual(a.lobby?.participants.first { $0.id == "c" }?.status, .gone, "out of this game")
+        try a.returnToLobby(rotateSeats: false)
+        for s in p { XCTAssertEqual(s.lobby?.phase, .lobby); XCTAssertEqual(s.lobby?.participants.count, 3) }
+    }
+
+    /// Leave party in the middle of a game: the friend is out of the game and the party; with nobody left to play, the game ends and
+    /// the leader is back in the Plaza with the rest of the party.
+    func testAFriendLeavingThePartyMidGameEndsATwoPlayerGame() throws {
+        let bus = Bus(), (p, n) = try party(["Ann", "Bea"], bus: bus, clock: { 100 })
+        let a = p[0], b = p[1]
+        defer { a.leave() }
+        try play(.tennis, p)
+        b.leave("left the party")
+        XCTAssertNil(b.lobby)
+        XCTAssertEqual(a.lobby?.phase, .lobby); XCTAssertGreaterThanOrEqual(n[0].stops, 1)
+        XCTAssertEqual(a.lobby?.participants.map(\.id), ["a"])
+        XCTAssertEqual(a.lastError, "Bea left the party, so the game ended.")
+    }
+
+    /// The leader leaving the party mid-game: the game it ran ends on every phone at once (nobody waits minutes for a leader who is
+    /// not coming back), and the party goes on with the next leader.
+    func testTheLeaderLeavingThePartyMidGameEndsItForTheOthersAtOnce() throws {
+        let bus = Bus(), (p, n) = try party(["Ann", "Bea", "Cy"], bus: bus, clock: { 100 })
+        let a = p[0], b = p[1], c = p[2]
+        defer { c.leave(); b.leave() }
+        try play(.golf, p)
+        a.leave("left the party")
+        for (s, count) in [(b, n[1]), (c, n[2])] {
+            XCTAssertEqual(count.stops, 1, "the game ended"); XCTAssertEqual(s.lobby?.phase, .lobby); XCTAssertEqual(s.lobby?.ownerID, "b", "Bea leads now")
+            XCTAssertEqual(s.lobby?.participants.map(\.id).sorted(), ["b", "c"])
+        }
+        XCTAssertEqual(c.lastError, "Ann left the party, so the game ended.")
+        XCTAssertTrue(b.isOwner)
+    }
+
+    /// The leader ended the game but its "stop" never reached the guest (it was in the background, or the link was healing): the
+    /// leader's next lobby says there is no game, and the guest's game ends too.
+    func testAGuestThatMissedTheStopEndsItsGameWhenTheLobbySaysSo() throws {
+        let bus = Bus(), (p, n) = try party(["Ann", "Bea"], bus: bus, clock: { 100 })
+        let a = p[0], b = p[1]
+        defer { b.leave(); a.leave() }
+        try play(.tennis, p)
+        bus.drop = { from, kind in from == "a" && kind == "stop" }
+        try a.returnToLobby(rotateSeats: false)
+        XCTAssertEqual(n[1].stops, 1, "the lobby ended Bea's game"); XCTAssertEqual(b.lobby?.phase, .lobby)
     }
 }
