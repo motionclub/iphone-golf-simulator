@@ -351,6 +351,7 @@ private struct HubRoundButton: View {
 struct HubQuickMenu: View {
     let hub: HubSession
     let dismiss: () -> Void
+    @State private var leavingParty = false
     static let places: [(id: String, title: String, icon: String)] = [
         ("plaza", "The Plaza", "sun.horizon.fill"), ("locker", "Locker Room", "tshirt.fill"), ("clubhouse", "Clubhouse", "crown.fill"),
         ("play", "PLAY Hall", "flag.checkered"), ("tennis", "Tennis room", "tennis.racket"), ("golf", "Golf room", "figure.golf")]
@@ -385,9 +386,19 @@ struct HubQuickMenu: View {
                             .accessibilityIdentifier("hub-use-\(s.id)")
                     }
                 }
+                if hub.inParty {
+                    Section {
+                        Button(role: .destructive) { leavingParty = true } label: { Label("Leave party", systemImage: "person.2.slash") }
+                            .accessibilityIdentifier("hub-leave-party")
+                    } footer: { Text(hub.leavePartyLine) }
+                }
                 Section {
                     Button { dismiss(); BetaFeedback.open() } label: { Label("Send feedback", systemImage: "envelope") }
                 }
+            }
+            .confirmationDialog("Leave the party?", isPresented: $leavingParty, titleVisibility: .visible) {
+                Button("Leave party", role: .destructive) { hub.leaveParty(); dismiss() }
+                Button("Stay", role: .cancel) {}
             }
             .navigationTitle("Menu").navigationBarTitleDisplayMode(.inline)
             .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Done", action: dismiss) } }
@@ -706,6 +717,11 @@ struct HubMatchOverPanel: View {
             Button { hub.leaveOnlineMatch() } label: {
                 Text("Back to the Plaza").font(IslandUI.font(22, bold: true)).foregroundStyle(IslandUI.navy).frame(maxWidth: .infinity, minHeight: 62).background(IslandUI.lime, in: Capsule())
             }.buttonStyle(.plain).accessibilityIdentifier("hub-match-over-back")
+            if hub.inParty {
+                Button { hub.leaveParty() } label: {
+                    Text("Leave party").font(IslandUI.font(17, bold: true)).foregroundStyle(.white.opacity(0.8)).frame(maxWidth: .infinity, minHeight: 48)
+                }.buttonStyle(.plain).accessibilityIdentifier("hub-match-over-leave-party")
+            }
         }
         .foregroundStyle(.white).padding(24)
         .background(IslandBrandBackground().ignoresSafeArea())

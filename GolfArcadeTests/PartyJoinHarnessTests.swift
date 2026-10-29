@@ -719,7 +719,7 @@ final class PartyLinkHarnessTests: XCTestCase {
             await run([h, j], "the old app's moves") { hb.received.count >= before + 30 }
             clock += 1
         }
-        h.service.endPartyMatch()
+        h.service.leaveGame()
         await run([h, j], "back in the lobby") { h.service.lobby?.phase == .lobby && j.service.lobby?.phase == .lobby }
         // the guest's app starts again and Game Center puts it straight back into the match: the host never hears it go
         j.gc.signedIn = { false }; j.gc.appActive = { false }; j.gc.localIDOverride = "closed-J"

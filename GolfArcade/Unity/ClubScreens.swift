@@ -377,9 +377,12 @@ struct IslandPauseScreen: View {
     var compact: Bool
     var dismiss: () -> Void = {}
     @State private var options = false
-    @State private var leaving = false
+    private enum Leaving { case game, party }
+    @State private var leaving: Leaving?
     @State private var partySettings = false
     private var session: SportsSession { .shared }
+    private var hub: HubSession { .shared }
+    private var online: Bool { session.multiplayerMatchID != nil }
     var body: some View {
         IslandShell(title: "Paused", compact: compact) {
             VStack(alignment: .leading, spacing: 16) {
@@ -409,23 +412,28 @@ struct IslandPauseScreen: View {
                         }.font(IslandUI.font(18)).padding(20).background(IslandUI.card.opacity(0.95),in:RoundedRectangle(cornerRadius:16))
                     }
                 }
-                if leaving {
+                if let leaving {
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("Leave this match?").font(IslandUI.font(20, bold: true))
-                        Text("Your score in this match will be lost.").font(IslandUI.font(15)).foregroundStyle(IslandUI.muted)
+                        Text(leaving == .party ? "Leave the party?" : online ? "Leave this game?" : "Leave this match?").font(IslandUI.font(20, bold: true))
+                        Text(leaving == .party ? hub.leavePartyLine : online ? hub.leaveGameLine : "Your score in this match will be lost.")
+                            .font(IslandUI.font(15)).foregroundStyle(IslandUI.muted)
                         HStack(spacing: 10) {
-                            IslandAction(title: "Keep playing", primary: true, compact: compact) { leaving = false }
-                            IslandAction(title: "Leave", compact: compact) {
-                                // Online, leaving has to leave the lobby too. finishMatch(.menu) only ends this phone's session: the lobby
-                                // stayed "playing" with a phone still sending heartbeats and nothing behind it, and the opponent's match froze.
-                                if session.multiplayerMatchID != nil { TennisMenu.shared.online.select("net-confirm-leave", menu: .shared) }
+                            IslandAction(title: "Keep playing", primary: true, compact: compact) { self.leaving = nil }
+                            IslandAction(title: leaving == .party ? "Leave party" : online ? "Leave game" : "Leave", compact: compact) {
+                                // Online: Leave game keeps the party (only the game is left); Leave party leaves both. finishMatch(.menu)
+                                // only ends this phone's session: the opponent's match froze behind a phone that was gone.
+                                if leaving == .party { hub.leaveParty() }
+                                else if online { hub.leaveOnlineMatch() }
                                 else { TennisMenu.shared.finishMatch(.menu) }
-                                dismiss()
+                                self.leaving = nil; dismiss()
                             }
                         }
                     }.padding(16).background(IslandUI.card.opacity(0.95), in: RoundedRectangle(cornerRadius: 16))
+                } else if online {
+                    IslandAction(title: "Leave game", compact: compact) { leaving = .game }
+                    if hub.inParty { IslandAction(title: "Leave party", compact: compact) { leaving = .party } }
                 } else {
-                    IslandAction(title: "Main Menu", compact: compact) { leaving = true }
+                    IslandAction(title: "Main Menu", compact: compact) { leaving = .game }
                 }
                 Spacer(minLength: 0)
                 if !compact { Text("Use your phone to continue.").font(IslandUI.font(17)) }
