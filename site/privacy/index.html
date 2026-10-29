@@ -20,13 +20,13 @@
 <h2>Summary</h2>
 <ul>
 <li>We do not run a game server of our own. Online play goes through Apple&rsquo;s Game Center, and online status, party codes and invite notifications use Apple&rsquo;s iCloud (CloudKit).</li>
-<li>Motion and camera data are processed on your phone. Camera images are not recorded or uploaded. There is no voice chat.</li>
+<li>Motion and camera data are processed on your phone. Camera images are not recorded or uploaded. The app has no chat or voice chat, so players cannot message each other.</li>
 <li>The app does not read your contacts or phone numbers. Text invites open Apple&rsquo;s Messages sheet, where you pick who gets them.</li>
 <li>No ads, no advertising identifier, and we do not sell or share your personal information for cross-context advertising.</li>
 </ul>
 
 <h2>Who we are</h2>
-<p>MotionSports: Party Games (&ldquo;MotionSports&rdquo;, &ldquo;the app&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;) is published by AdnanAndrew Inc. This policy covers the iPhone app and these web pages. Contact: <a href="mailto:adnan5678@icloud.com">adnan5678@icloud.com</a>.</p>
+<p>MotionSports: Party Games (&ldquo;MotionSports&rdquo;, &ldquo;the app&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;) is published by AdnanAndrew Inc. This policy covers the iPhone app and these web pages. Contact: <a href="mailto:adnanyonathanbiz@gmail.com">adnanyonathanbiz@gmail.com</a>.</p>
 <!-- TODO: add a business postal address here once one exists (Adnan, 2026-10-28: none yet). Do not use a home address. -->
 
 <h2>What we collect and why</h2>
@@ -37,12 +37,10 @@
 <tbody>
 <tr><td>Motion sensor data (gyroscope, accelerometer, orientation)</td><td>Read your swings, aim and throws</td><td>Raw sensor data does not. In multiplayer, the resulting game actions go to the other players&rsquo; phones</td></tr>
 <tr><td>Rear-camera images and ARKit tracking (tennis)</td><td>Scan the court in front of your TV and track your phone so you can move side to side</td><td>No. Processed live on the phone. Not recorded, stored or uploaded</td></tr>
-<tr><td>Game Center identity (player IDs, display name) and parental settings</td><td>Sign in, invite friends, matchmaking, and applying the chat limits a parent has set</td><td>Yes, handled by Apple</td></tr>
+<tr><td>Game Center identity (player IDs, display name) and parental settings</td><td>Sign in, invite friends, matchmaking, and respecting the multiplayer limits a parent has set</td><td>Yes, handled by Apple</td></tr>
 <tr><td>Game Center friends list (only if you allow it)</td><td>Show which friends are online so you can invite them</td><td>Friend IDs are used to look up their online status in iCloud. Our app does not keep the list</td></tr>
 <tr><td>Online status record: your Game Center player ID, display name, online/away state, last-seen time and party size</td><td>Let friends see you are playing and drop in</td><td>Yes, stored in Apple&rsquo;s iCloud (CloudKit) public database for this app</td></tr>
 <tr><td>Party codes and invite or join requests (sender and recipient player IDs, sender name, code)</td><td>Join a party by code, and notify a friend about an invite</td><td>Yes, in iCloud. Invite and join requests are deleted after use or within minutes</td></tr>
-<tr><td>Typed chat and quick phrases</td><td>Talk to the people in your party</td><td>Yes, sent only to your party&rsquo;s phones. Kept in memory for the session and not saved or uploaded</td></tr>
-<tr><td>Birth year, chat-rules acceptance, block list, language-filter setting</td><td>Chat safety: decide whether typing is available, and hide people you block</td><td>No. Stored on your phone only</td></tr>
 <tr><td>TV recordings and highlight clips (game picture and game sound)</td><td>Let you keep or share gameplay</td><td>Only if you share or save them. Saving uses add-only access to Photos. The app does not read your photo library</td></tr>
 <tr><td>Display name and character look</td><td>Show you to the people you play with</td><td>Yes, to the players in your party or match</td></tr>
 <tr><td>Progress, unlocks, lessons, onboarding step, settings</td><td>Remember your game and preferences</td><td>No</td></tr>
@@ -56,21 +54,15 @@
 <h3>Inviting friends by text message</h3>
 <p>When you choose to invite someone by text, the app writes a short message with your display name, a party code and a join link, and opens Apple&rsquo;s Messages compose sheet (or the iOS share sheet). You type or pick the phone number inside Apple&rsquo;s sheet. The app does not see, read, upload or hash that number or your contacts. Nothing is sent unless you tap Send yourself. Anyone with your party code can ask to join your party, and you choose whether to let them in.</p>
 
-<h3>In-game chat and moderation</h3>
-<ul>
-<li>Chat is only with the people in your party or match. There is no voice chat. Quick Match can pair you with Game Center players you do not know.</li>
-<li>Typing is for ages 18 and up. Players who are under 18, have not given an age, or whose Game Center account limits communication can use preset quick phrases only.</li>
-<li>A language filter masks common profanity and hides links, email addresses and phone numbers. No filter catches everything, so Report, Mute and Block are available next to every player.</li>
-<li><strong>Reports.</strong> When you report someone, the app prepares a message with their name, the reason, their last few typed lines, your name and the time. You send it to us yourself by text message or email. We use reports only to review behaviour and keep the game safe.</li>
-<li>We do not keep chat logs on any server. Messages are gone when the party ends.</li>
-</ul>
+<h3>No chat</h3>
+<p>MotionSports has no typed chat, voice chat or private messaging. Other players see only your Game Center display name, character look, scores and emotes. Quick Match can pair you with Game Center players you do not know, but you cannot exchange messages with them in the app.</p>
 
 <h2>What leaves your device, and who receives it</h2>
 <ul>
-<li><strong>Apple Game Center</strong> handles sign-in, friends, invitations, matchmaking and the live match data between phones (including chat in online play). See <a href="https://www.apple.com/legal/privacy/">Apple&rsquo;s privacy policy</a>.</li>
+<li><strong>Apple Game Center</strong> handles sign-in, friends, invitations, matchmaking and the live match data between phones. See <a href="https://www.apple.com/legal/privacy/">Apple&rsquo;s privacy policy</a>.</li>
 <li><strong>Apple iCloud (CloudKit)</strong> stores the online status record, party codes and invite or join requests described above, in this app&rsquo;s public database. Records are written under your iCloud account. They are readable by other players of the app who look you up by player ID or party code, and by us. Apple also delivers invite notifications (Apple Push Notification service) if you allow notifications.</li>
 <li><strong>Apple AirPlay</strong> sends the game picture and sound to the TV or Mac you choose. That stays between your devices.</li>
-<li><strong>Players on your Wi-Fi.</strong> Nearby parties connect phones directly over your local network. They share your display name, character look, game actions and chat with the phones in your lobby only.</li>
+<li><strong>Players on your Wi-Fi.</strong> Nearby parties connect phones directly over your local network. They share your display name, character look, and game actions with the phones in your lobby only.</li>
 <li><strong>Other players</strong> see your display name, character look, scores and emotes. Pick a display name that does not identify you.</li>
 <li><strong>Unity Technologies.</strong> The game is built with the Unity engine, which may send anonymous technical statistics about your device hardware to Unity. We do not use Unity analytics or advertising services. <!-- [LAWYER REVIEW] Remove this bullet once PlayerSettings "submitAnalytics" is turned off and com.unity.analytics is removed (see docs/PRIVACY_DATA_INVENTORY.md). --></li>
 <li><strong>GitHub</strong> hosts these web pages and may log visitors&rsquo; IP addresses.</li>
@@ -95,24 +87,23 @@
 
 <h2>How long we keep information</h2>
 <ul>
-<li><strong>On your phone:</strong> progress, settings, chat-safety choices and recordings stay until you delete them or the app. The diagnostics log is capped at about 1&nbsp;MB, with the oldest entries dropped first.</li>
-<li><strong>Chat:</strong> not stored. Chat lives in memory until the party ends.</li>
+<li><strong>On your phone:</strong> progress, settings and recordings stay until you delete them or the app. The diagnostics log is capped at about 1&nbsp;MB, with the oldest entries dropped first.</li>
 <li><strong>Invite and join requests in iCloud:</strong> deleted once used, or when they expire (typically within minutes).</li>
 <li><strong>Online status record and party code in iCloud:</strong> kept with no automatic expiry, until you ask us to delete them. The status record is updated while the game is open.</li>
-<li><strong>Reports and support messages</strong> you send us: kept as long as needed to handle them and keep the game safe.</li>
+<li><strong>Support messages</strong> you send us: kept as long as needed to answer them.</li>
 </ul>
 
 <h2>How to delete your data</h2>
 <ol>
-<li><strong>Data on your phone:</strong> delete the app (press and hold the icon &rsaquo; Remove App &rsaquo; Delete App). This removes progress, settings, chat-safety choices, logs and recordings that you have not saved elsewhere.</li>
-<li><strong>Data in iCloud (online status and party code):</strong> email <a href="mailto:adnan5678@icloud.com?subject=MotionSports%20data%20deletion">adnan5678@icloud.com</a> with the subject &ldquo;MotionSports data deletion&rdquo; and your Game Center display name. We aim to delete it within 30 days and will confirm by email. We may ask a question to check the request is really yours.</li>
+<li><strong>Data on your phone:</strong> delete the app (press and hold the icon &rsaquo; Remove App &rsaquo; Delete App). This removes progress, settings, logs and recordings that you have not saved elsewhere.</li>
+<li><strong>Data in iCloud (online status and party code):</strong> email <a href="mailto:adnanyonathanbiz@gmail.com?subject=MotionSports%20data%20deletion">adnanyonathanbiz@gmail.com</a> with the subject &ldquo;MotionSports data deletion&rdquo; and your Game Center display name. We aim to delete it within 30 days and will confirm by email. We may ask a question to check the request is really yours.</li>
 <li><strong>Game Center and iCloud accounts</strong> belong to Apple. You can manage or delete them in iOS Settings or at <a href="https://privacy.apple.com/">privacy.apple.com</a>.</li>
 </ol>
 <p>The app does not have a separate account of its own, so there is nothing else to close.</p>
 
 <h2>Children&rsquo;s privacy</h2>
-<p>MotionSports is rated 12+ and is not directed to children under 13. We do not knowingly collect personal information from children under 13. Players under 18, or whose Game Center account is marked as a child&rsquo;s, cannot type in chat and can use preset quick phrases only. Their age answer stays on the phone. If you believe a child under 13 has sent us personal information, contact us and we will delete it.</p>
-<!-- MISMATCH (2026-10-28): per Adnan this page says no voice and typing 18+ only. The code still has party voice (PartySettingsView/PartyChatView mic button) and lets 13-17 type (PartySafety.swift teen -> .full). Change the code before release or this page is inaccurate. -->
+<p>MotionSports is rated 12+ and is not directed to children under 13. We do not knowingly collect personal information from children under 13. The app has no chat or messaging, so players cannot share personal information with each other in the app. If you believe a child under 13 has sent us personal information, contact us and we will delete it.</p>
+<!-- 2026-10-28: party chat and voice are switched off in code (PartyChat.enabled = false). -->
 
 <h2>Your privacy rights</h2>
 <p>Wherever you live, including California and other US states with privacy laws, you can ask us to:</p>
@@ -121,7 +112,7 @@
 <li>correct it;</li>
 <li>delete it.</li>
 </ul>
-<p>We do not sell your personal information, share it for targeted advertising, or use it to profile you. You will not be treated differently for asking. To make a request, email <a href="mailto:adnan5678@icloud.com">adnan5678@icloud.com</a>. Someone you authorise may also ask for you. If we turn a request down, you can reply to our answer to ask us to reconsider.</p>
+<p>We do not sell your personal information, share it for targeted advertising, or use it to profile you. You will not be treated differently for asking. To make a request, email <a href="mailto:adnanyonathanbiz@gmail.com">adnanyonathanbiz@gmail.com</a>. Someone you authorise may also ask for you. If we turn a request down, you can reply to our answer to ask us to reconsider.</p>
 
 <h2>Security</h2>
 <p>We use reasonable measures to protect information. Data that leaves your phone goes through Apple&rsquo;s services (Game Center, iCloud, AirPlay), which use encryption in transit. Information stored on your phone is protected by iOS. No method of transmission or storage is completely secure, so we cannot promise absolute security.</p>
@@ -130,7 +121,7 @@
 <p>If we change this policy, we will update the &ldquo;Last updated&rdquo; date above. For material changes, we will also tell you in the app or on this page before they take effect.</p>
 
 <h2>Contact</h2>
-<p>Questions or requests: <a href="mailto:adnan5678@icloud.com">adnan5678@icloud.com</a>. We aim to reply within a few business days.</p>
+<p>Questions or requests: <a href="mailto:adnanyonathanbiz@gmail.com">adnanyonathanbiz@gmail.com</a>. We aim to reply within a few business days.</p>
 </main>
 <footer><div class="in">
 <p>&copy; 2026 AdnanAndrew Inc. &middot; <a href="../privacy/">Privacy</a> &middot; <a href="../support/">Support</a></p>

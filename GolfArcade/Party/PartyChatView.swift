@@ -300,7 +300,7 @@ struct PartySetupView: View {
                     Section("Chat rules") {
                         rule("heart.fill", "Be kind. No bullying, hate or threats.")
                         rule("person.crop.circle.badge.exclamationmark", "Never share your phone number, address, school or other apps' names.")
-                        rule("mic.fill", "Voice is live and only goes to your party. Motion Club does not record or keep it, but anyone can record the TV and they will tell you when they do.")
+                        rule("mic.fill", "Voice is live and only goes to your party. MotionSports does not record or keep it, but anyone can record the TV and they will tell you when they do.")
                         rule("hand.raised.fill", "Report, Mute and Block are next to every person. Use them.")
                         rule("eye.slash.fill", "Bad language is hidden by default (always for teens).")
                     }

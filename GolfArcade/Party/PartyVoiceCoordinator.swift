@@ -114,7 +114,7 @@ final class PartyVoiceCoordinator {
         await engine.start(prefs.clamped)
         syncPeers(); startGate()
         if case .failed(let why) = engine.state { notice = why; return false }
-        if engine.permission == .denied { notice = "Allow the microphone in Settings › Motion Club to talk."; turnOff(); return false }
+        if engine.permission == .denied { notice = "Allow the microphone in Settings › MotionSports to talk."; turnOff(); return false }
         return isLive || engine.state == .starting
     }
 

@@ -91,10 +91,14 @@ because that is what will ship.
 - US state privacy laws are not thought to apply. The policy keeps a short, plain rights section (access, correction, deletion; no sale or
   sharing) instead of a CCPA/CPRA breakdown. The GDPR section was removed.
 - The demo video stays as it was.
-- **Policy follows Adnan, not the code (2026-10-28):** the public pages say there is no voice chat and typing is 18+ only. **The code still differs.**
-  Party voice is reachable: the mic button shows whenever the player is in a party (`PartySettingsView.swift:134,148`, `PartyChatView.swift:62`).
-  13–17-year-olds can type: `PartySafety.access` gives `.teen` `.full` (`PartySafety.swift:93-99`). Rows #12 and #14 above describe the code. Change the
-  code before release, or the policy is inaccurate.
+- **Chat and voice switched off (2026-10-28):** `PartyChat.enabled = false` (`GolfArcade/Party/PartyChat.swift`). The real party channel
+  reports no party, so the chat strip, dock and mic never show, nothing is sent, and incoming party messages are dropped. The chat and
+  voice settings rows are hidden as well. Rows #11–#14 above describe the code that is still there but switched off. The age question and reports are only
+  reachable from chat, so they are off too. Keep the microphone purpose string, because the voice code is still linked.
+- Public contact email: adnanyonathanbiz@gmail.com. In-app support stays as a text message to 908-590-9023 (`BetaFeedback`, `PartyContact`);
+  `ClubSupportEmail` is left empty on purpose. `ClubPrivacyPolicyURL` and `ClubSupportURL` now point at the site.
+- Visible "Motion Club" text was renamed to MotionSports (permission strings, invite texts, Friends screens, notifications, recording file names).
+  The `motionclub://` URL scheme is unchanged, because existing invite links use it.
 
 ## App Store Connect: App Privacy answers
 

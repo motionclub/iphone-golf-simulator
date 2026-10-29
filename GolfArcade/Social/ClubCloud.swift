@@ -214,7 +214,7 @@ final class ClubCloud {
     /// The words texted to a phone number: the link (Apple's, iOS 26) or the code, and where to get the game.
     func message(from name: String) -> String {
         let code = code.map(Self.pretty) ?? ""
-        var lines = ["\(name) wants to play Motion Club with you!"]
+        var lines = ["\(name) wants to play MotionSports with you!"]
         if let link { lines.append("Tap to join: \(link.absoluteString)") }
         if let store = Bundle.main.object(forInfoDictionaryKey: "ClubAppStoreURL") as? String, !store.isEmpty { lines.append("Get the game: \(store)") }
         lines.append("Then open Friends and enter code \(code)")
@@ -417,7 +417,7 @@ final class ClubCloud {
             let s = CKQuerySubscription(recordType: type, predicate: NSPredicate(format: "to == %@", id),
                                         subscriptionID: "\(type)-\(id)", options: [.firesOnRecordCreation])
             let info = CKSubscription.NotificationInfo()
-            info.titleLocalizationKey = "Motion Club"
+            info.titleLocalizationKey = "MotionSports"
             info.alertLocalizationKey = "CLUB_NOTE"; info.alertLocalizationArgs = ["message"]
             info.desiredKeys = ["from", "fromGameID", "fromName", "detail", "players", "expires", "code"]
             info.soundName = "default"; info.category = category

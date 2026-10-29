@@ -225,7 +225,7 @@ struct PartyReport: Equatable, Sendable {
     var date: Date
 
     var body: String {
-        var parts = ["Motion Club report", "Player: \(reportedName)", "Reason: \(reason.rawValue)", "From: \(reporterName)",
+        var parts = ["MotionSports report", "Player: \(reportedName)", "Reason: \(reason.rawValue)", "From: \(reporterName)",
                      "Time: \(ISO8601DateFormatter().string(from: date))"]
         if voice { parts.append("About: voice chat (not recorded by the app; I describe it below)") }
         if !lines.isEmpty { parts.append("Their last messages:"); parts += lines.map { "- \($0)" } }
@@ -245,7 +245,7 @@ enum PartyContact {
     static let smsNumber = "+19085909023"
     static func reportURL(_ report: PartyReport) -> URL? {
         let body = report.body.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-        if !email.isEmpty { return URL(string: "mailto:\(email)?subject=Motion%20Club%20report&body=\(body)") }
+        if !email.isEmpty { return URL(string: "mailto:\(email)?subject=MotionSports%20report&body=\(body)") }
         return URL(string: "sms:\(smsNumber)&body=\(body)")
     }
 }

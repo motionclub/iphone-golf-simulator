@@ -282,9 +282,9 @@ static NSString *MessageForReason(NSString *reason) {
     formatter.locale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
     formatter.dateFormat = @"yyyyMMdd-HHmmss";
     NSString *stamp = [formatter stringFromDate:NSDate.date];
-    NSURL *url = [directory URLByAppendingPathComponent:[NSString stringWithFormat:@"MotionClub-%@.mp4", stamp]];
+    NSURL *url = [directory URLByAppendingPathComponent:[NSString stringWithFormat:@"MotionSports-%@.mp4", stamp]];
     for (int n = 2; [[NSFileManager defaultManager] fileExistsAtPath:url.path]; n++)
-        url = [directory URLByAppendingPathComponent:[NSString stringWithFormat:@"MotionClub-%@-%d.mp4", stamp, n]];
+        url = [directory URLByAppendingPathComponent:[NSString stringWithFormat:@"MotionSports-%@-%d.mp4", stamp, n]];
 
     SportsSessionTake *take = [SportsSessionTake new];
     take.config = config; take.url = url;

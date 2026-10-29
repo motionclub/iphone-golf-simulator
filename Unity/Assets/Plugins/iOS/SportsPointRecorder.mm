@@ -281,7 +281,7 @@ static const double MaxFrameGap=1.5/ClipFPS, MinMeasuredFPS=59.5, MaxPointSecond
     [[NSFileManager defaultManager] createDirectoryAtURL:folder withIntermediateDirectories:YES attributes:nil error:nil];
     NSArray *files=[[NSFileManager defaultManager] contentsOfDirectoryAtURL:folder includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles error:nil];
     if(files.count>=30) { [self emit:@"saveFailed" detail:@"Your Clips library is full. Delete a clip before saving another." url:nil]; return; }
-    NSURL *url=[folder URLByAppendingPathComponent:[NSString stringWithFormat:@"MotionClub-%@.mp4",NSUUID.UUID.UUIDString]];
+    NSURL *url=[folder URLByAppendingPathComponent:[NSString stringWithFormat:@"MotionSports-%@.mp4",NSUUID.UUID.UUIDString]];
     NSError *error=nil;
     if(![[NSFileManager defaultManager] copyItemAtURL:_lastPoint toURL:url error:&error]) { [self emit:@"saveFailed" detail:@"Not enough storage to save this clip." url:nil]; return; }
     [self emit:@"saved" detail:@"Saved · 1080p60" url:url];

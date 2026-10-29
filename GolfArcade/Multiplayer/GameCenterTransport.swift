@@ -562,7 +562,7 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
             }
             if Date() > until {
                 goal = nil; stopLinkSearch()
-                throw MultiplayerError.unavailable("Couldn't reach \(name). Make sure Motion Club is open on their phone, then tap Join again.")
+                throw MultiplayerError.unavailable("Couldn't reach \(name). Make sure MotionSports is open on their phone, then tap Join again.")
             }
             try await Task.sleep(for: .milliseconds(100))
         }
@@ -681,7 +681,7 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
             expiresAt: Self.now + GameCenterPartyInvitation.lifetime)
         let storedRequest = try request(sport: nil, count: 2)
         storedRequest.playerGroup = Int(invitation.group); storedRequest.recipients = [player]
-        storedRequest.inviteMessage = "Come play with me in Motion Club!"
+        storedRequest.inviteMessage = "Come play with me in MotionSports!"
         let stored: GKTurnBasedMatch
         do { stored = try await GKTurnBasedMatch.find(for: storedRequest) }
         catch { throw Self.friendly(error, "Game Center could not send the invite. Try again.") }

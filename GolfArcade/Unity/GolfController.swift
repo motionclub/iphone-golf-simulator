@@ -228,9 +228,9 @@ struct GolfPhoneController: View {
                 }
                 // the golf screen has no room for the chat and settings buttons, so they live here (record and mic stay on the screen)
                 PartySettingsSections()
-                Section("Party") {
+                if PartyChat.enabled { Section("Party") {
                     Button { PartyChat.shared.stripOpen = true } label: { Label("Party chat", systemImage: "bubble.left.and.bubble.right.fill") }.accessibilityIdentifier("golf-party-chat")
-                }
+                } }
                 Section {
                     Button("Send feedback") { BetaFeedback.open() }
                     Button("Leave game", role: .destructive) { session.exitGame() }

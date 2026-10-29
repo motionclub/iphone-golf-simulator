@@ -25,13 +25,25 @@ struct PartyChatMessage: Identifiable, Equatable, Sendable {
     func send(_ kind: String, payload: String, reliable: Bool)
 }
 
+extension PartyChat {
+    /// Party chat and party voice are switched off in this release (Adnan, 2026-10-28; the privacy policy says there is none). Off, the
+    /// real party channel reports no party: no chat strip, dock or mic shows, nothing is sent, and anything arriving is dropped.
+    static let enabled = false
+}
+
 @MainActor final class MultiplayerPartyChannel: PartyChannel {
     private var service: MultiplayerService { .shared }
     var localID: String { service.localID }
-    var inParty: Bool { service.lobby != nil && !service.partyMembers.isEmpty }
+    var inParty: Bool { PartyChat.enabled && service.lobby != nil && !service.partyMembers.isEmpty }
     var members: [(id: String, name: String)] { service.partyMembers.map { ($0.id, $0.name) } }
-    var onParty: ((String, String, String) -> Void)? { get { service.onParty } set { service.onParty = newValue } }
-    func send(_ kind: String, payload: String, reliable: Bool) { service.sendParty(kind, payload: payload, reliable: reliable) }
+    var onParty: ((String, String, String) -> Void)? {
+        get { service.onParty }
+        set { service.onParty = PartyChat.enabled ? newValue : nil }
+    }
+    func send(_ kind: String, payload: String, reliable: Bool) {
+        guard PartyChat.enabled else { return }
+        service.sendParty(kind, payload: payload, reliable: reliable)
+    }
 }
 
 /// Typed chat and quick phrases for ONE party (the phones in your lobby). Messages live only in memory and only for

@@ -137,6 +137,6 @@ enum ClubHubConfig {
     static func shareMessage(code: String, from name: String, sport: String) -> String {
         let game = sport == "golf" ? "golf" : "tennis"
         let link = inviteBaseURL.map { $0.appendingPathComponent("j").appendingPathComponent(code).absoluteString } ?? "motionclub://j/\(code)"
-        return "\(name) invited you to play \(game) in Motion Club. Join here: \(link)\nInvite code: \(code)"
+        return "\(name) invited you to play \(game) in MotionSports. Join here: \(link)\nInvite code: \(code)"
     }
 }

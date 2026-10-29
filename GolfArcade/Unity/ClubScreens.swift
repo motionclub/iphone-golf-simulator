@@ -385,7 +385,7 @@ struct IslandPauseScreen: View {
             VStack(alignment: .leading, spacing: 16) {
                 IslandAction(title: "Resume", primary: true, compact: compact) { session.readyToPlay(); dismiss() }
                 IslandAction(title: "Settings", compact: compact) { options.toggle() }
-                IslandAction(title: "Voice, chat & recording", compact: compact) { partySettings = true }
+                IslandAction(title: PartyChat.enabled ? "Voice, chat & recording" : "Sound & diagnostics", compact: compact) { partySettings = true }
                 if options {
                     ScrollView {
                         VStack(alignment: .leading, spacing: 12) {

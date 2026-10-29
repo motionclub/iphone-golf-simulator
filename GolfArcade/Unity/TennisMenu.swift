@@ -188,7 +188,7 @@ final class TennisMenu {
         case .controls: ["swingPrediction", "fastInput", "range", "hand", "relock", "timing"]
         case .guide: GuideDeck.allCases.map(\.rowID)
         case .display: ["tennisCamera", "fps", "overscan"]
-        case .audio: ["sound", "haptics", "hapticStrength", "racketSound", "feelTest", "partyVoice"]
+        case .audio: ["sound", "haptics", "hapticStrength", "racketSound", "feelTest"] + (PartyChat.enabled ? ["partyVoice"] : [])
         case .access: ["bigText", "reduceMotion"]
         case .developer: ["bench"]
         }

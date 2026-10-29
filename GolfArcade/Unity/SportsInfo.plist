@@ -26,11 +26,11 @@
 	<key>ClubHubServerURL</key>
 	<string></string>
 	<key>ClubPrivacyPolicyURL</key>
-	<string></string>
+	<string>https://motionclub.github.io/iphone-golf-simulator/privacy/</string>
 	<key>ClubSupportEmail</key>
 	<string></string>
 	<key>ClubSupportURL</key>
-	<string></string>
+	<string>https://motionclub.github.io/iphone-golf-simulator/support/</string>
 	<key>LSSupportsGameMode</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -43,9 +43,9 @@
 		<string>_motionparty._tcp</string>
 	</array>
 	<key>NSGKFriendListUsageDescription</key>
-	<string>Motion Club shows which of your Game Center friends are online, so you can invite them to play.</string>
+	<string>MotionSports shows which of your Game Center friends are online, so you can invite them to play.</string>
 	<key>NSLocalNetworkUsageDescription</key>
-	<string>Motion Club finds and joins friends’ games on the same Wi-Fi.</string>
+	<string>MotionSports finds and joins friends’ games on the same Wi-Fi.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

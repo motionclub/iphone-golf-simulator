@@ -29,9 +29,11 @@ struct PartySettingsSections: View {
 
     var body: some View {
         GameAudioSettingsSection()
-        voiceSection
-        chatSection
-        safetySection
+        if PartyChat.enabled {
+            voiceSection
+            chatSection
+            safetySection
+        }
         diagnosticsSection
     }
 
@@ -108,7 +110,7 @@ struct PartySettingsSections: View {
             else if !PartyContact.email.isEmpty { Link("Contact: \(PartyContact.email)", destination: URL(string: "mailto:\(PartyContact.email)")!) }
             else { Button("Contact support by text") { if let u = URL(string: "sms:\(PartyContact.smsNumber)") { UIApplication.shared.open(u) } } }
         } header: { Text("Safety") } footer: {
-            Text("Parents can limit multiplayer and chat for a child's Game Center account in Screen Time. Motion Club follows those limits.")
+            Text("Parents can limit multiplayer and chat for a child's Game Center account in Screen Time. MotionSports follows those limits.")
         }
         .sheet(isPresented: $showSetup) { PartySetupView(dismiss: { showSetup = false }).presentationDetents([.large]) }
     }

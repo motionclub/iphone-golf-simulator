@@ -178,10 +178,10 @@ struct ClubHubView: View {
                 section("Friends") {
                     switch hub.access {
                     case .notDetermined:
-                        Text("Let Motion Club see your Game Center friends, so you can invite them.").font(IslandUI.font(14)).foregroundStyle(.white.opacity(0.75))
+                        Text("Let MotionSports see your Game Center friends, so you can invite them.").font(IslandUI.font(14)).foregroundStyle(.white.opacity(0.75))
                         Button { Task { await hub.allowFriends() } } label: { bigButton("Show my friends") }.accessibilityIdentifier("club-allow-friends")
                     case .denied, .restricted:
-                        Text("Friends are turned off for this game. Turn them on in Settings › Game Center › Motion Club.").font(IslandUI.font(14)).foregroundStyle(.white.opacity(0.75))
+                        Text("Friends are turned off for this game. Turn them on in Settings › Game Center › MotionSports.").font(IslandUI.font(14)).foregroundStyle(.white.opacity(0.75))
                         Button { if let url = URL(string: UIApplication.openSettingsURLString) { UIApplication.shared.open(url) } } label: { bigButton("Open Settings") }
                             .accessibilityIdentifier("club-open-settings")
                     default:
@@ -243,7 +243,7 @@ struct ClubHubView: View {
     private var noFriendsYet: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("No friends here yet").font(IslandUI.font(18, bold: true))
-            Text("A friend shows up here when they have Motion Club and you are friends in Game Center.").font(IslandUI.font(14)).foregroundStyle(.white.opacity(0.75))
+            Text("A friend shows up here when they have MotionSports and you are friends in Game Center.").font(IslandUI.font(14)).foregroundStyle(.white.opacity(0.75))
             Button { hub.addFriend() } label: { bigButton("Add a friend") }.accessibilityIdentifier("club-add-friend-empty")
         }
         .padding(14).background(.white.opacity(0.07), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
@@ -304,7 +304,7 @@ struct ClubHubView: View {
             Toggle("Appear offline", isOn: $hub.invisible).tint(IslandUI.lime).accessibilityIdentifier("club-appear-offline")
             Toggle("Do not disturb", isOn: $hub.doNotDisturb).tint(IslandUI.lime).accessibilityIdentifier("club-dnd")
             Text("Friends who invite you see \"Busy\" and no banner appears.").font(IslandUI.font(12)).foregroundStyle(.white.opacity(0.5))
-            Text("Your Game Center friends who have Motion Club appear here.").font(IslandUI.font(12)).foregroundStyle(.white.opacity(0.5))
+            Text("Your Game Center friends who have MotionSports appear here.").font(IslandUI.font(12)).foregroundStyle(.white.opacity(0.5))
         }
     }
 
