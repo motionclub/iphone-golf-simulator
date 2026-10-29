@@ -1,0 +1,44 @@
+MotionSports: Party Games - notes for App Review (v1.0)
+
+HOW THE GAME WORKS
+MotionSports is golf, tennis and bowling played by swinging your iPhone. The phone is the controller: it reads your swing with its motion sensors and shows the buttons. The game itself shows on a TV, Apple TV or Mac through AirPlay Screen Mirroring, so everyone in the room can watch. Golf and bowling can also be played on the phone screen alone, with no TV. No login or demo account is needed; everything works as a guest.
+
+GETTING STARTED
+1. Put the iPhone and the TV/Apple TV/Mac on the same Wi-Fi.
+2. Control Center > Screen Mirroring > pick the TV (a Mac needs AirPlay Receiver turned on).
+3. Open the app. The TV shows the game and the phone becomes the controller.
+4. First launch walks you through: Game Center (Sign in, or Later to play as a guest) > holding the controller > checking the room/TV > making your character > picking a sport > a short lesson for that sport.
+
+GOLF
+Pick a club and aim with the pad on the phone. Tap the swing button, then swing the phone like a club. How far back you take it sets the distance; a smooth swing beats a hard one. Twisting the phone open or closed curves the ball. Putts are small strokes. In a party, the player farthest from the hole plays next.
+
+TENNIS (needs a TV)
+Hold the phone like a racket handle and point its back at the TV once; the rear camera scans the court so the game knows where the screen is. Your player runs to the ball automatically. You time the swing as the ball rises off the bounce, and finish toward the left, middle or right of the screen to aim. Timing matters more than force. To serve, tap TOSS as the meter crosses the middle, then swing as the ball peaks.
+
+BOWLING
+Press and hold the ball on the phone, swing your arm back and through, and let go at the bottom of the swing (the phone buzzes). Turn your wrist as you let go to curve the ball. Pick an opponent or take turns.
+
+PLAYING TOGETHER
+- Pass the phone: friends take turns on one phone between shots or frames.
+- Nearby: friends on the same Wi-Fi join your party from their own phones.
+- Online: sign in to Game Center to invite friends, join with a party code, or use Quick Match. An invite can also be sent by text: the app fills in Apple's Messages sheet with a code and link, and the player chooses the recipient. The app does not read contacts or phone numbers.
+- There is no server of our own: online play is Game Center, and online status and party codes use the app's iCloud (CloudKit) database.
+
+PERMISSION PROMPTS (in the order they usually appear)
+1. Game Center sign-in (onboarding) - optional.
+2. Local Network - when looking for a nearby party.
+3. Camera - first tennis match, for the court scan. Frames are processed on the phone and not recorded or uploaded. Golf and bowling do not use the camera.
+4. Game Center Friends - when opening Friends.
+5. Notifications - after the first invite you send.
+6. Photos (add only) - only when saving a recording.
+Swings are read with Core Motion, which normally shows no prompt.
+
+PARTY CHAT AND SAFETY (Guideline 1.2)
+Chat is only with the people in your party or match and is not stored on any server. Preset quick phrases are always available. There is no voice chat. Typing needs an age answer of 18+ (asked once, kept on the phone) and accepting the chat rules; Game Center child or communication limits keep a player on quick phrases. A filter hides profanity, links, emails and phone numbers. Report, Mute and Block are next to every player; Report opens a pre-filled message the player sends to our support contact, and we review reports.
+
+TESTING
+One iPhone covers solo, lessons and pass-the-phone (a TV is needed for tennis). Party chat and online invites need two devices with different Game Center accounts.
+
+The attached demo video shows AirPlay setup and gameplay.
+Support: https://motionclub.github.io/iphone-golf-simulator/support/
+Contact: adnan5678@icloud.com
