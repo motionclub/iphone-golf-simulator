@@ -75,6 +75,8 @@ namespace GolfArcade.Game
         public static string TrackingWarning { get; private set; }
         string session; int token; bool loading,paused=true,touch,multiplayerSession; int lastSwing,lastSwingStart,lastSwingAbort;
         double lastSample=-1,resumedAt; float target, nextFeedback;
+        /// Seconds a resumed session waits for its first motion sample before it pauses for missing input.
+        const double FirstSampleGrace=2.0;
         bool steeringTracked; float steeringOrigin;
         TennisGame tennis; GolfGame golf;
         Camera gameplayCamera;
@@ -481,7 +483,9 @@ namespace GolfArcade.Game
                 if(tennis && !paused && !touch && provenOnset==lastSwingStart && (!SportsMultiplayer.Active || VersusTennis)) tennis.SwingProven();
                 provenOnset=0;
             }
-            if(!SportsMultiplayer.Active && !paused && SportsClock()-Math.Max(lastSample,resumedAt)>.5) {
+            // (until the first sample after a resume, the motion sensors get FirstSampleGrace to start: started cold with the game, as a
+            // bowling game is, they could take longer than the half second, and the game paused itself before they spoke)
+            if(!SportsMultiplayer.Active && !paused && SportsClock()-Math.Max(lastSample,resumedAt)>(lastSample>=resumedAt ? .5 : FirstSampleGrace)) {
                 SetPaused(true,"INPUT PAUSED — tap Ready on your phone"); Emit("error","Motion input stopped. Tap Ready on your phone.");
             }
             if((!SportsMultiplayer.Active || VersusTennis) && !paused && tennis && tennis.Player) {

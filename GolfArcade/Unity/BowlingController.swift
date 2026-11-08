@@ -55,6 +55,10 @@ struct BowlingPhoneController: View {
     }
 
     private var gameOver: Bool { state.phase == "GameOver" }
+    /// Paused by anything but the pause button (whose pause menu has its own Resume): the motion sensors not yet sending, a TV that
+    /// went away, an error. The ball gives way to READY, so a pause is never a dead end (2026-11-08: "bowling is just frozen, you have
+    /// to leave and start again").
+    private var waiting: Bool { session.ready && session.loading.finished && session.paused && !session.menuPauseVisible && !gameOver }
 
     /// With a TV: the phone is the controller, full screen.
     private var tvLayout: some View {
@@ -62,7 +66,7 @@ struct BowlingPhoneController: View {
             header
             moveStrip
             Spacer(minLength: 0)
-            if gameOver { finishButton } else { ball }
+            if gameOver { finishButton } else if waiting { readyButton(big: true) } else { ball }
             Spacer(minLength: 0)
             lastThrow
         }
@@ -91,7 +95,8 @@ struct BowlingPhoneController: View {
     private var handheldDeck: some View {
         ZStack(alignment: .topLeading) {
             Color.clear
-            if !gameOver {
+            if waiting { readyButton(big: false).position(x: 232, y: 100) }
+            else if !gameOver {
                 ballView(caption: false).scaleEffect(0.4).frame(width: 104, height: 104).position(x: 232, y: 86)
                 Text(ballCaption).font(MSBrand.font(.button, 15)).foregroundStyle(ballCaptionLive ? MSBrand.gold : MSBrand.n300)
                     .lineLimit(1).minimumScaleFactor(0.6).frame(width: 190).position(x: 232, y: 190)
@@ -111,6 +116,22 @@ struct BowlingPhoneController: View {
                 Image(systemName: "pause.fill").font(.system(size: 17, weight: .black)).foregroundStyle(MSBrand.white)
                     .frame(width: 40, height: 40).background(MSBrand.navyDeep, in: Circle()).overlay(Circle().stroke(MSBrand.white, lineWidth: 2.5))
             }.buttonStyle(.plain).position(x: 440, y: 18).accessibilityLabel("Pause bowling").accessibilityIdentifier("bowling-pause")
+        }
+    }
+
+    /// The game waits for this phone: READY carries on (what it is waiting for, when there is something to say, under it).
+    private func readyButton(big: Bool) -> some View {
+        VStack(spacing: big ? 14 : 6) {
+            Button { session.readyToPlay() } label: {
+                Text("READY").font(MSBrand.font(.button, big ? 34 : 22)).foregroundStyle(MSBrand.navyInk)
+                    .frame(width: big ? 260 : 150, height: big ? 84 : 54)
+                    .background(LinearGradient(colors: [MSBrand.gold, MSBrand.goldWordmark], startPoint: .top, endPoint: .bottom), in: Capsule())
+                    .overlay(Capsule().stroke(MSBrand.white, lineWidth: 3))
+            }.buttonStyle(.plain).accessibilityIdentifier("bowling-ready")
+            if !session.status.isEmpty {
+                Text(session.status).font(MSBrand.font(.heading, big ? 17 : 12)).foregroundStyle(MSBrand.n300)
+                    .multilineTextAlignment(.center).lineLimit(2).minimumScaleFactor(0.7).frame(maxWidth: big ? 320 : 220)
+            }
         }
     }
 

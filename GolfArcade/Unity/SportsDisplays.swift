@@ -403,7 +403,7 @@ final class SportsExternalScene: NSObject, UIWindowSceneDelegate {
         SportsSession.shared.routeGameToExternalDisplay()
     }
     func sceneDidDisconnect(_ scene:UIScene) {
-        SportsSession.shared.pause(reason:"Display disconnected — reconnect and tap Ready"); SportsSession.shared.displayConnected=false
+        SportsSession.shared.autoPause(reason:"Display disconnected — reconnect and tap Ready"); SportsSession.shared.displayConnected=false
         SportsSession.shared.status="Display disconnected. Reconnect your TV or Mac to continue; this phone remains your controller."
         SportsDisplays.shared.external=nil; window=nil
         HubSession.shared.displayLost()

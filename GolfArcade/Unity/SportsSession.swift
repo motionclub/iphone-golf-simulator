@@ -679,10 +679,20 @@ final class SportsSession {
         }
         SportsDiagnostics.write("pause reason=\(reason) phase=\(phase)")
         sendJSON(["version":1,"session":sessionID,"action":"pause","reason":reason]); paused=true; status=reason
-        if reason == "Paused on phone — tap Ready to continue", ready, loading.finished, finishedMatch == nil {
-            menuPauseVisible = true
-            if sport != "golf" { SportsDisplays.shared.showMenu(); if !displayConnected { SportsDisplays.shared.showMatchControls() } }
-        }
+        if reason == "Paused on phone — tap Ready to continue", ready, loading.finished, finishedMatch == nil { showPauseMenu() }
+    }
+    /// The game stops by itself: the app left (or Control Center over it, where Screen Mirroring is turned off and on), the TV gone, the
+    /// game reporting a problem mid-play. It gets the same pause screen as the pause button, so Resume and Leave are always one tap away
+    /// (2026-11-08: "turn off screen mirroring and turn it back on, the game is frozen"; bowling's phone had no Ready at all). Tennis
+    /// before its first serve keeps its own setup screens, which have their own Ready.
+    func autoPause(reason: String) {
+        guard active else { return }
+        pause(reason: reason)
+        if ready, loading.finished, finishedMatch == nil, sport != "tennis" || setupStage == .playing { showPauseMenu() }
+    }
+    private func showPauseMenu() {
+        menuPauseVisible = true
+        if sport != "golf" { SportsDisplays.shared.showMenu(); if !displayConnected { SportsDisplays.shared.showMatchControls() } }
     }
     func resume() {
         guard displayConnected || multiplayerControllerOnly || phonePlay else { pause(reason: "Reconnect your TV or Mac to continue."); return }
@@ -1154,6 +1164,8 @@ final class SportsSession {
             case "displayReady":
                 if displayConnected { SportsDisplays.shared.external?.isHidden=true }
                 status="Display reconnected. Tap Ready to set your center and play."
+                // the TV is back with the game paused on it: its pause screen again (attaching the TV brought the controls forward over it)
+                if paused, finishedMatch == nil, sport != "tennis" || setupStage == .playing { autoPause(reason: "TV reconnected — tap Resume to play") }
             case "recording": pointClips.receive(event)
             case "perf": SportsDiagnostics.write("perf \(event["message"] as? String ?? "")")
             case "stroke": SportsDiagnostics.write("stroke \(event["message"] as? String ?? "")")
@@ -1220,7 +1232,7 @@ final class SportsSession {
             case "error":
                 let message = event["message"] as? String ?? "Unity error"
                 if !ready { failStartup(message) }
-                else { status = message; pause(reason: message) }
+                else { status = message; autoPause(reason: message) }
             default: break
             }
         }

@@ -30,3 +30,15 @@ Not checked:
 - The menu's words are still the TV layout scaled to the phone's width, so the small lines are about 5 pt. A portrait menu layout would be its own job.
 
 Captures: `Unity/Assets/Tests/PlayMode/PhoneMenuCapture.cs` with `PM_OUT=<dir>` (iPhone 15 Pro frame, Dynamic Island drawn in, app footer as a placeholder).
+
+## 2026-11-08: female arms, bowling freeze, mirroring off/on, leaving the app
+
+| Gate | Result | Proof |
+|---|---|---|
+| Female finger skin lies on her finger bones like the male's (segment offsets, bind pose) | PASS: was index 17/35, ring 13/26, little 26/38, thumb 12/37 deg off (HeroHandShape's fuller fingers fanned them); now within ~2 deg (male within ~5). `HeroHandShape` no longer runs; `HeroFingerAlign` straightens the rest | PhoneMenuCapture TipDiag logs; `proof/female_hands_before_after.jpg` |
+| Female relaxed hands: fingers together, thumb alongside, no claw | PASS (Unity render) | same |
+| Female holding the bowling ball | Looks normal (Unity render) | `proof/bowling/sheet.jpg` |
+| Bowling start: a resumed game waits up to 2 s for the first motion sample (the 0.5 s watchdog paused it while the sensors were still starting) | PASS | `PhoneMenuCapture.BowlingWaitsForTheSensorsAndHerHandsAreHers` |
+| Bowling phone shows READY whenever the game is paused by anything but the pause button | Built (Swift); not run on a phone | — |
+| Auto-pause with the pause screen (Resume / Leave) when the app leaves or Control Center opens (Screen Mirroring), the TV disconnects, the game reports a problem; the pause screen comes back when the TV reconnects | Built (Swift); not run on a phone with AirPlay | — |
+| Native lobby/locker heroes (exported CharacterAssets) | NOT re-exported: they still carry the old female hands until `work/hero-sync/sync_heroes.sh` is run (needs Adnan's OK) | — |

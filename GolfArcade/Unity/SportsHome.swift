@@ -276,7 +276,8 @@ struct SportsHome: View {
         } else if phase == .background { AwayPolicy.shared.left(); clubHub.background() }
         clubHub.updateBanner()
         // a local match pauses; in an online match only this player's controller rests (the match goes on): Ready takes it back
-        if phase != .active { session.pause(reason:"App inactive — return to the controller and tap Ready") }
+        // (with the pause screen up on return, Resume or Leave: never a paused game with nothing to tap)
+        if phase != .active { session.autoPause(reason:"App inactive — return to the controller and tap Ready") }
         // UIKit notifications forward Unity's lifecycle once, at the actual boundary.
         hub.setForeground(phase == .active)
     }
