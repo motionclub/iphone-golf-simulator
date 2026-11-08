@@ -801,6 +801,13 @@ final class SportsSession {
         sendJSON(["version":1,"session":sessionID,"action":"golfAimDirection",
                   "value":max(-1,min(1,across)),"value2":max(-1,min(1,forward))])
     }
+    /// Handheld play's aim pad, read as the TV's controller sheet reads its joystick: x (-1...1, right) turns the aim at a rate, y (up +)
+    /// looks up the hole to the pin or down at the ball. Letting go (0, 0) always goes through, so nothing is left turning.
+    func golfStick(x: Double, y: Double) {
+        guard active, sport == "golf", ready, x.isFinite, y.isFinite else { return }
+        guard (x == 0 && y == 0) || (!paused && golfPhase == "Aim") else { return }
+        sendJSON(["version":1,"session":sessionID,"action":"golfStick","value":max(-1,min(1,x)),"value2":max(-1,min(1,y))])
+    }
     func setShotAim(across:Double,depth:Double) {
         shotAim=max(-1,min(1,across)); shotDepth=max(0,min(1,depth)); aim=shotAim
         sendJSON(["version":1,"session":sessionID,"action":"rallyAim","value":shotAim,"value2":shotDepth])

@@ -1,30 +1,29 @@
-import CallKit
+import Combine
 import Foundation
+import GroupActivities
 import Observation
 
-/// A FaceTime or phone call, or a voice app that uses the system call screen (Discord, WhatsApp, Messenger…). While one is on, the call
-/// already carries everyone's voice: party voice stays off so the two never fight over the microphone or echo each other, and the game's
-/// own sound keeps playing alongside the call (Unity's session mixes with other audio).
+/// A FaceTime call (one SharePlay can start in). While one is on, the call already carries everyone's voice: party voice stays off so
+/// the two never fight over the microphone or echo each other, and the game's own sound keeps playing alongside the call (Unity's
+/// session mixes with other audio). Read from GroupActivities, never CallKit: China has CallKit switched off (App Review, 2026-11-07),
+/// and nothing in the app uses it.
 @MainActor @Observable
-final class CallWatcher: NSObject, CXCallObserverDelegate {
+final class CallWatcher {
     static let shared = CallWatcher()
     static let changed = Notification.Name("CallWatcher.changed")
-    @ObservationIgnored private let observer = CXCallObserver()
+    @ObservationIgnored private let observer = GroupStateObserver()
+    @ObservationIgnored private var watch: AnyCancellable?
     private(set) var active = false
-    override init() {
-        super.init()
-        observer.setDelegate(self, queue: .main)
-        active = Self.anyCall(observer.calls)
-    }
-    nonisolated func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall) {
-        let on = Self.anyCall(callObserver.calls)
-        Task { @MainActor in
-            guard on != self.active else { return }
-            self.active = on
-            NotificationCenter.default.post(name: Self.changed, object: nil)
+    init() {
+        active = observer.isEligibleForGroupSession
+        watch = observer.$isEligibleForGroupSession.receive(on: DispatchQueue.main).sink { [weak self] on in
+            MainActor.assumeIsolated {
+                guard let self, on != self.active else { return }
+                self.active = on
+                NotificationCenter.default.post(name: Self.changed, object: nil)
+            }
         }
     }
-    nonisolated static func anyCall(_ calls: [CXCall]) -> Bool { calls.contains { !$0.hasEnded } }
 }
 
 /// The party's voice, wired up: the engine (microphone, codec, playback), the party channel it travels over, the safety gates that can

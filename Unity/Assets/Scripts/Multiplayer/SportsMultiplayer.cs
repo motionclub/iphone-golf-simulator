@@ -202,7 +202,7 @@ namespace GolfArcade.Multiplayer {
                 case "start":case "end":return false;
                 case "pause":Instance.Send("availability","false");return true;
                 case "resume":Instance.Send("availability","true");Time.timeScale=1;return true;
-                case "touch":case "motion":case "recalibrate":case "latency":case "sharedLatency":case "golfAimDirection":
+                case "touch":case "motion":case "recalibrate":case "latency":case "sharedLatency":case "golfAimDirection":case "golfStick":
                 case "golfStartSwing":case "golfReleaseSwing":case "golfCancelSwing":case "golfLoad":return false;
                 // golf's taps on (skip the intro or the replay, finish the result): single player's, and the round follows (GolfGame.Network)
                 case "presentationSkip":case "golfContinue":return Instance.Configuration.sport!="golf";

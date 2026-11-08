@@ -481,9 +481,12 @@ namespace GolfArcade.Hub.Menu
             SetChipName(localName);
         }
         public void SetFriendTag(string id, string tag) { if (string.IsNullOrEmpty(tag)) friendTags.Remove(id); else friendTags[id] = tag; }
+        /// The phone with no TV has the hero above the menu, outside its frame: nothing in the frame is placed over the heroes then.
+        bool phoneStacked;
+        Image phoneBacking;
         void UpdatePlates()
         {
-            bool show = (Screen == Home || Screen == TennisModes || Screen == GolfModes || Screen == BowlingModes || Screen == Clubhouse || (Screen == Loading && !bannerUp)) && !phoneOpen && world && world.Camera;
+            bool show = !(HubWorld.PhoneOnly && phoneStacked) && (Screen == Home || Screen == TennisModes || Screen == GolfModes || Screen == BowlingModes || Screen == Clubhouse || (Screen == Loading && !bannerUp)) && !phoneOpen && world && world.Camera;
             var remotes = world ? HubRemotes.For(world) : null;
             float w = canvasRT.rect.width, h = canvasRT.rect.height;
             for (int i = 0; i < plateViews.Count; i++)
@@ -512,7 +515,8 @@ namespace GolfArcade.Hub.Menu
                 }
             }
             // the empty seat: "+ JOIN" (the leader's TV only; a guest cannot invite for the party)
-            bool join = (Screen == Home || Screen == Clubhouse) && !phoneOpen && world && world.Camera && stage.TryJoinSeat(out var seat) && Leader;
+            // (on the phone with no TV, INVITE FRIENDS in the list stands in for it)
+            bool join = !(HubWorld.PhoneOnly && phoneStacked) && (Screen == Home || Screen == Clubhouse) && !phoneOpen && world && world.Camera && stage.TryJoinSeat(out var seat) && Leader;
             joinSeat.gameObject.SetActive(join);
             if (join)
             {
@@ -803,17 +807,30 @@ namespace GolfArcade.Hub.Menu
         }
         void Wipe() { wipeAt = Time.unscaledTime; wipe.gameObject.SetActive(true); }
 
+        /// No TV: the 16:9 frame where HubWorld.PhoneMenuView puts it on the upright phone (`screen` and `safe` in pixels). Under the
+        /// hero rather than over him, the frame has a navy backing of its own (the camera draws above it).
+        public void LayOutPhone(Vector2 screen, Rect safe)
+        {
+            var view = HubWorld.PhoneMenuView(screen, safe); var frame = view.hud;
+            phoneStacked = view.stacked;
+            if (!phoneBacking)
+            {
+                phoneBacking = BrandUi.Layer(canvasRT, "Phone backing", BrandColors.NavyDeep); phoneBacking.raycastTarget = false;
+                phoneBacking.transform.SetAsFirstSibling();
+            }
+            if (phoneBacking.gameObject.activeSelf != phoneStacked) phoneBacking.gameObject.SetActive(phoneStacked);
+            float k = frame.width / 1920f;
+            scaler.uiScaleMode = CanvasScaler.ScaleMode.ConstantPixelSize; scaler.scaleFactor = k;
+            canvasRT.anchorMin = canvasRT.anchorMax = canvasRT.pivot = new Vector2(.5f, 1);
+            canvasRT.sizeDelta = new Vector2(1920, 1080);
+            canvasRT.anchoredPosition = new Vector2((frame.center.x - screen.x / 2) / k, -(screen.y - frame.yMax) / k);
+        }
+
         void LateUpdate()
         {
             if (!canvas) return;
             if (world && world.Camera) canvas.targetDisplay = world.Camera.targetDisplay;   // the TV (Present retargets only canvases that existed then)
-            if (HubWorld.PhoneOnly && UnityEngine.Screen.width > 0)
-            {
-                // no TV: the 16:9 frame across the top of the upright phone, over the plaza's band (HubWorld sets the camera's)
-                scaler.uiScaleMode = CanvasScaler.ScaleMode.ConstantPixelSize; scaler.scaleFactor = UnityEngine.Screen.width / 1920f;
-                canvasRT.anchorMin = canvasRT.anchorMax = new Vector2(.5f, 1); canvasRT.pivot = new Vector2(.5f, 1);
-                canvasRT.sizeDelta = new Vector2(1920, 1080); canvasRT.anchoredPosition = Vector2.zero;
-            }
+            if (HubWorld.PhoneOnly && HubWorld.PhoneScreen.x > 0) LayOutPhone(HubWorld.PhoneScreen, HubWorld.PhoneSafeArea);
             float now = Time.unscaledTime, dt = Time.unscaledDeltaTime;
             EditorInput();
             // entrance: the screen's content rises 24 px and fades in (Brand Guide §10, panel open, 0.22 s ease-out)

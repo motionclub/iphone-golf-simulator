@@ -108,37 +108,53 @@ struct MenuGuestView: View {
     }
 }
 
-/// No TV: the menu is drawn by Unity in the top band of this screen (16:9); a finger on it points and taps. Back and the loading
-/// screen sit under it.
+/// No TV: Unity draws the hero at the top of this screen and the menu's 16:9 frame under him (HubWorld.PhoneMenuView, so the words
+/// never cover him); a finger on the frame points and taps. Back sits under it, in the bottom `HubSession.menuFooterShare` of the
+/// screen. A screen too short for that (Unity's rule, mirrored here) keeps the frame as a band under the status bar, the hero in it.
 struct MenuTouchPad: View {
     let hub: HubSession
     @State private var down = false
     var body: some View {
         GeometryReader { g in
-            let band = g.size.width * 9 / 16
+            // Unity lays out on the whole screen: measure it the same way (HandheldFrame does too)
+            let insets = g.safeAreaInsets
+            let screen = CGSize(width: g.size.width + insets.leading + insets.trailing, height: g.size.height + insets.top + insets.bottom)
+            let frame = screen.width * 9 / 16, footer = screen.height * HubSession.menuFooterShare
+            let stacked = screen.height - footer - frame >= screen.width * 0.8
+            let hero = stacked ? screen.height - footer - frame : insets.top
             VStack(spacing: 0) {
+                // the hero (see-through to Unity), or the status bar over the band
+                Color.clear.frame(height: hero)
                 ZStack {
                     Color.clear.contentShape(Rectangle())
                         .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .local)
-                            .onChanged { v in touch(v.location, in: CGSize(width: g.size.width, height: band), down: true) }
-                            .onEnded { v in touch(v.location, in: CGSize(width: g.size.width, height: band), down: false) })
-                    if !hub.revealedOnPhone {
-                        HubLoadingScreen(hub: hub).scaleEffect(g.size.width / 1280).frame(width: g.size.width, height: band).background(Club.ink).allowsHitTesting(false)
-                    }
+                            .onChanged { v in touch(v.location, in: CGSize(width: screen.width, height: frame), down: true) }
+                            .onEnded { v in touch(v.location, in: CGSize(width: screen.width, height: frame), down: false) })
+                        .accessibilityIdentifier("menu-touch-frame")
                 }
-                .frame(height: band)
-                VStack(spacing: 14) {
-                    MotionWordmark(size: 26)
-                    Text("Tap the menu above. Golf and bowling play right here on your phone; tennis needs a TV (AirPlay).").font(MotionBrand.font(.medium, 16)).foregroundStyle(MotionBrand.n300).multilineTextAlignment(.center)
-                    if !hub.notice.isEmpty { Text(hub.notice).font(MotionBrand.font(.medium, 15)) }
-                    Spacer()
+                .frame(height: frame)
+                VStack(spacing: 10) {
+                    if !hub.notice.isEmpty { Text(hub.notice).font(MotionBrand.font(.medium, 14)).lineLimit(2).multilineTextAlignment(.center) }
+                    else {
+                        Text("Golf and bowling play right here on your phone. Tennis needs a TV (AirPlay).").font(MotionBrand.font(.medium, 13))
+                            .foregroundStyle(MotionBrand.n300).multilineTextAlignment(.center).lineLimit(2).minimumScaleFactor(0.8)
+                    }
                     Button { hub.menuBack() } label: { Label("Back", systemImage: "chevron.left") }.buttonStyle(MotionButtonStyle(kind: .secondary))
                 }
-                .padding(20).frame(maxWidth: .infinity, maxHeight: .infinity)
+                .padding(.horizontal, 20).padding(.top, 10).padding(.bottom, insets.bottom + 6)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
                 .background(MotionBrand.background)
             }
+            .overlay(alignment: .top) {
+                if !hub.revealedOnPhone {
+                    // loading: the plaza's loading screen over Unity's part of the screen
+                    HubLoadingScreen(hub: hub).scaleEffect(screen.width / 1280).frame(width: screen.width, height: 720 * screen.width / 1280)
+                        .frame(width: screen.width, height: stacked ? hero + frame : insets.top + frame).background(Club.ink).allowsHitTesting(false)
+                }
+            }
+            .frame(width: screen.width, height: screen.height)
+            .ignoresSafeArea()
         }
-        .ignoresSafeArea(edges: .top)
         .foregroundStyle(.white)
         .preferredColorScheme(.dark)
         .accessibilityIdentifier("menu-touch")

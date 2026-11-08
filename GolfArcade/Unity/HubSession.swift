@@ -233,6 +233,9 @@ final class HubSession {
     private(set) var onPhone = false
     /// The share of the phone's height the plaza takes on a phone with no TV (Unity's HubWorld.PhoneViewShare is the same).
     static let phoneViewShare = 0.56
+    /// The pointer menu with no TV: the share of the phone's height under Unity's menu for the app's own controls (Unity's
+    /// HubWorld.PhoneMenuFooter is the same). Above it, the menu's 16:9 frame; above that, the hero (HubWorld.PhoneMenuView).
+    static let menuFooterShare = 0.17
     /// No Unity in this build (the simulator): the plaza cannot open at all.
     private(set) var runtimeMissing = false
     /// A station's own screen is open on the phone (the locker, settings, a bay's match options). Never a lobby or home screen.

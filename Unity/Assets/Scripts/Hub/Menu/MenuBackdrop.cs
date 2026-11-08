@@ -38,7 +38,8 @@ namespace GolfArcade.Hub.Menu
         public string Venue { get; private set; }
         Camera cam; Transform plate, floor; Material plateMat, catcherMat; Preset light; MenuStage stage;
         readonly Vector4[] feet = new Vector4[4];
-        static readonly int FeetId = Shader.PropertyToID("_Feet");
+        static readonly int FeetId = Shader.PropertyToID("_Feet"), PlateSt = Shader.PropertyToID("_BaseMap_ST");
+        float plateAspect = 16f / 9f;
 
         /// Picks a venue (MENU_BACKDROP=<venue> pins one for captures), hides the plaza under `scenery` and stands the line-up on the plate.
         public static MenuBackdrop Attach(HubWorld world, MenuStage stage, Transform scenery)
@@ -82,6 +83,7 @@ namespace GolfArcade.Hub.Menu
             plate.gameObject.AddComponent<MeshFilter>().sharedMesh = quad;
             var pr = plate.gameObject.AddComponent<MeshRenderer>(); pr.shadowCastingMode = ShadowCastingMode.Off; pr.receiveShadows = false;
             tex.wrapMode = TextureWrapMode.Clamp;   // no bleed from the opposite edge at the frame border
+            plateAspect = (float)tex.width / tex.height;
             plateMat = new Material(plateShader) { name = "Menu backdrop " + Venue }; plateMat.SetTexture("_BaseMap", tex); pr.sharedMaterial = plateMat;
             // the floor under the line-up: shadows and a contact darkening, nothing else
             floor = new GameObject("Menu backdrop floor").transform; floor.SetParent(transform, false); floor.gameObject.layer = HubWorld.Layer;
@@ -139,9 +141,7 @@ namespace GolfArcade.Hub.Menu
             if (Time.unscaledTime < hideUntil && Time.frameCount % 20 == 0) { HideScenery(); Lighten(); }   // late volumes (the Majestic grade) too
             if (Time.frameCount % 30 == 0)
                 foreach (var root in gameObject.scene.GetRootGameObjects()) if (root.activeSelf && root.name == "Majestic dressing") root.SetActive(false);
-            // the plate fills the frustum exactly at PlateDistance (the camera's fov and aspect can change: phone-only band, shots)
-            float h = 2 * PlateDistance * Mathf.Tan(cam.fieldOfView * .5f * Mathf.Deg2Rad);
-            plate.localPosition = new Vector3(0, 0, PlateDistance); plate.localRotation = Quaternion.identity; plate.localScale = new Vector3(h * cam.aspect, h, 1);
+            FitPlate();
             // the venue's light, every frame: the plaza's sky and weather layers drive the same sun and ambient in their own updates
             ApplyLight();
             // the sun keeps the venue's angle to the camera (the plate was lit from there)
@@ -155,6 +155,22 @@ namespace GolfArcade.Hub.Menu
             }
             catcherMat.SetVectorArray(FeetId, feet);
         }
+
+        /// The plate fills the frustum exactly at PlateDistance (the camera's fov and aspect can change: phone-only view, shots), and
+        /// shows what the plate's own lens saw in that direction: the picture the bake took (CentreShot's fov, the plate's aspect)
+        /// cropped to a narrower view (the upright phone) or run on past its edges (clamped) by a wider one, never stretched. Again as
+        /// the camera starts to render, so a lens changed after LateUpdate (a capture's) still gets its own part of the plate.
+        void FitPlate()
+        {
+            float h = 2 * PlateDistance * Mathf.Tan(cam.fieldOfView * .5f * Mathf.Deg2Rad);
+            plate.localPosition = new Vector3(0, 0, PlateDistance); plate.localRotation = Quaternion.identity; plate.localScale = new Vector3(h * cam.aspect, h, 1);
+            float ty0 = Mathf.Tan(MenuShots.CentreShot.fov * .5f * Mathf.Deg2Rad), tx0 = ty0 * plateAspect;
+            float sy = Mathf.Tan(cam.fieldOfView * .5f * Mathf.Deg2Rad) / ty0, sx = sy * ty0 * cam.aspect / tx0;
+            plateMat.SetVector(PlateSt, new Vector4(sx, sy, .5f - sx / 2, .5f - sy / 2));
+        }
+        void OnEnable() { RenderPipelineManager.beginCameraRendering += BeforeRender; }
+        void OnDisable() { RenderPipelineManager.beginCameraRendering -= BeforeRender; }
+        void BeforeRender(ScriptableRenderContext context, Camera camera) { if (camera == cam && plate && plateMat) FitPlate(); }
 
         void OnDestroy()
         {

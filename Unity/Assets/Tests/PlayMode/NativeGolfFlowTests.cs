@@ -62,6 +62,54 @@ namespace GolfArcade.PlayTests {
                 Command("end"); Assert.IsFalse(NativeSportsSession.Active);
             } finally { Object.DestroyImmediate(host); Time.timeScale=1; }
         }
+        /// Handheld play's aim pad is the TV controller sheet's joystick: a push turns the aim at the sheet's rate (not straight to
+        /// where it points), pushing up flies the camera up the hole, and letting go (or a pause) stops both.
+        [UnityTest, Timeout(180000)] public IEnumerator HandheldStickTurnsAtTheSheetsRateAndLooksUpTheHole() {
+            yield return UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("Golf");
+            yield return null;
+            game=Object.FindFirstObjectByType<GolfGame>(); game.PrepareNativeAddress();
+            var host = new GameObject("NativeSportsSession");
+            var bridge = host.AddComponent<NativeSportsSession>();
+            bridge.enabled=false;
+            const string id = "golf-handheld-stick-check";
+            var fields=System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic;
+            typeof(NativeSportsSession).GetField("session",fields).SetValue(bridge,id);
+            typeof(NativeSportsSession).GetField("golf",fields).SetValue(bridge,game);
+            typeof(NativeSportsSession).GetField("touch",fields).SetValue(bridge,true);
+            typeof(NativeSportsSession).GetProperty("Active").GetSetMethod(true).Invoke(null,new object[]{true});
+            typeof(GolfGame).GetField("pendingNativeIntro",fields).SetValue(game,false);
+            void Command(string action,float value=0,float value2=0) => bridge.Receive(JsonUtility.ToJson(
+                new NativeSportsSession.Message {version=1,session=id,action=action,value=value,value2=value2}));
+            try {
+                Command("recalibrate"); Command("resume");
+                for(int i=0;i<180 && game.Current!=GolfGame.State.Aim;i++) yield return null;
+                Assert.AreEqual(GolfGame.State.Aim,game.Current);
+                // a small push inside the sheet's dead zone turns nothing
+                double start=game.AimHeading;
+                Command("golfStick",.15f,0); for(int i=0;i<10;i++) yield return null;
+                Assert.That(game.AimHeading,Is.EqualTo(start).Within(.001),"A nudge inside the dead zone must not turn the aim");
+                // a full push right for half a second: the sheet's sweep (1.5 x AimSweepDegreesPerSecond), not a jump to the side
+                Command("golfStick",1,0);
+                float began=Time.time; while(Time.time-began<.5f) yield return null;
+                double turned=Mathf.DeltaAngle((float)start,(float)game.AimHeading), elapsed=Time.time-began;
+                Assert.That(turned,Is.GreaterThan(0),"Pushing right turns the aim right");
+                Assert.That(turned,Is.EqualTo(1.5*game.AimSweepDegreesPerSecond*elapsed).Within(1.5*game.AimSweepDegreesPerSecond*.1),"The turn follows the sheet's rate");
+                Command("golfStick",0,0); double held=game.AimHeading;
+                for(int i=0;i<10;i++) yield return null;
+                Assert.That(game.AimHeading,Is.EqualTo(held).Within(.001),"Letting go stops the turn");
+                // up on the stick: the camera climbs up the hole
+                float before=game.GameplayCamera.transform.position.y;
+                Command("golfStick",0,1);
+                began=Time.time; while(Time.time-began<1f) yield return null;
+                Assert.That(game.AimLook,Is.EqualTo(1).Within(.01),"Pushing up looks up the hole");
+                Assert.That(game.GameplayCamera.transform.position.y,Is.GreaterThan(before+4),"The camera flies up to show where the shot goes");
+                // a pause clears the stick: the view comes back down once play resumes
+                Command("pause"); Command("recalibrate"); Command("resume");
+                Assert.That(game.NativeStick,Is.EqualTo(Vector2.zero));
+                began=Time.time; while(Time.time-began<1f) yield return null;
+                Assert.That(game.AimLook,Is.EqualTo(0).Within(.01),"Let go (or paused), the view eases back to the ball");
+            } finally { Object.DestroyImmediate(host); Time.timeScale=1; }
+        }
         [UnityTest] public IEnumerator NativeRoundAcceptsAShotAndExitsWithoutOpeningTheLegacyMenu() {
             game = new GameObject("Native golf flow check").AddComponent<GolfGame>();
             yield return null;

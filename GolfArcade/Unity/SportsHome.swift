@@ -199,6 +199,13 @@ struct SportsHome: View {
                                                        expiresAt: Date().timeIntervalSince1970 * 1000 + 110_000), accept: nil)
             }
         }
+        // the pointer menu with no TV, without Unity (simulator): a PhoneMenuCapture frame stands in for Unity's part of the screen
+        //   -phoneMenuCheck <frame.jpg>
+        if let i = args.firstIndex(of: "-phoneMenuCheck") {
+            OnboardingFlow.shared.exitToMenu(); session.displayConnected = false
+            hub.debugLive(place: "plaza", onPhone: true); hub.debugMenu()
+            SportsDisplays.shared.debugFakePhonePlaza(frame: args[safe: i + 1].flatMap { UIImage(contentsOfFile: $0) })
+        }
         // handheld play without Unity (simulator): a game frame from a file stands in for the round above the deck
         //   -handheldCheck golf|bowling <frame.jpg> [-handheldMap <map.png>] [-handheldMapOpen]
         if let i = args.firstIndex(of: "-handheldCheck"), let sport = args[safe: i + 1] {

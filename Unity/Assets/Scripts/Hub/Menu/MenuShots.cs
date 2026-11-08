@@ -42,7 +42,13 @@ namespace GolfArcade.Hub.Menu
             return new Shot(Low, s + d * 4.7f + Vector3.up * .95f, s + Vector3.up * 1f, 32f);
         }
 
-        public static Shot For(string id) => Centred ? CentreShot : id switch
+        /// PHONE ONLY (no TV, 2026-11-07): the upright phone's view above the menu (HubWorld.PhoneMenuView) holds the centred pose on
+        /// every screen, a little wider than the TV's lens so the hero stands head to toe with room round him. The plate is drawn for its
+        /// own lens on that pose (MenuBackdrop), so it stays true; the plaza (no plate) is framed the same.
+        public const float PhoneFov = 36f;
+        public static readonly Shot PhoneShot = new Shot(Low, CentreShot.position, CentreShot.look, PhoneFov);
+
+        public static Shot For(string id) => HubWorld.PhoneOnly ? PhoneShot : Centred ? CentreShot : id switch
         {
             Close => CloseShot, Mid => MidShot, Solo => SoloShot, Arrival => ArrivalShot, _ => LowShot,
         };
@@ -51,7 +57,7 @@ namespace GolfArcade.Hub.Menu
         public static Shot For(string id, int heroes)
         {
             var s = For(id);
-            if (Centred) return s;   // the plate's perspective holds for this one pose only
+            if (Centred || HubWorld.PhoneOnly) return s;   // the plate's perspective holds for this one pose only
             if (id == Solo || id == Arrival || heroes <= 2) return s;
             float k = heroes - 2;   // 1 or 2
             return s.Shifted(new Vector3(.55f * k, .12f * k, -1.25f * k), new Vector3(.62f * k, 0, .1f * k), 0);

@@ -147,6 +147,12 @@ namespace GolfArcade.Game {
             // (in a multiplayer round too: the phone with the player up aims, and tells the host)
             Nudge(Mathf.DeltaAngle((float)heading,(float)desired));
         }
+        /// Handheld play's aim pad (drawn by the app: no TV, so Unity's controller sheet never comes forward), read exactly as that
+        /// sheet's joystick is: x sweeps the aim at a rate, y looks up the hole to the pin (the camera climbs) or down at the ball.
+        /// -1..1; cleared at every new aim and on pause.
+        public Vector2 NativeStick;
+        /// The aim is sweeping under the handheld stick (the phone's map follows it at the aim rate).
+        public bool NativeStickSweeping => Current == State.Aim && GolfArcade.UI.Hud.DeadZone(NativeStick.x) != 0;
         [System.Serializable] public sealed class ControllerPoint {
             public float x,y;
             public ControllerPoint(Vector3 viewport) { x=viewport.x; y=viewport.y; }

@@ -116,7 +116,7 @@ namespace GolfArcade.UI
         public float AimStick => Controller != null && Controller.Stick ? DeadZone(Controller.Stick.Value.x) : 0f;
         /// The joystick pushed up (1) or down (-1): looking up the hole, or down at the ball.
         public float LookStick => Controller != null && Controller.Stick ? DeadZone(Controller.Stick.Value.y) : 0f;
-        static float DeadZone(float v) => Mathf.Sign(v) * Mathf.Max(0f, Mathf.Abs(v) - 0.2f) / 0.8f;
+        public static float DeadZone(float v) => Mathf.Sign(v) * Mathf.Max(0f, Mathf.Abs(v) - 0.2f) / 0.8f;
 
         GolfShotHud simple;
         public bool UsesGolfPresentation => simple;

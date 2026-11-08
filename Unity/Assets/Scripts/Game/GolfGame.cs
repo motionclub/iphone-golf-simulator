@@ -1185,7 +1185,7 @@ namespace GolfArcade.Game
             UpdateAimVisuals();
             // L4 blends to the established address composition before input is released.
             rig.ResetZoom();
-            aimLook = 0;
+            aimLook = 0; NativeStick = Vector2.zero;
             FrameAim();
             // On the green the read goes down; the flag stays in on a long putt, so the hole can be
             // found from across the green, and comes out inside six yards.
@@ -2280,11 +2280,11 @@ namespace GolfArcade.Game
                     // (Another phone's player in a multiplayer round steers from their own phone: NetworkFrame.)
                     float sweep = !SteersHere ? 0 : (hud.AimLeftHeld ? -1 : 0) + (hud.AimRightHeld ? 1 : 0)
                                 + (Input.GetKey(KeyCode.LeftArrow) ? -1 : 0) + (Input.GetKey(KeyCode.RightArrow) ? 1 : 0)
-                                + Mathf.Clamp(hud.AimStick, -1f, 1f) * 1.5f;
+                                + Mathf.Clamp(hud.AimStick + Hud.DeadZone(NativeStick.x), -1f, 1f) * 1.5f;
                     // a putt's line is a matter of a degree or two: the sweep is a fifth as fast
                     if (sweep != 0) Nudge(sweep * AimSweepDegreesPerSecond * (club == GolfClub.Putter ? 0.2f : 1f) * Time.deltaTime);
                     // up and down on the joystick (or W/S): look up the hole to the pin, or down at the ball
-                    float lookWanted = !SteersHere ? networkLook : Mathf.Clamp(hud.LookStick + LookHeld + (Input.GetKey(KeyCode.W) ? 1 : 0) - (Input.GetKey(KeyCode.S) ? 1 : 0), -1f, 1f);
+                    float lookWanted = !SteersHere ? networkLook : Mathf.Clamp(hud.LookStick + Hud.DeadZone(NativeStick.y) + LookHeld + (Input.GetKey(KeyCode.W) ? 1 : 0) - (Input.GetKey(KeyCode.S) ? 1 : 0), -1f, 1f);
                     float looked = Mathf.MoveTowards(aimLook, lookWanted, Time.deltaTime * 2.5f);
                     if (looked != aimLook) { aimLook = looked; FrameAim(); }
                     if (Input.GetKeyDown(KeyCode.UpArrow)) CycleClub(-1);

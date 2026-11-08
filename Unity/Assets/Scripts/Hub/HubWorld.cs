@@ -74,6 +74,32 @@ namespace GolfArcade.Hub
         static readonly Rect PhoneRect = new Rect(0, 1 - PhoneViewShare, 1, PhoneViewShare);
         /// A narrow phone view needs a wider lens to show as much of the plaza around the hero as the TV does.
         static float FovScale => PhoneOnly ? 1.32f : 1f;
+        /// Tests stand a phone's screen in for the editor's Game view: its size and safe area, in pixels.
+        public static (Vector2 size, Rect safe)? PhoneScreenForTests;
+        public static Vector2 PhoneScreen => PhoneScreenForTests?.size ?? new Vector2(Screen.width, Screen.height);
+        public static Rect PhoneSafeArea => PhoneScreenForTests?.safe ?? Screen.safeArea;
+        /// The share of the phone's height under the pointer menu, at the bottom, for the app's own controls (Back) with no TV.
+        /// The phone's layout uses the same number (HubSession.menuFooterShare).
+        public const float PhoneMenuFooter = .17f;
+        /// The pointer menu on a phone with no TV: where the camera draws (`camera`, a viewport rect) and the menu's 16:9 frame
+        /// (`hud`, pixels, bottom-left origin) on an upright phone of `screen` pixels with `safe` its safe area. The hero has the top of
+        /// the screen to himself and the menu's words sit under him, never over him (2026-11-07: on the TV's layout, shrunk into a band
+        /// at the top, the words covered the hero and the Dynamic Island his head); the app's controls are under the menu. A screen too
+        /// short for that keeps the band under the safe area, the TV's picture as it is.
+        public readonly struct PhoneMenuLayout
+        {
+            public readonly Rect camera, hud;
+            public readonly bool stacked;
+            public PhoneMenuLayout(Rect camera, Rect hud, bool stacked) { this.camera = camera; this.hud = hud; this.stacked = stacked; }
+        }
+        public static PhoneMenuLayout PhoneMenuView(Vector2 screen, Rect safe)
+        {
+            float hudH = screen.x * 9f / 16f, hudY = screen.y * PhoneMenuFooter, top = hudY + hudH;
+            if (screen.y - top >= screen.x * .8f)
+                return new PhoneMenuLayout(new Rect(0, top / screen.y, 1, 1 - top / screen.y), new Rect(0, hudY, screen.x, hudH), true);
+            float h = Mathf.Min(hudH, safe.yMax), y = safe.yMax - h;
+            return new PhoneMenuLayout(new Rect(0, y / screen.y, 1, h / screen.y), new Rect(0, y, screen.x, h), false);
+        }
         /// The PLAY hall and the sport rooms behind it are shut on a phone with no TV.
         public static bool PlayClosed(string place) => PhoneOnly && (place == HubLayout.PlayHall || place == HubLayout.TennisRoom || place == HubLayout.GolfRoom);
         /// A doorway into a place that is shut on this phone.
@@ -224,11 +250,10 @@ namespace GolfArcade.Hub
                 if (arrivalAutoStart > 0 && Time.unscaledTime >= arrivalAutoStart) { arrivalAutoStart = 0; Menu.Arrive(); }
                 Menu.Tick(Time.unscaledDeltaTime);
                 if (overlay && Camera) overlay.targetDisplay = Camera.targetDisplay;
-                if (Camera && PhoneOnly && Screen.height > 0)
+                if (Camera && PhoneOnly && PhoneScreen.y > 0)
                 {
-                    // no TV: the menu is a 16:9 band at the top of the upright phone (the phone's own controls are under it)
-                    float h = Mathf.Min(1, Screen.width * 9f / 16f / Screen.height);
-                    var band = new Rect(0, 1 - h, 1, h);
+                    // no TV: the menu draws on the upright phone above the phone's own controls (PhoneMenuView)
+                    var band = PhoneMenuView(PhoneScreen, PhoneSafeArea).camera;
                     if (Camera.rect != band) { Camera.rect = band; Camera.ResetAspect(); }
                 }
                 return;

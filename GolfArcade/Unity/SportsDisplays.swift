@@ -128,14 +128,21 @@ final class SportsDisplays: NSObject {
     #if DEBUG
     /// `-phonePlazaCheck` (simulator, no Unity): a painted stand-in for Unity's plaza in the phone plaza window, to check that the
     /// app's window lets it show through above the controls.
-    func debugFakePhonePlaza() {
+    /// `frame`: a picture of Unity's whole phone screen (a PhoneMenuCapture frame) under the app's views, instead of the stand-in.
+    func debugFakePhonePlaza(frame: UIImage? = nil) {
         guard let window = phonePlazaWindow() else { return }
-        let root = UIViewController(); let paint = CAGradientLayer()
-        paint.colors = [UIColor(red: 0.96, green: 0.63, blue: 0.48, alpha: 1).cgColor, UIColor(red: 0.44, green: 0.72, blue: 0.85, alpha: 1).cgColor]
-        paint.frame = window.bounds; root.view.layer.addSublayer(paint)
-        let label = UILabel(frame: CGRect(x: 0, y: window.bounds.height * 0.25, width: window.bounds.width, height: 40))
-        label.text = "UNITY PLAZA (stand-in)"; label.textAlignment = .center; label.font = .boldSystemFont(ofSize: 22); label.textColor = .white
-        root.view.addSubview(label)
+        let root = UIViewController()
+        if let frame {
+            let picture = UIImageView(image: frame); picture.frame = window.bounds; picture.contentMode = .scaleToFill
+            root.view.addSubview(picture)
+        } else {
+            let paint = CAGradientLayer()
+            paint.colors = [UIColor(red: 0.96, green: 0.63, blue: 0.48, alpha: 1).cgColor, UIColor(red: 0.44, green: 0.72, blue: 0.85, alpha: 1).cgColor]
+            paint.frame = window.bounds; root.view.layer.addSublayer(paint)
+            let label = UILabel(frame: CGRect(x: 0, y: window.bounds.height * 0.25, width: window.bounds.width, height: 40))
+            label.text = "UNITY PLAZA (stand-in)"; label.textAlignment = .center; label.font = .boldSystemFont(ofSize: 22); label.textColor = .white
+            root.view.addSubview(label)
+        }
         window.rootViewController = root
         showPhonePlaza()
     }

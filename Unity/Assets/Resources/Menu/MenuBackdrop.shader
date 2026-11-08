@@ -28,7 +28,8 @@ Shader "GolfArcade/MenuBackdrop"
             // full screen whatever the quad's size or the camera's aspect (the quad only keeps the renderer in the frustum)
             V vert(A i)
             {
-                V o; o.uv = i.uv;
+                // _BaseMap_ST: the part of the plate this camera's lens sees (MenuBackdrop; identity for the lens it was baked with)
+                V o; o.uv = i.uv * _BaseMap_ST.xy + _BaseMap_ST.zw;
                 o.p = float4(i.uv * 2 - 1, UNITY_RAW_FAR_CLIP_VALUE, 1);
                 o.p.y *= _ProjectionParams.x;   // render-texture targets flip y
                 return o;

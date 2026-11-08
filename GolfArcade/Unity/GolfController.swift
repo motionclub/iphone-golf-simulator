@@ -353,8 +353,14 @@ struct GolfPhoneController: View {
                 .overlay(Circle().stroke(.white, lineWidth: 2).padding(3))
                 .shadow(color: GolfControllerStyle.ink.opacity(0.14), radius: 0, y: 4)
             Ellipse().fill(Color(hex: "65A8ED")).frame(width: 122, height: 62).offset(y: -33)
-            aimArrow("triangle.fill", rotation: 0, x: 0, y: -53, label: "Aim up course") { session.aimGolf(across: 0, forward: 1) }
-            aimArrow("triangle.fill", rotation: 180, x: 0, y: 53, label: "Aim down course") { session.aimGolf(across: 0, forward: -1) }
+            if session.phonePlay {
+                // handheld: up flies the camera up the hole to see where the shot goes, down brings it back to the ball
+                aimArrow("triangle.fill", rotation: 0, x: 0, y: -53, label: "Look up the hole") { look(up: true) }
+                aimArrow("triangle.fill", rotation: 180, x: 0, y: 53, label: "Look back at the ball") { look(up: false) }
+            } else {
+                aimArrow("triangle.fill", rotation: 0, x: 0, y: -53, label: "Aim up course") { session.aimGolf(across: 0, forward: 1) }
+                aimArrow("triangle.fill", rotation: 180, x: 0, y: 53, label: "Aim down course") { session.aimGolf(across: 0, forward: -1) }
+            }
             aimArrow("triangle.fill", rotation: -90, x: -54, y: 0, label: "Aim left") { nudge(-1) }
             aimArrow("triangle.fill", rotation: 90, x: 54, y: 0, label: "Aim right") { nudge(1) }
             Button {
@@ -374,7 +380,8 @@ struct GolfPhoneController: View {
             .simultaneousGesture(DragGesture(minimumDistance: 8, coordinateSpace: .local)
                 .onChanged { drag in updateJoystick(drag.location, final: false) }
                 .onEnded { drag in
-                    updateJoystick(drag.location, final: true)
+                    // handheld: let go, the stick is back in the middle (the aim stops turning, the camera eases back to the ball)
+                    if stickMode { session.golfStick(x: 0, y: 0) } else { updateJoystick(drag.location, final: true) }
                     // (the TV's menu ring re-arms when the stick comes back to the middle)
                     if canMenu { session.aimGolf(across: 0, forward: 0) }
                     draggingAim = false; stickOffset = .zero
@@ -407,19 +414,38 @@ struct GolfPhoneController: View {
         guard let direction = reading.direction else { return .zero }
         return CGSize(width: direction.x * 16, height: -direction.y * 16)
     }
+    /// Handheld play aims with the pad as a joystick, the way the TV's controller sheet does (the push turns the aim at a rate, up
+    /// flies the camera up the hole); with a TV the pad points the line straight at a spot on the phone's map.
+    private var stickMode: Bool { session.phonePlay && !canMenu }
     private func updateJoystick(_ location: CGPoint, final: Bool) {
         guard canAim || canMenu else { return }
         let dx = location.x - 78, dy = location.y - 78
         let distance = hypot(dx, dy)
+        let now = ProcessInfo.processInfo.systemUptime
+        if stickMode {
+            draggingAim = true
+            let length = min(48, distance), unit: CGFloat = distance > 0 ? length / distance : 0
+            stickOffset = CGSize(width: dx * unit, height: dy * unit)
+            guard final || now - lastAimSent >= 1.0 / 60 else { return }
+            lastAimSent = now
+            let push = CGPoint(x: dx * unit / 48, y: -dy * unit / 48)
+            session.golfStick(x: Double(push.x), y: Double(push.y))
+            return
+        }
         guard distance > 10 else { return }
         draggingAim = true
         let length = min(48, distance)
         stickOffset = CGSize(width: dx / distance * length, height: dy / distance * length)
-        let now = ProcessInfo.processInfo.systemUptime
         // (every 1/60 s: at 1/30 the aim line, marker and golfer on the TV turned in steps while the stick moved)
         guard final || now - lastAimSent >= 1.0 / 60 else { return }
         lastAimSent = now
         session.aimGolf(across: dx / distance, forward: -dy / distance)
+    }
+    /// Handheld: ▲ flies the camera up the hole and holds it there (until ▼, a drag on the pad or the next shot), ▼ brings it back.
+    private func look(up: Bool) {
+        guard canAim else { return }
+        session.golfStick(x: 0, y: up ? 1 : 0)
+        if session.haptics { UISelectionFeedbackGenerator().selectionChanged() }
     }
     private func aimArrow(_ symbol: String, rotation: Double, x: CGFloat, y: CGFloat, label: String,
                           action: @escaping () -> Void) -> some View {
@@ -538,7 +564,7 @@ extension GolfPhoneController {
                     .frame(width: 40, height: 40).background(GolfControllerStyle.blue, in: Circle())
                     .overlay(Circle().stroke(.white, lineWidth: 2.5))
             }.position(x: 440, y: 18).accessibilityLabel("Pause golf").accessibilityIdentifier("golf-pause")
-            Text(reading.party?.myTurn == false ? "WATCH THE SHOT" : "DRAG TO AIM · TAP TO SWING · TAP AGAIN TO CANCEL")
+            Text(reading.party?.myTurn == false ? "WATCH THE SHOT" : "DRAG TO AIM · ▲ LOOK UP THE HOLE · TAP TO SWING")
                 .font(GolfControllerStyle.font(10)).foregroundStyle(GolfControllerStyle.ink)
                 .frame(width: 464).position(x: 232, y: 208)
         }
