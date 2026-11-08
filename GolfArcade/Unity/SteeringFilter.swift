@@ -30,6 +30,14 @@ enum SportsMotionGeometry {
         return simd_length(flat)>0.15 ? atan2(flat.y,flat.x) : nil
     }
 
+    /// How far a direction in the motion reference frame (Z vertical) is tilted from level, radians: the rear lens
+    /// (the device's -Z) has to look along the floor at the TV, not at the ceiling or the carpet, for its heading to mean anything.
+    static func lensPitch(lens: SIMD3<Double>) -> Double {
+        let length=simd_length(lens)
+        guard length>1e-5 else { return .pi/2 }
+        return abs(asin(min(1,max(-1,lens.z/length))))
+    }
+
     /// Wrap an angle into -pi...pi.
     static func wrap(_ a: Double) -> Double {
         var x=a.truncatingRemainder(dividingBy:2 * .pi)
@@ -110,6 +118,37 @@ enum SportsMotionGeometry {
         guard length>1e-5 else { return .pi/2 }
         return abs(asin(Double(min(1,max(-1,cameraBack.y/length)))))
     }
+}
+
+/// How far the phone has lately risen (+) or dropped (-), metres, from the motion sensors alone: the `lift` a tennis stroke
+/// starts with (Unity: above .18 a lob, below -.04 a slice). Camera tracking measured it against the Ready height until
+/// 2026-11-07; without it, acceleration is integrated twice, which drifts within seconds, so the speed and the height leak back
+/// to zero, and the sensor's own slow offset (a bias would read as a steady climb) is learnt only while the gyro says the phone
+/// is still, and held while it moves (learnt from the acceleration itself, it fed back on its own estimate and drifted). A
+/// phone held still reads 0; a deliberate raise or dip of the hand reads for about a second, which is when the stroke starts.
+/// Moves under `deadBand` read 0, so a still hand never slices. `restart` (Ready, and the end of every stroke, so a swing's own
+/// error never carries into the next) keeps the learnt offset. Simulated (SportsVerticalTravelTests): 25 cm up in 0.4 s reads
+/// about .21 (a lob), 20 cm about .16 (not yet), 8 cm down about -.066 (a slice), 3 cm nothing.
+struct SportsVerticalTravel {
+    static let biasLeak = 1.0, speedLeak = 3.0, heightLeak = 2.0   // seconds
+    static let deadBand = 0.05   // metres
+    private(set) var speed = 0.0, height = 0.0
+    private var bias = 0.0, last: Double?
+
+    mutating func restart() { speed = 0; height = 0 }
+    mutating func reset() { restart(); bias = 0; last = nil }
+
+    /// `up`: the phone's acceleration upward, gravity removed, m/s², measured at `time` (seconds); `still`: not rotating.
+    mutating func step(up: Double, time: Double, still: Bool) {
+        defer { last = time }
+        guard up.isFinite, let last, time > last, time - last < 0.1 else { return }
+        let dt = time - last
+        if still { bias += (up - bias) * min(1, dt / Self.biasLeak) }
+        speed = (speed + (up - bias) * dt) * exp(-dt / Self.speedLeak)
+        height = (height + speed * dt) * exp(-dt / Self.heightLeak)
+    }
+
+    var lift: Double { abs(height) < Self.deadBand ? 0 : height }
 }
 
 /// Position is supplied by world tracking, never acceleration integration.

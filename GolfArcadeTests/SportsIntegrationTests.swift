@@ -469,3 +469,74 @@ extension SportsIntegrationTests {
         let attachment=XCTAttachment(image:image);attachment.name="Aiming calibration phone";attachment.lifetime = .keepAlways;add(attachment)
     }
 }
+
+/// Tennis without ARKit (App Review 2026-11-07): the lens's tilt from the motion sensors, and a stroke's lift (lob above .18 m,
+/// slice below -.04 m) from acceleration alone.
+final class SportsVerticalTravelTests: XCTestCase {
+    /// `seconds` of samples at 100 Hz from `start`: upward acceleration from `up` plus a constant sensor offset; `still`: the gyro
+    /// reads no rotation.
+    private func feed(_ travel: inout SportsVerticalTravel, from start: Double, seconds: Double, offset: Double, still: Bool,
+                      up: (Double) -> Double) -> Double {
+        var t = start
+        while t < start + seconds { travel.step(up: up(t - start) + offset, time: t, still: still); t += 0.01 }
+        return t
+    }
+    /// A smooth move of `distance` metres over `duration` seconds: speeds up, then slows to a stop.
+    private func move(_ distance: Double, over duration: Double) -> (Double) -> Double {
+        { s in s <= duration ? distance * 2 * .pi / (duration * duration) * sin(2 * .pi * s / duration) : 0 }
+    }
+    /// The court direction captured (seconds of a still phone: the sensor offset learnt), Ready, a moment, then `distance` in
+    /// `duration`: the lift the stroke starts with.
+    private func lift(after distance: Double, in duration: Double, offset: Double) -> (lift: Double, travel: SportsVerticalTravel, time: Double) {
+        var travel = SportsVerticalTravel()
+        var t = feed(&travel, from: 0, seconds: 4, offset: offset, still: true) { _ in 0 }
+        travel.restart()
+        t = feed(&travel, from: t, seconds: 0.5, offset: offset, still: true) { _ in 0 }
+        XCTAssertEqual(travel.lift, 0)
+        t = feed(&travel, from: t, seconds: duration, offset: offset, still: false, up: move(distance, over: duration))
+        return (travel.lift, travel, t)
+    }
+
+    func testADeliberateRaiseIsALobAndADipASliceWhateverTheSensorOffset() {
+        for offset in [0.0, 0.05, 0.2] {
+            XCTAssertGreaterThan(lift(after: 0.25, in: 0.4, offset: offset).lift, 0.18, "25 cm up: a lob")
+            XCTAssertLessThan(lift(after: -0.08, in: 0.4, offset: offset).lift, -0.04, "8 cm down: a slice")
+            XCTAssertEqual(lift(after: 0.03, in: 0.3, offset: offset).lift, 0, "3 cm: nothing")
+            XCTAssertEqual(lift(after: -0.03, in: 0.3, offset: offset).lift, 0, "3 cm: nothing")
+        }
+    }
+
+    func testTheReadingFadesOnceTheHandStops() {
+        var raised = lift(after: 0.25, in: 0.4, offset: 0.05)
+        _ = feed(&raised.travel, from: raised.time, seconds: 6, offset: 0.05, still: true) { _ in 0 }
+        XCTAssertEqual(raised.travel.lift, 0, "it is the hand's recent move, not where it is")
+    }
+
+    func testAStillPhoneWithWobbleNeverLobsOrSlices() {
+        var travel = SportsVerticalTravel()
+        var t = feed(&travel, from: 0, seconds: 4, offset: 0.2, still: true) { _ in 0 }
+        travel.restart()
+        var worst = 0.0
+        let end = t + 10
+        while t < end { travel.step(up: 0.2 + 0.3 * sin(t * 9), time: t, still: true); worst = max(worst, abs(travel.lift)); t += 0.01 }
+        XCTAssertEqual(worst, 0)
+    }
+
+    func testAStrokeEndingRestartsTheReading() {
+        var travel = SportsVerticalTravel()
+        var t = feed(&travel, from: 0, seconds: 4, offset: 0.05, still: true) { _ in 0 }
+        travel.restart()
+        // a hard swing: big accelerations while the phone turns
+        t = feed(&travel, from: t, seconds: 0.8, offset: 0.05, still: false) { s in 9 * sin(s * 23) + 4 * cos(s * 7) }
+        travel.restart()
+        _ = feed(&travel, from: t, seconds: 1, offset: 0.05, still: true) { _ in 0 }
+        XCTAssertEqual(travel.lift, 0, "the swing's own error is gone after it")
+    }
+
+    func testTheLensMustLookAlongTheFloor() {
+        XCTAssertEqual(SportsMotionGeometry.lensPitch(lens: SIMD3<Double>(1, 0, 0)), 0, accuracy: 0.001)
+        XCTAssertEqual(SportsMotionGeometry.lensPitch(lens: SIMD3<Double>(0, 0, 1)), .pi / 2, accuracy: 0.001)
+        XCTAssertEqual(SportsMotionGeometry.lensPitch(lens: SIMD3<Double>(0, 0, -1)), .pi / 2, accuracy: 0.001)
+        XCTAssertEqual(SportsMotionGeometry.lensPitch(lens: SIMD3<Double>(0, 1, 1)), .pi / 4, accuracy: 0.001)
+    }
+}

@@ -27,7 +27,7 @@ PLAYING TOGETHER
 PERMISSION PROMPTS (in the order they usually appear)
 1. Game Center sign-in (onboarding) - optional.
 2. Local Network - when looking for a nearby party.
-3. Camera - first tennis match, for the court scan. Frames are processed on the phone and not recorded or uploaded. Golf and bowling do not use the camera.
+3. Camera - first tennis match, for the court scan: the camera finds the TV and times its picture delay, then switches off for play. Frames are processed on the phone and not recorded or uploaded. Golf and bowling do not use the camera. The app does not use ARKit or CallKit.
 4. Game Center Friends - when opening Friends.
 5. Notifications - after the first invite you send.
 6. Photos (add only) - only when saving a recording.
