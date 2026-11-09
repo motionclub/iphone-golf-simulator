@@ -35,7 +35,7 @@ namespace GolfArcade.Tests
             hub.StartArrival();
             for (float t = 0; t < 1.8f; t += Time.unscaledDeltaTime) yield return null;
         }
-        [TearDown] public void Clean() { HubWorld.EditorDriven = false; HubWorld.MenuMode = false; if (host) Object.DestroyImmediate(host); }
+        [TearDown] public void Clean() { HubWorld.EditorDriven = false; HubWorld.MenuMode = false; MenuStage.HeroOnlyInLocker = true; if (host) Object.DestroyImmediate(host); }
 
         IEnumerator Click(string id)
         {
@@ -112,6 +112,8 @@ namespace GolfArcade.Tests
             Receive("hubRemote", remote: JsonUtility.ToJson(new RemoteState { id = "sam", name = "Sam", place = HubLayout.Plaza, female = true, shirt = "FF6B4A", shorts = "1E2A6E", colour = 1, x = 0, z = -7 }));
             yield return Settle(.5f);
             Assert.AreEqual(2, hub.Menu.Heroes);
+            Assert.IsFalse(HubRemotes.For(hub).HeroOf("sam").gameObject.activeInHierarchy, "for now the line-up is hidden outside the Locker");
+            MenuStage.HeroOnlyInLocker = false; yield return Settle(.3f);
             Assert.IsTrue(HubRemotes.For(hub).TryGetShown("sam", out var at));
             Assert.Less(Vector3.Distance(at, MenuShots.Slots[1]), .05f, "a friend stands on slot 1");
             Receive("menuParty", leader: false, soloLocked: true);
@@ -171,21 +173,37 @@ namespace GolfArcade.Tests
             yield return null;   // not WaitForEndOfFrame: batch mode has no Game view, so it never comes
             const int W = 1920, H = 1080;
             var cam = hub.Camera; var canvas = hud.Canvas;
+            // the 3D, full frame (a viewport rect inside the target does not render in batch mode)
+            var rt3 = new RenderTexture(W, H, 24, RenderTextureFormat.ARGB32) { antiAliasing = 4 };
+            float aspect = cam.aspect; var keep = cam.rect;
+            cam.rect = new Rect(0, 0, 1, 1); cam.aspect = (float)W / H; cam.targetTexture = rt3; cam.Render(); cam.targetTexture = null; cam.aspect = aspect; cam.rect = keep;
+            var world = Read(rt3, W, H); rt3.Release(); Object.DestroyImmediate(rt3);
+            // the HUD by a plain camera (no post) onto clear black, laid over the 3D below (drawn straight over it, URP cleared it away)
             var rt = new RenderTexture(W, H, 24, RenderTextureFormat.ARGB32) { antiAliasing = 4 };
-            var tex = new Texture2D(W, H, TextureFormat.RGB24, false);
-            float aspect = cam.aspect; cam.aspect = (float)W / H; cam.targetTexture = rt; cam.Render(); cam.targetTexture = null; cam.aspect = aspect;
-            // the HUD: its canvas drawn by a plain camera (no post) on top
             var ui = new GameObject("Proof UI camera").AddComponent<Camera>();
-            ui.clearFlags = CameraClearFlags.Nothing; ui.cullingMask = 1 << 5; ui.orthographic = true; ui.targetTexture = rt; ui.aspect = (float)W / H;
+            ui.clearFlags = CameraClearFlags.SolidColor; ui.backgroundColor = new Color(0, 0, 0, 0); ui.cullingMask = 1 << 5; ui.orthographic = true; ui.targetTexture = rt; ui.aspect = (float)W / H;
             var mode = canvas.renderMode; int layer = canvas.gameObject.layer;
             SetLayer(canvas.transform, 5);
             canvas.renderMode = RenderMode.ScreenSpaceCamera; canvas.worldCamera = ui; canvas.planeDistance = 1;
             Canvas.ForceUpdateCanvases();
             ui.Render();
             canvas.renderMode = mode; canvas.worldCamera = null; SetLayer(canvas.transform, layer);
-            RenderTexture.active = rt; tex.ReadPixels(new Rect(0, 0, W, H), 0, 0); tex.Apply(); RenderTexture.active = null;
+            var hudPx = Read(rt, W, H);
+            Object.DestroyImmediate(ui.gameObject); rt.Release(); Object.DestroyImmediate(rt);
+            // the HUD was blended onto clear black: its colour is already weighted by its alpha
+            for (int i = 0; i < world.Length; i++)
+            {
+                float a = hudPx[i].a / 255f; var b = world[i];
+                world[i] = new Color32((byte)Mathf.Min(255, hudPx[i].r + b.r * (1 - a)), (byte)Mathf.Min(255, hudPx[i].g + b.g * (1 - a)), (byte)Mathf.Min(255, hudPx[i].b + b.b * (1 - a)), 255);
+            }
+            var tex = new Texture2D(W, H, TextureFormat.RGBA32, false); tex.SetPixels32(world); tex.Apply();
             File.WriteAllBytes(Path.Combine(Out, name + ".png"), tex.EncodeToPNG());
-            Object.DestroyImmediate(ui.gameObject); rt.Release(); Object.DestroyImmediate(rt); Object.DestroyImmediate(tex);
+            Object.DestroyImmediate(tex);
+        }
+        static Color32[] Read(RenderTexture rt, int w, int h)
+        {
+            RenderTexture.active = rt; var t = new Texture2D(w, h, TextureFormat.RGBA32, false); t.ReadPixels(new Rect(0, 0, w, h), 0, 0); t.Apply(); RenderTexture.active = null;
+            var px = t.GetPixels32(); Object.DestroyImmediate(t); return px;
         }
         static void SetLayer(Transform t, int layer) { foreach (var c in t.GetComponentsInChildren<Transform>(true)) c.gameObject.layer = layer; }
     }
