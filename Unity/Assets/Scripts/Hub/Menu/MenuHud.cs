@@ -55,6 +55,18 @@ namespace GolfArcade.Hub.Menu
         /// The menu's canvas (proof captures draw it with their own camera).
         public Canvas Canvas => canvas;
 
+        /// PHONE ONLY (no TV, 2026-11-08: "the menu should fit the screen"): the menu stands upright and fills the phone under the status
+        /// bar, in a frame PortraitW canvas units wide (so its words are about twice the TV layout's size on the phone), the screens'
+        /// pictures and pop-ups under their lists, BACK a chip at the bottom left. Set from HubWorld.PhoneOnly when the menu is built.
+        bool Portrait;
+        public const float PortraitW = 900, PortraitTop = 72;   // PortraitTop: the screens sit under the tabs' second row
+        float frameH = -1, bottomInset;   // the upright frame's height and the home bar's inside it, canvas units (LayOutPhone; -1 = not yet)
+        /// Where the phone's camera draws (a viewport rect): the whole screen behind the dimmed menu, or the Locker's window on your hero.
+        public Rect PhoneCameraRect { get; private set; } = new Rect(0, 0, 1, 1);
+        Image phoneDim, phoneCap, phoneFloor;
+        const float LockerViewTop = 172;
+        float lockerViewH = 800;
+
         public static MenuHud Attach(HubWorld world, MenuStage stage)
         {
             var h = world.gameObject.GetComponent<MenuHud>(); if (!h) h = world.gameObject.AddComponent<MenuHud>();
@@ -66,14 +78,17 @@ namespace GolfArcade.Hub.Menu
         void Build()
         {
             if (canvas) return;
+            Portrait = HubWorld.PhoneOnly;
             var go = new GameObject("Menu HUD", typeof(RectTransform)); go.transform.SetParent(transform, false);
             canvas = go.AddComponent<Canvas>(); canvas.renderMode = RenderMode.ScreenSpaceOverlay; canvas.sortingOrder = 29990;
             scaler = go.AddComponent<CanvasScaler>(); scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
             scaler.referenceResolution = new Vector2(1920, 1080); scaler.matchWidthOrHeight = .5f;
-            // everything sits in one 16:9 frame: the whole TV, or (no TV) the band at the top of the phone the plaza draws in
+            // everything sits in one frame: the whole 16:9 TV, or (no TV) the upright phone under its status bar (LayOutPhone)
+            if (Portrait) BuildPhoneBacking(go.transform);
             canvasRT = BrandUi.Fill(go.transform, "Frame");
             scrims = BrandUi.Fill(canvasRT, "Scrims"); BuildScrims();
             screensRoot = BrandUi.Fill(canvasRT, "Screens");
+            if (Portrait) screensRoot.offsetMax = new Vector2(0, -PortraitTop);
             plates = BrandUi.Fill(canvasRT, "Name plates"); SubCanvas(plates, 1);
             chrome = BrandUi.Fill(canvasRT, "Chrome");
             fx = BrandUi.Fill(canvasRT, "FX"); SubCanvas(fx, 3);
@@ -108,6 +123,7 @@ namespace GolfArcade.Hub.Menu
         // the words left and the pop-ups right read over any venue, the hero in the middle is untouched
         void BuildScrims()
         {
+            if (Portrait) return;   // upright, one even dim covers the phone (BuildPhoneBacking)
             BrandUi.Ramp(scrims, "Left", 0, 500, BrandUi.Ink(.86f), BrandUi.Ink(.6f));
             BrandUi.Ramp(scrims, "Left fade", 500, 268, BrandUi.Ink(.6f), BrandUi.Ink(0));
             BrandUi.Ramp(scrims, "Right fade", 1152, 307, BrandUi.Ink(0), BrandUi.Ink(.55f));
@@ -125,10 +141,11 @@ namespace GolfArcade.Hub.Menu
             var mark = BrandUi.Wordmark(chrome, Left, 26, 46);
             tabBar = BrandUi.Box(chrome, "Tabs", 0, 0, 1920, 108);
             string[] names = { "PLAZA", "LOCKER", "CLUBHOUSE" }; string[] go = { Home, Locker, Clubhouse };
-            float x = Left + mark.preferredWidth + 50;
+            // upright, the tabs get a row of their own under the wordmark and the chips
+            float x = Portrait ? Left - 12 : Left + mark.preferredWidth + 50, tabY = Portrait ? 92 : 22;
             for (int i = 0; i < 3; i++)
             {
-                var box = BrandUi.Box(tabBar, names[i], x, 22, 10, 64);
+                var box = BrandUi.Box(tabBar, names[i], x, tabY, 10, 64);
                 var face = BrandUi.Fill(box, "Face");
                 var label = BrandUi.Word(BrandUi.Box(face, "Label", 12, 0, 10, 64), "Text", names[i], BrandUi.BoldItalic, 28, BrandUi.WhiteA(.62f));
                 float w = label.preferredWidth + 24; box.sizeDelta = new Vector2(w, 64);
@@ -149,17 +166,8 @@ namespace GolfArcade.Hub.Menu
             nameChipText = BrandUi.Word(BrandUi.Box(nameChip, "Name", 22, 0, 10, 50), "Text", "", BrandUi.SemiBold, 24, BrandColors.White);
             SetChipName(localName);
 
-            // the hint (mock .hint) in place of the BACK pill: Ⓐ SELECT  Ⓑ BACK; the B half is still the pointer's back item
-            hint = BrandUi.Box(chrome, "Hint", Left, 990, 600, 64);
-            BrandUi.FaceButton(hint, "A", 0, 14, 36, BrandColors.White, BrandColors.NavyInk);
-            var select = BrandUi.Word(BrandUi.Box(hint, "Select", 46, 0, 10, 64), "Text", "SELECT", BrandUi.SemiBold, 24, BrandUi.WhiteA(.8f));
-            backButton = BrandUi.Box(hint, "Back", 46 + select.preferredWidth + 22, 0, 10, 64);
-            var backFace = BrandUi.Fill(backButton, "Face");
-            BrandUi.FaceButton(backFace, "B", 10, 14, 36, BrandColors.White, BrandColors.NavyInk);
-            var backLabel = BrandUi.Word(BrandUi.Box(backFace, "Label", 56, 0, 10, 64), "Text", "BACK", BrandUi.SemiBold, 24, BrandUi.WhiteA(.8f));
-            backButton.sizeDelta = new Vector2(56 + backLabel.preferredWidth + 14, 64);
-            var backItem = Item(backButton, backFace, "back", "Back", () => Back(), 0);
-            backItem.glow = k => backLabel.color = Color.Lerp(BrandUi.WhiteA(.8f), BrandColors.Gold, k);
+            if (Portrait) BuildBackChip();
+            else BuildHint();
 
             // the empty seat: "+ JOIN" beside the line-up (a dark skewed tile, white edge; gold when lit)
             joinSeat = BrandUi.Box(chrome, "Join", 0, 0, 104, 140);
@@ -170,6 +178,40 @@ namespace GolfArcade.Hub.Menu
             BrandUi.Word(BrandUi.Box(joinSeat, "Label", -40, 110, 184, 32), "Text", "JOIN", BrandUi.SemiBold, BrandType.Caption, BrandColors.White, TextAnchor.MiddleCenter);
             joinItem = Item(joinSeat, joinFace, "board-invite", "Invite friends", () => OpenPhone("board-invite", "Invite friends"), 0);
             joinItem.glow = k => joinEdge.color = Color.Lerp(BrandUi.WhiteA(.7f), BrandColors.Gold, k);
+        }
+        /// The TV's hint (mock .hint) in place of the BACK pill: Ⓐ SELECT  Ⓑ BACK; the B half is still the pointer's back item.
+        void BuildHint()
+        {
+            hint = BrandUi.Box(chrome, "Hint", Left, 990, 600, 64);
+            BrandUi.FaceButton(hint, "A", 0, 14, 36, BrandColors.White, BrandColors.NavyInk);
+            var select = BrandUi.Word(BrandUi.Box(hint, "Select", 46, 0, 10, 64), "Text", "SELECT", BrandUi.SemiBold, 24, BrandUi.WhiteA(.8f));
+            backButton = BrandUi.Box(hint, "Back", 46 + select.preferredWidth + 22, 0, 10, 64);
+            var backFace = BrandUi.Fill(backButton, "Face");
+            BrandUi.FaceButton(backFace, "B", 10, 14, 36, BrandColors.White, BrandColors.NavyInk);
+            var backLabel = BrandUi.Word(BrandUi.Box(backFace, "Label", 56, 0, 10, 64), "Text", "BACK", BrandUi.SemiBold, 24, BrandUi.WhiteA(.8f));
+            backButton.sizeDelta = new Vector2(56 + backLabel.preferredWidth + 14, 64);
+            var backItem = Item(backButton, backFace, "back", "Back", () => Back(), 0);
+            backItem.glow = k => backLabel.color = Color.Lerp(BrandUi.WhiteA(.8f), BrandColors.Gold, k);
+        }
+        /// Upright on the phone a finger presses the menu itself, so there is no Ⓐ SELECT: BACK is a chip of its own at the bottom left
+        /// (LayOutPhone puts it over the home bar), shown only inside a screen, never on Home (2026-11-08: "no back button unless you
+        /// click something").
+        void BuildBackChip()
+        {
+            hint = BrandUi.Box(chrome, "Hint", Left, 990, 400, 96);
+            backButton = BrandUi.Box(hint, "Back", 0, 0, 10, 96);
+            var face = BrandUi.Fill(backButton, "Face");
+            var fill = BrandUi.Slant(face, "Fill", BrandUi.Ink(.72f), 12);
+            var chev = BrandUi.Layer(BrandUi.Box(face, "Chevron", 30, 26, 44, 44), "Glyph", BrandColors.Gold, 0, -1, BrandUi.Chevron); chev.preserveAspect = true;
+            var label = BrandUi.Word(BrandUi.Box(face, "Label", 80, 0, 10, 96), "Text", "BACK", BrandUi.ExtraBoldItalic, 44, BrandColors.White);
+            backButton.sizeDelta = new Vector2(80 + label.preferredWidth + 40, 96);
+            var item = Item(backButton, face, "back", "Back", () => Back(), 0);
+            item.glow = k =>
+            {
+                bool on = k > .35f;
+                fill.color = on ? BrandColors.Gold : BrandUi.Ink(.72f); chev.color = on ? BrandColors.NavyInk : BrandColors.Gold;
+                label.color = on ? BrandColors.NavyInk : BrandColors.White; foreach (var s in label.GetComponents<Shadow>()) s.enabled = !on;
+            };
         }
         bool Active(string tab) => tab == (Screen == Locker ? Locker : Screen == Clubhouse ? Clubhouse : Home);
         void SetChipName(string name)
@@ -197,9 +239,10 @@ namespace GolfArcade.Hub.Menu
         readonly List<SportLane> lanes = new List<SportLane>();
         void BuildSport(RectTransform r)
         {
-            BrandUi.Layer(r, "Dim", BrandUi.Ink(.45f));
+            if (!Portrait) BrandUi.Layer(r, "Dim", BrandUi.Ink(.45f));   // (upright, the phone's dim is already on)
             BrandUi.Headline(r, Left, 118, "Play", "Pick a sport", 900, TextAnchor.UpperLeft, 80);
-            AddLane(r, "sport-tennis", "Tennis", "RESORT · SKY TOWER · MAGMA CRATER", new[] { "EXHIBITION", "TRAINING", "LOCAL", "ONLINE" }, "tennis-resort", () => Go(TennisModes));
+            // with no TV, tennis says what it needs (the app's own line under the menu used to)
+            AddLane(r, "sport-tennis", "Tennis", Portrait ? "NEEDS A TV · AIRPLAY" : "RESORT · SKY TOWER · MAGMA CRATER", new[] { "EXHIBITION", "TRAINING", "LOCAL", "ONLINE" }, "tennis-resort", () => Go(TennisModes));
             AddLane(r, "sport-golf", "Golf", "CLIFFSIDE · WILD ISLES · MAGMA OPEN", new[] { "ROUND", "LOCAL", "ONLINE" }, "golf-cliffside", () => Go(GolfModes));
             AddLane(r, "sport-bowling", "Bowling", "CLUB · NEON · TIKI · MAGMA", new[] { "PLAY", "EXHIBITION", "LOCAL", "ONLINE" }, "bowling-neon", () => Go(BowlingModes));
             LayoutLanes();
@@ -215,6 +258,7 @@ namespace GolfArcade.Hub.Menu
             l.pic = pic; pic.texture = Resources.Load<Texture2D>("Menu/Maps/" + art);
             // words bottom-left, upright (the mock counter-skews them): the venues, the sport (scaled, not re-sized: no new glyph sizes), the modes
             l.chipsRoot = BrandUi.Box(mask, "Modes", 64, LaneH - 36 - 34, 900, 34);
+            if (Portrait) { l.chipsRoot.anchorMin = l.chipsRoot.anchorMax = l.chipsRoot.pivot = Vector2.zero; l.chipsRoot.anchoredPosition = new Vector2(64, 36); }   // upright lanes change height
             l.chips = Chips(l.chipsRoot, 0, 0, 34, modes.Length); l.chips.Set(modes);
             l.name = BrandUi.Word(BrandUi.Box(mask, "Sport", 0, 0, 800, 120), "Text", title, BrandUi.ExtraBoldItalic, 116, BrandColors.White, TextAnchor.LowerLeft).rectTransform.parent as RectTransform;
             l.name.anchorMin = l.name.anchorMax = Vector2.zero; l.name.pivot = Vector2.zero;
@@ -227,6 +271,20 @@ namespace GolfArcade.Hub.Menu
         void LayoutLanes()
         {
             float sum = 0; foreach (var l in lanes) sum += 1 + 1.1f * l.k;
+            if (Portrait)
+            {
+                // upright: the lanes stack the phone's width, down to the BACK row; the lit one grows taller
+                float tall = Mathf.Max(3 * 180, BottomRow - PortraitTop - 30 - LaneTop - (lanes.Count - 1) * LaneGap), y = LaneTop, w = RightEdge - Left;
+                foreach (var l in lanes)
+                {
+                    float h = tall * (1 + 1.1f * l.k) / sum;
+                    l.box.anchoredPosition = new Vector2(Left, -y); l.box.sizeDelta = new Vector2(w, h);
+                    y += h + LaneGap;
+                    Cover(l.pic, w + 2 * (Mathf.Tan(LaneSkew * Mathf.Deg2Rad) * h / 2 + 4), h);
+                    PaintLane(l);
+                }
+                return;
+            }
             float total = RightEdge - Left - (lanes.Count - 1) * LaneGap, x = Left;
             foreach (var l in lanes)
             {
@@ -234,14 +292,18 @@ namespace GolfArcade.Hub.Menu
                 l.box.anchoredPosition = new Vector2(x, -LaneTop); l.box.sizeDelta = new Vector2(w, LaneH);
                 x += w + LaneGap;
                 Cover(l.pic, w + 2 * (Mathf.Tan(LaneSkew * Mathf.Deg2Rad) * LaneH / 2 + 4), LaneH);
-                var tint = Color.Lerp(new Color(.66f, .66f, .7f), Color.white, l.k); if (l.pic.color != tint) l.pic.color = tint;
-                var edge = l.k > .35f ? BrandColors.Gold : BrandUi.WhiteA(.22f); if (l.frame.color != edge) l.frame.color = edge;
-                // the sport's name grows 4.2cqw → 6cqw as it widens (by scale), the venues ride on top of it
-                float s = Mathf.Lerp(.7f, 1f, l.k), bottom = 36 + 34 + 14;
-                l.name.localScale = new Vector3(s, s, 1); l.name.anchoredPosition = new Vector2(52, bottom);
-                l.maps.anchoredPosition = new Vector2(60, bottom + 120 * s + 10);
-                bool modes = l.k > .5f; if (l.chipsRoot.gameObject.activeSelf != modes) l.chipsRoot.gameObject.SetActive(modes);
+                PaintLane(l);
             }
+        }
+        static void PaintLane(SportLane l)
+        {
+            var tint = Color.Lerp(new Color(.66f, .66f, .7f), Color.white, l.k); if (l.pic.color != tint) l.pic.color = tint;
+            var edge = l.k > .35f ? BrandColors.Gold : BrandUi.WhiteA(.22f); if (l.frame.color != edge) l.frame.color = edge;
+            // the sport's name grows 4.2cqw → 6cqw as it widens (by scale), the venues ride on top of it
+            float s = Mathf.Lerp(.7f, 1f, l.k), bottom = 36 + 34 + 14;
+            l.name.localScale = new Vector3(s, s, 1); l.name.anchoredPosition = new Vector2(52, bottom);
+            l.maps.anchoredPosition = new Vector2(60, bottom + 120 * s + 10);
+            bool modes = l.k > .5f; if (l.chipsRoot.gameObject.activeSelf != modes) l.chipsRoot.gameObject.SetActive(modes);
         }
 
         readonly Dictionary<string, (MenuItem item, string label, string sub, bool solo)> modeRows = new Dictionary<string, (MenuItem, string, string, bool)>();
@@ -298,7 +360,8 @@ namespace GolfArcade.Hub.Menu
         readonly List<(MenuItem item, Word word, string slot)> rail = new List<(MenuItem, Word, string)>();
         void BuildLocker(RectTransform r)
         {
-            BrandUi.Headline(r, Left, 132, "Locker", "Your look", 720);
+            var headline = BrandUi.Headline(r, Left, 132, "Locker", "Your look", 720);
+            if (Portrait) headline.gameObject.SetActive(false);   // upright, your hero's window is up there; the LOCKER tab says where you are
             // the slots as a word rail (mock .rail, 2.3cqw); the ones that open on the phone say so
             var group = new List<MenuItem>(); float y = ListTop;
             for (int i = 0; i < LockerRail.Length; i++)
@@ -308,14 +371,16 @@ namespace GolfArcade.Hub.Menu
                 y += WordItem(r, id, label, t, null, Left, y, RailSize, () => { if (s != null) SelectSlot(s); else OpenPhone(rt, t); }, group, phone: route != null) + 4;
                 rail.Add((group[group.Count - 1], (Word)group[group.Count - 1].view, slot));
             }
-            // big skewed swatches right of the hero (mock .swatches: 5 across, the picked one gold-ringed and up 8 %)
-            const float X = 1336, W = 520, Cell = 90, Gap = 17;
+            // big skewed swatches right of the hero (mock .swatches: 5 across, the picked one gold-ringed and up 8 %); upright, 4 smaller
+            // ones across right of the rail, under the hero's window (placed by PlacePortrait)
+            const float X = 1336, W = 520;
+            float Cell = Portrait ? SwatchCellUp : 90, Gap = Portrait ? SwatchGapUp : 17; int across = Portrait ? SwatchesAcrossUp : 5;
             swatchKicker = BrandUi.Word(BrandUi.Box(r, "Kicker", X, 326, W, 30), "Text", "SHIRT", BrandUi.SemiBold, 24, BrandColors.Gold);
             swatchTitle = BrandUi.Word(BrandUi.Box(r, "Title", X, 358, W, 64), "Text", "Shirt colour", BrandUi.ExtraBoldItalic, 54, BrandColors.White);
             for (int i = 0; i < Palette.Length; i++)
             {
                 var (name, hex) = Palette[i];
-                int col = i % 5, row = i / 5;
+                int col = i % across, row = i / across;
                 var box = BrandUi.Box(r, name, X + 6 + col * (Cell + Gap), 446 + row * (Cell + Gap), Cell, Cell);
                 var face = BrandUi.Fill(box, "Face");
                 var sw = new Swatch { hex = hex };
@@ -385,7 +450,9 @@ namespace GolfArcade.Hub.Menu
         readonly List<(Text name, Text state, Image dot)> partyRows = new List<(Text, Text, Image)>();
         void BuildLoading(RectTransform r)
         {
-            rowsRoot = BrandUi.Box(r, "Players", Left, 420, 640, 4 * 46f);
+            // upright on the phone: the venue card on top across the phone, everything else under it (dy)
+            float dy = Portrait ? 210 : 0;
+            rowsRoot = BrandUi.Box(r, "Players", Left, Portrait ? 600 : 420, 640, 4 * 46f);
             for (int i = 0; i < 4; i++)
             {
                 var row = BrandUi.Box(rowsRoot, "Player " + i, 0, i * 46f, 640, 40);
@@ -396,30 +463,31 @@ namespace GolfArcade.Hub.Menu
                 partyRows.Add((name, state, dot)); row.gameObject.SetActive(false);
             }
             loadBlock = BrandUi.Box(r, "Title block", 0, 0, 1920, 1080);
-            loadKicker = BrandUi.Word(BrandUi.Box(loadBlock, "Kicker", Left + 4, 612, 900, 32), "Text", "", BrandUi.SemiBold, 26, BrandColors.Gold);
-            loadTitle = BrandUi.Ink(BrandUi.Word(BrandUi.Box(loadBlock, "Title", Left, 640, 1000, 124), "Text", "", BrandUi.ExtraBoldItalic, 108, BrandColors.White));
-            loadSub = BrandUi.Word(BrandUi.Box(r, "Sub", Left + 4, 770, 700, 40), "Text", "", BrandUi.Medium, 30, new Color(.863f, .89f, .949f));
+            loadKicker = BrandUi.Word(BrandUi.Box(loadBlock, "Kicker", Left + 4, 612 + dy, 900, 32), "Text", "", BrandUi.SemiBold, 26, BrandColors.Gold);
+            loadTitle = BrandUi.Ink(BrandUi.Word(BrandUi.Box(loadBlock, "Title", Left, 640 + dy, 1000, 124), "Text", "", BrandUi.ExtraBoldItalic, 108, BrandColors.White));
+            loadSub = BrandUi.Word(BrandUi.Box(r, "Sub", Left + 4, 770 + dy, 700, 40), "Text", "", BrandUi.Medium, 30, new Color(.863f, .89f, .949f));
             // the centred hero stands from x ~800: a long line shrinks to stay left of it rather than run across the legs
             loadSub.horizontalOverflow = HorizontalWrapMode.Wrap; loadSub.resizeTextForBestFit = true; loadSub.resizeTextMinSize = 20; loadSub.resizeTextMaxSize = 30;
             // the bar (mock .arcbar, 30cqw × .7cqw, skewed 20°): a white track, the gold fill grows from its left
-            loadBar = BrandUi.Box(r, "Bar", Left + 6, 826, 576, 14);
+            loadBar = BrandUi.Box(r, "Bar", Left + 6, 826 + dy, 576, 14);
             BrandUi.Slant(loadBar, "Track", BrandUi.WhiteA(.2f), 20);
             loadFill = BrandUi.Box(loadBar, "Fill", 0, 0, 0, 14);
             HGradient.On(BrandUi.Slant(loadFill, "Gold", Color.white, 20), BrandColors.Gold, new Color(1, .906f, .627f));
-            startBox = BrandUi.Box(r, "Start", Left, 862, 400, 84);
-            holdNote = BrandUi.Word(BrandUi.Box(r, "Note", Left + 4, 870, 900, 60), "Text", "Starting when everyone is in", BrandUi.MediumItalic, 30, BrandUi.WhiteA(.78f));
+            startBox = BrandUi.Box(r, "Start", Left, 862 + dy, 400, 84);
+            holdNote = BrandUi.Word(BrandUi.Box(r, "Note", Left + 4, 870 + dy, 900, 60), "Text", "Starting when everyone is in", BrandUi.MediumItalic, 30, BrandUi.WhiteA(.78f));
             startItem = Item(startBox, null, "start", "Start match", PressStart, 0);
             startItem.glow = k => { if (startItem.face) startItem.face.anchoredPosition = new Vector2(Nudge * .6f * k, 0); };
             StyleStart(false);
             // READY! (mock .ready, 11cqw gold, a navy drop): pops where the title was
-            banner = BrandUi.Box(r, "Ready banner", Left, 520, 1000, 250); banner.pivot = new Vector2(0, .5f); banner.anchoredPosition = new Vector2(Left, -645);
+            banner = BrandUi.Box(r, "Ready banner", Left, 520 + dy, 1000, 250); banner.pivot = new Vector2(0, .5f); banner.anchoredPosition = new Vector2(Left, -(645 + dy));
             var word = BrandUi.Word(banner, "Word", "READY!", BrandUi.ExtraBoldItalic, 168, BrandColors.Gold);
             foreach (var sh in word.GetComponents<Shadow>()) sh.enabled = false;
             var drop = word.gameObject.AddComponent<Shadow>(); drop.effectColor = BrandColors.NavyDeep; drop.effectDistance = new Vector2(0, -10);
             var o = word.gameObject.AddComponent<Outline>(); o.effectColor = BrandColors.ShadowInk; o.effectDistance = new Vector2(3, -3);
             banner.gameObject.SetActive(false);
             // the venue card right of the hero (mock .tipcard, 30cqw × 16.9cqw)
-            var tip = BrandUi.Box(r, "Venue", RightEdge - 576, 192, 576, 324);
+            var tip = Portrait ? BrandUi.Box(r, "Venue", Left, 120, 576, 324) : BrandUi.Box(r, "Venue", RightEdge - 576, 192, 576, 324);
+            if (Portrait) tip.localScale = Vector3.one * ((RightEdge - Left) / 576f);
             BrandUi.Skewed(BrandUi.DropShadow(tip, 0), 7, true).color = BrandUi.Ink(.45f);
             var (mask, pic) = PictureCard(tip, 7.4f, true, .45f); tipPic = pic;
             tipTitle = BrandUi.Word(BrandUi.Box(mask, "Title", 50, 220, 500, 50), "Text", "", BrandUi.ExtraBoldItalic, 44, BrandColors.White);
@@ -444,13 +512,14 @@ namespace GolfArcade.Hub.Menu
         {
             phoneModal = BrandUi.Fill(fx, "Phone modal");
             BrandUi.Layer(phoneModal, "Dim", BrandUi.Ink(.66f));
-            var phone = BrandUi.Box(phoneModal, "Phone", 960 - 67, 330, 134, 230);
+            float cx = Portrait ? PortraitW / 2 : 960, tw = Portrait ? PortraitW - 2 * Left : 1600;
+            var phone = BrandUi.Box(phoneModal, "Phone", cx - 67, 330, 134, 230);
             BrandUi.Layer(phone, "Body", BrandColors.White, 0, 26);
             BrandUi.Layer(phone, "Glass", BrandColors.NavyInk, 8, 19);
             phoneScreen = BrandUi.Layer(BrandUi.Box(phone, "Screen", 22, 30, 90, 142), "Gold", BrandColors.Gold, 0, 8);
             BrandUi.Layer(BrandUi.Box(phone, "Home", 59, 192, 16, 16), "Dot", BrandColors.White, 0, 8);
-            phoneModalTitle = BrandUi.Ink(BrandUi.Word(BrandUi.Box(phoneModal, "Title", 160, 586, 1600, 96), "Text", "", BrandUi.ExtraBoldItalic, 80, BrandColors.White, TextAnchor.MiddleCenter));
-            BrandUi.Word(BrandUi.Box(phoneModal, "Body", 160, 690, 1600, 40), "Text", "FINISH ON YOUR PHONE", BrandUi.SemiBold, 30, BrandColors.Gold, TextAnchor.MiddleCenter);
+            phoneModalTitle = BrandUi.Ink(BrandUi.Word(BrandUi.Box(phoneModal, "Title", cx - tw / 2, 586, tw, 96), "Text", "", BrandUi.ExtraBoldItalic, 80, BrandColors.White, TextAnchor.MiddleCenter));
+            BrandUi.Word(BrandUi.Box(phoneModal, "Body", cx - tw / 2, 690, tw, 40), "Text", "FINISH ON YOUR PHONE", BrandUi.SemiBold, 30, BrandColors.Gold, TextAnchor.MiddleCenter);
             phoneModal.gameObject.SetActive(false);
         }
 
@@ -481,12 +550,10 @@ namespace GolfArcade.Hub.Menu
             SetChipName(localName);
         }
         public void SetFriendTag(string id, string tag) { if (string.IsNullOrEmpty(tag)) friendTags.Remove(id); else friendTags[id] = tag; }
-        /// The phone with no TV has the hero above the menu, outside its frame: nothing in the frame is placed over the heroes then.
-        bool phoneStacked;
-        Image phoneBacking;
         void UpdatePlates()
         {
-            bool show = !(HubWorld.PhoneOnly && phoneStacked) && (Screen == Home || Screen == TennisModes || Screen == GolfModes || Screen == BowlingModes || Screen == Clubhouse || (Screen == Loading && !bannerUp)) && !phoneOpen && world && world.Camera;
+            // (none on the upright phone, and none while the line-up stands hidden: MenuStage.HeroesShown)
+            bool show = !Portrait && (Screen == Home || Screen == TennisModes || Screen == GolfModes || Screen == BowlingModes || Screen == Clubhouse || (Screen == Loading && !bannerUp)) && !phoneOpen && world && world.Camera;
             var remotes = world ? HubRemotes.For(world) : null;
             float w = canvasRT.rect.width, h = canvasRT.rect.height;
             for (int i = 0; i < plateViews.Count; i++)
@@ -516,7 +583,7 @@ namespace GolfArcade.Hub.Menu
             }
             // the empty seat: "+ JOIN" (the leader's TV only; a guest cannot invite for the party)
             // (on the phone with no TV, INVITE FRIENDS in the list stands in for it)
-            bool join = !(HubWorld.PhoneOnly && phoneStacked) && (Screen == Home || Screen == Clubhouse) && !phoneOpen && world && world.Camera && stage.TryJoinSeat(out var seat) && Leader;
+            bool join = !Portrait && (Screen == Home || Screen == Clubhouse) && !phoneOpen && world && world.Camera && stage.TryJoinSeat(out var seat) && Leader;
             joinSeat.gameObject.SetActive(join);
             if (join)
             {
@@ -805,25 +872,77 @@ namespace GolfArcade.Hub.Menu
             ArcGraphic.Add(edge, -62, 124, 34, new Color(BrandColors.ArcWarm.r, BrandColors.ArcWarm.g, BrandColors.ArcWarm.b, .2f), BrandColors.White, .4f).radius = new Vector2(1, 1);
             wipe.gameObject.SetActive(false);
         }
-        void Wipe() { wipeAt = Time.unscaledTime; wipe.gameObject.SetActive(true); }
+        void Wipe() { if (Portrait) return; wipeAt = Time.unscaledTime; wipe.gameObject.SetActive(true); }   // (the TV's sweep is 16:9)
 
-        /// No TV: the 16:9 frame where HubWorld.PhoneMenuView puts it on the upright phone (`screen` and `safe` in pixels). Under the
-        /// hero rather than over him, the frame has a navy backing of its own (the camera draws above it).
+        // ================================================================== upright on the phone (no TV)
+        /// Behind the whole phone (the canvas root, under the frame): the venue dimmed so the words read; in the Locker the camera
+        /// has its own window on your hero and the rest of the phone is the menu's navy (a cap over it, a floor under it).
+        void BuildPhoneBacking(Transform root)
+        {
+            phoneFloor = BrandUi.Layer(root, "Phone floor", BrandColors.NavyDeep);
+            phoneCap = BrandUi.Layer(root, "Phone cap", BrandColors.NavyDeep);
+            phoneDim = BrandUi.Layer(root, "Phone dim", BrandUi.Ink(.62f));
+            foreach (var img in new[] { phoneFloor, phoneCap, phoneDim }) img.raycastTarget = false;
+            var cap = phoneCap.rectTransform; cap.anchorMin = new Vector2(0, 1); cap.anchorMax = Vector2.one; cap.pivot = new Vector2(.5f, 1);
+            var floor = phoneFloor.rectTransform; floor.anchorMin = Vector2.zero; floor.anchorMax = new Vector2(1, 0); floor.pivot = new Vector2(.5f, 0);
+            cap.offsetMin = cap.offsetMax = floor.offsetMin = floor.offsetMax = Vector2.zero;
+        }
+        /// The top of the BACK row (frame units from the frame's top): just over the home bar.
+        float BottomRow => frameH - bottomInset - 20 - 96;
+        const float SwatchCellUp = 76, SwatchGapUp = 12; const int SwatchesAcrossUp = 4;
+
+        /// No TV: the upright frame where HubWorld.PhoneMenuView puts it (`screen` and `safe` in pixels): PortraitW units across the
+        /// phone, from under the status bar to the bottom edge; and where the camera draws (PhoneCameraRect) for the screen up now.
         public void LayOutPhone(Vector2 screen, Rect safe)
         {
-            var view = HubWorld.PhoneMenuView(screen, safe); var frame = view.hud;
-            phoneStacked = view.stacked;
-            if (!phoneBacking)
-            {
-                phoneBacking = BrandUi.Layer(canvasRT, "Phone backing", BrandColors.NavyDeep); phoneBacking.raycastTarget = false;
-                phoneBacking.transform.SetAsFirstSibling();
-            }
-            if (phoneBacking.gameObject.activeSelf != phoneStacked) phoneBacking.gameObject.SetActive(phoneStacked);
-            float k = frame.width / 1920f;
-            scaler.uiScaleMode = CanvasScaler.ScaleMode.ConstantPixelSize; scaler.scaleFactor = k;
+            if (!Portrait) return;
+            var frame = HubWorld.PhoneMenuView(screen, safe);
+            float k = frame.width / PortraitW; if (k <= 0) return;
+            if (scaler.uiScaleMode != CanvasScaler.ScaleMode.ConstantPixelSize) scaler.uiScaleMode = CanvasScaler.ScaleMode.ConstantPixelSize;
+            if (scaler.scaleFactor != k) scaler.scaleFactor = k;
+            float h = frame.height / k, top = (screen.y - frame.yMax) / k;
             canvasRT.anchorMin = canvasRT.anchorMax = canvasRT.pivot = new Vector2(.5f, 1);
-            canvasRT.sizeDelta = new Vector2(1920, 1080);
-            canvasRT.anchoredPosition = new Vector2((frame.center.x - screen.x / 2) / k, -(screen.y - frame.yMax) / k);
+            canvasRT.sizeDelta = new Vector2(PortraitW, h); canvasRT.anchoredPosition = new Vector2(0, -top);
+            float bottom = Mathf.Max(0, safe.yMin) / k;
+            if (h != frameH || bottom != bottomInset) { frameH = h; bottomInset = bottom; PlacePortrait(); }
+            // the camera: the whole phone behind the dimmed menu; in the Locker a window under the tabs on your hero, navy round it
+            bool locker = Screen == Locker;
+            PhoneCameraRect = locker ? new Rect(0, (h - LockerViewTop - lockerViewH) * k / screen.y, 1, lockerViewH * k / screen.y) : new Rect(0, 0, 1, 1);
+            if (phoneDim.gameObject.activeSelf == locker) phoneDim.gameObject.SetActive(!locker);
+            if (phoneCap.gameObject.activeSelf != locker) { phoneCap.gameObject.SetActive(locker); phoneFloor.gameObject.SetActive(locker); }
+            if (locker)
+            {
+                var capH = new Vector2(0, top + LockerViewTop); if (phoneCap.rectTransform.sizeDelta != capH) phoneCap.rectTransform.sizeDelta = capH;
+                var floorH = new Vector2(0, h - LockerViewTop - lockerViewH); if (phoneFloor.rectTransform.sizeDelta != floorH) phoneFloor.rectTransform.sizeDelta = floorH;
+            }
+        }
+
+        /// What depends on the phone's height: BACK over the home bar, the PLAY stack a little above the middle, the sport lanes down to
+        /// the BACK row, the Locker's hero window with the slots and colours under it, the setup's START beside BACK.
+        void PlacePortrait()
+        {
+            hint.anchoredPosition = new Vector2(Left, -BottomRow);
+            float screenBottom = BottomRow - PortraitTop;   // the BACK row in the screens' units (they sit PortraitTop lower)
+            if (screenItems.TryGetValue(Home, out var home) && home.Count >= 2)
+            {
+                float h0 = home[0].hit.sizeDelta.y, h1 = home[1].hit.sizeDelta.y, y = Mathf.Max(250, (screenBottom - h0 - 8 - h1) * .42f);
+                home[0].hit.anchoredPosition = new Vector2(Left, -y); home[1].hit.anchoredPosition = new Vector2(Left, -(y + h0 + 8));
+            }
+            LayoutLanes();
+            // the Locker: the window takes what the slots and colours under it leave (~600 units)
+            lockerViewH = Mathf.Max(420, BottomRow - LockerViewTop - 620);
+            float under = LockerViewTop + lockerViewH + 20 - PortraitTop;
+            if (swatchKicker)
+            {
+                ((RectTransform)swatchKicker.transform.parent).anchoredPosition = new Vector2(Left, -under);
+                ((RectTransform)swatchTitle.transform.parent).anchoredPosition = new Vector2(Left, -(under + 30));
+            }
+            float listY = under + 110, ry = listY;
+            foreach (var (item, _, _) in rail) { item.hit.anchoredPosition = new Vector2(Left, -ry); ry += item.hit.sizeDelta.y + 4; }
+            float x0 = RightEdge - SwatchesAcrossUp * SwatchCellUp - (SwatchesAcrossUp - 1) * SwatchGapUp;
+            for (int i = 0; i < swatches.Count; i++)
+                swatches[i].item.hit.anchoredPosition = new Vector2(x0 + i % SwatchesAcrossUp * (SwatchCellUp + SwatchGapUp), -(listY + i / SwatchesAcrossUp * (SwatchCellUp + SwatchGapUp)));
+            PlaceSetupStart();
         }
 
         void LateUpdate()

@@ -22,6 +22,11 @@ namespace GolfArcade.Hub.Menu
         /// Friends in the line-up, in slot order (slot 1 onwards).
         public readonly List<string> Friends = new List<string>();
         public int Heroes => 1 + Friends.Count;
+        /// FOR NOW (user 2026-11-08, phone and TV: "hide the character until you go into the locker"): the line-up stands hidden on every
+        /// screen but the Locker, where your hero is shown alone. Off = the line-up on every screen, as before.
+        public static bool HeroOnlyInLocker = true;
+        /// Whether the line-up (or, in the Locker, your hero) is drawn now.
+        public bool HeroesShown => !HeroOnlyInLocker || Solo;
 
         public static MenuStage Attach(HubWorld world)
         {
@@ -73,7 +78,17 @@ namespace GolfArcade.Hub.Menu
             int i = Friends.IndexOf(id);
             if (i < 0) return (Vector3.down * 50, 0, false);
             var slot = MenuShots.Slots[Mathf.Min(i + 1, MenuShots.Slots.Length - 1)];
-            return (slot, MenuShots.FacingYaw(slot), !Solo);
+            return (slot, MenuShots.FacingYaw(slot), !Solo && HeroesShown);
+        }
+
+        /// Your hero drawn or not (HeroesShown): its renderers are switched off, not its object, so it keeps posing and dressing.
+        readonly List<Renderer> heroRenderers = new List<Renderer>();
+        void ShowYourHero()
+        {
+            var p = world ? world.Player : null; if (!p) return;
+            bool off = !HeroesShown;
+            p.GetComponentsInChildren(true, heroRenderers);   // every frame: a new look rebuilds the hero's meshes
+            foreach (var r in heroRenderers) if (r.forceRenderingOff != off) r.forceRenderingOff = off;
         }
 
         /// MENU POSE (Adnan 10-26: "give each character a pose to hold"; "look at overwatch and copy their most simple poses"): each line-up
@@ -109,6 +124,7 @@ namespace GolfArcade.Hub.Menu
             if (!world || !world.Camera) return;
             RefreshFriends();
             Stand();
+            ShowYourHero();
             if (enabled) HoldPoses();   // (a proof capture disables the stage to pick the stances itself)
             if (!arrivalHeld && t < 1) t = Mathf.Min(1, t + dt / Mathf.Max(.01f, seconds));
             float s = t * t * t * (t * (t * 6 - 15) + 10);   // smootherstep
@@ -137,6 +153,7 @@ namespace GolfArcade.Hub.Menu
         public bool TryHead(int slot, out Vector3 head)
         {
             head = default;
+            if (!HeroesShown) return false;
             if (slot == 0) { if (!world || !world.Player) return false; head = world.Player.transform.position + Vector3.up * 2.02f; return true; }
             if (Solo || slot - 1 >= Friends.Count) return false;
             head = MenuShots.Slots[slot] + Vector3.up * 2.02f; return true;
@@ -144,7 +161,7 @@ namespace GolfArcade.Hub.Menu
         /// Where the "+ JOIN" seat is: the first empty slot (none when the line-up is full).
         public bool TryJoinSeat(out Vector3 at)
         {
-            at = default; int n = Heroes; if (n >= MenuShots.Slots.Length || Solo) return false;
+            at = default; int n = Heroes; if (n >= MenuShots.Slots.Length || Solo || !HeroesShown) return false;
             at = MenuShots.Slots[n] + Vector3.up * 1.1f; return true;
         }
         public Vector3 CameraPosition => camPos;

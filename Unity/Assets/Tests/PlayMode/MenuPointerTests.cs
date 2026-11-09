@@ -168,7 +168,7 @@ namespace GolfArcade.Tests
 
         IEnumerator Shot(string name)
         {
-            yield return new WaitForEndOfFrame();
+            yield return null;   // not WaitForEndOfFrame: batch mode has no Game view, so it never comes
             const int W = 1920, H = 1080;
             var cam = hub.Camera; var canvas = hud.Canvas;
             var rt = new RenderTexture(W, H, 24, RenderTextureFormat.ARGB32) { antiAliasing = 4 };

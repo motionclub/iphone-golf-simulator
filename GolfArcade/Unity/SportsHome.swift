@@ -65,13 +65,18 @@ struct SportsHome: View {
         .onOpenURL { clubHub.open(url: $0) }
     }
 
+    private var showsFeedbackBar: Bool {
+        session.active ? session.sport != "golf" && session.multiplayerMatchID == nil && !session.phonePlay : !(hub.menuMode && hub.onPhone)
+    }
+
     private var withBars: some View {
         withSheets
         .safeAreaInset(edge: .bottom, spacing: 0) {
             // Not during an online match either: the bar opens Messages, and a palm on it mid-swing leaves the app, which ends the match
             // for the host and starts the guest's 15 s forfeit clock. Golf hides it for its own reasons.
-            // (nor in handheld play: the deck is the bottom of the screen, level with the game above it)
-            if !session.active || (session.sport != "golf" && session.multiplayerMatchID == nil && !session.phonePlay) { BetaFeedbackBar() }
+            // (nor in handheld play: the deck is the bottom of the screen, level with the game above it; nor under the menu on a phone
+            // with no TV, which fills the phone: Feedback is in its Clubhouse)
+            if showsFeedbackBar { BetaFeedbackBar() }
         }
         .simultaneousGesture(TapGesture().onEnded {
             guard session.active, session.loading.finished, !session.paused, session.multiplayerMatchID == nil else { return }

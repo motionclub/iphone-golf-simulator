@@ -72,6 +72,7 @@ namespace GolfArcade.Hub.Menu
             if (previewRoot) return;   // one card, shared by the three modes screens and the setup screen
             previewRoot = BrandUi.Box(screensRoot, "Preview", RightX, PreviewModesY, PreviewW, PreviewH);
             previewRoot.SetAsFirstSibling();
+            if (Portrait) previewRoot.localScale = Vector3.one * ((RightEdge - Left) / PreviewW);   // upright: across the phone, under the list
             BrandUi.Skewed(BrandUi.DropShadow(previewRoot, 0), 4.2f, true).color = BrandUi.Ink(.45f);
             var (mask, pic) = PictureCard(previewRoot, 4.2f, true, .4f);
             previewImage = pic;
@@ -88,13 +89,17 @@ namespace GolfArcade.Hub.Menu
             video.renderMode = VideoRenderMode.RenderTexture; video.targetTexture = videoTexture;
             previewRoot.gameObject.SetActive(false);
         }
+        /// Upright on the phone the card sits under the longest mode list (four rows).
+        const float PreviewUprightY = 930;
         void ShowPreview(bool on, bool setupScreen = false)
         {
             if (!previewRoot) return;
+            // upright, the setup screen's court strip stands in for the card (with it, START would run off the phone)
+            if (Portrait && setupScreen) on = false;
             previewRoot.gameObject.SetActive(on);
             if (!on && video && video.isPlaying) video.Stop();
             // the setup screen puts its court strip under the card, so the card rides higher there
-            if (on) { previewRoot.anchoredPosition = new Vector2(RightX, -(setupScreen ? PreviewSetupY : PreviewModesY)); previewRoot.SetSiblingIndex(0); }
+            if (on) { previewRoot.anchoredPosition = new Vector2(RightX, -(Portrait ? PreviewUprightY : setupScreen ? PreviewSetupY : PreviewModesY)); previewRoot.SetSiblingIndex(0); }
         }
         /// The caption's words bottom-up: chips (when there are any), the line (1–2 lines), the title.
         void PlaceCaption(bool chips)
@@ -266,18 +271,21 @@ namespace GolfArcade.Hub.Menu
                 }
                 y = top + SegH + OptGap;
             }
-            // one gold skewed START (mock .go, bottom-left above the hint)
+            // one gold skewed START (mock .go, bottom-left above the hint; upright, bottom right beside BACK: PlaceSetupStart)
             var go = BrandUi.Box(setupContent, "Start", Left, Mathf.Clamp(y + 20, 866, 900), 400, 86);
             var (goFace, _) = BrandUi.GoButton(go, string.IsNullOrEmpty(s.start) ? "START" : s.start.ToUpperInvariant());
             var start = Item(go, goFace, "setup-start", string.IsNullOrEmpty(s.start) ? "START" : s.start, StartSetup, 0);
             start.glow = k => goFace.anchoredPosition = new Vector2(Nudge * .6f * k, 0);
-            // the court / course strip under the card (mock .strip.r): skewed thumbnails, the picked one gold-edged and lifted
+            setupStart = go; PlaceSetupStart();
+            // the court / course strip under the card (mock .strip.r): skewed thumbnails, the picked one gold-edged and lifted; upright,
+            // across the phone under the options
             int maps = s.maps?.Length ?? 0;
-            float cardW = maps > 0 ? Mathf.Min(204, (PreviewW - 12 - (maps - 1) * 19f) / maps) : 0, cardH = cardW * 9 / 16;
+            float stripW = Portrait ? RightEdge - Left : PreviewW, stripX = Portrait ? Left : RightX, stripY = Portrait ? y + 24 : PreviewSetupY + PreviewH + 40;
+            float cardW = maps > 0 ? Mathf.Min(Portrait ? 240 : 204, (stripW - 12 - (maps - 1) * 19f) / maps) : 0, cardH = cardW * 9 / 16;
             for (int i = 0; i < maps; i++)
             {
                 var m = s.maps[i];
-                var box = BrandUi.Box(setupContent, m.title, RightX + 12 + i * (cardW + 19), PreviewSetupY + PreviewH + 40, cardW, cardH);
+                var box = BrandUi.Box(setupContent, m.title, stripX + 12 + i * (cardW + 19), stripY, cardW, cardH);
                 var face = BrandUi.Fill(box, "Face");
                 var card = new MapCard { face = face, id = m.id };
                 var ring = BrandUi.Fill(face, "Ring"); card.ring = ring.gameObject; BrandUi.Slant(ring, "Gold", BrandColors.Gold, 10, -6);
@@ -291,6 +299,14 @@ namespace GolfArcade.Hub.Menu
                 mapCards.Add(card);
             }
             buildingFor = null;
+        }
+
+        RectTransform setupStart;
+        /// Upright on the phone: START bottom right, level with BACK.
+        void PlaceSetupStart()
+        {
+            if (!Portrait || !setupStart || frameH < 0) return;
+            setupStart.anchoredPosition = new Vector2(RightEdge - setupStart.sizeDelta.x, -(BottomRow - PortraitTop + 5));
         }
 
         void RefreshSetup()
@@ -374,11 +390,12 @@ namespace GolfArcade.Hub.Menu
             BrandUi.Label(BrandUi.Box(r, "Note", Left + 26, ListTop, 600, 92), "Text", "Swing, then hand the phone on. The TV says whose turn it is.", BrandUi.Medium, 30,
                 new Color(.902f, .925f, .973f), TextAnchor.UpperLeft);
             const float W = 204, H = 296, Gap = 24;
-            float x0 = RightEdge - 3 * W - 2 * Gap - 6;
+            // right of the hero; upright, centred under the note
+            float x0 = Portrait ? Left + (RightEdge - Left - 3 * W - 2 * Gap) / 2 : RightEdge - 3 * W - 2 * Gap - 6, y0 = Portrait ? ListTop + 150 : 308;
             for (int i = 0; i < 3; i++)
             {
                 int players = i + 2;
-                var box = BrandUi.Box(r, players + " players", x0 + i * (W + Gap), 308, W, H);
+                var box = BrandUi.Box(r, players + " players", x0 + i * (W + Gap), y0, W, H);
                 var face = BrandUi.Fill(box, "Face");
                 var card = new CountCard { face = face };
                 BrandUi.Skewed(BrandUi.DropShadow(face, 0), 10).color = BrandUi.Ink(.45f);

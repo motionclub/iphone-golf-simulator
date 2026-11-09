@@ -42,13 +42,10 @@ namespace GolfArcade.Hub.Menu
             return new Shot(Low, s + d * 4.7f + Vector3.up * .95f, s + Vector3.up * 1f, 32f);
         }
 
-        /// PHONE ONLY (no TV, 2026-11-07): the upright phone's view above the menu (HubWorld.PhoneMenuView) holds the centred pose on
-        /// every screen, a little wider than the TV's lens so the hero stands head to toe with room round him. The plate is drawn for its
-        /// own lens on that pose (MenuBackdrop), so it stays true; the plaza (no plate) is framed the same.
-        public const float PhoneFov = 36f;
-        public static readonly Shot PhoneShot = new Shot(Low, CentreShot.position, CentreShot.look, PhoneFov);
-
-        public static Shot For(string id) => HubWorld.PhoneOnly ? PhoneShot : Centred ? CentreShot : id switch
+        /// PHONE ONLY (no TV): the upright phone holds the centred pose on every screen, through the plate's own lens (2026-11-08: the
+        /// wider 36 deg lens ran past the plate's edges and smeared its floor). The plate is drawn for its lens on that pose (MenuBackdrop),
+        /// so it stays true at the phone's aspect; the plaza (no plate) is framed the same.
+        public static Shot For(string id) => HubWorld.PhoneOnly || Centred ? CentreShot : id switch
         {
             Close => CloseShot, Mid => MidShot, Solo => SoloShot, Arrival => ArrivalShot, _ => LowShot,
         };

@@ -23,7 +23,7 @@ namespace GolfArcade.Tests
         GameObject host;
         [TearDown] public void Clean()
         {
-            HubWorld.EditorDriven = false; HubWorld.MenuMode = false; HubWorld.PhoneOnly = false; HubWorld.PhoneScreenForTests = null;
+            HubWorld.EditorDriven = false; HubWorld.MenuMode = false; HubWorld.PhoneOnly = false; HubWorld.PhoneScreenForTests = null; MenuStage.HeroOnlyInLocker = true;
             if (host) Object.DestroyImmediate(host);
             var hub = HubWorld.Find(); if (hub) Object.DestroyImmediate(hub.gameObject);   // the next capture builds its own
         }
@@ -32,17 +32,17 @@ namespace GolfArcade.Tests
         {
             // (not WaitForEndOfFrame: batch mode has no Game view, so it never comes; the cameras are rendered by hand below)
             yield return null;
-            var view = HubWorld.PhoneMenuView(new Vector2(PW, PH), Safe);
             var cam = hub.Camera; var canvas = hub.Hud.Canvas;
-            // the app's part of the screen: the menu's navy
+            hub.Hud.LayOutPhone(new Vector2(PW, PH), Safe);   // (for the screen up now: the Locker gives the camera a window)
+            // what the camera does not draw: the menu's navy
             var outPx = new Color32[PW * PH]; var bg = new Color32(16, 30, 74, 255); for (int i = 0; i < outPx.Length; i++) outPx[i] = bg;
-            // the 3D at the size of Unity's part of the screen (a viewport rect inside a bigger target does not render in batch mode)
-            var r = view.camera; int x0 = Mathf.RoundToInt(r.x * PW), y0 = Mathf.RoundToInt(r.y * PH), w = Mathf.RoundToInt(r.width * PW), h = Mathf.RoundToInt(r.height * PH);
+            // the 3D at the size of its part of the screen (a viewport rect inside a bigger target does not render in batch mode)
+            var r = hub.Hud.PhoneCameraRect; int x0 = Mathf.RoundToInt(r.x * PW), y0 = Mathf.RoundToInt(r.y * PH), w = Mathf.RoundToInt(r.width * PW), h = Mathf.RoundToInt(r.height * PH);
             var keep = cam.rect; float aspect = cam.aspect;
             var rt3 = new RenderTexture(w, h, 24, RenderTextureFormat.ARGB32) { antiAliasing = 4 };
             cam.rect = new Rect(0, 0, 1, 1); cam.targetTexture = rt3; cam.aspect = (float)w / h; cam.Render(); cam.targetTexture = null; cam.rect = keep; cam.aspect = aspect;
             var world = Read(rt3, w, h).GetPixels32();
-            for (int y = 0; y < h; y++) for (int x = 0; x < w; x++) outPx[(y0 + y) * PW + x0 + x] = world[y * w + x];
+            for (int y = 0; y < h && y0 + y < PH; y++) for (int x = 0; x < w && x0 + x < PW; x++) outPx[(y0 + y) * PW + x0 + x] = world[y * w + x];
             rt3.Release(); Object.DestroyImmediate(rt3);
             // the HUD over it, laid out for the phone (MenuHud.LayOutPhone), drawn by a plain camera into a phone-sized target
             var rt = new RenderTexture(PW, PH, 24, RenderTextureFormat.ARGB32) { antiAliasing = 4 };
@@ -65,8 +65,6 @@ namespace GolfArcade.Tests
             // the Dynamic Island and the status bar's clock, which the phone draws over everything
             Box(outPx, PW / 2 - 189, PH - 33 - 111, 378, 111, new Color32(0, 0, 0, 255));
             Box(outPx, 150, PH - 66 - 50, 150, 50, new Color32(255, 255, 255, 200));
-            // the app's Back button in its footer (MenuTouchPad), where the phone draws it
-            if (view.stacked) Box(outPx, PW / 2 - 150, (int)(view.hud.y - 30 * 3 - 132), 300, 132, new Color32(60, 90, 160, 255));
             var page = new Texture2D(PW, PH, TextureFormat.RGBA32, false); page.SetPixels32(outPx); page.Apply();
             File.WriteAllBytes(Path.Combine(Dir, name + ".jpg"), page.EncodeToJPG(88));
             Object.DestroyImmediate(page);
@@ -220,6 +218,7 @@ namespace GolfArcade.Tests
             Directory.CreateDirectory(Dir); AudioListener.volume = 0;
             LogAssert.ignoreFailingMessages = true;
             HubWorld.EditorDriven = true;
+            MenuStage.HeroOnlyInLocker = false;   // the arms are filmed on the menu's line-up too
             host = new GameObject("NativeSportsSession"); Object.DontDestroyOnLoad(host);
             var bridge = host.AddComponent<NativeSportsSession>();
             bridge.Receive(JsonUtility.ToJson(new NativeSportsSession.Message { version = 1, session = "hero-arms", action = "start", sport = "hub", menu = true, leader = true, playerName = "Ana", female = female, touch = true, shirt = "E8505B", shorts = "24345E", accent = "FFFFFF", back = "racket_back" }));
@@ -319,17 +318,26 @@ namespace GolfArcade.Tests
             Assert.IsTrue(HubWorld.PhoneOnly, "phone only");
             var hud = hub.Hud;
             hub.StartArrival(); yield return Wait(2.5f);
+            // the hero is drawn only in the Locker (2026-11-08); BACK only inside a screen
+            bool HeroDrawn() => System.Linq.Enumerable.Any(hub.Player.GetComponentsInChildren<Renderer>(), x => x.enabled && !x.forceRenderingOff);
+            bool BackShown() => hud.TryCentre("back", out _);
             yield return Shot(hub, "01_home");
+            Assert.IsFalse(HeroDrawn(), "no hero on Home"); Assert.IsFalse(BackShown(), "no BACK on Home");
             hud.Go(MenuHud.Sport); yield return Wait(1.2f);
             yield return Shot(hub, "02_sport");
+            Assert.IsTrue(BackShown(), "BACK inside a screen");
             hud.Go(MenuHud.GolfModes); yield return Wait(1.2f);
             yield return Shot(hub, "03_golf_modes");
             hud.Go(MenuHud.Locker); yield return Wait(1.6f);
             yield return Shot(hub, "04_locker");
+            Assert.IsTrue(HeroDrawn(), "your hero in the Locker");
+            Assert.Less(hud.PhoneCameraRect.height, 1, "the Locker's window on the hero");
             hud.Go(MenuHud.Clubhouse); yield return Wait(1.4f);
             yield return Shot(hub, "05_clubhouse");
+            Assert.IsFalse(HeroDrawn(), "hidden again out of the Locker");
             hud.Go(MenuHud.Home); yield return Wait(1.2f);
             yield return Shot(hub, "06_home_again");
+            Assert.AreEqual(1, hud.PhoneCameraRect.height, 1e-4f, "the venue behind the whole menu");
         }
     }
 }
