@@ -558,7 +558,6 @@ private struct DelayProbePanel: View {
             Image(systemName: "tv").font(.system(size: 64, weight: .bold)).foregroundStyle(IslandUI.lime).scaleEffect(pulse ? 1.08 : 0.95)
             SportsCameraPreview(motion: session.motion).frame(height: 180)
                 .clipShape(RoundedRectangle(cornerRadius: 14))
-                .overlay { Image(systemName: "plus").font(.title).foregroundStyle(.white) }
             Text("2 · Measure screen delay").font(IslandUI.font(24, bold: true))
             Text("It will flash a few times while we time its picture, so your swings land when you see the ball.")
                 .font(IslandUI.font(15, bold: true)).foregroundStyle(.white.opacity(0.8)).multilineTextAlignment(.center)
@@ -841,7 +840,7 @@ struct OnlineTennisTVSetup: View {
     }
     private var instruction: String {
         switch session.setupStage {
-        case .scan: return "Point the back of your phone at this TV. Hold still for one second."
+        case .scan: return "Point the back of your phone at this TV and hold it there a moment."
         case .timing: return "Start the timing check on your phone, then swing with the bouncing ball."
         case .ready: return "Stand where you'll play. Tap Ready on your phone."
         default: return service.startCountdown == nil ? "Each player finishes setup on their own phone." : "Stay at your spot and get ready to play."
@@ -914,7 +913,7 @@ struct OnlineTennisSetupPanel: View {
                 Image(systemName: "tv").font(.system(size: 52))
             }.foregroundStyle(IslandUI.lime).accessibilityHidden(true)
             Text("Set your direction").font(IslandUI.font(30, bold: true))
-            Text("Point the back of your phone at your TV. Hold still for one second.")
+            Text("Point the back of your phone at your TV and hold it there a moment.")
                 .multilineTextAlignment(.center)
             ZStack {
                 Circle().stroke(.white.opacity(0.15), lineWidth: 8)

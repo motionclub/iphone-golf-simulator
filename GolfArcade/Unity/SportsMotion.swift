@@ -2,6 +2,7 @@ import AVFoundation
 import CoreMotion
 import Vision
 import os
+import simd
 
 // Bounded, local-only diagnostics: no camera images or player identity.
 enum SportsDiagnostics {
@@ -81,11 +82,13 @@ final class SportsMotion: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
     /// The court direction is a heading in the motion sensors' reference frame: it holds for as long as device motion keeps
     /// running, which it does from the capture until `stop()`.
     private static let signKey="sports.tennis.steerSign"
-    private static let holdRequired=1.0
+    /// The scan is forgiving (user 2026-11-08: it "looks for the most perfect angle possible"; the TV in the window should do):
+    /// a short hold, a hand's ordinary shake allowed, and a miss only takes back what it lasted instead of starting over.
+    private static let holdRequired=0.5
     private static let maxLensPitch=60.0*Double.pi/180
-    private static let maxGateRotation=0.5
+    private static let maxGateRotation=1.2
     /// The TV must have been seen this recently for the direction hold to keep counting (Vision misses the odd frame).
-    private static let screenGrace=0.5
+    private static let screenGrace=0.8
     /// How often the camera image is searched for the TV while the direction is captured.
     private static let screenLookInterval=0.12
 
@@ -124,12 +127,17 @@ final class SportsMotion: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
     private var aimHistory = [(time:Double,angle:Double,wing:Int)]()
     private var faceAim = 0.0
     private var nextDiagnostic=0.0, nextPreview=0.0
-    private var capturingAxis=false, gateHeldSince = -Double.infinity, lastRotation=0.0, captureStartedAt=0.0
+    private var capturingAxis=false, gateHeld=0.0, gateCheckedAt = -Double.infinity, lastRotation=0.0, captureStartedAt=0.0
     private var gate = SportsAxisGate()
     /// The TV in the camera image (SportsScreenFinder), searched off `queue` while the direction is captured.
     private let screenQueue = DispatchQueue(label: "sports.screen", qos: .userInitiated)
     private var screenLookInFlight=false, nextScreenLook=0.0, screenSeenAt = -Double.infinity
     private var screenProblem=SportsScreenFinder.lookingMessage
+    /// Where the TV was last seen (0...1 in the camera image, origin top-left) and the image's shape: the court direction is taken
+    /// through it, and the delay probe watches it there. The middle until it is found.
+    private var screenAt=SIMD2<Double>(0.5,0.5), screenImage=SIMD2<Double>(4,3)
+    /// tan of half the camera's field of view across the image's width (its format's own, read when the camera is configured).
+    private var cameraTanHalfWidth=tan(35*Double.pi/180)
     private var sign: Double = UserDefaults.standard.object(forKey:SportsMotion.signKey) as? Double ?? 1
     /// Recent rate/force history, written out around each stroke candidate so the detection
     /// thresholds can be tuned from real swings instead of reasoning. Fixed size, no growth.
@@ -231,7 +239,9 @@ final class SportsMotion: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
             device.unlockForConfiguration()
         }
         cameraConfigured = true
-        SportsDiagnostics.write("camera configured format=\(device.activeFormat.formatDescription.dimensions.width)x\(device.activeFormat.formatDescription.dimensions.height)")
+        let fov = Double(device.activeFormat.videoFieldOfView)   // degrees, across the image's width
+        if fov > 10 && fov < 170 { queue.async { self.cameraTanHalfWidth = tan(fov / 2 * Double.pi / 180) } }
+        SportsDiagnostics.write("camera configured format=\(device.activeFormat.formatDescription.dimensions.width)x\(device.activeFormat.formatDescription.dimensions.height) fov=\(fov)")
         return true
     }
 
@@ -304,8 +314,9 @@ final class SportsMotion: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
         }
         queue.async {
             self.tennis=true; self.filter=SteeringFilter(); self.filter.travel=travel; self.filter.tennisStroke=true
-            self.capturingAxis=true; self.gateHeldSince = -Double.infinity; self.captureStartedAt=SportsRuntime.shared().clock()
+            self.capturingAxis=true; self.gateHeld=0; self.gateCheckedAt = -Double.infinity; self.captureStartedAt=SportsRuntime.shared().clock()
             self.screenSeenAt = -Double.infinity; self.screenProblem=SportsScreenFinder.lookingMessage; self.nextScreenLook=0
+            self.screenAt=SIMD2(0.5,0.5)
             self.gate=SportsAxisGate(); self.publish(self.gate)
             self.runCamera(true)
             self.startDeviceMotion()
@@ -314,7 +325,7 @@ final class SportsMotion: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
     }
 
     func cancelAxisCapture() {
-        queue.async { self.capturingAxis=false; self.gateHeldSince = -Double.infinity; if !self.probing { self.runCamera(false) } }
+        queue.async { self.capturingAxis=false; self.gateHeld=0; if !self.probing { self.runCamera(false) } }
     }
     /// Reuse only the still-running motion reference frame. Never restore a heading from preferences or across a restart of the sensors.
     var hasUsableCourtDirection: Bool {
@@ -341,8 +352,8 @@ final class SportsMotion: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
         return true
     }
 
-    /// On each camera frame while the direction is captured: the camera says whether the TV is in the middle of the picture, the
-    /// motion sensors how level and how still the phone is, and where its back points (the heading kept as the TV's direction).
+    /// On each camera frame while the direction is captured: the camera says whether the TV is in the picture, the motion sensors
+    /// how level and how still the phone is, and where it points (the heading through the TV is kept as the TV's direction).
     private func evaluateGate(time: Double) {
         guard let attitude else {
             gate.progress=0; gate.message="Motion is starting…"; gate.stalledFor=time-captureStartedAt; publish(gate); return
@@ -350,25 +361,25 @@ final class SportsMotion: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
         let lens=SportsMotionGeometry.rotate(SIMD3<Double>(0,0,-1),by:attitude)
         let pitch=SportsMotionGeometry.lensPitch(lens:lens)
         var failure: String?
-        if pitch > Self.maxLensPitch { failure="Tilt the phone level — aim the back of it straight at the TV (currently \(Int(pitch*180/Double.pi))° off level)." }
+        if pitch > Self.maxLensPitch { failure="Tilt the phone level — aim the back of it at the TV (currently \(Int(pitch*180/Double.pi))° off level)." }
         // Nothing counts until the camera sees the TV with the game on it: a level, steady phone aimed at a wall used to lock too.
         let screenSeen = time-screenSeenAt <= Self.screenGrace
         if failure == nil && !screenSeen { failure=screenProblem }
-        if failure == nil && lastRotation > Self.maxGateRotation { failure="Hold still for a moment." }
+        if failure == nil && lastRotation > Self.maxGateRotation { failure="Hold it there for a moment." }
         if failure == nil && SportsMotionGeometry.heading(lens) == nil { failure="Aim the back of the phone at the TV, not at the floor or ceiling." }
+        // the hold builds while all is well and a miss takes back only what it lasted (a frame Vision missed does not start it over)
+        let step=max(0,min(0.1,time-gateCheckedAt)); gateCheckedAt=time
+        gateHeld = failure == nil ? gateHeld+step : max(0,gateHeld-step)
+        gate.progress=min(1,gateHeld/Self.holdRequired)
         if let failure {
-            gateHeldSince = -Double.infinity
-            gate.progress=0; gate.message=failure
+            gate.message=failure
             gate.detail="\(screenSeen ? "TV seen" : "no TV") · \(Int(pitch*180/Double.pi))° off level"
             gate.stalledFor = capturingAxis ? time-captureStartedAt : 0
             publish(gate); return
         }
-        if gateHeldSince == -Double.infinity { gateHeldSince=time }
-        let held=time-gateHeldSince
-        gate.progress=min(1,held/Self.holdRequired)
         gate.message = gate.progress<1 ? "TV found. Hold it there…" : "Court direction locked."
         gate.detail="\(Int(pitch*180/Double.pi))° off level"
-        if held >= Self.holdRequired {
+        if gateHeld >= Self.holdRequired {
             strokeFacing = -1
             captureTVHeading()
             gate.locked=true; capturingAxis=false
@@ -383,13 +394,14 @@ final class SportsMotion: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
         guard !screenLookInFlight, time >= nextScreenLook else { return }
         screenLookInFlight=true; nextScreenLook=time+Self.screenLookInterval
         let image=SportsPixelBuffer(buffer:buffer)
+        let shape=SIMD2<Double>(Double(CVPixelBufferGetWidth(buffer)),Double(CVPixelBufferGetHeight(buffer)))
         screenQueue.async {
             let sighting=SportsScreenFinder.find(image.buffer)
             self.queue.async {
                 self.screenLookInFlight=false
                 guard self.capturingAxis else { return }
                 switch sighting {
-                case .screen: self.screenSeenAt=SportsRuntime.shared().clock()
+                case .screen(let at): self.screenSeenAt=SportsRuntime.shared().clock(); self.screenAt=at; self.screenImage=shape
                 case .missing(let why): self.screenProblem=why
                 }
             }
@@ -398,7 +410,7 @@ final class SportsMotion: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
 
     // MARK: - TV delay probe
 
-    /// While on, record how bright the middle of the camera image is (the TV, right after the
+    /// While on, record how bright the TV is where the scan found it in the camera image (right after the
     /// axis is aimed at it) for SportsDelayProbe.
     func setDelayProbe(_ on: Bool) {
         queue.async {
@@ -412,16 +424,18 @@ final class SportsMotion: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
     /// when the camera saw the TV turn bright. nil if it was not seen clearly.
     func delayAfterFlash(rendered: Double) -> Double? { queue.sync { SportsDelayProbe.delay(probe.series, rendered: rendered) } }
 
-    /// Mean luma over the middle of the image: plane 0 of the camera's YCbCr buffer, sparsely.
-    private static func centreLuma(_ buffer: CVPixelBuffer) -> Double? {
+    /// Mean luma over a small square of the image around `at` (0...1, origin top-left; where the scan found the TV): plane 0 of the
+    /// camera's YCbCr buffer, sparsely.
+    private static func screenLuma(_ buffer: CVPixelBuffer, at: SIMD2<Double>) -> Double? {
         guard CVPixelBufferGetPlaneCount(buffer) > 0 else { return nil }
         CVPixelBufferLockBaseAddress(buffer,.readOnly); defer { CVPixelBufferUnlockBaseAddress(buffer,.readOnly) }
         guard let base=CVPixelBufferGetBaseAddressOfPlane(buffer,0) else { return nil }
         let w=CVPixelBufferGetWidthOfPlane(buffer,0), h=CVPixelBufferGetHeightOfPlane(buffer,0), row=CVPixelBufferGetBytesPerRowOfPlane(buffer,0)
         let pixels=base.assumingMemoryBound(to:UInt8.self)
+        let cx=Int(min(0.95,max(0.05,at.x))*Double(w)), cy=Int(min(0.95,max(0.05,at.y))*Double(h))
         var total=0, count=0
-        for y in stride(from:h*45/100,to:h*55/100,by:6) {
-            for x in stride(from:w*45/100,to:w*55/100,by:6) { total+=Int(pixels[y*row+x]); count+=1 }
+        for y in stride(from:max(0,cy-h/20),to:min(h,cy+h/20),by:6) {
+            for x in stride(from:max(0,cx-w/20),to:min(w,cx+w/20),by:6) { total+=Int(pixels[y*row+x]); count+=1 }
         }
         return count>0 ? Double(total)/Double(count) : nil
     }
@@ -543,10 +557,13 @@ final class SportsMotion: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
         SportsDiagnostics.write(line)
     }
 
-    /// Heading of the phone's back (the lens) right now: at axis lock it points at the TV.
+    /// The TV's heading right now: through the middle of the TV the camera has just seen (it can sit anywhere in the picture), else
+    /// straight out of the phone's back (the lens).
     private func captureTVHeading() {
         guard let attitude else { tvHeading=nil; return }
-        tvHeading=SportsMotionGeometry.heading(SportsMotionGeometry.rotate(SIMD3<Double>(0,0,-1),by:attitude))
+        let seen = SportsRuntime.shared().clock()-screenSeenAt <= Self.screenGrace
+        let ray = seen ? SportsScreenFinder.ray(at:screenAt,image:screenImage,tanHalfWidth:cameraTanHalfWidth) : SIMD3<Double>(0,0,-1)
+        tvHeading=SportsMotionGeometry.heading(SportsMotionGeometry.rotate(ray,by:attitude))
         faceNeutral=[0,0]; faceAim=0; aimHistory.removeAll()
     }
 
@@ -591,7 +608,7 @@ final class SportsMotion: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         guard cameraWanted, let image=CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
         frameAt=SportsRuntime.shared().clock()
-        if probing, let luma=Self.centreLuma(image) {
+        if probing, let luma=Self.screenLuma(image,at:screenAt) {
             // when the frame was taken, on the host clock: the clock the game reports its white frames on (SportsClock)
             let taken=CMSyncConvertTime(CMSampleBufferGetPresentationTimeStamp(sampleBuffer),
                                         from:capture.synchronizationClock ?? CMClockGetHostTimeClock(),to:CMClockGetHostTimeClock())
@@ -612,20 +629,22 @@ final class SportsMotion: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
 /// A camera image handed to the main thread for the viewfinder (read-only there).
 private struct SportsPixelBuffer: @unchecked Sendable { let buffer: CVPixelBuffer }
 
-/// Finds the TV in the camera image while the court direction is captured: a screen-shaped rectangle holding the middle of the frame
-/// (the phone is aimed at it) that is lit and shows the game, with detail and colour, not a dark TV, a blank wall, a door or a
-/// window frame. The direction only locks while it is seen, so the scan starts when the court is on the TV in front of the camera.
+/// Finds the TV in the camera image while the court direction is captured: a screen-shaped rectangle anywhere in the picture
+/// (user 2026-11-08: the TV in the window should scan, no perfect aim) that is lit and shows the game, with detail and colour, not a
+/// dark TV, a blank wall, a door or a window frame; or, when Vision finds no such edges (a dark bezel on a dark wall, a TV seen from
+/// the side), the middle of the picture glowing with the game. The direction only locks while it is seen, so the scan starts when
+/// the court is on the TV in front of the camera.
 enum SportsScreenFinder {
-    enum Sighting: Equatable, Sendable { case screen, missing(String) }
+    /// `screen`: where the TV's middle is, 0...1 in the camera image (origin top-left).
+    enum Sighting: Equatable, Sendable { case screen(SIMD2<Double>), missing(String) }
     /// A patch of the camera image: mean luma (0-255), its spread, and how colourful it is (mean distance of Cb and Cr from grey).
     struct Patch: Equatable, Sendable { var mean = 0.0, spread = 0.0, colour = 0.0 }
-    static let lookingMessage = "Looking for your TV. Point the back of your phone at the screen with the court on it."
-    static let centreMessage = "Keep your TV in the middle of the camera."
+    static let lookingMessage = "Looking for your TV. Get the screen with the court on it into the camera window."
     static let darkMessage = "Your TV looks dark. Is the court on it?"
     static let blankMessage = "That doesn't look like the game. Point at the TV showing the court."
     static let minimumMean = 35.0, minimumSpread = 10.0, minimumColour = 4.0   // lenient: a dark room can overexpose the screen
-    /// The middle of the frame may sit this far (a share of the rectangle's size) outside it.
-    static let aimSlack = 0.1
+    /// How much brighter than the edge of the picture (the room) its middle must be to count as a glowing screen with no edges found.
+    static let glowMargin = 15.0
 
     /// nil when the patch looks like a lit screen showing the game, else what the player should fix.
     static func problem(_ inside: Patch) -> String? {
@@ -633,33 +652,49 @@ enum SportsScreenFinder {
         if inside.spread < minimumSpread || inside.colour < minimumColour { return blankMessage }
         return nil
     }
-    /// The phone is aimed at `box` (0...1, origin top-left): the middle of the frame is in it, give or take `aimSlack`, and it is not
-    /// the whole picture.
-    static func aimed(at box: CGRect) -> Bool {
-        guard box.width * box.height <= 0.95 else { return false }
-        return box.insetBy(dx: -box.width * aimSlack, dy: -box.height * aimSlack).contains(CGPoint(x: 0.5, y: 0.5))
-    }
+    /// `box` (0...1, origin top-left) can be the TV: anywhere in the picture, but not the whole picture.
+    static func inView(_ box: CGRect) -> Bool { box.width * box.height <= 0.95 }
 
     /// Searches one camera image (the camera's YCbCr buffer, in the sensor's orientation). Runs Vision synchronously.
     static func find(_ buffer: CVPixelBuffer) -> Sighting {
         let request = VNDetectRectanglesRequest()
-        // a 16:9 screen seen at an angle, either way up (the buffer is landscape whatever way the phone is held)
-        request.minimumAspectRatio = 0.35; request.maximumAspectRatio = 0.9
-        request.minimumSize = 0.12; request.quadratureTolerance = 30
-        request.minimumConfidence = 0.5; request.maximumObservations = 6
-        guard (try? VNImageRequestHandler(cvPixelBuffer: buffer, orientation: .up).perform([request])) != nil,
-              let found = request.results, !found.isEmpty else { return .missing(lookingMessage) }
-        var reason = centreMessage
-        for rectangle in found.sorted(by: { $0.boundingBox.width * $0.boundingBox.height > $1.boundingBox.width * $1.boundingBox.height }) {
-            let b = rectangle.boundingBox   // Vision: origin bottom-left
-            let box = CGRect(x: b.minX, y: 1 - b.maxY, width: b.width, height: b.height)
-            guard aimed(at: box) else { continue }
-            // inset past the bezel: only the picture
-            guard let inside = patch(buffer, in: box.insetBy(dx: box.width * 0.12, dy: box.height * 0.12)) else { continue }
-            if let problem = problem(inside) { reason = problem; continue }
-            return .screen
+        // a 16:9 screen seen at any angle, either way up (the buffer is landscape whatever way the phone is held), near or far
+        request.minimumAspectRatio = 0.2; request.maximumAspectRatio = 1
+        request.minimumSize = 0.08; request.quadratureTolerance = 45
+        request.minimumConfidence = 0.3; request.maximumObservations = 10
+        var reason = lookingMessage
+        if (try? VNImageRequestHandler(cvPixelBuffer: buffer, orientation: .up).perform([request])) != nil, let found = request.results {
+            // nearest the middle first: the TV the phone is pointed at, not a door beside it
+            func offCentre(_ r: VNRectangleObservation) -> Double { hypot(r.boundingBox.midX - 0.5, r.boundingBox.midY - 0.5) }
+            for rectangle in found.sorted(by: { offCentre($0) < offCentre($1) }) {
+                let b = rectangle.boundingBox   // Vision: origin bottom-left
+                let box = CGRect(x: b.minX, y: 1 - b.maxY, width: b.width, height: b.height)
+                guard inView(box) else { continue }
+                // inset past the bezel: only the picture
+                guard let inside = patch(buffer, in: box.insetBy(dx: box.width * 0.12, dy: box.height * 0.12)) else { continue }
+                if let problem = problem(inside) { reason = problem; continue }
+                return .screen(SIMD2(box.midX, box.midY))
+            }
         }
-        return .missing(reason)
+        return glowing(buffer) ? .screen(SIMD2(0.5, 0.5)) : .missing(reason)
+    }
+
+    /// The middle of the picture looks like a lit screen showing the game and outshines the edge of the picture (the room).
+    static func glowing(_ buffer: CVPixelBuffer) -> Bool {
+        guard let middle = patch(buffer, in: CGRect(x: 0.3, y: 0.3, width: 0.4, height: 0.4)), problem(middle) == nil else { return false }
+        let edges = [CGRect(x: 0, y: 0, width: 1, height: 0.12), CGRect(x: 0, y: 0.88, width: 1, height: 0.12),
+                     CGRect(x: 0, y: 0, width: 0.12, height: 1), CGRect(x: 0.88, y: 0, width: 0.12, height: 1)].compactMap { patch(buffer, in: $0) }
+        guard !edges.isEmpty else { return false }
+        return middle.mean >= edges.map(\.mean).reduce(0, +) / Double(edges.count) + glowMargin
+    }
+
+    /// The direction from the phone through point `at` of the camera image (0...1, origin top-left) in the phone's own axes (x right
+    /// across the screen, y up it, the rear lens looking down -z), for an image `image` pixels in size whose width spans
+    /// 2·atan(`tanHalfWidth`). The image comes in the sensor's landscape orientation, the one the viewfinder turns `.right` for an
+    /// upright phone: its rows run down the phone (-y) and its top row is at the screen's right edge (+x).
+    static func ray(at: SIMD2<Double>, image: SIMD2<Double>, tanHalfWidth: Double) -> SIMD3<Double> {
+        let tanHalfHeight = tanHalfWidth * image.y / max(1, image.x)
+        return simd_normalize(SIMD3((0.5 - at.y) * 2 * tanHalfHeight, (0.5 - at.x) * 2 * tanHalfWidth, -1))
     }
 
     /// Luma and colour over `box` (0...1, origin top-left), sparsely.

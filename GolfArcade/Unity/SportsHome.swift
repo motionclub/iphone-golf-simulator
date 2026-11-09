@@ -357,9 +357,8 @@ struct AxisGatePanel:View {
             SportsCameraPreview(motion:session.motion)
                 .frame(height:180).clipShape(RoundedRectangle(cornerRadius:12))
                 .overlay(RoundedRectangle(cornerRadius:12).stroke(session.axisGate.progress>0 ? .green : .secondary,lineWidth:2))
-                .overlay { Image(systemName: "plus").font(.title2).foregroundStyle(.white).shadow(radius: 2) }
                 .accessibilityIdentifier("axisGatePreview")
-            Text("Point the rear camera at your TV or MacBook screen and hold still. Keep the screen under the crosshair, with some of the room visible. A laptop can sit below eye level. Leave enough room to swing.")
+            Text("Point the rear camera at your TV or MacBook screen so it shows in the window, and hold it there a moment. A laptop can sit below eye level. Leave enough room to swing.")
                 .font(.subheadline).multilineTextAlignment(.center)
             ProgressView(value:session.axisGate.progress)
             Text(session.axisGate.message).font(.footnote).multilineTextAlignment(.center)
