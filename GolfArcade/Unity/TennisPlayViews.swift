@@ -840,7 +840,7 @@ struct OnlineTennisTVSetup: View {
     }
     private var instruction: String {
         switch session.setupStage {
-        case .scan: return "Point the back of your phone at this TV and hold it there a moment."
+        case .scan: return "Point the back of your phone at this TV. It will blink twice."
         case .timing: return "Start the timing check on your phone, then swing with the bouncing ball."
         case .ready: return "Stand where you'll play. Tap Ready on your phone."
         default: return service.startCountdown == nil ? "Each player finishes setup on their own phone." : "Stay at your spot and get ready to play."
@@ -913,7 +913,7 @@ struct OnlineTennisSetupPanel: View {
                 Image(systemName: "tv").font(.system(size: 52))
             }.foregroundStyle(IslandUI.lime).accessibilityHidden(true)
             Text("Set your direction").font(IslandUI.font(30, bold: true))
-            Text("Point the back of your phone at your TV and hold it there a moment.")
+            Text("Point the back of your phone at your TV. It will blink twice.")
                 .multilineTextAlignment(.center)
             ZStack {
                 Circle().stroke(.white.opacity(0.15), lineWidth: 8)

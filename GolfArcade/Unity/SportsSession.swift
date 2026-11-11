@@ -298,6 +298,10 @@ final class SportsSession {
     var delayTip = ""
     private var flashDelays: [Double] = []
     private var flashProbeID = UUID()
+    /// The scan's blinks under way (a new id ends the ones before it).
+    private var scanFlashID = UUID()
+    /// Blinks a scan asks for at a time, until two agree.
+    private static let scanFlashes = 2
     private static let flashes = 4, gameModeHint = 0.14
     private var nextDiagnostic=0.0
     let motion = SportsMotion()
@@ -375,7 +379,30 @@ final class SportsSession {
     /// Tests have no camera to time the screen flashes: end the measurement as if they were unclear.
     func debugFinishTVDelay() { finishTVDelay() }
     #endif
+    /// The scan: the TV blinks black then white, two at a time until the phone has seen two in the same place (SportsMotion.scanFlash).
+    /// The same blinks time the TV's delay, so no separate measurement follows.
+    private func startScanFlashes() {
+        scanFlashID = UUID()
+        let id = scanFlashID, launched = sessionID
+        SportsDisplays.shared.external?.isHidden = true   // the game itself on the TV: it draws the blink
+        Task { @MainActor [weak self] in
+            try? await Task.sleep(for: .milliseconds(700))   // the camera is up and its exposure settled
+            while let self, self.active, self.sessionID == launched, self.scanFlashID == id, self.setupStage == .scan, !self.motion.axisLocked {
+                self.command("flash", value: Double(Self.scanFlashes))
+                try? await Task.sleep(for: .seconds(Double(Self.scanFlashes) * 1.7 + 1.1))
+            }
+        }
+    }
     private func flashShown(at rendered: Double) {
+        if setupStage == .scan, !measuringDelay {
+            let launched = sessionID, id = scanFlashID
+            Task { @MainActor [weak self] in
+                try? await Task.sleep(for: .milliseconds(800))   // the white frame has reached the TV and the camera by now
+                guard let self, self.active, self.sessionID == launched, self.scanFlashID == id, self.setupStage == .scan else { return }
+                self.motion.scanFlash(rendered: rendered)
+            }
+            return
+        }
         guard measuringDelay else { return }
         let launched = sessionID, probeID = flashProbeID
         Task { @MainActor [weak self] in
@@ -623,7 +650,10 @@ final class SportsSession {
         command("cancelTimingCheck"); command("controllerSetup", value: 1)
         pause(reason: status)
         SportsDisplays.shared.external?.isHidden = true
-        measureTVDelay()
+        // the scan's own blinks timed the TV; only a direction set by hand still needs the flashes
+        let scanned = motion.scannedDelays
+        if SportsDelayProbe.combine(scanned) != nil { flashProbeID = UUID(); flashDelays = scanned; measuringDelay = true; finishTVDelay() }
+        else { measureTVDelay() }
     }
     func skipTimingCheck() {
         guard setupStage == .timing else { return }
@@ -758,8 +788,9 @@ final class SportsSession {
         command("cancelTimingCheck"); command("controllerSetup", value: 1)
         pause(reason: "Scan your TV to set the court direction.")
         axisGate=SportsAxisGate()
-        status="Stand about 2.5 m back, point the back of your phone at the TV and hold still."
+        status="Stand about 2.5 m back and point the back of your phone at the TV. It will blink twice."
         motion.beginAxisCapture(travel:travel)
+        startScanFlashes()
     }
     /// Escape hatch when the gate will not settle, so motion tennis is never unreachable.
     func useCurrentDirection() {
@@ -770,9 +801,10 @@ final class SportsSession {
     func retryCourtDirection() {
         guard active, sport == "tennis" else { return }
         setupStage = .scan; axisGate = SportsAxisGate(); setupProblem = ""
-        status = "Point the back of your phone at the TV and hold still."
+        status = "Point the back of your phone at the TV. It will blink twice."
         MultiplayerService.shared.runtimeSetupStep("direction")
         motion.beginAxisCapture(travel: travel)
+        startScanFlashes()
     }
     /// The court direction is locked (by the scan, or by "use the direction I'm pointing now"): on to the timing check, solo and online
     /// alike (offerTimingCalibration sends a player coming back mid-match straight to Ready).
