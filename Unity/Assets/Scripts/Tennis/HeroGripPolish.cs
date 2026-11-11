@@ -589,6 +589,10 @@ namespace GolfArcade.Tennis
                 // A joint stops for good only when its own phalanx touches (and so do the joints before it); if a phalanx further out is
                 // in the way it waits while the outer joints keep curling, which carries the fingertip round the handle instead of hooking.
                 var moving=new[]{true,true,true};
+                // 2026-11-10 (avatar audit: the male racket hand's thumb was a crushed shard while he ran): a digit that closes all the
+                // way without ever meeting the handle is not wrapping anything. For a finger that is a loose fist; a thumb folded to
+                // its three limits (210 deg in all) doubles back through itself. A thumb that never touches keeps the clip's own pose.
+                bool touched=false;
                 for(int step=0;step<120;step++){
                     bool advanced=false;
                     for(int j=0;j<3;j++){
@@ -597,11 +601,13 @@ namespace GolfArcade.Tennis
                         if(delta[j]<=was+1e-4f){moving[j]=false;continue;}
                         int hit=-1;for(int seg=j;seg<3;seg++)if(Depth(seg,delta)>0){hit=seg;break;}
                         if(hit<0){advanced=true;continue;}
+                        touched=true;
                         delta[j]=was;
                         if(hit==j)for(int k=0;k<=j;k++)moving[k]=false;
                     }
                     if(!advanced)break;
                 }
+                if(!touched&&WrapDigitNames[f]=="Thumb"){delta[0]=Mathf.Min(delta[0],0);delta[1]=Mathf.Min(delta[1],0);delta[2]=Mathf.Min(delta[2],0);}
                 float b0=delta[0],b1=delta[1],b2=delta[2];
                 memory[slot]=b0;memory[slot+1]=b1;memory[slot+2]=b2;
                 joints[0].bone.localRotation*=Quaternion.AngleAxis(flex*b0,joints[0].hinge);
