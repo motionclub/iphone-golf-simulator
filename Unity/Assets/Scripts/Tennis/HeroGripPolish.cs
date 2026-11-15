@@ -459,6 +459,19 @@ namespace GolfArcade.Tennis
         static readonly float[] WrapLimit={95,110,85},ThumbLimit={55,75,80};
         const float WrapTolerance=.0012f;   // soft skin may press 1.2 mm into the wrap before it counts as passing through
         const float GraspStep=2;   // degrees per closing step
+        /// RACKET GRIP 2026-11-12: a racket-hand finger may open by its real bend, and a thumb that misses the handle rests lightly curled.
+        /// GRIP_WRAP_V2=0 (Editor) brings the old wrap back for A/B films.
+        static bool WrapV2
+        {
+            get
+            {
+#if UNITY_EDITOR
+                return System.Environment.GetEnvironmentVariable("GRIP_WRAP_V2")!="0";
+#else
+                return true;
+#endif
+            }
+        }
 
         /// The handle in unscaled racket-grip space, measured once on the Grip mesh: its centre line (x, z), its outer radius (95th
         /// percentile) and its start / end along +Y (fallback: the classic racket's measured 17.3 mm over -99..+99 mm, centred).
@@ -553,7 +566,17 @@ namespace GolfArcade.Tennis
                     var b=joints[j].bone;pivot[j]=b.position;hinge[j]=b.TransformDirection(joints[j].hinge).normalized*flex;
                     float current=flex*Twist(Quaternion.Inverse(joints[j].local)*b.localRotation,joints[j].hinge);
                     bool thumb=WrapDigitNames[f]=="Thumb";
-                    lo[j]=Mathf.Max(-35,(thumb?-25:-10)-current);hi[j]=Mathf.Max(lo[j],Mathf.Min(110,(thumb?ThumbLimit:WrapLimit)[j]-current));
+                    lo[j]=Mathf.Max(-35,(thumb?-25:-10)-current);
+                    // RACKET GRIP 2026-11-12: the floor above is counted from the bind pose, and a bind hand that is already curled (his) left
+                    // no room to open: his fingers stayed up to 15 mm inside the handle. A finger may also open as far as its real bend now
+                    // allows (straight, plus 10 degrees), measured on the bones.
+                    if(!thumb&&WrapV2){
+                        var hb=hero.Bone(left?HumanBodyBones.LeftHand:HumanBodyBones.RightHand);
+                        Vector3 a0=j==0?(hb?joints[0].bone.position-hb.position:Vector3.zero):j==1?joints[1].bone.position-joints[0].bone.position:joints[2].bone.position-joints[1].bone.position;
+                        Vector3 a1=j==0?joints[1].bone.position-joints[0].bone.position:j==1?joints[2].bone.position-joints[1].bone.position:joints[2].bone.TransformPoint(joints[2].tip)-joints[2].bone.position;
+                        if(a0.sqrMagnitude>1e-10f&&a1.sqrMagnitude>1e-10f)lo[j]=Mathf.Max(-90,Mathf.Min(lo[j],-(Vector3.Angle(a0,a1)+10)));
+                    }
+                    hi[j]=Mathf.Max(lo[j],Mathf.Min(110,(thumb?ThumbLimit:WrapLimit)[j]-current));
                     var m=b.localToWorldMatrix;var skin=joints[j].skin;
                     if(world[j]==null||world[j].Length!=skin.Length)world[j]=new Vector3[skin.Length];
                     for(int i=0;i<skin.Length;i++)world[j][i]=m.MultiplyPoint3x4(skin[i]);
@@ -588,7 +611,7 @@ namespace GolfArcade.Tennis
                 }
                 // A joint stops for good only when its own phalanx touches (and so do the joints before it); if a phalanx further out is
                 // in the way it waits while the outer joints keep curling, which carries the fingertip round the handle instead of hooking.
-                var moving=new[]{true,true,true};
+                var moving=new[]{true,true,true};bool touched=false;
                 for(int step=0;step<120;step++){
                     bool advanced=false;
                     for(int j=0;j<3;j++){
@@ -598,10 +621,13 @@ namespace GolfArcade.Tennis
                         int hit=-1;for(int seg=j;seg<3;seg++)if(Depth(seg,delta)>0){hit=seg;break;}
                         if(hit<0){advanced=true;continue;}
                         delta[j]=was;
+                        touched=true;
                         if(hit==j)for(int k=0;k<=j;k++)moving[k]=false;
                     }
                     if(!advanced)break;
                 }
+                // RACKET GRIP 2026-11-12: a thumb that never meets the handle closed to its limits, tucked into the hand; it stays lightly curled instead
+                if(WrapV2&&WrapDigitNames[f]=="Thumb"&&!touched&&Depth(0,delta)<=0)for(int j=0;j<3;j++)delta[j]=Mathf.Max(lo[j],delta[j]*.35f);
                 float b0=delta[0],b1=delta[1],b2=delta[2];
                 memory[slot]=b0;memory[slot+1]=b1;memory[slot+2]=b2;
                 joints[0].bone.localRotation*=Quaternion.AngleAxis(flex*b0,joints[0].hinge);

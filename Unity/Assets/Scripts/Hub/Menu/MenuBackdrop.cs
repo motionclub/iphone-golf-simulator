@@ -111,12 +111,76 @@ namespace GolfArcade.Hub.Menu
         void ApplyLight()
         {
             var sun = RenderSettings.sun; if (!sun) return;
-            sun.color = light.sunColor; sun.intensity = light.sunIntensity; sun.shadowStrength = light.shadowStrength;
-            RenderSettings.ambientMode = (AmbientMode)light.ambientMode;
-            RenderSettings.ambientSkyColor = light.ambientSky; RenderSettings.ambientEquatorColor = light.ambientEquator; RenderSettings.ambientGroundColor = light.ambientGround;
-            RenderSettings.ambientLight = light.ambientSky;   // Flat ambient reads ambientLight
-            RenderSettings.ambientIntensity = light.ambientIntensity;
+            if (Midday)
+            {
+                // MIDDAY (Adnan 11-13 picked "Bright midday" of six looks, work/menu-lineup-1113): one high, near-white sun from the camera's
+                // left on every venue, the venue's own sky and ground kept but never so dark that a shadow side goes black (a fill floor
+                // on the equator: the light that reaches the heroes from the camera's side)
+                sun.color = MiddaySun; sun.intensity = Env("MENU_MIDDAY_SUN", 2.2f); sun.shadowStrength = Mathf.Min(light.shadowStrength, .7f);
+                RenderSettings.ambientMode = AmbientMode.Trilight;
+                var sky = AtLeast(light.ambientSky * 1.15f, .45f, new Color(.76f, .82f, .92f));
+                var eq = AtLeast(light.ambientEquator, Env("MENU_MIDDAY_FILL", .70f), new Color(.86f, .85f, .82f));
+                RenderSettings.ambientSkyColor = sky; RenderSettings.ambientEquatorColor = eq; RenderSettings.ambientGroundColor = AtLeast(light.ambientGround, .3f, new Color(.5f, .48f, .42f));
+                RenderSettings.ambientLight = sky; RenderSettings.ambientIntensity = 1;
+                HeroFill();
+            }
+            else
+            {
+                sun.color = light.sunColor; sun.intensity = light.sunIntensity; sun.shadowStrength = light.shadowStrength;
+                RenderSettings.ambientMode = (AmbientMode)light.ambientMode;
+                RenderSettings.ambientSkyColor = light.ambientSky; RenderSettings.ambientEquatorColor = light.ambientEquator; RenderSettings.ambientGroundColor = light.ambientGround;
+                RenderSettings.ambientLight = light.ambientSky;   // Flat ambient reads ambientLight
+                RenderSettings.ambientIntensity = light.ambientIntensity;
+            }
             RenderSettings.fog = false;
+            if (HeroLookOn) MenuGrade();
+        }
+        static readonly bool Midday = Environment.GetEnvironmentVariable("MENU_MIDDAY") != "0";
+        // the heroes' own front fill (HeroLighting.hlsl: _HeroFillColor x _HeroPresentationFill, 0.5 in play) and skin light, raised for the
+        // menu only: the hero shaders roll bright light off, so a stronger sun barely lifts them, the fill from the camera does
+        static readonly int FillId = Shader.PropertyToID("_HeroPresentationFill"), FillColourId = Shader.PropertyToID("_HeroFillColor"), SkinId = Shader.PropertyToID("_HeroSkinLightExposure");
+        float savedFill = -1, savedSkin, setFill, setSkin; Vector4 savedFillColour, setFillColour;
+        void HeroFill()
+        {
+            if (savedFill < 0) { savedFill = Shader.GetGlobalFloat(FillId); savedSkin = Shader.GetGlobalFloat(SkinId); savedFillColour = Shader.GetGlobalVector(FillColourId); }
+            setFill = Env("MENU_HERO_FILL", 1.1f); setSkin = Env("MENU_HERO_SKIN", 1.15f);
+            var c = new Color(1f, .97f, .94f).linear; setFillColour = new Vector4(c.r, c.g, c.b, 1);
+            Shader.SetGlobalFloat(FillId, setFill); Shader.SetGlobalFloat(SkinId, setSkin); Shader.SetGlobalVector(FillColourId, setFillColour);
+        }
+        /// Leaving the menu: the play values back, unless a sport's own profile has already set its own.
+        void RestoreHeroFill()
+        {
+            if (savedFill < 0) return;
+            if (Mathf.Approximately(Shader.GetGlobalFloat(FillId), setFill)) Shader.SetGlobalFloat(FillId, savedFill);
+            if (Mathf.Approximately(Shader.GetGlobalFloat(SkinId), setSkin)) Shader.SetGlobalFloat(SkinId, savedSkin);
+            if (Shader.GetGlobalVector(FillColourId) == setFillColour) Shader.SetGlobalVector(FillColourId, savedFillColour);
+        }
+        static readonly Color MiddaySun = new Color(1f, .96f, .9f);
+        /// From the camera's left (35 degrees round) and high (55 degrees up), in camera space: the way the light travels.
+        static readonly Vector3 MiddaySunCam = new Vector3(.329f, -.819f, .470f);
+        /// `c`, blended toward `toward` until its brightness (luma) is at least `min`.
+        static Color AtLeast(Color c, float min, Color toward)
+        {
+            float l = .2126f * c.r + .7152f * c.g + .0722f * c.b, lt = .2126f * toward.r + .7152f * toward.g + .0722f * toward.b;
+            if (l >= min || lt <= l) return c;
+            return Color.Lerp(c, toward, Mathf.Clamp01((min - l) / (lt - l)));
+        }
+
+        // HERO LOOK (work/hero-look-1111, clone only): the menu keeps the plaza's golden-hour grade (contrast 22, saturation 26, temperature 6,
+        // warm highlights), which turns skin yellow on every venue plate. A calmer menu grade: the venue's light does the mood, not the grade.
+        bool gazeDone;
+        static readonly bool HeroLookOn = Environment.GetEnvironmentVariable("HERO_LOOK") != "0";
+        static float Env(string k, float d) => float.TryParse(Environment.GetEnvironmentVariable(k), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var v) ? v : d;
+        static void MenuGrade()
+        {
+            foreach (var v in UnityEngine.Object.FindObjectsByType<Volume>(FindObjectsSortMode.None))
+            {
+                var profile = v.HasInstantiatedProfile() ? v.profile : v.sharedProfile; if (!profile) continue;
+                // midday: a little less colour and a softer contrast than the plaza's grade (the picked look: saturation 1.08, contrast 1.0); four strengths filmed 11-13, work/menu-squad-1113
+                if (profile.TryGet(out UnityEngine.Rendering.Universal.ColorAdjustments ca)) { ca.saturation.Override(Env("HERO_LOOK_SAT", Midday ? 8 : 14)); ca.contrast.Override(Env("HERO_LOOK_CONTRAST", Midday ? 4 : 20)); ca.colorFilter.Override(Color.white); }
+                if (profile.TryGet(out UnityEngine.Rendering.Universal.WhiteBalance wb)) { wb.temperature.Override(Env("HERO_LOOK_TEMP", 1)); wb.tint.Override(0); }
+                if (profile.TryGet(out UnityEngine.Rendering.Universal.ShadowsMidtonesHighlights smh)) { smh.midtones.Override(new Vector4(1, 1, 1, 0)); smh.highlights.Override(new Vector4(1.01f, 1f, .99f, 0)); }
+            }
         }
 
         /// Everything the hub draws except the heroes and the backdrop: the plaza root is off, but kits that attach to the hub itself arrive
@@ -142,12 +206,19 @@ namespace GolfArcade.Hub.Menu
             // the plate fills the frustum exactly at PlateDistance (the camera's fov and aspect can change: phone-only band, shots)
             float h = 2 * PlateDistance * Mathf.Tan(cam.fieldOfView * .5f * Mathf.Deg2Rad);
             plate.localPosition = new Vector3(0, 0, PlateDistance); plate.localRotation = Quaternion.identity; plate.localScale = new Vector3(h * cam.aspect, h, 1);
+            // the picture keeps its own shape: a wider view (a phone held sideways; MenuStage narrows the lens to the plate's width) shows
+            // its middle band, a narrower one (upright) its middle strip
+            var tex = plateMat.GetTexture("_BaseMap"); float plateAspect = tex && tex.height > 0 ? (float)tex.width / tex.height : 16f / 9f, a = cam.aspect;
+            var crop = a >= plateAspect ? new Vector2(1, plateAspect / a) : new Vector2(a / plateAspect, 1);
+            if (plateMat.GetTextureScale("_BaseMap") != crop) { plateMat.SetTextureScale("_BaseMap", crop); plateMat.SetTextureOffset("_BaseMap", (Vector2.one - crop) * .5f); }
             // the venue's light, every frame: the plaza's sky and weather layers drive the same sun and ambient in their own updates
             ApplyLight();
+            if (!gazeDone) { var hw = GetComponent<HubWorld>(); if (hw && hw.Player) { MenuHeroGaze.Attach(hw.Player, cam); gazeDone = true; } }
             // the sun keeps the venue's angle to the camera (the plate was lit from there)
-            var sun = RenderSettings.sun; if (sun && light.sunDirCam.sqrMagnitude > 1e-4f) sun.transform.rotation = cam.transform.rotation * Quaternion.LookRotation(light.sunDirCam.normalized);
+            var dir = Midday ? MiddaySunCam : light.sunDirCam;
+            var sun = RenderSettings.sun; if (sun && dir.sqrMagnitude > 1e-4f) sun.transform.rotation = cam.transform.rotation * Quaternion.LookRotation(dir.normalized);
             // contact darkening under whoever stands in the line-up
-            int heroes = stage ? (stage.Solo ? 1 : stage.Heroes) : 1;
+            int heroes = stage ? (stage.FriendsShown ? stage.Heroes : 1) : 1;
             for (int i = 0; i < feet.Length; i++)
             {
                 var s = MenuShots.Slots[Mathf.Min(i, MenuShots.Slots.Length - 1)];
@@ -159,6 +230,7 @@ namespace GolfArcade.Hub.Menu
         void OnDestroy()
         {
             MenuShots.Centred = false;
+            RestoreHeroFill();
             GolfArcade.Tennis.TennisQuality.SetGolfShadows(false);   // the tier's own shadows back
             if (plate) Destroy(plate.gameObject); if (floor) Destroy(floor.gameObject);
             if (plateMat) Destroy(plateMat); if (catcherMat) Destroy(catcherMat);

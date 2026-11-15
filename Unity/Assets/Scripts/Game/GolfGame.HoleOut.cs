@@ -88,12 +88,12 @@ namespace GolfArcade.Game
         public float ResultWaitSeconds => networkConfigured && (LastShot == null || LastShot.IsHoled) ? HoleOutSeconds
             : Mathf.Max(LastShot != null && !LastShot.IsHoled ? LocalShotResultSeconds : LocalResultSeconds, resultHold);
         /// A holed ball earns a celebration; routine rest positions return promptly to address.
-        public const float LocalResultSeconds = 3f;
+        public const float LocalResultSeconds = 1.8f;   // 3 s until 2026-11-11: with the 1.2 s score beat after it, holing out takes 3 s, not 5.5
         public const float LocalShotResultSeconds = .65f;
         /// For the offscreen captures after the camera's shape was changed: the view of the golfer for that shape, at once.
         public void ReframeResultForTests() { if (holeOutShown) { rig.FrameShotResult(); rig.SnapNext(); rig.ApplyFrame(); } }
         public float ResultSeconds => stateTime;
-        float HoleOutSeconds => Mathf.Max(3f, ResultReactionSeconds, resultHold);
+        float HoleOutSeconds => Mathf.Max(LocalResultSeconds, ResultReactionSeconds, resultHold);
 
         /// Seconds into the result that the game waits to, once an emote has been played (it plays out first).
         float resultHold;

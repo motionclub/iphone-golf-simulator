@@ -41,7 +41,7 @@ namespace GolfArcade.Tennis
             var acceleration = (velocity - lastVelocity) / Mathf.Max(.008f, dt);
             lastVelocity = velocity;
             bool contact = actor.Swinging || actor.PrepareAmount > .02f || actor.PrepareServe;
-            bool free = !action && !emote && !reaction && !contact && !(game && game.DiveActive);
+            bool free = !action && !emote && !reaction && !contact;
             bool moving = velocity.magnitude > .22f;
 
             // A player's planted run carries weight into a turn and settles into a stop.

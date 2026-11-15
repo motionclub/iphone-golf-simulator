@@ -1,0 +1,70 @@
+using System;
+using System.IO;
+using UnityEngine;
+
+namespace GolfArcade.Tennis
+{
+    /// Project-copy only (Assets/Scripts/Tennis/ZShirtProbe.cs; SHIRT_PROBE_OUT=<dir> switches it on). Rides along with any tennis film:
+    /// while a tennis hero's racket hand is up at or above the shoulder (the follow-through, the serve), every 4th frame his or her
+    /// chest and shoulders are photographed close up from the front, the racket side and the back, with the meshes exactly as the game
+    /// shows them in that frame (whatever level of detail is active). SHIRT_PROBE_MAX=36 shots per hero, SHIRT_PROBE_SEX=male|female|any.
+    [DefaultExecutionOrder(31010)]
+    public sealed class ZShirtProbe : MonoBehaviour
+    {
+        static string dir;
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+        static void Boot()
+        {
+            dir = Environment.GetEnvironmentVariable("SHIRT_PROBE_OUT"); if (string.IsNullOrEmpty(dir)) return;
+            dir = Path.GetFullPath(dir); Directory.CreateDirectory(dir);
+            var go = new GameObject("ZShirtProbe"); DontDestroyOnLoad(go); go.AddComponent<ZShirtProbe>();
+        }
+
+        Camera cam; int maxShots = 36, shots, scanned = -1000; string sex = "male";
+        MatchHeroLook[] looks = new MatchHeroLook[0];
+        readonly System.Text.StringBuilder log = new System.Text.StringBuilder("frame,time,hero,lod,clip\n");
+
+        void Awake()
+        {
+            if (int.TryParse(Environment.GetEnvironmentVariable("SHIRT_PROBE_MAX"), out var n)) maxShots = n;
+            sex = Environment.GetEnvironmentVariable("SHIRT_PROBE_SEX") ?? "male";
+            cam = new GameObject("ZShirtProbe camera").AddComponent<Camera>(); cam.enabled = false; cam.transform.SetParent(transform);
+            cam.clearFlags = CameraClearFlags.SolidColor; cam.backgroundColor = new Color(.62f, .70f, .78f); cam.nearClipPlane = .02f; cam.farClipPlane = 50;
+        }
+
+        void LateUpdate()
+        {
+            if (shots >= maxShots || Time.frameCount % 4 != 0) return;
+            if (Time.frameCount - scanned > 60) { looks = FindObjectsByType<MatchHeroLook>(FindObjectsSortMode.None); scanned = Time.frameCount; }
+            foreach (var look in looks)
+            {
+                if (!look || !look.isActiveAndEnabled || !look.GetComponentInParent<HeroTennisDriver>()) continue;
+                if (sex != "any" && (look.female ? "female" : "male") != sex) continue;
+                var hand = look.Bone(HumanBodyBones.RightHand); var sh = look.Bone(HumanBodyBones.RightUpperArm);
+                var chest = look.Bone(HumanBodyBones.UpperChest) ?? look.Bone(HumanBodyBones.Chest);
+                if (!hand || !sh || !chest) continue;
+                if (hand.position.y < sh.position.y - .05f) continue;
+                var root = look.transform; Vector3 c = chest.position + Vector3.up * .05f;
+                Vector3 fwd = root.forward, right = root.right;
+                string tag = $"{(look.female ? "F" : "M")}_{Time.frameCount:00000}";
+                Shot(Path.Combine(dir, tag + "_front.png"), c + fwd * .95f + Vector3.up * .1f, c, 40, 512, 512);
+                Shot(Path.Combine(dir, tag + "_side.png"), c + right * .95f + fwd * .2f + Vector3.up * .1f, c, 40, 512, 512);
+                Shot(Path.Combine(dir, tag + "_back.png"), c - fwd * .95f + Vector3.up * .1f, c, 40, 512, 512);
+                var lod = look.GetComponentInChildren<GolfArcade.CharacterLod.HeroLod>(true) ?? look.GetComponentInParent<GolfArcade.CharacterLod.HeroLod>();
+                log.AppendLine($"{Time.frameCount},{Time.time:F3},{look.name},{(lod ? lod.Level.ToString() : "-")},");
+                shots++;
+                File.WriteAllText(Path.Combine(dir, "shots.csv"), log.ToString());
+            }
+        }
+
+        void Shot(string path, Vector3 from, Vector3 at, float fov, int w, int h)
+        {
+            cam.transform.SetPositionAndRotation(from, Quaternion.LookRotation(at - from)); cam.fieldOfView = fov;
+            var rt = RenderTexture.GetTemporary(w, h, 24, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default, 4);
+            cam.targetTexture = rt; cam.Render(); cam.targetTexture = null;
+            var tex = new Texture2D(w, h, TextureFormat.RGB24, false); var act = RenderTexture.active;
+            RenderTexture.active = rt; tex.ReadPixels(new Rect(0, 0, w, h), 0, 0); tex.Apply(); RenderTexture.active = act; RenderTexture.ReleaseTemporary(rt);
+            File.WriteAllBytes(path, tex.EncodeToPNG()); DestroyImmediate(tex);
+        }
+    }
+}

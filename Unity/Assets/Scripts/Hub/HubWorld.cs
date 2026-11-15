@@ -226,10 +226,9 @@ namespace GolfArcade.Hub
                 if (overlay && Camera) overlay.targetDisplay = Camera.targetDisplay;
                 if (Camera && PhoneOnly && Screen.height > 0)
                 {
-                    // no TV: the menu is a 16:9 band at the top of the upright phone (the phone's own controls are under it)
-                    float h = Mathf.Min(1, Screen.width * 9f / 16f / Screen.height);
-                    var band = new Rect(0, 1 - h, 1, h);
-                    if (Camera.rect != band) { Camera.rect = band; Camera.ResetAspect(); }
+                    // no TV: the menu fills the phone, sideways or upright (upright, the camera keeps to the part above the menu's panel)
+                    var view = global::GolfArcade.Hub.Menu.MenuHud.PhoneCameraRect();
+                    if (Camera.rect != view) { Camera.rect = view; Camera.ResetAspect(); }
                 }
                 return;
             }

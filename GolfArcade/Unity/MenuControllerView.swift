@@ -108,37 +108,31 @@ struct MenuGuestView: View {
     }
 }
 
-/// No TV: the menu is drawn by Unity in the top band of this screen (16:9); a finger on it points and taps. Back and the loading
-/// screen sit under it.
+/// No TV (Adnan 10-29): Unity draws the menu over the whole screen, upright or sideways (MenuHud.Phone), and a finger anywhere on it
+/// points and taps; the menu's own BACK is on it. The loading screen covers it until the plaza is up.
 struct MenuTouchPad: View {
     let hub: HubSession
     @State private var down = false
     var body: some View {
         GeometryReader { g in
-            let band = g.size.width * 9 / 16
-            VStack(spacing: 0) {
-                ZStack {
-                    Color.clear.contentShape(Rectangle())
-                        .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .local)
-                            .onChanged { v in touch(v.location, in: CGSize(width: g.size.width, height: band), down: true) }
-                            .onEnded { v in touch(v.location, in: CGSize(width: g.size.width, height: band), down: false) })
-                    if !hub.revealedOnPhone {
-                        HubLoadingScreen(hub: hub).scaleEffect(g.size.width / 1280).frame(width: g.size.width, height: band).background(Club.ink).allowsHitTesting(false)
-                    }
+            ZStack {
+                Color.clear.contentShape(Rectangle())
+                    .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .local)
+                        .onChanged { v in touch(v.location, in: g.size, down: true) }
+                        .onEnded { v in touch(v.location, in: g.size, down: false) })
+                if !hub.revealedOnPhone {
+                    // (the 1280×720 loading card, fitted into whichever way the phone is held)
+                    ZStack { Club.ink; HubLoadingScreen(hub: hub).frame(width: 1280, height: 720).scaleEffect(min(g.size.width / 1280, g.size.height / 720)) }
+                        .frame(width: g.size.width, height: g.size.height).clipped().allowsHitTesting(false)
                 }
-                .frame(height: band)
-                VStack(spacing: 14) {
-                    MotionWordmark(size: 26)
-                    Text("Tap the menu above. Golf and bowling play right here on your phone; tennis needs a TV (AirPlay).").font(MotionBrand.font(.medium, 16)).foregroundStyle(MotionBrand.n300).multilineTextAlignment(.center)
-                    if !hub.notice.isEmpty { Text(hub.notice).font(MotionBrand.font(.medium, 15)) }
-                    Spacer()
-                    Button { hub.menuBack() } label: { Label("Back", systemImage: "chevron.left") }.buttonStyle(MotionButtonStyle(kind: .secondary))
+                if !hub.notice.isEmpty {
+                    Text(hub.notice).font(MotionBrand.font(.medium, 15)).multilineTextAlignment(.center)
+                        .padding(.horizontal, 16).padding(.vertical, 10).background(MotionBrand.background.opacity(0.92), in: Capsule())
+                        .padding(.horizontal, 20).frame(maxHeight: .infinity, alignment: .bottom).padding(.bottom, 70).allowsHitTesting(false)
                 }
-                .padding(20).frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(MotionBrand.background)
             }
         }
-        .ignoresSafeArea(edges: .top)
+        .ignoresSafeArea()
         .foregroundStyle(.white)
         .preferredColorScheme(.dark)
         .accessibilityIdentifier("menu-touch")

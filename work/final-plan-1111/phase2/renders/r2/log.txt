@@ -1,0 +1,38 @@
+/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/render_arm.py:64: DeprecationWarning: 'World.use_nodes' is expected to be removed in Blender 6.0
+  w = bpy.data.worlds.new("w"); sc.world = w; w.use_nodes = True
+/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/render_arm.py:42: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  m = bpy.data.materials.new(name); m.use_nodes = True
+00:03.362  render           | Saved: '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/renders/r2/base_bare_front.png'
+00:03.979  render           | Saved: '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/renders/r2/base_bare_threeq.png'
+00:04.646  render           | Saved: '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/renders/r2/base_bare_back.png'
+00:05.526  render           | Saved: '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/renders/r2/base_bare_armfront.png'
+00:06.395  render           | Saved: '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/renders/r2/base_bare_armback.png'
+00:07.068  render           | Saved: '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/renders/r2/base_bare_armside.png'
+00:08.255  render           | Saved: '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/renders/r2/base_dressed_front.png'
+00:08.864  render           | Saved: '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/renders/r2/base_dressed_threeq.png'
+00:09.512  render           | Saved: '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/renders/r2/base_dressed_back.png'
+00:10.142  render           | Saved: '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/renders/r2/base_dressed_armfront.png'
+00:11.079  render           | Saved: '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/renders/r2/build_bare_front.png'
+00:11.697  render           | Saved: '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/renders/r2/build_bare_threeq.png'
+00:12.428  render           | Saved: '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/renders/r2/build_bare_back.png'
+00:13.135  render           | Saved: '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/renders/r2/build_bare_armfront.png'
+00:13.869  render           | Saved: '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/renders/r2/build_bare_armback.png'
+00:14.504  render           | Saved: '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/renders/r2/build_bare_armside.png'
+00:15.555  render           | Saved: '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/renders/r2/build_dressed_front.png'
+00:16.052  render           | Saved: '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/renders/r2/build_dressed_threeq.png'
+00:16.600  render           | Saved: '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/renders/r2/build_dressed_back.png'
+00:17.301  render           | Saved: '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/renders/r2/build_dressed_armfront.png'
+00:18.155  render           | Saved: '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/renders/r2/muscles_bare_front.png'
+00:18.718  render           | Saved: '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/renders/r2/muscles_bare_threeq.png'
+00:19.342  render           | Saved: '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/renders/r2/muscles_bare_back.png'
+00:20.071  render           | Saved: '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/renders/r2/muscles_bare_armfront.png'
+00:20.937  render           | Saved: '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/renders/r2/muscles_bare_armback.png'
+00:21.680  render           | Saved: '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/renders/r2/muscles_bare_armside.png'
+00:23.114  render           | Saved: '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/renders/r2/muscles_dressed_front.png'
+00:23.704  render           | Saved: '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/renders/r2/muscles_dressed_threeq.png'
+00:24.499  render           | Saved: '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/renders/r2/muscles_dressed_back.png'
+00:25.266  render           | Saved: '/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/renders/r2/muscles_dressed_armfront.png'
+RENDERS DONE /Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/renders/r2
+Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:49:19)
+
+Blender quit

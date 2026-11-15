@@ -1,0 +1,98 @@
+#!/usr/bin/env python3
+"""Writes edit.json (the cut). Source frames are 120 per second of game time; `c(frame)` helpers turn a filmed frame into a time inside a shot."""
+import json, os
+W = os.path.dirname(os.path.abspath(__file__)); S = []
+def shot(id, take, cam, start, dur, speed=1, **kw): d = dict(id=id, take=take, cam=cam, start=start, dur=dur, speed=speed); d.update(kw); S.append(d); return d
+def black(id, dur, **kw): d = dict(id=id, black=True, dur=dur); d.update(kw); S.append(d); return d
+def at(start, frame, speed=1): return round((frame - start) / 120 / speed, 3)      # seconds into a constant-speed shot when `frame` shows
+
+# ------------------------------------------------ Scene 1: the challenge
+black("open", 1.5, snd=[[0.2, "tennis_amb", 0]])
+shot("s1_lights", "s1a", "wide", 20, 4.0, fin=.12, marks={"lights": at(20, 70)}, snd=[[at(20, 70), "thump", .6], [at(20, 92), "thump", .5, .3]])
+shot("s1_pushups", "s1a", "low", 190, 3.0)
+shot("s1_umpire", "s1a", "ump", 300, 2.0)
+shot("s1_wave", "s1b", "wave", 60, 2.5)
+shot("s1_ball", "s1c2", "balltele", 62, 2.5, snd=[[at(62, 150), "tennis/bounce_1.wav", .9], [at(62, 220), "tennis/bounce_1.wav", .7], [at(62, 262), "tennis/bounce_1.wav", .5]])
+shot("s1_shoe", "s1c", "shoe", 370, 2.0)
+shot("s1_lookup", "s1c", "pface", 540, 2.0)
+shot("s1_walk", "s1c", "herlong", 640, 3.5, marks={"walk": 0})
+shot("s1_herback", "s1c", "herback", 850, 2.5, snd=[[at(850, 900), "thump", .6, -.3], [at(850, 922), "thump", .5, .3]])
+shot("s1_grin", "s1b", "grin", 600, 1.5)
+shot("s1_bring", "s1b", "bring", 640, 3.0, marks={"round1": .9})
+
+# ------------------------------------------------ Scene 2: tennis
+shot("s2_look", "s2s", "pface", 60, 1.5, .5, marks={"toss": 0})
+shot("s2_ball", "s2s", "tossball", 150, 2.2, .25)
+shot("s2_toss", "s2s", "toss", 213, 1.5, .3)
+shot("s2_contact", "s2s", "tossball", 266, .5, .2, flash=.25, marks={"serve": 0}, snd=[[0, "tennis/serve_1.wav", 1.0], [0, "tennis/smash_1.wav", .7]])
+shot("s2_away", "s2s", "pback", 270, 1.0, snd=[[0, "whoosh", .5]])
+shot("s2_net", "s2s", "netlow", 284, .5, snd=[[.1, "whoosh", .5, .4]])
+shot("s2_return", "s2s", "omid", 310, 1.5, [[0, 1], [.2, 1], [.3, .3], [1.0, .3], [1.2, 1]], snd=[[.55, "tennis/hit_sweet_1.wav", .9, .2]])
+shot("s2_ump1", "s2s", "ump", 330, 1.0)
+shot("s2_fh1", "s2a", "pmid", 500, 1.0, snd=[[at(500, 546), "tennis/hit_normal_1.wav", .9, -.2]])
+shot("s2_bh_her", "s2a", "oback", 640, 1.0, snd=[[at(640, 684), "tennis/hit_normal_1.wav", .8, .3]])
+shot("s2_flight", "s2a", "sidelong", 700, 1.0, snd=[[.2, "whoosh", .4]])
+shot("s2_feet", "s2a", "feet", 790, .5, snd=[[.1, "tennis/slide_1.wav", .6]])
+shot("s2_bh1", "s2a", "pmid", 800, 1.0, snd=[[at(800, 831), "tennis/hit_sweet_1.wav", .9, -.2]])
+shot("s2_ump2", "s2a", "ump", 870, .5)
+shot("s2_bh_her2", "s2a", "omid", 895, 1.0, snd=[[at(895, 930), "tennis/hit_normal_1.wav", .8, .3]])
+shot("s2_top", "s2a", "top", 960, 1.0)
+shot("s2_winner", "s2a", "pmid", 1040, 1.0, snd=[[at(1040, 1082), "tennis/smash_1.wav", .9, -.2]])
+shot("s2_there", "s2a", "omid", 1168, 1.0, snd=[[at(1168, 1200), "tennis/hit_sweet_1.wav", .9, .3]])
+shot("s2_dive", "s2d", "dside", 60, 3.3, [[0, 1], [.25, 1], [.45, .2], [2.7, .2], [3.0, 1]], marks={"dive": .3, "miss": 2.2}, snd=[[.2, "tennis/slide_2.wav", .7], [2.15, "tennis/whiff_1.wav", .9]])
+shot("s2_past", "s2d", "dtip", 126, 1.0, .3, snd=[[.3, "whooshlong", .5, .5]])
+shot("s2_shock", "s2d", "dlow", 228, 2.0, snd=[[.1, "crowd/tennis_ooh_1.wav", .7]])
+shot("s2_fist", "s2d", "dher", 205, 1.7, snd=[[.2, "crowd/tennis_applause_short_1.wav", .6]])
+shot("s2_ump3", "s2d", "dump", 200, 1.0)
+shot("s2_slump", "s2d", "dface", 370, 2.3, marks={"score1": .5}, fout=.4)
+
+# ------------------------------------------------ Scene 3: golf (hole 21, the island green in the lava)
+black("cut23", .6)
+shot("s3_tee", "g1her", "tee", 20, 2.5, .6, fin=.5, marks={"golf": 0, "round2": .5}, snd=[[0, "golf/lava_1.wav", .5]])
+shot("s3_her_swing", "g1her", "side", 120, 2.0, snd=[[at(120, 252), "golf/iron_1.wav", .9], [at(120, 225), "golf/swing_1.wav", .6]])
+shot("s3_her_fly", "g1her", "follow", 430, 1.5, snd=[[0, "whoosh", .4]])
+shot("s3_her_land", "g1her", "green", 890, 1.5, snd=[[.6, "golf/land_green_1.wav", .8], [1.0, "crowd/golf_clap_1.wav", .5]])
+shot("s3_think", "g1him", "face", 10, 2.0, .5)
+shot("s3_back", "g1him", "down", 100, 2.5, .5, marks={"g_back": 0}, snd=[[2.1, "golf/swing_1.wav", .8]])
+shot("s3_hit", "g1him", "impact", 250, 1.0, .2, flash=.2, marks={"g_hit": 0}, snd=[[0.02, "golf/driver_1.wav", 1.0]])
+shot("s3_follow", "g1him", "follow", 290, 1.5)
+shot("s3_fly", "g1him", "fly", 470, 3.0, snd=[[.2, "whooshlong", .35]])
+shot("s3_land", "g1him", "green", 810, 1.0, marks={"g_land": at(810, 872)}, snd=[[at(810, 872), "golf/land_green_1.wav", .9]])
+shot("s3_roll", "g3", "roll", 190, 1.0)
+shot("s3_cup", "g3", "cup", 330, 3.5, marks={"g_lip": at(330, 432), "g_drop": at(330, 574)}, snd=[[at(330, 576), "golf/cup_1.wav", 1.0], [at(330, 600), "crowd/golf_erupt_1.wav", .8]])
+shot("s3_joy", "g4him", "mid", 88, 2.0, snd=[[.3, "crowd/golf_roar_1.wav", .6]])
+shot("s3_shock", "g4her", "close", 70, 1.5)
+shot("s3_nod", "g4her", "mid", 330, 2.0, marks={"score2": .3}, fout=.4)
+
+# ------------------------------------------------ Scene 4: bowling (Neon Nights)
+black("cut34", .6)
+shot("s4_wide", "b1", "wide", -232, 2.5, fin=.4, marks={"bowl": 0, "round3": .4}, snd=[[0, "bowling/room_neon_1.wav", .5]])
+shot("s4_mwatch", "b1", "m_watch", -110, 1.5)
+shot("s4_fback", "b1", "f_back", -120, 1.5)
+shot("s4_release", "b1", "release", 8, 1.5, .5, snd=[[at(8, 52, .5), "bowling/landing_1.wav", .9], [at(8, 56, .5), "bowling/roll_1.wav", .7]])
+shot("s4_chase", "b1", "chase", 100, 1.5, snd=[[0, "bowling/roll_1.wav", .8]])
+shot("s4_pins", "b1", "pinsfront", 292, 2.5, [[0, 1], [.22, 1], [.36, .2], [2.0, .2], [2.4, .7]], marks={"b_strike": .3}, snd=[[.28, "bowling/crash_1.wav", 1.0], [.5, "bowling/pin_hit_3.wav", .6], [1.2, "bowling/pin_hit_7.wav", .5]])
+shot("s4_react", "b1", "f_react", 812, 2.0, snd=[[.1, "crowd/tennis_ovation_1.wav", .6]])
+shot("s4_mwatch2", "b1", "m_watch", 900, 1.5, marks={"b_his": 0})
+shot("s4_step", "b1", "m_step", 1760, 1.2)
+shot("s4_face", "b1", "m_face", 1910, 2.0)
+shot("s4_fwatch", "b1", "f_watch", 1960, 1.5)
+shot("s4_approach", "b1", "m_back", 2040, 1.2)
+shot("s4_release2", "b1", "release2", 2150, 1.4, .5, marks={"b_release": at(2150, 2192, .5)}, snd=[[at(2150, 2194, .5), "bowling/landing_1.wav", .9]])
+shot("s4_chase2", "b1", "chase2", 2200, 1.6, snd=[[0, "bowling/roll_1.wav", .9]])
+shot("s4_fwatch2", "b1", "f_watch", 2390, .8)
+shot("s4_pins2", "b1", "pinsfront2", 2402, .55)
+black("black", 1.7, marks={"black": 0}, snd=[[0, "bowling/crash_2.wav", 1.0]])
+
+# ------------------------------------------------ Title, then the tag at the net
+black("title", 5.0, marks={"title": .15})
+shot("s5_him", "s5", "him", 170, 2.8, fin=.6, marks={"tag": 0})
+shot("s5_her", "s5", "her", 640, 2.4)
+shot("s5_away", "s5", "away", 880, 2.2)
+shot("s5_top", "s5", "top", 1000, 4.2, marks={"tagline": .5}, fout=1.2)
+black("endcard", 5.5, marks={"end": .4, "fin": 5.5})
+
+json.dump(dict(fps=24, shots=S), open(os.path.join(W, "edit.json"), "w"), indent=1)
+t = 0
+for s in S: print("%6.2f  %-12s %s" % (t, s["id"], s.get("cam", ""))); t += s["dur"]
+print("total %.2f" % t)

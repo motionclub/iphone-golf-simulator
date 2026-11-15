@@ -45,7 +45,9 @@ namespace GolfArcade.PlayTests
             // The tee shot, struck pure at the flag: the word pops at the strike.
             game.DropBall(hole.Tee);
             yield return null;
-            var target = game.GreenTarget(0.5, 3.5, 20) ?? game.GreenTarget(0.3, 3.9, 8);
+            // (the last try: since the 2026-11-11 landing an approach stops within a few yards of where it pitches, so one that
+            // finishes by the pin comes down by the pin)
+            var target = game.GreenTarget(0.5, 3.5, 20) ?? game.GreenTarget(0.3, 3.9, 8) ?? game.GreenTarget(0.3, 3.9, 0);
             Assert.IsTrue(target.HasValue, "somewhere on 12 an approach finishes by the pin");
             game.StrikeToward(target.Value);
             yield return WaitFor(() => game.Current == GolfGame.State.Flight, 3, "the strike");

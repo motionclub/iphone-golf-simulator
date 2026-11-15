@@ -22,6 +22,28 @@ namespace GolfArcade.Shot
             a.DistanceYards + (b.DistanceYards - a.DistanceYards) * t);
     }
 
+    /// How a patch of ground takes a ball coming down on it (BallFlight.BounceOff): the fairway is the reference, a green
+    /// is softer and bites on backspin, rough smothers, sand swallows, ice gives the spin nothing to hold.
+    public readonly struct Turf
+    {
+        /// Share of its downward speed a slow, square bounce gets back (0 dead .. about 0.5 lively), and how much of that
+        /// each m/s of impact takes away: the harder the ball comes down the more goes into the pitch mark.
+        public readonly double Firm, Give;
+        /// Friction between ball and ground during the bounce.
+        public readonly double Friction;
+        /// 0-1: the share of its pace along the ground the turf simply absorbs at each bounce, and the share of the hop.
+        public readonly double Take, Dead;
+        /// How hard backspin grips: 1 is a solid ball on a hard floor, more on a receptive green, less out of the rough.
+        public readonly double Bite;
+
+        public Turf(double firm, double give, double friction, double take, double dead, double bite)
+        { Firm = firm; Give = give; Friction = friction; Take = take; Dead = dead; Bite = bite; }
+
+        public static readonly Turf Fairway = new(0.44, 0.016, 0.42, 0.22, 0, 1.0);
+        /// The same ground holding or deadening more: `dead` and `take` are floors (a rule that makes greens sticky).
+        public Turf Holding(double dead, double take) => new(Firm, Give, Friction, Math.Max(Take, take), Math.Max(Dead, dead), Bite);
+    }
+
     /// Physical ball flight: gravity, aerodynamic drag, Magnus lift from backspin (tilted for a
     /// draw or fade), then bounce and roll on a fairway. Integrated once per shot and sampled
     /// for playback. Units are SI inside, yards outside. Same fit as the iOS app.
@@ -40,13 +62,13 @@ namespace GolfArcade.Shot
             /// degrees right of the target line (0 helps, 180 is into the face).
             public double WindMPH;
             public double WindDegrees;
-            /// The ground the ball comes down on, against a fairway (0): how much of the bounce
-            /// it soaks up and how much of the run it takes out, each 0–1.
-            public double LandingSoftness;
-            public double LandingGrab;
-            /// 0–1: how little the ground lets the spin grip — ice (1) takes none of the run out
-            /// of a spinning ball, so even a wedge skids on.
-            public double LandingSlide;
+            /// The ground the ball comes down on (a fairway when not given). The flight itself is the same whatever is
+            /// under it; the course flies each hop onto the ground it actually lands on (CourseShot), and this flat model
+            /// is what the club tables, the rings and a shot over nothing but fairway use.
+            public Turf? Ground;
+            /// -1..1: how this particular landing differs from the average one (a harder or softer spot of turf). Zero for
+            /// a planned shot; a struck one takes it from the strike, so every phone sees the same bounce.
+            public double LandingLuck;
             /// The round's rules (Course.PlayRules): × gravity, and × how high it hops off the
             /// turf. 0 is plain golf's, the same as 1.
             public double Gravity;
@@ -71,6 +93,12 @@ namespace GolfArcade.Shot
         public double RollStartTime { get; }
         public double RollStartVelocityX { get; }
         public double RollStartVelocityZ { get; }
+        /// The ball as it first touches down, before the bounce: velocity in yards/s (lateral, up, downrange; up is
+        /// negative) and the backspin it still has, rad/s. Zero for a putt.
+        public double TouchdownVelocityX { get; private set; }
+        public double TouchdownVelocityY { get; private set; }
+        public double TouchdownVelocityZ { get; private set; }
+        public double TouchdownSpin { get; private set; }
         public double Duration => (samples.Count - 1) * SampleInterval;
         public double Total => Carry + Roll;
         public FlightPoint Landing => samples[samples.Count - 1];
@@ -92,12 +120,69 @@ namespace GolfArcade.Shot
             return FlightPoint.Lerp(samples[lower], samples[lower + 1], index - lower);
         }
 
-        /// How much of its downward speed (m/s) a ball gets back off firm turf. The harder the
-        /// ball comes down, the more of it goes into the ground (the pitch mark), but the game's
-        /// turf is lively, the way Wii Sports' is (Adnan 10-28: "not bouncy enough"): a full shot
-        /// kicks up about head-high, skips once or twice more, and runs.
-        public static double TurfRestitution(double downwardSpeed) =>
+        /// The 10-28 turf, kept for the record and for TurfRestitutionClassic's test: every full shot, wedges included,
+        /// got 30-46% of its fall back, so everything hopped head-high and skipped two or three times whatever the club.
+        public static double TurfRestitutionClassic(double downwardSpeed) =>
             Math.Max(0.30, Math.Min(0.46, 0.46 - 0.006 * Math.Max(0, downwardSpeed)));
+
+        public const double BallRadiusMetres = 0.02135;
+        /// The pitch mark: a ball coming down hard and steep digs in, and the ground's reaction leans back against it by
+        /// this many radians per m/s of impact speed at a vertical landing (none for a ball skimming in), up to `MaxLean`.
+        /// It is what makes a steep landing check and a shallow one skip (Penner, "The run of a golf ball", 2002).
+        public const double LeanPerSpeed = 0.010, MaxLean = 0.32;
+        /// The least any turf gives back of the speed into it, and the upward speed (m/s) under which a ball stays down.
+        public const double MinRestitution = 0.10, HopSpeed = 1.2;
+        /// How far one landing's luck moves the bounce (share of the rebound) and what the turf takes of the pace along it
+        /// (share of `Turf.Take`: a softer or a firmer spot, never a push).
+        public const double LuckInBounce = 0.10, LuckInTake = 0.35;
+
+        /// One bounce, in SI units, y up. `spin` is backspin about the axis across the ball's travel (rad/s; negative once
+        /// it is rolling forward). `slopeX`, `slopeZ` are the ground's rise per unit run along x and z where it lands.
+        ///
+        ///  * Into the ground: the turf gives back less the harder it is hit (`Turf.Firm`, `Turf.Give`), so a drive comes
+        ///    off low and a chip nearly as it arrived.
+        ///  * Along the ground: a spinning solid ball. Friction acts on the slip at the contact patch (travel plus
+        ///    backspin); when it can stop the slip the ball leaves rolling at (5 v - 2 r w) / 7, which is zero or backwards
+        ///    for a steep wedge with enough spin and most of v for a driver. `Turf.Bite` scales how hard the spin grips,
+        ///    `Turf.Take` is what the grass absorbs on top.
+        ///  * The slope: all of it happens in the ground's own frame, so an upslope takes the ball square on and kills
+        ///    it, and a side slope kicks it downhill.
+        public static void BounceOff(ref double vx, ref double vy, ref double vz, ref double spin, Turf turf,
+            double slopeX = 0, double slopeZ = 0, double lively = 1, double luck = 0)
+        {
+            double nl = Math.Sqrt(slopeX * slopeX + 1 + slopeZ * slopeZ);
+            double nx = -slopeX / nl, ny = 1 / nl, nz = -slopeZ / nl;
+            double into = -(vx * nx + vy * ny + vz * nz);
+            if (into <= 0) return;   // already leaving the face
+            double tx = vx + into * nx, ty = vy + into * ny, tz = vz + into * nz;
+            double along = Math.Sqrt(tx * tx + ty * ty + tz * tz);
+            if (along > 1e-9) { tx /= along; ty /= along; tz /= along; }
+            else
+            {
+                // straight down onto it: any direction along the ground serves
+                tx = 1 - nx * nx; ty = -nx * ny; tz = -nx * nz;
+                double l = Math.Sqrt(tx * tx + ty * ty + tz * tz);
+                tx /= l; ty /= l; tz /= l; along = 0;
+            }
+            double steep = Math.Atan2(into, along), speed = Math.Sqrt(into * into + along * along);
+            double lean = Math.Min(MaxLean, LeanPerSpeed * speed * steep / (Math.PI / 2));
+            double c = Math.Cos(lean), sn = Math.Sin(lean);
+            double vt = along * c - into * sn, vn = into * c + along * sn;
+            luck = double.IsFinite(luck) ? Math.Max(-1, Math.Min(1, luck)) : 0;
+            double e = Math.Max(MinRestitution, turf.Firm - turf.Give * vn) * (1 - turf.Dead);
+            e = Math.Min(0.85, e * (double.IsFinite(lively) && lively > 0 ? lively : 1) * (1 + LuckInBounce * luck));
+            double up = e * vn;
+            double rs = BallRadiusMetres * spin * (spin > 0 ? turf.Bite : 1);
+            double slip = vt + rs, most = turf.Friction * (1 + e) * vn;
+            double outT, outSpin;
+            double keep = 1 - Math.Min(1, turf.Take * (1 + LuckInTake * luck));
+            if (Math.Abs(slip) <= 3.5 * most) { outT = (5 * vt - 2 * rs) / 7 * keep; outSpin = -outT / BallRadiusMetres; }
+            else { double d = Math.Sign(slip) * most; outT = (vt - d) * keep; outSpin = spin - 2.5 * d / BallRadiusMetres; }
+            double gT = outT * c - up * sn, gN = Math.Max(0, up * c + outT * sn);
+            vx = gT * tx + gN * nx; vy = gT * ty + gN * ny; vz = gT * tz + gN * nz;
+            // (kept against the way it now travels: a ball that has spun back is rolling, not still spinning back)
+            spin = gT >= 0 ? outSpin : -outSpin;
+        }
 
         public static BallFlight Simulate(Launch launch)
         {
@@ -109,9 +194,9 @@ namespace GolfArcade.Shot
             double gravity = 9.81 * heavy;
             double springy = double.IsFinite(launch.Bounce) && launch.Bounce > 0 ? Math.Min(4, launch.Bounce) : 1;
             // (a hop is one that leaves the turf for a moment; under a lighter pull a slower one still does)
-            double hopSpeed = 1.2 * Math.Sqrt(heavy);
+            double hopSpeed = HopSpeed * Math.Sqrt(heavy);
+            var turf = launch.Ground ?? Turf.Fairway;
             const double dt = 1.0 / 240;
-            const double bounceFriction = 0.6;
             const double rollingDeceleration = 3.2;
 
             double speed = Math.Max(0, launch.BallSpeedMPH) * 0.44704;
@@ -138,6 +223,9 @@ namespace GolfArcade.Shot
             double rollStartTime = 0, rollVx = vx, rollVz = vz;
             double? carryMeters = null;
             double carryX = 0, carryZ = 0, carryTime = 0;
+            double downVx = 0, downVy = 0, downVz = 0, downSpin = 0;
+            // (the spin the air acts on: gone after the first bounce, as it always was here; the ground still has the ball's)
+            double groundSpin = 0; bool landed = false;
             double apexMeters = 0;
 
             while (time < MaxDuration)
@@ -180,17 +268,13 @@ namespace GolfArcade.Shot
                     if (py <= 0 && vy < 0)
                     {
                         py = 0;
-                        if (carryMeters is null) { carryMeters = Math.Sqrt(px * px + pz * pz); carryX = px; carryZ = pz; carryTime = time + dt; }
-                        double soft = double.IsFinite(launch.LandingSoftness) ? Math.Max(0, Math.Min(1, launch.LandingSoftness)) : 0;
-                        double grab = double.IsFinite(launch.LandingGrab) ? Math.Max(0, Math.Min(1, launch.LandingGrab)) : 0;
-                        vy = -vy * Math.Min(0.85, TurfRestitution(-vy) * springy) * (1 - soft);
-                        // Backspin grips the turf on the first bounce: a driver keeps rolling, a
-                        // spinning iron hops and stops, a wedge checks up almost where it lands.
-                        double grip = Math.Max(0.08, bounceFriction - 0.5 * (spin * 60 / (2 * Math.PI)) / 10_000);
-                        grip *= 1 - grab;
-                        double slide = double.IsFinite(launch.LandingSlide) ? Math.Max(0, Math.Min(1, launch.LandingSlide)) : 0;
-                        grip += (0.92 - grip) * slide;
-                        vx *= grip; vz *= grip;
+                        if (carryMeters is null)
+                        {
+                            carryMeters = Math.Sqrt(px * px + pz * pz); carryX = px; carryZ = pz; carryTime = time + dt;
+                            downVx = vx; downVy = vy; downVz = vz; downSpin = spin;
+                        }
+                        if (!landed) { groundSpin = spin; landed = true; }
+                        BounceOff(ref vx, ref vy, ref vz, ref groundSpin, turf, 0, 0, springy, launch.LandingLuck);
                         spin = 0;
                         if (vy < hopSpeed) { vy = 0; airborne = false; rolling = true; rollStartTime = time; rollVx = vx; rollVz = vz; }
                     }
@@ -220,7 +304,11 @@ namespace GolfArcade.Shot
             double carry = (carryMeters ?? 0) / MetersPerYard; // a shot that never flew is all roll
             var carryPoint = new FlightPoint(carryX / MetersPerYard, 0, carryZ / MetersPerYard);
             return new BallFlight(samples, carry, carryPoint, carryTime, Math.Max(0, finalDistance / MetersPerYard - carry), apexMeters / MetersPerYard,
-                rollStartTime, rollVx / MetersPerYard, rollVz / MetersPerYard);
+                rollStartTime, rollVx / MetersPerYard, rollVz / MetersPerYard)
+            {
+                TouchdownVelocityX = downVx / MetersPerYard, TouchdownVelocityY = downVy / MetersPerYard, TouchdownVelocityZ = downVz / MetersPerYard,
+                TouchdownSpin = downSpin,
+            };
         }
     }
 }

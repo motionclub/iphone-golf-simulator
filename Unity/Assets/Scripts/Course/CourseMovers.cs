@@ -437,7 +437,9 @@ namespace GolfArcade.Course
             {
                 double carry = Math.Max(1, total - run);
                 speed = carry * k / (1 - Math.Exp(-k * time));
-                double down = speed * Math.Exp(-k * time) * 0.7;   // across the ground after the first bounce
+                // across the ground after the first bounce: a ball with no spin leaves a fairway rolling, with 5/7 of its
+                // pace less what the turf takes (BallFlight.BounceOff; a flat 0.7 under the old bounce)
+                double down = speed * Math.Exp(-k * time) * (5.0 / 7) * (1 - Shot.Turf.Fairway.Take);
                 run = Math.Min(total * 0.5, down * down / (2 * CourseShot.FairwayDeceleration) + 0.3 * down);
             }
             return (ux * speed, up, ud * speed);

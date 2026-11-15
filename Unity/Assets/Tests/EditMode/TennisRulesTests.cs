@@ -51,7 +51,7 @@ namespace GolfArcade.Tests
             Assert.IsFalse(TennisRules.AssistedContact(ball,ball,Vector3.zero,.54f,false,out _,1));
             var clean = TennisRules.AssistedHit(.02f,1,1,.2f,1);
             var late = TennisRules.AssistedHit(.24f,.2f,1,1,1);
-            Assert.Greater(clean.Speed, late.Speed * 1.4f, "centered soft swings beat frame contacts even with full effort");
+            Assert.Greater(clean.Speed, late.Speed * 1.2f, "centered soft swings beat frame contacts even with full effort");   // 1.4x until 2026-11-11: a flat ball cannot also be a slow one, so a poor contact now gives up less pace in the air and more depth (TennisFlightTests)
             Assert.AreEqual(Timing.Perfect, TennisRules.Grade(clean.Quality));
             Assert.AreEqual(Timing.Ok, TennisRules.Grade(late.Quality));
             Assert.Less(TennisRules.AssistedHit(.02f,.2f,1,.2f,1).Speed, clean.Speed);

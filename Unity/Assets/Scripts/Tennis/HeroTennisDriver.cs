@@ -12,7 +12,7 @@ namespace GolfArcade.Tennis
     /// clip's authored contact frame lands on the actor's gameplay contact. No gameplay effect.
     ///
     /// The match heroes play their FBX stroke, locomotion and emote clips on their own skeleton, as authored. The driver keeps what
-    /// belongs to a puppet (contact lock, honest contact assist, the serve ritual, planted feet, the dive tilt) and leaves out the
+    /// belongs to a puppet (contact lock, honest contact assist, the serve ritual, planted feet) and leaves out the
     /// stylised body layers and the clearance models that were measured on the old chibi body (see `Match`). The old Hero_* clips
     /// are not played by any slot. The visual overhaul adds seven Generic performance assets for Idle, point and match
     /// reactions and the whiff reaction; missing assets still fall back cleanly. (SERVE_AND_FEET: Serve plus Walk, RunForward, RunLeft and RunRight are in
@@ -713,7 +713,7 @@ namespace GolfArcade.Tennis
                 case TennisActor.Stroke.Smash: return Clip.Smash;
                 case TennisActor.Stroke.Volley: return backhand ? Clip.VolleyBackhand : Clip.Volley;
                 case TennisActor.Stroke.Running:
-                case TennisActor.Stroke.Dive: return backhand ? Clip.BackhandWide : Clip.ForehandWide;
+                case TennisActor.Stroke.Dive: return backhand ? Clip.BackhandWide : Clip.ForehandWide;   // Dive: only an older online peer still sends it
                 case TennisActor.Stroke.LowPickup: return backhand ? Clip.BackhandWide : Clip.ForehandShort;
                 case TennisActor.Stroke.Slice: return backhand ? Clip.SliceApproach : Clip.ForehandShort;
                 default:
@@ -965,9 +965,9 @@ namespace GolfArcade.Tennis
             graph.Evaluate(0);
             inertia?.Apply(dt);
             PostProcess(swinging);
-            if (!Baseline && !(isPlayer && game && game.DiveActive)) { if (!LocomotionOwnsFeet()) LockFeet(dt); else if (Match) ReleaseFeet(dt); }
+            if (!Baseline) { if (!LocomotionOwnsFeet()) LockFeet(dt); else if (Match) ReleaseFeet(dt); }
             MeasureSkate(dt);
-            if (Match && !Baseline && !(isPlayer && game && game.DiveActive)) GroundSoles();
+            if (Match && !Baseline) GroundSoles();
             if (!Match) FinalArmPenetration = FinalArms();   // the clearance models were measured on the old chibi torso
             if (trail && trail.emitting && (trailFor -= Time.deltaTime) <= 0) trail.emitting = false;
             if (!Match) FinalRacketPenetration = RacketCost(out finalRacketPart);
@@ -1036,6 +1036,7 @@ namespace GolfArcade.Tennis
                     var axis = Vector3.Cross(transform.up, Vector3.ProjectOnPlane(toe.position - foot.position, transform.up)).normalized;
                     float r = Mathf.Max(.02f, Vector3.ProjectOnPlane(pT - toe.position, axis).magnitude);
                     float ang = Mathf.Asin(Mathf.Clamp01(-dT / r)) * Mathf.Rad2Deg;
+                    if (HeroShoeShape.Depth) ang = Mathf.Min(ang, 15f);   // HERO DEPTH: a shoe's toe box does not fold
                     var q0 = toe.rotation;
                     toe.rotation = Quaternion.AngleAxis(ang, axis) * q0; float up1 = SoleLow(toe, tt, f, out _);
                     toe.rotation = Quaternion.AngleAxis(-ang, axis) * q0; float up2 = SoleLow(toe, tt, f, out _);
@@ -1220,8 +1221,8 @@ namespace GolfArcade.Tennis
             if (!smoothInit) { smoothPos = raw; lastRawPos = raw; smoothInit = true; }
             stillFrames = Vector3.Distance(raw, lastRawPos) < 1e-5f ? stillFrames + 1 : 0; lastRawPos = raw;
             var vel = actor.transform.right * actor.Speed + actor.transform.forward * actor.ForwardSpeed; vel.y = 0; vel *= paceRatio;
-            // a frozen world (hit stop), a dive, a reset: sit on the actor
-            if (stillFrames >= 3 || (isPlayer && game && game.DiveActive) || Vector3.Distance(raw, smoothPos) > .25f) smoothPos = raw;
+            // a frozen world (hit stop), a reset: sit on the actor
+            if (stillFrames >= 3 || Vector3.Distance(raw, smoothPos) > .25f) smoothPos = raw;
             else { smoothPos += vel * dt; smoothPos += (raw - smoothPos) * (1 - Mathf.Exp(-dt / .1f)); }
             smoothLocal = actor.transform.InverseTransformVector(smoothPos - raw);
         }
@@ -1245,7 +1246,6 @@ namespace GolfArcade.Tennis
         float contactCrouch, contactCrouchVelocity;
         int contactCrouchFrame=-1, contactLungeFrame=-1;
         bool crouchApplied;
-        float lastDivePose; bool diveWasActive,diveReturning;
         void PostProcess(bool swinging,bool physicsSubstep=false)
         {
             crouchApplied=false;
@@ -1263,22 +1263,12 @@ namespace GolfArcade.Tennis
             bool leftGrip = weight[(int)Clip.Ready] > .5f || (actionActive && action == Clip.Backhand) || fist;
             if (!Match) look.ApplyHands(roll, rollW, leftGrip);   // the match heroes' finger grip is baked into every clip
             if (cosmetics) cosmetics.SetCelebrating(juiceActive && (juice == Clip.CelebratePoint || juice == Clip.MatchWin) && actionWeight > .5f);
-            // A low athletic side dive has a brace, trailing bent legs, and an eased
-            // kneeling recovery. It changes the puppet only; the game's root stays authoritative.
-            if(isPlayer && game && game.DiveActive)
-            {
-                float amount=game.DivePose;
-                if(!diveWasActive){lastDivePose=amount;diveReturning=false;}
-                if(amount<lastDivePose-.0001f)diveReturning=true;
-                lastDivePose=amount;diveWasActive=true;
-                float phase=Mathf.Asin(Mathf.Clamp01(amount))/Mathf.PI;
-                if(Match) DivePerformance(diveReturning?1-phase:phase);
-                else {transform.localRotation=Quaternion.Euler(0,serveYaw+walkYaw,-game.DiveSide*58f*game.DivePose);Ground();}
-            }
-            else {diveWasActive=false;transform.localRotation=Quaternion.Euler(0,serveYaw+walkYaw,0);}
+            // (The dive's code-bent pose, which rolled the hero 66 degrees and folded chest and legs, was removed 2026-11-13:
+            // it warped the body at full stretch. A wide ball is now a stretch lunge on the wide-reach clip, TennisAbilities.)
+            transform.localRotation=Quaternion.Euler(0,serveYaw+walkYaw,0);
             if (swinging && IsStroke(action)) AssistContact(physicsSubstep);
             if(Match && !PathAssist) ContactRecovery(physicsSubstep);
-            if(Match && !crouchApplied && !(isPlayer && game && game.DiveActive)) ContactCrouch(0,false);
+            if(Match && !crouchApplied) ContactCrouch(0,false);
             if (!Baseline) TossArm();
             if (!Match) { ClearArm(true); ClearArm(false); ClearRacket(swinging); }   // clearance models were measured on the old chibi torso, head and legs
             if (performance != null)
@@ -1651,7 +1641,7 @@ namespace GolfArcade.Tennis
                 float dipWant = serving || charging ? 0 : Mathf.Clamp(decel * .0038f, 0, .05f);
                 const float wd = 2 * Mathf.PI * 3.4f;
                 dipVel += (wd * wd * (dipWant - dipPos) - 2 * .45f * wd * dipVel) * dt; dipPos = Mathf.Clamp(dipPos + dipVel * dt, -.015f, .065f);
-                leanW = Mathf.MoveTowards(leanW, serving || charging || (game && game.DiveActive && isPlayer) ? 0 : contactWindow && Mathf.Abs(actor.SignedTimeToContact) < .1f ? .45f : 1, dt / .12f);
+                leanW = Mathf.MoveTowards(leanW, serving || charging ? 0 : contactWindow && Mathf.Abs(actor.SignedTimeToContact) < .1f ? .45f : 1, dt / .12f);
                 // chest / neck spring weight: off through the swing to contact, full in follow-throughs, recoveries and
                 // emotes, light on runs (the run cycle is authored and near the spring frequency)
                 float wantW = contactWindow || charging || coil > .01f ? 0 : actionActive || juiceActive ? 1 : Moving() > 1.2f ? .25f : .7f;
@@ -2201,7 +2191,7 @@ namespace GolfArcade.Tennis
             if (Environment.GetEnvironmentVariable("VISUAL_OPEN_FOREHAND_CLEARANCE") == "0") return;
             float relative = poseTime - contact[(int)Clip.ForehandOpen];
             float window = 1 - Mathf.SmoothStep(0, 1, Mathf.Clamp01(Mathf.Abs(relative) / .16f));
-            float amount = clip == Clip.ForehandOpen && !(isPlayer && game && game.DiveActive)
+            float amount = clip == Clip.ForehandOpen
                 ? window * Mathf.Clamp01(blend) : 0;
             if (amount <= .00001f) return;
             var upper = Bone(HumanBodyBones.RightUpperArm);
@@ -2277,58 +2267,6 @@ namespace GolfArcade.Tennis
             TwoBone(lu,ll,lf,lp);lf.rotation=lr;TwoBone(ru,rl,rf,rp);rf.rotation=rr;
             LastCrouch=contactCrouch;
         }
-        void DivePerformance(float u)
-        {
-            float side=game.DiveSide;
-            // Smooth launch, low side extension, planted knee, then hips over feet.
-            float reach=Mathf.SmoothStep(0,1,Mathf.Clamp01(u/.26f))*(1-Mathf.SmoothStep(0,1,Mathf.InverseLerp(.48f,1,u)));
-            float brace=Mathf.SmoothStep(0,1,Mathf.InverseLerp(.23f,.42f,u))*(1-Mathf.SmoothStep(0,1,Mathf.InverseLerp(.67f,.95f,u)));
-            transform.localRotation=Quaternion.Euler(0,serveYaw+walkYaw,-side*66*reach);
-            hips.position+=Vector3.down*(.18f*reach+.18f*brace);
-            if(chestB)chestB.rotation=Quaternion.AngleAxis(27*reach,actor.transform.right)*chestB.rotation;
-            var head=Bone(HumanBodyBones.Head);if(head)head.rotation=Quaternion.AngleAxis(-20*reach,actor.transform.right)*head.rotation;
-            float clearance=Mathf.Max(0,actor.transform.position.y+.31f*reach-hips.position.y);
-            if(head)clearance=Mathf.Max(clearance,actor.transform.position.y+.15f*reach-head.position.y);
-            hips.position+=Vector3.up*clearance;
-            // A grounded scissor shape replaces the old rigid airborne standing legs.
-            foreach(bool right in new[]{false,true})
-            {
-                var up=Bone(right?HumanBodyBones.RightUpperLeg:HumanBodyBones.LeftUpperLeg);
-                var lo=Bone(right?HumanBodyBones.RightLowerLeg:HumanBodyBones.LeftLowerLeg);
-                var foot=Bone(right?HumanBodyBones.RightFoot:HumanBodyBones.LeftFoot);
-                if(!up||!lo||!foot)continue;
-                var footRotation=foot.rotation;
-                bool trailing=(right?1:-1)!=Mathf.Sign(side);
-                var hipLocal=actor.transform.InverseTransformPoint(hips.position);
-                var local=new Vector3(hipLocal.x+(trailing?-side*.42f:side*.26f), .10f+(trailing?.07f:0),hipLocal.z+(trailing?-.50f:.34f));
-                var target=actor.transform.TransformPoint(local);target.y=actor.transform.position.y+local.y;
-                TwoBonePole(up,lo,foot,Vector3.Lerp(foot.position,target,reach),actor.transform.TransformDirection(new Vector3(trailing?-side*.65f:side*.45f,-.14f,.9f)));
-                foot.rotation=Quaternion.Slerp(footRotation,Quaternion.AngleAxis(side*66*reach,actor.transform.forward)*footRotation,reach*.82f);
-            }
-            // Free palm protects the fall. The racket arm is left to the existing contact solve.
-            var au=Bone(HumanBodyBones.LeftUpperArm);var al=Bone(HumanBodyBones.LeftLowerArm);var hand=Bone(HumanBodyBones.LeftHand);
-            if(au&&al&&hand)
-            {
-                var hipLocal=actor.transform.InverseTransformPoint(hips.position);
-                var target=actor.transform.TransformPoint(new Vector3(hipLocal.x+side*.30f,.11f,hipLocal.z+.25f));target.y=actor.transform.position.y+.11f;
-                var rot=hand.rotation;TwoBone(au,al,hand,Vector3.Lerp(hand.position,target,brace));
-                hand.rotation=Quaternion.AngleAxis(22*brace,actor.transform.right)*rot;
-            }
-            // Keep shoes and brace above the rendered floor without moving the gameplay actor.
-            float minimum=float.MaxValue;
-            foreach(var foot in feet)if(foot)minimum=Mathf.Min(minimum,foot.position.y-.035f);
-            if(minimum<actor.transform.position.y)hips.position+=Vector3.up*(actor.transform.position.y-minimum);
-        }
-
-        static void TwoBonePole(Transform up,Transform lo,Transform end,Vector3 target,Vector3 kneeDirection)
-        {
-            float a=Vector3.Distance(up.position,lo.position),b=Vector3.Distance(lo.position,end.position);
-            var axis=target-up.position;float d=Mathf.Clamp(axis.magnitude,Mathf.Abs(a-b)+.001f,a+b-.001f);
-            var dir=axis.normalized;var pole=Vector3.ProjectOnPlane(kneeDirection,dir).normalized;if(pole.sqrMagnitude<.001f)return;
-            float x=(a*a-b*b+d*d)/(2*d),h=Mathf.Sqrt(Mathf.Max(0,a*a-x*x));var knee=up.position+dir*x+pole*h;
-            up.rotation=Quaternion.FromToRotation(lo.position-up.position,knee-up.position)*up.rotation;
-            lo.rotation=Quaternion.FromToRotation(end.position-lo.position,up.position+dir*d-lo.position)*lo.rotation;
-        }
         Clip recoveryClip;bool hasRecoveryContact;
         Vector3 recoveryRight,recoveryLeft;Quaternion recoveryRightRotation,recoveryLeftRotation;
         void ContactRecovery(bool physicsSubstep)
@@ -2349,7 +2287,6 @@ namespace GolfArcade.Tennis
             float u=Mathf.SmoothStep(0,1,-ttc/.075f);
             foreach(bool right in new[]{true,false})
             {
-                if(!right&&isPlayer&&game&&game.DiveActive)continue;
                 var hand=right?rh:lh;var up=Bone(right?HumanBodyBones.RightUpperArm:HumanBodyBones.LeftUpperArm);var lo=Bone(right?HumanBodyBones.RightLowerArm:HumanBodyBones.LeftLowerArm);
                 if(!up||!lo)continue;
                 var anchor=actor.transform.TransformPoint(right?recoveryRight:recoveryLeft);
@@ -2405,7 +2342,7 @@ namespace GolfArcade.Tennis
                 // thigh: drop the hips and re-solve both legs so the feet stay planted on the court.
                 Vector3 g0 = pathAim ? aimGoal : game && actor == game.Opponent && game.Flow == TennisGame.Phase.Rally ? game.BallPosition : actor.GuideSweetTarget;
                 float low = (pathAim ? stringCentre.position.y + PathTravel().y : stringCentre.position.y) - g0.y - .08f;
-                if(hips && !(isPlayer && game && game.DiveActive))
+                if(hips)
                     ContactCrouch(Mathf.Min(.34f,Mathf.Max(0,low)*.9f)*(actor.SignedTimeToContact>0?1:w),physicsSubstep&&ttc<.025f);
 
             }
@@ -2428,7 +2365,7 @@ namespace GolfArcade.Tennis
                 delta *= ClearScale(sc => ArmCost(up.position, ElbowFor(up, lo, hand, hand.position + delta * sc), hand.position + delta * sc, hdR), baseR);
                 if (delta.sqrMagnitude < 1e-6f) return;
             }
-            if (TopHandOnRacket() && !(isPlayer&&game&&game.DiveActive))
+            if (TopHandOnRacket())
             {
                 Transform lu = Bone(HumanBodyBones.LeftUpperArm), ll = Bone(HumanBodyBones.LeftLowerArm), lh = Bone(HumanBodyBones.LeftHand);
                 var ld = delta;

@@ -49,7 +49,7 @@ namespace GolfArcade.Tests {
   [Test] public void RealFrameContactIsAWeakReturnRatherThanAMiss() {
    var hit=TennisRules.Evaluate(.18f,new Vector2(TennisRules.StringHalfWidth,0),1,1,.65f,1);
    Assert.IsTrue(hit.Contact); Assert.AreEqual(Timing.Ok,TennisRules.Grade(hit.Quality));
-   Assert.Less(hit.Speed,16);
+   Assert.Less(hit.Speed,TennisRules.RallyPace);   // under the middle pace (it was a fixed 16 m/s when the middle pace was 13)
   }
   [Test] public void FrameContactsStayPlayableAndGiveUpDepth() {
    foreach(float aim in new[]{-.8f,0,.8f}) foreach(float power in new[]{0f,1f}) {

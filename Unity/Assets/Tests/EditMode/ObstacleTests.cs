@@ -181,7 +181,7 @@ namespace GolfArcade.Tests
         {
             var (clear, shot) = PastTheTarget(.25);
             Assert.IsTrue(shot.Knocks.Count > 0 && shot.Knocks[0].Kind == ObstacleKind.Target && shot.Knocks[0].Hard, "it hit the board");
-            Assert.Less(shot.Rest.DistanceTo(new CoursePoint(0, 330)), 30, "and was sent on toward the green");
+            Assert.Less(shot.Rest.DistanceTo(new CoursePoint(0, 330)), 30, $"and was sent on toward the green (landed {shot.Landing}, at rest {shot.Rest})");
             Assert.Greater(shot.Rest.D, clear.Rest.D + 100, "a reward, not a block");
         }
 

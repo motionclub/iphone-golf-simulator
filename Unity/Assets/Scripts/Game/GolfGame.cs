@@ -1265,7 +1265,8 @@ namespace GolfArcade.Game
             if (Current != State.Aim) return null;
             double toPin = ballAt.DistanceTo(hole.Pin), line = ballAt.HeadingTo(hole.Pin) * Math.PI / 180;
             CoursePoint? best = null; double bestScore = double.MaxValue;
-            for (double back = 4; back <= 26; back += 2)
+            // from the pin itself back: a ball that stops where it pitches (2026-11-11 landing) has to come down by the pin
+            for (double back = 0; back <= 26; back += 2)
                 for (double side = -6; side <= 6; side += 3)
                 {
                     double d = toPin - back;

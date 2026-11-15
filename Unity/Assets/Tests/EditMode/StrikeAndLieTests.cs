@@ -81,14 +81,14 @@ namespace GolfArcade.Tests
             var detector = new MotionSwingDetector();
             double curve = Math.Min(detector.MaxCurveDegrees, (40 - detector.FaceDeadZoneDegrees) * detector.CurvePerFaceDegree);
             var slice = BallFlight.Simulate(GolfClub.Driver.Launch(1, 0, curve));
-            Assert.Greater(slice.Landing.LateralYards, 30, "a slice ends up well right");
+            Assert.Greater(slice.Landing.LateralYards, 27, "a slice ends up well right");   // 30 until 2026-11-11: a drive runs 20 yd now, not 21 plus two head-high skips
             Assert.AreEqual(ShotShape.Slice, Strikes.ShapeOf(curve));
         }
 
         static BallFlight Fly(CourseLie from, GolfClub club, double thin = 0, CourseLie onto = CourseLie.Fairway)
         {
             var l = from.LaunchFrom(club, 1, 0, 0, thin);
-            (l.LandingSoftness, l.LandingGrab) = onto.Landing();
+            l.Ground = onto.Ground();
             return BallFlight.Simulate(l);
         }
 

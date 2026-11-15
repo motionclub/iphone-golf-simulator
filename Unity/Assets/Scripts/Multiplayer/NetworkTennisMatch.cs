@@ -126,9 +126,7 @@ namespace GolfArcade.Multiplayer {
                         }
                     }
                     return true;
-                case "dive":
-                    if(State.phase!="rally"||p.stamina<.25f||State.time<p.diveUntil+2)return false;
-                    p.diveUntil=State.time+.55;p.dives++;p.stamina-=.25f;return true;
+                // "dive" was removed 2026-11-13 (its pose warped the hero); dives/diveUntil stay on the wire, always 0, so older peers still read it.
                 default:return false;
             }
         }

@@ -167,13 +167,10 @@ final class SportsSession {
     var ultimateChoice = TennisUltimate(rawValue: UserDefaults.standard.integer(forKey: "tennis.ultimate")) ?? .skybreaker
     var ultimateMeter = 0.0
     var ultimateArmed = false
-    var diveCooldown = 0.0
-    var canDive = false
     var canArmUltimate = false
     var loadoutLocked = false
     // Retained API for older callers; ultimates are no longer a gameplay action.
     func chooseUltimate(_ choice: TennisUltimate) {}
-    func dive() { guard pointControlsVisible && canDive else { return }; command("dive"); canDive = false }
     func armUltimate() {}
     var stamina = 1.0
     var phase = "calibrating"
@@ -493,7 +490,7 @@ final class SportsSession {
         golfController = .waiting; golfControllerMap = nil
         setupStage = .scan; axisGate = SportsAxisGate(); phase="calibrating"; feedback=""; golfPhase=""; golfHasNextHole=false; golfShotReady=false; golfSwingState=0; golfTap=GolfTapSwing(); stamina=1
         multiplayerSetupStarted = false; setupProblem = ""
-        ultimateMeter=0; ultimateArmed=false; diveCooldown=0; canDive=false; canArmUltimate=false; loadoutLocked=false
+        ultimateMeter=0; ultimateArmed=false; canArmUltimate=false; loadoutLocked=false
         let p=players[min(playerIndex,players.count-1)]
         UserDefaults.standard.set(sport, forKey: "sports.lastSport.\(p.id.uuidString)")
         matchEmotes = p.equippedEmotes; emoteWindow = ""; emoteNotice = ""; tennisPhase = ""; introSkip = nil
@@ -931,7 +928,6 @@ final class SportsSession {
         motion.stop()
         TennisMenu.shared.matchFinished(won: won, score: score)
         // Keep explicit phone actions visible until the player chooses one.
-        canDive = false
         timingPrompt = false; checkingTiming = false; measuringDelay = false
         aimFeedTask?.cancel(); aimTimeoutTask?.cancel(); aimLesson=nil; aimWaiting=false
         SportsDisplays.shared.showMatchControls()
@@ -1171,12 +1167,6 @@ final class SportsSession {
                 // one TV for two phones: the TV credit this phone's game gives its player, for the controller-only phone (same picture)
                 if multiplayerSplit, multiplayerMatchID != nil, let ms = Double(event["message"] as? String ?? ""), ms.isFinite {
                     MultiplayerService.shared.setScreenDelay(ms / 1000)
-                }
-            case "abilities":
-                let fields = (event["message"] as? String ?? "").split(separator: "|")
-                if fields.count == 5, let meter = Double(fields[0]), let cooldown = Double(fields[2]), meter.isFinite, cooldown.isFinite {
-                    ultimateMeter = 0; ultimateArmed = false
-                    diveCooldown = max(0, cooldown); canDive = fields[3] == "1"; canArmUltimate = false
                 }
             case "contact":
                 if let contact = TennisContact(line: event["message"] as? String ?? "") { contacts = Array((contacts + [contact]).suffix(12)) }

@@ -97,7 +97,12 @@ namespace GolfArcade.EditorTools
                     var rest = new Vector3[n]; for (int i = 0; i < n; i++) rest[i] = new Vector3(F(), F(), F());
                     var v0 = mesh.vertices; float err = 0;
                     for (int i = 0; i < n; i++) err = Mathf.Max(err, (v0[i] - rest[i]).magnitude);
-                    if (err > 5e-5f) throw new InvalidOperationException($"{hero} {p.tag}: patch geometry differs from the mesh by {err * 1000:F3} mm (re-dump / re-fit)");
+                    // HERO STUDIO 2026-11-14: a hero refitted by HeroStudio is dumped (and fitted) with the refit's per-vertex offsets added at
+                    // load; the asset keeps its own rest shape and the game adds the same offsets again, so the weights, bind poses and correctives
+                    // fitted on the refitted shape belong on this asset. GP_INSTALL_REST_TOL=<metres> accepts that difference (opt-in, logged).
+                    float tol = float.TryParse(Environment.GetEnvironmentVariable("GP_INSTALL_REST_TOL"), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var t) ? t : 5e-5f;
+                    if (err > tol) throw new InvalidOperationException($"{hero} {p.tag}: patch geometry differs from the mesh by {err * 1000:F3} mm (re-dump / re-fit)");
+                    if (err > 5e-5f) Debug.Log($"[GarmentPipelineInstall] {hero} {p.tag}: rest differs by {err * 1000:F1} mm (HeroStudio refit, accepted by GP_INSTALL_REST_TOL)");
                     var weights = new BoneWeight[n];
                     for (int i = 0; i < n; i++)
                         weights[i] = new BoneWeight { boneIndex0 = bi[i * 4], boneIndex1 = bi[i * 4 + 1], boneIndex2 = bi[i * 4 + 2], boneIndex3 = bi[i * 4 + 3],

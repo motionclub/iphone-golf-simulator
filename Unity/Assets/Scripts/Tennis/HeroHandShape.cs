@@ -66,8 +66,13 @@ namespace GolfArcade.Tennis {
     for(int v=0;v<N;v++)if(sel[v]){int b=Mathf.RoundToInt(dd[v]/.005f);sumX.TryGetValue(b,out var a);sumX[b]=a+xx[v];sumY.TryGetValue(b,out var c);sumY[b]=c+yy[v];cnt.TryGetValue(b,out var n);cnt[b]=n+1;}
     (float,float) Centre(int b){float sx=0,sy=0;int n=0;for(int k=b-2;k<=b+2;k++)if(cnt.TryGetValue(k,out var c)){sx+=sumX[k];sy+=sumY[k];n+=c;}return n>0?(sx/n,sy/n):(0,0);}
     float[] at={-.16f,-.10f,-.03f,0f,.03f,.06f,.8f*hl,hl};
+    // HER WRIST 2026-11-12 (Adnan, after the walk fixes: "the male arm looks perfect but girl's still lacking"). Measured against his:
+    // the 10-27 reshape widened her wrist by 22 %, to 7.1 cm, as wide as his (6.9) on a forearm two thirds the size (8.1 against
+    // 12.5 cm), so her forearm never narrowed into a wrist (wrist / palm .91 where his is .57) and the hand read as stuck on the
+    // end of a rod. The forearm now tapers into a flat oval wrist narrower than the palm. FEMALE_WRIST_TAPER=0 (Editor) = the 10-27 numbers.
     float[] sl={1,1.06f,1.22f*.97f,1.22f,1.10f,1.00f,1,1};
     float[] sd={1,.95f,.86f,.86f,.86f,.82f,.88f,1};
+    if(Environment.GetEnvironmentVariable("FEMALE_WRIST_TAPER")!="0"){sl=new[]{1,.97f,.89f,.88f,1.14f,1.06f,1,1};sd=new[]{1,.93f,.76f,.72f,.78f,.80f,.88f,1};}
     float Interp(float[] ys,float x){x=Mathf.Clamp(x,at[0],at[at.Length-1]);for(int i=0;i<at.Length-1;i++)if(x<=at[i+1]){float t=(x-at[i])/Mathf.Max(1e-6f,at[i+1]-at[i]);return Mathf.Lerp(ys[i],ys[i+1],t);}return ys[ys.Length-1];}
     for(int v=0;v<N;v++){
      if(!sel[v])continue;

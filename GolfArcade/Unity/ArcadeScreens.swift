@@ -126,7 +126,7 @@ enum PartyLoadingTips {
             "Tap Toss, then time your serve swing.",
             "Meet the ball in front of you for a clean return.",
             "Aim for open court instead of swinging harder.",
-            "Tap Dive to reach a wide ball."
+            "Swing at a wide ball: your player stretches for it."
         ])
     }
 }

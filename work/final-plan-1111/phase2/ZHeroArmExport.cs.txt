@@ -1,0 +1,91 @@
+using System;
+using System.IO;
+using System.Linq;
+using GolfArcade.Tennis;
+using NUnit.Framework;
+using UnityEngine;
+using Object = UnityEngine.Object;
+
+namespace GolfArcade.Tests
+{
+    /// Clone-only (copy to Assets/Tests/EditMode/ZHeroArmExport.cs; ARM_OUT=<dir>, ARM_FEMALE=1 for her): the hero as the game
+    /// builds it, in the rest pose and the hero's own frame, for Blender. Body and every kit piece:
+    ///   <name>.bin: int nv, int nt, float3[nv] pos, float3[nv] nrm, int3[nt] tri, float2[nv] uv0, float8[nv] arm weights
+    ///   (left shoulder, upper arm, forearm, hand; then right), and bones.json: every body bone's rest position.
+    /// HERO_BUILD=0 in the environment gives the body before the 11-11 build pass.
+    public class ZHeroArmExport
+    {
+        static int Part(string n) => n.Contains("Shoulder") ? 0 : n.Contains("UpperArm") ? 1 : n.Contains("LowerArm") ? 2
+            : n.Contains("Hand") || n.Contains("Thumb") || n.Contains("Index") || n.Contains("Middle") || n.Contains("Ring") || n.Contains("Little") ? 3 : -1;
+
+        static void Write(string file, MatchHeroLook look, SkinnedMeshRenderer r)
+        {
+            var mesh = r.sharedMesh; var m = look.transform.worldToLocalMatrix * r.transform.localToWorldMatrix;
+            var v = mesh.vertices; var n = mesh.normals; var t = mesh.triangles; var uv = mesh.uv; var w = mesh.boneWeights; var bones = r.bones;
+            var slot = new int[bones.Length];
+            for (int b = 0; b < bones.Length; b++)
+            {
+                string nm = bones[b] ? bones[b].name : ""; int part = Part(nm);
+                slot[b] = part < 0 ? -1 : nm.Contains("Left") ? part : nm.Contains("Right") ? 4 + part : -1;
+            }
+            using var o = new BinaryWriter(File.Create(file));
+            o.Write(v.Length); o.Write(t.Length / 3);
+            foreach (var p in v) { var q = m.MultiplyPoint3x4(p); o.Write(q.x); o.Write(q.y); o.Write(q.z); }
+            for (int i = 0; i < v.Length; i++) { var q = i < n.Length ? m.MultiplyVector(n[i]).normalized : Vector3.up; o.Write(q.x); o.Write(q.y); o.Write(q.z); }
+            foreach (int i in t) o.Write(i);
+            for (int i = 0; i < v.Length; i++) { var q = i < uv.Length ? uv[i] : Vector2.zero; o.Write(q.x); o.Write(q.y); }
+            var a = new float[8];
+            for (int i = 0; i < v.Length; i++)
+            {
+                Array.Clear(a, 0, 8);
+                if (i < w.Length)
+                {
+                    var bw = w[i];
+                    void Add(int b, float x) { if (b >= 0 && b < slot.Length && slot[b] >= 0) a[slot[b]] += x; }
+                    Add(bw.boneIndex0, bw.weight0); Add(bw.boneIndex1, bw.weight1); Add(bw.boneIndex2, bw.weight2); Add(bw.boneIndex3, bw.weight3);
+                }
+                foreach (float x in a) o.Write(x);
+            }
+            // the whole skin beside it (<name>.skin): bone names with their parents' names, then four (bone, weight) per vertex,
+            // so the mesh can be posed outside Unity (the arm's helper bones carry most of the shoulder and elbow)
+            using var k = new BinaryWriter(File.Create(Path.ChangeExtension(file, ".skin")));
+            k.Write(bones.Length);
+            foreach (var bn in bones) { k.Write(bn ? bn.name : ""); k.Write(bn && bn.parent ? bn.parent.name : ""); }
+            k.Write(v.Length);
+            for (int i = 0; i < v.Length; i++)
+            {
+                var bw = i < w.Length ? w[i] : default;
+                k.Write(bw.boneIndex0); k.Write(bw.weight0); k.Write(bw.boneIndex1); k.Write(bw.weight1); k.Write(bw.boneIndex2); k.Write(bw.weight2); k.Write(bw.boneIndex3); k.Write(bw.weight3);
+            }
+        }
+
+        [Test]
+        public void Export()
+        {
+            string dir = Environment.GetEnvironmentVariable("ARM_OUT"); Assert.IsNotNull(dir, "ARM_OUT");
+            bool female = Environment.GetEnvironmentVariable("ARM_FEMALE") == "1";
+            Directory.CreateDirectory(dir);
+            // ARM_HERO: "" = the tennis match hero, "GolfKit" / "BowlingKit" = the same body in that sport's kit (HeroAssets)
+            string which = Environment.GetEnvironmentVariable("ARM_HERO") ?? "";
+            var prefab = Resources.Load<GameObject>(TennisCustomization.HeroPath(female) + which); Assert.IsNotNull(prefab, "hero prefab " + which);
+            var go = Object.Instantiate(prefab);
+            try
+            {
+                var look = go.GetComponent<MatchHeroLook>(); look.SetSkin(look.skinTone);
+                var body = look.body; var binds = body.sharedMesh.bindposes; var toHero = look.transform.worldToLocalMatrix * body.transform.localToWorldMatrix;
+                Write(Path.Combine(dir, "Body.bin"), look, body);
+                // every triangle of the body, the ones a worn kit hides included (same vertices): the mesh the cover was cut from
+                var full = typeof(MatchHeroLook).GetField("kitV2CoverSource", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)?.GetValue(look) as Mesh;
+                if (full && full.vertexCount == body.sharedMesh.vertexCount)
+                    using (var o = new BinaryWriter(File.Create(Path.Combine(dir, "BodyFull.tri")))) { var t = full.triangles; o.Write(t.Length / 3); foreach (int i in t) o.Write(i); }
+                var rows = body.bones.Select((b, i) => b && i < binds.Length
+                    ? FormattableString.Invariant($"\"{b.name}\": [{toHero.MultiplyPoint3x4(binds[i].inverse.GetColumn(3)).x:R}, {toHero.MultiplyPoint3x4(binds[i].inverse.GetColumn(3)).y:R}, {toHero.MultiplyPoint3x4(binds[i].inverse.GetColumn(3)).z:R}]") : null).Where(x => x != null);
+                File.WriteAllText(Path.Combine(dir, "bones.json"), "{" + string.Join(",\n", rows) + "}");
+                string names = "";
+                foreach (var r in look.kit) if (r && r.sharedMesh && r.sharedMesh.isReadable) { Write(Path.Combine(dir, r.name + ".bin"), look, r); names += r.name + " " + r.sharedMesh.vertexCount + "\n"; }
+                File.WriteAllText(Path.Combine(dir, "info.txt"), $"female={female} HERO_BUILD={Environment.GetEnvironmentVariable("HERO_BUILD")} body={body.name} {body.sharedMesh.name} v={body.sharedMesh.vertexCount}\n{names}");
+            }
+            finally { Object.DestroyImmediate(go); }
+        }
+    }
+}

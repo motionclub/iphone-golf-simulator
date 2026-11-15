@@ -1,0 +1,32 @@
+/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/render_arm.py:85: DeprecationWarning: 'World.use_nodes' is expected to be removed in Blender 6.0
+  w = bpy.data.worlds.new("w"); sc.world = w; w.use_nodes = True
+/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/render_arm.py:63: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  m = bpy.data.materials.new(name); m.use_nodes = True
+00:02.723  render           | Saved: 'renders/r15/tennisloose_down_dressed_upper.png'
+00:03.341  render           | Saved: 'renders/r15/tennisloose_down_dressed_upperside.png'
+00:03.966  render           | Saved: 'renders/r15/tennisloose_down_dressed_chest3q.png'
+00:04.480  render           | Saved: 'renders/r15/tennisloose_down_dressed_upperback.png'
+00:05.615  render           | Saved: 'renders/r15/tennisfit_down_dressed_upper.png'
+00:06.036  render           | Saved: 'renders/r15/tennisfit_down_dressed_upperside.png'
+00:06.560  render           | Saved: 'renders/r15/tennisfit_down_dressed_chest3q.png'
+00:07.035  render           | Saved: 'renders/r15/tennisfit_down_dressed_upperback.png'
+00:08.120  render           | Saved: 'renders/r15/golfloose_down_dressed_upper.png'
+00:08.523  render           | Saved: 'renders/r15/golfloose_down_dressed_upperside.png'
+00:09.028  render           | Saved: 'renders/r15/golfloose_down_dressed_chest3q.png'
+00:09.508  render           | Saved: 'renders/r15/golfloose_down_dressed_upperback.png'
+00:10.624  render           | Saved: 'renders/r15/golffit_down_dressed_upper.png'
+00:11.028  render           | Saved: 'renders/r15/golffit_down_dressed_upperside.png'
+00:11.583  render           | Saved: 'renders/r15/golffit_down_dressed_chest3q.png'
+00:12.056  render           | Saved: 'renders/r15/golffit_down_dressed_upperback.png'
+00:13.219  render           | Saved: 'renders/r15/bowlloose_down_dressed_upper.png'
+00:13.649  render           | Saved: 'renders/r15/bowlloose_down_dressed_upperside.png'
+00:14.152  render           | Saved: 'renders/r15/bowlloose_down_dressed_chest3q.png'
+00:14.583  render           | Saved: 'renders/r15/bowlloose_down_dressed_upperback.png'
+00:15.742  render           | Saved: 'renders/r15/bowlfit_down_dressed_upper.png'
+00:16.208  render           | Saved: 'renders/r15/bowlfit_down_dressed_upperside.png'
+00:16.746  render           | Saved: 'renders/r15/bowlfit_down_dressed_chest3q.png'
+00:17.204  render           | Saved: 'renders/r15/bowlfit_down_dressed_upperback.png'
+RENDERS DONE renders/r15
+Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:49:19)
+
+Blender quit

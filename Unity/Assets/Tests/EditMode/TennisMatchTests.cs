@@ -402,7 +402,7 @@ public class TennisMatchTests
             last = pace;
         }
         float perfect = TennisRules.AssistedHit(0, 1, 1, .6f, 1).Speed, scrappy = TennisRules.AssistedHit(.3f, 1, 1, .6f, 1).Speed;
-        Assert.Greater(perfect, scrappy * 1.6f, "a perfect hit is a different shot from a mistimed one");
+        Assert.Greater(perfect, scrappy * 1.4f, "a perfect hit is a different shot from a mistimed one");   // 1.6x until 2026-11-11 (flat ball: TennisFlightTests)
         // Swinging harder barely matters next to timing.
         float soft = TennisRules.TimingPace(.9f, .1f, 1), hard = TennisRules.TimingPace(.9f, 1f, 1);
         Assert.Less(hard / soft, 1.12f);
@@ -424,7 +424,7 @@ public class TennisMatchTests
         Assert.Greater(lateLeft.x, left.x);
         // ...and it sits up short, while a clean hit lands deep.
         Assert.Greater(straight.z, TennisRules.SwingPlacement(0, .1f, 0, 0).z + 3f);
-        Assert.Greater(straight.z, 9.5f);
+        Assert.Greater(straight.z, 9.0f);   // deep is 9.4 m since 2026-11-11 (10.4 before): the court gives the receiver its time after the bounce
         // A clean hit scatters less than a scrappy one.
         var scrappy = TennisRules.SwingPlacement(0, .1f, 1, 1);
         var clean = TennisRules.SwingPlacement(0, .9f, 1, 1);
@@ -469,7 +469,7 @@ public class TennisMatchTests
     [Test] public void ShotPaceComesFromContactNotEffort()
     {
         float clean = TennisRules.ShotSpeed(.95f, .5f, 1), poor = TennisRules.ShotSpeed(.35f, .5f, 1);
-        Assert.Greater(clean, poor * 1.4f, "a clean strike must be much faster than a poor one");
+        Assert.Greater(clean, poor * 1.2f, "a clean strike must be much faster than a poor one");   // 1.4x until 2026-11-11: a flat ball cannot also be a slow one, so a poor contact now gives up less pace in the air and more depth (TennisFlightTests)
         float hard = TennisRules.ShotSpeed(.5f, 1, 1), soft = TennisRules.ShotSpeed(.5f, .1f, 1);
         Assert.Less(hard - soft, 3.5f, "swinging harder only nudges the pace");
     }
@@ -506,7 +506,7 @@ public class TennisMatchTests
         var late = TennisRules.PlanIntercept(from, v, 0, .75f, new Vector2(0, TennisRules.BaselineZ), TennisRules.ReactionTime, TennisRules.RunSpeed, false);
         var early = TennisRules.PlanIntercept(from, v, 0, .75f, new Vector2(0, TennisRules.BaselineZ), TennisRules.JumpReaction, TennisRules.SprintSpeed, false);
         Assert.IsFalse(late.Reachable, $"at a plain run, a fast corner ball is out of reach (gap {late.Gap:0.00})");
-        Assert.IsTrue(early.Reachable || early.Diveable, $"a good jump gets there, or close enough to dive (gap {early.Gap:0.00})");
+        Assert.IsTrue(early.Reachable || early.Stretchable, $"a good jump gets there, or close enough to stretch for it (gap {early.Gap:0.00})");
         Assert.IsTrue(TennisRules.EarnsAutoJump(late), "a phone player cannot lean, so the unreachable ball earns the jump on its own");
     }
 
@@ -559,8 +559,8 @@ public class TennisMatchTests
             "a baseline rally ball is not a volley");
         Assert.AreEqual("LowPickup", TennisRules.StrokeFor(.3f, -9f, -11.2f, .2f, false));
         Assert.AreEqual("Running", TennisRules.StrokeFor(1.0f, -9f, -11.2f, 1.4f, false));
-        // Beyond normal reach the only way to the ball is to throw yourself at it.
-        Assert.AreEqual("Dive", TennisRules.StrokeFor(1.0f, -9f, -11.2f, 2.2f, false));
+        // Beyond the wide clip's reach a plain swing is a drive (the dive is gone; a stretch lunge plays the wide clip).
+        Assert.AreEqual("Drive", TennisRules.StrokeFor(1.0f, -9f, -11.2f, 2.2f, false));
         Assert.AreEqual("Drive", TennisRules.StrokeFor(1.0f, -9f, -11.2f, .2f, false));
         // A smash outranks everything else: height wins.
         Assert.AreEqual("Smash", TennisRules.StrokeFor(2.2f, -9f, -11.2f, 3f, true));

@@ -12,7 +12,9 @@ namespace GolfArcade.Game
     /// nothing in the lens, nothing between it and its subject, not lifted over a tree, not on another bunker's lip.
     public sealed class HoleIntro
     {
-        public const float Opening = 2.8f, OpeningShort = 2.2f, ShotSeconds = 1.7f;
+        // 2026-11-11 (plan Phase 1, "cut the waits"): 4.0 s for the full cut, 2.1 s for the short (7.9 s and 3.9 s before:
+        // an opening of 2.8 / 2.2 s and 1.7 s a highlight).
+        public const float Opening = 1.6f, OpeningShort = 1.3f, ShotSeconds = .8f;
         /// The flyover's length: the full cut has the opening and three highlights (two and the green), the short the green only.
         public static float Length(bool full) => full ? Opening + 3 * ShotSeconds : OpeningShort + ShotSeconds;
 

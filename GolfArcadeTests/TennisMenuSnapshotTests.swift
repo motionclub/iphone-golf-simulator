@@ -447,17 +447,16 @@ final class TennisMenuSnapshotTests: XCTestCase {
         try await saveHosted(SportsPreviewControls(), "finish-preview", CGSize(width: 800, height: 150))
     }
 
-    func testUltimateAndDiveControls() async throws {
+    func testUltimateControlsWithoutDive() async throws {
         let session = SportsSession.shared
         let savedChoice = session.ultimateChoice
         defer { session.loadoutLocked = false; session.chooseUltimate(savedChoice) }
         session.sport = "tennis"; session.ready = true; session.paused = true
         session.finishedMatch = nil; session.loadoutLocked = false
-        defer { session.ready = false; session.paused = true; session.loadoutLocked = false; session.canDive = false; session.canArmUltimate = false }
+        defer { session.ready = false; session.paused = true; session.loadoutLocked = false; session.canArmUltimate = false }
         session.chooseUltimate(.curveball)
         XCTAssertEqual(session.ultimateChoice, savedChoice, "removed ultimate selection is ignored")
-        session.paused = false; session.ultimateMeter = 1; session.canArmUltimate = true; session.canDive = true; session.tennisPhase = "rally"
-        try await saveHosted(TennisAbilityControls(session: session).padding().preferredColorScheme(.dark), "ultimate-actions", CGSize(width: 390,height: 180))
+        session.paused = false; session.ultimateMeter = 1; session.canArmUltimate = true; session.tennisPhase = "rally"
         try await saveHosted(SportsPreviewControls(), "ultimate-preview", CGSize(width: 800,height: 300))
         session.loading.cancel()
         try await saveHosted(TennisRacketController(session: session), "ultimate-controller", CGSize(width: 390,height: 844))

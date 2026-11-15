@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace GolfArcade.Tennis
 {
-    /// The tennis lesson's hooks into the match (PLAN_Onboarding_GolfLesson.md): starting it, and the wide feed for its dive
+    /// The tennis lesson's hooks into the match (PLAN_Onboarding_GolfLesson.md): starting it, and the wide feed for its wide-ball
     /// station. The phone runs the court setup first (station 1); the lesson's own stations here are 2–8.
     public sealed partial class TennisGame
     {
@@ -16,12 +16,12 @@ namespace GolfArcade.Tennis
             lesson.Begin(this, coach);
         }
 
-        /// The coach hits one wide of the player, out of normal reach: the dive station's ball.
+        /// The coach hits one wide of the player, out of easy reach: the wide-ball station's ball (run, swing, stretch).
         public void FeedWide(bool backhandSide, float speed = 13f)
         {
             if (!Player || !Opponent) return;
             bool left = backhandSide != NativeSportsSession.Left;
-            float x = Mathf.Clamp(Player.transform.position.x + (left ? -1 : 1) * (TennisRules.DiveGap + 1.1f), -3.9f, 3.9f);
+            float x = Mathf.Clamp(Player.transform.position.x + (left ? -1 : 1) * 2.85f, -3.9f, 3.9f);
             Vector3 from = Opponent.transform.position + new Vector3(.3f, 1.15f, -.7f);
             Vector3 to = new Vector3(x, TennisRules.BallRadius, TennisRules.BaselineZ + 4.6f);
             Opponent.Swing(.45f, false, TennisActor.Stroke.Drive);

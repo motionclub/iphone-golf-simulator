@@ -1,0 +1,429 @@
+{
+    "name": "g4him",
+    "outDir": "",
+    "frames": 620,
+    "warm": 200,
+    "fps": 120,
+    "every": 1,
+    "w": 1920,
+    "h": 1080,
+    "quality": 92,
+    "seed": -1,
+    "ss": 1.5,
+    "timeScale": 1.0,
+    "only": [],
+    "events": [
+        {
+            "f": -200,
+            "do": "call",
+            "on": "static:GolferStyle",
+            "m": "Body",
+            "a": [
+                "Male"
+            ],
+            "v": [],
+            "s": "",
+            "until": -100000
+        },
+        {
+            "f": -199,
+            "do": "call",
+            "on": "game",
+            "m": "RestyleGolfer",
+            "a": [],
+            "v": [],
+            "s": "",
+            "until": -100000
+        },
+        {
+            "f": -198,
+            "do": "call",
+            "on": "game",
+            "m": "JumpToHole",
+            "a": [
+                "21"
+            ],
+            "v": [],
+            "s": "",
+            "until": -100000
+        },
+        {
+            "f": -160,
+            "do": "call",
+            "on": "game",
+            "m": "SetWind",
+            "a": [
+                "=static:Wind.Calm"
+            ],
+            "v": [],
+            "s": "",
+            "until": -100000
+        },
+        {
+            "f": -150,
+            "do": "call",
+            "on": "game",
+            "m": "DropBall",
+            "a": [
+                "=game.CurrentHole.Tee"
+            ],
+            "v": [],
+            "s": "",
+            "until": -100000
+        },
+        {
+            "f": -145,
+            "do": "call",
+            "on": "game",
+            "m": "SelectClub",
+            "a": [
+                "Iron"
+            ],
+            "v": [],
+            "s": "",
+            "until": -100000
+        },
+        {
+            "f": -144,
+            "do": "call",
+            "on": "game",
+            "m": "InstantReplays",
+            "a": [
+                "false"
+            ],
+            "v": [],
+            "s": "",
+            "until": -100000
+        },
+        {
+            "f": -143,
+            "do": "active",
+            "on": "find:Golf broadcast",
+            "m": "",
+            "a": [],
+            "v": [],
+            "s": "0",
+            "until": -100000
+        },
+        {
+            "f": -30,
+            "do": "enable",
+            "on": "game",
+            "m": "",
+            "a": [],
+            "v": [],
+            "s": "0",
+            "until": -100000
+        },
+        {
+            "f": 40,
+            "do": "call",
+            "on": "game.golfer",
+            "m": "Perform",
+            "a": [
+                "Emote_JumpJoy",
+                "0",
+                "false"
+            ],
+            "v": [],
+            "s": "",
+            "until": -100000
+        },
+        {
+            "f": -1,
+            "do": "get",
+            "on": "game.golfer",
+            "m": "PerformanceDuration",
+            "a": [],
+            "v": [],
+            "s": "",
+            "until": -100000
+        }
+    ],
+    "cams": [
+        {
+            "name": "mid",
+            "posAnchor": "game.golfer",
+            "lookAnchor": "game.golfer",
+            "posSmooth": 0.0,
+            "lookSmooth": 10.0,
+            "keys": [
+                {
+                    "f": 0.0,
+                    "pos": [
+                        4.599999904632568,
+                        1.0,
+                        -0.6000000238418579
+                    ],
+                    "look": [
+                        0.0,
+                        1.149999976158142,
+                        0.0
+                    ],
+                    "fov": 30.0,
+                    "roll": 0.0,
+                    "focusOffset": 0.0
+                },
+                {
+                    "f": 620.0,
+                    "pos": [
+                        4.0,
+                        1.0,
+                        -0.4000000059604645
+                    ],
+                    "look": [
+                        0.0,
+                        1.2000000476837159,
+                        0.0
+                    ],
+                    "fov": 30.0,
+                    "roll": 0.0,
+                    "focusOffset": 0.0
+                }
+            ],
+            "shake": 0.0,
+            "shakeFreq": 0.6000000238418579,
+            "aperture": 2.4000000953674318,
+            "focal": 70.0,
+            "near": 0.05000000074505806,
+            "far": -1.0,
+            "dof": true,
+            "ease": true,
+            "focusAnchor": "game.golfer:Head",
+            "from": -100000,
+            "to": 100000,
+            "every": 0,
+            "sub": 1
+        },
+        {
+            "name": "close",
+            "posAnchor": "game.golfer",
+            "lookAnchor": "game.golfer:Head",
+            "posSmooth": 0.0,
+            "lookSmooth": 10.0,
+            "keys": [
+                {
+                    "f": 0.0,
+                    "pos": [
+                        2.5999999046325685,
+                        1.5,
+                        -0.8999999761581421
+                    ],
+                    "look": [
+                        0.0,
+                        0.019999999552965165,
+                        0.0
+                    ],
+                    "fov": 20.0,
+                    "roll": 0.0,
+                    "focusOffset": 0.0
+                }
+            ],
+            "shake": 0.0,
+            "shakeFreq": 0.6000000238418579,
+            "aperture": 2.0,
+            "focal": 100.0,
+            "near": 0.05000000074505806,
+            "far": -1.0,
+            "dof": true,
+            "ease": true,
+            "focusAnchor": "game.golfer:Head",
+            "from": -100000,
+            "to": 100000,
+            "every": 0,
+            "sub": 1
+        },
+        {
+            "name": "low",
+            "posAnchor": "game.golfer",
+            "lookAnchor": "game.golfer",
+            "posSmooth": 0.0,
+            "lookSmooth": 10.0,
+            "keys": [
+                {
+                    "f": 0.0,
+                    "pos": [
+                        3.200000047683716,
+                        0.30000001192092898,
+                        1.600000023841858
+                    ],
+                    "look": [
+                        0.0,
+                        1.2000000476837159,
+                        0.0
+                    ],
+                    "fov": 34.0,
+                    "roll": 0.0,
+                    "focusOffset": 0.0
+                }
+            ],
+            "shake": 0.0,
+            "shakeFreq": 0.6000000238418579,
+            "aperture": 2.799999952316284,
+            "focal": 50.0,
+            "near": 0.05000000074505806,
+            "far": -1.0,
+            "dof": true,
+            "ease": true,
+            "focusAnchor": "game.golfer:Head",
+            "from": -100000,
+            "to": 100000,
+            "every": 0,
+            "sub": 1
+        }
+    ],
+    "lights": [
+        {
+            "name": "gkey",
+            "type": "spot",
+            "anchor": "game.golfer",
+            "lookAnchor": "",
+            "pos": [
+                2.5999999046325685,
+                2.4000000953674318,
+                -1.600000023841858
+            ],
+            "look": [
+                0.0,
+                1.2999999523162842,
+                0.0
+            ],
+            "color": [
+                1.0,
+                0.8600000143051148,
+                0.7200000286102295
+            ],
+            "intensity": 240.0,
+            "range": 9.0,
+            "angle": 40.0,
+            "inner": -1.0,
+            "smooth": 0.0,
+            "shadows": true,
+            "shadowStrength": 1.0,
+            "on": -100000,
+            "off": 100000,
+            "fade": 1.0
+        },
+        {
+            "name": "grim",
+            "type": "spot",
+            "anchor": "game.golfer",
+            "lookAnchor": "",
+            "pos": [
+                -2.4000000953674318,
+                2.700000047683716,
+                1.899999976158142
+            ],
+            "look": [
+                0.0,
+                1.399999976158142,
+                0.0
+            ],
+            "color": [
+                1.0,
+                0.5,
+                0.20000000298023225
+            ],
+            "intensity": 520.0,
+            "range": 9.0,
+            "angle": 36.0,
+            "inner": -1.0,
+            "smooth": 0.0,
+            "shadows": false,
+            "shadowStrength": 1.0,
+            "on": -100000,
+            "off": 100000,
+            "fade": 1.0
+        },
+        {
+            "name": "gkick",
+            "type": "spot",
+            "anchor": "game.golfer",
+            "lookAnchor": "",
+            "pos": [
+                -1.2000000476837159,
+                1.2999999523162842,
+                -2.5999999046325685
+            ],
+            "look": [
+                0.0,
+                1.2000000476837159,
+                0.0
+            ],
+            "color": [
+                0.44999998807907107,
+                0.699999988079071,
+                1.0
+            ],
+            "intensity": 220.0,
+            "range": 8.0,
+            "angle": 40.0,
+            "inner": -1.0,
+            "smooth": 0.0,
+            "shadows": false,
+            "shadowStrength": 1.0,
+            "on": -100000,
+            "off": 100000,
+            "fade": 1.0
+        }
+    ],
+    "keepLights": false,
+    "post": {
+        "exposure": 0.10000000149011612,
+        "contrast": 14.0,
+        "saturation": 8.0,
+        "temperature": 0.0,
+        "tint": 0.0,
+        "bloom": 0.5,
+        "bloomThreshold": 1.0,
+        "bloomScatter": 0.699999988079071,
+        "vignette": 0.30000001192092898,
+        "ca": 0.0,
+        "filter": [],
+        "lift": [],
+        "gamma": [],
+        "gain": [],
+        "shadows": [
+            0.949999988079071,
+            0.949999988079071,
+            1.100000023841858,
+            0.0
+        ],
+        "midtones": [],
+        "highlights": [
+            1.0800000429153443,
+            1.0,
+            0.9200000166893005,
+            0.0
+        ],
+        "tonemap": "aces",
+        "exclusive": true
+    },
+    "env": {
+        "mainLight": 1.0,
+        "ambient": 0.800000011920929,
+        "shadowDistance": -1.0,
+        "fogDensity": -1.0,
+        "shadowStrength": -1.0,
+        "mainColor": [],
+        "mainEuler": [],
+        "fogColor": [],
+        "ambientColor": []
+    },
+    "hide": [
+        "Golf broadcast",
+        "HUD",
+        "Club wipe",
+        "Green read",
+        "Aim line",
+        "Aim dots",
+        "Landing zone",
+        "Shot result",
+        "Weather",
+        "Big screen"
+    ],
+    "show": [],
+    "trace": [
+        "game.golfer.Performing"
+    ]
+}

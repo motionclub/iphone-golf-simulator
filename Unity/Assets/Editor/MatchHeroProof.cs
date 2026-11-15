@@ -212,10 +212,8 @@ namespace GolfArcade.EditorTools
                         File.WriteAllBytes($"{Out}/raw/{scenario}_run_{role.ToLower()}_{runShots[role]:00}.png", t.EncodeToPNG()); Object.DestroyImmediate(t);
                         shots.Add(new Shot { file = $"raw/{scenario}_run_{role.ToLower()}_{runShots[role]:00}.png", scenario = scenario, frame = Time.frameCount, role = role, sex = drv.matchLook.female ? "female" : "male", clip = drv.PlayingClip, clipTime = drv.PlayingClipTime, state = drv.State, note = $"on the move at {drv.actor.Speed:0.0} m/s, ReadyIdle held (no run clip) | {drv.WeightReport()}" });
                     }
-                    // the explicit dive (the one stroke the match set has no clip for: the hero tilts, the swing clip plays)
-                    if (key == "Nadia" && !diveTried && frame > 1200 && game.CanDive) { diveTried = game.RequestDive(); }
-                    // (the camera is placed in the actor's frame: the hero root itself is rolled 58 degrees in a dive, which would put a hero-relative camera under the court)
-                    if (game.DiveActive && diveShots < 8 && frame % 4 == 0) { diveShots++; var at = pd.actor.transform; CloseUp(game, pd, $"{scenario}_dive_{diveShots:00}", at.TransformPoint(3.2f, 1.3f, -1.4f), at.position + Vector3.up * .6f, 40, scenario, "PLAYER"); }
+                    // a stretch lunge for a wide ball (it replaced the dive 2026-11-13), when the rally offers one
+                    if (game.StretchActive && diveShots < 8 && frame % 4 == 0) { diveShots++; var at = pd.actor.transform; CloseUp(game, pd, $"{scenario}_dive_{diveShots:00}", at.TransformPoint(3.2f, 1.3f, -1.4f), at.position + Vector3.up * .6f, 40, scenario, "PLAYER"); }
                     // the instant replay (TennisReplay re-poses every recorded transform of both actors, the match heroes' bones included): play one on demand
                     if (key == "Viktor" && !replayTried && frame == 900) { replayTried = true; var rep = game.GetComponent<TennisReplay>(); audit.Add($"[{scenario}] replay requested at frame {frame}: Play -> {(rep && rep.Play(2.6f, .5f))}"); }
                     if (game.ReplayPlaying && replayShots < 3 && frame % 30 == 0) { replayShots++; SaveGame($"{scenario}_replay_{replayShots:00}", game, scenario, "slow-motion replay camera", pd, rd); }

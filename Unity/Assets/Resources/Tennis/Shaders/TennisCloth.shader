@@ -36,6 +36,26 @@ Shader "GolfArcade/TennisCloth"
         _FabricDetail ("V3 yarn relief", Range(0,2)) = 1
         _FibreShine ("V3 fibre shine", Range(0,3)) = 1
         _Mottle ("V3 tonal grain", Range(0,0.2)) = 0.08
+        // STYLE PILOT (2026-10-30): 0 = off, every other garment unchanged
+        _StylePass ("Style pass", Float) = 0
+        _StyleSmooth ("Style smoothness", Range(0,1)) = 0.55
+        _StyleSpec ("Style highlight", Range(0,2)) = 0.6
+        _StyleEnv ("Style reflection", Range(0,1)) = 0.35
+        _StyleAOFloor ("Style fold shadow floor", Range(0,1)) = 0.3
+        _StyleRamp ("Style top-lit ramp", Range(0,0.5)) = 0.15
+        _StyleSheen ("Style fabric edge sheen", Range(0,2)) = 0.5
+        _StyleValueCap ("Style albedo value cap", Range(0.5,1)) = 0.8
+        _StyleSat ("Style saturation", Range(0.5,1)) = 0.88
+        _StyleCool ("Style cool shadow side", Range(0,1)) = 0
+        _StyleFill ("Style garment fill (court)", Range(0,1)) = 0
+        _StyleDewarm ("Style counter to the warm grade", Range(0,1)) = 0
+        // CLOTH JIGGLE (2026-10-30 pilot): looseness map (R hem, G left sleeve, B right sleeve, A collar) x spring offsets (ClothJiggle.cs)
+        [NoScaleOffset] _JiggleMap ("Jiggle looseness", 2D) = "black" {}
+        _JigOn ("Jiggle on", Float) = 0
+        [HideInInspector] _JigHem ("", Vector) = (0,0,0,0)
+        [HideInInspector] _JigSleeveL ("", Vector) = (0,0,0,0)
+        [HideInInspector] _JigSleeveR ("", Vector) = (0,0,0,0)
+        [HideInInspector] _JigCollar ("", Vector) = (0,0,0,0)
     }
     HLSLINCLUDE
     #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
@@ -47,7 +67,20 @@ Shader "GolfArcade/TennisCloth"
                 half _UseGarmentMaps, _NormalStrength, _AOStrength;
                 half _FabricVersion, _EdgeLines, _FemaleSurface;
                 half _AtlasVersion, _KnitCell, _FabricDetail, _FibreShine, _Mottle;
+                half _StylePass, _StyleSmooth, _StyleSpec, _StyleEnv, _StyleAOFloor, _StyleRamp, _StyleSheen, _StyleValueCap, _StyleSat, _StyleCool, _StyleFill, _StyleDewarm;
+                float4 _JigHem, _JigSleeveL, _JigSleeveR, _JigCollar; half _JigOn;
             CBUFFER_END
+            TEXTURE2D(_JiggleMap); SAMPLER(sampler_JiggleMap);
+            float _ClothJiggleGlobal;            // set by ClothJiggle (1 while any hero simulates); 0 = every garment static, as shipped
+            // Inertia wobble: loose cloth moves by the springs' world offsets; never into the body (inward part along the normal dropped)
+            float3 ClothJiggle(float3 pWS, float3 nWS, float2 uv)
+            {
+                if (_JigOn < .5 || _ClothJiggleGlobal < .5) return pWS;
+                float4 w = SAMPLE_TEXTURE2D_LOD(_JiggleMap, sampler_JiggleMap, uv, 0);
+                float3 off = w.r * _JigHem.xyz + w.g * _JigSleeveL.xyz + w.b * _JigSleeveR.xyz + w.a * _JigCollar.xyz;
+                off -= nWS * min(dot(off, nWS), 0) * .85;
+                return pWS + off;
+            }
             TEXTURE2D(_NormalMap); SAMPLER(sampler_NormalMap);
             TEXTURE2D(_MaskMap); SAMPLER(sampler_MaskMap);
             TEXTURE2D(_WeaveMap); SAMPLER(sampler_WeaveMap);
@@ -86,13 +119,13 @@ Shader "GolfArcade/TennisCloth"
             Varyings vert (Attributes i)
             {
                 Varyings o;
-                VertexPositionInputs p = GetVertexPositionInputs(i.positionOS.xyz);
-                o.positionCS = p.positionCS; o.positionWS = p.positionWS;
                 VertexNormalInputs nrm = GetVertexNormalInputs(i.normalOS, i.tangentOS);
+                o.positionWS = ClothJiggle(TransformObjectToWorld(i.positionOS.xyz), nrm.normalWS, i.uv);
+                o.positionCS = TransformWorldToHClip(o.positionWS);
                 o.normalWS = nrm.normalWS;
                 o.tangentWS = float4(nrm.tangentWS, i.tangentOS.w * GetOddNegativeScale());
                 o.uv = i.uv; o.edge = i.edge;
-                o.fog = ComputeFogFactor(p.positionCS.z);
+                o.fog = ComputeFogFactor(o.positionCS.z);
                 return o;
             }
 
@@ -237,6 +270,7 @@ Shader "GolfArcade/TennisCloth"
                     half f2 = 1 - smoothstep(.5h, 1.2h, max(length(ddx(m2)), length(ddy(m2))));
                     mottle = 1 + _Mottle * ((ClothMottle(m1) - .5h) * 1.4h + (ClothMottle(m2) - .5h) * .9h * f2) * (id > 2.5h && id < 4.5h ? .3h : 1);
                 }
+                if (_StylePass > .5h) { threadBreak = lerp(1, threadBreak, .25h); mottle = lerp(1, mottle, .3h); }   // smooth performance poly: little thread speckle
                 half3 albedo = lerp(_BaseColor.rgb, _TrimColor.rgb, mask.b) * threadBreak * mottle;
                 if (_FemaleSurface>.5h && !(id>2.5h&&id<4.5h)) {
                     // Larger knit clusters remain visible after individual atlas
@@ -253,6 +287,16 @@ Shader "GolfArcade/TennisCloth"
                 half ao = lerp(1, aoVisibility, .5h);
                 albedo *= lerp(_FemaleSurface>.5h?.88h:.40h, 1, mask.g);
                 half ndv = saturate(dot(n, v));
+                if (_StylePass > .5h) {
+                    // painted fold shadows at full strength, and a top-lit value ramp (lighter up-facing planes, darker under-planes)
+                    aoVisibility = lerp(1, max(mask.r, _StyleAOFloor), _AOStrength); ao = aoVisibility;
+                    albedo *= lerp(1 - _StyleRamp, 1 + _StyleRamp * .5h, saturate(n.y * .5h + .5h));
+                    // colour headroom: a pure, bright pick (#F00, #00F) leaves no room between lit and shadow sides -> cap value, ease saturation
+                    half lum = dot(albedo, half3(.2126h, .7152h, .0722h));
+                    albedo = lerp(lum.xxx, albedo, _StyleSat);
+                    half peak = max(albedo.r, max(albedo.g, albedo.b));
+                    albedo *= min(1, _StyleValueCap / max(peak, 1e-3h));
+                }
 
                 Light main = HeroMain(GetMainLight());
                 main.shadowAttenuation = ClothShadow(i.positionWS);
@@ -291,6 +335,27 @@ Shader "GolfArcade/TennisCloth"
                 ambient *= _HeroProfile > .5h ? lerp(1,screenAO.indirectAmbientOcclusion,.35h) : screenAO.indirectAmbientOcclusion;
                 colour *= _HeroProfile > .5h ? lerp(1,screenAO.directAmbientOcclusion,.35h) : screenAO.directAmbientOcclusion;
                 #endif
+                if (_StylePass > .5h) {
+                    // sport-poly finish: a GGX highlight from the key light + the environment's reflection at grazing angles
+                    half rough = 1 - _StyleSmooth, a2 = max(rough * rough, .03h); a2 *= a2;
+                    half3 hv = SafeNormalize(main.direction + v);
+                    half nh = saturate(dot(n, hv)), nl = saturate(dot(n, main.direction));
+                    half dd = nh * nh * (a2 - 1) + 1;
+                    half F = .04h + .96h * pow(1 - saturate(dot(hv, v)), 5);
+                    half spec = min(a2 / (PI * dd * dd + 1e-4h) * F * .25h, 6);
+                    colour += spec * nl * _StyleSpec * main.color * main.shadowAttenuation * ao;
+                    half fres = .04h + .96h * pow(1 - ndv, 5);
+                    colour += GlossyEnvironmentReflection(reflect(-v, n), rough, ao) * fres * _StyleEnv;
+                    // fabric sheen: sportswear glows softly toward its silhouette where the key reaches it (not a hot spot in the middle)
+                    half edge = pow(1 - ndv, 2.5h);
+                    colour += lerp(albedo, 1, .35h) * edge * _StyleSheen * saturate(dot(n, main.direction) * .6h + .4h) * main.color * main.shadowAttenuation * ao;
+                    // cool, slightly deeper shadow side (the lit side keeps its hue)
+                    colour = lerp(colour, colour * half3(.90h, .95h, 1.08h), (1 - nl) * .6h * _StyleCool);
+                    // court lighting for clothes: a soft view-side fill (the studio's fill light the venue lacks) so folds, gloss and
+                    // colour read under a single hard sun; and a slight counter-tint against the venues' warm grade (whites stay white)
+                    colour += albedo * _StyleFill * (.45h + .55h * ndv) * ao * half3(.95h, .98h, 1.05h);
+                    colour *= lerp(half3(1, 1, 1), half3(.95h, .98h, 1.05h), _StyleDewarm);
+                }
                 half rim = pow(1 - ndv, _RimPower) * _RimStrength * (_HeroProfile > .5h ? _HeroRim : 1);
                 colour += albedo * knit * pow(1 - ndv, 5) * .045h * saturate(dot(n, main.direction)) * main.shadowAttenuation * main.color;
                 half3 rimLight = _RimColor.rgb * rim * saturate(dot(n,main.direction)*.7h+.3h) * (0.35 + 0.65 * albedo) * main.color;
@@ -322,9 +387,10 @@ Shader "GolfArcade/TennisCloth"
             #pragma fragment shadowFrag
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
             float3 _LightDirection;
-            struct ShadowInput { float4 positionOS : POSITION; float3 normalOS : NORMAL; };
+            struct ShadowInput { float4 positionOS : POSITION; float3 normalOS : NORMAL; float2 uv : TEXCOORD0; };
             float4 shadowVert(ShadowInput i) : SV_POSITION {
                 float3 p = TransformObjectToWorld(i.positionOS.xyz), n = TransformObjectToWorldNormal(i.normalOS);
+                p = ClothJiggle(p, n, i.uv);
                 float4 clip = TransformWorldToHClip(ApplyShadowBias(p,n,_LightDirection));
                 #if UNITY_REVERSED_Z
                 clip.z = min(clip.z, UNITY_NEAR_CLIP_VALUE * clip.w);
@@ -344,7 +410,7 @@ Shader "GolfArcade/TennisCloth"
             HLSLPROGRAM
             #pragma vertex depthVert
             #pragma fragment depthFrag
-            float4 depthVert(float4 p : POSITION) : SV_POSITION { return TransformObjectToHClip(p.xyz); }
+            float4 depthVert(float4 p : POSITION, float3 nOS : NORMAL, float2 uv : TEXCOORD0) : SV_POSITION { return TransformWorldToHClip(ClothJiggle(TransformObjectToWorld(p.xyz), TransformObjectToWorldNormal(nOS), uv)); }
             half4 depthFrag() : SV_Target { return 0; }
             ENDHLSL
         }
@@ -359,8 +425,8 @@ Shader "GolfArcade/TennisCloth"
             struct NInput { float4 positionOS : POSITION; float3 normalOS : NORMAL; float4 tangentOS : TANGENT; float2 uv : TEXCOORD0; };
             struct NOutput { float4 positionCS : SV_POSITION; float3 normalWS : TEXCOORD0; float4 tangentWS : TEXCOORD1; float2 uv : TEXCOORD2; };
             NOutput normalVert(NInput i) {
-                NOutput o; o.positionCS=TransformObjectToHClip(i.positionOS.xyz);
-                VertexNormalInputs n=GetVertexNormalInputs(i.normalOS,i.tangentOS);o.normalWS=n.normalWS;
+                NOutput o; VertexNormalInputs n=GetVertexNormalInputs(i.normalOS,i.tangentOS);o.normalWS=n.normalWS;
+                o.positionCS=TransformWorldToHClip(ClothJiggle(TransformObjectToWorld(i.positionOS.xyz),n.normalWS,i.uv));
                 o.tangentWS=float4(n.tangentWS,i.tangentOS.w*GetOddNegativeScale());o.uv=i.uv;return o;
             }
             half4 normalFrag(NOutput i, FRONT_FACE_TYPE facing : FRONT_FACE_SEMANTIC) : SV_Target {

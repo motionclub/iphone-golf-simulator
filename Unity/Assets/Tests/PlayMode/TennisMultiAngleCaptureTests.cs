@@ -112,7 +112,7 @@ namespace GolfArcade.PlayTests
                             if(chapter>=2 && chapter<=6) game.Player.Swing(.75f,chapter==3,chapter==4?TennisActor.Stroke.Serve:chapter==5?TennisActor.Stroke.Volley:chapter==6?TennisActor.Stroke.Smash:TennisActor.Stroke.Drive);
                             if(chapter==1)driver.PlayJuice(HeroTennisDriver.Clip.Idle);
                             if(chapter>=11 && chapter<=16)driver.PlayJuice((HeroTennisDriver.Clip)((int)HeroTennisDriver.Clip.HitPerfect+chapter-11));
-                            if(chapter>=17){game.InjectBall(game.Player.transform.position+new Vector3(chapter==17?2:-2,1,2),new Vector3(0,0,-4));Assert.IsTrue(game.RequestDive());}
+                            if(chapter>=17){game.InjectBall(game.Player.transform.position+new Vector3(chapter==17?2:-2,1,2),new Vector3(0,0,-4));game.RequestSwing(.7f);Assert.IsTrue(game.StretchActive);}
                         }
                         if(chapter>=17) game.Step(1f/60);
                         else {

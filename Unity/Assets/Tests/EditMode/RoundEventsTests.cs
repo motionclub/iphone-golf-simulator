@@ -166,7 +166,9 @@ namespace GolfArcade.Tests
             var r = new PlayRules(); Weather.Rain.Bend(r);
             var wet = new CourseShot(GolfClub.Driver, Full(), 0, new CoursePoint(0, 0), Straight(r));
             Assert.AreEqual(dry.Carry, wet.Carry, 0.5);
-            Assert.Less(wet.Roll, dry.Roll * 0.8, "it sits down");
+            // (run after pitching, hops and roll together: since 2026-11-11 a drive's run is part low skips, and wet turf
+            // takes the skips out first, so the roll alone can be the longer of the two)
+            Assert.Less(wet.Landing.DistanceTo(wet.Rest), dry.Landing.DistanceTo(dry.Rest) * 0.8, "it sits down");
             Assert.IsTrue(RoundEvents.Deal(1).RulesFor(Weather.Storm).FairwayDrag > 1);
         }
 

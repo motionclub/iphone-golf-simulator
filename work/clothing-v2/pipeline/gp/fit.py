@@ -65,6 +65,14 @@ def main():
         it0 = next(i for i in cur if i.tag == tag)
         W = WT.dense(np.searchsorted(body_it.gidx, it0.gidx)[it0.bi] if set(it0.gidx) <= set(body_it.gidx) else it0.bi, it0.bw, len(names))
         info = {'kept': True}; aux = None
+        # GP_WEIGHTS_FROM=<candidate npz of the same piece> + GP_WEIGHTS_MASK=<npy, 0..1 per vertex>: take that candidate's weights where
+        # the mask is 1, today's elsewhere (11-14 polo underarm: re-fitted sleeves / armpit, today's torso)
+        wf, wm = os.environ.get('GP_WEIGHTS_FROM'), os.environ.get('GP_WEIGHTS_MASK')
+        if wf and wm:
+            z = np.load(wf, allow_pickle=False); m = np.load(wm).astype(float)
+            Wf = WT.dense(np.searchsorted(body_it.gidx, z['bi']), z['bw'], len(names))
+            W = (1 - m[:, None]) * W + m[:, None] * Wf
+            say('  weights: %s where the mask is set (%d vertices > .5)' % (wf, int((m > .5).sum())))
     else:
         body = WT.Body(body_it, names)
         # the skin this garment covers in the bind pose (GPU coverage, the same test as the cover): a panel may only follow covered groups

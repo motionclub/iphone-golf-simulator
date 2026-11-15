@@ -23,7 +23,7 @@ namespace GolfArcade.Tests
             {
                 TennisBall.Integrate(ref position, ref velocity, spin, TennisBall.Step);
                 if (position.y < TennisRules.BallRadius && velocity.y < 0)
-                { position.y = TennisRules.BallRadius; TennisBall.Bounce(ref velocity, ref spin, .75f); }
+                { position.y = TennisRules.BallRadius; TennisBall.Bounce(ref velocity, ref spin, TennisFlight.Restitution); }
                 t += TennisBall.Step;
                 if (towardsNegative ? position.z <= planeZ : position.z >= planeZ) break;
             }
@@ -65,9 +65,9 @@ namespace GolfArcade.Tests
                     shots++;
                     // The human reads it from where they stand: a plain run first, and the sprint boost if that cannot get there.
                     var me = new Vector2(humanX, TennisRules.BaselineZ);
-                    var plan = TennisRules.PlanIntercept(start, velocity, reply.Spin, .75f, me, TennisRules.ReactionTime, TennisRules.RunSpeed, false);
+                    var plan = TennisRules.PlanIntercept(start, velocity, reply.Spin, TennisFlight.Restitution, me, TennisRules.ReactionTime, TennisRules.RunSpeed, false);
                     if (autoJump && TennisRules.EarnsAutoJump(plan))
-                        plan = TennisRules.PlanIntercept(start, velocity, reply.Spin, .75f, me, TennisRules.JumpReaction, TennisRules.SprintSpeed, false);
+                        plan = TennisRules.PlanIntercept(start, velocity, reply.Spin, TennisFlight.Restitution, me, TennisRules.JumpReaction, TennisRules.SprintSpeed, false);
                     bool whiff = R() < .08f;                                         // a swing that simply misses
                     if (!plan.Found || !plan.Reachable || whiff) break;              // the human loses the point
                     humanSpeedAcross = (plan.Point.x - humanX) / Mathf.Max(.3f, plan.Time);

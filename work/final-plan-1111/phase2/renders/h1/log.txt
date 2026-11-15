@@ -1,0 +1,26 @@
+/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/render_arm.py:85: DeprecationWarning: 'World.use_nodes' is expected to be removed in Blender 6.0
+  w = bpy.data.worlds.new("w"); sc.world = w; w.use_nodes = True
+/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/render_arm.py:63: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  m = bpy.data.materials.new(name); m.use_nodes = True
+00:02.138  render           | Saved: 'renders/h1/hertennisloose_dressed_upper.png'
+00:02.692  render           | Saved: 'renders/h1/hertennisloose_dressed_chest3q.png'
+00:03.154  render           | Saved: 'renders/h1/hertennisloose_dressed_upperback.png'
+00:04.197  render           | Saved: 'renders/h1/hertennisfit_dressed_upper.png'
+00:04.661  render           | Saved: 'renders/h1/hertennisfit_dressed_chest3q.png'
+00:05.103  render           | Saved: 'renders/h1/hertennisfit_dressed_upperback.png'
+00:06.187  render           | Saved: 'renders/h1/hergolfloose_dressed_upper.png'
+00:06.635  render           | Saved: 'renders/h1/hergolfloose_dressed_chest3q.png'
+00:07.103  render           | Saved: 'renders/h1/hergolfloose_dressed_upperback.png'
+00:08.166  render           | Saved: 'renders/h1/hergolffit_dressed_upper.png'
+00:08.614  render           | Saved: 'renders/h1/hergolffit_dressed_chest3q.png'
+00:09.075  render           | Saved: 'renders/h1/hergolffit_dressed_upperback.png'
+00:10.115  render           | Saved: 'renders/h1/herbowlloose_dressed_upper.png'
+00:10.588  render           | Saved: 'renders/h1/herbowlloose_dressed_chest3q.png'
+00:11.039  render           | Saved: 'renders/h1/herbowlloose_dressed_upperback.png'
+00:12.076  render           | Saved: 'renders/h1/herbowlfit_dressed_upper.png'
+00:12.546  render           | Saved: 'renders/h1/herbowlfit_dressed_chest3q.png'
+00:13.001  render           | Saved: 'renders/h1/herbowlfit_dressed_upperback.png'
+RENDERS DONE renders/h1
+Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:49:19)
+
+Blender quit

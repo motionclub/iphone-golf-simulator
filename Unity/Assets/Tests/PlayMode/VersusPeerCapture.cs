@@ -266,8 +266,7 @@ namespace GolfArcade.PlayTests
                     {
                         float toContact = (game.BallPosition.z - (game.Player.transform.position.z + .65f)) / -game.BallVelocity.z;
                         if (!planned) { planned = true; float roll = R(); swingAt = roll < .15f ? .3f + R() * .08f : roll < .3f ? .06f + R() * .04f : .14f + (R() - .5f) * .08f; }
-                        if (game.CanDive && Mathf.Abs(game.PredictedInterceptX - game.Player.transform.position.x) > 2.2f && toContact < .6f && R() < .5f) { if (game.RequestDive()) { sum.myDives++; Log("dive"); } }
-                        else if (toContact < swingAt && toContact > .015f)
+                        if (toContact < swingAt && toContact > .015f)
                         {
                             planned = false; sum.mySwings++;
                             float lift = R() < .2f ? -.1f : R() < .25f ? .26f : 0, facing = game.BallPosition.x < game.Player.transform.position.x ? -1 : 1;

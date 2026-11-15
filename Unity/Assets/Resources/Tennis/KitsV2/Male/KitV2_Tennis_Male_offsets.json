@@ -7,70 +7,76 @@
    "piece": "Kit_Top",
    "bones": {
     "Chest": {
-     "rest_p50": 0.0227,
-     "rest_p95": 0.0362,
-     "pose_p95": 0.039,
-     "max": 0.0638
+     "rest_p50": 0.0316,
+     "rest_p95": 0.0479,
+     "pose_p95": 0.0511,
+     "max": 0.0721
+    },
+    "Head": {
+     "rest_p50": 0.0594,
+     "rest_p95": 0.0777,
+     "pose_p95": 0.0765,
+     "max": 0.08
     },
     "Hips": {
-     "rest_p50": 0.0213,
-     "rest_p95": 0.0322,
-     "pose_p95": 0.0383,
-     "max": 0.0573
+     "rest_p50": 0.0283,
+     "rest_p95": 0.0409,
+     "pose_p95": 0.0526,
+     "max": 0.0623
     },
     "LeftShoulder": {
-     "rest_p50": 0.0184,
-     "rest_p95": 0.0435,
-     "pose_p95": 0.0472,
-     "max": 0.0654
+     "rest_p50": 0.0188,
+     "rest_p95": 0.0467,
+     "pose_p95": 0.0476,
+     "max": 0.0671
     },
     "LeftUpperArm": {
-     "rest_p50": 0.0101,
-     "rest_p95": 0.0221,
-     "pose_p95": 0.0273,
-     "max": 0.0503
+     "rest_p50": 0.0224,
+     "rest_p95": 0.0386,
+     "pose_p95": 0.0402,
+     "max": 0.0593
     },
     "LeftUpperLeg": {
-     "rest_p50": 0.024,
-     "rest_p95": 0.0377,
-     "pose_p95": 0.0454,
-     "max": 0.063
+     "rest_p50": 0.0372,
+     "rest_p95": 0.0524,
+     "pose_p95": 0.0613,
+     "max": 0.0793
     },
     "Neck": {
-     "rest_p50": 0.0197,
-     "rest_p95": 0.0246,
-     "pose_p95": 0.0291,
-     "max": 0.0361
+     "rest_p50": 0.0382,
+     "rest_p95": 0.0495,
+     "pose_p95": 0.0559,
+     "max": 0.0799
     },
     "RightShoulder": {
-     "rest_p50": 0.0188,
-     "rest_p95": 0.0435,
-     "pose_p95": 0.0462,
-     "max": 0.0686
+     "rest_p50": 0.0189,
+     "rest_p95": 0.0467,
+     "pose_p95": 0.0478,
+     "max": 0.0646
     },
     "RightUpperArm": {
-     "rest_p50": 0.0101,
-     "rest_p95": 0.0223,
-     "pose_p95": 0.0277,
-     "max": 0.048
+     "rest_p50": 0.0226,
+     "rest_p95": 0.0384,
+     "pose_p95": 0.0401,
+     "max": 0.0614
     },
     "RightUpperLeg": {
-     "rest_p50": 0.0245,
-     "rest_p95": 0.0379,
-     "pose_p95": 0.0476,
-     "max": 0.0674
+     "rest_p50": 0.0373,
+     "rest_p95": 0.053,
+     "pose_p95": 0.0623,
+     "max": 0.08
     },
     "Spine": {
-     "rest_p50": 0.0343,
-     "rest_p95": 0.0524,
-     "pose_p95": 0.054,
-     "max": 0.0674
+     "rest_p50": 0.0478,
+     "rest_p95": 0.0669,
+     "pose_p95": 0.0702,
+     "max": 0.08
     },
     "UpperChest": {
-     "rest_p50": 0.0061,
-     "rest_p95": 0.0123,
-     "pose_p95": 0.0209,
-     "max": 0.0336
+     "rest_p50": 0.0075,
+     "rest_p95": 0.0166,
+     "pose_p95": 0.019,
+     "max": 0.0292
     }
    }
   },
@@ -167,17 +173,18 @@
   }
  ],
  "bones": {
-  "Chest": 0.039,
-  "Hips": 0.0383,
-  "LeftShoulder": 0.0472,
-  "LeftUpperArm": 0.0273,
-  "LeftUpperLeg": 0.0454,
-  "Neck": 0.0291,
-  "RightShoulder": 0.0462,
-  "RightUpperArm": 0.0277,
-  "RightUpperLeg": 0.0476,
-  "Spine": 0.054,
-  "UpperChest": 0.0209,
+  "Chest": 0.0511,
+  "Head": 0.0765,
+  "Hips": 0.0526,
+  "LeftShoulder": 0.0476,
+  "LeftUpperArm": 0.0402,
+  "LeftUpperLeg": 0.0613,
+  "Neck": 0.0559,
+  "RightShoulder": 0.0478,
+  "RightUpperArm": 0.0401,
+  "RightUpperLeg": 0.0623,
+  "Spine": 0.0702,
+  "UpperChest": 0.019,
   "LeftFoot": 0.0406,
   "LeftLowerLeg": 0.0149,
   "RightFoot": 0.0521,

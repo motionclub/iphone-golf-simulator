@@ -1,0 +1,12 @@
+/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/render_arm.py:79: DeprecationWarning: 'World.use_nodes' is expected to be removed in Blender 6.0
+  w = bpy.data.worlds.new("w"); sc.world = w; w.use_nodes = True
+/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/render_arm.py:57: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  m = bpy.data.materials.new(name); m.use_nodes = True
+00:01.401  render           | Saved: 'renders/r9/v3_down_bare_upper.png'
+00:01.846  render           | Saved: 'renders/r9/v3_down_bare_upperside.png'
+00:02.912  render           | Saved: 'renders/r9/v3_down_dressed_upper.png'
+00:03.326  render           | Saved: 'renders/r9/v3_down_dressed_upperside.png'
+RENDERS DONE renders/r9
+Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:49:19)
+
+Blender quit

@@ -81,9 +81,10 @@ namespace GolfArcade.Tests
             Assert.IsTrue(hud.TryCentre("play", out var at));
             hud.PointAt(at, false, presses); yield return null;
             Assert.AreEqual("play", hud.Hovered);
-            hud.PointAt(at + new Vector2(260, 0), false, presses); yield return null;   // 30 px past the right edge: still lit
+            // (MENU SQUAD 11-13: PLAY is a 104 px button bottom right, so the probe goes up)
+            hud.PointAt(at + new Vector2(0, 52 + 30), false, presses); yield return null;   // 30 px past the top edge: still lit
             Assert.AreEqual("play", hud.Hovered, "kept within 40 px");
-            hud.PointAt(at + new Vector2(400, 0), false, presses); yield return null;
+            hud.PointAt(at + new Vector2(0, 52 + 160), false, presses); yield return null;
             Assert.AreNotEqual("play", hud.Hovered);
             // press and release inside one sample (the release sample was dropped): one click
             hud.PointAt(at, false, presses); yield return null;

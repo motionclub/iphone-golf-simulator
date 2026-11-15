@@ -201,12 +201,17 @@ public class TennisPolishTests
             Assert.AreEqual(contact, TennisRules.StrokePlayhead(toContact, duration, contact), .001f);
     }
 
-    [Test] public void BallsOutOfReachAreDived()
+    [Test] public void BallsOutOfReachAreStretchedForNotDived()
     {
-        Assert.AreEqual("Dive", TennisRules.StrokeFor(1f, -9f, -11.2f, TennisRules.DiveGap + .2f, false));
+        // The dive is gone (2026-11-13): a plain swing at a ball that wide is a drive (as it was without a dive);
+        // the swing's stretch lunge (TennisGame.BeginStretch) closes the gap and plays the wide-reach clip.
+        Assert.AreEqual("Drive", TennisRules.StrokeFor(1f, -9f, -11.2f, 2.2f, false));
         Vector3 ball = new Vector3(2.0f, 1.1f, .65f);
-        Assert.IsFalse(TennisRules.AssistedContact(ball, ball, Vector3.zero, TennisRules.SweetTime, false, out _, .5f));
-        Assert.IsTrue(TennisRules.AssistedContact(ball, ball, Vector3.zero, TennisRules.SweetTime, false, out _, .5f, true));
+        Assert.IsFalse(TennisRules.AssistedContact(ball, ball, Vector3.zero, TennisRules.SweetTime, false, out _, .5f), "out of reach without the lunge");
+        Vector3 lunged = new Vector3(TennisRules.StretchDistance, 0, 0);
+        Assert.IsTrue(TennisRules.AssistedContact(ball, ball, lunged, TennisRules.SweetTime, false, out _, .5f), "within reach after it");
+        Assert.GreaterOrEqual(TennisRules.StretchMax - TennisRules.StretchDistance, TennisRules.StretchTo, "the widest stretched ball still ends inside the swing's reach");
+        Assert.Less(TennisRules.StretchMax - TennisRules.StretchDistance, TennisRules.ContactReach);
     }
 
     [Test] public void ReachableHeightsAreABandNotAPoint()

@@ -1,0 +1,69 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using GolfArcade.Tennis;
+using NUnit.Framework;
+using UnityEngine;
+using Object = UnityEngine.Object;
+
+namespace GolfArcade.Tests
+{
+    /// Project-copy only (Assets/Tests/EditMode/ZClipArmSurvey.cs; SURVEY_OUT=<csv>): every clip the match heroes play (the tennis
+    /// driver's slots, Resources/Tennis/Performance, Resources/HeroMoves/<Sex>), sampled raw at 30 Hz on the hero's own rig: per
+    /// arm, the elbow's bend and the wrist's bend (how far the hand's own axis, wrist to middle knuckle, leaves the forearm's line;
+    /// split into flexion toward the palm and deviation toward the thumb). The clips as authored: no grip polish, no clearance.
+    public class ZClipArmSurvey
+    {
+        [Test]
+        public void Survey()
+        {
+            string file = Environment.GetEnvironmentVariable("SURVEY_OUT"); Assert.IsNotNull(file, "SURVEY_OUT");
+            var csv = new System.Text.StringBuilder("sex,clip,length,side,wristMean,wristMax,wristMaxAt,devMin,devMax,flexMin,flexMax,elbowMin,elbowMax,wristOver30\n");
+            foreach (bool female in new[] { true, false })
+            {
+                var go = Object.Instantiate(TennisCustomization.HeroBase(female));
+                try
+                {
+                    var look = go.GetComponent<MatchHeroLook>(); string sex = female ? "Female" : "Male";
+                    var root = look.animator ? look.animator.gameObject : go;
+                    var clips = new Dictionary<string, AnimationClip>();
+                    foreach (var d in go.GetComponentsInChildren<HeroTennisDriver>(true))
+                        foreach (var f in typeof(HeroTennisDriver).GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+                            if (f.FieldType == typeof(HeroTennisDriver.ClipSlot[]) && f.GetValue(d) is HeroTennisDriver.ClipSlot[] slots)
+                                foreach (var s in slots) if (s.clip) clips["tennis/" + s.id] = s.clip;
+                    foreach (var c in Resources.LoadAll<AnimationClip>("Tennis/Performance")) if (c.name.StartsWith(sex + "_")) clips["performance/" + c.name.Substring(sex.Length + 1)] = c;
+                    foreach (var c in Resources.LoadAll<AnimationClip>("HeroMoves/" + sex)) if (!c.name.StartsWith("__preview")) clips["moves/" + c.name] = c;
+                    Transform B(HumanBodyBones b) => look.Bone(b);
+                    foreach (var kv in clips.OrderBy(k => k.Key))
+                    {
+                        var clip = kv.Value; int n = Mathf.Max(2, Mathf.CeilToInt(clip.length * 30));
+                        for (int side = 0; side < 2; side++)
+                        {
+                            bool left = side == 0;
+                            var ua = B(left ? HumanBodyBones.LeftUpperArm : HumanBodyBones.RightUpperArm); var la = B(left ? HumanBodyBones.LeftLowerArm : HumanBodyBones.RightLowerArm);
+                            var hd = B(left ? HumanBodyBones.LeftHand : HumanBodyBones.RightHand); var mid = B(left ? HumanBodyBones.LeftMiddleProximal : HumanBodyBones.RightMiddleProximal);
+                            var ip = B(left ? HumanBodyBones.LeftIndexProximal : HumanBodyBones.RightIndexProximal); var lp = B(left ? HumanBodyBones.LeftLittleProximal : HumanBodyBones.RightLittleProximal);
+                            if (!ua || !la || !hd || !mid || !ip || !lp) continue;
+                            float wSum = 0, wMax = 0, wAt = 0, dMin = 999, dMax = -999, fMin = 999, fMax = -999, eMin = 999, eMax = -999; int over = 0;
+                            for (int i = 0; i < n; i++)
+                            {
+                                float t = clip.length * i / (n - 1); clip.SampleAnimation(root, t);
+                                var up = (la.position - ua.position).normalized; var fo = (hd.position - la.position).normalized; var ax = (mid.position - hd.position).normalized;
+                                var ac = Vector3.ProjectOnPlane(ip.position - lp.position, ax).normalized; var pn = left ? Vector3.Cross(ac, ax) : Vector3.Cross(ax, ac);
+                                float w = Vector3.Angle(fo, ax), flex = -Mathf.Atan2(Vector3.Dot(fo, pn), Vector3.Dot(fo, ax)) * Mathf.Rad2Deg, dev = -Mathf.Atan2(Vector3.Dot(fo, ac), Vector3.Dot(fo, ax)) * Mathf.Rad2Deg, el = Vector3.Angle(up, fo);
+                                wSum += w; if (w > wMax) { wMax = w; wAt = t; } if (w > 30) over++;
+                                dMin = Mathf.Min(dMin, dev); dMax = Mathf.Max(dMax, dev); fMin = Mathf.Min(fMin, flex); fMax = Mathf.Max(fMax, flex); eMin = Mathf.Min(eMin, el); eMax = Mathf.Max(eMax, el);
+                            }
+                            csv.Append(FormattableString.Invariant($"{sex},{kv.Key},{clip.length:0.00},{(left ? "L" : "R")},{wSum / n:0.0},{wMax:0.0},{wAt:0.00},{dMin:0.0},{dMax:0.0},{fMin:0.0},{fMax:0.0},{eMin:0.0},{eMax:0.0},{over * 100f / n:0}\n"));
+                        }
+                    }
+                    Debug.Log($"[ZClipArmSurvey] {sex}: {clips.Count} clips");
+                }
+                finally { Object.DestroyImmediate(go); }
+            }
+            File.WriteAllText(file, csv.ToString());
+        }
+    }
+}

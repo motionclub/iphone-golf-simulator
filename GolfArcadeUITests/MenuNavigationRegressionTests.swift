@@ -1,7 +1,7 @@
 import XCTest
 
 final class MenuNavigationRegressionTests: XCTestCase {
-    func testControllerShowsSetupThenServeDiveAndWinningPointEmotes() {
+    func testControllerShowsSetupThenServeAndWinningPointEmotesWithNoDive() {
         continueAfterFailure = false
         let app = XCUIApplication()
         func launch(_ phase: String) {
@@ -23,11 +23,11 @@ final class MenuNavigationRegressionTests: XCTestCase {
         XCTAssertFalse(app.buttons["controller-ready"].exists)
         launch("serve")
         XCTAssertTrue(app.buttons["tennisToss"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.buttons["tennisDive"].exists)
+        XCTAssertFalse(app.buttons["tennisDive"].exists, "the dive was removed 2026-11-13")
         XCTAssertFalse(app.buttons["controller-emote-0"].exists)
         launch("rally")
-        XCTAssertTrue(app.buttons["tennisDive"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.buttons["tennisDive"].isEnabled)
+        XCTAssertTrue(app.buttons["controller-exit"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.buttons["tennisDive"].exists, "no Dive button in a rally")
         XCTAssertFalse(app.buttons["tennisToss"].exists)
         launch("point")
         XCTAssertTrue(app.buttons["controller-emote-0"].waitForExistence(timeout: 5))

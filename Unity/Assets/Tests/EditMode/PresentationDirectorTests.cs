@@ -15,10 +15,14 @@ namespace GolfArcade.Tests
                 float duration = PresentationDirector.Budget(PresentationBeat.Venue, golf, cut)
                     + PresentationDirector.Budget(PresentationBeat.WalkOn, golf, cut)
                     + PresentationDirector.Budget(PresentationBeat.Start, golf, cut);
-                Assert.AreEqual(golf ? (cut == PresentationCut.Full ? 13.1f : 8.7f) : (cut == PresentationCut.Full ? 12.9f : 11.5f), duration, .001f);
+                // 2026-11-11 (plan Phase 1, "cut the waits"): tennis 6.0 / 5.4 s (12.9 / 11.5 before), golf 9.2 / 6.9 s (13.1 / 8.7: its
+                // flyover is 4.0 s of that, 7.9 before)
+                Assert.AreEqual(golf ? (cut == PresentationCut.Full ? 9.2f : 6.9f) : (cut == PresentationCut.Full ? 6.0f : 5.4f), duration, .001f);
             }
             Assert.AreEqual(HoleIntro.Opening + 3 * HoleIntro.ShotSeconds, PresentationDirector.Budget(PresentationBeat.Venue, true, PresentationCut.Full), .001f, "golf: the opening and three highlights");
-            Assert.AreEqual(3.2f, PresentationDirector.Budget(PresentationBeat.Venue, false, PresentationCut.Full), .001f, "tennis's drone stays short");
+            Assert.AreEqual(1.6f, PresentationDirector.Budget(PresentationBeat.Venue, false, PresentationCut.Full), .001f, "tennis's drone stays short");
+            Assert.LessOrEqual(GolfArcade.Tennis.TennisPresentation.FullLength, 6f + 1e-4f, "the whole tennis show: six seconds");
+            Assert.LessOrEqual(HoleIntro.Length(true), 4f + 1e-4f, "the golf flyover: four seconds");
         }
         /// Each character gets three seconds for their player to tap an emote; none plays unless one is tapped; a tapped
         /// emote is played out.

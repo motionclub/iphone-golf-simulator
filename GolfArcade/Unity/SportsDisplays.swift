@@ -125,6 +125,16 @@ final class SportsDisplays: NSObject {
         phoneSeeThrough(true)
     }
     var phonePlazaShown: Bool { plazaPhone?.isHidden == false }
+    /// The menu on a phone with no TV fills the screen and turns with the phone (Adnan 10-29); everything else on the phone stays upright.
+    var phoneMenuRotates: Bool { external == nil && HubSession.shared.onPhone && HubSession.shared.menuMode && !SportsSession.shared.active }
+    /// The phone's windows ask again which ways they may turn; leaving the menu sideways turns the phone's screen back upright.
+    func phoneOrientationChanged() {
+        guard let scene = phone?.windowScene else { return }
+        for window in scene.windows { window.rootViewController?.setNeedsUpdateOfSupportedInterfaceOrientations() }
+        if !phoneMenuRotates, scene.interfaceOrientation.isLandscape {
+            scene.requestGeometryUpdate(.iOS(interfaceOrientations: .portrait)) { error in NSLog("[SportsDisplay] upright request failed: %@", error.localizedDescription) }
+        }
+    }
     #if DEBUG
     /// `-phonePlazaCheck` (simulator, no Unity): a painted stand-in for Unity's plaza in the phone plaza window, to check that the
     /// app's window lets it show through above the controls.
@@ -373,7 +383,8 @@ final class SportsAppDelegate: NSObject, UIApplicationDelegate {
     }
     func application(_ application:UIApplication, supportedInterfaceOrientationsFor window:UIWindow?) -> UIInterfaceOrientationMask {
         if SportsDisplays.shared.isPreview(window) || window?.windowScene?.session.role == .windowExternalDisplayNonInteractive { return .landscape }
-        return .portrait   // (the Plaza on a phone with no TV stays upright too: it draws above the controls)
+        // (the walkable Plaza on a phone with no TV stays upright too: it draws above the controls; the menu alone turns either way)
+        return SportsDisplays.shared.phoneMenuRotates ? .allButUpsideDown : .portrait
     }
     func application(_ application:UIApplication, configurationForConnecting session:UISceneSession, options:UIScene.ConnectionOptions) -> UISceneConfiguration {
         let config=UISceneConfiguration(name:session.role == .windowExternalDisplayNonInteractive ? "Sports External" : nil,sessionRole:session.role)
@@ -424,7 +435,7 @@ struct SportsPreviewControls:View {
                     .accessibilityIdentifier("golf-continue")
             }
             if session.sport == "tennis" && session.ready {
-                if session.tennisPhase == "rally" { Text("Early ← · On time ↑ · Late →").font(.caption); TennisAbilityControls(session: session) }
+                if session.tennisPhase == "rally" { Text("Early ← · On time ↑ · Late →").font(.caption) }
                 if session.tennisPhase == "serve" || session.tennisPhase == "toss" { ServeAimPad(session:session).frame(width:180,height:90); if session.tennisPhase == "serve" { Button("Toss") { session.toss() } } }
             }
             }

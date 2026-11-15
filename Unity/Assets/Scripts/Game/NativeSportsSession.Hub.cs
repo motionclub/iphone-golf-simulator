@@ -69,8 +69,15 @@ namespace GolfArcade.Game
             // What the plaza used to inherit from GolfGame.Awake while Golf was the build's first scene (Boot.unity is now): the screen
             // never sleeps in the menu, and Unity keeps running behind the phone's own screens. (Its shadows are HubArt.Lighting's.)
             Screen.sleepTimeout = SleepTimeout.NeverSleep; Application.runInBackground = true;
-            // the phone stays upright either way: with a TV it is the controller, alone it shows the plaza above its controls
-            Screen.orientation = ScreenOrientation.Portrait;
+            // the phone stays upright with a TV (it is the controller) and in the walkable plaza alone (it draws above its controls); the menu
+            // alone fills the phone and turns with it, sideways or upright (the app allows landscape only then: SportsDisplays.phoneMenuRotates)
+            if (m.phoneOnly && m.menu)
+            {
+                Screen.autorotateToPortrait = Screen.autorotateToLandscapeLeft = Screen.autorotateToLandscapeRight = true;
+                Screen.autorotateToPortraitUpsideDown = false;
+                Screen.orientation = ScreenOrientation.AutoRotation;
+            }
+            else Screen.orientation = ScreenOrientation.Portrait;
             HubWorld.StartFemale = m.female; HubWorld.DeferBuild = true; HubWorld.PhoneOnly = m.phoneOnly; HubWorld.MenuMode = m.menu;
             menuSession = m.session; menuToken = m.token; lastMenuSample = -1;
             var op = SceneManager.LoadSceneAsync("Hub");

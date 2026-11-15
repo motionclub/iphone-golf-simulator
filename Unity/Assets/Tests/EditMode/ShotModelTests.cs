@@ -89,27 +89,13 @@ namespace GolfArcade.Tests
             Assert.Less(chip.Apex, 1.5, "and stays low");
         }
 
-        /// Off the turf a full shot kicks up about head-high, skips once or twice more, and runs
-        /// (Wii Sports' lively turf; 10-28 it was a dead knee-high hop).
+        /// (Until 2026-11-11 this file required every full shot, wedges included, to hop 1-2.4 m and skip two or three times
+        /// whatever the club: the 10-28 "lively turf". The landing now depends on the shot and the ground: GolfLandingTests.)
         [Test]
-        public void AFullShotKicksUpThenSkipsAndRuns()
+        public void TheOldTurfGaveEveryShotAThirdOfItsFallBack()
         {
-            foreach (var club in new[] { GolfClub.Driver, GolfClub.Iron5, GolfClub.Iron, GolfClub.PitchingWedge, GolfClub.LobWedge })
-            {
-                var f = BallFlight.Simulate(club.Launch(1, 0, 0));
-                double hop = 0; int hops = 0; bool rising = false; double before = 0;
-                for (double t = f.CarryTime + 1.0 / 60; t <= f.RollStartTime; t += 1.0 / 240)
-                {
-                    double h = f.PositionAt(t).HeightYards;
-                    if (h > before + 1e-4 && !rising) { rising = true; hops++; }
-                    if (h < before - 1e-4) rising = false;
-                    if (hops == 1) hop = Math.Max(hop, h);
-                    before = h;
-                }
-                double metres = hop * BallFlight.MetersPerYard;
-                Assert.That(metres, Is.InRange(1.0, 2.4), $"{club}'s first hop, metres");
-                Assert.That(hops, Is.InRange(2, 3), $"{club} skips on, then runs");
-            }
+            Assert.AreEqual(0.46, BallFlight.TurfRestitutionClassic(0), 1e-9);
+            Assert.AreEqual(0.30, BallFlight.TurfRestitutionClassic(40), 1e-9);
         }
 
         [Test]

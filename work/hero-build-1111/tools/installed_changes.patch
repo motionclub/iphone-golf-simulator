@@ -1,0 +1,319 @@
+--- a/Assets/Scripts/Tennis/HeroShoeShape.cs	2026-10-28 13:12:40
++++ b/Assets/Scripts/Tennis/HeroShoeShape.cs	2026-11-11 12:46:51
+@@ -11,14 +11,28 @@
+     /// weights and bind poses are unchanged; normals and tangents go through the map's Jacobian.
+     public static class HeroShoeShape
+     {
+-        const float Toe = .14f, Corner = .45f, Heel = .06f, Keep = .004f;
++        static float Toe = .14f, Corner = .45f, Heel = .06f; const float Keep = .004f;
++        /// HERO DEPTH (work/hero-depth-1111, clone only): the Clothing V2 shoes read as hooves (width/length .49, a blunt toe box as tall as the
++        /// heel). V2 = a real sneaker last: a stronger plan taper whose tip sits toward the big toe, a toe box that drops toward the tip (the
++        /// sole thins with it, the bottom stays on the ground), and rigid footwear weights (heel on the foot, not the shin).
++        public static bool Depth => System.Environment.GetEnvironmentVariable("HERO_DEPTH") != "0";
++        /// HERO PRESENCE (2026-11-11): cloth that keeps its shape in strong light, a firmer ground shadow, hero lighting on. HERO_PRESENCE=0 = off.
++        public static bool Presence => System.Environment.GetEnvironmentVariable("HERO_PRESENCE") != "0";
++        static float Drop, Medial, Flat, Waist; static bool v2;
++        static float EnvF(string k, float d) => float.TryParse(System.Environment.GetEnvironmentVariable(k), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var v) ? v : d;
++        public static Mesh PrepareV2(SkinnedMeshRenderer shoe, Transform root, bool male)
++        {
++            (float t, float c, float h) keep = (Toe, Corner, Heel);
++            Toe = male ? .34f : .26f; Corner = .45f; Heel = .10f; Drop = male ? .36f : .30f; Medial = .08f; Flat = EnvF("HERO_SHOE_FLAT", .85f); Waist = EnvF("HERO_SHOE_WAIST", .14f); v2 = true;
++            try { return Prepare(shoe, root); } finally { (Toe, Corner, Heel) = keep; v2 = false; }
++        }
+         static readonly Dictionary<Mesh, Mesh> cache = new();
+ 
+         /// `inside`: the bind-pose renderers the shoe must keep covering (the body and this side's sock).
+         public static Mesh Prepare(SkinnedMeshRenderer shoe, Transform root, params SkinnedMeshRenderer[] inside)
+         {
+             var source = shoe ? shoe.sharedMesh : null;
+-            if (!source || !source.isReadable || !root) return source;
++            if (!source || !source.isReadable || !root || source.name.Contains("(sneaker shape)")) return source;
+             if (cache.TryGetValue(source, out var ready) && ready) return ready;
+             Matrix4x4 toRoot = root.worldToLocalMatrix * shoe.transform.localToWorldMatrix, fromRoot = toRoot.inverse;
+             var sv = source.vertices; int n = sv.Length; var q = new Vector3[n];
+@@ -38,9 +52,20 @@
+             foreach (var p in q) { var d = new Vector2(p.x, p.z) - mean; int k = Station(Vector2.Dot(d, along)); half[k] = Mathf.Max(half[k], Mathf.Abs(Vector2.Dot(d, across) - sMid)); }
+             // smooth the 1 cm stations (a stepped width would kink the taper between them)
+             var smooth = (float[])half.Clone(); for (int k = 1; k + 1 < stations; k++) smooth[k] = Mathf.Max(half[k], .5f * (half[k - 1] + half[k + 1]));
++            // IDEAL HERO: the underside of the sole per 1 cm station (the rocker curve), so V2 can lay the sole flat
++            var under = new float[stations]; for (int k = 0; k < stations; k++) under[k] = float.MaxValue;
++            foreach (var p in q) { int k = Station(Vector2.Dot(new Vector2(p.x, p.z) - mean, along)); under[k] = Mathf.Min(under[k], p.y); }
++            { float lowest = float.MaxValue; foreach (var u in under) lowest = Mathf.Min(lowest, u); for (int k = 0; k < stations; k++) if (under[k] == float.MaxValue) under[k] = lowest;
++              var u2 = (float[])under.Clone(); for (int pass = 0; pass < 3; pass++) { for (int k = 1; k + 1 < stations; k++) u2[k] = (under[k - 1] + 2 * under[k] + under[k + 1]) * .25f; under = (float[])u2.Clone(); } }
++            float Under(float f) { float x = Mathf.Clamp((f - fMin) / .01f, 0, stations - 1.001f); int k = (int)x; return Mathf.Lerp(under[k], under[Mathf.Min(k + 1, stations - 1)], x - k); }
+             float Half(float f) { float x = Mathf.Clamp((f - fMin) / .01f, 0, stations - 1.001f); int k = (int)x; return Mathf.Lerp(smooth[k], smooth[Mathf.Min(k + 1, stations - 1)], x - k); }
+             float widest = 0; foreach (var h in smooth) widest = Mathf.Max(widest, h);
+             float length = fMax - fMin, toeStart = fMax - .45f * length, heelEnd = fMin + .22f * length;
++            float yMin = float.MaxValue, yMax = float.MinValue; foreach (var p in q) { yMin = Mathf.Min(yMin, p.y); yMax = Mathf.Max(yMax, p.y); }
++            float medial = (mean.x < 0 ? 1 : -1) * Mathf.Sign(across.x);   // toward the other foot
++            // the sole keeps its thickness (and its trim line): only what stands above it drops toward the toe
++            float soleTop = yMin;
++            if (v2 && source.subMeshCount > 1) { float soleMax = yMin; foreach (int k in source.GetIndices(1)) soleMax = Mathf.Max(soleMax, q[k].y); soleTop = yMin + (soleMax - yMin) * .85f; }
+             float Smooth(float a, float b, float x) { float t = Mathf.Clamp01((x - a) / (b - a)); return t * t * (3 - 2 * t); }
+             Vector3 Plan(Vector3 p)
+             {
+@@ -52,8 +77,19 @@
+                 s *= 1 - narrow * r;                                                           // taper, strongest at the outer edge
+                 f -= Corner * Toe * toe * toe * r * r * (f - toeStart) * .5f;                   // pull the toe's front corners back: a round toe
+                 f += Corner * Heel * heel * heel * r * r * (heelEnd - f) * .5f;
++                float y = p.y;
++                if (v2)
++                {
++                    float drop = Smooth(fMax - .55f * length, fMax, f);
++                    s += Medial * medial * toe * toe * widest;                                 // the tip sits toward the big toe (a left and a right shoe)
++                    // a flat sole: take the rocker out of the underside, fading to nothing at the top of the sole
++                    { float lift = Under(f) - yMin; if (lift > 0 && Flat > 0) { float keep = Mathf.Clamp01((p.y - Under(f)) / Mathf.Max(soleTop - yMin, .005f)); y -= lift * Flat * (1 - keep * keep); } }
++                    // a waist: the inner side draws in under the arch
++                    { float tt = (f - fMin) / length; float w0 = Mathf.Exp(-((tt - .45f) / .16f) * ((tt - .45f) / .16f)); if (s * medial > 0) s *= 1 - Waist * w0; }
++                    if (p.y > soleTop) y = soleTop + (p.y - soleTop) * (1 - Drop * 1.35f * Mathf.Pow(drop, 1.5f)); // the toe box drops toward the tip, over a sole of full thickness
++                }
+                 var o = mean + along * f + across * (s + sMid);
+-                return new Vector3(o.x, p.y, o.y);
++                return new Vector3(o.x, y, o.y);
+             }
+             // clearance to what the shoe covers, in root space
+             var inner = new List<Vector3>(); float top = float.MinValue; foreach (var p in q) top = Mathf.Max(top, p.y);
+@@ -80,7 +116,7 @@
+             int moved = 0; float largest = 0, minimumJacobian = 1; const float e = .0001f;
+             for (int i = 0; i < n; i++)
+             {
+-                float allow = inner.Count > 0 ? Mathf.Max(0, Clearance(q[i]) - Keep) : .01f;
++                float allow = inner.Count > 0 ? Mathf.Max(0, Clearance(q[i]) - Keep) : v2 ? 1f : .01f;
+                 var w = Warp(q[i], allow);
+                 if ((w - q[i]).sqrMagnitude < 1e-12f) { after[i] = sv[i]; continue; }
+                 moved++; largest = Mathf.Max(largest, (w - q[i]).magnitude); after[i] = fromRoot.MultiplyPoint3x4(w);
+@@ -95,6 +131,20 @@
+             ready.vertices = after;
+             if (normals.Length == n) ready.normals = newNormals;
+             if (tangents.Length == n) ready.tangents = newTangents;
++            if (v2 && source.bindposes.Length == 3)
++            {
++                // rigid footwear rule (the female shoes' rule, work/clothing-v2/pipeline/gp/weights.py): bones = lower leg, foot, toes
++                var bw = new BoneWeight[n];
++                for (int i = 0; i < n; i++)
++                {
++                    float f = Vector2.Dot(new Vector2(q[i].x, q[i].z) - mean, along), t = (f - fMin) / length, h = q[i].y - yMin;
++                    float toes = .55f * Smooth(.66f, 1f, t), shin = .85f * Smooth(.075f, .16f, h) * (1 - Smooth(.30f, .55f, t)), foot = 1 - toes - shin;
++                    var w = new BoneWeight { boneIndex0 = 1, weight0 = foot };
++                    if (toes > shin) { w.boneIndex1 = 2; w.weight1 = toes; w.boneIndex2 = 0; w.weight2 = shin; } else { w.boneIndex1 = 0; w.weight1 = shin; w.boneIndex2 = 2; w.weight2 = toes; }
++                    bw[i] = w;
++                }
++                ready.boneWeights = bw;
++            }
+             ready.RecalculateBounds();
+             cache[source] = ready;
+             Debug.Log($"[HeroShoeShape] {source.name}: moved={moved}/{n} largest={largest * 1000:F1}mm minJacobian={minimumJacobian:F3} length={length * 1000:F0}mm inside={inner.Count}");
+--- a/Assets/Scripts/Tennis/MatchHeroLook.cs	2026-10-30 23:25:14
++++ b/Assets/Scripts/Tennis/MatchHeroLook.cs	2026-11-11 12:59:25
+@@ -93,11 +93,25 @@
+                 var uv3 = new System.Collections.Generic.List<Vector2>(shade.Length);
+                 foreach (var c in shade) uv3.Add(new Vector2(c, 0));
+                 mesh.SetUVs(3, uv3);
++                // HERO DEPTH: the whole foot goes under a worn shoe (the hide lists keep the forefoot, which forced the shoes to be a box around it)
++                bool[] footVert = null;
++                if (HeroShoeShape.Depth && worn.Any(n => n.StartsWith("Kit_Shoe")))
++                {
++                    var bn = body.bones; var foot = new System.Collections.Generic.HashSet<int>();
++                    for (int b = 0; b < bn.Length; b++) if (bn[b] && (bn[b].name.EndsWith("Foot") || bn[b].name.EndsWith("Toes"))) foot.Add(b);
++                    var bw = src.boneWeights; footVert = new bool[bw.Length];
++                    for (int v = 0; v < bw.Length; v++)
++                    {
++                        var w = bw[v]; float f = (foot.Contains(w.boneIndex0) ? w.weight0 : 0) + (foot.Contains(w.boneIndex1) ? w.weight1 : 0) + (foot.Contains(w.boneIndex2) ? w.weight2 : 0) + (foot.Contains(w.boneIndex3) ? w.weight3 : 0);
++                        footVert[v] = f >= .85f;
++                    }
++                }
+                 for (int sub = 0; sub < src.subMeshCount; sub++)
+                 {
+                     var t = src.GetTriangles(sub); var keep = new System.Collections.Generic.List<int>(t.Length);
+                     for (int i = 0; i < t.Length; i += 3)
+-                        if (!hide.Contains(CoverKey(t[i], t[i + 1], t[i + 2]))) { keep.Add(t[i]); keep.Add(t[i + 1]); keep.Add(t[i + 2]); }
++                        if (footVert != null && footVert[t[i]] && footVert[t[i + 1]] && footVert[t[i + 2]]) continue;
++                        else if (!hide.Contains(CoverKey(t[i], t[i + 1], t[i + 2]))) { keep.Add(t[i]); keep.Add(t[i + 1]); keep.Add(t[i + 2]); }
+                     mesh.SetTriangles(keep, sub, false);
+                 }
+                 kitV2Covered[(src, key)] = mesh;
+@@ -213,6 +227,11 @@
+         /// kit (HeroGarmentLOD, the locker export's Distance variant), so a far player and the lobby wear the same shoes as a close-up.
+         public Mesh FinishFootwear(SkinnedMeshRenderer r, Mesh mesh)
+         {
++            if (HeroShoeShape.Depth && r && mesh && IsKitV2(mesh) && r.name.Contains("Shoe"))
++            {
++                var keptV2 = r.sharedMesh; r.sharedMesh = mesh;
++                try { return HeroShoeShape.PrepareV2(r, transform, !female); } finally { r.sharedMesh = keptV2; }
++            }
+             if (golfKit || IsKitV2(mesh) || !r || !mesh) return mesh;
+             string tag = r.name.StartsWith("Kit_") ? r.name.Substring(4).Replace("_", "") : r.name;
+             bool shoe = tag.StartsWith("Shoe"), sock = tag.StartsWith("Sock");
+@@ -465,6 +484,7 @@
+                         m.SetFloat("_StylePass", 1); m.SetFloat("_StyleSmooth", .35f); m.SetFloat("_StyleSpec", 0); m.SetFloat("_StyleEnv", 0);
+                         m.SetFloat("_StyleAOFloor", .70f); m.SetFloat("_StyleRamp", .06f); m.SetFloat("_StyleSheen", 0); m.SetFloat("_StyleValueCap", 1); m.SetFloat("_StyleSat", 1); m.SetFloat("_StyleCool", 0);
+                         m.SetFloat("_StyleFill", .22f); m.SetFloat("_StyleDewarm", .8f);
++                        if (HeroShoeShape.Presence) { m.SetFloat("_StyleValueCap", .88f); m.SetFloat("_StyleSat", .94f); m.SetFloat("_StyleCool", .4f); m.SetFloat("_StyleFill", .15f); }
+                     }
+                     if (styleKit)
+                     {
+@@ -474,6 +494,13 @@
+                         m.SetFloat("_StyleAOFloor", rebuilt ? .45f : .70f); m.SetFloat("_StyleRamp", .12f);
+                         m.SetFloat("_StyleSheen", 0); m.SetFloat("_StyleValueCap", 1); m.SetFloat("_StyleSat", 1); m.SetFloat("_StyleCool", 0);
+                         m.SetFloat("_StyleFill", .30f); m.SetFloat("_StyleDewarm", .8f);
++                        if (female && HeroShoeShape.Depth) { m.SetFloat("_StyleSmooth", .50f); m.SetFloat("_StyleSpec", .45f); m.SetFloat("_StyleEnv", .18f); m.SetFloat("_StyleAOFloor", .50f); }
++                        if (HeroShoeShape.Presence)
++                        {
++                            // a saturated pick no longer clips to one flat colour: the build under the shirt reads in sun as well as in the studio
++                            float Pv(string k, float d) => float.TryParse(System.Environment.GetEnvironmentVariable(k), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var pv) ? pv : d;
++                            m.SetFloat("_StyleValueCap", Pv("HERO_CLOTH_CAP", .84f)); m.SetFloat("_StyleSat", Pv("HERO_CLOTH_SAT", .92f)); m.SetFloat("_StyleCool", Pv("HERO_CLOTH_COOL", .5f)); m.SetFloat("_StyleFill", Pv("HERO_CLOTH_FILL", .16f));
++                        }
+                         m.SetFloat("_RimStrength", .40f); m.SetFloat("_FabricDetail", .12f); m.SetFloat("_Mottle", .01f); m.SetFloat("_FibreShine", .4f); m.SetFloat("_Exposure", golfKit ? 1.0f : .92f);
+                         // CLOTH JIGGLE: inertia wobble from each top's looseness map (Resources/<sport>/KitsV2/<sex>/KitV2_<sport>_<sex>_Top_J) + per-hero springs
+                         var jig = top ? Resources.Load<Texture2D>($"{sportDir}/KitsV2/{sexDir}/KitV2_{sportDir}_{sexDir}_Top_J") : null;
+@@ -624,6 +651,7 @@
+                 body.sharedMesh=HeroHandWeights.Prepare(body,female);
+                 body.sharedMesh=HeroHandShape.Prepare(body,female);   // 10-19: fuller female fingers and pads (hand reference sheets)
+                 body.sharedMesh=female ? HeroShoulderWeights.Prepare(body) : HeroGarmentAxillaWeights.Prepare(body,false);
++                body.sharedMesh=HeroBuild.Prepare(this,body,body.sharedMesh,false);
+                 if (!referenceAnatomy) {
+                     body.sharedMesh=HeroHeadVolume.Prepare(this);
+                     body.sharedMesh=HeroSkinNormals.Prepare(body,Bone(HumanBodyBones.Head));
+@@ -658,6 +686,7 @@
+                 }
+                 body.sharedMaterials = skinMaterials;
+                 ApplySkinSaturation(skinTone);
++                HeroForearmTwist.Build(this);
+                 if(!golfKit || female)HeroArmSkinning.Build(body);
+                 BindKitV2();
+                 HeroShoulderDeformation.Attach(this);
+@@ -714,6 +743,7 @@
+                     string tag = r.name.StartsWith("Kit_") ? r.name.Substring(4).Replace("_", "") : r.name;   // Top, Bottom, ShoeL, ShoeR, SockL, SockR
+                     float scale = r.transform.lossyScale.x;
+                     r.sharedMesh = FinishFootwear(r, r.sharedMesh);
++                    if (!tag.StartsWith("Shoe")) r.sharedMesh = HeroBuild.Prepare(this, r, r.sharedMesh, true);
+                     var ms = r.sharedMaterials;
+                     for (int i = 0; i < ms.Length; i++)
+                     {
+--- a/Assets/Scripts/Tennis/HeroTennisDriver.cs	2026-10-28 13:12:40
++++ b/Assets/Scripts/Tennis/HeroTennisDriver.cs	2026-11-11 12:36:20
+@@ -1036,6 +1036,7 @@
+                     var axis = Vector3.Cross(transform.up, Vector3.ProjectOnPlane(toe.position - foot.position, transform.up)).normalized;
+                     float r = Mathf.Max(.02f, Vector3.ProjectOnPlane(pT - toe.position, axis).magnitude);
+                     float ang = Mathf.Asin(Mathf.Clamp01(-dT / r)) * Mathf.Rad2Deg;
++                    if (HeroShoeShape.Depth) ang = Mathf.Min(ang, 15f);   // HERO DEPTH: a shoe's toe box does not fold
+                     var q0 = toe.rotation;
+                     toe.rotation = Quaternion.AngleAxis(ang, axis) * q0; float up1 = SoleLow(toe, tt, f, out _);
+                     toe.rotation = Quaternion.AngleAxis(-ang, axis) * q0; float up2 = SoleLow(toe, tt, f, out _);
+--- a/Assets/Scripts/Tennis/HeroLightingProfile.cs	2026-10-28 13:12:40
++++ b/Assets/Scripts/Tennis/HeroLightingProfile.cs	2026-11-11 12:46:51
+@@ -18,7 +18,7 @@
+         static void Initialize()
+         {
+             // Look-dev opt-in until the visual gates and on-device cost are verified.
+-            enabled = System.Environment.GetEnvironmentVariable("VISUAL_HERO_LIGHTING") == "1";
++            enabled = System.Environment.GetEnvironmentVariable("VISUAL_HERO_LIGHTING") != "0" && (HeroShoeShape.Presence || System.Environment.GetEnvironmentVariable("VISUAL_HERO_LIGHTING") == "1");
+             Tennis();
+             RenderPipelineManager.beginCameraRendering -= BeforeCamera;
+             RenderPipelineManager.beginCameraRendering += BeforeCamera;
+@@ -58,7 +58,7 @@
+             } else if(!hub && TennisVenue.Selected==TennisVenueKind.Skyscraper) { rim=new(.85f,.93f,1);strength=.5f; }
+             else if(!hub && TennisVenue.Selected==TennisVenueKind.Volcano) { rim=new(1,.7f,.45f);strength=.55f; }
+             Shader.SetGlobalFloat("_HeroLightingEnabled",enabled?1:0);
+-            if(enabled) Shader.SetGlobalFloat("_HeroPresentationFill",.95f);
++            if(enabled) Shader.SetGlobalFloat("_HeroPresentationFill",float.TryParse(System.Environment.GetEnvironmentVariable("HERO_FILL"),System.Globalization.NumberStyles.Float,System.Globalization.CultureInfo.InvariantCulture,out var hf)?hf:.5f);
+             var fillColour=new Color(1,.92f,1);
+             if(golf && (golfHole==8 || golfHole==16)) fillColour=new Color(.97f,1,1.06f);
+             else if(!golf && !hub && TennisVenue.Selected==TennisVenueKind.Volcano) fillColour=new Color(1,.92f,.83f);
+--- a/Assets/Scripts/Tennis/HeroGarmentLOD.cs	2026-10-28 13:12:40
++++ b/Assets/Scripts/Tennis/HeroGarmentLOD.cs	2026-11-11 12:41:28
+@@ -83,6 +83,7 @@
+                 }
+                 else if (skirt) matchMesh = selected.sharedMesh;
+                 else matchMesh = look.FinishFootwear(live, HeroGarmentHemWeights.Prepare(look, live, selected.sharedMesh, matchBones));
++                matchMesh = HeroBuild.Prepare(look, live, matchMesh, true);   // HERO BUILD: the distance garment has the same build as the close one
+                 pieces.Add(new Piece { renderer = live, full = HeroGarmentGusset.CanonicalSource(live.sharedMesh), match = HeroGarmentGusset.CanonicalSource(matchMesh),
+                     fullBones = live.bones, matchBones = matchBones });
+                 FullTriangles += CountTriangles(HeroGarmentGusset.CanonicalSource(live.sharedMesh)); MatchTriangles += CountTriangles(matchMesh);
+--- a/Assets/Scripts/Tennis/TennisGame.cs	2026-10-28 21:10:39
++++ b/Assets/Scripts/Tennis/TennisGame.cs	2026-11-11 12:46:51
+@@ -299,8 +299,8 @@
+             var light = new GameObject("Resort sun").AddComponent<Light>(); light.type = LightType.Directional;
+             TennisLook.LightScene(light);
+             if (venue != TennisVenueKind.Resort) TennisVenueBuilder.Light(venue, light, camera);
+-            { var s = TennisLook.AddContactShadow(Player.transform, .55f, .45f); s.HeightOverride = 0; s.Surface = Player.transform; }
+-            { var s = TennisLook.AddContactShadow(Opponent.transform, .55f, .45f); s.HeightOverride = 0; s.Surface = Opponent.transform; }
++            { var s = TennisLook.AddContactShadow(Player.transform, HeroShoeShape.Presence ? .62f : .55f, HeroShoeShape.Presence ? .70f : .45f); s.HeightOverride = 0; s.Surface = Player.transform; }
++            { var s = TennisLook.AddContactShadow(Opponent.transform, HeroShoeShape.Presence ? .62f : .55f, HeroShoeShape.Presence ? .70f : .45f); s.HeightOverride = 0; s.Surface = Opponent.transform; }
+             { var s = TennisLook.AddContactShadow(ball, .22f, .65f); s.FadeHeight = 12f; s.MinimumFade = .28f; s.Surface = Player.transform; s.OnlyOverDeck = true; }
+             fx = new GameObject("Tennis effects").AddComponent<TennisFx>(); fx.transform.SetParent(transform); fx.Build();
+             gameObject.AddComponent<TennisContactPresentation>().game = this;
+@@ -1076,7 +1076,7 @@
+             if (outfit.Any) Player.WearKit(PlayerBody(female), outfit);
+             TennisHeroSetup.AttachPlayer(this);   // the Hero01 visual died with the old actor
+             if (fx) HookActorFx(Player);
+-            { var s = TennisLook.AddContactShadow(Player.transform, .55f, .45f); s.HeightOverride = 0; s.Surface = Player.transform; }
++            { var s = TennisLook.AddContactShadow(Player.transform, HeroShoeShape.Presence ? .62f : .55f, HeroShoeShape.Presence ? .70f : .45f); s.HeightOverride = 0; s.Surface = Player.transform; }
+             if (replay) replay.Build(new[] { Player.transform, Opponent.transform }, ball, GameplayCamera, OnReplayPose);
+             BeginPoint();
+         }
+@@ -1107,7 +1107,7 @@
+                 Opponent.Build(!FemalePlayer, new Color(.52f,.31f,.18f), false);
+                 Opponent.Motion = TennisActor.Style.Rival;
+                 if (fx) HookActorFx(Opponent);
+-                { var s = TennisLook.AddContactShadow(Opponent.transform, .55f, .45f); s.HeightOverride = 0; s.Surface = Opponent.transform; }
++                { var s = TennisLook.AddContactShadow(Opponent.transform, HeroShoeShape.Presence ? .62f : .55f, HeroShoeShape.Presence ? .70f : .45f); s.HeightOverride = 0; s.Surface = Opponent.transform; }
+                 TennisHeroSetup.AttachRival(this);
+                 if (replay) replay.Build(new[] { Player.transform, Opponent.transform }, ball, GameplayCamera, OnReplayPose);
+             }
+@@ -1123,7 +1123,7 @@
+                 if (rival.Boss) Opponent.RestingFace = TennisActor.Expression.Focus;
+                 TennisHeroSetup.AttachRival(this, rival);   // the Hero01 visual died with the old actor; the rival's own look
+                 if (fx) HookActorFx(Opponent);
+-                { var s = TennisLook.AddContactShadow(Opponent.transform, .55f, .45f); s.HeightOverride = 0; s.Surface = Opponent.transform; }
++                { var s = TennisLook.AddContactShadow(Opponent.transform, HeroShoeShape.Presence ? .62f : .55f, HeroShoeShape.Presence ? .70f : .45f); s.HeightOverride = 0; s.Surface = Opponent.transform; }
+                 if (replay) replay.Build(new[] { Player.transform, Opponent.transform }, ball, GameplayCamera, OnReplayPose);
+             }
+             string label = mode == Mode.Training ? "TRAINING" : mode == Mode.Tutorial ? "PRACTICE COURT" : string.IsNullOrEmpty(roundLabel) ? TennisVenue.Title : roundLabel;
+--- a/Assets/Scripts/Tennis/TennisGame.Versus.cs	2026-10-28 21:10:39
++++ b/Assets/Scripts/Tennis/TennisGame.Versus.cs	2026-11-11 12:46:51
+@@ -174,7 +174,7 @@
+             Opponent.Build(them.female, PlayerSkinFor(them.female), them.left, PlayerBody(them.female));
+             Opponent.Motion = TennisActor.Style.Player;
+             if (fx) HookActorFx(Opponent);
+-            { var s = TennisLook.AddContactShadow(Opponent.transform, .55f, .45f); s.HeightOverride = 0; s.Surface = Opponent.transform; }
++            { var s = TennisLook.AddContactShadow(Opponent.transform, HeroShoeShape.Presence ? .62f : .55f, HeroShoeShape.Presence ? .70f : .45f); s.HeightOverride = 0; s.Surface = Opponent.transform; }
+             TennisHeroSetup.AttachRival(this);
+             DressNetworkHero(Opponent, them);
+             if (replay) replay.Build(new[] { Player.transform, Opponent.transform }, ball, GameplayCamera, OnReplayPose);
+--- a/Assets/Scripts/Hub/Menu/MenuBackdrop.cs	2026-10-29 15:10:29
++++ b/Assets/Scripts/Hub/Menu/MenuBackdrop.cs	2026-11-11 12:53:01
+@@ -117,8 +117,25 @@
+             RenderSettings.ambientLight = light.ambientSky;   // Flat ambient reads ambientLight
+             RenderSettings.ambientIntensity = light.ambientIntensity;
+             RenderSettings.fog = false;
++            if (HeroLookOn) MenuGrade();
+         }
+ 
++        // HERO LOOK (work/hero-look-1111, clone only): the menu keeps the plaza's golden-hour grade (contrast 22, saturation 26, temperature 6,
++        // warm highlights), which turns skin yellow on every venue plate. A calmer menu grade: the venue's light does the mood, not the grade.
++        bool gazeDone;
++        static readonly bool HeroLookOn = Environment.GetEnvironmentVariable("HERO_LOOK") != "0";
++        static float Env(string k, float d) => float.TryParse(Environment.GetEnvironmentVariable(k), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var v) ? v : d;
++        static void MenuGrade()
++        {
++            foreach (var v in UnityEngine.Object.FindObjectsByType<Volume>(FindObjectsSortMode.None))
++            {
++                var profile = v.HasInstantiatedProfile() ? v.profile : v.sharedProfile; if (!profile) continue;
++                if (profile.TryGet(out UnityEngine.Rendering.Universal.ColorAdjustments ca)) { ca.saturation.Override(Env("HERO_LOOK_SAT", 14)); ca.contrast.Override(Env("HERO_LOOK_CONTRAST", 20)); ca.colorFilter.Override(Color.white); }
++                if (profile.TryGet(out UnityEngine.Rendering.Universal.WhiteBalance wb)) { wb.temperature.Override(Env("HERO_LOOK_TEMP", 1)); wb.tint.Override(0); }
++                if (profile.TryGet(out UnityEngine.Rendering.Universal.ShadowsMidtonesHighlights smh)) { smh.midtones.Override(new Vector4(1, 1, 1, 0)); smh.highlights.Override(new Vector4(1.01f, 1f, .99f, 0)); }
++            }
++        }
++
+         /// Everything the hub draws except the heroes and the backdrop: the plaza root is off, but kits that attach to the hub itself arrive
+         /// later, so the first seconds sweep again; the Majestic plaza dressing (bunting, flower pots) is a scene root of its own that the
+         /// kit may rebuild, so that one is checked for as long as the menu shows.
+@@ -149,6 +166,7 @@
+             if (plateMat.GetTextureScale("_BaseMap") != crop) { plateMat.SetTextureScale("_BaseMap", crop); plateMat.SetTextureOffset("_BaseMap", (Vector2.one - crop) * .5f); }
+             // the venue's light, every frame: the plaza's sky and weather layers drive the same sun and ambient in their own updates
+             ApplyLight();
++            if (!gazeDone) { var hw = GetComponent<HubWorld>(); if (hw && hw.Player) { MenuHeroGaze.Attach(hw.Player, cam); gazeDone = true; } }
+             // the sun keeps the venue's angle to the camera (the plate was lit from there)
+             var sun = RenderSettings.sun; if (sun && light.sunDirCam.sqrMagnitude > 1e-4f) sun.transform.rotation = cam.transform.rotation * Quaternion.LookRotation(light.sunDirCam.normalized);
+             // contact darkening under whoever stands in the line-up

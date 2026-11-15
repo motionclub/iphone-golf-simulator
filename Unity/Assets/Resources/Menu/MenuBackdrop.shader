@@ -25,10 +25,11 @@ Shader "GolfArcade/MenuBackdrop"
             CBUFFER_END
             struct A { float4 p : POSITION; float2 uv : TEXCOORD0; };
             struct V { float4 p : SV_POSITION; float2 uv : TEXCOORD0; };
-            // full screen whatever the quad's size or the camera's aspect (the quad only keeps the renderer in the frustum)
+            // full screen whatever the quad's size or the camera's aspect (the quad only keeps the renderer in the frustum); _BaseMap_ST
+            // crops the plate to the camera's shape so it never stretches (a phone with no TV, held either way: MenuBackdrop sets it)
             V vert(A i)
             {
-                V o; o.uv = i.uv;
+                V o; o.uv = i.uv * _BaseMap_ST.xy + _BaseMap_ST.zw;
                 o.p = float4(i.uv * 2 - 1, UNITY_RAW_FAR_CLIP_VALUE, 1);
                 o.p.y *= _ProjectionParams.x;   // render-texture targets flip y
                 return o;

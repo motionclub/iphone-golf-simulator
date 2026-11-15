@@ -1,0 +1,38 @@
+--- ../../Unity/Assets/Scripts/Hub/Menu/MenuBackdrop.cs	2026-10-29 15:10:29
++++ /Users/adnanyonathan/unity-clones/hero-look/Assets/Scripts/Hub/Menu/MenuBackdrop.cs	2026-11-11 00:58:19
+@@ -117,8 +117,24 @@
+             RenderSettings.ambientLight = light.ambientSky;   // Flat ambient reads ambientLight
+             RenderSettings.ambientIntensity = light.ambientIntensity;
+             RenderSettings.fog = false;
++            if (HeroLookOn) MenuGrade();
+         }
+ 
++        // HERO LOOK (work/hero-look-1111, clone only): the menu keeps the plaza's golden-hour grade (contrast 22, saturation 26, temperature 6,
++        // warm highlights), which turns skin yellow on every venue plate. A calmer menu grade: the venue's light does the mood, not the grade.
++        static readonly bool HeroLookOn = Environment.GetEnvironmentVariable("HERO_LOOK") == "1";
++        static float Env(string k, float d) => float.TryParse(Environment.GetEnvironmentVariable(k), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var v) ? v : d;
++        static void MenuGrade()
++        {
++            foreach (var v in UnityEngine.Object.FindObjectsByType<Volume>(FindObjectsSortMode.None))
++            {
++                var profile = v.HasInstantiatedProfile() ? v.profile : v.sharedProfile; if (!profile) continue;
++                if (profile.TryGet(out UnityEngine.Rendering.Universal.ColorAdjustments ca)) { ca.saturation.Override(Env("HERO_LOOK_SAT", 8)); ca.contrast.Override(Env("HERO_LOOK_CONTRAST", 14)); ca.colorFilter.Override(Color.white); }
++                if (profile.TryGet(out UnityEngine.Rendering.Universal.WhiteBalance wb)) { wb.temperature.Override(Env("HERO_LOOK_TEMP", 1)); wb.tint.Override(0); }
++                if (profile.TryGet(out UnityEngine.Rendering.Universal.ShadowsMidtonesHighlights smh)) { smh.midtones.Override(new Vector4(1, 1, 1, 0)); smh.highlights.Override(new Vector4(1.01f, 1f, .99f, 0)); }
++            }
++        }
++
+         /// Everything the hub draws except the heroes and the backdrop: the plaza root is off, but kits that attach to the hub itself arrive
+         /// later, so the first seconds sweep again; the Majestic plaza dressing (bunting, flower pots) is a scene root of its own that the
+         /// kit may rebuild, so that one is checked for as long as the menu shows.
+--- ../../Unity/Assets/Scripts/Tennis/HeroLightingProfile.cs	2026-10-28 13:12:40
++++ /Users/adnanyonathan/unity-clones/hero-look/Assets/Scripts/Tennis/HeroLightingProfile.cs	2026-11-11 01:03:08
+@@ -58,7 +58,7 @@
+             } else if(!hub && TennisVenue.Selected==TennisVenueKind.Skyscraper) { rim=new(.85f,.93f,1);strength=.5f; }
+             else if(!hub && TennisVenue.Selected==TennisVenueKind.Volcano) { rim=new(1,.7f,.45f);strength=.55f; }
+             Shader.SetGlobalFloat("_HeroLightingEnabled",enabled?1:0);
+-            if(enabled) Shader.SetGlobalFloat("_HeroPresentationFill",.95f);
++            if(enabled) Shader.SetGlobalFloat("_HeroPresentationFill",float.TryParse(System.Environment.GetEnvironmentVariable("HERO_FILL"),System.Globalization.NumberStyles.Float,System.Globalization.CultureInfo.InvariantCulture,out var hf)?hf:.95f);
+             var fillColour=new Color(1,.92f,1);
+             if(golf && (golfHole==8 || golfHole==16)) fillColour=new Color(.97f,1,1.06f);
+             else if(!golf && !hub && TennisVenue.Selected==TennisVenueKind.Volcano) fillColour=new Color(1,.92f,.83f);

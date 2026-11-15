@@ -8,20 +8,21 @@ namespace GolfArcade.Tennis
     ///
     ///   1. a short drone flyover in to the court, the event's plate popping up low left
     ///   2. each player in turn, full length to the camera at eye level (long lens, the venue soft behind) with their
-    ///      plate: three seconds in which their player may tap an emote on the phone — nobody emotes unless they do, and
+    ///      plate: a beat (1.2 s; three until 2026-11-11) in which their player may tap an emote on the phone — nobody emotes unless they do, and
     ///      a picked emote is played out (the beat runs on to its end)
     ///   3. the stare-down, eye to eye: the rival close, then you, both names low, a VS between
     ///   4. the umpire calls play; the camera swoops down into the gameplay view
     ///
     /// Alone, the rival goes first; in a versus match seat 0 goes first on both phones, so each player's pick shows on both
-    /// screens in the same beat. A swing (or a tap / Space) skips the flyover only; in versus both players must ask.
+    /// screens in the same beat. A swing (or a tap / Space) skips straight to the call of play, and in versus either
+    /// player's skip ends it on both phones (2026-11-11; before, a skip ended the flyover only and both had to ask).
     /// Runs on game time, so it waits while the session is paused.
     public sealed class TennisPresentation : MonoBehaviour
     {
         /// The full show without emotes picked.
-        public const float FullLength = 3.2f + 2 * PresentationDirector.IntroWindow + PresentationDirector.TennisStare + 1.2f;
+        public const float FullLength = PresentationDirector.TennisDrone + 2 * PresentationDirector.TennisIntroWindow + PresentationDirector.TennisStare + PresentationDirector.TennisSwoop;
         public const float Length = FullLength;
-        float drone = 3.2f, window = PresentationDirector.IntroWindow, stare = PresentationDirector.TennisStare, swoop = 1.2f;
+        float drone = PresentationDirector.TennisDrone, window = PresentationDirector.TennisIntroWindow, stare = PresentationDirector.TennisStare, swoop = PresentationDirector.TennisSwoop;
         /// When each introduction ends (seconds into the introductions): the first, then the second.
         float firstEnd, secondEnd;
         float WalkLength => secondEnd + stare;
@@ -47,7 +48,7 @@ namespace GolfArcade.Tennis
             startCut = shared ? PresentationCut.Short : PresentationPolicy.Cut("tennis.start");
             drone = PresentationDirector.Budget(PresentationBeat.Venue, false, venueCut);
             bool intros = walkCut != PresentationCut.Off;
-            window = intros ? PresentationDirector.IntroWindow : 0; stare = intros ? PresentationDirector.TennisStare : 0;
+            window = intros ? PresentationDirector.TennisIntroWindow : 0; stare = intros ? PresentationDirector.TennisStare : 0;
             swoop = PresentationDirector.Budget(PresentationBeat.Start, false, startCut);
             // the legacy host-rules match (NetworkTennisMatch) caps its shared intro at 3.5 s: it keeps a quick cut
             sharedCut = shared;
@@ -60,8 +61,6 @@ namespace GolfArcade.Tennis
             if (beatIndex > 2) { if (practiced && game.Player) { game.Player.CancelSwing(); practiced = false; } t = TotalLength; Wrap(); hud.MatchVisible = true; return; }
             var beat = beatIndex == 0 ? PresentationBeat.Venue : beatIndex == 1 ? PresentationBeat.WalkOn : PresentationBeat.Start;
             var cut = beatIndex == 0 ? venueCut : beatIndex == 1 ? walkCut : startCut;
-            // versus: this phone has seen its flyover through, so it no longer holds the other phone's skip back
-            if (beatIndex >= 1 && game.Versus && !localSkipVote) { localSkipVote = true; game.VersusSkipVote(introRound); }
             float duration = beatIndex == 0 ? drone : beatIndex == 1 ? WalkLength : swoop;
             cueLed = false; settleCaptured = false; int entered = beatIndex;
             PresentationPolicy.Event(beat.ToString(), "begin", director.Sequence + 1, cut.ToString());
@@ -89,7 +88,7 @@ namespace GolfArcade.Tennis
         bool RivalFirst => !game.Versus || game.VersusSeat == 1;
         /// Seconds into the introductions the player's own begins.
         float PlayerFrom => RivalFirst ? firstEnd : 0;
-        /// The player may pick their emote through the flyover and their own three seconds.
+        /// The player may pick their emote through the flyover and their own introduction.
         public bool CanChooseEmote => Playing && !chosenEmote.HasValue && window > 0
             && (beatIndex == 0 || beatIndex == 1 && director.Elapsed < PlayerFrom + window);
         public bool ChooseEmote(HeroTennisDriver.Clip clip) { if (!CanChooseEmote) return false; chosenEmote = clip; return true; }
@@ -100,17 +99,20 @@ namespace GolfArcade.Tennis
             return length > 0 ? length : 2.5f;
         }
 
-        // versus: the flyover is skipped once both phones have asked (or seen it through); the introductions still play
+        // versus: either phone's skip ends the show on both (its intro number `round` keeps a late message from skipping the next one)
         int introRound, remoteSkipRound = -1; bool localSkipVote;
-        bool RemoteSkipVote => remoteSkipRound >= introRound;
-        /// The other phone asked to skip (or finished) the flyover of its intro number `round`.
-        public void RemoteSkip(int round) { remoteSkipRound = Mathf.Max(remoteSkipRound, round); TryVersusSkip(); }
-        void TryVersusSkip() { if (Playing && beatIndex == 0 && localSkipVote && RemoteSkipVote) { skipped = true; JumpToIntros(); } }
-        /// The drone flyover is on (the only part a skip ends).
+        /// The other phone skipped its intro number `round`.
+        public void RemoteSkip(int round)
+        {
+            remoteSkipRound = Mathf.Max(remoteSkipRound, round);
+            if (Skippable && remoteSkipRound >= introRound) { skipped = true; JumpToStart(); }
+        }
+        /// The drone flyover is on.
         public bool InFlyover => Playing && beatIndex == 0;
-        /// Versus, during the flyover: who has asked to skip it (both must).
-        public (int voted, int needed, bool mine) SkipVotes => game.Versus && Playing && beatIndex == 0
-            ? ((localSkipVote ? 1 : 0) + (RemoteSkipVote ? 1 : 0), 2, localSkipVote) : (0, 0, false);
+        /// The part a skip ends: the flyover and the introductions (not the swoop into play).
+        public bool Skippable => Playing && beatIndex < 2;
+        /// Versus, while the show can be skipped: one ask is enough.
+        public (int voted, int needed, bool mine) SkipVotes => game.Versus && Skippable ? (0, 1, false) : (0, 0, false);
 
         public bool Playing => t < TotalLength;
         public float Remaining => Mathf.Max(0, TotalLength - t);
@@ -131,22 +133,23 @@ namespace GolfArcade.Tennis
         }
         void Wrap() { graphics?.Clear(); plate = left = right = null; if (game && game.GameplayCamera) IntroLens.Off(game.GameplayCamera); }
 
-        /// Skip the flyover: straight to the introductions (they always play). Skip input is consumed by the caller.
+        /// Skip the show: straight to the call of play. Skip input is consumed by the caller.
         public void Skip()
         {
             if (!Playing || t < .3f) return;
-            if (game.Versus) { if (beatIndex == 0 && !localSkipVote) { localSkipVote = true; game.VersusSkipVote(introRound); TryVersusSkip(); } return; }
-            if (PresentationPolicy.Multiplayer) return;
+            if (PresentationPolicy.Multiplayer && !game.Versus) return;
             if (beatIndex == 2) { if (game.Player && !game.Player.Swinging) { practiced = true; game.Player.Swing(.2f, false); } return; }
-            if (beatIndex != 0) return;
-            skipped = true; JumpToIntros();
+            if (game.Versus && !localSkipVote) { localSkipVote = true; game.VersusSkipVote(introRound); }
+            skipped = true; JumpToStart();
         }
-        void JumpToIntros()
+        void JumpToStart()
         {
             director.Cancel(); PresentationStinger.Stop();
-            graphics?.HidePlate(plate, t);
-            // the flyover ends where it was (the introductions keep their place on the show's clock)
-            drone = Mathf.Min(drone, t); beatIndex = walkCut == PresentationCut.Off ? 2 : 1; BeginBeat();
+            graphics?.Clear(); plate = left = right = null;
+            // the show ends where it was: its clock keeps its place and the swoop into play starts from this frame
+            if (beatIndex == 0) { drone = Mathf.Min(drone, t); firstEnd = secondEnd = 0; }
+            else { float e = Mathf.Max(0, t - drone); firstEnd = Mathf.Min(firstEnd, e); secondEnd = e; }
+            stare = 0; beatIndex = 2; BeginBeat();
             PresentationPolicy.Event("Intro", "skip", director.Sequence);
         }
 
@@ -181,7 +184,7 @@ namespace GolfArcade.Tennis
             }
             else if (beatIndex == 1 && e < secondEnd)
             {
-                // the players in turn, each with three seconds to pick an emote (played out if picked)
+                // the players in turn, each with their window to pick an emote (played out if picked)
                 bool first = e < firstEnd;
                 bool isRival = first == RivalFirst;
                 var a = isRival ? rival : player;
@@ -259,7 +262,7 @@ namespace GolfArcade.Tennis
             if (rival) { rivalStarted = s; rivalEmoted = true; } else { playerStarted = s; playerEmoted = chosenPlayed = true; }
             // the introduction runs on until the emote has played out (not the legacy shared cut: the host caps it)
             if (sharedCut) return;
-            float end = PresentationDirector.IntroEnd(0, s, EmoteSeconds(actor, pick.Value));
+            float end = PresentationDirector.IntroEnd(0, s, EmoteSeconds(actor, pick.Value), window);
             if (first) { float grow = Mathf.Max(0, end - firstEnd); firstEnd += grow; secondEnd += grow; }
             else secondEnd = Mathf.Max(secondEnd, firstEnd + end);
             director.Extend(WalkLength);

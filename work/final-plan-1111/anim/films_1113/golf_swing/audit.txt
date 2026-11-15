@@ -1,0 +1,21 @@
+Actual production GolfGame at60fps, consecutive images saved at30fps. Intro uses the production camera and signature path. Stroke cases use real synthetic phone backswing/commit. Explicit performance cases invoke the production GolferView performance API in a parked aim state.
+male intro 163 /60seconds.
+male Driver: actual shot launched;600/60s,300frames.
+male Iron: actual shot launched;600/60s,300frames.
+male PitchingWedge: actual shot launched;600/60s,300frames.
+male Wedge: actual shot launched;600/60s,300frames.
+male Putter: actual shot launched;600/60s,300frames.
+male Idle: observed target, duration=2, returned=Idle, 144 /60s.
+male Wave: observed target, duration=2, returned=Idle, 144 /60s.
+male Cheer: observed target, duration=2, returned=Idle, 144 /60s.
+male FistPump: observed target, duration=3, returned=Idle, 205 /60s.
+female intro 163 /60seconds.
+female Driver: actual shot launched;600/60s,300frames.
+female Iron: actual shot launched;600/60s,300frames.
+female PitchingWedge: actual shot launched;600/60s,300frames.
+female Wedge: actual shot launched;600/60s,300frames.
+female Putter: actual shot launched;600/60s,300frames.
+female Idle: observed target, duration=2, returned=Idle, 144 /60s.
+female Wave: observed target, duration=2, returned=Idle, 144 /60s.
+female Cheer: observed target, duration=2, returned=Idle, 144 /60s.
+female FistPump: observed target, duration=3, returned=Idle, 205 /60s.

@@ -1,0 +1,202 @@
+<meta charset="utf-8">
+<title>MotionSports Loading Screen</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,300;0,400;0,600;1,700;1,800;1,900&display=swap">
+<style>
+/* Layout: one column of 16:9 TV frames (the 1280x720 boot screen), each with a short read-out. Single dark look in the MotionSports brand. */
+:root{
+  --page:#06123F; --panel:#0A1E5E; --navy:#0B2878; --ink:#000A32; --gold:#F1B120; --gold-2:#FFD978;
+  --white:#FFFFFF; --mist:#C9D3F2; --line:rgba(255,255,255,.14);
+  --royal-1:#2A4DB0; --royal-2:#1A3592; --royal-3:#0E2470;
+  --display:"Kanit","Avenir Next Condensed","Arial Narrow",system-ui,sans-serif;
+  --body:"Kanit",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:dark;
+}
+body{background:var(--page);color:var(--white);font-family:var(--body);font-weight:300;font-size:16px;line-height:1.55}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:40px 80px;display:flex;flex-direction:column;gap:52px}
+header{display:flex;flex-direction:column;gap:10px;max-width:70ch}
+.eyebrow{font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:12px;color:var(--gold)}
+h1{font-family:var(--display);font-style:italic;font-weight:800;font-size:clamp(32px,5vw,54px);line-height:1.02;margin:0;text-wrap:balance}
+h2{font-family:var(--display);font-style:italic;font-weight:800;font-size:clamp(24px,3.2vw,34px);line-height:1.05;margin:0}
+.g{color:var(--gold)}
+p{margin:0;color:var(--mist);max-width:70ch}
+.lede{font-size:18px}
+strong{color:var(--white);font-weight:600}
+.opt{display:flex;flex-direction:column;gap:16px}
+.head{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px}
+.tag{font-weight:600;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);background:var(--gold);padding:3px 10px;border-radius:4px}
+.tag.alt{background:transparent;color:var(--mist);border:1px solid var(--line)}
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px 28px}
+.notes div{min-width:0;display:flex;flex-direction:column;gap:4px}
+.notes h3{margin:0;font-weight:600;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+.notes p{font-size:15px}
+
+/* ---------- the 1280x720 TV frame (1cqw = 12.8 px of the TV canvas) ---------- */
+.tv{position:relative;width:100%;max-width:100%;aspect-ratio:16/9;container-type:inline-size;overflow:hidden;border-radius:10px;
+  background:radial-gradient(64cqw 64cqw at 30% 47%,var(--royal-1),var(--royal-2) 55%,var(--royal-3));box-shadow:0 0 0 1px var(--line),0 24px 60px rgba(0,0,0,.45)}
+.tv img.full{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.arc{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.wm{position:absolute;font-family:var(--display);font-style:italic;font-weight:900;letter-spacing:-.02em;line-height:1;white-space:nowrap;
+  text-shadow:0 .25cqw .6cqw rgba(0,10,50,.55)}
+.wm span{color:var(--gold)}
+.load{position:absolute;left:10cqw;right:10cqw;bottom:6.6cqw;display:flex;flex-direction:column;gap:1cqw}
+.load .row{display:flex;justify-content:space-between;align-items:center;font-family:var(--display);font-style:italic;font-weight:900;font-size:2.2cqw;text-shadow:0 .15cqw .4cqw rgba(0,10,50,.6)}
+.load .pct{color:var(--gold);font-variant-numeric:tabular-nums}
+.bar{position:relative;height:1.72cqw;border-radius:2cqw;border:.2cqw solid var(--white);background:#0A1650;box-shadow:0 .3cqw .8cqw rgba(0,10,50,.5)}
+.bar i{position:absolute;left:.25cqw;top:.25cqw;bottom:.25cqw;width:calc(68% - .5cqw);border-radius:2cqw;background:linear-gradient(180deg,var(--gold-2),var(--gold))}
+.bar b{position:absolute;left:68%;top:50%;width:3cqw;height:3cqw;transform:translate(-50%,-50%);
+  background:radial-gradient(circle,#fff 0 18%,rgba(255,255,255,.0) 60%);clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%)}
+
+/* option A: skewed action cards right of the wordmark */
+.cards{position:absolute;right:4cqw;top:5.5cqw;width:42cqw;height:36cqw}
+.card{position:absolute;width:35cqw;height:11cqw;transform:skewX(-10deg);overflow:hidden;border:.25cqw solid rgba(255,255,255,.9);
+  box-shadow:0 .6cqw 1.6cqw rgba(0,10,50,.55);background:var(--ink)}
+.card img{position:absolute;inset:0 -3cqw;width:calc(100% + 6cqw);height:100%;object-fit:cover;transform:skewX(10deg)}
+.card .chip{position:absolute;left:1.6cqw;bottom:1.1cqw;transform:skewX(10deg);font-family:var(--display);font-style:italic;font-weight:900;font-size:1.9cqw;
+  letter-spacing:.04em;color:var(--white);text-shadow:0 .15cqw .5cqw rgba(0,10,50,.9)}
+.card .chip em{font-style:inherit;color:var(--gold)}
+.card:nth-child(1){left:8cqw;top:0}
+.card:nth-child(2){left:3.2cqw;top:12.3cqw}
+.card:nth-child(3){left:0;top:24.6cqw}
+@media (prefers-reduced-motion:no-preference){
+  .card{animation:slide .7s cubic-bezier(.2,.8,.2,1) both}
+  .card:nth-child(2){animation-delay:.12s}.card:nth-child(3){animation-delay:.24s}
+  @keyframes slide{from{opacity:0;translate:6cqw 0}to{opacity:1;translate:0 0}}
+}
+
+/* option B: full-bleed action, crossfading tennis -> golf -> bowling */
+.slides{position:absolute;inset:0}
+.slides figure{position:absolute;inset:0;margin:0;opacity:0}
+.slides figure:first-child{opacity:1}
+.slides img{width:100%;height:100%;object-fit:cover;display:block}
+.shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(6,18,63,.92) 0%,rgba(6,18,63,.62) 34%,rgba(6,18,63,0) 62%),linear-gradient(0deg,rgba(6,18,63,.9) 0%,rgba(6,18,63,0) 38%)}
+.kicker{position:absolute;left:10cqw;top:30cqw;display:flex;flex-direction:column;gap:.4cqw}
+.kicker .k{position:absolute;left:0;top:0;opacity:0;white-space:nowrap;font-family:var(--display);font-style:italic;font-weight:800;font-size:1.9cqw;letter-spacing:.12em;color:var(--gold)}
+.kicker .k:first-child{opacity:1}
+.dots{position:absolute;left:10cqw;top:34cqw;display:flex;gap:.8cqw}
+.dots i{width:2.4cqw;height:.45cqw;border-radius:1cqw;background:rgba(255,255,255,.35)}
+.dots i:first-child{background:var(--gold)}
+@media (prefers-reduced-motion:no-preference){
+  .slides figure,.kicker .k{animation:fade 9s infinite}
+  .slides figure:nth-child(2),.kicker .k:nth-child(2){animation-delay:3s}
+  .slides figure:nth-child(3),.kicker .k:nth-child(3){animation-delay:6s}
+  .slides figure:first-child,.kicker .k:first-child{opacity:0}
+  @keyframes fade{0%{opacity:0}6%{opacity:1}33%{opacity:1}39%{opacity:0}100%{opacity:0}}
+  .slides img{animation:push 9s linear infinite}
+  .slides figure:nth-child(2) img{animation-delay:3s}.slides figure:nth-child(3) img{animation-delay:6s}
+  @keyframes push{0%{transform:scale(1.08)}39%{transform:scale(1)}100%{transform:scale(1)}}
+  .dots i{animation:dot 9s infinite}
+  .dots i:first-child{background:rgba(255,255,255,.35)}
+  .dots i:nth-child(2){animation-delay:3s}.dots i:nth-child(3){animation-delay:6s}
+  @keyframes dot{0%,33%{background:var(--gold)}34%,100%{background:rgba(255,255,255,.35)}}
+}
+
+/* option C: three skewed lanes across the top */
+.lanes{position:absolute;left:-3cqw;right:-3cqw;top:0;height:31cqw;display:flex;gap:1.2cqw}
+.lane{position:relative;flex:1;transform:skewX(-9deg);overflow:hidden;border-bottom:.35cqw solid var(--gold);background:var(--ink)}
+.lane img{position:absolute;inset:0 -4cqw;width:calc(100% + 8cqw);height:100%;object-fit:cover;transform:skewX(9deg)}
+.lane::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(6,18,63,.85),rgba(6,18,63,0) 45%)}
+.lane span{position:absolute;left:3.6cqw;bottom:1.4cqw;z-index:1;transform:skewX(9deg);font-family:var(--display);font-style:italic;font-weight:900;font-size:3.4cqw;line-height:1;text-shadow:0 .2cqw .6cqw rgba(0,10,50,.8)}
+.lane:nth-child(1) img{object-position:52% 50%}
+.lane:nth-child(2) img{object-position:44% 50%}
+.lane:nth-child(3) img{object-position:50% 60%}
+
+.pick{background:linear-gradient(90deg,rgba(241,177,32,.16),rgba(241,177,32,0));border-left:4px solid var(--gold);padding:16px 20px;border-radius:0 10px 10px 0;display:flex;flex-direction:column;gap:6px}
+.pick h3{margin:0;font-weight:600;font-size:17px}
+.foot{font-size:13px;color:var(--mist);opacity:.85}
+
+.shotbox{position:absolute;inset:0}
+.shotbox figure{position:absolute;inset:0;margin:0;opacity:0;transition:opacity .7s ease}
+.shotbox figure.on{opacity:1}
+.shotbox img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.06);transition:transform 3.4s linear}
+.shotbox figure.on img{transform:scale(1)}
+.kick{position:absolute;left:10cqw;top:30cqw;font-family:var(--display);font-style:italic;font-weight:800;font-size:1.9cqw;letter-spacing:.12em;color:var(--gold);white-space:nowrap;text-shadow:0 .15cqw .4cqw rgba(0,10,50,.8)}
+@media (prefers-reduced-motion:reduce){.shotbox figure,.shotbox img{transition:none}}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn{font:600 14px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--ink);background:var(--gold);border:0;border-radius:6px;padding:10px 16px;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--white);border:1px solid var(--line)}
+.btn:focus-visible{outline:2px solid var(--white);outline-offset:2px}
+.status{font-size:14px;color:var(--mist)}
+.pool{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}
+.pool figure{margin:0;display:flex;flex-direction:column;gap:5px;min-width:0}
+.pool img{width:100%;max-width:100%;aspect-ratio:2.39/1;object-fit:cover;border-radius:6px;display:block;box-shadow:0 0 0 1px var(--line)}
+.pool figcaption{font-size:12px;letter-spacing:.06em;color:var(--mist)}
+.pool figure.now img{box-shadow:0 0 0 3px var(--gold)}
+.cut{display:grid;grid-template-columns:minmax(0,240px) minmax(0,1fr);gap:16px;align-items:center}
+@media (max-width:560px){.cut{grid-template-columns:minmax(0,1fr)}}
+.cut img{width:100%;max-width:100%;border-radius:8px;opacity:.75;filter:grayscale(.3)}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">MotionSports · boot loading screen · v2</div>
+    <h1>Full-screen action, <span class="g">never the same twice</span></h1>
+    <p class="lede">The TV screen you see while the game starts, without the "Swing your phone" line. Each start shuffles 35 real moments from all three sports and shows a new one every 3 seconds, without repeats until the whole pool has played.</p>
+  </header>
+
+  <section class="opt" id="b">
+    <div class="tv" id="tv">
+      <div class="shotbox"><figure class="on" id="f0"><img alt=""></figure><figure id="f1"><img alt=""></figure></div>
+      <div class="shade"></div>
+      <div class="wm" style="left:9.4cqw;top:17.5cqw;font-size:8.4cqw">Motion<span>Sports</span></div>
+      <div class="kick" id="kick">TENNIS · SKY TOWER</div>
+      <div class="load"><div class="row"><span>LOADING…</span><span class="pct">68%</span></div><div class="bar"><i></i><b></b></div></div>
+    </div>
+    <div class="controls">
+      <button class="btn" id="next" type="button">Next shot</button>
+      <button class="btn ghost" id="restart" type="button">New game start (reshuffle)</button>
+      <span class="status" id="status"></span>
+    </div>
+    <div class="notes">
+      <div><h3>How it picks</h3><p>A fresh shuffle every time the game starts, so the opening shot is different each time. It plays through the whole pool before any shot comes back, and never shows the same shot twice in a row.</p></div>
+      <div><h3>What it shows</h3><p>The sport and venue in gold under the wordmark, so the wait also shows what you can play. The navy shade on the left keeps the logo and bar readable on any picture.</p></div>
+      <div><h3>Motion</h3><p>Each shot fades in with a slow push-in. With Reduce Motion on, it shows one random still.</p></div>
+    </div>
+  </section>
+
+  <section class="opt">
+    <div class="head"><h2>The <span class="g">pool</span></h2><span class="tag alt">35 shots · tennis, golf, bowling</span></div>
+    <p>Every shot it can show. The gold frame marks the one on screen. Tell me any you want out, and any venue you want more of.</p>
+    <div class="pool" id="pool"><figure data-i="0"><img src="img/pool/00.jpg" alt="Tennis · Sky Tower" loading="lazy"><figcaption>TENNIS · SKY TOWER</figcaption></figure><figure data-i="1"><img src="img/pool/01.jpg" alt="Tennis · Sky Tower" loading="lazy"><figcaption>TENNIS · SKY TOWER</figcaption></figure><figure data-i="2"><img src="img/pool/02.jpg" alt="Tennis · Sky Tower" loading="lazy"><figcaption>TENNIS · SKY TOWER</figcaption></figure><figure data-i="3"><img src="img/pool/03.jpg" alt="Tennis · Sky Tower" loading="lazy"><figcaption>TENNIS · SKY TOWER</figcaption></figure><figure data-i="4"><img src="img/pool/04.jpg" alt="Tennis · Sky Tower" loading="lazy"><figcaption>TENNIS · SKY TOWER</figcaption></figure><figure data-i="5"><img src="img/pool/05.jpg" alt="Tennis · Sky Tower" loading="lazy"><figcaption>TENNIS · SKY TOWER</figcaption></figure><figure data-i="6"><img src="img/pool/06.jpg" alt="Tennis · Sky Tower" loading="lazy"><figcaption>TENNIS · SKY TOWER</figcaption></figure><figure data-i="7"><img src="img/pool/07.jpg" alt="Tennis · Sky Tower" loading="lazy"><figcaption>TENNIS · SKY TOWER</figcaption></figure><figure data-i="8"><img src="img/pool/08.jpg" alt="Tennis · Sky Tower" loading="lazy"><figcaption>TENNIS · SKY TOWER</figcaption></figure><figure data-i="9"><img src="img/pool/09.jpg" alt="Tennis · Sky Tower" loading="lazy"><figcaption>TENNIS · SKY TOWER</figcaption></figure><figure data-i="10"><img src="img/pool/10.jpg" alt="Golf · Magma Open" loading="lazy"><figcaption>GOLF · MAGMA OPEN</figcaption></figure><figure data-i="11"><img src="img/pool/11.jpg" alt="Golf · Magma Open" loading="lazy"><figcaption>GOLF · MAGMA OPEN</figcaption></figure><figure data-i="12"><img src="img/pool/12.jpg" alt="Golf · Magma Open" loading="lazy"><figcaption>GOLF · MAGMA OPEN</figcaption></figure><figure data-i="13"><img src="img/pool/13.jpg" alt="Golf · Magma Open" loading="lazy"><figcaption>GOLF · MAGMA OPEN</figcaption></figure><figure data-i="14"><img src="img/pool/14.jpg" alt="Golf · Magma Open" loading="lazy"><figcaption>GOLF · MAGMA OPEN</figcaption></figure><figure data-i="15"><img src="img/pool/15.jpg" alt="Golf · Magma Open" loading="lazy"><figcaption>GOLF · MAGMA OPEN</figcaption></figure><figure data-i="16"><img src="img/pool/16.jpg" alt="Golf · Magma Open" loading="lazy"><figcaption>GOLF · MAGMA OPEN</figcaption></figure><figure data-i="17"><img src="img/pool/17.jpg" alt="Golf · Magma Open" loading="lazy"><figcaption>GOLF · MAGMA OPEN</figcaption></figure><figure data-i="18"><img src="img/pool/18.jpg" alt="Bowling · Neon Lanes" loading="lazy"><figcaption>BOWLING · NEON LANES</figcaption></figure><figure data-i="19"><img src="img/pool/19.jpg" alt="Bowling · Neon Lanes" loading="lazy"><figcaption>BOWLING · NEON LANES</figcaption></figure><figure data-i="20"><img src="img/pool/20.jpg" alt="Bowling · Neon Lanes" loading="lazy"><figcaption>BOWLING · NEON LANES</figcaption></figure><figure data-i="21"><img src="img/pool/21.jpg" alt="Bowling · Neon Lanes" loading="lazy"><figcaption>BOWLING · NEON LANES</figcaption></figure><figure data-i="22"><img src="img/pool/22.jpg" alt="Bowling · Neon Lanes" loading="lazy"><figcaption>BOWLING · NEON LANES</figcaption></figure><figure data-i="23"><img src="img/pool/23.jpg" alt="Bowling · Neon Lanes" loading="lazy"><figcaption>BOWLING · NEON LANES</figcaption></figure><figure data-i="24"><img src="img/pool/24.jpg" alt="Bowling · Neon Lanes" loading="lazy"><figcaption>BOWLING · NEON LANES</figcaption></figure><figure data-i="25"><img src="img/pool/25.jpg" alt="Bowling · Neon Lanes" loading="lazy"><figcaption>BOWLING · NEON LANES</figcaption></figure><figure data-i="26"><img src="img/pool/26.jpg" alt="Tennis · Tropical Resort" loading="lazy"><figcaption>TENNIS · TROPICAL RESORT</figcaption></figure><figure data-i="27"><img src="img/pool/27.jpg" alt="Tennis · Tropical Resort" loading="lazy"><figcaption>TENNIS · TROPICAL RESORT</figcaption></figure><figure data-i="28"><img src="img/pool/28.jpg" alt="Tennis · Tropical Resort" loading="lazy"><figcaption>TENNIS · TROPICAL RESORT</figcaption></figure><figure data-i="29"><img src="img/pool/29.jpg" alt="Tennis · Magma Crater" loading="lazy"><figcaption>TENNIS · MAGMA CRATER</figcaption></figure><figure data-i="30"><img src="img/pool/30.jpg" alt="Tennis · Magma Crater" loading="lazy"><figcaption>TENNIS · MAGMA CRATER</figcaption></figure><figure data-i="31"><img src="img/pool/31.jpg" alt="Tennis · Magma Crater" loading="lazy"><figcaption>TENNIS · MAGMA CRATER</figcaption></figure><figure data-i="32"><img src="img/pool/32.jpg" alt="Bowling · Club Lanes" loading="lazy"><figcaption>BOWLING · CLUB LANES</figcaption></figure><figure data-i="33"><img src="img/pool/33.jpg" alt="Bowling · Magma" loading="lazy"><figcaption>BOWLING · MAGMA</figcaption></figure><figure data-i="34"><img src="img/pool/34.jpg" alt="Bowling · Tiki Shores" loading="lazy"><figcaption>BOWLING · TIKI SHORES</figcaption></figure></div>
+  </section>
+
+  <section class="opt">
+    <div class="head"><h2>Taken <span class="g">out</span></h2></div>
+    <div class="cut"><img src="img/tennis_lunge.jpg" alt="The tennis dive: the player stretched out low with a warped, smeared body"><p><strong>The tennis dive.</strong> Its body warps at full stretch, so it is not in the pool, along with the other frames from that move. The same check dropped shots with motion-smeared arms, cut-off heads or a hand bent the wrong way.</p></div>
+  </section>
+
+  <section class="opt">
+    <div class="head"><span class="tag alt">Before</span><h2>The screen <span class="g">today</span></h2></div>
+    <div class="tv"><img class="full" src="img/today.jpg" alt="Today's loading screen: the wordmark, the line Swing your phone. Play on your TV., a swing arc and the loading bar on blue"></div>
+  </section>
+
+  <p class="foot">Shots: frames from the game's trailer (Sky Tower tennis, Magma Open golf, Neon Lanes bowling) plus in-game captures of Tropical Resort and Magma Crater tennis and the Club, Magma and Tiki bowling alleys. Golf only has Magma Open so far: the other courses' captures all have the aiming HUD over them, so they need a clean film before they can join. In the app the pool would ship as stills in the bundle and the shuffle would run in Swift. The loading bar is shown at 68 % as an example.</p>
+</div>
+
+<script>
+(function(){
+  var POOL=[{"src": "img/pool/00.jpg", "sport": "tennis", "label": "TENNIS \u00b7 SKY TOWER"}, {"src": "img/pool/01.jpg", "sport": "tennis", "label": "TENNIS \u00b7 SKY TOWER"}, {"src": "img/pool/02.jpg", "sport": "tennis", "label": "TENNIS \u00b7 SKY TOWER"}, {"src": "img/pool/03.jpg", "sport": "tennis", "label": "TENNIS \u00b7 SKY TOWER"}, {"src": "img/pool/04.jpg", "sport": "tennis", "label": "TENNIS \u00b7 SKY TOWER"}, {"src": "img/pool/05.jpg", "sport": "tennis", "label": "TENNIS \u00b7 SKY TOWER"}, {"src": "img/pool/06.jpg", "sport": "tennis", "label": "TENNIS \u00b7 SKY TOWER"}, {"src": "img/pool/07.jpg", "sport": "tennis", "label": "TENNIS \u00b7 SKY TOWER"}, {"src": "img/pool/08.jpg", "sport": "tennis", "label": "TENNIS \u00b7 SKY TOWER"}, {"src": "img/pool/09.jpg", "sport": "tennis", "label": "TENNIS \u00b7 SKY TOWER"}, {"src": "img/pool/10.jpg", "sport": "golf", "label": "GOLF \u00b7 MAGMA OPEN"}, {"src": "img/pool/11.jpg", "sport": "golf", "label": "GOLF \u00b7 MAGMA OPEN"}, {"src": "img/pool/12.jpg", "sport": "golf", "label": "GOLF \u00b7 MAGMA OPEN"}, {"src": "img/pool/13.jpg", "sport": "golf", "label": "GOLF \u00b7 MAGMA OPEN"}, {"src": "img/pool/14.jpg", "sport": "golf", "label": "GOLF \u00b7 MAGMA OPEN"}, {"src": "img/pool/15.jpg", "sport": "golf", "label": "GOLF \u00b7 MAGMA OPEN"}, {"src": "img/pool/16.jpg", "sport": "golf", "label": "GOLF \u00b7 MAGMA OPEN"}, {"src": "img/pool/17.jpg", "sport": "golf", "label": "GOLF \u00b7 MAGMA OPEN"}, {"src": "img/pool/18.jpg", "sport": "bowling", "label": "BOWLING \u00b7 NEON LANES"}, {"src": "img/pool/19.jpg", "sport": "bowling", "label": "BOWLING \u00b7 NEON LANES"}, {"src": "img/pool/20.jpg", "sport": "bowling", "label": "BOWLING \u00b7 NEON LANES"}, {"src": "img/pool/21.jpg", "sport": "bowling", "label": "BOWLING \u00b7 NEON LANES"}, {"src": "img/pool/22.jpg", "sport": "bowling", "label": "BOWLING \u00b7 NEON LANES"}, {"src": "img/pool/23.jpg", "sport": "bowling", "label": "BOWLING \u00b7 NEON LANES"}, {"src": "img/pool/24.jpg", "sport": "bowling", "label": "BOWLING \u00b7 NEON LANES"}, {"src": "img/pool/25.jpg", "sport": "bowling", "label": "BOWLING \u00b7 NEON LANES"}, {"src": "img/pool/26.jpg", "sport": "tennis", "label": "TENNIS \u00b7 TROPICAL RESORT"}, {"src": "img/pool/27.jpg", "sport": "tennis", "label": "TENNIS \u00b7 TROPICAL RESORT"}, {"src": "img/pool/28.jpg", "sport": "tennis", "label": "TENNIS \u00b7 TROPICAL RESORT"}, {"src": "img/pool/29.jpg", "sport": "tennis", "label": "TENNIS \u00b7 MAGMA CRATER"}, {"src": "img/pool/30.jpg", "sport": "tennis", "label": "TENNIS \u00b7 MAGMA CRATER"}, {"src": "img/pool/31.jpg", "sport": "tennis", "label": "TENNIS \u00b7 MAGMA CRATER"}, {"src": "img/pool/32.jpg", "sport": "bowling", "label": "BOWLING \u00b7 CLUB LANES"}, {"src": "img/pool/33.jpg", "sport": "bowling", "label": "BOWLING \u00b7 MAGMA"}, {"src": "img/pool/34.jpg", "sport": "bowling", "label": "BOWLING \u00b7 TIKI SHORES"}];
+  var f=[document.getElementById('f0'),document.getElementById('f1')], kick=document.getElementById('kick'), status=document.getElementById('status');
+  var cells=[].slice.call(document.querySelectorAll('#pool figure'));
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var order=[], at=0, front=0, last=-1, timer=null;
+  function shuffle(){ order=POOL.map(function(_,i){return i}); for(var i=order.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=order[i];order[i]=order[j];order[j]=t} if(order[0]===last&&order.length>1){var t=order[0];order[0]=order[1];order[1]=t} at=0; }
+  function show(i, first){
+    var p=POOL[i]; last=i;
+    var back=first?front:1-front, img=f[back].querySelector('img');
+    img.src=p.src; img.alt=p.label;
+    if(!first){ f[front].classList.remove('on'); front=back; }
+    void f[front].offsetWidth; f[front].classList.add('on');
+    kick.textContent=p.label;
+    cells.forEach(function(c){c.classList.toggle('now',+c.dataset.i===i)});
+    status.textContent='Shot '+(at)+' of '+POOL.length+' this start';
+  }
+  function next(){ if(at>=order.length) shuffle(); at++; show(order[at-1], false); }
+  function start(){ shuffle(); at=1; f[1-front].classList.remove('on'); show(order[0], true); clearInterval(timer); if(!reduce) timer=setInterval(next,3000); }
+  document.getElementById('next').addEventListener('click',function(){ next(); if(!reduce){clearInterval(timer);timer=setInterval(next,3000)} });
+  document.getElementById('restart').addEventListener('click',start);
+  start();
+})();
+</script>

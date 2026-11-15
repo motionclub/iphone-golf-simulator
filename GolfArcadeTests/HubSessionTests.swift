@@ -176,6 +176,33 @@ final class HubSessionTests: XCTestCase {
         try await save(HubLoadingScreen(hub: hub), "hub-loading-tv-100", size: CGSize(width: 1280, height: 720))
     }
 
+    /// LOADING ACTION (2026-11-13): every shot is in the app, a boot plays each one once before any comes back, never the same shot
+    /// twice in a row (across a reshuffle too), and a boot never opens on the shot the last one ended on.
+    func testLoadingShotsShuffleThroughTheWholePool() {
+        XCTAssertGreaterThanOrEqual(LoadingShots.pool.count, 30, "a big pool, not the same few")
+        for shot in LoadingShots.pool { XCTAssertNotNil(UIImage(named: shot.asset), shot.asset) }
+        XCTAssertEqual(Set(LoadingShots.pool.map { $0.label.split(separator: "·")[0] }).count, 3, "tennis, golf and bowling")
+        for last in 0..<LoadingShots.pool.count {
+            var reel = LoadingShots.Reel(last: last)
+            XCTAssertNotEqual(reel.index, last, "a boot does not open on the last boot's shot")
+            var seen = [reel.index], prev = reel.index
+            for _ in 1..<(LoadingShots.pool.count * 2) { reel.advance(); XCTAssertNotEqual(reel.index, prev); prev = reel.index; seen.append(reel.index) }
+            XCTAssertEqual(Set(seen.prefix(LoadingShots.pool.count)).count, LoadingShots.pool.count, "every shot once before any repeats")
+        }
+    }
+
+    /// Four of the loading shots on the TV at 68 % (written to $MENU_SNAP_DIR as hub-loading-shot-<n>).
+    func testLoadingShotSnapshots() async throws {
+        let hub = HubSession.shared
+        SportsSession.shared.displayConnected = true; TennisMenu.shared.debugShow(.title)
+        hub.debugBoot(session: "snap-shots"); hub.receive(["type": "buildProgress", "session": "snap-shots", "message": "0.58"])
+        defer { LoadingShots.pinned = nil }
+        for n in [3, 12, 20, 28, 33] {
+            LoadingShots.pinned = n
+            try await save(HubLoadingScreen(hub: hub), "hub-loading-shot-\(n)", size: CGSize(width: 1280, height: 720))
+        }
+    }
+
     /// A boot that is given up (the plaza moving screens, the TV going away) is ended in Unity too. 2026-10-25 device log: the
     /// TV connected mid-boot, Unity dropped the TV's start while the phone's load ran, and the boot sat until Try again.
     func testAnAbandonedBootIsEndedInUnity() {

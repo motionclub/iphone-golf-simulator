@@ -115,7 +115,7 @@ namespace GolfArcade.Tennis
                 idle=(tennis.CurrentAction is HeroTennisDriver.Clip.Ready or HeroTennisDriver.Clip.Idle)
                     &&!tennis.actor.Swinging&&(betweenPoints||tennis.actor.PrepareAmount<.01f&&!tennis.actor.PrepareServe)
                     &&Mathf.Abs(tennis.actor.Speed)+Mathf.Abs(tennis.actor.ForwardSpeed)<.15f
-                    &&!(tennis.game&&tennis.game.DiveActive);
+                    &&!(tennis.game&&tennis.game.StretchActive);
             }
             else if(golfer) idle=golfer.AliveAtRest;
             // Contact poses get no additional body offset, including the first load frame.

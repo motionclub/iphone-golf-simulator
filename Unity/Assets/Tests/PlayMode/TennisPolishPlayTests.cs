@@ -49,6 +49,9 @@ namespace GolfArcade.PlayTests
         [UnityTest] public IEnumerator LateConfirmationStillHits()
         {
             TennisGame game = null; yield return Load(g => game = g); game.ManualSimulation = true;
+            // Let the hero pose before the ball is fed: the auto-run stands the player by the hero's racket, and how many
+            // frames the scene load happened to take used to decide whether it had been posed yet (2026-11-13).
+            for (int f = 0; f < 5; f++) yield return null;
             game.ConfigureMatch(TennisGame.Mode.Training, null, null, null);
             // A rally ball from the far side that bounces and comes through at about waist height, so the swing is a
             // groundstroke (a ball still over 1.75 m when the swing starts is played as an overhead smash). The stroke
@@ -266,7 +269,7 @@ namespace GolfArcade.PlayTests
         }
 
         /// Balance report from self-play: how often a player reaches the ball without reading
-        /// it (no lean) and with a perfect read, how long rallies last, how often they dive.
+        /// it (no lean) and with a perfect read, how long rallies last, how often they stretch.
         [UnityTest, Explicit, Timeout(900000)] public IEnumerator GameplayBalance()
         {
             TennisGame game = null; yield return Load(g => game = g);
@@ -276,13 +279,13 @@ namespace GolfArcade.PlayTests
                 foreach (bool lean in new[] { false, true })
                 {
                     game.AutoPlay = true; game.AutoPlayLean = lean;
-                    int balls0 = game.IncomingBalls, reach0 = game.ReachablePlans, hits0 = game.Returns, dives0 = game.Dives, jumps0 = game.GoodJumps, rally0 = game.LongestRally;
+                    int balls0 = game.IncomingBalls, reach0 = game.ReachablePlans, hits0 = game.Returns, stretches0 = game.Stretches, jumps0 = game.GoodJumps, rally0 = game.LongestRally;
                     var score0 = game.Match;
                     float until = Time.time + 360;
                     while (Time.time < until) yield return null;
                     int balls = game.IncomingBalls - balls0, hits = game.Returns - hits0;
                     UnityEngine.Debug.Log($"[Balance] lean={lean} incoming={balls} returned={hits} ({(balls > 0 ? 100f * hits / balls : 0):0}%) " +
-                        $"reachable={game.ReachablePlans - reach0} dives={game.Dives - dives0} jumps={game.GoodJumps - jumps0} longestRally={game.LongestRally} score={game.Match.Scoreboard}");
+                        $"reachable={game.ReachablePlans - reach0} stretches={game.Stretches - stretches0} jumps={game.GoodJumps - jumps0} longestRally={game.LongestRally} score={game.Match.Scoreboard}");
                 }
             }
             finally { Time.timeScale = oldScale; game.AutoPlay = false; }

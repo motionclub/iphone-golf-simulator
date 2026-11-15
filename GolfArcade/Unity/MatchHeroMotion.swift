@@ -111,6 +111,15 @@ struct MenuMotion: Equatable {
     var lead = 0.7, fadeIn = 0.2, fadeOut = 0.4
     var idleOffset = 0.0
     var freezeIdle = false
+    /// EMOTE ENDS 2026-11-13: nothing in the hands (the racket on the back), so a clipOnce emote plays only RigData.emptyHandWindow, the part
+    /// between leaving the tennis Ready stance and coming back to it (no invisible racket before or after the emote).
+    var emptyHands = false
+    /// The part of clip `id` this motion plays: (clip time it starts at, seconds it runs).
+    @MainActor func clipSpan(_ rig: RigData, _ id: String) -> (start: Double, length: Double) {
+        let whole = rig.clips[id]?.length ?? 0
+        if emptyHands, let w = rig.emptyHandWindow(id) { return (w.start, w.end - w.start) }
+        return (0, whole)
+    }
     /// The idle the motion stands on: "ready" (the tennis ready stance, racket in hand) or MENU HERO's "relaxed" (the plaza's relaxed stand, nothing in the
     /// hands); an export without the clip falls back to "ready".
     var idle = "ready"
@@ -130,7 +139,7 @@ struct MenuMotion: Equatable {
         switch kind {
         case .ready: return 0
         case .serveOnce: return lead + (rig.clips["serve"]?.length ?? 0)
-        case .clipOnce(let id): return lead + (rig.clips[id]?.length ?? 0) + fadeOut
+        case .clipOnce(let id): return lead + clipSpan(rig, id).length + fadeOut
         }
     }
 
@@ -153,9 +162,11 @@ struct MenuMotion: Equatable {
         if case .clipOnce(let id) = kind, let clip = rig.clips[id] {
             let elapsed = t - lead
             if elapsed < 0 { return base }
-            // Play through the last frame, then ease into the idle. Never cut the end of an emote off.
-            let weight = elapsed <= clip.length ? Self.smooth(elapsed / max(0.001, fadeIn)) : 1 - Self.smooth((elapsed - clip.length) / max(0.001, fadeOut))
-            return RigData.blend(base, clip.pose(at: elapsed, loop: false), weight)
+            // Play through the last frame, then ease into the idle. Never cut the end of an emote off (EMOTE ENDS: with empty hands the
+            // span stops where the hands head back to the racket stance, and the idle takes over from the emote's own pose).
+            let span = clipSpan(rig, id)
+            let weight = elapsed <= span.length ? Self.smooth(elapsed / max(0.001, fadeIn)) : 1 - Self.smooth((elapsed - span.length) / max(0.001, fadeOut))
+            return RigData.blend(base, clip.pose(at: span.start + min(elapsed, span.length), loop: false), weight)
         }
         let w = serveWeight(rig, at: t)
         guard w > 0, let serve = rig.clips["serve"] else { return base }

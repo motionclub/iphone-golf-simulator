@@ -18,7 +18,7 @@ namespace GolfArcade.Tennis
         static void Initialize()
         {
             // Look-dev opt-in until the visual gates and on-device cost are verified.
-            enabled = System.Environment.GetEnvironmentVariable("VISUAL_HERO_LIGHTING") == "1";
+            enabled = System.Environment.GetEnvironmentVariable("VISUAL_HERO_LIGHTING") != "0" && (HeroShoeShape.Presence || System.Environment.GetEnvironmentVariable("VISUAL_HERO_LIGHTING") == "1");
             Tennis();
             RenderPipelineManager.beginCameraRendering -= BeforeCamera;
             RenderPipelineManager.beginCameraRendering += BeforeCamera;
@@ -58,7 +58,7 @@ namespace GolfArcade.Tennis
             } else if(!hub && TennisVenue.Selected==TennisVenueKind.Skyscraper) { rim=new(.85f,.93f,1);strength=.5f; }
             else if(!hub && TennisVenue.Selected==TennisVenueKind.Volcano) { rim=new(1,.7f,.45f);strength=.55f; }
             Shader.SetGlobalFloat("_HeroLightingEnabled",enabled?1:0);
-            if(enabled) Shader.SetGlobalFloat("_HeroPresentationFill",.95f);
+            if(enabled) Shader.SetGlobalFloat("_HeroPresentationFill",float.TryParse(System.Environment.GetEnvironmentVariable("HERO_FILL"),System.Globalization.NumberStyles.Float,System.Globalization.CultureInfo.InvariantCulture,out var hf)?hf:.5f);
             var fillColour=new Color(1,.92f,1);
             if(golf && (golfHole==8 || golfHole==16)) fillColour=new Color(.97f,1,1.06f);
             else if(!golf && !hub && TennisVenue.Selected==TennisVenueKind.Volcano) fillColour=new Color(1,.92f,.83f);

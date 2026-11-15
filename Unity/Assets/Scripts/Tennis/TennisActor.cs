@@ -866,7 +866,7 @@ namespace GolfArcade.Tennis
             {
                 recoveringStroke = Kind != Stroke.Dive && Kind != Stroke.Celebrate;
                 // A dive ends on the floor; everything else pushes off back toward the middle.
-                if (Kind == Stroke.Dive) { PlayOneShot("GroundRecovery", TennisRules.DiveRecovery); DiveLanded?.Invoke(transform.position); }
+                if (Kind == Stroke.Dive) { PlayOneShot("GroundRecovery", .8f); DiveLanded?.Invoke(transform.position); }
                 // The reference finishes the stroke before stepping away. A recovery clip
                 // starting here used to replace its landing and racket deceleration.
             }

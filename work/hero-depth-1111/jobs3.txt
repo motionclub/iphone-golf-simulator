@@ -1,0 +1,4 @@
+film_female3|900|HM_OUT={OUT} HM_FEMALE=1 HERO_DEPTH=1|-executeMethod GolfArcade.EditorTools.HeroMotionFilm.Run
+film_male3|900|HM_OUT={OUT} HERO_DEPTH=1|-executeMethod GolfArcade.EditorTools.HeroMotionFilm.Run
+film_female0|900|HM_OUT={OUT} HM_FEMALE=1|-executeMethod GolfArcade.EditorTools.HeroMotionFilm.Run
+film_male0|900|HM_OUT={OUT}|-executeMethod GolfArcade.EditorTools.HeroMotionFilm.Run

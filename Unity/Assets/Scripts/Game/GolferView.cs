@@ -360,6 +360,7 @@ namespace GolfArcade.Game
         bool BuildHero(Look look)
         {
             clips.Clear(); landmarks.Clear(); clubMeshes.Clear(); clubOriginal.Clear();
+            heroFemale = look.Hero.Value.Female;   // EMOTE ENDS
             string path = HeroGolfer.PathFor(look.Hero.Value.Female);
             foreach (var c in Resources.LoadAll<AnimationClip>(path))
                 if (!c.name.StartsWith("__preview__")) clips[c.name] = c;
@@ -556,6 +557,9 @@ namespace GolfArcade.Game
             // and shaft-clearance solve; scrubbing/export does not rely on LateUpdate.
             if (heroFigure != null)
                 GolfArcade.Tennis.HeroGripPolish.ApplyGrip(heroFigure.Root.GetComponent<GolfArcade.Tennis.MatchHeroLook>());
+            // EMPTY HANDS 2026-11-12: with no club in the hands (an emote, walk / run, the idle after an emote, a spectator) the clip's
+            // racket-grip fingers and wrist give way to a relaxed hand (a fist the clip makes stays a fist). See HeroHands.
+            if (heroFigure != null && !ClubShown()) GolfArcade.Tennis.HeroHands.Empty(heroFigure.Root.GetComponent<GolfArcade.Tennis.MatchHeroLook>(), 1f);
             if (phase != 4) swingClearance?.SeparateHands();
             poseSafety?.Apply(phase != 4);
             if (phase == 4) FitMoveToClothes();
@@ -836,6 +840,8 @@ namespace GolfArcade.Game
         Quaternion BaseRot(Quaternion clipYaw) => baseRot * clipYaw;
         static float ClipYaw(string move) => move is "Idle" or "Wave" or "Cheer" || move.StartsWith("Intro_") || move.StartsWith("Emote_") ? 90f : 0f;
         float performTime, performLength;
+        float performEnd, nextFade;   // EMOTE ENDS: the trimmed end of the playing emote (0 = its own end); the crossfade the next Perform uses
+        bool heroFemale;
         bool loopPerformance;
         public float PerformanceDuration => performLength;
 
@@ -847,6 +853,8 @@ namespace GolfArcade.Game
         /// How long that move runs once through (seconds), 0 when there is no such clip.
         public float MoveLength(string move) => hasModel && clips.TryGetValue(move, out var c) ? GolfArcade.Tennis.TennisEmotes.PlaybackDuration(move, c.length) : 0f;
 
+        /// A club mesh is showing (in the hands): only then do the hands grip.
+        bool ClubShown() { foreach (var c in clubMeshes.Values) if (c && c.activeSelf) return true; return false; }
         public bool Perform(string move, float startAt = 0f, bool loop = true)
         {
             if (!hasModel || !clips.TryGetValue(move, out var c)) return false;
@@ -854,7 +862,8 @@ namespace GolfArcade.Game
             var yaw = Quaternion.Euler(0, ClipYaw(move), 0); yaw = BaseRot(yaw);
             bool turn = Quaternion.Angle(modelGo.transform.localRotation, yaw) > .1f;
             if (turn) poseTransition?.Capture(.28f);
-            Play(c, turn ? 0f : .25f);
+            Play(c, turn ? 0f : nextFade > 0 ? nextFade : .25f);
+            nextFade = 0;
             clipName = move; SetMood(move);
             foreach (var kv in clubMeshes) kv.Value.SetActive(false);
             modelGo.transform.localRotation = yaw;
@@ -862,6 +871,11 @@ namespace GolfArcade.Game
             performLength = Mathf.Max(.1f, GolfArcade.Tennis.TennisEmotes.PlaybackDuration(move, c.length));
             performanceRate = c.length / performLength;
             performTime = Mathf.Repeat(startAt, performLength);
+            // EMOTE ENDS 2026-11-13: no club in the hands, so an emote skips its tennis READY lead-in and crosses back to the idle as the
+            // hands head home to READY (no invisible racket before or after it). See GolfArcade.Tennis.EmoteEnds.
+            performEnd = 0;
+            if (!loop && startAt <= 0 && performanceRate > 0 && GolfArcade.Tennis.EmoteEnds.Window(move, heroFemale, out var emoteStart, out var emoteEnd))
+            { performTime = emoteStart / performanceRate; performEnd = emoteEnd / performanceRate; }
             phase = 4;
             clip.SetTime(GolfArcade.Tennis.TennisEmotes.SourceTime(clipName, performTime * performanceRate, performLength * performanceRate));
             Evaluate();
@@ -1270,6 +1284,12 @@ namespace GolfArcade.Game
                 case 4:
                     if (!loopPerformance && performTime + dt >= performLength)
                     {
+                        Perform("Idle");
+                        break;
+                    }
+                    if (!loopPerformance && performEnd > 0 && performTime + dt >= performEnd)
+                    {
+                        nextFade = GolfArcade.Tennis.EmoteEnds.FadeOut;   // EMOTE ENDS: cross to the idle from the emote's own pose
                         Perform("Idle");
                         break;
                     }

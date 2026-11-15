@@ -112,7 +112,7 @@ namespace GolfArcade.PlayTests
         }
 
         [UnityTest, Timeout(240000)]
-        public IEnumerator TennisIntroductionsWaitForAPickAndVersusNeedsBothPhonesToSkip()
+        public IEnumerator TennisShowRunsSixSecondsAndOnePlayersSkipEndsIt()
         {
             Time.timeScale = 1; Time.captureFramerate = FPS; ClearSeen();
             PresentationPolicy.Configure("full", false, true, false);
@@ -125,19 +125,18 @@ namespace GolfArcade.PlayTests
                 var intro = game.GetComponent<TennisPresentation>();
                 var mine = game.Player.GetComponentInChildren<HeroTennisDriver>(); var theirs = game.Opponent.GetComponentInChildren<HeroTennisDriver>();
 
-                // no picks: three seconds each, nobody emotes
+                // left alone, no picks: the whole show in six seconds (12.9 s until 2026-11-11), nobody emotes
                 intro.Restart();
                 int mineBefore = mine.EmotesPlayed, theirsBefore = theirs.EmotesPlayed;
-                for (int f = 0; f < FPS / 2; f++) yield return null;
-                game.RequestSwing(.8f); yield return null;
-                Assert.False(intro.InFlyover, "skip ends the flyover"); Assert.True(game.IntroPlaying, "and lands on the introductions");
-                float shown = 0;
-                for (int f = 0; f < 25 * FPS && game.IntroPlaying; f++) { yield return null; shown += 1f / FPS; }
+                float shown = 0; bool sawIntroductions = false;
+                for (int f = 0; f < 25 * FPS && game.IntroPlaying; f++) { yield return null; shown += 1f / FPS; sawIntroductions |= intro.Skippable && !intro.InFlyover; }
                 Assert.AreEqual(mineBefore, mine.EmotesPlayed, "you did not pick: you do not emote");
                 Assert.AreEqual(theirsBefore, theirs.EmotesPlayed, "nobody picked for the rival: they do not emote");
-                Assert.GreaterOrEqual(shown, 2 * PresentationDirector.IntroWindow + PresentationDirector.TennisStare, "three seconds each, then the stare-down");
+                Assert.True(sawIntroductions, "the players are still introduced");
+                Assert.LessOrEqual(shown, 6.3f, "the show runs six seconds");
+                Assert.GreaterOrEqual(shown, TennisPresentation.FullLength - .3f, "and is not cut short");
 
-                // a pick during the flyover: played in your introduction
+                // a pick during the flyover: played in your introduction (it gets its time on top)
                 ClearSeen(); intro.Restart(); mineBefore = mine.EmotesPlayed;
                 for (int f = 0; f < FPS / 2; f++) yield return null;
                 Assert.AreEqual("intro", game.EmoteWindow, "the intro emote can be picked during the flyover");
@@ -145,17 +144,33 @@ namespace GolfArcade.PlayTests
                 for (int f = 0; f < 30 * FPS && game.IntroPlaying; f++) yield return null;
                 Assert.AreEqual(mineBefore + 1, mine.EmotesPlayed, "the picked emote played");
 
-                // versus: this phone's skip alone keeps the flyover; the other phone's makes it skip
+                // alone: a swing skips straight to the call of play (before, it ended the flyover only)
+                ClearSeen(); intro.Restart();
+                for (int f = 0; f < FPS / 2; f++) yield return null;
+                Assert.AreEqual("0|1|0", game.IntroSkipState, "the phone offers the skip");
+                game.RequestSwing(.8f); yield return null;
+                Assert.False(intro.Skippable, "one swing ends the flyover and the introductions");
+                Assert.AreEqual("", game.IntroSkipState);
+                shown = 0;
+                for (int f = 0; f < 5 * FPS && game.IntroPlaying; f++) { yield return null; shown += 1f / FPS; }
+                Assert.LessOrEqual(shown, PresentationDirector.TennisSwoop + .3f, "only the swoop into play is left");
+
+                // versus: this phone's skip alone ends it here ...
                 typeof(TennisGame).GetProperty("Versus").GetSetMethod(true).Invoke(game, new object[] { true });
                 ClearSeen(); intro.Restart();
                 for (int f = 0; f < FPS / 2; f++) yield return null;
+                Assert.AreEqual("0|1|0", game.IntroSkipState, "one ask is enough in versus too");
                 game.RequestSwing(.8f); yield return null;
-                Assert.True(intro.InFlyover, "one phone asking is not enough");
-                Assert.AreEqual("1|2|1", game.IntroSkipState);
+                Assert.False(intro.Skippable, "this phone asked: the show ends (both had to ask until 2026-11-11)");
+                // ... and the other phone's skip ends it here without a swing (a stale one from an earlier intro does not)
+                for (int f = 0; f < 3 * FPS && game.IntroPlaying; f++) yield return null;
+                ClearSeen(); intro.Restart();
+                for (int f = 0; f < FPS / 2; f++) yield return null;
                 int round = (int)typeof(TennisPresentation).GetField("introRound", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(intro);
+                intro.RemoteSkip(round - 1); yield return null;
+                Assert.True(intro.Skippable, "a skip left over from the last intro changes nothing");
                 intro.RemoteSkip(round); yield return null;
-                Assert.False(intro.InFlyover, "both asked: the flyover ends");
-                Assert.True(game.IntroPlaying, "and the introductions play");
+                Assert.False(intro.Skippable, "the other phone asked: the show ends here too");
             }
             finally
             {

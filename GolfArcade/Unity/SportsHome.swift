@@ -71,7 +71,8 @@ struct SportsHome: View {
             // Not during an online match either: the bar opens Messages, and a palm on it mid-swing leaves the app, which ends the match
             // for the host and starts the guest's 15 s forfeit clock. Golf hides it for its own reasons.
             // (nor in handheld play: the deck is the bottom of the screen, level with the game above it)
-            if !session.active || (session.sport != "golf" && session.multiplayerMatchID == nil && !session.phonePlay) { BetaFeedbackBar() }
+            // (nor over the menu on a phone with no TV: it fills the screen; Feedback is in the Clubhouse)
+            if (!session.active && !(hub.menuMode && hub.onPhone)) || (session.active && session.sport != "golf" && session.multiplayerMatchID == nil && !session.phonePlay) { BetaFeedbackBar() }
         }
         .simultaneousGesture(TapGesture().onEnded {
             guard session.active, session.loading.finished, !session.paused, session.multiplayerMatchID == nil else { return }
@@ -157,7 +158,10 @@ struct SportsHome: View {
         .onChange(of:menu.online.service.lobby?.revision) { _,_ in menu.online.sync(menu) }
         .onChange(of:menu.online.service.lastError) { _,error in if let error { menu.onlineNotice(error); if hub.drivesPhone { hub.notice = error } } }
         .onChange(of: hub.drivesPhone) { _, _ in SportsDisplays.shared.phoneSeeThrough(hub.drivesPhone && hub.onPhone) }
-        .onChange(of: hub.onPhone) { _, _ in SportsDisplays.shared.phoneSeeThrough(hub.drivesPhone && hub.onPhone) }
+        .onChange(of: hub.onPhone) { _, _ in SportsDisplays.shared.phoneSeeThrough(hub.drivesPhone && hub.onPhone); SportsDisplays.shared.phoneOrientationChanged() }
+        .onChange(of: hub.menuMode) { _, _ in SportsDisplays.shared.phoneOrientationChanged() }
+        .onChange(of: session.active) { _, _ in SportsDisplays.shared.phoneOrientationChanged() }
+        .onChange(of: session.displayConnected) { _, _ in SportsDisplays.shared.phoneOrientationChanged() }
     }
 
     var body: some View {
@@ -226,7 +230,7 @@ struct SportsHome: View {
             session.displayConnected = true; session.active = true; session.ready = true
             session.sport = "tennis"; session.loading.cancel()
             session.setupStage = .playing; session.paused = false; session.tennisPhase = phase
-            session.canDive = phase == "rally"; session.emoteWindow = phase == "point" ? "point" : ""
+            session.emoteWindow = phase == "point" ? "point" : ""
             if phase == "timing" { session.offerTimingCalibration() }
             if phase == "ready" { session.setupStage = .ready; session.paused = true }
         }

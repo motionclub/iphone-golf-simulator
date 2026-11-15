@@ -174,7 +174,7 @@ namespace GolfArcade.Tennis
             Opponent.Build(them.female, PlayerSkinFor(them.female), them.left, PlayerBody(them.female));
             Opponent.Motion = TennisActor.Style.Player;
             if (fx) HookActorFx(Opponent);
-            { var s = TennisLook.AddContactShadow(Opponent.transform, .55f, .45f); s.HeightOverride = 0; s.Surface = Opponent.transform; }
+            { var s = TennisLook.AddContactShadow(Opponent.transform, HeroShoeShape.Presence ? .62f : .55f, HeroShoeShape.Presence ? .70f : .45f); s.HeightOverride = 0; s.Surface = Opponent.transform; }
             TennisHeroSetup.AttachRival(this);
             DressNetworkHero(Opponent, them);
             if (replay) replay.Build(new[] { Player.transform, Opponent.transform }, ball, GameplayCamera, OnReplayPose);
@@ -514,7 +514,7 @@ namespace GolfArcade.Tennis
             // old. As the ball arrives, line them up the way their own game does, so the racket here meets the ball here too.
             if (Flow == Phase.Rally && !incoming && BallVelocity.z > .5f && Opponent.SweetSpot)
             {
-                float toArrive = (Opponent.transform.position.z - .65f - BallPosition.z) / BallVelocity.z;
+                float toArrive = TimeToPlane(Opponent.transform.position.z - .65f);
                 if (toArrive > -.05f && toArrive < .55f)
                 {
                     Vector3 arrive = PredictBall(Mathf.Max(0, toArrive));

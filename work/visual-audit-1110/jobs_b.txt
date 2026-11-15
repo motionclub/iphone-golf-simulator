@@ -1,0 +1,9 @@
+golf_store|600|APPSTORE_OUT={OUT}|-executeMethod GolfArcade.EditorTools.AppStoreCapture.RunGolf
+golf_review|1200|X=1|-runTests -testPlatform PlayMode -testFilter GolfArcade.PlayTests.ReviewCaptureTests -testResults {OUT}/results.xml
+golf_courses|1500|GOLF_STANDARD_OUT={OUT} GOLF_STANDARD_CHARACTER=1|-executeMethod GolfArcade.EditorTools.GolfCourseStandardCapture.Run
+golf_results_ui|600|GOLF_UI_OUT={OUT}|-executeMethod GolfArcade.EditorTools.GolfUiCapture.RunResults
+golf_broll|900|X=1|-runTests -testPlatform PlayMode -testFilter GolfArcade.PlayTests.BrollCaptureTests.CaptureGolfBroll -testResults {OUT}/results.xml
+bowl_club|900|BOWL_VENUE=club BOWL_FILM_OUT={OUT} BOWL_FILM_STILLS=1 BOWL_FILM_SHOTS=3 BOWL_FILM_SECONDS=45|-executeMethod GolfArcade.EditorTools.BowlingFilm.Run
+bowl_neon|600|BOWL_VENUE=neon BOWL_FILM_OUT={OUT} BOWL_FILM_STILLS=1 BOWL_FILM_SHOTS=1 BOWL_FILM_SECONDS=12|-executeMethod GolfArcade.EditorTools.BowlingFilm.Run
+bowl_tiki|600|BOWL_VENUE=tiki BOWL_FILM_OUT={OUT} BOWL_FILM_STILLS=1 BOWL_FILM_SHOTS=1 BOWL_FILM_SECONDS=12|-executeMethod GolfArcade.EditorTools.BowlingFilm.Run
+bowl_magma|600|BOWL_VENUE=magma BOWL_FILM_OUT={OUT} BOWL_FILM_STILLS=1 BOWL_FILM_SHOTS=1 BOWL_FILM_SECONDS=12|-executeMethod GolfArcade.EditorTools.BowlingFilm.Run

@@ -503,7 +503,7 @@ private struct OnbChoose: View {
                     card(.golf, image: "course-golf-cliffside.jpg", kicker: "LESSON · ABOUT 6 MIN", title: "GOLF",
                          line: "Distance, clean contact, aim and putting, then a real hole")
                     card(.tennis, image: "map-resort.jpg", kicker: "LESSON · ABOUT 5 MIN", title: "TENNIS",
-                         line: "Court setup, timing, aim, serve and dive, then a real point")
+                         line: "Court setup, timing, aim, serve and a wide ball, then a real point")
                 }
                 Button { flow.tap("skip") } label: {
                     (Text("Played before? ").foregroundStyle(Onb.soft) + Text("Skip lessons and go to the club").foregroundStyle(flow.isFocused("skip") ? .white : Onb.goldHi))

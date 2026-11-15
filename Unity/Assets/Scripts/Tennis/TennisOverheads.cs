@@ -54,7 +54,7 @@ namespace GolfArcade.Tennis
         TennisRules.InterceptPlan overheadPlan;
         bool TryTrackedOverhead(float power)
         {
-            if(!TrackingOverhead || overheadAttempted || Player.Swinging || Player.GroundRecovering || DiveActive
+            if(!TrackingOverhead || overheadAttempted || Player.Swinging || Player.GroundRecovering || StretchActive
                 || !incoming || Flow!=Phase.Rally || resetTimer>0 || bounces>0) return false;
             if(overheadPlan.Time>TennisOverheads.EarliestSwing) return false;
             // Early: the swing is kept, and the smash starts itself once the ball is in range.

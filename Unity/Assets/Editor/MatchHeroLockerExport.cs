@@ -80,6 +80,7 @@ namespace GolfArcade.EditorTools
             /// CLOTHING V3 (2026-10-26): TennisCloth's Blender yarn atlas path: atlasVersion 3, the knit cell for fabric id 7 (1 pique, 4 jersey),
             /// the yarn relief, the fibre shine and the tonal grain (HeroCloth.hlsl FabricV3). 0 / absent = the V2 path.
             public float atlasVersion, knitCell, fabricDetail, fibreShine, mottle;
+            public float stylePass, styleSmooth, styleSpec, styleEnv, styleRamp, styleFill, styleDewarm;     // FN7 style pass (TennisCloth _Style*)
             /// HeroFaceSkin's male face pass (MaleFaceFinish, 2026-10-18): female light model + painted nose/ear/lip form on the male head.
             public float maleFormPass;
             /// The body skin is Unity's HeroFaceSkin (the registered face: analytic lips, lid liner, blush, beard, face light), not plain TennisCharacter.
@@ -585,7 +586,7 @@ namespace GolfArcade.EditorTools
             look.weaveTile = F("_WeaveTile"); look.weaveAngle = F("_WeaveAngle"); look.weaveNormal = F("_WeaveNormal"); look.weaveThread = F("_WeaveThread"); look.sheenStrength = F("_SheenStrength"); look.sheenPower = F("_SheenPower");
             look.saturation = F("_Saturation"); look.bumpScale = F("_BumpScale"); look.bumpTriplanar = F("_BumpTriplanar"); look.bumpTile = F("_BumpTile");
             look.baseMap = Map("_BaseMap"); look.weaveMap = Map("_WeaveMap"); look.bumpMap = Map("_BumpMap");
-            look.normalMap = Map("_NormalMap"); look.maskMap = Map("_MaskMap"); look.trimColor = C("_TrimColor"); look.normalStrength = F("_NormalStrength"); look.useGarmentMaps = F("_UseGarmentMaps"); look.fabricVersion = F("_FabricVersion"); look.femaleSurface = F("_FemaleSurface"); look.edgeLines = F("_EdgeLines"); look.atlasVersion = F("_AtlasVersion"); look.knitCell = F("_KnitCell"); look.fabricDetail = F("_FabricDetail"); look.fibreShine = F("_FibreShine"); look.mottle = F("_Mottle"); look.maleFormPass = F("_MaleFormPass");
+            look.normalMap = Map("_NormalMap"); look.maskMap = Map("_MaskMap"); look.trimColor = C("_TrimColor"); look.normalStrength = F("_NormalStrength"); look.useGarmentMaps = F("_UseGarmentMaps"); look.fabricVersion = F("_FabricVersion"); look.femaleSurface = F("_FemaleSurface"); look.edgeLines = F("_EdgeLines"); look.atlasVersion = F("_AtlasVersion"); look.knitCell = F("_KnitCell"); look.fabricDetail = F("_FabricDetail"); look.fibreShine = F("_FibreShine"); look.mottle = F("_Mottle"); look.stylePass = F("_StylePass"); look.styleSmooth = F("_StyleSmooth"); look.styleSpec = F("_StyleSpec"); look.styleEnv = F("_StyleEnv"); look.styleRamp = F("_StyleRamp"); look.styleFill = F("_StyleFill"); look.styleDewarm = F("_StyleDewarm"); look.maleFormPass = F("_MaleFormPass");
             look.skinTex = F("_SkinTex"); look.skinScatter = F("_SkinScatter"); look.skinTransmission = F("_SkinTransmission"); look.skinAO = F("_SkinAO");
             look.skinSpecular = F("_SkinSpecular"); look.skinLightChroma = F("_SkinLightChroma"); look.skinCoolFill = F("_SkinCoolFill");
             look.eyeV2 = F("_EyeV2"); look.eyeCaustic = F("_EyeCaustic"); look.eyeGloss = F("_EyeGloss");
@@ -705,6 +706,9 @@ namespace GolfArcade.EditorTools
                 var local=club.parent.worldToLocalMatrix*hand.localToWorldMatrix*socket;
                 Decompose(local,out var p,out var q,out var scale);club.localPosition=p;club.localRotation=q;club.localScale=scale;
             }
+            // ARM LIMITS 2026-11-13 (work/final-plan-1111/anim): the game ends its pose pass with the anatomical wrist / elbow rule (HeroPoseSafety,
+            // HeroArmLimits); the menus get the same on every clip frame, before the finger polish as in the game. ARM_LIMITS=0 = without.
+            if (clip.name != RelaxedName) ArmLimitsFor(root)?.ArmLimits(true);
             if (clip.name != RelaxedName) HeroGripPolish.ApplyGrip(root.GetComponent<MatchHeroLook>());   // the plaza's relaxed stand carries no racket grip
             root.GetComponent<MatchHeroLook>()?.body?.GetComponent<HeroArmSkinning>()?.Apply();
             if(root.GetComponent<FemaleShoulderFit>()) { root.GetComponent<HeroShoulderDeformation>()?.Apply();root.GetComponent<FemaleShoulderFit>().Apply(); }
@@ -714,6 +718,15 @@ namespace GolfArcade.EditorTools
             root.GetComponent<TailoredPoloDeformation>()?.Apply(); { var kl = root.GetComponent<MatchHeroLook>(); if (kl && kl.kitV2) { KitV2PoseCorrectives.Attach(kl); root.GetComponent<KitV2PoseCorrectives>()?.Apply(); } }
         }
 
+        static readonly Dictionary<GameObject, HeroPoseSafety> armLimits = new Dictionary<GameObject, HeroPoseSafety>();
+        static HeroPoseSafety ArmLimitsFor(GameObject root)
+        {
+            if (!HeroArmLimits.Enabled || !root) return null;
+            if (armLimits.TryGetValue(root, out var s) && s != null) return s;
+            var look = root.GetComponent<MatchHeroLook>(); if (!look) return null;
+            if (armLimits.Count > 16) armLimits.Clear();
+            return armLimits[root] = new HeroPoseSafety(look);
+        }
         static Transform FindBone(Transform root, string name) => root.GetComponentsInChildren<Transform>(true).First(t => t.name == name);
 
         /// Bind-pose mesh + bone weights + inverse binds of every skinned part, and the clip tracks. Returns the manifest block; writes MatchHero_<Sex>_Rig.lzfse.

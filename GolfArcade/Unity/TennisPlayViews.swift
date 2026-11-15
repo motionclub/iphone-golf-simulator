@@ -260,7 +260,7 @@ private struct ControllerButton: View {
 }
 
 /// Acts the instant a finger lands, once per touch. SwiftUI's `Button` fires when the finger lifts, 60-120 ms later: on a
-/// toss, a dive or a swing that is delay the player feels directly. (The gesture `RepeatButton` uses, without the repeat.)
+/// toss or a swing that is delay the player feels directly. (The gesture `RepeatButton` uses, without the repeat.)
 private struct PressButton<Label: View>: View {
     var enabled = true
     let action: () -> Void
@@ -282,7 +282,7 @@ private struct PressButton<Label: View>: View {
 
 /// The phone during a match: your racket. Its string bed is the same hit radar as the TV's, showing where each shot
 /// met the strings and how well it was timed. Eyes are on the TV, so this screen stays calm: the score, the radar, stamina,
-/// one big Dive zone. Pausing needs a hold so a swing can never trigger it.
+/// no buttons to hunt for during a rally (the Dive button went with the dive, 2026-11-13). Pausing needs a hold so a swing can never trigger it.
 struct TennisRacketController: View {
     @Bindable var session: SportsSession
     @State private var showOptions = false
@@ -321,7 +321,6 @@ struct TennisRacketController: View {
                 stamina
             }
             if session.ready && session.loading.finished && session.finishedMatch == nil {
-                if session.pointControlsVisible { TennisAbilityControls(session: session) }
                 if session.canPlayEmote { TennisEmoteControls(session: session) }
             }
             if session.finishedMatch == nil && session.ready && session.paused && session.setupStage == .playing {
@@ -779,38 +778,6 @@ struct MatchFinishControls: View {
     }
 }
 
-
-/// Shared by the AirPlay racket screen and on-phone preview. Choices lock at first Ready.
-struct TennisAbilityControls: View {
-    let session: SportsSession
-    var body: some View {
-        AbilityButton(title: "DIVE", icon: "arrow.down.to.line", caption: session.diveCooldown > 0 ? "\(Int(ceil(session.diveCooldown)))s" : session.canDive ? "ready" : "waiting for ball",
-                      enabled: !session.paused && session.canDive) { session.dive() }
-            .accessibilityLabel("Dive toward the ball").accessibilityIdentifier("tennisDive")
-    }
-}
-
-/// The one big thumb zone on the racket screen.
-private struct AbilityButton: View {
-    let title: String, icon: String, caption: String
-    let enabled: Bool
-    let action: () -> Void
-    var body: some View {
-        // On touch-down: a dive is a reaction, and the lift of a `Button` tap costs 60-120 ms of it.
-        PressButton(enabled: enabled, action: action) { pressed in
-            HStack(spacing: 12) {
-                Image(systemName: icon).font(.system(size: 28, weight: .bold))
-                Text(title).font(IslandUI.font(30, bold: true)).tracking(1)
-                Text(caption).font(IslandUI.font(14, bold: true)).opacity(0.85)
-            }
-            .foregroundStyle(.white).frame(maxWidth: .infinity, minHeight: 92)
-            .background(LinearGradient(colors: [Color(hex: "2A66E0"), Color(hex: "1C45A8")], startPoint: .top, endPoint: .bottom), in: RoundedRectangle(cornerRadius: 28, style: .continuous))
-            .shadow(color: .black.opacity(0.4), radius: 0, y: 5)
-            .opacity(enabled ? 1 : 0.45).scaleEffect(pressed ? 0.97 : 1)
-        }
-        .disabled(!enabled)
-    }
-}
 
 /// The TV repeats the action on the phone; the court stays paused beneath this native banner.
 struct OnlineTennisTVSetup: View {

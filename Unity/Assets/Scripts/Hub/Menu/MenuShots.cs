@@ -28,8 +28,21 @@ namespace GolfArcade.Hub.Menu
         /// then swoops down to Low.
         public static readonly Shot ArrivalShot = new Shot(Arrival, new Vector3(-4f, 9f, -24f), new Vector3(-.6f, 2.2f, -4f), 42f);
 
-        /// Floor slots, you first. 3 and 4 heroes stand a step further back so the line-up still fits right of the menu.
-        public static readonly Vector3[] Slots = { new Vector3(-.1f, 0, -7.6f), new Vector3(.78f, 0, -7.0f), new Vector3(1.6f, 0, -6.45f), new Vector3(2.38f, 0, -5.95f) };
+        /// Floor slots, you first: the plaza line-up (3 and 4 heroes a step further back so it still fits right of the menu), or with a
+        /// venue plate (Centred) the squad.
+        public static Vector3[] Slots => Centred ? SquadSlots : LineSlots;
+        public static readonly Vector3[] LineSlots = { new Vector3(-.1f, 0, -7.6f), new Vector3(.78f, 0, -7.0f), new Vector3(1.6f, 0, -6.45f), new Vector3(2.38f, 0, -5.95f) };
+        /// MENU SQUAD (Adnan 11-13: "lobby shooter style is best", work/menu-lineup-1113): you in the middle at the front, a friend a step back
+        /// on each side, the fourth further back on the left; in metres along the camera's right and away from it, from slot 0.
+        public static readonly Vector3[] SquadSlots = Squad(new Vector2(0, 0), new Vector2(-1.2f, .75f), new Vector2(1.2f, .75f), new Vector2(-2.4f, 1.75f));
+        static Vector3[] Squad(params Vector2[] at)
+        {
+            var s0 = LineSlots[0]; var f = s0 - LowShot.position; f.y = 0; f.Normalize();
+            var right = new Vector3(f.z, 0, -f.x);
+            var slots = new Vector3[at.Length];
+            for (int i = 0; i < at.Length; i++) slots[i] = s0 + right * at[i].x + f * at[i].y;
+            return slots;
+        }
         /// Where every hero faces: the home camera (they do not turn for each shot; the menu's cameras all sit close to it).
         public static Vector3 FaceToward => LowShot.position;
         /// MENU BACKDROP (Adnan 10-28: "center the character", feet on the floor): with a venue plate behind the line-up every screen holds this one
@@ -38,7 +51,7 @@ namespace GolfArcade.Hub.Menu
         public static readonly Shot CentreShot = Centre();
         static Shot Centre()
         {
-            var s = Slots[0]; var d = FaceToward - s; d.y = 0; d.Normalize();
+            var s = LineSlots[0]; var d = FaceToward - s; d.y = 0; d.Normalize();
             return new Shot(Low, s + d * 4.7f + Vector3.up * .95f, s + Vector3.up * 1f, 32f);
         }
 

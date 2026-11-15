@@ -1,0 +1,85 @@
+using System.Collections;
+using System.IO;
+using System.Reflection;
+using GolfArcade.Course;
+using GolfArcade.Game;
+using GolfArcade.Shot;
+using NUnit.Framework;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.TestTools;
+
+namespace GolfArcade.PlayTests
+{
+    /// Clone-only proof for the 2026-11-11 golf landing (copy to Assets/Tests/PlayMode/ZGolfLandingFilm.cs; GOLF_FILM_OUT=<dir>).
+    /// Full shots in the real game on the game's own camera: frames from just before the ball pitches until it is rolling,
+    /// and the ball's height over the ground through the landing. Run on the old code and the new for the before and after.
+    public class ZGolfLandingFilm
+    {
+        static readonly FieldInfo ClubField = typeof(GolfGame).GetField("club", BindingFlags.Instance | BindingFlags.NonPublic);
+
+        [UnityTest, Timeout(1800000)]
+        public IEnumerator Landings()
+        {
+            string dir = System.Environment.GetEnvironmentVariable("GOLF_FILM_OUT") ?? "Library/Captures/golf-landing";
+            Directory.CreateDirectory(dir);
+            LogAssert.ignoreFailingMessages = true;
+            Time.captureFramerate = 60; Time.timeScale = 1;
+            yield return SceneManager.LoadSceneAsync("Golf", LoadSceneMode.Single); yield return null;
+            var game = Object.FindFirstObjectByType<GolfGame>();
+            game.InstantReplays = false;
+            game.PrepareNativeAddress("postcards");
+            var cam = game.GameplayCamera; if (cam) cam.aspect = 16f / 9;
+            var log = new System.Text.StringBuilder("shot,t,heightYards,x,d\n");
+            try
+            {
+                var hole = game.CurrentHole;
+                // the tee shot with the driver; a 7 iron from the fairway; a pitching wedge and a lob wedge from in front of the green
+                var shots = new (string name, GolfClub club, double shortOfPin)[]
+                {
+                    ("driver", GolfClub.Driver, -1), ("iron7", GolfClub.Iron, 150 + 40), ("pw", GolfClub.PitchingWedge, 100 - 2), ("lw", GolfClub.LobWedge, 50 - 2),
+                };
+                foreach (var (name, club, shortOfPin) in shots)
+                {
+                    CoursePoint from = hole.Tee;
+                    if (shortOfPin > 0)
+                    {
+                        // back along the hole's last leg from the pin
+                        var c = hole.Centerline; var a = c[c.Length - 2]; var pin = hole.Pin;
+                        double len = a.DistanceTo(pin), k = System.Math.Min(1, shortOfPin / System.Math.Max(1, len));
+                        from = new CoursePoint(pin.X + (a.X - pin.X) * k, pin.D + (a.D - pin.D) * k);
+                    }
+                    game.DropBall(from);
+                    for (int f = 0; f < 90; f++) yield return null;
+                    for (int f = 0; f < 600 && game.Current != GolfGame.State.Aim; f++) yield return null;
+                    for (int tries = 0; tries < 14 && (GolfClub)ClubField.GetValue(game) != club; tries++) { game.NativeClub(1); yield return null; }
+                    for (int f = 0; f < 30; f++) yield return null;
+                    // still air for every shot: the hole's wind is random per run, and it moved the first film's carries by up to 18 yd
+                    typeof(GolfGame).GetProperty("Wind").GetSetMethod(true).Invoke(game, new object[] { Wind.Calm });
+                    game.NativeSwing(1f);
+                    for (int f = 0; f < 300 && game.Current != GolfGame.State.Flight; f++) yield return null;
+                    var shot = game.LastShot; if (shot == null) continue;
+                    int saved = 0, frame = 0;
+                    while (game.Current == GolfGame.State.Flight && frame++ < 60 * 40)
+                    {
+                        yield return null;
+                        double t = game.FlightTime; if (t < 0) continue;
+                        var p = shot.PositionAt(t);
+                        if (t > shot.LandingTime - 0.6) log.AppendLine(System.FormattableString.Invariant($"{name},{t - shot.LandingTime:0.000},{p.h:0.000},{p.x:0.0},{p.d:0.0}"));
+                        // every 6th frame from a quarter second before it pitches until a second after it starts to roll
+                        if (t > shot.LandingTime - 0.25 && t < shot.CarryTime + 1.0 && frame % 6 == 0 && saved < 40)
+                        {
+                            GameCapture.Save(Path.Combine(dir, System.FormattableString.Invariant($"{name}_{saved:00}_t{t - shot.LandingTime:+0.00;-0.00}_h{p.h * BallFlight.MetersPerYard:0.00}m.jpg")), 1280, 720);
+                            saved++;
+                        }
+                    }
+                    File.AppendAllText(Path.Combine(dir, "summary.txt"), System.FormattableString.Invariant(
+                        $"{name}: club {club}, wind {game.Wind.SpeedMPH:0.0} (pinned calm), carry {shot.Carry:0.0} yd, pitched on {hole.LieAt(shot.Landing)}, run after pitching {shot.Landing.DistanceTo(shot.Rest):0.0} yd, rest on {shot.Lie}, hops until {shot.CarryTime - shot.LandingTime:0.00} s after pitching, frames {saved}\n"));
+                    for (int f = 0; f < 600 && game.Current != GolfGame.State.Aim && game.Current != GolfGame.State.HoleDone; f++) yield return null;
+                }
+                File.WriteAllText(Path.Combine(dir, "heights.csv"), log.ToString());
+            }
+            finally { Time.captureFramerate = 0; Time.timeScale = 1; }
+        }
+    }
+}

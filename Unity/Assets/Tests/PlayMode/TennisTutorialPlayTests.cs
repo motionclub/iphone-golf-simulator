@@ -93,17 +93,18 @@ namespace GolfArcade.PlayTests
                 Assert.AreEqual(1, tutorial.Lesson.Misses, "net faults retry with coaching");
                 yield return new WaitForSeconds(1.6f);
                 Serve(game, true); yield return null;
-                Assert.AreEqual(TutorialLesson.Kind.Dive, tutorial.Lesson.Current.Kind);
-                // the wide ball: dive for it as it comes
-                for (int attempt = 0; attempt < 20 && tutorial.Lesson.Current.Kind == TutorialLesson.Kind.Dive; attempt++)
+                Assert.AreEqual(TutorialLesson.Kind.Wide, tutorial.Lesson.Current.Kind);
+                // the wide ball: the player runs; swing on the rings (a ball just out of reach is stretched for)
+                for (int attempt = 0; attempt < 40 && tutorial.Lesson.Current.Kind == TutorialLesson.Kind.Wide; attempt++)
                 {
                     yield return new WaitForSeconds(2);
-                    Simulate(game, .5f + (attempt % 10) * .05f);
-                    game.RequestDive();
+                    Simulate(game, .6f + (attempt % 30) * .04f);
+                    bool back = game.BallPosition.x < game.Player.transform.position.x;
+                    game.RequestSwing(.65f, back ? -1 : 1, 0, back ? -1 : 1);
                     Simulate(game, 4);
                     yield return null;
                 }
-                Assert.AreEqual(TutorialLesson.Kind.Point, tutorial.Lesson.Current.Kind, "the dive station passes on a real dive (or a reached ball)");
+                Assert.AreEqual(TutorialLesson.Kind.Point, tutorial.Lesson.Current.Kind, "the wide-ball station passes on a real return");
                 Assert.IsFalse(tutorial.Lesson.Done, "the previous drill must not finish the real point");
                 yield return new WaitForSeconds(1.6f);
                 Assert.IsFalse(game.Drill);

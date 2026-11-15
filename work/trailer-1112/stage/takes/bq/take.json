@@ -1,0 +1,197 @@
+{
+    "name": "bq",
+    "outDir": "",
+    "frames": 2750,
+    "warm": 400,
+    "fps": 120,
+    "every": 1,
+    "w": 1920,
+    "h": 1080,
+    "quality": 95,
+    "seed": -1,
+    "ss": 1.5,
+    "timeScale": 1.0,
+    "only": [],
+    "events": [
+        {
+            "f": -400,
+            "do": "gameclock",
+            "on": "game",
+            "m": "",
+            "a": [],
+            "v": [],
+            "s": "",
+            "until": -100000
+        },
+        {
+            "f": -399,
+            "do": "call",
+            "on": "game",
+            "m": "KeyboardEnabled",
+            "a": [
+                "false"
+            ],
+            "v": [],
+            "s": "",
+            "until": -100000
+        },
+        {
+            "f": -398,
+            "do": "call",
+            "on": "game.Players",
+            "m": "Add",
+            "a": [
+                "Rival"
+            ],
+            "v": [],
+            "s": "",
+            "until": -100000
+        },
+        {
+            "f": -397,
+            "do": "call",
+            "on": "game.PlayerFemale",
+            "m": "Add",
+            "a": [
+                "true"
+            ],
+            "v": [],
+            "s": "",
+            "until": -100000
+        },
+        {
+            "f": -396,
+            "do": "call",
+            "on": "game.PlayerFemale",
+            "m": "Add",
+            "a": [
+                "false"
+            ],
+            "v": [],
+            "s": "",
+            "until": -100000
+        },
+        {
+            "f": -395,
+            "do": "call",
+            "on": "game",
+            "m": "NewGame",
+            "a": [
+                "null"
+            ],
+            "v": [],
+            "s": "",
+            "until": -100000
+        },
+        {
+            "f": -394,
+            "do": "seed",
+            "on": "game",
+            "m": "",
+            "a": [],
+            "v": [
+                1.0
+            ],
+            "s": "",
+            "until": -100000
+        },
+        {
+            "f": -390,
+            "do": "active",
+            "on": "find:BowlingHud",
+            "m": "",
+            "a": [],
+            "v": [],
+            "s": "0",
+            "until": -100000
+        },
+        {
+            "f": -300,
+            "do": "call",
+            "on": "game.Autoplay",
+            "m": "Enqueue",
+            "a": [
+                "20,8.0,60,0,0"
+            ],
+            "v": [],
+            "s": "",
+            "until": -100000
+        },
+        {
+            "f": 1720,
+            "do": "call",
+            "on": "game.Autoplay",
+            "m": "Enqueue",
+            "a": [
+                "17.5,7.8,120,0,0"
+            ],
+            "v": [],
+            "s": "",
+            "until": -100000
+        },
+        {
+            "f": 1900,
+            "do": "call",
+            "on": "game",
+            "m": "SkipWalks",
+            "a": [],
+            "v": [],
+            "s": "",
+            "until": -100000
+        },
+        {
+            "f": 1901,
+            "do": "active",
+            "on": "find:BowlingHud",
+            "m": "",
+            "a": [],
+            "v": [],
+            "s": "0",
+            "until": -100000
+        }
+    ],
+    "cams": [],
+    "lights": [],
+    "keepLights": false,
+    "post": {
+        "exposure": 0.0,
+        "contrast": 0.0,
+        "saturation": 0.0,
+        "temperature": 0.0,
+        "tint": 0.0,
+        "bloom": 0.25,
+        "bloomThreshold": 0.8999999761581421,
+        "bloomScatter": 0.699999988079071,
+        "vignette": 0.25,
+        "ca": 0.0,
+        "filter": [],
+        "lift": [],
+        "gamma": [],
+        "gain": [],
+        "shadows": [],
+        "midtones": [],
+        "highlights": [],
+        "tonemap": "aces",
+        "exclusive": true
+    },
+    "env": {
+        "mainLight": -1.0,
+        "ambient": -1.0,
+        "shadowDistance": -1.0,
+        "fogDensity": -1.0,
+        "shadowStrength": -1.0,
+        "mainColor": [],
+        "mainEuler": [],
+        "fogColor": [],
+        "ambientColor": []
+    },
+    "hide": [],
+    "show": [],
+    "trace": [
+        "game.Flow",
+        "game.StandingPins",
+        "game.Current",
+        "find:Bowler Male",
+        "find:Bowler Female"
+    ]
+}

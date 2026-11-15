@@ -1,0 +1,76 @@
+--- work/final-plan-1111/install_backup/Unity/Assets/Scripts/Hub/HubHeroAnimator.cs	2026-10-28 15:45:22
++++ /private/tmp/claude-501/-Users-adnanyonathan-Documents-Codex-2026-09-20-wh-outputs-iphone-golf-simulator/0d4abe44-3022-4e73-8f9a-37310dbeefa7/scratchpad/rb/Assets/Scripts/Hub/HubHeroAnimator.cs	2026-11-12 22:19:32
+@@ -232,7 +232,9 @@
+             }
+         }
+         /// The relaxed curl at `curl` times its angles (MENU STANCES: 3.2 is a loose fist, Mei's / Soldier: 76's hands).
+-        void CurlFingers(bool left, float curl)
++        /// HER HANDS 2026-11-12: the walking hand curls more evenly than the standing one (whose index stays nearly straight).
++        static readonly float[] WalkMore = { .8f, 1f, 1.1f, 1.2f };
++        void CurlFingers(bool left, float curl, float[] moreBy = null, float mcp = CurlMcp, float pip = CurlPip, float dip = CurlDip)
+         {
+             string side = left ? "Left" : "Right";
+             Transform Bn(string n) => look.Bone((HumanBodyBones)System.Enum.Parse(typeof(HumanBodyBones), side + n));
+@@ -247,8 +249,8 @@
+                 var p = Bn(Fingers[k] + "Proximal"); var i = Bn(Fingers[k] + "Intermediate"); var d = Bn(Fingers[k] + "Distal");
+                 if (!p || !i || !d) continue;
+                 // loosely together: a small fan about the middle finger, then each joint a little more than the one before
+-                var start = (axis + across * FingerFan[k]).normalized; float more = FingerMore[k];
+-                float a1 = CurlMcp * more * curl, a2 = a1 + CurlPip * more * curl, a3 = a2 + CurlDip * more * curl;
++                var start = (axis + across * FingerFan[k]).normalized; float more = (moreBy ?? FingerMore)[k];
++                float a1 = mcp * more * curl, a2 = a1 + pip * more * curl, a3 = a2 + dip * more * curl;
+                 AimBone(p, i, Dir(start, a1)); AimBone(i, d, Dir(start, a2));
+                 AimTip(d, Dir(start, a3));   // the tip has no child bone: its real tip (bind-pose farthest vertex) is aimed, so the rest pose's own fingertip hook does not add to the curl
+             }
+@@ -774,7 +776,7 @@
+             if (bowlClip) { var lp = transform.localPosition; transform.localPosition = new Vector3(0, lp.y, 0); }
+             else if (SeatWeight < .001f) PinPlantedFoot(dt); else { var lp = transform.localPosition; transform.localPosition = Vector3.MoveTowards(lp, new Vector3(0, lp.y, 0), dt); }
+             // HAND CLEARANCE (work/hand-clearance): hands and forearms out of the body and the clothes, as in tennis and golf
+-            if (safety == null) { safety = new HeroPoseSafety(look); safety.UseGraph(graph); }   // + the baked corrections of the clips playing
++            if (safety == null) { safety = new HeroPoseSafety(look); safety.UseGraph(graph); if (safety.Tracks != null) safety.Tracks.freeArmShare = HeroClearanceTracks.FreeArmShare; }   // + the baked corrections of the clips playing (a free arm: its plaza share)
+             // MENU HERO: standing still, the relaxed stand replaces the Idle clip's arms, so the Idle clip's baked racket-arm correction must not
+             // ride on it (it pushed the right arm out, 10-19); the residual solve still keeps the hands out of the body and the kit
+             bool keepTracks = HeroClearanceTracks.Enabled; if (RelaxWeight > .5f) HeroClearanceTracks.Enabled = false;
+@@ -785,6 +787,42 @@
+             skipSafety = System.Environment.GetEnvironmentVariable("HUB_SAFETY") == "0";   // A/B: the clips' own arms, no clearance pass
+ #endif
+             try { if (!skipSafety) safety.Apply(false); } finally { HeroClearanceTracks.Enabled = keepTracks; }
++            // THE ELBOW 2026-11-12 (Adnan: "there's a clear break where her arm is bending downwards"): the Walk and Run clips carry the
++            // arms like a jogger's, the elbow bent about 52 degrees the whole way round (46 to 61). His baked clearance happens to
++            // straighten his to about 30; hers stays near 50, and on a slim arm that reads as a break. A free arm's elbow is eased
++            // into a walking range (about 18 on the back swing, 29 at the front; his a little straighter) by turning the forearm about the elbow's own hinge.
++            // PLAZA_ELBOW=0 (Editor) switches it off.
++            if (!bowlClip && System.Environment.GetEnvironmentVariable("PLAZA_ELBOW") != "0")
++            {
++                float ease = Mathf.Clamp01(1 - RelaxWeight) * Mathf.Clamp01(1 - actionFade) * (SeatWeight < .001f ? 1 : 0);
++                for (int s = 0; s < 2 && ease > .001f; s++)
++                {
++                    var ua = look.Bone(s == 0 ? HumanBodyBones.LeftUpperArm : HumanBodyBones.RightUpperArm); var la = look.Bone(s == 0 ? HumanBodyBones.LeftLowerArm : HumanBodyBones.RightLowerArm);
++                    var hd = look.Bone(s == 0 ? HumanBodyBones.LeftHand : HumanBodyBones.RightHand); if (!ua || !la || !hd) continue;
++                    var up = (la.position - ua.position).normalized; var fo = (hd.position - la.position).normalized; float bend = Vector3.Angle(up, fo);
++                    float want = look.female ? Mathf.Clamp(12f + (bend - 44f) * .45f, 10f, bend) : Mathf.Clamp(12f + (bend - 35f) * .7f, 10f, bend);   // (her clearance leaves her elbow about 10 degrees more bent than his: one range for both, about 12 to 19)
++                    var hinge = Vector3.Cross(up, fo);
++                    if (bend - want > .5f && hinge.sqrMagnitude > 1e-8f) la.rotation = Quaternion.AngleAxis(-(bend - want) * ease, hinge.normalized) * la.rotation;
++                    // THE WRIST 2026-11-12 (Adnan: "it's like her wrist is permanently broken"): in the Walk and Run clips the hand drops
++                    // away from the forearm's line at the front of every swing (9 to 36 degrees and back, each stride, both heroes;
++                    // her hand is also built 23 degrees off her forearm's line at rest, his 1). A free hand keeps to the forearm's
++                    // line: up to 8 degrees as the clip has it, a fifth of anything beyond.
++                    var mid = look.Bone(s == 0 ? HumanBodyBones.LeftMiddleProximal : HumanBodyBones.RightMiddleProximal);
++                    if (mid && System.Environment.GetEnvironmentVariable("PLAZA_WRIST") != "0")
++                    {
++                        var fo2 = (hd.position - la.position).normalized; var ha = (mid.position - hd.position).normalized; float w = Vector3.Angle(fo2, ha);
++                        float wantW = w <= 8f ? w : 8f + (w - 8f) * .2f;
++                        if (w - wantW > .5f) hd.rotation = Quaternion.Slerp(Quaternion.identity, Quaternion.FromToRotation(ha, fo2), (w - wantW) / w * ease) * hd.rotation;
++                    }
++                }
++            }
++            // HER HANDS 2026-11-12: walking and running, her empty hands kept the clip's fingers, straight and spread (a rake). They take
++            // the same relaxed curl as the standing hand. FEMALE_WALK_CURL=0 (Editor) switches it off, a number sets the amount.
++            if (look.female && actionFade < .01f && SeatWeight < .001f && RelaxWeight < .5f && !bowlClip)
++            {
++                float curl = float.TryParse(System.Environment.GetEnvironmentVariable("FEMALE_WALK_CURL"), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var fc) ? fc : 1f;
++                if (curl > 0) { CurlFingers(true, curl, WalkMore, 18f, 30f, 15f); CurlFingers(false, curl, WalkMore, 18f, 30f, 15f); }
++            }
+             if (stanceShown == PalmsOnHipsStance && stanceWeight > .99f) PalmsOnRealHips();
+             else { palmFrames = 0; palmMeasured = false; }
+             if (LogStances && stanceShown >= 0 && Time.frameCount % 60 == 0)

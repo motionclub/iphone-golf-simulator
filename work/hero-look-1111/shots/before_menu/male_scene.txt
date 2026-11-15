@@ -1,0 +1,41 @@
+sun
+Golden-hour sun Directional col=RGBA(1.000, 0.950, 0.880, 1.000) int=1.45 dir=(0.18, -0.31, 0.93)
+ambientMode=Trilight sky=RGBA(0.660, 0.620, 0.660, 1.000) eq=RGBA(0.580, 0.480, 0.400, 1.000) gnd=RGBA(0.300, 0.220, 0.180, 1.000) amb=RGBA(0.660, 0.620, 0.660, 1.000) int=1
+VOLUME Majestic grade w=1 global=True prio=50
+   Tonemapping
+   ColorAdjustments
+   WhiteBalance
+   ShadowsMidtonesHighlights
+   Bloom
+   Vignette
+VOLUME Hub post-processing w=1 global=True prio=20
+   Tonemapping
+   ColorAdjustments
+   WhiteBalance
+   ShadowsMidtonesHighlights
+   Bloom
+   Vignette
+REND Body_M mat=Skin_OriginalSurfacePigment (hero) shader=GolfArcade/HeroFaceSkin
+REND OriginalSeamFeatures mat=Reference_Face_Brow (hero) shader=GolfArcade/TennisCharacter
+REND OriginalSeamFeatures mat=Reference_Face_Sclera (hero) shader=GolfArcade/TennisCharacter
+REND OriginalSeamFeatures mat=Reference_Face_Iris (hero) shader=GolfArcade/TennisCharacter
+REND OriginalSeamFeatures mat=Reference_Face_Pupil (hero) shader=GolfArcade/TennisCharacter
+REND OriginalSeamFeatures mat=Reference_Face_Limbal (hero) shader=GolfArcade/TennisCharacter
+REND OriginalSeamFeatures mat=Reference_Face_Catch (hero) shader=GolfArcade/TennisCharacter
+REND Racket_Classic mat=White_Frame (hero) shader=GolfArcade/TennisCharacter
+REND ButtCap mat=Black_Grip (hero) shader=GolfArcade/TennisCloth
+REND Grip mat=Black_Grip (hero) shader=GolfArcade/TennisCloth
+REND StringBed mat=White_Strings (hero) shader=GolfArcade/TennisCharacter
+REND Kit_Top mat=Kit_Shirt (hero) shader=GolfArcade/TennisCloth
+REND Kit_Bottom mat=Kit_Shorts (hero) shader=GolfArcade/TennisCloth
+REND Kit_Bottom mat=Kit_ShortsBand (hero) shader=GolfArcade/TennisCloth
+REND Kit_Sock_L mat=Kit_Sock (hero) shader=GolfArcade/TennisCloth
+REND Kit_Sock_R mat=Kit_Sock (hero) shader=GolfArcade/TennisCloth
+REND Kit_Shoe_L mat=Kit_Shoe (hero) shader=GolfArcade/TennisCloth
+REND Kit_Shoe_L mat=Kit_Sole (hero) shader=GolfArcade/TennisCloth
+REND Kit_Shoe_L mat=Kit_Buckle (hero) shader=GolfArcade/TennisCharacter
+REND Kit_Shoe_R mat=Kit_Shoe (hero) shader=GolfArcade/TennisCloth
+REND Kit_Shoe_R mat=Kit_Sole (hero) shader=GolfArcade/TennisCloth
+REND Kit_Shoe_R mat=Kit_Buckle (hero) shader=GolfArcade/TennisCharacter
+REND Acc_Cap mat=Acc_Cap (hero) shader=GolfArcade/TennisCloth
+REND Acc_Cap mat=Acc_CapMetal (hero) shader=GolfArcade/TennisCharacter

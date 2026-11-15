@@ -167,7 +167,7 @@ namespace GolfArcade.PlayTests {
             game.Toss(1); game.RequestSwing(.8f);
             Assert.That(game.BallPosition, Is.EqualTo(ball));
             Assert.That(game.Flow, Is.EqualTo(phase));
-            Assert.That(game.CanDive, Is.False);
+            Assert.That(game.StretchActive, Is.False);
             Assert.That(game.AimPractice, Is.False);
             game.StartTimingCheck();
             Assert.That(game.CheckingTiming, Is.True);

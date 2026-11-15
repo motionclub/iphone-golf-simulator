@@ -102,7 +102,7 @@ namespace GolfArcade.Tests
                 for (int k = 0; k < 1200 && pos.z < StrikeZ; k++)
                 {
                     TennisBall.Integrate(ref pos, ref vel, spin, TennisBall.Step);
-                    if (pos.y < TennisRules.BallRadius && vel.y < 0) { pos.y = TennisRules.BallRadius; TennisBall.Bounce(ref vel, ref spin, .75f); }
+                    if (pos.y < TennisRules.BallRadius && vel.y < 0) { pos.y = TennisRules.BallRadius; TennisBall.Bounce(ref vel, ref spin, TennisFlight.Restitution); }
                     t += TennisBall.Step;
                 }
                 float goal = pos.x + (pos.x >= 0 ? -.65f : .65f);

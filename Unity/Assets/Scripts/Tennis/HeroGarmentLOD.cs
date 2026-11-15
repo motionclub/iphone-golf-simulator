@@ -83,6 +83,7 @@ namespace GolfArcade.Tennis
                 }
                 else if (skirt) matchMesh = selected.sharedMesh;
                 else matchMesh = look.FinishFootwear(live, HeroGarmentHemWeights.Prepare(look, live, selected.sharedMesh, matchBones));
+                matchMesh = HeroBuild.Prepare(look, live, matchMesh, true);   // HERO BUILD: the distance garment has the same build as the close one
                 pieces.Add(new Piece { renderer = live, full = HeroGarmentGusset.CanonicalSource(live.sharedMesh), match = HeroGarmentGusset.CanonicalSource(matchMesh),
                     fullBones = live.bones, matchBones = matchBones });
                 FullTriangles += CountTriangles(HeroGarmentGusset.CanonicalSource(live.sharedMesh)); MatchTriangles += CountTriangles(matchMesh);

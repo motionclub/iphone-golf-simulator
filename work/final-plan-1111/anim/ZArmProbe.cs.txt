@@ -1,0 +1,142 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using UnityEngine;
+using Object = UnityEngine.Object;
+
+namespace GolfArcade.Tennis
+{
+    /// Project-copy only (Assets/Scripts/Tennis/ZArmProbe.cs; ARM_PROBE_OUT=<dir> switches it on). Rides along with any film tool
+    /// or play session: after every pose pass has run, each visible hero's wrists and elbows are measured (before and after
+    /// HeroArmLimits, from its report) and written to arms.csv, and the worst wrists are photographed close up, twice in the same
+    /// frame: the pose the clip and the old passes left (before) and the pose on screen (after).
+    ///   ARM_PROBE_MIN=45 (degrees before, to take a picture)  ARM_PROBE_MAX=40 (pictures per context, sex, side, holds)
+    [DefaultExecutionOrder(31000)]
+    public sealed class ZArmProbe : MonoBehaviour
+    {
+        static string dir;
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+        static void Boot()
+        {
+            dir = Environment.GetEnvironmentVariable("ARM_PROBE_OUT"); if (string.IsNullOrEmpty(dir)) return;
+            dir = Path.GetFullPath(dir); Directory.CreateDirectory(dir);
+            var go = new GameObject("ZArmProbe"); DontDestroyOnLoad(go); go.AddComponent<ZArmProbe>();
+        }
+
+        readonly System.Text.StringBuilder csv = new System.Text.StringBuilder("frame,time,ctx,sex,side,holds,hero,wristB,flexB,devB,limit,wristA,flexA,devA,elbowB,elbowA,swivel,wristL\n");
+        MatchHeroLook[] looks = new MatchHeroLook[0]; int scanned = -1000, rows;
+        readonly Dictionary<string, int> taken = new Dictionary<string, int>(); readonly Dictionary<(MatchHeroLook, int), float> lastShot = new Dictionary<(MatchHeroLook, int), float>();
+        float minDeg = 45; int maxShots = 40; Camera cam;
+
+        void Awake()
+        {
+            if (float.TryParse(Environment.GetEnvironmentVariable("ARM_PROBE_MIN"), out var m)) minDeg = m;
+            if (int.TryParse(Environment.GetEnvironmentVariable("ARM_PROBE_MAX"), out var n)) maxShots = n;
+            cam = new GameObject("ZArmProbe camera").AddComponent<Camera>(); cam.enabled = false; cam.transform.SetParent(transform);
+            cam.clearFlags = CameraClearFlags.SolidColor; cam.backgroundColor = new Color(.62f, .70f, .78f); cam.nearClipPlane = .02f; cam.farClipPlane = 50;
+        }
+
+        static string Context(MatchHeroLook look)
+        {
+            string scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+            foreach (var mb in look.GetComponentsInParent<MonoBehaviour>())
+            {
+                if (!mb || !mb.enabled) continue; string n = mb.GetType().Name;
+                if (n == "HeroTennisDriver") return scene + "/tennis";
+                if (n == "BowlingHero") return scene + "/bowl";
+                if (n == "HubHeroAnimator") return scene + "/hub";
+            }
+            return scene + (look.golfKit ? "/golf" : "/other");
+        }
+
+        void LateUpdate()
+        {
+            if (Time.frameCount - scanned > 20) { looks = Object.FindObjectsByType<MatchHeroLook>(FindObjectsSortMode.None); scanned = Time.frameCount; }
+            foreach (var look in looks)
+            {
+                if (!look || !look.gameObject.activeInHierarchy || !look.body || !look.body.enabled || look.body.forceRenderingOff) continue;
+                string ctx = null;
+                for (int s = 0; s < 2; s++)
+                {
+                    if (!HeroArmLimits.TryReport(look, s, out var r)) continue;
+                    ctx = ctx ?? Context(look); string sex = look.female ? "F" : "M", side = s == 0 ? "L" : "R";
+                    // what is on screen now (passes after the limits may have moved the arm again)
+                    float wristNow = r.wristAfter, elbowNow = r.elbowAfter;
+                    bool left = s == 0;
+                    var up = look.Bone(left ? HumanBodyBones.LeftUpperArm : HumanBodyBones.RightUpperArm); var lo = look.Bone(left ? HumanBodyBones.LeftLowerArm : HumanBodyBones.RightLowerArm);
+                    var hand = look.Bone(left ? HumanBodyBones.LeftHand : HumanBodyBones.RightHand); var mp = look.Bone(left ? HumanBodyBones.LeftMiddleProximal : HumanBodyBones.RightMiddleProximal);
+                    if (up && lo && hand && mp) { wristNow = Vector3.Angle(hand.position - lo.position, mp.position - hand.position); elbowNow = Vector3.Angle(lo.position - up.position, hand.position - lo.position); }
+                    csv.Append(FormattableString.Invariant($"{Time.frameCount},{Time.time:0.000},{ctx},{sex},{side},{r.kind},{look.GetInstanceID()},{r.wristBefore:0.0},{r.flexBefore:0.0},{r.devBefore:0.0},{r.limit:0.0},{wristNow:0.0},{r.flexAfter:0.0},{r.devAfter:0.0},{r.elbowBefore:0.0},{elbowNow:0.0},{r.swivel:0.0},{r.wristAfter:0.0}\n")); rows++;
+                    if (r.wristBefore < minDeg || !up || !lo || !hand || !mp) continue;
+                    string key = $"{ctx}_{sex}_{side}_{(r.kind == 0 ? "free" : r.kind == 1 ? "grip" : "support")}".Replace('/', '-');
+                    taken.TryGetValue(key, out int n); if (n >= maxShots) continue;
+                    if (lastShot.TryGetValue((look, s), out float t) && Time.unscaledTime - t < .5f) continue;
+                    lastShot[(look, s)] = Time.unscaledTime; taken[key] = n + 1;
+                    try { Shoot(look, up, lo, hand, mp, r, $"{key}_{Time.frameCount:00000}_{r.wristBefore:000}to{wristNow:000}"); } catch (Exception e) { Debug.LogWarning("[ZArmProbe] " + e.Message); }
+                }
+            }
+            if (Time.frameCount % 120 == 0) Flush();
+        }
+
+        void Shoot(MatchHeroLook look, Transform up, Transform lo, Transform hand, Transform mp, HeroArmLimits.Report r, string name)
+        {
+            Quaternion upA = up.rotation, loA = lo.rotation, handA = hand.rotation;
+            Vector3 mid = (lo.position + mp.position) * .5f, fo = (hand.position - lo.position).normalized, ax = (mp.position - hand.position).normalized;
+            var main = Camera.main; Vector3 toCam = main ? (main.transform.position - mid).normalized : look.transform.forward;
+            var n = Vector3.Cross(fo, ax); if (n.sqrMagnitude < 1e-4f) n = Vector3.Cross(fo, Vector3.up); n.Normalize(); if (Vector3.Dot(n, toCam) < 0) n = -n;
+            var views = new[] { ("game", mid + toCam * 1.15f, 26f), ("bend", mid + n * .8f + Vector3.up * .05f, 30f) };
+            foreach (bool before in new[] { false, true })
+            {
+                if (before) { up.rotation = r.upperBefore; lo.rotation = r.lowerBefore; hand.rotation = r.handBefore; }
+                else { up.rotation = upA; lo.rotation = loA; hand.rotation = handA; }
+                Helpers(look);
+                var made = Bake(look.transform.root.gameObject, look);
+                try { foreach (var (view, from, fov) in views) Shot($"{dir}/{name}_{view}_{(before ? "before" : "after")}.png", from, mid, fov, 420, 420); }
+                finally { Unbake(made); }
+            }
+            up.rotation = upA; lo.rotation = loA; hand.rotation = handA; Helpers(look);
+        }
+        /// The skinning helpers that follow the arm (forearm twist, arm blend bones) for the pose just set.
+        static void Helpers(MatchHeroLook look)
+        {
+            foreach (var mb in look.GetComponentsInChildren<MonoBehaviour>())
+            { if (!mb || !mb.enabled) continue; string n = mb.GetType().Name; if (n == "HeroForearmTwist" || n == "HeroArmSkinning") mb.SendMessage("LateUpdate", SendMessageOptions.DontRequireReceiver); }
+        }
+
+        readonly List<Renderer> hidden = new List<Renderer>();
+        List<GameObject> Bake(GameObject root, MatchHeroLook look)
+        {
+            var made = new List<GameObject>(); hidden.Clear();
+            var heroRoot = look.transform;
+            foreach (var r in Object.FindObjectsByType<Renderer>(FindObjectsSortMode.None))
+                if (!r.forceRenderingOff && r.enabled && (!r.transform.IsChildOf(heroRoot) || r is SkinnedMeshRenderer)) { r.forceRenderingOff = true; hidden.Add(r); }
+            foreach (var smr in heroRoot.GetComponentsInChildren<SkinnedMeshRenderer>())
+            {
+                if (!smr.enabled || !smr.sharedMesh || !hidden.Contains(smr)) continue;
+                var mesh = new Mesh(); smr.BakeMesh(mesh, true);
+                var go = new GameObject(smr.name + " (probe)"); go.transform.SetPositionAndRotation(smr.transform.position, smr.transform.rotation);
+                go.AddComponent<MeshFilter>().sharedMesh = mesh; go.AddComponent<MeshRenderer>().sharedMaterials = smr.sharedMaterials; made.Add(go);
+            }
+            return made;
+        }
+        void Unbake(List<GameObject> made)
+        {
+            foreach (var go in made) { DestroyImmediate(go.GetComponent<MeshFilter>().sharedMesh); DestroyImmediate(go); }
+            foreach (var r in hidden) if (r) r.forceRenderingOff = false;
+            hidden.Clear();
+        }
+        void Shot(string path, Vector3 from, Vector3 at, float fov, int w, int h)
+        {
+            cam.transform.SetPositionAndRotation(from, Quaternion.LookRotation(at - from)); cam.fieldOfView = fov;
+            var rt = RenderTexture.GetTemporary(w, h, 24, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default, 4);
+            cam.targetTexture = rt; cam.Render(); cam.targetTexture = null;
+            var tex = new Texture2D(w, h, TextureFormat.RGB24, false); var act = RenderTexture.active;
+            RenderTexture.active = rt; tex.ReadPixels(new Rect(0, 0, w, h), 0, 0); tex.Apply(); RenderTexture.active = act; RenderTexture.ReleaseTemporary(rt);
+            File.WriteAllBytes(path, tex.EncodeToPNG()); DestroyImmediate(tex);
+        }
+
+        void Flush() { try { File.WriteAllText(Path.Combine(dir, "arms.csv"), csv.ToString()); } catch { } }
+        void OnDestroy() { Flush(); Debug.Log($"[ZArmProbe] rows={rows} out={dir}"); }
+        void OnApplicationQuit() => Flush();
+    }
+}

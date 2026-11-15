@@ -51,6 +51,13 @@ namespace GolfArcade.Tennis
 
         /// false: no track is applied anywhere (the sweep's BEFORE / RAW passes, A/B tests)
         public static bool Enabled = true;
+        /// HER WALK 2026-11-12 (Adnan: "when she walks she looks like a bug not a human"). The tracks were baked to carry every hand
+        /// clear of the tennis skirt's flared hem, and the plaza plays them for every kit: both arms were held out from the body with
+        /// bent elbows through the whole walk, in trousers too. An arm whose hand holds nothing now takes this share of its baked
+        /// correction: enough to keep the hand off the hip and thigh, while the swing stays the clip's own. A hand on a racket or
+        /// club is unchanged. It is the PLAZA's setting (HubHeroAnimator hands it to its Player.freeArmShare): tennis and golf keep the
+        /// full track. CLEARANCE_FreeArmShare=1 restores the full correction there too.
+        public static float FreeArmShare = float.TryParse(Environment.GetEnvironmentVariable("CLEARANCE_FreeArmShare"), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var fas) ? fas : .40f;
         public readonly Dictionary<string, Track> tracks = new Dictionary<string, Track>();
         /// The transform the track paths are relative to (the animator's, as the clips' own paths; the golf rig has no
         /// MatchHeroLook.animator, then the look's own root).
@@ -152,6 +159,8 @@ namespace GolfArcade.Tennis
             /// kept at its world rotation, which on an empty hand bent the wrist by however far the forearm was corrected (female walk:
             /// wrist 20 -> 39 deg, 34 deg outward). Without it the hand stays in line with its corrected forearm (HeroClearance.FreeHandFollows).
             public readonly bool[] freeHand = new bool[2];
+            /// Share of the baked correction an arm with an empty hand takes (1 = all of it; the plaza sets HeroClearanceTracks.FreeArmShare).
+            public float freeArmShare = 1;
             /// The arm chains, so a locked hand is held where the game put it (SetArms once; HeroPoseSafety does it).
             public void SetArms(Transform lu, Transform ll, Transform lh, Transform ru, Transform rl, Transform rh) { arm[0] = lu; arm[1] = ll; arm[2] = lh; arm[3] = ru; arm[4] = rl; arm[5] = rh; }
             readonly Vector3[] lockP = new Vector3[2]; readonly Quaternion[] lockR = new Quaternion[2];
@@ -261,6 +270,8 @@ namespace GolfArcade.Tennis
                     if (sum.sqrMagnitude < 1e-10f) continue;
                     var d = Quaternion.Normalize(new Quaternion(sum.x, sum.y, sum.z, sum.w));
                     if (Quaternion.Angle(d, Quaternion.identity) < .01f) continue;
+                    for (int s = 0; s < 2 && freeArmShare < 1; s++)
+                        if (freeHand[s] && arm[s * 3] && (t == arm[s * 3] || t == arm[s * 3 + 1] || t == arm[s * 3].parent)) d = Quaternion.Slerp(Quaternion.identity, d, freeArmShare);
                     t.localRotation = t.localRotation * d; Applied++;
                 }
             }

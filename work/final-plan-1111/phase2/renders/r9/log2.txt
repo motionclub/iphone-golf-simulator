@@ -1,0 +1,18 @@
+/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/render_arm.py:78: DeprecationWarning: 'World.use_nodes' is expected to be removed in Blender 6.0
+  w = bpy.data.worlds.new("w"); sc.world = w; w.use_nodes = True
+/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/render_arm.py:56: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  m = bpy.data.materials.new(name); m.use_nodes = True
+00:01.374  render           | Saved: 'renders/r9/muscles_bare_armfront.png'
+00:01.916  render           | Saved: 'renders/r9/muscles_bare_armback.png'
+00:02.542  render           | Saved: 'renders/r9/muscles_bare_shfront.png'
+00:03.308  render           | Saved: 'renders/r9/muscles_dressed_armfront.png'
+00:03.820  render           | Saved: 'renders/r9/muscles_dressed_shfront.png'
+00:04.476  render           | Saved: 'renders/r9/muscles_down_bare_armfront.png'
+00:05.009  render           | Saved: 'renders/r9/muscles_down_bare_armback.png'
+00:05.589  render           | Saved: 'renders/r9/muscles_down_bare_shfront.png'
+00:06.358  render           | Saved: 'renders/r9/muscles_down_dressed_armfront.png'
+00:06.848  render           | Saved: 'renders/r9/muscles_down_dressed_shfront.png'
+RENDERS DONE renders/r9
+Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:49:19)
+
+Blender quit

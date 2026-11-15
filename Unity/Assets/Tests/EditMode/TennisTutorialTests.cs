@@ -21,7 +21,7 @@ public class TennisTutorialTests
     {
         var kinds = System.Array.ConvertAll(TutorialLesson.Steps, s => s.Kind);
         Assert.AreEqual(new[] { TutorialLesson.Kind.Forehand, TutorialLesson.Kind.Pace, TutorialLesson.Kind.Backhand, TutorialLesson.Kind.Aim,
-            TutorialLesson.Kind.Serve, TutorialLesson.Kind.Dive, TutorialLesson.Kind.Point }, kinds);
+            TutorialLesson.Kind.Serve, TutorialLesson.Kind.Wide, TutorialLesson.Kind.Point }, kinds);
         Assert.AreEqual(2, TutorialLesson.Steps[0].Goal, "two forehands back");
         Assert.AreEqual(2, TutorialLesson.Steps[3].Goal, "aim: the left ring, then the right");
         Assert.AreEqual(8, TutorialLesson.Steps.Length + TutorialLesson.PhoneStations, "the phone's court setup makes eight stations");

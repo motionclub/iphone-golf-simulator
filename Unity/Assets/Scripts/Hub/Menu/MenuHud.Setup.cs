@@ -117,10 +117,26 @@ namespace GolfArcade.Hub.Menu
             previewTagBox.gameObject.SetActive(false);
             previewChips.Set(info.chips); PlaceCaption(true);
         }
+        static readonly Dictionary<string, (string title, string line, string[] chips)> SportInfo = new Dictionary<string, (string, string, string[])>
+        {
+            { "tennis", ("Tennis", "Swing your phone like a racket. Three courts, from a tropical bay to a lava crater.", new[] { "EXHIBITION", "TRAINING", "LOCAL", "ONLINE" }) },
+            { "golf", ("Golf", "Swing to drive, chip and putt across three courses.", new[] { "ROUND", "LOCAL", "ONLINE" }) },
+            { "bowling", ("Bowling", "Roll ten frames on four lanes, from the club to a lava lake.", new[] { "PLAY", "EXHIBITION", "LOCAL", "ONLINE" }) },
+        };
+        /// The Sport screen's card: the sport's last venue and what it is.
+        void PreviewSport(string sport)
+        {
+            if (!previewRoot || !SportInfo.TryGetValue(sport, out var info)) return;
+            Clip(sport, LastMap[sport]);
+            previewTitle.text = info.title; previewLine.text = info.line;
+            previewTagBox.gameObject.SetActive(false);
+            previewChips.Set(info.chips); PlaceCaption(true);
+        }
         void HoverPreview(MenuItem it)
         {
             if (it == null || previewRoot == null || !previewRoot.gameObject.activeInHierarchy) return;
-            if ((Screen == TennisModes || Screen == GolfModes || Screen == BowlingModes) && ModeInfo.ContainsKey(it.id))
+            if (Screen == Sport && it.id.StartsWith("sport-")) PreviewSport(it.id.Substring(6));
+            else if ((Screen == TennisModes || Screen == GolfModes || Screen == BowlingModes) && ModeInfo.ContainsKey(it.id))
                 PreviewFor(Screen == GolfModes ? "golf" : Screen == BowlingModes ? "bowling" : "tennis", it.id);
             else if (Screen == Setup && it.id.StartsWith("map-") && setup != null) ShowMap(it.id.Substring(4));
         }
@@ -208,8 +224,10 @@ namespace GolfArcade.Hub.Menu
             setup = s; setupSport = string.IsNullOrEmpty(s.sport) ? setupSport : s.sport;
             if (!string.IsNullOrEmpty(s.map)) LastMap[setupSport] = s.map;
             string shape = s.mode + "|" + (s.maps?.Length ?? 0) + "|" + (s.rows?.Length ?? 0);
-            if (shape != builtFor) { builtFor = shape; BuildSetupContent(s); }
+            bool fresh = shape != builtFor;
+            if (fresh) { builtFor = shape; BuildSetupContent(s); }
             RefreshSetup();
+            if (fresh && Screen == Setup) FocusPrimary();   // START lit: the picks the phone remembers, one press to play
         }
 
         const float OptW = 656, SegH = 56, OptGap = 22;
@@ -291,6 +309,7 @@ namespace GolfArcade.Hub.Menu
                 mapCards.Add(card);
             }
             buildingFor = null;
+            Split(setupContent, fresh: true);
         }
 
         void RefreshSetup()

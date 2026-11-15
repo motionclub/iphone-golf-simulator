@@ -1258,6 +1258,14 @@ typealias HeroColor = NSColor
             m.setValue(SCNVector4(look.knitCell ?? 1, look.fabricDetail ?? 1, look.fibreShine ?? 1, (look.fabricVersion ?? 2) > 2.5 ? 15 : 9), forKey: "clothV3")
             m.setValue(SCNVector4(look.mottle ?? 0.08, 0, 0, 0), forKey: "clothV3b")
         }
+        if (look.stylePass ?? 0) > 0.5 {
+            // FN7 STYLE PASS (TennisCloth _StylePass): glossy key-light highlight, sky reflection at grazing angles, top-lit value ramp,
+            // garment fill + counter to the warm grade. styleLook lives in the lighting modifier, styleFin in the finish (one declaration each).
+            lighting = styleLighting(lighting)
+            finish = styleFinish(finish)
+            m.setValue(SCNVector4(look.styleSmooth ?? 0.75, look.styleSpec ?? 0.9, 0, 0), forKey: "styleLook")
+            m.setValue(SCNVector4(look.styleEnv ?? 0.55, look.styleFill ?? 0, look.styleDewarm ?? 0, look.styleRamp ?? 0), forKey: "styleFin")
+        }
         m.shaderModifiers = [.surface: surface, .lightingModel: lighting, .fragment: finish]
         if edges, let kind = look.edgeLines, kind > 0.5 {
             // TennisCloth's kit edge lines (HeroKitEdges data in texcoord channels 1-2), multiplied into the finished colour as Unity does
@@ -1481,6 +1489,36 @@ typealias HeroColor = NSColor
             // TennisCloth gives the additional lights .6 of the shine; the hero rigs' key (850-1050 lux) is Unity's main light, fill / rim (<= 520) are not
             float mainS=max(_light.intensity.r,max(_light.intensity.g,_light.intensity.b))>0.7?1.0:0.6;
             _lightingContribution.specular+=_light.intensity.rgb*tintS*(lobeS*shS*clothV3.z*mainS*nlS*fresS*mix(0.55,1.25,_surface.shininess)*(pwS+2.0)*0.125)*mix(1.0,_surface.metalness,0.5);
+        }
+        """
+    }
+    /// TennisCloth's style-pass GGX highlight per light (white, divided back out of _surface.specular like the fibre shine).
+    static func styleLighting(_ lighting: String) -> String {
+        lighting.replacingOccurrences(of: "float4 clothLook;\n", with: "float4 clothLook;\nfloat4 styleLook;\n") + """
+
+        {
+            float3 nG=normalize(_surface.normal), vG=normalize(_surface.view), lG=normalize(_light.direction), hG=normalize(lG+vG);
+            float rG=1.0-styleLook.x, aG=max(rG*rG,0.03); aG*=aG;
+            float nhG=saturate(dot(nG,hG)), nlG=saturate(dot(nG,lG)), dG=nhG*nhG*(aG-1.0)+1.0;
+            float fG=0.04+0.96*pow(1.0-saturate(dot(hG,vG)),5.0);
+            float sG=min(aG/(3.14159265*dG*dG+1e-4)*fG*0.25,6.0);
+            float mainG=max(_light.intensity.r,max(_light.intensity.g,_light.intensity.b))>0.7?1.0:0.6;
+            _lightingContribution.specular+=_light.intensity.rgb*(sG*nlG*styleLook.y*mainG)/max(_surface.specular.rgb,float3(1e-4))*mix(1.0,_surface.metalness,0.5);
+        }
+        """
+    }
+    /// Style-pass finish: sky reflection (no probe in SceneKit: a cool sky tone x Fresnel), garment fill, de-warm, top-lit ramp (world up).
+    static func styleFinish(_ finish: String) -> String {
+        finish.replacingOccurrences(of: "float4 shoulder;\n", with: "float4 shoulder;\nfloat4 styleFin;\n") + """
+
+        {
+            float3 nF=normalize(_surface.normal), vF=normalize(_surface.view);
+            float ndvF=saturate(dot(nF,vF));
+            float3 nW=(scn_frame.inverseViewTransform*float4(nF,0.0)).xyz;
+            _output.color.rgb*=mix(1.0-styleFin.w,1.0+styleFin.w*0.5,saturate(nW.y*0.5+0.5));
+            _output.color.rgb+=float3(0.80,0.86,0.95)*styleFin.x*0.45*(0.04+0.96*pow(1.0-ndvF,5.0))*_surface.metalness;
+            _output.color.rgb+=_surface.diffuse.rgb*styleFin.y*(0.45+0.55*ndvF)*float3(0.95,0.98,1.05)*_surface.metalness;
+            _output.color.rgb*=mix(float3(1.0),float3(0.95,0.98,1.05),styleFin.z);
         }
         """
     }

@@ -1,0 +1,11 @@
+sport     who              frames | wrist before: mean  p95  max  >45  >60 | after: mean  p95  max  >45  >60 | elbow b/a max | swivel p95
+golf      golf M L free         6 |                 20   25   26   0%   0% |          20   23   23   0%   0% |    28/ 28    |     0
+golf      golf M L grip         3 |                 49   51   51 100%   0% |          47   49   49 100%   0% |    34/ 34    |    12
+golf      golf M L support    114 |                 50   54   54  76%   0% |          23   24   24   0%   0% |    37/ 44    |    28
+golf      golf M R free         1 |                 27   27   27   0%   0% |          22   22   22   0%   0% |    26/ 26    |     0
+golf      golf M R grip       122 |                 56   69   69  91%  30% |          53   64   66  90%  25% |    56/ 56    |    26
+tennis_f  tennis F L free     130 |                 33   50   57  11%   0% |          20   39   91   5%   2% |   140/140    |     0
+tennis_f  tennis F L support    134 |                 60   69   69  83%  79% |          12   13   24   0%   0% |    61/ 65    |    34
+tennis_f  tennis F R grip     264 |                 42   53   67  66%   0% |          38   48   62  41%   0% |   122/122    |    23
+tennis_f  tennis M L free       1 |                 70   70   70 100% 100% |          37   37   37   0%   0% |     4/  4    |     0
+tennis_f  tennis M R grip       1 |                 65   65   65 100% 100% |          40   40   40   0%   0% |    66/ 66    |    22

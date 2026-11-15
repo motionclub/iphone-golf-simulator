@@ -43,7 +43,7 @@ import CryptoKit
         for golf in [false, true] { for female in [false, true] { for distance in golf ? [false] : [false, true] {
             let asset = try XCTUnwrap(MatchHero.asset(female: female, golf: golf, distance: distance))
             let rig = try XCTUnwrap(asset.rig())
-            XCTAssertEqual(rig.info.bones.count, golf ? (female ? 90 : 55) : (female ? 83 : 146), "current Unity rig (10-19: + the golf bag's Back_Bag socket, MENU HERO): the tennis heroes carry the authored finger / face bones (+ the cap's Headwear socket, ACCESSORIES)")
+            XCTAssertEqual(rig.info.bones.count, golf ? (female ? 96 : 61) : (female ? 89 : 152), "current Unity rig (10-19: + the golf bag's Back_Bag socket, MENU HERO; 11-12 export: + the six forearm twist bones of 11-11): the tennis heroes carry the authored finger / face bones (+ the cap's Headwear socket, ACCESSORIES)")
             if golf { XCTAssertEqual(rig.info.bones.last, "Club") }
             for role in ["Body", "Face"] {
                 let index = try XCTUnwrap(asset.manifest.parts.firstIndex { $0.name == role })
@@ -120,7 +120,7 @@ import CryptoKit
             let root = MatchHeroData.buildHero(asset,picks:MatchHeroData.Picks(colour:{ _ in nil }))
             let live = try XCTUnwrap(HeroRig(root:root,asset:asset)); live.attach()
             defer { live.detach() }
-            XCTAssertEqual(live.data.boneCount,golf ? (female ? 90 : 55) : (female ? 83 : 146),name)   // + the Headwear socket of the cap (ACCESSORIES) + the golf bag's Back_Bag socket (MENU HERO); counts of the 10-19 exports
+            XCTAssertEqual(live.data.boneCount,golf ? (female ? 96 : 61) : (female ? 89 : 152),name)   // + the Headwear socket of the cap (ACCESSORIES) + the golf bag's Back_Bag socket (MENU HERO) + the six forearm twist bones of 11-11; counts of the 11-12 exports
             let fixture = try XCTUnwrap(folder?.appendingPathComponent(name+"_golden.json")
                 ?? bundle.url(forResource:name+"_golden",withExtension:"lzfse")
                 ?? bundle.url(forResource:name+"_golden",withExtension:"json"),"Independent Unity fixture for "+name)

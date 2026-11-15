@@ -74,19 +74,26 @@ namespace GolfArcade.Course
             return impact;
         }
 
-        /// How the ground takes a ball coming down on it: `soft` soaks up the bounce (0 fairway,
-        /// 1 dead) and `grab` takes the run out of it. Greens are receptive, rough smothers the
-        /// ball and sand plugs it.
-        public static (double soft, double grab) Landing(this CourseLie lie) => lie switch
+        /// How the ground takes a ball coming down on it (Shot.Turf, BallFlight.BounceOff). Each lie is its own ground
+        /// (2026-11-11; fairway, tee, fringe and out of bounds used to bounce alike and a green nearly so):
+        ///  * tee and fairway: firm and lively at low speed, a drive skips and runs, an iron takes a hop or two;
+        ///  * fringe: a little softer and grabbier than the fairway it borders;
+        ///  * green: receptive, and it bites on backspin, so a wedge stops by its pitch mark or draws back;
+        ///  * rough: one dead hop, and the grass between ball and ground gives the spin little to hold;
+        ///  * bunker: it plugs;
+        ///  * out of bounds: scruffy ground, between fairway and rough;
+        ///  * ice: nothing for the spin to hold and nothing taken off the pace, so everything skids on.
+        public static Turf Ground(this CourseLie lie) => lie switch
         {
-            CourseLie.Green => (0.15, 0.1),
-            CourseLie.Rough => (0.45, 0.5),
-            CourseLie.Bunker => (0.9, 0.85),
-            _ => (0, 0),
+            CourseLie.Tee => new Turf(0.46, 0.016, 0.42, 0.20, 0, 1.0),
+            CourseLie.Green => new Turf(0.36, 0.016, 0.50, 0.30, 0, 1.25),
+            CourseLie.Fringe => new Turf(0.40, 0.016, 0.46, 0.26, 0, 1.1),
+            CourseLie.Rough => new Turf(0.26, 0.012, 0.60, 0.50, 0.35, 0.5),
+            CourseLie.Bunker => new Turf(0.05, 0, 0.90, 0.92, 0.9, 0),
+            CourseLie.OutOfBounds => new Turf(0.30, 0.014, 0.55, 0.40, 0.2, 0.6),
+            CourseLie.Ice => new Turf(0.50, 0.004, 0.03, 0, 0, 0.1),
+            _ => Turf.Fairway,
         };
-
-        /// How little the ground lets a landing ball's spin grip, 0–1: ice none at all.
-        public static double Slide(this CourseLie lie) => lie == CourseLie.Ice ? 1 : 0;
 
         /// Where a putter is the club: the green, and its fringe.
         public static bool IsPuttingSurface(this CourseLie lie) => lie is CourseLie.Green or CourseLie.Fringe;

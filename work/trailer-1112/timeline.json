@@ -1,0 +1,679 @@
+{
+ "total": 138.24999999999997,
+ "fps": 24,
+ "marks": {
+  "lights": 1.917,
+  "walk": 19.5,
+  "round1": 27.9,
+  "toss": 30.0,
+  "serve": 35.2,
+  "dive": 49.0,
+  "miss": 50.9,
+  "score1": 58.2,
+  "golf": 60.6,
+  "round2": 61.1,
+  "g_back": 70.1,
+  "g_hit": 72.6,
+  "g_land": 78.617,
+  "g_lip": 80.95,
+  "g_drop": 82.133,
+  "score2": 87.4,
+  "bowl": 89.7,
+  "round3": 90.1,
+  "b_strike": 98.5,
+  "b_his": 102.7,
+  "b_release": 110.8,
+  "black": 114.45,
+  "title": 116.3,
+  "tag": 121.15,
+  "tagline": 129.05,
+  "end": 133.15,
+  "fin": 138.25
+ },
+ "snd": [
+  [
+   0.2,
+   "tennis_amb",
+   0
+  ],
+  [
+   1.917,
+   "thump",
+   0.6
+  ],
+  [
+   2.1,
+   "thump",
+   0.5,
+   0.3
+  ],
+  [
+   13.733,
+   "tennis/bounce_1.wav",
+   0.9
+  ],
+  [
+   14.317,
+   "tennis/bounce_1.wav",
+   0.7
+  ],
+  [
+   14.667,
+   "tennis/bounce_1.wav",
+   0.5
+  ],
+  [
+   23.417,
+   "thump",
+   0.6,
+   -0.3
+  ],
+  [
+   23.6,
+   "thump",
+   0.5,
+   0.3
+  ],
+  [
+   35.2,
+   "tennis/serve_1.wav",
+   1.0
+  ],
+  [
+   35.2,
+   "tennis/smash_1.wav",
+   0.7
+  ],
+  [
+   35.7,
+   "whoosh",
+   0.5
+  ],
+  [
+   36.8,
+   "whoosh",
+   0.5,
+   0.4
+  ],
+  [
+   37.75,
+   "tennis/hit_sweet_1.wav",
+   0.9,
+   0.2
+  ],
+  [
+   40.083,
+   "tennis/hit_normal_1.wav",
+   0.9,
+   -0.2
+  ],
+  [
+   41.067,
+   "tennis/hit_normal_1.wav",
+   0.8,
+   0.3
+  ],
+  [
+   41.9,
+   "whoosh",
+   0.4
+  ],
+  [
+   42.8,
+   "tennis/slide_1.wav",
+   0.6
+  ],
+  [
+   43.458,
+   "tennis/hit_sweet_1.wav",
+   0.9,
+   -0.2
+  ],
+  [
+   44.992,
+   "tennis/hit_normal_1.wav",
+   0.8,
+   0.3
+  ],
+  [
+   47.05,
+   "tennis/smash_1.wav",
+   0.9,
+   -0.2
+  ],
+  [
+   47.967,
+   "tennis/hit_sweet_1.wav",
+   0.9,
+   0.3
+  ],
+  [
+   48.9,
+   "tennis/slide_2.wav",
+   0.7
+  ],
+  [
+   50.85,
+   "tennis/whiff_1.wav",
+   0.9
+  ],
+  [
+   52.3,
+   "whooshlong",
+   0.5,
+   0.5
+  ],
+  [
+   53.1,
+   "crowd/tennis_ooh_1.wav",
+   0.7
+  ],
+  [
+   55.2,
+   "crowd/tennis_applause_short_1.wav",
+   0.6
+  ],
+  [
+   60.6,
+   "golf/lava_1.wav",
+   0.5
+  ],
+  [
+   64.2,
+   "golf/iron_1.wav",
+   0.9
+  ],
+  [
+   63.975,
+   "golf/swing_1.wav",
+   0.6
+  ],
+  [
+   65.1,
+   "whoosh",
+   0.4
+  ],
+  [
+   67.2,
+   "golf/land_green_1.wav",
+   0.8
+  ],
+  [
+   67.6,
+   "crowd/golf_clap_1.wav",
+   0.5
+  ],
+  [
+   72.2,
+   "golf/swing_1.wav",
+   0.8
+  ],
+  [
+   72.62,
+   "golf/driver_1.wav",
+   1.0
+  ],
+  [
+   75.3,
+   "whooshlong",
+   0.35
+  ],
+  [
+   78.617,
+   "golf/land_green_1.wav",
+   0.9
+  ],
+  [
+   82.15,
+   "golf/cup_1.wav",
+   1.0
+  ],
+  [
+   82.35,
+   "crowd/golf_erupt_1.wav",
+   0.8
+  ],
+  [
+   83.9,
+   "crowd/golf_roar_1.wav",
+   0.6
+  ],
+  [
+   89.7,
+   "bowling/room_neon_1.wav",
+   0.5
+  ],
+  [
+   95.933,
+   "bowling/landing_1.wav",
+   0.9
+  ],
+  [
+   96.0,
+   "bowling/roll_1.wav",
+   0.7
+  ],
+  [
+   96.7,
+   "bowling/roll_1.wav",
+   0.8
+  ],
+  [
+   98.48,
+   "bowling/crash_1.wav",
+   1.0
+  ],
+  [
+   98.7,
+   "bowling/pin_hit_3.wav",
+   0.6
+  ],
+  [
+   99.4,
+   "bowling/pin_hit_7.wav",
+   0.5
+  ],
+  [
+   100.8,
+   "crowd/tennis_ovation_1.wav",
+   0.6
+  ],
+  [
+   110.833,
+   "bowling/landing_1.wav",
+   0.9
+  ],
+  [
+   111.5,
+   "bowling/roll_1.wav",
+   0.9
+  ],
+  [
+   114.45,
+   "bowling/crash_2.wav",
+   1.0
+  ]
+ ],
+ "shots": [
+  {
+   "id": "open",
+   "t": 0,
+   "dur": 1.5
+  },
+  {
+   "id": "s1_lights",
+   "t": 1.5,
+   "dur": 4.0
+  },
+  {
+   "id": "s1_pushups",
+   "t": 5.5,
+   "dur": 3.0
+  },
+  {
+   "id": "s1_umpire",
+   "t": 8.5,
+   "dur": 2.0
+  },
+  {
+   "id": "s1_wave",
+   "t": 10.5,
+   "dur": 2.5
+  },
+  {
+   "id": "s1_ball",
+   "t": 13.0,
+   "dur": 2.5
+  },
+  {
+   "id": "s1_shoe",
+   "t": 15.5,
+   "dur": 2.0
+  },
+  {
+   "id": "s1_lookup",
+   "t": 17.5,
+   "dur": 2.0
+  },
+  {
+   "id": "s1_walk",
+   "t": 19.5,
+   "dur": 3.5
+  },
+  {
+   "id": "s1_herback",
+   "t": 23.0,
+   "dur": 2.5
+  },
+  {
+   "id": "s1_grin",
+   "t": 25.5,
+   "dur": 1.5
+  },
+  {
+   "id": "s1_bring",
+   "t": 27.0,
+   "dur": 3.0
+  },
+  {
+   "id": "s2_look",
+   "t": 30.0,
+   "dur": 1.5
+  },
+  {
+   "id": "s2_ball",
+   "t": 31.5,
+   "dur": 2.2
+  },
+  {
+   "id": "s2_toss",
+   "t": 33.7,
+   "dur": 1.5
+  },
+  {
+   "id": "s2_contact",
+   "t": 35.2,
+   "dur": 0.5
+  },
+  {
+   "id": "s2_away",
+   "t": 35.7,
+   "dur": 1.0
+  },
+  {
+   "id": "s2_net",
+   "t": 36.7,
+   "dur": 0.5
+  },
+  {
+   "id": "s2_return",
+   "t": 37.2,
+   "dur": 1.5
+  },
+  {
+   "id": "s2_ump1",
+   "t": 38.7,
+   "dur": 1.0
+  },
+  {
+   "id": "s2_fh1",
+   "t": 39.7,
+   "dur": 1.0
+  },
+  {
+   "id": "s2_bh_her",
+   "t": 40.7,
+   "dur": 1.0
+  },
+  {
+   "id": "s2_flight",
+   "t": 41.7,
+   "dur": 1.0
+  },
+  {
+   "id": "s2_feet",
+   "t": 42.7,
+   "dur": 0.5
+  },
+  {
+   "id": "s2_bh1",
+   "t": 43.2,
+   "dur": 1.0
+  },
+  {
+   "id": "s2_ump2",
+   "t": 44.2,
+   "dur": 0.5
+  },
+  {
+   "id": "s2_bh_her2",
+   "t": 44.7,
+   "dur": 1.0
+  },
+  {
+   "id": "s2_top",
+   "t": 45.7,
+   "dur": 1.0
+  },
+  {
+   "id": "s2_winner",
+   "t": 46.7,
+   "dur": 1.0
+  },
+  {
+   "id": "s2_there",
+   "t": 47.7,
+   "dur": 1.0
+  },
+  {
+   "id": "s2_dive",
+   "t": 48.7,
+   "dur": 3.3
+  },
+  {
+   "id": "s2_past",
+   "t": 52.0,
+   "dur": 1.0
+  },
+  {
+   "id": "s2_shock",
+   "t": 53.0,
+   "dur": 2.0
+  },
+  {
+   "id": "s2_fist",
+   "t": 55.0,
+   "dur": 1.7
+  },
+  {
+   "id": "s2_ump3",
+   "t": 56.7,
+   "dur": 1.0
+  },
+  {
+   "id": "s2_slump",
+   "t": 57.7,
+   "dur": 2.3
+  },
+  {
+   "id": "cut23",
+   "t": 60.0,
+   "dur": 0.6
+  },
+  {
+   "id": "s3_tee",
+   "t": 60.6,
+   "dur": 2.5
+  },
+  {
+   "id": "s3_her_swing",
+   "t": 63.1,
+   "dur": 2.0
+  },
+  {
+   "id": "s3_her_fly",
+   "t": 65.1,
+   "dur": 1.5
+  },
+  {
+   "id": "s3_her_land",
+   "t": 66.6,
+   "dur": 1.5
+  },
+  {
+   "id": "s3_think",
+   "t": 68.1,
+   "dur": 2.0
+  },
+  {
+   "id": "s3_back",
+   "t": 70.1,
+   "dur": 2.5
+  },
+  {
+   "id": "s3_hit",
+   "t": 72.6,
+   "dur": 1.0
+  },
+  {
+   "id": "s3_follow",
+   "t": 73.6,
+   "dur": 1.5
+  },
+  {
+   "id": "s3_fly",
+   "t": 75.1,
+   "dur": 3.0
+  },
+  {
+   "id": "s3_land",
+   "t": 78.1,
+   "dur": 1.0
+  },
+  {
+   "id": "s3_roll",
+   "t": 79.1,
+   "dur": 1.0
+  },
+  {
+   "id": "s3_cup",
+   "t": 80.1,
+   "dur": 3.5
+  },
+  {
+   "id": "s3_joy",
+   "t": 83.6,
+   "dur": 2.0
+  },
+  {
+   "id": "s3_shock",
+   "t": 85.6,
+   "dur": 1.5
+  },
+  {
+   "id": "s3_nod",
+   "t": 87.1,
+   "dur": 2.0
+  },
+  {
+   "id": "cut34",
+   "t": 89.1,
+   "dur": 0.6
+  },
+  {
+   "id": "s4_wide",
+   "t": 89.7,
+   "dur": 2.5
+  },
+  {
+   "id": "s4_mwatch",
+   "t": 92.2,
+   "dur": 1.5
+  },
+  {
+   "id": "s4_fback",
+   "t": 93.7,
+   "dur": 1.5
+  },
+  {
+   "id": "s4_release",
+   "t": 95.2,
+   "dur": 1.5
+  },
+  {
+   "id": "s4_chase",
+   "t": 96.7,
+   "dur": 1.5
+  },
+  {
+   "id": "s4_pins",
+   "t": 98.2,
+   "dur": 2.5
+  },
+  {
+   "id": "s4_react",
+   "t": 100.7,
+   "dur": 2.0
+  },
+  {
+   "id": "s4_mwatch2",
+   "t": 102.7,
+   "dur": 1.5
+  },
+  {
+   "id": "s4_step",
+   "t": 104.2,
+   "dur": 1.2
+  },
+  {
+   "id": "s4_face",
+   "t": 105.4,
+   "dur": 2.0
+  },
+  {
+   "id": "s4_fwatch",
+   "t": 107.4,
+   "dur": 1.5
+  },
+  {
+   "id": "s4_approach",
+   "t": 108.9,
+   "dur": 1.2
+  },
+  {
+   "id": "s4_release2",
+   "t": 110.1,
+   "dur": 1.4
+  },
+  {
+   "id": "s4_chase2",
+   "t": 111.5,
+   "dur": 1.6
+  },
+  {
+   "id": "s4_fwatch2",
+   "t": 113.1,
+   "dur": 0.8
+  },
+  {
+   "id": "s4_pins2",
+   "t": 113.9,
+   "dur": 0.55
+  },
+  {
+   "id": "black",
+   "t": 114.45,
+   "dur": 1.7
+  },
+  {
+   "id": "title",
+   "t": 116.15,
+   "dur": 5.0
+  },
+  {
+   "id": "s5_him",
+   "t": 121.15,
+   "dur": 2.8
+  },
+  {
+   "id": "s5_her",
+   "t": 123.95,
+   "dur": 2.4
+  },
+  {
+   "id": "s5_away",
+   "t": 126.35,
+   "dur": 2.2
+  },
+  {
+   "id": "s5_top",
+   "t": 128.55,
+   "dur": 4.2
+  },
+  {
+   "id": "endcard",
+   "t": 132.75,
+   "dur": 5.5
+  }
+ ]
+}

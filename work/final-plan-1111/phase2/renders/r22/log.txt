@@ -1,0 +1,20 @@
+/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/render_arm.py:85: DeprecationWarning: 'World.use_nodes' is expected to be removed in Blender 6.0
+  w = bpy.data.worlds.new("w"); sc.world = w; w.use_nodes = True
+/Users/adnanyonathan/Documents/Codex/2026-09-20/wh/outputs/iphone-golf-simulator/work/final-plan-1111/phase2/render_arm.py:63: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  m = bpy.data.materials.new(name); m.use_nodes = True
+00:02.094  render           | Saved: 'renders/r22/tennisfit_down_dressed_fullfront.png'
+00:02.674  render           | Saved: 'renders/r22/tennisfit_down_dressed_full3q.png'
+00:03.149  render           | Saved: 'renders/r22/tennisfit_down_dressed_fullside.png'
+00:03.607  render           | Saved: 'renders/r22/tennisfit_down_dressed_fullback.png'
+00:04.657  render           | Saved: 'renders/r22/golffit_down_dressed_fullfront.png'
+00:04.998  render           | Saved: 'renders/r22/golffit_down_dressed_full3q.png'
+00:05.336  render           | Saved: 'renders/r22/golffit_down_dressed_fullside.png'
+00:05.755  render           | Saved: 'renders/r22/golffit_down_dressed_fullback.png'
+00:06.764  render           | Saved: 'renders/r22/bowlfit_down_dressed_fullfront.png'
+00:07.164  render           | Saved: 'renders/r22/bowlfit_down_dressed_full3q.png'
+00:07.597  render           | Saved: 'renders/r22/bowlfit_down_dressed_fullside.png'
+00:08.106  render           | Saved: 'renders/r22/bowlfit_down_dressed_fullback.png'
+RENDERS DONE renders/r22
+Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:49:19)
+
+Blender quit

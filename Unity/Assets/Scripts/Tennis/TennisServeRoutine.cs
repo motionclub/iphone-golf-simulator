@@ -4,7 +4,7 @@ namespace GolfArcade.Tennis
 {
     /// The server's ritual before the toss, as players actually do it: the ball in the non-
     /// racket hand at waist height, pushed down to bounce off the court and caught at the top
-    /// of its rebound (twice), then a smooth wind-up that lifts the arm straight up in front
+    /// of its rebound, then a smooth wind-up that lifts the arm straight up in front
     /// of the body, letting go around shoulder height and carrying on to full extension,
     /// pointing at the ball, until the racket arm swings.
     ///
@@ -12,7 +12,7 @@ namespace GolfArcade.Tennis
     /// actor reaches its tossing hand to the palm point this returns.
     public static class TennisServeRoutine
     {
-        public const int Bounces = 2;
+        public const int Bounces = 1;   // 2 until 2026-11-11 (see TennisRules.ServeTossDelay)
         const float Push = .06f, PushDepth = .08f, BounceSpeed = 3.5f, Restitution = .7f, Reset = .18f;
         public const float WindUp = .24f, Gather = .12f, Extend = .2f;
         const float Gravity = 9.81f;

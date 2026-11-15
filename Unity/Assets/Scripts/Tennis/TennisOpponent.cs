@@ -78,7 +78,8 @@ namespace GolfArcade.Tennis
         /// the balls got more hang time (legs .9 then ran 25-shot rallies): at these values self-play that times well wins its
         /// points with clean angles in ~9-shot rallies, and a ball down the middle never wins.
         /// Serve returns keep the profile's own legs.
-        public const float RallyLegs = .76f, RallyReadDelay = .085f;
+        public static float RallyLegs => TennisFlight.RivalLegs;            // .76 on 10-26; see TennisFlight
+        public static float RallyReadDelay => TennisFlight.RivalReadDelay;  // .085 on 10-26
 
         /// 1 on the first ball of a rally (the serve), fading to 0 after `RallyBuilderShots` shots.
         public static float RallyEase(int rallyShots) =>
@@ -278,7 +279,7 @@ namespace GolfArcade.Tennis
                 Mathf.Lerp(p.PaceMax, p.PaceMin, Mathf.Max(stretch, defend)) * (1 - RallyEasePace * rallyEase));
             // Rally balls run at Wii's pace; slower than MinRallyPace a deep ball has to loop like a lob to get there.
             // A serve return keeps its firm, low pace (scaled, a topspin return balloons over the server).
-            if (!returningServe) speed = Mathf.Max(MinRallyPace, speed * WiiPace);
+            if (!returningServe) speed = TennisFlight.RivalPace(Mathf.Max(MinRallyPace, speed * WiiPace));
             float spin = Mathf.Lerp(p.SpinMin, p.SpinMax, Mathf.Repeat(widthRoll * 3.1f, 1f));
             // A serve return is blocked back flatter: with less pace taken off it for a clean serve (QualityBite), a heavy
             // topspin return would balloon over the server's head.
@@ -286,8 +287,10 @@ namespace GolfArcade.Tennis
             float special = Mathf.Repeat(depthRoll * 6.73f, 1f);
             result.Label = defend > .6f ? "Opponent scrambles it back" : "Opponent returns";
             float lobChance = previousLob ? 0 : returningServe ? (playerZ > -5 ? .03f : 0)
-                : Mathf.Min(.18f, p.LobChance + (defend > .65f ? .035f : 0));
-            if (p.Style == "moonballer" && !previousLob && !returningServe) lobChance = playerZ > -5 || defend > .4f ? .24f : .12f;
+                : Mathf.Min(TennisFlight.RivalLobCap, p.LobChance + (defend > .65f ? .035f : 0));
+            // The moonballer still lobs more than anyone, inside the same cap (it was 1 ball in 4; 2026-11-11: at most 1 in 12).
+            if (p.Style == "moonballer" && !previousLob && !returningServe) lobChance = TennisFlight.Classic ? (playerZ > -5 || defend > .4f ? .24f : .12f)
+                : playerZ > -5 || defend > .4f ? TennisFlight.RivalLobCap : .06f;
             if (special < lobChance)
             {
                 result.Kind = TennisReturnKind.Lob;

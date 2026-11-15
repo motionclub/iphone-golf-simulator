@@ -1,0 +1,259 @@
+<meta charset="utf-8">
+<title>MotionSports Menu Line-up</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,300;0,400;0,600;0,700;1,600;1,700;1,800;1,900&display=swap">
+<style>
+/* Layout: one long column of 16:9 TV frames, each followed by a short read-out; lighting proof and build notes after. Single deliberate dark look in the MotionSports brand. */
+:root{
+  --navy:#0B2878; --navy-2:#13379C; --ink:#000A32; --gold:#F1B120; --gold-2:#FFD15C;
+  --white:#FFFFFF; --mist:#C9D3F2; --page:#06123F; --panel:#0A1E5E; --line:rgba(255,255,255,.14);
+  --ready:#7BE38A; --cyan:#52E6FF;
+  --display:"Kanit", "Avenir Next Condensed", "Arial Narrow", system-ui, sans-serif;
+  --body:"Kanit", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme:dark;
+}
+body{background:var(--page);color:var(--white);font-family:var(--body);font-weight:300;font-size:16px;line-height:1.55}
+.wrap{max-width:1280px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:40px 80px;display:flex;flex-direction:column;gap:56px}
+header{display:flex;flex-direction:column;gap:10px;max-width:70ch}
+.eyebrow{font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:12px;color:var(--gold)}
+h1{font-family:var(--display);font-style:italic;font-weight:800;font-size:clamp(34px,5vw,56px);line-height:1.02;margin:0;text-wrap:balance}
+h1 .g,h2 .g{color:var(--gold)}
+h2{font-family:var(--display);font-style:italic;font-weight:800;font-size:clamp(26px,3.4vw,38px);line-height:1.05;margin:0;text-wrap:balance}
+h3{font-weight:600;font-size:17px;margin:0}
+p{margin:0;color:var(--mist);max-width:70ch}
+.lede{font-size:18px}
+strong{color:var(--white);font-weight:600}
+
+.option{display:flex;flex-direction:column;gap:18px}
+.optionhead{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 18px}
+.tag{font-weight:600;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);background:var(--gold);padding:3px 10px;border-radius:4px}
+.tag.alt{background:transparent;color:var(--mist);border:1px solid var(--line)}
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px 28px}
+.notes div{min-width:0;display:flex;flex-direction:column;gap:4px}
+.notes h3{font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.notes p{font-size:15px}
+
+/* ---------- the TV frame ---------- */
+.tv{position:relative;width:100%;max-width:100%;aspect-ratio:16/9;container-type:inline-size;border-radius:10px;overflow:hidden;background:#000;box-shadow:0 0 0 1px var(--line),0 24px 60px rgba(0,0,0,.45)}
+.tv>img.plate{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.ui{position:absolute;inset:0;font-family:var(--display);color:var(--white)}
+.abs{position:absolute}
+.wm{left:3cqw;top:3.1cqw;font-style:italic;font-weight:900;font-size:2.5cqw;letter-spacing:-.02em;text-shadow:0 .18cqw 0 var(--ink),0 0 .6cqw rgba(0,10,50,.5)}
+.wm span{color:var(--gold)}
+.tabs{left:19.5cqw;top:2.1cqw;display:flex;gap:.4cqw;padding:.35cqw;border:.26cqw solid var(--white);border-radius:5cqw;background:var(--navy);box-shadow:0 .35cqw 0 var(--ink)}
+.tabs b{font-style:italic;font-weight:800;font-size:1.3cqw;letter-spacing:.02em;padding:.6cqw 1.6cqw;border-radius:4cqw;color:var(--white)}
+.tabs b.on{background:#2163E6;color:var(--gold)}
+.gear{right:3cqw;top:2.4cqw;width:4.2cqw;height:4.2cqw;border-radius:1.2cqw;background:var(--navy);border:.22cqw solid var(--white);display:grid;place-items:center;box-shadow:0 .3cqw 0 var(--ink)}
+.gear svg{width:2.2cqw;height:2.2cqw}
+.chip{background:var(--navy);border:.2cqw solid var(--white);border-radius:3cqw;padding:.5cqw 1.3cqw;font-style:italic;font-weight:700;font-size:1.15cqw;box-shadow:0 .3cqw 0 var(--ink);white-space:nowrap}
+.chip em{color:var(--gold);font-style:inherit}
+
+/* name plates above heads */
+.plate-n{transform:translate(-50%,-100%);display:flex;flex-direction:column;align-items:center;gap:.35cqw}
+.np{display:flex;align-items:center;gap:.55cqw;background:rgba(11,40,120,.92);border:.18cqw solid var(--white);border-radius:3cqw;padding:.32cqw .9cqw .32cqw .38cqw;box-shadow:0 .25cqw 0 var(--ink);white-space:nowrap}
+.np .lv{width:1.75cqw;height:1.75cqw;border-radius:50%;background:var(--gold);color:var(--ink);display:grid;place-items:center;font-style:normal;font-weight:800;font-size:.85cqw}
+.np .nm{font-style:italic;font-weight:800;font-size:1.15cqw}
+.np .host{font-size:.75cqw;font-weight:700;font-style:normal;color:var(--ink);background:var(--white);border-radius:.4cqw;padding:.05cqw .4cqw;letter-spacing:.06em}
+.st{font-style:italic;font-weight:700;font-size:.9cqw;letter-spacing:.06em;text-transform:uppercase;text-shadow:0 .12cqw .3cqw rgba(0,10,50,.9);display:flex;align-items:center;gap:.35cqw}
+.st.ok{color:var(--ready)}
+.st.wait{color:var(--mist)}
+.st .dot{width:.7cqw;height:.7cqw;border-radius:50%;background:currentColor}
+
+/* panels and buttons */
+.panel{background:rgba(11,40,120,.94);border:.26cqw solid var(--white);border-radius:1.4cqw;box-shadow:0 .4cqw 0 var(--ink)}
+.mode{left:3cqw;bottom:3cqw;width:22cqw;padding:1.1cqw 1.4cqw 1.2cqw;display:flex;flex-direction:column;gap:.35cqw}
+.mode .k{font-style:italic;font-weight:700;font-size:.95cqw;letter-spacing:.1em;color:var(--mist);text-transform:uppercase}
+.mode .h1{font-style:italic;font-weight:900;font-size:2.1cqw;line-height:1}
+.mode .h2{font-style:italic;font-weight:900;font-size:2.1cqw;line-height:1;color:var(--gold)}
+.mode .d{font-weight:400;font-size:1cqw;color:var(--mist);margin-top:.2cqw}
+.btn{display:flex;align-items:center;justify-content:center;font-style:italic;font-weight:900;letter-spacing:.02em;border-radius:5cqw;white-space:nowrap}
+.btn.gold{background:linear-gradient(180deg,var(--gold-2),var(--gold));color:var(--navy);box-shadow:0 .4cqw 0 #B07A00,0 .8cqw 1.6cqw rgba(0,10,50,.45)}
+.btn.navy{background:var(--navy);color:var(--white);border:.24cqw solid var(--white);box-shadow:0 .35cqw 0 var(--ink)}
+.play{right:3cqw;bottom:3.4cqw;display:flex;flex-direction:column;align-items:flex-end;gap:.8cqw}
+.play .btn{width:21cqw;height:5.4cqw;font-size:2.4cqw}
+.play .sub{font-style:italic;font-weight:700;font-size:1.05cqw;color:var(--white);text-shadow:0 .12cqw .3cqw rgba(0,10,50,.9)}
+.play .sub em{color:var(--gold);font-style:inherit}
+.hint{display:flex;gap:.6cqw;align-items:center;font-weight:600;font-size:.95cqw;color:var(--mist);text-shadow:0 .1cqw .3cqw rgba(0,10,50,.9)}
+.key{display:inline-grid;place-items:center;min-width:1.6cqw;height:1.6cqw;border-radius:.4cqw;border:.14cqw solid var(--mist);font-size:.8cqw;padding:0 .3cqw;font-weight:700;color:var(--white)}
+
+/* option B: big italic word stack, banners under pads */
+.stack{left:3cqw;top:12cqw;display:flex;flex-direction:column;gap:.5cqw}
+.stack .w{font-style:italic;font-weight:900;font-size:3.6cqw;line-height:1.08;color:var(--white);text-shadow:0 .2cqw 0 var(--ink),0 0 .8cqw rgba(0,10,50,.55);position:relative;padding-left:.2cqw}
+.stack .w.dim{color:rgba(255,255,255,.88);font-size:2.6cqw}
+.stack .w.on{color:var(--gold)}
+.stack .w.on::before{content:"";position:absolute;left:-1.1cqw;top:12%;bottom:12%;width:.55cqw;background:var(--gold);transform:skewX(-14deg);border-radius:.15cqw}
+.stack .sub{font-weight:600;font-style:italic;font-size:1.05cqw;color:var(--white);margin:-.3cqw 0 .9cqw .3cqw;text-shadow:0 .12cqw .3cqw rgba(0,10,50,.9)}
+.stack .sub em{color:var(--gold);font-style:inherit}
+.banner{transform:translateX(-50%);width:15cqw;border-radius:.9cqw;overflow:hidden;border:.2cqw solid var(--white);box-shadow:0 .35cqw 0 var(--ink);background:rgba(11,40,120,.95)}
+.banner .top{height:.7cqw}
+.banner .in{padding:.55cqw .9cqw .7cqw;display:flex;align-items:center;gap:.8cqw}
+.banner .lv{flex:none;width:2.4cqw;height:2.4cqw;border-radius:.6cqw;background:var(--gold);color:var(--ink);display:grid;place-items:center;font-weight:800;font-size:1.1cqw;font-style:normal}
+.banner .t{display:flex;flex-direction:column;min-width:0}
+.banner .nm{font-style:italic;font-weight:800;font-size:1.3cqw;line-height:1.1}
+.banner .ti{font-weight:400;font-size:.85cqw;color:var(--mist);white-space:nowrap}
+.banner.you{border-color:var(--gold)}
+
+/* option C: empty-pad invite holograms */
+.holo{transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:.6cqw}
+.holo .ring{width:5.2cqw;height:5.2cqw;border-radius:50%;border:.3cqw dashed rgba(82,230,255,.95);display:grid;place-items:center;background:radial-gradient(circle,rgba(82,230,255,.28),rgba(82,230,255,.05) 70%);box-shadow:0 0 1.6cqw rgba(82,230,255,.55)}
+.holo .ring svg{width:2.2cqw;height:2.2cqw}
+.holo .lab{font-style:italic;font-weight:800;font-size:1.1cqw;letter-spacing:.06em;text-transform:uppercase;text-shadow:0 .12cqw .4cqw rgba(0,10,50,.95)}
+.holo .lab small{display:block;text-align:center;font-weight:600;font-size:.8cqw;color:var(--mist);letter-spacing:.04em;text-transform:none}
+.beam{transform:translateX(-50%);width:4.2cqw;background:linear-gradient(180deg,rgba(82,230,255,0),rgba(82,230,255,.28));clip-path:polygon(30% 0,70% 0,100% 100%,0 100%)}
+.headline{left:3cqw;top:9.2cqw;display:flex;flex-direction:column}
+.headline .a{font-style:italic;font-weight:900;font-size:4cqw;line-height:1;text-shadow:0 .22cqw 0 var(--ink)}
+.headline .b{font-style:italic;font-weight:900;font-size:4cqw;line-height:1;color:var(--gold);text-shadow:0 .22cqw 0 var(--ink)}
+.list{left:3cqw;top:18.6cqw;display:flex;flex-direction:column;gap:.9cqw;width:19cqw}
+.list .btn{height:4.2cqw;font-size:1.6cqw;justify-content:flex-start;padding-left:1.8cqw}
+
+/* ---------- lighting section ---------- */
+.light{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:28px;align-items:start}
+@media (max-width:860px){.light{grid-template-columns:minmax(0,1fr)}}
+.ba{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.ba figure{margin:0;display:flex;flex-direction:column;gap:8px;min-width:0}
+.ba img{width:100%;max-width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:8px;display:block;box-shadow:0 0 0 1px var(--line)}
+.ba figcaption{font-size:13px;color:var(--mist);display:flex;flex-direction:column;gap:2px}
+.ba figcaption b{color:var(--white);font-weight:600;font-size:14px}
+.num{font-variant-numeric:tabular-nums}
+.rig{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:14px}
+.rig svg{width:100%;height:auto;display:block}
+table{border-collapse:collapse;width:100%;font-size:14px}
+.tablewrap{overflow-x:auto}
+th,td{text-align:left;padding:7px 10px 7px 0;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+td{color:var(--mist)}
+td:first-child{color:var(--white);font-weight:600;white-space:nowrap}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px 32px}
+.cols>div{min-width:0;display:flex;flex-direction:column;gap:8px}
+ul{margin:0;padding-left:1.1em;color:var(--mist);display:flex;flex-direction:column;gap:6px}
+li::marker{color:var(--gold)}
+.pick{background:linear-gradient(90deg,rgba(241,177,32,.16),rgba(241,177,32,0));border-left:4px solid var(--gold);padding:16px 20px;border-radius:0 10px 10px 0;display:flex;flex-direction:column;gap:6px}
+.foot{font-size:13px;color:var(--mist);opacity:.85}
+.slot{transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:.7cqw}
+.slot .ring{width:5cqw;height:5cqw;border-radius:50%;border:.28cqw solid rgba(255,255,255,.9);display:grid;place-items:center;background:rgba(11,40,120,.55);box-shadow:0 0 1.4cqw rgba(255,255,255,.35),0 .3cqw 0 var(--ink)}
+.slot .ring svg{width:2.1cqw;height:2.1cqw}
+.slot .lab{font-style:italic;font-weight:800;font-size:1.05cqw;letter-spacing:.06em;text-transform:uppercase;text-shadow:0 .12cqw .4cqw rgba(0,10,50,.95)}
+.spot{transform:translate(-50%,-50%);width:8cqw;height:1.6cqw;border-radius:50%;background:radial-gradient(closest-side,rgba(255,255,255,.55),rgba(255,255,255,0));border:.12cqw dashed rgba(255,255,255,.6)}
+.venues{display:flex;flex-direction:column;gap:34px}
+.vlabel{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline}
+.vlabel h3{font-size:18px}
+.vlabel span{font-size:14px;color:var(--mist)}
+.ba figure.rej img{opacity:.75}
+.twrow{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.tw{all:unset;cursor:pointer;display:flex;flex-direction:column;gap:6px;padding:8px;border-radius:10px;border:1px solid var(--line);background:var(--panel);min-width:0}
+.tw img{width:100%;max-width:100%;aspect-ratio:240/360;object-fit:cover;object-position:top;border-radius:6px;display:block}
+.tw .tn{font-family:var(--display);font-style:italic;font-weight:800;font-size:17px;color:var(--white)}
+.tw .td{font-size:13px;line-height:1.4;color:var(--mist)}
+.tw .tm{font-size:12px;line-height:1.45;color:var(--mist);opacity:.85}
+.tw[aria-pressed="true"]{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold)}
+.tw[aria-pressed="true"] .tn{color:var(--gold)}
+.tw:focus-visible{outline:2px solid var(--white);outline-offset:2px}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">MotionSports · main menu mockups · lighting tweaks</div>
+    <h1>Squad formation, <span class="g">lit by the venue</span></h1>
+    <p class="lede">The lobby-shooter line-up with the lighting redone. The heroes now get the same sunlight as the course behind them, as in today's menu, so they keep its warm, sunny look. Extra soft light fills the shadow side, so every hero stays readable from cap to shoes. Each hero is a real exported game hero; only the UI on top is drawn.</p>
+  </header>
+
+  <section class="option" id="tweaks">
+    <div class="optionhead"><span class="tag">New</span><h2>Lighting <span class="g">tweaks</span></h2><span class="tag alt">Same squad, same court, six looks</span></div>
+    <p>Pick a look to see it on the full menu screen. Every look keeps the front fill, so no hero goes black, and the same warm-but-not-orange grade family. The numbers are face brightness (0–255), warmth (red minus blue; today's menu is 147), and the share of each body that is near black.</p>
+    <div class="tv"><img class="plate" id="twimg" src="img/tw_venue.jpg" alt="Four tennis heroes in a shallow V on the resort court in warm side sunlight"><div class="ui"><div class="abs wm">Motion<span>Sports</span></div><div class="abs tabs"><b class="on">PLAY</b><b>LOCKER</b><b>CLUBHOUSE</b></div>
+<div class="abs chip" style="right:8.4cqw;top:2.95cqw">Party <em>4/4</em></div><div class="abs gear"><svg viewBox="0 0 24 24" fill="#fff"><path d="M19.4 13a7.5 7.5 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.6 7.6 0 0 0-1.7-1L15 3.3h-4l-.4 2.6a7.6 7.6 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11a7.5 7.5 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1a7.6 7.6 0 0 0 1.7 1l.4 2.6h4l.4-2.6a7.6 7.6 0 0 0 1.7-1l2.5 1 2-3.5zM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z" transform="translate(-1 0)"/></svg></div>
+<div class="abs plate-n" style="left:50%;top:20.2%"><div class="np"><span class="lv">12</span><span class="nm">Sam</span><span class="host">HOST</span></div><div class="st ok"><span class="dot"></span>Ready</div></div><div class="abs plate-n" style="left:30.6%;top:23.8%"><div class="np"><span class="lv">8</span><span class="nm">Maya</span></div><div class="st ok"><span class="dot"></span>Ready</div></div><div class="abs plate-n" style="left:69.4%;top:23.8%"><div class="np"><span class="lv">21</span><span class="nm">Theo</span></div><div class="st wait"><span class="dot"></span>In locker</div></div><div class="abs plate-n" style="left:16.6%;top:27.4%"><div class="np"><span class="lv">5</span><span class="nm">Rio</span></div><div class="st ok"><span class="dot"></span>Ready</div></div>
+<div class="abs panel mode"><div class="k">Tennis · 2 v 2</div><div class="h1">Resort Court</div><div class="h2">Doubles</div><div class="d">First to 4 games · Sunny</div></div>
+<div class="abs play"><div class="sub"><em>3 of 4</em> ready</div><div class="btn gold">READY UP</div><div class="hint"><span class="key">B</span>Change mode<span class="key" style="margin-left:.8cqw">Y</span>Emote</div></div>
+</div></div>
+    <div class="twrow" role="group" aria-label="Lighting looks"><button class="tw" data-k="venue" aria-pressed="true" type="button"><img src="img/tw_venue_lead.jpg" alt=""><span class="tn">Venue sun (v2)</span><span class="td">The current v2: the court's own late sun from the left, warm grade.</span><span class="tm num">Face 138 · warmth 96<br>Near-black: front 1.2% · darkest hero 20.0%</span></button><button class="tw" data-k="golden" aria-pressed="false" type="button"><img src="img/tw_golden_lead.jpg" alt=""><span class="tn">Golden hour</span><span class="td">Lower, oranger sun and richer colour. Closest to today's menu, without the orange skin.</span><span class="tm num">Face 148 · warmth 118<br>Near-black: front 0.8% · darkest hero 16.4%</span></button><button class="tw" data-k="midday" aria-pressed="false" type="button"><img src="img/tw_midday_lead.jpg" alt=""><span class="tn">Bright midday</span><span class="td">High sun and a bright sky fill. The cleanest whites and the most even faces.</span><span class="tm num">Face 165 · warmth 89<br>Near-black: front 0.3% · darkest hero 8.6%</span></button><button class="tw" data-k="punchy" aria-pressed="false" type="button"><img src="img/tw_punchy_lead.jpg" alt=""><span class="tn">Punchy</span><span class="td">Stronger sun and deeper shadows for a bolder, more 3D read. Darkest skin tones lose some detail.</span><span class="tm num">Face 135 · warmth 102<br>Near-black: front 3.0% · darkest hero 34.7%</span></button><button class="tw" data-k="backlit" aria-pressed="false" type="button"><img src="img/tw_backlit_lead.jpg" alt=""><span class="tn">Backlit glow</span><span class="td">Sun behind the squad with a warm glow on shoulders and arms; the front is lit by fill. The most dramatic look.</span><span class="tm num">Face 136 · warmth 99<br>Near-black: front 1.8% · darkest hero 22.9%</span></button><button class="tw" data-k="overcast" aria-pressed="false" type="button"><img src="img/tw_overcast_lead.jpg" alt=""><span class="tn">Soft overcast</span><span class="td">Soft sky light with faint shadows. Everything readable, but less sunny.</span><span class="tm num">Face 141 · warmth 86<br>Near-black: front 0.6% · darkest hero 7.5%</span></button></div>
+  </section>
+
+  <section class="option" id="squad">
+    <div class="venues">
+      <div class="vlabel"><h3>Tennis · Resort Court</h3><span>Late sun from the left, warm. Host in front, friends a step back on each side.</span></div>
+      <div class="tv"><img class="plate" src="img/v2_tennis.jpg" alt="Four tennis heroes in a shallow V on the resort court in warm side sunlight"><div class="ui"><div class="abs wm">Motion<span>Sports</span></div><div class="abs tabs"><b class="on">PLAY</b><b>LOCKER</b><b>CLUBHOUSE</b></div>
+<div class="abs chip" style="right:8.4cqw;top:2.95cqw">Party <em>4/4</em></div><div class="abs gear"><svg viewBox="0 0 24 24" fill="#fff"><path d="M19.4 13a7.5 7.5 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.6 7.6 0 0 0-1.7-1L15 3.3h-4l-.4 2.6a7.6 7.6 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11a7.5 7.5 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1a7.6 7.6 0 0 0 1.7 1l.4 2.6h4l.4-2.6a7.6 7.6 0 0 0 1.7-1l2.5 1 2-3.5zM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z" transform="translate(-1 0)"/></svg></div>
+<div class="abs plate-n" style="left:50%;top:20.2%"><div class="np"><span class="lv">12</span><span class="nm">Sam</span><span class="host">HOST</span></div><div class="st ok"><span class="dot"></span>Ready</div></div><div class="abs plate-n" style="left:30.6%;top:23.8%"><div class="np"><span class="lv">8</span><span class="nm">Maya</span></div><div class="st ok"><span class="dot"></span>Ready</div></div><div class="abs plate-n" style="left:69.4%;top:23.8%"><div class="np"><span class="lv">21</span><span class="nm">Theo</span></div><div class="st wait"><span class="dot"></span>In locker</div></div><div class="abs plate-n" style="left:16.6%;top:27.4%"><div class="np"><span class="lv">5</span><span class="nm">Rio</span></div><div class="st ok"><span class="dot"></span>Ready</div></div>
+<div class="abs panel mode"><div class="k">Tennis · 2 v 2</div><div class="h1">Resort Court</div><div class="h2">Doubles</div><div class="d">First to 4 games · Sunny</div></div>
+<div class="abs play"><div class="sub"><em>3 of 4</em> ready</div><div class="btn gold">READY UP</div><div class="hint"><span class="key">B</span>Change mode<span class="key" style="margin-left:.8cqw">Y</span>Emote</div></div>
+</div></div>
+      <div class="vlabel"><h3>Golf · Cliffside Links</h3><span>High, bright midday sun. The same light settings; only the venue's own sun changes.</span></div>
+      <div class="tv"><img class="plate" src="img/v2_golf.jpg" alt="Four golf heroes in a shallow V on the cliffside course in bright sun"><div class="ui"><div class="abs wm">Motion<span>Sports</span></div><div class="abs tabs"><b class="on">PLAY</b><b>LOCKER</b><b>CLUBHOUSE</b></div>
+<div class="abs chip" style="right:8.4cqw;top:2.95cqw">Party <em>4/4</em></div><div class="abs gear"><svg viewBox="0 0 24 24" fill="#fff"><path d="M19.4 13a7.5 7.5 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.6 7.6 0 0 0-1.7-1L15 3.3h-4l-.4 2.6a7.6 7.6 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11a7.5 7.5 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1a7.6 7.6 0 0 0 1.7 1l.4 2.6h4l.4-2.6a7.6 7.6 0 0 0 1.7-1l2.5 1 2-3.5zM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z" transform="translate(-1 0)"/></svg></div>
+<div class="abs plate-n" style="left:50%;top:20.2%"><div class="np"><span class="lv">12</span><span class="nm">Sam</span><span class="host">HOST</span></div><div class="st ok"><span class="dot"></span>Ready</div></div><div class="abs plate-n" style="left:30.6%;top:23.8%"><div class="np"><span class="lv">8</span><span class="nm">Maya</span></div><div class="st ok"><span class="dot"></span>Ready</div></div><div class="abs plate-n" style="left:69.4%;top:23.8%"><div class="np"><span class="lv">21</span><span class="nm">Theo</span></div><div class="st ok"><span class="dot"></span>Ready</div></div><div class="abs plate-n" style="left:16.6%;top:27.4%"><div class="np"><span class="lv">5</span><span class="nm">Rio</span></div><div class="st ok"><span class="dot"></span>Ready</div></div>
+<div class="abs panel mode"><div class="k">Golf · 4 players</div><div class="h1">Cliffside Links</div><div class="h2">9 Holes</div><div class="d">Stroke play · Light breeze</div></div>
+<div class="abs play"><div class="sub"><em>4 of 4</em> ready</div><div class="btn gold">READY UP</div><div class="hint"><span class="key">B</span>Change mode<span class="key" style="margin-left:.8cqw">Y</span>Emote</div></div>
+</div></div>
+      <div class="vlabel"><h3>Bowling · Neon Lanes</h3><span>Violet overhead light from the alley. The heroes take its tint but stay fully readable.</span></div>
+      <div class="tv"><img class="plate" src="img/v2_bowling.jpg" alt="Four bowling heroes in a shallow V in the neon bowling alley"><div class="ui"><div class="abs wm">Motion<span>Sports</span></div><div class="abs tabs"><b class="on">PLAY</b><b>LOCKER</b><b>CLUBHOUSE</b></div>
+<div class="abs chip" style="right:8.4cqw;top:2.95cqw">Party <em>4/4</em></div><div class="abs gear"><svg viewBox="0 0 24 24" fill="#fff"><path d="M19.4 13a7.5 7.5 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.6 7.6 0 0 0-1.7-1L15 3.3h-4l-.4 2.6a7.6 7.6 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11a7.5 7.5 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1a7.6 7.6 0 0 0 1.7 1l.4 2.6h4l.4-2.6a7.6 7.6 0 0 0 1.7-1l2.5 1 2-3.5zM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z" transform="translate(-1 0)"/></svg></div>
+<div class="abs plate-n" style="left:50%;top:20.2%"><div class="np"><span class="lv">12</span><span class="nm">Sam</span><span class="host">HOST</span></div><div class="st ok"><span class="dot"></span>Ready</div></div><div class="abs plate-n" style="left:30.6%;top:23.8%"><div class="np"><span class="lv">8</span><span class="nm">Maya</span></div><div class="st wait"><span class="dot"></span>In locker</div></div><div class="abs plate-n" style="left:69.4%;top:23.8%"><div class="np"><span class="lv">21</span><span class="nm">Theo</span></div><div class="st ok"><span class="dot"></span>Ready</div></div><div class="abs plate-n" style="left:16.6%;top:27.4%"><div class="np"><span class="lv">5</span><span class="nm">Rio</span></div><div class="st wait"><span class="dot"></span>In locker</div></div>
+<div class="abs panel mode"><div class="k">Bowling · 4 players</div><div class="h1">Neon Lanes</div><div class="h2">10 Frames</div><div class="d">Bumpers off</div></div>
+<div class="abs play"><div class="sub"><em>2 of 4</em> ready</div><div class="btn gold">READY UP</div><div class="hint"><span class="key">B</span>Change mode<span class="key" style="margin-left:.8cqw">Y</span>Emote</div></div>
+</div></div>
+      <div class="vlabel"><h3>On your own</h3><span>The same slots stay on screen with an invite marker, so a friend who joins steps into a waiting spot.</span></div>
+      <div class="tv"><img class="plate" src="img/v2_solo.jpg" alt="One tennis hero standing alone on the resort court, three empty party slots around him"><div class="ui"><div class="abs wm">Motion<span>Sports</span></div><div class="abs tabs"><b class="on">PLAY</b><b>LOCKER</b><b>CLUBHOUSE</b></div>
+<div class="abs chip" style="right:8.4cqw;top:2.95cqw">Party <em>1/4</em></div><div class="abs gear"><svg viewBox="0 0 24 24" fill="#fff"><path d="M19.4 13a7.5 7.5 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.6 7.6 0 0 0-1.7-1L15 3.3h-4l-.4 2.6a7.6 7.6 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11a7.5 7.5 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1a7.6 7.6 0 0 0 1.7 1l.4 2.6h4l.4-2.6a7.6 7.6 0 0 0 1.7-1l2.5 1 2-3.5zM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z" transform="translate(-1 0)"/></svg></div>
+<div class="abs plate-n" style="left:50%;top:20.2%"><div class="np"><span class="lv">12</span><span class="nm">Sam</span></div></div>
+<div class="abs spot" style="left:30.5%;top:79.9%"></div><div class="abs slot" style="left:30.5%;top:55%"><div class="ring"><svg viewBox="0 0 24 24"><path d="M12 4v16M4 12h16" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg></div><div class="lab">Invite</div></div>
+<div class="abs spot" style="left:69.5%;top:79.9%"></div><div class="abs slot" style="left:69.5%;top:55%"><div class="ring"><svg viewBox="0 0 24 24"><path d="M12 4v16M4 12h16" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg></div><div class="lab">Invite</div></div>
+<div class="abs spot" style="left:16.6%;top:75.9%;width:6.4cqw;height:1.3cqw"></div><div class="abs slot" style="left:16.6%;top:56%"><div class="ring" style="width:4.2cqw;height:4.2cqw"><svg viewBox="0 0 24 24"><path d="M12 4v16M4 12h16" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg></div></div>
+<div class="abs panel mode"><div class="k">Tennis · 1 v 1</div><div class="h1">Resort Court</div><div class="h2">Singles</div><div class="d">First to 4 games · vs CPU</div></div>
+<div class="abs play"><div class="sub">Playing <em>solo</em></div><div class="btn gold">PLAY</div><div class="hint"><span class="key">X</span>Invite<span class="key" style="margin-left:.8cqw">B</span>Change mode</div></div>
+</div></div>
+    </div>
+    <div class="notes">
+      <div><h3>Formation</h3><p>The host stands in front, two friends a step back on each side and the fourth further back. Each is turned slightly toward the middle so the group reads as one squad.</p></div>
+      <div><h3>Who's who</h3><p>A name plate floats above each head with level and ready state. Nothing covers the heroes, so you see friends' outfits change as they come out of the locker.</p></div>
+      <div><h3>Controls</h3><p>Tabs on top, the mode card bottom-left and one gold button bottom-right. The middle of the screen belongs to the heroes.</p></div>
+    </div>
+  </section>
+
+  <section class="option" id="lighting">
+    <div class="optionhead"><h2>The <span class="g">lighting</span></h2></div>
+    <p>v1 lit the heroes like a photo studio. It was bright, but pale and cut off from the venue. v2 goes back to today's approach: the hero gets the venue's own sun and sky. Three things change so the whole character reads:</p>
+    <div class="light">
+      <div class="ba">
+        <figure><img src="img/before.jpg" alt="Today's menu hero: warm, orange skin"><figcaption><b>Today</b><span class="num">Face 118 · orange 147</span></figcaption></figure>
+        <figure class="rej"><img src="img/after.jpg" alt="v1 studio lighting: pale and neutral"><figcaption><b>v1 (studio)</b><span class="num">Face 148 · orange 56</span></figcaption></figure>
+        <figure><img src="img/after_v2.jpg" alt="v2: warm venue sunlight with a readable shadow side"><figcaption><b>v2 (venue light)</b><span class="num">Face 119 · orange 95</span></figcaption></figure>
+      </div>
+      <div class="rig">
+        <h3>What v2 does</h3>
+        <div class="tablewrap"><table>
+          <thead><tr><th>Light</th><th>Setting</th><th>Why</th></tr></thead>
+          <tbody>
+            <tr><td>Sun</td><td>The venue's own direction and colour, at the same strength in every venue</td><td>Heroes match the backdrop, with real shadows on the ground. A very low sun is raised to 28° so it doesn't leave half the face black.</td></tr>
+            <tr><td>Sky + ground</td><td>The venue's sky colour from above, its ground colour bounced from below</td><td>Cool tops, warm undersides: what sells "outdoors"</td></tr>
+            <tr><td>Front fill</td><td>Soft, from the camera, never below a set floor</td><td>The shadow side and legs never go black, even in the dark alley</td></tr>
+            <tr><td>Back light</td><td>Faint, sky colour</td><td>Separates the heroes from the blurred backdrop</td></tr>
+            <tr><td>Grade</td><td>Warm, a little more colour, soft highlight roll-off</td><td>Keeps the old sunny feel without orange skin or blown whites</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+    <div class="cols">
+      <div><h3>Readability check (front hero)</h3><ul><li><span class="num">Darkest 5% of the body: luma 51–54 in tennis and bowling, 30 in golf (navy trousers)</span></li><li><span class="num">Share of the body near black: 1.2% in tennis and bowling</span></li><li>Whites (socks, shoes, skirts) stay white, with their folds still visible.</li></ul></div>
+      <div><h3>Found on the way</h3><ul><li>The golf hero export ships a much paler default skin (0.95 / 0.82 / 0.69) than tennis and bowling (0.74 / 0.57 / 0.45). In the golf mockup the front hero uses the tennis tone so the lighting compares fairly. In the game the golf hero would look paler than in tennis.</li></ul></div>
+    </div>
+  </section>
+
+  <section class="option" id="build">
+    <div class="optionhead"><h2>What it takes <span class="g">in the game</span></h2></div>
+    <div class="cols">
+      <div><h3>Formation</h3><ul><li>Four fixed slots on the menu stage, filled in join order. Party heroes already arrive with the party.</li><li>Each slot plays its idle at a different offset; a new arrival waves.</li><li>Name plates follow each head in screen space; empty slots show the invite marker.</li></ul></div>
+      <div><h3>Lighting</h3><ul><li>The menu already applies each venue's sun and sky. Add a front fill with a minimum strength, a faint back light, and a fixed sun strength across venues.</li><li>Replace the plaza grade on the menu with a gentler warm grade.</li><li>The existing shadow catcher, plus a soft contact shadow per slot.</li></ul></div>
+      <div><h3>Phone cost</h3><ul><li>Four full-detail heroes is roughly 900k triangles, so the back row should use the lower-detail hero.</li><li>Measure memory on a phone with a full party before shipping.</li></ul></div>
+    </div>
+    <p class="foot">Method: heroes drawn with the app's SceneKit copy of the Unity heroes (same meshes, colours and clips; ported shaders), lit from each venue's saved light settings, then composited on the shipped venue backdrops with rendered floor shadows. Face numbers are mean brightness (0–255) and red minus blue over the same face area. A Unity capture is still needed before this counts as done.</p>
+  </section>
+</div>
+
+<script>
+(function(){var img=document.getElementById('twimg');var bs=document.querySelectorAll('.tw');
+bs.forEach(function(b){b.addEventListener('click',function(){bs.forEach(function(x){x.setAttribute('aria-pressed','false')});b.setAttribute('aria-pressed','true');img.src='img/tw_'+b.dataset.k+'.jpg';try{localStorage.setItem('tw',b.dataset.k)}catch(e){}})});
+try{var k=localStorage.getItem('tw');var b=k&&document.querySelector('.tw[data-k="'+k+'"]');if(b)b.click()}catch(e){}})();
+</script>

@@ -219,23 +219,36 @@ struct HubControllerSheets: ViewModifier {
     }
 }
 
-/// The TV while the game starts and the Plaza boots (MotionSports title loading, picked 2026-10-25): the wordmark and tagline on
-/// the brand's royal-to-navy spotlight with the swing arc sweeping over, and LOADING… with the bar. The bar is
-/// HubSession.pace (steady, on Core Animation, so the cold Unity start cannot freeze it); at 100 % it holds a moment and fades into
-/// the arrival fly-in. Drawn on the 1280×720 TV canvas (the phone with no TV shows it scaled above its controls).
+/// The TV while the game starts and the Plaza boots: the wordmark over a full-screen moment of play, the sport and venue under it,
+/// and LOADING… with the bar. LOADING ACTION (Adnan 2026-11-13: "full screen action ... cycle completely random shots, not just the
+/// same few"; the "Swing your phone. Play on your TV." line removed): a new shot every 3 s from LoadingShots, shuffled each boot. The
+/// bar is HubSession.pace (steady, on Core Animation, so the cold Unity start cannot freeze it); at 100 % it holds a moment and fades
+/// into the arrival fly-in. Drawn on the 1280×720 TV canvas (the phone with no TV shows it scaled above its controls).
 struct HubLoadingScreen: View {
     let hub: HubSession
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var reel = LoadingShots.Reel()
     var body: some View {
         let failed = hub.phase == .failed
+        let shot = reel.current
         ZStack(alignment: .topLeading) {
             MSBrand.backdrop(spotlight: UnitPoint(x: 0.3, y: 0.47), radius: 820)
-            MSSwingArc().frame(width: 1280, height: 720)
-            VStack(alignment: .leading, spacing: 44) {
+            ZStack { LoadingShotImage(shot: shot, settle: !reduceMotion).id(reel.step).transition(.opacity) }
+                .frame(width: 1280, height: 720).clipped()
+            // a navy shade from the left and the bottom: the wordmark and the bar read on any picture
+            LinearGradient(stops: [.init(color: LoadingShots.ink.opacity(0.92), location: 0), .init(color: LoadingShots.ink.opacity(0.62), location: 0.34),
+                                   .init(color: LoadingShots.ink.opacity(0), location: 0.62)], startPoint: .leading, endPoint: .trailing)
+            LinearGradient(stops: [.init(color: LoadingShots.ink.opacity(0.9), location: 0), .init(color: LoadingShots.ink.opacity(0), location: 0.38)],
+                           startPoint: .bottom, endPoint: .top)
+            VStack(alignment: .leading, spacing: 34) {
                 MSWordmark(size: 96)
-                Text("Swing your phone. Play on your TV.").font(MSLoadingFont.subline(30)).foregroundStyle(MSBrand.n300)
-                    .shadow(color: MSBrand.textShadow.opacity(0.55), radius: 3, y: 1).padding(.leading, 6)
+                Text(shot.label).font(MSLoadingFont.display(24)).tracking(3).foregroundStyle(MSBrand.goldWordmark)
+                    .shadow(color: MSBrand.textShadow.opacity(0.8), radius: 4, y: 1).padding(.leading, 8)
+                    .id(reel.step).transition(.opacity)
+                    .accessibilityIdentifier("hub-loading-shot")
             }
-            .position(x: 128 + 255, y: 360)
+            .frame(width: 520, alignment: .leading)
+            .position(x: 128 + 255, y: 318)
             VStack(spacing: 12) {
                 HStack(alignment: .center) {
                     Text(failed ? "The Plaza didn't open · tap Try again on your phone" : "LOADING…")
@@ -253,6 +266,89 @@ struct HubLoadingScreen: View {
         .clipped()
         .ignoresSafeArea()
         .accessibilityIdentifier("hub-loading")
+        .task {
+            // a new shot every 3 s (Reduce Motion: the one random still)
+            reel.remember()
+            guard !reduceMotion, LoadingShots.pinned == nil else { return }
+            while !Task.isCancelled {
+                try? await Task.sleep(for: .seconds(LoadingShots.seconds))
+                if Task.isCancelled { break }
+                withAnimation(.easeInOut(duration: 0.7)) { reel.advance() }
+            }
+        }
+    }
+}
+
+/// LOADING ACTION (2026-11-13): the boot screen's pictures, in-game moments from all three sports and seven venues
+/// (Assets.xcassets/LoadingShots: frames of the trailer and of in-game captures, picked by eye; the tennis dive is left out because its
+/// body warps). `anchor` is which part of a picture wider than 16:9 shows (0 its left edge, 1 its right), set so the player sits right of
+/// the wordmark. Picked and proved in work/loading-action-1113.
+struct LoadingShot: Equatable { let asset: String; let label: String; let anchor: CGFloat }
+enum LoadingShots {
+    static let seconds = 3.0
+    static let ink = Color(hex: "06123F")
+    private static func shots(_ first: Int, _ label: String, _ anchors: [CGFloat]) -> [LoadingShot] {
+        anchors.enumerated().map { LoadingShot(asset: String(format: "loadshot-%02d", first + $0.offset), label: label, anchor: $0.element) }
+    }
+    static let pool: [LoadingShot] =
+        shots(0, "TENNIS · SKY TOWER", [0, 0, 0, 0, 0, 0.27, 0.54, 0.35, 0, 0])
+        + shots(10, "GOLF · MAGMA OPEN", [0, 0, 0, 0, 0.15, 0.35, 0.54, 0])
+        + shots(18, "BOWLING · NEON", [0.35, 0.35, 0.1, 0.35, 0.15, 0.05, 0.35, 0.15])
+        + shots(26, "TENNIS · TROPICAL RESORT", [0.5, 0.5, 0.5]) + shots(29, "TENNIS · MAGMA CRATER", [0.5, 0.5, 0.5])
+        + shots(32, "BOWLING · CLUB LANES", [0]) + shots(33, "BOWLING · MAGMA", [0]) + shots(34, "BOWLING · TIKI", [0])
+    /// Snapshots: show this shot and hold it.
+    nonisolated(unsafe) static var pinned: Int?
+    static let lastKey = "loading.lastShot"
+
+    /// Every shot once in a random order, then a fresh shuffle; never the same shot twice in a row, and a boot never opens on the
+    /// shot the last one ended on.
+    struct Reel {
+        private(set) var order: [Int]
+        private(set) var at = 0
+        /// Counts every change (the views key their fade on it).
+        private(set) var step = 0
+        init(last: Int? = UserDefaults.standard.object(forKey: LoadingShots.lastKey) as? Int, count: Int = LoadingShots.pool.count) {
+            order = Reel.shuffle(count, avoiding: last)
+            if let p = LoadingShots.pinned, p < count { order = [p] }
+        }
+        /// The shot on screen, so the next boot does not open on it (SwiftUI re-runs a @State's initial value, so not in init).
+        func remember() { UserDefaults.standard.set(index, forKey: LoadingShots.lastKey) }
+        var index: Int { order[at] }
+        var current: LoadingShot { LoadingShots.pool[min(index, LoadingShots.pool.count - 1)] }
+        mutating func advance() {
+            if at + 1 < order.count { at += 1 } else { order = Reel.shuffle(order.count, avoiding: order[at]); at = 0 }
+            step += 1
+            remember()
+        }
+        static func shuffle(_ count: Int, avoiding last: Int?) -> [Int] {
+            var o = Array(0..<count).shuffled()
+            if o.count > 1, let last, o[0] == last { o.swapAt(0, 1) }
+            return o
+        }
+    }
+}
+
+/// One loading shot filling the 1280×720 canvas, its `anchor` choosing the part shown, with a slow push-in while it is up.
+struct LoadingShotImage: View {
+    let shot: LoadingShot
+    var settle = true
+    @State private var settled = false
+    var body: some View {
+        let image = UIImage(named: shot.asset)
+        let size = CGSize(width: 1280, height: 720)
+        let aspect = image.map { $0.size.width / max(1, $0.size.height) } ?? size.width / size.height
+        let w = max(size.width, size.height * aspect), h = max(size.height, size.width / aspect)
+        ZStack(alignment: .topLeading) {
+            if let image {
+                Image(uiImage: image).resizable().frame(width: w, height: h)
+                    .offset(x: -(w - size.width) * shot.anchor, y: -(h - size.height) / 2)
+            }
+        }
+        .frame(width: size.width, height: size.height, alignment: .topLeading)
+        .scaleEffect(settle && !settled ? 1.06 : 1)
+        .clipped()
+        .accessibilityLabel(shot.label.capitalized)
+        .onAppear { if settle { withAnimation(.linear(duration: LoadingShots.seconds + 0.4)) { settled = true } } }
     }
 }
 

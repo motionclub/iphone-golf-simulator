@@ -15,6 +15,7 @@ namespace GolfArcade.Hub.Menu
     {
         // the type (mock .mi 3cqw, .mi.big 7.2cqw, .rail 2.3cqw; sublines 1.1cqw raised to 26 so they read from the sofa)
         const float WordSize = 58, BigSize = 138, RailSize = 44, SubSize = 26, Nudge = 15, GlowSeconds = .2f;
+        const int WordmarkSize = 72;
         const float Left = 64, ListTop = 392, RightX = 1190, RightEdge = 1856;   // lists left of the hero, pop-ups right of it (x 800–1120 stays clear)
         static readonly Color WordRest = BrandUi.WhiteA(.88f), WordDim = BrandUi.WhiteA(.55f), WordOff = BrandUi.WhiteA(.35f), SubRest = BrandUi.WhiteA(.72f);
 

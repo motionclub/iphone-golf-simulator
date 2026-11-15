@@ -198,7 +198,6 @@ namespace GolfArcade.Game
                     case "savePoint": if(tennis) SportsRecorderSave(); break;
                     case "ultimateSelect": break; // Ignore commands from older controllers.
                     case "ultimate": break;
-                    case "dive": if(tennis && !paused) tennis.RequestDive(); break;
                     case "emote":
                         bool played = tennis && !paused && m.value == Mathf.Floor(m.value) && tennis.RequestEquippedEmote((int)m.value);
                         Emit("emoteResult", played ? "Emote selected" : "Emotes are available for your intro or after you score.");
@@ -510,7 +509,6 @@ namespace GolfArcade.Game
                 Emit("emoteState", paused ? "" : tennis ? tennis.EmoteWindow : golf ? golf.IntroEmoteWindow : "");
                 // the intro's flyover can be skipped: who has asked ("voted|needed|1 when this phone has"; online, everyone must)
                 Emit("introSkip", paused ? "" : tennis ? tennis.IntroSkipState : golf ? golf.IntroSkipState : "");
-                if(tennis) Emit("abilities", string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0:0.000}|{1}|{2:0.00}|{3}|{4}", tennis.PlayerUltimate, tennis.UltimateArmed?1:0, tennis.DiveCooldownLeft, !paused && tennis.CanDive?1:0, !paused && tennis.CanArmUltimate?1:0));
                 // Results are durable state, not a one-shot event that can be lost
                 // while the phone changes scenes or drains the bounded event queue.
                 if(!multiplayerSession && tennis && tennis.Match.Complete)

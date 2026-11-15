@@ -266,11 +266,6 @@ namespace GolfArcade.PlayTests
                     if (seat == 0) { Msg(bridge, id, "nudge", dir); overlay.Say(0, dir < 0 ? "◀ walk baseline" : "walk baseline ▶"); }
                     else Send(1, new NetworkInput { action = "nudge", value = -dir }, dir < 0 ? "◀ walk baseline" : "walk baseline ▶");
                 }
-                void Dive(int seat)
-                {
-                    if (seat == 0) { Msg(bridge, id, "dive"); overlay.Say(0, "DIVE"); }
-                    else Send(1, new NetworkInput { action = "dive", point = net.TennisState.point, contact = net.TennisState.contact }, "DIVE");
-                }
                 void Emote(int seat, int slot)
                 {
                     string name = TennisEmotes.Name(c.participants[seat].loadout.emotes[slot]);
@@ -394,12 +389,10 @@ namespace GolfArcade.PlayTests
                             float roll = R();
                             b.skip = roll < .07f;
                             b.offset = roll < .2f ? -.1f - R() * .05f : roll < .33f ? .08f + R() * .05f : (R() - .5f) * .07f;
-                            b.dive = R() < .65f;
                         }
                         if (receiving && !b.aimed && tArr < 1.2f && R() < .02f) { b.aimed = true; RallyAim(seat, R() < .5f ? -.7f : .7f); }
                         if (receiving && b.swungContact != s.contact && !b.skip && tArr < 9)
                         {
-                            if (!b.dived && b.dive && Mathf.Abs(want - p.x) > 1.6f && tArr < .75f && p.stamina > .3f) { b.dived = true; Dive(seat); }
                             if (tArr <= TennisRules.SweetTime - b.offset)
                             {
                                 b.swungContact = s.contact; float pw = .55f + R() * .4f;

@@ -214,7 +214,7 @@ namespace GolfArcade.Multiplayer {
                     Instance.Submit(new NetworkInput {action="emote",value=m.value,actorSeat=(int)m.value2});return true;
                 case "emote":
                     Instance.Submit(new NetworkInput {action="emote",value=m.value});return true;
-                case "serveAim":case "nudge":case "aim":case "rallyAim":case "club":case "dive":
+                case "serveAim":case "nudge":case "aim":case "rallyAim":case "club":
                     Instance.Submit(new NetworkInput {action=m.action=="rallyAim"?"aim":m.action,value=m.value,value2=m.value2,
                         actorSeat=Instance.GolfState?.turn ?? -1});return true;
                 case "sound":case "haptics":case "display":case "flash":return false;

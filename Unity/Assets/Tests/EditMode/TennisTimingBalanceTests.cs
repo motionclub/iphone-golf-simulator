@@ -19,7 +19,7 @@ namespace GolfArcade.Tests {
   [Test] public void CenteredContactWinsPaceAndPlacementWithoutUnreturnableStreakSpeed() {
    var clean=TennisRules.AssistedHit(.02f,1,1,.2f,1);
    var scrappy=TennisRules.AssistedHit(.25f,.2f,1,1,1);
-   Assert.Greater(clean.Speed,scrappy.Speed*1.4f);
+   Assert.Greater(clean.Speed,scrappy.Speed*1.2f);   // 1.4x until 2026-11-11: a flat ball cannot also be a slow one, so a poor contact now gives up less pace in the air and more depth (TennisFlightTests)
    Assert.LessOrEqual(TennisRules.Supercharge(TennisRules.Evaluate(.18f,Vector2.zero,1,1,1,1)).Speed,34f);
    foreach(float aim in new[]{-1f,1f}) foreach(float depth in new[]{0f,1f}) {
     var intended=TennisRules.PlacementTarget(aim,depth);
@@ -51,7 +51,7 @@ namespace GolfArcade.Tests {
     var velocity=TennisRules.RallyVelocity(start,target,34f,.3f,1f);
     var mirroredStart=new Vector3(-start.x,start.y,-start.z);
     var mirroredVelocity=new Vector3(-velocity.x,velocity.y,-velocity.z);
-    var plan=TennisRules.PlanIntercept(mirroredStart,mirroredVelocity,.3f,.75f,
+    var plan=TennisRules.PlanIntercept(mirroredStart,mirroredVelocity,.3f,TennisFlight.Restitution,
      new Vector2(0,TennisRules.BaselineZ),TennisRules.ReactionTime,TennisRules.SprintSpeed,false);
     Assert.IsTrue(plan.Reachable,"a ready receiver must have a reachable return even at the pace cap");
     Assert.Greater(plan.Time,.65f,"retain reaction time across the full court");
@@ -101,7 +101,7 @@ namespace GolfArcade.Tests {
     Assert.Less(left.land.x,-2.5f,$"seat {seat} a face turned left goes to the hitter's left");
     var mistimed=OnlineShot(seat,.03f,.65f,aim:0);   // about .15 s late: in, but slow and short
     Assert.Greater(straight.speed,mistimed.speed,$"seat {seat} on time is faster");
-    Assert.Greater(straight.land.y,mistimed.land.y+1f,$"seat {seat} on time is deeper");
+    Assert.Greater(straight.land.y,mistimed.land.y+.75f,$"seat {seat} on time is deeper");   // a clean ball lands at 9.4 m since 2026-11-11 (10.4 before)
     foreach(var shot in new[]{straight,right,left,mistimed}) Assert.IsTrue(TennisRules.BounceIsIn(new Vector3(shot.land.x,TennisRules.BallRadius,shot.land.y)));
     // Past TennisRules.OutTiming it sails out (2026-10-26): long down the middle, wide on a side lane.
     var wayOff=OnlineShot(seat,-.03f,.65f,aim:0);

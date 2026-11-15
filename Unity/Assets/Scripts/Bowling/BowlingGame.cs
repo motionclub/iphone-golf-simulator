@@ -494,7 +494,8 @@ namespace GolfArcade.Bowling
         // ------------------------------------------------------------------ the bowler (real hero)
 
         const float WaitYaw = 0;
-        float ResultHold => reactShot ? 2.8f : 1.9f;
+        // the bowler's reaction, then the machine starts while they walk back (2.8 / 1.9 s until 2026-11-11: the walk back held the lane)
+        float ResultHold => reactShot ? 2f : 1f;
 
         Vector3 StartSpot(float board) => new Vector3(BowlingHero.BodyX(board), 0, BowlingApproach.StartZ);
         /// Where a waiting player sits: on the lounge settee behind the approach (out of the bowler's
@@ -755,7 +756,11 @@ namespace GolfArcade.Bowling
         // timeline (s): the setting table comes down and grips the standing pins, lifts them; the bar comes down, sweeps,
         // goes up; the table sets the pins down, lets go and goes home. A new frame: the table carries the old rack up
         // into the machine and brings ten fresh pins down instead.
-        const float SweepGrip = .3f, SweepLift = .6f, SweepBarDown = .85f, SweepGo0 = .85f, SweepGo1 = 1.75f, SweepBarUp = 2.1f, SweepSetDown = 2.55f, SweepRelease = 2.65f, SweepEnd = 3.1f;
+        // 2026-11-11 (plan Phase 1, "cut the waits"): the whole cycle in 1.5 s (3.1 s before, and it cannot be skipped): the same
+        // moves in the same order, each at `SweepPace` of its old time.
+        const float SweepPace = 1.5f / 3.1f;
+        const float SweepGrip = .3f * SweepPace, SweepLift = .6f * SweepPace, SweepBarDown = .85f * SweepPace, SweepGo0 = .85f * SweepPace, SweepGo1 = 1.75f * SweepPace,
+            SweepBarUp = 2.1f * SweepPace, SweepSetDown = 2.55f * SweepPace, SweepRelease = 2.65f * SweepPace, SweepEnd = 3.1f * SweepPace;
         const float SweepLiftHeight = .42f, SweepCarry = .45f;   // pins held clear of the bar; how far above home the old rack goes
 
         /// The setting table's height at sweep time t.
@@ -903,7 +908,8 @@ namespace GolfArcade.Bowling
         // ------------------------------------------------------------------ the replay
 
         bool replayDue;
-        public const float ReplaySpeed = .4f;
+        // 2026-11-11: at most 4 s (half speed, the first 2 s of the pin action); it ran up to 8 s (0.4 speed, 3.2 s of action)
+        public const float ReplaySpeed = .5f, ReplayAction = 2f;
 
         /// The pin action again, slow, from a low side camera (skippable with a tap on the ball).
         void BeginReplay()
@@ -927,7 +933,7 @@ namespace GolfArcade.Bowling
             }
             ballView.SetActive(f.BallLive);
             if (f.BallLive) ballView.transform.SetPositionAndRotation(f.Ball, f.BallRotation * ballSpin);
-            if (k >= frames.Count - 1 || playT > 3.2f) EndReplay();
+            if (k >= frames.Count - 1 || playT > ReplayAction) EndReplay();
         }
 
         void EndReplay()
@@ -993,7 +999,7 @@ namespace GolfArcade.Bowling
                 case Phase.Replay:
                 {
                     // low on the lane in front of the deck (inside the kickbacks, under the masking), easing in as the pins go
-                    float u = Sm(playT / 3f);
+                    float u = Sm(playT / ReplayAction);
                     pos = new Vector3(Mathf.Lerp(.42f, .3f, u), .32f, BowlingLane.FoulToHeadPin - Mathf.Lerp(1.15f, .8f, u)); look = new Vector3(-.05f, .18f, BowlingLane.FoulToHeadPin + .35f); return;
                 }
                 case Phase.Sweep:

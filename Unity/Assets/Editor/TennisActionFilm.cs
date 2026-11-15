@@ -46,8 +46,8 @@ namespace GolfArcade.EditorTools
                 for(int n=0;n<1200;n++)
                 {
                     yield return null;
-                    if(n>640&&!dived&&game.CanDive)dived=game.RequestDive();Save(rally,n,game);
-                    trace.Add($"{n},{Time.frameCount},{driver.State},{driver.PlayingClip},{driver.PlayingClipTime:F4},{driver.actor.SignedTimeToContact:F4},{driver.actor.Speed:F3},{driver.actor.ForwardSpeed:F3},{driver.FootSkate:F4},{driver.actor.Guiding},{game.DiveActive},{fx.Shake:F4},{fx.Flash:F4},{driver.LastCrouch:F5},{driver.LastDesiredCrouch:F5},{driver.RenderedLunge.x:F5},{driver.RenderedLunge.y:F5},{driver.RenderedLunge.z:F5},{driver.actor.ContactGuideWeight:F5},{driver.LastPhysicsTtc:F5},{driver.LastPhysicsCrouch:F5},{driver.PhysicsPoseRestoreError:F7}");
+                    dived|=game.StretchActive;Save(rally,n,game);
+                    trace.Add($"{n},{Time.frameCount},{driver.State},{driver.PlayingClip},{driver.PlayingClipTime:F4},{driver.actor.SignedTimeToContact:F4},{driver.actor.Speed:F3},{driver.actor.ForwardSpeed:F3},{driver.FootSkate:F4},{driver.actor.Guiding},{game.StretchActive},{fx.Shake:F4},{fx.Flash:F4},{driver.LastCrouch:F5},{driver.LastDesiredCrouch:F5},{driver.RenderedLunge.x:F5},{driver.RenderedLunge.y:F5},{driver.RenderedLunge.z:F5},{driver.actor.ContactGuideWeight:F5},{driver.LastPhysicsTtc:F5},{driver.LastPhysicsCrouch:F5},{driver.PhysicsPoseRestoreError:F7}");
                 }
                 game.AutoPlay=false;File.WriteAllLines(Path.Combine(rally,"trace.csv"),trace);notes.Add((female?"female":"male")+" actual rally20s dive="+dived);
             }

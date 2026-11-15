@@ -144,7 +144,7 @@ enum GameTips {
         t(.technique, "Serve at the peak", "After the toss, swing as the power bar peaks for a rocket serve. Off the peak it still goes in, just slower."),
         t(.strategy, "Auto-run", "Your player runs for you, and sprints on its own for a ball that is hard to reach."),
         t(.strategy, "Just swing", "Your player always gets to the ball. Your job is when you swing and which way."),
-        t(.strategy, "Dive as a last resort", "Dive saves a wide ball but costs stamina and needs a couple of seconds to recharge. Use it as a last resort."),
+        t(.strategy, "Swing at wide balls", "A ball just out of reach? Swing anyway: your player lunges for it. A stretched return is weaker, so get back to the middle."),
         t(.strategy, "Save your stamina", "Stamina drains while you sprint and refills when you stand still. Recover between points."),
         t(.strategy, "Push them back", "Deep balls push your opponent back; short balls invite an attack."),
         t(.strategy, "Mix it up", "Stronger rivals hunt your weaker side. Mix up your shots."),
@@ -278,9 +278,9 @@ extension HowTo {
             "Swing overhead as the power bar peaks at the top of the toss for a rocket serve. Off the peak it still goes in, just slower.",
             "A clean toss puts it right where you aimed; a loose one wanders, but stays in the box.",
         ], art: .serve, icon: "arrow.up.circle.fill"),
-        HowToCard(id: "tg-extras", title: "Dive, supercharge and emotes", steps: [
-            "Tap DIVE to reach a wide ball. It only works with a ball coming, costs stamina and needs about 2.5 seconds to recharge.",
-            "Three GREAT or better hits in a row make the third a SUPERCHARGED shot, faster and almost dead accurate. A dive resets the streak.",
+        HowToCard(id: "tg-extras", title: "Wide balls, supercharge and emotes", steps: [
+            "Swing at a wide ball even if it looks too far: your player stretches for it. A stretched return is weaker.",
+            "Three GREAT or better hits in a row make the third a SUPERCHARGED shot, faster and almost dead accurate. A stretched hit resets the streak.",
             "After you win a point, tap an emote on your phone to celebrate.",
             "Hold the pause icon for about half a second to pause.",
         ], art: .swing, icon: "bolt.fill"),

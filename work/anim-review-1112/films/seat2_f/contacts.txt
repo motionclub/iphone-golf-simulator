@@ -1,0 +1,28 @@
+grip meshes: Grip:1442
+RightHand                    closest    0.5 mm  touching(<4mm) 18
+RightLittleDistal            closest    0.5 mm  touching(<4mm) 52
+RightMiddleDistal            closest    0.8 mm  touching(<4mm) 25
+RightIndexDistal             closest    1.3 mm  touching(<4mm) 31
+RightThumbDistal             closest    2.1 mm  touching(<4mm) 20
+RightMiddleIntermediate      closest    2.3 mm  touching(<4mm) 3
+RightRingDistal              closest    2.7 mm  touching(<4mm) 19
+RightThumbIntermediate       closest    3.3 mm  touching(<4mm) 4
+RightThumbProximal           closest    8.9 mm  touching(<4mm) 0
+RightIndexIntermediate       closest    9.9 mm  touching(<4mm) 0
+RightMiddleProximal          closest   10.5 mm  touching(<4mm) 0
+RightRingIntermediate        closest   15.0 mm  touching(<4mm) 0
+RightLittleIntermediate      closest   16.0 mm  touching(<4mm) 0
+RightIndexProximal           closest   18.5 mm  touching(<4mm) 0
+RightRingProximal            closest   19.4 mm  touching(<4mm) 0
+ArmBlend_29_58_1             closest   23.3 mm  touching(<4mm) 0
+RightLittleProximal          closest   24.1 mm  touching(<4mm) 0
+ArmBlend_29_58_3             closest   29.4 mm  touching(<4mm) 0
+ArmBlend_29_58_2             closest   30.0 mm  touching(<4mm) 0
+ArmBlend_29_58_4             closest   36.5 mm  touching(<4mm) 0
+ArmBlend_29_58_5             closest   37.4 mm  touching(<4mm) 0
+palm-centre to nearest grip surface 30.1 mm
+TARGET mcp: palm depth 15.8 mm, move 7.0 mm -> Offset F = -0.0104,0.0126  palm gap there -7.9 mm, finger-root gap 4.7 mm
+TARGET mcp-8mm: palm depth 15.8 mm, move 8.0 mm -> Offset F = -0.0129,0.0157  palm gap there -8.3 mm, finger-root gap 7.1 mm
+handle r 17.3 mm (grip-local, scale 1.00); palm verts 646; palm gap now -0.9 mm; palm-centre to axis now 47.4 mm
+SEAT move dx -60.0 dz -41.0 mm (grip-local) -> palm-centre to axis 30.9 mm, palm gap 1.5 mm, finger-root gap 2.3 mm
+SEAT new Offset(female) = (-0.0650, 0, -0.0240)  (old -0.005, 0, 0.017)

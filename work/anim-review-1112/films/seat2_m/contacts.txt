@@ -1,0 +1,21 @@
+grip meshes: Grip:1442
+RightMiddleIntermediate      closest    1.7 mm  touching(<4mm) 5
+RightRingIntermediate        closest    1.9 mm  touching(<4mm) 3
+RightIndexDistal             closest    2.0 mm  touching(<4mm) 6
+RightRingProximal            closest    2.2 mm  touching(<4mm) 7
+RightHand                    closest    2.3 mm  touching(<4mm) 2
+RightMiddleProximal          closest    2.4 mm  touching(<4mm) 6
+RightIndexIntermediate       closest    2.5 mm  touching(<4mm) 3
+RightLittleIntermediate      closest    3.8 mm  touching(<4mm) 2
+RightLittleDistal            closest    6.0 mm  touching(<4mm) 0
+RightRingDistal              closest    6.5 mm  touching(<4mm) 0
+RightLittleProximal          closest    6.5 mm  touching(<4mm) 0
+RightMiddleDistal            closest    9.1 mm  touching(<4mm) 0
+RightIndexProximal           closest    9.4 mm  touching(<4mm) 0
+RightThumbDistal             closest   36.6 mm  touching(<4mm) 0
+palm-centre to nearest grip surface 47.5 mm
+TARGET mcp: palm depth 42.0 mm, move 12.2 mm -> Offset M = 0.0173,-0.0030  palm gap there 10.8 mm, finger-root gap 0.5 mm
+TARGET mcp-8mm: palm depth 42.0 mm, move 15.5 mm -> Offset M = 0.0137,0.0005  palm gap there 9.7 mm, finger-root gap 0.7 mm
+handle r 17.3 mm (grip-local, scale 1.00); palm verts 880; palm gap now 2.2 mm; palm-centre to axis now 64.5 mm
+SEAT move dx -18.0 dz 19.0 mm (grip-local) -> palm-centre to axis 53.8 mm, palm gap 1.8 mm, finger-root gap -7.7 mm
+SEAT new Offset(male) = (-0.0030, 0, 0.0040)  (old 0.015, 0, -0.015)

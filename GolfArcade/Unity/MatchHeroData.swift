@@ -55,6 +55,7 @@ enum HeroAssets {
         var skinPigmentMap: String? = nil, skinMaskMap: String? = nil
         /// CLOTHING V3 (2026-10-26): TennisCloth's Blender yarn atlas (atlasVersion 3), knit cell for fabric id 7, yarn relief, fibre shine, tonal grain; absent in older payloads.
         var atlasVersion: Float? = nil, knitCell: Float? = nil, fabricDetail: Float? = nil, fibreShine: Float? = nil, mottle: Float? = nil
+        var stylePass: Float? = nil, styleSmooth: Float? = nil, styleSpec: Float? = nil, styleEnv: Float? = nil, styleRamp: Float? = nil, styleFill: Float? = nil, styleDewarm: Float? = nil
         var isClothV3: Bool { (atlasVersion ?? 0) > 2.5 }
         var hasSkinMaps: Bool { (skinTex ?? 0) > 0.5 && !(skinPigmentMap ?? "").isEmpty && !(skinMaskMap ?? "").isEmpty }
         var isCloth: Bool { shader == "TennisCloth" }
@@ -375,6 +376,32 @@ extension HeroTrackPose {
     private(set) var clips: [String: Clip] = [:]
     var boneCount: Int { info.bones.count }
 
+    /// EMOTE ENDS 2026-11-13 (Unity: EmoteEnds.cs). The emotes are authored from and back to the tennis Ready stance, both hands together in
+    /// front as if on a racket. With empty hands (the racket on the back) that reads as an invisible racket, so the emote plays from when the
+    /// hands are 15 cm out of its first frame to when they come back within 20 cm of it, measured on the hands and forearms. nil = play it whole.
+    private var emptyHandWindows: [String: (Double, Double)?] = [:]
+    func emptyHandWindow(_ id: String) -> (start: Double, end: Double)? {
+        if let cached = emptyHandWindows[id] { return cached.map { (start: $0.0, end: $0.1) } }
+        var window: (Double, Double)? = nil
+        let names = ["LeftHand", "RightHand", "LeftLowerArm", "RightLowerArm"]
+        let tracks = names.compactMap { info.bones.firstIndex(of: $0) }
+        if let clip = clips[id], tracks.count == names.count, clip.frames > 2, clip.length > 0 {
+            let n = clip.frames
+            let times: [Double] = (clip.info.times?.count == n) ? clip.info.times!.map(Double.init) : (0 ..< n).map { Double($0) / Double(n - 1) * clip.length }
+            let ref = tracks.map { clip.track(0, $0).t }
+            var first: Double? = nil, last: Double? = nil
+            for f in 0 ..< n {
+                var d: Float = 0
+                for (k, tr) in tracks.enumerated() { d = max(d, simd_length(clip.track(f, tr).t - ref[k])) }
+                if first == nil, d >= 0.15 { first = times[f] }
+                if d >= 0.20 { last = max(last ?? 0, times[f]) }
+            }
+            if let a = first, let b = last, b - a > 0.3 { window = (a, b) }
+        }
+        emptyHandWindows[id] = window
+        return window.map { (start: $0.0, end: $0.1) }
+    }
+
     init?(asset: MatchHeroData.Asset) {
         guard let info = asset.manifest.rig, let blob = MatchHeroData.data(info.file) else { return nil }
         self.info = info
@@ -484,8 +511,9 @@ extension MenuMotion {
             let base=ready.morphWeights(at:freezeIdle ? 0 : t+idleOffset,loop:true)
             if case .clipOnce(let id)=kind, let clip=rig.clips[id] {
                 let elapsed=t-lead; if elapsed<0 { return base }
-                let weight=elapsed<=clip.length ? ease(elapsed/max(0.001,fadeIn)):1-ease((elapsed-clip.length)/max(0.001,fadeOut))
-                return RigData.blendMorphs(base,clip.morphWeights(at:elapsed,loop:false),weight)
+                let span=clipSpan(rig,id)   // EMOTE ENDS: the empty-handed part of an emote (MenuMotion.emptyHands)
+                let weight=elapsed<=span.length ? ease(elapsed/max(0.001,fadeIn)):1-ease((elapsed-span.length)/max(0.001,fadeOut))
+                return RigData.blendMorphs(base,clip.morphWeights(at:span.start+min(elapsed,span.length),loop:false),weight)
             }
             let weight=serveWeight(rig,at:t)
             guard weight>0,let serve=rig.clips["serve"] else { return base }

@@ -10,7 +10,7 @@ namespace GolfArcade.Tennis
     /// face picks the side, timing picks pace and depth, an early swing is held back). Misses retry; the phone offers a skip.
     public sealed class TutorialLesson
     {
-        public enum Kind { Serve, Forehand, Backhand, Aim, Point, Pace, Dive }
+        public enum Kind { Serve, Forehand, Backhand, Aim, Point, Pace, Wide }
         public struct Step { public Kind Kind; public string Key, Name, Title, Say, Hint; public string[] Tips; public int Goal; }
         public static readonly Step[] Steps =
         {
@@ -34,10 +34,10 @@ namespace GolfArcade.Tennis
                 Say = "Tap TOSS on your phone as the ticker crosses the middle, then swing overhead at the top. Land one in the box.",
                 Hint = "Tap TOSS, watch the ball rise on the TV, and wait for the power bar to peak before you swing.",
                 Tips = new[] { "Tap TOSS as the meter's ticker crosses the green middle.", "Swing overhead as the power bar peaks with the ball.", "Tap the box on your phone to aim; the middle is safest." } },
-            new Step { Kind = Kind.Dive, Goal = 1, Key = "dive", Name = "Run and dive", Title = "Run and dive",
-                Say = "Coach Ray hits one wide. Tap DIVE on your phone to reach it.",
-                Hint = "Tap DIVE the moment the ball heads away from you. It only works with a ball coming.",
-                Tips = new[] { "Your player runs to every ball and sprints for a hard one.", "Too wide? Tap DIVE on your phone.", "A dive costs stamina and needs about 2.5 s to recharge." } },
+            new Step { Kind = Kind.Wide, Goal = 1, Key = "wide", Name = "Wide ball", Title = "Reach a wide ball",
+                Say = "Coach Ray hits one wide. Your player runs for it. Swing on the rings, even if it looks too far.",
+                Hint = "Swing as the rings meet the ball. Your player stretches for a ball just out of reach.",
+                Tips = new[] { "Your player runs to every ball and sprints for a hard one.", "Too wide? Swing anyway: your player lunges for it.", "A stretched return is weaker, so it rarely wins the point." } },
             new Step { Kind = Kind.Point, Goal = 1, Key = "point", Name = "Play a point", Title = "Play a real point",
                 Say = "Serve, then rally with Coach Ray. Win or lose, the lesson is complete.",
                 Hint = "Aim away from Coach Ray and keep your timing smooth: placement wins points.",
@@ -77,7 +77,7 @@ namespace GolfArcade.Tennis
         LineRenderer marker;
         float feedAt = -1, serveAt = -1, watchdog = -1;
         bool resolved, active, tipsBefore, pendingStep;
-        int feeds, divesAtFeed;
+        int feeds, stretchesAtFeed;
         static readonly Color Gold = new Color(1, .82f, .15f);
         static readonly Vector3 LeftRing = new(-2.5f, .06f, 8f), RightRing = new(2.5f, .06f, 8f);
 
@@ -147,7 +147,7 @@ namespace GolfArcade.Tennis
             if (feedAt >= 0 && Time.time >= feedAt)
             {
                 feedAt = -1; resolved = false; watchdog = Time.time + 6f; feeds++;
-                if (kind == TutorialLesson.Kind.Dive) { divesAtFeed = game.Dives; game.FeedWide(feeds % 2 == 0); }
+                if (kind == TutorialLesson.Kind.Wide) { stretchesAtFeed = game.Stretches; game.FeedWide(feeds % 2 == 0); }
                 else game.Feed(kind == TutorialLesson.Kind.Backhand);
             }
             if (serveAt >= 0 && Time.time >= serveAt) { serveAt = -1; resolved = false; game.StartPlayerServe(); }
@@ -238,9 +238,9 @@ namespace GolfArcade.Tennis
                     else Missed(where.x < -.8f || where.x > .8f ? "Wrong side: the racket face was turned the other way." : "Straight down the middle. Your racket face was square to the TV.", grade, HitRead(where, false));
                     break;
                 }
-                case TutorialLesson.Kind.Dive:
-                    if (game.Dives > divesAtFeed) Passed("Saved! Dives cost stamina and need about 2.5 s to recharge.", "SAVED!", new() { ("DIVE", "in time", 1), ("STAMINA", Mathf.RoundToInt(game.Stamina * 100) + "%", 2) });
-                    else Passed("You reached it without diving. Nice running!", grade, new() { ("DIVE", "not needed", 2) });
+                case TutorialLesson.Kind.Wide:
+                    if (game.Stretches > stretchesAtFeed) Passed("Saved! A stretched return is weaker, so get back to the middle.", "SAVED!", new() { ("STRETCH", "in time", 1) });
+                    else Passed("You got there without stretching. Nice running!", grade, new() { ("STRETCH", "not needed", 2) });
                     break;
                 case TutorialLesson.Kind.Backhand:
                     Passed("Backhand back over. The game picks forehand or backhand from where the ball is.", grade, HitRead(where, true));
@@ -257,7 +257,7 @@ namespace GolfArcade.Tennis
             if (!resolved)
             {
                 resolved = true;
-                if (Lesson.Current.Kind == TutorialLesson.Kind.Dive) Missed("Too wide: the ball got past before you dived.", "MISSED", new() { ("DIVE", "late", 0) });
+                if (Lesson.Current.Kind == TutorialLesson.Kind.Wide) Missed("It got past. Swing as the rings meet the ball, even when it looks too far.", "MISSED", new() { ("TIMING", "missed", 0) });
                 else if (Lesson.Current.Kind == TutorialLesson.Kind.Serve) Missed("FAULT. Toss at the middle of the meter, then swing as the ball reaches the top.", "FAULT", new() { ("SERVE", why ?? "fault", 0) });
                 else Missed("Too late: the ball got past the racket.", "LATE", new() { ("TIMING", "missed", 0) });
             }

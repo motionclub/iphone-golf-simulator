@@ -382,7 +382,7 @@ struct CharacterModelPreview: UIViewRepresentable {
             lastEmoteSequence = sequence
             // Golf exports share the emotes that are supported by that character's rig.
             var m = MenuMotion(kind: .clipOnce(id), lead: 0, fadeIn: 0.15, fadeOut: 0.25, freezeIdle: true)
-            if carrying { m.idle = MenuMotion.relaxed.idle }   // the emote starts from and settles back into the relaxed stand
+            if carrying { m.idle = MenuMotion.relaxed.idle; m.emptyHands = true; m.fadeIn = 0.2; m.fadeOut = 0.35 }   // the emote starts from and settles back into the relaxed stand, skipping its racket stance (EMOTE ENDS)
             play(m)
         }
 

@@ -1,0 +1,198 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.IO;
+using System.Reflection;
+using GolfArcade.Tennis;
+using NUnit.Framework;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.TestTools;
+
+namespace GolfArcade.PlayTests
+{
+    /// Clone-only measurement (copy to Assets/Tests/PlayMode/ZTennisFlightPlay.cs; FUN_OUT=<dir>): work/tennis-fun-1026's self-play harness
+    /// plus, for the 2026-11-11 flat ball, how high each rally ball flew and how long each took from hit to hit.
+    ///  1. WideBalls: balls fed to every part of the court, the player standing in the middle, swinging on time. Gate: every one returned.
+    ///  2. SelfPlay: whole points against the standard rival, the player swinging with human timing scatter (inside the window).
+    ///     Gates: no player whiff, no rival whiff, the rival never misses a ball it "reached" before it is worn down, rallies last.
+    public class ZTennisFlightPlay
+    {
+        static string Out => System.Environment.GetEnvironmentVariable("FUN_OUT") ?? "Library/Captures/fun";
+        static readonly FieldInfo WonField = typeof(TennisGame).GetField("playerWonPoint", BindingFlags.NonPublic | BindingFlags.Instance);
+        // The self-play swing (TennisGame.DriveAutoPlay) runs from Update only when the game is not stepped by hand.
+        static readonly MethodInfo Drive = typeof(TennisGame).GetMethod("DriveAutoPlay", BindingFlags.NonPublic | BindingFlags.Instance);
+        // A person also goes up for lobs (the bot does not), and a casual one sometimes just misses a ball: `SkipShare` of
+        // incoming balls get no swing at all, standing in for swings outside the window.
+        static float SkipShare; static int seenBall = -1, overheadBall = -1; static bool skipBall; static readonly System.Random Rng = new System.Random(3);
+        // Sloppy: our own driver instead of the bot's, so timing can scatter like a person's (normal, `SloppySigma` s) and
+        // reach past TennisRules.OutTiming. The bot's own jitter cannot go past about .13 s without stalling.
+        static float SloppySigma; static int sloppyBall = -1; static float sloppyLead = -1;
+        static float Normal() { double u1 = 1 - Rng.NextDouble(), u2 = Rng.NextDouble(); return (float)(System.Math.Sqrt(-2 * System.Math.Log(u1)) * System.Math.Cos(2 * System.Math.PI * u2)); }
+        static void SloppySwing(TennisGame g)
+        {
+            if (g.Flow != TennisGame.Phase.Rally || g.Player.Swinging || g.BallVelocity.z > -1 || g.TrackingOverhead) { Drive.Invoke(g, null); return; }
+            if (sloppyBall != g.IncomingBalls) { sloppyBall = g.IncomingBalls; sloppyLead = Mathf.Clamp(TennisRules.SweetTime - Normal() * SloppySigma, .02f, .6f); }
+            float toContact = g.TimeToPlane(g.Player.transform.position.z + .65f);
+            if (sloppyLead > 0 && toContact < sloppyLead)
+            {
+                sloppyLead = -1;
+                float facing = g.BallPosition.x < g.Player.transform.position.x ? -1 : 1;
+                g.AimInput = (float)Rng.NextDouble() * 1.6f - .8f;
+                g.BeginSwing(0, 0, facing); g.RequestSwing(.7f, 0, 0, facing);
+            }
+        }
+        static void Tick(TennisGame g)
+        {
+            if (SloppySigma > 0)
+            {
+                if (g.IncomingBalls != seenBall) seenBall = g.IncomingBalls;
+                if (g.TrackingOverhead && !g.Player.Swinging && g.BallVelocity.y < 0 && overheadBall != seenBall) { overheadBall = seenBall; g.RequestSwing(.8f); }
+                SloppySwing(g); g.Step(1f / 120); return;
+            }
+            if (g.IncomingBalls != seenBall) { seenBall = g.IncomingBalls; skipBall = Rng.NextDouble() < SkipShare; }
+            if (!skipBall || g.Flow != TennisGame.Phase.Rally)   // a skip only ever drops a rally ball, never the serve
+            {
+                // Once per lob, as it comes down (inside the overhead's 1.3 s window; earlier would start a rally swing).
+                if (g.TrackingOverhead && !g.Player.Swinging && g.BallVelocity.y < 0 && overheadBall != seenBall) { overheadBall = seenBall; g.RequestSwing(.8f); }
+                Drive.Invoke(g, null);
+            }
+            g.Step(1f / 120);
+        }
+
+        static IEnumerator Load(System.Action<TennisGame> got)
+        {
+            LogAssert.ignoreFailingMessages = true;
+            yield return SceneManager.LoadSceneAsync("Tennis", LoadSceneMode.Single); yield return null;
+            var game = Object.FindFirstObjectByType<TennisGame>(); game.ManualSimulation = true; game.NativeControlled = true;
+            game.ConfigureMatch(TennisGame.Mode.Training, null, null, null);
+            got(game);
+        }
+
+        [UnityTest, Timeout(1800000)] public IEnumerator WideBalls()
+        {
+            Directory.CreateDirectory(Out);
+            TennisGame game = null; yield return Load(g => game = g);
+            game.AutoPlay = true; TennisGame.AutoPlayTimingJitter = 0;
+            var rows = new System.Text.StringBuilder("targetX,targetZ,speed,returned,whiffs,honestMisses,playerX,playerZ,intercept,reachable,closest,why\n");
+            int fed = 0, back = 0, whiffs = 0; System.Action w = () => whiffs++; TennisGame.Whiffed += w;
+            foreach (float speed in new[] { 14f, 18f, 22f })
+                foreach (float tz in new[] { -5f, -8.5f, -11f })
+                    for (float tx = -3.9f; tx <= 3.91f; tx += .65f)
+                    {
+                        if (game.Flow == TennisGame.Phase.MatchOver || game.Match.Complete) game.ConfigureMatch(TennisGame.Mode.Training, null, null, null);
+                        game.Player.CancelSwing(); game.Player.Tick(1, 0);
+                        game.Player.transform.position = new Vector3(0, .035f, -11.2f);
+                        var start = new Vector3(Random.Range(-2f, 2f), 1.1f, 10.5f);
+                        var v = TennisRules.RallyArcVelocity(start, new Vector3(tx, TennisRules.BallRadius, tz), speed, .3f, .45f);
+                        int before = game.Returns, wb = whiffs, mb = game.HonestMisses;
+                        game.InjectBall(start, v);
+                        bool returned = false; float closest = 99, intercept = -100; bool reachable = false; string why = "";
+                        for (float t = 0; t < 3.5f && !returned; t += 1f / 120)
+                        {
+                            Tick(game); returned = game.Returns > before;
+                            if (game.PredictedInterceptX > -99) { intercept = game.PredictedInterceptX; reachable = game.BallReachable; }
+                            if (game.BallPosition.z > game.Player.transform.position.z - 1)
+                                closest = Mathf.Min(closest, Vector3.Distance(game.BallPosition, game.Player.transform.position + Vector3.up * 1f));
+                            if (game.Flow == TennisGame.Phase.PointOver && why == "") why = game.Feedback;
+                        }
+                        if (why.Contains("OUT")) { yield return null; continue; }   // the feed itself landed out: nothing to return
+                        fed++; if (returned) back++;
+                        rows.AppendLine(System.FormattableString.Invariant($"{tx:F2},{tz},{speed},{returned},{whiffs - wb},{game.HonestMisses - mb},{game.Player.transform.position.x:F2},{game.Player.transform.position.z:F2},{intercept:F2},{reachable},{closest:F2},\"{why}\""));
+                        yield return null;
+                    }
+            TennisGame.Whiffed -= w;
+            File.WriteAllText(Out + "/wide_balls.csv", rows.ToString());
+            string summary = $"GATE WideBalls: {back}/{fed} returned, {whiffs} whiffs";
+            File.WriteAllText(Out + "/wide_balls.txt", summary); Debug.Log(summary);
+            Assert.AreEqual(fed, back, summary);
+        }
+
+#if TENNIS_FUN_SWEEP   // needs TennisOpponent.RallyLegs/RallyReadDelay made static in the clone
+        [UnityTest, Timeout(7200000)] public IEnumerator SelfPlaySweep()
+        {
+            Directory.CreateDirectory(Out);
+            var all = new System.Text.StringBuilder();
+            foreach (var (legs, delay) in new[] { (1f, 0f), (.9f, .04f), (.85f, .06f), (.8f, .08f), (.75f, .1f) })
+            {
+                TennisOpponent.RallyLegs = legs; TennisOpponent.RallyReadDelay = delay;
+                string label = System.FormattableString.Invariant($"legs{legs:0.00}_delay{delay:0.00}");
+                yield return RunSelfPlay(label, 60, all);
+            }
+            File.WriteAllText(Out + "/self_play_sweep.txt", all.ToString()); Debug.Log("GATE SelfPlaySweep\n" + all);
+        }
+#endif
+
+        [UnityTest, Timeout(3600000)] public IEnumerator SelfPlay()
+        {
+            var all = new System.Text.StringBuilder();
+            SkipShare = 0; TennisGame.AutoPlayTimingJitter = .12f;
+            yield return RunSelfPlay("sharp", 100, all);
+            SkipShare = .08f; TennisGame.AutoPlayTimingJitter = .12f;   // jitter over .13 can roll a swing time under the bot's .02 floor and stall it
+            yield return RunSelfPlay("casual", 100, all);
+            SkipShare = 0; SloppySigma = .12f;
+            yield return RunSelfPlay("sloppy", 100, all);
+            SloppySigma = 0;
+        }
+
+        IEnumerator RunSelfPlay(string label, int target, System.Text.StringBuilder all)
+        {
+            Directory.CreateDirectory(Out);
+            TennisGame game = null; yield return Load(g => game = g);
+            game.AutoPlay = true; if (TennisGame.AutoPlayTimingJitter <= 0) TennisGame.AutoPlayTimingJitter = .12f;   // .12: lateness about -.09..+.15 s
+            game.ConfigureMatch(TennisGame.Mode.Training, null, null, null);
+            var rows = new System.Text.StringBuilder("point,toPlayer,rally,why\n");
+            var reasons = new Dictionary<string, int>();
+            int whiffs = 0, points = 0, rallyTotal = 0, toPlayer = 0; System.Action w = () => whiffs++; TennisGame.Whiffed += w;
+            var last = TennisGame.Phase.Rally; float clock = 0;
+            var peaksPlayer = new List<float>(); var peaksRival = new List<float>(); var gapsToPlayer = new List<float>(); var gapsToRival = new List<float>();
+            int shotSeen = -1; float shotPeak = 0, shotClock = 0; bool shotByPlayer = false;
+            while (points < target && clock < 3000)
+            {
+                for (int i = 0; i < 120; i++)
+                {
+                    Tick(game); clock += 1f / 120;
+                    var flow = game.Flow;
+                    if (flow == TennisGame.Phase.Rally)
+                    {
+                        if (game.RallyShots != shotSeen)
+                        {
+                            // The shot before this one was returned: its height and how long the receiver had (serves left out).
+                            if (shotSeen >= 2) { (shotByPlayer ? peaksPlayer : peaksRival).Add(shotPeak); (shotByPlayer ? gapsToRival : gapsToPlayer).Add(clock - shotClock); }
+                            shotSeen = game.RallyShots; shotPeak = 0; shotClock = clock; shotByPlayer = game.BallVelocity.z > 0;
+                        }
+                        shotPeak = Mathf.Max(shotPeak, game.BallPosition.y);
+                    }
+                    else shotSeen = -1;
+                    if ((flow == TennisGame.Phase.PointOver || flow == TennisGame.Phase.MatchOver) && last != flow)
+                    {
+                        bool won = (bool)WonField.GetValue(game);
+                        string why = game.Feedback ?? "";
+                        points++; rallyTotal += game.RallyShots; if (won) toPlayer++;
+                        string key = (won ? "P: " : "R: ") + why;
+                        reasons[key] = reasons.TryGetValue(key, out int c) ? c + 1 : 1;
+                        rows.AppendLine($"{points},{won},{game.RallyShots},\"{why}\"");
+                    }
+                    if (flow == TennisGame.Phase.MatchOver) { game.ConfigureMatch(TennisGame.Mode.Training, null, null, null); flow = game.Flow; }
+                    last = flow;
+                }
+                yield return null;
+            }
+            TennisGame.Whiffed -= w;
+            File.WriteAllText(Out + "/self_play_" + label + ".csv", rows.ToString());
+            var sb = new System.Text.StringBuilder();
+            sb.AppendLine($"points {points}, player won {toPlayer}, mean rally {(points > 0 ? rallyTotal / (float)points : 0):0.0}, player whiffs {whiffs}, honestMisses (animation gaps, still hit) {game.HonestMisses}, rival gaps {game.RivalWhiffs}");
+            foreach (var kv in reasons) sb.AppendLine($"  {kv.Value,4}  {kv.Key}");
+            string Stats(List<float> v) { if (v.Count == 0) return "none"; v.Sort(); return System.FormattableString.Invariant($"n {v.Count}, mean {v.Average():0.00}, median {v[v.Count / 2]:0.00}, p10 {v[v.Count / 10]:0.00}, p90 {v[v.Count * 9 / 10]:0.00}, max {v[v.Count - 1]:0.00}"); }
+            sb.AppendLine("  returned rally balls, peak height m: player's " + Stats(peaksPlayer));
+            sb.AppendLine("  returned rally balls, peak height m: rival's  " + Stats(peaksRival));
+            sb.AppendLine("  hit to hit, stepped seconds: rival's ball to the player " + Stats(gapsToPlayer));
+            sb.AppendLine("  hit to hit, stepped seconds: player's ball to the rival " + Stats(gapsToRival));
+            all.AppendLine("== " + label).Append(sb); Debug.Log("GATE SelfPlay " + label + "\n" + sb);
+            File.AppendAllText(Out + "/self_play.txt", "== " + label + "\n" + sb);
+            Assert.Greater(points, 30, sb.ToString());
+            if (SloppySigma <= 0) Assert.AreEqual(0, whiffs, "every swing in the window connects\n" + sb);
+            foreach (var kv in reasons) Assert.IsFalse(kv.Key.Contains("WHIFF"), "no whiffs on either side\n" + sb);
+        }
+    }
+}

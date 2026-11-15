@@ -93,11 +93,25 @@ namespace GolfArcade.Tennis
                 var uv3 = new System.Collections.Generic.List<Vector2>(shade.Length);
                 foreach (var c in shade) uv3.Add(new Vector2(c, 0));
                 mesh.SetUVs(3, uv3);
+                // HERO DEPTH: the whole foot goes under a worn shoe (the hide lists keep the forefoot, which forced the shoes to be a box around it)
+                bool[] footVert = null;
+                if (HeroShoeShape.Depth && worn.Any(n => n.StartsWith("Kit_Shoe")))
+                {
+                    var bn = body.bones; var foot = new System.Collections.Generic.HashSet<int>();
+                    for (int b = 0; b < bn.Length; b++) if (bn[b] && (bn[b].name.EndsWith("Foot") || bn[b].name.EndsWith("Toes"))) foot.Add(b);
+                    var bw = src.boneWeights; footVert = new bool[bw.Length];
+                    for (int v = 0; v < bw.Length; v++)
+                    {
+                        var w = bw[v]; float f = (foot.Contains(w.boneIndex0) ? w.weight0 : 0) + (foot.Contains(w.boneIndex1) ? w.weight1 : 0) + (foot.Contains(w.boneIndex2) ? w.weight2 : 0) + (foot.Contains(w.boneIndex3) ? w.weight3 : 0);
+                        footVert[v] = f >= .85f;
+                    }
+                }
                 for (int sub = 0; sub < src.subMeshCount; sub++)
                 {
                     var t = src.GetTriangles(sub); var keep = new System.Collections.Generic.List<int>(t.Length);
                     for (int i = 0; i < t.Length; i += 3)
-                        if (!hide.Contains(CoverKey(t[i], t[i + 1], t[i + 2]))) { keep.Add(t[i]); keep.Add(t[i + 1]); keep.Add(t[i + 2]); }
+                        if (footVert != null && footVert[t[i]] && footVert[t[i + 1]] && footVert[t[i + 2]]) continue;
+                        else if (!hide.Contains(CoverKey(t[i], t[i + 1], t[i + 2]))) { keep.Add(t[i]); keep.Add(t[i + 1]); keep.Add(t[i + 2]); }
                     mesh.SetTriangles(keep, sub, false);
                 }
                 kitV2Covered[(src, key)] = mesh;
@@ -213,6 +227,11 @@ namespace GolfArcade.Tennis
         /// kit (HeroGarmentLOD, the locker export's Distance variant), so a far player and the lobby wear the same shoes as a close-up.
         public Mesh FinishFootwear(SkinnedMeshRenderer r, Mesh mesh)
         {
+            if (HeroShoeShape.Depth && r && mesh && IsKitV2(mesh) && r.name.Contains("Shoe"))
+            {
+                var keptV2 = r.sharedMesh; r.sharedMesh = mesh;
+                try { return HeroShoeShape.PrepareV2(r, transform, !female); } finally { r.sharedMesh = keptV2; }
+            }
             if (golfKit || IsKitV2(mesh) || !r || !mesh) return mesh;
             string tag = r.name.StartsWith("Kit_") ? r.name.Substring(4).Replace("_", "") : r.name;
             bool shoe = tag.StartsWith("Shoe"), sock = tag.StartsWith("Sock");
@@ -453,6 +472,45 @@ namespace GolfArcade.Tennis
                     // female tennis top (ref sheet 09): smooth fine performance jersey, not a chunky knit: finer stitches, flatter relief, less grain
                     if (female && !golfKit && string.IsNullOrEmpty(kitSport) && tag == "Top")
                     { m.SetFloat("_FabricDetail", .45f); m.SetFloat("_WeaveTile", m.GetFloat("_WeaveTile") * 2f); m.SetFloat("_Mottle", .04f); }
+                    // STYLE PILOT (clothing-mm clone only, 2026-10-30): fabric finish on every tennis / golf top + bottom of the four heroes:
+                    // soft knit sheen (no plastic hot spot), colour headroom (value cap + eased saturation), cool shadow side, fine knit kept
+                    // FN7 look (Adnan 10-30: "the best I've seen" -> "implement it to all sports"): every shirt of the tennis, golf and bowling
+                    // heroes (male + female) gets the smooth glossy finish; the rebuilt polos (male tennis FN7, male golf G1) also get the deeper
+                    // fold shadows their maps were baked for. Plus a garment fill + a counter to the warm venue grade (court lighting for clothes).
+                    bool styleKit = System.Environment.GetEnvironmentVariable("STYLE_PILOT") != "0" && tag == "Top";
+                    if (System.Environment.GetEnvironmentVariable("STYLE_PILOT") != "0" && tag == "Bottom")
+                    {
+                        // bottoms keep their own matte finish; they only get the court lighting for clothes (fill + counter to the warm grade)
+                        m.SetFloat("_StylePass", 1); m.SetFloat("_StyleSmooth", .35f); m.SetFloat("_StyleSpec", 0); m.SetFloat("_StyleEnv", 0);
+                        m.SetFloat("_StyleAOFloor", .70f); m.SetFloat("_StyleRamp", .06f); m.SetFloat("_StyleSheen", 0); m.SetFloat("_StyleValueCap", 1); m.SetFloat("_StyleSat", 1); m.SetFloat("_StyleCool", 0);
+                        m.SetFloat("_StyleFill", .22f); m.SetFloat("_StyleDewarm", .8f);
+                        if (HeroShoeShape.Presence) { m.SetFloat("_StyleValueCap", .88f); m.SetFloat("_StyleSat", .94f); m.SetFloat("_StyleCool", .4f); m.SetFloat("_StyleFill", .15f); }
+                    }
+                    if (styleKit)
+                    {
+                        bool top = true, rebuilt = !female && kitSport != "Bowling";
+                        string sportDir = golfKit ? "Golf" : kitSport == "Bowling" ? "Bowling" : "Tennis", sexDir = female ? "Female" : "Male";
+                        m.SetFloat("_StylePass", 1); m.SetFloat("_StyleSmooth", .75f); m.SetFloat("_StyleSpec", .90f); m.SetFloat("_StyleEnv", .55f);
+                        m.SetFloat("_StyleAOFloor", rebuilt ? .45f : .70f); m.SetFloat("_StyleRamp", .12f);
+                        m.SetFloat("_StyleSheen", 0); m.SetFloat("_StyleValueCap", 1); m.SetFloat("_StyleSat", 1); m.SetFloat("_StyleCool", 0);
+                        m.SetFloat("_StyleFill", .30f); m.SetFloat("_StyleDewarm", .8f);
+                        if (female && HeroShoeShape.Depth) { m.SetFloat("_StyleSmooth", .50f); m.SetFloat("_StyleSpec", .45f); m.SetFloat("_StyleEnv", .18f); m.SetFloat("_StyleAOFloor", .50f); }
+                        if (HeroShoeShape.Presence)
+                        {
+                            // a saturated pick no longer clips to one flat colour: the build under the shirt reads in sun as well as in the studio
+                            float Pv(string k, float d) => float.TryParse(System.Environment.GetEnvironmentVariable(k), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var pv) ? pv : d;
+                            m.SetFloat("_StyleValueCap", Pv("HERO_CLOTH_CAP", .84f)); m.SetFloat("_StyleSat", Pv("HERO_CLOTH_SAT", .92f)); m.SetFloat("_StyleCool", Pv("HERO_CLOTH_COOL", .5f)); m.SetFloat("_StyleFill", Pv("HERO_CLOTH_FILL", .16f));
+                        }
+                        m.SetFloat("_RimStrength", .40f); m.SetFloat("_FabricDetail", .12f); m.SetFloat("_Mottle", .01f); m.SetFloat("_FibreShine", .4f); m.SetFloat("_Exposure", golfKit ? 1.0f : .92f);
+                        // CLOTH JIGGLE: inertia wobble from each top's looseness map (Resources/<sport>/KitsV2/<sex>/KitV2_<sport>_<sex>_Top_J) + per-hero springs
+                        var jig = top ? Resources.Load<Texture2D>($"{sportDir}/KitsV2/{sexDir}/KitV2_{sportDir}_{sexDir}_Top_J") : null;
+                        if (jig && System.Environment.GetEnvironmentVariable("CLOTH_JIGGLE") != "0")
+                        {
+                            m.SetTexture("_JiggleMap", jig); m.SetFloat("_JigOn", 1);
+                            var cj = GetComponent<ClothJiggle>(); if (!cj) cj = gameObject.AddComponent<ClothJiggle>();
+                            cj.material = m;
+                        }
+                    }
                 }
             }
             else
@@ -593,6 +651,7 @@ namespace GolfArcade.Tennis
                 body.sharedMesh=HeroHandWeights.Prepare(body,female);
                 body.sharedMesh=HeroHandShape.Prepare(body,female);   // 10-19: fuller female fingers and pads (hand reference sheets)
                 body.sharedMesh=female ? HeroShoulderWeights.Prepare(body) : HeroGarmentAxillaWeights.Prepare(body,false);
+                body.sharedMesh=HeroBuild.Prepare(this,body,body.sharedMesh,false);
                 if (!referenceAnatomy) {
                     body.sharedMesh=HeroHeadVolume.Prepare(this);
                     body.sharedMesh=HeroSkinNormals.Prepare(body,Bone(HumanBodyBones.Head));
@@ -627,6 +686,7 @@ namespace GolfArcade.Tennis
                 }
                 body.sharedMaterials = skinMaterials;
                 ApplySkinSaturation(skinTone);
+                HeroForearmTwist.Build(this);
                 if(!golfKit || female)HeroArmSkinning.Build(body);
                 BindKitV2();
                 HeroShoulderDeformation.Attach(this);
@@ -683,6 +743,8 @@ namespace GolfArcade.Tennis
                     string tag = r.name.StartsWith("Kit_") ? r.name.Substring(4).Replace("_", "") : r.name;   // Top, Bottom, ShoeL, ShoeR, SockL, SockR
                     float scale = r.transform.lossyScale.x;
                     r.sharedMesh = FinishFootwear(r, r.sharedMesh);
+                    if (!tag.StartsWith("Shoe")) { r.sharedMesh = HeroBuild.Prepare(this, r, r.sharedMesh, true); if (female) r.sharedMesh = HeroStudio.Override(this, r, r.sharedMesh, true); }   // HERO STUDIO: her refitted tops, after her own build
+                    else r.sharedMesh = HeroStudio.Override(this, r, r.sharedMesh);   // HERO STUDIO: his rounded toe (shoes take no build)
                     var ms = r.sharedMaterials;
                     for (int i = 0; i < ms.Length; i++)
                     {

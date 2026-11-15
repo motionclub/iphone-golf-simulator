@@ -1,0 +1,6 @@
+final_turn|900|TURNAROUND_OUT={OUT} TURNAROUND_VIDEO=0 TURNAROUND_HEROES=MatchHero_Male,MatchHero_Female|-executeMethod GolfArcade.EditorTools.HeroTurnaround.RunBatch
+final_court|600|HERO_VENUE=resort HERO_VENUE_OUT={OUT} HERO_VENUE_CHARACTER=1|-executeMethod GolfArcade.EditorTools.TennisVenueCapture.Run
+final_menu|600|MENU_BACKDROP=tennis-resort HL_OUT={OUT} HL_TAG=male|-runTests -testPlatform PlayMode -testFilter GolfArcade.Tests.HeroLookCapture -testResults {OUT}/results.xml
+final_menu_f|600|MENU_BACKDROP=tennis-resort HL_OUT={OUT} HL_TAG=female HL_FEMALE=1|-runTests -testPlatform PlayMode -testFilter GolfArcade.Tests.HeroLookCapture -testResults {OUT}/results.xml
+final_film_f|900|HM_OUT={OUT} HM_FEMALE=1 HM_FRAMES=330|-executeMethod GolfArcade.EditorTools.HeroMotionFilm.Run
+final_film_m|900|HM_OUT={OUT} HM_FRAMES=330|-executeMethod GolfArcade.EditorTools.HeroMotionFilm.Run

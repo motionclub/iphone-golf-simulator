@@ -38,16 +38,18 @@ namespace GolfArcade.Tests
         [UnityTest] public IEnumerator ArrowsStepTheHighlightAndSelectPressesIt()
         {
             Assert.AreEqual(MenuHud.Home, hud.Screen);
-            Assert.AreEqual("play", hud.Hovered, "a screen opens with its first item lit");
-            Send("menuMove", "down"); yield return null;
-            Assert.AreEqual("board-invite", hud.Hovered, "down: the next row");
+            Assert.AreEqual("play", hud.Hovered, "Home opens on PLAY (MENU SQUAD 11-13: bottom left, one press to play)");
             Send("menuMove", "up"); yield return null;
-            Assert.AreEqual("play", hud.Hovered, "up: back to PLAY");
+            Assert.AreEqual("board-invite", hud.Hovered, "up: a + INVITE on an empty spot in the squad");
+            Send("menuMove", "right"); yield return null;
+            Assert.AreEqual("board-invite", hud.Hovered, "right: the next empty spot's +");
+            Send("menuMove", "down"); yield return null;
+            Assert.AreEqual("play", hud.Hovered, "down: back to PLAY");
             Send("menuSelect"); yield return Settle();
             Assert.AreEqual(MenuHud.Sport, hud.Screen, "Select presses the lit item");
             Assert.AreEqual("sport-tennis", hud.Hovered);
-            Send("menuMove", "right"); yield return null;
-            Assert.AreEqual("sport-golf", hud.Hovered, "right: the next lane");
+            Send("menuMove", "down"); yield return null;
+            Assert.AreEqual("sport-golf", hud.Hovered, "down: the next sport");
             Send("menuSelect"); yield return Settle();
             Assert.AreEqual(MenuHud.GolfModes, hud.Screen);
             Assert.AreEqual("bay-golf-round", hud.Hovered);
@@ -55,9 +57,37 @@ namespace GolfArcade.Tests
             Assert.AreEqual("bay-golf-pass", hud.Hovered);
             Send("menuBack"); yield return Settle();
             Assert.AreEqual(MenuHud.Sport, hud.Screen);
-            // up from the lanes reaches the chrome (the tabs), never nothing
+            // up from the list reaches the chrome (the tabs), never nothing
             Send("menuMove", "up"); yield return null;
             Assert.IsNotEmpty(hud.Hovered);
+        }
+
+        const string Exhibition = "{\"mode\":\"bay-tennis-exhibition\",\"sport\":\"tennis\",\"title\":\"Exhibition\",\"line2\":\"Pick a court\",\"start\":\"START MATCH\",\"map\":\"resort\"," +
+            "\"maps\":[{\"id\":\"resort\",\"title\":\"Tropical Resort\",\"detail\":\"\"},{\"id\":\"volcano\",\"title\":\"Magma Crater\",\"detail\":\"\"}]," +
+            "\"rows\":[{\"key\":\"difficulty\",\"label\":\"Difficulty\",\"choices\":[\"Relaxed\",\"Standard\",\"Tough\"],\"value\":1}]}";
+
+        /// MENU SQUAD 11-13 ("it's not simple to start a game"): Select alone goes Home -> Tennis -> Exhibition -> START -> START MATCH.
+        [UnityTest] public IEnumerator SelectAloneStartsAMatch()
+        {
+            var sent = new System.Collections.Generic.List<string>(); hud.Event += (t, m) => sent.Add(t + " " + m);
+            Send("menuSelect"); yield return Settle();
+            Assert.AreEqual(MenuHud.Sport, hud.Screen);
+            Send("menuSelect"); yield return Settle();
+            Assert.AreEqual(MenuHud.TennisModes, hud.Screen);
+            Assert.AreEqual("bay-tennis-exhibition", hud.Hovered);
+            Send("menuSelect"); yield return Settle();
+            Assert.AreEqual(MenuHud.Setup, hud.Screen);
+            Send("menuSetupState", Exhibition); yield return Settle();
+            Assert.AreEqual("setup-start", hud.Hovered, "the setup opens on START (the phone's remembered picks)");
+            Send("menuSetupState", Exhibition.Replace("\"value\":1", "\"value\":2")); yield return Settle();
+            Assert.AreEqual("setup-start", hud.Hovered, "a refreshed setup keeps the highlight where it is");
+            Send("menuSelect"); yield return null;
+            Assert.Contains("menuSetupStart bay-tennis-exhibition", sent);
+            hud.BeginLoading("tennis", "bay-tennis-exhibition", true); hud.SetLoading(.5f); yield return Settle();
+            hud.MatchBuilt(); yield return null;
+            Assert.AreEqual("start", hud.Hovered, "START MATCH is lit the moment the match is built");
+            Send("menuSelect"); yield return null;
+            Assert.Contains("menuStart ", sent);
         }
     }
 }

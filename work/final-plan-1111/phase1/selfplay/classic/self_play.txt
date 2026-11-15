@@ -1,0 +1,31 @@
+== sharp
+points 100, player won 99, mean rally 8.5, player whiffs 0, honestMisses (animation gaps, still hit) 34, rival gaps 304
+    64  P: POINT YOU — WINNER — past the opponent
+    20  P: POINT YOU — OUT
+    15  P: POINT YOU — NET
+     1  R: POINT OPPONENT — MISSED IT
+  returned rally balls, peak height m: player's n 309, mean 2.62, median 2.49, p10 2.19, p90 3.19, max 4.50
+  returned rally balls, peak height m: rival's  n 339, mean 2.73, median 2.65, p10 2.10, p90 3.38, max 4.40
+  hit to hit, stepped seconds: rival's ball to the player n 339, mean 1.45, median 1.48, p10 1.23, p90 1.60, max 1.70
+  hit to hit, stepped seconds: player's ball to the rival n 309, mean 1.35, median 1.34, p10 1.17, p90 1.52, max 1.91
+== casual
+points 100, player won 76, mean rally 7.5, player whiffs 0, honestMisses (animation gaps, still hit) 21, rival gaps 282
+    23  R: POINT OPPONENT — MISSED IT
+    17  P: POINT YOU — OUT
+    41  P: POINT YOU — WINNER — past the opponent
+     1  R: POINT OPPONENT — OUT
+    18  P: POINT YOU — NET
+  returned rally balls, peak height m: player's n 275, mean 2.59, median 2.44, p10 2.18, p90 3.22, max 4.12
+  returned rally balls, peak height m: rival's  n 279, mean 2.76, median 2.67, p10 2.12, p90 3.53, max 4.40
+  hit to hit, stepped seconds: rival's ball to the player n 279, mean 1.43, median 1.46, p10 1.17, p90 1.60, max 1.71
+  hit to hit, stepped seconds: player's ball to the rival n 275, mean 1.34, median 1.32, p10 1.17, p90 1.51, max 1.79
+== sloppy
+points 100, player won 71, mean rally 8.3, player whiffs 0, honestMisses (animation gaps, still hit) 36, rival gaps 273
+     8  P: POINT YOU — NET
+    47  P: POINT YOU — WINNER — past the opponent
+    29  R: POINT OPPONENT — OUT
+    16  P: POINT YOU — OUT
+  returned rally balls, peak height m: player's n 297, mean 2.80, median 2.64, p10 2.18, p90 3.54, max 6.39
+  returned rally balls, peak height m: rival's  n 336, mean 2.76, median 2.67, p10 2.11, p90 3.45, max 4.40
+  hit to hit, stepped seconds: rival's ball to the player n 336, mean 1.43, median 1.46, p10 1.21, p90 1.59, max 1.80
+  hit to hit, stepped seconds: player's ball to the rival n 297, mean 1.40, median 1.39, p10 1.18, p90 1.66, max 1.94

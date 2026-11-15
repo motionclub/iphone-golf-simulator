@@ -19,6 +19,9 @@ namespace GolfArcade.Hub.Menu
         public static bool ReduceMotion;
         /// The Locker: one hero alone in the middle (you, or on a guest's TV the hero whose locker it is).
         public bool Solo => Shot == MenuShots.Solo;
+        /// Friends stand in the line-up: on the plaza everywhere but the Locker; with a venue plate (the squad) only on Home, so the lists left
+        /// and the cards right of your hero never stand over a friend (Adnan 11-13: "make sure the characters don't get covered by UI").
+        public bool FriendsShown => MenuShots.Centred ? Shot == MenuShots.Low : !Solo;
         /// Friends in the line-up, in slot order (slot 1 onwards).
         public readonly List<string> Friends = new List<string>();
         public int Heroes => 1 + Friends.Count;
@@ -73,7 +76,7 @@ namespace GolfArcade.Hub.Menu
             int i = Friends.IndexOf(id);
             if (i < 0) return (Vector3.down * 50, 0, false);
             var slot = MenuShots.Slots[Mathf.Min(i + 1, MenuShots.Slots.Length - 1)];
-            return (slot, MenuShots.FacingYaw(slot), !Solo);
+            return (slot, MenuShots.FacingYaw(slot), FriendsShown);
         }
 
         /// MENU POSE (Adnan 10-26: "give each character a pose to hold"; "look at overwatch and copy their most simple poses"): each line-up
@@ -130,23 +133,30 @@ namespace GolfArcade.Hub.Menu
             camPos = pos; camLook = look; camFov = fov;
             var c = world.Camera;
             c.transform.SetPositionAndRotation(pos, Quaternion.LookRotation(look - pos, Vector3.up));
+            // wider than the TV (a phone held sideways, no TV): keep the TV's width of view, so the backdrop plate (shot at 16:9) and the
+            // line-up keep their size and the plate only loses a little sky and floor
+            if (MenuShots.Centred && c.aspect > 16f / 9f) fov = 2 * Mathf.Atan(Mathf.Tan(fov * .5f * Mathf.Deg2Rad) * (16f / 9f) / c.aspect) * Mathf.Rad2Deg;
             c.fieldOfView = fov; c.farClipPlane = 600f;
         }
 
-        /// Head height of slot n's hero in the world (for name tags), false when that slot is empty or hidden.
+        /// Head height of slot n's hero in the world (for name tags), false when that slot is empty or hidden. With the squad the tag sits just
+        /// over the cap (1.92 m), so your own tag stays under the tab bar.
         public bool TryHead(int slot, out Vector3 head)
         {
-            head = default;
-            if (slot == 0) { if (!world || !world.Player) return false; head = world.Player.transform.position + Vector3.up * 2.02f; return true; }
-            if (Solo || slot - 1 >= Friends.Count) return false;
-            head = MenuShots.Slots[slot] + Vector3.up * 2.02f; return true;
+            head = default; float up = MenuShots.Centred ? 1.92f : 2.02f;
+            if (slot == 0) { if (!world || !world.Player) return false; head = world.Player.transform.position + Vector3.up * up; return true; }
+            if (!FriendsShown || slot - 1 >= Friends.Count) return false;
+            head = MenuShots.Slots[slot] + Vector3.up * up; return true;
         }
-        /// Where the "+ JOIN" seat is: the first empty slot (none when the line-up is full).
-        public bool TryJoinSeat(out Vector3 at)
+        /// Spots in the line-up nobody stands on yet (0 when friends are not shown).
+        public int EmptySeats => FriendsShown ? Mathf.Max(0, MenuShots.Slots.Length - Heroes) : 0;
+        /// Where the k-th empty spot's "+ INVITE" floats (k = 0: the first empty slot).
+        public bool TryJoinSeat(int k, out Vector3 at)
         {
-            at = default; int n = Heroes; if (n >= MenuShots.Slots.Length || Solo) return false;
-            at = MenuShots.Slots[n] + Vector3.up * 1.1f; return true;
+            at = default; if (k < 0 || k >= EmptySeats) return false;
+            at = MenuShots.Slots[Heroes + k] + Vector3.up * 1.1f; return true;
         }
+        public bool TryJoinSeat(out Vector3 at) => TryJoinSeat(0, out at);
         public Vector3 CameraPosition => camPos;
     }
 }

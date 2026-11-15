@@ -11,7 +11,9 @@ namespace GolfArcade.Tennis
     /// racket; the hand, arm, swings and their timing are untouched. Offsets are racket-local metres, before the 1.3x match scale.
     public static class HeroRacketSeat
     {
-        public static Vector3 Offset(bool female) => female ? new Vector3(-.005f, 0, .005f) : new Vector3(.015f, 0, -.015f);
+        /// RACKET GRIP 2026-11-12: her seat moved 12 mm (z .005 -> .017): her palm rests on the handle without sinking in and her thumb reaches
+        /// it (seat sweep, work/anim-review-1112). His is unchanged: with the finger wrap able to open, his fingers close round the handle where it is.
+        public static Vector3 Offset(bool female) => female ? new Vector3(-.005f, 0, .017f) : new Vector3(.015f, 0, -.015f);
         static readonly Dictionary<(Mesh, Vector3), Mesh> cache = new();
 
         public static void Apply(MatchHeroLook hero)

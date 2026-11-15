@@ -240,3 +240,25 @@ Unity/Assets/Resources/Tennis/SkinMaps/Male_skin_pigment.png
 Unity/Assets/Resources/Tennis/SkinMaps/Male_skin_mask.png
 Unity/Assets/Resources/Tennis/SkinMaps/Female_skin_pigment.png
 Unity/Assets/Resources/Tennis/SkinMaps/Female_skin_mask.png
+# 2026-11-12: the studio shapes (his body, tops, shoes; her tops) and the build they replace or follow
+Unity/Assets/Scripts/Tennis/HeroBuild.cs
+Unity/Assets/Scripts/Tennis/HeroStudio.cs
+Unity/Assets/Resources/HeroStudio/Body_M_52020.bytes
+Unity/Assets/Resources/HeroStudio/Kit_Belt_3540.bytes
+Unity/Assets/Resources/HeroStudio/Kit_Bottom_18066.bytes
+Unity/Assets/Resources/HeroStudio/Kit_Bottom_7786.bytes
+Unity/Assets/Resources/HeroStudio/Kit_Bottom_7795.bytes
+Unity/Assets/Resources/HeroStudio/Kit_Glove_L_5466.bytes
+Unity/Assets/Resources/HeroStudio/Kit_Glove_R_5318.bytes
+Unity/Assets/Resources/HeroStudio/Kit_Shoe_L_16565.bytes
+Unity/Assets/Resources/HeroStudio/Kit_Shoe_L_17025.bytes
+Unity/Assets/Resources/HeroStudio/Kit_Shoe_R_16591.bytes
+Unity/Assets/Resources/HeroStudio/Kit_Shoe_R_16643.bytes
+Unity/Assets/Resources/HeroStudio/Kit_Top_10558.bytes
+Unity/Assets/Resources/HeroStudio/Kit_Top_16172.bytes
+Unity/Assets/Resources/HeroStudio/Kit_Top_21296.bytes
+Unity/Assets/Resources/HeroStudio/Kit_Top_21643.bytes
+Unity/Assets/Resources/HeroStudio/Kit_Top_22074.bytes
+Unity/Assets/Resources/HeroStudio/Kit_Top_22475.bytes
+Unity/Assets/Scripts/Tennis/HeroArmLimits.cs
+Unity/Assets/Scripts/Tennis/HeroPoseSafety.cs

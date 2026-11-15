@@ -9,9 +9,6 @@ namespace GolfArcade.Tennis
     {
         // Retain archived ability data/recording APIs, but no player or AI ultimates in gameplay.
         public static bool UltimatesEnabled => false;
-        // A dive is a real rescue now: it covers 2.1 m (a run covers about 2.3 m in the same time, so it
-        // used to be slower than running) and can be used again after 2.5 s instead of 4.
-        public const float DiveCooldown = 2.5f, DiveTravel = .42f, DiveDistance = 2.1f;
         public static string Name(TennisUltimate ability) => ability switch {
             TennisUltimate.RescueLob => "Rescue Lob", TennisUltimate.Curveball => "Curveball", _ => "Skybreaker"
         };
@@ -36,21 +33,20 @@ namespace GolfArcade.Tennis
         public string UltimateName => TennisAbilities.Name(SelectedUltimate);
         public bool UltimateArmed { get; private set; }
         public bool LoadoutLocked { get; private set; }
-        public float DiveCooldownLeft { get; private set; }
-        public bool DiveActive => diveTime > 0;
-        public float DivePose => DiveActive ? Mathf.Sin(Mathf.PI * Mathf.Clamp01(1 - diveTime / .9f)) : 0;
-        public float DiveSide => diveDirection.x < 0 ? -1 : 1;
-        public int DiveAttempts { get; private set; }
-        float diveTime, diveTravelled, ballCurve;
-        Vector3 diveDirection;
+        float ballCurve;
+        // STRETCH REACH 2026-11-13 (the dive is gone: its code-bent pose warped the hero at full stretch). A swing at a
+        // ball passing just out of reach lunges the player toward it, upright, on the ordinary wide-reach clip.
+        /// The player is lunging toward a wide ball (TennisRules.StretchFrom..StretchMax), started by the swing itself.
+        public bool StretchActive => stretchLeft > 0;
+        /// The current swing stretched: its contact is weak, as the dive's was (TennisRules.StretchQualityCap).
+        public bool StretchedSwing { get; private set; }
+        float stretchLeft, stretchSpeed, stretchTime;
         bool LiveAbilityInput => !ControllerSetup && Player && Flow == Phase.Rally && resetTimer <= 0 && faultDelay <= 0
             && !CheckingTiming && !IntroPlaying && !ReplayPlaying && !(juice && juice.UltimateActive)
             && (ManualSimulation || Time.timeScale > 0);
-        public bool CanDive => LiveAbilityInput && incoming && !Player.Swinging && !Player.GroundRecovering
-            && DiveCooldownLeft <= 0 && !DiveActive;
         public bool CanArmUltimate => TennisAbilities.UltimatesEnabled && LiveAbilityInput && PlayerUltimate >= 1;
         /// Armed ultimates fire on the player's very next real contact, whatever the stroke (Skybreaker included).
-        bool EligibleUltimateContact => Player.Kind != TennisActor.Stroke.Dive;
+        bool EligibleUltimateContact => !StretchedSwing;
 
         public bool SelectUltimate(int value)
         {
@@ -67,42 +63,45 @@ namespace GolfArcade.Tennis
             Feedback = UltimateName + " armed — your next hit fires it";
             return true;
         }
-        public bool RequestDive()
+        /// Called as a rally swing starts, with where the ball will pass (`offset`, metres to the player's side, negative =
+        /// left) and the seconds until it gets there. Lunges only for a ball between StretchFrom and StretchMax to the side.
+        bool BeginStretch(float offset, float toArrive)
         {
-            if (!CanDive) return false;
-            Vector3 delta = PredictBall(.18f) - Player.transform.position; delta.y = 0;
-            diveDirection = delta.sqrMagnitude > .01f ? delta.normalized : Vector3.right;
-            diveTime = .9f; diveTravelled = 0; DiveCooldownLeft = TennisAbilities.DiveCooldown;
-            DiveAttempts++; Stamina = Mathf.Max(0, Stamina - TennisRules.DiveStamina);
-            Player.Swing(.4f, (delta.x < 0) != Player.LeftHanded, TennisActor.Stroke.Dive);
-            consumedStroke = false; CompensateDisplayDelay();
-            Feedback = "DIVE — time the reach";
+            StretchedSwing = false;
+            float side = Mathf.Abs(offset);
+            if (StretchActive || side <= TennisRules.StretchFrom || side > TennisRules.StretchMax) return false;
+            // Already running there fast enough (the auto-run's dash): no lunge, it would only slow the player down.
+            if (moveVelocity.x * Mathf.Sign(offset) * toArrive >= side - TennisRules.StretchTo) return false;
+            float distance = Mathf.Min(side - TennisRules.StretchTo, TennisRules.StretchDistance);
+            stretchTime = Mathf.Clamp(toArrive * .8f, .12f, TennisRules.StretchTime);
+            stretchSpeed = Mathf.Sign(offset) * distance / stretchTime;
+            stretchLeft = stretchTime; StretchedSwing = true; Stretches++;
             return true;
         }
-        void MoveDive(float dt)
+        /// The lunge itself: sideways at a constant pace (eased off over its last fifth), feet on the court.
+        void MoveStretch(float dt)
         {
-            float travel = Mathf.Min(dt, Mathf.Max(0, TennisAbilities.DiveTravel - diveTravelled));
-            diveTravelled += travel;
-            Vector3 p = Player.transform.position + diveDirection * (travel * TennisAbilities.DiveDistance / TennisAbilities.DiveTravel);
-            p.x = Mathf.Clamp(p.x, -TennisRules.CourtHalfWidth - 2.4f, TennisRules.CourtHalfWidth + 2.4f);
-            p.z = Mathf.Clamp(p.z, -14.3f, -2.6f);
-            Player.transform.position = p; moveVelocity = Vector2.zero; LateralSpeed = 0;
+            float step = Mathf.Min(dt, stretchLeft);
+            float ease = Mathf.Clamp01(stretchLeft / (stretchTime * .2f));
+            stretchLeft = Mathf.Max(0, stretchLeft - dt);
+            Vector3 p = Player.transform.position;
+            p.x = Mathf.Clamp(p.x + stretchSpeed * Mathf.Lerp(.5f, 1, ease) * step, -TennisRules.CourtHalfWidth - 2.4f, TennisRules.CourtHalfWidth + 2.4f);
+            LateralSpeed = (p.x - Player.transform.position.x) / Mathf.Max(dt, 1e-4f);
+            Player.transform.position = p; moveVelocity = new Vector2(LateralSpeed, 0);
         }
         void TickAbilities(float dt)
         {
-            DiveCooldownLeft = Mathf.Max(0, DiveCooldownLeft - dt);
-            diveTime = Mathf.Max(0, diveTime - dt);
             if (Flow == Phase.Rally) LoadoutLocked = true;
         }
         void ResetPointAbilities()
         {
             UltimateArmed = false; playerUltCharged = rivalUltCharged = false;
-            diveTime = 0; ballCurve = 0; TrackingOverhead = false; overheadAttempted = false; queuedOverheadPower = -1;
+            stretchLeft = 0; StretchedSwing = false; ballCurve = 0; TrackingOverhead = false; overheadAttempted = false; queuedOverheadPower = -1;
         }
         void ResetMatchAbilities()
         {
             ResetPointAbilities(); PlayerUltimate = RivalUltimate = 0;
-            DiveCooldownLeft = 0; DiveAttempts = 0; LoadoutLocked = false;
+            LoadoutLocked = false;
         }
         void ApplySelectedUltimate(Vector3 target, float speed)
         {

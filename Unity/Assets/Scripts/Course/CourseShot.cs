@@ -411,53 +411,74 @@ namespace GolfArcade.Course
             return new Fall(new CoursePoint(x, d), t, vx, vy, vd, samples, knocked);
         }
 
-        /// Down from a fall: it bounces on the ground it came down on — lively off a fairway or a
-        /// green, dead in the rough, not at all in sand, where it plugs — and each bounce takes
-        /// some of the run out of it. Samples go on the path (heights over the ground); returns
-        /// the velocity it rolls on with.
-        static (double vx, double vd) BounceOn(CourseLie lie, Fall fall, List<(double x, double h, double d)> path, Hole hole)
+        /// From a touchdown to the start of the roll, on the course itself: every bounce is taken by the ground the ball
+        /// actually comes down on (its grass, sand or ice) and off the slope it lands on, with the spin it still has
+        /// (BallFlight.BounceOff), so a wedge checks on the green it pitched on, a drive skips down a fairway, a ball that
+        /// carries the green and lands in the rough behind dies there, and an upslope stops what a downslope sends on.
+        /// `vx, vh, vd` are yards/s (vh negative coming down), `spin` rad/s of backspin. The path's last sample is the
+        /// touchdown; samples go on after it at the game's rate (heights over the ground under the ball). Returns the
+        /// velocity it starts to roll with, and when (the path's own clock).
+        static (double vx, double vd, double time) Hops(Hole hole, CoursePoint from, double vx, double vh, double vd, double spin, double luck,
+            List<(double x, double h, double d)> path)
         {
-            // (the bounce is the turf's, as the flight's is: the harder it comes down the less it gets back)
-            var (lively, keep) = lie switch
-            {
-                CourseLie.Green or CourseLie.Fringe => (0.85, 0.8),
-                CourseLie.Ice => (-1.0, 0.93),   // it skips off the ice and keeps its pace
-                CourseLie.Rough or CourseLie.OutOfBounds => (0.4, 0.45),
-                CourseLie.Bunker => (0.0, 0.08),
-                _ => (1.0, 0.7),
-            };
+            const double yd = BallFlight.MetersPerYard;
             var rules = hole.Rules ?? PlayRules.Standard;
-            double g = rules.GravityYards;
-            double Rebound(double down) => lively < 0 ? 0.5 : Math.Min(0.85, lively * BallFlight.TurfRestitution(down * BallFlight.MetersPerYard) * rules.Bounce);
-            double x = fall.Landing.X, d = fall.Landing.D, h = 0;
-            double vx = fall.Vx * keep, vd = fall.Vd * keep, vh = -fall.Vy * Rebound(-fall.Vy);
-            double t = fall.Time, next = path.Count * SampleInterval;
-            const double dt = 1.0 / 240;
+            var surface = hole.Surface ?? FlatSurface.Instance;
+            // (a hole with contours but no terrain under them still has heights: the contours')
+            Func<CoursePoint, double> ground = hole.Ground ?? surface.Height;
             var solids = hole.Solids;
-            for (int step = 0; step < 240 * 8 && vh > 0.8; step++)
+            double g = rules.GravityYards, hop = BallFlight.HopSpeed / yd * Math.Sqrt(Math.Max(0.05, rules.Gravity));
+            double x = from.X, d = from.D, y = ground(from);
+            double time = (path.Count - 1) * SampleInterval, next = path.Count * SampleInterval;
+            const double dt = 1.0 / 240;
+            for (int bounce = 0; bounce < 12; bounce++)
             {
-                double x0 = x, d0 = d, h0 = h;
-                h += vh * dt; vh -= g * dt;
-                x += vx * dt; d += vd * dt; t += dt;
-                // a hop into a solid prop: off its face
-                if (solids != null && solids.NearOver(x, d, 1))
+                var here = new CoursePoint(x, d);
+                var lie = hole.LieAt(here);
+                if (lie == CourseLie.Water) { vh = 0; break; }   // the roll finds it wet where it lies
+                var slope = surface.Gradient(here);
+                double mx = vx * yd, my = vh * yd, md = vd * yd;
+                // (only the first landing carries the strike's luck: after that the ball has told the ground what it is)
+                BallFlight.BounceOff(ref mx, ref my, ref md, ref spin, TurfOn(lie, rules), slope.dx, slope.dd, rules.Bounce, bounce == 0 ? luck : 0);
+                vx = mx / yd; vh = my / yd; vd = md / yd;
+                // Off a face it can leave with pace away from the ground and no real hop: it stays down unless it clears the slope ahead.
+                double climb = vh - (vx * slope.dx + vd * slope.dd);
+                if (climb < hop) { vh = 0; break; }
+                bool down = false;
+                for (int step = 0; step < 240 * 6 && !down; step++)
                 {
-                    double under0 = hole.Ground?.Invoke(new CoursePoint(x0, d0)) ?? 0, under = hole.Ground?.Invoke(new CoursePoint(x, d)) ?? 0;
-                    if (solids.Sweep(x0, under0 + h0, d0, x, under + h, d, BallRadius, out double f, out double nx, out double ny, out double nd))
+                    double x0 = x, d0 = d, y0 = y;
+                    y += vh * dt - 0.5 * g * dt * dt; vh -= g * dt;
+                    x += vx * dt; d += vd * dt; time += dt;
+                    // a hop into a solid prop: off its face
+                    if (solids != null && solids.NearOver(x, d, 1)
+                        && solids.Sweep(x0, y0, d0, x, y, d, BallRadius, out double f, out double nx, out double ny, out double nd))
                     {
-                        x = x0 + (x - x0) * f; d = d0 + (d - d0) * f;
+                        x = x0 + (x - x0) * f; d = d0 + (d - d0) * f; y = y0 + (y - y0) * f;
                         (vx, vh, vd) = SolidProps.Rebound(vx, vh, vd, nx, ny, nd, rules.ObstacleKick);
                     }
+                    var over = new CoursePoint(x, d);
+                    double under = ground(over);
+                    if (y <= under)
+                    {
+                        var rise = surface.Gradient(over);
+                        y = under;   // (still climbing faster than the ground rises: it rides the rise until it comes down on it)
+                        down = vh - (vx * rise.dx + vd * rise.dd) < 0;
+                    }
+                    if (time >= next) { path.Add((x, Math.Max(0, y - under), d)); next += SampleInterval; }
                 }
-                if (h <= 0)
-                {
-                    h = 0; vh = -vh * Rebound(-vh); vx *= keep; vd *= keep;
-                    if (hole.LieAt(new CoursePoint(x, d)) is CourseLie.Bunker or CourseLie.Water) break;
-                }
-                if (t >= next) { path.Add((x, Math.Max(0, h), d)); next += SampleInterval; }
+                if (!down) { vh = 0; break; }
             }
             path.Add((x, 0, d));
-            return (vx, vd);
+            return (vx, vd, (path.Count - 1) * SampleInterval);
+        }
+
+        /// The ground under a landing ball, lie by lie (CourseLies.Ground), under today's rules: sticky greens hold
+        /// whatever pitches on them.
+        static Turf TurfOn(CourseLie lie, PlayRules rules)
+        {
+            var turf = lie.Ground();
+            return rules.StickyGreens && lie.IsPuttingSurface() ? turf.Holding(0.75, 0.95) : turf;
         }
 
         /// What a rolling ball last learnt about one obstacle: whether it lies under the ground there.
@@ -706,17 +727,12 @@ namespace GolfArcade.Course
                 (double x, double h, double d) World(double lateral, double height, double distance) =>
                     (origin.X + lateral * cosH + distance * sinH, height, origin.D - lateral * sinH + distance * cosH);
                 var first = World(flight.CarryPoint.LateralYards, 0, flight.CarryPoint.DistanceYards);
-                // The flight is the same whatever it comes down on; the bounces are not. Fly it
-                // again onto the ground it actually lands on: a receptive green, smothering rough,
-                // sand that plugs it.
-                var landsOn = hole.LieAt(new CoursePoint(first.x, first.d));
-                var (soft, grab) = Holds(landsOn, rules);
-                double slide = landsOn.Slide();
-                if (soft > 0 || grab > 0 || slide > 0)
-                {
-                    launch.LandingSoftness = soft; launch.LandingGrab = grab; launch.LandingSlide = slide;
-                    flight = BallFlight.Simulate(launch);
-                }
+                // The flight is the same whatever it comes down on; the bounces are not, and they are flown below on the
+                // ground each one lands on (Hops). How this landing differs from the average one comes from the strike.
+                double luck = LandingLuck(impact);
+                // the ball as it touches down, on the course: velocity (yards/s) and the backspin it still has
+                double downX = flight.TouchdownVelocityX * cosH + flight.TouchdownVelocityZ * sinH, downH = flight.TouchdownVelocityY,
+                       downD = -flight.TouchdownVelocityX * sinH + flight.TouchdownVelocityZ * cosH;
                 Carry = flight.Carry; Apex = flight.Apex;
                 var contact = hole.Ground == null ? null : FirstContact(flight, World, origin, hole.Ground, rules.Gravity);
                 // Something standing in the way — a tree, a rock, a wall — met before the ground
@@ -786,9 +802,9 @@ namespace GolfArcade.Course
                         NextPosition = Drop(Landing, origin, hole);
                         return;
                     }
-                    var (bx, bd) = BounceOn(hole.LieAt(Landing), fall, path, hole);
-                    vx = bx; vd = bd;
-                    time = CarryTime = (path.Count - 1) * SampleInterval;
+                    // (out of a tree or off a wall the spin is gone: it bounces as a dead ball does)
+                    (vx, vd, time) = Hops(hole, Landing, fall.Vx, fall.Vy, fall.Vd, 0, 0, path);
+                    CarryTime = time;
                     goto Rolling;
                 }
                 if (contact is Contact c)
@@ -827,31 +843,13 @@ namespace GolfArcade.Course
                         vx = c.Vx; vd = c.Vd;
                         goto Rolling;
                     }
-                    // Down on the rise: from here it bounces and checks exactly as the flight
-                    // model's own landing does — the same spin, on the ground it came down on —
-                    // just sooner and higher up.
-                    var (soft2, grab2) = Holds(hole.LieAt(Landing), rules);
-                    double slide2 = hole.LieAt(Landing).Slide();
-                    if (soft2 != launch.LandingSoftness || grab2 != launch.LandingGrab || slide2 != launch.LandingSlide)
-                    {
-                        launch.LandingSoftness = soft2; launch.LandingGrab = grab2; launch.LandingSlide = slide2;
-                        flight = BallFlight.Simulate(launch);
-                    }
-                    var flat = flight.PositionAt(flight.CarryTime);
-                    var flatW = World(flat.LateralYards, 0, flat.DistanceYards);
-                    double sx = Landing.X - flatW.x, sd = Landing.D - flatW.d;
-                    for (double s = flight.CarryTime + SampleInterval; s <= flight.RollStartTime; s += SampleInterval)
-                    {
-                        var p = flight.PositionAt(s);
-                        var w = World(p.LateralYards, p.HeightYards, p.DistanceYards);
-                        path.Add((w.x + sx, p.HeightYards, w.d + sd));
-                    }
-                    var rs = flight.PositionAt(flight.RollStartTime);
-                    var rsW = World(rs.LateralYards, 0, rs.DistanceYards);
-                    path.Add((rsW.x + sx, 0, rsW.d + sd));
-                    time = CarryTime = LandingTime + Math.Max(0, flight.RollStartTime - flight.CarryTime);
-                    vx = flight.RollStartVelocityX * cosH + flight.RollStartVelocityZ * sinH;
-                    vd = -flight.RollStartVelocityX * sinH + flight.RollStartVelocityZ * cosH;
+                    // Down on the rise: from here it bounces and checks as any landing does, on the ground and the slope
+                    // it came down on, with the pace it had there (the flight's at that moment) and its spin.
+                    var justBefore = flight.PositionAt(Math.Max(0, c.HitTime - SampleInterval));
+                    var atHit = flight.PositionAt(c.HitTime);
+                    double fallingAt = (atHit.HeightYards - justBefore.HeightYards) / SampleInterval;
+                    (vx, vd, time) = Hops(hole, Landing, c.Vx, Math.Min(-0.1, fallingAt), c.Vd, flight.TouchdownSpin, luck, path);
+                    CarryTime = time;
                     goto Rolling;
                 }
                 Landing = new CoursePoint(first.x, first.d);
@@ -872,19 +870,24 @@ namespace GolfArcade.Course
                     NextPosition = Drop(Landing, origin, hole);
                     return;
                 }
-                double t = SampleInterval;
-                for (; t <= flight.RollStartTime; t += SampleInterval)
+                for (double t = SampleInterval; t < flight.CarryTime; t += SampleInterval)
                 {
                     var p = flight.PositionAt(t);
                     path.Add(World(p.LateralYards, p.HeightYards, p.DistanceYards));
                 }
-                var start = flight.PositionAt(flight.RollStartTime);
-                var startWorld = World(start.LateralYards, 0, start.DistanceYards);
-                path.Add(startWorld);
-                time = flight.RollStartTime;
-                CarryTime = flight.RollStartTime;
-                vx = flight.RollStartVelocityX * cosH + flight.RollStartVelocityZ * sinH;
-                vd = -flight.RollStartVelocityX * sinH + flight.RollStartVelocityZ * cosH;
+                if (flight.CarryTime <= 0)
+                {
+                    // it never left the ground (a topped or all-but-dead strike): it rolls from where it was struck
+                    time = CarryTime = 0;
+                    vx = flight.RollStartVelocityX * cosH + flight.RollStartVelocityZ * sinH;
+                    vd = -flight.RollStartVelocityX * sinH + flight.RollStartVelocityZ * cosH;
+                }
+                else
+                {
+                    path.Add(first);
+                    (vx, vd, time) = Hops(hole, Landing, downX, downH, downD, flight.TouchdownSpin, luck, path);
+                    CarryTime = time;
+                }
             }
 
             Rolling:
@@ -1044,11 +1047,15 @@ namespace GolfArcade.Course
         static double Clamp(double v, double lo, double hi) => double.IsFinite(v) ? Math.Max(lo, Math.Min(hi, v)) : lo;
 
         /// How the ground takes a landing ball under today's rules: sticky greens hold it where it lands.
-        static (double soft, double grab) Holds(CourseLie lie, PlayRules rules)
+        /// How one strike's landing differs from the average (-1..1): read off the strike's own scatter, which every phone
+        /// in the round already shares, so the bounce is the same everywhere and no two swings land quite alike. Zero for
+        /// a shot planned exactly (the preview, the tests).
+        public static double LandingLuck(SwingImpact impact)
         {
-            var (soft, grab) = lie.Landing();
-            if (rules.StickyGreens && lie.IsPuttingSurface()) { soft = Math.Max(soft, 0.75); grab = Math.Max(grab, 0.95); }
-            return (soft, grab);
+            double a = double.IsFinite(impact.SpinScatter) ? impact.SpinScatter : 0, b = double.IsFinite(impact.SpeedBonus) ? impact.SpeedBonus : 0;
+            if (a == 0 && b == 0) return 0;
+            double u = Math.Sin(a * 1291.7 + b * 733.1) * 43758.5453;
+            return (u - Math.Floor(u)) * 2 - 1;
         }
 
         /// ObstacleHit.Index for a mover (the windmill's blades are -1), and for a solid prop.

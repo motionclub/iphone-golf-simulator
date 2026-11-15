@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GolfArcade.Hub.Menu
@@ -16,6 +17,9 @@ namespace GolfArcade.Hub.Menu
         {
             if (!Leader || phoneOpen || (dx == 0 && dy == 0)) return;
             if (hovered == null || !hovered.Visible || !hovered.enabled) { FocusFirst(); return; }
+            // Home: down from any + in the squad is PLAY (bottom left), never the tab bar
+            if (dy < 0 && dx == 0 && joinSeats.Exists(j => j.item == hovered))
+                foreach (var it in Visible()) if (it.id == "play" && it.enabled) { SetHovered(it); clickPulse = -9; return; }
             var from = RectOf(hovered).center; var dir = new Vector2(dx, dy).normalized;
             MenuItem best = null; float bestScore = float.MaxValue;
             foreach (var it in Visible())
@@ -25,8 +29,9 @@ namespace GolfArcade.Hub.Menu
                 float along = Vector2.Dot(d, dir);
                 if (along < 8) continue;   // only what lies that way
                 float across = Mathf.Abs(dir.x * d.y - dir.y * d.x);
-                // straight ahead wins over a closer item off to the side (a list's next row before the tab bar's neighbour)
-                float score = along + across * 2.4f;
+                // straight ahead wins over a closer item off to the side (a list's next row before the tab bar's neighbour); sideways, the same
+                // row wins harder (Home: Invite friends -> PLAY along the bottom, not up to the + JOIN seat between them)
+                float score = along + across * (dx != 0 && dy == 0 ? 4f : 2.4f);
                 if (score < bestScore) { bestScore = score; best = it; }
             }
             if (best != null) { SetHovered(best); clickPulse = -9; }
@@ -40,11 +45,16 @@ namespace GolfArcade.Hub.Menu
             pressedItem = hovered; Click(hovered); pressedItem = null;
         }
 
-        /// The screen's first enabled item (its lists come first, the chrome after), lit when a screen opens under arrow focus.
+        /// The item a screen opens on when it has one thing you came for (11-13: "it's not simple to start a game"): Home's PLAY, the setup's
+        /// START and the loader's START MATCH, so Select alone goes Home -> sport -> mode -> start.
+        static readonly Dictionary<string, string> Primary = new Dictionary<string, string> { { Home, "play" }, { Setup, "setup-start" }, { Loading, "start" } };
+
+        /// The screen's primary item, else its first enabled item (its lists come first, the chrome after), lit when a screen opens under arrow focus.
         void FocusFirst()
         {
             if (!Leader || phoneOpen) return;
             MenuItem first = null;
+            if (Primary.TryGetValue(Screen, out var want)) foreach (var it in Visible()) if (it.id == want && it.enabled) { SetHovered(it); return; }
             if (screenItems.TryGetValue(Screen, out var list)) foreach (var it in list) if (it.Visible && it.enabled) { first = it; break; }
             if (first == null) foreach (var it in Visible()) if (it.enabled) { first = it; break; }
             SetHovered(first);
@@ -52,5 +62,7 @@ namespace GolfArcade.Hub.Menu
 
         /// After a screen change: arrows always have something lit (a pointer starts with nothing under it).
         void FocusAfterShow() { if (ArrowFocus && !touchMode) FocusFirst(); }
+        /// The screen's primary item just appeared (the setup built from the phone's options, START MATCH enabled): light it.
+        void FocusPrimary() { if (ArrowFocus && !touchMode) FocusFirst(); }
     }
 }
