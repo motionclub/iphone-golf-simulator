@@ -1,8 +1,0 @@
-== golf2
-unity exit 2 after 1022 s
-total=20 passed=18 failed=2 skipped=0 duration=1000s
-  Failed GolfArcade.PlayTests.ArcadeCardsTests.TheCardsThroughARound the landing is stamped
-  Expected: True
-  But was:  False
-  Failed GolfArcade.PlayTests.ReplayTests.APureApproachAndAHoledPuttAreReplayed timed out waiting for the approach's replay
-CHUNKS DONE

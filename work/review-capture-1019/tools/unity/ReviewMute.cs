@@ -1,1 +1,0 @@
-[UnityEditor.InitializeOnLoad] static class ReviewMute { static ReviewMute() { UnityEditor.EditorUtility.audioMasterMute = true; UnityEditor.EditorApplication.playModeStateChanged += _ => { UnityEditor.EditorUtility.audioMasterMute = true; UnityEngine.AudioListener.volume = 0; }; } }

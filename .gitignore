@@ -65,3 +65,33 @@ blender/cmugolf/
 /work/**/*.png
 # Local secrets written by `elevenlabs onboard`
 /.env.local
+
+# Cleanup 2026-11-15: job folders are scratch. Nothing new under them is tracked unless added with `git add -f`;
+# the scripts, notes and the few files live tools read are already tracked and stay tracked.
+/work/
+/proof/
+/Unity/work/
+# Retired-hero art history (V4-V6, old animation work) and proof / test-output dumps stay on disk only
+/ArtDir/hero/v5/
+/ArtDir/hero/v5_*/
+/ArtDir/hero/v6_*/
+/ArtDir/hero/integrity_v1/
+/ArtDir/hero/modular/
+/ArtDir/hero/_rejected_mannequin/
+/ArtDir/hero/source/
+/ArtDir/hero/turnarounds/
+/ArtDir/hero/kits/
+/ArtDir/anims/
+/ArtDir/style/proof/
+/ArtDir/style/character-lighting/
+/ArtDir/golf/proof/
+/ArtDir/screenshots/
+/ArtDir/score80/*
+!/ArtDir/score80/.gitkeep
+/ArtDir/review/
+/ArtDir/**/*.log
+/ArtDir/**/*.out
+/ArtDir/**/*.err
+/CLEANUP_AUDIT_2026-10-10/
+/docs/ui-mockups/phase0_1_proof/
+*.pyc

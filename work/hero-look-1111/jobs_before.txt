@@ -1,3 +1,0 @@
-before_menu|900|HL_OUT={OUT} HL_TAG=male|-runTests -testPlatform PlayMode -testFilter GolfArcade.Tests.HeroLookCapture -testResults {OUT}/results.xml
-before_court_resort|600|HERO_VENUE=resort HERO_VENUE_OUT={OUT} HERO_VENUE_CHARACTER=1|-executeMethod GolfArcade.EditorTools.TennisVenueCapture.Run
-before_court_volcano|600|HERO_VENUE=volcano HERO_VENUE_OUT={OUT} HERO_VENUE_CHARACTER=1|-executeMethod GolfArcade.EditorTools.TennisVenueCapture.Run
