@@ -33,6 +33,12 @@ final class OnboardingStore {
         get { defaults.bool(forKey: "ftue.explicitRun.v1") }
         set { defaults.set(newValue, forKey: "ftue.explicitRun.v1") }
     }
+    /// This phone went through the v4 onboarding (a fresh install, or a reset): each sport's own lesson comes before its games
+    /// (Adnan 11-16: "only force them to do one tutorial at a time"). Older phones keep everything open.
+    var sportGate: Bool {
+        get { defaults.bool(forKey: "ftue.sportGate.v1") }
+        set { defaults.set(newValue, forKey: "ftue.sportGate.v1") }
+    }
     var characterInitialized: Bool {
         get { defaults.bool(forKey: "ftue.characterInitialized.v1") }
         set { defaults.set(newValue, forKey: "ftue.characterInitialized.v1") }

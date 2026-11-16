@@ -64,59 +64,36 @@ namespace GolfArcade.PlayTests
             Time.timeScale = 8;
             try
             {
-                Assert.AreEqual(TutorialLesson.Kind.Forehand, tutorial.Lesson.Current.Kind);
-                foreach (var kind in new[] { TutorialLesson.Kind.Forehand, TutorialLesson.Kind.Pace, TutorialLesson.Kind.Backhand, TutorialLesson.Kind.Aim })
+                Assert.AreEqual(TutorialLesson.Kind.Hit, tutorial.Lesson.Current.Kind);
+                // Search human-playable swing timing using the scheduled real coach feeds (a forehand, then a backhand).
+                for (int attempt = 0; attempt < 80 && tutorial.Lesson.Current.Kind == TutorialLesson.Kind.Hit; attempt++)
                 {
-                    Assert.AreEqual(kind, tutorial.Lesson.Current.Kind);
-                    // Search human-playable swing timing using the scheduled real coach feeds.
-                    for (int attempt = 0; attempt < 80 && tutorial.Lesson.Current.Kind == kind; attempt++)
-                    {
-                        yield return new WaitForSeconds(2);
-                        game.AimInput = kind == TutorialLesson.Kind.Aim ? (tutorial.Lesson.Progress == 0 ? -.6f : .6f) : 0;
-                        Simulate(game, .6f + (attempt % 60) * .04f);
-                        bool back = game.BallPosition.x < game.Player.transform.position.x;
-                        game.RequestSwing(.65f, back ? -1 : 1, 0, back ? -1 : 1);
-                        Simulate(game, 4);
-                        yield return null;
-                    }
-                    Assert.AreNotEqual(kind, tutorial.Lesson.Current.Kind, "must pass " + kind + " through actual successful shots");
-                    if (kind == TutorialLesson.Kind.Forehand) {
-                        Assert.GreaterOrEqual(firstContact, 0); Assert.LessOrEqual(firstContact, 45);
-                        Debug.Log($"[OnboardingProof] first contact seconds={firstContact:0.000}; no steering input");
-                    }
+                    yield return new WaitForSeconds(2);
+                    Simulate(game, .6f + (attempt % 60) * .04f);
+                    bool back = game.BallPosition.x < game.Player.transform.position.x;
+                    game.RequestSwing(.65f, back ? -1 : 1, 0, back ? -1 : 1);
+                    Simulate(game, 4);
+                    yield return null;
                 }
+                Assert.AreNotEqual(TutorialLesson.Kind.Hit, tutorial.Lesson.Current.Kind, "must pass Hit through actual successful shots");
                 Assert.GreaterOrEqual(firstContact, 0, "actual contact, not a fabricated lesson event");
                 Assert.LessOrEqual(firstContact, 45, "first contact without steering");
+                Debug.Log($"[OnboardingProof] first contact seconds={firstContact:0.000}; no steering input");
                 Assert.AreEqual(TutorialLesson.Kind.Serve, tutorial.Lesson.Current.Kind);
                 yield return new WaitForSeconds(1.6f);
                 Serve(game, false); yield return null;
                 Assert.AreEqual(1, tutorial.Lesson.Misses, "net faults retry with coaching");
                 yield return new WaitForSeconds(1.6f);
                 Serve(game, true); yield return null;
-                Assert.AreEqual(TutorialLesson.Kind.Wide, tutorial.Lesson.Current.Kind);
-                // the wide ball: the player runs; swing on the rings (a ball just out of reach is stretched for)
-                for (int attempt = 0; attempt < 40 && tutorial.Lesson.Current.Kind == TutorialLesson.Kind.Wide; attempt++)
-                {
-                    yield return new WaitForSeconds(2);
-                    Simulate(game, .6f + (attempt % 30) * .04f);
-                    bool back = game.BallPosition.x < game.Player.transform.position.x;
-                    game.RequestSwing(.65f, back ? -1 : 1, 0, back ? -1 : 1);
-                    Simulate(game, 4);
-                    yield return null;
-                }
-                Assert.AreEqual(TutorialLesson.Kind.Point, tutorial.Lesson.Current.Kind, "the wide-ball station passes on a real return");
-                Assert.IsFalse(tutorial.Lesson.Done, "the previous drill must not finish the real point");
-                yield return new WaitForSeconds(1.6f);
-                Assert.IsFalse(game.Drill);
-                Serve(game, false); Serve(game, false); yield return null; yield return null;
-                Assert.IsTrue(tutorial.Lesson.Done);
+                Assert.IsTrue(tutorial.Lesson.Done, "a serve in ends the lesson");
+                yield return null; yield return null;
                 Assert.AreEqual(1, finished);
                 Assert.IsFalse(game.Drill);
             }
             finally { TennisTutorial.Finished -= onFinished; TennisGame.ContactMade -= contact; tutorial.Stop(); Time.timeScale = 1; }
         }
 
-        [UnityTest, Timeout(180000)] public IEnumerator TenSeededPointsWinWithOnTimeSwingAndNoSwingStillFinishes()
+        [UnityTest, Timeout(180000)] public IEnumerator TenSeededPointsWinWithOnTimeSwingAndNoSwingStillEnds()
         {
             var failures = new System.Collections.Generic.List<string>();
             for (int seed = 0; seed <= 10; seed++) {
@@ -126,11 +103,11 @@ namespace GolfArcade.PlayTests
                 typeof(TennisGame).GetField("random", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
                     .SetValue(game, new System.Random(seed));
                 game.ConfigureMatch(TennisGame.Mode.Tutorial, "", "Ray", "TUTORIAL");
-                game.BeginLesson(TutorialLesson.Steps.Length);   // the phone's numbering: the last station, the point
-                var tutorial = game.GetComponent<TennisTutorial>();
+                // (the lesson no longer plays a point, 2026-11-16: one point against Ray at the tutorial's difficulty, served by the player)
+                game.PrepareLesson(); game.StartPlayerServe();
                 yield return new WaitForSeconds(1.4f);
                 float tossAge = 0; bool served = false;
-                for (int frame = 0; frame < 120 * 90 && !tutorial.Lesson.Done; frame++) {
+                for (int frame = 0; frame < 120 * 90 && game.Match.PlayerPoints + game.Match.OpponentPoints == 0; frame++) {
                     if (game.Flow == TennisGame.Phase.PlayerServeHold) { game.Toss(1); served = false; tossAge = 0; }
                     if (game.Flow == TennisGame.Phase.PlayerServeToss) {
                         tossAge += Dt;
@@ -147,10 +124,9 @@ namespace GolfArcade.PlayTests
                     if (frame % 120 == 0) yield return null;
                 }
                 yield return null;
-                Debug.Log($"[OnboardingProof] seed={seed} swing={seed < 10} done={tutorial.Lesson.Done} playerPoints={game.Match.PlayerPoints} opponentPoints={game.Match.OpponentPoints}");
-                if (!tutorial.Lesson.Done) failures.Add($"seed={seed} did not finish");
+                Debug.Log($"[OnboardingProof] seed={seed} swing={seed < 10} done={game.Match.PlayerPoints + game.Match.OpponentPoints > 0} playerPoints={game.Match.PlayerPoints} opponentPoints={game.Match.OpponentPoints}");
+                if (game.Match.PlayerPoints + game.Match.OpponentPoints == 0) failures.Add($"seed={seed} did not finish");
                 if (seed < 10 && game.Match.PlayerPoints != 1) failures.Add($"seed={seed} did not win");
-                tutorial.Stop();
             }
             Assert.IsEmpty(failures, string.Join("; ", failures));
         }

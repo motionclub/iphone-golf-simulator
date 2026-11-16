@@ -2,18 +2,19 @@ using NUnit.Framework;
 using GolfArcade.Course;
 using GolfArcade.Game;
 
-/// The golf lesson's Practice Tee and its eight stations (PLAN_Onboarding_GolfLesson.md).
+/// The golf lesson's Practice Tee and its three stations (PLAN_Onboarding_GolfLesson.md).
 public class GolfLessonTests
 {
-    [Test] public void EightStationsInTeachingOrder()
+    [Test] public void ThreeStationsInTeachingOrder()
     {
         var kinds = System.Array.ConvertAll(GolfLesson.Stations, s => s.Kind);
-        Assert.AreEqual(new[] { GolfLesson.Kind.Swing, GolfLesson.Kind.Distance, GolfLesson.Kind.Commit, GolfLesson.Kind.Face,
-            GolfLesson.Kind.Tempo, GolfLesson.Kind.Aim, GolfLesson.Kind.Putt, GolfLesson.Kind.Hole }, kinds);
+        Assert.AreEqual(new[] { GolfLesson.Kind.Swing, GolfLesson.Kind.Distance, GolfLesson.Kind.Putt }, kinds);
         foreach (var s in GolfLesson.Stations)
         {
             Assert.IsNotEmpty(s.Key); Assert.IsNotEmpty(s.Title); Assert.IsNotEmpty(s.Ask); Assert.IsNotEmpty(s.Hint);
-            Assert.AreEqual(3, s.Tips.Length, s.Key);
+            Assert.AreEqual(0, s.Tips.Length, s.Key + ": the phone shows the title and one line, no tips");
+            Assert.That(s.Title.Split(' ').Length, Is.InRange(1, 4), s.Key + ": a short title");
+            Assert.That(s.Ask + s.Hint, Does.Not.Contain("!").And.Not.Contain(":"), s.Key + ": one plain sentence each");
             Assert.That(s.Ask + s.Hint, Does.Not.Contain("touch control").IgnoreCase.And.Not.Contain("SWING POWER"), "there is no touch play");
         }
     }

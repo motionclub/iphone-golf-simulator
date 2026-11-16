@@ -20,15 +20,17 @@ public class TennisTutorialTests
     [Test] public void TheLessonTeachesEachSkillInOrder()
     {
         var kinds = System.Array.ConvertAll(TutorialLesson.Steps, s => s.Kind);
-        Assert.AreEqual(new[] { TutorialLesson.Kind.Forehand, TutorialLesson.Kind.Pace, TutorialLesson.Kind.Backhand, TutorialLesson.Kind.Aim,
-            TutorialLesson.Kind.Serve, TutorialLesson.Kind.Wide, TutorialLesson.Kind.Point }, kinds);
-        Assert.AreEqual(2, TutorialLesson.Steps[0].Goal, "two forehands back");
-        Assert.AreEqual(2, TutorialLesson.Steps[3].Goal, "aim: the left ring, then the right");
-        Assert.AreEqual(8, TutorialLesson.Steps.Length + TutorialLesson.PhoneStations, "the phone's court setup makes eight stations");
+        Assert.AreEqual(new[] { TutorialLesson.Kind.Hit, TutorialLesson.Kind.Serve }, kinds);
+        Assert.AreEqual(2, TutorialLesson.Steps[0].Goal, "two balls back: a forehand, then a backhand");
+        Assert.AreEqual(1, TutorialLesson.Steps[1].Goal, "one serve in");
+        Assert.AreEqual(1, TutorialLesson.PhoneStations, "the phone's court setup is station 1");
+        Assert.AreEqual(3, TutorialLesson.Steps.Length + TutorialLesson.PhoneStations, "the phone's court setup makes three stations");
         foreach (var s in TutorialLesson.Steps)
         {
             Assert.IsNotEmpty(s.Say); Assert.IsNotEmpty(s.Hint); Assert.IsNotEmpty(s.Title); Assert.IsNotEmpty(s.Key);
-            Assert.AreEqual(3, s.Tips.Length, s.Key); Assert.Greater(s.Goal, 0);
+            Assert.AreEqual(0, s.Tips.Length, s.Key + ": the phone shows the title and one line, no tips"); Assert.Greater(s.Goal, 0);
+            Assert.That(s.Title.Split(' ').Length, Is.InRange(1, 4), s.Key + ": a short title");
+            Assert.That(s.Say + s.Hint, Does.Not.Contain("!").And.Not.Contain(":"), s.Key + ": one plain sentence each");
             Assert.That(s.Say + s.Hint, Does.Not.Contain("touch control").IgnoreCase.And.Not.Contain("aim pad").IgnoreCase, "there is no touch play");
         }
     }
@@ -48,18 +50,19 @@ public class TennisTutorialTests
         lesson.Miss(); Assert.IsFalse(lesson.HintDue);
         for (int i = 0; i < 20; i++) Assert.IsFalse(lesson.Miss());
         Assert.IsTrue(lesson.HintDue, "the hint comes after two misses");
-        Assert.AreEqual(TutorialLesson.Kind.Forehand, lesson.Current.Kind);
+        Assert.AreEqual(TutorialLesson.Kind.Hit, lesson.Current.Kind);
         Assert.AreEqual(0, lesson.Progress);
-        lesson.Success(); Assert.AreEqual(TutorialLesson.Kind.Forehand, lesson.Current.Kind, "one of two");
-        lesson.Success(); Assert.AreEqual(TutorialLesson.Kind.Pace, lesson.Current.Kind);
+        lesson.Success(); Assert.AreEqual(TutorialLesson.Kind.Hit, lesson.Current.Kind, "one of two");
+        lesson.Success(); Assert.AreEqual(TutorialLesson.Kind.Serve, lesson.Current.Kind);
         Assert.AreEqual(0, lesson.Misses);
     }
 
     [Test] public void SkipAdvancesExactlyOneStationAndResumeClamps()
     {
-        var lesson = new TutorialLesson(3);
-        Assert.AreEqual(TutorialLesson.Kind.Aim, lesson.Current.Kind);
-        lesson.Skip(); Assert.AreEqual(4, lesson.Index); Assert.AreEqual(TutorialLesson.Kind.Serve, lesson.Current.Kind);
+        var lesson = new TutorialLesson(0);
+        Assert.AreEqual(TutorialLesson.Kind.Hit, lesson.Current.Kind);
+        lesson.Skip(); Assert.AreEqual(1, lesson.Index); Assert.AreEqual(TutorialLesson.Kind.Serve, lesson.Current.Kind);
+        lesson.Skip(); Assert.IsTrue(lesson.Done);
         Assert.AreEqual(0, new TutorialLesson(-100).Index);
         Assert.AreEqual(TutorialLesson.Steps.Length - 1, new TutorialLesson(100).Index);
     }
@@ -67,7 +70,7 @@ public class TennisTutorialTests
     [Test] public void LessonReportsAreValidJson()
     {
         var s = TutorialLesson.Steps[1];
-        string station = GolfArcade.Game.LessonJson.Station("tennis", 2, 8, s.Key, s.Name, s.Title, s.Say, "He said \"go\"", s.Tips);
+        string station = GolfArcade.Game.LessonJson.Station("tennis", 2, 3, s.Key, s.Name, s.Title, s.Say, "He said \"go\"", s.Tips);
         Assert.That(station, Does.StartWith("{\"kind\":\"station\"")); Assert.That(station, Does.Contain("\\\"go\\\""));
         string attempt = GolfArcade.Game.LessonJson.Attempt(false, "OK", "EARLY.", 2, new System.Collections.Generic.List<(string, string, int)> { ("TIMING", "EARLY 220 ms", 0) });
         Assert.AreEqual("{\"kind\":\"attempt\",\"result\":\"miss\",\"grade\":\"OK\",\"text\":\"EARLY.\",\"misses\":2,\"read\":[[\"TIMING\",\"EARLY 220 ms\",0]]}", attempt);

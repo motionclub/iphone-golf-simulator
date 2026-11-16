@@ -530,6 +530,7 @@ namespace GolfArcade.Hub.Menu
         public void Go(string screen)
         {
             if (!screens.ContainsKey(screen) || screen == Screen) return;
+            if (LessonFirst(screen)) return;   // a sport whose own lesson comes first (MenuHud.Tutorial)
             Show(screen, snap: false);
         }
         void Show(string screen, bool snap)

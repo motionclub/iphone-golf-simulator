@@ -68,27 +68,25 @@ final class PlaySafeGate {
     static func steps(_ sport: Sport, tvConnected: Bool) -> [String] {
         switch sport {
         case .golf: [
-            "Stand side-on with the TV on your left (right-handers), so you look over your shoulder at it.",
-            "Hold the phone in both hands like the end of a club, screen facing your target.",
-            "Tap SWING, keep still a beat, then swing smoothly back and through.",
-        ] + (tvConnected ? [] : ["No TV? Golf plays right on this phone: look at it between shots."])
+            "Stand side-on to the TV.",
+            "Hold the phone like a club, screen to the target.",
+            "Tap SWING, then swing back and through.",
+        ] + (tvConnected ? [] : ["No TV? Golf plays on this phone."])
         case .tennis: [
-            "Face the TV and hold the phone like a racket handle.",
-            "First, calibration: point the phone at the TV and keep still while it syncs. It lines your swings up with the picture.",
-            "Then swing as the rings close on the ball. Timing beats power.",
+            "Face the TV and hold the phone like a racket.",
+            "Swing as the rings close on the ball.",
         ]
         case .bowling: [
-            "Face the TV and hold the phone like the ball, screen up.",
-            "Hold the button, take two steps in as you swing back, then swing through and let go.",
-            "Turn your wrist as you let go to put spin on it.",
-        ] + (tvConnected ? [] : ["No TV? Bowling plays right on this phone."])
+            "Hold the phone like the ball, screen up.",
+            "Hold the button, swing back, then let go at the bottom.",
+        ] + (tvConnected ? [] : ["No TV? Bowling plays on this phone."])
         default: []
         }
     }
     static let safety: [(icon: String, text: String)] = [
-        ("hand.raised.fill", "Hold on tight. Use a wrist strap or grip case if you have one."),
-        ("circle.dashed", "Clear about 2 m (6 ft) around you: no people, pets or furniture in reach."),
-        ("tv", "Stand at least 2 m (6 ft) back from the TV. Swing smoothly, never hard."),
+        ("hand.raised.fill", "Hold on tight. A wrist strap helps."),
+        ("circle.dashed", "Clear 2 m (6 ft) around you."),
+        ("tv", "Stand 2 m (6 ft) back from the TV."),
     ]
 }
 
@@ -97,12 +95,10 @@ struct PlaySafeSheet: View {
     let request: PlaySafeGate.Request
     @State private var session = SportsSession.shared
     var body: some View {
-        let sport = request.sport, flow = OnboardingFlow.shared
+        let sport = request.sport
         let needsTV = request.tutorial && sport == .tennis && !session.displayConnected
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                Text(request.tutorial ? "TUTORIAL · \((OnboardingFlow.lessons.firstIndex(of: sport) ?? 0) + 1) OF 3" : "BEFORE YOU PLAY")
-                    .font(MotionBrand.font(.semiBold, 14)).tracking(3).foregroundStyle(MotionBrand.gold)
                 Text(request.tutorial ? "How to play \(sport.rawValue)" : "Play safe")
                     .font(MotionBrand.font(.extraBoldItalic, 38)).lineLimit(1).minimumScaleFactor(0.6)
                 // a still diagram (the animation is shown in game, in the lesson): you, 2 m / 6 ft, the TV
@@ -119,7 +115,6 @@ struct PlaySafeSheet: View {
                     }
                 }
                 VStack(alignment: .leading, spacing: 10) {
-                    Text("PLAY SAFE").font(MotionBrand.font(.semiBold, 13)).tracking(2.5).foregroundStyle(MotionBrand.n300)
                     ForEach(PlaySafeGate.safety, id: \.icon) { row in
                         HStack(alignment: .top, spacing: 12) {
                             Image(systemName: row.icon).font(.system(size: 18, weight: .bold)).foregroundStyle(MotionBrand.gold).frame(width: 28)
@@ -131,7 +126,7 @@ struct PlaySafeSheet: View {
                 .background(MotionBrand.navyInk.opacity(0.55), in: RoundedRectangle(cornerRadius: 20, style: .continuous))
                 .overlay(RoundedRectangle(cornerRadius: 20, style: .continuous).strokeBorder(.white.opacity(0.25), lineWidth: 1.5))
                 if needsTV {
-                    Text("Tennis needs a TV. Open Control Center, tap Screen Mirroring and pick your Apple TV or AirPlay TV, then tap Start.")
+                    Text("Tennis needs a TV: Control Center › Screen Mirroring.")
                         .font(MotionBrand.font(.medium, 16)).foregroundStyle(MotionBrand.gold).fixedSize(horizontal: false, vertical: true)
                 }
                 Button { PlaySafeGate.shared.accept() } label: {
@@ -146,9 +141,6 @@ struct PlaySafeSheet: View {
                 Button { PlaySafeGate.shared.cancel() } label: { Text(request.holding ? "Leave game" : "Not now") }
                     .buttonStyle(MotionButtonStyle(kind: .ghost)).frame(maxWidth: .infinity)
                     .accessibilityIdentifier("playsafe-cancel")
-                if request.tutorial, flow.lessonsDone > 0 {
-                    Text("\(flow.lessonsDone) of 3 lessons done").font(MotionBrand.font(.medium, 14)).foregroundStyle(MotionBrand.n300).frame(maxWidth: .infinity)
-                }
             }
             .foregroundStyle(.white)
             .padding(.horizontal, 22).padding(.top, 24).padding(.bottom, 30)

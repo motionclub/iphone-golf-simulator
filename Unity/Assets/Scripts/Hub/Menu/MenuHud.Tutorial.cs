@@ -16,11 +16,13 @@ namespace GolfArcade.Hub.Menu
     {
         public const string Tutorial = "tutorial";
         static readonly string[] Lessons = { "golf", "tennis", "bowling" };
-        static readonly string[] LessonWords = { "Swing, distance, aim and putting · about 6 min", "Calibrate to your TV, then rally · about 6 min", "Roll, aim and spin · about 3 min" };
+        static readonly string[] LessonWords = { "About 1 min", "About 2 min", "About 1 min" };
         static readonly string[] Locked = { "sport-tennis", "sport-golf", "sport-bowling", "sport-daily" };
 
-        /// The phone's state: {"locked":bool,"next":"golf","done":["golf"],"deferred":["tennis"]}.
-        [Serializable] public sealed class TutorialState { public bool locked; public string next = ""; public string[] done = new string[0]; public string[] deferred = new string[0]; }
+        /// The phone's state: {"locked":bool,"next":"golf","done":["golf"],"deferred":["tennis"],"gate":["tennis","bowling"]}.
+        /// 11-16 (Adnan: "only force them to do one tutorial at a time"): `gate` lists the sports whose own lesson comes first; opening one
+        /// of them (its modes, or golf's Daily Challenge) opens its lesson instead. `locked` is no longer sent true.
+        [Serializable] public sealed class TutorialState { public bool locked; public string next = ""; public string[] done = new string[0]; public string[] deferred = new string[0]; public string[] gate = new string[0]; }
         public TutorialState LessonState { get; private set; } = new TutorialState();
         public bool TutorialLocked => LessonState.locked;
 
@@ -66,13 +68,20 @@ namespace GolfArcade.Hub.Menu
             var dim = BrandUi.Layer(mask, "Dim", BrandUi.Ink(.35f)); dim.raycastTarget = false; dim.transform.SetSiblingIndex(1);
             tutorialCardKicker = BrandUi.Word(BrandUi.Box(mask, "Kicker", 50, 132, 560, 34), "Text", "LESSON 1 OF 3", BrandUi.SemiBold, 24, BrandColors.Gold);
             tutorialCardTitle = BrandUi.Word(BrandUi.Box(mask, "Title", 46, 166, 600, 66), "Text", "Golf", BrandUi.ExtraBoldItalic, 56, BrandColors.White);
-            BrandUi.Label(BrandUi.Box(mask, "Line", 50, 236, 570, 96), "Text",
-                "Each lesson starts on your phone: how to stand and swing, then a quick safety check. Then the coach takes you through it, one step at a time.",
-                BrandUi.Medium, 24, new Color(.863f, .89f, .949f), TextAnchor.UpperLeft);
             PaintTutorial();
         }
 
         bool Done(string sport) => Array.IndexOf(LessonState.done ?? new string[0], sport) >= 0;
+        /// This sport's own lesson comes first (LessonState.gate).
+        public bool Gated(string sport) => Array.IndexOf(LessonState.gate ?? new string[0], sport) >= 0;
+        /// A sport's screen (its modes, golf's Daily Challenge) while its lesson comes first: the phone opens the lesson instead (true).
+        bool LessonFirst(string screen)
+        {
+            string sport = screen == GolfModes || screen == Daily ? "golf" : screen == TennisModes ? "tennis" : screen == BowlingModes ? "bowling" : null;
+            if (sport == null || !Gated(sport)) return false;
+            OpenPhone("bay-tutorial-" + sport, Title(sport.ToUpperInvariant()) + " lesson");
+            return true;
+        }
         bool Deferred(string sport) => Array.IndexOf(LessonState.deferred ?? new string[0], sport) >= 0;
 
         /// Lock or free the sports list; tick, light or wait the lessons; aim the card at the next one.
@@ -83,28 +92,29 @@ namespace GolfArcade.Hub.Menu
                 foreach (var it in sportItems)
                 {
                     if (Array.IndexOf(Locked, it.id) < 0 || !(it.view is Word w)) continue;
-                    if (w.off == locked && it.enabled == !locked) continue;
+                    bool first = Gated(it.id == "sport-daily" ? "golf" : it.id.Substring("sport-".Length));
                     w.off = locked; it.enabled = !locked;
                     if (w.sub)
                     {
-                        if (locked) { if (!w.sub.text.StartsWith("Finish the tutorial")) { lockedSubs[it.id] = w.sub.text; w.sub.text = "Finish the tutorial to unlock"; } }
-                        else if (lockedSubs.TryGetValue(it.id, out var was)) w.sub.text = was;
+                        const string lessonSub = "Starts with a short lesson";
+                        if (first) { if (w.sub.text != lessonSub) { lockedSubs[it.id] = w.sub.text; w.sub.text = lessonSub; } }
+                        else if (lockedSubs.TryGetValue(it.id, out var was)) { w.sub.text = was; lockedSubs.Remove(it.id); }
                     }
                     FitWord(it); w.Paint();
                 }
-            SetSub(tutorialEntry, locked ? "Start here · golf, tennis, bowling" : "Replay a lesson");
+            SetSub(tutorialEntry, "Replay a lesson");
             if (locked) Primary[Sport] = "sport-tutorial"; else Primary.Remove(Sport);
             Primary[Tutorial] = string.IsNullOrEmpty(LessonState.next) ? "bay-tutorial-golf" : "bay-tutorial-" + LessonState.next;
 
             for (int i = 0; i < lessonRows.Count; i++)
             {
                 var it = lessonRows[i]; string sport = Lessons[i];
-                bool done = Done(sport), next = LessonState.next == sport, later = !done && !next && !Deferred(sport);
-                it.enabled = !later;
+                bool done = Done(sport);
+                it.enabled = true;
                 if (it.view is Word w)
                 {
-                    w.off = later; w.picked = done && !next;
-                    string sub = done ? "Done · play it again any time" : Deferred(sport) ? "Waiting for a TV · " + LessonWords[i] : later ? "Finish " + Lessons[Mathf.Max(0, i - 1)] + " first" : LessonWords[i];
+                    w.off = false; w.picked = done;
+                    string sub = done ? "Done" : LessonWords[i];
                     if (w.sub) w.sub.text = sub;
                     FitWord(it); w.Paint();
                 }
@@ -112,8 +122,7 @@ namespace GolfArcade.Hub.Menu
             if (tutorialCardTitle)
             {
                 string next = string.IsNullOrEmpty(LessonState.next) ? "golf" : LessonState.next;
-                int n = Array.IndexOf(Lessons, next);
-                tutorialCardKicker.text = string.IsNullOrEmpty(LessonState.next) ? "ALL LESSONS DONE" : "LESSON " + (n + 1) + " OF 3  ·  UP NEXT";
+                tutorialCardKicker.text = "";
                 tutorialCardTitle.text = Title(next.ToUpperInvariant());
                 var tex = Resources.Load<Texture2D>(next == "golf" ? "Menu/Maps/golf-cliffside" : next == "tennis" ? "Menu/Maps/tennis-resort" : "Menu/Maps/bowling-club");
                 if (tex && tutorialCardPic.texture != tex) { tutorialCardPic.texture = tex; Cover(tutorialCardPic, PreviewW, PreviewH + 40); }

@@ -546,15 +546,15 @@ final class HubSession {
     static let friendJoiningMessage = "Your friend is still joining. One moment…"
     /// START on the TV's own match setup (MenuSetup): the bay is in use as if its panel had launched the match.
     func startFromMenu(_ id: String, _ go: () -> Void) {
-        if !OnboardingFlow.shared.allows(id) { notice = OnboardingFlow.lockMessage; toast(notice); return }
+        if !OnboardingFlow.shared.allows(id) { OnboardingFlow.shared.lessonFirst(id); return }
         if soloLocked, Self.soloStations.contains(id) { notice = Self.soloLockMessage; toast(notice); return }
         station = id
         go()
         evaluate()
     }
     func useStation(_ id: String) {
-        // first launch (PLAN_Onboarding_v3): Play is the Tutorial's until its lessons are done
-        if !OnboardingFlow.shared.allows(id) { notice = OnboardingFlow.lockMessage; toast(notice); return }
+        // first launch (11-16): a sport's own lesson comes before its games
+        if !OnboardingFlow.shared.allows(id) { OnboardingFlow.shared.lessonFirst(id); return }
         if soloLocked, Self.soloStations.contains(id) {
             notice = Self.soloLockMessage; toast(notice); return
         }
